@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { BrowserRouter, Routes, Route, useNavigate, useLocation } from 'react-router-dom'
+import { Analytics } from "@vercel/analytics/next"
 
 // ── PARTÍCULAS ──────────────────────────────────────────
 function Particles() {
@@ -369,6 +370,7 @@ function Layout() {
   return (
     <div className="min-h-screen bg-slate-950 font-sans overflow-hidden">
       <Particles />
+      <Analytics />
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
