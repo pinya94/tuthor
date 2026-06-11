@@ -1,8 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { BrowserRouter, Routes, Route, useNavigate, useLocation } from 'react-router-dom'
-import { Analytics } from "@vercel/analytics/next"
 
-// ── PARTÍCULAS ──────────────────────────────────────────
+// ── PARTÍCULAS LUCIÉRNAGAS ──────────────────────────────
 function Particles() {
   const canvasRef = useRef(null)
   useEffect(() => {
@@ -12,27 +11,39 @@ function Particles() {
     const resize = () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight }
     resize()
     window.addEventListener('resize', resize)
-    for (let i = 0; i < 80; i++) {
+    for (let i = 0; i < 60; i++) {
       particles.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        r: Math.random() * 1.5 + 0.3,
-        dx: (Math.random() - 0.5) * 0.3,
-        dy: -Math.random() * 0.4 - 0.1,
-        alpha: Math.random() * 0.5 + 0.1,
+        x: Math.random() * window.innerWidth,
+        y: Math.random() * window.innerHeight,
+        r: Math.random() * 2.5 + 1,
+        dx: (Math.random() - 0.5) * 0.4,
+        dy: -Math.random() * 0.3 - 0.05,
+        alpha: Math.random(),
+        alphaDir: Math.random() > 0.5 ? 0.008 : -0.008,
+        hue: Math.random() > 0.5 ? 60 : 100,
       })
     }
     let raf
     const animate = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height)
       particles.forEach((p, i) => {
+        // Glow efecto luciérnaga
+        const grd = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r * 4)
+        grd.addColorStop(0, `hsla(${p.hue}, 100%, 70%, ${p.alpha})`)
+        grd.addColorStop(1, `hsla(${p.hue}, 100%, 70%, 0)`)
+        ctx.beginPath()
+        ctx.arc(p.x, p.y, p.r * 4, 0, Math.PI * 2)
+        ctx.fillStyle = grd
+        ctx.fill()
         ctx.beginPath()
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2)
-        ctx.fillStyle = `rgba(139,92,246,${p.alpha})`
+        ctx.fillStyle = `hsla(${p.hue}, 100%, 90%, ${p.alpha})`
         ctx.fill()
         p.x += p.dx; p.y += p.dy
-        if (p.y < -5 || p.x < -5 || p.x > canvas.width + 5) {
-          particles[i] = { x: Math.random() * canvas.width, y: canvas.height + 5, r: Math.random() * 1.5 + 0.3, dx: (Math.random() - 0.5) * 0.3, dy: -Math.random() * 0.4 - 0.1, alpha: Math.random() * 0.5 + 0.1 }
+        p.alpha += p.alphaDir
+        if (p.alpha > 1 || p.alpha < 0) p.alphaDir *= -1
+        if (p.y < -10 || p.x < -10 || p.x > canvas.width + 10) {
+          particles[i] = { x: Math.random() * canvas.width, y: canvas.height + 5, r: Math.random() * 2.5 + 1, dx: (Math.random() - 0.5) * 0.4, dy: -Math.random() * 0.3 - 0.05, alpha: Math.random(), alphaDir: Math.random() > 0.5 ? 0.008 : -0.008, hue: Math.random() > 0.5 ? 60 : 100 }
         }
       })
       raf = requestAnimationFrame(animate)
@@ -45,9 +56,30 @@ function Particles() {
 
 // ── DATOS ───────────────────────────────────────────────
 const MAIN_CARDS = [
-  { id: 'estudiar', title: 'Estudiar', subtitle: 'Temarios y tests por nivel', emoji: '📚', gradient: 'from-blue-600 to-indigo-700', path: '/estudiar' },
-  { id: 'juegos', title: 'Juegos', subtitle: 'Aprende jugando', emoji: '🎮', gradient: 'from-violet-600 to-purple-800', path: '/juegos' },
-  { id: 'diaria', title: 'Pregunta Diaria', subtitle: 'Reto de hoy · Mantén tu racha', emoji: '🔥', gradient: 'from-orange-500 to-rose-600', path: '/diaria' },
+  {
+    id: 'estudiar',
+    title: 'Estudiar',
+    subtitle: 'Temarios y tests por nivel',
+    image: '/estudio.png',
+    path: '/estudiar',
+    accent: 'from-blue-600/80 to-indigo-900/60',
+  },
+  {
+    id: 'juegos',
+    title: 'Juegos',
+    subtitle: 'Aprende jugando',
+    image: '/juegos.png',
+    path: '/juegos',
+    accent: 'from-violet-600/80 to-purple-900/60',
+  },
+  {
+    id: 'diaria',
+    title: 'Pregunta Diaria',
+    subtitle: 'Reto de hoy · Mantén tu racha',
+    image: '/racha.png',
+    path: '/diaria',
+    accent: 'from-orange-500/80 to-rose-900/60',
+  },
 ]
 
 const LEVELS = [
@@ -60,7 +92,7 @@ const SUBJECTS = [
   { title: 'Historia', subtitle: 'Eventos y épocas clave', emoji: '🏛️', gradient: 'from-amber-500 to-orange-600', ready: true },
   { title: 'Geografía', subtitle: 'Mapas, ríos y capitales', emoji: '🌍', gradient: 'from-teal-500 to-cyan-600', ready: false },
   { title: 'Ciencias', subtitle: 'Biología, física y química', emoji: '🔬', gradient: 'from-green-500 to-emerald-600', ready: false },
-  { title: 'Matemáticas', subtitle: 'Álgebra, geometría y más', emoji: '📐', gradient: 'from-blue-500 to-indigo-600', ready: false },
+  { title: 'Matemáticas', subtitle: 'Álgebra y geometría', emoji: '📐', gradient: 'from-blue-500 to-indigo-600', ready: false },
   { title: 'Inglés', subtitle: 'Vocabulario y gramática', emoji: '🇬🇧', gradient: 'from-rose-500 to-pink-600', ready: false },
   { title: 'Lengua', subtitle: 'Literatura y ortografía', emoji: '✍️', gradient: 'from-violet-500 to-purple-600', ready: false },
 ]
@@ -80,33 +112,76 @@ const GAMES = [
   { title: 'PhysicsX', subtitle: 'Física aplicada', emoji: '🚀', gradient: 'from-slate-500 to-slate-700', ready: false },
 ]
 
-// ── THUMBNAIL ───────────────────────────────────────────
-function Thumbnail({ title, subtitle, emoji, gradient, onClick, comingSoon = false, size = 'normal' }) {
+// ── THUMBNAIL PRINCIPAL (9:16 con imagen real) ──────────
+function HeroCard({ card, onClick }) {
+  const [hovered, setHovered] = useState(false)
   return (
     <button
       onClick={onClick}
-      className={`group relative w-full rounded-2xl overflow-hidden text-left transition-all duration-300
-        hover:scale-[1.03] hover:shadow-2xl hover:shadow-black/40 shadow-lg shadow-black/20 cursor-pointer`}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      className="group relative w-full h-full rounded-2xl overflow-hidden shadow-2xl shadow-black/50 cursor-pointer border border-white/10"
+      style={{ transition: 'transform 0.4s cubic-bezier(0.34,1.56,0.64,1)' }}
     >
-      {/* Área imagen 16:9 */}
+      {/* Imagen de fondo */}
+      <img
+        src={card.image}
+        alt={card.title}
+        className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out"
+        style={{ transform: hovered ? 'scale(1.08)' : 'scale(1)' }}
+      />
+
+      {/* Overlay gradiente siempre presente */}
+      <div className={`absolute inset-0 bg-gradient-to-t ${card.accent} opacity-70 transition-opacity duration-300 group-hover:opacity-50`} />
+
+      {/* Overlay oscuro en la parte inferior para legibilidad */}
+      <div className="absolute bottom-0 left-0 right-0 h-2/5 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
+
+      {/* Efecto brillo al hover */}
+      <div className={`absolute inset-0 bg-white/5 transition-opacity duration-300 ${hovered ? 'opacity-100' : 'opacity-0'}`} />
+
+      {/* Texto */}
+      <div className="absolute bottom-0 left-0 right-0 p-5">
+        <div className={`transition-transform duration-300 ${hovered ? '-translate-y-2' : 'translate-y-0'}`}>
+          <h3 className="font-black text-white text-2xl leading-tight drop-shadow-lg">
+            {card.title}
+          </h3>
+          <p className="text-white/80 text-sm mt-1 drop-shadow font-medium">
+            {card.subtitle}
+          </p>
+          <div className={`mt-3 flex items-center gap-1.5 text-white/90 text-xs font-semibold transition-all duration-300 ${hovered ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}`}>
+            <span className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full border border-white/20">
+              Entrar →
+            </span>
+          </div>
+        </div>
+      </div>
+    </button>
+  )
+}
+
+// ── THUMBNAIL SECUNDARIA (grid 16:9) ───────────────────
+function Thumbnail({ title, subtitle, emoji, gradient, onClick, comingSoon = false }) {
+  return (
+    <button
+      onClick={onClick}
+      className="group relative w-full rounded-xl overflow-hidden text-left transition-all duration-300 hover:scale-[1.04] hover:shadow-xl hover:shadow-black/40 shadow-md shadow-black/20 cursor-pointer"
+    >
       <div className={`bg-gradient-to-br ${gradient} w-full aspect-video flex items-center justify-center relative`}>
-        <span className={`drop-shadow-lg transform group-hover:scale-110 transition-transform duration-300
-          ${size === 'large' ? 'text-8xl' : 'text-6xl'}`}>
+        <span className="text-5xl drop-shadow-lg transform group-hover:scale-110 transition-transform duration-300">
           {emoji}
         </span>
         {comingSoon && (
-          <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
-            <span className="bg-black/60 text-white text-xs font-bold px-3 py-1.5 rounded-full backdrop-blur-sm">
+          <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+            <span className="bg-black/60 text-white text-xs font-bold px-3 py-1 rounded-full backdrop-blur-sm">
               🔒 Próximamente
             </span>
           </div>
         )}
-        {/* Gradiente inferior para el texto */}
-        <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-black/70 to-transparent" />
-        {/* Texto encima del gradiente */}
-        <div className="absolute bottom-0 left-0 right-0 p-3">
-          <h3 className="font-bold text-white text-sm leading-tight drop-shadow">{title}</h3>
-          <p className="text-white/70 text-xs mt-0.5 drop-shadow">{subtitle}</p>
+        <div className="absolute bottom-0 left-0 right-0 h-14 bg-gradient-to-t from-black/80 to-transparent" />
+        <div className="absolute bottom-0 left-0 right-0 p-2.5">
+          <h3 className="font-bold text-white text-xs leading-tight">{title}</h3>
+          <p className="text-white/60 text-xs mt-0.5">{subtitle}</p>
         </div>
       </div>
     </button>
@@ -118,7 +193,7 @@ function Navbar() {
   const navigate = useNavigate()
   const location = useLocation()
   return (
-    <nav className="relative z-50 h-16 flex items-center justify-between px-8 bg-black/40 border-b border-white/10 backdrop-blur-md">
+    <nav className="relative z-50 h-16 flex items-center justify-between px-8 bg-black/30 border-b border-white/10 backdrop-blur-md">
       <button onClick={() => navigate('/')} className="flex items-center gap-2 hover:opacity-80 transition-opacity">
         <span className="text-2xl">⚡</span>
         <span className="text-xl font-black text-white tracking-tight">Tuthor</span>
@@ -145,32 +220,31 @@ function Navbar() {
 function Home() {
   const navigate = useNavigate()
   return (
-    <div className="relative z-10 flex flex-col h-[calc(100vh-4rem)] px-8 py-6">
-      <div className="text-center mb-6">
-        <h1 className="text-3xl font-black text-white">¿Qué quieres hacer hoy?</h1>
-        <p className="text-white/40 mt-1 text-sm">Elige una sección y empieza ahora</p>
+    <div className="relative z-10 flex flex-col h-[calc(100vh-4rem)] px-8 py-5 gap-4">
+
+      {/* Título */}
+      <div className="text-center">
+        <h1 className="text-2xl font-black text-white">¿Qué quieres hacer hoy?</h1>
+        <p className="text-white/40 mt-0.5 text-sm">Elige una sección y empieza ahora</p>
       </div>
 
-      <div className="flex-1 grid grid-cols-3 gap-5 max-w-5xl mx-auto w-full">
+      {/* 3 cards principales — ocupan todo el espacio */}
+      <div className="flex-1 grid grid-cols-3 gap-4 min-h-0">
         {MAIN_CARDS.map(card => (
-          <Thumbnail
+          <HeroCard
             key={card.id}
-            title={card.title}
-            subtitle={card.subtitle}
-            emoji={card.emoji}
-            gradient={card.gradient}
-            size="large"
+            card={card}
             onClick={() => navigate(card.path)}
           />
         ))}
       </div>
 
       {/* Banner progreso + ad */}
-      <div className="mt-5 max-w-5xl mx-auto w-full space-y-3">
-        <div className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm opacity-50">
-          <div className="flex items-center justify-between px-6 py-3">
+      <div className="space-y-2">
+        <div className="rounded-xl border border-white/10 bg-white/5 backdrop-blur-sm opacity-50">
+          <div className="flex items-center justify-between px-5 py-2.5">
             <div className="flex items-center gap-3">
-              <span className="text-xl">📊</span>
+              <span className="text-lg">📊</span>
               <div>
                 <p className="font-bold text-white text-sm">Trackea tu progreso</p>
                 <p className="text-white/40 text-xs">Rachas, puntos y ranking personal</p>
@@ -178,13 +252,13 @@ function Home() {
             </div>
             <div className="flex items-center gap-3">
               <span className="text-xs font-semibold bg-amber-500/20 text-amber-400 px-2 py-0.5 rounded-full">Próximamente</span>
-              <div className="bg-white/10 text-white/40 text-xs font-semibold px-4 py-2 rounded-xl cursor-not-allowed">
+              <div className="bg-white/10 text-white/40 text-xs font-semibold px-4 py-2 rounded-lg cursor-not-allowed">
                 🔒 Iniciar sesión
               </div>
             </div>
           </div>
         </div>
-        <div className="rounded-xl border border-dashed border-white/10 bg-white/5 h-12 flex items-center justify-center">
+        <div className="rounded-lg border border-dashed border-white/10 bg-white/5 h-10 flex items-center justify-center">
           <span className="text-xs text-white/20 font-medium tracking-widest uppercase">Espacio publicitario</span>
         </div>
       </div>
@@ -209,7 +283,6 @@ function Estudiar() {
             subtitle={level.subtitle}
             emoji={level.emoji}
             gradient={level.gradient}
-            size="large"
             onClick={() => navigate(level.path)}
           />
         ))}
@@ -218,7 +291,7 @@ function Estudiar() {
   )
 }
 
-// ── NIVEL (Primaria / ESO / Bachillerato) ───────────────
+// ── NIVEL ───────────────────────────────────────────────
 function Nivel({ title }) {
   return (
     <div className="relative z-10 flex flex-col h-[calc(100vh-4rem)] px-8 py-6">
@@ -279,14 +352,9 @@ function PreguntaDiaria() {
   const [answered, setAnswered] = useState(false)
   const correct = '1936'
   const options = ['1934', '1936', '1939', '1931']
-
-  const handleAnswer = () => {
-    if (selected) setAnswered(true)
-  }
-
   return (
     <div className="relative z-10 flex items-center justify-center h-[calc(100vh-4rem)] px-6">
-      <div className="max-w-lg w-full bg-white/5 backdrop-blur-md rounded-3xl border border-white/10 overflow-hidden shadow-2xl shadow-black/40">
+      <div className="max-w-lg w-full bg-white/5 backdrop-blur-md rounded-3xl border border-white/10 overflow-hidden shadow-2xl">
         <div className="bg-gradient-to-r from-orange-500 to-rose-600 px-8 py-6">
           <div className="flex items-center justify-between">
             <div>
@@ -311,15 +379,11 @@ function PreguntaDiaria() {
                 onClick={() => !answered && setSelected(op)}
                 className={`py-3 px-4 rounded-xl border-2 font-semibold text-sm transition-all
                   ${answered
-                    ? op === correct
-                      ? 'border-green-500 bg-green-500/20 text-green-400'
-                      : op === selected && selected !== correct
-                        ? 'border-red-500 bg-red-500/20 text-red-400'
-                        : 'border-white/10 text-white/30'
-                    : selected === op
-                      ? 'border-violet-500 bg-violet-500/20 text-white'
-                      : 'border-white/10 text-white/70 hover:border-violet-400 hover:bg-violet-500/10'
-                  }`}
+                    ? op === correct ? 'border-green-500 bg-green-500/20 text-green-400'
+                      : op === selected && selected !== correct ? 'border-red-500 bg-red-500/20 text-red-400'
+                      : 'border-white/10 text-white/30'
+                    : selected === op ? 'border-violet-500 bg-violet-500/20 text-white'
+                    : 'border-white/10 text-white/70 hover:border-violet-400 hover:bg-violet-500/10'}`}
               >
                 {op}
               </button>
@@ -329,7 +393,7 @@ function PreguntaDiaria() {
         <div className="px-8 pb-8">
           {!answered ? (
             <button
-              onClick={handleAnswer}
+              onClick={() => selected && setAnswered(true)}
               disabled={!selected}
               className="w-full bg-violet-600 disabled:opacity-30 text-white font-bold py-3 rounded-xl hover:bg-violet-700 transition-colors disabled:cursor-not-allowed"
             >
@@ -368,20 +432,31 @@ function Progreso() {
 // ── LAYOUT ──────────────────────────────────────────────
 function Layout() {
   return (
-    <div className="min-h-screen bg-slate-950 font-sans overflow-hidden">
+    <div className="min-h-screen font-sans overflow-hidden" style={{ position: 'relative' }}>
+      {/* Fondo con imagen pixel art */}
+      <div
+        className="fixed inset-0 z-0"
+        style={{
+          backgroundImage: 'url(/fondo.png)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          filter: 'brightness(0.5)',
+        }}
+      />
       <Particles />
-      <Analytics />
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/estudiar" element={<Estudiar />} />
-        <Route path="/estudiar/primaria" element={<Nivel title="Primaria" />} />
-        <Route path="/estudiar/eso" element={<Nivel title="ESO" />} />
-        <Route path="/estudiar/bachillerato" element={<Nivel title="Bachillerato" />} />
-        <Route path="/juegos" element={<Juegos />} />
-        <Route path="/diaria" element={<PreguntaDiaria />} />
-        <Route path="/progreso" element={<Progreso />} />
-      </Routes>
+      <div className="relative z-10">
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/estudiar" element={<Estudiar />} />
+          <Route path="/estudiar/primaria" element={<Nivel title="Primaria" />} />
+          <Route path="/estudiar/eso" element={<Nivel title="ESO" />} />
+          <Route path="/estudiar/bachillerato" element={<Nivel title="Bachillerato" />} />
+          <Route path="/juegos" element={<Juegos />} />
+          <Route path="/diaria" element={<PreguntaDiaria />} />
+          <Route path="/progreso" element={<Progreso />} />
+        </Routes>
+      </div>
     </div>
   )
 }
