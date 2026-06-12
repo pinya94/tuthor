@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useCallback, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getEventosLineaTemporal } from '../data/historiaEvents'
 import { useAuth } from '../context/AuthContext'
@@ -91,6 +91,30 @@ export default function OrdenTemporal() {
   const [wasCorrect, setWasCorrect] = useState(null)
   const tlRef      = useRef(null)
   const startRef   = useRef(null)
+  const dragRef    = useRef({ active: false, startX: 0, scrollLeft: 0 })
+
+  const onMouseDown = useCallback(e => {
+    const el = tlRef.current; if (!el) return
+    dragRef.current = { active: true, startX: e.pageX - el.offsetLeft, scrollLeft: el.scrollLeft }
+    el.style.cursor = 'grabbing'
+  }, [])
+  const onMouseUp = useCallback(() => {
+    dragRef.current.active = false
+    if (tlRef.current) tlRef.current.style.cursor = 'grab'
+  }, [])
+  const onMouseMove = useCallback(e => {
+    if (!dragRef.current.active || !tlRef.current) return
+    e.preventDefault()
+    const x = e.pageX - tlRef.current.offsetLeft
+    tlRef.current.scrollLeft = dragRef.current.scrollLeft - (x - dragRef.current.startX)
+  }, [])
+  // wheel nativo con {passive:false} para poder hacer preventDefault
+  useEffect(() => {
+    const el = tlRef.current; if (!el) return
+    const handler = e => { e.preventDefault(); el.scrollLeft += e.deltaY + e.deltaX }
+    el.addEventListener('wheel', handler, { passive: false })
+    return () => el.removeEventListener('wheel', handler)
+  })
 
   function getCorrectPos(card, tl) {
     const idx = tl.findIndex(e => e.año > card.año)
@@ -205,7 +229,11 @@ export default function OrdenTemporal() {
         <div
           ref={tlRef}
           className="overflow-x-auto pb-3"
-          style={{ scrollbarWidth: 'none' }}
+          style={{ scrollbarWidth: 'none', cursor: 'grab' }}
+          onMouseDown={onMouseDown}
+          onMouseUp={onMouseUp}
+          onMouseLeave={onMouseUp}
+          onMouseMove={onMouseMove}
         >
           <div
             className="flex items-stretch px-3 gap-0"

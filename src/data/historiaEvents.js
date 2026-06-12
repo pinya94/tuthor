@@ -155,13 +155,15 @@ export function getExamenesPorNivel(nivel) {
   return EXAMENES_HISTORIA.filter(ex => ex.niveles.includes(nivel))
 }
 
-// Devuelve todos los eventos únicos mezclados para Línea Temporal
+// Devuelve eventos únicos por año para Línea Temporal (sin años repetidos)
+// Prefiere categorías con descripciones ricas sobre 'primaria'
 export function getEventosLineaTemporal() {
-  const seen = new Set()
-  return EVENTOS_HISTORIA.filter(e => {
-    const key = `${e.año}_${e.nombre.slice(0, 20)}`
-    if (seen.has(key)) return false
-    seen.add(key)
-    return true
-  }).sort(() => Math.random() - 0.5)
+  const byYear = new Map()
+  for (const e of EVENTOS_HISTORIA) {
+    const existing = byYear.get(e.año)
+    if (!existing || existing.categoria === 'primaria') {
+      byYear.set(e.año, e)
+    }
+  }
+  return [...byYear.values()].sort(() => Math.random() - 0.5)
 }
