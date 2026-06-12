@@ -116,6 +116,15 @@ export default function OrdenTemporal() {
     return () => el.removeEventListener('wheel', handler)
   })
 
+  // Scroll al slot correcto cuando el usuario se equivoca (especialmente en móvil)
+  useEffect(() => {
+    if (phase !== 'revealing' || wasCorrect !== false || correctSlot === null) return
+    const el = tlRef.current; if (!el) return
+    const CELL = 210 // aprox card + slot + margen
+    const target = correctSlot * CELL - el.clientWidth / 2 + 24
+    el.scrollTo({ left: Math.max(0, target), behavior: 'smooth' })
+  }, [phase, wasCorrect, correctSlot])
+
   function getCorrectPos(card, tl) {
     const idx = tl.findIndex(e => e.año > card.año)
     return idx === -1 ? tl.length : idx
@@ -223,7 +232,10 @@ export default function OrdenTemporal() {
       <div className="shrink-0 border-t border-white/10 bg-black/30 backdrop-blur-sm" style={{ minHeight: '11rem' }}>
         <div className="flex items-center justify-between px-4 pt-2 pb-1">
           <p className="text-white/40 text-xs uppercase tracking-widest font-semibold">Tu línea del tiempo</p>
-          {timeline.length > 2 && <p className="text-white/20 text-xs">← desliza →</p>}
+          {phase === 'revealing' && !wasCorrect
+            ? <p className="text-green-400 text-xs font-semibold animate-pulse">↑ posición correcta en verde</p>
+            : timeline.length > 2 && <p className="text-white/20 text-xs">← desliza →</p>
+          }
         </div>
 
         <div

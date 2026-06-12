@@ -21,7 +21,7 @@ export default function Navbar() {
 
           {/* Logo */}
           <button onClick={() => { navigate('/'); setMenuOpen(false) }} className="hover:opacity-80 transition-opacity">
-            <img src="/logo.svg" alt="Tuthor" className="h-14 w-auto" />
+            <img src="/logo.svg" alt="Tuthor" className="h-10 w-auto" />
           </button>
 
           {/* Nav escritorio */}
