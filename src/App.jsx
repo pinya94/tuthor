@@ -13,6 +13,8 @@ import ExamenHistoria from './pages/ExamenHistoria'
 import ExamenJuego from './pages/ExamenJuego'
 import TuthorTime from './pages/TuthorTime'
 import OrdenTemporal from './pages/OrdenTemporal'
+import ExamenLineaTemporal from './pages/ExamenLineaTemporal'
+import ExamenLineaLanding from './pages/ExamenLineaLanding'
 import Perfil from './pages/Perfil'
 
 function Layout() {
@@ -49,8 +51,12 @@ function Layout() {
           <Route path="/estudiar/bachillerato/historia" element={<HistoriaLanding nivel="bachillerato" title="Bachillerato" />} />
           <Route path="/estudiar/bachillerato/historia/fechas" element={<ExamenHistoria nivel="bachillerato" />} />
 
+          {/* Línea Temporal - selector de categoría para ESO/Bach */}
+          <Route path="/estudiar/:nivel/historia/linea" element={<ExamenLineaLanding />} />
+
           {/* Examen */}
           <Route path="/examen/historia" element={<ExamenJuego />} />
+          <Route path="/examen/linea-temporal" element={<ExamenLineaTemporal />} />
 
           <Route path="/juegos" element={<Juegos />} />
           <Route path="/juegos/tuthor-time" element={<TuthorTime />} />

@@ -4,26 +4,29 @@ const ACTIVIDADES = [
   {
     id: 'fechas',
     titulo: 'Juego de Fechas',
-    descripcion: 'Adivina el año de los eventos históricos. Una vida, un margen — llegar al final es aprobar.',
+    descripcion: 'Adivina el año de cada evento. Una vida, un margen — llegar al final es aprobar.',
     emoji: '📅',
     gradient: 'from-amber-500 to-orange-600',
     ready: true,
+    niveles: ['eso', 'bachillerato'], // no en primaria
   },
   {
     id: 'linea',
     titulo: 'Línea del Tiempo',
-    descripcion: 'Ordena los eventos cronológicamente arrastrándolos al lugar correcto.',
+    descripcion: 'Coloca los eventos en su posición cronológica. Sin escribir años — solo intuición histórica.',
     emoji: '📜',
-    gradient: 'from-blue-500 to-indigo-600',
-    ready: false,
+    gradient: 'from-violet-500 to-indigo-700',
+    ready: true,
+    niveles: ['primaria', 'eso', 'bachillerato'],
   },
   {
     id: 'personajes',
     titulo: 'Personajes Históricos',
     descripcion: '¿Quién soy? Adivina el personaje histórico a partir de pistas.',
     emoji: '👤',
-    gradient: 'from-violet-500 to-purple-700',
+    gradient: 'from-blue-500 to-cyan-700',
     ready: false,
+    niveles: ['primaria', 'eso', 'bachillerato'],
   },
   {
     id: 'mapas',
@@ -32,12 +35,32 @@ const ACTIVIDADES = [
     emoji: '🗺️',
     gradient: 'from-teal-500 to-cyan-600',
     ready: false,
+    niveles: ['primaria', 'eso', 'bachillerato'],
   },
 ]
 
 export default function HistoriaLanding({ nivel, title }) {
   const navigate = useNavigate()
   const base = `/estudiar/${nivel}/historia`
+
+  function handleClick(act) {
+    if (!act.ready) return
+    if (act.id === 'fechas') {
+      navigate(`${base}/fechas`)
+    } else if (act.id === 'linea') {
+      if (nivel === 'primaria') {
+        // Primaria: directo al juego con categoría primaria
+        navigate('/examen/linea-temporal', {
+          state: { categoria: 'primaria', nivel: 'primaria', backPath: `${base}` }
+        })
+      } else {
+        // ESO/Bachillerato: selector de categoría
+        navigate(`${base}/linea`)
+      }
+    }
+  }
+
+  const actividadesVisibles = ACTIVIDADES.filter(a => a.niveles.includes(nivel))
 
   return (
     <div className="relative z-10 flex flex-col min-h-[calc(100vh-4rem)] px-4 sm:px-8 py-6">
@@ -48,14 +71,14 @@ export default function HistoriaLanding({ nivel, title }) {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-3xl mx-auto w-full">
-        {ACTIVIDADES.map(act => (
+        {actividadesVisibles.map(act => (
           <button
             key={act.id}
-            onClick={() => act.ready && navigate(`${base}/${act.id}`)}
+            onClick={() => handleClick(act)}
             className={`group relative rounded-2xl overflow-hidden text-left transition-all duration-300 ${
               act.ready
                 ? 'hover:scale-[1.02] hover:shadow-xl hover:shadow-black/40 cursor-pointer'
-                : 'cursor-default opacity-60'
+                : 'cursor-default opacity-50'
             }`}
           >
             <div className={`bg-gradient-to-br ${act.gradient} p-6 h-full`}>
@@ -68,9 +91,7 @@ export default function HistoriaLanding({ nivel, title }) {
               <h3 className="font-black text-white text-lg leading-tight mb-1">{act.titulo}</h3>
               <p className="text-white/70 text-sm leading-relaxed">{act.descripcion}</p>
               {act.ready && (
-                <div className={`mt-4 inline-flex items-center gap-1.5 text-white text-xs font-semibold bg-white/20 backdrop-blur-sm px-3 py-1.5 rounded-full border border-white/20 transition-all duration-300 ${
-                  'group-hover:bg-white/30'
-                }`}>
+                <div className="mt-4 inline-flex items-center gap-1.5 text-white text-xs font-semibold bg-white/20 backdrop-blur-sm px-3 py-1.5 rounded-full border border-white/20 group-hover:bg-white/30 transition-all duration-300">
                   Jugar →
                 </div>
               )}

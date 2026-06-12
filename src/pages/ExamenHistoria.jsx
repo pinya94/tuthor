@@ -13,7 +13,7 @@ export default function ExamenHistoria({ nivel }) {
     <div className="relative z-10 flex flex-col min-h-[calc(100vh-4rem)] px-4 sm:px-8 py-6">
       <div className="text-center mb-8">
         <p className="text-white/40 text-sm mb-1">
-          Estudiar · {nivel === 'eso' ? 'ESO' : 'Bachillerato'} · Historia
+          Estudiar · {nivel === 'eso' ? 'ESO' : nivel === 'bachillerato' ? 'Bachillerato' : 'Primaria'} · Historia
         </p>
         <h1 className="text-2xl sm:text-3xl font-black text-white">Elige tu examen</h1>
         <p className="text-white/40 mt-1 text-sm">Adivina el año de los eventos históricos — una vida, un margen</p>
