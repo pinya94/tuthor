@@ -3,6 +3,8 @@ import { useAuth } from '../context/AuthContext'
 import { getStats, formatTime } from '../lib/activity'
 import { useNavigate } from 'react-router-dom'
 
+function todayStr() { return new Date().toISOString().slice(0, 10) }
+
 export default function Perfil() {
   const { user, logout } = useAuth()
   const navigate = useNavigate()
@@ -17,8 +19,10 @@ export default function Perfil() {
   if (!user) return null
 
   const streak = stats?.streak || 0
+  const dailyStreak = stats?.dailyStreak || 0
+  const dailyDoneToday = stats?.lastDailyDate === todayStr()
   const statCards = [
-    { label: 'Racha', value: `${streak} día${streak !== 1 ? 's' : ''}`, emoji: '🔥' },
+    { label: 'Racha general', value: `${streak} día${streak !== 1 ? 's' : ''}`, emoji: '🔥' },
     { label: 'Tiempo total', value: formatTime(stats?.totalTime), emoji: '⏱️' },
     { label: 'Actividades', value: stats?.gamesPlayed ?? 0, emoji: '🎮' },
     { label: 'Exámenes aprobados', value: stats?.examsPassed ?? 0, emoji: '✅' },
@@ -29,6 +33,7 @@ export default function Perfil() {
     'juego-fechas': 'Juego de Fechas',
     'tuthor-time': 'Tuthor Time',
     'pregunta-diaria': 'Pregunta Diaria',
+    'orden-temporal': 'Línea Temporal',
   }
 
   return (
@@ -66,6 +71,31 @@ export default function Perfil() {
                   <p className="text-white/40 text-xs mt-1">{s.label}</p>
                 </div>
               ))}
+            </div>
+
+            {/* Reto Diario */}
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-4">
+              <div className="flex items-center justify-between mb-3">
+                <h2 className="font-black text-white">📅 Reto Diario</h2>
+                <span className={`text-xs font-bold px-3 py-1 rounded-full border ${dailyDoneToday ? 'border-green-500/40 bg-green-500/10 text-green-400' : 'border-amber-500/40 bg-amber-500/10 text-amber-400'}`}>
+                  {dailyDoneToday ? '✓ Hecho hoy' : 'Pendiente hoy'}
+                </span>
+              </div>
+              <div className="flex items-center gap-4">
+                <div className="flex-1 bg-black/20 rounded-xl p-3 text-center">
+                  <p className="text-2xl font-black text-white">🔥 {dailyStreak}</p>
+                  <p className="text-white/40 text-xs mt-0.5">días seguidos</p>
+                </div>
+                <div className="flex-1 bg-black/20 rounded-xl p-3 text-center">
+                  <p className="text-2xl font-black text-white">{stats?.dailyTotal ?? 0}</p>
+                  <p className="text-white/40 text-xs mt-0.5">retos totales</p>
+                </div>
+              </div>
+              {!dailyDoneToday && (
+                <a href="/diaria" className="mt-3 flex items-center justify-center gap-2 w-full bg-orange-500/20 border border-orange-500/30 text-orange-400 font-semibold py-2.5 rounded-xl text-sm hover:bg-orange-500/30 transition-colors">
+                  Hacer el reto de hoy →
+                </a>
+              )}
             </div>
 
             {/* Mejores puntuaciones */}

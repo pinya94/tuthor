@@ -106,6 +106,10 @@ export default function OrdenTemporal() {
     setFase('jugando'); setPhase('placing')
     setChosenSlot(null); setCorrectSlot(null); setWasCorrect(null)
     startRef.current = Date.now()
+    setTimeout(() => {
+      const el = tlRef.current
+      if (el) el.scrollTo({ left: (el.scrollWidth - el.clientWidth) / 2 })
+    }, 50)
   }
 
   function placeCard(slot) {
@@ -132,7 +136,10 @@ export default function OrdenTemporal() {
       }
       setCurrent(pending[0]); setPending(p => p.slice(1))
       setPhase('placing'); setChosenSlot(null); setCorrectSlot(null); setWasCorrect(null)
-      setTimeout(() => tlRef.current?.scrollTo({ left: tlRef.current.scrollWidth, behavior: 'smooth' }), 100)
+      setTimeout(() => {
+        const el = tlRef.current
+        if (el) el.scrollTo({ left: (el.scrollWidth - el.clientWidth) / 2, behavior: 'smooth' })
+      }, 100)
     }, 2000)
   }
 
@@ -165,22 +172,22 @@ export default function OrdenTemporal() {
       </div>
 
       {/* ── CARTA ACTUAL ── */}
-      <div className="flex-1 flex flex-col items-center justify-center px-4 sm:px-8 py-3 min-h-0">
-        <p className="text-white/40 text-xs uppercase tracking-widest mb-3 text-center font-semibold">
+      <div className="flex-1 flex flex-col items-center justify-center px-4 sm:px-8 py-4 min-h-0">
+        <p className="text-white/40 text-xs uppercase tracking-widest mb-4 text-center font-semibold">
           {phase === 'placing' ? '¿Dónde va esta carta?' : wasCorrect ? '✓ ¡Correcto!' : '✗ Incorrecto'}
         </p>
 
         {current && (
-          <div className={`w-full max-w-xl rounded-2xl border-2 p-5 sm:p-6 transition-all duration-300 ${
+          <div className={`w-full max-w-2xl rounded-2xl border-2 p-6 sm:p-8 transition-all duration-300 ${
             phase === 'revealing'
               ? wasCorrect ? 'border-green-500/70 bg-green-500/10' : 'border-red-500/70 bg-red-500/10'
               : 'border-white/20 bg-white/5 backdrop-blur-sm'
           }`}>
-            <h2 className="text-2xl sm:text-3xl font-black text-white leading-tight mb-2">{current.nombre}</h2>
-            <p className="text-white/55 text-sm sm:text-base leading-relaxed mb-4">{current.descripcion}</p>
+            <h2 className="text-3xl sm:text-4xl font-black text-white leading-tight mb-3">{current.nombre}</h2>
+            <p className="text-white/60 text-base sm:text-lg leading-relaxed mb-6">{current.descripcion}</p>
             <div className="flex items-center justify-between">
-              <span className={`text-xs font-bold px-3 py-1 rounded-full border ${dif[current.dificultad]}`}>{current.dificultad}</span>
-              <span className={`text-3xl font-black tabular-nums transition-all duration-500 ${phase === 'revealing' ? 'text-amber-400' : 'text-white/15'}`}>
+              <span className={`text-sm font-bold px-4 py-1.5 rounded-full border ${dif[current.dificultad]}`}>{current.dificultad}</span>
+              <span className={`text-4xl sm:text-5xl font-black tabular-nums transition-all duration-500 ${phase === 'revealing' ? 'text-amber-400' : 'text-white/15'}`}>
                 {phase === 'revealing' ? formatYear(current.año) : '????'}
               </span>
             </div>
@@ -189,26 +196,30 @@ export default function OrdenTemporal() {
       </div>
 
       {/* ── LÍNEA DEL TIEMPO ── */}
-      <div className="shrink-0 border-t border-white/10 bg-black/30 backdrop-blur-sm" style={{ minHeight: '10rem' }}>
+      <div className="shrink-0 border-t border-white/10 bg-black/30 backdrop-blur-sm" style={{ minHeight: '11rem' }}>
         <div className="flex items-center justify-between px-4 pt-2 pb-1">
           <p className="text-white/40 text-xs uppercase tracking-widest font-semibold">Tu línea del tiempo</p>
-          {timeline.length > 3 && (
-            <p className="text-white/20 text-xs">← desliza →</p>
-          )}
+          {timeline.length > 2 && <p className="text-white/20 text-xs">← desliza →</p>}
         </div>
 
-        <div ref={tlRef} className="overflow-x-auto pb-3" style={{ scrollbarWidth: 'none' }}>
-          <div className="flex items-stretch px-3 gap-0" style={{ minWidth: 'max-content', minHeight: '7rem' }}>
-
+        <div
+          ref={tlRef}
+          className="overflow-x-auto pb-3"
+          style={{ scrollbarWidth: 'none' }}
+        >
+          <div
+            className="flex items-stretch px-3 gap-0"
+            style={{ minWidth: 'max-content', minHeight: '7.5rem' }}
+          >
             <SlotBtn index={0} phase={phase} chosen={chosenSlot} correct={correctSlot} onPlace={placeCard} />
 
             {timeline.map((ev, i) => {
-              const big = timeline.length <= 5
+              const big = timeline.length <= 4
               return (
                 <div key={ev.id} className="flex items-stretch gap-0">
-                  <div className={`flex flex-col justify-between bg-white/10 border border-white/20 rounded-xl mx-1 p-2.5 transition-all duration-300 ${big ? 'min-w-[130px] max-w-[150px]' : 'min-w-[100px] max-w-[120px]'}`}>
-                    <p className={`text-white font-bold leading-snug ${big ? 'text-sm' : 'text-xs'} line-clamp-3`}>{ev.nombre}</p>
-                    <p className={`text-amber-400 font-black mt-1 ${big ? 'text-base' : 'text-sm'}`}>{formatYear(ev.año)}</p>
+                  <div className={`flex flex-col justify-between bg-white/10 border border-white/20 rounded-xl mx-1 p-3 transition-all duration-300 ${big ? 'min-w-[150px] max-w-[170px]' : 'min-w-[110px] max-w-[130px]'}`}>
+                    <p className={`text-white font-bold leading-snug line-clamp-3 ${big ? 'text-sm' : 'text-xs'}`}>{ev.nombre}</p>
+                    <p className={`text-amber-400 font-black mt-1 ${big ? 'text-lg' : 'text-sm'}`}>{formatYear(ev.año)}</p>
                   </div>
                   <SlotBtn index={i + 1} phase={phase} chosen={chosenSlot} correct={correctSlot} onPlace={placeCard} />
                 </div>
