@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { BrowserRouter, Routes, Route, useNavigate, useLocation } from 'react-router-dom'
+import { Analytics } from "@vercel/analytics/react"
 
 // ── PARTÍCULAS LUCIÉRNAGAS ──────────────────────────────
 function Particles() {
@@ -464,6 +465,7 @@ function Layout() {
 export default function App() {
   return (
     <BrowserRouter>
+      <Analytics/>
       <Layout />
     </BrowserRouter>
   )
