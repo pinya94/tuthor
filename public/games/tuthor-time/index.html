@@ -282,6 +282,34 @@
 
     .ad-banner { position:relative; z-index:10; max-width:480px; width:100%; text-align:center; opacity:0.85; }
     .ad-banner ins { border-radius:4px; overflow:hidden; }
+
+    @media (max-width: 520px) {
+      body { gap: 10px; padding: 12px; }
+      .panel, #agentes-bar {
+        width: calc(100vw - 24px) !important;
+        box-sizing: border-box;
+      }
+      #pantalla-home { padding: 28px 20px; }
+      #pantalla-instrucciones, #pantalla-selector, #pantalla-examenes,
+      #pantalla-examen-juego, #pantalla-juego { padding: 24px 18px; }
+      #pantalla-resultado-examen, #pantalla-gameover, #pantalla-lb { padding: 24px 18px; }
+      .home-logo { font-size: 2.4rem; letter-spacing: 6px; }
+      .home-btn { padding: 11px 14px; gap: 10px; }
+      .agente-selector { gap: 6px; }
+      .op-agente { width: calc(33% - 8px); padding: 10px 6px; }
+      .op-agente img { width: 36px; height: 36px; }
+      .nota-letra { font-size: 3.5rem; }
+      .score-final { font-size: 2rem; }
+      .stats-row { gap: 6px; }
+      #pantalla-lb { max-height: 85vh; }
+      #pantalla-resultado-examen { max-height: 85vh; }
+      #pantalla-gameover { max-height: 85vh; }
+      #modal-inner { width: calc(100vw - 32px) !important; padding: 24px 18px; }
+      #agentes-bar { padding: 10px 12px; gap: 8px; }
+      .agente-slot { width: 60px; }
+      .agente-slot img { width: 36px; height: 36px; }
+      .lb-meta { font-size: 0.55rem; }
+    }
   </style>
 </head>
 <body class="fondo-menu">
