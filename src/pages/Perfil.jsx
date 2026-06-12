@@ -16,11 +16,12 @@ export default function Perfil() {
 
   if (!user) return null
 
+  const streak = stats?.streak || 0
   const statCards = [
+    { label: 'Racha', value: `${streak} día${streak !== 1 ? 's' : ''}`, emoji: '🔥' },
     { label: 'Tiempo total', value: formatTime(stats?.totalTime), emoji: '⏱️' },
     { label: 'Actividades', value: stats?.gamesPlayed ?? 0, emoji: '🎮' },
     { label: 'Exámenes aprobados', value: stats?.examsPassed ?? 0, emoji: '✅' },
-    { label: 'Mejor puntuación', value: stats?.bestScores ? Math.max(0, ...Object.values(stats.bestScores)) : 0, emoji: '🏆' },
   ]
 
   const bestScores = stats?.bestScores || {}
