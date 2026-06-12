@@ -350,18 +350,21 @@ function SlotButton({ index, phase, chosenSlot, correctSlot, onPlace }) {
   const isCorrect = phase === 'revealing' && correctSlot === index
   const isActive = phase === 'placing'
 
-  let style = 'border-white/15 bg-white/5 text-white/30 hover:border-amber-400/60 hover:bg-amber-500/10 hover:text-amber-400'
-  if (isChosen && isCorrect) style = 'border-green-500/60 bg-green-500/20 text-green-400'
-  else if (isChosen && !isCorrect) style = 'border-red-500/60 bg-red-500/20 text-red-400'
-  else if (!isChosen && isCorrect) style = 'border-green-500/40 bg-green-500/10 text-green-400 animate-pulse'
+  let style = 'border-white/20 bg-white/5 text-white/40 hover:border-amber-400 hover:bg-amber-500/20 hover:text-amber-300 hover:scale-110'
+  if (isChosen && isCorrect) style = 'border-green-500 bg-green-500/25 text-green-300 scale-110'
+  else if (isChosen && !isCorrect) style = 'border-red-500 bg-red-500/25 text-red-300 scale-110'
+  else if (!isChosen && isCorrect) style = 'border-green-500/60 bg-green-500/15 text-green-400 animate-pulse'
+
+  const label = isChosen && isCorrect ? '✓' : isChosen && !isCorrect ? '✗' : !isChosen && isCorrect ? '↑' : '+'
 
   return (
     <button
       onClick={() => isActive && onPlace(index)}
       disabled={!isActive}
-      className={`flex-shrink-0 w-8 self-stretch flex items-center justify-center border rounded-lg text-lg font-bold transition-all duration-200 mx-0.5 ${style} ${isActive ? 'cursor-pointer' : 'cursor-default'}`}
+      className={`flex-shrink-0 self-stretch flex flex-col items-center justify-center border-2 rounded-xl font-black transition-all duration-200 mx-1 min-w-[44px] px-1 gap-0.5 ${style} ${isActive ? 'cursor-pointer active:scale-95' : 'cursor-default'}`}
     >
-      {isChosen && isCorrect ? '✓' : isChosen && !isCorrect ? '✗' : !isChosen && isCorrect ? '↑' : '+'}
+      <span className="text-xl leading-none">{label}</span>
+      {isActive && <span className="text-[9px] font-bold uppercase tracking-wide opacity-60">aquí</span>}
     </button>
   )
 }

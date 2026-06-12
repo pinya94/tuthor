@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { Analytics } from '@vercel/analytics/react'
 import Particles from './components/Particles'
 import Navbar from './components/Navbar'
 import Home from './pages/Home'
@@ -67,6 +68,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <Layout />
+      <Analytics />
     </BrowserRouter>
   )
 }
