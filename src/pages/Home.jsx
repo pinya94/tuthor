@@ -4,11 +4,13 @@ import HeroCard from '../components/HeroCard'
 import { MAIN_CARDS } from '../data/constants'
 import { useAuth } from '../context/AuthContext'
 import { getStats, formatTime } from '../lib/activity'
+import AuthModal from '../components/AuthModal'
 
 export default function Home() {
   const navigate = useNavigate()
   const { user } = useAuth()
   const [stats, setStats] = useState(null)
+  const [showAuth, setShowAuth] = useState(false)
 
   useEffect(() => {
     if (user) getStats(user.uid).then(setStats)
@@ -39,8 +41,9 @@ export default function Home() {
         ) : user ? (
           <EmptyStatsWidget onVerMas={() => navigate('/perfil')} />
         ) : (
-          <LockedWidget />
+          <LockedWidget onLogin={() => setShowAuth(true)} />
         )}
+        {showAuth && <AuthModal onClose={() => setShowAuth(false)} />}
         <div className="rounded-lg border border-dashed border-white/10 bg-white/5 h-10 flex items-center justify-center">
           <span className="text-xs text-white/20 font-medium tracking-widest uppercase">Espacio publicitario</span>
         </div>
@@ -103,20 +106,35 @@ function EmptyStatsWidget({ onVerMas }) {
   )
 }
 
-function LockedWidget() {
+function LockedWidget({ onLogin }) {
+  const preview = [
+    { emoji: '🔥', label: 'Racha' },
+    { emoji: '⏱️', label: 'Tiempo' },
+    { emoji: '✅', label: 'Aprobados' },
+    { emoji: '🎮', label: 'Actividades' },
+  ]
   return (
-    <div className="rounded-xl border border-white/10 bg-white/5 backdrop-blur-sm opacity-50">
-      <div className="flex items-center justify-between px-5 py-2.5 flex-wrap gap-2">
-        <div className="flex items-center gap-3">
-          <span className="text-lg">📊</span>
-          <div>
-            <p className="font-bold text-white text-sm">Trackea tu progreso</p>
-            <p className="text-white/40 text-xs">Rachas, tiempo y estadísticas personales</p>
+    <div className="rounded-xl border border-white/15 bg-white/5 backdrop-blur-sm overflow-hidden">
+      <div className="flex items-center justify-between px-5 py-3 border-b border-white/5">
+        <div>
+          <p className="font-bold text-white text-sm">Tu progreso</p>
+          <p className="text-white/40 text-xs">Inicia sesión para ver tus estadísticas</p>
+        </div>
+        <button
+          onClick={onLogin}
+          className="text-xs font-bold bg-violet-600 hover:bg-violet-700 text-white px-4 py-1.5 rounded-full transition-colors"
+        >
+          Iniciar sesión
+        </button>
+      </div>
+      <div className="grid grid-cols-4 divide-x divide-white/5">
+        {preview.map(item => (
+          <div key={item.label} className="flex flex-col items-center py-3 px-2 opacity-30">
+            <span className="text-lg mb-0.5">{item.emoji}</span>
+            <span className="text-white font-black text-sm">—</span>
+            <span className="text-white/50 text-xs">{item.label}</span>
           </div>
-        </div>
-        <div className="bg-white/10 text-white/40 text-xs font-semibold px-4 py-2 rounded-lg cursor-not-allowed">
-          🔒 Inicia sesión para ver
-        </div>
+        ))}
       </div>
     </div>
   )
