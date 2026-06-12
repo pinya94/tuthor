@@ -48,7 +48,7 @@ export default function HistoriaTema() {
 
   // Configuración de Línea Temporal según nivel
   const ltConfig = nivel === 'primaria'
-    ? { lives: 5, winAt: 10, livesLabel: '5 vidas', winLabel: 'Coloca 10 → Apruebas' }
+    ? { lives: 5, winAt: Math.min(10, eventos.length), livesLabel: '5 vidas', winLabel: `Coloca ${Math.min(10, eventos.length)} → Apruebas` }
     : { lives: 3, winAt: null, livesLabel: '3 vidas', winLabel: `Coloca ${eventos.length} → Apruebas` }
 
   const modos = [
