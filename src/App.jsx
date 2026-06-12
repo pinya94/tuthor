@@ -11,6 +11,7 @@ import HistoriaLanding from './pages/HistoriaLanding'
 import ExamenHistoria from './pages/ExamenHistoria'
 import ExamenJuego from './pages/ExamenJuego'
 import TuthorTime from './pages/TuthorTime'
+import OrdenTemporal from './pages/OrdenTemporal'
 import Perfil from './pages/Perfil'
 
 function Layout() {
@@ -52,6 +53,7 @@ function Layout() {
 
           <Route path="/juegos" element={<Juegos />} />
           <Route path="/juegos/tuthor-time" element={<TuthorTime />} />
+          <Route path="/juegos/linea-temporal" element={<OrdenTemporal />} />
           <Route path="/diaria" element={<PreguntaDiaria />} />
           <Route path="/progreso" element={<Progreso />} />
           <Route path="/perfil" element={<Perfil />} />

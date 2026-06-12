@@ -42,6 +42,7 @@ export const SUBJECTS = [
 
 export const GAMES = [
   { title: 'Tuthor Time', subtitle: 'Viajero del tiempo', emoji: '🕰️', gradient: 'from-amber-500 to-orange-600', ready: true, path: '/juegos/tuthor-time' },
+  { title: 'Línea Temporal', subtitle: 'Ordena la historia', emoji: '📜', gradient: 'from-emerald-500 to-teal-700', ready: true, path: '/juegos/linea-temporal' },
   { title: 'GeoRush', subtitle: 'Capitales del mundo', emoji: '🌍', gradient: 'from-teal-400 to-cyan-600', ready: false },
   { title: 'MateChallenge', subtitle: 'Pitágoras y más', emoji: '📐', gradient: 'from-pink-500 to-rose-600', ready: false },
   { title: 'WordBattle', subtitle: 'Vocabulario en inglés', emoji: '🔤', gradient: 'from-blue-500 to-indigo-600', ready: false },

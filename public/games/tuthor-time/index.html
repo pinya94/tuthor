@@ -551,7 +551,7 @@
   <!-- FIREBASE -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getFirestore, collection, addDoc, getDocs, query, orderBy, limit }
+    import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, query, orderBy, limit }
       from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
     const app = initializeApp({
       apiKey:"AIzaSyDmrfNpR4qM3Ko87i_o0HKQXbZ7iNsucpY",
@@ -562,6 +562,19 @@
       appId:"1:431571381627:web:5f738d0b35ddbc214ce1de"
     });
     const db = getFirestore(app);
+    // Limpia entradas incompletas del leaderboard (sin todos los campos)
+    window._fbLimpiar = async () => {
+      const snap = await getDocs(collection(db,"leaderboard"));
+      const toDelete = snap.docs.filter(d => {
+        const data = d.data();
+        return data.tiempoMedio == null || data.pctAciertos == null || data.errMedio == null || !data.nombre || !data.score;
+      });
+      await Promise.all(toDelete.map(d => deleteDoc(doc(db,"leaderboard",d.id))));
+      return toDelete.length;
+    };
+    // Ejecutar limpieza silenciosa al cargar
+    window._fbLimpiar().catch(()=>{});
+
     window._fbGuardar = async (nombre,score,agentes,tiempoMedio,pctAciertos,errMedio) => {
       await addDoc(collection(db,"leaderboard"),{nombre,score,agentes,tiempoMedio,pctAciertos,errMedio,fecha:new Date().toLocaleDateString('es'),ts:Date.now()});
     };
