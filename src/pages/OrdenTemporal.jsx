@@ -228,17 +228,24 @@ export default function OrdenTemporal() {
 
             <SlotBtn index={0} phase={phase} chosen={chosenSlot} correct={correctSlot} onPlace={placeCard} />
 
-            {timeline.map((ev, i) => (
-              <div key={ev.id} className="flex items-center gap-0">
-                <div className="flex flex-col items-center mx-1">
-                  <div className="bg-white/10 border border-white/20 rounded-xl px-3 py-2 min-w-[100px] max-w-[130px]">
-                    <p className="text-white text-xs font-bold leading-snug line-clamp-2">{ev.nombre}</p>
-                    <p className="text-amber-400 text-sm font-black mt-1">{formatYear(ev.año)}</p>
+            {timeline.map((ev, i) => {
+              // Cards shrink as timeline grows: start big, settle at small
+              const size = Math.max(0, 6 - Math.floor(timeline.length / 4))
+              const cardW = [160, 148, 136, 124, 112, 104, 96][size] ?? 96
+              const textSize = size >= 4 ? 'text-xs' : size >= 2 ? 'text-sm' : 'text-sm'
+              const yearSize = size >= 4 ? 'text-xs' : 'text-sm'
+              return (
+                <div key={ev.id} className="flex items-center gap-0">
+                  <div className="flex flex-col items-center mx-1 transition-all duration-300" style={{ width: cardW }}>
+                    <div className="bg-white/10 border border-white/20 rounded-xl px-2 py-2 w-full">
+                      <p className={`text-white font-bold leading-snug line-clamp-2 ${textSize}`}>{ev.nombre}</p>
+                      <p className={`text-amber-400 font-black mt-1 ${yearSize}`}>{formatYear(ev.año)}</p>
+                    </div>
                   </div>
+                  <SlotBtn index={i + 1} phase={phase} chosen={chosenSlot} correct={correctSlot} onPlace={placeCard} />
                 </div>
-                <SlotBtn index={i + 1} phase={phase} chosen={chosenSlot} correct={correctSlot} onPlace={placeCard} />
-              </div>
-            ))}
+              )
+            })}
           </div>
         </div>
       </div>

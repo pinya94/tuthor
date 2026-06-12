@@ -67,6 +67,30 @@ export const EVENTOS_HISTORIA = [
   { id: 'usa_06', nombre: "Tratado de París",                       año: 1783, descripcion: "Gran Bretaña reconoce oficialmente la independencia americana.",      dificultad: "medio",   categoria: "usa" },
   { id: 'usa_07', nombre: "Constitución de los Estados Unidos",     año: 1787, descripcion: "Se redacta la constitución más duradera de la historia moderna.",     dificultad: "fácil",   categoria: "usa" },
   { id: 'usa_08', nombre: "George Washington, primer presidente",   año: 1789, descripcion: "Washington es elegido primer presidente de los Estados Unidos.",      dificultad: "fácil",   categoria: "usa" },
+
+  // ── EVENTOS GLOBALES (para Línea Temporal) ────────────────────────────────
+  { id: 'glob_01', nombre: "Invasión árabe de la Península Ibérica",  año:  711, descripcion: "Los musulmanes cruzan el Estrecho de Gibraltar y conquistan casi toda España.", dificultad: "medio",   categoria: "global" },
+  { id: 'glob_02', nombre: "Coronación de Carlomagno",                año:  800, descripcion: "El papa León III corona a Carlomagno como emperador de Occidente en Roma.",      dificultad: "medio",   categoria: "global" },
+  { id: 'glob_03', nombre: "Batalla de Hastings",                     año: 1066, descripcion: "Guillermo el Conquistador derrota al rey Harold. Nace la Inglaterra medieval.",  dificultad: "medio",   categoria: "global" },
+  { id: 'glob_04', nombre: "Primera Cruzada",                         año: 1096, descripcion: "El papa Urbano II convoca a los cristianos a liberar Jerusalén.",                dificultad: "difícil", categoria: "global" },
+  { id: 'glob_05', nombre: "Magna Carta",                             año: 1215, descripcion: "El rey Juan sin Tierra firma la primera carta de derechos de la historia.",      dificultad: "medio",   categoria: "global" },
+  { id: 'glob_06', nombre: "Peste Negra en Europa",                   año: 1347, descripcion: "La pandemia de peste bubónica mata a un tercio de la población europea.",        dificultad: "fácil",   categoria: "global" },
+  { id: 'glob_07', nombre: "Caída de Constantinopla",                 año: 1453, descripcion: "Los otomanos conquistan la capital del Imperio Bizantino. Fin de la Edad Media.", dificultad: "fácil",  categoria: "global" },
+  { id: 'glob_08', nombre: "Reforma Protestante",                     año: 1517, descripcion: "Lutero clava sus 95 tesis. Europa se divide entre católicos y protestantes.",    dificultad: "medio",   categoria: "global" },
+  { id: 'glob_09', nombre: "Revolución Inglesa (Gloriosa)",           año: 1688, descripcion: "El parlamento inglés limita el poder del rey. Nace la democracia moderna.",      dificultad: "difícil", categoria: "global" },
+  { id: 'glob_10', nombre: "Revolución Americana",                    año: 1776, descripcion: "Las colonias americanas se declaran independientes de Gran Bretaña.",            dificultad: "fácil",   categoria: "global" },
+  { id: 'glob_11', nombre: "Revolución Francesa",                     año: 1789, descripcion: "El pueblo toma la Bastilla. Fin del Antiguo Régimen en Francia.",               dificultad: "fácil",   categoria: "global" },
+  { id: 'glob_12', nombre: "Batalla de Waterloo",                     año: 1815, descripcion: "Napoleón sufre su derrota definitiva. Fin del Imperio napoleónico.",             dificultad: "fácil",   categoria: "global" },
+  { id: 'glob_13', nombre: "Abolición de la esclavitud en EEUU",      año: 1865, descripcion: "La Guerra Civil americana termina. Lincoln promulga la 13ª enmienda.",          dificultad: "fácil",   categoria: "global" },
+  { id: 'glob_14', nombre: "Revolución Rusa",                         año: 1917, descripcion: "Los bolcheviques toman el poder. Nace la Unión Soviética.",                      dificultad: "fácil",   categoria: "global" },
+  { id: 'glob_15', nombre: "Gran Depresión",                          año: 1929, descripcion: "El crack de Wall Street hunde la economía mundial durante una década.",          dificultad: "fácil",   categoria: "global" },
+  { id: 'glob_16', nombre: "Creación de la ONU",                      año: 1945, descripcion: "Tras la Segunda Guerra Mundial, 51 países fundan la Organización de Naciones Unidas.", dificultad: "medio", categoria: "global" },
+  { id: 'glob_17', nombre: "Declaración Universal de los DDHH",       año: 1948, descripcion: "La ONU proclama los derechos fundamentales de todos los seres humanos.",        dificultad: "medio",   categoria: "global" },
+  { id: 'glob_18', nombre: "Sputnik, primer satélite artificial",     año: 1957, descripcion: "La URSS lanza el primer objeto fabricado por el hombre al espacio.",            dificultad: "medio",   categoria: "global" },
+  { id: 'glob_19', nombre: "Llegada del hombre a la Luna",            año: 1969, descripcion: "Neil Armstrong da el primer paso humano fuera de la Tierra.",                   dificultad: "fácil",   categoria: "global" },
+  { id: 'glob_20', nombre: "Caída del Muro de Berlín",                año: 1989, descripcion: "Alemania se reúne. Comienza el fin de la Guerra Fría.",                         dificultad: "fácil",   categoria: "global" },
+  { id: 'glob_21', nombre: "Disolución de la Unión Soviética",        año: 1991, descripcion: "El bloque comunista se desintegra. Fin de la Guerra Fría.",                      dificultad: "medio",   categoria: "global" },
+  { id: 'glob_22', nombre: "Atentados del 11 de septiembre",          año: 2001, descripcion: "Al-Qaeda derriba las Torres Gemelas. El mundo cambia para siempre.",            dificultad: "fácil",   categoria: "global" },
 ]
 
 // ── CATÁLOGO DE EXÁMENES ─────────────────────────────────────────────────────
@@ -108,31 +132,6 @@ export const EXAMENES_HISTORIA = [
     descripcion: 'De la colonia británica a los Estados Unidos de América',
     niveles: ['bachillerato'],
   },
-]
-
-  // ── EVENTOS GLOBALES (para Línea Temporal) ────────────────────────────────
-  { id: 'glob_01', nombre: "Invasión árabe de la Península Ibérica",  año:  711, descripcion: "Los musulmanes cruzan el Estrecho de Gibraltar y conquistan casi toda España.", dificultad: "medio",   categoria: "global" },
-  { id: 'glob_02', nombre: "Coronación de Carlomagno",                año:  800, descripcion: "El papa León III corona a Carlomagno como emperador de Occidente en Roma.",      dificultad: "medio",   categoria: "global" },
-  { id: 'glob_03', nombre: "Batalla de Hastings",                     año: 1066, descripcion: "Guillermo el Conquistador derrota al rey Harold. Nace la Inglaterra medieval.",  dificultad: "medio",   categoria: "global" },
-  { id: 'glob_04', nombre: "Primera Cruzada",                         año: 1096, descripcion: "El papa Urbano II convoca a los cristianos a liberar Jerusalén.",                dificultad: "difícil", categoria: "global" },
-  { id: 'glob_05', nombre: "Magna Carta",                             año: 1215, descripcion: "El rey Juan sin Tierra firma la primera carta de derechos de la historia.",      dificultad: "medio",   categoria: "global" },
-  { id: 'glob_06', nombre: "Peste Negra en Europa",                   año: 1347, descripcion: "La pandemia de peste bubónica mata a un tercio de la población europea.",        dificultad: "fácil",   categoria: "global" },
-  { id: 'glob_07', nombre: "Caída de Constantinopla",                 año: 1453, descripcion: "Los otomanos conquistan la capital del Imperio Bizantino. Fin de la Edad Media.", dificultad: "fácil",  categoria: "global" },
-  { id: 'glob_08', nombre: "Reforma Protestante",                     año: 1517, descripcion: "Lutero clava sus 95 tesis. Europa se divide entre católicos y protestantes.",    dificultad: "medio",   categoria: "global" },
-  { id: 'glob_09', nombre: "Revolución Inglesa (Gloriosa)",           año: 1688, descripcion: "El parlamento inglés limita el poder del rey. Nace la democracia moderna.",      dificultad: "difícil", categoria: "global" },
-  { id: 'glob_10', nombre: "Revolución Americana",                    año: 1776, descripcion: "Las colonias americanas se declaran independientes de Gran Bretaña.",            dificultad: "fácil",   categoria: "global" },
-  { id: 'glob_11', nombre: "Revolución Francesa",                     año: 1789, descripcion: "El pueblo toma la Bastilla. Fin del Antiguo Régimen en Francia.",               dificultad: "fácil",   categoria: "global" },
-  { id: 'glob_12', nombre: "Batalla de Waterloo",                     año: 1815, descripcion: "Napoleón sufre su derrota definitiva. Fin del Imperio napoleónico.",             dificultad: "fácil",   categoria: "global" },
-  { id: 'glob_13', nombre: "Abolición de la esclavitud en EEUU",      año: 1865, descripcion: "La Guerra Civil americana termina. Lincoln promulga la 13ª enmienda.",          dificultad: "fácil",   categoria: "global" },
-  { id: 'glob_14', nombre: "Revolución Rusa",                         año: 1917, descripcion: "Los bolcheviques toman el poder. Nace la Unión Soviética.",                      dificultad: "fácil",   categoria: "global" },
-  { id: 'glob_15', nombre: "Gran Depresión",                          año: 1929, descripcion: "El crack de Wall Street hunde la economía mundial durante una década.",          dificultad: "fácil",   categoria: "global" },
-  { id: 'glob_16', nombre: "Creación de la ONU",                      año: 1945, descripcion: "Tras la Segunda Guerra Mundial, 51 países fundan la Organización de Naciones Unidas.", dificultad: "medio", categoria: "global" },
-  { id: 'glob_17', nombre: "Declaración Universal de los DDHH",       año: 1948, descripcion: "La ONU proclama los derechos fundamentales de todos los seres humanos.",        dificultad: "medio",   categoria: "global" },
-  { id: 'glob_18', nombre: "Sputnik, primer satélite artificial",     año: 1957, descripcion: "La URSS lanza el primer objeto fabricado por el hombre al espacio.",            dificultad: "medio",   categoria: "global" },
-  { id: 'glob_19', nombre: "Llegada del hombre a la Luna",            año: 1969, descripcion: "Neil Armstrong da el primer paso humano fuera de la Tierra.",                   dificultad: "fácil",   categoria: "global" },
-  { id: 'glob_20', nombre: "Caída del Muro de Berlín",                año: 1989, descripcion: "Alemania se reúne. Comienza el fin de la Guerra Fría.",                         dificultad: "fácil",   categoria: "global" },
-  { id: 'glob_21', nombre: "Disolución de la Unión Soviética",        año: 1991, descripcion: "El bloque comunista se desintegra. Fin de la Guerra Fría.",                      dificultad: "medio",   categoria: "global" },
-  { id: 'glob_22', nombre: "Atentados del 11 de septiembre",          año: 2001, descripcion: "Al-Qaeda derriba las Torres Gemelas. El mundo cambia para siempre.",            dificultad: "fácil",   categoria: "global" },
 ]
 
 // ── HELPERS ───────────────────────────────────────────────────────────────────
