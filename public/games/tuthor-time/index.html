@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <!-- Google Analytics GA4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-T345R0LR5L"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-T345R0LR5L');
+  </script>
+
+  <meta charset="UTF-8">
+  <title>BIXO</title>
+
+  <!-- AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9281841187642423" crossorigin="anonymous"></script>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Courier+Prime:wght@400;700&display=swap');
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Courier Prime', monospace;
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      justify-content: center; align-items: center;
+      gap: 16px; overflow: hidden;
+    }
+    body.fondo-menu  { background: url('fondo_menu.png') center center / cover no-repeat fixed; }
+    body.fondo-juego { background: url('background.png') center center / cover no-repeat fixed; }
+
+    #canvas-particulas {
+      position: fixed; top:0; left:0; width:100%; height:100%;
+      pointer-events:none; z-index:1;
+    }
+
+    #controles-audio {
+      position:fixed; bottom:20px; right:20px; z-index:100;
+      display:flex; align-items:center; gap:8px;
+    }
+    #vol-selector {
+      display:none; background:rgba(30,20,10,0.95);
+      border:1px solid #8B6914; border-radius:8px;
+      padding:8px 6px; flex-direction:column; gap:6px; align-items:center;
+    }
+    .vol-opt {
+      font-family:'Courier Prime',monospace; font-size:0.65rem;
+      color:#c8a84b; letter-spacing:1px; padding:5px 12px;
+      border-radius:4px; cursor:pointer; white-space:nowrap; transition:background 0.15s;
+    }
+    .vol-opt:hover { background:rgba(200,168,75,0.15); }
+    .vol-opt.activo { background:rgba(200,168,75,0.2); color:#f0d080; }
+    #btn-musica {
+      background:rgba(30,20,10,0.8); border:1px solid #8B6914;
+      color:#c8a84b; font-size:1.1rem; width:40px; height:40px; border-radius:50%;
+      cursor:pointer; display:flex; align-items:center; justify-content:center; transition:background 0.2s;
+    }
+    #btn-musica:hover { background:rgba(60,40,10,0.9); }
+
+    .panel {
+      position:relative; z-index:10;
+      background: linear-gradient(135deg,rgba(0,0,0,0.1) 0%,transparent 50%),
+        linear-gradient(to bottom,#f5e6c8,#ede0b0,#e8d89a,#ede0b0,#f0e4c0);
+      border-radius:4px; color:#2c1810; text-align:center;
+      box-shadow: 0 0 0 1px #8B6914, 0 0 0 3px rgba(139,105,20,0.3),
+        0 4px 20px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,240,0.6);
+      clip-path: polygon(
+        0% 1%,2% 0%,5% 0.5%,8% 0%,12% 0.8%,16% 0%,20% 0.5%,25% 0%,30% 1%,35% 0%,
+        40% 0.5%,45% 0%,50% 1%,55% 0%,60% 0.5%,65% 0%,70% 1%,75% 0%,80% 0.5%,
+        85% 0%,90% 0.8%,94% 0%,97% 0.5%,100% 0%,100% 99%,98% 100%,94% 99.5%,
+        90% 100%,85% 99%,80% 100%,75% 99.5%,70% 100%,65% 99%,60% 100%,55% 99.5%,
+        50% 100%,45% 99%,40% 100%,35% 99.5%,30% 100%,25% 99%,20% 100%,15% 99.5%,
+        10% 100%,5% 99%,2% 100%,0% 99%
+      );
+    }
+    .panel::before {
+      content:''; position:absolute; inset:0;
+      background-image: repeating-linear-gradient(
+        0deg,transparent,transparent 28px,rgba(139,105,20,0.06) 28px,rgba(139,105,20,0.06) 29px
+      );
+      pointer-events:none; z-index:0;
+    }
+    .panel::after {
+      content:''; position:absolute; inset:0;
+      background: radial-gradient(ellipse at 10% 10%,rgba(180,140,60,0.15) 0%,transparent 50%),
+        radial-gradient(ellipse at 90% 90%,rgba(120,80,20,0.1) 0%,transparent 50%);
+      pointer-events:none; z-index:0;
+    }
+    .panel > * { position:relative; z-index:1; }
+    .panel h1,.panel h2,.panel .home-logo {
+      font-family:'IM Fell English',serif !important;
+      color:#2c1810 !important; text-shadow:1px 1px 2px rgba(139,105,20,0.3); letter-spacing:4px !important;
+    }
+    .panel .home-sub,.panel .subtitulo,.panel label,
+    .panel .evento-dificultad,.panel .home-version { color:#6b4423 !important; }
+    .panel .evento-nombre { color:#3d1f0a !important; font-weight:bold; }
+    .panel .evento-desc   { color:#7a5535 !important; }
+    .sep { text-align:center; color:#8B6914; font-size:0.9rem; margin:8px 0; letter-spacing:8px; opacity:0.6; }
+
+    #pantalla-home { width:460px; padding:44px 40px; }
+    .home-logo { font-size:3.2rem; letter-spacing:10px; margin-bottom:4px; }
+    .home-sub  { font-size:0.68rem; letter-spacing:5px; margin-bottom:8px; }
+    .home-menu { display:flex; flex-direction:column; gap:8px; margin-top:16px; }
+    .home-btn {
+      display:flex; align-items:center; gap:14px; padding:13px 18px; border-radius:2px;
+      border:1px solid rgba(139,105,20,0.4); background:rgba(139,105,20,0.08);
+      transition:all 0.2s; text-decoration:none; color:#2c1810; font-family:'Courier Prime',monospace; cursor:pointer;
+    }
+    .home-btn:hover { background:rgba(139,105,20,0.18); border-color:#8B6914; transform:translateX(4px); }
+    .home-btn.primary { background:linear-gradient(135deg,#8B6914,#6b4d0a); border-color:#c8a84b; color:#f5e6c8; }
+    .home-btn.primary:hover { background:linear-gradient(135deg,#a07820,#8B6914); }
+    .home-btn .icon { font-size:1.3rem; width:30px; text-align:center; }
+    .home-btn .titulo { font-size:0.85rem; font-weight:bold; letter-spacing:2px; display:block; }
+    .home-btn .desc   { font-size:0.62rem; opacity:0.65; letter-spacing:1px; display:block; margin-top:1px; }
+    .home-btn.primary .desc { opacity:0.75; }
+    .home-version { font-size:0.56rem; color:#8B6914 !important; margin-top:20px; letter-spacing:2px; }
+
+    #pantalla-instrucciones { width:480px; padding:36px 40px; display:none; }
+    .instruccion-row { display:flex; gap:14px; align-items:flex-start; text-align:left; margin-bottom:16px; }
+    .instruccion-num { font-size:1.6rem; color:#8B6914; font-family:'IM Fell English',serif; width:32px; flex-shrink:0; }
+    .instruccion-texto .titulo { font-size:0.85rem; color:#2c1810 !important; margin-bottom:3px; font-weight:bold; }
+    .instruccion-texto .detalle { font-size:0.74rem; color:#7a5535 !important; line-height:1.5; }
+    .regla-oro {
+      background:rgba(139,105,20,0.1); border:1px solid rgba(139,105,20,0.4);
+      border-radius:2px; padding:12px 14px; margin:14px 0; text-align:left;
+    }
+    .regla-oro .etiqueta { font-size:0.6rem; color:#8B6914; letter-spacing:3px; margin-bottom:6px; }
+    .regla-oro .ejemplos { font-size:0.72rem; color:#7a5535; line-height:1.8; }
+    .regla-oro .ejemplos span { color:#3d1f0a; font-weight:bold; }
+
+    #pantalla-selector { width:420px; padding:36px; display:none; }
+    #pantalla-selector .sub { font-size:0.65rem; color:#6b4423 !important; letter-spacing:2px; margin-bottom:24px; }
+    .agente-selector { display:flex; gap:10px; justify-content:center; margin-bottom:24px; }
+    .op-agente {
+      width:90px; padding:12px 8px; background:rgba(139,105,20,0.08); border:1px solid rgba(139,105,20,0.3);
+      border-radius:2px; cursor:pointer; transition:all 0.2s; color:#2c1810;
+    }
+    .op-agente:hover { border-color:#8B6914; background:rgba(139,105,20,0.15); }
+    .op-agente.seleccionado { border-color:#8B6914; background:rgba(139,105,20,0.2); }
+    .op-agente img { width:46px; height:46px; object-fit:contain; display:block; margin:0 auto 6px;
+      filter:sepia(0.3) drop-shadow(0 2px 4px rgba(0,0,0,0.3)); }
+    .op-agente .mult { font-size:0.58rem; color:#8B6914; margin-top:4px; }
+    .op-agente .mult-val { font-size:0.72rem; color:#6b4423; }
+
+    #pantalla-examenes { width:460px; padding:40px; display:none; }
+    #pantalla-examen-juego { width:480px; padding:28px 32px; display:none; }
+    .examen-badge {
+      display:inline-block; background:rgba(139,105,20,0.15); border:1px solid rgba(139,105,20,0.4);
+      border-radius:2px; font-size:0.6rem; color:#8B6914; letter-spacing:3px; padding:3px 10px; margin-bottom:16px;
+    }
+    .examen-card {
+      display:flex; align-items:center; gap:14px; padding:14px 18px;
+      border:1px solid rgba(139,105,20,0.3); background:rgba(139,105,20,0.06);
+      border-radius:2px; cursor:pointer; transition:all 0.2s; margin-bottom:8px; color:#2c1810; font-family:'Courier Prime',monospace;
+    }
+    .examen-card:hover { background:rgba(139,105,20,0.15); border-color:#8B6914; transform:translateX(4px); }
+    .examen-card .ex-icon { font-size:1.6rem; width:36px; text-align:center; }
+    .examen-card .ex-nombre { font-size:0.88rem; font-weight:bold; letter-spacing:2px; display:block; }
+    .examen-card .ex-desc { font-size:0.62rem; color:#8B6914; letter-spacing:1px; display:block; margin-top:2px; }
+    .progreso-examen {
+      background:rgba(139,105,20,0.1); border:1px solid rgba(139,105,20,0.3);
+      border-radius:2px; padding:8px 14px; margin-bottom:14px;
+      display:flex; justify-content:space-between; align-items:center; font-size:0.72rem;
+    }
+    .progreso-examen span { color:#6b4423; }
+    .progreso-examen strong { color:#2c1810; }
+
+    #pantalla-resultado-examen { width:520px; padding:36px; display:none; max-height:90vh; overflow-y:auto; }
+    .nota-container { text-align:center; margin:16px 0 24px; }
+    .nota-letra { font-family:'IM Fell English',serif; font-size:5rem; display:block; margin-bottom:4px; text-shadow:2px 2px 4px rgba(139,105,20,0.3); }
+    .nota-nombre { font-size:0.9rem; letter-spacing:4px; color:#6b4423; }
+    .nota-A { color:#2d6b20; } .nota-B { color:#8B6914; } .nota-C { color:#8B5a14; } .nota-D { color:#8B2014; }
+    .pct-grande { font-family:'IM Fell English',serif; font-size:2.4rem; color:#6b4d0a; margin:8px 0; }
+
+    #pantalla-juego { width:480px; padding:28px 32px; display:none; }
+    .subtitulo { font-size:0.65rem; letter-spacing:3px; margin-bottom:14px; }
+    #timer-wrap { margin-bottom:14px; }
+    #timer-bar-bg { height:8px; background:rgba(139,105,20,0.2); border-radius:1px; overflow:hidden; margin-bottom:4px; border:1px solid rgba(139,105,20,0.3); }
+    #timer-bar { height:100%; width:100%; border-radius:1px; transition:width 0.1s linear,background 0.5s; background:linear-gradient(90deg,#8B6914,#c8a84b); }
+    #timer-texto { font-size:0.65rem; color:#8B6914 !important; letter-spacing:2px; }
+    .evento-box {
+      background:rgba(139,105,20,0.08); border:1px solid rgba(139,105,20,0.3);
+      border-radius:2px; padding:14px; margin-bottom:16px; border-left:3px solid #8B6914;
+    }
+    .evento-dificultad { font-size:0.65rem; padding:2px 10px; border-radius:2px; display:inline-block; }
+    .fácil   { background:rgba(15,80,30,0.15);  color:#2d6b20; border:1px solid rgba(45,107,32,0.3); }
+    .medio   { background:rgba(139,90,20,0.15); color:#8B5a14; border:1px solid rgba(139,90,20,0.3); }
+    .difícil { background:rgba(120,30,20,0.15); color:#8B2014; border:1px solid rgba(139,32,20,0.3); }
+    label { font-size:0.68rem; color:#6b4423 !important; display:block; margin-bottom:6px; letter-spacing:2px; }
+    input[type="number"],input[type="text"] {
+      width:100%; background:rgba(245,230,200,0.6); border:1px solid rgba(139,105,20,0.4);
+      border-bottom:2px solid #8B6914; color:#2c1810; font-family:'Courier Prime',monospace;
+      font-size:1.2rem; text-align:center; padding:10px; border-radius:2px; margin-bottom:12px; outline:none;
+    }
+    input:focus { border-color:#8B6914; background:rgba(245,230,200,0.9); }
+    input::placeholder { color:#b8956a; }
+    .btn {
+      width:100%; padding:12px; background:linear-gradient(135deg,#8B6914,#6b4d0a);
+      color:#f5e6c8; border:1px solid #c8a84b; border-radius:2px; font-family:'Courier Prime',monospace;
+      font-size:0.9rem; font-weight:bold; letter-spacing:3px; cursor:pointer; transition:all 0.2s;
+      text-shadow:0 1px 2px rgba(0,0,0,0.4); box-shadow:0 2px 6px rgba(0,0,0,0.3),inset 0 1px 0 rgba(255,255,200,0.2);
+    }
+    .btn:hover { background:linear-gradient(135deg,#a07820,#8B6914); transform:translateY(-1px); box-shadow:0 4px 10px rgba(0,0,0,0.4); }
+    .btn:active { transform:translateY(0); }
+    .btn:disabled { background:#c4b896; color:#a09070; cursor:not-allowed; transform:none; border-color:#b8a07a; box-shadow:none; }
+    .btn-sec { background:transparent; color:#6b4423; border:1px solid rgba(139,105,20,0.4); margin-top:8px; text-shadow:none; box-shadow:none; }
+    .btn-sec:hover { background:rgba(139,105,20,0.1); transform:none; box-shadow:none; }
+    #resultado { margin-top:12px; padding:12px; border-radius:2px; font-size:0.82rem; display:none; animation:fadeIn 0.4s; }
+    .exito   { background:rgba(15,80,30,0.12);  border:1px solid rgba(45,107,32,0.4);  color:#2d6b20; border-left:3px solid #2d6b20; }
+    .fallo   { background:rgba(120,30,20,0.12); border:1px solid rgba(139,32,20,0.4);  color:#8B2014; border-left:3px solid #8B2014; }
+    .perfecto{ background:rgba(139,105,20,0.12);border:1px solid rgba(139,105,20,0.5); color:#6b4d0a; border-left:3px solid #8B6914; }
+
+    #overlay-viaje {
+      position:fixed; inset:0; background:radial-gradient(ellipse at center,rgba(30,15,5,0.95) 0%,rgba(10,5,2,0.98) 100%);
+      z-index:50; display:none; flex-direction:column; align-items:center; justify-content:center; gap:24px;
+    }
+    #overlay-viaje.activo { display:flex; }
+    .viaje-año { font-family:'IM Fell English',serif; font-size:5rem; color:#c8a84b; letter-spacing:8px; animation:pulso 0.5s infinite alternate; text-shadow:0 0 30px rgba(200,168,75,0.5); }
+    .viaje-texto { font-size:0.8rem; color:#8B6914; letter-spacing:6px; }
+    .viaje-bixo { width:80px; animation:flotar 1s ease-in-out infinite alternate; filter:sepia(0.5) drop-shadow(0 0 10px rgba(200,168,75,0.4)); }
+
+    #fade-overlay { position:fixed; inset:0; background:#0a0502; z-index:180; opacity:0; pointer-events:none; transition:opacity 0.6s ease; }
+    #fade-overlay.visible { opacity:1; pointer-events:all; }
+
+    @keyframes pulso  { from{opacity:.3;text-shadow:0 0 10px rgba(200,168,75,0.2)} to{opacity:1;text-shadow:0 0 40px rgba(200,168,75,0.8)} }
+    @keyframes flotar { from{transform:translateY(0)} to{transform:translateY(-12px)} }
+    @keyframes fadeIn { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
+
+    #agentes-bar { width:480px; padding:12px 16px; display:none; gap:12px; flex-wrap:wrap; justify-content:center; position:relative; z-index:10; }
+    .agente-slot { display:flex; flex-direction:column; align-items:center; gap:4px; width:72px; transition:opacity 0.4s; }
+    .agente-slot.muerto { opacity:.25; filter:grayscale(1) sepia(0.3); }
+    .agente-slot.activo { outline:2px solid #8B6914; border-radius:2px; padding:4px; box-shadow:0 0 10px rgba(139,105,20,0.4); }
+    .agente-slot img { width:44px; height:44px; object-fit:contain; filter:sepia(0.2) drop-shadow(0 2px 4px rgba(0,0,0,0.4)); }
+    .agente-vida-wrap { width:100%; height:5px; background:rgba(139,105,20,0.2); border-radius:1px; overflow:hidden; border:1px solid rgba(139,105,20,0.3); }
+    .agente-vida-fill { height:100%; border-radius:1px; transition:width .5s,background .5s; }
+    .agente-años { font-size:.58rem; color:#6b4423; }
+
+    #pantalla-gameover { width:520px; padding:36px; display:none; max-height:90vh; overflow-y:auto; }
+    #pantalla-gameover h2 { font-family:'IM Fell English',serif !important; font-size:1.8rem; color:#8B2014 !important; letter-spacing:4px; margin-bottom:4px; }
+    .score-final { font-family:'IM Fell English',serif; font-size:2.6rem; color:#6b4d0a; margin:16px 0 4px; text-shadow:1px 1px 2px rgba(139,105,20,0.3); }
+    .score-detalle { font-size:0.72rem; color:#7a5535 !important; margin-bottom:20px; }
+    .stats-row { display:flex; gap:8px; margin-bottom:14px; }
+    .stat-box { flex:1; background:rgba(139,105,20,0.1); border:1px solid rgba(139,105,20,0.3); border-radius:2px; padding:10px 6px; text-align:center; }
+    .stat-val { font-size:1rem; color:#6b4d0a; font-weight:bold; font-family:'IM Fell English',serif; }
+    .stat-label { font-size:0.58rem; color:#8B6914; letter-spacing:1px; margin-top:3px; }
+    .vs-box { background:rgba(139,105,20,0.08); border:1px solid rgba(139,105,20,0.3); border-radius:2px; padding:14px 16px; margin-bottom:14px; text-align:left; border-left:3px solid #8B6914; }
+    .vs-titulo { font-size:0.6rem; color:#8B6914; letter-spacing:3px; margin-bottom:10px; }
+    .vs-fila { display:flex; justify-content:space-between; align-items:center; margin-bottom:4px; font-size:0.75rem; }
+    .vs-fila .etiq { color:#7a5535; } .vs-fila .tuval { color:#2c1810; font-weight:bold; } .vs-fila .globval { color:#8B6914; }
+    .resumen-titulo { font-size:0.7rem; color:#8B6914; letter-spacing:3px; margin-bottom:8px; text-align:left; }
+    .resumen-item { background:rgba(139,105,20,0.06); border-radius:2px; border-left:2px solid rgba(139,105,20,0.3); padding:8px 12px; margin-bottom:5px; text-align:left; font-size:0.74rem; }
+    .resumen-evento { color:#3d1f0a; margin-bottom:3px; font-size:0.78rem; font-weight:bold; }
+    .resumen-detalle { display:flex; gap:12px; flex-wrap:wrap; }
+    .resumen-detalle span { color:#7a5535; }
+    .resumen-detalle .ok  { color:#2d6b20; }
+    .resumen-detalle .mal { color:#8B2014; }
+    .resumen-detalle .tiempo-val { color:#8B6914; }
+    .go-acciones { display:flex; flex-direction:column; gap:8px; margin-top:18px; }
+
+    #pantalla-lb { width:480px; padding:32px; display:none; max-height:90vh; overflow-y:auto; }
+    .lb-row { display:flex; justify-content:space-between; align-items:center; padding:8px 12px; border-radius:2px; margin-bottom:5px; font-size:.8rem; }
+    .lb-row:nth-child(odd) { background:rgba(139,105,20,0.08); }
+    .lb-pos { color:#8B6914; width:24px; }
+    .lb-name { flex:1; text-align:left; padding-left:8px; color:#2c1810; }
+    .lb-score { color:#6b4d0a; font-weight:bold; font-family:'IM Fell English',serif; font-size:.9rem; }
+    .lb-meta { font-size:.62rem; color:#8B6914; margin-left:8px; }
+
+    #modal-guardar { position:fixed; inset:0; z-index:150; display:none; align-items:center; justify-content:center; background:rgba(20,10,5,0.8); backdrop-filter:blur(4px); }
+    #modal-guardar.activo { display:flex; }
+    #modal-inner {
+      background:linear-gradient(to bottom,#f5e6c8,#ede0b0); border:2px solid #8B6914;
+      box-shadow:0 0 0 4px rgba(139,105,20,0.2),0 8px 32px rgba(0,0,0,0.6);
+      border-radius:4px; padding:32px; width:340px; text-align:center;
+      clip-path:polygon(0% 1.5%,3% 0%,7% 1%,12% 0%,18% 1.5%,25% 0%,35% 1%,45% 0%,55% 1%,65% 0%,75% 1.5%,85% 0%,92% 1%,97% 0%,100% 1.5%,100% 98.5%,97% 100%,92% 99%,85% 100%,75% 98.5%,65% 100%,55% 99%,45% 100%,35% 99%,25% 100%,18% 98.5%,12% 100%,7% 99%,3% 100%,0% 98.5%);
+    }
+    #modal-inner h3 { font-family:'IM Fell English',serif; color:#2c1810; letter-spacing:3px; margin-bottom:20px; font-size:1.1rem; }
+
+    #pantalla-intro { position:fixed; inset:0; z-index:200; background:#000; display:none; }
+    #video-intro { width:100%; height:100%; object-fit:cover; }
+    #btn-saltar { position:fixed; top:20px; left:20px; z-index:300; background:rgba(30,20,10,0.85); border:2px solid #8B6914; color:#c8a84b; font-family:'Courier Prime',monospace; font-size:0.9rem; font-weight:bold; letter-spacing:3px; padding:12px 24px; border-radius:4px; cursor:pointer; transition:all 0.2s; }
+    #btn-saltar:hover { background:#8B6914; color:#f5e6c8; }
+
+    .ad-banner { position:relative; z-index:10; max-width:480px; width:100%; text-align:center; opacity:0.85; }
+    .ad-banner ins { border-radius:4px; overflow:hidden; }
+  </style>
+</head>
+<body class="fondo-menu">
+
+  <img src="background.jpg" style="display:none" alt="">
+  <canvas id="canvas-particulas"></canvas>
+  <div id="fade-overlay"></div>
+
+  <div id="controles-audio">
+    <div id="vol-selector">
+      <div onclick="setVolumen(1)"   id="vol-alto"  class="vol-opt">🔊 ALTO</div>
+      <div onclick="setVolumen(0.4)" id="vol-medio" class="vol-opt">🔉 MEDIO</div>
+      <div onclick="setVolumen(0.1)" id="vol-bajo"  class="vol-opt">🔈 BAJO</div>
+      <div onclick="toggleMusica()"  id="vol-mute"  class="vol-opt">🔇 MUTE</div>
+    </div>
+    <button id="btn-musica" onclick="toggleVolSelector()">🔇</button>
+  </div>
+
+  <audio id="audio-bg" src="music.mp3" loop></audio>
+
+  <div id="pantalla-intro">
+    <video id="video-intro" playsinline>
+      <source src="epic_intro.mp4" type="video/mp4">
+    </video>
+    <button id="btn-saltar" onclick="saltarIntro()">▶ SALTAR INTRO</button>
+  </div>
+
+  <div id="overlay-viaje">
+    <img class="viaje-bixo" src="character.png" alt="Bixo">
+    <div class="viaje-año" id="viaje-año">????</div>
+    <div class="viaje-texto">✦ VIAJANDO EN EL TIEMPO ✦</div>
+  </div>
+
+  <div id="modal-guardar">
+    <div id="modal-inner">
+      <h3>✦ GUARDAR PUNTUACIÓN ✦</h3>
+      <label>TU NOMBRE</label>
+      <input type="text" id="input-nombre" placeholder="Tu nombre" maxlength="16">
+      <button class="btn" onclick="confirmarGuardar()">GUARDAR ▶</button>
+      <button class="btn btn-sec" onclick="cerrarModal()">CANCELAR</button>
+    </div>
+  </div>
+
+  <!-- HOME -->
+  <div id="pantalla-home" class="panel">
+    <div class="home-logo">BIXO</div>
+    <div class="home-sub">✦ CONTROLADOR TEMPORAL ✦</div>
+    <div class="sep">— ✦ —</div>
+    <div class="home-menu">
+      <div class="home-btn primary" onclick="irAJugar()">
+        <span class="icon">🕰️</span>
+        <span class="texto"><span class="titulo">JUGAR</span><span class="desc">Inicia una nueva misión temporal</span></span>
+      </div>
+      <div class="home-btn" onclick="mostrar('pantalla-examenes')">
+        <span class="icon">📋</span>
+        <span class="texto"><span class="titulo">MODO EXAMEN</span><span class="desc">Domina una era histórica completa</span></span>
+      </div>
+      <div class="home-btn" onclick="mostrar('pantalla-instrucciones')">
+        <span class="icon">📜</span>
+        <span class="texto"><span class="titulo">CÓMO SE JUEGA</span><span class="desc">Aprende las mecánicas del juego</span></span>
+      </div>
+      <div class="home-btn" onclick="mostrarLeaderboard()">
+        <span class="icon">🏆</span>
+        <span class="texto"><span class="titulo">CLASIFICACIÓN</span><span class="desc">Los mejores controladores temporales</span></span>
+      </div>
+      <a class="home-btn" href="https://www.youtube.com/playlist?list=PLk2j3fv3h8YsHXWWUWNKHbGeY12XL1UJv" target="_blank">
+        <span class="icon">▶️</span>
+        <span class="texto"><span class="titulo">PROCESO DE CREACIÓN</span><span class="desc">Cómo se hizo este juego — YouTube</span></span>
+      </a>
+    </div>
+    <div class="home-version">✦ BIXO v1.0 ✦</div>
+  </div>
+
+  <!-- INSTRUCCIONES -->
+  <div id="pantalla-instrucciones" class="panel">
+    <h2>📜 CÓMO SE JUEGA</h2>
+    <div class="sep">— ✦ —</div>
+    <div class="instruccion-row">
+      <div class="instruccion-num">I</div>
+      <div class="instruccion-texto">
+        <div class="titulo">ELIGE TUS AGENTES</div>
+        <div class="detalle">1 agente ×5 · 2 agentes ×3 · 3 agentes ×1. Más riesgo, más recompensa.</div>
+      </div>
+    </div>
+    <div class="instruccion-row">
+      <div class="instruccion-num">II</div>
+      <div class="instruccion-texto">
+        <div class="titulo">30 SEGUNDOS POR MISIÓN</div>
+        <div class="detalle">Cuanto más rápido aciertes, más puntos. Si se acaba el tiempo, el agente pierde vida.</div>
+      </div>
+    </div>
+    <div class="instruccion-row">
+      <div class="instruccion-num">III</div>
+      <div class="instruccion-texto">
+        <div class="titulo">AÑO EXACTO = BONUS</div>
+        <div class="detalle">Acertar el año exacto da puntos extra. Cuanto más cerca, mejor puntuación.</div>
+      </div>
+    </div>
+    <div class="regla-oro">
+      <div class="etiqueta">✦ REGLA DE ORO — VIDA DEL BIXO: 120 AÑOS ✦</div>
+      <div class="ejemplos">
+        Evento en <span>1963</span> · Envías en <span>1963</span> → <span style="color:#2d6b20">0 años ★ Perfecto</span><br>
+        Evento en <span>1963</span> · Envías en <span>1923</span> → <span style="color:#8B5a14">40 años gastados</span><br>
+        Evento en <span>1963</span> · Envías en <span>1840</span> → <span style="color:#8B2014">El Bixo muere ✕</span>
+      </div>
+    </div>
+    <button class="btn" onclick="mostrar('pantalla-home')" style="margin-top:8px">← VOLVER AL MENÚ</button>
+  </div>
+
+  <!-- SELECTOR -->
+  <div id="pantalla-selector" class="panel">
+    <h2>✦ ELIGE TUS AGENTES ✦</h2>
+    <div class="sep">— ✦ —</div>
+    <p class="sub">Menos agentes · Mayor riesgo · Más puntos</p>
+    <div class="agente-selector">
+      <div class="op-agente" onclick="seleccionarAgentes(1)" id="op-1">
+        <img src="character.png" alt="1"><div style="font-size:.78rem;color:#2c1810;font-weight:bold">1 AGENTE</div>
+        <div class="mult">MULT</div><div class="mult-val">×5.0</div>
+      </div>
+      <div class="op-agente seleccionado" onclick="seleccionarAgentes(2)" id="op-2">
+        <img src="character.png" alt="2"><div style="font-size:.78rem;color:#2c1810;font-weight:bold">2 AGENTES</div>
+        <div class="mult">MULT</div><div class="mult-val">×3.0</div>
+      </div>
+      <div class="op-agente" onclick="seleccionarAgentes(3)" id="op-3">
+        <img src="character.png" alt="3"><div style="font-size:.78rem;color:#2c1810;font-weight:bold">3 AGENTES</div>
+        <div class="mult">MULT</div><div class="mult-val">×1.0</div>
+      </div>
+    </div>
+    <button class="btn" onclick="iniciarJuego()">INICIAR MISIÓN ▶</button>
+    <button class="btn btn-sec" onclick="mostrar('pantalla-home')">← VOLVER</button>
+  </div>
+
+  <!-- MODO EXAMEN SELECTOR -->
+  <div id="pantalla-examenes" class="panel">
+    <h2>📋 MODO EXAMEN</h2>
+    <div class="sep">— ✦ —</div>
+    <p style="font-size:0.72rem;color:#7a5535;margin-bottom:20px;position:relative;z-index:1">
+      Demuestra tu dominio de una era histórica.<br>Hay que acertar el año <strong>exacto</strong> — sin margen de error.
+    </p>
+    <div id="lista-examenes"></div>
+    <button class="btn btn-sec" onclick="mostrar('pantalla-home')">← VOLVER</button>
+  </div>
+
+  <!-- MODO EXAMEN JUEGO -->
+  <div id="pantalla-examen-juego" class="panel">
+    <div style="position:relative;z-index:1">
+      <div class="examen-badge" id="examen-badge">— MODO EXAMEN —</div>
+      <div class="progreso-examen">
+        <span>Pregunta <strong id="examen-actual">1</strong> de <strong id="examen-total">10</strong></span>
+        <span>Aciertos: <strong id="examen-aciertos">0</strong></span>
+      </div>
+    </div>
+    <div class="evento-box">
+      <div class="evento-nombre" id="examen-ev-nombre">—</div>
+      <div class="evento-desc"   id="examen-ev-desc">—</div>
+      <span class="evento-dificultad" id="examen-ev-dif">—</span>
+    </div>
+    <label>✦ AÑO EXACTO ✦</label>
+    <input type="number" id="examen-input-año" placeholder="ej. 1944" min="-1000" max="2100">
+    <button class="btn" id="examen-btn-enviar" onclick="enviarExamen()">CONFIRMAR ▶</button>
+    <div id="examen-resultado" style="display:none;margin-top:12px;padding:12px;border-radius:2px;font-size:0.82rem;animation:fadeIn 0.4s"></div>
+    <button class="btn btn-sec" id="examen-btn-siguiente" style="display:none" onclick="siguienteExamen()">SIGUIENTE ▶</button>
+    <button class="btn btn-sec" style="margin-top:8px" onclick="confirmarSalirExamen()">✕ ABANDONAR EXAMEN</button>
+  </div>
+
+  <!-- MODO EXAMEN RESULTADO -->
+  <div id="pantalla-resultado-examen" class="panel">
+    <h2>📋 RESULTADO DEL EXAMEN</h2>
+    <div class="sep">— ✦ —</div>
+    <div class="nota-container">
+      <span class="nota-letra" id="nota-letra">A</span>
+      <span class="nota-nombre" id="nota-nombre">SOBRESALIENTE</span>
+    </div>
+    <div class="pct-grande" id="examen-pct">0%</div>
+    <div style="font-size:0.72rem;color:#7a5535;margin-bottom:20px;position:relative;z-index:1" id="examen-resumen-texto"></div>
+    <div class="resumen-titulo">✦ RESPUESTAS ✦</div>
+    <div id="examen-resumen-detalle"></div>
+    <div class="go-acciones">
+      <button class="btn" onclick="mostrar('pantalla-examenes')">↺ REPETIR EXAMEN</button>
+      <button class="btn btn-sec" onclick="mostrar('pantalla-home')">← MENÚ PRINCIPAL</button>
+    </div>
+  </div>
+
+  <!-- JUEGO NORMAL -->
+  <div id="pantalla-juego" class="panel">
+    <h1 style="font-size:2rem;letter-spacing:8px;margin-bottom:2px">BIXO</h1>
+    <p class="subtitulo">✦ CONTROLADOR TEMPORAL ✦</p>
+    <div id="timer-wrap">
+      <div id="timer-bar-bg"><div id="timer-bar"></div></div>
+      <div id="timer-texto">30s</div>
+    </div>
+    <div class="evento-box">
+      <div class="evento-nombre" id="ev-nombre">—</div>
+      <div class="evento-desc"   id="ev-desc">—</div>
+      <span class="evento-dificultad" id="ev-dif">—</span>
+    </div>
+    <label>✦ ENVIAR AL AÑO ✦</label>
+    <input type="number" id="input-año" placeholder="ej. 1960" min="-1000" max="2100">
+    <button class="btn" id="btn-enviar" onclick="enviarBixo()">ENVIAR ▶</button>
+    <div id="resultado"></div>
+    <button class="btn btn-sec" id="btn-siguiente" style="display:none" onclick="siguienteMision()">SIGUIENTE MISIÓN ▶</button>
+  </div>
+
+  <!-- AGENTES -->
+  <div id="agentes-bar" class="panel"></div>
+
+  <!-- GAME OVER -->
+  <div id="pantalla-gameover" class="panel">
+    <h2>☠ MISIÓN FALLIDA</h2>
+    <div class="sep">— ✦ —</div>
+    <p style="color:#7a5535;font-size:.75rem;margin-bottom:8px;position:relative;z-index:1">Todos los agentes han caído</p>
+    <div class="score-final" id="score-final">0</div>
+    <div class="score-detalle" id="score-detalle"></div>
+    <div class="stats-row" id="stats-row"></div>
+    <div class="vs-box">
+      <div class="vs-titulo">✦ TÚ VS RESTO DE JUGADORES ✦</div>
+      <div id="vs-contenido" style="color:#8B6914;font-size:0.75rem">Consultando los archivos temporales...</div>
+    </div>
+    <div class="resumen-titulo">✦ REGISTRO DE MISIONES ✦</div>
+    <div id="resumen-misiones"></div>
+    <div class="go-acciones">
+      <button class="btn" onclick="abrirModal()">📜 GUARDAR PUNTUACIÓN</button>
+      <button class="btn btn-sec" onclick="repetirJuego()">↺ VOLVER A JUGAR</button>
+      <button class="btn btn-sec" onclick="mostrar('pantalla-home')">← MENÚ PRINCIPAL</button>
+    </div>
+  </div>
+
+  <!-- LEADERBOARD -->
+  <div id="pantalla-lb" class="panel">
+    <h2>🏆 CLASIFICACIÓN</h2>
+    <div class="sep">— ✦ —</div>
+    <div id="lb-contenido"><p style="color:#8B6914;font-size:.8rem;padding:20px">Consultando archivos...</p></div>
+    <div style="display:flex;flex-direction:column;gap:8px;margin-top:20px;position:relative;z-index:1">
+      <button class="btn btn-sec" onclick="repetirJuego()">↺ VOLVER A JUGAR</button>
+      <button class="btn btn-sec" onclick="mostrar('pantalla-home')">← MENÚ PRINCIPAL</button>
+    </div>
+  </div>
+
+  <!-- FIREBASE -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getFirestore, collection, addDoc, getDocs, query, orderBy, limit }
+      from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    const app = initializeApp({
+      apiKey:"AIzaSyDmrfNpR4qM3Ko87i_o0HKQXbZ7iNsucpY",
+      authDomain:"consigueviajareneltiempogratis.firebaseapp.com",
+      projectId:"consigueviajareneltiempogratis",
+      storageBucket:"consigueviajareneltiempogratis.firebasestorage.app",
+      messagingSenderId:"431571381627",
+      appId:"1:431571381627:web:5f738d0b35ddbc214ce1de"
+    });
+    const db = getFirestore(app);
+    window._fbGuardar = async (nombre,score,agentes,tiempoMedio,pctAciertos,errMedio) => {
+      await addDoc(collection(db,"leaderboard"),{nombre,score,agentes,tiempoMedio,pctAciertos,errMedio,fecha:new Date().toLocaleDateString('es'),ts:Date.now()});
+    };
+    window._fbLeer = async () => {
+      const snap = await getDocs(query(collection(db,"leaderboard"),orderBy("score","desc"),limit(50)));
+      return snap.docs.map(d=>d.data());
+    };
+  </script>
+
+  <script src="events.js"></script>
+  <script src="game.js"></script>
+
+  <script>
+    const PANTALLAS = ['pantalla-home','pantalla-instrucciones','pantalla-selector',
+      'pantalla-juego','pantalla-gameover','pantalla-lb','pantalla-examenes',
+      'pantalla-examen-juego','pantalla-resultado-examen'];
+
+    function mostrar(id) {
+      PANTALLAS.forEach(p => document.getElementById(p).style.display='none');
+      document.getElementById('agentes-bar').style.display='none';
+      document.getElementById(id).style.display='block';
+      const esJuego=['pantalla-juego','pantalla-gameover','pantalla-lb','pantalla-selector',
+        'pantalla-examen-juego','pantalla-resultado-examen'].includes(id);
+      document.body.className=esJuego?'fondo-juego':'fondo-menu';
+      if(id==='pantalla-juego') document.getElementById('agentes-bar').style.display='flex';
+    }
+
+    // ── PARTÍCULAS ──
+    const canvas=document.getElementById('canvas-particulas');
+    const ctx=canvas.getContext('2d');
+    let particulas=[];
+    function resizeCanvas(){canvas.width=window.innerWidth;canvas.height=window.innerHeight;}
+    resizeCanvas();window.addEventListener('resize',resizeCanvas);
+    function crearParticula(){return{x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*1.5+0.3,dx:(Math.random()-0.5)*0.2,dy:-Math.random()*0.4-0.1,alpha:Math.random()*0.4+0.1};}
+    for(let i=0;i<80;i++) particulas.push(crearParticula());
+    function animarParticulas(){
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      particulas.forEach((p,i)=>{
+        ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+        ctx.fillStyle=`rgba(200,168,75,${p.alpha})`;ctx.fill();
+        p.x+=p.dx;p.y+=p.dy;
+        if(p.y<-5||p.x<-5||p.x>canvas.width+5){particulas[i]=crearParticula();particulas[i].y=canvas.height+5;particulas[i].x=Math.random()*canvas.width;}
+      });
+      requestAnimationFrame(animarParticulas);
+    }
+    animarParticulas();
+
+    // ── MÚSICA ──
+    const audio=document.getElementById('audio-bg');
+    const videoIntro=document.getElementById('video-intro');
+    let musicaActiva=false;
+    let volumen=parseFloat(localStorage.getItem('bixo-vol')||'0.7');
+    audio.volume=volumen;
+
+    function getIconVolumen(){if(!musicaActiva)return'🔇';if(volumen>=0.7)return'🔊';if(volumen>=0.3)return'🔉';return'🔈';}
+    function toggleVolSelector(){const sel=document.getElementById('vol-selector');const v=sel.style.display==='flex';sel.style.display=v?'none':'flex';if(!v)actualizarVolOpts();}
+    function actualizarVolOpts(){
+      document.querySelectorAll('.vol-opt').forEach(el=>el.classList.remove('activo'));
+      if(!musicaActiva){document.getElementById('vol-mute').classList.add('activo');return;}
+      if(volumen>=0.7)document.getElementById('vol-alto').classList.add('activo');
+      else if(volumen>=0.3)document.getElementById('vol-medio').classList.add('activo');
+      else document.getElementById('vol-bajo').classList.add('activo');
+    }
+    function setVolumen(v){
+      volumen=v;audio.volume=v;videoIntro.volume=v;localStorage.setItem('bixo-vol',v);
+      if(!musicaActiva)audio.play().then(()=>{musicaActiva=true;}).catch(()=>{});
+      musicaActiva=true;
+      document.getElementById('btn-musica').textContent=getIconVolumen();
+      document.getElementById('vol-selector').style.display='none';actualizarVolOpts();
+    }
+    function toggleMusica(){
+      if(musicaActiva){audio.pause();musicaActiva=false;localStorage.setItem('bixo-mute','0');}
+      else{audio.play().then(()=>{musicaActiva=true;localStorage.setItem('bixo-mute','1');}).catch(()=>{});}
+      document.getElementById('btn-musica').textContent=getIconVolumen();
+      document.getElementById('vol-selector').style.display='none';actualizarVolOpts();
+    }
+    function arrancarMusica(){
+      if(musicaActiva)return;
+      if(localStorage.getItem('bixo-mute')!=='0'){
+        audio.volume=volumen;
+        audio.play().then(()=>{musicaActiva=true;document.getElementById('btn-musica').textContent=getIconVolumen();}).catch(()=>{});
+      }
+    }
+    document.addEventListener('click',(e)=>{
+      if(!document.getElementById('controles-audio').contains(e.target))document.getElementById('vol-selector').style.display='none';
+    });
+
+    // ── INTRO ──
+    let introVista=false;
+    videoIntro.addEventListener('ended',saltarIntro);
+    function irAJugar(){
+      if(!introVista){
+        const fade=document.getElementById('fade-overlay');
+        fade.classList.add('visible');
+        setTimeout(()=>{
+          document.getElementById('pantalla-intro').style.display='block';
+          fade.classList.remove('visible');
+          videoIntro.muted=false;videoIntro.volume=volumen;videoIntro.currentTime=0;
+          videoIntro.play().catch(()=>{videoIntro.muted=true;videoIntro.play().catch(()=>{});});
+        },600);
+      } else {
+        mostrar('pantalla-selector');
+      }
+    }
+    function saltarIntro(){
+      introVista=true;videoIntro.pause();
+      const fade=document.getElementById('fade-overlay');
+      fade.classList.add('visible');
+      setTimeout(()=>{
+        document.getElementById('pantalla-intro').style.display='none';
+        mostrar('pantalla-selector');
+        setTimeout(()=>fade.classList.remove('visible'),300);
+      },600);
+      arrancarMusica();
+    }
+
+    // ── MODO EXAMEN ──
+    let examenActual=null,examenEventos=[],examenIdx=0,examenAciertos=0,examenHistorial=[];
+
+    function poblarExamenes(){
+      const lista=document.getElementById('lista-examenes');
+      lista.innerHTML=EXAMENES.map(ex=>`
+        <div class="examen-card" onclick="iniciarExamen('${ex.id}')">
+          <span class="ex-icon">${ex.emoji}</span>
+          <span class="texto">
+            <span class="ex-nombre">${ex.nombre}</span>
+            <span class="ex-desc">${ex.descripcion}</span>
+          </span>
+        </div>`).join('');
+    }
+
+    function iniciarExamen(categoriaId){
+      examenActual=EXAMENES.find(e=>e.id===categoriaId);
+      examenEventos=obtenerEventosPorCategoria(categoriaId);
+      examenIdx=0;examenAciertos=0;examenHistorial=[];
+      document.getElementById('examen-badge').textContent=`— ${examenActual.emoji} ${examenActual.nombre.toUpperCase()} —`;
+      document.getElementById('examen-total').textContent=examenEventos.length;
+      mostrar('pantalla-examen-juego');
+      cargarPreguntaExamen();
+      arrancarMusica();
+    }
+
+    function cargarPreguntaExamen(){
+      const ev=examenEventos[examenIdx];
+      document.getElementById('examen-actual').textContent=examenIdx+1;
+      document.getElementById('examen-aciertos').textContent=examenAciertos;
+      document.getElementById('examen-ev-nombre').textContent=ev.nombre;
+      document.getElementById('examen-ev-desc').textContent=ev.descripcion;
+      const dif=document.getElementById('examen-ev-dif');
+      dif.textContent=ev.dificultad.toUpperCase();dif.className='evento-dificultad '+ev.dificultad;
+      document.getElementById('examen-input-año').value='';
+      document.getElementById('examen-resultado').style.display='none';
+      document.getElementById('examen-btn-siguiente').style.display='none';
+      document.getElementById('examen-btn-enviar').disabled=false;
+    }
+
+    function enviarExamen(){
+      const respuesta=parseInt(document.getElementById('examen-input-año').value);
+      if(!respuesta&&respuesta!==0)return;
+      const ev=examenEventos[examenIdx];
+      const exacto=respuesta===ev.año;
+      if(exacto)examenAciertos++;
+      examenHistorial.push({evento:ev.nombre,año:ev.año,respuesta:respuesta,exacto:exacto});
+      document.getElementById('examen-btn-enviar').disabled=true;
+      const res=document.getElementById('examen-resultado');
+      res.style.display='block';
+      if(exacto){
+        res.className='perfecto';
+        res.textContent=`★ ¡CORRECTO! Año exacto: ${ev.año}`;
+      } else {
+        const diff=Math.abs(respuesta-ev.año);
+        const dir=respuesta<ev.año?'demasiado pronto':'demasiado tarde';
+        res.className='fallo';
+        res.textContent=`Casi — ibas ${dir} por ${diff} año${diff===1?'':'s'}. El año correcto era ${ev.año}.`;
+      }
+      document.getElementById('examen-btn-siguiente').style.display='block';
+      document.getElementById('examen-btn-siguiente').textContent=
+        examenIdx+1>=examenEventos.length?'VER RESULTADO ▶':'SIGUIENTE ▶';
+    }
+
+    function siguienteExamen(){
+      examenIdx++;
+      examenIdx>=examenEventos.length?mostrarResultadoExamen():cargarPreguntaExamen();
+    }
+
+    function confirmarSalirExamen(){
+      if(confirm('¿Seguro que quieres abandonar el examen?')) mostrar('pantalla-examenes');
+    }
+
+    function mostrarResultadoExamen(){
+      const total=examenEventos.length;
+      const pct=Math.round(examenAciertos/total*100);
+      mostrar('pantalla-resultado-examen');
+      let letra,nombre,color;
+      if(pct>=90){letra='A';nombre='SOBRESALIENTE';color='nota-A';}
+      else if(pct>=70){letra='B';nombre='NOTABLE';color='nota-B';}
+      else if(pct>=50){letra='C';nombre='APROBADO';color='nota-C';}
+      else{letra='D';nombre='SUSPENSO';color='nota-D';}
+      const notaEl=document.getElementById('nota-letra');
+      notaEl.textContent=letra;notaEl.className='nota-letra '+color;
+      document.getElementById('nota-nombre').textContent=nombre;
+      document.getElementById('examen-pct').textContent=pct+'%';
+      document.getElementById('examen-resumen-texto').textContent=
+        `${examenAciertos} de ${total} años exactos en "${examenActual.nombre}"`;
+      document.getElementById('examen-resumen-detalle').innerHTML=examenHistorial.map((h,i)=>`
+        <div class="resumen-item">
+          <div class="resumen-evento">${i+1}. ${h.evento}</div>
+          <div class="resumen-detalle">
+            <span>Año real: <span class="${h.exacto?'ok':'mal'}">${h.año}</span></span>
+            <span>Tu respuesta: <span class="${h.exacto?'ok':'mal'}">${h.respuesta}${h.exacto?' ★':''}</span></span>
+            ${!h.exacto?`<span style="color:#8B6914">±${Math.abs(h.respuesta-h.año)} años</span>`:''}
+          </div>
+        </div>`).join('');
+    }
+
+    // ── JUEGO NORMAL ──
+    const VIDA_MAX=120,MULTS={1:5.0,2:3.0,3:1.0},TIEMPO_MAX=30;
+    let numAgentes=2,agentes=[],agenteActivo=0;
+    let eventoActual=null,historial=[],enviando=false;
+    let timerInterval=null,tiempoInicio=0;
+
+    function seleccionarAgentes(n){numAgentes=n;document.querySelectorAll('.op-agente').forEach(el=>el.classList.remove('seleccionado'));document.getElementById('op-'+n).classList.add('seleccionado');}
+    function iniciarJuego(){
+      agentes=Array.from({length:numAgentes},(_,i)=>({id:i,vida:VIDA_MAX,vivo:true}));
+      agenteActivo=0;historial=[];mostrar('pantalla-juego');renderAgentes();cargarEvento();arrancarMusica();
+    }
+    function repetirJuego(){mostrar('pantalla-selector');}
+
+    function renderAgentes(){
+      const bar=document.getElementById('agentes-bar');bar.innerHTML='';
+      agentes.forEach((ag,i)=>{
+        const pct=Math.max(0,(ag.vida/VIDA_MAX)*100);
+        const color=pct>60?'#8B6914':pct>30?'#8B5a14':'#8B2014';
+        const slot=document.createElement('div');
+        slot.className='agente-slot'+(ag.vivo?'':' muerto')+(i===agenteActivo&&ag.vivo?' activo':'');
+        slot.innerHTML=`<img src="character.png" alt="Agente ${i+1}">
+          <div class="agente-vida-wrap"><div class="agente-vida-fill" style="width:${pct}%;background:${color}"></div></div>
+          <div class="agente-años">${ag.vivo?ag.vida+' años':'MUERTO'}</div>`;
+        bar.appendChild(slot);
+      });
+    }
+
+    function iniciarTimer(){
+      clearInterval(timerInterval);tiempoInicio=Date.now();
+      const bar=document.getElementById('timer-bar'),txt=document.getElementById('timer-texto');
+      bar.style.width='100%';bar.style.background='linear-gradient(90deg,#8B6914,#c8a84b)';
+      timerInterval=setInterval(()=>{
+        const elapsed=(Date.now()-tiempoInicio)/1000;
+        const restante=Math.max(0,TIEMPO_MAX-elapsed);
+        const pct=(restante/TIEMPO_MAX)*100;
+        bar.style.width=pct+'%';
+        bar.style.background=pct>50?'linear-gradient(90deg,#8B6914,#c8a84b)':pct>25?'linear-gradient(90deg,#8B5a14,#c87a30)':'linear-gradient(90deg,#8B2014,#c84030)';
+        txt.textContent=Math.ceil(restante)+'s';
+        if(restante<=0){clearInterval(timerInterval);tiempoAgotado();}
+      },100);
+    }
+
+    function tiempoAgotado(){
+      if(enviando)return;enviando=true;
+      document.getElementById('btn-enviar').disabled=true;
+      const ag=agentes[agenteActivo];ag.vida=Math.max(0,ag.vida-30);
+      if(ag.vida<=0){ag.vida=0;ag.vivo=false;}
+      historial.push({evento:eventoActual.nombre,año:eventoActual.año,respuesta:'—',vidaGastada:30,tiempo:TIEMPO_MAX,exito:false,puntos:0,exacto:false,timeout:true,errAnios:null});
+      renderAgentes();
+      const div=document.getElementById('resultado');div.style.display='block';div.className='fallo';
+      div.textContent=`⏰ TIEMPO AGOTADO — Agente ${agenteActivo+1} pierde 30 años`;
+      const todosMusertos=agentes.every(a=>!a.vivo);
+      const btn=document.getElementById('btn-siguiente');
+      btn.textContent=todosMusertos?'VER RESULTADOS ▶':'SIGUIENTE MISIÓN ▶';btn.style.display='block';
+    }
+
+    function cargarEvento(){
+      eventoActual=obtenerEventoAleatorio();
+      document.getElementById('ev-nombre').textContent=eventoActual.nombre;
+      document.getElementById('ev-desc').textContent=eventoActual.descripcion;
+      const dif=document.getElementById('ev-dif');
+      dif.textContent=eventoActual.dificultad.toUpperCase();dif.className='evento-dificultad '+eventoActual.dificultad;
+      document.getElementById('input-año').value='';
+      document.getElementById('resultado').style.display='none';
+      document.getElementById('btn-siguiente').style.display='none';
+      document.getElementById('btn-enviar').disabled=false;
+      enviando=false;iniciarTimer();
+    }
+
+    function mostrarViajeAnimado(añoEnvio,callback){
+      const overlay=document.getElementById('overlay-viaje'),display=document.getElementById('viaje-año');
+      overlay.classList.add('activo');let step=0;const diff=eventoActual.año-añoEnvio;
+      const iv=setInterval(()=>{step++;display.textContent=Math.round(añoEnvio+(diff*step/20));
+        if(step>=20){clearInterval(iv);setTimeout(()=>{overlay.classList.remove('activo');callback();},400);}},60);
+    }
+
+    function enviarBixo(){
+      if(enviando)return;
+      const añoEnvio=parseInt(document.getElementById('input-año').value);
+      if(!añoEnvio&&añoEnvio!==0)return;
+      clearInterval(timerInterval);
+      const tiempoRespuesta=(Date.now()-tiempoInicio)/1000;
+      enviando=true;
+      document.getElementById('btn-enviar').disabled=true;
+      document.getElementById('btn-siguiente').style.display='none';
+      document.getElementById('resultado').style.display='none';
+
+      mostrarViajeAnimado(añoEnvio,()=>{
+        const ag=agentes[agenteActivo];
+        const res=calcularVidaGastada(añoEnvio,eventoActual.año);
+        const div=document.getElementById('resultado');
+        div.style.display='block';
+        const bonusVelocidad=Math.round(Math.max(10,100-(tiempoRespuesta/TIEMPO_MAX)*90));
+        const bonusDif={fácil:1,medio:1.5,difícil:2.5};
+        let puntosMision=0;
+        const errAnios=Math.abs(añoEnvio-eventoActual.año);
+
+        if(res.resultado==='ÉXITO'){
+          ag.vida-=res.vidaGastada;
+          if(ag.vida<=0){ag.vida=0;ag.vivo=false;}
+          const eficiencia=res.vidaGastada===0?200:Math.max(10,100-res.vidaGastada);
+          const bonusExacto=añoEnvio===eventoActual.año?150:0;
+          puntosMision=ag.vivo?Math.round((eficiencia+bonusVelocidad+bonusExacto)*(bonusDif[eventoActual.dificultad]||1)):0;
+          renderAgentes();
+          if(!ag.vivo){
+            div.className='fallo';
+            div.textContent=`✕ El Bixo llegó pero murió por el camino — Agente ${agenteActivo+1} caído`;
+          } else if(res.vidaGastada===0&&añoEnvio===eventoActual.año){
+            div.className='perfecto';
+            div.textContent=`★ AÑO EXACTO + LLEGADA PERFECTA — +${puntosMision} pts`;
+          } else if(res.vidaGastada===0){
+            div.className='perfecto';
+            div.textContent=`★ LLEGADA PERFECTA — +${puntosMision} pts · Vida: ${ag.vida} años`;
+          } else {
+            div.className='exito';
+            div.textContent=`✓ COMPLETA — +${puntosMision} pts · Gastó ${res.vidaGastada} años · Quedan ${ag.vida}`;
+          }
+        } else {
+          ag.vida=0;ag.vivo=false;renderAgentes();
+          div.className='fallo';
+          div.textContent=`✕ ${res.mensaje} — Agente ${agenteActivo+1} ha muerto`;
+        }
+
+        historial.push({
+          evento:eventoActual.nombre,año:eventoActual.año,respuesta:añoEnvio,
+          vidaGastada:res.vidaGastada||0,tiempo:Math.round(tiempoRespuesta*10)/10,
+          exito:res.resultado==='ÉXITO'&&ag.vivo,
+          puntos:puntosMision,exacto:añoEnvio===eventoActual.año&&ag.vivo,errAnios:errAnios
+        });
+
+        const todosMusertos=agentes.every(a=>!a.vivo);
+        if(todosMusertos)div.textContent+=' — TODOS CAÍDOS';
+        const btn=document.getElementById('btn-siguiente');
+        btn.textContent=todosMusertos?'VER RESULTADOS ▶':'SIGUIENTE MISIÓN ▶';
+        btn.style.display='block';
+      });
+    }
+
+    function siguienteMision(){
+      const todosMusertos=agentes.every(a=>!a.vivo);
+      if(todosMusertos){gameOver();return;}
+      if(agentes[agenteActivo].vivo){cargarEvento();return;}
+      let siguiente=-1;
+      for(let i=1;i<=numAgentes;i++){const idx=(agenteActivo+i)%numAgentes;if(agentes[idx].vivo){siguiente=idx;break;}}
+      siguiente===-1?gameOver():(agenteActivo=siguiente,renderAgentes(),cargarEvento());
+    }
+
+    async function gameOver(){
+      clearInterval(timerInterval);
+      const mult=MULTS[numAgentes];
+      const puntosBase=historial.reduce((s,h)=>s+(h.puntos||0),0);
+      const total=Math.round(puntosBase*mult);
+      const aciertos=historial.filter(h=>h.exito).length;
+      const pctAciertos=historial.length?Math.round(aciertos/historial.length*100):0;
+      const tiempoMedio=historial.length?Math.round(historial.reduce((s,h)=>s+h.tiempo,0)/historial.length*10)/10:0;
+      const exactos=historial.filter(h=>h.exacto).length;
+      const conErr=historial.filter(h=>h.errAnios!==null);
+      const errMedio=conErr.length?Math.round(conErr.reduce((s,h)=>s+(h.errAnios||0),0)/conErr.length):0;
+
+      mostrar('pantalla-gameover');
+      document.getElementById('score-final').textContent=total.toLocaleString()+' pts';
+      document.getElementById('score-detalle').textContent=`${aciertos}/${historial.length} misiones · ×${mult} (${numAgentes} agente${numAgentes>1?'s':''})`;
+      document.getElementById('stats-row').innerHTML=`
+        <div class="stat-box"><div class="stat-val">${pctAciertos}%</div><div class="stat-label">ACIERTO</div></div>
+        <div class="stat-box"><div class="stat-val">${tiempoMedio}s</div><div class="stat-label">T. MEDIO</div></div>
+        <div class="stat-box"><div class="stat-val">±${errMedio}a</div><div class="stat-label">ERR. MEDIO</div></div>
+        <div class="stat-box"><div class="stat-val">${exactos}</div><div class="stat-label">EXACTOS</div></div>`;
+      document.getElementById('resumen-misiones').innerHTML=historial.map((h,i)=>`
+        <div class="resumen-item">
+          <div class="resumen-evento">${i+1}. ${h.evento} <span style="color:#8B6914;font-size:.7rem">(${h.año})</span></div>
+          <div class="resumen-detalle">
+            <span>Tu año: <span class="${h.exacto?'ok':h.exito?'':'mal'}">${h.respuesta}${h.exacto?' ★':''}</span></span>
+            <span class="tiempo-val">⏱ ${h.tiempo}s</span>
+            <span class="${h.exito?'ok':'mal'}">${h.puntos?'+'+h.puntos+' pts':h.timeout?'TIMEOUT':'FALLIDO'}</span>
+          </div>
+        </div>`).join('');
+
+      const go=document.getElementById('pantalla-gameover');
+      go.dataset.score=total;go.dataset.agentes=numAgentes;
+      go.dataset.tiempomedio=tiempoMedio;go.dataset.pctaciertos=pctAciertos;go.dataset.errmedio=errMedio;
+
+      // Solo comparativas globales, sin clasificación
+      try{
+        const ranking=await window._fbLeer();
+        if(ranking.length>0){
+          const conPct=ranking.filter(e=>e.pctAciertos!=null);
+          const conTm=ranking.filter(e=>e.tiempoMedio!=null);
+          const conErr2=ranking.filter(e=>e.errMedio!=null);
+          const mediaAcierto=conPct.length?Math.round(conPct.reduce((s,e)=>s+e.pctAciertos,0)/conPct.length):0;
+          const mediaTiempo=conTm.length?Math.round(conTm.reduce((s,e)=>s+e.tiempoMedio,0)/conTm.length*10)/10:0;
+          const mediaErr2=conErr2.length?Math.round(conErr2.reduce((s,e)=>s+e.errMedio,0)/conErr2.length):0;
+          const mejorQue=Math.round(ranking.filter(e=>e.score<total).length/ranking.length*100);
+          document.getElementById('vs-contenido').innerHTML=`
+            <div class="vs-fila"><span class="etiq">% acierto</span><span class="tuval">${pctAciertos}%</span><span class="globval">media: ${mediaAcierto}%</span></div>
+            <div style="display:flex;gap:4px;margin-bottom:10px;height:5px">
+              <div style="flex:1;background:rgba(139,105,20,0.15);border-radius:1px;overflow:hidden"><div style="height:100%;width:${Math.min(100,pctAciertos)}%;background:#8B6914;border-radius:1px;transition:width 1s"></div></div>
+              <div style="flex:1;background:rgba(139,105,20,0.15);border-radius:1px;overflow:hidden"><div style="height:100%;width:${Math.min(100,mediaAcierto)}%;background:rgba(139,105,20,0.4);border-radius:1px"></div></div>
+            </div>
+            <div class="vs-fila"><span class="etiq">tiempo medio</span><span class="tuval">${tiempoMedio}s</span><span class="globval">media: ${mediaTiempo}s</span></div>
+            <div style="display:flex;gap:4px;margin-bottom:10px;height:5px">
+              <div style="flex:1;background:rgba(139,105,20,0.15);border-radius:1px;overflow:hidden"><div style="height:100%;width:${Math.min(100,(1-tiempoMedio/30)*100)}%;background:#8B6914;border-radius:1px;transition:width 1s"></div></div>
+              <div style="flex:1;background:rgba(139,105,20,0.15);border-radius:1px;overflow:hidden"><div style="height:100%;width:${Math.min(100,(1-mediaTiempo/30)*100)}%;background:rgba(139,105,20,0.4);border-radius:1px"></div></div>
+            </div>
+            <div class="vs-fila"><span class="etiq">error en años</span><span class="tuval">±${errMedio}a</span><span class="globval">media: ±${mediaErr2}a</span></div>
+            <div style="margin-top:12px;padding:8px;background:rgba(139,105,20,0.1);border-radius:2px;font-size:0.8rem;color:#6b4d0a;text-align:center;border:1px solid rgba(139,105,20,0.3)">
+              ${mejorQue>=50?`🏆 Has superado al <strong>${mejorQue}%</strong> de los exploradores temporales`:`📜 Estás en el top <strong>${100-mejorQue}%</strong> — ¡sigue explorando!`}
+            </div>`;
+        }else{
+          document.getElementById('vs-contenido').innerHTML='<span style="color:#8B6914">Sé el primero en guardar para ver comparativas.</span>';
+        }
+      }catch(e){
+        document.getElementById('vs-contenido').innerHTML='<span style="color:#8B6914">No se pudieron consultar los archivos.</span>';
+      }
+    }
+
+    function abrirModal(){document.getElementById('input-nombre').value='';document.getElementById('modal-guardar').classList.add('activo');}
+    function cerrarModal(){document.getElementById('modal-guardar').classList.remove('activo');}
+
+    async function confirmarGuardar(){
+      const nombre=document.getElementById('input-nombre').value.trim()||'Anónimo';
+      const go=document.getElementById('pantalla-gameover');
+      try{
+        await window._fbGuardar(nombre,parseInt(go.dataset.score),parseInt(go.dataset.agentes),parseFloat(go.dataset.tiempomedio),parseInt(go.dataset.pctaciertos),parseInt(go.dataset.errmedio));
+        cerrarModal();
+        mostrarLeaderboard();
+      }catch(e){alert('Error al guardar.');}
+    }
+
+    async function mostrarLeaderboard(){
+      mostrar('pantalla-lb');
+      const cont=document.getElementById('lb-contenido');
+      cont.innerHTML='<p style="color:#8B6914;font-size:.8rem;padding:20px">Consultando archivos...</p>';
+      try{
+        const ranking=await window._fbLeer();
+        if(!ranking.length){cont.innerHTML='<p style="color:#8B6914;font-size:.8rem;padding:20px">Sin registros aún — ¡sé el primero!</p>';return;}
+        const scoreActual=parseInt(document.getElementById('pantalla-gameover').dataset.score||'0');
+        const tuPosicion=ranking.findIndex(e=>e.score<scoreActual);
+        const filasTodas=ranking.map((e,i)=>`
+          <div class="lb-row">
+            <span class="lb-pos">${i===0?'🥇':i===1?'🥈':i===2?'🥉':(i+1)+'.'}</span>
+            <span class="lb-name">${e.nombre}</span>
+            <span class="lb-score">${e.score.toLocaleString()}</span>
+            <span class="lb-meta">${e.agentes}ag ×${MULTS[e.agentes]}${e.pctAciertos!=null?' · '+e.pctAciertos+'%':''}${e.tiempoMedio!=null?' · ⏱'+e.tiempoMedio+'s':''}</span>
+          </div>`).join('');
+        let tuFila='';
+        if(scoreActual>0&&(tuPosicion>2||tuPosicion===-1)){
+          const pos=tuPosicion===-1?ranking.length:tuPosicion;
+          tuFila=`<div style="text-align:center;color:#8B6914;font-size:0.7rem;padding:4px 0;letter-spacing:2px;position:relative;z-index:1">· · ·</div>
+            <div class="lb-row" style="border:1px solid rgba(139,105,20,0.4)">
+              <span class="lb-pos" style="color:#8B6914">${pos+1}.</span>
+              <span class="lb-name" style="color:#6b4d0a;font-weight:bold">Tú</span>
+              <span class="lb-score">${scoreActual.toLocaleString()}</span>
+              <span class="lb-meta">tu posición</span>
+            </div>`;
+        }
+        cont.innerHTML=filasTodas+tuFila;
+      }catch(e){
+        cont.innerHTML='<p style="color:#8B6914;font-size:.8rem;padding:20px">Error consultando archivos.</p>';
+      }
+    }
+
+    poblarExamenes();
+    mostrar('pantalla-home');
+  </script>
+
+  <!-- Anuncio discreto -->
+  <div class="ad-banner">
+    <ins class="adsbygoogle"
+      style="display:block;width:100%;max-width:480px;height:90px"
+      data-ad-client="ca-pub-9281841187642423"
+      data-ad-slot="auto"
+      data-ad-format="horizontal"
+      data-full-width-responsive="false"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+
+</body>
+</html>
