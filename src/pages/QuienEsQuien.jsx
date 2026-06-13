@@ -54,7 +54,7 @@ function Avatar({ p, tachado, modoAdivinar, esSecreto, resultado, onClick }) {
       onClick={onClick}
     >
       <div
-        className={`relative w-11 h-11 sm:w-13 sm:h-13 rounded-xl flex items-center justify-center text-white font-black text-xs sm:text-sm shadow ${anillo}`}
+        className={`relative w-13 h-13 sm:w-15 sm:h-15 rounded-xl flex items-center justify-center text-white font-black text-sm sm:text-base shadow ${anillo}`}
         style={{ backgroundColor: p.color }}
       >
         {resultado === 'correcto'  && <span className="text-lg">✓</span>}
@@ -62,8 +62,8 @@ function Avatar({ p, tachado, modoAdivinar, esSecreto, resultado, onClick }) {
         {resultado !== 'correcto' && resultado !== 'revelado' && p.iniciales}
         {overlay}
       </div>
-      <p className="text-white/60 text-[9px] sm:text-[10px] text-center leading-tight w-12 sm:w-14 line-clamp-2">
-        {p.nombre.split(' ').slice(0, 2).join(' ')}
+      <p className="text-white/60 text-[9px] sm:text-[10px] text-center leading-tight w-14 sm:w-16">
+        {p.nombre}
       </p>
     </div>
   )
@@ -85,7 +85,7 @@ function Intro({ pool, onStart }) {
           {[
             { icon: '🎴', title: 'Tablero de 12 personajes', desc: 'Cada partida, 12 figuras distintas seleccionadas al azar.' },
             { icon: '✂️', title: 'Tacha a los que descartes', desc: 'Toca un personaje para tacharlo. Tócalo de nuevo para restaurarlo. Descarta hasta quedarte con el correcto.' },
-            { icon: '⚡', title: 'Menos pistas = más puntos', desc: 'Acierta en la 1ª pista → 300 pts. En la 2ª → 200. En la 3ª → 100. Pista final → 50. Dos fallos y pierdes.' },
+            { icon: '🧠', title: 'Solo ves una pista a la vez', desc: 'Cada pista nueva sustituye a la anterior — ¡tendrás que recordarlas! Menos pistas usadas = más puntos.' },
           ].map(r => (
             <div key={r.title} className="flex items-start gap-4">
               <span className="text-2xl">{r.icon}</span>
@@ -305,21 +305,18 @@ export default function QuienEsQuien() {
           </div>
         </div>
 
-        {/* Pistas */}
-        <div className="flex flex-col gap-1.5">
-          {pistas.slice(0, pistaIdx + 1).map((pista, i) => (
-            <div
-              key={i}
-              className={`flex items-start gap-3 rounded-xl px-4 py-3 border text-sm transition-all
-                ${i === pistaIdx
-                  ? 'bg-violet-600/20 border-violet-500/40 text-white'
-                  : 'bg-white/5 border-white/5 text-white/40'}`}
-            >
-              <span className="font-black text-violet-400 w-5 shrink-0 text-xs mt-0.5">#{i + 1}</span>
-              <span className="leading-relaxed">{pista.texto}</span>
-            </div>
-          ))}
-        </div>
+        {/* Pista actual — solo se muestra la de turno */}
+        {pistas[pistaIdx] && (
+          <div className="flex items-start gap-3 rounded-xl px-4 py-3 border border-violet-500/40 bg-violet-600/20 text-white text-sm">
+            <span className="font-black text-violet-400 w-5 shrink-0 text-xs mt-0.5">#{pistaIdx + 1}</span>
+            <span className="leading-relaxed">{pistas[pistaIdx].texto}</span>
+          </div>
+        )}
+        {pistaIdx > 0 && (
+          <p className="text-white/25 text-xs text-center">
+            {pistaIdx} pista{pistaIdx > 1 ? 's' : ''} anterior{pistaIdx > 1 ? 'es' : ''} — ¡recuérdalas!
+          </p>
+        )}
 
         {/* Acciones */}
         <div className="flex gap-2 pb-4">
