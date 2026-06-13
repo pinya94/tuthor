@@ -54,15 +54,15 @@ function Avatar({ p, tachado, modoAdivinar, esSecreto, resultado, onClick }) {
       onClick={onClick}
     >
       <div
-        className={`relative w-13 h-13 sm:w-15 sm:h-15 rounded-xl flex items-center justify-center text-white font-black text-sm sm:text-base shadow ${anillo}`}
+        className={`relative w-full aspect-square rounded-xl flex items-center justify-center text-white font-black text-sm sm:text-lg shadow ${anillo}`}
         style={{ backgroundColor: p.color }}
       >
-        {resultado === 'correcto'  && <span className="text-lg">✓</span>}
-        {resultado === 'revelado'  && <span className="text-lg">★</span>}
+        {resultado === 'correcto'  && <span className="text-xl">✓</span>}
+        {resultado === 'revelado'  && <span className="text-xl">★</span>}
         {resultado !== 'correcto' && resultado !== 'revelado' && p.iniciales}
         {overlay}
       </div>
-      <p className="text-white/60 text-[9px] sm:text-[10px] text-center leading-tight w-14 sm:w-16">
+      <p className="text-white/60 text-[8px] sm:text-[11px] text-center leading-tight w-full">
         {p.nombre}
       </p>
     </div>
@@ -262,64 +262,65 @@ export default function QuienEsQuien() {
   const hayMasPistas = pistaIdx < pistas.length - 1
 
   return (
-    <div className={`relative z-10 flex flex-col min-h-[calc(100vh-4rem)] px-3 sm:px-6 py-4 transition-all ${animFallo ? 'brightness-50' : ''}`}>
-      <div className="max-w-2xl mx-auto w-full flex flex-col gap-3">
+    <div className={`relative z-10 flex flex-col min-h-[calc(100vh-4rem)] px-2 sm:px-6 py-3 transition-all ${animFallo ? 'brightness-50' : ''}`}>
 
-        {/* Cabecera */}
-        <div className="flex items-center justify-between">
-          <button
-            onClick={() => navigate(backPath)}
-            className="text-white/40 hover:text-white/70 text-sm transition-colors"
-          >
-            ← Salir
-          </button>
-          <div className="flex items-center gap-3">
-            <span className="text-white/40 text-xs">{activosCount} sin tachar</span>
-            <div className="flex gap-1">
-              {Array.from({ length: MAX_FALLOS }).map((_, i) => (
-                <span key={i} className={`text-base transition-opacity ${i < fallos ? 'opacity-20' : ''}`}>❤️</span>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Tablero */}
-        <div className={`bg-white/5 border rounded-2xl p-3 transition-all ${modoAdivinar ? 'border-violet-500/50 bg-violet-900/10' : 'border-white/10'}`}>
-          {modoAdivinar && (
-            <p className="text-violet-300 text-xs text-center font-semibold mb-2">
-              👆 Toca al personaje que crees que es el secreto
-            </p>
-          )}
-          <div className="grid grid-cols-6 gap-2 justify-items-center">
-            {tablero.map(p => (
-              <Avatar
-                key={p.id}
-                p={p}
-                tachado={tachados.has(p.id)}
-                modoAdivinar={modoAdivinar && !tachados.has(p.id) && !resultados[p.id]}
-                esSecreto={p.id === secreto?.id}
-                resultado={resultados[p.id] ?? null}
-                onClick={() => modoAdivinar ? adivinar(p) : toggleTachado(p)}
-              />
+      {/* Cabecera */}
+      <div className="flex items-center justify-between mb-3 px-1">
+        <button
+          onClick={() => navigate(backPath)}
+          className="text-white/40 hover:text-white/70 text-sm transition-colors"
+        >
+          ← Salir
+        </button>
+        <div className="flex items-center gap-3">
+          <span className="text-white/40 text-xs">{activosCount} sin tachar</span>
+          <div className="flex gap-1">
+            {Array.from({ length: MAX_FALLOS }).map((_, i) => (
+              <span key={i} className={`text-lg transition-opacity ${i < fallos ? 'opacity-20' : ''}`}>❤️</span>
             ))}
           </div>
         </div>
+      </div>
 
-        {/* Pista actual — solo se muestra la de turno */}
+      {/* Tablero — ocupa todo el ancho disponible */}
+      <div className={`border rounded-2xl p-3 sm:p-4 transition-all flex-1 flex flex-col gap-3 ${modoAdivinar ? 'border-violet-500/50 bg-violet-900/10' : 'border-white/10 bg-white/5'}`}>
+
+        {modoAdivinar && (
+          <p className="text-violet-300 text-xs text-center font-semibold">
+            👆 Toca al personaje que crees que es el secreto
+          </p>
+        )}
+
+        {/* Grid: 6 cols en móvil, 6 en desktop — avatares crecen al máximo */}
+        <div className="grid grid-cols-6 gap-x-2 gap-y-3 sm:gap-4 justify-items-center flex-1">
+          {tablero.map(p => (
+            <Avatar
+              key={p.id}
+              p={p}
+              tachado={tachados.has(p.id)}
+              modoAdivinar={modoAdivinar && !tachados.has(p.id) && !resultados[p.id]}
+              esSecreto={p.id === secreto?.id}
+              resultado={resultados[p.id] ?? null}
+              onClick={() => modoAdivinar ? adivinar(p) : toggleTachado(p)}
+            />
+          ))}
+        </div>
+
+        {/* Pista actual */}
         {pistas[pistaIdx] && (
-          <div className="flex items-start gap-3 rounded-xl px-4 py-3 border border-violet-500/40 bg-violet-600/20 text-white text-sm">
-            <span className="font-black text-violet-400 w-5 shrink-0 text-xs mt-0.5">#{pistaIdx + 1}</span>
+          <div className="flex items-start gap-3 rounded-xl px-4 py-3 border border-violet-500/40 bg-violet-600/20 text-white text-sm sm:text-base">
+            <span className="font-black text-violet-400 shrink-0 text-xs mt-0.5">#{pistaIdx + 1}</span>
             <span className="leading-relaxed">{pistas[pistaIdx].texto}</span>
           </div>
         )}
         {pistaIdx > 0 && (
-          <p className="text-white/25 text-xs text-center">
+          <p className="text-white/25 text-xs text-center -mt-1">
             {pistaIdx} pista{pistaIdx > 1 ? 's' : ''} anterior{pistaIdx > 1 ? 'es' : ''} — ¡recuérdalas!
           </p>
         )}
 
         {/* Acciones */}
-        <div className="flex gap-2 pb-4">
+        <div className="flex gap-2">
           {modoAdivinar ? (
             <button
               onClick={() => setModoAdivinar(false)}
@@ -331,16 +332,15 @@ export default function QuienEsQuien() {
             <button
               onClick={() => setModoAdivinar(true)}
               disabled={activosCount === 0}
-              className="flex-1 bg-violet-600 hover:bg-violet-500 disabled:opacity-30 text-white font-bold py-3 rounded-xl transition-all text-sm"
+              className="flex-1 bg-violet-600 hover:bg-violet-500 disabled:opacity-30 text-white font-bold py-3 sm:py-4 rounded-xl transition-all"
             >
               🎯 Adivinar
             </button>
           )}
-
           {hayMasPistas && !modoAdivinar && (
             <button
               onClick={siguientePista}
-              className="bg-white/5 hover:bg-white/10 border border-white/10 text-white/60 hover:text-white font-medium px-4 py-3 rounded-xl transition-all text-sm whitespace-nowrap"
+              className="bg-white/5 hover:bg-white/10 border border-white/10 text-white/60 hover:text-white font-medium px-5 py-3 rounded-xl transition-all whitespace-nowrap"
             >
               Pista {pistaIdx + 2} 💡
             </button>
