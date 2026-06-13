@@ -50,22 +50,20 @@ function Avatar({ p, tachado, modoAdivinar, esSecreto, resultado, onClick }) {
 
   return (
     <div
-      className={`flex flex-col items-center gap-1 transition-all duration-200 select-none ${cursor} ${opacidad} ${escala}`}
-      style={{ width: '100%' }}
+      className={`relative rounded-xl shadow transition-all duration-200 select-none ${cursor} ${opacidad} ${escala} ${anillo}`}
+      style={{ backgroundColor: p.color, width: '100%', paddingBottom: '100%' }}
       onClick={onClick}
     >
-      <div
-        className={`relative rounded-xl flex items-center justify-center text-white font-black shadow ${anillo}`}
-        style={{ backgroundColor: p.color, width: '100%', paddingBottom: '100%', position: 'relative' }}
-      >
-        <span style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'clamp(0.6rem, 1.5vw, 1.1rem)' }}>
-          {resultado === 'correcto'  ? '✓' : resultado === 'revelado' ? '★' : p.iniciales}
-        </span>
-        {overlay}
+      <div style={{ position: 'absolute', inset: 0 }} className="flex flex-col items-center justify-center gap-0.5 p-1 overflow-hidden">
+        {resultado === 'correcto' && <span className="text-2xl">✓</span>}
+        {resultado === 'revelado' && <span className="text-2xl">★</span>}
+        {resultado !== 'correcto' && resultado !== 'revelado' && (
+          <p className="text-white font-bold text-center leading-tight" style={{ fontSize: 'clamp(7px, 1.1vw, 13px)', wordBreak: 'break-word' }}>
+            {p.nombre}
+          </p>
+        )}
       </div>
-      <p className="text-white/60 text-center leading-tight" style={{ fontSize: 'clamp(7px, 0.9vw, 11px)', width: '100%', wordBreak: 'break-word' }}>
-        {p.nombre}
-      </p>
+      {overlay}
     </div>
   )
 }
