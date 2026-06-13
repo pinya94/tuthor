@@ -4,6 +4,26 @@ import {
   serverTimestamp, increment
 } from 'firebase/firestore'
 
+// Actualiza contadores globales (sin datos personales)
+async function incrementGlobalStats(game, today) {
+  const ref = doc(db, '_stats', 'global')
+  try {
+    await updateDoc(ref, {
+      totalSessions: increment(1),
+      [`playsByGame.${game}`]: increment(1),
+      [`dailySessions.${today}`]: increment(1),
+    })
+  } catch {
+    // Documento no existe aún → crearlo
+    await setDoc(ref, {
+      totalUsers: 0,
+      totalSessions: 1,
+      playsByGame: { [game]: 1 },
+      dailySessions: { [today]: 1 },
+    })
+  }
+}
+
 function todayStr() {
   return new Date().toISOString().slice(0, 10) // 'YYYY-MM-DD'
 }
@@ -23,6 +43,9 @@ export async function saveActivity(uid, data) {
     ...data,
     createdAt: serverTimestamp(),
   })
+
+  const today = todayStr()
+  incrementGlobalStats(data.game, today).catch(() => {})
 
   const statsRef = doc(db, 'users', uid, 'stats', 'global')
   const snap = await getDoc(statsRef)
@@ -121,12 +144,26 @@ export async function getStats(uid) {
 
 // Crea o actualiza el perfil del usuario
 export async function upsertUserProfile(user) {
-  await setDoc(doc(db, 'users', user.uid), {
+  const userRef = doc(db, 'users', user.uid)
+  const snap = await getDoc(userRef)
+  const isNew = !snap.exists()
+
+  await setDoc(userRef, {
     name: user.displayName,
     email: user.email,
     photoURL: user.photoURL,
     lastLogin: serverTimestamp(),
+    ...(isNew ? { createdAt: serverTimestamp() } : {}),
   }, { merge: true })
+
+  if (isNew) {
+    const statsRef = doc(db, '_stats', 'global')
+    try {
+      await updateDoc(statsRef, { totalUsers: increment(1) })
+    } catch {
+      await setDoc(statsRef, { totalUsers: 1, totalSessions: 0, playsByGame: {}, dailySessions: {} })
+    }
+  }
 }
 
 export function formatTime(seconds) {

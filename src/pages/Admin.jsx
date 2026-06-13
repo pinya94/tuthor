@@ -1,0 +1,202 @@
+import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { db } from '../lib/firebase'
+import { doc, getDoc, collection, getDocs, query, orderBy, limit } from 'firebase/firestore'
+import { useAuth } from '../context/AuthContext'
+import { formatTime } from '../lib/activity'
+
+const ADMIN_EMAIL = 'consiguetualgogratis@gmail.com'
+
+const GAME_LABELS = {
+  'linea-temporal':    '📜 Línea del Tiempo',
+  'orden-temporal':    '🔀 Orden Temporal',
+  'tuthor-time':       '⚡ Tuthor Time',
+  'pregunta-diaria':   '🧠 Pregunta Diaria',
+  'quien-es-quien':    '🕵️ ¿Quién es quién?',
+  'juego-fechas':      '📅 Juego de Fechas',
+}
+
+function StatCard({ label, value, sub }) {
+  return (
+    <div className="bg-white/5 border border-white/10 rounded-2xl p-5">
+      <p className="text-white/40 text-xs uppercase tracking-widest mb-1">{label}</p>
+      <p className="text-3xl font-black text-white">{value}</p>
+      {sub && <p className="text-white/30 text-xs mt-1">{sub}</p>}
+    </div>
+  )
+}
+
+function MiniBar({ label, value, max }) {
+  const pct = max > 0 ? Math.round((value / max) * 100) : 0
+  return (
+    <div className="flex items-center gap-3">
+      <p className="text-white/60 text-sm w-44 truncate shrink-0">{label}</p>
+      <div className="flex-1 bg-white/5 rounded-full h-2">
+        <div
+          className="h-2 rounded-full bg-violet-500 transition-all"
+          style={{ width: `${pct}%` }}
+        />
+      </div>
+      <p className="text-white font-bold text-sm w-10 text-right shrink-0">{value}</p>
+    </div>
+  )
+}
+
+export default function Admin() {
+  const { user, loading } = useAuth()
+  const navigate = useNavigate()
+  const [globalStats, setGlobalStats] = useState(null)
+  const [users, setUsers]             = useState([])
+  const [loadingData, setLoadingData] = useState(true)
+
+  useEffect(() => {
+    if (loading) return
+    if (!user || user.email !== ADMIN_EMAIL) {
+      navigate('/', { replace: true })
+      return
+    }
+    loadAll()
+  }, [user, loading])
+
+  async function loadAll() {
+    setLoadingData(true)
+    try {
+      const [statsSnap, usersSnap] = await Promise.all([
+        getDoc(doc(db, '_stats', 'global')),
+        getDocs(query(collection(db, 'users'), orderBy('lastLogin', 'desc'), limit(50))),
+      ])
+      setGlobalStats(statsSnap.exists() ? statsSnap.data() : null)
+      setUsers(usersSnap.docs.map(d => ({ id: d.id, ...d.data() })))
+    } catch (e) {
+      console.error('Admin load error:', e)
+    }
+    setLoadingData(false)
+  }
+
+  if (loading || loadingData) {
+    return (
+      <div className="flex items-center justify-center min-h-[calc(100vh-4rem)]">
+        <p className="text-white/30 text-sm">Cargando dashboard…</p>
+      </div>
+    )
+  }
+
+  if (!user || user.email !== ADMIN_EMAIL) return null
+
+  // Stats procesadas
+  const playsByGame = globalStats?.playsByGame ?? {}
+  const maxPlays = Math.max(...Object.values(playsByGame), 1)
+  const gamesSorted = Object.entries(playsByGame).sort((a, b) => b[1] - a[1])
+
+  const dailySessions = globalStats?.dailySessions ?? {}
+  const last7days = Array.from({ length: 7 }).map((_, i) => {
+    const d = new Date(Date.now() - i * 86400000)
+    const key = d.toISOString().slice(0, 10)
+    return { key, label: d.toLocaleDateString('es-ES', { weekday: 'short', day: 'numeric' }), count: dailySessions[key] ?? 0 }
+  }).reverse()
+  const maxDay = Math.max(...last7days.map(d => d.count), 1)
+
+  const totalSessions = globalStats?.totalSessions ?? 0
+  const totalUsers    = globalStats?.totalUsers ?? 0
+
+  return (
+    <div className="relative z-10 flex flex-col min-h-[calc(100vh-4rem)] px-4 sm:px-8 py-6">
+      <div className="max-w-4xl mx-auto w-full space-y-6">
+
+        {/* Cabecera */}
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-black text-white">🛠️ Admin Dashboard</h1>
+            <p className="text-white/30 text-xs mt-0.5">Solo visible para {ADMIN_EMAIL}</p>
+          </div>
+          <button
+            onClick={loadAll}
+            className="text-white/40 hover:text-white/70 text-sm border border-white/10 px-3 py-1.5 rounded-lg transition-colors"
+          >
+            ↻ Actualizar
+          </button>
+        </div>
+
+        {/* KPIs */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          <StatCard label="Usuarios registrados" value={totalUsers.toLocaleString()} />
+          <StatCard label="Sesiones totales" value={totalSessions.toLocaleString()} />
+          <StatCard label="Usuarios recientes" value={users.length} sub="últimos 50 por login" />
+          <StatCard label="Juegos distintos" value={Object.keys(playsByGame).length} />
+        </div>
+
+        {/* Actividad últimos 7 días */}
+        <div className="bg-white/5 border border-white/10 rounded-2xl p-5">
+          <h2 className="text-white font-bold mb-4">Sesiones — últimos 7 días</h2>
+          <div className="flex items-end gap-2 h-24">
+            {last7days.map(d => (
+              <div key={d.key} className="flex-1 flex flex-col items-center gap-1">
+                <p className="text-white/50 text-[10px]">{d.count || ''}</p>
+                <div
+                  className="w-full rounded-t bg-violet-500/70 transition-all"
+                  style={{ height: `${Math.max(4, (d.count / maxDay) * 72)}px` }}
+                />
+                <p className="text-white/30 text-[9px] text-center leading-tight">{d.label}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Juegos más jugados */}
+        <div className="bg-white/5 border border-white/10 rounded-2xl p-5">
+          <h2 className="text-white font-bold mb-4">Juegos más jugados</h2>
+          {gamesSorted.length === 0 ? (
+            <p className="text-white/30 text-sm">Sin datos todavía</p>
+          ) : (
+            <div className="space-y-3">
+              {gamesSorted.map(([game, count]) => (
+                <MiniBar
+                  key={game}
+                  label={GAME_LABELS[game] ?? game}
+                  value={count}
+                  max={maxPlays}
+                />
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Lista de usuarios */}
+        <div className="bg-white/5 border border-white/10 rounded-2xl p-5">
+          <h2 className="text-white font-bold mb-4">Usuarios recientes ({users.length})</h2>
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="text-white/30 text-xs uppercase tracking-wide border-b border-white/10">
+                  <th className="text-left pb-2 font-medium">Nombre</th>
+                  <th className="text-left pb-2 font-medium">Email</th>
+                  <th className="text-left pb-2 font-medium">Último acceso</th>
+                  <th className="text-left pb-2 font-medium">Registro</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-white/5">
+                {users.map(u => (
+                  <tr key={u.id} className="text-white/70">
+                    <td className="py-2.5 pr-4 font-medium text-white">{u.name ?? '—'}</td>
+                    <td className="py-2.5 pr-4 text-white/50">{u.email ?? '—'}</td>
+                    <td className="py-2.5 pr-4 text-white/40 text-xs">
+                      {u.lastLogin?.toDate
+                        ? u.lastLogin.toDate().toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })
+                        : '—'}
+                    </td>
+                    <td className="py-2.5 text-white/40 text-xs">
+                      {u.createdAt?.toDate
+                        ? u.createdAt.toDate().toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' })
+                        : '—'}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  )
+}

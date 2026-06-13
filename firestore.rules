@@ -3,19 +3,29 @@ service cloud.firestore {
   match /databases/{database}/documents {
 
     // ── Perfil de usuario ────────────────────────────────────────────────────
-    // Solo el propio usuario puede leer y escribir su perfil
+    function isAdmin() {
+      return request.auth != null && request.auth.token.email == 'consiguetualgogratis@gmail.com';
+    }
+
     match /users/{uid} {
-      allow read, write: if request.auth != null && request.auth.uid == uid;
+      allow read:  if (request.auth != null && request.auth.uid == uid) || isAdmin();
+      allow write: if request.auth != null && request.auth.uid == uid;
 
-      // Actividades: solo el propio usuario
       match /activity/{activityId} {
-        allow read, write: if request.auth != null && request.auth.uid == uid;
+        allow read:  if (request.auth != null && request.auth.uid == uid) || isAdmin();
+        allow write: if request.auth != null && request.auth.uid == uid;
       }
 
-      // Stats: solo el propio usuario
       match /stats/{statId} {
-        allow read, write: if request.auth != null && request.auth.uid == uid;
+        allow read:  if (request.auth != null && request.auth.uid == uid) || isAdmin();
+        allow write: if request.auth != null && request.auth.uid == uid;
       }
+    }
+
+    // ── Stats globales (solo contadores, sin datos personales) ───────────────
+    match /_stats/{docId} {
+      allow read:  if isAdmin();
+      allow write: if request.auth != null;
     }
 
     // ── Leaderboard de Tuthor Time ───────────────────────────────────────────

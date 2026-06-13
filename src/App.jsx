@@ -18,6 +18,7 @@ import Perfil from './pages/Perfil'
 import QuienEsQuien from './pages/QuienEsQuien'
 import Privacidad from './pages/Privacidad'
 import Comunidad from './pages/Comunidad'
+import Admin from './pages/Admin'
 import CookieBanner, { useCookieConsent } from './components/CookieBanner'
 
 function Layout({ onConsent }) {
@@ -59,6 +60,7 @@ function Layout({ onConsent }) {
           <Route path="/perfil" element={<Perfil />} />
           <Route path="/privacidad" element={<Privacidad />} />
           <Route path="/comunidad" element={<Comunidad />} />
+          <Route path="/admin" element={<Admin />} />
         </Routes>
       </div>
       <CookieBanner onConsent={onConsent} />
