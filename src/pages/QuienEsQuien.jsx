@@ -1,36 +1,63 @@
-import { useState, useRef, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { PERSONAJES_GCE, montarTablero, generarPistas } from '../data/personajes'
+import { useState, useRef } from 'react'
+import { useNavigate, useLocation } from 'react-router-dom'
+import { PERSONAJES_TODOS, PERSONAJES_GCE, montarTablero, generarPistas } from '../data/personajes'
 import { useAuth } from '../context/AuthContext'
 import { saveActivity } from '../lib/activity'
 
 const BOARD_SIZE   = 12
-const MAX_INTENTOS = 2   // fallos antes de game over
-const PTS_PISTA    = [300, 200, 100, 50]  // puntos según pista en la que aciertas
+const MAX_FALLOS   = 2
+const PTS_PISTA    = [300, 200, 100, 50]
 
 // ── AVATAR ────────────────────────────────────────────────────────────────────
-function Avatar({ p, estado, onClick }) {
-  // estado: 'activo' | 'eliminado' | 'seleccionado' | 'correcto' | 'incorrecto'
-  const base = 'relative flex flex-col items-center gap-1.5 cursor-pointer transition-all duration-300 select-none'
-  const ring = {
-    activo:     'opacity-100 scale-100',
-    eliminado:  'opacity-20 scale-95 pointer-events-none',
-    seleccionado:'opacity-100 scale-105 ring-2 ring-violet-400 rounded-2xl',
-    correcto:   'opacity-100 scale-110 ring-2 ring-green-400 rounded-2xl',
-    incorrecto: 'opacity-40 scale-95',
-  }[estado] ?? 'opacity-100'
+function Avatar({ p, tachado, modoAdivinar, esSecreto, resultado, onClick }) {
+  // resultado: null | 'correcto' | 'incorrecto' | 'revelado'
+  const cursor = tachado ? 'cursor-default' : 'cursor-pointer'
+
+  let overlay = null
+  let opacidad = 'opacity-100'
+  let escala = 'scale-100'
+  let anillo = ''
+
+  if (resultado === 'correcto') {
+    anillo = 'ring-2 ring-green-400'
+    escala = 'scale-110'
+  } else if (resultado === 'incorrecto') {
+    opacidad = 'opacity-40'
+  } else if (resultado === 'revelado') {
+    anillo = 'ring-2 ring-amber-400'
+    escala = 'scale-105'
+  } else if (tachado) {
+    opacidad = 'opacity-20'
+    overlay = (
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+        <svg className="w-8 h-8 text-white/60" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+          <line x1="4" y1="4" x2="20" y2="20" /><line x1="20" y1="4" x2="4" y2="20" />
+        </svg>
+      </div>
+    )
+  } else if (modoAdivinar) {
+    anillo = 'ring-2 ring-violet-400/60 hover:ring-violet-400'
+    escala = 'hover:scale-105'
+  } else {
+    escala = 'hover:scale-105'
+    opacidad = 'hover:opacity-90'
+  }
 
   return (
-    <div className={`${base} ${ring} p-1`} onClick={onClick}>
+    <div
+      className={`relative flex flex-col items-center gap-1 transition-all duration-200 select-none ${cursor} ${opacidad} ${escala}`}
+      onClick={onClick}
+    >
       <div
-        className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl flex items-center justify-center text-white font-black text-sm sm:text-base shadow-lg"
+        className={`relative w-11 h-11 sm:w-13 sm:h-13 rounded-xl flex items-center justify-center text-white font-black text-xs sm:text-sm shadow ${anillo}`}
         style={{ backgroundColor: p.color }}
       >
-        {estado === 'correcto'   && <span className="text-xl">✓</span>}
-        {estado === 'incorrecto' && <span className="text-xl">✗</span>}
-        {estado !== 'correcto' && estado !== 'incorrecto' && p.iniciales}
+        {resultado === 'correcto'  && <span className="text-lg">✓</span>}
+        {resultado === 'revelado'  && <span className="text-lg">★</span>}
+        {resultado !== 'correcto' && resultado !== 'revelado' && p.iniciales}
+        {overlay}
       </div>
-      <p className="text-white/70 text-[10px] text-center leading-tight w-14 sm:w-16 line-clamp-2">
+      <p className="text-white/60 text-[9px] sm:text-[10px] text-center leading-tight w-12 sm:w-14 line-clamp-2">
         {p.nombre.split(' ').slice(0, 2).join(' ')}
       </p>
     </div>
@@ -38,20 +65,22 @@ function Avatar({ p, estado, onClick }) {
 }
 
 // ── INTRO ─────────────────────────────────────────────────────────────────────
-function Intro({ onStart }) {
+function Intro({ pool, onStart }) {
   return (
     <div className="flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
       <div className="max-w-md w-full">
         <div className="text-center mb-8">
           <span className="text-6xl mb-4 block">🕵️</span>
           <h1 className="text-3xl font-black text-white mb-2">¿Quién es quién?</h1>
-          <p className="text-white/50 text-sm">Adivina el personaje histórico con las mínimas pistas</p>
+          <p className="text-white/50 text-sm">
+            {pool === 'gce' ? 'Guerra Civil Española' : 'Personajes históricos de todas las épocas'}
+          </p>
         </div>
         <div className="bg-white/5 border border-white/10 rounded-2xl p-6 mb-6 space-y-4">
           {[
-            { icon: '🎴', title: 'Tablero de 12 personajes', desc: 'Cada partida, 12 figuras históricas distintas de la Guerra Civil Española.' },
-            { icon: '💡', title: 'Pistas dinámicas', desc: 'Cada pista elimina un grupo del tablero. El mismo personaje siempre tiene pistas distintas según con quién comparta tablero.' },
-            { icon: '⚡', title: 'Cuanto antes aciertes, más puntos', desc: 'Pista 1 → 300 pts · Pista 2 → 200 · Pista 3 → 100 · Pista final → 50. Dos fallos y pierdes.' },
+            { icon: '🎴', title: 'Tablero de 12 personajes', desc: 'Cada partida, 12 figuras distintas seleccionadas al azar.' },
+            { icon: '✂️', title: 'Tacha a los que descartes', desc: 'Toca un personaje para tacharlo. Tócalo de nuevo para restaurarlo. Descarta hasta quedarte con el correcto.' },
+            { icon: '⚡', title: 'Menos pistas = más puntos', desc: 'Acierta en la 1ª pista → 300 pts. En la 2ª → 200. En la 3ª → 100. Pista final → 50. Dos fallos y pierdes.' },
           ].map(r => (
             <div key={r.title} className="flex items-start gap-4">
               <span className="text-2xl">{r.icon}</span>
@@ -74,14 +103,15 @@ function Intro({ onStart }) {
 }
 
 // ── RESULTADO ─────────────────────────────────────────────────────────────────
-function Resultado({ ganó, secreto, puntos, onRepetir, onSalir }) {
+function Resultado({ ganó, secreto, puntos, pistaIdx, onRepetir, onSalir }) {
   return (
     <div className="flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
       <div className="max-w-sm w-full text-center">
         <span className="text-6xl block mb-4">{ganó ? '🎉' : '💀'}</span>
         <h2 className="text-2xl font-black text-white mb-1">{ganó ? '¡Correcto!' : 'Sin más intentos'}</h2>
-        <p className="text-white/50 text-sm mb-6">El personaje era <span className="text-white font-bold">{secreto.nombre}</span></p>
-
+        <p className="text-white/50 text-sm mb-6">
+          El personaje era <span className="text-white font-bold">{secreto.nombre}</span>
+        </p>
         <div
           className="w-20 h-20 rounded-2xl flex items-center justify-center text-white font-black text-2xl mx-auto mb-3 shadow-xl"
           style={{ backgroundColor: secreto.color }}
@@ -89,14 +119,12 @@ function Resultado({ ganó, secreto, puntos, onRepetir, onSalir }) {
           {secreto.iniciales}
         </div>
         <p className="text-white/40 text-xs italic px-4 mb-6">"{secreto.pistaUnica}"</p>
-
         {ganó && (
           <div className="bg-violet-600/20 border border-violet-500/30 rounded-2xl px-6 py-4 mb-6">
             <p className="text-3xl font-black text-white">{puntos.toLocaleString()} pts</p>
-            <p className="text-white/40 text-xs mt-1">puntuación de esta partida</p>
+            <p className="text-white/40 text-xs mt-1">adivinado en la pista {pistaIdx + 1}</p>
           </div>
         )}
-
         <div className="flex gap-3">
           <button onClick={onRepetir} className="flex-1 bg-violet-600 hover:bg-violet-500 text-white font-bold py-3 rounded-xl transition-all">
             Otra partida
@@ -110,180 +138,176 @@ function Resultado({ ganó, secreto, puntos, onRepetir, onSalir }) {
   )
 }
 
-// ── JUEGO PRINCIPAL ───────────────────────────────────────────────────────────
+// ── JUEGO ─────────────────────────────────────────────────────────────────────
 export default function QuienEsQuien() {
-  const navigate = useNavigate()
+  const navigate  = useNavigate()
+  const location  = useLocation()
   const { user }  = useAuth()
   const startRef  = useRef(Date.now())
 
-  const [fase, setFase]           = useState('intro')   // intro | jugando | resultado
-  const [tablero, setTablero]     = useState([])
-  const [secreto, setSecreto]     = useState(null)
-  const [pistas, setPistas]       = useState([])
-  const [pistaIdx, setPistaIdx]   = useState(0)         // cuántas pistas reveladas (0 = ninguna)
-  const [estados, setEstados]     = useState({})        // id → 'activo'|'eliminado'|'seleccionado'
-  const [seleccionado, setSelec]  = useState(null)
-  const [intentos, setIntentos]   = useState(0)
-  const [puntos, setPuntos]       = useState(0)
-  const [ganó, setGanó]           = useState(false)
-  const [feedback, setFeedback]   = useState(null)      // null | 'correcto' | 'incorrecto'
+  // Si venimos desde /estudiar/historia/gce usamos solo el pool GCE
+  const poolKey = location.state?.pool ?? 'global'
+  const pool    = poolKey === 'gce' ? PERSONAJES_GCE : PERSONAJES_TODOS
+
+  const [fase, setFase]         = useState('intro')
+  const [tablero, setTablero]   = useState([])
+  const [secreto, setSecreto]   = useState(null)
+  const [pistas, setPistas]     = useState([])
+  const [pistaIdx, setPistaIdx] = useState(0)
+  const [tachados, setTachados] = useState(new Set())
+  const [modoAdivinar, setModoAdivinar] = useState(false)
+  const [fallos, setFallos]     = useState(0)
+  const [puntos, setPuntos]     = useState(0)
+  const [ganó, setGanó]         = useState(false)
+  const [resultados, setResultados] = useState({}) // id → 'correcto'|'incorrecto'|'revelado'
+  const [animFallo, setAnimFallo]   = useState(false)
 
   function iniciarPartida() {
-    const tableroNuevo  = montarTablero(PERSONAJES_GCE, BOARD_SIZE)
-    const secretoNuevo  = tableroNuevo[Math.floor(Math.random() * tableroNuevo.length)]
-    const pistasNuevas  = generarPistas(secretoNuevo, tableroNuevo)
-    const estadosInicio = Object.fromEntries(tableroNuevo.map(p => [p.id, 'activo']))
-
-    setTablero(tableroNuevo)
-    setSecreto(secretoNuevo)
-    setPistas(pistasNuevas)
+    const t = montarTablero(pool, BOARD_SIZE)
+    const s = t[Math.floor(Math.random() * t.length)]
+    setTablero(t)
+    setSecreto(s)
+    setPistas(generarPistas(s, t))
     setPistaIdx(0)
-    setEstados(estadosInicio)
-    setSelec(null)
-    setIntentos(0)
+    setTachados(new Set())
+    setModoAdivinar(false)
+    setFallos(0)
     setPuntos(0)
     setGanó(false)
-    setFeedback(null)
+    setResultados({})
+    setAnimFallo(false)
     startRef.current = Date.now()
     setFase('jugando')
   }
 
-  function revelarSiguientePista() {
-    if (pistaIdx < pistas.length - 1) {
-      const siguiente = pistaIdx + 1
-
-      // Auto-eliminar personajes que NO cumplen la nueva pista
-      const pista = pistas[siguiente]
-      if (pista.attr !== 'única') {
-        setEstados(prev => {
-          const next = { ...prev }
-          tablero.forEach(p => {
-            if (next[p.id] === 'activo' && p.atributos[pista.attr] !== pista.val) {
-              next[p.id] = 'eliminado'
-            }
-          })
-          return next
-        })
-      }
-      setPistaIdx(siguiente)
-      setSelec(null)
-    }
+  function toggleTachado(p) {
+    if (modoAdivinar) return
+    if (resultados[p.id]) return
+    setTachados(prev => {
+      const next = new Set(prev)
+      if (next.has(p.id)) next.delete(p.id)
+      else next.add(p.id)
+      return next
+    })
   }
 
-  function seleccionarPersonaje(p) {
-    if (estados[p.id] !== 'activo' || feedback) return
-    setSelec(prev => prev?.id === p.id ? null : p)
-  }
+  function adivinar(p) {
+    if (!modoAdivinar) return
+    if (tachados.has(p.id) || resultados[p.id]) return
 
-  function confirmarRespuesta() {
-    if (!seleccionado || feedback) return
-
-    if (seleccionado.id === secreto.id) {
-      // ✓ Correcto
+    if (p.id === secreto.id) {
       const pts = PTS_PISTA[Math.min(pistaIdx, PTS_PISTA.length - 1)]
       setPuntos(pts)
       setGanó(true)
-      setEstados(prev => ({ ...prev, [seleccionado.id]: 'correcto' }))
-      setFeedback('correcto')
-      const timeSpent = Math.round((Date.now() - startRef.current) / 1000)
+      setResultados(prev => ({ ...prev, [p.id]: 'correcto' }))
+      const t = Math.round((Date.now() - startRef.current) / 1000)
       if (user) saveActivity(user.uid, {
-        type: 'juego', game: 'quien-es-quien', category: 'gce',
-        score: pts, passed: true, timeSpent,
+        type: 'juego', game: 'quien-es-quien', category: poolKey,
+        score: pts, passed: true, timeSpent: t,
       }).catch(() => {})
-      setTimeout(() => setFase('resultado'), 1200)
+      setTimeout(() => setFase('resultado'), 1000)
     } else {
-      // ✗ Incorrecto
-      const nuevosIntentos = intentos + 1
-      setIntentos(nuevosIntentos)
-      setEstados(prev => ({ ...prev, [seleccionado.id]: 'incorrecto' }))
-      setFeedback('incorrecto')
+      const nuevosFallos = fallos + 1
+      setFallos(nuevosFallos)
+      setResultados(prev => ({ ...prev, [p.id]: 'incorrecto' }))
+      setAnimFallo(true)
+      setTimeout(() => setAnimFallo(false), 600)
 
       setTimeout(() => {
-        setEstados(prev => ({ ...prev, [seleccionado.id]: 'eliminado' }))
-        setSelec(null)
-        setFeedback(null)
+        setResultados(prev => { const n = { ...prev }; delete n[p.id]; return n })
+        setTachados(prev => { const n = new Set(prev); n.add(p.id); return n })
+        setModoAdivinar(false)
 
-        if (nuevosIntentos >= MAX_INTENTOS) {
-          // Game over
-          const timeSpent = Math.round((Date.now() - startRef.current) / 1000)
+        if (nuevosFallos >= MAX_FALLOS) {
+          // Revelar el secreto antes de ir a resultado
+          setResultados(prev => ({ ...prev, [secreto.id]: 'revelado' }))
+          const t = Math.round((Date.now() - startRef.current) / 1000)
           if (user) saveActivity(user.uid, {
-            type: 'juego', game: 'quien-es-quien', category: 'gce',
-            score: 0, passed: false, timeSpent,
+            type: 'juego', game: 'quien-es-quien', category: poolKey,
+            score: 0, passed: false, timeSpent: t,
           }).catch(() => {})
-          setFase('resultado')
-        } else if (pistaIdx < pistas.length - 1) {
-          // Revelar pista automáticamente tras fallo
-          revelarSiguientePista()
+          setTimeout(() => setFase('resultado'), 1200)
+        } else {
+          // Auto-revelar siguiente pista tras fallo
+          if (pistaIdx < pistas.length - 1) siguientePista()
         }
-      }, 900)
+      }, 800)
     }
   }
 
-  if (fase === 'intro') return <Intro onStart={iniciarPartida} />
+  function siguientePista() {
+    const idx = pistaIdx + 1
+    setPistaIdx(idx)
+    setModoAdivinar(false)
+  }
+
+  if (fase === 'intro') return <Intro pool={poolKey} onStart={iniciarPartida} />
   if (fase === 'resultado') return (
     <Resultado
-      ganó={ganó} secreto={secreto} puntos={puntos}
+      ganó={ganó} secreto={secreto} puntos={puntos} pistaIdx={pistaIdx}
       onRepetir={iniciarPartida}
-      onSalir={() => navigate('/juegos')}
+      onSalir={() => navigate(poolKey === 'gce' ? '/estudiar/historia' : '/juegos')}
     />
   )
 
-  const pistaActual   = pistas[pistaIdx]
-  const pistasVistas  = pistas.slice(0, pistaIdx + 1)
-  const activosCount  = tablero.filter(p => estados[p.id] === 'activo').length
-  const puedeAdivinar = seleccionado && !feedback
-  const hayMasPistas  = pistaIdx < pistas.length - 1
+  const activosCount = tablero.filter(p => !tachados.has(p.id) && !resultados[p.id]).length
+  const hayMasPistas = pistaIdx < pistas.length - 1
 
   return (
-    <div className="relative z-10 flex flex-col min-h-[calc(100vh-4rem)] px-3 sm:px-6 py-4">
-      <div className="max-w-2xl mx-auto w-full flex flex-col gap-4">
+    <div className={`relative z-10 flex flex-col min-h-[calc(100vh-4rem)] px-3 sm:px-6 py-4 transition-all ${animFallo ? 'brightness-50' : ''}`}>
+      <div className="max-w-2xl mx-auto w-full flex flex-col gap-3">
 
         {/* Cabecera */}
         <div className="flex items-center justify-between">
-          <button onClick={() => navigate('/juegos')} className="text-white/40 hover:text-white/70 text-sm transition-colors">
+          <button
+            onClick={() => navigate(poolKey === 'gce' ? '/estudiar/historia' : '/juegos')}
+            className="text-white/40 hover:text-white/70 text-sm transition-colors"
+          >
             ← Salir
           </button>
           <div className="flex items-center gap-3">
-            <span className="text-white/40 text-xs">{activosCount} restantes</span>
+            <span className="text-white/40 text-xs">{activosCount} sin tachar</span>
             <div className="flex gap-1">
-              {Array.from({ length: MAX_INTENTOS }).map((_, i) => (
-                <span key={i} className={`text-base ${i < intentos ? 'opacity-20' : ''}`}>❤️</span>
+              {Array.from({ length: MAX_FALLOS }).map((_, i) => (
+                <span key={i} className={`text-base transition-opacity ${i < fallos ? 'opacity-20' : ''}`}>❤️</span>
               ))}
             </div>
           </div>
         </div>
 
         {/* Tablero */}
-        <div className="bg-white/5 border border-white/10 rounded-2xl p-3 sm:p-4">
-          <div className="grid grid-cols-6 gap-1 sm:gap-2 justify-items-center">
+        <div className={`bg-white/5 border rounded-2xl p-3 transition-all ${modoAdivinar ? 'border-violet-500/50 bg-violet-900/10' : 'border-white/10'}`}>
+          {modoAdivinar && (
+            <p className="text-violet-300 text-xs text-center font-semibold mb-2">
+              👆 Toca al personaje que crees que es el secreto
+            </p>
+          )}
+          <div className="grid grid-cols-6 gap-2 justify-items-center">
             {tablero.map(p => (
               <Avatar
                 key={p.id}
                 p={p}
-                estado={seleccionado?.id === p.id && estados[p.id] === 'activo'
-                  ? 'seleccionado'
-                  : feedback === 'correcto' && p.id === secreto.id
-                  ? 'correcto'
-                  : feedback === 'incorrecto' && seleccionado?.id === p.id
-                  ? 'incorrecto'
-                  : estados[p.id]}
-                onClick={() => seleccionarPersonaje(p)}
+                tachado={tachados.has(p.id)}
+                modoAdivinar={modoAdivinar && !tachados.has(p.id) && !resultados[p.id]}
+                esSecreto={p.id === secreto?.id}
+                resultado={resultados[p.id] ?? null}
+                onClick={() => modoAdivinar ? adivinar(p) : toggleTachado(p)}
               />
             ))}
           </div>
         </div>
 
-        {/* Pistas reveladas */}
-        <div className="flex flex-col gap-2">
-          {pistasVistas.map((pista, i) => (
+        {/* Pistas */}
+        <div className="flex flex-col gap-1.5">
+          {pistas.slice(0, pistaIdx + 1).map((pista, i) => (
             <div
               key={i}
-              className={`flex items-start gap-3 rounded-xl px-4 py-3 border text-sm
+              className={`flex items-start gap-3 rounded-xl px-4 py-3 border text-sm transition-all
                 ${i === pistaIdx
                   ? 'bg-violet-600/20 border-violet-500/40 text-white'
-                  : 'bg-white/5 border-white/5 text-white/50'}`}
+                  : 'bg-white/5 border-white/5 text-white/40'}`}
             >
-              <span className="font-black text-violet-400 w-5 shrink-0">#{i + 1}</span>
+              <span className="font-black text-violet-400 w-5 shrink-0 text-xs mt-0.5">#{i + 1}</span>
               <span className="leading-relaxed">{pista.texto}</span>
             </div>
           ))}
@@ -291,23 +315,26 @@ export default function QuienEsQuien() {
 
         {/* Acciones */}
         <div className="flex gap-2 pb-4">
-          {seleccionado ? (
+          {modoAdivinar ? (
             <button
-              onClick={confirmarRespuesta}
-              disabled={!puedeAdivinar}
-              className="flex-1 bg-violet-600 hover:bg-violet-500 disabled:opacity-40 text-white font-bold py-3 rounded-xl transition-all text-sm"
+              onClick={() => setModoAdivinar(false)}
+              className="flex-1 bg-white/5 hover:bg-white/10 border border-white/10 text-white/60 font-medium py-3 rounded-xl transition-all text-sm"
             >
-              Es <span className="font-black">{seleccionado.nombre}</span> →
+              Cancelar
             </button>
           ) : (
-            <p className="flex-1 text-center text-white/30 text-xs self-center py-3">
-              Selecciona un personaje del tablero para adivinar
-            </p>
+            <button
+              onClick={() => setModoAdivinar(true)}
+              disabled={activosCount === 0}
+              className="flex-1 bg-violet-600 hover:bg-violet-500 disabled:opacity-30 text-white font-bold py-3 rounded-xl transition-all text-sm"
+            >
+              🎯 Adivinar
+            </button>
           )}
 
-          {hayMasPistas && !feedback && (
+          {hayMasPistas && !modoAdivinar && (
             <button
-              onClick={revelarSiguientePista}
+              onClick={siguientePista}
               className="bg-white/5 hover:bg-white/10 border border-white/10 text-white/60 hover:text-white font-medium px-4 py-3 rounded-xl transition-all text-sm whitespace-nowrap"
             >
               Pista {pistaIdx + 2} 💡
