@@ -16,6 +16,9 @@ const TEMAS_META = {
   usa:      { titulo: 'Independencia Americana', emoji: '🦅', descripcion: 'De las colonias británicas a los Estados Unidos, 1773–1789.' },
 }
 
+// Categorías con ¿Quién es quién? disponible
+const CON_PERSONAJES = ['gce', 'wwii']
+
 // Qué niveles tienen Juego de Fechas disponible para cada categoría
 const NIVELES_FECHAS = {
   primaria: [],                          // demasiado amplio para escribir año exacto
@@ -61,6 +64,17 @@ export default function HistoriaTema() {
       detalles: [ltConfig.livesLabel, ltConfig.winLabel, `${eventos.length} eventos`],
       action: () => navigate('/examen/linea-temporal', {
         state: { categoria, nivel, backPath: `/estudiar/historia/${categoria}` }
+      }),
+    },
+    CON_PERSONAJES.includes(categoria) && {
+      id: 'personajes',
+      titulo: '¿Quién es quién?',
+      descripcion: 'Tacha personajes con cada pista hasta adivinar al secreto. Las pistas cambian en cada partida.',
+      emoji: '🕵️',
+      gradient: 'from-violet-700 to-purple-900',
+      detalles: ['12 personajes por partida', '300 pts si aciertas a la 1ª pista', '2 intentos'],
+      action: () => navigate('/juegos/quien-es-quien', {
+        state: { pool: categoria, backPath: `/estudiar/historia/${categoria}` }
       }),
     },
     tieneFechas && {
@@ -160,9 +174,9 @@ export default function HistoriaTema() {
 
         {/* Próximamente */}
         {[
-          { id: 'personajes', titulo: 'Personajes Históricos', emoji: '👤', desc: '¿Quién soy? Adivina a partir de pistas.' },
-          { id: 'mapas',      titulo: 'Mapas Históricos',      emoji: '🗺️', desc: 'Identifica territorios y batallas.' },
-        ].map(m => (
+          !CON_PERSONAJES.includes(categoria) && { id: 'personajes', titulo: 'Personajes Históricos', emoji: '👤', desc: '¿Quién soy? Adivina a partir de pistas.' },
+          { id: 'mapas', titulo: 'Mapas Históricos', emoji: '🗺️', desc: 'Identifica territorios y batallas.' },
+        ].filter(Boolean).map(m => (
           <div key={m.id} className="w-full rounded-2xl bg-white/3 border border-white/8 p-5 opacity-50">
             <div className="flex items-center gap-3">
               <span className="text-2xl">{m.emoji}</span>

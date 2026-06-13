@@ -1,12 +1,17 @@
 import { useState, useRef } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { PERSONAJES_TODOS, PERSONAJES_GCE, montarTablero, generarPistas } from '../data/personajes'
+import { PERSONAJES_TODOS, PERSONAJES_GCE, PERSONAJES_WWII, montarTablero, generarPistas } from '../data/personajes'
 import { useAuth } from '../context/AuthContext'
 import { saveActivity } from '../lib/activity'
 
-const BOARD_SIZE   = 12
-const MAX_FALLOS   = 2
-const PTS_PISTA    = [300, 200, 100, 50]
+const BOARD_SIZE = 12
+const MAX_FALLOS = 2
+const PTS_PISTA  = [300, 200, 100, 50]
+const POOL_LABEL = {
+  gce:    'Guerra Civil Española',
+  wwii:   'Segunda Guerra Mundial',
+  global: 'Personajes históricos de todas las épocas',
+}
 
 // ── AVATAR ────────────────────────────────────────────────────────────────────
 function Avatar({ p, tachado, modoAdivinar, esSecreto, resultado, onClick }) {
@@ -73,7 +78,7 @@ function Intro({ pool, onStart }) {
           <span className="text-6xl mb-4 block">🕵️</span>
           <h1 className="text-3xl font-black text-white mb-2">¿Quién es quién?</h1>
           <p className="text-white/50 text-sm">
-            {pool === 'gce' ? 'Guerra Civil Española' : 'Personajes históricos de todas las épocas'}
+            {POOL_LABEL[pool] ?? pool}
           </p>
         </div>
         <div className="bg-white/5 border border-white/10 rounded-2xl p-6 mb-6 space-y-4">
@@ -146,8 +151,11 @@ export default function QuienEsQuien() {
   const startRef  = useRef(Date.now())
 
   // Si venimos desde /estudiar/historia/gce usamos solo el pool GCE
-  const poolKey = location.state?.pool ?? 'global'
-  const pool    = poolKey === 'gce' ? PERSONAJES_GCE : PERSONAJES_TODOS
+  const poolKey  = location.state?.pool ?? 'global'
+  const backPath = location.state?.backPath ?? '/juegos'
+  const pool = poolKey === 'gce'  ? PERSONAJES_GCE
+             : poolKey === 'wwii' ? PERSONAJES_WWII
+             : PERSONAJES_TODOS
 
   const [fase, setFase]         = useState('intro')
   const [tablero, setTablero]   = useState([])
@@ -246,7 +254,7 @@ export default function QuienEsQuien() {
     <Resultado
       ganó={ganó} secreto={secreto} puntos={puntos} pistaIdx={pistaIdx}
       onRepetir={iniciarPartida}
-      onSalir={() => navigate(poolKey === 'gce' ? '/estudiar/historia' : '/juegos')}
+      onSalir={() => navigate(backPath)}
     />
   )
 
@@ -260,7 +268,7 @@ export default function QuienEsQuien() {
         {/* Cabecera */}
         <div className="flex items-center justify-between">
           <button
-            onClick={() => navigate(poolKey === 'gce' ? '/estudiar/historia' : '/juegos')}
+            onClick={() => navigate(backPath)}
             className="text-white/40 hover:text-white/70 text-sm transition-colors"
           >
             ← Salir
