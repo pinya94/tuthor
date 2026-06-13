@@ -6,6 +6,7 @@ import { useAuth } from '../context/AuthContext'
 import { formatTime } from '../lib/activity'
 
 const ADMIN_EMAILS = [
+  'pinya1994@gmail.com',
   'consiguetualgogratis@gmail.com',
   'consiguetualgogratis@tuthor.app',
 ]
@@ -56,8 +57,8 @@ export default function Admin() {
   const [loadingData, setLoadingData] = useState(true)
 
   useEffect(() => {
-    if (user === undefined) return  // todavía cargando
-    if (!user) { navigate('/', { replace: true }); return }
+    if (user === undefined) return
+    if (!isAdmin(user)) { navigate('/', { replace: true }); return }
     loadAll()
   }, [user])
 
@@ -84,14 +85,7 @@ export default function Admin() {
     )
   }
 
-  // UID y email visibles para configuración inicial
-  const uidBox = (
-    <div className="bg-amber-500/10 border border-amber-500/30 rounded-xl p-4 mb-6 text-xs space-y-1">
-      <p className="text-amber-400 font-bold">🔧 Modo configuración — copia tu UID y díselo a Claude</p>
-      <p className="text-white/50">Email: <span className="text-white font-mono">{user?.email}</span></p>
-      <p className="text-white/50">UID: <span className="text-white font-mono">{user?.uid}</span></p>
-    </div>
-  )
+  if (!isAdmin(user)) return null
 
   // Stats procesadas
   const playsByGame = globalStats?.playsByGame ?? {}
@@ -112,8 +106,6 @@ export default function Admin() {
   return (
     <div className="relative z-10 flex flex-col min-h-[calc(100vh-4rem)] px-4 sm:px-8 py-6">
       <div className="max-w-4xl mx-auto w-full space-y-6">
-
-        {uidBox}
 
         {/* Cabecera */}
         <div className="flex items-center justify-between">

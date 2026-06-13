@@ -5,6 +5,7 @@ service cloud.firestore {
     // ── Perfil de usuario ────────────────────────────────────────────────────
     function isAdmin() {
       return request.auth != null && (
+        request.auth.token.email == 'pinya1994@gmail.com' ||
         request.auth.token.email == 'consiguetualgogratis@gmail.com' ||
         request.auth.token.email == 'consiguetualgogratis@tuthor.app'
       );
