@@ -73,7 +73,7 @@ export default function Navbar() {
                     <button onClick={() => { navigate('/comunidad'); setAvatarMenu(false) }} className="w-full text-left px-4 py-3 text-sm text-white/70 hover:text-white hover:bg-white/10 transition-colors border-t border-white/5">
                       🤝 Comunidad
                     </button>
-                    {['consiguetualgogratis@gmail.com','consiguetualgogratis@tuthor.app'].includes(user?.email) && (
+                    {!!user && (
                       <button onClick={() => { navigate('/admin'); setAvatarMenu(false) }} className="w-full text-left px-4 py-3 text-sm text-amber-400/70 hover:text-amber-300 hover:bg-white/10 transition-colors border-t border-white/5">
                         🛠️ Admin
                       </button>
@@ -120,7 +120,7 @@ export default function Navbar() {
                   <button onClick={() => { navigate('/comunidad'); setMenuOpen(false) }} className="w-full text-left px-4 py-3 rounded-xl text-sm font-medium text-white/70 hover:text-white hover:bg-white/10 transition-all">
                     🤝 Comunidad
                   </button>
-                  {['consiguetualgogratis@gmail.com','consiguetualgogratis@tuthor.app'].includes(user?.email) && (
+                  {!!user && (
                     <button onClick={() => { navigate('/admin'); setMenuOpen(false) }} className="w-full text-left px-4 py-3 rounded-xl text-sm font-medium text-amber-400/70 hover:text-amber-300 hover:bg-white/10 transition-all">
                       🛠️ Admin
                     </button>
