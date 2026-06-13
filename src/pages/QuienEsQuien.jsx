@@ -346,7 +346,14 @@ export default function QuienEsQuien() {
             </>
           ) : (
             <button
-              onClick={() => setModoAdivinar(true)}
+              onClick={() => {
+                if (activosCount === 1) {
+                  const ultimo = tablero.find(p => !tachados.has(p.id) && !resultados[p.id])
+                  if (ultimo) adivinar(ultimo)
+                } else {
+                  setModoAdivinar(true)
+                }
+              }}
               disabled={activosCount === 0}
               className="flex-1 font-black py-3 sm:py-4 rounded-xl transition-all text-black text-base disabled:opacity-30"
               style={{ backgroundColor: '#EDAE49' }}
