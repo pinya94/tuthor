@@ -1,6 +1,6 @@
 import { useState, useRef, useCallback, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { EVENTOS_HISTORIA } from '../data/historiaEvents'
+import { EVENTOS_HISTORIA, getCorrectPos } from '../data/historiaEvents'
 import { useAuth } from '../context/AuthContext'
 import { saveActivity } from '../lib/activity'
 
@@ -12,10 +12,6 @@ function formatYear(y) {
   return y < 0 ? `${Math.abs(y)} a.C.` : `${y}`
 }
 
-function getCorrectPos(card, tl) {
-  const idx = tl.findIndex(e => e.año > card.año)
-  return idx === -1 ? tl.length : idx
-}
 
 // ── INTRO ──────────────────────────────────────────────────────────────────────
 function Intro({ config, totalEvents, onStart }) {

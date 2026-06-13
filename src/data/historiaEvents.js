@@ -4,28 +4,28 @@
 export const EVENTOS_HISTORIA = [
 
   // ── SEGUNDA GUERRA MUNDIAL ────────────────────────────────────────────────
-  { id: 'wwii_01', nombre: "Inicio de la Segunda Guerra Mundial",   año: 1939, descripcion: "Alemania invade Polonia. Reino Unido y Francia declaran la guerra.",  dificultad: "fácil",   categoria: "wwii" },
-  { id: 'wwii_02', nombre: "Evacuación de Dunkerque",               año: 1940, descripcion: "330.000 soldados aliados evacuados bajo fuego nazi.",                  dificultad: "medio",   categoria: "wwii" },
-  { id: 'wwii_03', nombre: "Batalla de Gran Bretaña",               año: 1940, descripcion: "La RAF defiende los cielos británicos de la Luftwaffe.",               dificultad: "medio",   categoria: "wwii" },
-  { id: 'wwii_04', nombre: "Operación Barbarroja",                  año: 1941, descripcion: "Alemania invade la Unión Soviética con 3 millones de soldados.",       dificultad: "medio",   categoria: "wwii" },
-  { id: 'wwii_05', nombre: "Ataque a Pearl Harbor",                 año: 1941, descripcion: "Japón ataca la base naval americana. EEUU entra en la guerra.",        dificultad: "fácil",   categoria: "wwii" },
-  { id: 'wwii_06', nombre: "Batalla de Stalingrado",                año: 1942, descripcion: "El punto de inflexión del frente oriental. Derrota nazi decisiva.",    dificultad: "fácil",   categoria: "wwii" },
-  { id: 'wwii_07', nombre: "Desembarco de Normandía (Día D)",       año: 1944, descripcion: "La mayor operación anfibia de la historia en las playas francesas.",   dificultad: "fácil",   categoria: "wwii" },
-  { id: 'wwii_08', nombre: "Liberación de París",                   año: 1944, descripcion: "Las tropas aliadas y la Resistencia liberan la capital francesa.",     dificultad: "medio",   categoria: "wwii" },
-  { id: 'wwii_09', nombre: "Batalla de las Ardenas",                año: 1944, descripcion: "La última gran ofensiva alemana en el frente occidental.",             dificultad: "difícil", categoria: "wwii" },
-  { id: 'wwii_10', nombre: "Rendición de Alemania",                 año: 1945, descripcion: "Firma del armisticio. Fin de la guerra en Europa.",                    dificultad: "fácil",   categoria: "wwii" },
-  { id: 'wwii_11', nombre: "Bombas atómicas sobre Japón",           año: 1945, descripcion: "Hiroshima y Nagasaki. El fin de la guerra en el Pacífico.",            dificultad: "fácil",   categoria: "wwii" },
-  { id: 'wwii_12', nombre: "Conferencia de Yalta",                  año: 1945, descripcion: "Churchill, Roosevelt y Stalin dividen el mundo de posguerra.",         dificultad: "difícil", categoria: "wwii" },
+  { id: 'wwii_01', nombre: "Inicio de la Segunda Guerra Mundial",   año: 1939,             descripcion: "Alemania invade Polonia. Reino Unido y Francia declaran la guerra.",  dificultad: "fácil",   categoria: "wwii" },
+  { id: 'wwii_02', nombre: "Evacuación de Dunkerque",               año: 1940, mes:  5,    descripcion: "330.000 soldados aliados evacuados bajo fuego nazi.",                  dificultad: "medio",   categoria: "wwii" },
+  { id: 'wwii_03', nombre: "Batalla de Gran Bretaña",               año: 1940, mes:  7,    descripcion: "La RAF defiende los cielos británicos de la Luftwaffe.",               dificultad: "medio",   categoria: "wwii" },
+  { id: 'wwii_04', nombre: "Operación Barbarroja",                  año: 1941, mes:  6,    descripcion: "Alemania invade la Unión Soviética con 3 millones de soldados.",       dificultad: "medio",   categoria: "wwii" },
+  { id: 'wwii_05', nombre: "Ataque a Pearl Harbor",                 año: 1941, mes: 12,    descripcion: "Japón ataca la base naval americana. EEUU entra en la guerra.",        dificultad: "fácil",   categoria: "wwii" },
+  { id: 'wwii_06', nombre: "Batalla de Stalingrado",                año: 1942,             descripcion: "El punto de inflexión del frente oriental. Derrota nazi decisiva.",    dificultad: "fácil",   categoria: "wwii" },
+  { id: 'wwii_07', nombre: "Desembarco de Normandía (Día D)",       año: 1944, mes:  6,    descripcion: "La mayor operación anfibia de la historia en las playas francesas.",   dificultad: "fácil",   categoria: "wwii" },
+  { id: 'wwii_08', nombre: "Liberación de París",                   año: 1944, mes:  8,    descripcion: "Las tropas aliadas y la Resistencia liberan la capital francesa.",     dificultad: "medio",   categoria: "wwii" },
+  { id: 'wwii_09', nombre: "Batalla de las Ardenas",                año: 1944, mes: 12,    descripcion: "La última gran ofensiva alemana en el frente occidental.",             dificultad: "difícil", categoria: "wwii" },
+  { id: 'wwii_12', nombre: "Conferencia de Yalta",                  año: 1945, mes:  2,    descripcion: "Churchill, Roosevelt y Stalin dividen el mundo de posguerra.",         dificultad: "difícil", categoria: "wwii" },
+  { id: 'wwii_10', nombre: "Rendición de Alemania",                 año: 1945, mes:  5,    descripcion: "Firma del armisticio. Fin de la guerra en Europa.",                    dificultad: "fácil",   categoria: "wwii" },
+  { id: 'wwii_11', nombre: "Bombas atómicas sobre Japón",           año: 1945, mes:  8,    descripcion: "Hiroshima y Nagasaki. El fin de la guerra en el Pacífico.",            dificultad: "fácil",   categoria: "wwii" },
 
   // ── GUERRA CIVIL ESPAÑOLA ─────────────────────────────────────────────────
-  { id: 'gce_01', nombre: "Segunda República Española",             año: 1931, descripcion: "Alfonso XIII parte al exilio. España se convierte en República.",      dificultad: "medio",   categoria: "gce" },
-  { id: 'gce_02', nombre: "Revolución de Asturias",                 año: 1934, descripcion: "Mineros asturianos se levantan. El ejército reprime duramente.",        dificultad: "difícil", categoria: "gce" },
-  { id: 'gce_03', nombre: "Victoria del Frente Popular",            año: 1936, descripcion: "La coalición de izquierdas gana las elecciones generales.",             dificultad: "medio",   categoria: "gce" },
-  { id: 'gce_04', nombre: "Inicio de la Guerra Civil Española",     año: 1936, descripcion: "El golpe de estado de Franco inicia tres años de guerra fratricida.",  dificultad: "fácil",   categoria: "gce" },
-  { id: 'gce_05', nombre: "Bombardeo de Guernica",                  año: 1937, descripcion: "La Legión Cóndor nazi arrasa la ciudad vasca. Picasso lo inmortaliza.", dificultad: "fácil",   categoria: "gce" },
-  { id: 'gce_06', nombre: "Batalla del Ebro",                       año: 1938, descripcion: "La mayor batalla de la guerra civil. Derrota republicana definitiva.", dificultad: "medio",   categoria: "gce" },
-  { id: 'gce_07', nombre: "Caída de Barcelona",                     año: 1939, descripcion: "Las tropas franquistas entran en Cataluña. El exilio masivo comienza.", dificultad: "fácil",   categoria: "gce" },
-  { id: 'gce_08', nombre: "Fin de la Guerra Civil Española",        año: 1939, descripcion: "Franco proclama el final de la guerra. Comienza la dictadura.",        dificultad: "fácil",   categoria: "gce" },
+  { id: 'gce_01', nombre: "Segunda República Española",             año: 1931,             descripcion: "Alfonso XIII parte al exilio. España se convierte en República.",      dificultad: "medio",   categoria: "gce" },
+  { id: 'gce_02', nombre: "Revolución de Asturias",                 año: 1934,             descripcion: "Mineros asturianos se levantan. El ejército reprime duramente.",        dificultad: "difícil", categoria: "gce" },
+  { id: 'gce_03', nombre: "Victoria del Frente Popular",            año: 1936, mes:  2,    descripcion: "La coalición de izquierdas gana las elecciones generales.",             dificultad: "medio",   categoria: "gce" },
+  { id: 'gce_04', nombre: "Inicio de la Guerra Civil Española",     año: 1936, mes:  7,    descripcion: "El golpe de estado de Franco inicia tres años de guerra fratricida.",  dificultad: "fácil",   categoria: "gce" },
+  { id: 'gce_05', nombre: "Bombardeo de Guernica",                  año: 1937,             descripcion: "La Legión Cóndor nazi arrasa la ciudad vasca. Picasso lo inmortaliza.", dificultad: "fácil",   categoria: "gce" },
+  { id: 'gce_06', nombre: "Batalla del Ebro",                       año: 1938,             descripcion: "La mayor batalla de la guerra civil. Derrota republicana definitiva.", dificultad: "medio",   categoria: "gce" },
+  { id: 'gce_07', nombre: "Caída de Barcelona",                     año: 1939, mes:  1,    descripcion: "Las tropas franquistas entran en Cataluña. El exilio masivo comienza.", dificultad: "fácil",   categoria: "gce" },
+  { id: 'gce_08', nombre: "Fin de la Guerra Civil Española",        año: 1939, mes:  4,    descripcion: "Franco proclama el final de la guerra. Comienza la dictadura.",        dificultad: "fácil",   categoria: "gce" },
   { id: 'gce_09', nombre: "Muerte de Franco",                       año: 1975, descripcion: "El dictador muere en la cama. Comienza la Transición Democrática.",    dificultad: "fácil",   categoria: "gce" },
   { id: 'gce_10', nombre: "Constitución Española",                  año: 1978, descripcion: "España aprueba su carta magna. La democracia queda consolidada.",      dificultad: "fácil",   categoria: "gce" },
 
@@ -136,6 +136,23 @@ export const EXAMENES_HISTORIA = [
 
 // ── HELPERS ───────────────────────────────────────────────────────────────────
 
+// Valor de ordenación: año * 100 + mes (0 si no hay mes).
+// Permite desempatar eventos del mismo año cuando ambos tienen mes conocido.
+export function sortValue(e) {
+  return e.año * 100 + (e.mes ?? 0)
+}
+
+// Posición correcta donde insertar `card` en la línea temporal `tl` (ya ordenada).
+// Usa mes como desempate si ambos eventos lo tienen; si no, empata por año.
+export function getCorrectPos(card, tl) {
+  const cardVal = sortValue(card)
+  const idx = tl.findIndex(e => {
+    if (e.año === card.año && (e.mes == null || card.mes == null)) return false
+    return sortValue(e) > cardVal
+  })
+  return idx === -1 ? tl.length : idx
+}
+
 export const PREGUNTAS_POR_EXAMEN = 10
 
 export function getEventosPorCategoria(categoriaId) {
@@ -166,4 +183,9 @@ export function getEventosLineaTemporal() {
     }
   }
   return [...byYear.values()].sort(() => Math.random() - 0.5)
+}
+
+// Ordena un array de eventos por año+mes para inicializar la línea temporal.
+export function sortEventos(eventos) {
+  return [...eventos].sort((a, b) => sortValue(a) - sortValue(b))
 }

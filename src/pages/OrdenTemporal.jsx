@@ -1,6 +1,6 @@
 import { useState, useRef, useCallback, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { getEventosLineaTemporal } from '../data/historiaEvents'
+import { getEventosLineaTemporal, getCorrectPos, sortEventos } from '../data/historiaEvents'
 import { useAuth } from '../context/AuthContext'
 import { saveActivity } from '../lib/activity'
 
@@ -124,11 +124,6 @@ export default function OrdenTemporal() {
     const target = correctSlot * CELL - el.clientWidth / 2 + 24
     el.scrollTo({ left: Math.max(0, target), behavior: 'smooth' })
   }, [phase, wasCorrect, correctSlot])
-
-  function getCorrectPos(card, tl) {
-    const idx = tl.findIndex(e => e.año > card.año)
-    return idx === -1 ? tl.length : idx
-  }
 
   function startGame() {
     const all = getEventosLineaTemporal()
