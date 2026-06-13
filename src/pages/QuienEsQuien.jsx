@@ -54,7 +54,7 @@ function Avatar({ p, tachado, modoAdivinar, esSecreto, resultado, onClick }) {
       style={{ backgroundColor: p.color, width: '100%', paddingBottom: '100%' }}
       onClick={onClick}
     >
-      <div style={{ position: 'absolute', inset: 0 }} className="flex flex-col items-center justify-center gap-0.5 p-1 overflow-hidden">
+      <div style={{ position: 'absolute', inset: 0 }} className="flex flex-col items-center justify-center p-2 sm:p-3 overflow-hidden">
         {resultado === 'correcto' && <span className="text-2xl">✓</span>}
         {resultado === 'revelado' && <span className="text-2xl">★</span>}
         {resultado !== 'correcto' && resultado !== 'revelado' && (
@@ -291,7 +291,7 @@ export default function QuienEsQuien() {
         )}
 
         {/* Grid: 6 cols en móvil, 6 en desktop — avatares crecen al máximo */}
-        <div className="grid grid-cols-6 gap-x-2 gap-y-3 sm:gap-4 justify-items-center flex-1">
+        <div className="grid grid-cols-6 gap-3 sm:gap-5 justify-items-center flex-1">
           {tablero.map(p => (
             <Avatar
               key={p.id}
