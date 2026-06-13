@@ -70,6 +70,9 @@ export default function Navbar() {
                     <button onClick={() => { navigate('/perfil'); setAvatarMenu(false) }} className="w-full text-left px-4 py-3 text-sm text-white/70 hover:text-white hover:bg-white/10 transition-colors">
                       👤 Mi perfil
                     </button>
+                    <button onClick={() => { navigate('/comunidad'); setAvatarMenu(false) }} className="w-full text-left px-4 py-3 text-sm text-white/70 hover:text-white hover:bg-white/10 transition-colors border-t border-white/5">
+                      🤝 Comunidad
+                    </button>
                     <button onClick={() => { logout(); setAvatarMenu(false) }} className="w-full text-left px-4 py-3 text-sm text-white/40 hover:text-white/70 hover:bg-white/5 transition-colors border-t border-white/5">
                       Cerrar sesión
                     </button>
@@ -108,6 +111,9 @@ export default function Navbar() {
                 <>
                   <button onClick={() => { navigate('/perfil'); setMenuOpen(false) }} className="w-full text-left px-4 py-3 rounded-xl text-sm font-medium text-white/70 hover:text-white hover:bg-white/10 transition-all">
                     👤 Mi perfil
+                  </button>
+                  <button onClick={() => { navigate('/comunidad'); setMenuOpen(false) }} className="w-full text-left px-4 py-3 rounded-xl text-sm font-medium text-white/70 hover:text-white hover:bg-white/10 transition-all">
+                    🤝 Comunidad
                   </button>
                   <button onClick={() => { logout(); setMenuOpen(false) }} className="w-full text-left px-4 py-3 rounded-xl text-sm font-medium text-white/40 hover:text-white/70 transition-all">
                     Cerrar sesión

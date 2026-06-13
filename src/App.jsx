@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { Analytics } from '@vercel/analytics/react'
 import Particles from './components/Particles'
@@ -14,8 +15,11 @@ import TuthorTime from './pages/TuthorTime'
 import OrdenTemporal from './pages/OrdenTemporal'
 import ExamenLineaTemporal from './pages/ExamenLineaTemporal'
 import Perfil from './pages/Perfil'
+import Privacidad from './pages/Privacidad'
+import Comunidad from './pages/Comunidad'
+import CookieBanner, { useCookieConsent } from './components/CookieBanner'
 
-function Layout() {
+function Layout({ onConsent }) {
   return (
     <div className="min-h-screen font-sans" style={{ position: 'relative' }}>
       <div
@@ -51,17 +55,24 @@ function Layout() {
           <Route path="/diaria" element={<PreguntaDiaria />} />
           <Route path="/progreso" element={<Progreso />} />
           <Route path="/perfil" element={<Perfil />} />
+          <Route path="/privacidad" element={<Privacidad />} />
+          <Route path="/comunidad" element={<Comunidad />} />
         </Routes>
       </div>
+      <CookieBanner onConsent={onConsent} />
     </div>
   )
 }
 
 export default function App() {
+  const saved = useCookieConsent()
+  const [consent, setConsent] = useState(saved)
+  const analyticsEnabled = consent?.analytics !== false
+
   return (
     <BrowserRouter>
-      <Layout />
-      <Analytics />
+      <Layout onConsent={setConsent} />
+      <Analytics disabled={!analyticsEnabled} />
     </BrowserRouter>
   )
 }
