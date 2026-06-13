@@ -32,8 +32,14 @@ export const PREGUNTAS_DIARIAS = [
   { id: 30, pregunta: '¿En qué año se abolió la esclavitud en España y sus colonias?', opciones: ['1870', '1880', '1886', '1898'], correcta: '1886', categoria: 'Historia · Bachillerato', explicacion: 'La esclavitud fue abolida definitivamente en Cuba (última colonia española) en 1886 mediante la Ley de Abolición de la Esclavitud.' },
 ]
 
+import { EVENTOS_HISTORIA, eventosToPreguntas } from './historiaEvents'
+
+const PREGUNTAS_AUTO = eventosToPreguntas(EVENTOS_HISTORIA)
+
+export const POOL_DIARIO = [...PREGUNTAS_DIARIAS, ...PREGUNTAS_AUTO]
+
 export function getPreguntaDeHoy() {
   const start = new Date(new Date().getFullYear(), 0, 0)
   const dayOfYear = Math.floor((Date.now() - start) / 86400000)
-  return PREGUNTAS_DIARIAS[dayOfYear % PREGUNTAS_DIARIAS.length]
+  return POOL_DIARIO[dayOfYear % POOL_DIARIO.length]
 }

@@ -189,3 +189,53 @@ export function getEventosLineaTemporal() {
 export function sortEventos(eventos) {
   return [...eventos].sort((a, b) => sortValue(a) - sortValue(b))
 }
+
+// Hash determinista de un string → número entero positivo.
+function hashStr(s) {
+  let h = 0
+  for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) >>> 0
+  return h
+}
+
+// Genera 3 años incorrectos plausibles para un evento dado.
+// Los offsets son deterministas (basados en el id) para que la pregunta
+// sea siempre la misma el mismo día.
+function wrongYears(evento) {
+  const base = hashStr(evento.id)
+  const rango = Math.max(10, Math.abs(evento.año) > 500 ? 200 : 15)
+  const pool = []
+  let seed = base
+  while (pool.length < 3) {
+    seed = (seed * 1664525 + 1013904223) >>> 0
+    const offset = (seed % rango) + 1
+    const signed = seed % 2 === 0 ? offset : -offset
+    const candidate = evento.año + signed
+    if (!pool.includes(candidate) && candidate !== evento.año) pool.push(candidate)
+  }
+  return pool
+}
+
+// Convierte eventos históricos en preguntas de opción múltiple del formato
+// PREGUNTAS_DIARIAS para que el banco diario incluya todos los eventos.
+export function eventosToPreguntas(eventos) {
+  return eventos.map(e => {
+    const wrongOpts = wrongYears(e)
+    const opciones = [e.año, ...wrongOpts]
+      .sort(() => {
+        // Orden determinista usando hash del id para que las opciones
+        // no cambien entre renders
+        const h = hashStr(e.id + String(e.año))
+        return ((h >>> 0) % 3) - 1
+      })
+      .map(y => y < 0 ? `${Math.abs(y)} a.C.` : String(y))
+    const correctaStr = e.año < 0 ? `${Math.abs(e.año)} a.C.` : String(e.año)
+    return {
+      id: `auto_${e.id}`,
+      pregunta: `¿En qué año ocurrió: "${e.nombre}"?`,
+      opciones,
+      correcta: correctaStr,
+      categoria: `Historia · ${e.dificultad === 'fácil' ? 'Primaria' : e.dificultad === 'medio' ? 'ESO' : 'Bachillerato'}`,
+      explicacion: e.descripcion,
+    }
+  })
+}
