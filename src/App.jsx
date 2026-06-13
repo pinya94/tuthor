@@ -15,6 +15,7 @@ import TuthorTime from './pages/TuthorTime'
 import OrdenTemporal from './pages/OrdenTemporal'
 import ExamenLineaTemporal from './pages/ExamenLineaTemporal'
 import Perfil from './pages/Perfil'
+import QuienEsQuien from './pages/QuienEsQuien'
 import Privacidad from './pages/Privacidad'
 import Comunidad from './pages/Comunidad'
 import CookieBanner, { useCookieConsent } from './components/CookieBanner'
@@ -50,6 +51,7 @@ function Layout({ onConsent }) {
           <Route path="/juegos" element={<Juegos />} />
           <Route path="/juegos/tuthor-time" element={<TuthorTime />} />
           <Route path="/juegos/linea-temporal" element={<OrdenTemporal />} />
+          <Route path="/juegos/quien-es-quien" element={<QuienEsQuien />} />
 
           {/* ── OTRAS ── */}
           <Route path="/diaria" element={<PreguntaDiaria />} />
