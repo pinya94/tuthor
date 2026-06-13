@@ -327,21 +327,31 @@ export default function QuienEsQuien() {
             >
               Cancelar
             </button>
+          ) : hayMasPistas ? (
+            <>
+              <button
+                onClick={siguientePista}
+                className="flex-1 font-black py-3 sm:py-4 rounded-xl transition-all text-black text-base"
+                style={{ backgroundColor: '#EDAE49' }}
+              >
+                💡 Nueva pista
+              </button>
+              <button
+                onClick={() => setModoAdivinar(true)}
+                disabled={activosCount === 0}
+                className="bg-white/5 hover:bg-white/10 border border-white/10 text-white/60 hover:text-white font-medium px-5 py-3 rounded-xl transition-all whitespace-nowrap disabled:opacity-30"
+              >
+                🎯 Adivinar
+              </button>
+            </>
           ) : (
             <button
               onClick={() => setModoAdivinar(true)}
               disabled={activosCount === 0}
-              className="flex-1 bg-violet-600 hover:bg-violet-500 disabled:opacity-30 text-white font-bold py-3 sm:py-4 rounded-xl transition-all"
+              className="flex-1 font-black py-3 sm:py-4 rounded-xl transition-all text-black text-base disabled:opacity-30"
+              style={{ backgroundColor: '#EDAE49' }}
             >
               🎯 Adivinar
-            </button>
-          )}
-          {hayMasPistas && !modoAdivinar && (
-            <button
-              onClick={siguientePista}
-              className="bg-white/5 hover:bg-white/10 border border-white/10 text-white/60 hover:text-white font-medium px-5 py-3 rounded-xl transition-all whitespace-nowrap"
-            >
-              Pista {pistaIdx + 2} 💡
             </button>
           )}
         </div>
