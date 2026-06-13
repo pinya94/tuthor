@@ -24,35 +24,48 @@ export async function saveActivity(uid, data) {
     createdAt: serverTimestamp(),
   })
 
-  // Actualiza stats globales del usuario
   const statsRef = doc(db, 'users', uid, 'stats', 'global')
   const snap = await getDoc(statsRef)
   const today = todayStr()
+  const t = data.timeSpent || 0
 
   if (!snap.exists()) {
+    const byGame = { [data.game]: { plays: 1, timeSpent: t, bestScore: data.score || 0 } }
+    const byCategory = data.category
+      ? { [data.category]: { plays: 1, timeSpent: t, examsPassed: data.passed ? 1 : 0 } }
+      : {}
     await setDoc(statsRef, {
-      totalTime: data.timeSpent || 0,
+      totalTime: t,
       gamesPlayed: 1,
       examsPassed: data.passed ? 1 : 0,
       bestScores: data.score ? { [data.game]: data.score } : {},
       streak: 1,
       lastActiveDate: today,
+      statsByGame: byGame,
+      statsByCategory: byCategory,
     })
   } else {
     const current = snap.data()
     const newStreak = calcStreak(current.lastActiveDate, current.streak || 0)
     const updates = {
-      totalTime: increment(data.timeSpent || 0),
+      totalTime: increment(t),
       gamesPlayed: increment(1),
       examsPassed: data.passed ? increment(1) : increment(0),
       streak: newStreak,
       lastActiveDate: today,
+      [`statsByGame.${data.game}.plays`]: increment(1),
+      [`statsByGame.${data.game}.timeSpent`]: increment(t),
     }
     if (data.score) {
       const currentBest = current.bestScores?.[data.game] || 0
-      if (data.score > currentBest) {
-        updates[`bestScores.${data.game}`] = data.score
-      }
+      if (data.score > currentBest) updates[`bestScores.${data.game}`] = data.score
+      const currentGameBest = current.statsByGame?.[data.game]?.bestScore || 0
+      if (data.score > currentGameBest) updates[`statsByGame.${data.game}.bestScore`] = data.score
+    }
+    if (data.category) {
+      updates[`statsByCategory.${data.category}.plays`] = increment(1)
+      updates[`statsByCategory.${data.category}.timeSpent`] = increment(t)
+      if (data.passed) updates[`statsByCategory.${data.category}.examsPassed`] = increment(1)
     }
     await updateDoc(statsRef, updates)
   }

@@ -30,11 +30,22 @@ export default function Perfil() {
 
   const bestScores = stats?.bestScores || {}
   const gameLabels = {
-    'juego-fechas': 'Juego de Fechas',
-    'tuthor-time': 'Tuthor Time',
-    'pregunta-diaria': 'Pregunta Diaria',
-    'orden-temporal': 'Línea Temporal',
+    'juego-fechas':   { label: 'Juego de Fechas',   emoji: '📅' },
+    'tuthor-time':    { label: 'Tuthor Time',        emoji: '⚡' },
+    'pregunta-diaria':{ label: 'Pregunta Diaria',    emoji: '🧠' },
+    'orden-temporal': { label: 'Línea Temporal',     emoji: '📜' },
+    'linea-temporal': { label: 'Línea Temporal Examen', emoji: '🗓️' },
   }
+  const categoryLabels = {
+    'gce':      { label: 'Guerra Civil Española',    emoji: '🇪🇸' },
+    'wwii':     { label: 'Segunda Guerra Mundial',   emoji: '⚔️' },
+    'roma':     { label: 'Antigua Roma',             emoji: '🏛️' },
+    'usa':      { label: 'Independencia Americana',  emoji: '🦅' },
+    'primaria': { label: 'Grandes hitos',            emoji: '🌍' },
+    'global':   { label: 'Historia Global',          emoji: '🗺️' },
+  }
+  const statsByGame     = stats?.statsByGame     || {}
+  const statsByCategory = stats?.statsByCategory || {}
 
   return (
     <div className="relative z-10 flex flex-col min-h-[calc(100vh-4rem)] px-4 sm:px-8 py-8">
@@ -98,17 +109,89 @@ export default function Perfil() {
               )}
             </div>
 
+            {/* Por juego */}
+            {Object.keys(statsByGame).length > 0 && (
+              <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-4">
+                <h2 className="font-black text-white mb-4">🎮 Por juego</h2>
+                <div className="space-y-2">
+                  {Object.entries(statsByGame).map(([game, s]) => {
+                    const info = gameLabels[game] || { label: game, emoji: '🎯' }
+                    return (
+                      <div key={game} className="flex items-center gap-3 py-2.5 border-b border-white/5 last:border-0">
+                        <span className="text-lg w-7 text-center">{info.emoji}</span>
+                        <span className="flex-1 text-white/80 text-sm font-medium">{info.label}</span>
+                        <div className="flex items-center gap-4 text-right">
+                          <div className="hidden sm:block text-center">
+                            <p className="text-white font-bold text-sm">{s.plays ?? 0}</p>
+                            <p className="text-white/30 text-[10px]">partidas</p>
+                          </div>
+                          <div className="text-center">
+                            <p className="text-white font-bold text-sm">{formatTime(s.timeSpent)}</p>
+                            <p className="text-white/30 text-[10px]">tiempo</p>
+                          </div>
+                          {s.bestScore > 0 && (
+                            <div className="text-center">
+                              <p className="text-violet-400 font-black text-sm">{s.bestScore.toLocaleString()}</p>
+                              <p className="text-white/30 text-[10px]">mejor</p>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    )
+                  })}
+                </div>
+              </div>
+            )}
+
+            {/* Por categoría/materia */}
+            {Object.keys(statsByCategory).length > 0 && (
+              <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-4">
+                <h2 className="font-black text-white mb-4">📚 Por materia</h2>
+                <div className="space-y-2">
+                  {Object.entries(statsByCategory).map(([cat, s]) => {
+                    const info = categoryLabels[cat] || { label: cat, emoji: '📖' }
+                    return (
+                      <div key={cat} className="flex items-center gap-3 py-2.5 border-b border-white/5 last:border-0">
+                        <span className="text-lg w-7 text-center">{info.emoji}</span>
+                        <span className="flex-1 text-white/80 text-sm font-medium">{info.label}</span>
+                        <div className="flex items-center gap-4 text-right">
+                          <div className="hidden sm:block text-center">
+                            <p className="text-white font-bold text-sm">{s.plays ?? 0}</p>
+                            <p className="text-white/30 text-[10px]">partidas</p>
+                          </div>
+                          <div className="text-center">
+                            <p className="text-white font-bold text-sm">{formatTime(s.timeSpent)}</p>
+                            <p className="text-white/30 text-[10px]">tiempo</p>
+                          </div>
+                          {(s.examsPassed ?? 0) > 0 && (
+                            <div className="text-center">
+                              <p className="text-green-400 font-black text-sm">{s.examsPassed}</p>
+                              <p className="text-white/30 text-[10px]">aprobados</p>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    )
+                  })}
+                </div>
+              </div>
+            )}
+
             {/* Mejores puntuaciones */}
             {Object.keys(bestScores).length > 0 && (
               <div className="bg-white/5 border border-white/10 rounded-2xl p-5">
                 <h2 className="font-black text-white mb-4">🏆 Mejores puntuaciones</h2>
                 <div className="space-y-2">
-                  {Object.entries(bestScores).map(([game, score]) => (
-                    <div key={game} className="flex justify-between items-center py-2 border-b border-white/5 last:border-0">
-                      <span className="text-white/70 text-sm">{gameLabels[game] || game}</span>
-                      <span className="font-black text-violet-400">{score.toLocaleString()} pts</span>
-                    </div>
-                  ))}
+                  {Object.entries(bestScores).map(([game, score]) => {
+                    const info = gameLabels[game] || { label: game, emoji: '🎯' }
+                    return (
+                      <div key={game} className="flex items-center gap-3 py-2 border-b border-white/5 last:border-0">
+                        <span className="text-base w-7 text-center">{info.emoji}</span>
+                        <span className="flex-1 text-white/70 text-sm">{info.label}</span>
+                        <span className="font-black text-violet-400">{score.toLocaleString()} pts</span>
+                      </div>
+                    )
+                  })}
                 </div>
               </div>
             )}
