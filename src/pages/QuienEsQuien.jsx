@@ -107,7 +107,7 @@ function Intro({ pool, onStart }) {
 }
 
 // ── RESULTADO ─────────────────────────────────────────────────────────────────
-function Resultado({ ganó, secreto, puntos, pistaIdx, onRepetir, onSalir }) {
+function Resultado({ ganó, secreto, pistaIdx, onRepetir, onSalir }) {
   return (
     <div className="flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
       <div className="max-w-sm w-full text-center">
@@ -124,9 +124,13 @@ function Resultado({ ganó, secreto, puntos, pistaIdx, onRepetir, onSalir }) {
         </div>
         <p className="text-white/40 text-xs italic px-4 mb-6">"{secreto.pistaUnica}"</p>
         {ganó && (
-          <div className="bg-violet-600/20 border border-violet-500/30 rounded-2xl px-6 py-4 mb-6">
-            <p className="text-3xl font-black text-white">{puntos.toLocaleString()} pts</p>
-            <p className="text-white/40 text-xs mt-1">adivinado en la pista {pistaIdx + 1}</p>
+          <div className="rounded-2xl px-6 py-4 mb-6 border border-white/10" style={{ backgroundColor: '#EDAE4920', borderColor: '#EDAE4940' }}>
+            <p className="text-3xl font-black" style={{ color: '#EDAE49' }}>
+              {pistaIdx + 1} {pistaIdx === 0 ? 'pista' : 'pistas'}
+            </p>
+            <p className="text-white/40 text-xs mt-1">
+              {pistaIdx === 0 ? '¡A la primera!' : pistaIdx === 1 ? 'Muy bien' : 'Lo conseguiste'}
+            </p>
           </div>
         )}
         <div className="flex gap-3">
@@ -164,7 +168,6 @@ export default function QuienEsQuien() {
   const [tachados, setTachados] = useState(new Set())
   const [modoAdivinar, setModoAdivinar] = useState(false)
   const [fallos, setFallos]     = useState(0)
-  const [puntos, setPuntos]     = useState(0)
   const [ganó, setGanó]         = useState(false)
   const [resultados, setResultados] = useState({}) // id → 'correcto'|'incorrecto'|'revelado'
   const [animFallo, setAnimFallo]   = useState(false)
@@ -179,7 +182,6 @@ export default function QuienEsQuien() {
     setTachados(new Set())
     setModoAdivinar(false)
     setFallos(0)
-    setPuntos(0)
     setGanó(false)
     setResultados({})
     setAnimFallo(false)
@@ -203,14 +205,12 @@ export default function QuienEsQuien() {
     if (tachados.has(p.id) || resultados[p.id]) return
 
     if (p.id === secreto.id) {
-      const pts = PTS_PISTA[Math.min(pistaIdx, PTS_PISTA.length - 1)]
-      setPuntos(pts)
       setGanó(true)
       setResultados(prev => ({ ...prev, [p.id]: 'correcto' }))
       const t = Math.round((Date.now() - startRef.current) / 1000)
       if (user) saveActivity(user.uid, {
         type: 'juego', game: 'quien-es-quien', category: poolKey,
-        score: pts, passed: true, timeSpent: t,
+        score: pistaIdx + 1, passed: true, timeSpent: t,
       }).catch(() => {})
       setTimeout(() => setFase('resultado'), 1000)
     } else {
@@ -251,7 +251,7 @@ export default function QuienEsQuien() {
   if (fase === 'intro') return <Intro pool={poolKey} onStart={iniciarPartida} />
   if (fase === 'resultado') return (
     <Resultado
-      ganó={ganó} secreto={secreto} puntos={puntos} pistaIdx={pistaIdx}
+      ganó={ganó} secreto={secreto} pistaIdx={pistaIdx}
       onRepetir={iniciarPartida}
       onSalir={() => navigate(backPath)}
     />
