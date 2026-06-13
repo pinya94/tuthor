@@ -5,7 +5,13 @@ import { doc, getDoc, collection, getDocs, query, orderBy, limit } from 'firebas
 import { useAuth } from '../context/AuthContext'
 import { formatTime } from '../lib/activity'
 
-const ADMIN_EMAIL = 'consiguetualgogratis@gmail.com'
+const ADMIN_EMAILS = [
+  'consiguetualgogratis@gmail.com',
+  'consiguetualgogratis@tuthor.app',
+]
+function isAdmin(user) {
+  return user && ADMIN_EMAILS.includes(user.email)
+}
 
 const GAME_LABELS = {
   'linea-temporal':    '📜 Línea del Tiempo',
@@ -51,7 +57,7 @@ export default function Admin() {
 
   useEffect(() => {
     if (user === undefined) return  // todavía cargando
-    if (!user || user.email !== ADMIN_EMAIL) {
+    if (!isAdmin(user)) {
       navigate('/', { replace: true })
       return
     }
@@ -81,7 +87,7 @@ export default function Admin() {
     )
   }
 
-  if (!user || user.email !== ADMIN_EMAIL) return null
+  if (!isAdmin(user)) return null
 
   // Stats procesadas
   const playsByGame = globalStats?.playsByGame ?? {}
@@ -107,7 +113,7 @@ export default function Admin() {
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-black text-white">🛠️ Admin Dashboard</h1>
-            <p className="text-white/30 text-xs mt-0.5">Solo visible para {ADMIN_EMAIL}</p>
+            <p className="text-white/30 text-xs mt-0.5">Solo visible para {user.email}</p>
           </div>
           <button
             onClick={loadAll}
