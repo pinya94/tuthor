@@ -307,8 +307,14 @@ export default function QuienEsQuien() {
 
         {/* Pista actual */}
         {pistas[pistaIdx] && (
-          <div className="flex items-start gap-3 rounded-xl px-4 py-3 border border-violet-500/40 bg-violet-600/20 text-white text-sm sm:text-base">
-            <span className="font-black text-violet-400 shrink-0 text-xs mt-0.5">#{pistaIdx + 1}</span>
+          <div className={`flex items-start gap-3 rounded-xl px-4 py-3 border text-white text-sm sm:text-base ${
+            pistas[pistaIdx].negativa
+              ? 'border-red-500/40 bg-red-900/20'
+              : 'border-violet-500/40 bg-violet-600/20'
+          }`}>
+            <span className={`font-black shrink-0 text-xs mt-0.5 ${pistas[pistaIdx].negativa ? 'text-red-400' : 'text-violet-400'}`}>
+              {pistas[pistaIdx].negativa ? '✕' : `#${pistaIdx + 1}`}
+            </span>
             <span className="leading-relaxed">{pistas[pistaIdx].texto}</span>
           </div>
         )}

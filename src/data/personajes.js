@@ -180,6 +180,47 @@ export const PISTA_TEMPLATES = {
   },
 }
 
+// ── PLANTILLAS DE PISTAS NEGATIVAS ───────────────────────────────────────────
+const PISTA_NEG_TEMPLATES = {
+  epoca: {
+    antiguedad:  () => 'No vivió en la Antigüedad: su historia es más reciente.',
+    siglo_xix:   () => 'No vivió en el siglo XIX: pertenece a otra época.',
+    siglo_xx:    () => 'No es del siglo XX: vivió antes de las guerras mundiales.',
+  },
+  rol: {
+    militar:        () => 'No era militar de carrera.',
+    político:       () => 'No era político ni dirigente civil.',
+    artista:        () => 'No era artista ni intelectual.',
+    científico:     () => 'No era científico ni académico.',
+    revolucionario: () => 'No era un líder revolucionario ni activista.',
+    víctima:        () => 'No fue una víctima civil: tenía un rol activo.',
+  },
+  genero: {
+    hombre: () => 'No era hombre.',
+    mujer:  () => 'No era mujer.',
+  },
+  destino: {
+    sobrevivió:       () => 'No sobrevivió al conflicto muriendo de vejez.',
+    exilio:           () => 'No terminó en el exilio.',
+    ejecutado:        () => 'No fue ejecutado ni capturado.',
+    murió_conflicto:  () => 'No murió durante el combate.',
+  },
+  pais: {
+    españa:      () => 'No era español ni representaba a España.',
+    alemania:    () => 'No era alemán ni representaba a Alemania.',
+    uk:          () => 'No era británico ni representaba al Reino Unido.',
+    eeuu:        () => 'No era estadounidense.',
+    francia:     () => 'No era francés ni representaba a Francia.',
+    italia:      () => 'No era italiano ni representaba a Italia.',
+    urss:        () => 'No era soviético ni representaba a la URSS.',
+    roma:        () => 'No era romano.',
+    grecia:      () => 'No era griego de la Antigüedad.',
+    egipto:      () => 'No era egipcio del mundo antiguo.',
+    india:       () => 'No luchaba por la independencia de la India.',
+    sudafrica:   () => 'No era sudafricano.',
+  },
+}
+
 // ── MOTOR DE PISTAS DINÁMICO ──────────────────────────────────────────────────
 
 function hashId(id) {
@@ -200,8 +241,10 @@ function shuffleSeeded(arr, seed) {
 }
 
 export function generarPistas(secreto, tablero) {
-  const candidatas = []
+  const seed = hashId(secreto.id + tablero.map(p => p.id).join(''))
 
+  // ── Pistas positivas (lo que SÍ es) ────────────────────────────────────────
+  const positivas = []
   for (const [attr, val] of Object.entries(secreto.atributos)) {
     const template = PISTA_TEMPLATES[attr]?.[val]
     if (!template) continue
@@ -209,14 +252,11 @@ export function generarPistas(secreto, tablero) {
     const eliminan  = tablero.length - comparten
     const ratio     = eliminan / tablero.length
     if (ratio >= 0.15 && ratio <= 0.9) {
-      candidatas.push({ attr, val, texto: template(), ratio })
+      positivas.push({ attr, val, texto: template(), ratio, negativa: false })
     }
   }
-
-  const seed     = hashId(secreto.id + tablero.map(p => p.id).join(''))
-  const mezcladas = shuffleSeeded(candidatas, seed)
+  const mezcladas = shuffleSeeded(positivas, seed)
   mezcladas.sort((a, b) => a.ratio - b.ratio)
-
   const usados = new Set()
   const seleccionadas = []
   for (const c of mezcladas) {
@@ -224,7 +264,42 @@ export function generarPistas(secreto, tablero) {
     if (seleccionadas.length === 3) break
   }
 
-  seleccionadas.push({ attr: 'única', texto: secreto.pistaUnica, ratio: 1 })
+  // ── Pista única (la más específica) ────────────────────────────────────────
+  seleccionadas.push({ attr: 'única', texto: secreto.pistaUnica, ratio: 1, negativa: false })
+
+  // ── Pistas negativas (lo que NO es) ────────────────────────────────────────
+  // Busca valores que existen en el tablero pero el secreto NO tiene
+  const negativas = []
+  const attrsUsados = new Set(seleccionadas.map(c => c.attr))
+  for (const attr of Object.keys(PISTA_NEG_TEMPLATES)) {
+    const secretoVal = secreto.atributos[attr]
+    // Valores distintos al secreto que aparecen en el tablero
+    const valsEnTablero = [...new Set(tablero.map(p => p.atributos[attr]).filter(v => v && v !== secretoVal))]
+    for (const val of valsEnTablero) {
+      const template = PISTA_NEG_TEMPLATES[attr]?.[val]
+      if (!template) continue
+      const afectan = tablero.filter(p => p.atributos[attr] === val).length
+      const ratio   = afectan / tablero.length
+      // Solo si elimina al menos 1 y no más del 85%
+      if (ratio >= 0.08 && ratio <= 0.85) {
+        negativas.push({ attr: `neg_${attr}_${val}`, val, texto: template(), ratio, negativa: true })
+      }
+    }
+  }
+  // Ordenar por cuántos elimina (más útiles primero), mezclar con seed
+  negativas.sort((a, b) => b.ratio - a.ratio)
+  const negMezcladas = shuffleSeeded(negativas, seed + 1)
+  // Añadir hasta 4 pistas negativas sin repetir atributo
+  const attrsNegUsados = new Set()
+  for (const c of negMezcladas) {
+    const baseAttr = c.attr.replace(/^neg_/, '').split('_')[0]
+    if (!attrsNegUsados.has(baseAttr) && !attrsUsados.has(baseAttr)) {
+      seleccionadas.push(c)
+      attrsNegUsados.add(baseAttr)
+    }
+    if (attrsNegUsados.size >= 4) break
+  }
+
   return seleccionadas
 }
 
