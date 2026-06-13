@@ -87,7 +87,13 @@ export default function Admin() {
     )
   }
 
-  if (!isAdmin(user)) return null
+  if (!isAdmin(user)) return (
+    <div className="flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] gap-4">
+      <p className="text-white/50 text-sm">Acceso denegado</p>
+      <p className="text-white/30 text-xs">Tu email en Firebase: <span className="text-amber-400 font-mono">{user?.email ?? '(no logueado)'}</span></p>
+      <p className="text-white/20 text-xs">UID: <span className="text-white/40 font-mono">{user?.uid ?? '—'}</span></p>
+    </div>
+  )
 
   // Stats procesadas
   const playsByGame = globalStats?.playsByGame ?? {}
