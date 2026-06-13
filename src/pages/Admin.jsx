@@ -43,20 +43,20 @@ function MiniBar({ label, value, max }) {
 }
 
 export default function Admin() {
-  const { user, loading } = useAuth()
+  const { user } = useAuth()
   const navigate = useNavigate()
   const [globalStats, setGlobalStats] = useState(null)
   const [users, setUsers]             = useState([])
   const [loadingData, setLoadingData] = useState(true)
 
   useEffect(() => {
-    if (loading) return
+    if (user === undefined) return  // todavía cargando
     if (!user || user.email !== ADMIN_EMAIL) {
       navigate('/', { replace: true })
       return
     }
     loadAll()
-  }, [user, loading])
+  }, [user])
 
   async function loadAll() {
     setLoadingData(true)
@@ -73,7 +73,7 @@ export default function Admin() {
     setLoadingData(false)
   }
 
-  if (loading || loadingData) {
+  if (user === undefined || loadingData) {
     return (
       <div className="flex items-center justify-center min-h-[calc(100vh-4rem)]">
         <p className="text-white/30 text-sm">Cargando dashboard…</p>
