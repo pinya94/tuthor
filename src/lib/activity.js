@@ -49,7 +49,6 @@ export async function saveActivity(uid, data) {
 
   const statsRef = doc(db, 'users', uid, 'stats', 'global')
   const snap = await getDoc(statsRef)
-  const today = todayStr()
   const t = data.timeSpent || 0
 
   if (!snap.exists()) {
