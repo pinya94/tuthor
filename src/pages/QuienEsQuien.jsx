@@ -291,7 +291,7 @@ export default function QuienEsQuien() {
         )}
 
         {/* Grid: 6 cols en móvil, 6 en desktop — avatares crecen al máximo */}
-        <div className="grid grid-cols-6 gap-3 sm:gap-5 justify-items-center flex-1">
+        <div className="grid grid-cols-4 sm:grid-cols-6 gap-3 sm:gap-5 justify-items-center flex-1">
           {tablero.map(p => (
             <Avatar
               key={p.id}
