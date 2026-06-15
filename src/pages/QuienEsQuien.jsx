@@ -200,8 +200,8 @@ export default function QuienEsQuien() {
     })
   }
 
-  function adivinar(p) {
-    if (!modoAdivinar) return
+  function adivinar(p, force = false) {
+    if (!modoAdivinar && !force) return
     if (tachados.has(p.id) || resultados[p.id]) return
 
     if (p.id === secreto.id) {
@@ -355,7 +355,7 @@ export default function QuienEsQuien() {
               onClick={() => {
                 if (activosCount === 1) {
                   const ultimo = tablero.find(p => !tachados.has(p.id) && !resultados[p.id])
-                  if (ultimo) adivinar(ultimo)
+                  if (ultimo) adivinar(ultimo, true)
                 } else {
                   setModoAdivinar(true)
                 }
