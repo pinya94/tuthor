@@ -16,6 +16,7 @@ import OrdenTemporal from './pages/OrdenTemporal'
 import ExamenLineaTemporal from './pages/ExamenLineaTemporal'
 import Perfil from './pages/Perfil'
 import QuienEsQuien from './pages/QuienEsQuien'
+import Acercate from './pages/Acercate'
 import Privacidad from './pages/Privacidad'
 import Comunidad from './pages/Comunidad'
 import Admin from './pages/Admin'
@@ -53,6 +54,7 @@ function Layout({ onConsent }) {
           <Route path="/juegos/tuthor-time" element={<TuthorTime />} />
           <Route path="/juegos/linea-temporal" element={<OrdenTemporal />} />
           <Route path="/juegos/quien-es-quien" element={<QuienEsQuien />} />
+          <Route path="/juegos/acercate" element={<Acercate />} />
 
           {/* ── OTRAS ── */}
           <Route path="/diaria" element={<PreguntaDiaria />} />
