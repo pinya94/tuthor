@@ -171,7 +171,8 @@ export default function QuienEsQuien() {
   const [ganó, setGanó]         = useState(false)
   const [resultados, setResultados] = useState({}) // id → 'correcto'|'incorrecto'|'revelado'
   const [animFallo, setAnimFallo]   = useState(false)
-  const [popupFallo, setPopupFallo] = useState(null) // { fallosRestantes } | null
+  const [popupFallo, setPopupFallo] = useState(null)   // { fallosRestantes } | null
+  const [popupConfirm, setPopupConfirm] = useState(null) // personaje | null
 
   function iniciarPartida() {
     const t = montarTablero(pool, BOARD_SIZE)
@@ -187,6 +188,7 @@ export default function QuienEsQuien() {
     setResultados({})
     setAnimFallo(false)
     setPopupFallo(null)
+    setPopupConfirm(null)
     startRef.current = Date.now()
     setFase('jugando')
   }
@@ -268,6 +270,39 @@ export default function QuienEsQuien() {
 
   return (
     <div className={`relative z-10 flex flex-col min-h-[calc(100vh-4rem)] px-2 sm:px-6 py-3 transition-all ${animFallo ? 'brightness-50' : ''}`}>
+
+      {/* Popup confirmación último restante */}
+      {popupConfirm && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center px-6" style={{ backgroundColor: 'rgba(0,0,0,0.7)' }}>
+          <div className="bg-[#0d0d1a] border border-white/10 rounded-2xl p-6 w-full max-w-sm text-center shadow-2xl">
+            <span className="text-5xl block mb-3">🤔</span>
+            <h3 className="text-white font-black text-xl mb-1">Parece que apuntas a…</h3>
+            <div
+              className="w-16 h-16 rounded-xl flex items-center justify-center text-white font-black text-lg mx-auto my-3 shadow-lg"
+              style={{ backgroundColor: popupConfirm.color }}
+            >
+              {popupConfirm.iniciales}
+            </div>
+            <p className="text-white font-bold text-lg mb-1">{popupConfirm.nombre}</p>
+            <p className="text-white/40 text-sm mb-5">¿Quieres comprobarlo?</p>
+            <div className="flex gap-3">
+              <button
+                onClick={() => setPopupConfirm(null)}
+                className="flex-1 bg-white/5 hover:bg-white/10 border border-white/10 text-white/60 font-bold py-3 rounded-xl transition-all"
+              >
+                Cancelar
+              </button>
+              <button
+                onClick={() => { setPopupConfirm(null); adivinar(popupConfirm) }}
+                className="flex-1 font-black py-3 rounded-xl text-black"
+                style={{ backgroundColor: '#EDAE49' }}
+              >
+                Comprobar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Popup tras fallo */}
       {popupFallo && (
@@ -365,7 +400,7 @@ export default function QuienEsQuien() {
             // Queda solo uno — confirmar directamente
             if (unicoRestante) return (
               <button
-                onClick={() => adivinar(unicoRestante)}
+                onClick={() => setPopupConfirm(unicoRestante)}
                 className="flex-1 font-black py-3 sm:py-4 rounded-xl transition-all text-black text-base"
                 style={{ backgroundColor: '#EDAE49' }}
               >
