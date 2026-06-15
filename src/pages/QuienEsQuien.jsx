@@ -171,6 +171,7 @@ export default function QuienEsQuien() {
   const [ganó, setGanó]         = useState(false)
   const [resultados, setResultados] = useState({}) // id → 'correcto'|'incorrecto'|'revelado'
   const [animFallo, setAnimFallo]   = useState(false)
+  const [popupFallo, setPopupFallo] = useState(null) // { fallosRestantes } | null
 
   function iniciarPartida() {
     const t = montarTablero(pool, BOARD_SIZE)
@@ -185,6 +186,7 @@ export default function QuienEsQuien() {
     setGanó(false)
     setResultados({})
     setAnimFallo(false)
+    setPopupFallo(null)
     startRef.current = Date.now()
     setFase('jugando')
   }
@@ -239,8 +241,8 @@ export default function QuienEsQuien() {
           }).catch(() => {})
           setTimeout(() => setFase('resultado'), 1200)
         } else {
-          // Tras fallo: volver a modo adivinar para que elija otra
-          setModoAdivinar(true)
+          // Tras fallo: mostrar popup para que elija otra
+          setPopupFallo({ fallosRestantes: MAX_FALLOS - nuevosFallos })
         }
       }, 800)
     }
@@ -266,6 +268,28 @@ export default function QuienEsQuien() {
 
   return (
     <div className={`relative z-10 flex flex-col min-h-[calc(100vh-4rem)] px-2 sm:px-6 py-3 transition-all ${animFallo ? 'brightness-50' : ''}`}>
+
+      {/* Popup tras fallo */}
+      {popupFallo && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center px-6" style={{ backgroundColor: 'rgba(0,0,0,0.7)' }}>
+          <div className="bg-[#0d0d1a] border border-white/10 rounded-2xl p-6 w-full max-w-sm text-center shadow-2xl">
+            <span className="text-5xl block mb-3">❌</span>
+            <h3 className="text-white font-black text-xl mb-1">¡Incorrecto!</h3>
+            <p className="text-white/40 text-sm mb-5">
+              {popupFallo.fallosRestantes === 1
+                ? 'Te queda 1 intento. ¡Piénsalo bien!'
+                : `Te quedan ${popupFallo.fallosRestantes} intentos.`}
+            </p>
+            <button
+              onClick={() => { setPopupFallo(null); setModoAdivinar(true) }}
+              className="w-full font-black py-3 rounded-xl text-black text-base"
+              style={{ backgroundColor: '#EDAE49' }}
+            >
+              Elegir otro personaje →
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Cabecera */}
       <div className="flex items-center justify-between mb-3 px-1">
