@@ -200,12 +200,17 @@ export default function QuienEsQuien() {
     })
   }
 
-  function adivinar(p, force = false) {
-    if (!modoAdivinar && !force) return
-    if (tachados.has(p.id) || resultados[p.id]) return
+  function adivinar(p) {
+    if (resultados[p.id]) return // ya tiene resultado, ignorar
+
+    // Si estaba tachado, lo destachamos antes de adivinar
+    if (tachados.has(p.id)) {
+      setTachados(prev => { const n = new Set(prev); n.delete(p.id); return n })
+    }
 
     if (p.id === secreto.id) {
       setGanó(true)
+      setModoAdivinar(false)
       setResultados(prev => ({ ...prev, [p.id]: 'correcto' }))
       const t = Math.round((Date.now() - startRef.current) / 1000)
       if (user) saveActivity(user.uid, {
@@ -223,10 +228,9 @@ export default function QuienEsQuien() {
       setTimeout(() => {
         setResultados(prev => { const n = { ...prev }; delete n[p.id]; return n })
         setTachados(prev => { const n = new Set(prev); n.add(p.id); return n })
-        setModoAdivinar(false)
 
         if (nuevosFallos >= MAX_FALLOS) {
-          // Revelar el secreto antes de ir a resultado
+          setModoAdivinar(false)
           setResultados(prev => ({ ...prev, [secreto.id]: 'revelado' }))
           const t = Math.round((Date.now() - startRef.current) / 1000)
           if (user) saveActivity(user.uid, {
@@ -235,8 +239,8 @@ export default function QuienEsQuien() {
           }).catch(() => {})
           setTimeout(() => setFase('resultado'), 1200)
         } else {
-          // Auto-revelar siguiente pista tras fallo
-          if (pistaIdx < pistas.length - 1) siguientePista()
+          // Tras fallo: volver a modo adivinar para que elija otra
+          setModoAdivinar(true)
         }
       }, 800)
     }
@@ -286,21 +290,24 @@ export default function QuienEsQuien() {
 
         {modoAdivinar && (
           <p className="text-violet-300 text-xs text-center font-semibold">
-            👆 Toca al personaje que crees que es el secreto
+            👆 Toca cualquier personaje para adivinar (incluso los tachados)
           </p>
         )}
 
-        {/* Grid: 6 cols en móvil, 6 en desktop — avatares crecen al máximo */}
         <div className="grid grid-cols-4 sm:grid-cols-6 gap-3 sm:gap-5 justify-items-center flex-1">
           {tablero.map(p => (
             <Avatar
               key={p.id}
               p={p}
               tachado={tachados.has(p.id)}
-              modoAdivinar={modoAdivinar && !tachados.has(p.id) && !resultados[p.id]}
+              modoAdivinar={modoAdivinar && !resultados[p.id]}
               esSecreto={p.id === secreto?.id}
               resultado={resultados[p.id] ?? null}
-              onClick={() => modoAdivinar ? adivinar(p) : toggleTachado(p)}
+              onClick={() => {
+                if (resultados[p.id]) return
+                if (modoAdivinar) adivinar(p)
+                else toggleTachado(p)
+              }}
             />
           ))}
         </div>
@@ -326,47 +333,72 @@ export default function QuienEsQuien() {
 
         {/* Acciones */}
         <div className="flex gap-2">
-          {modoAdivinar ? (
-            <button
-              onClick={() => setModoAdivinar(false)}
-              className="flex-1 bg-white/5 hover:bg-white/10 border border-white/10 text-white/60 font-medium py-3 rounded-xl transition-all text-sm"
-            >
-              Cancelar
-            </button>
-          ) : hayMasPistas ? (
-            <>
+          {(() => {
+            const unicoRestante = activosCount === 1
+              ? tablero.find(p => !tachados.has(p.id) && !resultados[p.id])
+              : null
+
+            // Queda solo uno — confirmar directamente
+            if (unicoRestante) return (
               <button
-                onClick={siguientePista}
+                onClick={() => adivinar(unicoRestante)}
                 className="flex-1 font-black py-3 sm:py-4 rounded-xl transition-all text-black text-base"
                 style={{ backgroundColor: '#EDAE49' }}
               >
-                💡 Nueva pista
+                ¿Es {unicoRestante.nombre}?
               </button>
+            )
+
+            // Modo adivinar activo — cancelar o pedir nueva pista
+            if (modoAdivinar) return (
+              <>
+                {hayMasPistas && (
+                  <button
+                    onClick={() => { siguientePista() }}
+                    className="bg-white/5 hover:bg-white/10 border border-white/10 text-white/60 hover:text-white font-medium px-5 py-3 rounded-xl transition-all whitespace-nowrap"
+                  >
+                    💡 Pista {pistaIdx + 2}
+                  </button>
+                )}
+                <button
+                  onClick={() => setModoAdivinar(false)}
+                  className="flex-1 bg-white/5 hover:bg-white/10 border border-white/10 text-white/60 font-medium py-3 rounded-xl transition-all text-sm"
+                >
+                  Cancelar
+                </button>
+              </>
+            )
+
+            // Normal — nueva pista + adivinar
+            if (hayMasPistas) return (
+              <>
+                <button
+                  onClick={siguientePista}
+                  className="flex-1 font-black py-3 sm:py-4 rounded-xl transition-all text-black text-base"
+                  style={{ backgroundColor: '#EDAE49' }}
+                >
+                  💡 Nueva pista
+                </button>
+                <button
+                  onClick={() => setModoAdivinar(true)}
+                  className="bg-white/5 hover:bg-white/10 border border-white/10 text-white/60 hover:text-white font-medium px-5 py-3 rounded-xl transition-all whitespace-nowrap"
+                >
+                  🎯 Adivinar
+                </button>
+              </>
+            )
+
+            // Sin más pistas — solo adivinar
+            return (
               <button
                 onClick={() => setModoAdivinar(true)}
-                disabled={activosCount === 0}
-                className="bg-white/5 hover:bg-white/10 border border-white/10 text-white/60 hover:text-white font-medium px-5 py-3 rounded-xl transition-all whitespace-nowrap disabled:opacity-30"
+                className="flex-1 font-black py-3 sm:py-4 rounded-xl transition-all text-black text-base"
+                style={{ backgroundColor: '#EDAE49' }}
               >
                 🎯 Adivinar
               </button>
-            </>
-          ) : (
-            <button
-              onClick={() => {
-                if (activosCount === 1) {
-                  const ultimo = tablero.find(p => !tachados.has(p.id) && !resultados[p.id])
-                  if (ultimo) adivinar(ultimo, true)
-                } else {
-                  setModoAdivinar(true)
-                }
-              }}
-              disabled={activosCount === 0}
-              className="flex-1 font-black py-3 sm:py-4 rounded-xl transition-all text-black text-base disabled:opacity-30"
-              style={{ backgroundColor: '#EDAE49' }}
-            >
-              🎯 Adivinar
-            </button>
-          )}
+            )
+          })()}
         </div>
 
       </div>
