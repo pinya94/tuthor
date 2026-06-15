@@ -177,10 +177,11 @@ export default function Acercate() {
     setFlashId(newId)
     setTimeout(() => setFlashId(null), 700)
     setSel1(null); setOpSel(null)
-    // Auto-win check
-    if (res === objetivo) {
+    // Victoria si algún número del tablero es el objetivo, o si solo queda 1 número
+    const hayVictoria = nuevos.some(n => n.valor === objetivo)
+    if (hayVictoria || nuevos.length === 1) {
       clearInterval(timerRef.current)
-      setVictoria(true)
+      if (hayVictoria) setVictoria(true)
       setTimeout(() => acabar(false, nuevos, objetivo), 600)
     }
   }
