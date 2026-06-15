@@ -6,7 +6,6 @@ import { saveActivity } from '../lib/activity'
 
 const BOARD_SIZE = 12
 const MAX_FALLOS = 2
-const PTS_PISTA  = [300, 200, 100, 50]
 const POOL_LABEL = {
   gce:    'Guerra Civil Española',
   wwii:   'Segunda Guerra Mundial',
@@ -84,7 +83,7 @@ function Intro({ pool, onStart }) {
           {[
             { icon: '🎴', title: 'Tablero de 12 personajes', desc: 'Cada partida, 12 figuras distintas seleccionadas al azar.' },
             { icon: '✂️', title: 'Tacha a los que descartes', desc: 'Toca un personaje para tacharlo. Tócalo de nuevo para restaurarlo. Descarta hasta quedarte con el correcto.' },
-            { icon: '🧠', title: 'Solo ves una pista a la vez', desc: 'Cada pista nueva sustituye a la anterior — ¡tendrás que recordarlas! Menos pistas usadas = más puntos.' },
+            { icon: '🧠', title: 'Solo ves una pista a la vez', desc: 'Cada pista nueva sustituye a la anterior — ¡tendrás que recordarlas! Cuantas menos pistas necesites, mejor lo has hecho.' },
           ].map(r => (
             <div key={r.title} className="flex items-start gap-4">
               <span className="text-2xl">{r.icon}</span>

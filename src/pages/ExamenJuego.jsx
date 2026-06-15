@@ -254,9 +254,9 @@ export default function ExamenJuego() {
 
   useEffect(() => {
     if (!examen) { navigate(-1); return }
-    const evs = getEventosPorCategoria(examen.id)
+    const evs = getEventosPorCategoria(examen.id, nivel)
     setEventos(evs)
-    setMargen(calcularMargen(examen.id))
+    setMargen(calcularMargen(examen.id, nivel))
   }, [examen])
 
   if (!examen) return null

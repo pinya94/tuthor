@@ -21,7 +21,7 @@ export default function ExamenHistoria({ nivel }) {
 
       <div className="max-w-2xl mx-auto w-full space-y-3">
         {examenes.map(examen => {
-          const eventos = getEventosPorCategoria(examen.id)
+          const eventos = getEventosPorCategoria(examen.id, nivel)
           const margen = calcularMargen(examen.id)
           return (
             <button

@@ -121,7 +121,10 @@ export default function ExamenLineaTemporal() {
   }
 
   const config = CONFIGS[categoria] || CONFIGS.primaria
-  const allEvents = EVENTOS_HISTORIA.filter(e => e.categoria === (categoria || 'primaria'))
+  const allEvents = EVENTOS_HISTORIA.filter(e =>
+    e.categoria === (categoria || 'primaria') &&
+    (!nivel || !e.nivel || e.nivel.includes(nivel))
+  )
 
   const [fase, setFase]       = useState('intro')
   const [timeline, setTL]     = useState([])

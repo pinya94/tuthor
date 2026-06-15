@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams, useLocation } from 'react-router-dom'
 import { EVENTOS_HISTORIA, calcularMargen } from '../data/historiaEvents'
 
 const NIVELES = [
@@ -38,15 +38,23 @@ const NIVEL_DEFAULT = {
 }
 
 export default function HistoriaTema() {
-  const navigate     = useNavigate()
-  const { categoria } = useParams()
-  const meta         = TEMAS_META[categoria]
-  const [nivel, setNivel] = useState(NIVEL_DEFAULT[categoria] || 'primaria')
+  const navigate       = useNavigate()
+  const location       = useLocation()
+  const { categoria }  = useParams()
+  const meta           = TEMAS_META[categoria]
+  const [nivel, setNivel] = useState(location.state?.nivel || NIVEL_DEFAULT[categoria] || 'primaria')
 
   if (!meta) { navigate('/estudiar/historia'); return null }
 
-  const eventos = EVENTOS_HISTORIA.filter(e => e.categoria === categoria)
-  const margen  = calcularMargen(categoria)
+  // Solo mostrar botones de nivel que tengan al menos un evento para esta categoría
+  const nivelesDisponibles = NIVELES.filter(n =>
+    EVENTOS_HISTORIA.some(e => e.categoria === categoria && (!e.nivel || e.nivel.includes(n.id)))
+  )
+
+  const eventos = EVENTOS_HISTORIA.filter(e =>
+    e.categoria === categoria && (!e.nivel || e.nivel.includes(nivel))
+  )
+  const margen  = calcularMargen(categoria, nivel)
   const tieneFechas = (NIVELES_FECHAS[categoria] || []).includes(nivel)
 
   // Configuración de Línea Temporal según nivel
@@ -106,7 +114,7 @@ export default function HistoriaTema() {
 
         {/* Selector de nivel */}
         <div className="flex gap-2 p-1 bg-white/5 border border-white/10 rounded-xl w-fit">
-          {NIVELES.map(n => (
+          {nivelesDisponibles.map(n => (
             <button
               key={n.id}
               onClick={() => setNivel(n.id)}
