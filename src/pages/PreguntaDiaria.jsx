@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react'
 import { useAuth } from '../context/AuthContext'
 import { getDailyStatus, saveDailyChallenge } from '../lib/activity'
-import { getPreguntaDeHoy } from '../data/preguntasDiarias'
+import { getDesafioDeHoy } from '../data/preguntasDiarias'
 import AuthModal from '../components/AuthModal'
+import CombinaNumeros from '../components/CombinaNumeros'
 
 export default function PreguntaDiaria() {
   const { user } = useAuth()
@@ -13,7 +14,9 @@ export default function PreguntaDiaria() {
   const [loading, setLoading]     = useState(true)
   const [showAuth, setShowAuth]   = useState(false)
 
-  const pregunta = getPreguntaDeHoy()
+  const desafio  = getDesafioDeHoy()
+  const esMate   = desafio.tipo === 'matematicas'
+  const pregunta = desafio.tipo === 'trivia' ? desafio.pregunta : null
 
   useEffect(() => {
     if (!user) { setLoading(false); return }
@@ -31,7 +34,15 @@ export default function PreguntaDiaria() {
     }
   }
 
-  const correct = pregunta.correcta
+  async function handleMathFinish(result) {
+    setAnswered(true)
+    if (user) {
+      const saved = await saveDailyChallenge(user.uid, result.passed)
+      if (saved) setStreak(s => s + 1)
+    }
+  }
+
+  const correct = pregunta?.correcta
 
   return (
     <div className="relative z-10 flex items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-6">
@@ -65,8 +76,36 @@ export default function PreguntaDiaria() {
               <p className="text-white/30 text-xs mt-1">¡No rompas la racha!</p>
             </div>
           </div>
+        ) : esMate ? (
+          /* ── Reto de cálculo mental (mismo motor que Acércate, sin selección) ── */
+          <>
+            <div className="px-6 sm:px-8 py-6">
+              <p className="text-xs font-semibold text-white/40 uppercase tracking-widest mb-3">
+                {desafio.modo.emoji} {desafio.modo.titulo} · {desafio.grado.label}
+              </p>
+              <CombinaNumeros
+                ops={desafio.modo.ops}
+                cfg={desafio.grado}
+                nivelLabel={{ emoji: desafio.grado.emoji, label: desafio.grado.label }}
+                onFinish={handleMathFinish}
+              />
+            </div>
+            <div className="px-6 sm:px-8 pb-8">
+              {!answered && !user && (
+                <p className="text-center text-white/30 text-xs">
+                  <button onClick={() => setShowAuth(true)} className="underline hover:text-white/60">Inicia sesión</button> para guardar tu racha
+                </p>
+              )}
+              {answered && !user && (
+                <button onClick={() => setShowAuth(true)} className="w-full bg-amber-500/20 border border-amber-500/30 text-amber-400 font-semibold py-2.5 rounded-xl text-sm hover:bg-amber-500/30 transition-colors">
+                  Inicia sesión para guardar tu racha 🔥
+                </button>
+              )}
+              <p className="text-center text-white/20 text-xs mt-4">Nuevo reto mañana · Vuelve cada día</p>
+            </div>
+          </>
         ) : (
-          /* ── Pregunta ── */
+          /* ── Pregunta de trivia ── */
           <>
             <div className="px-6 sm:px-8 py-6">
               <p className="text-xs font-semibold text-white/40 uppercase tracking-widest mb-3">{pregunta.categoria}</p>

@@ -4,7 +4,7 @@ const MATERIAS = [
   { id: 'historia', titulo: 'Historia', subtitulo: 'Eventos, épocas y personajes clave', emoji: '🏛️', gradient: 'from-amber-500 to-orange-600', ready: true, path: '/estudiar/historia' },
   { id: 'geografia', titulo: 'Geografía', subtitulo: 'Mapas, ríos y capitales del mundo', emoji: '🌍', gradient: 'from-teal-500 to-cyan-600', ready: false },
   { id: 'ciencias', titulo: 'Ciencias', subtitulo: 'Biología, física y química', emoji: '🔬', gradient: 'from-green-500 to-emerald-600', ready: false },
-  { id: 'matematicas', titulo: 'Matemáticas', subtitulo: 'Álgebra, geometría y cálculo', emoji: '📐', gradient: 'from-blue-500 to-indigo-600', ready: false },
+  { id: 'matematicas', titulo: 'Matemáticas', subtitulo: 'Cálculo mental: sumas, restas, multiplicaciones y más', emoji: '📐', gradient: 'from-blue-500 to-indigo-600', ready: true, path: '/estudiar/matematicas' },
   { id: 'ingles', titulo: 'Inglés', subtitulo: 'Vocabulario y gramática', emoji: '🇬🇧', gradient: 'from-rose-500 to-pink-600', ready: false },
   { id: 'lengua', titulo: 'Lengua', subtitulo: 'Literatura y ortografía', emoji: '✍️', gradient: 'from-violet-500 to-purple-600', ready: false },
 ]

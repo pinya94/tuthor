@@ -35,7 +35,7 @@ export const SUBJECTS = [
   { title: 'Historia', subtitle: 'Eventos y épocas clave', emoji: '🏛️', gradient: 'from-amber-500 to-orange-600', ready: true },
   { title: 'Geografía', subtitle: 'Mapas, ríos y capitales', emoji: '🌍', gradient: 'from-teal-500 to-cyan-600', ready: false },
   { title: 'Ciencias', subtitle: 'Biología, física y química', emoji: '🔬', gradient: 'from-green-500 to-emerald-600', ready: false },
-  { title: 'Matemáticas', subtitle: 'Álgebra y geometría', emoji: '📐', gradient: 'from-blue-500 to-indigo-600', ready: false },
+  { title: 'Matemáticas', subtitle: 'Cálculo mental: sumas, restas y más', emoji: '📐', gradient: 'from-blue-500 to-indigo-600', ready: true },
   { title: 'Inglés', subtitle: 'Vocabulario y gramática', emoji: '🇬🇧', gradient: 'from-rose-500 to-pink-600', ready: false },
   { title: 'Lengua', subtitle: 'Literatura y ortografía', emoji: '✍️', gradient: 'from-violet-500 to-purple-600', ready: false },
 ]

@@ -7,6 +7,9 @@ import Home from './pages/Home'
 import Estudiar from './pages/Estudiar'
 import HistoriaIndex from './pages/HistoriaIndex'
 import HistoriaTema from './pages/HistoriaTema'
+import MatematicasIndex from './pages/MatematicasIndex'
+import MatematicasTema from './pages/MatematicasTema'
+import MatematicasPractica from './pages/MatematicasPractica'
 import Juegos from './pages/Juegos'
 import PreguntaDiaria from './pages/PreguntaDiaria'
 import Progreso from './pages/Progreso'
@@ -44,6 +47,9 @@ function Layout({ onConsent }) {
           <Route path="/estudiar" element={<Estudiar />} />
           <Route path="/estudiar/historia" element={<HistoriaIndex />} />
           <Route path="/estudiar/historia/:categoria" element={<HistoriaTema />} />
+          <Route path="/estudiar/matematicas" element={<MatematicasIndex />} />
+          <Route path="/estudiar/matematicas/:modo" element={<MatematicasTema />} />
+          <Route path="/estudiar/matematicas/:modo/jugar" element={<MatematicasPractica />} />
 
           {/* Exámenes */}
           <Route path="/examen/historia" element={<ExamenJuego />} />

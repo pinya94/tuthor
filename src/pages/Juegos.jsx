@@ -19,7 +19,7 @@ export default function Juegos() {
       </div>
       <div className="flex-1 overflow-y-auto">
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-5xl mx-auto w-full pb-4">
-          {GAMES.map(game => (
+          {[...GAMES].sort((a, b) => (b.ready ? 1 : 0) - (a.ready ? 1 : 0)).map(game => (
             <Thumbnail
               key={game.title}
               title={game.title}
