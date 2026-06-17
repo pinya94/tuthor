@@ -27,7 +27,7 @@ function getMejorasDisponibles(difId, rd) {
 }
 
 function calcTiempo(dif, nivel, bonusTiempo) {
-  return dif.tiempoBase - (nivel - 1) * 2 + bonusTiempo
+  return Math.max(10, dif.tiempoBase - (nivel - 1) * 2 + bonusTiempo)
 }
 
 function shuffle(arr) {
