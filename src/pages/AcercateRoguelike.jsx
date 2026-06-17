@@ -134,8 +134,9 @@ export default function AcercateRoguelike() {
   function iniciarNivel(runData, resetScore = false) {
     const dif = DIFS[runData.difId]
     const t = calcTiempo(dif, runData.nivel, runData.bonusTiempo)
+    const objMax = Math.min(dif.objMax, dif.objMin + 30 + runData.nivel * 10)
     const cfg = {
-      objMin: dif.objMin, objMax: dif.objMax,
+      objMin: dif.objMin, objMax: objMax,
       count: dif.countIni + runData.bonusCount,
       numMax: dif.numMax,
       tiempo: t,
@@ -239,7 +240,7 @@ export default function AcercateRoguelike() {
   function getShareTexto() {
     const dif = DIFS[rd?.difId || difId]
     const mult = (rd?.multiplicador || 1) > 1 ? ` · ×${(rd.multiplicador).toFixed(1)}` : ''
-    return `⚔️ He llegado al nivel ${rd?.nivel} con ${score.toLocaleString()} pts en Acércate al Número${mult}\n${dif.emoji} Modo ${dif.label} — parece fácil, pero no lo es. ¿Puedes superarme?\n🎮 tuthor.app/juegos/acercate`
+    return `⚔️ He llegado al nivel ${rd?.nivel} con ${score.toLocaleString()} pts en Acércate al Número${mult}\n${dif.emoji} Modo ${dif.label} — parece fácil, pero no lo es. ¿Puedes superarme?\n🎮 https://tuthor.app/juegos/acercate`
   }
 
   function copiarTexto() {
@@ -311,7 +312,7 @@ export default function AcercateRoguelike() {
     return (
       <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
         <div className="max-w-md w-full">
-          <button onClick={() => navigate('/juegos/acercate')}
+          <button onClick={() => navigate('/juegos')}
             className="text-white/30 hover:text-white/60 text-sm mb-6 flex items-center gap-1 transition-colors">
             ← Volver
           </button>
@@ -572,7 +573,7 @@ export default function AcercateRoguelike() {
       </div>
 
       {/* Puntos */}
-      <div className="flex items-center justify-between mb-3 px-1">
+      <div className="flex items-center justify-between mb-2 px-1">
         <span className="text-white/25 text-xs font-semibold">
           ⭐ {score.toLocaleString()} pts
           {rd?.multiplicador > 1 && (
@@ -585,7 +586,7 @@ export default function AcercateRoguelike() {
       </div>
 
       {/* Fórmula */}
-      <div className={`rounded-2xl border-2 p-4 mb-4 min-h-[64px] flex items-center justify-center gap-4 transition-all ${
+      <div className={`rounded-2xl border-2 p-3 mb-3 min-h-[56px] flex items-center justify-center gap-4 transition-all ${
         errorFlash ? 'border-red-500/70 bg-red-900/20'
           : sel1    ? 'border-violet-500/40 bg-violet-900/10'
           :            'border-white/10 bg-white/3'
@@ -605,7 +606,7 @@ export default function AcercateRoguelike() {
       </div>
 
       {/* Números */}
-      <div className="mb-5">
+      <div className="mb-3">
         <p className="text-white/25 text-[10px] uppercase tracking-widest mb-2 font-semibold text-center">Números disponibles</p>
         <div className="flex flex-wrap gap-3 justify-center">
           {numeros.map(n => {
@@ -626,7 +627,7 @@ export default function AcercateRoguelike() {
       </div>
 
       {/* Operadores */}
-      <div className="mb-5">
+      <div className="mb-3">
         <p className="text-white/25 text-[10px] uppercase tracking-widest mb-2 font-semibold text-center">Operación</p>
         <div className="grid grid-cols-4 gap-2">
           {(DIFS[rd?.difId || difId].ops).map(op => {
@@ -648,7 +649,7 @@ export default function AcercateRoguelike() {
       </div>
 
       {/* Controles */}
-      <div className="grid grid-cols-2 gap-2 mt-auto pt-2">
+      <div className="grid grid-cols-2 gap-2">
         <button onClick={undo} disabled={!historial.length}
           className="py-3 bg-white/10 hover:bg-white/20 disabled:opacity-30 text-white font-bold rounded-2xl transition-all text-sm">
           ↩ Deshacer

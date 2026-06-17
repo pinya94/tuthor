@@ -4,3 +4,12 @@
 * {
   font-family: 'Inter', sans-serif;
 }
+
+html, body {
+  overflow-x: hidden;
+  height: 100%;
+}
+
+button, [role="button"] {
+  cursor: pointer;
+}
