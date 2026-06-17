@@ -11,7 +11,7 @@ const DIFS = {
 }
 
 const MEJORAS_POOL = [
-  { id: 'tiempo', emoji: '⏱️', titulo: '+10 segundos',        desc: 'Añade 10s al tiempo de todos los niveles siguientes' },
+  { id: 'tiempo', emoji: '⏱️', titulo: '+4 segundos',         desc: 'Añade 4s al tiempo de todos los niveles siguientes' },
   { id: 'numero', emoji: '🔢', titulo: '+1 número',           desc: 'Un número extra disponible para combinar en cada puzzle' },
   { id: 'escudo', emoji: '🛡️', titulo: 'Segunda oportunidad', desc: 'Absorbe el próximo fallo y continúas la run', soloFacil: true },
   { id: 'bonus',  emoji: '✨', titulo: '×1.1 puntos',         desc: 'Multiplica todos los puntos futuros por 1.1', soloMedioPlus: true },
@@ -27,7 +27,7 @@ function getMejorasDisponibles(difId, rd) {
 }
 
 function calcTiempo(dif, nivel, bonusTiempo) {
-  return dif.tiempoBase - Math.min(nivel - 1, 10) + bonusTiempo
+  return dif.tiempoBase - (nivel - 1) * 2 + bonusTiempo
 }
 
 function shuffle(arr) {
@@ -228,7 +228,7 @@ export default function AcercateRoguelike() {
   function elegirMejora(mejora) {
     const cur = rdRef.current
     const newRd = { ...cur, mejoras: [...cur.mejoras, mejora.id] }
-    if (mejora.id === 'tiempo') newRd.bonusTiempo += 10
+    if (mejora.id === 'tiempo') newRd.bonusTiempo += 4
     if (mejora.id === 'numero') newRd.bonusCount += 1
     if (mejora.id === 'escudo') newRd.escudo = true
     if (mejora.id === 'bonus')  newRd.multiplicador = Math.round(((cur.multiplicador || 1.0) + 0.1) * 10) / 10
@@ -333,7 +333,7 @@ export default function AcercateRoguelike() {
           <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-5 space-y-2.5 text-sm">
             {[
               ['❤️', 'Vidas',    dif.vidasIni > 0 ? `${dif.vidasIni} vidas` : 'Sin vidas — un fallo y termina'],
-              ['⏱️', 'Tiempo',   `${dif.tiempoBase}s (−1s por nivel, máx. −10s en total)`],
+              ['⏱️', 'Tiempo',   `${dif.tiempoBase}s (−2s por nivel, sin límite)`],
               ['🎯', 'Objetivo', `${dif.objMin}–${dif.objMax}`],
               ['🃏', 'Números',  `${dif.countIni} cartas para combinar`],
               ['⭐', 'Puntos',   'Tiempo sobrante × 10 por nivel acertado'],
