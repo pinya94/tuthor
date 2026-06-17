@@ -311,6 +311,11 @@ export default function Acercate() {
           className="w-full py-4 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-lg rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-amber-500/30">
           ¡Empezar!
         </button>
+
+        <button onClick={() => navigate('/juegos/acercate/roguelike')}
+          className="w-full py-3 mt-3 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-violet-500/40 text-white/70 hover:text-white font-bold rounded-2xl transition-all text-sm flex items-center justify-center gap-2">
+          <span>⚔️</span> Modo Roguelike — supera niveles y elige mejoras
+        </button>
       </div>
     </div>
   )
