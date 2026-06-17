@@ -365,6 +365,10 @@ export default function AcercateRoguelike() {
             className="w-full py-4 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-lg rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-amber-500/30">
             ¡Empezar run!
           </button>
+          <button onClick={() => navigate('/juegos/acercate/clasico')}
+            className="w-full py-3 mt-3 text-white/30 hover:text-white/60 text-sm transition-colors">
+            ¿Prefieres entrenar sin presión? → Modo clásico
+          </button>
         </div>
       </div>
     )

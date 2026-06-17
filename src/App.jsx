@@ -61,8 +61,8 @@ function Layout({ onConsent }) {
           <Route path="/juegos/tuthor-time" element={<TuthorTime />} />
           <Route path="/juegos/linea-temporal" element={<OrdenTemporal />} />
           <Route path="/juegos/quien-es-quien" element={<QuienEsQuien />} />
-          <Route path="/juegos/acercate" element={<Acercate />} />
-          <Route path="/juegos/acercate/roguelike" element={<AcercateRoguelike />} />
+          <Route path="/juegos/acercate" element={<AcercateRoguelike />} />
+          <Route path="/juegos/acercate/clasico" element={<Acercate />} />
 
           {/* ── OTRAS ── */}
           <Route path="/diaria" element={<PreguntaDiaria />} />
