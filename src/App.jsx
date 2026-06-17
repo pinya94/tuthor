@@ -19,6 +19,7 @@ import OrdenTemporal from './pages/OrdenTemporal'
 import ExamenLineaTemporal from './pages/ExamenLineaTemporal'
 import Perfil from './pages/Perfil'
 import QuienEsQuien from './pages/QuienEsQuien'
+import QuienEsQuienRoguelike from './pages/QuienEsQuienRoguelike'
 import Acercate from './pages/Acercate'
 import AcercateRoguelike from './pages/AcercateRoguelike'
 import Privacidad from './pages/Privacidad'
@@ -60,7 +61,8 @@ function Layout({ onConsent }) {
           <Route path="/juegos" element={<Juegos />} />
           <Route path="/juegos/tuthor-time" element={<TuthorTime />} />
           <Route path="/juegos/linea-temporal" element={<OrdenTemporal />} />
-          <Route path="/juegos/quien-es-quien" element={<QuienEsQuien />} />
+          <Route path="/juegos/quien-es-quien" element={<QuienEsQuienRoguelike />} />
+          <Route path="/juegos/quien-es-quien/clasico" element={<QuienEsQuien />} />
           <Route path="/juegos/acercate" element={<AcercateRoguelike />} />
           <Route path="/juegos/acercate/clasico" element={<Acercate />} />
 
