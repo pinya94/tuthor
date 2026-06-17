@@ -5,9 +5,9 @@ import { generarPuzzle, aplicar, OP_STYLE } from '../lib/mathEngine'
 const ALL_OPS = ['+', '-', '×', '÷']
 
 const DIFS = {
-  facil:   { label: 'Fácil',   emoji: '🟢', vidasIni: 3, tiempoBase: 90, objMin: 10, objMax: 50,  countIni: 5, numMax: 10 },
-  medio:   { label: 'Medio',   emoji: '🟡', vidasIni: 0, tiempoBase: 60, objMin: 15, objMax: 99,  countIni: 5, numMax: 10 },
-  dificil: { label: 'Difícil', emoji: '🔴', vidasIni: 0, tiempoBase: 45, objMin: 20, objMax: 250, countIni: 4, numMax: 15 },
+  facil:   { label: 'Fácil',   emoji: '🟢', vidasIni: 3, tiempoBase: 90, objMin: 10, objMax: 50,  countIni: 5, numMax: 10, ops: ['+', '-'] },
+  medio:   { label: 'Medio',   emoji: '🟡', vidasIni: 0, tiempoBase: 60, objMin: 15, objMax: 99,  countIni: 5, numMax: 10, ops: ['+', '-', '×'] },
+  dificil: { label: 'Difícil', emoji: '🔴', vidasIni: 0, tiempoBase: 45, objMin: 20, objMax: 250, countIni: 4, numMax: 15, ops: ['+', '-', '×', '÷'] },
 }
 
 const MEJORAS_POOL = [
@@ -140,7 +140,7 @@ export default function AcercateRoguelike() {
       numMax: dif.numMax,
       tiempo: t,
     }
-    const { vals, objetivo: obj } = generarPuzzle(cfg, ALL_OPS)
+    const { vals, objetivo: obj } = generarPuzzle(cfg, dif.ops)
     const nums = vals.map(v => ({ id: uid(), valor: v }))
     tiempoRef.current = t
     setObjetivo(obj)
@@ -336,6 +336,7 @@ export default function AcercateRoguelike() {
               ['⏱️', 'Tiempo',   `${dif.tiempoBase}s (−2s por nivel, sin límite)`],
               ['🎯', 'Objetivo', `${dif.objMin}–${dif.objMax}`],
               ['🃏', 'Números',  `${dif.countIni} cartas para combinar`],
+              ['➕', 'Operaciones', dif.ops.join('  ')],
               ['⭐', 'Puntos',   'Tiempo sobrante × 10 por nivel acertado'],
               ['🎁', 'Mejoras',  'Cada 3 niveles elige una mejora permanente'],
             ].map(([e, k, v]) => (
@@ -628,7 +629,7 @@ export default function AcercateRoguelike() {
       <div className="mb-5">
         <p className="text-white/25 text-[10px] uppercase tracking-widest mb-2 font-semibold text-center">Operación</p>
         <div className="grid grid-cols-4 gap-2">
-          {ALL_OPS.map(op => {
+          {(DIFS[rd?.difId || difId].ops).map(op => {
             const style = OP_STYLE[op]
             const active = opSel === op
             const disabled = !sel1
