@@ -299,48 +299,74 @@ export default function TuthorTimeRoguelike() {
 
   // ── INTRO ──────────────────────────────────────────────────────────────────
   if (fase === 'intro') {
+    const d = DIFS[difId]
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center px-4 py-8">
-        <div className="w-full max-w-md">
-          <button onClick={() => navigate('/juegos')} className="text-white/50 hover:text-white text-sm mb-6 block">
-            ← Volver a juegos
+      <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
+        <div className="max-w-md w-full">
+          <button onClick={() => navigate('/juegos')}
+            className="text-white/30 hover:text-white/60 text-sm mb-6 flex items-center gap-1 transition-colors">
+            ← Volver
           </button>
-          <div className="bg-black/40 backdrop-blur rounded-2xl p-6 border border-white/10">
-            <div className="text-center mb-6">
-              <div className="text-5xl mb-3">⏳</div>
-              <h1 className="text-3xl font-bold text-white">Tuthor Time</h1>
-              <p className="text-white/50 text-sm mt-1">Modo Roguelike</p>
-            </div>
-            <p className="text-white/70 text-sm mb-6 text-center leading-relaxed">
-              Envía a tu agente al año en que crees que ocurrió cada evento. Esperará allí hasta que suceda — cuanto antes llegue, más vida gasta. Si llega tarde o espera demasiado, el agente cae.
-            </p>
-            <div className="space-y-3 mb-6">
-              {Object.entries(DIFS).map(([id, d]) => (
-                <button
-                  key={id}
-                  onClick={() => iniciarPartida(id)}
-                  className="w-full bg-white/10 hover:bg-white/20 border border-white/20 rounded-xl p-4 text-left transition-all"
-                >
-                  <div className="flex items-center gap-3">
-                    <span className="text-2xl">{d.emoji}</span>
-                    <div className="flex-1">
-                      <div className="text-white font-bold">{d.label}</div>
-                      <div className="text-white/50 text-xs mt-0.5">
-                        {d.agentes} agente{d.agentes > 1 ? 's' : ''} · {d.tiempoBase}s por misión · {VIDA_BIXO} años de vida cada uno
-                      </div>
-                    </div>
-                    <span className="text-white/30 text-lg">→</span>
-                  </div>
-                </button>
+          <div className="text-center mb-6">
+            <span className="text-6xl block mb-3">⏳</span>
+            <h1 className="text-3xl font-black text-white mb-1">Tuthor Time</h1>
+            <p className="text-white/40 text-sm">Envía agentes al pasado — ¿cuántas misiones aguantarás?</p>
+          </div>
+
+          {/* Selector de dificultad */}
+          <div className="flex gap-2 p-1 bg-white/5 border border-white/10 rounded-xl mb-5 w-fit mx-auto">
+            {Object.entries(DIFS).map(([id, d]) => (
+              <button key={id} onClick={() => setDifId(id)}
+                className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
+                  difId === id ? 'bg-white/15 text-white shadow-sm' : 'text-white/40 hover:text-white/70'
+                }`}>
+                {d.emoji} {d.label}
+              </button>
+            ))}
+          </div>
+
+          {/* Stats de la dificultad */}
+          <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-5 space-y-2.5 text-sm">
+            {[
+              ['🕵️', 'Agentes',  `${d.agentes} agente${d.agentes > 1 ? 's' : ''} · ${d.puedeRecuperar ? `recuperable${d.agentes > 1 ? 's' : ''} con mejora` : `no recuperable${d.agentes > 1 ? 's' : ''}`}`],
+              ['⏱️', 'Tiempo',   `${d.tiempoBase}s por misión (−1s por nivel, mín. 5s)`],
+              ['💀', 'Vida',     `${VIDA_BIXO} años por agente`],
+              ['📅', 'Mecánica', 'Llegas tarde o tiempo agotado → agente muere'],
+              ['🎁', 'Mejoras',  'Cada 3 misiones elige una mejora permanente'],
+            ].map(([e, k, v]) => (
+              <div key={k} className="flex items-center justify-between gap-4">
+                <span className="text-white/40 shrink-0">{e} {k}</span>
+                <span className="text-white font-semibold text-right">{v}</span>
+              </div>
+            ))}
+          </div>
+
+          {/* Cómo funciona */}
+          <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-6">
+            <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-3">Cómo funciona</p>
+            <div className="space-y-2">
+              {[
+                ['📅', 'Envías al agente al año en que crees que ocurrió el evento'],
+                ['⏳', 'Llega antes y espera — cada año de espera consume vida'],
+                ['💀', 'Llegar tarde o agotar el tiempo mata al agente'],
+                ['🎯', 'Año exacto = 0 vida gastada = puntuación máxima'],
+              ].map(([e, t]) => (
+                <div key={t} className="flex items-start gap-3 text-sm text-white/50">
+                  <span className="text-base w-5 shrink-0 text-center">{e}</span>
+                  <span>{t}</span>
+                </div>
               ))}
             </div>
-            <button
-              onClick={() => navigate('/juegos/tuthor-time/clasico')}
-              className="w-full text-white/40 hover:text-white/60 text-sm text-center transition py-2"
-            >
-              ¿Prefieres el modo clásico? →
-            </button>
           </div>
+
+          <button onClick={() => iniciarPartida(difId)}
+            className="w-full py-4 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-lg rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-amber-500/30">
+            ¡Empezar misión!
+          </button>
+          <button onClick={() => navigate('/juegos/tuthor-time/clasico')}
+            className="w-full py-3 mt-3 text-white/30 hover:text-white/60 text-sm transition-colors">
+            ¿Prefieres entrenar sin presión? → Modo clásico
+          </button>
         </div>
       </div>
     )
