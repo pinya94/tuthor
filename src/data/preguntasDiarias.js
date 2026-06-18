@@ -34,29 +34,35 @@ export const PREGUNTAS_DIARIAS = [
 
 import { EVENTOS_HISTORIA, eventosToPreguntas } from './historiaEvents'
 import { MODO_IDS, GRADO_IDS, GRADOS, MODOS, dayOfYear } from '../lib/mathEngine'
+import { PORTADAS } from './portadas'
 
 const PREGUNTAS_AUTO = eventosToPreguntas(EVENTOS_HISTORIA)
 
 export const POOL_DIARIO = [...PREGUNTAS_DIARIAS, ...PREGUNTAS_AUTO]
+
+const PORTADAS_DIARIAS = PORTADAS.filter(p => p.temas?.includes('primaria'))
 
 export function getPreguntaDeHoy() {
   const dia = dayOfYear()
   return POOL_DIARIO[dia % POOL_DIARIO.length]
 }
 
-// El reto diario rota entre preguntas de trivia y el minijuego de cálculo mental
-// (mismo motor que "Acércate al número" en Matemáticas), sin pantalla de selección:
-// el modo y el nivel también se eligen de forma determinista según el día.
+export function getPortadaDeHoy() {
+  const dia = dayOfYear()
+  return PORTADAS_DIARIAS[dia % PORTADAS_DIARIAS.length]
+}
+
+// Rota entre trivia, cálculo mental y portada histórica (cada 3 días)
 export function getDesafioDeHoy() {
   const dia = dayOfYear()
-  if (dia % 2 === 0) {
+  const tipo3 = dia % 3
+  if (tipo3 === 0) {
     return { tipo: 'trivia', pregunta: getPreguntaDeHoy() }
   }
-  const modoId = MODO_IDS[dia % MODO_IDS.length]
-  const nivelId = GRADO_IDS[Math.floor(dia / 5) % GRADO_IDS.length]
-  return {
-    tipo: 'matematicas',
-    modo: MODOS[modoId],
-    grado: GRADOS[nivelId],
+  if (tipo3 === 1) {
+    const modoId  = MODO_IDS[dia % MODO_IDS.length]
+    const nivelId = GRADO_IDS[Math.floor(dia / 5) % GRADO_IDS.length]
+    return { tipo: 'matematicas', modo: MODOS[modoId], grado: GRADOS[nivelId] }
   }
+  return { tipo: 'portada', portada: getPortadaDeHoy() }
 }

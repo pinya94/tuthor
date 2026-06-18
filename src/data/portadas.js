@@ -1,6 +1,7 @@
 // Portadas históricas — VERDAD o MENTIRA
 // veracidad: true = el titular es históricamente correcto
 //            false = el titular contiene un error deliberado (fecha, lugar, persona o hecho)
+// temas: categorías de Historia en Estudio que usan esta portada para examen
 
 export const PORTADAS = [
 
@@ -14,6 +15,7 @@ export const PORTADAS = [
     veracidad: true,
     explicacion: 'Verdadero. El 25 de abril de 1953, Watson y Crick publicaron en Nature la estructura de doble hélice del ADN. Rosalind Franklin también fue clave con sus imágenes de difracción de rayos X.',
     categoria: 'ciencia',
+    temas: ['primaria'],
   },
   {
     id: 2, año: 1969, mes: 'Julio de 1969',
@@ -23,6 +25,7 @@ export const PORTADAS = [
     veracidad: true,
     explicacion: 'Verdadero. El 20 de julio de 1969, Neil Armstrong se convirtió en el primer ser humano en pisar la Luna. Buzz Aldrin le siguió minutos después. Michael Collins orbitó en el módulo de mando.',
     categoria: 'espacio',
+    temas: ['primaria'],
   },
   {
     id: 3, año: 1929, mes: 'Octubre de 1929',
@@ -32,6 +35,7 @@ export const PORTADAS = [
     veracidad: true,
     explicacion: 'Verdadero. El 24 de octubre de 1929 ("Jueves Negro") comenzó el Crack de Wall Street que desencadenó la Gran Depresión, con una tasa de paro en EEUU que llegó al 25%.',
     categoria: 'política',
+    temas: ['primaria'],
   },
   {
     id: 4, año: 1945, mes: 'Mayo de 1945',
@@ -41,6 +45,7 @@ export const PORTADAS = [
     veracidad: true,
     explicacion: 'Verdadero. El 8 de mayo de 1945, Alemania firmó su rendición incondicional ante los Aliados, poniendo fin a la Segunda Guerra Mundial en Europa.',
     categoria: 'guerra',
+    temas: ['wwii', 'primaria'],
   },
   {
     id: 5, año: 1986, mes: 'Abril de 1986',
@@ -50,6 +55,7 @@ export const PORTADAS = [
     veracidad: true,
     explicacion: 'Verdadero. El 26 de abril de 1986, el reactor 4 de Chernóbil (Ucrania, URSS) explotó, causando la peor catástrofe nuclear civil de la historia. La nube radiactiva afectó a toda Europa.',
     categoria: 'catástrofe',
+    temas: ['primaria'],
   },
   {
     id: 6, año: 1989, mes: 'Noviembre de 1989',
@@ -59,6 +65,7 @@ export const PORTADAS = [
     veracidad: true,
     explicacion: 'Verdadero. La noche del 9 de noviembre de 1989, las autoridades de Alemania Oriental abrieron el Muro. Multitudes comenzaron a derribarlo con picos. Fue el fin simbólico de la Guerra Fría.',
     categoria: 'política',
+    temas: ['primaria'],
   },
   {
     id: 7, año: 1912, mes: 'Abril de 1912',
@@ -68,6 +75,7 @@ export const PORTADAS = [
     veracidad: true,
     explicacion: 'Verdadero. En la madrugada del 15 de abril de 1912, el RMS Titanic se hundió en el Atlántico Norte tras chocar con un iceberg, causando la muerte de aproximadamente 1.517 personas.',
     categoria: 'catástrofe',
+    temas: ['primaria'],
   },
   {
     id: 8, año: 1963, mes: 'Noviembre de 1963',
@@ -77,6 +85,7 @@ export const PORTADAS = [
     veracidad: true,
     explicacion: 'Verdadero. El 22 de noviembre de 1963, Kennedy fue asesinado mientras desfilaba en Dallas. Lee Harvey Oswald fue acusado del crimen y asesinado dos días después por Jack Ruby antes de ser juzgado.',
     categoria: 'política',
+    temas: ['primaria'],
   },
   {
     id: 9, año: 1928, mes: 'Septiembre de 1928',
@@ -86,6 +95,7 @@ export const PORTADAS = [
     veracidad: true,
     explicacion: 'Verdadero. En septiembre de 1928, Alexander Fleming descubrió que el moho Penicillium notatum mataba bacterias. La penicilina tardó años en desarrollarse como medicamento, gracias al trabajo de Florey y Chain.',
     categoria: 'ciencia',
+    temas: ['primaria'],
   },
   {
     id: 10, año: 1936, mes: 'Julio de 1936',
@@ -95,6 +105,7 @@ export const PORTADAS = [
     veracidad: true,
     explicacion: 'Verdadero. El 17-18 de julio de 1936, un grupo de generales encabezados por Franco inició el golpe de estado que, al no triunfar completamente, desembocó en la Guerra Civil Española (1936-1939).',
     categoria: 'guerra',
+    temas: ['gce'],
   },
   {
     id: 11, año: 1957, mes: 'Octubre de 1957',
@@ -104,6 +115,7 @@ export const PORTADAS = [
     veracidad: true,
     explicacion: 'Verdadero. El 4 de octubre de 1957, la URSS lanzó el Sputnik 1, inaugurando la era espacial. La señal de radio del satélite pudo escucharse en todo el mundo y desató el pánico en EEUU.',
     categoria: 'espacio',
+    temas: ['primaria'],
   },
   {
     id: 12, año: 1953, mes: 'Mayo de 1953',
@@ -113,6 +125,7 @@ export const PORTADAS = [
     veracidad: true,
     explicacion: 'Verdadero. El 29 de mayo de 1953, Hillary y Tenzing se convirtieron en las primeras personas en alcanzar la cima del Everest. La noticia llegó a Londres justo para la coronación de la reina Isabel II.',
     categoria: 'cultura',
+    temas: ['primaria'],
   },
   {
     id: 13, año: 1945, mes: 'Agosto de 1945',
@@ -122,6 +135,7 @@ export const PORTADAS = [
     veracidad: true,
     explicacion: 'Verdadero. El 6 de agosto de 1945, el Enola Gay lanzó "Little Boy" sobre Hiroshima. Tres días después cayó "Fat Man" sobre Nagasaki. Japón se rindió el 15 de agosto.',
     categoria: 'guerra',
+    temas: ['wwii', 'primaria'],
   },
   {
     id: 14, año: 1990, mes: 'Febrero de 1990',
@@ -131,6 +145,7 @@ export const PORTADAS = [
     veracidad: true,
     explicacion: 'Verdadero. El 11 de febrero de 1990, Nelson Mandela fue liberado. Había ingresado en prisión en 1964 condenado a cadena perpetua por oponerse al apartheid. En 1994 se convirtió en presidente de Sudáfrica.',
     categoria: 'política',
+    temas: ['primaria'],
   },
   {
     id: 15, año: 1975, mes: 'Noviembre de 1975',
@@ -140,6 +155,7 @@ export const PORTADAS = [
     veracidad: true,
     explicacion: 'Verdadero. Franco murió el 20 de noviembre de 1975 en Madrid, poniendo fin a 36 años de dictadura. Le sucedió el rey Juan Carlos I, quien impulsó la Transición democrática.',
     categoria: 'política',
+    temas: ['gce'],
   },
   {
     id: 16, año: 1961, mes: 'Abril de 1961',
@@ -149,6 +165,7 @@ export const PORTADAS = [
     veracidad: true,
     explicacion: 'Verdadero. El 12 de abril de 1961, Gagarin se convirtió en el primer humano en el espacio, completando una órbita completa en 108 minutos. El 12 de abril es ahora el Día de la Aviación y la Cosmonautica.',
     categoria: 'espacio',
+    temas: ['primaria'],
   },
   {
     id: 17, año: 1903, mes: 'Diciembre de 1903',
@@ -158,6 +175,7 @@ export const PORTADAS = [
     veracidad: true,
     explicacion: 'Verdadero. El 17 de diciembre de 1903, Orville Wright realizó el primer vuelo motorizado en Kitty Hawk. Duró 12 segundos y recorrió 37 metros. Ese mismo día hicieron cuatro vuelos.',
     categoria: 'ciencia',
+    temas: ['primaria'],
   },
   {
     id: 18, año: 1979, mes: 'Mayo de 1979',
@@ -167,6 +185,7 @@ export const PORTADAS = [
     veracidad: true,
     explicacion: 'Verdadero. El 4 de mayo de 1979, Thatcher se convirtió en la primera mujer en gobernar el Reino Unido. Permaneció en el cargo 11 años, hasta 1990, marcando profundamente la política occidental.',
     categoria: 'política',
+    temas: ['primaria'],
   },
   {
     id: 19, año: 1997, mes: 'Febrero de 1997',
@@ -176,6 +195,7 @@ export const PORTADAS = [
     veracidad: true,
     explicacion: 'Verdadero. El Instituto Roslin anunció en febrero de 1997 la clonación de Dolly (nacida en julio de 1996). Fue el primer mamífero clonado a partir de una célula somática adulta.',
     categoria: 'ciencia',
+    temas: ['primaria'],
   },
   {
     id: 20, año: 1938, mes: 'Abril de 1938',
@@ -185,6 +205,7 @@ export const PORTADAS = [
     veracidad: true,
     explicacion: 'Verdadero. El 15 de abril de 1938, las tropas franquistas llegaron al mar en Vinaroz (Castellón), dividiendo en dos la zona republicana y aislando Cataluña. Fue un golpe decisivo en la Guerra Civil.',
     categoria: 'guerra',
+    temas: ['gce'],
   },
   {
     id: 21, año: 1955, mes: 'Diciembre de 1955',
@@ -194,6 +215,7 @@ export const PORTADAS = [
     veracidad: true,
     explicacion: 'Verdadero. El 1 de diciembre de 1955, Rosa Parks fue arrestada en Montgomery. Su acto de desobediencia civil y el posterior boicot a los autobuses (liderado por Martin Luther King) fueron un hito del movimiento por los derechos civiles.',
     categoria: 'cultura',
+    temas: ['primaria'],
   },
   {
     id: 22, año: 1928, mes: 'Noviembre de 1928',
@@ -203,6 +225,7 @@ export const PORTADAS = [
     veracidad: true,
     explicacion: 'Verdadero. El 18 de noviembre de 1928, "Steamboat Willie" se estrenó en Nueva York. Fue el primer dibujo animado con sonido sincronizado y el debut oficial de Mickey Mouse como personaje.',
     categoria: 'cultura',
+    temas: ['primaria'],
   },
   {
     id: 23, año: 1859, mes: 'Noviembre de 1859',
@@ -212,6 +235,7 @@ export const PORTADAS = [
     veracidad: true,
     explicacion: 'Verdadero. El 24 de noviembre de 1859, Darwin publicó "On the Origin of Species". Los 1.250 ejemplares de la primera edición se agotaron el primer día. Es uno de los libros más influyentes de la historia.',
     categoria: 'ciencia',
+    temas: ['primaria'],
   },
   {
     id: 24, año: 1994, mes: 'Abril de 1994',
@@ -221,9 +245,10 @@ export const PORTADAS = [
     veracidad: true,
     explicacion: 'Verdadero. El 27 de abril de 1994, Sudáfrica celebró sus primeras elecciones con sufragio universal. Mandela ganó y se convirtió en presidente. El 27 de abril es hoy el Día de la Libertad en Sudáfrica.',
     categoria: 'política',
+    temas: ['primaria'],
   },
 
-  // ── FALSAS ─────────────────────────────────────────────────────────────────
+  // ── FALSAS (originales) ────────────────────────────────────────────────────
 
   {
     id: 25, año: 1961, mes: 'Abril de 1961',
@@ -233,6 +258,7 @@ export const PORTADAS = [
     veracidad: false,
     explicacion: 'Falso. El primero en el espacio fue el soviético Yuri Gagarin (12 de abril de 1961). Shepard fue el primer estadounidense en el espacio, pero 23 días después y en un vuelo suborbital, sin orbitar la Tierra.',
     categoria: 'espacio',
+    temas: ['primaria'],
   },
   {
     id: 26, año: 1921, mes: 'Noviembre de 1921',
@@ -242,6 +268,7 @@ export const PORTADAS = [
     veracidad: false,
     explicacion: 'Falso. Einstein ganó el Nobel de Física en 1921, pero por el descubrimiento del efecto fotoeléctrico, no por la Relatividad. La Academia consideró que la Relatividad era aún demasiado especulativa.',
     categoria: 'ciencia',
+    temas: ['primaria'],
   },
   {
     id: 27, año: 1928, mes: 'Septiembre de 1928',
@@ -251,6 +278,7 @@ export const PORTADAS = [
     veracidad: false,
     explicacion: 'Falso. La penicilina la descubrió Alexander Fleming en Londres en septiembre de 1928. Marie Curie fue Nobel de Física (1903) y Química (1911), pero no tiene relación con los antibióticos.',
     categoria: 'ciencia',
+    temas: ['primaria'],
   },
   {
     id: 28, año: 1912, mes: 'Abril de 1912',
@@ -260,6 +288,7 @@ export const PORTADAS = [
     veracidad: false,
     explicacion: 'Falso. El Titanic se hundió en el Atlántico Norte, a unos 600 km al sur de Terranova (Canadá), no en el Atlántico Sur. El accidente ocurrió aproximadamente en la latitud 41°N.',
     categoria: 'catástrofe',
+    temas: ['primaria'],
   },
   {
     id: 29, año: 1963, mes: 'Noviembre de 1963',
@@ -269,6 +298,7 @@ export const PORTADAS = [
     veracidad: false,
     explicacion: 'Falso. Kennedy fue asesinado en Dallas, Texas, el 22 de noviembre de 1963, no en Chicago. Lee Harvey Oswald fue acusado del crimen y disparó desde el edificio Texas School Book Depository.',
     categoria: 'política',
+    temas: ['primaria'],
   },
   {
     id: 30, año: 1921, mes: 'Diciembre de 1921',
@@ -278,6 +308,7 @@ export const PORTADAS = [
     veracidad: false,
     explicacion: 'Falso. Curie ganó el Nobel de Física en 1903 y el de Química en 1911 (no Medicina). Fue la primera persona en ganar dos Nobeles, pero en Física y Química, categorías muy distintas a Física y Medicina.',
     categoria: 'ciencia',
+    temas: ['primaria'],
   },
   {
     id: 31, año: 1957, mes: 'Octubre de 1957',
@@ -287,6 +318,7 @@ export const PORTADAS = [
     veracidad: false,
     explicacion: 'Falso. El primer satélite artificial fue el soviético Sputnik 1 (4 de octubre de 1957). El Explorer 1 fue el primer satélite de EEUU, pero llegó cuatro meses después, el 31 de enero de 1958.',
     categoria: 'espacio',
+    temas: ['primaria'],
   },
   {
     id: 32, año: 1969, mes: 'Julio de 1969',
@@ -296,6 +328,7 @@ export const PORTADAS = [
     veracidad: false,
     explicacion: 'Falso. La URSS nunca envió ningún cosmonauta a la Luna. El primero en pisar la Luna fue el estadounidense Neil Armstrong el 20 de julio de 1969, en la misión Apolo 11. Leonov fue el primero en hacer una caminata espacial (1965).',
     categoria: 'espacio',
+    temas: ['primaria'],
   },
   {
     id: 33, año: 1945, mes: 'Agosto de 1945',
@@ -305,6 +338,7 @@ export const PORTADAS = [
     veracidad: false,
     explicacion: 'Falso. La primera bomba atómica cayó sobre Hiroshima el 6 de agosto de 1945. La segunda (sobre Nagasaki) fue tres días después, el 9 de agosto. El orden es importante: Hiroshima fue la primera, Nagasaki la segunda.',
     categoria: 'guerra',
+    temas: ['wwii'],
   },
   {
     id: 34, año: 1961, mes: 'Agosto de 1961',
@@ -314,6 +348,7 @@ export const PORTADAS = [
     veracidad: false,
     explicacion: 'Falso. El Muro de Berlín fue construido a partir del 13 de agosto de 1961, no en 1959. En una sola noche, Alemania Oriental comenzó a levantar alambre de espino que después se convirtió en muro de hormigón.',
     categoria: 'política',
+    temas: ['primaria'],
   },
   {
     id: 35, año: 1936, mes: 'Agosto de 1936',
@@ -323,6 +358,7 @@ export const PORTADAS = [
     veracidad: false,
     explicacion: 'Falso. Los Juegos Olímpicos de 1936 se celebraron en Berlín, no en Roma, bajo el régimen nazi de Adolf Hitler. Jesse Owens ganó allí cuatro oros, contradiciendo la teoría de la superioridad aria que pretendía demostrar Hitler.',
     categoria: 'deportes',
+    temas: ['wwii', 'primaria'],
   },
   {
     id: 36, año: 1938, mes: 'Diciembre de 1938',
@@ -332,6 +368,7 @@ export const PORTADAS = [
     veracidad: false,
     explicacion: 'Falso. La Guerra Civil no terminó en 1938 ni mediante armisticio. Concluyó el 1 de abril de 1939 con la victoria total de Franco tras la caída de Madrid. No hubo acuerdo: fue una rendición militar.',
     categoria: 'guerra',
+    temas: ['gce'],
   },
   {
     id: 37, año: 1971, mes: 'Julio de 1971',
@@ -341,6 +378,7 @@ export const PORTADAS = [
     veracidad: false,
     explicacion: 'Falso. Armstrong nunca volvió a la Luna. La misión Apolo 15 (julio-agosto de 1971) fue tripulada por David Scott y James Irwin. Armstrong se retiró de la NASA en 1971 y no participó en más misiones.',
     categoria: 'espacio',
+    temas: ['primaria'],
   },
   {
     id: 38, año: 1940, mes: 'Marzo de 1940',
@@ -350,6 +388,7 @@ export const PORTADAS = [
     veracidad: false,
     explicacion: 'Falso. La producción masiva de penicilina no fue obra de Fleming, sino de Howard Florey y Ernst Chain, que desarrollaron el proceso industrial a principios de los 40. Fleming los descubrió, pero no lideró su producción.',
     categoria: 'ciencia',
+    temas: ['primaria'],
   },
   {
     id: 39, año: 1903, mes: 'Diciembre de 1903',
@@ -359,6 +398,7 @@ export const PORTADAS = [
     veracidad: false,
     explicacion: 'Falso. El primer vuelo duró 12 segundos (no 59 minutos). Los cuatro vuelos del 17 de diciembre de 1903 duraron 12, 11, 15 y 59 segundos respectivamente. El último fue el más largo, pero fueron segundos, no minutos.',
     categoria: 'ciencia',
+    temas: ['primaria'],
   },
   {
     id: 40, año: 1986, mes: 'Abril de 1986',
@@ -368,5 +408,315 @@ export const PORTADAS = [
     veracidad: false,
     explicacion: 'Falso. Chernóbil no está en Francia sino en Ucrania (entonces parte de la URSS), cerca de la ciudad de Prípiat. La nube radiactiva sí llegó a Francia, pero la central estaba en territorio soviético.',
     categoria: 'catástrofe',
+    temas: ['primaria'],
+  },
+
+  // ── NUEVAS · GUERRA CIVIL ESPAÑOLA ────────────────────────────────────────
+
+  {
+    id: 41, año: 1937, mes: 'Abril de 1937',
+    periodico: 'El Sol', lugar: 'Madrid',
+    titular: 'La aviación nazi arrasa Guernica: una ciudad vasca borrada del mapa en pocas horas',
+    subtitular: 'La Legión Cóndor alemana bombardea el centro histórico el día de mercado. Centenares de civiles muertos entre las ruinas.',
+    veracidad: true,
+    explicacion: 'Verdadero. El 26 de abril de 1937, aviones de la Legión Cóndor (Alemania) y la Aviazione Legionaria (Italia) bombardearon Guernica durante el mercado semanal. El ataque inspiró el célebre cuadro de Picasso.',
+    categoria: 'guerra',
+    temas: ['gce'],
+  },
+  {
+    id: 42, año: 1938, mes: 'Julio de 1938',
+    periodico: 'La Vanguardia', lugar: 'Barcelona',
+    titular: 'El Ejército Popular lanza la mayor ofensiva republicana de la guerra cruzando el río Ebro',
+    subtitular: 'Ochenta mil soldados republicanos atraviesan el Ebro en la madrugada. La ofensiva busca reconectar las dos zonas republicanas.',
+    veracidad: true,
+    explicacion: 'Verdadero. El 25 de julio de 1938 comenzó la Batalla del Ebro, la mayor operación del ejército republicano. Aunque logró avances iniciales, Franco frenó la ofensiva y en noviembre de 1938 el Ebro quedó en manos franquistas.',
+    categoria: 'guerra',
+    temas: ['gce'],
+  },
+  {
+    id: 43, año: 1939, mes: 'Enero de 1939',
+    periodico: 'ABC', lugar: 'Sevilla',
+    titular: 'Las tropas nacionales entran en Barcelona sin resistencia: Cataluña queda bajo control franquista',
+    subtitular: 'El general Yagüe encabeza la entrada a la ciudad el 26 de enero. Cientos de miles de catalanes huyen hacia Francia.',
+    veracidad: true,
+    explicacion: 'Verdadero. El 26 de enero de 1939, las tropas franquistas entraron en Barcelona sin apenas resistencia. Fue el golpe definitivo para la República. Unos 500.000 refugiados cruzaron a Francia en las semanas siguientes.',
+    categoria: 'guerra',
+    temas: ['gce'],
+  },
+  {
+    id: 44, año: 1939, mes: 'Abril de 1939',
+    periodico: 'ABC', lugar: 'Madrid',
+    titular: 'El Generalísimo Franco proclama el fin de la guerra: España, una, grande y libre',
+    subtitular: 'El parte de guerra del 1 de abril anuncia la rendición total. Comienza la larga noche de la dictadura.',
+    veracidad: true,
+    explicacion: 'Verdadero. El 1 de abril de 1939, Franco firmó el último parte de guerra: "El ejército rojo ha sido capturado y desarmado. La guerra ha terminado." Comenzaba así casi cuarenta años de régimen franquista.',
+    categoria: 'guerra',
+    temas: ['gce'],
+  },
+  {
+    id: 45, año: 1936, mes: 'Octubre de 1936',
+    periodico: 'El Sol', lugar: 'Madrid',
+    titular: 'Las Brigadas Internacionales llegan a Madrid: voluntarios de todo el mundo defienden la República',
+    subtitular: 'Miles de antifascistas extranjeros —franceses, alemanes, italianos, americanos— combaten junto al ejército popular.',
+    veracidad: true,
+    explicacion: 'Verdadero. Las Brigadas Internacionales fueron voluntarios extranjeros que combatieron a favor de la República. Llegaron a partir de octubre de 1936 y su defensa de Madrid fue crucial. Unos 35.000 voluntarios de más de 50 países participaron.',
+    categoria: 'guerra',
+    temas: ['gce'],
+  },
+  {
+    id: 46, año: 1978, mes: 'Diciembre de 1978',
+    periodico: 'El País', lugar: 'Madrid',
+    titular: 'Los españoles aprueban en referéndum la nueva Constitución: nace la España democrática',
+    subtitular: 'El 88% de los votos respalda la carta magna. España culmina su Transición hacia la democracia.',
+    veracidad: true,
+    explicacion: 'Verdadero. El 6 de diciembre de 1978, los españoles aprobaron la Constitución con el 88,5% de votos a favor. El 6 de diciembre es el Día de la Constitución en España.',
+    categoria: 'política',
+    temas: ['gce'],
+  },
+  {
+    id: 47, año: 1937, mes: 'Abril de 1937',
+    periodico: 'Daily Mirror', lugar: 'Londres',
+    titular: 'La aviación republicana bombardea Guernica en represalia por los avances franquistas',
+    subtitular: 'El gobierno de Madrid ordena el ataque para destruir la ciudad vasca antes de que caiga en manos enemigas.',
+    veracidad: false,
+    explicacion: 'Falso. Guernica fue bombardeada por la Legión Cóndor nazi y la aviación italiana, aliadas del bando franquista, no por la República. La intención era destruir un símbolo vasco y aterrorizar a la población civil.',
+    categoria: 'guerra',
+    temas: ['gce'],
+  },
+  {
+    id: 48, año: 1938, mes: 'Noviembre de 1938',
+    periodico: 'La Vanguardia', lugar: 'Barcelona',
+    titular: 'Batalla del Ebro: el Ejército Popular vence y recupera el territorio perdido en Aragón',
+    subtitular: 'La gran ofensiva republicana resulta decisiva. Las fuerzas nacionales se repliegan en desbandada.',
+    veracidad: false,
+    explicacion: 'Falso. El Ejército Popular perdió la Batalla del Ebro. La ofensiva inicial tuvo éxito, pero Franco contraatacó con superioridad aérea y material. En noviembre de 1938, los republicanos se retiraron al otro lado del Ebro con enormes bajas.',
+    categoria: 'guerra',
+    temas: ['gce'],
+  },
+  {
+    id: 49, año: 1931, mes: 'Abril de 1931',
+    periodico: 'El Sol', lugar: 'Madrid',
+    titular: 'Se proclama la Segunda República Española: el rey Alfonso XIII parte al exilio',
+    subtitular: 'Las elecciones municipales dan la victoria a los republicanos en las ciudades. El rey abandona el país sin abdicar.',
+    veracidad: true,
+    explicacion: 'Verdadero. El 14 de abril de 1931, tras el triunfo republicano en las elecciones municipales, se proclamó la Segunda República. Alfonso XIII partió al exilio sin abdicar formalmente.',
+    categoria: 'política',
+    temas: ['gce'],
+  },
+
+  // ── NUEVAS · SEGUNDA GUERRA MUNDIAL ───────────────────────────────────────
+
+  {
+    id: 50, año: 1939, mes: 'Septiembre de 1939',
+    periodico: 'The Times', lugar: 'Londres',
+    titular: 'Alemania invade Polonia: Gran Bretaña y Francia declaran la guerra al Reich',
+    subtitular: 'La Wehrmacht cruza la frontera polaca al amanecer. Dos días después, los Aliados cumplen su ultimátum.',
+    veracidad: true,
+    explicacion: 'Verdadero. El 1 de septiembre de 1939, Alemania invadió Polonia. El 3 de septiembre, Gran Bretaña y Francia declararon la guerra a Alemania, iniciando oficialmente la Segunda Guerra Mundial.',
+    categoria: 'guerra',
+    temas: ['wwii'],
+  },
+  {
+    id: 51, año: 1941, mes: 'Diciembre de 1941',
+    periodico: 'The New York Times', lugar: 'Nueva York',
+    titular: 'Japón ataca Pearl Harbor: EEUU entra en la guerra',
+    subtitular: 'Cientos de aviones japoneses destruyen la flota del Pacífico en el ataque sorpresa. Roosevelt pide al Congreso declarar la guerra.',
+    veracidad: true,
+    explicacion: 'Verdadero. El 7 de diciembre de 1941, la aviación imperial japonesa atacó la base naval de Pearl Harbor (Hawái), matando a 2.403 americanos. Al día siguiente, EEUU declaró la guerra a Japón.',
+    categoria: 'guerra',
+    temas: ['wwii'],
+  },
+  {
+    id: 52, año: 1944, mes: 'Junio de 1944',
+    periodico: 'The Daily Telegraph', lugar: 'Londres',
+    titular: 'Los Aliados desembarcan en Normandía: el mayor ejército de la historia asalta las playas francesas',
+    subtitular: 'La Operación Overlord envía 156.000 soldados en el Día D. El muro del Atlántico de Hitler comienza a ceder.',
+    veracidad: true,
+    explicacion: 'Verdadero. El 6 de junio de 1944 (Día D), los Aliados lanzaron la Operación Overlord: el desembarco en las playas de Normandía (Utah, Omaha, Gold, Juno y Sword). Fue la mayor operación anfibia de la historia.',
+    categoria: 'guerra',
+    temas: ['wwii'],
+  },
+  {
+    id: 53, año: 1945, mes: 'Febrero de 1945',
+    periodico: 'The Washington Post', lugar: 'Washington D.C.',
+    titular: 'Churchill, Roosevelt y Stalin se reúnen en Yalta: los tres grandes deciden el mapa de posguerra',
+    subtitular: 'La conferencia en Crimea da forma a la Europa de posguerra. Alemania será dividida en zonas de ocupación.',
+    veracidad: true,
+    explicacion: 'Verdadero. Del 4 al 11 de febrero de 1945, los líderes aliados se reunieron en Yalta (Crimea). Acordaron la división de Alemania en zonas de ocupación, la creación de la ONU y la entrada soviética en la guerra contra Japón.',
+    categoria: 'guerra',
+    temas: ['wwii'],
+  },
+  {
+    id: 54, año: 1942, mes: 'Febrero de 1942',
+    periodico: 'The New York Times', lugar: 'Nueva York',
+    titular: 'EEUU declara la guerra a Alemania e Italia en respuesta al ataque de Pearl Harbor',
+    subtitular: 'Dos meses después de Pearl Harbor, el Congreso vota ampliar el conflicto al frente europeo.',
+    veracidad: false,
+    explicacion: 'Falso. EEUU no tuvo que declarar la guerra a Alemania: fue Alemania quien declaró la guerra a EEUU el 11 de diciembre de 1941, cuatro días después de Pearl Harbor, siguiendo su alianza con Japón. Roosevelt aprovechó el gesto para entrar en el frente europeo.',
+    categoria: 'guerra',
+    temas: ['wwii'],
+  },
+  {
+    id: 55, año: 1938, mes: 'Septiembre de 1938',
+    periodico: 'The Times', lugar: 'Londres',
+    titular: 'Churchill llega a Múnich y pacta con Hitler: "He traído paz para nuestro tiempo"',
+    subtitular: 'El primer ministro británico firma los Acuerdos de Múnich cediendo los Sudetes a Alemania.',
+    veracidad: false,
+    explicacion: 'Falso. Fue Neville Chamberlain, no Winston Churchill, quien firmó los Acuerdos de Múnich en septiembre de 1938. Churchill denunció el pacto como una capitulación. Chamberlain pronunció la famosa frase "paz para nuestro tiempo".',
+    categoria: 'guerra',
+    temas: ['wwii'],
+  },
+  {
+    id: 56, año: 1940, mes: 'Junio de 1940',
+    periodico: 'Le Monde', lugar: 'París',
+    titular: 'Francia capitula ante Alemania: el mariscal Pétain firma el armisticio',
+    subtitular: 'Tras seis semanas de guerra relámpago, el gobierno francés acepta la derrota. Francia queda dividida en zona ocupada y libre.',
+    veracidad: true,
+    explicacion: 'Verdadero. El 22 de junio de 1940, el mariscal Pétain firmó el armisticio con Alemania. Francia quedó dividida: la zona norte ocupada por los nazis y la zona sur bajo el régimen colaboracionista de Vichy.',
+    categoria: 'guerra',
+    temas: ['wwii'],
+  },
+  {
+    id: 57, año: 1944, mes: 'Junio de 1944',
+    periodico: 'Le Figaro', lugar: 'Argel',
+    titular: 'Los Aliados desembarcan en Calais: el gran engaño alemán fracasa y las playas francesas son tomadas',
+    subtitular: 'La Operación Fortitude consiguió que Hitler esperase el ataque en el Paso de Calais.',
+    veracidad: false,
+    explicacion: 'Falso. El desembarco fue en Normandía, no en Calais. Precisamente, los Aliados lanzaron la Operación Fortitude para hacer creer a Hitler que el ataque vendría por Calais. El engaño funcionó y Hitler tardó en enviar refuerzos a Normandía.',
+    categoria: 'guerra',
+    temas: ['wwii'],
+  },
+  {
+    id: 58, año: 1943, mes: 'Febrero de 1943',
+    periodico: 'Pravda', lugar: 'Moscú',
+    titular: 'El ejército alemán se rinde en Stalingrado: el mariscal Paulus capturado con 90.000 soldados',
+    subtitular: 'La batalla más sangrienta de la historia termina con la derrota nazi. El frente oriental gira definitivamente.',
+    veracidad: true,
+    explicacion: 'Verdadero. El 2 de febrero de 1943, el Mariscal de Campo Friedrich Paulus se rindió en Stalingrado con 90.000 soldados supervivientes de los 300.000 iniciales. Fue el punto de inflexión de la guerra en el frente oriental.',
+    categoria: 'guerra',
+    temas: ['wwii'],
+  },
+
+  // ── NUEVAS · INDEPENDENCIA AMERICANA ─────────────────────────────────────
+
+  {
+    id: 59, año: 1773, mes: 'Diciembre de 1773',
+    periodico: 'Boston Gazette', lugar: 'Boston',
+    titular: 'Colonos disfrazados de indios arrojan el cargamento de té británico al puerto de Boston',
+    subtitular: 'La "Fiesta del Té de Boston" protesta contra el impuesto sin representación. Londres promete represalias.',
+    veracidad: true,
+    explicacion: 'Verdadero. El 16 de diciembre de 1773, un grupo de colonos disfrazados de indios mohawk arrojó 342 cajas de té de la Compañía de las Indias Orientales al puerto de Boston. Fue la chispa que encendió el camino hacia la independencia.',
+    categoria: 'política',
+    temas: ['usa'],
+  },
+  {
+    id: 60, año: 1775, mes: 'Abril de 1775',
+    periodico: 'Massachusetts Spy', lugar: 'Worcester',
+    titular: 'Los primeros disparos de la revolución suenan en Lexington: "La bala que se escuchó en todo el mundo"',
+    subtitular: 'Milicianos coloniales se enfrentan a las tropas británicas. La guerra de la independencia ha comenzado.',
+    veracidad: true,
+    explicacion: 'Verdadero. El 19 de abril de 1775, en Lexington y Concord (Massachusetts), se produjeron los primeros enfrentamientos armados de la Guerra de Independencia americana. El poeta Emerson los inmortalizó como "el disparo que se escuchó en todo el mundo".',
+    categoria: 'guerra',
+    temas: ['usa'],
+  },
+  {
+    id: 61, año: 1776, mes: 'Julio de 1776',
+    periodico: 'Pennsylvania Gazette', lugar: 'Filadelfia',
+    titular: 'Las trece colonias declaran su independencia de Gran Bretaña: nace una nueva nación',
+    subtitular: 'El Congreso Continental aprueba el documento redactado por Thomas Jefferson. "Todos los hombres son creados iguales."',
+    veracidad: true,
+    explicacion: 'Verdadero. El 4 de julio de 1776, el Congreso Continental adoptó la Declaración de Independencia, redactada principalmente por Thomas Jefferson. El 4 de julio se celebra como el Día de la Independencia de EEUU.',
+    categoria: 'política',
+    temas: ['usa'],
+  },
+  {
+    id: 62, año: 1781, mes: 'Octubre de 1781',
+    periodico: 'Pennsylvania Packet', lugar: 'Filadelfia',
+    titular: 'El general Cornwallis se rinde en Yorktown: el dominio británico en América llega a su fin',
+    subtitular: 'Washington y Rochambeau sitúan al ejército inglés. La banda toca "El mundo patas arriba" en la rendición.',
+    veracidad: true,
+    explicacion: 'Verdadero. El 19 de octubre de 1781, el general británico Cornwallis se rindió en Yorktown (Virginia) ante Washington y las fuerzas franco-americanas. Fue la batalla definitiva de la Guerra de Independencia.',
+    categoria: 'guerra',
+    temas: ['usa'],
+  },
+  {
+    id: 63, año: 1783, mes: 'Septiembre de 1783',
+    periodico: 'Pennsylvania Gazette', lugar: 'Filadelfia',
+    titular: 'El Tratado de París pone fin oficialmente a la guerra: Gran Bretaña reconoce la independencia americana',
+    subtitular: 'Los negociadores Franklin, Adams y Jay firman el acuerdo de paz. EEUU recibe territorios hasta el río Misisipi.',
+    veracidad: true,
+    explicacion: 'Verdadero. El 3 de septiembre de 1783, se firmó el Tratado de París por el que Gran Bretaña reconocía la independencia de los Estados Unidos y cedía los territorios al este del Misisipi.',
+    categoria: 'política',
+    temas: ['usa'],
+  },
+  {
+    id: 64, año: 1787, mes: 'Septiembre de 1787',
+    periodico: 'Pennsylvania Packet', lugar: 'Filadelfia',
+    titular: 'La Convención de Filadelfia aprueba la Constitución de los Estados Unidos',
+    subtitular: '39 delegados firman el documento. Ahora debe ser ratificado por al menos 9 de los 13 estados.',
+    veracidad: true,
+    explicacion: 'Verdadero. El 17 de septiembre de 1787, la Convención Constitucional aprobó la Constitución de EEUU. Es la constitución escrita más antigua en vigor del mundo. Entró en vigor en 1789 tras ser ratificada por los estados.',
+    categoria: 'política',
+    temas: ['usa'],
+  },
+  {
+    id: 65, año: 1789, mes: 'Abril de 1789',
+    periodico: 'The Gazette of the United States', lugar: 'Nueva York',
+    titular: 'George Washington jura el cargo como primer presidente de los Estados Unidos de América',
+    subtitular: 'El héroe de la revolución asume el poder en Nueva York, primera capital del país. El experimento democrático comienza.',
+    veracidad: true,
+    explicacion: 'Verdadero. El 30 de abril de 1789, George Washington fue investido como primer presidente de EEUU en Federal Hall, Nueva York. Rechazó ser rey y estableció el precedente de dos mandatos máximos.',
+    categoria: 'política',
+    temas: ['usa'],
+  },
+  {
+    id: 66, año: 1776, mes: 'Julio de 1776',
+    periodico: 'Boston Gazette', lugar: 'Boston',
+    titular: 'Las colonias americanas declaran la independencia de Francia tras años de dominio colonial',
+    subtitular: 'El Congreso Continental rompe con la metrópoli europea. Lafayette reacciona con indignación en París.',
+    veracidad: false,
+    explicacion: 'Falso. Las trece colonias declararon la independencia de Gran Bretaña, no de Francia. De hecho, Francia fue el principal aliado de las colonias durante la guerra, enviando tropas y financiación bajo el mando del general Rochambeau y el marqués de Lafayette.',
+    categoria: 'política',
+    temas: ['usa'],
+  },
+  {
+    id: 67, año: 1776, mes: 'Agosto de 1776',
+    periodico: 'Pennsylvania Gazette', lugar: 'Filadelfia',
+    titular: 'Benjamin Franklin firma la Declaración de Independencia como principal redactor del documento',
+    subtitular: 'El diplomático y científico bostoniano lidera la Convención y redacta los principios fundacionales de la nueva nación.',
+    veracidad: false,
+    explicacion: 'Falso. El principal redactor de la Declaración fue Thomas Jefferson. Franklin sí firmó el documento como delegado, pero su papel fue el de editor y revisor menor. Jefferson tardó 17 días en redactar el borrador inicial.',
+    categoria: 'política',
+    temas: ['usa'],
+  },
+  {
+    id: 68, año: 1789, mes: 'Enero de 1789',
+    periodico: 'The Massachusetts Centinel', lugar: 'Boston',
+    titular: 'George Washington rechaza la corona: los Padres Fundadores lo proclaman rey de América',
+    subtitular: 'El general victorioso declina el título monárquico y opta por un gobierno republicano elegido por el pueblo.',
+    veracidad: false,
+    explicacion: 'Falso en su premisa. Washington sí rechazó propuestas informales de liderazgo vitalicio o monárquico, lo cual es históricamente notable. Pero el enunciado confunde: los Padres Fundadores nunca lo "proclamaron rey"; optaron desde el principio por una república.',
+    categoria: 'política',
+    temas: ['usa'],
+  },
+  {
+    id: 69, año: 1777, mes: 'Julio de 1777',
+    periodico: 'Pennsylvania Gazette', lugar: 'Filadelfia',
+    titular: 'Las trece colonias declaran la independencia de Gran Bretaña: el Congreso firma en Filadelfia',
+    subtitular: 'El 4 de julio de 1777 pasará a la historia como el día en que América nació como nación libre.',
+    veracidad: false,
+    explicacion: 'Falso. La Declaración de Independencia se aprobó el 4 de julio de 1776, no de 1777. En julio de 1777 se cumplía el primer aniversario. El 4 de julio de 1776 es la fecha que se celebra como el Día de la Independencia.',
+    categoria: 'política',
+    temas: ['usa'],
+  },
+  {
+    id: 70, año: 1775, mes: 'Junio de 1775',
+    periodico: 'Massachusetts Spy', lugar: 'Worcester',
+    titular: 'El Congreso Continental nombra a Benjamin Franklin comandante en jefe del Ejército Continental',
+    subtitular: 'El famoso científico e inventor asume el mando de las fuerzas coloniales frente al ejército británico.',
+    veracidad: false,
+    explicacion: 'Falso. El comandante en jefe del Ejército Continental fue George Washington, no Benjamin Franklin. El Congreso lo nombró el 15 de junio de 1775. Franklin tenía entonces 69 años y desempeñó un papel diplomático fundamental en Francia.',
+    categoria: 'política',
+    temas: ['usa'],
   },
 ]

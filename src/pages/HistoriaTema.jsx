@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate, useParams, useLocation } from 'react-router-dom'
 import { EVENTOS_HISTORIA, calcularMargen } from '../data/historiaEvents'
+import { PORTADAS } from '../data/portadas'
 
 const NIVELES = [
   { id: 'primaria', label: 'Primaria', emoji: '🎒' },
@@ -62,6 +63,9 @@ export default function HistoriaTema() {
     ? { lives: 5, winAt: Math.min(10, eventos.length), livesLabel: '5 vidas', winLabel: `Coloca ${Math.min(10, eventos.length)} → Apruebas` }
     : { lives: 3, winAt: null, livesLabel: '3 vidas', winLabel: `Coloca ${eventos.length} → Apruebas` }
 
+  const portadasDelTema = PORTADAS.filter(p => p.temas?.includes(categoria))
+  const tienePortadas   = portadasDelTema.length >= 10
+
   const modos = [
     {
       id: 'linea',
@@ -83,6 +87,17 @@ export default function HistoriaTema() {
       detalles: ['12 personajes por partida', '300 pts si aciertas a la 1ª pista', '2 intentos'],
       action: () => navigate('/juegos/quien-es-quien', {
         state: { pool: categoria, backPath: `/estudiar/historia/${categoria}` }
+      }),
+    },
+    tienePortadas && {
+      id: 'portadas',
+      titulo: 'Portadas',
+      descripcion: 'Lee titulares reales de periódicos históricos y decide si son verdad o mentira. 10 portadas, nota al final.',
+      emoji: '📰',
+      gradient: 'from-stone-600 to-neutral-800',
+      detalles: [`${portadasDelTema.length} titulares`, '10 por examen', 'Verdad o mentira'],
+      action: () => navigate('/examen/portadas', {
+        state: { categoria, backPath: `/estudiar/historia/${categoria}` }
       }),
     },
     tieneFechas && {

@@ -14,9 +14,11 @@ export default function PreguntaDiaria() {
   const [loading, setLoading]     = useState(true)
   const [showAuth, setShowAuth]   = useState(false)
 
-  const desafio  = getDesafioDeHoy()
-  const esMate   = desafio.tipo === 'matematicas'
-  const pregunta = desafio.tipo === 'trivia' ? desafio.pregunta : null
+  const desafio    = getDesafioDeHoy()
+  const esMate     = desafio.tipo === 'matematicas'
+  const esPortada  = desafio.tipo === 'portada'
+  const pregunta   = desafio.tipo === 'trivia' ? desafio.pregunta : null
+  const portadaHoy = desafio.tipo === 'portada' ? desafio.portada : null
 
   useEffect(() => {
     if (!user) { setLoading(false); return }
@@ -30,6 +32,17 @@ export default function PreguntaDiaria() {
     setAnswered(true)
     if (user) {
       const saved = await saveDailyChallenge(user.uid, selected === pregunta.correcta)
+      if (saved) setStreak(s => s + 1)
+    }
+  }
+
+  async function confirmarPortada(respuesta) {
+    if (answered) return
+    setSelected(respuesta ? 'true' : 'false')
+    setAnswered(true)
+    if (user) {
+      const correcto = respuesta === portadaHoy.veracidad
+      const saved    = await saveDailyChallenge(user.uid, correcto)
       if (saved) setStreak(s => s + 1)
     }
   }
@@ -76,6 +89,72 @@ export default function PreguntaDiaria() {
               <p className="text-white/30 text-xs mt-1">¡No rompas la racha!</p>
             </div>
           </div>
+        ) : esPortada ? (
+          /* ── Portada histórica ── */
+          <>
+            <div className="px-6 sm:px-8 py-4">
+              <p className="text-xs font-semibold text-white/40 uppercase tracking-widest mb-3">
+                📰 Portada histórica · ¿Verdad o mentira?
+              </p>
+              {/* Mini portada */}
+              <div
+                className="bg-[#f5f0e3] rounded-xl overflow-hidden border border-[#c8b89a] shadow-lg mb-4"
+                style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}
+              >
+                <div className="h-2 bg-gray-900" />
+                <div className="px-4 pt-2 pb-2 border-b-2 border-gray-800 text-center">
+                  <p className="text-[9px] uppercase tracking-widest text-gray-500">{portadaHoy.lugar} · {portadaHoy.mes}</p>
+                  <h2 className="text-base font-black uppercase tracking-wide text-gray-900 leading-tight">{portadaHoy.periodico}</h2>
+                </div>
+                <div className="px-4 py-3">
+                  <p className="text-sm font-black text-gray-900 leading-snug mb-2">{portadaHoy.titular}</p>
+                  <p className="text-[11px] text-gray-500 leading-relaxed border-t border-gray-200 pt-2">{portadaHoy.subtitular}</p>
+                </div>
+                <div className="h-1.5 bg-gray-900 mx-4 mb-3 rounded-sm" />
+              </div>
+
+              {!answered ? (
+                <div className="grid grid-cols-2 gap-3">
+                  <button
+                    onClick={() => confirmarPortada(true)}
+                    className="py-4 bg-green-700 hover:bg-green-600 text-white font-black text-lg rounded-xl transition-all active:scale-95"
+                  >
+                    ✓ VERDAD
+                  </button>
+                  <button
+                    onClick={() => confirmarPortada(false)}
+                    className="py-4 bg-red-700 hover:bg-red-600 text-white font-black text-lg rounded-xl transition-all active:scale-95"
+                  >
+                    ✗ MENTIRA
+                  </button>
+                </div>
+              ) : (
+                <>
+                  <div className={`text-center py-3 rounded-xl font-bold mb-3 ${
+                    (selected === 'true') === portadaHoy.veracidad
+                      ? 'bg-green-500/20 text-green-400'
+                      : 'bg-red-500/20 text-red-400'
+                  }`}>
+                    {(selected === 'true') === portadaHoy.veracidad
+                      ? `🎉 ¡Correcto! Era ${portadaHoy.veracidad ? 'VERDAD' : 'MENTIRA'}`
+                      : `❌ Era ${portadaHoy.veracidad ? 'VERDAD' : 'MENTIRA'}`
+                    }
+                  </div>
+                  <div className="bg-white/5 border border-white/10 rounded-xl p-4">
+                    <p className="text-white/60 text-sm leading-relaxed">💡 {portadaHoy.explicacion}</p>
+                  </div>
+                  {!user && (
+                    <button onClick={() => setShowAuth(true)} className="mt-3 w-full bg-amber-500/20 border border-amber-500/30 text-amber-400 font-semibold py-2.5 rounded-xl text-sm hover:bg-amber-500/30 transition-colors">
+                      Inicia sesión para guardar tu racha 🔥
+                    </button>
+                  )}
+                </>
+              )}
+            </div>
+            <div className="px-6 sm:px-8 pb-6">
+              <p className="text-center text-white/20 text-xs">Nueva portada mañana · Vuelve cada día</p>
+            </div>
+          </>
         ) : esMate ? (
           /* ── Reto de cálculo mental (mismo motor que Acércate, sin selección) ── */
           <>
