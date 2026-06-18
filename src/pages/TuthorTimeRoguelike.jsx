@@ -228,13 +228,10 @@ export default function TuthorTimeRoguelike() {
         resultado, vidaGastada, espera, pts,
         añoEnviado, esTiempo,
         evento: { ...evento },
+        allDead,
       })
 
-      if (allDead) {
-        setTimeout(() => setFase('resultado'), 2200)
-      } else {
-        setFase('feedback')
-      }
+      setFase('feedback')
 
       return next
     })
@@ -464,7 +461,7 @@ export default function TuthorTimeRoguelike() {
 
   // ── FEEDBACK ───────────────────────────────────────────────────────────────
   if (fase === 'feedback' && feedback) {
-    const { resultado, vidaGastada, espera, pts, añoEnviado, esTiempo, evento: ev } = feedback
+    const { resultado, vidaGastada, espera, pts, añoEnviado, esTiempo, evento: ev, allDead } = feedback
 
     const badgeMap = {
       PERFECTO: { text: '¡Llegada perfecta!', color: 'text-green-400' },
@@ -474,7 +471,6 @@ export default function TuthorTimeRoguelike() {
       TIEMPO:   { text: 'Tiempo agotado', color: 'text-red-400' },
     }
     const badge = badgeMap[resultado] || badgeMap['ÉXITO']
-    const allDead = agentes.every(a => a.muerto)
 
     return (
       <div className="min-h-screen flex flex-col items-center justify-center px-4 py-6">
@@ -517,7 +513,12 @@ export default function TuthorTimeRoguelike() {
             </div>
 
             {allDead ? (
-              <div className="text-white/40 text-sm">Todos los agentes han caído…</div>
+              <button
+                onClick={() => setFase('resultado')}
+                className="w-full bg-red-600 hover:bg-red-500 text-white font-bold py-3 rounded-xl transition"
+              >
+                💀 Game over →
+              </button>
             ) : (
               <button
                 onClick={siguienteNivel}

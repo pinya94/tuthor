@@ -396,6 +396,7 @@ export default function QuienEsQuien() {
         {/* Acciones */}
         <div className="flex gap-2">
           {(() => {
+            if (ganó) return null
             const unicoRestante = activosCount === 1
               ? tablero.find(p => !tachados.has(p.id) && !resultados[p.id])
               : null
