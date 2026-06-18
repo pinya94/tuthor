@@ -26,15 +26,11 @@ export default function MatematicasTema() {
     {
       id: 'acercate',
       titulo: 'Acércate al número',
-      descripcion: 'Combina los números con las operaciones permitidas hasta llegar exactamente al objetivo.',
+      descripcion: '10 puzzles: combina los números con las operaciones permitidas hasta llegar al objetivo. Se aprueba con 5 o más acertados.',
       emoji: '🎯',
       gradient: 'from-pink-500 to-rose-600',
-      detalles: [
-        `Objetivo ${grado.objMin}-${grado.objMax}`,
-        `${grado.count} números`,
-        `${grado.tiempo}s`,
-      ],
-      action: () => navigate(`/estudiar/matematicas/${modoId}/jugar`, { state: { nivel } }),
+      detalles: ['10 puzzles', 'Apruebas con 5+', `${grado.tiempo}s por puzzle`],
+      action: () => navigate(`/estudiar/matematicas/${modoId}/jugar`, { state: { nivel, modoExamen: true } }),
     },
   ]
 
