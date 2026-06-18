@@ -93,6 +93,7 @@ export default function AcercateRoguelike() {
   const [numeros, setNumeros] = useState([])
   const [sel1, setSel1] = useState(null)
   const [opSel, setOpSel] = useState(null)
+  const [previousSel, setPreviousSel] = useState(null)
   const [historial, setHistorial] = useState([])
   const [tiempo, setTiempo] = useState(60)
   const [tiempoTotal, setTiempoTotal] = useState(60)
@@ -146,7 +147,7 @@ export default function AcercateRoguelike() {
     tiempoRef.current = t
     setObjetivo(obj)
     setNumeros(nums)
-    setSel1(null); setOpSel(null); setHistorial([])
+    setSel1(null); setOpSel(null); setPreviousSel(null); setHistorial([])
     setTiempo(t); setTiempoTotal(t)
     setVictoria(false); setFlashId(null); setLevelScore(null)
     setRd(runData)
@@ -262,6 +263,7 @@ export default function AcercateRoguelike() {
 
   // ── Puzzle interactions ──────────────────────────────────────────────────
   function clickNumero(n) {
+    if(previousSel) { setPreviousSel(null); }
     if (!sel1) { setSel1(n); return }
     if (n.id === sel1.id) { setSel1(null); setOpSel(null); return }
     if (!opSel) { setSel1(n); return }
@@ -279,16 +281,19 @@ export default function AcercateRoguelike() {
     setFlashId(newId)
     setTimeout(() => setFlashId(null), 700)
     setSel1(null); setOpSel(null)
+    setPreviousSel({ id: newId, valor: res })
 
     const hayVictoria = nuevos.some(x => x.valor === objetivo)
     if (hayVictoria || nuevos.length === 1) {
+      setPreviousSel(null)
       clearInterval(timerRef.current)
       setTimeout(() => acabar(false, nuevos, objetivo), 600)
     }
   }
 
   function clickOp(op) {
-    if (!sel1) return
+    if (!sel1 && previousSel) { setSel1(previousSel) }
+    else if(!sel1) return
     setOpSel(prev => prev === op ? null : op)
   }
 
@@ -296,13 +301,13 @@ export default function AcercateRoguelike() {
     if (historial.length === 0) return
     setNumeros(historial[historial.length - 1])
     setHistorial(h => h.slice(0, -1))
-    setSel1(null); setOpSel(null)
+    setSel1(null); setOpSel(null); setPreviousSel(null)
   }
 
   function resetear() {
     if (historial.length === 0) return
     setNumeros(historial[0])
-    setHistorial([]); setSel1(null); setOpSel(null)
+    setHistorial([]); setSel1(null); setOpSel(null); setPreviousSel(null)
   }
 
   // ═══════════════════════════════════════════════════════════════════════
@@ -633,7 +638,7 @@ export default function AcercateRoguelike() {
           {(DIFS[rd?.difId || difId].ops).map(op => {
             const style = OP_STYLE[op]
             const active = opSel === op
-            const disabled = !sel1
+            const disabled = !sel1 && !previousSel
             return (
               <button key={op} onClick={() => clickOp(op)} disabled={disabled}
                 className={`h-14 rounded-2xl font-black text-2xl border-2 transition-all duration-150 ${
