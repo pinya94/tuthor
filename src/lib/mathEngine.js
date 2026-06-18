@@ -93,12 +93,16 @@ function genVals(cfg, ops) {
   return Array.from({ length: cfg.count }, () => rng(1, cfg.numMax))
 }
 
+const SOLVER_MAX = 6
 // Genera un puzzle garantizado: objetivo siempre alcanzable con los números dados y las operaciones permitidas.
+// Si hay más de SOLVER_MAX números, el solver solo usa 6 para garantizar el objetivo;
+// el resto son comodines que dan opciones extra al jugador sin coste computacional.
 export function generarPuzzle(cfg, ops) {
   _solverCache.clear()
   for (let intento = 0; intento < 30; intento++) {
     const vals = genVals(cfg, ops)
-    const alcanzables = getAllReachable(vals, ops)
+    const solverVals = vals.length > SOLVER_MAX ? vals.slice(0, SOLVER_MAX) : vals
+    const alcanzables = getAllReachable(solverVals, ops)
     const candidatos = [...alcanzables].filter(v =>
       v >= cfg.objMin && v <= cfg.objMax && !vals.includes(v)
     )
@@ -112,7 +116,6 @@ export function generarPuzzle(cfg, ops) {
       return { vals, objetivo }
     }
   }
-  // Fallback extremo (no debería ocurrir con los rangos actuales)
   const vals = genVals(cfg, ops)
   return { vals, objetivo: rng(cfg.objMin, cfg.objMax) }
 }
