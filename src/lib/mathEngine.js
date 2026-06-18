@@ -41,7 +41,10 @@ export function aplicar(a, op, b) {
 
 // ── Solver: calcula todos los valores alcanzables con esos números, respetando las operaciones permitidas ──
 const _solverCache = new Map()
-export function getAllReachable(nums, ops) {
+const MAX_REACHABLE_DEPTH = 6
+export function getAllReachable(nums, ops, _depth = 0) {
+  if (_depth > MAX_REACHABLE_DEPTH) return new Set(nums.filter(n => n > 0))
+
   const key = ops.join('') + '|' + [...nums].sort((a, b) => a - b).join(',')
   if (_solverCache.has(key)) return _solverCache.get(key)
 
@@ -66,7 +69,7 @@ export function getAllReachable(nums, ops) {
       for (const r of candidatos) {
         if (r > 0 && Number.isInteger(r)) {
           results.add(r)
-          for (const v of getAllReachable([...rest, r], ops)) results.add(v)
+          for (const v of getAllReachable([...rest, r], ops, _depth + 1)) results.add(v)
         }
       }
     }
@@ -92,6 +95,7 @@ function genVals(cfg, ops) {
 
 // Genera un puzzle garantizado: objetivo siempre alcanzable con los números dados y las operaciones permitidas.
 export function generarPuzzle(cfg, ops) {
+  _solverCache.clear()
   for (let intento = 0; intento < 30; intento++) {
     const vals = genVals(cfg, ops)
     const alcanzables = getAllReachable(vals, ops)
