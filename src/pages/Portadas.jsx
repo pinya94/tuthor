@@ -34,38 +34,38 @@ function PortadaCard({ p }) {
       className="bg-[#f5f0e3] rounded-2xl overflow-hidden shadow-2xl border border-[#c8b89a]"
       style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}
     >
-      <div className="h-3 bg-gray-900" />
+      <div className="h-3 md:h-4 bg-gray-900" />
 
-      <div className="px-5 pt-3 pb-3 border-b-2 border-gray-800 text-center">
-        <p className="text-[10px] uppercase tracking-widest text-gray-500 mb-0.5">
+      <div className="px-5 md:px-10 pt-4 md:pt-6 pb-3 md:pb-5 border-b-2 border-gray-800 text-center">
+        <p className="text-[10px] md:text-xs uppercase tracking-widest text-gray-500 mb-1">
           {p.lugar} · {p.mes}
         </p>
-        <h1 className="text-2xl md:text-3xl font-black uppercase tracking-wide text-gray-900 leading-tight">
+        <h1 className="text-2xl md:text-5xl font-black uppercase tracking-wide text-gray-900 leading-tight">
           {p.periodico}
         </h1>
-        <div className="flex items-center justify-between mt-1.5">
-          <span className="text-[9px] text-gray-400">Edición especial</span>
-          <span className={`text-[9px] font-bold uppercase px-2 py-0.5 rounded border ${catStyle}`}>
+        <div className="flex items-center justify-between mt-2 md:mt-3">
+          <span className="text-[9px] md:text-xs text-gray-400">Edición especial</span>
+          <span className={`text-[9px] md:text-xs font-bold uppercase px-2 py-0.5 rounded border ${catStyle}`}>
             {p.categoria}
           </span>
-          <span className="text-[9px] text-gray-400">Precio: 10 ctos.</span>
+          <span className="text-[9px] md:text-xs text-gray-400">Precio: 10 ctos.</span>
         </div>
       </div>
 
-      <div className="mx-4 border-t-2 border-b border-gray-700" style={{ marginTop: '3px', paddingTop: '1px' }} />
+      <div className="mx-5 md:mx-10 border-t-2 border-b border-gray-700" style={{ marginTop: '3px', paddingTop: '1px' }} />
 
-      <div className="px-5 py-4">
-        <h2 className="text-lg md:text-xl font-black leading-snug text-gray-900 mb-3">
+      <div className="px-5 md:px-10 py-4 md:py-7">
+        <h2 className="text-lg md:text-3xl font-black leading-snug text-gray-900 mb-3 md:mb-5">
           {p.titular}
         </h2>
-        <div className="border-t border-b border-gray-300 py-2.5">
-          <p className="text-xs md:text-sm leading-relaxed text-gray-600">
+        <div className="border-t border-b border-gray-300 py-2.5 md:py-4">
+          <p className="text-xs md:text-base leading-relaxed text-gray-600">
             {p.subtitular}
           </p>
         </div>
       </div>
 
-      <div className="h-1.5 bg-gray-900 mx-5 mb-4 rounded-sm" />
+      <div className="h-1.5 md:h-2 bg-gray-900 mx-5 md:mx-10 mb-4 md:mb-6 rounded-sm" />
     </div>
   )
 }
