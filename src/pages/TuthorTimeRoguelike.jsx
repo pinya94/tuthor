@@ -79,6 +79,65 @@ function formatAño(a) {
   return a < 0 ? `${Math.abs(a)} a.C.` : String(a)
 }
 
+// ── Contador animado de años ───────────────────────────────────────────────
+function YearCounter({ añoEnviado, añoEvento, vidaAntesViaje, resultado, esTiempo }) {
+  const [current, setCurrent] = useState(esTiempo ? añoEvento : añoEnviado)
+  const [done, setDone]       = useState(esTiempo || resultado === 'PERFECTO')
+
+  useEffect(() => {
+    if (esTiempo || resultado === 'PERFECTO' || añoEnviado === añoEvento) {
+      setDone(true)
+      return
+    }
+    const distance  = Math.abs(añoEvento - añoEnviado)
+    const direction = añoEvento > añoEnviado ? 1 : -1
+    const step      = Math.max(1, Math.ceil(distance / 70))
+    const ms        = Math.max(25, Math.min(90, Math.round(2800 / Math.ceil(distance / step))))
+
+    const id = setInterval(() => {
+      setCurrent(prev => {
+        const next = prev + direction * step
+        const reached = direction > 0 ? next >= añoEvento : next <= añoEvento
+        if (reached) { clearInterval(id); setDone(true); return añoEvento }
+        return next
+      })
+    }, ms)
+    return () => clearInterval(id)
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
+  const yearsElapsed = Math.abs(current - añoEnviado)
+  const agenteDead   = yearsElapsed >= vidaAntesViaje
+
+  let color
+  if (resultado === 'TARDE')                         color = 'text-red-400'
+  else if (agenteDead)                               color = 'text-red-400'
+  else if (done && resultado === 'PERFECTO')         color = 'text-green-400'
+  else if (done)                                     color = 'text-amber-300'
+  else                                               color = 'text-white'
+
+  const label = esTiempo
+    ? 'Año del evento'
+    : done ? 'Año del evento' : resultado === 'TARDE' ? 'El agente llega…' : 'El agente espera…'
+
+  return (
+    <div className="text-center py-4">
+      <p className="text-white/30 text-[10px] uppercase tracking-widest mb-2">{label}</p>
+      <div className={`text-7xl font-black tabular-nums leading-none transition-colors duration-150 ${color}`}>
+        {formatAño(current)}
+      </div>
+      {done && (
+        <p className={`text-xs mt-2 font-semibold ${color}`}>
+          {resultado === 'PERFECTO' && '✓ Llegada exacta — 0 años de espera'}
+          {resultado === 'TARDE'    && '✗ Llegaste después del evento'}
+          {resultado === 'MUERTO'   && `💀 Vida agotada tras ${vidaAntesViaje} años`}
+          {resultado === 'ÉXITO'    && `${Math.abs(añoEvento - añoEnviado)} años de espera`}
+          {resultado === 'TIEMPO'   && 'Tiempo agotado'}
+        </p>
+      )}
+    </div>
+  )
+}
+
 function AgentBar({ agente, activo }) {
   const pct = agente.muerto ? 0 : Math.max(0, (agente.vida / VIDA_BIXO) * 100)
   const barColor = pct > 60 ? 'bg-green-400' : pct > 30 ? 'bg-yellow-400' : 'bg-red-400'
@@ -190,21 +249,20 @@ export default function TuthorTimeRoguelike() {
       let resultado = 'ÉXITO'
       let espera = 0
       let pts = 0
+      let vidaAntesViaje = 0
 
       if (idx >= 0 && !next[idx].muerto) {
+        vidaAntesViaje = next[idx].vida
         if (esTiempo) {
-          // Timeout: el agente muere (pierde toda la vida restante)
           vidaGastada = next[idx].vida
           resultado = 'TIEMPO'
         } else {
           const viaje = calcularViaje(añoEnviado, evento.año, next[idx].vida)
           resultado = viaje.resultado
-          // Llegar tarde = agente muere (toda la vida perdida)
           vidaGastada = resultado === 'TARDE' ? next[idx].vida : viaje.vidaGastada
           espera = viaje.espera
 
           if (resultado !== 'TARDE') {
-            // Puntuación: base - coste por años de espera + bonus velocidad
             const base = Math.max(0, 1000 - espera * 7)
             const timeBonus = resultado === 'PERFECTO' ? 2 : 1 + (t / tiempoNivel)
             pts = Math.round(base * timeBonus * scoreMult)
@@ -217,7 +275,6 @@ export default function TuthorTimeRoguelike() {
           next[idx].muerto = true
         }
 
-        // Siguiente agente vivo
         const nextAlive = next.findIndex(a => !a.muerto)
         setAgenteActivo(nextAlive >= 0 ? nextAlive : 0)
       }
@@ -228,7 +285,7 @@ export default function TuthorTimeRoguelike() {
         resultado, vidaGastada, espera, pts,
         añoEnviado, esTiempo,
         evento: { ...evento },
-        allDead,
+        allDead, vidaAntesViaje,
       })
 
       setFase('feedback')
@@ -461,7 +518,7 @@ export default function TuthorTimeRoguelike() {
 
   // ── FEEDBACK ───────────────────────────────────────────────────────────────
   if (fase === 'feedback' && feedback) {
-    const { resultado, vidaGastada, espera, pts, añoEnviado, esTiempo, evento: ev, allDead } = feedback
+    const { resultado, vidaGastada, espera, pts, añoEnviado, esTiempo, evento: ev, allDead, vidaAntesViaje } = feedback
 
     const badgeMap = {
       PERFECTO: { text: '¡Llegada perfecta!', color: 'text-green-400' },
@@ -478,10 +535,15 @@ export default function TuthorTimeRoguelike() {
           <div className="bg-black/50 backdrop-blur rounded-2xl p-6 border border-white/10 text-center">
 
             <div className={`text-2xl font-bold mb-1 ${badge.color}`}>{badge.text}</div>
-            <h3 className="text-white/80 text-base font-semibold mb-5">{ev.nombre}</h3>
+            <h3 className="text-white/80 text-base font-semibold mb-2">{ev.nombre}</h3>
 
-            <div className="text-5xl font-black text-white mb-1">{formatAño(ev.año)}</div>
-            <div className="text-white/40 text-xs mb-5">Año del evento</div>
+            <YearCounter
+              añoEnviado={añoEnviado ?? ev.año}
+              añoEvento={ev.año}
+              vidaAntesViaje={vidaAntesViaje}
+              resultado={resultado}
+              esTiempo={esTiempo}
+            />
 
             <div className="grid grid-cols-3 gap-2 mb-5">
               <div className="bg-white/5 rounded-xl p-3">
