@@ -55,7 +55,7 @@ function Confetti() {
 //   onFinish:   ({ pts, diff, passed, timeSpent }) => void
 //   onPlayAgain: si se pasa, se muestra el botón "Otra ronda" (modo práctica libre)
 //   onExit:     si se pasa, se muestra un botón para salir
-export default function CombinaNumeros({ ops, cfg, nivelLabel, onFinish, onPlayAgain, onExit }) {
+export default function CombinaNumeros({ ops, cfg, nivelLabel, onFinish, onPlayAgain, onExit, playAgainLabel = 'Otra ronda' }) {
   const [fase,       setFase]       = useState('jugando')
   const [objetivo,   setObjetivo]   = useState(null)
   const [numeros,    setNumeros]    = useState([])
@@ -200,7 +200,7 @@ export default function CombinaNumeros({ ops, cfg, nivelLabel, onFinish, onPlayA
             {onPlayAgain && (
               <button onClick={onPlayAgain}
                 className="px-8 py-3 bg-[#EDAE49] hover:bg-amber-400 text-black font-black rounded-2xl transition-all hover:scale-[1.02]">
-                Otra ronda
+                {playAgainLabel}
               </button>
             )}
             {onExit && (

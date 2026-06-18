@@ -5,34 +5,160 @@ import { saveActivity } from '../lib/activity'
 import { MODOS, GRADOS } from '../lib/mathEngine'
 import CombinaNumeros from '../components/CombinaNumeros'
 
+const TOTAL_RONDAS = 10
+
+function calificacion(aciertos) {
+  if (aciertos >= 9)  return { label: 'Sobresaliente', nota: aciertos === 10 ? 10 : 9, color: 'text-green-400' }
+  if (aciertos >= 7)  return { label: 'Notable',       nota: aciertos,                color: 'text-blue-400'  }
+  if (aciertos === 6) return { label: 'Bien',          nota: 6,                       color: 'text-yellow-300'}
+  if (aciertos === 5) return { label: 'Suficiente',    nota: 5,                       color: 'text-orange-400'}
+  return { label: 'Insuficiente', nota: Math.max(1, aciertos), color: 'text-red-400' }
+}
+
 export default function MatematicasPractica() {
-  const navigate      = useNavigate()
-  const location       = useLocation()
-  const { modo }       = useParams()
-  const { user }        = useAuth()
+  const navigate   = useNavigate()
+  const location   = useLocation()
+  const { modo }   = useParams()
+  const { user }   = useAuth()
   const [runId, setRunId] = useState(0)
 
-  const modoCfg = MODOS[modo] || MODOS.combinado
-  const gradoId = location.state?.nivel || 'primaria'
-  const grado   = GRADOS[gradoId] || GRADOS.primaria
+  const modoExamen = location.state?.modoExamen === true
+  const modoCfg    = MODOS[modo] || MODOS.combinado
+  const gradoId    = location.state?.nivel || 'primaria'
+  const grado      = GRADOS[gradoId] || GRADOS.primaria
+
+  // Exam-mode state
+  const [exRonda,    setExRonda]    = useState(1)
+  const [exAciertos, setExAciertos] = useState(0)
+  const [exHistorial, setExHistorial] = useState([]) // {passed} per round
+  const [exFase,     setExFase]     = useState('jugando') // 'jugando' | 'resultado'
 
   function handleFinish({ pts, passed, timeSpent }) {
-    if (user) {
+    if (user && !modoExamen) {
       saveActivity(user.uid, {
         type: 'juego', game: 'matematicas', category: `${modo}-${gradoId}`,
         score: pts, passed, timeSpent,
       }).catch(() => {})
     }
+
+    if (modoExamen) {
+      const nuevosAciertos = exAciertos + (passed ? 1 : 0)
+      const nuevosHistorial = [...exHistorial, { passed }]
+      setExAciertos(nuevosAciertos)
+      setExHistorial(nuevosHistorial)
+      if (exRonda >= TOTAL_RONDAS) {
+        setExFase('resultado')
+      }
+    }
   }
 
+  function siguienteRonda() {
+    setExRonda(r => r + 1)
+    setRunId(r => r + 1)
+  }
+
+  // ── Resultado del examen ──────────────────────────────────────────────────
+  if (modoExamen && exFase === 'resultado') {
+    const aprobado = exAciertos >= 5
+    const cal = calificacion(exAciertos)
+    return (
+      <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
+        <div className="max-w-md w-full">
+          <p className="text-white/30 text-xs mb-6 text-center">
+            <button onClick={() => navigate('/estudiar/matematicas')} className="hover:text-white/60 transition-colors">Matemáticas</button>
+            {' '}/{' '}
+            <button onClick={() => navigate(`/estudiar/matematicas/${modo}`)} className="hover:text-white/60 transition-colors">{modoCfg.titulo}</button>
+            {' '}/{' '}<span className="text-white/50">Examen</span>
+          </p>
+
+          <div className="bg-white/5 border border-white/10 rounded-2xl p-6 text-center mb-4">
+            <div className="text-5xl mb-3">{aprobado ? '🎉' : '😬'}</div>
+            <div className={`text-xs uppercase tracking-widest font-semibold mb-1 ${aprobado ? 'text-green-400' : 'text-red-400'}`}>
+              {aprobado ? 'Aprobado' : 'Suspenso'}
+            </div>
+            <h2 className="text-2xl font-black text-white mb-1">{cal.label}</h2>
+            <p className={`text-5xl font-black mb-1 ${cal.color}`}>{exAciertos}/{TOTAL_RONDAS}</p>
+            <p className="text-white/40 text-sm">Nota: {cal.nota} · Acercaste al objetivo en {exAciertos} de {TOTAL_RONDAS} puzzles</p>
+          </div>
+
+          <div className="bg-white/5 border border-white/10 rounded-2xl p-4 mb-5">
+            <p className="text-white/30 text-xs uppercase tracking-widest mb-3 font-semibold">Detalle por puzzle</p>
+            <div className="flex gap-2 flex-wrap">
+              {exHistorial.map((h, i) => (
+                <div
+                  key={i}
+                  className={`flex flex-col items-center gap-1 w-8 h-8 rounded-full border-2 text-xs font-bold justify-center ${
+                    h.passed ? 'bg-green-400/20 border-green-400 text-green-400' : 'bg-red-400/20 border-red-400 text-red-400'
+                  }`}
+                  title={h.passed ? 'Exacto' : 'No exacto'}
+                >
+                  {i + 1}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <button
+            onClick={() => {
+              setExRonda(1); setExAciertos(0); setExHistorial([]); setExFase('jugando'); setRunId(r => r + 1)
+            }}
+            className="w-full py-3 bg-[#EDAE49] hover:bg-amber-400 text-black font-black rounded-2xl transition-all mb-2"
+          >
+            Repetir examen
+          </button>
+          <button
+            onClick={() => navigate(`/estudiar/matematicas/${modo}`)}
+            className="w-full py-3 text-white/40 hover:text-white/70 text-sm transition-colors"
+          >
+            ← Volver al tema
+          </button>
+        </div>
+      </div>
+    )
+  }
+
+  // ── Modo práctica libre o puzzle activo del examen ────────────────────────
   return (
     <div className="relative z-10 flex flex-col min-h-[calc(100vh-4rem)] px-3 sm:px-6 py-4">
       <p className="text-white/30 text-xs mb-4 text-center">
         <button onClick={() => navigate('/estudiar/matematicas')} className="hover:text-white/60 transition-colors">Matemáticas</button>
-        {' '}/{'  '}
+        {' '}/{' '}
         <button onClick={() => navigate(`/estudiar/matematicas/${modo}`)} className="hover:text-white/60 transition-colors">{modoCfg.titulo}</button>
-        {' '}/{'  '}<span className="text-white/50">Acércate al número</span>
+        {' '}/{' '}
+        <span className="text-white/50">
+          {modoExamen ? `Examen · Puzzle ${exRonda}/${TOTAL_RONDAS}` : 'Acércate al número'}
+        </span>
       </p>
+
+      {modoExamen && (
+        <div className="max-w-lg mx-auto w-full mb-4">
+          <div className="flex items-center gap-3">
+            <div className="flex-1 h-2 bg-white/10 rounded-full overflow-hidden">
+              <div
+                className="h-full bg-[#EDAE49] rounded-full transition-all duration-300"
+                style={{ width: `${((exRonda - 1) / TOTAL_RONDAS) * 100}%` }}
+              />
+            </div>
+            <span className="text-white/50 text-sm tabular-nums">{exRonda}/{TOTAL_RONDAS}</span>
+          </div>
+          <div className="flex gap-1.5 mt-2 justify-center">
+            {exHistorial.map((h, i) => (
+              <div
+                key={i}
+                className={`w-4 h-4 rounded-full ${h.passed ? 'bg-green-400' : 'bg-red-400'}`}
+              />
+            ))}
+            {Array.from({ length: TOTAL_RONDAS - exHistorial.length }).map((_, i) => (
+              <div
+                key={`p-${i}`}
+                className={`w-4 h-4 rounded-full border ${
+                  i === 0 ? 'border-white/60 bg-white/10' : 'border-white/20'
+                }`}
+              />
+            ))}
+          </div>
+        </div>
+      )}
 
       <CombinaNumeros
         key={runId}
@@ -40,8 +166,12 @@ export default function MatematicasPractica() {
         cfg={grado}
         nivelLabel={{ emoji: grado.emoji, label: grado.label }}
         onFinish={handleFinish}
-        onPlayAgain={() => setRunId(r => r + 1)}
-        onExit={() => navigate(`/estudiar/matematicas/${modo}`)}
+        onPlayAgain={modoExamen
+          ? (exRonda < TOTAL_RONDAS ? siguienteRonda : null)
+          : () => setRunId(r => r + 1)
+        }
+        playAgainLabel={modoExamen ? `Puzzle ${exRonda + 1} →` : 'Otra ronda'}
+        onExit={modoExamen ? null : () => navigate(`/estudiar/matematicas/${modo}`)}
       />
     </div>
   )
