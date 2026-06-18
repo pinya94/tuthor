@@ -69,6 +69,7 @@ export default function CombinaNumeros({ ops, cfg, nivelLabel, onFinish, onPlayA
   const [finInfo,    setFinInfo]    = useState(null)
 
   const timerRef     = useRef(null)
+  const tiempoRef    = useRef(cfg.tiempo)
   const startTimeRef = useRef(Date.now())
   const numerosRef   = useRef(numeros)
   const objetivoRef  = useRef(objetivo)
@@ -82,6 +83,7 @@ export default function CombinaNumeros({ ops, cfg, nivelLabel, onFinish, onPlayA
     setNumeros(nums)
     setSel1(null); setOpSel(null); setHistorial([])
     setTiempo(cfg.tiempo)
+    tiempoRef.current = cfg.tiempo
     setVictoria(false); setFinInfo(null); setFlashId(null)
     startTimeRef.current = Date.now()
     setFase('jugando')
@@ -93,13 +95,15 @@ export default function CombinaNumeros({ ops, cfg, nivelLabel, onFinish, onPlayA
   useEffect(() => {
     if (fase !== 'jugando') return
     timerRef.current = setInterval(() => {
-      setTiempo(t => {
-        if (t <= 1) { clearInterval(timerRef.current); acabar(true); return 0 }
-        return t - 1
-      })
+      tiempoRef.current -= 1
+      setTiempo(tiempoRef.current)
+      if (tiempoRef.current <= 0) {
+        clearInterval(timerRef.current)
+        acabar(true)
+      }
     }, 1000)
     return () => clearInterval(timerRef.current)
-  }, [fase])
+  }, [fase]) // eslint-disable-line react-hooks/exhaustive-deps
 
   // ── Acabar ronda ─────────────────────────────────────────────────────────
   function acabar(porTiempo = false, numerosAct, objetivoAct) {

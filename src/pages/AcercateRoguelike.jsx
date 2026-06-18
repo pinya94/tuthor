@@ -121,12 +121,12 @@ export default function AcercateRoguelike() {
   useEffect(() => {
     if (fase !== 'jugando') return
     timerRef.current = setInterval(() => {
-      setTiempo(t => {
-        const next = t - 1
-        tiempoRef.current = next
-        if (next <= 0) { clearInterval(timerRef.current); acabar(true); return 0 }
-        return next
-      })
+      tiempoRef.current -= 1
+      setTiempo(tiempoRef.current)
+      if (tiempoRef.current <= 0) {
+        clearInterval(timerRef.current)
+        acabar(true)
+      }
     }, 1000)
     return () => clearInterval(timerRef.current)
   }, [fase, levelKey]) // eslint-disable-line react-hooks/exhaustive-deps
