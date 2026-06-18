@@ -3,9 +3,9 @@ import { useNavigate } from 'react-router-dom'
 import { PORTADAS } from '../data/portadas'
 
 const DIFS = {
-  facil:   { label: 'Fácil',   emoji: '🟢', tiempoInicio: 60, suma: 10, resta: 10 },
-  medio:   { label: 'Medio',   emoji: '🟡', tiempoInicio: 30, suma:  5, resta: 10 },
-  dificil: { label: 'Difícil', emoji: '🔴', tiempoInicio: 20, suma:  3, resta: 15 },
+  facil:   { label: 'Fácil',   emoji: '🟢', tiempoInicio: 60, suma: 10, resta: 10, basePts: 100 },
+  medio:   { label: 'Medio',   emoji: '🟡', tiempoInicio: 30, suma:  5, resta: 10, basePts: 150 },
+  dificil: { label: 'Difícil', emoji: '🔴', tiempoInicio: 20, suma:  3, resta: 15, basePts: 200 },
 }
 
 const CAT_STYLE = {
@@ -34,43 +34,38 @@ function PortadaCard({ p }) {
       className="bg-[#f5f0e3] rounded-2xl overflow-hidden shadow-2xl border border-[#c8b89a]"
       style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}
     >
-      {/* Barra superior gruesa */}
-      <div className="h-2.5 bg-gray-900" />
+      <div className="h-3 bg-gray-900" />
 
-      {/* Cabecera del periódico */}
-      <div className="px-4 pt-2 pb-2 border-b-2 border-gray-800 text-center">
-        <p className="text-[9px] uppercase tracking-widest text-gray-500 mb-0.5">
+      <div className="px-5 pt-3 pb-3 border-b-2 border-gray-800 text-center">
+        <p className="text-[10px] uppercase tracking-widest text-gray-500 mb-0.5">
           {p.lugar} · {p.mes}
         </p>
-        <h1 className="text-xl font-black uppercase tracking-wide text-gray-900 leading-tight">
+        <h1 className="text-2xl md:text-3xl font-black uppercase tracking-wide text-gray-900 leading-tight">
           {p.periodico}
         </h1>
-        <div className="flex items-center justify-between mt-1">
-          <span className="text-[8px] text-gray-400">Edición especial</span>
-          <span className={`text-[8px] font-bold uppercase px-1.5 py-0.5 rounded border ${catStyle}`}>
+        <div className="flex items-center justify-between mt-1.5">
+          <span className="text-[9px] text-gray-400">Edición especial</span>
+          <span className={`text-[9px] font-bold uppercase px-2 py-0.5 rounded border ${catStyle}`}>
             {p.categoria}
           </span>
-          <span className="text-[8px] text-gray-400">Precio: 10 ctos.</span>
+          <span className="text-[9px] text-gray-400">Precio: 10 ctos.</span>
         </div>
       </div>
 
-      {/* Línea decorativa doble */}
-      <div className="mx-3 mt-0 border-t-2 border-b border-gray-700" style={{ marginTop: '2px', paddingTop: '1px' }} />
+      <div className="mx-4 border-t-2 border-b border-gray-700" style={{ marginTop: '3px', paddingTop: '1px' }} />
 
-      {/* Contenido */}
-      <div className="px-4 py-3">
-        <h2 className="text-base font-black leading-snug text-gray-900 mb-2">
+      <div className="px-5 py-4">
+        <h2 className="text-lg md:text-xl font-black leading-snug text-gray-900 mb-3">
           {p.titular}
         </h2>
-        <div className="border-t border-b border-gray-300 py-2">
-          <p className="text-[11px] leading-relaxed text-gray-600">
+        <div className="border-t border-b border-gray-300 py-2.5">
+          <p className="text-xs md:text-sm leading-relaxed text-gray-600">
             {p.subtitular}
           </p>
         </div>
       </div>
 
-      {/* Barra inferior */}
-      <div className="h-1.5 bg-gray-900 mx-4 mb-3 rounded-sm" />
+      <div className="h-1.5 bg-gray-900 mx-5 mb-4 rounded-sm" />
     </div>
   )
 }
@@ -82,6 +77,8 @@ export default function Portadas() {
   const [portadas, setPortadas] = useState([])
   const [idx, setIdx]           = useState(0)
   const [timeLeft, setTimeLeft] = useState(30)
+  const [puntos, setPuntos]     = useState(0)
+  const [racha, setRacha]       = useState(0)
   const [aciertos, setAciertos] = useState(0)
   const [total, setTotal]       = useState(0)
   const [feedback, setFeedback] = useState(null)
@@ -99,6 +96,8 @@ export default function Portadas() {
     setPortadas(shuffle(PORTADAS))
     setIdx(0)
     setTimeLeft(d.tiempoInicio)
+    setPuntos(0)
+    setRacha(0)
     setAciertos(0)
     setTotal(0)
     setFeedback(null)
@@ -106,7 +105,6 @@ export default function Portadas() {
     setLevelKey(k => k + 1)
   }
 
-  // Timer
   useEffect(() => {
     if (fase !== 'jugando') return
     tiempoRef.current = timeLeft
@@ -126,11 +124,18 @@ export default function Portadas() {
 
   function handleRespuesta(respuesta) {
     clearInterval(timerRef.current)
-    const correcto = respuesta === portada.veracidad
-    const delta    = correcto ? dif.suma : -dif.resta
-    setAciertos(a => correcto ? a + 1 : a)
+    const correcto  = respuesta === portada.veracidad
+    const delta     = correcto ? dif.suma : -dif.resta
+    const nuevaRacha = correcto ? racha + 1 : 0
+    const ptsSumados = correcto ? Math.round(dif.basePts * (1 + racha * 0.25)) : 0
+
+    if (correcto) {
+      setAciertos(a => a + 1)
+      setPuntos(p => p + ptsSumados)
+    }
+    setRacha(nuevaRacha)
     setTotal(t => t + 1)
-    setFeedback({ correcto, delta, portada })
+    setFeedback({ correcto, delta, portada, ptsSumados, rachaAntes: racha, nuevaRacha })
     setFase('feedback')
   }
 
@@ -153,22 +158,21 @@ export default function Portadas() {
     const d = DIFS[difId]
     return (
       <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
-        <div className="max-w-md w-full">
+        <div className="max-w-xl w-full">
           <button onClick={() => navigate('/juegos')}
             className="text-white/30 hover:text-white/60 text-sm mb-6 flex items-center gap-1 transition-colors">
             ← Volver
           </button>
-          <div className="text-center mb-6">
-            <span className="text-6xl block mb-3">📰</span>
-            <h1 className="text-3xl font-black text-white mb-1">Portadas</h1>
-            <p className="text-white/40 text-sm">Lee el titular histórico y decide: ¿verdad o mentira?</p>
+          <div className="text-center mb-7">
+            <span className="text-7xl block mb-4">📰</span>
+            <h1 className="text-4xl font-black text-white mb-2">Portadas</h1>
+            <p className="text-white/40">Lee el titular histórico y decide: ¿verdad o mentira?</p>
           </div>
 
-          {/* Selector dificultad */}
-          <div className="flex gap-2 p-1 bg-white/5 border border-white/10 rounded-xl mb-5 w-fit mx-auto">
+          <div className="flex gap-2 p-1 bg-white/5 border border-white/10 rounded-xl mb-6 w-fit mx-auto">
             {Object.entries(DIFS).map(([id, d]) => (
               <button key={id} onClick={() => setDifId(id)}
-                className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
+                className={`flex items-center gap-1.5 px-5 py-2.5 rounded-lg text-sm font-semibold transition-all ${
                   difId === id ? 'bg-white/15 text-white shadow-sm' : 'text-white/40 hover:text-white/70'
                 }`}>
                 {d.emoji} {d.label}
@@ -176,32 +180,45 @@ export default function Portadas() {
             ))}
           </div>
 
-          {/* Stats */}
-          <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-5 space-y-2.5 text-sm">
-            {[
-              ['⏱️', 'Tiempo inicial', `${d.tiempoInicio} segundos`],
-              ['✅', 'Al acertar',     `+${d.suma}s`],
-              ['❌', 'Al fallar',      `−${d.resta}s`],
-              ['📰', 'Portadas',       `${PORTADAS.length} titulares históricos`],
-            ].map(([e, k, v]) => (
-              <div key={k} className="flex items-center justify-between gap-4">
-                <span className="text-white/40 shrink-0">{e} {k}</span>
-                <span className="text-white font-semibold text-right">{v}</span>
-              </div>
-            ))}
+          <div className="grid grid-cols-2 gap-4 mb-6">
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-5 space-y-3 text-sm">
+              <p className="text-white/40 text-xs font-semibold uppercase tracking-widest">Reglas</p>
+              {[
+                ['⏱️', 'Tiempo inicial', `${d.tiempoInicio}s`],
+                ['✅', 'Al acertar',     `+${d.suma}s`],
+                ['❌', 'Al fallar',      `−${d.resta}s`],
+              ].map(([e, k, v]) => (
+                <div key={k} className="flex items-center justify-between gap-2">
+                  <span className="text-white/40 shrink-0">{e} {k}</span>
+                  <span className="text-white font-semibold">{v}</span>
+                </div>
+              ))}
+            </div>
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-5 space-y-3 text-sm">
+              <p className="text-white/40 text-xs font-semibold uppercase tracking-widest">Puntos</p>
+              {[
+                ['🎯', 'Base por acierto', `${d.basePts} pts`],
+                ['🔥', 'Racha ×2',         `+25% pts`],
+                ['🏆', 'Racha ×3+',        `+50% pts`],
+              ].map(([e, k, v]) => (
+                <div key={k} className="flex items-center justify-between gap-2">
+                  <span className="text-white/40 shrink-0">{e} {k}</span>
+                  <span className="text-white font-semibold">{v}</span>
+                </div>
+              ))}
+            </div>
           </div>
 
-          {/* Cómo funciona */}
-          <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-6">
+          <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-7">
             <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-3">Cómo funciona</p>
-            <div className="space-y-2">
+            <div className="grid grid-cols-2 gap-2">
               {[
-                ['📰', 'Aparece la portada de un periódico histórico real'],
-                ['🤔', 'Decide si el titular es VERDAD o MENTIRA'],
-                ['⏱️', 'Si aciertas ganas tiempo; si fallas lo pierdes'],
-                ['💡', 'Siempre verás la explicación: así aprendes de verdad'],
+                ['📰', 'Portada de un periódico histórico real'],
+                ['🤔', 'Verdad o mentira — tú decides'],
+                ['⏱️', 'Aciertas → ganas tiempo; fallas → pierdes'],
+                ['💡', 'Siempre verás la explicación histórica'],
               ].map(([e, t]) => (
-                <div key={t} className="flex items-start gap-3 text-sm text-white/50">
+                <div key={t} className="flex items-start gap-2 text-sm text-white/50">
                   <span className="text-base w-5 shrink-0 text-center">{e}</span>
                   <span>{t}</span>
                 </div>
@@ -210,7 +227,7 @@ export default function Portadas() {
           </div>
 
           <button onClick={() => iniciar(difId)}
-            className="w-full py-4 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-lg rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-amber-500/30">
+            className="w-full py-4 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-xl rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-amber-500/30">
             ¡Empezar! →
           </button>
         </div>
@@ -224,26 +241,29 @@ export default function Portadas() {
     const timerColor = timeLeft > 15 ? 'bg-green-400' : timeLeft > 7 ? 'bg-yellow-400' : 'bg-red-500 animate-pulse'
 
     return (
-      <div className="relative z-10 flex flex-col min-h-[calc(100vh-4rem)] px-4 py-4 max-w-md mx-auto w-full">
+      <div className="relative z-10 flex flex-col min-h-[calc(100vh-4rem)] px-4 md:px-8 py-5 max-w-4xl mx-auto w-full">
 
         {/* Header */}
-        <div className="flex items-center justify-between mb-3">
+        <div className="flex items-center justify-between mb-4">
           <button onClick={() => setFase('intro')} className="text-white/40 hover:text-white/70 text-sm transition-colors">
             ← Salir
           </button>
-          <div className="flex items-center gap-3 text-xs text-white/40">
-            <span>✓ {aciertos}</span>
-            <span>✗ {total - aciertos}</span>
+          <div className="flex items-center gap-4 text-sm text-white/50">
+            {racha >= 2 && (
+              <span className="text-amber-400 font-bold">🔥 Racha ×{racha}</span>
+            )}
+            <span className="text-white font-bold tabular-nums">{puntos.toLocaleString()} pts</span>
+            <span className="text-white/30">✓{aciertos} ✗{total - aciertos}</span>
           </div>
         </div>
 
         {/* Timer */}
-        <div className="mb-4">
-          <div className="flex justify-between text-xs text-white/40 mb-1">
-            <span>Tiempo</span>
-            <span className={`font-bold tabular-nums ${timeLeft <= 7 ? 'text-red-400' : ''}`}>{timeLeft}s</span>
+        <div className="mb-5">
+          <div className="flex justify-between text-xs text-white/40 mb-1.5">
+            <span>Tiempo restante</span>
+            <span className={`font-bold tabular-nums text-sm ${timeLeft <= 7 ? 'text-red-400' : ''}`}>{timeLeft}s</span>
           </div>
-          <div className="h-2 bg-white/10 rounded-full overflow-hidden">
+          <div className="h-2.5 bg-white/10 rounded-full overflow-hidden">
             <div
               className={`h-full rounded-full transition-all duration-1000 ${timerColor}`}
               style={{ width: `${timerPct}%` }}
@@ -251,25 +271,37 @@ export default function Portadas() {
           </div>
         </div>
 
-        {/* Portada */}
-        <div className="flex-1 flex flex-col justify-center mb-4">
-          <PortadaCard p={portada} />
-        </div>
+        {/* Layout: columna única en móvil, dos columnas en desktop */}
+        <div className="flex-1 flex flex-col md:grid md:grid-cols-[1fr_320px] md:gap-8 md:items-center">
 
-        {/* Botones respuesta */}
-        <div className="grid grid-cols-2 gap-3">
-          <button
-            onClick={() => handleRespuesta(true)}
-            className="py-5 bg-green-700 hover:bg-green-600 text-white font-black text-xl rounded-2xl transition-all hover:scale-[1.02] active:scale-95 shadow-lg"
-          >
-            ✓ VERDAD
-          </button>
-          <button
-            onClick={() => handleRespuesta(false)}
-            className="py-5 bg-red-700 hover:bg-red-600 text-white font-black text-xl rounded-2xl transition-all hover:scale-[1.02] active:scale-95 shadow-lg"
-          >
-            ✗ MENTIRA
-          </button>
+          {/* Portada */}
+          <div className="mb-5 md:mb-0">
+            <PortadaCard p={portada} />
+          </div>
+
+          {/* Botones + info lateral */}
+          <div className="flex flex-col gap-4">
+            <div className="hidden md:block bg-white/5 border border-white/10 rounded-2xl p-4 text-center">
+              <p className="text-white/30 text-xs uppercase tracking-widest mb-1">Puntuación</p>
+              <p className="text-white font-black text-3xl tabular-nums">{puntos.toLocaleString()}</p>
+              {racha >= 2 && (
+                <p className="text-amber-400 text-sm font-bold mt-1">🔥 Racha de {racha} — ×{(1 + (racha - 1) * 0.25).toFixed(2)}</p>
+              )}
+            </div>
+
+            <button
+              onClick={() => handleRespuesta(true)}
+              className="py-6 md:py-8 bg-green-700 hover:bg-green-600 text-white font-black text-2xl rounded-2xl transition-all hover:scale-[1.02] active:scale-95 shadow-lg"
+            >
+              ✓ VERDAD
+            </button>
+            <button
+              onClick={() => handleRespuesta(false)}
+              className="py-6 md:py-8 bg-red-700 hover:bg-red-600 text-white font-black text-2xl rounded-2xl transition-all hover:scale-[1.02] active:scale-95 shadow-lg"
+            >
+              ✗ MENTIRA
+            </button>
+          </div>
         </div>
       </div>
     )
@@ -277,41 +309,48 @@ export default function Portadas() {
 
   // ── FEEDBACK ──────────────────────────────────────────────────────────────
   if (fase === 'feedback' && feedback) {
-    const { correcto, delta, portada: p } = feedback
-    const newTime = timeLeft + delta
+    const { correcto, delta, portada: p, ptsSumados, rachaAntes, nuevaRacha } = feedback
+    const newTime   = timeLeft + delta
     const acabaAqui = newTime <= 0
 
     return (
       <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-6">
-        <div className="max-w-md w-full space-y-3">
+        <div className="max-w-lg w-full space-y-4">
 
-          {/* Badge resultado */}
-          <div className={`rounded-2xl p-5 border text-center ${
-            correcto
-              ? 'bg-green-900/30 border-green-500/40'
-              : 'bg-red-900/30 border-red-500/40'
+          <div className={`rounded-2xl p-6 border text-center ${
+            correcto ? 'bg-green-900/30 border-green-500/40' : 'bg-red-900/30 border-red-500/40'
           }`}>
             <div className="text-5xl mb-2">{correcto ? '✅' : '❌'}</div>
-            <h2 className={`text-2xl font-black ${correcto ? 'text-green-400' : 'text-red-400'}`}>
+            <h2 className={`text-3xl font-black ${correcto ? 'text-green-400' : 'text-red-400'}`}>
               {correcto ? '¡Correcto!' : '¡Incorrecto!'}
             </h2>
-            <div className={`text-lg font-bold mt-0.5 ${delta > 0 ? 'text-green-300' : 'text-red-300'}`}>
-              {delta > 0 ? `+${delta}s` : `${delta}s`}
-              {acabaAqui && <span className="text-white/50 text-sm ml-2">— ¡tiempo agotado!</span>}
+            <div className="flex items-center justify-center gap-4 mt-2">
+              <span className={`text-lg font-bold ${delta > 0 ? 'text-green-300' : 'text-red-300'}`}>
+                {delta > 0 ? `+${delta}s` : `${delta}s`}
+              </span>
+              {correcto && ptsSumados > 0 && (
+                <span className="text-amber-300 font-bold text-lg">+{ptsSumados} pts</span>
+              )}
             </div>
+            {correcto && nuevaRacha >= 2 && (
+              <p className="text-amber-400 text-sm font-bold mt-1">
+                🔥 ¡Racha de {nuevaRacha}! ×{(1 + rachaAntes * 0.25).toFixed(2)} multiplicador
+              </p>
+            )}
+            {acabaAqui && (
+              <p className="text-white/50 text-sm mt-1">¡Tiempo agotado!</p>
+            )}
           </div>
 
-          {/* La respuesta correcta */}
-          <div className="bg-white/5 border border-white/10 rounded-2xl p-4">
+          <div className="bg-white/5 border border-white/10 rounded-2xl p-5">
             <p className="text-white/30 text-xs uppercase tracking-widest mb-2">El titular era…</p>
-            <div className={`flex items-center gap-2 font-black text-base mb-3 ${p.veracidad ? 'text-green-400' : 'text-red-400'}`}>
+            <div className={`flex items-center gap-2 font-black text-lg mb-3 ${p.veracidad ? 'text-green-400' : 'text-red-400'}`}>
               <span>{p.veracidad ? '✓' : '✗'}</span>
               <span>{p.veracidad ? 'VERDAD' : 'MENTIRA'}</span>
             </div>
-            <p className="text-white/60 text-sm leading-relaxed">{p.explicacion}</p>
+            <p className="text-white/60 leading-relaxed">{p.explicacion}</p>
           </div>
 
-          {/* Botón continuar */}
           <button
             onClick={continuar}
             className="w-full py-4 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-lg rounded-2xl transition-all hover:scale-[1.02]"
@@ -325,26 +364,32 @@ export default function Portadas() {
 
   // ── FIN ───────────────────────────────────────────────────────────────────
   if (fase === 'fin') {
-    const pct = total > 0 ? Math.round((aciertos / total) * 100) : 0
-    const emoji = pct >= 80 ? '🏆' : pct >= 60 ? '📰' : pct >= 40 ? '🤔' : '😬'
-    const shareText = `📰 Portadas históricas: ${aciertos}/${total} titulares acertados (${pct}%)\n${dif.emoji} Modo ${dif.label} — ¿cuánto sabes de historia?\n🎮 https://www.tuthor.es/juegos/portadas`
+    const pct      = total > 0 ? Math.round((aciertos / total) * 100) : 0
+    const emoji    = pct >= 80 ? '🏆' : pct >= 60 ? '📰' : pct >= 40 ? '🤔' : '😬'
+    const shareText = `📰 Portadas históricas: ${puntos.toLocaleString()} puntos (${aciertos}/${total} aciertos)\n${dif.emoji} Modo ${dif.label} — ¿cuánto sabes de historia?\n🎮 https://www.tuthor.es/juegos/portadas`
 
     return (
       <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-6">
-        <div className="max-w-md w-full">
-          <div className="bg-white/5 border border-white/10 rounded-2xl p-6 text-center mb-4">
+        <div className="max-w-lg w-full">
+          <div className="bg-white/5 border border-white/10 rounded-2xl p-8 text-center mb-5">
             <div className="text-6xl mb-3">{emoji}</div>
-            <h2 className="text-2xl font-black text-white mb-1">¡Tiempo agotado!</h2>
-            <p className="text-white/40 text-sm mb-5">Modo {dif.label}</p>
+            <h2 className="text-3xl font-black text-white mb-1">¡Tiempo agotado!</h2>
+            <p className="text-white/40 mb-6">Modo {dif.emoji} {dif.label}</p>
 
-            <div className="grid grid-cols-2 gap-3 mb-2">
+            <div className="mb-4">
+              <p className="text-white/30 text-xs uppercase tracking-widest mb-1">Puntuación final</p>
+              <p className="text-white font-black text-6xl tabular-nums">{puntos.toLocaleString()}</p>
+              <p className="text-white/30 text-sm mt-1">puntos</p>
+            </div>
+
+            <div className="grid grid-cols-2 gap-3 mt-6">
               <div className="bg-white/5 rounded-xl p-4">
                 <p className="text-white/40 text-xs mb-1">Aciertos</p>
-                <p className="text-white font-black text-3xl">{aciertos}/{total}</p>
+                <p className="text-white font-black text-3xl">{aciertos}<span className="text-white/30 text-lg">/{total}</span></p>
               </div>
               <div className="bg-white/5 rounded-xl p-4">
                 <p className="text-white/40 text-xs mb-1">Precisión</p>
-                <p className="text-white font-black text-3xl">{pct}%</p>
+                <p className="text-white font-black text-3xl">{pct}<span className="text-white/30 text-lg">%</span></p>
               </div>
             </div>
           </div>
@@ -358,7 +403,7 @@ export default function Portadas() {
             </button>
             <button
               onClick={() => iniciar(difId)}
-              className="w-full bg-[#EDAE49] hover:bg-amber-400 text-black font-black py-3 rounded-xl transition"
+              className="w-full bg-[#EDAE49] hover:bg-amber-400 text-black font-black py-4 text-lg rounded-xl transition"
             >
               Intentarlo de nuevo
             </button>
