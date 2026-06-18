@@ -23,6 +23,7 @@ import QuienEsQuien from './pages/QuienEsQuien'
 import Acercate from './pages/Acercate'
 import ExamenMatematicas from './pages/ExamenMatematicas'
 import AcercateRoguelike from './pages/AcercateRoguelike'
+import Portadas from './pages/Portadas'
 import Privacidad from './pages/Privacidad'
 import Comunidad from './pages/Comunidad'
 import Admin from './pages/Admin'
@@ -67,6 +68,7 @@ function Layout({ onConsent }) {
           <Route path="/juegos/quien-es-quien" element={<QuienEsQuien />} />
           <Route path="/juegos/acercate" element={<AcercateRoguelike />} />
           <Route path="/juegos/acercate/clasico" element={<Acercate />} />
+          <Route path="/juegos/portadas" element={<Portadas />} />
 
           {/* ── OTRAS ── */}
           <Route path="/diaria" element={<PreguntaDiaria />} />
