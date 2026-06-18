@@ -17,7 +17,7 @@ const TEMAS_META = {
 }
 
 // Categorías con ¿Quién es quién? disponible
-const CON_PERSONAJES = ['gce', 'wwii']
+const CON_PERSONAJES = ['gce', 'wwii', 'usa', 'primaria']
 
 // Qué niveles tienen Juego de Fechas disponible para cada categoría
 const NIVELES_FECHAS = {

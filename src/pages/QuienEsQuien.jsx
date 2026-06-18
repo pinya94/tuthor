@@ -1,15 +1,17 @@
 import { useState, useRef } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { PERSONAJES_TODOS, PERSONAJES_GCE, PERSONAJES_WWII, montarTablero, generarPistas } from '../data/personajes'
+import { PERSONAJES_TODOS, PERSONAJES_GCE, PERSONAJES_WWII, PERSONAJES_USA, PERSONAJES_GLOBAL, montarTablero, generarPistas } from '../data/personajes'
 import { useAuth } from '../context/AuthContext'
 import { saveActivity } from '../lib/activity'
 
 const BOARD_SIZE = 12
 const MAX_FALLOS = 2
 const POOL_LABEL = {
-  gce:    'Guerra Civil Española',
-  wwii:   'Segunda Guerra Mundial',
-  global: 'Personajes históricos de todas las épocas',
+  gce:      'Guerra Civil Española',
+  wwii:     'Segunda Guerra Mundial',
+  usa:      'Independencia Americana',
+  primaria: 'Personajes históricos de todas las épocas',
+  global:   'Personajes históricos de todas las épocas',
 }
 
 // ── AVATAR ────────────────────────────────────────────────────────────────────
@@ -155,8 +157,10 @@ export default function QuienEsQuien() {
   // Si venimos desde /estudiar/historia/gce usamos solo el pool GCE
   const poolKey  = location.state?.pool ?? 'global'
   const backPath = location.state?.backPath ?? '/juegos'
-  const pool = poolKey === 'gce'  ? PERSONAJES_GCE
-             : poolKey === 'wwii' ? PERSONAJES_WWII
+  const pool = poolKey === 'gce'      ? PERSONAJES_GCE
+             : poolKey === 'wwii'     ? PERSONAJES_WWII
+             : poolKey === 'usa'      ? PERSONAJES_USA
+             : poolKey === 'primaria' ? PERSONAJES_GLOBAL
              : PERSONAJES_TODOS
 
   const [fase, setFase]         = useState('intro')

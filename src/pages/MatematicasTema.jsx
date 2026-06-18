@@ -15,6 +15,15 @@ export default function MatematicasTema() {
 
   const juegos = [
     {
+      id: 'examen',
+      titulo: 'Examen de práctica',
+      descripcion: '10 operaciones directas. Escribe el resultado exacto y descubre tu nota al final.',
+      emoji: '📝',
+      gradient: 'from-amber-500 to-orange-600',
+      detalles: ['10 preguntas', 'Respuesta exacta', 'Nota final'],
+      action: () => navigate(`/estudiar/matematicas/${modoId}/examen`, { state: { nivel } }),
+    },
+    {
       id: 'acercate',
       titulo: 'Acércate al número',
       descripcion: 'Combina los números con las operaciones permitidas hasta llegar exactamente al objetivo.',

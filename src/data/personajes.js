@@ -132,17 +132,59 @@ export const PERSONAJES_GLOBAL = [
     pistaUnica: 'Estuvo 27 años encarcelado bajo el apartheid. Fue el primer presidente negro de Sudáfrica.' },
 ]
 
+// ── INDEPENDENCIA AMERICANA ────────────────────────────────────────────────────
+export const PERSONAJES_USA = [
+  { id: 'washington_usa',  nombre: 'George Washington',      iniciales: 'GW', color: '#14532d', categoria: 'usa',
+    atributos: { epoca: 'siglo_xviii', rol: 'militar',        genero: 'hombre', destino: 'sobrevivió',      pais: 'eeuu'   },
+    pistaUnica: 'Comandante del ejército continental y primer presidente de los Estados Unidos.' },
+  { id: 'jefferson',       nombre: 'Thomas Jefferson',        iniciales: 'TJ', color: '#1e3a8a', categoria: 'usa',
+    atributos: { epoca: 'siglo_xviii', rol: 'político',       genero: 'hombre', destino: 'sobrevivió',      pais: 'eeuu'   },
+    pistaUnica: 'Principal redactor de la Declaración de Independencia y tercer presidente de EEUU.' },
+  { id: 'franklin',        nombre: 'Benjamin Franklin',       iniciales: 'BF', color: '#78350f', categoria: 'usa',
+    atributos: { epoca: 'siglo_xviii', rol: 'científico',     genero: 'hombre', destino: 'sobrevivió',      pais: 'eeuu'   },
+    pistaUnica: 'Inventor, diplomático y Padre Fundador. Negoció la alianza con Francia que fue clave para la independencia.' },
+  { id: 'hamilton',        nombre: 'Alexander Hamilton',      iniciales: 'AH', color: '#4c1d95', categoria: 'usa',
+    atributos: { epoca: 'siglo_xviii', rol: 'político',       genero: 'hombre', destino: 'murió_conflicto', pais: 'eeuu'   },
+    pistaUnica: 'Primer secretario del Tesoro de EEUU. Murió en un duelo contra el vicepresidente Aaron Burr en 1804.' },
+  { id: 'adams_john',      nombre: 'John Adams',              iniciales: 'JA', color: '#1e3a5f', categoria: 'usa',
+    atributos: { epoca: 'siglo_xviii', rol: 'político',       genero: 'hombre', destino: 'sobrevivió',      pais: 'eeuu'   },
+    pistaUnica: 'Primer vicepresidente y segundo presidente de EEUU. Defensor del proceso independentista en el Congreso.' },
+  { id: 'paine',           nombre: 'Thomas Paine',            iniciales: 'TP', color: '#7f1d1d', categoria: 'usa',
+    atributos: { epoca: 'siglo_xviii', rol: 'revolucionario', genero: 'hombre', destino: 'sobrevivió',      pais: 'eeuu'   },
+    pistaUnica: 'Panfletista cuyo "Sentido Común" convenció a miles de colonos de declarar la independencia.' },
+  { id: 'samuel_adams',    nombre: 'Samuel Adams',            iniciales: 'SA', color: '#134e4a', categoria: 'usa',
+    atributos: { epoca: 'siglo_xviii', rol: 'revolucionario', genero: 'hombre', destino: 'sobrevivió',      pais: 'eeuu'   },
+    pistaUnica: 'Organizó el Motín del Té de Boston y fue uno de los principales agitadores del movimiento independentista.' },
+  { id: 'patrick_henry',   nombre: 'Patrick Henry',           iniciales: 'PH', color: '#065f46', categoria: 'usa',
+    atributos: { epoca: 'siglo_xviii', rol: 'político',       genero: 'hombre', destino: 'sobrevivió',      pais: 'eeuu'   },
+    pistaUnica: '"Dadme la libertad o dadme la muerte." Orador que inflamó el espíritu revolucionario en Virginia.' },
+  { id: 'paul_revere',     nombre: 'Paul Revere',             iniciales: 'PR', color: '#1f2937', categoria: 'usa',
+    atributos: { epoca: 'siglo_xviii', rol: 'revolucionario', genero: 'hombre', destino: 'sobrevivió',      pais: 'eeuu'   },
+    pistaUnica: 'Platero de Boston famoso por su cabalgata nocturna avisando de la llegada de las tropas británicas.' },
+  { id: 'hancock',         nombre: 'John Hancock',            iniciales: 'JH', color: '#92400e', categoria: 'usa',
+    atributos: { epoca: 'siglo_xviii', rol: 'político',       genero: 'hombre', destino: 'sobrevivió',      pais: 'eeuu'   },
+    pistaUnica: 'Presidente del Congreso Continental. Su firma en la Declaración de Independencia es la más reconocible.' },
+  { id: 'benedict_arnold', nombre: 'Benedict Arnold',         iniciales: 'BA', color: '#450a0a', categoria: 'usa',
+    atributos: { epoca: 'siglo_xviii', rol: 'militar',        genero: 'hombre', destino: 'sobrevivió',      pais: 'uk'     },
+    pistaUnica: 'General americano que traicionó a los colonos pasándose al bando británico. Su nombre es sinónimo de traición.' },
+  { id: 'lafayette',       nombre: 'Marqués de Lafayette',    iniciales: 'ML', color: '#1e40af', categoria: 'usa',
+    atributos: { epoca: 'siglo_xviii', rol: 'militar',        genero: 'hombre', destino: 'sobrevivió',      pais: 'francia'},
+    pistaUnica: 'Noble francés que cruzó el Atlántico para luchar junto a Washington. Clave en la victoria de Yorktown.' },
+]
+
 // Pool combinado para el modo global
 export const PERSONAJES_TODOS = [
   ...PERSONAJES_GCE,
   ...PERSONAJES_WWII,
   ...PERSONAJES_GLOBAL,
+  ...PERSONAJES_USA,
 ]
 
 // ── PLANTILLAS DE PISTAS ──────────────────────────────────────────────────────
 export const PISTA_TEMPLATES = {
   epoca: {
     antiguedad:  () => 'Vivió en la Antigüedad (antes del año 500 d.C.).',
+    siglo_xviii: () => 'Vivió en el siglo XVIII (entre 1700 y 1800).',
     siglo_xix:   () => 'Vivió en el siglo XIX o a principios del XX (antes de 1914).',
     siglo_xx:    () => 'Vivió en el siglo XX (entre las dos guerras mundiales o después).',
   },
@@ -184,6 +226,7 @@ export const PISTA_TEMPLATES = {
 const PISTA_NEG_TEMPLATES = {
   epoca: {
     antiguedad:  () => 'No vivió en la Antigüedad: su historia es más reciente.',
+    siglo_xviii: () => 'No vivió en el siglo XVIII: pertenece a otra época.',
     siglo_xix:   () => 'No vivió en el siglo XIX: pertenece a otra época.',
     siglo_xx:    () => 'No es del siglo XX: vivió antes de las guerras mundiales.',
   },

@@ -21,6 +21,7 @@ import ExamenLineaTemporal from './pages/ExamenLineaTemporal'
 import Perfil from './pages/Perfil'
 import QuienEsQuien from './pages/QuienEsQuien'
 import Acercate from './pages/Acercate'
+import ExamenMatematicas from './pages/ExamenMatematicas'
 import AcercateRoguelike from './pages/AcercateRoguelike'
 import Privacidad from './pages/Privacidad'
 import Comunidad from './pages/Comunidad'
@@ -52,6 +53,7 @@ function Layout({ onConsent }) {
           <Route path="/estudiar/matematicas" element={<MatematicasIndex />} />
           <Route path="/estudiar/matematicas/:modo" element={<MatematicasTema />} />
           <Route path="/estudiar/matematicas/:modo/jugar" element={<MatematicasPractica />} />
+          <Route path="/estudiar/matematicas/:modo/examen" element={<ExamenMatematicas />} />
 
           {/* Exámenes */}
           <Route path="/examen/historia" element={<ExamenJuego />} />
