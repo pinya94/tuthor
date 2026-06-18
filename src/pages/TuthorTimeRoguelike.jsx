@@ -91,8 +91,10 @@ function YearCounter({ añoEnviado, añoEvento, vidaAntesViaje, resultado, esTie
     }
     const distance  = Math.abs(añoEvento - añoEnviado)
     const direction = añoEvento > añoEnviado ? 1 : -1
-    const step      = Math.max(1, Math.ceil(distance / 70))
-    const ms        = Math.max(25, Math.min(90, Math.round(2800 / Math.ceil(distance / step))))
+    const ANIM_MS   = 1500
+    const step      = Math.max(1, Math.ceil(distance / 80))
+    const totalSteps = Math.ceil(distance / step)
+    const ms        = Math.max(18, Math.round(ANIM_MS / totalSteps))
 
     const id = setInterval(() => {
       setCurrent(prev => {
@@ -163,7 +165,7 @@ export default function TuthorTimeRoguelike() {
   const [difId, setDifId] = useState('medio')
   const [nivel, setNivel] = useState(1)
   const [agentes, setAgentes] = useState([])
-  const [agenteActivo, setAgenteActivo] = useState(0)
+  const agenteActivo = agentes.findIndex(a => !a.muerto)
   const [eventos, setEventos] = useState([])
   const [eventoIdx, setEventoIdx] = useState(0)
   const [guess, setGuess] = useState('')
@@ -196,7 +198,6 @@ export default function TuthorTimeRoguelike() {
     setEventoIdx(0)
     setNivel(1)
     setAgentes(initAgentes)
-    setAgenteActivo(0)
     setScoreTotal(0)
     setBonusTiempo(0)
     setPistasRestantes(0)
@@ -240,10 +241,7 @@ export default function TuthorTimeRoguelike() {
     setAgentes(prev => {
       const next = prev.map(a => ({ ...a }))
 
-      let idx = agenteActivo
-      // Buscar agente activo vivo
-      while (idx < next.length && next[idx].muerto) idx++
-      if (idx >= next.length) idx = next.findIndex(a => !a.muerto)
+      const idx = next.findIndex(a => !a.muerto)
 
       let vidaGastada = 0
       let resultado = 'ÉXITO'
@@ -275,8 +273,6 @@ export default function TuthorTimeRoguelike() {
           next[idx].muerto = true
         }
 
-        const nextAlive = next.findIndex(a => !a.muerto)
-        setAgenteActivo(nextAlive >= 0 ? nextAlive : 0)
       }
 
       const allDead = next.every(a => a.muerto)
