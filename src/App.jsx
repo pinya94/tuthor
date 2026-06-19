@@ -25,6 +25,7 @@ import ExamenMatematicas from './pages/ExamenMatematicas'
 import AcercateRoguelike from './pages/AcercateRoguelike'
 import Portadas from './pages/Portadas'
 import PortadasExamen from './pages/PortadasExamen'
+import GeoRush from './pages/GeoRush'
 import Privacidad from './pages/Privacidad'
 import Comunidad from './pages/Comunidad'
 import Admin from './pages/Admin'
@@ -71,6 +72,7 @@ function Layout({ onConsent }) {
           <Route path="/juegos/acercate/clasico" element={<Acercate />} />
           <Route path="/juegos/portadas" element={<Portadas />} />
           <Route path="/examen/portadas" element={<PortadasExamen />} />
+          <Route path="/juegos/georush" element={<GeoRush />} />
 
           {/* ── OTRAS ── */}
           <Route path="/diaria" element={<PreguntaDiaria />} />

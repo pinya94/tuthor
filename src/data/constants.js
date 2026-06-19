@@ -45,7 +45,7 @@ export const GAMES = [
   { title: 'Línea Temporal', subtitle: 'Ordena la historia', emoji: '📜', gradient: 'from-emerald-500 to-teal-700', ready: true, path: '/juegos/linea-temporal' },
   { title: '¿Quién es quién?', subtitle: 'Adivina el personaje', emoji: '🕵️', gradient: 'from-violet-600 to-purple-800', ready: true, path: '/juegos/quien-es-quien' },
   { title: 'Portadas', subtitle: 'Verdad o mentira histórica', emoji: '📰', gradient: 'from-stone-500 to-neutral-700', ready: true, path: '/juegos/portadas' },
-  { title: 'GeoRush', subtitle: 'Capitales del mundo', emoji: '🌍', gradient: 'from-teal-400 to-cyan-600', ready: false },
+  { title: 'GeoRush', subtitle: 'Adivina el país', emoji: '🌍', gradient: 'from-teal-400 to-cyan-600', ready: true, path: '/juegos/georush' },
   { title: 'Acércate', subtitle: 'Llega al número objetivo', emoji: '🎯', gradient: 'from-pink-500 to-rose-600', ready: true, path: '/juegos/acercate' },
   { title: 'WordBattle', subtitle: 'Vocabulario en inglés', emoji: '🔤', gradient: 'from-blue-500 to-indigo-600', ready: false },
   { title: 'SciQuiz', subtitle: 'Ciencias naturales', emoji: '🔬', gradient: 'from-green-500 to-emerald-600', ready: false },
