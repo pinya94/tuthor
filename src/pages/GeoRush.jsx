@@ -111,18 +111,32 @@ function AutocompleteInput({ value, onChange, onSubmit, paises, disabled }) {
       {focused && filtered.length > 0 && (
         <div className="absolute z-50 w-full mt-1 bg-[#1a1a2e] border border-white/20 rounded-xl overflow-hidden shadow-2xl max-h-48 overflow-y-auto">
           {filtered.map((name, i) => (
-            <button
-              key={name}
-              onMouseDown={() => select(name)}
+            <button key={name} onMouseDown={() => select(name)}
               className={`w-full text-left px-4 py-2.5 text-sm transition-colors ${
                 i === highlightIdx ? 'bg-[#EDAE49]/20 text-[#EDAE49]' : 'text-white/70 hover:bg-white/10'
-              }`}
-            >
+              }`}>
               {name}
             </button>
           ))}
         </div>
       )}
+    </div>
+  )
+}
+
+function BotonesSkip({ saltarGratis, onSaltarGratis, onSaltar }) {
+  return (
+    <div className="flex gap-2">
+      {saltarGratis > 0 && (
+        <button onClick={onSaltarGratis}
+          className="flex-1 py-2.5 bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-500/30 text-emerald-400 text-sm font-bold rounded-xl transition-colors">
+          ⏭️ Saltar gratis ({saltarGratis})
+        </button>
+      )}
+      <button onClick={onSaltar}
+        className={`${saltarGratis > 0 ? 'flex-1' : 'w-full'} py-2 text-white/30 hover:text-white/50 text-sm transition-colors`}>
+        Saltar país (−10s)
+      </button>
     </div>
   )
 }
@@ -140,13 +154,16 @@ export default function GeoRush() {
   const [pistasBase, setPistasBase]       = useState([])
   const [pistasFinales, setPistasFinales] = useState([])
   const [pistaIdx, setPistaIdx]           = useState(0)
+  const [finalIdx, setFinalIdx]           = useState(0)
   const [pistaExtraAlInicio, setPistaExtraAlInicio] = useState(false)
+  const [saltarGratis, setSaltarGratis]   = useState(0)
   const [inputVal, setInputVal]           = useState('')
   const [feedback, setFeedback]           = useState(null)
   const [faseRonda, setFaseRonda]         = useState('pista')
   const [paisesUsados, setPaisesUsados]   = useState([])
   const [combo, setCombo]                 = useState(0)
   const [maxCombo, setMaxCombo]           = useState(0)
+  const [pistasRevealedTotal, setPistasRevealedTotal] = useState(0)
 
   const timerRef  = useRef(null)
   const tiempoRef = useRef(60)
@@ -155,7 +172,7 @@ export default function GeoRush() {
 
   useEffect(() => {
     if (fase !== 'jugando') return
-    if (faseRonda === 'recompensa' || faseRonda === 'acertado' || faseRonda === 'fallado') return
+    if (faseRonda === 'recompensa' || faseRonda === 'fallado') return
 
     timerRef.current = setInterval(() => {
       tiempoRef.current -= 1
@@ -180,25 +197,35 @@ export default function GeoRush() {
     setCombo(0)
     setMaxCombo(0)
     setPistaExtraAlInicio(false)
+    setSaltarGratis(0)
     setFase('jugando')
     siguientePais([], selectedDif)
   }
 
-  function siguientePais(usados, difIdOverride) {
+  function siguientePais(usados) {
     const disponibles = PAISES.filter(p => !usados.includes(p.nombre))
     if (disponibles.length === 0) { setFase('fin'); return }
     const pais = disponibles[Math.floor(Math.random() * disponibles.length)]
-    const pistasInteractivas = generarPistasBase(pais)
 
     setPaisActual(pais)
-    setPistasBase(pistasInteractivas)
+    setPistasBase(generarPistasBase(pais))
     setPistasFinales(shuffle(generarPistasFinales(pais)))
     setPistaIdx(0)
+    setFinalIdx(0)
     setInputVal('')
     setFeedback(null)
+    setPistasRevealedTotal(0)
     setFaseRonda(pistaExtraAlInicio ? 'finales' : 'pista')
+    if (pistaExtraAlInicio) setPistasRevealedTotal(5)
     setPaisesUsados(u => [...u, pais.nombre])
     setLevelKey(k => k + 1)
+  }
+
+  function calcPuntos(nuevoCombo) {
+    const basePts = Math.max(50, 200 - pistasRevealedTotal * 15)
+    const comboPts = nuevoCombo * 25
+    const mult = difId === 'dificil' ? 1.5 : difId === 'medio' ? 1.2 : 1
+    return Math.round((basePts + comboPts) * mult)
   }
 
   function handleRespuestaPista(val) {
@@ -216,22 +243,18 @@ export default function GeoRush() {
       return
     }
 
-    const esFacil = DIFS[difId].obligatorio === false
+    const esFacil = !dif.obligatorio
 
     if (pista.validar(nombreInput)) {
       setFeedback({ ok: true, msg: `✓ ${nombreInput} cumple la pista` })
       setInputVal('')
-      setTimeout(() => {
-        setFeedback(null)
-        avanzarPista()
-      }, 800)
+      setPistasRevealedTotal(n => n + 1)
+      setTimeout(() => { setFeedback(null); avanzarPista() }, 800)
     } else if (esFacil) {
-      setFeedback({ ok: false, msg: `✗ ${nombreInput} no cumple — la respuesta correcta era otra` })
+      setFeedback({ ok: false, msg: `✗ ${nombreInput} no cumple — avanzamos igualmente` })
       setInputVal('')
-      setTimeout(() => {
-        setFeedback(null)
-        avanzarPista()
-      }, 1200)
+      setPistasRevealedTotal(n => n + 1)
+      setTimeout(() => { setFeedback(null); avanzarPista() }, 1200)
     } else {
       setFeedback({ ok: false, msg: `✗ ${nombreInput} no cumple esta pista` })
       setInputVal('')
@@ -247,10 +270,13 @@ export default function GeoRush() {
     }
   }
 
-  function pasarAAdivinar() {
-    setFaseRonda('adivinar')
-    setInputVal('')
-    setFeedback(null)
+  function avanzarFinal() {
+    setPistasRevealedTotal(n => n + 1)
+    if (finalIdx + 1 < pistasFinales.length) {
+      setFinalIdx(i => i + 1)
+    } else {
+      setFaseRonda('adivinar')
+    }
   }
 
   function handleAdivinar(val) {
@@ -268,7 +294,7 @@ export default function GeoRush() {
     clearInterval(timerRef.current)
     const nuevoCombo = combo + 1
     setMaxCombo(m => Math.max(m, nuevoCombo))
-    const pts = Math.round((100 + nuevoCombo * 25) * (difId === 'dificil' ? 1.5 : difId === 'medio' ? 1.2 : 1))
+    const pts = calcPuntos(nuevoCombo)
     setPuntos(p => p + pts)
     setPaisesAcertados(n => n + 1)
     setCombo(nuevoCombo)
@@ -284,8 +310,16 @@ export default function GeoRush() {
       setPistaExtraAlInicio(true)
     } else if (tipo === 'bonus') {
       setPuntos(p => p + 150)
+    } else if (tipo === 'saltar') {
+      setSaltarGratis(n => n + 1)
     }
     setFeedback(null)
+    siguientePais(paisesUsados)
+  }
+
+  function usarSaltarGratis() {
+    setSaltarGratis(n => n - 1)
+    setCombo(0)
     siguientePais(paisesUsados)
   }
 
@@ -336,9 +370,9 @@ export default function GeoRush() {
               <p className="text-white/40 text-xs font-semibold uppercase tracking-widest">Reglas</p>
               {[
                 ['⏱️', 'Tiempo', `${d.tiempoInicio}s (continuo)`],
-                ['🔍', 'Pistas', `5 interactivas + 4 finales`],
-                ['❌', 'Al fallar/saltar', '−10s'],
-                ['🟢', 'Pistas fácil', d.obligatorio ? 'Hay que acertarlas' : 'Se revelan aunque falles'],
+                ['🔍', 'Pistas', `5 + 4 finales (una a una)`],
+                ['❌', 'Fallar/saltar', '−10s'],
+                ['📊', 'Puntos', 'Menos pistas = más puntos'],
               ].map(([e, k, v]) => (
                 <div key={k} className="flex items-center justify-between gap-2">
                   <span className="text-white/40 shrink-0">{e} {k}</span>
@@ -350,8 +384,9 @@ export default function GeoRush() {
               <p className="text-white/40 text-xs font-semibold uppercase tracking-widest">Al acertar, elige</p>
               {[
                 ['⏱️', '+10 segundos'],
-                ['💡', 'Pista extra al inicio del siguiente'],
-                [difId === 'dificil' ? '✨' : '🔄', difId === 'dificil' ? '+150 pts bonus' : 'Más opciones próximamente'],
+                ['💡', 'Pista extra al inicio'],
+                ['⏭️', 'Saltar gratis (acumulable)'],
+                ...(difId === 'dificil' ? [['✨', '+150 pts bonus']] : []),
               ].map(([e, t]) => (
                 <div key={t} className="flex items-start gap-2 text-sm text-white/50">
                   <span className="text-base w-5 shrink-0 text-center">{e}</span>
@@ -367,8 +402,8 @@ export default function GeoRush() {
               {[
                 ['🔍', 'Recibes pistas sobre un país misterioso'],
                 ['✏️', 'Responde con un país que cumpla cada pista'],
-                ['🎯', 'Tras las pistas, intenta adivinar el país'],
-                ['🏆', 'Más países y más rápido = más puntos'],
+                ['💡', 'Las pistas finales se revelan una a una'],
+                ['🏆', 'Adivina pronto para más puntos'],
               ].map(([e, t]) => (
                 <div key={t} className="flex items-start gap-2 text-sm text-white/50">
                   <span className="text-base w-5 shrink-0 text-center">{e}</span>
@@ -439,11 +474,9 @@ export default function GeoRush() {
 
   const recompensaOpciones = [
     { id: 'tiempo', emoji: '⏱️', label: '+10 segundos', desc: 'Añade 10s al timer' },
-    { id: 'pistaExtra', emoji: '💡', label: 'Pista extra al inicio', desc: 'El siguiente país empieza con una pista final visible' },
-    ...(difId === 'dificil'
-      ? [{ id: 'bonus', emoji: '✨', label: '+150 pts', desc: 'Bonus de puntos directo' }]
-      : []
-    ),
+    { id: 'pistaExtra', emoji: '💡', label: 'Pista extra al inicio', desc: 'Empieza con una pista final visible' },
+    { id: 'saltar', emoji: '⏭️', label: 'Saltar gratis', desc: `Acumulas un saltar sin penalización${saltarGratis > 0 ? ` (tienes ${saltarGratis})` : ''}` },
+    ...(difId === 'dificil' ? [{ id: 'bonus', emoji: '✨', label: '+150 pts', desc: 'Bonus de puntos directo' }] : []),
   ]
 
   return (
@@ -455,6 +488,7 @@ export default function GeoRush() {
           ← Salir
         </button>
         <div className="flex items-center gap-4 text-sm text-white/50">
+          {saltarGratis > 0 && <span className="text-emerald-400 font-bold">⏭️ {saltarGratis}</span>}
           {combo >= 2 && <span className="text-amber-400 font-bold">🔥 ×{combo}</span>}
           <span className="text-white font-bold tabular-nums">{puntos.toLocaleString()} pts</span>
           <span className="text-white/30">🌍 {paisesAcertados}</span>
@@ -480,11 +514,17 @@ export default function GeoRush() {
           <div className="bg-white/5 border border-white/10 rounded-2xl p-5 md:p-7">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-white/30 text-xs font-semibold uppercase tracking-widest">País misterioso</h2>
-              <span className="text-white/20 text-xs">Pista {Math.min(pistaIdx + 1, pistasBase.length)}/{pistasBase.length}</span>
+              {faseRonda === 'pista' && (
+                <span className="text-white/20 text-xs">Pista {pistaIdx + 1}/{pistasBase.length}</span>
+              )}
+              {(faseRonda === 'finales' || faseRonda === 'adivinar') && (
+                <span className="text-violet-400/60 text-xs">Final {Math.min(finalIdx + 1, pistasFinales.length)}/{pistasFinales.length}</span>
+              )}
             </div>
 
+            {/* Pistas base */}
             <div className="space-y-2 mb-4">
-              {pistasBase.slice(0, pistaIdx + 1).map((p, i) => (
+              {pistasBase.slice(0, faseRonda === 'pista' ? pistaIdx + 1 : pistasBase.length).map((p, i) => (
                 <div key={i} className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm ${
                   i === pistaIdx && faseRonda === 'pista'
                     ? 'bg-[#EDAE49]/15 border border-[#EDAE49]/40 text-white'
@@ -494,7 +534,7 @@ export default function GeoRush() {
                   <span>{p.texto}</span>
                 </div>
               ))}
-              {pistasBase.slice(pistaIdx + 1).map((_, i) => (
+              {faseRonda === 'pista' && pistasBase.slice(pistaIdx + 1).map((_, i) => (
                 <div key={`locked-${i}`} className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm bg-white/3 border border-white/5 text-white/20">
                   <span>🔒</span>
                   <span>Pista bloqueada</span>
@@ -502,13 +542,24 @@ export default function GeoRush() {
               ))}
             </div>
 
+            {/* Pistas finales (una a una) */}
             {(faseRonda === 'finales' || faseRonda === 'adivinar' || (pistaExtraAlInicio && faseRonda === 'pista')) && (
               <div className="border-t border-white/10 pt-4 mt-4 space-y-2">
                 <p className="text-white/30 text-xs font-semibold uppercase tracking-widest mb-2">Pistas finales</p>
-                {pistasFinales.slice(0, pistaExtraAlInicio && faseRonda === 'pista' ? 1 : undefined).map((p, i) => (
-                  <div key={i} className="flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm bg-violet-500/10 border border-violet-500/20 text-violet-300">
+                {pistasFinales.slice(0, pistaExtraAlInicio && faseRonda === 'pista' ? 1 : finalIdx + 1).map((p, i) => (
+                  <div key={i} className={`flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm ${
+                    i === finalIdx && faseRonda === 'finales'
+                      ? 'bg-violet-500/15 border border-violet-500/30 text-violet-200'
+                      : 'bg-violet-500/10 border border-violet-500/20 text-violet-300'
+                  }`}>
                     <span>{p.emoji}</span>
                     <span>{p.texto}</span>
+                  </div>
+                ))}
+                {faseRonda === 'finales' && pistasFinales.slice(finalIdx + 1).map((_, i) => (
+                  <div key={`fl-${i}`} className="flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm bg-white/3 border border-white/5 text-white/15">
+                    <span>🔒</span>
+                    <span>Pista final bloqueada</span>
                   </div>
                 ))}
               </div>
@@ -519,74 +570,65 @@ export default function GeoRush() {
         {/* Panel de acción */}
         <div className="flex flex-col gap-4">
 
+          {/* PISTA: respondiendo pistas base */}
           {faseRonda === 'pista' && (
             <>
               <div className="bg-white/5 border border-white/10 rounded-2xl p-4">
                 <p className="text-white/30 text-xs uppercase tracking-widest mb-2">
-                  {dif.obligatorio ? 'Responde con un país que cumpla:' : 'Intenta responder (si fallas, se revela):'}
+                  {dif.obligatorio ? 'Responde con un país que cumpla:' : 'Intenta responder (si fallas, avanzamos):'}
                 </p>
                 <p className="text-white font-bold text-sm">{pistasBase[pistaIdx]?.texto}</p>
               </div>
-              <AutocompleteInput
-                value={inputVal}
-                onChange={setInputVal}
-                onSubmit={handleRespuestaPista}
-                paises={NOMBRES_PAISES}
-                disabled={!!feedback}
-              />
+              <AutocompleteInput value={inputVal} onChange={setInputVal} onSubmit={handleRespuestaPista}
+                paises={NOMBRES_PAISES} disabled={!!feedback} />
               {feedback && (
                 <div className={`text-center py-2 rounded-xl font-bold text-sm ${feedback.ok ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'}`}>
                   {feedback.msg}
                 </div>
               )}
-              <button onClick={saltarPais}
-                className="py-2 text-white/30 hover:text-white/50 text-sm transition-colors">
-                Saltar país (−10s)
-              </button>
+              <BotonesSkip saltarGratis={saltarGratis} onSaltarGratis={usarSaltarGratis} onSaltar={saltarPais} />
             </>
           )}
 
+          {/* FINALES: pistas finales una a una */}
           {faseRonda === 'finales' && (
             <>
               <div className="bg-violet-500/10 border border-violet-500/30 rounded-2xl p-4 text-center">
-                <p className="text-violet-300 font-bold">¡Todas las pistas desbloqueadas!</p>
-                <p className="text-white/40 text-sm mt-1">Lee las pistas finales y adivina el país</p>
+                <p className="text-violet-300 font-bold">Pista final {finalIdx + 1} de {pistasFinales.length}</p>
+                <p className="text-white/40 text-sm mt-1">¿Ya sabes qué país es?</p>
               </div>
-              <button onClick={pasarAAdivinar}
-                className="py-4 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-lg rounded-2xl transition-all hover:scale-[1.02]">
-                ¡Adivinar el país! →
-              </button>
-              <button onClick={saltarPais}
-                className="py-2 text-white/30 hover:text-white/50 text-sm transition-colors">
-                Saltar país (−10s)
-              </button>
+              <div className="grid grid-cols-2 gap-3">
+                <button onClick={() => { setFaseRonda('adivinar'); setInputVal(''); setFeedback(null) }}
+                  className="py-4 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-base rounded-2xl transition-all hover:scale-[1.02]">
+                  🎯 ¡Adivinar!
+                </button>
+                <button onClick={avanzarFinal}
+                  className="py-4 bg-white/10 hover:bg-white/15 text-white font-bold text-base rounded-2xl transition-all">
+                  {finalIdx + 1 < pistasFinales.length ? 'Siguiente pista →' : 'Ver todas →'}
+                </button>
+              </div>
+              <BotonesSkip saltarGratis={saltarGratis} onSaltarGratis={usarSaltarGratis} onSaltar={saltarPais} />
             </>
           )}
 
+          {/* ADIVINAR */}
           {faseRonda === 'adivinar' && (
             <>
               <div className="bg-amber-500/10 border border-amber-500/30 rounded-2xl p-4 text-center">
                 <p className="text-amber-300 font-bold text-lg">¿Qué país es?</p>
               </div>
-              <AutocompleteInput
-                value={inputVal}
-                onChange={setInputVal}
-                onSubmit={handleAdivinar}
-                paises={NOMBRES_PAISES}
-                disabled={!!feedback}
-              />
+              <AutocompleteInput value={inputVal} onChange={setInputVal} onSubmit={handleAdivinar}
+                paises={NOMBRES_PAISES} disabled={!!feedback} />
               {feedback && (
                 <div className={`text-center py-2 rounded-xl font-bold text-sm ${feedback.ok ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'}`}>
                   {feedback.msg}
                 </div>
               )}
-              <button onClick={saltarPais}
-                className="py-2 text-white/30 hover:text-white/50 text-sm transition-colors">
-                Saltar país (−10s)
-              </button>
+              <BotonesSkip saltarGratis={saltarGratis} onSaltarGratis={usarSaltarGratis} onSaltar={saltarPais} />
             </>
           )}
 
+          {/* RECOMPENSA */}
           {faseRonda === 'recompensa' && (
             <>
               <div className="bg-green-900/30 border border-green-500/30 rounded-2xl p-4 text-center">
@@ -609,6 +651,7 @@ export default function GeoRush() {
             </>
           )}
 
+          {/* FALLADO */}
           {faseRonda === 'fallado' && (
             <>
               <div className="bg-red-900/30 border border-red-500/30 rounded-2xl p-5 text-center">
