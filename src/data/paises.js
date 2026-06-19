@@ -832,7 +832,6 @@ export const PAISES = [
     idioma: 'Ruso',
     famoso: 'León Tolstói',
   },
-]
 
   // ── PAÍSES ADICIONALES ─────────────────────────────────────────────────────
 
