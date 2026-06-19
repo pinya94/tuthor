@@ -3,9 +3,9 @@ import { useNavigate } from 'react-router-dom'
 import { PAISES, NOMBRES_PAISES } from '../data/paises'
 
 const DIFS = {
-  facil:   { label: 'Fácil',   emoji: '🟢', tiempoInicio: 90, pistasBase: 5, recompensas: ['tiempo', 'pistaExtra', 'saltar'] },
-  medio:   { label: 'Medio',   emoji: '🟡', tiempoInicio: 60, pistasBase: 4, recompensas: ['tiempo', 'pistaExtra', 'saltar'] },
-  dificil: { label: 'Difícil', emoji: '🔴', tiempoInicio: 40, pistasBase: 3, recompensas: ['tiempo', 'bonus', 'saltar'] },
+  facil:   { label: 'Fácil',   emoji: '🟢', tiempoInicio: 90,  obligatorio: false },
+  medio:   { label: 'Medio',   emoji: '🟡', tiempoInicio: 60,  obligatorio: true },
+  dificil: { label: 'Difícil', emoji: '🔴', tiempoInicio: 40,  obligatorio: true },
 }
 
 function shuffle(arr) {
@@ -20,23 +20,34 @@ function shuffle(arr) {
 function generarPistasBase(pais) {
   const pistas = []
   pistas.push({ tipo: 'continente', texto: `Está en ${pais.continente}`, validar: r => PAISES.find(p => p.nombre === r)?.continente === pais.continente })
-  pistas.push({ tipo: 'hemisferio', texto: `Está en el hemisferio ${pais.hemisferio === 'ambos' ? 'norte y sur (cruza el ecuador)' : pais.hemisferio}`, validar: r => { const p = PAISES.find(p => p.nombre === r); return p && (p.hemisferio === pais.hemisferio || pais.hemisferio === 'ambos' && (p.hemisferio === 'norte' || p.hemisferio === 'sur' || p.hemisferio === 'ambos') || p.hemisferio === 'ambos') } })
+
+  pistas.push({ tipo: 'hemisferio', texto: `Está en el hemisferio ${pais.hemisferio === 'ambos' ? 'norte y sur (cruza el ecuador)' : pais.hemisferio}`, validar: r => {
+    const p = PAISES.find(p => p.nombre === r)
+    if (!p) return false
+    if (pais.hemisferio === 'ambos') return true
+    return p.hemisferio === pais.hemisferio || p.hemisferio === 'ambos'
+  }})
 
   const areaRef = pais.area > 500000 ? 500000 : pais.area > 100000 ? 100000 : 50000
   const masOMenos = pais.area >= areaRef ? 'más' : 'menos'
-  pistas.push({ tipo: 'area', texto: `Tiene ${masOMenos} de ${areaRef.toLocaleString()} km²`, validar: r => { const p = PAISES.find(p => p.nombre === r); return p && (masOMenos === 'más' ? p.area >= areaRef : p.area < areaRef) } })
+  pistas.push({ tipo: 'area', texto: `Tiene ${masOMenos} de ${areaRef.toLocaleString()} km²`, validar: r => {
+    const p = PAISES.find(p => p.nombre === r)
+    return p && (masOMenos === 'más' ? p.area >= areaRef : p.area < areaRef)
+  }})
 
   const pobRef = pais.poblacion > 100000000 ? 100000000 : pais.poblacion > 50000000 ? 50000000 : pais.poblacion > 10000000 ? 10000000 : 5000000
   const masPob = pais.poblacion >= pobRef ? 'más' : 'menos'
-  pistas.push({ tipo: 'poblacion', texto: `Tiene ${masPob} de ${(pobRef / 1000000).toFixed(0)} millones de habitantes`, validar: r => { const p = PAISES.find(p => p.nombre === r); return p && (masPob === 'más' ? p.poblacion >= pobRef : p.poblacion < pobRef) } })
+  pistas.push({ tipo: 'poblacion', texto: `Tiene ${masPob} de ${(pobRef / 1000000).toFixed(0)} millones de habitantes`, validar: r => {
+    const p = PAISES.find(p => p.nombre === r)
+    return p && (masPob === 'más' ? p.poblacion >= pobRef : p.poblacion < pobRef)
+  }})
 
   const guerraTexto = pais.guerras === 'ambas' ? 'Participó en la I y II Guerra Mundial'
     : pais.guerras === 'I' ? 'Participó en la I Guerra Mundial (pero no en la II)'
     : pais.guerras === 'II' ? 'Participó en la II Guerra Mundial (pero no en la I)'
     : 'No participó en ninguna guerra mundial'
-  pistas.push({ tipo: 'guerras', texto: guerraTexto, validar: r => { const p = PAISES.find(p => p.nombre === r); return p?.guerras === pais.guerras } })
+  pistas.push({ tipo: 'guerras', texto: guerraTexto, validar: r => PAISES.find(p => p.nombre === r)?.guerras === pais.guerras })
 
-  pistas.push({ tipo: 'idioma', texto: `Se habla ${pais.idioma}`, validar: null })
   return pistas
 }
 
@@ -125,27 +136,26 @@ export default function GeoRush() {
   const [paisesAcertados, setPaisesAcertados] = useState(0)
   const [levelKey, setLevelKey] = useState(0)
 
-  // País actual
-  const [paisActual, setPaisActual]     = useState(null)
-  const [pistasBase, setPistasBase]     = useState([])
+  const [paisActual, setPaisActual]       = useState(null)
+  const [pistasBase, setPistasBase]       = useState([])
   const [pistasFinales, setPistasFinales] = useState([])
-  const [pistaIdx, setPistaIdx]         = useState(0)
+  const [pistaIdx, setPistaIdx]           = useState(0)
   const [pistaExtraAlInicio, setPistaExtraAlInicio] = useState(false)
-  const [inputVal, setInputVal]         = useState('')
-  const [feedback, setFeedback]         = useState(null)
-  const [faseRonda, setFaseRonda]       = useState('pista') // 'pista' | 'finales' | 'adivinar' | 'recompensa' | 'acertado' | 'fallado'
-  const [paisesUsados, setPaisesUsados] = useState([])
-  const [combo, setCombo]               = useState(0)
+  const [inputVal, setInputVal]           = useState('')
+  const [feedback, setFeedback]           = useState(null)
+  const [faseRonda, setFaseRonda]         = useState('pista')
+  const [paisesUsados, setPaisesUsados]   = useState([])
+  const [combo, setCombo]                 = useState(0)
+  const [maxCombo, setMaxCombo]           = useState(0)
 
   const timerRef  = useRef(null)
   const tiempoRef = useRef(60)
 
   const dif = DIFS[difId]
 
-  // ── Timer ─────────────────────────────────────────────────────────────────
   useEffect(() => {
     if (fase !== 'jugando') return
-    if (faseRonda === 'recompensa' || faseRonda === 'acertado') return
+    if (faseRonda === 'recompensa' || faseRonda === 'acertado' || faseRonda === 'fallado') return
 
     timerRef.current = setInterval(() => {
       tiempoRef.current -= 1
@@ -168,19 +178,17 @@ export default function GeoRush() {
     setPaisesAcertados(0)
     setPaisesUsados([])
     setCombo(0)
+    setMaxCombo(0)
     setPistaExtraAlInicio(false)
     setFase('jugando')
     siguientePais([], selectedDif)
   }
 
   function siguientePais(usados, difIdOverride) {
-    const d = DIFS[difIdOverride || difId]
     const disponibles = PAISES.filter(p => !usados.includes(p.nombre))
     if (disponibles.length === 0) { setFase('fin'); return }
     const pais = disponibles[Math.floor(Math.random() * disponibles.length)]
-    const allPistas = generarPistasBase(pais)
-    const baseCount = d.pistasBase
-    const pistasInteractivas = allPistas.filter(p => p.validar).slice(0, baseCount)
+    const pistasInteractivas = generarPistasBase(pais)
 
     setPaisActual(pais)
     setPistasBase(pistasInteractivas)
@@ -207,20 +215,35 @@ export default function GeoRush() {
       acertarPais()
       return
     }
+
+    const esFacil = DIFS[difId].obligatorio === false
+
     if (pista.validar(nombreInput)) {
       setFeedback({ ok: true, msg: `✓ ${nombreInput} cumple la pista` })
       setInputVal('')
       setTimeout(() => {
         setFeedback(null)
-        if (pistaIdx + 1 < pistasBase.length) {
-          setPistaIdx(i => i + 1)
-        } else {
-          setFaseRonda('finales')
-        }
+        avanzarPista()
       }, 800)
+    } else if (esFacil) {
+      setFeedback({ ok: false, msg: `✗ ${nombreInput} no cumple — la respuesta correcta era otra` })
+      setInputVal('')
+      setTimeout(() => {
+        setFeedback(null)
+        avanzarPista()
+      }, 1200)
     } else {
       setFeedback({ ok: false, msg: `✗ ${nombreInput} no cumple esta pista` })
+      setInputVal('')
       setTimeout(() => setFeedback(null), 1200)
+    }
+  }
+
+  function avanzarPista() {
+    if (pistaIdx + 1 < pistasBase.length) {
+      setPistaIdx(i => i + 1)
+    } else {
+      setFaseRonda('finales')
     }
   }
 
@@ -244,6 +267,7 @@ export default function GeoRush() {
   function acertarPais() {
     clearInterval(timerRef.current)
     const nuevoCombo = combo + 1
+    setMaxCombo(m => Math.max(m, nuevoCombo))
     const pts = Math.round((100 + nuevoCombo * 25) * (difId === 'dificil' ? 1.5 : difId === 'medio' ? 1.2 : 1))
     setPuntos(p => p + pts)
     setPaisesAcertados(n => n + 1)
@@ -260,8 +284,6 @@ export default function GeoRush() {
       setPistaExtraAlInicio(true)
     } else if (tipo === 'bonus') {
       setPuntos(p => p + 150)
-    } else if (tipo === 'saltar') {
-      // no-op, just go next
     }
     setFeedback(null)
     siguientePais(paisesUsados)
@@ -269,7 +291,7 @@ export default function GeoRush() {
 
   function saltarPais() {
     setCombo(0)
-    tiempoRef.current = Math.max(0, tiempoRef.current - 5)
+    tiempoRef.current = Math.max(0, tiempoRef.current - 10)
     setTimeLeft(tiempoRef.current)
     if (tiempoRef.current <= 0) { setFase('fin'); return }
     siguientePais(paisesUsados)
@@ -314,9 +336,9 @@ export default function GeoRush() {
               <p className="text-white/40 text-xs font-semibold uppercase tracking-widest">Reglas</p>
               {[
                 ['⏱️', 'Tiempo', `${d.tiempoInicio}s (continuo)`],
-                ['🔍', 'Pistas', `${d.pistasBase} antes de las finales`],
-                ['❌', 'Al fallar', '−10s y siguiente país'],
-                ['⏭️', 'Saltar', '−5s'],
+                ['🔍', 'Pistas', `5 interactivas + 4 finales`],
+                ['❌', 'Al fallar/saltar', '−10s'],
+                ['🟢', 'Pistas fácil', d.obligatorio ? 'Hay que acertarlas' : 'Se revelan aunque falles'],
               ].map(([e, k, v]) => (
                 <div key={k} className="flex items-center justify-between gap-2">
                   <span className="text-white/40 shrink-0">{e} {k}</span>
@@ -325,11 +347,11 @@ export default function GeoRush() {
               ))}
             </div>
             <div className="bg-white/5 border border-white/10 rounded-2xl p-5 space-y-3 text-sm">
-              <p className="text-white/40 text-xs font-semibold uppercase tracking-widest">Recompensas</p>
+              <p className="text-white/40 text-xs font-semibold uppercase tracking-widest">Al acertar, elige</p>
               {[
                 ['⏱️', '+10 segundos'],
-                ['💡', 'Pista extra al inicio'],
-                [difId === 'dificil' ? '✨' : '⏭️', difId === 'dificil' ? '+150 pts bonus' : 'Saltar país gratis'],
+                ['💡', 'Pista extra al inicio del siguiente'],
+                [difId === 'dificil' ? '✨' : '🔄', difId === 'dificil' ? '+150 pts bonus' : 'Más opciones próximamente'],
               ].map(([e, t]) => (
                 <div key={t} className="flex items-start gap-2 text-sm text-white/50">
                   <span className="text-base w-5 shrink-0 text-center">{e}</span>
@@ -367,7 +389,7 @@ export default function GeoRush() {
 
   // ── FIN ───────────────────────────────────────────────────────────────────
   if (fase === 'fin') {
-    const shareText = `🌍 GeoRush: ${paisesAcertados} países acertados · ${puntos.toLocaleString()} pts\n${dif.emoji} Modo ${dif.label}\n🎮 https://www.tuthor.es/juegos/georush`
+    const shareText = `🌍 GeoRush: ${paisesAcertados} países · ${puntos.toLocaleString()} pts\n${dif.emoji} Modo ${dif.label} · Racha máx: ${maxCombo}\n🎮 https://www.tuthor.es/juegos/georush`
     return (
       <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-6">
         <div className="max-w-lg w-full">
@@ -386,7 +408,7 @@ export default function GeoRush() {
               </div>
               <div className="bg-white/5 rounded-xl p-4">
                 <p className="text-white/40 text-xs mb-1">Mejor racha</p>
-                <p className="text-white font-black text-3xl">{combo}</p>
+                <p className="text-white font-black text-3xl">{maxCombo}</p>
               </div>
             </div>
           </div>
@@ -417,10 +439,10 @@ export default function GeoRush() {
 
   const recompensaOpciones = [
     { id: 'tiempo', emoji: '⏱️', label: '+10 segundos', desc: 'Añade 10s al timer' },
-    { id: 'pistaExtra', emoji: '💡', label: 'Pista extra', desc: 'Empieza el siguiente país con una pista final visible' },
+    { id: 'pistaExtra', emoji: '💡', label: 'Pista extra al inicio', desc: 'El siguiente país empieza con una pista final visible' },
     ...(difId === 'dificil'
       ? [{ id: 'bonus', emoji: '✨', label: '+150 pts', desc: 'Bonus de puntos directo' }]
-      : [{ id: 'saltar', emoji: '⏭️', label: 'Saltar gratis', desc: 'El siguiente país se puede saltar sin penalización' }]
+      : []
     ),
   ]
 
@@ -451,7 +473,6 @@ export default function GeoRush() {
         </div>
       </div>
 
-      {/* Contenido principal */}
       <div className="flex-1 flex flex-col md:grid md:grid-cols-[1fr_320px] md:gap-8 md:items-start">
 
         {/* Panel de pistas */}
@@ -462,7 +483,6 @@ export default function GeoRush() {
               <span className="text-white/20 text-xs">Pista {Math.min(pistaIdx + 1, pistasBase.length)}/{pistasBase.length}</span>
             </div>
 
-            {/* Pistas desbloqueadas */}
             <div className="space-y-2 mb-4">
               {pistasBase.slice(0, pistaIdx + 1).map((p, i) => (
                 <div key={i} className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm ${
@@ -470,7 +490,7 @@ export default function GeoRush() {
                     ? 'bg-[#EDAE49]/15 border border-[#EDAE49]/40 text-white'
                     : 'bg-white/5 border border-white/10 text-white/50'
                 }`}>
-                  <span className="text-base">{i <= pistaIdx ? '✅' : '🔒'}</span>
+                  <span className="text-base">{i < pistaIdx || faseRonda !== 'pista' ? '✅' : '🔍'}</span>
                   <span>{p.texto}</span>
                 </div>
               ))}
@@ -482,8 +502,7 @@ export default function GeoRush() {
               ))}
             </div>
 
-            {/* Pistas finales */}
-            {(faseRonda === 'finales' || faseRonda === 'adivinar' || pistaExtraAlInicio && faseRonda === 'pista') && (
+            {(faseRonda === 'finales' || faseRonda === 'adivinar' || (pistaExtraAlInicio && faseRonda === 'pista')) && (
               <div className="border-t border-white/10 pt-4 mt-4 space-y-2">
                 <p className="text-white/30 text-xs font-semibold uppercase tracking-widest mb-2">Pistas finales</p>
                 {pistasFinales.slice(0, pistaExtraAlInicio && faseRonda === 'pista' ? 1 : undefined).map((p, i) => (
@@ -500,11 +519,12 @@ export default function GeoRush() {
         {/* Panel de acción */}
         <div className="flex flex-col gap-4">
 
-          {/* FASE: Respondiendo pista */}
           {faseRonda === 'pista' && (
             <>
               <div className="bg-white/5 border border-white/10 rounded-2xl p-4">
-                <p className="text-white/30 text-xs uppercase tracking-widest mb-2">Responde con un país que cumpla:</p>
+                <p className="text-white/30 text-xs uppercase tracking-widest mb-2">
+                  {dif.obligatorio ? 'Responde con un país que cumpla:' : 'Intenta responder (si fallas, se revela):'}
+                </p>
                 <p className="text-white font-bold text-sm">{pistasBase[pistaIdx]?.texto}</p>
               </div>
               <AutocompleteInput
@@ -521,12 +541,11 @@ export default function GeoRush() {
               )}
               <button onClick={saltarPais}
                 className="py-2 text-white/30 hover:text-white/50 text-sm transition-colors">
-                Saltar país (−5s)
+                Saltar país (−10s)
               </button>
             </>
           )}
 
-          {/* FASE: Pistas finales → adivinar */}
           {faseRonda === 'finales' && (
             <>
               <div className="bg-violet-500/10 border border-violet-500/30 rounded-2xl p-4 text-center">
@@ -539,12 +558,11 @@ export default function GeoRush() {
               </button>
               <button onClick={saltarPais}
                 className="py-2 text-white/30 hover:text-white/50 text-sm transition-colors">
-                Saltar país (−5s)
+                Saltar país (−10s)
               </button>
             </>
           )}
 
-          {/* FASE: Adivinando */}
           {faseRonda === 'adivinar' && (
             <>
               <div className="bg-amber-500/10 border border-amber-500/30 rounded-2xl p-4 text-center">
@@ -562,10 +580,13 @@ export default function GeoRush() {
                   {feedback.msg}
                 </div>
               )}
+              <button onClick={saltarPais}
+                className="py-2 text-white/30 hover:text-white/50 text-sm transition-colors">
+                Saltar país (−10s)
+              </button>
             </>
           )}
 
-          {/* FASE: Recompensa */}
           {faseRonda === 'recompensa' && (
             <>
               <div className="bg-green-900/30 border border-green-500/30 rounded-2xl p-4 text-center">
@@ -588,7 +609,6 @@ export default function GeoRush() {
             </>
           )}
 
-          {/* FASE: Fallado */}
           {faseRonda === 'fallado' && (
             <>
               <div className="bg-red-900/30 border border-red-500/30 rounded-2xl p-5 text-center">
