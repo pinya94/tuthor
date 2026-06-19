@@ -595,18 +595,21 @@ export default function GeoRush() {
             <>
               <div className="bg-violet-500/10 border border-violet-500/30 rounded-2xl p-4 text-center">
                 <p className="text-violet-300 font-bold">Pista final {finalIdx + 1} de {pistasFinales.length}</p>
-                <p className="text-white/40 text-sm mt-1">¿Ya sabes qué país es?</p>
+                <p className="text-white/40 text-sm mt-1">Escribe el país o pide otra pista</p>
               </div>
-              <div className="grid grid-cols-2 gap-3">
-                <button onClick={() => { setFaseRonda('adivinar'); setInputVal(''); setFeedback(null) }}
-                  className="py-4 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-base rounded-2xl transition-all hover:scale-[1.02]">
-                  🎯 ¡Adivinar!
-                </button>
+              <AutocompleteInput value={inputVal} onChange={setInputVal} onSubmit={handleAdivinar}
+                paises={NOMBRES_PAISES} disabled={!!feedback} />
+              {feedback && (
+                <div className={`text-center py-2 rounded-xl font-bold text-sm ${feedback.ok ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'}`}>
+                  {feedback.msg}
+                </div>
+              )}
+              {finalIdx + 1 < pistasFinales.length && (
                 <button onClick={avanzarFinal}
-                  className="py-4 bg-white/10 hover:bg-white/15 text-white font-bold text-base rounded-2xl transition-all">
-                  {finalIdx + 1 < pistasFinales.length ? 'Siguiente pista →' : 'Ver todas →'}
+                  className="w-full py-3 bg-white/10 hover:bg-white/15 text-white font-bold rounded-2xl transition-all">
+                  Siguiente pista final →
                 </button>
-              </div>
+              )}
               <BotonesSkip saltarGratis={saltarGratis} onSaltarGratis={usarSaltarGratis} onSaltar={saltarPais} />
             </>
           )}
