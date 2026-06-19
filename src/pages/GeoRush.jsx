@@ -3,9 +3,9 @@ import { useNavigate } from 'react-router-dom'
 import { PAISES, NOMBRES_PAISES } from '../data/paises'
 
 const DIFS = {
-  facil:   { label: 'Fácil',   emoji: '🟢', tiempoInicio: 90,  obligatorio: false },
-  medio:   { label: 'Medio',   emoji: '🟡', tiempoInicio: 60,  obligatorio: true },
-  dificil: { label: 'Difícil', emoji: '🔴', tiempoInicio: 40,  obligatorio: true },
+  facil:   { label: 'Fácil',   emoji: '🟢', tiempoInicio: 120, obligatorio: false },
+  medio:   { label: 'Medio',   emoji: '🟡', tiempoInicio: 90,  obligatorio: true },
+  dificil: { label: 'Difícil', emoji: '🔴', tiempoInicio: 60,  obligatorio: true },
 }
 
 function shuffle(arr) {
@@ -159,7 +159,7 @@ export default function GeoRush() {
   const [saltarGratis, setSaltarGratis]   = useState(0)
   const [inputVal, setInputVal]           = useState('')
   const [feedback, setFeedback]           = useState(null)
-  const [faseRonda, setFaseRonda]         = useState('pista') // 'pista' | 'recompensa' | 'fallado'
+  const [faseRonda, setFaseRonda]         = useState('pista') // 'pista' | 'recompensa'
   const [paisesUsados, setPaisesUsados]   = useState([])
   const [combo, setCombo]                 = useState(0)
   const [maxCombo, setMaxCombo]           = useState(0)
@@ -171,7 +171,7 @@ export default function GeoRush() {
 
   useEffect(() => {
     if (fase !== 'jugando') return
-    if (faseRonda === 'recompensa' || faseRonda === 'fallado') return
+    if (faseRonda === 'recompensa') return
 
     timerRef.current = setInterval(() => {
       tiempoRef.current -= 1
@@ -259,10 +259,14 @@ export default function GeoRush() {
     if (pistaIdx + 1 < pistas.length) {
       setPistaIdx(i => i + 1)
     } else {
-      setFeedback({ ok: false, msg: `❌ Era ${paisActual.nombre}` })
       setCombo(0)
-      setFaseRonda('fallado')
-    }
+      tiempoRef.current = Math.max(0, tiempoRef.current - 5)
+      setTimeLeft(tiempoRef.current)
+      setFeedback({ ok: false, msg: `❌ Era ${paisActual.nombre} · −5s` })
+      if (tiempoRef.current <= 0) { setFase('fin'); return }
+      setTimeout(() => { setFeedback(null); siguientePais(paisesUsados) }, 2000)
+      return
+}
   }
 
   function acertarPais() {
@@ -310,12 +314,7 @@ export default function GeoRush() {
     siguientePais(paisesUsados)
   }
 
-  function continuarTrasFallo() {
-    tiempoRef.current = Math.max(0, tiempoRef.current - 10)
-    setTimeLeft(tiempoRef.current)
-    if (tiempoRef.current <= 0) { setFase('fin'); return }
-    siguientePais(paisesUsados)
-  }
+
 
   // ── INTRO ─────────────────────────────────────────────────────────────────
   if (fase === 'intro') {
@@ -351,7 +350,8 @@ export default function GeoRush() {
                 ['⏱️', 'Tiempo', `${d.tiempoInicio}s`],
                 ['🔍', 'Pistas', `5 por país (3🔒 + 2🎁)`],
                 ['✅', 'Al acertar', '+20s + recompensa'],
-                ['❌', 'Fallar/saltar', '−10s'],
+                ['❌', 'No adivinar', '−5s'],
+                ['⏭️', 'Saltar', '−10s'],
               ].map(([e, k, v]) => (
                 <div key={k} className="flex items-center justify-between gap-2">
                   <span className="text-white/40 shrink-0">{e} {k}</span>
@@ -592,19 +592,6 @@ export default function GeoRush() {
             </>
           )}
 
-          {faseRonda === 'fallado' && (
-            <>
-              <div className="bg-red-900/30 border border-red-500/30 rounded-2xl p-5 text-center">
-                <div className="text-4xl mb-2">😬</div>
-                <p className="text-red-400 font-black text-xl">{feedback?.msg}</p>
-                <p className="text-white/40 text-sm mt-2">−10 segundos</p>
-              </div>
-              <button onClick={continuarTrasFallo}
-                className="w-full py-4 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-lg rounded-2xl transition-all">
-                Siguiente país →
-              </button>
-            </>
-          )}
         </div>
       </div>
     </div>
