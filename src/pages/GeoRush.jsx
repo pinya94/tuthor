@@ -282,8 +282,21 @@ export default function GeoRush() {
 
   function handleAdivinar(val) {
     const nombreInput = val || inputVal
+    const paisResp = PAISES.find(p => p.nombre === nombreInput)
+    if (!paisResp) {
+      setFeedback({ ok: false, msg: 'País no reconocido' })
+      setTimeout(() => setFeedback(null), 1200)
+      return
+    }
     if (nombreInput === paisActual.nombre) {
       acertarPais()
+    } else if (faseRonda === 'finales' && finalIdx + 1 < pistasFinales.length) {
+      setFeedback({ ok: 'neutral', msg: `No es ${nombreInput} — siguiente pista` })
+      setInputVal('')
+      setTimeout(() => {
+        setFeedback(null)
+        avanzarFinal()
+      }, 1000)
     } else {
       setCombo(0)
       setFeedback({ ok: false, msg: `❌ Era ${paisActual.nombre}` })
