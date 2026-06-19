@@ -223,8 +223,7 @@ export default function GeoRush() {
     setInputVal('')
     setFeedback(null)
     setPistasRevealedTotal(0)
-    setFaseRonda(pistaExtraAlInicio ? 'finales' : 'pista')
-    if (pistaExtraAlInicio) setPistasRevealedTotal(5)
+    setFaseRonda('pista')
     setPaisesUsados(u => [...u, pais.nombre])
     setLevelKey(k => k + 1)
   }
