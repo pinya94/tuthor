@@ -19,7 +19,6 @@ function shuffle(arr) {
 
 function generarPistasBase(pais) {
   const pistas = []
-  pistas.push({ tipo: 'continente', texto: `Está en ${pais.continente}`, validar: r => PAISES.find(p => p.nombre === r)?.continente === pais.continente })
 
   pistas.push({ tipo: 'hemisferio', texto: `Está en el hemisferio ${pais.hemisferio === 'ambos' ? 'norte y sur (cruza el ecuador)' : pais.hemisferio}`, validar: r => {
     const p = PAISES.find(p => p.nombre === r)
@@ -28,6 +27,8 @@ function generarPistasBase(pais) {
     return p.hemisferio === pais.hemisferio || p.hemisferio === 'ambos'
   }})
 
+  pistas.push({ tipo: 'continente', texto: `Está en ${pais.continente}`, validar: r => PAISES.find(p => p.nombre === r)?.continente === pais.continente })
+
   const areaRef = pais.area > 500000 ? 500000 : pais.area > 100000 ? 100000 : 50000
   const masOMenos = pais.area >= areaRef ? 'más' : 'menos'
   pistas.push({ tipo: 'area', texto: `Tiene ${masOMenos} de ${areaRef.toLocaleString()} km²`, validar: r => {
@@ -35,7 +36,7 @@ function generarPistasBase(pais) {
     return p && (masOMenos === 'más' ? p.area >= areaRef : p.area < areaRef)
   }})
 
-  const pobRef = pais.poblacion > 100000000 ? 100000000 : pais.poblacion > 50000000 ? 50000000 : pais.poblacion > 10000000 ? 10000000 : 5000000
+  const pobRef = pais.poblacion > 100000000 ? 100000000 : pais.poblacion > 50000000 ? 50000000 : 20000000
   const masPob = pais.poblacion >= pobRef ? 'más' : 'menos'
   pistas.push({ tipo: 'poblacion', texto: `Tiene ${masPob} de ${(pobRef / 1000000).toFixed(0)} millones de habitantes`, validar: r => {
     const p = PAISES.find(p => p.nombre === r)
@@ -251,10 +252,10 @@ export default function GeoRush() {
       setPistasRevealedTotal(n => n + 1)
       setTimeout(() => { setFeedback(null); avanzarPista() }, 800)
     } else if (esFacil) {
-      setFeedback({ ok: false, msg: `✗ ${nombreInput} no cumple — avanzamos igualmente` })
+      setFeedback({ ok: 'neutral', msg: `${nombreInput} no cumple, pero avanzamos` })
       setInputVal('')
       setPistasRevealedTotal(n => n + 1)
-      setTimeout(() => { setFeedback(null); avanzarPista() }, 1200)
+      setTimeout(() => { setFeedback(null); avanzarPista() }, 1000)
     } else {
       setFeedback({ ok: false, msg: `✗ ${nombreInput} no cumple esta pista` })
       setInputVal('')
@@ -582,7 +583,7 @@ export default function GeoRush() {
               <AutocompleteInput value={inputVal} onChange={setInputVal} onSubmit={handleRespuestaPista}
                 paises={NOMBRES_PAISES} disabled={!!feedback} />
               {feedback && (
-                <div className={`text-center py-2 rounded-xl font-bold text-sm ${feedback.ok ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'}`}>
+                <div className={`text-center py-2 rounded-xl font-bold text-sm ${feedback.ok === true ? 'bg-green-500/20 text-green-400' : feedback.ok === 'neutral' ? 'bg-white/10 text-white/60' : 'bg-red-500/20 text-red-400'}`}>
                   {feedback.msg}
                 </div>
               )}
@@ -600,7 +601,7 @@ export default function GeoRush() {
               <AutocompleteInput value={inputVal} onChange={setInputVal} onSubmit={handleAdivinar}
                 paises={NOMBRES_PAISES} disabled={!!feedback} />
               {feedback && (
-                <div className={`text-center py-2 rounded-xl font-bold text-sm ${feedback.ok ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'}`}>
+                <div className={`text-center py-2 rounded-xl font-bold text-sm ${feedback.ok === true ? 'bg-green-500/20 text-green-400' : feedback.ok === 'neutral' ? 'bg-white/10 text-white/60' : 'bg-red-500/20 text-red-400'}`}>
                   {feedback.msg}
                 </div>
               )}
@@ -623,7 +624,7 @@ export default function GeoRush() {
               <AutocompleteInput value={inputVal} onChange={setInputVal} onSubmit={handleAdivinar}
                 paises={NOMBRES_PAISES} disabled={!!feedback} />
               {feedback && (
-                <div className={`text-center py-2 rounded-xl font-bold text-sm ${feedback.ok ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'}`}>
+                <div className={`text-center py-2 rounded-xl font-bold text-sm ${feedback.ok === true ? 'bg-green-500/20 text-green-400' : feedback.ok === 'neutral' ? 'bg-white/10 text-white/60' : 'bg-red-500/20 text-red-400'}`}>
                   {feedback.msg}
                 </div>
               )}
