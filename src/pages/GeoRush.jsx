@@ -404,6 +404,7 @@ export default function GeoRush() {
   }
 
   // ── FIN ───────────────────────────────────────────────────────────────────
+  const ultimoPais = paisActual?.nombre
   if (fase === 'fin') {
     const shareText = `🌍 GeoRush: ${paisesAcertados} países · ${puntos.toLocaleString()} pts\n${dif.emoji} Modo ${dif.label} · Racha máx: ${maxCombo}\n🎮 https://www.tuthor.es/juegos/georush`
     return (
@@ -427,6 +428,12 @@ export default function GeoRush() {
                 <p className="text-white font-black text-3xl">{maxCombo}</p>
               </div>
             </div>
+            {ultimoPais && (
+              <div className="bg-white/5 rounded-xl p-3 mt-4">
+                <p className="text-white/30 text-xs mb-0.5">Último país</p>
+                <p className="text-white font-bold">{ultimoPais}</p>
+              </div>
+            )}
           </div>
           <div className="space-y-3">
             <button onClick={() => navigator.clipboard.writeText(shareText).then(() => alert('¡Copiado!'))}

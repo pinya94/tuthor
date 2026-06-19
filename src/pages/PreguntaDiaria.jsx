@@ -1,9 +1,65 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef, useMemo } from 'react'
 import { useAuth } from '../context/AuthContext'
 import { getDailyStatus, saveDailyChallenge } from '../lib/activity'
 import { getDesafioDeHoy } from '../data/preguntasDiarias'
+import { PAISES, NOMBRES_PAISES } from '../data/paises'
 import AuthModal from '../components/AuthModal'
 import CombinaNumeros from '../components/CombinaNumeros'
+
+function GeoInput({ value, onChange, onSubmit, disabled }) {
+  const [focused, setFocused] = useState(false)
+  const [hlIdx, setHlIdx]     = useState(-1)
+  const ref = useRef(null)
+
+  function normalize(s) {
+    return s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().trim()
+  }
+
+  const filtered = useMemo(() => {
+    if (!value || value.length < 1) return []
+    const norm = normalize(value)
+    return NOMBRES_PAISES.filter(n => normalize(n).includes(norm)).slice(0, 5)
+  }, [value])
+
+  function select(name) {
+    onChange(name); setFocused(false); setHlIdx(-1)
+    setTimeout(() => onSubmit(name), 50)
+  }
+
+  function handleKey(e) {
+    if (e.key === 'ArrowDown') { e.preventDefault(); setHlIdx(i => Math.min(i + 1, filtered.length - 1)) }
+    else if (e.key === 'ArrowUp') { e.preventDefault(); setHlIdx(i => Math.max(i - 1, 0)) }
+    else if (e.key === 'Enter') {
+      e.preventDefault()
+      if (hlIdx >= 0 && filtered[hlIdx]) select(filtered[hlIdx])
+      else if (filtered.length === 1) select(filtered[0])
+      else onSubmit(value)
+    }
+  }
+
+  return (
+    <div className="relative">
+      <input ref={ref} type="text" value={value}
+        onChange={e => { onChange(e.target.value); setHlIdx(-1) }}
+        onFocus={() => setFocused(true)}
+        onBlur={() => setTimeout(() => setFocused(false), 150)}
+        onKeyDown={handleKey} disabled={disabled}
+        placeholder="Escribe un país…"
+        className="w-full bg-white/10 border-2 border-white/20 focus:border-[#EDAE49] rounded-xl px-4 py-2.5 text-white placeholder:text-white/25 outline-none transition-colors disabled:opacity-40"
+        autoComplete="off" />
+      {focused && filtered.length > 0 && (
+        <div className="absolute z-50 w-full mt-1 bg-[#1a1a2e] border border-white/20 rounded-xl overflow-hidden shadow-2xl max-h-40 overflow-y-auto">
+          {filtered.map((name, i) => (
+            <button key={name} onMouseDown={() => select(name)}
+              className={`w-full text-left px-4 py-2 text-sm transition-colors ${
+                i === hlIdx ? 'bg-[#EDAE49]/20 text-[#EDAE49]' : 'text-white/70 hover:bg-white/10'
+              }`}>{name}</button>
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
 
 export default function PreguntaDiaria() {
   const { user } = useAuth()
@@ -17,8 +73,28 @@ export default function PreguntaDiaria() {
   const desafio    = getDesafioDeHoy()
   const esMate     = desafio.tipo === 'matematicas'
   const esPortada  = desafio.tipo === 'portada'
+  const esGeoRush  = desafio.tipo === 'georush'
   const pregunta   = desafio.tipo === 'trivia' ? desafio.pregunta : null
   const portadaHoy = desafio.tipo === 'portada' ? desafio.portada : null
+  const paisHoy    = desafio.tipo === 'georush' ? desafio.pais : null
+
+  // GeoRush daily state
+  const [geoInput, setGeoInput]     = useState('')
+  const [geoPistaIdx, setGeoPistaIdx] = useState(0)
+  const [geoFeedback, setGeoFeedback] = useState(null)
+
+  const geoPistas = useMemo(() => {
+    if (!paisHoy) return []
+    const continentes = paisHoy.continente.split('/')
+    const continenteTexto = continentes.length > 1 ? continentes.join(' y ') : paisHoy.continente
+    return [
+      { texto: `Está en el hemisferio ${paisHoy.hemisferio === 'ambos' ? 'norte y sur' : paisHoy.hemisferio}`, tipo: 'obligatoria' },
+      { texto: `Su montaña más alta es ${paisHoy.montana}`, tipo: 'regalo' },
+      { texto: `Está en ${continenteTexto}`, tipo: 'obligatoria' },
+      { texto: `Se habla ${paisHoy.idioma}`, tipo: 'regalo' },
+      { texto: `Un famoso de allí: ${paisHoy.famoso}`, tipo: 'regalo' },
+    ]
+  }, [paisHoy])
 
   useEffect(() => {
     if (!user) { setLoading(false); return }
@@ -45,6 +121,43 @@ export default function PreguntaDiaria() {
       const saved    = await saveDailyChallenge(user.uid, correcto)
       if (saved) setStreak(s => s + 1)
     }
+  }
+
+  function normalize(s) {
+    return s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().trim()
+  }
+
+  async function handleGeoSubmit(val) {
+    const nombreInput = val || geoInput
+    if (answered) return
+    const paisResp = PAISES.find(p => p.nombre === nombreInput)
+    if (!paisResp) {
+      setGeoFeedback({ ok: false, msg: 'País no reconocido' })
+      setTimeout(() => setGeoFeedback(null), 1200)
+      return
+    }
+    if (nombreInput === paisHoy.nombre) {
+      setAnswered(true)
+      setGeoFeedback({ ok: true, msg: `🎉 ¡${paisHoy.nombre}!` })
+      if (user) {
+        const saved = await saveDailyChallenge(user.uid, true)
+        if (saved) setStreak(s => s + 1)
+      }
+      return
+    }
+    // Advance to next clue
+    setGeoInput('')
+    setGeoFeedback({ ok: false, msg: `No es ${nombreInput}` })
+    setTimeout(() => {
+      setGeoFeedback(null)
+      if (geoPistaIdx + 1 < geoPistas.length) {
+        setGeoPistaIdx(i => i + 1)
+      } else {
+        setAnswered(true)
+        setGeoFeedback({ ok: false, msg: `Era ${paisHoy.nombre}` })
+        if (user) saveDailyChallenge(user.uid, false)
+      }
+    }, 1000)
   }
 
   async function handleMathFinish(result) {
@@ -153,6 +266,63 @@ export default function PreguntaDiaria() {
             </div>
             <div className="px-6 sm:px-8 pb-6">
               <p className="text-center text-white/20 text-xs">Nueva portada mañana · Vuelve cada día</p>
+            </div>
+          </>
+        ) : esGeoRush ? (
+          /* ── Adivina el país ── */
+          <>
+            <div className="px-6 sm:px-8 py-4">
+              <p className="text-xs font-semibold text-white/40 uppercase tracking-widest mb-3">
+                🌍 Adivina el país · GeoRush
+              </p>
+              {/* Pistas */}
+              <div className="space-y-2 mb-4">
+                {geoPistas.slice(0, geoPistaIdx + 1).map((p, i) => (
+                  <div key={i} className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm ${
+                    i === geoPistaIdx && !answered
+                      ? 'bg-[#EDAE49]/15 border border-[#EDAE49]/40 text-white'
+                      : 'bg-white/5 border border-white/10 text-white/50'
+                  }`}>
+                    <span className="text-xs">{p.tipo === 'regalo' ? '🎁' : '🔒'}</span>
+                    <span>{p.texto}</span>
+                  </div>
+                ))}
+                {!answered && geoPistas.slice(geoPistaIdx + 1).map((_, i) => (
+                  <div key={`l-${i}`} className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm bg-white/3 border border-white/5 text-white/15">
+                    <span className="text-xs opacity-40">{geoPistas[geoPistaIdx + 1 + i]?.tipo === 'regalo' ? '🎁' : '🔒'}</span>
+                    <span>Pista oculta</span>
+                  </div>
+                ))}
+              </div>
+
+              {!answered ? (
+                <>
+                  <div className="relative mb-3">
+                    <GeoInput value={geoInput} onChange={setGeoInput} onSubmit={handleGeoSubmit} disabled={!!geoFeedback} />
+                  </div>
+                  {geoFeedback && (
+                    <div className={`text-center py-2 rounded-xl font-bold text-sm mb-2 ${geoFeedback.ok ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'}`}>
+                      {geoFeedback.msg}
+                    </div>
+                  )}
+                </>
+              ) : (
+                <>
+                  <div className={`text-center py-3 rounded-xl font-bold mb-3 ${
+                    geoFeedback?.ok ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'
+                  }`}>
+                    {geoFeedback?.msg}
+                  </div>
+                  {!user && (
+                    <button onClick={() => setShowAuth(true)} className="mt-3 w-full bg-amber-500/20 border border-amber-500/30 text-amber-400 font-semibold py-2.5 rounded-xl text-sm hover:bg-amber-500/30 transition-colors">
+                      Inicia sesión para guardar tu racha 🔥
+                    </button>
+                  )}
+                </>
+              )}
+            </div>
+            <div className="px-6 sm:px-8 pb-6">
+              <p className="text-center text-white/20 text-xs">Nuevo país mañana · Vuelve cada día</p>
             </div>
           </>
         ) : esMate ? (

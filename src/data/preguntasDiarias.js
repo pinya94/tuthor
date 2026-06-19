@@ -35,6 +35,7 @@ export const PREGUNTAS_DIARIAS = [
 import { EVENTOS_HISTORIA, eventosToPreguntas } from './historiaEvents'
 import { MODO_IDS, GRADO_IDS, GRADOS, MODOS, dayOfYear } from '../lib/mathEngine'
 import { PORTADAS } from './portadas'
+import { PAISES } from './paises'
 
 const PREGUNTAS_AUTO = eventosToPreguntas(EVENTOS_HISTORIA)
 
@@ -52,17 +53,25 @@ export function getPortadaDeHoy() {
   return PORTADAS_DIARIAS[dia % PORTADAS_DIARIAS.length]
 }
 
-// Rota entre trivia, cálculo mental y portada histórica (cada 3 días)
+export function getPaisDeHoy() {
+  const dia = dayOfYear()
+  return PAISES[dia % PAISES.length]
+}
+
+// Rota entre trivia, cálculo mental, portada y georush (cada 4 días)
 export function getDesafioDeHoy() {
   const dia = dayOfYear()
-  const tipo3 = dia % 3
-  if (tipo3 === 0) {
+  const tipo4 = dia % 4
+  if (tipo4 === 0) {
     return { tipo: 'trivia', pregunta: getPreguntaDeHoy() }
   }
-  if (tipo3 === 1) {
+  if (tipo4 === 1) {
     const modoId  = MODO_IDS[dia % MODO_IDS.length]
     const nivelId = GRADO_IDS[Math.floor(dia / 5) % GRADO_IDS.length]
     return { tipo: 'matematicas', modo: MODOS[modoId], grado: GRADOS[nivelId] }
   }
-  return { tipo: 'portada', portada: getPortadaDeHoy() }
+  if (tipo4 === 2) {
+    return { tipo: 'portada', portada: getPortadaDeHoy() }
+  }
+  return { tipo: 'georush', pais: getPaisDeHoy() }
 }
