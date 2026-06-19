@@ -27,7 +27,14 @@ function generarPistasBase(pais) {
     return p.hemisferio === pais.hemisferio || p.hemisferio === 'ambos'
   }})
 
-  pistas.push({ tipo: 'continente', texto: `Está en ${pais.continente}`, validar: r => PAISES.find(p => p.nombre === r)?.continente === pais.continente })
+  const continentes = pais.continente.split('/')
+  const continenteTexto = continentes.length > 1 ? continentes.join(' y ') : pais.continente
+  pistas.push({ tipo: 'continente', texto: `Está en ${continenteTexto}`, validar: r => {
+    const p = PAISES.find(p => p.nombre === r)
+    if (!p) return false
+    const rConts = p.continente.split('/')
+    return continentes.some(c => rConts.includes(c))
+  }})
 
   const areaRef = pais.area > 500000 ? 500000 : pais.area > 100000 ? 100000 : 50000
   const masOMenos = pais.area >= areaRef ? 'más' : 'menos'
@@ -318,7 +325,7 @@ export default function GeoRush() {
 
   function elegirRecompensa(tipo) {
     if (tipo === 'tiempo') {
-      tiempoRef.current += 10
+      tiempoRef.current += 15
       setTimeLeft(tiempoRef.current)
     } else if (tipo === 'pistaExtra') {
       setPistaExtraAlInicio(true)
@@ -396,12 +403,10 @@ export default function GeoRush() {
             </div>
             <div className="bg-white/5 border border-white/10 rounded-2xl p-5 space-y-3 text-sm">
               <p className="text-white/40 text-xs font-semibold uppercase tracking-widest">Al acertar, elige</p>
-              {[
-                ['⏱️', '+10 segundos'],
-                ['💡', 'Pista extra al inicio'],
-                ['⏭️', 'Saltar gratis (acumulable)'],
-                ...(difId === 'dificil' ? [['✨', '+150 pts bonus']] : []),
-              ].map(([e, t]) => (
+              {(difId === 'dificil'
+                ? [['⏱️', '+15 segundos'], ['✨', '+150 pts bonus']]
+                : [['⏱️', '+15 segundos'], ['💡', 'Pista extra al inicio'], ['⏭️', 'Saltar gratis (acumulable)']]
+              ).map(([e, t]) => (
                 <div key={t} className="flex items-start gap-2 text-sm text-white/50">
                   <span className="text-base w-5 shrink-0 text-center">{e}</span>
                   <span>{t}</span>
@@ -486,12 +491,16 @@ export default function GeoRush() {
   const timerPct   = Math.min(100, (timeLeft / dif.tiempoInicio) * 100)
   const timerColor = timeLeft > 20 ? 'bg-green-400' : timeLeft > 10 ? 'bg-yellow-400' : 'bg-red-500 animate-pulse'
 
-  const recompensaOpciones = [
-    { id: 'tiempo', emoji: '⏱️', label: '+10 segundos', desc: 'Añade 10s al timer' },
-    { id: 'pistaExtra', emoji: '💡', label: 'Pista extra al inicio', desc: 'Empieza con una pista final visible' },
-    { id: 'saltar', emoji: '⏭️', label: 'Saltar gratis', desc: `Acumulas un saltar sin penalización${saltarGratis > 0 ? ` (tienes ${saltarGratis})` : ''}` },
-    ...(difId === 'dificil' ? [{ id: 'bonus', emoji: '✨', label: '+150 pts', desc: 'Bonus de puntos directo' }] : []),
-  ]
+  const recompensaOpciones = difId === 'dificil'
+    ? [
+        { id: 'tiempo', emoji: '⏱️', label: '+15 segundos', desc: 'Añade 15s al timer' },
+        { id: 'bonus', emoji: '✨', label: '+150 pts', desc: 'Bonus de puntos directo' },
+      ]
+    : [
+        { id: 'tiempo', emoji: '⏱️', label: '+15 segundos', desc: 'Añade 15s al timer' },
+        { id: 'pistaExtra', emoji: '💡', label: 'Pista extra al inicio', desc: 'Empieza con una pista final visible' },
+        { id: 'saltar', emoji: '⏭️', label: 'Saltar gratis', desc: `Acumulas un saltar sin penalización${saltarGratis > 0 ? ` (tienes ${saltarGratis})` : ''}` },
+      ]
 
   return (
     <div className="relative z-10 flex flex-col min-h-[calc(100vh-4rem)] px-4 md:px-8 py-5 max-w-3xl mx-auto w-full">
