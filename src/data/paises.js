@@ -790,7 +790,7 @@ export const PAISES = [
     montana: 'Tahat (3.003 m)',
     rio: 'Chelif (725 km)',
     idioma: 'Árabe y bereber',
-    famoso: 'Zinedine Zidane (de ascendencia argelina)',
+    famoso: 'Abdelaziz Bouteflika',
   },
 
   // ── OCEANÍA ───────────────────────────────────────────────────────────────
@@ -869,7 +869,7 @@ export const PAISES = [
     montana: 'Gerlachovský štít (2.655 m)',
     rio: 'Danubio (172 km en Eslovaquia)',
     idioma: 'Eslovaco',
-    famoso: 'Andy Warhol (ascendencia eslovaca)',
+    famoso: 'Peter Sagan',
   },
   {
     nombre: 'Eslovenia',
@@ -1073,7 +1073,7 @@ export const PAISES = [
     montana: 'Monte Binga (2.436 m)',
     rio: 'Zambeze (820 km en Mozambique)',
     idioma: 'Portugués',
-    famoso: 'Eusébio (de ascendencia mozambiqueña)',
+    famoso: 'Samora Machel',
   },
   {
     nombre: 'Guatemala',
@@ -1193,7 +1193,7 @@ export const PAISES = [
     montana: 'Deriba (3.042 m)',
     rio: 'Nilo (parte del recorrido)',
     idioma: 'Árabe e inglés',
-    famoso: 'Mo Farah (de ascendencia sudanesa)',
+    famoso: 'Omar al-Bashir',
   },
   {
     nombre: 'Zimbabue',
