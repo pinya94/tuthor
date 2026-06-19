@@ -404,7 +404,7 @@ export default function GeoRush() {
             <div className="bg-white/5 border border-white/10 rounded-2xl p-5 space-y-3 text-sm">
               <p className="text-white/40 text-xs font-semibold uppercase tracking-widest">Al acertar, elige</p>
               {(difId === 'dificil'
-                ? [['⏱️', '+15 segundos'], ['✨', '+150 pts bonus']]
+                ? [['⏱️', '+15 segundos'], ['💡', 'Pista extra al inicio'], ['✨', '+150 pts bonus']]
                 : [['⏱️', '+15 segundos'], ['💡', 'Pista extra al inicio'], ['⏭️', 'Saltar gratis (acumulable)']]
               ).map(([e, t]) => (
                 <div key={t} className="flex items-start gap-2 text-sm text-white/50">
@@ -494,6 +494,7 @@ export default function GeoRush() {
   const recompensaOpciones = difId === 'dificil'
     ? [
         { id: 'tiempo', emoji: '⏱️', label: '+15 segundos', desc: 'Añade 15s al timer' },
+        { id: 'pistaExtra', emoji: '💡', label: 'Pista extra al inicio', desc: 'Empieza con una pista final visible' },
         { id: 'bonus', emoji: '✨', label: '+150 pts', desc: 'Bonus de puntos directo' },
       ]
     : [
