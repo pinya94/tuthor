@@ -83,10 +83,14 @@ function normalize(s) {
   return s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().trim()
 }
 
-function AutocompleteInput({ value, onChange, onSubmit, paises, disabled }) {
+function AutocompleteInput({ value, onChange, onSubmit, paises, disabled, focusKey }) {
   const [focused, setFocused] = useState(false)
   const [highlightIdx, setHighlightIdx] = useState(-1)
   const inputRef = useRef(null)
+
+  useEffect(() => {
+    if (!disabled) inputRef.current?.focus()
+  }, [focusKey, disabled])
 
   const filtered = useMemo(() => {
     if (!value || value.length < 1) return []
@@ -545,7 +549,7 @@ export default function GeoRush() {
                 <p className="text-white font-bold text-sm">{pistaActual.texto}</p>
               </div>
               <AutocompleteInput value={inputVal} onChange={setInputVal} onSubmit={handleRespuesta}
-                paises={NOMBRES_PAISES} disabled={!!feedback} />
+                paises={NOMBRES_PAISES} disabled={!!feedback} focusKey={pistaIdx} />
               {feedback && (
                 <div className={`text-center py-2 rounded-xl font-bold text-sm ${
                   feedback.ok === true ? 'bg-green-500/20 text-green-400'
