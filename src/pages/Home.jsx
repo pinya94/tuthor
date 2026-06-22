@@ -168,19 +168,21 @@ export default function Home() {
 
           {/* CÓMO FUNCIONA */}
           <section className="mb-10">
-            <h2 className="text-2xl font-black text-gray-900 text-center mb-8">Cómo funciona</h2>
-            <div className="grid grid-cols-3 gap-4 sm:gap-8 text-center">
+            <h2 className="text-2xl font-black text-gray-900 text-center mb-3">Cómo funciona Tuthor</h2>
+            <p className="text-gray-400 text-center mb-8 max-w-lg mx-auto">Una plataforma educativa que convierte cualquier materia en una experiencia interactiva</p>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 text-center">
               {[
-                { num: '1', titulo: 'Elige tema', desc: 'Matemáticas, historia, geografía o el reto del día', emoji: '🎯' },
-                { num: '2', titulo: 'Juega 5 min', desc: 'Partidas rápidas con mecánicas que enganchan', emoji: '🎮' },
-                { num: '3', titulo: 'Domina', desc: 'Sin darte cuenta has repasado todo el temario', emoji: '🏆' },
+                { titulo: 'Elige materia', desc: 'Mates, historia, geografía — tú decides por dónde empezar', emoji: '📚' },
+                { titulo: 'Juega o estudia', desc: 'Modo libre para practicar o modo examen para preparar temas', emoji: '🎮' },
+                { titulo: 'Aprende del error', desc: 'Cada fallo viene con explicación. El error es parte del juego', emoji: '💡' },
+                { titulo: 'Mide tu progreso', desc: 'Rachas, notas y estadísticas para ver cuánto has mejorado', emoji: '📊' },
               ].map(s => (
-                <div key={s.num}>
-                  <div className="w-14 h-14 rounded-full bg-teal-50 border-2 border-teal-200 flex items-center justify-center mx-auto mb-3">
-                    <span className="text-2xl">{s.emoji}</span>
+                <div key={s.titulo}>
+                  <div className="w-12 h-12 rounded-full bg-teal-50 border-2 border-teal-200 flex items-center justify-center mx-auto mb-3">
+                    <span className="text-xl">{s.emoji}</span>
                   </div>
-                  <h3 className="font-black text-gray-900 mb-1">{s.titulo}</h3>
-                  <p className="text-gray-400 text-sm leading-relaxed">{s.desc}</p>
+                  <h3 className="font-black text-gray-900 text-sm mb-1">{s.titulo}</h3>
+                  <p className="text-gray-400 text-xs leading-relaxed">{s.desc}</p>
                 </div>
               ))}
             </div>
@@ -215,8 +217,40 @@ export default function Home() {
             </div>
           </section>
 
+          {/* VIDEO */}
+          <section className="bg-white rounded-2xl border border-gray-200 p-6 sm:p-8">
+            <h2 className="text-2xl font-black text-gray-900 text-center mb-2">Cómo estamos creando Tuthor</h2>
+            <p className="text-gray-400 text-center mb-6 max-w-lg mx-auto">El proceso detrás de la plataforma, contado por el equipo</p>
+            <div className="aspect-video rounded-xl overflow-hidden bg-gray-100 border border-gray-200">
+              {/* Reemplazar VIDEO_ID con el ID real del vídeo de YouTube */}
+              <iframe
+                className="w-full h-full"
+                src="https://www.youtube.com/embed/VIDEO_ID"
+                title="Cómo estamos creando Tuthor"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            </div>
+          </section>
+
+          {/* CONTACTO */}
+          <section className="bg-white rounded-2xl border border-gray-200 p-6 sm:p-8 text-center">
+            <h2 className="text-2xl font-black text-gray-900 mb-2">Contacta con nosotros</h2>
+            <p className="text-gray-400 mb-5 max-w-md mx-auto">
+              ¿Eres docente, padre o estudiante? ¿Tienes una idea, sugerencia o quieres colaborar?
+              Escríbenos y te respondemos en menos de 24 horas.
+            </p>
+            <a href="mailto:consiguetualgogratis@gmail.com"
+              className="inline-flex items-center gap-2 text-teal-600 hover:text-teal-500 font-bold text-lg transition-colors">
+              <span className="text-2xl">✉️</span>
+              consiguetualgogratis@gmail.com
+            </a>
+          </section>
+
+          <aside className="ad-slot" aria-label="Publicidad" data-ad-slot="home-seo-footer" style={{ minHeight: '90px' }} />
+
           {/* CTA final */}
-          <div className="text-center mt-10">
+          <div className="text-center mt-6">
             <Link to="/juegos"
               className="inline-block py-4 px-10 bg-teal-600 hover:bg-teal-500 text-white font-black text-lg rounded-2xl transition-all hover:scale-[1.02] shadow-lg shadow-teal-600/30">
               Empezar a jugar gratis →
