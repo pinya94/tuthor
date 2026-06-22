@@ -5,11 +5,55 @@ import { useNavigate } from 'react-router-dom'
 
 function todayStr() { return new Date().toISOString().slice(0, 10) }
 
+const GAME_LABELS = {
+  'juego-fechas':    { label: 'Juego de Fechas',    emoji: '📅' },
+  'tuthor-time':     { label: 'Tuthor Time',         emoji: '🕰️' },
+  'pregunta-diaria': { label: 'Pregunta Diaria',     emoji: '⚡' },
+  'orden-temporal':  { label: 'Línea Temporal',      emoji: '📜' },
+  'linea-temporal':  { label: 'Línea Temporal',      emoji: '📜' },
+  'quien-es-quien':  { label: '¿Quién es Quién?',   emoji: '🕵️' },
+  'matematicas':     { label: 'Cálculo Mental',      emoji: '🎯' },
+  'acercate':        { label: 'Acércate al Número',  emoji: '🎯' },
+  'portadas':        { label: 'Portadas',            emoji: '📰' },
+  'georush':         { label: 'GeoRush',             emoji: '🌍' },
+}
+
+const CATEGORY_LABELS = {
+  'gce':      { label: 'Guerra Civil Española',   emoji: '🇪🇸' },
+  'wwii':     { label: 'Segunda Guerra Mundial',  emoji: '⚔️' },
+  'roma':     { label: 'Antigua Roma',            emoji: '🏛️' },
+  'usa':      { label: 'Independencia Americana', emoji: '🦅' },
+  'primaria': { label: 'Grandes Hitos',           emoji: '🌍' },
+  'global':   { label: 'Historia Global',         emoji: '🗺️' },
+  'facil':    { label: 'Acércate · Fácil',        emoji: '🟢' },
+  'medio':    { label: 'Acércate · Medio',        emoji: '🟡' },
+  'dificil':  { label: 'Acércate · Difícil',      emoji: '🔴' },
+  'combinado-primaria':       { label: 'Mates · Primaria',           emoji: '📐' },
+  'combinado-eso':            { label: 'Mates · ESO',                emoji: '📐' },
+  'combinado-bachillerato':   { label: 'Mates · Bachillerato',      emoji: '📐' },
+  'sumas-primaria':           { label: 'Sumas · Primaria',           emoji: '➕' },
+  'sumas-eso':                { label: 'Sumas · ESO',                emoji: '➕' },
+  'sumas-bachillerato':       { label: 'Sumas · Bachillerato',      emoji: '➕' },
+  'multiplicacion-primaria':  { label: 'Multiplicación · Primaria',  emoji: '✖️' },
+  'multiplicacion-eso':       { label: 'Multiplicación · ESO',       emoji: '✖️' },
+  'multiplicacion-bachillerato': { label: 'Multiplicación · Bach.',  emoji: '✖️' },
+  'division-primaria':        { label: 'División · Primaria',        emoji: '➗' },
+  'division-eso':             { label: 'División · ESO',             emoji: '➗' },
+  'division-bachillerato':    { label: 'División · Bachillerato',    emoji: '➗' },
+}
+
+function resolveLabel(key, map) {
+  if (map[key]) return map[key]
+  return { label: key.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase()), emoji: '📖' }
+}
+
 export default function Perfil() {
   const { user, logout } = useAuth()
   const navigate = useNavigate()
   const [stats, setStats] = useState(null)
   const [loading, setLoading] = useState(true)
+  const [showAllGames, setShowAllGames] = useState(false)
+  const [showAllCats, setShowAllCats] = useState(false)
 
   useEffect(() => {
     if (!user) { navigate('/'); return }
@@ -21,31 +65,22 @@ export default function Perfil() {
   const streak = stats?.streak || 0
   const dailyStreak = stats?.dailyStreak || 0
   const dailyDoneToday = stats?.lastDailyDate === todayStr()
-  const statCards = [
-    { label: 'Racha general', value: `${streak} día${streak !== 1 ? 's' : ''}`, emoji: '🔥' },
-    { label: 'Tiempo total', value: formatTime(stats?.totalTime), emoji: '⏱️' },
-    { label: 'Actividades', value: stats?.gamesPlayed ?? 0, emoji: '🎮' },
-    { label: 'Exámenes aprobados', value: stats?.examsPassed ?? 0, emoji: '✅' },
-  ]
 
-  const bestScores = stats?.bestScores || {}
-  const gameLabels = {
-    'juego-fechas':   { label: 'Juego de Fechas',   emoji: '📅' },
-    'tuthor-time':    { label: 'Tuthor Time',        emoji: '⚡' },
-    'pregunta-diaria':{ label: 'Pregunta Diaria',    emoji: '🧠' },
-    'orden-temporal': { label: 'Línea Temporal',     emoji: '📜' },
-    'linea-temporal': { label: 'Línea Temporal Examen', emoji: '🗓️' },
-  }
-  const categoryLabels = {
-    'gce':      { label: 'Guerra Civil Española',    emoji: '🇪🇸' },
-    'wwii':     { label: 'Segunda Guerra Mundial',   emoji: '⚔️' },
-    'roma':     { label: 'Antigua Roma',             emoji: '🏛️' },
-    'usa':      { label: 'Independencia Americana',  emoji: '🦅' },
-    'primaria': { label: 'Grandes hitos',            emoji: '🌍' },
-    'global':   { label: 'Historia Global',          emoji: '🗺️' },
-  }
   const statsByGame     = stats?.statsByGame     || {}
   const statsByCategory = stats?.statsByCategory || {}
+
+  const gameEntries = Object.entries(statsByGame)
+    .map(([key, s]) => ({ key, ...resolveLabel(key, GAME_LABELS), ...s }))
+    .filter(g => g.plays > 0)
+    .sort((a, b) => (b.timeSpent || 0) - (a.timeSpent || 0))
+
+  const catEntries = Object.entries(statsByCategory)
+    .map(([key, s]) => ({ key, ...resolveLabel(key, CATEGORY_LABELS), ...s }))
+    .filter(c => c.plays > 0)
+    .sort((a, b) => (b.plays || 0) - (a.plays || 0))
+
+  const visibleGames = showAllGames ? gameEntries : gameEntries.slice(0, 3)
+  const visibleCats  = showAllCats  ? catEntries  : catEntries.slice(0, 3)
 
   return (
     <div className="relative z-10 flex flex-col min-h-[calc(100vh-4rem)] px-4 sm:px-8 py-8">
@@ -61,30 +96,38 @@ export default function Perfil() {
             <h1 className="text-2xl font-black text-white">{user.displayName}</h1>
             <p className="text-white/40 text-sm">{user.email}</p>
           </div>
-          <button
-            onClick={logout}
-            className="ml-auto text-white/30 hover:text-white/70 text-sm border border-white/10 hover:border-white/30 px-3 py-1.5 rounded-lg transition-all"
-          >
+          <button onClick={logout}
+            className="ml-auto text-white/30 hover:text-white/70 text-sm border border-white/10 hover:border-white/30 px-3 py-1.5 rounded-lg transition-all">
             Cerrar sesión
           </button>
         </div>
 
-        {/* Stats */}
         {loading ? (
           <div className="text-white/30 text-center py-12">Cargando estadísticas...</div>
+        ) : !stats ? (
+          <div className="text-center py-12">
+            <p className="text-4xl mb-3">🎮</p>
+            <p className="text-white/40">Aún no has jugado nada. ¡Empieza ahora!</p>
+          </div>
         ) : (
           <>
+            {/* Stats resumen */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
-              {statCards.map(s => (
+              {[
+                { label: 'Racha', value: `${streak}`, sub: streak === 1 ? 'día' : 'días', emoji: '🔥' },
+                { label: 'Tiempo', value: formatTime(stats.totalTime), emoji: '⏱️' },
+                { label: 'Actividades', value: stats.gamesPlayed ?? 0, emoji: '🎮' },
+                { label: 'Aprobados', value: stats.examsPassed ?? 0, emoji: '✅' },
+              ].map(s => (
                 <div key={s.label} className="bg-white/5 border border-white/10 rounded-2xl p-4 text-center">
                   <span className="text-2xl block mb-1">{s.emoji}</span>
                   <p className="text-xl font-black text-white">{s.value}</p>
-                  <p className="text-white/40 text-xs mt-1">{s.label}</p>
+                  <p className="text-white/40 text-xs mt-0.5">{s.sub || s.label}</p>
                 </div>
               ))}
             </div>
 
-            {/* Reto Diario */}
+            {/* Reto diario */}
             <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-4">
               <div className="flex items-center justify-between mb-3">
                 <h2 className="font-black text-white">📅 Reto Diario</h2>
@@ -98,7 +141,7 @@ export default function Perfil() {
                   <p className="text-white/40 text-xs mt-0.5">días seguidos</p>
                 </div>
                 <div className="flex-1 bg-black/20 rounded-xl p-3 text-center">
-                  <p className="text-2xl font-black text-white">{stats?.dailyTotal ?? 0}</p>
+                  <p className="text-2xl font-black text-white">{stats.dailyTotal ?? 0}</p>
                   <p className="text-white/40 text-xs mt-0.5">retos totales</p>
                 </div>
               </div>
@@ -110,96 +153,76 @@ export default function Perfil() {
             </div>
 
             {/* Por juego */}
-            {Object.keys(statsByGame).length > 0 && (
+            {gameEntries.length > 0 && (
               <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-4">
                 <h2 className="font-black text-white mb-4">🎮 Por juego</h2>
-                <div className="space-y-2">
-                  {Object.entries(statsByGame).map(([game, s]) => {
-                    const info = gameLabels[game] || { label: game, emoji: '🎯' }
-                    return (
-                      <div key={game} className="flex items-center gap-3 py-2.5 border-b border-white/5 last:border-0">
-                        <span className="text-lg w-7 text-center">{info.emoji}</span>
-                        <span className="flex-1 text-white/80 text-sm font-medium">{info.label}</span>
-                        <div className="flex items-center gap-4 text-right">
-                          <div className="hidden sm:block text-center">
-                            <p className="text-white font-bold text-sm">{s.plays ?? 0}</p>
-                            <p className="text-white/30 text-[10px]">partidas</p>
-                          </div>
-                          <div className="text-center">
-                            <p className="text-white font-bold text-sm">{formatTime(s.timeSpent)}</p>
-                            <p className="text-white/30 text-[10px]">tiempo</p>
-                          </div>
-                          {s.bestScore > 0 && (
-                            <div className="text-center">
-                              <p className="text-violet-400 font-black text-sm">{s.bestScore.toLocaleString()}</p>
-                              <p className="text-white/30 text-[10px]">mejor</p>
-                            </div>
-                          )}
+                <div className="space-y-1">
+                  {visibleGames.map((g, i) => (
+                    <div key={g.key} className="flex items-center gap-3 py-3 border-b border-white/5 last:border-0">
+                      <span className="text-lg w-7 text-center">{g.emoji}</span>
+                      <span className="flex-1 text-white/80 text-sm font-medium">{g.label}</span>
+                      <div className="flex items-center gap-4 text-right">
+                        <div className="text-center min-w-[40px]">
+                          <p className="text-white font-bold text-sm">{g.plays}</p>
+                          <p className="text-white/30 text-[10px]">partidas</p>
                         </div>
+                        <div className="text-center min-w-[48px]">
+                          <p className="text-white font-bold text-sm">{formatTime(g.timeSpent)}</p>
+                          <p className="text-white/30 text-[10px]">tiempo</p>
+                        </div>
+                        {g.bestScore > 0 && (
+                          <div className="text-center min-w-[40px]">
+                            <p className="text-violet-400 font-black text-sm">{g.bestScore.toLocaleString()}</p>
+                            <p className="text-white/30 text-[10px]">mejor</p>
+                          </div>
+                        )}
                       </div>
-                    )
-                  })}
+                    </div>
+                  ))}
                 </div>
+                {gameEntries.length > 3 && (
+                  <button onClick={() => setShowAllGames(!showAllGames)}
+                    className="mt-3 w-full text-center text-sm text-violet-400 hover:text-violet-300 font-semibold transition-colors">
+                    {showAllGames ? 'Ver menos ↑' : `Ver los ${gameEntries.length} juegos ↓`}
+                  </button>
+                )}
               </div>
             )}
 
-            {/* Por categoría/materia */}
-            {Object.keys(statsByCategory).length > 0 && (
+            {/* Por materia */}
+            {catEntries.length > 0 && (
               <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-4">
                 <h2 className="font-black text-white mb-4">📚 Por materia</h2>
-                <div className="space-y-2">
-                  {Object.entries(statsByCategory).map(([cat, s]) => {
-                    const info = categoryLabels[cat] || { label: cat, emoji: '📖' }
-                    return (
-                      <div key={cat} className="flex items-center gap-3 py-2.5 border-b border-white/5 last:border-0">
-                        <span className="text-lg w-7 text-center">{info.emoji}</span>
-                        <span className="flex-1 text-white/80 text-sm font-medium">{info.label}</span>
-                        <div className="flex items-center gap-4 text-right">
-                          <div className="hidden sm:block text-center">
-                            <p className="text-white font-bold text-sm">{s.plays ?? 0}</p>
-                            <p className="text-white/30 text-[10px]">partidas</p>
-                          </div>
-                          <div className="text-center">
-                            <p className="text-white font-bold text-sm">{formatTime(s.timeSpent)}</p>
-                            <p className="text-white/30 text-[10px]">tiempo</p>
-                          </div>
-                          {(s.examsPassed ?? 0) > 0 && (
-                            <div className="text-center">
-                              <p className="text-green-400 font-black text-sm">{s.examsPassed}</p>
-                              <p className="text-white/30 text-[10px]">aprobados</p>
-                            </div>
-                          )}
+                <div className="space-y-1">
+                  {visibleCats.map(c => (
+                    <div key={c.key} className="flex items-center gap-3 py-3 border-b border-white/5 last:border-0">
+                      <span className="text-lg w-7 text-center">{c.emoji}</span>
+                      <span className="flex-1 text-white/80 text-sm font-medium">{c.label}</span>
+                      <div className="flex items-center gap-4 text-right">
+                        <div className="text-center min-w-[40px]">
+                          <p className="text-white font-bold text-sm">{c.plays}</p>
+                          <p className="text-white/30 text-[10px]">partidas</p>
                         </div>
+                        <div className="text-center min-w-[48px]">
+                          <p className="text-white font-bold text-sm">{formatTime(c.timeSpent)}</p>
+                          <p className="text-white/30 text-[10px]">tiempo</p>
+                        </div>
+                        {(c.examsPassed ?? 0) > 0 && (
+                          <div className="text-center min-w-[40px]">
+                            <p className="text-green-400 font-black text-sm">{c.examsPassed}</p>
+                            <p className="text-white/30 text-[10px]">aprobados</p>
+                          </div>
+                        )}
                       </div>
-                    )
-                  })}
+                    </div>
+                  ))}
                 </div>
-              </div>
-            )}
-
-            {/* Mejores puntuaciones */}
-            {Object.keys(bestScores).length > 0 && (
-              <div className="bg-white/5 border border-white/10 rounded-2xl p-5">
-                <h2 className="font-black text-white mb-4">🏆 Mejores puntuaciones</h2>
-                <div className="space-y-2">
-                  {Object.entries(bestScores).map(([game, score]) => {
-                    const info = gameLabels[game] || { label: game, emoji: '🎯' }
-                    return (
-                      <div key={game} className="flex items-center gap-3 py-2 border-b border-white/5 last:border-0">
-                        <span className="text-base w-7 text-center">{info.emoji}</span>
-                        <span className="flex-1 text-white/70 text-sm">{info.label}</span>
-                        <span className="font-black text-violet-400">{score.toLocaleString()} pts</span>
-                      </div>
-                    )
-                  })}
-                </div>
-              </div>
-            )}
-
-            {!stats && (
-              <div className="text-center py-12">
-                <p className="text-4xl mb-3">🎮</p>
-                <p className="text-white/40">Aún no has jugado nada. ¡Empieza ahora!</p>
+                {catEntries.length > 3 && (
+                  <button onClick={() => setShowAllCats(!showAllCats)}
+                    className="mt-3 w-full text-center text-sm text-violet-400 hover:text-violet-300 font-semibold transition-colors">
+                    {showAllCats ? 'Ver menos ↑' : `Ver las ${catEntries.length} materias ↓`}
+                  </button>
+                )}
               </div>
             )}
           </>

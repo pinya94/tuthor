@@ -225,9 +225,11 @@ export default function Home() {
               {/* Reemplazar VIDEO_ID con el ID real del vídeo de YouTube */}
               <iframe
                 className="w-full h-full"
-                src="https://www.youtube.com/embed/VIDEO_ID"
+                src="https://www.youtube.com/embed/QfN7qCTzFBM?si=wvU_yIXHbGE3oKik"
                 title="Cómo estamos creando Tuthor"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerPolicy="strict-origin-when-cross-origin"
                 allowFullScreen
               />
             </div>
