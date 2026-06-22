@@ -136,6 +136,10 @@ export default function InfoJuegoFicha() {
         </Link>
       </header>
 
+      <div className="rounded-lg border border-dashed border-white/10 bg-white/5 h-24 flex items-center justify-center mb-10">
+        <span className="text-xs text-white/20 font-medium tracking-widest uppercase">Espacio publicitario</span>
+      </div>
+
       {/* Beneficios */}
       <section className="mb-10">
         <h2 className="text-2xl font-black text-white mb-6 flex items-center gap-3">
@@ -162,6 +166,10 @@ export default function InfoJuegoFicha() {
           <p className="text-violet-200 leading-relaxed italic">"{ficha.ejemplo}"</p>
         </div>
       </section>
+
+      <div className="rounded-lg border border-dashed border-white/10 bg-white/5 h-24 flex items-center justify-center mb-10">
+        <span className="text-xs text-white/20 font-medium tracking-widest uppercase">Espacio publicitario</span>
+      </div>
 
       {/* CTA Final */}
       <section className="text-center border-t border-white/10 pt-10">

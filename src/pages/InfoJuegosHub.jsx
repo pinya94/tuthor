@@ -50,7 +50,11 @@ export default function InfoJuegosHub() {
         </p>
       </header>
 
-      {CATEGORIAS.map(cat => (
+      <div className="rounded-lg border border-dashed border-white/10 bg-white/5 h-24 flex items-center justify-center mb-12">
+        <span className="text-xs text-white/20 font-medium tracking-widest uppercase">Espacio publicitario</span>
+      </div>
+
+      {CATEGORIAS.map((cat, catIdx) => (
         <section key={cat.titulo} className="mb-12">
           <h2 className="text-2xl font-black text-white mb-3 flex items-center gap-3">
             <span className="text-3xl">{cat.emoji}</span>
@@ -77,6 +81,12 @@ export default function InfoJuegosHub() {
               </Link>
             ))}
           </div>
+
+          {catIdx < CATEGORIAS.length - 1 && (
+            <div className="rounded-lg border border-dashed border-white/10 bg-white/5 h-24 flex items-center justify-center mt-8">
+              <span className="text-xs text-white/20 font-medium tracking-widest uppercase">Espacio publicitario</span>
+            </div>
+          )}
         </section>
       ))}
 
