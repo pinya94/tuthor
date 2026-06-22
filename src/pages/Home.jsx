@@ -51,23 +51,25 @@ export default function Home() {
       </div>
 
       {/* ── SECCIONES SEO (debajo del fold) ───────────────────────────────── */}
-      <div className="max-w-3xl mx-auto w-full mt-8 space-y-10">
+      <div className="max-w-3xl mx-auto w-full mt-12 space-y-6 pb-12">
 
-        <section className="text-center">
-          <h2 className="text-xl sm:text-2xl font-black text-white mb-2">La forma inteligente de repasar sin aburrirte</h2>
-          <p className="text-white/40 leading-relaxed text-sm sm:text-base">
+        <div className="text-center mb-4">
+          <h2 className="text-2xl sm:text-3xl font-black text-white mb-3">La forma inteligente de repasar sin aburrirte</h2>
+          <p className="text-white/50 leading-relaxed max-w-xl mx-auto">
             Tuthor convierte el repaso diario en partidas rápidas de 5 minutos. Matemáticas, historia,
-            geografía — cada juego está diseñado sobre principios pedagógicos reales para que aprendas
-            sin darte cuenta. Sin descargas, sin suscripciones. Solo entra y juega.
+            geografía — diseñado sobre principios pedagógicos reales.
           </p>
-        </section>
+        </div>
 
-        <section>
-          <div className="flex items-center gap-3 mb-3">
-            <span className="text-3xl">🕹️</span>
-            <h2 className="text-xl font-black text-white">Jugar: diviértete mientras repasas</h2>
+        <section className="bg-white/5 border border-white/10 rounded-2xl p-6 sm:p-8">
+          <div className="flex items-center gap-3 mb-4">
+            <span className="text-4xl">🕹️</span>
+            <div>
+              <h2 className="text-xl font-black text-white">Jugar: diviértete mientras repasas</h2>
+              <p className="text-white/30 text-xs uppercase tracking-widest mt-0.5">6 juegos disponibles</p>
+            </div>
           </div>
-          <p className="text-white/40 leading-relaxed text-sm mb-4">
+          <p className="text-white/50 leading-relaxed mb-4">
             Nuestro catálogo de juegos educativos cubre cálculo mental, cronología histórica, geografía
             y pensamiento crítico. Cada título usa mecánicas de videojuego — roguelike, puzzles contra
             reloj, deducción por pistas — para que el repaso se sienta como un reto, no como una obligación.
@@ -77,52 +79,54 @@ export default function Home() {
           </Link>
         </section>
 
-        <aside className="ad-slot" aria-label="Publicidad" data-ad-slot="home" style={{ minHeight: '90px' }} />
+        <aside className="ad-slot" aria-label="Publicidad" data-ad-slot="home-seo-1" style={{ minHeight: '90px' }} />
 
-        <section>
-          <div className="flex items-center gap-3 mb-3">
-            <span className="text-3xl">📚</span>
-            <h2 className="text-xl font-black text-white">Estudiar: tus temas de examen, gamificados</h2>
+        <section className="bg-white/5 border border-white/10 rounded-2xl p-6 sm:p-8">
+          <div className="flex items-center gap-3 mb-4">
+            <span className="text-4xl">📚</span>
+            <div>
+              <h2 className="text-xl font-black text-white">Estudiar: tus exámenes, gamificados</h2>
+              <p className="text-white/30 text-xs uppercase tracking-widest mt-0.5">Historia · Matemáticas · Geografía</p>
+            </div>
           </div>
-          <p className="text-white/40 leading-relaxed text-sm">
-            Llevamos el repaso de exámenes al siguiente nivel. Los mismos juegos, pero adaptados al temario
-            real: 10 preguntas de la Guerra Civil Española, un examen de cálculo mental por operaciones,
-            portadas históricas de la Segunda Guerra Mundial. Aprueba con 5 o más aciertos y obtén tu nota.
-            Cada tema tiene línea temporal, personajes históricos, fechas y portadas — todo interconectado
-            para que el conocimiento se fije de verdad.
+          <p className="text-white/50 leading-relaxed mb-4">
+            Llevamos el repaso de exámenes al siguiente nivel. Juegos adaptados al temario real: la Guerra
+            Civil Española, cálculo con divisiones, países de Europa. 10 preguntas, nota al final. Cada tema
+            combina línea temporal, personajes, portadas y fechas para que el conocimiento se fije de verdad.
           </p>
           <Link to="/info/estudiar" className="text-[#EDAE49] hover:text-amber-300 text-sm font-bold transition-colors">
-            Ver todos los temas y exámenes disponibles →
+            Ver todos los temas y exámenes →
           </Link>
         </section>
 
-        <section>
-          <div className="flex items-center gap-3 mb-3">
-            <span className="text-3xl">⚡</span>
-            <h2 className="text-xl font-black text-white">Reto Diario: el secreto está en el hábito</h2>
+        <section className="bg-white/5 border border-white/10 rounded-2xl p-6 sm:p-8">
+          <div className="flex items-center gap-3 mb-4">
+            <span className="text-4xl">⚡</span>
+            <div>
+              <h2 className="text-xl font-black text-white">Reto Diario: el secreto está en el hábito</h2>
+              <p className="text-white/30 text-xs uppercase tracking-widest mt-0.5">2 minutos al día</p>
+            </div>
           </div>
-          <p className="text-white/40 leading-relaxed text-sm">
-            Estudiar a última hora no funciona. El verdadero aprendizaje se consolida día a día. Con el
-            Reto Diario, solo necesitas 2 minutos para mantener tu cerebro activo: una pregunta de cultura
-            general, un puzzle de cálculo mental, una portada histórica o un país misterioso. Mantén tu
-            racha y crea un hábito de estudio sólido sin esfuerzo.
+          <p className="text-white/50 leading-relaxed mb-4">
+            Estudiar a última hora no funciona. Con el Reto Diario, solo necesitas 2 minutos para mantener
+            tu cerebro activo: una pregunta de cultura general, un puzzle de cálculo mental, una portada
+            histórica o un país misterioso. Mantén tu racha y crea un hábito de estudio sólido.
           </p>
           <Link to="/info/diaria" className="text-[#EDAE49] hover:text-amber-300 text-sm font-bold transition-colors">
             Descubre la ciencia detrás del reto diario →
           </Link>
         </section>
 
-        <aside className="ad-slot" aria-label="Publicidad" data-ad-slot="home" style={{ minHeight: '90px' }} />
+        <aside className="ad-slot" aria-label="Publicidad" data-ad-slot="home-seo-2" style={{ minHeight: '90px' }} />
 
         <section className="bg-white/5 border border-white/10 rounded-2xl p-6 sm:p-8">
           <div className="flex items-center gap-3 mb-4">
-            <span className="text-3xl">👥</span>
+            <span className="text-4xl">👥</span>
             <h2 className="text-xl font-black text-white">El Proyecto y el Equipo</h2>
           </div>
-          <p className="text-white/40 leading-relaxed text-sm mb-6">
+          <p className="text-white/50 leading-relaxed mb-6">
             Tuthor nace para transformar la forma en que los estudiantes se enfrentan a las materias
-            escolares. Creemos que la gamificación y la ciencia pedagógica van de la mano: cada juego
-            está diseñado para activar habilidades cognitivas reales — memoria de trabajo, pensamiento
+            escolares. Gamificación y ciencia pedagógica de la mano: memoria de trabajo, pensamiento
             crítico, flexibilidad cognitiva — mientras el alumno se divierte.
           </p>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">

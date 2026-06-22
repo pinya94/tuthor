@@ -28,6 +28,8 @@ import PortadasExamen from './pages/PortadasExamen'
 import GeoRush from './pages/GeoRush'
 import InfoJuegosHub from './pages/InfoJuegosHub'
 import InfoJuegoFicha from './pages/InfoJuegoFicha'
+import GeografiaIndex from './pages/GeografiaIndex'
+import GeoRushExamen from './pages/GeoRushExamen'
 import InfoEstudiar from './pages/InfoEstudiar'
 import InfoDiaria from './pages/InfoDiaria'
 import Privacidad from './pages/Privacidad'
@@ -76,6 +78,10 @@ function Layout({ onConsent }) {
           <Route path="/juegos/acercate/clasico" element={<Acercate />} />
           <Route path="/juegos/portadas" element={<Portadas />} />
           <Route path="/examen/portadas" element={<PortadasExamen />} />
+
+          {/* ── GEOGRAFÍA ── */}
+          <Route path="/estudiar/geografia" element={<GeografiaIndex />} />
+          <Route path="/examen/geografia" element={<GeoRushExamen />} />
           <Route path="/juegos/georush" element={<GeoRush />} />
 
           {/* ── INFO / SEO ── */}
