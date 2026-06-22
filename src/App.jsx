@@ -26,6 +26,8 @@ import AcercateRoguelike from './pages/AcercateRoguelike'
 import Portadas from './pages/Portadas'
 import PortadasExamen from './pages/PortadasExamen'
 import GeoRush from './pages/GeoRush'
+import InfoJuegosHub from './pages/InfoJuegosHub'
+import InfoJuegoFicha from './pages/InfoJuegoFicha'
 import Privacidad from './pages/Privacidad'
 import Comunidad from './pages/Comunidad'
 import Admin from './pages/Admin'
@@ -73,6 +75,10 @@ function Layout({ onConsent }) {
           <Route path="/juegos/portadas" element={<Portadas />} />
           <Route path="/examen/portadas" element={<PortadasExamen />} />
           <Route path="/juegos/georush" element={<GeoRush />} />
+
+          {/* ── INFO / SEO ── */}
+          <Route path="/info/juegos" element={<InfoJuegosHub />} />
+          <Route path="/info/juegos/:slug" element={<InfoJuegoFicha />} />
 
           {/* ── OTRAS ── */}
           <Route path="/diaria" element={<PreguntaDiaria />} />
