@@ -28,6 +28,8 @@ import PortadasExamen from './pages/PortadasExamen'
 import GeoRush from './pages/GeoRush'
 import InfoJuegosHub from './pages/InfoJuegosHub'
 import InfoJuegoFicha from './pages/InfoJuegoFicha'
+import InfoEstudiar from './pages/InfoEstudiar'
+import InfoDiaria from './pages/InfoDiaria'
 import Privacidad from './pages/Privacidad'
 import Comunidad from './pages/Comunidad'
 import Admin from './pages/Admin'
@@ -79,6 +81,8 @@ function Layout({ onConsent }) {
           {/* ── INFO / SEO ── */}
           <Route path="/info/juegos" element={<InfoJuegosHub />} />
           <Route path="/info/juegos/:slug" element={<InfoJuegoFicha />} />
+          <Route path="/info/estudiar" element={<InfoEstudiar />} />
+          <Route path="/info/diaria" element={<InfoDiaria />} />
 
           {/* ── OTRAS ── */}
           <Route path="/diaria" element={<PreguntaDiaria />} />

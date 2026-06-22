@@ -46,9 +46,7 @@ export default function Home() {
           <LockedWidget onLogin={() => setShowAuth(true)} />
         )}
         {showAuth && <AuthModal onClose={() => setShowAuth(false)} />}
-        <div className="rounded-lg border border-dashed border-white/10 bg-white/5 h-10 flex items-center justify-center">
-          <span className="text-xs text-white/20 font-medium tracking-widest uppercase">Espacio publicitario</span>
-        </div>
+        <aside className="ad-slot" aria-label="Publicidad" data-ad-slot="home-hero" style={{ minHeight: '50px' }} />
       </div>
       </div>
 
@@ -79,9 +77,7 @@ export default function Home() {
           </Link>
         </section>
 
-        <div className="rounded-lg border border-dashed border-white/10 bg-white/5 h-24 flex items-center justify-center">
-          <span className="text-xs text-white/20 font-medium tracking-widest uppercase">Espacio publicitario</span>
-        </div>
+        <aside className="ad-slot" aria-label="Publicidad" data-ad-slot="home" style={{ minHeight: '90px' }} />
 
         <section>
           <div className="flex items-center gap-3 mb-3">
@@ -95,6 +91,9 @@ export default function Home() {
             Cada tema tiene línea temporal, personajes históricos, fechas y portadas — todo interconectado
             para que el conocimiento se fije de verdad.
           </p>
+          <Link to="/info/estudiar" className="text-[#EDAE49] hover:text-amber-300 text-sm font-bold transition-colors">
+            Ver todos los temas y exámenes disponibles →
+          </Link>
         </section>
 
         <section>
@@ -108,11 +107,12 @@ export default function Home() {
             general, un puzzle de cálculo mental, una portada histórica o un país misterioso. Mantén tu
             racha y crea un hábito de estudio sólido sin esfuerzo.
           </p>
+          <Link to="/info/diaria" className="text-[#EDAE49] hover:text-amber-300 text-sm font-bold transition-colors">
+            Descubre la ciencia detrás del reto diario →
+          </Link>
         </section>
 
-        <div className="rounded-lg border border-dashed border-white/10 bg-white/5 h-24 flex items-center justify-center">
-          <span className="text-xs text-white/20 font-medium tracking-widest uppercase">Espacio publicitario</span>
-        </div>
+        <aside className="ad-slot" aria-label="Publicidad" data-ad-slot="home" style={{ minHeight: '90px' }} />
 
         <section className="bg-white/5 border border-white/10 rounded-2xl p-6 sm:p-8">
           <div className="flex items-center gap-3 mb-4">

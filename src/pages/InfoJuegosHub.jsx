@@ -50,9 +50,7 @@ export default function InfoJuegosHub() {
         </p>
       </header>
 
-      <div className="rounded-lg border border-dashed border-white/10 bg-white/5 h-24 flex items-center justify-center mb-12">
-        <span className="text-xs text-white/20 font-medium tracking-widest uppercase">Espacio publicitario</span>
-      </div>
+      <aside className="ad-slot" aria-label="Publicidad" data-ad-slot="info-juegos" style={{ minHeight: '90px' }} />
 
       {CATEGORIAS.map((cat, catIdx) => (
         <section key={cat.titulo} className="mb-12">
@@ -83,9 +81,7 @@ export default function InfoJuegosHub() {
           </div>
 
           {catIdx < CATEGORIAS.length - 1 && (
-            <div className="rounded-lg border border-dashed border-white/10 bg-white/5 h-24 flex items-center justify-center mt-8">
-              <span className="text-xs text-white/20 font-medium tracking-widest uppercase">Espacio publicitario</span>
-            </div>
+            <aside className="ad-slot" aria-label="Publicidad" data-ad-slot={`info-juegos-${catIdx}`} style={{ minHeight: '90px', marginTop: '2rem' }} />
           )}
         </section>
       ))}
