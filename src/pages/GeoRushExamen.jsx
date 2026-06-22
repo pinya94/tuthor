@@ -26,14 +26,11 @@ function normalize(s) {
 }
 
 function generarPistas(pais) {
-  const continentes = pais.continente.split('/')
-  const continenteTexto = continentes.length > 1 ? continentes.join(' y ') : pais.continente
   const pobRef = pais.poblacion > 100000000 ? 100000000 : pais.poblacion > 50000000 ? 50000000 : 20000000
   const areaRef = pais.area > 500000 ? 500000 : pais.area > 100000 ? 100000 : 50000
 
   const obligatorias = shuffle([
     { texto: `Hemisferio ${pais.hemisferio === 'ambos' ? 'norte y sur' : pais.hemisferio}`, tipo: 'obligatoria' },
-    { texto: `Está en ${continenteTexto}`, tipo: 'obligatoria' },
     { texto: `Tiene ${pais.area >= areaRef ? 'más' : 'menos'} de ${areaRef.toLocaleString()} km²`, tipo: 'obligatoria' },
     { texto: `Tiene ${pais.poblacion >= pobRef ? 'más' : 'menos'} de ${(pobRef / 1000000).toFixed(0)}M habitantes`, tipo: 'obligatoria' },
     { texto: pais.guerras === 'ambas' ? 'Participó en ambas guerras mundiales'

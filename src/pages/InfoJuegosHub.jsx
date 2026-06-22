@@ -32,78 +32,92 @@ const CATEGORIAS = [
 
 export default function InfoJuegosHub() {
   return (
-    <div className="relative z-10 min-h-[calc(100vh-4rem)] px-4 sm:px-8 py-10 max-w-4xl mx-auto">
+    <div className="relative z-10">
+      {/* Header oscuro con el estilo de la app */}
+      <div className="px-4 sm:px-8 py-10 max-w-4xl mx-auto">
+        <Link to="/" className="text-white/30 hover:text-white/60 text-sm mb-8 inline-flex items-center gap-1 transition-colors">
+          ← Inicio
+        </Link>
 
-      <Link to="/" className="text-white/30 hover:text-white/60 text-sm mb-8 inline-flex items-center gap-1 transition-colors">
-        ← Inicio
-      </Link>
+        <header className="text-center mb-8">
+          <h1 className="text-3xl sm:text-4xl font-black text-white mb-3">
+            Juegos Educativos Online
+          </h1>
+          <p className="text-white/50 max-w-2xl mx-auto leading-relaxed">
+            Herramientas interactivas diseñadas por docentes para facilitar el estudio de
+            asignaturas clave en Primaria, Secundaria y Bachillerato.
+          </p>
+        </header>
+      </div>
 
-      <header className="text-center mb-12">
-        <h1 className="text-3xl sm:text-4xl font-black text-white mb-3">
-          Juegos Educativos Online: Aprende y Repasa sin Aburrirte
-        </h1>
-        <p className="text-white/50 max-w-2xl mx-auto leading-relaxed">
-          Bienvenido al catálogo de juegos didácticos de Tuthor. Aquí encontrarás herramientas interactivas
-          diseñadas por docentes para facilitar el estudio de asignaturas clave en Primaria, Secundaria
-          y Bachillerato. Nuestro método combina la ciencia pedagógica con la gamificación para mejorar
-          el rendimiento escolar desde casa.
-        </p>
-      </header>
+      {/* Contenido SEO sobre fondo claro */}
+      <div className="bg-[#f5f5f0] text-gray-900 rounded-t-[2rem] sm:rounded-t-[3rem]">
+        <div className="max-w-4xl mx-auto px-4 sm:px-8 py-12 space-y-10">
 
-      <aside className="ad-slot" aria-label="Publicidad" data-ad-slot="info-juegos" style={{ minHeight: '90px' }} />
-
-      {CATEGORIAS.map((cat, catIdx) => (
-        <section key={cat.titulo} className="mb-12">
-          <h2 className="text-2xl font-black text-white mb-3 flex items-center gap-3">
-            <span className="text-3xl">{cat.emoji}</span>
-            {cat.titulo}
-          </h2>
-          <p className="text-white/50 leading-relaxed mb-6 max-w-3xl">
-            {cat.texto}
+          <p className="text-gray-600 leading-relaxed max-w-2xl mx-auto text-center text-lg">
+            Nuestro método combina la ciencia pedagógica con la gamificación para mejorar
+            el rendimiento escolar desde casa. Cada juego activa habilidades cognitivas reales
+            mientras el alumno se divierte.
           </p>
 
-          <div className="grid gap-4 sm:grid-cols-2">
-            {cat.juegos.map(j => (
-              <Link
-                key={j.slug}
-                to={`/info/juegos/${j.slug}`}
-                className="group bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/25 rounded-2xl p-6 transition-all hover:scale-[1.01]"
-              >
-                <h3 className="font-black text-white text-lg group-hover:text-[#EDAE49] transition-colors mb-2">
-                  {j.titulo}
-                </h3>
-                <p className="text-white/45 text-sm leading-relaxed mb-4">{j.desc}</p>
-                <span className="text-sm font-semibold text-[#EDAE49]/70 group-hover:text-[#EDAE49] transition-colors">
-                  Saber más y jugar →
-                </span>
-              </Link>
-            ))}
-          </div>
+          {CATEGORIAS.map((cat, catIdx) => (
+            <section key={cat.titulo}>
+              <div className="flex items-center gap-3 mb-3">
+                <span className="text-3xl">{cat.emoji}</span>
+                <h2 className="text-2xl font-black text-gray-900">{cat.titulo}</h2>
+              </div>
+              <p className="text-gray-500 leading-relaxed mb-6 max-w-3xl">{cat.texto}</p>
 
-          {catIdx < CATEGORIAS.length - 1 && (
-            <aside className="ad-slot" aria-label="Publicidad" data-ad-slot={`info-juegos-${catIdx}`} style={{ minHeight: '90px', marginTop: '2rem' }} />
-          )}
-        </section>
-      ))}
+              <div className="grid gap-4 sm:grid-cols-2">
+                {cat.juegos.map(j => (
+                  <Link key={j.slug} to={`/info/juegos/${j.slug}`}
+                    className="group bg-white rounded-2xl border border-gray-200 hover:border-gray-300 p-6 transition-all hover:shadow-lg hover:shadow-gray-200/50 hover:scale-[1.01]">
+                    {/* Placeholder para captura del juego */}
+                    <div className="bg-gray-100 rounded-xl h-32 mb-4 flex items-center justify-center overflow-hidden">
+                      <span className="text-gray-300 text-sm">📷 Captura del juego</span>
+                    </div>
+                    <h3 className="font-black text-gray-900 text-lg group-hover:text-teal-600 transition-colors mb-1">
+                      {j.titulo}
+                    </h3>
+                    <p className="text-gray-500 text-sm leading-relaxed mb-3">{j.desc}</p>
+                    <span className="text-sm font-semibold text-teal-600 group-hover:text-teal-500 transition-colors">
+                      Ver beneficios y jugar →
+                    </span>
+                  </Link>
+                ))}
+              </div>
 
-      <section className="mb-12">
-        <h2 className="text-2xl font-black text-white mb-3 flex items-center gap-3">
-          <span className="text-3xl">🔬</span>
-          Ciencias, Idiomas y más — Próximamente
-        </h2>
-        <p className="text-white/50 leading-relaxed max-w-3xl">
-          Estamos desarrollando juegos de ciencias naturales, vocabulario en inglés, química elemental
-          y física aplicada. Todos seguirán el mismo enfoque: aprender jugando, con base científica y
-          adaptados a los temarios oficiales.
-        </p>
-      </section>
+              {catIdx < CATEGORIAS.length - 1 && (
+                <>
+                  <aside className="ad-slot" aria-label="Publicidad" data-ad-slot={`info-juegos-${catIdx}`} style={{ minHeight: '90px', marginTop: '2rem' }} />
+                  <hr className="border-gray-200 mt-6" />
+                </>
+              )}
+            </section>
+          ))}
 
-      <footer className="border-t border-white/10 pt-8 text-center">
-        <Link to="/juegos"
-          className="inline-block py-4 px-10 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-lg rounded-2xl transition-all hover:scale-[1.02] shadow-lg shadow-amber-500/30">
-          Ir a jugar ahora →
-        </Link>
-      </footer>
+          <section>
+            <div className="flex items-center gap-3 mb-3">
+              <span className="text-3xl">🔬</span>
+              <h2 className="text-2xl font-black text-gray-900">Ciencias, Idiomas y más — Próximamente</h2>
+            </div>
+            <p className="text-gray-500 leading-relaxed max-w-3xl">
+              Estamos desarrollando juegos de ciencias naturales, vocabulario en inglés, química elemental
+              y física aplicada. Todos seguirán el mismo enfoque: aprender jugando, con base científica y
+              adaptados a los temarios oficiales.
+            </p>
+          </section>
+
+          <aside className="ad-slot" aria-label="Publicidad" data-ad-slot="info-juegos-bottom" style={{ minHeight: '90px' }} />
+
+          <footer className="text-center pt-4">
+            <Link to="/juegos"
+              className="inline-block py-4 px-10 bg-teal-600 hover:bg-teal-500 text-white font-black text-lg rounded-2xl transition-all hover:scale-[1.02] shadow-lg shadow-teal-600/30">
+              Ir a jugar ahora →
+            </Link>
+          </footer>
+        </div>
+      </div>
     </div>
   )
 }
