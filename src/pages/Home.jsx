@@ -71,11 +71,25 @@ export default function Home() {
           {/* JUGAR */}
           <section className="mb-10">
             <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden sm:flex">
-              {/* 📷 FOTO: captura de la pantalla de juegos o un juego en acción */}
-              <div className="sm:w-2/5 bg-gradient-to-br from-violet-100 to-purple-50 flex items-center justify-center p-8 sm:p-0 min-h-[200px]">
-                <div className="text-center">
-                  <span className="text-6xl block mb-2">🕹️</span>
-                  <span className="text-violet-400 text-xs font-bold uppercase tracking-widest">📷 Captura del juego</span>
+              <div className="sm:w-2/5 bg-gradient-to-br from-violet-950 to-indigo-900 flex items-center justify-center p-6 sm:p-8 min-h-[200px] relative overflow-hidden">
+                <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '24px 24px' }} />
+                <div className="relative text-center space-y-3">
+                  <div className="flex justify-center gap-2">
+                    {['7','×','6','+','3','=','?'].map((n, i) => (
+                      <span key={i} className={`w-8 h-8 rounded-lg flex items-center justify-center text-sm font-black ${
+                        n === '?' ? 'bg-amber-400 text-black' : n === '×' || n === '+' || n === '=' ? 'text-violet-300' : 'bg-white/10 text-white border border-white/20'
+                      }`}>{n}</span>
+                    ))}
+                  </div>
+                  <div className="bg-amber-400/20 border border-amber-400/40 rounded-xl px-4 py-2">
+                    <span className="text-amber-300 text-xs font-bold">🎯 Objetivo: </span>
+                    <span className="text-white font-black text-lg">45</span>
+                  </div>
+                  <div className="flex justify-center gap-3 text-xs text-white/40">
+                    <span>⏱️ 32s</span>
+                    <span>⭐ 1.240 pts</span>
+                    <span>🔥 ×3</span>
+                  </div>
                 </div>
               </div>
               <div className="sm:w-3/5 p-6 sm:p-8">
@@ -98,11 +112,17 @@ export default function Home() {
           {/* ESTUDIAR + RETO DIARIO lado a lado en desktop */}
           <section className="grid sm:grid-cols-2 gap-6 mb-10">
             <div className="bg-white rounded-2xl border border-gray-200 p-6 sm:p-8 flex flex-col">
-              {/* 📷 FOTO: captura de un examen con nota */}
-              <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl h-36 flex items-center justify-center mb-5">
-                <div className="text-center">
-                  <span className="text-4xl block mb-1">📚</span>
-                  <span className="text-indigo-300 text-xs font-bold uppercase tracking-widest">📷 Captura examen</span>
+              <div className="bg-gradient-to-br from-indigo-950 to-blue-900 rounded-xl h-36 flex items-center justify-center mb-5 relative overflow-hidden">
+                <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '20px 20px' }} />
+                <div className="relative text-center">
+                  <p className="text-green-400 text-xs font-bold mb-1">✅ Aprobado</p>
+                  <p className="text-white font-black text-2xl">Notable</p>
+                  <p className="text-blue-300 font-black text-3xl">7/10</p>
+                  <div className="flex gap-1 justify-center mt-2">
+                    {[1,1,0,1,1,1,0,1,0,1].map((v, i) => (
+                      <div key={i} className={`w-3 h-3 rounded-full ${v ? 'bg-green-400' : 'bg-red-400'}`} />
+                    ))}
+                  </div>
                 </div>
               </div>
               <p className="text-teal-600 text-xs font-bold uppercase tracking-widest mb-2">Historia · Mates · Geografía</p>
@@ -118,11 +138,19 @@ export default function Home() {
             </div>
 
             <div className="bg-white rounded-2xl border border-gray-200 p-6 sm:p-8 flex flex-col">
-              {/* 📷 FOTO: captura de la pregunta diaria con racha */}
-              <div className="bg-gradient-to-br from-orange-50 to-rose-50 rounded-xl h-36 flex items-center justify-center mb-5">
-                <div className="text-center">
-                  <span className="text-4xl block mb-1">⚡</span>
-                  <span className="text-orange-300 text-xs font-bold uppercase tracking-widest">📷 Captura racha</span>
+              <div className="bg-gradient-to-br from-orange-950 to-rose-900 rounded-xl h-36 flex items-center justify-center mb-5 relative overflow-hidden">
+                <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '20px 20px' }} />
+                <div className="relative text-center">
+                  <p className="text-orange-300 text-xs font-bold mb-1">Racha diaria</p>
+                  <p className="text-white font-black text-4xl">🔥 14</p>
+                  <p className="text-orange-200/50 text-xs mt-1">14 días seguidos</p>
+                  <div className="flex gap-1 justify-center mt-2">
+                    {['L','M','X','J','V','S','D'].map((d, i) => (
+                      <div key={i} className={`w-5 h-5 rounded text-[8px] font-bold flex items-center justify-center ${
+                        i < 6 ? 'bg-orange-400/30 text-orange-300' : 'bg-white/10 text-white/30'
+                      }`}>{d}</div>
+                    ))}
+                  </div>
                 </div>
               </div>
               <p className="text-teal-600 text-xs font-bold uppercase tracking-widest mb-2">2 minutos al día</p>
@@ -177,8 +205,7 @@ export default function Home() {
                 { nombre: 'Marc Peñalver', rol: 'Gestión', emoji: '📋' },
               ].map(m => (
                 <div key={m.nombre} className="text-center">
-                  {/* 📷 Aquí iría la foto de cada miembro */}
-                  <div className="w-16 h-16 rounded-full bg-gray-100 border-2 border-gray-200 flex items-center justify-center mx-auto mb-3">
+                  <div className="w-16 h-16 rounded-full bg-gradient-to-br from-teal-100 to-cyan-50 border-2 border-teal-200 flex items-center justify-center mx-auto mb-3 shadow-sm">
                     <span className="text-2xl">{m.emoji}</span>
                   </div>
                   <p className="text-gray-900 font-bold text-sm">{m.nombre}</p>

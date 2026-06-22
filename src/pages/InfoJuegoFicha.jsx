@@ -5,6 +5,7 @@ const FICHAS = {
     titulo: 'Acércate al Número',
     subtitulo: 'Juego de Cálculo Mental y Lógica Matemática',
     emoji: '🎯',
+    gradient: 'from-pink-600 to-rose-800',
     path: '/juegos/acercate',
     intro: 'Una herramienta pedagógica interactiva diseñada para que los estudiantes dominen la agilidad numérica sin frustración. Combina números usando operaciones aritméticas para alcanzar el objetivo exacto, nivel tras nivel, en un formato roguelike que engancha.',
     beneficios: [
@@ -19,6 +20,7 @@ const FICHAS = {
     titulo: 'Tuthor Time',
     subtitulo: 'Juego de Cronología y Memoria Histórica',
     emoji: '🕰️',
+    gradient: 'from-amber-600 to-orange-800',
     path: '/juegos/tuthor-time',
     intro: 'Viaja en el tiempo y demuestra cuánto sabes de historia. Envía a tus agentes temporales al año correcto de cada evento. Cuanto más cerca estés, menos vida gastan.',
     beneficios: [
@@ -33,6 +35,7 @@ const FICHAS = {
     titulo: 'Línea Temporal',
     subtitulo: 'Juego de Ordenación Cronológica',
     emoji: '📜',
+    gradient: 'from-emerald-600 to-teal-800',
     path: '/juegos/linea-temporal',
     intro: 'Coloca eventos históricos en orden cronológico sin ver las fechas. Solo tu intuición histórica te ayudará.',
     beneficios: [
@@ -47,6 +50,7 @@ const FICHAS = {
     titulo: '¿Quién es Quién?',
     subtitulo: 'Juego de Deducción con Personajes Históricos',
     emoji: '🕵️',
+    gradient: 'from-violet-600 to-purple-900',
     path: '/juegos/quien-es-quien',
     intro: 'Adivina el personaje histórico secreto usando pistas lógicas. Tacha candidatos, formula hipótesis y demuestra tu conocimiento.',
     beneficios: [
@@ -61,6 +65,7 @@ const FICHAS = {
     titulo: 'Portadas',
     subtitulo: 'Verificación de Titulares Históricos',
     emoji: '📰',
+    gradient: 'from-stone-600 to-neutral-800',
     path: '/juegos/portadas',
     intro: 'Lee portadas de periódicos históricos reales y decide si el titular es verdad o mentira. Pensamiento crítico aplicado a la historia.',
     beneficios: [
@@ -75,6 +80,7 @@ const FICHAS = {
     titulo: 'GeoRush',
     subtitulo: 'Geografía y Deducción por Pistas',
     emoji: '🌍',
+    gradient: 'from-teal-500 to-cyan-700',
     path: '/juegos/georush',
     intro: 'Descubre el país misterioso a partir de pistas geográficas, demográficas e históricas. Cuanto antes lo adivines, más puntos.',
     beneficios: [
@@ -134,9 +140,12 @@ export default function InfoJuegoFicha() {
 
           <p className="text-gray-600 leading-relaxed text-lg mb-8">{ficha.intro}</p>
 
-          {/* 📷 FOTO: captura del juego en acción */}
-          <div className="bg-white rounded-2xl border border-gray-200 h-48 sm:h-64 flex items-center justify-center mb-10">
-            <span className="text-gray-300 text-sm">📷 Captura del juego en acción</span>
+          <div className={`bg-gradient-to-br ${ficha.gradient} rounded-2xl h-48 sm:h-64 flex items-center justify-center mb-10 relative overflow-hidden`}>
+            <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '24px 24px' }} />
+            <div className="relative text-center">
+              <span className="text-8xl sm:text-9xl drop-shadow-2xl">{ficha.emoji}</span>
+              <p className="text-white/60 text-sm font-bold mt-2">{ficha.asignatura} · {ficha.niveles}</p>
+            </div>
           </div>
 
           <aside className="ad-slot" aria-label="Publicidad" data-ad-slot="info-juego-ficha-1" style={{ minHeight: '90px', marginBottom: '2.5rem' }} />
