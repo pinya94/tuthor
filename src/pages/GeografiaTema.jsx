@@ -1,0 +1,119 @@
+import { useNavigate, useParams } from 'react-router-dom'
+import { PAISES } from '../data/paises'
+
+const REGION_FILTER = {
+  europa:  p => p.continente === 'Europa' || p.continente === 'Europa/Asia',
+  america: p => p.continente === 'América',
+  asia:    p => p.continente === 'Asia' || p.continente === 'Europa/Asia',
+  africa:  p => p.continente === 'África',
+  oceania: p => p.continente === 'Oceanía',
+}
+
+const TEMAS_META = {
+  europa:  { titulo: 'Europa',          emoji: '🇪🇺', descripcion: 'De Islandia a Chipre, pasando por los Balcanes y Escandinavia.' },
+  america: { titulo: 'América',         emoji: '🌎', descripcion: 'Del Canadá a la Patagonia. Norte, Centro y Sudamérica.' },
+  asia:    { titulo: 'Asia',            emoji: '🌏', descripcion: 'El continente más grande y diverso. De Japón a Turquía.' },
+  africa:  { titulo: 'África',          emoji: '🌍', descripcion: 'De Marruecos a Sudáfrica. El continente más variado del planeta.' },
+  oceania: { titulo: 'Oceanía',         emoji: '🏝️', descripcion: 'Australia, Nueva Zelanda y las islas del Pacífico.' },
+}
+
+export default function GeografiaTema() {
+  const navigate    = useNavigate()
+  const { region }  = useParams()
+  const meta        = TEMAS_META[region]
+
+  if (!meta) { navigate('/estudiar/geografia'); return null }
+
+  const filter      = REGION_FILTER[region]
+  const paisesCount = filter ? PAISES.filter(filter).length : 0
+
+  const modos = [
+    {
+      id: 'georush',
+      titulo: 'GeoRush',
+      descripcion: 'Adivina el país a partir de pistas geográficas, demográficas e históricas. 10 países por examen.',
+      emoji: '🌍',
+      gradient: 'from-teal-500 to-cyan-700',
+      detalles: [`${paisesCount} países`, '10 por examen', '5 pistas mixtas (3🔒 + 2🎁)'],
+      action: () => navigate('/examen/geografia', {
+        state: { region, titulo: meta.titulo, backPath: `/estudiar/geografia/${region}` }
+      }),
+    },
+  ]
+
+  return (
+    <div className="relative z-10 flex flex-col min-h-[calc(100vh-4rem)] px-4 sm:px-8 py-6">
+      <div className="max-w-2xl mx-auto w-full mb-6">
+        <p className="text-white/30 text-xs mb-4">
+          <button onClick={() => navigate('/estudiar')} className="hover:text-white/60 transition-colors">Estudiar</button>
+          {' '}/{' '}
+          <button onClick={() => navigate('/estudiar/geografia')} className="hover:text-white/60 transition-colors">Geografía</button>
+          {' '}/{' '}<span className="text-white/50">{meta.titulo}</span>
+        </p>
+
+        <div className="flex items-center gap-4">
+          <span className="text-5xl">{meta.emoji}</span>
+          <div>
+            <h1 className="text-2xl sm:text-3xl font-black text-white leading-tight">{meta.titulo}</h1>
+            <p className="text-white/40 text-sm mt-0.5">{meta.descripcion}</p>
+          </div>
+        </div>
+      </div>
+
+      <div className="max-w-2xl mx-auto w-full space-y-4">
+        <p className="text-white/30 text-xs uppercase tracking-widest font-semibold">
+          Modos disponibles
+        </p>
+
+        {modos.map(modo => (
+          <button
+            key={modo.id}
+            onClick={modo.action}
+            className="w-full group relative rounded-2xl overflow-hidden text-left transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:shadow-black/40"
+          >
+            <div className={`bg-gradient-to-br ${modo.gradient} p-6`}>
+              <div className="flex items-start justify-between gap-4">
+                <div className="flex-1">
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="text-3xl">{modo.emoji}</span>
+                    <h3 className="font-black text-white text-xl">{modo.titulo}</h3>
+                  </div>
+                  <p className="text-white/70 text-sm leading-relaxed mb-4">{modo.descripcion}</p>
+                  <div className="flex flex-wrap gap-2">
+                    {modo.detalles.map(d => (
+                      <span key={d} className="text-xs font-semibold bg-black/25 text-white/80 px-2.5 py-1 rounded-full border border-white/10">
+                        {d}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+                <div className="shrink-0 mt-1">
+                  <div className="w-10 h-10 rounded-full bg-white/20 group-hover:bg-white/30 flex items-center justify-center transition-colors">
+                    <span className="text-white font-black text-lg">→</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </button>
+        ))}
+
+        {/* Próximamente */}
+        {[
+          { id: 'capitales', titulo: 'Capitales del Mundo', emoji: '🏙️', desc: 'Identifica la capital de cada país.' },
+          { id: 'banderas', titulo: 'Banderas', emoji: '🏳️', desc: 'Reconoce los países por su bandera.' },
+        ].map(m => (
+          <div key={m.id} className="w-full rounded-2xl bg-white/3 border border-white/8 p-5 opacity-50">
+            <div className="flex items-center gap-3">
+              <span className="text-2xl">{m.emoji}</span>
+              <div>
+                <h3 className="font-bold text-white/60 text-base">{m.titulo}</h3>
+                <p className="text-white/30 text-xs mt-0.5">{m.desc}</p>
+              </div>
+              <span className="ml-auto text-xs font-bold text-white/30 border border-white/15 px-2 py-0.5 rounded-full">Pronto</span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}

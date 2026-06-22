@@ -25,7 +25,7 @@ export default function GeografiaIndex() {
           <span className="text-5xl">🌍</span>
           <div>
             <h1 className="text-2xl sm:text-3xl font-black text-white leading-tight">Geografía</h1>
-            <p className="text-white/40 text-sm mt-0.5">Adivina países por sus pistas geográficas — 10 países por examen</p>
+            <p className="text-white/40 text-sm mt-0.5">Elige una región y descubre los modos de juego disponibles</p>
           </div>
         </div>
 
@@ -33,7 +33,7 @@ export default function GeografiaIndex() {
           {TEMAS.map(t => (
             <button
               key={t.id}
-              onClick={() => !t.proximamente && navigate('/examen/geografia', { state: { region: t.id, titulo: t.titulo, backPath: '/estudiar/geografia' } })}
+              onClick={() => !t.proximamente && navigate(`/estudiar/geografia/${t.id}`)}
               className={`w-full group relative rounded-2xl overflow-hidden text-left transition-all duration-300 ${
                 t.proximamente ? 'opacity-50 cursor-default' : 'hover:scale-[1.02] hover:shadow-xl hover:shadow-black/40'
               }`}

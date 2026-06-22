@@ -29,6 +29,7 @@ import GeoRush from './pages/GeoRush'
 import InfoJuegosHub from './pages/InfoJuegosHub'
 import InfoJuegoFicha from './pages/InfoJuegoFicha'
 import GeografiaIndex from './pages/GeografiaIndex'
+import GeografiaTema from './pages/GeografiaTema'
 import GeoRushExamen from './pages/GeoRushExamen'
 import InfoEstudiar from './pages/InfoEstudiar'
 import InfoDiaria from './pages/InfoDiaria'
@@ -81,6 +82,7 @@ function Layout({ onConsent }) {
 
           {/* ── GEOGRAFÍA ── */}
           <Route path="/estudiar/geografia" element={<GeografiaIndex />} />
+          <Route path="/estudiar/geografia/:region" element={<GeografiaTema />} />
           <Route path="/examen/geografia" element={<GeoRushExamen />} />
           <Route path="/juegos/georush" element={<GeoRush />} />
 
