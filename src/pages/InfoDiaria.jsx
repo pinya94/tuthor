@@ -68,7 +68,7 @@ export default function InfoDiaria() {
               Tu racha es el número de días consecutivos que has completado el reto. Perderla duele
               — y eso es exactamente lo que la hace funcionar. El compromiso emocional con la racha
               convierte el estudio en algo personal: no estudias porque toca, sino porque no quieres
-              romper tu récord. Es el mismo principio que usan Duolingo y las apps de fitness,
+              romper tu récord. Es el mismo principio que usan las mejores apps educativas y de fitness,
               aplicado al rendimiento académico.
             </p>
           </section>
