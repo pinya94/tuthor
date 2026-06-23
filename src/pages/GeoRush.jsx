@@ -85,6 +85,7 @@ function normalize(s) {
 }
 
 function AutocompleteInput({ value, onChange, onSubmit, paises, disabled, focusKey }) {
+  const { lang } = useLang()
   const [focused, setFocused] = useState(false)
   const [highlightIdx, setHighlightIdx] = useState(-1)
   const inputRef = useRef(null)
@@ -128,7 +129,7 @@ function AutocompleteInput({ value, onChange, onSubmit, paises, disabled, focusK
         onBlur={() => setTimeout(() => setFocused(false), 150)}
         onKeyDown={handleKey}
         disabled={disabled}
-        placeholder="Escribe un país…"
+        placeholder={lang === 'en' ? 'Type a country…' : 'Escribe un país…'}
         className="w-full bg-white/10 border-2 border-white/20 focus:border-[#EDAE49] rounded-xl px-4 py-3 text-white text-lg placeholder:text-white/25 outline-none transition-colors disabled:opacity-40"
         autoComplete="off"
       />
@@ -148,8 +149,60 @@ function AutocompleteInput({ value, onChange, onSubmit, paises, disabled, focusK
   )
 }
 
+const UI = {
+  es: {
+    titulo: 'GeoRush', desc: 'Descubre el país misterioso a partir de pistas geográficas',
+    volver: '← Volver', salir: '← Salir', empezar: '¡Empezar! →',
+    reglas: 'Reglas', recompensas: 'Recompensas', comoFunciona: 'Cómo funciona',
+    tiempo: 'Tiempo', pistas: '5 por país (3🔒 + 2🎁)', alAcertar: 'Al acertar', acertar: '+20s + recompensa',
+    noAdivinar: 'No adivinar', saltar: 'Saltar',
+    tiempoExtra: '+15s extra', pistaExtra: 'Pista 🎁 extra', saltarGratis: 'Saltar gratis',
+    bonusPts: '+150 pts', ademasDe: 'Además de los +20s por acertar',
+    pistaExtraDesc: 'El siguiente país tiene 3 pistas regalo en vez de 2',
+    saltarGratisDesc: 'Acumulas un saltar sin penalización',
+    bonusDesc: 'Bonus de puntos directo',
+    paso1: 'Pistas obligatorias: responde con un país que cumpla', paso2: 'Pistas regalo: responde lo que quieras, se revelan',
+    paso3: 'Adivina el país en cualquier momento para ganar', paso4: 'Menos pistas usadas = más puntos',
+    paisMisterioso: 'País misterioso', pistaOculta: 'Pista oculta',
+    obligatoria: 'Escribe un país que cumpla', regalo: 'Pista regalo — responde lo que quieras',
+    intentaResponder: 'Intenta responder (si fallas, avanzamos):',
+    noReconocido: 'País no reconocido', noCumple: 'no cumple esta pista', noCumpleAvanzamos: 'no cumple, pero avanzamos',
+    cumple: 'cumple', siguientePista: 'No es', escribePais: 'Escribe un país…',
+    saltarPais: 'Saltar país (−10s)', eligeRecompensa: 'Elige recompensa',
+    tiempoAgotado: '¡Tiempo agotado!', puntuacion: 'Puntuación', paises: 'Países', mejorRacha: 'Mejor racha',
+    compartir: '🔗 Compartir resultado', reintentar: 'Intentarlo de nuevo', cambiarDif: 'Cambiar dificultad',
+    ultimoPais: 'Último país', tienes: 'tienes',
+  },
+  en: {
+    titulo: 'GeoRush', desc: 'Discover the mystery country from geographical clues',
+    volver: '← Back', salir: '← Exit', empezar: 'Start! →',
+    reglas: 'Rules', recompensas: 'Rewards', comoFunciona: 'How it works',
+    tiempo: 'Time', pistas: '5 per country (3🔒 + 2🎁)', alAcertar: 'On correct', acertar: '+20s + reward',
+    noAdivinar: "Didn't guess", saltar: 'Skip',
+    tiempoExtra: '+15s extra', pistaExtra: '🎁 Extra clue', saltarGratis: 'Free skip',
+    bonusPts: '+150 pts', ademasDe: 'On top of the +20s for guessing',
+    pistaExtraDesc: 'Next country starts with 3 gift clues instead of 2',
+    saltarGratisDesc: 'Stack a skip with no penalty',
+    bonusDesc: 'Direct points bonus',
+    paso1: 'Locked clues: answer with a country that matches', paso2: 'Gift clues: answer anything, they reveal',
+    paso3: 'Guess the country at any time to win', paso4: 'Fewer clues used = more points',
+    paisMisterioso: 'Mystery country', pistaOculta: 'Hidden clue',
+    obligatoria: 'Type a country that matches', regalo: 'Gift clue — type anything',
+    intentaResponder: 'Try to answer (if wrong, we move on):',
+    noReconocido: 'Country not recognised', noCumple: "doesn't match this clue", noCumpleAvanzamos: "doesn't match, but we move on",
+    cumple: 'matches', siguientePista: "It's not", escribePais: 'Type a country…',
+    saltarPais: 'Skip country (−10s)', eligeRecompensa: 'Choose reward',
+    tiempoAgotado: 'Time is up!', puntuacion: 'Score', paises: 'Countries', mejorRacha: 'Best streak',
+    compartir: '🔗 Share result', reintentar: 'Try again', cambiarDif: 'Change difficulty',
+    ultimoPais: 'Last country', tienes: 'you have',
+  },
+}
+
 export default function GeoRush() {
   const navigate = useNavigate()
+  const { lang, localPath } = useLang()
+  const u = UI[lang] || UI.es
+  const difLabel = d => lang === 'en' ? (d.labelEn || d.label) : d.label
   const [fase, setFase]         = useState('intro')
   const [difId, setDifId]       = useState('medio')
   const [timeLeft, setTimeLeft] = useState(60)
@@ -229,7 +282,7 @@ export default function GeoRush() {
     const nombreInput = val || inputVal
     const paisResp = PAISES.find(p => p.nombre === nombreInput)
     if (!paisResp) {
-      setFeedback({ ok: false, msg: 'País no reconocido' })
+      setFeedback({ ok: false, msg: u.noReconocido })
       setTimeout(() => setFeedback(null), 1200)
       return
     }
@@ -244,17 +297,17 @@ export default function GeoRush() {
 
     if (pista.tipo === 'regalo' || pista.validar(nombreInput)) {
       const msg = pista.tipo === 'regalo'
-        ? `→ Siguiente pista`
-        : `✓ ${nombreInput} cumple`
+        ? `→ ${u.siguientePista}`
+        : `✓ ${nombreInput} ${u.cumple}`
       setFeedback({ ok: true, msg })
       setInputVal('')
       setTimeout(() => { setFeedback(null); avanzar() }, 700)
     } else if (!dif.obligatorio) {
-      setFeedback({ ok: 'neutral', msg: `${nombreInput} no cumple, pero avanzamos` })
+      setFeedback({ ok: 'neutral', msg: `${nombreInput} ${u.noCumpleAvanzamos}` })
       setInputVal('')
       setTimeout(() => { setFeedback(null); avanzar() }, 1000)
     } else {
-      setFeedback({ ok: false, msg: `✗ ${nombreInput} no cumple esta pista` })
+      setFeedback({ ok: false, msg: `✗ ${nombreInput} ${u.noCumple}` })
       setInputVal('')
       setTimeout(() => setFeedback(null), 1200)
     }
@@ -286,7 +339,7 @@ export default function GeoRush() {
     setPuntos(p => p + pts)
     setPaisesAcertados(n => n + 1)
     setCombo(nuevoCombo)
-    setFeedback({ ok: true, msg: `🎉 ¡${paisActual.nombre}! +${pts} pts · +20s` })
+    setFeedback({ ok: true, msg: `🎉 ${paisActual.nombre}! +${pts} pts · +20s` })
     setFaseRonda('recompensa')
   }
 
@@ -327,36 +380,36 @@ export default function GeoRush() {
     return (
       <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
         <div className="max-w-xl w-full">
-          <button onClick={() => navigate('/juegos')}
+          <button onClick={() => navigate(localPath('/juegos'))}
             className="text-white/30 hover:text-white/60 text-sm mb-6 flex items-center gap-1 transition-colors">
-            ← Volver
+            {u.volver}
           </button>
           <div className="text-center mb-7">
             <span className="text-7xl block mb-4">🌍</span>
-            <h1 className="text-4xl font-black text-white mb-2">GeoRush</h1>
-            <p className="text-white/40">Descubre el país misterioso a partir de pistas geográficas</p>
+            <h1 className="text-4xl font-black text-white mb-2">{u.titulo}</h1>
+            <p className="text-white/40">{u.desc}</p>
           </div>
 
           <div className="flex gap-2 p-1 bg-white/5 border border-white/10 rounded-xl mb-6 w-fit mx-auto">
-            {Object.entries(DIFS).map(([id, d]) => (
+            {Object.entries(DIFS).map(([id, dd]) => (
               <button key={id} onClick={() => setDifId(id)}
                 className={`flex items-center gap-1.5 px-5 py-2.5 rounded-lg text-sm font-semibold transition-all ${
                   difId === id ? 'bg-white/15 text-white shadow-sm' : 'text-white/40 hover:text-white/70'
                 }`}>
-                {d.emoji} {d.label}
+                {dd.emoji} {difLabel(dd)}
               </button>
             ))}
           </div>
 
           <div className="grid grid-cols-2 gap-4 mb-6">
             <div className="bg-white/5 border border-white/10 rounded-2xl p-5 space-y-3 text-sm">
-              <p className="text-white/40 text-xs font-semibold uppercase tracking-widest">Reglas</p>
+              <p className="text-white/40 text-xs font-semibold uppercase tracking-widest">{u.reglas}</p>
               {[
-                ['⏱️', 'Tiempo', `${d.tiempoInicio}s`],
-                ['🔍', 'Pistas', `5 por país (3🔒 + 2🎁)`],
-                ['✅', 'Al acertar', '+20s + recompensa'],
-                ['❌', 'No adivinar', '−5s'],
-                ['⏭️', 'Saltar', '−10s'],
+                ['⏱️', u.tiempo, `${d.tiempoInicio}s`],
+                ['🔍', lang === 'en' ? 'Clues' : 'Pistas', u.pistas],
+                ['✅', u.alAcertar, u.acertar],
+                ['❌', u.noAdivinar, '−5s'],
+                ['⏭️', u.saltar, '−10s'],
               ].map(([e, k, v]) => (
                 <div key={k} className="flex items-center justify-between gap-2">
                   <span className="text-white/40 shrink-0">{e} {k}</span>
@@ -365,10 +418,10 @@ export default function GeoRush() {
               ))}
             </div>
             <div className="bg-white/5 border border-white/10 rounded-2xl p-5 space-y-3 text-sm">
-              <p className="text-white/40 text-xs font-semibold uppercase tracking-widest">Recompensas</p>
+              <p className="text-white/40 text-xs font-semibold uppercase tracking-widest">{u.recompensas}</p>
               {(difId === 'dificil'
-                ? [['⏱️', '+15s extra'], ['💡', 'Pista 🎁 extra'], ['✨', '+150 pts bonus']]
-                : [['⏱️', '+15s extra'], ['💡', 'Pista 🎁 extra'], ['⏭️', 'Saltar gratis']]
+                ? [['⏱️', u.tiempoExtra], ['💡', u.pistaExtra], ['✨', u.bonusPts]]
+                : [['⏱️', u.tiempoExtra], ['💡', u.pistaExtra], ['⏭️', u.saltarGratis]]
               ).map(([e, t]) => (
                 <div key={t} className="flex items-start gap-2 text-sm text-white/50">
                   <span className="text-base w-5 shrink-0 text-center">{e}</span>
@@ -379,13 +432,13 @@ export default function GeoRush() {
           </div>
 
           <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-7">
-            <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-3">Cómo funciona</p>
+            <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-3">{u.comoFunciona}</p>
             <div className="grid grid-cols-2 gap-2">
               {[
-                ['🔒', 'Pistas obligatorias: responde con un país que cumpla'],
-                ['🎁', 'Pistas regalo: responde lo que quieras, se revelan'],
-                ['🎯', 'Adivina el país en cualquier momento para ganar'],
-                ['🏆', 'Menos pistas usadas = más puntos'],
+                ['🔒', u.paso1],
+                ['🎁', u.paso2],
+                ['🎯', u.paso3],
+                ['🏆', u.paso4],
               ].map(([e, t]) => (
                 <div key={t} className="flex items-start gap-2 text-sm text-white/50">
                   <span className="text-base w-5 shrink-0 text-center">{e}</span>
@@ -397,7 +450,7 @@ export default function GeoRush() {
 
           <button onClick={() => iniciar(difId)}
             className="w-full py-4 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-xl rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-amber-500/30">
-            ¡Empezar! →
+            {u.empezar}
           </button>
         </div>
       </div>
@@ -407,47 +460,47 @@ export default function GeoRush() {
   // ── FIN ───────────────────────────────────────────────────────────────────
   const ultimoPais = paisActual?.nombre
   if (fase === 'fin') {
-    const shareText = `🌍 GeoRush: ${paisesAcertados} países · ${puntos.toLocaleString()} pts\n${dif.emoji} Modo ${dif.label} · Racha máx: ${maxCombo}\n🎮 https://www.tuthor.es/juegos/georush`
+    const shareText = `🌍 GeoRush: ${paisesAcertados} ${u.paises.toLowerCase()} · ${puntos.toLocaleString()} pts\n${dif.emoji} ${difLabel(dif)} · ${u.mejorRacha}: ${maxCombo}\n🎮 https://www.tuthor.es/juegos/georush`
     return (
       <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-6">
         <div className="max-w-lg w-full">
           <div className="bg-white/5 border border-white/10 rounded-2xl p-8 text-center mb-5">
             <div className="text-6xl mb-3">🌍</div>
-            <h2 className="text-3xl font-black text-white mb-1">¡Tiempo agotado!</h2>
-            <p className="text-white/40 mb-6">Modo {dif.emoji} {dif.label}</p>
+            <h2 className="text-3xl font-black text-white mb-1">{u.tiempoAgotado}</h2>
+            <p className="text-white/40 mb-6">{dif.emoji} {difLabel(dif)}</p>
             <div className="mb-4">
-              <p className="text-white/30 text-xs uppercase tracking-widest mb-1">Puntuación</p>
+              <p className="text-white/30 text-xs uppercase tracking-widest mb-1">{u.puntuacion}</p>
               <p className="text-white font-black text-6xl tabular-nums">{puntos.toLocaleString()}</p>
             </div>
             <div className="grid grid-cols-2 gap-3 mt-6">
               <div className="bg-white/5 rounded-xl p-4">
-                <p className="text-white/40 text-xs mb-1">Países</p>
+                <p className="text-white/40 text-xs mb-1">{u.paises}</p>
                 <p className="text-white font-black text-3xl">{paisesAcertados}</p>
               </div>
               <div className="bg-white/5 rounded-xl p-4">
-                <p className="text-white/40 text-xs mb-1">Mejor racha</p>
+                <p className="text-white/40 text-xs mb-1">{u.mejorRacha}</p>
                 <p className="text-white font-black text-3xl">{maxCombo}</p>
               </div>
             </div>
             {ultimoPais && (
               <div className="bg-white/5 rounded-xl p-3 mt-4">
-                <p className="text-white/30 text-xs mb-0.5">Último país</p>
+                <p className="text-white/30 text-xs mb-0.5">{u.ultimoPais}</p>
                 <p className="text-white font-bold">{ultimoPais}</p>
               </div>
             )}
           </div>
           <div className="space-y-3">
-            <button onClick={() => navigator.clipboard.writeText(shareText).then(() => alert('¡Copiado!'))}
+            <button onClick={() => navigator.clipboard.writeText(shareText).then(() => alert(lang === 'en' ? 'Copied!' : '¡Copiado!'))}
               className="w-full bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold py-3 rounded-xl transition">
-              🔗 Compartir resultado
+              {u.compartir}
             </button>
             <button onClick={() => iniciar(difId)}
               className="w-full bg-[#EDAE49] hover:bg-amber-400 text-black font-black py-4 text-lg rounded-xl transition">
-              Intentarlo de nuevo
+              {u.reintentar}
             </button>
             <button onClick={() => setFase('intro')}
               className="w-full text-white/40 hover:text-white/70 text-sm py-2 transition">
-              Cambiar dificultad
+              {u.cambiarDif}
             </button>
           </div>
         </div>
@@ -463,14 +516,14 @@ export default function GeoRush() {
 
   const recompensaOpciones = difId === 'dificil'
     ? [
-        { id: 'tiempo', emoji: '⏱️', label: '+15s extra', desc: 'Además de los +20s por acertar' },
-        { id: 'pistaExtra', emoji: '💡', label: 'Pista 🎁 extra', desc: 'El siguiente país tiene 3 pistas regalo en vez de 2' },
-        { id: 'bonus', emoji: '✨', label: '+150 pts', desc: 'Bonus de puntos directo' },
+        { id: 'tiempo', emoji: '⏱️', label: u.tiempoExtra, desc: u.ademasDe },
+        { id: 'pistaExtra', emoji: '💡', label: u.pistaExtra, desc: u.pistaExtraDesc },
+        { id: 'bonus', emoji: '✨', label: u.bonusPts, desc: u.bonusDesc },
       ]
     : [
-        { id: 'tiempo', emoji: '⏱️', label: '+15s extra', desc: 'Además de los +20s por acertar' },
-        { id: 'pistaExtra', emoji: '💡', label: 'Pista 🎁 extra', desc: 'El siguiente país tiene 3 pistas regalo en vez de 2' },
-        { id: 'saltar', emoji: '⏭️', label: 'Saltar gratis', desc: `Acumulas un saltar sin penalización${saltarGratis > 0 ? ` (tienes ${saltarGratis})` : ''}` },
+        { id: 'tiempo', emoji: '⏱️', label: u.tiempoExtra, desc: u.ademasDe },
+        { id: 'pistaExtra', emoji: '💡', label: u.pistaExtra, desc: u.pistaExtraDesc },
+        { id: 'saltar', emoji: '⏭️', label: u.saltarGratis, desc: `${u.saltarGratisDesc}${saltarGratis > 0 ? ` (${u.tienes} ${saltarGratis})` : ''}` },
       ]
 
   const pistaActual = pistas[pistaIdx]
@@ -481,7 +534,7 @@ export default function GeoRush() {
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <button onClick={() => setFase('intro')} className="text-white/40 hover:text-white/70 text-sm transition-colors">
-          ← Salir
+          {u.salir}
         </button>
         <div className="flex items-center gap-4 text-sm text-white/50">
           {saltarGratis > 0 && <span className="text-emerald-400 font-bold">⏭️ {saltarGratis}</span>}
@@ -494,7 +547,7 @@ export default function GeoRush() {
       {/* Timer */}
       <div className="mb-5">
         <div className="flex justify-between text-xs text-white/40 mb-1.5">
-          <span>Tiempo</span>
+          <span>{u.tiempo}</span>
           <span className={`font-bold tabular-nums text-sm ${timeLeft <= 10 ? 'text-red-400' : ''}`}>{timeLeft}s</span>
         </div>
         <div className="h-2.5 bg-white/10 rounded-full overflow-hidden">
@@ -509,7 +562,7 @@ export default function GeoRush() {
         <div className="mb-5 md:mb-0">
           <div className="bg-white/5 border border-white/10 rounded-2xl p-5 md:p-7">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-white/30 text-xs font-semibold uppercase tracking-widest">País misterioso</h2>
+              <h2 className="text-white/30 text-xs font-semibold uppercase tracking-widest">{u.paisMisterioso}</h2>
               <span className="text-white/20 text-xs">{pistaIdx + 1} / {pistas.length}</span>
             </div>
 
@@ -523,7 +576,7 @@ export default function GeoRush() {
                 if (bloqueada) return (
                   <div key={i} className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm bg-white/3 border border-white/5 text-white/15">
                     <span className="text-base opacity-40">{icono}</span>
-                    <span>Pista oculta</span>
+                    <span>{u.pistaOculta}</span>
                   </div>
                 )
 
@@ -551,7 +604,7 @@ export default function GeoRush() {
                 <div className="flex items-center gap-2 mb-2">
                   <span className="text-base">{pistaActual.tipo === 'regalo' ? '🎁' : '🔒'}</span>
                   <p className="text-white/30 text-xs uppercase tracking-widest">
-                    {pistaActual.tipo === 'regalo' ? 'Pista regalo — responde lo que quieras' : 'Escribe un país que cumpla'}
+                    {pistaActual.tipo === 'regalo' ? u.regalo : (dif.obligatorio ? u.obligatoria : u.intentaResponder)}
                   </p>
                 </div>
                 <p className="text-white font-bold text-sm">{pistaActual.texto}</p>
@@ -571,12 +624,12 @@ export default function GeoRush() {
                 {saltarGratis > 0 && (
                   <button onClick={usarSaltarGratis}
                     className="flex-1 py-2.5 bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-500/30 text-emerald-400 text-sm font-bold rounded-xl transition-colors">
-                    ⏭️ Saltar gratis ({saltarGratis})
+                    ⏭️ {u.saltarGratis} ({saltarGratis})
                   </button>
                 )}
                 <button onClick={saltarPais}
                   className={`${saltarGratis > 0 ? 'flex-1' : 'w-full'} py-2 text-white/30 hover:text-white/50 text-sm transition-colors`}>
-                  Saltar país (−10s)
+                  {u.saltarPais}
                 </button>
               </div>
             </>
@@ -588,7 +641,7 @@ export default function GeoRush() {
                 <div className="text-4xl mb-2">🎉</div>
                 <p className="text-green-400 font-black text-xl">{feedback?.msg}</p>
               </div>
-              <p className="text-white/30 text-xs uppercase tracking-widest text-center font-semibold">Elige recompensa</p>
+              <p className="text-white/30 text-xs uppercase tracking-widest text-center font-semibold">{u.eligeRecompensa}</p>
               {recompensaOpciones.map(r => (
                 <button key={r.id} onClick={() => elegirRecompensa(r.id)}
                   className="w-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/25 rounded-2xl p-4 text-left transition-all hover:scale-[1.02] active:scale-[0.98]">
