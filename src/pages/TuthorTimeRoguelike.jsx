@@ -6,17 +6,67 @@ import { EVENTOS_ROGUELIKE } from '../data/tuthorTimeEventos'
 const VIDA_BIXO = 120
 
 const DIFS = {
-  facil:   { label: 'Fácil',   emoji: '🟢', agentes: 3, tiempoBase: 30, puedeRecuperar: true  },
-  medio:   { label: 'Medio',   emoji: '🟡', agentes: 2, tiempoBase: 25, puedeRecuperar: true  },
-  dificil: { label: 'Difícil', emoji: '🔴', agentes: 1, tiempoBase: 20, puedeRecuperar: false },
+  facil:   { label: 'Fácil', labelEn: 'Easy',   emoji: '🟢', agentes: 3, tiempoBase: 30, puedeRecuperar: true  },
+  medio:   { label: 'Medio', labelEn: 'Medium', emoji: '🟡', agentes: 2, tiempoBase: 25, puedeRecuperar: true  },
+  dificil: { label: 'Difícil', labelEn: 'Hard', emoji: '🔴', agentes: 1, tiempoBase: 20, puedeRecuperar: false },
 }
 
 const UPGRADE_INFO = {
-  recuperar_agente: { label: 'Recuperar agente',  emoji: '🩺', desc: 'Un agente caído vuelve con el 60% de vida' },
-  pista:            { label: 'Pistas temporales', emoji: '🗓️', desc: 'Los próximos 3 eventos muestran un rango aproximado del año' },
-  mas_tiempo:       { label: '+8 segundos',        emoji: '⏱️', desc: 'Todos los niveles ganan 8 segundos adicionales de tiempo' },
-  mas_vida:         { label: 'Salud completa',     emoji: '💊', desc: 'Todos los agentes recuperan toda su vida' },
-  multiplicador:    { label: '×1.5 puntos',        emoji: '⭐', desc: 'Multiplica ×1.5 tu puntuación los próximos 3 niveles' },
+  es: {
+    recuperar_agente: { label: 'Recuperar agente',  emoji: '🩺', desc: 'Un agente caído vuelve con el 60% de vida' },
+    pista:            { label: 'Pistas temporales', emoji: '🗓️', desc: 'Los próximos 3 eventos muestran un rango aproximado del año' },
+    mas_tiempo:       { label: '+8 segundos',        emoji: '⏱️', desc: 'Todos los niveles ganan 8 segundos adicionales de tiempo' },
+    mas_vida:         { label: 'Salud completa',     emoji: '💊', desc: 'Todos los agentes recuperan toda su vida' },
+    multiplicador:    { label: '×1.5 puntos',        emoji: '⭐', desc: 'Multiplica ×1.5 tu puntuación los próximos 3 niveles' },
+  },
+  en: {
+    recuperar_agente: { label: 'Recover agent',     emoji: '🩺', desc: 'A fallen agent returns with 60% health' },
+    pista:            { label: 'Time hints',         emoji: '🗓️', desc: 'The next 3 events show an approximate year range' },
+    mas_tiempo:       { label: '+8 seconds',          emoji: '⏱️', desc: 'All levels get 8 extra seconds of time' },
+    mas_vida:         { label: 'Full health',         emoji: '💊', desc: 'All agents recover full health' },
+    multiplicador:    { label: '×1.5 points',         emoji: '⭐', desc: 'Multiplies your score ×1.5 for the next 3 levels' },
+  },
+}
+
+const TUI = {
+  es: {
+    titulo: 'Tuthor Time', desc: 'Viaja en el tiempo enviando agentes al año correcto',
+    volver: '← Volver', empezar: '¡Empezar run!', clasico: '¿Prefieres el modo clásico? →',
+    agentes: 'Agentes', tiempoPorEvento: 'Tiempo por evento', recuperacion: 'Recuperación',
+    si: 'Sí', no: 'No', puntuacion: 'Puntuación',
+    puntosDesc: 'Precisión × tiempo restante', mejoras: 'Mejoras', mejorasDesc: 'Cada 3 niveles elige una mejora',
+    comoFunciona: 'Cómo funciona',
+    paso1: 'Envía tu agente al año del evento histórico',
+    paso2: 'Cuanto más cerca estés, menos vida pierde el agente',
+    paso3: 'Si un agente pierde toda su vida, muere',
+    paso4: 'Cada 3 niveles elige una mejora permanente',
+    nivel: 'Nivel', tiempo: 'Tiempo', agente: 'Agente',
+    evento: 'Evento', enviarAgente: 'Enviar agente',
+    perfecto: '¡PERFECTO!', tarde: 'Demasiado tarde', temprano: 'Demasiado pronto', tiempoAgotado: '¡Tiempo agotado!',
+    gameOver: '💀 Game over →', siguienteMision: 'Siguiente misión →',
+    eligeMejora: 'Elige una mejora', nivelSuperado: 'superado',
+    fin: 'Fin de la run', mejorRacha: 'Mejor racha', eventosCompletados: 'Eventos',
+    compartir: '📤 Compartir', nuevaRun: 'Nueva run', menu: 'Menú',
+  },
+  en: {
+    titulo: 'Tuthor Time', desc: 'Travel through time by sending agents to the correct year',
+    volver: '← Back', empezar: 'Start run!', clasico: 'Prefer classic mode? →',
+    agentes: 'Agents', tiempoPorEvento: 'Time per event', recuperacion: 'Recovery',
+    si: 'Yes', no: 'No', puntuacion: 'Score',
+    puntosDesc: 'Accuracy × remaining time', mejoras: 'Upgrades', mejorasDesc: 'Every 3 levels pick an upgrade',
+    comoFunciona: 'How it works',
+    paso1: 'Send your agent to the year of the historical event',
+    paso2: 'The closer you get, the less health the agent loses',
+    paso3: 'If an agent loses all health, they die',
+    paso4: 'Every 3 levels pick a permanent upgrade',
+    nivel: 'Level', tiempo: 'Time', agente: 'Agent',
+    evento: 'Event', enviarAgente: 'Send agent',
+    perfecto: 'PERFECT!', tarde: 'Too late', temprano: 'Too early', tiempoAgotado: 'Time is up!',
+    gameOver: '💀 Game over →', siguienteMision: 'Next mission →',
+    eligeMejora: 'Pick an upgrade', nivelSuperado: 'cleared',
+    fin: 'Run over', mejorRacha: 'Best streak', eventosCompletados: 'Events',
+    compartir: '📤 Share', nuevaRun: 'New run', menu: 'Menu',
+  },
 }
 
 // Mecánica fiel al BIXO original:
@@ -163,6 +213,9 @@ function AgentBar({ agente, activo }) {
 export default function TuthorTimeRoguelike() {
   const navigate = useNavigate()
   const { lang, localPath } = useLang()
+  const tu = TUI[lang] || TUI.es
+  const dl = d => lang === 'en' ? (d.labelEn || d.label) : d.label
+  const upgrades = UPGRADE_INFO[lang] || UPGRADE_INFO.es
   const [fase, setFase] = useState('intro')
   const [difId, setDifId] = useState('medio')
   const [nivel, setNivel] = useState(1)
@@ -357,12 +410,12 @@ export default function TuthorTimeRoguelike() {
         <div className="max-w-md w-full">
           <button onClick={() => navigate(localPath('/juegos'))}
             className="text-white/30 hover:text-white/60 text-sm mb-6 flex items-center gap-1 transition-colors">
-            ← Volver
+            {tu.volver}
           </button>
           <div className="text-center mb-6">
             <span className="text-6xl block mb-3">⏳</span>
-            <h1 className="text-3xl font-black text-white mb-1">Tuthor Time</h1>
-            <p className="text-white/40 text-sm">Envía agentes al pasado — ¿cuántas misiones aguantarás?</p>
+            <h1 className="text-3xl font-black text-white mb-1">{tu.titulo}</h1>
+            <p className="text-white/40 text-sm">{tu.desc}</p>
           </div>
 
           {/* Selector de dificultad */}
@@ -372,7 +425,7 @@ export default function TuthorTimeRoguelike() {
                 className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
                   difId === id ? 'bg-white/15 text-white shadow-sm' : 'text-white/40 hover:text-white/70'
                 }`}>
-                {d.emoji} {d.label}
+                {d.emoji} {dl(d)}
               </button>
             ))}
           </div>
@@ -413,11 +466,11 @@ export default function TuthorTimeRoguelike() {
 
           <button onClick={() => iniciarPartida(difId)}
             className="w-full py-4 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-lg rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-amber-500/30">
-            ¡Empezar misión!
+            {tu.empezar}
           </button>
           <button onClick={() => navigate(localPath('/juegos/tuthor-time/clasico'))}
             className="w-full py-3 mt-3 text-white/30 hover:text-white/60 text-sm transition-colors">
-            ¿Prefieres entrenar sin presión? → Modo clásico
+            {tu.clasico}
           </button>
         </div>
       </div>
@@ -606,7 +659,7 @@ export default function TuthorTimeRoguelike() {
             </div>
             <div className="space-y-3">
               {upgradeOpts.map(u => {
-                const info = UPGRADE_INFO[u]
+                const info = upgrades[u]
                 return (
                   <button
                     key={u}
@@ -632,23 +685,23 @@ export default function TuthorTimeRoguelike() {
 
   // ── RESULTADO ──────────────────────────────────────────────────────────────
   if (fase === 'resultado') {
-    const shareText = `⏳ He llegado a la misión ${nivel} con ${scoreTotal.toLocaleString()} pts en Tuthor Time\n${dif.emoji} Modo ${dif.label} — ¿sabes más historia que yo?\n🎮 https://www.tuthor.es/juegos/tuthor-time`
+    const shareText = `⏳ Tuthor Time: ${tu.nivel} ${nivel} · ${scoreTotal.toLocaleString()} pts\n${dif.emoji} ${dl(dif)}\n🎮 https://www.tuthor.es/juegos/tuthor-time`
 
     return (
       <div className="min-h-screen flex flex-col items-center justify-center px-4 py-6">
         <div className="w-full max-w-md">
           <div className="bg-black/50 backdrop-blur rounded-2xl p-6 border border-white/10 text-center">
             <div className="text-5xl mb-3">💀</div>
-            <h2 className="text-2xl font-bold text-white mb-1">Misión terminada</h2>
-            <p className="text-white/50 text-sm mb-6">Todos los agentes han caído en el tiempo</p>
+            <h2 className="text-2xl font-bold text-white mb-1">{tu.fin}</h2>
+            <p className="text-white/50 text-sm mb-6">{lang === 'en' ? 'All agents have fallen through time' : 'Todos los agentes han caído en el tiempo'}</p>
 
             <div className="grid grid-cols-2 gap-3 mb-6">
               <div className="bg-white/5 rounded-xl p-4">
-                <div className="text-white/40 text-xs mb-1">Misiones</div>
+                <div className="text-white/40 text-xs mb-1">{lang === 'en' ? 'Missions' : 'Misiones'}</div>
                 <div className="text-white font-black text-3xl">{nivel}</div>
               </div>
               <div className="bg-white/5 rounded-xl p-4">
-                <div className="text-white/40 text-xs mb-1">Puntuación</div>
+                <div className="text-white/40 text-xs mb-1">{tu.puntuacion}</div>
                 <div className="text-white font-black text-3xl">{scoreTotal.toLocaleString()}</div>
               </div>
             </div>
@@ -658,13 +711,13 @@ export default function TuthorTimeRoguelike() {
                 onClick={() => setShowShare(true)}
                 className="w-full bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold py-3 rounded-xl transition"
               >
-                🔗 Compartir resultado
+                {tu.compartir}
               </button>
               <button
                 onClick={() => iniciarPartida(difId)}
                 className="w-full bg-white text-black font-bold py-3 rounded-xl hover:bg-white/90 transition"
               >
-                Intentarlo de nuevo
+                {tu.nuevaRun}
               </button>
               <button
                 onClick={() => setFase('intro')}
