@@ -1,5 +1,6 @@
 import { useState, useMemo } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
+import { useLang } from '../context/LangContext'
 import { PORTADAS } from '../data/portadas'
 
 const CAT_STYLE = {
@@ -29,7 +30,7 @@ function calificacion(aciertos) {
   return { label: 'Insuficiente', nota: Math.max(1, aciertos), color: 'text-red-400' }
 }
 
-function PortadaCard({ p }) {
+function PortadaCard({ p, lang }) {
   const catStyle = CAT_STYLE[p.categoria] || 'bg-white/10 text-white/50 border-white/10'
   return (
     <div
@@ -55,11 +56,11 @@ function PortadaCard({ p }) {
       <div className="mx-5 md:mx-10 border-t-2 border-b border-gray-700" style={{ marginTop: '3px', paddingTop: '1px' }} />
       <div className="px-5 md:px-10 py-4 md:py-6">
         <h2 className="text-lg md:text-2xl font-black leading-snug text-gray-900 mb-3">
-          {p.titular}
+          {(lang === 'en' && p.titularEn) || p.titular}
         </h2>
         <div className="border-t border-b border-gray-300 py-2.5">
           <p className="text-xs md:text-sm leading-relaxed text-gray-600">
-            {p.subtitular}
+            {(lang === 'en' && p.subtitularEn) || p.subtitular}
           </p>
         </div>
       </div>
@@ -72,6 +73,8 @@ const TOTAL = 10
 
 export default function PortadasExamen() {
   const navigate   = useNavigate()
+  const { lang, localPath } = useLang()
+  const en = lang === 'en'
   const location   = useLocation()
   const { categoria, backPath } = location.state || {}
 
@@ -156,13 +159,13 @@ export default function PortadasExamen() {
             onClick={() => { setIdx(0); setAciertos(0); setHistorial([]); setFeedback(null); setFase('jugando') }}
             className="w-full py-3 bg-[#EDAE49] hover:bg-amber-400 text-black font-black rounded-2xl transition-all mb-2"
           >
-            Repetir examen
+            {en ? 'Retake exam' : 'Repetir examen'}
           </button>
           <button
             onClick={() => navigate(backPath || -1)}
             className="w-full py-3 text-white/40 hover:text-white/70 text-sm transition-colors"
           >
-            ← Volver al tema
+            {en ? '← Back to topic' : '← Volver al tema'}
           </button>
         </div>
       </div>
@@ -180,7 +183,7 @@ export default function PortadasExamen() {
           }`}>
             <div className="text-5xl mb-2">{correcto ? '✅' : '❌'}</div>
             <h2 className={`text-3xl font-black ${correcto ? 'text-green-400' : 'text-red-400'}`}>
-              {correcto ? '¡Correcto!' : '¡Incorrecto!'}
+              {correcto ? (en ? 'Correct!' : '¡Correcto!') : (en ? 'Wrong!' : '¡Incorrecto!')}
             </h2>
             <p className="text-white/40 text-sm mt-1">Portada {idx + 1} de {TOTAL}</p>
           </div>
@@ -189,9 +192,9 @@ export default function PortadasExamen() {
             <p className="text-white/30 text-xs uppercase tracking-widest mb-2">El titular era…</p>
             <div className={`flex items-center gap-2 font-black text-lg mb-3 ${p.veracidad ? 'text-green-400' : 'text-red-400'}`}>
               <span>{p.veracidad ? '✓' : '✗'}</span>
-              <span>{p.veracidad ? 'VERDAD' : 'MENTIRA'}</span>
+              <span>{p.veracidad ? (en ? 'TRUE' : 'VERDAD') : (en ? 'FALSE' : 'MENTIRA')}</span>
             </div>
-            <p className="text-white/60 leading-relaxed">{p.explicacion}</p>
+            <p className="text-white/60 leading-relaxed">{(en && p.explicacionEn) || p.explicacion}</p>
           </div>
 
           {/* Mini progreso */}
@@ -256,7 +259,7 @@ export default function PortadasExamen() {
       {/* Layout dos columnas en desktop */}
       <div className="flex-1 flex flex-col md:grid md:grid-cols-[1fr_300px] md:gap-8 md:items-center">
         <div className="mb-5 md:mb-0">
-          <PortadaCard p={portada} />
+          <PortadaCard p={portada} lang={lang} />
         </div>
 
         <div className="flex flex-col gap-4">
@@ -270,13 +273,13 @@ export default function PortadasExamen() {
             onClick={() => handleRespuesta(true)}
             className="py-6 md:py-8 bg-green-700 hover:bg-green-600 text-white font-black text-2xl rounded-2xl transition-all hover:scale-[1.02] active:scale-95 shadow-lg"
           >
-            ✓ VERDAD
+            {en ? '✓ TRUE' : '✓ VERDAD'}
           </button>
           <button
             onClick={() => handleRespuesta(false)}
             className="py-6 md:py-8 bg-red-700 hover:bg-red-600 text-white font-black text-2xl rounded-2xl transition-all hover:scale-[1.02] active:scale-95 shadow-lg"
           >
-            ✗ MENTIRA
+            {en ? '✗ FALSE' : '✗ MENTIRA'}
           </button>
         </div>
       </div>
