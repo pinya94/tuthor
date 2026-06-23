@@ -1,11 +1,12 @@
 import { useState, useEffect, useRef, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { PAISES, NOMBRES_PAISES } from '../data/paises'
+import { useLang } from '../context/LangContext'
 
 const DIFS = {
-  facil:   { label: 'Fácil',   emoji: '🟢', tiempoInicio: 120, obligatorio: false },
-  medio:   { label: 'Medio',   emoji: '🟡', tiempoInicio: 90,  obligatorio: true },
-  dificil: { label: 'Difícil', emoji: '🔴', tiempoInicio: 60,  obligatorio: true },
+  facil:   { label: 'Fácil', labelEn: 'Easy',   emoji: '🟢', tiempoInicio: 120, obligatorio: false },
+  medio:   { label: 'Medio', labelEn: 'Medium', emoji: '🟡', tiempoInicio: 90,  obligatorio: true },
+  dificil: { label: 'Difícil', labelEn: 'Hard', emoji: '🔴', tiempoInicio: 60,  obligatorio: true },
 }
 
 function shuffle(arr) {
