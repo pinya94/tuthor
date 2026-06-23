@@ -37,72 +37,86 @@ import Privacidad from './pages/Privacidad'
 import Comunidad from './pages/Comunidad'
 import Admin from './pages/Admin'
 import CookieBanner, { useCookieConsent } from './components/CookieBanner'
+import { LangProvider } from './context/LangContext'
+
+function AppRoutes() {
+  return (
+    <>
+      <Route index element={<Home />} />
+
+      {/* ── ESTUDIAR ── */}
+      <Route path="estudiar" element={<Estudiar />} />
+      <Route path="estudiar/historia" element={<HistoriaIndex />} />
+      <Route path="estudiar/historia/:categoria" element={<HistoriaTema />} />
+      <Route path="estudiar/matematicas" element={<MatematicasIndex />} />
+      <Route path="estudiar/matematicas/:modo" element={<MatematicasTema />} />
+      <Route path="estudiar/matematicas/:modo/jugar" element={<MatematicasPractica />} />
+      <Route path="estudiar/matematicas/:modo/examen" element={<ExamenMatematicas />} />
+
+      {/* Exámenes */}
+      <Route path="examen/historia" element={<ExamenJuego />} />
+      <Route path="examen/linea-temporal" element={<ExamenLineaTemporal />} />
+
+      {/* ── JUEGOS ── */}
+      <Route path="juegos" element={<Juegos />} />
+      <Route path="juegos/tuthor-time" element={<TuthorTimeRoguelike />} />
+      <Route path="juegos/tuthor-time/clasico" element={<TuthorTime />} />
+      <Route path="juegos/linea-temporal" element={<OrdenTemporal />} />
+      <Route path="juegos/quien-es-quien" element={<QuienEsQuien />} />
+      <Route path="juegos/acercate" element={<AcercateRoguelike />} />
+      <Route path="juegos/acercate/clasico" element={<Acercate />} />
+      <Route path="juegos/portadas" element={<Portadas />} />
+      <Route path="examen/portadas" element={<PortadasExamen />} />
+
+      {/* ── GEOGRAFÍA ── */}
+      <Route path="estudiar/geografia" element={<GeografiaIndex />} />
+      <Route path="estudiar/geografia/:region" element={<GeografiaTema />} />
+      <Route path="examen/geografia" element={<GeoRushExamen />} />
+      <Route path="juegos/georush" element={<GeoRush />} />
+
+      {/* ── INFO / SEO ── */}
+      <Route path="info/juegos" element={<InfoJuegosHub />} />
+      <Route path="info/juegos/:slug" element={<InfoJuegoFicha />} />
+      <Route path="info/estudiar" element={<InfoEstudiar />} />
+      <Route path="info/diaria" element={<InfoDiaria />} />
+
+      {/* ── OTRAS ── */}
+      <Route path="diaria" element={<PreguntaDiaria />} />
+      <Route path="progreso" element={<Progreso />} />
+      <Route path="perfil" element={<Perfil />} />
+      <Route path="privacidad" element={<Privacidad />} />
+      <Route path="comunidad" element={<Comunidad />} />
+      <Route path="admin" element={<Admin />} />
+    </>
+  )
+}
 
 function Layout({ onConsent }) {
   return (
-    <div className="min-h-screen font-sans" style={{ position: 'relative' }}>
-      <div
-        className="fixed inset-0 z-0"
-        style={{
-          backgroundImage: 'url(/fondo.png)',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          filter: 'brightness(0.5)',
-        }}
-      />
-      <Particles />
-      <div className="relative z-10">
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-
-          {/* ── ESTUDIAR ── */}
-          <Route path="/estudiar" element={<Estudiar />} />
-          <Route path="/estudiar/historia" element={<HistoriaIndex />} />
-          <Route path="/estudiar/historia/:categoria" element={<HistoriaTema />} />
-          <Route path="/estudiar/matematicas" element={<MatematicasIndex />} />
-          <Route path="/estudiar/matematicas/:modo" element={<MatematicasTema />} />
-          <Route path="/estudiar/matematicas/:modo/jugar" element={<MatematicasPractica />} />
-          <Route path="/estudiar/matematicas/:modo/examen" element={<ExamenMatematicas />} />
-
-          {/* Exámenes */}
-          <Route path="/examen/historia" element={<ExamenJuego />} />
-          <Route path="/examen/linea-temporal" element={<ExamenLineaTemporal />} />
-
-          {/* ── JUEGOS ── */}
-          <Route path="/juegos" element={<Juegos />} />
-          <Route path="/juegos/tuthor-time" element={<TuthorTimeRoguelike />} />
-          <Route path="/juegos/tuthor-time/clasico" element={<TuthorTime />} />
-          <Route path="/juegos/linea-temporal" element={<OrdenTemporal />} />
-          <Route path="/juegos/quien-es-quien" element={<QuienEsQuien />} />
-          <Route path="/juegos/acercate" element={<AcercateRoguelike />} />
-          <Route path="/juegos/acercate/clasico" element={<Acercate />} />
-          <Route path="/juegos/portadas" element={<Portadas />} />
-          <Route path="/examen/portadas" element={<PortadasExamen />} />
-
-          {/* ── GEOGRAFÍA ── */}
-          <Route path="/estudiar/geografia" element={<GeografiaIndex />} />
-          <Route path="/estudiar/geografia/:region" element={<GeografiaTema />} />
-          <Route path="/examen/geografia" element={<GeoRushExamen />} />
-          <Route path="/juegos/georush" element={<GeoRush />} />
-
-          {/* ── INFO / SEO ── */}
-          <Route path="/info/juegos" element={<InfoJuegosHub />} />
-          <Route path="/info/juegos/:slug" element={<InfoJuegoFicha />} />
-          <Route path="/info/estudiar" element={<InfoEstudiar />} />
-          <Route path="/info/diaria" element={<InfoDiaria />} />
-
-          {/* ── OTRAS ── */}
-          <Route path="/diaria" element={<PreguntaDiaria />} />
-          <Route path="/progreso" element={<Progreso />} />
-          <Route path="/perfil" element={<Perfil />} />
-          <Route path="/privacidad" element={<Privacidad />} />
-          <Route path="/comunidad" element={<Comunidad />} />
-          <Route path="/admin" element={<Admin />} />
-        </Routes>
+    <LangProvider>
+      <div className="min-h-screen font-sans" style={{ position: 'relative' }}>
+        <div
+          className="fixed inset-0 z-0"
+          style={{
+            backgroundImage: 'url(/fondo.png)',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            filter: 'brightness(0.5)',
+          }}
+        />
+        <Particles />
+        <div className="relative z-10">
+          <Navbar />
+          <Routes>
+            {/* Rutas en español (por defecto) */}
+            <Route path="/">{AppRoutes()}</Route>
+            {/* Rutas en inglés (prefijo /en) */}
+            <Route path="/en">{AppRoutes()}</Route>
+          </Routes>
+        </div>
+        <CookieBanner onConsent={onConsent} />
       </div>
-      <CookieBanner onConsent={onConsent} />
-    </div>
+    </LangProvider>
   )
 }
 

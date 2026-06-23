@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+
+  <!-- HOME -->
+  <url>
+    <loc>https://www.tuthor.es/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.tuthor.es/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.tuthor.es/en/" />
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://www.tuthor.es/en/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.tuthor.es/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.tuthor.es/en/" />
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- JUEGOS (app) -->
+  <url>
+    <loc>https://www.tuthor.es/juegos</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.tuthor.es/diaria</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.tuthor.es/estudiar</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- INFO / SEO LANDING PAGES -->
+  <url>
+    <loc>https://www.tuthor.es/info/juegos</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.tuthor.es/info/juegos" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.tuthor.es/en/info/juegos" />
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://www.tuthor.es/en/info/juegos</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.tuthor.es/info/juegos" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.tuthor.es/en/info/juegos" />
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- FICHAS INDIVIDUALES DE JUEGOS -->
+  <url>
+    <loc>https://www.tuthor.es/info/juegos/acercate</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.tuthor.es/info/juegos/acercate" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.tuthor.es/en/info/juegos/acercate" />
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.tuthor.es/info/juegos/tuthor-time</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.tuthor.es/info/juegos/tuthor-time" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.tuthor.es/en/info/juegos/tuthor-time" />
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.tuthor.es/info/juegos/linea-temporal</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.tuthor.es/info/juegos/linea-temporal" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.tuthor.es/en/info/juegos/linea-temporal" />
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.tuthor.es/info/juegos/quien-es-quien</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.tuthor.es/info/juegos/quien-es-quien" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.tuthor.es/en/info/juegos/quien-es-quien" />
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.tuthor.es/info/juegos/portadas</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.tuthor.es/info/juegos/portadas" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.tuthor.es/en/info/juegos/portadas" />
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.tuthor.es/info/juegos/georush</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.tuthor.es/info/juegos/georush" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.tuthor.es/en/info/juegos/georush" />
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- INFO ESTUDIAR -->
+  <url>
+    <loc>https://www.tuthor.es/info/estudiar</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.tuthor.es/info/estudiar" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.tuthor.es/en/info/estudiar" />
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://www.tuthor.es/en/info/estudiar</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.tuthor.es/info/estudiar" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.tuthor.es/en/info/estudiar" />
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- INFO DIARIA -->
+  <url>
+    <loc>https://www.tuthor.es/info/diaria</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.tuthor.es/info/diaria" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.tuthor.es/en/info/diaria" />
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://www.tuthor.es/en/info/diaria</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.tuthor.es/info/diaria" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.tuthor.es/en/info/diaria" />
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- ESTUDIAR SECCIONES -->
+  <url><loc>https://www.tuthor.es/estudiar/historia</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/estudiar/matematicas</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/estudiar/geografia</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/estudiar/historia/gce</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.tuthor.es/estudiar/historia/wwii</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.tuthor.es/estudiar/historia/usa</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.tuthor.es/estudiar/historia/roma</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.tuthor.es/estudiar/geografia/europa</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.tuthor.es/estudiar/geografia/america</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.tuthor.es/estudiar/geografia/asia</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.tuthor.es/estudiar/geografia/africa</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.tuthor.es/estudiar/geografia/oceania</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+
+  <!-- JUEGOS INDIVIDUALES -->
+  <url><loc>https://www.tuthor.es/juegos/acercate</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/juegos/tuthor-time</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/juegos/linea-temporal</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/juegos/quien-es-quien</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/juegos/portadas</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/juegos/georush</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+
+  <!-- LEGAL -->
+  <url><loc>https://www.tuthor.es/privacidad</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
+</urlset>

@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Allow: /info/
+Allow: /en/
+
+Disallow: /admin
+Disallow: /perfil
+
+Sitemap: https://www.tuthor.es/sitemap.xml
