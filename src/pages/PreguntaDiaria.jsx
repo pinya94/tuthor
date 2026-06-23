@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useMemo } from 'react'
 import { useAuth } from '../context/AuthContext'
+import { useLang } from '../context/LangContext'
 import { getDailyStatus, saveDailyChallenge } from '../lib/activity'
 import { getDesafioDeHoy } from '../data/preguntasDiarias'
 import { PAISES, NOMBRES_PAISES } from '../data/paises'
@@ -63,6 +64,8 @@ function GeoInput({ value, onChange, onSubmit, disabled }) {
 
 export default function PreguntaDiaria() {
   const { user } = useAuth()
+  const { lang } = useLang()
+  const en = lang === 'en'
   const [selected, setSelected]   = useState(null)
   const [answered, setAnswered]   = useState(false)
   const [dailyDone, setDailyDone] = useState(false)
@@ -132,7 +135,7 @@ export default function PreguntaDiaria() {
     if (answered) return
     const paisResp = PAISES.find(p => p.nombre === nombreInput)
     if (!paisResp) {
-      setGeoFeedback({ ok: false, msg: 'País no reconocido' })
+      setGeoFeedback({ ok: false, msg: en ? 'Country not recognised' : 'País no reconocido' })
       setTimeout(() => setGeoFeedback(null), 1200)
       return
     }
@@ -147,14 +150,14 @@ export default function PreguntaDiaria() {
     }
     // Advance to next clue
     setGeoInput('')
-    setGeoFeedback({ ok: false, msg: `No es ${nombreInput}` })
+    setGeoFeedback({ ok: false, msg: en ? `Not ${nombreInput}` : `No es ${nombreInput}` })
     setTimeout(() => {
       setGeoFeedback(null)
       if (geoPistaIdx + 1 < geoPistas.length) {
         setGeoPistaIdx(i => i + 1)
       } else {
         setAnswered(true)
-        setGeoFeedback({ ok: false, msg: `Era ${paisHoy.nombre}` })
+        setGeoFeedback({ ok: false, msg: en ? `It was ${paisHoy.nombre}` : `Era ${paisHoy.nombre}` })
         if (user) saveDailyChallenge(user.uid, false)
       }
     }, 1000)
@@ -179,27 +182,27 @@ export default function PreguntaDiaria() {
         <div className="bg-gradient-to-r from-orange-500 to-rose-600 px-6 sm:px-8 py-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-orange-100 text-xs font-medium">Reto de hoy</p>
-              <h2 className="text-2xl font-black text-white mt-0.5">Pregunta Diaria</h2>
+              <p className="text-orange-100 text-xs font-medium">{en ? "Today's challenge" : 'Reto de hoy'}</p>
+              <h2 className="text-2xl font-black text-white mt-0.5">{en ? 'Daily Challenge' : 'Pregunta Diaria'}</h2>
             </div>
             <div className="text-right">
-              <p className="text-orange-100 text-xs">Racha diaria</p>
+              <p className="text-orange-100 text-xs">{en ? 'Daily streak' : 'Racha diaria'}</p>
               <p className="text-3xl font-black text-white">🔥 {streak}</p>
             </div>
           </div>
         </div>
 
         {loading ? (
-          <div className="px-6 py-12 text-center text-white/30 text-sm">Cargando...</div>
+          <div className="px-6 py-12 text-center text-white/30 text-sm">{en ? 'Loading...' : 'Cargando...'}</div>
         ) : dailyDone ? (
           /* ── Ya completado hoy ── */
           <div className="px-6 sm:px-8 py-10 text-center">
             <p className="text-5xl mb-4">✅</p>
-            <h3 className="text-xl font-black text-white mb-2">¡Ya lo hiciste hoy!</h3>
-            <p className="text-white/40 text-sm mb-6">Vuelve mañana para un nuevo reto y seguir tu racha.</p>
+            <h3 className="text-xl font-black text-white mb-2">{en ? 'Already done today!' : '¡Ya lo hiciste hoy!'}</h3>
+            <p className="text-white/40 text-sm mb-6">{en ? 'Come back tomorrow for a new challenge.' : 'Vuelve mañana para un nuevo reto y seguir tu racha.'}</p>
             <div className="bg-amber-500/10 border border-amber-500/30 rounded-2xl p-4">
-              <p className="text-amber-400 font-bold text-lg">🔥 {streak} {streak === 1 ? 'día' : 'días'} seguidos</p>
-              <p className="text-white/30 text-xs mt-1">¡No rompas la racha!</p>
+              <p className="text-amber-400 font-bold text-lg">🔥 {streak} {en ? (streak === 1 ? 'day' : 'days') : (streak === 1 ? 'día' : 'días')} {en ? 'in a row' : 'seguidos'}</p>
+              <p className="text-white/30 text-xs mt-1">{en ? "Don't break the streak!" : '¡No rompas la racha!'}</p>
             </div>
           </div>
         ) : esPortada ? (
@@ -207,7 +210,7 @@ export default function PreguntaDiaria() {
           <>
             <div className="px-6 sm:px-8 py-4">
               <p className="text-xs font-semibold text-white/40 uppercase tracking-widest mb-3">
-                📰 Portada histórica · ¿Verdad o mentira?
+                {en ? '📰 Historical headline · True or false?' : '📰 Portada histórica · ¿Verdad o mentira?'}
               </p>
               {/* Mini portada */}
               <div
@@ -220,8 +223,8 @@ export default function PreguntaDiaria() {
                   <h2 className="text-base font-black uppercase tracking-wide text-gray-900 leading-tight">{portadaHoy.periodico}</h2>
                 </div>
                 <div className="px-4 py-3">
-                  <p className="text-sm font-black text-gray-900 leading-snug mb-2">{portadaHoy.titular}</p>
-                  <p className="text-[11px] text-gray-500 leading-relaxed border-t border-gray-200 pt-2">{portadaHoy.subtitular}</p>
+                  <p className="text-sm font-black text-gray-900 leading-snug mb-2">{(en && portadaHoy.titularEn) || portadaHoy.titular}</p>
+                  <p className="text-[11px] text-gray-500 leading-relaxed border-t border-gray-200 pt-2">{(en && portadaHoy.subtitularEn) || portadaHoy.subtitular}</p>
                 </div>
                 <div className="h-1.5 bg-gray-900 mx-4 mb-3 rounded-sm" />
               </div>
@@ -232,13 +235,13 @@ export default function PreguntaDiaria() {
                     onClick={() => confirmarPortada(true)}
                     className="py-4 bg-green-700 hover:bg-green-600 text-white font-black text-lg rounded-xl transition-all active:scale-95"
                   >
-                    ✓ VERDAD
+                    {en ? '✓ TRUE' : '✓ VERDAD'}
                   </button>
                   <button
                     onClick={() => confirmarPortada(false)}
                     className="py-4 bg-red-700 hover:bg-red-600 text-white font-black text-lg rounded-xl transition-all active:scale-95"
                   >
-                    ✗ MENTIRA
+                    {en ? '✗ FALSE' : '✗ MENTIRA'}
                   </button>
                 </div>
               ) : (
@@ -249,23 +252,23 @@ export default function PreguntaDiaria() {
                       : 'bg-red-500/20 text-red-400'
                   }`}>
                     {(selected === 'true') === portadaHoy.veracidad
-                      ? `🎉 ¡Correcto! Era ${portadaHoy.veracidad ? 'VERDAD' : 'MENTIRA'}`
-                      : `❌ Era ${portadaHoy.veracidad ? 'VERDAD' : 'MENTIRA'}`
+                      ? (en ? `🎉 Correct! It was ${portadaHoy.veracidad ? 'TRUE' : 'FALSE'}` : `🎉 ¡Correcto! Era ${portadaHoy.veracidad ? 'VERDAD' : 'MENTIRA'}`)
+                      : (en ? `❌ It was ${portadaHoy.veracidad ? 'TRUE' : 'FALSE'}` : `❌ Era ${portadaHoy.veracidad ? 'VERDAD' : 'MENTIRA'}`)
                     }
                   </div>
                   <div className="bg-white/5 border border-white/10 rounded-xl p-4">
-                    <p className="text-white/60 text-sm leading-relaxed">💡 {portadaHoy.explicacion}</p>
+                    <p className="text-white/60 text-sm leading-relaxed">💡 {(en && portadaHoy.explicacionEn) || portadaHoy.explicacion}</p>
                   </div>
                   {!user && (
                     <button onClick={() => setShowAuth(true)} className="mt-3 w-full bg-amber-500/20 border border-amber-500/30 text-amber-400 font-semibold py-2.5 rounded-xl text-sm hover:bg-amber-500/30 transition-colors">
-                      Inicia sesión para guardar tu racha 🔥
+                      {en ? 'Sign in to save your streak 🔥' : 'Inicia sesión para guardar tu racha 🔥'}
                     </button>
                   )}
                 </>
               )}
             </div>
             <div className="px-6 sm:px-8 pb-6">
-              <p className="text-center text-white/20 text-xs">Nueva portada mañana · Vuelve cada día</p>
+              <p className="text-center text-white/20 text-xs">{en ? 'New headline tomorrow · Come back every day' : 'Nueva portada mañana · Vuelve cada día'}</p>
             </div>
           </>
         ) : esGeoRush ? (
@@ -273,7 +276,7 @@ export default function PreguntaDiaria() {
           <>
             <div className="px-6 sm:px-8 py-4">
               <p className="text-xs font-semibold text-white/40 uppercase tracking-widest mb-3">
-                🌍 Adivina el país · GeoRush
+                {en ? '🌍 Guess the country · GeoRush' : '🌍 Adivina el país · GeoRush'}
               </p>
               {/* Pistas */}
               <div className="space-y-2 mb-4">
@@ -290,7 +293,7 @@ export default function PreguntaDiaria() {
                 {!answered && geoPistas.slice(geoPistaIdx + 1).map((_, i) => (
                   <div key={`l-${i}`} className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm bg-white/3 border border-white/5 text-white/15">
                     <span className="text-xs opacity-40">{geoPistas[geoPistaIdx + 1 + i]?.tipo === 'regalo' ? '🎁' : '🔒'}</span>
-                    <span>Pista oculta</span>
+                    <span>{en ? 'Hidden clue' : 'Pista oculta'}</span>
                   </div>
                 ))}
               </div>
@@ -315,14 +318,14 @@ export default function PreguntaDiaria() {
                   </div>
                   {!user && (
                     <button onClick={() => setShowAuth(true)} className="mt-3 w-full bg-amber-500/20 border border-amber-500/30 text-amber-400 font-semibold py-2.5 rounded-xl text-sm hover:bg-amber-500/30 transition-colors">
-                      Inicia sesión para guardar tu racha 🔥
+                      {en ? 'Sign in to save your streak 🔥' : 'Inicia sesión para guardar tu racha 🔥'}
                     </button>
                   )}
                 </>
               )}
             </div>
             <div className="px-6 sm:px-8 pb-6">
-              <p className="text-center text-white/20 text-xs">Nuevo país mañana · Vuelve cada día</p>
+              <p className="text-center text-white/20 text-xs">{en ? 'New country tomorrow · Come back every day' : 'Nuevo país mañana · Vuelve cada día'}</p>
             </div>
           </>
         ) : esMate ? (
@@ -390,11 +393,11 @@ export default function PreguntaDiaria() {
                     disabled={!selected}
                     className="w-full bg-violet-600 disabled:opacity-30 text-white font-bold py-3 rounded-xl hover:bg-violet-700 transition-colors disabled:cursor-not-allowed"
                   >
-                    Confirmar respuesta →
+                    {en ? 'Confirm answer →' : 'Confirmar respuesta →'}
                   </button>
                   {!user && (
                     <p className="text-center text-white/30 text-xs mt-3">
-                      <button onClick={() => setShowAuth(true)} className="underline hover:text-white/60">Inicia sesión</button> para guardar tu racha
+                      <button onClick={() => setShowAuth(true)} className="underline hover:text-white/60">{en ? 'Sign in' : 'Inicia sesión'}</button> {en ? 'to save your streak' : 'para guardar tu racha'}
                     </p>
                   )}
                 </>
@@ -410,12 +413,12 @@ export default function PreguntaDiaria() {
                   )}
                   {!user && (
                     <button onClick={() => setShowAuth(true)} className="mt-4 w-full bg-amber-500/20 border border-amber-500/30 text-amber-400 font-semibold py-2.5 rounded-xl text-sm hover:bg-amber-500/30 transition-colors">
-                      Inicia sesión para guardar tu racha 🔥
+                      {en ? 'Sign in to save your streak 🔥' : 'Inicia sesión para guardar tu racha 🔥'}
                     </button>
                   )}
                 </>
               )}
-              <p className="text-center text-white/20 text-xs mt-4">Nueva pregunta mañana · Vuelve cada día</p>
+              <p className="text-center text-white/20 text-xs mt-4">{en ? 'New question tomorrow · Come back every day' : 'Nueva pregunta mañana · Vuelve cada día'}</p>
             </div>
           </>
         )}
