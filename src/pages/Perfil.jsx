@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useAuth } from '../context/AuthContext'
+import { useLang } from '../context/LangContext'
 import { getStats, formatTime } from '../lib/activity'
 import { useNavigate } from 'react-router-dom'
 
@@ -49,14 +50,16 @@ function resolveLabel(key, map) {
 
 export default function Perfil() {
   const { user, logout } = useAuth()
+  const { lang, localPath } = useLang()
   const navigate = useNavigate()
+  const en = lang === 'en'
   const [stats, setStats] = useState(null)
   const [loading, setLoading] = useState(true)
   const [showAllGames, setShowAllGames] = useState(false)
   const [showAllCats, setShowAllCats] = useState(false)
 
   useEffect(() => {
-    if (!user) { navigate('/'); return }
+    if (!user) { navigate(localPath('/')); return }
     getStats(user.uid).then(s => { setStats(s); setLoading(false) })
   }, [user])
 
@@ -98,7 +101,7 @@ export default function Perfil() {
           </div>
           <button onClick={logout}
             className="ml-auto text-white/30 hover:text-white/70 text-sm border border-white/10 hover:border-white/30 px-3 py-1.5 rounded-lg transition-all">
-            Cerrar sesión
+            {en ? 'Sign out' : 'Cerrar sesión'}
           </button>
         </div>
 
@@ -114,10 +117,10 @@ export default function Perfil() {
             {/* Stats resumen */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
               {[
-                { label: 'Racha', value: `${streak}`, sub: streak === 1 ? 'día' : 'días', emoji: '🔥' },
-                { label: 'Tiempo', value: formatTime(stats.totalTime), emoji: '⏱️' },
-                { label: 'Actividades', value: stats.gamesPlayed ?? 0, emoji: '🎮' },
-                { label: 'Aprobados', value: stats.examsPassed ?? 0, emoji: '✅' },
+                { label: en ? 'Streak' : 'Racha', value: `${streak}`, sub: en ? (streak === 1 ? 'day' : 'days') : (streak === 1 ? 'día' : 'días'), emoji: '🔥' },
+                { label: en ? 'Time' : 'Tiempo', value: formatTime(stats.totalTime), emoji: '⏱️' },
+                { label: en ? 'Activities' : 'Actividades', value: stats.gamesPlayed ?? 0, emoji: '🎮' },
+                { label: en ? 'Passed' : 'Aprobados', value: stats.examsPassed ?? 0, emoji: '✅' },
               ].map(s => (
                 <div key={s.label} className="bg-white/5 border border-white/10 rounded-2xl p-4 text-center">
                   <span className="text-2xl block mb-1">{s.emoji}</span>
@@ -130,24 +133,24 @@ export default function Perfil() {
             {/* Reto diario */}
             <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-4">
               <div className="flex items-center justify-between mb-3">
-                <h2 className="font-black text-white">📅 Reto Diario</h2>
+                <h2 className="font-black text-white">📅 {en ? 'Daily Challenge' : 'Reto Diario'}</h2>
                 <span className={`text-xs font-bold px-3 py-1 rounded-full border ${dailyDoneToday ? 'border-green-500/40 bg-green-500/10 text-green-400' : 'border-amber-500/40 bg-amber-500/10 text-amber-400'}`}>
-                  {dailyDoneToday ? '✓ Hecho hoy' : 'Pendiente hoy'}
+                  {dailyDoneToday ? (en ? '✓ Done today' : '✓ Hecho hoy') : (en ? 'Pending today' : 'Pendiente hoy')}
                 </span>
               </div>
               <div className="flex items-center gap-4">
                 <div className="flex-1 bg-black/20 rounded-xl p-3 text-center">
                   <p className="text-2xl font-black text-white">🔥 {dailyStreak}</p>
-                  <p className="text-white/40 text-xs mt-0.5">días seguidos</p>
+                  <p className="text-white/40 text-xs mt-0.5">{en ? 'days in a row' : 'días seguidos'}</p>
                 </div>
                 <div className="flex-1 bg-black/20 rounded-xl p-3 text-center">
                   <p className="text-2xl font-black text-white">{stats.dailyTotal ?? 0}</p>
-                  <p className="text-white/40 text-xs mt-0.5">retos totales</p>
+                  <p className="text-white/40 text-xs mt-0.5">{en ? 'total challenges' : 'retos totales'}</p>
                 </div>
               </div>
               {!dailyDoneToday && (
                 <a href="/diaria" className="mt-3 flex items-center justify-center gap-2 w-full bg-orange-500/20 border border-orange-500/30 text-orange-400 font-semibold py-2.5 rounded-xl text-sm hover:bg-orange-500/30 transition-colors">
-                  Hacer el reto de hoy →
+                  {en ? "Do today's challenge →" : 'Hacer el reto de hoy →'}
                 </a>
               )}
             </div>
@@ -155,7 +158,7 @@ export default function Perfil() {
             {/* Por juego */}
             {gameEntries.length > 0 && (
               <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-4">
-                <h2 className="font-black text-white mb-4">🎮 Por juego</h2>
+                <h2 className="font-black text-white mb-4">🎮 {en ? 'By game' : 'Por juego'}</h2>
                 <div className="space-y-1">
                   {visibleGames.map((g, i) => (
                     <div key={g.key} className="flex items-center gap-3 py-3 border-b border-white/5 last:border-0">
@@ -164,7 +167,7 @@ export default function Perfil() {
                       <div className="flex items-center gap-4 text-right">
                         <div className="text-center min-w-[40px]">
                           <p className="text-white font-bold text-sm">{g.plays}</p>
-                          <p className="text-white/30 text-[10px]">partidas</p>
+                          <p className="text-white/30 text-[10px]">{en ? 'games' : 'partidas'}</p>
                         </div>
                         <div className="text-center min-w-[48px]">
                           <p className="text-white font-bold text-sm">{formatTime(g.timeSpent)}</p>
@@ -192,7 +195,7 @@ export default function Perfil() {
             {/* Por materia */}
             {catEntries.length > 0 && (
               <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-4">
-                <h2 className="font-black text-white mb-4">📚 Por materia</h2>
+                <h2 className="font-black text-white mb-4">📚 {en ? 'By subject' : 'Por materia'}</h2>
                 <div className="space-y-1">
                   {visibleCats.map(c => (
                     <div key={c.key} className="flex items-center gap-3 py-3 border-b border-white/5 last:border-0">
