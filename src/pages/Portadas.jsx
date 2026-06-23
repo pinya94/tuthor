@@ -61,8 +61,10 @@ function shuffle(arr) {
   return a
 }
 
-function PortadaCard({ p }) {
+function PortadaCard({ p, lang }) {
   const catStyle = CAT_STYLE[p.categoria] || 'bg-white/10 text-white/50 border-white/10'
+  const titular = (lang === 'en' && p.titularEn) ? p.titularEn : p.titular
+  const subtitular = (lang === 'en' && p.subtitularEn) ? p.subtitularEn : p.subtitular
   return (
     <div
       className="bg-[#f5f0e3] rounded-2xl overflow-hidden shadow-2xl border border-[#c8b89a]"
@@ -90,11 +92,11 @@ function PortadaCard({ p }) {
 
       <div className="px-5 md:px-10 py-4 md:py-7">
         <h2 className="text-lg md:text-3xl font-black leading-snug text-gray-900 mb-3 md:mb-5">
-          {p.titular}
+          {titular}
         </h2>
         <div className="border-t border-b border-gray-300 py-2.5 md:py-4">
           <p className="text-xs md:text-base leading-relaxed text-gray-600">
-            {p.subtitular}
+            {subtitular}
           </p>
         </div>
       </div>
@@ -313,7 +315,7 @@ export default function Portadas() {
 
           {/* Portada */}
           <div className="mb-5 md:mb-0">
-            <PortadaCard p={portada} />
+            <PortadaCard p={portada} lang={lang} />
           </div>
 
           {/* Botones + info lateral */}
@@ -385,7 +387,7 @@ export default function Portadas() {
               <span>{p.veracidad ? '✓' : '✗'}</span>
               <span>{p.veracidad ? (lang === 'en' ? 'TRUE' : 'VERDAD') : (lang === 'en' ? 'FALSE' : 'MENTIRA')}</span>
             </div>
-            <p className="text-white/60 leading-relaxed">{p.explicacion}</p>
+            <p className="text-white/60 leading-relaxed">{(lang === 'en' && p.explicacionEn) ? p.explicacionEn : p.explicacion}</p>
           </div>
 
           <button
