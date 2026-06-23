@@ -1,66 +1,85 @@
 import { Link } from 'react-router-dom'
+import { useLang } from '../context/LangContext'
 
-const CATEGORIAS = [
-  {
-    titulo: 'Matemáticas y Cálculo Mental',
-    emoji: '📐',
-    texto: 'El bloque de matemáticas está diseñado para desarrollar la agilidad numérica y romper la barrera ante el cálculo abstracto. A través de mecánicas de puzzle y roguelike, los estudiantes interiorizan operaciones aritméticas de forma natural, sin la presión de los ejercicios tradicionales.',
-    juegos: [
-      { slug: 'acercate', titulo: 'Acércate al Número', desc: 'Combina operaciones para llegar al número objetivo. Roguelike con mejoras entre niveles.', emoji: '🎯', gradient: 'from-pink-600 to-rose-800', tags: ['Mates','Roguelike'] },
+const DATA = {
+  es: {
+    h1: 'Juegos Educativos Online',
+    intro: 'Herramientas interactivas diseñadas por docentes para facilitar el estudio de asignaturas clave en Primaria, Secundaria y Bachillerato.',
+    body: 'Nuestro método combina la ciencia pedagógica con la gamificación para mejorar el rendimiento escolar desde casa. Cada juego activa habilidades cognitivas reales mientras el alumno se divierte.',
+    proximamente: 'Ciencias, Idiomas y más — Próximamente',
+    proximamenteTexto: 'Estamos desarrollando juegos de ciencias naturales, vocabulario en inglés, química elemental y física aplicada. Todos seguirán el mismo enfoque: aprender jugando, con base científica y adaptados a los temarios oficiales.',
+    cta: 'Ir a jugar ahora →',
+    verMas: 'Ver beneficios y jugar →',
+    categorias: [
+      { titulo: 'Matemáticas y Cálculo Mental', emoji: '📐', texto: 'El bloque de matemáticas está diseñado para desarrollar la agilidad numérica y romper la barrera ante el cálculo abstracto. A través de mecánicas de puzzle y roguelike, los estudiantes interiorizan operaciones aritméticas de forma natural.' },
+      { titulo: 'Historia y Ciencias Sociales', emoji: '⏳', texto: 'Aprender fechas, contextos y personajes históricos no tiene por qué ser memorización pasiva. Nuestros juegos convierten los temarios oficiales en experiencias interactivas que fijan los conceptos de forma duradera.' },
+      { titulo: 'Geografía', emoji: '🌍', texto: 'La geografía cobra vida cuando tienes que pensar rápido. Aprende países, continentes, ríos y montañas a través de pistas progresivas que te obligan a conectar datos geográficos en tiempo real.' },
     ],
   },
-  {
-    titulo: 'Historia y Ciencias Sociales',
-    emoji: '⏳',
-    texto: 'Aprender fechas, contextos y personajes históricos no tiene por qué ser memorización pasiva. Nuestros juegos convierten los temarios oficiales de la Guerra Civil, la Segunda Guerra Mundial o la Independencia Americana en experiencias interactivas que fijan los conceptos de forma duradera.',
-    juegos: [
-      { slug: 'tuthor-time', titulo: 'Tuthor Time', desc: 'Viaja en el tiempo y acierta el año de cada evento histórico. Cuida a tus agentes temporales.', emoji: '🕰️', gradient: 'from-amber-600 to-orange-800', tags: ['Historia','Fechas'] },
-      { slug: 'linea-temporal', titulo: 'Línea Temporal', desc: 'Ordena eventos históricos cronológicamente sin ver fechas. Pura intuición histórica.', emoji: '📜', gradient: 'from-emerald-600 to-teal-800', tags: ['Historia','Orden'] },
-      { slug: 'quien-es-quien', titulo: '¿Quién es Quién?', desc: 'Descubre el personaje histórico secreto usando pistas lógicas. Tacha y adivina.', emoji: '🕵️', gradient: 'from-violet-600 to-purple-900', tags: ['Historia','Deducción'] },
+  en: {
+    h1: 'Online Educational Games',
+    intro: 'Interactive tools designed by teachers to make studying key subjects in Primary, Secondary and Sixth Form easier.',
+    body: 'Our method combines pedagogical science with gamification to improve school performance from home. Every game activates real cognitive skills while the student has fun.',
+    proximamente: 'Science, Languages & more — Coming soon',
+    proximamenteTexto: 'We are developing games for natural sciences, English vocabulary, basic chemistry and applied physics. All will follow the same approach: learning through play, evidence-based and aligned with official syllabuses.',
+    cta: 'Start playing now →',
+    verMas: 'See benefits & play →',
+    categorias: [
+      { titulo: 'Maths & Mental Arithmetic', emoji: '📐', texto: 'The maths module is designed to build numerical agility and break through the barrier of abstract calculation. Through puzzle and roguelike mechanics, students internalise arithmetic operations naturally.' },
+      { titulo: 'History & Social Sciences', emoji: '⏳', texto: 'Learning dates, contexts and historical figures does not have to be passive memorisation. Our games turn official syllabuses into interactive experiences that make concepts stick.' },
+      { titulo: 'Geography', emoji: '🌍', texto: 'Geography comes alive when you have to think fast. Learn countries, continents, rivers and mountains through progressive clues that force you to connect geographical data in real time.' },
+    ],
+  },
+}
+
+const JUEGOS = {
+  es: [
+    [{ slug: 'acercate', titulo: 'Acércate al Número', desc: 'Combina operaciones para llegar al número objetivo. Roguelike con mejoras entre niveles.', emoji: '🎯', gradient: 'from-pink-600 to-rose-800', tags: ['Mates','Roguelike'] }],
+    [
+      { slug: 'tuthor-time', titulo: 'Tuthor Time', desc: 'Viaja en el tiempo y acierta el año de cada evento histórico.', emoji: '🕰️', gradient: 'from-amber-600 to-orange-800', tags: ['Historia','Fechas'] },
+      { slug: 'linea-temporal', titulo: 'Línea Temporal', desc: 'Ordena eventos históricos cronológicamente sin ver fechas.', emoji: '📜', gradient: 'from-emerald-600 to-teal-800', tags: ['Historia','Orden'] },
+      { slug: 'quien-es-quien', titulo: '¿Quién es Quién?', desc: 'Descubre el personaje histórico secreto usando pistas lógicas.', emoji: '🕵️', gradient: 'from-violet-600 to-purple-900', tags: ['Historia','Deducción'] },
       { slug: 'portadas', titulo: 'Portadas', desc: 'Lee titulares de periódicos históricos y decide si son verdad o mentira.', emoji: '📰', gradient: 'from-stone-600 to-neutral-800', tags: ['Historia','Crítico'] },
     ],
-  },
-  {
-    titulo: 'Geografía',
-    emoji: '🌍',
-    texto: 'La geografía cobra vida cuando tienes que pensar rápido. Aprende países, continentes, ríos y montañas a través de pistas progresivas que te obligan a conectar datos geográficos en tiempo real.',
-    juegos: [
-      { slug: 'georush', titulo: 'GeoRush', desc: 'Adivina el país misterioso a partir de pistas geográficas, demográficas e históricas.', emoji: '🌍', gradient: 'from-teal-500 to-cyan-700', tags: ['Geografía','Pistas'] },
+    [{ slug: 'georush', titulo: 'GeoRush', desc: 'Adivina el país misterioso a partir de pistas geográficas.', emoji: '🌍', gradient: 'from-teal-500 to-cyan-700', tags: ['Geografía','Pistas'] }],
+  ],
+  en: [
+    [{ slug: 'acercate', titulo: 'Target Number', desc: 'Combine operations to reach the target number. Roguelike with upgrades between levels.', emoji: '🎯', gradient: 'from-pink-600 to-rose-800', tags: ['Maths','Roguelike'] }],
+    [
+      { slug: 'tuthor-time', titulo: 'Tuthor Time', desc: 'Travel through time and guess the year of each historical event.', emoji: '🕰️', gradient: 'from-amber-600 to-orange-800', tags: ['History','Dates'] },
+      { slug: 'linea-temporal', titulo: 'Timeline', desc: 'Place historical events in chronological order without seeing dates.', emoji: '📜', gradient: 'from-emerald-600 to-teal-800', tags: ['History','Order'] },
+      { slug: 'quien-es-quien', titulo: 'Who is Who?', desc: 'Discover the secret historical figure using logical clues.', emoji: '🕵️', gradient: 'from-violet-600 to-purple-900', tags: ['History','Deduction'] },
+      { slug: 'portadas', titulo: 'Headlines', desc: 'Read historical newspaper headlines and decide if they are true or false.', emoji: '📰', gradient: 'from-stone-600 to-neutral-800', tags: ['History','Critical'] },
     ],
-  },
-]
+    [{ slug: 'georush', titulo: 'GeoRush', desc: 'Guess the mystery country from geographical, demographic and historical clues.', emoji: '🌍', gradient: 'from-teal-500 to-cyan-700', tags: ['Geography','Clues'] }],
+  ],
+}
 
 export default function InfoJuegosHub() {
+  const { lang, localPath } = useLang()
+  const d = DATA[lang] || DATA.es
+  const juegos = JUEGOS[lang] || JUEGOS.es
+
   return (
     <div className="relative z-10">
-      {/* Header oscuro con el estilo de la app */}
       <div className="px-4 sm:px-8 py-10 max-w-4xl mx-auto">
-        <Link to="/" className="text-white/30 hover:text-white/60 text-sm mb-8 inline-flex items-center gap-1 transition-colors">
-          ← Inicio
+        <Link to={localPath('/')} className="text-white/30 hover:text-white/60 text-sm mb-8 inline-flex items-center gap-1 transition-colors">
+          ← {lang === 'en' ? 'Home' : 'Inicio'}
         </Link>
-
         <header className="text-center mb-8">
-          <h1 className="text-3xl sm:text-4xl font-black text-white mb-3">
-            Juegos Educativos Online
-          </h1>
-          <p className="text-white/50 max-w-2xl mx-auto leading-relaxed">
-            Herramientas interactivas diseñadas por docentes para facilitar el estudio de
-            asignaturas clave en Primaria, Secundaria y Bachillerato.
-          </p>
+          <h1 className="text-3xl sm:text-4xl font-black text-white mb-3">{d.h1}</h1>
+          <p className="text-white/50 max-w-2xl mx-auto leading-relaxed">{d.intro}</p>
         </header>
       </div>
 
-      {/* Contenido SEO sobre fondo claro */}
       <div className="bg-[#f5f5f0] text-gray-900 rounded-t-[2rem] sm:rounded-t-[3rem]">
         <div className="max-w-4xl mx-auto px-4 sm:px-8 py-12 space-y-10">
 
-          <p className="text-gray-600 leading-relaxed max-w-2xl mx-auto text-center text-lg">
-            Nuestro método combina la ciencia pedagógica con la gamificación para mejorar
-            el rendimiento escolar desde casa. Cada juego activa habilidades cognitivas reales
-            mientras el alumno se divierte.
-          </p>
+          <p className="text-gray-600 leading-relaxed max-w-2xl mx-auto text-center text-lg">{d.body}</p>
 
-          {CATEGORIAS.map((cat, catIdx) => (
+          <aside className="ad-slot" aria-label="Publicidad" data-ad-slot="info-juegos" style={{ minHeight: '90px' }} />
+
+          {d.categorias.map((cat, catIdx) => (
             <section key={cat.titulo}>
               <div className="flex items-center gap-3 mb-3">
                 <span className="text-3xl">{cat.emoji}</span>
@@ -69,8 +88,8 @@ export default function InfoJuegosHub() {
               <p className="text-gray-500 leading-relaxed mb-6 max-w-3xl">{cat.texto}</p>
 
               <div className="grid gap-4 sm:grid-cols-2">
-                {cat.juegos.map(j => (
-                  <Link key={j.slug} to={`/info/juegos/${j.slug}`}
+                {juegos[catIdx].map(j => (
+                  <Link key={j.slug} to={localPath(`/info/juegos/${j.slug}`)}
                     className="group bg-white rounded-2xl border border-gray-200 hover:border-gray-300 overflow-hidden transition-all hover:shadow-lg hover:shadow-gray-200/50 hover:scale-[1.01]">
                     <div className={`bg-gradient-to-br ${j.gradient} h-28 flex items-center justify-center relative overflow-hidden`}>
                       <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '20px 20px' }} />
@@ -82,19 +101,15 @@ export default function InfoJuegosHub() {
                       </div>
                     </div>
                     <div className="p-5">
-                      <h3 className="font-black text-gray-900 text-lg group-hover:text-teal-600 transition-colors mb-1">
-                        {j.titulo}
-                      </h3>
+                      <h3 className="font-black text-gray-900 text-lg group-hover:text-teal-600 transition-colors mb-1">{j.titulo}</h3>
                       <p className="text-gray-500 text-sm leading-relaxed mb-3">{j.desc}</p>
-                      <span className="text-sm font-semibold text-teal-600 group-hover:text-teal-500 transition-colors">
-                        Ver beneficios y jugar →
-                      </span>
+                      <span className="text-sm font-semibold text-teal-600 group-hover:text-teal-500 transition-colors">{d.verMas}</span>
                     </div>
                   </Link>
                 ))}
               </div>
 
-              {catIdx < CATEGORIAS.length - 1 && (
+              {catIdx < d.categorias.length - 1 && (
                 <>
                   <aside className="ad-slot" aria-label="Publicidad" data-ad-slot={`info-juegos-${catIdx}`} style={{ minHeight: '90px', marginTop: '2rem' }} />
                   <hr className="border-gray-200 mt-6" />
@@ -106,21 +121,17 @@ export default function InfoJuegosHub() {
           <section>
             <div className="flex items-center gap-3 mb-3">
               <span className="text-3xl">🔬</span>
-              <h2 className="text-2xl font-black text-gray-900">Ciencias, Idiomas y más — Próximamente</h2>
+              <h2 className="text-2xl font-black text-gray-900">{d.proximamente}</h2>
             </div>
-            <p className="text-gray-500 leading-relaxed max-w-3xl">
-              Estamos desarrollando juegos de ciencias naturales, vocabulario en inglés, química elemental
-              y física aplicada. Todos seguirán el mismo enfoque: aprender jugando, con base científica y
-              adaptados a los temarios oficiales.
-            </p>
+            <p className="text-gray-500 leading-relaxed max-w-3xl">{d.proximamenteTexto}</p>
           </section>
 
           <aside className="ad-slot" aria-label="Publicidad" data-ad-slot="info-juegos-bottom" style={{ minHeight: '90px' }} />
 
           <footer className="text-center pt-4">
-            <Link to="/juegos"
+            <Link to={localPath('/juegos')}
               className="inline-block py-4 px-10 bg-teal-600 hover:bg-teal-500 text-white font-black text-lg rounded-2xl transition-all hover:scale-[1.02] shadow-lg shadow-teal-600/30">
-              Ir a jugar ahora →
+              {d.cta}
             </Link>
           </footer>
         </div>

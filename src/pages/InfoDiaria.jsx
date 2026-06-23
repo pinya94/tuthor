@@ -1,21 +1,69 @@
 import { Link } from 'react-router-dom'
+import { useLang } from '../context/LangContext'
+
+const DATA = {
+  es: {
+    h1: 'Reto Diario: El Hábito que Transforma el Estudio',
+    intro: 'La ciencia es clara: estudiar poco cada día es mucho más efectivo que maratones de última hora. Un desafío nuevo cada mañana para mantener tu cerebro activo en solo 2 minutos.',
+    porQue: '¿Por qué funciona el estudio diario?',
+    beneficios: [
+      { titulo: 'Efecto Espaciado (Spaced Repetition)', texto: 'Décadas de investigación demuestran que distribuir el estudio en sesiones cortas produce una retención hasta 3 veces superior a las sesiones intensivas. Cada reto diario refuerza conexiones neuronales justo antes de que se debiliten.' },
+      { titulo: 'Formación de Hábitos (Habit Loop)', texto: 'El sistema de rachas funciona como un bucle de hábito: la señal (abrir Tuthor), la rutina (resolver el reto) y la recompensa (mantener la racha). Tras 21 días, el estudio diario se convierte en automático.' },
+      { titulo: 'Recuperación Activa (Active Recall)', texto: 'A diferencia de releer apuntes, el reto diario obliga al cerebro a recuperar la información activamente. Cada intento de recuperación fortalece la memoria.' },
+    ],
+    tiposH2: '¿Qué tipo de retos te esperan?',
+    tiposIntro: 'Cada día rota entre cuatro tipos de desafío para activar distintas áreas cognitivas:',
+    tipos: [
+      { emoji: '❓', titulo: 'Pregunta de cultura general', desc: 'Historia, geografía, ciencia — con 4 opciones y explicación detallada.' },
+      { emoji: '🧮', titulo: 'Puzzle de cálculo mental', desc: 'Combina números con operaciones para alcanzar el objetivo.' },
+      { emoji: '📰', titulo: 'Portada histórica', desc: 'Lee un titular de periódico real y decide si es verdad o mentira.' },
+      { emoji: '🌍', titulo: 'Adivina el país', desc: 'Pistas geográficas progresivas para descubrir un país misterioso.' },
+    ],
+    rachaH2: '🔥 El poder de la racha',
+    rachaTexto: 'Tu racha es el número de días consecutivos que has completado el reto. Perderla duele — y eso es exactamente lo que la hace funcionar. El compromiso emocional con la racha convierte el estudio en algo personal: no estudias porque toca, sino porque no quieres romper tu récord.',
+    ctaTitulo: '¿Listo para empezar tu racha?',
+    ctaSub: 'Solo necesitas 2 minutos al día. Sin excusas.',
+    cta: 'Jugar al reto de hoy →',
+  },
+  en: {
+    h1: 'Daily Challenge: The Habit that Transforms Studying',
+    intro: 'The science is clear: studying a little every day is far more effective than last-minute cramming. A new challenge every morning to keep your brain active in just 2 minutes.',
+    porQue: 'Why does daily study work?',
+    beneficios: [
+      { titulo: 'Spaced Repetition', texto: 'Decades of research show that spreading study across short sessions produces up to 3× better retention than intensive cramming. Each daily challenge reinforces neural connections just before they weaken.' },
+      { titulo: 'Habit Loop', texto: 'The streak system works as a habit loop: the cue (opening Tuthor), the routine (solving the challenge) and the reward (keeping the streak). After 21 days, daily study becomes automatic.' },
+      { titulo: 'Active Recall', texto: 'Unlike re-reading notes, the daily challenge forces the brain to actively retrieve information. Every retrieval attempt strengthens memory.' },
+    ],
+    tiposH2: 'What types of challenges await you?',
+    tiposIntro: 'Every day rotates between four types of challenge to activate different cognitive areas:',
+    tipos: [
+      { emoji: '❓', titulo: 'General knowledge question', desc: 'History, geography, science — 4 options with a detailed explanation.' },
+      { emoji: '🧮', titulo: 'Mental arithmetic puzzle', desc: 'Combine numbers with operations to reach the target.' },
+      { emoji: '📰', titulo: 'Historical headline', desc: 'Read a real newspaper headline and decide if it is true or false.' },
+      { emoji: '🌍', titulo: 'Guess the country', desc: 'Progressive geographical clues to discover a mystery country.' },
+    ],
+    rachaH2: '🔥 The power of the streak',
+    rachaTexto: "Your streak is the number of consecutive days you have completed the challenge. Losing it hurts — and that is exactly what makes it work. The emotional commitment turns studying into something personal: you don't study because you have to, but because you don't want to break your record.",
+    ctaTitulo: 'Ready to start your streak?',
+    ctaSub: 'You only need 2 minutes a day. No excuses.',
+    cta: "Play today's challenge →",
+  },
+}
 
 export default function InfoDiaria() {
+  const { lang, localPath } = useLang()
+  const d = DATA[lang] || DATA.es
+
   return (
     <div className="relative z-10">
       <div className="px-4 sm:px-8 py-10 max-w-3xl mx-auto">
-        <Link to="/" className="text-white/30 hover:text-white/60 text-sm mb-8 inline-flex items-center gap-1 transition-colors">
-          ← Inicio
+        <Link to={localPath('/')} className="text-white/30 hover:text-white/60 text-sm mb-8 inline-flex items-center gap-1 transition-colors">
+          ← {lang === 'en' ? 'Home' : 'Inicio'}
         </Link>
         <header className="text-center mb-8">
           <span className="text-7xl block mb-4">⚡</span>
-          <h1 className="text-3xl sm:text-4xl font-black text-white mb-3">
-            Reto Diario: El Hábito que Transforma el Estudio
-          </h1>
-          <p className="text-white/50 max-w-2xl mx-auto leading-relaxed">
-            La ciencia es clara: estudiar poco cada día es mucho más efectivo que maratones de última
-            hora. Un desafío nuevo cada mañana para mantener tu cerebro activo en solo 2 minutos.
-          </p>
+          <h1 className="text-3xl sm:text-4xl font-black text-white mb-3">{d.h1}</h1>
+          <p className="text-white/50 max-w-2xl mx-auto leading-relaxed">{d.intro}</p>
         </header>
       </div>
 
@@ -25,13 +73,9 @@ export default function InfoDiaria() {
           <aside className="ad-slot" aria-label="Publicidad" data-ad-slot="info-diaria-top" style={{ minHeight: '90px', marginBottom: '2.5rem' }} />
 
           <section className="mb-10">
-            <h2 className="text-2xl font-black text-gray-900 mb-6">¿Por qué funciona el estudio diario?</h2>
+            <h2 className="text-2xl font-black text-gray-900 mb-6">{d.porQue}</h2>
             <div className="space-y-5">
-              {[
-                { titulo: 'Efecto Espaciado (Spaced Repetition)', texto: 'Décadas de investigación en psicología cognitiva demuestran que distribuir el estudio en sesiones cortas a lo largo del tiempo produce una retención hasta 3 veces superior a las sesiones intensivas. Cada reto diario es una micro-sesión de repaso que refuerza conexiones neuronales justo antes de que se debiliten.' },
-                { titulo: 'Formación de Hábitos (Habit Loop)', texto: 'El sistema de rachas funciona como un bucle de hábito: la señal (abrir Tuthor), la rutina (resolver el reto del día) y la recompensa (mantener la racha y ver tu progreso). Tras 21 días consecutivos, el estudio diario se convierte en automático.' },
-                { titulo: 'Recuperación Activa (Active Recall)', texto: 'A diferencia de releer apuntes (método pasivo), el reto diario obliga al cerebro a recuperar la información activamente. Responder "¿En qué año comenzó la Guerra Civil?" es mucho más efectivo que leer la fecha en un libro.' },
-              ].map(b => (
+              {d.beneficios.map(b => (
                 <div key={b.titulo} className="bg-white rounded-2xl border border-gray-200 p-6">
                   <h3 className="font-black text-gray-900 text-lg mb-2">{b.titulo}</h3>
                   <p className="text-gray-500 leading-relaxed">{b.texto}</p>
@@ -43,14 +87,9 @@ export default function InfoDiaria() {
           <aside className="ad-slot" aria-label="Publicidad" data-ad-slot="info-diaria-mid" style={{ minHeight: '90px', marginBottom: '2.5rem' }} />
 
           <section className="mb-10">
-            <h2 className="text-2xl font-black text-gray-900 mb-6">¿Qué tipo de retos te esperan?</h2>
+            <h2 className="text-2xl font-black text-gray-900 mb-6">{d.tiposH2}</h2>
             <div className="grid gap-4 sm:grid-cols-2">
-              {[
-                { emoji: '❓', titulo: 'Pregunta de cultura general', desc: 'Historia, geografía, ciencia, lengua — una pregunta con 4 opciones y explicación detallada.' },
-                { emoji: '🧮', titulo: 'Puzzle de cálculo mental', desc: 'Combina números con operaciones para alcanzar el objetivo. Una ronda rápida del motor de Acércate.' },
-                { emoji: '📰', titulo: 'Portada histórica', desc: 'Lee un titular de periódico real y decide si es verdad o mentira. Pensamiento crítico.' },
-                { emoji: '🌍', titulo: 'Adivina el país', desc: 'Pistas geográficas progresivas para descubrir un país misterioso.' },
-              ].map(r => (
+              {d.tipos.map(r => (
                 <div key={r.titulo} className="bg-white rounded-2xl border border-gray-200 p-5">
                   <div className="flex items-center gap-3 mb-2">
                     <span className="text-2xl">{r.emoji}</span>
@@ -63,24 +102,18 @@ export default function InfoDiaria() {
           </section>
 
           <section className="mb-10 bg-white rounded-2xl border border-gray-200 p-6 sm:p-8">
-            <h2 className="text-2xl font-black text-gray-900 mb-3">🔥 El poder de la racha</h2>
-            <p className="text-gray-500 leading-relaxed">
-              Tu racha es el número de días consecutivos que has completado el reto. Perderla duele
-              — y eso es exactamente lo que la hace funcionar. El compromiso emocional con la racha
-              convierte el estudio en algo personal: no estudias porque toca, sino porque no quieres
-              romper tu récord. Es el mismo principio que usan las mejores apps educativas y de fitness,
-              aplicado al rendimiento académico.
-            </p>
+            <h2 className="text-2xl font-black text-gray-900 mb-3">{d.rachaH2}</h2>
+            <p className="text-gray-500 leading-relaxed">{d.rachaTexto}</p>
           </section>
 
           <aside className="ad-slot" aria-label="Publicidad" data-ad-slot="info-diaria-bottom" style={{ minHeight: '90px', marginBottom: '2.5rem' }} />
 
           <footer className="text-center pt-4">
-            <h2 className="text-2xl font-black text-gray-900 mb-3">¿Listo para empezar tu racha?</h2>
-            <p className="text-gray-400 mb-6">Solo necesitas 2 minutos al día. Sin excusas.</p>
-            <Link to="/diaria"
+            <h2 className="text-2xl font-black text-gray-900 mb-3">{d.ctaTitulo}</h2>
+            <p className="text-gray-400 mb-6">{d.ctaSub}</p>
+            <Link to={localPath('/diaria')}
               className="inline-block py-4 px-10 bg-teal-600 hover:bg-teal-500 text-white font-black text-lg rounded-2xl transition-all hover:scale-[1.02] shadow-lg shadow-teal-600/30">
-              Jugar al reto de hoy →
+              {d.cta}
             </Link>
           </footer>
         </div>
