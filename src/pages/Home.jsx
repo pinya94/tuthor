@@ -3,11 +3,13 @@ import { useNavigate, Link } from 'react-router-dom'
 import HeroCard from '../components/HeroCard'
 import { MAIN_CARDS } from '../data/constants'
 import { useAuth } from '../context/AuthContext'
+import { useLang } from '../context/LangContext'
 import { getStats, formatTime } from '../lib/activity'
 import AuthModal from '../components/AuthModal'
 
 export default function Home() {
   const navigate = useNavigate()
+  const { t, localPath } = useLang()
   const { user } = useAuth()
   const [stats, setStats] = useState(null)
   const [showAuth, setShowAuth] = useState(false)
@@ -23,8 +25,8 @@ export default function Home() {
       <div className="flex flex-col min-h-[calc(100vh-4rem)] py-5 gap-4">
         {/* Título */}
         <div className="text-center">
-          <h1 className="text-2xl font-black text-white">¿Qué quieres hacer hoy?</h1>
-          <p className="text-white/40 mt-0.5 text-sm">Elige una sección y empieza ahora</p>
+          <h1 className="text-2xl font-black text-white">{t('home.titulo')}</h1>
+          <p className="text-white/40 mt-0.5 text-sm">{t('home.subtitulo')}</p>
         </div>
 
         {/* Cards principales */}
@@ -59,13 +61,8 @@ export default function Home() {
 
           {/* Titular */}
           <div className="text-center pt-4 pb-10">
-            <h2 className="text-3xl sm:text-4xl font-black text-gray-900 mb-3">
-              La forma inteligente de repasar sin aburrirte
-            </h2>
-            <p className="text-gray-500 leading-relaxed max-w-xl mx-auto text-lg">
-              Partidas rápidas de 5 minutos. Matemáticas, historia, geografía — diseñado
-              sobre principios pedagógicos reales para que aprendas sin darte cuenta.
-            </p>
+            <h2 className="text-3xl sm:text-4xl font-black text-gray-900 mb-3">{t('home.seo.titulo')}</h2>
+            <p className="text-gray-500 leading-relaxed max-w-xl mx-auto text-lg">{t('home.seo.subtitulo')}</p>
           </div>
 
           {/* JUGAR */}
@@ -82,26 +79,22 @@ export default function Home() {
                     ))}
                   </div>
                   <div className="bg-amber-400/20 border border-amber-400/40 rounded-xl px-4 py-2">
-                    <span className="text-amber-300 text-xs font-bold">🎯 Objetivo: </span>
+                    <span className="text-amber-300 text-xs font-bold">🎯 {t('common.objetivo')}: </span>
                     <span className="text-white font-black text-lg">45</span>
                   </div>
                   <div className="flex justify-center gap-3 text-xs text-white/40">
                     <span>⏱️ 32s</span>
-                    <span>⭐ 1.240 pts</span>
+                    <span>⭐ 1.240 {t('common.puntos')}</span>
                     <span>🔥 ×3</span>
                   </div>
                 </div>
               </div>
               <div className="sm:w-3/5 p-6 sm:p-8">
-                <p className="text-teal-600 text-xs font-bold uppercase tracking-widest mb-2">6 juegos disponibles</p>
-                <h2 className="text-2xl font-black text-gray-900 mb-3">Jugar: diviértete mientras repasas</h2>
-                <p className="text-gray-500 leading-relaxed mb-5">
-                  Nuestro catálogo cubre cálculo mental, cronología histórica, geografía y pensamiento crítico.
-                  Mecánicas de videojuego — roguelike, puzzles contra reloj, deducción por pistas — para que
-                  el repaso se sienta como un reto, no como una obligación.
-                </p>
-                <Link to="/info/juegos" className="inline-flex items-center gap-2 text-teal-600 hover:text-teal-500 font-bold transition-colors">
-                  Ver todos los juegos y su base científica →
+                <p className="text-teal-600 text-xs font-bold uppercase tracking-widest mb-2">{t('home.seo.jugar.tag')}</p>
+                <h2 className="text-2xl font-black text-gray-900 mb-3">{t('home.seo.jugar.titulo')}</h2>
+                <p className="text-gray-500 leading-relaxed mb-5">{t('home.seo.jugar.texto')}</p>
+                <Link to={localPath('/info/juegos')} className="inline-flex items-center gap-2 text-teal-600 hover:text-teal-500 font-bold transition-colors">
+                  {t('home.seo.jugar.link')}
                 </Link>
               </div>
             </div>
@@ -109,13 +102,13 @@ export default function Home() {
 
           <aside className="ad-slot" aria-label="Publicidad" data-ad-slot="home-seo-1" style={{ minHeight: '90px', marginBottom: '2.5rem' }} />
 
-          {/* ESTUDIAR + RETO DIARIO lado a lado en desktop */}
+          {/* ESTUDIAR + RETO DIARIO */}
           <section className="grid sm:grid-cols-2 gap-6 mb-10">
             <div className="bg-white rounded-2xl border border-gray-200 p-6 sm:p-8 flex flex-col">
               <div className="bg-gradient-to-br from-indigo-950 to-blue-900 rounded-xl h-36 flex items-center justify-center mb-5 relative overflow-hidden">
                 <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '20px 20px' }} />
                 <div className="relative text-center">
-                  <p className="text-green-400 text-xs font-bold mb-1">✅ Aprobado</p>
+                  <p className="text-green-400 text-xs font-bold mb-1">✅ {t('common.aprobado')}</p>
                   <p className="text-white font-black text-2xl">Notable</p>
                   <p className="text-blue-300 font-black text-3xl">7/10</p>
                   <div className="flex gap-1 justify-center mt-2">
@@ -125,15 +118,11 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-              <p className="text-teal-600 text-xs font-bold uppercase tracking-widest mb-2">Historia · Mates · Geografía</p>
-              <h2 className="text-xl font-black text-gray-900 mb-3">Tus exámenes, gamificados</h2>
-              <p className="text-gray-500 leading-relaxed text-sm mb-5 flex-1">
-                Juegos adaptados al temario real: 10 preguntas de la Guerra Civil, cálculo con divisiones,
-                países de Europa. Nota al final. Cada tema combina múltiples juegos para que el conocimiento
-                se fije de verdad.
-              </p>
-              <Link to="/info/estudiar" className="text-teal-600 hover:text-teal-500 text-sm font-bold transition-colors">
-                Ver temas y exámenes →
+              <p className="text-teal-600 text-xs font-bold uppercase tracking-widest mb-2">{t('home.seo.estudiar.tag')}</p>
+              <h2 className="text-xl font-black text-gray-900 mb-3">{t('home.seo.estudiar.titulo')}</h2>
+              <p className="text-gray-500 leading-relaxed text-sm mb-5 flex-1">{t('home.seo.estudiar.texto')}</p>
+              <Link to={localPath('/info/estudiar')} className="text-teal-600 hover:text-teal-500 text-sm font-bold transition-colors">
+                {t('home.seo.estudiar.link')}
               </Link>
             </div>
 
@@ -141,9 +130,9 @@ export default function Home() {
               <div className="bg-gradient-to-br from-orange-950 to-rose-900 rounded-xl h-36 flex items-center justify-center mb-5 relative overflow-hidden">
                 <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '20px 20px' }} />
                 <div className="relative text-center">
-                  <p className="text-orange-300 text-xs font-bold mb-1">Racha diaria</p>
+                  <p className="text-orange-300 text-xs font-bold mb-1">{t('home.seo.diaria.tag')}</p>
                   <p className="text-white font-black text-4xl">🔥 14</p>
-                  <p className="text-orange-200/50 text-xs mt-1">14 días seguidos</p>
+                  <p className="text-orange-200/50 text-xs mt-1">14 {t('common.mejorRacha', 'days')}</p>
                   <div className="flex gap-1 justify-center mt-2">
                     {['L','M','X','J','V','S','D'].map((d, i) => (
                       <div key={i} className={`w-5 h-5 rounded text-[8px] font-bold flex items-center justify-center ${
@@ -153,29 +142,25 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-              <p className="text-teal-600 text-xs font-bold uppercase tracking-widest mb-2">2 minutos al día</p>
-              <h2 className="text-xl font-black text-gray-900 mb-3">El secreto está en el hábito</h2>
-              <p className="text-gray-500 leading-relaxed text-sm mb-5 flex-1">
-                Estudiar a última hora no funciona. Un reto nuevo cada día: trivia, cálculo mental,
-                portada histórica o país misterioso. Mantén tu racha y crea un hábito de estudio sólido
-                sin esfuerzo.
-              </p>
-              <Link to="/info/diaria" className="text-teal-600 hover:text-teal-500 text-sm font-bold transition-colors">
-                La ciencia detrás del reto diario →
+              <p className="text-teal-600 text-xs font-bold uppercase tracking-widest mb-2">{t('home.seo.diaria.tag')}</p>
+              <h2 className="text-xl font-black text-gray-900 mb-3">{t('home.seo.diaria.titulo')}</h2>
+              <p className="text-gray-500 leading-relaxed text-sm mb-5 flex-1">{t('home.seo.diaria.texto')}</p>
+              <Link to={localPath('/info/diaria')} className="text-teal-600 hover:text-teal-500 text-sm font-bold transition-colors">
+                {t('home.seo.diaria.link')}
               </Link>
             </div>
           </section>
 
           {/* CÓMO FUNCIONA */}
           <section className="mb-10">
-            <h2 className="text-2xl font-black text-gray-900 text-center mb-3">Cómo funciona Tuthor</h2>
-            <p className="text-gray-400 text-center mb-8 max-w-lg mx-auto">Una plataforma educativa que convierte cualquier materia en una experiencia interactiva</p>
+            <h2 className="text-2xl font-black text-gray-900 text-center mb-3">{t('home.seo.comoFunciona')}</h2>
+            <p className="text-gray-400 text-center mb-8 max-w-lg mx-auto">{t('home.seo.comoFuncionaSub')}</p>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 text-center">
               {[
-                { titulo: 'Elige materia', desc: 'Mates, historia, geografía — tú decides por dónde empezar', emoji: '📚' },
-                { titulo: 'Juega o estudia', desc: 'Modo libre para practicar o modo examen para preparar temas', emoji: '🎮' },
-                { titulo: 'Aprende del error', desc: 'Cada fallo viene con explicación. El error es parte del juego', emoji: '💡' },
-                { titulo: 'Mide tu progreso', desc: 'Rachas, notas y estadísticas para ver cuánto has mejorado', emoji: '📊' },
+                { titulo: t('home.seo.paso1'), desc: t('home.seo.paso1.desc'), emoji: '📚' },
+                { titulo: t('home.seo.paso2'), desc: t('home.seo.paso2.desc'), emoji: '🎮' },
+                { titulo: t('home.seo.paso3'), desc: t('home.seo.paso3.desc'), emoji: '💡' },
+                { titulo: t('home.seo.paso4'), desc: t('home.seo.paso4.desc'), emoji: '📊' },
               ].map(s => (
                 <div key={s.titulo}>
                   <div className="w-12 h-12 rounded-full bg-teal-50 border-2 border-teal-200 flex items-center justify-center mx-auto mb-3">
@@ -193,25 +178,22 @@ export default function Home() {
           {/* EQUIPO */}
           <section className="bg-white rounded-2xl border border-gray-200 p-6 sm:p-8">
             <div className="text-center mb-6">
-              <h2 className="text-2xl font-black text-gray-900 mb-2">El Proyecto y el Equipo</h2>
-              <p className="text-gray-500 leading-relaxed max-w-lg mx-auto">
-                Tuthor nace para transformar la educación. Gamificación y ciencia pedagógica
-                de la mano: memoria de trabajo, pensamiento crítico, flexibilidad cognitiva.
-              </p>
+              <h2 className="text-2xl font-black text-gray-900 mb-2">{t('home.seo.equipo.titulo')}</h2>
+              <p className="text-gray-500 leading-relaxed max-w-lg mx-auto">{t('home.seo.equipo.texto')}</p>
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
               {[
-                { nombre: 'Manel Vallés', rol: 'Desarrollo', emoji: '💻' },
-                { nombre: 'Magí Tell', rol: 'Desarrollo', emoji: '💻' },
-                { nombre: 'Pau Montejano', rol: 'Diseño', emoji: '🎨' },
-                { nombre: 'Marc Peñalver', rol: 'Gestión', emoji: '📋' },
+                { nombre: 'Manel Vallés', rolKey: 'rol.desarrollo', emoji: '💻' },
+                { nombre: 'Magí Tell', rolKey: 'rol.desarrollo', emoji: '💻' },
+                { nombre: 'Pau Montejano', rolKey: 'rol.diseno', emoji: '🎨' },
+                { nombre: 'Marc Peñalver', rolKey: 'rol.gestion', emoji: '📋' },
               ].map(m => (
                 <div key={m.nombre} className="text-center">
                   <div className="w-16 h-16 rounded-full bg-gradient-to-br from-teal-100 to-cyan-50 border-2 border-teal-200 flex items-center justify-center mx-auto mb-3 shadow-sm">
                     <span className="text-2xl">{m.emoji}</span>
                   </div>
                   <p className="text-gray-900 font-bold text-sm">{m.nombre}</p>
-                  <p className="text-gray-400 text-xs">{m.rol}</p>
+                  <p className="text-gray-400 text-xs">{t(m.rolKey)}</p>
                 </div>
               ))}
             </div>
@@ -219,14 +201,13 @@ export default function Home() {
 
           {/* VIDEO */}
           <section className="bg-white rounded-2xl border border-gray-200 p-6 sm:p-8">
-            <h2 className="text-2xl font-black text-gray-900 text-center mb-2">Cómo estamos creando Tuthor</h2>
-            <p className="text-gray-400 text-center mb-6 max-w-lg mx-auto">El proceso detrás de la plataforma, contado por el equipo</p>
+            <h2 className="text-2xl font-black text-gray-900 text-center mb-2">{t('home.seo.video.titulo')}</h2>
+            <p className="text-gray-400 text-center mb-6 max-w-lg mx-auto">{t('home.seo.video.subtitulo')}</p>
             <div className="aspect-video rounded-xl overflow-hidden bg-gray-100 border border-gray-200">
-              {/* Reemplazar VIDEO_ID con el ID real del vídeo de YouTube */}
               <iframe
                 className="w-full h-full"
                 src="https://www.youtube.com/embed/QfN7qCTzFBM?si=wvU_yIXHbGE3oKik"
-                title="Cómo estamos creando Tuthor"
+                title={t('home.seo.video.titulo')}
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 referrerPolicy="strict-origin-when-cross-origin"
@@ -237,11 +218,8 @@ export default function Home() {
 
           {/* CONTACTO */}
           <section className="bg-white rounded-2xl border border-gray-200 p-6 sm:p-8 text-center">
-            <h2 className="text-2xl font-black text-gray-900 mb-2">Contacta con nosotros</h2>
-            <p className="text-gray-400 mb-5 max-w-md mx-auto">
-              ¿Eres docente, padre o estudiante? ¿Tienes una idea, sugerencia o quieres colaborar?
-              Escríbenos y te respondemos en menos de 24 horas.
-            </p>
+            <h2 className="text-2xl font-black text-gray-900 mb-2">{t('home.seo.contacto.titulo')}</h2>
+            <p className="text-gray-400 mb-5 max-w-md mx-auto">{t('home.seo.contacto.texto')}</p>
             <a href="mailto:consiguetualgogratis@gmail.com"
               className="inline-flex items-center gap-2 text-teal-600 hover:text-teal-500 font-bold transition-colors text-sm sm:text-lg break-all">
               <span className="text-xl sm:text-2xl shrink-0">✉️</span>
@@ -253,9 +231,9 @@ export default function Home() {
 
           {/* CTA final */}
           <div className="text-center mt-6">
-            <Link to="/juegos"
+            <Link to={localPath('/juegos')}
               className="inline-block py-4 px-10 bg-teal-600 hover:bg-teal-500 text-white font-black text-lg rounded-2xl transition-all hover:scale-[1.02] shadow-lg shadow-teal-600/30">
-              Empezar a jugar gratis →
+              {t('home.seo.cta')}
             </Link>
           </div>
         </div>
