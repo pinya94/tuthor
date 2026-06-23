@@ -68,6 +68,14 @@ export default {
   'common.mejorRacha': 'Best streak',
   'common.puntuacion': 'Score',
 
+  // Games page
+  'juegos.titulo': 'Learn without realising',
+  'juegos.subtitulo': 'Educational games to revise while having fun',
+
+  // Study page
+  'estudiar.titulo': 'What do you want to study?',
+  'estudiar.subtitulo': 'Pick a subject to start',
+
   // Roles
   'rol.desarrollo': 'Development',
   'rol.diseno': 'Design',

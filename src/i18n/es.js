@@ -68,6 +68,14 @@ export default {
   'common.mejorRacha': 'Mejor racha',
   'common.puntuacion': 'Puntuación',
 
+  // Juegos page
+  'juegos.titulo': 'Aprende sin darte cuenta',
+  'juegos.subtitulo': 'Juegos educativos para repasar mientras te diviertes',
+
+  // Estudiar page
+  'estudiar.titulo': '¿Qué quieres estudiar?',
+  'estudiar.subtitulo': 'Elige una materia para empezar',
+
   // Roles
   'rol.desarrollo': 'Desarrollo',
   'rol.diseno': 'Diseño',

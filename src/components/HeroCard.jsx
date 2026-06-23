@@ -1,7 +1,9 @@
 import { useState } from 'react'
+import { useLang } from '../context/LangContext'
 
 export default function HeroCard({ card, onClick }) {
   const [hovered, setHovered] = useState(false)
+  const { lt, lang } = useLang()
   return (
     <button
       onClick={onClick}
@@ -30,17 +32,17 @@ export default function HeroCard({ card, onClick }) {
       {/* Texto — parte superior, centrado */}
       <div className="absolute top-0 left-0 right-0 p-5 text-center">
         <h3 className="font-black text-white text-3xl sm:text-4xl leading-tight drop-shadow-lg tracking-tight">
-          {card.title}
+          {lt(card)}
         </h3>
         <p className="text-white/75 text-sm mt-1.5 drop-shadow font-medium">
-          {card.subtitle}
+          {lt(card, 'subtitle')}
         </p>
       </div>
 
       {/* Botón "Entrar" centrado abajo al hacer hover */}
       <div className={`absolute bottom-5 left-0 right-0 flex justify-center transition-all duration-300 ${hovered ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'}`}>
         <span className="bg-white/20 backdrop-blur-sm px-4 py-1.5 rounded-full border border-white/20 text-white text-xs font-semibold">
-          Entrar →
+          {lang === 'en' ? 'Enter →' : 'Entrar →'}
         </span>
       </div>
     </button>

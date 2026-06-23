@@ -39,8 +39,16 @@ export function LangProvider({ children }) {
     }
   }
 
+  function lt(obj, field = 'title') {
+    if (lang === 'en') {
+      const enKey = field + 'En'
+      if (obj[enKey]) return obj[enKey]
+    }
+    return obj[field]
+  }
+
   return (
-    <LangContext.Provider value={{ lang, t, localPath, switchLang }}>
+    <LangContext.Provider value={{ lang, t, lt, localPath, switchLang }}>
       {children}
     </LangContext.Provider>
   )
