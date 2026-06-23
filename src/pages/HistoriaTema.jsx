@@ -2,19 +2,36 @@ import { useState } from 'react'
 import { useNavigate, useParams, useLocation } from 'react-router-dom'
 import { EVENTOS_HISTORIA, calcularMargen } from '../data/historiaEvents'
 import { PORTADAS } from '../data/portadas'
+import { useLang } from '../context/LangContext'
 
-const NIVELES = [
-  { id: 'primaria', label: 'Primaria', emoji: '🎒' },
-  { id: 'eso',      label: 'ESO',      emoji: '📖' },
-  { id: 'bachillerato', label: 'Bachillerato', emoji: '🎓' },
-]
+const NIVELES = {
+  es: [
+    { id: 'primaria', label: 'Primaria', emoji: '🎒' },
+    { id: 'eso',      label: 'ESO',      emoji: '📖' },
+    { id: 'bachillerato', label: 'Bachillerato', emoji: '🎓' },
+  ],
+  en: [
+    { id: 'primaria', label: 'Primary', emoji: '🎒' },
+    { id: 'eso',      label: 'Secondary', emoji: '📖' },
+    { id: 'bachillerato', label: 'Sixth Form', emoji: '🎓' },
+  ],
+}
 
 const TEMAS_META = {
-  primaria: { titulo: 'Grandes Hitos',          emoji: '🌍', descripcion: 'Los momentos más importantes que cambiaron el mundo.' },
-  gce:      { titulo: 'Guerra Civil Española',   emoji: '🇪🇸', descripcion: 'De la Segunda República al franquismo, 1931–1978.' },
-  wwii:     { titulo: 'Segunda Guerra Mundial',  emoji: '⚔️', descripcion: 'El conflicto más grande de la historia, 1939–1945.' },
-  roma:     { titulo: 'Antigua Roma',            emoji: '🏛️', descripcion: 'Desde la fundación de Roma hasta la caída del Imperio.' },
-  usa:      { titulo: 'Independencia Americana', emoji: '🦅', descripcion: 'De las colonias británicas a los Estados Unidos, 1773–1789.' },
+  es: {
+    primaria: { titulo: 'Grandes Hitos',          emoji: '🌍', descripcion: 'Los momentos más importantes que cambiaron el mundo.' },
+    gce:      { titulo: 'Guerra Civil Española',   emoji: '🇪🇸', descripcion: 'De la Segunda República al franquismo, 1931–1978.' },
+    wwii:     { titulo: 'Segunda Guerra Mundial',  emoji: '⚔️', descripcion: 'El conflicto más grande de la historia, 1939–1945.' },
+    roma:     { titulo: 'Antigua Roma',            emoji: '🏛️', descripcion: 'Desde la fundación de Roma hasta la caída del Imperio.' },
+    usa:      { titulo: 'Independencia Americana', emoji: '🦅', descripcion: 'De las colonias británicas a los Estados Unidos, 1773–1789.' },
+  },
+  en: {
+    primaria: { titulo: 'Great Milestones',        emoji: '🌍', descripcion: 'The most important moments that changed the world.' },
+    gce:      { titulo: 'Spanish Civil War',        emoji: '🇪🇸', descripcion: 'From the Second Republic to Franco, 1931–1978.' },
+    wwii:     { titulo: 'World War II',             emoji: '⚔️', descripcion: 'The greatest conflict in history, 1939–1945.' },
+    roma:     { titulo: 'Ancient Rome',             emoji: '🏛️', descripcion: 'From the founding of Rome to the fall of the Empire.' },
+    usa:      { titulo: 'American Independence',    emoji: '🦅', descripcion: 'From the British colonies to the United States, 1773–1789.' },
+  },
 }
 
 // Categorías con ¿Quién es quién? disponible
@@ -41,14 +58,17 @@ const NIVEL_DEFAULT = {
 export default function HistoriaTema() {
   const navigate       = useNavigate()
   const location       = useLocation()
+  const { lang, localPath } = useLang()
   const { categoria }  = useParams()
-  const meta           = TEMAS_META[categoria]
+  const temasMeta      = TEMAS_META[lang] || TEMAS_META.es
+  const nivelesArr     = NIVELES[lang] || NIVELES.es
+  const meta           = temasMeta[categoria]
   const [nivel, setNivel] = useState(location.state?.nivel || NIVEL_DEFAULT[categoria] || 'primaria')
 
-  if (!meta) { navigate('/estudiar/historia'); return null }
+  if (!meta) { navigate(localPath('/estudiar/historia')); return null }
 
   // Solo mostrar botones de nivel que tengan al menos un evento para esta categoría
-  const nivelesDisponibles = NIVELES.filter(n =>
+  const nivelesDisponibles = nivelesArr.filter(n =>
     EVENTOS_HISTORIA.some(e => e.categoria === categoria && (!e.nivel || e.nivel.includes(n.id)))
   )
 
@@ -74,7 +94,7 @@ export default function HistoriaTema() {
       emoji: '📜',
       gradient: 'from-violet-600 to-indigo-700',
       detalles: [ltConfig.livesLabel, ltConfig.winLabel, `${eventos.length} eventos`],
-      action: () => navigate('/examen/linea-temporal', {
+      action: () => navigate(localPath('/examen/linea-temporal'), {
         state: { categoria, nivel, backPath: `/estudiar/historia/${categoria}` }
       }),
     },
@@ -85,7 +105,7 @@ export default function HistoriaTema() {
       emoji: '🕵️',
       gradient: 'from-violet-700 to-purple-900',
       detalles: ['12 personajes por partida', '300 pts si aciertas a la 1ª pista', '2 intentos'],
-      action: () => navigate('/juegos/quien-es-quien', {
+      action: () => navigate(localPath('/juegos/quien-es-quien'), {
         state: { pool: categoria, backPath: `/estudiar/historia/${categoria}` }
       }),
     },
@@ -96,7 +116,7 @@ export default function HistoriaTema() {
       emoji: '📰',
       gradient: 'from-stone-600 to-neutral-800',
       detalles: [`${portadasDelTema.length} titulares`, '10 por examen', 'Verdad o mentira'],
-      action: () => navigate('/examen/portadas', {
+      action: () => navigate(localPath('/examen/portadas'), {
         state: { categoria, backPath: `/estudiar/historia/${categoria}` }
       }),
     },
@@ -107,7 +127,7 @@ export default function HistoriaTema() {
       emoji: '📅',
       gradient: 'from-amber-500 to-orange-600',
       detalles: ['1 vida', `±${margen} años de margen`, `${eventos.length} preguntas`],
-      action: () => navigate('/examen/historia', {
+      action: () => navigate(localPath('/examen/historia'), {
         state: {
           examen: { id: categoria, ...meta },
           nivel,
@@ -123,7 +143,7 @@ export default function HistoriaTema() {
       {/* Breadcrumb + nivel switcher */}
       <div className="max-w-2xl mx-auto w-full mb-6">
         <p className="text-white/30 text-xs mb-4">
-          <button onClick={() => navigate('/estudiar/historia')} className="hover:text-white/60 transition-colors">Historia</button>
+          <button onClick={() => navigate(localPath('/estudiar/historia'))} className="hover:text-white/60 transition-colors">{lang === 'en' ? 'History' : 'Historia'}</button>
           {' '}/{'  '}<span className="text-white/50">{meta.titulo}</span>
         </p>
 
@@ -160,7 +180,7 @@ export default function HistoriaTema() {
       {/* Modos de juego */}
       <div className="max-w-2xl mx-auto w-full space-y-4">
         <p className="text-white/30 text-xs uppercase tracking-widest font-semibold">
-          Modos disponibles · {NIVELES.find(n => n.id === nivel)?.label}
+          {lang === 'en' ? 'Available modes' : 'Modos disponibles'} · {nivelesArr.find(n => n.id === nivel)?.label}
         </p>
 
         {modos.map(modo => (
