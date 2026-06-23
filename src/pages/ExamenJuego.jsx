@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { getEventosPorCategoria, calcularMargen } from '../data/historiaEvents'
 import { useAuth } from '../context/AuthContext'
+import { useLang } from '../context/LangContext'
 import { saveActivity } from '../lib/activity'
 
 // ── PANTALLA INTRO ─────────────────────────────────────────────────────────
@@ -109,12 +110,12 @@ function Pregunta({ evento, margen, idx, total, vivo, onResponder }) {
           : 'border-white/10'
       }`}>
         <div className="flex items-start justify-between gap-3 mb-3">
-          <h2 className="font-black text-white text-xl leading-tight">{evento.nombre}</h2>
+          <h2 className="font-black text-white text-xl leading-tight">{evento.nombreEn || evento.nombre}</h2>
           <span className={`text-xs font-bold px-2 py-1 rounded-full border shrink-0 ${difColor[evento.dificultad]}`}>
             {evento.dificultad}
           </span>
         </div>
-        <p className="text-white/50 text-sm leading-relaxed">{evento.descripcion}</p>
+        <p className="text-white/50 text-sm leading-relaxed">{evento.descripcionEn || evento.descripcion}</p>
       </div>
 
       {/* Margen visible */}
@@ -204,14 +205,14 @@ function Resultado({ historial, eventos, margen, aprobado, preguntaMuerte, onRep
             const h = historial[i]
             if (!h) return (
               <div key={ev.id} className="flex items-center justify-between text-sm py-1 opacity-30">
-                <span className="text-white/50 truncate mr-2">{i + 1}. {ev.nombre}</span>
+                <span className="text-white/50 truncate mr-2">{i + 1}. {ev.nombreEn || ev.nombre}</span>
                 <span className="text-white/30 shrink-0">— sin responder</span>
               </div>
             )
             return (
               <div key={ev.id} className="flex items-center justify-between text-sm py-1 border-b border-white/5 last:border-0">
                 <span className={`truncate mr-2 ${h.exacto ? 'text-violet-300' : h.dentro ? 'text-white' : 'text-red-400'}`}>
-                  {i + 1}. {ev.nombre}
+                  {i + 1}. {ev.nombreEn || ev.nombre}
                 </span>
                 <span className={`shrink-0 font-mono text-xs ${h.exacto ? 'text-violet-400' : h.dentro ? 'text-green-400' : 'text-red-400'}`}>
                   {h.respuesta} {h.exacto ? '⭐' : h.dentro ? `✓ ±${h.diff}a` : `✕ ±${h.diff}a`}
@@ -237,6 +238,8 @@ function Resultado({ historial, eventos, margen, aprobado, preguntaMuerte, onRep
 // ── COMPONENTE PRINCIPAL ───────────────────────────────────────────────────
 export default function ExamenJuego() {
   const navigate = useNavigate()
+  const { lang } = useLang()
+  const en = lang === 'en'
   const location = useLocation()
   const examen = location.state?.examen
   const nivel = location.state?.nivel

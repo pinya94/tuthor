@@ -2,6 +2,7 @@ import { useState, useRef, useCallback, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { EVENTOS_HISTORIA, getCorrectPos } from '../data/historiaEvents'
 import { useAuth } from '../context/AuthContext'
+import { useLang } from '../context/LangContext'
 import { saveActivity } from '../lib/activity'
 
 const MAX_LIVES_PRIMARIA = 5
@@ -105,6 +106,8 @@ export default function ExamenLineaTemporal() {
   const navigate   = useNavigate()
   const location   = useLocation()
   const { user }   = useAuth()
+  const { lang, localPath } = useLang()
+  const en = lang === 'en'
   const { categoria, nivel, backPath } = location.state || {}
 
   // Configuración según nivel
@@ -282,7 +285,7 @@ export default function ExamenLineaTemporal() {
               ? wasCorrect ? 'border-green-500/70 bg-green-500/10' : 'border-red-500/70 bg-red-500/10'
               : 'border-white/20 bg-white/5 backdrop-blur-sm'
           }`}>
-            <h2 className="text-3xl sm:text-4xl font-black text-white leading-tight mb-3">{current.nombre}</h2>
+            <h2 className="text-3xl sm:text-4xl font-black text-white leading-tight mb-3">{(en && current.nombreEn) || current.nombre}</h2>
             <p className="text-white/60 text-base sm:text-lg leading-relaxed mb-6">{current.descripcion}</p>
             <div className="flex items-center justify-between">
               <span className={`text-sm font-bold px-4 py-1.5 rounded-full border ${dif[current.dificultad]}`}>{current.dificultad}</span>
@@ -319,7 +322,7 @@ export default function ExamenLineaTemporal() {
               return (
                 <div key={ev.id} className="flex items-stretch gap-0">
                   <div className={`flex flex-col justify-between bg-white/10 border border-white/20 rounded-xl mx-1 p-3 transition-all duration-300 ${big ? 'min-w-[150px] max-w-[170px]' : 'min-w-[110px] max-w-[130px]'}`}>
-                    <p className={`text-white font-bold leading-snug line-clamp-3 ${big ? 'text-sm' : 'text-xs'}`}>{ev.nombre}</p>
+                    <p className={`text-white font-bold leading-snug line-clamp-3 ${big ? 'text-sm' : 'text-xs'}`}>{(en && ev.nombreEn) || ev.nombre}</p>
                     <p className={`text-amber-400 font-black mt-1 ${big ? 'text-lg' : 'text-sm'}`}>{formatYear(ev.año)}</p>
                   </div>
                   <SlotBtn index={i + 1} phase={phase} chosen={chosenSlot} correct={correctSlot} onPlace={placeCard} />
