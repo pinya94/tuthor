@@ -8,11 +8,37 @@ import { saveActivity } from '../lib/activity'
 const BOARD_SIZE = 12
 const MAX_FALLOS = 2
 const POOL_LABEL = {
-  gce:      'Guerra Civil Española',
-  wwii:     'Segunda Guerra Mundial',
-  usa:      'Independencia Americana',
-  primaria: 'Personajes históricos de todas las épocas',
-  global:   'Personajes históricos de todas las épocas',
+  es: {
+    gce: 'Guerra Civil Española', wwii: 'Segunda Guerra Mundial',
+    usa: 'Independencia Americana', primaria: 'Personajes históricos de todas las épocas',
+    global: 'Personajes históricos de todas las épocas',
+  },
+  en: {
+    gce: 'Spanish Civil War', wwii: 'World War II',
+    usa: 'American Independence', primaria: 'Historical figures from all eras',
+    global: 'Historical figures from all eras',
+  },
+}
+
+const QUI = {
+  es: {
+    titulo: '¿Quién es Quién?', desc: 'Adivina el personaje secreto',
+    pista: 'Pista', adivinar: 'Adivinar', tachar: 'Tachar',
+    esPersonaje: '¿Es', correcto: '¡Correcto!', incorrecto: 'Incorrecto',
+    era: 'Era', puntos: 'Puntos', intentos: 'Intentos',
+    nuevaPartida: 'Nueva partida', volver: '← Volver',
+    seleccionaParaAdivinar: 'Selecciona un personaje para adivinar',
+    fallosRestantes: 'intentos restantes',
+  },
+  en: {
+    titulo: 'Who is Who?', desc: 'Guess the secret figure',
+    pista: 'Clue', adivinar: 'Guess', tachar: 'Cross out',
+    esPersonaje: 'Is it', correcto: 'Correct!', incorrecto: 'Wrong',
+    era: 'It was', puntos: 'Points', intentos: 'Attempts',
+    nuevaPartida: 'New game', volver: '← Back',
+    seleccionaParaAdivinar: 'Select a figure to guess',
+    fallosRestantes: 'attempts left',
+  },
 }
 
 // ── AVATAR ────────────────────────────────────────────────────────────────────
@@ -79,7 +105,7 @@ function Intro({ pool, onStart }) {
           <span className="text-6xl mb-4 block">🕵️</span>
           <h1 className="text-3xl font-black text-white mb-2">¿Quién es quién?</h1>
           <p className="text-white/50 text-sm">
-            {POOL_LABEL[pool] ?? pool}
+            {(POOL_LABEL[lang] || POOL_LABEL.es)[pool] ?? pool}
           </p>
         </div>
         <div className="bg-white/5 border border-white/10 rounded-2xl p-6 mb-6 space-y-4">
@@ -109,7 +135,8 @@ function Intro({ pool, onStart }) {
 }
 
 // ── RESULTADO ─────────────────────────────────────────────────────────────────
-function Resultado({ ganó, secreto, pistaIdx, onRepetir, onSalir }) {
+function Resultado({ ganó, secreto, pistaIdx, onRepetir, onSalir, lang }) {
+  const en = lang === 'en'
   return (
     <div className="flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
       <div className="max-w-sm w-full text-center">
@@ -137,10 +164,10 @@ function Resultado({ ganó, secreto, pistaIdx, onRepetir, onSalir }) {
         )}
         <div className="flex gap-3">
           <button onClick={onRepetir} className="flex-1 bg-violet-600 hover:bg-violet-500 text-white font-bold py-3 rounded-xl transition-all">
-            Otra partida
+            {en ? 'New game' : 'Otra partida'}
           </button>
           <button onClick={onSalir} className="flex-1 bg-white/5 hover:bg-white/10 border border-white/10 text-white/70 font-bold py-3 rounded-xl transition-all">
-            Salir
+            {en ? 'Exit' : 'Salir'}
           </button>
         </div>
       </div>
@@ -266,6 +293,7 @@ export default function QuienEsQuien() {
     <Resultado
       ganó={ganó} secreto={secreto} pistaIdx={pistaIdx}
       onRepetir={iniciarPartida}
+      lang={lang}
       onSalir={() => navigate(localPath(backPath))}
     />
   )
@@ -337,7 +365,7 @@ export default function QuienEsQuien() {
           onClick={() => navigate(localPath(backPath))}
           className="text-white/40 hover:text-white/70 text-sm transition-colors"
         >
-          ← Salir
+          {lang === 'en' ? '← Exit' : '← Salir'}
         </button>
         <div className="flex items-center gap-3">
           <span className="text-white/40 text-xs">{activosCount} sin tachar</span>

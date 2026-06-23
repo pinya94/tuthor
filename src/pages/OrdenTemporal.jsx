@@ -12,21 +12,26 @@ function formatYear(y) {
 }
 
 // ── INTRO ──────────────────────────────────────────────────────────────────────
-function Intro({ onStart }) {
+function Intro({ onStart, lang }) {
+  const en = lang === 'en'
   return (
     <div className="flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
       <div className="max-w-md w-full">
         <div className="text-center mb-8">
           <span className="text-6xl mb-4 block">📜</span>
-          <h1 className="text-3xl font-black text-white mb-2">Línea Temporal</h1>
-          <p className="text-white/50 text-sm">Ordena la historia del mundo</p>
+          <h1 className="text-3xl font-black text-white mb-2">{en ? 'Timeline' : 'Línea Temporal'}</h1>
+          <p className="text-white/50 text-sm">{en ? 'Sort the history of the world' : 'Ordena la historia del mundo'}</p>
         </div>
         <div className="bg-white/5 border border-white/10 rounded-2xl p-6 mb-6 space-y-4">
-          {[
+          {(en ? [
+            { icon: '🃏', title: 'Place the card correctly', desc: 'An event appears with the year hidden. Tap the right gap in your timeline.' },
+            { icon: '❤️', title: '3 lives', desc: 'Each mistake costs a life. The year is always revealed so you learn.' },
+            { icon: '📈', title: 'The timeline grows', desc: 'The more cards you place correctly, the harder it gets. 70+ events!' },
+          ] : [
             { icon: '🃏', title: 'Coloca la carta en su sitio', desc: 'Aparece un evento con el año oculto. Pulsa el hueco correcto en tu línea del tiempo.' },
             { icon: '❤️', title: '3 vidas', desc: 'Cada error te cuesta una vida. El año se revela siempre para aprender.' },
             { icon: '📈', title: 'La línea crece con cada acierto', desc: 'Cuantas más cartas coloques bien, más difícil. ¡Hay 70+ eventos!' },
-          ].map(r => (
+          ]).map(r => (
             <div key={r.title} className="flex items-start gap-4">
               <span className="text-2xl">{r.icon}</span>
               <div>
@@ -37,7 +42,7 @@ function Intro({ onStart }) {
           ))}
         </div>
         <button onClick={onStart} className="w-full bg-amber-500 hover:bg-amber-600 text-white font-bold py-4 rounded-xl transition-colors text-lg">
-          Empezar →
+          {en ? 'Start →' : 'Empezar →'}
         </button>
       </div>
     </div>
@@ -45,21 +50,22 @@ function Intro({ onStart }) {
 }
 
 // ── GAME OVER ──────────────────────────────────────────────────────────────────
-function GameOver({ score, placed, onRepetir, onSalir }) {
+function GameOver({ score, placed, onRepetir, onSalir, lang }) {
+  const en = lang === 'en'
   let nota, notaColor
-  if (placed >= 20)      { nota = 'HISTORIADOR EXPERTO'; notaColor = 'text-violet-400' }
-  else if (placed >= 12) { nota = 'BUEN NIVEL'; notaColor = 'text-blue-400' }
-  else if (placed >= 6)  { nota = 'EN PROGRESO'; notaColor = 'text-amber-400' }
-  else                   { nota = 'SIGUE PRACTICANDO'; notaColor = 'text-white/60' }
+  if (placed >= 20)      { nota = en ? 'EXPERT HISTORIAN' : 'HISTORIADOR EXPERTO'; notaColor = 'text-violet-400' }
+  else if (placed >= 12) { nota = en ? 'GOOD LEVEL' : 'BUEN NIVEL'; notaColor = 'text-blue-400' }
+  else if (placed >= 6)  { nota = en ? 'IN PROGRESS' : 'EN PROGRESO'; notaColor = 'text-amber-400' }
+  else                   { nota = en ? 'KEEP PRACTISING' : 'SIGUE PRACTICANDO'; notaColor = 'text-white/60' }
   return (
     <div className="flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
       <div className="max-w-md w-full">
         <div className="text-center mb-6">
-          <p className="text-white/40 text-xs uppercase tracking-widest mb-2">Partida terminada</p>
+          <p className="text-white/40 text-xs uppercase tracking-widest mb-2">{en ? 'Game over' : 'Partida terminada'}</p>
           <h1 className={`text-3xl font-black mb-1 ${notaColor}`}>{nota}</h1>
         </div>
         <div className="grid grid-cols-2 gap-3 mb-6">
-          {[{ val: score, label: 'Puntos', emoji: '⭐' }, { val: placed, label: 'Colocadas', emoji: '✅' }].map(s => (
+          {[{ val: score, label: en ? 'Points' : 'Puntos', emoji: '⭐' }, { val: placed, label: en ? 'Placed' : 'Colocadas', emoji: '✅' }].map(s => (
             <div key={s.label} className="bg-white/5 border border-white/10 rounded-xl p-4 text-center">
               <span className="text-2xl block mb-1">{s.emoji}</span>
               <p className="text-2xl font-black text-white">{s.val}</p>
@@ -68,8 +74,8 @@ function GameOver({ score, placed, onRepetir, onSalir }) {
           ))}
         </div>
         <div className="flex flex-col gap-3">
-          <button onClick={onRepetir} className="w-full bg-amber-500 hover:bg-amber-600 text-white font-bold py-3 rounded-xl transition-colors">Jugar otra vez ↺</button>
-          <button onClick={onSalir}   className="w-full bg-white/5 hover:bg-white/10 border border-white/10 text-white/70 font-medium py-3 rounded-xl transition-colors">Volver a Juegos</button>
+          <button onClick={onRepetir} className="w-full bg-amber-500 hover:bg-amber-600 text-white font-bold py-3 rounded-xl transition-colors">{en ? 'Play again ↺' : 'Jugar otra vez ↺'}</button>
+          <button onClick={onSalir}   className="w-full bg-white/5 hover:bg-white/10 border border-white/10 text-white/70 font-medium py-3 rounded-xl transition-colors">{en ? 'Back to Games' : 'Volver a Juegos'}</button>
         </div>
       </div>
     </div>
@@ -173,8 +179,8 @@ export default function OrdenTemporal() {
     }, 2000)
   }
 
-  if (fase === 'intro')    return <div className="relative z-10"><Intro onStart={startGame} /></div>
-  if (fase === 'gameover') return <div className="relative z-10"><GameOver score={score} placed={timeline.length} onRepetir={startGame} onSalir={() => navigate(localPath('/juegos'))} /></div>
+  if (fase === 'intro')    return <div className="relative z-10"><Intro onStart={startGame} lang={lang} /></div>
+  if (fase === 'gameover') return <div className="relative z-10"><GameOver score={score} placed={timeline.length} onRepetir={startGame} onSalir={() => navigate(localPath('/juegos'))} lang={lang} /></div>
 
   const dif = { fácil: 'text-green-400 bg-green-500/10 border-green-500/30', medio: 'text-amber-400 bg-amber-500/10 border-amber-500/30', difícil: 'text-red-400 bg-red-500/10 border-red-500/30' }
   const progress = Math.round((timeline.length / (timeline.length + pending.length + 1)) * 100)
