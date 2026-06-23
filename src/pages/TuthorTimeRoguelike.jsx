@@ -529,8 +529,8 @@ export default function TuthorTimeRoguelike() {
           {/* Evento */}
           <div className="bg-black/40 backdrop-blur rounded-2xl p-5 border border-white/10">
             <div className="text-white/40 text-xs uppercase tracking-wider mb-1">{dif.emoji} {dif.label}</div>
-            <h2 className="text-xl font-bold text-white mb-2">{evento.nombre}</h2>
-            <p className="text-white/60 text-sm leading-relaxed mb-4">{evento.descripcion}</p>
+            <h2 className="text-xl font-bold text-white mb-2">{(lang === 'en' && evento.nombreEn) ? evento.nombreEn : evento.nombre}</h2>
+            <p className="text-white/60 text-sm leading-relaxed mb-4">{(lang === 'en' && evento.descripcionEn) ? evento.descripcionEn : evento.descripcion}</p>
 
             {pistaInfo && (
               <div className="text-blue-300 text-xs bg-blue-900/30 rounded-lg px-3 py-2 mb-4">
@@ -586,7 +586,7 @@ export default function TuthorTimeRoguelike() {
           <div className="bg-black/50 backdrop-blur rounded-2xl p-6 border border-white/10 text-center">
 
             <div className={`text-2xl font-bold mb-1 ${badge.color}`}>{badge.text}</div>
-            <h3 className="text-white/80 text-base font-semibold mb-2">{ev.nombre}</h3>
+            <h3 className="text-white/80 text-base font-semibold mb-2">{(lang === 'en' && ev.nombreEn) ? ev.nombreEn : ev.nombre}</h3>
 
             <YearCounter
               añoEnviado={añoEnviado ?? ev.año}
