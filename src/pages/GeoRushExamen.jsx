@@ -1,5 +1,6 @@
 import { useState, useMemo, useRef, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
+import { useLang } from '../context/LangContext'
 import { PAISES, NOMBRES_PAISES } from '../data/paises'
 
 const REGION_FILTER = {
@@ -113,6 +114,7 @@ function AutocompleteInput({ value, onChange, onSubmit, disabled, focusKey }) {
 
 export default function GeoRushExamen() {
   const navigate = useNavigate()
+  const { lang, localPath } = useLang()
   const location = useLocation()
   const { region, titulo, backPath } = location.state || {}
 
@@ -151,7 +153,7 @@ export default function GeoRushExamen() {
       <div className="relative z-10 flex items-center justify-center min-h-[calc(100vh-4rem)] px-4">
         <div className="text-center text-white/50">
           <p className="text-lg mb-4">No hay suficientes países para esta región.</p>
-          <button onClick={() => navigate(backPath || -1)} className="text-[#EDAE49] hover:underline">← Volver</button>
+          <button onClick={() => navigate(backPath ? localPath(backPath) : -1)} className="text-[#EDAE49] hover:underline">← Volver</button>
         </div>
       </div>
     )
@@ -240,7 +242,7 @@ export default function GeoRushExamen() {
             className="w-full py-3 bg-[#EDAE49] hover:bg-amber-400 text-black font-black rounded-2xl transition-all mb-2">
             Repetir examen
           </button>
-          <button onClick={() => navigate(backPath || -1)}
+          <button onClick={() => navigate(backPath ? localPath(backPath) : -1)}
             className="w-full py-3 text-white/40 hover:text-white/70 text-sm transition-colors">
             ← Volver a Geografía
           </button>
@@ -254,7 +256,7 @@ export default function GeoRushExamen() {
     <div className="relative z-10 flex flex-col min-h-[calc(100vh-4rem)] px-4 md:px-8 py-5 max-w-3xl mx-auto w-full">
 
       <div className="flex items-center justify-between mb-3">
-        <button onClick={() => navigate(backPath || -1)} className="text-white/40 hover:text-white/70 text-sm transition-colors">
+        <button onClick={() => navigate(backPath ? localPath(backPath) : -1)} className="text-white/40 hover:text-white/70 text-sm transition-colors">
           ← Salir
         </button>
         <span className="text-white/40 text-sm font-bold">🌍 {titulo} · {idx + 1}/{TOTAL}</span>

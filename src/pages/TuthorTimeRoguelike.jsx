@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useLang } from '../context/LangContext'
 import { EVENTOS_ROGUELIKE } from '../data/tuthorTimeEventos'
 
 const VIDA_BIXO = 120
@@ -161,6 +162,7 @@ function AgentBar({ agente, activo }) {
 
 export default function TuthorTimeRoguelike() {
   const navigate = useNavigate()
+  const { lang, localPath } = useLang()
   const [fase, setFase] = useState('intro')
   const [difId, setDifId] = useState('medio')
   const [nivel, setNivel] = useState(1)
@@ -353,7 +355,7 @@ export default function TuthorTimeRoguelike() {
     return (
       <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
         <div className="max-w-md w-full">
-          <button onClick={() => navigate('/juegos')}
+          <button onClick={() => navigate(localPath('/juegos'))}
             className="text-white/30 hover:text-white/60 text-sm mb-6 flex items-center gap-1 transition-colors">
             ← Volver
           </button>
@@ -413,7 +415,7 @@ export default function TuthorTimeRoguelike() {
             className="w-full py-4 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-lg rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-amber-500/30">
             ¡Empezar misión!
           </button>
-          <button onClick={() => navigate('/juegos/tuthor-time/clasico')}
+          <button onClick={() => navigate(localPath('/juegos/tuthor-time/clasico'))}
             className="w-full py-3 mt-3 text-white/30 hover:text-white/60 text-sm transition-colors">
             ¿Prefieres entrenar sin presión? → Modo clásico
           </button>
@@ -434,7 +436,7 @@ export default function TuthorTimeRoguelike() {
 
           {/* Header */}
           <div className="flex items-center justify-between">
-            <button onClick={() => navigate('/juegos')} className="text-white/40 hover:text-white text-sm">← Salir</button>
+            <button onClick={() => navigate(localPath('/juegos'))} className="text-white/40 hover:text-white text-sm">← Salir</button>
             <span className="text-white/50 text-sm">Misión {nivel}</span>
             <span className="text-white font-bold tabular-nums">{scoreTotal.toLocaleString()} pts</span>
           </div>
@@ -671,7 +673,7 @@ export default function TuthorTimeRoguelike() {
                 Cambiar dificultad
               </button>
               <button
-                onClick={() => navigate('/juegos/tuthor-time/clasico')}
+                onClick={() => navigate(localPath('/juegos/tuthor-time/clasico'))}
                 className="w-full text-white/30 hover:text-white/60 text-xs py-1 transition"
               >
                 ¿Prefieres entrenar sin presión? → Modo clásico

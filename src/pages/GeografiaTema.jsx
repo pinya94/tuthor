@@ -1,4 +1,5 @@
 import { useNavigate, useParams } from 'react-router-dom'
+import { useLang } from '../context/LangContext'
 import { PAISES } from '../data/paises'
 
 const REGION_FILTER = {
@@ -19,10 +20,11 @@ const TEMAS_META = {
 
 export default function GeografiaTema() {
   const navigate    = useNavigate()
+  const { lang, localPath } = useLang()
   const { region }  = useParams()
   const meta        = TEMAS_META[region]
 
-  if (!meta) { navigate('/estudiar/geografia'); return null }
+  if (!meta) { navigate(localPath('/estudiar/geografia')); return null }
 
   const filter      = REGION_FILTER[region]
   const paisesCount = filter ? PAISES.filter(filter).length : 0
@@ -35,7 +37,7 @@ export default function GeografiaTema() {
       emoji: '🌍',
       gradient: 'from-teal-500 to-cyan-700',
       detalles: [`${paisesCount} países`, '10 por examen', '5 pistas mixtas (3🔒 + 2🎁)'],
-      action: () => navigate('/examen/geografia', {
+      action: () => navigate(localPath('/examen/geografia'), {
         state: { region, titulo: meta.titulo, backPath: `/estudiar/geografia/${region}` }
       }),
     },
@@ -45,9 +47,9 @@ export default function GeografiaTema() {
     <div className="relative z-10 flex flex-col min-h-[calc(100vh-4rem)] px-4 sm:px-8 py-6">
       <div className="max-w-2xl mx-auto w-full mb-6">
         <p className="text-white/30 text-xs mb-4">
-          <button onClick={() => navigate('/estudiar')} className="hover:text-white/60 transition-colors">Estudiar</button>
+          <button onClick={() => navigate(localPath('/estudiar'))} className="hover:text-white/60 transition-colors">Estudiar</button>
           {' '}/{' '}
-          <button onClick={() => navigate('/estudiar/geografia')} className="hover:text-white/60 transition-colors">Geografía</button>
+          <button onClick={() => navigate(localPath('/estudiar/geografia'))} className="hover:text-white/60 transition-colors">Geografía</button>
           {' '}/{' '}<span className="text-white/50">{meta.titulo}</span>
         </p>
 

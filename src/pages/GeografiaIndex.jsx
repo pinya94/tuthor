@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom'
+import { useLang } from '../context/LangContext'
 
 const TEMAS = [
   { id: 'europa',  titulo: 'Europa',          emoji: '🇪🇺', desc: 'De Islandia a Chipre. Identifica los países europeos.' },
@@ -12,12 +13,13 @@ const TEMAS = [
 
 export default function GeografiaIndex() {
   const navigate = useNavigate()
+  const { lang, localPath } = useLang()
 
   return (
     <div className="relative z-10 flex flex-col min-h-[calc(100vh-4rem)] px-4 sm:px-8 py-6">
       <div className="max-w-2xl mx-auto w-full">
         <p className="text-white/30 text-xs mb-4">
-          <button onClick={() => navigate('/estudiar')} className="hover:text-white/60 transition-colors">Estudiar</button>
+          <button onClick={() => navigate(localPath('/estudiar'))} className="hover:text-white/60 transition-colors">Estudiar</button>
           {' '}/{' '}<span className="text-white/50">Geografía</span>
         </p>
 
@@ -33,7 +35,7 @@ export default function GeografiaIndex() {
           {TEMAS.map(t => (
             <button
               key={t.id}
-              onClick={() => !t.proximamente && navigate(`/estudiar/geografia/${t.id}`)}
+              onClick={() => !t.proximamente && navigate(localPath(`/estudiar/geografia/${t.id}`))}
               className={`w-full group relative rounded-2xl overflow-hidden text-left transition-all duration-300 ${
                 t.proximamente ? 'opacity-50 cursor-default' : 'hover:scale-[1.02] hover:shadow-xl hover:shadow-black/40'
               }`}

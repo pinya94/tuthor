@@ -2,6 +2,7 @@ import { useState, useRef } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { PERSONAJES_TODOS, PERSONAJES_GCE, PERSONAJES_WWII, PERSONAJES_USA, PERSONAJES_GLOBAL, montarTablero, generarPistas } from '../data/personajes'
 import { useAuth } from '../context/AuthContext'
+import { useLang } from '../context/LangContext'
 import { saveActivity } from '../lib/activity'
 
 const BOARD_SIZE = 12
@@ -151,6 +152,7 @@ function Resultado({ ganó, secreto, pistaIdx, onRepetir, onSalir }) {
 export default function QuienEsQuien() {
   const navigate  = useNavigate()
   const location  = useLocation()
+  const { lang, localPath } = useLang()
   const { user }  = useAuth()
   const startRef  = useRef(Date.now())
 
@@ -264,7 +266,7 @@ export default function QuienEsQuien() {
     <Resultado
       ganó={ganó} secreto={secreto} pistaIdx={pistaIdx}
       onRepetir={iniciarPartida}
-      onSalir={() => navigate(backPath)}
+      onSalir={() => navigate(localPath(backPath))}
     />
   )
 
@@ -332,7 +334,7 @@ export default function QuienEsQuien() {
       {/* Cabecera */}
       <div className="flex items-center justify-between mb-3 px-1">
         <button
-          onClick={() => navigate(backPath)}
+          onClick={() => navigate(localPath(backPath))}
           className="text-white/40 hover:text-white/70 text-sm transition-colors"
         >
           ← Salir

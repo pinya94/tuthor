@@ -2,6 +2,7 @@ import { useState, useRef, useCallback, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getEventosLineaTemporal, getCorrectPos, sortEventos } from '../data/historiaEvents'
 import { useAuth } from '../context/AuthContext'
+import { useLang } from '../context/LangContext'
 import { saveActivity } from '../lib/activity'
 
 const MAX_LIVES = 3
@@ -78,6 +79,7 @@ function GameOver({ score, placed, onRepetir, onSalir }) {
 // ── MAIN ────────────────────────────────────────────────────────────────────────
 export default function OrdenTemporal() {
   const navigate  = useNavigate()
+  const { lang, localPath } = useLang()
   const { user }  = useAuth()
   const [fase, setFase]             = useState('intro')
   const [timeline, setTimeline]     = useState([])
@@ -172,7 +174,7 @@ export default function OrdenTemporal() {
   }
 
   if (fase === 'intro')    return <div className="relative z-10"><Intro onStart={startGame} /></div>
-  if (fase === 'gameover') return <div className="relative z-10"><GameOver score={score} placed={timeline.length} onRepetir={startGame} onSalir={() => navigate('/juegos')} /></div>
+  if (fase === 'gameover') return <div className="relative z-10"><GameOver score={score} placed={timeline.length} onRepetir={startGame} onSalir={() => navigate(localPath('/juegos'))} /></div>
 
   const dif = { fácil: 'text-green-400 bg-green-500/10 border-green-500/30', medio: 'text-amber-400 bg-amber-500/10 border-amber-500/30', difícil: 'text-red-400 bg-red-500/10 border-red-500/30' }
   const progress = Math.round((timeline.length / (timeline.length + pending.length + 1)) * 100)
