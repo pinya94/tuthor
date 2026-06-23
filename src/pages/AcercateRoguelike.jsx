@@ -1,24 +1,79 @@
 import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { generarPuzzle, aplicar, OP_STYLE } from '../lib/mathEngine'
+import { useLang } from '../context/LangContext'
 
 const ALL_OPS = ['+', '-', '×', '÷']
 
 const DIFS = {
-  facil:   { label: 'Fácil',   emoji: '🟢', vidasIni: 3, tiempoBase: 90, objMin: 10, objMax: 50,  countIni: 5, numMax: 10, ops: ['+', '-'] },
-  medio:   { label: 'Medio',   emoji: '🟡', vidasIni: 0, tiempoBase: 60, objMin: 15, objMax: 99,  countIni: 5, numMax: 10, ops: ['+', '-', '×'] },
-  dificil: { label: 'Difícil', emoji: '🔴', vidasIni: 0, tiempoBase: 45, objMin: 20, objMax: 250, countIni: 4, numMax: 15, ops: ['+', '-', '×', '÷'] },
+  facil:   { label: 'Fácil', labelEn: 'Easy',   emoji: '🟢', vidasIni: 3, tiempoBase: 90, objMin: 10, objMax: 50,  countIni: 5, numMax: 10, ops: ['+', '-'] },
+  medio:   { label: 'Medio', labelEn: 'Medium', emoji: '🟡', vidasIni: 0, tiempoBase: 60, objMin: 15, objMax: 99,  countIni: 5, numMax: 10, ops: ['+', '-', '×'] },
+  dificil: { label: 'Difícil', labelEn: 'Hard', emoji: '🔴', vidasIni: 0, tiempoBase: 45, objMin: 20, objMax: 250, countIni: 4, numMax: 15, ops: ['+', '-', '×', '÷'] },
 }
 
-const MEJORAS_POOL = [
-  { id: 'tiempo', emoji: '⏱️', titulo: '+4 segundos',         desc: 'Añade 4s al tiempo de todos los niveles siguientes' },
-  { id: 'numero', emoji: '🔢', titulo: '+1 número',           desc: 'Un número extra disponible para combinar en cada puzzle' },
-  { id: 'escudo', emoji: '🛡️', titulo: 'Segunda oportunidad', desc: 'Absorbe el próximo fallo y continúas la run', soloFacil: true },
-  { id: 'bonus',  emoji: '✨', titulo: '×1.1 puntos',         desc: 'Multiplica todos los puntos futuros por 1.1', soloMedioPlus: true },
-]
+const MEJORAS_POOL = {
+  es: [
+    { id: 'tiempo', emoji: '⏱️', titulo: '+4 segundos',         desc: 'Añade 4s al tiempo de todos los niveles siguientes' },
+    { id: 'numero', emoji: '🔢', titulo: '+1 número',           desc: 'Un número extra disponible para combinar en cada puzzle' },
+    { id: 'escudo', emoji: '🛡️', titulo: 'Segunda oportunidad', desc: 'Absorbe el próximo fallo y continúas la run', soloFacil: true },
+    { id: 'bonus',  emoji: '✨', titulo: '×1.1 puntos',         desc: 'Multiplica todos los puntos futuros por 1.1', soloMedioPlus: true },
+  ],
+  en: [
+    { id: 'tiempo', emoji: '⏱️', titulo: '+4 seconds',         desc: 'Adds 4s to the timer for all following levels' },
+    { id: 'numero', emoji: '🔢', titulo: '+1 number',           desc: 'An extra number available to combine in each puzzle' },
+    { id: 'escudo', emoji: '🛡️', titulo: 'Second chance',       desc: 'Absorbs the next failure and you continue the run', soloFacil: true },
+    { id: 'bonus',  emoji: '✨', titulo: '×1.1 points',         desc: 'Multiplies all future points by 1.1', soloMedioPlus: true },
+  ],
+}
 
-function getMejorasDisponibles(difId, rd) {
-  return MEJORAS_POOL.filter(m => {
+const AUI = {
+  es: {
+    titulo: 'Modo Roguelike', desc: 'Supera niveles, elige mejoras, llega lo más lejos posible',
+    volver: '← Volver', empezar: '¡Empezar run!', clasico: '¿Prefieres entrenar sin presión? → Modo clásico',
+    vidas: 'Vidas', sinVidas: 'Sin vidas — un fallo y termina', tiempo: 'Tiempo', objetivo: 'Objetivo',
+    numeros: 'Números', cartas: 'cartas para combinar', operaciones: 'Operaciones', puntos: 'Puntos',
+    puntosDesc: 'Tiempo sobrante × 10 por nivel acertado', mejoras: 'Mejoras', mejorasDesc: 'Cada 3 niveles elige una mejora permanente',
+    comoFunciona: 'Cómo funciona', paso1: 'Llega exactamente al objetivo combinando números',
+    paso2: 'Si aciertas, sumas los segundos que sobraban × 10', paso3: 'Cada 3 niveles elige una mejora permanente',
+    paso4: 'Si fallas o se acaba el tiempo, la run termina',
+    nivel: 'Nivel', mejoraEn: 'Mejora en', niveles: 'nivel', nivelesP: 'niveles',
+    mejoraAlSuperar: '🎁 ¡Mejora al superar este nivel!', nivelSuperado: 'superado',
+    eligeMejora: 'Elige una mejora permanente para el resto de la run', ptsAcumulados: 'pts acumulados',
+    escudoActivado: '🛡️ ¡Escudo activado! Intento de nuevo...', fallo: '💔 ¡Fallo!', teQuedan: 'Te quedan',
+    vida: 'vida', vidasP: 'vidas', tiempoAgotado: '⏱️ ¡Tiempo agotado!', continuando: 'Continuando...',
+    fin: 'Fin de la run', nuevaRun: 'Nueva run', menu: 'Menú', compartir: '📤 Compartir resultado',
+    copiar: '📋 Copiar texto', copiado: '✅ ¡Copiado!', cerrar: '✕',
+    compartirTitulo: 'Compartir resultado', compartirSub: 'Copia el texto y compártelo donde quieras',
+    selecciona: 'Selecciona un número para empezar', disponibles: 'Números disponibles', sinNumeros: 'Sin números — reinicia o termina',
+    operacion: 'Operación', deshacer: '↩ Deshacer', reiniciar: '🔄 Reiniciar', divNoExacta: 'División no exacta',
+    escudo: 'Escudo', esteNivel: 'pts este nivel',
+  },
+  en: {
+    titulo: 'Roguelike Mode', desc: 'Beat levels, pick upgrades, go as far as you can',
+    volver: '← Back', empezar: 'Start run!', clasico: 'Prefer stress-free practice? → Classic mode',
+    vidas: 'Lives', sinVidas: 'No lives — one miss and it is over', tiempo: 'Time', objetivo: 'Target',
+    numeros: 'Numbers', cartas: 'cards to combine', operaciones: 'Operations', puntos: 'Points',
+    puntosDesc: 'Remaining time × 10 per correct level', mejoras: 'Upgrades', mejorasDesc: 'Every 3 levels pick a permanent upgrade',
+    comoFunciona: 'How it works', paso1: 'Reach the target exactly by combining numbers',
+    paso2: 'If correct, remaining seconds × 10 = your score', paso3: 'Every 3 levels pick a permanent upgrade',
+    paso4: 'If you miss or time runs out, the run ends',
+    nivel: 'Level', mejoraEn: 'Upgrade in', niveles: 'level', nivelesP: 'levels',
+    mejoraAlSuperar: '🎁 Upgrade on beating this level!', nivelSuperado: 'cleared',
+    eligeMejora: 'Pick a permanent upgrade for the rest of the run', ptsAcumulados: 'pts accumulated',
+    escudoActivado: '🛡️ Shield activated! Trying again...', fallo: '💔 Miss!', teQuedan: 'You have',
+    vida: 'life', vidasP: 'lives', tiempoAgotado: '⏱️ Time is up!', continuando: 'Continuing...',
+    fin: 'Run over', nuevaRun: 'New run', menu: 'Menu', compartir: '📤 Share result',
+    copiar: '📋 Copy text', copiado: '✅ Copied!', cerrar: '✕',
+    compartirTitulo: 'Share result', compartirSub: 'Copy the text and share it wherever you like',
+    selecciona: 'Select a number to start', disponibles: 'Available numbers', sinNumeros: 'No numbers — reset or finish',
+    operacion: 'Operation', deshacer: '↩ Undo', reiniciar: '🔄 Reset', divNoExacta: 'Non-exact division',
+    escudo: 'Shield', esteNivel: 'pts this level',
+  },
+}
+
+function getMejorasDisponibles(difId, rd, lang) {
+  const pool = MEJORAS_POOL[lang] || MEJORAS_POOL.es
+  return pool.filter(m => {
     if (m.soloFacil && difId !== 'facil') return false
     if (m.soloMedioPlus && difId === 'facil') return false
     if (m.id === 'escudo' && rd.escudo) return false
@@ -78,6 +133,9 @@ function Confetti() {
 
 export default function AcercateRoguelike() {
   const navigate = useNavigate()
+  const { lang, localPath } = useLang()
+  const au = AUI[lang] || AUI.es
+  const dl = d => lang === 'en' ? (d.labelEn || d.label) : d.label
 
   // ── UI ───────────────────────────────────────────────────────────────────
   const [fase, setFase] = useState('intro')
@@ -191,7 +249,7 @@ export default function AcercateRoguelike() {
       const nextNivel = cur.nivel + 1
       if (cur.nivel % 3 === 0) {
         setTimeout(() => {
-          const pool = getMejorasDisponibles(cur.difId, cur)
+          const pool = getMejorasDisponibles(cur.difId, cur, lang)
           setOpciones(shuffle(pool).slice(0, 3))
           setRd({ ...cur, nivel: nextNivel })
           setFase('mejora')
@@ -317,14 +375,14 @@ export default function AcercateRoguelike() {
     return (
       <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
         <div className="max-w-md w-full">
-          <button onClick={() => navigate('/juegos')}
+          <button onClick={() => navigate(localPath('/juegos'))}
             className="text-white/30 hover:text-white/60 text-sm mb-6 flex items-center gap-1 transition-colors">
-            ← Volver
+            {au.volver}
           </button>
           <div className="text-center mb-6">
             <span className="text-6xl block mb-3">⚔️</span>
-            <h1 className="text-3xl font-black text-white mb-1">Modo Roguelike</h1>
-            <p className="text-white/40 text-sm">Supera niveles, elige mejoras, llega lo más lejos posible</p>
+            <h1 className="text-3xl font-black text-white mb-1">{au.titulo}</h1>
+            <p className="text-white/40 text-sm">{au.desc}</p>
           </div>
           <div className="flex gap-2 p-1 bg-white/5 border border-white/10 rounded-xl mb-5 w-fit mx-auto">
             {Object.entries(DIFS).map(([id, d]) => (
@@ -370,11 +428,11 @@ export default function AcercateRoguelike() {
           </div>
           <button onClick={startRun}
             className="w-full py-4 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-lg rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-amber-500/30">
-            ¡Empezar run!
+            {au.empezar}
           </button>
-          <button onClick={() => navigate('/juegos/acercate/clasico')}
+          <button onClick={() => navigate(localPath('/juegos/acercate/clasico'))}
             className="w-full py-3 mt-3 text-white/30 hover:text-white/60 text-sm transition-colors">
-            ¿Prefieres entrenar sin presión? → Modo clásico
+            {au.clasico}
           </button>
         </div>
       </div>
@@ -438,23 +496,23 @@ export default function AcercateRoguelike() {
       <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
           <div className="max-w-md w-full text-center">
             <div className="text-7xl mb-4">🏁</div>
-            <h2 className="text-3xl font-black text-white mb-1">Fin de la run</h2>
+            <h2 className="text-3xl font-black text-white mb-1">{au.fin}</h2>
             <p className="text-white/40 text-sm mb-6">{difLabel.emoji} {difLabel.label}</p>
 
             <div className="grid grid-cols-2 gap-3 mb-5">
               <div className="bg-white/5 border border-white/10 rounded-2xl p-4">
-                <p className="text-white/30 text-xs uppercase tracking-widest font-semibold mb-1">Nivel</p>
+                <p className="text-white/30 text-xs uppercase tracking-widest font-semibold mb-1">{au.nivel}</p>
                 <p className="text-4xl font-black text-white">{nivelAlcanzado}</p>
               </div>
               <div className="bg-amber-500/10 border border-amber-500/30 rounded-2xl p-4">
-                <p className="text-amber-400/70 text-xs uppercase tracking-widest font-semibold mb-1">Puntos</p>
+                <p className="text-amber-400/70 text-xs uppercase tracking-widest font-semibold mb-1">{au.puntos}</p>
                 <p className="text-4xl font-black text-amber-400">{score.toLocaleString()}</p>
               </div>
             </div>
 
             {rd?.mejoras?.length > 0 && (
               <div className="bg-white/5 border border-white/10 rounded-2xl p-4 mb-5">
-                <p className="text-white/30 text-xs uppercase tracking-widest font-semibold mb-3">Mejoras conseguidas</p>
+                <p className="text-white/30 text-xs uppercase tracking-widest font-semibold mb-3">{au.mejoras}</p>
                 <div className="flex flex-wrap gap-2 justify-center">
                   {rd.mejoras.map((id, i) => {
                     const m = MEJORAS_POOL.find(x => x.id === id)
@@ -471,17 +529,17 @@ export default function AcercateRoguelike() {
             <div className="flex gap-3 justify-center mb-3">
               <button onClick={startRun}
                 className="px-8 py-3 bg-[#EDAE49] hover:bg-amber-400 text-black font-black rounded-2xl transition-all hover:scale-[1.02]">
-                Nueva run
+                {au.nuevaRun}
               </button>
               <button onClick={() => setFase('intro')}
                 className="px-6 py-3 bg-white/10 hover:bg-white/20 text-white font-bold rounded-2xl transition-all">
-                Menú
+                {au.menu}
               </button>
             </div>
 
             <button onClick={() => setShowShare(true)}
               className="w-full py-3 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/25 text-white/60 hover:text-white font-semibold rounded-2xl transition-all text-sm flex items-center justify-center gap-2">
-              <span>📤</span> Compartir resultado
+              <span>📤</span> {au.compartir}
             </button>
           </div>
 
