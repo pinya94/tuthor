@@ -18,19 +18,23 @@ function shuffle(arr) {
   return a
 }
 
-function generarPistasObligatorias(pais) {
+function generarPistasObligatorias(pais, lang) {
+  const en = lang === 'en'
   const todas = []
 
   const continentes = pais.continente.split('/')
-  const continenteTexto = continentes.length > 1 ? continentes.join(' y ') : pais.continente
-  todas.push({ texto: `Está en ${continenteTexto}`, validar: r => {
+  const continenteTexto = continentes.length > 1 ? continentes.join(en ? ' and ' : ' y ') : pais.continente
+  todas.push({ texto: en ? `Located in ${continenteTexto}` : `Está en ${continenteTexto}`, validar: r => {
     const p = PAISES.find(p => p.nombre === r)
     if (!p) return false
     const rConts = p.continente.split('/')
     return continentes.some(c => rConts.includes(c))
   }})
 
-  todas.push({ texto: `Está en el hemisferio ${pais.hemisferio === 'ambos' ? 'norte y sur (cruza el ecuador)' : pais.hemisferio}`, validar: r => {
+  const hemiTexto = pais.hemisferio === 'ambos'
+    ? (en ? 'northern and southern (crosses the equator)' : 'norte y sur (cruza el ecuador)')
+    : (en ? ({ norte: 'northern', sur: 'southern' }[pais.hemisferio] || pais.hemisferio) : pais.hemisferio)
+  todas.push({ texto: en ? `${hemiTexto} hemisphere` : `Está en el hemisferio ${hemiTexto}`, validar: r => {
     const p = PAISES.find(p => p.nombre === r)
     if (!p) return false
     if (pais.hemisferio === 'ambos') return true
@@ -38,34 +42,50 @@ function generarPistasObligatorias(pais) {
   }})
 
   const areaRef = pais.area > 500000 ? 500000 : pais.area > 100000 ? 100000 : 50000
-  const masOMenos = pais.area >= areaRef ? 'más' : 'menos'
-  todas.push({ texto: `Tiene ${masOMenos} de ${areaRef.toLocaleString()} km²`, validar: r => {
-    const p = PAISES.find(p => p.nombre === r)
-    return p && (masOMenos === 'más' ? p.area >= areaRef : p.area < areaRef)
-  }})
+  const masOMenos = pais.area >= areaRef
+  todas.push({
+    texto: en
+      ? `${masOMenos ? 'More' : 'Less'} than ${areaRef.toLocaleString()} km²`
+      : `Tiene ${masOMenos ? 'más' : 'menos'} de ${areaRef.toLocaleString()} km²`,
+    validar: r => {
+      const p = PAISES.find(p => p.nombre === r)
+      return p && (masOMenos ? p.area >= areaRef : p.area < areaRef)
+    }
+  })
 
   const pobRef = pais.poblacion > 100000000 ? 100000000 : pais.poblacion > 50000000 ? 50000000 : 20000000
-  const masPob = pais.poblacion >= pobRef ? 'más' : 'menos'
-  todas.push({ texto: `Tiene ${masPob} de ${(pobRef / 1000000).toFixed(0)} millones de habitantes`, validar: r => {
-    const p = PAISES.find(p => p.nombre === r)
-    return p && (masPob === 'más' ? p.poblacion >= pobRef : p.poblacion < pobRef)
-  }})
+  const masPob = pais.poblacion >= pobRef
+  todas.push({
+    texto: en
+      ? `${masPob ? 'More' : 'Less'} than ${(pobRef / 1000000).toFixed(0)}M inhabitants`
+      : `Tiene ${masPob ? 'más' : 'menos'} de ${(pobRef / 1000000).toFixed(0)} millones de habitantes`,
+    validar: r => {
+      const p = PAISES.find(p => p.nombre === r)
+      return p && (masPob ? p.poblacion >= pobRef : p.poblacion < pobRef)
+    }
+  })
 
-  const guerraTexto = pais.guerras === 'ambas' ? 'Participó en la I y II Guerra Mundial'
-    : pais.guerras === 'I' ? 'Participó en la I Guerra Mundial (pero no en la II)'
-    : pais.guerras === 'II' ? 'Participó en la II Guerra Mundial (pero no en la I)'
-    : 'No participó en ninguna guerra mundial'
+  const guerraTexto = en
+    ? (pais.guerras === 'ambas' ? 'Fought in both World Wars'
+      : pais.guerras === 'I' ? 'Fought in World War I (but not II)'
+      : pais.guerras === 'II' ? 'Fought in World War II (but not I)'
+      : 'Did not fight in any World War')
+    : (pais.guerras === 'ambas' ? 'Participó en la I y II Guerra Mundial'
+      : pais.guerras === 'I' ? 'Participó en la I Guerra Mundial (pero no en la II)'
+      : pais.guerras === 'II' ? 'Participó en la II Guerra Mundial (pero no en la I)'
+      : 'No participó en ninguna guerra mundial')
   todas.push({ texto: guerraTexto, validar: r => PAISES.find(p => p.nombre === r)?.guerras === pais.guerras })
 
   return shuffle(todas).slice(0, 3)
 }
 
-function generarPistasRegalo(pais, extra) {
+function generarPistasRegalo(pais, extra, lang) {
+  const en = lang === 'en'
   const todas = [
-    { texto: `Su montaña más alta es ${pais.montana}` },
-    { texto: `Su río más largo es ${pais.rio}` },
-    { texto: `Se habla ${pais.idioma}` },
-    { texto: `Un famoso de allí: ${pais.famoso}` },
+    { texto: en ? `Highest mountain: ${pais.montana}` : `Su montaña más alta es ${pais.montana}` },
+    { texto: en ? `Longest river: ${pais.rio}` : `Su río más largo es ${pais.rio}` },
+    { texto: en ? `Language: ${pais.idioma}` : `Se habla ${pais.idioma}` },
+    { texto: en ? `Famous person: ${pais.famoso}` : `Un famoso de allí: ${pais.famoso}` },
   ]
   return shuffle(todas).slice(0, extra ? 3 : 2)
 }
@@ -264,8 +284,8 @@ export default function GeoRush() {
     if (disponibles.length === 0) { setFase('fin'); return }
     const pais = disponibles[Math.floor(Math.random() * disponibles.length)]
 
-    const obligatorias = generarPistasObligatorias(pais)
-    const regalos      = generarPistasRegalo(pais, pistaExtraActiva)
+    const obligatorias = generarPistasObligatorias(pais, lang)
+    const regalos      = generarPistasRegalo(pais, pistaExtraActiva, lang)
     const mezcladas    = mezclarPistas(obligatorias, regalos)
 
     setPaisActual(pais)

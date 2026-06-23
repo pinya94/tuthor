@@ -26,25 +26,32 @@ function normalize(s) {
   return s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().trim()
 }
 
-function generarPistas(pais) {
+function generarPistas(pais, lang) {
+  const en = lang === 'en'
   const pobRef = pais.poblacion > 100000000 ? 100000000 : pais.poblacion > 50000000 ? 50000000 : 20000000
   const areaRef = pais.area > 500000 ? 500000 : pais.area > 100000 ? 100000 : 50000
+  const masPob = pais.poblacion >= pobRef
+  const masArea = pais.area >= areaRef
+
+  const hemi = pais.hemisferio === 'ambos'
+    ? (en ? 'Northern & Southern' : 'norte y sur')
+    : (en ? ({ norte: 'Northern', sur: 'Southern' }[pais.hemisferio] || pais.hemisferio) : pais.hemisferio)
 
   const obligatorias = shuffle([
-    { texto: `Hemisferio ${pais.hemisferio === 'ambos' ? 'norte y sur' : pais.hemisferio}`, tipo: 'obligatoria' },
-    { texto: `Tiene ${pais.area >= areaRef ? 'más' : 'menos'} de ${areaRef.toLocaleString()} km²`, tipo: 'obligatoria' },
-    { texto: `Tiene ${pais.poblacion >= pobRef ? 'más' : 'menos'} de ${(pobRef / 1000000).toFixed(0)}M habitantes`, tipo: 'obligatoria' },
-    { texto: pais.guerras === 'ambas' ? 'Participó en ambas guerras mundiales'
-      : pais.guerras === 'I' ? 'Participó en la I Guerra Mundial'
-      : pais.guerras === 'II' ? 'Participó en la II Guerra Mundial'
-      : 'No participó en guerras mundiales', tipo: 'obligatoria' },
+    { texto: en ? `${hemi} hemisphere` : `Hemisferio ${hemi}`, tipo: 'obligatoria' },
+    { texto: en ? `${masArea ? 'More' : 'Less'} than ${areaRef.toLocaleString()} km²` : `Tiene ${masArea ? 'más' : 'menos'} de ${areaRef.toLocaleString()} km²`, tipo: 'obligatoria' },
+    { texto: en ? `${masPob ? 'More' : 'Less'} than ${(pobRef / 1000000).toFixed(0)}M inhabitants` : `Tiene ${masPob ? 'más' : 'menos'} de ${(pobRef / 1000000).toFixed(0)}M habitantes`, tipo: 'obligatoria' },
+    { texto: en
+      ? (pais.guerras === 'ambas' ? 'Fought in both World Wars' : pais.guerras === 'I' ? 'Fought in WWI' : pais.guerras === 'II' ? 'Fought in WWII' : 'Did not fight in any World War')
+      : (pais.guerras === 'ambas' ? 'Participó en ambas guerras mundiales' : pais.guerras === 'I' ? 'Participó en la I Guerra Mundial' : pais.guerras === 'II' ? 'Participó en la II Guerra Mundial' : 'No participó en guerras mundiales'),
+      tipo: 'obligatoria' },
   ]).slice(0, 3)
 
   const regalos = shuffle([
-    { texto: `Montaña: ${pais.montana}`, tipo: 'regalo' },
-    { texto: `Río: ${pais.rio}`, tipo: 'regalo' },
-    { texto: `Idioma: ${pais.idioma}`, tipo: 'regalo' },
-    { texto: `Famoso: ${pais.famoso}`, tipo: 'regalo' },
+    { texto: en ? `Mountain: ${pais.montana}` : `Montaña: ${pais.montana}`, tipo: 'regalo' },
+    { texto: en ? `River: ${pais.rio}` : `Río: ${pais.rio}`, tipo: 'regalo' },
+    { texto: en ? `Language: ${pais.idioma}` : `Idioma: ${pais.idioma}`, tipo: 'regalo' },
+    { texto: en ? `Famous: ${pais.famoso}` : `Famoso: ${pais.famoso}`, tipo: 'regalo' },
   ]).slice(0, 2)
 
   const result = [obligatorias[0]]
@@ -139,7 +146,7 @@ export default function GeoRushExamen() {
   function iniciarPais(paisIdx) {
     const pais = pool[paisIdx]
     if (!pais) return
-    setPistas(generarPistas(pais))
+    setPistas(generarPistas(pais, lang))
     setPistaIdx(0)
     setInputVal('')
     setFeedback(null)
