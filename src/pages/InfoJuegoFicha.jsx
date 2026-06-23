@@ -190,11 +190,11 @@ export default function InfoJuegoFicha() {
           ← Volver al catálogo
         </Link>
         <header className="mb-4">
-          <div className="flex items-center gap-4 mb-4">
-            <span className="text-6xl">{ficha.emoji}</span>
-            <div>
-              <h1 className="text-3xl sm:text-4xl font-black text-white leading-tight">{ficha.titulo}</h1>
-              <p className="text-white/40 text-lg">{ficha.subtitulo}</p>
+          <div className="flex items-center gap-3 sm:gap-4 mb-4">
+            <span className="text-5xl sm:text-6xl shrink-0">{ficha.emoji}</span>
+            <div className="min-w-0">
+              <h1 className="text-2xl sm:text-4xl font-black text-white leading-tight">{ficha.titulo}</h1>
+              <p className="text-white/40 text-sm sm:text-lg">{ficha.subtitulo}</p>
             </div>
           </div>
           <div className="flex gap-3 mb-4">

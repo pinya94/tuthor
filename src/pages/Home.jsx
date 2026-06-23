@@ -243,9 +243,9 @@ export default function Home() {
               Escríbenos y te respondemos en menos de 24 horas.
             </p>
             <a href="mailto:consiguetualgogratis@gmail.com"
-              className="inline-flex items-center gap-2 text-teal-600 hover:text-teal-500 font-bold text-lg transition-colors">
-              <span className="text-2xl">✉️</span>
-              consiguetualgogratis@gmail.com
+              className="inline-flex items-center gap-2 text-teal-600 hover:text-teal-500 font-bold transition-colors text-sm sm:text-lg break-all">
+              <span className="text-xl sm:text-2xl shrink-0">✉️</span>
+              <span>consiguetualgogratis@gmail.com</span>
             </a>
           </section>
 
