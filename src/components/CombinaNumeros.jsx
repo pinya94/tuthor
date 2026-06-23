@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { aplicar, generarPuzzle, OP_STYLE } from '../lib/mathEngine'
+import { useLang } from '../context/LangContext'
 
 let _nextId = 1
 function uid() { return _nextId++ }
@@ -56,6 +57,8 @@ function Confetti() {
 //   onPlayAgain: si se pasa, se muestra el botón "Otra ronda" (modo práctica libre)
 //   onExit:     si se pasa, se muestra un botón para salir
 export default function CombinaNumeros({ ops, cfg, nivelLabel, onFinish, onPlayAgain, onExit, playAgainLabel = 'Otra ronda' }) {
+  const { lang } = useLang()
+  const en = lang === 'en'
   const [fase,       setFase]       = useState('jugando')
   const [objetivo,   setObjetivo]   = useState(null)
   const [numeros,    setNumeros]    = useState([])
@@ -184,7 +187,7 @@ export default function CombinaNumeros({ ops, cfg, nivelLabel, onFinish, onPlayA
         <div className="max-w-md w-full text-center">
           <div className="text-7xl mb-4">{exact ? '🎉' : cerca ? '😮' : '😅'}</div>
           <h2 className="text-3xl font-black text-white mb-2">
-            {exact ? '¡Exacto!' : cerca ? '¡Casi!' : finInfo?.porTiempo ? '¡Tiempo!' : 'Ronda terminada'}
+            {exact ? (en ? 'Exact!' : '¡Exacto!') : cerca ? (en ? 'Close!' : '¡Casi!') : finInfo?.porTiempo ? (en ? 'Time!' : '¡Tiempo!') : (en ? 'Round over' : 'Ronda terminada')}
           </h2>
           {exact ? (
             <p className="text-white/50 text-sm mb-1">
@@ -246,7 +249,7 @@ export default function CombinaNumeros({ ops, cfg, nivelLabel, onFinish, onPlayA
           :            'border-white/10 bg-white/3'
       }`}>
         {!sel1 ? (
-          <p className="text-white/20 text-sm">Selecciona un número para empezar</p>
+          <p className="text-white/20 text-sm">{en ? 'Select a number to start' : 'Selecciona un número para empezar'}</p>
         ) : (
           <>
             <span className="text-white font-black text-3xl">{sel1.valor}</span>
@@ -256,7 +259,7 @@ export default function CombinaNumeros({ ops, cfg, nivelLabel, onFinish, onPlayA
             }
           </>
         )}
-        {errorFlash && <span className="text-red-400 text-sm font-bold absolute">División no exacta</span>}
+        {errorFlash && <span className="text-red-400 text-sm font-bold absolute">{en ? 'Non-exact division' : 'División no exacta'}</span>}
       </div>
 
       {/* Números disponibles */}
@@ -307,15 +310,15 @@ export default function CombinaNumeros({ ops, cfg, nivelLabel, onFinish, onPlayA
       <div className="grid grid-cols-3 gap-2">
         <button onClick={undo} disabled={!historial.length && !sel1}
           className="py-3 bg-white/10 hover:bg-white/20 disabled:opacity-30 text-white font-bold rounded-2xl transition-all text-sm">
-          ↩ Deshacer
+          {en ? '↩ Undo' : '↩ Deshacer'}
         </button>
         <button onClick={resetear} disabled={historial.length === 0}
           className="py-3 bg-white/5 hover:bg-white/10 disabled:opacity-20 text-white/60 hover:text-white font-bold rounded-2xl transition-all text-sm">
-          🔄 Reiniciar
+          {en ? '🔄 Reset' : '🔄 Reiniciar'}
         </button>
         <button onClick={() => acabar()}
           className="py-3 bg-amber-500/20 hover:bg-amber-500/30 text-amber-400 font-bold rounded-2xl transition-all border border-amber-500/30 text-sm">
-          Terminar
+          {en ? 'Finish' : 'Terminar'}
         </button>
       </div>
     </div>
