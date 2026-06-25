@@ -78,10 +78,11 @@ export default function HistoriaTema() {
   const margen  = calcularMargen(categoria, nivel)
   const tieneFechas = (NIVELES_FECHAS[categoria] || []).includes(nivel)
 
-  // Configuración de Línea Temporal según nivel
+  const en = lang === 'en'
+
   const ltConfig = nivel === 'primaria'
-    ? { lives: 5, winAt: Math.min(10, eventos.length), livesLabel: '5 vidas', winLabel: `Coloca ${Math.min(10, eventos.length)} → Apruebas` }
-    : { lives: 3, winAt: null, livesLabel: '3 vidas', winLabel: `Coloca ${eventos.length} → Apruebas` }
+    ? { lives: 5, winAt: Math.min(10, eventos.length), livesLabel: en ? '5 lives' : '5 vidas', winLabel: en ? `Place ${Math.min(10, eventos.length)} → Pass` : `Coloca ${Math.min(10, eventos.length)} → Apruebas` }
+    : { lives: 3, winAt: null, livesLabel: en ? '3 lives' : '3 vidas', winLabel: en ? `Place ${eventos.length} → Pass` : `Coloca ${eventos.length} → Apruebas` }
 
   const portadasDelTema = PORTADAS.filter(p => p.temas?.includes(categoria))
   const tienePortadas   = portadasDelTema.length >= 10
@@ -89,44 +90,44 @@ export default function HistoriaTema() {
   const modos = [
     {
       id: 'linea',
-      titulo: 'Línea del Tiempo',
-      descripcion: 'Coloca los eventos en orden cronológico sin ver el año. Solo intuición histórica.',
+      titulo: en ? 'Timeline' : 'Línea del Tiempo',
+      descripcion: en ? 'Place events in chronological order without seeing the year. Pure historical intuition.' : 'Coloca los eventos en orden cronológico sin ver el año. Solo intuición histórica.',
       emoji: '📜',
       gradient: 'from-violet-600 to-indigo-700',
-      detalles: [ltConfig.livesLabel, ltConfig.winLabel, `${eventos.length} eventos`],
+      detalles: [ltConfig.livesLabel, ltConfig.winLabel, `${eventos.length} ${en ? 'events' : 'eventos'}`],
       action: () => navigate(localPath('/examen/linea-temporal'), {
         state: { categoria, nivel, backPath: `/estudiar/historia/${categoria}` }
       }),
     },
     CON_PERSONAJES.includes(categoria) && {
       id: 'personajes',
-      titulo: '¿Quién es quién?',
-      descripcion: 'Tacha personajes con cada pista hasta adivinar al secreto. Las pistas cambian en cada partida.',
+      titulo: en ? 'Who is Who?' : '¿Quién es quién?',
+      descripcion: en ? 'Cross out figures with each clue until you guess the secret one. Clues change every game.' : 'Tacha personajes con cada pista hasta adivinar al secreto. Las pistas cambian en cada partida.',
       emoji: '🕵️',
       gradient: 'from-violet-700 to-purple-900',
-      detalles: ['12 personajes por partida', '300 pts si aciertas a la 1ª pista', '2 intentos'],
+      detalles: [en ? '12 figures per game' : '12 personajes por partida', en ? '300 pts on 1st clue' : '300 pts si aciertas a la 1ª pista', en ? '2 attempts' : '2 intentos'],
       action: () => navigate(localPath('/juegos/quien-es-quien'), {
         state: { pool: categoria, backPath: `/estudiar/historia/${categoria}` }
       }),
     },
     tienePortadas && {
       id: 'portadas',
-      titulo: 'Portadas',
-      descripcion: 'Lee titulares reales de periódicos históricos y decide si son verdad o mentira. 10 portadas, nota al final.',
+      titulo: en ? 'Headlines' : 'Portadas',
+      descripcion: en ? 'Read real historical newspaper headlines and decide if they are true or false. 10 headlines, graded.' : 'Lee titulares reales de periódicos históricos y decide si son verdad o mentira. 10 portadas, nota al final.',
       emoji: '📰',
       gradient: 'from-stone-600 to-neutral-800',
-      detalles: [`${portadasDelTema.length} titulares`, '10 por examen', 'Verdad o mentira'],
+      detalles: [`${portadasDelTema.length} ${en ? 'headlines' : 'titulares'}`, `10 ${en ? 'per exam' : 'por examen'}`, en ? 'True or false' : 'Verdad o mentira'],
       action: () => navigate(localPath('/examen/portadas'), {
         state: { categoria, backPath: `/estudiar/historia/${categoria}` }
       }),
     },
     tieneFechas && {
       id: 'fechas',
-      titulo: 'Juego de Fechas',
-      descripcion: 'Escribe el año exacto de cada evento. Margen de ±' + margen + ' años. Una vida.',
+      titulo: en ? 'Date Game' : 'Juego de Fechas',
+      descripcion: en ? `Write the exact year of each event. Margin of ±${margen} years. One life.` : `Escribe el año exacto de cada evento. Margen de ±${margen} años. Una vida.`,
       emoji: '📅',
       gradient: 'from-amber-500 to-orange-600',
-      detalles: ['1 vida', `±${margen} años de margen`, `${eventos.length} preguntas`],
+      detalles: [en ? '1 life' : '1 vida', `±${margen} ${en ? 'years margin' : 'años de margen'}`, `${eventos.length} ${en ? 'questions' : 'preguntas'}`],
       action: () => navigate(localPath('/examen/historia'), {
         state: {
           examen: { id: categoria, ...meta },
@@ -216,10 +217,13 @@ export default function HistoriaTema() {
         ))}
 
         {/* Próximamente */}
-        {[
+        {(en ? [
+          !CON_PERSONAJES.includes(categoria) && { id: 'personajes', titulo: 'Historical Figures', emoji: '👤', desc: 'Who am I? Guess from clues.' },
+          { id: 'mapas', titulo: 'Historical Maps', emoji: '🗺️', desc: 'Identify territories and battles.' },
+        ] : [
           !CON_PERSONAJES.includes(categoria) && { id: 'personajes', titulo: 'Personajes Históricos', emoji: '👤', desc: '¿Quién soy? Adivina a partir de pistas.' },
           { id: 'mapas', titulo: 'Mapas Históricos', emoji: '🗺️', desc: 'Identifica territorios y batallas.' },
-        ].filter(Boolean).map(m => (
+        ]).filter(Boolean).map(m => (
           <div key={m.id} className="w-full rounded-2xl bg-white/3 border border-white/8 p-5 opacity-50">
             <div className="flex items-center gap-3">
               <span className="text-2xl">{m.emoji}</span>
@@ -227,7 +231,7 @@ export default function HistoriaTema() {
                 <h3 className="font-bold text-white/60 text-base">{m.titulo}</h3>
                 <p className="text-white/30 text-xs mt-0.5">{m.desc}</p>
               </div>
-              <span className="ml-auto text-xs font-bold text-white/30 border border-white/15 px-2 py-0.5 rounded-full">Pronto</span>
+              <span className="ml-auto text-xs font-bold text-white/30 border border-white/15 px-2 py-0.5 rounded-full">{en ? 'Soon' : 'Pronto'}</span>
             </div>
           </div>
         ))}
