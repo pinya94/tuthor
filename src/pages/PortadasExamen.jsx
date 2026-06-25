@@ -162,7 +162,7 @@ export default function PortadasExamen() {
             {en ? 'Retake exam' : 'Repetir examen'}
           </button>
           <button
-            onClick={() => navigate(backPath || -1)}
+            onClick={() => navigate(backPath ? localPath(backPath) : -1)}
             className="w-full py-3 text-white/40 hover:text-white/70 text-sm transition-colors"
           >
             {en ? '← Back to topic' : '← Volver al tema'}
@@ -224,7 +224,7 @@ export default function PortadasExamen() {
 
       {/* Header */}
       <div className="flex items-center justify-between mb-3">
-        <button onClick={() => navigate(backPath || -1)} className="text-white/40 hover:text-white/70 text-sm transition-colors">
+        <button onClick={() => navigate(backPath ? localPath(backPath) : -1)} className="text-white/40 hover:text-white/70 text-sm transition-colors">
           ← Salir
         </button>
         <div className="flex items-center gap-3 text-sm text-white/50">

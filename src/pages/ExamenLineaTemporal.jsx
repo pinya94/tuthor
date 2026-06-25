@@ -243,7 +243,7 @@ export default function ExamenLineaTemporal() {
         placed={placed} lives={lives}
         config={{ ...config, totalEvents: allEvents.length }}
         onRepetir={startGame}
-        onSalir={() => navigate(backPath || `/estudiar/${nivel}/historia`)}
+        onSalir={() => navigate(localPath(backPath || `/estudiar/${nivel}/historia`))}
         en={en}
       />
     </div>

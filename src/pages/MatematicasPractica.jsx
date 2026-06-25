@@ -70,7 +70,7 @@ export default function MatematicasPractica() {
           <p className="text-white/30 text-xs mb-6 text-center">
             <button onClick={() => navigate(localPath('/estudiar/matematicas'))} className="hover:text-white/60 transition-colors">{en ? 'Mathematics' : 'Matemáticas'}</button>
             {' '}/{' '}
-            <button onClick={() => navigate(`/estudiar/matematicas/${modo}`)} className="hover:text-white/60 transition-colors">{modoCfg.titulo}</button>
+            <button onClick={() => navigate(localPath(`/estudiar/matematicas/${modo}`))} className="hover:text-white/60 transition-colors">{modoCfg.titulo}</button>
             {' '}/{' '}<span className="text-white/50">{en ? 'Exam' : 'Examen'}</span>
           </p>
 
@@ -110,7 +110,7 @@ export default function MatematicasPractica() {
             {en ? 'Retake exam' : 'Repetir examen'}
           </button>
           <button
-            onClick={() => navigate(`/estudiar/matematicas/${modo}`)}
+            onClick={() => navigate(localPath(`/estudiar/matematicas/${modo}`))}
             className="w-full py-3 text-white/40 hover:text-white/70 text-sm transition-colors"
           >
             {en ? '← Back to topic' : '← Volver al tema'}
@@ -126,7 +126,7 @@ export default function MatematicasPractica() {
       <p className="text-white/30 text-xs mb-4 text-center">
         <button onClick={() => navigate('/estudiar/matematicas')} className="hover:text-white/60 transition-colors">Matemáticas</button>
         {' '}/{' '}
-        <button onClick={() => navigate(`/estudiar/matematicas/${modo}`)} className="hover:text-white/60 transition-colors">{modoCfg.titulo}</button>
+        <button onClick={() => navigate(localPath(`/estudiar/matematicas/${modo}`))} className="hover:text-white/60 transition-colors">{modoCfg.titulo}</button>
         {' '}/{' '}
         <span className="text-white/50">
           {modoExamen ? `${en ? 'Exam' : 'Examen'} · Puzzle ${exRonda}/${TOTAL_RONDAS}` : (en ? 'Target Number' : 'Acércate al número')}
@@ -174,7 +174,7 @@ export default function MatematicasPractica() {
           : () => setRunId(r => r + 1)
         }
         playAgainLabel={modoExamen ? `Puzzle ${exRonda + 1} →` : 'Otra ronda'}
-        onExit={modoExamen ? null : () => navigate(`/estudiar/matematicas/${modo}`)}
+        onExit={modoExamen ? null : () => navigate(localPath(`/estudiar/matematicas/${modo}`))}
       />
     </div>
   )

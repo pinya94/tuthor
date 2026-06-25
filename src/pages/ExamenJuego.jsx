@@ -238,7 +238,7 @@ function Resultado({ historial, eventos, margen, aprobado, preguntaMuerte, onRep
 // ── COMPONENTE PRINCIPAL ───────────────────────────────────────────────────
 export default function ExamenJuego() {
   const navigate = useNavigate()
-  const { lang } = useLang()
+  const { lang, localPath } = useLang()
   const en = lang === 'en'
   const location = useLocation()
   const examen = location.state?.examen
@@ -327,7 +327,7 @@ export default function ExamenJuego() {
           aprobado={aprobado}
           preguntaMuerte={preguntaMuerte}
           onRepetir={() => { iniciar(); setFase('jugando') }}
-          onSalir={() => navigate(backPath)}
+          onSalir={() => navigate(localPath(backPath))}
         />
       </div>
     )
