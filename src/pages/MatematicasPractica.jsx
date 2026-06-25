@@ -68,10 +68,10 @@ export default function MatematicasPractica() {
       <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
         <div className="max-w-md w-full">
           <p className="text-white/30 text-xs mb-6 text-center">
-            <button onClick={() => navigate('/estudiar/matematicas')} className="hover:text-white/60 transition-colors">Matemáticas</button>
+            <button onClick={() => navigate(localPath('/estudiar/matematicas'))} className="hover:text-white/60 transition-colors">{en ? 'Mathematics' : 'Matemáticas'}</button>
             {' '}/{' '}
             <button onClick={() => navigate(`/estudiar/matematicas/${modo}`)} className="hover:text-white/60 transition-colors">{modoCfg.titulo}</button>
-            {' '}/{' '}<span className="text-white/50">Examen</span>
+            {' '}/{' '}<span className="text-white/50">{en ? 'Exam' : 'Examen'}</span>
           </p>
 
           <div className="bg-white/5 border border-white/10 rounded-2xl p-6 text-center mb-4">
@@ -81,11 +81,11 @@ export default function MatematicasPractica() {
             </div>
             <h2 className="text-2xl font-black text-white mb-1">{cal.label}</h2>
             <p className={`text-5xl font-black mb-1 ${cal.color}`}>{exAciertos}/{TOTAL_RONDAS}</p>
-            <p className="text-white/40 text-sm">Nota: {cal.nota} · Acercaste al objetivo en {exAciertos} de {TOTAL_RONDAS} puzzles</p>
+            <p className="text-white/40 text-sm">{en ? `Grade: ${cal.nota} · You reached the target in ${exAciertos} of ${TOTAL_RONDAS} puzzles` : `Nota: ${cal.nota} · Acercaste al objetivo en ${exAciertos} de ${TOTAL_RONDAS} puzzles`}</p>
           </div>
 
           <div className="bg-white/5 border border-white/10 rounded-2xl p-4 mb-5">
-            <p className="text-white/30 text-xs uppercase tracking-widest mb-3 font-semibold">Detalle por puzzle</p>
+            <p className="text-white/30 text-xs uppercase tracking-widest mb-3 font-semibold">{en ? 'Detail per puzzle' : 'Detalle por puzzle'}</p>
             <div className="flex gap-2 flex-wrap">
               {exHistorial.map((h, i) => (
                 <div
@@ -93,7 +93,7 @@ export default function MatematicasPractica() {
                   className={`flex flex-col items-center gap-1 w-8 h-8 rounded-full border-2 text-xs font-bold justify-center ${
                     h.passed ? 'bg-green-400/20 border-green-400 text-green-400' : 'bg-red-400/20 border-red-400 text-red-400'
                   }`}
-                  title={h.passed ? 'Exacto' : 'No exacto'}
+                  title={h.passed ? (en ? 'Exact' : 'Exacto') : (en ? 'Not exact' : 'No exacto')}
                 >
                   {i + 1}
                 </div>
@@ -129,7 +129,7 @@ export default function MatematicasPractica() {
         <button onClick={() => navigate(`/estudiar/matematicas/${modo}`)} className="hover:text-white/60 transition-colors">{modoCfg.titulo}</button>
         {' '}/{' '}
         <span className="text-white/50">
-          {modoExamen ? `Examen · Puzzle ${exRonda}/${TOTAL_RONDAS}` : 'Acércate al número'}
+          {modoExamen ? `${en ? 'Exam' : 'Examen'} · Puzzle ${exRonda}/${TOTAL_RONDAS}` : (en ? 'Target Number' : 'Acércate al número')}
         </span>
       </p>
 

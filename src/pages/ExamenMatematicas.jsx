@@ -123,10 +123,10 @@ export default function ExamenMatematicas() {
     <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
       <div className="max-w-md w-full">
         <p className="text-white/30 text-xs mb-6 text-center">
-          <button onClick={() => navigate(`/estudiar/matematicas/${modo}`)} className="hover:text-white/60 transition-colors">
-            {modoCfg.titulo}
+          <button onClick={() => navigate(localPath(`/estudiar/matematicas/${modo}`))} className="hover:text-white/60 transition-colors">
+            {en ? (modoCfg.tituloEn || modoCfg.titulo) : modoCfg.titulo}
           </button>
-          {'  /  '}<span className="text-white/50">Examen</span>
+          {'  /  '}<span className="text-white/50">{en ? 'Exam' : 'Examen'}</span>
         </p>
 
         {/* Progreso */}
@@ -142,7 +142,7 @@ export default function ExamenMatematicas() {
 
         {/* Pregunta */}
         <div className={`border rounded-2xl p-8 text-center mb-4 transition-all duration-200 ${bgFb}`}>
-          <p className="text-white/40 text-xs mb-4 uppercase tracking-widest">¿Cuánto es?</p>
+          <p className="text-white/40 text-xs mb-4 uppercase tracking-widest">{en ? 'What is it?' : '¿Cuánto es?'}</p>
           <p className="text-5xl font-black text-white mb-6 font-mono">
             {p.a} {p.op} {p.b} = ?
           </p>
@@ -159,7 +159,7 @@ export default function ExamenMatematicas() {
                 value={respuesta}
                 onChange={e => setResp(e.target.value)}
                 onKeyDown={e => e.key === 'Enter' && confirmar()}
-                placeholder="Respuesta"
+                placeholder={en ? 'Answer' : 'Respuesta'}
                 className="flex-1 bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white text-center text-xl font-bold placeholder:text-white/20 focus:outline-none focus:border-white/50"
               />
               <button
