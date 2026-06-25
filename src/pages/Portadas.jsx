@@ -221,12 +221,16 @@ export default function Portadas() {
 
           <div className="grid grid-cols-2 gap-4 mb-6">
             <div className="bg-white/5 border border-white/10 rounded-2xl p-5 space-y-3 text-sm">
-              <p className="text-white/40 text-xs font-semibold uppercase tracking-widest">Reglas</p>
-              {[
+              <p className="text-white/40 text-xs font-semibold uppercase tracking-widest">{pu.reglas}</p>
+              {(lang === 'en' ? [
+                ['⏱️', 'Starting time', `${d.tiempoInicio}s`],
+                ['✅', 'On correct',    `+${d.suma}s`],
+                ['❌', 'On wrong',      `−${d.resta}s`],
+              ] : [
                 ['⏱️', 'Tiempo inicial', `${d.tiempoInicio}s`],
                 ['✅', 'Al acertar',     `+${d.suma}s`],
                 ['❌', 'Al fallar',      `−${d.resta}s`],
-              ].map(([e, k, v]) => (
+              ]).map(([e, k, v]) => (
                 <div key={k} className="flex items-center justify-between gap-2">
                   <span className="text-white/40 shrink-0">{e} {k}</span>
                   <span className="text-white font-semibold">{v}</span>
@@ -234,12 +238,16 @@ export default function Portadas() {
               ))}
             </div>
             <div className="bg-white/5 border border-white/10 rounded-2xl p-5 space-y-3 text-sm">
-              <p className="text-white/40 text-xs font-semibold uppercase tracking-widest">Puntos</p>
-              {[
+              <p className="text-white/40 text-xs font-semibold uppercase tracking-widest">{pu.puntos}</p>
+              {(lang === 'en' ? [
+                ['🎯', 'Base per correct', `${d.basePts} pts`],
+                ['🔥', 'Streak ×2',        `+25% pts`],
+                ['🏆', 'Streak ×3+',       `+50% pts`],
+              ] : [
                 ['🎯', 'Base por acierto', `${d.basePts} pts`],
                 ['🔥', 'Racha ×2',         `+25% pts`],
                 ['🏆', 'Racha ×3+',        `+50% pts`],
-              ].map(([e, k, v]) => (
+              ]).map(([e, k, v]) => (
                 <div key={k} className="flex items-center justify-between gap-2">
                   <span className="text-white/40 shrink-0">{e} {k}</span>
                   <span className="text-white font-semibold">{v}</span>
@@ -249,14 +257,19 @@ export default function Portadas() {
           </div>
 
           <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-7">
-            <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-3">Cómo funciona</p>
+            <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-3">{pu.comoFunciona}</p>
             <div className="grid grid-cols-2 gap-2">
-              {[
+              {(lang === 'en' ? [
+                ['📰', 'A real historical newspaper front page'],
+                ['🤔', 'True or false — you decide'],
+                ['⏱️', 'Correct → gain time; wrong → lose time'],
+                ['💡', "You'll always see the historical explanation"],
+              ] : [
                 ['📰', 'Portada de un periódico histórico real'],
                 ['🤔', 'Verdad o mentira — tú decides'],
                 ['⏱️', 'Aciertas → ganas tiempo; fallas → pierdes'],
                 ['💡', 'Siempre verás la explicación histórica'],
-              ].map(([e, t]) => (
+              ]).map(([e, t]) => (
                 <div key={t} className="flex items-start gap-2 text-sm text-white/50">
                   <span className="text-base w-5 shrink-0 text-center">{e}</span>
                   <span>{t}</span>
