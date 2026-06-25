@@ -1,23 +1,26 @@
 import { useState } from 'react'
 import { useNavigate, useParams, useLocation } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
+import { useLang } from '../context/LangContext'
 import { saveActivity } from '../lib/activity'
 import { MODOS, GRADOS } from '../lib/mathEngine'
 import CombinaNumeros from '../components/CombinaNumeros'
 
 const TOTAL_RONDAS = 10
 
-function calificacion(aciertos) {
-  if (aciertos >= 9)  return { label: 'Sobresaliente', nota: aciertos === 10 ? 10 : 9, color: 'text-green-400' }
-  if (aciertos >= 7)  return { label: 'Notable',       nota: aciertos,                color: 'text-blue-400'  }
-  if (aciertos === 6) return { label: 'Bien',          nota: 6,                       color: 'text-yellow-300'}
-  if (aciertos === 5) return { label: 'Suficiente',    nota: 5,                       color: 'text-orange-400'}
-  return { label: 'Insuficiente', nota: Math.max(1, aciertos), color: 'text-red-400' }
+function calificacion(aciertos, en) {
+  if (aciertos >= 9)  return { label: en ? 'Outstanding' : 'Sobresaliente', nota: aciertos === 10 ? 10 : 9, color: 'text-green-400' }
+  if (aciertos >= 7)  return { label: en ? 'Good' : 'Notable',              nota: aciertos,                color: 'text-blue-400'  }
+  if (aciertos === 6) return { label: en ? 'Fair' : 'Bien',                 nota: 6,                       color: 'text-yellow-300'}
+  if (aciertos === 5) return { label: en ? 'Pass' : 'Suficiente',           nota: 5,                       color: 'text-orange-400'}
+  return { label: en ? 'Fail' : 'Insuficiente', nota: Math.max(1, aciertos), color: 'text-red-400' }
 }
 
 export default function MatematicasPractica() {
   const navigate   = useNavigate()
   const location   = useLocation()
+  const { lang, localPath } = useLang()
+  const en = lang === 'en'
   const { modo }   = useParams()
   const { user }   = useAuth()
   const [runId, setRunId] = useState(0)
@@ -60,7 +63,7 @@ export default function MatematicasPractica() {
   // ── Resultado del examen ──────────────────────────────────────────────────
   if (modoExamen && exFase === 'resultado') {
     const aprobado = exAciertos >= 5
-    const cal = calificacion(exAciertos)
+    const cal = calificacion(exAciertos, en)
     return (
       <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
         <div className="max-w-md w-full">
@@ -74,7 +77,7 @@ export default function MatematicasPractica() {
           <div className="bg-white/5 border border-white/10 rounded-2xl p-6 text-center mb-4">
             <div className="text-5xl mb-3">{aprobado ? '🎉' : '😬'}</div>
             <div className={`text-xs uppercase tracking-widest font-semibold mb-1 ${aprobado ? 'text-green-400' : 'text-red-400'}`}>
-              {aprobado ? 'Aprobado' : 'Suspenso'}
+              {aprobado ? (en ? 'Passed' : 'Aprobado') : (en ? 'Failed' : 'Suspenso')}
             </div>
             <h2 className="text-2xl font-black text-white mb-1">{cal.label}</h2>
             <p className={`text-5xl font-black mb-1 ${cal.color}`}>{exAciertos}/{TOTAL_RONDAS}</p>
@@ -104,13 +107,13 @@ export default function MatematicasPractica() {
             }}
             className="w-full py-3 bg-[#EDAE49] hover:bg-amber-400 text-black font-black rounded-2xl transition-all mb-2"
           >
-            Repetir examen
+            {en ? 'Retake exam' : 'Repetir examen'}
           </button>
           <button
             onClick={() => navigate(`/estudiar/matematicas/${modo}`)}
             className="w-full py-3 text-white/40 hover:text-white/70 text-sm transition-colors"
           >
-            ← Volver al tema
+            {en ? '← Back to topic' : '← Volver al tema'}
           </button>
         </div>
       </div>

@@ -6,7 +6,7 @@ import { useLang } from '../context/LangContext'
 import { saveActivity } from '../lib/activity'
 
 // ── PANTALLA INTRO ─────────────────────────────────────────────────────────
-function Intro({ examen, eventos, margen, onStart }) {
+function Intro({ examen, eventos, margen, onStart, en }) {
   return (
     <div className="flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
       <div className="max-w-lg w-full">
@@ -22,22 +22,22 @@ function Intro({ examen, eventos, margen, onStart }) {
           <div className="flex items-start gap-4">
             <span className="text-2xl mt-0.5">❤️</span>
             <div>
-              <p className="font-bold text-white text-sm">Una sola vida</p>
-              <p className="text-white/50 text-xs mt-0.5">Si te equivocas más del margen en una pregunta, el examen acaba. Puedes seguir viendo el resto, pero sin puntuación.</p>
+              <p className="font-bold text-white text-sm">{en ? 'One life' : 'Una sola vida'}</p>
+              <p className="text-white/50 text-xs mt-0.5">{en ? 'If you miss by more than the margin on any question, the exam ends. You can keep viewing the rest, but without scoring.' : 'Si te equivocas más del margen en una pregunta, el examen acaba. Puedes seguir viendo el resto, pero sin puntuación.'}</p>
             </div>
           </div>
           <div className="flex items-start gap-4">
             <span className="text-2xl mt-0.5">📏</span>
             <div>
-              <p className="font-bold text-white text-sm">Margen de este examen: <span className="text-violet-400">±{margen} {margen === 1 ? 'año' : 'años'}</span></p>
-              <p className="text-white/50 text-xs mt-0.5">Calculado según el rango histórico de los {eventos.length} eventos. Cuanto más comprimida la época, menos margen.</p>
+              <p className="font-bold text-white text-sm">{en ? 'Margin for this exam' : 'Margen de este examen'}: <span className="text-violet-400">±{margen} {margen === 1 ? (en ? 'year' : 'año') : (en ? 'years' : 'años')}</span></p>
+              <p className="text-white/50 text-xs mt-0.5">{en ? `Calculated from the historical range of the ${eventos.length} events. The more compressed the era, the less margin.` : `Calculado según el rango histórico de los ${eventos.length} eventos. Cuanto más comprimida la época, menos margen.`}</p>
             </div>
           </div>
           <div className="flex items-start gap-4">
             <span className="text-2xl mt-0.5">🏆</span>
             <div>
-              <p className="font-bold text-white text-sm">Llegar al final = aprobar</p>
-              <p className="text-white/50 text-xs mt-0.5">Cuanto más cerca del año exacto, más puntos. El año exacto da bonus.</p>
+              <p className="font-bold text-white text-sm">{en ? 'Reach the end = pass' : 'Llegar al final = aprobar'}</p>
+              <p className="text-white/50 text-xs mt-0.5">{en ? 'The closer to the exact year, the more points. The exact year gives a bonus.' : 'Cuanto más cerca del año exacto, más puntos. El año exacto da bonus.'}</p>
             </div>
           </div>
         </div>
@@ -46,7 +46,7 @@ function Intro({ examen, eventos, margen, onStart }) {
           onClick={onStart}
           className="w-full bg-violet-600 hover:bg-violet-700 text-white font-bold py-4 rounded-xl transition-colors text-lg"
         >
-          Empezar examen →
+          {en ? 'Start exam →' : 'Empezar examen →'}
         </button>
       </div>
     </div>
@@ -54,7 +54,7 @@ function Intro({ examen, eventos, margen, onStart }) {
 }
 
 // ── BARRA DE VIDA ──────────────────────────────────────────────────────────
-function VidaBar({ vivo }) {
+function VidaBar({ vivo, en }) {
   return (
     <div className={`flex items-center gap-2 px-4 py-2 rounded-full border text-sm font-bold transition-all ${
       vivo
@@ -62,13 +62,13 @@ function VidaBar({ vivo }) {
         : 'bg-white/5 border-white/10 text-white/30 line-through'
     }`}>
       <span>{vivo ? '❤️' : '💀'}</span>
-      <span>{vivo ? 'Una vida' : 'Muerto — modo espectador'}</span>
+      <span>{vivo ? (en ? 'One life' : 'Una vida') : (en ? 'Dead — spectator mode' : 'Muerto — modo espectador')}</span>
     </div>
   )
 }
 
 // ── PREGUNTA ───────────────────────────────────────────────────────────────
-function Pregunta({ evento, margen, idx, total, vivo, onResponder }) {
+function Pregunta({ evento, margen, idx, total, vivo, onResponder, en }) {
   const [input, setInput] = useState('')
   const [respondido, setRespondido] = useState(false)
   const [resultado, setResultado] = useState(null)
@@ -99,7 +99,7 @@ function Pregunta({ evento, margen, idx, total, vivo, onResponder }) {
     <div className="max-w-lg w-full mx-auto">
       {/* Progreso */}
       <div className="flex items-center justify-between mb-4 text-sm text-white/40">
-        <span>Pregunta {idx + 1} de {total}</span>
+        <span>{en ? 'Question' : 'Pregunta'} {idx + 1} {en ? 'of' : 'de'} {total}</span>
         <span className="text-white/20">{'█'.repeat(idx + 1)}{'░'.repeat(total - idx - 1)}</span>
       </div>
 
@@ -119,7 +119,7 @@ function Pregunta({ evento, margen, idx, total, vivo, onResponder }) {
       </div>
 
       {/* Margen visible */}
-      <p className="text-center text-white/30 text-xs mb-3">Margen permitido: <span className="text-violet-400 font-bold">±{margen} {margen === 1 ? 'año' : 'años'}</span></p>
+      <p className="text-center text-white/30 text-xs mb-3">{en ? 'Allowed margin' : 'Margen permitido'}: <span className="text-violet-400 font-bold">±{margen} {margen === 1 ? (en ? 'year' : 'año') : (en ? 'years' : 'años')}</span></p>
 
       {/* Input */}
       {!respondido ? (
@@ -130,7 +130,7 @@ function Pregunta({ evento, margen, idx, total, vivo, onResponder }) {
             value={input}
             onChange={e => setInput(e.target.value)}
             onKeyDown={e => e.key === 'Enter' && enviar()}
-            placeholder="¿En qué año?"
+            placeholder={en ? "What year?" : "¿En qué año?"}
             className="flex-1 bg-white/5 border border-white/20 rounded-xl px-4 py-3 text-white text-center text-xl font-bold placeholder:text-white/20 focus:outline-none focus:border-violet-500 transition-colors [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
           />
           <button
@@ -148,10 +148,10 @@ function Pregunta({ evento, margen, idx, total, vivo, onResponder }) {
           : 'bg-red-500/20 border border-red-500/40 text-red-400'
         }`}>
           {resultado.exacto
-            ? `⭐ ¡Año exacto! +${resultado.puntos} pts`
+            ? `⭐ ${en ? 'Exact year!' : '¡Año exacto!'} +${resultado.puntos} pts`
             : resultado.dentro
-              ? `✓ Cerca — te has desviado ${resultado.diff} ${resultado.diff === 1 ? 'año' : 'años'}. El año era ${evento.año}. +${resultado.puntos} pts`
-              : `✕ Demasiado lejos — te has desviado ${resultado.diff} años. El año era ${evento.año}.`
+              ? `✓ ${en ? 'Close' : 'Cerca'} — ${en ? `off by ${resultado.diff} ${resultado.diff === 1 ? 'year' : 'years'}. The year was ${evento.año}.` : `te has desviado ${resultado.diff} ${resultado.diff === 1 ? 'año' : 'años'}. El año era ${evento.año}.`} +${resultado.puntos} pts`
+              : `✕ ${en ? `Too far — off by ${resultado.diff} years. The year was ${evento.año}.` : `Demasiado lejos — te has desviado ${resultado.diff} años. El año era ${evento.año}.`}`
           }
         </div>
       )}
@@ -160,37 +160,37 @@ function Pregunta({ evento, margen, idx, total, vivo, onResponder }) {
 }
 
 // ── RESULTADO FINAL ────────────────────────────────────────────────────────
-function Resultado({ historial, eventos, margen, aprobado, preguntaMuerte, onRepetir, onSalir }) {
+function Resultado({ historial, eventos, margen, aprobado, preguntaMuerte, onRepetir, onSalir, en }) {
   const puntos = historial.reduce((s, h) => s + h.puntos, 0)
   const aciertos = historial.filter(h => h.dentro).length
   const exactos = historial.filter(h => h.exacto).length
 
   let nota, notaColor
-  if (!aprobado) { nota = 'SUSPENDIDO'; notaColor = 'text-red-400' }
+  if (!aprobado) { nota = en ? 'FAILED' : 'SUSPENDIDO'; notaColor = 'text-red-400' }
   else {
     const pct = aciertos / eventos.length
-    if (pct >= 0.9) { nota = 'SOBRESALIENTE'; notaColor = 'text-violet-400' }
-    else if (pct >= 0.7) { nota = 'NOTABLE'; notaColor = 'text-blue-400' }
-    else { nota = 'APROBADO'; notaColor = 'text-green-400' }
+    if (pct >= 0.9) { nota = en ? 'OUTSTANDING' : 'SOBRESALIENTE'; notaColor = 'text-violet-400' }
+    else if (pct >= 0.7) { nota = en ? 'GOOD' : 'NOTABLE'; notaColor = 'text-blue-400' }
+    else { nota = en ? 'PASSED' : 'APROBADO'; notaColor = 'text-green-400' }
   }
 
   return (
     <div className="flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
       <div className="max-w-lg w-full">
         <div className="text-center mb-6">
-          <p className="text-white/40 text-xs uppercase tracking-widest mb-2">Resultado final</p>
+          <p className="text-white/40 text-xs uppercase tracking-widest mb-2">{en ? 'Final result' : 'Resultado final'}</p>
           <h1 className={`text-4xl font-black mb-1 ${notaColor}`}>{nota}</h1>
           {!aprobado && (
-            <p className="text-white/50 text-sm">Fallaste en la pregunta {preguntaMuerte + 1} de {eventos.length}</p>
+            <p className="text-white/50 text-sm">{en ? `Failed on question ${preguntaMuerte + 1} of ${eventos.length}` : `Fallaste en la pregunta ${preguntaMuerte + 1} de ${eventos.length}`}</p>
           )}
         </div>
 
         {/* Stats */}
         <div className="grid grid-cols-3 gap-3 mb-6">
           {[
-            { val: puntos, label: 'Puntos' },
-            { val: `${aciertos}/${historial.length}`, label: 'Dentro del margen' },
-            { val: exactos, label: 'Años exactos ⭐' },
+            { val: puntos, label: en ? 'Points' : 'Puntos' },
+            { val: `${aciertos}/${historial.length}`, label: en ? 'Within margin' : 'Dentro del margen' },
+            { val: exactos, label: en ? 'Exact years ⭐' : 'Años exactos ⭐' },
           ].map(s => (
             <div key={s.label} className="bg-white/5 border border-white/10 rounded-xl p-3 text-center">
               <p className="text-xl font-black text-white">{s.val}</p>
@@ -206,7 +206,7 @@ function Resultado({ historial, eventos, margen, aprobado, preguntaMuerte, onRep
             if (!h) return (
               <div key={ev.id} className="flex items-center justify-between text-sm py-1 opacity-30">
                 <span className="text-white/50 truncate mr-2">{i + 1}. {ev.nombreEn || ev.nombre}</span>
-                <span className="text-white/30 shrink-0">— sin responder</span>
+                <span className="text-white/30 shrink-0">— {en ? 'unanswered' : 'sin responder'}</span>
               </div>
             )
             return (
@@ -224,10 +224,10 @@ function Resultado({ historial, eventos, margen, aprobado, preguntaMuerte, onRep
 
         <div className="flex flex-col gap-3">
           <button onClick={onRepetir} className="w-full bg-violet-600 hover:bg-violet-700 text-white font-bold py-3 rounded-xl transition-colors">
-            Repetir examen ↺
+            {en ? 'Retake exam ↺' : 'Repetir examen ↺'}
           </button>
           <button onClick={onSalir} className="w-full bg-white/5 hover:bg-white/10 border border-white/10 text-white/70 font-medium py-3 rounded-xl transition-colors">
-            Volver a Historia
+            {en ? 'Back to History' : 'Volver a Historia'}
           </button>
         </div>
       </div>

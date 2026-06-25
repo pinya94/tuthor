@@ -60,12 +60,12 @@ function generarPistas(pais, lang) {
   return result
 }
 
-function calificacion(aciertos) {
-  if (aciertos >= 9)  return { label: 'Sobresaliente', color: 'text-green-400' }
-  if (aciertos >= 7)  return { label: 'Notable',       color: 'text-blue-400'  }
-  if (aciertos === 6) return { label: 'Bien',           color: 'text-yellow-300'}
-  if (aciertos === 5) return { label: 'Suficiente',     color: 'text-orange-400'}
-  return { label: 'Insuficiente', color: 'text-red-400' }
+function calificacion(aciertos, en) {
+  if (aciertos >= 9)  return { label: en ? 'Outstanding' : 'Sobresaliente', color: 'text-green-400' }
+  if (aciertos >= 7)  return { label: en ? 'Good' : 'Notable',              color: 'text-blue-400'  }
+  if (aciertos === 6) return { label: en ? 'Fair' : 'Bien',                 color: 'text-yellow-300'}
+  if (aciertos === 5) return { label: en ? 'Pass' : 'Suficiente',           color: 'text-orange-400'}
+  return { label: en ? 'Fail' : 'Insuficiente', color: 'text-red-400' }
 }
 
 function AutocompleteInput({ value, onChange, onSubmit, disabled, focusKey }) {
@@ -160,7 +160,7 @@ export default function GeoRushExamen() {
       <div className="relative z-10 flex items-center justify-center min-h-[calc(100vh-4rem)] px-4">
         <div className="text-center text-white/50">
           <p className="text-lg mb-4">No hay suficientes países para esta región.</p>
-          <button onClick={() => navigate(backPath ? localPath(backPath) : -1)} className="text-[#EDAE49] hover:underline">← Volver</button>
+          <button onClick={() => navigate(backPath ? localPath(backPath) : -1)} className="text-[#EDAE49] hover:underline">{lang === 'en' ? '← Back' : '← Volver'}</button>
         </div>
       </div>
     )
@@ -220,14 +220,15 @@ export default function GeoRushExamen() {
   // ── RESULTADO ─────────────────────────────────────────────────────────────
   if (fase === 'resultado') {
     const aprobado = aciertos >= 5
-    const cal = calificacion(aciertos)
+    const en = lang === 'en'
+    const cal = calificacion(aciertos, en)
     return (
       <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
         <div className="max-w-md w-full">
           <div className="bg-white/5 border border-white/10 rounded-2xl p-6 text-center mb-4">
             <div className="text-5xl mb-3">{aprobado ? '🎉' : '😬'}</div>
             <div className={`text-xs uppercase tracking-widest font-semibold mb-1 ${aprobado ? 'text-green-400' : 'text-red-400'}`}>
-              {aprobado ? 'Aprobado' : 'Suspenso'}
+              {aprobado ? (en ? 'Passed' : 'Aprobado') : (en ? 'Failed' : 'Suspenso')}
             </div>
             <h2 className="text-2xl font-black text-white mb-1">{cal.label}</h2>
             <p className={`text-5xl font-black mb-1 ${cal.color}`}>{aciertos}/{TOTAL}</p>
@@ -247,11 +248,11 @@ export default function GeoRushExamen() {
 
           <button onClick={() => { setIdx(0); setAciertos(0); setHistorial([]); setFase('jugando'); iniciarPais(0) }}
             className="w-full py-3 bg-[#EDAE49] hover:bg-amber-400 text-black font-black rounded-2xl transition-all mb-2">
-            Repetir examen
+            {en ? 'Retake exam' : 'Repetir examen'}
           </button>
           <button onClick={() => navigate(backPath ? localPath(backPath) : -1)}
             className="w-full py-3 text-white/40 hover:text-white/70 text-sm transition-colors">
-            ← Volver a Geografía
+            {en ? '← Back to Geography' : '← Volver a Geografía'}
           </button>
         </div>
       </div>
@@ -264,7 +265,7 @@ export default function GeoRushExamen() {
 
       <div className="flex items-center justify-between mb-3">
         <button onClick={() => navigate(backPath ? localPath(backPath) : -1)} className="text-white/40 hover:text-white/70 text-sm transition-colors">
-          ← Salir
+          {lang === 'en' ? '← Exit' : '← Salir'}
         </button>
         <span className="text-white/40 text-sm font-bold">🌍 {titulo} · {idx + 1}/{TOTAL}</span>
       </div>

@@ -15,7 +15,7 @@ function formatYear(y) {
 
 
 // ── INTRO ──────────────────────────────────────────────────────────────────────
-function Intro({ config, totalEvents, onStart }) {
+function Intro({ config, totalEvents, onStart, en }) {
   const { lives, winAt, label, emoji, descripcion } = config
   return (
     <div className="flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
@@ -29,9 +29,9 @@ function Intro({ config, totalEvents, onStart }) {
           <p className="text-white/60 text-sm leading-relaxed">{descripcion}</p>
           <div className="border-t border-white/10 pt-4 space-y-3">
             {[
-              { icon: '🃏', title: 'Coloca cada carta en su posición', desc: 'El año está oculto. Decide si va antes o después de los que ya tienes.' },
-              { icon: '❤️', title: `${lives} vidas`, desc: `Cada error te cuesta una vida.` },
-              { icon: '🏆', title: winAt ? `Coloca ${winAt} bien → Apruebas` : `Coloca todos bien → Apruebas`, desc: totalEvents ? `Hay ${totalEvents} eventos en este examen.` : '' },
+              { icon: '🃏', title: en ? 'Place each card in position' : 'Coloca cada carta en su posición', desc: en ? 'The year is hidden. Decide if it goes before or after.' : 'El año está oculto. Decide si va antes o después de los que ya tienes.' },
+              { icon: '❤️', title: `${lives} ${en ? 'lives' : 'vidas'}`, desc: en ? 'Each mistake costs a life.' : 'Cada error te cuesta una vida.' },
+              { icon: '🏆', title: winAt ? (en ? `Place ${winAt} correctly → Pass` : `Coloca ${winAt} bien → Apruebas`) : (en ? 'Place all correctly → Pass' : 'Coloca todos bien → Apruebas'), desc: totalEvents ? (en ? `${totalEvents} events in this exam.` : `Hay ${totalEvents} eventos en este examen.`) : '' },
             ].map(r => (
               <div key={r.title} className="flex items-start gap-3">
                 <span className="text-xl shrink-0">{r.icon}</span>
@@ -44,7 +44,7 @@ function Intro({ config, totalEvents, onStart }) {
           </div>
         </div>
         <button onClick={onStart} className="w-full bg-violet-600 hover:bg-violet-700 text-white font-bold py-4 rounded-xl transition-colors text-lg">
-          Empezar →
+          {en ? 'Start →' : 'Empezar →'}
         </button>
       </div>
     </div>
@@ -52,34 +52,34 @@ function Intro({ config, totalEvents, onStart }) {
 }
 
 // ── RESULTADO ─────────────────────────────────────────────────────────────────
-function Resultado({ placed, lives, config, onRepetir, onSalir }) {
+function Resultado({ placed, lives, config, onRepetir, onSalir, en }) {
   const { winAt, totalEvents } = config
   const target = winAt ?? totalEvents
   const aprobado = placed >= target
 
   let nota, notaColor
-  if (!aprobado)          { nota = 'SUSPENSO';        notaColor = 'text-red-400' }
-  else if (placed >= totalEvents) { nota = 'SOBRESALIENTE'; notaColor = 'text-violet-400' }
-  else if (placed >= target * 1.3) { nota = 'NOTABLE';  notaColor = 'text-blue-400' }
-  else                    { nota = 'APROBADO';       notaColor = 'text-green-400' }
+  if (!aprobado)          { nota = en ? 'FAIL' : 'SUSPENSO';              notaColor = 'text-red-400' }
+  else if (placed >= totalEvents) { nota = en ? 'OUTSTANDING' : 'SOBRESALIENTE'; notaColor = 'text-violet-400' }
+  else if (placed >= target * 1.3) { nota = en ? 'GOOD' : 'NOTABLE';      notaColor = 'text-blue-400' }
+  else                    { nota = en ? 'PASS' : 'APROBADO';              notaColor = 'text-green-400' }
 
   return (
     <div className="flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
       <div className="max-w-md w-full">
         <div className="text-center mb-6">
-          <p className="text-white/40 text-xs uppercase tracking-widest mb-2">Resultado</p>
+          <p className="text-white/40 text-xs uppercase tracking-widest mb-2">{en ? 'Result' : 'Resultado'}</p>
           <h1 className={`text-4xl font-black mb-1 ${notaColor}`}>{nota}</h1>
           <p className="text-white/40 text-sm">
             {aprobado
-              ? `Has colocado ${placed} de ${totalEvents} eventos correctamente`
-              : `Solo ${placed} de ${target} necesarios`}
+              ? (en ? `You placed ${placed} of ${totalEvents} events correctly` : `Has colocado ${placed} de ${totalEvents} eventos correctamente`)
+              : (en ? `Only ${placed} of ${target} needed` : `Solo ${placed} de ${target} necesarios`)}
           </p>
         </div>
         <div className="grid grid-cols-3 gap-3 mb-6">
           {[
-            { val: placed, label: 'Colocadas', emoji: '✅' },
-            { val: target, label: 'Para aprobar', emoji: '🎯' },
-            { val: lives, label: 'Vidas restantes', emoji: '❤️' },
+            { val: placed, label: en ? 'Placed' : 'Colocadas', emoji: '✅' },
+            { val: target, label: en ? 'To pass' : 'Para aprobar', emoji: '🎯' },
+            { val: lives, label: en ? 'Lives left' : 'Vidas restantes', emoji: '❤️' },
           ].map(s => (
             <div key={s.label} className="bg-white/5 border border-white/10 rounded-xl p-3 text-center">
               <span className="text-xl block mb-1">{s.emoji}</span>
@@ -90,10 +90,10 @@ function Resultado({ placed, lives, config, onRepetir, onSalir }) {
         </div>
         <div className="flex flex-col gap-3">
           <button onClick={onRepetir} className="w-full bg-violet-600 hover:bg-violet-700 text-white font-bold py-3 rounded-xl transition-colors">
-            Repetir ↺
+            {en ? 'Retry ↺' : 'Repetir ↺'}
           </button>
           <button onClick={onSalir} className="w-full bg-white/5 hover:bg-white/10 border border-white/10 text-white/70 font-medium py-3 rounded-xl transition-colors">
-            Volver
+            {en ? 'Back' : 'Volver'}
           </button>
         </div>
       </div>
@@ -233,7 +233,7 @@ export default function ExamenLineaTemporal() {
 
   if (fase === 'intro') return (
     <div className="relative z-10">
-      <Intro config={{ ...config, totalEvents: allEvents.length }} totalEvents={allEvents.length} onStart={startGame} />
+      <Intro config={{ ...config, totalEvents: allEvents.length }} totalEvents={allEvents.length} onStart={startGame} en={en} />
     </div>
   )
 
@@ -244,6 +244,7 @@ export default function ExamenLineaTemporal() {
         config={{ ...config, totalEvents: allEvents.length }}
         onRepetir={startGame}
         onSalir={() => navigate(backPath || `/estudiar/${nivel}/historia`)}
+        en={en}
       />
     </div>
   )

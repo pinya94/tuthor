@@ -24,14 +24,14 @@ function generarPregunta(ops, grado) {
   return { a, b, op: opLabel, resp }
 }
 
-function calificacion(aciertos) {
-  if (aciertos === 10) return { label: 'Sobresaliente', nota: 10, color: 'text-green-400' }
-  if (aciertos === 9)  return { label: 'Sobresaliente', nota: 9,  color: 'text-green-400' }
-  if (aciertos === 8)  return { label: 'Notable',       nota: 8,  color: 'text-blue-400'  }
-  if (aciertos === 7)  return { label: 'Notable',       nota: 7,  color: 'text-blue-400'  }
-  if (aciertos === 6)  return { label: 'Bien',          nota: 6,  color: 'text-yellow-300'}
-  if (aciertos === 5)  return { label: 'Suficiente',    nota: 5,  color: 'text-orange-400'}
-  return { label: 'Insuficiente', nota: Math.max(1, aciertos), color: 'text-red-400' }
+function calificacion(aciertos, en) {
+  if (aciertos === 10) return { label: en ? 'Outstanding' : 'Sobresaliente', nota: 10, color: 'text-green-400' }
+  if (aciertos === 9)  return { label: en ? 'Outstanding' : 'Sobresaliente', nota: 9,  color: 'text-green-400' }
+  if (aciertos === 8)  return { label: en ? 'Good' : 'Notable',              nota: 8,  color: 'text-blue-400'  }
+  if (aciertos === 7)  return { label: en ? 'Good' : 'Notable',              nota: 7,  color: 'text-blue-400'  }
+  if (aciertos === 6)  return { label: en ? 'Fair' : 'Bien',         nota: 6,  color: 'text-yellow-300'}
+  if (aciertos === 5)  return { label: en ? 'Pass' : 'Suficiente',  nota: 5,  color: 'text-orange-400'}
+  return { label: en ? 'Fail' : 'Insuficiente', nota: Math.max(1, aciertos), color: 'text-red-400' }
 }
 
 export default function ExamenMatematicas() {
@@ -75,7 +75,7 @@ export default function ExamenMatematicas() {
 
   if (fase === 'resultado') {
     const aciertos = historial.filter(h => h.correcto).length
-    const cal = calificacion(aciertos)
+    const cal = calificacion(aciertos, en)
     return (
       <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
         <div className="max-w-md w-full">

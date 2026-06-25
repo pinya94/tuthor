@@ -312,7 +312,7 @@ export default function Acercate() {
 
         <button onClick={iniciar}
           className="w-full py-4 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-lg rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-amber-500/30">
-          ¡Empezar!
+          {en ? 'Start!' : '¡Empezar!'}
         </button>
 
         <button onClick={() => navigate(localPath('/juegos/acercate'))}
