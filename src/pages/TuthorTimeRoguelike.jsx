@@ -521,14 +521,14 @@ export default function TuthorTimeRoguelike() {
                 <span className="text-xs bg-yellow-500/20 text-yellow-300 px-2 py-1 rounded-full">⭐ ×1.5 pts ({multRestantes})</span>
               )}
               {pistasRestantes > 0 && (
-                <span className="text-xs bg-blue-500/20 text-blue-300 px-2 py-1 rounded-full">🗓️ Pista ({pistasRestantes})</span>
+                <span className="text-xs bg-blue-500/20 text-blue-300 px-2 py-1 rounded-full">🗓️ {lang === 'en' ? 'Hint' : 'Pista'} ({pistasRestantes})</span>
               )}
             </div>
           )}
 
           {/* Evento */}
           <div className="bg-black/40 backdrop-blur rounded-2xl p-5 border border-white/10">
-            <div className="text-white/40 text-xs uppercase tracking-wider mb-1">{dif.emoji} {dif.label}</div>
+            <div className="text-white/40 text-xs uppercase tracking-wider mb-1">{dif.emoji} {dl(dif)}</div>
             <h2 className="text-xl font-bold text-white mb-2">{(lang === 'en' && evento.nombreEn) ? evento.nombreEn : evento.nombre}</h2>
             <p className="text-white/60 text-sm leading-relaxed mb-4">{(lang === 'en' && evento.descripcionEn) ? evento.descripcionEn : evento.descripcion}</p>
 
@@ -557,7 +557,7 @@ export default function TuthorTimeRoguelike() {
                 disabled={!guess.trim()}
                 className="w-full bg-white text-black font-bold py-3 rounded-xl disabled:opacity-30 hover:bg-white/90 transition"
               >
-                Enviar agente
+                {tu.enviarAgente}
               </button>
             </div>
           </div>
@@ -630,14 +630,14 @@ export default function TuthorTimeRoguelike() {
                 onClick={() => setFase('resultado')}
                 className="w-full bg-red-600 hover:bg-red-500 text-white font-bold py-3 rounded-xl transition"
               >
-                💀 Game over →
+                {tu.gameOver}
               </button>
             ) : (
               <button
                 onClick={siguienteNivel}
                 className="w-full bg-white text-black font-bold py-3 rounded-xl hover:bg-white/90 transition"
               >
-                Siguiente misión →
+                {tu.siguienteMision}
               </button>
             )}
           </div>
@@ -655,7 +655,7 @@ export default function TuthorTimeRoguelike() {
             <div className="text-center mb-6">
               <div className="text-4xl mb-2">🎁</div>
               <h2 className="text-2xl font-bold text-white">¡Misión {nivel - 1} superada!</h2>
-              <p className="text-white/50 text-sm mt-1">Elige una mejora para continuar</p>
+              <p className="text-white/50 text-sm mt-1">{lang === 'en' ? 'Pick an upgrade to continue' : 'Elige una mejora para continuar'}</p>
             </div>
             <div className="space-y-3">
               {upgradeOpts.map(u => {

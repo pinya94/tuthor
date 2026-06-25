@@ -98,22 +98,28 @@ function Avatar({ p, tachado, modoAdivinar, esSecreto, resultado, onClick }) {
 
 // ── INTRO ─────────────────────────────────────────────────────────────────────
 function Intro({ pool, onStart, lang }) {
+  const en = lang === 'en'
+  const q = QUI[lang] || QUI.es
   return (
     <div className="flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
       <div className="max-w-md w-full">
         <div className="text-center mb-8">
           <span className="text-6xl mb-4 block">🕵️</span>
-          <h1 className="text-3xl font-black text-white mb-2">¿Quién es quién?</h1>
+          <h1 className="text-3xl font-black text-white mb-2">{q.titulo}</h1>
           <p className="text-white/50 text-sm">
             {(POOL_LABEL[lang] || POOL_LABEL.es)[pool] ?? pool}
           </p>
         </div>
         <div className="bg-white/5 border border-white/10 rounded-2xl p-6 mb-6 space-y-4">
-          {[
+          {(en ? [
+            { icon: '🎴', title: 'Board of 12 figures', desc: 'Each game, 12 different figures selected at random.' },
+            { icon: '✂️', title: 'Cross out to eliminate', desc: 'Tap a figure to cross them out. Tap again to restore. Eliminate until you find the right one.' },
+            { icon: '🧠', title: 'One clue at a time', desc: "Each new clue replaces the last — you'll have to remember them! Fewer clues = better score." },
+          ] : [
             { icon: '🎴', title: 'Tablero de 12 personajes', desc: 'Cada partida, 12 figuras distintas seleccionadas al azar.' },
             { icon: '✂️', title: 'Tacha a los que descartes', desc: 'Toca un personaje para tacharlo. Tócalo de nuevo para restaurarlo. Descarta hasta quedarte con el correcto.' },
             { icon: '🧠', title: 'Solo ves una pista a la vez', desc: 'Cada pista nueva sustituye a la anterior — ¡tendrás que recordarlas! Cuantas menos pistas necesites, mejor lo has hecho.' },
-          ].map(r => (
+          ]).map(r => (
             <div key={r.title} className="flex items-start gap-4">
               <span className="text-2xl">{r.icon}</span>
               <div>
@@ -127,7 +133,7 @@ function Intro({ pool, onStart, lang }) {
           onClick={onStart}
           className="w-full bg-violet-600 hover:bg-violet-500 text-white font-black text-lg py-4 rounded-2xl transition-all"
         >
-          Empezar partida →
+          {en ? 'Start game →' : 'Empezar partida →'}
         </button>
       </div>
     </div>
@@ -180,6 +186,8 @@ export default function QuienEsQuien() {
   const navigate  = useNavigate()
   const location  = useLocation()
   const { lang, localPath } = useLang()
+  const en = lang === 'en'
+  const q = QUI[lang] || QUI.es
   const { user }  = useAuth()
   const startRef  = useRef(Date.now())
 
@@ -323,14 +331,14 @@ export default function QuienEsQuien() {
                 onClick={() => setPopupConfirm(null)}
                 className="flex-1 bg-white/5 hover:bg-white/10 border border-white/10 text-white/60 font-bold py-3 rounded-xl transition-all"
               >
-                Cancelar
+                {en ? 'Cancel' : 'Cancelar'}
               </button>
               <button
                 onClick={() => { setPopupConfirm(null); adivinar(popupConfirm) }}
                 className="flex-1 font-black py-3 rounded-xl text-black"
                 style={{ backgroundColor: '#EDAE49' }}
               >
-                Comprobar
+                {en ? 'Confirm' : 'Comprobar'}
               </button>
             </div>
           </div>
@@ -342,18 +350,20 @@ export default function QuienEsQuien() {
         <div className="fixed inset-0 z-50 flex items-center justify-center px-6" style={{ backgroundColor: 'rgba(0,0,0,0.7)' }}>
           <div className="bg-[#0d0d1a] border border-white/10 rounded-2xl p-6 w-full max-w-sm text-center shadow-2xl">
             <span className="text-5xl block mb-3">❌</span>
-            <h3 className="text-white font-black text-xl mb-1">¡Incorrecto!</h3>
+            <h3 className="text-white font-black text-xl mb-1">{q.incorrecto}!</h3>
             <p className="text-white/40 text-sm mb-5">
-              {popupFallo.fallosRestantes === 1
-                ? 'Te queda 1 intento. ¡Piénsalo bien!'
-                : `Te quedan ${popupFallo.fallosRestantes} intentos.`}
+              {en
+                ? `${popupFallo.fallosRestantes} ${popupFallo.fallosRestantes === 1 ? 'attempt' : 'attempts'} left.`
+                : popupFallo.fallosRestantes === 1
+                  ? 'Te queda 1 intento. ¡Piénsalo bien!'
+                  : `Te quedan ${popupFallo.fallosRestantes} intentos.`}
             </p>
             <button
               onClick={() => { setPopupFallo(null); setModoAdivinar(true) }}
               className="w-full font-black py-3 rounded-xl text-black text-base"
               style={{ backgroundColor: '#EDAE49' }}
             >
-              Elegir otro personaje →
+              {en ? 'Pick another figure →' : 'Elegir otro personaje →'}
             </button>
           </div>
         </div>
@@ -368,7 +378,7 @@ export default function QuienEsQuien() {
           {lang === 'en' ? '← Exit' : '← Salir'}
         </button>
         <div className="flex items-center gap-3">
-          <span className="text-white/40 text-xs">{activosCount} sin tachar</span>
+          <span className="text-white/40 text-xs">{activosCount} {en ? 'remaining' : 'sin tachar'}</span>
           <div className="flex gap-1">
             {Array.from({ length: MAX_FALLOS }).map((_, i) => (
               <span key={i} className={`text-lg transition-opacity ${i < fallos ? 'opacity-20' : ''}`}>❤️</span>
@@ -382,7 +392,7 @@ export default function QuienEsQuien() {
 
         {modoAdivinar && (
           <p className="text-violet-300 text-xs text-center font-semibold">
-            👆 Toca cualquier personaje para adivinar (incluso los tachados)
+            {en ? '👆 Tap any figure to guess (even crossed-out ones)' : '👆 Toca cualquier personaje para adivinar (incluso los tachados)'}
           </p>
         )}
 
@@ -419,7 +429,7 @@ export default function QuienEsQuien() {
         )}
         {pistaIdx > 0 && (
           <p className="text-white/25 text-xs text-center -mt-1">
-            {pistaIdx} pista{pistaIdx > 1 ? 's' : ''} anterior{pistaIdx > 1 ? 'es' : ''} — ¡recuérdalas!
+            {en ? `${pistaIdx} previous clue${pistaIdx > 1 ? 's' : ''} — remember them!` : `${pistaIdx} pista${pistaIdx > 1 ? 's' : ''} anterior${pistaIdx > 1 ? 'es' : ''} — ¡recuérdalas!`}
           </p>
         )}
 
@@ -438,7 +448,7 @@ export default function QuienEsQuien() {
                 className="flex-1 font-black py-3 sm:py-4 rounded-xl transition-all text-black text-base"
                 style={{ backgroundColor: '#EDAE49' }}
               >
-                ¿Es {unicoRestante.nombre}?
+                {en ? `Is it ${unicoRestante.nombre}?` : `¿Es ${unicoRestante.nombre}?`}
               </button>
             )
 
@@ -450,14 +460,14 @@ export default function QuienEsQuien() {
                     onClick={() => { siguientePista() }}
                     className="bg-white/5 hover:bg-white/10 border border-white/10 text-white/60 hover:text-white font-medium px-5 py-3 rounded-xl transition-all whitespace-nowrap"
                   >
-                    💡 Pista {pistaIdx + 2}
+                    💡 {en ? `Clue ${pistaIdx + 2}` : `Pista ${pistaIdx + 2}`}
                   </button>
                 )}
                 <button
                   onClick={() => setModoAdivinar(false)}
                   className="flex-1 bg-white/5 hover:bg-white/10 border border-white/10 text-white/60 font-medium py-3 rounded-xl transition-all text-sm"
                 >
-                  Cancelar
+                  {en ? 'Cancel' : 'Cancelar'}
                 </button>
               </>
             )
@@ -470,13 +480,13 @@ export default function QuienEsQuien() {
                   className="flex-1 font-black py-3 sm:py-4 rounded-xl transition-all text-black text-base"
                   style={{ backgroundColor: '#EDAE49' }}
                 >
-                  💡 Nueva pista
+                  {en ? '💡 Next clue' : '💡 Nueva pista'}
                 </button>
                 <button
                   onClick={() => setModoAdivinar(true)}
                   className="bg-white/5 hover:bg-white/10 border border-white/10 text-white/60 hover:text-white font-medium px-5 py-3 rounded-xl transition-all whitespace-nowrap"
                 >
-                  🎯 Adivinar
+                  🎯 {en ? 'Guess' : 'Adivinar'}
                 </button>
               </>
             )
@@ -488,7 +498,7 @@ export default function QuienEsQuien() {
                 className="flex-1 font-black py-3 sm:py-4 rounded-xl transition-all text-black text-base"
                 style={{ backgroundColor: '#EDAE49' }}
               >
-                🎯 Adivinar
+                🎯 {en ? 'Guess' : 'Adivinar'}
               </button>
             )
           })()}
