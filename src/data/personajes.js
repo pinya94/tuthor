@@ -272,6 +272,88 @@ export const PISTA_TEMPLATES = {
   },
 }
 
+export const PISTA_TEMPLATES_EN = {
+  epoca: {
+    antiguedad:  () => 'Lived in Antiquity (before 500 AD).',
+    siglo_xviii: () => 'Lived in the 18th century (1700–1800).',
+    siglo_xix:   () => 'Lived in the 19th or early 20th century (before 1914).',
+    siglo_xx:    () => 'Lived in the 20th century (between or after the World Wars).',
+  },
+  rol: {
+    militar:        () => 'Was a career soldier, not a politician or civilian.',
+    político:       () => 'Was a politician or civil leader, not a soldier.',
+    artista:        () => 'Was an artist or intellectual (writer, poet, painter…).',
+    científico:     () => 'Was a scientist or academic.',
+    revolucionario: () => 'Was a revolutionary leader or activist, not a state official.',
+    víctima:        () => 'Was neither a politician nor a soldier: a civilian victim of the conflict.',
+  },
+  genero: {
+    hombre: () => 'Was male.',
+    mujer:  () => 'Was female.',
+  },
+  destino: {
+    sobrevivió:       () => 'Survived the conflict and died of old age or illness.',
+    exilio:           () => 'Survived the conflict but had to go into exile.',
+    ejecutado:        () => 'Was captured or killed: executed.',
+    murió_conflicto:  () => 'Died during the conflict, without being formally executed.',
+  },
+  pais: {
+    españa:      () => 'Was Spanish or represented Spain.',
+    alemania:    () => 'Was German or represented Germany.',
+    uk:          () => 'Was British or represented the United Kingdom.',
+    eeuu:        () => 'Was American or represented the United States.',
+    francia:     () => 'Was French or represented France.',
+    italia:      () => 'Was Italian or represented Italy.',
+    urss:        () => 'Was Soviet or represented the USSR.',
+    roma:        () => 'Was Roman or represented the Roman Republic/Empire.',
+    grecia:      () => 'Was Greek or represented ancient Greece.',
+    egipto:      () => 'Was Egyptian or represented ancient Egypt.',
+    india:       () => 'Was Indian or fought for Indian independence.',
+    sudafrica:   () => 'Was South African or fought against apartheid.',
+  },
+}
+
+const PISTA_NEG_TEMPLATES_EN = {
+  epoca: {
+    antiguedad:  () => 'Did not live in Antiquity: their story is more recent.',
+    siglo_xviii: () => 'Did not live in the 18th century: belongs to another era.',
+    siglo_xix:   () => 'Did not live in the 19th century: belongs to another era.',
+    siglo_xx:    () => 'Not from the 20th century: lived before the World Wars.',
+  },
+  rol: {
+    militar:        () => 'Was not a career soldier.',
+    político:       () => 'Was not a politician or civil leader.',
+    artista:        () => 'Was not an artist or intellectual.',
+    científico:     () => 'Was not a scientist or academic.',
+    revolucionario: () => 'Was not a revolutionary leader or activist.',
+    víctima:        () => 'Was not a civilian victim: had an active role.',
+  },
+  genero: {
+    hombre: () => 'Was not male.',
+    mujer:  () => 'Was not female.',
+  },
+  destino: {
+    sobrevivió:       () => 'Did not survive and die of old age.',
+    exilio:           () => 'Did not end up in exile.',
+    ejecutado:        () => 'Was not executed or captured.',
+    murió_conflicto:  () => 'Did not die during combat.',
+  },
+  pais: {
+    españa:      () => 'Was not Spanish.',
+    alemania:    () => 'Was not German.',
+    uk:          () => 'Was not British.',
+    eeuu:        () => 'Was not American.',
+    francia:     () => 'Was not French.',
+    italia:      () => 'Was not Italian.',
+    urss:        () => 'Was not Soviet.',
+    roma:        () => 'Was not Roman.',
+    grecia:      () => 'Was not ancient Greek.',
+    egipto:      () => 'Was not ancient Egyptian.',
+    india:       () => 'Did not fight for Indian independence.',
+    sudafrica:   () => 'Was not South African.',
+  },
+}
+
 // ── PLANTILLAS DE PISTAS NEGATIVAS ───────────────────────────────────────────
 const PISTA_NEG_TEMPLATES = {
   epoca: {
@@ -333,13 +415,16 @@ function shuffleSeeded(arr, seed) {
   return a
 }
 
-export function generarPistas(secreto, tablero) {
+export function generarPistas(secreto, tablero, lang = 'es') {
+  const en = lang === 'en'
+  const posTemplates = en ? PISTA_TEMPLATES_EN : PISTA_TEMPLATES
+  const negTemplates = en ? PISTA_NEG_TEMPLATES_EN : PISTA_NEG_TEMPLATES
   const seed = hashId(secreto.id + tablero.map(p => p.id).join(''))
 
   // ── Pistas positivas (lo que SÍ es) ────────────────────────────────────────
   const positivas = []
   for (const [attr, val] of Object.entries(secreto.atributos)) {
-    const template = PISTA_TEMPLATES[attr]?.[val]
+    const template = posTemplates[attr]?.[val]
     if (!template) continue
     const comparten = tablero.filter(p => p.atributos[attr] === val).length
     const eliminan  = tablero.length - comparten
@@ -358,7 +443,7 @@ export function generarPistas(secreto, tablero) {
   }
 
   // ── Pista única (la más específica) ────────────────────────────────────────
-  seleccionadas.push({ attr: 'única', texto: secreto.pistaUnica, ratio: 1, negativa: false })
+  seleccionadas.push({ attr: 'única', texto: (en && secreto.pistaUnicaEn) || secreto.pistaUnica, ratio: 1, negativa: false })
 
   // ── Pistas negativas (lo que NO es) ────────────────────────────────────────
   // Busca valores que existen en el tablero pero el secreto NO tiene
@@ -369,7 +454,7 @@ export function generarPistas(secreto, tablero) {
     // Valores distintos al secreto que aparecen en el tablero
     const valsEnTablero = [...new Set(tablero.map(p => p.atributos[attr]).filter(v => v && v !== secretoVal))]
     for (const val of valsEnTablero) {
-      const template = PISTA_NEG_TEMPLATES[attr]?.[val]
+      const template = negTemplates[attr]?.[val]
       if (!template) continue
       const afectan = tablero.filter(p => p.atributos[attr] === val).length
       const ratio   = afectan / tablero.length

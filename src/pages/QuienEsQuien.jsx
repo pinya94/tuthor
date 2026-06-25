@@ -151,7 +151,7 @@ function Resultado({ ganó, secreto, pistaIdx, onRepetir, onSalir, lang }) {
         >
           {secreto.iniciales}
         </div>
-        <p className="text-white/40 text-xs italic px-4 mb-6">"{secreto.pistaUnica}"</p>
+        <p className="text-white/40 text-xs italic px-4 mb-6">"{(lang === 'en' && secreto.pistaUnicaEn) || secreto.pistaUnica}"</p>
         {ganó && (
           <div className="rounded-2xl px-6 py-4 mb-6 border border-white/10" style={{ backgroundColor: '#EDAE4920', borderColor: '#EDAE4940' }}>
             <p className="text-3xl font-black" style={{ color: '#EDAE49' }}>
@@ -211,7 +211,7 @@ export default function QuienEsQuien() {
     const s = t[Math.floor(Math.random() * t.length)]
     setTablero(t)
     setSecreto(s)
-    setPistas(generarPistas(s, t))
+    setPistas(generarPistas(s, t, lang))
     setPistaIdx(0)
     setTachados(new Set())
     setModoAdivinar(false)
