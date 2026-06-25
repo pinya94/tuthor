@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
+import { useLang } from '../context/LangContext'
 import { saveActivity } from '../lib/activity'
 
 // ── Configuración por nivel ────────────────────────────────────────────────
@@ -134,6 +135,8 @@ function Confetti() {
 export default function Acercate() {
   const navigate     = useNavigate()
   const { user }     = useAuth()
+  const { lang, localPath } = useLang()
+  const en = lang === 'en'
 
   const [fase,       setFase]       = useState('intro')
   const [nivelId,    setNivelId]    = useState('medio')
@@ -312,7 +315,7 @@ export default function Acercate() {
           ¡Empezar!
         </button>
 
-        <button onClick={() => navigate('/juegos/acercate/roguelike')}
+        <button onClick={() => navigate(localPath('/juegos/acercate'))}
           className="w-full py-3 mt-3 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-violet-500/40 text-white/70 hover:text-white font-bold rounded-2xl transition-all text-sm flex items-center justify-center gap-2">
           <span>⚔️</span> Modo Roguelike — supera niveles y elige mejoras
         </button>
