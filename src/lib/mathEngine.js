@@ -1,21 +1,21 @@
 // ── Motor de "Acércate al número": combinar números con operaciones hasta llegar al objetivo ──
 
 export const MODOS = {
-  sumas:                          { id: 'sumas',                         titulo: 'Sumas',                      emoji: '➕', gradient: 'from-emerald-500 to-teal-600', ops: ['+'] },
-  restas:                         { id: 'restas',                        titulo: 'Restas',                     emoji: '➖', gradient: 'from-blue-500 to-indigo-600', ops: ['-'] },
-  'sumas-restas':                 { id: 'sumas-restas',                  titulo: 'Sumas y restas',             emoji: '🔀', gradient: 'from-cyan-500 to-blue-600', ops: ['+', '-'] },
-  multiplicaciones:                { id: 'multiplicaciones',              titulo: 'Multiplicaciones',           emoji: '✖️', gradient: 'from-amber-500 to-orange-600', ops: ['×'] },
-  divisiones:                     { id: 'divisiones',                    titulo: 'Divisiones',                 emoji: '➗', gradient: 'from-rose-500 to-pink-600', ops: ['÷'] },
-  'multiplicaciones-divisiones':  { id: 'multiplicaciones-divisiones',   titulo: 'Multiplicación y división',  emoji: '🧩', gradient: 'from-fuchsia-500 to-purple-600', ops: ['×', '÷'] },
-  combinado:                      { id: 'combinado',                     titulo: 'Sumas, restas, × y ÷',       emoji: '🧮', gradient: 'from-violet-600 to-purple-800', ops: ['+', '-', '×', '÷'] },
+  sumas:                          { id: 'sumas',                         titulo: 'Sumas',                      tituloEn: 'Addition',                    emoji: '➕', gradient: 'from-emerald-500 to-teal-600', ops: ['+'] },
+  restas:                         { id: 'restas',                        titulo: 'Restas',                     tituloEn: 'Subtraction',                 emoji: '➖', gradient: 'from-blue-500 to-indigo-600', ops: ['-'] },
+  'sumas-restas':                 { id: 'sumas-restas',                  titulo: 'Sumas y restas',             tituloEn: 'Addition & subtraction',      emoji: '🔀', gradient: 'from-cyan-500 to-blue-600', ops: ['+', '-'] },
+  multiplicaciones:                { id: 'multiplicaciones',              titulo: 'Multiplicaciones',           tituloEn: 'Multiplication',              emoji: '✖️', gradient: 'from-amber-500 to-orange-600', ops: ['×'] },
+  divisiones:                     { id: 'divisiones',                    titulo: 'Divisiones',                 tituloEn: 'Division',                    emoji: '➗', gradient: 'from-rose-500 to-pink-600', ops: ['÷'] },
+  'multiplicaciones-divisiones':  { id: 'multiplicaciones-divisiones',   titulo: 'Multiplicación y división',  tituloEn: 'Multiplication & division',   emoji: '🧩', gradient: 'from-fuchsia-500 to-purple-600', ops: ['×', '÷'] },
+  combinado:                      { id: 'combinado',                     titulo: 'Sumas, restas, × y ÷',       tituloEn: 'Add, subtract, × & ÷',       emoji: '🧮', gradient: 'from-violet-600 to-purple-800', ops: ['+', '-', '×', '÷'] },
 }
 
 export const MODO_IDS = Object.keys(MODOS)
 
 export const GRADOS = {
-  primaria:     { id: 'primaria',     label: 'Primaria',     emoji: '🎒', objMin: 5,  objMax: 30,  count: 5, tiempo: 90, numMax: 10 },
-  eso:          { id: 'eso',          label: 'ESO',          emoji: '📖', objMin: 10, objMax: 99,  count: 5, tiempo: 75, numMax: 12 },
-  bachillerato: { id: 'bachillerato', label: 'Bachillerato', emoji: '🎓', objMin: 20, objMax: 300, count: 4, tiempo: 60, numMax: 20 },
+  primaria:     { id: 'primaria',     label: 'Primaria',     labelEn: 'Primary',    emoji: '🎒', objMin: 5,  objMax: 30,  count: 5, tiempo: 90, numMax: 10 },
+  eso:          { id: 'eso',          label: 'ESO',          labelEn: 'Secondary',  emoji: '📖', objMin: 10, objMax: 99,  count: 5, tiempo: 75, numMax: 12 },
+  bachillerato: { id: 'bachillerato', label: 'Bachillerato', labelEn: 'Sixth Form', emoji: '🎓', objMin: 20, objMax: 300, count: 4, tiempo: 60, numMax: 20 },
 }
 
 export const GRADO_IDS = Object.keys(GRADOS)

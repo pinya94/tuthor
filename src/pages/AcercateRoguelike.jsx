@@ -390,19 +390,19 @@ export default function AcercateRoguelike() {
                 className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
                   difId === id ? 'bg-white/15 text-white shadow-sm' : 'text-white/40 hover:text-white/70'
                 }`}>
-                {d.emoji} {d.label}
+                {d.emoji} {dl(d)}
               </button>
             ))}
           </div>
           <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-5 space-y-2.5 text-sm">
             {[
-              ['❤️', 'Vidas',    dif.vidasIni > 0 ? `${dif.vidasIni} vidas` : 'Sin vidas — un fallo y termina'],
-              ['⏱️', 'Tiempo',   `${dif.tiempoBase}s (−2s por nivel, sin límite)`],
-              ['🎯', 'Objetivo', `${dif.objMin}–${dif.objMax}`],
-              ['🃏', 'Números',  `${dif.countIni} cartas para combinar`],
-              ['➕', 'Operaciones', dif.ops.join('  ')],
-              ['⭐', 'Puntos',   'Tiempo sobrante × 10 por nivel acertado'],
-              ['🎁', 'Mejoras',  'Cada 3 niveles elige una mejora permanente'],
+              ['❤️', au.vidas,      dif.vidasIni > 0 ? `${dif.vidasIni} ${au.vidasP}` : au.sinVidas],
+              ['⏱️', au.tiempo,     `${dif.tiempoBase}s (−2s/${au.nivel.toLowerCase()})`],
+              ['🎯', au.objetivo,   `${dif.objMin}–${dif.objMax}`],
+              ['🃏', au.numeros,    `${dif.countIni} ${au.cartas}`],
+              ['➕', au.operaciones, dif.ops.join('  ')],
+              ['⭐', au.puntos,     au.puntosDesc],
+              ['🎁', au.mejoras,    au.mejorasDesc],
             ].map(([e, k, v]) => (
               <div key={k} className="flex items-center justify-between gap-4">
                 <span className="text-white/40 shrink-0">{e} {k}</span>
@@ -411,13 +411,13 @@ export default function AcercateRoguelike() {
             ))}
           </div>
           <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-6">
-            <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-3">Cómo funciona</p>
+            <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-3">{au.comoFunciona}</p>
             <div className="space-y-2">
               {[
-                ['🎯', 'Llega exactamente al objetivo combinando números'],
-                ['✅', 'Si aciertas, sumas los segundos que sobraban × 10'],
-                ['⬆️', 'Cada 3 niveles elige una mejora permanente'],
-                ['💥', 'Si fallas o se acaba el tiempo, la run termina'],
+                ['🎯', au.paso1],
+                ['✅', au.paso2],
+                ['⬆️', au.paso3],
+                ['💥', au.paso4],
               ].map(([e, t]) => (
                 <div key={t} className="flex items-start gap-3 text-sm text-white/50">
                   <span className="text-base w-5 shrink-0 text-center">{e}</span>

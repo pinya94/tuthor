@@ -43,7 +43,7 @@ export default function MatematicasTema() {
       <div className="max-w-2xl mx-auto w-full mb-6">
         <p className="text-white/30 text-xs mb-4">
           <button onClick={() => navigate(localPath('/estudiar/matematicas'))} className="hover:text-white/60 transition-colors">{en ? 'Mathematics' : 'Matemáticas'}</button>
-          {' '}/{'  '}<span className="text-white/50">{modo.titulo}</span>
+          {' '}/{'  '}<span className="text-white/50">{en ? (modo.tituloEn || modo.titulo) : modo.titulo}</span>
         </p>
 
         <div className="flex gap-2 p-1 bg-white/5 border border-white/10 rounded-xl w-fit">
@@ -66,15 +66,15 @@ export default function MatematicasTema() {
         <div className="flex items-center gap-4">
           <span className="text-5xl">{modo.emoji}</span>
           <div>
-            <h1 className="text-2xl sm:text-3xl font-black text-white leading-tight">{modo.titulo}</h1>
-            <p className="text-white/40 text-sm mt-0.5">{en ? `Practise ${modo.titulo.toLowerCase()} by playing.` : `Practica ${modo.titulo.toLowerCase()} jugando, sin darte cuenta.`}</p>
+            <h1 className="text-2xl sm:text-3xl font-black text-white leading-tight">{en ? (modo.tituloEn || modo.titulo) : modo.titulo}</h1>
+            <p className="text-white/40 text-sm mt-0.5">{en ? `Practise ${(modo.tituloEn || modo.titulo).toLowerCase()} by playing.` : `Practica ${modo.titulo.toLowerCase()} jugando, sin darte cuenta.`}</p>
           </div>
         </div>
       </div>
 
       <div className="max-w-2xl mx-auto w-full space-y-4">
         <p className="text-white/30 text-xs uppercase tracking-widest font-semibold">
-          {en ? 'Available modes' : 'Modos disponibles'} · {grado.label}
+          {en ? 'Available modes' : 'Modos disponibles'} · {en ? (grado.labelEn || grado.label) : grado.label}
         </p>
 
         {juegos.map(j => (

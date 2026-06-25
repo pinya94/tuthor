@@ -3,17 +3,18 @@ import { useLang } from '../context/LangContext'
 import TemarioGrid from '../components/TemarioGrid'
 import { MODOS, MODO_IDS } from '../lib/mathEngine'
 
-const ITEMS = MODO_IDS.map(id => ({
-  id,
-  titulo: MODOS[id].titulo,
-  emoji: MODOS[id].emoji,
-  gradient: MODOS[id].gradient,
-  tags: MODOS[id].ops,
-}))
-
 export default function MatematicasIndex() {
   const navigate = useNavigate()
   const { lang, localPath } = useLang()
+  const en = lang === 'en'
+
+  const ITEMS = MODO_IDS.map(id => ({
+    id,
+    titulo: en ? (MODOS[id].tituloEn || MODOS[id].titulo) : MODOS[id].titulo,
+    emoji: MODOS[id].emoji,
+    gradient: MODOS[id].gradient,
+    tags: MODOS[id].ops,
+  }))
 
   function handleSelect(item) {
     navigate(localPath(`/estudiar/matematicas/${item.id}`))
