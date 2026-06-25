@@ -11,18 +11,29 @@ const REGION_FILTER = {
 }
 
 const TEMAS_META = {
-  europa:  { titulo: 'Europa',          emoji: '🇪🇺', descripcion: 'De Islandia a Chipre, pasando por los Balcanes y Escandinavia.' },
-  america: { titulo: 'América',         emoji: '🌎', descripcion: 'Del Canadá a la Patagonia. Norte, Centro y Sudamérica.' },
-  asia:    { titulo: 'Asia',            emoji: '🌏', descripcion: 'El continente más grande y diverso. De Japón a Turquía.' },
-  africa:  { titulo: 'África',          emoji: '🌍', descripcion: 'De Marruecos a Sudáfrica. El continente más variado del planeta.' },
-  oceania: { titulo: 'Oceanía',         emoji: '🏝️', descripcion: 'Australia, Nueva Zelanda y las islas del Pacífico.' },
+  es: {
+    europa:  { titulo: 'Europa',   emoji: '🇪🇺', descripcion: 'De Islandia a Chipre, pasando por los Balcanes y Escandinavia.' },
+    america: { titulo: 'América',  emoji: '🌎', descripcion: 'Del Canadá a la Patagonia. Norte, Centro y Sudamérica.' },
+    asia:    { titulo: 'Asia',     emoji: '🌏', descripcion: 'El continente más grande y diverso. De Japón a Turquía.' },
+    africa:  { titulo: 'África',   emoji: '🌍', descripcion: 'De Marruecos a Sudáfrica. El continente más variado del planeta.' },
+    oceania: { titulo: 'Oceanía',  emoji: '🏝️', descripcion: 'Australia, Nueva Zelanda y las islas del Pacífico.' },
+  },
+  en: {
+    europa:  { titulo: 'Europe',       emoji: '🇪🇺', descripcion: 'From Iceland to Cyprus, through the Balkans and Scandinavia.' },
+    america: { titulo: 'The Americas', emoji: '🌎', descripcion: 'From Canada to Patagonia. North, Central and South America.' },
+    asia:    { titulo: 'Asia',         emoji: '🌏', descripcion: 'The largest and most diverse continent. From Japan to Turkey.' },
+    africa:  { titulo: 'Africa',       emoji: '🌍', descripcion: 'From Morocco to South Africa. The most varied continent on the planet.' },
+    oceania: { titulo: 'Oceania',      emoji: '🏝️', descripcion: 'Australia, New Zealand and the Pacific islands.' },
+  },
 }
 
 export default function GeografiaTema() {
   const navigate    = useNavigate()
   const { lang, localPath } = useLang()
+  const en = lang === 'en'
   const { region }  = useParams()
-  const meta        = TEMAS_META[region]
+  const temasMeta   = TEMAS_META[lang] || TEMAS_META.es
+  const meta        = temasMeta[region]
 
   if (!meta) { navigate(localPath('/estudiar/geografia')); return null }
 
@@ -33,10 +44,12 @@ export default function GeografiaTema() {
     {
       id: 'georush',
       titulo: 'GeoRush',
-      descripcion: 'Adivina el país a partir de pistas geográficas, demográficas e históricas. 10 países por examen.',
+      descripcion: en
+        ? 'Guess the country from geographical, demographic and historical clues. 10 countries per exam.'
+        : 'Adivina el país a partir de pistas geográficas, demográficas e históricas. 10 países por examen.',
       emoji: '🌍',
       gradient: 'from-teal-500 to-cyan-700',
-      detalles: [`${paisesCount} países`, '10 por examen', '5 pistas mixtas (3🔒 + 2🎁)'],
+      detalles: [`${paisesCount} ${en ? 'countries' : 'países'}`, `10 ${en ? 'per exam' : 'por examen'}`, `5 ${en ? 'mixed clues' : 'pistas mixtas'} (3🔒 + 2🎁)`],
       action: () => navigate(localPath('/examen/geografia'), {
         state: { region, titulo: meta.titulo, backPath: `/estudiar/geografia/${region}` }
       }),
@@ -47,9 +60,9 @@ export default function GeografiaTema() {
     <div className="relative z-10 flex flex-col min-h-[calc(100vh-4rem)] px-4 sm:px-8 py-6">
       <div className="max-w-2xl mx-auto w-full mb-6">
         <p className="text-white/30 text-xs mb-4">
-          <button onClick={() => navigate(localPath('/estudiar'))} className="hover:text-white/60 transition-colors">Estudiar</button>
+          <button onClick={() => navigate(localPath('/estudiar'))} className="hover:text-white/60 transition-colors">{en ? 'Study' : 'Estudiar'}</button>
           {' '}/{' '}
-          <button onClick={() => navigate(localPath('/estudiar/geografia'))} className="hover:text-white/60 transition-colors">Geografía</button>
+          <button onClick={() => navigate(localPath('/estudiar/geografia'))} className="hover:text-white/60 transition-colors">{en ? 'Geography' : 'Geografía'}</button>
           {' '}/{' '}<span className="text-white/50">{meta.titulo}</span>
         </p>
 
@@ -64,7 +77,7 @@ export default function GeografiaTema() {
 
       <div className="max-w-2xl mx-auto w-full space-y-4">
         <p className="text-white/30 text-xs uppercase tracking-widest font-semibold">
-          Modos disponibles
+          {en ? 'Available modes' : 'Modos disponibles'}
         </p>
 
         {modos.map(modo => (
@@ -100,10 +113,13 @@ export default function GeografiaTema() {
         ))}
 
         {/* Próximamente */}
-        {[
+        {(en ? [
+          { id: 'capitales', titulo: 'World Capitals', emoji: '🏙️', desc: 'Identify the capital of each country.' },
+          { id: 'banderas', titulo: 'Flags', emoji: '🏳️', desc: 'Recognise countries by their flag.' },
+        ] : [
           { id: 'capitales', titulo: 'Capitales del Mundo', emoji: '🏙️', desc: 'Identifica la capital de cada país.' },
           { id: 'banderas', titulo: 'Banderas', emoji: '🏳️', desc: 'Reconoce los países por su bandera.' },
-        ].map(m => (
+        ]).map(m => (
           <div key={m.id} className="w-full rounded-2xl bg-white/3 border border-white/8 p-5 opacity-50">
             <div className="flex items-center gap-3">
               <span className="text-2xl">{m.emoji}</span>
@@ -111,7 +127,7 @@ export default function GeografiaTema() {
                 <h3 className="font-bold text-white/60 text-base">{m.titulo}</h3>
                 <p className="text-white/30 text-xs mt-0.5">{m.desc}</p>
               </div>
-              <span className="ml-auto text-xs font-bold text-white/30 border border-white/15 px-2 py-0.5 rounded-full">Pronto</span>
+              <span className="ml-auto text-xs font-bold text-white/30 border border-white/15 px-2 py-0.5 rounded-full">{en ? 'Soon' : 'Pronto'}</span>
             </div>
           </div>
         ))}

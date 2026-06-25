@@ -1,38 +1,51 @@
 import { useNavigate } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 
-const TEMAS = [
-  { id: 'europa',  titulo: 'Europa',          emoji: '🇪🇺', desc: 'De Islandia a Chipre. Identifica los países europeos.' },
-  { id: 'america', titulo: 'América',         emoji: '🌎', desc: 'Del Canadá a la Patagonia. Países americanos.' },
-  { id: 'asia',    titulo: 'Asia',            emoji: '🌏', desc: 'El continente más grande. De Japón a Turquía.' },
-  { id: 'africa',  titulo: 'África',          emoji: '🌍', desc: 'De Marruecos a Sudáfrica. El continente más diverso.' },
-  { id: 'oceania', titulo: 'Oceanía',         emoji: '🏝️', desc: 'Australia, Nueva Zelanda y las islas del Pacífico.' },
-  { id: 'espana',  titulo: 'España',          emoji: '🇪🇸', desc: 'Las comunidades autónomas y provincias españolas.', proximamente: true },
-  { id: 'eeuu',    titulo: 'Estados Unidos',  emoji: '🇺🇸', desc: 'Los 50 estados americanos.', proximamente: true },
-]
+const TEMAS = {
+  es: [
+    { id: 'europa',  titulo: 'Europa',          emoji: '🇪🇺', desc: 'De Islandia a Chipre. Identifica los países europeos.' },
+    { id: 'america', titulo: 'América',         emoji: '🌎', desc: 'Del Canadá a la Patagonia. Países americanos.' },
+    { id: 'asia',    titulo: 'Asia',            emoji: '🌏', desc: 'El continente más grande. De Japón a Turquía.' },
+    { id: 'africa',  titulo: 'África',          emoji: '🌍', desc: 'De Marruecos a Sudáfrica. El continente más diverso.' },
+    { id: 'oceania', titulo: 'Oceanía',         emoji: '🏝️', desc: 'Australia, Nueva Zelanda y las islas del Pacífico.' },
+    { id: 'espana',  titulo: 'España',          emoji: '🇪🇸', desc: 'Las comunidades autónomas y provincias españolas.', proximamente: true },
+    { id: 'eeuu',    titulo: 'Estados Unidos',  emoji: '🇺🇸', desc: 'Los 50 estados americanos.', proximamente: true },
+  ],
+  en: [
+    { id: 'europa',  titulo: 'Europe',          emoji: '🇪🇺', desc: 'From Iceland to Cyprus. Identify European countries.' },
+    { id: 'america', titulo: 'The Americas',    emoji: '🌎', desc: 'From Canada to Patagonia. American countries.' },
+    { id: 'asia',    titulo: 'Asia',            emoji: '🌏', desc: 'The largest continent. From Japan to Turkey.' },
+    { id: 'africa',  titulo: 'Africa',          emoji: '🌍', desc: 'From Morocco to South Africa. The most diverse continent.' },
+    { id: 'oceania', titulo: 'Oceania',         emoji: '🏝️', desc: 'Australia, New Zealand and the Pacific islands.' },
+    { id: 'espana',  titulo: 'Spain',           emoji: '🇪🇸', desc: 'Autonomous communities and Spanish provinces.', proximamente: true },
+    { id: 'eeuu',    titulo: 'United States',   emoji: '🇺🇸', desc: 'All 50 US states.', proximamente: true },
+  ],
+}
 
 export default function GeografiaIndex() {
   const navigate = useNavigate()
   const { lang, localPath } = useLang()
+  const en = lang === 'en'
+  const temas = TEMAS[lang] || TEMAS.es
 
   return (
     <div className="relative z-10 flex flex-col min-h-[calc(100vh-4rem)] px-4 sm:px-8 py-6">
       <div className="max-w-2xl mx-auto w-full">
         <p className="text-white/30 text-xs mb-4">
-          <button onClick={() => navigate(localPath('/estudiar'))} className="hover:text-white/60 transition-colors">Estudiar</button>
-          {' '}/{' '}<span className="text-white/50">Geografía</span>
+          <button onClick={() => navigate(localPath('/estudiar'))} className="hover:text-white/60 transition-colors">{en ? 'Study' : 'Estudiar'}</button>
+          {' '}/{' '}<span className="text-white/50">{en ? 'Geography' : 'Geografía'}</span>
         </p>
 
         <div className="flex items-center gap-4 mb-8">
           <span className="text-5xl">🌍</span>
           <div>
-            <h1 className="text-2xl sm:text-3xl font-black text-white leading-tight">Geografía</h1>
-            <p className="text-white/40 text-sm mt-0.5">Elige una región y descubre los modos de juego disponibles</p>
+            <h1 className="text-2xl sm:text-3xl font-black text-white leading-tight">{en ? 'Geography' : 'Geografía'}</h1>
+            <p className="text-white/40 text-sm mt-0.5">{en ? 'Pick a region and discover the available game modes' : 'Elige una región y descubre los modos de juego disponibles'}</p>
           </div>
         </div>
 
         <div className="space-y-3">
-          {TEMAS.map(t => (
+          {temas.map(t => (
             <button
               key={t.id}
               onClick={() => !t.proximamente && navigate(localPath(`/estudiar/geografia/${t.id}`))}
@@ -50,7 +63,7 @@ export default function GeografiaIndex() {
                     </div>
                   </div>
                   {t.proximamente ? (
-                    <span className="text-xs font-bold text-white/30 border border-white/15 px-2 py-0.5 rounded-full shrink-0">Pronto</span>
+                    <span className="text-xs font-bold text-white/30 border border-white/15 px-2 py-0.5 rounded-full shrink-0">{en ? 'Soon' : 'Pronto'}</span>
                   ) : (
                     <div className="w-10 h-10 rounded-full bg-white/20 group-hover:bg-white/30 flex items-center justify-center transition-colors shrink-0">
                       <span className="text-white font-black text-lg">→</span>
