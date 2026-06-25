@@ -110,7 +110,7 @@ export default function PreguntaDiaria() {
     if (!selected || answered) return
     setAnswered(true)
     if (user) {
-      const saved = await saveDailyChallenge(user.uid, selected === pregunta.correcta)
+      const saved = await saveDailyChallenge(user.uid, selected === correct)
       if (saved) setStreak(s => s + 1)
     }
   }
@@ -171,7 +171,7 @@ export default function PreguntaDiaria() {
     }
   }
 
-  const correct = pregunta?.correcta
+  const correct = en ? (pregunta?.correctaEn || pregunta?.correcta) : pregunta?.correcta
 
   return (
     <div className="relative z-10 flex items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-6">
@@ -360,10 +360,10 @@ export default function PreguntaDiaria() {
           /* ── Pregunta de trivia ── */
           <>
             <div className="px-6 sm:px-8 py-6">
-              <p className="text-xs font-semibold text-white/40 uppercase tracking-widest mb-3">{pregunta.categoria}</p>
-              <h3 className="text-xl font-bold text-white leading-snug mb-6">{pregunta.pregunta}</h3>
+              <p className="text-xs font-semibold text-white/40 uppercase tracking-widest mb-3">{en ? (pregunta.categoriaEn || pregunta.categoria) : pregunta.categoria}</p>
+              <h3 className="text-xl font-bold text-white leading-snug mb-6">{en ? (pregunta.preguntaEn || pregunta.pregunta) : pregunta.pregunta}</h3>
               <div className="grid grid-cols-2 gap-3">
-                {pregunta.opciones.map(op => (
+                {(en ? (pregunta.opcionesEn || pregunta.opciones) : pregunta.opciones).map(op => (
                   <button
                     key={op}
                     onClick={() => !answered && setSelected(op)}
@@ -404,11 +404,11 @@ export default function PreguntaDiaria() {
               ) : (
                 <>
                   <div className={`text-center py-3 rounded-xl font-bold mb-3 ${selected === correct ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'}`}>
-                    {selected === correct ? '🎉 ¡Correcto!' : `❌ Era: ${correct}`}
+                    {selected === correct ? (en ? '🎉 Correct!' : '🎉 ¡Correcto!') : (en ? `❌ It was: ${correct}` : `❌ Era: ${correct}`)}
                   </div>
-                  {pregunta.explicacion && (
+                  {(pregunta.explicacion || pregunta.explicacionEn) && (
                     <div className="bg-white/5 border border-white/10 rounded-xl p-4">
-                      <p className="text-white/60 text-sm leading-relaxed">💡 {pregunta.explicacion}</p>
+                      <p className="text-white/60 text-sm leading-relaxed">💡 {en ? (pregunta.explicacionEn || pregunta.explicacion) : pregunta.explicacion}</p>
                     </div>
                   )}
                   {!user && (
