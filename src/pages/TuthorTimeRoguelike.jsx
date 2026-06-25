@@ -131,7 +131,8 @@ function formatAño(a) {
 }
 
 // ── Contador animado de años ───────────────────────────────────────────────
-function YearCounter({ añoEnviado, añoEvento, vidaAntesViaje, resultado, esTiempo }) {
+function YearCounter({ añoEnviado, añoEvento, vidaAntesViaje, resultado, esTiempo, lang }) {
+  const en = lang === 'en'
   const [current, setCurrent] = useState(esTiempo ? añoEvento : añoEnviado)
   const [done, setDone]       = useState(esTiempo || resultado === 'PERFECTO')
 
@@ -169,8 +170,8 @@ function YearCounter({ añoEnviado, añoEvento, vidaAntesViaje, resultado, esTie
   else                                               color = 'text-white'
 
   const label = esTiempo
-    ? 'Año del evento'
-    : done ? 'Año del evento' : resultado === 'TARDE' ? 'El agente llega…' : 'El agente espera…'
+    ? (lang === 'en' ? 'Year of the event' : 'Año del evento')
+    : done ? (lang === 'en' ? 'Year of the event' : 'Año del evento') : resultado === 'TARDE' ? (lang === 'en' ? 'The agent arrives…' : 'El agente llega…') : (lang === 'en' ? 'The agent waits…' : 'El agente espera…')
 
   return (
     <div className="text-center py-4">
@@ -180,11 +181,11 @@ function YearCounter({ añoEnviado, añoEvento, vidaAntesViaje, resultado, esTie
       </div>
       {done && (
         <p className={`text-xs mt-2 font-semibold ${color}`}>
-          {resultado === 'PERFECTO' && '✓ Llegada exacta — 0 años de espera'}
-          {resultado === 'TARDE'    && '✗ Llegaste después del evento'}
-          {resultado === 'MUERTO'   && `💀 Vida agotada tras ${vidaAntesViaje} años`}
-          {resultado === 'ÉXITO'    && `${Math.abs(añoEvento - añoEnviado)} años de espera`}
-          {resultado === 'TIEMPO'   && 'Tiempo agotado'}
+          {resultado === 'PERFECTO' && (en ? '✓ Exact arrival — 0 years of waiting' : '✓ Llegada exacta — 0 años de espera')}
+          {resultado === 'TARDE'    && (en ? '✗ You arrived after the event' : '✗ Llegaste después del evento')}
+          {resultado === 'MUERTO'   && (en ? `💀 Health exhausted after ${vidaAntesViaje} years` : `💀 Vida agotada tras ${vidaAntesViaje} años`)}
+          {resultado === 'ÉXITO'    && (en ? `${Math.abs(añoEvento - añoEnviado)} years of waiting` : `${Math.abs(añoEvento - añoEnviado)} años de espera`)}
+          {resultado === 'TIEMPO'   && (en ? 'Time is up' : 'Tiempo agotado')}
         </p>
       )}
     </div>
@@ -204,7 +205,7 @@ function AgentBar({ agente, activo }) {
         />
       </div>
       <span className="text-xs text-white/50 w-14 text-right tabular-nums">
-        {agente.muerto ? 'Caído' : `${agente.vida}/${VIDA_BIXO}`}
+        {agente.muerto ? (lang === 'en' ? 'Dead' : 'Caído') : `${agente.vida}/${VIDA_BIXO}`}
       </span>
     </div>
   )
@@ -432,13 +433,19 @@ export default function TuthorTimeRoguelike() {
 
           {/* Stats de la dificultad */}
           <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-5 space-y-2.5 text-sm">
-            {[
+            {(lang === 'en' ? [
+              ['🕵️', 'Agents',    `${d.agentes} agent${d.agentes > 1 ? 's' : ''} · ${d.puedeRecuperar ? 'recoverable with upgrade' : 'not recoverable'}`],
+              ['⏱️', 'Time',      `${d.tiempoBase}s per mission (−1s per level, min. 5s)`],
+              ['💀', 'Health',    `${VIDA_BIXO} years per agent`],
+              ['📅', 'Mechanic',  'Arrive late or time runs out → agent dies'],
+              ['🎁', 'Upgrades',  'Every 3 missions pick a permanent upgrade'],
+            ] : [
               ['🕵️', 'Agentes',  `${d.agentes} agente${d.agentes > 1 ? 's' : ''} · ${d.puedeRecuperar ? `recuperable${d.agentes > 1 ? 's' : ''} con mejora` : `no recuperable${d.agentes > 1 ? 's' : ''}`}`],
               ['⏱️', 'Tiempo',   `${d.tiempoBase}s por misión (−1s por nivel, mín. 5s)`],
               ['💀', 'Vida',     `${VIDA_BIXO} años por agente`],
               ['📅', 'Mecánica', 'Llegas tarde o tiempo agotado → agente muere'],
               ['🎁', 'Mejoras',  'Cada 3 misiones elige una mejora permanente'],
-            ].map(([e, k, v]) => (
+            ]).map(([e, k, v]) => (
               <div key={k} className="flex items-center justify-between gap-4">
                 <span className="text-white/40 shrink-0">{e} {k}</span>
                 <span className="text-white font-semibold text-right">{v}</span>
@@ -448,14 +455,19 @@ export default function TuthorTimeRoguelike() {
 
           {/* Cómo funciona */}
           <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-6">
-            <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-3">Cómo funciona</p>
+            <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-3">{tu.comoFunciona}</p>
             <div className="space-y-2">
-              {[
+              {(lang === 'en' ? [
+                ['📅', 'Send the agent to the year you think the event happened'],
+                ['⏳', 'Arrives early and waits — each year of waiting costs health'],
+                ['💀', 'Arriving late or running out of time kills the agent'],
+                ['🎯', 'Exact year = 0 health lost = maximum score'],
+              ] : [
                 ['📅', 'Envías al agente al año en que crees que ocurrió el evento'],
                 ['⏳', 'Llega antes y espera — cada año de espera consume vida'],
                 ['💀', 'Llegar tarde o agotar el tiempo mata al agente'],
                 ['🎯', 'Año exacto = 0 vida gastada = puntuación máxima'],
-              ].map(([e, t]) => (
+              ]).map(([e, t]) => (
                 <div key={t} className="flex items-start gap-3 text-sm text-white/50">
                   <span className="text-base w-5 shrink-0 text-center">{e}</span>
                   <span>{t}</span>
@@ -490,7 +502,7 @@ export default function TuthorTimeRoguelike() {
           {/* Header */}
           <div className="flex items-center justify-between">
             <button onClick={() => navigate(localPath('/juegos'))} className="text-white/40 hover:text-white text-sm">← Salir</button>
-            <span className="text-white/50 text-sm">Misión {nivel}</span>
+            <span className="text-white/50 text-sm">{lang === 'en' ? `Mission ${nivel}` : `Misión ${nivel}`}</span>
             <span className="text-white font-bold tabular-nums">{scoreTotal.toLocaleString()} pts</span>
           </div>
 
@@ -504,7 +516,7 @@ export default function TuthorTimeRoguelike() {
           {/* Timer */}
           <div>
             <div className="flex justify-between text-xs text-white/40 mb-1">
-              <span>Tiempo</span><span>{timeLeft}s</span>
+              <span>{tu.tiempo}</span><span>{timeLeft}s</span>
             </div>
             <div className="h-1.5 bg-white/10 rounded-full overflow-hidden">
               <div
@@ -594,23 +606,24 @@ export default function TuthorTimeRoguelike() {
               vidaAntesViaje={vidaAntesViaje}
               resultado={resultado}
               esTiempo={esTiempo}
+              lang={lang}
             />
 
             <div className="grid grid-cols-3 gap-2 mb-5">
               <div className="bg-white/5 rounded-xl p-3">
-                <div className="text-white/40 text-xs mb-1">Enviado a</div>
+                <div className="text-white/40 text-xs mb-1">{lang === 'en' ? 'Sent to' : 'Enviado a'}</div>
                 <div className="text-white font-bold">{esTiempo ? '—' : formatAño(añoEnviado)}</div>
               </div>
               <div className="bg-white/5 rounded-xl p-3">
-                <div className="text-white/40 text-xs mb-1">Espera</div>
+                <div className="text-white/40 text-xs mb-1">{lang === 'en' ? 'Wait' : 'Espera'}</div>
                 <div className={`font-bold ${resultado === 'TARDE' ? 'text-red-400' : resultado === 'PERFECTO' ? 'text-green-400' : 'text-white'}`}>
-                  {resultado === 'TARDE' ? 'Tarde' : resultado === 'TIEMPO' ? '—' : `${espera} años`}
+                  {resultado === 'TARDE' ? (lang === 'en' ? 'Late' : 'Tarde') : resultado === 'TIEMPO' ? '—' : `${espera} ${lang === 'en' ? 'yrs' : 'años'}`}
                 </div>
               </div>
               <div className="bg-white/5 rounded-xl p-3">
-                <div className="text-white/40 text-xs mb-1">Vida perdida</div>
+                <div className="text-white/40 text-xs mb-1">{lang === 'en' ? 'Health lost' : 'Vida perdida'}</div>
                 <div className={`font-bold ${vidaGastada === 0 ? 'text-green-400' : vidaGastada > 60 ? 'text-red-400' : 'text-yellow-400'}`}>
-                  {vidaGastada === 0 ? 'Ninguna' : `−${vidaGastada}`}
+                  {vidaGastada === 0 ? (lang === 'en' ? 'None' : 'Ninguna') : `−${vidaGastada}`}
                 </div>
               </div>
             </div>
@@ -654,7 +667,7 @@ export default function TuthorTimeRoguelike() {
           <div className="bg-black/50 backdrop-blur rounded-2xl p-6 border border-white/10">
             <div className="text-center mb-6">
               <div className="text-4xl mb-2">🎁</div>
-              <h2 className="text-2xl font-bold text-white">¡Misión {nivel - 1} superada!</h2>
+              <h2 className="text-2xl font-bold text-white">{lang === 'en' ? `Mission ${nivel - 1} cleared!` : `¡Misión ${nivel - 1} superada!`}</h2>
               <p className="text-white/50 text-sm mt-1">{lang === 'en' ? 'Pick an upgrade to continue' : 'Elige una mejora para continuar'}</p>
             </div>
             <div className="space-y-3">
