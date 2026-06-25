@@ -13,7 +13,7 @@ function Intro({ examen, eventos, margen, onStart, en }) {
         {/* Header */}
         <div className="text-center mb-8">
           <span className="text-6xl mb-4 block">{examen.emoji}</span>
-          <h1 className="text-3xl font-black text-white mb-2">{examen.nombre}</h1>
+          <h1 className="text-3xl font-black text-white mb-2">{examen.titulo || examen.nombre}</h1>
           <p className="text-white/50 text-sm">{examen.descripcion}</p>
         </div>
 
@@ -112,7 +112,7 @@ function Pregunta({ evento, margen, idx, total, vivo, onResponder, en }) {
         <div className="flex items-start justify-between gap-3 mb-3">
           <h2 className="font-black text-white text-xl leading-tight">{evento.nombreEn || evento.nombre}</h2>
           <span className={`text-xs font-bold px-2 py-1 rounded-full border shrink-0 ${difColor[evento.dificultad]}`}>
-            {evento.dificultad}
+            {en ? ({ fácil: 'easy', medio: 'medium', difícil: 'hard' }[evento.dificultad] || evento.dificultad) : evento.dificultad}
           </span>
         </div>
         <p className="text-white/50 text-sm leading-relaxed">{evento.descripcionEn || evento.descripcion}</p>
@@ -312,7 +312,7 @@ export default function ExamenJuego() {
   if (fase === 'intro') {
     return (
       <div className="relative z-10">
-        <Intro examen={examen} eventos={eventos} margen={margen} onStart={iniciar} />
+        <Intro examen={examen} eventos={eventos} margen={margen} onStart={iniciar} en={en} />
       </div>
     )
   }
@@ -328,6 +328,7 @@ export default function ExamenJuego() {
           preguntaMuerte={preguntaMuerte}
           onRepetir={() => { iniciar(); setFase('jugando') }}
           onSalir={() => navigate(localPath(backPath))}
+          en={en}
         />
       </div>
     )
@@ -350,6 +351,7 @@ export default function ExamenJuego() {
           total={eventos.length}
           vivo={vivo}
           onResponder={onResponder}
+          en={en}
         />
       )}
     </div>
