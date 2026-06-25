@@ -449,7 +449,7 @@ export function generarPistas(secreto, tablero, lang = 'es') {
   // Busca valores que existen en el tablero pero el secreto NO tiene
   const negativas = []
   const attrsUsados = new Set(seleccionadas.map(c => c.attr))
-  for (const attr of Object.keys(PISTA_NEG_TEMPLATES)) {
+  for (const attr of Object.keys(negTemplates)) {
     const secretoVal = secreto.atributos[attr]
     // Valores distintos al secreto que aparecen en el tablero
     const valsEnTablero = [...new Set(tablero.map(p => p.atributos[attr]).filter(v => v && v !== secretoVal))]

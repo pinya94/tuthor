@@ -97,7 +97,7 @@ function Avatar({ p, tachado, modoAdivinar, esSecreto, resultado, onClick }) {
 }
 
 // ── INTRO ─────────────────────────────────────────────────────────────────────
-function Intro({ pool, onStart }) {
+function Intro({ pool, onStart, lang }) {
   return (
     <div className="flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
       <div className="max-w-md w-full">
@@ -288,7 +288,7 @@ export default function QuienEsQuien() {
     setModoAdivinar(false)
   }
 
-  if (fase === 'intro') return <Intro pool={poolKey} onStart={iniciarPartida} />
+  if (fase === 'intro') return <Intro pool={poolKey} onStart={iniciarPartida} lang={lang} />
   if (fase === 'resultado') return (
     <Resultado
       ganó={ganó} secreto={secreto} pistaIdx={pistaIdx}
