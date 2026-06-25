@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { useNavigate, useParams, useLocation } from 'react-router-dom'
+import { useLang } from '../context/LangContext'
 import { MODOS, GRADOS, rng } from '../lib/mathEngine'
 
 const TOTAL = 10
@@ -35,6 +36,8 @@ function calificacion(aciertos) {
 
 export default function ExamenMatematicas() {
   const navigate   = useNavigate()
+  const { lang, localPath } = useLang()
+  const en = lang === 'en'
   const location   = useLocation()
   const { modo }   = useParams()
   const modoCfg    = MODOS[modo] || MODOS.combinado
@@ -80,7 +83,7 @@ export default function ExamenMatematicas() {
             <div className="text-5xl mb-3">{aciertos >= 5 ? '🎉' : '😬'}</div>
             <h2 className="text-2xl font-black text-white mb-1">{cal.label}</h2>
             <p className={`text-5xl font-black mb-1 ${cal.color}`}>{aciertos}/{TOTAL}</p>
-            <p className="text-white/40 text-sm">Nota: {cal.nota}</p>
+            <p className="text-white/40 text-sm">{en ? 'Grade' : 'Nota'}: {cal.nota}</p>
           </div>
 
           <div className="bg-white/5 border border-white/10 rounded-2xl p-4 mb-5 space-y-2">
@@ -95,16 +98,16 @@ export default function ExamenMatematicas() {
           </div>
 
           <button
-            onClick={() => navigate(`/estudiar/matematicas/${modo}/examen`, { state: { nivel: gradoId }, replace: true })}
+            onClick={() => navigate(localPath(`/estudiar/matematicas/${modo}/examen`), { state: { nivel: gradoId }, replace: true })}
             className="w-full py-3 bg-[#EDAE49] hover:bg-amber-400 text-black font-black rounded-2xl transition-all mb-2"
           >
-            Repetir examen
+            {en ? 'Retake exam' : 'Repetir examen'}
           </button>
           <button
-            onClick={() => navigate(`/estudiar/matematicas/${modo}`)}
+            onClick={() => navigate(localPath(`/estudiar/matematicas/${modo}`))}
             className="w-full py-3 text-white/40 hover:text-white/70 text-sm transition-colors"
           >
-            ← Volver al tema
+            {en ? '← Back to topic' : '← Volver al tema'}
           </button>
         </div>
       </div>
