@@ -93,7 +93,7 @@ export default function PortadasExamen() {
     return (
       <div className="relative z-10 flex items-center justify-center min-h-[calc(100vh-4rem)] px-4">
         <div className="text-center text-white/50">
-          <p className="text-lg mb-4">No hay suficientes portadas para este tema.</p>
+          <p className="text-lg mb-4">{en ? 'Not enough headlines for this topic.' : 'No hay suficientes portadas para este tema.'}</p>
           <button onClick={() => navigate(-1)} className="text-[#EDAE49] hover:underline">← Volver</button>
         </div>
       </div>
@@ -134,11 +134,11 @@ export default function PortadasExamen() {
             </div>
             <h2 className="text-2xl font-black text-white mb-1">{cal.label}</h2>
             <p className={`text-5xl font-black mb-1 ${cal.color}`}>{aciertos}/{TOTAL}</p>
-            <p className="text-white/40 text-sm">Titulares acertados en el examen de Portadas</p>
+            <p className="text-white/40 text-sm">{en ? 'Headlines guessed correctly in the Headlines exam' : 'Titulares acertados en el examen de Portadas'}</p>
           </div>
 
           <div className="bg-white/5 border border-white/10 rounded-2xl p-4 mb-5">
-            <p className="text-white/30 text-xs uppercase tracking-widest mb-3 font-semibold">Detalle por portada</p>
+            <p className="text-white/30 text-xs uppercase tracking-widest mb-3 font-semibold">{en ? 'Detail per headline' : 'Detalle por portada'}</p>
             <div className="flex gap-2 flex-wrap">
               {historial.map((h, i) => (
                 <div
@@ -185,11 +185,11 @@ export default function PortadasExamen() {
             <h2 className={`text-3xl font-black ${correcto ? 'text-green-400' : 'text-red-400'}`}>
               {correcto ? (en ? 'Correct!' : '¡Correcto!') : (en ? 'Wrong!' : '¡Incorrecto!')}
             </h2>
-            <p className="text-white/40 text-sm mt-1">Portada {idx + 1} de {TOTAL}</p>
+            <p className="text-white/40 text-sm mt-1">{en ? `Headline ${idx + 1} of ${TOTAL}` : `Portada ${idx + 1} de ${TOTAL}`}</p>
           </div>
 
           <div className="bg-white/5 border border-white/10 rounded-2xl p-5">
-            <p className="text-white/30 text-xs uppercase tracking-widest mb-2">El titular era…</p>
+            <p className="text-white/30 text-xs uppercase tracking-widest mb-2">{en ? 'The headline was…' : 'El titular era…'}</p>
             <div className={`flex items-center gap-2 font-black text-lg mb-3 ${p.veracidad ? 'text-green-400' : 'text-red-400'}`}>
               <span>{p.veracidad ? '✓' : '✗'}</span>
               <span>{p.veracidad ? (en ? 'TRUE' : 'VERDAD') : (en ? 'FALSE' : 'MENTIRA')}</span>
@@ -211,7 +211,7 @@ export default function PortadasExamen() {
             onClick={continuar}
             className="w-full py-4 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-lg rounded-2xl transition-all hover:scale-[1.02]"
           >
-            {idx + 1 >= TOTAL ? 'Ver resultado →' : `Portada ${idx + 2} →`}
+            {idx + 1 >= TOTAL ? (en ? 'See result →' : 'Ver resultado →') : (en ? `Headline ${idx + 2} →` : `Portada ${idx + 2} →`)}
           </button>
         </div>
       </div>
@@ -236,7 +236,7 @@ export default function PortadasExamen() {
       {/* Barra de progreso */}
       <div className="mb-5">
         <div className="flex justify-between text-xs text-white/40 mb-1.5">
-          <span>Portadas</span>
+          <span>{en ? 'Headlines' : 'Portadas'}</span>
           <span className="font-bold">{idx + 1} / {TOTAL}</span>
         </div>
         <div className="h-2 bg-white/10 rounded-full overflow-hidden">
@@ -266,7 +266,7 @@ export default function PortadasExamen() {
           <div className="hidden md:block bg-white/5 border border-white/10 rounded-2xl p-4 text-center">
             <p className="text-white/30 text-xs uppercase tracking-widest mb-1">Portada</p>
             <p className="text-white font-black text-3xl">{idx + 1}<span className="text-white/30 text-lg"> / {TOTAL}</span></p>
-            <p className="text-white/40 text-sm mt-1">✓ {aciertos} acertadas</p>
+            <p className="text-white/40 text-sm mt-1">✓ {aciertos} {en ? 'correct' : 'acertadas'}</p>
           </div>
 
           <button

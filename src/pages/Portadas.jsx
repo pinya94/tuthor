@@ -337,7 +337,7 @@ export default function Portadas() {
               <p className="text-white/30 text-xs uppercase tracking-widest mb-1">Puntuación</p>
               <p className="text-white font-black text-3xl tabular-nums">{puntos.toLocaleString()}</p>
               {racha >= 2 && (
-                <p className="text-amber-400 text-sm font-bold mt-1">🔥 Racha de {racha} — ×{(1 + (racha - 1) * 0.25).toFixed(2)}</p>
+                <p className="text-amber-400 text-sm font-bold mt-1">🔥 {lang === 'en' ? `Streak of ${racha}` : `Racha de ${racha}`} — ×{(1 + (racha - 1) * 0.25).toFixed(2)}</p>
               )}
             </div>
 
@@ -386,7 +386,7 @@ export default function Portadas() {
             </div>
             {correcto && nuevaRacha >= 2 && (
               <p className="text-amber-400 text-sm font-bold mt-1">
-                🔥 ¡Racha de {nuevaRacha}! ×{(1 + rachaAntes * 0.25).toFixed(2)} multiplicador
+                🔥 {lang === 'en' ? `Streak of ${nuevaRacha}!` : `¡Racha de ${nuevaRacha}!`} ×{(1 + rachaAntes * 0.25).toFixed(2)} {lang === 'en' ? 'multiplier' : 'multiplicador'}
               </p>
             )}
             {acabaAqui && (
@@ -431,7 +431,7 @@ export default function Portadas() {
             <div className="mb-4">
               <p className="text-white/30 text-xs uppercase tracking-widest mb-1">{pu.puntuacionFinal}</p>
               <p className="text-white font-black text-6xl tabular-nums">{puntos.toLocaleString()}</p>
-              <p className="text-white/30 text-sm mt-1">puntos</p>
+              <p className="text-white/30 text-sm mt-1">{lang === 'en' ? 'points' : 'puntos'}</p>
             </div>
 
             <div className="grid grid-cols-2 gap-3 mt-6">
