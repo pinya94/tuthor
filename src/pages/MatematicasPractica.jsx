@@ -70,7 +70,7 @@ export default function MatematicasPractica() {
           <p className="text-white/30 text-xs mb-6 text-center">
             <button onClick={() => navigate(localPath('/estudiar/matematicas'))} className="hover:text-white/60 transition-colors">{en ? 'Mathematics' : 'Matemáticas'}</button>
             {' '}/{' '}
-            <button onClick={() => navigate(localPath(`/estudiar/matematicas/${modo}`))} className="hover:text-white/60 transition-colors">{modoCfg.titulo}</button>
+            <button onClick={() => navigate(localPath(`/estudiar/matematicas/${modo}`))} className="hover:text-white/60 transition-colors">{en ? (modoCfg.tituloEn || modoCfg.titulo) : modoCfg.titulo}</button>
             {' '}/{' '}<span className="text-white/50">{en ? 'Exam' : 'Examen'}</span>
           </p>
 
@@ -126,7 +126,7 @@ export default function MatematicasPractica() {
       <p className="text-white/30 text-xs mb-4 text-center">
         <button onClick={() => navigate('/estudiar/matematicas')} className="hover:text-white/60 transition-colors">Matemáticas</button>
         {' '}/{' '}
-        <button onClick={() => navigate(localPath(`/estudiar/matematicas/${modo}`))} className="hover:text-white/60 transition-colors">{modoCfg.titulo}</button>
+        <button onClick={() => navigate(localPath(`/estudiar/matematicas/${modo}`))} className="hover:text-white/60 transition-colors">{en ? (modoCfg.tituloEn || modoCfg.titulo) : modoCfg.titulo}</button>
         {' '}/{' '}
         <span className="text-white/50">
           {modoExamen ? `${en ? 'Exam' : 'Examen'} · Puzzle ${exRonda}/${TOTAL_RONDAS}` : (en ? 'Target Number' : 'Acércate al número')}
@@ -167,7 +167,7 @@ export default function MatematicasPractica() {
         key={runId}
         ops={modoCfg.ops}
         cfg={grado}
-        nivelLabel={{ emoji: grado.emoji, label: grado.label }}
+        nivelLabel={{ emoji: grado.emoji, label: en ? (grado.labelEn || grado.label) : grado.label }}
         onFinish={handleFinish}
         onPlayAgain={modoExamen
           ? (exRonda < TOTAL_RONDAS ? siguienteRonda : null)

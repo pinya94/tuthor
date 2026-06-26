@@ -333,12 +333,12 @@ export default function PreguntaDiaria() {
           <>
             <div className="px-6 sm:px-8 py-6">
               <p className="text-xs font-semibold text-white/40 uppercase tracking-widest mb-3">
-                {desafio.modo.emoji} {desafio.modo.titulo} · {desafio.grado.label}
+                {desafio.modo.emoji} {en ? (desafio.modo.tituloEn || desafio.modo.titulo) : desafio.modo.titulo} · {en ? (desafio.grado.labelEn || desafio.grado.label) : desafio.grado.label}
               </p>
               <CombinaNumeros
                 ops={desafio.modo.ops}
                 cfg={desafio.grado}
-                nivelLabel={{ emoji: desafio.grado.emoji, label: desafio.grado.label }}
+                nivelLabel={{ emoji: desafio.grado.emoji, label: en ? (desafio.grado.labelEn || desafio.grado.label) : desafio.grado.label }}
                 onFinish={handleMathFinish}
               />
             </div>

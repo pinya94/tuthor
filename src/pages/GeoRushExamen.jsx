@@ -172,7 +172,7 @@ export default function GeoRushExamen() {
     const nombreInput = val || inputVal
     const paisResp = PAISES.find(p => p.nombre === nombreInput)
     if (!paisResp) {
-      setFeedback({ ok: false, msg: 'País no reconocido' })
+      setFeedback({ ok: false, msg: lang === 'en' ? 'Country not recognised' : 'País no reconocido' })
       setTimeout(() => setFeedback(null), 1200)
       return
     }
@@ -306,7 +306,7 @@ export default function GeoRushExamen() {
                 if (bloqueada) return (
                   <div key={i} className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm bg-white/3 border border-white/5 text-white/15">
                     <span className="text-base opacity-40">{icono}</span>
-                    <span>Pista oculta</span>
+                    <span>{lang === 'en' ? 'Hidden clue' : 'Pista oculta'}</span>
                   </div>
                 )
                 return (
@@ -331,7 +331,7 @@ export default function GeoRushExamen() {
                 <div className="flex items-center gap-2 mb-1">
                   <span className="text-base">{pistas[pistaIdx]?.tipo === 'regalo' ? '🎁' : '🔒'}</span>
                   <p className="text-white/30 text-xs uppercase tracking-widest">
-                    {pistas[pistaIdx]?.tipo === 'regalo' ? 'Pista regalo' : 'Escribe un país que cumpla'}
+                    {pistas[pistaIdx]?.tipo === 'regalo' ? (lang === 'en' ? 'Gift clue' : 'Pista regalo') : (lang === 'en' ? 'Type a country that matches' : 'Escribe un país que cumpla')}
                   </p>
                 </div>
                 <p className="text-white font-bold text-sm">{pistas[pistaIdx]?.texto}</p>
