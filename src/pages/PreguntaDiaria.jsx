@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useMemo } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
 import { getDailyStatus, saveDailyChallenge } from '../lib/activity'
@@ -64,7 +65,8 @@ function GeoInput({ value, onChange, onSubmit, disabled }) {
 
 export default function PreguntaDiaria() {
   const { user } = useAuth()
-  const { lang } = useLang()
+  const { lang, localPath } = useLang()
+  const navigate = useNavigate()
   const en = lang === 'en'
   const [selected, setSelected]   = useState(null)
   const [answered, setAnswered]   = useState(false)
@@ -77,6 +79,7 @@ export default function PreguntaDiaria() {
   const esMate     = desafio.tipo === 'matematicas'
   const esPortada  = desafio.tipo === 'portada'
   const esGeoRush  = desafio.tipo === 'georush'
+  const esNumPath  = desafio.tipo === 'numpath'
   const pregunta   = desafio.tipo === 'trivia' ? desafio.pregunta : null
   const portadaHoy = desafio.tipo === 'portada' ? desafio.portada : null
   const paisHoy    = desafio.tipo === 'georush' ? desafio.pais : null
@@ -269,6 +272,33 @@ export default function PreguntaDiaria() {
             </div>
             <div className="px-6 sm:px-8 pb-6">
               <p className="text-center text-white/20 text-xs">{en ? 'New headline tomorrow · Come back every day' : 'Nueva portada mañana · Vuelve cada día'}</p>
+            </div>
+          </>
+        ) : esNumPath ? (
+          /* ── NumPath daily ── */
+          <>
+            <div className="px-6 sm:px-8 py-6 text-center">
+              <p className="text-xs font-semibold text-white/40 uppercase tracking-widest mb-4">
+                🧮 NumPath
+              </p>
+              <p className="text-white/60 text-sm mb-6">
+                {en ? 'Solve one grid in 30 seconds. Navigate to a goal with the exact score.' : 'Resuelve un tablero en 30 segundos. Navega hasta una meta con la puntuación exacta.'}
+              </p>
+              {!answered ? (
+                <button
+                  onClick={() => { navigate(localPath('/juegos/numpath'), { state: { modoDaily: true } }) }}
+                  className="w-full bg-[#EDAE49] hover:bg-amber-400 text-black font-black py-4 rounded-xl transition-all text-lg"
+                >
+                  {en ? 'Play NumPath →' : 'Jugar NumPath →'}
+                </button>
+              ) : (
+                <div className="bg-green-500/20 text-green-400 font-bold py-3 rounded-xl">
+                  {en ? '✓ Completed' : '✓ Completado'}
+                </div>
+              )}
+            </div>
+            <div className="px-6 sm:px-8 pb-6">
+              <p className="text-center text-white/20 text-xs">{en ? 'New challenge tomorrow · Come back every day' : 'Nuevo reto mañana · Vuelve cada día'}</p>
             </div>
           </>
         ) : esGeoRush ? (

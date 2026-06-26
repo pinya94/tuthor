@@ -58,20 +58,23 @@ export function getPaisDeHoy() {
   return PAISES[dia % PAISES.length]
 }
 
-// Rota entre trivia, cálculo mental, portada y georush (cada 4 días)
+// Rota entre trivia, cálculo mental, portada, georush y numpath (cada 5 días)
 export function getDesafioDeHoy() {
   const dia = dayOfYear()
-  const tipo4 = dia % 4
-  if (tipo4 === 0) {
+  const tipo5 = dia % 5
+  if (tipo5 === 0) {
     return { tipo: 'trivia', pregunta: getPreguntaDeHoy() }
   }
-  if (tipo4 === 1) {
+  if (tipo5 === 1) {
     const modoId  = MODO_IDS[dia % MODO_IDS.length]
     const nivelId = GRADO_IDS[Math.floor(dia / 5) % GRADO_IDS.length]
     return { tipo: 'matematicas', modo: MODOS[modoId], grado: GRADOS[nivelId] }
   }
-  if (tipo4 === 2) {
+  if (tipo5 === 2) {
     return { tipo: 'portada', portada: getPortadaDeHoy() }
   }
-  return { tipo: 'georush', pais: getPaisDeHoy() }
+  if (tipo5 === 3) {
+    return { tipo: 'georush', pais: getPaisDeHoy() }
+  }
+  return { tipo: 'numpath' }
 }

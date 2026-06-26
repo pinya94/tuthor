@@ -35,6 +35,15 @@ export default function MatematicasTema() {
       detalles: ['10 puzzles', en ? 'Pass with 5+' : 'Apruebas con 5+', `${grado.tiempo}s ${en ? 'per puzzle' : 'por puzzle'}`],
       action: () => navigate(localPath(`/estudiar/matematicas/${modoId}/jugar`), { state: { nivel, modoExamen: true } }),
     },
+    {
+      id: 'numpath',
+      titulo: 'NumPath',
+      descripcion: en ? '10 grids: navigate to goals with the exact score using the allowed operations. Pass with 5 or more.' : '10 tableros: navega hasta las metas con la puntuación exacta usando las operaciones permitidas. Se aprueba con 5 o más.',
+      emoji: '🧮',
+      gradient: 'from-yellow-500 to-orange-500',
+      detalles: [en ? '10 boards' : '10 tableros', en ? 'Pass with 5+' : 'Apruebas con 5+', modo.ops.join(' ')],
+      action: () => navigate(localPath('/juegos/numpath'), { state: { modoExamen: true, ops: modo.ops, nivel, backPath: `/estudiar/matematicas/${modoId}` } }),
+    },
   ]
 
   return (

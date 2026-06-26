@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 
 const DIFS = {
@@ -112,13 +112,33 @@ function generateBoard(size, allowedOps, startScore) {
   return grid
 }
 
+const EXAM_TOTAL = 10
+
+function calificacion(aciertos, en) {
+  if (aciertos >= 9)  return { label: en ? 'Outstanding' : 'Sobresaliente', color: 'text-green-400' }
+  if (aciertos >= 7)  return { label: en ? 'Good' : 'Notable', color: 'text-blue-400' }
+  if (aciertos === 6) return { label: en ? 'Fair' : 'Bien', color: 'text-yellow-300' }
+  if (aciertos === 5) return { label: en ? 'Pass' : 'Suficiente', color: 'text-orange-400' }
+  return { label: en ? 'Fail' : 'Insuficiente', color: 'text-red-400' }
+}
+
 export default function NumPath() {
   const navigate = useNavigate()
+  const location = useLocation()
   const { lang, localPath } = useLang()
   const u = UI[lang] || UI.es
-  const dl = d => lang === 'en' ? (d.labelEn || d.label) : d.label
+  const en = lang === 'en'
+  const dl = d => en ? (d.labelEn || d.label) : d.label
 
-  const [fase, setFase] = useState('intro')
+  // Exam mode from study section
+  const modoExamen = location.state?.modoExamen === true
+  const examOps = location.state?.ops
+  const examBackPath = location.state?.backPath
+
+  // Daily mode
+  const modoDaily = location.state?.modoDaily === true
+
+  const [fase, setFase] = useState(modoExamen || modoDaily ? 'jugando' : 'intro')
   const [difId, setDifId] = useState('medio')
   const [grid, setGrid] = useState([])
   const [origGrid, setOrigGrid] = useState([])
@@ -130,15 +150,26 @@ export default function NumPath() {
   const [flash, setFlash] = useState(null)
   const [levelKey, setLevelKey] = useState(0)
 
+  // Exam state
+  const [exRonda, setExRonda] = useState(1)
+  const [exAciertos, setExAciertos] = useState(0)
+  const [exHistorial, setExHistorial] = useState([])
+
   const timerRef = useRef(null)
   const timeRef = useRef(60)
 
   const dif = DIFS[difId]
 
+  function getOps() {
+    if (examOps) return examOps
+    return dif.ops
+  }
+
   function initBoard(d) {
     const dd = d || dif
+    const ops = examOps || dd.ops
     const ss = rng(1, 20)
-    const g = generateBoard(dd.size, dd.ops, ss)
+    const g = generateBoard(dd.size, ops, ss)
     setGrid(g.map(row => row.map(c => ({ ...c }))))
     setOrigGrid(g.map(row => row.map(c => ({ ...c }))))
     setPos({ r: 0, c: 0 })
@@ -157,26 +188,54 @@ export default function NumPath() {
   function startGame(selectedDif) {
     const d = DIFS[selectedDif || difId]
     setDifId(selectedDif || difId)
-    timeRef.current = d.time
-    setTimeLeft(d.time)
+    if (modoDaily) {
+      timeRef.current = 30
+      setTimeLeft(30)
+    } else if (!modoExamen) {
+      timeRef.current = d.time
+      setTimeLeft(d.time)
+    }
     setBoards(0)
+    setExRonda(1)
+    setExAciertos(0)
+    setExHistorial([])
     initBoard(d)
     setFase('jugando')
     setLevelKey(k => k + 1)
   }
 
+  // Auto-start for exam/daily mode
+  useEffect(() => {
+    if ((modoExamen || modoDaily) && fase === 'jugando' && grid.length === 0) {
+      startGame(difId)
+    }
+  }, [])
+
   useEffect(() => {
     if (fase !== 'jugando') return
+    if (modoExamen) return // No timer in exam mode
     timerRef.current = setInterval(() => {
       timeRef.current -= 1
       setTimeLeft(timeRef.current)
       if (timeRef.current <= 0) {
         clearInterval(timerRef.current)
-        setFase('fin')
+        if (modoDaily) { setFase('resultado') }
+        else { setFase('fin') }
       }
     }, 1000)
     return () => clearInterval(timerRef.current)
   }, [fase, levelKey])
+
+  function skipBoard() {
+    if (!modoExamen) return
+    setExHistorial(h => [...h, { passed: false }])
+    if (exRonda >= EXAM_TOTAL) {
+      setFase('resultado')
+    } else {
+      setExRonda(r => r + 1)
+      initBoard()
+    }
+  }
 
   function move(nr, nc) {
     if (fase !== 'jugando') return
@@ -204,11 +263,27 @@ export default function NumPath() {
       setGrid(newGrid)
 
       const cleared = newGrid.flat().filter(c => c.isGoal && c.cleared).length
-      if (cleared >= dif.goalsNeeded) {
-        timeRef.current += dif.bonus
-        setTimeLeft(timeRef.current)
-        setBoards(b => b + 1)
-        setTimeout(() => { initBoard(); setFlash(null) }, 800)
+      const needed = modoExamen || modoDaily ? 1 : dif.goalsNeeded
+      if (cleared >= needed) {
+        if (modoExamen) {
+          const newAciertos = exAciertos + 1
+          setExAciertos(newAciertos)
+          setExHistorial(h => [...h, { passed: true }])
+          if (exRonda >= EXAM_TOTAL) {
+            setTimeout(() => setFase('resultado'), 800)
+          } else {
+            setExRonda(r => r + 1)
+            setTimeout(() => { initBoard(); setFlash(null) }, 800)
+          }
+        } else if (modoDaily) {
+          setBoards(1)
+          setTimeout(() => setFase('resultado'), 800)
+        } else {
+          timeRef.current += dif.bonus
+          setTimeLeft(timeRef.current)
+          setBoards(b => b + 1)
+          setTimeout(() => { initBoard(); setFlash(null) }, 800)
+        }
       } else {
         setTimeout(() => setFlash(null), 500)
       }
@@ -294,7 +369,61 @@ export default function NumPath() {
     )
   }
 
-  // ── FIN ───────────────────────────────────────────────────────────────────
+  // ── RESULTADO (exam/daily) ─────────────────────────────────────────────────
+  if (fase === 'resultado') {
+    if (modoDaily) {
+      const won = boards > 0
+      return (
+        <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
+          <div className="max-w-md w-full bg-white/5 border border-white/10 rounded-2xl p-6 text-center">
+            <div className="text-5xl mb-3">{won ? '🎉' : '😬'}</div>
+            <h2 className="text-2xl font-black text-white mb-1">{won ? (en ? 'Solved!' : '¡Resuelto!') : (en ? 'Not this time' : 'No ha sido esta vez')}</h2>
+            <p className="text-white/40 text-sm">{en ? 'NumPath daily challenge' : 'Reto diario NumPath'}</p>
+          </div>
+        </div>
+      )
+    }
+
+    const aprobado = exAciertos >= 5
+    const cal = calificacion(exAciertos, en)
+    return (
+      <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
+        <div className="max-w-md w-full">
+          <div className="bg-white/5 border border-white/10 rounded-2xl p-6 text-center mb-4">
+            <div className="text-5xl mb-3">{aprobado ? '🎉' : '😬'}</div>
+            <div className={`text-xs uppercase tracking-widest font-semibold mb-1 ${aprobado ? 'text-green-400' : 'text-red-400'}`}>
+              {aprobado ? (en ? 'Passed' : 'Aprobado') : (en ? 'Failed' : 'Suspenso')}
+            </div>
+            <h2 className="text-2xl font-black text-white mb-1">{cal.label}</h2>
+            <p className={`text-5xl font-black mb-1 ${cal.color}`}>{exAciertos}/{EXAM_TOTAL}</p>
+            <p className="text-white/40 text-sm">{en ? 'Boards solved in the NumPath exam' : 'Tableros resueltos en el examen NumPath'}</p>
+          </div>
+
+          <div className="bg-white/5 border border-white/10 rounded-2xl p-4 mb-5">
+            <p className="text-white/30 text-xs uppercase tracking-widest mb-3 font-semibold">{en ? 'Detail per board' : 'Detalle por tablero'}</p>
+            <div className="flex gap-2 flex-wrap">
+              {exHistorial.map((h, i) => (
+                <div key={i} className={`flex items-center justify-center w-8 h-8 rounded-full border-2 text-xs font-bold ${
+                  h.passed ? 'bg-green-400/20 border-green-400 text-green-400' : 'bg-red-400/20 border-red-400 text-red-400'
+                }`}>{i + 1}</div>
+              ))}
+            </div>
+          </div>
+
+          <button onClick={() => { setExRonda(1); setExAciertos(0); setExHistorial([]); startGame(difId) }}
+            className="w-full py-3 bg-[#EDAE49] hover:bg-amber-400 text-black font-black rounded-2xl transition-all mb-2">
+            {en ? 'Retake exam' : 'Repetir examen'}
+          </button>
+          <button onClick={() => navigate(examBackPath ? localPath(examBackPath) : localPath('/estudiar/matematicas'))}
+            className="w-full py-3 text-white/40 hover:text-white/70 text-sm transition-colors">
+            {en ? '← Back to topic' : '← Volver al tema'}
+          </button>
+        </div>
+      </div>
+    )
+  }
+
+  // ── FIN (free play) ──────────────────────────────────────────────────────
   if (fase === 'fin') {
     const shareText = `🧮 NumPath: ${boards} ${u.tableros.toLowerCase()} · ${dif.emoji} ${dl(dif)}\n🎮 https://www.tuthor.es/juegos/numpath`
     return (
@@ -330,34 +459,54 @@ export default function NumPath() {
 
   // ── JUGANDO ───────────────────────────────────────────────────────────────
   const size = dif.size
-  const timerPct = Math.min(100, (timeLeft / dif.time) * 100)
+  const timerPct = modoDaily ? Math.min(100, (timeLeft / 30) * 100) : Math.min(100, (timeLeft / dif.time) * 100)
   const timerColor = timeLeft > 20 ? 'bg-green-400' : timeLeft > 10 ? 'bg-yellow-400' : 'bg-red-500 animate-pulse'
+  const needed = modoExamen || modoDaily ? 1 : dif.goalsNeeded
 
   return (
     <div className="relative z-10 flex flex-col min-h-[calc(100vh-4rem)] px-3 py-3 max-w-lg mx-auto w-full">
 
       <div className="flex items-center justify-between mb-2">
-        <button onClick={() => setFase('intro')} className="text-white/40 hover:text-white/70 text-sm transition-colors">
+        <button onClick={() => modoExamen ? navigate(examBackPath ? localPath(examBackPath) : -1) : setFase('intro')} className="text-white/40 hover:text-white/70 text-sm transition-colors">
           {u.salir}
         </button>
         <div className="flex items-center gap-3 text-sm text-white/50">
-          <span className="text-white font-bold tabular-nums">🧮 {boards}</span>
-          {dif.goalsNeeded > 1 && (
-            <span className="text-amber-400 font-bold">🎯 {grid.flat().filter(c => c.isGoal && c.cleared).length}/{dif.goalsNeeded}</span>
+          {modoExamen ? (
+            <span className="text-white font-bold tabular-nums">{en ? 'Board' : 'Tablero'} {exRonda}/{EXAM_TOTAL}</span>
+          ) : (
+            <span className="text-white font-bold tabular-nums">🧮 {boards}</span>
+          )}
+          {needed > 1 && (
+            <span className="text-amber-400 font-bold">🎯 {grid.flat().filter(c => c.isGoal && c.cleared).length}/{needed}</span>
           )}
         </div>
       </div>
 
-      <div className="mb-2">
-        <div className="flex justify-between text-xs text-white/40 mb-1">
-          <span>{u.tiempo}</span>
-          <span className={`font-bold tabular-nums ${timeLeft <= 10 ? 'text-red-400' : ''}`}>{timeLeft}s</span>
+      {/* Exam progress dots */}
+      {modoExamen && (
+        <div className="flex gap-1.5 mb-2 justify-center">
+          {exHistorial.map((h, i) => (
+            <div key={i} className={`w-3 h-3 rounded-full ${h.passed ? 'bg-green-400' : 'bg-red-400'}`} />
+          ))}
+          <div className="w-3 h-3 rounded-full border border-white/40 bg-white/10" />
+          {Array.from({ length: EXAM_TOTAL - exHistorial.length - 1 }).map((_, i) => (
+            <div key={`p-${i}`} className="w-3 h-3 rounded-full border border-white/10" />
+          ))}
         </div>
-        <div className="h-2 bg-white/10 rounded-full overflow-hidden">
-          <div className={`h-full rounded-full transition-all duration-1000 ${timerColor}`}
-            style={{ width: `${timerPct}%` }} />
+      )}
+
+      {!modoExamen && (
+        <div className="mb-2">
+          <div className="flex justify-between text-xs text-white/40 mb-1">
+            <span>{u.tiempo}</span>
+            <span className={`font-bold tabular-nums ${timeLeft <= 10 ? 'text-red-400' : ''}`}>{timeLeft}s</span>
+          </div>
+          <div className="h-2 bg-white/10 rounded-full overflow-hidden">
+            <div className={`h-full rounded-full transition-all duration-1000 ${timerColor}`}
+              style={{ width: `${timerPct}%` }} />
+          </div>
         </div>
-      </div>
+      )}
 
       <div className={`text-center mb-2 py-2 rounded-xl border-2 transition-all duration-200 ${
         flash === 'correct' ? 'border-green-400 bg-green-500/20' :
@@ -414,10 +563,18 @@ export default function NumPath() {
         </div>
       </div>
 
-      <button onClick={resetBoard}
-        className="mt-2 w-full py-2.5 bg-white/5 hover:bg-white/10 border border-white/10 text-white/50 hover:text-white/80 font-bold text-sm rounded-xl transition-all">
-        {u.resetear}
-      </button>
+      <div className={`mt-2 flex gap-2 ${modoExamen ? '' : ''}`}>
+        <button onClick={resetBoard}
+          className="flex-1 py-2.5 bg-white/5 hover:bg-white/10 border border-white/10 text-white/50 hover:text-white/80 font-bold text-sm rounded-xl transition-all">
+          {u.resetear}
+        </button>
+        {modoExamen && (
+          <button onClick={skipBoard}
+            className="py-2.5 px-4 bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 text-red-400 font-bold text-sm rounded-xl transition-all">
+            {en ? 'Skip →' : 'Saltar →'}
+          </button>
+        )}
+      </div>
     </div>
   )
 }
