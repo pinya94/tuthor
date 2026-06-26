@@ -166,6 +166,23 @@ const FICHAS_ES = {
     ],
     asignatura: 'Geografía', niveles: 'Primaria, ESO, Bachillerato',
   },
+  'numpath': {
+    titulo: 'NumPath', subtitulo: 'Juego de Estrategia Matemática en Cuadrícula',
+    emoji: '🧮', gradient: 'from-yellow-500 to-orange-500', path: '/juegos/numpath',
+    intro: 'Navega por una cuadrícula llena de operaciones matemáticas y alcanza las casillas meta con la puntuación exacta. Cada casilla se agota tras usarla — planifica tu ruta con cuidado.',
+    beneficios: [
+      { titulo: 'Planificación Estratégica', texto: 'El jugador debe visualizar secuencias de operaciones antes de moverse. Esto entrena la capacidad de planificar varios pasos por adelantado, similar al ajedrez.' },
+      { titulo: 'Cálculo Mental Encadenado', texto: 'Cada movimiento aplica una operación al resultado anterior. Mantener el resultado parcial en la cabeza mientras se evalúan opciones refuerza la memoria de trabajo.' },
+      { titulo: 'Pensamiento Reversible', texto: 'Para alcanzar un objetivo concreto, el alumno razona hacia atrás: "Si necesito 25, ¿qué camino me lleva?" Esto desarrolla el razonamiento inverso, clave en álgebra.' },
+    ],
+    ejemplo: 'El jugador empieza con 10. Ve que la meta pide 25. Puede ir por +5 → ×2 → +5 = 35 (demasiado), o +3 → ×2 → -1 = 25. La segunda ruta funciona, pero las casillas son de un solo uso.',
+    enPapel: { titulo: 'NumPath en papel', pasos: ['Dibuja una cuadrícula 5×5 y escribe operaciones aleatorias en cada casilla.', 'Marca 3 casillas como "meta" y asígnales un número objetivo.', 'Empieza en la esquina superior izquierda con un número inicial.', 'Muévete casilla a casilla y tacha cada una tras usarla. ¿Puedes alcanzar las 3 metas?'] },
+    alternativas: [
+      { nombre: 'Puzzles de caminos numéricos', desc: 'Cuadrículas donde hay que encontrar el camino que suma un total concreto.' },
+      { nombre: 'Laberintos matemáticos', desc: 'Laberintos donde cada bifurcación aplica una operación. Ideal para primaria.' },
+    ],
+    asignatura: 'Matemáticas', niveles: 'Primaria, ESO, Bachillerato',
+  },
 }
 
 const FICHAS_EN = {
@@ -272,6 +289,23 @@ const FICHAS_EN = {
       { nombre: 'Flag quiz', desc: 'Print flags without names and play at identifying them. Works great in groups with points.' },
     ],
     asignatura: 'Geography', niveles: 'Primary, Secondary, Sixth Form',
+  },
+  'numpath': {
+    titulo: 'NumPath', subtitulo: 'Grid-based Maths Strategy Game',
+    emoji: '🧮', gradient: 'from-yellow-500 to-orange-500', path: '/juegos/numpath',
+    intro: 'Navigate a grid full of maths operations and reach the goal cells with the exact score. Each cell is single-use — plan your route carefully.',
+    beneficios: [
+      { titulo: 'Strategic Planning', texto: 'The player must visualise sequences of operations before moving. This trains the ability to plan several steps ahead, similar to chess.' },
+      { titulo: 'Chained Mental Arithmetic', texto: 'Each move applies an operation to the previous result. Keeping the running total in your head while evaluating options strengthens working memory.' },
+      { titulo: 'Reversible Thinking', texto: 'To reach a specific target, the student reasons backwards: "If I need 25, which path gets me there?" This develops inverse reasoning, key in algebra.' },
+    ],
+    ejemplo: 'The player starts with 10. The goal asks for 25. They can go +5 → ×2 → +5 = 35 (too much), or +3 → ×2 → -1 = 25. The second route works, but cells are single-use.',
+    enPapel: { titulo: 'NumPath on paper', pasos: ['Draw a 5×5 grid and write random operations in each cell.', 'Mark 3 cells as "goal" and assign each a target number.', 'Start in the top-left corner with an initial number.', 'Move cell by cell and cross each one out after using it. Can you reach all 3 goals?'] },
+    alternativas: [
+      { nombre: 'Number path puzzles', desc: 'Grids where you must find the path that adds up to a specific total.' },
+      { nombre: 'Maths mazes', desc: 'Mazes where each fork applies an operation. Great for primary school.' },
+    ],
+    asignatura: 'Mathematics', niveles: 'Primary, Secondary, Sixth Form',
   },
 }
 

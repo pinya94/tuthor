@@ -34,7 +34,10 @@ const DATA = {
 
 const JUEGOS = {
   es: [
-    [{ slug: 'acercate', titulo: 'Acércate al Número', desc: 'Combina operaciones para llegar al número objetivo. Roguelike con mejoras entre niveles.', emoji: '🎯', gradient: 'from-pink-600 to-rose-800', tags: ['Mates','Roguelike'] }],
+    [
+      { slug: 'acercate', titulo: 'Acércate al Número', desc: 'Combina operaciones para llegar al número objetivo. Roguelike con mejoras entre niveles.', emoji: '🎯', gradient: 'from-pink-600 to-rose-800', tags: ['Mates','Roguelike'] },
+      { slug: 'numpath', titulo: 'NumPath', desc: 'Navega por una cuadrícula de operaciones y alcanza las metas con la puntuación exacta.', emoji: '🧮', gradient: 'from-yellow-500 to-orange-500', tags: ['Mates','Estrategia'] },
+    ],
     [
       { slug: 'tuthor-time', titulo: 'Tuthor Time', desc: 'Viaja en el tiempo y acierta el año de cada evento histórico.', emoji: '🕰️', gradient: 'from-amber-600 to-orange-800', tags: ['Historia','Fechas'] },
       { slug: 'linea-temporal', titulo: 'Línea Temporal', desc: 'Ordena eventos históricos cronológicamente sin ver fechas.', emoji: '📜', gradient: 'from-emerald-600 to-teal-800', tags: ['Historia','Orden'] },
@@ -44,7 +47,10 @@ const JUEGOS = {
     [{ slug: 'georush', titulo: 'GeoRush', desc: 'Adivina el país misterioso a partir de pistas geográficas.', emoji: '🌍', gradient: 'from-teal-500 to-cyan-700', tags: ['Geografía','Pistas'] }],
   ],
   en: [
-    [{ slug: 'acercate', titulo: 'Target Number', desc: 'Combine operations to reach the target number. Roguelike with upgrades between levels.', emoji: '🎯', gradient: 'from-pink-600 to-rose-800', tags: ['Maths','Roguelike'] }],
+    [
+      { slug: 'acercate', titulo: 'Target Number', desc: 'Combine operations to reach the target number. Roguelike with upgrades between levels.', emoji: '🎯', gradient: 'from-pink-600 to-rose-800', tags: ['Maths','Roguelike'] },
+      { slug: 'numpath', titulo: 'NumPath', desc: 'Navigate a grid of operations and reach goals with the exact score.', emoji: '🧮', gradient: 'from-yellow-500 to-orange-500', tags: ['Maths','Strategy'] },
+    ],
     [
       { slug: 'tuthor-time', titulo: 'Tuthor Time', desc: 'Travel through time and guess the year of each historical event.', emoji: '🕰️', gradient: 'from-amber-600 to-orange-800', tags: ['History','Dates'] },
       { slug: 'linea-temporal', titulo: 'Timeline', desc: 'Place historical events in chronological order without seeing dates.', emoji: '📜', gradient: 'from-emerald-600 to-teal-800', tags: ['History','Order'] },
