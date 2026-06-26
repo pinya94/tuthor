@@ -22,12 +22,12 @@ function shuffle(arr) {
   return a
 }
 
-function calificacion(aciertos) {
-  if (aciertos >= 9)  return { label: 'Sobresaliente', nota: aciertos === 10 ? 10 : 9, color: 'text-green-400' }
-  if (aciertos >= 7)  return { label: 'Notable',       nota: aciertos,                color: 'text-blue-400'  }
-  if (aciertos === 6) return { label: 'Bien',           nota: 6,                       color: 'text-yellow-300'}
-  if (aciertos === 5) return { label: 'Suficiente',     nota: 5,                       color: 'text-orange-400'}
-  return { label: 'Insuficiente', nota: Math.max(1, aciertos), color: 'text-red-400' }
+function calificacion(aciertos, en) {
+  if (aciertos >= 9)  return { label: en ? 'Outstanding' : 'Sobresaliente', nota: aciertos === 10 ? 10 : 9, color: 'text-green-400' }
+  if (aciertos >= 7)  return { label: en ? 'Good' : 'Notable',              nota: aciertos,                color: 'text-blue-400'  }
+  if (aciertos === 6) return { label: en ? 'Fair' : 'Bien',                 nota: 6,                       color: 'text-yellow-300'}
+  if (aciertos === 5) return { label: en ? 'Pass' : 'Suficiente',           nota: 5,                       color: 'text-orange-400'}
+  return { label: en ? 'Fail' : 'Insuficiente', nota: Math.max(1, aciertos), color: 'text-red-400' }
 }
 
 function PortadaCard({ p, lang }) {
@@ -46,11 +46,11 @@ function PortadaCard({ p, lang }) {
           {p.periodico}
         </h1>
         <div className="flex items-center justify-between mt-2 md:mt-3">
-          <span className="text-[9px] md:text-xs text-gray-400">Edición especial</span>
+          <span className="text-[9px] md:text-xs text-gray-400">{lang === 'en' ? 'Special edition' : 'Edición especial'}</span>
           <span className={`text-[9px] md:text-xs font-bold uppercase px-2 py-0.5 rounded border ${catStyle}`}>
             {p.categoria}
           </span>
-          <span className="text-[9px] md:text-xs text-gray-400">Precio: 10 ctos.</span>
+          <span className="text-[9px] md:text-xs text-gray-400">{lang === 'en' ? 'Price: 10 cts.' : 'Precio: 10 ctos.'}</span>
         </div>
       </div>
       <div className="mx-5 md:mx-10 border-t-2 border-b border-gray-700" style={{ marginTop: '3px', paddingTop: '1px' }} />
@@ -123,7 +123,7 @@ export default function PortadasExamen() {
   // ── RESULTADO ─────────────────────────────────────────────────────────────
   if (fase === 'resultado') {
     const aprobado = aciertos >= 5
-    const cal      = calificacion(aciertos)
+    const cal      = calificacion(aciertos, en)
     return (
       <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
         <div className="max-w-md w-full">
@@ -225,11 +225,11 @@ export default function PortadasExamen() {
       {/* Header */}
       <div className="flex items-center justify-between mb-3">
         <button onClick={() => navigate(backPath ? localPath(backPath) : -1)} className="text-white/40 hover:text-white/70 text-sm transition-colors">
-          ← Salir
+          {en ? '← Exit' : '← Salir'}
         </button>
         <div className="flex items-center gap-3 text-sm text-white/50">
           <span className="font-bold text-white">{aciertos}</span>
-          <span>aciertos</span>
+          <span>{en ? 'correct' : 'aciertos'}</span>
         </div>
       </div>
 
@@ -264,7 +264,7 @@ export default function PortadasExamen() {
 
         <div className="flex flex-col gap-4">
           <div className="hidden md:block bg-white/5 border border-white/10 rounded-2xl p-4 text-center">
-            <p className="text-white/30 text-xs uppercase tracking-widest mb-1">Portada</p>
+            <p className="text-white/30 text-xs uppercase tracking-widest mb-1">{en ? 'Headline' : 'Portada'}</p>
             <p className="text-white font-black text-3xl">{idx + 1}<span className="text-white/30 text-lg"> / {TOTAL}</span></p>
             <p className="text-white/40 text-sm mt-1">✓ {aciertos} {en ? 'correct' : 'acertadas'}</p>
           </div>

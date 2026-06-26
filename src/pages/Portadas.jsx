@@ -80,11 +80,11 @@ function PortadaCard({ p, lang }) {
           {p.periodico}
         </h1>
         <div className="flex items-center justify-between mt-2 md:mt-3">
-          <span className="text-[9px] md:text-xs text-gray-400">Edición especial</span>
+          <span className="text-[9px] md:text-xs text-gray-400">{lang === 'en' ? 'Special edition' : 'Edición especial'}</span>
           <span className={`text-[9px] md:text-xs font-bold uppercase px-2 py-0.5 rounded border ${catStyle}`}>
             {p.categoria}
           </span>
-          <span className="text-[9px] md:text-xs text-gray-400">Precio: 10 ctos.</span>
+          <span className="text-[9px] md:text-xs text-gray-400">{lang === 'en' ? 'Price: 10 cts.' : 'Precio: 10 ctos.'}</span>
         </div>
       </div>
 
