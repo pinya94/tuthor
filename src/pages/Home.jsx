@@ -9,7 +9,8 @@ import AuthModal from '../components/AuthModal'
 
 export default function Home() {
   const navigate = useNavigate()
-  const { t, localPath } = useLang()
+  const { t, localPath, lang } = useLang()
+  const en = lang === 'en'
   const { user } = useAuth()
   const [stats, setStats] = useState(null)
   const [showAuth, setShowAuth] = useState(false)
@@ -41,11 +42,11 @@ export default function Home() {
       {/* Banner progreso */}
       <div className="space-y-2">
         {user && stats ? (
-          <StatsWidget stats={stats} name={user.displayName?.split(' ')[0]} onVerMas={() => navigate('/perfil')} />
+          <StatsWidget stats={stats} name={user.displayName?.split(' ')[0]} onVerMas={() => navigate(localPath('/perfil'))} en={en} />
         ) : user ? (
-          <EmptyStatsWidget onVerMas={() => navigate('/perfil')} />
+          <EmptyStatsWidget onVerMas={() => navigate(localPath('/perfil'))} en={en} />
         ) : (
-          <LockedWidget onLogin={() => setShowAuth(true)} />
+          <LockedWidget onLogin={() => setShowAuth(true)} en={en} />
         )}
         {showAuth && <AuthModal onClose={() => setShowAuth(false)} />}
         <aside className="ad-slot" aria-label="Publicidad" data-ad-slot="home-hero" style={{ minHeight: '50px' }} />
@@ -242,26 +243,26 @@ export default function Home() {
   )
 }
 
-function StatsWidget({ stats, name, onVerMas }) {
+function StatsWidget({ stats, name, onVerMas, en }) {
   const streak = stats.streak || 0
   const items = [
-    { emoji: '🔥', value: `${streak} día${streak !== 1 ? 's' : ''}`, label: 'Racha' },
-    { emoji: '⏱️', value: formatTime(stats.totalTime), label: 'Tiempo total' },
-    { emoji: '✅', value: stats.examsPassed ?? 0, label: 'Aprobados' },
-    { emoji: '🎮', value: stats.gamesPlayed ?? 0, label: 'Actividades' },
+    { emoji: '🔥', value: `${streak} ${en ? (streak === 1 ? 'day' : 'days') : (streak !== 1 ? 'días' : 'día')}`, label: en ? 'Streak' : 'Racha' },
+    { emoji: '⏱️', value: formatTime(stats.totalTime), label: en ? 'Total time' : 'Tiempo total' },
+    { emoji: '✅', value: stats.examsPassed ?? 0, label: en ? 'Passed' : 'Aprobados' },
+    { emoji: '🎮', value: stats.gamesPlayed ?? 0, label: en ? 'Activities' : 'Actividades' },
   ]
   return (
     <div className="rounded-xl border border-violet-500/30 bg-violet-600/10 backdrop-blur-sm">
       <div className="flex items-center justify-between px-5 py-3 border-b border-white/5">
         <div>
-          <p className="font-bold text-white text-sm">Tu progreso, {name}</p>
-          <p className="text-white/40 text-xs">Sigue así 💪</p>
+          <p className="font-bold text-white text-sm">{en ? `Your progress, ${name}` : `Tu progreso, ${name}`}</p>
+          <p className="text-white/40 text-xs">{en ? 'Keep it up 💪' : 'Sigue así 💪'}</p>
         </div>
         <button
           onClick={onVerMas}
           className="text-xs font-semibold text-violet-400 hover:text-violet-300 transition-colors"
         >
-          Ver más →
+          {en ? 'See more →' : 'Ver más →'}
         </button>
       </div>
       <div className="grid grid-cols-4 divide-x divide-white/5 px-0">
@@ -277,44 +278,44 @@ function StatsWidget({ stats, name, onVerMas }) {
   )
 }
 
-function EmptyStatsWidget({ onVerMas }) {
+function EmptyStatsWidget({ onVerMas, en }) {
   return (
     <div className="rounded-xl border border-white/10 bg-white/5 backdrop-blur-sm">
       <div className="flex items-center justify-between px-5 py-2.5">
         <div className="flex items-center gap-3">
           <span className="text-lg">📊</span>
           <div>
-            <p className="font-bold text-white text-sm">Tu progreso</p>
-            <p className="text-white/40 text-xs">Completa tu primera actividad para ver stats</p>
+            <p className="font-bold text-white text-sm">{en ? 'Your progress' : 'Tu progreso'}</p>
+            <p className="text-white/40 text-xs">{en ? 'Complete your first activity to see stats' : 'Completa tu primera actividad para ver stats'}</p>
           </div>
         </div>
         <button onClick={onVerMas} className="text-xs font-semibold text-violet-400 hover:text-violet-300 transition-colors">
-          Ver perfil →
+          {en ? 'See profile →' : 'Ver perfil →'}
         </button>
       </div>
     </div>
   )
 }
 
-function LockedWidget({ onLogin }) {
+function LockedWidget({ onLogin, en }) {
   const preview = [
-    { emoji: '🔥', label: 'Racha' },
-    { emoji: '⏱️', label: 'Tiempo' },
-    { emoji: '✅', label: 'Aprobados' },
-    { emoji: '🎮', label: 'Actividades' },
+    { emoji: '🔥', label: en ? 'Streak' : 'Racha' },
+    { emoji: '⏱️', label: en ? 'Time' : 'Tiempo' },
+    { emoji: '✅', label: en ? 'Passed' : 'Aprobados' },
+    { emoji: '🎮', label: en ? 'Activities' : 'Actividades' },
   ]
   return (
     <div className="rounded-xl border border-white/15 bg-white/5 backdrop-blur-sm overflow-hidden">
       <div className="flex items-center justify-between px-5 py-3 border-b border-white/5">
         <div>
-          <p className="font-bold text-white text-sm">Tu progreso</p>
-          <p className="text-white/40 text-xs">Inicia sesión para ver tus estadísticas</p>
+          <p className="font-bold text-white text-sm">{en ? 'Your progress' : 'Tu progreso'}</p>
+          <p className="text-white/40 text-xs">{en ? 'Sign in to see your stats' : 'Inicia sesión para ver tus estadísticas'}</p>
         </div>
         <button
           onClick={onLogin}
           className="text-xs font-bold bg-violet-600 hover:bg-violet-700 text-white px-4 py-1.5 rounded-full transition-colors"
         >
-          Iniciar sesión
+          {en ? 'Sign in' : 'Iniciar sesión'}
         </button>
       </div>
       <div className="grid grid-cols-4 divide-x divide-white/5">

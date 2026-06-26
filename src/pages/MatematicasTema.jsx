@@ -56,7 +56,7 @@ export default function MatematicasTema() {
               }`}
             >
               <span className="text-base">{GRADOS[id].emoji}</span>
-              <span className="hidden sm:inline">{GRADOS[id].label}</span>
+              <span className="hidden sm:inline">{en ? (GRADOS[id].labelEn || GRADOS[id].label) : GRADOS[id].label}</span>
             </button>
           ))}
         </div>
