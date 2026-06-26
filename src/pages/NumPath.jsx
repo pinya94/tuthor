@@ -3,9 +3,9 @@ import { useNavigate } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 
 const DIFS = {
-  facil:   { label: 'Fácil', labelEn: 'Easy',   emoji: '🟢', size: 5, time: 90,  bonus: 15, ops: ['+','-'] },
-  medio:   { label: 'Medio', labelEn: 'Medium', emoji: '🟡', size: 5, time: 60,  bonus: 10, ops: ['+','-','×'] },
-  dificil: { label: 'Difícil', labelEn: 'Hard', emoji: '🔴', size: 6, time: 45, bonus: 10, ops: ['+','-','×','÷'] },
+  facil:   { label: 'Fácil', labelEn: 'Easy',   emoji: '🟢', size: 5, time: 90,  bonus: 15, ops: ['+','-'],       goalsNeeded: 1 },
+  medio:   { label: 'Medio', labelEn: 'Medium', emoji: '🟡', size: 5, time: 60,  bonus: 10, ops: ['+','-','×'],   goalsNeeded: 1 },
+  dificil: { label: 'Difícil', labelEn: 'Hard', emoji: '🔴', size: 5, time: 45,  bonus: 10, ops: ['+','-','×','÷'], goalsNeeded: 2 },
 }
 
 const OP_POOL = {
@@ -199,10 +199,19 @@ export default function NumPath() {
 
     if (cell.isGoal && newScore === cell.target) {
       setFlash('correct')
-      timeRef.current += dif.bonus
-      setTimeLeft(timeRef.current)
-      setBoards(b => b + 1)
-      setTimeout(() => { initBoard(); setFlash(null) }, 800)
+      const newGrid = grid.map(row => row.map(c => ({ ...c })))
+      newGrid[nr][nc] = { ...newGrid[nr][nc], cleared: true }
+      setGrid(newGrid)
+
+      const cleared = newGrid.flat().filter(c => c.isGoal && c.cleared).length
+      if (cleared >= dif.goalsNeeded) {
+        timeRef.current += dif.bonus
+        setTimeLeft(timeRef.current)
+        setBoards(b => b + 1)
+        setTimeout(() => { initBoard(); setFlash(null) }, 800)
+      } else {
+        setTimeout(() => setFlash(null), 500)
+      }
     } else if (cell.isGoal) {
       setFlash('wrong')
       setTimeout(() => setFlash(null), 400)
@@ -253,7 +262,7 @@ export default function NumPath() {
             {[
               ['⏱️', u.tiempoInicial, `${d.time}s`],
               ['🎁', u.bonusPorTablero, `+${d.bonus}s`],
-              ['🎯', u.metasDisponibles, `3 — ${u.soloUna}`],
+              ['🎯', u.metasDisponibles, d.goalsNeeded === 1 ? `3 — ${u.soloUna}` : `3 — ${lang === 'en' ? `reach ${d.goalsNeeded}` : `alcanza ${d.goalsNeeded}`}`],
               ['🔢', u.operaciones, d.ops.join(' ')],
               ['📐', 'Grid', `${d.size}×${d.size}`],
             ].map(([e, k, v]) => (
@@ -333,6 +342,9 @@ export default function NumPath() {
         </button>
         <div className="flex items-center gap-3 text-sm text-white/50">
           <span className="text-white font-bold tabular-nums">🧮 {boards}</span>
+          {dif.goalsNeeded > 1 && (
+            <span className="text-amber-400 font-bold">🎯 {grid.flat().filter(c => c.isGoal && c.cleared).length}/{dif.goalsNeeded}</span>
+          )}
         </div>
       </div>
 
@@ -367,7 +379,10 @@ export default function NumPath() {
               let bg = 'bg-white/5 border-white/10'
               let text = 'text-white/60'
 
+              const isCleared = cell.isGoal && cell.cleared
+
               if (isPlayer) { bg = 'bg-violet-600 border-violet-400'; text = 'text-white' }
+              else if (isCleared) { bg = 'bg-green-500/20 border-green-500/30'; text = 'text-green-400' }
               else if (isGoal) { bg = 'bg-amber-500/20 border-amber-500/40'; text = 'text-amber-300' }
               else if (cell.used) { bg = 'bg-white/3 border-white/5'; text = 'text-white/15' }
               else if (isAdj) { bg = 'bg-white/10 border-white/20 hover:bg-white/15'; text = 'text-white/80' }
@@ -382,7 +397,8 @@ export default function NumPath() {
                   style={{ aspectRatio: '1' }}
                 >
                   {isPlayer && <span className="text-base sm:text-lg">🧑</span>}
-                  {isGoal && !isPlayer && (
+                  {isCleared && !isPlayer && <span className="text-base">✓</span>}
+                  {isGoal && !isCleared && !isPlayer && (
                     <>
                       <span className="text-[7px] sm:text-[9px] uppercase font-bold opacity-60 leading-none">{u.meta}</span>
                       <span className="font-black text-xs sm:text-sm leading-none">{cell.target}</span>
