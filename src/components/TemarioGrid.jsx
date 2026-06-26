@@ -1,17 +1,25 @@
 import { useState } from 'react'
+import { useLang } from '../context/LangContext'
 
-export const NIVELES_FILTRO = [
-  { id: 'todas',        label: 'Todas',        emoji: '📚' },
-  { id: 'primaria',     label: 'Primaria',     emoji: '🎒' },
-  { id: 'eso',          label: 'ESO',          emoji: '📖' },
-  { id: 'bachillerato', label: 'Bachillerato', emoji: '🎓' },
-]
+const NIVELES_FILTRO = {
+  es: [
+    { id: 'todas',        label: 'Todas',        emoji: '📚' },
+    { id: 'primaria',     label: 'Primaria',     emoji: '🎒' },
+    { id: 'eso',          label: 'ESO',          emoji: '📖' },
+    { id: 'bachillerato', label: 'Bachillerato', emoji: '🎓' },
+  ],
+  en: [
+    { id: 'todas',        label: 'All',          emoji: '📚' },
+    { id: 'primaria',     label: 'Primary',      emoji: '🎒' },
+    { id: 'eso',          label: 'Secondary',    emoji: '📖' },
+    { id: 'bachillerato', label: 'Sixth Form',   emoji: '🎓' },
+  ],
+}
 
-// Formato estándar para listados de temas/materias: filtro de nivel + buscador + cuadritos.
-// items: [{ id, titulo, subtitulo?, emoji, gradient, niveles?: string[], tags?: string[] }]
-//   - niveles ausente = disponible en todos los niveles
-// onSelect(item, nivelFiltro)
 export default function TemarioGrid({ items, onSelect, placeholder = 'Buscar...' }) {
+  const { lang } = useLang()
+  const en = lang === 'en'
+  const niveles = NIVELES_FILTRO[lang] || NIVELES_FILTRO.es
   const [query, setQuery]       = useState('')
   const [nivelFiltro, setNivel] = useState('todas')
 
@@ -33,7 +41,7 @@ export default function TemarioGrid({ items, onSelect, placeholder = 'Buscar...'
     <>
       <div className="max-w-3xl mx-auto w-full mb-5">
         <div className="flex gap-2 p-1 bg-white/5 border border-white/10 rounded-xl w-fit">
-          {NIVELES_FILTRO.map(n => (
+          {niveles.map(n => (
             <button
               key={n.id}
               onClick={() => setNivel(n.id)}
@@ -73,8 +81,8 @@ export default function TemarioGrid({ items, onSelect, placeholder = 'Buscar...'
         {filtrados.length === 0 ? (
           <div className="col-span-full text-center py-12">
             <p className="text-3xl mb-3">🔎</p>
-            <p className="text-white/40 text-sm">No se encontraron resultados para <span className="text-white/60">"{query}"</span></p>
-            <button onClick={() => setQuery('')} className="mt-3 text-amber-400 text-sm hover:underline">Limpiar búsqueda</button>
+            <p className="text-white/40 text-sm">{en ? 'No results found for' : 'No se encontraron resultados para'} <span className="text-white/60">"{query}"</span></p>
+            <button onClick={() => setQuery('')} className="mt-3 text-amber-400 text-sm hover:underline">{en ? 'Clear search' : 'Limpiar búsqueda'}</button>
           </div>
         ) : (
           filtrados.map(item => {
@@ -91,7 +99,7 @@ export default function TemarioGrid({ items, onSelect, placeholder = 'Buscar...'
                 <div className={`bg-gradient-to-br ${item.gradient} p-5 aspect-square flex flex-col justify-between`}>
                   {!disp && (
                     <span className="absolute top-2 right-2 bg-black/40 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
-                      {item.ready === false ? 'Pronto' : 'No disponible'}
+                      {item.ready === false ? (en ? 'Soon' : 'Pronto') : (en ? 'Not available' : 'No disponible')}
                     </span>
                   )}
                   <span className="text-4xl">{item.emoji}</span>
