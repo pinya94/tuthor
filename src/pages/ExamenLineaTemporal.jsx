@@ -265,10 +265,10 @@ export default function ExamenLineaTemporal() {
         </div>
         <div className="text-center">
           <p className="text-white font-black text-base leading-none">{placed}/{target}</p>
-          <p className="text-white/30 text-xs">colocadas</p>
+          <p className="text-white/30 text-xs">{en ? 'placed' : 'colocadas'}</p>
         </div>
         <div className="text-right">
-          <p className="text-white/50 text-sm font-semibold">{pending.length + 1} restantes</p>
+          <p className="text-white/50 text-sm font-semibold">{pending.length + 1} {en ? 'remaining' : 'restantes'}</p>
           <div className="w-16 h-1.5 bg-white/10 rounded-full mt-1 ml-auto overflow-hidden">
             <div className="h-full bg-violet-500 rounded-full transition-all duration-500" style={{ width: `${progress}%` }} />
           </div>
@@ -278,7 +278,7 @@ export default function ExamenLineaTemporal() {
       {/* CARTA ACTUAL */}
       <div className="flex-1 flex flex-col items-center justify-center px-4 sm:px-8 py-4 min-h-0">
         <p className="text-white/40 text-xs uppercase tracking-widest mb-4 text-center font-semibold">
-          {phase === 'placing' ? '¿Dónde va esta carta?' : wasCorrect ? '✓ ¡Correcto!' : '✗ Incorrecto'}
+          {phase === 'placing' ? (en ? 'Where does this card go?' : '¿Dónde va esta carta?') : wasCorrect ? (en ? '✓ Correct!' : '✓ ¡Correcto!') : (en ? '✗ Wrong' : '✗ Incorrecto')}
         </p>
         {current && (
           <div className={`w-full max-w-2xl rounded-2xl border-2 p-6 sm:p-8 transition-all duration-300 ${
@@ -287,9 +287,9 @@ export default function ExamenLineaTemporal() {
               : 'border-white/20 bg-white/5 backdrop-blur-sm'
           }`}>
             <h2 className="text-3xl sm:text-4xl font-black text-white leading-tight mb-3">{(en && current.nombreEn) || current.nombre}</h2>
-            <p className="text-white/60 text-base sm:text-lg leading-relaxed mb-6">{current.descripcion}</p>
+            <p className="text-white/60 text-base sm:text-lg leading-relaxed mb-6">{(en && current.descripcionEn) || current.descripcion}</p>
             <div className="flex items-center justify-between">
-              <span className={`text-sm font-bold px-4 py-1.5 rounded-full border ${dif[current.dificultad]}`}>{current.dificultad}</span>
+              <span className={`text-sm font-bold px-4 py-1.5 rounded-full border ${dif[current.dificultad]}`}>{en ? ({ fácil: 'easy', medio: 'medium', difícil: 'hard' }[current.dificultad] || current.dificultad) : current.dificultad}</span>
               <span className={`text-4xl sm:text-5xl font-black tabular-nums transition-all duration-500 ${phase === 'revealing' ? 'text-amber-400' : 'text-white/15'}`}>
                 {phase === 'revealing' ? formatYear(current.año) : '????'}
               </span>
@@ -301,10 +301,10 @@ export default function ExamenLineaTemporal() {
       {/* LÍNEA DEL TIEMPO */}
       <div className="shrink-0 border-t border-white/10 bg-black/30 backdrop-blur-sm" style={{ minHeight: '11rem' }}>
         <div className="flex items-center justify-between px-4 pt-2 pb-1">
-          <p className="text-white/40 text-xs uppercase tracking-widest font-semibold">Tu línea del tiempo</p>
+          <p className="text-white/40 text-xs uppercase tracking-widest font-semibold">{en ? 'Your timeline' : 'Tu línea del tiempo'}</p>
           {phase === 'revealing' && !wasCorrect
-            ? <p className="text-green-400 text-xs font-semibold animate-pulse">↑ posición correcta en verde</p>
-            : timeline.length > 2 && <p className="text-white/20 text-xs">← desliza →</p>
+            ? <p className="text-green-400 text-xs font-semibold animate-pulse">{en ? '↑ correct position in green' : '↑ posición correcta en verde'}</p>
+            : timeline.length > 2 && <p className="text-white/20 text-xs">{en ? '← scroll →' : '← desliza →'}</p>
           }
         </div>
         <div
@@ -317,7 +317,7 @@ export default function ExamenLineaTemporal() {
           onMouseMove={onMouseMove}
         >
           <div className="flex items-stretch px-3 gap-0" style={{ minWidth: 'max-content', minHeight: '7.5rem' }}>
-            <SlotBtn index={0} phase={phase} chosen={chosenSlot} correct={correctSlot} onPlace={placeCard} />
+            <SlotBtn index={0} phase={phase} chosen={chosenSlot} correct={correctSlot} onPlace={placeCard} en={en} />
             {timeline.map((ev, i) => {
               const big = timeline.length <= 4
               return (
@@ -326,7 +326,7 @@ export default function ExamenLineaTemporal() {
                     <p className={`text-white font-bold leading-snug line-clamp-3 ${big ? 'text-sm' : 'text-xs'}`}>{(en && ev.nombreEn) || ev.nombre}</p>
                     <p className={`text-amber-400 font-black mt-1 ${big ? 'text-lg' : 'text-sm'}`}>{formatYear(ev.año)}</p>
                   </div>
-                  <SlotBtn index={i + 1} phase={phase} chosen={chosenSlot} correct={correctSlot} onPlace={placeCard} />
+                  <SlotBtn index={i + 1} phase={phase} chosen={chosenSlot} correct={correctSlot} onPlace={placeCard} en={en} />
                 </div>
               )
             })}
@@ -337,7 +337,7 @@ export default function ExamenLineaTemporal() {
   )
 }
 
-function SlotBtn({ index, phase, chosen, correct, onPlace }) {
+function SlotBtn({ index, phase, chosen, correct, onPlace, en }) {
   const isChosen  = phase === 'revealing' && chosen === index
   const isCorrect = phase === 'revealing' && correct === index
   const isActive  = phase === 'placing'
@@ -357,7 +357,7 @@ function SlotBtn({ index, phase, chosen, correct, onPlace }) {
       <span className="text-2xl font-black leading-none">
         {isChosen && isCorrect ? '✓' : isChosen ? '✗' : isCorrect ? '↑' : '+'}
       </span>
-      {isActive && <span className="text-[9px] font-bold uppercase tracking-wide opacity-40 mt-0.5">aquí</span>}
+      {isActive && <span className="text-[9px] font-bold uppercase tracking-wide opacity-40 mt-0.5">{en ? 'here' : 'aquí'}</span>}
     </button>
   )
 }
