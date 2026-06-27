@@ -242,10 +242,11 @@ export default function NumPath() {
   }
 
   function move(nr, nc) {
-    if (fase !== 'jugando') return
+    if (fase !== 'jugando' || !grid.length) return
     const size = dif.size
     if (nr < 0 || nr >= size || nc < 0 || nc >= size) return
     if (Math.abs(nr - pos.r) + Math.abs(nc - pos.c) !== 1) return
+    if (!grid[nr] || !grid[nr][nc]) return
 
     const cell = grid[nr][nc]
     let newScore = score
@@ -298,11 +299,11 @@ export default function NumPath() {
   }
 
   const handleKey = useCallback((e) => {
-    if (fase !== 'jugando') return
+    if (fase !== 'jugando' || !grid.length) return
     const map = { ArrowUp: [-1,0], ArrowDown: [1,0], ArrowLeft: [0,-1], ArrowRight: [0,1] }
     const d = map[e.key]
     if (d) { e.preventDefault(); move(pos.r + d[0], pos.c + d[1]) }
-  }, [fase, pos, score, grid])
+  }, [fase, pos, score, grid, difId])
 
   useEffect(() => {
     window.addEventListener('keydown', handleKey)
@@ -475,6 +476,7 @@ export default function NumPath() {
   }
 
   // ── JUGANDO ───────────────────────────────────────────────────────────────
+  if (!grid.length) return null
   const size = dif.size
   const timerPct = modoDaily ? Math.min(100, (timeLeft / 30) * 100) : Math.min(100, (timeLeft / dif.time) * 100)
   const timerColor = timeLeft > 20 ? 'bg-green-400' : timeLeft > 10 ? 'bg-yellow-400' : 'bg-red-500 animate-pulse'
