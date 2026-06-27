@@ -220,6 +220,7 @@ export default function NumPath() {
       setTimeLeft(timeRef.current)
       if (timeRef.current <= 0) {
         clearInterval(timerRef.current)
+        saveOnEnd()
         if (modoDaily) { setFase('resultado') }
         else { setFase('fin') }
       }
@@ -371,17 +372,12 @@ export default function NumPath() {
     )
   }
 
-  // Save score on game end
-  useEffect(() => {
-    if (fase === 'fin' && user && boards > 0) {
-      const pts = boards * 100
-      saveActivity(user.uid, { type: 'juego', game: 'numpath', score: pts, passed: boards > 0, timeSpent: 0 }).catch(() => {})
-    }
-    if (fase === 'resultado' && user && modoExamen) {
-      const pts = exAciertos * 100
-      saveActivity(user.uid, { type: 'examen', game: 'numpath', score: pts, passed: exAciertos >= 5, timeSpent: 0 }).catch(() => {})
-    }
-  }, [fase])
+  // Save score on game end — inside fase change handlers instead of useEffect
+  function saveOnEnd() {
+    if (!user) return
+    const pts = boards * 100
+    if (pts > 0) saveActivity(user.uid, { type: 'juego', game: 'numpath', score: pts, passed: true, timeSpent: 0 }).catch(() => {})
+  }
 
   // ── RESULTADO (exam/daily) ─────────────────────────────────────────────────
   if (fase === 'resultado') {
