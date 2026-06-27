@@ -1,9 +1,10 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { PERSONAJES_TODOS, PERSONAJES_GCE, PERSONAJES_WWII, PERSONAJES_USA, PERSONAJES_GLOBAL, montarTablero, generarPistas } from '../data/personajes'
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
 import { saveActivity } from '../lib/activity'
+import CoinsAnimation from '../components/CoinsAnimation'
 
 const BOARD_SIZE = 12
 const MAX_FALLOS = 2
@@ -200,6 +201,10 @@ export default function QuienEsQuien() {
              : poolKey === 'primaria' ? PERSONAJES_GLOBAL
              : PERSONAJES_TODOS
 
+  const TIME_START = 60
+  const TIME_CORRECT = 15
+  const TIME_FAIL = -10
+
   const [fase, setFase]         = useState('intro')
   const [tablero, setTablero]   = useState([])
   const [secreto, setSecreto]   = useState(null)
@@ -209,12 +214,49 @@ export default function QuienEsQuien() {
   const [modoAdivinar, setModoAdivinar] = useState(false)
   const [fallos, setFallos]     = useState(0)
   const [ganó, setGanó]         = useState(false)
-  const [resultados, setResultados] = useState({}) // id → 'correcto'|'incorrecto'|'revelado'
+  const [resultados, setResultados] = useState({})
   const [animFallo, setAnimFallo]   = useState(false)
-  const [popupFallo, setPopupFallo] = useState(null)   // { fallosRestantes } | null
-  const [popupConfirm, setPopupConfirm] = useState(null) // personaje | null
+  const [popupFallo, setPopupFallo] = useState(null)
+  const [popupConfirm, setPopupConfirm] = useState(null)
 
-  function iniciarPartida() {
+  // Timer & score state
+  const [timeLeft, setTimeLeft]     = useState(TIME_START)
+  const [puntos, setPuntos]         = useState(0)
+  const [rondas, setRondas]         = useState(0)
+  const [combo, setCombo]           = useState(0)
+  const [levelKey, setLevelKey]     = useState(0)
+  const timerRef = useRef(null)
+  const timeRef  = useRef(TIME_START)
+
+  // Timer
+  useEffect(() => {
+    if (fase !== 'jugando') return
+    timerRef.current = setInterval(() => {
+      timeRef.current -= 1
+      setTimeLeft(timeRef.current)
+      if (timeRef.current <= 0) {
+        clearInterval(timerRef.current)
+        if (user && puntos > 0) {
+          saveActivity(user.uid, { type: 'juego', game: 'quien-es-quien', category: poolKey, score: puntos, passed: rondas > 0, timeSpent: 0 }).catch(() => {})
+        }
+        setFase('fin')
+      }
+    }, 1000)
+    return () => clearInterval(timerRef.current)
+  }, [fase, levelKey])
+
+  function startGame() {
+    timeRef.current = TIME_START
+    setTimeLeft(TIME_START)
+    setPuntos(0)
+    setRondas(0)
+    setCombo(0)
+    nuevaRonda()
+    setFase('jugando')
+    setLevelKey(k => k + 1)
+  }
+
+  function nuevaRonda() {
     const t = montarTablero(pool, BOARD_SIZE)
     const s = t[Math.floor(Math.random() * t.length)]
     setTablero(t)
@@ -229,9 +271,10 @@ export default function QuienEsQuien() {
     setAnimFallo(false)
     setPopupFallo(null)
     setPopupConfirm(null)
-    startRef.current = Date.now()
-    setFase('jugando')
   }
+
+  // Legacy compat
+  function iniciarPartida() { startGame() }
 
   function toggleTachado(p) {
     if (modoAdivinar) return
@@ -256,12 +299,15 @@ export default function QuienEsQuien() {
       setGanó(true)
       setModoAdivinar(false)
       setResultados(prev => ({ ...prev, [p.id]: 'correcto' }))
-      const t = Math.round((Date.now() - startRef.current) / 1000)
-      if (user) saveActivity(user.uid, {
-        type: 'juego', game: 'quien-es-quien', category: poolKey,
-        score: pistaIdx + 1, passed: true, timeSpent: t,
-      }).catch(() => {})
-      setTimeout(() => setFase('resultado'), 1000)
+      // Points: fewer clues = more points
+      const pts = Math.max(50, 300 - pistaIdx * 50) + combo * 25
+      setPuntos(prev => prev + pts)
+      setRondas(r => r + 1)
+      setCombo(c => c + 1)
+      // Add time
+      timeRef.current = Math.max(0, timeRef.current + TIME_CORRECT)
+      setTimeLeft(timeRef.current)
+      setTimeout(() => nuevaRonda(), 1200)
     } else {
       const nuevosFallos = fallos + 1
       setFallos(nuevosFallos)
@@ -276,12 +322,16 @@ export default function QuienEsQuien() {
         if (nuevosFallos >= MAX_FALLOS) {
           setModoAdivinar(false)
           setResultados(prev => ({ ...prev, [secreto.id]: 'revelado' }))
-          const t = Math.round((Date.now() - startRef.current) / 1000)
-          if (user) saveActivity(user.uid, {
-            type: 'juego', game: 'quien-es-quien', category: poolKey,
-            score: 0, passed: false, timeSpent: t,
-          }).catch(() => {})
-          setTimeout(() => setFase('resultado'), 1200)
+          setCombo(0)
+          timeRef.current = Math.max(0, timeRef.current + TIME_FAIL)
+          setTimeLeft(timeRef.current)
+          if (timeRef.current <= 0) {
+            clearInterval(timerRef.current)
+            if (user && puntos > 0) saveActivity(user.uid, { type: 'juego', game: 'quien-es-quien', category: poolKey, score: puntos, passed: rondas > 0, timeSpent: 0 }).catch(() => {})
+            setTimeout(() => setFase('fin'), 1200)
+          } else {
+            setTimeout(() => nuevaRonda(), 1500)
+          }
         } else {
           // Tras fallo: mostrar popup para que elija otra
           setPopupFallo({ fallosRestantes: MAX_FALLOS - nuevosFallos })
@@ -296,15 +346,49 @@ export default function QuienEsQuien() {
     setModoAdivinar(false)
   }
 
-  if (fase === 'intro') return <Intro pool={poolKey} onStart={iniciarPartida} lang={lang} />
-  if (fase === 'resultado') return (
-    <Resultado
-      ganó={ganó} secreto={secreto} pistaIdx={pistaIdx}
-      onRepetir={iniciarPartida}
-      lang={lang}
-      onSalir={() => navigate(localPath(backPath))}
-    />
-  )
+  if (fase === 'intro') return <Intro pool={poolKey} onStart={startGame} lang={lang} />
+  if (fase === 'fin') {
+    const shareText = `🕵️ ${en ? 'Who is Who' : '¿Quién es Quién?'}: ${rondas} ${en ? 'rounds' : 'rondas'} · ${puntos.toLocaleString()} pts\n🎮 https://www.tuthor.es/juegos/quien-es-quien`
+    return (
+      <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-6">
+        <div className="max-w-lg w-full">
+          <div className="bg-white/5 border border-white/10 rounded-2xl p-8 text-center mb-5">
+            <div className="text-6xl mb-3">🕵️</div>
+            <h2 className="text-3xl font-black text-white mb-1">{en ? 'Time is up!' : '¡Tiempo agotado!'}</h2>
+            <div className="mb-4 mt-6">
+              <p className="text-white/30 text-xs uppercase tracking-widest mb-1">{en ? 'Score' : 'Puntuación'}</p>
+              <p className="text-white font-black text-6xl tabular-nums">{puntos.toLocaleString()}</p>
+            </div>
+            <div className="grid grid-cols-2 gap-3 mt-4">
+              <div className="bg-white/5 rounded-xl p-4">
+                <p className="text-white/40 text-xs mb-1">{en ? 'Rounds' : 'Rondas'}</p>
+                <p className="text-white font-black text-3xl">{rondas}</p>
+              </div>
+              <div className="bg-white/5 rounded-xl p-4">
+                <p className="text-white/40 text-xs mb-1">{en ? 'Best streak' : 'Mejor racha'}</p>
+                <p className="text-white font-black text-3xl">{combo}</p>
+              </div>
+            </div>
+            {puntos > 0 && <CoinsAnimation points={puntos} />}
+          </div>
+          <div className="space-y-3">
+            <button onClick={() => navigator.clipboard.writeText(shareText).then(() => alert(en ? 'Copied!' : '¡Copiado!'))}
+              className="w-full bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold py-3 rounded-xl transition">
+              {en ? '🔗 Share result' : '🔗 Compartir resultado'}
+            </button>
+            <button onClick={startGame}
+              className="w-full bg-[#EDAE49] hover:bg-amber-400 text-black font-black py-4 text-lg rounded-xl transition">
+              {en ? 'Try again' : 'Intentarlo de nuevo'}
+            </button>
+            <button onClick={() => navigate(localPath(backPath))}
+              className="w-full text-white/40 hover:text-white/70 text-sm py-2 transition">
+              {en ? '← Back' : '← Volver'}
+            </button>
+          </div>
+        </div>
+      </div>
+    )
+  }
 
   const activosCount = tablero.filter(p => !tachados.has(p.id) && !resultados[p.id]).length
   const hayMasPistas = pistaIdx < pistas.length - 1
@@ -369,21 +453,37 @@ export default function QuienEsQuien() {
         </div>
       )}
 
-      {/* Cabecera */}
-      <div className="flex items-center justify-between mb-3 px-1">
-        <button
-          onClick={() => navigate(localPath(backPath))}
-          className="text-white/40 hover:text-white/70 text-sm transition-colors"
-        >
-          {lang === 'en' ? '← Exit' : '← Salir'}
+      {/* Header */}
+      <div className="flex items-center justify-between mb-2 px-1">
+        <button onClick={() => setFase('intro')} className="text-white/40 hover:text-white/70 text-sm transition-colors">
+          {en ? '← Exit' : '← Salir'}
         </button>
-        <div className="flex items-center gap-3">
-          <span className="text-white/40 text-xs">{activosCount} {en ? 'remaining' : 'sin tachar'}</span>
-          <div className="flex gap-1">
-            {Array.from({ length: MAX_FALLOS }).map((_, i) => (
-              <span key={i} className={`text-lg transition-opacity ${i < fallos ? 'opacity-20' : ''}`}>❤️</span>
-            ))}
-          </div>
+        <div className="flex items-center gap-3 text-sm text-white/50">
+          {combo >= 2 && <span className="text-amber-400 font-bold">🔥 ×{combo}</span>}
+          <span className="text-white font-bold tabular-nums">{puntos.toLocaleString()} pts</span>
+          <span className="text-white/30">🕵️ {rondas}</span>
+        </div>
+      </div>
+
+      {/* Timer */}
+      <div className="mb-2 px-1">
+        <div className="flex justify-between text-xs text-white/40 mb-1">
+          <span>{en ? 'Time' : 'Tiempo'}</span>
+          <span className={`font-bold tabular-nums ${timeLeft <= 10 ? 'text-red-400' : ''}`}>{timeLeft}s</span>
+        </div>
+        <div className="h-2 bg-white/10 rounded-full overflow-hidden">
+          <div className={`h-full rounded-full transition-all duration-1000 ${timeLeft > 20 ? 'bg-green-400' : timeLeft > 10 ? 'bg-yellow-400' : 'bg-red-500 animate-pulse'}`}
+            style={{ width: `${Math.min(100, (timeLeft / TIME_START) * 100)}%` }} />
+        </div>
+      </div>
+
+      {/* Lives + count */}
+      <div className="flex items-center justify-between mb-2 px-1">
+        <span className="text-white/40 text-xs">{activosCount} {en ? 'remaining' : 'sin tachar'}</span>
+        <div className="flex gap-1">
+          {Array.from({ length: MAX_FALLOS }).map((_, i) => (
+            <span key={i} className={`text-lg transition-opacity ${i < fallos ? 'opacity-20' : ''}`}>❤️</span>
+          ))}
         </div>
       </div>
 
