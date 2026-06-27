@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { PORTADAS } from '../data/portadas'
 import { useLang } from '../context/LangContext'
+import CoinsAnimation from '../components/CoinsAnimation'
 
 const DIFS = {
   facil:   { label: 'Fácil', labelEn: 'Easy',   emoji: '🟢', tiempoInicio: 60, suma: 10, resta: 10, basePts: 100 },
@@ -444,6 +445,7 @@ export default function Portadas() {
                 <p className="text-white font-black text-3xl">{pct}<span className="text-white/30 text-lg">%</span></p>
               </div>
             </div>
+            {puntos > 0 && <CoinsAnimation points={puntos} />}
           </div>
 
           <div className="space-y-3">

@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
+import CoinsAnimation from '../components/CoinsAnimation'
 import { EVENTOS_ROGUELIKE } from '../data/tuthorTimeEventos'
 
 const VIDA_BIXO = 120
@@ -718,6 +719,8 @@ export default function TuthorTimeRoguelike() {
                 <div className="text-white font-black text-3xl">{scoreTotal.toLocaleString()}</div>
               </div>
             </div>
+
+            {scoreTotal > 0 && <CoinsAnimation points={scoreTotal} />}
 
             <div className="space-y-3">
               <button

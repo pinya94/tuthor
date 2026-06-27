@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import { useAuth } from '../context/AuthContext'
 import { saveActivity } from '../lib/activity'
+import CoinsAnimation from '../components/CoinsAnimation'
 
 const DIFS = {
   facil:   { label: 'Fácil', labelEn: 'Easy',   emoji: '🟢', size: 5, time: 90,  bonus: 15, ops: ['+','-'],       goalsNeeded: 1 },
@@ -452,6 +453,7 @@ export default function NumPath() {
               <p className="text-white/30 text-xs uppercase tracking-widest mb-1">{u.tableros}</p>
               <p className="text-white font-black text-6xl tabular-nums">{boards}</p>
             </div>
+            {boards > 0 && <CoinsAnimation points={boards * 100} />}
           </div>
           <div className="space-y-3">
             <button onClick={() => navigator.clipboard.writeText(shareText).then(() => alert(lang === 'en' ? 'Copied!' : '¡Copiado!'))}

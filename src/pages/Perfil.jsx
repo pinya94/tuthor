@@ -115,16 +115,18 @@ export default function Perfil() {
           </div>
         ) : (
           <>
-            {/* Monedas */}
-            <div className="bg-amber-500/10 border border-amber-500/30 rounded-2xl p-4 mb-4 flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <span className="text-3xl">🪙</span>
-                <div>
-                  <p className="text-amber-400 font-black text-2xl tabular-nums">{(stats.coins ?? 0).toLocaleString()}</p>
-                  <p className="text-amber-400/50 text-xs">{en ? 'coins' : 'monedas'}</p>
-                </div>
+            {/* Monedas + Puntos */}
+            <div className="grid grid-cols-2 gap-3 mb-4">
+              <div className="bg-amber-500/10 border border-amber-500/30 rounded-2xl p-4 text-center">
+                <span className="text-2xl block mb-1">💰</span>
+                <p className="text-amber-400 font-black text-2xl tabular-nums">{(stats.coins ?? 0).toLocaleString()}</p>
+                <p className="text-amber-400/50 text-xs">{en ? 'coins' : 'monedas'}</p>
               </div>
-              <p className="text-white/20 text-xs text-right max-w-[140px]">{en ? 'Earn coins by playing. Soon: customise your profile!' : 'Gana monedas jugando. Pronto: ¡personaliza tu perfil!'}</p>
+              <div className="bg-violet-500/10 border border-violet-500/30 rounded-2xl p-4 text-center">
+                <span className="text-2xl block mb-1">⭐</span>
+                <p className="text-violet-400 font-black text-2xl tabular-nums">{Object.values(stats.bestScores || {}).reduce((a, b) => a + b, 0).toLocaleString()}</p>
+                <p className="text-violet-400/50 text-xs">{en ? 'total best pts' : 'mejores pts totales'}</p>
+              </div>
             </div>
 
             {/* Stats resumen */}

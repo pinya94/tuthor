@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { PAISES, NOMBRES_PAISES } from '../data/paises'
 import { useLang } from '../context/LangContext'
+import CoinsAnimation from '../components/CoinsAnimation'
 
 const DIFS = {
   facil:   { label: 'Fácil', labelEn: 'Easy',   emoji: '🟢', tiempoInicio: 120, obligatorio: false },
@@ -508,6 +509,7 @@ export default function GeoRush() {
                 <p className="text-white font-bold">{ultimoPais}</p>
               </div>
             )}
+            {puntos > 0 && <CoinsAnimation points={puntos} />}
           </div>
           <div className="space-y-3">
             <button onClick={() => navigator.clipboard.writeText(shareText).then(() => alert(lang === 'en' ? 'Copied!' : '¡Copiado!'))}

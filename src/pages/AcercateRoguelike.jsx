@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { generarPuzzle, aplicar, OP_STYLE } from '../lib/mathEngine'
 import { useLang } from '../context/LangContext'
+import CoinsAnimation from '../components/CoinsAnimation'
 
 const ALL_OPS = ['+', '-', '×', '÷']
 
@@ -525,6 +526,8 @@ export default function AcercateRoguelike() {
                 </div>
               </div>
             )}
+
+            {score > 0 && <CoinsAnimation points={score} />}
 
             <div className="flex gap-3 justify-center mb-3">
               <button onClick={startRun}
