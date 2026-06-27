@@ -161,13 +161,9 @@ export default function NumPath() {
 
   const timerRef = useRef(null)
   const timeRef = useRef(60)
+  const autoStarted = useRef(false)
 
   const dif = DIFS[difId]
-
-  function getOps() {
-    if (examOps) return examOps
-    return dif.ops
-  }
 
   function initBoard(d) {
     const dd = d || dif
@@ -209,9 +205,8 @@ export default function NumPath() {
   }
 
   // Auto-start for exam/daily mode
-  const autoStarted = useRef(false)
   useEffect(() => {
-    if (!autoStarted.current && (modoExamen || modoDaily) && grid.length === 0) {
+    if (!autoStarted.current && (modoExamen || modoDaily)) {
       autoStarted.current = true
       startGame(difId)
     }
