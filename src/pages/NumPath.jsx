@@ -1,6 +1,8 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
+import { useAuth } from '../context/AuthContext'
+import { saveActivity } from '../lib/activity'
 
 const DIFS = {
   facil:   { label: 'Fácil', labelEn: 'Easy',   emoji: '🟢', size: 5, time: 90,  bonus: 15, ops: ['+','-'],       goalsNeeded: 1 },
@@ -126,6 +128,7 @@ export default function NumPath() {
   const navigate = useNavigate()
   const location = useLocation()
   const { lang, localPath } = useLang()
+  const { user } = useAuth()
   const u = UI[lang] || UI.es
   const en = lang === 'en'
   const dl = d => en ? (d.labelEn || d.label) : d.label
@@ -368,6 +371,18 @@ export default function NumPath() {
       </div>
     )
   }
+
+  // Save score on game end
+  useEffect(() => {
+    if (fase === 'fin' && user && boards > 0) {
+      const pts = boards * 100
+      saveActivity(user.uid, { type: 'juego', game: 'numpath', score: pts, passed: boards > 0, timeSpent: 0 }).catch(() => {})
+    }
+    if (fase === 'resultado' && user && modoExamen) {
+      const pts = exAciertos * 100
+      saveActivity(user.uid, { type: 'examen', game: 'numpath', score: pts, passed: exAciertos >= 5, timeSpent: 0 }).catch(() => {})
+    }
+  }, [fase])
 
   // ── RESULTADO (exam/daily) ─────────────────────────────────────────────────
   if (fase === 'resultado') {

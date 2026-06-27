@@ -17,6 +17,7 @@ const GAME_LABELS = {
   'acercate':        { label: 'Acércate al Número',  emoji: '🎯' },
   'portadas':        { label: 'Portadas',            emoji: '📰' },
   'georush':         { label: 'GeoRush',             emoji: '🌍' },
+  'numpath':         { label: 'NumPath',             emoji: '🧮' },
 }
 
 const CATEGORY_LABELS = {
@@ -114,6 +115,18 @@ export default function Perfil() {
           </div>
         ) : (
           <>
+            {/* Monedas */}
+            <div className="bg-amber-500/10 border border-amber-500/30 rounded-2xl p-4 mb-4 flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <span className="text-3xl">🪙</span>
+                <div>
+                  <p className="text-amber-400 font-black text-2xl tabular-nums">{(stats.coins ?? 0).toLocaleString()}</p>
+                  <p className="text-amber-400/50 text-xs">{en ? 'coins' : 'monedas'}</p>
+                </div>
+              </div>
+              <p className="text-white/20 text-xs text-right max-w-[140px]">{en ? 'Earn coins by playing. Soon: customise your profile!' : 'Gana monedas jugando. Pronto: ¡personaliza tu perfil!'}</p>
+            </div>
+
             {/* Stats resumen */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
               {[

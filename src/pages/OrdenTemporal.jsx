@@ -159,7 +159,7 @@ export default function OrdenTemporal() {
     if (ok) {
       newTimeline = [...timeline]; newTimeline.splice(slot, 0, current)
       setTimeline(newTimeline)
-      newScore = score + Math.max(5, 15 - timeline.length); setScore(newScore)
+      newScore = score + Math.max(20, 50 - timeline.length * 2); setScore(newScore)
     } else {
       newLives = lives - 1; setLives(newLives)
     }

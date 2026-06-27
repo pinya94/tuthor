@@ -51,6 +51,8 @@ export async function saveActivity(uid, data) {
   const snap = await getDoc(statsRef)
   const t = data.timeSpent || 0
 
+  const coinsEarned = Math.floor((data.score || 0) / 10)
+
   if (!snap.exists()) {
     const byGame = { [data.game]: { plays: 1, timeSpent: t, bestScore: data.score || 0 } }
     const byCategory = data.category
@@ -61,6 +63,7 @@ export async function saveActivity(uid, data) {
       gamesPlayed: 1,
       examsPassed: data.passed ? 1 : 0,
       bestScores: data.score ? { [data.game]: data.score } : {},
+      coins: coinsEarned,
       streak: 1,
       lastActiveDate: today,
       statsByGame: byGame,
@@ -73,6 +76,7 @@ export async function saveActivity(uid, data) {
       totalTime: increment(t),
       gamesPlayed: increment(1),
       examsPassed: data.passed ? increment(1) : increment(0),
+      coins: increment(coinsEarned),
       streak: newStreak,
       lastActiveDate: today,
       [`statsByGame.${data.game}.plays`]: increment(1),
@@ -105,9 +109,12 @@ export async function saveDailyChallenge(uid, passed) {
     type: 'daily', game: 'pregunta-diaria', passed, createdAt: serverTimestamp(),
   })
 
+  const dailyCoins = 1000
+
   if (!snap.exists()) {
     await setDoc(statsRef, {
       totalTime: 0, gamesPlayed: 1, examsPassed: 0, bestScores: {},
+      coins: dailyCoins,
       streak: 1, lastActiveDate: today,
       dailyStreak: 1, lastDailyDate: today, dailyTotal: 1,
     })
@@ -119,6 +126,7 @@ export async function saveDailyChallenge(uid, passed) {
     const newStreak = calcStreak(current.lastActiveDate, current.streak || 0)
     await updateDoc(statsRef, {
       gamesPlayed: increment(1),
+      coins: increment(dailyCoins),
       streak: newStreak, lastActiveDate: today,
       dailyStreak: newDailyStreak, lastDailyDate: today,
       dailyTotal: increment(1),
