@@ -209,11 +209,13 @@ export default function NumPath() {
   }
 
   // Auto-start for exam/daily mode
+  const autoStarted = useRef(false)
   useEffect(() => {
-    if ((modoExamen || modoDaily) && fase === 'jugando' && grid.length === 0) {
+    if (!autoStarted.current && (modoExamen || modoDaily) && grid.length === 0) {
+      autoStarted.current = true
       startGame(difId)
     }
-  }, [])
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (fase !== 'jugando') return
@@ -476,7 +478,7 @@ export default function NumPath() {
   }
 
   // ── JUGANDO ───────────────────────────────────────────────────────────────
-  if (!grid.length) return null
+  if (!grid.length) return <div className="relative z-10 flex items-center justify-center min-h-[calc(100vh-4rem)]"><p className="text-white/30">...</p></div>
   const size = dif.size
   const timerPct = modoDaily ? Math.min(100, (timeLeft / 30) * 100) : Math.min(100, (timeLeft / dif.time) * 100)
   const timerColor = timeLeft > 20 ? 'bg-green-400' : timeLeft > 10 ? 'bg-yellow-400' : 'bg-red-500 animate-pulse'
