@@ -162,6 +162,7 @@ export default function NumPath() {
   const timerRef = useRef(null)
   const timeRef = useRef(60)
   const autoStarted = useRef(false)
+  const boardsRef = useRef(0)
 
   const dif = DIFS[difId]
 
@@ -196,6 +197,7 @@ export default function NumPath() {
       setTimeLeft(d.time)
     }
     setBoards(0)
+    boardsRef.current = 0
     setExRonda(1)
     setExAciertos(0)
     setExHistorial([])
@@ -279,12 +281,12 @@ export default function NumPath() {
             setTimeout(() => { initBoard(); setFlash(null) }, 800)
           }
         } else if (modoDaily) {
-          setBoards(1)
+          setBoards(1); boardsRef.current = 1
           setTimeout(() => setFase('resultado'), 800)
         } else {
           timeRef.current += dif.bonus
           setTimeLeft(timeRef.current)
-          setBoards(b => b + 1)
+          setBoards(b => { boardsRef.current = b + 1; return b + 1 })
           setTimeout(() => { initBoard(); setFlash(null) }, 800)
         }
       } else {
@@ -375,7 +377,8 @@ export default function NumPath() {
   // Save score on game end — inside fase change handlers instead of useEffect
   function saveOnEnd() {
     if (!user) return
-    const pts = boards * 100
+    const b = boardsRef.current
+    const pts = b * 100
     if (pts > 0) saveActivity(user.uid, { type: 'juego', game: 'numpath', score: pts, passed: true, timeSpent: 0 }).catch(() => {})
   }
 
