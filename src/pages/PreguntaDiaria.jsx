@@ -74,6 +74,7 @@ export default function PreguntaDiaria() {
   const [streak, setStreak]       = useState(0)
   const [loading, setLoading]     = useState(true)
   const [showAuth, setShowAuth]   = useState(false)
+  const [showCoins, setShowCoins] = useState(false)
 
   const desafio    = getDesafioDeHoy()
   const esMate     = desafio.tipo === 'matematicas'
@@ -109,12 +110,17 @@ export default function PreguntaDiaria() {
     })
   }, [user])
 
+  function triggerCoins() {
+    setShowCoins(true)
+    setTimeout(() => setShowCoins(false), 3000)
+  }
+
   async function confirmar() {
     if (!selected || answered) return
     setAnswered(true)
     if (user) {
       const saved = await saveDailyChallenge(user.uid, selected === correct)
-      if (saved) setStreak(s => s + 1)
+      if (saved) { setStreak(s => s + 1); triggerCoins() }
     }
   }
 
@@ -125,7 +131,7 @@ export default function PreguntaDiaria() {
     if (user) {
       const correcto = respuesta === portadaHoy.veracidad
       const saved    = await saveDailyChallenge(user.uid, correcto)
-      if (saved) setStreak(s => s + 1)
+      if (saved) { setStreak(s => s + 1); triggerCoins() }
     }
   }
 
@@ -147,7 +153,7 @@ export default function PreguntaDiaria() {
       setGeoFeedback({ ok: true, msg: `🎉 ¡${paisHoy.nombre}!` })
       if (user) {
         const saved = await saveDailyChallenge(user.uid, true)
-        if (saved) setStreak(s => s + 1)
+        if (saved) { setStreak(s => s + 1); triggerCoins() }
       }
       return
     }
@@ -170,7 +176,7 @@ export default function PreguntaDiaria() {
     setAnswered(true)
     if (user) {
       const saved = await saveDailyChallenge(user.uid, result.passed)
-      if (saved) setStreak(s => s + 1)
+      if (saved) { setStreak(s => s + 1); triggerCoins() }
     }
   }
 
@@ -179,6 +185,17 @@ export default function PreguntaDiaria() {
   return (
     <div className="relative z-10 flex items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-6">
       {showAuth && <AuthModal onClose={() => setShowAuth(false)} />}
+
+      {/* Coin reward notification */}
+      {showCoins && (
+        <div className="fixed top-20 left-1/2 -translate-x-1/2 z-[200] animate-bounce">
+          <div className="bg-amber-500 text-black font-black text-lg px-6 py-3 rounded-2xl shadow-2xl shadow-amber-500/50 flex items-center gap-2">
+            <span className="text-2xl">💰</span>
+            +1.000 {en ? 'coins' : 'monedas'}
+          </div>
+        </div>
+      )}
+
       <div className="max-w-lg w-full bg-white/5 backdrop-blur-md rounded-3xl border border-white/10 overflow-hidden shadow-2xl">
 
         {/* Cabecera */}
