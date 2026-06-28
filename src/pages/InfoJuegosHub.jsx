@@ -44,7 +44,10 @@ const JUEGOS = {
       { slug: 'quien-es-quien', titulo: '¿Quién es Quién?', desc: 'Descubre el personaje histórico secreto usando pistas lógicas.', emoji: '🕵️', gradient: 'from-violet-600 to-purple-900', tags: ['Historia','Deducción'] },
       { slug: 'portadas', titulo: 'Portadas', desc: 'Lee titulares de periódicos históricos y decide si son verdad o mentira.', emoji: '📰', gradient: 'from-stone-600 to-neutral-800', tags: ['Historia','Crítico'] },
     ],
-    [{ slug: 'georush', titulo: 'GeoRush', desc: 'Adivina el país misterioso a partir de pistas geográficas.', emoji: '🌍', gradient: 'from-teal-500 to-cyan-700', tags: ['Geografía','Pistas'] }],
+    [
+      { slug: 'georush', titulo: 'GeoRush', desc: 'Adivina el país misterioso a partir de pistas geográficas.', emoji: '🌍', gradient: 'from-teal-500 to-cyan-700', tags: ['Geografía','Pistas'] },
+      { slug: 'geomapa', titulo: 'GeoMapa', desc: 'Identifica el país iluminado en el mapa mundial. Pistas progresivas si fallas.', emoji: '🗺️', gradient: 'from-purple-600 to-violet-800', tags: ['Geografía','Mapa'] },
+    ],
   ],
   en: [
     [
@@ -57,7 +60,10 @@ const JUEGOS = {
       { slug: 'quien-es-quien', titulo: 'Who is Who?', desc: 'Discover the secret historical figure using logical clues.', emoji: '🕵️', gradient: 'from-violet-600 to-purple-900', tags: ['History','Deduction'] },
       { slug: 'portadas', titulo: 'Headlines', desc: 'Read historical newspaper headlines and decide if they are true or false.', emoji: '📰', gradient: 'from-stone-600 to-neutral-800', tags: ['History','Critical'] },
     ],
-    [{ slug: 'georush', titulo: 'GeoRush', desc: 'Guess the mystery country from geographical, demographic and historical clues.', emoji: '🌍', gradient: 'from-teal-500 to-cyan-700', tags: ['Geography','Clues'] }],
+    [
+      { slug: 'georush', titulo: 'GeoRush', desc: 'Guess the mystery country from geographical, demographic and historical clues.', emoji: '🌍', gradient: 'from-teal-500 to-cyan-700', tags: ['Geography','Clues'] },
+      { slug: 'geomapa', titulo: 'GeoMapa', desc: 'Identify the highlighted country on the world map. Progressive hints if you miss.', emoji: '🗺️', gradient: 'from-purple-600 to-violet-800', tags: ['Geography','Map'] },
+    ],
   ],
 }
 

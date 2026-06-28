@@ -33,6 +33,7 @@ import InfoJuegoFicha from './pages/InfoJuegoFicha'
 import GeografiaIndex from './pages/GeografiaIndex'
 import GeografiaTema from './pages/GeografiaTema'
 import GeoRushExamen from './pages/GeoRushExamen'
+import GeoMapaExamen from './pages/GeoMapaExamen'
 import InfoEstudiar from './pages/InfoEstudiar'
 import InfoDiaria from './pages/InfoDiaria'
 import Privacidad from './pages/Privacidad'
@@ -74,6 +75,7 @@ function AppRoutes() {
       <Route path="estudiar/geografia" element={<GeografiaIndex />} />
       <Route path="estudiar/geografia/:region" element={<GeografiaTema />} />
       <Route path="examen/geografia" element={<GeoRushExamen />} />
+      <Route path="examen/geomapa" element={<GeoMapaExamen />} />
       <Route path="juegos/georush" element={<GeoRush />} />
       <Route path="juegos/geomapa" element={<GeoMapa />} />
       <Route path="juegos/numpath" element={<NumPath />} />

@@ -39,6 +39,7 @@ export default function GeografiaTema() {
 
   const filter      = REGION_FILTER[region]
   const paisesCount = filter ? PAISES.filter(filter).length : 0
+  const paisesMapaCount = filter ? PAISES.filter(p => filter(p) && p.area >= 30000).length : 0
 
   const modos = [
     {
@@ -51,6 +52,19 @@ export default function GeografiaTema() {
       gradient: 'from-teal-500 to-cyan-700',
       detalles: [`${paisesCount} ${en ? 'countries' : 'países'}`, `10 ${en ? 'per exam' : 'por examen'}`, `5 ${en ? 'mixed clues' : 'pistas mixtas'} (3🔒 + 2🎁)`],
       action: () => navigate(localPath('/examen/geografia'), {
+        state: { region, titulo: meta.titulo, backPath: `/estudiar/geografia/${region}` }
+      }),
+    },
+    {
+      id: 'geomapa',
+      titulo: 'GeoMapa',
+      descripcion: en
+        ? 'Identify the highlighted country on the world map. If you miss, you get hints: flag and capital.'
+        : 'Identifica el país iluminado en el mapa mundial. Si fallas, recibes pistas: bandera y capital.',
+      emoji: '🗺️',
+      gradient: 'from-purple-500 to-violet-700',
+      detalles: [`${paisesMapaCount} ${en ? 'countries' : 'países'}`, `10 ${en ? 'per exam' : 'por examen'}`, `3 ${en ? 'attempts per country' : 'intentos por país'}`],
+      action: () => navigate(localPath('/examen/geomapa'), {
         state: { region, titulo: meta.titulo, backPath: `/estudiar/geografia/${region}` }
       }),
     },
