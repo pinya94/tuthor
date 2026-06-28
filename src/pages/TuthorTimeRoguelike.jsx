@@ -193,7 +193,7 @@ function YearCounter({ añoEnviado, añoEvento, vidaAntesViaje, resultado, esTie
   )
 }
 
-function AgentBar({ agente, activo }) {
+function AgentBar({ agente, activo, lang }) {
   const pct = agente.muerto ? 0 : Math.max(0, (agente.vida / VIDA_BIXO) * 100)
   const barColor = pct > 60 ? 'bg-green-400' : pct > 30 ? 'bg-yellow-400' : 'bg-red-400'
   return (
@@ -295,56 +295,50 @@ export default function TuthorTimeRoguelike() {
     const esTiempo = añoEnviado === null
     const t = tiempoRef.current
 
-    setAgentes(prev => {
-      const next = prev.map(a => ({ ...a }))
+    const next = agentes.map(a => ({ ...a }))
+    const idx = next.findIndex(a => !a.muerto)
 
-      const idx = next.findIndex(a => !a.muerto)
+    let vidaGastada = 0
+    let resultado = 'ÉXITO'
+    let espera = 0
+    let pts = 0
+    let vidaAntesViaje = 0
 
-      let vidaGastada = 0
-      let resultado = 'ÉXITO'
-      let espera = 0
-      let pts = 0
-      let vidaAntesViaje = 0
+    if (idx >= 0 && !next[idx].muerto) {
+      vidaAntesViaje = next[idx].vida
+      if (esTiempo) {
+        vidaGastada = next[idx].vida
+        resultado = 'TIEMPO'
+      } else {
+        const viaje = calcularViaje(añoEnviado, evento.año, next[idx].vida)
+        resultado = viaje.resultado
+        vidaGastada = resultado === 'TARDE' ? next[idx].vida : viaje.vidaGastada
+        espera = viaje.espera
 
-      if (idx >= 0 && !next[idx].muerto) {
-        vidaAntesViaje = next[idx].vida
-        if (esTiempo) {
-          vidaGastada = next[idx].vida
-          resultado = 'TIEMPO'
-        } else {
-          const viaje = calcularViaje(añoEnviado, evento.año, next[idx].vida)
-          resultado = viaje.resultado
-          vidaGastada = resultado === 'TARDE' ? next[idx].vida : viaje.vidaGastada
-          espera = viaje.espera
-
-          if (resultado !== 'TARDE') {
-            const base = Math.max(0, 1000 - espera * 7)
-            const timeBonus = resultado === 'PERFECTO' ? 2 : 1 + (t / tiempoNivel)
-            pts = Math.round(base * timeBonus * scoreMult)
-          }
+        if (resultado !== 'TARDE') {
+          const base = Math.max(0, 1000 - espera * 7)
+          const timeBonus = resultado === 'PERFECTO' ? 2 : 1 + (t / tiempoNivel)
+          pts = Math.round(base * timeBonus * scoreMult)
         }
-
-        next[idx].vida -= vidaGastada
-        if (next[idx].vida <= 0) {
-          next[idx].vida = 0
-          next[idx].muerto = true
-        }
-
       }
 
-      const allDead = next.every(a => a.muerto)
-      setScoreTotal(s => s + pts)
-      setFeedback({
-        resultado, vidaGastada, espera, pts,
-        añoEnviado, esTiempo,
-        evento: { ...evento },
-        allDead, vidaAntesViaje,
-      })
+      next[idx].vida -= vidaGastada
+      if (next[idx].vida <= 0) {
+        next[idx].vida = 0
+        next[idx].muerto = true
+      }
+    }
 
-      setFase('feedback')
-
-      return next
+    const allDead = next.every(a => a.muerto)
+    setAgentes(next)
+    setScoreTotal(s => s + pts)
+    setFeedback({
+      resultado, vidaGastada, espera, pts,
+      añoEnviado, esTiempo,
+      evento: { ...evento },
+      allDead, vidaAntesViaje,
     })
+    setFase('feedback')
   }
 
   function handleGuess() {
@@ -510,7 +504,7 @@ export default function TuthorTimeRoguelike() {
           {/* Agentes */}
           <div className="bg-black/40 backdrop-blur rounded-xl p-3 border border-white/10 space-y-2">
             {agentes.map((ag, i) => (
-              <AgentBar key={i} agente={ag} activo={i === agenteActivo && !ag.muerto} />
+              <AgentBar key={i} agente={ag} activo={i === agenteActivo && !ag.muerto} lang={lang} />
             ))}
           </div>
 
@@ -635,7 +629,7 @@ export default function TuthorTimeRoguelike() {
 
             <div className="space-y-2 mb-5">
               {agentes.map((ag, i) => (
-                <AgentBar key={i} agente={ag} activo={i === agenteActivo && !ag.muerto} />
+                <AgentBar key={i} agente={ag} activo={i === agenteActivo && !ag.muerto} lang={lang} />
               ))}
             </div>
 
