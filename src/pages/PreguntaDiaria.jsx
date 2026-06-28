@@ -48,7 +48,7 @@ function GeoInput({ value, onChange, onSubmit, disabled, useEnglish }) {
         onFocus={() => setFocused(true)}
         onBlur={() => setTimeout(() => setFocused(false), 150)}
         onKeyDown={handleKey} disabled={disabled}
-        placeholder="Escribe un país…"
+        placeholder={useEnglish ? 'Type a country…' : 'Escribe un país…'}
         className="w-full bg-white/10 border-2 border-white/20 focus:border-[#EDAE49] rounded-xl px-4 py-2.5 text-white placeholder:text-white/25 outline-none transition-colors disabled:opacity-40"
         autoComplete="off" />
       {focused && filtered.length > 0 && (
@@ -426,7 +426,7 @@ export default function PreguntaDiaria() {
               {!answered ? (
                 <>
                   <div className="relative mb-3">
-                    <GeoInput value={geoInput} onChange={setGeoInput} onSubmit={handleGeoSubmit} disabled={!!geoFeedback} />
+                    <GeoInput value={geoInput} onChange={setGeoInput} onSubmit={handleGeoSubmit} disabled={!!geoFeedback} useEnglish={en} />
                   </div>
                   {geoFeedback && (
                     <div className={`text-center py-2 rounded-xl font-bold text-sm mb-2 ${geoFeedback.ok ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'}`}>
