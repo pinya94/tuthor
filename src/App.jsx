@@ -26,6 +26,7 @@ import AcercateRoguelike from './pages/AcercateRoguelike'
 import Portadas from './pages/Portadas'
 import PortadasExamen from './pages/PortadasExamen'
 import GeoRush from './pages/GeoRush'
+import GeoMapa from './pages/GeoMapa'
 import NumPath from './pages/NumPath'
 import InfoJuegosHub from './pages/InfoJuegosHub'
 import InfoJuegoFicha from './pages/InfoJuegoFicha'
@@ -74,6 +75,7 @@ function AppRoutes() {
       <Route path="estudiar/geografia/:region" element={<GeografiaTema />} />
       <Route path="examen/geografia" element={<GeoRushExamen />} />
       <Route path="juegos/georush" element={<GeoRush />} />
+      <Route path="juegos/geomapa" element={<GeoMapa />} />
       <Route path="juegos/numpath" element={<NumPath />} />
 
       {/* ── INFO / SEO ── */}

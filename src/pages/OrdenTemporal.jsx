@@ -4,6 +4,7 @@ import { getEventosLineaTemporal, getCorrectPos, sortEventos } from '../data/his
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
 import { saveActivity } from '../lib/activity'
+import CoinsAnimation from '../components/CoinsAnimation'
 
 const MAX_LIVES = 3
 
@@ -52,11 +53,16 @@ function Intro({ onStart, lang }) {
 // ── GAME OVER ──────────────────────────────────────────────────────────────────
 function GameOver({ score, placed, onRepetir, onSalir, lang }) {
   const en = lang === 'en'
+  const [showCoins, setShowCoins] = useState(false)
+  const [coinsDone, setCoinsDone] = useState(false)
   let nota, notaColor
   if (placed >= 20)      { nota = en ? 'EXPERT HISTORIAN' : 'HISTORIADOR EXPERTO'; notaColor = 'text-violet-400' }
   else if (placed >= 12) { nota = en ? 'GOOD LEVEL' : 'BUEN NIVEL'; notaColor = 'text-blue-400' }
   else if (placed >= 6)  { nota = en ? 'IN PROGRESS' : 'EN PROGRESO'; notaColor = 'text-amber-400' }
   else                   { nota = en ? 'KEEP PRACTISING' : 'SIGUE PRACTICANDO'; notaColor = 'text-white/60' }
+
+  useEffect(() => { if (score > 0) setShowCoins(true) }, [])
+
   return (
     <div className="flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
       <div className="max-w-md w-full">
@@ -64,19 +70,28 @@ function GameOver({ score, placed, onRepetir, onSalir, lang }) {
           <p className="text-white/40 text-xs uppercase tracking-widest mb-2">{en ? 'Game over' : 'Partida terminada'}</p>
           <h1 className={`text-3xl font-black mb-1 ${notaColor}`}>{nota}</h1>
         </div>
-        <div className="grid grid-cols-2 gap-3 mb-6">
-          {[{ val: score, label: en ? 'Points' : 'Puntos', emoji: '⭐' }, { val: placed, label: en ? 'Placed' : 'Colocadas', emoji: '✅' }].map(s => (
-            <div key={s.label} className="bg-white/5 border border-white/10 rounded-xl p-4 text-center">
-              <span className="text-2xl block mb-1">{s.emoji}</span>
-              <p className="text-2xl font-black text-white">{s.val}</p>
-              <p className="text-white/40 text-xs mt-0.5">{s.label}</p>
+
+        {showCoins && !coinsDone && (
+          <div className="mb-6"><CoinsAnimation points={score} onDone={() => setCoinsDone(true)} /></div>
+        )}
+
+        {(coinsDone || !showCoins) && (
+          <>
+            <div className="grid grid-cols-2 gap-3 mb-6">
+              {[{ val: score, label: en ? 'Points' : 'Puntos', emoji: '⭐' }, { val: placed, label: en ? 'Placed' : 'Colocadas', emoji: '✅' }].map(s => (
+                <div key={s.label} className="bg-white/5 border border-white/10 rounded-xl p-4 text-center">
+                  <span className="text-2xl block mb-1">{s.emoji}</span>
+                  <p className="text-2xl font-black text-white">{s.val}</p>
+                  <p className="text-white/40 text-xs mt-0.5">{s.label}</p>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
-        <div className="flex flex-col gap-3">
-          <button onClick={onRepetir} className="w-full bg-amber-500 hover:bg-amber-600 text-white font-bold py-3 rounded-xl transition-colors">{en ? 'Play again ↺' : 'Jugar otra vez ↺'}</button>
-          <button onClick={onSalir}   className="w-full bg-white/5 hover:bg-white/10 border border-white/10 text-white/70 font-medium py-3 rounded-xl transition-colors">{en ? 'Back to Games' : 'Volver a Juegos'}</button>
-        </div>
+            <div className="flex flex-col gap-3">
+              <button onClick={onRepetir} className="w-full bg-amber-500 hover:bg-amber-600 text-white font-bold py-3 rounded-xl transition-colors">{en ? 'Play again ↺' : 'Jugar otra vez ↺'}</button>
+              <button onClick={onSalir}   className="w-full bg-white/5 hover:bg-white/10 border border-white/10 text-white/70 font-medium py-3 rounded-xl transition-colors">{en ? 'Back to Games' : 'Volver a Juegos'}</button>
+            </div>
+          </>
+        )}
       </div>
     </div>
   )

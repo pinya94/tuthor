@@ -49,7 +49,7 @@ export const GAMES = [
   { title: 'Acércate', titleEn: 'Target Number', subtitle: 'Llega al número objetivo', subtitleEn: 'Reach the target number', emoji: '🎯', gradient: 'from-pink-500 to-rose-600', ready: true, path: '/juegos/acercate' },
   { title: 'WordBattle', subtitle: 'Vocabulario en inglés', subtitleEn: 'English vocabulary', emoji: '🔤', gradient: 'from-blue-500 to-indigo-600', ready: false },
   { title: 'SciQuiz', subtitle: 'Ciencias naturales', subtitleEn: 'Natural sciences', emoji: '🔬', gradient: 'from-green-500 to-emerald-600', ready: false },
-  { title: 'ChronoMap', subtitle: 'Geografía histórica', subtitleEn: 'Historical geography', emoji: '🗺️', gradient: 'from-purple-500 to-violet-600', ready: false },
+  { title: 'GeoMapa', titleEn: 'GeoMap', subtitle: 'Identifica el país en el mapa', subtitleEn: 'Identify the country on the map', emoji: '🗺️', gradient: 'from-purple-500 to-violet-600', ready: true, path: '/juegos/geomapa' },
   { title: 'NumPath', subtitle: 'Navega y calcula', subtitleEn: 'Navigate & calculate', emoji: '🧮', gradient: 'from-yellow-500 to-orange-500', ready: true, path: '/juegos/numpath' },
   { title: 'LinguaRun', subtitle: 'Idiomas al sprint', subtitleEn: 'Sprint languages', emoji: '🏃', gradient: 'from-cyan-500 to-blue-600', ready: false },
   { title: 'AtomQuest', subtitle: 'Química elemental', subtitleEn: 'Basic chemistry', emoji: '⚛️', gradient: 'from-rose-500 to-red-600', ready: false },
