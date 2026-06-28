@@ -4,14 +4,16 @@ import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
 import { getDailyStatus, saveDailyChallenge } from '../lib/activity'
 import { getDesafioDeHoy } from '../data/preguntasDiarias'
-import { PAISES, NOMBRES_PAISES } from '../data/paises'
+import { PAISES, NOMBRES_PAISES, NOMBRES_PAISES_EN } from '../data/paises'
 import AuthModal from '../components/AuthModal'
 import CombinaNumeros from '../components/CombinaNumeros'
+import WorldMap from '../components/WorldMap'
 
-function GeoInput({ value, onChange, onSubmit, disabled }) {
+function GeoInput({ value, onChange, onSubmit, disabled, useEnglish }) {
   const [focused, setFocused] = useState(false)
   const [hlIdx, setHlIdx]     = useState(-1)
   const ref = useRef(null)
+  const lista = useEnglish ? NOMBRES_PAISES_EN : NOMBRES_PAISES
 
   function normalize(s) {
     return s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().trim()
@@ -20,8 +22,8 @@ function GeoInput({ value, onChange, onSubmit, disabled }) {
   const filtered = useMemo(() => {
     if (!value || value.length < 1) return []
     const norm = normalize(value)
-    return NOMBRES_PAISES.filter(n => normalize(n).includes(norm)).slice(0, 5)
-  }, [value])
+    return lista.filter(n => normalize(n).includes(norm)).slice(0, 5)
+  }, [value, lista])
 
   function select(name) {
     onChange(name); setFocused(false); setHlIdx(-1)
@@ -81,9 +83,10 @@ export default function PreguntaDiaria() {
   const esPortada  = desafio.tipo === 'portada'
   const esGeoRush  = desafio.tipo === 'georush'
   const esNumPath  = desafio.tipo === 'numpath'
+  const esGeoMapa  = desafio.tipo === 'geomapa'
   const pregunta   = desafio.tipo === 'trivia' ? desafio.pregunta : null
   const portadaHoy = desafio.tipo === 'portada' ? desafio.portada : null
-  const paisHoy    = desafio.tipo === 'georush' ? desafio.pais : null
+  const paisHoy    = (desafio.tipo === 'georush' || desafio.tipo === 'geomapa') ? desafio.pais : null
 
   // GeoRush daily state
   const [geoInput, setGeoInput]     = useState('')
@@ -167,6 +170,39 @@ export default function PreguntaDiaria() {
       } else {
         setAnswered(true)
         setGeoFeedback({ ok: false, msg: en ? `It was ${paisHoy.nombre}` : `Era ${paisHoy.nombre}` })
+        if (user) saveDailyChallenge(user.uid, false)
+      }
+    }, 1000)
+  }
+
+  async function handleGeoMapaSubmit(val) {
+    const nombreInput = val || geoInput
+    if (answered) return
+    const getName = p => (en && p.nombreEn) ? p.nombreEn : p.nombre
+    const paisResp = PAISES.find(p => getName(p) === nombreInput)
+    if (!paisResp) {
+      setGeoFeedback({ ok: false, msg: en ? 'Country not recognised' : 'País no reconocido' })
+      setTimeout(() => setGeoFeedback(null), 1200)
+      return
+    }
+    if (paisResp.nombre === paisHoy.nombre) {
+      setAnswered(true)
+      setGeoFeedback({ ok: true, msg: `🎉 ${getName(paisHoy)}!` })
+      if (user) {
+        const saved = await saveDailyChallenge(user.uid, true)
+        if (saved) { setStreak(s => s + 1); triggerCoins() }
+      }
+      return
+    }
+    setGeoInput('')
+    setGeoFeedback({ ok: false, msg: en ? `Not ${nombreInput}` : `No es ${nombreInput}` })
+    setTimeout(() => {
+      setGeoFeedback(null)
+      if (geoPistaIdx < 2) {
+        setGeoPistaIdx(i => i + 1)
+      } else {
+        setAnswered(true)
+        setGeoFeedback({ ok: false, msg: en ? `It was ${getName(paisHoy)}` : `Era ${getName(paisHoy)}` })
         if (user) saveDailyChallenge(user.uid, false)
       }
     }, 1000)
@@ -311,6 +347,48 @@ export default function PreguntaDiaria() {
               ) : (
                 <div className="bg-green-500/20 text-green-400 font-bold py-3 rounded-xl">
                   {en ? '✓ Completed' : '✓ Completado'}
+                </div>
+              )}
+            </div>
+            <div className="px-6 sm:px-8 pb-6">
+              <p className="text-center text-white/20 text-xs">{en ? 'New challenge tomorrow · Come back every day' : 'Nuevo reto mañana · Vuelve cada día'}</p>
+            </div>
+          </>
+        ) : esGeoMapa ? (
+          /* ── GeoMapa daily ── */
+          <>
+            <div className="px-6 sm:px-8 py-4">
+              <p className="text-xs font-semibold text-white/40 uppercase tracking-widest mb-3">
+                {en ? '🗺️ Identify the country · GeoMap' : '🗺️ Identifica el país · GeoMapa'}
+              </p>
+              <div className="bg-black/40 border border-white/10 rounded-xl p-2 mb-4">
+                <WorldMap highlight={paisHoy?.iso || ''} highlightColor="#EDAE49" baseColor="#1e293b" borderColor="#0f172a" className="rounded-lg overflow-hidden" />
+              </div>
+              {!answered ? (
+                <>
+                  {geoPistaIdx >= 1 && paisHoy?.bandera && (
+                    <div className="bg-amber-500/10 border border-amber-500/30 rounded-xl p-3 mb-3 text-center">
+                      <img src={`https://flagcdn.com/w80/${[...paisHoy.bandera].map(c => String.fromCharCode(c.codePointAt(0) - 0x1F1E6 + 65)).join('').toLowerCase()}.png`} alt="" width={48} height={36} className="inline-block rounded shadow mb-1" />
+                      <p className="text-white/50 text-xs">{en ? 'Hint: flag' : 'Pista: bandera'}</p>
+                    </div>
+                  )}
+                  {geoPistaIdx >= 2 && paisHoy?.capital && (
+                    <div className="bg-amber-500/10 border border-amber-500/30 rounded-xl p-3 mb-3 text-center">
+                      <p className="text-white font-bold">{en && paisHoy.capitalEn ? paisHoy.capitalEn : paisHoy.capital}</p>
+                      <p className="text-white/50 text-xs">{en ? 'Hint: capital' : 'Pista: capital'}</p>
+                    </div>
+                  )}
+                  {geoFeedback && (
+                    <div className={`text-center py-2 px-3 rounded-xl mb-3 text-sm font-bold ${geoFeedback.ok ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'}`}>
+                      {geoFeedback.msg}
+                    </div>
+                  )}
+                  <GeoInput value={geoInput} onChange={setGeoInput} onSubmit={handleGeoMapaSubmit} disabled={answered} useEnglish={en} />
+                  <p className="text-center text-white/20 text-xs mt-2">{en ? 'Attempt' : 'Intento'} {geoPistaIdx + 1}/3</p>
+                </>
+              ) : (
+                <div className={`text-center py-3 rounded-xl font-bold ${geoFeedback?.ok ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'}`}>
+                  {geoFeedback?.msg}
                 </div>
               )}
             </div>
