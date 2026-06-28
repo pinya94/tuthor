@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useMemo } from 'react'
+import { useState, useEffect, useRef, useMemo, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { PAISES } from '../data/paises'
 import { useLang } from '../context/LangContext'
@@ -146,7 +146,8 @@ export default function GeoMapa() {
   // Excluir países demasiado pequeños para verse bien en el mapa 110m
   const MIN_AREA = 30000
   const paisesConIso = useMemo(() => PAISES.filter(p => p.iso && p.area >= MIN_AREA), [])
-  const nombresPaises = useMemo(() => paisesConIso.map(p => p.nombre), [paisesConIso])
+  const getName = useCallback(p => (en && p.nombreEn) ? p.nombreEn : p.nombre, [en])
+  const nombresPaises = useMemo(() => paisesConIso.map(getName), [paisesConIso, getName])
 
   const [fase, setFase] = useState('intro')
   const [timeLeft, setTimeLeft] = useState(TIEMPO_INICIO)
@@ -210,14 +211,14 @@ export default function GeoMapa() {
 
   function handleRespuesta(val) {
     const nombre = val || inputVal
-    const paisResp = paisesConIso.find(p => p.nombre === nombre)
+    const paisResp = paisesConIso.find(p => getName(p) === nombre)
     if (!paisResp) {
       setFeedback({ ok: false, msg: u.noReconocido })
       setTimeout(() => setFeedback(null), 1000)
       return
     }
 
-    if (nombre === paisActual.nombre) {
+    if (paisResp.nombre === paisActual.nombre) {
       clearInterval(timerRef.current)
       const bonus = intento === 0 ? 15 : intento === 1 ? 10 : 5
       tiempoRef.current += bonus
@@ -239,7 +240,7 @@ export default function GeoMapa() {
         setCombo(0)
         tiempoRef.current = Math.max(0, tiempoRef.current - 10)
         setTimeLeft(tiempoRef.current)
-        setFeedback({ ok: false, msg: `❌ ${u.era} ${paisActual.nombre} · −10s`, freeze: true })
+        setFeedback({ ok: false, msg: `❌ ${u.era} ${getName(paisActual)} · −10s`, freeze: true })
         if (tiempoRef.current <= 0) {
           clearInterval(timerRef.current)
           if (user) saveActivity(user.uid, { type: 'juego', game: 'geomapa', score: puntosRef.current, passed: puntosRef.current >= 200, timeSpent: TIEMPO_INICIO }).catch(() => {})

@@ -8,6 +8,7 @@ export const PAISES = [
   // ── EUROPA ────────────────────────────────────────────────────────────────
   {
     nombre: 'España',
+    nombreEn: 'Spain',
     iso: 'ESP',
     bandera: '🇪🇸',
     capital: 'Madrid',
@@ -23,6 +24,7 @@ export const PAISES = [
   },
   {
     nombre: 'Francia',
+    nombreEn: 'France',
     iso: 'FRA',
     bandera: '🇫🇷',
     capital: 'París',
@@ -39,6 +41,7 @@ export const PAISES = [
   },
   {
     nombre: 'Alemania',
+    nombreEn: 'Germany',
     iso: 'DEU',
     bandera: '🇩🇪',
     capital: 'Berlín',
@@ -55,6 +58,7 @@ export const PAISES = [
   },
   {
     nombre: 'Italia',
+    nombreEn: 'Italy',
     iso: 'ITA',
     bandera: '🇮🇹',
     capital: 'Roma',
@@ -71,6 +75,7 @@ export const PAISES = [
   },
   {
     nombre: 'Reino Unido',
+    nombreEn: 'United Kingdom',
     iso: 'GBR',
     bandera: '🇬🇧',
     capital: 'Londres',
@@ -103,6 +108,7 @@ export const PAISES = [
   },
   {
     nombre: 'Países Bajos',
+    nombreEn: 'Netherlands',
     iso: 'NLD',
     bandera: '🇳🇱',
     capital: 'Ámsterdam',
@@ -119,6 +125,7 @@ export const PAISES = [
   },
   {
     nombre: 'Bélgica',
+    nombreEn: 'Belgium',
     iso: 'BEL',
     bandera: '🇧🇪',
     capital: 'Bruselas',
@@ -135,6 +142,7 @@ export const PAISES = [
   },
   {
     nombre: 'Suiza',
+    nombreEn: 'Switzerland',
     iso: 'CHE',
     bandera: '🇨🇭',
     capital: 'Berna',
@@ -167,6 +175,7 @@ export const PAISES = [
   },
   {
     nombre: 'Suecia',
+    nombreEn: 'Sweden',
     iso: 'SWE',
     bandera: '🇸🇪',
     capital: 'Estocolmo',
@@ -183,6 +192,7 @@ export const PAISES = [
   },
   {
     nombre: 'Noruega',
+    nombreEn: 'Norway',
     iso: 'NOR',
     bandera: '🇳🇴',
     capital: 'Oslo',
@@ -198,6 +208,7 @@ export const PAISES = [
   },
   {
     nombre: 'Dinamarca',
+    nombreEn: 'Denmark',
     iso: 'DNK',
     bandera: '🇩🇰',
     capital: 'Copenhague',
@@ -214,6 +225,7 @@ export const PAISES = [
   },
   {
     nombre: 'Finlandia',
+    nombreEn: 'Finland',
     iso: 'FIN',
     bandera: '🇫🇮',
     capital: 'Helsinki',
@@ -229,6 +241,7 @@ export const PAISES = [
   },
   {
     nombre: 'Polonia',
+    nombreEn: 'Poland',
     iso: 'POL',
     bandera: '🇵🇱',
     capital: 'Varsovia',
@@ -245,6 +258,7 @@ export const PAISES = [
   },
   {
     nombre: 'Grecia',
+    nombreEn: 'Greece',
     iso: 'GRC',
     bandera: '🇬🇷',
     capital: 'Atenas',
@@ -261,6 +275,7 @@ export const PAISES = [
   },
   {
     nombre: 'Rumanía',
+    nombreEn: 'Romania',
     iso: 'ROU',
     bandera: '🇷🇴',
     capital: 'Bucarest',
@@ -277,6 +292,7 @@ export const PAISES = [
   },
   {
     nombre: 'República Checa',
+    nombreEn: 'Czech Republic',
     iso: 'CZE',
     bandera: '🇨🇿',
     capital: 'Praga',
@@ -293,6 +309,7 @@ export const PAISES = [
   },
   {
     nombre: 'Hungría',
+    nombreEn: 'Hungary',
     iso: 'HUN',
     bandera: '🇭🇺',
     capital: 'Budapest',
@@ -308,6 +325,7 @@ export const PAISES = [
   },
   {
     nombre: 'Irlanda',
+    nombreEn: 'Ireland',
     iso: 'IRL',
     bandera: '🇮🇪',
     capital: 'Dublín',
@@ -324,6 +342,7 @@ export const PAISES = [
   },
   {
     nombre: 'Ucrania',
+    nombreEn: 'Ukraine',
     iso: 'UKR',
     bandera: '🇺🇦',
     capital: 'Kiev',
@@ -356,6 +375,7 @@ export const PAISES = [
   },
   {
     nombre: 'Croacia',
+    nombreEn: 'Croatia',
     iso: 'HRV',
     bandera: '🇭🇷',
     capital: 'Zagreb',
@@ -389,6 +409,7 @@ export const PAISES = [
   // ── ASIA ──────────────────────────────────────────────────────────────────
   {
     nombre: 'Japón',
+    nombreEn: 'Japan',
     iso: 'JPN',
     bandera: '🇯🇵',
     capital: 'Tokio',
@@ -437,6 +458,7 @@ export const PAISES = [
   },
   {
     nombre: 'Corea del Sur',
+    nombreEn: 'South Korea',
     iso: 'KOR',
     bandera: '🇰🇷',
     capital: 'Seúl',
@@ -453,6 +475,7 @@ export const PAISES = [
   },
   {
     nombre: 'Turquía',
+    nombreEn: 'Turkey',
     iso: 'TUR',
     bandera: '🇹🇷',
     capital: 'Ankara',
@@ -468,6 +491,7 @@ export const PAISES = [
   },
   {
     nombre: 'Arabia Saudita',
+    nombreEn: 'Saudi Arabia',
     iso: 'SAU',
     bandera: '🇸🇦',
     capital: 'Riad',
@@ -484,6 +508,7 @@ export const PAISES = [
   },
   {
     nombre: 'Irán',
+    nombreEn: 'Iran',
     iso: 'IRN',
     bandera: '🇮🇷',
     capital: 'Teherán',
@@ -500,6 +525,7 @@ export const PAISES = [
   },
   {
     nombre: 'Irak',
+    nombreEn: 'Iraq',
     iso: 'IRQ',
     bandera: '🇮🇶',
     capital: 'Bagdad',
@@ -532,6 +558,7 @@ export const PAISES = [
   },
   {
     nombre: 'Tailandia',
+    nombreEn: 'Thailand',
     iso: 'THA',
     bandera: '🇹🇭',
     capital: 'Bangkok',
@@ -579,6 +606,7 @@ export const PAISES = [
   },
   {
     nombre: 'Filipinas',
+    nombreEn: 'Philippines',
     iso: 'PHL',
     bandera: '🇵🇭',
     capital: 'Manila',
@@ -594,6 +622,7 @@ export const PAISES = [
   },
   {
     nombre: 'Pakistán',
+    nombreEn: 'Pakistan',
     iso: 'PAK',
     bandera: '🇵🇰',
     capital: 'Islamabad',
@@ -609,6 +638,7 @@ export const PAISES = [
   },
   {
     nombre: 'Bangladés',
+    nombreEn: 'Bangladesh',
     iso: 'BGD',
     bandera: '🇧🇩',
     capital: 'Daca',
@@ -627,6 +657,7 @@ export const PAISES = [
   // ── AMÉRICA ───────────────────────────────────────────────────────────────
   {
     nombre: 'Estados Unidos',
+    nombreEn: 'United States',
     iso: 'USA',
     bandera: '🇺🇸',
     capital: 'Washington D.C.',
@@ -642,6 +673,7 @@ export const PAISES = [
   },
   {
     nombre: 'Canadá',
+    nombreEn: 'Canada',
     iso: 'CAN',
     bandera: '🇨🇦',
     capital: 'Ottawa',
@@ -657,6 +689,7 @@ export const PAISES = [
   },
   {
     nombre: 'México',
+    nombreEn: 'Mexico',
     iso: 'MEX',
     bandera: '🇲🇽',
     capital: 'Ciudad de México',
@@ -673,6 +706,7 @@ export const PAISES = [
   },
   {
     nombre: 'Brasil',
+    nombreEn: 'Brazil',
     iso: 'BRA',
     bandera: '🇧🇷',
     capital: 'Brasilia',
@@ -733,6 +767,7 @@ export const PAISES = [
   },
   {
     nombre: 'Perú',
+    nombreEn: 'Peru',
     iso: 'PER',
     bandera: '🇵🇪',
     capital: 'Lima',
@@ -854,6 +889,7 @@ export const PAISES = [
   },
   {
     nombre: 'Panamá',
+    nombreEn: 'Panama',
     iso: 'PAN',
     bandera: '🇵🇦',
     capital: 'Ciudad de Panamá',
@@ -872,6 +908,7 @@ export const PAISES = [
   // ── ÁFRICA ────────────────────────────────────────────────────────────────
   {
     nombre: 'Egipto',
+    nombreEn: 'Egypt',
     iso: 'EGY',
     bandera: '🇪🇬',
     capital: 'El Cairo',
@@ -888,6 +925,7 @@ export const PAISES = [
   },
   {
     nombre: 'Sudáfrica',
+    nombreEn: 'South Africa',
     iso: 'ZAF',
     bandera: '🇿🇦',
     capital: 'Pretoria',
@@ -919,6 +957,7 @@ export const PAISES = [
   },
   {
     nombre: 'Kenia',
+    nombreEn: 'Kenya',
     iso: 'KEN',
     bandera: '🇰🇪',
     capital: 'Nairobi',
@@ -934,6 +973,7 @@ export const PAISES = [
   },
   {
     nombre: 'Etiopía',
+    nombreEn: 'Ethiopia',
     iso: 'ETH',
     bandera: '🇪🇹',
     capital: 'Adís Abeba',
@@ -950,6 +990,7 @@ export const PAISES = [
   },
   {
     nombre: 'Marruecos',
+    nombreEn: 'Morocco',
     iso: 'MAR',
     bandera: '🇲🇦',
     capital: 'Rabat',
@@ -996,6 +1037,7 @@ export const PAISES = [
   },
   {
     nombre: 'República Democrática del Congo',
+    nombreEn: 'Democratic Republic of the Congo',
     iso: 'COD',
     bandera: '🇨🇩',
     capital: 'Kinsasa',
@@ -1012,6 +1054,7 @@ export const PAISES = [
   },
   {
     nombre: 'Argelia',
+    nombreEn: 'Algeria',
     iso: 'DZA',
     bandera: '🇩🇿',
     capital: 'Argel',
@@ -1045,6 +1088,7 @@ export const PAISES = [
   },
   {
     nombre: 'Nueva Zelanda',
+    nombreEn: 'New Zealand',
     iso: 'NZL',
     bandera: '🇳🇿',
     capital: 'Wellington',
@@ -1062,6 +1106,7 @@ export const PAISES = [
   // ── OTROS (Rusia, grandes estados no europeos) ────────────────────────────
   {
     nombre: 'Rusia',
+    nombreEn: 'Russia',
     iso: 'RUS',
     bandera: '🇷🇺',
     capital: 'Moscú',
@@ -1081,6 +1126,7 @@ export const PAISES = [
 
   {
     nombre: 'Islandia',
+    nombreEn: 'Iceland',
     iso: 'ISL',
     bandera: '🇮🇸',
     capital: 'Reikiavik',
@@ -1097,6 +1143,7 @@ export const PAISES = [
   },
   {
     nombre: 'Lituania',
+    nombreEn: 'Lithuania',
     iso: 'LTU',
     bandera: '🇱🇹',
     capital: 'Vilna',
@@ -1113,6 +1160,7 @@ export const PAISES = [
   },
   {
     nombre: 'Eslovaquia',
+    nombreEn: 'Slovakia',
     iso: 'SVK',
     bandera: '🇸🇰',
     capital: 'Bratislava',
@@ -1128,6 +1176,7 @@ export const PAISES = [
   },
   {
     nombre: 'Eslovenia',
+    nombreEn: 'Slovenia',
     iso: 'SVN',
     bandera: '🇸🇮',
     capital: 'Liubliana',
@@ -1144,6 +1193,7 @@ export const PAISES = [
   },
   {
     nombre: 'Kazajistán',
+    nombreEn: 'Kazakhstan',
     iso: 'KAZ',
     bandera: '🇰🇿',
     capital: 'Astaná',
@@ -1160,6 +1210,7 @@ export const PAISES = [
   },
   {
     nombre: 'Uzbekistán',
+    nombreEn: 'Uzbekistan',
     iso: 'UZB',
     bandera: '🇺🇿',
     capital: 'Taskent',
@@ -1192,6 +1243,7 @@ export const PAISES = [
   },
   {
     nombre: 'Malasia',
+    nombreEn: 'Malaysia',
     iso: 'MYS',
     bandera: '🇲🇾',
     capital: 'Kuala Lumpur',
@@ -1223,6 +1275,7 @@ export const PAISES = [
   },
   {
     nombre: 'Afganistán',
+    nombreEn: 'Afghanistan',
     iso: 'AFG',
     bandera: '🇦🇫',
     capital: 'Kabul',
@@ -1238,6 +1291,7 @@ export const PAISES = [
   },
   {
     nombre: 'Jordania',
+    nombreEn: 'Jordan',
     iso: 'JOR',
     bandera: '🇯🇴',
     capital: 'Amán',
@@ -1254,6 +1308,7 @@ export const PAISES = [
   },
   {
     nombre: 'Emiratos Árabes Unidos',
+    nombreEn: 'United Arab Emirates',
     iso: 'ARE',
     bandera: '🇦🇪',
     capital: 'Abu Dabi',
@@ -1285,6 +1340,7 @@ export const PAISES = [
   },
   {
     nombre: 'Camerún',
+    nombreEn: 'Cameroon',
     iso: 'CMR',
     bandera: '🇨🇲',
     capital: 'Yaundé',
@@ -1301,6 +1357,7 @@ export const PAISES = [
   },
   {
     nombre: 'Costa de Marfil',
+    nombreEn: 'Ivory Coast',
     iso: 'CIV',
     bandera: '🇨🇮',
     capital: 'Yamusukro',
@@ -1347,6 +1404,7 @@ export const PAISES = [
   },
   {
     nombre: 'Túnez',
+    nombreEn: 'Tunisia',
     iso: 'TUN',
     bandera: '🇹🇳',
     capital: 'Túnez',
@@ -1409,6 +1467,7 @@ export const PAISES = [
   },
   {
     nombre: 'República Dominicana',
+    nombreEn: 'Dominican Republic',
     iso: 'DOM',
     bandera: '🇩🇴',
     capital: 'Santo Domingo',
@@ -1454,6 +1513,7 @@ export const PAISES = [
   },
   {
     nombre: 'Haití',
+    nombreEn: 'Haiti',
     iso: 'HTI',
     bandera: '🇭🇹',
     capital: 'Puerto Príncipe',
@@ -1485,6 +1545,7 @@ export const PAISES = [
   },
   {
     nombre: 'Líbano',
+    nombreEn: 'Lebanon',
     iso: 'LBN',
     bandera: '🇱🇧',
     capital: 'Beirut',
@@ -1516,6 +1577,7 @@ export const PAISES = [
   },
   {
     nombre: 'Camboya',
+    nombreEn: 'Cambodia',
     iso: 'KHM',
     bandera: '🇰🇭',
     capital: 'Nom Pen',
@@ -1532,6 +1594,7 @@ export const PAISES = [
   },
   {
     nombre: 'Sudán',
+    nombreEn: 'Sudan',
     iso: 'SDN',
     bandera: '🇸🇩',
     capital: 'Jartum',
@@ -1548,6 +1611,7 @@ export const PAISES = [
   },
   {
     nombre: 'Zimbabue',
+    nombreEn: 'Zimbabwe',
     iso: 'ZWE',
     bandera: '🇿🇼',
     capital: 'Harare',
@@ -1563,6 +1627,7 @@ export const PAISES = [
   },
   {
     nombre: 'Ruanda',
+    nombreEn: 'Rwanda',
     iso: 'RWA',
     bandera: '🇷🇼',
     capital: 'Kigali',
@@ -1578,6 +1643,7 @@ export const PAISES = [
   },
   {
     nombre: 'Libia',
+    nombreEn: 'Libya',
     iso: 'LBY',
     bandera: '🇱🇾',
     capital: 'Trípoli',
@@ -1624,6 +1690,7 @@ export const PAISES = [
   },
   {
     nombre: 'Trinidad y Tobago',
+    nombreEn: 'Trinidad and Tobago',
     iso: 'TTO',
     bandera: '🇹🇹',
     capital: 'Puerto España',
@@ -1640,6 +1707,7 @@ export const PAISES = [
   },
   {
     nombre: 'Papúa Nueva Guinea',
+    nombreEn: 'Papua New Guinea',
     iso: 'PNG',
     bandera: '🇵🇬',
     capital: 'Port Moresby',
@@ -1673,6 +1741,7 @@ export const PAISES = [
   },
   {
     nombre: 'Mónaco',
+    nombreEn: 'Monaco',
     iso: 'MCO',
     bandera: '🇲🇨',
     capital: 'Mónaco',
@@ -1719,6 +1788,7 @@ export const PAISES = [
   },
   {
     nombre: 'Luxemburgo',
+    nombreEn: 'Luxembourg',
     iso: 'LUX',
     bandera: '🇱🇺',
     capital: 'Luxemburgo',
@@ -1751,6 +1821,7 @@ export const PAISES = [
   },
   {
     nombre: 'Chipre',
+    nombreEn: 'Cyprus',
     iso: 'CYP',
     bandera: '🇨🇾',
     capital: 'Nicosia',
@@ -1767,3 +1838,4 @@ export const PAISES = [
 ]
 
 export const NOMBRES_PAISES = PAISES.map(p => p.nombre)
+export const NOMBRES_PAISES_EN = PAISES.map(p => p.nombreEn || p.nombre)

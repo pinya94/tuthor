@@ -1,7 +1,7 @@
 import { useState, useMemo, useRef, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
-import { PAISES, NOMBRES_PAISES } from '../data/paises'
+import { PAISES, NOMBRES_PAISES, NOMBRES_PAISES_EN } from '../data/paises'
 import WorldMap from '../components/WorldMap'
 
 const REGION_FILTER = {
@@ -53,11 +53,12 @@ function AutocompleteInput({ value, onChange, onSubmit, disabled, focusKey, lang
 
   useEffect(() => { if (!disabled) ref.current?.focus() }, [focusKey, disabled])
 
+  const nombres = lang === 'en' ? NOMBRES_PAISES_EN : NOMBRES_PAISES
   const filtered = useMemo(() => {
     if (!value || value.length < 1) return []
     const norm = normalize(value)
-    return NOMBRES_PAISES.filter(n => normalize(n).includes(norm)).slice(0, 6)
-  }, [value])
+    return nombres.filter(n => normalize(n).includes(norm)).slice(0, 6)
+  }, [value, nombres])
 
   function select(name) {
     onChange(name); setFocused(false); setHlIdx(-1)
@@ -150,19 +151,21 @@ export default function GeoMapaExamen() {
 
   const paisActual = pool[idx]
 
+  function getName(p) { return (en && p.nombreEn) ? p.nombreEn : p.nombre }
+
   function handleRespuesta(val) {
     const nombreInput = val || inputVal
-    const paisResp = PAISES.find(p => p.nombre === nombreInput)
+    const paisResp = PAISES.find(p => getName(p) === nombreInput)
     if (!paisResp) {
       setFeedback({ ok: false, msg: en ? 'Country not recognised' : 'País no reconocido' })
       setTimeout(() => setFeedback(null), 1200)
       return
     }
 
-    if (nombreInput === paisActual.nombre) {
+    if (paisResp.nombre === paisActual.nombre) {
       setAciertos(a => a + 1)
       setHistorial(h => [...h, { passed: true }])
-      setFeedback({ ok: true, msg: `🎉 ¡${paisActual.nombre}!` })
+      setFeedback({ ok: true, msg: `🎉 ¡${getName(paisActual)}!` })
       setResueltoPais(true)
       setTimeout(() => siguientePais(), 1500)
       return
@@ -176,7 +179,7 @@ export default function GeoMapaExamen() {
     if (newErrores >= MAX_ERRORS) {
       // Failed this country
       setHistorial(h => [...h, { passed: false }])
-      setFeedback({ ok: false, msg: en ? `It was ${paisActual.nombre}` : `Era ${paisActual.nombre}` })
+      setFeedback({ ok: false, msg: en ? `It was ${getName(paisActual)}` : `Era ${getName(paisActual)}` })
       setResueltoPais(true)
       setTimeout(() => siguientePais(), 2000)
       return
