@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback, useRef } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import { useAuth } from '../context/AuthContext'
-import { saveActivity } from '../lib/activity'
+import { saveActivity, saveDailyChallenge } from '../lib/activity'
 import CoinsAnimation from '../components/CoinsAnimation'
 
 const DIFS = {
@@ -162,6 +162,7 @@ export default function NumPath() {
   const timerRef = useRef(null)
   const timeRef = useRef(60)
   const autoStarted = useRef(false)
+  const dailySavedRef = useRef(false)
   const boardsRef = useRef(0)
 
   const dif = DIFS[difId]
@@ -386,12 +387,27 @@ export default function NumPath() {
   if (fase === 'resultado') {
     if (modoDaily) {
       const won = boards > 0
+      if (user && !dailySavedRef.current) {
+        dailySavedRef.current = true
+        saveDailyChallenge(user.uid, won).catch(() => {})
+      }
       return (
         <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
-          <div className="max-w-md w-full bg-white/5 border border-white/10 rounded-2xl p-6 text-center">
-            <div className="text-5xl mb-3">{won ? '🎉' : '😬'}</div>
-            <h2 className="text-2xl font-black text-white mb-1">{won ? (en ? 'Solved!' : '¡Resuelto!') : (en ? 'Not this time' : 'No ha sido esta vez')}</h2>
-            <p className="text-white/40 text-sm">{en ? 'NumPath daily challenge' : 'Reto diario NumPath'}</p>
+          <div className="max-w-md w-full">
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-6 text-center mb-4">
+              <div className="text-5xl mb-3">{won ? '🎉' : '😬'}</div>
+              <h2 className="text-2xl font-black text-white mb-1">{won ? (en ? 'Solved!' : '¡Resuelto!') : (en ? 'Not this time' : 'No ha sido esta vez')}</h2>
+              <p className="text-white/40 text-sm mb-4">{en ? 'NumPath daily challenge' : 'Reto diario NumPath'}</p>
+              {won && <p className="text-amber-400 font-bold text-lg">💰 +1000 {en ? 'coins' : 'monedas'}</p>}
+            </div>
+            <button onClick={() => navigate(localPath('/diaria'))}
+              className="w-full bg-[#EDAE49] hover:bg-amber-400 text-black font-black py-3 rounded-xl transition-all mb-2">
+              {en ? '← Back to Daily Challenge' : '← Volver al Reto Diario'}
+            </button>
+            <button onClick={() => navigate(localPath('/juegos'))}
+              className="w-full text-white/40 hover:text-white/70 text-sm py-2 transition">
+              {en ? 'Go to Games' : 'Ir a Juegos'}
+            </button>
           </div>
         </div>
       )
