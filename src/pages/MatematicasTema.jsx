@@ -11,6 +11,7 @@ export default function MatematicasTema() {
   const modo = MODOS[modoId]
   const [nivel, setNivel] = useState(location.state?.nivel || 'primaria')
   const en = lang === 'en'
+  const ca = lang === 'ca'
 
   if (!modo) { navigate(localPath('/estudiar/matematicas')); return null }
 
@@ -19,29 +20,29 @@ export default function MatematicasTema() {
   const juegos = [
     {
       id: 'examen',
-      titulo: en ? 'Practice exam' : 'Examen de práctica',
-      descripcion: en ? '10 direct operations. Write the exact answer and see your grade.' : '10 operaciones directas. Escribe el resultado exacto y descubre tu nota al final.',
+      titulo: ca ? 'Examen de pràctica' : en ? 'Practice exam' : 'Examen de práctica',
+      descripcion: ca ? '10 operacions directes. Escriu el resultat exacte i descobreix la teva nota al final.' : en ? '10 direct operations. Write the exact answer and see your grade.' : '10 operaciones directas. Escribe el resultado exacto y descubre tu nota al final.',
       emoji: '📝',
       gradient: 'from-amber-500 to-orange-600',
-      detalles: [en ? '10 questions' : '10 preguntas', en ? 'Exact answer' : 'Respuesta exacta', en ? 'Final grade' : 'Nota final'],
+      detalles: [ca ? '10 preguntes' : en ? '10 questions' : '10 preguntas', ca ? 'Resposta exacta' : en ? 'Exact answer' : 'Respuesta exacta', ca ? 'Nota final' : en ? 'Final grade' : 'Nota final'],
       action: () => navigate(localPath(`/estudiar/matematicas/${modoId}/examen`), { state: { nivel } }),
     },
     {
       id: 'acercate',
-      titulo: en ? 'Target Number' : 'Acércate al número',
-      descripcion: en ? '10 puzzles: combine numbers with allowed operations to reach the target. Pass with 5 or more correct.' : '10 puzzles: combina los números con las operaciones permitidas hasta llegar al objetivo. Se aprueba con 5 o más acertados.',
+      titulo: ca ? 'Apropa\'t al nombre' : en ? 'Target Number' : 'Acércate al número',
+      descripcion: ca ? '10 puzzles: combina els nombres amb les operacions permeses fins arribar a l\'objectiu. S\'aprova amb 5 o més encerts.' : en ? '10 puzzles: combine numbers with allowed operations to reach the target. Pass with 5 or more correct.' : '10 puzzles: combina los números con las operaciones permitidas hasta llegar al objetivo. Se aprueba con 5 o más acertados.',
       emoji: '🎯',
       gradient: 'from-pink-500 to-rose-600',
-      detalles: ['10 puzzles', en ? 'Pass with 5+' : 'Apruebas con 5+', `${grado.tiempo}s ${en ? 'per puzzle' : 'por puzzle'}`],
+      detalles: ['10 puzzles', ca ? 'Aproves amb 5+' : en ? 'Pass with 5+' : 'Apruebas con 5+', `${grado.tiempo}s ${ca ? 'per puzzle' : en ? 'per puzzle' : 'por puzzle'}`],
       action: () => navigate(localPath(`/estudiar/matematicas/${modoId}/jugar`), { state: { nivel, modoExamen: true } }),
     },
     {
       id: 'numpath',
       titulo: 'NumPath',
-      descripcion: en ? '10 grids: navigate to goals with the exact score using the allowed operations. Pass with 5 or more.' : '10 tableros: navega hasta las metas con la puntuación exacta usando las operaciones permitidas. Se aprueba con 5 o más.',
+      descripcion: ca ? '10 taulers: navega fins a les metes amb la puntuació exacta usant les operacions permeses. S\'aprova amb 5 o més.' : en ? '10 grids: navigate to goals with the exact score using the allowed operations. Pass with 5 or more.' : '10 tableros: navega hasta las metas con la puntuación exacta usando las operaciones permitidas. Se aprueba con 5 o más.',
       emoji: '🧮',
       gradient: 'from-yellow-500 to-orange-500',
-      detalles: [en ? '10 boards' : '10 tableros', en ? 'Pass with 5+' : 'Apruebas con 5+', modo.ops.join(' ')],
+      detalles: [ca ? '10 taulers' : en ? '10 boards' : '10 tableros', ca ? 'Aproves amb 5+' : en ? 'Pass with 5+' : 'Apruebas con 5+', modo.ops.join(' ')],
       action: () => navigate(localPath('/juegos/numpath'), { state: { modoExamen: true, ops: modo.ops, nivel, backPath: `/estudiar/matematicas/${modoId}` } }),
     },
   ]
@@ -51,8 +52,8 @@ export default function MatematicasTema() {
 
       <div className="max-w-2xl mx-auto w-full mb-6">
         <p className="text-white/30 text-xs mb-4">
-          <button onClick={() => navigate(localPath('/estudiar/matematicas'))} className="hover:text-white/60 transition-colors">{en ? 'Mathematics' : 'Matemáticas'}</button>
-          {' '}/{'  '}<span className="text-white/50">{en ? (modo.tituloEn || modo.titulo) : modo.titulo}</span>
+          <button onClick={() => navigate(localPath('/estudiar/matematicas'))} className="hover:text-white/60 transition-colors">{ca ? 'Matemàtiques' : en ? 'Mathematics' : 'Matemáticas'}</button>
+          {' '}/{'  '}<span className="text-white/50">{ca ? (modo.tituloCa || modo.titulo) : en ? (modo.tituloEn || modo.titulo) : modo.titulo}</span>
         </p>
 
         <div className="flex gap-2 p-1 bg-white/5 border border-white/10 rounded-xl w-fit">
@@ -65,7 +66,7 @@ export default function MatematicasTema() {
               }`}
             >
               <span className="text-base">{GRADOS[id].emoji}</span>
-              <span className="hidden sm:inline">{en ? (GRADOS[id].labelEn || GRADOS[id].label) : GRADOS[id].label}</span>
+              <span className="hidden sm:inline">{ca ? (GRADOS[id].labelCa || GRADOS[id].label) : en ? (GRADOS[id].labelEn || GRADOS[id].label) : GRADOS[id].label}</span>
             </button>
           ))}
         </div>
@@ -75,15 +76,15 @@ export default function MatematicasTema() {
         <div className="flex items-center gap-4">
           <span className="text-5xl">{modo.emoji}</span>
           <div>
-            <h1 className="text-2xl sm:text-3xl font-black text-white leading-tight">{en ? (modo.tituloEn || modo.titulo) : modo.titulo}</h1>
-            <p className="text-white/40 text-sm mt-0.5">{en ? `Practise ${(modo.tituloEn || modo.titulo).toLowerCase()} by playing.` : `Practica ${modo.titulo.toLowerCase()} jugando, sin darte cuenta.`}</p>
+            <h1 className="text-2xl sm:text-3xl font-black text-white leading-tight">{ca ? (modo.tituloCa || modo.titulo) : en ? (modo.tituloEn || modo.titulo) : modo.titulo}</h1>
+            <p className="text-white/40 text-sm mt-0.5">{ca ? `Practica ${(modo.tituloCa || modo.titulo).toLowerCase()} jugant, sense adonar-te'n.` : en ? `Practise ${(modo.tituloEn || modo.titulo).toLowerCase()} by playing.` : `Practica ${modo.titulo.toLowerCase()} jugando, sin darte cuenta.`}</p>
           </div>
         </div>
       </div>
 
       <div className="max-w-2xl mx-auto w-full space-y-4">
         <p className="text-white/30 text-xs uppercase tracking-widest font-semibold">
-          {en ? 'Available modes' : 'Modos disponibles'} · {en ? (grado.labelEn || grado.label) : grado.label}
+          {ca ? 'Modes disponibles' : en ? 'Available modes' : 'Modos disponibles'} · {ca ? (grado.labelCa || grado.label) : en ? (grado.labelEn || grado.label) : grado.label}
         </p>
 
         {juegos.map(j => (

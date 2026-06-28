@@ -70,6 +70,25 @@ const UI = {
     noReconocido: 'Country not recognised', incorrecto: 'Incorrect',
     correcto: 'Correct!', era: 'It was',
   },
+  ca: {
+    titulo: 'GeoMapa', desc: 'Quin país està il·luminat al mapa?',
+    volver: '← Tornar', empezar: 'Començar! →',
+    reglas: 'Regles',
+    paso1: 'Un país s\'il·lumina al mapa mundial',
+    paso2: 'Si falles, reps una pista: la bandera',
+    paso3: 'Si tornes a fallar, reps la capital',
+    paso4: 'Sense encert després de 3 intents: −10s i següent',
+    alAcertar: 'En encertar', acertar: '+15s + punts',
+    alFallar: 'Sense encert', fallar: '−10s',
+    tiempo: 'Temps', puntos: 'Punts',
+    escribePais: 'Escriu un país…', enviar: 'Enviar',
+    tiempoAgotado: 'S\'ha acabat el temps!', puntuacion: 'Puntuació',
+    paises: 'Països', reintentar: 'Tornar-ho a provar',
+    salir: '← Sortir', intentos: 'intents', intento1: '1r intent',
+    pistaFlag: 'Pista: bandera', pistaCapital: 'Pista: capital',
+    noReconocido: 'País no reconegut', incorrecto: 'Incorrecte',
+    correcto: 'Correcte!', era: 'Era',
+  },
 }
 
 function AutocompleteInput({ value, onChange, onSubmit, paises, disabled, focusKey, placeholder }) {

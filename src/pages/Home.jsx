@@ -42,11 +42,11 @@ export default function Home() {
       {/* Banner progreso */}
       <div className="space-y-2">
         {user && stats ? (
-          <StatsWidget stats={stats} name={user.displayName?.split(' ')[0]} onVerMas={() => navigate(localPath('/perfil'))} en={en} />
+          <StatsWidget stats={stats} name={user.displayName?.split(' ')[0]} onVerMas={() => navigate(localPath('/perfil'))} en={en} lang={lang} />
         ) : user ? (
-          <EmptyStatsWidget onVerMas={() => navigate(localPath('/perfil'))} en={en} />
+          <EmptyStatsWidget onVerMas={() => navigate(localPath('/perfil'))} en={en} lang={lang} />
         ) : (
-          <LockedWidget onLogin={() => setShowAuth(true)} en={en} />
+          <LockedWidget onLogin={() => setShowAuth(true)} en={en} lang={lang} />
         )}
         {showAuth && <AuthModal onClose={() => setShowAuth(false)} />}
         <aside className="ad-slot" aria-label="Publicidad" data-ad-slot="home-hero" style={{ minHeight: '50px' }} />
@@ -243,26 +243,27 @@ export default function Home() {
   )
 }
 
-function StatsWidget({ stats, name, onVerMas, en }) {
+function StatsWidget({ stats, name, onVerMas, en, lang }) {
+  const ca = lang === 'ca'
   const streak = stats.streak || 0
   const items = [
-    { emoji: '🔥', value: `${streak} ${en ? (streak === 1 ? 'day' : 'days') : (streak !== 1 ? 'días' : 'día')}`, label: en ? 'Streak' : 'Racha' },
-    { emoji: '⏱️', value: formatTime(stats.totalTime), label: en ? 'Total time' : 'Tiempo total' },
-    { emoji: '✅', value: stats.examsPassed ?? 0, label: en ? 'Passed' : 'Aprobados' },
-    { emoji: '🎮', value: stats.gamesPlayed ?? 0, label: en ? 'Activities' : 'Actividades' },
+    { emoji: '🔥', value: `${streak} ${ca ? (streak === 1 ? 'dia' : 'dies') : en ? (streak === 1 ? 'day' : 'days') : (streak !== 1 ? 'días' : 'día')}`, label: ca ? 'Ratxa' : en ? 'Streak' : 'Racha' },
+    { emoji: '⏱️', value: formatTime(stats.totalTime), label: ca ? 'Temps total' : en ? 'Total time' : 'Tiempo total' },
+    { emoji: '✅', value: stats.examsPassed ?? 0, label: ca ? 'Aprovats' : en ? 'Passed' : 'Aprobados' },
+    { emoji: '🎮', value: stats.gamesPlayed ?? 0, label: ca ? 'Activitats' : en ? 'Activities' : 'Actividades' },
   ]
   return (
     <div className="rounded-xl border border-violet-500/30 bg-violet-600/10 backdrop-blur-sm">
       <div className="flex items-center justify-between px-5 py-3 border-b border-white/5">
         <div>
-          <p className="font-bold text-white text-sm">{en ? `Your progress, ${name}` : `Tu progreso, ${name}`}</p>
-          <p className="text-white/40 text-xs">{en ? 'Keep it up 💪' : 'Sigue así 💪'}</p>
+          <p className="font-bold text-white text-sm">{ca ? `El teu progrés, ${name}` : en ? `Your progress, ${name}` : `Tu progreso, ${name}`}</p>
+          <p className="text-white/40 text-xs">{ca ? 'Continua així 💪' : en ? 'Keep it up 💪' : 'Sigue así 💪'}</p>
         </div>
         <button
           onClick={onVerMas}
           className="text-xs font-semibold text-violet-400 hover:text-violet-300 transition-colors"
         >
-          {en ? 'See more →' : 'Ver más →'}
+          {ca ? 'Veure més →' : en ? 'See more →' : 'Ver más →'}
         </button>
       </div>
       <div className="grid grid-cols-4 divide-x divide-white/5 px-0">
@@ -278,44 +279,46 @@ function StatsWidget({ stats, name, onVerMas, en }) {
   )
 }
 
-function EmptyStatsWidget({ onVerMas, en }) {
+function EmptyStatsWidget({ onVerMas, en, lang }) {
+  const ca = lang === 'ca'
   return (
     <div className="rounded-xl border border-white/10 bg-white/5 backdrop-blur-sm">
       <div className="flex items-center justify-between px-5 py-2.5">
         <div className="flex items-center gap-3">
           <span className="text-lg">📊</span>
           <div>
-            <p className="font-bold text-white text-sm">{en ? 'Your progress' : 'Tu progreso'}</p>
-            <p className="text-white/40 text-xs">{en ? 'Complete your first activity to see stats' : 'Completa tu primera actividad para ver stats'}</p>
+            <p className="font-bold text-white text-sm">{ca ? 'El teu progrés' : en ? 'Your progress' : 'Tu progreso'}</p>
+            <p className="text-white/40 text-xs">{ca ? 'Completa la teva primera activitat per veure estadístiques' : en ? 'Complete your first activity to see stats' : 'Completa tu primera actividad para ver stats'}</p>
           </div>
         </div>
         <button onClick={onVerMas} className="text-xs font-semibold text-violet-400 hover:text-violet-300 transition-colors">
-          {en ? 'See profile →' : 'Ver perfil →'}
+          {ca ? 'Veure perfil →' : en ? 'See profile →' : 'Ver perfil →'}
         </button>
       </div>
     </div>
   )
 }
 
-function LockedWidget({ onLogin, en }) {
+function LockedWidget({ onLogin, en, lang }) {
+  const ca = lang === 'ca'
   const preview = [
-    { emoji: '🔥', label: en ? 'Streak' : 'Racha' },
-    { emoji: '⏱️', label: en ? 'Time' : 'Tiempo' },
-    { emoji: '✅', label: en ? 'Passed' : 'Aprobados' },
-    { emoji: '🎮', label: en ? 'Activities' : 'Actividades' },
+    { emoji: '🔥', label: ca ? 'Ratxa' : en ? 'Streak' : 'Racha' },
+    { emoji: '⏱️', label: ca ? 'Temps' : en ? 'Time' : 'Tiempo' },
+    { emoji: '✅', label: ca ? 'Aprovats' : en ? 'Passed' : 'Aprobados' },
+    { emoji: '🎮', label: ca ? 'Activitats' : en ? 'Activities' : 'Actividades' },
   ]
   return (
     <div className="rounded-xl border border-white/15 bg-white/5 backdrop-blur-sm overflow-hidden">
       <div className="flex items-center justify-between px-5 py-3 border-b border-white/5">
         <div>
-          <p className="font-bold text-white text-sm">{en ? 'Your progress' : 'Tu progreso'}</p>
-          <p className="text-white/40 text-xs">{en ? 'Sign in to see your stats' : 'Inicia sesión para ver tus estadísticas'}</p>
+          <p className="font-bold text-white text-sm">{ca ? 'El teu progrés' : en ? 'Your progress' : 'Tu progreso'}</p>
+          <p className="text-white/40 text-xs">{ca ? 'Inicia sessió per veure les teves estadístiques' : en ? 'Sign in to see your stats' : 'Inicia sesión para ver tus estadísticas'}</p>
         </div>
         <button
           onClick={onLogin}
           className="text-xs font-bold bg-violet-600 hover:bg-violet-700 text-white px-4 py-1.5 rounded-full transition-colors"
         >
-          {en ? 'Sign in' : 'Iniciar sesión'}
+          {ca ? 'Iniciar sessió' : en ? 'Sign in' : 'Iniciar sesión'}
         </button>
       </div>
       <div className="grid grid-cols-4 divide-x divide-white/5">

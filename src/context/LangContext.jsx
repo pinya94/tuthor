@@ -2,9 +2,10 @@ import { createContext, useContext, useMemo } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import es from '../i18n/es'
 import en from '../i18n/en'
+import ca from '../i18n/ca'
 
-const TRANSLATIONS = { es, en }
-const LANGS = ['es', 'en']
+const TRANSLATIONS = { es, en, ca }
+const LANGS = ['es', 'en', 'ca']
 const DEFAULT_LANG = 'es'
 
 const LangContext = createContext({ lang: 'es', t: k => k, localPath: p => p, switchLang: () => {} })
@@ -13,7 +14,9 @@ export function LangProvider({ children }) {
   const location = useLocation()
   const navigate = useNavigate()
 
-  const lang = location.pathname.startsWith('/en') ? 'en' : 'es'
+  const lang = location.pathname.startsWith('/ca') ? 'ca'
+    : location.pathname.startsWith('/en') ? 'en'
+    : 'es'
 
   const t = useMemo(() => {
     const dict = TRANSLATIONS[lang] || TRANSLATIONS[DEFAULT_LANG]
@@ -22,20 +25,17 @@ export function LangProvider({ children }) {
 
   function localPath(path) {
     if (lang === 'es') return path
-    return `/en${path === '/' ? '' : path}`
+    const prefix = `/${lang}`
+    return `${prefix}${path === '/' ? '' : path}`
   }
 
   function switchLang(newLang) {
     const currentPath = location.pathname
-    if (newLang === 'en') {
-      if (!currentPath.startsWith('/en')) {
-        navigate(`/en${currentPath === '/' ? '' : currentPath}`)
-      }
+    const stripped = currentPath.replace(/^\/(en|ca)/, '') || '/'
+    if (newLang === 'es') {
+      navigate(stripped)
     } else {
-      if (currentPath.startsWith('/en')) {
-        const stripped = currentPath.replace(/^\/en/, '') || '/'
-        navigate(stripped)
-      }
+      navigate(`/${newLang}${stripped === '/' ? '' : stripped}`)
     }
   }
 
@@ -43,6 +43,10 @@ export function LangProvider({ children }) {
     if (lang === 'en') {
       const enKey = field + 'En'
       if (obj[enKey]) return obj[enKey]
+    }
+    if (lang === 'ca') {
+      const caKey = field + 'Ca'
+      if (obj[caKey]) return obj[caKey]
     }
     return obj[field]
   }

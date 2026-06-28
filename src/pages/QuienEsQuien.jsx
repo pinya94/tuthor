@@ -19,6 +19,11 @@ const POOL_LABEL = {
     usa: 'American Independence', primaria: 'Historical figures from all eras',
     global: 'Historical figures from all eras',
   },
+  ca: {
+    gce: 'Guerra Civil Espanyola', wwii: 'Segona Guerra Mundial',
+    usa: 'Independència Americana', primaria: 'Personatges històrics de totes les èpoques',
+    global: 'Personatges històrics de totes les èpoques',
+  },
 }
 
 const QUI = {
@@ -39,6 +44,15 @@ const QUI = {
     nuevaPartida: 'New game', volver: '← Back',
     seleccionaParaAdivinar: 'Select a figure to guess',
     fallosRestantes: 'attempts left',
+  },
+  ca: {
+    titulo: 'Qui és qui?', desc: 'Endevina el personatge secret',
+    pista: 'Pista', adivinar: 'Endevinar', tachar: 'Ratlla',
+    esPersonaje: 'És', correcto: 'Correcte!', incorrecto: 'Incorrecte',
+    era: 'Era', puntos: 'Punts', intentos: 'Intents',
+    nuevaPartida: 'Nova partida', volver: '← Tornar',
+    seleccionaParaAdivinar: 'Selecciona un personatge per endevinar',
+    fallosRestantes: 'intents restants',
   },
 }
 
@@ -112,7 +126,11 @@ function Intro({ pool, onStart, lang }) {
           </p>
         </div>
         <div className="bg-white/5 border border-white/10 rounded-2xl p-6 mb-6 space-y-4">
-          {(en ? [
+          {(lang === 'ca' ? [
+            { icon: '🎴', title: 'Tauler de 12 personatges', desc: 'Cada partida, 12 figures diferents seleccionades a l\'atzar.' },
+            { icon: '✂️', title: 'Ratlla els que descartis', desc: 'Toca un personatge per ratllar-lo. Toca\'l de nou per restaurar-lo. Descarta fins a quedar-te amb el correcte.' },
+            { icon: '🧠', title: 'Només veus una pista alhora', desc: 'Cada pista nova substitueix l\'anterior — les hauràs de recordar! Com menys pistes necessitis, millor.' },
+          ] : en ? [
             { icon: '🎴', title: 'Board of 12 figures', desc: 'Each game, 12 different figures selected at random.' },
             { icon: '✂️', title: 'Cross out to eliminate', desc: 'Tap a figure to cross them out. Tap again to restore. Eliminate until you find the right one.' },
             { icon: '🧠', title: 'One clue at a time', desc: "Each new clue replaces the last — you'll have to remember them! Fewer clues = better score." },
@@ -134,7 +152,7 @@ function Intro({ pool, onStart, lang }) {
           onClick={onStart}
           className="w-full bg-violet-600 hover:bg-violet-500 text-white font-black text-lg py-4 rounded-2xl transition-all"
         >
-          {en ? 'Start game →' : 'Empezar partida →'}
+          {lang === 'ca' ? 'Començar partida →' : en ? 'Start game →' : 'Empezar partida →'}
         </button>
       </div>
     </div>
@@ -171,10 +189,10 @@ function Resultado({ ganó, secreto, pistaIdx, onRepetir, onSalir, lang }) {
         )}
         <div className="flex gap-3">
           <button onClick={onRepetir} className="flex-1 bg-violet-600 hover:bg-violet-500 text-white font-bold py-3 rounded-xl transition-all">
-            {en ? 'New game' : 'Otra partida'}
+            {lang === 'ca' ? 'Nova partida' : en ? 'New game' : 'Otra partida'}
           </button>
           <button onClick={onSalir} className="flex-1 bg-white/5 hover:bg-white/10 border border-white/10 text-white/70 font-bold py-3 rounded-xl transition-all">
-            {en ? 'Exit' : 'Salir'}
+            {lang === 'ca' ? 'Sortir' : en ? 'Exit' : 'Salir'}
           </button>
         </div>
       </div>
@@ -348,41 +366,41 @@ export default function QuienEsQuien() {
 
   if (fase === 'intro') return <Intro pool={poolKey} onStart={startGame} lang={lang} />
   if (fase === 'fin') {
-    const shareText = `🕵️ ${en ? 'Who is Who' : '¿Quién es Quién?'}: ${rondas} ${en ? 'rounds' : 'rondas'} · ${puntos.toLocaleString()} pts\n🎮 https://www.tuthor.es/juegos/quien-es-quien`
+    const shareText = `🕵️ ${lang === 'ca' ? 'Qui és qui' : en ? 'Who is Who' : '¿Quién es Quién?'}: ${rondas} ${lang === 'ca' ? 'rondes' : en ? 'rounds' : 'rondas'} · ${puntos.toLocaleString()} pts\n🎮 https://www.tuthor.es/juegos/quien-es-quien`
     return (
       <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-6">
         <div className="max-w-lg w-full">
           <div className="bg-white/5 border border-white/10 rounded-2xl p-8 text-center mb-5">
             <div className="text-6xl mb-3">🕵️</div>
-            <h2 className="text-3xl font-black text-white mb-1">{en ? 'Time is up!' : '¡Tiempo agotado!'}</h2>
+            <h2 className="text-3xl font-black text-white mb-1">{lang === 'ca' ? 'S\'ha acabat el temps!' : en ? 'Time is up!' : '¡Tiempo agotado!'}</h2>
             <div className="mb-4 mt-6">
-              <p className="text-white/30 text-xs uppercase tracking-widest mb-1">{en ? 'Score' : 'Puntuación'}</p>
+              <p className="text-white/30 text-xs uppercase tracking-widest mb-1">{lang === 'ca' ? 'Puntuació' : en ? 'Score' : 'Puntuación'}</p>
               <p className="text-white font-black text-6xl tabular-nums">{puntos.toLocaleString()}</p>
             </div>
             <div className="grid grid-cols-2 gap-3 mt-4">
               <div className="bg-white/5 rounded-xl p-4">
-                <p className="text-white/40 text-xs mb-1">{en ? 'Rounds' : 'Rondas'}</p>
+                <p className="text-white/40 text-xs mb-1">{lang === 'ca' ? 'Rondes' : en ? 'Rounds' : 'Rondas'}</p>
                 <p className="text-white font-black text-3xl">{rondas}</p>
               </div>
               <div className="bg-white/5 rounded-xl p-4">
-                <p className="text-white/40 text-xs mb-1">{en ? 'Best streak' : 'Mejor racha'}</p>
+                <p className="text-white/40 text-xs mb-1">{lang === 'ca' ? 'Millor ratxa' : en ? 'Best streak' : 'Mejor racha'}</p>
                 <p className="text-white font-black text-3xl">{combo}</p>
               </div>
             </div>
             {puntos > 0 && <CoinsAnimation points={puntos} />}
           </div>
           <div className="space-y-3">
-            <button onClick={() => navigator.clipboard.writeText(shareText).then(() => alert(en ? 'Copied!' : '¡Copiado!'))}
+            <button onClick={() => navigator.clipboard.writeText(shareText).then(() => alert(lang === 'ca' ? 'Copiat!' : en ? 'Copied!' : '¡Copiado!'))}
               className="w-full bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold py-3 rounded-xl transition">
-              {en ? '🔗 Share result' : '🔗 Compartir resultado'}
+              {lang === 'ca' ? '🔗 Compartir resultat' : en ? '🔗 Share result' : '🔗 Compartir resultado'}
             </button>
             <button onClick={startGame}
               className="w-full bg-[#EDAE49] hover:bg-amber-400 text-black font-black py-4 text-lg rounded-xl transition">
-              {en ? 'Try again' : 'Intentarlo de nuevo'}
+              {lang === 'ca' ? 'Tornar-ho a provar' : en ? 'Try again' : 'Intentarlo de nuevo'}
             </button>
             <button onClick={() => navigate(localPath(backPath))}
               className="w-full text-white/40 hover:text-white/70 text-sm py-2 transition">
-              {en ? '← Back' : '← Volver'}
+              {lang === 'ca' ? '← Tornar' : en ? '← Back' : '← Volver'}
             </button>
           </div>
         </div>
@@ -415,14 +433,14 @@ export default function QuienEsQuien() {
                 onClick={() => setPopupConfirm(null)}
                 className="flex-1 bg-white/5 hover:bg-white/10 border border-white/10 text-white/60 font-bold py-3 rounded-xl transition-all"
               >
-                {en ? 'Cancel' : 'Cancelar'}
+                {lang === 'ca' ? 'Cancel·lar' : en ? 'Cancel' : 'Cancelar'}
               </button>
               <button
                 onClick={() => { setPopupConfirm(null); adivinar(popupConfirm) }}
                 className="flex-1 font-black py-3 rounded-xl text-black"
                 style={{ backgroundColor: '#EDAE49' }}
               >
-                {en ? 'Confirm' : 'Comprobar'}
+                {lang === 'ca' ? 'Comprovar' : en ? 'Confirm' : 'Comprobar'}
               </button>
             </div>
           </div>
@@ -436,7 +454,9 @@ export default function QuienEsQuien() {
             <span className="text-5xl block mb-3">❌</span>
             <h3 className="text-white font-black text-xl mb-1">{q.incorrecto}!</h3>
             <p className="text-white/40 text-sm mb-5">
-              {en
+              {lang === 'ca'
+                ? (popupFallo.fallosRestantes === 1 ? 'Et queda 1 intent. Pensa-ho bé!' : `Et queden ${popupFallo.fallosRestantes} intents.`)
+                : en
                 ? `${popupFallo.fallosRestantes} ${popupFallo.fallosRestantes === 1 ? 'attempt' : 'attempts'} left.`
                 : popupFallo.fallosRestantes === 1
                   ? 'Te queda 1 intento. ¡Piénsalo bien!'
@@ -447,7 +467,7 @@ export default function QuienEsQuien() {
               className="w-full font-black py-3 rounded-xl text-black text-base"
               style={{ backgroundColor: '#EDAE49' }}
             >
-              {en ? 'Pick another figure →' : 'Elegir otro personaje →'}
+              {lang === 'ca' ? 'Triar un altre personatge →' : en ? 'Pick another figure →' : 'Elegir otro personaje →'}
             </button>
           </div>
         </div>
@@ -456,7 +476,7 @@ export default function QuienEsQuien() {
       {/* Header */}
       <div className="flex items-center justify-between mb-2 px-1">
         <button onClick={() => setFase('intro')} className="text-white/40 hover:text-white/70 text-sm transition-colors">
-          {en ? '← Exit' : '← Salir'}
+          {lang === 'ca' ? '← Sortir' : en ? '← Exit' : '← Salir'}
         </button>
         <div className="flex items-center gap-3 text-sm text-white/50">
           {combo >= 2 && <span className="text-amber-400 font-bold">🔥 ×{combo}</span>}
@@ -468,7 +488,7 @@ export default function QuienEsQuien() {
       {/* Timer */}
       <div className="mb-2 px-1">
         <div className="flex justify-between text-xs text-white/40 mb-1">
-          <span>{en ? 'Time' : 'Tiempo'}</span>
+          <span>{lang === 'ca' ? 'Temps' : en ? 'Time' : 'Tiempo'}</span>
           <span className={`font-bold tabular-nums ${timeLeft <= 10 ? 'text-red-400' : ''}`}>{timeLeft}s</span>
         </div>
         <div className="h-2 bg-white/10 rounded-full overflow-hidden">
@@ -479,7 +499,7 @@ export default function QuienEsQuien() {
 
       {/* Lives + count */}
       <div className="flex items-center justify-between mb-2 px-1">
-        <span className="text-white/40 text-xs">{activosCount} {en ? 'remaining' : 'sin tachar'}</span>
+        <span className="text-white/40 text-xs">{activosCount} {lang === 'ca' ? 'sense ratllar' : en ? 'remaining' : 'sin tachar'}</span>
         <div className="flex gap-1">
           {Array.from({ length: MAX_FALLOS }).map((_, i) => (
             <span key={i} className={`text-lg transition-opacity ${i < fallos ? 'opacity-20' : ''}`}>❤️</span>
@@ -492,7 +512,7 @@ export default function QuienEsQuien() {
 
         {modoAdivinar && (
           <p className="text-violet-300 text-xs text-center font-semibold">
-            {en ? '👆 Tap any figure to guess (even crossed-out ones)' : '👆 Toca cualquier personaje para adivinar (incluso los tachados)'}
+            {lang === 'ca' ? '👆 Toca qualsevol personatge per endevinar (fins i tot els ratllats)' : en ? '👆 Tap any figure to guess (even crossed-out ones)' : '👆 Toca cualquier personaje para adivinar (incluso los tachados)'}
           </p>
         )}
 
@@ -529,7 +549,7 @@ export default function QuienEsQuien() {
         )}
         {pistaIdx > 0 && (
           <p className="text-white/25 text-xs text-center -mt-1">
-            {en ? `${pistaIdx} previous clue${pistaIdx > 1 ? 's' : ''} — remember them!` : `${pistaIdx} pista${pistaIdx > 1 ? 's' : ''} anterior${pistaIdx > 1 ? 'es' : ''} — ¡recuérdalas!`}
+            {lang === 'ca' ? `${pistaIdx} pista${pistaIdx > 1 ? 'es' : ''} anterior${pistaIdx > 1 ? 's' : ''} — recorda-les!` : en ? `${pistaIdx} previous clue${pistaIdx > 1 ? 's' : ''} — remember them!` : `${pistaIdx} pista${pistaIdx > 1 ? 's' : ''} anterior${pistaIdx > 1 ? 'es' : ''} — ¡recuérdalas!`}
           </p>
         )}
 
@@ -548,7 +568,7 @@ export default function QuienEsQuien() {
                 className="flex-1 font-black py-3 sm:py-4 rounded-xl transition-all text-black text-base"
                 style={{ backgroundColor: '#EDAE49' }}
               >
-                {en ? `Is it ${unicoRestante.nombre}?` : `¿Es ${unicoRestante.nombre}?`}
+                {lang === 'ca' ? `És ${unicoRestante.nombre}?` : en ? `Is it ${unicoRestante.nombre}?` : `¿Es ${unicoRestante.nombre}?`}
               </button>
             )
 
@@ -560,14 +580,14 @@ export default function QuienEsQuien() {
                     onClick={() => { siguientePista() }}
                     className="bg-white/5 hover:bg-white/10 border border-white/10 text-white/60 hover:text-white font-medium px-5 py-3 rounded-xl transition-all whitespace-nowrap"
                   >
-                    💡 {en ? `Clue ${pistaIdx + 2}` : `Pista ${pistaIdx + 2}`}
+                    💡 {lang === 'ca' ? `Pista ${pistaIdx + 2}` : en ? `Clue ${pistaIdx + 2}` : `Pista ${pistaIdx + 2}`}
                   </button>
                 )}
                 <button
                   onClick={() => setModoAdivinar(false)}
                   className="flex-1 bg-white/5 hover:bg-white/10 border border-white/10 text-white/60 font-medium py-3 rounded-xl transition-all text-sm"
                 >
-                  {en ? 'Cancel' : 'Cancelar'}
+                  {lang === 'ca' ? 'Cancel·lar' : en ? 'Cancel' : 'Cancelar'}
                 </button>
               </>
             )
@@ -580,13 +600,13 @@ export default function QuienEsQuien() {
                   className="flex-1 font-black py-3 sm:py-4 rounded-xl transition-all text-black text-base"
                   style={{ backgroundColor: '#EDAE49' }}
                 >
-                  {en ? '💡 Next clue' : '💡 Nueva pista'}
+                  {lang === 'ca' ? '💡 Nova pista' : en ? '💡 Next clue' : '💡 Nueva pista'}
                 </button>
                 <button
                   onClick={() => setModoAdivinar(true)}
                   className="bg-white/5 hover:bg-white/10 border border-white/10 text-white/60 hover:text-white font-medium px-5 py-3 rounded-xl transition-all whitespace-nowrap"
                 >
-                  🎯 {en ? 'Guess' : 'Adivinar'}
+                  🎯 {lang === 'ca' ? 'Endevinar' : en ? 'Guess' : 'Adivinar'}
                 </button>
               </>
             )
@@ -598,7 +618,7 @@ export default function QuienEsQuien() {
                 className="flex-1 font-black py-3 sm:py-4 rounded-xl transition-all text-black text-base"
                 style={{ backgroundColor: '#EDAE49' }}
               >
-                🎯 {en ? 'Guess' : 'Adivinar'}
+                🎯 {lang === 'ca' ? 'Endevinar' : en ? 'Guess' : 'Adivinar'}
               </button>
             )
           })()}

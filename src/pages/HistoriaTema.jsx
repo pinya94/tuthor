@@ -15,6 +15,11 @@ const NIVELES = {
     { id: 'eso',      label: 'Secondary', emoji: '📖' },
     { id: 'bachillerato', label: 'Sixth Form', emoji: '🎓' },
   ],
+  ca: [
+    { id: 'primaria', label: 'Primària', emoji: '🎒' },
+    { id: 'eso',      label: 'ESO',      emoji: '📖' },
+    { id: 'bachillerato', label: 'Batxillerat', emoji: '🎓' },
+  ],
 }
 
 const TEMAS_META = {
@@ -31,6 +36,13 @@ const TEMAS_META = {
     wwii:     { titulo: 'World War II',             emoji: '⚔️', descripcion: 'The greatest conflict in history, 1939–1945.' },
     roma:     { titulo: 'Ancient Rome',             emoji: '🏛️', descripcion: 'From the founding of Rome to the fall of the Empire.' },
     usa:      { titulo: 'American Independence',    emoji: '🦅', descripcion: 'From the British colonies to the United States, 1773–1789.' },
+  },
+  ca: {
+    primaria: { titulo: 'Grans Fites',              emoji: '🌍', descripcion: 'Els moments més importants que van canviar el món.' },
+    gce:      { titulo: 'Guerra Civil Espanyola',    emoji: '🇪🇸', descripcion: 'De la Segona República al franquisme, 1931–1978.' },
+    wwii:     { titulo: 'Segona Guerra Mundial',     emoji: '⚔️', descripcion: 'El conflicte més gran de la història, 1939–1945.' },
+    roma:     { titulo: 'Antiga Roma',               emoji: '🏛️', descripcion: 'Des de la fundació de Roma fins a la caiguda de l\'Imperi.' },
+    usa:      { titulo: 'Independència Americana',   emoji: '🦅', descripcion: 'De les colònies britàniques als Estats Units, 1773–1789.' },
   },
 }
 
@@ -79,10 +91,11 @@ export default function HistoriaTema() {
   const tieneFechas = (NIVELES_FECHAS[categoria] || []).includes(nivel)
 
   const en = lang === 'en'
+  const ca = lang === 'ca'
 
   const ltConfig = nivel === 'primaria'
-    ? { lives: 5, winAt: Math.min(10, eventos.length), livesLabel: en ? '5 lives' : '5 vidas', winLabel: en ? `Place ${Math.min(10, eventos.length)} → Pass` : `Coloca ${Math.min(10, eventos.length)} → Apruebas` }
-    : { lives: 3, winAt: null, livesLabel: en ? '3 lives' : '3 vidas', winLabel: en ? `Place ${eventos.length} → Pass` : `Coloca ${eventos.length} → Apruebas` }
+    ? { lives: 5, winAt: Math.min(10, eventos.length), livesLabel: ca ? '5 vides' : en ? '5 lives' : '5 vidas', winLabel: ca ? `Col·loca ${Math.min(10, eventos.length)} → Aprovat` : en ? `Place ${Math.min(10, eventos.length)} → Pass` : `Coloca ${Math.min(10, eventos.length)} → Apruebas` }
+    : { lives: 3, winAt: null, livesLabel: ca ? '3 vides' : en ? '3 lives' : '3 vidas', winLabel: ca ? `Col·loca ${eventos.length} → Aprovat` : en ? `Place ${eventos.length} → Pass` : `Coloca ${eventos.length} → Apruebas` }
 
   const portadasDelTema = PORTADAS.filter(p => p.temas?.includes(categoria))
   const tienePortadas   = portadasDelTema.length >= 10
@@ -90,44 +103,44 @@ export default function HistoriaTema() {
   const modos = [
     {
       id: 'linea',
-      titulo: en ? 'Timeline' : 'Línea del Tiempo',
-      descripcion: en ? 'Place events in chronological order without seeing the year. Pure historical intuition.' : 'Coloca los eventos en orden cronológico sin ver el año. Solo intuición histórica.',
+      titulo: ca ? 'Línia del Temps' : en ? 'Timeline' : 'Línea del Tiempo',
+      descripcion: ca ? 'Col·loca els esdeveniments en ordre cronològic sense veure l\'any. Pura intuïció històrica.' : en ? 'Place events in chronological order without seeing the year. Pure historical intuition.' : 'Coloca los eventos en orden cronológico sin ver el año. Solo intuición histórica.',
       emoji: '📜',
       gradient: 'from-violet-600 to-indigo-700',
-      detalles: [ltConfig.livesLabel, ltConfig.winLabel, `${eventos.length} ${en ? 'events' : 'eventos'}`],
+      detalles: [ltConfig.livesLabel, ltConfig.winLabel, `${eventos.length} ${ca ? 'esdeveniments' : en ? 'events' : 'eventos'}`],
       action: () => navigate(localPath('/examen/linea-temporal'), {
         state: { categoria, nivel, backPath: `/estudiar/historia/${categoria}` }
       }),
     },
     CON_PERSONAJES.includes(categoria) && {
       id: 'personajes',
-      titulo: en ? 'Who is Who?' : '¿Quién es quién?',
-      descripcion: en ? 'Cross out figures with each clue until you guess the secret one. Clues change every game.' : 'Tacha personajes con cada pista hasta adivinar al secreto. Las pistas cambian en cada partida.',
+      titulo: ca ? 'Qui és qui?' : en ? 'Who is Who?' : '¿Quién es quién?',
+      descripcion: ca ? 'Ratlla personatges amb cada pista fins a endevinar el secret. Les pistes canvien a cada partida.' : en ? 'Cross out figures with each clue until you guess the secret one. Clues change every game.' : 'Tacha personajes con cada pista hasta adivinar al secreto. Las pistas cambian en cada partida.',
       emoji: '🕵️',
       gradient: 'from-violet-700 to-purple-900',
-      detalles: [en ? '12 figures per game' : '12 personajes por partida', en ? '300 pts on 1st clue' : '300 pts si aciertas a la 1ª pista', en ? '2 attempts' : '2 intentos'],
+      detalles: [ca ? '12 personatges per partida' : en ? '12 figures per game' : '12 personajes por partida', ca ? '300 pts si encertes a la 1a pista' : en ? '300 pts on 1st clue' : '300 pts si aciertas a la 1ª pista', ca ? '2 intents' : en ? '2 attempts' : '2 intentos'],
       action: () => navigate(localPath('/juegos/quien-es-quien'), {
         state: { pool: categoria, backPath: `/estudiar/historia/${categoria}` }
       }),
     },
     tienePortadas && {
       id: 'portadas',
-      titulo: en ? 'Headlines' : 'Portadas',
-      descripcion: en ? 'Read real historical newspaper headlines and decide if they are true or false. 10 headlines, graded.' : 'Lee titulares reales de periódicos históricos y decide si son verdad o mentira. 10 portadas, nota al final.',
+      titulo: ca ? 'Portades' : en ? 'Headlines' : 'Portadas',
+      descripcion: ca ? 'Llegeix titulars reals de diaris històrics i decideix si són veritat o mentida. 10 portades, nota al final.' : en ? 'Read real historical newspaper headlines and decide if they are true or false. 10 headlines, graded.' : 'Lee titulares reales de periódicos históricos y decide si son verdad o mentira. 10 portadas, nota al final.',
       emoji: '📰',
       gradient: 'from-stone-600 to-neutral-800',
-      detalles: [`${portadasDelTema.length} ${en ? 'headlines' : 'titulares'}`, `10 ${en ? 'per exam' : 'por examen'}`, en ? 'True or false' : 'Verdad o mentira'],
+      detalles: [`${portadasDelTema.length} ${ca ? 'titulars' : en ? 'headlines' : 'titulares'}`, `10 ${ca ? 'per examen' : en ? 'per exam' : 'por examen'}`, ca ? 'Veritat o mentida' : en ? 'True or false' : 'Verdad o mentira'],
       action: () => navigate(localPath('/examen/portadas'), {
         state: { categoria, backPath: `/estudiar/historia/${categoria}` }
       }),
     },
     tieneFechas && {
       id: 'fechas',
-      titulo: en ? 'Date Game' : 'Juego de Fechas',
-      descripcion: en ? `Write the exact year of each event. Margin of ±${margen} years. One life.` : `Escribe el año exacto de cada evento. Margen de ±${margen} años. Una vida.`,
+      titulo: ca ? 'Joc de Dates' : en ? 'Date Game' : 'Juego de Fechas',
+      descripcion: ca ? `Escriu l'any exacte de cada esdeveniment. Marge de ±${margen} anys. Una vida.` : en ? `Write the exact year of each event. Margin of ±${margen} years. One life.` : `Escribe el año exacto de cada evento. Margen de ±${margen} años. Una vida.`,
       emoji: '📅',
       gradient: 'from-amber-500 to-orange-600',
-      detalles: [en ? '1 life' : '1 vida', `±${margen} ${en ? 'years margin' : 'años de margen'}`, `${eventos.length} ${en ? 'questions' : 'preguntas'}`],
+      detalles: [ca ? '1 vida' : en ? '1 life' : '1 vida', `±${margen} ${ca ? 'anys de marge' : en ? 'years margin' : 'años de margen'}`, `${eventos.length} ${ca ? 'preguntes' : en ? 'questions' : 'preguntas'}`],
       action: () => navigate(localPath('/examen/historia'), {
         state: {
           examen: { id: categoria, ...meta },
@@ -144,7 +157,7 @@ export default function HistoriaTema() {
       {/* Breadcrumb + nivel switcher */}
       <div className="max-w-2xl mx-auto w-full mb-6">
         <p className="text-white/30 text-xs mb-4">
-          <button onClick={() => navigate(localPath('/estudiar/historia'))} className="hover:text-white/60 transition-colors">{lang === 'en' ? 'History' : 'Historia'}</button>
+          <button onClick={() => navigate(localPath('/estudiar/historia'))} className="hover:text-white/60 transition-colors">{lang === 'ca' ? 'Història' : lang === 'en' ? 'History' : 'Historia'}</button>
           {' '}/{'  '}<span className="text-white/50">{meta.titulo}</span>
         </p>
 
@@ -181,7 +194,7 @@ export default function HistoriaTema() {
       {/* Modos de juego */}
       <div className="max-w-2xl mx-auto w-full space-y-4">
         <p className="text-white/30 text-xs uppercase tracking-widest font-semibold">
-          {lang === 'en' ? 'Available modes' : 'Modos disponibles'} · {nivelesArr.find(n => n.id === nivel)?.label}
+          {lang === 'ca' ? 'Modes disponibles' : lang === 'en' ? 'Available modes' : 'Modos disponibles'} · {nivelesArr.find(n => n.id === nivel)?.label}
         </p>
 
         {modos.map(modo => (
@@ -217,7 +230,10 @@ export default function HistoriaTema() {
         ))}
 
         {/* Próximamente */}
-        {(en ? [
+        {(ca ? [
+          !CON_PERSONAJES.includes(categoria) && { id: 'personajes', titulo: 'Personatges Històrics', emoji: '👤', desc: 'Qui sóc? Endevina a partir de pistes.' },
+          { id: 'mapas', titulo: 'Mapes Històrics', emoji: '🗺️', desc: 'Identifica territoris i batalles.' },
+        ] : en ? [
           !CON_PERSONAJES.includes(categoria) && { id: 'personajes', titulo: 'Historical Figures', emoji: '👤', desc: 'Who am I? Guess from clues.' },
           { id: 'mapas', titulo: 'Historical Maps', emoji: '🗺️', desc: 'Identify territories and battles.' },
         ] : [
@@ -231,7 +247,7 @@ export default function HistoriaTema() {
                 <h3 className="font-bold text-white/60 text-base">{m.titulo}</h3>
                 <p className="text-white/30 text-xs mt-0.5">{m.desc}</p>
               </div>
-              <span className="ml-auto text-xs font-bold text-white/30 border border-white/15 px-2 py-0.5 rounded-full">{en ? 'Soon' : 'Pronto'}</span>
+              <span className="ml-auto text-xs font-bold text-white/30 border border-white/15 px-2 py-0.5 rounded-full">{ca ? 'Aviat' : en ? 'Soon' : 'Pronto'}</span>
             </div>
           </div>
         ))}

@@ -2,12 +2,12 @@ import { useNavigate } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 
 const MATERIAS = [
-  { id: 'historia', titulo: 'Historia', tituloEn: 'History', subtitulo: 'Eventos, épocas y personajes clave', subtituloEn: 'Key events, periods & figures', emoji: '🏛️', gradient: 'from-amber-500 to-orange-600', ready: true, path: '/estudiar/historia' },
-  { id: 'geografia', titulo: 'Geografía', tituloEn: 'Geography', subtitulo: 'Países, continentes y regiones', subtituloEn: 'Countries, continents & regions', emoji: '🌍', gradient: 'from-teal-500 to-cyan-600', ready: true, path: '/estudiar/geografia' },
-  { id: 'ciencias', titulo: 'Ciencias', tituloEn: 'Science', subtitulo: 'Biología, física y química', subtituloEn: 'Biology, physics & chemistry', emoji: '🔬', gradient: 'from-green-500 to-emerald-600', ready: false },
-  { id: 'matematicas', titulo: 'Matemáticas', tituloEn: 'Mathematics', subtitulo: 'Cálculo mental: sumas, restas, multiplicaciones y más', subtituloEn: 'Mental maths: add, subtract, multiply & more', emoji: '📐', gradient: 'from-blue-500 to-indigo-600', ready: true, path: '/estudiar/matematicas' },
-  { id: 'ingles', titulo: 'Inglés', tituloEn: 'English', subtitulo: 'Vocabulario y gramática', subtituloEn: 'Vocabulary & grammar', emoji: '🇬🇧', gradient: 'from-rose-500 to-pink-600', ready: false },
-  { id: 'lengua', titulo: 'Lengua', tituloEn: 'Spanish', subtitulo: 'Literatura y ortografía', subtituloEn: 'Literature & spelling', emoji: '✍️', gradient: 'from-violet-500 to-purple-600', ready: false },
+  { id: 'historia', titulo: 'Historia', tituloEn: 'History', tituloCa: 'Història', subtitulo: 'Eventos, épocas y personajes clave', subtituloEn: 'Key events, periods & figures', subtituloCa: 'Esdeveniments, èpoques i personatges clau', emoji: '🏛️', gradient: 'from-amber-500 to-orange-600', ready: true, path: '/estudiar/historia' },
+  { id: 'geografia', titulo: 'Geografía', tituloEn: 'Geography', tituloCa: 'Geografia', subtitulo: 'Países, continentes y regiones', subtituloEn: 'Countries, continents & regions', subtituloCa: 'Països, continents i regions', emoji: '🌍', gradient: 'from-teal-500 to-cyan-600', ready: true, path: '/estudiar/geografia' },
+  { id: 'ciencias', titulo: 'Ciencias', tituloEn: 'Science', tituloCa: 'Ciències', subtitulo: 'Biología, física y química', subtituloEn: 'Biology, physics & chemistry', subtituloCa: 'Biologia, física i química', emoji: '🔬', gradient: 'from-green-500 to-emerald-600', ready: false },
+  { id: 'matematicas', titulo: 'Matemáticas', tituloEn: 'Mathematics', tituloCa: 'Matemàtiques', subtitulo: 'Cálculo mental: sumas, restas, multiplicaciones y más', subtituloEn: 'Mental maths: add, subtract, multiply & more', subtituloCa: 'Càlcul mental: sumes, restes, multiplicacions i més', emoji: '📐', gradient: 'from-blue-500 to-indigo-600', ready: true, path: '/estudiar/matematicas' },
+  { id: 'ingles', titulo: 'Inglés', tituloEn: 'English', tituloCa: 'Anglès', subtitulo: 'Vocabulario y gramática', subtituloEn: 'Vocabulary & grammar', subtituloCa: 'Vocabulari i gramàtica', emoji: '🇬🇧', gradient: 'from-rose-500 to-pink-600', ready: false },
+  { id: 'lengua', titulo: 'Lengua', tituloEn: 'Spanish', tituloCa: 'Castellà', subtitulo: 'Literatura y ortografía', subtituloEn: 'Literature & spelling', subtituloCa: 'Literatura i ortografia', emoji: '✍️', gradient: 'from-violet-500 to-purple-600', ready: false },
 ]
 
 export default function Estudiar() {
@@ -32,12 +32,12 @@ export default function Estudiar() {
             <div className={`bg-gradient-to-br ${m.gradient} p-5 h-full`}>
               {!m.ready && (
                 <span className="absolute top-2 right-2 bg-black/40 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
-                  {lang === 'en' ? 'Soon' : 'Pronto'}
+                  {lang === 'ca' ? 'Aviat' : lang === 'en' ? 'Soon' : 'Pronto'}
                 </span>
               )}
               <span className="text-4xl block mb-2">{m.emoji}</span>
-              <h3 className="font-black text-white text-base leading-tight">{lang === 'en' ? m.tituloEn : m.titulo}</h3>
-              <p className="text-white/65 text-xs mt-1 leading-relaxed">{lang === 'en' ? m.subtituloEn : m.subtitulo}</p>
+              <h3 className="font-black text-white text-base leading-tight">{lang === 'ca' ? m.tituloCa : lang === 'en' ? m.tituloEn : m.titulo}</h3>
+              <p className="text-white/65 text-xs mt-1 leading-relaxed">{lang === 'ca' ? m.subtituloCa : lang === 'en' ? m.subtituloEn : m.subtitulo}</p>
             </div>
           </button>
         ))}

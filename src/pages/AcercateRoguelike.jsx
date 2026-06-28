@@ -7,9 +7,9 @@ import CoinsAnimation from '../components/CoinsAnimation'
 const ALL_OPS = ['+', '-', '×', '÷']
 
 const DIFS = {
-  facil:   { label: 'Fácil', labelEn: 'Easy',   emoji: '🟢', vidasIni: 3, tiempoBase: 90, objMin: 10, objMax: 50,  countIni: 5, numMax: 10, ops: ['+', '-'] },
-  medio:   { label: 'Medio', labelEn: 'Medium', emoji: '🟡', vidasIni: 0, tiempoBase: 60, objMin: 15, objMax: 99,  countIni: 5, numMax: 10, ops: ['+', '-', '×'] },
-  dificil: { label: 'Difícil', labelEn: 'Hard', emoji: '🔴', vidasIni: 0, tiempoBase: 45, objMin: 20, objMax: 250, countIni: 4, numMax: 15, ops: ['+', '-', '×', '÷'] },
+  facil:   { label: 'Fácil', labelEn: 'Easy', labelCa: 'Fàcil',   emoji: '🟢', vidasIni: 3, tiempoBase: 90, objMin: 10, objMax: 50,  countIni: 5, numMax: 10, ops: ['+', '-'] },
+  medio:   { label: 'Medio', labelEn: 'Medium', labelCa: 'Mitjà', emoji: '🟡', vidasIni: 0, tiempoBase: 60, objMin: 15, objMax: 99,  countIni: 5, numMax: 10, ops: ['+', '-', '×'] },
+  dificil: { label: 'Difícil', labelEn: 'Hard', labelCa: 'Difícil', emoji: '🔴', vidasIni: 0, tiempoBase: 45, objMin: 20, objMax: 250, countIni: 4, numMax: 15, ops: ['+', '-', '×', '÷'] },
 }
 
 const MEJORAS_POOL = {
@@ -24,6 +24,12 @@ const MEJORAS_POOL = {
     { id: 'numero', emoji: '🔢', titulo: '+1 number',           desc: 'An extra number available to combine in each puzzle' },
     { id: 'escudo', emoji: '🛡️', titulo: 'Second chance',       desc: 'Absorbs the next failure and you continue the run', soloFacil: true },
     { id: 'bonus',  emoji: '✨', titulo: '×1.1 points',         desc: 'Multiplies all future points by 1.1', soloMedioPlus: true },
+  ],
+  ca: [
+    { id: 'tiempo', emoji: '⏱️', titulo: '+4 segons',           desc: 'Afegeix 4s al temps de tots els nivells següents' },
+    { id: 'numero', emoji: '🔢', titulo: '+1 número',           desc: 'Un número extra disponible per combinar a cada puzle' },
+    { id: 'escudo', emoji: '🛡️', titulo: 'Segona oportunitat',  desc: "Absorbeix el proper error i continues la partida", soloFacil: true },
+    { id: 'bonus',  emoji: '✨', titulo: '×1.1 punts',          desc: 'Multiplica tots els punts futurs per 1.1', soloMedioPlus: true },
   ],
 }
 
@@ -69,6 +75,27 @@ const AUI = {
     selecciona: 'Select a number to start', disponibles: 'Available numbers', sinNumeros: 'No numbers — reset or finish',
     operacion: 'Operation', deshacer: '↩ Undo', reiniciar: '🔄 Reset', divNoExacta: 'Non-exact division',
     escudo: 'Shield', esteNivel: 'pts this level',
+  },
+  ca: {
+    titulo: 'Mode Roguelike', desc: 'Supera nivells, tria millores, arriba tan lluny com puguis',
+    volver: '← Tornar', empezar: 'Comença la partida!', clasico: 'Prefereixes entrenar sense pressió? → Mode clàssic',
+    vidas: 'Vides', sinVidas: 'Sense vides — un error i s\'acaba', tiempo: 'Temps', objetivo: 'Objectiu',
+    numeros: 'Números', cartas: 'cartes per combinar', operaciones: 'Operacions', puntos: 'Punts',
+    puntosDesc: 'Temps sobrant × 10 per nivell encertat', mejoras: 'Millores', mejorasDesc: 'Cada 3 nivells tria una millora permanent',
+    comoFunciona: 'Com funciona', paso1: 'Arriba exactament a l\'objectiu combinant números',
+    paso2: 'Si encertes, sumes els segons que sobraven × 10', paso3: 'Cada 3 nivells tria una millora permanent',
+    paso4: 'Si falles o s\'acaba el temps, la partida acaba',
+    nivel: 'Nivell', mejoraEn: 'Millora en', niveles: 'nivell', nivelesP: 'nivells',
+    mejoraAlSuperar: '🎁 Millora en superar aquest nivell!', nivelSuperado: 'superat',
+    eligeMejora: 'Tria una millora permanent per a la resta de la partida', ptsAcumulados: 'pts acumulats',
+    escudoActivado: '🛡️ Escut activat! Torno a intentar-ho...', fallo: '💔 Error!', teQuedan: 'Et queden',
+    vida: 'vida', vidasP: 'vides', tiempoAgotado: '⏱️ Temps esgotat!', continuando: 'Continuant...',
+    fin: 'Fi de la partida', nuevaRun: 'Nova partida', menu: 'Menú', compartir: '📤 Compartir resultat',
+    copiar: '📋 Copiar text', copiado: '✅ Copiat!', cerrar: '✕',
+    compartirTitulo: 'Compartir resultat', compartirSub: 'Copia el text i comparteix-lo on vulguis',
+    selecciona: 'Selecciona un número per començar', disponibles: 'Números disponibles', sinNumeros: 'Sense números — reinicia o acaba',
+    operacion: 'Operació', deshacer: '↩ Desfer', reiniciar: '🔄 Reiniciar', divNoExacta: 'Divisió no exacta',
+    escudo: 'Escut', esteNivel: 'pts aquest nivell',
   },
 }
 
@@ -136,7 +163,7 @@ export default function AcercateRoguelike() {
   const navigate = useNavigate()
   const { lang, localPath } = useLang()
   const au = AUI[lang] || AUI.es
-  const dl = d => lang === 'en' ? (d.labelEn || d.label) : d.label
+  const dl = d => lang === 'ca' ? (d.labelCa || d.label) : lang === 'en' ? (d.labelEn || d.label) : d.label
 
   // ── UI ───────────────────────────────────────────────────────────────────
   const [fase, setFase] = useState('intro')
@@ -260,7 +287,7 @@ export default function AcercateRoguelike() {
       }
     } else {
       if (cur.escudo) {
-        setFalloMsg('🛡️ ¡Escudo activado! Intento de nuevo...')
+        setFalloMsg(au.escudoActivado)
         const newRd = { ...cur, escudo: false }
         setRd(newRd)
         setFase('fallo')
@@ -270,7 +297,7 @@ export default function AcercateRoguelike() {
         const newRd = { ...cur, vidas: Math.max(newVidas, 0) }
         setRd(newRd)
         if (cur.vidas > 0) {
-          setFalloMsg(`💔 ¡Fallo! Te quedan ${newVidas} vida${newVidas !== 1 ? 's' : ''}`)
+          setFalloMsg(`${au.fallo} ${au.teQuedan} ${newVidas} ${newVidas !== 1 ? au.vidasP : au.vida}`)
           setFase('fallo')
           if (newVidas === 0) {
             setTimeout(() => setFase('resultado'), 2000)
@@ -278,7 +305,7 @@ export default function AcercateRoguelike() {
             setTimeout(() => iniciarNivel(newRd), 2000)
           }
         } else {
-          setFalloMsg(porTiempo ? '⏱️ ¡Tiempo agotado!' : '💔 ¡Fallo!')
+          setFalloMsg(porTiempo ? au.tiempoAgotado : au.fallo)
           setFase('fallo')
           setTimeout(() => setFase('resultado'), 2000)
         }
@@ -446,9 +473,9 @@ export default function AcercateRoguelike() {
     <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
       <div className="max-w-md w-full text-center">
         <div className="text-5xl mb-3">🎁</div>
-        <h2 className="text-2xl font-black text-white mb-1">¡Nivel {(rd?.nivel || 1) - 1} superado!</h2>
-        <p className="text-white/40 text-sm mb-2">Elige una mejora permanente para el resto de la run</p>
-        <p className="text-amber-400 font-bold text-sm mb-8">⭐ {score.toLocaleString()} pts acumulados</p>
+        <h2 className="text-2xl font-black text-white mb-1">{au.nivel} {(rd?.nivel || 1) - 1} {au.nivelSuperado}!</h2>
+        <p className="text-white/40 text-sm mb-2">{au.eligeMejora}</p>
+        <p className="text-amber-400 font-bold text-sm mb-8">⭐ {score.toLocaleString()} {au.ptsAcumulados}</p>
         <div className="space-y-3">
           {opciones.map(m => (
             <button key={m.id} onClick={() => elegirMejora(m)}
@@ -483,7 +510,7 @@ export default function AcercateRoguelike() {
             ))}
           </div>
         )}
-        <p className="text-white/30 text-sm mt-4">Continuando...</p>
+        <p className="text-white/30 text-sm mt-4">{au.continuando}</p>
       </div>
     </div>
   )
@@ -555,8 +582,8 @@ export default function AcercateRoguelike() {
                 className="absolute top-4 right-4 text-white/30 hover:text-white/70 transition-colors text-xl leading-none">
                 ✕
               </button>
-              <h3 className="text-lg font-black text-white mb-1">Compartir resultado</h3>
-              <p className="text-white/40 text-sm mb-4">Copia el texto y compártelo donde quieras</p>
+              <h3 className="text-lg font-black text-white mb-1">{au.compartirTitulo}</h3>
+              <p className="text-white/40 text-sm mb-4">{au.compartirSub}</p>
 
               <div className="bg-white/5 border border-white/10 rounded-2xl p-4 mb-4 text-sm text-white/70 whitespace-pre-line leading-relaxed font-mono select-all">
                 {getShareTexto()}
@@ -568,7 +595,7 @@ export default function AcercateRoguelike() {
                     ? 'bg-emerald-500/20 border-emerald-500/40 text-emerald-400'
                     : 'bg-white/5 border-white/10 hover:bg-white/10 text-white/60 hover:text-white'
                 }`}>
-                {copied ? '✅ ¡Copiado!' : '📋 Copiar texto'}
+                {copied ? au.copiado : au.copiar}
               </button>
             </div>
           </div>
@@ -594,9 +621,9 @@ export default function AcercateRoguelike() {
       {/* Barra de progreso */}
       <div className="mb-3">
         <div className="flex items-center justify-between text-[10px] text-white/30 font-semibold uppercase tracking-wider mb-1.5">
-          <span>Nivel {rd?.nivel}</span>
+          <span>{au.nivel} {rd?.nivel}</span>
           <span className={esMejora ? 'text-amber-400 animate-pulse' : ''}>
-            {esMejora ? '🎁 ¡Mejora al superar este nivel!' : `Mejora en ${3 - nivelEnBloque} nivel${3 - nivelEnBloque !== 1 ? 'es' : ''}`}
+            {esMejora ? au.mejoraAlSuperar : `${au.mejoraEn} ${3 - nivelEnBloque} ${3 - nivelEnBloque !== 1 ? au.nivelesP : au.niveles}`}
           </span>
         </div>
         <div className="h-1.5 bg-white/10 rounded-full overflow-hidden">
@@ -610,21 +637,21 @@ export default function AcercateRoguelike() {
       {/* HUD */}
       <div className={`grid gap-2 mb-3 ${mostrarVidasOEscudo ? 'grid-cols-4' : 'grid-cols-3'}`}>
         <div className="flex flex-col items-center bg-white/5 border border-white/10 rounded-xl py-2 px-1">
-          <span className="text-white/30 text-[9px] uppercase tracking-wider font-semibold">Nivel</span>
+          <span className="text-white/30 text-[9px] uppercase tracking-wider font-semibold">{au.nivel}</span>
           <span className="text-white font-bold text-sm mt-0.5">{dif.emoji} {rd?.nivel}</span>
         </div>
         <div className="flex flex-col items-center bg-amber-500/15 border-2 border-amber-500/50 rounded-2xl py-2 px-1">
-          <span className="text-amber-400/70 text-[9px] uppercase tracking-widest font-semibold">Objetivo</span>
+          <span className="text-amber-400/70 text-[9px] uppercase tracking-widest font-semibold">{au.objetivo}</span>
           <span className="text-amber-300 font-black text-3xl leading-none">{objetivo}</span>
         </div>
         <div className="flex flex-col items-center bg-white/5 border border-white/10 rounded-xl py-2 px-1">
-          <span className="text-white/30 text-[9px] uppercase tracking-wider font-semibold">Tiempo</span>
+          <span className="text-white/30 text-[9px] uppercase tracking-wider font-semibold">{au.tiempo}</span>
           <span className={`font-black text-xl leading-none mt-0.5 ${tiempoColor}`}>{tiempo}s</span>
         </div>
         {mostrarVidasOEscudo && (
           <div className="flex flex-col items-center bg-white/5 border border-white/10 rounded-xl py-2 px-1">
             <span className="text-white/30 text-[9px] uppercase tracking-wider font-semibold">
-              {rd?.escudo ? 'Escudo' : 'Vidas'}
+              {rd?.escudo ? au.escudo : au.vidas}
             </span>
             <div className="flex gap-0.5 mt-0.5 flex-wrap justify-center">
               {rd?.escudo
@@ -647,7 +674,7 @@ export default function AcercateRoguelike() {
           )}
         </span>
         {levelScore !== null && (
-          <span className="text-amber-400 text-xs font-black animate-pulse">+{levelScore} pts este nivel</span>
+          <span className="text-amber-400 text-xs font-black animate-pulse">+{levelScore} {au.esteNivel}</span>
         )}
       </div>
 
@@ -658,7 +685,7 @@ export default function AcercateRoguelike() {
           :            'border-white/10 bg-white/3'
       }`}>
         {!sel1 ? (
-          <p className="text-white/20 text-sm">Selecciona un número para empezar</p>
+          <p className="text-white/20 text-sm">{au.selecciona}</p>
         ) : (
           <>
             <span className="text-white font-black text-3xl">{sel1.valor}</span>
@@ -668,12 +695,12 @@ export default function AcercateRoguelike() {
             }
           </>
         )}
-        {errorFlash && <span className="text-red-400 text-sm font-bold absolute">División no exacta</span>}
+        {errorFlash && <span className="text-red-400 text-sm font-bold absolute">{au.divNoExacta}</span>}
       </div>
 
       {/* Números */}
       <div className="mb-3">
-        <p className="text-white/25 text-[10px] uppercase tracking-widest mb-2 font-semibold text-center">Números disponibles</p>
+        <p className="text-white/25 text-[10px] uppercase tracking-widest mb-2 font-semibold text-center">{au.disponibles}</p>
         <div className="flex flex-wrap gap-3 justify-center">
           {numeros.map(n => {
             const isSelected = sel1?.id === n.id
@@ -694,7 +721,7 @@ export default function AcercateRoguelike() {
 
       {/* Operadores */}
       <div className="mb-3">
-        <p className="text-white/25 text-[10px] uppercase tracking-widest mb-2 font-semibold text-center">Operación</p>
+        <p className="text-white/25 text-[10px] uppercase tracking-widest mb-2 font-semibold text-center">{au.operacion}</p>
         <div className="grid grid-cols-4 gap-2">
           {(DIFS[rd?.difId || difId].ops).map(op => {
             const style = OP_STYLE[op]
@@ -718,11 +745,11 @@ export default function AcercateRoguelike() {
       <div className="grid grid-cols-2 gap-2">
         <button onClick={undo} disabled={!historial.length}
           className="py-3 bg-white/10 hover:bg-white/20 disabled:opacity-30 text-white font-bold rounded-2xl transition-all text-sm">
-          ↩ Deshacer
+          {au.deshacer}
         </button>
         <button onClick={resetear} disabled={historial.length === 0}
           className="py-3 bg-white/5 hover:bg-white/10 disabled:opacity-20 text-white/60 hover:text-white font-bold rounded-2xl transition-all text-sm">
-          🔄 Reiniciar
+          {au.reiniciar}
         </button>
       </div>
     </div>

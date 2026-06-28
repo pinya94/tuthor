@@ -5,9 +5,9 @@ import { useLang } from '../context/LangContext'
 import CoinsAnimation from '../components/CoinsAnimation'
 
 const DIFS = {
-  facil:   { label: 'Fácil', labelEn: 'Easy',   emoji: '🟢', tiempoInicio: 60, suma: 10, resta: 10, basePts: 100 },
-  medio:   { label: 'Medio', labelEn: 'Medium', emoji: '🟡', tiempoInicio: 30, suma:  5, resta: 10, basePts: 150 },
-  dificil: { label: 'Difícil', labelEn: 'Hard', emoji: '🔴', tiempoInicio: 20, suma:  3, resta: 15, basePts: 200 },
+  facil:   { label: 'Fácil', labelEn: 'Easy', labelCa: 'Fàcil',     emoji: '🟢', tiempoInicio: 60, suma: 10, resta: 10, basePts: 100 },
+  medio:   { label: 'Medio', labelEn: 'Medium', labelCa: 'Mitjà',   emoji: '🟡', tiempoInicio: 30, suma:  5, resta: 10, basePts: 150 },
+  dificil: { label: 'Difícil', labelEn: 'Hard', labelCa: 'Difícil', emoji: '🔴', tiempoInicio: 20, suma:  3, resta: 15, basePts: 200 },
 }
 
 const PUI = {
@@ -41,6 +41,21 @@ const PUI = {
     tiempoAgotadoFin: 'Time is up!', puntuacionFinal: 'Final score', aciertos: 'Correct', precision: 'Accuracy',
     compartir: '🔗 Share result', reintentar: 'Try again', cambiarDif: 'Change difficulty',
   },
+  ca: {
+    titulo: 'Portades', desc: 'Llegeix el titular històric i decideix: veritat o mentida?',
+    volver: '← Tornar', empezar: 'Comença! →',
+    reglas: 'Regles', puntos: 'Punts', comoFunciona: 'Com funciona',
+    tiempoInicial: 'Temps inicial', alAcertar: 'En encertar', alFallar: 'En fallar', portadas: 'Portades',
+    titulares: 'titulars històrics', base: 'Base per encert', racha2: 'Ratxa ×2', racha3: 'Ratxa ×3+',
+    paso1: 'Apareix la portada d\'un diari històric real', paso2: 'Decideix si el titular és VERITAT o MENTIDA',
+    paso3: 'Si encertes guanyes temps; si falles el perds', paso4: 'Sempre veuràs l\'explicació: així aprens de veritat',
+    verdad: '✓ VERITAT', mentira: '✗ MENTIDA',
+    correcto: 'Correcte!', incorrecto: 'Incorrecte!', tiempoAgotado: 'temps esgotat!',
+    titularEra: 'El titular era…', salir: '← Sortir', tiempo: 'Temps',
+    verResultado: 'Veure resultat →', continuar: 'Continuar →',
+    tiempoAgotadoFin: 'Temps esgotat!', puntuacionFinal: 'Puntuació final', aciertos: 'Encerts', precision: 'Precisió',
+    compartir: '🔗 Compartir resultat', reintentar: 'Tornar-ho a provar', cambiarDif: 'Canviar dificultat',
+  },
 }
 
 const CAT_STYLE = {
@@ -64,8 +79,8 @@ function shuffle(arr) {
 
 function PortadaCard({ p, lang }) {
   const catStyle = CAT_STYLE[p.categoria] || 'bg-white/10 text-white/50 border-white/10'
-  const titular = (lang === 'en' && p.titularEn) ? p.titularEn : p.titular
-  const subtitular = (lang === 'en' && p.subtitularEn) ? p.subtitularEn : p.subtitular
+  const titular = (lang === 'ca' && p.titularCa) ? p.titularCa : (lang === 'en' && p.titularEn) ? p.titularEn : p.titular
+  const subtitular = (lang === 'ca' && p.subtitularCa) ? p.subtitularCa : (lang === 'en' && p.subtitularEn) ? p.subtitularEn : p.subtitular
   return (
     <div
       className="bg-[#f5f0e3] rounded-2xl overflow-hidden shadow-2xl border border-[#c8b89a]"
@@ -81,11 +96,11 @@ function PortadaCard({ p, lang }) {
           {p.periodico}
         </h1>
         <div className="flex items-center justify-between mt-2 md:mt-3">
-          <span className="text-[9px] md:text-xs text-gray-400">{lang === 'en' ? 'Special edition' : 'Edición especial'}</span>
+          <span className="text-[9px] md:text-xs text-gray-400">{lang === 'ca' ? 'Edició especial' : lang === 'en' ? 'Special edition' : 'Edición especial'}</span>
           <span className={`text-[9px] md:text-xs font-bold uppercase px-2 py-0.5 rounded border ${catStyle}`}>
             {p.categoria}
           </span>
-          <span className="text-[9px] md:text-xs text-gray-400">{lang === 'en' ? 'Price: 10 cts.' : 'Precio: 10 ctos.'}</span>
+          <span className="text-[9px] md:text-xs text-gray-400">{lang === 'ca' ? 'Preu: 10 cts.' : lang === 'en' ? 'Price: 10 cts.' : 'Precio: 10 ctos.'}</span>
         </div>
       </div>
 
@@ -111,7 +126,7 @@ export default function Portadas() {
   const navigate = useNavigate()
   const { lang, localPath } = useLang()
   const pu = PUI[lang] || PUI.es
-  const dl = d => lang === 'en' ? (d.labelEn || d.label) : d.label
+  const dl = d => lang === 'ca' ? (d.labelCa || d.label) : lang === 'en' ? (d.labelEn || d.label) : d.label
   const [fase, setFase]         = useState('intro')
   const [difId, setDifId]       = useState('medio')
   const [portadas, setPortadas] = useState([])
@@ -223,15 +238,11 @@ export default function Portadas() {
           <div className="grid grid-cols-2 gap-4 mb-6">
             <div className="bg-white/5 border border-white/10 rounded-2xl p-5 space-y-3 text-sm">
               <p className="text-white/40 text-xs font-semibold uppercase tracking-widest">{pu.reglas}</p>
-              {(lang === 'en' ? [
-                ['⏱️', 'Starting time', `${d.tiempoInicio}s`],
-                ['✅', 'On correct',    `+${d.suma}s`],
-                ['❌', 'On wrong',      `−${d.resta}s`],
-              ] : [
-                ['⏱️', 'Tiempo inicial', `${d.tiempoInicio}s`],
-                ['✅', 'Al acertar',     `+${d.suma}s`],
-                ['❌', 'Al fallar',      `−${d.resta}s`],
-              ]).map(([e, k, v]) => (
+              {[
+                ['⏱️', pu.tiempoInicial, `${d.tiempoInicio}s`],
+                ['✅', pu.alAcertar,     `+${d.suma}s`],
+                ['❌', pu.alFallar,      `−${d.resta}s`],
+              ].map(([e, k, v]) => (
                 <div key={k} className="flex items-center justify-between gap-2">
                   <span className="text-white/40 shrink-0">{e} {k}</span>
                   <span className="text-white font-semibold">{v}</span>
@@ -240,15 +251,11 @@ export default function Portadas() {
             </div>
             <div className="bg-white/5 border border-white/10 rounded-2xl p-5 space-y-3 text-sm">
               <p className="text-white/40 text-xs font-semibold uppercase tracking-widest">{pu.puntos}</p>
-              {(lang === 'en' ? [
-                ['🎯', 'Base per correct', `${d.basePts} pts`],
-                ['🔥', 'Streak ×2',        `+25% pts`],
-                ['🏆', 'Streak ×3+',       `+50% pts`],
-              ] : [
-                ['🎯', 'Base por acierto', `${d.basePts} pts`],
-                ['🔥', 'Racha ×2',         `+25% pts`],
-                ['🏆', 'Racha ×3+',        `+50% pts`],
-              ]).map(([e, k, v]) => (
+              {[
+                ['🎯', pu.base, `${d.basePts} pts`],
+                ['🔥', pu.racha2,  `+25% pts`],
+                ['🏆', pu.racha3,  `+50% pts`],
+              ].map(([e, k, v]) => (
                 <div key={k} className="flex items-center justify-between gap-2">
                   <span className="text-white/40 shrink-0">{e} {k}</span>
                   <span className="text-white font-semibold">{v}</span>
@@ -260,17 +267,12 @@ export default function Portadas() {
           <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-7">
             <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-3">{pu.comoFunciona}</p>
             <div className="grid grid-cols-2 gap-2">
-              {(lang === 'en' ? [
-                ['📰', 'A real historical newspaper front page'],
-                ['🤔', 'True or false — you decide'],
-                ['⏱️', 'Correct → gain time; wrong → lose time'],
-                ['💡', "You'll always see the historical explanation"],
-              ] : [
-                ['📰', 'Portada de un periódico histórico real'],
-                ['🤔', 'Verdad o mentira — tú decides'],
-                ['⏱️', 'Aciertas → ganas tiempo; fallas → pierdes'],
-                ['💡', 'Siempre verás la explicación histórica'],
-              ]).map(([e, t]) => (
+              {[
+                ['📰', pu.paso1],
+                ['🤔', pu.paso2],
+                ['⏱️', pu.paso3],
+                ['💡', pu.paso4],
+              ].map(([e, t]) => (
                 <div key={t} className="flex items-start gap-2 text-sm text-white/50">
                   <span className="text-base w-5 shrink-0 text-center">{e}</span>
                   <span>{t}</span>
@@ -335,10 +337,10 @@ export default function Portadas() {
           {/* Botones + info lateral */}
           <div className="flex flex-col gap-4">
             <div className="hidden md:block bg-white/5 border border-white/10 rounded-2xl p-4 text-center">
-              <p className="text-white/30 text-xs uppercase tracking-widest mb-1">Puntuación</p>
+              <p className="text-white/30 text-xs uppercase tracking-widest mb-1">{pu.puntuacionFinal}</p>
               <p className="text-white font-black text-3xl tabular-nums">{puntos.toLocaleString()}</p>
               {racha >= 2 && (
-                <p className="text-amber-400 text-sm font-bold mt-1">🔥 {lang === 'en' ? `Streak of ${racha}` : `Racha de ${racha}`} — ×{(1 + (racha - 1) * 0.25).toFixed(2)}</p>
+                <p className="text-amber-400 text-sm font-bold mt-1">🔥 {lang === 'ca' ? `Ratxa de ${racha}` : lang === 'en' ? `Streak of ${racha}` : `Racha de ${racha}`} — ×{(1 + (racha - 1) * 0.25).toFixed(2)}</p>
               )}
             </div>
 
@@ -387,11 +389,11 @@ export default function Portadas() {
             </div>
             {correcto && nuevaRacha >= 2 && (
               <p className="text-amber-400 text-sm font-bold mt-1">
-                🔥 {lang === 'en' ? `Streak of ${nuevaRacha}!` : `¡Racha de ${nuevaRacha}!`} ×{(1 + rachaAntes * 0.25).toFixed(2)} {lang === 'en' ? 'multiplier' : 'multiplicador'}
+                🔥 {lang === 'ca' ? `Ratxa de ${nuevaRacha}!` : lang === 'en' ? `Streak of ${nuevaRacha}!` : `¡Racha de ${nuevaRacha}!`} ×{(1 + rachaAntes * 0.25).toFixed(2)} {lang === 'ca' ? 'multiplicador' : lang === 'en' ? 'multiplier' : 'multiplicador'}
               </p>
             )}
             {acabaAqui && (
-              <p className="text-white/50 text-sm mt-1">¡Tiempo agotado!</p>
+              <p className="text-white/50 text-sm mt-1">{pu.tiempoAgotadoFin}</p>
             )}
           </div>
 
@@ -399,7 +401,7 @@ export default function Portadas() {
             <p className="text-white/30 text-xs uppercase tracking-widest mb-2">{pu.titularEra}</p>
             <div className={`flex items-center gap-2 font-black text-lg mb-3 ${p.veracidad ? 'text-green-400' : 'text-red-400'}`}>
               <span>{p.veracidad ? '✓' : '✗'}</span>
-              <span>{p.veracidad ? (lang === 'en' ? 'TRUE' : 'VERDAD') : (lang === 'en' ? 'FALSE' : 'MENTIRA')}</span>
+              <span>{p.veracidad ? (lang === 'ca' ? 'VERITAT' : lang === 'en' ? 'TRUE' : 'VERDAD') : (lang === 'ca' ? 'MENTIDA' : lang === 'en' ? 'FALSE' : 'MENTIRA')}</span>
             </div>
             <p className="text-white/60 leading-relaxed">{(lang === 'en' && p.explicacionEn) ? p.explicacionEn : p.explicacion}</p>
           </div>
@@ -408,7 +410,7 @@ export default function Portadas() {
             onClick={continuar}
             className="w-full py-4 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-lg rounded-2xl transition-all hover:scale-[1.02]"
           >
-            {acabaAqui ? 'Ver resultado →' : 'Continuar →'}
+            {acabaAqui ? pu.verResultado : pu.continuar}
           </button>
         </div>
       </div>
@@ -432,7 +434,7 @@ export default function Portadas() {
             <div className="mb-4">
               <p className="text-white/30 text-xs uppercase tracking-widest mb-1">{pu.puntuacionFinal}</p>
               <p className="text-white font-black text-6xl tabular-nums">{puntos.toLocaleString()}</p>
-              <p className="text-white/30 text-sm mt-1">{lang === 'en' ? 'points' : 'puntos'}</p>
+              <p className="text-white/30 text-sm mt-1">{lang === 'ca' ? 'punts' : lang === 'en' ? 'points' : 'puntos'}</p>
             </div>
 
             <div className="grid grid-cols-2 gap-3 mt-6">
@@ -450,7 +452,7 @@ export default function Portadas() {
 
           <div className="space-y-3">
             <button
-              onClick={() => navigator.clipboard.writeText(shareText).then(() => alert('¡Copiado!'))}
+              onClick={() => navigator.clipboard.writeText(shareText).then(() => alert(lang === 'ca' ? 'Copiat!' : lang === 'en' ? 'Copied!' : '¡Copiado!'))}
               className="w-full bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold py-3 rounded-xl transition"
             >
               {pu.compartir}

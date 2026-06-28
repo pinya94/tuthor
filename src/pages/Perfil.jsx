@@ -54,6 +54,7 @@ export default function Perfil() {
   const { lang, localPath } = useLang()
   const navigate = useNavigate()
   const en = lang === 'en'
+  const ca = lang === 'ca'
   const [stats, setStats] = useState(null)
   const [loading, setLoading] = useState(true)
   const [showAllGames, setShowAllGames] = useState(false)
@@ -102,16 +103,16 @@ export default function Perfil() {
           </div>
           <button onClick={logout}
             className="ml-auto text-white/30 hover:text-white/70 text-sm border border-white/10 hover:border-white/30 px-3 py-1.5 rounded-lg transition-all">
-            {en ? 'Sign out' : 'Cerrar sesión'}
+            {ca ? 'Tancar sessió' : en ? 'Sign out' : 'Cerrar sesión'}
           </button>
         </div>
 
         {loading ? (
-          <div className="text-white/30 text-center py-12">Cargando estadísticas...</div>
+          <div className="text-white/30 text-center py-12">{ca ? 'Carregant estadístiques...' : en ? 'Loading stats...' : 'Cargando estadísticas...'}</div>
         ) : !stats ? (
           <div className="text-center py-12">
             <p className="text-4xl mb-3">🎮</p>
-            <p className="text-white/40">Aún no has jugado nada. ¡Empieza ahora!</p>
+            <p className="text-white/40">{ca ? 'Encara no has jugat res. Comença ara!' : en ? "You haven't played anything yet. Start now!" : 'Aún no has jugado nada. ¡Empieza ahora!'}</p>
           </div>
         ) : (
           <>
@@ -120,22 +121,22 @@ export default function Perfil() {
               <div className="bg-amber-500/10 border border-amber-500/30 rounded-2xl p-4 text-center">
                 <span className="text-2xl block mb-1">💰</span>
                 <p className="text-amber-400 font-black text-2xl tabular-nums">{(stats.coins ?? 0).toLocaleString()}</p>
-                <p className="text-amber-400/50 text-xs">{en ? 'coins' : 'monedas'}</p>
+                <p className="text-amber-400/50 text-xs">{ca ? 'monedes' : en ? 'coins' : 'monedas'}</p>
               </div>
               <div className="bg-violet-500/10 border border-violet-500/30 rounded-2xl p-4 text-center">
                 <span className="text-2xl block mb-1">⭐</span>
                 <p className="text-violet-400 font-black text-2xl tabular-nums">{Object.values(stats.bestScores || {}).reduce((a, b) => a + b, 0).toLocaleString()}</p>
-                <p className="text-violet-400/50 text-xs">{en ? 'total best pts' : 'mejores pts totales'}</p>
+                <p className="text-violet-400/50 text-xs">{ca ? 'millors pts totals' : en ? 'total best pts' : 'mejores pts totales'}</p>
               </div>
             </div>
 
             {/* Stats resumen */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
               {[
-                { label: en ? 'Streak' : 'Racha', value: `${streak}`, sub: en ? (streak === 1 ? 'day' : 'days') : (streak === 1 ? 'día' : 'días'), emoji: '🔥' },
-                { label: en ? 'Time' : 'Tiempo', value: formatTime(stats.totalTime), emoji: '⏱️' },
-                { label: en ? 'Activities' : 'Actividades', value: stats.gamesPlayed ?? 0, emoji: '🎮' },
-                { label: en ? 'Passed' : 'Aprobados', value: stats.examsPassed ?? 0, emoji: '✅' },
+                { label: ca ? 'Ratxa' : en ? 'Streak' : 'Racha', value: `${streak}`, sub: ca ? (streak === 1 ? 'dia' : 'dies') : en ? (streak === 1 ? 'day' : 'days') : (streak === 1 ? 'día' : 'días'), emoji: '🔥' },
+                { label: ca ? 'Temps' : en ? 'Time' : 'Tiempo', value: formatTime(stats.totalTime), emoji: '⏱️' },
+                { label: ca ? 'Activitats' : en ? 'Activities' : 'Actividades', value: stats.gamesPlayed ?? 0, emoji: '🎮' },
+                { label: ca ? 'Aprovats' : en ? 'Passed' : 'Aprobados', value: stats.examsPassed ?? 0, emoji: '✅' },
               ].map(s => (
                 <div key={s.label} className="bg-white/5 border border-white/10 rounded-2xl p-4 text-center">
                   <span className="text-2xl block mb-1">{s.emoji}</span>
@@ -148,24 +149,24 @@ export default function Perfil() {
             {/* Reto diario */}
             <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-4">
               <div className="flex items-center justify-between mb-3">
-                <h2 className="font-black text-white">📅 {en ? 'Daily Challenge' : 'Reto Diario'}</h2>
+                <h2 className="font-black text-white">📅 {ca ? 'Repte Diari' : en ? 'Daily Challenge' : 'Reto Diario'}</h2>
                 <span className={`text-xs font-bold px-3 py-1 rounded-full border ${dailyDoneToday ? 'border-green-500/40 bg-green-500/10 text-green-400' : 'border-amber-500/40 bg-amber-500/10 text-amber-400'}`}>
-                  {dailyDoneToday ? (en ? '✓ Done today' : '✓ Hecho hoy') : (en ? 'Pending today' : 'Pendiente hoy')}
+                  {dailyDoneToday ? (ca ? '✓ Fet avui' : en ? '✓ Done today' : '✓ Hecho hoy') : (ca ? 'Pendent avui' : en ? 'Pending today' : 'Pendiente hoy')}
                 </span>
               </div>
               <div className="flex items-center gap-4">
                 <div className="flex-1 bg-black/20 rounded-xl p-3 text-center">
                   <p className="text-2xl font-black text-white">🔥 {dailyStreak}</p>
-                  <p className="text-white/40 text-xs mt-0.5">{en ? 'days in a row' : 'días seguidos'}</p>
+                  <p className="text-white/40 text-xs mt-0.5">{ca ? 'dies seguits' : en ? 'days in a row' : 'días seguidos'}</p>
                 </div>
                 <div className="flex-1 bg-black/20 rounded-xl p-3 text-center">
                   <p className="text-2xl font-black text-white">{stats.dailyTotal ?? 0}</p>
-                  <p className="text-white/40 text-xs mt-0.5">{en ? 'total challenges' : 'retos totales'}</p>
+                  <p className="text-white/40 text-xs mt-0.5">{ca ? 'reptes totals' : en ? 'total challenges' : 'retos totales'}</p>
                 </div>
               </div>
               {!dailyDoneToday && (
                 <a href="/diaria" className="mt-3 flex items-center justify-center gap-2 w-full bg-orange-500/20 border border-orange-500/30 text-orange-400 font-semibold py-2.5 rounded-xl text-sm hover:bg-orange-500/30 transition-colors">
-                  {en ? "Do today's challenge →" : 'Hacer el reto de hoy →'}
+                  {ca ? 'Fer el repte d\'avui →' : en ? "Do today's challenge →" : 'Hacer el reto de hoy →'}
                 </a>
               )}
             </div>
@@ -173,7 +174,7 @@ export default function Perfil() {
             {/* Por juego */}
             {gameEntries.length > 0 && (
               <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-4">
-                <h2 className="font-black text-white mb-4">🎮 {en ? 'By game' : 'Por juego'}</h2>
+                <h2 className="font-black text-white mb-4">🎮 {ca ? 'Per joc' : en ? 'By game' : 'Por juego'}</h2>
                 <div className="space-y-1">
                   {visibleGames.map((g, i) => (
                     <div key={g.key} className="flex items-center gap-3 py-3 border-b border-white/5 last:border-0">
@@ -182,16 +183,16 @@ export default function Perfil() {
                       <div className="flex items-center gap-4 text-right">
                         <div className="text-center min-w-[40px]">
                           <p className="text-white font-bold text-sm">{g.plays}</p>
-                          <p className="text-white/30 text-[10px]">{en ? 'games' : 'partidas'}</p>
+                          <p className="text-white/30 text-[10px]">{ca ? 'partides' : en ? 'games' : 'partidas'}</p>
                         </div>
                         <div className="text-center min-w-[48px]">
                           <p className="text-white font-bold text-sm">{formatTime(g.timeSpent)}</p>
-                          <p className="text-white/30 text-[10px]">tiempo</p>
+                          <p className="text-white/30 text-[10px]">{ca ? 'temps' : en ? 'time' : 'tiempo'}</p>
                         </div>
                         {g.bestScore > 0 && (
                           <div className="text-center min-w-[40px]">
                             <p className="text-violet-400 font-black text-sm">{g.bestScore.toLocaleString()}</p>
-                            <p className="text-white/30 text-[10px]">mejor</p>
+                            <p className="text-white/30 text-[10px]">{ca ? 'millor' : en ? 'best' : 'mejor'}</p>
                           </div>
                         )}
                       </div>
@@ -201,7 +202,7 @@ export default function Perfil() {
                 {gameEntries.length > 3 && (
                   <button onClick={() => setShowAllGames(!showAllGames)}
                     className="mt-3 w-full text-center text-sm text-violet-400 hover:text-violet-300 font-semibold transition-colors">
-                    {showAllGames ? 'Ver menos ↑' : `Ver los ${gameEntries.length} juegos ↓`}
+                    {showAllGames ? (ca ? 'Veure menys ↑' : en ? 'Show less ↑' : 'Ver menos ↑') : (ca ? `Veure els ${gameEntries.length} jocs ↓` : en ? `Show all ${gameEntries.length} games ↓` : `Ver los ${gameEntries.length} juegos ↓`)}
                   </button>
                 )}
               </div>
@@ -210,7 +211,7 @@ export default function Perfil() {
             {/* Por materia */}
             {catEntries.length > 0 && (
               <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-4">
-                <h2 className="font-black text-white mb-4">📚 {en ? 'By subject' : 'Por materia'}</h2>
+                <h2 className="font-black text-white mb-4">📚 {ca ? 'Per matèria' : en ? 'By subject' : 'Por materia'}</h2>
                 <div className="space-y-1">
                   {visibleCats.map(c => (
                     <div key={c.key} className="flex items-center gap-3 py-3 border-b border-white/5 last:border-0">
@@ -219,16 +220,16 @@ export default function Perfil() {
                       <div className="flex items-center gap-4 text-right">
                         <div className="text-center min-w-[40px]">
                           <p className="text-white font-bold text-sm">{c.plays}</p>
-                          <p className="text-white/30 text-[10px]">partidas</p>
+                          <p className="text-white/30 text-[10px]">{ca ? 'partides' : en ? 'games' : 'partidas'}</p>
                         </div>
                         <div className="text-center min-w-[48px]">
                           <p className="text-white font-bold text-sm">{formatTime(c.timeSpent)}</p>
-                          <p className="text-white/30 text-[10px]">tiempo</p>
+                          <p className="text-white/30 text-[10px]">{ca ? 'temps' : en ? 'time' : 'tiempo'}</p>
                         </div>
                         {(c.examsPassed ?? 0) > 0 && (
                           <div className="text-center min-w-[40px]">
                             <p className="text-green-400 font-black text-sm">{c.examsPassed}</p>
-                            <p className="text-white/30 text-[10px]">aprobados</p>
+                            <p className="text-white/30 text-[10px]">{ca ? 'aprovats' : en ? 'passed' : 'aprobados'}</p>
                           </div>
                         )}
                       </div>
@@ -238,7 +239,7 @@ export default function Perfil() {
                 {catEntries.length > 3 && (
                   <button onClick={() => setShowAllCats(!showAllCats)}
                     className="mt-3 w-full text-center text-sm text-violet-400 hover:text-violet-300 font-semibold transition-colors">
-                    {showAllCats ? 'Ver menos ↑' : `Ver las ${catEntries.length} materias ↓`}
+                    {showAllCats ? (ca ? 'Veure menys ↑' : en ? 'Show less ↑' : 'Ver menos ↑') : (ca ? `Veure les ${catEntries.length} matèries ↓` : en ? `Show all ${catEntries.length} subjects ↓` : `Ver las ${catEntries.length} materias ↓`)}
                   </button>
                 )}
               </div>

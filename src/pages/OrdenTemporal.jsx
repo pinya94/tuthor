@@ -20,11 +20,15 @@ function Intro({ onStart, lang }) {
       <div className="max-w-md w-full">
         <div className="text-center mb-8">
           <span className="text-6xl mb-4 block">📜</span>
-          <h1 className="text-3xl font-black text-white mb-2">{en ? 'Timeline' : 'Línea Temporal'}</h1>
-          <p className="text-white/50 text-sm">{en ? 'Sort the history of the world' : 'Ordena la historia del mundo'}</p>
+          <h1 className="text-3xl font-black text-white mb-2">{lang === 'ca' ? 'Línia Temporal' : lang === 'en' ? 'Timeline' : 'Línea Temporal'}</h1>
+          <p className="text-white/50 text-sm">{lang === 'ca' ? 'Ordena la història del món' : lang === 'en' ? 'Sort the history of the world' : 'Ordena la historia del mundo'}</p>
         </div>
         <div className="bg-white/5 border border-white/10 rounded-2xl p-6 mb-6 space-y-4">
-          {(en ? [
+          {(lang === 'ca' ? [
+            { icon: '🃏', title: 'Col·loca la carta al seu lloc', desc: 'Apareix un esdeveniment amb l\'any ocult. Prem el forat correcte a la teva línia del temps.' },
+            { icon: '❤️', title: '3 vides', desc: 'Cada error et costa una vida. L\'any es revela sempre per aprendre.' },
+            { icon: '📈', title: 'La línia creix amb cada encert', desc: 'Com més cartes col·loquis bé, més difícil. Hi ha 70+ esdeveniments!' },
+          ] : en ? [
             { icon: '🃏', title: 'Place the card correctly', desc: 'An event appears with the year hidden. Tap the right gap in your timeline.' },
             { icon: '❤️', title: '3 lives', desc: 'Each mistake costs a life. The year is always revealed so you learn.' },
             { icon: '📈', title: 'The timeline grows', desc: 'The more cards you place correctly, the harder it gets. 70+ events!' },
@@ -43,7 +47,7 @@ function Intro({ onStart, lang }) {
           ))}
         </div>
         <button onClick={onStart} className="w-full bg-amber-500 hover:bg-amber-600 text-white font-bold py-4 rounded-xl transition-colors text-lg">
-          {en ? 'Start →' : 'Empezar →'}
+          {lang === 'ca' ? 'Començar →' : en ? 'Start →' : 'Empezar →'}
         </button>
       </div>
     </div>
@@ -56,10 +60,10 @@ function GameOver({ score, placed, onRepetir, onSalir, lang }) {
   const [showCoins, setShowCoins] = useState(false)
   const [coinsDone, setCoinsDone] = useState(false)
   let nota, notaColor
-  if (placed >= 20)      { nota = en ? 'EXPERT HISTORIAN' : 'HISTORIADOR EXPERTO'; notaColor = 'text-violet-400' }
-  else if (placed >= 12) { nota = en ? 'GOOD LEVEL' : 'BUEN NIVEL'; notaColor = 'text-blue-400' }
-  else if (placed >= 6)  { nota = en ? 'IN PROGRESS' : 'EN PROGRESO'; notaColor = 'text-amber-400' }
-  else                   { nota = en ? 'KEEP PRACTISING' : 'SIGUE PRACTICANDO'; notaColor = 'text-white/60' }
+  if (placed >= 20)      { nota = lang === 'ca' ? 'HISTORIADOR EXPERT' : en ? 'EXPERT HISTORIAN' : 'HISTORIADOR EXPERTO'; notaColor = 'text-violet-400' }
+  else if (placed >= 12) { nota = lang === 'ca' ? 'BON NIVELL' : en ? 'GOOD LEVEL' : 'BUEN NIVEL'; notaColor = 'text-blue-400' }
+  else if (placed >= 6)  { nota = lang === 'ca' ? 'EN PROGRÉS' : en ? 'IN PROGRESS' : 'EN PROGRESO'; notaColor = 'text-amber-400' }
+  else                   { nota = lang === 'ca' ? 'CONTINUA PRACTICANT' : en ? 'KEEP PRACTISING' : 'SIGUE PRACTICANDO'; notaColor = 'text-white/60' }
 
   useEffect(() => { if (score > 0) setShowCoins(true) }, [])
 
@@ -67,7 +71,7 @@ function GameOver({ score, placed, onRepetir, onSalir, lang }) {
     <div className="flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
       <div className="max-w-md w-full">
         <div className="text-center mb-6">
-          <p className="text-white/40 text-xs uppercase tracking-widest mb-2">{en ? 'Game over' : 'Partida terminada'}</p>
+          <p className="text-white/40 text-xs uppercase tracking-widest mb-2">{lang === 'ca' ? 'Partida acabada' : en ? 'Game over' : 'Partida terminada'}</p>
           <h1 className={`text-3xl font-black mb-1 ${notaColor}`}>{nota}</h1>
         </div>
 
@@ -78,7 +82,7 @@ function GameOver({ score, placed, onRepetir, onSalir, lang }) {
         {(coinsDone || !showCoins) && (
           <>
             <div className="grid grid-cols-2 gap-3 mb-6">
-              {[{ val: score, label: en ? 'Points' : 'Puntos', emoji: '⭐' }, { val: placed, label: en ? 'Placed' : 'Colocadas', emoji: '✅' }].map(s => (
+              {[{ val: score, label: lang === 'ca' ? 'Punts' : en ? 'Points' : 'Puntos', emoji: '⭐' }, { val: placed, label: lang === 'ca' ? 'Col·locades' : en ? 'Placed' : 'Colocadas', emoji: '✅' }].map(s => (
                 <div key={s.label} className="bg-white/5 border border-white/10 rounded-xl p-4 text-center">
                   <span className="text-2xl block mb-1">{s.emoji}</span>
                   <p className="text-2xl font-black text-white">{s.val}</p>
@@ -87,8 +91,8 @@ function GameOver({ score, placed, onRepetir, onSalir, lang }) {
               ))}
             </div>
             <div className="flex flex-col gap-3">
-              <button onClick={onRepetir} className="w-full bg-amber-500 hover:bg-amber-600 text-white font-bold py-3 rounded-xl transition-colors">{en ? 'Play again ↺' : 'Jugar otra vez ↺'}</button>
-              <button onClick={onSalir}   className="w-full bg-white/5 hover:bg-white/10 border border-white/10 text-white/70 font-medium py-3 rounded-xl transition-colors">{en ? 'Back to Games' : 'Volver a Juegos'}</button>
+              <button onClick={onRepetir} className="w-full bg-amber-500 hover:bg-amber-600 text-white font-bold py-3 rounded-xl transition-colors">{lang === 'ca' ? 'Jugar una altra vegada ↺' : en ? 'Play again ↺' : 'Jugar otra vez ↺'}</button>
+              <button onClick={onSalir}   className="w-full bg-white/5 hover:bg-white/10 border border-white/10 text-white/70 font-medium py-3 rounded-xl transition-colors">{lang === 'ca' ? 'Tornar als Jocs' : en ? 'Back to Games' : 'Volver a Juegos'}</button>
             </div>
           </>
         )}
@@ -212,10 +216,10 @@ export default function OrdenTemporal() {
         </div>
         <div className="text-center">
           <p className="text-white font-black text-lg sm:text-xl leading-none">{score} pts</p>
-          <p className="text-white/30 text-xs">{timeline.length} colocadas</p>
+          <p className="text-white/30 text-xs">{timeline.length} {lang === 'ca' ? 'col·locades' : lang === 'en' ? 'placed' : 'colocadas'}</p>
         </div>
         <div className="text-right">
-          <p className="text-white/50 text-sm font-semibold">{pending.length + 1} restantes</p>
+          <p className="text-white/50 text-sm font-semibold">{pending.length + 1} {lang === 'ca' ? 'restants' : lang === 'en' ? 'remaining' : 'restantes'}</p>
           <div className="w-16 h-1.5 bg-white/10 rounded-full mt-1 ml-auto overflow-hidden">
             <div className="h-full bg-amber-500 rounded-full transition-all duration-500" style={{ width: `${progress}%` }} />
           </div>
@@ -225,7 +229,7 @@ export default function OrdenTemporal() {
       {/* ── CARTA ACTUAL ── */}
       <div className="flex-1 flex flex-col items-center justify-center px-4 sm:px-8 py-4 min-h-0">
         <p className="text-white/40 text-xs uppercase tracking-widest mb-4 text-center font-semibold">
-          {phase === 'placing' ? '¿Dónde va esta carta?' : wasCorrect ? '✓ ¡Correcto!' : '✗ Incorrecto'}
+          {phase === 'placing' ? (lang === 'ca' ? 'On va aquesta carta?' : lang === 'en' ? 'Where does this card go?' : '¿Dónde va esta carta?') : wasCorrect ? (lang === 'ca' ? '✓ Correcte!' : lang === 'en' ? '✓ Correct!' : '✓ ¡Correcto!') : (lang === 'ca' ? '✗ Incorrecte' : lang === 'en' ? '✗ Incorrect' : '✗ Incorrecto')}
         </p>
 
         {current && (
@@ -249,10 +253,10 @@ export default function OrdenTemporal() {
       {/* ── LÍNEA DEL TIEMPO ── */}
       <div className="shrink-0 border-t border-white/10 bg-black/30 backdrop-blur-sm" style={{ minHeight: '11rem' }}>
         <div className="flex items-center justify-between px-4 pt-2 pb-1">
-          <p className="text-white/40 text-xs uppercase tracking-widest font-semibold">Tu línea del tiempo</p>
+          <p className="text-white/40 text-xs uppercase tracking-widest font-semibold">{lang === 'ca' ? 'La teva línia del temps' : lang === 'en' ? 'Your timeline' : 'Tu línea del tiempo'}</p>
           {phase === 'revealing' && !wasCorrect
-            ? <p className="text-green-400 text-xs font-semibold animate-pulse">↑ posición correcta en verde</p>
-            : timeline.length > 2 && <p className="text-white/20 text-xs">← desliza →</p>
+            ? <p className="text-green-400 text-xs font-semibold animate-pulse">{lang === 'ca' ? '↑ posició correcta en verd' : lang === 'en' ? '↑ correct position in green' : '↑ posición correcta en verde'}</p>
+            : timeline.length > 2 && <p className="text-white/20 text-xs">{lang === 'ca' ? '← llisca →' : lang === 'en' ? '← scroll →' : '← desliza →'}</p>
           }
         </div>
 

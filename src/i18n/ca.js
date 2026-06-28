@@ -1,0 +1,83 @@
+export default {
+  // Navbar
+  'nav.estudiar': 'Estudiar',
+  'nav.juegos': 'Jocs',
+  'nav.diaria': 'Pregunta Diària',
+  'nav.entrar': 'Entrar',
+  'nav.perfil': 'El meu perfil',
+  'nav.comunidad': 'Comunitat',
+  'nav.admin': 'Admin',
+  'nav.cerrarSesion': 'Tancar sessió',
+
+  // Home hero
+  'home.titulo': 'Què vols fer avui?',
+  'home.subtitulo': 'Tria una secció i comença ara',
+
+  // Home SEO
+  'home.seo.titulo': 'La forma intel·ligent de repassar sense avorrir-te',
+  'home.seo.subtitulo': 'Partides ràpides de 5 minuts. Matemàtiques, història, geografia — dissenyat sobre principis pedagògics reals perquè aprenguis sense adonar-te\'n.',
+  'home.seo.jugar.titulo': 'Jugar: diverteix-te mentre repasses',
+  'home.seo.jugar.tag': '6 jocs disponibles',
+  'home.seo.jugar.texto': 'El nostre catàleg cobreix càlcul mental, cronologia històrica, geografia i pensament crític. Mecàniques de videojoc — roguelike, puzles contra rellotge, deducció per pistes — perquè el repàs se senti com un repte, no com una obligació.',
+  'home.seo.jugar.link': 'Veure tots els jocs i la seva base científica →',
+  'home.seo.estudiar.titulo': 'Els teus exàmens, gamificats',
+  'home.seo.estudiar.tag': 'Història · Matemàtiques · Geografia',
+  'home.seo.estudiar.texto': 'Jocs adaptats al temari real: la Guerra Civil Espanyola, càlcul amb divisions, països d\'Europa. 10 preguntes, nota al final. Cada tema combina múltiples jocs perquè el coneixement es fixi de debò.',
+  'home.seo.estudiar.link': 'Veure temes i exàmens →',
+  'home.seo.diaria.titulo': 'El secret està en l\'hàbit',
+  'home.seo.diaria.tag': '2 minuts al dia',
+  'home.seo.diaria.texto': 'Estudiar a última hora no funciona. Un repte nou cada dia: trivia, càlcul mental, portada històrica o país misteriós. Mantén la ratxa i crea un hàbit d\'estudi sòlid sense esforç.',
+  'home.seo.diaria.link': 'La ciència darrere del repte diari →',
+  'home.seo.comoFunciona': 'Com funciona Tuthor',
+  'home.seo.comoFuncionaSub': 'Una plataforma educativa que converteix qualsevol matèria en una experiència interactiva',
+  'home.seo.paso1': 'Tria matèria',
+  'home.seo.paso1.desc': 'Mates, història, geografia — tu decideixes per on començar',
+  'home.seo.paso2': 'Juga o estudia',
+  'home.seo.paso2.desc': 'Mode lliure per practicar o mode examen per preparar temes',
+  'home.seo.paso3': 'Aprèn de l\'error',
+  'home.seo.paso3.desc': 'Cada error ve amb explicació. L\'error és part del joc',
+  'home.seo.paso4': 'Mesura el teu progrés',
+  'home.seo.paso4.desc': 'Ratxes, notes i estadístiques per veure com has millorat',
+  'home.seo.equipo.titulo': 'El Projecte i l\'Equip',
+  'home.seo.equipo.texto': 'Tuthor neix per transformar l\'educació. Gamificació i ciència pedagògica de la mà: memòria de treball, pensament crític, flexibilitat cognitiva.',
+  'home.seo.video.titulo': 'Com estem creant Tuthor',
+  'home.seo.video.subtitulo': 'El procés darrere de la plataforma, explicat per l\'equip',
+  'home.seo.contacto.titulo': 'Contacta amb nosaltres',
+  'home.seo.contacto.texto': 'Ets docent, pare o estudiant? Tens una idea, suggeriment o vols col·laborar? Escriu-nos i et responem en menys de 24 hores.',
+  'home.seo.cta': 'Començar a jugar gratis →',
+
+  // Common
+  'common.objetivo': 'Objectiu',
+  'common.tiempo': 'Temps',
+  'common.puntos': 'pts',
+  'common.verdad': 'VERITAT',
+  'common.mentira': 'MENTIDA',
+  'common.continuar': 'Continuar →',
+  'common.empezar': 'Començar! →',
+  'common.volver': '← Tornar',
+  'common.salir': '← Sortir',
+  'common.compartir': '🔗 Compartir resultat',
+  'common.reintentar': 'Tornar-ho a intentar',
+  'common.cambiarDificultad': 'Canviar dificultat',
+  'common.tiempoAgotado': 'Temps esgotat!',
+  'common.correcto': 'Correcte!',
+  'common.incorrecto': 'Incorrecte!',
+  'common.aprobado': 'Aprovat',
+  'common.suspenso': 'Suspès',
+  'common.paises': 'Països',
+  'common.mejorRacha': 'Millor ratxa',
+  'common.puntuacion': 'Puntuació',
+
+  // Juegos page
+  'juegos.titulo': 'Aprèn sense adonar-te\'n',
+  'juegos.subtitulo': 'Jocs educatius per repassar mentre et diverteixes',
+
+  // Estudiar page
+  'estudiar.titulo': 'Què vols estudiar?',
+  'estudiar.subtitulo': 'Tria una matèria per començar',
+
+  // Roles
+  'rol.desarrollo': 'Desenvolupament',
+  'rol.diseno': 'Disseny',
+  'rol.gestion': 'Gestió',
+}

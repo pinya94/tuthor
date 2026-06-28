@@ -6,9 +6,9 @@ import { saveActivity, saveDailyChallenge } from '../lib/activity'
 import CoinsAnimation from '../components/CoinsAnimation'
 
 const DIFS = {
-  facil:   { label: 'Fácil', labelEn: 'Easy',   emoji: '🟢', size: 5, time: 90,  bonus: 15, ops: ['+','-'],       goalsNeeded: 1 },
-  medio:   { label: 'Medio', labelEn: 'Medium', emoji: '🟡', size: 5, time: 60,  bonus: 10, ops: ['+','-','×'],   goalsNeeded: 1 },
-  dificil: { label: 'Difícil', labelEn: 'Hard', emoji: '🔴', size: 5, time: 45,  bonus: 10, ops: ['+','-','×','÷'], goalsNeeded: 2 },
+  facil:   { label: 'Fácil', labelEn: 'Easy', labelCa: 'Fàcil',     emoji: '🟢', size: 5, time: 90,  bonus: 15, ops: ['+','-'],       goalsNeeded: 1 },
+  medio:   { label: 'Medio', labelEn: 'Medium', labelCa: 'Mitjà',   emoji: '🟡', size: 5, time: 60,  bonus: 10, ops: ['+','-','×'],   goalsNeeded: 1 },
+  dificil: { label: 'Difícil', labelEn: 'Hard', labelCa: 'Difícil', emoji: '🔴', size: 5, time: 45,  bonus: 10, ops: ['+','-','×','÷'], goalsNeeded: 2 },
 }
 
 const OP_POOL = {
@@ -64,6 +64,22 @@ const UI = {
     metasDisponibles: 'Goals', soloUna: 'reach just 1 of 3',
     operaciones: 'Operations',
   },
+  ca: {
+    titulo: 'NumPath', desc: 'Navega per la quadrícula i arriba a una meta amb la puntuació exacta',
+    volver: '← Tornar', empezar: 'Comença! →', salir: '← Sortir',
+    puntuacion: 'Puntuació', meta: 'Meta', tiempo: 'Temps',
+    tableros: 'Taulers', tiempoAgotado: 'Temps esgotat!',
+    compartir: '🔗 Compartir resultat', reintentar: 'Tornar-ho a provar',
+    cambiarDif: 'Canviar dificultat', resetear: '🔄 Reiniciar tauler',
+    comoFunciona: 'Com funciona', reglas: 'Regles',
+    paso1: 'Mou-te per la quadrícula tocant caselles adjacents',
+    paso2: 'Cada casella aplica una operació a la teva puntuació (un sol ús)',
+    paso3: 'Arriba a QUALSEVOL meta amb la puntuació exacta',
+    paso4: 'Pots reiniciar el tauler si et quedes encallat (mateixes caselles)',
+    tiempoInicial: 'Temps inicial', bonusPorTablero: 'En completar',
+    metasDisponibles: 'Metes', soloUna: 'arriba només a 1 de 3',
+    operaciones: 'Operacions',
+  },
 }
 
 function rng(min, max) { return min + Math.floor(Math.random() * (max - min + 1)) }
@@ -117,12 +133,12 @@ function generateBoard(size, allowedOps, startScore) {
 
 const EXAM_TOTAL = 10
 
-function calificacion(aciertos, en) {
-  if (aciertos >= 9)  return { label: en ? 'Outstanding' : 'Sobresaliente', color: 'text-green-400' }
-  if (aciertos >= 7)  return { label: en ? 'Good' : 'Notable', color: 'text-blue-400' }
-  if (aciertos === 6) return { label: en ? 'Fair' : 'Bien', color: 'text-yellow-300' }
-  if (aciertos === 5) return { label: en ? 'Pass' : 'Suficiente', color: 'text-orange-400' }
-  return { label: en ? 'Fail' : 'Insuficiente', color: 'text-red-400' }
+function calificacion(aciertos, lang) {
+  if (aciertos >= 9)  return { label: lang === 'ca' ? 'Excel·lent' : lang === 'en' ? 'Outstanding' : 'Sobresaliente', color: 'text-green-400' }
+  if (aciertos >= 7)  return { label: lang === 'ca' ? 'Notable' : lang === 'en' ? 'Good' : 'Notable', color: 'text-blue-400' }
+  if (aciertos === 6) return { label: lang === 'ca' ? 'Bé' : lang === 'en' ? 'Fair' : 'Bien', color: 'text-yellow-300' }
+  if (aciertos === 5) return { label: lang === 'ca' ? 'Suficient' : lang === 'en' ? 'Pass' : 'Suficiente', color: 'text-orange-400' }
+  return { label: lang === 'ca' ? 'Insuficient' : lang === 'en' ? 'Fail' : 'Insuficiente', color: 'text-red-400' }
 }
 
 export default function NumPath() {
@@ -132,7 +148,8 @@ export default function NumPath() {
   const { user } = useAuth()
   const u = UI[lang] || UI.es
   const en = lang === 'en'
-  const dl = d => en ? (d.labelEn || d.label) : d.label
+  const ca = lang === 'ca'
+  const dl = d => ca ? (d.labelCa || d.label) : en ? (d.labelEn || d.label) : d.label
 
   // Exam mode from study section
   const modoExamen = location.state?.modoExamen === true
@@ -343,7 +360,7 @@ export default function NumPath() {
             {[
               ['⏱️', u.tiempoInicial, `${d.time}s`],
               ['🎁', u.bonusPorTablero, `+${d.bonus}s`],
-              ['🎯', u.metasDisponibles, d.goalsNeeded === 1 ? `3 — ${u.soloUna}` : `3 — ${lang === 'en' ? `reach ${d.goalsNeeded}` : `alcanza ${d.goalsNeeded}`}`],
+              ['🎯', u.metasDisponibles, d.goalsNeeded === 1 ? `3 — ${u.soloUna}` : `3 — ${lang === 'ca' ? `arriba a ${d.goalsNeeded}` : lang === 'en' ? `reach ${d.goalsNeeded}` : `alcanza ${d.goalsNeeded}`}`],
               ['🔢', u.operaciones, d.ops.join(' ')],
               ['📐', 'Grid', `${d.size}×${d.size}`],
             ].map(([e, k, v]) => (
@@ -396,17 +413,17 @@ export default function NumPath() {
           <div className="max-w-md w-full">
             <div className="bg-white/5 border border-white/10 rounded-2xl p-6 text-center mb-4">
               <div className="text-5xl mb-3">{won ? '🎉' : '😬'}</div>
-              <h2 className="text-2xl font-black text-white mb-1">{won ? (en ? 'Solved!' : '¡Resuelto!') : (en ? 'Not this time' : 'No ha sido esta vez')}</h2>
-              <p className="text-white/40 text-sm mb-4">{en ? 'NumPath daily challenge' : 'Reto diario NumPath'}</p>
-              {won && <p className="text-amber-400 font-bold text-lg">💰 +1000 {en ? 'coins' : 'monedas'}</p>}
+              <h2 className="text-2xl font-black text-white mb-1">{won ? (ca ? 'Resolt!' : en ? 'Solved!' : '¡Resuelto!') : (ca ? 'No ha estat aquest cop' : en ? 'Not this time' : 'No ha sido esta vez')}</h2>
+              <p className="text-white/40 text-sm mb-4">{ca ? 'Repte diari NumPath' : en ? 'NumPath daily challenge' : 'Reto diario NumPath'}</p>
+              {won && <p className="text-amber-400 font-bold text-lg">💰 +1000 {ca ? 'monedes' : en ? 'coins' : 'monedas'}</p>}
             </div>
             <button onClick={() => navigate(localPath('/diaria'))}
               className="w-full bg-[#EDAE49] hover:bg-amber-400 text-black font-black py-3 rounded-xl transition-all mb-2">
-              {en ? '← Back to Daily Challenge' : '← Volver al Reto Diario'}
+              {ca ? '← Tornar al Repte Diari' : en ? '← Back to Daily Challenge' : '← Volver al Reto Diario'}
             </button>
             <button onClick={() => navigate(localPath('/juegos'))}
               className="w-full text-white/40 hover:text-white/70 text-sm py-2 transition">
-              {en ? 'Go to Games' : 'Ir a Juegos'}
+              {ca ? 'Anar a Jocs' : en ? 'Go to Games' : 'Ir a Juegos'}
             </button>
           </div>
         </div>
@@ -414,22 +431,22 @@ export default function NumPath() {
     }
 
     const aprobado = exAciertos >= 5
-    const cal = calificacion(exAciertos, en)
+    const cal = calificacion(exAciertos, lang)
     return (
       <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
         <div className="max-w-md w-full">
           <div className="bg-white/5 border border-white/10 rounded-2xl p-6 text-center mb-4">
             <div className="text-5xl mb-3">{aprobado ? '🎉' : '😬'}</div>
             <div className={`text-xs uppercase tracking-widest font-semibold mb-1 ${aprobado ? 'text-green-400' : 'text-red-400'}`}>
-              {aprobado ? (en ? 'Passed' : 'Aprobado') : (en ? 'Failed' : 'Suspenso')}
+              {aprobado ? (ca ? 'Aprovat' : en ? 'Passed' : 'Aprobado') : (ca ? 'Suspès' : en ? 'Failed' : 'Suspenso')}
             </div>
             <h2 className="text-2xl font-black text-white mb-1">{cal.label}</h2>
             <p className={`text-5xl font-black mb-1 ${cal.color}`}>{exAciertos}/{EXAM_TOTAL}</p>
-            <p className="text-white/40 text-sm">{en ? 'Boards solved in the NumPath exam' : 'Tableros resueltos en el examen NumPath'}</p>
+            <p className="text-white/40 text-sm">{ca ? 'Taulers resolts a l\'examen NumPath' : en ? 'Boards solved in the NumPath exam' : 'Tableros resueltos en el examen NumPath'}</p>
           </div>
 
           <div className="bg-white/5 border border-white/10 rounded-2xl p-4 mb-5">
-            <p className="text-white/30 text-xs uppercase tracking-widest mb-3 font-semibold">{en ? 'Detail per board' : 'Detalle por tablero'}</p>
+            <p className="text-white/30 text-xs uppercase tracking-widest mb-3 font-semibold">{ca ? 'Detall per tauler' : en ? 'Detail per board' : 'Detalle por tablero'}</p>
             <div className="flex gap-2 flex-wrap">
               {exHistorial.map((h, i) => (
                 <div key={i} className={`flex items-center justify-center w-8 h-8 rounded-full border-2 text-xs font-bold ${
@@ -441,11 +458,11 @@ export default function NumPath() {
 
           <button onClick={() => { setExRonda(1); setExAciertos(0); setExHistorial([]); startGame(difId) }}
             className="w-full py-3 bg-[#EDAE49] hover:bg-amber-400 text-black font-black rounded-2xl transition-all mb-2">
-            {en ? 'Retake exam' : 'Repetir examen'}
+            {ca ? 'Repetir examen' : en ? 'Retake exam' : 'Repetir examen'}
           </button>
           <button onClick={() => navigate(examBackPath ? localPath(examBackPath) : localPath('/estudiar/matematicas'))}
             className="w-full py-3 text-white/40 hover:text-white/70 text-sm transition-colors">
-            {en ? '← Back to topic' : '← Volver al tema'}
+            {ca ? '← Tornar al tema' : en ? '← Back to topic' : '← Volver al tema'}
           </button>
         </div>
       </div>
@@ -469,7 +486,7 @@ export default function NumPath() {
             {boards > 0 && <CoinsAnimation points={boards * 100} />}
           </div>
           <div className="space-y-3">
-            <button onClick={() => navigator.clipboard.writeText(shareText).then(() => alert(lang === 'en' ? 'Copied!' : '¡Copiado!'))}
+            <button onClick={() => navigator.clipboard.writeText(shareText).then(() => alert(lang === 'ca' ? 'Copiat!' : lang === 'en' ? 'Copied!' : '¡Copiado!'))}
               className="w-full bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold py-3 rounded-xl transition">
               {u.compartir}
             </button>
@@ -503,7 +520,7 @@ export default function NumPath() {
         </button>
         <div className="flex items-center gap-3 text-sm text-white/50">
           {modoExamen ? (
-            <span className="text-white font-bold tabular-nums">{en ? 'Board' : 'Tablero'} {exRonda}/{EXAM_TOTAL}</span>
+            <span className="text-white font-bold tabular-nums">{ca ? 'Tauler' : en ? 'Board' : 'Tablero'} {exRonda}/{EXAM_TOTAL}</span>
           ) : (
             <span className="text-white font-bold tabular-nums">🧮 {boards}</span>
           )}
@@ -602,7 +619,7 @@ export default function NumPath() {
         {modoExamen && (
           <button onClick={skipBoard}
             className="py-2.5 px-4 bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 text-red-400 font-bold text-sm rounded-xl transition-all">
-            {en ? 'Skip →' : 'Saltar →'}
+            {ca ? 'Saltar →' : en ? 'Skip →' : 'Saltar →'}
           </button>
         )}
       </div>

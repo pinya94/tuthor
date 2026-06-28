@@ -118,6 +118,8 @@ function Layout({ onConsent }) {
             <Route path="/">{AppRoutes()}</Route>
             {/* Rutas en inglés (prefijo /en) */}
             <Route path="/en">{AppRoutes()}</Route>
+            {/* Catalán — rutas activas pero selector oculto hasta completar traducción */}
+            <Route path="/ca">{AppRoutes()}</Route>
           </Routes>
         </div>
         <CookieBanner onConsent={onConsent} />

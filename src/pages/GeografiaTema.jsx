@@ -25,6 +25,13 @@ const TEMAS_META = {
     africa:  { titulo: 'Africa',       emoji: '🌍', descripcion: 'From Morocco to South Africa. The most varied continent on the planet.' },
     oceania: { titulo: 'Oceania',      emoji: '🏝️', descripcion: 'Australia, New Zealand and the Pacific islands.' },
   },
+  ca: {
+    europa:  { titulo: 'Europa',       emoji: '🇪🇺', descripcion: 'D\'Islàndia a Xipre, passant pels Balcans i Escandinàvia.' },
+    america: { titulo: 'Amèrica',      emoji: '🌎', descripcion: 'Del Canadà a la Patagònia. Nord, Centre i Sudamèrica.' },
+    asia:    { titulo: 'Àsia',         emoji: '🌏', descripcion: 'El continent més gran i divers. Del Japó a Turquia.' },
+    africa:  { titulo: 'Àfrica',       emoji: '🌍', descripcion: 'Del Marroc a Sud-àfrica. El continent més variat del planeta.' },
+    oceania: { titulo: 'Oceania',      emoji: '🏝️', descripcion: 'Austràlia, Nova Zelanda i les illes del Pacífic.' },
+  },
 }
 
 export default function GeografiaTema() {
@@ -45,12 +52,14 @@ export default function GeografiaTema() {
     {
       id: 'georush',
       titulo: 'GeoRush',
-      descripcion: en
+      descripcion: ca
+        ? 'Endevina el país a partir de pistes geogràfiques, demogràfiques i històriques. 10 països per examen.'
+        : en
         ? 'Guess the country from geographical, demographic and historical clues. 10 countries per exam.'
         : 'Adivina el país a partir de pistas geográficas, demográficas e históricas. 10 países por examen.',
       emoji: '🌍',
       gradient: 'from-teal-500 to-cyan-700',
-      detalles: [`${paisesCount} ${en ? 'countries' : 'países'}`, `10 ${en ? 'per exam' : 'por examen'}`, `5 ${en ? 'mixed clues' : 'pistas mixtas'} (3🔒 + 2🎁)`],
+      detalles: [`${paisesCount} ${ca ? 'països' : en ? 'countries' : 'países'}`, `10 ${ca ? 'per examen' : en ? 'per exam' : 'por examen'}`, `5 ${ca ? 'pistes mixtes' : en ? 'mixed clues' : 'pistas mixtas'} (3🔒 + 2🎁)`],
       action: () => navigate(localPath('/examen/geografia'), {
         state: { region, titulo: meta.titulo, backPath: `/estudiar/geografia/${region}` }
       }),
@@ -58,12 +67,14 @@ export default function GeografiaTema() {
     {
       id: 'geomapa',
       titulo: 'GeoMapa',
-      descripcion: en
+      descripcion: ca
+        ? 'Identifica el país il·luminat al mapa mundial. Si falles, reps pistes: bandera i capital.'
+        : en
         ? 'Identify the highlighted country on the world map. If you miss, you get hints: flag and capital.'
         : 'Identifica el país iluminado en el mapa mundial. Si fallas, recibes pistas: bandera y capital.',
       emoji: '🗺️',
       gradient: 'from-purple-500 to-violet-700',
-      detalles: [`${paisesMapaCount} ${en ? 'countries' : 'países'}`, `10 ${en ? 'per exam' : 'por examen'}`, `3 ${en ? 'attempts per country' : 'intentos por país'}`],
+      detalles: [`${paisesMapaCount} ${ca ? 'països' : en ? 'countries' : 'países'}`, `10 ${ca ? 'per examen' : en ? 'per exam' : 'por examen'}`, `3 ${ca ? 'intents per país' : en ? 'attempts per country' : 'intentos por país'}`],
       action: () => navigate(localPath('/examen/geomapa'), {
         state: { region, titulo: meta.titulo, backPath: `/estudiar/geografia/${region}` }
       }),
@@ -74,9 +85,9 @@ export default function GeografiaTema() {
     <div className="relative z-10 flex flex-col min-h-[calc(100vh-4rem)] px-4 sm:px-8 py-6">
       <div className="max-w-2xl mx-auto w-full mb-6">
         <p className="text-white/30 text-xs mb-4">
-          <button onClick={() => navigate(localPath('/estudiar'))} className="hover:text-white/60 transition-colors">{en ? 'Study' : 'Estudiar'}</button>
+          <button onClick={() => navigate(localPath('/estudiar'))} className="hover:text-white/60 transition-colors">{ca ? 'Estudiar' : en ? 'Study' : 'Estudiar'}</button>
           {' '}/{' '}
-          <button onClick={() => navigate(localPath('/estudiar/geografia'))} className="hover:text-white/60 transition-colors">{en ? 'Geography' : 'Geografía'}</button>
+          <button onClick={() => navigate(localPath('/estudiar/geografia'))} className="hover:text-white/60 transition-colors">{ca ? 'Geografia' : en ? 'Geography' : 'Geografía'}</button>
           {' '}/{' '}<span className="text-white/50">{meta.titulo}</span>
         </p>
 
@@ -91,7 +102,7 @@ export default function GeografiaTema() {
 
       <div className="max-w-2xl mx-auto w-full space-y-4">
         <p className="text-white/30 text-xs uppercase tracking-widest font-semibold">
-          {en ? 'Available modes' : 'Modos disponibles'}
+          {ca ? 'Modes disponibles' : en ? 'Available modes' : 'Modos disponibles'}
         </p>
 
         {modos.map(modo => (
@@ -127,7 +138,10 @@ export default function GeografiaTema() {
         ))}
 
         {/* Próximamente */}
-        {(en ? [
+        {(ca ? [
+          { id: 'capitales', titulo: 'Capitals del Món', emoji: '🏙️', desc: 'Identifica la capital de cada país.' },
+          { id: 'banderas', titulo: 'Banderes', emoji: '🏳️', desc: 'Reconeix els països per la seva bandera.' },
+        ] : en ? [
           { id: 'capitales', titulo: 'World Capitals', emoji: '🏙️', desc: 'Identify the capital of each country.' },
           { id: 'banderas', titulo: 'Flags', emoji: '🏳️', desc: 'Recognise countries by their flag.' },
         ] : [
@@ -141,7 +155,7 @@ export default function GeografiaTema() {
                 <h3 className="font-bold text-white/60 text-base">{m.titulo}</h3>
                 <p className="text-white/30 text-xs mt-0.5">{m.desc}</p>
               </div>
-              <span className="ml-auto text-xs font-bold text-white/30 border border-white/15 px-2 py-0.5 rounded-full">{en ? 'Soon' : 'Pronto'}</span>
+              <span className="ml-auto text-xs font-bold text-white/30 border border-white/15 px-2 py-0.5 rounded-full">{ca ? 'Aviat' : en ? 'Soon' : 'Pronto'}</span>
             </div>
           </div>
         ))}

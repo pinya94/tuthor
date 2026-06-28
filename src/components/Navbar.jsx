@@ -53,12 +53,12 @@ export default function Navbar() {
           {/* Auth escritorio + idioma */}
           <div className="hidden sm:flex items-center gap-2">
             <button
-              onClick={() => switchLang(lang === 'es' ? 'en' : 'es')}
+              onClick={() => switchLang(lang === 'es' ? 'en' : lang === 'en' ? 'ca' : 'es')}
               className="flex items-center gap-1.5 text-white/50 hover:text-white/90 px-2 py-1.5 rounded-lg hover:bg-white/10 transition-all text-sm"
-              title={lang === 'es' ? 'Switch to English' : 'Cambiar a Español'}
+              title={lang === 'es' ? 'Switch to English' : lang === 'en' ? 'Canvia a Català' : 'Cambiar a Español'}
             >
-              <span className="text-base">{lang === 'es' ? '🇬🇧' : '🇪🇸'}</span>
-              <span className="text-xs font-medium">{lang === 'es' ? 'EN' : 'ES'}</span>
+              <span className="text-base">{lang === 'es' ? '🇬🇧' : lang === 'en' ? '🏳️' : '🇪🇸'}</span>
+              <span className="text-xs font-medium">{lang === 'es' ? 'EN' : lang === 'en' ? 'CA' : 'ES'}</span>
             </button>
             {!authLoading && !user && (
               <button
@@ -86,10 +86,10 @@ export default function Navbar() {
                 {avatarMenu && (
                   <div className="absolute right-0 top-full mt-2 bg-[#0d0d1a] border border-white/10 backdrop-blur-md rounded-xl overflow-hidden w-44 shadow-xl z-50">
                     <button onClick={() => { navigate('/perfil'); setAvatarMenu(false) }} className="w-full text-left px-4 py-3 text-sm text-white/70 hover:text-white hover:bg-white/10 transition-colors">
-                      👤 Mi perfil
+                      👤 {lang === 'ca' ? 'El meu perfil' : lang === 'en' ? 'My profile' : 'Mi perfil'}
                     </button>
                     <button onClick={() => { navigate('/comunidad'); setAvatarMenu(false) }} className="w-full text-left px-4 py-3 text-sm text-white/70 hover:text-white hover:bg-white/10 transition-colors border-t border-white/5">
-                      🤝 Comunidad
+                      🤝 {lang === 'ca' ? 'Comunitat' : lang === 'en' ? 'Community' : 'Comunidad'}
                     </button>
                     {['pinya1994@gmail.com','consiguetualgogratis@gmail.com','consiguetualgogratis@tuthor.app'].includes(user?.email) && (
                       <button onClick={() => { navigate('/admin'); setAvatarMenu(false) }} className="w-full text-left px-4 py-3 text-sm text-amber-400/70 hover:text-amber-300 hover:bg-white/10 transition-colors border-t border-white/5">
@@ -97,7 +97,7 @@ export default function Navbar() {
                       </button>
                     )}
                     <button onClick={() => { logout(); setAvatarMenu(false) }} className="w-full text-left px-4 py-3 text-sm text-white/40 hover:text-white/70 hover:bg-white/5 transition-colors border-t border-white/5">
-                      Cerrar sesión
+                      {lang === 'ca' ? 'Tancar sessió' : lang === 'en' ? 'Sign out' : 'Cerrar sesión'}
                     </button>
                   </div>
                 )}
@@ -128,10 +128,10 @@ export default function Navbar() {
               )
             })}
             <div className="border-t border-white/10 pt-2 mt-1">
-              <button onClick={() => { switchLang(lang === 'es' ? 'en' : 'es'); setMenuOpen(false) }}
+              <button onClick={() => { switchLang(lang === 'es' ? 'en' : lang === 'en' ? 'ca' : 'es'); setMenuOpen(false) }}
                 className="w-full text-left px-4 py-3 rounded-xl text-sm font-medium text-white/70 hover:text-white hover:bg-white/10 transition-all flex items-center gap-2">
-                <span>{lang === 'es' ? '🇬🇧' : '🇪🇸'}</span>
-                {lang === 'es' ? 'Switch to English' : 'Cambiar a Español'}
+                <span>{lang === 'es' ? '🇬🇧' : lang === 'en' ? '🏳️' : '🇪🇸'}</span>
+                {lang === 'es' ? 'Switch to English' : lang === 'en' ? 'Canvia a Català' : 'Cambiar a Español'}
               </button>
               {!authLoading && !user && (
                 <button onClick={() => { setShowAuth(true); setMenuOpen(false) }} className="w-full text-left px-4 py-3 rounded-xl text-sm font-medium text-white/70 hover:text-white hover:bg-white/10 transition-all">

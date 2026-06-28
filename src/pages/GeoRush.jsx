@@ -5,9 +5,9 @@ import { useLang } from '../context/LangContext'
 import CoinsAnimation from '../components/CoinsAnimation'
 
 const DIFS = {
-  facil:   { label: 'Fácil', labelEn: 'Easy',   emoji: '🟢', tiempoInicio: 120, obligatorio: false },
-  medio:   { label: 'Medio', labelEn: 'Medium', emoji: '🟡', tiempoInicio: 90,  obligatorio: true },
-  dificil: { label: 'Difícil', labelEn: 'Hard', emoji: '🔴', tiempoInicio: 60,  obligatorio: true },
+  facil:   { label: 'Fácil', labelEn: 'Easy', labelCa: 'Fàcil',   emoji: '🟢', tiempoInicio: 120, obligatorio: false },
+  medio:   { label: 'Medio', labelEn: 'Medium', labelCa: 'Mitjà', emoji: '🟡', tiempoInicio: 90,  obligatorio: true },
+  dificil: { label: 'Difícil', labelEn: 'Hard', labelCa: 'Difícil', emoji: '🔴', tiempoInicio: 60,  obligatorio: true },
 }
 
 function shuffle(arr) {
@@ -150,7 +150,7 @@ function AutocompleteInput({ value, onChange, onSubmit, paises, disabled, focusK
         onBlur={() => setTimeout(() => setFocused(false), 150)}
         onKeyDown={handleKey}
         disabled={disabled}
-        placeholder={lang === 'en' ? 'Type a country…' : 'Escribe un país…'}
+        placeholder={lang === 'ca' ? 'Escriu un país…' : lang === 'en' ? 'Type a country…' : 'Escribe un país…'}
         className="w-full bg-white/10 border-2 border-white/20 focus:border-[#EDAE49] rounded-xl px-4 py-3 text-white text-lg placeholder:text-white/25 outline-none transition-colors disabled:opacity-40"
         autoComplete="off"
       />
@@ -217,13 +217,36 @@ const UI = {
     compartir: '🔗 Share result', reintentar: 'Try again', cambiarDif: 'Change difficulty',
     ultimoPais: 'Last country', tienes: 'you have',
   },
+  ca: {
+    titulo: 'GeoRush', desc: 'Descobreix el país misteriós a partir de pistes geogràfiques',
+    volver: '← Tornar', salir: '← Sortir', empezar: 'Començar! →',
+    reglas: 'Regles', recompensas: 'Recompenses', comoFunciona: 'Com funciona',
+    tiempo: 'Temps', pistas: '5 per país (3🔒 + 2🎁)', alAcertar: 'En encertar', acertar: '+20s + recompensa',
+    noAdivinar: 'Sense encert', saltar: 'Saltar',
+    tiempoExtra: '+15s extra', pistaExtra: '🎁 Pista extra', saltarGratis: 'Salt gratuït',
+    bonusPts: '+150 pts', ademasDe: 'A més dels +20s per encertar',
+    pistaExtraDesc: 'El següent país té 3 pistes regal en lloc de 2',
+    saltarGratisDesc: 'Acumules un salt sense penalització',
+    bonusDesc: 'Bonus de punts directe',
+    paso1: 'Pistes obligatòries: respon amb un país que compleixi', paso2: 'Pistes regal: respon el que vulguis, es revelen',
+    paso3: 'Endevina el país en qualsevol moment per guanyar', paso4: 'Menys pistes usades = més punts',
+    paisMisterioso: 'País misteriós', pistaOculta: 'Pista oculta',
+    obligatoria: 'Escriu un país que compleixi', regalo: 'Pista regal — respon el que vulguis',
+    intentaResponder: 'Intenta respondre (si falles, avancem):',
+    noReconocido: 'País no reconegut', noCumple: 'no compleix aquesta pista', noCumpleAvanzamos: 'no compleix, però avancem',
+    cumple: 'compleix', siguientePista: 'No és', escribePais: 'Escriu un país…',
+    saltarPais: 'Saltar país (−10s)', eligeRecompensa: 'Tria la recompensa',
+    tiempoAgotado: 'S\'ha acabat el temps!', puntuacion: 'Puntuació', paises: 'Països', mejorRacha: 'Millor ratxa',
+    compartir: '🔗 Compartir resultat', reintentar: 'Tornar-ho a provar', cambiarDif: 'Canviar dificultat',
+    ultimoPais: 'Últim país', tienes: 'tens',
+  },
 }
 
 export default function GeoRush() {
   const navigate = useNavigate()
   const { lang, localPath } = useLang()
   const u = UI[lang] || UI.es
-  const difLabel = d => lang === 'en' ? (d.labelEn || d.label) : d.label
+  const difLabel = d => lang === 'en' ? (d.labelEn || d.label) : lang === 'ca' ? (d.labelCa || d.label) : d.label
   const [fase, setFase]         = useState('intro')
   const [difId, setDifId]       = useState('medio')
   const [timeLeft, setTimeLeft] = useState(60)
@@ -512,7 +535,7 @@ export default function GeoRush() {
             {puntos > 0 && <CoinsAnimation points={puntos} />}
           </div>
           <div className="space-y-3">
-            <button onClick={() => navigator.clipboard.writeText(shareText).then(() => alert(lang === 'en' ? 'Copied!' : '¡Copiado!'))}
+            <button onClick={() => navigator.clipboard.writeText(shareText).then(() => alert(lang === 'ca' ? 'Copiat!' : lang === 'en' ? 'Copied!' : '¡Copiado!'))}
               className="w-full bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold py-3 rounded-xl transition">
               {u.compartir}
             </button>
