@@ -105,6 +105,7 @@ export default function GeoMapaExamen() {
   const location = useLocation()
   const { region, titulo, backPath } = location.state || {}
   const en = lang === 'en'
+  const ca = lang === 'ca'
 
   const pool = useMemo(() => {
     const filter = REGION_FILTER[region]
@@ -279,66 +280,55 @@ export default function GeoMapaExamen() {
         </div>
       </div>
 
-      <div className="flex-1 flex flex-col md:grid md:grid-cols-[1fr_320px] md:gap-8 md:items-start">
+      <div className="flex-1 flex flex-col">
 
-        {/* Map + hints */}
-        <div className="mb-5 md:mb-0">
-          <div className="bg-white/5 border border-white/10 rounded-2xl p-4 md:p-6">
-            <div className="flex items-center justify-between mb-3">
-              <h2 className="text-white/30 text-xs font-semibold uppercase tracking-widest">
-                {en ? `Country ${idx + 1}` : `País ${idx + 1}`}
-              </h2>
-              <span className="text-white/20 text-xs">
-                {errores}/{MAX_ERRORS} {en ? 'errors' : 'errores'}
-              </span>
-            </div>
+        {/* Map — full width */}
+        <div className="bg-black/40 border border-white/10 rounded-2xl p-2 sm:p-3 mb-4">
+          <div className="flex items-center justify-between mb-2 px-1">
+            <h2 className="text-white/30 text-xs font-semibold uppercase tracking-widest">
+              {ca ? `País ${idx + 1}` : en ? `Country ${idx + 1}` : `País ${idx + 1}`}
+            </h2>
+            <span className="text-white/20 text-xs">
+              {errores}/{MAX_ERRORS} {ca ? 'errors' : en ? 'errors' : 'errores'}
+            </span>
+          </div>
+          <WorldMap highlight={paisActual.iso} region={region} highlightColor="#EDAE49" baseColor="#1e293b" borderColor="#0f172a" className="rounded-xl overflow-hidden" />
+        </div>
 
-            <WorldMap highlight={paisActual.iso} region={region} className="rounded-xl overflow-hidden" />
-
-            {/* Hints revealed on wrong answers */}
-            {(showFlag || showCapital) && (
-              <div className="mt-4 space-y-2">
-                {showFlag && (
-                  <div className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm bg-[#EDAE49]/10 border border-[#EDAE49]/30 text-white">
-                    <FlagImg bandera={paisActual.bandera} size={32} />
-                    <span>{en ? 'Flag hint' : 'Pista: bandera'}</span>
-                  </div>
-                )}
-                {showCapital && (
-                  <div className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm bg-[#EDAE49]/10 border border-[#EDAE49]/30 text-white">
-                    <span className="text-base">🏛️</span>
-                    <span>{en ? 'Capital' : 'Capital'}: {lt(paisActual, 'capital')}</span>
-                  </div>
-                )}
+        {/* Hints */}
+        {(showFlag || showCapital) && (
+          <div className="flex gap-3 mb-4">
+            {showFlag && (
+              <div className="flex-1 text-center py-3 rounded-xl border bg-amber-500/10 border-amber-500/30 text-white">
+                <span className="block mb-1"><FlagImg bandera={paisActual.bandera} size={48} /></span>
+                <span className="text-xs text-white/50">{ca ? 'Pista: bandera' : en ? 'Hint: flag' : 'Pista: bandera'}</span>
+              </div>
+            )}
+            {showCapital && (
+              <div className="flex-1 text-center py-3 rounded-xl border bg-amber-500/10 border-amber-500/30 text-white">
+                <span className="text-xl block mb-1">🏛️</span>
+                <span className="text-sm font-bold text-white">{lt(paisActual, 'capital')}</span>
               </div>
             )}
           </div>
-        </div>
+        )}
+
+        {/* Feedback */}
+        {feedback && (
+          <div className={`text-center py-2 px-4 rounded-xl mb-3 text-sm font-bold ${
+            feedback.ok === true ? 'bg-green-500/20 text-green-400'
+            : feedback.ok === false ? 'bg-red-500/20 text-red-400'
+            : 'bg-white/10 text-white/60'
+          }`}>
+            {feedback.msg}
+          </div>
+        )}
 
         {/* Input */}
-        <div className="flex flex-col gap-4">
+        <div>
           {!resueltoPais && (
-            <>
-              <div className="bg-white/5 border border-white/10 rounded-2xl p-4">
-                <div className="flex items-center gap-2 mb-1">
-                  <span className="text-base">🗺️</span>
-                  <p className="text-white/30 text-xs uppercase tracking-widest">
-                    {en ? 'Which country is highlighted?' : '¿Qué país está resaltado?'}
-                  </p>
-                </div>
-                <p className="text-white font-bold text-sm">
-                  {en ? 'Look at the map and guess the country' : 'Mira el mapa y adivina el país'}
-                </p>
-              </div>
-              <AutocompleteInput value={inputVal} onChange={setInputVal} onSubmit={handleRespuesta}
-                disabled={!!feedback} focusKey={`${idx}-${errores}`} lang={lang} />
-            </>
-          )}
-          {feedback && (
-            <div className={`text-center py-2 rounded-xl font-bold text-sm ${
-              feedback.ok === true ? 'bg-green-500/20 text-green-400'
-                : 'bg-red-500/20 text-red-400'
-            }`}>{feedback.msg}</div>
+            <AutocompleteInput value={inputVal} onChange={setInputVal} onSubmit={handleRespuesta}
+              disabled={!!feedback} focusKey={`${idx}-${errores}`} lang={lang} />
           )}
         </div>
       </div>
