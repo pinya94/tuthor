@@ -101,7 +101,7 @@ function AutocompleteInput({ value, onChange, onSubmit, disabled, focusKey, lang
 
 export default function GeoMapaExamen() {
   const navigate = useNavigate()
-  const { lang, localPath } = useLang()
+  const { lang, localPath, lt } = useLang()
   const location = useLocation()
   const { region, titulo, backPath } = location.state || {}
   const en = lang === 'en'
@@ -151,7 +151,7 @@ export default function GeoMapaExamen() {
 
   const paisActual = pool[idx]
 
-  function getName(p) { return (en && p.nombreEn) ? p.nombreEn : p.nombre }
+  function getName(p) { return lt(p, 'nombre') }
 
   function handleRespuesta(val) {
     const nombreInput = val || inputVal
@@ -190,7 +190,7 @@ export default function GeoMapaExamen() {
       setFeedback({ ok: false, msg: en ? `Not ${nombreInput} — here's the flag` : `No es ${nombreInput} — aquí tienes la bandera` })
     } else if (newErrores === 2) {
       setShowCapital(true)
-      const cap = en ? (paisActual.capitalEn || paisActual.capital) : paisActual.capital
+      const cap = lt(paisActual, 'capital')
       setFeedback({ ok: false, msg: en ? `Not ${nombreInput} — capital: ${cap}` : `No es ${nombreInput} — capital: ${cap}` })
     }
     setTimeout(() => setFeedback(null), 1500)
@@ -307,7 +307,7 @@ export default function GeoMapaExamen() {
                 {showCapital && (
                   <div className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm bg-[#EDAE49]/10 border border-[#EDAE49]/30 text-white">
                     <span className="text-base">🏛️</span>
-                    <span>{en ? 'Capital' : 'Capital'}: {en ? (paisActual.capitalEn || paisActual.capital) : paisActual.capital}</span>
+                    <span>{en ? 'Capital' : 'Capital'}: {lt(paisActual, 'capital')}</span>
                   </div>
                 )}
               </div>

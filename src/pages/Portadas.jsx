@@ -77,10 +77,10 @@ function shuffle(arr) {
   return a
 }
 
-function PortadaCard({ p, lang }) {
+function PortadaCard({ p, lang, lt }) {
   const catStyle = CAT_STYLE[p.categoria] || 'bg-white/10 text-white/50 border-white/10'
-  const titular = (lang === 'ca' && p.titularCa) ? p.titularCa : (lang === 'en' && p.titularEn) ? p.titularEn : p.titular
-  const subtitular = (lang === 'ca' && p.subtitularCa) ? p.subtitularCa : (lang === 'en' && p.subtitularEn) ? p.subtitularEn : p.subtitular
+  const titular = lt(p, 'titular')
+  const subtitular = lt(p, 'subtitular')
   return (
     <div
       className="bg-[#f5f0e3] rounded-2xl overflow-hidden shadow-2xl border border-[#c8b89a]"
@@ -124,7 +124,7 @@ function PortadaCard({ p, lang }) {
 
 export default function Portadas() {
   const navigate = useNavigate()
-  const { lang, localPath } = useLang()
+  const { lang, localPath, lt } = useLang()
   const pu = PUI[lang] || PUI.es
   const dl = d => lang === 'ca' ? (d.labelCa || d.label) : lang === 'en' ? (d.labelEn || d.label) : d.label
   const [fase, setFase]         = useState('intro')
@@ -331,7 +331,7 @@ export default function Portadas() {
 
           {/* Portada */}
           <div className="mb-5 md:mb-0">
-            <PortadaCard p={portada} lang={lang} />
+            <PortadaCard p={portada} lang={lang} lt={lt} />
           </div>
 
           {/* Botones + info lateral */}
@@ -403,7 +403,7 @@ export default function Portadas() {
               <span>{p.veracidad ? '✓' : '✗'}</span>
               <span>{p.veracidad ? (lang === 'ca' ? 'VERITAT' : lang === 'en' ? 'TRUE' : 'VERDAD') : (lang === 'ca' ? 'MENTIDA' : lang === 'en' ? 'FALSE' : 'MENTIRA')}</span>
             </div>
-            <p className="text-white/60 leading-relaxed">{(lang === 'en' && p.explicacionEn) ? p.explicacionEn : p.explicacion}</p>
+            <p className="text-white/60 leading-relaxed">{lt(p, 'explicacion')}</p>
           </div>
 
           <button

@@ -30,7 +30,7 @@ function calificacion(aciertos, en) {
   return { label: en ? 'Fail' : 'Insuficiente', nota: Math.max(1, aciertos), color: 'text-red-400' }
 }
 
-function PortadaCard({ p, lang }) {
+function PortadaCard({ p, lang, lt }) {
   const catStyle = CAT_STYLE[p.categoria] || 'bg-white/10 text-white/50 border-white/10'
   return (
     <div
@@ -56,11 +56,11 @@ function PortadaCard({ p, lang }) {
       <div className="mx-5 md:mx-10 border-t-2 border-b border-gray-700" style={{ marginTop: '3px', paddingTop: '1px' }} />
       <div className="px-5 md:px-10 py-4 md:py-6">
         <h2 className="text-lg md:text-2xl font-black leading-snug text-gray-900 mb-3">
-          {(lang === 'en' && p.titularEn) || p.titular}
+          {lt(p, 'titular')}
         </h2>
         <div className="border-t border-b border-gray-300 py-2.5">
           <p className="text-xs md:text-sm leading-relaxed text-gray-600">
-            {(lang === 'en' && p.subtitularEn) || p.subtitular}
+            {lt(p, 'subtitular')}
           </p>
         </div>
       </div>
@@ -73,7 +73,7 @@ const TOTAL = 10
 
 export default function PortadasExamen() {
   const navigate   = useNavigate()
-  const { lang, localPath } = useLang()
+  const { lang, localPath, lt } = useLang()
   const en = lang === 'en'
   const location   = useLocation()
   const { categoria, backPath } = location.state || {}
@@ -194,7 +194,7 @@ export default function PortadasExamen() {
               <span>{p.veracidad ? '✓' : '✗'}</span>
               <span>{p.veracidad ? (en ? 'TRUE' : 'VERDAD') : (en ? 'FALSE' : 'MENTIRA')}</span>
             </div>
-            <p className="text-white/60 leading-relaxed">{(en && p.explicacionEn) || p.explicacion}</p>
+            <p className="text-white/60 leading-relaxed">{lt(p, 'explicacion')}</p>
           </div>
 
           {/* Mini progreso */}
@@ -259,7 +259,7 @@ export default function PortadasExamen() {
       {/* Layout dos columnas en desktop */}
       <div className="flex-1 flex flex-col md:grid md:grid-cols-[1fr_300px] md:gap-8 md:items-center">
         <div className="mb-5 md:mb-0">
-          <PortadaCard p={portada} lang={lang} />
+          <PortadaCard p={portada} lang={lang} lt={lt} />
         </div>
 
         <div className="flex flex-col gap-4">

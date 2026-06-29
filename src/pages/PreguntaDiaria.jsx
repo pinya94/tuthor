@@ -67,7 +67,7 @@ function GeoInput({ value, onChange, onSubmit, disabled, useEnglish }) {
 
 export default function PreguntaDiaria() {
   const { user } = useAuth()
-  const { lang, localPath } = useLang()
+  const { lang, localPath, lt } = useLang()
   const navigate = useNavigate()
   const en = lang === 'en'
   const ca = lang === 'ca'
@@ -98,12 +98,13 @@ export default function PreguntaDiaria() {
     if (!paisHoy) return []
     const continentes = paisHoy.continente.split('/')
     const continenteTexto = continentes.length > 1 ? continentes.join(' y ') : paisHoy.continente
+    const t3 = (caText, enText, esText) => lang === 'ca' ? caText : lang === 'en' ? enText : esText
     return [
-      { texto: `Está en el hemisferio ${paisHoy.hemisferio === 'ambos' ? 'norte y sur' : paisHoy.hemisferio}`, tipo: 'obligatoria' },
-      { texto: `Su montaña más alta es ${paisHoy.montana}`, tipo: 'regalo' },
-      { texto: `Está en ${continenteTexto}`, tipo: 'obligatoria' },
-      { texto: `Se habla ${paisHoy.idioma}`, tipo: 'regalo' },
-      { texto: `Un famoso de allí: ${paisHoy.famoso}`, tipo: 'regalo' },
+      { texto: t3(`Està a l'hemisferi ${paisHoy.hemisferio === 'ambos' ? 'nord i sud' : paisHoy.hemisferio}`, `It's in the ${paisHoy.hemisferio === 'ambos' ? 'northern and southern' : paisHoy.hemisferio} hemisphere`, `Está en el hemisferio ${paisHoy.hemisferio === 'ambos' ? 'norte y sur' : paisHoy.hemisferio}`), tipo: 'obligatoria' },
+      { texto: t3(`La seva muntanya més alta és ${lt(paisHoy, 'montana')}`, `Its highest mountain is ${lt(paisHoy, 'montana')}`, `Su montaña más alta es ${lt(paisHoy, 'montana')}`), tipo: 'regalo' },
+      { texto: t3(`Està a ${continenteTexto}`, `It's in ${continenteTexto}`, `Está en ${continenteTexto}`), tipo: 'obligatoria' },
+      { texto: t3(`S'hi parla ${lt(paisHoy, 'idioma')}`, `They speak ${lt(paisHoy, 'idioma')}`, `Se habla ${lt(paisHoy, 'idioma')}`), tipo: 'regalo' },
+      { texto: t3(`Un famós d'allà: ${lt(paisHoy, 'famoso')}`, `A famous person from there: ${lt(paisHoy, 'famoso')}`, `Un famoso de allí: ${lt(paisHoy, 'famoso')}`), tipo: 'regalo' },
     ]
   }, [paisHoy])
 
@@ -179,7 +180,7 @@ export default function PreguntaDiaria() {
   async function handleGeoMapaSubmit(val) {
     const nombreInput = val || geoInput
     if (answered) return
-    const getName = p => (en && p.nombreEn) ? p.nombreEn : p.nombre
+    const getName = p => lt(p, 'nombre')
     const paisResp = PAISES.find(p => getName(p) === nombreInput)
     if (!paisResp) {
       setGeoFeedback({ ok: false, msg: ca ? 'País no reconegut' : en ? 'Country not recognised' : 'País no reconocido' })
@@ -217,7 +218,7 @@ export default function PreguntaDiaria() {
     }
   }
 
-  const correct = en ? (pregunta?.correctaEn || pregunta?.correcta) : pregunta?.correcta
+  const correct = pregunta ? lt(pregunta, 'correcta') : null
 
   return (
     <div className="relative z-10 flex items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-6">
@@ -280,8 +281,8 @@ export default function PreguntaDiaria() {
                   <h2 className="text-base font-black uppercase tracking-wide text-gray-900 leading-tight">{portadaHoy.periodico}</h2>
                 </div>
                 <div className="px-4 py-3">
-                  <p className="text-sm font-black text-gray-900 leading-snug mb-2">{(en && portadaHoy.titularEn) || portadaHoy.titular}</p>
-                  <p className="text-[11px] text-gray-500 leading-relaxed border-t border-gray-200 pt-2">{(en && portadaHoy.subtitularEn) || portadaHoy.subtitular}</p>
+                  <p className="text-sm font-black text-gray-900 leading-snug mb-2">{lt(portadaHoy, 'titular')}</p>
+                  <p className="text-[11px] text-gray-500 leading-relaxed border-t border-gray-200 pt-2">{lt(portadaHoy, 'subtitular')}</p>
                 </div>
                 <div className="h-1.5 bg-gray-900 mx-4 mb-3 rounded-sm" />
               </div>
@@ -314,7 +315,7 @@ export default function PreguntaDiaria() {
                     }
                   </div>
                   <div className="bg-white/5 border border-white/10 rounded-xl p-4">
-                    <p className="text-white/60 text-sm leading-relaxed">💡 {(en && portadaHoy.explicacionEn) || portadaHoy.explicacion}</p>
+                    <p className="text-white/60 text-sm leading-relaxed">💡 {lt(portadaHoy, 'explicacion')}</p>
                   </div>
                   {!user && (
                     <button onClick={() => setShowAuth(true)} className="mt-3 w-full bg-amber-500/20 border border-amber-500/30 text-amber-400 font-semibold py-2.5 rounded-xl text-sm hover:bg-amber-500/30 transition-colors">
@@ -375,7 +376,7 @@ export default function PreguntaDiaria() {
                   )}
                   {geoPistaIdx >= 2 && paisHoy?.capital && (
                     <div className="bg-amber-500/10 border border-amber-500/30 rounded-xl p-3 mb-3 text-center">
-                      <p className="text-white font-bold">{en && paisHoy.capitalEn ? paisHoy.capitalEn : paisHoy.capital}</p>
+                      <p className="text-white font-bold">{lt(paisHoy, 'capital')}</p>
                       <p className="text-white/50 text-xs">{ca ? 'Pista: capital' : en ? 'Hint: capital' : 'Pista: capital'}</p>
                     </div>
                   )}
@@ -486,10 +487,10 @@ export default function PreguntaDiaria() {
           /* ── Pregunta de trivia ── */
           <>
             <div className="px-6 sm:px-8 py-6">
-              <p className="text-xs font-semibold text-white/40 uppercase tracking-widest mb-3">{en ? (pregunta.categoriaEn || pregunta.categoria) : pregunta.categoria}</p>
-              <h3 className="text-xl font-bold text-white leading-snug mb-6">{en ? (pregunta.preguntaEn || pregunta.pregunta) : pregunta.pregunta}</h3>
+              <p className="text-xs font-semibold text-white/40 uppercase tracking-widest mb-3">{lt(pregunta, 'categoria')}</p>
+              <h3 className="text-xl font-bold text-white leading-snug mb-6">{lt(pregunta, 'pregunta')}</h3>
               <div className="grid grid-cols-2 gap-3">
-                {(en ? (pregunta.opcionesEn || pregunta.opciones) : pregunta.opciones).map(op => (
+                {lt(pregunta, 'opciones').map(op => (
                   <button
                     key={op}
                     onClick={() => !answered && setSelected(op)}
@@ -534,7 +535,7 @@ export default function PreguntaDiaria() {
                   </div>
                   {(pregunta.explicacion || pregunta.explicacionEn) && (
                     <div className="bg-white/5 border border-white/10 rounded-xl p-4">
-                      <p className="text-white/60 text-sm leading-relaxed">💡 {en ? (pregunta.explicacionEn || pregunta.explicacion) : pregunta.explicacion}</p>
+                      <p className="text-white/60 text-sm leading-relaxed">💡 {lt(pregunta, 'explicacion')}</p>
                     </div>
                   )}
                   {!user && (

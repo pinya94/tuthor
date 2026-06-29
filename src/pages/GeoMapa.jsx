@@ -157,7 +157,7 @@ function AutocompleteInput({ value, onChange, onSubmit, paises, disabled, focusK
 
 export default function GeoMapa() {
   const navigate = useNavigate()
-  const { lang, localPath } = useLang()
+  const { lang, localPath, lt } = useLang()
   const { user } = useAuth()
   const u = UI[lang] || UI.es
   const en = lang === 'en'
@@ -165,7 +165,7 @@ export default function GeoMapa() {
   // Excluir países demasiado pequeños para verse bien en el mapa 110m
   const MIN_AREA = 30000
   const paisesConIso = useMemo(() => PAISES.filter(p => p.iso && p.area >= MIN_AREA), [])
-  const getName = useCallback(p => (en && p.nombreEn) ? p.nombreEn : p.nombre, [en])
+  const getName = useCallback(p => lt(p, 'nombre'), [lt])
   const nombresPaises = useMemo(() => paisesConIso.map(getName), [paisesConIso, getName])
 
   const [fase, setFase] = useState('intro')
@@ -437,7 +437,7 @@ export default function GeoMapa() {
             : 'bg-white/5 border-white/10 text-white/20'
         }`}>
           {intento >= 2 ? (
-            <><span className="text-xl block mb-1">🏛️</span><span className="text-sm font-bold text-white">{en && paisActual.capitalEn ? paisActual.capitalEn : paisActual.capital}</span></>
+            <><span className="text-xl block mb-1">🏛️</span><span className="text-sm font-bold text-white">{lt(paisActual, 'capital')}</span></>
           ) : (
             <><span className="text-xl block mb-1 opacity-30">🏛️</span><span className="text-xs">{u.pistaCapital}</span></>
           )}
