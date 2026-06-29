@@ -253,13 +253,26 @@ export function eventosToPreguntas(eventos) {
       })
       .map(y => y < 0 ? `${Math.abs(y)} a.C.` : String(y))
     const correctaStr = e.año < 0 ? `${Math.abs(e.año)} a.C.` : String(e.año)
+    const nivelEs = e.dificultad === 'fácil' ? 'Primaria' : e.dificultad === 'medio' ? 'ESO' : 'Bachillerato'
+    const nivelEn = e.dificultad === 'fácil' ? 'Primary' : e.dificultad === 'medio' ? 'Secondary' : 'Sixth Form'
+    const nivelCa = e.dificultad === 'fácil' ? 'Primària' : e.dificultad === 'medio' ? 'ESO' : 'Batxillerat'
     return {
       id: `auto_${e.id}`,
       pregunta: `¿En qué año ocurrió: "${e.nombre}"?`,
+      preguntaEn: `In what year did this happen: "${e.nombreEn || e.nombre}"?`,
+      preguntaCa: `En quin any va passar: "${e.nombreCa || e.nombre}"?`,
       opciones,
+      opcionesEn: opciones,
+      opcionesCa: opciones,
       correcta: correctaStr,
-      categoria: `Historia · ${e.dificultad === 'fácil' ? 'Primaria' : e.dificultad === 'medio' ? 'ESO' : 'Bachillerato'}`,
+      correctaEn: correctaStr,
+      correctaCa: correctaStr,
+      categoria: `Historia · ${nivelEs}`,
+      categoriaEn: `History · ${nivelEn}`,
+      categoriaCa: `Història · ${nivelCa}`,
       explicacion: e.descripcion,
+      explicacionEn: e.descripcionEn || e.descripcion,
+      explicacionCa: e.descripcionCa || e.descripcion,
     }
   })
 }
