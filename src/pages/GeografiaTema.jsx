@@ -38,6 +38,7 @@ export default function GeografiaTema() {
   const navigate    = useNavigate()
   const { lang, localPath } = useLang()
   const en = lang === 'en'
+  const ca = lang === 'ca'
   const { region }  = useParams()
   const temasMeta   = TEMAS_META[lang] || TEMAS_META.es
   const meta        = temasMeta[region]

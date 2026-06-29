@@ -35,6 +35,7 @@ export default function GeografiaIndex() {
   const navigate = useNavigate()
   const { lang, localPath } = useLang()
   const en = lang === 'en'
+  const ca = lang === 'ca'
   const temas = TEMAS[lang] || TEMAS.es
 
   return (
