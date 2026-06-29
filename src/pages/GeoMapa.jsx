@@ -92,12 +92,15 @@ const UI = {
 }
 
 function AutocompleteInput({ value, onChange, onSubmit, paises, disabled, focusKey, placeholder }) {
-  const [focused, setFocused] = useState(false)
+  const [focused, setFocused] = useState(true)
   const [highlightIdx, setHighlightIdx] = useState(-1)
   const inputRef = useRef(null)
 
   useEffect(() => {
-    if (!disabled) inputRef.current?.focus()
+    if (!disabled) {
+      setFocused(true)
+      inputRef.current?.focus()
+    }
   }, [focusKey, disabled])
 
   const filtered = useMemo(() => {
