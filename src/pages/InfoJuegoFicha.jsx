@@ -635,7 +635,7 @@ export default function InfoJuegoFicha() {
 
           {/* CTA 1 */}
           <div className="text-center mb-10">
-            <Link to={ficha.path}
+            <Link to={localPath(ficha.path)}
               className="inline-block py-4 px-10 bg-teal-600 hover:bg-teal-500 text-white font-black text-lg rounded-2xl transition-all hover:scale-[1.02] shadow-lg shadow-teal-600/30">
               {ui.jugar} {ficha.titulo} →
             </Link>
@@ -665,7 +665,7 @@ export default function InfoJuegoFicha() {
 
           {/* CTA 2 */}
           <div className="text-center mb-10">
-            <Link to={ficha.path}
+            <Link to={localPath(ficha.path)}
               className="inline-block py-4 px-10 bg-teal-600 hover:bg-teal-500 text-white font-black text-lg rounded-2xl transition-all hover:scale-[1.02] shadow-lg shadow-teal-600/30">
               {ui.probar} {ficha.titulo} {ui.ahora}
             </Link>
@@ -709,7 +709,7 @@ export default function InfoJuegoFicha() {
           <footer className="text-center pt-4">
             <h2 className="text-2xl font-black text-gray-900 mb-3">{ui.listoH2}</h2>
             <p className="text-gray-400 mb-6">{ui.listoSub}</p>
-            <Link to={ficha.path}
+            <Link to={localPath(ficha.path)}
               className="inline-block py-4 px-10 bg-teal-600 hover:bg-teal-500 text-white font-black text-lg rounded-2xl transition-all hover:scale-[1.02] shadow-lg shadow-teal-600/30">
               {ui.jugar} {ficha.titulo} →
             </Link>
