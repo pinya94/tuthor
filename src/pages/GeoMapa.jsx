@@ -294,7 +294,7 @@ export default function GeoMapa() {
           </div>
 
           <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-6">
-            <WorldMap highlight="" baseColor="#1e293b" className="rounded-xl overflow-hidden mb-4" />
+            <WorldMap highlight="" className="rounded-xl overflow-hidden mb-4" />
             <div className="grid grid-cols-2 gap-4 text-sm">
               <div className="space-y-2">
                 <p className="text-white/40 text-xs font-semibold uppercase tracking-widest">{u.reglas}</p>
@@ -411,9 +411,6 @@ export default function GeoMapa() {
       <div className="bg-black/40 border border-white/10 rounded-2xl p-3 mb-4">
         <WorldMap
           highlight={paisActual.iso}
-          highlightColor="#EDAE49"
-          baseColor="#1e293b"
-          borderColor="#0f172a"
           className="rounded-xl overflow-hidden"
         />
       </div>

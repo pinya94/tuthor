@@ -364,7 +364,7 @@ export default function PreguntaDiaria() {
                 {ca ? '🗺️ Identifica el país · GeoMapa' : en ? '🗺️ Identify the country · GeoMap' : '🗺️ Identifica el país · GeoMapa'}
               </p>
               <div className="bg-black/40 border border-white/10 rounded-xl p-2 mb-4">
-                <WorldMap highlight={paisHoy?.iso || ''} highlightColor="#EDAE49" baseColor="#1e293b" borderColor="#0f172a" className="rounded-lg overflow-hidden" />
+                <WorldMap highlight={paisHoy?.iso || ''} className="rounded-lg overflow-hidden" />
               </div>
               {!answered ? (
                 <>

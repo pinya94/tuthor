@@ -292,7 +292,7 @@ export default function GeoMapaExamen() {
               {errores}/{MAX_ERRORS} {ca ? 'errors' : en ? 'errors' : 'errores'}
             </span>
           </div>
-          <WorldMap highlight={paisActual.iso} region={region} highlightColor="#EDAE49" baseColor="#1e293b" borderColor="#0f172a" className="rounded-xl overflow-hidden" />
+          <WorldMap highlight={paisActual.iso} region={region} className="rounded-xl overflow-hidden" />
         </div>
 
         {/* Hints */}
