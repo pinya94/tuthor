@@ -42,7 +42,7 @@ export default function HeroCard({ card, onClick }) {
       {/* Botón "Entrar" centrado abajo al hacer hover */}
       <div className={`absolute bottom-5 left-0 right-0 flex justify-center transition-all duration-300 ${hovered ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'}`}>
         <span className="bg-white/20 backdrop-blur-sm px-4 py-1.5 rounded-full border border-white/20 text-white text-xs font-semibold">
-          {lang === 'en' ? 'Enter →' : 'Entrar →'}
+          {lang === 'ca' ? 'Entrar →' : lang === 'en' ? 'Enter →' : 'Entrar →'}
         </span>
       </div>
     </button>
