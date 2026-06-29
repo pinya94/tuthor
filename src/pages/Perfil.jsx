@@ -7,45 +7,47 @@ import { useNavigate } from 'react-router-dom'
 function todayStr() { return new Date().toISOString().slice(0, 10) }
 
 const GAME_LABELS = {
-  'juego-fechas':    { label: 'Juego de Fechas',    emoji: '📅' },
-  'tuthor-time':     { label: 'Tuthor Time',         emoji: '🕰️' },
-  'pregunta-diaria': { label: 'Pregunta Diaria',     emoji: '⚡' },
-  'orden-temporal':  { label: 'Línea Temporal',      emoji: '📜' },
-  'linea-temporal':  { label: 'Línea Temporal',      emoji: '📜' },
-  'quien-es-quien':  { label: '¿Quién es Quién?',   emoji: '🕵️' },
-  'matematicas':     { label: 'Cálculo Mental',      emoji: '🎯' },
-  'acercate':        { label: 'Acércate al Número',  emoji: '🎯' },
-  'portadas':        { label: 'Portadas',            emoji: '📰' },
-  'georush':         { label: 'GeoRush',             emoji: '🌍' },
-  'numpath':         { label: 'NumPath',             emoji: '🧮' },
+  'juego-fechas':    { es: 'Juego de Fechas',    en: 'Date Game',         ca: 'Joc de Dates',       emoji: '📅' },
+  'tuthor-time':     { es: 'Tuthor Time',         en: 'Tuthor Time',       ca: 'Tuthor Time',        emoji: '🕰️' },
+  'pregunta-diaria': { es: 'Pregunta Diaria',     en: 'Daily Challenge',   ca: 'Pregunta Diària',    emoji: '⚡' },
+  'orden-temporal':  { es: 'Línea Temporal',      en: 'Timeline',          ca: 'Línia Temporal',     emoji: '📜' },
+  'linea-temporal':  { es: 'Línea Temporal',      en: 'Timeline',          ca: 'Línia Temporal',     emoji: '📜' },
+  'quien-es-quien':  { es: '¿Quién es Quién?',   en: 'Who is Who?',       ca: 'Qui és qui?',        emoji: '🕵️' },
+  'matematicas':     { es: 'Cálculo Mental',      en: 'Mental Maths',      ca: 'Càlcul Mental',      emoji: '🎯' },
+  'acercate':        { es: 'Acércate al Número',  en: 'Target Number',     ca: "Acosta't al Número", emoji: '🎯' },
+  'portadas':        { es: 'Portadas',            en: 'Headlines',         ca: 'Portades',           emoji: '📰' },
+  'georush':         { es: 'GeoRush',             en: 'GeoRush',           ca: 'GeoRush',            emoji: '🌍' },
+  'geomapa':         { es: 'GeoMapa',             en: 'GeoMap',            ca: 'GeoMapa',            emoji: '🗺️' },
+  'numpath':         { es: 'NumPath',             en: 'NumPath',           ca: 'NumPath',            emoji: '🧮' },
 }
 
 const CATEGORY_LABELS = {
-  'gce':      { label: 'Guerra Civil Española',   emoji: '🇪🇸' },
-  'wwii':     { label: 'Segunda Guerra Mundial',  emoji: '⚔️' },
-  'roma':     { label: 'Antigua Roma',            emoji: '🏛️' },
-  'usa':      { label: 'Independencia Americana', emoji: '🦅' },
-  'primaria': { label: 'Grandes Hitos',           emoji: '🌍' },
-  'global':   { label: 'Historia Global',         emoji: '🗺️' },
-  'facil':    { label: 'Acércate · Fácil',        emoji: '🟢' },
-  'medio':    { label: 'Acércate · Medio',        emoji: '🟡' },
-  'dificil':  { label: 'Acércate · Difícil',      emoji: '🔴' },
-  'combinado-primaria':       { label: 'Mates · Primaria',           emoji: '📐' },
-  'combinado-eso':            { label: 'Mates · ESO',                emoji: '📐' },
-  'combinado-bachillerato':   { label: 'Mates · Bachillerato',      emoji: '📐' },
-  'sumas-primaria':           { label: 'Sumas · Primaria',           emoji: '➕' },
-  'sumas-eso':                { label: 'Sumas · ESO',                emoji: '➕' },
-  'sumas-bachillerato':       { label: 'Sumas · Bachillerato',      emoji: '➕' },
-  'multiplicacion-primaria':  { label: 'Multiplicación · Primaria',  emoji: '✖️' },
-  'multiplicacion-eso':       { label: 'Multiplicación · ESO',       emoji: '✖️' },
-  'multiplicacion-bachillerato': { label: 'Multiplicación · Bach.',  emoji: '✖️' },
-  'division-primaria':        { label: 'División · Primaria',        emoji: '➗' },
-  'division-eso':             { label: 'División · ESO',             emoji: '➗' },
-  'division-bachillerato':    { label: 'División · Bachillerato',    emoji: '➗' },
+  'gce':      { es: 'Guerra Civil Española',   en: 'Spanish Civil War',      ca: 'Guerra Civil Espanyola',   emoji: '🇪🇸' },
+  'wwii':     { es: 'Segunda Guerra Mundial',  en: 'World War II',           ca: 'Segona Guerra Mundial',    emoji: '⚔️' },
+  'roma':     { es: 'Antigua Roma',            en: 'Ancient Rome',           ca: 'Roma Antiga',              emoji: '🏛️' },
+  'usa':      { es: 'Independencia Americana', en: 'American Independence',  ca: 'Independència Americana',  emoji: '🦅' },
+  'primaria': { es: 'Grandes Hitos',           en: 'Great Milestones',       ca: 'Grans Fites',              emoji: '🌍' },
+  'global':   { es: 'Historia Global',         en: 'World History',          ca: 'Història Global',          emoji: '🗺️' },
+  'facil':    { es: 'Acércate · Fácil',        en: 'Target Number · Easy',   ca: "Acosta't · Fàcil",        emoji: '🟢' },
+  'medio':    { es: 'Acércate · Medio',        en: 'Target Number · Medium', ca: "Acosta't · Mitjà",        emoji: '🟡' },
+  'dificil':  { es: 'Acércate · Difícil',      en: 'Target Number · Hard',   ca: "Acosta't · Difícil",      emoji: '🔴' },
+  'combinado-primaria':       { es: 'Mates · Primaria',           en: 'Maths · Primary',          ca: 'Mates · Primària',          emoji: '📐' },
+  'combinado-eso':            { es: 'Mates · ESO',                en: 'Maths · Secondary',        ca: 'Mates · ESO',               emoji: '📐' },
+  'combinado-bachillerato':   { es: 'Mates · Bachillerato',      en: 'Maths · Sixth Form',      ca: 'Mates · Batxillerat',       emoji: '📐' },
+  'sumas-primaria':           { es: 'Sumas · Primaria',           en: 'Addition · Primary',       ca: 'Sumes · Primària',          emoji: '➕' },
+  'sumas-eso':                { es: 'Sumas · ESO',                en: 'Addition · Secondary',     ca: 'Sumes · ESO',               emoji: '➕' },
+  'sumas-bachillerato':       { es: 'Sumas · Bachillerato',      en: 'Addition · Sixth Form',   ca: 'Sumes · Batxillerat',       emoji: '➕' },
+  'multiplicacion-primaria':  { es: 'Multiplicación · Primaria',  en: 'Multiplication · Primary', ca: 'Multiplicació · Primària',  emoji: '✖️' },
+  'multiplicacion-eso':       { es: 'Multiplicación · ESO',       en: 'Multiplication · Secondary', ca: 'Multiplicació · ESO',     emoji: '✖️' },
+  'multiplicacion-bachillerato': { es: 'Multiplicación · Bach.',  en: 'Multiplication · 6th Form', ca: 'Multiplicació · Batx.',   emoji: '✖️' },
+  'division-primaria':        { es: 'División · Primaria',        en: 'Division · Primary',       ca: 'Divisió · Primària',        emoji: '➗' },
+  'division-eso':             { es: 'División · ESO',             en: 'Division · Secondary',     ca: 'Divisió · ESO',             emoji: '➗' },
+  'division-bachillerato':    { es: 'División · Bachillerato',    en: 'Division · Sixth Form',   ca: 'Divisió · Batxillerat',     emoji: '➗' },
 }
 
-function resolveLabel(key, map) {
-  if (map[key]) return map[key]
+function resolveLabel(key, map, lang) {
+  const entry = map[key]
+  if (entry) return { label: entry[lang] || entry.es, emoji: entry.emoji }
   return { label: key.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase()), emoji: '📖' }
 }
 
@@ -75,13 +77,13 @@ export default function Perfil() {
   const statsByCategory = stats?.statsByCategory || {}
 
   const gameEntries = Object.entries(statsByGame)
-    .map(([key, s]) => ({ key, ...resolveLabel(key, GAME_LABELS), ...s }))
-    .filter(g => g.plays > 0)
-    .sort((a, b) => (b.timeSpent || 0) - (a.timeSpent || 0))
+    .map(([key, s]) => ({ key, ...resolveLabel(key, GAME_LABELS, lang), ...s }))
+    .filter(g => g.bestScore > 0)
+    .sort((a, b) => (b.bestScore || 0) - (a.bestScore || 0))
 
   const catEntries = Object.entries(statsByCategory)
-    .map(([key, s]) => ({ key, ...resolveLabel(key, CATEGORY_LABELS), ...s }))
-    .filter(c => c.plays > 0)
+    .map(([key, s]) => ({ key, ...resolveLabel(key, CATEGORY_LABELS, lang), ...s }))
+    .filter(c => c.plays > 0 && (c.bestScore > 0 || (c.examsPassed ?? 0) > 0))
     .sort((a, b) => (b.plays || 0) - (a.plays || 0))
 
   const visibleGames = showAllGames ? gameEntries : gameEntries.slice(0, 3)
