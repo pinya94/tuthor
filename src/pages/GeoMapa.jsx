@@ -187,6 +187,15 @@ export default function GeoMapa() {
   const tiempoRef = useRef(TIEMPO_INICIO)
   const puntosRef = useRef(0)
   const startTimeRef = useRef(Date.now())
+  const savedRef = useRef(false)
+
+  useEffect(() => {
+    if (fase === 'fin' && !savedRef.current && user) {
+      savedRef.current = true
+      const elapsed = Math.round((Date.now() - startTimeRef.current) / 1000)
+      saveActivity(user.uid, { type: 'juego', game: 'geomapa', score: puntosRef.current, passed: puntosRef.current >= 200, timeSpent: elapsed }).catch(() => {})
+    }
+  }, [fase, user])
 
   useEffect(() => {
     if (fase !== 'jugando') return
@@ -197,8 +206,6 @@ export default function GeoMapa() {
       setTimeLeft(tiempoRef.current)
       if (tiempoRef.current <= 0) {
         clearInterval(timerRef.current)
-        const elapsed = Math.round((Date.now() - startTimeRef.current) / 1000)
-        if (user) saveActivity(user.uid, { type: 'juego', game: 'geomapa', score: puntosRef.current, passed: puntosRef.current >= 200, timeSpent: elapsed }).catch(() => {})
         setFase('fin')
       }
     }, 1000)
@@ -209,6 +216,7 @@ export default function GeoMapa() {
     setTimeLeft(TIEMPO_INICIO)
     tiempoRef.current = TIEMPO_INICIO
     startTimeRef.current = Date.now()
+    savedRef.current = false
     setPuntos(0)
     puntosRef.current = 0
     setAciertos(0)
@@ -268,8 +276,6 @@ export default function GeoMapa() {
         setFeedback({ ok: false, msg: `❌ ${u.era} ${getName(paisActual)} · −10s`, freeze: true })
         if (tiempoRef.current <= 0) {
           clearInterval(timerRef.current)
-          const elapsed = Math.round((Date.now() - startTimeRef.current) / 1000)
-          if (user) saveActivity(user.uid, { type: 'juego', game: 'geomapa', score: puntosRef.current, passed: puntosRef.current >= 200, timeSpent: elapsed }).catch(() => {})
           setTimeout(() => setFase('fin'), 1500)
           return
         }
