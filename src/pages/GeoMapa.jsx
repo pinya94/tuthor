@@ -246,7 +246,7 @@ export default function GeoMapa() {
     if (paisResp.nombre === paisActual.nombre) {
       clearInterval(timerRef.current)
       const bonus = intento === 0 ? 15 : intento === 1 ? 10 : 5
-      tiempoRef.current += bonus
+      tiempoRef.current = Math.min(TIEMPO_INICIO, tiempoRef.current + bonus)
       setTimeLeft(tiempoRef.current)
       const nuevoCombo = combo + 1
       setCombo(nuevoCombo)
