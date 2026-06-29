@@ -21,11 +21,12 @@ function shuffle(arr) {
 
 function generarPistasObligatorias(pais, lang) {
   const en = lang === 'en'
+  const ca = lang === 'ca'
   const todas = []
 
   const continentes = pais.continente.split('/')
-  const continenteTexto = continentes.length > 1 ? continentes.join(en ? ' and ' : ' y ') : pais.continente
-  todas.push({ texto: en ? `Located in ${continenteTexto}` : `Está en ${continenteTexto}`, validar: r => {
+  const continenteTexto = continentes.length > 1 ? continentes.join(ca ? ' i ' : en ? ' and ' : ' y ') : pais.continente
+  todas.push({ texto: ca ? `Està a ${continenteTexto}` : en ? `Located in ${continenteTexto}` : `Está en ${continenteTexto}`, validar: r => {
     const p = PAISES.find(p => p.nombre === r)
     if (!p) return false
     const rConts = p.continente.split('/')
@@ -33,9 +34,9 @@ function generarPistasObligatorias(pais, lang) {
   }})
 
   const hemiTexto = pais.hemisferio === 'ambos'
-    ? (en ? 'northern and southern (crosses the equator)' : 'norte y sur (cruza el ecuador)')
-    : (en ? ({ norte: 'northern', sur: 'southern' }[pais.hemisferio] || pais.hemisferio) : pais.hemisferio)
-  todas.push({ texto: en ? `${hemiTexto} hemisphere` : `Está en el hemisferio ${hemiTexto}`, validar: r => {
+    ? (ca ? 'nord i sud (creua l\'equador)' : en ? 'northern and southern (crosses the equator)' : 'norte y sur (cruza el ecuador)')
+    : (ca ? ({ norte: 'nord', sur: 'sud' }[pais.hemisferio] || pais.hemisferio) : en ? ({ norte: 'northern', sur: 'southern' }[pais.hemisferio] || pais.hemisferio) : pais.hemisferio)
+  todas.push({ texto: ca ? `Està a l'hemisferi ${hemiTexto}` : en ? `${hemiTexto} hemisphere` : `Está en el hemisferio ${hemiTexto}`, validar: r => {
     const p = PAISES.find(p => p.nombre === r)
     if (!p) return false
     if (pais.hemisferio === 'ambos') return true
@@ -45,7 +46,9 @@ function generarPistasObligatorias(pais, lang) {
   const areaRef = pais.area > 500000 ? 500000 : pais.area > 100000 ? 100000 : 50000
   const masOMenos = pais.area >= areaRef
   todas.push({
-    texto: en
+    texto: ca
+      ? `Té ${masOMenos ? 'més' : 'menys'} de ${areaRef.toLocaleString()} km²`
+      : en
       ? `${masOMenos ? 'More' : 'Less'} than ${areaRef.toLocaleString()} km²`
       : `Tiene ${masOMenos ? 'más' : 'menos'} de ${areaRef.toLocaleString()} km²`,
     validar: r => {
@@ -57,7 +60,9 @@ function generarPistasObligatorias(pais, lang) {
   const pobRef = pais.poblacion > 100000000 ? 100000000 : pais.poblacion > 50000000 ? 50000000 : 20000000
   const masPob = pais.poblacion >= pobRef
   todas.push({
-    texto: en
+    texto: ca
+      ? `Té ${masPob ? 'més' : 'menys'} de ${(pobRef / 1000000).toFixed(0)} milions d'habitants`
+      : en
       ? `${masPob ? 'More' : 'Less'} than ${(pobRef / 1000000).toFixed(0)}M inhabitants`
       : `Tiene ${masPob ? 'más' : 'menos'} de ${(pobRef / 1000000).toFixed(0)} millones de habitantes`,
     validar: r => {
@@ -66,7 +71,12 @@ function generarPistasObligatorias(pais, lang) {
     }
   })
 
-  const guerraTexto = en
+  const guerraTexto = ca
+    ? (pais.guerras === 'ambas' ? 'Va participar en la I i II Guerra Mundial'
+      : pais.guerras === 'I' ? 'Va participar en la I Guerra Mundial (però no en la II)'
+      : pais.guerras === 'II' ? 'Va participar en la II Guerra Mundial (però no en la I)'
+      : 'No va participar en cap guerra mundial')
+    : en
     ? (pais.guerras === 'ambas' ? 'Fought in both World Wars'
       : pais.guerras === 'I' ? 'Fought in World War I (but not II)'
       : pais.guerras === 'II' ? 'Fought in World War II (but not I)'
@@ -82,11 +92,12 @@ function generarPistasObligatorias(pais, lang) {
 
 function generarPistasRegalo(pais, extra, lang) {
   const en = lang === 'en'
+  const ca = lang === 'ca'
   const todas = [
-    { texto: en ? `Highest mountain: ${pais.montana}` : `Su montaña más alta es ${pais.montana}` },
-    { texto: en ? `Longest river: ${pais.rio}` : `Su río más largo es ${pais.rio}` },
-    { texto: en ? `Language: ${pais.idioma}` : `Se habla ${pais.idioma}` },
-    { texto: en ? `Famous person: ${pais.famoso}` : `Un famoso de allí: ${pais.famoso}` },
+    { texto: ca ? `La seva muntanya més alta és ${pais.montana}` : en ? `Highest mountain: ${pais.montana}` : `Su montaña más alta es ${pais.montana}` },
+    { texto: ca ? `El seu riu més llarg és ${pais.rio}` : en ? `Longest river: ${pais.rio}` : `Su río más largo es ${pais.rio}` },
+    { texto: ca ? `S'hi parla ${pais.idioma}` : en ? `Language: ${pais.idioma}` : `Se habla ${pais.idioma}` },
+    { texto: ca ? `Un famós d'allà: ${pais.famoso}` : en ? `Famous person: ${pais.famoso}` : `Un famoso de allí: ${pais.famoso}` },
   ]
   return shuffle(todas).slice(0, extra ? 3 : 2)
 }
