@@ -30,6 +30,20 @@ const DATA = {
       { titulo: 'Geography', emoji: '🌍', texto: 'Geography comes alive when you have to think fast. Learn countries, continents, rivers and mountains through progressive clues that force you to connect geographical data in real time.' },
     ],
   },
+  ca: {
+    h1: 'Jocs Educatius en Línia',
+    intro: 'Eines interactives dissenyades per docents per facilitar l\'estudi d\'assignatures clau a Primària, Secundària i Batxillerat.',
+    body: 'El nostre mètode combina la ciència pedagògica amb la gamificació per millorar el rendiment escolar des de casa. Cada joc activa habilitats cognitives reals mentre l\'alumne es diverteix.',
+    proximamente: 'Ciències, Idiomes i més — Pròximament',
+    proximamenteTexto: 'Estem desenvolupant jocs de ciències naturals, vocabulari en anglès, química elemental i física aplicada. Tots seguiran el mateix enfocament: aprendre jugant, amb base científica i adaptats als temaris oficials.',
+    cta: 'Anar a jugar ara →',
+    verMas: 'Veure beneficis i jugar →',
+    categorias: [
+      { titulo: 'Matemàtiques i Càlcul Mental', emoji: '📐', texto: 'El bloc de matemàtiques està dissenyat per desenvolupar l\'agilitat numèrica i trencar la barrera davant el càlcul abstracte. A través de mecàniques de puzzle i roguelike, els estudiants interioritzen operacions aritmètiques de forma natural.' },
+      { titulo: 'Història i Ciències Socials', emoji: '⏳', texto: 'Aprendre dates, contextos i personatges històrics no ha de ser memorització passiva. Els nostres jocs converteixen els temaris oficials en experiències interactives que fixen els conceptes de forma duradora.' },
+      { titulo: 'Geografia', emoji: '🌍', texto: 'La geografia pren vida quan has de pensar ràpid. Aprèn països, continents, rius i muntanyes a través de pistes progressives que t\'obliguen a connectar dades geogràfiques en temps real.' },
+    ],
+  },
 }
 
 const JUEGOS = {
@@ -65,6 +79,22 @@ const JUEGOS = {
       { slug: 'geomapa', titulo: 'GeoMapa', desc: 'Identify the highlighted country on the world map. Progressive hints if you miss.', emoji: '🗺️', gradient: 'from-purple-600 to-violet-800', tags: ['Geography','Map'] },
     ],
   ],
+  ca: [
+    [
+      { slug: 'acercate', titulo: 'Acosta\'t al Número', desc: 'Combina operacions per arribar al número objectiu. Roguelike amb millores entre nivells.', emoji: '🎯', gradient: 'from-pink-600 to-rose-800', tags: ['Mates','Roguelike'] },
+      { slug: 'numpath', titulo: 'NumPath', desc: 'Navega per una quadrícula d\'operacions i arriba a les metes amb la puntuació exacta.', emoji: '🧮', gradient: 'from-yellow-500 to-orange-500', tags: ['Mates','Estratègia'] },
+    ],
+    [
+      { slug: 'tuthor-time', titulo: 'Tuthor Time', desc: 'Viatja en el temps i encerta l\'any de cada esdeveniment històric.', emoji: '🕰️', gradient: 'from-amber-600 to-orange-800', tags: ['Història','Dates'] },
+      { slug: 'linea-temporal', titulo: 'Línia Temporal', desc: 'Ordena esdeveniments històrics cronològicament sense veure dates.', emoji: '📜', gradient: 'from-emerald-600 to-teal-800', tags: ['Història','Ordre'] },
+      { slug: 'quien-es-quien', titulo: 'Qui és Qui?', desc: 'Descobreix el personatge històric secret fent servir pistes lògiques.', emoji: '🕵️', gradient: 'from-violet-600 to-purple-900', tags: ['Història','Deducció'] },
+      { slug: 'portadas', titulo: 'Portades', desc: 'Llegeix titulars de diaris històrics i decideix si són veritat o mentida.', emoji: '📰', gradient: 'from-stone-600 to-neutral-800', tags: ['Història','Crític'] },
+    ],
+    [
+      { slug: 'georush', titulo: 'GeoRush', desc: 'Endevina el país misteriós a partir de pistes geogràfiques.', emoji: '🌍', gradient: 'from-teal-500 to-cyan-700', tags: ['Geografia','Pistes'] },
+      { slug: 'geomapa', titulo: 'GeoMapa', desc: 'Identifica el país il·luminat al mapa mundial. Pistes progressives si falles.', emoji: '🗺️', gradient: 'from-purple-600 to-violet-800', tags: ['Geografia','Mapa'] },
+    ],
+  ],
 }
 
 export default function InfoJuegosHub() {
@@ -76,7 +106,7 @@ export default function InfoJuegosHub() {
     <div className="relative z-10">
       <div className="px-4 sm:px-8 py-10 max-w-4xl mx-auto">
         <Link to={localPath('/')} className="text-white/30 hover:text-white/60 text-sm mb-8 inline-flex items-center gap-1 transition-colors">
-          ← {lang === 'en' ? 'Home' : 'Inicio'}
+          ← {lang === 'en' ? 'Home' : lang === 'ca' ? 'Inici' : 'Inicio'}
         </Link>
         <header className="text-center mb-8">
           <h1 className="text-3xl sm:text-4xl font-black text-white mb-3">{d.h1}</h1>

@@ -82,6 +82,46 @@ const DATA = {
       },
     ],
   },
+  ca: {
+    h1: 'Estudiar amb Jocs: Exàmens Gamificats per Temari',
+    intro: 'Tuthor adapta cada joc al temari oficial de Primària, Secundària i Batxillerat. Exàmens de 10 preguntes sobre temes concrets. Aprova amb 5 o més encerts.',
+    cta: 'Anar a estudiar ara →',
+    categorias: [
+      {
+        titulo: 'Història i Ciències Socials', emoji: '⏳',
+        texto: 'Repassa els grans temes de la història amb jocs adaptats al temari oficial. Cada tema combina línia temporal, personatges històrics, portades de diaris i dates clau.',
+        temas: [
+          { nombre: 'Guerra Civil Espanyola', desc: 'Del cop del 36 al final de la dictadura.' },
+          { nombre: 'Segona Guerra Mundial', desc: 'De la invasió de Polònia a Hiroshima.' },
+          { nombre: 'Independència Americana', desc: 'Del motí del te a la Constitució.' },
+          { nombre: 'Antiga Roma', desc: 'De Ròmul al col·lapse de l\'Imperi.' },
+          { nombre: 'Grans Fites de la Història', desc: 'Els moments que van canviar el món.' },
+        ],
+      },
+      {
+        titulo: 'Matemàtiques', emoji: '📐',
+        texto: 'Domina el càlcul mental a través de puzzles progressius. Cada mode d\'operació té el seu propi examen de 10 rondes adaptat al nivell educatiu.',
+        temas: [
+          { nombre: 'Sumes i restes', desc: 'Operacions bàsiques combinades.' },
+          { nombre: 'Multiplicació', desc: 'Combina multiplicacions amb sumes i restes.' },
+          { nombre: 'Divisió', desc: 'Descompon números fent servir divisions exactes.' },
+        ],
+      },
+      {
+        titulo: 'Geografia', emoji: '🌍',
+        texto: 'Aprèn la geografia del món a través de pistes progressives. Identifica països pel seu hemisferi, població, muntanyes, rius i idiomes.',
+        temas: [
+          { nombre: 'Europa', desc: 'Identifica els països europeus.' },
+          { nombre: 'Amèrica', desc: 'Aprèn els països americans.' },
+          { nombre: 'Àsia', desc: 'El continent més gran i divers.' },
+          { nombre: 'Àfrica', desc: 'El continent més variat del planeta.' },
+          { nombre: 'Oceania', desc: 'Austràlia, Nova Zelanda i les illes del Pacífic.' },
+          { nombre: 'Espanya — Províncies', desc: 'Les 50 províncies. Pròximament.' },
+          { nombre: 'Estats Units — Estats', desc: 'Els 50 estats. Pròximament.' },
+        ],
+      },
+    ],
+  },
 }
 
 export default function InfoEstudiar() {
@@ -92,7 +132,7 @@ export default function InfoEstudiar() {
     <div className="relative z-10">
       <div className="px-4 sm:px-8 py-10 max-w-4xl mx-auto">
         <Link to={localPath('/')} className="text-white/30 hover:text-white/60 text-sm mb-8 inline-flex items-center gap-1 transition-colors">
-          ← {lang === 'en' ? 'Home' : 'Inicio'}
+          ← {lang === 'en' ? 'Home' : lang === 'ca' ? 'Inici' : 'Inicio'}
         </Link>
         <header className="text-center mb-8">
           <h1 className="text-3xl sm:text-4xl font-black text-white mb-3">{d.h1}</h1>

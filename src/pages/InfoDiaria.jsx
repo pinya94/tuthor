@@ -48,6 +48,29 @@ const DATA = {
     ctaSub: 'You only need 2 minutes a day. No excuses.',
     cta: "Play today's challenge →",
   },
+  ca: {
+    h1: 'Repte Diari: L\'Hàbit que Transforma l\'Estudi',
+    intro: 'La ciència és clara: estudiar una mica cada dia és molt més efectiu que maratons d\'última hora. Un desafiament nou cada matí per mantenir el teu cervell actiu en només 2 minuts.',
+    porQue: 'Per què funciona l\'estudi diari?',
+    beneficios: [
+      { titulo: 'Efecte Espaiat (Spaced Repetition)', texto: 'Dècades d\'investigació demostren que distribuir l\'estudi en sessions curtes produeix una retenció fins a 3 vegades superior a les sessions intensives. Cada repte diari reforça connexions neuronals just abans que s\'afebleixin.' },
+      { titulo: 'Formació d\'Hàbits (Habit Loop)', texto: 'El sistema de ratxes funciona com un bucle d\'hàbit: el senyal (obrir Tuthor), la rutina (resoldre el repte) i la recompensa (mantenir la ratxa). Després de 21 dies, l\'estudi diari es torna automàtic.' },
+      { titulo: 'Recuperació Activa (Active Recall)', texto: 'A diferència de rellegir apunts, el repte diari obliga el cervell a recuperar la informació activament. Cada intent de recuperació enforteix la memòria.' },
+    ],
+    tiposH2: 'Quins tipus de reptes t\'esperen?',
+    tiposIntro: 'Cada dia rota entre quatre tipus de desafiament per activar diferents àrees cognitives:',
+    tipos: [
+      { emoji: '❓', titulo: 'Pregunta de cultura general', desc: 'Història, geografia, ciència — amb 4 opcions i explicació detallada.' },
+      { emoji: '🧮', titulo: 'Puzzle de càlcul mental', desc: 'Combina números amb operacions per assolir l\'objectiu.' },
+      { emoji: '📰', titulo: 'Portada històrica', desc: 'Llegeix un titular de diari real i decideix si és veritat o mentida.' },
+      { emoji: '🌍', titulo: 'Endevina el país', desc: 'Pistes geogràfiques progressives per descobrir un país misteriós.' },
+    ],
+    rachaH2: '🔥 El poder de la ratxa',
+    rachaTexto: 'La teva ratxa és el nombre de dies consecutius que has completat el repte. Perdre-la fa mal — i això és exactament el que la fa funcionar. El compromís emocional amb la ratxa converteix l\'estudi en quelcom personal: no estudies perquè toca, sinó perquè no vols trencar el teu rècord.',
+    ctaTitulo: 'Preparat per començar la teva ratxa?',
+    ctaSub: 'Només necessites 2 minuts al dia. Sense excuses.',
+    cta: 'Jugar al repte d\'avui →',
+  },
 }
 
 export default function InfoDiaria() {
@@ -58,7 +81,7 @@ export default function InfoDiaria() {
     <div className="relative z-10">
       <div className="px-4 sm:px-8 py-10 max-w-3xl mx-auto">
         <Link to={localPath('/')} className="text-white/30 hover:text-white/60 text-sm mb-8 inline-flex items-center gap-1 transition-colors">
-          ← {lang === 'en' ? 'Home' : 'Inicio'}
+          ← {lang === 'en' ? 'Home' : lang === 'ca' ? 'Inici' : 'Inicio'}
         </Link>
         <header className="text-center mb-8">
           <span className="text-7xl block mb-4">⚡</span>

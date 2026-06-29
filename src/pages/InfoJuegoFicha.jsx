@@ -357,15 +357,228 @@ const FICHAS_EN = {
   },
 }
 
+const FICHAS_CA = {
+  'acercate': {
+    titulo: 'Acosta\'t al Número',
+    subtitulo: 'Joc de Càlcul Mental i Lògica Matemàtica',
+    emoji: '🎯', gradient: 'from-pink-600 to-rose-800',
+    path: '/juegos/acercate',
+    intro: 'Una eina pedagògica interactiva dissenyada perquè els estudiants dominin l\'agilitat numèrica sense frustració. Combina números fent servir operacions aritmètiques per assolir l\'objectiu exacte, nivell rere nivell, en un format roguelike que enganxa.',
+    beneficios: [
+      { titulo: 'Flexibilitat Cognitiva', texto: 'El joc obliga a trobar múltiples camins — combinant sumes, restes, multiplicacions i divisions — per arribar a un mateix número objectiu.' },
+      { titulo: 'Memòria de Treball', texto: 'L\'alumne manté resultats parcials al cap mentre calcula el pas següent, reforçant les connexions neuronals del lòbul frontal.' },
+      { titulo: 'Reducció de l\'Ansietat Matemàtica', texto: 'En plantejar-se com un repte gamificat amb mecàniques de roguelike, l\'error es percep com a part del joc, no com un fracàs.' },
+    ],
+    ejemplo: 'En lloc d\'omplir fulls d\'exercicis, l\'alumne descompon el número 45 combinant (7 × 6) + 3 en qüestió de segons.',
+    enPapel: {
+      titulo: 'Acosta\'t al Número en paper',
+      pasos: [
+        'Escriu 5 números aleatoris de l\'1 al 15 en paperets i un número objectiu entre 20 i 100.',
+        'Fes servir només les operacions permeses (comença amb suma i resta, afegeix multiplicació i divisió per a més repte).',
+        'Intenta arribar exactament a l\'objectiu combinant els números. Pots cronometrar amb el mòbil.',
+        'Si jugues amb algú, guanya qui arribi més a prop de l\'objectiu en menys temps.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'Reptes de càlcul en grup', desc: 'Escriu un número objectiu a la pissarra i reparteix números a l\'atzar. Qui hi arribi primer guanya.' },
+      { nombre: 'Jocs de taula d\'operacions', desc: 'Hi ha molts jocs de taula centrats en combinar operacions matemàtiques. Busca a la teva botiga local.' },
+      { nombre: 'Desafiament del 24', desc: 'Amb 4 números i les 4 operacions, intenta arribar exactament a 24. Funciona amb cartes normals.' },
+    ],
+    asignatura: 'Matemàtiques', niveles: 'Primària, Secundària, Batxillerat',
+  },
+  'tuthor-time': {
+    titulo: 'Tuthor Time',
+    subtitulo: 'Joc de Cronologia i Memòria Històrica',
+    emoji: '🕰️', gradient: 'from-amber-600 to-orange-800',
+    path: '/juegos/tuthor-time',
+    intro: 'Viatja en el temps i demostra quant saps d\'història. Envia els teus agents temporals a l\'any correcte de cada esdeveniment. Com més a prop estiguis, menys vida gasten.',
+    beneficios: [
+      { titulo: 'Contextualització Temporal', texto: 'Situar esdeveniments en la seva època obliga el cervell a construir una línia temporal mental: causes, conseqüències i simultaneïtats.' },
+      { titulo: 'Aprenentatge per Error Calibrat', texto: 'El sistema de vida proporcional a l\'error ensenya que "estar a prop" té valor.' },
+      { titulo: 'Retenció a Llarg Termini', texto: 'La repetició espaïada natural — esdeveniments que reapareixen en diferents partides — reforça la memòria.' },
+    ],
+    ejemplo: 'Un estudiant que prepara la Segona Guerra Mundial juga 5 minuts i situa 8-10 esdeveniments clau amb precisió que millora partida rere partida.',
+    enPapel: {
+      titulo: 'Endevinar l\'any en paper',
+      pasos: [
+        'Escriu 15-20 esdeveniments històrics en targetes (sense l\'any visible a la cara principal).',
+        'Un jugador llegeix l\'esdeveniment, els altres escriuen l\'any que creuen.',
+        'Qui més s\'acosti guanya un punt. Si algú clava l\'any exacte, guanya 3 punts.',
+        'Després de 10 rondes, el que més punts tingui guanya.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'Cartes de cronologia', desc: 'Escriu esdeveniments en cartes i juga a col·locar-los en ordre. Mateix concepte, format físic casolà.' },
+      { nombre: 'Quiz de dates en grup', desc: 'Llegeix un esdeveniment, cada jugador escriu l\'any. Qui més s\'acosti guanya. Ideal per repassar abans d\'un examen.' },
+    ],
+    asignatura: 'Història', niveles: 'ESO, Batxillerat',
+  },
+  'linea-temporal': {
+    titulo: 'Línia Temporal',
+    subtitulo: 'Joc d\'Ordenació Cronològica',
+    emoji: '📜', gradient: 'from-emerald-600 to-teal-800',
+    path: '/juegos/linea-temporal',
+    intro: 'Col·loca esdeveniments històrics en ordre cronològic sense veure les dates. Només la teva intuïció històrica t\'ajudarà.',
+    beneficios: [
+      { titulo: 'Raonament Relacional', texto: 'Sense dates visibles, l\'alumne raona: "La impremta va ser abans o després del descobriment d\'Amèrica?".' },
+      { titulo: 'Esquemes Mentals', texto: 'Ordenar cronològicament crea un mapa mental de la història on situar nous coneixements.' },
+      { titulo: 'Detecció d\'Anacronismes', texto: 'La pràctica entrena a detectar errors temporals — habilitat crítica per als exàmens.' },
+    ],
+    ejemplo: 'Un alumne ordena 10 esdeveniments de la Guerra Civil. En col·locar Guernica abans de l\'Ebre, reforça la seqüència causal.',
+    enPapel: {
+      titulo: 'Línia temporal en paper',
+      pasos: [
+        'Escriu esdeveniments històrics en targetes amb l\'any per darrere.',
+        'Barreja les targetes i col·loca\'n una al centre de la taula com a referència.',
+        'Per torns, cada jugador agafa una targeta, llegeix l\'esdeveniment i decideix si va abans o després de les ja col·locades.',
+        'Gira la targeta per comprovar. Si encertes la posició, es queda; si no, torna al maç.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'Cartes cronològiques casolanes', desc: 'Fes les teves pròpies cartes amb esdeveniments i anys per darrere. Funciona per a qualsevol assignatura.' },
+      { nombre: 'Línia del temps a la paret', desc: 'Dibuixa una línia en un paper gran i enganxa post-its amb esdeveniments. Ideal per repassar en grup.' },
+    ],
+    asignatura: 'Història', niveles: 'Primària, ESO, Batxillerat',
+  },
+  'quien-es-quien': {
+    titulo: 'Qui és Qui?',
+    subtitulo: 'Joc de Deducció amb Personatges Històrics',
+    emoji: '🕵️', gradient: 'from-violet-600 to-purple-900',
+    path: '/juegos/quien-es-quien',
+    intro: 'Endevina el personatge històric secret fent servir pistes lògiques. Descarta candidats, formula hipòtesis i demostra el teu coneixement.',
+    beneficios: [
+      { titulo: 'Pensament Deductiu', texto: 'Cada pista elimina candidats. Lògica d\'exclusió transferible a ciències, matemàtiques i vida quotidiana.' },
+      { titulo: 'Coneixement Biogràfic', texto: 'Les pistes contextualitzades ensenyen biografies completes sense estudiar-les explícitament.' },
+      { titulo: 'Decisions sota Incertesa', texto: 'Amb informació parcial, saber quan arriscar és metacognició pura.' },
+    ],
+    ejemplo: 'Pistes: "Europa, segle XX, científic". Descarta guerrers, debat Einstein vs Curie, "Va guanyar dos Nobel" ho resol.',
+    enPapel: {
+      titulo: 'Qui sóc? amb post-its',
+      pasos: [
+        'Cada jugador escriu un personatge històric en un post-it i l\'enganxa al front d\'un altre jugador.',
+        'Per torns, fes preguntes de sí/no: "Sóc europeu?", "Vaig viure al segle XX?".',
+        'Pots intentar endevinar en qualsevol moment, però si falles perds un torn.',
+        'Guanya qui endevini el seu personatge amb menys preguntes.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'Endevinalles amb post-its', desc: 'Enganxa un personatge al front de cada jugador. Preguntes de sí/no fins a endevinar.' },
+      { nombre: 'Fitxes de personatges', desc: 'Crea fitxes amb dades de personatges històrics i juga a descartar per pistes amb amics.' },
+    ],
+    asignatura: 'Història', niveles: 'ESO, Batxillerat',
+  },
+  'portadas': {
+    titulo: 'Portades',
+    subtitulo: 'Verificació de Titulars Històrics',
+    emoji: '📰', gradient: 'from-stone-600 to-neutral-800',
+    path: '/juegos/portadas',
+    intro: 'Llegeix portades de diaris històrics reals i decideix si el titular és veritat o mentida. Pensament crític aplicat a la història.',
+    beneficios: [
+      { titulo: 'Pensament Crític', texto: 'Distingir fets de falsos és competència essencial a l\'era de la desinformació.' },
+      { titulo: 'Atenció al Detall', texto: 'Els titulars falsos tenen errors subtils. Detectar-los entrena la lectura atenta.' },
+      { titulo: 'Cultura General', texto: 'Cada portada ve amb explicació detallada. S\'aprèn tant dels encerts com dels errors.' },
+    ],
+    ejemplo: 'Portada del NYT 1945: "Primera bomba sobre Nagasaki". Qui sap que Hiroshima va ser primer marca MENTIDA.',
+    enPapel: {
+      titulo: 'Veritat o mentida a classe',
+      pasos: [
+        'Prepara fitxes amb afirmacions històriques: la meitat vertaderes, la meitat amb un error subtil.',
+        'Llegeix cada afirmació en veu alta. Els jugadors aixequen el polze amunt (veritat) o avall (mentida).',
+        'Després de cada ronda, explica per què és veritat o mentida. Un punt per encert.',
+        'Funciona genial en grups de 4-6 persones o a tota la classe.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'Debat a classe', desc: 'Llegeix afirmacions històriques i organitza un debat argumentat sobre si són vertaderes o falses.' },
+      { nombre: 'Diari de l\'aula', desc: 'Els alumnes redacten titulars reals i falsos sobre un tema. Els companys els classifiquen.' },
+    ],
+    asignatura: 'Història', niveles: 'ESO, Batxillerat',
+  },
+  'georush': {
+    titulo: 'GeoRush',
+    subtitulo: 'Geografia i Deducció per Pistes',
+    emoji: '🌍', gradient: 'from-teal-500 to-cyan-700',
+    path: '/juegos/georush',
+    intro: 'Descobreix el país misteriós a partir de pistes geogràfiques, demogràfiques i històriques. Com abans l\'endevinis, més punts.',
+    beneficios: [
+      { titulo: 'Integració Multidisciplinària', texto: 'Cada país combina geografia, demografia, història i cultura. Connexions entre assignatures en una partida.' },
+      { titulo: 'Velocitat de Processament', texto: 'El temporitzador obliga a decisions ràpides. Millora la "fluïdesa de recuperació" de coneixements emmagatzemats.' },
+      { titulo: 'Geografia Aplicada', texto: 'En lloc de memoritzar llistes, s\'aprenen associacions riques: "Japó = Àsia + Fuji + ambdues guerres".' },
+    ],
+    ejemplo: 'Pistes: "Hemisferi sud, +500.000 km², portuguès". Connectar tres dades = "Brasil" en segons.',
+    enPapel: {
+      titulo: 'Endevina el país en grup',
+      pasos: [
+        'Un jugador tria un país en secret i prepara 5 pistes ordenades de general a específica.',
+        'Llegeix les pistes una a una. Després de cada pista, els altres poden intentar endevinar.',
+        'Com menys pistes necessitis, més punts: 5 pistes = 1pt, 4 = 2pts, 3 = 3pts, 2 = 4pts, 1 = 5pts.',
+        'Si ningú encerta després de les 5 pistes, el que l\'ha triat guanya un punt bonus.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'Atles en família', desc: 'Obre un atles, tria un país a l\'atzar i entre tots intenteu dir capital, continent, idioma i una dada curiosa.' },
+      { nombre: 'Mapa mut', desc: 'Imprimeix un mapa sense noms i omple\'l de memòria. Un clàssic que mai falla per fixar ubicacions.' },
+      { nombre: 'Quiz de banderes', desc: 'Imprimeix banderes sense nom i juga a identificar-les. Funciona genial en grup amb punts.' },
+    ],
+    asignatura: 'Geografia', niveles: 'Primària, ESO, Batxillerat',
+  },
+  'geomapa': {
+    titulo: 'GeoMapa',
+    subtitulo: 'Joc de Reconeixement Geogràfic al Mapa',
+    emoji: '🗺️', gradient: 'from-purple-600 to-violet-800',
+    path: '/juegos/geomapa',
+    intro: 'Identifica països directament sobre un mapa mundial interactiu. Si falles, reps pistes progressives: primer la bandera del país, després la seva capital. Aprèn geografia de forma visual i espacial.',
+    beneficios: [
+      { titulo: 'Memòria Espacial', texto: 'Localitzar països en un mapa real entrena la memòria visoespacial, creant un atles mental que perdura més que qualsevol llista memoritzada.' },
+      { titulo: 'Alfabetització Geogràfica', texto: 'L\'alumne aprèn la forma, la mida relativa i la posició de cada país al seu continent. Coneixement fonamental per entendre geopolítica, clima i cultura.' },
+      { titulo: 'Raonament Visoespacial', texto: 'Distingir països per la seva silueta i ubicació desenvolupa habilitats d\'orientació i anàlisi visual transferibles a ciències, cartografia i disseny.' },
+    ],
+    ejemplo: 'S\'il·lumina un país al mapa d\'Europa. L\'alumne dubta entre Romania i Bulgària, falla un cop i rep la bandera com a pista. Reconeix els colors blau-groc-vermell i encerta: Romania.',
+    enPapel: {
+      titulo: 'GeoMapa en paper',
+      pasos: [
+        'Imprimeix un mapa mut (sense noms) d\'un continent.',
+        'Un jugador assenyala un país amb el dit. Els altres escriuen quin país creuen que és.',
+        'Si fallen, dona una pista: mostra la bandera o digues la capital. Segon intent.',
+        'Un punt per encert a la primera, mig punt amb pista. Qui més punts tingui, guanya.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'Mapa mut clàssic', desc: 'Imprimeix mapes sense noms i omple\'ls de memòria. L\'exercici més directe per fixar ubicacions.' },
+      { nombre: 'Puzzles de mapes', desc: 'Puzzles físics de mapes on cada peça és un país. Ideal per a primària i treball en grup.' },
+      { nombre: 'Atles interactiu', desc: 'Explora un atles digital fent clic a països per descobrir dades. Complement perfecte al joc.' },
+    ],
+    asignatura: 'Geografia', niveles: 'Primària, Secundària, Batxillerat',
+  },
+  'numpath': {
+    titulo: 'NumPath', subtitulo: 'Joc d\'Estratègia Matemàtica en Quadrícula',
+    emoji: '🧮', gradient: 'from-yellow-500 to-orange-500', path: '/juegos/numpath',
+    intro: 'Navega per una quadrícula plena d\'operacions matemàtiques i arriba a les caselles meta amb la puntuació exacta. Cada casella s\'esgota després de fer-la servir — planifica la teva ruta amb cura.',
+    beneficios: [
+      { titulo: 'Planificació Estratègica', texto: 'El jugador ha de visualitzar seqüències d\'operacions abans de moure\'s. Això entrena la capacitat de planificar diversos passos per endavant, similar als escacs.' },
+      { titulo: 'Càlcul Mental Encadenat', texto: 'Cada moviment aplica una operació al resultat anterior. Mantenir el resultat parcial al cap mentre s\'avaluen opcions reforça la memòria de treball.' },
+      { titulo: 'Pensament Reversible', texto: 'Per assolir un objectiu concret, l\'alumne raona cap enrere: "Si necessito 25, quin camí m\'hi porta?" Això desenvolupa el raonament invers, clau en àlgebra.' },
+    ],
+    ejemplo: 'El jugador comença amb 10. La meta demana 25. Pot anar per +5 → ×2 → +5 = 35 (massa), o +3 → ×2 → -1 = 25. La segona ruta funciona, però les caselles són d\'un sol ús.',
+    enPapel: { titulo: 'NumPath en paper', pasos: ['Dibuixa una quadrícula 5×5 i escriu operacions aleatòries a cada casella.', 'Marca 3 caselles com a "meta" i assigna\'ls un número objectiu.', 'Comença a la cantonada superior esquerra amb un número inicial.', 'Mou-te casella a casella i ratlla cada una després de fer-la servir. Pots arribar a les 3 metes?'] },
+    alternativas: [
+      { nombre: 'Puzzles de camins numèrics', desc: 'Quadrícules on cal trobar el camí que suma un total concret.' },
+      { nombre: 'Laberints matemàtics', desc: 'Laberints on cada bifurcació aplica una operació. Ideal per a primària.' },
+    ],
+    asignatura: 'Matemàtiques', niveles: 'Primària, ESO, Batxillerat',
+  },
+}
+
 const UI = {
   es: { back: '← Volver al catálogo', jugar: 'Jugar a', probar: 'Probar', ahora: 'ahora →', beneficiosH2: '🧠 Beneficios Pedagógicos', ejemploH2: '💡 Ejemplo Práctico', papelPre: '¿Prefieres aprender sin pantallas? Prueba esta versión analógica:', altH2: '🎲 Juegos similares que te pueden gustar', altPre: 'Si te gusta', altPost: ', estos juegos trabajan habilidades parecidas:', listoH2: '¿Listo para probarlo?', listoSub: 'Accede gratis y empieza a mejorar ahora.', notFound: 'Juego no encontrado' },
   en: { back: '← Back to catalogue', jugar: 'Play', probar: 'Try', ahora: 'now →', beneficiosH2: '🧠 Pedagogical Benefits', ejemploH2: '💡 Practical Example', papelPre: 'Prefer to learn without screens? Try this analogue version:', altH2: '🎲 Similar activities you might enjoy', altPre: 'If you like', altPost: ', these activities work similar skills:', listoH2: 'Ready to try it?', listoSub: 'Access for free and start improving now.', notFound: 'Game not found' },
+  ca: { back: '← Tornar al catàleg', jugar: 'Jugar a', probar: 'Provar', ahora: 'ara →', beneficiosH2: '🧠 Beneficis Pedagògics', ejemploH2: '💡 Exemple Pràctic', papelPre: 'Prefereixes aprendre sense pantalles? Prova aquesta versió analògica:', altH2: '🎲 Jocs similars que et poden agradar', altPre: 'Si t\'agrada', altPost: ', aquests jocs treballen habilitats semblants:', listoH2: 'Preparat per provar-ho?', listoSub: 'Accedeix gratis i comença a millorar ara.', notFound: 'Joc no trobat' },
 }
 
 export default function InfoJuegoFicha() {
   const { slug } = useParams()
   const { lang, localPath } = useLang()
-  const fichas = lang === 'en' ? FICHAS_EN : FICHAS_ES
+  const fichas = lang === 'ca' ? FICHAS_CA : lang === 'en' ? FICHAS_EN : FICHAS_ES
   const ui = UI[lang] || UI.es
   const ficha = fichas[slug]
 
@@ -424,7 +637,7 @@ export default function InfoJuegoFicha() {
           <div className="text-center mb-10">
             <Link to={ficha.path}
               className="inline-block py-4 px-10 bg-teal-600 hover:bg-teal-500 text-white font-black text-lg rounded-2xl transition-all hover:scale-[1.02] shadow-lg shadow-teal-600/30">
-              Jugar a {ficha.titulo} →
+              {ui.jugar} {ficha.titulo} →
             </Link>
           </div>
 
@@ -454,7 +667,7 @@ export default function InfoJuegoFicha() {
           <div className="text-center mb-10">
             <Link to={ficha.path}
               className="inline-block py-4 px-10 bg-teal-600 hover:bg-teal-500 text-white font-black text-lg rounded-2xl transition-all hover:scale-[1.02] shadow-lg shadow-teal-600/30">
-              Probar {ficha.titulo} ahora →
+              {ui.probar} {ficha.titulo} {ui.ahora}
             </Link>
           </div>
 
@@ -498,7 +711,7 @@ export default function InfoJuegoFicha() {
             <p className="text-gray-400 mb-6">{ui.listoSub}</p>
             <Link to={ficha.path}
               className="inline-block py-4 px-10 bg-teal-600 hover:bg-teal-500 text-white font-black text-lg rounded-2xl transition-all hover:scale-[1.02] shadow-lg shadow-teal-600/30">
-              Jugar a {ficha.titulo} →
+              {ui.jugar} {ficha.titulo} →
             </Link>
           </footer>
         </div>
