@@ -33,7 +33,7 @@ export const REGION_VIEW = {
   asia:    { center: [85, 30],  zoom: 2.2 },
 }
 
-function WorldMap({ highlight, highlightColor = '#EDAE49', baseColor = '#2d3748', borderColor = '#4a5568', className = '', region }) {
+function WorldMap({ highlight, highlightColor = '#EDAE49', baseColor = '#c8ced8', borderColor = '#9ca3af', className = '', region }) {
   const numId = highlight ? A3_TO_NUM[highlight] : null
   const view = region ? REGION_VIEW[region] : null
 
@@ -60,7 +60,7 @@ function WorldMap({ highlight, highlightColor = '#EDAE49', baseColor = '#2d3748'
                   strokeWidth={0.5}
                   style={{
                     default: { outline: 'none' },
-                    hover: { outline: 'none', fill: isHighlighted ? highlightColor : '#3d4a5c' },
+                    hover: { outline: 'none' },
                     pressed: { outline: 'none' },
                   }}
                 />
