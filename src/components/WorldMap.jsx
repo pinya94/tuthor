@@ -1,5 +1,5 @@
 import { memo } from 'react'
-import { ComposableMap, Geographies, Geography } from 'react-simple-maps'
+import { ComposableMap, Geographies, Geography, ZoomableGroup } from 'react-simple-maps'
 
 const GEO_URL = 'https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json'
 
@@ -47,27 +47,29 @@ function WorldMap({ highlight, highlightColor = '#EDAE49', baseColor = '#c8ced8'
         height={400}
         style={{ width: '100%', height: '100%' }}
       >
-        <Geographies geography={GEO_URL}>
-          {({ geographies }) =>
-            geographies.map(geo => {
-              const isHighlighted = numId ? geo.id === numId : false
-              return (
-                <Geography
-                  key={geo.rsmKey}
-                  geography={geo}
-                  fill={isHighlighted ? highlightColor : baseColor}
-                  stroke={borderColor}
-                  strokeWidth={0.5}
-                  style={{
-                    default: { outline: 'none' },
-                    hover: { outline: 'none' },
-                    pressed: { outline: 'none' },
-                  }}
-                />
-              )
-            })
-          }
-        </Geographies>
+        <ZoomableGroup center={view?.center || [0, 20]} zoom={view?.zoom || 1} minZoom={view?.zoom || 1} maxZoom={view?.zoom || 1} filterZoomEvent={() => false} onMoveStart={() => {}} onMoveEnd={() => {}}>
+          <Geographies geography={GEO_URL}>
+            {({ geographies }) =>
+              geographies.map(geo => {
+                const isHighlighted = numId ? geo.id === numId : false
+                return (
+                  <Geography
+                    key={geo.rsmKey}
+                    geography={geo}
+                    fill={isHighlighted ? highlightColor : baseColor}
+                    stroke={borderColor}
+                    strokeWidth={0.5}
+                    style={{
+                      default: { outline: 'none' },
+                      hover: { outline: 'none' },
+                      pressed: { outline: 'none' },
+                    }}
+                  />
+                )
+              })
+            }
+          </Geographies>
+        </ZoomableGroup>
       </ComposableMap>
     </div>
   )
