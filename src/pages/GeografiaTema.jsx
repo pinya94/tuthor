@@ -50,7 +50,7 @@ export default function GeografiaTema() {
   const paisesMapaCount = filter ? PAISES.filter(p => filter(p) && p.area >= 30000).length : 0
 
   const modos = [
-    {
+    paisesCount >= 10 && {
       id: 'georush',
       titulo: 'GeoRush',
       descripcion: ca
@@ -65,7 +65,7 @@ export default function GeografiaTema() {
         state: { region, titulo: meta.titulo, backPath: `/estudiar/geografia/${region}` }
       }),
     },
-    {
+    paisesMapaCount >= 10 && {
       id: 'geomapa',
       titulo: 'GeoMapa',
       descripcion: ca
@@ -80,7 +80,7 @@ export default function GeografiaTema() {
         state: { region, titulo: meta.titulo, backPath: `/estudiar/geografia/${region}` }
       }),
     },
-  ]
+  ].filter(Boolean)
 
   return (
     <div className="relative z-10 flex flex-col min-h-[calc(100vh-4rem)] px-4 sm:px-8 py-6">
