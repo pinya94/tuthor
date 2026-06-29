@@ -411,6 +411,7 @@ export default function GeoMapa() {
       <div className="bg-black/40 border border-white/10 rounded-2xl p-3 mb-4">
         <WorldMap
           highlight={paisActual.iso}
+          continent={paisActual.continente}
           className="rounded-xl overflow-hidden"
         />
       </div>
