@@ -177,6 +177,7 @@ export default function GeoMapa() {
   const [inputVal, setInputVal] = useState('')
   const [feedback, setFeedback] = useState(null)
   const [usados, setUsados] = useState([])
+  const usadosRef = useRef([])
   const [levelKey, setLevelKey] = useState(0)
   const [showCoins, setShowCoins] = useState(false)
   const [coinsDone, setCoinsDone] = useState(false)
@@ -185,6 +186,7 @@ export default function GeoMapa() {
   const timerRef = useRef(null)
   const tiempoRef = useRef(TIEMPO_INICIO)
   const puntosRef = useRef(0)
+  const startTimeRef = useRef(Date.now())
 
   useEffect(() => {
     if (fase !== 'jugando') return
@@ -195,7 +197,8 @@ export default function GeoMapa() {
       setTimeLeft(tiempoRef.current)
       if (tiempoRef.current <= 0) {
         clearInterval(timerRef.current)
-        if (user) saveActivity(user.uid, { type: 'juego', game: 'geomapa', score: puntosRef.current, passed: puntosRef.current >= 200, timeSpent: TIEMPO_INICIO }).catch(() => {})
+        const elapsed = Math.round((Date.now() - startTimeRef.current) / 1000)
+        if (user) saveActivity(user.uid, { type: 'juego', game: 'geomapa', score: puntosRef.current, passed: puntosRef.current >= 200, timeSpent: elapsed }).catch(() => {})
         setFase('fin')
       }
     }, 1000)
@@ -205,26 +208,29 @@ export default function GeoMapa() {
   function iniciar() {
     setTimeLeft(TIEMPO_INICIO)
     tiempoRef.current = TIEMPO_INICIO
+    startTimeRef.current = Date.now()
     setPuntos(0)
     puntosRef.current = 0
     setAciertos(0)
     setUsados([])
+    usadosRef.current = []
     setCombo(0)
     setShowCoins(false)
     setCoinsDone(false)
     setFase('jugando')
-    siguientePais([])
+    siguientePais()
   }
 
-  function siguientePais(usadosList) {
-    const disponibles = paisesConIso.filter(p => !usadosList.includes(p.nombre))
+  function siguientePais() {
+    const disponibles = paisesConIso.filter(p => !usadosRef.current.includes(p.nombre))
     if (disponibles.length === 0) { setFase('fin'); return }
     const pais = disponibles[Math.floor(Math.random() * disponibles.length)]
+    usadosRef.current = [...usadosRef.current, pais.nombre]
     setPaisActual(pais)
     setIntento(0)
     setInputVal('')
     setFeedback(null)
-    setUsados(prev => [...prev, pais.nombre])
+    setUsados(usadosRef.current)
     setLevelKey(k => k + 1)
   }
 
@@ -251,7 +257,7 @@ export default function GeoMapa() {
       setFeedback({ ok: true, msg: `🎉 ${u.correcto} +${pts} pts · +${bonus}s`, freeze: true })
       setTimeout(() => {
         setFeedback(null)
-        siguientePais(usados)
+        siguientePais()
       }, 1500)
     } else {
       setInputVal('')
@@ -262,13 +268,14 @@ export default function GeoMapa() {
         setFeedback({ ok: false, msg: `❌ ${u.era} ${getName(paisActual)} · −10s`, freeze: true })
         if (tiempoRef.current <= 0) {
           clearInterval(timerRef.current)
-          if (user) saveActivity(user.uid, { type: 'juego', game: 'geomapa', score: puntosRef.current, passed: puntosRef.current >= 200, timeSpent: TIEMPO_INICIO }).catch(() => {})
+          const elapsed = Math.round((Date.now() - startTimeRef.current) / 1000)
+          if (user) saveActivity(user.uid, { type: 'juego', game: 'geomapa', score: puntosRef.current, passed: puntosRef.current >= 200, timeSpent: elapsed }).catch(() => {})
           setTimeout(() => setFase('fin'), 1500)
           return
         }
         setTimeout(() => {
           setFeedback(null)
-          siguientePais(usados)
+          siguientePais()
         }, 2000)
       } else {
         setIntento(i => i + 1)
@@ -378,7 +385,7 @@ export default function GeoMapa() {
   // ── JUGANDO ────────────────────────────────────────────────────────────────
   if (!paisActual) return null
 
-  const timerPct = Math.min(100, (timeLeft / TIEMPO_INICIO) * 100)
+  const timerPct = Math.min(100, (timeLeft / Math.max(TIEMPO_INICIO, timeLeft)) * 100)
   const timerColor = timeLeft > 20 ? 'bg-green-400' : timeLeft > 10 ? 'bg-yellow-400' : 'bg-red-500 animate-pulse'
 
   return (
@@ -460,7 +467,7 @@ export default function GeoMapa() {
           onSubmit={handleRespuesta}
           paises={nombresPaises}
           disabled={!!feedback?.freeze}
-          focusKey={levelKey}
+          focusKey={`${levelKey}-${intento}`}
           placeholder={u.escribePais}
         />
         <p className="text-center text-white/20 text-xs mt-2">
