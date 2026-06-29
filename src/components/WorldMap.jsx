@@ -34,17 +34,28 @@ export const REGION_VIEW = {
 }
 
 const CONTINENT_VIEW = {
-  'Europa':      { center: [15, 50],   zoom: 2.8 },
-  'Europa/Asia': { center: [50, 45],   zoom: 1.8 },
-  'Asia':        { center: [85, 25],   zoom: 1.8 },
-  'África':      { center: [20, 5],    zoom: 2 },
-  'América':     { center: [-75, 0],   zoom: 1.5 },
-  'Oceanía':     { center: [140, -25], zoom: 2.5 },
+  'Europa':        { center: [15, 52],   zoom: 2.5 },
+  'Europa/Asia':   { center: [45, 48],   zoom: 1.6 },
+  'Asia':          { center: [85, 28],   zoom: 1.6 },
+  'África':        { center: [20, 3],    zoom: 1.7 },
+  'América_norte': { center: [-95, 35],  zoom: 2 },
+  'América_sur':   { center: [-60, -18], zoom: 2 },
+  'América':       { center: [-75, 5],   zoom: 1.3 },
+  'Oceanía':       { center: [145, -28], zoom: 2.2 },
 }
 
-function WorldMap({ highlight, highlightColor = '#EDAE49', baseColor = '#c8ced8', borderColor = '#9ca3af', className = '', region, continent }) {
+function getContView(continent, hemisferio) {
+  if (continent === 'América') {
+    if (hemisferio === 'sur') return CONTINENT_VIEW['América_sur']
+    if (hemisferio === 'norte') return CONTINENT_VIEW['América_norte']
+    return CONTINENT_VIEW['América']
+  }
+  return CONTINENT_VIEW[continent] || null
+}
+
+function WorldMap({ highlight, highlightColor = '#EDAE49', baseColor = '#c8ced8', borderColor = '#9ca3af', className = '', region, continent, hemisferio }) {
   const numId = highlight ? A3_TO_NUM[highlight] : null
-  const view = region ? REGION_VIEW[region] : continent ? CONTINENT_VIEW[continent] : null
+  const view = region ? REGION_VIEW[region] : continent ? getContView(continent, hemisferio) : null
 
   const rotate = view ? [-(view.center[0]), 0, 0] : [-10, 0, 0]
 

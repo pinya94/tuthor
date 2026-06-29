@@ -412,6 +412,7 @@ export default function GeoMapa() {
         <WorldMap
           highlight={paisActual.iso}
           continent={paisActual.continente}
+          hemisferio={paisActual.hemisferio}
           className="rounded-xl overflow-hidden"
         />
       </div>
