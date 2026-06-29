@@ -40,6 +40,7 @@ import Privacidad from './pages/Privacidad'
 import Comunidad from './pages/Comunidad'
 import Admin from './pages/Admin'
 import CookieBanner, { useCookieConsent } from './components/CookieBanner'
+import ErrorBoundary from './components/ErrorBoundary'
 import { LangProvider } from './context/LangContext'
 
 function AppRoutes() {
@@ -99,6 +100,7 @@ function AppRoutes() {
 
 function Layout({ onConsent }) {
   return (
+    <ErrorBoundary>
     <LangProvider>
       <div className="min-h-screen font-sans" style={{ position: 'relative' }}>
         <div
@@ -125,6 +127,7 @@ function Layout({ onConsent }) {
         <CookieBanner onConsent={onConsent} />
       </div>
     </LangProvider>
+    </ErrorBoundary>
   )
 }
 
