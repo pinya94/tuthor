@@ -29,11 +29,10 @@ const A3_TO_NUM = {
 }
 
 export const REGION_VIEW = {
-  europa:  { center: [15, 50],   zoom: 3.5, rotate: [-15, 0, 0], scale: 147 },
-  america: { center: [-80, 5],   zoom: 1.8, rotate: [80, 0, 0],  scale: 147 },
-  asia:    { center: [85, 30],   zoom: 2.2, rotate: [-85, 0, 0], scale: 147 },
-  africa:  { center: [20, 2],    zoom: 2.5, rotate: [-20, 0, 0], scale: 147 },
-  oceania: { center: [140, -25], zoom: 3,   rotate: [-140, 0, 0], scale: 147 },
+  europa:  { center: [15, 50],  zoom: 3.5, rotate: [-15, 0, 0], scale: 147 },
+  asia:    { center: [85, 30],  zoom: 2.2, rotate: [-85, 0, 0], scale: 147 },
+  africa:  { center: [20, 2],   zoom: 2.5, rotate: [-20, 0, 0], scale: 147 },
+  oceania: { center: [140, -25], zoom: 3,  rotate: [-140, 0, 0], scale: 147 },
 }
 
 function WorldMap({ highlight, highlightColor = '#EDAE49', baseColor = '#1e293b', borderColor = '#334155', className = '', region }) {
