@@ -293,7 +293,7 @@ export default function GeoMapaExamen() {
               </span>
             </div>
 
-            <WorldMap highlight={paisActual.iso} className="rounded-xl overflow-hidden" />
+            <WorldMap highlight={paisActual.iso} region={region} className="rounded-xl overflow-hidden" />
 
             {/* Hints revealed on wrong answers */}
             {(showFlag || showCapital) && (

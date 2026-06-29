@@ -28,18 +28,27 @@ const A3_TO_NUM = {
   AZE:'031',ARM:'051',BHS:'044',BLZ:'084',BTN:'064',DJI:'262',
 }
 
-function WorldMap({ highlight, highlightColor = '#EDAE49', baseColor = '#1e293b', borderColor = '#334155', className = '' }) {
+export const REGION_VIEW = {
+  europa:  { center: [15, 50],   zoom: 3.5, rotate: [-15, 0, 0], scale: 147 },
+  america: { center: [-80, 5],   zoom: 1.8, rotate: [80, 0, 0],  scale: 147 },
+  asia:    { center: [85, 30],   zoom: 2.2, rotate: [-85, 0, 0], scale: 147 },
+  africa:  { center: [20, 2],    zoom: 2.5, rotate: [-20, 0, 0], scale: 147 },
+  oceania: { center: [140, -25], zoom: 3,   rotate: [-140, 0, 0], scale: 147 },
+}
+
+function WorldMap({ highlight, highlightColor = '#EDAE49', baseColor = '#1e293b', borderColor = '#334155', className = '', region }) {
   const numId = highlight ? A3_TO_NUM[highlight] : null
+  const view = region ? REGION_VIEW[region] : null
 
   return (
     <div className={`w-full aspect-[2/1] ${className}`}>
       <ComposableMap
-        projectionConfig={{ rotate: [-10, 0, 0], scale: 147 }}
+        projectionConfig={{ rotate: view?.rotate || [-10, 0, 0], scale: view?.scale || 147 }}
         width={800}
         height={400}
         style={{ width: '100%', height: '100%' }}
       >
-        <ZoomableGroup center={[0, 20]} zoom={1} minZoom={1} maxZoom={1}>
+        <ZoomableGroup center={view?.center || [0, 20]} zoom={view?.zoom || 1} minZoom={1} maxZoom={1}>
           <Geographies geography={GEO_URL}>
             {({ geographies }) =>
               geographies.map(geo => {
