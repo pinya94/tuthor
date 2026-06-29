@@ -454,7 +454,7 @@ export default function GeoMapa() {
       )}
 
       {/* Input */}
-      <div className="mt-auto">
+      <div>
         <AutocompleteInput
           value={inputVal}
           onChange={setInputVal}
