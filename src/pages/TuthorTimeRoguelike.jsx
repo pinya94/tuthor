@@ -136,7 +136,7 @@ function ordenarEventos(eventos) {
 
 function getUpgradeOpts(difId, agentes) {
   const hasMuertos = agentes.some(a => a.muerto)
-  const pool = Object.keys(UPGRADE_INFO).filter(u => {
+  const pool = Object.keys(UPGRADE_INFO.es).filter(u => {
     if (u === 'recuperar_agente' && (!DIFS[difId].puedeRecuperar || !hasMuertos)) return false
     return true
   })
