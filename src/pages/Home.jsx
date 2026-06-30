@@ -207,7 +207,7 @@ export default function Home() {
             <div className="aspect-video rounded-xl overflow-hidden bg-gray-100 border border-gray-200">
               <iframe
                 className="w-full h-full"
-                src="https://www.youtube.com/embed/QfN7qCTzFBM?si=wvU_yIXHbGE3oKik"
+                src="https://www.youtube-nocookie.com/embed/QfN7qCTzFBM?si=wvU_yIXHbGE3oKik"
                 title={t('home.seo.video.titulo')}
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
