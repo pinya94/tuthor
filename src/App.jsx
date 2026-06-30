@@ -1,47 +1,57 @@
-import { useState } from 'react'
+import { useState, lazy, Suspense } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { Analytics } from '@vercel/analytics/react'
 import Particles from './components/Particles'
 import Navbar from './components/Navbar'
-import Home from './pages/Home'
-import Estudiar from './pages/Estudiar'
-import HistoriaIndex from './pages/HistoriaIndex'
-import HistoriaTema from './pages/HistoriaTema'
-import MatematicasIndex from './pages/MatematicasIndex'
-import MatematicasTema from './pages/MatematicasTema'
-import MatematicasPractica from './pages/MatematicasPractica'
-import Juegos from './pages/Juegos'
-import PreguntaDiaria from './pages/PreguntaDiaria'
-import Progreso from './pages/Progreso'
-import ExamenJuego from './pages/ExamenJuego'
-import TuthorTime from './pages/TuthorTime'
-import TuthorTimeRoguelike from './pages/TuthorTimeRoguelike'
-import OrdenTemporal from './pages/OrdenTemporal'
-import ExamenLineaTemporal from './pages/ExamenLineaTemporal'
-import Perfil from './pages/Perfil'
-import QuienEsQuien from './pages/QuienEsQuien'
-import Acercate from './pages/Acercate'
-import ExamenMatematicas from './pages/ExamenMatematicas'
-import AcercateRoguelike from './pages/AcercateRoguelike'
-import Portadas from './pages/Portadas'
-import PortadasExamen from './pages/PortadasExamen'
-import GeoRush from './pages/GeoRush'
-import GeoMapa from './pages/GeoMapa'
-import NumPath from './pages/NumPath'
-import InfoJuegosHub from './pages/InfoJuegosHub'
-import InfoJuegoFicha from './pages/InfoJuegoFicha'
-import GeografiaIndex from './pages/GeografiaIndex'
-import GeografiaTema from './pages/GeografiaTema'
-import GeoRushExamen from './pages/GeoRushExamen'
-import GeoMapaExamen from './pages/GeoMapaExamen'
-import InfoEstudiar from './pages/InfoEstudiar'
-import InfoDiaria from './pages/InfoDiaria'
-import Privacidad from './pages/Privacidad'
-import Comunidad from './pages/Comunidad'
-import Admin from './pages/Admin'
 import CookieBanner, { useCookieConsent } from './components/CookieBanner'
 import ErrorBoundary from './components/ErrorBoundary'
 import { LangProvider } from './context/LangContext'
+
+// Lazy-loaded pages — only downloaded when the user navigates to them
+const Home               = lazy(() => import('./pages/Home'))
+const Estudiar           = lazy(() => import('./pages/Estudiar'))
+const HistoriaIndex      = lazy(() => import('./pages/HistoriaIndex'))
+const HistoriaTema       = lazy(() => import('./pages/HistoriaTema'))
+const MatematicasIndex   = lazy(() => import('./pages/MatematicasIndex'))
+const MatematicasTema    = lazy(() => import('./pages/MatematicasTema'))
+const MatematicasPractica= lazy(() => import('./pages/MatematicasPractica'))
+const ExamenMatematicas  = lazy(() => import('./pages/ExamenMatematicas'))
+const Juegos             = lazy(() => import('./pages/Juegos'))
+const PreguntaDiaria     = lazy(() => import('./pages/PreguntaDiaria'))
+const Progreso           = lazy(() => import('./pages/Progreso'))
+const ExamenJuego        = lazy(() => import('./pages/ExamenJuego'))
+const TuthorTime         = lazy(() => import('./pages/TuthorTime'))
+const TuthorTimeRoguelike= lazy(() => import('./pages/TuthorTimeRoguelike'))
+const OrdenTemporal      = lazy(() => import('./pages/OrdenTemporal'))
+const ExamenLineaTemporal= lazy(() => import('./pages/ExamenLineaTemporal'))
+const Perfil             = lazy(() => import('./pages/Perfil'))
+const QuienEsQuien       = lazy(() => import('./pages/QuienEsQuien'))
+const Acercate           = lazy(() => import('./pages/Acercate'))
+const AcercateRoguelike  = lazy(() => import('./pages/AcercateRoguelike'))
+const Portadas           = lazy(() => import('./pages/Portadas'))
+const PortadasExamen     = lazy(() => import('./pages/PortadasExamen'))
+const GeoRush            = lazy(() => import('./pages/GeoRush'))
+const GeoMapa            = lazy(() => import('./pages/GeoMapa'))
+const NumPath            = lazy(() => import('./pages/NumPath'))
+const InfoJuegosHub      = lazy(() => import('./pages/InfoJuegosHub'))
+const InfoJuegoFicha     = lazy(() => import('./pages/InfoJuegoFicha'))
+const GeografiaIndex     = lazy(() => import('./pages/GeografiaIndex'))
+const GeografiaTema      = lazy(() => import('./pages/GeografiaTema'))
+const GeoRushExamen      = lazy(() => import('./pages/GeoRushExamen'))
+const GeoMapaExamen      = lazy(() => import('./pages/GeoMapaExamen'))
+const InfoEstudiar       = lazy(() => import('./pages/InfoEstudiar'))
+const InfoDiaria         = lazy(() => import('./pages/InfoDiaria'))
+const Privacidad         = lazy(() => import('./pages/Privacidad'))
+const Comunidad          = lazy(() => import('./pages/Comunidad'))
+const Admin              = lazy(() => import('./pages/Admin'))
+
+function PageLoader() {
+  return (
+    <div className="flex items-center justify-center min-h-[calc(100vh-4rem)]">
+      <div className="w-8 h-8 border-2 border-white/20 border-t-[#EDAE49] rounded-full animate-spin" />
+    </div>
+  )
+}
 
 function AppRoutes() {
   return (
@@ -115,14 +125,16 @@ function Layout({ onConsent }) {
         <Particles />
         <div className="relative z-10">
           <Navbar />
-          <Routes>
-            {/* Rutas en español (por defecto) */}
-            <Route path="/">{AppRoutes()}</Route>
-            {/* Rutas en inglés (prefijo /en) */}
-            <Route path="/en">{AppRoutes()}</Route>
-            {/* Catalán — rutas activas pero selector oculto hasta completar traducción */}
-            <Route path="/ca">{AppRoutes()}</Route>
-          </Routes>
+          <Suspense fallback={<PageLoader />}>
+            <Routes>
+              {/* Rutas en español (por defecto) */}
+              <Route path="/">{AppRoutes()}</Route>
+              {/* Rutas en inglés (prefijo /en) */}
+              <Route path="/en">{AppRoutes()}</Route>
+              {/* Catalán — rutas activas pero selector oculto hasta completar traducción */}
+              <Route path="/ca">{AppRoutes()}</Route>
+            </Routes>
+          </Suspense>
         </div>
         <CookieBanner onConsent={onConsent} />
       </div>

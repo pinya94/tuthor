@@ -3,6 +3,8 @@ import { useEffect, useRef } from 'react'
 export default function Particles() {
   const canvasRef = useRef(null)
   useEffect(() => {
+    // Skip particle animation on mobile — saves CPU/battery
+    if (window.matchMedia('(max-width: 768px)').matches) return
     const canvas = canvasRef.current
     const ctx = canvas.getContext('2d')
     let particles = []
