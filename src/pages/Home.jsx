@@ -34,7 +34,7 @@ export default function Home() {
         <div className="flex-1 grid grid-cols-1 sm:grid-cols-3 gap-4" style={{ minHeight: '280px' }}>
           {MAIN_CARDS.map(card => (
             <div key={card.id} className="min-h-[220px] sm:min-h-0">
-              <HeroCard card={card} onClick={() => navigate(localPath(card.path))} />
+              <HeroCard card={card} onClick={() => navigate(localPath(card.path))} priority={card.id === 'estudiar'} />
             </div>
           ))}
         </div>

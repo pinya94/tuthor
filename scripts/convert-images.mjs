@@ -1,17 +1,28 @@
 import sharp from 'sharp'
-import { readdirSync, statSync } from 'fs'
+import { statSync } from 'fs'
 import { join } from 'path'
 
 const publicDir = './public'
-const targets = ['estudio.png', 'juegos.png', 'racha.png', 'fondo.png']
 
-for (const file of targets) {
-  const input = join(publicDir, file)
-  const output = join(publicDir, file.replace('.png', '.webp'))
+const tasks = [
+  // Full-size WebP (already done, skip if exists)
+  { in: 'estudio.png',  out: 'estudio.webp',    width: null, quality: 82 },
+  { in: 'juegos.png',   out: 'juegos.webp',     width: null, quality: 82 },
+  { in: 'racha.png',    out: 'racha.webp',      width: null, quality: 82 },
+  { in: 'fondo.png',    out: 'fondo.webp',      width: null, quality: 82 },
+  // Mobile-sized (400px wide)
+  { in: 'estudio.png',  out: 'estudio-sm.webp', width: 400,  quality: 75 },
+  { in: 'juegos.png',   out: 'juegos-sm.webp',  width: 400,  quality: 75 },
+  { in: 'racha.png',    out: 'racha-sm.webp',   width: 400,  quality: 75 },
+]
+
+for (const t of tasks) {
+  const input = join(publicDir, t.in)
+  const output = join(publicDir, t.out)
   const beforeKB = Math.round(statSync(input).size / 1024)
-  await sharp(input)
-    .webp({ quality: 82 })
-    .toFile(output)
+  const s = sharp(input).webp({ quality: t.quality })
+  if (t.width) s.resize(t.width)
+  await s.toFile(output)
   const afterKB = Math.round(statSync(output).size / 1024)
-  console.log(`${file}: ${beforeKB}KB → ${afterKB}KB webp (${Math.round((1 - afterKB/beforeKB)*100)}% menor)`)
+  console.log(`${t.in} → ${t.out}: ${beforeKB}KB → ${afterKB}KB`)
 }

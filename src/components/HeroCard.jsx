@@ -1,9 +1,12 @@
 import { useState } from 'react'
 import { useLang } from '../context/LangContext'
 
-export default function HeroCard({ card, onClick }) {
+export default function HeroCard({ card, onClick, priority = false }) {
   const [hovered, setHovered] = useState(false)
   const { lt, lang } = useLang()
+
+  const imageSm = card.image.replace('.webp', '-sm.webp')
+
   return (
     <button
       onClick={onClick}
@@ -15,9 +18,13 @@ export default function HeroCard({ card, onClick }) {
       {/* Imagen de fondo */}
       <img
         src={card.image}
+        srcSet={`${imageSm} 400w, ${card.image} 1080w`}
+        sizes="(max-width: 768px) 400px, 1080px"
         alt={card.title}
         className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out"
         style={{ transform: hovered ? 'scale(1.08)' : 'scale(1)' }}
+        fetchPriority={priority ? 'high' : 'auto'}
+        loading={priority ? 'eager' : 'lazy'}
       />
 
       {/* Overlay gradiente */}
