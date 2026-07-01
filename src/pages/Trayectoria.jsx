@@ -52,11 +52,26 @@ const POWERUP_POOL = [
   },
 ]
 
-// Generate a random extra barrier in the playable zone between startX and goalX
-function randomBarrier(startX, goalX) {
-  const x = startX + 1 + Math.random() * Math.max(0.5, goalX - startX - 2)
-  const y = Math.round((Math.random() * 6 - 3) * 2) / 2  // -3..3 in 0.5 steps
-  return { x: Math.round(x * 2) / 2, y }
+// Check if a barrier would block a given function (same tolerances as the game)
+function wouldBlock(barrier, fn, xStart, xEnd) {
+  for (let x = xStart + 0.4; x <= xEnd - 0.2; x += 0.3) {
+    try {
+      const y = fn(x)
+      if (isFinite(y) && Math.abs(x - barrier.x) < 0.35 && Math.abs(y - barrier.y) < 0.7) return true
+    } catch { /* skip */ }
+  }
+  return false
+}
+
+// Generate a random extra barrier that does NOT block the correct function (up to 10 tries)
+function randomBarrier(startX, goalX, correctFn) {
+  for (let attempt = 0; attempt < 10; attempt++) {
+    const x = Math.round((startX + 1 + Math.random() * Math.max(0.5, goalX - startX - 2)) * 2) / 2
+    const y = Math.round((Math.random() * 6 - 3) * 2) / 2
+    const b = { x, y }
+    if (!wouldBlock(b, correctFn, startX, goalX)) return b
+  }
+  return null  // couldn't place a safe barrier — skip this round
 }
 
 function pickPowerups() {
@@ -321,9 +336,17 @@ export default function Trayectoria() {
     setUsedIds(newUsed)
     setQuestion(q)
 
-    // Add 1 new random defender to the accumulated pool
-    const newBarrier = randomBarrier(q.startX, q.goal.x)
-    const combined = [...q.barriers, ...accBarriersRef.current, newBarrier]
+    // Add 1 new random defender that doesn't block the correct function
+    const correctFn = q.options[q.correctIndex].fn
+    const newBarrier = randomBarrier(q.startX, q.goal.x, correctFn)
+
+    // Accumulated barriers from previous rounds may accidentally block this question's
+    // correct path — filter them out to keep the game fair
+    const safeAcc = accBarriersRef.current.filter(b => !wouldBlock(b, correctFn, q.startX, q.goal.x))
+
+    const combined = newBarrier
+      ? [...q.barriers, ...safeAcc, newBarrier]
+      : [...q.barriers, ...safeAcc]
 
     // Apply reduction from the end of combined (accumulated are last, so they go first)
     const trimmed = barrierReduce > 0
