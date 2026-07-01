@@ -44,7 +44,20 @@ const POWERUP_POOL = [
     label: { es: 'Quitar 2 defensores', en: 'Remove 2 defenders', ca: 'Treure 2 defensors' },
     desc: { es: 'Despeja el camino a portería', en: 'Clear the path to goal', ca: 'Neteja el camí a porteria' },
   },
+  {
+    id: 'fewer_options',
+    emoji: '🎯',
+    label: { es: 'Menos opciones', en: 'Fewer options', ca: 'Menys opcions' },
+    desc: { es: 'Solo 2 opciones en la siguiente pregunta', en: 'Only 2 choices next question', ca: 'Només 2 opcions a la pròxima pregunta' },
+  },
 ]
+
+// Generate a random extra barrier in the playable zone between startX and goalX
+function randomBarrier(startX, goalX) {
+  const x = startX + 1 + Math.random() * Math.max(0.5, goalX - startX - 2)
+  const y = Math.round((Math.random() * 6 - 3) * 2) / 2  // -3..3 in 0.5 steps
+  return { x: Math.round(x * 2) / 2, y }
+}
 
 function pickPowerups() {
   const shuffled = [...POWERUP_POOL].sort(() => Math.random() - 0.5)
@@ -200,6 +213,7 @@ export default function Trayectoria() {
   const [outcome, setOutcome] = useState(null)
   const [chosenFn, setChosenFn] = useState(null)
   const [pendingPowerups, setPendingPowerups] = useState(null)
+  const [displayedIndices, setDisplayedIndices] = useState([0, 1, 2, 3])
 
   const animRef = useRef(null)
   const timerRef = useRef(null)
@@ -207,9 +221,14 @@ export default function Trayectoria() {
 
   function t(obj) { return obj?.[l] ?? obj?.es ?? '' }
 
-  // pick next question from pool, avoiding repeats
-  // barrierReduce: how many barriers to remove from the new question's own list (from power-ups)
-  // goalExpand: units to expand the new question's goal (from wider_goal power-up)
+  // accumulated goal expansion from power-ups (carries across questions)
+  const goalExpandRef = useRef(0)
+  // extra barriers that accumulate each round — cleared on new game
+  const accBarriersRef = useRef([])
+  // next question shows only 2 options (fewer_options power-up)
+  const fewOptionsRef = useRef(false)
+
+  // Each round: add 1 random barrier, then apply barrierReduce to the full combined pool
   const nextQuestion = useCallback((diff, prevUsed, barrierReduce, goalExpand) => {
     const pool = POOLS[diff]
     const available = pool.filter(q => !prevUsed.includes(q.id))
@@ -218,16 +237,38 @@ export default function Trayectoria() {
     const newUsed = available.length > 0 ? [...prevUsed, q.id] : [q.id]
     setUsedIds(newUsed)
     setQuestion(q)
-    // always use the new question's own barriers, then trim if a barrier-removal power-up was used
-    const rawBarriers = [...q.barriers]
-    setBarriers(barrierReduce > 0 ? rawBarriers.slice(0, Math.max(0, rawBarriers.length - barrierReduce)) : rawBarriers)
-    // always start from the question's own goal, then apply any power-up expansion
+
+    // Add 1 new random defender to the accumulated pool
+    const newBarrier = randomBarrier(q.startX, q.goal.x)
+    const combined = [...q.barriers, ...accBarriersRef.current, newBarrier]
+
+    // Apply reduction from the end of combined (accumulated are last, so they go first)
+    const trimmed = barrierReduce > 0
+      ? combined.slice(0, Math.max(0, combined.length - barrierReduce))
+      : combined
+
+    // Persist whatever is beyond the question's base barriers
+    accBarriersRef.current = trimmed.slice(q.barriers.length)
+    setBarriers(trimmed)
+
+    // Apply goal expansion
     const newGoal = { ...q.goal }
     if (goalExpand) {
       newGoal.yMin = Math.max(VIEW.yMin + 0.5, newGoal.yMin - goalExpand)
       newGoal.yMax = Math.min(VIEW.yMax - 0.5, newGoal.yMax + goalExpand)
     }
     setGoal(newGoal)
+
+    // fewer_options: show correct + 1 random wrong, then reset
+    if (fewOptionsRef.current) {
+      const wrongs = q.options.map((_, i) => i).filter(i => i !== q.correctIndex)
+      const wrongIdx = wrongs[Math.floor(Math.random() * wrongs.length)]
+      setDisplayedIndices([q.correctIndex, wrongIdx].sort(() => Math.random() - 0.5))
+      fewOptionsRef.current = false
+    } else {
+      setDisplayedIndices(q.options.map((_, i) => i))
+    }
+
     setPhase('choose')
     setSelected(null)
     setBallPos(null)
@@ -244,11 +285,11 @@ export default function Trayectoria() {
     setTimeLeft(GAME_TIME)
     setUsedIds([])
     goalExpandRef.current = 0
-    nextQuestion(diff, [], null, null)
+    accBarriersRef.current = []
+    fewOptionsRef.current = false
+    setDisplayedIndices([0, 1, 2, 3])
+    nextQuestion(diff, [], 0, null)
   }
-
-  // accumulated goal expansion from power-ups (carries across questions)
-  const goalExpandRef = useRef(0)
   const scoreRef = useRef(0)
   const timeLeftRef = useRef(GAME_TIME)
 
@@ -391,6 +432,8 @@ export default function Trayectoria() {
       setTimeLeft(t => Math.min(t + 5, 999))
     } else if (pw.id === 'extra_time_big') {
       setTimeLeft(t => Math.min(t + 10, 999))
+    } else if (pw.id === 'fewer_options') {
+      fewOptionsRef.current = true
     }
 
     nextQuestion(difficulty, usedIds, barrierReduce, goalExpandRef.current || null)
@@ -504,7 +547,8 @@ export default function Trayectoria() {
           {l === 'es' ? '¿Cuál función mete el balón en la portería?' : l === 'en' ? 'Which function scores the goal?' : 'Quina funció marca el gol?'}
         </p>
         <div className="grid grid-cols-1 gap-2">
-          {question.options.map((opt, i) => {
+          {displayedIndices.map((i) => {
+            const opt = question.options[i]
             const isCorrect = i === question.correctIndex
             const isChosen = selected === i
             let bg = 'bg-white/5 hover:bg-white/10 border-white/10'
