@@ -1,6 +1,9 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
+import { useAuth } from '../context/AuthContext'
+import { saveActivity } from '../lib/activity'
+import CoinsAnimation from '../components/CoinsAnimation'
 import { POOLS } from '../data/trayectoriaLevels'
 import {
   VIEW, W, H, ANIM_DURATION,
@@ -175,6 +178,7 @@ const GAME_TIME = 90
 
 export default function Trayectoria() {
   const { lang } = useLang()
+  const { user } = useAuth()
   const l = lang === 'en' ? 'en' : lang === 'ca' ? 'ca' : 'es'
 
   const [screen, setScreen] = useState('difficulty') // difficulty | playing | end
@@ -245,6 +249,28 @@ export default function Trayectoria() {
 
   // accumulated goal expansion from power-ups (carries across questions)
   const goalExpandRef = useRef(0)
+  const scoreRef = useRef(0)
+  const timeLeftRef = useRef(GAME_TIME)
+
+  // keep refs in sync for reading in effects after state updates
+  useEffect(() => { scoreRef.current = score }, [score])
+  useEffect(() => { timeLeftRef.current = timeLeft }, [timeLeft])
+
+  // save activity and show coins when game ends
+  useEffect(() => {
+    if (screen !== 'end') return
+    const pts = scoreRef.current * 10
+    if (user?.uid) {
+      saveActivity(user.uid, {
+        type: 'juego',
+        game: 'trayectoria',
+        category: 'matematicas',
+        score: pts,
+        passed: scoreRef.current > 0,
+        timeSpent: GAME_TIME - timeLeftRef.current,
+      }).catch(() => {})
+    }
+  }, [screen, user])
 
   // keep phaseRef in sync so timer can read it without re-creating the interval
   useEffect(() => { phaseRef.current = phase }, [phase])
@@ -389,13 +415,16 @@ export default function Trayectoria() {
 
   if (screen === 'end') {
     return (
-      <EndScreen
-        score={score}
-        difficulty={difficulty}
-        l={l}
-        onRestart={() => startGame(difficulty)}
-        onChangeDiff={() => setScreen('difficulty')}
-      />
+      <>
+        <EndScreen
+          score={score}
+          difficulty={difficulty}
+          l={l}
+          onRestart={() => startGame(difficulty)}
+          onChangeDiff={() => setScreen('difficulty')}
+        />
+        {score > 0 && <CoinsAnimation points={score * 10} />}
+      </>
     )
   }
 

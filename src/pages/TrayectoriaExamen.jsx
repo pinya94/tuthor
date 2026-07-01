@@ -1,6 +1,9 @@
-import { useState, useRef, useCallback } from 'react'
+import { useState, useRef, useCallback, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
+import { useAuth } from '../context/AuthContext'
+import { saveActivity } from '../lib/activity'
+import CoinsAnimation from '../components/CoinsAnimation'
 import { EASY, MEDIUM, HARD } from '../data/trayectoriaLevels'
 import {
   VIEW, W, H, ANIM_DURATION,
@@ -132,6 +135,7 @@ function ExamEnd({ score, results, onRetry, l }) {
 
 export default function TrayectoriaExamen() {
   const { lang } = useLang()
+  const { user } = useAuth()
   const l = lang === 'en' ? 'en' : lang === 'ca' ? 'ca' : 'es'
 
   const [screen, setScreen] = useState('intro')   // intro | playing | end
@@ -149,6 +153,26 @@ export default function TrayectoriaExamen() {
   const [chosenFn, setChosenFn] = useState(null)
 
   const animRef = useRef(null)
+  const startTimeRef = useRef(null)
+  const scoreRef = useRef(0)
+
+  useEffect(() => { scoreRef.current = score }, [score])
+
+  useEffect(() => {
+    if (screen !== 'end') return
+    const timeSpent = startTimeRef.current ? Math.round((Date.now() - startTimeRef.current) / 1000) : 0
+    const pts = Math.round((scoreRef.current / TOTAL) * 100)
+    if (user?.uid) {
+      saveActivity(user.uid, {
+        type: 'examen',
+        game: 'trayectoria',
+        category: 'matematicas',
+        score: pts,
+        passed: scoreRef.current >= 5,
+        timeSpent,
+      }).catch(() => {})
+    }
+  }, [screen, user])
 
   function startExam() {
     const qs = buildExam()
@@ -157,6 +181,7 @@ export default function TrayectoriaExamen() {
     setScore(0)
     setResults([])
     resetQuestion()
+    startTimeRef.current = Date.now()
     setScreen('playing')
   }
 
@@ -266,7 +291,12 @@ export default function TrayectoriaExamen() {
   const t = k => copy[k][l] ?? copy[k].es
 
   if (screen === 'intro') return <Intro onStart={startExam} l={l} />
-  if (screen === 'end') return <ExamEnd score={score} results={results} onRetry={startExam} l={l} />
+  if (screen === 'end') return (
+    <>
+      <ExamEnd score={score} results={results} onRetry={startExam} l={l} />
+      {score > 0 && <CoinsAnimation points={Math.round((score / TOTAL) * 100)} />}
+    </>
+  )
   if (!question) return null
 
   const isLast = qIdx + 1 >= TOTAL
