@@ -52,12 +52,17 @@ const POWERUP_POOL = [
   },
 ]
 
-// Check if a barrier would block a function path (same tolerances as the game)
+// Check if a barrier would block a function path (same tolerances as the game).
+// Only samples x values within ±0.34 of barrier.x (where the x-tolerance applies),
+// using a fine step so steep functions can't slip through between samples.
 function wouldBlock(barrier, fn, xStart, xEnd) {
-  for (let x = xStart + 0.4; x <= xEnd - 0.2; x += 0.3) {
+  if (barrier.x < xStart - 0.34 || barrier.x > xEnd + 0.34) return false
+  const xFrom = Math.max(xStart, barrier.x - 0.34)
+  const xTo   = Math.min(xEnd,   barrier.x + 0.34)
+  for (let x = xFrom; x <= xTo + 0.01; x += 0.05) {
     try {
       const y = fn(x)
-      if (isFinite(y) && Math.abs(x - barrier.x) < 0.35 && Math.abs(y - barrier.y) < 0.7) return true
+      if (isFinite(y) && Math.abs(y - barrier.y) < 0.7) return true
     } catch { /* skip */ }
   }
   return false
