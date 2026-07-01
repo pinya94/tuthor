@@ -64,54 +64,137 @@ function pickPowerups() {
   return shuffled.slice(0, 3)
 }
 
-// ── Difficulty selector ───────────────────────────────────────────────────────
+// ── Difficulty selector + rules ───────────────────────────────────────────────
+
+const DIFS = {
+  easy:   { emoji: '🟢', label: { es: 'Fácil',  en: 'Easy',   ca: 'Fàcil'  }, desc: { es: 'Rectas simples · Solo pendiente',              en: 'Simple lines · Slope only',            ca: 'Rectes simples · Només pendent'        } },
+  medium: { emoji: '🟡', label: { es: 'Medio',  en: 'Medium', ca: 'Mitjà'  }, desc: { es: 'Rectas con pendiente y corte',                  en: 'Lines with slope & intercept',         ca: 'Rectes amb pendent i tall'             } },
+  hard:   { emoji: '🔴', label: { es: 'Difícil',en: 'Hard',   ca: 'Difícil'}, desc: { es: 'Parábolas, hipérbolas y funciones a trozos',    en: 'Parabolas, hyperbolas & piecewise',    ca: 'Paràboles, hipèrboles i funcions a trossos' } },
+}
+
+const RULES_COPY = {
+  badge:   { es: 'Matemáticas · Funciones',           en: 'Maths · Functions',              ca: 'Matemàtiques · Funcions'          },
+  title:   { es: '⚽ Trayectoria',                    en: '⚽ Trajectory',                   ca: '⚽ Trajectòria'                   },
+  sub:     { es: 'Elige la función que mete el gol',  en: 'Pick the function that scores',   ca: 'Tria la funció que marca el gol'  },
+  difLabel:{ es: 'Dificultad',                        en: 'Difficulty',                      ca: 'Dificultat'                       },
+  time:    { es: 'Tiempo',                            en: 'Time',                            ca: 'Temps'                            },
+  timeVal: { es: '90 segundos por partido',           en: '90 seconds per match',            ca: '90 segons per partit'             },
+  pts:     { es: 'Puntos',                            en: 'Points',                          ca: 'Punts'                            },
+  ptsVal:  { es: 'Cada gol = 10 pts → monedas',      en: 'Each goal = 10 pts → coins',      ca: 'Cada gol = 10 pts → monedes'      },
+  def:     { es: 'Defensores',                        en: 'Defenders',                       ca: 'Defensors'                        },
+  defVal:  { es: 'Se acumulan cada ronda — ¡quítalos!', en: 'Accumulate each round — remove them!', ca: 'S\'acumulen cada ronda — treu-los!' },
+  pwup:    { es: 'Bonificaciones',                    en: 'Power-ups',                       ca: 'Bonificacions'                    },
+  how:     { es: 'Cómo funciona',                     en: 'How it works',                    ca: 'Com funciona'                     },
+  p1:      { es: 'Elige la función cuya curva entra en la portería',    en: 'Pick the function whose curve enters the goal',  ca: 'Tria la funció la corba de la qual entra a la porteria' },
+  p2:      { es: 'Si metes gol, elige una bonificación permanente',     en: 'If you score, pick a permanent power-up',        ca: 'Si marques gol, tria una bonificació permanent'        },
+  p3:      { es: 'Cada ronda añade 1 defensor — acumúlalos o elimínalos', en: 'Each round adds 1 defender — stack or remove them', ca: 'Cada ronda afegeix 1 defensor — acumula\'ls o elimina\'ls' },
+  p4:      { es: 'El partido acaba cuando se agota el tiempo',          en: 'Match ends when time runs out',                  ca: 'El partit acaba quan s\'acaba el temps'                },
+  pwups:   {
+    es: [
+      ['🥅', 'Portería más grande',  '+1 unidad en la portería — la curva entra con más margen'],
+      ['🚫', 'Quitar un defensor',   'Elimina 1 jugador del campo (acumulados + base)'],
+      ['🛡️', 'Quitar 2 defensores',  'Elimina 2 jugadores del campo'],
+      ['🎯', 'Menos opciones',       'La próxima pregunta tiene solo 2 opciones'],
+      ['⏱️', '+5 segundos',          'Añade tiempo extra al marcador'],
+      ['⏰', '+10 segundos',         'Gran recarga de tiempo para seguir marcando'],
+    ],
+    en: [
+      ['🥅', 'Bigger goal',        '+1 unit to the goal — easier to score'],
+      ['🚫', 'Remove a defender',  'Removes 1 player from the field (accumulated + base)'],
+      ['🛡️', 'Remove 2 defenders', 'Removes 2 players from the field'],
+      ['🎯', 'Fewer options',      'Next question shows only 2 choices'],
+      ['⏱️', '+5 seconds',         'Adds extra time to the clock'],
+      ['⏰', '+10 seconds',        'Big time reload to keep scoring'],
+    ],
+    ca: [
+      ['🥅', 'Porteria més gran',   '+1 unitat a la porteria — la corba entra amb més marge'],
+      ['🚫', 'Treure un defensor',  'Elimina 1 jugador del camp (acumulats + base)'],
+      ['🛡️', 'Treure 2 defensors',  'Elimina 2 jugadors del camp'],
+      ['🎯', 'Menys opcions',       'La pròxima pregunta té només 2 opcions'],
+      ['⏱️', '+5 segons',           'Afegeix temps extra al marcador'],
+      ['⏰', '+10 segons',          'Gran recàrrega de temps per seguir marcant'],
+    ],
+  },
+  start:   { es: '▶ Empezar partido',  en: '▶ Start match',    ca: '▶ Començar partit'   },
+  exam:    { es: 'Modo examen (sin tiempo) →', en: 'Exam mode (no timer) →', ca: 'Mode examen (sense temps) →' },
+}
 
 function DifficultyScreen({ onSelect, l }) {
-  const options = [
-    {
-      id: 'easy',
-      emoji: '🟢',
-      label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
-      desc: { es: 'Rectas simples · Solo pendiente', en: 'Simple lines · Slope only', ca: 'Rectes simples · Només pendent' },
-    },
-    {
-      id: 'medium',
-      emoji: '🟡',
-      label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
-      desc: { es: 'Rectas con pendiente y corte', en: 'Lines with slope & intercept', ca: 'Rectes amb pendent i tall' },
-    },
-    {
-      id: 'hard',
-      emoji: '🔴',
-      label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' },
-      desc: { es: 'Parábolas, hipérbolas y funciones a trozos', en: 'Parabolas, hyperbolas & piecewise', ca: 'Paràboles, hipèrboles i funcions a trossos' },
-    },
-  ]
+  const [dif, setDif] = useState('easy')
+  const t = k => RULES_COPY[k][l] ?? RULES_COPY[k].es
+  const pwups = RULES_COPY.pwups[l] ?? RULES_COPY.pwups.es
+
   return (
     <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
-      <p className="text-white/40 text-xs uppercase tracking-widest mb-2">
-        {l === 'es' ? 'Matemáticas · Funciones' : l === 'en' ? 'Maths · Functions' : 'Matemàtiques · Funcions'}
-      </p>
-      <h1 className="text-3xl font-black text-white mb-1">⚽ Trayectoria</h1>
-      <p className="text-white/40 text-sm mb-8 text-center max-w-xs">
-        {l === 'es' ? '90 segundos para marcar el máximo de goles · Elige la función correcta'
-          : l === 'en' ? '90 seconds to score as many goals as possible · Pick the right function'
-          : '90 segons per marcar el màxim de gols · Tria la funció correcta'}
-      </p>
-      <div className="flex flex-col gap-3 w-full max-w-sm">
-        {options.map(opt => (
-          <button
-            key={opt.id}
-            onClick={() => onSelect(opt.id)}
-            className="flex items-center gap-4 px-5 py-4 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 transition-all text-left"
-          >
-            <span className="text-2xl">{opt.emoji}</span>
-            <div>
-              <p className="font-bold text-white text-base">{opt.label[l] ?? opt.label.es}</p>
-              <p className="text-white/40 text-xs mt-0.5">{opt.desc[l] ?? opt.desc.es}</p>
+      <div className="max-w-md w-full">
+        <p className="text-white/40 text-xs uppercase tracking-widest text-center mb-2">{t('badge')}</p>
+        <h1 className="text-3xl font-black text-white text-center mb-1">{t('title')}</h1>
+        <p className="text-white/40 text-sm text-center mb-6">{t('sub')}</p>
+
+        {/* Difficulty tabs */}
+        <div className="flex gap-2 p-1 bg-white/5 border border-white/10 rounded-xl mb-5 w-fit mx-auto">
+          {Object.entries(DIFS).map(([id, d]) => (
+            <button key={id} onClick={() => setDif(id)}
+              className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
+                dif === id ? 'bg-white/15 text-white shadow-sm' : 'text-white/40 hover:text-white/70'
+              }`}>
+              {d.emoji} {d.label[l] ?? d.label.es}
+            </button>
+          ))}
+        </div>
+        <p className="text-white/40 text-xs text-center mb-5">{DIFS[dif].desc[l] ?? DIFS[dif].desc.es}</p>
+
+        {/* Stats */}
+        <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-4 space-y-2.5 text-sm">
+          {[
+            ['⏱️', t('time'),  t('timeVal')],
+            ['⭐', t('pts'),   t('ptsVal')],
+            ['🧍', t('def'),   t('defVal')],
+          ].map(([e, k, v]) => (
+            <div key={k} className="flex items-center justify-between gap-4">
+              <span className="text-white/40 shrink-0">{e} {k}</span>
+              <span className="text-white font-semibold text-right">{v}</span>
             </div>
-          </button>
-        ))}
+          ))}
+        </div>
+
+        {/* How it works */}
+        <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-4">
+          <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-3">{t('how')}</p>
+          <div className="space-y-2">
+            {[['⚽', t('p1')], ['🎁', t('p2')], ['🧍', t('p3')], ['⏰', t('p4')]].map(([e, text]) => (
+              <div key={text} className="flex items-start gap-3 text-sm text-white/50">
+                <span className="text-base w-5 shrink-0 text-center">{e}</span>
+                <span>{text}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Power-ups */}
+        <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-6">
+          <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-3">{t('pwup')}</p>
+          <div className="space-y-3">
+            {pwups.map(([e, label, desc]) => (
+              <div key={label} className="flex items-start gap-3 text-sm">
+                <span className="text-lg w-6 shrink-0 text-center">{e}</span>
+                <div>
+                  <p className="text-white font-semibold">{label}</p>
+                  <p className="text-white/40 text-xs mt-0.5">{desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <button onClick={() => onSelect(dif)}
+          className="w-full py-4 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-lg rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-amber-500/20 mb-3">
+          {t('start')}
+        </button>
+        <Link to="/examen/trayectoria"
+          className="block text-center text-white/30 hover:text-white/60 text-sm transition-colors">
+          {t('exam')}
+        </Link>
       </div>
     </div>
   )
