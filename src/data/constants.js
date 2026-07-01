@@ -51,6 +51,7 @@ export const GAMES = [
   { title: 'SciQuiz', subtitle: 'Ciencias naturales', subtitleEn: 'Natural sciences', subtitleCa: 'Ciències naturals', emoji: '🔬', gradient: 'from-green-500 to-emerald-600', ready: false },
   { title: 'GeoMapa', titleEn: 'GeoMap', titleCa: 'GeoMapa', subtitle: 'Identifica el país en el mapa', subtitleEn: 'Identify the country on the map', subtitleCa: 'Identifica el país al mapa', emoji: '🗺️', gradient: 'from-purple-500 to-violet-600', ready: true, path: '/juegos/geomapa' },
   { title: 'NumPath', subtitle: 'Navega y calcula', subtitleEn: 'Navigate & calculate', subtitleCa: 'Navega i calcula', emoji: '🧮', gradient: 'from-yellow-500 to-orange-500', ready: true, path: '/juegos/numpath' },
+  { title: 'Trayectoria', titleEn: 'Trajectory', titleCa: 'Trajectòria', subtitle: 'Funciones matemáticas al gol', subtitleEn: 'Math functions to the goal', subtitleCa: 'Funcions matemàtiques al gol', emoji: '⚽', gradient: 'from-green-500 to-emerald-700', ready: true, path: '/juegos/trayectoria' },
   { title: 'LinguaRun', subtitle: 'Idiomas al sprint', subtitleEn: 'Sprint languages', subtitleCa: 'Idiomes a l\'sprint', emoji: '🏃', gradient: 'from-cyan-500 to-blue-600', ready: false },
   { title: 'AtomQuest', subtitle: 'Química elemental', subtitleEn: 'Basic chemistry', subtitleCa: 'Química elemental', emoji: '⚛️', gradient: 'from-rose-500 to-red-600', ready: false },
   { title: 'EcoWorld', subtitle: 'Medio ambiente', subtitleEn: 'Environment', subtitleCa: 'Medi ambient', emoji: '🌱', gradient: 'from-emerald-500 to-green-700', ready: false },
