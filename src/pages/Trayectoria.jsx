@@ -96,20 +96,6 @@ function DifficultyScreen({ onSelect, l }) {
             </div>
           </button>
         ))}
-        <Link to="/examen/trayectoria"
-          className="flex items-center gap-4 px-5 py-4 rounded-2xl bg-violet-600/20 hover:bg-violet-600/30 border border-violet-500/30 hover:border-violet-500/60 transition-all text-left">
-          <span className="text-2xl">📋</span>
-          <div>
-            <p className="font-bold text-white text-base">
-              {l === 'es' ? 'Modo Examen' : l === 'en' ? 'Exam Mode' : 'Mode Examen'}
-            </p>
-            <p className="text-white/40 text-xs mt-0.5">
-              {l === 'es' ? '10 tiros · Sin tiempo límite · Con explicaciones'
-                : l === 'en' ? '10 shots · No time limit · With explanations'
-                : '10 tirs · Sense límit de temps · Amb explicacions'}
-            </p>
-          </div>
-        </Link>
       </div>
     </div>
   )
