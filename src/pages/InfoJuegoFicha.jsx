@@ -211,6 +211,35 @@ const FICHAS_ES = {
     ],
     asignatura: 'Matemáticas', niveles: 'Primaria, ESO, Bachillerato',
   },
+  'trayectoria': {
+    titulo: 'Trayectoria',
+    subtitulo: 'Juego de Funciones Matemáticas con Mecánica de Fútbol',
+    emoji: '⚽', gradient: 'from-green-600 to-emerald-800',
+    path: '/juegos/trayectoria',
+    examPath: '/examen/trayectoria',
+    intro: 'Elige la función matemática correcta para que la pelota entre en la portería esquivando defensores. Cada función traza una trayectoria diferente sobre los ejes cartesianos — rectas, parábolas, funciones a trozos — y solo la ecuación exacta marca el gol.',
+    beneficios: [
+      { titulo: 'Interpretación Visual de Funciones', texto: 'El jugador ve en tiempo real cómo una ecuación se convierte en una trayectoria sobre el plano cartesiano. Esta conexión visual refuerza la comprensión abstracta de las funciones matemáticas de forma duradera.' },
+      { titulo: 'Razonamiento Analítico', texto: 'Comparar opciones como f(x) = ½x y f(x) = 2x obliga a razonar sobre pendientes, cortes con el eje y comportamiento a largo plazo — competencias clave del currículo de matemáticas de ESO y Bachillerato.' },
+      { titulo: 'Aprendizaje por Error Inmediato', texto: 'Cuando la pelota falla la portería, la curva correcta aparece en verde mostrando exactamente dónde debía ir. El error se convierte en información visual inmediata, no en frustración.' },
+    ],
+    ejemplo: 'El alumno ve f(x) = −0.3x² + 2 y f(x) = 0.3x² + 2. La parábola "abre hacia abajo" frente a "abre hacia arriba" se materializa como trayectorias opuestas en el campo. Elegir mal = la pelota sube cuando debería bajar.',
+    enPapel: {
+      titulo: 'Trayectoria en papel',
+      pasos: [
+        'Dibuja unos ejes cartesianos en papel cuadriculado. Marca una "portería" como un segmento vertical en x = 4.',
+        'Escribe 4 funciones en tarjetas (ej: y = x, y = 2x, y = ½x, y = −x). Un jugador elige una sin decirla.',
+        'Los demás trazan la función en el gráfico e intentan adivinar si la "pelota" (el punto en x = 4) entraría en la portería.',
+        'El que elija la función que pasa por la portería explica por qué. Gana puntos quien acierte con menos intentos.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'Gráficas en GeoGebra', desc: 'Pide a los alumnos que encuentren qué función pasa por dos puntos dados usando GeoGebra. Mismo concepto, herramienta digital.' },
+      { nombre: 'Quiz de pendientes', desc: 'Muestra gráficas en la pizarra y que los alumnos identifiquen su ecuación. Entrena el mismo músculo visual.' },
+      { nombre: 'Cartas de funciones', desc: 'Crea cartas con una función y su gráfica. Juega a emparejarlas. Ideal para repasar antes de un examen.' },
+    ],
+    asignatura: 'Matemáticas', niveles: 'ESO, Bachillerato',
+  },
 }
 
 const FICHAS_EN = {
@@ -354,6 +383,35 @@ const FICHAS_EN = {
       { nombre: 'Maths mazes', desc: 'Mazes where each fork applies an operation. Great for primary school.' },
     ],
     asignatura: 'Mathematics', niveles: 'Primary, Secondary, Sixth Form',
+  },
+  'trayectoria': {
+    titulo: 'Trajectory',
+    subtitulo: 'Maths Functions Game with Football Mechanics',
+    emoji: '⚽', gradient: 'from-green-600 to-emerald-800',
+    path: '/juegos/trayectoria',
+    examPath: '/examen/trayectoria',
+    intro: 'Pick the correct mathematical function to send the ball into the goal while dodging defenders. Each function traces a different trajectory on the Cartesian axes — lines, parabolas, piecewise functions — and only the exact equation scores.',
+    beneficios: [
+      { titulo: 'Visual Interpretation of Functions', texto: 'Players see in real time how an equation becomes a trajectory on the Cartesian plane. This visual connection builds a lasting, intuitive understanding of mathematical functions.' },
+      { titulo: 'Analytical Reasoning', texto: 'Comparing options like f(x) = ½x and f(x) = 2x forces reasoning about gradients, intercepts and long-run behaviour — key competences in secondary and sixth-form maths curricula.' },
+      { titulo: 'Immediate Error Feedback', texto: 'When the ball misses the goal, the correct curve appears in green showing exactly where it should have gone. Mistakes become instant visual information, not frustration.' },
+    ],
+    ejemplo: 'The student sees f(x) = −0.3x² + 2 vs f(x) = 0.3x² + 2. "Opens downward" vs "opens upward" materialises as opposite trajectories on the pitch. Wrong choice = the ball goes up when it should go down.',
+    enPapel: {
+      titulo: 'Trajectory on paper',
+      pasos: [
+        'Draw Cartesian axes on squared paper. Mark a "goal" as a vertical segment at x = 4.',
+        'Write 4 functions on cards (e.g. y = x, y = 2x, y = ½x, y = −x). One player picks one without saying it.',
+        'The others plot the function and decide whether the "ball" (point at x = 4) would enter the goal.',
+        'The one who picks the function through the goal explains why. Points go to whoever guesses with fewest attempts.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'GeoGebra graphs', desc: 'Ask students to find which function passes through two given points using GeoGebra. Same concept, digital tool.' },
+      { nombre: 'Gradient quiz', desc: 'Show graphs on the board and have students identify their equation. Trains the same visual muscle.' },
+      { nombre: 'Function cards', desc: 'Create cards with a function and its graph. Play to match them. Great for pre-exam revision.' },
+    ],
+    asignatura: 'Mathematics', niveles: 'Secondary, Sixth Form',
   },
 }
 
@@ -567,6 +625,35 @@ const FICHAS_CA = {
     ],
     asignatura: 'Matemàtiques', niveles: 'Primària, ESO, Batxillerat',
   },
+  'trayectoria': {
+    titulo: 'Trajectòria',
+    subtitulo: 'Joc de Funcions Matemàtiques amb Mecànica de Futbol',
+    emoji: '⚽', gradient: 'from-green-600 to-emerald-800',
+    path: '/juegos/trayectoria',
+    examPath: '/examen/trayectoria',
+    intro: 'Tria la funció matemàtica correcta perquè la pilota entri a la porteria esquivant defensors. Cada funció traça una trajectòria diferent sobre els eixos cartesians — rectes, paràboles, funcions a trossos — i només l\'equació exacta marca el gol.',
+    beneficios: [
+      { titulo: 'Interpretació Visual de Funcions', texto: 'El jugador veu en temps real com una equació es converteix en una trajectòria sobre el pla cartesià. Aquesta connexió visual reforça la comprensió abstracta de les funcions matemàtiques de forma duradora.' },
+      { titulo: 'Raonament Analític', texto: 'Comparar opcions com f(x) = ½x i f(x) = 2x obliga a raonar sobre pendents, talls amb l\'eix i comportament a llarg termini — competències clau del currículum de matemàtiques de l\'ESO i Batxillerat.' },
+      { titulo: 'Aprenentatge per Error Immediat', texto: 'Quan la pilota no entra a la porteria, la corba correcta apareix en verd mostrant exactament on havia d\'anar. L\'error es converteix en informació visual immediata, no en frustració.' },
+    ],
+    ejemplo: 'L\'alumne veu f(x) = −0.3x² + 2 i f(x) = 0.3x² + 2. "S\'obre cap avall" vs "s\'obre cap amunt" es materialitza com a trajectòries oposades al camp. Triar malament = la pilota puja quan hauria de baixar.',
+    enPapel: {
+      titulo: 'Trajectòria en paper',
+      pasos: [
+        'Dibuixa eixos cartesians en paper quadriculat. Marca una "porteria" com un segment vertical a x = 4.',
+        'Escriu 4 funcions en targetes (ex: y = x, y = 2x, y = ½x, y = −x). Un jugador en tria una sense dir-la.',
+        'Els altres traçen la funció i decideixen si la "pilota" (el punt a x = 4) entraria a la porteria.',
+        'El que triï la funció que passa per la porteria explica per què. Guanya punts qui ho endevini amb menys intents.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'Gràfiques amb GeoGebra', desc: 'Demana als alumnes que trobin quina funció passa per dos punts donats amb GeoGebra. Mateix concepte, eina digital.' },
+      { nombre: 'Quiz de pendents', desc: 'Mostra gràfiques a la pissarra i que els alumnes identifiquin la seva equació. Entrena el mateix múscul visual.' },
+      { nombre: 'Cartes de funcions', desc: 'Crea cartes amb una funció i la seva gràfica. Juga a aparellar-les. Ideal per repassar abans d\'un examen.' },
+    ],
+    asignatura: 'Matemàtiques', niveles: 'ESO, Batxillerat',
+  },
 }
 
 const UI = {
@@ -634,11 +721,17 @@ export default function InfoJuegoFicha() {
           </div>
 
           {/* CTA 1 */}
-          <div className="text-center mb-10">
+          <div className={`text-center mb-10 ${ficha.examPath ? 'flex flex-col sm:flex-row gap-3 justify-center' : ''}`}>
             <Link to={localPath(ficha.path)}
               className="inline-block py-4 px-10 bg-teal-600 hover:bg-teal-500 text-white font-black text-lg rounded-2xl transition-all hover:scale-[1.02] shadow-lg shadow-teal-600/30">
               {ui.jugar} {ficha.titulo} →
             </Link>
+            {ficha.examPath && (
+              <Link to={localPath(ficha.examPath)}
+                className="inline-block py-4 px-10 bg-violet-600 hover:bg-violet-500 text-white font-black text-lg rounded-2xl transition-all hover:scale-[1.02] shadow-lg shadow-violet-600/30">
+                {lang === 'en' ? 'Take the exam →' : lang === 'ca' ? 'Fer l\'examen →' : 'Hacer el examen →'}
+              </Link>
+            )}
           </div>
 
           <aside className="ad-slot" aria-label="Publicidad" data-ad-slot="info-juego-ficha-1" style={{ minHeight: '90px', marginBottom: '2.5rem' }} />
