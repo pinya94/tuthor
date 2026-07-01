@@ -221,32 +221,39 @@ function DifficultyScreen({ onSelect, l }) {
   )
 }
 
-// ── Power-up choice screen ────────────────────────────────────────────────────
+// ── Power-up full-screen (like AcercateRoguelike mejora) ─────────────────────
 
-function PowerupScreen({ powerups, onPick, l }) {
+function PowerupScreen({ powerups, score, onPick, l }) {
   return (
-    <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/75 backdrop-blur-sm z-20 rounded-xl">
-      <p className="text-2xl mb-1">⚽</p>
-      <p className="text-green-400 font-black text-xl mb-1">
-        {l === 'es' ? '¡GOL!' : l === 'en' ? 'GOAL!' : 'GOL!'}
-      </p>
-      <p className="text-white/60 text-sm mb-4">
-        {l === 'es' ? 'Elige una ventaja' : l === 'en' ? 'Choose a power-up' : 'Tria un avantatge'}
-      </p>
-      <div className="flex flex-col gap-2 w-full max-w-xs px-4">
-        {powerups.map(pw => (
-          <button
-            key={pw.id}
-            onClick={() => onPick(pw)}
-            className="flex items-center gap-3 px-4 py-3 rounded-xl bg-white/10 hover:bg-[#EDAE49]/20 border border-white/10 hover:border-[#EDAE49]/50 transition-all text-left"
-          >
-            <span className="text-xl">{pw.emoji}</span>
-            <div>
-              <p className="font-bold text-white text-sm">{pw.label[l] ?? pw.label.es}</p>
-              <p className="text-white/50 text-xs">{pw.desc[l] ?? pw.desc.es}</p>
-            </div>
-          </button>
-        ))}
+    <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
+      <div className="max-w-sm w-full text-center">
+        <div className="text-6xl mb-3 animate-bounce">⚽</div>
+        <p className="text-green-400 font-black text-3xl mb-1">
+          {l === 'es' ? '¡GOL!' : l === 'en' ? 'GOAL!' : 'GOL!'}
+        </p>
+        <p className="text-white font-black text-5xl mb-1">{score}</p>
+        <p className="text-white/40 text-sm mb-8">
+          {l === 'es' ? 'goles marcados' : l === 'en' ? 'goals scored' : 'gols marcats'}
+        </p>
+        <p className="text-white/60 text-sm font-semibold mb-4">
+          {l === 'es' ? 'Elige una ventaja permanente' : l === 'en' ? 'Pick a permanent power-up' : 'Tria un avantatge permanent'}
+        </p>
+        <div className="space-y-3">
+          {powerups.map(pw => (
+            <button key={pw.id} onClick={() => onPick(pw)}
+              className="w-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#EDAE49]/50 rounded-2xl p-5 text-left transition-all hover:scale-[1.02] active:scale-[0.98] group">
+              <div className="flex items-center gap-4">
+                <span className="text-4xl">{pw.emoji}</span>
+                <div>
+                  <p className="font-black text-white text-lg group-hover:text-[#EDAE49] transition-colors">
+                    {pw.label[l] ?? pw.label.es}
+                  </p>
+                  <p className="text-white/45 text-sm mt-0.5">{pw.desc[l] ?? pw.desc.es}</p>
+                </div>
+              </div>
+            </button>
+          ))}
+        </div>
       </div>
     </div>
   )
@@ -588,15 +595,23 @@ export default function Trayectoria() {
 
   if (!question) return null
 
+  // Powerup selection — full-screen page, not an overlay
+  if (phase === 'powerup' && pendingPowerups) {
+    return <PowerupScreen powerups={pendingPowerups} score={score} onPick={applyPowerup} l={l} />
+  }
+
   const correctFn = question.options[question.correctIndex].fn
   const timerPct = timeLeft / GAME_TIME
   const optColors = computeOptionColors(question)
   const timerColor = timeLeft > 30 ? '#22c55e' : timeLeft > 10 ? '#f59e0b' : '#ef4444'
 
+  // Chosen fn startX (for curve display)
+  const chosenStartX = selected !== null ? question.options[selected]?.startX ?? question.options[0].startX : question.options[0].startX
+
   return (
-    <div className="relative z-10 flex flex-col items-center min-h-[calc(100vh-4rem)] px-4 py-4">
+    <div className="relative z-10 flex flex-col items-center min-h-[calc(100vh-4rem)] px-2 sm:px-4 py-4">
       {/* Header */}
-      <div className="w-full max-w-[440px] flex items-center justify-between mb-3">
+      <div className="w-full max-w-[600px] flex items-center justify-between mb-3 px-2">
         <div>
           <p className="text-white/40 text-xs uppercase tracking-widest">⚽ Trayectoria</p>
           <p className="text-white font-bold text-lg">{score} {l === 'es' ? 'goles' : l === 'en' ? 'goals' : 'gols'}</p>
@@ -619,19 +634,28 @@ export default function Trayectoria() {
       </div>
 
       {/* SVG Field */}
-      <div className="relative w-full max-w-[440px] rounded-xl overflow-hidden border border-white/10 bg-[#0d1117] mb-3">
+      <div className="relative w-full max-w-[600px] rounded-xl overflow-hidden border border-white/10 bg-[#0d1117] mb-3">
         <svg viewBox={`0 0 ${W} ${H}`} width="100%" style={{ display: 'block' }}>
           <GridLines />
-          {/* trajectory curves — only shown AFTER animation completes */}
-          {(phase === 'result' || phase === 'powerup') && chosenFn && <FnCurve fn={chosenFn} color="#EDAE4970" xStart={question.startX} xEnd={goal.x + 0.5} />}
-          {phase === 'result' && outcome !== 'goal' && <FnCurve fn={correctFn} color="#22c55e50" xStart={question.startX} xEnd={goal.x + 0.5} />}
+          {phase === 'result' && chosenFn && <FnCurve fn={chosenFn} color="#EDAE4970" xStart={chosenStartX} xEnd={goal.x + 0.5} />}
+          {phase === 'result' && outcome !== 'goal' && <FnCurve fn={correctFn} color="#22c55e50" xStart={question.options[question.correctIndex].startX} xEnd={goal.x + 0.5} />}
           {goal && <Goal goal={goal} />}
           {(barriers || []).map((b, i) => <Barrier key={i} {...b} />)}
           {phase === 'choose' && question && <StartingBalls question={question} optColors={optColors} />}
           {ballPos && <Ball x={ballPos[0]} y={ballPos[1]} trail={trail} />}
         </svg>
 
-        {/* miss/collision result overlay */}
+        {/* goal celebration overlay (brief, before powerup screen) */}
+        {phase === 'result' && outcome === 'goal' && (
+          <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/50 backdrop-blur-sm">
+            <p className="text-5xl mb-1" style={{ animation: 'bounce 0.6s infinite alternate' }}>⚽</p>
+            <p className="text-green-400 font-black text-3xl">
+              {l === 'es' ? '¡GOL!' : l === 'en' ? 'GOAL!' : 'GOL!'}
+            </p>
+          </div>
+        )}
+
+        {/* miss/collision overlay */}
         {phase === 'result' && outcome !== 'goal' && (
           <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/65 backdrop-blur-sm">
             <p className="text-4xl mb-2">{outcome === 'collision' ? '🧍' : '❌'}</p>
@@ -649,15 +673,10 @@ export default function Trayectoria() {
             </button>
           </div>
         )}
-
-        {/* goal + powerup overlay */}
-        {phase === 'powerup' && pendingPowerups && (
-          <PowerupScreen powerups={pendingPowerups} onPick={applyPowerup} l={l} />
-        )}
       </div>
 
       {/* Options */}
-      <div className="w-full max-w-[440px]">
+      <div className="w-full max-w-[600px] px-2">
         <p className="text-white/50 text-xs text-center mb-2">
           {l === 'es' ? '¿Cuál función mete el balón en la portería?' : l === 'en' ? 'Which function scores the goal?' : 'Quina funció marca el gol?'}
         </p>
@@ -668,7 +687,7 @@ export default function Trayectoria() {
             const isCorrect = correctIndices.includes(i)
             const isChosen = selected === i
             let bg = 'bg-white/5 hover:bg-white/10 border-white/10'
-            if (phase === 'result' || phase === 'powerup') {
+            if (phase === 'result') {
               if (isCorrect) bg = 'bg-green-500/20 border-green-500'
               else if (isChosen) bg = 'bg-red-500/20 border-red-500'
               else bg = 'bg-white/5 border-white/10 opacity-40'
