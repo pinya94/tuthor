@@ -125,7 +125,7 @@ function DifficultyScreen({ onSelect, l }) {
   const pwups = RULES_COPY.pwups[l] ?? RULES_COPY.pwups.es
 
   return (
-    <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
+    <div className="relative z-10 flex flex-col items-center min-h-[calc(100vh-4rem)] px-4 py-8">
       <div className="max-w-md w-full">
         <p className="text-white/40 text-xs uppercase tracking-widest text-center mb-2">{t('badge')}</p>
         <h1 className="text-3xl font-black text-white text-center mb-1">{t('title')}</h1>
