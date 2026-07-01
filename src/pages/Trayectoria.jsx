@@ -52,7 +52,7 @@ const POWERUP_POOL = [
   },
 ]
 
-// Check if a barrier would block a given function (same tolerances as the game)
+// Check if a barrier would block a function path (same tolerances as the game)
 function wouldBlock(barrier, fn, xStart, xEnd) {
   for (let x = xStart + 0.4; x <= xEnd - 0.2; x += 0.3) {
     try {
@@ -63,15 +63,21 @@ function wouldBlock(barrier, fn, xStart, xEnd) {
   return false
 }
 
-// Generate a random extra barrier that does NOT block the correct function (up to 10 tries)
-function randomBarrier(startX, goalX, correctFn) {
+// Check if a barrier blocks ANY of the correct options
+function blocksAnyCorrect(barrier, correctOptions, goalX) {
+  return correctOptions.some(({ fn, startX }) => wouldBlock(barrier, fn, startX, goalX))
+}
+
+// Generate a random extra barrier that doesn't block any correct option (up to 10 tries)
+function randomBarrier(correctOptions, goalX) {
+  const minStart = Math.min(...correctOptions.map(o => o.startX))
   for (let attempt = 0; attempt < 10; attempt++) {
-    const x = Math.round((startX + 1 + Math.random() * Math.max(0.5, goalX - startX - 2)) * 2) / 2
+    const x = Math.round((minStart + 1 + Math.random() * Math.max(0.5, goalX - minStart - 2)) * 2) / 2
     const y = Math.round((Math.random() * 6 - 3) * 2) / 2
     const b = { x, y }
-    if (!wouldBlock(b, correctFn, startX, goalX)) return b
+    if (!blocksAnyCorrect(b, correctOptions, goalX)) return b
   }
-  return null  // couldn't place a safe barrier — skip this round
+  return null
 }
 
 function pickPowerups() {
@@ -336,13 +342,15 @@ export default function Trayectoria() {
     setUsedIds(newUsed)
     setQuestion(q)
 
-    // Add 1 new random defender that doesn't block the correct function
-    const correctFn = q.options[q.correctIndex].fn
-    const newBarrier = randomBarrier(q.startX, q.goal.x, correctFn)
+    // Gather all correct options for safe barrier placement
+    const correctOpts = (q.correctIndices ?? [q.correctIndex]).map(i => ({
+      fn: q.options[i].fn,
+      startX: q.options[i].startX,
+    }))
+    const newBarrier = randomBarrier(correctOpts, q.goal.x)
 
-    // Accumulated barriers from previous rounds may accidentally block this question's
-    // correct path — filter them out to keep the game fair
-    const safeAcc = accBarriersRef.current.filter(b => !wouldBlock(b, correctFn, q.startX, q.goal.x))
+    // Filter out any accumulated barriers that would block ALL correct paths
+    const safeAcc = accBarriersRef.current.filter(b => !blocksAnyCorrect(b, correctOpts, q.goal.x))
 
     const combined = newBarrier
       ? [...q.barriers, ...safeAcc, newBarrier]
@@ -444,10 +452,11 @@ export default function Trayectoria() {
     setSelected(optIdx)
     setPhase('animating')
 
-    const fn = question.options[optIdx].fn
+    const opt = question.options[optIdx]
+    const fn = opt.fn
     setChosenFn(() => fn)
 
-    const startX = question.startX
+    const startX = opt.startX
     const goalX = goal.x
     const endX = goalX + 0.5
     const start = Date.now()
@@ -655,7 +664,8 @@ export default function Trayectoria() {
         <div className="grid grid-cols-1 gap-2">
           {displayedIndices.map((i) => {
             const opt = question.options[i]
-            const isCorrect = i === question.correctIndex
+            const correctIndices = question.correctIndices ?? [question.correctIndex]
+            const isCorrect = correctIndices.includes(i)
             const isChosen = selected === i
             let bg = 'bg-white/5 hover:bg-white/10 border-white/10'
             if (phase === 'result' || phase === 'powerup') {

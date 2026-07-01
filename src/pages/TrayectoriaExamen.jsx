@@ -223,10 +223,11 @@ export default function TrayectoriaExamen() {
     setSelected(optIdx)
     setPhase('animating')
 
-    const fn = question.options[optIdx].fn
+    const opt = question.options[optIdx]
+    const fn = opt.fn
     setChosenFn(() => fn)
 
-    const startX = question.startX
+    const startX = opt.startX
     const goalX = goal.x
     const endX = goalX + 0.5
     const start = Date.now()
@@ -362,7 +363,8 @@ export default function TrayectoriaExamen() {
         <p className="text-white/50 text-xs text-center mb-2">{t('which')}</p>
         <div className="grid grid-cols-1 gap-2">
           {question.options.map((opt, i) => {
-            const isCorrect = i === question.correctIndex
+            const correctIndices = question.correctIndices ?? [question.correctIndex]
+            const isCorrect = correctIndices.includes(i)
             const isChosen = selected === i
             let bg = 'bg-white/5 hover:bg-white/10 border-white/10'
             if (phase === 'result') {

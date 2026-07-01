@@ -90,65 +90,30 @@ export function FnCurve({ fn, color, xStart = VIEW.xMin, xEnd = VIEW.xMax }) {
   return <>{segments.map((pts, i) => <polyline key={i} points={pts} fill="none" stroke={color} strokeWidth={2} strokeLinecap="round" />)}</>
 }
 
-// Default colors per option index
+// One color per option index — dispersed starts mean no grouping needed
 export const OPT_COLORS = ['#EDAE49', '#22d3ee', '#a78bfa', '#f472b6']
-// Colors for merged groups (multiple options at same starting y)
-export const GROUP_COLORS = ['#e2e8f0', '#60a5fa', '#fbbf24', '#f472b6']
 
-// Returns a color per option index. Options sharing the same starting y get the same group color.
 export function computeOptionColors(question) {
-  const colors = [...OPT_COLORS]
-  if (!question) return colors
-  const pts = question.options.map((opt, i) => {
-    let y; try { y = opt.fn(question.startX) } catch { y = null }
-    if (y === null || !isFinite(y)) return null
-    return { i, clampedY: Math.max(VIEW.yMin, Math.min(VIEW.yMax, y)) }
-  })
-  const groups = []
-  pts.forEach(pt => {
-    if (!pt) return
-    const g = groups.find(g => Math.abs(g.clampedY - pt.clampedY) < 0.15)
-    if (g) g.members.push(pt)
-    else groups.push({ clampedY: pt.clampedY, members: [pt] })
-  })
-  let gcIdx = 0
-  groups.forEach(g => {
-    if (g.members.length > 1) {
-      const gc = GROUP_COLORS[gcIdx++ % GROUP_COLORS.length]
-      g.members.forEach(m => { colors[m.i] = gc })
-    }
-  })
-  return colors
+  return question?.options.map((_, i) => OPT_COLORS[i % OPT_COLORS.length]) ?? [...OPT_COLORS]
 }
 
-// Starting balls shown before shooting — one per unique y position
+// Starting balls — each option has its own startX, shown at dispersed positions
 export function StartingBalls({ question, optColors }) {
-  const pts = question.options.map((opt, i) => {
-    let y; try { y = opt.fn(question.startX) } catch { y = null }
+  return question.options.map((opt, i) => {
+    const sx = opt.startX
+    let y; try { y = opt.fn(sx) } catch { y = null }
     if (y === null || !isFinite(y)) return null
     const clampedY = Math.max(VIEW.yMin, Math.min(VIEW.yMax, y))
-    return { i, y, clampedY, oob: clampedY !== y }
-  }).filter(Boolean)
-
-  const groups = []
-  pts.forEach(pt => {
-    const existing = groups.find(g => Math.abs(g.clampedY - pt.clampedY) < 0.15)
-    if (existing) existing.members.push(pt)
-    else groups.push({ clampedY: pt.clampedY, oob: pt.oob, members: [pt] })
-  })
-
-  return groups.map(g => {
-    const [px, py] = toSVG(question.startX, g.clampedY)
-    const shared = g.members.length > 1
-    const color = optColors[g.members[0].i]
-    const label = g.members.map(m => String.fromCharCode(65 + m.i)).join('')
-    const r = shared ? 10 : 8
-    const arrowDir = g.members[0].y < VIEW.yMin ? '▼' : '▲'
+    const oob = clampedY !== y
+    const [px, py] = toSVG(sx, clampedY)
+    const arrowDir = y < VIEW.yMin ? '▼' : '▲'
     return (
-      <g key={label}>
-        <circle cx={px} cy={py} r={r} fill={color} opacity={g.oob ? 0.55 : 0.85} />
-        <text x={px} y={py + 4} textAnchor="middle" fontSize={shared ? 7 : 9} fontWeight="bold" fill="#000" style={{ userSelect: 'none' }}>{label}</text>
-        {g.oob && <text x={px + r + 3} y={py + 4} fontSize="10" fill={color} style={{ userSelect: 'none' }}>{arrowDir}</text>}
+      <g key={i}>
+        <circle cx={px} cy={py} r={8} fill={optColors[i]} opacity={oob ? 0.55 : 0.85} />
+        <text x={px} y={py + 4} textAnchor="middle" fontSize="9" fontWeight="bold" fill="#000" style={{ userSelect: 'none' }}>
+          {String.fromCharCode(65 + i)}
+        </text>
+        {oob && <text x={px + 11} y={py + 4} fontSize="10" fill={optColors[i]} style={{ userSelect: 'none' }}>{arrowDir}</text>}
       </g>
     )
   })
