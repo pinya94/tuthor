@@ -27,6 +27,15 @@ export default function MatematicasTema() {
       detalles: [ca ? '10 preguntes' : en ? '10 questions' : '10 preguntas', ca ? 'Resposta exacta' : en ? 'Exact answer' : 'Respuesta exacta', ca ? 'Nota final' : en ? 'Final grade' : 'Nota final'],
       action: () => navigate(localPath(`/estudiar/matematicas/${modoId}/examen`), { state: { nivel } }),
     },
+    ...(modoId === 'funciones' ? [{
+      id: 'funciones-mc',
+      titulo: ca ? 'Examen de teoria' : en ? 'Theory exam' : 'Examen de teoría',
+      descripcion: ca ? '10 preguntes d\'opció múltiple sobre funcions lineals, pendents, eixos i gràfiques. Amb explicació després de cada resposta.' : en ? '10 multiple-choice questions on linear functions, slopes, axes and graphs. With explanation after each answer.' : '10 preguntas de opción múltiple sobre funciones lineales, pendientes, ejes y gráficas. Con explicación tras cada respuesta.',
+      emoji: '📈',
+      gradient: 'from-violet-500 to-purple-700',
+      detalles: [ca ? '10 preguntes' : en ? '10 questions' : '10 preguntas', ca ? 'Opció múltiple' : en ? 'Multiple choice' : 'Opción múltiple', ca ? 'Explicació inclosa' : en ? 'Explanation included' : 'Explicación incluida'],
+      action: () => navigate(localPath('/examen/funciones')),
+    }] : []),
     {
       id: 'acercate',
       titulo: ca ? 'Apropa\'t al nombre' : en ? 'Target Number' : 'Acércate al número',

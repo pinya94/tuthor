@@ -3,9 +3,8 @@ import { useLang } from '../context/LangContext'
 import TemarioGrid from '../components/TemarioGrid'
 import { MODOS, MODO_IDS } from '../lib/mathEngine'
 
-// Examenes MC que van directo al examen (no usan el motor aritmético)
+// Examenes que van directo al examen (no usan el motor aritmético)
 const EXAM_DIRECTO = {
-  funciones: '/examen/funciones',
   geometria: '/examen/geometria',
 }
 
