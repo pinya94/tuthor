@@ -1,6 +1,28 @@
 import { Link } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 
+const CIENCIAS_SLUGS_ES = {
+  'Tabla Periódica': 'tabla-periodica',
+  'Estados de la Materia': 'estados-materia',
+  'Mezclas y Separación': 'mezclas-separacion',
+  'Ácidos y Bases': 'acidos-bases',
+  'Átomos y Moléculas': 'atomos-moleculas',
+}
+const CIENCIAS_SLUGS_EN = {
+  'Periodic Table': 'tabla-periodica',
+  'States of Matter': 'estados-materia',
+  'Mixtures & Separation': 'mezclas-separacion',
+  'Acids & Bases': 'acidos-bases',
+  'Atoms & Molecules': 'atomos-moleculas',
+}
+const CIENCIAS_SLUGS_CA = {
+  'Taula Periòdica': 'tabla-periodica',
+  'Estats de la Matèria': 'estados-materia',
+  'Mescles i Separació': 'mezclas-separacion',
+  'Àcids i Bases': 'acidos-bases',
+  'Àtoms i Molècules': 'atomos-moleculas',
+}
+
 const DATA = {
   es: {
     h1: 'Estudiar con Juegos: Exámenes Gamificados por Temario',
@@ -160,6 +182,8 @@ const DATA = {
 export default function InfoEstudiar() {
   const { lang, localPath } = useLang()
   const d = DATA[lang] || DATA.es
+  const cienciasSlugs = lang === 'ca' ? CIENCIAS_SLUGS_CA : lang === 'en' ? CIENCIAS_SLUGS_EN : CIENCIAS_SLUGS_ES
+  const verMas = lang === 'en' ? 'See more →' : lang === 'ca' ? 'Veure més →' : 'Ver más →'
 
   return (
     <div className="relative z-10">
@@ -187,12 +211,21 @@ export default function InfoEstudiar() {
               <p className="text-gray-500 leading-relaxed mb-6 max-w-3xl">{cat.texto}</p>
 
               <div className="grid gap-3 sm:grid-cols-2">
-                {cat.temas.map(t => (
-                  <div key={t.nombre} className="bg-white rounded-2xl border border-gray-200 p-5">
-                    <h3 className="font-black text-gray-900 mb-1">{t.nombre}</h3>
-                    <p className="text-gray-400 text-sm leading-relaxed">{t.desc}</p>
-                  </div>
-                ))}
+                {cat.temas.map(t => {
+                  const temaSlug = cienciasSlugs[t.nombre]
+                  return (
+                    <div key={t.nombre} className="bg-white rounded-2xl border border-gray-200 p-5">
+                      <h3 className="font-black text-gray-900 mb-1">{t.nombre}</h3>
+                      <p className="text-gray-400 text-sm leading-relaxed">{t.desc}</p>
+                      {temaSlug && (
+                        <Link to={localPath(`/info/estudiar/${temaSlug}`)}
+                          className="inline-block mt-3 text-teal-600 text-sm font-semibold hover:text-teal-500 transition-colors">
+                          {verMas}
+                        </Link>
+                      )}
+                    </div>
+                  )
+                })}
               </div>
 
               {catIdx < d.categorias.length - 1 && (

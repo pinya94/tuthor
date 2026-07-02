@@ -42,6 +42,7 @@ const GeografiaTema      = lazy(() => import('./pages/GeografiaTema'))
 const GeoRushExamen      = lazy(() => import('./pages/GeoRushExamen'))
 const GeoMapaExamen      = lazy(() => import('./pages/GeoMapaExamen'))
 const InfoEstudiar       = lazy(() => import('./pages/InfoEstudiar'))
+const InfoEstudiarFicha  = lazy(() => import('./pages/InfoEstudiarFicha'))
 const InfoDiaria         = lazy(() => import('./pages/InfoDiaria'))
 const Privacidad         = lazy(() => import('./pages/Privacidad'))
 const Comunidad          = lazy(() => import('./pages/Comunidad'))
@@ -121,6 +122,7 @@ function AppRoutes() {
       <Route path="info/juegos" element={<InfoJuegosHub />} />
       <Route path="info/juegos/:slug" element={<InfoJuegoFicha />} />
       <Route path="info/estudiar" element={<InfoEstudiar />} />
+      <Route path="info/estudiar/:slug" element={<InfoEstudiarFicha />} />
       <Route path="info/diaria" element={<InfoDiaria />} />
 
       {/* ── OTRAS ── */}
