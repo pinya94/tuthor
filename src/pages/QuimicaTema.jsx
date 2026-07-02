@@ -26,26 +26,28 @@ const TEMAS_META = {
   },
 }
 
-const NIVELES = [
-  {
-    key: 'primaria',
-    label: { es: 'Primaria', en: 'Primary', ca: 'Primària' },
-    gradient: 'from-teal-500 to-cyan-700',
-    qTipos: 1,
-  },
-  {
-    key: 'eso',
-    label: { es: 'ESO', en: 'Secondary', ca: 'ESO' },
-    gradient: 'from-violet-500 to-purple-700',
-    qTipos: 4,
-  },
-  {
-    key: 'bachillerato',
-    label: { es: 'Bachillerato', en: 'A-Level', ca: 'Batxillerat' },
-    gradient: 'from-indigo-500 to-blue-700',
-    qTipos: 6,
-  },
-]
+// Modos de examen por tema: qué pruebas hay disponibles y sus detalles
+const MODOS_POR_TEMA = {
+  'tabla-periodica': [
+    {
+      id: 'examen',
+      emoji: '📝',
+      gradient: 'from-violet-500 to-purple-700',
+      titulo: { es: 'Examen', en: 'Exam', ca: 'Examen' },
+      descripcion: {
+        es: 'Identifica elementos por símbolo, nombre o número atómico. Preguntas mixtas según el nivel elegido.',
+        en: 'Identify elements by symbol, name or atomic number. Mixed questions based on the chosen level.',
+        ca: 'Identifica elements per símbol, nom o número atòmic. Preguntes mixtes segons el nivell triat.',
+      },
+      detalles: {
+        es: ['3 niveles', '10 preguntas', 'Hasta 6 tipos de pregunta', '2 intentos'],
+        en: ['3 levels', '10 questions', 'Up to 6 question types', '2 attempts'],
+        ca: ['3 nivells', '10 preguntes', 'Fins a 6 tipus de pregunta', '2 intents'],
+      },
+      path: 'tabla-periodica',
+    },
+  ],
+}
 
 export default function QuimicaTema() {
   const navigate = useNavigate()
@@ -58,27 +60,11 @@ export default function QuimicaTema() {
 
   if (!meta) { navigate(localPath('/estudiar/quimica')); return null }
 
-  function getLabelNivel(n) {
-    return lang === 'en' ? n.label.en : lang === 'ca' ? n.label.ca : n.label.es
-  }
+  const modos = MODOS_POR_TEMA[tema] || []
 
-  const modos = tema === 'tabla-periodica' ? NIVELES.map(n => {
-    const count = ELEMENTOS.filter(e => e.niveles.includes(n.key)).length
-    return {
-      key: n.key,
-      gradient: n.gradient,
-      titulo: getLabelNivel(n),
-      detalles: [
-        `${count} ${en ? 'elements' : ca ? 'elements' : 'elementos'}`,
-        `10 ${en ? 'per exam' : ca ? 'per examen' : 'por examen'}`,
-        `${n.qTipos} ${en ? 'question type' + (n.qTipos > 1 ? 's' : '') : ca ? 'tipus de pregunta' : 'tipo' + (n.qTipos > 1 ? 's' : '') + ' de pregunta'}`,
-        `2 ${en ? 'attempts' : ca ? 'intents' : 'intentos'}`,
-      ],
-      action: () => navigate(localPath(`/examen/${tema}`), {
-        state: { backPath: `/estudiar/quimica/${tema}`, nivel: n.key }
-      }),
-    }
-  }) : []
+  function getLabel(obj) {
+    return lang === 'en' ? obj.en : lang === 'ca' ? obj.ca : obj.es
+  }
 
   return (
     <div className="relative z-10 flex flex-col min-h-[calc(100vh-4rem)] px-4 sm:px-8 py-6">
@@ -106,21 +92,27 @@ export default function QuimicaTema() {
 
       <div className="max-w-2xl mx-auto w-full space-y-4">
         <p className="text-white/30 text-xs uppercase tracking-widest font-semibold">
-          {ca ? 'Selecciona un nivell' : en ? 'Select a level' : 'Selecciona un nivel'}
+          {ca ? 'Proves disponibles' : en ? 'Available tests' : 'Pruebas disponibles'}
         </p>
 
         {modos.map(modo => (
           <button
-            key={modo.key}
-            onClick={modo.action}
+            key={modo.id}
+            onClick={() => navigate(localPath(`/examen/${modo.path}`), {
+              state: { backPath: `/estudiar/quimica/${tema}` }
+            })}
             className="w-full group relative rounded-2xl overflow-hidden text-left transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:shadow-black/40"
           >
             <div className={`bg-gradient-to-br ${modo.gradient} p-6`}>
               <div className="flex items-start justify-between gap-4">
                 <div className="flex-1">
-                  <h3 className="font-black text-white text-xl mb-3">{modo.titulo}</h3>
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="text-3xl">{modo.emoji}</span>
+                    <h3 className="font-black text-white text-xl">{getLabel(modo.titulo)}</h3>
+                  </div>
+                  <p className="text-white/70 text-sm leading-relaxed mb-4">{getLabel(modo.descripcion)}</p>
                   <div className="flex flex-wrap gap-2">
-                    {modo.detalles.map(d => (
+                    {getLabel(modo.detalles).map(d => (
                       <span key={d} className="text-xs font-semibold bg-black/25 text-white/80 px-2.5 py-1 rounded-full border border-white/10">
                         {d}
                       </span>
