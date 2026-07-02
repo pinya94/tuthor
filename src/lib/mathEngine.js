@@ -8,6 +8,7 @@ export const MODOS = {
   divisiones:                     { id: 'divisiones',                    titulo: 'Divisiones',                 tituloEn: 'Division',                    emoji: '➗', gradient: 'from-rose-500 to-pink-600', ops: ['÷'] },
   'multiplicaciones-divisiones':  { id: 'multiplicaciones-divisiones',   titulo: 'Multiplicación y división',  tituloEn: 'Multiplication & division',   emoji: '🧩', gradient: 'from-fuchsia-500 to-purple-600', ops: ['×', '÷'] },
   combinado:                      { id: 'combinado',                     titulo: 'Sumas, restas, × y ÷',       tituloEn: 'Add, subtract, × & ÷',       emoji: '🧮', gradient: 'from-violet-600 to-purple-800', ops: ['+', '-', '×', '÷'] },
+  funciones:                      { id: 'funciones',                     titulo: 'Funciones',                  tituloEn: 'Functions',                   tituloCa: 'Funcions', emoji: '⚽', gradient: 'from-violet-500 to-purple-600', ops: [] },
 }
 
 export const MODO_IDS = Object.keys(MODOS)
