@@ -4,8 +4,7 @@ export const COMUNIDADES = [
   { geoName: 'Andalucia',       nombre: 'Andalucía',        nombreEn: 'Andalusia',         nombreCa: 'Andalusia',         capital: 'Sevilla',                capitalEn: 'Seville' },
   { geoName: 'Aragon',          nombre: 'Aragón',            nombreEn: 'Aragon',            nombreCa: 'Aragó',             capital: 'Zaragoza',               capitalEn: 'Zaragoza' },
   { geoName: 'Asturias',        nombre: 'Asturias',          nombreEn: 'Asturias',          nombreCa: 'Astúries',          capital: 'Oviedo',                 capitalEn: 'Oviedo' },
-  { geoName: 'Baleares',        nombre: 'Islas Baleares',   nombreEn: 'Balearic Islands',  nombreCa: 'Illes Balears',     capital: 'Palma',                  capitalEn: 'Palma' },
-  { geoName: 'Canarias',        nombre: 'Islas Canarias',   nombreEn: 'Canary Islands',    nombreCa: 'Illes Canàries',    capital: 'Las Palmas / S/C Tenerife', capitalEn: 'Las Palmas / S/C Tenerife' },
+  // Baleares y Canarias excluidas: quedan fuera del viewport del mapa de la península
   { geoName: 'Cantabria',       nombre: 'Cantabria',         nombreEn: 'Cantabria',         nombreCa: 'Cantàbria',         capital: 'Santander',              capitalEn: 'Santander' },
   { geoName: 'Castilla-La Mancha', nombre: 'Castilla-La Mancha', nombreEn: 'Castilla-La Mancha', nombreCa: 'Castella-La Manxa', capital: 'Toledo',            capitalEn: 'Toledo' },
   { geoName: 'Castilla-Leon',   nombre: 'Castilla y León',  nombreEn: 'Castile and León',  nombreCa: 'Castella i Lleó',   capital: 'Valladolid',             capitalEn: 'Valladolid' },

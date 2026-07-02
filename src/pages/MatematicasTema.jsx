@@ -20,7 +20,7 @@ export default function MatematicasTema() {
   const juegos = [
     {
       id: 'examen',
-      titulo: ca ? 'Examen de pràctica' : en ? 'Practice exam' : 'Examen de práctica',
+      titulo: modoId === 'funciones' ? (ca ? 'Trajectòria' : en ? 'Trajectory' : 'Trayectoria') : (ca ? 'Examen de pràctica' : en ? 'Practice exam' : 'Examen de práctica'),
       descripcion: ca ? '10 operacions directes. Escriu el resultat exacte i descobreix la teva nota al final.' : en ? '10 direct operations. Write the exact answer and see your grade.' : '10 operaciones directas. Escribe el resultado exacto y descubre tu nota al final.',
       emoji: '📝',
       gradient: 'from-amber-500 to-orange-600',
@@ -35,8 +35,7 @@ export default function MatematicasTema() {
       gradient: 'from-violet-500 to-purple-700',
       detalles: [ca ? '10 preguntes' : en ? '10 questions' : '10 preguntas', ca ? 'Opció múltiple' : en ? 'Multiple choice' : 'Opción múltiple', ca ? 'Explicació inclosa' : en ? 'Explanation included' : 'Explicación incluida'],
       action: () => navigate(localPath('/examen/funciones')),
-    }] : []),
-    {
+    }] : [{
       id: 'acercate',
       titulo: ca ? 'Apropa\'t al nombre' : en ? 'Target Number' : 'Acércate al número',
       descripcion: ca ? '10 puzzles: combina els nombres amb les operacions permeses fins arribar a l\'objectiu. S\'aprova amb 5 o més encerts.' : en ? '10 puzzles: combine numbers with allowed operations to reach the target. Pass with 5 or more correct.' : '10 puzzles: combina los números con las operaciones permitidas hasta llegar al objetivo. Se aprueba con 5 o más acertados.',
@@ -54,7 +53,8 @@ export default function MatematicasTema() {
       detalles: [ca ? '10 taulers' : en ? '10 boards' : '10 tableros', ca ? 'Aproves amb 5+' : en ? 'Pass with 5+' : 'Apruebas con 5+', modo.ops.join(' ')],
       action: () => navigate(localPath('/juegos/numpath'), { state: { modoExamen: true, ops: modo.ops, nivel, backPath: `/estudiar/matematicas/${modoId}` } }),
     },
-  ]
+  ]),
+]
 
   return (
     <div className="relative z-10 flex flex-col min-h-[calc(100vh-4rem)] px-4 sm:px-8 py-6">
