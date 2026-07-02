@@ -217,6 +217,106 @@ export default function Home() {
             </div>
           </section>
 
+          {/* PATROCINADOR DESTACADO: Igraal */}
+          <section className="mb-6">
+            <a href="https://es.igraal.com/padrinazgo?padrino=AG_638200fb04960&utm_medium=inf&utm_source=premium"
+              target="_blank" rel="noopener noreferrer"
+              className="group block bg-gradient-to-r from-green-600 to-emerald-500 hover:from-green-500 hover:to-emerald-400 rounded-2xl p-6 sm:p-8 transition-all hover:shadow-lg hover:shadow-green-200">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                <div className="flex-1">
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="text-xs font-bold uppercase tracking-widest text-green-100/70">
+                      {lang === 'en' ? 'Featured sponsor' : lang === 'ca' ? 'Patrocinador destacat' : 'Patrocinador destacado'}
+                    </span>
+                  </div>
+                  <h2 className="text-white font-black text-xl sm:text-2xl mb-1">
+                    {lang === 'en' ? 'Save money with Igraal — and support Tuthor' : lang === 'ca' ? "Estalvia amb Igraal — i dóna suport a Tuthor" : 'Ahorra con Igraal — y apoya Tuthor'}
+                  </h2>
+                  <p className="text-green-100 text-sm leading-relaxed max-w-xl">
+                    {lang === 'en'
+                      ? 'Igraal is a free cashback platform where you earn money on your online purchases. Sign up through our link, get €10, and help us keep Tuthor free.'
+                      : lang === 'ca'
+                      ? "Igraal és una plataforma gratuïta de cashback on guanyes diners en les teves compres en línia. Registra't amb el nostre link, guanya 10€ i ajuda'ns a mantenir Tuthor gratuït."
+                      : 'Igraal es una plataforma gratuita de cashback donde ganas dinero en tus compras online. Regístrate con nuestro enlace, llévate 10€ y ayúdanos a mantener Tuthor gratuito.'}
+                  </p>
+                </div>
+                <div className="shrink-0">
+                  <span className="inline-flex items-center gap-2 bg-white text-green-700 font-black px-6 py-3 rounded-xl text-sm group-hover:bg-green-50 transition-colors shadow-sm">
+                    🎁 {lang === 'en' ? 'Get €10 free' : lang === 'ca' ? 'Aconsegueix 10€ gratis' : 'Consigue 10€ gratis'}
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+                  </span>
+                </div>
+              </div>
+            </a>
+          </section>
+
+          {/* COMUNIDAD */}
+          <section className="mb-10">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+
+              {/* Bug report */}
+              <a href="mailto:consiguetualgogratis@gmail.com?subject=Bug%20en%20Tuthor&body=Describe%20el%20problema%3A"
+                className="group bg-white border border-gray-200 hover:border-violet-300 rounded-2xl p-6 flex flex-col gap-3 transition-all hover:shadow-md hover:shadow-violet-100">
+                <div className="w-10 h-10 rounded-xl bg-violet-50 flex items-center justify-center text-xl">🐛</div>
+                <div className="flex-1">
+                  <h3 className="text-gray-900 font-bold text-sm">
+                    {lang === 'en' ? 'Report a bug' : lang === 'ca' ? 'Reportar un error' : 'Reportar un bug'}
+                  </h3>
+                  <p className="text-gray-400 text-xs mt-1 leading-relaxed">
+                    {lang === 'en' ? "Something not working? Let us know and we'll fix it."
+                      : lang === 'ca' ? "Alguna cosa no funciona? Explica'ns-ho i ho arreglem."
+                      : 'Algo no funciona bien? Cuéntanoslo y lo arreglamos.'}
+                  </p>
+                </div>
+                <span className="text-xs font-semibold text-violet-500 group-hover:text-violet-600 flex items-center gap-1">
+                  {lang === 'en' ? 'Open form' : lang === 'ca' ? 'Obrir formulari' : 'Abrir formulario'}
+                  <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+                </span>
+              </a>
+
+              {/* Ko-fi */}
+              <a href="https://ko-fi.com/consiguetualgogratis" target="_blank" rel="noopener noreferrer"
+                className="group bg-white border border-gray-200 hover:border-amber-300 rounded-2xl p-6 flex flex-col gap-3 transition-all hover:shadow-md hover:shadow-amber-100">
+                <div className="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center text-xl">☕</div>
+                <div className="flex-1">
+                  <h3 className="text-gray-900 font-bold text-sm">
+                    {lang === 'en' ? 'Buy us a coffee' : lang === 'ca' ? "Convida'ns a un cafè" : 'Invítanos a un café'}
+                  </h3>
+                  <p className="text-gray-400 text-xs mt-1 leading-relaxed">
+                    {lang === 'en' ? 'Tuthor is free and always will be. A small donation helps us keep going.'
+                      : lang === 'ca' ? "Tuthor és gratuït i sempre ho serà. Una petita donació ens ajuda a continuar."
+                      : 'Tuthor es gratuito y siempre lo será. Una pequeña donación nos ayuda a seguir adelante.'}
+                  </p>
+                </div>
+                <span className="text-xs font-semibold text-amber-600 group-hover:text-amber-700 flex items-center gap-1">
+                  {lang === 'en' ? 'Support on Ko-fi' : lang === 'ca' ? 'Donar a Ko-fi' : 'Apoyar en Ko-fi'}
+                  <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+                </span>
+              </a>
+
+              {/* Colaborar */}
+              <a href="mailto:consiguetualgogratis@gmail.com?subject=Colaboraci%C3%B3n%20con%20Tuthor"
+                className="group bg-white border border-gray-200 hover:border-teal-300 rounded-2xl p-6 flex flex-col gap-3 transition-all hover:shadow-md hover:shadow-teal-100">
+                <div className="w-10 h-10 rounded-xl bg-teal-50 flex items-center justify-center text-xl">📣</div>
+                <div className="flex-1">
+                  <h3 className="text-gray-900 font-bold text-sm">
+                    {lang === 'en' ? 'Collaborate or advertise' : lang === 'ca' ? "Col·laborar o anunciar-se" : 'Colaborar o anunciarse'}
+                  </h3>
+                  <p className="text-gray-400 text-xs mt-1 leading-relaxed">
+                    {lang === 'en' ? "School, publisher or ed-tech project? Let's talk about working together."
+                      : lang === 'ca' ? 'Acadèmia, editorial o projecte educatiu? Parlem de com treballar junts.'
+                      : '¿Academia, editorial o proyecto educativo? Hablemos de cómo trabajar juntos.'}
+                  </p>
+                </div>
+                <span className="text-xs font-semibold text-teal-600 group-hover:text-teal-700 flex items-center gap-1">
+                  {lang === 'en' ? 'Write to us' : lang === 'ca' ? "Escriu-nos" : 'Escribirnos'}
+                  <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+                </span>
+              </a>
+
+            </div>
+          </section>
+
           {/* CONTACTO */}
           <section className="bg-white rounded-2xl border border-gray-200 p-6 sm:p-8 text-center">
             <h2 className="text-2xl font-black text-gray-900 mb-2">{t('home.seo.contacto.titulo')}</h2>
