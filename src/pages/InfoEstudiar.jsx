@@ -1,37 +1,6 @@
 import { Link } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 
-const CIENCIAS_SLUGS_ES = {
-  'Tabla Periódica': 'tabla-periodica',
-  'Estados de la Materia': 'estados-materia',
-  'Mezclas y Separación': 'mezclas-separacion',
-  'Ácidos y Bases': 'acidos-bases',
-  'Átomos y Moléculas': 'atomos-moleculas',
-  'Sistema Solar': 'sistema-solar',
-  'La Célula': 'celula',
-  'Geometría': 'geometria',
-}
-const CIENCIAS_SLUGS_EN = {
-  'Periodic Table': 'tabla-periodica',
-  'States of Matter': 'estados-materia',
-  'Mixtures & Separation': 'mezclas-separacion',
-  'Acids & Bases': 'acidos-bases',
-  'Atoms & Molecules': 'atomos-moleculas',
-  'Solar System': 'sistema-solar',
-  'The Cell': 'celula',
-  'Geometry': 'geometria',
-}
-const CIENCIAS_SLUGS_CA = {
-  'Taula Periòdica': 'tabla-periodica',
-  'Estats de la Matèria': 'estados-materia',
-  'Mescles i Separació': 'mezclas-separacion',
-  'Àcids i Bases': 'acidos-bases',
-  'Àtoms i Molècules': 'atomos-moleculas',
-  'Sistema Solar': 'sistema-solar',
-  'La Cèl·lula': 'celula',
-  'Geometria': 'geometria',
-}
-
 const DATA = {
   es: {
     h1: 'Estudiar con Juegos: Exámenes Gamificados por Temario',
@@ -42,47 +11,47 @@ const DATA = {
         titulo: 'Historia y Ciencias Sociales', emoji: '⏳',
         texto: 'Repasa los grandes temas de la historia con juegos adaptados al temario oficial. Cada tema combina línea temporal, personajes históricos, portadas de periódicos y fechas clave.',
         temas: [
-          { nombre: 'Guerra Civil Española', desc: 'Del golpe del 36 al fin de la dictadura.' },
-          { nombre: 'Segunda Guerra Mundial', desc: 'De la invasión de Polonia a Hiroshima.' },
-          { nombre: 'Independencia Americana', desc: 'Del motín del té a la Constitución.' },
-          { nombre: 'Antigua Roma', desc: 'De Rómulo al colapso del Imperio.' },
-          { nombre: 'Grandes Hitos de la Historia', desc: 'Los momentos que cambiaron el mundo.' },
+          { nombre: 'Guerra Civil Española', desc: 'Del golpe del 36 al fin de la dictadura.', slug: 'historia-guerra-civil' },
+          { nombre: 'Segunda Guerra Mundial', desc: 'De la invasión de Polonia a Hiroshima.', slug: 'historia-segunda-guerra-mundial' },
+          { nombre: 'Independencia Americana', desc: 'Del motín del té a la Constitución.', slug: 'historia-independencia-americana' },
+          { nombre: 'Antigua Roma', desc: 'De Rómulo al colapso del Imperio.', slug: 'historia-antigua-roma' },
+          { nombre: 'Grandes Hitos de la Historia', desc: 'Los momentos que cambiaron el mundo.', slug: 'historia-hitos' },
         ],
       },
       {
         titulo: 'Matemáticas', emoji: '📐',
         texto: 'Domina el cálculo mental a través de puzzles progresivos. Cada modo de operación tiene su propio examen de 10 rondas adaptado al nivel educativo.',
         temas: [
-          { nombre: 'Sumas y restas', desc: 'Operaciones básicas combinadas.' },
-          { nombre: 'Multiplicación', desc: 'Combina multiplicaciones con sumas y restas.' },
-          { nombre: 'División', desc: 'Descompón números usando divisiones exactas.' },
+          { nombre: 'Sumas y restas', desc: 'Operaciones básicas combinadas.', slug: 'matematicas-sumas-restas' },
+          { nombre: 'Multiplicación', desc: 'Combina multiplicaciones con sumas y restas.', slug: 'matematicas-multiplicacion' },
+          { nombre: 'División', desc: 'Descompón números usando divisiones exactas.', slug: 'matematicas-division' },
+          { nombre: 'Geometría', desc: 'Ángulos, áreas, perímetros, Pitágoras y volúmenes.', slug: 'geometria' },
         ],
       },
       {
         titulo: 'Geografía', emoji: '🌍',
         texto: 'Aprende la geografía del mundo a través de pistas progresivas. Identifica países por su hemisferio, población, montañas, ríos e idiomas.',
         temas: [
-          { nombre: 'Europa', desc: 'Identifica los países europeos.' },
-          { nombre: 'América', desc: 'Aprende los países americanos.' },
-          { nombre: 'Asia', desc: 'El continente más grande y diverso.' },
-          { nombre: 'África', desc: 'El continente más variado del planeta.' },
-          { nombre: 'Oceanía', desc: 'Australia, Nueva Zelanda y las islas del Pacífico.' },
-          { nombre: 'España — Provincias', desc: 'Las 50 provincias.' },
-          { nombre: 'Estados Unidos — Estados', desc: 'Los 50 estados.' },
+          { nombre: 'Europa', desc: 'Identifica los países europeos.', slug: 'geografia-europa' },
+          { nombre: 'América', desc: 'Aprende los países americanos.', slug: 'geografia-america' },
+          { nombre: 'Asia', desc: 'El continente más grande y diverso.', slug: 'geografia-asia' },
+          { nombre: 'África', desc: 'El continente más variado del planeta.', slug: 'geografia-africa' },
+          { nombre: 'Oceanía', desc: 'Australia, Nueva Zelanda y las islas del Pacífico.', slug: 'geografia-oceania' },
+          { nombre: 'España — Provincias', desc: 'Las 50 provincias.', slug: 'geografia-espana' },
+          { nombre: 'Estados Unidos — Estados', desc: 'Los 50 estados.', slug: 'geografia-eeuu' },
         ],
       },
       {
         titulo: 'Ciencias', emoji: '🔬',
         texto: 'Exámenes de ciencias naturales y química adaptados al currículum oficial de Primaria, ESO y Bachillerato. Preguntas de opción múltiple con explicación tras cada respuesta.',
         temas: [
-          { nombre: 'Tabla Periódica', desc: 'Símbolos, nombres, número atómico y grupos. 3 niveles.' },
-          { nombre: 'Estados de la Materia', desc: 'Sólido, líquido, gas y cambios de estado.' },
-          { nombre: 'Mezclas y Separación', desc: 'Tipos de mezcla y métodos: filtración, destilación, decantación...' },
-          { nombre: 'Ácidos y Bases', desc: 'Escala de pH, indicadores y neutralización. ESO.' },
-          { nombre: 'Átomos y Moléculas', desc: 'Estructura atómica, elementos y compuestos.' },
-          { nombre: 'Sistema Solar', desc: 'Planetas, astros, movimientos y características. Primaria y ESO.' },
-          { nombre: 'La Célula', desc: 'Tipos de célula, orgánulos y funciones. ESO.' },
-          { nombre: 'Geometría', desc: 'Ángulos, áreas, perímetros, Pitágoras y volúmenes.' },
+          { nombre: 'Tabla Periódica', desc: 'Símbolos, nombres, número atómico y grupos. 3 niveles.', slug: 'tabla-periodica' },
+          { nombre: 'Estados de la Materia', desc: 'Sólido, líquido, gas y cambios de estado.', slug: 'estados-materia' },
+          { nombre: 'Mezclas y Separación', desc: 'Tipos de mezcla y métodos: filtración, destilación, decantación...', slug: 'mezclas-separacion' },
+          { nombre: 'Ácidos y Bases', desc: 'Escala de pH, indicadores y neutralización. ESO.', slug: 'acidos-bases' },
+          { nombre: 'Átomos y Moléculas', desc: 'Estructura atómica, elementos y compuestos.', slug: 'atomos-moleculas' },
+          { nombre: 'Sistema Solar', desc: 'Planetas, astros, movimientos y características. Primaria y ESO.', slug: 'sistema-solar' },
+          { nombre: 'La Célula', desc: 'Tipos de célula, orgánulos y funciones. ESO.', slug: 'celula' },
         ],
       },
     ],
@@ -96,47 +65,47 @@ const DATA = {
         titulo: 'History & Social Sciences', emoji: '⏳',
         texto: 'Revise the great themes of history with games aligned to the official curriculum. Each topic combines timelines, historical figures, newspaper headlines and key dates.',
         temas: [
-          { nombre: 'Spanish Civil War', desc: 'From the 1936 coup to the end of the dictatorship.' },
-          { nombre: 'World War II', desc: 'From the invasion of Poland to Hiroshima.' },
-          { nombre: 'American Independence', desc: 'From the Boston Tea Party to the Constitution.' },
-          { nombre: 'Ancient Rome', desc: 'From Romulus to the fall of the Empire.' },
-          { nombre: 'Great Milestones of History', desc: 'The moments that changed the world.' },
+          { nombre: 'Spanish Civil War', desc: 'From the 1936 coup to the end of the dictatorship.', slug: 'historia-guerra-civil' },
+          { nombre: 'World War II', desc: 'From the invasion of Poland to Hiroshima.', slug: 'historia-segunda-guerra-mundial' },
+          { nombre: 'American Independence', desc: 'From the Boston Tea Party to the Constitution.', slug: 'historia-independencia-americana' },
+          { nombre: 'Ancient Rome', desc: 'From Romulus to the fall of the Empire.', slug: 'historia-antigua-roma' },
+          { nombre: 'Great Milestones of History', desc: 'The moments that changed the world.', slug: 'historia-hitos' },
         ],
       },
       {
         titulo: 'Mathematics', emoji: '📐',
         texto: 'Master mental arithmetic through progressive puzzles. Each operation mode has its own 10-round exam adapted to the student\'s educational level.',
         temas: [
-          { nombre: 'Addition & subtraction', desc: 'Combined basic operations.' },
-          { nombre: 'Multiplication', desc: 'Combine multiplication with addition and subtraction.' },
-          { nombre: 'Division', desc: 'Break down numbers using exact divisions.' },
+          { nombre: 'Addition & subtraction', desc: 'Combined basic operations.', slug: 'matematicas-sumas-restas' },
+          { nombre: 'Multiplication', desc: 'Combine multiplication with addition and subtraction.', slug: 'matematicas-multiplicacion' },
+          { nombre: 'Division', desc: 'Break down numbers using exact divisions.', slug: 'matematicas-division' },
+          { nombre: 'Geometry', desc: 'Angles, areas, perimeters, Pythagoras and volumes.', slug: 'geometria' },
         ],
       },
       {
         titulo: 'Geography', emoji: '🌍',
         texto: 'Learn world geography through progressive clues. Identify countries by hemisphere, population, mountains, rivers and languages.',
         temas: [
-          { nombre: 'Europe', desc: 'Identify European countries.' },
-          { nombre: 'The Americas', desc: 'Learn the countries of the Americas.' },
-          { nombre: 'Asia', desc: 'The largest and most diverse continent.' },
-          { nombre: 'Africa', desc: 'The most varied continent on the planet.' },
-          { nombre: 'Oceania', desc: 'Australia, New Zealand and the Pacific islands.' },
-          { nombre: 'Spain — Provinces', desc: 'All 50 provinces.' },
-          { nombre: 'United States — States', desc: 'All 50 states.' },
+          { nombre: 'Europe', desc: 'Identify European countries.', slug: 'geografia-europa' },
+          { nombre: 'The Americas', desc: 'Learn the countries of the Americas.', slug: 'geografia-america' },
+          { nombre: 'Asia', desc: 'The largest and most diverse continent.', slug: 'geografia-asia' },
+          { nombre: 'Africa', desc: 'The most varied continent on the planet.', slug: 'geografia-africa' },
+          { nombre: 'Oceania', desc: 'Australia, New Zealand and the Pacific islands.', slug: 'geografia-oceania' },
+          { nombre: 'Spain — Provinces', desc: 'All 50 provinces.', slug: 'geografia-espana' },
+          { nombre: 'United States — States', desc: 'All 50 states.', slug: 'geografia-eeuu' },
         ],
       },
       {
         titulo: 'Science', emoji: '🔬',
         texto: 'Natural science and chemistry exams aligned to the official Primary, Secondary and Sixth Form syllabus. Multiple choice questions with an explanation after each answer.',
         temas: [
-          { nombre: 'Periodic Table', desc: 'Symbols, names, atomic number and groups. 3 levels.' },
-          { nombre: 'States of Matter', desc: 'Solid, liquid, gas and changes of state.' },
-          { nombre: 'Mixtures & Separation', desc: 'Types of mixture and methods: filtration, distillation, decantation...' },
-          { nombre: 'Acids & Bases', desc: 'pH scale, indicators and neutralisation. Secondary.' },
-          { nombre: 'Atoms & Molecules', desc: 'Atomic structure, elements and compounds.' },
-          { nombre: 'Solar System', desc: 'Planets, celestial bodies, movements and features. Primary & Secondary.' },
-          { nombre: 'The Cell', desc: 'Cell types, organelles and functions. Secondary.' },
-          { nombre: 'Geometry', desc: 'Angles, areas, perimeters, Pythagoras and volumes.' },
+          { nombre: 'Periodic Table', desc: 'Symbols, names, atomic number and groups. 3 levels.', slug: 'tabla-periodica' },
+          { nombre: 'States of Matter', desc: 'Solid, liquid, gas and changes of state.', slug: 'estados-materia' },
+          { nombre: 'Mixtures & Separation', desc: 'Types of mixture and methods: filtration, distillation, decantation...', slug: 'mezclas-separacion' },
+          { nombre: 'Acids & Bases', desc: 'pH scale, indicators and neutralisation. Secondary.', slug: 'acidos-bases' },
+          { nombre: 'Atoms & Molecules', desc: 'Atomic structure, elements and compounds.', slug: 'atomos-moleculas' },
+          { nombre: 'Solar System', desc: 'Planets, celestial bodies, movements and features. Primary & Secondary.', slug: 'sistema-solar' },
+          { nombre: 'The Cell', desc: 'Cell types, organelles and functions. Secondary.', slug: 'celula' },
         ],
       },
     ],
@@ -150,47 +119,47 @@ const DATA = {
         titulo: 'Història i Ciències Socials', emoji: '⏳',
         texto: 'Repassa els grans temes de la història amb jocs adaptats al temari oficial. Cada tema combina línia temporal, personatges històrics, portades de diaris i dates clau.',
         temas: [
-          { nombre: 'Guerra Civil Espanyola', desc: 'Del cop del 36 al final de la dictadura.' },
-          { nombre: 'Segona Guerra Mundial', desc: 'De la invasió de Polònia a Hiroshima.' },
-          { nombre: 'Independència Americana', desc: 'Del motí del te a la Constitució.' },
-          { nombre: 'Antiga Roma', desc: 'De Ròmul al col·lapse de l\'Imperi.' },
-          { nombre: 'Grans Fites de la Història', desc: 'Els moments que van canviar el món.' },
+          { nombre: 'Guerra Civil Espanyola', desc: 'Del cop del 36 al final de la dictadura.', slug: 'historia-guerra-civil' },
+          { nombre: 'Segona Guerra Mundial', desc: 'De la invasió de Polònia a Hiroshima.', slug: 'historia-segunda-guerra-mundial' },
+          { nombre: 'Independència Americana', desc: 'Del motí del te a la Constitució.', slug: 'historia-independencia-americana' },
+          { nombre: 'Antiga Roma', desc: 'De Ròmul al col·lapse de l\'Imperi.', slug: 'historia-antigua-roma' },
+          { nombre: 'Grans Fites de la Història', desc: 'Els moments que van canviar el món.', slug: 'historia-hitos' },
         ],
       },
       {
         titulo: 'Matemàtiques', emoji: '📐',
         texto: 'Domina el càlcul mental a través de puzzles progressius. Cada mode d\'operació té el seu propi examen de 10 rondes adaptat al nivell educatiu.',
         temas: [
-          { nombre: 'Sumes i restes', desc: 'Operacions bàsiques combinades.' },
-          { nombre: 'Multiplicació', desc: 'Combina multiplicacions amb sumes i restes.' },
-          { nombre: 'Divisió', desc: 'Descompon números fent servir divisions exactes.' },
+          { nombre: 'Sumes i restes', desc: 'Operacions bàsiques combinades.', slug: 'matematicas-sumas-restas' },
+          { nombre: 'Multiplicació', desc: 'Combina multiplicacions amb sumes i restes.', slug: 'matematicas-multiplicacion' },
+          { nombre: 'Divisió', desc: 'Descompon números fent servir divisions exactes.', slug: 'matematicas-division' },
+          { nombre: 'Geometria', desc: 'Angles, àrees, perímetres, Pitàgores i volums.', slug: 'geometria' },
         ],
       },
       {
         titulo: 'Geografia', emoji: '🌍',
         texto: 'Aprèn la geografia del món a través de pistes progressives. Identifica països pel seu hemisferi, població, muntanyes, rius i idiomes.',
         temas: [
-          { nombre: 'Europa', desc: 'Identifica els països europeus.' },
-          { nombre: 'Amèrica', desc: 'Aprèn els països americans.' },
-          { nombre: 'Àsia', desc: 'El continent més gran i divers.' },
-          { nombre: 'Àfrica', desc: 'El continent més variat del planeta.' },
-          { nombre: 'Oceania', desc: 'Austràlia, Nova Zelanda i les illes del Pacífic.' },
-          { nombre: 'Espanya — Províncies', desc: 'Les 50 províncies.' },
-          { nombre: 'Estats Units — Estats', desc: 'Els 50 estats.' },
+          { nombre: 'Europa', desc: 'Identifica els països europeus.', slug: 'geografia-europa' },
+          { nombre: 'Amèrica', desc: 'Aprèn els països americans.', slug: 'geografia-america' },
+          { nombre: 'Àsia', desc: 'El continent més gran i divers.', slug: 'geografia-asia' },
+          { nombre: 'Àfrica', desc: 'El continent més variat del planeta.', slug: 'geografia-africa' },
+          { nombre: 'Oceania', desc: 'Austràlia, Nova Zelanda i les illes del Pacífic.', slug: 'geografia-oceania' },
+          { nombre: 'Espanya — Províncies', desc: 'Les 50 províncies.', slug: 'geografia-espana' },
+          { nombre: 'Estats Units — Estats', desc: 'Els 50 estats.', slug: 'geografia-eeuu' },
         ],
       },
       {
         titulo: 'Ciències', emoji: '🔬',
         texto: 'Exàmens de ciències naturals i química adaptats al currículum oficial de Primària, ESO i Batxillerat. Preguntes d\'opció múltiple amb explicació després de cada resposta.',
         temas: [
-          { nombre: 'Taula Periòdica', desc: 'Símbols, noms, nombre atòmic i grups. 3 nivells.' },
-          { nombre: 'Estats de la Matèria', desc: 'Sòlid, líquid, gas i canvis d\'estat.' },
-          { nombre: 'Mescles i Separació', desc: 'Tipus de mescla i mètodes: filtració, destil·lació, decantació...' },
-          { nombre: 'Àcids i Bases', desc: 'Escala de pH, indicadors i neutralització. ESO.' },
-          { nombre: 'Àtoms i Molècules', desc: 'Estructura atòmica, elements i compostos.' },
-          { nombre: 'Sistema Solar', desc: 'Planetes, astres, moviments i característiques. Primària i ESO.' },
-          { nombre: 'La Cèl·lula', desc: 'Tipus de cèl·lula, orgànuls i funcions. ESO.' },
-          { nombre: 'Geometria', desc: 'Angles, àrees, perímetres, Pitàgores i volums.' },
+          { nombre: 'Taula Periòdica', desc: 'Símbols, noms, nombre atòmic i grups. 3 nivells.', slug: 'tabla-periodica' },
+          { nombre: 'Estats de la Matèria', desc: 'Sòlid, líquid, gas i canvis d\'estat.', slug: 'estados-materia' },
+          { nombre: 'Mescles i Separació', desc: 'Tipus de mescla i mètodes: filtració, destil·lació, decantació...', slug: 'mezclas-separacion' },
+          { nombre: 'Àcids i Bases', desc: 'Escala de pH, indicadors i neutralització. ESO.', slug: 'acidos-bases' },
+          { nombre: 'Àtoms i Molècules', desc: 'Estructura atòmica, elements i compostos.', slug: 'atomos-moleculas' },
+          { nombre: 'Sistema Solar', desc: 'Planetes, astres, moviments i característiques. Primària i ESO.', slug: 'sistema-solar' },
+          { nombre: 'La Cèl·lula', desc: 'Tipus de cèl·lula, orgànuls i funcions. ESO.', slug: 'celula' },
         ],
       },
     ],
@@ -200,7 +169,6 @@ const DATA = {
 export default function InfoEstudiar() {
   const { lang, localPath } = useLang()
   const d = DATA[lang] || DATA.es
-  const cienciasSlugs = lang === 'ca' ? CIENCIAS_SLUGS_CA : lang === 'en' ? CIENCIAS_SLUGS_EN : CIENCIAS_SLUGS_ES
   const verMas = lang === 'en' ? 'See more →' : lang === 'ca' ? 'Veure més →' : 'Ver más →'
 
   return (
@@ -229,21 +197,18 @@ export default function InfoEstudiar() {
               <p className="text-gray-500 leading-relaxed mb-6 max-w-3xl">{cat.texto}</p>
 
               <div className="grid gap-3 sm:grid-cols-2">
-                {cat.temas.map(t => {
-                  const temaSlug = cienciasSlugs[t.nombre]
-                  return (
+                {cat.temas.map(t => (
                     <div key={t.nombre} className="bg-white rounded-2xl border border-gray-200 p-5">
                       <h3 className="font-black text-gray-900 mb-1">{t.nombre}</h3>
                       <p className="text-gray-400 text-sm leading-relaxed">{t.desc}</p>
-                      {temaSlug && (
-                        <Link to={localPath(`/info/estudiar/${temaSlug}`)}
+                      {t.slug && (
+                        <Link to={localPath(`/info/estudiar/${t.slug}`)}
                           className="inline-block mt-3 text-teal-600 text-sm font-semibold hover:text-teal-500 transition-colors">
                           {verMas}
                         </Link>
                       )}
                     </div>
-                  )
-                })}
+                  ))}
               </div>
 
               {catIdx < d.categorias.length - 1 && (

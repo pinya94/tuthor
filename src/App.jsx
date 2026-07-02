@@ -60,6 +60,7 @@ const AtomosMoleculasExamen  = lazy(() => import('./pages/AtomosMoleculasExamen'
 const SistemaSolarExamen     = lazy(() => import('./pages/SistemaSolarExamen'))
 const LaCelulaExamen         = lazy(() => import('./pages/LaCelulaExamen'))
 const GeometriaExamen        = lazy(() => import('./pages/GeometriaExamen'))
+const FuncionesExamen        = lazy(() => import('./pages/FuncionesExamen'))
 
 function PageLoader() {
   return (
@@ -110,6 +111,7 @@ function AppRoutes() {
       <Route path="examen/sistema-solar"   element={<SistemaSolarExamen />} />
       <Route path="examen/celula"          element={<LaCelulaExamen />} />
       <Route path="examen/geometria"       element={<GeometriaExamen />} />
+      <Route path="examen/funciones"       element={<FuncionesExamen />} />
 
       {/* ── GEOGRAFÍA ── */}
       <Route path="estudiar/geografia" element={<GeografiaIndex />} />

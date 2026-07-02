@@ -3,22 +3,50 @@ import { useLang } from '../context/LangContext'
 import TemarioGrid from '../components/TemarioGrid'
 import { MODOS, MODO_IDS } from '../lib/mathEngine'
 
+// Examenes MC que van directo al examen (no usan el motor aritmético)
+const EXAM_DIRECTO = {
+  funciones: '/examen/funciones',
+  geometria: '/examen/geometria',
+}
+
+const EXTRAS = [
+  {
+    id: 'geometria',
+    titulo: 'Geometría', tituloEn: 'Geometry', tituloCa: 'Geometria',
+    emoji: '📐', gradient: 'from-pink-500 to-rose-700',
+    tags: ['area', 'perimetro', 'pitagoras', 'angulos', 'volumen', 'triangulo'],
+  },
+]
+
 export default function MatematicasIndex() {
   const navigate = useNavigate()
   const { lang, localPath } = useLang()
   const en = lang === 'en'
   const ca = lang === 'ca'
 
-  const ITEMS = MODO_IDS.map(id => ({
-    id,
-    titulo: ca ? (MODOS[id].tituloCa || MODOS[id].titulo) : en ? (MODOS[id].tituloEn || MODOS[id].titulo) : MODOS[id].titulo,
-    emoji: MODOS[id].emoji,
-    gradient: MODOS[id].gradient,
-    tags: MODOS[id].ops,
-  }))
+  const ITEMS = [
+    ...MODO_IDS.map(id => ({
+      id,
+      titulo: ca ? (MODOS[id].tituloCa || MODOS[id].titulo) : en ? (MODOS[id].tituloEn || MODOS[id].titulo) : MODOS[id].titulo,
+      emoji: MODOS[id].emoji,
+      gradient: MODOS[id].gradient,
+      tags: MODOS[id].ops,
+    })),
+    ...EXTRAS.map(e => ({
+      id: e.id,
+      titulo: ca ? e.tituloCa : en ? e.tituloEn : e.titulo,
+      emoji: e.emoji,
+      gradient: e.gradient,
+      tags: e.tags,
+    })),
+  ]
 
   function handleSelect(item) {
-    navigate(localPath(`/estudiar/matematicas/${item.id}`))
+    if (EXAM_DIRECTO[item.id]) {
+      navigate(localPath(EXAM_DIRECTO[item.id]))
+    } else {
+      navigate(localPath(`/estudiar/matematicas/${item.id}`))
+    }
   }
 
   return (

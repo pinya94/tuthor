@@ -59,14 +59,6 @@ const TEMAS = [
     tags: ['celula', 'nucleo', 'mitocondria', 'cloroplasto', 'procariota', 'eucariota', 'cell', 'organelle'],
     niveles: ['eso'],
   },
-  {
-    id: 'geometria',
-    titulo: 'Geometría', tituloEn: 'Geometry', tituloCa: 'Geometria',
-    subtitulo: 'Ángulos, áreas, perímetros y volúmenes', subtituloEn: 'Angles, areas, perimeters and volumes', subtituloCa: 'Angles, àrees, perímetres i volums',
-    emoji: '📐', gradient: 'from-pink-500 to-rose-700',
-    tags: ['triangulo', 'circulo', 'area', 'perimetro', 'pitagoras', 'volumen', 'geometry', 'triangle', 'area'],
-    niveles: ['primaria', 'eso'],
-  },
 ]
 
 export default function QuimicaIndex() {
