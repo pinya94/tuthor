@@ -12,23 +12,6 @@ export default function FuncionesTema() {
       id: 'trayectoria',
       titulo: 'Trayectoria',
       descripcion: ca
-        ? 'Joc roguelike de funcions. Tria la funció correcta per marcar gol. Ves superant rondes i desbloqueja millores.'
-        : en
-        ? 'Functions roguelike game. Pick the right function to score. Survive rounds and unlock power-ups.'
-        : 'Juego roguelike de funciones. Elige la función correcta para marcar gol. Supera rondas y desbloquea mejoras.',
-      emoji: '⚽',
-      gradient: 'from-violet-500 to-purple-600',
-      detalles: [
-        ca ? 'Mode lliure' : en ? 'Free mode' : 'Modo libre',
-        ca ? 'Temps limitat' : en ? 'Time limit' : 'Tiempo limitado',
-        ca ? 'Millores permanents' : en ? 'Permanent upgrades' : 'Mejoras permanentes',
-      ],
-      action: () => navigate(localPath('/juegos/trayectoria')),
-    },
-    {
-      id: 'examen',
-      titulo: ca ? 'Examen de pràctica' : en ? 'Practice exam' : 'Examen de práctica',
-      descripcion: ca
         ? '10 preguntes sense temps: rectes, paràboles i funcions a trossos. Descobreix la teva nota al final.'
         : en
         ? '10 questions with no time limit: lines, parabolas and piecewise functions. See your grade at the end.'
@@ -41,6 +24,23 @@ export default function FuncionesTema() {
         ca ? 'Nota final' : en ? 'Final grade' : 'Nota final',
       ],
       action: () => navigate(localPath('/examen/trayectoria')),
+    },
+    {
+      id: 'teoria',
+      titulo: ca ? 'Examen de teoria' : en ? 'Theory exam' : 'Examen de teoría',
+      descripcion: ca
+        ? '10 preguntes d\'opció múltiple sobre funcions lineals, pendents, eixos i gràfiques. Amb explicació després de cada resposta.'
+        : en
+        ? '10 multiple-choice questions on linear functions, slopes, axes and graphs. With explanation after each answer.'
+        : '10 preguntas de opción múltiple sobre funciones lineales, pendientes, ejes y gráficas. Con explicación tras cada respuesta.',
+      emoji: '📈',
+      gradient: 'from-violet-500 to-purple-700',
+      detalles: [
+        ca ? '10 preguntes' : en ? '10 questions' : '10 preguntas',
+        ca ? 'Opció múltiple' : en ? 'Multiple choice' : 'Opción múltiple',
+        ca ? 'Explicació inclosa' : en ? 'Explanation included' : 'Explicación incluida',
+      ],
+      action: () => navigate(localPath('/examen/funciones')),
     },
   ]
 
