@@ -20,12 +20,13 @@ function normalize(s) {
   return s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().trim()
 }
 
-function calificacion(aciertos, en) {
-  if (aciertos >= 9)  return { label: en ? 'Outstanding' : 'Sobresaliente', color: 'text-green-400' }
-  if (aciertos >= 7)  return { label: en ? 'Good' : 'Notable',              color: 'text-blue-400'  }
-  if (aciertos === 6) return { label: en ? 'Fair' : 'Bien',                 color: 'text-yellow-300'}
-  if (aciertos === 5) return { label: en ? 'Pass' : 'Suficiente',           color: 'text-orange-400'}
-  return { label: en ? 'Fail' : 'Insuficiente', color: 'text-red-400' }
+function calificacion(aciertos, lang) {
+  const en = lang === 'en', ca = lang === 'ca'
+  if (aciertos >= 9)  return { label: en ? 'Outstanding' : ca ? 'Excel·lent'  : 'Sobresaliente', color: 'text-green-400' }
+  if (aciertos >= 7)  return { label: en ? 'Good'        : ca ? 'Notable'     : 'Notable',       color: 'text-blue-400'  }
+  if (aciertos === 6) return { label: en ? 'Fair'        : ca ? 'Bé'          : 'Bien',          color: 'text-yellow-300'}
+  if (aciertos === 5) return { label: en ? 'Pass'        : ca ? 'Suficient'   : 'Suficiente',    color: 'text-orange-400'}
+  return                     { label: en ? 'Fail'        : ca ? 'Insuficient' : 'Insuficiente',  color: 'text-red-400' }
 }
 
 function AutocompleteInput({ value, onChange, onSubmit, disabled, focusKey, lang }) {
@@ -149,7 +150,7 @@ export default function GeoMapaEEUUExamen() {
   // RESULTADO
   if (fase === 'resultado') {
     const aprobado = aciertos >= 5
-    const cal = calificacion(aciertos, en)
+    const cal = calificacion(aciertos, lang)
     return (
       <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
         <div className="max-w-md w-full">
