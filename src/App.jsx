@@ -47,8 +47,11 @@ const Privacidad         = lazy(() => import('./pages/Privacidad'))
 const Comunidad          = lazy(() => import('./pages/Comunidad'))
 const Admin              = lazy(() => import('./pages/Admin'))
 const FuncionesTema       = lazy(() => import('./pages/FuncionesTema'))
-const GeoMapaEspanaExamen = lazy(() => import('./pages/GeoMapaEspanaExamen'))
-const GeoMapaEEUUExamen   = lazy(() => import('./pages/GeoMapaEEUUExamen'))
+const GeoMapaEspanaExamen  = lazy(() => import('./pages/GeoMapaEspanaExamen'))
+const GeoMapaEEUUExamen    = lazy(() => import('./pages/GeoMapaEEUUExamen'))
+const QuimicaIndex         = lazy(() => import('./pages/QuimicaIndex'))
+const QuimicaTema          = lazy(() => import('./pages/QuimicaTema'))
+const TablaPeriodicaExamen = lazy(() => import('./pages/TablaPeriodicaExamen'))
 
 function PageLoader() {
   return (
@@ -87,6 +90,11 @@ function AppRoutes() {
       <Route path="juegos/acercate/clasico" element={<Acercate />} />
       <Route path="juegos/portadas" element={<Portadas />} />
       <Route path="examen/portadas" element={<PortadasExamen />} />
+
+      {/* ── CIENCIAS ── */}
+      <Route path="estudiar/quimica" element={<QuimicaIndex />} />
+      <Route path="estudiar/quimica/:tema" element={<QuimicaTema />} />
+      <Route path="examen/tabla-periodica" element={<TablaPeriodicaExamen />} />
 
       {/* ── GEOGRAFÍA ── */}
       <Route path="estudiar/geografia" element={<GeografiaIndex />} />
