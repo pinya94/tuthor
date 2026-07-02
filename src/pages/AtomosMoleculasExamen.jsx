@@ -102,7 +102,6 @@ export default function AtomosMoleculasExamen() {
       setFeedback({ ok: true, msg: `✅ ${correcta}` })
       setResuelto(true)
       setShowExplicacion(true)
-      setTimeout(() => siguiente(), 2200)
     } else {
       const newErr = errores + 1
       setErrores(newErr)
@@ -112,7 +111,6 @@ export default function AtomosMoleculasExamen() {
         setResuelto(true)
         setRevealed(true)
         setShowExplicacion(true)
-        setTimeout(() => siguiente(), 2500)
       } else {
         setFeedback({ ok: false, msg: en ? 'Incorrect — try again' : ca ? 'Incorrecte — torna-ho a intentar' : 'Incorrecto — inténtalo de nuevo' })
         setTimeout(() => setFeedback(null), 1400)
@@ -248,6 +246,15 @@ export default function AtomosMoleculasExamen() {
             </p>
             <p className="text-white/70 text-sm leading-relaxed">{explicacion}</p>
           </div>
+        )}
+
+        {resuelto && (
+          <button onClick={siguiente}
+            className="w-full py-3 bg-white/10 hover:bg-white/20 border border-white/20 text-white font-black rounded-2xl transition-all">
+            {idx + 1 >= pool.length
+              ? (en ? 'See results' : ca ? 'Veure resultats' : 'Ver resultados')
+              : (en ? 'Next question →' : ca ? 'Següent pregunta →' : 'Siguiente pregunta →')}
+          </button>
         )}
 
         <p className="text-white/20 text-xs text-center">
