@@ -8,8 +8,8 @@ const TEMAS = {
     { id: 'asia',    titulo: 'Asia',            emoji: '🌏', desc: 'El continente más grande. De Japón a Turquía.' },
     { id: 'africa',  titulo: 'África',          emoji: '🌍', desc: 'De Marruecos a Sudáfrica. El continente más diverso.' },
     { id: 'oceania', titulo: 'Oceanía',         emoji: '🏝️', desc: 'Australia, Nueva Zelanda y las islas del Pacífico.' },
-    { id: 'espana',  titulo: 'España',          emoji: '🇪🇸', desc: 'Las comunidades autónomas y provincias españolas.', proximamente: true },
-    { id: 'eeuu',    titulo: 'Estados Unidos',  emoji: '🇺🇸', desc: 'Los 50 estados americanos.', proximamente: true },
+    { id: 'espana',  titulo: 'España',          emoji: '🇪🇸', desc: 'Las comunidades autónomas y provincias españolas.' },
+    { id: 'eeuu',    titulo: 'Estados Unidos',  emoji: '🇺🇸', desc: 'Los 50 estados americanos.' },
   ],
   en: [
     { id: 'europa',  titulo: 'Europe',          emoji: '🇪🇺', desc: 'From Iceland to Cyprus. Identify European countries.' },
@@ -17,8 +17,8 @@ const TEMAS = {
     { id: 'asia',    titulo: 'Asia',            emoji: '🌏', desc: 'The largest continent. From Japan to Turkey.' },
     { id: 'africa',  titulo: 'Africa',          emoji: '🌍', desc: 'From Morocco to South Africa. The most diverse continent.' },
     { id: 'oceania', titulo: 'Oceania',         emoji: '🏝️', desc: 'Australia, New Zealand and the Pacific islands.' },
-    { id: 'espana',  titulo: 'Spain',           emoji: '🇪🇸', desc: 'Autonomous communities and Spanish provinces.', proximamente: true },
-    { id: 'eeuu',    titulo: 'United States',   emoji: '🇺🇸', desc: 'All 50 US states.', proximamente: true },
+    { id: 'espana',  titulo: 'Spain',           emoji: '🇪🇸', desc: 'Autonomous communities and Spanish provinces.' },
+    { id: 'eeuu',    titulo: 'United States',   emoji: '🇺🇸', desc: 'All 50 US states.' },
   ],
   ca: [
     { id: 'europa',  titulo: 'Europa',          emoji: '🇪🇺', desc: 'D\'Islàndia a Xipre. Identifica els països europeus.' },
@@ -26,8 +26,8 @@ const TEMAS = {
     { id: 'asia',    titulo: 'Àsia',            emoji: '🌏', desc: 'El continent més gran. Del Japó a Turquia.' },
     { id: 'africa',  titulo: 'Àfrica',          emoji: '🌍', desc: 'Del Marroc a Sud-àfrica. El continent més divers.' },
     { id: 'oceania', titulo: 'Oceania',         emoji: '🏝️', desc: 'Austràlia, Nova Zelanda i les illes del Pacífic.' },
-    { id: 'espana',  titulo: 'Espanya',         emoji: '🇪🇸', desc: 'Les comunitats autònomes i províncies espanyoles.', proximamente: true },
-    { id: 'eeuu',    titulo: 'Estats Units',    emoji: '🇺🇸', desc: 'Els 50 estats americans.', proximamente: true },
+    { id: 'espana',  titulo: 'Espanya',         emoji: '🇪🇸', desc: 'Les comunitats autònomes i províncies espanyoles.' },
+    { id: 'eeuu',    titulo: 'Estats Units',    emoji: '🇺🇸', desc: 'Els 50 estats americans.' },
   ],
 }
 

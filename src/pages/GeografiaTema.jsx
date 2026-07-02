@@ -8,29 +8,37 @@ const REGION_FILTER = {
   asia:    p => p.continente === 'Asia' || p.continente === 'Europa/Asia',
   africa:  p => p.continente === 'África',
   oceania: p => p.continente === 'Oceanía',
+  espana:  () => false,
+  eeuu:    () => false,
 }
 
 const TEMAS_META = {
   es: {
-    europa:  { titulo: 'Europa',   emoji: '🇪🇺', descripcion: 'De Islandia a Chipre, pasando por los Balcanes y Escandinavia.' },
-    america: { titulo: 'América',  emoji: '🌎', descripcion: 'Del Canadá a la Patagonia. Norte, Centro y Sudamérica.' },
-    asia:    { titulo: 'Asia',     emoji: '🌏', descripcion: 'El continente más grande y diverso. De Japón a Turquía.' },
-    africa:  { titulo: 'África',   emoji: '🌍', descripcion: 'De Marruecos a Sudáfrica. El continente más variado del planeta.' },
-    oceania: { titulo: 'Oceanía',  emoji: '🏝️', descripcion: 'Australia, Nueva Zelanda y las islas del Pacífico.' },
+    europa:  { titulo: 'Europa',          emoji: '🇪🇺', descripcion: 'De Islandia a Chipre, pasando por los Balcanes y Escandinavia.' },
+    america: { titulo: 'América',         emoji: '🌎', descripcion: 'Del Canadá a la Patagonia. Norte, Centro y Sudamérica.' },
+    asia:    { titulo: 'Asia',            emoji: '🌏', descripcion: 'El continente más grande y diverso. De Japón a Turquía.' },
+    africa:  { titulo: 'África',          emoji: '🌍', descripcion: 'De Marruecos a Sudáfrica. El continente más variado del planeta.' },
+    oceania: { titulo: 'Oceanía',         emoji: '🏝️', descripcion: 'Australia, Nueva Zelanda y las islas del Pacífico.' },
+    espana:  { titulo: 'España',          emoji: '🇪🇸', descripcion: 'Las 17 comunidades autónomas españolas. ¿Sabes dónde está cada una?' },
+    eeuu:    { titulo: 'Estados Unidos',  emoji: '🇺🇸', descripcion: 'Los 50 estados americanos. ¿Los identificas todos en el mapa?' },
   },
   en: {
-    europa:  { titulo: 'Europe',       emoji: '🇪🇺', descripcion: 'From Iceland to Cyprus, through the Balkans and Scandinavia.' },
-    america: { titulo: 'The Americas', emoji: '🌎', descripcion: 'From Canada to Patagonia. North, Central and South America.' },
-    asia:    { titulo: 'Asia',         emoji: '🌏', descripcion: 'The largest and most diverse continent. From Japan to Turkey.' },
-    africa:  { titulo: 'Africa',       emoji: '🌍', descripcion: 'From Morocco to South Africa. The most varied continent on the planet.' },
-    oceania: { titulo: 'Oceania',      emoji: '🏝️', descripcion: 'Australia, New Zealand and the Pacific islands.' },
+    europa:  { titulo: 'Europe',          emoji: '🇪🇺', descripcion: 'From Iceland to Cyprus, through the Balkans and Scandinavia.' },
+    america: { titulo: 'The Americas',    emoji: '🌎', descripcion: 'From Canada to Patagonia. North, Central and South America.' },
+    asia:    { titulo: 'Asia',            emoji: '🌏', descripcion: 'The largest and most diverse continent. From Japan to Turkey.' },
+    africa:  { titulo: 'Africa',          emoji: '🌍', descripcion: 'From Morocco to South Africa. The most varied continent on the planet.' },
+    oceania: { titulo: 'Oceania',         emoji: '🏝️', descripcion: 'Australia, New Zealand and the Pacific islands.' },
+    espana:  { titulo: 'Spain',           emoji: '🇪🇸', descripcion: 'Spain\'s 17 autonomous communities. Can you place them on the map?' },
+    eeuu:    { titulo: 'United States',   emoji: '🇺🇸', descripcion: 'All 50 US states. Can you identify them all?' },
   },
   ca: {
-    europa:  { titulo: 'Europa',       emoji: '🇪🇺', descripcion: 'D\'Islàndia a Xipre, passant pels Balcans i Escandinàvia.' },
-    america: { titulo: 'Amèrica',      emoji: '🌎', descripcion: 'Del Canadà a la Patagònia. Nord, Centre i Sudamèrica.' },
-    asia:    { titulo: 'Àsia',         emoji: '🌏', descripcion: 'El continent més gran i divers. Del Japó a Turquia.' },
-    africa:  { titulo: 'Àfrica',       emoji: '🌍', descripcion: 'Del Marroc a Sud-àfrica. El continent més variat del planeta.' },
-    oceania: { titulo: 'Oceania',      emoji: '🏝️', descripcion: 'Austràlia, Nova Zelanda i les illes del Pacífic.' },
+    europa:  { titulo: 'Europa',          emoji: '🇪🇺', descripcion: 'D\'Islàndia a Xipre, passant pels Balcans i Escandinàvia.' },
+    america: { titulo: 'Amèrica',         emoji: '🌎', descripcion: 'Del Canadà a la Patagònia. Nord, Centre i Sudamèrica.' },
+    asia:    { titulo: 'Àsia',            emoji: '🌏', descripcion: 'El continent més gran i divers. Del Japó a Turquia.' },
+    africa:  { titulo: 'Àfrica',          emoji: '🌍', descripcion: 'Del Marroc a Sud-àfrica. El continent més variat del planeta.' },
+    oceania: { titulo: 'Oceania',         emoji: '🏝️', descripcion: 'Austràlia, Nova Zelanda i les illes del Pacífic.' },
+    espana:  { titulo: 'Espanya',         emoji: '🇪🇸', descripcion: 'Les 17 comunitats autònomes espanyoles. Saps on és cadascuna?' },
+    eeuu:    { titulo: 'Estats Units',    emoji: '🇺🇸', descripcion: 'Els 50 estats americans. Els identifiques tots al mapa?' },
   },
 }
 
@@ -49,38 +57,73 @@ export default function GeografiaTema() {
   const paisesCount = filter ? PAISES.filter(filter).length : 0
   const paisesMapaCount = filter ? PAISES.filter(p => filter(p) && p.area >= 30000).length : 0
 
-  const modos = [
-    paisesCount >= 10 && {
-      id: 'georush',
-      titulo: 'GeoRush',
-      descripcion: ca
-        ? 'Endevina el país a partir de pistes geogràfiques, demogràfiques i històriques. 10 països per examen.'
-        : en
-        ? 'Guess the country from geographical, demographic and historical clues. 10 countries per exam.'
-        : 'Adivina el país a partir de pistas geográficas, demográficas e históricas. 10 países por examen.',
-      emoji: '🌍',
-      gradient: 'from-teal-500 to-cyan-700',
-      detalles: [`${paisesCount} ${ca ? 'països' : en ? 'countries' : 'países'}`, `10 ${ca ? 'per examen' : en ? 'per exam' : 'por examen'}`, `5 ${ca ? 'pistes mixtes' : en ? 'mixed clues' : 'pistas mixtas'} (3🔒 + 2🎁)`],
-      action: () => navigate(localPath('/examen/geografia'), {
-        state: { region, titulo: meta.titulo, backPath: `/estudiar/geografia/${region}` }
-      }),
-    },
-    paisesMapaCount >= 10 && {
-      id: 'geomapa',
+  let modos = []
+  if (region === 'espana') {
+    modos = [{
+      id: 'geomapa-espana',
       titulo: 'GeoMapa',
       descripcion: ca
-        ? 'Identifica el país il·luminat al mapa mundial. Si falles, reps pistes: bandera i capital.'
+        ? 'Identifica la comunitat autònoma il·luminada al mapa d\'Espanya. Si falles, reps pistes: la capital.'
         : en
-        ? 'Identify the highlighted country on the world map. If you miss, you get hints: flag and capital.'
-        : 'Identifica el país iluminado en el mapa mundial. Si fallas, recibes pistas: bandera y capital.',
+        ? 'Identify the highlighted autonomous community on the map of Spain. If you miss, you get a hint: the capital.'
+        : 'Identifica la comunidad autónoma iluminada en el mapa de España. Si fallas, recibes una pista: la capital.',
       emoji: '🗺️',
-      gradient: 'from-purple-500 to-violet-700',
-      detalles: [`${paisesMapaCount} ${ca ? 'països' : en ? 'countries' : 'países'}`, `10 ${ca ? 'per examen' : en ? 'per exam' : 'por examen'}`, `3 ${ca ? 'intents per país' : en ? 'attempts per country' : 'intentos por país'}`],
-      action: () => navigate(localPath('/examen/geomapa'), {
-        state: { region, titulo: meta.titulo, backPath: `/estudiar/geografia/${region}` }
+      gradient: 'from-red-500 to-rose-700',
+      detalles: ['17 ' + (ca ? 'comunitats' : en ? 'communities' : 'comunidades'), `10 ${ca ? 'per examen' : en ? 'per exam' : 'por examen'}`, `2 ${ca ? 'intents' : en ? 'attempts' : 'intentos'}`],
+      action: () => navigate(localPath('/examen/geomapa-espana'), {
+        state: { backPath: `/estudiar/geografia/espana` }
       }),
-    },
-  ].filter(Boolean)
+    }]
+  } else if (region === 'eeuu') {
+    modos = [{
+      id: 'geomapa-eeuu',
+      titulo: 'GeoMapa',
+      descripcion: ca
+        ? 'Identifica l\'estat il·luminat al mapa dels Estats Units. Si falles, reps pistes: la capital.'
+        : en
+        ? 'Identify the highlighted state on the map of the United States. If you miss, you get a hint: the capital.'
+        : 'Identifica el estado iluminado en el mapa de Estados Unidos. Si fallas, recibes una pista: la capital.',
+      emoji: '🗺️',
+      gradient: 'from-blue-500 to-indigo-700',
+      detalles: ['50 ' + (ca ? 'estats' : en ? 'states' : 'estados'), `10 ${ca ? 'per examen' : en ? 'per exam' : 'por examen'}`, `2 ${ca ? 'intents' : en ? 'attempts' : 'intentos'}`],
+      action: () => navigate(localPath('/examen/geomapa-eeuu'), {
+        state: { backPath: `/estudiar/geografia/eeuu` }
+      }),
+    }]
+  } else {
+    modos = [
+      paisesCount >= 10 && {
+        id: 'georush',
+        titulo: 'GeoRush',
+        descripcion: ca
+          ? 'Endevina el país a partir de pistes geogràfiques, demogràfiques i històriques. 10 països per examen.'
+          : en
+          ? 'Guess the country from geographical, demographic and historical clues. 10 countries per exam.'
+          : 'Adivina el país a partir de pistas geográficas, demográficas e históricas. 10 países por examen.',
+        emoji: '🌍',
+        gradient: 'from-teal-500 to-cyan-700',
+        detalles: [`${paisesCount} ${ca ? 'països' : en ? 'countries' : 'países'}`, `10 ${ca ? 'per examen' : en ? 'per exam' : 'por examen'}`, `5 ${ca ? 'pistes mixtes' : en ? 'mixed clues' : 'pistas mixtas'} (3🔒 + 2🎁)`],
+        action: () => navigate(localPath('/examen/geografia'), {
+          state: { region, titulo: meta.titulo, backPath: `/estudiar/geografia/${region}` }
+        }),
+      },
+      paisesMapaCount >= 10 && {
+        id: 'geomapa',
+        titulo: 'GeoMapa',
+        descripcion: ca
+          ? 'Identifica el país il·luminat al mapa mundial. Si falles, reps pistes: bandera i capital.'
+          : en
+          ? 'Identify the highlighted country on the world map. If you miss, you get hints: flag and capital.'
+          : 'Identifica el país iluminado en el mapa mundial. Si fallas, recibes pistas: bandera y capital.',
+        emoji: '🗺️',
+        gradient: 'from-purple-500 to-violet-700',
+        detalles: [`${paisesMapaCount} ${ca ? 'països' : en ? 'countries' : 'países'}`, `10 ${ca ? 'per examen' : en ? 'per exam' : 'por examen'}`, `3 ${ca ? 'intents per país' : en ? 'attempts per country' : 'intentos por país'}`],
+        action: () => navigate(localPath('/examen/geomapa'), {
+          state: { region, titulo: meta.titulo, backPath: `/estudiar/geografia/${region}` }
+        }),
+      },
+    ].filter(Boolean)
+  }
 
   return (
     <div className="relative z-10 flex flex-col min-h-[calc(100vh-4rem)] px-4 sm:px-8 py-6">
@@ -138,8 +181,8 @@ export default function GeografiaTema() {
           </button>
         ))}
 
-        {/* Próximamente */}
-        {(ca ? [
+        {/* Próximamente — only for continent regions, not espana/eeuu */}
+        {region !== 'espana' && region !== 'eeuu' && (ca ? [
           { id: 'capitales', titulo: 'Capitals del Món', emoji: '🏙️', desc: 'Identifica la capital de cada país.' },
           { id: 'banderas', titulo: 'Banderes', emoji: '🏳️', desc: 'Reconeix els països per la seva bandera.' },
         ] : en ? [

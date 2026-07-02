@@ -46,6 +46,9 @@ const InfoDiaria         = lazy(() => import('./pages/InfoDiaria'))
 const Privacidad         = lazy(() => import('./pages/Privacidad'))
 const Comunidad          = lazy(() => import('./pages/Comunidad'))
 const Admin              = lazy(() => import('./pages/Admin'))
+const FuncionesTema       = lazy(() => import('./pages/FuncionesTema'))
+const GeoMapaEspanaExamen = lazy(() => import('./pages/GeoMapaEspanaExamen'))
+const GeoMapaEEUUExamen   = lazy(() => import('./pages/GeoMapaEEUUExamen'))
 
 function PageLoader() {
   return (
@@ -65,6 +68,7 @@ function AppRoutes() {
       <Route path="estudiar/historia" element={<HistoriaIndex />} />
       <Route path="estudiar/historia/:categoria" element={<HistoriaTema />} />
       <Route path="estudiar/matematicas" element={<MatematicasIndex />} />
+      <Route path="estudiar/matematicas/funciones" element={<FuncionesTema />} />
       <Route path="estudiar/matematicas/:modo" element={<MatematicasTema />} />
       <Route path="estudiar/matematicas/:modo/jugar" element={<MatematicasPractica />} />
       <Route path="estudiar/matematicas/:modo/examen" element={<ExamenMatematicas />} />
@@ -89,6 +93,8 @@ function AppRoutes() {
       <Route path="estudiar/geografia/:region" element={<GeografiaTema />} />
       <Route path="examen/geografia" element={<GeoRushExamen />} />
       <Route path="examen/geomapa" element={<GeoMapaExamen />} />
+      <Route path="examen/geomapa-espana" element={<GeoMapaEspanaExamen />} />
+      <Route path="examen/geomapa-eeuu"   element={<GeoMapaEEUUExamen />} />
       <Route path="juegos/georush" element={<GeoRush />} />
       <Route path="juegos/geomapa" element={<GeoMapa />} />
       <Route path="juegos/numpath" element={<NumPath />} />
