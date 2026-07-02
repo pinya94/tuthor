@@ -49,10 +49,13 @@ const Admin              = lazy(() => import('./pages/Admin'))
 const FuncionesTema       = lazy(() => import('./pages/FuncionesTema'))
 const GeoMapaEspanaExamen  = lazy(() => import('./pages/GeoMapaEspanaExamen'))
 const GeoMapaEEUUExamen    = lazy(() => import('./pages/GeoMapaEEUUExamen'))
-const QuimicaIndex         = lazy(() => import('./pages/QuimicaIndex'))
-const QuimicaTema          = lazy(() => import('./pages/QuimicaTema'))
-const TablaPeriodicaExamen  = lazy(() => import('./pages/TablaPeriodicaExamen'))
-const EstadosMateriaExamen  = lazy(() => import('./pages/EstadosMateriaExamen'))
+const QuimicaIndex           = lazy(() => import('./pages/QuimicaIndex'))
+const QuimicaTema            = lazy(() => import('./pages/QuimicaTema'))
+const TablaPeriodicaExamen   = lazy(() => import('./pages/TablaPeriodicaExamen'))
+const EstadosMateriaExamen   = lazy(() => import('./pages/EstadosMateriaExamen'))
+const MezclasExamen          = lazy(() => import('./pages/MezclasExamen'))
+const AcidosBasesExamen      = lazy(() => import('./pages/AcidosBasesExamen'))
+const AtomosMoleculasExamen  = lazy(() => import('./pages/AtomosMoleculasExamen'))
 
 function PageLoader() {
   return (
@@ -95,8 +98,11 @@ function AppRoutes() {
       {/* ── CIENCIAS ── */}
       <Route path="estudiar/quimica" element={<QuimicaIndex />} />
       <Route path="estudiar/quimica/:tema" element={<QuimicaTema />} />
-      <Route path="examen/tabla-periodica" element={<TablaPeriodicaExamen />} />
-      <Route path="examen/estados-materia" element={<EstadosMateriaExamen />} />
+      <Route path="examen/tabla-periodica"   element={<TablaPeriodicaExamen />} />
+      <Route path="examen/estados-materia"  element={<EstadosMateriaExamen />} />
+      <Route path="examen/mezclas-separacion" element={<MezclasExamen />} />
+      <Route path="examen/acidos-bases"     element={<AcidosBasesExamen />} />
+      <Route path="examen/atomos-moleculas" element={<AtomosMoleculasExamen />} />
 
       {/* ── GEOGRAFÍA ── */}
       <Route path="estudiar/geografia" element={<GeografiaIndex />} />

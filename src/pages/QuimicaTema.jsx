@@ -4,40 +4,25 @@ import { ELEMENTOS } from '../data/tablaperiodica'
 
 const TEMAS_META = {
   es: {
-    'tabla-periodica': {
-      titulo: 'Tabla Periódica',
-      emoji: '⚗️',
-      descripcion: 'Símbolos, nombres, números atómicos, grupos y tipos de los elementos químicos.',
-    },
-    'estados-materia': {
-      titulo: 'Estados de la Materia',
-      emoji: '🧪',
-      descripcion: 'Sólido, líquido, gas y cambios de estado. Propiedades y temperatura.',
-    },
+    'tabla-periodica':   { titulo: 'Tabla Periódica',      emoji: '⚗️', descripcion: 'Símbolos, nombres, números atómicos, grupos y tipos de los elementos químicos.' },
+    'estados-materia':   { titulo: 'Estados de la Materia',emoji: '🧪', descripcion: 'Sólido, líquido, gas y cambios de estado. Propiedades y temperatura.' },
+    'mezclas-separacion':{ titulo: 'Mezclas y Separación', emoji: '🔀', descripcion: 'Mezclas homogéneas y heterogéneas. Filtración, destilación, decantación y más.' },
+    'acidos-bases':      { titulo: 'Ácidos y Bases',       emoji: '🧴', descripcion: 'Escala de pH, ácidos y bases cotidianos, indicadores y neutralización.' },
+    'atomos-moleculas':  { titulo: 'Átomos y Moléculas',   emoji: '⚛️', descripcion: 'Estructura atómica, partículas subatómicas, elementos y compuestos.' },
   },
   en: {
-    'tabla-periodica': {
-      titulo: 'Periodic Table',
-      emoji: '⚗️',
-      descripcion: 'Symbols, names, atomic numbers, groups and types of chemical elements.',
-    },
-    'estados-materia': {
-      titulo: 'States of Matter',
-      emoji: '🧪',
-      descripcion: 'Solid, liquid, gas and changes of state. Properties and temperature.',
-    },
+    'tabla-periodica':   { titulo: 'Periodic Table',       emoji: '⚗️', descripcion: 'Symbols, names, atomic numbers, groups and types of chemical elements.' },
+    'estados-materia':   { titulo: 'States of Matter',     emoji: '🧪', descripcion: 'Solid, liquid, gas and changes of state. Properties and temperature.' },
+    'mezclas-separacion':{ titulo: 'Mixtures & Separation',emoji: '🔀', descripcion: 'Homogeneous and heterogeneous mixtures. Filtration, distillation, decantation and more.' },
+    'acidos-bases':      { titulo: 'Acids & Bases',        emoji: '🧴', descripcion: 'pH scale, everyday acids and bases, indicators and neutralisation.' },
+    'atomos-moleculas':  { titulo: 'Atoms & Molecules',    emoji: '⚛️', descripcion: 'Atomic structure, subatomic particles, elements and compounds.' },
   },
   ca: {
-    'tabla-periodica': {
-      titulo: 'Taula Periòdica',
-      emoji: '⚗️',
-      descripcion: 'Símbols, noms, números atòmics, grups i tipus dels elements químics.',
-    },
-    'estados-materia': {
-      titulo: 'Estats de la Matèria',
-      emoji: '🧪',
-      descripcion: 'Sòlid, líquid, gas i canvis d\'estat. Propietats i temperatura.',
-    },
+    'tabla-periodica':   { titulo: 'Taula Periòdica',      emoji: '⚗️', descripcion: 'Símbols, noms, números atòmics, grups i tipus dels elements químics.' },
+    'estados-materia':   { titulo: 'Estats de la Matèria', emoji: '🧪', descripcion: 'Sòlid, líquid, gas i canvis d\'estat. Propietats i temperatura.' },
+    'mezclas-separacion':{ titulo: 'Mescles i Separació',  emoji: '🔀', descripcion: 'Mescles homogènies i heterogènies. Filtració, destil·lació, decantació i més.' },
+    'acidos-bases':      { titulo: 'Àcids i Bases',        emoji: '🧴', descripcion: 'Escala de pH, àcids i bases quotidians, indicadors i neutralització.' },
+    'atomos-moleculas':  { titulo: 'Àtoms i Molècules',    emoji: '⚛️', descripcion: 'Estructura atòmica, partícules subatòmiques, elements i compostos.' },
   },
 }
 
@@ -64,21 +49,38 @@ const MODOS_POR_TEMA = {
   ],
   'estados-materia': [
     {
-      id: 'examen',
-      emoji: '📝',
-      gradient: 'from-teal-500 to-cyan-700',
-      titulo: { es: 'Examen', en: 'Exam', ca: 'Examen' },
-      descripcion: {
-        es: 'Identifica estados, cambios de estado y sus propiedades. Preguntas de opción múltiple con explicación.',
-        en: 'Identify states, changes of state and their properties. Multiple choice questions with explanation.',
-        ca: 'Identifica estats, canvis d\'estat i les seves propietats. Preguntes d\'opció múltiple amb explicació.',
-      },
-      detalles: {
-        es: ['2 niveles', '10 preguntas', 'Opción múltiple', 'Explicación tras cada respuesta'],
-        en: ['2 levels', '10 questions', 'Multiple choice', 'Explanation after each answer'],
-        ca: ['2 nivells', '10 preguntes', 'Opció múltiple', 'Explicació després de cada resposta'],
-      },
+      id: 'examen', emoji: '📝', gradient: 'from-teal-500 to-cyan-700',
+      titulo: { es:'Examen', en:'Exam', ca:'Examen' },
+      descripcion: { es:'Identifica estados, cambios de estado y sus propiedades. Preguntas de opción múltiple con explicación.', en:'Identify states, changes of state and their properties. Multiple choice questions with explanation.', ca:'Identifica estats, canvis d\'estat i les seves propietats. Preguntes d\'opció múltiple amb explicació.' },
+      detalles: { es:['2 niveles','10 preguntas','Opción múltiple','Explicación tras cada respuesta'], en:['2 levels','10 questions','Multiple choice','Explanation after each answer'], ca:['2 nivells','10 preguntes','Opció múltiple','Explicació després de cada resposta'] },
       path: 'estados-materia',
+    },
+  ],
+  'mezclas-separacion': [
+    {
+      id: 'examen', emoji: '📝', gradient: 'from-orange-500 to-amber-600',
+      titulo: { es:'Examen', en:'Exam', ca:'Examen' },
+      descripcion: { es:'Tipos de mezclas y métodos de separación: filtración, destilación, decantación, imantación y más.', en:'Types of mixtures and separation methods: filtration, distillation, decantation, magnetism and more.', ca:'Tipus de mescles i mètodes de separació: filtració, destil·lació, decantació, imantació i més.' },
+      detalles: { es:['2 niveles','10 preguntas','Opción múltiple','Explicación tras cada respuesta'], en:['2 levels','10 questions','Multiple choice','Explanation after each answer'], ca:['2 nivells','10 preguntes','Opció múltiple','Explicació després de cada resposta'] },
+      path: 'mezclas-separacion',
+    },
+  ],
+  'acidos-bases': [
+    {
+      id: 'examen', emoji: '📝', gradient: 'from-green-500 to-emerald-700',
+      titulo: { es:'Examen', en:'Exam', ca:'Examen' },
+      descripcion: { es:'pH, ácidos y bases cotidianos, indicadores de color y reacción de neutralización.', en:'pH, everyday acids and bases, colour indicators and neutralisation reaction.', ca:'pH, àcids i bases quotidians, indicadors de color i reacció de neutralització.' },
+      detalles: { es:['1 nivel (ESO)','10 preguntas','Opción múltiple','Explicación tras cada respuesta'], en:['1 level (Secondary)','10 questions','Multiple choice','Explanation after each answer'], ca:['1 nivell (ESO)','10 preguntes','Opció múltiple','Explicació després de cada resposta'] },
+      path: 'acidos-bases',
+    },
+  ],
+  'atomos-moleculas': [
+    {
+      id: 'examen', emoji: '📝', gradient: 'from-blue-500 to-indigo-700',
+      titulo: { es:'Examen', en:'Exam', ca:'Examen' },
+      descripcion: { es:'Estructura atómica, partículas subatómicas, elementos, compuestos e isótopos.', en:'Atomic structure, subatomic particles, elements, compounds and isotopes.', ca:'Estructura atòmica, partícules subatòmiques, elements, compostos i isòtops.' },
+      detalles: { es:['2 niveles','10 preguntas','Opción múltiple','Explicación tras cada respuesta'], en:['2 levels','10 questions','Multiple choice','Explanation after each answer'], ca:['2 nivells','10 preguntes','Opció múltiple','Explicació després de cada resposta'] },
+      path: 'atomos-moleculas',
     },
   ],
 }

@@ -19,6 +19,30 @@ const TEMAS = [
     tags: ['estados', 'solido', 'liquido', 'gas', 'fusion', 'evaporacion', 'materia', 'states', 'matter'],
     niveles: ['primaria', 'eso'],
   },
+  {
+    id: 'mezclas-separacion',
+    titulo: 'Mezclas y Separación', tituloEn: 'Mixtures & Separation', tituloCa: 'Mescles i Separació',
+    subtitulo: 'Homogéneas, heterogéneas y métodos de separación', subtituloEn: 'Homogeneous, heterogeneous and separation methods', subtituloCa: 'Homogènies, heterogènies i mètodes de separació',
+    emoji: '🔀', gradient: 'from-orange-500 to-amber-600',
+    tags: ['mezclas', 'separacion', 'filtracion', 'destilacion', 'decantacion', 'mixtures', 'separation'],
+    niveles: ['primaria', 'eso'],
+  },
+  {
+    id: 'acidos-bases',
+    titulo: 'Ácidos y Bases', tituloEn: 'Acids & Bases', tituloCa: 'Àcids i Bases',
+    subtitulo: 'pH, indicadores y neutralización', subtituloEn: 'pH, indicators and neutralisation', subtituloCa: 'pH, indicadors i neutralització',
+    emoji: '🧴', gradient: 'from-green-500 to-emerald-700',
+    tags: ['acidos', 'bases', 'ph', 'neutralizacion', 'indicadores', 'acids', 'bases', 'neutralisation'],
+    niveles: ['eso'],
+  },
+  {
+    id: 'atomos-moleculas',
+    titulo: 'Átomos y Moléculas', tituloEn: 'Atoms & Molecules', tituloCa: 'Àtoms i Molècules',
+    subtitulo: 'Estructura atómica, elementos y compuestos', subtituloEn: 'Atomic structure, elements and compounds', subtituloCa: 'Estructura atòmica, elements i compostos',
+    emoji: '⚛️', gradient: 'from-blue-500 to-indigo-700',
+    tags: ['atomos', 'moleculas', 'protones', 'neutrones', 'electrones', 'atoms', 'molecules', 'electrons'],
+    niveles: ['primaria', 'eso'],
+  },
 ]
 
 export default function QuimicaIndex() {
