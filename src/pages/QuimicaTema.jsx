@@ -9,6 +9,11 @@ const TEMAS_META = {
       emoji: '⚗️',
       descripcion: 'Símbolos, nombres, números atómicos, grupos y tipos de los elementos químicos.',
     },
+    'estados-materia': {
+      titulo: 'Estados de la Materia',
+      emoji: '🧪',
+      descripcion: 'Sólido, líquido, gas y cambios de estado. Propiedades y temperatura.',
+    },
   },
   en: {
     'tabla-periodica': {
@@ -16,12 +21,22 @@ const TEMAS_META = {
       emoji: '⚗️',
       descripcion: 'Symbols, names, atomic numbers, groups and types of chemical elements.',
     },
+    'estados-materia': {
+      titulo: 'States of Matter',
+      emoji: '🧪',
+      descripcion: 'Solid, liquid, gas and changes of state. Properties and temperature.',
+    },
   },
   ca: {
     'tabla-periodica': {
       titulo: 'Taula Periòdica',
       emoji: '⚗️',
       descripcion: 'Símbols, noms, números atòmics, grups i tipus dels elements químics.',
+    },
+    'estados-materia': {
+      titulo: 'Estats de la Matèria',
+      emoji: '🧪',
+      descripcion: 'Sòlid, líquid, gas i canvis d\'estat. Propietats i temperatura.',
     },
   },
 }
@@ -45,6 +60,25 @@ const MODOS_POR_TEMA = {
         ca: ['3 nivells', '10 preguntes', 'Fins a 6 tipus de pregunta', '2 intents'],
       },
       path: 'tabla-periodica',
+    },
+  ],
+  'estados-materia': [
+    {
+      id: 'examen',
+      emoji: '📝',
+      gradient: 'from-teal-500 to-cyan-700',
+      titulo: { es: 'Examen', en: 'Exam', ca: 'Examen' },
+      descripcion: {
+        es: 'Identifica estados, cambios de estado y sus propiedades. Preguntas de opción múltiple con explicación.',
+        en: 'Identify states, changes of state and their properties. Multiple choice questions with explanation.',
+        ca: 'Identifica estats, canvis d\'estat i les seves propietats. Preguntes d\'opció múltiple amb explicació.',
+      },
+      detalles: {
+        es: ['2 niveles', '10 preguntas', 'Opción múltiple', 'Explicación tras cada respuesta'],
+        en: ['2 levels', '10 questions', 'Multiple choice', 'Explanation after each answer'],
+        ca: ['2 nivells', '10 preguntes', 'Opció múltiple', 'Explicació després de cada resposta'],
+      },
+      path: 'estados-materia',
     },
   ],
 }

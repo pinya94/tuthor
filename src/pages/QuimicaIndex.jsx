@@ -11,6 +11,14 @@ const TEMAS = [
     tags: ['elementos', 'simbolos', 'quimica', 'tabla', 'periodic table', 'elements'],
     niveles: ['primaria', 'eso', 'bachillerato'],
   },
+  {
+    id: 'estados-materia',
+    titulo: 'Estados de la Materia', tituloEn: 'States of Matter', tituloCa: 'Estats de la Matèria',
+    subtitulo: 'Sólido, líquido, gas y cambios de estado', subtituloEn: 'Solid, liquid, gas and changes of state', subtituloCa: 'Sòlid, líquid, gas i canvis d\'estat',
+    emoji: '🧪', gradient: 'from-teal-500 to-cyan-700',
+    tags: ['estados', 'solido', 'liquido', 'gas', 'fusion', 'evaporacion', 'materia', 'states', 'matter'],
+    niveles: ['primaria', 'eso'],
+  },
 ]
 
 export default function QuimicaIndex() {
