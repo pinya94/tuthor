@@ -349,13 +349,22 @@ export default function Trayectoria() {
     const pool = POOLS[diff]
     const available = pool.filter(q => !prevUsed.includes(q.id))
     const src = available.length > 0 ? available : pool
-    const q = src[Math.floor(Math.random() * src.length)]
-    const newUsed = available.length > 0 ? [...prevUsed, q.id] : [q.id]
+    const qRaw = src[Math.floor(Math.random() * src.length)]
+    const newUsed = available.length > 0 ? [...prevUsed, qRaw.id] : [qRaw.id]
     setUsedIds(newUsed)
+
+    // Shuffle options so the correct answer isn't always option A
+    const shuffleOrder = qRaw.options.map((_, i) => i).sort(() => Math.random() - 0.5)
+    const q = {
+      ...qRaw,
+      options: shuffleOrder.map(i => qRaw.options[i]),
+      correctIndex: shuffleOrder.indexOf(qRaw.correctIndex),
+      correctIndices: (qRaw.correctIndices ?? [qRaw.correctIndex]).map(ci => shuffleOrder.indexOf(ci)),
+    }
     setQuestion(q)
 
     // Gather all correct options for safe barrier placement
-    const correctOpts = (q.correctIndices ?? [q.correctIndex]).map(i => ({
+    const correctOpts = q.correctIndices.map(i => ({
       fn: q.options[i].fn,
       startX: q.options[i].startX,
     }))
