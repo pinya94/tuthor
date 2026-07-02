@@ -43,6 +43,30 @@ const TEMAS = [
     tags: ['atomos', 'moleculas', 'protones', 'neutrones', 'electrones', 'atoms', 'molecules', 'electrons'],
     niveles: ['primaria', 'eso'],
   },
+  {
+    id: 'sistema-solar',
+    titulo: 'Sistema Solar', tituloEn: 'Solar System', tituloCa: 'Sistema Solar',
+    subtitulo: 'Planetas, astros, movimientos y características', subtituloEn: 'Planets, celestial bodies, movements and features', subtituloCa: 'Planetes, astres, moviments i característiques',
+    emoji: '🌍', gradient: 'from-indigo-500 to-purple-700',
+    tags: ['planetas', 'sol', 'luna', 'orbita', 'rotacion', 'traslacion', 'sistema solar', 'planets', 'solar system'],
+    niveles: ['primaria', 'eso'],
+  },
+  {
+    id: 'celula',
+    titulo: 'La Célula', tituloEn: 'The Cell', tituloCa: 'La Cèl·lula',
+    subtitulo: 'Tipos, orgánulos y funciones celulares', subtituloEn: 'Types, organelles and cell functions', subtituloCa: 'Tipus, orgànuls i funcions cel·lulars',
+    emoji: '🔬', gradient: 'from-green-500 to-teal-700',
+    tags: ['celula', 'nucleo', 'mitocondria', 'cloroplasto', 'procariota', 'eucariota', 'cell', 'organelle'],
+    niveles: ['eso'],
+  },
+  {
+    id: 'geometria',
+    titulo: 'Geometría', tituloEn: 'Geometry', tituloCa: 'Geometria',
+    subtitulo: 'Ángulos, áreas, perímetros y volúmenes', subtituloEn: 'Angles, areas, perimeters and volumes', subtituloCa: 'Angles, àrees, perímetres i volums',
+    emoji: '📐', gradient: 'from-pink-500 to-rose-700',
+    tags: ['triangulo', 'circulo', 'area', 'perimetro', 'pitagoras', 'volumen', 'geometry', 'triangle', 'area'],
+    niveles: ['primaria', 'eso'],
+  },
 ]
 
 export default function QuimicaIndex() {

@@ -7,6 +7,9 @@ const CIENCIAS_SLUGS_ES = {
   'Mezclas y Separación': 'mezclas-separacion',
   'Ácidos y Bases': 'acidos-bases',
   'Átomos y Moléculas': 'atomos-moleculas',
+  'Sistema Solar': 'sistema-solar',
+  'La Célula': 'celula',
+  'Geometría': 'geometria',
 }
 const CIENCIAS_SLUGS_EN = {
   'Periodic Table': 'tabla-periodica',
@@ -14,6 +17,9 @@ const CIENCIAS_SLUGS_EN = {
   'Mixtures & Separation': 'mezclas-separacion',
   'Acids & Bases': 'acidos-bases',
   'Atoms & Molecules': 'atomos-moleculas',
+  'Solar System': 'sistema-solar',
+  'The Cell': 'celula',
+  'Geometry': 'geometria',
 }
 const CIENCIAS_SLUGS_CA = {
   'Taula Periòdica': 'tabla-periodica',
@@ -21,6 +27,9 @@ const CIENCIAS_SLUGS_CA = {
   'Mescles i Separació': 'mezclas-separacion',
   'Àcids i Bases': 'acidos-bases',
   'Àtoms i Molècules': 'atomos-moleculas',
+  'Sistema Solar': 'sistema-solar',
+  'La Cèl·lula': 'celula',
+  'Geometria': 'geometria',
 }
 
 const DATA = {
@@ -71,6 +80,9 @@ const DATA = {
           { nombre: 'Mezclas y Separación', desc: 'Tipos de mezcla y métodos: filtración, destilación, decantación...' },
           { nombre: 'Ácidos y Bases', desc: 'Escala de pH, indicadores y neutralización. ESO.' },
           { nombre: 'Átomos y Moléculas', desc: 'Estructura atómica, elementos y compuestos.' },
+          { nombre: 'Sistema Solar', desc: 'Planetas, astros, movimientos y características. Primaria y ESO.' },
+          { nombre: 'La Célula', desc: 'Tipos de célula, orgánulos y funciones. ESO.' },
+          { nombre: 'Geometría', desc: 'Ángulos, áreas, perímetros, Pitágoras y volúmenes.' },
         ],
       },
     ],
@@ -122,6 +134,9 @@ const DATA = {
           { nombre: 'Mixtures & Separation', desc: 'Types of mixture and methods: filtration, distillation, decantation...' },
           { nombre: 'Acids & Bases', desc: 'pH scale, indicators and neutralisation. Secondary.' },
           { nombre: 'Atoms & Molecules', desc: 'Atomic structure, elements and compounds.' },
+          { nombre: 'Solar System', desc: 'Planets, celestial bodies, movements and features. Primary & Secondary.' },
+          { nombre: 'The Cell', desc: 'Cell types, organelles and functions. Secondary.' },
+          { nombre: 'Geometry', desc: 'Angles, areas, perimeters, Pythagoras and volumes.' },
         ],
       },
     ],
@@ -173,6 +188,9 @@ const DATA = {
           { nombre: 'Mescles i Separació', desc: 'Tipus de mescla i mètodes: filtració, destil·lació, decantació...' },
           { nombre: 'Àcids i Bases', desc: 'Escala de pH, indicadors i neutralització. ESO.' },
           { nombre: 'Àtoms i Molècules', desc: 'Estructura atòmica, elements i compostos.' },
+          { nombre: 'Sistema Solar', desc: 'Planetes, astres, moviments i característiques. Primària i ESO.' },
+          { nombre: 'La Cèl·lula', desc: 'Tipus de cèl·lula, orgànuls i funcions. ESO.' },
+          { nombre: 'Geometria', desc: 'Angles, àrees, perímetres, Pitàgores i volums.' },
         ],
       },
     ],

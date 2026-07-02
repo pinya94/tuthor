@@ -9,6 +9,9 @@ const TEMAS_META = {
     'mezclas-separacion':{ titulo: 'Mezclas y Separación', emoji: '🔀', descripcion: 'Mezclas homogéneas y heterogéneas. Filtración, destilación, decantación y más.' },
     'acidos-bases':      { titulo: 'Ácidos y Bases',       emoji: '🧴', descripcion: 'Escala de pH, ácidos y bases cotidianos, indicadores y neutralización.' },
     'atomos-moleculas':  { titulo: 'Átomos y Moléculas',   emoji: '⚛️', descripcion: 'Estructura atómica, partículas subatómicas, elementos y compuestos.' },
+    'sistema-solar':     { titulo: 'Sistema Solar',        emoji: '🌍', descripcion: 'Planetas, astros, movimientos de traslación y rotación, y características del sistema solar.' },
+    'celula':            { titulo: 'La Célula',            emoji: '🔬', descripcion: 'Tipos de célula, orgánulos, membrana, fotosíntesis y división celular.' },
+    'geometria':         { titulo: 'Geometría',            emoji: '📐', descripcion: 'Ángulos, triángulos, áreas, perímetros, Pitágoras y volúmenes.' },
   },
   en: {
     'tabla-periodica':   { titulo: 'Periodic Table',       emoji: '⚗️', descripcion: 'Symbols, names, atomic numbers, groups and types of chemical elements.' },
@@ -16,6 +19,9 @@ const TEMAS_META = {
     'mezclas-separacion':{ titulo: 'Mixtures & Separation',emoji: '🔀', descripcion: 'Homogeneous and heterogeneous mixtures. Filtration, distillation, decantation and more.' },
     'acidos-bases':      { titulo: 'Acids & Bases',        emoji: '🧴', descripcion: 'pH scale, everyday acids and bases, indicators and neutralisation.' },
     'atomos-moleculas':  { titulo: 'Atoms & Molecules',    emoji: '⚛️', descripcion: 'Atomic structure, subatomic particles, elements and compounds.' },
+    'sistema-solar':     { titulo: 'Solar System',         emoji: '🌍', descripcion: 'Planets, celestial bodies, orbital and rotational movements, and solar system features.' },
+    'celula':            { titulo: 'The Cell',             emoji: '🔬', descripcion: 'Cell types, organelles, membrane, photosynthesis and cell division.' },
+    'geometria':         { titulo: 'Geometry',             emoji: '📐', descripcion: 'Angles, triangles, areas, perimeters, Pythagoras and volumes.' },
   },
   ca: {
     'tabla-periodica':   { titulo: 'Taula Periòdica',      emoji: '⚗️', descripcion: 'Símbols, noms, números atòmics, grups i tipus dels elements químics.' },
@@ -23,6 +29,9 @@ const TEMAS_META = {
     'mezclas-separacion':{ titulo: 'Mescles i Separació',  emoji: '🔀', descripcion: 'Mescles homogènies i heterogènies. Filtració, destil·lació, decantació i més.' },
     'acidos-bases':      { titulo: 'Àcids i Bases',        emoji: '🧴', descripcion: 'Escala de pH, àcids i bases quotidians, indicadors i neutralització.' },
     'atomos-moleculas':  { titulo: 'Àtoms i Molècules',    emoji: '⚛️', descripcion: 'Estructura atòmica, partícules subatòmiques, elements i compostos.' },
+    'sistema-solar':     { titulo: 'Sistema Solar',        emoji: '🌍', descripcion: 'Planetes, astres, moviments de translació i rotació, i característiques del sistema solar.' },
+    'celula':            { titulo: 'La Cèl·lula',          emoji: '🔬', descripcion: 'Tipus de cèl·lula, orgànuls, membrana, fotosíntesi i divisió cel·lular.' },
+    'geometria':         { titulo: 'Geometria',            emoji: '📐', descripcion: 'Angles, triangles, àrees, perímetres, Pitàgores i volums.' },
   },
 }
 
@@ -81,6 +90,33 @@ const MODOS_POR_TEMA = {
       descripcion: { es:'Estructura atómica, partículas subatómicas, elementos, compuestos e isótopos.', en:'Atomic structure, subatomic particles, elements, compounds and isotopes.', ca:'Estructura atòmica, partícules subatòmiques, elements, compostos i isòtops.' },
       detalles: { es:['2 niveles','10 preguntas','Opción múltiple','Explicación tras cada respuesta'], en:['2 levels','10 questions','Multiple choice','Explanation after each answer'], ca:['2 nivells','10 preguntes','Opció múltiple','Explicació després de cada resposta'] },
       path: 'atomos-moleculas',
+    },
+  ],
+  'sistema-solar': [
+    {
+      id: 'examen', emoji: '📝', gradient: 'from-indigo-500 to-purple-700',
+      titulo: { es:'Examen', en:'Exam', ca:'Examen' },
+      descripcion: { es:'Planetas, el Sol, la Luna, tipos de astros y movimientos de la Tierra. Preguntas de opción múltiple con explicación.', en:'Planets, the Sun, the Moon, types of celestial bodies and Earth\'s movements. Multiple choice questions with explanation.', ca:'Planetes, el Sol, la Lluna, tipus d\'astres i moviments de la Terra. Preguntes d\'opció múltiple amb explicació.' },
+      detalles: { es:['2 niveles','10 preguntas','Opción múltiple','Explicación tras cada respuesta'], en:['2 levels','10 questions','Multiple choice','Explanation after each answer'], ca:['2 nivells','10 preguntes','Opció múltiple','Explicació després de cada resposta'] },
+      path: 'sistema-solar',
+    },
+  ],
+  'celula': [
+    {
+      id: 'examen', emoji: '📝', gradient: 'from-green-500 to-teal-700',
+      titulo: { es:'Examen', en:'Exam', ca:'Examen' },
+      descripcion: { es:'Células procariotas y eucariotas, orgánulos, diferencias animal/vegetal, fotosíntesis y división celular.', en:'Prokaryotic and eukaryotic cells, organelles, animal/plant differences, photosynthesis and cell division.', ca:'Cèl·lules procariotes i eucariotes, orgànuls, diferències animal/vegetal, fotosíntesi i divisió cel·lular.' },
+      detalles: { es:['1 nivel (ESO)','10 preguntas','Opción múltiple','Explicación tras cada respuesta'], en:['1 level (Secondary)','10 questions','Multiple choice','Explanation after each answer'], ca:['1 nivell (ESO)','10 preguntes','Opció múltiple','Explicació després de cada resposta'] },
+      path: 'celula',
+    },
+  ],
+  'geometria': [
+    {
+      id: 'examen', emoji: '📝', gradient: 'from-pink-500 to-rose-700',
+      titulo: { es:'Examen', en:'Exam', ca:'Examen' },
+      descripcion: { es:'Ángulos, triángulos, áreas (cuadrado, rectángulo, triángulo, círculo), perímetros, Pitágoras y volúmenes.', en:'Angles, triangles, areas (square, rectangle, triangle, circle), perimeters, Pythagoras and volumes.', ca:'Angles, triangles, àrees (quadrat, rectangle, triangle, cercle), perímetres, Pitàgores i volums.' },
+      detalles: { es:['2 niveles','10 preguntas','Opción múltiple','Explicación tras cada respuesta'], en:['2 levels','10 questions','Multiple choice','Explanation after each answer'], ca:['2 nivells','10 preguntes','Opció múltiple','Explicació després de cada resposta'] },
+      path: 'geometria',
     },
   ],
 }
