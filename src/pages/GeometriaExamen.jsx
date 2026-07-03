@@ -12,7 +12,7 @@ export default function GeometriaExamen() {
       titulo={{ es: 'Geometría', en: 'Geometry', ca: 'Geometria' }}
       emoji="📐"
       nivelInfo={NIVEL_INFO}
-      backFallback="/estudiar/matematicas"
+      backFallback="/estudiar/matematicas/geometria"
       gameId="geometria"
     />
   )

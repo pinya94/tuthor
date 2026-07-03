@@ -60,6 +60,7 @@ const AtomosMoleculasExamen  = lazy(() => import('./pages/AtomosMoleculasExamen'
 const SistemaSolarExamen     = lazy(() => import('./pages/SistemaSolarExamen'))
 const LaCelulaExamen         = lazy(() => import('./pages/LaCelulaExamen'))
 const GeometriaExamen        = lazy(() => import('./pages/GeometriaExamen'))
+const GeometriaTema          = lazy(() => import('./pages/GeometriaTema'))
 const FuncionesExamen        = lazy(() => import('./pages/FuncionesExamen'))
 
 function PageLoader() {
@@ -81,6 +82,7 @@ function AppRoutes() {
       <Route path="estudiar/historia/:categoria" element={<HistoriaTema />} />
       <Route path="estudiar/matematicas" element={<MatematicasIndex />} />
       <Route path="estudiar/matematicas/funciones" element={<FuncionesTema />} />
+      <Route path="estudiar/matematicas/geometria" element={<GeometriaTema />} />
       <Route path="estudiar/matematicas/:modo" element={<MatematicasTema />} />
       <Route path="estudiar/matematicas/:modo/jugar" element={<MatematicasPractica />} />
       <Route path="estudiar/matematicas/:modo/examen" element={<ExamenMatematicas />} />

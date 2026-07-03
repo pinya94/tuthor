@@ -4,9 +4,7 @@ import TemarioGrid from '../components/TemarioGrid'
 import { MODOS, MODO_IDS } from '../lib/mathEngine'
 
 // Examenes que van directo al examen (no usan el motor aritmético)
-const EXAM_DIRECTO = {
-  geometria: '/examen/geometria',
-}
+const EXAM_DIRECTO = {}
 
 const EXTRAS = [
   {
