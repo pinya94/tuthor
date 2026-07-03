@@ -10,7 +10,7 @@ export default function CuerpoHumanoExamen() {
   return (
     <ExamenMC
       titulo={{ es: 'Cuerpo Humano', en: 'Human Body', ca: 'Cos Humà' }}
-      emoji="🫀"
+      emoji="❤️"
       nivelInfo={NIVEL_INFO}
       backFallback="/estudiar/quimica"
       gameId="cuerpo-humano"

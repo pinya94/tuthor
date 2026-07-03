@@ -606,7 +606,7 @@ const FICHAS_ES = {
   'cuerpo-humano': {
     titulo: 'Cuerpo Humano — Sistemas y Órganos',
     subtitulo: 'Examen de Biología — Digestivo, Circulatorio, Respiratorio y Nervioso',
-    emoji: '🫀', gradient: 'from-red-500 to-rose-700',
+    emoji: '❤️', gradient: 'from-red-500 to-rose-700',
     examPath: '/examen/cuerpo-humano',
     studyPath: '/estudiar/quimica/cuerpo-humano',
     asignatura: 'Biología y Geología', niveles: 'Primaria y ESO',
@@ -1335,7 +1335,7 @@ const FICHAS_EN = {
   'cuerpo-humano': {
     titulo: 'Human Body — Systems and Organs',
     subtitulo: 'Biology Exam — Digestive, Circulatory, Respiratory and Nervous Systems',
-    emoji: '🫀', gradient: 'from-red-500 to-rose-700',
+    emoji: '❤️', gradient: 'from-red-500 to-rose-700',
     examPath: '/examen/cuerpo-humano',
     studyPath: '/estudiar/quimica/cuerpo-humano',
     asignatura: 'Biology & Geology', niveles: 'Primary & Secondary',
@@ -2064,7 +2064,7 @@ const FICHAS_CA = {
   'cuerpo-humano': {
     titulo: 'Cos Humà — Sistemes i Òrgans',
     subtitulo: 'Examen de Biologia — Digestiu, Circulatori, Respiratori i Nerviós',
-    emoji: '🫀', gradient: 'from-red-500 to-rose-700',
+    emoji: '❤️', gradient: 'from-red-500 to-rose-700',
     examPath: '/examen/cuerpo-humano',
     studyPath: '/estudiar/quimica/cuerpo-humano',
     asignatura: 'Biologia i Geologia', niveles: 'Primària i ESO',

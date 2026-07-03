@@ -24,7 +24,7 @@ const PREGUNTAS = [
     { es:'¿Cuál es la función principal del hígado en la digestión?', en:'What is the main function of the liver in digestion?', ca:'Quina és la funció principal del fetge en la digestió?' },
     { es:['Producir ácido clorhídrico','Producir bilis para emulsionar las grasas','Absorber el agua de los alimentos','Almacenar glucosa en forma de glucógeno únicamente'], en:['Produce hydrochloric acid','Produce bile to emulsify fats','Absorb water from food','Store glucose as glycogen only'], ca:['Produir àcid clorhídric','Produir bilis per emulsionar els greixos','Absorbir l\'aigua dels aliments','Emmagatzemar glucosa en forma de glucogen únicament'] },
     { es:'Producir bilis para emulsionar las grasas', en:'Produce bile to emulsify fats', ca:'Produir bilis per emulsionar els greixos' },
-    '🫀',
+    '❤️',
     { es:'El hígado produce bilis, que se almacena en la vesícula biliar y se vierte al intestino delgado para emulsionar (fragmentar) las grasas. También desintoxica la sangre, regula la glucosa y produce proteínas plasmáticas.', en:'The liver produces bile, which is stored in the gallbladder and poured into the small intestine to emulsify (break down) fats. It also detoxifies the blood, regulates glucose and produces plasma proteins.', ca:'El fetge produeix bilis, que s\'emmagatzema a la vesícula biliar i s\'aboca a l\'intestí prim per emulsionar (fragmentar) els greixos. També desintoxica la sang, regula la glucosa i produeix proteïnes plasmàtiques.' },
   ),
 
@@ -40,7 +40,7 @@ const PREGUNTAS = [
     { es:'¿Qué tipo de vaso sanguíneo lleva sangre oxigenada desde el corazón al cuerpo?', en:'Which type of blood vessel carries oxygenated blood from the heart to the body?', ca:'Quin tipus de vas sanguini porta sang oxigenada des del cor cap al cos?' },
     { es:['Venas','Capilares','Arterias','Linfáticos'], en:['Veins','Capillaries','Arteries','Lymphatics'], ca:['Venes','Capil·lars','Artèries','Limfàtics'] },
     { es:'Arterias', en:'Arteries', ca:'Artèries' },
-    '🫀',
+    '❤️',
     { es:'Arterias: llevan sangre del corazón al cuerpo (con presión, pared gruesa). Venas: devuelven la sangre al corazón (pared más fina, con válvulas). Capilares: vasos microscópicos donde ocurre el intercambio de gases y nutrientes con las células.', en:'Arteries: carry blood from the heart to the body (under pressure, thick wall). Veins: return blood to the heart (thinner wall, with valves). Capillaries: microscopic vessels where gas and nutrient exchange with cells occurs.', ca:'Artèries: porten sang del cor al cos (amb pressió, paret gruixuda). Venes: retornen la sang al cor (paret més prima, amb vàlvules). Capil·lars: vasos microscòpics on es produeix l\'intercanvi de gasos i nutrients amb les cèl·lules.' },
   ),
   q('cc-03','eso',

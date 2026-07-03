@@ -63,7 +63,7 @@ const TEMAS = [
     id: 'cuerpo-humano',
     titulo: 'Cuerpo Humano', tituloEn: 'Human Body', tituloCa: 'Cos Humà',
     subtitulo: 'Sistemas digestivo, circulatorio, respiratorio y nervioso', subtituloEn: 'Digestive, circulatory, respiratory and nervous systems', subtituloCa: 'Sistemes digestiu, circulatori, respiratori i nerviós',
-    emoji: '🫀', gradient: 'from-red-500 to-rose-700',
+    emoji: '❤️', gradient: 'from-red-500 to-rose-700',
     tags: ['cuerpo humano', 'digestion', 'corazon', 'pulmones', 'nervioso', 'human body', 'heart', 'lungs'],
     niveles: ['primaria', 'eso'],
   },
