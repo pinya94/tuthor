@@ -311,7 +311,7 @@ export default function GeoMapa() {
 
           <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-6">
             <WorldMap highlight="" className="rounded-xl overflow-hidden mb-4" />
-            <div className="grid grid-cols-2 gap-4 text-sm">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
               <div className="space-y-2">
                 <p className="text-white/40 text-xs font-semibold uppercase tracking-widest">{u.reglas}</p>
                 {[
@@ -332,7 +332,7 @@ export default function GeoMapa() {
                   ['✅', u.alAcertar, u.acertar],
                   ['❌', u.alFallar, u.fallar],
                 ].map(([e, k, v]) => (
-                  <div key={k} className="flex items-center justify-between gap-2">
+                  <div key={k} className="flex items-start justify-between gap-2">
                     <span className="text-white/40 text-xs">{e} {k}</span>
                     <span className="text-white font-semibold text-xs text-right">{v}</span>
                   </div>

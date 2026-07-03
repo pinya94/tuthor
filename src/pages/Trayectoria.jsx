@@ -177,8 +177,8 @@ function DifficultyScreen({ onSelect, l }) {
             ['⭐', t('pts'),   t('ptsVal')],
             ['🧍', t('def'),   t('defVal')],
           ].map(([e, k, v]) => (
-            <div key={k} className="flex items-center justify-between gap-4">
-              <span className="text-white/40 shrink-0">{e} {k}</span>
+            <div key={k} className="flex items-start justify-between gap-4">
+              <span className="text-white/40 shrink-0 pt-0.5">{e} {k}</span>
               <span className="text-white font-semibold text-right">{v}</span>
             </div>
           ))}

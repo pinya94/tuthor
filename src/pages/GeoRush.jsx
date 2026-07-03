@@ -466,7 +466,7 @@ export default function GeoRush() {
                 ['❌', u.noAdivinar, '−5s'],
                 ['⏭️', u.saltar, '−10s'],
               ].map(([e, k, v]) => (
-                <div key={k} className="flex items-center justify-between gap-2">
+                <div key={k} className="flex items-start justify-between gap-2">
                   <span className="text-white/40 shrink-0">{e} {k}</span>
                   <span className="text-white font-semibold text-right">{v}</span>
                 </div>

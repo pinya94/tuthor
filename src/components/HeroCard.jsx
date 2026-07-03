@@ -38,7 +38,7 @@ export default function HeroCard({ card, onClick, priority = false }) {
 
       {/* Texto — parte superior, centrado */}
       <div className="absolute top-0 left-0 right-0 p-5 text-center">
-        <h3 className="font-black text-white text-3xl sm:text-4xl leading-tight drop-shadow-lg tracking-tight">
+        <h3 className="font-black text-white text-3xl sm:text-2xl lg:text-4xl leading-tight drop-shadow-lg tracking-tight">
           {lt(card)}
         </h3>
         <p className="text-white/75 text-sm mt-1.5 drop-shadow font-medium">

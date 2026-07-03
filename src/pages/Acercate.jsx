@@ -286,8 +286,8 @@ export default function Acercate() {
             ['⏱️', 'Tiempo',    `${cfg.tiempo} segundos`],
             ['⭐', 'Puntos',    '+10 exacto · +5 si ±1 o ±2'],
           ].map(([e, k, v]) => (
-            <div key={k} className="flex items-center justify-between gap-4">
-              <span className="text-white/40 shrink-0">{e} {k}</span>
+            <div key={k} className="flex items-start justify-between gap-4">
+              <span className="text-white/40 shrink-0 pt-0.5">{e} {k}</span>
               <span className="text-white font-semibold text-right">{v}</span>
             </div>
           ))}
