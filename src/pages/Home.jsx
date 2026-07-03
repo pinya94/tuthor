@@ -323,7 +323,7 @@ export default function Home() {
             <p className="text-gray-400 mb-5 max-w-md mx-auto">{t('home.seo.contacto.texto')}</p>
             <a href="mailto:consiguetualgogratis@gmail.com"
               className="inline-flex items-center gap-2 text-teal-600 hover:text-teal-500 font-bold transition-colors text-sm sm:text-lg break-all">
-              <span className="text-xl sm:text-2xl shrink-0">✉️</span>
+              <span className="text-xl sm:text-2xl shrink-0">📧</span>
               <span>consiguetualgogratis@gmail.com</span>
             </a>
           </section>
