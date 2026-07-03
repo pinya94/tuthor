@@ -14,7 +14,7 @@ export default function EspanolIndex() {
     <div className="relative z-10 flex flex-col min-h-[calc(100vh-4rem)] px-4 sm:px-8 py-6">
       <div className="text-center mb-8">
         <p className="text-white/40 text-sm mb-1">Estudiar · Español</p>
-        <div className="text-5xl mb-2">🇪🇸</div>
+        <div className="text-5xl mb-2">✏️</div>
         <h1 className="text-2xl sm:text-3xl font-black text-white">Español</h1>
         <p className="text-white/40 mt-1 text-sm">
           {{ es: 'Selecciona una categoría', en: 'Select a category', ca: 'Selecciona una categoria' }[lang]}
