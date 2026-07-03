@@ -181,7 +181,10 @@ export default function ExamenLineaTemporal() {
     el.scrollTo({ left: Math.max(0, target), behavior: 'smooth' })
   }, [phase, wasCorrect, correctSlot])
 
-  if (!categoria) { navigate(-1); return null }
+  useEffect(() => {
+    if (!categoria) navigate(localPath('/estudiar/historia'))
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+  if (!categoria) return null
 
   function startGame() {
     const shuffled = [...allEvents].sort(() => Math.random() - 0.5)
