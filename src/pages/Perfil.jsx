@@ -22,7 +22,7 @@ const GAME_LABELS = {
 }
 
 const CATEGORY_LABELS = {
-  'gce':      { es: 'Guerra Civil Española',   en: 'Spanish Civil War',      ca: 'Guerra Civil Espanyola',   emoji: '🇪🇸' },
+  'gce':      { es: 'Guerra Civil Española',   en: 'Spanish Civil War',      ca: 'Guerra Civil Espanyola',   emoji: '⚔️' },
   'wwii':     { es: 'Segunda Guerra Mundial',  en: 'World War II',           ca: 'Segona Guerra Mundial',    emoji: '⚔️' },
   'roma':     { es: 'Antigua Roma',            en: 'Ancient Rome',           ca: 'Roma Antiga',              emoji: '🏛️' },
   'usa':      { es: 'Independencia Americana', en: 'American Independence',  ca: 'Independència Americana',  emoji: '🦅' },

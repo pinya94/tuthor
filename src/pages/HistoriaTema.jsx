@@ -25,21 +25,21 @@ const NIVELES = {
 const TEMAS_META = {
   es: {
     primaria: { titulo: 'Grandes Hitos',          emoji: '🌍', descripcion: 'Los momentos más importantes que cambiaron el mundo.' },
-    gce:      { titulo: 'Guerra Civil Española',   emoji: '🇪🇸', descripcion: 'De la Segunda República al franquismo, 1931–1978.' },
+    gce:      { titulo: 'Guerra Civil Española',   emoji: '⚔️', descripcion: 'De la Segunda República al franquismo, 1931–1978.' },
     wwii:     { titulo: 'Segunda Guerra Mundial',  emoji: '⚔️', descripcion: 'El conflicto más grande de la historia, 1939–1945.' },
     roma:     { titulo: 'Antigua Roma',            emoji: '🏛️', descripcion: 'Desde la fundación de Roma hasta la caída del Imperio.' },
     usa:      { titulo: 'Independencia Americana', emoji: '🦅', descripcion: 'De las colonias británicas a los Estados Unidos, 1773–1789.' },
   },
   en: {
     primaria: { titulo: 'Great Milestones',        emoji: '🌍', descripcion: 'The most important moments that changed the world.' },
-    gce:      { titulo: 'Spanish Civil War',        emoji: '🇪🇸', descripcion: 'From the Second Republic to Franco, 1931–1978.' },
+    gce:      { titulo: 'Spanish Civil War',        emoji: '⚔️', descripcion: 'From the Second Republic to Franco, 1931–1978.' },
     wwii:     { titulo: 'World War II',             emoji: '⚔️', descripcion: 'The greatest conflict in history, 1939–1945.' },
     roma:     { titulo: 'Ancient Rome',             emoji: '🏛️', descripcion: 'From the founding of Rome to the fall of the Empire.' },
     usa:      { titulo: 'American Independence',    emoji: '🦅', descripcion: 'From the British colonies to the United States, 1773–1789.' },
   },
   ca: {
     primaria: { titulo: 'Grans Fites',              emoji: '🌍', descripcion: 'Els moments més importants que van canviar el món.' },
-    gce:      { titulo: 'Guerra Civil Espanyola',    emoji: '🇪🇸', descripcion: 'De la Segona República al franquisme, 1931–1978.' },
+    gce:      { titulo: 'Guerra Civil Espanyola',    emoji: '⚔️', descripcion: 'De la Segona República al franquisme, 1931–1978.' },
     wwii:     { titulo: 'Segona Guerra Mundial',     emoji: '⚔️', descripcion: 'El conflicte més gran de la història, 1939–1945.' },
     roma:     { titulo: 'Antiga Roma',               emoji: '🏛️', descripcion: 'Des de la fundació de Roma fins a la caiguda de l\'Imperi.' },
     usa:      { titulo: 'Independència Americana',   emoji: '🦅', descripcion: 'De les colònies britàniques als Estats Units, 1773–1789.' },

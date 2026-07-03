@@ -12,7 +12,7 @@ const CATEGORIAS = [
   {
     id: 'gce',
     label: 'Guerra Civil Española',
-    emoji: '🇪🇸',
+    emoji: '⚔️',
     gradient: 'from-orange-600 to-red-700',
     desc: '10 eventos · 1931–1978',
     niveles: ['eso', 'bachillerato'],

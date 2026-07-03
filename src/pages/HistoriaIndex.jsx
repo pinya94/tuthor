@@ -14,7 +14,7 @@ const TEMAS = [
     id: 'gce',
     titulo: 'Guerra Civil Española', tituloEn: 'Spanish Civil War', tituloCa: 'Guerra Civil Espanyola',
     subtitulo: 'De la República al franquismo — 1931–1978', subtituloEn: 'From the Republic to Franco — 1931–1978', subtituloCa: 'De la República al franquisme — 1931–1978',
-    emoji: '🇪🇸', gradient: 'from-red-600 to-rose-800',
+    emoji: '⚔️', gradient: 'from-red-600 to-rose-800',
     tags: ['españa', 'siglo xx', 'conflicto'], niveles: ['eso', 'bachillerato'],
   },
   {

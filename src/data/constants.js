@@ -36,7 +36,7 @@ export const SUBJECTS = [
   { title: 'Geografía', titleEn: 'Geography', titleCa: 'Geografia', subtitle: 'Países, continentes y regiones', subtitleEn: 'Countries, continents & regions', subtitleCa: 'Països, continents i regions', emoji: '🌍', gradient: 'from-teal-500 to-cyan-600', ready: true },
   { title: 'Ciencias', titleEn: 'Science', titleCa: 'Ciències', subtitle: 'Biología, física y química', subtitleEn: 'Biology, physics & chemistry', subtitleCa: 'Biologia, física i química', emoji: '🔬', gradient: 'from-green-500 to-emerald-600', ready: false },
   { title: 'Matemáticas', titleEn: 'Mathematics', titleCa: 'Matemàtiques', subtitle: 'Cálculo mental: sumas, restas y más', subtitleEn: 'Mental maths: add, subtract & more', subtitleCa: 'Càlcul mental: sumes, restes i més', emoji: '📐', gradient: 'from-blue-500 to-indigo-600', ready: true },
-  { title: 'Inglés', titleEn: 'English', titleCa: 'Anglès', subtitle: 'Vocabulario y gramática', subtitleEn: 'Vocabulary & grammar', subtitleCa: 'Vocabulari i gramàtica', emoji: '🇬🇧', gradient: 'from-rose-500 to-pink-600', ready: false },
+  { title: 'Inglés', titleEn: 'English', titleCa: 'Anglès', subtitle: 'Vocabulario y gramática', subtitleEn: 'Vocabulary & grammar', subtitleCa: 'Vocabulari i gramàtica', emoji: '💬', gradient: 'from-rose-500 to-pink-600', ready: false },
   { title: 'Lengua', titleEn: 'Spanish', titleCa: 'Llengua', subtitle: 'Literatura y ortografía', subtitleEn: 'Literature & spelling', subtitleCa: 'Literatura i ortografia', emoji: '✍️', gradient: 'from-violet-500 to-purple-600', ready: false },
 ]
 

@@ -4,7 +4,6 @@ export default function Thumbnail({ title, subtitle, emoji, gradient, onClick, c
       onClick={onClick}
       className="group relative w-full rounded-xl overflow-hidden text-left transition-all duration-300 hover:scale-[1.04] hover:shadow-xl hover:shadow-black/40 shadow-md shadow-black/20 cursor-pointer"
     >
-      {/* Image area */}
       <div className={`bg-gradient-to-br ${gradient} w-full aspect-video flex items-center justify-center relative`}>
         <span className="text-5xl drop-shadow-lg transform group-hover:scale-110 transition-transform duration-300">
           {emoji}
@@ -16,11 +15,11 @@ export default function Thumbnail({ title, subtitle, emoji, gradient, onClick, c
             </span>
           </div>
         )}
-      </div>
-      {/* Text below image */}
-      <div className="bg-black/30 backdrop-blur-sm px-2.5 py-2">
-        <h3 className="font-bold text-white text-xs leading-tight truncate">{title}</h3>
-        {subtitle && <p className="text-white/60 text-xs mt-0.5 truncate">{subtitle}</p>}
+        <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-black/80 to-transparent" />
+        <div className="absolute bottom-0 left-0 right-0 p-2.5">
+          <h3 className="font-bold text-white text-xs leading-tight line-clamp-1">{title}</h3>
+          <p className="text-white/60 text-xs mt-0.5 line-clamp-1">{subtitle}</p>
+        </div>
       </div>
     </button>
   )

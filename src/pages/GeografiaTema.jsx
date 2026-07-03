@@ -19,8 +19,8 @@ const TEMAS_META = {
     asia:    { titulo: 'Asia',            emoji: '🌏', descripcion: 'El continente más grande y diverso. De Japón a Turquía.' },
     africa:  { titulo: 'África',          emoji: '🌍', descripcion: 'De Marruecos a Sudáfrica. El continente más variado del planeta.' },
     oceania: { titulo: 'Oceanía',         emoji: '🏝️', descripcion: 'Australia, Nueva Zelanda y las islas del Pacífico.' },
-    espana:  { titulo: 'España',          emoji: '🇪🇸', descripcion: 'Las 17 comunidades autónomas españolas. ¿Sabes dónde está cada una?' },
-    eeuu:    { titulo: 'Estados Unidos',  emoji: '🇺🇸', descripcion: 'Los 50 estados americanos. ¿Los identificas todos en el mapa?' },
+    espana:  { titulo: 'España',          emoji: '🗺️', descripcion: 'Las 17 comunidades autónomas españolas. ¿Sabes dónde está cada una?' },
+    eeuu:    { titulo: 'Estados Unidos',  emoji: '🗽', descripcion: 'Los 50 estados americanos. ¿Los identificas todos en el mapa?' },
   },
   en: {
     europa:  { titulo: 'Europe',          emoji: '🇪🇺', descripcion: 'From Iceland to Cyprus, through the Balkans and Scandinavia.' },
@@ -28,8 +28,8 @@ const TEMAS_META = {
     asia:    { titulo: 'Asia',            emoji: '🌏', descripcion: 'The largest and most diverse continent. From Japan to Turkey.' },
     africa:  { titulo: 'Africa',          emoji: '🌍', descripcion: 'From Morocco to South Africa. The most varied continent on the planet.' },
     oceania: { titulo: 'Oceania',         emoji: '🏝️', descripcion: 'Australia, New Zealand and the Pacific islands.' },
-    espana:  { titulo: 'Spain',           emoji: '🇪🇸', descripcion: 'Spain\'s 17 autonomous communities. Can you place them on the map?' },
-    eeuu:    { titulo: 'United States',   emoji: '🇺🇸', descripcion: 'All 50 US states. Can you identify them all?' },
+    espana:  { titulo: 'Spain',           emoji: '🗺️', descripcion: 'Spain\'s 17 autonomous communities. Can you place them on the map?' },
+    eeuu:    { titulo: 'United States',   emoji: '🗽', descripcion: 'All 50 US states. Can you identify them all?' },
   },
   ca: {
     europa:  { titulo: 'Europa',          emoji: '🇪🇺', descripcion: 'D\'Islàndia a Xipre, passant pels Balcans i Escandinàvia.' },
@@ -37,8 +37,8 @@ const TEMAS_META = {
     asia:    { titulo: 'Àsia',            emoji: '🌏', descripcion: 'El continent més gran i divers. Del Japó a Turquia.' },
     africa:  { titulo: 'Àfrica',          emoji: '🌍', descripcion: 'Del Marroc a Sud-àfrica. El continent més variat del planeta.' },
     oceania: { titulo: 'Oceania',         emoji: '🏝️', descripcion: 'Austràlia, Nova Zelanda i les illes del Pacífic.' },
-    espana:  { titulo: 'Espanya',         emoji: '🇪🇸', descripcion: 'Les 17 comunitats autònomes espanyoles. Saps on és cadascuna?' },
-    eeuu:    { titulo: 'Estats Units',    emoji: '🇺🇸', descripcion: 'Els 50 estats americans. Els identifiques tots al mapa?' },
+    espana:  { titulo: 'Espanya',         emoji: '🗺️', descripcion: 'Les 17 comunitats autònomes espanyoles. Saps on és cadascuna?' },
+    eeuu:    { titulo: 'Estats Units',    emoji: '🗽', descripcion: 'Els 50 estats americans. Els identifiques tots al mapa?' },
   },
 }
 

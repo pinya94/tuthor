@@ -318,7 +318,7 @@ const FICHAS_ES = {
   'espanol': {
     titulo: 'Gramática Española — Examen de Lengua',
     subtitulo: 'Categorías gramaticales, ortografía, sintaxis y tipos de oraciones',
-    emoji: '🇪🇸', gradient: 'from-red-500 to-yellow-500',
+    emoji: '✏️', gradient: 'from-red-500 to-yellow-500',
     examPath: '/estudiar/idiomas/espanol',
     studyPath: '/estudiar/idiomas/espanol',
     asignatura: 'Lengua Española', niveles: 'Primaria, ESO',
@@ -344,7 +344,7 @@ const FICHAS_ES = {
   'ingles': {
     titulo: 'English Grammar — Examen de Inglés',
     subtitulo: 'Tiempos verbales, voz pasiva, conditional y relative clauses',
-    emoji: '🇬🇧', gradient: 'from-blue-700 to-red-600',
+    emoji: '💬', gradient: 'from-blue-700 to-red-600',
     examPath: '/estudiar/idiomas/ingles',
     studyPath: '/estudiar/idiomas/ingles',
     asignatura: 'Inglés', niveles: 'Primaria, ESO',
@@ -633,7 +633,7 @@ const FICHAS_ES = {
   'historia-guerra-civil': {
     titulo: 'Guerra Civil Española — Examen de Historia',
     subtitulo: 'Del golpe de estado de 1936 a la dictadura franquista',
-    emoji: '🇪🇸', gradient: 'from-red-600 to-rose-800',
+    emoji: '⚔️', gradient: 'from-red-600 to-rose-800',
     examPath: '/estudiar/historia/gce',
     studyPath: '/estudiar/historia/gce',
     asignatura: 'Historia de España', niveles: 'ESO, Bachillerato',
@@ -973,7 +973,7 @@ const FICHAS_ES = {
   'geografia-espana': {
     titulo: 'Geografía de España — Provincias y Comunidades Autónomas',
     subtitulo: 'Las 50 Provincias de España y sus Capitales',
-    emoji: '🇪🇸', gradient: 'from-red-500 to-yellow-600',
+    emoji: '🗺️', gradient: 'from-red-500 to-yellow-600',
     examPath: '/estudiar/geografia/espana',
     studyPath: '/estudiar/geografia/espana',
     asignatura: 'Geografía de España', niveles: 'Primaria, ESO',
@@ -999,7 +999,7 @@ const FICHAS_ES = {
   'geografia-eeuu': {
     titulo: 'Geografía de Estados Unidos — Los 50 Estados',
     subtitulo: 'Capitales, Regiones y Características de los 50 Estados Americanos',
-    emoji: '🇺🇸', gradient: 'from-blue-700 to-red-700',
+    emoji: '🗽', gradient: 'from-blue-700 to-red-700',
     examPath: '/estudiar/geografia/eeuu',
     studyPath: '/estudiar/geografia/eeuu',
     asignatura: 'Geografía', niveles: 'ESO',
@@ -1566,7 +1566,7 @@ const FICHAS_EN = {
   'espanol': {
     titulo: 'Spanish Grammar — Language Exam',
     subtitulo: 'Word classes, spelling, syntax and sentence types',
-    emoji: '🇪🇸', gradient: 'from-red-500 to-yellow-500',
+    emoji: '✏️', gradient: 'from-red-500 to-yellow-500',
     examPath: '/estudiar/idiomas/espanol',
     studyPath: '/estudiar/idiomas/espanol',
     asignatura: 'Spanish Language', niveles: 'Primary, Secondary',
@@ -1592,7 +1592,7 @@ const FICHAS_EN = {
   'ingles': {
     titulo: 'English Grammar Exam',
     subtitulo: 'Tenses, passive voice, conditionals and relative clauses',
-    emoji: '🇬🇧', gradient: 'from-blue-700 to-red-600',
+    emoji: '💬', gradient: 'from-blue-700 to-red-600',
     examPath: '/examen/ingles',
     studyPath: '/estudiar/idiomas/ingles',
     asignatura: 'English', niveles: 'Primary, Secondary',
@@ -1880,7 +1880,7 @@ const FICHAS_EN = {
   'historia-guerra-civil': {
     titulo: 'Spanish Civil War — History Exam',
     subtitulo: 'From the 1936 Military Coup to the Francoist Dictatorship',
-    emoji: '🇪🇸', gradient: 'from-red-600 to-rose-800',
+    emoji: '⚔️', gradient: 'from-red-600 to-rose-800',
     examPath: '/estudiar/historia/gce',
     studyPath: '/estudiar/historia/gce',
     asignatura: 'History of Spain', niveles: 'Secondary, Sixth Form',
@@ -2220,7 +2220,7 @@ const FICHAS_EN = {
   'geografia-espana': {
     titulo: 'Geography of Spain — Provinces and Autonomous Communities',
     subtitulo: 'Spain\'s 50 Provinces and their Capitals',
-    emoji: '🇪🇸', gradient: 'from-red-500 to-yellow-600',
+    emoji: '🗺️', gradient: 'from-red-500 to-yellow-600',
     examPath: '/estudiar/geografia/espana',
     studyPath: '/estudiar/geografia/espana',
     asignatura: 'Geography of Spain', niveles: 'Primary, Secondary',
@@ -2246,7 +2246,7 @@ const FICHAS_EN = {
   'geografia-eeuu': {
     titulo: 'Geography of the United States — All 50 States',
     subtitulo: 'Capitals, Regions and Features of the 50 American States',
-    emoji: '🇺🇸', gradient: 'from-blue-700 to-red-700',
+    emoji: '🗽', gradient: 'from-blue-700 to-red-700',
     examPath: '/estudiar/geografia/eeuu',
     studyPath: '/estudiar/geografia/eeuu',
     asignatura: 'Geography', niveles: 'Secondary',
@@ -2817,7 +2817,7 @@ const FICHAS_CA = {
   'espanol': {
     titulo: 'Gramàtica Espanyola — Examen de Llengua',
     subtitulo: 'Categories gramaticals, ortografia, sintaxi i tipus d\'oracions',
-    emoji: '🇪🇸', gradient: 'from-red-500 to-yellow-500',
+    emoji: '✏️', gradient: 'from-red-500 to-yellow-500',
     examPath: '/estudiar/idiomas/espanol',
     studyPath: '/estudiar/idiomas/espanol',
     asignatura: 'Llengua Espanyola', niveles: 'Primària, ESO',
@@ -2843,7 +2843,7 @@ const FICHAS_CA = {
   'ingles': {
     titulo: 'English Grammar — Examen d\'Anglès',
     subtitulo: 'Temps verbals, veu passiva, condicionals i clàusules relatives',
-    emoji: '🇬🇧', gradient: 'from-blue-700 to-red-600',
+    emoji: '💬', gradient: 'from-blue-700 to-red-600',
     examPath: '/examen/ingles',
     studyPath: '/estudiar/idiomas/ingles',
     asignatura: 'Anglès', niveles: 'Primària, ESO',
@@ -3131,7 +3131,7 @@ const FICHAS_CA = {
   'historia-guerra-civil': {
     titulo: 'Guerra Civil Espanyola — Examen d\'Història',
     subtitulo: 'Del cop d\'estat del 1936 a la dictadura franquista',
-    emoji: '🇪🇸', gradient: 'from-red-600 to-rose-800',
+    emoji: '⚔️', gradient: 'from-red-600 to-rose-800',
     examPath: '/estudiar/historia/gce',
     studyPath: '/estudiar/historia/gce',
     asignatura: 'Història d\'Espanya', niveles: 'ESO, Batxillerat',
@@ -3471,7 +3471,7 @@ const FICHAS_CA = {
   'geografia-espana': {
     titulo: 'Geografia d\'Espanya — Províncies i Comunitats Autònomes',
     subtitulo: 'Les 50 Províncies d\'Espanya i les seves Capitals',
-    emoji: '🇪🇸', gradient: 'from-red-500 to-yellow-600',
+    emoji: '🗺️', gradient: 'from-red-500 to-yellow-600',
     examPath: '/estudiar/geografia/espana',
     studyPath: '/estudiar/geografia/espana',
     asignatura: 'Geografia d\'Espanya', niveles: 'Primària, ESO',
@@ -3497,7 +3497,7 @@ const FICHAS_CA = {
   'geografia-eeuu': {
     titulo: 'Geografia dels Estats Units — Els 50 Estats',
     subtitulo: 'Capitals, Regions i Característiques dels 50 Estats Americans',
-    emoji: '🇺🇸', gradient: 'from-blue-700 to-red-700',
+    emoji: '🗽', gradient: 'from-blue-700 to-red-700',
     examPath: '/estudiar/geografia/eeuu',
     studyPath: '/estudiar/geografia/eeuu',
     asignatura: 'Geografia', niveles: 'ESO',

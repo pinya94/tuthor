@@ -118,7 +118,7 @@ export const EXAMENES_HISTORIA = [
     id: 'gce',
     nombre: 'Guerra Civil Española',
     nombreCa: 'Guerra Civil Espanyola',
-    emoji: '🇪🇸',
+    emoji: '⚔️',
     descripcion: 'De la República al franquismo — una herida en la historia de España',
     descripcionCa: 'De la República al franquisme — una ferida en la història d\'Espanya',
     niveles: ['eso', 'bachillerato'],

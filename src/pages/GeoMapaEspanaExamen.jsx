@@ -194,7 +194,7 @@ export default function GeoMapaEspanaExamen() {
       <div className="flex items-center justify-between mb-3">
         <button onClick={() => navigate(backPath ? localPath(backPath) : localPath('/estudiar/geografia/espana'))}
           className="text-white/40 hover:text-white/70 text-sm transition-colors">{en ? '← Exit' : '← Salir'}</button>
-        <span className="text-white/40 text-sm font-bold">🇪🇸 {en ? 'Spain' : ca ? 'Espanya' : 'España'} · {idx + 1}/{TOTAL}</span>
+        <span className="text-white/40 text-sm font-bold">🗺️ {en ? 'Spain' : ca ? 'Espanya' : 'España'} · {idx + 1}/{TOTAL}</span>
       </div>
 
       <div className="mb-5">

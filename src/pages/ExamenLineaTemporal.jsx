@@ -118,13 +118,13 @@ export default function ExamenLineaTemporal() {
   const CONFIGS = en ? {
     primaria: { label: 'Great Milestones', emoji: '🌍', descripcion: 'The most important moments that changed the world. Perfect for revising key milestones of universal history.', lives: maxLives, winAt },
     wwii:     { label: 'World War II', emoji: '⚔️', descripcion: 'From the start of the conflict to the surrender of Japan. Master the chronology of the greatest conflict in history.', lives: maxLives, winAt },
-    gce:      { label: 'Spanish Civil War', emoji: '🇪🇸', descripcion: 'From the Second Republic to Franco. Sort the events that marked three years of civil war.', lives: maxLives, winAt },
+    gce:      { label: 'Spanish Civil War', emoji: '⚔️', descripcion: 'From the Second Republic to Franco. Sort the events that marked three years of civil war.', lives: maxLives, winAt },
     roma:     { label: 'Ancient Rome', emoji: '🏛️', descripcion: 'From the founding of Rome to the fall of the Western Empire. Master the history of Roman civilisation.', lives: maxLives, winAt },
     usa:      { label: 'American Independence', emoji: '🦅', descripcion: 'From the Boston Tea Party to the American Constitution. Sort the events of the first modern democracy.', lives: maxLives, winAt },
   } : {
     primaria: { label: 'Grandes Hitos', emoji: '🌍', descripcion: 'Los momentos más importantes que cambiaron el mundo. Ideal para repasar los hitos clave de la historia universal.', lives: maxLives, winAt },
     wwii:     { label: 'Segunda Guerra Mundial', emoji: '⚔️', descripcion: 'Desde el inicio del conflicto hasta la rendición de Japón. Domina la cronología del mayor conflicto de la historia.', lives: maxLives, winAt },
-    gce:      { label: 'Guerra Civil Española', emoji: '🇪🇸', descripcion: 'De la Segunda República al franquismo. Ordena los eventos que marcaron tres años de guerra fratricida.', lives: maxLives, winAt },
+    gce:      { label: 'Guerra Civil Española', emoji: '⚔️', descripcion: 'De la Segunda República al franquismo. Ordena los eventos que marcaron tres años de guerra fratricida.', lives: maxLives, winAt },
     roma:     { label: 'Antigua Roma', emoji: '🏛️', descripcion: 'Desde la fundación de Roma hasta la caída del Imperio de Occidente. Domina la historia de la civilización romana.', lives: maxLives, winAt },
     usa:      { label: 'Independencia Americana', emoji: '🦅', descripcion: 'Del motín del té a la Constitución americana. Ordena los eventos de la primera democracia moderna.', lives: maxLives, winAt },
   }
