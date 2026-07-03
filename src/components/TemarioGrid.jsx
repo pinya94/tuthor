@@ -105,7 +105,7 @@ export default function TemarioGrid({ items, onSelect, placeholder = 'Buscar...'
                   <span className="text-4xl">{item.emoji}</span>
                   <div>
                     <h3 className="font-black text-white text-base leading-tight">{item.titulo}</h3>
-                    {item.subtitulo && <p className="text-white/65 text-xs mt-1 leading-relaxed">{item.subtitulo}</p>}
+                    {item.subtitulo && <p className="text-white/65 text-xs mt-1 leading-relaxed line-clamp-2">{item.subtitulo}</p>}
                   </div>
                 </div>
               </button>

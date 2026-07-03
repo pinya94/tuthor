@@ -5,7 +5,7 @@ const MATERIAS = [
   { id: 'historia', titulo: 'Historia', tituloEn: 'History', tituloCa: 'Història', subtitulo: 'Eventos, épocas y personajes clave', subtituloEn: 'Key events, periods & figures', subtituloCa: 'Esdeveniments, èpoques i personatges clau', emoji: '🏛️', gradient: 'from-amber-500 to-orange-600', ready: true, path: '/estudiar/historia' },
   { id: 'geografia', titulo: 'Geografía', tituloEn: 'Geography', tituloCa: 'Geografia', subtitulo: 'Países, continentes y regiones', subtituloEn: 'Countries, continents & regions', subtituloCa: 'Països, continents i regions', emoji: '🌍', gradient: 'from-teal-500 to-cyan-600', ready: true, path: '/estudiar/geografia' },
   { id: 'ciencias', titulo: 'Ciencias', tituloEn: 'Science', tituloCa: 'Ciències', subtitulo: 'Biología, física y química', subtituloEn: 'Biology, physics & chemistry', subtituloCa: 'Biologia, física i química', emoji: '🔬', gradient: 'from-green-500 to-emerald-600', ready: true, path: '/estudiar/quimica' },
-  { id: 'matematicas', titulo: 'Matemáticas', tituloEn: 'Mathematics', tituloCa: 'Matemàtiques', subtitulo: 'Cálculo mental: sumas, restas, multiplicaciones y más', subtituloEn: 'Mental maths: add, subtract, multiply & more', subtituloCa: 'Càlcul mental: sumes, restes, multiplicacions i més', emoji: '📐', gradient: 'from-blue-500 to-indigo-600', ready: true, path: '/estudiar/matematicas' },
+  { id: 'matematicas', titulo: 'Matemáticas', tituloEn: 'Mathematics', tituloCa: 'Matemàtiques', subtitulo: 'Cálculo mental: sumas, restas, multiplicaciones y más', subtituloEn: 'Mental maths: add, subtract & more', subtituloCa: 'Càlcul mental: sumes, restes i més', emoji: '📐', gradient: 'from-blue-500 to-indigo-600', ready: true, path: '/estudiar/matematicas' },
   { id: 'espanol', titulo: 'Español', tituloEn: 'Spanish', tituloCa: 'Castellà', subtitulo: 'Gramática y ortografía del español', subtituloEn: 'Spanish grammar and spelling', subtituloCa: 'Gramàtica i ortografia del castellà', emoji: '✏️', gradient: 'from-red-500 to-yellow-500', ready: true, path: '/estudiar/idiomas/espanol' },
   { id: 'ingles', titulo: 'English', tituloEn: 'English', tituloCa: 'Anglès', subtitulo: 'Grammar: tenses, articles, passive...', subtituloEn: 'Grammar: tenses, articles, passive...', subtituloCa: 'Gramàtica: temps, articles, passiva...', emoji: '💬', gradient: 'from-blue-700 to-red-600', ready: true, path: '/estudiar/idiomas/ingles' },
 ]
@@ -37,7 +37,7 @@ export default function Estudiar() {
               )}
               <span className="text-4xl block mb-2">{m.emoji}</span>
               <h3 className="font-black text-white text-base leading-tight">{lang === 'ca' ? m.tituloCa : lang === 'en' ? m.tituloEn : m.titulo}</h3>
-              <p className="text-white/65 text-xs mt-1 leading-relaxed">{lang === 'ca' ? m.subtituloCa : lang === 'en' ? m.subtituloEn : m.subtitulo}</p>
+              <p className="text-white/65 text-xs mt-1 leading-relaxed line-clamp-2">{lang === 'ca' ? m.subtituloCa : lang === 'en' ? m.subtituloEn : m.subtitulo}</p>
             </div>
           </button>
         ))}
