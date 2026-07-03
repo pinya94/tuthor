@@ -62,6 +62,11 @@ const LaCelulaExamen         = lazy(() => import('./pages/LaCelulaExamen'))
 const GeometriaExamen        = lazy(() => import('./pages/GeometriaExamen'))
 const GeometriaTema          = lazy(() => import('./pages/GeometriaTema'))
 const FuncionesExamen        = lazy(() => import('./pages/FuncionesExamen'))
+const CuerpoHumanoExamen     = lazy(() => import('./pages/CuerpoHumanoExamen'))
+const SeresVivosExamen       = lazy(() => import('./pages/SeresVivosExamen'))
+const EcosistemasExamen      = lazy(() => import('./pages/EcosistemasExamen'))
+const GeneticaExamen         = lazy(() => import('./pages/GeneticaExamen'))
+const NutricionExamen        = lazy(() => import('./pages/NutricionExamen'))
 
 function PageLoader() {
   return (
@@ -114,6 +119,11 @@ function AppRoutes() {
       <Route path="examen/celula"          element={<LaCelulaExamen />} />
       <Route path="examen/geometria"       element={<GeometriaExamen />} />
       <Route path="examen/funciones"       element={<FuncionesExamen />} />
+      <Route path="examen/cuerpo-humano"   element={<CuerpoHumanoExamen />} />
+      <Route path="examen/seres-vivos"     element={<SeresVivosExamen />} />
+      <Route path="examen/ecosistemas"     element={<EcosistemasExamen />} />
+      <Route path="examen/genetica"        element={<GeneticaExamen />} />
+      <Route path="examen/nutricion"       element={<NutricionExamen />} />
 
       {/* ── GEOGRAFÍA ── */}
       <Route path="estudiar/geografia" element={<GeografiaIndex />} />

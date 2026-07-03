@@ -59,6 +59,46 @@ const TEMAS = [
     tags: ['celula', 'nucleo', 'mitocondria', 'cloroplasto', 'procariota', 'eucariota', 'cell', 'organelle'],
     niveles: ['eso'],
   },
+  {
+    id: 'cuerpo-humano',
+    titulo: 'Cuerpo Humano', tituloEn: 'Human Body', tituloCa: 'Cos Humà',
+    subtitulo: 'Sistemas digestivo, circulatorio, respiratorio y nervioso', subtituloEn: 'Digestive, circulatory, respiratory and nervous systems', subtituloCa: 'Sistemes digestiu, circulatori, respiratori i nerviós',
+    emoji: '🫀', gradient: 'from-red-500 to-rose-700',
+    tags: ['cuerpo humano', 'digestion', 'corazon', 'pulmones', 'nervioso', 'human body', 'heart', 'lungs'],
+    niveles: ['primaria', 'eso'],
+  },
+  {
+    id: 'seres-vivos',
+    titulo: 'Seres Vivos', tituloEn: 'Living Things', tituloCa: 'Éssers Vius',
+    subtitulo: 'Reinos, clasificación, vertebrados e invertebrados', subtituloEn: 'Kingdoms, classification, vertebrates and invertebrates', subtituloCa: 'Regnes, classificació, vertebrats i invertebrats',
+    emoji: '🌱', gradient: 'from-emerald-500 to-green-700',
+    tags: ['seres vivos', 'reinos', 'vertebrados', 'plantas', 'animales', 'hongos', 'living things', 'kingdoms'],
+    niveles: ['primaria', 'eso'],
+  },
+  {
+    id: 'ecosistemas',
+    titulo: 'Ecosistemas', tituloEn: 'Ecosystems', tituloCa: 'Ecosistemes',
+    subtitulo: 'Cadenas tróficas, biomas y adaptaciones', subtituloEn: 'Food chains, biomes and adaptations', subtituloCa: 'Cadenes tròfiques, biomes i adaptacions',
+    emoji: '🌍', gradient: 'from-teal-500 to-emerald-700',
+    tags: ['ecosistema', 'cadena trofica', 'bioma', 'biodiversidad', 'habitat', 'ecosystems', 'food chain', 'biome'],
+    niveles: ['primaria', 'eso'],
+  },
+  {
+    id: 'genetica',
+    titulo: 'Genética', tituloEn: 'Genetics', tituloCa: 'Genètica',
+    subtitulo: 'ADN, genes, herencia y mutaciones', subtituloEn: 'DNA, genes, heredity and mutations', subtituloCa: 'ADN, gens, herència i mutacions',
+    emoji: '🧬', gradient: 'from-purple-500 to-violet-700',
+    tags: ['genetica', 'adn', 'cromosomas', 'genes', 'herencia', 'mendel', 'genetics', 'dna', 'chromosomes'],
+    niveles: ['eso'],
+  },
+  {
+    id: 'nutricion',
+    titulo: 'Nutrición', tituloEn: 'Nutrition', tituloCa: 'Nutrició',
+    subtitulo: 'Macronutrientes, vitaminas y dieta saludable', subtituloEn: 'Macronutrients, vitamins and healthy diet', subtituloCa: 'Macronutrients, vitamines i dieta saludable',
+    emoji: '🥗', gradient: 'from-lime-500 to-green-600',
+    tags: ['nutricion', 'vitaminas', 'proteinas', 'carbohidratos', 'dieta', 'alimentacion', 'nutrition', 'vitamins', 'diet'],
+    niveles: ['primaria', 'eso'],
+  },
 ]
 
 export default function QuimicaIndex() {

@@ -1,0 +1,95 @@
+// Seres Vivos — reinos, clasificación, características
+function q(id, nivel, pregunta, opciones, correcta, emoji, explicacion) {
+  return { id, nivel, pregunta, opciones, correcta, emoji, explicacion }
+}
+
+const PREGUNTAS = [
+
+  // ── CARACTERÍSTICAS DE LOS SERES VIVOS ───────────────────────────────────────
+  q('sv-01','primaria',
+    { es:'¿Cuál de estas NO es una característica de los seres vivos?', en:'Which of these is NOT a characteristic of living things?', ca:'Quina d\'aquestes NO és una característica dels éssers vius?' },
+    { es:['Nacer y morir','Reproducirse','Estar hechos de metal','Nutrirse'], en:['Being born and dying','Reproducing','Being made of metal','Feeding'], ca:['Néixer i morir','Reproduir-se','Estar fets de metall','Nodrir-se'] },
+    { es:'Estar hechos de metal', en:'Being made of metal', ca:'Estar fets de metall' },
+    '🌱',
+    { es:'Los seres vivos se caracterizan por: nutrición (obtienen y usan energía), relación (responden al entorno), reproducción (generan descendencia), crecimiento y organización celular. Todos están formados por células y tienen un ciclo de vida.', en:'Living things are characterised by: nutrition (obtain and use energy), response (react to the environment), reproduction (produce offspring), growth and cellular organisation. All are made of cells and have a life cycle.', ca:'Els éssers vius es caracteritzen per: nutrició (obtenen i usen energia), relació (responen a l\'entorn), reproducció (generen descendència), creixement i organització cel·lular. Tots estan formats per cèl·lules i tenen un cicle de vida.' },
+  ),
+  q('sv-02','primaria',
+    { es:'¿Cuántos reinos principales de seres vivos existen en la clasificación clásica de 5 reinos?', en:'How many main kingdoms of living things are there in the classic 5-kingdom classification?', ca:'Quants regnes principals d\'éssers vius hi ha en la classificació clàssica de 5 regnes?' },
+    { es:['3','4','5','6'], en:['3','4','5','6'], ca:['3','4','5','6'] },
+    { es:'5', en:'5', ca:'5' },
+    '🧬',
+    { es:'Los 5 reinos: Monera (bacterias, procariotas), Protista (algas unicelulares, protozoos), Fungi (hongos), Plantae (plantas) y Animalia (animales). Hoy se usan clasificaciones más modernas con dominios, pero los 5 reinos siguen en el currículo escolar.', en:'The 5 kingdoms: Monera (bacteria, prokaryotes), Protista (unicellular algae, protozoa), Fungi (fungi), Plantae (plants) and Animalia (animals). Modern classifications use domains, but the 5 kingdoms are still in the school curriculum.', ca:'Els 5 regnes: Monera (bacteris, procariotes), Protista (algues unicel·lulars, protozous), Fungi (fongs), Plantae (plantes) i Animalia (animals). Avui s\'usen classificacions més modernes amb dominis, però els 5 regnes continuen al currículum escolar.' },
+  ),
+  q('sv-03','primaria',
+    { es:'¿Cómo se llama la ciencia que clasifica y nombra a los seres vivos?', en:'What is the science of classifying and naming living things called?', ca:'Com s\'anomena la ciència que classifica i anomena els éssers vius?' },
+    { es:['Ecología','Taxonomía','Genética','Fisiología'], en:['Ecology','Taxonomy','Genetics','Physiology'], ca:['Ecologia','Taxonomia','Genètica','Fisiologia'] },
+    { es:'Taxonomía', en:'Taxonomy', ca:'Taxonomia' },
+    '🔬',
+    { es:'La taxonomía, fundada por Carl Linneo en el siglo XVIII, clasifica los seres vivos en categorías: dominio, reino, filo, clase, orden, familia, género y especie. El nombre científico usa el género y la especie (p. ej., Homo sapiens).', en:'Taxonomy, founded by Carl Linnaeus in the 18th century, classifies living things into categories: domain, kingdom, phylum, class, order, family, genus and species. The scientific name uses the genus and species (e.g. Homo sapiens).', ca:'La taxonomia, fundada per Carl Linneu al segle XVIII, classifica els éssers vius en categories: domini, regne, fílum, classe, ordre, família, gènere i espècie. El nom científic usa el gènere i l\'espècie (p. ex., Homo sapiens).' },
+  ),
+
+  // ── REINO ANIMAL ─────────────────────────────────────────────────────────────
+  q('sv-04','primaria',
+    { es:'¿Cuál es la principal diferencia entre vertebrados e invertebrados?', en:'What is the main difference between vertebrates and invertebrates?', ca:'Quina és la principal diferència entre vertebrats i invertebrats?' },
+    { es:['Los vertebrados viven en el agua y los invertebrados en tierra','Los vertebrados tienen columna vertebral y los invertebrados no','Los invertebrados son más grandes','Los vertebrados no tienen cabeza'], en:['Vertebrates live in water and invertebrates on land','Vertebrates have a backbone and invertebrates do not','Invertebrates are bigger','Vertebrates have no head'], ca:['Els vertebrats viuen a l\'aigua i els invertebrats a terra','Els vertebrats tenen columna vertebral i els invertebrats no','Els invertebrats són més grans','Els vertebrats no tenen cap'] },
+    { es:'Los vertebrados tienen columna vertebral y los invertebrados no', en:'Vertebrates have a backbone and invertebrates do not', ca:'Els vertebrats tenen columna vertebral i els invertebrats no' },
+    '🦴',
+    { es:'Vertebrados: peces, anfibios, reptiles, aves y mamíferos (todos tienen columna vertebral). Invertebrados: insectos, arácnidos, moluscos, gusanos, equinodermos... Representan el 95% de las especies animales conocidas.', en:'Vertebrates: fish, amphibians, reptiles, birds and mammals (all have a backbone). Invertebrates: insects, arachnids, molluscs, worms, echinoderms... They represent 95% of known animal species.', ca:'Vertebrats: peixos, amfibis, rèptils, ocells i mamífers (tots tenen columna vertebral). Invertebrats: insectes, aràcnids, mol·luscs, cucs, equinoderms... Representen el 95% de les espècies animals conegudes.' },
+  ),
+  q('sv-05','primaria',
+    { es:'¿Cuál de estos animales es un mamífero?', en:'Which of these animals is a mammal?', ca:'Quin d\'aquests animals és un mamífer?' },
+    { es:['Salamandra','Cocodrilo','Delfín','Pingüino'], en:['Salamander','Crocodile','Dolphin','Penguin'], ca:['Salamandra','Cocodril','Dofí','Pingüí'] },
+    { es:'Delfín', en:'Dolphin', ca:'Dofí' },
+    '🐬',
+    { es:'Los mamíferos se caracterizan por: amamantar a sus crías, tener pelo o pelaje, ser de sangre caliente (homeotermos) y respirar con pulmones. El delfín es un mamífero marino; el pingüino es un ave; la salamandra es un anfibio; el cocodrilo es un reptil.', en:'Mammals are characterised by: nursing their young, having hair or fur, being warm-blooded (homeothermic) and breathing with lungs. The dolphin is a marine mammal; the penguin is a bird; the salamander is an amphibian; the crocodile is a reptile.', ca:'Els mamífers es caracteritzen per: alletar les seves cries, tenir pèl o pelatge, ser de sang calenta (homeòterms) i respirar amb pulmons. El dofí és un mamífer marí; el pingüí és un ocell; la salamandra és un amfibi; el cocodril és un rèptil.' },
+  ),
+  q('sv-06','eso',
+    { es:'¿Qué diferencia a los anfibios de los reptiles?', en:'What distinguishes amphibians from reptiles?', ca:'Què diferencia els amfibis dels rèptils?' },
+    { es:['Los reptiles son acuáticos y los anfibios terrestres','Los anfibios tienen metamorfosis y piel húmeda; los reptiles tienen escamas y huevos con cáscara','Los anfibios son de sangre caliente','Los reptiles no tienen columna vertebral'], en:['Reptiles are aquatic and amphibians terrestrial','Amphibians have metamorphosis and moist skin; reptiles have scales and hard-shelled eggs','Amphibians are warm-blooded','Reptiles have no backbone'], ca:['Els rèptils són aquàtics i els amfibis terrestres','Els amfibis tenen metamorfosi i pell humida; els rèptils tenen escates i ous amb closca','Els amfibis són de sang calenta','Els rèptils no tenen columna vertebral'] },
+    { es:'Los anfibios tienen metamorfosis y piel húmeda; los reptiles tienen escamas y huevos con cáscara', en:'Amphibians have metamorphosis and moist skin; reptiles have scales and hard-shelled eggs', ca:'Els amfibis tenen metamorfosi i pell humida; els rèptils tenen escates i ous amb closca' },
+    '🐸',
+    { es:'Anfibios (rana, salamandra): piel húmeda sin escamas, larvas acuáticas (renacuajos), metamorfosis, huevos sin cáscara en el agua. Reptiles (lagarto, serpiente, cocodrilo): piel con escamas, huevos con cáscara, no necesitan agua para reproducirse.', en:'Amphibians (frog, salamander): moist skin without scales, aquatic larvae (tadpoles), metamorphosis, eggs without shell in water. Reptiles (lizard, snake, crocodile): scaly skin, shelled eggs, no water needed to reproduce.', ca:'Amfibis (granota, salamandra): pell humida sense escates, larves aquàtiques (capgrossos), metamorfosi, ous sense closca a l\'aigua. Rèptils (llangardaix, serp, cocodril): pell amb escates, ous amb closca, no necessiten aigua per reproduir-se.' },
+  ),
+
+  // ── REINO PLANTAE ────────────────────────────────────────────────────────────
+  q('sv-07','primaria',
+    { es:'¿Cómo se llama el proceso por el que las plantas producen su propio alimento usando la luz solar?', en:'What is the process called by which plants produce their own food using sunlight?', ca:'Com s\'anomena el procés pel qual les plantes produeixen el seu propi aliment usant la llum solar?' },
+    { es:['Respiración','Digestión','Fotosíntesis','Transpiración'], en:['Respiration','Digestion','Photosynthesis','Transpiration'], ca:['Respiració','Digestió','Fotosíntesi','Transpiració'] },
+    { es:'Fotosíntesis', en:'Photosynthesis', ca:'Fotosíntesi' },
+    '🌿',
+    { es:'Fotosíntesis: CO₂ + H₂O + luz solar → glucosa + O₂. Ocurre en los cloroplastos (que contienen clorofila, el pigmento verde). Las plantas son autótrofas: producen su propio alimento. Los animales son heterótrofos: necesitan comer a otros seres vivos.', en:'Photosynthesis: CO₂ + H₂O + sunlight → glucose + O₂. It occurs in chloroplasts (which contain chlorophyll, the green pigment). Plants are autotrophs: they produce their own food. Animals are heterotrophs: they need to eat other living things.', ca:'Fotosíntesi: CO₂ + H₂O + llum solar → glucosa + O₂. Es produeix als cloroplasts (que contenen clorofil·la, el pigment verd). Les plantes són autòtrofes: produeixen el seu propi aliment. Els animals són heteròtrofs: necessiten menjar altres éssers vius.' },
+  ),
+  q('sv-08','eso',
+    { es:'¿Cuál es la diferencia entre plantas angiospermas y gimnospermas?', en:'What is the difference between angiosperms and gymnosperms?', ca:'Quina és la diferència entre plantes angiospermes i gimnospermes?' },
+    { es:['Las angiospermas no tienen flores','Las angiospermas tienen semillas dentro de un fruto; las gimnospermas tienen semillas desnudas (piñas)','Las gimnospermas son más evolucionadas','Las angiospermas son solo árboles'], en:['Angiosperms have no flowers','Angiosperms have seeds inside a fruit; gymnosperms have naked seeds (cones)','Gymnosperms are more evolved','Angiosperms are only trees'], ca:['Les angiospermes no tenen flors','Les angiospermes tenen llavors dins d\'un fruit; les gimnospermes tenen llavors nues (pinyes)','Les gimnospermes són més evolucionades','Les angiospermes només són arbres'] },
+    { es:'Las angiospermas tienen semillas dentro de un fruto; las gimnospermas tienen semillas desnudas (piñas)', en:'Angiosperms have seeds inside a fruit; gymnosperms have naked seeds (cones)', ca:'Les angiospermes tenen llavors dins d\'un fruit; les gimnospermes tenen llavors nues (pinyes)' },
+    '🌲',
+    { es:'Gimnospermas: semillas desnudas en piñas o conos (pinos, abetos, cedros). Angiospermas: semillas protegidas dentro de un fruto; producen flores (manzano, rosal, trigo). Las angiospermas son las plantas con flor más abundantes de la Tierra.', en:'Gymnosperms: naked seeds in cones (pines, firs, cedars). Angiosperms: seeds protected inside a fruit; they produce flowers (apple tree, rose, wheat). Angiosperms are the most abundant flowering plants on Earth.', ca:'Gimnospermes: llavors nues en pinyes o cons (pins, avets, cedres). Angiospermes: llavors protegides dins d\'un fruit; produeixen flors (pomera, roser, blat). Les angiospermes són les plantes amb flor més abundants de la Terra.' },
+  ),
+
+  // ── REINO FUNGI Y MONERA ─────────────────────────────────────────────────────
+  q('sv-09','primaria',
+    { es:'¿Qué son los hongos y cómo se nutren?', en:'What are fungi and how do they feed?', ca:'Què són els fongs i com es nodreixen?' },
+    { es:['Son plantas que hacen la fotosíntesis','Son animales que cazan presas','Son seres vivos que se nutren descomponiendo materia orgánica (descomponedores)','Son bacterias que viven en el agua'], en:['They are plants that photosynthesise','They are animals that hunt prey','They are living things that feed by decomposing organic matter (decomposers)','They are bacteria that live in water'], ca:['Són plantes que fan la fotosíntesi','Són animals que cacen preses','Són éssers vius que es nodreixen descomponent matèria orgànica (descomponedors)','Són bacteris que viuen a l\'aigua'] },
+    { es:'Son seres vivos que se nutren descomponiendo materia orgánica (descomponedores)', en:'They are living things that feed by decomposing organic matter (decomposers)', ca:'Són éssers vius que es nodreixen descomponent matèria orgànica (descomponedors)' },
+    '🍄',
+    { es:'Los hongos (reino Fungi) no hacen fotosíntesis: son heterótrofos que descomponen materia orgánica muerta. Son fundamentales en los ecosistemas reciclando nutrientes. Ejemplos: setas, levaduras (para el pan y la cerveza), mohos. Algunos son parásitos.', en:'Fungi do not photosynthesise: they are heterotrophs that decompose dead organic matter. They are fundamental in ecosystems by recycling nutrients. Examples: mushrooms, yeasts (for bread and beer), moulds. Some are parasites.', ca:'Els fongs no fan fotosíntesi: són heteròtrofs que descomponen matèria orgànica morta. Són fonamentals en els ecosistemes reciclant nutrients. Exemples: bolets, llevats (per al pa i la cervesa), floridures. Alguns són paràsits.' },
+  ),
+  q('sv-10','eso',
+    { es:'¿Cuál es la principal diferencia entre células procariotas y eucariotas?', en:'What is the main difference between prokaryotic and eukaryotic cells?', ca:'Quina és la principal diferència entre cèl·lules procariotes i eucariotes?' },
+    { es:['Las procariotas son más grandes','Las eucariotas no tienen membrana celular','Las procariotas no tienen núcleo definido; las eucariotas sí','Las eucariotas no tienen ADN'], en:['Prokaryotes are bigger','Eukaryotes have no cell membrane','Prokaryotes have no defined nucleus; eukaryotes do','Eukaryotes have no DNA'], ca:['Les procariotes són més grans','Les eucariotes no tenen membrana cel·lular','Les procariotes no tenen nucli definit; les eucariotes sí','Les eucariotes no tenen ADN'] },
+    { es:'Las procariotas no tienen núcleo definido; las eucariotas sí', en:'Prokaryotes have no defined nucleus; eukaryotes do', ca:'Les procariotes no tenen nucli definit; les eucariotes sí' },
+    '🔬',
+    { es:'Procariotas (reino Monera — bacterias): sin núcleo definido, ADN disperso en el citoplasma, sin orgánulos membranosos. Eucariotas (animales, plantas, hongos, protistas): núcleo con membrana nuclear, orgánulos como mitocondrias y cloroplastos.', en:'Prokaryotes (kingdom Monera — bacteria): no defined nucleus, DNA scattered in the cytoplasm, no membrane-bound organelles. Eukaryotes (animals, plants, fungi, protists): nucleus with nuclear membrane, organelles such as mitochondria and chloroplasts.', ca:'Procariotes (regne Monera — bacteris): sense nucli definit, ADN dispers al citoplasma, sense orgànuls membranosos. Eucariotes (animals, plantes, fongs, protistes): nucli amb membrana nuclear, orgànuls com mitocondris i cloroplasts.' },
+  ),
+  q('sv-11','eso',
+    { es:'¿Qué tipo de reproducción produce descendientes genéticamente idénticos al progenitor?', en:'Which type of reproduction produces offspring genetically identical to the parent?', ca:'Quin tipus de reproducció produeix descendents genèticament idèntics al progenitor?' },
+    { es:['Reproducción sexual','Reproducción asexual','Reproducción ovípara','Reproducción vivípara'], en:['Sexual reproduction','Asexual reproduction','Oviparous reproduction','Viviparous reproduction'], ca:['Reproducció sexual','Reproducció asexual','Reproducció ovípara','Reproducció vivípara'] },
+    { es:'Reproducción asexual', en:'Asexual reproduction', ca:'Reproducció asexual' },
+    '🧬',
+    { es:'Reproducción asexual (un solo progenitor): gemación, fragmentación, esporulación, partenogénesis. Los descendientes son clones (idénticos). Reproducción sexual (dos progenitores): hay fecundación, mezcla de genes → variabilidad genética. Favorece la adaptación y la evolución.', en:'Asexual reproduction (single parent): budding, fragmentation, sporulation, parthenogenesis. Offspring are clones (identical). Sexual reproduction (two parents): fertilisation occurs, mixing of genes → genetic variability. Favours adaptation and evolution.', ca:'Reproducció asexual (un sol progenitor): gemació, fragmentació, esporulació, partenogènesi. Els descendents són clons (idèntics). Reproducció sexual (dos progenitors): hi ha fecundació, mescla de gens → variabilitat genètica. Afavoreix l\'adaptació i l\'evolució.' },
+  ),
+]
+
+export const PREGUNTAS_PRIMARIA = PREGUNTAS.filter(p => p.nivel === 'primaria')
+export const PREGUNTAS_ESO      = PREGUNTAS

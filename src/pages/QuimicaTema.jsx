@@ -11,6 +11,11 @@ const TEMAS_META = {
     'atomos-moleculas':  { titulo: 'Átomos y Moléculas',   emoji: '⚛️', descripcion: 'Estructura atómica, partículas subatómicas, elementos y compuestos.' },
     'sistema-solar':     { titulo: 'Sistema Solar',        emoji: '🌍', descripcion: 'Planetas, astros, movimientos de traslación y rotación, y características del sistema solar.' },
     'celula':            { titulo: 'La Célula',            emoji: '🔬', descripcion: 'Tipos de célula, orgánulos, membrana, fotosíntesis y división celular.' },
+    'cuerpo-humano':     { titulo: 'Cuerpo Humano',        emoji: '🫀', descripcion: 'Sistemas digestivo, circulatorio, respiratorio y nervioso. Órganos y funciones.' },
+    'seres-vivos':       { titulo: 'Seres Vivos',          emoji: '🌱', descripcion: 'Los 5 reinos, clasificación, vertebrados, invertebrados, reproducción y fotosíntesis.' },
+    'ecosistemas':       { titulo: 'Ecosistemas',          emoji: '🌍', descripcion: 'Cadenas tróficas, biomas, adaptaciones, relaciones entre especies y biodiversidad.' },
+    'genetica':          { titulo: 'Genética',             emoji: '🧬', descripcion: 'ADN, genes, cromosomas, leyes de Mendel, mutaciones e ingeniería genética.' },
+    'nutricion':         { titulo: 'Nutrición',            emoji: '🥗', descripcion: 'Macronutrientes, vitaminas, minerales, dieta mediterránea y alimentación saludable.' },
   },
   en: {
     'tabla-periodica':   { titulo: 'Periodic Table',       emoji: '⚗️', descripcion: 'Symbols, names, atomic numbers, groups and types of chemical elements.' },
@@ -20,6 +25,11 @@ const TEMAS_META = {
     'atomos-moleculas':  { titulo: 'Atoms & Molecules',    emoji: '⚛️', descripcion: 'Atomic structure, subatomic particles, elements and compounds.' },
     'sistema-solar':     { titulo: 'Solar System',         emoji: '🌍', descripcion: 'Planets, celestial bodies, orbital and rotational movements, and solar system features.' },
     'celula':            { titulo: 'The Cell',             emoji: '🔬', descripcion: 'Cell types, organelles, membrane, photosynthesis and cell division.' },
+    'cuerpo-humano':     { titulo: 'Human Body',           emoji: '🫀', descripcion: 'Digestive, circulatory, respiratory and nervous systems. Organs and functions.' },
+    'seres-vivos':       { titulo: 'Living Things',        emoji: '🌱', descripcion: 'The 5 kingdoms, classification, vertebrates, invertebrates, reproduction and photosynthesis.' },
+    'ecosistemas':       { titulo: 'Ecosystems',           emoji: '🌍', descripcion: 'Food chains, biomes, adaptations, species relationships and biodiversity.' },
+    'genetica':          { titulo: 'Genetics',             emoji: '🧬', descripcion: 'DNA, genes, chromosomes, Mendel\'s laws, mutations and genetic engineering.' },
+    'nutricion':         { titulo: 'Nutrition',            emoji: '🥗', descripcion: 'Macronutrients, vitamins, minerals, Mediterranean diet and healthy eating.' },
   },
   ca: {
     'tabla-periodica':   { titulo: 'Taula Periòdica',      emoji: '⚗️', descripcion: 'Símbols, noms, números atòmics, grups i tipus dels elements químics.' },
@@ -29,6 +39,11 @@ const TEMAS_META = {
     'atomos-moleculas':  { titulo: 'Àtoms i Molècules',    emoji: '⚛️', descripcion: 'Estructura atòmica, partícules subatòmiques, elements i compostos.' },
     'sistema-solar':     { titulo: 'Sistema Solar',        emoji: '🌍', descripcion: 'Planetes, astres, moviments de translació i rotació, i característiques del sistema solar.' },
     'celula':            { titulo: 'La Cèl·lula',          emoji: '🔬', descripcion: 'Tipus de cèl·lula, orgànuls, membrana, fotosíntesi i divisió cel·lular.' },
+    'cuerpo-humano':     { titulo: 'Cos Humà',             emoji: '🫀', descripcion: 'Sistemes digestiu, circulatori, respiratori i nerviós. Òrgans i funcions.' },
+    'seres-vivos':       { titulo: 'Éssers Vius',          emoji: '🌱', descripcion: 'Els 5 regnes, classificació, vertebrats, invertebrats, reproducció i fotosíntesi.' },
+    'ecosistemas':       { titulo: 'Ecosistemes',          emoji: '🌍', descripcion: 'Cadenes tròfiques, biomes, adaptacions, relacions entre espècies i biodiversitat.' },
+    'genetica':          { titulo: 'Genètica',             emoji: '🧬', descripcion: 'ADN, gens, cromosomes, lleis de Mendel, mutacions i enginyeria genètica.' },
+    'nutricion':         { titulo: 'Nutrició',             emoji: '🥗', descripcion: 'Macronutrients, vitamines, minerals, dieta mediterrània i alimentació saludable.' },
   },
 }
 
@@ -105,6 +120,51 @@ const MODOS_POR_TEMA = {
       descripcion: { es:'Células procariotas y eucariotas, orgánulos, diferencias animal/vegetal, fotosíntesis y división celular.', en:'Prokaryotic and eukaryotic cells, organelles, animal/plant differences, photosynthesis and cell division.', ca:'Cèl·lules procariotes i eucariotes, orgànuls, diferències animal/vegetal, fotosíntesi i divisió cel·lular.' },
       detalles: { es:['1 nivel (ESO)','10 preguntas','Opción múltiple','Explicación tras cada respuesta'], en:['1 level (Secondary)','10 questions','Multiple choice','Explanation after each answer'], ca:['1 nivell (ESO)','10 preguntes','Opció múltiple','Explicació després de cada resposta'] },
       path: 'celula',
+    },
+  ],
+  'cuerpo-humano': [
+    {
+      id: 'examen', emoji: '📝', gradient: 'from-red-500 to-rose-700',
+      titulo: { es:'Examen', en:'Exam', ca:'Examen' },
+      descripcion: { es:'Sistemas digestivo, circulatorio, respiratorio y nervioso. Órganos, funciones y procesos clave.', en:'Digestive, circulatory, respiratory and nervous systems. Organs, functions and key processes.', ca:'Sistemes digestiu, circulatori, respiratori i nerviós. Òrgans, funcions i processos clau.' },
+      detalles: { es:['2 niveles','10 preguntas','Opción múltiple','Explicación tras cada respuesta'], en:['2 levels','10 questions','Multiple choice','Explanation after each answer'], ca:['2 nivells','10 preguntes','Opció múltiple','Explicació després de cada resposta'] },
+      path: 'cuerpo-humano',
+    },
+  ],
+  'seres-vivos': [
+    {
+      id: 'examen', emoji: '📝', gradient: 'from-emerald-500 to-green-700',
+      titulo: { es:'Examen', en:'Exam', ca:'Examen' },
+      descripcion: { es:'Los 5 reinos, clasificación de animales, plantas, hongos y bacterias. Vertebrados e invertebrados.', en:'The 5 kingdoms, classification of animals, plants, fungi and bacteria. Vertebrates and invertebrates.', ca:'Els 5 regnes, classificació d\'animals, plantes, fongs i bacteris. Vertebrats i invertebrats.' },
+      detalles: { es:['2 niveles','10 preguntas','Opción múltiple','Explicación tras cada respuesta'], en:['2 levels','10 questions','Multiple choice','Explanation after each answer'], ca:['2 nivells','10 preguntes','Opció múltiple','Explicació després de cada resposta'] },
+      path: 'seres-vivos',
+    },
+  ],
+  'ecosistemas': [
+    {
+      id: 'examen', emoji: '📝', gradient: 'from-teal-500 to-emerald-700',
+      titulo: { es:'Examen', en:'Exam', ca:'Examen' },
+      descripcion: { es:'Cadenas y redes tróficas, biomas del planeta, adaptaciones animales y relaciones entre especies.', en:'Food chains and webs, planet biomes, animal adaptations and species relationships.', ca:'Cadenes i xarxes tròfiques, biomes del planeta, adaptacions animals i relacions entre espècies.' },
+      detalles: { es:['2 niveles','10 preguntas','Opción múltiple','Explicación tras cada respuesta'], en:['2 levels','10 questions','Multiple choice','Explanation after each answer'], ca:['2 nivells','10 preguntes','Opció múltiple','Explicació després de cada resposta'] },
+      path: 'ecosistemas',
+    },
+  ],
+  'genetica': [
+    {
+      id: 'examen', emoji: '📝', gradient: 'from-purple-500 to-violet-700',
+      titulo: { es:'Examen', en:'Exam', ca:'Examen' },
+      descripcion: { es:'ADN, cromosomas, genes, leyes de Mendel, mutaciones, ingeniería genética y clonación.', en:'DNA, chromosomes, genes, Mendel\'s laws, mutations, genetic engineering and cloning.', ca:'ADN, cromosomes, gens, lleis de Mendel, mutacions, enginyeria genètica i clonació.' },
+      detalles: { es:['1 nivel (ESO)','10 preguntas','Opción múltiple','Explicación tras cada respuesta'], en:['1 level (Secondary)','10 questions','Multiple choice','Explanation after each answer'], ca:['1 nivell (ESO)','10 preguntes','Opció múltiple','Explicació després de cada resposta'] },
+      path: 'genetica',
+    },
+  ],
+  'nutricion': [
+    {
+      id: 'examen', emoji: '📝', gradient: 'from-lime-500 to-green-600',
+      titulo: { es:'Examen', en:'Exam', ca:'Examen' },
+      descripcion: { es:'Macronutrientes, vitaminas liposolubles e hidrosolubles, dieta mediterránea y alimentación saludable.', en:'Macronutrients, fat-soluble and water-soluble vitamins, Mediterranean diet and healthy eating.', ca:'Macronutrients, vitamines liposolubles i hidrosolubles, dieta mediterrània i alimentació saludable.' },
+      detalles: { es:['2 niveles','10 preguntas','Opción múltiple','Explicación tras cada respuesta'], en:['2 levels','10 questions','Multiple choice','Explanation after each answer'], ca:['2 nivells','10 preguntes','Opció múltiple','Explicació després de cada resposta'] },
+      path: 'nutricion',
     },
   ],
 }
