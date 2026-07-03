@@ -23,7 +23,7 @@ const TEMAS = [
     id: 'europa',
     titulo: 'Europa', tituloEn: 'Europe', tituloCa: 'Europa',
     subtitulo: 'De Islandia a Chipre', subtituloEn: 'From Iceland to Cyprus', subtituloCa: "D'Islàndia a Xipre",
-    emoji: '🇪🇺', gradient: 'from-teal-500 to-cyan-700',
+    emoji: '🌍', gradient: 'from-teal-500 to-cyan-700',
     tags: ['europa', 'europe', 'países europeos', 'balcanes', 'escandinavia'],
     niveles: ['eso'],
   },

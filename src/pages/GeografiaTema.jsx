@@ -14,7 +14,7 @@ const REGION_FILTER = {
 
 const TEMAS_META = {
   es: {
-    europa:  { titulo: 'Europa',          emoji: '🇪🇺', descripcion: 'De Islandia a Chipre, pasando por los Balcanes y Escandinavia.' },
+    europa:  { titulo: 'Europa',          emoji: '🌍', descripcion: 'De Islandia a Chipre, pasando por los Balcanes y Escandinavia.' },
     america: { titulo: 'América',         emoji: '🌎', descripcion: 'Del Canadá a la Patagonia. Norte, Centro y Sudamérica.' },
     asia:    { titulo: 'Asia',            emoji: '🌏', descripcion: 'El continente más grande y diverso. De Japón a Turquía.' },
     africa:  { titulo: 'África',          emoji: '🌍', descripcion: 'De Marruecos a Sudáfrica. El continente más variado del planeta.' },
@@ -23,7 +23,7 @@ const TEMAS_META = {
     eeuu:    { titulo: 'Estados Unidos',  emoji: '🗽', descripcion: 'Los 50 estados americanos. ¿Los identificas todos en el mapa?' },
   },
   en: {
-    europa:  { titulo: 'Europe',          emoji: '🇪🇺', descripcion: 'From Iceland to Cyprus, through the Balkans and Scandinavia.' },
+    europa:  { titulo: 'Europe',          emoji: '🌍', descripcion: 'From Iceland to Cyprus, through the Balkans and Scandinavia.' },
     america: { titulo: 'The Americas',    emoji: '🌎', descripcion: 'From Canada to Patagonia. North, Central and South America.' },
     asia:    { titulo: 'Asia',            emoji: '🌏', descripcion: 'The largest and most diverse continent. From Japan to Turkey.' },
     africa:  { titulo: 'Africa',          emoji: '🌍', descripcion: 'From Morocco to South Africa. The most varied continent on the planet.' },
@@ -32,7 +32,7 @@ const TEMAS_META = {
     eeuu:    { titulo: 'United States',   emoji: '🗽', descripcion: 'All 50 US states. Can you identify them all?' },
   },
   ca: {
-    europa:  { titulo: 'Europa',          emoji: '🇪🇺', descripcion: 'D\'Islàndia a Xipre, passant pels Balcans i Escandinàvia.' },
+    europa:  { titulo: 'Europa',          emoji: '🌍', descripcion: 'D\'Islàndia a Xipre, passant pels Balcans i Escandinàvia.' },
     america: { titulo: 'Amèrica',         emoji: '🌎', descripcion: 'Del Canadà a la Patagònia. Nord, Centre i Sudamèrica.' },
     asia:    { titulo: 'Àsia',            emoji: '🌏', descripcion: 'El continent més gran i divers. Del Japó a Turquia.' },
     africa:  { titulo: 'Àfrica',          emoji: '🌍', descripcion: 'Del Marroc a Sud-àfrica. El continent més variat del planeta.' },

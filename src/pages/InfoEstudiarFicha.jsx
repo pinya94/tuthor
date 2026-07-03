@@ -843,7 +843,7 @@ const FICHAS_ES = {
   'geografia-europa': {
     titulo: 'Geografía de Europa — Capitales y Países',
     subtitulo: 'Examen Interactivo: Identifica los Países Europeos por Pistas Progresivas',
-    emoji: '🇪🇺', gradient: 'from-blue-600 to-indigo-800',
+    emoji: '🌍', gradient: 'from-blue-600 to-indigo-800',
     examPath: '/estudiar/geografia/europa',
     studyPath: '/estudiar/geografia/europa',
     asignatura: 'Geografía', niveles: 'Primaria, ESO',
@@ -2090,7 +2090,7 @@ const FICHAS_EN = {
   'geografia-europa': {
     titulo: 'Geography of Europe — Countries and Capitals',
     subtitulo: 'Interactive Exam: Identify European Countries from Progressive Clues',
-    emoji: '🇪🇺', gradient: 'from-blue-600 to-indigo-800',
+    emoji: '🌍', gradient: 'from-blue-600 to-indigo-800',
     examPath: '/estudiar/geografia/europa',
     studyPath: '/estudiar/geografia/europa',
     asignatura: 'Geography', niveles: 'Primary, Secondary',
@@ -3341,7 +3341,7 @@ const FICHAS_CA = {
   'geografia-europa': {
     titulo: 'Geografia d\'Europa — Capitals i Països',
     subtitulo: 'Examen Interactiu: Identifica els Països Europeus amb Pistes Progressives',
-    emoji: '🇪🇺', gradient: 'from-blue-600 to-indigo-800',
+    emoji: '🌍', gradient: 'from-blue-600 to-indigo-800',
     examPath: '/estudiar/geografia/europa',
     studyPath: '/estudiar/geografia/europa',
     asignatura: 'Geografia', niveles: 'Primària, ESO',
