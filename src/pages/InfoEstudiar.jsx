@@ -26,6 +26,10 @@ const DATA = {
           { nombre: 'Multiplicación', desc: 'Combina multiplicaciones con sumas y restas.', slug: 'matematicas-multiplicacion' },
           { nombre: 'División', desc: 'Descompón números usando divisiones exactas.', slug: 'matematicas-division' },
           { nombre: 'Geometría', desc: 'Ángulos, áreas, perímetros, Pitágoras y volúmenes.', slug: 'geometria' },
+          { nombre: 'Fracciones y Decimales', desc: 'Operaciones con fracciones, decimales y porcentajes.', slug: 'fracciones' },
+          { nombre: 'Estadística y Probabilidad', desc: 'Media, mediana, moda y cálculo de probabilidades.', slug: 'estadistica' },
+          { nombre: 'Números Enteros y Racionales', desc: 'Enteros negativos, valor absoluto y racionales. ESO.', slug: 'enteros-racionales' },
+          { nombre: 'Álgebra', desc: 'Ecuaciones de 1.º y 2.º grado y sistemas. ESO.', slug: 'algebra' },
         ],
       },
       {
@@ -63,6 +67,14 @@ const DATA = {
           { nombre: 'Ondas y Luz', desc: 'Sonido, espectro, reflexión y refracción.', slug: 'ondas-luz' },
         ],
       },
+      {
+        titulo: 'Idiomas', emoji: '🗣️',
+        texto: 'Exámenes de gramática y ortografía en español e inglés adaptados al currículum oficial de Primaria y ESO.',
+        temas: [
+          { nombre: 'Español', desc: 'Gramática, ortografía, categorías gramaticales y sintaxis.', slug: 'espanol' },
+          { nombre: 'English', desc: 'Tenses, passive voice, phrasal verbs and relative clauses.', slug: 'ingles' },
+        ],
+      },
     ],
   },
   en: {
@@ -89,6 +101,10 @@ const DATA = {
           { nombre: 'Multiplication', desc: 'Combine multiplication with addition and subtraction.', slug: 'matematicas-multiplicacion' },
           { nombre: 'Division', desc: 'Break down numbers using exact divisions.', slug: 'matematicas-division' },
           { nombre: 'Geometry', desc: 'Angles, areas, perimeters, Pythagoras and volumes.', slug: 'geometria' },
+          { nombre: 'Fractions and Decimals', desc: 'Operations with fractions, decimals and percentages.', slug: 'fracciones' },
+          { nombre: 'Statistics and Probability', desc: 'Mean, median, mode and probability calculations.', slug: 'estadistica' },
+          { nombre: 'Integers and Rationals', desc: 'Negative integers, absolute value and rationals. Secondary.', slug: 'enteros-racionales' },
+          { nombre: 'Algebra', desc: '1st and 2nd degree equations and systems. Secondary.', slug: 'algebra' },
         ],
       },
       {
@@ -126,6 +142,14 @@ const DATA = {
           { nombre: 'Waves and Light', desc: 'Sound, spectrum, reflection and refraction.', slug: 'ondas-luz' },
         ],
       },
+      {
+        titulo: 'Languages', emoji: '🗣️',
+        texto: 'Grammar and spelling exams in Spanish and English aligned to the official Primary and Secondary curriculum.',
+        temas: [
+          { nombre: 'Spanish', desc: 'Grammar, spelling, word classes and syntax.', slug: 'espanol' },
+          { nombre: 'English', desc: 'Tenses, passive voice, phrasal verbs and relative clauses.', slug: 'ingles' },
+        ],
+      },
     ],
   },
   ca: {
@@ -152,6 +176,10 @@ const DATA = {
           { nombre: 'Multiplicació', desc: 'Combina multiplicacions amb sumes i restes.', slug: 'matematicas-multiplicacion' },
           { nombre: 'Divisió', desc: 'Descompon números fent servir divisions exactes.', slug: 'matematicas-division' },
           { nombre: 'Geometria', desc: 'Angles, àrees, perímetres, Pitàgores i volums.', slug: 'geometria' },
+          { nombre: 'Fraccions i Decimals', desc: 'Operacions amb fraccions, decimals i percentatges.', slug: 'fracciones' },
+          { nombre: 'Estadística i Probabilitat', desc: 'Mitjana, mediana, moda i càlcul de probabilitats.', slug: 'estadistica' },
+          { nombre: 'Nombres Enters i Racionals', desc: 'Enters negatius, valor absolut i racionals. ESO.', slug: 'enteros-racionales' },
+          { nombre: 'Àlgebra', desc: 'Equacions de 1r i 2n grau i sistemes. ESO.', slug: 'algebra' },
         ],
       },
       {
@@ -187,6 +215,14 @@ const DATA = {
           { nombre: 'Energia', desc: 'Tipus, transformacions i fonts renovables.', slug: 'energia' },
           { nombre: 'Electricitat', desc: 'Circuits, corrent i magnituds elèctriques.', slug: 'electricidad' },
           { nombre: 'Ones i Llum', desc: 'So, espectre, reflexió i refracció.', slug: 'ondas-luz' },
+        ],
+      },
+      {
+        titulo: 'Idiomes', emoji: '🗣️',
+        texto: 'Exàmens de gramàtica i ortografia en espanyol i anglès adaptats al currículum oficial de Primària i ESO.',
+        temas: [
+          { nombre: 'Espanyol', desc: 'Gramàtica, ortografia, categories gramaticals i sintaxi.', slug: 'espanol' },
+          { nombre: 'English', desc: 'Tenses, passive voice, phrasal verbs and relative clauses.', slug: 'ingles' },
         ],
       },
     ],

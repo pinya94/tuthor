@@ -13,6 +13,30 @@ const EXTRAS = [
     emoji: '📐', gradient: 'from-pink-500 to-rose-700',
     tags: ['area', 'perimetro', 'pitagoras', 'angulos', 'volumen', 'triangulo'],
   },
+  {
+    id: 'fracciones',
+    titulo: 'Fracciones y Decimales', tituloEn: 'Fractions and Decimals', tituloCa: 'Fraccions i Decimals',
+    emoji: '🍕', gradient: 'from-blue-500 to-indigo-600',
+    tags: ['fraccion', 'decimal', 'porcentaje', 'equivalente', 'simplificar'],
+  },
+  {
+    id: 'estadistica',
+    titulo: 'Estadística y Probabilidad', tituloEn: 'Statistics and Probability', tituloCa: 'Estadística i Probabilitat',
+    emoji: '📊', gradient: 'from-purple-500 to-violet-600',
+    tags: ['media', 'mediana', 'moda', 'probabilidad', 'grafico', 'datos'],
+  },
+  {
+    id: 'enteros-racionales',
+    titulo: 'Números Enteros y Racionales', tituloEn: 'Integers and Rationals', tituloCa: 'Nombres Enters i Racionals',
+    emoji: '🔢', gradient: 'from-slate-500 to-gray-700',
+    tags: ['entero', 'negativo', 'valor absoluto', 'racional', 'signos'],
+  },
+  {
+    id: 'algebra',
+    titulo: 'Álgebra', tituloEn: 'Algebra', tituloCa: 'Àlgebra',
+    emoji: '🔣', gradient: 'from-red-500 to-rose-700',
+    tags: ['ecuacion', 'variable', 'monomio', 'sistema', 'cuadratica'],
+  },
 ]
 
 export default function MatematicasIndex() {

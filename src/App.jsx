@@ -71,6 +71,30 @@ const FuerzasExamen          = lazy(() => import('./pages/FuerzasExamen'))
 const EnergiaExamen          = lazy(() => import('./pages/EnergiaExamen'))
 const ElectricidadExamen     = lazy(() => import('./pages/ElectricidadExamen'))
 const OndasLuzExamen         = lazy(() => import('./pages/OndasLuzExamen'))
+const FraccionesExamen       = lazy(() => import('./pages/FraccionesExamen'))
+const EstadisticaExamen      = lazy(() => import('./pages/EstadisticaExamen'))
+const EnterosRacionalesExamen = lazy(() => import('./pages/EnterosRacionalesExamen'))
+const AlgebraExamen          = lazy(() => import('./pages/AlgebraExamen'))
+const FraccionesTema         = lazy(() => import('./pages/FraccionesTema'))
+const EstadisticaTema        = lazy(() => import('./pages/EstadisticaTema'))
+const EnterosRacionalesTema  = lazy(() => import('./pages/EnterosRacionalesTema'))
+const AlgebraTema            = lazy(() => import('./pages/AlgebraTema'))
+const IdiomasIndex           = lazy(() => import('./pages/IdiomasIndex'))
+const EspanolIndex           = lazy(() => import('./pages/EspanolIndex'))
+const EspanolGramaticaIndex  = lazy(() => import('./pages/EspanolGramaticaIndex'))
+const EspanolOrtografiaIndex = lazy(() => import('./pages/EspanolOrtografiaIndex'))
+const InglesIndex            = lazy(() => import('./pages/InglesIndex'))
+const InglesGrammarIndex     = lazy(() => import('./pages/InglesGrammarIndex'))
+const InglesGrammarPresentSimpleExamen  = lazy(() => import('./pages/InglesGrammarPresentSimpleExamen'))
+const InglesGrammarPastSimpleExamen     = lazy(() => import('./pages/InglesGrammarPastSimpleExamen'))
+const InglesGrammarPresentPerfectExamen = lazy(() => import('./pages/InglesGrammarPresentPerfectExamen'))
+const InglesGrammarArticlesExamen       = lazy(() => import('./pages/InglesGrammarArticlesExamen'))
+const InglesGrammarPassiveExamen        = lazy(() => import('./pages/InglesGrammarPassiveExamen'))
+const EspanolGramaticaSustantivosExamen = lazy(() => import('./pages/EspanolGramaticaSustantivosExamen'))
+const EspanolGramaticaVerbosExamen      = lazy(() => import('./pages/EspanolGramaticaVerbosExamen'))
+const EspanolOrtografiaAcentuacionExamen = lazy(() => import('./pages/EspanolOrtografiaAcentuacionExamen'))
+const EspanolOrtografiaBVExamen         = lazy(() => import('./pages/EspanolOrtografiaBVExamen'))
+const EspanolGramaticaSintaxisExamen    = lazy(() => import('./pages/EspanolGramaticaSintaxisExamen'))
 
 function PageLoader() {
   return (
@@ -92,6 +116,10 @@ function AppRoutes() {
       <Route path="estudiar/matematicas" element={<MatematicasIndex />} />
       <Route path="estudiar/matematicas/funciones" element={<FuncionesTema />} />
       <Route path="estudiar/matematicas/geometria" element={<GeometriaTema />} />
+      <Route path="estudiar/matematicas/fracciones" element={<FraccionesTema />} />
+      <Route path="estudiar/matematicas/estadistica" element={<EstadisticaTema />} />
+      <Route path="estudiar/matematicas/enteros-racionales" element={<EnterosRacionalesTema />} />
+      <Route path="estudiar/matematicas/algebra" element={<AlgebraTema />} />
       <Route path="estudiar/matematicas/:modo" element={<MatematicasTema />} />
       <Route path="estudiar/matematicas/:modo/jugar" element={<MatematicasPractica />} />
       <Route path="estudiar/matematicas/:modo/examen" element={<ExamenMatematicas />} />
@@ -132,6 +160,28 @@ function AppRoutes() {
       <Route path="examen/energia"         element={<EnergiaExamen />} />
       <Route path="examen/electricidad"    element={<ElectricidadExamen />} />
       <Route path="examen/ondas-luz"       element={<OndasLuzExamen />} />
+      <Route path="examen/fracciones"      element={<FraccionesExamen />} />
+      <Route path="examen/estadistica"     element={<EstadisticaExamen />} />
+      <Route path="examen/enteros-racionales" element={<EnterosRacionalesExamen />} />
+      <Route path="examen/algebra"         element={<AlgebraExamen />} />
+
+      {/* ── IDIOMAS ── */}
+      <Route path="estudiar/idiomas"                          element={<IdiomasIndex />} />
+      <Route path="estudiar/idiomas/espanol"                  element={<EspanolIndex />} />
+      <Route path="estudiar/idiomas/espanol/gramatica"        element={<EspanolGramaticaIndex />} />
+      <Route path="estudiar/idiomas/espanol/ortografia"       element={<EspanolOrtografiaIndex />} />
+      <Route path="estudiar/idiomas/ingles"                   element={<InglesIndex />} />
+      <Route path="estudiar/idiomas/ingles/grammar"           element={<InglesGrammarIndex />} />
+      <Route path="examen/ingles-grammar-present-simple-test"  element={<InglesGrammarPresentSimpleExamen />} />
+      <Route path="examen/ingles-grammar-past-simple-test"     element={<InglesGrammarPastSimpleExamen />} />
+      <Route path="examen/ingles-grammar-present-perfect-test" element={<InglesGrammarPresentPerfectExamen />} />
+      <Route path="examen/ingles-grammar-articles-test"        element={<InglesGrammarArticlesExamen />} />
+      <Route path="examen/ingles-grammar-passive-test"         element={<InglesGrammarPassiveExamen />} />
+      <Route path="examen/espanol-gramatica-sustantivos-test"  element={<EspanolGramaticaSustantivosExamen />} />
+      <Route path="examen/espanol-gramatica-verbos-test"       element={<EspanolGramaticaVerbosExamen />} />
+      <Route path="examen/espanol-ortografia-acentuacion-test" element={<EspanolOrtografiaAcentuacionExamen />} />
+      <Route path="examen/espanol-ortografia-bv-test"          element={<EspanolOrtografiaBVExamen />} />
+      <Route path="examen/espanol-gramatica-sintaxis-test"     element={<EspanolGramaticaSintaxisExamen />} />
 
       {/* ── GEOGRAFÍA ── */}
       <Route path="estudiar/geografia" element={<GeografiaIndex />} />
