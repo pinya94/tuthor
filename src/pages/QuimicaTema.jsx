@@ -16,6 +16,10 @@ const TEMAS_META = {
     'ecosistemas':       { titulo: 'Ecosistemas',          emoji: '🌍', descripcion: 'Cadenas tróficas, biomas, adaptaciones, relaciones entre especies y biodiversidad.' },
     'genetica':          { titulo: 'Genética',             emoji: '🧬', descripcion: 'ADN, genes, cromosomas, leyes de Mendel, mutaciones e ingeniería genética.' },
     'nutricion':         { titulo: 'Nutrición',            emoji: '🥗', descripcion: 'Macronutrientes, vitaminas, minerales, dieta mediterránea y alimentación saludable.' },
+    'fuerzas':           { titulo: 'Fuerzas y Movimiento', emoji: '⚡', descripcion: 'Leyes de Newton, masa, peso, velocidad, gravedad, rozamiento y presión.' },
+    'energia':           { titulo: 'Energía',              emoji: '🔋', descripcion: 'Energía cinética, potencial, térmica, renovable y rendimiento energético.' },
+    'electricidad':      { titulo: 'Electricidad',         emoji: '💡', descripcion: 'Corriente eléctrica, circuitos, ley de Ohm, conductores, magnetismo y electroimanes.' },
+    'ondas-luz':         { titulo: 'Ondas y Luz',          emoji: '🌊', descripcion: 'Ondas mecánicas, sonido, luz, reflexión, refracción y espectro electromagnético.' },
   },
   en: {
     'tabla-periodica':   { titulo: 'Periodic Table',       emoji: '⚗️', descripcion: 'Symbols, names, atomic numbers, groups and types of chemical elements.' },
@@ -30,6 +34,10 @@ const TEMAS_META = {
     'ecosistemas':       { titulo: 'Ecosystems',           emoji: '🌍', descripcion: 'Food chains, biomes, adaptations, species relationships and biodiversity.' },
     'genetica':          { titulo: 'Genetics',             emoji: '🧬', descripcion: 'DNA, genes, chromosomes, Mendel\'s laws, mutations and genetic engineering.' },
     'nutricion':         { titulo: 'Nutrition',            emoji: '🥗', descripcion: 'Macronutrients, vitamins, minerals, Mediterranean diet and healthy eating.' },
+    'fuerzas':           { titulo: 'Forces and Motion',    emoji: '⚡', descripcion: 'Newton\'s laws, mass, weight, speed, gravity, friction and pressure.' },
+    'energia':           { titulo: 'Energy',               emoji: '🔋', descripcion: 'Kinetic, potential, thermal and renewable energy, power and efficiency.' },
+    'electricidad':      { titulo: 'Electricity',          emoji: '💡', descripcion: 'Electric current, circuits, Ohm\'s law, conductors, magnetism and electromagnets.' },
+    'ondas-luz':         { titulo: 'Waves and Light',      emoji: '🌊', descripcion: 'Mechanical waves, sound, light, reflection, refraction and the electromagnetic spectrum.' },
   },
   ca: {
     'tabla-periodica':   { titulo: 'Taula Periòdica',      emoji: '⚗️', descripcion: 'Símbols, noms, números atòmics, grups i tipus dels elements químics.' },
@@ -44,6 +52,10 @@ const TEMAS_META = {
     'ecosistemas':       { titulo: 'Ecosistemes',          emoji: '🌍', descripcion: 'Cadenes tròfiques, biomes, adaptacions, relacions entre espècies i biodiversitat.' },
     'genetica':          { titulo: 'Genètica',             emoji: '🧬', descripcion: 'ADN, gens, cromosomes, lleis de Mendel, mutacions i enginyeria genètica.' },
     'nutricion':         { titulo: 'Nutrició',             emoji: '🥗', descripcion: 'Macronutrients, vitamines, minerals, dieta mediterrània i alimentació saludable.' },
+    'fuerzas':           { titulo: 'Forces i Moviment',    emoji: '⚡', descripcion: 'Lleis de Newton, massa, pes, velocitat, gravetat, fricció i pressió.' },
+    'energia':           { titulo: 'Energia',              emoji: '🔋', descripcion: 'Energia cinètica, potencial, tèrmica, renovable i rendiment energètic.' },
+    'electricidad':      { titulo: 'Electricitat',         emoji: '💡', descripcion: 'Corrent elèctric, circuits, llei d\'Ohm, conductors, magnetisme i electroimants.' },
+    'ondas-luz':         { titulo: 'Ones i Llum',          emoji: '🌊', descripcion: 'Ones mecàniques, so, llum, reflexió, refracció i espectre electromagnètic.' },
   },
 }
 
@@ -165,6 +177,42 @@ const MODOS_POR_TEMA = {
       descripcion: { es:'Macronutrientes, vitaminas liposolubles e hidrosolubles, dieta mediterránea y alimentación saludable.', en:'Macronutrients, fat-soluble and water-soluble vitamins, Mediterranean diet and healthy eating.', ca:'Macronutrients, vitamines liposolubles i hidrosolubles, dieta mediterrània i alimentació saludable.' },
       detalles: { es:['2 niveles','10 preguntas','Opción múltiple','Explicación tras cada respuesta'], en:['2 levels','10 questions','Multiple choice','Explanation after each answer'], ca:['2 nivells','10 preguntes','Opció múltiple','Explicació després de cada resposta'] },
       path: 'nutricion',
+    },
+  ],
+  'fuerzas': [
+    {
+      id: 'examen', emoji: '📝', gradient: 'from-yellow-500 to-orange-600',
+      titulo: { es:'Examen', en:'Exam', ca:'Examen' },
+      descripcion: { es:'Leyes de Newton, masa y peso, velocidad, gravedad, rozamiento, presión y principio de Arquímedes.', en:'Newton\'s laws, mass and weight, speed, gravity, friction, pressure and Archimedes\' principle.', ca:'Lleis de Newton, massa i pes, velocitat, gravetat, fricció, pressió i principi d\'Arquímedes.' },
+      detalles: { es:['2 niveles','10 preguntas','Opción múltiple','Explicación tras cada respuesta'], en:['2 levels','10 questions','Multiple choice','Explanation after each answer'], ca:['2 nivells','10 preguntes','Opció múltiple','Explicació després de cada resposta'] },
+      path: 'fuerzas',
+    },
+  ],
+  'energia': [
+    {
+      id: 'examen', emoji: '📝', gradient: 'from-green-500 to-teal-600',
+      titulo: { es:'Examen', en:'Exam', ca:'Examen' },
+      descripcion: { es:'Tipos de energía, transformaciones, fuentes renovables y no renovables, rendimiento y potencia.', en:'Energy types, transformations, renewable and non-renewable sources, efficiency and power.', ca:'Tipus d\'energia, transformacions, fonts renovables i no renovables, rendiment i potència.' },
+      detalles: { es:['2 niveles','10 preguntas','Opción múltiple','Explicación tras cada respuesta'], en:['2 levels','10 questions','Multiple choice','Explanation after each answer'], ca:['2 nivells','10 preguntes','Opció múltiple','Explicació després de cada resposta'] },
+      path: 'energia',
+    },
+  ],
+  'electricidad': [
+    {
+      id: 'examen', emoji: '📝', gradient: 'from-amber-500 to-yellow-600',
+      titulo: { es:'Examen', en:'Exam', ca:'Examen' },
+      descripcion: { es:'Corriente, tensión, resistencia, ley de Ohm, circuitos serie y paralelo, conductores y magnetismo.', en:'Current, voltage, resistance, Ohm\'s law, series and parallel circuits, conductors and magnetism.', ca:'Corrent, tensió, resistència, llei d\'Ohm, circuits sèrie i paral·lel, conductors i magnetisme.' },
+      detalles: { es:['2 niveles','10 preguntas','Opción múltiple','Explicación tras cada respuesta'], en:['2 levels','10 questions','Multiple choice','Explanation after each answer'], ca:['2 nivells','10 preguntes','Opció múltiple','Explicació després de cada resposta'] },
+      path: 'electricidad',
+    },
+  ],
+  'ondas-luz': [
+    {
+      id: 'examen', emoji: '📝', gradient: 'from-blue-500 to-cyan-600',
+      titulo: { es:'Examen', en:'Exam', ca:'Examen' },
+      descripcion: { es:'Ondas mecánicas y electromagnéticas, sonido, luz, reflexión, refracción y espectro electromagnético.', en:'Mechanical and electromagnetic waves, sound, light, reflection, refraction and electromagnetic spectrum.', ca:'Ones mecàniques i electromagnètiques, so, llum, reflexió, refracció i espectre electromagnètic.' },
+      detalles: { es:['2 niveles','10 preguntas','Opción múltiple','Explicación tras cada respuesta'], en:['2 levels','10 questions','Multiple choice','Explanation after each answer'], ca:['2 nivells','10 preguntes','Opció múltiple','Explicació després de cada resposta'] },
+      path: 'ondas-luz',
     },
   ],
 }

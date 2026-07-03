@@ -67,6 +67,10 @@ const SeresVivosExamen       = lazy(() => import('./pages/SeresVivosExamen'))
 const EcosistemasExamen      = lazy(() => import('./pages/EcosistemasExamen'))
 const GeneticaExamen         = lazy(() => import('./pages/GeneticaExamen'))
 const NutricionExamen        = lazy(() => import('./pages/NutricionExamen'))
+const FuerzasExamen          = lazy(() => import('./pages/FuerzasExamen'))
+const EnergiaExamen          = lazy(() => import('./pages/EnergiaExamen'))
+const ElectricidadExamen     = lazy(() => import('./pages/ElectricidadExamen'))
+const OndasLuzExamen         = lazy(() => import('./pages/OndasLuzExamen'))
 
 function PageLoader() {
   return (
@@ -124,6 +128,10 @@ function AppRoutes() {
       <Route path="examen/ecosistemas"     element={<EcosistemasExamen />} />
       <Route path="examen/genetica"        element={<GeneticaExamen />} />
       <Route path="examen/nutricion"       element={<NutricionExamen />} />
+      <Route path="examen/fuerzas"         element={<FuerzasExamen />} />
+      <Route path="examen/energia"         element={<EnergiaExamen />} />
+      <Route path="examen/electricidad"    element={<ElectricidadExamen />} />
+      <Route path="examen/ondas-luz"       element={<OndasLuzExamen />} />
 
       {/* ── GEOGRAFÍA ── */}
       <Route path="estudiar/geografia" element={<GeografiaIndex />} />

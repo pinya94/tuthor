@@ -99,6 +99,38 @@ const TEMAS = [
     tags: ['nutricion', 'vitaminas', 'proteinas', 'carbohidratos', 'dieta', 'alimentacion', 'nutrition', 'vitamins', 'diet'],
     niveles: ['primaria', 'eso'],
   },
+  {
+    id: 'fuerzas',
+    titulo: 'Fuerzas y Movimiento', tituloEn: 'Forces and Motion', tituloCa: 'Forces i Moviment',
+    subtitulo: 'Leyes de Newton, velocidad, gravedad y presión', subtituloEn: 'Newton\'s laws, speed, gravity and pressure', subtituloCa: 'Lleis de Newton, velocitat, gravetat i pressió',
+    emoji: '⚡', gradient: 'from-yellow-500 to-orange-600',
+    tags: ['newton', 'fuerza', 'velocidad', 'gravedad', 'inercia', 'rozamiento', 'pressure', 'forces', 'motion', 'gravity'],
+    niveles: ['primaria', 'eso'],
+  },
+  {
+    id: 'energia',
+    titulo: 'Energía', tituloEn: 'Energy', tituloCa: 'Energia',
+    subtitulo: 'Tipos, transformaciones y fuentes de energía renovable', subtituloEn: 'Types, transformations and renewable energy sources', subtituloCa: 'Tipus, transformacions i fonts d\'energia renovable',
+    emoji: '🔋', gradient: 'from-green-500 to-teal-600',
+    tags: ['energia', 'cinetica', 'potencial', 'renovable', 'solar', 'nuclear', 'rendimiento', 'energy', 'renewable'],
+    niveles: ['primaria', 'eso'],
+  },
+  {
+    id: 'electricidad',
+    titulo: 'Electricidad', tituloEn: 'Electricity', tituloCa: 'Electricitat',
+    subtitulo: 'Circuitos, corriente, tensión, resistencia y magnetismo', subtituloEn: 'Circuits, current, voltage, resistance and magnetism', subtituloCa: 'Circuits, corrent, tensió, resistència i magnetisme',
+    emoji: '💡', gradient: 'from-amber-500 to-yellow-600',
+    tags: ['electricidad', 'circuito', 'corriente', 'voltaje', 'resistencia', 'ohm', 'iman', 'electricity', 'circuit', 'ohm law'],
+    niveles: ['primaria', 'eso'],
+  },
+  {
+    id: 'ondas-luz',
+    titulo: 'Ondas y Luz', tituloEn: 'Waves and Light', tituloCa: 'Ones i Llum',
+    subtitulo: 'Sonido, espectro electromagnético, reflexión y refracción', subtituloEn: 'Sound, electromagnetic spectrum, reflection and refraction', subtituloCa: 'So, espectre electromagnètic, reflexió i refracció',
+    emoji: '🌊', gradient: 'from-blue-500 to-cyan-600',
+    tags: ['ondas', 'luz', 'sonido', 'reflexion', 'refraccion', 'espectro', 'ultrasonidos', 'waves', 'light', 'sound', 'spectrum'],
+    niveles: ['primaria', 'eso'],
+  },
 ]
 
 export default function QuimicaIndex() {
