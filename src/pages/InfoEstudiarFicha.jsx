@@ -3829,8 +3829,21 @@ export default function InfoEstudiarFicha() {
     )
   }
 
+  const canonicalUrl = `https://www.tuthor.es${lang !== 'es' ? `/${lang}` : ''}/info/estudiar/${slug}`
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Course',
+    name: ficha.titulo,
+    description: ficha.intro,
+    provider: { '@type': 'Organization', name: 'Tuthor', url: 'https://www.tuthor.es' },
+    url: canonicalUrl,
+    educationalLevel: ficha.niveles,
+    about: { '@type': 'Thing', name: ficha.asignatura },
+  }
+
   return (
     <div className="relative z-10">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       {/* Header oscuro */}
       <div className="px-4 sm:px-8 py-10 max-w-3xl mx-auto">
         <Link to={localPath('/info/estudiar')} className="text-white/30 hover:text-white/60 text-sm mb-8 inline-flex items-center gap-1 transition-colors">
