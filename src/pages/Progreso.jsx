@@ -1,4 +1,14 @@
+import { useEffect } from 'react'
+
 export default function Progreso() {
+  useEffect(() => {
+    const meta = document.createElement('meta')
+    meta.name = 'robots'
+    meta.content = 'noindex, nofollow'
+    document.head.appendChild(meta)
+    return () => document.head.removeChild(meta)
+  }, [])
+
   return (
     <div className="relative z-10 flex items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-6">
       <div className="max-w-md w-full text-center">
