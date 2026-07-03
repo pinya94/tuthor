@@ -6,8 +6,7 @@ const MATERIAS = [
   { id: 'geografia', titulo: 'Geografía', tituloEn: 'Geography', tituloCa: 'Geografia', subtitulo: 'Países, continentes y regiones', subtituloEn: 'Countries, continents & regions', subtituloCa: 'Països, continents i regions', emoji: '🌍', gradient: 'from-teal-500 to-cyan-600', ready: true, path: '/estudiar/geografia' },
   { id: 'ciencias', titulo: 'Ciencias', tituloEn: 'Science', tituloCa: 'Ciències', subtitulo: 'Biología, física y química', subtituloEn: 'Biology, physics & chemistry', subtituloCa: 'Biologia, física i química', emoji: '🔬', gradient: 'from-green-500 to-emerald-600', ready: true, path: '/estudiar/quimica' },
   { id: 'matematicas', titulo: 'Matemáticas', tituloEn: 'Mathematics', tituloCa: 'Matemàtiques', subtitulo: 'Cálculo mental: sumas, restas, multiplicaciones y más', subtituloEn: 'Mental maths: add, subtract, multiply & more', subtituloCa: 'Càlcul mental: sumes, restes, multiplicacions i més', emoji: '📐', gradient: 'from-blue-500 to-indigo-600', ready: true, path: '/estudiar/matematicas' },
-  { id: 'ingles', titulo: 'Inglés', tituloEn: 'English', tituloCa: 'Anglès', subtitulo: 'Vocabulario y gramática', subtituloEn: 'Vocabulary & grammar', subtituloCa: 'Vocabulari i gramàtica', emoji: '🇬🇧', gradient: 'from-rose-500 to-pink-600', ready: false },
-  { id: 'lengua', titulo: 'Lengua', tituloEn: 'Spanish', tituloCa: 'Castellà', subtitulo: 'Literatura y ortografía', subtituloEn: 'Literature & spelling', subtituloCa: 'Literatura i ortografia', emoji: '✍️', gradient: 'from-violet-500 to-purple-600', ready: false },
+  { id: 'idiomas', titulo: 'Idiomas', tituloEn: 'Languages', tituloCa: 'Idiomes', subtitulo: 'Español e inglés: gramática y ortografía', subtituloEn: 'Spanish & English: grammar and spelling', subtituloCa: 'Espanyol i anglès: gramàtica i ortografia', emoji: '🌐', gradient: 'from-rose-500 to-violet-600', ready: true, path: '/estudiar/idiomas' },
 ]
 
 export default function Estudiar() {
