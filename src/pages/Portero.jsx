@@ -232,7 +232,7 @@ function T(key, l) { return COPY[key]?.[l] ?? COPY[key]?.es ?? key }
 const POWERUP_POOL = [
   { id: 'extra_time',    emoji: '⏱️', label: { es: '+5 segundos',    en: '+5 seconds',     ca: '+5 segons'     }, desc: { es: 'Más tiempo para seguir parando',   en: 'More time to keep saving',   ca: 'Més temps per seguir aturant'   } },
   { id: 'extra_time_big',emoji: '⏰', label: { es: '+10 segundos',   en: '+10 seconds',    ca: '+10 segons'    }, desc: { es: 'Gran recarga de tiempo',           en: 'Big time reload',            ca: 'Gran recàrrega de temps'        } },
-  { id: 'show_curve',    emoji: '👁️', label: { es: 'Curva visible',  en: 'Curve hint',     ca: 'Corba visible' }, desc: { es: 'La siguiente jugada muestra la curva antes de elegir', en: 'Next play shows the curve before you pick', ca: 'La pròxima jugada mostra la corba abans de triar' } },
+  { id: 'zone_margin',   emoji: '↔️', label: { es: 'Zona adyacente', en: 'Adjacent zone',   ca: 'Zona adjacent' }, desc: { es: 'La siguiente jugada también acepta la zona contigua', en: 'Next play also accepts the adjacent zone', ca: 'La pròxima jugada també accepta la zona contigua' } },
   { id: 'two_zones',     emoji: '🎯', label: { es: 'Solo 2 zonas',   en: 'Only 2 zones',   ca: 'Només 2 zones' }, desc: { es: 'La siguiente jugada tiene solo 2 opciones', en: 'Next play has only 2 options', ca: 'La pròxima jugada té només 2 opcions' } },
   { id: 'double_save',   emoji: '🛡️', label: { es: 'Doble defensa', en: 'Double defence', ca: 'Doble defensa' }, desc: { es: 'La siguiente jugada puedes elegir 2 zonas', en: 'Next play you can pick 2 zones', ca: 'La pròxima jugada pots triar 2 zones' } },
 ]
@@ -247,9 +247,9 @@ function DifficultyScreen({ onSelect, l }) {
   const [dif, setDif] = useState('easy')
 
   const pwupRows = {
-    es: [['👁️','Curva visible','Muestra la curva antes de que elijas la zona'],['🛡️','Doble defensa','Puedes elegir 2 zonas en la siguiente jugada'],['🎯','Solo 2 zonas','La siguiente jugada tiene solo 2 opciones'],['⏱️','+5 segundos','Más tiempo de partido'],['⏰','+10 segundos','Gran recarga de tiempo']],
-    en: [['👁️','Curve hint','Shows the curve before you pick the zone'],['🛡️','Double defence','Pick 2 zones on the next play'],['🎯','Only 2 zones','Next play shows only 2 options'],['⏱️','+5 seconds','More match time'],['⏰','+10 seconds','Big time reload']],
-    ca: [['👁️','Corba visible','Mostra la corba abans que triïs la zona'],['🛡️','Doble defensa','Pots triar 2 zones a la propera jugada'],['🎯','Només 2 zones','La pròxima jugada té 2 opcions'],['⏱️','+5 segons','Més temps de partit'],['⏰','+10 segons','Gran recàrrega de temps']],
+    es: [['↔️','Zona adyacente','La siguiente jugada también acepta la zona contigua'],['🛡️','Doble defensa','Puedes elegir 2 zonas en la siguiente jugada'],['🎯','Solo 2 zonas','La siguiente jugada tiene solo 2 opciones'],['⏱️','+5 segundos','Más tiempo de partido'],['⏰','+10 segundos','Gran recarga de tiempo']],
+    en: [['↔️','Adjacent zone','Next play also accepts the adjacent zone'],['🛡️','Double defence','Pick 2 zones on the next play'],['🎯','Only 2 zones','Next play shows only 2 options'],['⏱️','+5 seconds','More match time'],['⏰','+10 seconds','Big time reload']],
+    ca: [['↔️','Zona adjacent','La pròxima jugada també accepta la zona contigua'],['🛡️','Doble defensa','Pots triar 2 zones a la propera jugada'],['🎯','Només 2 zones','La pròxima jugada té 2 opcions'],['⏱️','+5 segons','Més temps de partit'],['⏰','+10 segons','Gran recàrrega de temps']],
   }
   const pwups = pwupRows[l] ?? pwupRows.es
 
@@ -408,7 +408,7 @@ export default function Portero() {
   const [pendingPowerups, setPendingPowerups] = useState(null)
 
   // power-up flags
-  const showCurveRef    = useRef(false)  // show curve during choose phase
+  const zoneMarginRef   = useRef(false)  // adjacent zone also counts as save
   const doubleSaveRef   = useRef(false)  // allow 2 zone picks
   const twoZonesRef     = useRef(false)  // hide 2 wrong zones
   const visibleZonesRef = useRef(null)   // which zone ids to show (null = all 4)
@@ -457,7 +457,7 @@ export default function Portero() {
     setScreen('playing')
     setScore(0)
     setTimeLeft(GAME_TIME)
-    showCurveRef.current  = false
+    zoneMarginRef.current  = false
     doubleSaveRef.current = false
     twoZonesRef.current   = false
     visibleZonesRef.current = null
@@ -548,7 +548,11 @@ export default function Portero() {
         animRef.current = requestAnimationFrame(animate)
       } else {
         const correctZone = getZone(fn(goalX))
-        const saved = zone1 === correctZone || zone2 === correctZone
+        const ZONE_IDX = { A: 0, B: 1, C: 2, D: 3 }
+        const isAdjacent = z => zoneMarginRef.current && Math.abs(ZONE_IDX[z] - ZONE_IDX[correctZone]) === 1
+        const saved = zone1 === correctZone || (zone2 && zone2 === correctZone)
+          || isAdjacent(zone1) || (zone2 && isAdjacent(zone2))
+        zoneMarginRef.current = false // one-shot
         doFinish(saved ? 'save' : 'goal')
       }
     }
@@ -568,30 +572,14 @@ export default function Portero() {
     }
   }
 
-  function applyPowerup(pw) {
-    setPendingPowerups(null)
-    if (pw.id === 'extra_time')     setTimeLeft(tl => Math.min(tl + 5, 999))
-    if (pw.id === 'extra_time_big') setTimeLeft(tl => Math.min(tl + 10, 999))
-    if (pw.id === 'show_curve')     showCurveRef.current = true
-    if (pw.id === 'two_zones')      twoZonesRef.current = true
-    if (pw.id === 'double_save')    doubleSaveRef.current = true
-    nextQuestion(difficulty, usedIds)
-    if (pw.id === 'show_curve') showCurveRef.current = false // one-shot reset after question set
-  }
-
-  // HACK: showCurve must persist for the next question — set after nextQuestion call
   function applyPowerupFixed(pw) {
     setPendingPowerups(null)
     if (pw.id === 'extra_time')     setTimeLeft(tl => Math.min(tl + 5, 999))
     if (pw.id === 'extra_time_big') setTimeLeft(tl => Math.min(tl + 10, 999))
     if (pw.id === 'two_zones')      twoZonesRef.current = true
     if (pw.id === 'double_save')    doubleSaveRef.current = true
-    if (pw.id === 'show_curve')     showCurveRef.current = true
+    if (pw.id === 'zone_margin')    zoneMarginRef.current = true
     nextQuestion(difficulty, usedIds)
-    // one-shot: reset show_curve after question is set so it doesn't persist further
-    if (pw.id === 'show_curve') {
-      setTimeout(() => { showCurveRef.current = false }, 0)
-    }
   }
 
   function skipResult() { nextQuestion(difficulty, usedIds) }
@@ -667,7 +655,7 @@ export default function Portero() {
       <div className="relative w-full max-w-[600px] rounded-xl overflow-hidden border border-white/10 bg-[#0d1117] mb-3">
         <PorteroField
           question={question}
-          phase={phase === 'choose' && showCurveRef.current ? 'animating' : phase}
+          phase={phase}
           chosen={chosen}
           ballPos={ballPos}
           trail={trail}
