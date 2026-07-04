@@ -582,7 +582,7 @@ export default function Portero() {
         setPhase('powerup')
       }, 1200)
     } else {
-      setTimeLeft(tl => Math.max(0, tl - 5))
+      setTimeLeft(tl => Math.max(0, tl - 15))
     }
   }
 
@@ -694,7 +694,7 @@ export default function Portero() {
           <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/65 backdrop-blur-sm px-4">
             <p className="text-4xl mb-2">⚽</p>
             <p className="text-red-400 font-black text-xl mb-1">{T('goal', l)}</p>
-            <p className="text-red-400/70 text-sm font-bold mb-2">−5s ⏱️</p>
+            <p className="text-red-400/70 text-sm font-bold mb-2">−15s ⏱️</p>
             <p className="text-white/50 text-xs font-semibold mb-1">{T('expTitle', l)}</p>
             <p className="text-white/80 text-sm text-center mb-4 font-mono">
               {question.explanation?.[l] ?? question.explanation?.es}
