@@ -163,8 +163,17 @@ function PorteroField({ question, phase, chosen, ballPos, trail }) {
       {/* Starting ball (choose phase only) */}
       {phase === 'choose' && (
         <g>
-          <circle cx={startPx} cy={startPy} r={10} fill="#EDAE4930" />
-          <text x={startPx} y={startPy + 5} textAnchor="middle" fontSize="14"
+          {/* Pulsing glow rings */}
+          <circle cx={startPx} cy={startPy} r={22} fill="none" stroke="#EDAE4930" strokeWidth={1.5} />
+          <circle cx={startPx} cy={startPy} r={15} fill="#EDAE4918" stroke="#EDAE4960" strokeWidth={1.5} />
+          {/* "INICIO" label above ball */}
+          <text x={startPx} y={startPy - 20} textAnchor="middle" fontSize="7" fill="#EDAE49cc"
+            fontWeight="bold" letterSpacing="1" style={{ userSelect: 'none' }}>INICIO</text>
+          {/* Tick mark */}
+          <line x1={startPx} y1={startPy - 16} x2={startPx} y2={startPy - 12}
+            stroke="#EDAE4970" strokeWidth={1} />
+          {/* Ball emoji */}
+          <text x={startPx} y={startPy + 6} textAnchor="middle" fontSize="17"
             style={{ userSelect: 'none' }}>⚽</text>
         </g>
       )}
@@ -189,7 +198,7 @@ function PorteroField({ question, phase, chosen, ballPos, trail }) {
 
 const DIFS = {
   easy:   { emoji: '🟢', label: { es: 'Fácil',   en: 'Easy',   ca: 'Fàcil'   },
-    desc: { es: 'Rectas simples · f(x) = mx',               en: 'Simple lines · f(x) = mx',             ca: 'Rectes simples · f(x) = mx'             } },
+    desc: { es: 'Rectas simples · f(x) = (x+a)/k',          en: 'Simple lines · f(x) = (x+a)/k',        ca: 'Rectes simples · f(x) = (x+a)/k'        } },
   medium: { emoji: '🟡', label: { es: 'Medio',   en: 'Medium', ca: 'Mitjà'   },
     desc: { es: 'Rectas con pendiente y corte · f(x) = mx + b', en: 'Lines with slope & intercept',     ca: 'Rectes amb pendent i tall'               } },
   hard:   { emoji: '🔴', label: { es: 'Difícil', en: 'Hard',   ca: 'Difícil' },
@@ -637,16 +646,22 @@ export default function Portero() {
       {/* Function equation */}
       <div className="w-full max-w-[600px] px-2 mb-2">
         <div className="bg-white/8 border border-white/15 rounded-xl px-5 py-3 flex items-center justify-between gap-4">
-          <div>
+          <div className="flex-1 min-w-0">
             <p className="text-white/40 text-[10px] uppercase tracking-widest mb-0.5">
               {T('calcQ', l)} {question.goalX}
             </p>
             <p className="text-white font-black text-xl font-mono">{question.label}</p>
           </div>
-          {/* Portería indicator */}
-          <div className="text-right shrink-0">
-            <p className="text-white/30 text-[10px]">{l === 'en' ? 'Goal at' : l === 'ca' ? 'Porteria a' : 'Portería en'}</p>
-            <p className="text-white/70 font-mono text-sm font-bold">x = {question.goalX}</p>
+          {/* Start & goal indicators */}
+          <div className="text-right shrink-0 space-y-1">
+            <div>
+              <p className="text-[#EDAE49]/50 text-[9px]">⚽ {l === 'en' ? 'Ball at' : l === 'ca' ? 'Pilota a' : 'Balón en'}</p>
+              <p className="text-[#EDAE49]/80 font-mono text-xs font-bold">x = {question.startX}</p>
+            </div>
+            <div>
+              <p className="text-white/30 text-[9px]">🥅 {l === 'en' ? 'Goal at' : l === 'ca' ? 'Porteria a' : 'Portería en'}</p>
+              <p className="text-white/70 font-mono text-xs font-bold">x = {question.goalX}</p>
+            </div>
           </div>
         </div>
       </div>
