@@ -3,184 +3,238 @@ import { useLang } from '../context/LangContext'
 import { useAuth } from '../context/AuthContext'
 import { saveActivity } from '../lib/activity'
 import CoinsAnimation from '../components/CoinsAnimation'
+import { POOLS } from '../data/porteroLevels'
+import {
+  VIEW, W, H, ANIM_DURATION,
+  toSVG, GridLines, Ball, FnCurve,
+} from './TrayectoriaField'
 
-// ── SVG constants ─────────────────────────────────────────────────────────────
-const W = 440
-const H = 300
-const GOAL = { x1: 80, y1: 28, x2: 360, y2: 162, midX: 220, midY: 95 }
-const KICKER_X = 220
-const KICKER_Y = 256
-const ANIM_DURATION = 900
+// ── Zone definitions ──────────────────────────────────────────────────────────
+// The goal is a vertical opening at x = goalX, spanning y ∈ [-4, 4]
+// divided into 4 equal y-bands of 2 units each.
 
-const ZONES = [
-  { id: 'TL', x1: 80,  y1: 28, x2: 220, y2: 95,  cx: 150, cy: 61  },
-  { id: 'TR', x1: 220, y1: 28, x2: 360, y2: 95,  cx: 290, cy: 61  },
-  { id: 'BL', x1: 80,  y1: 95, x2: 220, y2: 162, cx: 150, cy: 128 },
-  { id: 'BR', x1: 220, y1: 95, x2: 360, y2: 162, cx: 290, cy: 128 },
+const GOAL_ZONES = [
+  {
+    id: 'A',
+    yMin: 2, yMax: 4,
+    label:  { es: 'Zona alta',   en: 'High zone',    ca: 'Zona alta'   },
+    range:  { es: 'y ≥ 2',       en: 'y ≥ 2',        ca: 'y ≥ 2'       },
+    color: '#3b82f6',
+    arrow: '⬆',
+  },
+  {
+    id: 'B',
+    yMin: 0, yMax: 2,
+    label:  { es: 'Centro-alto', en: 'Upper centre',  ca: 'Centre-alt'  },
+    range:  { es: '0 ≤ y < 2',   en: '0 ≤ y < 2',    ca: '0 ≤ y < 2'   },
+    color: '#22c55e',
+    arrow: '↗',
+  },
+  {
+    id: 'C',
+    yMin: -2, yMax: 0,
+    label:  { es: 'Centro-bajo', en: 'Lower centre',  ca: 'Centre-baix' },
+    range:  { es: '−2 ≤ y < 0',  en: '−2 ≤ y < 0',   ca: '−2 ≤ y < 0'  },
+    color: '#f59e0b',
+    arrow: '↘',
+  },
+  {
+    id: 'D',
+    yMin: -4, yMax: -2,
+    label:  { es: 'Zona baja',   en: 'Low zone',      ca: 'Zona baixa'  },
+    range:  { es: 'y < −2',      en: 'y < −2',        ca: 'y < −2'      },
+    color: '#ef4444',
+    arrow: '⬇',
+  },
 ]
 
-const ZONE_LABELS = {
-  TL: { es: 'Arriba izquierda', en: 'Top left',     ca: 'Dalt esquerra'  },
-  TR: { es: 'Arriba derecha',   en: 'Top right',    ca: 'Dalt dreta'     },
-  BL: { es: 'Abajo izquierda',  en: 'Bottom left',  ca: 'Baix esquerra'  },
-  BR: { es: 'Abajo derecha',    en: 'Bottom right', ca: 'Baix dreta'     },
-}
-
-// ── Level generation ──────────────────────────────────────────────────────────
-
-function generateKick(difficulty, showHint) {
-  const zoneId = ZONES[Math.floor(Math.random() * 4)].id
-  const isLeft = zoneId.endsWith('L')
-  const isTop  = zoneId.startsWith('T')
-
-  let kickerX
-  if (showHint) {
-    // kicker aims opposite side of their foot position: left kicker → right zone
-    kickerX = isLeft
-      ? 140 + Math.random() * 40   // kicker right side → ball goes left
-      : 260 + Math.random() * 40   // kicker left side  → ball goes right
-  } else if (difficulty === 'medium') {
-    kickerX = isLeft ? 160 + Math.random() * 60 : 220 + Math.random() * 60
-  } else {
-    kickerX = 120 + Math.random() * 200 // hard: wide random
-  }
-
-  const arrowAngleX = ZONES.find(z => z.id === zoneId).cx - KICKER_X
-  const arrowAngleY = ZONES.find(z => z.id === zoneId).cy - KICKER_Y
-
-  return { zoneId, kickerX, arrowAngleX, arrowAngleY, isTop }
+function getZone(y) {
+  if (y >= 2)  return 'A'
+  if (y >= 0)  return 'B'
+  if (y >= -2) return 'C'
+  return 'D'
 }
 
 // ── Field SVG ─────────────────────────────────────────────────────────────────
 
-function PorteroField({ kick, phase, chosen, ballPos, outcome, showHint, doubleDefense, secondChosen, onZoneClick, l }) {
-  const isTop = kick?.isTop
+function GoalZones({ goalX, chosen, correctZone, phase }) {
+  const depth = 18 // pixels right of goal line
 
   return (
-    <svg viewBox={`0 0 ${W} ${H}`} width="100%" style={{ display: 'block' }}>
-      {/* Grass gradient */}
-      <defs>
-        <linearGradient id="grassGrad" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#166534" stopOpacity="0.4" />
-          <stop offset="100%" stopColor="#14532d" stopOpacity="0.2" />
-        </linearGradient>
-        <radialGradient id="ballGlow" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stopColor="#EDAE49" stopOpacity="0.8" />
-          <stop offset="100%" stopColor="#EDAE49" stopOpacity="0" />
-        </radialGradient>
-      </defs>
+    <>
+      {GOAL_ZONES.map(z => {
+        const [gx, pyTop] = toSVG(goalX, z.yMax)
+        const [,   pyBot] = toSVG(goalX, z.yMin)
+        const height = pyBot - pyTop
 
-      {/* Pitch area below goal */}
-      <rect x={0} y={0} width={W} height={H} fill="url(#grassGrad)" />
-
-      {/* Center spot */}
-      <ellipse cx={KICKER_X} cy={KICKER_Y + 14} rx={18} ry={5} fill="#ffffff12" />
-
-      {/* Net grid */}
-      {[...Array(8)].map((_, i) => {
-        const x = GOAL.x1 + ((GOAL.x2 - GOAL.x1) / 8) * i
-        return <line key={`nv${i}`} x1={x} y1={GOAL.y1} x2={x} y2={GOAL.y2} stroke="#ffffff18" strokeWidth={0.8} />
-      })}
-      {[...Array(5)].map((_, i) => {
-        const y = GOAL.y1 + ((GOAL.y2 - GOAL.y1) / 5) * i
-        return <line key={`nh${i}`} x1={GOAL.x1} y1={y} x2={GOAL.x2} y2={y} stroke="#ffffff18" strokeWidth={0.8} />
-      })}
-
-      {/* Zone highlights */}
-      {ZONES.map(z => {
-        const isChosen = chosen === z.id || secondChosen === z.id
-        const isCorrect = phase === 'result' && kick?.zoneId === z.id
+        const isChosen  = chosen === z.id
+        const isCorrect = phase === 'result' && correctZone === z.id
         const isWrong   = phase === 'result' && isChosen && !isCorrect
 
-        let fill = '#ffffff08'
-        let stroke = '#ffffff20'
-        if (isCorrect)        { fill = outcome === 'save' ? '#22c55e30' : '#ef444430'; stroke = outcome === 'save' ? '#22c55e' : '#ef4444' }
-        else if (isWrong)     { fill = '#ef444415'; stroke = '#ef444440' }
-        else if (isChosen)    { fill = '#EDAE4925'; stroke = '#EDAE49' }
-        else if (phase === 'choose') { fill = '#ffffff08'; stroke = '#ffffff20' }
+        let fill   = z.color + '28'
+        let stroke = z.color + '55'
+        if (isCorrect) { fill = z.color + '70'; stroke = z.color }
+        if (isWrong)   { fill = '#ef444430';     stroke = '#ef4444' }
 
         return (
-          <rect key={z.id} x={z.x1} y={z.y1}
-            width={z.x2 - z.x1} height={z.y2 - z.y1}
-            fill={fill} stroke={stroke} strokeWidth={1.5}
-            style={{ cursor: phase === 'choose' ? 'pointer' : 'default', transition: 'fill 0.2s, stroke 0.2s' }}
-            onClick={() => phase === 'choose' && onZoneClick(z.id)}
-          />
+          <g key={z.id}>
+            {/* Net behind goal */}
+            <rect x={gx} y={pyTop} width={depth} height={height}
+              fill={fill} stroke={stroke} strokeWidth={1.5} />
+            {/* Zone letter label */}
+            <text x={gx + depth / 2} y={pyTop + height / 2 + 4}
+              textAnchor="middle" fontSize="9" fontWeight="bold"
+              fill={z.color} style={{ userSelect: 'none' }}>
+              {z.id}
+            </text>
+            {/* Net grid lines */}
+            <line x1={gx} y1={pyTop + height / 2} x2={gx + depth} y2={pyTop + height / 2}
+              stroke={z.color + '40'} strokeWidth={0.7} />
+          </g>
         )
       })}
 
-      {/* Zone labels (only during choose) */}
-      {phase === 'choose' && ZONES.map(z => (
-        <text key={`lbl${z.id}`} x={z.cx} y={z.cy + 4} textAnchor="middle" fontSize="11" fill="#ffffff55"
-          style={{ pointerEvents: 'none', userSelect: 'none' }}>
-          {ZONE_LABELS[z.id][l] ?? ZONE_LABELS[z.id].es}
-        </text>
-      ))}
+      {/* Goal posts */}
+      {(() => {
+        const [gx, pyTop] = toSVG(goalX, 4)
+        const [,   pyBot] = toSVG(goalX, -4)
+        return (
+          <>
+            {/* Back net outline */}
+            <line x1={gx + depth} y1={pyTop} x2={gx + depth} y2={pyBot}
+              stroke="#ffffff30" strokeWidth={1} />
+            {/* Main post line */}
+            <line x1={gx} y1={pyTop} x2={gx} y2={pyBot} stroke="white" strokeWidth={3} />
+            {/* Top and bottom bars */}
+            <line x1={gx} y1={pyTop} x2={gx + depth} y2={pyTop} stroke="white" strokeWidth={2.5} />
+            <line x1={gx} y1={pyBot} x2={gx + depth} y2={pyBot} stroke="white" strokeWidth={2.5} />
+            {/* Zone dividers on post */}
+            {GOAL_ZONES.slice(0, 3).map(z => {
+              const [, py] = toSVG(goalX, z.yMin)
+              return <line key={z.id} x1={gx} y1={py} x2={gx + depth} y2={py}
+                stroke="#ffffff50" strokeWidth={1} />
+            })}
+          </>
+        )
+      })()}
 
-      {/* Goal posts and crossbar */}
-      {/* Back net rect */}
-      <rect x={GOAL.x1} y={GOAL.y1} width={GOAL.x2 - GOAL.x1} height={GOAL.y2 - GOAL.y1} fill="none" stroke="#ffffff30" strokeWidth={0.5} />
-      {/* Posts */}
-      <line x1={GOAL.x1} y1={GOAL.y1} x2={GOAL.x1} y2={GOAL.y2 + 8} stroke="white" strokeWidth={5} strokeLinecap="round" />
-      <line x1={GOAL.x2} y1={GOAL.y1} x2={GOAL.x2} y2={GOAL.y2 + 8} stroke="white" strokeWidth={5} strokeLinecap="round" />
-      {/* Crossbar */}
-      <line x1={GOAL.x1 - 2} y1={GOAL.y1} x2={GOAL.x2 + 2} y2={GOAL.y1} stroke="white" strokeWidth={5} strokeLinecap="round" />
-      {/* Center dividers (subtle) */}
-      <line x1={GOAL.midX} y1={GOAL.y1} x2={GOAL.midX} y2={GOAL.y2} stroke="#ffffff25" strokeWidth={1} />
-      <line x1={GOAL.x1} y1={GOAL.midY} x2={GOAL.x2} y2={GOAL.midY} stroke="#ffffff25" strokeWidth={1} />
+      {/* Result emoji at zone */}
+      {phase === 'result' && correctZone && (() => {
+        const z = GOAL_ZONES.find(z => z.id === correctZone)
+        if (!z) return null
+        const [gx, pyTop] = toSVG(goalX, z.yMax)
+        const [,   pyBot] = toSVG(goalX, z.yMin)
+        const cy = (pyTop + pyBot) / 2
+        return (
+          <text x={gx + depth / 2} y={cy + 7}
+            textAnchor="middle" fontSize="14" style={{ userSelect: 'none' }}>
+            {chosen === correctZone ? '🧤' : '⚽'}
+          </text>
+        )
+      })()}
+    </>
+  )
+}
 
-      {/* Result emoji in zone */}
-      {phase === 'result' && kick && (
-        <text x={ZONES.find(z => z.id === kick.zoneId).cx}
-          y={ZONES.find(z => z.id === kick.zoneId).cy + 6}
-          textAnchor="middle" fontSize="28" style={{ userSelect: 'none' }}>
-          {outcome === 'save' ? '🧤' : '⚽'}
-        </text>
-      )}
+function PorteroField({ question, phase, chosen, ballPos, trail }) {
+  if (!question) return null
+  const { fn, startX, goalX } = question
+  const correctZone = getZone(fn(goalX))
+  const [startPx, startPy] = toSVG(startX, fn(startX))
 
-      {/* Kicker (show during choose) */}
-      {phase === 'choose' && kick && (
-        <>
-          <text x={kick.kickerX} y={KICKER_Y + 6} textAnchor="middle" fontSize="26" style={{ userSelect: 'none' }}>🏃</text>
-          {/* Hint arrow (easy mode) */}
-          {showHint && (() => {
-            const zone = ZONES.find(z => z.id === kick.zoneId)
-            const dx = zone.cx - kick.kickerX
-            const dy = zone.cy - KICKER_Y
-            const len = Math.sqrt(dx * dx + dy * dy)
-            const ux = dx / len * 35
-            const uy = dy / len * 35
-            return (
-              <line
-                x1={kick.kickerX} y1={KICKER_Y - 10}
-                x2={kick.kickerX + ux} y2={KICKER_Y - 10 + uy}
-                stroke="#EDAE4990" strokeWidth={2.5} strokeLinecap="round"
-                strokeDasharray="6 3"
-              />
-            )
-          })()}
-        </>
-      )}
+  return (
+    <svg viewBox={`0 0 ${W} ${H}`} width="100%" style={{ display: 'block' }}>
+      <GridLines />
 
-      {/* Ball animation */}
-      {ballPos && (
+      {/* Goal zones (always visible) */}
+      <GoalZones goalX={goalX} chosen={chosen} correctZone={correctZone} phase={phase} />
+
+      {/* "Portería en x = N" label on x-axis */}
+      {(() => {
+        const [gx, py0] = toSVG(goalX, 0)
+        return (
+          <text x={gx - 2} y={py0 + 14} textAnchor="middle" fontSize="8" fill="#ffffff50"
+            style={{ userSelect: 'none' }}>
+            x={goalX}
+          </text>
+        )
+      })()}
+
+      {/* Starting ball (choose phase only) */}
+      {phase === 'choose' && (
         <g>
-          <circle cx={ballPos.x} cy={ballPos.y} r={16} fill="url(#ballGlow)" opacity={0.4} />
-          <text x={ballPos.x} y={ballPos.y + 7} textAnchor="middle" fontSize="18" style={{ userSelect: 'none' }}>⚽</text>
+          <circle cx={startPx} cy={startPy} r={10} fill="#EDAE4930" />
+          <text x={startPx} y={startPy + 5} textAnchor="middle" fontSize="14"
+            style={{ userSelect: 'none' }}>⚽</text>
         </g>
       )}
+
+      {/* Curve (shown after pick) */}
+      {(phase === 'animating' || phase === 'result') && (
+        <FnCurve fn={fn} color="#EDAE4980" xStart={startX} xEnd={goalX + 0.3} />
+      )}
+
+      {/* Show correct curve in green on result */}
+      {phase === 'result' && chosen !== correctZone && (
+        <FnCurve fn={fn} color="#22c55e60" xStart={startX} xEnd={goalX + 0.3} />
+      )}
+
+      {/* Animated ball */}
+      {ballPos && <Ball x={ballPos[0]} y={ballPos[1]} trail={trail} />}
     </svg>
   )
 }
 
+// ── Difficulty screen ─────────────────────────────────────────────────────────
+
+const DIFS = {
+  easy:   { emoji: '🟢', label: { es: 'Fácil',   en: 'Easy',   ca: 'Fàcil'   },
+    desc: { es: 'Rectas simples · f(x) = mx',               en: 'Simple lines · f(x) = mx',             ca: 'Rectes simples · f(x) = mx'             } },
+  medium: { emoji: '🟡', label: { es: 'Medio',   en: 'Medium', ca: 'Mitjà'   },
+    desc: { es: 'Rectas con pendiente y corte · f(x) = mx + b', en: 'Lines with slope & intercept',     ca: 'Rectes amb pendent i tall'               } },
+  hard:   { emoji: '🔴', label: { es: 'Difícil', en: 'Hard',   ca: 'Difícil' },
+    desc: { es: 'Parábolas y funciones cuadráticas',         en: 'Parabolas & quadratic functions',      ca: 'Paràboles i funcions quadràtiques'       } },
+}
+
+const COPY = {
+  badge:   { es: 'Matemáticas · Funciones',                    en: 'Maths · Functions',                    ca: 'Matemàtiques · Funcions'               },
+  title:   { es: '🧤 Portero',                                  en: '🧤 Goalkeeper',                         ca: '🧤 Porter'                             },
+  sub:     { es: 'Calcula dónde llega el balón y para el tiro', en: 'Calculate where the ball lands and save', ca: 'Calcula on arriba la pilota i atura el tir' },
+  time:    { es: 'Tiempo',    en: 'Time',      ca: 'Temps'    },
+  timeVal: { es: '90 segundos por partido',   en: '90 seconds per match',   ca: '90 segons per partit'   },
+  pts:     { es: 'Puntos',    en: 'Points',    ca: 'Punts'    },
+  ptsVal:  { es: 'Cada parada = 10 pts → monedas', en: 'Each save = 10 pts → coins', ca: 'Cada aturada = 10 pts → monedes' },
+  zones:   { es: 'Zonas',     en: 'Zones',     ca: 'Zones'    },
+  zonesVal:{ es: '4 bandas de altura — calcula f(x₀) y elige', en: '4 height bands — compute f(x₀) and pick', ca: '4 bandes d\'alçada — calcula f(x₀) i tria' },
+  how:     { es: 'Cómo funciona', en: 'How it works', ca: 'Com funciona' },
+  p1:      { es: 'Lee la función f(x) que describe la trayectoria del disparo', en: 'Read the function f(x) that describes the shot trajectory', ca: 'Llegeix la funció f(x) que descriu la trajectòria del tir' },
+  p2:      { es: 'Calcula f(x₀) donde x₀ es la posición de la portería',       en: 'Calculate f(x₀) where x₀ is the goal position',             ca: 'Calcula f(x₀) on x₀ és la posició de la porteria'        },
+  p3:      { es: 'Elige la zona (A, B, C, D) donde entra el balón',            en: 'Pick the zone (A, B, C, D) where the ball enters',           ca: 'Tria la zona (A, B, C, D) on entra la pilota'            },
+  p4:      { es: 'La animación muestra la trayectoria real — ¡aprende del error!', en: 'The animation shows the real trajectory — learn from mistakes!', ca: 'L\'animació mostra la trajectòria real — aprèn de l\'error!' },
+  pwup:    { es: 'Bonificaciones', en: 'Power-ups', ca: 'Bonificacions' },
+  start:   { es: '▶ Empezar partido', en: '▶ Start match', ca: '▶ Començar partit' },
+  saves:   { es: 'paradas',   en: 'saves',     ca: 'aturades'  },
+  calcQ:   { es: '¿A qué zona llega el balón? · Portería en x =', en: 'Which zone does the ball reach? · Goal at x =', ca: 'A quina zona arriba la pilota? · Porteria a x =' },
+  save:    { es: '¡Parada!',      en: 'Save!',       ca: 'Aturada!'     },
+  goal:    { es: '¡Gol en contra!', en: 'Goal conceded!', ca: 'Gol en contra!' },
+  next:    { es: 'Siguiente →',   en: 'Next →',      ca: 'Següent →'    },
+  expTitle:{ es: 'Solución:',     en: 'Solution:',   ca: 'Solució:'     },
+  pwupPick:{ es: 'Elige una ventaja permanente', en: 'Pick a permanent power-up', ca: 'Tria un avantatge permanent' },
+  end:     { es: 'Partido finalizado', en: 'Full time', ca: 'Partit finalitzat' },
+  replay:  { es: '▶ Jugar de nuevo', en: '▶ Play again', ca: '▶ Jugar de nou' },
+  changeDif: { es: 'Cambiar dificultad', en: 'Change difficulty', ca: 'Canviar dificultat' },
+}
+
+function T(key, l) { return COPY[key]?.[l] ?? COPY[key]?.es ?? key }
+
 // ── Power-ups ─────────────────────────────────────────────────────────────────
 
 const POWERUP_POOL = [
-  { id: 'double_def', emoji: '🛡️', label: { es: 'Doble defensa', en: 'Double defence', ca: 'Doble defensa' }, desc: { es: 'Cubre 2 zonas en la siguiente parada', en: 'Cover 2 zones on the next save', ca: 'Cobreix 2 zones a la pròxima aturada' } },
-  { id: 'extra_time',  emoji: '⏱️', label: { es: '+5 segundos', en: '+5 seconds', ca: '+5 segons' },         desc: { es: 'Más tiempo para seguir parando', en: 'More time to keep saving', ca: 'Més temps per seguir aturant' } },
-  { id: 'extra_time_big', emoji: '⏰', label: { es: '+10 segundos', en: '+10 seconds', ca: '+10 segons' },   desc: { es: 'Gran recarga de tiempo', en: 'Big time reload', ca: 'Gran recàrrega de temps' } },
-  { id: 'hint',        emoji: '👁️', label: { es: 'Visión de portero', en: 'Keeper\'s vision', ca: 'Visió de porter' }, desc: { es: 'Muestra la pista en la siguiente jugada', en: 'Shows the hint on the next play', ca: 'Mostra la pista a la pròxima jugada' } },
-  { id: 'two_zones',   emoji: '🎯', label: { es: 'Solo 2 zonas', en: 'Only 2 zones', ca: 'Només 2 zones' }, desc: { es: 'La siguiente jugada tiene solo 2 opciones', en: 'Next play has only 2 options', ca: 'La propera jugada té només 2 opcions' } },
+  { id: 'extra_time',    emoji: '⏱️', label: { es: '+5 segundos',    en: '+5 seconds',     ca: '+5 segons'     }, desc: { es: 'Más tiempo para seguir parando',   en: 'More time to keep saving',   ca: 'Més temps per seguir aturant'   } },
+  { id: 'extra_time_big',emoji: '⏰', label: { es: '+10 segundos',   en: '+10 seconds',    ca: '+10 segons'    }, desc: { es: 'Gran recarga de tiempo',           en: 'Big time reload',            ca: 'Gran recàrrega de temps'        } },
+  { id: 'show_curve',    emoji: '👁️', label: { es: 'Curva visible',  en: 'Curve hint',     ca: 'Corba visible' }, desc: { es: 'La siguiente jugada muestra la curva antes de elegir', en: 'Next play shows the curve before you pick', ca: 'La pròxima jugada mostra la corba abans de triar' } },
+  { id: 'two_zones',     emoji: '🎯', label: { es: 'Solo 2 zonas',   en: 'Only 2 zones',   ca: 'Només 2 zones' }, desc: { es: 'La siguiente jugada tiene solo 2 opciones', en: 'Next play has only 2 options', ca: 'La pròxima jugada té només 2 opcions' } },
+  { id: 'double_save',   emoji: '🛡️', label: { es: 'Doble defensa', en: 'Double defence', ca: 'Doble defensa' }, desc: { es: 'La siguiente jugada puedes elegir 2 zonas', en: 'Next play you can pick 2 zones', ca: 'La pròxima jugada pots triar 2 zones' } },
 ]
 
 function pickPowerups() {
@@ -189,59 +243,24 @@ function pickPowerups() {
 
 // ── Screens ───────────────────────────────────────────────────────────────────
 
-const DIFS = {
-  easy:   { emoji: '🟢', label: { es: 'Fácil',   en: 'Easy',   ca: 'Fàcil'   }, desc: { es: 'Pista visual de dónde va el balón',       en: 'Visual hint of where the ball goes',   ca: 'Pista visual d\'on va la pilota'        } },
-  medium: { emoji: '🟡', label: { es: 'Medio',   en: 'Medium', ca: 'Mitjà'   }, desc: { es: 'Solo la posición del delantero te orienta', en: 'Only the striker\'s position guides you', ca: 'Només la posició del davanter t\'orienta' } },
-  hard:   { emoji: '🔴', label: { es: 'Difícil', en: 'Hard',   ca: 'Difícil' }, desc: { es: 'Delantero impredecible — puro instinto',    en: 'Unpredictable striker — pure instinct',  ca: 'Davanter impredictible — pur instint'   } },
-}
-
-const COPY = {
-  badge:   { es: 'Matemáticas · Razonamiento espacial',    en: 'Maths · Spatial reasoning',          ca: 'Matemàtiques · Raonament espacial'   },
-  title:   { es: '🧤 Portero',                             en: '🧤 Goalkeeper',                       ca: '🧤 Porter'                           },
-  sub:     { es: 'Elige la zona para parar el disparo',    en: 'Pick the zone to stop the shot',      ca: 'Tria la zona per aturar el tir'       },
-  difLbl:  { es: 'Dificultad',                             en: 'Difficulty',                          ca: 'Dificultat'                           },
-  time:    { es: 'Tiempo',                                 en: 'Time',                                ca: 'Temps'                                },
-  timeVal: { es: '90 segundos por partido',                en: '90 seconds per match',                ca: '90 segons per partit'                 },
-  pts:     { es: 'Puntos',                                 en: 'Points',                              ca: 'Punts'                                },
-  ptsVal:  { es: 'Cada parada = 10 pts → monedas',         en: 'Each save = 10 pts → coins',          ca: 'Cada aturada = 10 pts → monedes'      },
-  zones:   { es: 'Zonas',                                  en: 'Zones',                               ca: 'Zones'                                },
-  zonesVal:{ es: '4 cuadrantes — solo 1 para el balón',    en: '4 quadrants — only 1 stops the ball', ca: '4 quadrants — només 1 atura la pilota' },
-  how:     { es: 'Cómo funciona',                          en: 'How it works',                        ca: 'Com funciona'                         },
-  p1:      { es: 'Observa la posición y movimiento del delantero', en: 'Watch the striker\'s position and movement', ca: 'Observa la posició i moviment del davanter' },
-  p2:      { es: 'Elige la zona donde crees que va el disparo',    en: 'Pick the zone where you think the shot goes', ca: 'Tria la zona on creus que va el tir'       },
-  p3:      { es: 'Si paras el balón, elige una ventaja permanente', en: 'If you save it, pick a permanent advantage', ca: 'Si atures la pilota, tria un avantatge permanent' },
-  p4:      { es: 'El partido acaba cuando se agota el tiempo',      en: 'Match ends when time runs out',               ca: 'El partit acaba quan s\'acaba el temps'          },
-  pwup:    { es: 'Bonificaciones',                         en: 'Power-ups',                           ca: 'Bonificacions'                        },
-  start:   { es: '▶ Empezar partido',                      en: '▶ Start match',                       ca: '▶ Començar partit'                    },
-  saves:   { es: 'paradas',                                en: 'saves',                               ca: 'aturades'                             },
-  goal:    { es: '¡Gol en contra!',                        en: 'Goal conceded!',                      ca: 'Gol en contra!'                       },
-  save:    { es: '¡Parada!',                               en: 'Save!',                               ca: 'Aturada!'                             },
-  next:    { es: 'Siguiente →',                            en: 'Next →',                              ca: 'Següent →'                            },
-  chooseZone: { es: '¿En qué zona para el balón?',         en: 'Which zone stops the ball?',          ca: 'En quina zona s\'atura la pilota?'    },
-  doubleInfo: { es: 'Doble defensa activa — elige 2 zonas', en: 'Double defence — pick 2 zones',      ca: 'Doble defensa activa — tria 2 zones'  },
-  pwupTitle:  { es: '¡Parada!',                            en: 'Save!',                               ca: 'Aturada!'                             },
-  pwupSub:    { es: 'Elige una ventaja permanente',         en: 'Pick a permanent power-up',           ca: 'Tria un avantatge permanent'          },
-  end:     { es: 'Partido finalizado',                     en: 'Full time',                           ca: 'Partit finalitzat'                    },
-  replay:  { es: '▶ Jugar de nuevo',                       en: '▶ Play again',                        ca: '▶ Jugar de nou'                       },
-  changeDif: { es: 'Cambiar dificultad',                   en: 'Change difficulty',                   ca: 'Canviar dificultat'                   },
-}
-
-function t(key, l) {
-  return COPY[key]?.[l] ?? COPY[key]?.es ?? key
-}
-
 function DifficultyScreen({ onSelect, l }) {
   const [dif, setDif] = useState('easy')
-  const pwupLabels = { es: [['🛡️','Doble defensa','Cubre 2 zonas en la siguiente jugada'],['⏱️','+5 segundos','Más tiempo de portería'],['⏰','+10 segundos','Gran recarga de tiempo'],['👁️','Visión de portero','Pista sobre la dirección del disparo'],['🎯','Solo 2 zonas','La siguiente jugada tiene solo 2 opciones']], en: [['🛡️','Double defence','Cover 2 zones on the next play'],['⏱️','+5 seconds','More goalkeeping time'],['⏰','+10 seconds','Big time reload'],['👁️','Keeper\'s vision','Hint about the shot direction'],['🎯','Only 2 zones','Next play shows only 2 options']], ca: [['🛡️','Doble defensa','Cobreix 2 zones a la pròxima jugada'],['⏱️','+5 segons','Més temps de porter'],['⏰','+10 segons','Gran recàrrega de temps'],['👁️','Visió de porter','Pista sobre la direcció del tir'],['🎯','Només 2 zones','La pròxima jugada té només 2 opcions']] }
-  const pwups = pwupLabels[l] ?? pwupLabels.es
+
+  const pwupRows = {
+    es: [['👁️','Curva visible','Muestra la curva antes de que elijas la zona'],['🛡️','Doble defensa','Puedes elegir 2 zonas en la siguiente jugada'],['🎯','Solo 2 zonas','La siguiente jugada tiene solo 2 opciones'],['⏱️','+5 segundos','Más tiempo de partido'],['⏰','+10 segundos','Gran recarga de tiempo']],
+    en: [['👁️','Curve hint','Shows the curve before you pick the zone'],['🛡️','Double defence','Pick 2 zones on the next play'],['🎯','Only 2 zones','Next play shows only 2 options'],['⏱️','+5 seconds','More match time'],['⏰','+10 seconds','Big time reload']],
+    ca: [['👁️','Corba visible','Mostra la corba abans que triïs la zona'],['🛡️','Doble defensa','Pots triar 2 zones a la propera jugada'],['🎯','Només 2 zones','La pròxima jugada té 2 opcions'],['⏱️','+5 segons','Més temps de partit'],['⏰','+10 segons','Gran recàrrega de temps']],
+  }
+  const pwups = pwupRows[l] ?? pwupRows.es
 
   return (
     <div className="relative z-10 flex flex-col items-center min-h-[calc(100vh-4rem)] px-4 py-8">
       <div className="max-w-md w-full">
-        <p className="text-white/40 text-xs uppercase tracking-widest text-center mb-2">{t('badge', l)}</p>
-        <h1 className="text-3xl font-black text-white text-center mb-1">{t('title', l)}</h1>
-        <p className="text-white/40 text-sm text-center mb-6">{t('sub', l)}</p>
+        <p className="text-white/40 text-xs uppercase tracking-widest text-center mb-2">{T('badge', l)}</p>
+        <h1 className="text-3xl font-black text-white text-center mb-1">{T('title', l)}</h1>
+        <p className="text-white/40 text-sm text-center mb-6">{T('sub', l)}</p>
 
+        {/* Difficulty tabs */}
         <div className="flex gap-2 p-1 bg-white/5 border border-white/10 rounded-xl mb-3 w-fit mx-auto">
           {Object.entries(DIFS).map(([id, d]) => (
             <button key={id} onClick={() => setDif(id)}
@@ -252,10 +271,11 @@ function DifficultyScreen({ onSelect, l }) {
             </button>
           ))}
         </div>
-        <p className="text-white/40 text-xs text-center mb-5">{DIFS[dif].desc[l] ?? DIFS[dif].desc.es}</p>
+        <p className="text-white/40 text-xs text-center mb-5 font-mono">{DIFS[dif].desc[l] ?? DIFS[dif].desc.es}</p>
 
+        {/* Stats */}
         <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-4 space-y-2.5 text-sm">
-          {[['⏱️', t('time', l), t('timeVal', l)], ['⭐', t('pts', l), t('ptsVal', l)], ['🥅', t('zones', l), t('zonesVal', l)]].map(([e, k, v]) => (
+          {[['⏱️', T('time', l), T('timeVal', l)], ['⭐', T('pts', l), T('ptsVal', l)], ['🥅', T('zones', l), T('zonesVal', l)]].map(([e, k, v]) => (
             <div key={k} className="flex items-start justify-between gap-4">
               <span className="text-white/40 shrink-0 pt-0.5">{e} {k}</span>
               <span className="text-white font-semibold text-right">{v}</span>
@@ -263,10 +283,11 @@ function DifficultyScreen({ onSelect, l }) {
           ))}
         </div>
 
+        {/* How it works */}
         <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-4">
-          <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-3">{t('how', l)}</p>
+          <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-3">{T('how', l)}</p>
           <div className="space-y-2">
-            {[['🏃', t('p1', l)], ['🥅', t('p2', l)], ['🎁', t('p3', l)], ['⏰', t('p4', l)]].map(([e, text]) => (
+            {[['📐', T('p1', l)], ['🧮', T('p2', l)], ['🥅', T('p3', l)], ['🎬', T('p4', l)]].map(([e, text]) => (
               <div key={text} className="flex items-start gap-3 text-sm text-white/50">
                 <span className="text-base w-5 shrink-0 text-center">{e}</span>
                 <span>{text}</span>
@@ -275,8 +296,26 @@ function DifficultyScreen({ onSelect, l }) {
           </div>
         </div>
 
+        {/* Zone guide */}
+        <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-4">
+          <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-3">
+            {l === 'en' ? 'Zone guide' : l === 'ca' ? 'Guia de zones' : 'Guía de zonas'}
+          </p>
+          <div className="space-y-2">
+            {GOAL_ZONES.map(z => (
+              <div key={z.id} className="flex items-center gap-3 text-sm">
+                <span className="w-6 h-6 rounded-md flex items-center justify-center text-xs font-black"
+                  style={{ background: z.color + '40', color: z.color }}>{z.id}</span>
+                <span className="text-white font-semibold">{z.label[l] ?? z.label.es}</span>
+                <span className="ml-auto text-white/40 font-mono text-xs">{z.range[l] ?? z.range.es}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Power-ups */}
         <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-6">
-          <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-3">{t('pwup', l)}</p>
+          <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-3">{T('pwup', l)}</p>
           <div className="space-y-3">
             {pwups.map(([e, label, desc]) => (
               <div key={label} className="flex items-start gap-3 text-sm">
@@ -292,7 +331,7 @@ function DifficultyScreen({ onSelect, l }) {
 
         <button onClick={() => onSelect(dif)}
           className="w-full py-4 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-lg rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-amber-500/20">
-          {t('start', l)}
+          {T('start', l)}
         </button>
       </div>
     </div>
@@ -304,10 +343,10 @@ function PowerupScreen({ powerups, score, onPick, l }) {
     <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
       <div className="max-w-sm w-full text-center">
         <div className="text-6xl mb-3" style={{ animation: 'bounce 0.6s infinite alternate' }}>🧤</div>
-        <p className="text-green-400 font-black text-3xl mb-1">{t('pwupTitle', l)}</p>
+        <p className="text-green-400 font-black text-3xl mb-1">{T('save', l)}</p>
         <p className="text-white font-black text-5xl mb-1">{score}</p>
-        <p className="text-white/40 text-sm mb-8">{t('saves', l)}</p>
-        <p className="text-white/60 text-sm font-semibold mb-4">{t('pwupSub', l)}</p>
+        <p className="text-white/40 text-sm mb-8">{T('saves', l)}</p>
+        <p className="text-white/60 text-sm font-semibold mb-4">{T('pwupPick', l)}</p>
         <div className="space-y-3">
           {powerups.map(pw => (
             <button key={pw.id} onClick={() => onPick(pw)}
@@ -328,25 +367,17 @@ function PowerupScreen({ powerups, score, onPick, l }) {
 }
 
 function EndScreen({ score, l, onRestart, onChangeDiff }) {
-  const msgs = {
-    es: score === 0 ? '¡A practicar más!' : score < 3 ? 'Buen intento' : score < 7 ? '¡Buen partido!' : '¡Portero del año! 🔥',
-    en: score === 0 ? 'Keep practising!'  : score < 3 ? 'Good try'    : score < 7 ? 'Good game!'    : 'Goalkeeper of the year! 🔥',
-    ca: score === 0 ? 'A practicar!'      : score < 3 ? 'Bon intent'  : score < 7 ? 'Bon partit!'   : 'Porter de l\'any! 🔥',
-  }
+  const msgs = { es: score === 0 ? '¡A practicar más!' : score < 3 ? 'Buen intento' : score < 7 ? '¡Buen partido!' : '¡Portero del año! 🔥', en: score === 0 ? 'Keep practising!' : score < 3 ? 'Good try' : score < 7 ? 'Good game!' : 'Goalkeeper of the year! 🔥', ca: score === 0 ? 'A practicar!' : score < 3 ? 'Bon intent' : score < 7 ? 'Bon partit!' : 'Porter de l\'any! 🔥' }
   return (
     <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
       <p className="text-6xl mb-3">🧤</p>
-      <p className="text-white/40 text-sm mb-1">{t('end', l)}</p>
+      <p className="text-white/40 text-sm mb-1">{T('end', l)}</p>
       <p className="text-5xl font-black text-white mb-1">{score}</p>
-      <p className="text-white/60 text-lg mb-2">{t('saves', l)}</p>
+      <p className="text-white/60 text-lg mb-2">{T('saves', l)}</p>
       <p className="text-[#EDAE49] font-bold mb-8">{msgs[l] ?? msgs.es}</p>
       <div className="flex flex-col gap-3 w-full max-w-xs">
-        <button onClick={onRestart} className="px-6 py-3 rounded-full bg-[#EDAE49] text-black font-bold hover:bg-[#f5c16c] transition-colors">
-          {t('replay', l)}
-        </button>
-        <button onClick={onChangeDiff} className="px-6 py-3 rounded-full bg-white/10 text-white font-bold hover:bg-white/20 transition-colors">
-          {t('changeDif', l)}
-        </button>
+        <button onClick={onRestart} className="px-6 py-3 rounded-full bg-[#EDAE49] text-black font-bold hover:bg-[#f5c16c] transition-colors">{T('replay', l)}</button>
+        <button onClick={onChangeDiff} className="px-6 py-3 rounded-full bg-white/10 text-white font-bold hover:bg-white/20 transition-colors">{T('changeDif', l)}</button>
       </div>
     </div>
   )
@@ -361,62 +392,76 @@ export default function Portero() {
   const { user } = useAuth()
   const l = lang === 'en' ? 'en' : lang === 'ca' ? 'ca' : 'es'
 
-  const [screen, setScreen]       = useState('difficulty')
+  const [screen, setScreen]         = useState('difficulty')
   const [difficulty, setDifficulty] = useState(null)
-  const [timeLeft, setTimeLeft]   = useState(GAME_TIME)
-  const [score, setScore]         = useState(0)
-  const [kick, setKick]           = useState(null)
-  const [phase, setPhase]         = useState('choose')
-  const [chosen, setChosen]       = useState(null)
+  const [timeLeft, setTimeLeft]     = useState(GAME_TIME)
+  const [score, setScore]           = useState(0)
+  const [question, setQuestion]     = useState(null)
+  const [usedIds, setUsedIds]       = useState([])
+
+  const [phase, setPhase]           = useState('choose')
+  const [chosen, setChosen]         = useState(null)
   const [secondChosen, setSecondChosen] = useState(null)
-  const [ballPos, setBallPos]     = useState(null)
-  const [outcome, setOutcome]     = useState(null)
+  const [ballPos, setBallPos]       = useState(null)
+  const [trail, setTrail]           = useState([])
+  const [outcome, setOutcome]       = useState(null)
   const [pendingPowerups, setPendingPowerups] = useState(null)
 
-  // persistent power-up flags
-  const showHintRef       = useRef(false)
-  const doubleDefenseRef  = useRef(false)
-  const twoZonesRef       = useRef(false)
+  // power-up flags
+  const showCurveRef    = useRef(false)  // show curve during choose phase
+  const doubleSaveRef   = useRef(false)  // allow 2 zone picks
+  const twoZonesRef     = useRef(false)  // hide 2 wrong zones
+  const visibleZonesRef = useRef(null)   // which zone ids to show (null = all 4)
 
   const animRef  = useRef(null)
   const timerRef = useRef(null)
   const phaseRef = useRef('choose')
   const scoreRef = useRef(0)
-  const timeLeftRef = useRef(GAME_TIME)
+  const timeRef  = useRef(GAME_TIME)
 
   useEffect(() => { phaseRef.current = phase }, [phase])
   useEffect(() => { scoreRef.current = score }, [score])
-  useEffect(() => { timeLeftRef.current = timeLeft }, [timeLeft])
+  useEffect(() => { timeRef.current = timeLeft }, [timeLeft])
 
-  function newKick(diff, showHint) {
-    const k = generateKick(diff ?? difficulty, showHint ?? showHintRef.current)
+  const nextQuestion = useCallback((diff, prevUsed) => {
+    const pool = POOLS[diff]
+    const available = pool.filter(q => !prevUsed.includes(q.id))
+    const src = available.length > 0 ? available : pool
+    const q = src[Math.floor(Math.random() * src.length)]
+    const newUsed = available.length > 0 ? [...prevUsed, q.id] : [q.id]
+    setUsedIds(newUsed)
 
-    // Apply twoZones: only show 2 of 4 zones (the correct + 1 random wrong)
+    // twoZones: pick correct + 1 random wrong, reset flag
     if (twoZonesRef.current) {
-      k.visibleZones = [k.zoneId, ZONES.find(z => z.id !== k.zoneId && Math.random() > 0.5)?.id ?? ZONES.find(z => z.id !== k.zoneId).id]
+      const correct = getZone(q.fn(q.goalX))
+      const others = GOAL_ZONES.filter(z => z.id !== correct)
+      const wrong = others[Math.floor(Math.random() * others.length)].id
+      visibleZonesRef.current = [correct, wrong].sort(() => Math.random() - 0.5)
       twoZonesRef.current = false
     } else {
-      k.visibleZones = null // show all 4
+      visibleZonesRef.current = null
     }
 
-    setKick(k)
+    setQuestion(q)
     setPhase('choose')
     setChosen(null)
     setSecondChosen(null)
     setBallPos(null)
+    setTrail([])
     setOutcome(null)
     if (animRef.current) cancelAnimationFrame(animRef.current)
-  }
+  }, [])
 
   function startGame(diff) {
     setDifficulty(diff)
     setScreen('playing')
     setScore(0)
     setTimeLeft(GAME_TIME)
-    showHintRef.current = diff === 'easy'
-    doubleDefenseRef.current = false
-    twoZonesRef.current = false
-    newKick(diff, diff === 'easy')
+    showCurveRef.current  = false
+    doubleSaveRef.current = false
+    twoZonesRef.current   = false
+    visibleZonesRef.current = null
+    nextQuestion(diff, [])
   }
 
   // timer
@@ -432,63 +477,78 @@ export default function Portero() {
     return () => clearInterval(timerRef.current)
   }, [screen])
 
-  // save activity on end
+  // save activity
   useEffect(() => {
     if (screen !== 'end') return
     const pts = scoreRef.current * 10
     if (user?.uid) {
       saveActivity(user.uid, {
-        type: 'juego',
-        game: 'portero',
-        category: 'matematicas',
-        score: pts,
-        passed: scoreRef.current > 0,
-        timeSpent: GAME_TIME - timeLeftRef.current,
+        type: 'juego', game: 'portero', category: 'matematicas',
+        score: pts, passed: scoreRef.current > 0,
+        timeSpent: GAME_TIME - timeRef.current,
       }).catch(() => {})
     }
   }, [screen, user])
 
-  function handleZoneClick(zoneId) {
-    if (phase !== 'choose' || !kick) return
+  useEffect(() => () => {
+    if (animRef.current)  cancelAnimationFrame(animRef.current)
+    if (timerRef.current) clearInterval(timerRef.current)
+  }, [])
 
-    if (doubleDefenseRef.current && !chosen) {
+  function handleZonePick(zoneId) {
+    if (phase !== 'choose' || !question) return
+
+    if (doubleSaveRef.current && !chosen) {
       setChosen(zoneId)
-      return // wait for second click
+      return // wait for second pick
     }
-    if (doubleDefenseRef.current && chosen && !secondChosen && zoneId !== chosen) {
+    if (doubleSaveRef.current && chosen && !secondChosen && zoneId !== chosen) {
       setSecondChosen(zoneId)
-      doubleDefenseRef.current = false
-      shoot(chosen, zoneId)
+      doubleSaveRef.current = false
+      animateShot(chosen, zoneId)
       return
     }
-    if (!doubleDefenseRef.current) {
+    if (!doubleSaveRef.current) {
       setChosen(zoneId)
-      shoot(zoneId, null)
+      animateShot(zoneId, null)
     }
   }
 
-  function shoot(zone1, zone2) {
-    if (!kick) return
+  function animateShot(zone1, zone2) {
+    if (!question) return
     setPhase('animating')
 
-    const targetZone = ZONES.find(z => z.id === kick.zoneId)
-    const startX = KICKER_X
-    const startY = KICKER_Y
-    const endX = targetZone.cx
-    const endY = targetZone.cy
+    const { fn, startX, goalX } = question
+    const endX = goalX + 0.2
     const start = Date.now()
+    const trailPts = []
+
+    // Seed trail from start position
+    try {
+      const y0 = fn(startX)
+      if (isFinite(y0)) trailPts.push(toSVG(startX, y0))
+    } catch { /* skip */ }
 
     function animate() {
       const elapsed = Date.now() - start
       const progress = Math.min(elapsed / ANIM_DURATION, 1)
-      // ease-out
-      const t = 1 - Math.pow(1 - progress, 2)
-      setBallPos({ x: startX + (endX - startX) * t, y: startY + (endY - startY) * t })
+      const x = startX + progress * (endX - startX)
+      let y
+      try { y = fn(x) } catch { y = null }
+
+      const inView = y !== null && isFinite(y) && y >= VIEW.yMin - 0.5 && y <= VIEW.yMax + 0.5
+      if (inView) {
+        const pt = toSVG(x, y)
+        trailPts.push(pt)
+        setBallPos([x, y])
+        setTrail([...trailPts].slice(-50))
+      }
 
       if (progress < 1) {
         animRef.current = requestAnimationFrame(animate)
       } else {
-        const saved = zone1 === kick.zoneId || zone2 === kick.zoneId
+        const correctZone = getZone(fn(goalX))
+        const saved = zone1 === correctZone || zone2 === correctZone
         doFinish(saved ? 'save' : 'goal')
       }
     }
@@ -504,32 +564,37 @@ export default function Portero() {
       setTimeout(() => {
         setPendingPowerups(pickPowerups())
         setPhase('powerup')
-      }, 900)
+      }, 1200)
     }
   }
 
   function applyPowerup(pw) {
     setPendingPowerups(null)
-    let nextHint = showHintRef.current
-
     if (pw.id === 'extra_time')     setTimeLeft(tl => Math.min(tl + 5, 999))
     if (pw.id === 'extra_time_big') setTimeLeft(tl => Math.min(tl + 10, 999))
-    if (pw.id === 'double_def')     doubleDefenseRef.current = true
-    if (pw.id === 'hint')           { nextHint = true; showHintRef.current = true }
+    if (pw.id === 'show_curve')     showCurveRef.current = true
     if (pw.id === 'two_zones')      twoZonesRef.current = true
-
-    newKick(difficulty, nextHint)
-    if (pw.id === 'hint') showHintRef.current = false // one-shot: reset after applying to kick
+    if (pw.id === 'double_save')    doubleSaveRef.current = true
+    nextQuestion(difficulty, usedIds)
+    if (pw.id === 'show_curve') showCurveRef.current = false // one-shot reset after question set
   }
 
-  function skipResult() {
-    newKick(difficulty)
+  // HACK: showCurve must persist for the next question — set after nextQuestion call
+  function applyPowerupFixed(pw) {
+    setPendingPowerups(null)
+    if (pw.id === 'extra_time')     setTimeLeft(tl => Math.min(tl + 5, 999))
+    if (pw.id === 'extra_time_big') setTimeLeft(tl => Math.min(tl + 10, 999))
+    if (pw.id === 'two_zones')      twoZonesRef.current = true
+    if (pw.id === 'double_save')    doubleSaveRef.current = true
+    if (pw.id === 'show_curve')     showCurveRef.current = true
+    nextQuestion(difficulty, usedIds)
+    // one-shot: reset show_curve after question is set so it doesn't persist further
+    if (pw.id === 'show_curve') {
+      setTimeout(() => { showCurveRef.current = false }, 0)
+    }
   }
 
-  useEffect(() => () => {
-    if (animRef.current)  cancelAnimationFrame(animRef.current)
-    if (timerRef.current) clearInterval(timerRef.current)
-  }, [])
+  function skipResult() { nextQuestion(difficulty, usedIds) }
 
   // ── render ──
 
@@ -544,25 +609,26 @@ export default function Portero() {
     )
   }
 
-  if (!kick) return null
+  if (!question) return null
 
   if (phase === 'powerup' && pendingPowerups) {
-    return <PowerupScreen powerups={pendingPowerups} score={score} onPick={applyPowerup} l={l} />
+    return <PowerupScreen powerups={pendingPowerups} score={score} onPick={applyPowerupFixed} l={l} />
   }
 
   const timerPct = timeLeft / GAME_TIME
   const timerColor = timeLeft > 30 ? '#22c55e' : timeLeft > 10 ? '#f59e0b' : '#ef4444'
-  const isDoubleWaiting = doubleDefenseRef.current && chosen && !secondChosen
+  const correctZone = getZone(question.fn(question.goalX))
+  const visibleIds = visibleZonesRef.current ?? GOAL_ZONES.map(z => z.id)
 
-  const visibleZoneIds = kick.visibleZones ?? ZONES.map(z => z.id)
+  const isDoubleWaiting = doubleSaveRef.current && chosen && !secondChosen
 
   return (
     <div className="relative z-10 flex flex-col items-center min-h-[calc(100vh-4rem)] px-2 sm:px-4 py-4">
       {/* Header */}
-      <div className="w-full max-w-[540px] flex items-center justify-between mb-3 px-2">
+      <div className="w-full max-w-[600px] flex items-center justify-between mb-3 px-2">
         <div>
           <p className="text-white/40 text-xs uppercase tracking-widest">🧤 Portero</p>
-          <p className="text-white font-bold text-lg">{score} {t('saves', l)}</p>
+          <p className="text-white font-bold text-lg">{score} {T('saves', l)}</p>
         </div>
         <div className="relative w-14 h-14">
           <svg className="absolute inset-0" viewBox="0 0 56 56">
@@ -580,74 +646,99 @@ export default function Portero() {
         </div>
       </div>
 
-      {/* Field */}
-      <div className="relative w-full max-w-[540px] rounded-xl overflow-hidden border border-white/10 bg-[#0d1117] mb-3">
+      {/* Function equation */}
+      <div className="w-full max-w-[600px] px-2 mb-2">
+        <div className="bg-white/8 border border-white/15 rounded-xl px-5 py-3 flex items-center justify-between gap-4">
+          <div>
+            <p className="text-white/40 text-[10px] uppercase tracking-widest mb-0.5">
+              {T('calcQ', l)} {question.goalX}
+            </p>
+            <p className="text-white font-black text-xl font-mono">{question.label}</p>
+          </div>
+          {/* Portería indicator */}
+          <div className="text-right shrink-0">
+            <p className="text-white/30 text-[10px]">{l === 'en' ? 'Goal at' : l === 'ca' ? 'Porteria a' : 'Portería en'}</p>
+            <p className="text-white/70 font-mono text-sm font-bold">x = {question.goalX}</p>
+          </div>
+        </div>
+      </div>
+
+      {/* SVG Field */}
+      <div className="relative w-full max-w-[600px] rounded-xl overflow-hidden border border-white/10 bg-[#0d1117] mb-3">
         <PorteroField
-          kick={kick}
-          phase={phase}
+          question={question}
+          phase={phase === 'choose' && showCurveRef.current ? 'animating' : phase}
           chosen={chosen}
-          secondChosen={secondChosen}
           ballPos={ballPos}
-          outcome={outcome}
-          showHint={showHintRef.current}
-          doubleDefense={doubleDefenseRef.current}
-          onZoneClick={handleZoneClick}
-          l={l}
+          trail={trail}
         />
 
         {/* Save overlay */}
         {phase === 'result' && outcome === 'save' && (
           <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/50 backdrop-blur-sm">
             <p className="text-5xl mb-1">🧤</p>
-            <p className="text-green-400 font-black text-3xl">{t('save', l)}</p>
+            <p className="text-green-400 font-black text-3xl">{T('save', l)}</p>
           </div>
         )}
 
         {/* Goal conceded overlay */}
         {phase === 'result' && outcome === 'goal' && (
-          <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/65 backdrop-blur-sm">
+          <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/65 backdrop-blur-sm px-4">
             <p className="text-4xl mb-2">⚽</p>
-            <p className="text-red-400 font-black text-xl mb-4">{t('goal', l)}</p>
+            <p className="text-red-400 font-black text-xl mb-2">{T('goal', l)}</p>
+            <p className="text-white/50 text-xs font-semibold mb-1">{T('expTitle', l)}</p>
+            <p className="text-white/80 text-sm text-center mb-4 font-mono">
+              {question.explanation?.[l] ?? question.explanation?.es}
+            </p>
             <button onClick={skipResult}
               className="px-5 py-2 rounded-full bg-[#EDAE49] text-black font-bold text-sm hover:bg-[#f5c16c] transition-colors">
-              {t('next', l)}
+              {T('next', l)}
             </button>
           </div>
         )}
       </div>
 
       {/* Zone buttons */}
-      <div className="w-full max-w-[540px] px-2">
-        <p className="text-white/50 text-xs text-center mb-2">
-          {isDoubleWaiting
-            ? (l === 'es' ? 'Elige la segunda zona →' : l === 'en' ? 'Pick the second zone →' : 'Tria la segona zona →')
-            : (doubleDefenseRef.current
-                ? t('doubleInfo', l)
-                : t('chooseZone', l))}
-        </p>
-        <div className="grid grid-cols-2 gap-2">
-          {visibleZoneIds.map(zoneId => {
-            const isChosen = chosen === zoneId || secondChosen === zoneId
-            const isCorrect = phase === 'result' && kick.zoneId === zoneId
-            const isWrong   = phase === 'result' && isChosen && !isCorrect
-            let bg = 'bg-white/5 hover:bg-white/10 border-white/10'
-            if (phase === 'result') {
-              if (isCorrect) bg = 'bg-green-500/20 border-green-500'
-              else if (isWrong) bg = 'bg-red-500/20 border-red-500'
-              else bg = 'bg-white/5 border-white/10 opacity-40'
-            } else if (isChosen) {
-              bg = 'bg-amber-500/20 border-amber-500'
-            }
+      <div className="w-full max-w-[600px] px-2">
+        {isDoubleWaiting ? (
+          <p className="text-amber-400 text-xs text-center mb-2">
+            {l === 'es' ? 'Elige la segunda zona →' : l === 'en' ? 'Pick the second zone →' : 'Tria la segona zona →'}
+          </p>
+        ) : doubleSaveRef.current ? (
+          <p className="text-white/50 text-xs text-center mb-2">
+            {l === 'es' ? 'Doble defensa — elige 2 zonas' : l === 'en' ? 'Double defence — pick 2 zones' : 'Doble defensa — tria 2 zones'}
+          </p>
+        ) : null}
 
-            const zoneMap = { TL: '↖', TR: '↗', BL: '↙', BR: '↘' }
+        <div className="grid grid-cols-2 gap-2">
+          {GOAL_ZONES.filter(z => visibleIds.includes(z.id)).map(z => {
+            const isChosen  = chosen === z.id || secondChosen === z.id
+            const isCorrect = phase === 'result' && correctZone === z.id
+            const isWrong   = phase === 'result' && isChosen && !isCorrect
+
+            let borderStyle = { borderColor: z.color + '40' }
+            let bgClass = 'bg-white/5 hover:bg-white/10'
+            if (isCorrect)       { bgClass = 'bg-green-500/20';  borderStyle = { borderColor: '#22c55e' } }
+            else if (isWrong)    { bgClass = 'bg-red-500/20';    borderStyle = { borderColor: '#ef4444' } }
+            else if (isChosen)   { bgClass = 'bg-amber-500/20';  borderStyle = { borderColor: '#EDAE49' } }
+            else if (phase === 'result') bgClass = 'bg-white/5 opacity-40'
+
             return (
-              <button key={zoneId}
-                onClick={() => handleZoneClick(zoneId)}
+              <button key={z.id}
+                onClick={() => handleZonePick(z.id)}
                 disabled={phase !== 'choose'}
-                className={`w-full px-4 py-3 rounded-xl border font-semibold text-sm text-white transition-all flex items-center gap-2 ${bg}`}>
-                <span className="text-lg">{zoneMap[zoneId]}</span>
-                <span>{ZONE_LABELS[zoneId][l] ?? ZONE_LABELS[zoneId].es}</span>
-                {isChosen && phase === 'choose' && <span className="ml-auto text-xs text-amber-400">🧤</span>}
+                style={borderStyle}
+                className={`w-full px-3 py-3 rounded-xl border font-semibold text-sm text-white transition-all flex items-center gap-2 ${bgClass}`}>
+                <span className="w-6 h-6 rounded-md flex items-center justify-center text-xs font-black shrink-0"
+                  style={{ background: z.color + '40', color: z.color }}>
+                  {z.id}
+                </span>
+                <div className="text-left">
+                  <p className="text-white text-xs font-bold">{z.label[l] ?? z.label.es}</p>
+                  <p className="text-white/40 text-[10px] font-mono">{z.range[l] ?? z.range.es}</p>
+                </div>
+                {isChosen && phase === 'choose' && <span className="ml-auto text-xs">🧤</span>}
+                {isCorrect && <span className="ml-auto">✓</span>}
               </button>
             )
           })}
