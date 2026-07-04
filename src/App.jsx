@@ -35,6 +35,7 @@ const GeoMapa            = lazy(() => import('./pages/GeoMapa'))
 const NumPath            = lazy(() => import('./pages/NumPath'))
 const Trayectoria        = lazy(() => import('./pages/Trayectoria'))
 const TrayectoriaExamen  = lazy(() => import('./pages/TrayectoriaExamen'))
+const Portero            = lazy(() => import('./pages/Portero'))
 const InfoJuegosHub      = lazy(() => import('./pages/InfoJuegosHub'))
 const InfoJuegoFicha     = lazy(() => import('./pages/InfoJuegoFicha'))
 const GeografiaIndex     = lazy(() => import('./pages/GeografiaIndex'))
@@ -194,6 +195,7 @@ function AppRoutes() {
       <Route path="juegos/geomapa" element={<GeoMapa />} />
       <Route path="juegos/numpath" element={<NumPath />} />
       <Route path="juegos/trayectoria" element={<Trayectoria />} />
+      <Route path="juegos/portero" element={<Portero />} />
       <Route path="examen/trayectoria" element={<TrayectoriaExamen />} />
 
       {/* ── INFO / SEO ── */}

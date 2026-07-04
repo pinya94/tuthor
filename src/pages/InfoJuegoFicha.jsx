@@ -240,6 +240,34 @@ const FICHAS_ES = {
     ],
     asignatura: 'Matemáticas', niveles: 'ESO, Bachillerato',
   },
+  'portero': {
+    titulo: 'Portero',
+    subtitulo: 'Juego de Razonamiento Espacial y Toma de Decisiones',
+    emoji: '🧤', gradient: 'from-sky-600 to-blue-800',
+    path: '/juegos/portero',
+    intro: 'Ponte bajo los palos y para el disparo del delantero. Observa su posición, interpreta las pistas visuales y elige el cuadrante correcto antes de que la pelota llegue a la portería. Solo una de las cuatro zonas para el balón — el resto son goles en contra.',
+    beneficios: [
+      { titulo: 'Razonamiento Espacial', texto: 'Identificar dónde impactará la pelota según la posición del delantero desarrolla la capacidad de proyectar trayectorias en el espacio — una habilidad cognitiva central en geometría y física.' },
+      { titulo: 'Toma de Decisiones Bajo Presión', texto: 'El tiempo limitado obliga a procesar información visual rápidamente y comprometerse con una elección. Esta agilidad decisional se traslada directamente a situaciones académicas de alta presión.' },
+      { titulo: 'Lectura de Probabilidades', texto: 'Con la práctica, el jugador aprende a leer qué zonas son más probables según las variables visibles. Esto introduce de forma intuitiva conceptos de probabilidad condicionada.' },
+    ],
+    ejemplo: 'El delantero aparece en el lado derecho del campo — la pelota suele ir al lado contrario. El alumno aprende a anticipar esa relación angular y aumenta su tasa de paradas partida tras partida.',
+    enPapel: {
+      titulo: 'Portero en papel',
+      pasos: [
+        'Dibuja una portería con 4 zonas (arriba-izquierda, arriba-derecha, abajo-izquierda, abajo-derecha).',
+        'Un jugador hace de "delantero" y en secreto apunta en un papel a qué zona va a disparar.',
+        'El "portero" elige una zona antes de que el delantero desvele su elección.',
+        'Si coinciden, el portero para. Si no, gol. Jugad 10 rondas y contad paradas.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'Penaltis en el recreo', desc: 'El portero real usa las mismas heurísticas visuales que el juego entrena. Reflexiona sobre qué señales del cuerpo del lanzador predijiste correctamente.' },
+      { nombre: 'Ejercicios de ángulos', desc: 'En clase de matemáticas, calcula desde qué posición del campo es más probable que el balón llegue a cada zona. Conecta geometría con deporte.' },
+      { nombre: 'Juego de probabilidades', desc: 'Con dados o cartas, simula partidos de penaltis y aplica reglas de probabilidad para ver si la estrategia mejora el resultado.' },
+    ],
+    asignatura: 'Matemáticas', niveles: 'Primaria, ESO, Bachillerato',
+  },
 }
 
 const FICHAS_EN = {
@@ -412,6 +440,34 @@ const FICHAS_EN = {
       { nombre: 'Function cards', desc: 'Create cards with a function and its graph. Play to match them. Great for pre-exam revision.' },
     ],
     asignatura: 'Mathematics', niveles: 'Secondary, Sixth Form',
+  },
+  'portero': {
+    titulo: 'Goalkeeper',
+    subtitulo: 'Spatial Reasoning & Decision-Making Game',
+    emoji: '🧤', gradient: 'from-sky-600 to-blue-800',
+    path: '/juegos/portero',
+    intro: 'Step between the posts and stop the striker\'s shot. Read their position, interpret the visual cues, and pick the right quadrant before the ball arrives. Only one of the four zones stops the ball — the rest are goals conceded.',
+    beneficios: [
+      { titulo: 'Spatial Reasoning', texto: 'Identifying where the ball will land based on the striker\'s position develops the ability to project trajectories in space — a core cognitive skill in geometry and physics.' },
+      { titulo: 'Decision-Making Under Pressure', texto: 'The time limit forces rapid processing of visual information and commitment to a choice. This decisional agility transfers directly to high-pressure academic situations.' },
+      { titulo: 'Reading Probabilities', texto: 'With practice, players learn to read which zones are more likely based on visible variables. This intuitively introduces concepts of conditional probability.' },
+    ],
+    ejemplo: 'The striker appears on the right side of the pitch — the ball usually goes to the opposite side. Students learn to anticipate that angular relationship and improve their save rate game after game.',
+    enPapel: {
+      titulo: 'Goalkeeper on paper',
+      pasos: [
+        'Draw a goal with 4 zones (top-left, top-right, bottom-left, bottom-right).',
+        'One player acts as striker and secretly writes which zone they\'re aiming for.',
+        'The goalkeeper picks a zone before the striker reveals their choice.',
+        'If they match, the keeper saves. Otherwise, goal. Play 10 rounds and count saves.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'Penalty shootouts', desc: 'Real goalkeepers use the same visual heuristics the game trains. Reflect on which body cues from the taker you predicted correctly.' },
+      { nombre: 'Angles exercises', desc: 'In maths class, calculate from which field position the ball is most likely to reach each zone. Connect geometry with sport.' },
+      { nombre: 'Probability game', desc: 'Use dice or cards to simulate penalty shootouts and apply probability rules to see whether strategy improves outcomes.' },
+    ],
+    asignatura: 'Mathematics', niveles: 'Primary, Secondary, Sixth Form',
   },
 }
 
@@ -653,6 +709,34 @@ const FICHAS_CA = {
       { nombre: 'Cartes de funcions', desc: 'Crea cartes amb una funció i la seva gràfica. Juga a aparellar-les. Ideal per repassar abans d\'un examen.' },
     ],
     asignatura: 'Matemàtiques', niveles: 'ESO, Batxillerat',
+  },
+  'portero': {
+    titulo: 'Porter',
+    subtitulo: 'Joc de Raonament Espacial i Presa de Decisions',
+    emoji: '🧤', gradient: 'from-sky-600 to-blue-800',
+    path: '/juegos/portero',
+    intro: 'Posa\'t sota els pals i atura el tir del davanter. Observa la seva posició, interpreta les pistes visuals i tria el quadrant correcte abans que la pilota arribi a la porteria. Només una de les quatre zones atura la pilota — la resta són gols en contra.',
+    beneficios: [
+      { titulo: 'Raonament Espacial', texto: 'Identificar on impactarà la pilota segons la posició del davanter desenvolupa la capacitat de projectar trajectòries en l\'espai — una habilitat cognitiva central en geometria i física.' },
+      { titulo: 'Presa de Decisions sota Pressió', texto: 'El temps limitat obliga a processar informació visual ràpidament i comprometre\'s amb una elecció. Aquesta agilitat decisional es trasllada directament a situacions acadèmiques d\'alta pressió.' },
+      { titulo: 'Lectura de Probabilitats', texto: 'Amb la pràctica, el jugador aprèn a llegir quines zones són més probables segons les variables visibles. Això introdueix de manera intuïtiva conceptes de probabilitat condicionada.' },
+    ],
+    ejemplo: 'El davanter apareix al costat dret del camp — la pilota sol anar al costat contrari. L\'alumne aprèn a anticipar aquella relació angular i augmenta la seva taxa d\'aturades partida rere partida.',
+    enPapel: {
+      titulo: 'Porter en paper',
+      pasos: [
+        'Dibuixa una porteria amb 4 zones (dalt-esquerra, dalt-dreta, baix-esquerra, baix-dreta).',
+        'Un jugador fa de davanter i en secret apunta a quina zona va a tirar.',
+        'El porter tria una zona abans que el davanter desvetlli la seva elecció.',
+        'Si coincideixen, el porter atura. Si no, gol. Jugueu 10 rondes i compteu aturades.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'Penals al pati', desc: 'El porter real fa servir les mateixes heurístiques visuals que el joc entrena. Reflexiona sobre quines senyals corporals del llançador vas predir correctament.' },
+      { nombre: 'Exercicis d\'angles', desc: 'A classe de matemàtiques, calcula des de quina posició del camp és més probable que la pilota arribi a cada zona. Connecta geometria amb esport.' },
+      { nombre: 'Joc de probabilitats', desc: 'Amb daus o cartes, simula partits de penals i aplica regles de probabilitat per veure si l\'estratègia millora el resultat.' },
+    ],
+    asignatura: 'Matemàtiques', niveles: 'Primària, ESO, Batxillerat',
   },
 }
 
