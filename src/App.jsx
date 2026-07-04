@@ -48,6 +48,8 @@ const InfoDiaria         = lazy(() => import('./pages/InfoDiaria'))
 const Privacidad         = lazy(() => import('./pages/Privacidad'))
 const Comunidad          = lazy(() => import('./pages/Comunidad'))
 const Admin              = lazy(() => import('./pages/Admin'))
+const Contacto           = lazy(() => import('./pages/Contacto'))
+const Colaborar          = lazy(() => import('./pages/Colaborar'))
 const FuncionesTema       = lazy(() => import('./pages/FuncionesTema'))
 const GeoMapaEspanaExamen  = lazy(() => import('./pages/GeoMapaEspanaExamen'))
 const GeoMapaEEUUExamen    = lazy(() => import('./pages/GeoMapaEEUUExamen'))
@@ -212,6 +214,8 @@ function AppRoutes() {
       <Route path="privacidad" element={<Privacidad />} />
       <Route path="comunidad" element={<Comunidad />} />
       <Route path="admin" element={<Admin />} />
+      <Route path="contacto" element={<Contacto />} />
+      <Route path="colaborar" element={<Colaborar />} />
     </>
   )
 }

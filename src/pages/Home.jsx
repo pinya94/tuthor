@@ -13,7 +13,6 @@ export default function Home() {
   const en = lang === 'en'
   const { user } = useAuth()
   const [stats, setStats] = useState(null)
-  const [colabOpen, setColabOpen] = useState(false)
   const [showAuth, setShowAuth] = useState(false)
 
   useEffect(() => {
@@ -296,8 +295,8 @@ export default function Home() {
               </a>
 
               {/* Colaborar */}
-              <button onClick={() => setColabOpen(true)}
-                className="group bg-white border border-gray-200 hover:border-teal-300 rounded-2xl p-6 flex flex-col gap-3 transition-all hover:shadow-md hover:shadow-teal-100 text-left w-full">
+              <Link to={localPath('/colaborar')}
+                className="group bg-white border border-gray-200 hover:border-teal-300 rounded-2xl p-6 flex flex-col gap-3 transition-all hover:shadow-md hover:shadow-teal-100">
                 <div className="w-10 h-10 rounded-xl bg-teal-50 flex items-center justify-center text-xl">📣</div>
                 <div className="flex-1">
                   <h3 className="text-gray-900 font-bold text-sm">
@@ -313,14 +312,20 @@ export default function Home() {
                   {lang === 'en' ? 'Write to us' : lang === 'ca' ? "Escriu-nos" : 'Escribirnos'}
                   <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
                 </span>
-              </button>
-              {colabOpen && <ColabModal lang={lang} onClose={() => setColabOpen(false)} />}
+              </Link>
 
             </div>
           </section>
 
           {/* CONTACTO */}
-          <ContactSection lang={lang} t={t} />
+          <section className="bg-white rounded-2xl border border-gray-200 p-6 sm:p-8 text-center">
+            <h2 className="text-2xl font-black text-gray-900 mb-2">{t('home.seo.contacto.titulo')}</h2>
+            <p className="text-gray-400 mb-5 max-w-md mx-auto">{t('home.seo.contacto.texto')}</p>
+            <Link to={localPath('/contacto')}
+              className="inline-flex items-center gap-2 px-6 py-3 bg-teal-600 hover:bg-teal-500 text-white font-bold text-sm rounded-xl transition-all hover:scale-[1.02]">
+              📧 {lang === 'ca' ? 'Escriu-nos' : lang === 'en' ? 'Write to us' : 'Escríbenos'}
+            </Link>
+          </section>
 
           <aside className="ad-slot" aria-label="Publicidad" data-ad-slot="home-seo-footer" style={{ minHeight: '90px' }} />
 
@@ -334,160 +339,6 @@ export default function Home() {
         </div>
       </div>
     </div>
-  )
-}
-
-function ColabModal({ lang, onClose }) {
-  const en = lang === 'en'
-  const ca = lang === 'ca'
-  const [name, setName]       = useState('')
-  const [email, setEmail]     = useState('')
-  const [company, setCompany] = useState('')
-  const [msg, setMsg]         = useState('')
-  const [status, setStatus]   = useState('idle')
-
-  async function handleSubmit(e) {
-    e.preventDefault()
-    setStatus('sending')
-    try {
-      const { db } = await import('../lib/firebase')
-      const { collection, addDoc, serverTimestamp } = await import('firebase/firestore')
-      await addDoc(collection(db, 'colabMessages'), {
-        name, email, company, message: msg, createdAt: serverTimestamp(), read: false,
-      })
-      setStatus('ok')
-    } catch {
-      setStatus('error')
-    }
-  }
-
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm" onClick={e => { if (e.target === e.currentTarget) onClose() }}>
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md p-6">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-gray-900 font-black text-lg">
-            {ca ? 'Col·laborar o anunciar-se' : en ? 'Collaborate or advertise' : 'Colaborar o anunciarse'}
-          </h2>
-          <button onClick={onClose} className="text-gray-400 hover:text-gray-600 text-xl leading-none">×</button>
-        </div>
-
-        {status === 'ok' ? (
-          <div className="flex flex-col items-center gap-3 py-8 text-center">
-            <span className="text-4xl">✅</span>
-            <p className="font-black text-gray-900">{ca ? 'Missatge enviat!' : en ? 'Message sent!' : '¡Mensaje enviado!'}</p>
-            <p className="text-gray-400 text-sm">{ca ? 'Et respondrem aviat.' : en ? "We'll reply soon." : 'Te respondemos pronto.'}</p>
-            <button onClick={onClose} className="mt-2 px-5 py-2 bg-teal-600 text-white text-sm font-bold rounded-xl hover:bg-teal-500 transition-colors">
-              {ca ? 'Tancar' : en ? 'Close' : 'Cerrar'}
-            </button>
-          </div>
-        ) : (
-          <form onSubmit={handleSubmit} className="space-y-3">
-            <input type="text" required value={name} onChange={e => setName(e.target.value)}
-              placeholder={ca ? 'Nom' : en ? 'Name' : 'Nombre'}
-              className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-teal-500 transition-colors" />
-            <input type="email" required value={email} onChange={e => setEmail(e.target.value)}
-              placeholder={ca ? 'Correu electrònic' : en ? 'Email' : 'Correo electrónico'}
-              className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-teal-500 transition-colors" />
-            <input type="text" value={company} onChange={e => setCompany(e.target.value)}
-              placeholder={ca ? 'Empresa / Projecte (opcional)' : en ? 'Company / Project (optional)' : 'Empresa / Proyecto (opcional)'}
-              className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-teal-500 transition-colors" />
-            <textarea required value={msg} onChange={e => setMsg(e.target.value)} rows={4}
-              placeholder={ca ? 'Com podem col·laborar?' : en ? 'How can we collaborate?' : '¿Cómo podemos colaborar?'}
-              className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-teal-500 transition-colors resize-none" />
-            {status === 'error' && (
-              <p className="text-red-500 text-sm">{ca ? 'Error en enviar.' : en ? 'Error sending.' : 'Error al enviar.'}</p>
-            )}
-            <div className="flex gap-2 pt-1">
-              <button type="button" onClick={onClose}
-                className="flex-1 px-4 py-3 border border-gray-200 text-gray-500 text-sm font-semibold rounded-xl hover:bg-gray-50 transition-colors">
-                {ca ? 'Cancel·lar' : en ? 'Cancel' : 'Cancelar'}
-              </button>
-              <button type="submit" disabled={status === 'sending'}
-                className="flex-1 px-4 py-3 bg-teal-600 hover:bg-teal-500 disabled:opacity-50 text-white text-sm font-bold rounded-xl transition-colors">
-                {status === 'sending' ? (ca ? 'Enviant...' : en ? 'Sending...' : 'Enviando...') : (ca ? 'Enviar' : en ? 'Send' : 'Enviar')}
-              </button>
-            </div>
-          </form>
-        )}
-      </div>
-    </div>
-  )
-}
-
-function ContactSection({ lang, t }) {
-  const en = lang === 'en'
-  const ca = lang === 'ca'
-  const [name, setName]     = useState('')
-  const [email, setEmail]   = useState('')
-  const [msg, setMsg]       = useState('')
-  const [status, setStatus] = useState('idle') // idle | sending | ok | error
-
-  async function handleSubmit(e) {
-    e.preventDefault()
-    setStatus('sending')
-    try {
-      const { db } = await import('../lib/firebase')
-      const { collection, addDoc, serverTimestamp } = await import('firebase/firestore')
-      await addDoc(collection(db, 'contactMessages'), {
-        name, email, message: msg, createdAt: serverTimestamp(), read: false,
-      })
-      setStatus('ok')
-      setName(''); setEmail(''); setMsg('')
-    } catch {
-      setStatus('error')
-    }
-  }
-
-  return (
-    <section className="bg-white rounded-2xl border border-gray-200 p-6 sm:p-8">
-      <h2 className="text-2xl font-black text-gray-900 mb-1">
-        {t('home.seo.contacto.titulo')}
-      </h2>
-      <p className="text-gray-400 mb-6 max-w-md">
-        {t('home.seo.contacto.texto')}
-      </p>
-
-      {status === 'ok' ? (
-        <div className="flex flex-col items-center gap-3 py-6 text-center">
-          <span className="text-4xl">✅</span>
-          <p className="font-black text-gray-900 text-lg">
-            {ca ? 'Missatge enviat!' : en ? 'Message sent!' : '¡Mensaje enviado!'}
-          </p>
-          <p className="text-gray-400 text-sm">
-            {ca ? 'Respondrem aviat.' : en ? "We'll reply soon." : 'Responderemos pronto.'}
-          </p>
-        </div>
-      ) : (
-        <form onSubmit={handleSubmit} className="space-y-3 max-w-md">
-          <input
-            type="text" required value={name} onChange={e => setName(e.target.value)}
-            placeholder={ca ? 'Nom' : en ? 'Name' : 'Nombre'}
-            className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-teal-500 transition-colors"
-          />
-          <input
-            type="email" required value={email} onChange={e => setEmail(e.target.value)}
-            placeholder={ca ? 'Correu electrònic' : en ? 'Email' : 'Correo electrónico'}
-            className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-teal-500 transition-colors"
-          />
-          <textarea
-            required value={msg} onChange={e => setMsg(e.target.value)} rows={4}
-            placeholder={ca ? 'El teu missatge...' : en ? 'Your message...' : 'Tu mensaje...'}
-            className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-teal-500 transition-colors resize-none"
-          />
-          {status === 'error' && (
-            <p className="text-red-500 text-sm">
-              {ca ? 'Error en enviar. Prova de nou.' : en ? 'Error sending. Please try again.' : 'Error al enviar. Inténtalo de nuevo.'}
-            </p>
-          )}
-          <button type="submit" disabled={status === 'sending'}
-            className="px-6 py-3 bg-teal-600 hover:bg-teal-500 disabled:opacity-50 text-white font-bold text-sm rounded-xl transition-all hover:scale-[1.02] active:scale-[0.98]">
-            {status === 'sending'
-              ? (ca ? 'Enviant...' : en ? 'Sending...' : 'Enviando...')
-              : (ca ? 'Enviar' : en ? 'Send' : 'Enviar')}
-          </button>
-        </form>
-      )}
-    </section>
   )
 }
 
