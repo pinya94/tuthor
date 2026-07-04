@@ -255,7 +255,7 @@ export default function Home() {
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
 
               {/* Bug report */}
-              <a href="mailto:consiguetualgogratis@gmail.com?subject=Bug%20en%20Tuthor&body=Describe%20el%20problema%3A"
+              <Link to={localPath('/reportar-bug')}
                 className="group bg-white border border-gray-200 hover:border-violet-300 rounded-2xl p-6 flex flex-col gap-3 transition-all hover:shadow-md hover:shadow-violet-100">
                 <div className="w-10 h-10 rounded-xl bg-violet-50 flex items-center justify-center text-xl">🐛</div>
                 <div className="flex-1">
@@ -272,7 +272,7 @@ export default function Home() {
                   {lang === 'en' ? 'Open form' : lang === 'ca' ? 'Obrir formulari' : 'Abrir formulario'}
                   <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
                 </span>
-              </a>
+              </Link>
 
               {/* Ko-fi */}
               <a href="https://ko-fi.com/consiguetualgogratis" target="_blank" rel="noopener noreferrer"

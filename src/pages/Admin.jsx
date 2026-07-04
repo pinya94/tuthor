@@ -49,7 +49,7 @@ function MiniBar({ label, value, max }) {
   )
 }
 
-function MessagesSection({ title, messages, onMarkRead, showCompany = false }) {
+function MessagesSection({ title, messages, onMarkRead, showCompany = false, showPage = false }) {
   const unread = messages.filter(m => !m.read).length
   return (
     <div className="bg-white/5 border border-white/10 rounded-2xl p-5">
@@ -76,6 +76,9 @@ function MessagesSection({ title, messages, onMarkRead, showCompany = false }) {
                     <p className="text-white/40 text-xs">{m.email || ''}</p>
                     {showCompany && m.company && (
                       <span className="text-teal-400/70 text-xs border border-teal-500/20 px-1.5 py-0.5 rounded">{m.company}</span>
+                    )}
+                    {showPage && m.page && (
+                      <span className="text-violet-400/70 text-xs border border-violet-500/20 px-1.5 py-0.5 rounded">📍 {m.page}</span>
                     )}
                   </div>
                   <p className="text-white/70 text-sm whitespace-pre-wrap break-words">{m.message}</p>
@@ -107,6 +110,7 @@ export default function Admin() {
   const [users, setUsers]               = useState([])
   const [messages, setMessages]         = useState([])
   const [colabs, setColabs]             = useState([])
+  const [bugs, setBugs]                 = useState([])
   const [loadingData, setLoadingData]   = useState(true)
 
   useEffect(() => {
@@ -118,16 +122,18 @@ export default function Admin() {
   async function loadAll() {
     setLoadingData(true)
     try {
-      const [statsSnap, usersSnap, msgsSnap, colabsSnap] = await Promise.all([
+      const [statsSnap, usersSnap, msgsSnap, colabsSnap, bugsSnap] = await Promise.all([
         getDoc(doc(db, '_stats', 'global')),
         getDocs(query(collection(db, 'users'), orderBy('lastLogin', 'desc'), limit(50))),
         getDocs(query(collection(db, 'contactMessages'), orderBy('createdAt', 'desc'), limit(50))),
         getDocs(query(collection(db, 'colabMessages'), orderBy('createdAt', 'desc'), limit(50))),
+        getDocs(query(collection(db, 'bugReports'), orderBy('createdAt', 'desc'), limit(50))),
       ])
       setGlobalStats(statsSnap.exists() ? statsSnap.data() : null)
       setUsers(usersSnap.docs.map(d => ({ id: d.id, ...d.data() })))
       setMessages(msgsSnap.docs.map(d => ({ id: d.id, ...d.data() })))
       setColabs(colabsSnap.docs.map(d => ({ id: d.id, ...d.data() })))
+      setBugs(bugsSnap.docs.map(d => ({ id: d.id, ...d.data() })))
     } catch (e) {
       console.error('Admin load error:', e)
     }
@@ -226,6 +232,12 @@ export default function Admin() {
         <MessagesSection title="💬 Mensajes de contacto" messages={messages} onMarkRead={async (id) => {
           await updateDoc(doc(db, 'contactMessages', id), { read: true })
           setMessages(ms => ms.map(m => m.id === id ? { ...m, read: true } : m))
+        }} />
+
+        {/* Bugs */}
+        <MessagesSection title="🐛 Bugs reportados" messages={bugs} showPage onMarkRead={async (id) => {
+          await updateDoc(doc(db, 'bugReports', id), { read: true })
+          setBugs(bs => bs.map(b => b.id === id ? { ...b, read: true } : b))
         }} />
 
         {/* Colaboraciones */}
