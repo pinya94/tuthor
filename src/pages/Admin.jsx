@@ -49,13 +49,13 @@ function MiniBar({ label, value, max }) {
   )
 }
 
-function MessagesSection({ messages, onMarkRead }) {
+function MessagesSection({ title, messages, onMarkRead, showCompany = false }) {
   const unread = messages.filter(m => !m.read).length
   return (
     <div className="bg-white/5 border border-white/10 rounded-2xl p-5">
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-white font-bold">
-          💬 Mensajes de contacto
+          {title}
           {unread > 0 && (
             <span className="ml-2 px-2 py-0.5 bg-violet-500 text-white text-xs font-bold rounded-full">{unread} nuevo{unread !== 1 ? 's' : ''}</span>
           )}
@@ -70,10 +70,13 @@ function MessagesSection({ messages, onMarkRead }) {
             <div key={m.id} className={`rounded-xl p-4 border transition-all ${m.read ? 'bg-white/3 border-white/5' : 'bg-violet-500/10 border-violet-500/30'}`}>
               <div className="flex items-start justify-between gap-3">
                 <div className="min-w-0">
-                  <div className="flex items-center gap-2 mb-1">
+                  <div className="flex items-center gap-2 mb-1 flex-wrap">
                     {!m.read && <span className="w-2 h-2 rounded-full bg-violet-400 shrink-0" />}
-                    <p className="text-white font-semibold text-sm truncate">{m.name || '—'}</p>
-                    <p className="text-white/40 text-xs truncate">{m.email || ''}</p>
+                    <p className="text-white font-semibold text-sm">{m.name || '—'}</p>
+                    <p className="text-white/40 text-xs">{m.email || ''}</p>
+                    {showCompany && m.company && (
+                      <span className="text-teal-400/70 text-xs border border-teal-500/20 px-1.5 py-0.5 rounded">{m.company}</span>
+                    )}
                   </div>
                   <p className="text-white/70 text-sm whitespace-pre-wrap break-words">{m.message}</p>
                   {m.createdAt?.toDate && (
@@ -103,6 +106,7 @@ export default function Admin() {
   const [globalStats, setGlobalStats]   = useState(null)
   const [users, setUsers]               = useState([])
   const [messages, setMessages]         = useState([])
+  const [colabs, setColabs]             = useState([])
   const [loadingData, setLoadingData]   = useState(true)
 
   useEffect(() => {
@@ -114,14 +118,16 @@ export default function Admin() {
   async function loadAll() {
     setLoadingData(true)
     try {
-      const [statsSnap, usersSnap, msgsSnap] = await Promise.all([
+      const [statsSnap, usersSnap, msgsSnap, colabsSnap] = await Promise.all([
         getDoc(doc(db, '_stats', 'global')),
         getDocs(query(collection(db, 'users'), orderBy('lastLogin', 'desc'), limit(50))),
         getDocs(query(collection(db, 'contactMessages'), orderBy('createdAt', 'desc'), limit(50))),
+        getDocs(query(collection(db, 'colabMessages'), orderBy('createdAt', 'desc'), limit(50))),
       ])
       setGlobalStats(statsSnap.exists() ? statsSnap.data() : null)
       setUsers(usersSnap.docs.map(d => ({ id: d.id, ...d.data() })))
       setMessages(msgsSnap.docs.map(d => ({ id: d.id, ...d.data() })))
+      setColabs(colabsSnap.docs.map(d => ({ id: d.id, ...d.data() })))
     } catch (e) {
       console.error('Admin load error:', e)
     }
@@ -217,9 +223,15 @@ export default function Admin() {
         </div>
 
         {/* Mensajes de contacto */}
-        <MessagesSection messages={messages} onMarkRead={async (id) => {
+        <MessagesSection title="💬 Mensajes de contacto" messages={messages} onMarkRead={async (id) => {
           await updateDoc(doc(db, 'contactMessages', id), { read: true })
           setMessages(ms => ms.map(m => m.id === id ? { ...m, read: true } : m))
+        }} />
+
+        {/* Colaboraciones */}
+        <MessagesSection title="📣 Colaboraciones y anuncios" messages={colabs} showCompany onMarkRead={async (id) => {
+          await updateDoc(doc(db, 'colabMessages', id), { read: true })
+          setColabs(cs => cs.map(c => c.id === id ? { ...c, read: true } : c))
         }} />
 
         {/* Lista de usuarios */}
