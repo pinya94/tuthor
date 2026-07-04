@@ -419,6 +419,7 @@ export default function Portero() {
   // power-up flags
   const zoneMarginRef   = useRef(false)  // adjacent zone also counts as save
   const bonusPointRef   = useRef(false)  // next save worth 2 pts
+  const doubleSaveRef   = useRef(false)  // allow 2 zone picks (unused power-up slot, kept for UI logic)
   const twoZonesRef     = useRef(false)  // hide 2 wrong zones
   const visibleZonesRef = useRef(null)   // which zone ids to show (null = all 4)
 
