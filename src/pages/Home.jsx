@@ -347,13 +347,13 @@ function ContactSection({ lang, t }) {
     e.preventDefault()
     setStatus('sending')
     try {
-      const res = await fetch('https://formsubmit.co/ajax/consiguetualgogratis@gmail.com', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({ name, email, message: msg, _subject: 'Mensaje desde Tuthor' }),
+      const { db } = await import('../lib/firebase')
+      const { collection, addDoc, serverTimestamp } = await import('firebase/firestore')
+      await addDoc(collection(db, 'contactMessages'), {
+        name, email, message: msg, createdAt: serverTimestamp(), read: false,
       })
-      const data = await res.json()
-      setStatus(data.success === 'true' || data.success === true ? 'ok' : 'error')
+      setStatus('ok')
+      setName(''); setEmail(''); setMsg('')
     } catch {
       setStatus('error')
     }

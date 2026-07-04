@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { db } from '../lib/firebase'
-import { doc, getDoc, collection, getDocs, query, orderBy, limit } from 'firebase/firestore'
+import { doc, getDoc, collection, getDocs, query, orderBy, limit, updateDoc } from 'firebase/firestore'
 import { useAuth } from '../context/AuthContext'
 import { formatTime } from '../lib/activity'
 
@@ -49,12 +49,61 @@ function MiniBar({ label, value, max }) {
   )
 }
 
+function MessagesSection({ messages, onMarkRead }) {
+  const unread = messages.filter(m => !m.read).length
+  return (
+    <div className="bg-white/5 border border-white/10 rounded-2xl p-5">
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-white font-bold">
+          💬 Mensajes de contacto
+          {unread > 0 && (
+            <span className="ml-2 px-2 py-0.5 bg-violet-500 text-white text-xs font-bold rounded-full">{unread} nuevo{unread !== 1 ? 's' : ''}</span>
+          )}
+        </h2>
+        <p className="text-white/30 text-xs">{messages.length} total</p>
+      </div>
+      {messages.length === 0 ? (
+        <p className="text-white/30 text-sm">Sin mensajes todavía</p>
+      ) : (
+        <div className="space-y-3">
+          {messages.map(m => (
+            <div key={m.id} className={`rounded-xl p-4 border transition-all ${m.read ? 'bg-white/3 border-white/5' : 'bg-violet-500/10 border-violet-500/30'}`}>
+              <div className="flex items-start justify-between gap-3">
+                <div className="min-w-0">
+                  <div className="flex items-center gap-2 mb-1">
+                    {!m.read && <span className="w-2 h-2 rounded-full bg-violet-400 shrink-0" />}
+                    <p className="text-white font-semibold text-sm truncate">{m.name || '—'}</p>
+                    <p className="text-white/40 text-xs truncate">{m.email || ''}</p>
+                  </div>
+                  <p className="text-white/70 text-sm whitespace-pre-wrap break-words">{m.message}</p>
+                  {m.createdAt?.toDate && (
+                    <p className="text-white/25 text-xs mt-2">
+                      {m.createdAt.toDate().toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
+                    </p>
+                  )}
+                </div>
+                {!m.read && (
+                  <button onClick={() => onMarkRead(m.id)}
+                    className="shrink-0 text-xs text-violet-400 hover:text-violet-300 border border-violet-500/30 hover:border-violet-400/50 px-2 py-1 rounded-lg transition-colors">
+                    ✓ Leído
+                  </button>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
+
 export default function Admin() {
   const { user } = useAuth()
   const navigate = useNavigate()
-  const [globalStats, setGlobalStats] = useState(null)
-  const [users, setUsers]             = useState([])
-  const [loadingData, setLoadingData] = useState(true)
+  const [globalStats, setGlobalStats]   = useState(null)
+  const [users, setUsers]               = useState([])
+  const [messages, setMessages]         = useState([])
+  const [loadingData, setLoadingData]   = useState(true)
 
   useEffect(() => {
     if (user === undefined) return
@@ -65,12 +114,14 @@ export default function Admin() {
   async function loadAll() {
     setLoadingData(true)
     try {
-      const [statsSnap, usersSnap] = await Promise.all([
+      const [statsSnap, usersSnap, msgsSnap] = await Promise.all([
         getDoc(doc(db, '_stats', 'global')),
         getDocs(query(collection(db, 'users'), orderBy('lastLogin', 'desc'), limit(50))),
+        getDocs(query(collection(db, 'contactMessages'), orderBy('createdAt', 'desc'), limit(50))),
       ])
       setGlobalStats(statsSnap.exists() ? statsSnap.data() : null)
       setUsers(usersSnap.docs.map(d => ({ id: d.id, ...d.data() })))
+      setMessages(msgsSnap.docs.map(d => ({ id: d.id, ...d.data() })))
     } catch (e) {
       console.error('Admin load error:', e)
     }
@@ -164,6 +215,12 @@ export default function Admin() {
             </div>
           )}
         </div>
+
+        {/* Mensajes de contacto */}
+        <MessagesSection messages={messages} onMarkRead={async (id) => {
+          await updateDoc(doc(db, 'contactMessages', id), { read: true })
+          setMessages(ms => ms.map(m => m.id === id ? { ...m, read: true } : m))
+        }} />
 
         {/* Lista de usuarios */}
         <div className="bg-white/5 border border-white/10 rounded-2xl p-5">
