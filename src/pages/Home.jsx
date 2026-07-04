@@ -318,15 +318,7 @@ export default function Home() {
           </section>
 
           {/* CONTACTO */}
-          <section className="bg-white rounded-2xl border border-gray-200 p-6 sm:p-8 text-center">
-            <h2 className="text-2xl font-black text-gray-900 mb-2">{t('home.seo.contacto.titulo')}</h2>
-            <p className="text-gray-400 mb-5 max-w-md mx-auto">{t('home.seo.contacto.texto')}</p>
-            <a href="mailto:consiguetualgogratis@gmail.com"
-              className="inline-flex items-center gap-2 text-teal-600 hover:text-teal-500 font-bold transition-colors text-sm sm:text-lg break-all">
-              <span className="text-xl sm:text-2xl shrink-0">📧</span>
-              <span>consiguetualgogratis@gmail.com</span>
-            </a>
-          </section>
+          <ContactSection lang={lang} t={t} />
 
           <aside className="ad-slot" aria-label="Publicidad" data-ad-slot="home-seo-footer" style={{ minHeight: '90px' }} />
 
@@ -340,6 +332,83 @@ export default function Home() {
         </div>
       </div>
     </div>
+  )
+}
+
+function ContactSection({ lang, t }) {
+  const en = lang === 'en'
+  const ca = lang === 'ca'
+  const [name, setName]     = useState('')
+  const [email, setEmail]   = useState('')
+  const [msg, setMsg]       = useState('')
+  const [status, setStatus] = useState('idle') // idle | sending | ok | error
+
+  async function handleSubmit(e) {
+    e.preventDefault()
+    setStatus('sending')
+    try {
+      const res = await fetch('https://formsubmit.co/ajax/consiguetualgogratis@gmail.com', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({ name, email, message: msg, _subject: 'Mensaje desde Tuthor' }),
+      })
+      const data = await res.json()
+      setStatus(data.success === 'true' || data.success === true ? 'ok' : 'error')
+    } catch {
+      setStatus('error')
+    }
+  }
+
+  return (
+    <section className="bg-white rounded-2xl border border-gray-200 p-6 sm:p-8">
+      <h2 className="text-2xl font-black text-gray-900 mb-1">
+        {t('home.seo.contacto.titulo')}
+      </h2>
+      <p className="text-gray-400 mb-6 max-w-md">
+        {t('home.seo.contacto.texto')}
+      </p>
+
+      {status === 'ok' ? (
+        <div className="flex flex-col items-center gap-3 py-6 text-center">
+          <span className="text-4xl">✅</span>
+          <p className="font-black text-gray-900 text-lg">
+            {ca ? 'Missatge enviat!' : en ? 'Message sent!' : '¡Mensaje enviado!'}
+          </p>
+          <p className="text-gray-400 text-sm">
+            {ca ? 'Respondrem aviat.' : en ? "We'll reply soon." : 'Responderemos pronto.'}
+          </p>
+        </div>
+      ) : (
+        <form onSubmit={handleSubmit} className="space-y-3 max-w-md">
+          <input
+            type="text" required value={name} onChange={e => setName(e.target.value)}
+            placeholder={ca ? 'Nom' : en ? 'Name' : 'Nombre'}
+            className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-teal-500 transition-colors"
+          />
+          <input
+            type="email" required value={email} onChange={e => setEmail(e.target.value)}
+            placeholder={ca ? 'Correu electrònic' : en ? 'Email' : 'Correo electrónico'}
+            className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-teal-500 transition-colors"
+          />
+          <textarea
+            required value={msg} onChange={e => setMsg(e.target.value)} rows={4}
+            placeholder={ca ? 'El teu missatge...' : en ? 'Your message...' : 'Tu mensaje...'}
+            className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-teal-500 transition-colors resize-none"
+          />
+          {status === 'error' && (
+            <p className="text-red-500 text-sm">
+              {ca ? 'Error en enviar. Prova de nou.' : en ? 'Error sending. Please try again.' : 'Error al enviar. Inténtalo de nuevo.'}
+            </p>
+          )}
+          <button type="submit" disabled={status === 'sending'}
+            className="px-6 py-3 bg-teal-600 hover:bg-teal-500 disabled:opacity-50 text-white font-bold text-sm rounded-xl transition-all hover:scale-[1.02] active:scale-[0.98]">
+            {status === 'sending'
+              ? (ca ? 'Enviant...' : en ? 'Sending...' : 'Enviando...')
+              : (ca ? 'Enviar' : en ? 'Send' : 'Enviar')}
+          </button>
+        </form>
+      )}
+    </section>
   )
 }
 

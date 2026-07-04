@@ -243,7 +243,7 @@ const POWERUP_POOL = [
   { id: 'extra_time_big',emoji: '⏰', label: { es: '+10 segundos',   en: '+10 seconds',    ca: '+10 segons'    }, desc: { es: 'Gran recarga de tiempo',           en: 'Big time reload',            ca: 'Gran recàrrega de temps'        } },
   { id: 'zone_margin',   emoji: '↔️', label: { es: 'Zona adyacente', en: 'Adjacent zone',   ca: 'Zona adjacent' }, desc: { es: 'La siguiente jugada también acepta la zona contigua', en: 'Next play also accepts the adjacent zone', ca: 'La pròxima jugada també accepta la zona contigua' } },
   { id: 'two_zones',     emoji: '🎯', label: { es: 'Solo 2 zonas',   en: 'Only 2 zones',   ca: 'Només 2 zones' }, desc: { es: 'La siguiente jugada tiene solo 2 opciones', en: 'Next play has only 2 options', ca: 'La pròxima jugada té només 2 opcions' } },
-  { id: 'double_save',   emoji: '🛡️', label: { es: 'Doble defensa', en: 'Double defence', ca: 'Doble defensa' }, desc: { es: 'La siguiente jugada puedes elegir 2 zonas', en: 'Next play you can pick 2 zones', ca: 'La pròxima jugada pots triar 2 zones' } },
+  { id: 'bonus_point',   emoji: '⭐', label: { es: 'Punto doble',    en: 'Double point',   ca: 'Punt doble'    }, desc: { es: 'La siguiente parada vale 2 puntos', en: 'Next save is worth 2 points', ca: 'La pròxima aturada val 2 punts' } },
 ]
 
 function pickPowerups() {
@@ -256,9 +256,9 @@ function DifficultyScreen({ onSelect, l }) {
   const [dif, setDif] = useState('easy')
 
   const pwupRows = {
-    es: [['↔️','Zona adyacente','La siguiente jugada también acepta la zona contigua'],['🛡️','Doble defensa','Puedes elegir 2 zonas en la siguiente jugada'],['🎯','Solo 2 zonas','La siguiente jugada tiene solo 2 opciones'],['⏱️','+5 segundos','Más tiempo de partido'],['⏰','+10 segundos','Gran recarga de tiempo']],
-    en: [['↔️','Adjacent zone','Next play also accepts the adjacent zone'],['🛡️','Double defence','Pick 2 zones on the next play'],['🎯','Only 2 zones','Next play shows only 2 options'],['⏱️','+5 seconds','More match time'],['⏰','+10 seconds','Big time reload']],
-    ca: [['↔️','Zona adjacent','La pròxima jugada també accepta la zona contigua'],['🛡️','Doble defensa','Pots triar 2 zones a la propera jugada'],['🎯','Només 2 zones','La pròxima jugada té 2 opcions'],['⏱️','+5 segons','Més temps de partit'],['⏰','+10 segons','Gran recàrrega de temps']],
+    es: [['↔️','Zona adyacente','La siguiente jugada también acepta la zona contigua'],['⭐','Punto doble','La siguiente parada vale 2 puntos'],['🎯','Solo 2 zonas','La siguiente jugada tiene solo 2 opciones'],['⏱️','+5 segundos','Más tiempo de partido'],['⏰','+10 segundos','Gran recarga de tiempo']],
+    en: [['↔️','Adjacent zone','Next play also accepts the adjacent zone'],['⭐','Double point','Next save is worth 2 points'],['🎯','Only 2 zones','Next play shows only 2 options'],['⏱️','+5 seconds','More match time'],['⏰','+10 seconds','Big time reload']],
+    ca: [['↔️','Zona adjacent','La pròxima jugada també accepta la zona contigua'],['⭐','Punt doble','La pròxima aturada val 2 punts'],['🎯','Només 2 zones','La pròxima jugada té 2 opcions'],['⏱️','+5 segons','Més temps de partit'],['⏰','+10 segons','Gran recàrrega de temps']],
   }
   const pwups = pwupRows[l] ?? pwupRows.es
 
@@ -418,7 +418,7 @@ export default function Portero() {
 
   // power-up flags
   const zoneMarginRef   = useRef(false)  // adjacent zone also counts as save
-  const doubleSaveRef   = useRef(false)  // allow 2 zone picks
+  const bonusPointRef   = useRef(false)  // next save worth 2 pts
   const twoZonesRef     = useRef(false)  // hide 2 wrong zones
   const visibleZonesRef = useRef(null)   // which zone ids to show (null = all 4)
 
@@ -573,7 +573,9 @@ export default function Portero() {
     setOutcome(result)
     setPhase('result')
     if (result === 'save') {
-      setScore(s => s + 1)
+      const pts = bonusPointRef.current ? 2 : 1
+      bonusPointRef.current = false
+      setScore(s => s + pts)
       setTimeout(() => {
         setPendingPowerups(pickPowerups())
         setPhase('powerup')
@@ -588,7 +590,7 @@ export default function Portero() {
     if (pw.id === 'extra_time')     setTimeLeft(tl => Math.min(tl + 5, 999))
     if (pw.id === 'extra_time_big') setTimeLeft(tl => Math.min(tl + 10, 999))
     if (pw.id === 'two_zones')      twoZonesRef.current = true
-    if (pw.id === 'double_save')    doubleSaveRef.current = true
+    if (pw.id === 'bonus_point')    bonusPointRef.current = true
     if (pw.id === 'zone_margin')    zoneMarginRef.current = true
     nextQuestion(difficulty, usedIds)
   }
