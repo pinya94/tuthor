@@ -8,6 +8,102 @@ import { getStats, formatTime } from '../lib/activity'
 import AuthModal from '../components/AuthModal'
 import { FRAMES } from '../data/cosmetics'
 
+const PREVIEW_FRAMES = ['silver', 'gold', 'rainbow', 'galaxy', 'fire', 'neon']
+
+function RewardsSection({ lang, navigate, user, onLogin }) {
+  const en = lang === 'en', ca = lang === 'ca'
+  const previewFrames = FRAMES.filter(f => PREVIEW_FRAMES.includes(f.id))
+
+  return (
+    <section className="mb-10">
+      <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden">
+        {/* Header */}
+        <div className="bg-gradient-to-br from-violet-950 to-indigo-900 p-6 sm:p-8 relative overflow-hidden">
+          <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '24px 24px' }} />
+          <div className="relative">
+            <p className="text-violet-300 text-xs font-bold uppercase tracking-widest mb-2">
+              {ca ? 'Recompenses' : en ? 'Rewards' : 'Recompensas'}
+            </p>
+            <h2 className="text-2xl sm:text-3xl font-black text-white mb-2">
+              {ca ? 'Juga, guanya monedes, personalitza el teu perfil' : en ? 'Play, earn coins, customise your profile' : 'Juega, gana monedas, personaliza tu perfil'}
+            </h2>
+            <p className="text-white/50 text-sm max-w-lg">
+              {ca ? 'Cada examen i repte diari et dona monedes. Acumula\'n i gasta\'les a la botiga per aconseguir marcs exclusius per al teu avatar.'
+                : en ? 'Every exam and daily challenge earns you coins. Collect them and spend them in the shop for exclusive avatar frames.'
+                : 'Cada examen y reto diario te da monedas. Acumúlalas y gástalas en la tienda para conseguir marcos exclusivos para tu avatar.'}
+            </p>
+          </div>
+        </div>
+
+        <div className="p-6 sm:p-8">
+          {/* Cómo se ganan */}
+          <div className="grid grid-cols-3 gap-3 mb-6">
+            {[
+              { emoji: '📝', label: ca ? 'Examen aprovat' : en ? 'Passed exam' : 'Examen aprobado', coins: '+100 – +1.000' },
+              { emoji: '⚡', label: ca ? 'Repte diari' : en ? 'Daily challenge' : 'Reto diario', coins: '+1.000' },
+              { emoji: '🔥', label: ca ? 'Racha activa' : en ? 'Active streak' : 'Racha activa', coins: 'Bonus!' },
+            ].map(item => (
+              <div key={item.label} className="bg-gray-50 border border-gray-100 rounded-xl p-3 text-center">
+                <span className="text-2xl block mb-1">{item.emoji}</span>
+                <p className="text-gray-700 font-bold text-xs mb-0.5">{item.label}</p>
+                <p className="text-amber-600 font-black text-sm">{item.coins}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* Preview marcos */}
+          <p className="text-gray-500 text-xs font-bold uppercase tracking-widest mb-3">
+            {ca ? 'Marcs disponibles a la botiga' : en ? 'Frames available in the shop' : 'Marcos disponibles en la tienda'}
+          </p>
+          <div className="flex gap-3 mb-6 flex-wrap">
+            {previewFrames.map(frame => (
+              <div key={frame.id} className="flex flex-col items-center gap-1">
+                <div
+                  className={frame.animated ? 'frame-animated' : ''}
+                  style={{ ...frame.style, padding: 3, borderRadius: '50%', width: 52, height: 52 }}
+                >
+                  <div style={{ width: 46, height: 46, borderRadius: '50%', background: '#1e1b4b', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22 }}>
+                    {frame.emoji}
+                  </div>
+                </div>
+                <p className="text-gray-400 text-[10px] text-center font-medium">
+                  {`💰 ${frame.price.toLocaleString()}`}
+                </p>
+              </div>
+            ))}
+            <div className="flex flex-col items-center gap-1 justify-center">
+              <div style={{ width: 52, height: 52, borderRadius: '50%', background: '#f3f4f6', border: '2px dashed #d1d5db', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, color: '#9ca3af' }}>+</div>
+              <p className="text-gray-400 text-[10px]">{ca ? 'i més' : en ? '& more' : 'y más'}</p>
+            </div>
+          </div>
+
+          {/* CTA */}
+          {user ? (
+            <button
+              onClick={() => navigate('/tienda')}
+              className="w-full py-3 bg-violet-600 hover:bg-violet-500 text-white font-black rounded-xl transition-all text-sm"
+            >
+              🛍 {ca ? 'Anar a la botiga' : en ? 'Go to shop' : 'Ir a la tienda'}
+            </button>
+          ) : (
+            <div className="space-y-2">
+              <button
+                onClick={onLogin}
+                className="w-full py-3 bg-violet-600 hover:bg-violet-500 text-white font-black rounded-xl transition-all text-sm"
+              >
+                {ca ? '✨ Registra\'t per desbloquear la botiga' : en ? '✨ Sign up to unlock the shop' : '✨ Regístrate para desbloquear la tienda'}
+              </button>
+              <p className="text-center text-gray-400 text-xs">
+                {ca ? 'Gratis, sense publicitat i sense trampes.' : en ? 'Free, no ads, no tricks.' : 'Gratis, sin publicidad y sin trampa.'}
+              </p>
+            </div>
+          )}
+        </div>
+      </div>
+    </section>
+  )
+}
+
 export default function Home() {
   const navigate = useNavigate()
   const { t, localPath, lang } = useLang()
@@ -392,98 +488,3 @@ function LockedWidget({ onLogin, en, lang }) {
   )
 }
 
-const PREVIEW_FRAMES = ['silver', 'gold', 'rainbow', 'galaxy', 'fire', 'neon']
-
-function RewardsSection({ lang, navigate, user, onLogin }) {
-  const en = lang === 'en', ca = lang === 'ca'
-  const previewFrames = FRAMES.filter(f => PREVIEW_FRAMES.includes(f.id))
-
-  return (
-    <section className="mb-10">
-      <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden">
-        {/* Header */}
-        <div className="bg-gradient-to-br from-violet-950 to-indigo-900 p-6 sm:p-8 relative overflow-hidden">
-          <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '24px 24px' }} />
-          <div className="relative">
-            <p className="text-violet-300 text-xs font-bold uppercase tracking-widest mb-2">
-              {ca ? 'Recompenses' : en ? 'Rewards' : 'Recompensas'}
-            </p>
-            <h2 className="text-2xl sm:text-3xl font-black text-white mb-2">
-              {ca ? 'Juga, guanya monedes, personalitza el teu perfil' : en ? 'Play, earn coins, customise your profile' : 'Juega, gana monedas, personaliza tu perfil'}
-            </h2>
-            <p className="text-white/50 text-sm max-w-lg">
-              {ca ? 'Cada examen i repte diari et dona monedes. Acumula\'n i gasta\'les a la botiga per aconseguir marcs exclusius per al teu avatar.'
-                : en ? 'Every exam and daily challenge earns you coins. Collect them and spend them in the shop for exclusive avatar frames.'
-                : 'Cada examen y reto diario te da monedas. Acumúlalas y gástalas en la tienda para conseguir marcos exclusivos para tu avatar.'}
-            </p>
-          </div>
-        </div>
-
-        <div className="p-6 sm:p-8">
-          {/* Cómo se ganan */}
-          <div className="grid grid-cols-3 gap-3 mb-6">
-            {[
-              { emoji: '📝', label: ca ? 'Examen aprovat' : en ? 'Passed exam' : 'Examen aprobado', coins: '+100 – +1.000' },
-              { emoji: '⚡', label: ca ? 'Repte diari' : en ? 'Daily challenge' : 'Reto diario', coins: '+1.000' },
-              { emoji: '🔥', label: ca ? 'Racha activa' : en ? 'Active streak' : 'Racha activa', coins: ca ? 'Bonus!' : 'Bonus!' },
-            ].map(item => (
-              <div key={item.label} className="bg-gray-50 border border-gray-100 rounded-xl p-3 text-center">
-                <span className="text-2xl block mb-1">{item.emoji}</span>
-                <p className="text-gray-700 font-bold text-xs mb-0.5">{item.label}</p>
-                <p className="text-amber-600 font-black text-sm">{item.coins}</p>
-              </div>
-            ))}
-          </div>
-
-          {/* Preview marcos */}
-          <p className="text-gray-500 text-xs font-bold uppercase tracking-widest mb-3">
-            {ca ? 'Marcs disponibles a la botiga' : en ? 'Frames available in the shop' : 'Marcos disponibles en la tienda'}
-          </p>
-          <div className="flex gap-3 mb-6 flex-wrap">
-            {previewFrames.map(frame => (
-              <div key={frame.id} className="flex flex-col items-center gap-1">
-                <div
-                  className={frame.animated ? 'frame-animated' : ''}
-                  style={{ ...frame.style, padding: 3, borderRadius: '50%', width: 52, height: 52 }}
-                >
-                  <div style={{ width: 46, height: 46, borderRadius: '50%', background: '#1e1b4b', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22 }}>
-                    {frame.emoji}
-                  </div>
-                </div>
-                <p className="text-gray-400 text-[10px] text-center font-medium">
-                  {frame.price === 0 ? (ca ? 'Gratis' : en ? 'Free' : 'Gratis') : `💰 ${frame.price.toLocaleString()}`}
-                </p>
-              </div>
-            ))}
-            <div className="flex flex-col items-center gap-1 justify-center">
-              <div style={{ width: 52, height: 52, borderRadius: '50%', background: '#f3f4f6', border: '2px dashed #d1d5db', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, color: '#9ca3af' }}>+</div>
-              <p className="text-gray-400 text-[10px]">{ca ? 'i més' : en ? '& more' : 'y más'}</p>
-            </div>
-          </div>
-
-          {/* CTA */}
-          {user ? (
-            <button
-              onClick={() => navigate('/tienda')}
-              className="w-full py-3 bg-violet-600 hover:bg-violet-500 text-white font-black rounded-xl transition-all text-sm"
-            >
-              🛍 {ca ? 'Anar a la botiga' : en ? 'Go to shop' : 'Ir a la tienda'}
-            </button>
-          ) : (
-            <div className="space-y-2">
-              <button
-                onClick={onLogin}
-                className="w-full py-3 bg-violet-600 hover:bg-violet-500 text-white font-black rounded-xl transition-all text-sm"
-              >
-                {ca ? '✨ Registra\'t per desbloquear la botiga' : en ? '✨ Sign up to unlock the shop' : '✨ Regístrate para desbloquear la tienda'}
-              </button>
-              <p className="text-center text-gray-400 text-xs">
-                {ca ? 'Gratis, sense publicitat i sense trampes.' : en ? 'Free, no ads, no tricks.' : 'Gratis, sin publicidad y sin trampa.'}
-              </p>
-            </div>
-          )}
-        </div>
-      </div>
-    </section>
-  )
-}

@@ -98,26 +98,6 @@ export default function ExamenMC({ titulo, emoji, nivelInfo, backFallback, gameI
     : `Practica ${tituloStr} con un examen interactivo de 10 preguntas en Tuthor. Retroalimentación inmediata.`
   const pageMeta = <PageMeta title={metaTitle} description={metaDesc} path={`/examen/${gameId}`} lang={lang} />
 
-  // Build Q&A list from pool for JSON-LD (only when pool is ready)
-  const schemaQuestions = pool.length > 0 ? pool.map(q => {
-    const pregunta  = get(q.pregunta, lang)
-    const correcta  = get(q.correcta, lang)
-    const todas     = get(q.opciones, lang)
-    return {
-      question:      pregunta,
-      correctAnswer: correcta,
-      wrongAnswers:  todas.filter(o => o !== correcta),
-    }
-  }) : undefined
-
-  const quizSchema = <QuizSchema
-    name={metaTitle}
-    description={metaDesc}
-    path={`/examen/${gameId}`}
-    lang={lang}
-    subject={tituloStr}
-    questions={schemaQuestions} />
-
   // ── Estado ────────────────────────────────────────────────────────────────
   const [nivelSel, setNivelSel]   = useState(nivelInicial || null)
   const [idx, setIdx]             = useState(0)
@@ -137,6 +117,25 @@ export default function ExamenMC({ titulo, emoji, nivelInfo, backFallback, gameI
     startRef.current = Date.now()
     return shuffle(nivelInfo[nivelSel].pool()).slice(0, TOTAL)
   }, [nivelSel])
+
+  const schemaQuestions = pool.length > 0 ? pool.map(q => {
+    const pregunta  = get(q.pregunta, lang)
+    const correcta  = get(q.correcta, lang)
+    const todas     = get(q.opciones, lang)
+    return {
+      question:      pregunta,
+      correctAnswer: correcta,
+      wrongAnswers:  todas.filter(o => o !== correcta),
+    }
+  }) : undefined
+
+  const quizSchema = <QuizSchema
+    name={metaTitle}
+    description={metaDesc}
+    path={`/examen/${gameId}`}
+    lang={lang}
+    subject={tituloStr}
+    questions={schemaQuestions} />
 
   function resetQ() {
     setErrores(0); setFeedback(null)

@@ -80,6 +80,9 @@ export default function HistoriaTema() {
   const meta           = temasMeta[categoria]
   const [nivel, setNivel] = useState(location.state?.nivel || NIVEL_DEFAULT[categoria] || 'primaria')
 
+  const en = lang === 'en'
+  const ca = lang === 'ca'
+
   if (!meta) { navigate(localPath('/estudiar/historia')); return null }
 
   const pageMeta = <PageMeta title={meta.titulo} description={meta.descripcion} path={`/estudiar/historia/${categoria}`} lang={lang} />
@@ -100,9 +103,6 @@ export default function HistoriaTema() {
   )
   const margen  = calcularMargen(categoria, nivel)
   const tieneFechas = (NIVELES_FECHAS[categoria] || []).includes(nivel)
-
-  const en = lang === 'en'
-  const ca = lang === 'ca'
 
   const ltConfig = nivel === 'primaria'
     ? { lives: 5, winAt: Math.min(10, eventos.length), livesLabel: ca ? '5 vides' : en ? '5 lives' : '5 vidas', winLabel: ca ? `Col·loca ${Math.min(10, eventos.length)} → Aprovat` : en ? `Place ${Math.min(10, eventos.length)} → Pass` : `Coloca ${Math.min(10, eventos.length)} → Apruebas` }
