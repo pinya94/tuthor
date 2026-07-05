@@ -1,12 +1,20 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
+import PageMeta from '../components/PageMeta'
 
 export default function Contacto() {
   const { lang, localPath } = useLang()
   const navigate = useNavigate()
   const en = lang === 'en'
   const ca = lang === 'ca'
+
+  const metaTitle = ca ? 'Contacte' : en ? 'Contact us' : 'Contacto'
+  const metaDesc  = ca
+    ? 'Escriu-nos per a qualsevol dubte o suggeriment sobre Tuthor.'
+    : en
+    ? 'Get in touch with Tuthor for questions or suggestions.'
+    : 'Escríbenos para cualquier duda o sugerencia sobre Tuthor.'
 
   const [name, setName]     = useState('')
   const [email, setEmail]   = useState('')
@@ -30,6 +38,7 @@ export default function Contacto() {
 
   return (
     <div className="relative z-10 min-h-[calc(100vh-4rem)] flex items-start justify-center px-4 py-12">
+      <PageMeta title={metaTitle} description={metaDesc} path="/contacto" lang={lang} />
       <div className="w-full max-w-md">
         <Link to={localPath('/')} className="inline-flex items-center gap-1 text-white/40 hover:text-white/70 text-sm mb-8 transition-colors">
           ← {ca ? 'Tornar' : en ? 'Back' : 'Volver'}

@@ -1,11 +1,28 @@
 import { useNavigate } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
+import PageMeta from '../components/PageMeta'
+import CourseSchema from '../components/CourseSchema'
+import BreadcrumbSchema from '../components/BreadcrumbSchema'
 
 export default function InglesTema() {
   const navigate = useNavigate()
   const { lang, localPath } = useLang()
   const en = lang === 'en'
   const ca = lang === 'ca'
+
+  const metaTitle = en ? 'English' : ca ? 'Anglès' : 'Inglés'
+  const metaDesc = en
+    ? 'Study English on Tuthor: grammar, verb tenses, articles, irregular plurals and relative clauses. Interactive practice for all levels.'
+    : ca
+    ? 'Estudia Anglès a Tuthor: gramàtica, temps verbals, articles, plurals irregulars i relative clauses. Pràctica interactiva per a tots els nivells.'
+    : 'Estudia Inglés en Tuthor: gramática, tiempos verbales, artículos, plurales irregulares y relative clauses. Práctica interactiva para todos los niveles.'
+  const pageMeta = <PageMeta title={metaTitle} description={metaDesc} path="/estudiar/idiomas/ingles" lang={lang} />
+  const courseSchema = <CourseSchema name={metaTitle} description={metaDesc} path="/estudiar/idiomas/ingles" lang={lang} subject={en ? 'English Language' : ca ? 'Anglès' : 'Inglés'} />
+  const breadcrumb = <BreadcrumbSchema lang={lang} items={[
+    { name: en ? 'Study' : ca ? 'Estudiar' : 'Estudiar', path: '/estudiar' },
+    { name: en ? 'Languages' : ca ? 'Idiomes' : 'Idiomas', path: '/estudiar/idiomas' },
+    { name: metaTitle, path: '/estudiar/idiomas/ingles' },
+  ]} />
 
   const opciones = [
     {
@@ -29,6 +46,7 @@ export default function InglesTema() {
 
   return (
     <div className="relative z-10 flex flex-col min-h-[calc(100vh-4rem)] px-4 sm:px-8 py-6">
+      {pageMeta}{courseSchema}{breadcrumb}
       <div className="max-w-2xl mx-auto w-full mb-6">
         <p className="text-white/30 text-xs mb-4">
           <button onClick={() => navigate(localPath('/estudiar/idiomas'))} className="hover:text-white/60 transition-colors">

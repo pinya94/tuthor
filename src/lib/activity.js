@@ -173,6 +173,41 @@ export async function upsertUserProfile(user) {
   }
 }
 
+// ── Cosmetics ────────────────────────────────────────────────
+
+// Returns { ownedFrames: [], equippedFrame: 'default' } from the stats doc
+export async function getCosmetics(uid) {
+  const snap = await getDoc(doc(db, 'users', uid, 'stats', 'global'))
+  if (!snap.exists()) return { ownedFrames: ['default'], equippedFrame: 'default' }
+  const d = snap.data()
+  return {
+    ownedFrames:   d.ownedFrames   ?? ['default'],
+    equippedFrame: d.equippedFrame ?? 'default',
+  }
+}
+
+// Buy a frame. Returns { ok, reason } where reason is 'already_owned' | 'not_enough_coins'
+export async function buyFrame(uid, frameId, price) {
+  const statsRef = doc(db, 'users', uid, 'stats', 'global')
+  const snap = await getDoc(statsRef)
+  if (!snap.exists()) return { ok: false, reason: 'not_enough_coins' }
+  const d = snap.data()
+  const owned = d.ownedFrames ?? ['default']
+  if (owned.includes(frameId)) return { ok: false, reason: 'already_owned' }
+  if ((d.coins ?? 0) < price) return { ok: false, reason: 'not_enough_coins' }
+  await updateDoc(statsRef, {
+    coins: increment(-price),
+    ownedFrames: [...owned, frameId],
+  })
+  return { ok: true }
+}
+
+// Equip a frame the user already owns
+export async function equipFrame(uid, frameId) {
+  const statsRef = doc(db, 'users', uid, 'stats', 'global')
+  await updateDoc(statsRef, { equippedFrame: frameId })
+}
+
 export function formatTime(seconds) {
   if (!seconds) return '0 min'
   const h = Math.floor(seconds / 3600)

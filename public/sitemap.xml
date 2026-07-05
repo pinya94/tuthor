@@ -7,6 +7,7 @@
     <loc>https://www.tuthor.es/</loc>
     <xhtml:link rel="alternate" hreflang="es" href="https://www.tuthor.es/" />
     <xhtml:link rel="alternate" hreflang="en" href="https://www.tuthor.es/en/" />
+    <xhtml:link rel="alternate" hreflang="ca" href="https://www.tuthor.es/ca/" />
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
@@ -14,9 +15,116 @@
     <loc>https://www.tuthor.es/en/</loc>
     <xhtml:link rel="alternate" hreflang="es" href="https://www.tuthor.es/" />
     <xhtml:link rel="alternate" hreflang="en" href="https://www.tuthor.es/en/" />
+    <xhtml:link rel="alternate" hreflang="ca" href="https://www.tuthor.es/ca/" />
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
+  <url>
+    <loc>https://www.tuthor.es/ca/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.tuthor.es/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.tuthor.es/en/" />
+    <xhtml:link rel="alternate" hreflang="ca" href="https://www.tuthor.es/ca/" />
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- ESTUDIAR — hubs -->
+  <url><loc>https://www.tuthor.es/estudiar</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://www.tuthor.es/en/estudiar</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://www.tuthor.es/ca/estudiar</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+
+  <url><loc>https://www.tuthor.es/estudiar/matematicas</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/en/estudiar/matematicas</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/ca/estudiar/matematicas</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+
+  <url><loc>https://www.tuthor.es/estudiar/matematicas/funciones</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/en/estudiar/matematicas/funciones</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/ca/estudiar/matematicas/funciones</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+
+  <url><loc>https://www.tuthor.es/estudiar/matematicas/geometria</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/estudiar/matematicas/fracciones</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/estudiar/matematicas/estadistica</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/estudiar/matematicas/enteros-racionales</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/estudiar/matematicas/algebra</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+
+  <url><loc>https://www.tuthor.es/estudiar/historia</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/en/estudiar/historia</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+
+  <url><loc>https://www.tuthor.es/estudiar/quimica</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/estudiar/geografia</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/estudiar/idiomas</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/estudiar/idiomas/espanol</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/estudiar/idiomas/espanol/gramatica</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/estudiar/idiomas/espanol/ortografia</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/estudiar/idiomas/ingles</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/estudiar/idiomas/ingles/grammar</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+
+  <!-- EXÁMENES -->
+  <url><loc>https://www.tuthor.es/examen/historia</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/en/examen/historia</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/examen/linea-temporal</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/examen/portadas</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/examen/trayectoria</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/en/examen/trayectoria</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/examen/portero</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/en/examen/portero</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/examen/funciones</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/en/examen/funciones</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/examen/geometria</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/examen/fracciones</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/examen/estadistica</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/examen/enteros-racionales</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/examen/algebra</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/examen/tabla-periodica</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/examen/estados-materia</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/examen/mezclas-separacion</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/examen/acidos-bases</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/examen/atomos-moleculas</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/examen/sistema-solar</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/examen/celula</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/examen/cuerpo-humano</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/examen/seres-vivos</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/examen/ecosistemas</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/examen/genetica</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/examen/nutricion</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/examen/fuerzas</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/examen/energia</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/examen/electricidad</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/examen/ondas-luz</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/examen/geografia</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/examen/geomapa</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/examen/geomapa-espana</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/examen/geomapa-eeuu</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/examen/ingles-grammar-present-simple-test</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/en/examen/ingles-grammar-present-simple-test</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/examen/ingles-grammar-past-simple-test</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/en/examen/ingles-grammar-past-simple-test</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/examen/ingles-grammar-present-perfect-test</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/en/examen/ingles-grammar-present-perfect-test</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/examen/ingles-grammar-articles-test</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/en/examen/ingles-grammar-articles-test</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/examen/ingles-grammar-passive-test</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/en/examen/ingles-grammar-passive-test</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/examen/espanol-gramatica-sustantivos-test</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/examen/espanol-gramatica-verbos-test</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/examen/espanol-ortografia-acentuacion-test</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/examen/espanol-ortografia-bv-test</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/examen/espanol-gramatica-sintaxis-test</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+
+  <!-- JUEGOS -->
+  <url><loc>https://www.tuthor.es/juegos</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://www.tuthor.es/en/juegos</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://www.tuthor.es/ca/juegos</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://www.tuthor.es/juegos/portero</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/juegos/trayectoria</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/juegos/tuthor-time</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/juegos/linea-temporal</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/juegos/quien-es-quien</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/juegos/acercate</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/juegos/portadas</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/juegos/georush</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/juegos/geomapa</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/juegos/numpath</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
 
   <!-- INFO ESTUDIAR — Hub -->
   <url>

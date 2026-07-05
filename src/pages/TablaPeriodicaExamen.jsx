@@ -2,6 +2,8 @@ import { useState, useMemo, useRef, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import { ELEMENTOS, TIPOS } from '../data/tablaperiodica'
+import PageMeta from '../components/PageMeta'
+import QuizSchema from '../components/QuizSchema'
 
 const TOTAL = 10
 const MAX_ERRORS = 2
@@ -355,10 +357,22 @@ export default function TablaPeriodicaExamen() {
 
   const isChoice = q && (q.inputType === 'choice' || q.inputType === 'choice-num')
 
+  const pageMeta = <PageMeta
+    title={en ? 'Periodic Table Exam' : ca ? 'Examen Taula Periòdica' : 'Examen Tabla Periódica'}
+    description={en ? 'Identify elements by symbol, name or properties. Interactive periodic table exam on Tuthor.' : ca ? 'Identifica elements per símbols, nom o propietats. Examen interactiu de la taula periòdica.' : 'Identifica elementos por símbolo, nombre o propiedades. Examen interactivo de la tabla periódica.'}
+    path="/examen/tabla-periodica" lang={lang} />
+  const quizSchema = <QuizSchema
+    name={en ? 'Periodic Table Exam' : ca ? 'Examen Taula Periòdica' : 'Examen Tabla Periódica'}
+    description={en ? 'Identify elements by symbol, name or properties. Interactive periodic table exam on Tuthor.' : ca ? 'Identifica elements per símbols, nom o propietats.' : 'Identifica elementos por símbolo, nombre o propiedades en la tabla periódica.'}
+    path="/examen/tabla-periodica" lang={lang}
+    subject={en ? 'Chemistry — Periodic Table' : ca ? 'Química — Taula Periòdica' : 'Química — Tabla Periódica'}
+    level="secondary" />
+
   // ── SELECTOR DE NIVEL ──────────────────────────────────────────────────────
   if (!nivelSel) {
     return (
       <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
+        {pageMeta}{quizSchema}
         <div className="max-w-sm w-full text-center">
           <div className="text-5xl mb-4">⚗️</div>
           <h1 className="text-white font-black text-2xl mb-2">
@@ -401,6 +415,7 @@ export default function TablaPeriodicaExamen() {
     const cal = calificacion(aciertos, lang)
     return (
       <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
+        {pageMeta}{quizSchema}
         <div className="max-w-md w-full">
           <div className="bg-white/5 border border-white/10 rounded-2xl p-6 text-center mb-4">
             <div className="text-5xl mb-3">{aprobado ? '🎉' : '😬'}</div>
@@ -447,6 +462,7 @@ export default function TablaPeriodicaExamen() {
 
   return (
     <div className="relative z-10 flex flex-col min-h-[calc(100vh-4rem)] px-4 md:px-8 py-5 max-w-lg mx-auto w-full">
+      {pageMeta}
       <div className="flex items-center justify-between mb-3">
         <button onClick={() => navigate(backTo)} className="text-white/40 hover:text-white/70 text-sm transition-colors">
           {en ? '← Exit' : '← Salir'}

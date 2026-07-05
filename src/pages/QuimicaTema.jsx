@@ -1,6 +1,9 @@
 import { useNavigate, useParams } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import { ELEMENTOS } from '../data/tablaperiodica'
+import PageMeta from '../components/PageMeta'
+import CourseSchema from '../components/CourseSchema'
+import BreadcrumbSchema from '../components/BreadcrumbSchema'
 
 const TEMAS_META = {
   es: {
@@ -229,6 +232,13 @@ export default function QuimicaTema() {
   if (!meta) { navigate(localPath('/estudiar/quimica')); return null }
 
   const modos = MODOS_POR_TEMA[tema] || []
+  const pageMeta = <PageMeta title={meta.titulo} description={meta.descripcion} path={`/estudiar/ciencias/${tema}`} lang={lang} />
+  const courseSchema = <CourseSchema name={meta.titulo} description={meta.descripcion} path={`/estudiar/ciencias/${tema}`} lang={lang} subject={en ? 'Science' : ca ? 'Ciències' : 'Ciencias'} />
+  const breadcrumb = <BreadcrumbSchema lang={lang} items={[
+    { name: en ? 'Study' : ca ? 'Estudiar' : 'Estudiar', path: '/estudiar' },
+    { name: en ? 'Science' : ca ? 'Ciències' : 'Ciencias', path: '/estudiar/ciencias' },
+    { name: meta.titulo, path: `/estudiar/ciencias/${tema}` },
+  ]} />
 
   function getLabel(obj) {
     return lang === 'en' ? obj.en : lang === 'ca' ? obj.ca : obj.es
@@ -236,6 +246,7 @@ export default function QuimicaTema() {
 
   return (
     <div className="relative z-10 flex flex-col min-h-[calc(100vh-4rem)] px-4 sm:px-8 py-6">
+      {pageMeta}{courseSchema}{breadcrumb}
       <div className="max-w-2xl mx-auto w-full mb-6">
         <p className="text-white/30 text-xs mb-4">
           <button onClick={() => navigate(localPath('/estudiar'))} className="hover:text-white/60 transition-colors">

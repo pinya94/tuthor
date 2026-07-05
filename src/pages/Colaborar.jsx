@@ -1,12 +1,20 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
+import PageMeta from '../components/PageMeta'
 
 export default function Colaborar() {
   const { lang, localPath } = useLang()
   const navigate = useNavigate()
   const en = lang === 'en'
   const ca = lang === 'ca'
+
+  const metaTitle = ca ? 'Col·laborar o anunciar-se' : en ? 'Collaborate or advertise' : 'Colaborar o anunciarse'
+  const metaDesc  = ca
+    ? 'Acadèmia, editorial o projecte educatiu? Explica\'ns com podem treballar junts a Tuthor.'
+    : en
+    ? 'School, publisher or ed-tech project? Tell us how we can work together at Tuthor.'
+    : '¿Academia, editorial o proyecto educativo? Cuéntanos cómo podemos trabajar juntos en Tuthor.'
 
   const [name, setName]       = useState('')
   const [email, setEmail]     = useState('')
@@ -31,6 +39,7 @@ export default function Colaborar() {
 
   return (
     <div className="relative z-10 min-h-[calc(100vh-4rem)] flex items-start justify-center px-4 py-12">
+      <PageMeta title={metaTitle} description={metaDesc} path="/colaborar" lang={lang} />
       <div className="w-full max-w-md">
         <Link to={localPath('/')} className="inline-flex items-center gap-1 text-white/40 hover:text-white/70 text-sm mb-8 transition-colors">
           ← {ca ? 'Tornar' : en ? 'Back' : 'Volver'}

@@ -1,4 +1,6 @@
 import { useNavigate, useParams } from 'react-router-dom'
+import { useLang } from '../context/LangContext'
+import PageMeta from '../components/PageMeta'
 
 const CATEGORIAS = [
   {
@@ -38,6 +40,7 @@ const CATEGORIAS = [
 export default function ExamenLineaLanding() {
   const navigate = useNavigate()
   const { nivel } = useParams()
+  const { lang } = useLang()
   const title = nivel === 'eso' ? 'ESO' : 'Bachillerato'
   const base = `/estudiar/${nivel}/historia`
 
@@ -45,6 +48,10 @@ export default function ExamenLineaLanding() {
 
   return (
     <div className="relative z-10 flex flex-col min-h-[calc(100vh-4rem)] px-4 sm:px-8 py-6">
+      <PageMeta
+        title={lang === 'en' ? 'Timeline Exam — History' : 'Examen Línea del Tiempo — Historia'}
+        description={lang === 'en' ? 'Sort historical events on a timeline. Interactive exam on Tuthor.' : 'Ordena eventos históricos en una línea del tiempo. Examen interactivo en Tuthor.'}
+        path="/examen/linea-temporal" lang={lang} />
       <div className="text-center mb-8">
         <p className="text-white/40 text-sm mb-1">Estudiar · {title} · Historia · Línea del Tiempo</p>
         <h1 className="text-2xl sm:text-3xl font-black text-white">Elige el tema</h1>

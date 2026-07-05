@@ -1,8 +1,11 @@
 import { useNavigate } from 'react-router-dom'
 import { EXAMENES_HISTORIA, EVENTOS_HISTORIA, calcularMargen, getEventosPorCategoria } from '../data/historiaEvents'
+import { useLang } from '../context/LangContext'
+import PageMeta from '../components/PageMeta'
 
 export default function ExamenHistoria({ nivel }) {
   const navigate = useNavigate()
+  const { lang } = useLang()
   const examenes = EXAMENES_HISTORIA.filter(ex => ex.niveles.includes(nivel))
 
   function iniciarExamen(examen) {
@@ -11,6 +14,10 @@ export default function ExamenHistoria({ nivel }) {
 
   return (
     <div className="relative z-10 flex flex-col min-h-[calc(100vh-4rem)] px-4 sm:px-8 py-6">
+      <PageMeta
+        title={lang === 'en' ? 'History Exam — Dates' : 'Examen Historia — Fechas'}
+        description={lang === 'en' ? 'Guess the year of historical events. Interactive history exam on Tuthor.' : 'Adivina el año de los eventos históricos. Examen interactivo de historia en Tuthor.'}
+        path="/examen/historia" lang={lang} />
       <div className="text-center mb-8">
         <p className="text-white/40 text-sm mb-1">
           Estudiar · {nivel === 'eso' ? 'ESO' : nivel === 'bachillerato' ? 'Bachillerato' : 'Primaria'} · Historia

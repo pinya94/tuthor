@@ -4,6 +4,8 @@ import { getEventosPorCategoria, calcularMargen } from '../data/historiaEvents'
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
 import { saveActivity } from '../lib/activity'
+import PageMeta from '../components/PageMeta'
+import QuizSchema from '../components/QuizSchema'
 
 // ── PANTALLA INTRO ─────────────────────────────────────────────────────────
 function Intro({ examen, eventos, margen, onStart, en }) {
@@ -308,10 +310,21 @@ export default function ExamenJuego() {
 
   const aprobado = vivo || preguntaMuerte === null
 
+  const pageMeta = <PageMeta
+    title={en ? `History Exam — ${examen?.titulo || 'History'}` : `Examen Historia — ${examen?.titulo || 'Historia'}`}
+    description={en ? 'Guess the year of historical events. Instant feedback and scoring.' : 'Adivina el año de los eventos históricos. Feedback y puntuación inmediata.'}
+    path="/examen/historia" lang={lang} />
+  const quizSchema = <QuizSchema
+    name={en ? `History Exam — ${examen?.titulo || 'History'}` : `Examen Historia — ${examen?.titulo || 'Historia'}`}
+    description={en ? 'Guess the year of historical events. Instant feedback.' : 'Adivina el año de los eventos históricos.'}
+    path="/examen/historia" lang={lang}
+    subject={en ? 'History' : 'Historia'}
+    level="secondary" />
 
   if (fase === 'intro') {
     return (
       <div className="relative z-10">
+        {pageMeta}{quizSchema}
         <Intro examen={examen} eventos={eventos} margen={margen} onStart={iniciar} en={en} />
       </div>
     )
@@ -320,6 +333,7 @@ export default function ExamenJuego() {
   if (fase === 'resultado') {
     return (
       <div className="relative z-10">
+        {pageMeta}{quizSchema}
         <Resultado
           historial={historial}
           eventos={eventos}
@@ -338,6 +352,7 @@ export default function ExamenJuego() {
   // Fase jugando
   return (
     <div className="relative z-10 flex flex-col items-center min-h-[calc(100vh-4rem)] px-4 py-6">
+      {pageMeta}
       {/* Estado de vida */}
       <div className="mb-6">
         <VidaBar vivo={vivo} />

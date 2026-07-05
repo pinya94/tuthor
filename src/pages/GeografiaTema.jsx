@@ -1,6 +1,9 @@
 import { useNavigate, useParams } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import { PAISES } from '../data/paises'
+import PageMeta from '../components/PageMeta'
+import CourseSchema from '../components/CourseSchema'
+import BreadcrumbSchema from '../components/BreadcrumbSchema'
 
 const REGION_FILTER = {
   europa:  p => p.continente === 'Europa' || p.continente === 'Europa/Asia',
@@ -52,6 +55,14 @@ export default function GeografiaTema() {
   const meta        = temasMeta[region]
 
   if (!meta) { navigate(localPath('/estudiar/geografia')); return null }
+
+  const pageMeta = <PageMeta title={meta.titulo} description={meta.descripcion} path={`/estudiar/geografia/${region}`} lang={lang} />
+  const courseSchema = <CourseSchema name={meta.titulo} description={meta.descripcion} path={`/estudiar/geografia/${region}`} lang={lang} subject={en ? 'Geography' : ca ? 'Geografia' : 'Geografía'} />
+  const breadcrumb = <BreadcrumbSchema lang={lang} items={[
+    { name: en ? 'Study' : ca ? 'Estudiar' : 'Estudiar', path: '/estudiar' },
+    { name: en ? 'Geography' : ca ? 'Geografia' : 'Geografía', path: '/estudiar/geografia' },
+    { name: meta.titulo, path: `/estudiar/geografia/${region}` },
+  ]} />
 
   const filter      = REGION_FILTER[region]
   const paisesCount = filter ? PAISES.filter(filter).length : 0
@@ -127,6 +138,7 @@ export default function GeografiaTema() {
 
   return (
     <div className="relative z-10 flex flex-col min-h-[calc(100vh-4rem)] px-4 sm:px-8 py-6">
+      {pageMeta}{courseSchema}{breadcrumb}
       <div className="max-w-2xl mx-auto w-full mb-6">
         <p className="text-white/30 text-xs mb-4">
           <button onClick={() => navigate(localPath('/estudiar'))} className="hover:text-white/60 transition-colors">{ca ? 'Estudiar' : en ? 'Study' : 'Estudiar'}</button>

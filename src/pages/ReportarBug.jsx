@@ -1,12 +1,20 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
+import PageMeta from '../components/PageMeta'
 
 export default function ReportarBug() {
   const { lang, localPath } = useLang()
   const navigate = useNavigate()
   const en = lang === 'en'
   const ca = lang === 'ca'
+
+  const metaTitle = ca ? 'Reportar un error' : en ? 'Report a bug' : 'Reportar un bug'
+  const metaDesc  = ca
+    ? 'Alguna cosa no funciona bé? Explica\'ns-ho i ho arreglem al més aviat possible.'
+    : en
+    ? "Something not working on Tuthor? Let us know and we'll fix it as soon as possible."
+    : 'Algo no funciona bien en Tuthor? Cuéntanoslo y lo arreglamos cuanto antes.'
 
   const [name, setName]     = useState('')
   const [email, setEmail]   = useState('')
@@ -31,6 +39,7 @@ export default function ReportarBug() {
 
   return (
     <div className="relative z-10 min-h-[calc(100vh-4rem)] flex items-start justify-center px-4 py-12">
+      <PageMeta title={metaTitle} description={metaDesc} path="/reportar-bug" lang={lang} />
       <div className="w-full max-w-md">
         <Link to={localPath('/')} className="inline-flex items-center gap-1 text-white/40 hover:text-white/70 text-sm mb-8 transition-colors">
           ← {ca ? 'Tornar' : en ? 'Back' : 'Volver'}

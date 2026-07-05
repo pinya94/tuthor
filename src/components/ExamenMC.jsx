@@ -14,6 +14,8 @@ import { useLang } from '../context/LangContext'
 import { useAuth } from '../context/AuthContext'
 import { saveActivity } from '../lib/activity'
 import CoinsAnimation from './CoinsAnimation'
+import PageMeta from './PageMeta'
+import QuizSchema from './QuizSchema'
 
 const TOTAL      = 10
 const MAX_ERRORS = 2
@@ -86,6 +88,34 @@ export default function ExamenMC({ titulo, emoji, nivelInfo, backFallback, gameI
   const backTo = backPath ? localPath(backPath) : localPath(backFallback)
 
   const tituloStr = get(titulo, lang)
+
+  const metaTitle = en ? `${tituloStr} Exam` : ca ? `Examen de ${tituloStr}` : `Examen de ${tituloStr}`
+  const metaDesc  = en
+    ? `Practice ${tituloStr} with an interactive 10-question exam on Tuthor. Instant feedback after each answer.`
+    : ca
+    ? `Practica ${tituloStr} amb un examen interactiu de 10 preguntes a Tuthor. Retroalimentació immediata.`
+    : `Practica ${tituloStr} con un examen interactivo de 10 preguntas en Tuthor. Retroalimentación inmediata.`
+  const pageMeta = <PageMeta title={metaTitle} description={metaDesc} path={`/examen/${gameId}`} lang={lang} />
+
+  // Build Q&A list from pool for JSON-LD (only when pool is ready)
+  const schemaQuestions = pool.length > 0 ? pool.map(q => {
+    const pregunta  = get(q.pregunta, lang)
+    const correcta  = get(q.correcta, lang)
+    const todas     = get(q.opciones, lang)
+    return {
+      question:      pregunta,
+      correctAnswer: correcta,
+      wrongAnswers:  todas.filter(o => o !== correcta),
+    }
+  }) : undefined
+
+  const quizSchema = <QuizSchema
+    name={metaTitle}
+    description={metaDesc}
+    path={`/examen/${gameId}`}
+    lang={lang}
+    subject={tituloStr}
+    questions={schemaQuestions} />
 
   // ── Estado ────────────────────────────────────────────────────────────────
   const [nivelSel, setNivelSel]   = useState(nivelInicial || null)
@@ -164,6 +194,7 @@ export default function ExamenMC({ titulo, emoji, nivelInfo, backFallback, gameI
   if (!nivelSel) {
     return (
       <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
+        {pageMeta}{quizSchema}
         <div className="max-w-sm w-full text-center">
           <div className="text-5xl mb-4">{emoji}</div>
           <h1 className="text-white font-black text-2xl mb-2">{tituloStr}</h1>
@@ -199,6 +230,7 @@ export default function ExamenMC({ titulo, emoji, nivelInfo, backFallback, gameI
     const score = aciertos * 100
     return (
       <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
+        {pageMeta}{quizSchema}
         <div className="max-w-sm w-full text-center bg-white/5 border border-white/10 rounded-2xl p-8">
           <p className="text-white/40 text-xs uppercase tracking-widest mb-4 font-semibold">
             {en ? 'Earning coins' : ca ? 'Guanyant monedes' : 'Ganando monedas'}
@@ -216,6 +248,7 @@ export default function ExamenMC({ titulo, emoji, nivelInfo, backFallback, gameI
     const coins    = aciertos * 10
     return (
       <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
+        {pageMeta}{quizSchema}
         <div className="max-w-md w-full">
           <div className="bg-white/5 border border-white/10 rounded-2xl p-6 text-center mb-4">
             <div className="text-5xl mb-3">{aprobado ? '🎉' : '😬'}</div>
@@ -268,6 +301,7 @@ export default function ExamenMC({ titulo, emoji, nivelInfo, backFallback, gameI
 
   return (
     <div className="relative z-10 flex flex-col min-h-[calc(100vh-4rem)] px-4 md:px-8 py-5 max-w-lg mx-auto w-full">
+      {pageMeta}
       {/* Cabecera */}
       <div className="flex items-center justify-between mb-3">
         <button onClick={() => navigate(backTo)} className="text-white/40 hover:text-white/70 text-sm transition-colors">

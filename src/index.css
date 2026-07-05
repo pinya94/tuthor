@@ -12,3 +12,14 @@ html, body {
 button, [role="button"] {
   cursor: pointer;
 }
+
+@keyframes frameRotate {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.frame-animated {
+  animation: frameRotate 3s ease infinite;
+  background-size: 300% 300%;
+}

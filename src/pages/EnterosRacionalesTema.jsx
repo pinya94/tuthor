@@ -1,11 +1,28 @@
 import { useNavigate } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
+import PageMeta from '../components/PageMeta'
+import CourseSchema from '../components/CourseSchema'
+import BreadcrumbSchema from '../components/BreadcrumbSchema'
 
 export default function EnterosRacionalesTema() {
   const navigate = useNavigate()
   const { lang, localPath } = useLang()
   const en = lang === 'en'
   const ca = lang === 'ca'
+
+  const metaTitle = en ? 'Integers and Rationals' : ca ? 'Enters i Racionals' : 'Enteros y Racionales'
+  const metaDesc = en
+    ? 'Study Integers and Rational Numbers on Tuthor: operations, number line, fractions and decimals. Interactive practice for Primary and Secondary.'
+    : ca
+    ? 'Estudia Enters i Racionals a Tuthor: operacions, recta numèrica, fraccions i decimals. Pràctica interactiva per a Primària i ESO.'
+    : 'Estudia Enteros y Racionales en Tuthor: operaciones, recta numérica, fracciones y decimales. Práctica interactiva para Primaria y ESO.'
+  const pageMeta = <PageMeta title={metaTitle} description={metaDesc} path="/estudiar/matematicas/enteros-racionales" lang={lang} />
+  const courseSchema = <CourseSchema name={metaTitle} description={metaDesc} path="/estudiar/matematicas/enteros-racionales" lang={lang} subject={en ? 'Mathematics' : 'Matemáticas'} />
+  const breadcrumb = <BreadcrumbSchema lang={lang} items={[
+    { name: en ? 'Study' : ca ? 'Estudiar' : 'Estudiar', path: '/estudiar' },
+    { name: en ? 'Mathematics' : ca ? 'Matemàtiques' : 'Matemáticas', path: '/estudiar/matematicas' },
+    { name: metaTitle, path: '/estudiar/matematicas/enteros-racionales' },
+  ]} />
 
   const opciones = [
     {
@@ -29,6 +46,7 @@ export default function EnterosRacionalesTema() {
 
   return (
     <div className="relative z-10 flex flex-col min-h-[calc(100vh-4rem)] px-4 sm:px-8 py-6">
+      {pageMeta}{courseSchema}{breadcrumb}
       <div className="max-w-2xl mx-auto w-full mb-6">
         <p className="text-white/30 text-xs mb-4">
           <button onClick={() => navigate(localPath('/estudiar/matematicas'))} className="hover:text-white/60 transition-colors">

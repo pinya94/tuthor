@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
-import { getStats, formatTime } from '../lib/activity'
+import { getStats, getCosmetics, formatTime } from '../lib/activity'
 import { useNavigate } from 'react-router-dom'
+import AvatarFrame from '../components/AvatarFrame'
 
 function todayStr() { return new Date().toISOString().slice(0, 10) }
 
@@ -61,10 +62,15 @@ export default function Perfil() {
   const [loading, setLoading] = useState(true)
   const [showAllGames, setShowAllGames] = useState(false)
   const [showAllCats, setShowAllCats] = useState(false)
+  const [equippedFrame, setEquippedFrame] = useState('default')
 
   useEffect(() => {
     if (!user) { navigate(localPath('/')); return }
-    getStats(user.uid).then(s => { setStats(s); setLoading(false) })
+    Promise.all([getStats(user.uid), getCosmetics(user.uid)]).then(([s, cosmetics]) => {
+      setStats(s)
+      setEquippedFrame(cosmetics.equippedFrame)
+      setLoading(false)
+    })
   }, [user])
 
   if (!user) return null
@@ -95,18 +101,21 @@ export default function Perfil() {
 
         {/* Cabecera */}
         <div className="flex items-center gap-4 mb-8">
-          {user.photoURL
-            ? <img src={user.photoURL} alt="" className="w-16 h-16 rounded-full ring-2 ring-violet-500/50" />
-            : <div className="w-16 h-16 rounded-full bg-violet-600 flex items-center justify-center text-2xl font-black text-white">{user.displayName?.[0]}</div>
-          }
+          <AvatarFrame user={user} frameId={equippedFrame} size="lg" />
           <div>
             <h1 className="text-2xl font-black text-white">{user.displayName}</h1>
             <p className="text-white/40 text-sm">{user.email}</p>
           </div>
-          <button onClick={logout}
-            className="ml-auto text-white/30 hover:text-white/70 text-sm border border-white/10 hover:border-white/30 px-3 py-1.5 rounded-lg transition-all">
-            {ca ? 'Tancar sessió' : en ? 'Sign out' : 'Cerrar sesión'}
-          </button>
+          <div className="ml-auto flex flex-col gap-2 items-end">
+            <button onClick={logout}
+              className="text-white/30 hover:text-white/70 text-sm border border-white/10 hover:border-white/30 px-3 py-1.5 rounded-lg transition-all">
+              {ca ? 'Tancar sessió' : en ? 'Sign out' : 'Cerrar sesión'}
+            </button>
+            <button onClick={() => navigate(localPath('/tienda'))}
+              className="text-amber-400/70 hover:text-amber-400 text-sm border border-amber-500/20 hover:border-amber-500/40 px-3 py-1.5 rounded-lg transition-all">
+              🛍 {ca ? 'Botiga' : en ? 'Shop' : 'Tienda'}
+            </button>
+          </div>
         </div>
 
         {loading ? (

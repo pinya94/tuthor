@@ -4,6 +4,8 @@ import { EVENTOS_HISTORIA, getCorrectPos } from '../data/historiaEvents'
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
 import { saveActivity } from '../lib/activity'
+import PageMeta from '../components/PageMeta'
+import QuizSchema from '../components/QuizSchema'
 
 const MAX_LIVES_PRIMARIA = 5
 const WIN_AT_PRIMARIA    = 10
@@ -186,6 +188,17 @@ export default function ExamenLineaTemporal() {
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
   if (!categoria) return null
 
+  const pageMeta = <PageMeta
+    title={en ? 'Timeline Exam — History' : 'Examen Línea del Tiempo — Historia'}
+    description={en ? 'Sort historical events chronologically. Interactive timeline exam on Tuthor.' : 'Ordena los eventos históricos cronológicamente. Examen de línea del tiempo interactivo en Tuthor.'}
+    path="/examen/linea-temporal" lang={lang} />
+  const quizSchema = <QuizSchema
+    name={en ? 'Timeline Exam — History' : 'Examen Línea del Tiempo — Historia'}
+    description={en ? 'Sort historical events chronologically. Interactive timeline exam.' : 'Ordena los eventos históricos cronológicamente. Examen interactivo.'}
+    path="/examen/linea-temporal" lang={lang}
+    subject={en ? 'History' : 'Historia'}
+    level="secondary" />
+
   function startGame() {
     const shuffled = [...allEvents].sort(() => Math.random() - 0.5)
     setTL([shuffled[0]])
@@ -242,12 +255,14 @@ export default function ExamenLineaTemporal() {
 
   if (fase === 'intro') return (
     <div className="relative z-10">
+      {pageMeta}{quizSchema}
       <Intro config={{ ...config, totalEvents: allEvents.length }} totalEvents={allEvents.length} onStart={startGame} en={en} />
     </div>
   )
 
   if (fase === 'resultado') return (
     <div className="relative z-10">
+      {pageMeta}{quizSchema}
       <Resultado
         placed={placed} lives={lives}
         config={{ ...config, totalEvents: allEvents.length }}
@@ -264,7 +279,7 @@ export default function ExamenLineaTemporal() {
 
   return (
     <div className="relative z-10 flex flex-col" style={{ height: 'calc(100vh - 4rem)' }}>
-
+      {pageMeta}{quizSchema}
       {/* HEADER */}
       <div className="flex items-center justify-between px-4 sm:px-8 py-2 shrink-0 border-b border-white/10 bg-black/20">
         <div className="flex items-center gap-1">

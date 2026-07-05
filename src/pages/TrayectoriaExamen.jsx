@@ -1,6 +1,8 @@
 import { useState, useRef, useCallback, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
+import PageMeta from '../components/PageMeta'
+import QuizSchema from '../components/QuizSchema'
 import { useAuth } from '../context/AuthContext'
 import { saveActivity } from '../lib/activity'
 import CoinsAnimation from '../components/CoinsAnimation'
@@ -291,9 +293,22 @@ export default function TrayectoriaExamen() {
   }
   const t = k => copy[k][l] ?? copy[k].es
 
-  if (screen === 'intro') return <Intro onStart={startExam} l={l} />
+  const metaTitle = l === 'en' ? 'Trajectory Exam — Functions' : l === 'ca' ? 'Examen Trajectòria — Funcions' : 'Examen Trayectoria — Funciones'
+  const metaDesc  = l === 'en'
+    ? 'Trajectory exam: choose which function scores the goal. 10 questions on lines, parabolas and piecewise functions. No time limit.'
+    : l === 'ca'
+    ? 'Examen de trajectòria: tria quina funció marca el gol. 10 preguntes sobre rectes, paràboles i funcions a trossos. Sense temps.'
+    : 'Examen de trayectoria: elige qué función mete el balón. 10 preguntas sobre rectas, parábolas y funciones a trozos. Sin tiempo.'
+  const pageMeta = <PageMeta title={metaTitle} description={metaDesc} path="/examen/trayectoria" lang={lang} />
+  const quizSchema = <QuizSchema
+    name={metaTitle} description={metaDesc} path="/examen/trayectoria" lang={lang}
+    subject={l === 'en' ? 'Mathematical Functions' : l === 'ca' ? 'Funcions matemàtiques' : 'Funciones matemáticas'}
+    level="secondary" />
+
+  if (screen === 'intro') return <>{pageMeta}{quizSchema}<Intro onStart={startExam} l={l} /></>
   if (screen === 'end') return (
     <>
+      {pageMeta}{quizSchema}
       <ExamEnd score={score} results={results} onRetry={startExam} l={l} />
       {score > 0 && <CoinsAnimation points={Math.round((score / TOTAL) * 100)} />}
     </>
@@ -304,6 +319,7 @@ export default function TrayectoriaExamen() {
 
   return (
     <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-6">
+      {pageMeta}{quizSchema}
       {/* Header */}
       <div className="w-full max-w-[440px] flex items-center justify-between mb-3">
         <div>

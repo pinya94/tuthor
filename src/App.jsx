@@ -25,6 +25,7 @@ const TuthorTimeRoguelike= lazy(() => import('./pages/TuthorTimeRoguelike'))
 const OrdenTemporal      = lazy(() => import('./pages/OrdenTemporal'))
 const ExamenLineaTemporal= lazy(() => import('./pages/ExamenLineaTemporal'))
 const Perfil             = lazy(() => import('./pages/Perfil'))
+const Tienda             = lazy(() => import('./pages/Tienda'))
 const QuienEsQuien       = lazy(() => import('./pages/QuienEsQuien'))
 const Acercate           = lazy(() => import('./pages/Acercate'))
 const AcercateRoguelike  = lazy(() => import('./pages/AcercateRoguelike'))
@@ -214,6 +215,7 @@ function AppRoutes() {
       <Route path="diaria" element={<PreguntaDiaria />} />
       <Route path="progreso" element={<Progreso />} />
       <Route path="perfil" element={<Perfil />} />
+      <Route path="tienda" element={<Tienda />} />
       <Route path="privacidad" element={<Privacidad />} />
       <Route path="comunidad" element={<Comunidad />} />
       <Route path="admin" element={<Admin />} />

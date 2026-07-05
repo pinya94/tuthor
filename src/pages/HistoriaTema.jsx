@@ -3,6 +3,9 @@ import { useNavigate, useParams, useLocation } from 'react-router-dom'
 import { EVENTOS_HISTORIA, calcularMargen } from '../data/historiaEvents'
 import { PORTADAS } from '../data/portadas'
 import { useLang } from '../context/LangContext'
+import PageMeta from '../components/PageMeta'
+import CourseSchema from '../components/CourseSchema'
+import BreadcrumbSchema from '../components/BreadcrumbSchema'
 
 const NIVELES = {
   es: [
@@ -79,6 +82,14 @@ export default function HistoriaTema() {
 
   if (!meta) { navigate(localPath('/estudiar/historia')); return null }
 
+  const pageMeta = <PageMeta title={meta.titulo} description={meta.descripcion} path={`/estudiar/historia/${categoria}`} lang={lang} />
+  const courseSchema = <CourseSchema name={meta.titulo} description={meta.descripcion} path={`/estudiar/historia/${categoria}`} lang={lang} subject={en ? 'History' : ca ? 'Història' : 'Historia'} />
+  const breadcrumb = <BreadcrumbSchema lang={lang} items={[
+    { name: en ? 'Study' : ca ? 'Estudiar' : 'Estudiar', path: '/estudiar' },
+    { name: en ? 'History' : ca ? 'Història' : 'Historia', path: '/estudiar/historia' },
+    { name: meta.titulo, path: `/estudiar/historia/${categoria}` },
+  ]} />
+
   // Solo mostrar botones de nivel que tengan al menos un evento para esta categoría
   const nivelesDisponibles = nivelesArr.filter(n =>
     EVENTOS_HISTORIA.some(e => e.categoria === categoria && (!e.nivel || e.nivel.includes(n.id)))
@@ -153,6 +164,7 @@ export default function HistoriaTema() {
 
   return (
     <div className="relative z-10 flex flex-col min-h-[calc(100vh-4rem)] px-4 sm:px-8 py-6">
+      {pageMeta}{courseSchema}{breadcrumb}
 
       {/* Breadcrumb + nivel switcher */}
       <div className="max-w-2xl mx-auto w-full mb-6">

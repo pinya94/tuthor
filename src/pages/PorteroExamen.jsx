@@ -1,6 +1,8 @@
 import { useState, useRef, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
+import PageMeta from '../components/PageMeta'
+import QuizSchema from '../components/QuizSchema'
 import { useAuth } from '../context/AuthContext'
 import { saveActivity } from '../lib/activity'
 import CoinsAnimation from '../components/CoinsAnimation'
@@ -233,6 +235,12 @@ export default function PorteroExamen() {
   const { user } = useAuth()
   const l = lang === 'en' ? 'en' : lang === 'ca' ? 'ca' : 'es'
   const T = (es, en, ca) => l === 'en' ? en : l === 'ca' ? ca : es
+  const metaTitle = T('Examen Portero — Funciones', 'Goalkeeper Exam — Functions', 'Examen Porter — Funcions')
+  const metaDesc  = T(
+    'Examen de funciones tipo portero: calcula f(x₀) y decide en qué zona entra el balón. 10 preguntas, sin tiempo.',
+    'Goalkeeper-style functions exam: calculate f(x₀) and decide which zone the ball enters. 10 questions, no time limit.',
+    'Examen de funcions tipus porter: calcula f(x₀) i decideix en quina zona entra la pilota. 10 preguntes, sense temps.',
+  )
 
   const [screen, setScreen]       = useState('intro')
   const [questions, setQuestions] = useState([])
@@ -337,9 +345,15 @@ export default function PorteroExamen() {
 
   useEffect(() => () => { if (animRef.current) cancelAnimationFrame(animRef.current) }, [])
 
-  if (screen === 'intro') return <Intro onStart={startExam} l={l} />
+  const pageMeta = <PageMeta title={metaTitle} description={metaDesc} path="/examen/portero" lang={lang} />
+  const quizSchema = <QuizSchema
+    name={metaTitle} description={metaDesc} path="/examen/portero" lang={lang}
+    subject={T('Funciones matemáticas', 'Mathematical Functions', 'Funcions matemàtiques')}
+    level="secondary" />
+  if (screen === 'intro') return <>{pageMeta}{quizSchema}<Intro onStart={startExam} l={l} /></>
   if (screen === 'end') return (
     <>
+      {pageMeta}{quizSchema}
       <ExamEnd score={score} results={results} onRetry={startExam} l={l} />
       {score > 0 && <CoinsAnimation points={Math.round((score / TOTAL) * 100)} />}
     </>
@@ -352,6 +366,7 @@ export default function PorteroExamen() {
 
   return (
     <div className="relative z-10 flex flex-col items-center min-h-[calc(100vh-4rem)] px-2 sm:px-4 py-4">
+      {pageMeta}{quizSchema}
       {/* Header */}
       <div className="w-full max-w-[520px] flex items-center justify-between mb-3 px-2">
         <div>

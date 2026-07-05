@@ -1,11 +1,21 @@
 import { useNavigate } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
+import PageMeta from '../components/PageMeta'
+import CourseSchema from '../components/CourseSchema'
+import BreadcrumbSchema from '../components/BreadcrumbSchema'
 
 export default function FuncionesTema() {
   const navigate = useNavigate()
   const { lang, localPath } = useLang()
   const en = lang === 'en'
   const ca = lang === 'ca'
+
+  const metaTitle = ca ? 'Funcions — Matemàtiques' : en ? 'Functions — Mathematics' : 'Funciones — Matemáticas'
+  const metaDesc  = ca
+    ? 'Practica funcions lineals, paràboles i funcions a trossos amb jocs i exàmens interactius a Tuthor.'
+    : en
+    ? 'Practice linear functions, parabolas and piecewise functions with interactive games and exams on Tuthor.'
+    : 'Practica funciones lineales, parábolas y funciones a trozos con juegos y exámenes interactivos en Tuthor.'
 
   const juegos = [
     {
@@ -63,6 +73,13 @@ export default function FuncionesTema() {
 
   return (
     <div className="relative z-10 flex flex-col min-h-[calc(100vh-4rem)] px-4 sm:px-8 py-6">
+      <PageMeta title={metaTitle} description={metaDesc} path="/estudiar/matematicas/funciones" lang={lang} />
+      <CourseSchema name={metaTitle} description={metaDesc} path="/estudiar/matematicas/funciones" lang={lang} subject={en ? 'Mathematics' : 'Matemáticas'} />
+      <BreadcrumbSchema lang={lang} items={[
+        { name: en ? 'Study' : ca ? 'Estudiar' : 'Estudiar', path: '/estudiar' },
+        { name: en ? 'Mathematics' : ca ? 'Matemàtiques' : 'Matemáticas', path: '/estudiar/matematicas' },
+        { name: en ? 'Functions' : ca ? 'Funcions' : 'Funciones', path: '/estudiar/matematicas/funciones' },
+      ]} />
       <div className="max-w-2xl mx-auto w-full mb-6">
         <p className="text-white/30 text-xs mb-4">
           <button onClick={() => navigate(localPath('/estudiar/matematicas'))} className="hover:text-white/60 transition-colors">

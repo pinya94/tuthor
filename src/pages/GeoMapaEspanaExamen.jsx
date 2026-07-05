@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import SpainMap from '../components/SpainMap'
 import { COMUNIDADES, NOMBRES_COMUNIDADES, NOMBRES_COMUNIDADES_EN, NOMBRES_COMUNIDADES_CA } from '../data/espanaRegiones'
+import PageMeta from '../components/PageMeta'
 
 const TOTAL = 10
 const MAX_ERRORS = 2
@@ -85,6 +86,11 @@ export default function GeoMapaEspanaExamen() {
   const en = lang === 'en'
   const ca = lang === 'ca'
 
+  const pageMeta = <PageMeta
+    title={en ? 'Spain Map Exam' : ca ? 'Examen Mapa d\'Espanya' : 'Examen Mapa de España'}
+    description={en ? 'Identify Spanish regions on an interactive map. 10 questions, instant feedback.' : ca ? 'Identifica les comunitats autònomes d\'Espanya al mapa. 10 preguntes, retroalimentació immediata.' : 'Identifica las comunidades autónomas de España en el mapa interactivo. 10 preguntas, feedback inmediato.'}
+    path="/examen/geomapa-espana" lang={lang} />
+
   const pool = useMemo(() => shuffle(COMUNIDADES).slice(0, TOTAL), [])
 
   const [idx, setIdx]             = useState(0)
@@ -157,6 +163,7 @@ export default function GeoMapaEspanaExamen() {
     const cal = calificacion(aciertos, lang)
     return (
       <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
+        {pageMeta}
         <div className="max-w-md w-full">
           <div className="bg-white/5 border border-white/10 rounded-2xl p-6 text-center mb-4">
             <div className="text-5xl mb-3">{aprobado ? '🎉' : '😬'}</div>
@@ -191,6 +198,7 @@ export default function GeoMapaEspanaExamen() {
   // JUGANDO
   return (
     <div className="relative z-10 flex flex-col min-h-[calc(100vh-4rem)] px-4 md:px-8 py-5 max-w-3xl mx-auto w-full">
+      {pageMeta}
       <div className="flex items-center justify-between mb-3">
         <button onClick={() => navigate(backPath ? localPath(backPath) : localPath('/estudiar/geografia/espana'))}
           className="text-white/40 hover:text-white/70 text-sm transition-colors">{en ? '← Exit' : '← Salir'}</button>

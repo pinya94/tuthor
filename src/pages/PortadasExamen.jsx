@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import { PORTADAS } from '../data/portadas'
+import PageMeta from '../components/PageMeta'
 
 const CAT_STYLE = {
   política:   'bg-blue-500/20 text-blue-300 border-blue-500/30',
@@ -89,9 +90,15 @@ export default function PortadasExamen() {
   const [feedback,   setFeedback]   = useState(null)
   const [fase,       setFase]       = useState('jugando') // 'jugando' | 'feedback' | 'resultado'
 
+  const pageMeta = <PageMeta
+    title={en ? 'Historical Headlines Exam' : 'Examen Portadas Históricas'}
+    description={en ? 'Real or fake? Identify historic newspaper front pages. 10 questions, instant feedback.' : 'Real o falsa? Identifica portadas históricas de periódico. 10 preguntas, feedback inmediato.'}
+    path="/examen/portadas" lang={lang} />
+
   if (!categoria || pool.length < TOTAL) {
     return (
       <div className="relative z-10 flex items-center justify-center min-h-[calc(100vh-4rem)] px-4">
+        {pageMeta}
         <div className="text-center text-white/50">
           <p className="text-lg mb-4">{en ? 'Not enough headlines for this topic.' : 'No hay suficientes portadas para este tema.'}</p>
           <button onClick={() => navigate(-1)} className="text-[#EDAE49] hover:underline">← Volver</button>
@@ -126,6 +133,7 @@ export default function PortadasExamen() {
     const cal      = calificacion(aciertos, en)
     return (
       <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
+        {pageMeta}
         <div className="max-w-md w-full">
           <div className="bg-white/5 border border-white/10 rounded-2xl p-6 text-center mb-4">
             <div className="text-5xl mb-3">{aprobado ? '🎉' : '😬'}</div>
@@ -177,6 +185,7 @@ export default function PortadasExamen() {
     const { correcto, portada: p } = feedback
     return (
       <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-6">
+        {pageMeta}
         <div className="max-w-lg w-full space-y-4">
           <div className={`rounded-2xl p-6 border text-center ${
             correcto ? 'bg-green-900/30 border-green-500/40' : 'bg-red-900/30 border-red-500/40'
@@ -221,7 +230,7 @@ export default function PortadasExamen() {
   // ── JUGANDO ───────────────────────────────────────────────────────────────
   return (
     <div className="relative z-10 flex flex-col min-h-[calc(100vh-4rem)] px-4 md:px-8 py-5 max-w-4xl mx-auto w-full">
-
+      {pageMeta}
       {/* Header */}
       <div className="flex items-center justify-between mb-3">
         <button onClick={() => navigate(backPath ? localPath(backPath) : -1)} className="text-white/40 hover:text-white/70 text-sm transition-colors">

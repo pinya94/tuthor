@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { useNavigate, useParams, useLocation } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import { MODOS, GRADOS, rng } from '../lib/mathEngine'
+import PageMeta from '../components/PageMeta'
 
 const TOTAL = 10
 
@@ -44,6 +45,11 @@ export default function ExamenMatematicas() {
   const gradoId    = location.state?.nivel || 'primaria'
   const grado      = GRADOS[gradoId] || GRADOS.primaria
 
+  const pageMeta = <PageMeta
+    title={en ? `Maths Exam — ${modoCfg.tituloEn || modoCfg.titulo}` : `Examen Matemáticas — ${modoCfg.titulo}`}
+    description={en ? `Practice ${modoCfg.tituloEn || modoCfg.titulo} with 10 questions and instant feedback on Tuthor.` : `Practica ${modoCfg.titulo} con 10 preguntas y feedback inmediato en Tuthor.`}
+    path={`/examen/matematicas/${modo || 'combinado'}`} lang={lang} />
+
   const [preguntas]   = useState(() =>
     Array.from({ length: TOTAL }, () => generarPregunta(modoCfg.ops, grado))
   )
@@ -78,6 +84,7 @@ export default function ExamenMatematicas() {
     const cal = calificacion(aciertos, en)
     return (
       <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
+        {pageMeta}
         <div className="max-w-md w-full">
           <div className="bg-white/5 border border-white/10 rounded-2xl p-6 text-center mb-4">
             <div className="text-5xl mb-3">{aciertos >= 5 ? '🎉' : '😬'}</div>
@@ -121,6 +128,7 @@ export default function ExamenMatematicas() {
 
   return (
     <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
+      {pageMeta}
       <div className="max-w-md w-full">
         <p className="text-white/30 text-xs mb-6 text-center">
           <button onClick={() => navigate(localPath(`/estudiar/matematicas/${modo}`))} className="hover:text-white/60 transition-colors">
