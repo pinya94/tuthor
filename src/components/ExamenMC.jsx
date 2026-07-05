@@ -16,6 +16,7 @@ import { saveActivity } from '../lib/activity'
 import CoinsAnimation from './CoinsAnimation'
 import PageMeta from './PageMeta'
 import QuizSchema from './QuizSchema'
+import AuthModal from './AuthModal'
 
 const TOTAL      = 10
 const MAX_ERRORS = 2
@@ -123,6 +124,7 @@ export default function ExamenMC({ titulo, emoji, nivelInfo, backFallback, gameI
   const [aciertos, setAciertos]   = useState(0)
   const [historial, setHistorial] = useState([])
   const [fase, setFase]           = useState('jugando')   // 'jugando' | 'coins' | 'resultado'
+  const [showAuth, setShowAuth]   = useState(false)
   const [errores, setErrores]     = useState(0)
   const [feedback, setFeedback]   = useState(null)
   const [resuelto, setResuelto]   = useState(false)
@@ -264,6 +266,27 @@ export default function ExamenMC({ titulo, emoji, nivelInfo, backFallback, gameI
               <span className="text-amber-400/60 text-xs">{en ? 'coins' : ca ? 'monedes' : 'monedas'}</span>
             </div>
           </div>
+
+          {/* Prompt de registro si no hay usuario */}
+          {!user && (
+            <div className="bg-violet-500/10 border border-violet-500/30 rounded-2xl p-4 mb-4 text-center">
+              <p className="text-violet-300 font-bold text-sm mb-1">
+                {en ? '💰 Save your coins!' : ca ? '💰 Guarda les teves monedes!' : '💰 ¡Guarda tus monedas!'}
+              </p>
+              <p className="text-white/40 text-xs mb-3">
+                {en ? 'Sign up to keep your coins and spend them on exclusive avatar frames in the shop.'
+                  : ca ? "Registra't per conservar les monedes i gastar-les en marcs exclusius a la botiga."
+                  : 'Regístrate para conservar tus monedas y gastarlas en marcos exclusivos en la tienda.'}
+              </p>
+              <button
+                onClick={() => setShowAuth(true)}
+                className="bg-violet-600 hover:bg-violet-500 text-white font-black text-sm px-6 py-2.5 rounded-xl transition-all"
+              >
+                {en ? '✨ Sign up — it\'s free' : ca ? "✨ Registra't — és gratis" : '✨ Regístrate — es gratis'}
+              </button>
+            </div>
+          )}
+          {showAuth && <AuthModal onClose={() => setShowAuth(false)} />}
 
           <div className="bg-white/5 border border-white/10 rounded-2xl p-4 mb-5">
             <p className="text-white/30 text-xs uppercase tracking-widest mb-3 font-semibold">

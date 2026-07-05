@@ -6,6 +6,7 @@ import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
 import { getStats, formatTime } from '../lib/activity'
 import AuthModal from '../components/AuthModal'
+import { FRAMES } from '../data/cosmetics'
 
 export default function Home() {
   const navigate = useNavigate()
@@ -49,6 +50,7 @@ export default function Home() {
           <LockedWidget onLogin={() => setShowAuth(true)} en={en} lang={lang} />
         )}
         {showAuth && <AuthModal onClose={() => setShowAuth(false)} />}
+        {/* pass setShowAuth down via closure — used by RewardsSection */}
         <aside className="ad-slot" aria-label="Publicidad" data-ad-slot="home-hero" style={{ minHeight: '50px' }} />
       </div>
       </div>
@@ -152,53 +154,10 @@ export default function Home() {
             </div>
           </section>
 
-          {/* CÓMO FUNCIONA */}
-          <section className="mb-10">
-            <h2 className="text-2xl font-black text-gray-900 text-center mb-3">{t('home.seo.comoFunciona')}</h2>
-            <p className="text-gray-400 text-center mb-8 max-w-lg mx-auto">{t('home.seo.comoFuncionaSub')}</p>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 text-center">
-              {[
-                { titulo: t('home.seo.paso1'), desc: t('home.seo.paso1.desc'), emoji: '📚' },
-                { titulo: t('home.seo.paso2'), desc: t('home.seo.paso2.desc'), emoji: '🎮' },
-                { titulo: t('home.seo.paso3'), desc: t('home.seo.paso3.desc'), emoji: '💡' },
-                { titulo: t('home.seo.paso4'), desc: t('home.seo.paso4.desc'), emoji: '📊' },
-              ].map(s => (
-                <div key={s.titulo}>
-                  <div className="w-12 h-12 rounded-full bg-teal-50 border-2 border-teal-200 flex items-center justify-center mx-auto mb-3">
-                    <span className="text-xl">{s.emoji}</span>
-                  </div>
-                  <h3 className="font-black text-gray-900 text-sm mb-1">{s.titulo}</h3>
-                  <p className="text-gray-400 text-xs leading-relaxed">{s.desc}</p>
-                </div>
-              ))}
-            </div>
-          </section>
-
           <aside className="ad-slot" aria-label="Publicidad" data-ad-slot="home-seo-2" style={{ minHeight: '90px', marginBottom: '2.5rem' }} />
 
-          {/* EQUIPO */}
-          <section className="bg-white rounded-2xl border border-gray-200 p-6 sm:p-8">
-            <div className="text-center mb-6">
-              <h2 className="text-2xl font-black text-gray-900 mb-2">{t('home.seo.equipo.titulo')}</h2>
-              <p className="text-gray-500 leading-relaxed max-w-lg mx-auto">{t('home.seo.equipo.texto')}</p>
-            </div>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
-              {[
-                { nombre: 'Manel Vallés', rolKey: 'rol.desarrollo', emoji: '💻' },
-                { nombre: 'Magí Tell', rolKey: 'rol.desarrollo', emoji: '💻' },
-                { nombre: 'Pau Montejano', rolKey: 'rol.diseno', emoji: '🎨' },
-                { nombre: 'Marc Peñalver', rolKey: 'rol.gestion', emoji: '📋' },
-              ].map(m => (
-                <div key={m.nombre} className="text-center">
-                  <div className="w-16 h-16 rounded-full bg-gradient-to-br from-teal-100 to-cyan-50 border-2 border-teal-200 flex items-center justify-center mx-auto mb-3 shadow-sm">
-                    <span className="text-2xl">{m.emoji}</span>
-                  </div>
-                  <p className="text-gray-900 font-bold text-sm">{m.nombre}</p>
-                  <p className="text-gray-400 text-xs">{t(m.rolKey)}</p>
-                </div>
-              ))}
-            </div>
-          </section>
+          {/* RECOMPENSAS */}
+          <RewardsSection lang={lang} navigate={navigate} user={user} onLogin={() => setShowAuth(true)} />
 
           {/* VIDEO */}
           <section className="bg-white rounded-2xl border border-gray-200 p-6 sm:p-8">
@@ -402,7 +361,7 @@ function LockedWidget({ onLogin, en, lang }) {
   const ca = lang === 'ca'
   const preview = [
     { emoji: '🔥', label: ca ? 'Ratxa' : en ? 'Streak' : 'Racha' },
-    { emoji: '⏱️', label: ca ? 'Temps' : en ? 'Time' : 'Tiempo' },
+    { emoji: '💰', label: ca ? 'Monedes' : en ? 'Coins' : 'Monedas' },
     { emoji: '✅', label: ca ? 'Aprovats' : en ? 'Passed' : 'Aprobados' },
     { emoji: '🎮', label: ca ? 'Activitats' : en ? 'Activities' : 'Actividades' },
   ]
@@ -411,11 +370,11 @@ function LockedWidget({ onLogin, en, lang }) {
       <div className="flex items-center justify-between px-5 py-3 border-b border-white/5">
         <div>
           <p className="font-bold text-white text-sm">{ca ? 'El teu progrés' : en ? 'Your progress' : 'Tu progreso'}</p>
-          <p className="text-white/40 text-xs">{ca ? 'Inicia sessió per veure les teves estadístiques' : en ? 'Sign in to see your stats' : 'Inicia sesión para ver tus estadísticas'}</p>
+          <p className="text-white/40 text-xs">{ca ? 'Registra\'t per guardar monedes i personalitzar el perfil' : en ? 'Sign up to save coins and customise your profile' : 'Regístrate para guardar monedas y personalizar tu perfil'}</p>
         </div>
         <button
           onClick={onLogin}
-          className="text-xs font-bold bg-violet-600 hover:bg-violet-700 text-white px-4 py-1.5 rounded-full transition-colors"
+          className="text-xs font-bold bg-violet-600 hover:bg-violet-700 text-white px-4 py-1.5 rounded-full transition-colors whitespace-nowrap"
         >
           {ca ? 'Iniciar sessió' : en ? 'Sign in' : 'Iniciar sesión'}
         </button>
@@ -430,5 +389,101 @@ function LockedWidget({ onLogin, en, lang }) {
         ))}
       </div>
     </div>
+  )
+}
+
+const PREVIEW_FRAMES = ['silver', 'gold', 'rainbow', 'galaxy', 'fire', 'neon']
+
+function RewardsSection({ lang, navigate, user, onLogin }) {
+  const en = lang === 'en', ca = lang === 'ca'
+  const previewFrames = FRAMES.filter(f => PREVIEW_FRAMES.includes(f.id))
+
+  return (
+    <section className="mb-10">
+      <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden">
+        {/* Header */}
+        <div className="bg-gradient-to-br from-violet-950 to-indigo-900 p-6 sm:p-8 relative overflow-hidden">
+          <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '24px 24px' }} />
+          <div className="relative">
+            <p className="text-violet-300 text-xs font-bold uppercase tracking-widest mb-2">
+              {ca ? 'Recompenses' : en ? 'Rewards' : 'Recompensas'}
+            </p>
+            <h2 className="text-2xl sm:text-3xl font-black text-white mb-2">
+              {ca ? 'Juga, guanya monedes, personalitza el teu perfil' : en ? 'Play, earn coins, customise your profile' : 'Juega, gana monedas, personaliza tu perfil'}
+            </h2>
+            <p className="text-white/50 text-sm max-w-lg">
+              {ca ? 'Cada examen i repte diari et dona monedes. Acumula\'n i gasta\'les a la botiga per aconseguir marcs exclusius per al teu avatar.'
+                : en ? 'Every exam and daily challenge earns you coins. Collect them and spend them in the shop for exclusive avatar frames.'
+                : 'Cada examen y reto diario te da monedas. Acumúlalas y gástalas en la tienda para conseguir marcos exclusivos para tu avatar.'}
+            </p>
+          </div>
+        </div>
+
+        <div className="p-6 sm:p-8">
+          {/* Cómo se ganan */}
+          <div className="grid grid-cols-3 gap-3 mb-6">
+            {[
+              { emoji: '📝', label: ca ? 'Examen aprovat' : en ? 'Passed exam' : 'Examen aprobado', coins: '+100 – +1.000' },
+              { emoji: '⚡', label: ca ? 'Repte diari' : en ? 'Daily challenge' : 'Reto diario', coins: '+1.000' },
+              { emoji: '🔥', label: ca ? 'Racha activa' : en ? 'Active streak' : 'Racha activa', coins: ca ? 'Bonus!' : 'Bonus!' },
+            ].map(item => (
+              <div key={item.label} className="bg-gray-50 border border-gray-100 rounded-xl p-3 text-center">
+                <span className="text-2xl block mb-1">{item.emoji}</span>
+                <p className="text-gray-700 font-bold text-xs mb-0.5">{item.label}</p>
+                <p className="text-amber-600 font-black text-sm">{item.coins}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* Preview marcos */}
+          <p className="text-gray-500 text-xs font-bold uppercase tracking-widest mb-3">
+            {ca ? 'Marcs disponibles a la botiga' : en ? 'Frames available in the shop' : 'Marcos disponibles en la tienda'}
+          </p>
+          <div className="flex gap-3 mb-6 flex-wrap">
+            {previewFrames.map(frame => (
+              <div key={frame.id} className="flex flex-col items-center gap-1">
+                <div
+                  className={frame.animated ? 'frame-animated' : ''}
+                  style={{ ...frame.style, padding: 3, borderRadius: '50%', width: 52, height: 52 }}
+                >
+                  <div style={{ width: 46, height: 46, borderRadius: '50%', background: '#1e1b4b', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22 }}>
+                    {frame.emoji}
+                  </div>
+                </div>
+                <p className="text-gray-400 text-[10px] text-center font-medium">
+                  {frame.price === 0 ? (ca ? 'Gratis' : en ? 'Free' : 'Gratis') : `💰 ${frame.price.toLocaleString()}`}
+                </p>
+              </div>
+            ))}
+            <div className="flex flex-col items-center gap-1 justify-center">
+              <div style={{ width: 52, height: 52, borderRadius: '50%', background: '#f3f4f6', border: '2px dashed #d1d5db', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, color: '#9ca3af' }}>+</div>
+              <p className="text-gray-400 text-[10px]">{ca ? 'i més' : en ? '& more' : 'y más'}</p>
+            </div>
+          </div>
+
+          {/* CTA */}
+          {user ? (
+            <button
+              onClick={() => navigate('/tienda')}
+              className="w-full py-3 bg-violet-600 hover:bg-violet-500 text-white font-black rounded-xl transition-all text-sm"
+            >
+              🛍 {ca ? 'Anar a la botiga' : en ? 'Go to shop' : 'Ir a la tienda'}
+            </button>
+          ) : (
+            <div className="space-y-2">
+              <button
+                onClick={onLogin}
+                className="w-full py-3 bg-violet-600 hover:bg-violet-500 text-white font-black rounded-xl transition-all text-sm"
+              >
+                {ca ? '✨ Registra\'t per desbloquear la botiga' : en ? '✨ Sign up to unlock the shop' : '✨ Regístrate para desbloquear la tienda'}
+              </button>
+              <p className="text-center text-gray-400 text-xs">
+                {ca ? 'Gratis, sense publicitat i sense trampes.' : en ? 'Free, no ads, no tricks.' : 'Gratis, sin publicidad y sin trampa.'}
+              </p>
+            </div>
+          )}
+        </div>
+      </div>
+    </section>
   )
 }

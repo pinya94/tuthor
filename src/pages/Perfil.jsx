@@ -4,6 +4,7 @@ import { useLang } from '../context/LangContext'
 import { getStats, getCosmetics, formatTime } from '../lib/activity'
 import { useNavigate } from 'react-router-dom'
 import AvatarFrame from '../components/AvatarFrame'
+import { FRAME_BY_ID } from '../data/cosmetics'
 
 function todayStr() { return new Date().toISOString().slice(0, 10) }
 
@@ -139,6 +140,23 @@ export default function Perfil() {
                 <p className="text-violet-400 font-black text-2xl tabular-nums">{Object.values(stats.bestScores || {}).reduce((a, b) => a + b, 0).toLocaleString()}</p>
                 <p className="text-violet-400/50 text-xs">{ca ? 'millors pts totals' : en ? 'total best pts' : 'mejores pts totales'}</p>
               </div>
+            </div>
+
+            {/* Recompensas / tienda */}
+            <div className="bg-violet-500/10 border border-violet-500/20 rounded-2xl p-4 mb-4 flex items-center gap-4">
+              <div className="flex-1">
+                <p className="text-violet-300 font-black text-sm mb-0.5">🛍 {ca ? 'Botiga de marcs' : en ? 'Frame shop' : 'Tienda de marcos'}</p>
+                <p className="text-white/40 text-xs">
+                  {ca ? `Marc equipat: ${FRAME_BY_ID[equippedFrame]?.name?.ca ?? equippedFrame}` : en ? `Equipped frame: ${FRAME_BY_ID[equippedFrame]?.name?.en ?? equippedFrame}` : `Marco equipado: ${FRAME_BY_ID[equippedFrame]?.name?.es ?? equippedFrame}`}
+                </p>
+                <p className="text-white/30 text-xs mt-0.5">
+                  {ca ? 'Gasta les teves monedes en marcs exclusius.' : en ? 'Spend your coins on exclusive frames.' : 'Gasta tus monedas en marcos exclusivos.'}
+                </p>
+              </div>
+              <button onClick={() => navigate(localPath('/tienda'))}
+                className="bg-violet-600 hover:bg-violet-500 text-white font-black text-sm px-4 py-2.5 rounded-xl transition-all whitespace-nowrap">
+                {ca ? 'Obrir botiga' : en ? 'Open shop' : 'Abrir tienda'}
+              </button>
             </div>
 
             {/* Stats resumen */}
