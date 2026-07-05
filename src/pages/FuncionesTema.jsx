@@ -26,6 +26,23 @@ export default function FuncionesTema() {
       action: () => navigate(localPath('/examen/trayectoria')),
     },
     {
+      id: 'portero',
+      titulo: ca ? 'Examen Porter' : en ? 'Goalkeeper Exam' : 'Examen Portero',
+      descripcion: ca
+        ? '10 tirs: calcula f(x₀) i tria la zona on entra la pilota. Rectes i paràboles. Sense temps.'
+        : en
+        ? '10 shots: calculate f(x₀) and pick the zone the ball enters. Lines and parabolas. No time limit.'
+        : '10 tiros: calcula f(x₀) y elige la zona donde entra el balón. Rectas y parábolas. Sin tiempo.',
+      emoji: '🧤',
+      gradient: 'from-green-500 to-teal-600',
+      detalles: [
+        ca ? '10 preguntes' : en ? '10 questions' : '10 preguntas',
+        ca ? 'Rectes i paràboles' : en ? 'Lines & parabolas' : 'Rectas y parábolas',
+        ca ? 'Sense temps' : en ? 'No time limit' : 'Sin tiempo',
+      ],
+      action: () => navigate(localPath('/examen/portero')),
+    },
+    {
       id: 'teoria',
       titulo: ca ? 'Examen de teoria' : en ? 'Theory exam' : 'Examen de teoría',
       descripcion: ca
