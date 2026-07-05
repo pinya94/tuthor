@@ -51,6 +51,7 @@ const Admin              = lazy(() => import('./pages/Admin'))
 const Contacto           = lazy(() => import('./pages/Contacto'))
 const Colaborar          = lazy(() => import('./pages/Colaborar'))
 const ReportarBug        = lazy(() => import('./pages/ReportarBug'))
+const PorteroExamen      = lazy(() => import('./pages/PorteroExamen'))
 const FuncionesTema       = lazy(() => import('./pages/FuncionesTema'))
 const GeoMapaEspanaExamen  = lazy(() => import('./pages/GeoMapaEspanaExamen'))
 const GeoMapaEEUUExamen    = lazy(() => import('./pages/GeoMapaEEUUExamen'))
@@ -199,6 +200,7 @@ function AppRoutes() {
       <Route path="juegos/numpath" element={<NumPath />} />
       <Route path="juegos/trayectoria" element={<Trayectoria />} />
       <Route path="juegos/portero" element={<Portero />} />
+      <Route path="examen/portero" element={<PorteroExamen />} />
       <Route path="examen/trayectoria" element={<TrayectoriaExamen />} />
 
       {/* ── INFO / SEO ── */}
