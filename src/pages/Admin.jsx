@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { db } from '../lib/firebase'
-import { doc, getDoc, collection, getDocs, query, orderBy, limit, updateDoc } from 'firebase/firestore'
+import { doc, getDoc, collection, getDocs, query, orderBy, limit, updateDoc, setDoc } from 'firebase/firestore'
 import { useAuth } from '../context/AuthContext'
 import { formatTime } from '../lib/activity'
+import { FRAMES, BANNERS, AVATARS, DEFAULT_AVATAR_EMOJI } from '../data/cosmetics'
 
 const ADMIN_EMAILS = [
   'pinya1994@gmail.com',
@@ -99,6 +100,43 @@ function MessagesSection({ title, messages, onMarkRead, showCompany = false, sho
           ))}
         </div>
       )}
+    </div>
+  )
+}
+
+function DevTools({ uid }) {
+  const [status, setStatus] = useState('')
+
+  async function giveAllCosmetics() {
+    setStatus('⏳ Aplicando…')
+    try {
+      await setDoc(doc(db, 'users', uid, 'stats', 'global'), {
+        ownedFrames:    FRAMES.map(f => f.id),
+        equippedFrame:  'default',
+        ownedBanners:   BANNERS.map(b => b.id),
+        equippedBanner: 'banner_default',
+        ownedAvatars:   AVATARS.map(a => a.id),
+        equippedAvatar: DEFAULT_AVATAR_EMOJI,
+        coins: 999999,
+      }, { merge: true })
+      setStatus('✅ ¡Todos los cosméticos asignados! Recarga la Tienda.')
+    } catch (e) {
+      setStatus(`❌ Error: ${e.message}`)
+    }
+  }
+
+  return (
+    <div className="bg-amber-500/10 border border-amber-500/30 rounded-2xl p-5">
+      <h2 className="text-amber-300 font-bold mb-3">🛠 Dev Tools</h2>
+      <div className="flex items-center gap-4 flex-wrap">
+        <button
+          onClick={giveAllCosmetics}
+          className="bg-amber-500 hover:bg-amber-400 text-black font-bold text-sm px-4 py-2 rounded-xl transition-colors"
+        >
+          🎁 Darme todos los cosméticos
+        </button>
+        {status && <p className="text-amber-200 text-sm">{status}</p>}
+      </div>
     </div>
   )
 }
@@ -245,6 +283,9 @@ export default function Admin() {
           await updateDoc(doc(db, 'colabMessages', id), { read: true })
           setColabs(cs => cs.map(c => c.id === id ? { ...c, read: true } : c))
         }} />
+
+        {/* Dev Tools */}
+        <DevTools uid={user.uid} />
 
         {/* Lista de usuarios */}
         <div className="bg-white/5 border border-white/10 rounded-2xl p-5">
