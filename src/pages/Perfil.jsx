@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
-import { getStats, getCosmetics, formatTime } from '../lib/activity'
+import { getStats, getStatsAndCosmetics, formatTime } from '../lib/activity'
 import { useNavigate } from 'react-router-dom'
 import AvatarFrame from '../components/AvatarFrame'
-import { FRAME_BY_ID } from '../data/cosmetics'
+import { FRAME_BY_ID, BANNER_BY_ID, DEFAULT_AVATAR_EMOJI } from '../data/cosmetics'
 
 function todayStr() { return new Date().toISOString().slice(0, 10) }
 
@@ -64,12 +64,16 @@ export default function Perfil() {
   const [showAllGames, setShowAllGames] = useState(false)
   const [showAllCats, setShowAllCats] = useState(false)
   const [equippedFrame, setEquippedFrame] = useState('default')
+  const [equippedBanner, setEquippedBanner] = useState('banner_default')
+  const [equippedAvatar, setEquippedAvatar] = useState(null)
 
   useEffect(() => {
     if (!user) { navigate(localPath('/')); return }
-    Promise.all([getStats(user.uid), getCosmetics(user.uid)]).then(([s, cosmetics]) => {
-      setStats(s)
+    getStatsAndCosmetics(user.uid).then(cosmetics => {
+      setStats(cosmetics)
       setEquippedFrame(cosmetics.equippedFrame)
+      setEquippedBanner(cosmetics.equippedBanner)
+      setEquippedAvatar(cosmetics.equippedAvatar)
       setLoading(false)
     })
   }, [user])
@@ -101,23 +105,37 @@ export default function Perfil() {
       <div className="max-w-2xl mx-auto w-full">
 
         {/* Cabecera */}
-        <div className="flex items-center gap-4 mb-8">
-          <AvatarFrame user={user} frameId={equippedFrame} size="lg" />
-          <div>
-            <h1 className="text-2xl font-black text-white">{user.displayName}</h1>
-            <p className="text-white/40 text-sm">{user.email}</p>
-          </div>
-          <div className="ml-auto flex flex-col gap-2 items-end">
-            <button onClick={logout}
-              className="text-white/30 hover:text-white/70 text-sm border border-white/10 hover:border-white/30 px-3 py-1.5 rounded-lg transition-all">
-              {ca ? 'Tancar sessió' : en ? 'Sign out' : 'Cerrar sesión'}
-            </button>
-            <button onClick={() => navigate(localPath('/tienda'))}
-              className="text-amber-400/70 hover:text-amber-400 text-sm border border-amber-500/20 hover:border-amber-500/40 px-3 py-1.5 rounded-lg transition-all">
-              🛍 {ca ? 'Botiga' : en ? 'Shop' : 'Tienda'}
-            </button>
-          </div>
-        </div>
+        {(() => {
+          const banner = BANNER_BY_ID[equippedBanner]
+          const hasBanner = banner?.bg
+          return (
+            <div
+              className="flex items-center gap-4 mb-8 px-4 py-4 rounded-2xl transition-all"
+              style={{
+                background: hasBanner ? banner.bg : undefined,
+                borderLeft: hasBanner ? `4px solid ${banner.border}` : undefined,
+                backgroundSize: banner?.animated ? '300% 300%' : undefined,
+                animation: banner?.animated ? 'frameRotate 3s ease infinite' : undefined,
+              }}
+            >
+              <AvatarFrame user={user} frameId={equippedFrame} avatarEmoji={equippedAvatar} size="lg" />
+              <div>
+                <h1 className="text-2xl font-black text-white">{user.displayName}</h1>
+                <p className="text-white/40 text-sm">{user.email}</p>
+              </div>
+              <div className="ml-auto flex flex-col gap-2 items-end">
+                <button onClick={logout}
+                  className="text-white/30 hover:text-white/70 text-sm border border-white/10 hover:border-white/30 px-3 py-1.5 rounded-lg transition-all">
+                  {ca ? 'Tancar sessió' : en ? 'Sign out' : 'Cerrar sesión'}
+                </button>
+                <button onClick={() => navigate(localPath('/tienda'))}
+                  className="text-amber-400/70 hover:text-amber-400 text-sm border border-amber-500/20 hover:border-amber-500/40 px-3 py-1.5 rounded-lg transition-all">
+                  🛍 {ca ? 'Botiga' : en ? 'Shop' : 'Tienda'}
+                </button>
+              </div>
+            </div>
+          )
+        })()}
 
         {loading ? (
           <div className="text-white/30 text-center py-12">{ca ? 'Carregant estadístiques...' : en ? 'Loading stats...' : 'Cargando estadísticas...'}</div>
@@ -145,12 +163,11 @@ export default function Perfil() {
             {/* Recompensas / tienda */}
             <div className="bg-violet-500/10 border border-violet-500/20 rounded-2xl p-4 mb-4 flex items-center gap-4">
               <div className="flex-1">
-                <p className="text-violet-300 font-black text-sm mb-0.5">🛍 {ca ? 'Botiga de marcs' : en ? 'Frame shop' : 'Tienda de marcos'}</p>
+                <p className="text-violet-300 font-black text-sm mb-0.5">🛍 {ca ? 'Botiga de cosmétics' : en ? 'Cosmetics shop' : 'Tienda de cosméticos'}</p>
                 <p className="text-white/40 text-xs">
-                  {ca ? `Marc equipat: ${FRAME_BY_ID[equippedFrame]?.name?.ca ?? equippedFrame}` : en ? `Equipped frame: ${FRAME_BY_ID[equippedFrame]?.name?.en ?? equippedFrame}` : `Marco equipado: ${FRAME_BY_ID[equippedFrame]?.name?.es ?? equippedFrame}`}
-                </p>
-                <p className="text-white/30 text-xs mt-0.5">
-                  {ca ? 'Gasta les teves monedes en marcs exclusius.' : en ? 'Spend your coins on exclusive frames.' : 'Gasta tus monedas en marcos exclusivos.'}
+                  {ca ? `Marc: ${FRAME_BY_ID[equippedFrame]?.name?.ca ?? equippedFrame}` : en ? `Frame: ${FRAME_BY_ID[equippedFrame]?.name?.en ?? equippedFrame}` : `Marco: ${FRAME_BY_ID[equippedFrame]?.name?.es ?? equippedFrame}`}
+                  {' · '}
+                  {ca ? `Banner: ${BANNER_BY_ID[equippedBanner]?.name?.ca ?? equippedBanner}` : en ? `Banner: ${BANNER_BY_ID[equippedBanner]?.name?.en ?? equippedBanner}` : `Banner: ${BANNER_BY_ID[equippedBanner]?.name?.es ?? equippedBanner}`}
                 </p>
               </div>
               <button onClick={() => navigate(localPath('/tienda'))}

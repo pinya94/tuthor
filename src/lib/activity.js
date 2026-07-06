@@ -6,7 +6,7 @@ import {
 
 // ── Leaderboard helpers ──────────────────────────────────────────────────────
 
-async function updateLeaderboard(game, uid, name, photoURL, score, avatarEmoji) {
+async function updateLeaderboard(game, uid, name, photoURL, score, avatarEmoji, bannerId) {
   const lbRef = doc(db, '_stats', `leaderboard_${game}`)
   try {
     const snap = await getDoc(lbRef)
@@ -14,6 +14,7 @@ async function updateLeaderboard(game, uid, name, photoURL, score, avatarEmoji) 
     const rest = top.filter(e => e.uid !== uid)
     const entry = { uid, name: name || 'Anónimo', photoURL: photoURL || null, score }
     if (avatarEmoji) entry.avatarEmoji = avatarEmoji
+    if (bannerId && bannerId !== 'banner_default') entry.bannerId = bannerId
     rest.push(entry)
     const sorted = rest.sort((a, b) => b.score - a.score).slice(0, 10)
     await setDoc(lbRef, { top: sorted, updatedAt: serverTimestamp() })
@@ -110,7 +111,7 @@ export async function saveActivity(uid, data) {
       const currentBest = current.bestScores?.[data.game] || 0
       if (data.score > currentBest) {
         updates[`bestScores.${data.game}`] = data.score
-        updateLeaderboard(data.game, uid, data.userName, data.userPhoto, data.score, current.equippedAvatar || null).catch(() => {})
+        updateLeaderboard(data.game, uid, data.userName, data.userPhoto, data.score, current.equippedAvatar || null, current.equippedBanner || null).catch(() => {})
       }
       const currentGameBest = current.statsByGame?.[data.game]?.bestScore || 0
       if (data.score > currentGameBest) updates[`statsByGame.${data.game}.bestScore`] = data.score
