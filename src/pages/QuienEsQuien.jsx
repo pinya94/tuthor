@@ -257,7 +257,7 @@ export default function QuienEsQuien() {
       if (timeRef.current <= 0) {
         clearInterval(timerRef.current)
         if (user && puntos > 0) {
-          saveActivity(user.uid, { type: 'juego', game: 'quien-es-quien', category: poolKey, score: puntos, passed: rondas > 0, timeSpent: 0 }).catch(() => {})
+          saveActivity(user.uid, { type: 'juego', game: 'quien-es-quien', category: poolKey, score: puntos, passed: rondas > 0, timeSpent: 0, userName: user.displayName, userPhoto: user.photoURL }).catch(() => {})
         }
         setFase('fin')
       }
@@ -347,7 +347,7 @@ export default function QuienEsQuien() {
           setTimeLeft(timeRef.current)
           if (timeRef.current <= 0) {
             clearInterval(timerRef.current)
-            if (user && puntos > 0) saveActivity(user.uid, { type: 'juego', game: 'quien-es-quien', category: poolKey, score: puntos, passed: rondas > 0, timeSpent: 0 }).catch(() => {})
+            if (user && puntos > 0) saveActivity(user.uid, { type: 'juego', game: 'quien-es-quien', category: poolKey, score: puntos, passed: rondas > 0, timeSpent: 0, userName: user.displayName, userPhoto: user.photoURL }).catch(() => {})
             setTimeout(() => setFase('fin'), 1200)
           } else {
             setTimeout(() => nuevaRonda(), 1500)

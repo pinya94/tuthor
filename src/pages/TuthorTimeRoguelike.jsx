@@ -3,8 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import { useAuth } from '../context/AuthContext'
 import CoinsAnimation from '../components/CoinsAnimation'
-import MiniLeaderboard from '../components/MiniLeaderboard'
-import AuthModal from '../components/AuthModal'
+import GameResultFooter from '../components/GameResultFooter'
 import { saveActivity } from '../lib/activity'
 import ShareButton from '../components/ShareButton'
 import { EVENTOS_ROGUELIKE } from '../data/tuthorTimeEventos'
@@ -254,7 +253,6 @@ export default function TuthorTimeRoguelike() {
   const [fase, setFase] = useState('intro')
   const [difId, setDifId] = useState('medio')
   const [nivel, setNivel] = useState(1)
-  const [showAuth, setShowAuth] = useState(false)
   const [saved, setSaved] = useState(false)
   const startRef = useRef(null)
   const [agentes, setAgentes] = useState([])
@@ -802,20 +800,8 @@ export default function TuthorTimeRoguelike() {
             </div>
           </div>
 
-          {!user && (
-            <div className="bg-violet-500/10 border border-violet-500/30 rounded-2xl p-4 mt-4 text-center">
-              <p className="text-violet-300 font-bold text-sm">💰 {lang === 'en' ? 'Save your coins!' : lang === 'ca' ? 'Guarda les teves monedes!' : '¡Guarda tus monedas!'}</p>
-              <p className="text-white/40 text-xs mb-3">{lang === 'en' ? 'Sign up to save your score and spend coins on avatar frames.' : lang === 'ca' ? "Registra't per guardar la puntuació i gastar monedes en marcs." : 'Regístrate para guardar tu puntuación y gastar monedas en marcos exclusivos.'}</p>
-              <button onClick={() => setShowAuth(true)} className="bg-violet-600 hover:bg-violet-500 text-white font-bold py-2 px-5 rounded-xl text-sm transition">
-                ✨ {lang === 'en' ? "Sign up — it's free" : lang === 'ca' ? "Registra't — és gratis" : 'Regístrate — es gratis'}
-              </button>
-            </div>
-          )}
-
-          <MiniLeaderboard game="tuthor-time-roguelike" currentScore={scoreTotal} currentUid={user?.uid} currentName={user?.displayName} currentPhoto={user?.photoURL} lang={lang} />
+          <GameResultFooter game="tuthor-time-roguelike" score={scoreTotal} user={user} lang={lang} />
         </div>
-
-        {showAuth && <AuthModal onClose={() => setShowAuth(false)} />}
 
       </div>
     )
