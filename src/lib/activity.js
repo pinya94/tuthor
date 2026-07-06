@@ -242,7 +242,8 @@ export async function getCosmetics(uid) {
 // Generic buy helper for frames and banners
 async function buyCosmeticItem(uid, itemId, price, ownedKey, statsRef, snap) {
   const d = snap.data()
-  const owned = d[ownedKey] ?? [ownedKey === 'ownedFrames' ? 'default' : 'banner_default']
+  const defaultOwned = ownedKey === 'ownedFrames' ? ['default'] : ownedKey === 'ownedBanners' ? ['banner_default'] : []
+  const owned = d[ownedKey] ?? defaultOwned
   if (owned.includes(itemId)) return { ok: false, reason: 'already_owned' }
   if ((d.coins ?? 0) < price) return { ok: false, reason: 'not_enough_coins' }
   await updateDoc(statsRef, { coins: increment(-price), [ownedKey]: [...owned, itemId] })
