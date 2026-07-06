@@ -233,7 +233,7 @@ export const AVATARS = [
   { id: 'av_ghost',   emoji: '👻', name: { es: 'Fantasma',  en: 'Ghost',    ca: 'Fantasma' }, price: 35000 },
   { id: 'av_alien',   emoji: '👽', name: { es: 'Alien',     en: 'Alien',    ca: 'Alien'    }, price: 35000 },
   { id: 'av_wizard',  emoji: '🧙', name: { es: 'Mago',      en: 'Wizard',   ca: 'Mag'      }, price: 35000 },
-  { id: 'av_ninja',   emoji: '🥷', name: { es: 'Ninja',     en: 'Ninja',    ca: 'Ninja'    }, price: 35000 },
+  { id: 'av_wolf',    emoji: '🐺', name: { es: 'Lobo',      en: 'Wolf',     ca: 'Llop'     }, price: 35000 },
   { id: 'av_fire',    emoji: '🔥', name: { es: 'Fuego',     en: 'Fire',     ca: 'Foc'      }, price: 35000 },
   { id: 'av_star',    emoji: '⭐', name: { es: 'Estrella',  en: 'Star',     ca: 'Estrella' }, price: 35000 },
   { id: 'av_diamond', emoji: '💎', name: { es: 'Diamante',  en: 'Diamond',  ca: 'Diamant'  }, price: 35000 },

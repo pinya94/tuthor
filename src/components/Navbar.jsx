@@ -131,6 +131,9 @@ export default function Navbar() {
                     <button onClick={() => { navigate(localPath('/perfil')); setAvatarMenu(false) }} className="w-full text-left px-4 py-3 text-sm text-white/70 hover:text-white hover:bg-white/10 transition-colors">
                       👤 {t('nav.perfil')}
                     </button>
+                    <button onClick={() => { navigate(localPath('/tienda')); setAvatarMenu(false) }} className="w-full text-left px-4 py-3 text-sm text-white/70 hover:text-white hover:bg-white/10 transition-colors border-t border-white/5">
+                      🛍 {lang === 'en' ? 'Shop' : lang === 'ca' ? 'Botiga' : 'Tienda'}
+                    </button>
                     <button onClick={() => { navigate(localPath('/comunidad')); setAvatarMenu(false) }} className="w-full text-left px-4 py-3 text-sm text-white/70 hover:text-white hover:bg-white/10 transition-colors border-t border-white/5">
                       🤝 {t('nav.comunidad')}
                     </button>
@@ -181,6 +184,9 @@ export default function Navbar() {
                 <>
                   <button onClick={() => { navigate(localPath('/perfil')); setMenuOpen(false) }} className="w-full text-left px-4 py-3 rounded-xl text-sm font-medium text-white/70 hover:text-white hover:bg-white/10 transition-all">
                     👤 {t('nav.perfil')}
+                  </button>
+                  <button onClick={() => { navigate(localPath('/tienda')); setMenuOpen(false) }} className="w-full text-left px-4 py-3 rounded-xl text-sm font-medium text-white/70 hover:text-white hover:bg-white/10 transition-all">
+                    🛍 {lang === 'en' ? 'Shop' : lang === 'ca' ? 'Botiga' : 'Tienda'}
                   </button>
                   <button onClick={() => { navigate(localPath('/comunidad')); setMenuOpen(false) }} className="w-full text-left px-4 py-3 rounded-xl text-sm font-medium text-white/70 hover:text-white hover:bg-white/10 transition-all">
                     🤝 {t('nav.comunidad')}
