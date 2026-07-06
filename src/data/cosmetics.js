@@ -13,7 +13,7 @@ export const FRAMES = [
   {
     id: 'silver',
     name: { es: 'Plata', en: 'Silver', ca: 'Plata' },
-    emoji: '🩶',
+    emoji: '🥈',
     price: 1000,
     style: { background: 'linear-gradient(135deg, #94a3b8, #cbd5e1, #64748b)' },
   },
