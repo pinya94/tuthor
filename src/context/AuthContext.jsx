@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from 'react'
+import { createContext, useContext, useEffect, useRef, useState } from 'react'
 import {
   onAuthStateChanged, signInWithPopup, signOut,
   createUserWithEmailAndPassword, signInWithEmailAndPassword,
@@ -16,11 +16,15 @@ function usernameToEmail(username) {
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(undefined) // undefined = cargando
+  const lastUpsertedUid = useRef(null)
 
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, async (u) => {
       setUser(u)
-      if (u) await upsertUserProfile(u)
+      if (u && u.uid !== lastUpsertedUid.current) {
+        lastUpsertedUid.current = u.uid
+        await upsertUserProfile(u)
+      }
     })
     return unsub
   }, [])

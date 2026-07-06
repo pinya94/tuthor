@@ -97,7 +97,7 @@ export async function saveActivity(uid, data) {
     const updates = {
       totalTime: increment(t),
       gamesPlayed: increment(1),
-      examsPassed: data.passed ? increment(1) : increment(0),
+      ...(data.passed && { examsPassed: increment(1) }),
       coins: increment(coinsEarned),
       streak: newStreak,
       lastActiveDate: today,
@@ -199,6 +199,24 @@ export async function upsertUserProfile(user) {
 }
 
 // ── Cosmetics ────────────────────────────────────────────────
+
+// Returns { coins, ownedFrames, equippedFrame, ownedBanners, equippedBanner } in one read
+export async function getStatsAndCosmetics(uid) {
+  const snap = await getDoc(doc(db, 'users', uid, 'stats', 'global'))
+  if (!snap.exists()) return {
+    coins: 0,
+    ownedFrames: ['default'], equippedFrame: 'default',
+    ownedBanners: ['banner_default'], equippedBanner: 'banner_default',
+  }
+  const d = snap.data()
+  return {
+    coins: d.coins ?? 0,
+    ownedFrames:    d.ownedFrames    ?? ['default'],
+    equippedFrame:  d.equippedFrame  ?? 'default',
+    ownedBanners:   d.ownedBanners   ?? ['banner_default'],
+    equippedBanner: d.equippedBanner ?? 'banner_default',
+  }
+}
 
 // Returns { ownedFrames, equippedFrame, ownedBanners, equippedBanner }
 export async function getCosmetics(uid) {

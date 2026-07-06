@@ -27,7 +27,7 @@ export default function GameResultFooter({ game, score, user, lang }) {
         </div>
       )}
 
-      <MiniLeaderboard game={game} currentScore={score} currentUid={user?.uid} lang={lang} />
+      <MiniLeaderboard game={game} currentScore={score} currentUid={user?.uid} currentName={user?.displayName} currentPhoto={user?.photoURL} lang={lang} />
 
       {showAuth && <AuthModal onClose={() => setShowAuth(false)} />}
     </>

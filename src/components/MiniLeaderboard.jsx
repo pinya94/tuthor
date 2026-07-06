@@ -4,20 +4,38 @@ import { BANNER_BY_ID } from '../data/cosmetics'
 
 const MEDAL = ['🥇', '🥈', '🥉']
 
-export default function MiniLeaderboard({ game, currentScore, currentUid, lang }) {
+// Simple 60s module-level cache to avoid redundant Firestore reads within a session
+const _cache = {}
+async function getCachedLeaderboard(game) {
+  const now = Date.now()
+  if (_cache[game] && now - _cache[game].ts < 60_000) return _cache[game].data
+  const data = await getLeaderboard(game)
+  _cache[game] = { data, ts: now }
+  return data
+}
+
+export default function MiniLeaderboard({ game, currentScore, currentUid, currentName, currentPhoto, lang }) {
   const [top, setTop]         = useState([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    getLeaderboard(game).then(data => { setTop(data); setLoading(false) })
+    getCachedLeaderboard(game).then(data => { setTop(data); setLoading(false) })
   }, [game])
 
   const label = lang === 'en' ? 'Ranking' : lang === 'ca' ? 'Rànquing' : 'Ranking'
-  const empty = lang === 'en' ? 'No scores yet — be the first!' : lang === 'ca' ? 'Sense puntuacions — sigues el primer!' : '¡Sin puntuaciones aún — sé el primero!'
   const youLabel = lang === 'en' ? 'You' : lang === 'ca' ? 'Tu' : 'Tú'
 
-  const topScore = top[0]?.score ?? 0
-  const isNewRecord = currentScore > 0 && currentScore > topScore
+  // Merge current user's score into the display list (handles race condition where
+  // Firestore write hasn't completed yet when this component mounts)
+  const displayTop = (() => {
+    if (!currentUid || !currentScore || currentScore <= 0) return top
+    const withoutMe = top.filter(e => e.uid !== currentUid)
+    const myEntry = { uid: currentUid, name: currentName || '?', photoURL: currentPhoto || null, score: currentScore }
+    return [...withoutMe, myEntry].sort((a, b) => b.score - a.score).slice(0, 10)
+  })()
+
+  const topScore = displayTop[0]?.score ?? 0
+  const isNewRecord = currentScore > 0 && currentScore > (top[0]?.score ?? 0) && top.length > 0
 
   if (loading) return null
 
@@ -25,11 +43,13 @@ export default function MiniLeaderboard({ game, currentScore, currentUid, lang }
     <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mt-4">
       <p className="text-white/30 text-xs uppercase tracking-widest mb-3">🏆 {label}</p>
 
-      {top.length === 0 ? (
-        <p className="text-white/40 text-sm text-center py-2">{empty}</p>
+      {displayTop.length === 0 ? (
+        <p className="text-white/40 text-sm text-center py-2">
+          {lang === 'en' ? 'No scores yet.' : lang === 'ca' ? 'Sense puntuacions encara.' : 'Sin puntuaciones aún.'}
+        </p>
       ) : (
         <div className="space-y-1.5">
-          {top.slice(0, 5).map((entry, i) => {
+          {displayTop.slice(0, 5).map((entry, i) => {
             const isMe = entry.uid === currentUid
             const banner = entry.bannerId ? BANNER_BY_ID[entry.bannerId] : null
             const hasBanner = banner && banner.bg

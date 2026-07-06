@@ -5,6 +5,7 @@ import { useAuth } from '../context/AuthContext'
 import { saveActivity, saveDailyChallenge } from '../lib/activity'
 import CoinsAnimation from '../components/CoinsAnimation'
 import GameResultFooter from '../components/GameResultFooter'
+import ShareButton from '../components/ShareButton'
 
 const DIFS = {
   facil:   { label: 'Fácil', labelEn: 'Easy', labelCa: 'Fàcil',     emoji: '🟢', size: 5, time: 90,  bonus: 15, ops: ['+','-'],       goalsNeeded: 1 },
@@ -398,7 +399,7 @@ export default function NumPath() {
     if (!user) return
     const b = boardsRef.current
     const pts = b * 100
-    if (pts > 0) saveActivity(user.uid, { type: 'juego', game: 'numpath', score: pts, passed: true, timeSpent: 0 }).catch(() => {})
+    if (pts > 0) saveActivity(user.uid, { type: 'juego', game: 'numpath', score: pts, passed: true, timeSpent: 0, userName: user.displayName, userPhoto: user.photoURL }).catch(() => {})
   }
 
   // ── RESULTADO (exam/daily) ─────────────────────────────────────────────────
@@ -488,10 +489,7 @@ export default function NumPath() {
             <GameResultFooter game="numpath" score={boards * 100} user={user} lang={lang} />
           </div>
           <div className="space-y-3">
-            <button onClick={() => navigator.clipboard.writeText(shareText).then(() => alert(lang === 'ca' ? 'Copiat!' : lang === 'en' ? 'Copied!' : '¡Copiado!'))}
-              className="w-full bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold py-3 rounded-xl transition">
-              {u.compartir}
-            </button>
+            <ShareButton text={shareText} lang={lang} />
             <button onClick={() => startGame(difId)}
               className="w-full bg-[#EDAE49] hover:bg-amber-400 text-black font-black py-4 text-lg rounded-xl transition">
               {u.reintentar}

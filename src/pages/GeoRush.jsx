@@ -7,6 +7,7 @@ import CoinsAnimation from '../components/CoinsAnimation'
 import MiniLeaderboard from '../components/MiniLeaderboard'
 import AuthModal from '../components/AuthModal'
 import { saveActivity } from '../lib/activity'
+import ShareButton from '../components/ShareButton'
 
 const DIFS = {
   facil:   { label: 'Fácil', labelEn: 'Easy', labelCa: 'Fàcil',   emoji: '🟢', tiempoInicio: 120, obligatorio: false },
@@ -291,6 +292,18 @@ export default function GeoRush() {
   const dif = DIFS[difId]
 
   useEffect(() => {
+    if (fase !== 'fin' || puntos <= 0 || saved || !user) return
+    setSaved(true)
+    const timeSpent = startRef.current ? Math.round((Date.now() - startRef.current) / 1000) : 0
+    saveActivity(user.uid, {
+      type: 'juego', game: 'georush', category: difId,
+      score: puntos, passed: paisesAcertados >= 3, timeSpent,
+      userName: user.displayName, userPhoto: user.photoURL,
+    }).catch(() => {})
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [fase])
+
+  useEffect(() => {
     if (fase !== 'jugando') return
     if (faseRonda === 'recompensa') return
 
@@ -528,17 +541,6 @@ export default function GeoRush() {
     const shareText = `🌍 GeoRush: ${paisesAcertados} ${u.paises.toLowerCase()} · ${puntos.toLocaleString()} pts\n${dif.emoji} ${difLabel(dif)} · ${u.mejorRacha}: ${maxCombo}\n🎮 https://www.tuthor.es/juegos/georush`
     const timeSpent = startRef.current ? Math.round((Date.now() - startRef.current) / 1000) : 0
 
-    if (!saved && puntos > 0) {
-      setSaved(true)
-      if (user) {
-        saveActivity(user.uid, {
-          type: 'juego', game: 'georush', category: difId,
-          score: puntos, passed: paisesAcertados >= 3, timeSpent,
-          userName: user.displayName, userPhoto: user.photoURL,
-        }).catch(() => {})
-      }
-    }
-
     return (
       <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-6">
         <div className="max-w-lg w-full">
@@ -586,13 +588,10 @@ export default function GeoRush() {
             </div>
           )}
 
-          <MiniLeaderboard game="georush" currentScore={puntos} currentUid={user?.uid} lang={lang} />
+          <MiniLeaderboard game="georush" currentScore={puntos} currentUid={user?.uid} currentName={user?.displayName} currentPhoto={user?.photoURL} lang={lang} />
 
           <div className="space-y-3 mt-4">
-            <button onClick={() => navigator.clipboard.writeText(shareText).then(() => alert(lang === 'ca' ? 'Copiat!' : lang === 'en' ? 'Copied!' : '¡Copiado!'))}
-              className="w-full bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold py-3 rounded-xl transition">
-              {u.compartir}
-            </button>
+            <ShareButton text={shareText} lang={lang} />
             <button onClick={() => iniciar(difId)}
               className="w-full bg-[#EDAE49] hover:bg-amber-400 text-black font-black py-4 text-lg rounded-xl transition">
               {u.reintentar}

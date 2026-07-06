@@ -6,6 +6,7 @@ import CoinsAnimation from '../components/CoinsAnimation'
 import MiniLeaderboard from '../components/MiniLeaderboard'
 import AuthModal from '../components/AuthModal'
 import { saveActivity } from '../lib/activity'
+import ShareButton from '../components/ShareButton'
 import { EVENTOS_ROGUELIKE } from '../data/tuthorTimeEventos'
 
 const VIDA_BIXO = 120
@@ -270,7 +271,6 @@ export default function TuthorTimeRoguelike() {
   const [multRestantes, setMultRestantes] = useState(0)
   const [upgradeOpts, setUpgradeOpts] = useState([])
   const [levelKey, setLevelKey] = useState(0)
-  const [showShare, setShowShare] = useState(false)
 
   const timerRef = useRef(null)
   const tiempoRef = useRef(null)
@@ -326,6 +326,18 @@ export default function TuthorTimeRoguelike() {
   useEffect(() => {
     if (fase === 'jugando' && inputRef.current) inputRef.current.focus()
   }, [fase, levelKey])
+
+  useEffect(() => {
+    if (fase !== 'resultado' || scoreTotal <= 0 || saved || !user) return
+    setSaved(true)
+    const timeSpent = startRef.current ? Math.round((Date.now() - startRef.current) / 1000) : 0
+    saveActivity(user.uid, {
+      type: 'juego', game: 'tuthor-time-roguelike', category: difId,
+      score: scoreTotal, passed: nivel >= 5, timeSpent,
+      userName: user.displayName, userPhoto: user.photoURL,
+    }).catch(() => {})
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [fase])
 
   function registrarRespuesta(añoEnviado) {
     clearInterval(timerRef.current)
@@ -746,17 +758,6 @@ export default function TuthorTimeRoguelike() {
     const shareText = `⏳ Tuthor Time: ${tu.nivel} ${nivel} · ${scoreTotal.toLocaleString()} pts\n${dif.emoji} ${dl(dif)}\n🎮 https://www.tuthor.es/juegos/tuthor-time`
     const timeSpent = startRef.current ? Math.round((Date.now() - startRef.current) / 1000) : 0
 
-    if (!saved && scoreTotal > 0) {
-      setSaved(true)
-      if (user) {
-        saveActivity(user.uid, {
-          type: 'juego', game: 'tuthor-time-roguelike', category: difId,
-          score: scoreTotal, passed: nivel >= 5, timeSpent,
-          userName: user.displayName, userPhoto: user.photoURL,
-        }).catch(() => {})
-      }
-    }
-
     return (
       <div className="min-h-screen flex flex-col items-center justify-center px-4 py-6">
         <div className="w-full max-w-md">
@@ -779,12 +780,7 @@ export default function TuthorTimeRoguelike() {
             {scoreTotal > 0 && <CoinsAnimation points={scoreTotal} />}
 
             <div className="space-y-3 mt-4">
-              <button
-                onClick={() => setShowShare(true)}
-                className="w-full bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold py-3 rounded-xl transition"
-              >
-                {tu.compartir}
-              </button>
+              <ShareButton text={shareText} lang={lang} />
               <button
                 onClick={() => iniciarPartida(difId)}
                 className="w-full bg-white text-black font-bold py-3 rounded-xl hover:bg-white/90 transition"
@@ -816,36 +812,11 @@ export default function TuthorTimeRoguelike() {
             </div>
           )}
 
-          <MiniLeaderboard game="tuthor-time-roguelike" currentScore={scoreTotal} currentUid={user?.uid} lang={lang} />
+          <MiniLeaderboard game="tuthor-time-roguelike" currentScore={scoreTotal} currentUid={user?.uid} currentName={user?.displayName} currentPhoto={user?.photoURL} lang={lang} />
         </div>
 
         {showAuth && <AuthModal onClose={() => setShowAuth(false)} />}
 
-        {showShare && (
-          <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
-            <div className="bg-gray-900 border border-white/10 rounded-2xl p-6 w-full max-w-sm">
-              <h3 className="text-white font-bold text-lg mb-4 text-center">{lang === 'ca' ? 'Compartir resultat' : lang === 'en' ? 'Share result' : 'Compartir resultado'}</h3>
-              <textarea
-                readOnly
-                value={shareText}
-                className="w-full bg-black/30 border border-white/10 rounded-xl p-3 text-white/80 text-sm resize-none mb-4 focus:outline-none"
-                rows={5}
-              />
-              <button
-                onClick={() => { navigator.clipboard.writeText(shareText); alert(lang === 'ca' ? 'Copiat!' : lang === 'en' ? 'Copied!' : '¡Copiado!') }}
-                className="w-full bg-white text-black font-bold py-3 rounded-xl hover:bg-white/90 transition mb-2"
-              >
-                {lang === 'ca' ? 'Copiar text' : lang === 'en' ? 'Copy text' : 'Copiar texto'}
-              </button>
-              <button
-                onClick={() => setShowShare(false)}
-                className="w-full text-white/40 hover:text-white text-sm py-2 transition"
-              >
-                {lang === 'ca' ? 'Tancar' : lang === 'en' ? 'Close' : 'Cerrar'}
-              </button>
-            </div>
-          </div>
-        )}
       </div>
     )
   }

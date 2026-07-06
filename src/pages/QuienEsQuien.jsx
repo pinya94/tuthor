@@ -6,6 +6,7 @@ import { useLang } from '../context/LangContext'
 import { saveActivity } from '../lib/activity'
 import CoinsAnimation from '../components/CoinsAnimation'
 import GameResultFooter from '../components/GameResultFooter'
+import ShareButton from '../components/ShareButton'
 
 const BOARD_SIZE = 12
 const MAX_FALLOS = 2
@@ -392,10 +393,7 @@ export default function QuienEsQuien() {
             <GameResultFooter game="quien-es-quien" score={puntos} user={user} lang={lang} />
           </div>
           <div className="space-y-3">
-            <button onClick={() => navigator.clipboard.writeText(shareText).then(() => alert(lang === 'ca' ? 'Copiat!' : en ? 'Copied!' : '¡Copiado!'))}
-              className="w-full bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold py-3 rounded-xl transition">
-              {lang === 'ca' ? '🔗 Compartir resultat' : en ? '🔗 Share result' : '🔗 Compartir resultado'}
-            </button>
+            <ShareButton text={shareText} lang={lang} />
             <button onClick={startGame}
               className="w-full bg-[#EDAE49] hover:bg-amber-400 text-black font-black py-4 text-lg rounded-xl transition">
               {lang === 'ca' ? 'Tornar-ho a provar' : en ? 'Try again' : 'Intentarlo de nuevo'}

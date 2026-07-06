@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
-import { getStats, getCosmetics, buyFrame, buyBanner, equipFrame, equipBanner } from '../lib/activity'
+import { getStatsAndCosmetics, buyFrame, buyBanner, equipFrame, equipBanner } from '../lib/activity'
 import { FRAMES, FRAME_BY_ID, BANNERS, BANNER_BY_ID } from '../data/cosmetics'
 import AvatarFrame from '../components/AvatarFrame'
 import PageMeta from '../components/PageMeta'
@@ -151,12 +151,12 @@ export default function Tienda() {
 
   useEffect(() => {
     if (!user) { navigate(localPath('/perfil')); return }
-    Promise.all([getStats(user.uid), getCosmetics(user.uid)]).then(([stats, cos]) => {
-      setCoins(stats?.coins ?? 0)
-      setOwnedFrames(cos.ownedFrames)
-      setEquippedFrame(cos.equippedFrame)
-      setOwnedBanners(cos.ownedBanners)
-      setEquippedBanner(cos.equippedBanner)
+    getStatsAndCosmetics(user.uid).then(d => {
+      setCoins(d.coins)
+      setOwnedFrames(d.ownedFrames)
+      setEquippedFrame(d.equippedFrame)
+      setOwnedBanners(d.ownedBanners)
+      setEquippedBanner(d.equippedBanner)
       setLoading(false)
     })
   }, [user])
@@ -224,13 +224,13 @@ export default function Tienda() {
           </button>
         </div>
 
-        <div className="flex items-center justify-between mb-6">
+        <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
           <h1 className="text-3xl font-black text-white">{ca ? '🛍 Botiga' : en ? '🛍 Shop' : '🛍 Tienda'}</h1>
           {!loading && user && (
-            <div className="flex items-center gap-2 bg-amber-500/10 border border-amber-500/30 rounded-xl px-4 py-2">
+            <div className="flex items-center gap-2 bg-amber-500/10 border border-amber-500/30 rounded-xl px-3 py-2">
               <AvatarFrame user={user} frameId={equippedFrame} size="sm" />
               <div className="text-right">
-                <p className="text-amber-400 font-black text-lg tabular-nums">💰 {coins.toLocaleString()}</p>
+                <p className="text-amber-400 font-black text-base tabular-nums">💰 {coins.toLocaleString()}</p>
                 <p className="text-amber-400/50 text-xs">{ca ? 'monedes' : en ? 'coins' : 'monedas'}</p>
               </div>
             </div>
