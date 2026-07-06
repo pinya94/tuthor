@@ -1,4 +1,4 @@
-import { FRAME_BY_ID } from '../data/cosmetics'
+import { FRAME_BY_ID, DEFAULT_AVATAR_EMOJI } from '../data/cosmetics'
 
 /**
  * Avatar circular con el marco equipado.
@@ -24,7 +24,7 @@ export default function AvatarFrame({ user, frameId = 'default', avatarEmoji = n
         : <div
             style={{ width: inner, height: inner, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#7c3aed', color: 'white', fontWeight: 900, fontSize: avatarEmoji ? inner / 1.8 : inner / 2.5 }}
           >
-            {avatarEmoji ?? (user?.displayName?.[0] ?? '?')}
+            {avatarEmoji ?? DEFAULT_AVATAR_EMOJI}
           </div>
       }
     </div>

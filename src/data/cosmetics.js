@@ -214,27 +214,29 @@ export const BANNER_BY_ID = Object.fromEntries(BANNERS.map(b => [b.id, b]))
 
 // ── Avatares (emoji en vez de inicial) ────────────────────────────────────────
 // Visibles en rankings y perfil para usuarios sin foto de Google
+export const DEFAULT_AVATAR_EMOJI = '🦉'
+
 export const AVATARS = [
-  { id: 'av_cat',     emoji: '🐱', name: { es: 'Gato',      en: 'Cat',      ca: 'Gat'      }, price: 1500 },
-  { id: 'av_dog',     emoji: '🐶', name: { es: 'Perro',     en: 'Dog',      ca: 'Gos'      }, price: 1500 },
-  { id: 'av_fox',     emoji: '🦊', name: { es: 'Zorro',     en: 'Fox',      ca: 'Guineu'   }, price: 1500 },
-  { id: 'av_bear',    emoji: '🐻', name: { es: 'Oso',       en: 'Bear',     ca: 'Ós'       }, price: 1500 },
-  { id: 'av_panda',   emoji: '🐼', name: { es: 'Panda',     en: 'Panda',    ca: 'Panda'    }, price: 1500 },
-  { id: 'av_lion',    emoji: '🦁', name: { es: 'León',      en: 'Lion',     ca: 'Lleó'     }, price: 1500 },
-  { id: 'av_frog',    emoji: '🐸', name: { es: 'Rana',      en: 'Frog',     ca: 'Granota'  }, price: 1500 },
-  { id: 'av_penguin', emoji: '🐧', name: { es: 'Pingüino',  en: 'Penguin',  ca: 'Pingüí'   }, price: 1500 },
-  { id: 'av_dragon',  emoji: '🐲', name: { es: 'Dragón',    en: 'Dragon',   ca: 'Drac'     }, price: 1500 },
-  { id: 'av_uni',     emoji: '🦄', name: { es: 'Unicornio', en: 'Unicorn',  ca: 'Unicorn'  }, price: 1500 },
-  { id: 'av_owl',     emoji: '🦉', name: { es: 'Búho',      en: 'Owl',      ca: 'Mussol'   }, price: 1500 },
-  { id: 'av_shark',   emoji: '🦈', name: { es: 'Tiburón',   en: 'Shark',    ca: 'Tauró'    }, price: 1500 },
-  { id: 'av_robot',   emoji: '🤖', name: { es: 'Robot',     en: 'Robot',    ca: 'Robot'    }, price: 3000 },
-  { id: 'av_ghost',   emoji: '👻', name: { es: 'Fantasma',  en: 'Ghost',    ca: 'Fantasma' }, price: 3000 },
-  { id: 'av_alien',   emoji: '👽', name: { es: 'Alien',     en: 'Alien',    ca: 'Alien'    }, price: 3000 },
-  { id: 'av_wizard',  emoji: '🧙', name: { es: 'Mago',      en: 'Wizard',   ca: 'Mag'      }, price: 3000 },
-  { id: 'av_ninja',   emoji: '🥷', name: { es: 'Ninja',     en: 'Ninja',    ca: 'Ninja'    }, price: 3000 },
-  { id: 'av_fire',    emoji: '🔥', name: { es: 'Fuego',     en: 'Fire',     ca: 'Foc'      }, price: 3000 },
-  { id: 'av_star',    emoji: '⭐', name: { es: 'Estrella',  en: 'Star',     ca: 'Estrella' }, price: 3000 },
-  { id: 'av_diamond', emoji: '💎', name: { es: 'Diamante',  en: 'Diamond',  ca: 'Diamant'  }, price: 3000 },
+  { id: 'av_default', emoji: '🦉', name: { es: 'Búho',      en: 'Owl',      ca: 'Mussol'   }, price: 0 },
+  { id: 'av_cat',     emoji: '🐱', name: { es: 'Gato',      en: 'Cat',      ca: 'Gat'      }, price: 3000 },
+  { id: 'av_dog',     emoji: '🐶', name: { es: 'Perro',     en: 'Dog',      ca: 'Gos'      }, price: 3000 },
+  { id: 'av_fox',     emoji: '🦊', name: { es: 'Zorro',     en: 'Fox',      ca: 'Guineu'   }, price: 3000 },
+  { id: 'av_bear',    emoji: '🐻', name: { es: 'Oso',       en: 'Bear',     ca: 'Ós'       }, price: 3000 },
+  { id: 'av_panda',   emoji: '🐼', name: { es: 'Panda',     en: 'Panda',    ca: 'Panda'    }, price: 3000 },
+  { id: 'av_lion',    emoji: '🦁', name: { es: 'León',      en: 'Lion',     ca: 'Lleó'     }, price: 3000 },
+  { id: 'av_frog',    emoji: '🐸', name: { es: 'Rana',      en: 'Frog',     ca: 'Granota'  }, price: 3000 },
+  { id: 'av_penguin', emoji: '🐧', name: { es: 'Pingüino',  en: 'Penguin',  ca: 'Pingüí'   }, price: 3000 },
+  { id: 'av_dragon',  emoji: '🐲', name: { es: 'Dragón',    en: 'Dragon',   ca: 'Drac'     }, price: 3000 },
+  { id: 'av_uni',     emoji: '🦄', name: { es: 'Unicornio', en: 'Unicorn',  ca: 'Unicorn'  }, price: 3000 },
+  { id: 'av_shark',   emoji: '🦈', name: { es: 'Tiburón',   en: 'Shark',    ca: 'Tauró'    }, price: 3000 },
+  { id: 'av_robot',   emoji: '🤖', name: { es: 'Robot',     en: 'Robot',    ca: 'Robot'    }, price: 7500 },
+  { id: 'av_ghost',   emoji: '👻', name: { es: 'Fantasma',  en: 'Ghost',    ca: 'Fantasma' }, price: 7500 },
+  { id: 'av_alien',   emoji: '👽', name: { es: 'Alien',     en: 'Alien',    ca: 'Alien'    }, price: 7500 },
+  { id: 'av_wizard',  emoji: '🧙', name: { es: 'Mago',      en: 'Wizard',   ca: 'Mag'      }, price: 7500 },
+  { id: 'av_ninja',   emoji: '🥷', name: { es: 'Ninja',     en: 'Ninja',    ca: 'Ninja'    }, price: 7500 },
+  { id: 'av_fire',    emoji: '🔥', name: { es: 'Fuego',     en: 'Fire',     ca: 'Foc'      }, price: 7500 },
+  { id: 'av_star',    emoji: '⭐', name: { es: 'Estrella',  en: 'Star',     ca: 'Estrella' }, price: 7500 },
+  { id: 'av_diamond', emoji: '💎', name: { es: 'Diamante',  en: 'Diamond',  ca: 'Diamant'  }, price: 7500 },
 ]
 
 export const AVATAR_BY_ID = Object.fromEntries(AVATARS.map(a => [a.id, a]))

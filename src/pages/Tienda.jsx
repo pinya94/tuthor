@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
 import { getStatsAndCosmetics, buyFrame, buyBanner, equipFrame, equipBanner, buyAvatar, equipAvatar } from '../lib/activity'
-import { FRAMES, FRAME_BY_ID, BANNERS, BANNER_BY_ID, AVATARS } from '../data/cosmetics'
+import { FRAMES, FRAME_BY_ID, BANNERS, BANNER_BY_ID, AVATARS, DEFAULT_AVATAR_EMOJI } from '../data/cosmetics'
 import AvatarFrame from '../components/AvatarFrame'
 import PageMeta from '../components/PageMeta'
 
@@ -404,7 +404,7 @@ export default function Tienda() {
                     lang={lang}
                     coins={coins}
                     owned={ownedAvatars.includes(avatar.id)}
-                    equipped={equippedAvatar === avatar.emoji}
+                    equipped={(equippedAvatar ?? DEFAULT_AVATAR_EMOJI) === avatar.emoji}
                     onBuy={handleBuyAvatar}
                     onEquip={handleEquipAvatar}
                     buying={buying}
