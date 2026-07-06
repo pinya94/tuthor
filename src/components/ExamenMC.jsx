@@ -178,14 +178,12 @@ export default function ExamenMC({ titulo, emoji, nivelInfo, backFallback, gameI
     if (idx + 1 >= pool.length) {
       // Guardar resultado en Firebase si hay usuario autenticado
       const timeSpent = startRef.current ? Math.round((Date.now() - startRef.current) / 1000) : 0
-      const score       = currentAciertos * 100
-      const passed      = currentAciertos >= 5
-      const bonusCoins  = currentAciertos === pool.length ? 10 : currentAciertos >= 8 ? 5 : 0
+      const score  = currentAciertos * 100
+      const passed = currentAciertos >= 5
       if (user) {
         saveActivity(user.uid, {
           type: 'examen', game: gameId,
           category: gameId, score, passed, timeSpent,
-          bonusCoins,
           userName: user.displayName, userPhoto: user.photoURL,
         }).catch(() => {})
       }
@@ -248,10 +246,9 @@ export default function ExamenMC({ titulo, emoji, nivelInfo, backFallback, gameI
 
   // ── PANTALLA: RESULTADO ───────────────────────────────────────────────────
   if (fase === 'resultado') {
-    const aprobado    = aciertos >= 5
-    const cal         = calificacion(aciertos, lang)
-    const coins       = aciertos * 10
-    const bonusCoins  = aciertos === pool.length ? 10 : aciertos >= 8 ? 5 : 0
+    const aprobado = aciertos >= 5
+    const cal      = calificacion(aciertos, lang)
+    const coins    = aciertos * 10
     return (
       <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
         {pageMeta}{quizSchema}
@@ -264,19 +261,10 @@ export default function ExamenMC({ titulo, emoji, nivelInfo, backFallback, gameI
             <h2 className="text-2xl font-black text-white mb-1">{cal.label}</h2>
             <p className={`text-5xl font-black mb-1 ${cal.color}`}>{aciertos}/{pool.length}</p>
             <p className="text-white/40 text-sm mb-3">{tituloStr} · {get(nivelInfo[nivelSel].label, lang)}</p>
-            <div className="flex items-center justify-center gap-2 flex-wrap">
-              <div className="inline-flex items-center gap-1.5 bg-amber-400/10 border border-amber-400/30 rounded-full px-3 py-1">
-                <span className="text-amber-400 text-sm">💰</span>
-                <span className="text-amber-400 font-black text-sm">+{coins}</span>
-                <span className="text-amber-400/60 text-xs">{en ? 'coins' : ca ? 'monedes' : 'monedas'}</span>
-              </div>
-              {bonusCoins > 0 && (
-                <div className="inline-flex items-center gap-1.5 bg-violet-400/10 border border-violet-400/30 rounded-full px-3 py-1">
-                  <span className="text-violet-400 text-sm">✨</span>
-                  <span className="text-violet-400 font-black text-sm">+{bonusCoins}</span>
-                  <span className="text-violet-400/60 text-xs">{en ? 'bonus' : 'bono'}</span>
-                </div>
-              )}
+            <div className="inline-flex items-center gap-1.5 bg-amber-400/10 border border-amber-400/30 rounded-full px-3 py-1">
+              <span className="text-amber-400 text-sm">💰</span>
+              <span className="text-amber-400 font-black text-sm">+{coins}</span>
+              <span className="text-amber-400/60 text-xs">{en ? 'coins' : ca ? 'monedes' : 'monedas'}</span>
             </div>
           </div>
 
