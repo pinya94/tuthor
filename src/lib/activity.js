@@ -4,6 +4,27 @@ import {
   serverTimestamp, increment
 } from 'firebase/firestore'
 
+// ── Leaderboard helpers ──────────────────────────────────────────────────────
+
+async function updateLeaderboard(game, uid, name, photoURL, score) {
+  const lbRef = doc(db, '_stats', `leaderboard_${game}`)
+  try {
+    const snap = await getDoc(lbRef)
+    const top  = snap.exists() ? (snap.data().top ?? []) : []
+    const rest = top.filter(e => e.uid !== uid)
+    rest.push({ uid, name: name || 'Anónimo', photoURL: photoURL || null, score })
+    const sorted = rest.sort((a, b) => b.score - a.score).slice(0, 10)
+    await setDoc(lbRef, { top: sorted, updatedAt: serverTimestamp() })
+  } catch { /* non-critical */ }
+}
+
+export async function getLeaderboard(game) {
+  try {
+    const snap = await getDoc(doc(db, '_stats', `leaderboard_${game}`))
+    return snap.exists() ? (snap.data().top ?? []) : []
+  } catch { return [] }
+}
+
 // Actualiza contadores globales (sin datos personales)
 async function incrementGlobalStats(game, today) {
   const ref = doc(db, '_stats', 'global')
@@ -37,10 +58,11 @@ function calcStreak(lastActiveDate, currentStreak) {
 }
 
 // Guarda una actividad completada
+// data: { type, game, category, score, passed, timeSpent, bonusCoins?, userName?, userPhoto? }
 export async function saveActivity(uid, data) {
-  // data: { type, game, category, score, passed, timeSpent }
   await addDoc(collection(db, 'users', uid, 'activity'), {
-    ...data,
+    type: data.type, game: data.game, category: data.category,
+    score: data.score, passed: data.passed, timeSpent: data.timeSpent,
     createdAt: serverTimestamp(),
   })
 
@@ -51,7 +73,7 @@ export async function saveActivity(uid, data) {
   const snap = await getDoc(statsRef)
   const t = data.timeSpent || 0
 
-  const coinsEarned = Math.floor((data.score || 0) / 10)
+  const coinsEarned = Math.min(Math.floor((data.score || 0) / 10), 200) + (data.bonusCoins || 0)
 
   if (!snap.exists()) {
     const byGame = { [data.game]: { plays: 1, timeSpent: t, bestScore: data.score || 0 } }
@@ -84,7 +106,10 @@ export async function saveActivity(uid, data) {
     }
     if (data.score) {
       const currentBest = current.bestScores?.[data.game] || 0
-      if (data.score > currentBest) updates[`bestScores.${data.game}`] = data.score
+      if (data.score > currentBest) {
+        updates[`bestScores.${data.game}`] = data.score
+        updateLeaderboard(data.game, uid, data.userName, data.userPhoto, data.score).catch(() => {})
+      }
       const currentGameBest = current.statsByGame?.[data.game]?.bestScore || 0
       if (data.score > currentGameBest) updates[`statsByGame.${data.game}.bestScore`] = data.score
     }
