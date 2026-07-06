@@ -2,7 +2,10 @@ import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { generarPuzzle, aplicar, OP_STYLE } from '../lib/mathEngine'
 import { useLang } from '../context/LangContext'
+import { useAuth } from '../context/AuthContext'
+import { saveActivity } from '../lib/activity'
 import CoinsAnimation from '../components/CoinsAnimation'
+import GameResultFooter from '../components/GameResultFooter'
 
 const ALL_OPS = ['+', '-', '×', '÷']
 
@@ -162,6 +165,7 @@ function Confetti() {
 export default function AcercateRoguelike() {
   const navigate = useNavigate()
   const { lang, localPath } = useLang()
+  const { user } = useAuth()
   const au = AUI[lang] || AUI.es
   const dl = d => lang === 'ca' ? (d.labelCa || d.label) : lang === 'en' ? (d.labelEn || d.label) : d.label
 
@@ -194,8 +198,10 @@ export default function AcercateRoguelike() {
   const [showShare, setShowShare] = useState(false)
   const [copied, setCopied] = useState(false)
 
+  const [saved, setSaved] = useState(false)
   const timerRef = useRef(null)
   const tiempoRef = useRef(60)
+  const startRef = useRef(null)
   const numerosRef = useRef(numeros)
   const objetivoRef = useRef(objetivo)
   const rdRef = useRef(rd)
@@ -216,6 +222,18 @@ export default function AcercateRoguelike() {
     }, 1000)
     return () => clearInterval(timerRef.current)
   }, [fase, levelKey]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  // ── Guardar actividad al terminar run ────────────────────────────────────
+  useEffect(() => {
+    if (fase !== 'resultado' || saved || !user) return
+    const timeSpent = startRef.current ? Math.round((Date.now() - startRef.current) / 1000) : 0
+    saveActivity(user.uid, {
+      type: 'juego', game: 'acercate', category: difId,
+      score, passed: (rd?.nivel || 1) > 1, timeSpent,
+      userName: user.displayName, userPhoto: user.photoURL,
+    }).catch(() => {})
+    setSaved(true)
+  }, [fase]) // eslint-disable-line react-hooks/exhaustive-deps
 
   // ── Iniciar nivel ────────────────────────────────────────────────────────
   function iniciarNivel(runData, resetScore = false) {
@@ -244,6 +262,8 @@ export default function AcercateRoguelike() {
 
   function startRun() {
     const dif = DIFS[difId]
+    startRef.current = Date.now()
+    setSaved(false)
     iniciarNivel({
       nivel: 1, vidas: dif.vidasIni,
       bonusTiempo: 0, bonusCount: 0,
@@ -555,6 +575,7 @@ export default function AcercateRoguelike() {
             )}
 
             {score > 0 && <CoinsAnimation points={score} />}
+            <GameResultFooter game="acercate" score={score} user={user} lang={lang} />
 
             <div className="flex gap-3 justify-center mb-3">
               <button onClick={startRun}

@@ -4,6 +4,7 @@ import { useLang } from '../context/LangContext'
 import { useAuth } from '../context/AuthContext'
 import { saveActivity, saveDailyChallenge } from '../lib/activity'
 import CoinsAnimation from '../components/CoinsAnimation'
+import GameResultFooter from '../components/GameResultFooter'
 
 const DIFS = {
   facil:   { label: 'Fácil', labelEn: 'Easy', labelCa: 'Fàcil',     emoji: '🟢', size: 5, time: 90,  bonus: 15, ops: ['+','-'],       goalsNeeded: 1 },
@@ -484,6 +485,7 @@ export default function NumPath() {
               <p className="text-white font-black text-6xl tabular-nums">{boards}</p>
             </div>
             {boards > 0 && <CoinsAnimation points={boards * 100} />}
+            <GameResultFooter game="numpath" score={boards * 100} user={user} lang={lang} />
           </div>
           <div className="space-y-3">
             <button onClick={() => navigator.clipboard.writeText(shareText).then(() => alert(lang === 'ca' ? 'Copiat!' : lang === 'en' ? 'Copied!' : '¡Copiado!'))}

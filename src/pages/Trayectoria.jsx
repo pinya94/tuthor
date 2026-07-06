@@ -4,6 +4,7 @@ import { useLang } from '../context/LangContext'
 import { useAuth } from '../context/AuthContext'
 import { saveActivity } from '../lib/activity'
 import CoinsAnimation from '../components/CoinsAnimation'
+import GameResultFooter from '../components/GameResultFooter'
 import { POOLS } from '../data/trayectoriaLevels'
 import {
   VIEW, W, H, ANIM_DURATION,
@@ -603,6 +604,7 @@ export default function Trayectoria() {
           onChangeDiff={() => setScreen('difficulty')}
         />
         {score > 0 && <CoinsAnimation points={score * 10} />}
+        <GameResultFooter game="trayectoria" score={score * 10} user={user} lang={lang} />
       </>
     )
   }

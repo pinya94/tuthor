@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
 import { saveActivity } from '../lib/activity'
+import GameResultFooter from '../components/GameResultFooter'
 
 // ── Configuración por nivel ────────────────────────────────────────────────
 // objMin/objMax: rango preferido del objetivo (siempre garantizado alcanzable)
@@ -350,6 +351,7 @@ export default function Acercate() {
           <div className={`text-6xl font-black mt-4 mb-8 ${finInfo?.pts > 0 ? 'text-amber-400' : 'text-white/30'}`}>
             +{finInfo?.pts} pts
           </div>
+          <GameResultFooter game="acercate-clasico" score={finInfo?.pts} user={user} lang={lang} />
           <div className="flex gap-3 justify-center">
             <button onClick={iniciar}
               className="px-8 py-3 bg-[#EDAE49] hover:bg-amber-400 text-black font-black rounded-2xl transition-all hover:scale-[1.02]">

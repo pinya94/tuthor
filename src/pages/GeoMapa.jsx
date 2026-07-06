@@ -6,6 +6,7 @@ import { useAuth } from '../context/AuthContext'
 import { saveActivity } from '../lib/activity'
 import CoinsAnimation from '../components/CoinsAnimation'
 import WorldMap from '../components/WorldMap'
+import GameResultFooter from '../components/GameResultFooter'
 
 function flagToCode(emoji) {
   return [...emoji].map(c => String.fromCharCode(c.codePointAt(0) - 0x1F1E6 + 65)).join('').toLowerCase()
@@ -373,6 +374,7 @@ export default function GeoMapa() {
                   <p className="text-white/40 text-xs mb-1">{u.paises}</p>
                   <p className="text-white font-black text-3xl">{aciertos}</p>
                 </div>
+                <GameResultFooter game="geomapa" score={puntos} user={user} lang={lang} />
               </>
             )}
           </div>

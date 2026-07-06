@@ -5,6 +5,7 @@ import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
 import { saveActivity } from '../lib/activity'
 import CoinsAnimation from '../components/CoinsAnimation'
+import GameResultFooter from '../components/GameResultFooter'
 
 const MAX_LIVES = 3
 
@@ -55,7 +56,7 @@ function Intro({ onStart, lang }) {
 }
 
 // ── GAME OVER ──────────────────────────────────────────────────────────────────
-function GameOver({ score, placed, onRepetir, onSalir, lang }) {
+function GameOver({ score, placed, onRepetir, onSalir, lang, user }) {
   const en = lang === 'en'
   const [showCoins, setShowCoins] = useState(false)
   const [coinsDone, setCoinsDone] = useState(false)
@@ -81,6 +82,7 @@ function GameOver({ score, placed, onRepetir, onSalir, lang }) {
 
         {(coinsDone || !showCoins) && (
           <>
+            <GameResultFooter game="linea-temporal" score={score} user={user} lang={lang} />
             <div className="grid grid-cols-2 gap-3 mb-6">
               {[{ val: score, label: lang === 'ca' ? 'Punts' : en ? 'Points' : 'Puntos', emoji: '⭐' }, { val: placed, label: lang === 'ca' ? 'Col·locades' : en ? 'Placed' : 'Colocadas', emoji: '✅' }].map(s => (
                 <div key={s.label} className="bg-white/5 border border-white/10 rounded-xl p-4 text-center">
@@ -199,7 +201,7 @@ export default function OrdenTemporal() {
   }
 
   if (fase === 'intro')    return <div className="relative z-10"><Intro onStart={startGame} lang={lang} /></div>
-  if (fase === 'gameover') return <div className="relative z-10"><GameOver score={score} placed={timeline.length} onRepetir={startGame} onSalir={() => navigate(localPath('/juegos'))} lang={lang} /></div>
+  if (fase === 'gameover') return <div className="relative z-10"><GameOver score={score} placed={timeline.length} onRepetir={startGame} onSalir={() => navigate(localPath('/juegos'))} lang={lang} user={user} /></div>
 
   const dif = { fácil: 'text-green-400 bg-green-500/10 border-green-500/30', medio: 'text-amber-400 bg-amber-500/10 border-amber-500/30', difícil: 'text-red-400 bg-red-500/10 border-red-500/30' }
   const progress = Math.round((timeline.length / (timeline.length + pending.length + 1)) * 100)
