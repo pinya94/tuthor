@@ -755,7 +755,7 @@ export default function TuthorTimeRoguelike() {
 
   // ── RESULTADO ──────────────────────────────────────────────────────────────
   if (fase === 'resultado') {
-    const shareText = `He llegado al nivel ${nivel} con ${scoreTotal.toLocaleString()} pts en Tuthor Time ⏳ — ¿puedes superarme? tuthor.es/juegos/tuthor-time`
+    const shareText = `He llegado al nivel ${nivel} con ${scoreTotal.toLocaleString()} pts en Tuthor Time ⏳ — ¿puedes superarme? https://tuthor.es/juegos/tuthor-time`
     const timeSpent = startRef.current ? Math.round((Date.now() - startRef.current) / 1000) : 0
 
     return (

@@ -609,10 +609,10 @@ export default function Portero() {
     const pts = score * 10
     const msgs = { es: score === 0 ? '¡A practicar más!' : score < 3 ? 'Buen intento' : score < 7 ? '¡Buen partido!' : '¡Portero del año! 🔥', en: score === 0 ? 'Keep practising!' : score < 3 ? 'Good try' : score < 7 ? 'Good game!' : 'Goalkeeper of the year! 🔥', ca: score === 0 ? 'A practicar!' : score < 3 ? 'Bon intent' : score < 7 ? 'Bon partit!' : 'Porter de l\'any! 🔥' }
     const shareText = l === 'en'
-      ? `I stopped ${score} shots in Portero ⚽🧤 — can you beat me? tuthor.es`
+      ? `I stopped ${score} shots in Portero ⚽🧤 — can you beat me? https://tuthor.es/juegos/portero`
       : l === 'ca'
-      ? `He aturat ${score} tirs al Portero ⚽🧤 — pots superar-me? tuthor.es`
-      : `He parado ${score} tiros en el Portero ⚽🧤 — ¿puedes superarme? tuthor.es`
+      ? `He aturat ${score} tirs al Portero ⚽🧤 — pots superar-me? https://tuthor.es/juegos/portero`
+      : `He parado ${score} tiros en el Portero ⚽🧤 — ¿puedes superarme? https://tuthor.es/juegos/portero`
     return (
       <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-6">
         <div className="max-w-lg w-full">
