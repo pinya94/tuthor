@@ -200,37 +200,68 @@ export async function upsertUserProfile(user) {
 
 // ── Cosmetics ────────────────────────────────────────────────
 
-// Returns { ownedFrames: [], equippedFrame: 'default' } from the stats doc
+// Returns { ownedFrames, equippedFrame, ownedBanners, equippedBanner }
 export async function getCosmetics(uid) {
   const snap = await getDoc(doc(db, 'users', uid, 'stats', 'global'))
-  if (!snap.exists()) return { ownedFrames: ['default'], equippedFrame: 'default' }
+  if (!snap.exists()) return {
+    ownedFrames: ['default'], equippedFrame: 'default',
+    ownedBanners: ['banner_default'], equippedBanner: 'banner_default',
+  }
   const d = snap.data()
   return {
-    ownedFrames:   d.ownedFrames   ?? ['default'],
-    equippedFrame: d.equippedFrame ?? 'default',
+    ownedFrames:    d.ownedFrames    ?? ['default'],
+    equippedFrame:  d.equippedFrame  ?? 'default',
+    ownedBanners:   d.ownedBanners   ?? ['banner_default'],
+    equippedBanner: d.equippedBanner ?? 'banner_default',
   }
 }
 
-// Buy a frame. Returns { ok, reason } where reason is 'already_owned' | 'not_enough_coins'
+// Generic buy helper for frames and banners
+async function buyCosmeticItem(uid, itemId, price, ownedKey, statsRef, snap) {
+  const d = snap.data()
+  const owned = d[ownedKey] ?? [ownedKey === 'ownedFrames' ? 'default' : 'banner_default']
+  if (owned.includes(itemId)) return { ok: false, reason: 'already_owned' }
+  if ((d.coins ?? 0) < price) return { ok: false, reason: 'not_enough_coins' }
+  await updateDoc(statsRef, { coins: increment(-price), [ownedKey]: [...owned, itemId] })
+  return { ok: true }
+}
+
 export async function buyFrame(uid, frameId, price) {
   const statsRef = doc(db, 'users', uid, 'stats', 'global')
   const snap = await getDoc(statsRef)
   if (!snap.exists()) return { ok: false, reason: 'not_enough_coins' }
-  const d = snap.data()
-  const owned = d.ownedFrames ?? ['default']
-  if (owned.includes(frameId)) return { ok: false, reason: 'already_owned' }
-  if ((d.coins ?? 0) < price) return { ok: false, reason: 'not_enough_coins' }
-  await updateDoc(statsRef, {
-    coins: increment(-price),
-    ownedFrames: [...owned, frameId],
-  })
-  return { ok: true }
+  return buyCosmeticItem(uid, frameId, price, 'ownedFrames', statsRef, snap)
 }
 
-// Equip a frame the user already owns
-export async function equipFrame(uid, frameId) {
+export async function buyBanner(uid, bannerId, price) {
   const statsRef = doc(db, 'users', uid, 'stats', 'global')
-  await updateDoc(statsRef, { equippedFrame: frameId })
+  const snap = await getDoc(statsRef)
+  if (!snap.exists()) return { ok: false, reason: 'not_enough_coins' }
+  return buyCosmeticItem(uid, bannerId, price, 'ownedBanners', statsRef, snap)
+}
+
+export async function equipFrame(uid, frameId) {
+  await updateDoc(doc(db, 'users', uid, 'stats', 'global'), { equippedFrame: frameId })
+}
+
+export async function equipBanner(uid, bannerId) {
+  const statsRef = doc(db, 'users', uid, 'stats', 'global')
+  await updateDoc(statsRef, { equippedBanner: bannerId })
+  // Sync banner to all leaderboard entries this user appears in
+  const snap = await getDoc(statsRef)
+  const bestScores = snap.data()?.bestScores ?? {}
+  await Promise.all(Object.keys(bestScores).map(async game => {
+    try {
+      const lbRef = doc(db, '_stats', `leaderboard_${game}`)
+      const lbSnap = await getDoc(lbRef)
+      if (!lbSnap.exists()) return
+      const top = lbSnap.data().top ?? []
+      const idx = top.findIndex(e => e.uid === uid)
+      if (idx === -1) return
+      top[idx] = { ...top[idx], bannerId }
+      await updateDoc(lbRef, { top })
+    } catch { /* non-critical */ }
+  }))
 }
 
 export function formatTime(seconds) {

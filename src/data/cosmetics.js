@@ -1,6 +1,6 @@
-// Frame cosmetics catalog
-// style: { background, padding, borderRadius } applied to the wrapper div
-// animated: adds .frame-animated class (CSS keyframe animation)
+// ── Marcos (círculo de avatar) ─────────────────────────────────────────────
+// style: applied to wrapper div (padding + borderRadius: 50%)
+// animated: adds .frame-animated class
 
 export const FRAMES = [
   {
@@ -8,7 +8,6 @@ export const FRAMES = [
     name: { es: 'Violeta', en: 'Violet', ca: 'Violeta' },
     emoji: '💜',
     price: 0,
-    tier: 'free',
     style: { background: 'rgba(139,92,246,0.5)' },
   },
   {
@@ -16,16 +15,13 @@ export const FRAMES = [
     name: { es: 'Plata', en: 'Silver', ca: 'Plata' },
     emoji: '🩶',
     price: 1000,
-    tier: 'basic',
     style: { background: 'linear-gradient(135deg, #94a3b8, #cbd5e1, #64748b)' },
   },
-  // ── 7 500 — color ─────────────────────────────────────────
   {
     id: 'red',
     name: { es: 'Rojo', en: 'Red', ca: 'Vermell' },
     emoji: '❤️',
     price: 7500,
-    tier: 'color',
     style: { background: 'linear-gradient(135deg, #ef4444, #b91c1c)' },
   },
   {
@@ -33,7 +29,6 @@ export const FRAMES = [
     name: { es: 'Azul', en: 'Blue', ca: 'Blau' },
     emoji: '💙',
     price: 7500,
-    tier: 'color',
     style: { background: 'linear-gradient(135deg, #3b82f6, #1d4ed8)' },
   },
   {
@@ -41,7 +36,6 @@ export const FRAMES = [
     name: { es: 'Verde', en: 'Green', ca: 'Verd' },
     emoji: '💚',
     price: 7500,
-    tier: 'color',
     style: { background: 'linear-gradient(135deg, #22c55e, #15803d)' },
   },
   {
@@ -49,7 +43,6 @@ export const FRAMES = [
     name: { es: 'Dorado', en: 'Gold', ca: 'Daurat' },
     emoji: '💛',
     price: 7500,
-    tier: 'color',
     style: { background: 'linear-gradient(135deg, #f59e0b, #d97706, #fbbf24)' },
   },
   {
@@ -57,7 +50,6 @@ export const FRAMES = [
     name: { es: 'Rosa', en: 'Pink', ca: 'Rosa' },
     emoji: '🩷',
     price: 7500,
-    tier: 'color',
     style: { background: 'linear-gradient(135deg, #ec4899, #be185d)' },
   },
   {
@@ -65,7 +57,6 @@ export const FRAMES = [
     name: { es: 'Cian', en: 'Cyan', ca: 'Cian' },
     emoji: '🩵',
     price: 7500,
-    tier: 'color',
     style: { background: 'linear-gradient(135deg, #06b6d4, #0e7490)' },
   },
   {
@@ -73,16 +64,13 @@ export const FRAMES = [
     name: { es: 'Naranja', en: 'Orange', ca: 'Taronja' },
     emoji: '🧡',
     price: 7500,
-    tier: 'color',
     style: { background: 'linear-gradient(135deg, #f97316, #c2410c)' },
   },
-  // ── 35 000 — holográfico / diseño ─────────────────────────
   {
     id: 'rainbow',
     name: { es: 'Arcoíris', en: 'Rainbow', ca: 'Arc de Sant Martí' },
     emoji: '🌈',
     price: 35000,
-    tier: 'holo',
     animated: true,
     style: { background: 'linear-gradient(270deg, #ff0000, #ff8800, #ffff00, #00ff00, #00ffff, #0000ff, #cc00ff, #ff0000)' },
   },
@@ -91,7 +79,6 @@ export const FRAMES = [
     name: { es: 'Fuego', en: 'Fire', ca: 'Foc' },
     emoji: '🔥',
     price: 35000,
-    tier: 'holo',
     animated: true,
     style: { background: 'linear-gradient(270deg, #ff0000, #ff4400, #ff8800, #ffcc00, #ff4400, #ff0000)' },
   },
@@ -100,7 +87,6 @@ export const FRAMES = [
     name: { es: 'Galaxia', en: 'Galaxy', ca: 'Galàxia' },
     emoji: '🌌',
     price: 35000,
-    tier: 'holo',
     animated: true,
     style: { background: 'linear-gradient(270deg, #0f0c29, #7c3aed, #a78bfa, #ec4899, #7c3aed, #302b63)' },
   },
@@ -109,7 +95,6 @@ export const FRAMES = [
     name: { es: 'Neón', en: 'Neon', ca: 'Neó' },
     emoji: '⚡',
     price: 35000,
-    tier: 'holo',
     animated: true,
     style: { background: 'linear-gradient(270deg, #00ff41, #00ffff, #ff00ff, #00ffff, #00ff41)' },
   },
@@ -117,9 +102,112 @@ export const FRAMES = [
 
 export const FRAME_BY_ID = Object.fromEntries(FRAMES.map(f => [f.id, f]))
 
-export const TIER_LABELS = {
-  free:  { es: 'Gratis',       en: 'Free',        ca: 'Gratis' },
-  basic: { es: 'Básico',       en: 'Basic',       ca: 'Bàsic' },
-  color: { es: 'Color',        en: 'Color',       ca: 'Color' },
-  holo:  { es: 'Holográfico',  en: 'Holographic', ca: 'Hologràfic' },
-}
+// ── Banners (fondo de fila en el ranking) ──────────────────────────────────
+// bg: CSS background applied to the leaderboard row
+// border: left-border color accent
+// animated: reuses .frame-animated (background-position animation)
+
+export const BANNERS = [
+  {
+    id: 'banner_default',
+    name: { es: 'Sin banner', en: 'No banner', ca: 'Sense banner' },
+    emoji: '⬜',
+    price: 0,
+    bg: null,
+    border: null,
+  },
+  {
+    id: 'banner_crimson',
+    name: { es: 'Carmesí', en: 'Crimson', ca: 'Carmesí' },
+    emoji: '🔴',
+    price: 2000,
+    bg: 'linear-gradient(90deg, rgba(220,38,38,0.35) 0%, rgba(220,38,38,0.08) 70%, transparent 100%)',
+    border: '#dc2626',
+  },
+  {
+    id: 'banner_ocean',
+    name: { es: 'Océano', en: 'Ocean', ca: 'Oceà' },
+    emoji: '🔵',
+    price: 2000,
+    bg: 'linear-gradient(90deg, rgba(37,99,235,0.35) 0%, rgba(37,99,235,0.08) 70%, transparent 100%)',
+    border: '#2563eb',
+  },
+  {
+    id: 'banner_forest',
+    name: { es: 'Bosque', en: 'Forest', ca: 'Bosc' },
+    emoji: '🟢',
+    price: 2000,
+    bg: 'linear-gradient(90deg, rgba(22,163,74,0.35) 0%, rgba(22,163,74,0.08) 70%, transparent 100%)',
+    border: '#16a34a',
+  },
+  {
+    id: 'banner_amber',
+    name: { es: 'Ámbar', en: 'Amber', ca: 'Ambre' },
+    emoji: '🟡',
+    price: 2000,
+    bg: 'linear-gradient(90deg, rgba(217,119,6,0.35) 0%, rgba(217,119,6,0.08) 70%, transparent 100%)',
+    border: '#d97706',
+  },
+  {
+    id: 'banner_dusk',
+    name: { es: 'Crepúsculo', en: 'Dusk', ca: 'Crepuscle' },
+    emoji: '🟣',
+    price: 2000,
+    bg: 'linear-gradient(90deg, rgba(124,58,237,0.35) 0%, rgba(124,58,237,0.08) 70%, transparent 100%)',
+    border: '#7c3aed',
+  },
+  {
+    id: 'banner_sunset',
+    name: { es: 'Atardecer', en: 'Sunset', ca: 'Posta de sol' },
+    emoji: '🌅',
+    price: 5000,
+    bg: 'linear-gradient(90deg, rgba(249,115,22,0.4) 0%, rgba(236,72,153,0.25) 50%, transparent 100%)',
+    border: '#f97316',
+  },
+  {
+    id: 'banner_aurora',
+    name: { es: 'Aurora', en: 'Aurora', ca: 'Aurora' },
+    emoji: '🌌',
+    price: 5000,
+    bg: 'linear-gradient(90deg, rgba(6,182,212,0.4) 0%, rgba(139,92,246,0.25) 50%, transparent 100%)',
+    border: '#06b6d4',
+  },
+  {
+    id: 'banner_fire',
+    name: { es: 'Fuego', en: 'Fire', ca: 'Foc' },
+    emoji: '🔥',
+    price: 15000,
+    animated: true,
+    bg: 'linear-gradient(270deg, rgba(255,0,0,0.4), rgba(255,136,0,0.4), rgba(255,204,0,0.3), rgba(255,68,0,0.4), rgba(255,0,0,0.4))',
+    border: '#ff4400',
+  },
+  {
+    id: 'banner_galaxy',
+    name: { es: 'Galaxia', en: 'Galaxy', ca: 'Galàxia' },
+    emoji: '🌌',
+    price: 15000,
+    animated: true,
+    bg: 'linear-gradient(270deg, rgba(15,12,41,0.8), rgba(124,58,237,0.5), rgba(167,139,250,0.4), rgba(236,72,153,0.4), rgba(124,58,237,0.5))',
+    border: '#a78bfa',
+  },
+  {
+    id: 'banner_neon',
+    name: { es: 'Neón', en: 'Neon', ca: 'Neó' },
+    emoji: '⚡',
+    price: 15000,
+    animated: true,
+    bg: 'linear-gradient(270deg, rgba(0,255,65,0.4), rgba(0,255,255,0.4), rgba(255,0,255,0.4), rgba(0,255,255,0.4), rgba(0,255,65,0.4))',
+    border: '#00ff41',
+  },
+  {
+    id: 'banner_rainbow',
+    name: { es: 'Arcoíris', en: 'Rainbow', ca: 'Arc de Sant Martí' },
+    emoji: '🌈',
+    price: 15000,
+    animated: true,
+    bg: 'linear-gradient(270deg, rgba(255,0,0,0.35), rgba(255,136,0,0.35), rgba(255,255,0,0.3), rgba(0,255,0,0.3), rgba(0,255,255,0.3), rgba(0,0,255,0.35), rgba(204,0,255,0.35))',
+    border: '#ff8800',
+  },
+]
+
+export const BANNER_BY_ID = Object.fromEntries(BANNERS.map(b => [b.id, b]))

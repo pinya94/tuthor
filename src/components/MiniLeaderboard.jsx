@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react'
 import { getLeaderboard } from '../lib/activity'
+import { BANNER_BY_ID } from '../data/cosmetics'
 
 const MEDAL = ['🥇', '🥈', '🥉']
 
 export default function MiniLeaderboard({ game, currentScore, currentUid, lang }) {
-  const [top, setTop]     = useState([])
+  const [top, setTop]         = useState([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -15,9 +16,8 @@ export default function MiniLeaderboard({ game, currentScore, currentUid, lang }
   const empty = lang === 'en' ? 'No scores yet — be the first!' : lang === 'ca' ? 'Sense puntuacions — sigues el primer!' : '¡Sin puntuaciones aún — sé el primero!'
   const youLabel = lang === 'en' ? 'You' : lang === 'ca' ? 'Tu' : 'Tú'
 
-  // Find where current score would rank
-  const rank = currentScore > 0 ? top.findIndex(e => currentScore > e.score) + 1 : null
-  const isTop = rank === 1 || (rank === 0 && top.length === 0)
+  const topScore = top[0]?.score ?? 0
+  const isNewRecord = currentScore > 0 && currentScore > topScore
 
   if (loading) return null
 
@@ -28,31 +28,41 @@ export default function MiniLeaderboard({ game, currentScore, currentUid, lang }
       {top.length === 0 ? (
         <p className="text-white/40 text-sm text-center py-2">{empty}</p>
       ) : (
-        <div className="space-y-2">
+        <div className="space-y-1.5">
           {top.slice(0, 5).map((entry, i) => {
             const isMe = entry.uid === currentUid
+            const banner = entry.bannerId ? BANNER_BY_ID[entry.bannerId] : null
+            const hasBanner = banner && banner.bg
+
             return (
               <div key={entry.uid}
-                className={`flex items-center gap-3 px-3 py-2 rounded-xl text-sm ${isMe ? 'bg-violet-500/20 border border-violet-500/30' : 'bg-white/5'}`}>
-                <span className="w-5 text-center shrink-0">
-                  {MEDAL[i] ?? <span className="text-white/30 font-bold">{i + 1}</span>}
+                className={`relative flex items-center gap-3 px-3 py-2 rounded-xl text-sm overflow-hidden ${isMe ? 'ring-1 ring-violet-500/40' : ''}`}
+                style={{
+                  background: hasBanner ? banner.bg : isMe ? 'rgba(139,92,246,0.15)' : 'rgba(255,255,255,0.04)',
+                  borderLeft: hasBanner ? `3px solid ${banner.border}` : isMe ? '3px solid rgba(139,92,246,0.5)' : '3px solid transparent',
+                  backgroundSize: banner?.animated ? '300% 300%' : undefined,
+                  animation: banner?.animated ? 'frameRotate 3s ease infinite' : undefined,
+                }}
+              >
+                <span className="w-5 text-center shrink-0 text-base leading-none">
+                  {i < 3 ? MEDAL[i] : <span className="text-white/30 font-bold text-xs">{i + 1}</span>}
                 </span>
                 {entry.photoURL
                   ? <img src={entry.photoURL} alt="" className="w-6 h-6 rounded-full object-cover shrink-0" />
                   : <div className="w-6 h-6 rounded-full bg-violet-600 shrink-0 flex items-center justify-center text-[10px] font-bold text-white">
                       {(entry.name || '?')[0].toUpperCase()}
                     </div>}
-                <span className={`flex-1 truncate font-medium ${isMe ? 'text-violet-300' : 'text-white/70'}`}>
+                <span className={`flex-1 truncate font-medium ${isMe ? 'text-violet-200' : 'text-white/70'}`}>
                   {isMe ? `${entry.name} (${youLabel})` : entry.name}
                 </span>
-                <span className="text-white font-black tabular-nums">{entry.score.toLocaleString()}</span>
+                <span className="text-white font-black tabular-nums text-xs">{entry.score.toLocaleString()}</span>
               </div>
             )
           })}
         </div>
       )}
 
-      {currentScore > 0 && isTop && (
+      {isNewRecord && (
         <p className="text-amber-400 text-xs text-center mt-3 font-bold">
           {lang === 'en' ? '✨ New record!' : lang === 'ca' ? '✨ Nou rècord!' : '✨ ¡Nuevo récord!'}
         </p>

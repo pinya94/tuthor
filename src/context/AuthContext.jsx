@@ -7,7 +7,7 @@ import {
 import { auth, googleProvider } from '../lib/firebase'
 import { upsertUserProfile } from '../lib/activity'
 
-const AuthContext = createContext(null)
+const AuthContext = createContext({ user: undefined, logout: () => {} })
 
 // Convierte username en email interno — nunca se muestra al usuario
 function usernameToEmail(username) {
