@@ -4,6 +4,7 @@ import { useAuth } from '../context/AuthContext'
 import { saveActivity } from '../lib/activity'
 import CoinsAnimation from '../components/CoinsAnimation'
 import GameResultFooter from '../components/GameResultFooter'
+import ShareButton from '../components/ShareButton'
 import { POOLS } from '../data/porteroLevels'
 import {
   VIEW, W, H, ANIM_DURATION,
@@ -497,6 +498,7 @@ export default function Portero() {
         type: 'juego', game: 'portero', category: 'matematicas',
         score: pts, passed: scoreRef.current > 0,
         timeSpent: GAME_TIME - timeRef.current,
+        userName: user.displayName, userPhoto: user.photoURL,
       }).catch(() => {})
     }
   }, [screen, user])
@@ -604,12 +606,38 @@ export default function Portero() {
   if (screen === 'difficulty') return <DifficultyScreen onSelect={startGame} l={l} />
 
   if (screen === 'end') {
+    const pts = score * 10
+    const msgs = { es: score === 0 ? '¡A practicar más!' : score < 3 ? 'Buen intento' : score < 7 ? '¡Buen partido!' : '¡Portero del año! 🔥', en: score === 0 ? 'Keep practising!' : score < 3 ? 'Good try' : score < 7 ? 'Good game!' : 'Goalkeeper of the year! 🔥', ca: score === 0 ? 'A practicar!' : score < 3 ? 'Bon intent' : score < 7 ? 'Bon partit!' : 'Porter de l\'any! 🔥' }
+    const shareText = l === 'en'
+      ? `I stopped ${score} shots in Portero ⚽🧤 — can you beat me? tuthor.es`
+      : l === 'ca'
+      ? `He aturat ${score} tirs al Portero ⚽🧤 — pots superar-me? tuthor.es`
+      : `He parado ${score} tiros en el Portero ⚽🧤 — ¿puedes superarme? tuthor.es`
     return (
-      <>
-        <EndScreen score={score} l={l} onRestart={() => startGame(difficulty)} onChangeDiff={() => setScreen('difficulty')} />
-        {score > 0 && <CoinsAnimation points={score * 10} />}
-        <GameResultFooter game="portero" score={score * 10} user={user} lang={lang} />
-      </>
+      <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-6">
+        <div className="max-w-lg w-full">
+          <div className="bg-white/5 border border-white/10 rounded-2xl p-8 text-center mb-5">
+            <div className="text-6xl mb-3">🧤</div>
+            <p className="text-white/40 text-sm mb-1">{T('end', l)}</p>
+            <p className="text-5xl font-black text-white mb-1">{score}</p>
+            <p className="text-white/60 text-lg mb-2">{T('saves', l)}</p>
+            <p className="text-[#EDAE49] font-bold mb-4">{msgs[l] ?? msgs.es}</p>
+            {pts > 0 && <CoinsAnimation points={pts} />}
+            <GameResultFooter game="portero" score={pts} user={user} lang={lang} currentName={user?.displayName} currentPhoto={user?.photoURL} />
+          </div>
+          <div className="space-y-3">
+            <ShareButton text={shareText} lang={lang} />
+            <button onClick={() => startGame(difficulty)}
+              className="w-full bg-[#EDAE49] hover:bg-amber-400 text-black font-black py-4 text-lg rounded-xl transition">
+              {T('replay', l)}
+            </button>
+            <button onClick={() => setScreen('difficulty')}
+              className="w-full text-white/40 hover:text-white/70 text-sm py-2 transition">
+              {T('changeDif', l)}
+            </button>
+          </div>
+        </div>
+      </div>
     )
   }
 
