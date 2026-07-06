@@ -1,7 +1,11 @@
 import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
+import { useAuth } from '../context/AuthContext'
 import CoinsAnimation from '../components/CoinsAnimation'
+import MiniLeaderboard from '../components/MiniLeaderboard'
+import AuthModal from '../components/AuthModal'
+import { saveActivity } from '../lib/activity'
 import { EVENTOS_ROGUELIKE } from '../data/tuthorTimeEventos'
 
 const VIDA_BIXO = 120
@@ -242,12 +246,16 @@ function AgentBar({ agente, activo, lang }) {
 export default function TuthorTimeRoguelike() {
   const navigate = useNavigate()
   const { lang, localPath, lt } = useLang()
+  const { user } = useAuth()
   const tu = TUI[lang] || TUI.es
   const dl = d => lang === 'en' ? (d.labelEn || d.label) : lang === 'ca' ? (d.labelCa || d.label) : d.label
   const upgrades = UPGRADE_INFO[lang] || UPGRADE_INFO.es
   const [fase, setFase] = useState('intro')
   const [difId, setDifId] = useState('medio')
   const [nivel, setNivel] = useState(1)
+  const [showAuth, setShowAuth] = useState(false)
+  const [saved, setSaved] = useState(false)
+  const startRef = useRef(null)
   const [agentes, setAgentes] = useState([])
   const agenteActivo = agentes.findIndex(a => !a.muerto)
   const [eventos, setEventos] = useState([])
@@ -290,6 +298,8 @@ export default function TuthorTimeRoguelike() {
     setFeedback(null)
     setGuess('')
     setShowShare(false)
+    setSaved(false)
+    startRef.current = Date.now()
     setFase('jugando')
     setLevelKey(k => k + 1)
   }
@@ -734,6 +744,18 @@ export default function TuthorTimeRoguelike() {
   // ── RESULTADO ──────────────────────────────────────────────────────────────
   if (fase === 'resultado') {
     const shareText = `⏳ Tuthor Time: ${tu.nivel} ${nivel} · ${scoreTotal.toLocaleString()} pts\n${dif.emoji} ${dl(dif)}\n🎮 https://www.tuthor.es/juegos/tuthor-time`
+    const timeSpent = startRef.current ? Math.round((Date.now() - startRef.current) / 1000) : 0
+
+    if (!saved && scoreTotal > 0) {
+      setSaved(true)
+      if (user) {
+        saveActivity(user.uid, {
+          type: 'juego', game: 'tuthor-time-roguelike', category: difId,
+          score: scoreTotal, passed: nivel >= 5, timeSpent,
+          userName: user.displayName, userPhoto: user.photoURL,
+        }).catch(() => {})
+      }
+    }
 
     return (
       <div className="min-h-screen flex flex-col items-center justify-center px-4 py-6">
@@ -756,7 +778,7 @@ export default function TuthorTimeRoguelike() {
 
             {scoreTotal > 0 && <CoinsAnimation points={scoreTotal} />}
 
-            <div className="space-y-3">
+            <div className="space-y-3 mt-4">
               <button
                 onClick={() => setShowShare(true)}
                 className="w-full bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold py-3 rounded-xl transition"
@@ -783,7 +805,21 @@ export default function TuthorTimeRoguelike() {
               </button>
             </div>
           </div>
+
+          {!user && (
+            <div className="bg-violet-500/10 border border-violet-500/30 rounded-2xl p-4 mt-4 text-center">
+              <p className="text-violet-300 font-bold text-sm">💰 {lang === 'en' ? 'Save your coins!' : lang === 'ca' ? 'Guarda les teves monedes!' : '¡Guarda tus monedas!'}</p>
+              <p className="text-white/40 text-xs mb-3">{lang === 'en' ? 'Sign up to save your score and spend coins on avatar frames.' : lang === 'ca' ? "Registra't per guardar la puntuació i gastar monedes en marcs." : 'Regístrate para guardar tu puntuación y gastar monedas en marcos exclusivos.'}</p>
+              <button onClick={() => setShowAuth(true)} className="bg-violet-600 hover:bg-violet-500 text-white font-bold py-2 px-5 rounded-xl text-sm transition">
+                ✨ {lang === 'en' ? "Sign up — it's free" : lang === 'ca' ? "Registra't — és gratis" : 'Regístrate — es gratis'}
+              </button>
+            </div>
+          )}
+
+          <MiniLeaderboard game="tuthor-time-roguelike" currentScore={scoreTotal} currentUid={user?.uid} lang={lang} />
         </div>
+
+        {showAuth && <AuthModal onClose={() => setShowAuth(false)} />}
 
         {showShare && (
           <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
