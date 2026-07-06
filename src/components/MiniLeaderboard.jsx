@@ -43,7 +43,7 @@ function LeaderboardRow({ entry, i, currentUid, youLabel }) {
   )
 }
 
-export default function MiniLeaderboard({ game, currentScore, currentUid, currentName, currentPhoto, lang }) {
+export default function MiniLeaderboard({ game, currentScore, currentUid, currentName, currentPhoto, currentBannerId, currentAvatarEmoji, lang }) {
   const [top, setTop]       = useState([])
   const [loading, setLoading] = useState(true)
   const [showAll, setShowAll] = useState(false)
@@ -60,7 +60,7 @@ export default function MiniLeaderboard({ game, currentScore, currentUid, curren
   const displayTop = (() => {
     if (!currentUid || !currentScore || currentScore <= 0) return top
     const withoutMe = top.filter(e => e.uid !== currentUid)
-    const myEntry = { uid: currentUid, name: currentName || '?', photoURL: currentPhoto || null, score: currentScore }
+    const myEntry = { uid: currentUid, name: currentName || '?', photoURL: currentPhoto || null, score: currentScore, bannerId: currentBannerId || null, avatarEmoji: currentAvatarEmoji || null }
     return [...withoutMe, myEntry].sort((a, b) => b.score - a.score).slice(0, 10)
   })()
 

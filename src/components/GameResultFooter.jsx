@@ -1,9 +1,21 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import MiniLeaderboard from './MiniLeaderboard'
 import AuthModal from './AuthModal'
+import { getStatsAndCosmetics } from '../lib/activity'
 
 export default function GameResultFooter({ game, score, user, lang }) {
   const [showAuth, setShowAuth] = useState(false)
+  const [equippedBanner, setEquippedBanner] = useState(null)
+  const [equippedAvatar, setEquippedAvatar]  = useState(null)
+
+  useEffect(() => {
+    if (!user?.uid) return
+    getStatsAndCosmetics(user.uid).then(c => {
+      setEquippedBanner(c.equippedBanner ?? null)
+      setEquippedAvatar(c.equippedAvatar ?? null)
+    }).catch(() => {})
+  }, [user?.uid])
+
   if (!score || score <= 0) return null
 
   return (
@@ -27,7 +39,16 @@ export default function GameResultFooter({ game, score, user, lang }) {
         </div>
       )}
 
-      <MiniLeaderboard game={game} currentScore={score} currentUid={user?.uid} currentName={user?.displayName} currentPhoto={user?.photoURL} lang={lang} />
+      <MiniLeaderboard
+        game={game}
+        currentScore={score}
+        currentUid={user?.uid}
+        currentName={user?.displayName}
+        currentPhoto={user?.photoURL}
+        currentBannerId={equippedBanner}
+        currentAvatarEmoji={equippedAvatar}
+        lang={lang}
+      />
 
       {showAuth && <AuthModal onClose={() => setShowAuth(false)} />}
     </>
