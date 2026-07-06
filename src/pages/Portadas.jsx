@@ -447,7 +447,7 @@ export default function Portadas() {
   if (fase === 'fin') {
     const pct      = total > 0 ? Math.round((aciertos / total) * 100) : 0
     const emoji    = pct >= 80 ? '🏆' : pct >= 60 ? '📰' : pct >= 40 ? '🤔' : '😬'
-    const shareText = `📰 Portadas históricas: ${puntos.toLocaleString()} puntos (${aciertos}/${total} aciertos)\n${dif.emoji} Modo ${dif.label} — ¿cuánto sabes de historia?\n🎮 https://www.tuthor.es/juegos/portadas`
+    const shareText = `He conseguido ${puntos.toLocaleString()} pts en Portadas Históricas 📰 — ¿puedes superarme? tuthor.es/juegos/portadas`
     const timeSpent = startRef.current ? Math.round((Date.now() - startRef.current) / 1000) : 0
 
     return (

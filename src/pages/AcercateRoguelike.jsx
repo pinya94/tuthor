@@ -347,7 +347,7 @@ export default function AcercateRoguelike() {
   function getShareTexto() {
     const dif = DIFS[rd?.difId || difId]
     const mult = (rd?.multiplicador || 1) > 1 ? ` · ×${(rd.multiplicador).toFixed(1)}` : ''
-    return `⚔️ He llegado al nivel ${rd?.nivel} con ${score.toLocaleString()} pts en Acércate al Número${mult}\n${dif.emoji} Modo ${dif.label} — parece fácil, pero no lo es. ¿Puedes superarme?\n🎮 https://www.tuthor.es/juegos/acercate`
+    return `He llegado al nivel ${rd?.nivel} con ${score.toLocaleString()} pts en Acércate al Número ⚔️${mult} — ¿puedes superarme? tuthor.es/juegos/acercate`
   }
 
   function copiarTexto() {

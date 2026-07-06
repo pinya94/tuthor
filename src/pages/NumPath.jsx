@@ -473,7 +473,7 @@ export default function NumPath() {
 
   // ── FIN (free play) ──────────────────────────────────────────────────────
   if (fase === 'fin') {
-    const shareText = `🧮 NumPath: ${boards} ${u.tableros.toLowerCase()} · ${dif.emoji} ${dl(dif)}\n🎮 https://www.tuthor.es/juegos/numpath`
+    const shareText = `He completado ${boards} tableros en NumPath 🧮 — ¿puedes superarme? tuthor.es/juegos/numpath`
     return (
       <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-6">
         <div className="max-w-lg w-full">

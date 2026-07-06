@@ -538,7 +538,7 @@ export default function GeoRush() {
   // ── FIN ───────────────────────────────────────────────────────────────────
   const ultimoPais = paisActual?.nombre
   if (fase === 'fin') {
-    const shareText = `🌍 GeoRush: ${paisesAcertados} ${u.paises.toLowerCase()} · ${puntos.toLocaleString()} pts\n${dif.emoji} ${difLabel(dif)} · ${u.mejorRacha}: ${maxCombo}\n🎮 https://www.tuthor.es/juegos/georush`
+    const shareText = `He acertado ${paisesAcertados} países y conseguido ${puntos.toLocaleString()} pts en GeoRush 🌍 — ¿puedes superarme? tuthor.es/juegos/georush`
     const timeSpent = startRef.current ? Math.round((Date.now() - startRef.current) / 1000) : 0
 
     return (
