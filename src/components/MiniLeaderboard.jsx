@@ -32,8 +32,8 @@ function LeaderboardRow({ entry, i, currentUid, youLabel }) {
       </span>
       {entry.photoURL
         ? <img src={entry.photoURL} alt="" className="w-6 h-6 rounded-full object-cover shrink-0" />
-        : <div className="w-6 h-6 rounded-full bg-violet-600 shrink-0 flex items-center justify-center text-[10px] font-bold text-white">
-            {(entry.name || '?')[0].toUpperCase()}
+        : <div className="w-6 h-6 rounded-full bg-violet-600 shrink-0 flex items-center justify-center font-bold text-white" style={{ fontSize: entry.avatarEmoji ? 14 : 10 }}>
+            {entry.avatarEmoji ?? (entry.name || '?')[0].toUpperCase()}
           </div>}
       <span className={`flex-1 truncate font-medium ${isMe ? 'text-violet-200' : 'text-white/70'}`}>
         {isMe ? `${entry.name} (${youLabel})` : entry.name}

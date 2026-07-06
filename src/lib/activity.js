@@ -6,13 +6,15 @@ import {
 
 // ── Leaderboard helpers ──────────────────────────────────────────────────────
 
-async function updateLeaderboard(game, uid, name, photoURL, score) {
+async function updateLeaderboard(game, uid, name, photoURL, score, avatarEmoji) {
   const lbRef = doc(db, '_stats', `leaderboard_${game}`)
   try {
     const snap = await getDoc(lbRef)
     const top  = snap.exists() ? (snap.data().top ?? []) : []
     const rest = top.filter(e => e.uid !== uid)
-    rest.push({ uid, name: name || 'Anónimo', photoURL: photoURL || null, score })
+    const entry = { uid, name: name || 'Anónimo', photoURL: photoURL || null, score }
+    if (avatarEmoji) entry.avatarEmoji = avatarEmoji
+    rest.push(entry)
     const sorted = rest.sort((a, b) => b.score - a.score).slice(0, 10)
     await setDoc(lbRef, { top: sorted, updatedAt: serverTimestamp() })
   } catch { /* non-critical */ }
@@ -108,7 +110,7 @@ export async function saveActivity(uid, data) {
       const currentBest = current.bestScores?.[data.game] || 0
       if (data.score > currentBest) {
         updates[`bestScores.${data.game}`] = data.score
-        updateLeaderboard(data.game, uid, data.userName, data.userPhoto, data.score).catch(() => {})
+        updateLeaderboard(data.game, uid, data.userName, data.userPhoto, data.score, current.equippedAvatar || null).catch(() => {})
       }
       const currentGameBest = current.statsByGame?.[data.game]?.bestScore || 0
       if (data.score > currentGameBest) updates[`statsByGame.${data.game}.bestScore`] = data.score
@@ -200,13 +202,14 @@ export async function upsertUserProfile(user) {
 
 // ── Cosmetics ────────────────────────────────────────────────
 
-// Returns { coins, ownedFrames, equippedFrame, ownedBanners, equippedBanner } in one read
+// Returns { coins, ownedFrames, equippedFrame, ownedBanners, equippedBanner, ownedAvatars, equippedAvatar } in one read
 export async function getStatsAndCosmetics(uid) {
   const snap = await getDoc(doc(db, 'users', uid, 'stats', 'global'))
   if (!snap.exists()) return {
     coins: 0,
     ownedFrames: ['default'], equippedFrame: 'default',
     ownedBanners: ['banner_default'], equippedBanner: 'banner_default',
+    ownedAvatars: [], equippedAvatar: null,
   }
   const d = snap.data()
   return {
@@ -215,6 +218,8 @@ export async function getStatsAndCosmetics(uid) {
     equippedFrame:  d.equippedFrame  ?? 'default',
     ownedBanners:   d.ownedBanners   ?? ['banner_default'],
     equippedBanner: d.equippedBanner ?? 'banner_default',
+    ownedAvatars:   d.ownedAvatars   ?? [],
+    equippedAvatar: d.equippedAvatar ?? null,
   }
 }
 
@@ -260,6 +265,33 @@ export async function buyBanner(uid, bannerId, price) {
 
 export async function equipFrame(uid, frameId) {
   await updateDoc(doc(db, 'users', uid, 'stats', 'global'), { equippedFrame: frameId })
+}
+
+export async function buyAvatar(uid, avatarId, price) {
+  const statsRef = doc(db, 'users', uid, 'stats', 'global')
+  const snap = await getDoc(statsRef)
+  if (!snap.exists()) return { ok: false, reason: 'not_enough_coins' }
+  return buyCosmeticItem(uid, avatarId, price, 'ownedAvatars', statsRef, snap)
+}
+
+export async function equipAvatar(uid, avatarEmoji) {
+  const statsRef = doc(db, 'users', uid, 'stats', 'global')
+  await updateDoc(statsRef, { equippedAvatar: avatarEmoji })
+  // Sync to all leaderboard entries this user appears in
+  const snap = await getDoc(statsRef)
+  const bestScores = snap.data()?.bestScores ?? {}
+  await Promise.all(Object.keys(bestScores).map(async game => {
+    try {
+      const lbRef = doc(db, '_stats', `leaderboard_${game}`)
+      const lbSnap = await getDoc(lbRef)
+      if (!lbSnap.exists()) return
+      const top = lbSnap.data().top ?? []
+      const idx = top.findIndex(e => e.uid === uid)
+      if (idx === -1) return
+      top[idx] = { ...top[idx], avatarEmoji: avatarEmoji || null }
+      await updateDoc(lbRef, { top })
+    } catch { /* non-critical */ }
+  }))
 }
 
 export async function equipBanner(uid, bannerId) {

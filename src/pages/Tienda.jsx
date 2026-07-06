@@ -2,10 +2,60 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
-import { getStatsAndCosmetics, buyFrame, buyBanner, equipFrame, equipBanner } from '../lib/activity'
-import { FRAMES, FRAME_BY_ID, BANNERS, BANNER_BY_ID } from '../data/cosmetics'
+import { getStatsAndCosmetics, buyFrame, buyBanner, equipFrame, equipBanner, buyAvatar, equipAvatar } from '../lib/activity'
+import { FRAMES, FRAME_BY_ID, BANNERS, BANNER_BY_ID, AVATARS } from '../data/cosmetics'
 import AvatarFrame from '../components/AvatarFrame'
 import PageMeta from '../components/PageMeta'
+
+// ── Avatar card ───────────────────────────────────────────────────────────────
+function AvatarCard({ avatar, lang, coins, owned, equipped, onBuy, onEquip, buying }) {
+  const en = lang === 'en', ca = lang === 'ca'
+  const name = avatar.name[lang] ?? avatar.name.es
+  const canAfford = coins >= avatar.price
+
+  return (
+    <div className={`bg-white/5 border rounded-2xl p-4 flex flex-col items-center gap-3 transition-all ${equipped ? 'border-violet-500/60 ring-1 ring-violet-500/30' : 'border-white/10'}`}>
+      <div className="w-14 h-14 rounded-full bg-violet-700 flex items-center justify-center text-3xl">
+        {avatar.emoji}
+      </div>
+      <p className="text-white font-bold text-sm text-center leading-tight">{name}</p>
+
+      {owned ? (
+        <button
+          onClick={() => !equipped && onEquip(avatar.id, avatar.emoji)}
+          disabled={equipped || buying}
+          className={`w-full py-2 rounded-xl text-xs font-bold transition-all ${
+            equipped
+              ? 'bg-violet-500/20 border border-violet-500/40 text-violet-300 cursor-default'
+              : 'bg-white/10 border border-white/20 text-white hover:bg-white/20'
+          }`}
+        >
+          {equipped ? (ca ? '✓ Equipat' : en ? '✓ Equipped' : '✓ Equipado') : (ca ? 'Equipar' : en ? 'Equip' : 'Equipar')}
+        </button>
+      ) : (
+        <div className="w-full space-y-1.5">
+          <p className="text-center font-black text-amber-400 text-xs">💰 {avatar.price.toLocaleString()}</p>
+          {!canAfford && (
+            <p className="text-center text-white/30 text-[10px]">
+              {ca ? `Falten ${(avatar.price - coins).toLocaleString()}` : en ? `Need ${(avatar.price - coins).toLocaleString()} more` : `Faltan ${(avatar.price - coins).toLocaleString()}`}
+            </p>
+          )}
+          <button
+            onClick={() => canAfford && onBuy(avatar.id, avatar.price, avatar.emoji)}
+            disabled={!canAfford || buying === avatar.id}
+            className={`w-full py-2 rounded-xl text-xs font-bold transition-all border ${
+              canAfford
+                ? 'bg-amber-500/20 border-amber-500/40 text-amber-300 hover:bg-amber-500/30'
+                : 'bg-white/5 border-white/10 text-white/20 cursor-not-allowed'
+            }`}
+          >
+            {buying === avatar.id ? '...' : (ca ? 'Comprar' : en ? 'Buy' : 'Comprar')}
+          </button>
+        </div>
+      )}
+    </div>
+  )
+}
 
 // ── Frame card ───────────────────────────────────────────────────────────────
 function FrameCard({ frame, lang, coins, owned, equipped, onBuy, onEquip, buying }) {
@@ -145,6 +195,8 @@ export default function Tienda() {
   const [equippedFrame, setEquippedFrame] = useState('default')
   const [ownedBanners, setOwnedBanners] = useState(['banner_default'])
   const [equippedBanner, setEquippedBanner] = useState('banner_default')
+  const [ownedAvatars, setOwnedAvatars] = useState([])
+  const [equippedAvatar, setEquippedAvatar] = useState(null)
   const [loading, setLoading]           = useState(true)
   const [buying, setBuying]             = useState(null)
   const [toast, setToast]               = useState(null)
@@ -157,6 +209,8 @@ export default function Tienda() {
       setEquippedFrame(d.equippedFrame)
       setOwnedBanners(d.ownedBanners)
       setEquippedBanner(d.equippedBanner)
+      setOwnedAvatars(d.ownedAvatars)
+      setEquippedAvatar(d.equippedAvatar)
       setLoading(false)
     })
   }, [user])
@@ -205,6 +259,27 @@ export default function Tienda() {
     showToast(ca ? 'Banner equipat! ✓' : en ? 'Banner equipped! ✓' : '¡Banner equipado! ✓')
   }
 
+  async function handleBuyAvatar(avatarId, price, emoji) {
+    setBuying(avatarId)
+    const result = await buyAvatar(user.uid, avatarId, price)
+    if (result.ok) {
+      setCoins(c => c - price)
+      setOwnedAvatars(o => [...o, avatarId])
+      setEquippedAvatar(emoji)
+      await equipAvatar(user.uid, emoji)
+      showToast(ca ? 'Avatar comprat i equipat! ✓' : en ? 'Avatar bought & equipped! ✓' : '¡Avatar comprado y equipado! ✓')
+    } else if (result.reason === 'not_enough_coins') {
+      showToast(ca ? 'No tens prou monedes' : en ? 'Not enough coins' : 'No tienes suficientes monedas')
+    }
+    setBuying(null)
+  }
+
+  async function handleEquipAvatar(emoji) {
+    setEquippedAvatar(emoji)
+    await equipAvatar(user.uid, emoji)
+    showToast(ca ? 'Avatar equipat! ✓' : en ? 'Avatar equipped! ✓' : '¡Avatar equipado! ✓')
+  }
+
   return (
     <div className="relative z-10 flex flex-col min-h-[calc(100vh-4rem)] px-4 sm:px-8 py-8">
       <PageMeta
@@ -228,7 +303,7 @@ export default function Tienda() {
           <h1 className="text-3xl font-black text-white">{ca ? '🛍 Botiga' : en ? '🛍 Shop' : '🛍 Tienda'}</h1>
           {!loading && user && (
             <div className="flex items-center gap-2 bg-amber-500/10 border border-amber-500/30 rounded-xl px-3 py-2">
-              <AvatarFrame user={user} frameId={equippedFrame} size="sm" />
+              <AvatarFrame user={user} frameId={equippedFrame} avatarEmoji={equippedAvatar} size="sm" />
               <div className="text-right">
                 <p className="text-amber-400 font-black text-base tabular-nums">💰 {coins.toLocaleString()}</p>
                 <p className="text-amber-400/50 text-xs">{ca ? 'monedes' : en ? 'coins' : 'monedas'}</p>
@@ -307,6 +382,31 @@ export default function Tienda() {
                     equipped={equippedBanner === banner.id}
                     onBuy={handleBuyBanner}
                     onEquip={handleEquipBanner}
+                    buying={buying}
+                  />
+                ))}
+              </div>
+            </div>
+
+            {/* ── Avatares ── */}
+            <div className="mb-10">
+              <h2 className="font-black text-white text-xl mb-1">
+                {ca ? 'Avatars' : en ? 'Avatars' : 'Avatares'}
+              </h2>
+              <p className="text-white/40 text-sm mb-5">
+                {ca ? 'Apareix al ranking si no tens foto de Google.' : en ? 'Shown in rankings if you have no Google photo.' : 'Aparece en el ranking si no tienes foto de Google.'}
+              </p>
+              <div className="grid grid-cols-3 sm:grid-cols-4 gap-3">
+                {AVATARS.map(avatar => (
+                  <AvatarCard
+                    key={avatar.id}
+                    avatar={avatar}
+                    lang={lang}
+                    coins={coins}
+                    owned={ownedAvatars.includes(avatar.id)}
+                    equipped={equippedAvatar === avatar.emoji}
+                    onBuy={handleBuyAvatar}
+                    onEquip={handleEquipAvatar}
                     buying={buying}
                   />
                 ))}
