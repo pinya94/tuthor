@@ -10,6 +10,7 @@ const ADMIN_EMAILS = [
   'pinya1994@gmail.com',
   'consiguetualgogratis@gmail.com',
   'consiguetualgogratis@tuthor.app',
+  'manel.willx@gmail.com',
 ]
 function isAdmin(user) {
   return user && ADMIN_EMAILS.includes(user.email)
