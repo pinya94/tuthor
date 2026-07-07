@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
@@ -7,20 +7,49 @@ import GameResultFooter from '../components/GameResultFooter'
 import CoinsAnimation from '../components/CoinsAnimation'
 import { getQuestionsForPool } from '../data/palabrasIntrusas'
 
-const PUNTOS = { facil: 100, medio: 200, dificil: 400 }
-
+// Time per question (seconds) and questions per game per level
 const NIVELES = [
-  { id: 'facil',   label: 'Fácil',   labelEn: 'Easy',   labelCa: 'Fàcil',   emoji: '🟢', desc: '100 pts / pregunta', descEn: '100 pts / question', descCa: '100 pts / pregunta' },
-  { id: 'medio',   label: 'Medio',   labelEn: 'Medium', labelCa: 'Mitjà',   emoji: '🟡', desc: '200 pts / pregunta', descEn: '200 pts / question', descCa: '200 pts / pregunta' },
-  { id: 'dificil', label: 'Difícil', labelEn: 'Hard',   labelCa: 'Difícil', emoji: '🔴', desc: '400 pts / pregunta', descEn: '400 pts / question', descCa: '400 pts / pregunta' },
+  { id: 'facil',   label: 'Fácil',   labelEn: 'Easy',   labelCa: 'Fàcil',   emoji: '🟢',
+    tiempo: 12, preguntas: 15, desc: '12 seg · +10 / −15 pts', descEn: '12 sec · +10 / −15 pts', descCa: '12 seg · +10 / −15 pts' },
+  { id: 'medio',   label: 'Medio',   labelEn: 'Medium', labelCa: 'Mitjà',   emoji: '🟡',
+    tiempo: 8,  preguntas: 15, desc: '8 seg · +10 / −15 pts',  descEn: '8 sec · +10 / −15 pts',  descCa: '8 seg · +10 / −15 pts'  },
+  { id: 'dificil', label: 'Difícil', labelEn: 'Hard',   labelCa: 'Difícil', emoji: '🔴',
+    tiempo: 5,  preguntas: 15, desc: '5 seg · +10 / −15 pts',  descEn: '5 sec · +10 / −15 pts',  descCa: '5 seg · +10 / −15 pts'  },
 ]
 
-const TOTAL_PER_GAME = 10
+const POINTS_CORRECT = 10
+const POINTS_WRONG   = 15   // subtracted
 
 function dayOfYear() {
   const now = new Date()
   const start = new Date(now.getFullYear(), 0, 0)
   return Math.floor((now - start) / 86400000)
+}
+
+function getNivelCfg(id) { return NIVELES.find(n => n.id === id) ?? NIVELES[0] }
+
+// Flash overlay when picking an answer
+function PickFlash({ correct }) {
+  return (
+    <div
+      className={`fixed inset-0 z-40 pointer-events-none transition-opacity duration-300 ${correct ? 'bg-green-500/20' : 'bg-red-500/20'}`}
+    />
+  )
+}
+
+// Floating score delta that appears when picking
+function ScoreDelta({ delta, key: k }) {
+  return (
+    <div
+      key={k}
+      className={`fixed top-1/3 left-1/2 -translate-x-1/2 z-50 font-black text-3xl pointer-events-none select-none
+        animate-[fadeUpOut_0.9s_ease-out_forwards]
+        ${delta > 0 ? 'text-green-400' : 'text-red-400'}`}
+      style={{ textShadow: '0 0 20px currentColor' }}
+    >
+      {delta > 0 ? `+${delta}` : delta}
+    </div>
+  )
 }
 
 export default function ElIntruso() {
@@ -31,99 +60,177 @@ export default function ElIntruso() {
   const en = lang === 'en'
   const ca = lang === 'ca'
 
-  // Check if launched as daily challenge
-  const dailyState = location.state?.modoDaily ? location.state : null
-  const dailyNivel = dailyState?.nivel ?? null
+  const dailyState  = location.state?.modoDaily ? location.state : null
+  const dailyNivel  = dailyState?.nivel ?? null
 
-  const [screen, setScreen] = useState(dailyNivel ? 'playing' : 'select')
-  const [nivel, setNivel] = useState(dailyNivel ?? 'facil')
-  const [questions, setQuestions] = useState([])
-  const [current, setCurrent] = useState(0)
-  const [score, setScore] = useState(0)
-  const [correctCount, setCorrectCount] = useState(0)
-  const [picked, setPicked] = useState(null)       // word the user tapped
-  const [showResult, setShowResult] = useState(false) // show per-question feedback
-  const [showCoins, setShowCoins] = useState(false)
-  const [saved, setSaved] = useState(false)
+  const [screen, setScreen]         = useState(dailyNivel ? 'playing' : 'select')
+  const [nivel, setNivel]           = useState(dailyNivel ?? 'facil')
+  const [questions, setQuestions]   = useState([])
+  const [current, setCurrent]       = useState(0)
+  const [score, setScore]           = useState(0)
+  const [correctCount, setCorrect]  = useState(0)
+  const [wrongCount, setWrong]      = useState(0)
+  const [streak, setStreak]         = useState(0)
+  const [timeLeft, setTimeLeft]     = useState(0)
+  const [picked, setPicked]         = useState(null)
+  const [flash, setFlash]           = useState(null)   // 'correct' | 'wrong' | null
+  const [delta, setDelta]           = useState(null)   // { v, id }
+  const [saved, setSaved]           = useState(false)
+  const [showCoins, setShowCoins]   = useState(false)
 
-  const t = useCallback((es, ca_text, en_text) => ca ? ca_text : en ? en_text : es, [ca, en])
+  // Refs so timeouts/intervals can read latest values without stale closures
+  const scoreRef   = useRef(0)
+  const correctRef = useRef(0)
+  const wrongRef   = useRef(0)
+  const timerRef   = useRef(null)
+  const pickedRef  = useRef(false)
+
+  const t = useCallback((es, ca_t, en_t) => ca ? ca_t : en ? en_t : es, [ca, en])
+
+  function clearTimer() {
+    if (timerRef.current) { clearInterval(timerRef.current); timerRef.current = null }
+  }
+
+  function startTimer(seconds, onExpire) {
+    clearTimer()
+    setTimeLeft(seconds)
+    const start = Date.now()
+    timerRef.current = setInterval(() => {
+      const elapsed = (Date.now() - start) / 1000
+      const left = Math.max(0, seconds - elapsed)
+      setTimeLeft(left)
+      if (left === 0) { clearTimer(); onExpire() }
+    }, 50)
+  }
+
+  function advanceOrEnd(qList, idx, niv) {
+    const cfg = getNivelCfg(niv)
+    if (idx + 1 >= qList.length) {
+      // Save and go to result
+      if (user && !saved) {
+        setSaved(true)
+        const finalScore   = scoreRef.current
+        const finalCorrect = correctRef.current
+        saveActivity({
+          game: 'intruso',
+          userName: user.displayName || 'Jugador',
+          userPhoto: user.photoURL || null,
+          score: finalScore,
+          meta: { nivel: niv, correct: finalCorrect, wrong: wrongRef.current, total: qList.length },
+        }).catch(() => {})
+        if (dailyNivel) {
+          saveDailyChallenge(user.uid, finalCorrect >= Math.ceil(qList.length / 2)).catch(() => {})
+        }
+      }
+      setShowCoins(scoreRef.current > 0)
+      setScreen('result')
+    } else {
+      const next = idx + 1
+      setCurrent(next)
+      setPicked(null)
+      pickedRef.current = false
+      startTimer(cfg.tiempo, () => handleExpire(qList, next, niv))
+    }
+  }
+
+  function handleExpire(qList, idx, niv) {
+    if (pickedRef.current) return
+    pickedRef.current = true
+    const q = qList[idx]
+    setPicked('__timeout__')
+    const newScore = Math.max(0, scoreRef.current - POINTS_WRONG)
+    scoreRef.current = newScore
+    setScore(newScore)
+    wrongRef.current += 1
+    setWrong(w => w + 1)
+    setStreak(0)
+    setFlash('wrong')
+    setDelta({ v: -POINTS_WRONG, id: Date.now() })
+    setTimeout(() => { setFlash(null); setDelta(null); advanceOrEnd(qList, idx, niv) }, 1000)
+  }
+
+  function handlePick(word, qList, idx, niv) {
+    if (pickedRef.current) return
+    pickedRef.current = true
+    clearTimer()
+    const q = qList[idx]
+    const correct = word === q.o
+    setPicked(word)
+    if (correct) {
+      const newScore = scoreRef.current + POINTS_CORRECT
+      scoreRef.current = newScore
+      setScore(newScore)
+      correctRef.current += 1
+      setCorrect(c => c + 1)
+      setStreak(s => s + 1)
+      setFlash('correct')
+      setDelta({ v: +POINTS_CORRECT, id: Date.now() })
+    } else {
+      const newScore = Math.max(0, scoreRef.current - POINTS_WRONG)
+      scoreRef.current = newScore
+      setScore(newScore)
+      wrongRef.current += 1
+      setWrong(w => w + 1)
+      setStreak(0)
+      setFlash('wrong')
+      setDelta({ v: -POINTS_WRONG, id: Date.now() })
+    }
+    setTimeout(() => { setFlash(null); setDelta(null); advanceOrEnd(qList, idx, niv) }, 1200)
+  }
 
   function startGame(nv) {
-    const niv = nv ?? nivel
+    const cfg = getNivelCfg(nv)
     const pool = dailyNivel
-      ? getQuestionsForPool(lang, niv, TOTAL_PER_GAME, dayOfYear())
-      : getQuestionsForPool(lang, niv, TOTAL_PER_GAME)
-    setNivel(niv)
+      ? getQuestionsForPool(lang, nv, cfg.preguntas, dayOfYear())
+      : getQuestionsForPool(lang, nv, cfg.preguntas)
+    // Reset refs
+    scoreRef.current   = 0
+    correctRef.current = 0
+    wrongRef.current   = 0
+    pickedRef.current  = false
+    // Reset state
+    setNivel(nv)
     setQuestions(pool)
     setCurrent(0)
     setScore(0)
-    setCorrectCount(0)
+    setCorrect(0)
+    setWrong(0)
+    setStreak(0)
     setPicked(null)
-    setShowResult(false)
+    setFlash(null)
+    setDelta(null)
     setSaved(false)
+    setShowCoins(false)
     setScreen('playing')
+    startTimer(cfg.tiempo, () => handleExpire(pool, 0, nv))
   }
 
-  // Auto-start if daily mode
   useEffect(() => {
     if (dailyNivel) startGame(dailyNivel)
+    return () => clearTimer()
   }, [])
 
-  async function handlePick(word) {
-    if (picked !== null) return
-    const q = questions[current]
-    const correct = word === q.o
-    const pts = correct ? PUNTOS[nivel] : 0
-    setPicked(word)
-    setShowResult(true)
-    if (correct) {
-      setScore(s => s + pts)
-      setCorrectCount(c => c + 1)
-    }
+  // Clean up timer on unmount
+  useEffect(() => () => clearTimer(), [])
 
-    setTimeout(() => {
-      if (current + 1 >= questions.length) {
-        // Done — save and show final screen
-        const finalScore = score + pts
-        const finalCorrect = correctCount + (correct ? 1 : 0)
-        if (user && !saved) {
-          setSaved(true)
-          saveActivity({
-            game: 'intruso',
-            userName: user.displayName || 'Jugador',
-            userPhoto: user.photoURL || null,
-            score: finalScore,
-            meta: { nivel, correct: finalCorrect, total: questions.length },
-          }).catch(() => {})
-          if (dailyNivel) {
-            saveDailyChallenge(user.uid, finalCorrect >= Math.ceil(questions.length / 2)).catch(() => {})
-          }
-        }
-        if (correct) setShowCoins(true)
-        setScreen('result')
-      } else {
-        setCurrent(i => i + 1)
-        setPicked(null)
-        setShowResult(false)
-      }
-    }, 1800)
-  }
+  const cfg = getNivelCfg(nivel)
+  const q   = questions[current]
+  const timeFraction = cfg.tiempo > 0 ? timeLeft / cfg.tiempo : 0
+  const timerColor = timeFraction > 0.5 ? '#22c55e' : timeFraction > 0.25 ? '#f59e0b' : '#ef4444'
 
-  const q = questions[current]
-
-  /* ── Level select ─────────────────────────────────────── */
+  /* ── Level select ───────────────────────────────────────── */
   if (screen === 'select') {
     return (
       <div className="relative z-10 flex items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
         <div className="max-w-sm w-full">
           <div className="text-center mb-8">
             <p className="text-5xl mb-3">🔍</p>
-            <h1 className="text-3xl font-black text-white mb-2">{t('El Intruso', 'L\'Intrús', 'Odd One Out')}</h1>
+            <h1 className="text-3xl font-black text-white mb-2">{t('El Intruso', "L'Intrús", 'Odd One Out')}</h1>
             <p className="text-white/50 text-sm">
-              {t('Cuatro palabras, una no encaja. ¿Cuál es el intruso?', 'Quatre paraules, una no hi encaixa. Quina és la intrusa?', 'Four words, one does not fit. Which is the odd one out?')}
+              {t('Cuatro palabras, una no encaja. ¡A contrarreloj!', "Quatre paraules, una no hi encaixa. A contrarellotge!", 'Four words, one does not fit. Beat the clock!')}
             </p>
           </div>
-          <div className="space-y-3">
+          <div className="space-y-3 mb-6">
             {NIVELES.map(nv => (
               <button
                 key={nv.id}
@@ -139,50 +246,72 @@ export default function ElIntruso() {
               </button>
             ))}
           </div>
-          <p className="text-center text-white/20 text-xs mt-6">
-            {t(`${TOTAL_PER_GAME} preguntas por partida`, `${TOTAL_PER_GAME} preguntes per partida`, `${TOTAL_PER_GAME} questions per game`)}
-          </p>
+          <div className="bg-white/5 border border-white/10 rounded-xl p-4 text-center space-y-1">
+            <p className="text-white/60 text-sm font-semibold">
+              {t('Reglas', 'Regles', 'Rules')}
+            </p>
+            <p className="text-white/40 text-xs">{t('✅ Acierto: +10 pts', '✅ Encert: +10 pts', '✅ Correct: +10 pts')}</p>
+            <p className="text-white/40 text-xs">{t('❌ Error o tiempo agotado: −15 pts', '❌ Error o temps esgotat: −15 pts', '❌ Wrong or time up: −15 pts')}</p>
+            <p className="text-white/40 text-xs">{t('15 preguntas por partida', '15 preguntes per partida', '15 questions per game')}</p>
+          </div>
         </div>
       </div>
     )
   }
 
-  /* ── Playing ──────────────────────────────────────────── */
+  /* ── Playing ────────────────────────────────────────────── */
   if (screen === 'playing' && q) {
-    const isCorrectPick = picked === q.o
+    const isTimeout = picked === '__timeout__'
+    const isCorrect = !isTimeout && picked !== null && picked === q.o
+    const isWrong   = !isTimeout && picked !== null && picked !== q.o
+
     return (
       <div className="relative z-10 flex items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-6">
+        {flash && <PickFlash correct={flash === 'correct'} />}
+        {delta && <ScoreDelta delta={delta.v} key={delta.id} />}
+
         <div className="max-w-sm w-full">
           {/* Header */}
-          <div className="flex items-center justify-between mb-6">
-            <button onClick={() => setScreen('select')} className="text-white/30 hover:text-white/60 text-sm transition-colors">
+          <div className="flex items-center justify-between mb-4">
+            <button onClick={() => { clearTimer(); setScreen('select') }} className="text-white/30 hover:text-white/60 text-sm transition-colors">
               ← {t('Salir', 'Sortir', 'Exit')}
             </button>
             <div className="flex items-center gap-3">
               <span className="text-white/40 text-sm">{current + 1}/{questions.length}</span>
-              <span className="text-amber-400 font-bold text-sm">💰 {score}</span>
+              {streak >= 2 && (
+                <span className="text-orange-400 font-bold text-sm">🔥 ×{streak}</span>
+              )}
+              <span className="text-amber-400 font-bold text-sm tabular-nums">💰 {score}</span>
             </div>
           </div>
 
-          {/* Progress bar */}
-          <div className="w-full bg-white/10 rounded-full h-1.5 mb-6">
+          {/* Timer bar */}
+          <div className="w-full bg-white/10 rounded-full h-2 mb-1 overflow-hidden">
             <div
-              className="h-1.5 rounded-full bg-violet-500 transition-all duration-300"
-              style={{ width: `${(current / questions.length) * 100}%` }}
+              className="h-2 rounded-full transition-none"
+              style={{ width: `${timeFraction * 100}%`, backgroundColor: timerColor }}
             />
           </div>
+          <div className="flex justify-between mb-5">
+            <span className="text-white/20 text-xs">{t('Tiempo', 'Temps', 'Time')}</span>
+            <span className="text-xs font-bold tabular-nums" style={{ color: timerColor }}>{Math.ceil(timeLeft)}s</span>
+          </div>
 
-          {/* Category label */}
+          {/* Question prompt */}
           <p className="text-center text-white/40 text-xs uppercase tracking-widest mb-4">
             {t('¿Cuál no encaja?', 'Quina no hi encaixa?', 'Which does not fit?')}
           </p>
 
-          {/* Category hint (shown after pick) */}
-          {showResult && (
-            <div className={`text-center text-sm font-bold py-2 px-4 rounded-xl mb-4 ${isCorrectPick ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'}`}>
-              {isCorrectPick
-                ? t('🎉 ¡Correcto!', '🎉 Correcte!', '🎉 Correct!')
-                : t(`❌ El intruso era: ${q.o}`, `❌ La intrusa era: ${q.o}`, `❌ The odd one was: ${q.o}`)
+          {/* Feedback bar */}
+          {picked !== null && (
+            <div className={`text-center text-sm font-bold py-2 px-4 rounded-xl mb-4 ${
+              (isCorrect) ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'
+            }`}>
+              {isTimeout
+                ? t(`⏱ Tiempo! Era: ${q.o}`, `⏱ Temps! Era: ${q.o}`, `⏱ Time! It was: ${q.o}`)
+                : isCorrect
+                  ? t('🎉 ¡Correcto!', '🎉 Correcte!', '🎉 Correct!')
+                  : t(`❌ Era: ${q.o}`, `❌ Era: ${q.o}`, `❌ It was: ${q.o}`)
               }
             </div>
           )}
@@ -190,22 +319,22 @@ export default function ElIntruso() {
           {/* Word buttons */}
           <div className="grid grid-cols-2 gap-3 mb-4">
             {q.w.map(word => {
-              let cls = 'bg-white/5 border-white/10 text-white hover:bg-violet-500/15 hover:border-violet-400/40'
+              let cls = 'bg-white/5 border-white/10 text-white hover:bg-violet-500/15 hover:border-violet-400/40 cursor-pointer'
               if (picked !== null) {
                 if (word === q.o) {
                   cls = 'bg-green-500/20 border-green-500 text-green-300'
                 } else if (word === picked && word !== q.o) {
                   cls = 'bg-red-500/20 border-red-500 text-red-300'
                 } else {
-                  cls = 'bg-white/3 border-white/5 text-white/30'
+                  cls = 'bg-white/3 border-white/5 text-white/25 cursor-default'
                 }
               }
               return (
                 <button
                   key={word}
-                  onClick={() => handlePick(word)}
+                  onClick={() => handlePick(word, questions, current, nivel)}
                   disabled={picked !== null}
-                  className={`border-2 rounded-2xl py-5 px-3 font-bold text-base transition-all active:scale-95 ${cls}`}
+                  className={`border-2 rounded-2xl py-5 px-3 font-bold text-base transition-all active:scale-95 disabled:cursor-default ${cls}`}
                 >
                   {word}
                 </button>
@@ -213,8 +342,8 @@ export default function ElIntruso() {
             })}
           </div>
 
-          {/* Explanation after pick */}
-          {showResult && (
+          {/* Explanation */}
+          {picked !== null && (
             <div className="bg-white/5 border border-white/10 rounded-xl p-3">
               <p className="text-white/50 text-xs leading-relaxed">
                 <span className="text-violet-400 font-semibold">{q.c} · </span>
@@ -227,27 +356,42 @@ export default function ElIntruso() {
     )
   }
 
-  /* ── Result ───────────────────────────────────────────── */
+  /* ── Result ─────────────────────────────────────────────── */
   if (screen === 'result') {
-    const pct = Math.round((correctCount / questions.length) * 100)
+    const total = questions.length
+    const pct = total > 0 ? Math.round((correctCount / total) * 100) : 0
     const emoji = pct === 100 ? '🏆' : pct >= 70 ? '⭐' : pct >= 40 ? '👍' : '💪'
-    const niveLabel = ca ? (NIVELES.find(n => n.id === nivel)?.labelCa) : en ? (NIVELES.find(n => n.id === nivel)?.labelEn) : (NIVELES.find(n => n.id === nivel)?.label)
+    const niveLabel = ca ? cfg.labelCa : en ? cfg.labelEn : cfg.label
+    const maxScore = total * POINTS_CORRECT
+
     return (
       <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
-        {showCoins && <CoinsAnimation onDone={() => setShowCoins(false)} />}
+        {showCoins && <CoinsAnimation points={score} />}
 
         <div className="max-w-sm w-full">
-          <div className="text-center mb-8">
+          <div className="text-center mb-6">
             <p className="text-6xl mb-3">{emoji}</p>
             <h2 className="text-2xl font-black text-white mb-1">{t('¡Partida terminada!', 'Partida acabada!', 'Game over!')}</h2>
             <p className="text-white/40 text-sm">{niveLabel} · El Intruso</p>
           </div>
 
           {/* Score card */}
-          <div className="bg-white/5 border border-white/10 rounded-2xl p-6 mb-4 text-center">
-            <p className="text-white/40 text-xs uppercase tracking-widest mb-2">{t('Puntuación', 'Puntuació', 'Score')}</p>
-            <p className="text-5xl font-black text-white mb-1">{score}</p>
-            <p className="text-white/40 text-sm">{correctCount}/{questions.length} {t('correctas', 'correctes', 'correct')} · {pct}%</p>
+          <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-4">
+            <div className="text-center mb-4">
+              <p className="text-white/40 text-xs uppercase tracking-widest mb-1">{t('Puntuación', 'Puntuació', 'Score')}</p>
+              <p className="text-5xl font-black text-white">{score}</p>
+              <p className="text-white/30 text-xs mt-1">{t('máximo posible', 'màxim possible', 'maximum possible')}: {maxScore}</p>
+            </div>
+            <div className="grid grid-cols-2 gap-3 text-center">
+              <div className="bg-green-500/10 border border-green-500/20 rounded-xl p-3">
+                <p className="text-green-400 font-black text-2xl">{correctCount}</p>
+                <p className="text-white/40 text-xs">{t('correctas', 'correctes', 'correct')}</p>
+              </div>
+              <div className="bg-red-500/10 border border-red-500/20 rounded-xl p-3">
+                <p className="text-red-400 font-black text-2xl">{wrongCount}</p>
+                <p className="text-white/40 text-xs">{t('falladas', 'fallades', 'wrong')}</p>
+              </div>
+            </div>
           </div>
 
           {/* Actions */}
@@ -259,7 +403,7 @@ export default function ElIntruso() {
               {t('Jugar de nuevo →', 'Tornar a jugar →', 'Play again →')}
             </button>
             <button
-              onClick={() => setScreen('select')}
+              onClick={() => { clearTimer(); setScreen('select') }}
               className="w-full bg-white/5 hover:bg-white/10 border border-white/10 text-white font-semibold py-3 rounded-xl transition-colors"
             >
               {t('Cambiar nivel', 'Canviar nivell', 'Change level')}
