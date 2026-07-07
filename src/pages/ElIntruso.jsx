@@ -14,7 +14,7 @@ const NIVELES = [
   { id: 'dificil', label: 'Difícil', labelEn: 'Hard',   labelCa: 'Difícil', emoji: '🔴', tiempo: 25, preguntas: 15 },
 ]
 
-const SECS_CORRECT = 10   // seconds added on correct answer
+const SECS_CORRECT = 5    // seconds added on correct answer
 const SECS_WRONG   = 15   // seconds removed on wrong answer
 
 const UI = {
@@ -27,7 +27,7 @@ const UI = {
     paso3: 'Lee la explicación y pulsa Siguiente', paso4: '¡El tiempo corre, pero para mientras lees!',
     salir: '← Salir', siguiente: 'Siguiente →', verResultados: 'Ver resultados →',
     cualNoEncaja: '¿Cuál no encaja?', tiempoRestante: 'Tiempo restante',
-    correcto: '🎉 ¡Correcto! +10s', incorrecto: (odd) => `❌ El intruso era: ${odd}  −15s`,
+    correcto: '🎉 ¡Correcto! +5s', incorrecto: (odd) => `❌ El intruso era: ${odd}  −15s`,
     puntuacion: 'Aciertos', respondidas: 'respondidas', maximo: 'máximo',
     correctas: 'correctas', falladas: 'falladas',
     jugando: '¡Partida terminada!', tiempoAgotado: '⏱ ¡Tiempo agotado!',
@@ -43,7 +43,7 @@ const UI = {
     paso3: 'Read the explanation and press Next', paso4: 'Timer runs, but pauses while you read!',
     salir: '← Exit', siguiente: 'Next →', verResultados: 'See results →',
     cualNoEncaja: 'Which does not fit?', tiempoRestante: 'Time left',
-    correcto: '🎉 Correct! +10s', incorrecto: (odd) => `❌ It was: ${odd}  −15s`,
+    correcto: '🎉 Correct! +5s', incorrecto: (odd) => `❌ It was: ${odd}  −15s`,
     puntuacion: 'Correct', respondidas: 'answered', maximo: 'max',
     correctas: 'correct', falladas: 'wrong',
     jugando: 'Game over!', tiempoAgotado: "⏱ Time's up!",
@@ -59,7 +59,7 @@ const UI = {
     paso3: 'Llegeix l\'explicació i prem Següent', paso4: 'El temps corre, però s\'atura mentre llegeixes!',
     salir: '← Sortir', siguiente: 'Següent →', verResultados: 'Veure resultats →',
     cualNoEncaja: 'Quina no hi encaixa?', tiempoRestante: 'Temps restant',
-    correcto: '🎉 Correcte! +10s', incorrecto: (odd) => `❌ La intrusa era: ${odd}  −15s`,
+    correcto: '🎉 Correcte! +5s', incorrecto: (odd) => `❌ La intrusa era: ${odd}  −15s`,
     puntuacion: 'Encerts', respondidas: 'respostes', maximo: 'màxim',
     correctas: 'correctes', falladas: 'fallades',
     jugando: 'Partida acabada!', tiempoAgotado: '⏱ Temps esgotat!',
