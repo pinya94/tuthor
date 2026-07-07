@@ -2,38 +2,80 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // ── Perfil de usuario ────────────────────────────────────────────────────
     function isAdmin() {
-      return request.auth != null && (
-        request.auth.token.email == 'pinya1994@gmail.com' ||
-        request.auth.token.email == 'consiguetualgogratis@gmail.com' ||
-        request.auth.token.email == 'consiguetualgogratis@tuthor.app'
-      );
+      return request.auth != null && request.auth.token.email in [
+        'pinya1994@gmail.com',
+        'consiguetualgogratis@gmail.com',
+        'consiguetualgogratis@tuthor.app',
+        'manel.willx@gmail.com'
+      ];
     }
 
+    function isOwner(uid) {
+      return request.auth != null && request.auth.uid == uid;
+    }
+
+    // ── Perfil de usuario ─────────────────────────────────────────────────────
     match /users/{uid} {
-      allow read:  if (request.auth != null && request.auth.uid == uid) || isAdmin();
-      allow write: if request.auth != null && request.auth.uid == uid;
+      allow read:  if isOwner(uid) || isAdmin();
+      allow write: if isOwner(uid);
 
       match /activity/{activityId} {
-        allow read:  if (request.auth != null && request.auth.uid == uid) || isAdmin();
-        allow write: if request.auth != null && request.auth.uid == uid;
+        allow read:  if isOwner(uid) || isAdmin();
+        allow write: if isOwner(uid);
       }
 
       match /stats/{statId} {
-        allow read:  if (request.auth != null && request.auth.uid == uid) || isAdmin();
-        allow write: if request.auth != null && request.auth.uid == uid;
+        allow read:  if isOwner(uid) || isAdmin();
+        allow write: if isOwner(uid);
       }
     }
 
-    // ── Stats globales (solo contadores, sin datos personales) ───────────────
-    match /_stats/{docId} {
+    // ── Contador global (solo admins leen, usuarios autenticados incrementan) ──
+    match /_stats/global {
       allow read:  if isAdmin();
       allow write: if request.auth != null;
     }
 
-    // ── Leaderboard de Tuthor Time ───────────────────────────────────────────
-    // Cualquiera autenticado puede leer. Solo escribir el propio registro.
+    // ── Leaderboards (lectura pública, escritura autenticada con validación) ───
+    match /_stats/{leaderboardId} {
+      allow read: if true;
+      allow write: if request.auth != null
+        && leaderboardId.matches('leaderboard_.*')
+        && request.resource.data.keys().hasAll(['top', 'updatedAt'])
+        && request.resource.data.top is list
+        && request.resource.data.top.size() <= 10;
+    }
+
+    // ── Formularios públicos (cualquiera crea, solo admins leen/modifican) ────
+    match /contactMessages/{docId} {
+      allow create: if request.resource.data.keys().hasAll(['message'])
+        && request.resource.data.message is string
+        && request.resource.data.message.size() <= 2000;
+      allow read, update, delete: if isAdmin();
+    }
+
+    match /colabMessages/{docId} {
+      allow create: if request.resource.data.keys().hasAll(['message'])
+        && request.resource.data.message is string
+        && request.resource.data.message.size() <= 2000;
+      allow read, update, delete: if isAdmin();
+    }
+
+    match /bugReports/{docId} {
+      allow create: if request.resource.data.keys().hasAll(['message'])
+        && request.resource.data.message is string
+        && request.resource.data.message.size() <= 2000;
+      allow read, update, delete: if isAdmin();
+    }
+
+    // ── Log de errores del cliente ────────────────────────────────────────────
+    match /errors/{docId} {
+      allow create: if true;
+      allow read, delete: if isAdmin();
+    }
+
+    // ── Leaderboard legacy ────────────────────────────────────────────────────
     match /leaderboard/{docId} {
       allow read: if true;
       allow create: if request.auth != null;
