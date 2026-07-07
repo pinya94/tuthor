@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { getLeaderboard } from '../lib/activity'
-import { BANNER_BY_ID, DEFAULT_AVATAR_EMOJI } from '../data/cosmetics'
+import { BANNER_BY_ID, FRAME_BY_ID, DEFAULT_AVATAR_EMOJI } from '../data/cosmetics'
 
 const MEDAL = ['🥇', '🥈', '🥉']
 
@@ -30,11 +30,15 @@ function LeaderboardRow({ entry, i, currentUid, youLabel }) {
       <span className="w-5 text-center shrink-0 text-base leading-none">
         {i < 3 ? MEDAL[i] : <span className="text-white/30 font-bold text-xs">{i + 1}</span>}
       </span>
-      {entry.photoURL
-        ? <img src={entry.photoURL} alt="" className="w-6 h-6 rounded-full object-cover shrink-0" />
-        : <div className="w-6 h-6 rounded-full bg-violet-600 shrink-0 flex items-center justify-center font-bold text-white" style={{ fontSize: 14 }}>
-            {entry.avatarEmoji ?? DEFAULT_AVATAR_EMOJI}
-          </div>}
+      {(() => {
+        const frameColor = entry.frameId ? (FRAME_BY_ID[entry.frameId]?.color ?? '#7c3aed') : null
+        const ring = frameColor ? { outline: `2px solid ${frameColor}`, outlineOffset: 1 } : {}
+        return entry.photoURL
+          ? <img src={entry.photoURL} alt="" className="w-6 h-6 rounded-full object-cover shrink-0" style={ring} />
+          : <div className="w-6 h-6 rounded-full bg-violet-600 shrink-0 flex items-center justify-center font-bold text-white" style={{ fontSize: 14, ...ring }}>
+              {entry.avatarEmoji ?? DEFAULT_AVATAR_EMOJI}
+            </div>
+      })()}
       <span className={`flex-1 truncate font-medium ${isMe ? 'text-violet-200' : 'text-white/70'}`}>
         {isMe ? `${entry.name} (${youLabel})` : entry.name}
       </span>
@@ -43,7 +47,7 @@ function LeaderboardRow({ entry, i, currentUid, youLabel }) {
   )
 }
 
-export default function MiniLeaderboard({ game, currentScore, currentUid, currentName, currentPhoto, currentBannerId, currentAvatarEmoji, lang }) {
+export default function MiniLeaderboard({ game, currentScore, currentUid, currentName, currentPhoto, currentBannerId, currentAvatarEmoji, currentFrameId, lang }) {
   const [top, setTop]       = useState([])
   const [loading, setLoading] = useState(true)
   const [showAll, setShowAll] = useState(false)
@@ -60,7 +64,7 @@ export default function MiniLeaderboard({ game, currentScore, currentUid, curren
   const displayTop = (() => {
     if (!currentUid || !currentScore || currentScore <= 0) return top
     const withoutMe = top.filter(e => e.uid !== currentUid)
-    const myEntry = { uid: currentUid, name: currentName || '?', photoURL: currentPhoto || null, score: currentScore, bannerId: currentBannerId || null, avatarEmoji: currentAvatarEmoji || null }
+    const myEntry = { uid: currentUid, name: currentName || '?', photoURL: currentPhoto || null, score: currentScore, bannerId: currentBannerId || null, avatarEmoji: currentAvatarEmoji || null, frameId: currentFrameId || null }
     return [...withoutMe, myEntry].sort((a, b) => b.score - a.score).slice(0, 10)
   })()
 

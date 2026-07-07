@@ -7,12 +7,16 @@ export default function GameResultFooter({ game, score, user, lang }) {
   const [showAuth, setShowAuth] = useState(false)
   const [equippedBanner, setEquippedBanner] = useState(null)
   const [equippedAvatar, setEquippedAvatar]  = useState(null)
+  const [equippedFrame, setEquippedFrame]   = useState('default')
+  const [hidePhoto, setHidePhoto]           = useState(false)
 
   useEffect(() => {
     if (!user?.uid) return
     getStatsAndCosmetics(user.uid).then(c => {
       setEquippedBanner(c.equippedBanner ?? null)
       setEquippedAvatar(c.equippedAvatar ?? null)
+      setEquippedFrame(c.equippedFrame ?? 'default')
+      setHidePhoto(c.hidePhoto ?? false)
     }).catch(() => {})
   }, [user?.uid])
 
@@ -44,9 +48,10 @@ export default function GameResultFooter({ game, score, user, lang }) {
         currentScore={score}
         currentUid={user?.uid}
         currentName={user?.displayName}
-        currentPhoto={user?.photoURL}
+        currentPhoto={hidePhoto ? null : user?.photoURL}
         currentBannerId={equippedBanner}
         currentAvatarEmoji={equippedAvatar}
+        currentFrameId={equippedFrame}
         lang={lang}
       />
 

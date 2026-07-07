@@ -6,13 +6,16 @@ import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
 import { getStats, formatTime } from '../lib/activity'
 import AuthModal from '../components/AuthModal'
-import { FRAMES } from '../data/cosmetics'
+import { FRAMES, BANNERS, AVATARS } from '../data/cosmetics'
 
-const PREVIEW_FRAMES = ['silver', 'gold', 'rainbow', 'galaxy', 'fire', 'neon']
+const PREVIEW_FRAMES  = ['silver', 'gold', 'rainbow', 'galaxy', 'fire', 'neon']
+const PREVIEW_BANNERS = ['banner_crimson', 'banner_ocean', 'banner_amber', 'banner_galaxy']
+const PREVIEW_AVATARS = ['🐱', '🦊', '🐲', '🤖', '👽', '⭐']
 
 function RewardsSection({ lang, navigate, user, onLogin }) {
   const en = lang === 'en', ca = lang === 'ca'
-  const previewFrames = FRAMES.filter(f => PREVIEW_FRAMES.includes(f.id))
+  const previewFrames  = FRAMES.filter(f => PREVIEW_FRAMES.includes(f.id))
+  const previewBanners = BANNERS.filter(b => PREVIEW_BANNERS.includes(b.id))
 
   return (
     <section className="mb-10">
@@ -25,12 +28,12 @@ function RewardsSection({ lang, navigate, user, onLogin }) {
               {ca ? 'Recompenses' : en ? 'Rewards' : 'Recompensas'}
             </p>
             <h2 className="text-2xl sm:text-3xl font-black text-white mb-2">
-              {ca ? 'Juga, guanya monedes, personalitza el teu perfil' : en ? 'Play, earn coins, customise your profile' : 'Juega, gana monedas, personaliza tu perfil'}
+              {ca ? 'Juga, guanya monedes i personalitza el teu perfil' : en ? 'Play, earn coins and customise your profile' : 'Juega, gana monedas y personaliza tu perfil'}
             </h2>
             <p className="text-white/50 text-sm max-w-lg">
-              {ca ? 'Cada examen i repte diari et dona monedes. Acumula\'n i gasta\'les a la botiga per aconseguir marcs exclusius per al teu avatar.'
-                : en ? 'Every exam and daily challenge earns you coins. Collect them and spend them in the shop for exclusive avatar frames.'
-                : 'Cada examen y reto diario te da monedas. Acumúlalas y gástalas en la tienda para conseguir marcos exclusivos para tu avatar.'}
+              {ca ? "Cada examen i repte diari et dona monedes. Gasta-les en marcs, banners i avatars exclusius a la botiga."
+                : en ? 'Every exam and daily challenge earns you coins. Spend them on exclusive frames, banners and avatars in the shop.'
+                : 'Cada examen y reto diario te da monedas. Gástalas en marcos, banners y avatares exclusivos en la tienda.'}
             </p>
           </div>
         </div>
@@ -39,9 +42,9 @@ function RewardsSection({ lang, navigate, user, onLogin }) {
           {/* Cómo se ganan */}
           <div className="grid grid-cols-3 gap-3 mb-6">
             {[
-              { emoji: '📝', label: ca ? 'Examen aprovat' : en ? 'Passed exam' : 'Examen aprobado', coins: '+100 – +1.000' },
+              { emoji: '🎮', label: ca ? 'Juga partides' : en ? 'Play games' : 'Juega partidas', coins: '+200' },
               { emoji: '⚡', label: ca ? 'Repte diari' : en ? 'Daily challenge' : 'Reto diario', coins: '+1.000' },
-              { emoji: '🔥', label: ca ? 'Racha activa' : en ? 'Active streak' : 'Racha activa', coins: 'Bonus!' },
+              { emoji: '📝', label: ca ? 'Aprova exàmens' : en ? 'Pass exams' : 'Aprueba exámenes', coins: '+1.000' },
             ].map(item => (
               <div key={item.label} className="bg-gray-50 border border-gray-100 rounded-xl p-3 text-center">
                 <span className="text-2xl block mb-1">{item.emoji}</span>
@@ -53,28 +56,57 @@ function RewardsSection({ lang, navigate, user, onLogin }) {
 
           {/* Preview marcos */}
           <p className="text-gray-500 text-xs font-bold uppercase tracking-widest mb-3">
-            {ca ? 'Marcs disponibles a la botiga' : en ? 'Frames available in the shop' : 'Marcos disponibles en la tienda'}
+            {ca ? 'Marcs per al teu avatar' : en ? 'Avatar frames' : 'Marcos para tu avatar'}
           </p>
-          <div className="flex gap-3 mb-6 flex-wrap">
+          <div className="flex gap-3 mb-5 flex-wrap">
             {previewFrames.map(frame => (
               <div key={frame.id} className="flex flex-col items-center gap-1">
                 <div
                   className={frame.animated ? 'frame-animated' : ''}
-                  style={{ ...frame.style, padding: 3, borderRadius: '50%', width: 52, height: 52 }}
+                  style={{ ...frame.style, padding: 3, borderRadius: '50%', width: 48, height: 48 }}
                 >
-                  <div style={{ width: 46, height: 46, borderRadius: '50%', background: '#1e1b4b', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22 }}>
+                  <div style={{ width: 42, height: 42, borderRadius: '50%', background: '#1e1b4b', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20 }}>
                     {frame.emoji}
                   </div>
                 </div>
-                <p className="text-gray-400 text-[10px] text-center font-medium">
-                  {`💰 ${frame.price.toLocaleString()}`}
-                </p>
+                <p className="text-gray-400 text-[10px] text-center font-medium">💰 {frame.price.toLocaleString()}</p>
               </div>
             ))}
             <div className="flex flex-col items-center gap-1 justify-center">
-              <div style={{ width: 52, height: 52, borderRadius: '50%', background: '#f3f4f6', border: '2px dashed #d1d5db', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, color: '#9ca3af' }}>+</div>
+              <div style={{ width: 48, height: 48, borderRadius: '50%', background: '#f3f4f6', border: '2px dashed #d1d5db', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, color: '#9ca3af' }}>+</div>
               <p className="text-gray-400 text-[10px]">{ca ? 'i més' : en ? '& more' : 'y más'}</p>
             </div>
+          </div>
+
+          {/* Preview avatares */}
+          <p className="text-gray-500 text-xs font-bold uppercase tracking-widest mb-3">
+            {ca ? 'Avatars emoji' : en ? 'Emoji avatars' : 'Avatares emoji'}
+          </p>
+          <div className="flex gap-2 mb-5 flex-wrap">
+            {PREVIEW_AVATARS.map(emoji => (
+              <div key={emoji} style={{ width: 40, height: 40, borderRadius: '50%', background: '#7c3aed', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, border: '2px solid #5b21b6' }}>
+                {emoji}
+              </div>
+            ))}
+            <div style={{ width: 40, height: 40, borderRadius: '50%', background: '#f3f4f6', border: '2px dashed #d1d5db', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, color: '#9ca3af' }}>+</div>
+          </div>
+
+          {/* Preview banners */}
+          <p className="text-gray-500 text-xs font-bold uppercase tracking-widest mb-3">
+            {ca ? 'Banners per al rànquing' : en ? 'Ranking banners' : 'Banners para el ranking'}
+          </p>
+          <div className="space-y-1.5 mb-6">
+            {previewBanners.map(banner => (
+              <div
+                key={banner.id}
+                className="flex items-center gap-2 px-3 py-2 rounded-xl text-sm"
+                style={{ background: banner.bg, borderLeft: `3px solid ${banner.border}` }}
+              >
+                <div style={{ width: 22, height: 22, borderRadius: '50%', background: '#7c3aed', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12 }}>🦉</div>
+                <span className="text-white/80 font-medium text-xs">{banner.name.es}</span>
+                <span className="ml-auto text-white/50 font-black text-xs tabular-nums">💰 {banner.price.toLocaleString()}</span>
+              </div>
+            ))}
           </div>
 
           {/* CTA */}

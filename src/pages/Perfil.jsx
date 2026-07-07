@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
-import { getStats, getStatsAndCosmetics, formatTime } from '../lib/activity'
+import { getStats, getStatsAndCosmetics, setHidePhoto, formatTime } from '../lib/activity'
 import { useNavigate } from 'react-router-dom'
 import AvatarFrame from '../components/AvatarFrame'
 import { FRAME_BY_ID, BANNER_BY_ID, DEFAULT_AVATAR_EMOJI } from '../data/cosmetics'
@@ -66,6 +66,7 @@ export default function Perfil() {
   const [equippedFrame, setEquippedFrame] = useState('default')
   const [equippedBanner, setEquippedBanner] = useState('banner_default')
   const [equippedAvatar, setEquippedAvatar] = useState(null)
+  const [hidePhoto, setHidePhotoState] = useState(false)
 
   useEffect(() => {
     if (!user) { navigate(localPath('/')); return }
@@ -74,9 +75,16 @@ export default function Perfil() {
       setEquippedFrame(cosmetics.equippedFrame)
       setEquippedBanner(cosmetics.equippedBanner)
       setEquippedAvatar(cosmetics.equippedAvatar)
+      setHidePhotoState(cosmetics.hidePhoto ?? false)
       setLoading(false)
     })
   }, [user])
+
+  async function toggleHidePhoto() {
+    const next = !hidePhoto
+    setHidePhotoState(next)
+    await setHidePhoto(user.uid, next)
+  }
 
   if (!user) return null
 
@@ -118,7 +126,7 @@ export default function Perfil() {
                 animation: banner?.animated ? 'frameRotate 3s ease infinite' : undefined,
               }}
             >
-              <AvatarFrame user={user} frameId={equippedFrame} avatarEmoji={equippedAvatar} size="lg" />
+              <AvatarFrame user={user} frameId={equippedFrame} avatarEmoji={equippedAvatar} size="lg" hidePhoto={hidePhoto} />
               <div>
                 <h1 className="text-2xl font-black text-white">{user.displayName}</h1>
                 <p className="text-white/40 text-sm">{user.email}</p>
@@ -175,6 +183,21 @@ export default function Perfil() {
                 {ca ? 'Obrir botiga' : en ? 'Open shop' : 'Abrir tienda'}
               </button>
             </div>
+
+            {/* Toggle foto de perfil */}
+            {user.photoURL && (
+              <button
+                onClick={toggleHidePhoto}
+                className="w-full mb-4 flex items-center justify-between bg-white/5 border border-white/10 rounded-2xl px-4 py-3 hover:bg-white/8 transition-colors"
+              >
+                <span className="text-white/60 text-sm">
+                  {ca ? 'Usar emoji en lloc de foto' : en ? 'Use emoji instead of photo' : 'Usar emoji en lugar de foto'}
+                </span>
+                <span className={`w-10 h-6 rounded-full transition-colors flex items-center px-1 ${hidePhoto ? 'bg-violet-600' : 'bg-white/20'}`}>
+                  <span className={`w-4 h-4 rounded-full bg-white transition-transform ${hidePhoto ? 'translate-x-4' : 'translate-x-0'}`} />
+                </span>
+              </button>
+            )}
 
             {/* Stats resumen */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">

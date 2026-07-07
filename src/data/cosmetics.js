@@ -8,13 +8,15 @@ export const FRAMES = [
     name: { es: 'Violeta', en: 'Violet', ca: 'Violeta' },
     emoji: '💜',
     price: 0,
-    style: { background: 'rgba(139,92,246,0.5)' },
+    color: '#7c3aed',
+    style: { background: '#7c3aed' },
   },
   {
     id: 'silver',
     name: { es: 'Plata', en: 'Silver', ca: 'Plata' },
     emoji: '🥈',
     price: 1000,
+    color: '#94a3b8',
     style: { background: 'linear-gradient(135deg, #94a3b8, #cbd5e1, #64748b)' },
   },
   {
@@ -22,6 +24,7 @@ export const FRAMES = [
     name: { es: 'Rojo', en: 'Red', ca: 'Vermell' },
     emoji: '❤️',
     price: 7500,
+    color: '#ef4444',
     style: { background: 'linear-gradient(135deg, #ef4444, #b91c1c)' },
   },
   {
@@ -29,6 +32,7 @@ export const FRAMES = [
     name: { es: 'Azul', en: 'Blue', ca: 'Blau' },
     emoji: '💙',
     price: 7500,
+    color: '#3b82f6',
     style: { background: 'linear-gradient(135deg, #3b82f6, #1d4ed8)' },
   },
   {
@@ -36,6 +40,7 @@ export const FRAMES = [
     name: { es: 'Verde', en: 'Green', ca: 'Verd' },
     emoji: '💚',
     price: 7500,
+    color: '#22c55e',
     style: { background: 'linear-gradient(135deg, #22c55e, #15803d)' },
   },
   {
@@ -43,6 +48,7 @@ export const FRAMES = [
     name: { es: 'Dorado', en: 'Gold', ca: 'Daurat' },
     emoji: '💛',
     price: 7500,
+    color: '#f59e0b',
     style: { background: 'linear-gradient(135deg, #f59e0b, #d97706, #fbbf24)' },
   },
   {
@@ -50,6 +56,7 @@ export const FRAMES = [
     name: { es: 'Rosa', en: 'Pink', ca: 'Rosa' },
     emoji: '🩷',
     price: 7500,
+    color: '#ec4899',
     style: { background: 'linear-gradient(135deg, #ec4899, #be185d)' },
   },
   {
@@ -57,6 +64,7 @@ export const FRAMES = [
     name: { es: 'Cian', en: 'Cyan', ca: 'Cian' },
     emoji: '🩵',
     price: 7500,
+    color: '#06b6d4',
     style: { background: 'linear-gradient(135deg, #06b6d4, #0e7490)' },
   },
   {
@@ -64,6 +72,7 @@ export const FRAMES = [
     name: { es: 'Naranja', en: 'Orange', ca: 'Taronja' },
     emoji: '🧡',
     price: 7500,
+    color: '#f97316',
     style: { background: 'linear-gradient(135deg, #f97316, #c2410c)' },
   },
   {
@@ -72,6 +81,7 @@ export const FRAMES = [
     emoji: '🌈',
     price: 35000,
     animated: true,
+    color: '#a855f7',
     style: { background: 'linear-gradient(270deg, #ff0000, #ff8800, #ffff00, #00ff00, #00ffff, #0000ff, #cc00ff, #ff0000)' },
   },
   {
@@ -80,6 +90,7 @@ export const FRAMES = [
     emoji: '🔥',
     price: 35000,
     animated: true,
+    color: '#f97316',
     style: { background: 'linear-gradient(270deg, #ff0000, #ff4400, #ff8800, #ffcc00, #ff4400, #ff0000)' },
   },
   {
@@ -88,6 +99,7 @@ export const FRAMES = [
     emoji: '🌌',
     price: 35000,
     animated: true,
+    color: '#a78bfa',
     style: { background: 'linear-gradient(270deg, #0f0c29, #7c3aed, #a78bfa, #ec4899, #7c3aed, #302b63)' },
   },
   {
@@ -96,6 +108,7 @@ export const FRAMES = [
     emoji: '⚡',
     price: 35000,
     animated: true,
+    color: '#00ff41',
     style: { background: 'linear-gradient(270deg, #00ff41, #00ffff, #ff00ff, #00ffff, #00ff41)' },
   },
 ]

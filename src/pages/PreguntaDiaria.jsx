@@ -322,6 +322,9 @@ export default function PreguntaDiaria() {
                       {ca ? 'Inicia sessió per guardar la ratxa 🔥' : en ? 'Sign in to save your streak 🔥' : 'Inicia sesión para guardar tu racha 🔥'}
                     </button>
                   )}
+                  <button onClick={() => navigate(localPath('/juegos/portadas'))} className="mt-3 w-full bg-violet-600 hover:bg-violet-500 text-white font-bold py-2.5 rounded-xl text-sm transition-colors">
+                    {ca ? 'Seguir jugant →' : en ? 'Keep playing →' : 'Seguir jugando →'}
+                  </button>
                 </>
               )}
             </div>
@@ -347,9 +350,14 @@ export default function PreguntaDiaria() {
                   {ca ? 'Jugar NumPath →' : en ? 'Play NumPath →' : 'Jugar NumPath →'}
                 </button>
               ) : (
-                <div className="bg-green-500/20 text-green-400 font-bold py-3 rounded-xl">
-                  {ca ? '✓ Completat' : en ? '✓ Completed' : '✓ Completado'}
-                </div>
+                <>
+                  <div className="bg-green-500/20 text-green-400 font-bold py-3 rounded-xl mb-3">
+                    {ca ? '✓ Completat' : en ? '✓ Completed' : '✓ Completado'}
+                  </div>
+                  <button onClick={() => navigate(localPath('/juegos/numpath'))} className="w-full bg-violet-600 hover:bg-violet-500 text-white font-bold py-2.5 rounded-xl text-sm transition-colors">
+                    {ca ? 'Seguir jugant →' : en ? 'Keep playing →' : 'Seguir jugando →'}
+                  </button>
+                </>
               )}
             </div>
             <div className="px-6 sm:px-8 pb-6">
@@ -389,9 +397,14 @@ export default function PreguntaDiaria() {
                   <p className="text-center text-white/20 text-xs mt-2">{ca ? 'Intent' : en ? 'Attempt' : 'Intento'} {geoPistaIdx + 1}/3</p>
                 </>
               ) : (
-                <div className={`text-center py-3 rounded-xl font-bold ${geoFeedback?.ok ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'}`}>
-                  {geoFeedback?.msg}
-                </div>
+                <>
+                  <div className={`text-center py-3 rounded-xl font-bold mb-3 ${geoFeedback?.ok ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'}`}>
+                    {geoFeedback?.msg}
+                  </div>
+                  <button onClick={() => navigate(localPath('/juegos/geomapa'))} className="w-full bg-violet-600 hover:bg-violet-500 text-white font-bold py-2.5 rounded-xl text-sm transition-colors">
+                    {ca ? 'Seguir jugant →' : en ? 'Keep playing →' : 'Seguir jugando →'}
+                  </button>
+                </>
               )}
             </div>
             <div className="px-6 sm:px-8 pb-6">
@@ -448,6 +461,9 @@ export default function PreguntaDiaria() {
                       {ca ? 'Inicia sessió per guardar la ratxa 🔥' : en ? 'Sign in to save your streak 🔥' : 'Inicia sesión para guardar tu racha 🔥'}
                     </button>
                   )}
+                  <button onClick={() => navigate(localPath('/juegos/georush'))} className="mt-3 w-full bg-violet-600 hover:bg-violet-500 text-white font-bold py-2.5 rounded-xl text-sm transition-colors">
+                    {ca ? 'Seguir jugant →' : en ? 'Keep playing →' : 'Seguir jugando →'}
+                  </button>
                 </>
               )}
             </div>
@@ -478,6 +494,11 @@ export default function PreguntaDiaria() {
               {answered && !user && (
                 <button onClick={() => setShowAuth(true)} className="w-full bg-amber-500/20 border border-amber-500/30 text-amber-400 font-semibold py-2.5 rounded-xl text-sm hover:bg-amber-500/30 transition-colors">
                   {ca ? 'Inicia sessió per guardar la ratxa 🔥' : en ? 'Sign in to save your streak 🔥' : 'Inicia sesión para guardar tu racha 🔥'}
+                </button>
+              )}
+              {answered && (
+                <button onClick={() => navigate(localPath('/juegos/acercate'))} className="mt-3 w-full bg-violet-600 hover:bg-violet-500 text-white font-bold py-2.5 rounded-xl text-sm transition-colors">
+                  {ca ? 'Seguir jugant →' : en ? 'Keep playing →' : 'Seguir jugando →'}
                 </button>
               )}
               <p className="text-center text-white/20 text-xs mt-4">{ca ? 'Nou repte demà · Torna cada dia' : en ? 'New challenge tomorrow · Come back every day' : 'Nuevo reto mañana · Vuelve cada día'}</p>
@@ -543,6 +564,9 @@ export default function PreguntaDiaria() {
                       {ca ? 'Inicia sessió per guardar la ratxa 🔥' : en ? 'Sign in to save your streak 🔥' : 'Inicia sesión para guardar tu racha 🔥'}
                     </button>
                   )}
+                  <button onClick={() => navigate(localPath('/juegos'))} className="mt-3 w-full bg-violet-600 hover:bg-violet-500 text-white font-bold py-2.5 rounded-xl text-sm transition-colors">
+                    {ca ? 'Seguir jugant →' : en ? 'Keep playing →' : 'Seguir jugando →'}
+                  </button>
                 </>
               )}
               <p className="text-center text-white/20 text-xs mt-4">{ca ? 'Nova pregunta demà · Torna cada dia' : en ? 'New question tomorrow · Come back every day' : 'Nueva pregunta mañana · Vuelve cada día'}</p>
