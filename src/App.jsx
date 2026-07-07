@@ -67,6 +67,7 @@ const SistemaSolarExamen     = lazy(() => import('./pages/SistemaSolarExamen'))
 const LaCelulaExamen         = lazy(() => import('./pages/LaCelulaExamen'))
 const GeometriaExamen        = lazy(() => import('./pages/GeometriaExamen'))
 const GeometriaTema          = lazy(() => import('./pages/GeometriaTema'))
+const ElIntruso              = lazy(() => import('./pages/ElIntruso'))
 const FuncionesExamen        = lazy(() => import('./pages/FuncionesExamen'))
 const CuerpoHumanoExamen     = lazy(() => import('./pages/CuerpoHumanoExamen'))
 const SeresVivosExamen       = lazy(() => import('./pages/SeresVivosExamen'))
@@ -201,6 +202,7 @@ function AppRoutes() {
       <Route path="juegos/numpath" element={<NumPath />} />
       <Route path="juegos/trayectoria" element={<Trayectoria />} />
       <Route path="juegos/portero" element={<Portero />} />
+      <Route path="juegos/intruso" element={<ElIntruso />} />
       <Route path="examen/portero" element={<PorteroExamen />} />
       <Route path="examen/trayectoria" element={<TrayectoriaExamen />} />
 
