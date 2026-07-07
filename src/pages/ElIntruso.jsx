@@ -14,8 +14,8 @@ const NIVELES = [
   { id: 'dificil', label: 'Difícil', labelEn: 'Hard',   labelCa: 'Difícil', emoji: '🔴', tiempo: 25, preguntas: 15 },
 ]
 
-const POINTS_CORRECT = 10
-const POINTS_WRONG   = 15
+const SECS_CORRECT = 10   // seconds added on correct answer
+const SECS_WRONG   = 15   // seconds removed on wrong answer
 
 const UI = {
   es: {
@@ -27,8 +27,8 @@ const UI = {
     paso3: 'Lee la explicación y pulsa Siguiente', paso4: '¡El tiempo corre, pero para mientras lees!',
     salir: '← Salir', siguiente: 'Siguiente →', verResultados: 'Ver resultados →',
     cualNoEncaja: '¿Cuál no encaja?', tiempoRestante: 'Tiempo restante',
-    correcto: '🎉 ¡Correcto! +10', incorrecto: (odd) => `❌ El intruso era: ${odd}  −15`,
-    puntuacion: 'Puntuación', respondidas: 'respondidas', maximo: 'máximo',
+    correcto: '🎉 ¡Correcto! +10s', incorrecto: (odd) => `❌ El intruso era: ${odd}  −15s`,
+    puntuacion: 'Aciertos', respondidas: 'respondidas', maximo: 'máximo',
     correctas: 'correctas', falladas: 'falladas',
     jugando: '¡Partida terminada!', tiempoAgotado: '⏱ ¡Tiempo agotado!',
     jugarDeNuevo: 'Jugar de nuevo →', cambiarNivel: 'Cambiar nivel', todosJuegos: '← Todos los juegos',
@@ -43,8 +43,8 @@ const UI = {
     paso3: 'Read the explanation and press Next', paso4: 'Timer runs, but pauses while you read!',
     salir: '← Exit', siguiente: 'Next →', verResultados: 'See results →',
     cualNoEncaja: 'Which does not fit?', tiempoRestante: 'Time left',
-    correcto: '🎉 Correct! +10', incorrecto: (odd) => `❌ It was: ${odd}  −15`,
-    puntuacion: 'Score', respondidas: 'answered', maximo: 'max',
+    correcto: '🎉 Correct! +10s', incorrecto: (odd) => `❌ It was: ${odd}  −15s`,
+    puntuacion: 'Correct', respondidas: 'answered', maximo: 'max',
     correctas: 'correct', falladas: 'wrong',
     jugando: 'Game over!', tiempoAgotado: "⏱ Time's up!",
     jugarDeNuevo: 'Play again →', cambiarNivel: 'Change level', todosJuegos: '← All games',
@@ -59,8 +59,8 @@ const UI = {
     paso3: 'Llegeix l\'explicació i prem Següent', paso4: 'El temps corre, però s\'atura mentre llegeixes!',
     salir: '← Sortir', siguiente: 'Següent →', verResultados: 'Veure resultats →',
     cualNoEncaja: 'Quina no hi encaixa?', tiempoRestante: 'Temps restant',
-    correcto: '🎉 Correcte! +10', incorrecto: (odd) => `❌ La intrusa era: ${odd}  −15`,
-    puntuacion: 'Puntuació', respondidas: 'respostes', maximo: 'màxim',
+    correcto: '🎉 Correcte! +10s', incorrecto: (odd) => `❌ La intrusa era: ${odd}  −15s`,
+    puntuacion: 'Encerts', respondidas: 'respostes', maximo: 'màxim',
     correctas: 'correctes', falladas: 'fallades',
     jugando: 'Partida acabada!', tiempoAgotado: '⏱ Temps esgotat!',
     jugarDeNuevo: 'Tornar a jugar →', cambiarNivel: 'Canviar nivell', todosJuegos: '← Tots els jocs',
@@ -197,18 +197,24 @@ export default function ElIntruso() {
     const correct = word === q.o
     setPicked(word)
     pauseTimer()  // pause while showing explanation
+    const maxTime = getNivelCfg(nivel).tiempo
     if (correct) {
-      const ns = scoreRef.current + POINTS_CORRECT
-      scoreRef.current = ns
-      setScore(ns)
+      timeLeftRef.current = Math.min(maxTime, timeLeftRef.current + SECS_CORRECT)
       correctRef.current += 1
       setCorrect(c => c + 1)
     } else {
-      const ns = Math.max(0, scoreRef.current - POINTS_WRONG)
-      scoreRef.current = ns
-      setScore(ns)
+      timeLeftRef.current = Math.max(0, timeLeftRef.current - SECS_WRONG)
       wrongRef.current += 1
       setWrong(w => w + 1)
+    }
+    // score = correct answers for leaderboard
+    scoreRef.current = correctRef.current * 10
+    setScore(scoreRef.current)
+    setTimeLeft(timeLeftRef.current)
+    // if wrong drained the clock entirely, end game
+    if (timeLeftRef.current === 0) {
+      setTimedOut(true)
+      finishGame(scoreRef.current, correctRef.current, wrongRef.current, questions)
     }
   }
 
@@ -271,8 +277,8 @@ export default function ElIntruso() {
               {[
                 ['⏱️', u.tiempoTotal, `${selCfg.tiempo}s`],
                 ['📝', en ? 'Questions' : ca ? 'Preguntes' : 'Preguntas', `${selCfg.preguntas}`],
-                ['✅', u.alAcertar, `+${POINTS_CORRECT} pts`],
-                ['❌', u.alFallar, `−${POINTS_WRONG} pts`],
+                ['✅', u.alAcertar, `+${SECS_CORRECT}s`],
+                ['❌', u.alFallar, `−${SECS_WRONG}s`],
               ].map(([e, k, v]) => (
                 <div key={k} className="flex items-start justify-between gap-2">
                   <span className="text-white/40 shrink-0">{e} {k}</span>
@@ -397,7 +403,7 @@ export default function ElIntruso() {
     const pct       = answered > 0 ? Math.round((correctCount / answered) * 100) : 0
     const emoji     = pct === 100 ? '🏆' : pct >= 70 ? '⭐' : pct >= 40 ? '👍' : '💪'
     const niveLabel = dl(cfg)
-    const maxScore  = answered * POINTS_CORRECT
+    const maxScore  = answered * SECS_CORRECT
 
     return (
       <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
@@ -416,7 +422,7 @@ export default function ElIntruso() {
             <div className="text-center mb-4">
               <p className="text-white/40 text-xs uppercase tracking-widest mb-1">{u.puntuacion}</p>
               <p className="text-5xl font-black text-white">{score}</p>
-              <p className="text-white/30 text-xs mt-1">{answered}/{total} {u.respondidas} · {u.maximo} {maxScore}</p>
+              <p className="text-white/30 text-xs mt-1">{answered}/{total} {u.respondidas}</p>
             </div>
             <div className="grid grid-cols-2 gap-3 text-center">
               <div className="bg-green-500/10 border border-green-500/20 rounded-xl p-3">
