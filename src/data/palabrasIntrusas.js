@@ -1,6 +1,7 @@
 // El Intruso — word pools for ES / CA / EN at 3 difficulty levels
 // Focus: grammar categories (noun/verb/adj/adv, singular/plural, gender, accents...)
 // Each question: { w: [word1,word2,word3,word4], o: 'odd_word', c: 'Category', e: 'Explanation' }
+// Phrases use full sentences — the UI auto-detects and switches to single-column layout
 
 export const PREGUNTAS = {
 
@@ -101,6 +102,34 @@ export const PREGUNTAS = {
       { w:['hiperonimia','hiponimia','polisemia','antonimia'], o:'antonimia', c:'Relaciones semánticas de inclusión', e:'"Antonimia" es oposición; hiperonimia, hiponimia y polisemia implican inclusión o multiplicidad de significados' },
       { w:['catarsis','éxtasis','anagnórisis','écfrasis'], o:'écfrasis',  c:'Conceptos de teoría dramática', e:'"Écfrasis" es descripción de una obra de arte; catarsis, éxtasis y anagnórisis son conceptos dramáticos' },
       { w:['epicentro','epidermis','epílogo','prólogo'], o:'prólogo',     c:'Palabras con prefijo epi-', e:'"Prólogo" lleva el prefijo pro-; epicentro, epidermis y epílogo llevan el prefijo epi-' },
+      // ── Tiempos verbales (frases) ──
+      { w:['Ella canta todos los días','Nosotros vivimos aquí','Tú hablas muy bien','Ella cantó ayer'],
+        o:'Ella cantó ayer', c:'Presente de indicativo', e:'"Ella cantó ayer" está en pretérito indefinido; las otras tres oraciones usan el presente de indicativo' },
+      { w:['Yo comí mucho','Tú bebiste agua','Él durmió tarde','Nosotros comemos ahora'],
+        o:'Nosotros comemos ahora', c:'Pretérito indefinido', e:'"Comemos" es presente; yo comí, tú bebiste y él durmió están en pretérito indefinido' },
+      { w:['Cuando era niño, jugaba','Siempre llegaba tarde','Antes vivíamos en el campo','Ayer fui al cine'],
+        o:'Ayer fui al cine', c:'Pretérito imperfecto', e:'"Fui" es indefinido; las otras tres usan el imperfecto (acciones habituales o duraderas en el pasado)' },
+      { w:['Mañana iré al médico','El año que viene estudiaré','Cuando llegue, te llamo','Pronto sabremos la nota'],
+        o:'Cuando llegue, te llamo', c:'Futuro simple', e:'"Llamo" es presente; las otras tres usan el futuro simple para hablar de lo que pasará' },
+      { w:['Ya he desayunado','Todavía no has llegado','Esta mañana hemos salido','Ayer llegué tarde'],
+        o:'Ayer llegué tarde', c:'Pretérito perfecto compuesto', e:'"Llegué" es indefinido; las otras tres usan el perfecto compuesto (he/has/hemos + participio)' },
+      // ── Tipos de oraciones (frases) ──
+      { w:['Estudia mucho y aprueba','Trabaja duro pero descansa','O vienes o te quedas','Llueve aunque hace calor'],
+        o:'Llueve aunque hace calor', c:'Oraciones coordinadas', e:'"Aunque" subordina; estudia y aprueba (copulativa), trabaja pero descansa (adversativa), o vienes o te quedas (disyuntiva) son coordinadas' },
+      { w:['Creo que tienes razón','Me alegra que hayas venido','Espero que llueva pronto','Juan y María estudian juntos'],
+        o:'Juan y María estudian juntos', c:'Oraciones subordinadas sustantivas', e:'"Juan y María estudian juntos" es una oración simple; las otras tres tienen una subordinada sustantiva introducida por "que"' },
+      { w:['El libro que compré es bueno','La niña que canta es mi prima','Busco un piso que tenga terraza','Llegué tarde porque había tráfico'],
+        o:'Llegué tarde porque había tráfico', c:'Oraciones de relativo', e:'"Porque había tráfico" es una causal; las otras tres tienen una oración de relativo introducida por "que"' },
+      { w:['Llegué tarde porque había tráfico','No fui porque estaba enfermo','Se fue sin que nadie lo viera','Como no estudias, suspenderás'],
+        o:'Se fue sin que nadie lo viera', c:'Oraciones causales', e:'"Sin que nadie lo viera" es concesiva/modal; "porque había tráfico", "porque estaba enfermo" y "como no estudias" expresan causa' },
+      // ── Voz activa y pasiva (frases) ──
+      { w:['El perro muerde al cartero','La niña come la manzana','Los alumnos leen el libro','El ladrón fue detenido por la policía'],
+        o:'El ladrón fue detenido por la policía', c:'Voz activa', e:'"Fue detenido" es voz pasiva; las otras tres tienen el sujeto realizando la acción (voz activa)' },
+      { w:['El puente fue construido en 1920','La carta fue enviada ayer','Los premios son entregados en mayo','María escribió la novela'],
+        o:'María escribió la novela', c:'Voz pasiva', e:'"María escribió" es voz activa; las otras tres usan ser + participio (voz pasiva perifrástica)' },
+      // ── Estilo directo e indirecto (frases) ──
+      { w:['"Tengo hambre", dijo Ana','Él afirmó: "Vendré mañana"','Pedro preguntó: "¿Dónde estás?"','Ana dijo que tenía hambre'],
+        o:'Ana dijo que tenía hambre', c:'Estilo directo', e:'"Ana dijo que tenía hambre" es estilo indirecto; las otras tres reproducen las palabras exactas con comillas (estilo directo)' },
     ],
   },
 
@@ -191,6 +220,20 @@ export const PREGUNTAS = {
       { w:['còncau','convex','pla','esfèric'],           o:'esfèric',      c:'Tipus de curvatura',       e:'"Esfèric" descriu un sòlid 3D; còncau, convex i pla descriuen curvatura d\'una superfície' },
       { w:['catarsi','èxtasi','anagnòrisi','ècfrasi'],   o:'ècfrasi',      c:'Conceptes de teoria dramàtica', e:'"Ècfrasi" és descripció d\'una obra d\'art; catarsi, èxtasi i anagnòrisi són conceptes dramàtics' },
       { w:['epicentre','epidermis','epíleg','pròleg'],   o:'pròleg',       c:'Paraules amb prefix epi-', e:'"Pròleg" porta el prefix pro-; epicentre, epidermis i epíleg porten el prefix epi-' },
+      // ── Temps verbals (frases) ──
+      { w:['Ella canta cada dia','Nosaltres vivim aquí','Tu parles molt bé','Ella va cantar ahir'],
+        o:'Ella va cantar ahir', c:'Present d\'indicatiu', e:'"Va cantar ahir" és en passat perifràstic; les altres tres fan servir el present d\'indicatiu' },
+      { w:['Vaig menjar molt','Tu vas beure aigua','Ell va dormir tard','Nosaltres mengem ara'],
+        o:'Nosaltres mengem ara', c:'Passat perifràstic', e:'"Mengem" és present; vaig menjar, vas beure i va dormir estan en passat perifràstic' },
+      { w:['Quan era petit, jugava','Sempre arribava tard','Abans vivíem al camp','Ahir vaig anar al cinema'],
+        o:'Ahir vaig anar al cinema', c:'Pretèrit imperfet', e:'"Vaig anar" és passat perifràstic; les altres tres fan servir l\'imperfet (accions habituals o duradores)' },
+      { w:['Demà aniré al metge','L\'any que ve estudiaré','Quan arribi, et trucaré','Aviat sabrem la nota'],
+        o:'Quan arribi, et trucaré', c:'Futur simple', e:'"Trucaré" és futur, però la frase sencera barreja condicional temporal; les altres tres usen el futur simple per parlar del que passarà' },
+      // ── Tipus d\'oracions (frases) ──
+      { w:['Estudia molt i aprova','Treballa dur però descansa','O véns o et quedes','Plou tot i que fa calor'],
+        o:'Plou tot i que fa calor', c:'Oracions coordinades', e:'"Tot i que" és una conjunció concessiva que subordina; les altres tres són coordinades (copulativa, adversativa, disyuntiva)' },
+      { w:['Crec que tens raó','M\'alegra que hagis vingut','Espero que plogui aviat','En Joan i la Maria estudien junts'],
+        o:'En Joan i la Maria estudien junts', c:'Oracions subordinades substantives', e:'"En Joan i la Maria estudien junts" és una oració simple; les altres tres tenen una subordinada substantiva introduïda per "que"' },
     ],
   },
 
@@ -277,6 +320,29 @@ export const PREGUNTAS = {
       { w:['connote','denote','devote','promote'],       o:'promote',      c:'Verbs related to meaning',  e:'"Promote" has no semantic/referential meaning; connote and denote relate to meaning and reference' },
       { w:['presuppose','presume','assume','ensure'],    o:'ensure',       c:'Verbs meaning to take for granted', e:'"Ensure" means to make certain; presuppose, presume and assume all involve taking something for granted' },
       { w:['sanguine','sanguinary','sanguineous','serene'], o:'serene',    c:'Words from Latin "sanguis" (blood)', e:'"Serene" has no connection to blood; sanguine, sanguinary and sanguineous all derive from Latin "sanguis"' },
+      // ── Verb tenses (sentences) ──
+      { w:['She sings every day','We live here','You speak very well','She sang yesterday'],
+        o:'She sang yesterday', c:'Present simple', e:'"Sang" is past simple; the other three use the present simple tense' },
+      { w:['I ate a lot','You drank water','He slept late','We are eating now'],
+        o:'We are eating now', c:'Past simple', e:'"Are eating" is present continuous; I ate, you drank and he slept are all past simple' },
+      { w:['When I was young, I played outside','She always arrived late','They used to live in the country','Yesterday I went to the cinema'],
+        o:'Yesterday I went to the cinema', c:'Past simple for habits (used to)', e:'"Went" is a one-off past event; the others describe past habits or repeated actions' },
+      { w:['I have already eaten','She has just arrived','We have never been to Japan','I finished work an hour ago'],
+        o:'I finished work an hour ago', c:'Present perfect', e:'"Finished" with "an hour ago" is past simple; the others use present perfect (have/has + past participle)' },
+      { w:['Tomorrow I will go to the doctor','She will call you later','If it rains, we will stay home','When she arrives, I call her'],
+        o:'When she arrives, I call her', c:'Future with "will"', e:'"I call" is present simple; the others all use "will" to talk about the future' },
+      // ── Sentence types (sentences) ──
+      { w:['She works hard but enjoys life','He is tall and kind','You can stay or leave','Although it rained, we went out'],
+        o:'Although it rained, we went out', c:'Coordinating conjunctions', e:'"Although" is a subordinating conjunction; but, and and or are coordinating conjunctions linking clauses of equal rank' },
+      { w:['I think that you are right','She knows that he lied','He said that he was tired','The dog bit the man'],
+        o:'The dog bit the man', c:'Noun clauses with "that"', e:'"The dog bit the man" is a simple sentence; the others contain a noun clause introduced by "that"' },
+      { w:['The book that I bought is great','The girl who is singing is my cousin','I need a flat that has a terrace','I was late because of the traffic'],
+        o:'I was late because of the traffic', c:'Relative clauses', e:'"Because of the traffic" is a reason clause; the others contain a relative clause introduced by "that" or "who"' },
+      // ── Active and passive (sentences) ──
+      { w:['The dog bit the postman','The girl ate the apple','Students read the book','The thief was caught by the police'],
+        o:'The thief was caught by the police', c:'Active voice', e:'"Was caught" is passive voice; the others have the subject performing the action (active voice)' },
+      { w:['The bridge was built in 1920','The letter was sent yesterday','The prizes are given in May','Maria wrote the novel'],
+        o:'Maria wrote the novel', c:'Passive voice', e:'"Maria wrote" is active voice; the others use be + past participle (passive voice)' },
     ],
   },
 }

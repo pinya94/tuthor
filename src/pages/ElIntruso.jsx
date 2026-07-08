@@ -351,7 +351,8 @@ export default function ElIntruso() {
           </p>
 
           {/* Word buttons */}
-          <div className="grid grid-cols-2 gap-3 mb-4">
+          {/* Auto single-column for phrases, 2-col grid for words */}
+          <div className={`${q.w.some(w => w.length > 20) ? 'flex flex-col gap-3' : 'grid grid-cols-2 gap-3'} mb-4`}>
             {q.w.map(word => {
               let cls = 'bg-white/5 border-white/10 text-white hover:bg-violet-500/15 hover:border-violet-400/40 cursor-pointer'
               if (picked !== null) {
@@ -359,12 +360,13 @@ export default function ElIntruso() {
                 else if (word === picked && word !== q.o)  cls = 'bg-red-500/20 border-red-500 text-red-300'
                 else                                       cls = 'bg-white/3 border-white/5 text-white/25 cursor-default'
               }
+              const isPhrase = q.w.some(w => w.length > 20)
               return (
                 <button
                   key={word}
                   onClick={() => handlePick(word)}
                   disabled={picked !== null}
-                  className={`border-2 rounded-2xl py-5 px-3 font-bold text-base transition-all active:scale-95 disabled:cursor-default ${cls}`}
+                  className={`border-2 rounded-2xl px-4 font-semibold transition-all active:scale-95 disabled:cursor-default text-left ${isPhrase ? 'py-3 text-sm leading-snug' : 'py-5 px-3 font-bold text-base text-center'} ${cls}`}
                 >
                   {word}
                 </button>
