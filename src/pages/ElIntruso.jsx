@@ -119,12 +119,14 @@ export default function ElIntruso() {
     clearTimer()
     if (user && !saved) {
       setSaved(true)
-      saveActivity({
+      saveActivity(user.uid, {
+        type: 'juego',
         game: 'intruso',
+        score: finalScore,
+        passed: finalCorrect >= Math.ceil(qList.length / 2),
+        timeSpent: 0,
         userName: user.displayName || 'Jugador',
         userPhoto: user.photoURL || null,
-        score: finalScore,
-        meta: { nivel, correct: finalCorrect, wrong: finalWrong, total: qList.length },
       }).catch(() => {})
       if (dailyNivel) {
         saveDailyChallenge(user.uid, finalCorrect >= Math.ceil(qList.length / 2)).catch(() => {})
