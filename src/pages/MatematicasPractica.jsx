@@ -5,6 +5,7 @@ import { useLang } from '../context/LangContext'
 import { saveActivity } from '../lib/activity'
 import { MODOS, GRADOS } from '../lib/mathEngine'
 import CombinaNumeros from '../components/CombinaNumeros'
+import CoinsAnimation from '../components/CoinsAnimation'
 
 const TOTAL_RONDAS = 10
 
@@ -35,6 +36,7 @@ export default function MatematicasPractica() {
   const [exAciertos, setExAciertos] = useState(0)
   const [exHistorial, setExHistorial] = useState([]) // {passed} per round
   const [exFase,     setExFase]     = useState('jugando') // 'jugando' | 'resultado'
+  const [exCoins,    setExCoins]    = useState(0)
 
   function handleFinish({ pts, passed, timeSpent }) {
     if (user && !modoExamen) {
@@ -50,6 +52,15 @@ export default function MatematicasPractica() {
       setExAciertos(nuevosAciertos)
       setExHistorial(nuevosHistorial)
       if (exRonda >= TOTAL_RONDAS) {
+        const coinsEarned = nuevosAciertos * 20
+        if (user) {
+          saveActivity(user.uid, {
+            type: 'examen', game: 'matematicas', category: `${modo}-${gradoId}`,
+            score: nuevosAciertos * 100, passed: nuevosAciertos >= 5,
+            timeSpent, coinsEarned,
+          }).catch(() => {})
+        }
+        setExCoins(coinsEarned)
         setExFase('resultado')
       }
     }
@@ -66,6 +77,7 @@ export default function MatematicasPractica() {
     const cal = calificacion(exAciertos, en)
     return (
       <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
+        {exCoins > 0 && <CoinsAnimation coins={exCoins} />}
         <div className="max-w-md w-full">
           <p className="text-white/30 text-xs mb-6 text-center">
             <button onClick={() => navigate(localPath('/estudiar/matematicas'))} className="hover:text-white/60 transition-colors">{en ? 'Mathematics' : 'Matemáticas'}</button>

@@ -180,10 +180,11 @@ export default function ExamenMC({ titulo, emoji, nivelInfo, backFallback, gameI
       const timeSpent = startRef.current ? Math.round((Date.now() - startRef.current) / 1000) : 0
       const score  = currentAciertos * 100
       const passed = currentAciertos >= 5
+      const coinsEarned = aciertos * 20
       if (user) {
         saveActivity(user.uid, {
           type: 'examen', game: gameId,
-          category: gameId, score, passed, timeSpent,
+          category: gameId, score, passed, timeSpent, coinsEarned,
           userName: user.displayName, userPhoto: user.photoURL,
         }).catch(() => {})
       }
@@ -230,18 +231,7 @@ export default function ExamenMC({ titulo, emoji, nivelInfo, backFallback, gameI
 
   // ── PANTALLA: COINS ANIMATION ─────────────────────────────────────────────
   if (fase === 'coins') {
-    const score = aciertos * 100
-    return (
-      <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
-        {pageMeta}{quizSchema}
-        <div className="max-w-sm w-full text-center bg-white/5 border border-white/10 rounded-2xl p-8">
-          <p className="text-white/40 text-xs uppercase tracking-widest mb-4 font-semibold">
-            {en ? 'Earning coins' : ca ? 'Guanyant monedes' : 'Ganando monedas'}
-          </p>
-          <CoinsAnimation points={score} onDone={() => setFase('resultado')} />
-        </div>
-      </div>
-    )
+    return <CoinsAnimation coins={Math.min(aciertos * 20, 200)} onDone={() => setFase('resultado')} />
   }
 
   // ── PANTALLA: RESULTADO ───────────────────────────────────────────────────

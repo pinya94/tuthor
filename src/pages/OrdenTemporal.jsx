@@ -83,7 +83,7 @@ function GameOver({ score, placed, onRepetir, onSalir, lang, user }) {
 
         {(coinsDone || !showCoins) && (
           <>
-            <GameResultFooter game="linea-temporal" score={score} user={user} lang={lang} />
+            <GameResultFooter game="orden-temporal" score={score} user={user} lang={lang} />
             <div className="grid grid-cols-2 gap-3 mb-6">
               {[{ val: score, label: lang === 'ca' ? 'Punts' : en ? 'Points' : 'Puntos', emoji: '⭐' }, { val: placed, label: lang === 'ca' ? 'Col·locades' : en ? 'Placed' : 'Colocadas', emoji: '✅' }].map(s => (
                 <div key={s.label} className="bg-white/5 border border-white/10 rounded-xl p-4 text-center">

@@ -575,7 +575,7 @@ export default function AcercateRoguelike() {
             )}
 
             {score > 0 && <CoinsAnimation points={score} />}
-            <GameResultFooter game="acercate" score={score} user={user} lang={lang} />
+            <GameResultFooter game="acercate-roguelike" score={score} user={user} lang={lang} />
 
             <div className="flex gap-3 justify-center mb-3">
               <button onClick={startRun}
