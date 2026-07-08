@@ -1,57 +1,133 @@
 import { useEffect, useState } from 'react'
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
-import { getStats, getStatsAndCosmetics, setHidePhoto, formatTime } from '../lib/activity'
+import { getStatsAndCosmetics, setHidePhoto, formatTime, getLeaderboard } from '../lib/activity'
 import { useNavigate } from 'react-router-dom'
 import AvatarFrame from '../components/AvatarFrame'
-import { FRAME_BY_ID, BANNER_BY_ID, DEFAULT_AVATAR_EMOJI } from '../data/cosmetics'
+import { FRAME_BY_ID, BANNER_BY_ID } from '../data/cosmetics'
 
 function todayStr() { return new Date().toISOString().slice(0, 10) }
 
+// ── Juegos reales (lo que aparece en /juegos) ─────────────────────────────
 const GAME_LABELS = {
-  'juego-fechas':    { es: 'Juego de Fechas',    en: 'Date Game',         ca: 'Joc de Dates',       emoji: '📅' },
   'tuthor-time':     { es: 'Tuthor Time',         en: 'Tuthor Time',       ca: 'Tuthor Time',        emoji: '🕰️' },
-  'pregunta-diaria': { es: 'Pregunta Diaria',     en: 'Daily Challenge',   ca: 'Pregunta Diària',    emoji: '⚡' },
-  'orden-temporal':  { es: 'Línea Temporal',      en: 'Timeline',          ca: 'Línia Temporal',     emoji: '📜' },
-  'linea-temporal':  { es: 'Línea Temporal',      en: 'Timeline',          ca: 'Línia Temporal',     emoji: '📜' },
-  'quien-es-quien':  { es: '¿Quién es Quién?',   en: 'Who is Who?',       ca: 'Qui és qui?',        emoji: '🕵️' },
-  'matematicas':     { es: 'Cálculo Mental',      en: 'Mental Maths',      ca: 'Càlcul Mental',      emoji: '🎯' },
-  'acercate':        { es: 'Acércate al Número',  en: 'Target Number',     ca: "Acosta't al Número", emoji: '🎯' },
-  'portadas':        { es: 'Portadas',            en: 'Headlines',         ca: 'Portades',           emoji: '📰' },
-  'georush':         { es: 'GeoRush',             en: 'GeoRush',           ca: 'GeoRush',            emoji: '🌍' },
-  'geomapa':         { es: 'GeoMapa',             en: 'GeoMap',            ca: 'GeoMapa',            emoji: '🗺️' },
-  'numpath':         { es: 'NumPath',             en: 'NumPath',           ca: 'NumPath',            emoji: '🧮' },
+  'juego-fechas':    { es: 'Juego de Fechas',     en: 'Date Game',         ca: 'Joc de Dates',       emoji: '📅' },
+  'orden-temporal':  { es: 'Línea Temporal',       en: 'Timeline',          ca: 'Línia Temporal',     emoji: '📜' },
+  'linea-temporal':  { es: 'Línea Temporal',       en: 'Timeline',          ca: 'Línia Temporal',     emoji: '📜' },
+  'quien-es-quien':  { es: '¿Quién es Quién?',    en: 'Who is Who?',       ca: 'Qui és qui?',        emoji: '🕵️' },
+  'portadas':        { es: 'Portadas',             en: 'Headlines',         ca: 'Portades',           emoji: '📰' },
+  'georush':         { es: 'GeoRush',              en: 'GeoRush',           ca: 'GeoRush',            emoji: '🌍' },
+  'geomapa':         { es: 'GeoMapa',              en: 'GeoMap',            ca: 'GeoMapa',            emoji: '🗺️' },
+  'matematicas':     { es: 'Cálculo Mental',       en: 'Mental Maths',      ca: 'Càlcul Mental',      emoji: '🧮' },
+  'acercate':        { es: 'Acércate al Número',   en: 'Target Number',     ca: "Acosta't al Número", emoji: '🎯' },
+  'numpath':         { es: 'NumPath',              en: 'NumPath',           ca: 'NumPath',            emoji: '🔢' },
+  'intruso':         { es: 'El Intruso',           en: 'The Odd One Out',   ca: 'L\'Intrús',          emoji: '🔍' },
 }
 
-const CATEGORY_LABELS = {
-  'gce':      { es: 'Guerra Civil Española',   en: 'Spanish Civil War',      ca: 'Guerra Civil Espanyola',   emoji: '⚔️' },
-  'wwii':     { es: 'Segunda Guerra Mundial',  en: 'World War II',           ca: 'Segona Guerra Mundial',    emoji: '⚔️' },
-  'roma':     { es: 'Antigua Roma',            en: 'Ancient Rome',           ca: 'Roma Antiga',              emoji: '🏛️' },
-  'usa':      { es: 'Independencia Americana', en: 'American Independence',  ca: 'Independència Americana',  emoji: '🦅' },
-  'primaria': { es: 'Grandes Hitos',           en: 'Great Milestones',       ca: 'Grans Fites',              emoji: '🌍' },
-  'global':   { es: 'Historia Global',         en: 'World History',          ca: 'Història Global',          emoji: '🗺️' },
-  'facil':    { es: 'Acércate · Fácil',        en: 'Target Number · Easy',   ca: "Acosta't · Fàcil",        emoji: '🟢' },
-  'medio':    { es: 'Acércate · Medio',        en: 'Target Number · Medium', ca: "Acosta't · Mitjà",        emoji: '🟡' },
-  'dificil':  { es: 'Acércate · Difícil',      en: 'Target Number · Hard',   ca: "Acosta't · Difícil",      emoji: '🔴' },
-  'combinado-primaria':       { es: 'Mates · Primaria',           en: 'Maths · Primary',          ca: 'Mates · Primària',          emoji: '📐' },
-  'combinado-eso':            { es: 'Mates · ESO',                en: 'Maths · Secondary',        ca: 'Mates · ESO',               emoji: '📐' },
-  'combinado-bachillerato':   { es: 'Mates · Bachillerato',      en: 'Maths · Sixth Form',      ca: 'Mates · Batxillerat',       emoji: '📐' },
-  'sumas-primaria':           { es: 'Sumas · Primaria',           en: 'Addition · Primary',       ca: 'Sumes · Primària',          emoji: '➕' },
-  'sumas-eso':                { es: 'Sumas · ESO',                en: 'Addition · Secondary',     ca: 'Sumes · ESO',               emoji: '➕' },
-  'sumas-bachillerato':       { es: 'Sumas · Bachillerato',      en: 'Addition · Sixth Form',   ca: 'Sumes · Batxillerat',       emoji: '➕' },
-  'multiplicacion-primaria':  { es: 'Multiplicación · Primaria',  en: 'Multiplication · Primary', ca: 'Multiplicació · Primària',  emoji: '✖️' },
-  'multiplicacion-eso':       { es: 'Multiplicación · ESO',       en: 'Multiplication · Secondary', ca: 'Multiplicació · ESO',     emoji: '✖️' },
-  'multiplicacion-bachillerato': { es: 'Multiplicación · Bach.',  en: 'Multiplication · 6th Form', ca: 'Multiplicació · Batx.',   emoji: '✖️' },
-  'division-primaria':        { es: 'División · Primaria',        en: 'Division · Primary',       ca: 'Divisió · Primària',        emoji: '➗' },
-  'division-eso':             { es: 'División · ESO',             en: 'Division · Secondary',     ca: 'Divisió · ESO',             emoji: '➗' },
-  'division-bachillerato':    { es: 'División · Bachillerato',    en: 'Division · Sixth Form',   ca: 'Divisió · Batxillerat',     emoji: '➗' },
-}
-
-function resolveLabel(key, map, lang) {
-  const entry = map[key]
-  if (entry) return { label: entry[lang] || entry.es, emoji: entry.emoji }
-  return { label: key.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase()), emoji: '📖' }
-}
+// ── Agrupación por materia ────────────────────────────────────────────────
+const SUBJECTS = [
+  {
+    id: 'historia', emoji: '⚔️',
+    label: { es: 'Historia', en: 'History', ca: 'Història' },
+    gameIds: ['tuthor-time', 'juego-fechas', 'orden-temporal', 'linea-temporal', 'quien-es-quien', 'portadas'],
+    examIds: [],
+    catIds: ['gce', 'wwii', 'roma', 'usa', 'primaria', 'global'],
+    examLabels: {
+      'gce':     { es: 'Guerra Civil Española',    en: 'Spanish Civil War',     ca: 'Guerra Civil Espanyola'  },
+      'wwii':    { es: 'Segunda Guerra Mundial',   en: 'World War II',          ca: 'Segona Guerra Mundial'   },
+      'roma':    { es: 'Antigua Roma',             en: 'Ancient Rome',          ca: 'Roma Antiga'             },
+      'usa':     { es: 'Independencia Americana',  en: 'American Independence', ca: 'Independència Americana' },
+      'primaria':{ es: 'Grandes Hitos',            en: 'Great Milestones',      ca: 'Grans Fites'             },
+      'global':  { es: 'Historia Global',          en: 'World History',         ca: 'Història Global'         },
+    },
+  },
+  {
+    id: 'geografia', emoji: '🌍',
+    label: { es: 'Geografía', en: 'Geography', ca: 'Geografia' },
+    gameIds: ['georush', 'geomapa'],
+    examIds: [],
+    catIds: [],
+    examLabels: {},
+  },
+  {
+    id: 'matematicas', emoji: '🔢',
+    label: { es: 'Matemáticas', en: 'Maths', ca: 'Matemàtiques' },
+    gameIds: ['matematicas', 'acercate', 'numpath'],
+    examIds: ['algebra', 'enteros-racionales', 'estadistica', 'fracciones', 'funciones', 'geometria'],
+    catIds: ['facil', 'medio', 'dificil', 'combinado-primaria', 'combinado-eso', 'combinado-bachillerato',
+             'sumas-primaria', 'sumas-eso', 'sumas-bachillerato',
+             'multiplicacion-primaria', 'multiplicacion-eso', 'multiplicacion-bachillerato',
+             'division-primaria', 'division-eso', 'division-bachillerato'],
+    examLabels: {
+      'algebra':            { es: 'Álgebra',             en: 'Algebra',              ca: 'Àlgebra'             },
+      'enteros-racionales': { es: 'Enteros y Racionales', en: 'Integers & Rationals', ca: 'Enters i Racionals'  },
+      'estadistica':        { es: 'Estadística',          en: 'Statistics',           ca: 'Estadística'         },
+      'fracciones':         { es: 'Fracciones',           en: 'Fractions',            ca: 'Fraccions'           },
+      'funciones':          { es: 'Funciones',            en: 'Functions',            ca: 'Funcions'            },
+      'geometria':          { es: 'Geometría',            en: 'Geometry',             ca: 'Geometria'           },
+    },
+  },
+  {
+    id: 'ciencias', emoji: '🔬',
+    label: { es: 'Ciencias', en: 'Science', ca: 'Ciències' },
+    gameIds: [],
+    examIds: ['celula', 'cuerpo-humano', 'ecosistemas', 'energia', 'electricidad',
+              'estados-materia', 'fuerzas', 'genetica', 'mezclas-separacion',
+              'nutricion', 'ondas-luz', 'seres-vivos', 'sistema-solar',
+              'acidos-bases', 'atomos-moleculas', 'tabla-periodica'],
+    catIds: [],
+    examLabels: {
+      'celula':            { es: 'La Célula',            en: 'The Cell',             ca: 'La Cèl·lula'         },
+      'cuerpo-humano':     { es: 'Cuerpo Humano',        en: 'Human Body',           ca: 'Cos Humà'            },
+      'ecosistemas':       { es: 'Ecosistemas',          en: 'Ecosystems',           ca: 'Ecosistemes'         },
+      'energia':           { es: 'Energía',              en: 'Energy',               ca: 'Energia'             },
+      'electricidad':      { es: 'Electricidad',         en: 'Electricity',          ca: 'Electricitat'        },
+      'estados-materia':   { es: 'Estados de la Materia', en: 'States of Matter',   ca: 'Estats de la Matèria'},
+      'fuerzas':           { es: 'Fuerzas y Movimiento', en: 'Forces & Motion',      ca: 'Forces i Moviment'   },
+      'genetica':          { es: 'Genética',             en: 'Genetics',             ca: 'Genètica'            },
+      'mezclas-separacion':{ es: 'Mezclas y Separación', en: 'Mixtures & Separation',ca: 'Mescles i Separació' },
+      'nutricion':         { es: 'Nutrición',            en: 'Nutrition',            ca: 'Nutrició'            },
+      'ondas-luz':         { es: 'Ondas y Luz',          en: 'Waves & Light',        ca: 'Ones i Llum'         },
+      'seres-vivos':       { es: 'Seres Vivos',          en: 'Living Things',        ca: 'Éssers Vius'         },
+      'sistema-solar':     { es: 'Sistema Solar',        en: 'Solar System',         ca: 'Sistema Solar'       },
+      'acidos-bases':      { es: 'Ácidos y Bases',       en: 'Acids & Bases',        ca: 'Àcids i Bases'       },
+      'atomos-moleculas':  { es: 'Átomos y Moléculas',   en: 'Atoms & Molecules',    ca: 'Àtoms i Molècules'   },
+      'tabla-periodica':   { es: 'Tabla Periódica',      en: 'Periodic Table',       ca: 'Taula Periòdica'     },
+    },
+  },
+  {
+    id: 'lengua', emoji: '📖',
+    label: { es: 'Lengua', en: 'Language', ca: 'Llengua' },
+    gameIds: ['intruso'],
+    examIds: ['espanol', 'espanol-gramatica-sustantivos-test', 'espanol-gramatica-verbos-test',
+              'espanol-gramatica-sintaxis-test', 'espanol-ortografia-acentuacion-test', 'espanol-ortografia-bv-test'],
+    catIds: [],
+    examLabels: {
+      'espanol':                              { es: 'Gramática Española',      en: 'Spanish Grammar',       ca: 'Gramàtica Espanyola'     },
+      'espanol-gramatica-sustantivos-test':   { es: 'Sustantivos',             en: 'Nouns',                 ca: 'Substantius'             },
+      'espanol-gramatica-verbos-test':        { es: 'Verbos',                  en: 'Verbs',                 ca: 'Verbs'                   },
+      'espanol-gramatica-sintaxis-test':      { es: 'Sintaxis',                en: 'Syntax',                ca: 'Sintaxi'                 },
+      'espanol-ortografia-acentuacion-test':  { es: 'Acentuación',             en: 'Accentuation',          ca: 'Accentuació'             },
+      'espanol-ortografia-bv-test':           { es: 'B y V',                   en: 'B and V',               ca: 'B i V'                   },
+    },
+  },
+  {
+    id: 'ingles', emoji: '🇬🇧',
+    label: { es: 'Inglés', en: 'English', ca: 'Anglès' },
+    gameIds: [],
+    examIds: ['ingles', 'ingles-grammar-present-simple-test', 'ingles-grammar-past-simple-test',
+              'ingles-grammar-present-perfect-test', 'ingles-grammar-articles-test', 'ingles-grammar-passive-test'],
+    catIds: [],
+    examLabels: {
+      'ingles':                                { es: 'Inglés General',         en: 'General English',       ca: 'Anglès General'          },
+      'ingles-grammar-present-simple-test':    { es: 'Present Simple',         en: 'Present Simple',        ca: 'Present Simple'          },
+      'ingles-grammar-past-simple-test':       { es: 'Past Simple',            en: 'Past Simple',           ca: 'Past Simple'             },
+      'ingles-grammar-present-perfect-test':   { es: 'Present Perfect',        en: 'Present Perfect',       ca: 'Present Perfect'         },
+      'ingles-grammar-articles-test':          { es: 'Artículos',              en: 'Articles',              ca: 'Articles'                },
+      'ingles-grammar-passive-test':           { es: 'Voz Pasiva',             en: 'Passive Voice',         ca: 'Veu Passiva'             },
+    },
+  },
+]
 
 export default function Perfil() {
   const { user, logout } = useAuth()
@@ -62,21 +138,29 @@ export default function Perfil() {
   const [stats, setStats] = useState(null)
   const [loading, setLoading] = useState(true)
   const [showAllGames, setShowAllGames] = useState(false)
-  const [showAllCats, setShowAllCats] = useState(false)
+  const [expandedSubject, setExpandedSubject] = useState(null)
   const [equippedFrame, setEquippedFrame] = useState('default')
   const [equippedBanner, setEquippedBanner] = useState('banner_default')
   const [equippedAvatar, setEquippedAvatar] = useState(null)
   const [hidePhoto, setHidePhotoState] = useState(false)
+  const [rankings, setRankings] = useState({})
 
   useEffect(() => {
     if (!user) { navigate(localPath('/')); return }
-    getStatsAndCosmetics(user.uid).then(cosmetics => {
-      setStats(cosmetics)
-      setEquippedFrame(cosmetics.equippedFrame)
-      setEquippedBanner(cosmetics.equippedBanner)
-      setEquippedAvatar(cosmetics.equippedAvatar)
-      setHidePhotoState(cosmetics.hidePhoto ?? false)
+    getStatsAndCosmetics(user.uid).then(data => {
+      setStats(data)
+      setEquippedFrame(data.equippedFrame)
+      setEquippedBanner(data.equippedBanner)
+      setEquippedAvatar(data.equippedAvatar)
+      setHidePhotoState(data.hidePhoto ?? false)
       setLoading(false)
+      // Fetch leaderboard rankings for games the user has played
+      const playedGames = Object.keys(data.statsByGame || {}).filter(k => GAME_LABELS[k])
+      Promise.all(playedGames.map(async k => {
+        const lb = await getLeaderboard(k).catch(() => [])
+        const idx = lb.findIndex(e => e.uid === user.uid)
+        return [k, idx >= 0 ? { rank: idx + 1, total: lb.length } : null]
+      })).then(results => setRankings(Object.fromEntries(results.filter(([,v]) => v))))
     })
   }, [user])
 
@@ -95,18 +179,51 @@ export default function Perfil() {
   const statsByGame     = stats?.statsByGame     || {}
   const statsByCategory = stats?.statsByCategory || {}
 
-  const gameEntries = Object.entries(statsByGame)
-    .map(([key, s]) => ({ key, ...resolveLabel(key, GAME_LABELS, lang), ...s }))
-    .filter(g => g.bestScore > 0)
+  // Only real games (those in GAME_LABELS), with at least 1 play
+  const gameEntries = Object.entries(GAME_LABELS)
+    .map(([key, lbl]) => {
+      const s = statsByGame[key] || {}
+      return { key, label: lbl[lang] || lbl.es, emoji: lbl.emoji, ...s }
+    })
+    .filter(g => (g.plays || 0) > 0)
     .sort((a, b) => (b.bestScore || 0) - (a.bestScore || 0))
 
-  const catEntries = Object.entries(statsByCategory)
-    .map(([key, s]) => ({ key, ...resolveLabel(key, CATEGORY_LABELS, lang), ...s }))
-    .filter(c => c.plays > 0 && (c.bestScore > 0 || (c.examsPassed ?? 0) > 0))
-    .sort((a, b) => (b.plays || 0) - (a.plays || 0))
+  const visibleGames = showAllGames ? gameEntries : gameEntries.slice(0, 4)
 
-  const visibleGames = showAllGames ? gameEntries : gameEntries.slice(0, 3)
-  const visibleCats  = showAllCats  ? catEntries  : catEntries.slice(0, 3)
+  // Per-subject: aggregate games + exams
+  const subjectEntries = SUBJECTS.map(subj => {
+    // Game stats
+    const gameStats = subj.gameIds.reduce((acc, gId) => {
+      const s = statsByGame[gId] || {}
+      acc.plays += s.plays || 0
+      acc.timeSpent += s.timeSpent || 0
+      return acc
+    }, { plays: 0, timeSpent: 0 })
+
+    // Exam rows (from statsByGame for ExamenMC, statsByCategory for historia/geo exams)
+    const examRows = [
+      ...subj.examIds.map(id => {
+        const s = statsByGame[id] || {}
+        if (!s.plays) return null
+        const lbl = subj.examLabels[id]
+        return { id, label: lbl?.[lang] || lbl?.es || id, plays: s.plays, passed: statsByCategory[id]?.examsPassed || 0 }
+      }),
+      ...subj.catIds.map(id => {
+        const s = statsByCategory[id] || {}
+        if (!s.plays) return null
+        // Only show if it looks like an exam (has examsPassed data or type examen)
+        if ((s.examsPassed ?? -1) < 0) return null
+        const lbl = subj.examLabels[id]
+        return { id, label: lbl?.[lang] || lbl?.es || id, plays: s.plays, passed: s.examsPassed || 0 }
+      }),
+    ].filter(Boolean)
+
+    const totalExamPlays  = examRows.reduce((a, r) => a + r.plays, 0)
+    const totalPassed     = examRows.reduce((a, r) => a + r.passed, 0)
+    const totalPlays      = gameStats.plays + totalExamPlays
+
+    return { ...subj, gameStats, examRows, totalExamPlays, totalPassed, totalPlays, timeSpent: gameStats.timeSpent }
+  }).filter(s => s.totalPlays > 0)
 
   return (
     <div className="relative z-10 flex flex-col min-h-[calc(100vh-4rem)] px-4 sm:px-8 py-8">
@@ -245,72 +362,107 @@ export default function Perfil() {
               <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-4">
                 <h2 className="font-black text-white mb-4">🎮 {ca ? 'Per joc' : en ? 'By game' : 'Por juego'}</h2>
                 <div className="space-y-1">
-                  {visibleGames.map((g, i) => (
-                    <div key={g.key} className="flex items-center gap-3 py-3 border-b border-white/5 last:border-0">
-                      <span className="text-lg w-7 text-center">{g.emoji}</span>
-                      <span className="flex-1 text-white/80 text-sm font-medium">{g.label}</span>
-                      <div className="flex items-center gap-4 text-right">
-                        <div className="text-center min-w-[40px]">
-                          <p className="text-white font-bold text-sm">{g.plays}</p>
-                          <p className="text-white/30 text-[10px]">{ca ? 'partides' : en ? 'games' : 'partidas'}</p>
+                  {visibleGames.map(g => {
+                    const rank = rankings[g.key]
+                    return (
+                      <div key={g.key} className="flex items-center gap-3 py-3 border-b border-white/5 last:border-0">
+                        <span className="text-lg w-7 text-center">{g.emoji}</span>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-white/80 text-sm font-medium truncate">{g.label}</p>
+                          {rank && (
+                            <p className="text-amber-400/70 text-[10px] font-semibold">
+                              #{rank.rank} {ca ? 'de' : en ? 'of' : 'de'} {rank.total}
+                            </p>
+                          )}
                         </div>
-                        <div className="text-center min-w-[48px]">
-                          <p className="text-white font-bold text-sm">{formatTime(g.timeSpent)}</p>
-                          <p className="text-white/30 text-[10px]">{ca ? 'temps' : en ? 'time' : 'tiempo'}</p>
-                        </div>
-                        {g.bestScore > 0 && (
-                          <div className="text-center min-w-[40px]">
-                            <p className="text-violet-400 font-black text-sm">{g.bestScore.toLocaleString()}</p>
-                            <p className="text-white/30 text-[10px]">{ca ? 'millor' : en ? 'best' : 'mejor'}</p>
+                        <div className="flex items-center gap-3 text-right shrink-0">
+                          <div className="text-center min-w-[36px]">
+                            <p className="text-white font-bold text-sm">{g.plays ?? 0}</p>
+                            <p className="text-white/30 text-[10px]">{ca ? 'partides' : en ? 'games' : 'partidas'}</p>
                           </div>
-                        )}
+                          {(g.timeSpent || 0) > 0 && (
+                            <div className="text-center min-w-[44px]">
+                              <p className="text-white font-bold text-sm">{formatTime(g.timeSpent)}</p>
+                              <p className="text-white/30 text-[10px]">{ca ? 'temps total' : en ? 'total time' : 'tiempo total'}</p>
+                            </div>
+                          )}
+                          {(g.bestScore || 0) > 0 && (
+                            <div className="text-center min-w-[44px]">
+                              <p className="text-violet-400 font-black text-sm">{g.bestScore.toLocaleString()}</p>
+                              <p className="text-white/30 text-[10px]">{ca ? 'millor pts' : en ? 'best pts' : 'mejor pts'}</p>
+                            </div>
+                          )}
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    )
+                  })}
                 </div>
-                {gameEntries.length > 3 && (
+                {gameEntries.length > 4 && (
                   <button onClick={() => setShowAllGames(!showAllGames)}
                     className="mt-3 w-full text-center text-sm text-violet-400 hover:text-violet-300 font-semibold transition-colors">
-                    {showAllGames ? (ca ? 'Veure menys ↑' : en ? 'Show less ↑' : 'Ver menos ↑') : (ca ? `Veure els ${gameEntries.length} jocs ↓` : en ? `Show all ${gameEntries.length} games ↓` : `Ver los ${gameEntries.length} juegos ↓`)}
+                    {showAllGames
+                      ? (ca ? 'Veure menys ↑' : en ? 'Show less ↑' : 'Ver menos ↑')
+                      : (ca ? `Veure els ${gameEntries.length} jocs ↓` : en ? `Show all ${gameEntries.length} games ↓` : `Ver los ${gameEntries.length} juegos ↓`)}
                   </button>
                 )}
               </div>
             )}
 
             {/* Por materia */}
-            {catEntries.length > 0 && (
+            {subjectEntries.length > 0 && (
               <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-4">
                 <h2 className="font-black text-white mb-4">📚 {ca ? 'Per matèria' : en ? 'By subject' : 'Por materia'}</h2>
                 <div className="space-y-1">
-                  {visibleCats.map(c => (
-                    <div key={c.key} className="flex items-center gap-3 py-3 border-b border-white/5 last:border-0">
-                      <span className="text-lg w-7 text-center">{c.emoji}</span>
-                      <span className="flex-1 text-white/80 text-sm font-medium">{c.label}</span>
-                      <div className="flex items-center gap-4 text-right">
-                        <div className="text-center min-w-[40px]">
-                          <p className="text-white font-bold text-sm">{c.plays}</p>
-                          <p className="text-white/30 text-[10px]">{ca ? 'partides' : en ? 'games' : 'partidas'}</p>
-                        </div>
-                        <div className="text-center min-w-[48px]">
-                          <p className="text-white font-bold text-sm">{formatTime(c.timeSpent)}</p>
-                          <p className="text-white/30 text-[10px]">{ca ? 'temps' : en ? 'time' : 'tiempo'}</p>
-                        </div>
-                        {(c.examsPassed ?? 0) > 0 && (
-                          <div className="text-center min-w-[40px]">
-                            <p className="text-green-400 font-black text-sm">{c.examsPassed}</p>
-                            <p className="text-white/30 text-[10px]">{ca ? 'aprovats' : en ? 'passed' : 'aprobados'}</p>
+                  {subjectEntries.map(subj => {
+                    const subjLabel = subj.label[lang] || subj.label.es
+                    const isOpen = expandedSubject === subj.id
+                    const failed = subj.totalExamPlays - subj.totalPassed
+                    return (
+                      <div key={subj.id} className="border-b border-white/5 last:border-0">
+                        <button
+                          onClick={() => setExpandedSubject(isOpen ? null : subj.id)}
+                          className="w-full flex items-center gap-3 py-3 text-left hover:bg-white/3 rounded-lg transition-colors"
+                        >
+                          <span className="text-lg w-7 text-center">{subj.emoji}</span>
+                          <div className="flex-1">
+                            <p className="text-white/80 text-sm font-semibold">{subjLabel}</p>
+                            <p className="text-white/30 text-[10px]">
+                              {subj.totalPlays} {ca ? 'activitats' : en ? 'activities' : 'actividades'}
+                              {subj.totalExamPlays > 0 && ` · ${subj.totalPassed}✅ ${failed > 0 ? `${failed}❌` : ''}`}
+                            </p>
+                          </div>
+                          {(subj.timeSpent || 0) > 0 && (
+                            <span className="text-white/40 text-xs">{formatTime(subj.timeSpent)}</span>
+                          )}
+                          <span className="text-white/30 text-xs ml-1">{isOpen ? '▲' : '▼'}</span>
+                        </button>
+                        {isOpen && subj.examRows.length > 0 && (
+                          <div className="ml-10 mb-3 space-y-1">
+                            <p className="text-white/30 text-[10px] uppercase tracking-wider mb-2">
+                              {ca ? 'Exàmens' : en ? 'Exams' : 'Exámenes'}
+                            </p>
+                            {subj.examRows.map(row => {
+                              const rowFailed = row.plays - row.passed
+                              return (
+                                <div key={row.id} className="flex items-center gap-2 py-1.5">
+                                  <span className="flex-1 text-white/60 text-xs">{row.label}</span>
+                                  <span className="text-white/40 text-xs">{row.plays}x</span>
+                                  <span className="text-green-400 text-xs font-bold">{row.passed}✅</span>
+                                  {rowFailed > 0 && <span className="text-red-400 text-xs font-bold">{rowFailed}❌</span>}
+                                </div>
+                              )
+                            })}
                           </div>
                         )}
+                        {isOpen && subj.examRows.length === 0 && subj.gameStats.plays > 0 && (
+                          <p className="ml-10 mb-3 text-white/30 text-xs">
+                            {ca ? 'Sense exàmens fets' : en ? 'No exams taken' : 'Sin exámenes realizados'}
+                          </p>
+                        )}
                       </div>
-                    </div>
-                  ))}
+                    )
+                  })}
                 </div>
-                {catEntries.length > 3 && (
-                  <button onClick={() => setShowAllCats(!showAllCats)}
-                    className="mt-3 w-full text-center text-sm text-violet-400 hover:text-violet-300 font-semibold transition-colors">
-                    {showAllCats ? (ca ? 'Veure menys ↑' : en ? 'Show less ↑' : 'Ver menos ↑') : (ca ? `Veure les ${catEntries.length} matèries ↓` : en ? `Show all ${catEntries.length} subjects ↓` : `Ver las ${catEntries.length} materias ↓`)}
-                  </button>
-                )}
               </div>
             )}
           </>
