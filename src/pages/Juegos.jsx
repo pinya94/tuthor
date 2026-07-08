@@ -6,7 +6,7 @@ import SEOHead from '../components/SEOHead'
 
 export default function Juegos() {
   const navigate = useNavigate()
-  const { lt, localPath, t } = useLang()
+  const { lt, localPath, t, lang } = useLang()
 
   function handleClick(game) {
     if (!game.ready) return
