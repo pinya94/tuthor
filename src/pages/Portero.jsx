@@ -5,6 +5,7 @@ import { saveActivity } from '../lib/activity'
 import CoinsAnimation from '../components/CoinsAnimation'
 import GameResultFooter from '../components/GameResultFooter'
 import ShareButton from '../components/ShareButton'
+import SEOHead from '../components/SEOHead'
 import { POOLS } from '../data/porteroLevels'
 import {
   VIEW, W, H, ANIM_DURATION,
@@ -603,7 +604,7 @@ export default function Portero() {
 
   // ── render ──
 
-  if (screen === 'difficulty') return <DifficultyScreen onSelect={startGame} l={l} />
+  if (screen === 'difficulty') return <><SEOHead title={l==='en'?'Goalkeeper — Spatial Reasoning Game':l==='ca'?'Porter — Joc de Raonament Espacial':'Portero — Juego de Razonamiento Espacial'} description={l==='en'?'Step between the posts and stop the shot. Read the striker\'s position and pick the right quadrant. Free maths and reasoning game.':l==='ca'?'Posa\'t sota els pals i atura el tir. Llegeix la posició del davanter i tria el quadrant correcte.':'Ponte bajo los palos y para el disparo. Lee la posición del delantero y elige el cuadrante correcto. Juego de razonamiento espacial.'} path={l==='en'?'/en/juegos/portero':l==='ca'?'/ca/juegos/portero':'/juegos/portero'} lang={l} /><DifficultyScreen onSelect={startGame} l={l} /></>
 
   if (screen === 'end') {
     const pts = score * 10

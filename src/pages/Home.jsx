@@ -7,6 +7,7 @@ import { useLang } from '../context/LangContext'
 import { getStats, formatTime } from '../lib/activity'
 import AuthModal from '../components/AuthModal'
 import { FRAMES, BANNERS, AVATARS } from '../data/cosmetics'
+import SEOHead from '../components/SEOHead'
 
 const PREVIEW_FRAMES  = ['silver', 'gold', 'rainbow', 'galaxy', 'fire', 'neon']
 const PREVIEW_BANNERS = ['banner_crimson', 'banner_ocean', 'banner_amber', 'banner_galaxy']
@@ -78,8 +79,15 @@ export default function Home() {
     else setStats(null)
   }, [user])
 
+  const seo = {
+    es: { title: 'Estudia con juegos educativos', desc: 'Plataforma educativa gratuita con juegos de historia, geografía, matemáticas y más. Aprende jugando para Primaria, ESO y Bachillerato.' },
+    en: { title: 'Study with educational games', desc: 'Free educational platform with games for history, geography, maths and more. Learn by playing for Primary, Secondary and Sixth Form.' },
+    ca: { title: 'Estudia amb jocs educatius', desc: 'Plataforma educativa gratuïta amb jocs d\'història, geografia, matemàtiques i més. Aprèn jugant per a Primària, ESO i Batxillerat.' },
+  }[lang] || {}
+
   return (
     <div className="relative z-10 px-4 sm:px-8">
+      <SEOHead title={seo.title} description={seo.desc} path="/" lang={lang} />
       {/* ── HERO: ocupa toda la pantalla de aterrizaje ── */}
       <div className="flex flex-col min-h-[calc(100vh-4rem)] py-5 gap-4">
         {/* Título */}

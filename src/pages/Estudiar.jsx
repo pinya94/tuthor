@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
+import SEOHead from '../components/SEOHead'
 
 const MATERIAS = [
   { id: 'historia', titulo: 'Historia', tituloEn: 'History', tituloCa: 'Història', subtitulo: 'Eventos, épocas y personajes clave', subtituloEn: 'Key events, periods & figures', subtituloCa: 'Esdeveniments, èpoques i personatges clau', emoji: '🏛️', gradient: 'from-amber-500 to-orange-600', ready: true, path: '/estudiar/historia' },
@@ -14,8 +15,15 @@ export default function Estudiar() {
   const navigate = useNavigate()
   const { lang, localPath, t } = useLang()
 
+  const seoData = {
+    es: { title: 'Estudiar — Historia, Geografía, Matemáticas', desc: 'Temarios interactivos y tests por niveles: Primaria, ESO y Bachillerato. Historia, geografía, ciencias, matemáticas, inglés y lengua.', path: '/estudiar' },
+    en: { title: 'Study — History, Geography, Maths', desc: 'Interactive syllabuses and tests by level: Primary, Secondary and Sixth Form. History, geography, science, maths, English and Spanish.', path: '/en/estudiar' },
+    ca: { title: 'Estudiar — Història, Geografia, Matemàtiques', desc: 'Temaris interactius i tests per nivells: Primària, ESO i Batxillerat. Història, geografia, ciències, matemàtiques, anglès i llengua.', path: '/ca/estudiar' },
+  }[lang] || {}
+
   return (
     <div className="relative z-10 flex flex-col min-h-[calc(100vh-4rem)] px-4 sm:px-8 py-6">
+      <SEOHead title={seoData.title} description={seoData.desc} path={seoData.path} lang={lang} />
       <div className="text-center mb-8">
         <h1 className="text-2xl sm:text-3xl font-black text-white">{t('estudiar.titulo', '¿Qué quieres estudiar?')}</h1>
         <p className="text-white/40 mt-1 text-sm">{t('estudiar.subtitulo', 'Elige una materia para empezar')}</p>

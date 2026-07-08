@@ -7,6 +7,7 @@ import { saveActivity } from '../lib/activity'
 import CoinsAnimation from '../components/CoinsAnimation'
 import WorldMap from '../components/WorldMap'
 import GameResultFooter from '../components/GameResultFooter'
+import SEOHead from '../components/SEOHead'
 
 function flagToCode(emoji) {
   return [...emoji].map(c => String.fromCharCode(c.codePointAt(0) - 0x1F1E6 + 65)).join('').toLowerCase()
@@ -299,6 +300,7 @@ export default function GeoMapa() {
   if (fase === 'intro') {
     return (
       <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
+        <SEOHead title={lang==='en'?'GeoMapa — Identify Countries on the Map':lang==='ca'?'GeoMapa — Identifica Països al Mapa':'GeoMapa — Identifica Países en el Mapa'} description={lang==='en'?'Identify highlighted countries on a world map. Get progressive hints — flag then capital — if you miss. Free geography game.':lang==='ca'?'Identifica països al mapa mundial interactiu amb pistes progressives: bandera i capital.':'Identifica países iluminados en el mapa mundial. Pistas progresivas si fallas: bandera y capital. Juego de geografía gratuito.'} path={lang==='en'?'/en/juegos/geomapa':lang==='ca'?'/ca/juegos/geomapa':'/juegos/geomapa'} lang={lang} />
         <div className="max-w-xl w-full">
           <button onClick={() => navigate(localPath('/juegos'))}
             className="text-white/30 hover:text-white/60 text-sm mb-6 flex items-center gap-1 transition-colors">

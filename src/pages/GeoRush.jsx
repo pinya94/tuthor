@@ -7,6 +7,7 @@ import CoinsAnimation from '../components/CoinsAnimation'
 import GameResultFooter from '../components/GameResultFooter'
 import { saveActivity } from '../lib/activity'
 import ShareButton from '../components/ShareButton'
+import SEOHead from '../components/SEOHead'
 
 const DIFS = {
   facil:   { label: 'Fácil', labelEn: 'Easy', labelCa: 'Fàcil',   emoji: '🟢', tiempoInicio: 120, obligatorio: false },
@@ -455,6 +456,7 @@ export default function GeoRush() {
     const d = DIFS[difId]
     return (
       <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
+        <SEOHead title={lang==='en'?'GeoRush — Guess the Country':'GeoRush — Adivina el País'} description={lang==='en'?'Guess the mystery country from geographical, demographic and historical clues. Beat the clock in this free geography game.':lang==='ca'?'Endevina el país misteriós a partir de pistes geogràfiques, demogràfiques i històriques.':'Descubre el país misterioso a partir de pistas geográficas, demográficas e históricas. Contra el reloj.'} path={lang==='en'?'/en/juegos/georush':lang==='ca'?'/ca/juegos/georush':'/juegos/georush'} lang={lang} />
         <div className="max-w-xl w-full">
           <button onClick={() => navigate(localPath('/juegos'))}
             className="text-white/30 hover:text-white/60 text-sm mb-6 flex items-center gap-1 transition-colors">

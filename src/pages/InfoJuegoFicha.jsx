@@ -1,5 +1,6 @@
 import { useParams, Link } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
+import SEOHead from '../components/SEOHead'
 
 const FICHAS_ES = {
   'acercate': {
@@ -240,6 +241,34 @@ const FICHAS_ES = {
     ],
     asignatura: 'Matemáticas', niveles: 'ESO, Bachillerato',
   },
+  'intruso': {
+    titulo: 'El Intruso',
+    subtitulo: 'Juego de Vocabulario y Gramática a Contrarreloj',
+    emoji: '🔍', gradient: 'from-violet-500 to-purple-700',
+    path: '/juegos/intruso',
+    intro: 'Cuatro palabras aparecen en pantalla: tres pertenecen a la misma categoría y una no encaja. Tu misión es encontrar el intruso antes de que se acabe el tiempo acumulado. Cada acierto suma 10 puntos; cada error resta 15. Un juego perfecto para estudiar vocabulario, gramática y categorías léxicas del español, catalán e inglés.',
+    beneficios: [
+      { titulo: 'Pensamiento Categorial', texto: 'Agrupar palabras por categorías — animales, adjetivos, esdrújulas, plural irregular — activa el procesamiento semántico profundo, que es el más resistente al olvido.' },
+      { titulo: 'Vocabulario en Contexto', texto: 'Cada pregunta viene con una explicación de por qué una palabra es distinta: género, morfología, origen etimológico o regla ortográfica. Se aprende el porqué, no solo el qué.' },
+      { titulo: 'Presión Temporal Adaptada', texto: 'El cronómetro acumulado —60s en Fácil, 40s en Medio, 25s en Difícil— genera la tensión justa para activar la memoria de trabajo sin bloquear el razonamiento.' },
+    ],
+    ejemplo: 'Aparecen "rápido", "belleza", "amor" y "verdad". Tres son sustantivos abstractos — solo "rápido" es un adjetivo. El alumno lo identifica, lee la explicación y avanza.',
+    enPapel: {
+      titulo: 'El Intruso en papel',
+      pasos: [
+        'Escribe 4 palabras en un papel: 3 del mismo campo semántico o clase gramatical y 1 que no encaja.',
+        'Los jugadores señalan cuál es la intrusa y explican por qué en 10 segundos.',
+        'El que señale mal pierde un punto; el que acierte y explique bien, gana dos.',
+        'Varía las categorías: animales, verbos en infinitivo, palabras con tilde, sustantivos femeninos... Sube el nivel a medida que se domina.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'Juego de clasificación de palabras', desc: 'Escribe palabras en tarjetas y pide que las agrupen por categoría: sustantivos/verbos/adjetivos, masculino/femenino, singular/plural.' },
+      { nombre: 'Bingo gramatical', desc: 'Crea un bingo donde las casillas son clases de palabras. El presentador dice una palabra y el jugador la coloca en su categoría correcta.' },
+      { nombre: 'Kahoot de vocabulario', desc: 'Herramienta digital similar para trabajar vocabulario en grupo en clase. Ideal como calentamiento de 10 minutos.' },
+    ],
+    asignatura: 'Lengua e Idiomas', niveles: 'Primaria, ESO, Bachillerato',
+  },
   'portero': {
     titulo: 'Portero',
     subtitulo: 'Juego de Razonamiento Espacial y Toma de Decisiones',
@@ -440,6 +469,34 @@ const FICHAS_EN = {
       { nombre: 'Function cards', desc: 'Create cards with a function and its graph. Play to match them. Great for pre-exam revision.' },
     ],
     asignatura: 'Mathematics', niveles: 'Secondary, Sixth Form',
+  },
+  'intruso': {
+    titulo: 'Odd One Out',
+    subtitulo: 'Vocabulary & Grammar Game Against the Clock',
+    emoji: '🔍', gradient: 'from-violet-500 to-purple-700',
+    path: '/juegos/intruso',
+    intro: 'Four words appear on screen: three belong to the same category and one does not fit. Find the odd one out before the cumulative timer runs out. Each correct answer scores +10 points; each mistake loses 15. Perfect for studying vocabulary, grammar and lexical categories in Spanish, Catalan or English.',
+    beneficios: [
+      { titulo: 'Categorical Thinking', texto: 'Grouping words by category — animals, adjectives, irregular plurals, stressed syllables — activates deep semantic processing, which is the most resistant to forgetting.' },
+      { titulo: 'Vocabulary in Context', texto: 'Each question includes an explanation of why one word is different: gender, morphology, etymology or spelling rule. You learn the why, not just the what.' },
+      { titulo: 'Calibrated Time Pressure', texto: 'The cumulative timer — 60 s on Easy, 40 s on Medium, 25 s on Hard — creates just enough tension to activate working memory without blocking reasoning.' },
+    ],
+    ejemplo: 'The words "quickly", "beauty", "love" and "truth" appear. Three are abstract nouns — only "quickly" is an adverb. The player identifies it, reads the explanation and moves on.',
+    enPapel: {
+      titulo: 'Odd One Out on paper',
+      pasos: [
+        'Write 4 words on a card: 3 from the same semantic field or word class and 1 that does not fit.',
+        'Players point to the odd one out and explain why in 10 seconds.',
+        'Wrong guess = −1 point; correct guess with explanation = +2 points.',
+        'Vary the categories: animals, verbs, accented words, irregular plurals... Raise the level as players improve.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'Word sorting game', desc: 'Write words on cards and ask players to group them by category: nouns/verbs/adjectives, masculine/feminine, singular/plural.' },
+      { nombre: 'Grammar bingo', desc: 'Create a bingo where squares are word classes. The host says a word and the player places it in the correct category.' },
+      { nombre: 'Vocabulary Kahoot', desc: 'Similar digital tool for group vocabulary practice in class. Great as a 10-minute warm-up.' },
+    ],
+    asignatura: 'Languages', niveles: 'Primary, Secondary, Sixth Form',
   },
   'portero': {
     titulo: 'Goalkeeper',
@@ -710,6 +767,34 @@ const FICHAS_CA = {
     ],
     asignatura: 'Matemàtiques', niveles: 'ESO, Batxillerat',
   },
+  'intruso': {
+    titulo: "L'Intrús",
+    subtitulo: 'Joc de Vocabulari i Gramàtica a Contrarellotge',
+    emoji: '🔍', gradient: 'from-violet-500 to-purple-700',
+    path: '/juegos/intruso',
+    intro: 'Quatre paraules apareixen a la pantalla: tres pertanyen a la mateixa categoria i una no hi encaixa. Troba l\'intrús abans que s\'acabi el temps acumulat. Cada encert suma 10 punts; cada error en resta 15. Un joc perfecte per estudiar vocabulari, gramàtica i categories lèxiques en català, castellà o anglès.',
+    beneficios: [
+      { titulo: 'Pensament Categorial', texto: 'Agrupar paraules per categories — animals, adjectius, esdrúixoles, plural irregular — activa el processament semàntic profund, que és el més resistent a l\'oblit.' },
+      { titulo: 'Vocabulari en Context', texto: 'Cada pregunta inclou una explicació de per què una paraula és diferent: gènere, morfologia, origen etimològic o regla ortogràfica. S\'aprèn el perquè, no només el que.' },
+      { titulo: 'Pressió Temporal Calibrada', texto: 'El temporitzador acumulat —60 s en Fàcil, 40 s en Mitjà, 25 s en Difícil— genera la tensió justa per activar la memòria de treball sense bloquejar el raonament.' },
+    ],
+    ejemplo: 'Apareixen "ràpid", "bellesa", "amor" i "veritat". Tres són substantius abstractes — només "ràpid" és un adjectiu. L\'alumne ho identifica, llegeix l\'explicació i avança.',
+    enPapel: {
+      titulo: "L'Intrús en paper",
+      pasos: [
+        'Escriu 4 paraules en un paper: 3 del mateix camp semàntic o classe gramatical i 1 que no hi encaixa.',
+        'Els jugadors assenyalen quina és la intrusa i expliquen per què en 10 segons.',
+        'El que s\'equivoca perd un punt; el que encerta i explica bé, guanya dos.',
+        'Varia les categories: animals, verbs en infinitiu, paraules amb accent, substantius femenins... Puja el nivell a mesura que es domina.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'Joc de classificació de paraules', desc: 'Escriu paraules en targetes i demana que les agrupin per categoria: substantius/verbs/adjectius, masculí/femení, singular/plural.' },
+      { nombre: 'Bingo gramatical', desc: 'Crea un bingo on les caselles són classes de paraules. El presentador diu una paraula i el jugador la col·loca en la categoria correcta.' },
+      { nombre: 'Kahoot de vocabulari', desc: 'Eina digital similar per treballar vocabulari en grup a classe. Ideal com a escalfament de 10 minuts.' },
+    ],
+    asignatura: 'Llengua i Idiomes', niveles: 'Primària, ESO, Batxillerat',
+  },
   'portero': {
     titulo: 'Porter',
     subtitulo: 'Joc de Raonament Espacial i Presa de Decisions',
@@ -764,8 +849,12 @@ export default function InfoJuegoFicha() {
     )
   }
 
+  const seoPath = lang==='en' ? `/en/info/juegos/${slug}` : lang==='ca' ? `/ca/info/juegos/${slug}` : `/info/juegos/${slug}`
+  const seoDesc = `${ficha.intro.slice(0, 150)}...`
+
   return (
     <div className="relative z-10">
+      <SEOHead title={`${ficha.titulo} — ${ficha.subtitulo}`} description={seoDesc} path={seoPath} lang={lang} />
       {/* Header oscuro */}
       <div className="px-4 sm:px-8 py-10 max-w-3xl mx-auto">
         <Link to={localPath('/info/juegos')} className="text-white/30 hover:text-white/60 text-sm mb-8 inline-flex items-center gap-1 transition-colors">

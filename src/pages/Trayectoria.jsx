@@ -5,6 +5,7 @@ import { useAuth } from '../context/AuthContext'
 import { saveActivity } from '../lib/activity'
 import CoinsAnimation from '../components/CoinsAnimation'
 import GameResultFooter from '../components/GameResultFooter'
+import SEOHead from '../components/SEOHead'
 import { POOLS } from '../data/trayectoriaLevels'
 import {
   VIEW, W, H, ANIM_DURATION,
@@ -590,7 +591,7 @@ export default function Trayectoria() {
   // ── screens ──
 
   if (screen === 'difficulty') {
-    return <DifficultyScreen onSelect={startGame} l={l} />
+    return <><SEOHead title={l==='en'?'Trajectory — Maths Functions Football Game':l==='ca'?'Trajectòria — Joc de Funcions Matemàtiques amb Futbol':'Trayectoria — Juego de Funciones Matemáticas con Fútbol'} description={l==='en'?'Choose the right mathematical function to score a goal. Learn linear, quadratic and piecewise functions playing football.':l==='ca'?'Tria la funció matemàtica correcta per marcar gol. Aprèn funcions lineals, quadràtiques i a trossos jugant a futbol.':'Elige la función matemática correcta para marcar gol. Aprende funciones lineales, cuadráticas y a trozos jugando al fútbol.'} path={l==='en'?'/en/juegos/trayectoria':l==='ca'?'/ca/juegos/trayectoria':'/juegos/trayectoria'} lang={l} /><DifficultyScreen onSelect={startGame} l={l} /></>
   }
 
   if (screen === 'end') {

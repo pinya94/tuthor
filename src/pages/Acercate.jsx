@@ -4,6 +4,7 @@ import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
 import { saveActivity } from '../lib/activity'
 import GameResultFooter from '../components/GameResultFooter'
+import SEOHead from '../components/SEOHead'
 
 // ── Configuración por nivel ────────────────────────────────────────────────
 // objMin/objMax: rango preferido del objetivo (siempre garantizado alcanzable)
@@ -262,6 +263,7 @@ export default function Acercate() {
   // ── PANTALLA INTRO ──────────────────────────────────────────────────────
   if (fase === 'intro') return (
     <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
+      <SEOHead title={lang==='en'?'Target Number — Mental Arithmetic Game':lang==='ca'?'Acosta\'t al Número — Joc de Càlcul Mental':'Acércate al Número — Juego de Cálculo Mental'} description={lang==='en'?'Combine numbers with arithmetic operations to reach the target. A roguelike mental maths game for all ages.':lang==='ca'?'Combina números amb operacions aritmètiques per arribar a l\'objectiu. Joc de càlcul mental roguelike.':'Combina números con operaciones aritméticas para llegar al objetivo exacto. Juego de cálculo mental en formato roguelike.'} path={lang==='en'?'/en/juegos/acercate':lang==='ca'?'/ca/juegos/acercate':'/juegos/acercate'} lang={lang} />
       <div className="max-w-md w-full">
         <div className="text-center mb-8">
           <span className="text-6xl block mb-3">🎯</span>

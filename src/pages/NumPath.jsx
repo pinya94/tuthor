@@ -6,6 +6,7 @@ import { saveActivity, saveDailyChallenge } from '../lib/activity'
 import CoinsAnimation from '../components/CoinsAnimation'
 import GameResultFooter from '../components/GameResultFooter'
 import ShareButton from '../components/ShareButton'
+import SEOHead from '../components/SEOHead'
 
 const DIFS = {
   facil:   { label: 'Fácil', labelEn: 'Easy', labelCa: 'Fàcil',     emoji: '🟢', size: 5, time: 90,  bonus: 15, ops: ['+','-'],       goalsNeeded: 1 },
@@ -335,6 +336,7 @@ export default function NumPath() {
     const d = DIFS[difId]
     return (
       <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
+        <SEOHead title={en?'NumPath — Maths Strategy Grid Game':ca?'NumPath — Joc d\'Estratègia Matemàtica en Quadrícula':'NumPath — Juego de Estrategia Matemática en Cuadrícula'} description={en?'Navigate a grid of maths operations and reach goal cells with the exact score. Plan your route — each cell is single-use.':ca?'Navega per una quadrícula d\'operacions matemàtiques i arriba a les caselles meta. Cada casella és d\'un sol ús.':'Navega por una cuadrícula de operaciones matemáticas y llega a las casillas meta con la puntuación exacta. Cada casilla es de un solo uso.'} path={en?'/en/juegos/numpath':ca?'/ca/juegos/numpath':'/juegos/numpath'} lang={lang} />
         <div className="max-w-md w-full">
           <button onClick={() => navigate(localPath('/juegos'))}
             className="text-white/30 hover:text-white/60 text-sm mb-6 flex items-center gap-1 transition-colors">

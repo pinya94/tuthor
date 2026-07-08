@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
+import SEOHead from '../components/SEOHead'
 
 const DATA = {
   es: {
@@ -14,6 +15,7 @@ const DATA = {
       { titulo: 'Matemáticas y Cálculo Mental', emoji: '📐', texto: 'El bloque de matemáticas está diseñado para desarrollar la agilidad numérica y romper la barrera ante el cálculo abstracto. A través de mecánicas de puzzle y roguelike, los estudiantes interiorizan operaciones aritméticas de forma natural.' },
       { titulo: 'Historia y Ciencias Sociales', emoji: '⏳', texto: 'Aprender fechas, contextos y personajes históricos no tiene por qué ser memorización pasiva. Nuestros juegos convierten los temarios oficiales en experiencias interactivas que fijan los conceptos de forma duradera.' },
       { titulo: 'Geografía', emoji: '🌍', texto: 'La geografía cobra vida cuando tienes que pensar rápido. Aprende países, continentes, ríos y montañas a través de pistas progresivas que te obligan a conectar datos geográficos en tiempo real.' },
+      { titulo: 'Idiomas y Gramática', emoji: '🔍', texto: 'Trabajar vocabulario, categorías gramaticales y ortografía de forma activa es mucho más eficaz que estudiar listas de palabras. Nuestros juegos de lengua plantean retos contextualizados que refuerzan el español, el catalán y el inglés.' },
     ],
   },
   en: {
@@ -28,6 +30,7 @@ const DATA = {
       { titulo: 'Maths & Mental Arithmetic', emoji: '📐', texto: 'The maths module is designed to build numerical agility and break through the barrier of abstract calculation. Through puzzle and roguelike mechanics, students internalise arithmetic operations naturally.' },
       { titulo: 'History & Social Sciences', emoji: '⏳', texto: 'Learning dates, contexts and historical figures does not have to be passive memorisation. Our games turn official syllabuses into interactive experiences that make concepts stick.' },
       { titulo: 'Geography', emoji: '🌍', texto: 'Geography comes alive when you have to think fast. Learn countries, continents, rivers and mountains through progressive clues that force you to connect geographical data in real time.' },
+      { titulo: 'Languages & Grammar', emoji: '🔍', texto: 'Actively working on vocabulary, word classes and spelling is far more effective than studying word lists. Our language games present contextualised challenges that reinforce Spanish, Catalan and English.' },
     ],
   },
   ca: {
@@ -42,6 +45,7 @@ const DATA = {
       { titulo: 'Matemàtiques i Càlcul Mental', emoji: '📐', texto: 'El bloc de matemàtiques està dissenyat per desenvolupar l\'agilitat numèrica i trencar la barrera davant el càlcul abstracte. A través de mecàniques de puzzle i roguelike, els estudiants interioritzen operacions aritmètiques de forma natural.' },
       { titulo: 'Història i Ciències Socials', emoji: '⏳', texto: 'Aprendre dates, contextos i personatges històrics no ha de ser memorització passiva. Els nostres jocs converteixen els temaris oficials en experiències interactives que fixen els conceptes de forma duradora.' },
       { titulo: 'Geografia', emoji: '🌍', texto: 'La geografia pren vida quan has de pensar ràpid. Aprèn països, continents, rius i muntanyes a través de pistes progressives que t\'obliguen a connectar dades geogràfiques en temps real.' },
+      { titulo: 'Idiomes i Gramàtica', emoji: '🔍', texto: 'Treballar vocabulari, categories gramaticals i ortografia de forma activa és molt més eficaç que estudiar llistes de paraules. Els nostres jocs de llengua plantegen reptes contextualitzats que reforcen el català, el castellà i l\'anglès.' },
     ],
   },
 }
@@ -62,6 +66,9 @@ const JUEGOS = {
       { slug: 'georush', titulo: 'GeoRush', desc: 'Adivina el país misterioso a partir de pistas geográficas.', emoji: '🌍', gradient: 'from-teal-500 to-cyan-700', tags: ['Geografía','Pistas'] },
       { slug: 'geomapa', titulo: 'GeoMapa', desc: 'Identifica el país iluminado en el mapa mundial. Pistas progresivas si fallas.', emoji: '🗺️', gradient: 'from-purple-600 to-violet-800', tags: ['Geografía','Mapa'] },
     ],
+    [
+      { slug: 'intruso', titulo: 'El Intruso', desc: 'Cuatro palabras, una no encaja. Vocabulario y gramática a contrarreloj en español, catalán e inglés.', emoji: '🔍', gradient: 'from-violet-500 to-purple-700', tags: ['Idiomas','Gramática'] },
+    ],
   ],
   en: [
     [
@@ -77,6 +84,9 @@ const JUEGOS = {
     [
       { slug: 'georush', titulo: 'GeoRush', desc: 'Guess the mystery country from geographical, demographic and historical clues.', emoji: '🌍', gradient: 'from-teal-500 to-cyan-700', tags: ['Geography','Clues'] },
       { slug: 'geomapa', titulo: 'GeoMapa', desc: 'Identify the highlighted country on the world map. Progressive hints if you miss.', emoji: '🗺️', gradient: 'from-purple-600 to-violet-800', tags: ['Geography','Map'] },
+    ],
+    [
+      { slug: 'intruso', titulo: 'Odd One Out', desc: 'Four words, one does not fit. Vocabulary and grammar against the clock in Spanish, Catalan and English.', emoji: '🔍', gradient: 'from-violet-500 to-purple-700', tags: ['Languages','Grammar'] },
     ],
   ],
   ca: [
@@ -94,6 +104,9 @@ const JUEGOS = {
       { slug: 'georush', titulo: 'GeoRush', desc: 'Endevina el país misteriós a partir de pistes geogràfiques.', emoji: '🌍', gradient: 'from-teal-500 to-cyan-700', tags: ['Geografia','Pistes'] },
       { slug: 'geomapa', titulo: 'GeoMapa', desc: 'Identifica el país il·luminat al mapa mundial. Pistes progressives si falles.', emoji: '🗺️', gradient: 'from-purple-600 to-violet-800', tags: ['Geografia','Mapa'] },
     ],
+    [
+      { slug: 'intruso', titulo: "L'Intrús", desc: 'Quatre paraules, una no hi encaixa. Vocabulari i gramàtica a contrarellotge en català, castellà i anglès.', emoji: '🔍', gradient: 'from-violet-500 to-purple-700', tags: ['Idiomes','Gramàtica'] },
+    ],
   ],
 }
 
@@ -102,8 +115,15 @@ export default function InfoJuegosHub() {
   const d = DATA[lang] || DATA.es
   const juegos = JUEGOS[lang] || JUEGOS.es
 
+  const seoHub = {
+    es: { title: 'Guía de Juegos Educativos', desc: 'Descubre todos los juegos educativos de Tuthor: historia, geografía, matemáticas y lengua. Beneficios pedagógicos, ejemplos y cómo jugar sin pantallas.' },
+    en: { title: 'Educational Games Guide', desc: 'Discover all Tuthor educational games: history, geography, maths and languages. Pedagogical benefits, examples and how to play without screens.' },
+    ca: { title: 'Guia de Jocs Educatius', desc: 'Descobreix tots els jocs educatius de Tuthor: història, geografia, matemàtiques i llengua. Beneficis pedagògics, exemples i com jugar sense pantalles.' },
+  }[lang] || {}
+
   return (
     <div className="relative z-10">
+      <SEOHead title={seoHub.title} description={seoHub.desc} path={lang==='en'?'/en/info/juegos':lang==='ca'?'/ca/info/juegos':'/info/juegos'} lang={lang} />
       <div className="px-4 sm:px-8 py-10 max-w-4xl mx-auto">
         <Link to={localPath('/')} className="text-white/30 hover:text-white/60 text-sm mb-8 inline-flex items-center gap-1 transition-colors">
           ← {lang === 'en' ? 'Home' : lang === 'ca' ? 'Inici' : 'Inicio'}

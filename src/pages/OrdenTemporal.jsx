@@ -6,6 +6,7 @@ import { useLang } from '../context/LangContext'
 import { saveActivity } from '../lib/activity'
 import CoinsAnimation from '../components/CoinsAnimation'
 import GameResultFooter from '../components/GameResultFooter'
+import SEOHead from '../components/SEOHead'
 
 const MAX_LIVES = 3
 
@@ -200,7 +201,7 @@ export default function OrdenTemporal() {
     }, 2000)
   }
 
-  if (fase === 'intro')    return <div className="relative z-10"><Intro onStart={startGame} lang={lang} /></div>
+  if (fase === 'intro')    return <div className="relative z-10"><SEOHead title={lang==='en'?'Timeline — Sort Historical Events':lang==='ca'?'Línia Temporal — Ordena Esdeveniments Històrics':'Línea Temporal — Ordena Eventos Históricos'} description={lang==='en'?'Place historical events in chronological order without dates. Test your historical knowledge in this free educational game.':lang==='ca'?'Col·loca esdeveniments històrics en ordre cronològic sense veure les dates. Posa a prova el teu coneixement.':'Coloca eventos históricos en orden cronológico sin ver las fechas. Pon a prueba tu conocimiento histórico.'} path={lang==='en'?'/en/juegos/linea-temporal':lang==='ca'?'/ca/juegos/linea-temporal':'/juegos/linea-temporal'} lang={lang} /><Intro onStart={startGame} lang={lang} /></div>
   if (fase === 'gameover') return <div className="relative z-10"><GameOver score={score} placed={timeline.length} onRepetir={startGame} onSalir={() => navigate(localPath('/juegos'))} lang={lang} user={user} /></div>
 
   const dif = { fácil: 'text-green-400 bg-green-500/10 border-green-500/30', medio: 'text-amber-400 bg-amber-500/10 border-amber-500/30', difícil: 'text-red-400 bg-red-500/10 border-red-500/30' }

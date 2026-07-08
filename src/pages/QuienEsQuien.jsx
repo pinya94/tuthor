@@ -7,6 +7,7 @@ import { saveActivity } from '../lib/activity'
 import CoinsAnimation from '../components/CoinsAnimation'
 import GameResultFooter from '../components/GameResultFooter'
 import ShareButton from '../components/ShareButton'
+import SEOHead from '../components/SEOHead'
 
 const BOARD_SIZE = 12
 const MAX_FALLOS = 2
@@ -366,7 +367,7 @@ export default function QuienEsQuien() {
     setModoAdivinar(false)
   }
 
-  if (fase === 'intro') return <Intro pool={poolKey} onStart={startGame} lang={lang} />
+  if (fase === 'intro') return <><SEOHead title={lang==='en'?'Who is Who? — Historical Figures Deduction Game':lang==='ca'?'Qui és Qui? — Joc de Deducció de Personatges Històrics':'¿Quién es Quién? — Juego de Deducción con Personajes Históricos'} description={lang==='en'?'Guess the secret historical figure using logical clues. Cross out candidates and prove your knowledge in this free history game.':lang==='ca'?'Endevina el personatge històric secret amb pistes lògiques. Descarta candidats i demostra el teu coneixement.':'Adivina el personaje histórico secreto usando pistas lógicas. Tacha candidatos y demuestra tu conocimiento de la historia.'} path={lang==='en'?'/en/juegos/quien-es-quien':lang==='ca'?'/ca/juegos/quien-es-quien':'/juegos/quien-es-quien'} lang={lang} /><Intro pool={poolKey} onStart={startGame} lang={lang} /></>
   if (fase === 'fin') {
     const shareText = `He conseguido ${puntos.toLocaleString()} pts en ¿Quién es Quién? 🕵️ — ¿puedes superarme? https://tuthor.es/juegos/quien-es-quien`
     return (
