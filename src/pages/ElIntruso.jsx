@@ -214,14 +214,15 @@ export default function ElIntruso() {
     // if wrong drained the clock entirely, end game
     if (timeLeftRef.current === 0) {
       setTimedOut(true)
-      finishGame(scoreRef.current, correctRef.current, wrongRef.current, questions)
+      finishGame(scoreRef.current, correctRef.current, wrongRef.current, questionsRef.current)
     }
   }
 
   function handleNext() {
+    if (timeLeftRef.current <= 0) return  // guard: timer already drained
     const nextIdx = current + 1
-    if (nextIdx >= questions.length) {
-      finishGame(scoreRef.current, correctRef.current, wrongRef.current, questions)
+    if (nextIdx >= questionsRef.current.length) {
+      finishGame(scoreRef.current, correctRef.current, wrongRef.current, questionsRef.current)
     } else {
       setCurrent(nextIdx)
       setPicked(null)
@@ -315,7 +316,7 @@ export default function ElIntruso() {
 
           {/* Header */}
           <div className="flex items-center justify-between mb-3">
-            <button onClick={() => { clearTimer(); setScreen('select') }} className="text-white/30 hover:text-white/60 text-sm transition-colors">
+            <button onClick={() => { clearTimer(); setSaved(false); setScreen('select') }} className="text-white/30 hover:text-white/60 text-sm transition-colors">
               {u.salir}
             </button>
             <div className="flex items-center gap-3">
@@ -440,7 +441,7 @@ export default function ElIntruso() {
             <button onClick={() => startGame(nivel)} className="w-full bg-violet-600 hover:bg-violet-500 text-white font-bold py-3 rounded-xl transition-colors">
               {u.jugarDeNuevo}
             </button>
-            <button onClick={() => { clearTimer(); setScreen('select') }} className="w-full bg-white/5 hover:bg-white/10 border border-white/10 text-white font-semibold py-3 rounded-xl transition-colors">
+            <button onClick={() => { clearTimer(); setSaved(false); setScreen('select') }} className="w-full bg-white/5 hover:bg-white/10 border border-white/10 text-white font-semibold py-3 rounded-xl transition-colors">
               {u.cambiarNivel}
             </button>
             <button onClick={() => navigate(localPath('/juegos'))} className="w-full text-white/40 hover:text-white/60 py-2 text-sm transition-colors">
