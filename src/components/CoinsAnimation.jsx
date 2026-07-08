@@ -1,17 +1,19 @@
 import { useState, useEffect } from 'react'
 
-export default function CoinsAnimation({ points }) {
-  const coins = Math.min(Math.floor(points / 10), 200)
+export default function CoinsAnimation({ points, coins: explicitCoins }) {
+  const coins = explicitCoins !== undefined
+    ? Math.max(0, Math.round(explicitCoins))
+    : Math.min(Math.floor((points || 0) / 10), 200)
   const [phase, setPhase] = useState('in') // 'in' | 'out' | 'gone'
 
   useEffect(() => {
-    if (points <= 0) { setPhase('gone'); return }
+    if (coins <= 0) { setPhase('gone'); return }
     const t1 = setTimeout(() => setPhase('out'), 2000)
     const t2 = setTimeout(() => setPhase('gone'), 2600)
     return () => { clearTimeout(t1); clearTimeout(t2) }
   }, [])
 
-  if (phase === 'gone' || points <= 0) return null
+  if (phase === 'gone' || coins <= 0) return null
 
   return (
     <div

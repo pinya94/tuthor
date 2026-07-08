@@ -187,8 +187,9 @@ export default function Acercate() {
     if (user) {
       const timeSpent = Math.round((Date.now() - (startTimeRef.current || Date.now())) / 1000)
       saveActivity(user.uid, {
-        type: 'juego', game: 'acercate', category: nivelId,
-        score: pts, passed: diff === 0, timeSpent,
+        type: 'juego', game: 'acercate-clasico', category: nivelId,
+        score: pts, coinsEarned: diff === 0 ? 100 : diff <= 2 ? 50 : 0,
+        passed: diff === 0, timeSpent,
       }).catch(() => {})
     }
     setFase('fin')

@@ -228,7 +228,7 @@ export default function AcercateRoguelike() {
     if (fase !== 'resultado' || saved || !user) return
     const timeSpent = startRef.current ? Math.round((Date.now() - startRef.current) / 1000) : 0
     saveActivity(user.uid, {
-      type: 'juego', game: 'acercate', category: difId,
+      type: 'juego', game: 'acercate-roguelike', category: difId,
       score, passed: (rd?.nivel || 1) > 1, timeSpent,
       userName: user.displayName, userPhoto: user.photoURL,
     }).catch(() => {})

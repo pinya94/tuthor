@@ -77,7 +77,9 @@ export async function saveActivity(uid, data) {
   const snap = await getDoc(statsRef)
   const t = data.timeSpent || 0
 
-  const coinsEarned = Math.min(Math.floor((data.score || 0) / 10), 200) + (data.bonusCoins || 0)
+  const coinsEarned = data.coinsEarned !== undefined
+    ? Math.min(Math.max(0, Math.round(data.coinsEarned)), 500)
+    : Math.min(Math.floor((data.score || 0) / 10), 200)
 
   if (!snap.exists()) {
     const byGame = { [data.game]: { plays: 1, timeSpent: t, bestScore: data.score || 0 } }

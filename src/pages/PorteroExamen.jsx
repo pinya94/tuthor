@@ -263,10 +263,11 @@ export default function PorteroExamen() {
     if (screen !== 'end') return
     const timeSpent = startTimeRef.current ? Math.round((Date.now() - startTimeRef.current) / 1000) : 0
     const pts = Math.round((scoreRef.current / TOTAL) * 100)
+    const coinsEarned = Math.round((scoreRef.current / TOTAL) * 200)
     if (user?.uid) {
       saveActivity(user.uid, {
         type: 'examen', game: 'portero', category: 'matematicas',
-        score: pts, passed: scoreRef.current >= 5, timeSpent,
+        score: pts, coinsEarned, passed: scoreRef.current >= 5, timeSpent,
       }).catch(() => {})
     }
   }, [screen, user])
@@ -355,7 +356,7 @@ export default function PorteroExamen() {
     <>
       {pageMeta}{quizSchema}
       <ExamEnd score={score} results={results} onRetry={startExam} l={l} />
-      {score > 0 && <CoinsAnimation points={Math.round((score / TOTAL) * 100)} />}
+      {score > 0 && <CoinsAnimation coins={Math.round((score / TOTAL) * 200)} />}
     </>
   )
   if (!question) return null

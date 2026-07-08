@@ -6,6 +6,7 @@ import { useLang } from '../context/LangContext'
 import { saveActivity } from '../lib/activity'
 import PageMeta from '../components/PageMeta'
 import QuizSchema from '../components/QuizSchema'
+import CoinsAnimation from '../components/CoinsAnimation'
 
 const MAX_LIVES_PRIMARIA = 5
 const WIN_AT_PRIMARIA    = 10
@@ -144,6 +145,7 @@ export default function ExamenLineaTemporal() {
   const [lives, setLives]     = useState(maxLives)
   const [placed, setPlaced]   = useState(0)
   const [phase, setPhase]     = useState('placing')
+  const [coinsToShow, setCoinsToShow] = useState(0)
   const [chosenSlot, setChosenSlot]   = useState(null)
   const [correctSlot, setCorrectSlot] = useState(null)
   const [wasCorrect, setWasCorrect]   = useState(null)
@@ -238,9 +240,11 @@ export default function ExamenLineaTemporal() {
       if (won || newLives <= 0 || pending.length === 0) {
         const timeSpent = startRef.current ? Math.round((Date.now() - startRef.current) / 1000) : 0
         const passed    = newPlaced >= target
+        const coins     = Math.min(newPlaced * 10, 200)
+        setCoinsToShow(coins)
         if (user) saveActivity(user.uid, {
           type: 'examen', game: 'linea-temporal', category: categoria,
-          score: newPlaced * 10, passed, timeSpent,
+          score: newPlaced * 10, coinsEarned: coins, passed, timeSpent,
         }).catch(() => {})
         setFase('resultado'); return
       }
@@ -270,6 +274,7 @@ export default function ExamenLineaTemporal() {
         onSalir={() => navigate(localPath(backPath || `/estudiar/${nivel}/historia`))}
         en={en}
       />
+      {coinsToShow > 0 && <CoinsAnimation coins={coinsToShow} />}
     </div>
   )
 

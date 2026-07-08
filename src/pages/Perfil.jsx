@@ -18,9 +18,10 @@ const GAME_LABELS = {
   'portadas':        { es: 'Portadas',             en: 'Headlines',         ca: 'Portades',           emoji: '📰' },
   'georush':         { es: 'GeoRush',              en: 'GeoRush',           ca: 'GeoRush',            emoji: '🌍' },
   'geomapa':         { es: 'GeoMapa',              en: 'GeoMap',            ca: 'GeoMapa',            emoji: '🗺️' },
-  'matematicas':     { es: 'Cálculo Mental',       en: 'Mental Maths',      ca: 'Càlcul Mental',      emoji: '🧮' },
-  'acercate':        { es: 'Acércate al Número',   en: 'Target Number',     ca: "Acosta't al Número", emoji: '🎯' },
-  'numpath':         { es: 'NumPath',              en: 'NumPath',           ca: 'NumPath',            emoji: '🔢' },
+  'matematicas':        { es: 'Cálculo Mental',         en: 'Mental Maths',        ca: 'Càlcul Mental',        emoji: '🧮' },
+  'acercate-clasico':   { es: 'Acércate (Clásico)',     en: 'Target Number',       ca: "Acosta't (Clàssic)",   emoji: '🎯' },
+  'acercate-roguelike': { es: 'Acércate (Roguelike)',   en: 'Target Number RL',    ca: "Acosta't (Roguelike)", emoji: '🎲' },
+  'numpath':            { es: 'NumPath',                en: 'NumPath',             ca: 'NumPath',              emoji: '🔢' },
   'intruso':         { es: 'El Intruso',           en: 'The Odd One Out',   ca: 'L\'Intrús',          emoji: '🔍' },
 }
 
@@ -52,7 +53,7 @@ const SUBJECTS = [
   {
     id: 'matematicas', emoji: '🔢',
     label: { es: 'Matemáticas', en: 'Maths', ca: 'Matemàtiques' },
-    gameIds: ['matematicas', 'acercate', 'numpath'],
+    gameIds: ['matematicas', 'acercate-clasico', 'acercate-roguelike', 'numpath'],
     examIds: ['algebra', 'enteros-racionales', 'estadistica', 'fracciones', 'funciones', 'geometria'],
     catIds: ['facil', 'medio', 'dificil', 'combinado-primaria', 'combinado-eso', 'combinado-bachillerato',
              'sumas-primaria', 'sumas-eso', 'sumas-bachillerato',

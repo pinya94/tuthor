@@ -103,6 +103,7 @@ export default function ElIntruso() {
   const [timedOut, setTimedOut]   = useState(false)
   const [saved, setSaved]         = useState(false)
   const [showCoins, setShowCoins] = useState(false)
+  const [coinsToShow, setCoinsToShow] = useState(0)
 
   const scoreRef     = useRef(0)
   const correctRef   = useRef(0)
@@ -117,12 +118,14 @@ export default function ElIntruso() {
 
   function finishGame(finalScore, finalCorrect, finalWrong, qList) {
     clearTimer()
+    const coinsEarned = qList.length > 0 ? Math.round(finalCorrect / qList.length * 150) : 0
     if (user && !saved) {
       setSaved(true)
       saveActivity(user.uid, {
         type: 'juego',
         game: 'intruso',
         score: finalScore,
+        coinsEarned,
         passed: finalCorrect >= Math.ceil(qList.length / 2),
         timeSpent: 0,
         userName: user.displayName || 'Jugador',
@@ -132,7 +135,8 @@ export default function ElIntruso() {
         saveDailyChallenge(user.uid, finalCorrect >= Math.ceil(qList.length / 2)).catch(() => {})
       }
     }
-    setShowCoins(finalScore > 0)
+    setCoinsToShow(coinsEarned)
+    setShowCoins(coinsEarned > 0)
     setScreen('result')
   }
 
@@ -323,7 +327,7 @@ export default function ElIntruso() {
             </button>
             <div className="flex items-center gap-3">
               <span className="text-white/40 text-sm">{current + 1}/{questions.length}</span>
-              <span className="text-amber-400 font-bold text-sm tabular-nums">💰 {score}</span>
+              <span className="text-white/60 font-bold text-sm tabular-nums">⭐ {score} pts</span>
             </div>
           </div>
 
@@ -412,7 +416,7 @@ export default function ElIntruso() {
 
     return (
       <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
-        {showCoins && <CoinsAnimation points={score} />}
+        {showCoins && <CoinsAnimation coins={coinsToShow} />}
 
         <div className="max-w-sm w-full">
           <div className="text-center mb-6">

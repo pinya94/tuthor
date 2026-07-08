@@ -6,6 +6,7 @@ import { useLang } from '../context/LangContext'
 import { saveActivity } from '../lib/activity'
 import PageMeta from '../components/PageMeta'
 import QuizSchema from '../components/QuizSchema'
+import CoinsAnimation from '../components/CoinsAnimation'
 
 // ── PANTALLA INTRO ─────────────────────────────────────────────────────────
 function Intro({ examen, eventos, margen, onStart, en }) {
@@ -254,6 +255,7 @@ export default function ExamenJuego() {
   const [historial, setHistorial] = useState([])
   const [vivo, setVivo] = useState(true)
   const [preguntaMuerte, setPreguntaMuerte] = useState(null)
+  const [coinsToShow, setCoinsToShow] = useState(0)
   const startTimeRef = useRef(null)
   const { user } = useAuth()
 
@@ -291,12 +293,15 @@ export default function ExamenJuego() {
         const timeSpent = startTimeRef.current ? Math.round((Date.now() - startTimeRef.current) / 1000) : 0
         const puntos = [...historial, resultado].reduce((s, h) => s + h.puntos, 0)
         const passed = vivo && !resultado.muereAqui
+        const coins = Math.min(Math.floor(puntos / 10), 200)
+        setCoinsToShow(coins)
         if (user) {
           saveActivity(user.uid, {
             type: 'examen',
             game: 'juego-fechas',
             category: examen.id,
             score: puntos,
+            coinsEarned: coins,
             passed,
             timeSpent,
           }).catch(() => {})
@@ -345,6 +350,7 @@ export default function ExamenJuego() {
           en={en}
           lt={lt}
         />
+        {coinsToShow > 0 && <CoinsAnimation coins={coinsToShow} />}
       </div>
     )
   }
