@@ -217,6 +217,7 @@ export async function getStatsAndCosmetics(uid) {
   }
   const d = snap.data()
   return {
+    ...d,
     coins: d.coins ?? 0,
     ownedFrames:    d.ownedFrames    ?? ['default'],
     equippedFrame:  d.equippedFrame  ?? 'default',
