@@ -17,7 +17,7 @@ async function updateLeaderboard(game, uid, name, photoURL, score, avatarEmoji, 
     if (bannerId && bannerId !== 'banner_default') entry.bannerId = bannerId
     if (frameId && frameId !== 'default') entry.frameId = frameId
     rest.push(entry)
-    const sorted = rest.sort((a, b) => b.score - a.score).slice(0, 10)
+    const sorted = rest.sort((a, b) => b.score - a.score)
     await setDoc(lbRef, { top: sorted, updatedAt: serverTimestamp() })
   } catch { /* non-critical */ }
 }
