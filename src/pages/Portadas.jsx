@@ -239,6 +239,7 @@ export default function Portadas() {
     return (
       <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
         <SEOHead title={lang==='en'?'Headlines — True or False Historical Headlines':lang==='ca'?'Portades — Titulars Històrics Veritat o Mentida':'Portadas — Titulares Históricos Verdad o Mentira'} description={lang==='en'?'Read real historical newspaper headlines and decide if they are true or false. Critical thinking meets history in this free game.':lang==='ca'?'Llegeix portades de diaris històrics reals i decideix si el titular és veritat o mentida. Pensament crític i història.':'Lee portadas de periódicos históricos reales y decide si el titular es verdad o mentira. Pensamiento crítico e historia.'} path={lang==='en'?'/en/juegos/portadas':lang==='ca'?'/ca/juegos/portadas':'/juegos/portadas'} lang={lang} />
+        <div className="max-w-xl w-full flex flex-col items-center">
           <button onClick={() => navigate(localPath('/juegos'))}
             className="text-white/30 hover:text-white/60 text-sm mb-6 flex items-center gap-1 transition-colors">
             {pu.volver}
@@ -310,6 +311,7 @@ export default function Portadas() {
             className="w-full py-4 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-xl rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-amber-500/30">
             {pu.empezar}
           </button>
+        </div>
       </div>
     )
   }
