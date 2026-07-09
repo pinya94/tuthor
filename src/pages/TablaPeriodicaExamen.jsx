@@ -1,6 +1,8 @@
 import { useState, useMemo, useRef, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
+import { useAuth } from '../context/AuthContext'
+import { saveActivity } from '../lib/activity'
 import { ELEMENTOS, TIPOS } from '../data/tablaperiodica'
 import PageMeta from '../components/PageMeta'
 import QuizSchema from '../components/QuizSchema'
@@ -257,6 +259,7 @@ function ChoiceButtons({ opciones, onSelect, disabled, correct, revealed, lang, 
 export default function TablaPeriodicaExamen() {
   const navigate = useNavigate()
   const { lang, localPath } = useLang()
+  const { user } = useAuth()
   const location = useLocation()
   const { backPath, nivel: nivelInicial } = location.state || {}
   const en = lang === 'en', ca = lang === 'ca'
@@ -295,6 +298,22 @@ export default function TablaPeriodicaExamen() {
 
   const q = questions[idx]
   const backTo = backPath ? localPath(backPath) : localPath('/estudiar/quimica')
+
+  // Guardar al terminar el examen (una sola vez por partida)
+  const savedRef = useRef(false)
+  useEffect(() => {
+    if (fase !== 'resultado' || savedRef.current || !user) return
+    savedRef.current = true
+    saveActivity(user.uid, {
+      type: 'examen', game: 'tabla-periodica', category: 'tabla-periodica',
+      score: aciertos * 100, passed: aciertos >= 5,
+      coinsEarned: Math.min(aciertos * 20, 200),
+      userName: user.displayName, userPhoto: user.photoURL,
+    }).catch(() => {})
+  }, [fase]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Reiniciar el flag al empezar una nueva partida
+  useEffect(() => { if (fase === 'jugando') savedRef.current = false }, [fase])
 
   function handleCorrect() {
     setAciertos(a => a + 1)
@@ -424,9 +443,14 @@ export default function TablaPeriodicaExamen() {
             </div>
             <h2 className="text-2xl font-black text-white mb-1">{cal.label}</h2>
             <p className={`text-5xl font-black mb-1 ${cal.color}`}>{aciertos}/{pool.length}</p>
-            <p className="text-white/40 text-sm">
+            <p className="text-white/40 text-sm mb-3">
               {en ? 'Periodic Table' : ca ? 'Taula Periòdica' : 'Tabla Periódica'} · {lang === 'en' ? NIVEL_LABELS[nivelSel].en : lang === 'ca' ? NIVEL_LABELS[nivelSel].ca : NIVEL_LABELS[nivelSel].es}
             </p>
+            <div className="inline-flex items-center gap-1.5 bg-amber-400/10 border border-amber-400/30 rounded-full px-3 py-1">
+              <span className="text-amber-400 text-sm">💰</span>
+              <span className="text-amber-400 font-black text-sm">+{Math.min(aciertos * 20, 200)}</span>
+              <span className="text-amber-400/60 text-xs">{en ? 'coins' : ca ? 'monedes' : 'monedas'}</span>
+            </div>
           </div>
           <div className="bg-white/5 border border-white/10 rounded-2xl p-4 mb-5">
             <p className="text-white/30 text-xs uppercase tracking-widest mb-3 font-semibold">{en ? 'Detail' : ca ? 'Detall' : 'Detalle'}</p>

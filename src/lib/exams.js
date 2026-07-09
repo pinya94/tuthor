@@ -12,6 +12,33 @@
 // son exámenes retirados que se conservan solo para etiquetar stats antiguas.
 
 export const EXAMS = {
+  // ── Exámenes con página propia (ruta hardcoded en App.jsx, sin loader) ──────
+  // Registrados solo para etiqueta + materia en el perfil.
+  'matematicas-examen': {
+    label: { es: 'Examen de cálculo', en: 'Maths exam', ca: 'Examen de càlcul' },
+    emoji: '🧮', subject: 'matematicas',
+  },
+  'portadas-examen': {
+    label: { es: 'Portadas (examen)', en: 'Headlines (exam)', ca: 'Portades (examen)' },
+    emoji: '📰', subject: 'historia',
+  },
+  'geografia-examen': {
+    label: { es: 'GeoRush (examen)', en: 'GeoRush (exam)', ca: 'GeoRush (examen)' },
+    emoji: '🌍', subject: 'geografia',
+  },
+  'geomapa-examen': {
+    label: { es: 'GeoMapa mundo', en: 'GeoMap world', ca: 'GeoMapa món' },
+    emoji: '🗺️', subject: 'geografia',
+  },
+  'geomapa-espana-examen': {
+    label: { es: 'GeoMapa España', en: 'GeoMap Spain', ca: 'GeoMapa Espanya' },
+    emoji: '🇪🇸', subject: 'geografia',
+  },
+  'geomapa-eeuu-examen': {
+    label: { es: 'GeoMapa EE. UU.', en: 'GeoMap USA', ca: 'GeoMapa EUA' },
+    emoji: '🇺🇸', subject: 'geografia',
+  },
+
   // ── Matemáticas ────────────────────────────────────────────────────────────
   'algebra': {
     label: { es: 'Álgebra', en: 'Algebra', ca: 'Àlgebra' },

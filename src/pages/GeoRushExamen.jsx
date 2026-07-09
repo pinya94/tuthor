@@ -1,6 +1,8 @@
 import { useState, useMemo, useRef, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
+import { useAuth } from '../context/AuthContext'
+import { saveActivity } from '../lib/activity'
 import { PAISES, NOMBRES_PAISES } from '../data/paises'
 import PageMeta from '../components/PageMeta'
 
@@ -126,6 +128,7 @@ function AutocompleteInput({ value, onChange, onSubmit, disabled, focusKey }) {
 export default function GeoRushExamen() {
   const navigate = useNavigate()
   const { lang, localPath } = useLang()
+  const { user } = useAuth()
   const location = useLocation()
   const { region, titulo, backPath } = location.state || {}
 
@@ -139,6 +142,19 @@ export default function GeoRushExamen() {
   const [aciertos, setAciertos]   = useState(0)
   const [historial, setHistorial] = useState([])
   const [fase, setFase]           = useState('jugando') // 'jugando' | 'resultado'
+
+  // Guardar al terminar (una vez por partida)
+  const savedRef = useRef(false)
+  useEffect(() => {
+    if (fase !== 'resultado' || savedRef.current || !user) return
+    savedRef.current = true
+    saveActivity(user.uid, {
+      type: 'examen', game: 'geografia-examen', category: 'geografia-examen',
+      score: aciertos * 100, passed: aciertos >= 5,
+      coinsEarned: Math.min(aciertos * 20, 200),
+      userName: user.displayName, userPhoto: user.photoURL,
+    }).catch(() => {})
+  }, [fase]) // eslint-disable-line react-hooks/exhaustive-deps
 
   // Per-country state
   const [pistas, setPistas]       = useState([])

@@ -238,7 +238,7 @@ export default function ExamenMC({ titulo, emoji, nivelInfo, backFallback, gameI
   if (fase === 'resultado') {
     const aprobado = aciertos >= 5
     const cal      = calificacion(aciertos, lang)
-    const coins    = aciertos * 10
+    const coins    = Math.min(aciertos * 20, 200) // = coinsEarned guardado y animado
     return (
       <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
         {pageMeta}{quizSchema}

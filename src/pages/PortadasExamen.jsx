@@ -1,6 +1,8 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect, useRef } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
+import { useAuth } from '../context/AuthContext'
+import { saveActivity } from '../lib/activity'
 import { PORTADAS } from '../data/portadas'
 import PageMeta from '../components/PageMeta'
 
@@ -75,6 +77,7 @@ const TOTAL = 10
 export default function PortadasExamen() {
   const navigate   = useNavigate()
   const { lang, localPath, lt } = useLang()
+  const { user } = useAuth()
   const en = lang === 'en'
   const location   = useLocation()
   const { categoria, backPath } = location.state || {}
@@ -89,6 +92,19 @@ export default function PortadasExamen() {
   const [historial,  setHistorial]  = useState([])
   const [feedback,   setFeedback]   = useState(null)
   const [fase,       setFase]       = useState('jugando') // 'jugando' | 'feedback' | 'resultado'
+
+  // Guardar al terminar (una vez por partida)
+  const savedRef = useRef(false)
+  useEffect(() => {
+    if (fase !== 'resultado' || savedRef.current || !user) return
+    savedRef.current = true
+    saveActivity(user.uid, {
+      type: 'examen', game: 'portadas-examen', category: 'portadas-examen',
+      score: aciertos * 100, passed: aciertos >= 5,
+      coinsEarned: Math.min(aciertos * 20, 200),
+      userName: user.displayName, userPhoto: user.photoURL,
+    }).catch(() => {})
+  }, [fase]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const pageMeta = <PageMeta
     title={en ? 'Historical Headlines Exam' : 'Examen Portadas Históricas'}

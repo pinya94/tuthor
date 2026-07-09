@@ -1,6 +1,8 @@
 import { useState, useMemo, useRef, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
+import { useAuth } from '../context/AuthContext'
+import { saveActivity } from '../lib/activity'
 import { PAISES, NOMBRES_PAISES, NOMBRES_PAISES_EN } from '../data/paises'
 import WorldMap from '../components/WorldMap'
 import PageMeta from '../components/PageMeta'
@@ -103,6 +105,7 @@ function AutocompleteInput({ value, onChange, onSubmit, disabled, focusKey, lang
 export default function GeoMapaExamen() {
   const navigate = useNavigate()
   const { lang, localPath, lt } = useLang()
+  const { user } = useAuth()
   const location = useLocation()
   const { region, titulo, backPath } = location.state || {}
   const en = lang === 'en'
@@ -118,6 +121,19 @@ export default function GeoMapaExamen() {
   const [aciertos, setAciertos]   = useState(0)
   const [historial, setHistorial] = useState([])
   const [fase, setFase]           = useState('jugando')
+
+  // Guardar al terminar (una vez por partida)
+  const savedRef = useRef(false)
+  useEffect(() => {
+    if (fase !== 'resultado' || savedRef.current || !user) return
+    savedRef.current = true
+    saveActivity(user.uid, {
+      type: 'examen', game: 'geomapa-examen', category: 'geomapa-examen',
+      score: aciertos * 100, passed: aciertos >= 5,
+      coinsEarned: Math.min(aciertos * 20, 200),
+      userName: user.displayName, userPhoto: user.photoURL,
+    }).catch(() => {})
+  }, [fase]) // eslint-disable-line react-hooks/exhaustive-deps
 
   // Per-country state
   const [errores, setErrores]     = useState(0)

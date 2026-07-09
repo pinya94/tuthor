@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef } from 'react'
 import { useNavigate, useParams, useLocation } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
+import { useAuth } from '../context/AuthContext'
+import { saveActivity } from '../lib/activity'
 import { MODOS, GRADOS, rng } from '../lib/mathEngine'
 import PageMeta from '../components/PageMeta'
 
@@ -59,8 +61,23 @@ export default function ExamenMatematicas() {
   const [feedback, setFb]     = useState(null) // 'correcto' | 'incorrecto'
   const [fase, setFase]       = useState('jugando') // 'jugando' | 'resultado'
   const inputRef = useRef(null)
+  const { user } = useAuth()
 
   useEffect(() => { inputRef.current?.focus() }, [idx, feedback])
+
+  // Guardar al terminar (una vez por partida)
+  const savedRef = useRef(false)
+  useEffect(() => {
+    if (fase !== 'resultado' || savedRef.current || !user) return
+    savedRef.current = true
+    const aciertos = historial.filter(h => h.correcto).length
+    saveActivity(user.uid, {
+      type: 'examen', game: 'matematicas-examen', category: 'matematicas-examen',
+      score: aciertos * 100, passed: aciertos >= 5,
+      coinsEarned: Math.min(aciertos * 20, 200),
+      userName: user.displayName, userPhoto: user.photoURL,
+    }).catch(() => {})
+  }, [fase]) // eslint-disable-line react-hooks/exhaustive-deps
 
   function confirmar() {
     if (feedback) return
@@ -90,7 +107,12 @@ export default function ExamenMatematicas() {
             <div className="text-5xl mb-3">{aciertos >= 5 ? '🎉' : '😬'}</div>
             <h2 className="text-2xl font-black text-white mb-1">{cal.label}</h2>
             <p className={`text-5xl font-black mb-1 ${cal.color}`}>{aciertos}/{TOTAL}</p>
-            <p className="text-white/40 text-sm">{en ? 'Grade' : 'Nota'}: {cal.nota}</p>
+            <p className="text-white/40 text-sm mb-3">{en ? 'Grade' : 'Nota'}: {cal.nota}</p>
+            <div className="inline-flex items-center gap-1.5 bg-amber-400/10 border border-amber-400/30 rounded-full px-3 py-1">
+              <span className="text-amber-400 text-sm">💰</span>
+              <span className="text-amber-400 font-black text-sm">+{Math.min(aciertos * 20, 200)}</span>
+              <span className="text-amber-400/60 text-xs">{en ? 'coins' : 'monedas'}</span>
+            </div>
           </div>
 
           <div className="bg-white/5 border border-white/10 rounded-2xl p-4 mb-5 space-y-2">

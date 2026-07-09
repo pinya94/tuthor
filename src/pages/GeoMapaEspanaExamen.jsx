@@ -1,6 +1,8 @@
 import { useState, useMemo, useRef, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
+import { useAuth } from '../context/AuthContext'
+import { saveActivity } from '../lib/activity'
 import SpainMap from '../components/SpainMap'
 import { COMUNIDADES, NOMBRES_COMUNIDADES, NOMBRES_COMUNIDADES_EN, NOMBRES_COMUNIDADES_CA } from '../data/espanaRegiones'
 import PageMeta from '../components/PageMeta'
@@ -81,6 +83,7 @@ function AutocompleteInput({ value, onChange, onSubmit, disabled, focusKey, lang
 export default function GeoMapaEspanaExamen() {
   const navigate = useNavigate()
   const { lang, localPath } = useLang()
+  const { user } = useAuth()
   const location = useLocation()
   const { backPath } = location.state || {}
   const en = lang === 'en'
@@ -97,6 +100,19 @@ export default function GeoMapaEspanaExamen() {
   const [aciertos, setAciertos]   = useState(0)
   const [historial, setHistorial] = useState([])
   const [fase, setFase]           = useState('jugando')
+
+  // Guardar al terminar (una vez por partida)
+  const savedRef = useRef(false)
+  useEffect(() => {
+    if (fase !== 'resultado' || savedRef.current || !user) return
+    savedRef.current = true
+    saveActivity(user.uid, {
+      type: 'examen', game: 'geomapa-espana-examen', category: 'geomapa-espana-examen',
+      score: aciertos * 100, passed: aciertos >= 5,
+      coinsEarned: Math.min(aciertos * 20, 200),
+      userName: user.displayName, userPhoto: user.photoURL,
+    }).catch(() => {})
+  }, [fase]) // eslint-disable-line react-hooks/exhaustive-deps
   const [errores, setErrores]     = useState(0)
   const [showCapital, setShowCapital] = useState(false)
   const [inputVal, setInputVal]   = useState('')
