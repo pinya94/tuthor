@@ -41,17 +41,25 @@ export async function getLeaderboard(game, topN = 10) {
 }
 
 // Posición exacta del jugador: cuenta cuántos scores hay por encima del suyo.
-// Dos counts agregados — no descarga entradas. Devuelve { rank, total } o null.
+// Dos counts agregados — no descarga entradas. Si la subcolección aún está
+// vacía, cae al array legacy para no perder los rankings antiguos.
+// Devuelve { rank, total } o null.
 export async function getUserRank(game, score) {
   if (score === undefined || score === null) return null
   try {
-    const [above, total] = await Promise.all([
-      getCountFromServer(query(lbEntriesCol(game), where('score', '>', score))),
-      getCountFromServer(lbEntriesCol(game)),
-    ])
+    const total = await getCountFromServer(lbEntriesCol(game))
     const t = total.data().count
-    if (t === 0) return null
-    return { rank: above.data().count + 1, total: t }
+    if (t > 0) {
+      const above = await getCountFromServer(query(lbEntriesCol(game), where('score', '>', score)))
+      return { rank: above.data().count + 1, total: t }
+    }
+    // Fallback legacy: rank calculado sobre el array congelado
+    const legacy = await getDoc(doc(db, '_stats', `leaderboard_${game}`))
+    if (!legacy.exists()) return null
+    const top = legacy.data().top ?? []
+    if (top.length === 0) return null
+    const above = top.filter(e => (e.score ?? 0) > score).length
+    return { rank: above + 1, total: top.length }
   } catch { return null }
 }
 
