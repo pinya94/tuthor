@@ -5,8 +5,7 @@ import { useLang } from '../context/LangContext'
 import { useAuth } from '../context/AuthContext'
 import { saveActivity } from '../lib/activity'
 import { computeCoins } from '../lib/games'
-import CoinsAnimation, { CoinsEarnedBadge } from '../components/CoinsAnimation'
-import GameResultFooter from '../components/GameResultFooter'
+import GameEndScreen from '../components/GameEndScreen'
 
 const ALL_OPS = ['+', '-', '×', '÷']
 
@@ -195,9 +194,6 @@ export default function AcercateRoguelike() {
   const [falloMsg, setFalloMsg] = useState('')
   const [levelScore, setLevelScore] = useState(null)
 
-  // ── Share modal ──────────────────────────────────────────────────────────
-  const [showShare, setShowShare] = useState(false)
-  const [copied, setCopied] = useState(false)
 
   const [saved, setSaved] = useState(false)
   const timerRef = useRef(null)
@@ -352,22 +348,6 @@ export default function AcercateRoguelike() {
     return `He llegado al nivel ${rd?.nivel} con ${score.toLocaleString()} pts en Acércate al Número ⚔️${mult} — ¿puedes superarme? tuthor.es/juegos/acercate`
   }
 
-  function copiarTexto() {
-    navigator.clipboard.writeText(getShareTexto()).then(() => {
-      setCopied(true)
-      setTimeout(() => setCopied(false), 2000)
-    }).catch(() => {})
-  }
-
-  function compartirEn(red) {
-    const texto = encodeURIComponent(getShareTexto())
-    const urls = {
-      twitter:  `https://twitter.com/intent/tweet?text=${texto}`,
-      whatsapp: `https://wa.me/?text=${texto}`,
-      telegram: `https://t.me/share/url?url=https%3A%2F%2Ftuthor.app%2Fjuegos%2Facercate&text=${texto}`,
-    }
-    window.open(urls[red], '_blank', 'noopener')
-  }
 
   // ── Puzzle interactions ──────────────────────────────────────────────────
   function clickNumero(n) {
@@ -545,88 +525,34 @@ export default function AcercateRoguelike() {
     const nivelAlcanzado = rd?.nivel || 1
     const difLabel = DIFS[rd?.difId || difId]
     return (
-      <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
-          <div className="max-w-md w-full text-center">
-            <div className="text-7xl mb-4">🏁</div>
-            <h2 className="text-3xl font-black text-white mb-1">{au.fin}</h2>
-            <p className="text-white/40 text-sm mb-6">{difLabel.emoji} {difLabel.label}</p>
-
-            <div className="grid grid-cols-2 gap-3 mb-5">
-              <div className="bg-white/5 border border-white/10 rounded-2xl p-4">
-                <p className="text-white/30 text-xs uppercase tracking-widest font-semibold mb-1">{au.nivel}</p>
-                <p className="text-4xl font-black text-white">{nivelAlcanzado}</p>
-              </div>
-              <div className="bg-amber-500/10 border border-amber-500/30 rounded-2xl p-4">
-                <p className="text-amber-400/70 text-xs uppercase tracking-widest font-semibold mb-1">{au.puntos}</p>
-                <p className="text-4xl font-black text-amber-400">{score.toLocaleString()}</p>
-                <CoinsEarnedBadge coins={computeCoins('acercate-roguelike', { score })} lang={lang} />
-              </div>
-            </div>
-
-            {rd?.mejoras?.length > 0 && (
-              <div className="bg-white/5 border border-white/10 rounded-2xl p-4 mb-5">
-                <p className="text-white/30 text-xs uppercase tracking-widest font-semibold mb-3">{au.mejoras}</p>
-                <div className="flex flex-wrap gap-2 justify-center">
-                  {rd.mejoras.map((id, i) => {
-                    const m = (MEJORAS_POOL[lang] || MEJORAS_POOL.es).find(x => x.id === id)
-                    return (
-                      <span key={i} className="bg-white/10 rounded-xl px-3 py-1.5 text-sm font-semibold text-white flex items-center gap-1.5">
-                        <span>{m?.emoji}</span> {m?.titulo}
-                      </span>
-                    )
-                  })}
-                </div>
-              </div>
-            )}
-
-            {score > 0 && <CoinsAnimation coins={computeCoins('acercate-roguelike', { score })} />}
-            <GameResultFooter game="acercate-roguelike" score={score} user={user} lang={lang} />
-
-            <div className="flex gap-3 justify-center mb-3">
-              <button onClick={startRun}
-                className="px-8 py-3 bg-[#EDAE49] hover:bg-amber-400 text-black font-black rounded-2xl transition-all hover:scale-[1.02]">
-                {au.nuevaRun}
-              </button>
-              <button onClick={() => setFase('intro')}
-                className="px-6 py-3 bg-white/10 hover:bg-white/20 text-white font-bold rounded-2xl transition-all">
-                {au.menu}
-              </button>
-            </div>
-
-            <button onClick={() => setShowShare(true)}
-              className="w-full py-3 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/25 text-white/60 hover:text-white font-semibold rounded-2xl transition-all text-sm flex items-center justify-center gap-2">
-              <span>📤</span> {au.compartir}
-            </button>
-          </div>
-
-        {/* Modal compartir */}
-        {showShare && (
-          <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center px-4 pb-6 sm:pb-0">
-            <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setShowShare(false)} />
-            <div className="relative bg-[#1a1a2e] border border-white/15 rounded-3xl p-6 w-full max-w-sm shadow-2xl">
-              <button onClick={() => setShowShare(false)}
-                className="absolute top-4 right-4 text-white/30 hover:text-white/70 transition-colors text-xl leading-none">
-                ✕
-              </button>
-              <h3 className="text-lg font-black text-white mb-1">{au.compartirTitulo}</h3>
-              <p className="text-white/40 text-sm mb-4">{au.compartirSub}</p>
-
-              <div className="bg-white/5 border border-white/10 rounded-2xl p-4 mb-4 text-sm text-white/70 whitespace-pre-line leading-relaxed font-mono select-all">
-                {getShareTexto()}
-              </div>
-
-              <button onClick={copiarTexto}
-                className={`w-full py-3 rounded-2xl border font-semibold text-sm transition-all flex items-center justify-center gap-2 ${
-                  copied
-                    ? 'bg-emerald-500/20 border-emerald-500/40 text-emerald-400'
-                    : 'bg-white/5 border-white/10 hover:bg-white/10 text-white/60 hover:text-white'
-                }`}>
-                {copied ? au.copiado : au.copiar}
-              </button>
+      <GameEndScreen
+        game="acercate-roguelike"
+        emoji="🏁"
+        title={`${au.fin} · ${difLabel.emoji} ${difLabel.label}`}
+        score={score}
+        stats={[{ label: au.nivel, value: nivelAlcanzado, emoji: '🎲' }]}
+        shareText={getShareTexto()}
+        onPlayAgain={startRun}
+        playAgainLabel={au.nuevaRun}
+        secondaryActions={[{ label: au.menu, onClick: () => setFase('intro') }]}
+        user={user} lang={lang}
+      >
+        {rd?.mejoras?.length > 0 && (
+          <div className="bg-white/5 border border-white/10 rounded-2xl p-4 mt-4">
+            <p className="text-white/30 text-xs uppercase tracking-widest font-semibold mb-3">{au.mejoras}</p>
+            <div className="flex flex-wrap gap-2 justify-center">
+              {rd.mejoras.map((id, i) => {
+                const m = (MEJORAS_POOL[lang] || MEJORAS_POOL.es).find(x => x.id === id)
+                return (
+                  <span key={i} className="bg-white/10 rounded-xl px-3 py-1.5 text-sm font-semibold text-white flex items-center gap-1.5">
+                    <span>{m?.emoji}</span> {m?.titulo}
+                  </span>
+                )
+              })}
             </div>
           </div>
         )}
-      </div>
+      </GameEndScreen>
     )
   }
 

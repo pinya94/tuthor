@@ -3,9 +3,7 @@ import { useLang } from '../context/LangContext'
 import { useAuth } from '../context/AuthContext'
 import { saveActivity } from '../lib/activity'
 import { computeCoins } from '../lib/games'
-import CoinsAnimation from '../components/CoinsAnimation'
-import GameResultFooter from '../components/GameResultFooter'
-import ShareButton from '../components/ShareButton'
+import GameEndScreen from '../components/GameEndScreen'
 import SEOHead from '../components/SEOHead'
 import { POOLS } from '../data/porteroLevels'
 import {
@@ -617,30 +615,19 @@ export default function Portero() {
       ? `He aturat ${score} tirs al Portero ⚽🧤 — pots superar-me? https://tuthor.es/juegos/portero`
       : `He parado ${score} tiros en el Portero ⚽🧤 — ¿puedes superarme? https://tuthor.es/juegos/portero`
     return (
-      <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-6">
-        <div className="max-w-lg w-full">
-          <div className="bg-white/5 border border-white/10 rounded-2xl p-8 text-center mb-5">
-            <div className="text-6xl mb-3">🧤</div>
-            <p className="text-white/40 text-sm mb-1">{T('end', l)}</p>
-            <p className="text-5xl font-black text-white mb-1">{score}</p>
-            <p className="text-white/60 text-lg mb-2">{T('saves', l)}</p>
-            <p className="text-[#EDAE49] font-bold mb-4">{msgs[l] ?? msgs.es}</p>
-            {pts > 0 && <CoinsAnimation coins={computeCoins('portero', { score: pts })} />}
-            <GameResultFooter game="portero" score={pts} user={user} lang={lang} currentName={user?.displayName} currentPhoto={user?.photoURL} />
-          </div>
-          <div className="space-y-3">
-            <ShareButton text={shareText} lang={lang} />
-            <button onClick={() => startGame(difficulty)}
-              className="w-full bg-[#EDAE49] hover:bg-amber-400 text-black font-black py-4 text-lg rounded-xl transition">
-              {T('replay', l)}
-            </button>
-            <button onClick={() => setScreen('difficulty')}
-              className="w-full text-white/40 hover:text-white/70 text-sm py-2 transition">
-              {T('changeDif', l)}
-            </button>
-          </div>
-        </div>
-      </div>
+      <GameEndScreen
+        game="portero"
+        emoji="🧤"
+        title={T('end', l)}
+        score={pts}
+        message={msgs[l] ?? msgs.es}
+        stats={[{ label: T('saves', l), value: score, emoji: '🧤' }]}
+        shareText={shareText}
+        onPlayAgain={() => startGame(difficulty)}
+        playAgainLabel={T('replay', l)}
+        secondaryActions={[{ label: T('changeDif', l), onClick: () => setScreen('difficulty') }]}
+        user={user} lang={lang}
+      />
     )
   }
 

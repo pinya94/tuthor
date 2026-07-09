@@ -4,8 +4,7 @@ import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
 import { saveActivity, saveDailyChallenge } from '../lib/activity'
 import { computeCoins } from '../lib/games'
-import GameResultFooter from '../components/GameResultFooter'
-import CoinsAnimation from '../components/CoinsAnimation'
+import GameEndScreen from '../components/GameEndScreen'
 import { getQuestionsForPool } from '../data/palabrasIntrusas'
 import SEOHead from '../components/SEOHead'
 
@@ -103,8 +102,6 @@ export default function ElIntruso() {
   const [paused, setPaused]       = useState(false)
   const [timedOut, setTimedOut]   = useState(false)
   const [saved, setSaved]         = useState(false)
-  const [showCoins, setShowCoins] = useState(false)
-  const [coinsToShow, setCoinsToShow] = useState(0)
 
   const scoreRef     = useRef(0)
   const correctRef   = useRef(0)
@@ -136,8 +133,6 @@ export default function ElIntruso() {
         saveDailyChallenge(user.uid, finalCorrect >= Math.ceil(qList.length / 2)).catch(() => {})
       }
     }
-    setCoinsToShow(coinsEarned)
-    setShowCoins(coinsEarned > 0)
     setScreen('result')
   }
 
@@ -188,7 +183,6 @@ export default function ElIntruso() {
     setPaused(false)
     setTimedOut(false)
     setSaved(false)
-    setShowCoins(false)
     setScreen('playing')
     startTimer(cfg.tiempo)
   }
@@ -415,52 +409,27 @@ export default function ElIntruso() {
     const niveLabel = dl(cfg)
     const maxScore  = answered * SECS_CORRECT
 
+    const shareText = `He conseguido ${score.toLocaleString()} pts en El Intruso 🔍 — ¿puedes superarme? https://tuthor.es/juegos/intruso`
     return (
-      <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
-        {showCoins && <CoinsAnimation coins={coinsToShow} />}
-
-        <div className="max-w-sm w-full">
-          <div className="text-center mb-6">
-            <p className="text-6xl mb-3">{emoji}</p>
-            <h2 className="text-2xl font-black text-white mb-1">
-              {timedOut ? u.tiempoAgotado : u.jugando}
-            </h2>
-            <p className="text-white/40 text-sm">{niveLabel} · {u.titulo}</p>
-          </div>
-
-          <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-4">
-            <div className="text-center mb-4">
-              <p className="text-white/40 text-xs uppercase tracking-widest mb-1">{u.puntuacion}</p>
-              <p className="text-5xl font-black text-white">{score}</p>
-              <p className="text-white/30 text-xs mt-1">{answered}/{total} {u.respondidas}</p>
-            </div>
-            <div className="grid grid-cols-2 gap-3 text-center">
-              <div className="bg-green-500/10 border border-green-500/20 rounded-xl p-3">
-                <p className="text-green-400 font-black text-2xl">{correctCount}</p>
-                <p className="text-white/40 text-xs">{u.correctas}</p>
-              </div>
-              <div className="bg-red-500/10 border border-red-500/20 rounded-xl p-3">
-                <p className="text-red-400 font-black text-2xl">{wrongCount}</p>
-                <p className="text-white/40 text-xs">{u.falladas}</p>
-              </div>
-            </div>
-          </div>
-
-          <div className="space-y-3">
-            <button onClick={() => startGame(nivel)} className="w-full bg-violet-600 hover:bg-violet-500 text-white font-bold py-3 rounded-xl transition-colors">
-              {u.jugarDeNuevo}
-            </button>
-            <button onClick={() => { clearTimer(); setSaved(false); setScreen('select') }} className="w-full bg-white/5 hover:bg-white/10 border border-white/10 text-white font-semibold py-3 rounded-xl transition-colors">
-              {u.cambiarNivel}
-            </button>
-            <button onClick={() => navigate(localPath('/juegos'))} className="w-full text-white/40 hover:text-white/60 py-2 text-sm transition-colors">
-              {u.todosJuegos}
-            </button>
-          </div>
-
-          <GameResultFooter game="intruso" score={score} user={user} lang={lang} />
-        </div>
-      </div>
+      <GameEndScreen
+        game="intruso"
+        result={{ correct: correctCount, total }}
+        emoji={emoji}
+        title={`${timedOut ? u.tiempoAgotado : u.jugando} · ${niveLabel}`}
+        score={score}
+        stats={[
+          { label: u.correctas, value: correctCount, emoji: '✅' },
+          { label: u.falladas, value: wrongCount, emoji: '❌' },
+        ]}
+        shareText={shareText}
+        onPlayAgain={() => startGame(nivel)}
+        playAgainLabel={u.jugarDeNuevo}
+        secondaryActions={[
+          { label: u.cambiarNivel, onClick: () => { clearTimer(); setSaved(false); setScreen('select') } },
+          { label: u.todosJuegos, onClick: () => navigate(localPath('/juegos')) },
+        ]}
+        user={user} lang={lang}
+      />
     )
   }
 

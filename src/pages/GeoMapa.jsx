@@ -5,9 +5,8 @@ import { useLang } from '../context/LangContext'
 import { useAuth } from '../context/AuthContext'
 import { saveActivity } from '../lib/activity'
 import { computeCoins } from '../lib/games'
-import CoinsAnimation from '../components/CoinsAnimation'
+import GameEndScreen from '../components/GameEndScreen'
 import WorldMap from '../components/WorldMap'
-import GameResultFooter from '../components/GameResultFooter'
 import SEOHead from '../components/SEOHead'
 
 function flagToCode(emoji) {
@@ -185,8 +184,6 @@ export default function GeoMapa() {
   const [usados, setUsados] = useState([])
   const usadosRef = useRef([])
   const [levelKey, setLevelKey] = useState(0)
-  const [showCoins, setShowCoins] = useState(false)
-  const [coinsDone, setCoinsDone] = useState(false)
   const [combo, setCombo] = useState(0)
 
   const timerRef = useRef(null)
@@ -229,8 +226,6 @@ export default function GeoMapa() {
     setUsados([])
     usadosRef.current = []
     setCombo(0)
-    setShowCoins(false)
-    setCoinsDone(false)
     setFase('jugando')
     siguientePais()
   }
@@ -356,43 +351,20 @@ export default function GeoMapa() {
 
   // ── FIN ────────────────────────────────────────────────────────────────────
   if (fase === 'fin') {
+    const shareText = `He conseguido ${puntos.toLocaleString()} pts en GeoMapa 🗺️ — ¿puedes superarme? https://tuthor.es/juegos/geomapa`
     return (
-      <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-6">
-        <div className="max-w-lg w-full">
-          <div className="bg-white/5 border border-white/10 rounded-2xl p-8 text-center mb-5">
-            <div className="text-6xl mb-3">🗺️</div>
-            <h2 className="text-3xl font-black text-white mb-1">{u.tiempoAgotado}</h2>
-
-            {puntos > 0 && !coinsDone && (
-              <div className="my-6"><CoinsAnimation coins={computeCoins('geomapa', { score: puntos })} onDone={() => setCoinsDone(true)} /></div>
-            )}
-
-            {(coinsDone || puntos === 0) && (
-              <>
-                <div className="mb-4">
-                  <p className="text-white/30 text-xs uppercase tracking-widest mb-1">{u.puntuacion}</p>
-                  <p className="text-white font-black text-6xl tabular-nums">{puntos.toLocaleString()}</p>
-                </div>
-                <div className="bg-white/5 rounded-xl p-4">
-                  <p className="text-white/40 text-xs mb-1">{u.paises}</p>
-                  <p className="text-white font-black text-3xl">{aciertos}</p>
-                </div>
-                <GameResultFooter game="geomapa" score={puntos} user={user} lang={lang} />
-              </>
-            )}
-          </div>
-          <div className="space-y-3">
-            <button onClick={iniciar}
-              className="w-full bg-[#EDAE49] hover:bg-amber-400 text-black font-black py-4 text-lg rounded-xl transition">
-              {u.reintentar}
-            </button>
-            <button onClick={() => navigate(localPath('/juegos'))}
-              className="w-full text-white/40 hover:text-white/70 text-sm py-2 transition">
-              {u.volver}
-            </button>
-          </div>
-        </div>
-      </div>
+      <GameEndScreen
+        game="geomapa"
+        emoji="🗺️"
+        title={u.tiempoAgotado}
+        score={puntos}
+        stats={[{ label: u.paises, value: aciertos, emoji: '🗺️' }]}
+        shareText={shareText}
+        onPlayAgain={iniciar}
+        playAgainLabel={u.reintentar}
+        secondaryActions={[{ label: u.volver, onClick: () => navigate(localPath('/juegos')) }]}
+        user={user} lang={lang}
+      />
     )
   }
 

@@ -4,8 +4,7 @@ import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
 import { saveActivity } from '../lib/activity'
 import { computeCoins } from '../lib/games'
-import GameResultFooter from '../components/GameResultFooter'
-import CoinsAnimation from '../components/CoinsAnimation'
+import GameEndScreen from '../components/GameEndScreen'
 import SEOHead from '../components/SEOHead'
 
 // ── Configuración por nivel ────────────────────────────────────────────────
@@ -154,7 +153,6 @@ export default function Acercate() {
   const [errorFlash, setErrorFlash] = useState(false)
   const [victoria,   setVictoria]   = useState(false)
   const [finInfo,    setFinInfo]    = useState(null)
-  const [coinsToShow, setCoinsToShow] = useState(0)
 
   const timerRef     = useRef(null)
   const startTimeRef = useRef(null)
@@ -187,7 +185,6 @@ export default function Acercate() {
     const coins = computeCoins('acercate-clasico', { diff })
     if (diff === 0) setVictoria(true)
     setFinInfo({ diff, mejor, pts, porTiempo })
-    setCoinsToShow(coins)
 
     if (user) {
       const timeSpent = Math.round((Date.now() - (startTimeRef.current || Date.now())) / 1000)
@@ -202,7 +199,6 @@ export default function Acercate() {
 
   // ── Iniciar partida ──────────────────────────────────────────────────────
   function iniciar() {
-    setCoinsToShow(0)
     const { vals, objetivo: obj } = generarPuzzle(nivelId)
     const nums = vals.map(v => ({ id: uid(), valor: v }))
     setObjetivo(obj)
@@ -340,42 +336,26 @@ export default function Acercate() {
   if (fase === 'fin') {
     const exact = finInfo?.diff === 0
     const cerca = !exact && finInfo?.diff <= 2
+    const detalle = exact
+      ? `Llegaste a ${objetivo} — ¡perfecto!`
+      : `Llegaste a ${finInfo?.mejor} · objetivo: ${objetivo}${finInfo?.diff > 0 ? ` (diferencia: ${finInfo.diff})` : ''}`
     return (
-      <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
+      <>
         {victoria && <Confetti />}
-        <div className="max-w-md w-full text-center">
-          <div className="text-7xl mb-4">{exact ? '🎉' : cerca ? '😮' : '😅'}</div>
-          <h2 className="text-3xl font-black text-white mb-2">
-            {exact ? '¡Exacto!' : cerca ? '¡Casi!' : finInfo?.porTiempo ? '¡Tiempo!' : 'Ronda terminada'}
-          </h2>
-          {exact ? (
-            <p className="text-white/50 text-sm mb-1">
-              Llegaste a <span className="text-amber-400 font-bold">{objetivo}</span> — ¡perfecto!
-            </p>
-          ) : (
-            <p className="text-white/50 text-sm mb-1">
-              Llegaste a <span className="text-white font-bold">{finInfo?.mejor}</span>
-              {' '}· objetivo: <span className="text-amber-400 font-bold">{objetivo}</span>
-              {finInfo?.diff > 0 && <span className="text-white/30"> (diferencia: {finInfo.diff})</span>}
-            </p>
-          )}
-          <div className={`text-6xl font-black mt-4 mb-8 ${finInfo?.pts > 0 ? 'text-amber-400' : 'text-white/30'}`}>
-            +{finInfo?.pts} pts
-          </div>
-          {coinsToShow > 0 && <CoinsAnimation coins={coinsToShow} />}
-          <GameResultFooter game="acercate-clasico" score={finInfo?.pts} user={user} lang={lang} />
-          <div className="flex gap-3 justify-center">
-            <button onClick={iniciar}
-              className="px-8 py-3 bg-[#EDAE49] hover:bg-amber-400 text-black font-black rounded-2xl transition-all hover:scale-[1.02]">
-              Otra ronda
-            </button>
-            <button onClick={() => setFase('intro')}
-              className="px-6 py-3 bg-white/10 hover:bg-white/20 text-white font-bold rounded-2xl transition-all">
-              Menú
-            </button>
-          </div>
-        </div>
-      </div>
+        <GameEndScreen
+          game="acercate-clasico"
+          result={{ diff: finInfo?.diff }}
+          emoji={exact ? '🎉' : cerca ? '😮' : '😅'}
+          title={exact ? '¡Exacto!' : cerca ? '¡Casi!' : finInfo?.porTiempo ? '¡Tiempo!' : 'Ronda terminada'}
+          score={finInfo?.pts || 0}
+          message={detalle}
+          shareText={`He conseguido ${finInfo?.pts || 0} pts en Acércate al Número 🎯 — ¿puedes superarme? https://tuthor.es/juegos/acercate/clasico`}
+          onPlayAgain={iniciar}
+          playAgainLabel="Otra ronda"
+          secondaryActions={[{ label: 'Menú', onClick: () => setFase('intro') }]}
+          user={user} lang={lang}
+        />
+      </>
     )
   }
 

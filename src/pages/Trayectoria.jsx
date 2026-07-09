@@ -4,8 +4,7 @@ import { useLang } from '../context/LangContext'
 import { useAuth } from '../context/AuthContext'
 import { saveActivity } from '../lib/activity'
 import { computeCoins } from '../lib/games'
-import CoinsAnimation from '../components/CoinsAnimation'
-import GameResultFooter from '../components/GameResultFooter'
+import GameEndScreen from '../components/GameEndScreen'
 import SEOHead from '../components/SEOHead'
 import { POOLS } from '../data/trayectoriaLevels'
 import {
@@ -268,41 +267,6 @@ function PowerupScreen({ powerups, score, onPick, l }) {
 }
 
 // ── End screen ────────────────────────────────────────────────────────────────
-
-function EndScreen({ score, difficulty, onRestart, onChangeDiff, l }) {
-  const msgs = {
-    es: score === 0 ? '¡A practicar más!' : score < 3 ? 'Buen intento' : score < 6 ? '¡Buen partido!' : '¡Hat-trick de hat-tricks! 🔥',
-    en: score === 0 ? 'Keep practising!' : score < 3 ? 'Good try' : score < 6 ? 'Good game!' : 'Hat-trick of hat-tricks! 🔥',
-    ca: score === 0 ? 'A practicar!' : score < 3 ? 'Bon intent' : score < 6 ? 'Bon partit!' : 'Hat-trick de hat-tricks! 🔥',
-  }
-  return (
-    <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
-      <p className="text-6xl mb-3">⚽</p>
-      <p className="text-white/40 text-sm mb-1">
-        {l === 'es' ? 'Partido finalizado' : l === 'en' ? 'Full time' : 'Partit finalitzat'}
-      </p>
-      <p className="text-5xl font-black text-white mb-1">{score}</p>
-      <p className="text-white/60 text-lg mb-2">
-        {l === 'es' ? 'goles' : l === 'en' ? 'goals' : 'gols'}
-      </p>
-      <p className="text-[#EDAE49] font-bold mb-8">{msgs[l]}</p>
-      <div className="flex flex-col gap-3 w-full max-w-xs">
-        <button
-          onClick={onRestart}
-          className="px-6 py-3 rounded-full bg-[#EDAE49] text-black font-bold hover:bg-[#f5c16c] transition-colors"
-        >
-          {l === 'es' ? '▶ Jugar de nuevo' : l === 'en' ? '▶ Play again' : '▶ Jugar de nou'}
-        </button>
-        <button
-          onClick={onChangeDiff}
-          className="px-6 py-3 rounded-full bg-white/10 text-white font-bold hover:bg-white/20 transition-colors"
-        >
-          {l === 'es' ? 'Cambiar dificultad' : l === 'en' ? 'Change difficulty' : 'Canviar dificultat'}
-        </button>
-      </div>
-    </div>
-  )
-}
 
 // ── Main game ─────────────────────────────────────────────────────────────────
 
@@ -597,18 +561,29 @@ export default function Trayectoria() {
   }
 
   if (screen === 'end') {
+    const endMsgs = {
+      es: score === 0 ? '¡A practicar más!' : score < 3 ? 'Buen intento' : score < 6 ? '¡Buen partido!' : '¡Hat-trick de hat-tricks! 🔥',
+      en: score === 0 ? 'Keep practising!' : score < 3 ? 'Good try' : score < 6 ? 'Good game!' : 'Hat-trick of hat-tricks! 🔥',
+      ca: score === 0 ? 'A practicar!' : score < 3 ? 'Bon intent' : score < 6 ? 'Bon partit!' : 'Hat-trick de hat-tricks! 🔥',
+    }
+    const shareText = l === 'en'
+      ? `I scored ${score} goals in Trayectoria ⚽ — can you beat me? https://tuthor.es/juegos/trayectoria`
+      : l === 'ca'
+      ? `He marcat ${score} gols a Trayectoria ⚽ — pots superar-me? https://tuthor.es/juegos/trayectoria`
+      : `He marcado ${score} goles en Trayectoria ⚽ — ¿puedes superarme? https://tuthor.es/juegos/trayectoria`
     return (
-      <>
-        <EndScreen
-          score={score}
-          difficulty={difficulty}
-          l={l}
-          onRestart={() => startGame(difficulty)}
-          onChangeDiff={() => setScreen('difficulty')}
-        />
-        {score > 0 && <CoinsAnimation coins={computeCoins('trayectoria', { score: score * 10 })} />}
-        <GameResultFooter game="trayectoria" score={score * 10} user={user} lang={lang} />
-      </>
+      <GameEndScreen
+        game="trayectoria"
+        emoji="⚽"
+        title={l === 'es' ? 'Partido finalizado' : l === 'en' ? 'Full time' : 'Partit finalitzat'}
+        score={score * 10}
+        message={endMsgs[l]}
+        stats={[{ label: l === 'es' ? 'Goles' : l === 'en' ? 'Goals' : 'Gols', value: score, emoji: '⚽' }]}
+        shareText={shareText}
+        onPlayAgain={() => startGame(difficulty)}
+        secondaryActions={[{ label: l === 'es' ? 'Cambiar dificultad' : l === 'en' ? 'Change difficulty' : 'Canviar dificultat', onClick: () => setScreen('difficulty') }]}
+        user={user} lang={lang}
+      />
     )
   }
 

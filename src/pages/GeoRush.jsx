@@ -3,11 +3,9 @@ import { useNavigate } from 'react-router-dom'
 import { PAISES, NOMBRES_PAISES } from '../data/paises'
 import { useLang } from '../context/LangContext'
 import { useAuth } from '../context/AuthContext'
-import CoinsAnimation from '../components/CoinsAnimation'
-import GameResultFooter from '../components/GameResultFooter'
+import GameEndScreen from '../components/GameEndScreen'
 import { saveActivity } from '../lib/activity'
 import { computeCoins } from '../lib/games'
-import ShareButton from '../components/ShareButton'
 import SEOHead from '../components/SEOHead'
 
 const DIFS = {
@@ -541,53 +539,29 @@ export default function GeoRush() {
   const ultimoPais = paisActual?.nombre
   if (fase === 'fin') {
     const shareText = `He acertado ${paisesAcertados} países y conseguido ${puntos.toLocaleString()} pts en GeoRush 🌍 — ¿puedes superarme? https://tuthor.es/juegos/georush`
-    const timeSpent = startRef.current ? Math.round((Date.now() - startRef.current) / 1000) : 0
-
     return (
-      <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-6">
-        <div className="max-w-lg w-full">
-          <div className="bg-white/5 border border-white/10 rounded-2xl p-8 text-center mb-5">
-            <div className="text-6xl mb-3">🌍</div>
-            <h2 className="text-3xl font-black text-white mb-1">{u.tiempoAgotado}</h2>
-            <p className="text-white/40 mb-6">{dif.emoji} {difLabel(dif)}</p>
-            <div className="mb-4">
-              <p className="text-white/30 text-xs uppercase tracking-widest mb-1">{u.puntuacion}</p>
-              <p className="text-white font-black text-6xl tabular-nums">{puntos.toLocaleString()}</p>
-            </div>
-            <div className="grid grid-cols-2 gap-3 mt-6">
-              <div className="bg-white/5 rounded-xl p-4">
-                <p className="text-white/40 text-xs mb-1">{u.paises}</p>
-                <p className="text-white font-black text-3xl">{paisesAcertados}</p>
-              </div>
-              <div className="bg-white/5 rounded-xl p-4">
-                <p className="text-white/40 text-xs mb-1">{u.mejorRacha}</p>
-                <p className="text-white font-black text-3xl">{maxCombo}</p>
-              </div>
-            </div>
-            {ultimoPais && (
-              <div className="bg-white/5 rounded-xl p-3 mt-4">
-                <p className="text-white/30 text-xs mb-0.5">{u.ultimoPais}</p>
-                <p className="text-white font-bold">{ultimoPais}</p>
-              </div>
-            )}
-            {puntos > 0 && <CoinsAnimation coins={computeCoins('georush', { score: puntos })} />}
+      <GameEndScreen
+        game="georush"
+        emoji="🌍"
+        title={`${u.tiempoAgotado} · ${dif.emoji} ${difLabel(dif)}`}
+        score={puntos}
+        stats={[
+          { label: u.paises, value: paisesAcertados },
+          { label: u.mejorRacha, value: maxCombo },
+        ]}
+        shareText={shareText}
+        onPlayAgain={() => iniciar(difId)}
+        playAgainLabel={u.reintentar}
+        secondaryActions={[{ label: u.cambiarDif, onClick: () => setFase('intro') }]}
+        user={user} lang={lang}
+      >
+        {ultimoPais && (
+          <div className="bg-white/5 rounded-xl p-3 mt-4">
+            <p className="text-white/30 text-xs mb-0.5">{u.ultimoPais}</p>
+            <p className="text-white font-bold">{ultimoPais}</p>
           </div>
-
-          <GameResultFooter game="georush" score={puntos} user={user} lang={lang} />
-
-          <div className="space-y-3 mt-4">
-            <ShareButton text={shareText} lang={lang} />
-            <button onClick={() => iniciar(difId)}
-              className="w-full bg-[#EDAE49] hover:bg-amber-400 text-black font-black py-4 text-lg rounded-xl transition">
-              {u.reintentar}
-            </button>
-            <button onClick={() => setFase('intro')}
-              className="w-full text-white/40 hover:text-white/70 text-sm py-2 transition">
-              {u.cambiarDif}
-            </button>
-          </div>
-        </div>
-      </div>
+        )}
+      </GameEndScreen>
     )
   }
 

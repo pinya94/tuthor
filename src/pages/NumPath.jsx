@@ -4,9 +4,7 @@ import { useLang } from '../context/LangContext'
 import { useAuth } from '../context/AuthContext'
 import { saveActivity, saveDailyChallenge } from '../lib/activity'
 import { computeCoins } from '../lib/games'
-import CoinsAnimation from '../components/CoinsAnimation'
-import GameResultFooter from '../components/GameResultFooter'
-import ShareButton from '../components/ShareButton'
+import GameEndScreen from '../components/GameEndScreen'
 import SEOHead from '../components/SEOHead'
 
 const DIFS = {
@@ -478,32 +476,18 @@ export default function NumPath() {
   if (fase === 'fin') {
     const shareText = `He completado ${boards} tableros en NumPath 🧮 — ¿puedes superarme? https://tuthor.es/juegos/numpath`
     return (
-      <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-6">
-        <div className="max-w-lg w-full">
-          <div className="bg-white/5 border border-white/10 rounded-2xl p-8 text-center mb-5">
-            <div className="text-6xl mb-3">🧮</div>
-            <h2 className="text-3xl font-black text-white mb-1">{u.tiempoAgotado}</h2>
-            <p className="text-white/40 mb-6">{dif.emoji} {dl(dif)}</p>
-            <div className="mb-4">
-              <p className="text-white/30 text-xs uppercase tracking-widest mb-1">{u.tableros}</p>
-              <p className="text-white font-black text-6xl tabular-nums">{boards}</p>
-            </div>
-            {boards > 0 && <CoinsAnimation coins={computeCoins('numpath', { score: boards * 100 })} />}
-            <GameResultFooter game="numpath" score={boards * 100} user={user} lang={lang} />
-          </div>
-          <div className="space-y-3">
-            <ShareButton text={shareText} lang={lang} />
-            <button onClick={() => startGame(difId)}
-              className="w-full bg-[#EDAE49] hover:bg-amber-400 text-black font-black py-4 text-lg rounded-xl transition">
-              {u.reintentar}
-            </button>
-            <button onClick={() => setFase('intro')}
-              className="w-full text-white/40 hover:text-white/70 text-sm py-2 transition">
-              {u.cambiarDif}
-            </button>
-          </div>
-        </div>
-      </div>
+      <GameEndScreen
+        game="numpath"
+        emoji="🧮"
+        title={`${u.tiempoAgotado} · ${dif.emoji} ${dl(dif)}`}
+        score={boards * 100}
+        stats={[{ label: u.tableros, value: boards, emoji: '🧮' }]}
+        shareText={shareText}
+        onPlayAgain={() => startGame(difId)}
+        playAgainLabel={u.reintentar}
+        secondaryActions={[{ label: u.cambiarDif, onClick: () => setFase('intro') }]}
+        user={user} lang={lang}
+      />
     )
   }
 

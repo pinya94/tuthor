@@ -3,11 +3,9 @@ import { useNavigate } from 'react-router-dom'
 import { PORTADAS } from '../data/portadas'
 import { useLang } from '../context/LangContext'
 import { useAuth } from '../context/AuthContext'
-import CoinsAnimation from '../components/CoinsAnimation'
-import GameResultFooter from '../components/GameResultFooter'
+import GameEndScreen from '../components/GameEndScreen'
 import { saveActivity } from '../lib/activity'
 import { computeCoins } from '../lib/games'
-import ShareButton from '../components/ShareButton'
 import SEOHead from '../components/SEOHead'
 
 const DIFS = {
@@ -448,54 +446,22 @@ export default function Portadas() {
     const pct      = total > 0 ? Math.round((aciertos / total) * 100) : 0
     const emoji    = pct >= 80 ? '🏆' : pct >= 60 ? '📰' : pct >= 40 ? '🤔' : '😬'
     const shareText = `He conseguido ${puntos.toLocaleString()} pts en Portadas Históricas 📰 — ¿puedes superarme? https://tuthor.es/juegos/portadas`
-    const timeSpent = startRef.current ? Math.round((Date.now() - startRef.current) / 1000) : 0
-
     return (
-      <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-6">
-        <div className="max-w-lg w-full">
-          <div className="bg-white/5 border border-white/10 rounded-2xl p-8 text-center mb-5">
-            <div className="text-6xl mb-3">{emoji}</div>
-            <h2 className="text-3xl font-black text-white mb-1">{pu.tiempoAgotadoFin}</h2>
-            <p className="text-white/40 mb-6">{dif.emoji} {dl(dif)}</p>
-
-            <div className="mb-4">
-              <p className="text-white/30 text-xs uppercase tracking-widest mb-1">{pu.puntuacionFinal}</p>
-              <p className="text-white font-black text-6xl tabular-nums">{puntos.toLocaleString()}</p>
-              <p className="text-white/30 text-sm mt-1">{lang === 'ca' ? 'punts' : lang === 'en' ? 'points' : 'puntos'}</p>
-            </div>
-
-            <div className="grid grid-cols-2 gap-3 mt-6">
-              <div className="bg-white/5 rounded-xl p-4">
-                <p className="text-white/40 text-xs mb-1">{pu.aciertos}</p>
-                <p className="text-white font-black text-3xl">{aciertos}<span className="text-white/30 text-lg">/{total}</span></p>
-              </div>
-              <div className="bg-white/5 rounded-xl p-4">
-                <p className="text-white/40 text-xs mb-1">{pu.precision}</p>
-                <p className="text-white font-black text-3xl">{pct}<span className="text-white/30 text-lg">%</span></p>
-              </div>
-            </div>
-            {puntos > 0 && <CoinsAnimation coins={computeCoins('portadas', { score: puntos })} />}
-          </div>
-
-          <GameResultFooter game="portadas" score={puntos} user={user} lang={lang} />
-
-          <div className="space-y-3 mt-4">
-            <ShareButton text={shareText} lang={lang} />
-            <button
-              onClick={() => iniciar(difId)}
-              className="w-full bg-[#EDAE49] hover:bg-amber-400 text-black font-black py-4 text-lg rounded-xl transition"
-            >
-              {pu.reintentar}
-            </button>
-            <button
-              onClick={() => setFase('intro')}
-              className="w-full text-white/40 hover:text-white/70 text-sm py-2 transition"
-            >
-              {pu.cambiarDif}
-            </button>
-          </div>
-        </div>
-      </div>
+      <GameEndScreen
+        game="portadas"
+        emoji={emoji}
+        title={`${pu.tiempoAgotadoFin} · ${dif.emoji} ${dl(dif)}`}
+        score={puntos}
+        stats={[
+          { label: pu.aciertos, value: `${aciertos}/${total}` },
+          { label: pu.precision, value: `${pct}%` },
+        ]}
+        shareText={shareText}
+        onPlayAgain={() => iniciar(difId)}
+        playAgainLabel={pu.reintentar}
+        secondaryActions={[{ label: pu.cambiarDif, onClick: () => setFase('intro') }]}
+        user={user} lang={lang}
+      />
     )
   }
 

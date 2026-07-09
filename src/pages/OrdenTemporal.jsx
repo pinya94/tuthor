@@ -5,8 +5,7 @@ import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
 import { saveActivity } from '../lib/activity'
 import { computeCoins } from '../lib/games'
-import CoinsAnimation from '../components/CoinsAnimation'
-import GameResultFooter from '../components/GameResultFooter'
+import GameEndScreen from '../components/GameEndScreen'
 import SEOHead from '../components/SEOHead'
 
 const MAX_LIVES = 3
@@ -60,48 +59,28 @@ function Intro({ onStart, lang }) {
 // ── GAME OVER ──────────────────────────────────────────────────────────────────
 function GameOver({ score, placed, onRepetir, onSalir, lang, user }) {
   const en = lang === 'en'
-  const [showCoins, setShowCoins] = useState(false)
-  const [coinsDone, setCoinsDone] = useState(false)
-  let nota, notaColor
-  if (placed >= 20)      { nota = lang === 'ca' ? 'HISTORIADOR EXPERT' : en ? 'EXPERT HISTORIAN' : 'HISTORIADOR EXPERTO'; notaColor = 'text-violet-400' }
-  else if (placed >= 12) { nota = lang === 'ca' ? 'BON NIVELL' : en ? 'GOOD LEVEL' : 'BUEN NIVEL'; notaColor = 'text-blue-400' }
-  else if (placed >= 6)  { nota = lang === 'ca' ? 'EN PROGRÉS' : en ? 'IN PROGRESS' : 'EN PROGRESO'; notaColor = 'text-amber-400' }
-  else                   { nota = lang === 'ca' ? 'CONTINUA PRACTICANT' : en ? 'KEEP PRACTISING' : 'SIGUE PRACTICANDO'; notaColor = 'text-white/60' }
+  let nota
+  if (placed >= 20)      nota = lang === 'ca' ? 'HISTORIADOR EXPERT' : en ? 'EXPERT HISTORIAN' : 'HISTORIADOR EXPERTO'
+  else if (placed >= 12) nota = lang === 'ca' ? 'BON NIVELL' : en ? 'GOOD LEVEL' : 'BUEN NIVEL'
+  else if (placed >= 6)  nota = lang === 'ca' ? 'EN PROGRÉS' : en ? 'IN PROGRESS' : 'EN PROGRESO'
+  else                   nota = lang === 'ca' ? 'CONTINUA PRACTICANT' : en ? 'KEEP PRACTISING' : 'SIGUE PRACTICANDO'
 
-  useEffect(() => { if (score > 0) setShowCoins(true) }, [])
+  const shareText = `He conseguido ${score.toLocaleString()} pts en Línea Temporal 📜 — ¿puedes superarme? https://tuthor.es/juegos/linea-temporal`
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
-      <div className="max-w-md w-full">
-        <div className="text-center mb-6">
-          <p className="text-white/40 text-xs uppercase tracking-widest mb-2">{lang === 'ca' ? 'Partida acabada' : en ? 'Game over' : 'Partida terminada'}</p>
-          <h1 className={`text-3xl font-black mb-1 ${notaColor}`}>{nota}</h1>
-        </div>
-
-        {showCoins && !coinsDone && (
-          <div className="mb-6"><CoinsAnimation coins={computeCoins('orden-temporal', { score })} onDone={() => setCoinsDone(true)} /></div>
-        )}
-
-        {(coinsDone || !showCoins) && (
-          <>
-            <GameResultFooter game="orden-temporal" score={score} user={user} lang={lang} />
-            <div className="grid grid-cols-2 gap-3 mb-6">
-              {[{ val: score, label: lang === 'ca' ? 'Punts' : en ? 'Points' : 'Puntos', emoji: '⭐' }, { val: placed, label: lang === 'ca' ? 'Col·locades' : en ? 'Placed' : 'Colocadas', emoji: '✅' }].map(s => (
-                <div key={s.label} className="bg-white/5 border border-white/10 rounded-xl p-4 text-center">
-                  <span className="text-2xl block mb-1">{s.emoji}</span>
-                  <p className="text-2xl font-black text-white">{s.val}</p>
-                  <p className="text-white/40 text-xs mt-0.5">{s.label}</p>
-                </div>
-              ))}
-            </div>
-            <div className="flex flex-col gap-3">
-              <button onClick={onRepetir} className="w-full bg-amber-500 hover:bg-amber-600 text-white font-bold py-3 rounded-xl transition-colors">{lang === 'ca' ? 'Jugar una altra vegada ↺' : en ? 'Play again ↺' : 'Jugar otra vez ↺'}</button>
-              <button onClick={onSalir}   className="w-full bg-white/5 hover:bg-white/10 border border-white/10 text-white/70 font-medium py-3 rounded-xl transition-colors">{lang === 'ca' ? 'Tornar als Jocs' : en ? 'Back to Games' : 'Volver a Juegos'}</button>
-            </div>
-          </>
-        )}
-      </div>
-    </div>
+    <GameEndScreen
+      game="orden-temporal"
+      emoji="📜"
+      title={lang === 'ca' ? 'Partida acabada' : en ? 'Game over' : 'Partida terminada'}
+      score={score}
+      message={nota}
+      stats={[{ label: lang === 'ca' ? 'Col·locades' : en ? 'Placed' : 'Colocadas', value: placed, emoji: '✅' }]}
+      shareText={shareText}
+      onPlayAgain={onRepetir}
+      playAgainLabel={lang === 'ca' ? 'Jugar una altra vegada ↺' : en ? 'Play again ↺' : 'Jugar otra vez ↺'}
+      secondaryActions={[{ label: lang === 'ca' ? 'Tornar als Jocs' : en ? 'Back to Games' : 'Volver a Juegos', onClick: onSalir }]}
+      user={user} lang={lang}
+    />
   )
 }
 

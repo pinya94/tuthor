@@ -5,9 +5,7 @@ import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
 import { saveActivity } from '../lib/activity'
 import { computeCoins } from '../lib/games'
-import CoinsAnimation from '../components/CoinsAnimation'
-import GameResultFooter from '../components/GameResultFooter'
-import ShareButton from '../components/ShareButton'
+import GameEndScreen from '../components/GameEndScreen'
 import SEOHead from '../components/SEOHead'
 
 const BOARD_SIZE = 12
@@ -372,41 +370,21 @@ export default function QuienEsQuien() {
   if (fase === 'fin') {
     const shareText = `He conseguido ${puntos.toLocaleString()} pts en ¿Quién es Quién? 🕵️ — ¿puedes superarme? https://tuthor.es/juegos/quien-es-quien`
     return (
-      <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-6">
-        <div className="max-w-lg w-full">
-          <div className="bg-white/5 border border-white/10 rounded-2xl p-8 text-center mb-5">
-            <div className="text-6xl mb-3">🕵️</div>
-            <h2 className="text-3xl font-black text-white mb-1">{lang === 'ca' ? 'S\'ha acabat el temps!' : en ? 'Time is up!' : '¡Tiempo agotado!'}</h2>
-            <div className="mb-4 mt-6">
-              <p className="text-white/30 text-xs uppercase tracking-widest mb-1">{lang === 'ca' ? 'Puntuació' : en ? 'Score' : 'Puntuación'}</p>
-              <p className="text-white font-black text-6xl tabular-nums">{puntos.toLocaleString()}</p>
-            </div>
-            <div className="grid grid-cols-2 gap-3 mt-4">
-              <div className="bg-white/5 rounded-xl p-4">
-                <p className="text-white/40 text-xs mb-1">{lang === 'ca' ? 'Rondes' : en ? 'Rounds' : 'Rondas'}</p>
-                <p className="text-white font-black text-3xl">{rondas}</p>
-              </div>
-              <div className="bg-white/5 rounded-xl p-4">
-                <p className="text-white/40 text-xs mb-1">{lang === 'ca' ? 'Millor ratxa' : en ? 'Best streak' : 'Mejor racha'}</p>
-                <p className="text-white font-black text-3xl">{combo}</p>
-              </div>
-            </div>
-            {puntos > 0 && <CoinsAnimation coins={computeCoins('quien-es-quien', { score: puntos })} />}
-            <GameResultFooter game="quien-es-quien" score={puntos} user={user} lang={lang} />
-          </div>
-          <div className="space-y-3">
-            <ShareButton text={shareText} lang={lang} />
-            <button onClick={startGame}
-              className="w-full bg-[#EDAE49] hover:bg-amber-400 text-black font-black py-4 text-lg rounded-xl transition">
-              {lang === 'ca' ? 'Tornar-ho a provar' : en ? 'Try again' : 'Intentarlo de nuevo'}
-            </button>
-            <button onClick={() => navigate(localPath(backPath))}
-              className="w-full text-white/40 hover:text-white/70 text-sm py-2 transition">
-              {lang === 'ca' ? '← Tornar' : en ? '← Back' : '← Volver'}
-            </button>
-          </div>
-        </div>
-      </div>
+      <GameEndScreen
+        game="quien-es-quien"
+        emoji="🕵️"
+        title={lang === 'ca' ? "S'ha acabat el temps!" : en ? 'Time is up!' : '¡Tiempo agotado!'}
+        score={puntos}
+        stats={[
+          { label: lang === 'ca' ? 'Rondes' : en ? 'Rounds' : 'Rondas', value: rondas },
+          { label: lang === 'ca' ? 'Millor ratxa' : en ? 'Best streak' : 'Mejor racha', value: combo },
+        ]}
+        shareText={shareText}
+        onPlayAgain={startGame}
+        playAgainLabel={lang === 'ca' ? 'Tornar-ho a provar' : en ? 'Try again' : 'Intentarlo de nuevo'}
+        secondaryActions={[{ label: lang === 'ca' ? '← Tornar' : en ? '← Back' : '← Volver', onClick: () => navigate(localPath(backPath)) }]}
+        user={user} lang={lang}
+      />
     )
   }
 

@@ -2,11 +2,9 @@ import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import { useAuth } from '../context/AuthContext'
-import CoinsAnimation from '../components/CoinsAnimation'
-import GameResultFooter from '../components/GameResultFooter'
+import GameEndScreen from '../components/GameEndScreen'
 import { saveActivity } from '../lib/activity'
 import { computeCoins } from '../lib/games'
-import ShareButton from '../components/ShareButton'
 import { EVENTOS_ROGUELIKE } from '../data/tuthorTimeEventos'
 
 const VIDA_BIXO = 120
@@ -296,7 +294,6 @@ export default function TuthorTimeRoguelike() {
     setMultRestantes(0)
     setFeedback(null)
     setGuess('')
-    setShowShare(false)
     setSaved(false)
     startRef.current = Date.now()
     setFase('jugando')
@@ -756,56 +753,22 @@ export default function TuthorTimeRoguelike() {
   // ── RESULTADO ──────────────────────────────────────────────────────────────
   if (fase === 'resultado') {
     const shareText = `He llegado al nivel ${nivel} con ${scoreTotal.toLocaleString()} pts en Tuthor Time ⏳ — ¿puedes superarme? https://tuthor.es/juegos/tuthor-time`
-    const timeSpent = startRef.current ? Math.round((Date.now() - startRef.current) / 1000) : 0
-
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center px-4 py-6">
-        <div className="w-full max-w-md">
-          <div className="bg-black/50 backdrop-blur rounded-2xl p-6 border border-white/10 text-center">
-            <div className="text-5xl mb-3">💀</div>
-            <h2 className="text-2xl font-bold text-white mb-1">{tu.fin}</h2>
-            <p className="text-white/50 text-sm mb-6">{lang === 'ca' ? 'Tots els agents han caigut en el temps' : lang === 'en' ? 'All agents have fallen through time' : 'Todos los agentes han caído en el tiempo'}</p>
-
-            <div className="grid grid-cols-2 gap-3 mb-6">
-              <div className="bg-white/5 rounded-xl p-4">
-                <div className="text-white/40 text-xs mb-1">{lang === 'ca' ? 'Missions' : lang === 'en' ? 'Missions' : 'Misiones'}</div>
-                <div className="text-white font-black text-3xl">{nivel}</div>
-              </div>
-              <div className="bg-white/5 rounded-xl p-4">
-                <div className="text-white/40 text-xs mb-1">{tu.puntuacion}</div>
-                <div className="text-white font-black text-3xl">{scoreTotal.toLocaleString()}</div>
-              </div>
-            </div>
-
-            {scoreTotal > 0 && <CoinsAnimation coins={computeCoins('tuthor-time-roguelike', { score: scoreTotal })} />}
-
-            <div className="space-y-3 mt-4">
-              <ShareButton text={shareText} lang={lang} />
-              <button
-                onClick={() => iniciarPartida(difId)}
-                className="w-full bg-white text-black font-bold py-3 rounded-xl hover:bg-white/90 transition"
-              >
-                {tu.nuevaRun}
-              </button>
-              <button
-                onClick={() => setFase('intro')}
-                className="w-full text-white/40 hover:text-white/70 text-sm py-2 transition"
-              >
-                {lang === 'ca' ? 'Canviar dificultat' : lang === 'en' ? 'Change difficulty' : 'Cambiar dificultad'}
-              </button>
-              <button
-                onClick={() => navigate(localPath('/juegos/tuthor-time/clasico'))}
-                className="w-full text-white/30 hover:text-white/60 text-xs py-1 transition"
-              >
-                {lang === 'ca' ? 'Prefereixes entrenar sense pressió? → Mode clàssic' : lang === 'en' ? 'Prefer to practise without pressure? → Classic mode' : '¿Prefieres entrenar sin presión? → Modo clásico'}
-              </button>
-            </div>
-          </div>
-
-          <GameResultFooter game="tuthor-time-roguelike" score={scoreTotal} user={user} lang={lang} />
-        </div>
-
-      </div>
+      <GameEndScreen
+        game="tuthor-time-roguelike"
+        emoji="💀"
+        title={`${tu.fin} · ${lang === 'ca' ? 'Tots els agents han caigut en el temps' : lang === 'en' ? 'All agents have fallen through time' : 'Todos los agentes han caído en el tiempo'}`}
+        score={scoreTotal}
+        stats={[{ label: lang === 'ca' ? 'Missions' : lang === 'en' ? 'Missions' : 'Misiones', value: nivel, emoji: '🕰️' }]}
+        shareText={shareText}
+        onPlayAgain={() => iniciarPartida(difId)}
+        playAgainLabel={tu.nuevaRun}
+        secondaryActions={[
+          { label: lang === 'ca' ? 'Canviar dificultat' : lang === 'en' ? 'Change difficulty' : 'Cambiar dificultad', onClick: () => setFase('intro') },
+          { label: lang === 'ca' ? 'Prefereixes entrenar sense pressió? → Mode clàssic' : lang === 'en' ? 'Prefer to practise without pressure? → Classic mode' : '¿Prefieres entrenar sin presión? → Modo clásico', onClick: () => navigate(localPath('/juegos/tuthor-time/clasico')) },
+        ]}
+        user={user} lang={lang}
+      />
     )
   }
 
