@@ -237,10 +237,12 @@ export default function Acercate() {
     setSel1(null); setOpSel(null)
 
     const hayVictoria = nuevos.some(x => x.valor === objetivo)
-    if (hayVictoria || nuevos.length === 1) {
+    if (hayVictoria) {
       clearInterval(timerRef.current)
       setTimeout(() => acabar(false, nuevos, objetivo), 600)
     }
+    // Sin victoria y sin números no se acaba: el jugador puede deshacer o
+    // reiniciar y seguir intentándolo hasta que se agote el tiempo.
   }
 
   // ── Clic en operador ─────────────────────────────────────────────────────
@@ -438,6 +440,9 @@ export default function Acercate() {
           })}
           {numeros.length === 0 && <p className="text-white/20 text-sm py-4">Sin números — reinicia o termina</p>}
         </div>
+        {numeros.length === 1 && numeros[0].valor !== objetivo && (
+          <p className="text-amber-400/70 text-xs font-semibold text-center mt-2">↩ No has llegado al objetivo — deshaz, reinicia o termina</p>
+        )}
       </div>
 
       {/* Operadores */}

@@ -55,7 +55,7 @@ const AUI = {
     fin: 'Fin de la run', nuevaRun: 'Nueva run', menu: 'Menú', compartir: '📤 Compartir resultado',
     copiar: '📋 Copiar texto', copiado: '✅ ¡Copiado!', cerrar: '✕',
     compartirTitulo: 'Compartir resultado', compartirSub: 'Copia el texto y compártelo donde quieras',
-    selecciona: 'Selecciona un número para empezar', disponibles: 'Números disponibles', sinNumeros: 'Sin números — reinicia o termina',
+    selecciona: 'Selecciona un número para empezar', disponibles: 'Números disponibles', sinNumeros: 'No has llegado al objetivo — deshaz o reinicia y sigue intentándolo',
     operacion: 'Operación', deshacer: '↩ Deshacer', reiniciar: '🔄 Reiniciar', divNoExacta: 'División no exacta',
     escudo: 'Escudo', esteNivel: 'pts este nivel',
   },
@@ -76,7 +76,7 @@ const AUI = {
     fin: 'Run over', nuevaRun: 'New run', menu: 'Menu', compartir: '📤 Share result',
     copiar: '📋 Copy text', copiado: '✅ Copied!', cerrar: '✕',
     compartirTitulo: 'Share result', compartirSub: 'Copy the text and share it wherever you like',
-    selecciona: 'Select a number to start', disponibles: 'Available numbers', sinNumeros: 'No numbers — reset or finish',
+    selecciona: 'Select a number to start', disponibles: 'Available numbers', sinNumeros: 'Target not reached — undo or reset and keep trying',
     operacion: 'Operation', deshacer: '↩ Undo', reiniciar: '🔄 Reset', divNoExacta: 'Non-exact division',
     escudo: 'Shield', esteNivel: 'pts this level',
   },
@@ -97,7 +97,7 @@ const AUI = {
     fin: 'Fi de la partida', nuevaRun: 'Nova partida', menu: 'Menú', compartir: '📤 Compartir resultat',
     copiar: '📋 Copiar text', copiado: '✅ Copiat!', cerrar: '✕',
     compartirTitulo: 'Compartir resultat', compartirSub: 'Copia el text i comparteix-lo on vulguis',
-    selecciona: 'Selecciona un número per començar', disponibles: 'Números disponibles', sinNumeros: 'Sense números — reinicia o acaba',
+    selecciona: 'Selecciona un número per començar', disponibles: 'Números disponibles', sinNumeros: 'No has arribat a l objectiu — desfés o reinicia i segueix intentant-ho',
     operacion: 'Operació', deshacer: '↩ Desfer', reiniciar: '🔄 Reiniciar', divNoExacta: 'Divisió no exacta',
     escudo: 'Escut', esteNivel: 'pts aquest nivell',
   },
@@ -392,11 +392,13 @@ export default function AcercateRoguelike() {
     setPreviousSel({ id: newId, valor: res })
 
     const hayVictoria = nuevos.some(x => x.valor === objetivo)
-    if (hayVictoria || nuevos.length === 1) {
+    if (hayVictoria) {
       setPreviousSel(null)
       clearInterval(timerRef.current)
       setTimeout(() => acabar(false, nuevos, objetivo), 600)
     }
+    // Sin victoria y sin números no se acaba: el jugador puede deshacer o
+    // reiniciar y seguir intentándolo hasta que se agote el tiempo.
   }
 
   function clickOp(op) {
@@ -741,6 +743,9 @@ export default function AcercateRoguelike() {
             )
           })}
         </div>
+        {numeros.length === 1 && numeros[0].valor !== objetivo && (
+          <p className="text-amber-400/70 text-xs font-semibold text-center mt-2">↩ {au.sinNumeros}</p>
+        )}
       </div>
 
       {/* Operadores */}
