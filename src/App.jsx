@@ -5,7 +5,7 @@ import Particles from './components/Particles'
 import Navbar from './components/Navbar'
 import CookieBanner, { useCookieConsent } from './components/CookieBanner'
 import ErrorBoundary from './components/ErrorBoundary'
-import { LangProvider } from './context/LangContext'
+import { LangProvider, useLang } from './context/LangContext'
 import { routableExams } from './lib/exams'
 
 // Lazy-loaded pages — only downloaded when the user navigates to them
@@ -172,6 +172,24 @@ function AppRoutes() {
   )
 }
 
+function NotFound() {
+  const { tr, localPath } = useLang()
+  return (
+    <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 text-center">
+      <div className="text-6xl mb-4">🔍</div>
+      <h1 className="text-3xl font-black text-white mb-2">
+        {tr({ es: 'Página no encontrada', en: 'Page not found', ca: 'Pàgina no trobada' })}
+      </h1>
+      <p className="text-white/40 mb-6 text-sm">
+        {tr({ es: 'Esta página no existe o fue eliminada.', en: 'This page does not exist or was removed.', ca: 'Aquesta pàgina no existeix o ha estat eliminada.' })}
+      </p>
+      <a href={localPath('/')} className="bg-[#EDAE49] text-black font-black px-6 py-3 rounded-2xl hover:bg-amber-400 transition-colors">
+        {tr({ es: '← Volver al inicio', en: '← Back to home', ca: "← Tornar a l'inici" })}
+      </a>
+    </div>
+  )
+}
+
 function Layout({ onConsent }) {
   return (
     <ErrorBoundary>
@@ -197,14 +215,7 @@ function Layout({ onConsent }) {
               <Route path="/en">{AppRoutes()}</Route>
               {/* Catalán — rutas activas pero selector oculto hasta completar traducción */}
               <Route path="/ca">{AppRoutes()}</Route>
-              <Route path="*" element={
-                <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 text-center">
-                  <div className="text-6xl mb-4">🔍</div>
-                  <h1 className="text-3xl font-black text-white mb-2">Página no encontrada</h1>
-                  <p className="text-white/40 mb-6 text-sm">Esta página no existe o fue eliminada.</p>
-                  <a href="/" className="bg-[#EDAE49] text-black font-black px-6 py-3 rounded-2xl hover:bg-amber-400 transition-colors">← Volver al inicio</a>
-                </div>
-              } />
+              <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>
         </div>
