@@ -18,6 +18,14 @@ export const EXAMS = {
     label: { es: 'Examen de cálculo', en: 'Maths exam', ca: 'Examen de càlcul' },
     emoji: '🧮', subject: 'matematicas',
   },
+  'portero-examen': {
+    label: { es: 'El Portero (examen)', en: 'Goalkeeper (exam)', ca: 'El Porter (examen)' },
+    emoji: '🥅', subject: 'matematicas',
+  },
+  'trayectoria-examen': {
+    label: { es: 'Trayectoria (examen)', en: 'Trajectory (exam)', ca: 'Trajectòria (examen)' },
+    emoji: '⚽', subject: 'matematicas',
+  },
   'portadas-examen': {
     label: { es: 'Portadas (examen)', en: 'Headlines (exam)', ca: 'Portades (examen)' },
     emoji: '📰', subject: 'historia',

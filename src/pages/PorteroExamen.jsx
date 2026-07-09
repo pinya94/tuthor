@@ -266,7 +266,7 @@ export default function PorteroExamen() {
     const coinsEarned = Math.round((scoreRef.current / TOTAL) * 200)
     if (user?.uid) {
       saveActivity(user.uid, {
-        type: 'examen', game: 'portero', category: 'matematicas',
+        type: 'examen', game: 'portero-examen', category: 'portero-examen',
         score: pts, coinsEarned, passed: scoreRef.current >= 5, timeSpent,
       }).catch(() => {})
     }

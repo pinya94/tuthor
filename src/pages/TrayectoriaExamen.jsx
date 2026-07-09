@@ -168,8 +168,8 @@ export default function TrayectoriaExamen() {
     if (user?.uid) {
       saveActivity(user.uid, {
         type: 'examen',
-        game: 'trayectoria',
-        category: 'matematicas',
+        game: 'trayectoria-examen',
+        category: 'trayectoria-examen',
         score: pts,
         coinsEarned,
         passed: scoreRef.current >= 5,
