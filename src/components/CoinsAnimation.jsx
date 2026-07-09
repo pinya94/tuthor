@@ -1,5 +1,17 @@
 import { useState, useEffect } from 'react'
 
+// Badge persistente para la pantalla de resultado: la animación dura 2,6s,
+// esto deja constancia fija de las monedas ganadas en la partida.
+export function CoinsEarnedBadge({ coins, lang = 'es' }) {
+  if (!coins || coins <= 0) return null
+  const label = lang === 'en' ? 'coins earned' : lang === 'ca' ? 'monedes guanyades' : 'monedas ganadas'
+  return (
+    <p className="text-amber-400/80 text-sm font-bold mt-1">
+      💰 +{coins.toLocaleString()} <span className="text-amber-400/50 font-semibold">{label}</span>
+    </p>
+  )
+}
+
 export default function CoinsAnimation({ points, coins: explicitCoins, onDone }) {
   const coins = explicitCoins !== undefined
     ? Math.max(0, Math.round(explicitCoins))

@@ -5,7 +5,7 @@ import { useLang } from '../context/LangContext'
 import { useAuth } from '../context/AuthContext'
 import { saveActivity } from '../lib/activity'
 import { computeCoins } from '../lib/games'
-import CoinsAnimation from '../components/CoinsAnimation'
+import CoinsAnimation, { CoinsEarnedBadge } from '../components/CoinsAnimation'
 import GameResultFooter from '../components/GameResultFooter'
 
 const ALL_OPS = ['+', '-', '×', '÷']
@@ -557,6 +557,7 @@ export default function AcercateRoguelike() {
               <div className="bg-amber-500/10 border border-amber-500/30 rounded-2xl p-4">
                 <p className="text-amber-400/70 text-xs uppercase tracking-widest font-semibold mb-1">{au.puntos}</p>
                 <p className="text-4xl font-black text-amber-400">{score.toLocaleString()}</p>
+                <CoinsEarnedBadge coins={computeCoins('acercate-roguelike', { score })} lang={lang} />
               </div>
             </div>
 
