@@ -37,14 +37,22 @@ service cloud.firestore {
       allow write: if request.auth != null;
     }
 
-    // ── Leaderboards (lectura pública, escritura autenticada con validación) ───
-    match /_stats/{leaderboardId} {
+    // ── Leaderboards: una entrada por jugador ──────────────────────────────────
+    // Lectura pública (rankings visibles sin sesión); cada usuario solo puede
+    // escribir su propia entrada, con score numérico acotado.
+    match /leaderboards/{game}/entries/{uid} {
       allow read: if true;
-      allow write: if request.auth != null
-        && leaderboardId.matches('leaderboard_.*')
-        && request.resource.data.keys().hasAll(['top', 'updatedAt'])
-        && request.resource.data.top is list
-        && request.resource.data.top.size() <= 10;
+      allow write: if isOwner(uid)
+        && request.resource.data.score is number
+        && request.resource.data.score >= 0
+        && request.resource.data.score <= 100000000;
+    }
+
+    // ── Leaderboards legacy (_stats/leaderboard_*): solo lectura ──────────────
+    // Congelados como fallback de lectura hasta que la subcolección se llene.
+    match /_stats/{leaderboardId} {
+      allow read: if leaderboardId.matches('leaderboard_.*');
+      allow write: if false;
     }
 
     // ── Formularios públicos (cualquiera crea, solo admins leen/modifican) ────

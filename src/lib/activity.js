@@ -1,33 +1,58 @@
 import { db } from './firebase'
 import {
   doc, collection, addDoc, setDoc, getDoc, updateDoc,
-  serverTimestamp, increment
+  serverTimestamp, increment,
+  query, orderBy, limit, where, getDocs, getCountFromServer,
 } from 'firebase/firestore'
 import { isKnownGame } from './games'
 
 // ── Leaderboard helpers ──────────────────────────────────────────────────────
+// Cada jugador tiene su propio documento en leaderboards/{game}/entries/{uid}:
+// sin límite de tamaño, sin carreras (cada uno escribe solo el suyo) y el
+// ranking se consulta con orderBy/count sin descargar la lista entera.
+
+const lbEntryRef = (game, uid) => doc(db, 'leaderboards', game, 'entries', uid)
+const lbEntriesCol = game => collection(db, 'leaderboards', game, 'entries')
 
 async function updateLeaderboard(game, uid, name, photoURL, score, avatarEmoji, bannerId, frameId) {
-  const lbRef = doc(db, '_stats', `leaderboard_${game}`)
   try {
-    const snap = await getDoc(lbRef)
-    const top  = snap.exists() ? (snap.data().top ?? []) : []
-    const rest = top.filter(e => e.uid !== uid)
-    const entry = { uid, name: name || 'Anónimo', photoURL: photoURL || null, score }
+    const entry = {
+      name: name || 'Anónimo',
+      photoURL: photoURL || null,
+      score,
+      updatedAt: serverTimestamp(),
+    }
     if (avatarEmoji) entry.avatarEmoji = avatarEmoji
     if (bannerId && bannerId !== 'banner_default') entry.bannerId = bannerId
     if (frameId && frameId !== 'default') entry.frameId = frameId
-    rest.push(entry)
-    const sorted = rest.sort((a, b) => b.score - a.score)
-    await setDoc(lbRef, { top: sorted, updatedAt: serverTimestamp() })
+    await setDoc(lbEntryRef(game, uid), entry)
   } catch { /* non-critical */ }
 }
 
-export async function getLeaderboard(game) {
+// Top-N del ranking. Si la subcolección aún está vacía, cae al documento
+// legacy (_stats/leaderboard_{game}) para no perder los rankings antiguos.
+export async function getLeaderboard(game, topN = 10) {
   try {
-    const snap = await getDoc(doc(db, '_stats', `leaderboard_${game}`))
-    return snap.exists() ? (snap.data().top ?? []) : []
+    const snap = await getDocs(query(lbEntriesCol(game), orderBy('score', 'desc'), limit(topN)))
+    if (!snap.empty) return snap.docs.map(d => ({ uid: d.id, ...d.data() }))
+    const legacy = await getDoc(doc(db, '_stats', `leaderboard_${game}`))
+    return legacy.exists() ? (legacy.data().top ?? []).slice(0, topN) : []
   } catch { return [] }
+}
+
+// Posición exacta del jugador: cuenta cuántos scores hay por encima del suyo.
+// Dos counts agregados — no descarga entradas. Devuelve { rank, total } o null.
+export async function getUserRank(game, score) {
+  if (score === undefined || score === null) return null
+  try {
+    const [above, total] = await Promise.all([
+      getCountFromServer(query(lbEntriesCol(game), where('score', '>', score))),
+      getCountFromServer(lbEntriesCol(game)),
+    ])
+    const t = total.data().count
+    if (t === 0) return null
+    return { rank: above.data().count + 1, total: t }
+  } catch { return null }
 }
 
 // Actualiza contadores globales (sin datos personales)
@@ -62,6 +87,23 @@ function calcStreak(lastActiveDate, currentStreak) {
   return 1 // racha rota
 }
 
+// Forma completa del documento de stats de un usuario nuevo. Única definición:
+// la usan saveActivity y saveDailyChallenge para que el doc nunca nazca
+// incompleto sea cual sea la primera actividad del usuario.
+function newStatsDoc(today) {
+  return {
+    totalTime: 0,
+    gamesPlayed: 0,
+    examsPassed: 0,
+    bestScores: {},
+    coins: 0,
+    streak: 1,
+    lastActiveDate: today,
+    statsByGame: {},
+    statsByCategory: {},
+  }
+}
+
 // Guarda una actividad completada
 // data: { type, game, category, score, passed, timeSpent, bonusCoins?, userName?, userPhoto? }
 export async function saveActivity(uid, data) {
@@ -88,20 +130,17 @@ export async function saveActivity(uid, data) {
     : Math.min(Math.floor((data.score || 0) / 10), 200)
 
   if (!snap.exists()) {
-    const byGame = { [data.game]: { plays: 1, timeSpent: t, bestScore: data.score || 0 } }
-    const byCategory = data.category
-      ? { [data.category]: { plays: 1, timeSpent: t, examsPassed: data.passed ? 1 : 0 } }
-      : {}
     await setDoc(statsRef, {
+      ...newStatsDoc(today),
       totalTime: t,
       gamesPlayed: 1,
       examsPassed: data.passed ? 1 : 0,
       bestScores: data.score ? { [data.game]: data.score } : {},
       coins: coinsEarned,
-      streak: 1,
-      lastActiveDate: today,
-      statsByGame: byGame,
-      statsByCategory: byCategory,
+      statsByGame: { [data.game]: { plays: 1, timeSpent: t, bestScore: data.score || 0 } },
+      statsByCategory: data.category
+        ? { [data.category]: { plays: 1, timeSpent: t, examsPassed: data.passed ? 1 : 0 } }
+        : {},
     })
   } else {
     const current = snap.data()
@@ -147,13 +186,15 @@ export async function saveDailyChallenge(uid, passed) {
     type: 'daily', game: 'pregunta-diaria', passed, createdAt: serverTimestamp(),
   })
 
-  const dailyCoins = 1000
+  // Equiparado a la partida perfecta de un juego (tope 200) para no
+  // desequilibrar la economía de monedas.
+  const dailyCoins = 200
 
   if (!snap.exists()) {
     await setDoc(statsRef, {
-      totalTime: 0, gamesPlayed: 1, examsPassed: 0, bestScores: {},
+      ...newStatsDoc(today),
+      gamesPlayed: 1,
       coins: dailyCoins,
-      streak: 1, lastActiveDate: today,
       dailyStreak: 1, lastDailyDate: today, dailyTotal: 1,
     })
   } else {
@@ -293,44 +334,26 @@ export async function buyAvatar(uid, avatarId, price) {
   return buyCosmeticItem(uid, avatarId, price, 'ownedAvatars', statsRef, snap)
 }
 
+// Sincroniza un campo cosmético en todas las entradas de leaderboard del usuario.
+// Cada entrada es un doc propio: un updateDoc por juego jugado, sin leer nada.
+async function syncCosmeticToLeaderboards(uid, fields) {
+  const snap = await getDoc(doc(db, 'users', uid, 'stats', 'global'))
+  const bestScores = snap.data()?.bestScores ?? {}
+  await Promise.all(Object.keys(bestScores).map(game =>
+    updateDoc(lbEntryRef(game, uid), fields).catch(() => { /* entrada aún no existe */ })
+  ))
+}
+
 export async function equipAvatar(uid, avatarEmoji) {
   const statsRef = doc(db, 'users', uid, 'stats', 'global')
   await updateDoc(statsRef, { equippedAvatar: avatarEmoji })
-  // Sync to all leaderboard entries this user appears in
-  const snap = await getDoc(statsRef)
-  const bestScores = snap.data()?.bestScores ?? {}
-  await Promise.all(Object.keys(bestScores).map(async game => {
-    try {
-      const lbRef = doc(db, '_stats', `leaderboard_${game}`)
-      const lbSnap = await getDoc(lbRef)
-      if (!lbSnap.exists()) return
-      const top = lbSnap.data().top ?? []
-      const idx = top.findIndex(e => e.uid === uid)
-      if (idx === -1) return
-      top[idx] = { ...top[idx], avatarEmoji: avatarEmoji || null }
-      await updateDoc(lbRef, { top })
-    } catch { /* non-critical */ }
-  }))
+  await syncCosmeticToLeaderboards(uid, { avatarEmoji: avatarEmoji || null })
 }
 
 export async function equipBanner(uid, bannerId) {
   const statsRef = doc(db, 'users', uid, 'stats', 'global')
   await updateDoc(statsRef, { equippedBanner: bannerId })
-  // Sync banner to all leaderboard entries this user appears in
-  const snap = await getDoc(statsRef)
-  const bestScores = snap.data()?.bestScores ?? {}
-  await Promise.all(Object.keys(bestScores).map(async game => {
-    try {
-      const lbRef = doc(db, '_stats', `leaderboard_${game}`)
-      const lbSnap = await getDoc(lbRef)
-      if (!lbSnap.exists()) return
-      const top = lbSnap.data().top ?? []
-      const idx = top.findIndex(e => e.uid === uid)
-      if (idx === -1) return
-      top[idx] = { ...top[idx], bannerId }
-      await updateDoc(lbRef, { top })
-    } catch { /* non-critical */ }
-  }))
+  await syncCosmeticToLeaderboards(uid, { bannerId })
 }
 
 export function formatTime(seconds) {

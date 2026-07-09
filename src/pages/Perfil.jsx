@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react'
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
-import { getStatsAndCosmetics, setHidePhoto, formatTime, getLeaderboard } from '../lib/activity'
+import { getStatsAndCosmetics, setHidePhoto, formatTime, getUserRank } from '../lib/activity'
 import { useNavigate } from 'react-router-dom'
 import AvatarFrame from '../components/AvatarFrame'
 import { FRAME_BY_ID, BANNER_BY_ID } from '../data/cosmetics'
 import { GAMES } from '../lib/games'
+import { examsBySubject } from '../lib/exams'
 
 function todayStr() { return new Date().toISOString().slice(0, 10) }
 
@@ -15,14 +16,16 @@ const GAME_LABELS = Object.fromEntries(
 )
 
 // ── Agrupación por materia ────────────────────────────────────────────────
-const SUBJECTS = [
+// Los exámenes (examIds/examLabels) se derivan del registro central
+// (src/lib/exams.js): un examen nuevo aparece aquí sin tocar este fichero.
+// catIds son categorías de juego (no exámenes) y mantienen sus etiquetas.
+const SUBJECT_DEFS = [
   {
     id: 'historia', emoji: '⚔️',
     label: { es: 'Historia', en: 'History', ca: 'Història' },
     gameIds: ['tuthor-time', 'juego-fechas', 'orden-temporal', 'linea-temporal', 'quien-es-quien', 'portadas'],
-    examIds: [],
     catIds: ['gce', 'wwii', 'roma', 'usa', 'primaria', 'global'],
-    examLabels: {
+    catLabels: {
       'gce':     { es: 'Guerra Civil Española',    en: 'Spanish Civil War',     ca: 'Guerra Civil Espanyola'  },
       'wwii':    { es: 'Segunda Guerra Mundial',   en: 'World War II',          ca: 'Segona Guerra Mundial'   },
       'roma':    { es: 'Antigua Roma',             en: 'Ancient Rome',          ca: 'Roma Antiga'             },
@@ -35,89 +38,53 @@ const SUBJECTS = [
     id: 'geografia', emoji: '🌍',
     label: { es: 'Geografía', en: 'Geography', ca: 'Geografia' },
     gameIds: ['georush', 'geomapa'],
-    examIds: [],
     catIds: [],
-    examLabels: {},
+    catLabels: {},
   },
   {
     id: 'matematicas', emoji: '🔢',
     label: { es: 'Matemáticas', en: 'Maths', ca: 'Matemàtiques' },
-    gameIds: ['matematicas', 'acercate-clasico', 'acercate-roguelike', 'numpath'],
-    examIds: ['algebra', 'enteros-racionales', 'estadistica', 'fracciones', 'funciones', 'geometria'],
+    gameIds: ['matematicas', 'acercate-clasico', 'acercate-roguelike', 'numpath', 'trayectoria', 'portero'],
     catIds: ['facil', 'medio', 'dificil', 'combinado-primaria', 'combinado-eso', 'combinado-bachillerato',
              'sumas-primaria', 'sumas-eso', 'sumas-bachillerato',
              'multiplicacion-primaria', 'multiplicacion-eso', 'multiplicacion-bachillerato',
              'division-primaria', 'division-eso', 'division-bachillerato'],
-    examLabels: {
-      'algebra':            { es: 'Álgebra',             en: 'Algebra',              ca: 'Àlgebra'             },
-      'enteros-racionales': { es: 'Enteros y Racionales', en: 'Integers & Rationals', ca: 'Enters i Racionals'  },
-      'estadistica':        { es: 'Estadística',          en: 'Statistics',           ca: 'Estadística'         },
-      'fracciones':         { es: 'Fracciones',           en: 'Fractions',            ca: 'Fraccions'           },
-      'funciones':          { es: 'Funciones',            en: 'Functions',            ca: 'Funcions'            },
-      'geometria':          { es: 'Geometría',            en: 'Geometry',             ca: 'Geometria'           },
-    },
+    catLabels: {},
   },
   {
     id: 'ciencias', emoji: '🔬',
     label: { es: 'Ciencias', en: 'Science', ca: 'Ciències' },
     gameIds: [],
-    examIds: ['celula', 'cuerpo-humano', 'ecosistemas', 'energia', 'electricidad',
-              'estados-materia', 'fuerzas', 'genetica', 'mezclas-separacion',
-              'nutricion', 'ondas-luz', 'seres-vivos', 'sistema-solar',
-              'acidos-bases', 'atomos-moleculas', 'tabla-periodica'],
     catIds: [],
-    examLabels: {
-      'celula':            { es: 'La Célula',            en: 'The Cell',             ca: 'La Cèl·lula'         },
-      'cuerpo-humano':     { es: 'Cuerpo Humano',        en: 'Human Body',           ca: 'Cos Humà'            },
-      'ecosistemas':       { es: 'Ecosistemas',          en: 'Ecosystems',           ca: 'Ecosistemes'         },
-      'energia':           { es: 'Energía',              en: 'Energy',               ca: 'Energia'             },
-      'electricidad':      { es: 'Electricidad',         en: 'Electricity',          ca: 'Electricitat'        },
-      'estados-materia':   { es: 'Estados de la Materia', en: 'States of Matter',   ca: 'Estats de la Matèria'},
-      'fuerzas':           { es: 'Fuerzas y Movimiento', en: 'Forces & Motion',      ca: 'Forces i Moviment'   },
-      'genetica':          { es: 'Genética',             en: 'Genetics',             ca: 'Genètica'            },
-      'mezclas-separacion':{ es: 'Mezclas y Separación', en: 'Mixtures & Separation',ca: 'Mescles i Separació' },
-      'nutricion':         { es: 'Nutrición',            en: 'Nutrition',            ca: 'Nutrició'            },
-      'ondas-luz':         { es: 'Ondas y Luz',          en: 'Waves & Light',        ca: 'Ones i Llum'         },
-      'seres-vivos':       { es: 'Seres Vivos',          en: 'Living Things',        ca: 'Éssers Vius'         },
-      'sistema-solar':     { es: 'Sistema Solar',        en: 'Solar System',         ca: 'Sistema Solar'       },
-      'acidos-bases':      { es: 'Ácidos y Bases',       en: 'Acids & Bases',        ca: 'Àcids i Bases'       },
-      'atomos-moleculas':  { es: 'Átomos y Moléculas',   en: 'Atoms & Molecules',    ca: 'Àtoms i Molècules'   },
-      'tabla-periodica':   { es: 'Tabla Periódica',      en: 'Periodic Table',       ca: 'Taula Periòdica'     },
-    },
+    catLabels: {},
   },
   {
     id: 'lengua', emoji: '📖',
     label: { es: 'Lengua', en: 'Language', ca: 'Llengua' },
     gameIds: ['intruso'],
-    examIds: ['espanol', 'espanol-gramatica-sustantivos-test', 'espanol-gramatica-verbos-test',
-              'espanol-gramatica-sintaxis-test', 'espanol-ortografia-acentuacion-test', 'espanol-ortografia-bv-test'],
     catIds: [],
-    examLabels: {
-      'espanol':                              { es: 'Gramática Española',      en: 'Spanish Grammar',       ca: 'Gramàtica Espanyola'     },
-      'espanol-gramatica-sustantivos-test':   { es: 'Sustantivos',             en: 'Nouns',                 ca: 'Substantius'             },
-      'espanol-gramatica-verbos-test':        { es: 'Verbos',                  en: 'Verbs',                 ca: 'Verbs'                   },
-      'espanol-gramatica-sintaxis-test':      { es: 'Sintaxis',                en: 'Syntax',                ca: 'Sintaxi'                 },
-      'espanol-ortografia-acentuacion-test':  { es: 'Acentuación',             en: 'Accentuation',          ca: 'Accentuació'             },
-      'espanol-ortografia-bv-test':           { es: 'B y V',                   en: 'B and V',               ca: 'B i V'                   },
-    },
+    catLabels: {},
   },
   {
     id: 'ingles', emoji: '🇬🇧',
     label: { es: 'Inglés', en: 'English', ca: 'Anglès' },
     gameIds: [],
-    examIds: ['ingles', 'ingles-grammar-present-simple-test', 'ingles-grammar-past-simple-test',
-              'ingles-grammar-present-perfect-test', 'ingles-grammar-articles-test', 'ingles-grammar-passive-test'],
     catIds: [],
-    examLabels: {
-      'ingles':                                { es: 'Inglés General',         en: 'General English',       ca: 'Anglès General'          },
-      'ingles-grammar-present-simple-test':    { es: 'Present Simple',         en: 'Present Simple',        ca: 'Present Simple'          },
-      'ingles-grammar-past-simple-test':       { es: 'Past Simple',            en: 'Past Simple',           ca: 'Past Simple'             },
-      'ingles-grammar-present-perfect-test':   { es: 'Present Perfect',        en: 'Present Perfect',       ca: 'Present Perfect'         },
-      'ingles-grammar-articles-test':          { es: 'Artículos',              en: 'Articles',              ca: 'Articles'                },
-      'ingles-grammar-passive-test':           { es: 'Voz Pasiva',             en: 'Passive Voice',         ca: 'Veu Passiva'             },
-    },
+    catLabels: {},
   },
 ]
+
+const SUBJECTS = SUBJECT_DEFS.map(s => {
+  const exams = examsBySubject(s.id)
+  return {
+    ...s,
+    examIds: exams.map(e => e.id),
+    examLabels: {
+      ...Object.fromEntries(exams.map(e => [e.id, e.label])),
+      ...s.catLabels,
+    },
+  }
+})
 
 export default function Perfil() {
   const { user, logout } = useAuth()
@@ -144,13 +111,14 @@ export default function Perfil() {
       setEquippedAvatar(data.equippedAvatar)
       setHidePhotoState(data.hidePhoto ?? false)
       setLoading(false)
-      // Fetch leaderboard rankings for games the user has played
+      // Posición en el ranking de cada juego jugado (count agregado, sin
+      // descargar el ranking entero)
       const playedGames = Object.keys(data.statsByGame || {}).filter(k => GAME_LABELS[k])
       Promise.all(playedGames.map(async k => {
-        const lb = await getLeaderboard(k).catch(() => [])
-        const idx = lb.findIndex(e => e.uid === user.uid)
-        return [k, idx >= 0 ? { rank: idx + 1, total: lb.length } : null]
-      })).then(results => setRankings(Object.fromEntries(results.filter(([,v]) => v))))
+        const best = data.bestScores?.[k]
+        const rank = best !== undefined ? await getUserRank(k, best) : null
+        return [k, rank]
+      })).then(results => setRankings(Object.fromEntries(results.filter(([, v]) => v))))
     })
   }, [user])
 
