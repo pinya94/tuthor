@@ -5,6 +5,7 @@ import { useAuth } from '../context/AuthContext'
 import CoinsAnimation from '../components/CoinsAnimation'
 import GameResultFooter from '../components/GameResultFooter'
 import { saveActivity } from '../lib/activity'
+import { computeCoins } from '../lib/games'
 import ShareButton from '../components/ShareButton'
 import { EVENTOS_ROGUELIKE } from '../data/tuthorTimeEventos'
 
@@ -332,6 +333,7 @@ export default function TuthorTimeRoguelike() {
     saveActivity(user.uid, {
       type: 'juego', game: 'tuthor-time-roguelike', category: difId,
       score: scoreTotal, passed: nivel >= 5, timeSpent,
+      coinsEarned: computeCoins('tuthor-time-roguelike', { score: scoreTotal }),
       userName: user.displayName, userPhoto: user.photoURL,
     }).catch(() => {})
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -775,7 +777,7 @@ export default function TuthorTimeRoguelike() {
               </div>
             </div>
 
-            {scoreTotal > 0 && <CoinsAnimation points={scoreTotal} />}
+            {scoreTotal > 0 && <CoinsAnimation coins={computeCoins('tuthor-time-roguelike', { score: scoreTotal })} />}
 
             <div className="space-y-3 mt-4">
               <ShareButton text={shareText} lang={lang} />

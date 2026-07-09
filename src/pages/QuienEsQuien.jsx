@@ -4,6 +4,7 @@ import { PERSONAJES_TODOS, PERSONAJES_GCE, PERSONAJES_WWII, PERSONAJES_USA, PERS
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
 import { saveActivity } from '../lib/activity'
+import { computeCoins } from '../lib/games'
 import CoinsAnimation from '../components/CoinsAnimation'
 import GameResultFooter from '../components/GameResultFooter'
 import ShareButton from '../components/ShareButton'
@@ -258,7 +259,7 @@ export default function QuienEsQuien() {
       if (timeRef.current <= 0) {
         clearInterval(timerRef.current)
         if (user && puntos > 0) {
-          saveActivity(user.uid, { type: 'juego', game: 'quien-es-quien', category: poolKey, score: puntos, passed: rondas > 0, timeSpent: 0, userName: user.displayName, userPhoto: user.photoURL }).catch(() => {})
+          saveActivity(user.uid, { type: 'juego', game: 'quien-es-quien', category: poolKey, score: puntos, passed: rondas > 0, timeSpent: 0, coinsEarned: computeCoins('quien-es-quien', { score: puntos }), userName: user.displayName, userPhoto: user.photoURL }).catch(() => {})
         }
         setFase('fin')
       }
@@ -348,7 +349,7 @@ export default function QuienEsQuien() {
           setTimeLeft(timeRef.current)
           if (timeRef.current <= 0) {
             clearInterval(timerRef.current)
-            if (user && puntos > 0) saveActivity(user.uid, { type: 'juego', game: 'quien-es-quien', category: poolKey, score: puntos, passed: rondas > 0, timeSpent: 0, userName: user.displayName, userPhoto: user.photoURL }).catch(() => {})
+            if (user && puntos > 0) saveActivity(user.uid, { type: 'juego', game: 'quien-es-quien', category: poolKey, score: puntos, passed: rondas > 0, timeSpent: 0, coinsEarned: computeCoins('quien-es-quien', { score: puntos }), userName: user.displayName, userPhoto: user.photoURL }).catch(() => {})
             setTimeout(() => setFase('fin'), 1200)
           } else {
             setTimeout(() => nuevaRonda(), 1500)
@@ -390,7 +391,7 @@ export default function QuienEsQuien() {
                 <p className="text-white font-black text-3xl">{combo}</p>
               </div>
             </div>
-            {puntos > 0 && <CoinsAnimation points={puntos} />}
+            {puntos > 0 && <CoinsAnimation coins={computeCoins('quien-es-quien', { score: puntos })} />}
             <GameResultFooter game="quien-es-quien" score={puntos} user={user} lang={lang} />
           </div>
           <div className="space-y-3">

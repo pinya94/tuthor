@@ -5,26 +5,14 @@ import { getStatsAndCosmetics, setHidePhoto, formatTime, getLeaderboard } from '
 import { useNavigate } from 'react-router-dom'
 import AvatarFrame from '../components/AvatarFrame'
 import { FRAME_BY_ID, BANNER_BY_ID } from '../data/cosmetics'
+import { GAMES } from '../lib/games'
 
 function todayStr() { return new Date().toISOString().slice(0, 10) }
 
-// ── Juegos reales (lo que aparece en /juegos) ─────────────────────────────
-const GAME_LABELS = {
-  'tuthor-time':           { es: 'Tuthor Time',            en: 'Tuthor Time',       ca: 'Tuthor Time',             emoji: '🕰️' },
-  'tuthor-time-roguelike': { es: 'Tuthor Time Roguelike',  en: 'Tuthor Time RL',    ca: 'Tuthor Time Roguelike',   emoji: '⚡' },
-  'orden-temporal':        { es: 'Línea Temporal',          en: 'Timeline',          ca: 'Línia Temporal',          emoji: '📜' },
-  'quien-es-quien':        { es: '¿Quién es Quién?',       en: 'Who is Who?',       ca: 'Qui és qui?',             emoji: '🕵️' },
-  'portadas':              { es: 'Portadas',                en: 'Headlines',         ca: 'Portades',                emoji: '📰' },
-  'georush':               { es: 'GeoRush',                 en: 'GeoRush',           ca: 'GeoRush',                 emoji: '🌍' },
-  'geomapa':               { es: 'GeoMapa',                 en: 'GeoMap',            ca: 'GeoMapa',                 emoji: '🗺️' },
-  'matematicas':           { es: 'Cálculo Mental',          en: 'Mental Maths',      ca: 'Càlcul Mental',           emoji: '🧮' },
-  'acercate-clasico':      { es: 'Acércate (Clásico)',      en: 'Target Number',     ca: "Acosta't (Clàssic)",      emoji: '🎯' },
-  'acercate-roguelike':    { es: 'Acércate (Roguelike)',    en: 'Target Number RL',  ca: "Acosta't (Roguelike)",    emoji: '🎲' },
-  'numpath':               { es: 'NumPath',                 en: 'NumPath',           ca: 'NumPath',                 emoji: '🔢' },
-  'intruso':               { es: 'El Intruso',              en: 'The Odd One Out',   ca: "L'Intrús",                emoji: '🔍' },
-  'portero':               { es: 'El Portero',              en: 'The Goalkeeper',    ca: 'El Porter',               emoji: '🥅' },
-  'trayectoria':           { es: 'Trayectoria',             en: 'Trajectory',        ca: 'Trajectòria',             emoji: '🥅' },
-}
+// ── Juegos reales, derivados del registro central (src/lib/games.js) ──────
+const GAME_LABELS = Object.fromEntries(
+  Object.entries(GAMES).map(([id, g]) => [id, { ...g.label, emoji: g.emoji }])
+)
 
 // ── Agrupación por materia ────────────────────────────────────────────────
 const SUBJECTS = [

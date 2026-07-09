@@ -4,6 +4,7 @@ import { getEventosLineaTemporal, getCorrectPos, sortEventos } from '../data/his
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
 import { saveActivity } from '../lib/activity'
+import { computeCoins } from '../lib/games'
 import CoinsAnimation from '../components/CoinsAnimation'
 import GameResultFooter from '../components/GameResultFooter'
 import SEOHead from '../components/SEOHead'
@@ -78,7 +79,7 @@ function GameOver({ score, placed, onRepetir, onSalir, lang, user }) {
         </div>
 
         {showCoins && !coinsDone && (
-          <div className="mb-6"><CoinsAnimation points={score} onDone={() => setCoinsDone(true)} /></div>
+          <div className="mb-6"><CoinsAnimation coins={computeCoins('orden-temporal', { score })} onDone={() => setCoinsDone(true)} /></div>
         )}
 
         {(coinsDone || !showCoins) && (
@@ -189,7 +190,7 @@ export default function OrdenTemporal() {
     setTimeout(() => {
       if (newLives <= 0 || pending.length === 0) {
         const t = startRef.current ? Math.round((Date.now() - startRef.current) / 1000) : 0
-        if (user) saveActivity(user.uid, { type: 'juego', game: 'orden-temporal', score: newScore, passed: newTimeline.length >= 8, timeSpent: t }).catch(() => {})
+        if (user) saveActivity(user.uid, { type: 'juego', game: 'orden-temporal', score: newScore, passed: newTimeline.length >= 8, timeSpent: t, coinsEarned: computeCoins('orden-temporal', { score: newScore }) }).catch(() => {})
         setFase('gameover'); return
       }
       setCurrent(pending[0]); setPending(p => p.slice(1))

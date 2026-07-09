@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import { useAuth } from '../context/AuthContext'
 import { saveActivity } from '../lib/activity'
+import { computeCoins } from '../lib/games'
 import CoinsAnimation from '../components/CoinsAnimation'
 import GameResultFooter from '../components/GameResultFooter'
 import SEOHead from '../components/SEOHead'
@@ -444,6 +445,7 @@ export default function Trayectoria() {
         game: 'trayectoria',
         category: 'matematicas',
         score: pts,
+        coinsEarned: computeCoins('trayectoria', { score: pts }),
         passed: scoreRef.current > 0,
         timeSpent: GAME_TIME - timeLeftRef.current,
       }).catch(() => {})
@@ -604,7 +606,7 @@ export default function Trayectoria() {
           onRestart={() => startGame(difficulty)}
           onChangeDiff={() => setScreen('difficulty')}
         />
-        {score > 0 && <CoinsAnimation points={score * 10} />}
+        {score > 0 && <CoinsAnimation coins={computeCoins('trayectoria', { score: score * 10 })} />}
         <GameResultFooter game="trayectoria" score={score * 10} user={user} lang={lang} />
       </>
     )

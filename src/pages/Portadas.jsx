@@ -6,6 +6,7 @@ import { useAuth } from '../context/AuthContext'
 import CoinsAnimation from '../components/CoinsAnimation'
 import GameResultFooter from '../components/GameResultFooter'
 import { saveActivity } from '../lib/activity'
+import { computeCoins } from '../lib/games'
 import ShareButton from '../components/ShareButton'
 import SEOHead from '../components/SEOHead'
 
@@ -180,6 +181,7 @@ export default function Portadas() {
     saveActivity(user.uid, {
       type: 'juego', game: 'portadas', category: difId,
       score: puntos, passed: pct >= 50, timeSpent,
+      coinsEarned: computeCoins('portadas', { score: puntos }),
       userName: user.displayName, userPhoto: user.photoURL,
     }).catch(() => {})
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -472,7 +474,7 @@ export default function Portadas() {
                 <p className="text-white font-black text-3xl">{pct}<span className="text-white/30 text-lg">%</span></p>
               </div>
             </div>
-            {puntos > 0 && <CoinsAnimation points={puntos} />}
+            {puntos > 0 && <CoinsAnimation coins={computeCoins('portadas', { score: puntos })} />}
           </div>
 
           <GameResultFooter game="portadas" score={puntos} user={user} lang={lang} />

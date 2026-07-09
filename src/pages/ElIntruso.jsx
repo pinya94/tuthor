@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
 import { saveActivity, saveDailyChallenge } from '../lib/activity'
+import { computeCoins } from '../lib/games'
 import GameResultFooter from '../components/GameResultFooter'
 import CoinsAnimation from '../components/CoinsAnimation'
 import { getQuestionsForPool } from '../data/palabrasIntrusas'
@@ -118,7 +119,7 @@ export default function ElIntruso() {
 
   function finishGame(finalScore, finalCorrect, finalWrong, qList) {
     clearTimer()
-    const coinsEarned = qList.length > 0 ? Math.round(finalCorrect / qList.length * 150) : 0
+    const coinsEarned = computeCoins('intruso', { correct: finalCorrect, total: qList.length })
     if (user && !saved) {
       setSaved(true)
       saveActivity(user.uid, {

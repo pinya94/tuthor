@@ -3,6 +3,7 @@ import { useNavigate, useParams, useLocation } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
 import { saveActivity } from '../lib/activity'
+import { computeCoins } from '../lib/games'
 import { MODOS, GRADOS } from '../lib/mathEngine'
 import CombinaNumeros from '../components/CombinaNumeros'
 import CoinsAnimation from '../components/CoinsAnimation'
@@ -43,6 +44,7 @@ export default function MatematicasPractica() {
       saveActivity(user.uid, {
         type: 'juego', game: 'matematicas', category: `${modo}-${gradoId}`,
         score: pts, passed, timeSpent,
+        coinsEarned: computeCoins('matematicas', { score: pts }),
       }).catch(() => {})
     }
 

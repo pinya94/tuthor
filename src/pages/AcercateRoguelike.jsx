@@ -4,6 +4,7 @@ import { generarPuzzle, aplicar, OP_STYLE } from '../lib/mathEngine'
 import { useLang } from '../context/LangContext'
 import { useAuth } from '../context/AuthContext'
 import { saveActivity } from '../lib/activity'
+import { computeCoins } from '../lib/games'
 import CoinsAnimation from '../components/CoinsAnimation'
 import GameResultFooter from '../components/GameResultFooter'
 
@@ -230,6 +231,7 @@ export default function AcercateRoguelike() {
     saveActivity(user.uid, {
       type: 'juego', game: 'acercate-roguelike', category: difId,
       score, passed: (rd?.nivel || 1) > 1, timeSpent,
+      coinsEarned: computeCoins('acercate-roguelike', { score }),
       userName: user.displayName, userPhoto: user.photoURL,
     }).catch(() => {})
     setSaved(true)
@@ -574,7 +576,7 @@ export default function AcercateRoguelike() {
               </div>
             )}
 
-            {score > 0 && <CoinsAnimation points={score} />}
+            {score > 0 && <CoinsAnimation coins={computeCoins('acercate-roguelike', { score })} />}
             <GameResultFooter game="acercate-roguelike" score={score} user={user} lang={lang} />
 
             <div className="flex gap-3 justify-center mb-3">

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
 import { saveActivity } from '../lib/activity'
+import { computeCoins } from '../lib/games'
 import GameResultFooter from '../components/GameResultFooter'
 import CoinsAnimation from '../components/CoinsAnimation'
 import SEOHead from '../components/SEOHead'
@@ -183,7 +184,7 @@ export default function Acercate() {
     const mejor = nums.map(n => n.valor).reduce((a, b) => Math.abs(a - obj) < Math.abs(b - obj) ? a : b)
     const diff  = Math.abs(mejor - obj)
     const pts   = diff === 0 ? 10 : diff <= 2 ? 5 : 0
-    const coins = diff === 0 ? 100 : diff <= 2 ? 50 : 0
+    const coins = computeCoins('acercate-clasico', { diff })
     if (diff === 0) setVictoria(true)
     setFinInfo({ diff, mejor, pts, porTiempo })
     setCoinsToShow(coins)
@@ -192,7 +193,7 @@ export default function Acercate() {
       const timeSpent = Math.round((Date.now() - (startTimeRef.current || Date.now())) / 1000)
       saveActivity(user.uid, {
         type: 'juego', game: 'acercate-clasico', category: nivelId,
-        score: pts, coinsEarned: diff === 0 ? 100 : diff <= 2 ? 50 : 0,
+        score: pts, coinsEarned: coins,
         passed: diff === 0, timeSpent,
       }).catch(() => {})
     }

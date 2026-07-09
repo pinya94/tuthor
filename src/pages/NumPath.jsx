@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import { useAuth } from '../context/AuthContext'
 import { saveActivity, saveDailyChallenge } from '../lib/activity'
+import { computeCoins } from '../lib/games'
 import CoinsAnimation from '../components/CoinsAnimation'
 import GameResultFooter from '../components/GameResultFooter'
 import ShareButton from '../components/ShareButton'
@@ -401,7 +402,7 @@ export default function NumPath() {
     if (!user) return
     const b = boardsRef.current
     const pts = b * 100
-    if (pts > 0) saveActivity(user.uid, { type: 'juego', game: 'numpath', score: pts, passed: true, timeSpent: 0, userName: user.displayName, userPhoto: user.photoURL }).catch(() => {})
+    if (pts > 0) saveActivity(user.uid, { type: 'juego', game: 'numpath', score: pts, passed: true, timeSpent: 0, coinsEarned: computeCoins('numpath', { score: pts }), userName: user.displayName, userPhoto: user.photoURL }).catch(() => {})
   }
 
   // ── RESULTADO (exam/daily) ─────────────────────────────────────────────────
@@ -487,7 +488,7 @@ export default function NumPath() {
               <p className="text-white/30 text-xs uppercase tracking-widest mb-1">{u.tableros}</p>
               <p className="text-white font-black text-6xl tabular-nums">{boards}</p>
             </div>
-            {boards > 0 && <CoinsAnimation points={boards * 100} />}
+            {boards > 0 && <CoinsAnimation coins={computeCoins('numpath', { score: boards * 100 })} />}
             <GameResultFooter game="numpath" score={boards * 100} user={user} lang={lang} />
           </div>
           <div className="space-y-3">

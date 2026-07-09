@@ -4,6 +4,7 @@ import { PAISES } from '../data/paises'
 import { useLang } from '../context/LangContext'
 import { useAuth } from '../context/AuthContext'
 import { saveActivity } from '../lib/activity'
+import { computeCoins } from '../lib/games'
 import CoinsAnimation from '../components/CoinsAnimation'
 import WorldMap from '../components/WorldMap'
 import GameResultFooter from '../components/GameResultFooter'
@@ -198,7 +199,7 @@ export default function GeoMapa() {
     if (fase === 'fin' && !savedRef.current && user) {
       savedRef.current = true
       const elapsed = Math.round((Date.now() - startTimeRef.current) / 1000)
-      saveActivity(user.uid, { type: 'juego', game: 'geomapa', score: puntosRef.current, passed: puntosRef.current >= 200, timeSpent: elapsed }).catch(() => {})
+      saveActivity(user.uid, { type: 'juego', game: 'geomapa', score: puntosRef.current, passed: puntosRef.current >= 200, timeSpent: elapsed, coinsEarned: computeCoins('geomapa', { score: puntosRef.current }) }).catch(() => {})
     }
   }, [fase, user])
 
@@ -363,7 +364,7 @@ export default function GeoMapa() {
             <h2 className="text-3xl font-black text-white mb-1">{u.tiempoAgotado}</h2>
 
             {puntos > 0 && !coinsDone && (
-              <div className="my-6"><CoinsAnimation points={puntos} onDone={() => setCoinsDone(true)} /></div>
+              <div className="my-6"><CoinsAnimation coins={computeCoins('geomapa', { score: puntos })} onDone={() => setCoinsDone(true)} /></div>
             )}
 
             {(coinsDone || puntos === 0) && (

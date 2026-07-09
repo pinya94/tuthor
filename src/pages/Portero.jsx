@@ -2,6 +2,7 @@ import { useState, useRef, useEffect, useCallback } from 'react'
 import { useLang } from '../context/LangContext'
 import { useAuth } from '../context/AuthContext'
 import { saveActivity } from '../lib/activity'
+import { computeCoins } from '../lib/games'
 import CoinsAnimation from '../components/CoinsAnimation'
 import GameResultFooter from '../components/GameResultFooter'
 import ShareButton from '../components/ShareButton'
@@ -498,6 +499,7 @@ export default function Portero() {
       saveActivity(user.uid, {
         type: 'juego', game: 'portero', category: 'matematicas',
         score: pts, passed: scoreRef.current > 0,
+        coinsEarned: computeCoins('portero', { score: pts }),
         timeSpent: GAME_TIME - timeRef.current,
         userName: user.displayName, userPhoto: user.photoURL,
       }).catch(() => {})
@@ -623,7 +625,7 @@ export default function Portero() {
             <p className="text-5xl font-black text-white mb-1">{score}</p>
             <p className="text-white/60 text-lg mb-2">{T('saves', l)}</p>
             <p className="text-[#EDAE49] font-bold mb-4">{msgs[l] ?? msgs.es}</p>
-            {pts > 0 && <CoinsAnimation points={pts} />}
+            {pts > 0 && <CoinsAnimation coins={computeCoins('portero', { score: pts })} />}
             <GameResultFooter game="portero" score={pts} user={user} lang={lang} currentName={user?.displayName} currentPhoto={user?.photoURL} />
           </div>
           <div className="space-y-3">

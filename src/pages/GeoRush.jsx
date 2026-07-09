@@ -6,6 +6,7 @@ import { useAuth } from '../context/AuthContext'
 import CoinsAnimation from '../components/CoinsAnimation'
 import GameResultFooter from '../components/GameResultFooter'
 import { saveActivity } from '../lib/activity'
+import { computeCoins } from '../lib/games'
 import ShareButton from '../components/ShareButton'
 import SEOHead from '../components/SEOHead'
 
@@ -297,6 +298,7 @@ export default function GeoRush() {
     saveActivity(user.uid, {
       type: 'juego', game: 'georush', category: difId,
       score: puntos, passed: paisesAcertados >= 3, timeSpent,
+      coinsEarned: computeCoins('georush', { score: puntos }),
       userName: user.displayName, userPhoto: user.photoURL,
     }).catch(() => {})
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -568,7 +570,7 @@ export default function GeoRush() {
                 <p className="text-white font-bold">{ultimoPais}</p>
               </div>
             )}
-            {puntos > 0 && <CoinsAnimation points={puntos} />}
+            {puntos > 0 && <CoinsAnimation coins={computeCoins('georush', { score: puntos })} />}
           </div>
 
           <GameResultFooter game="georush" score={puntos} user={user} lang={lang} />

@@ -3,6 +3,7 @@ import {
   doc, collection, addDoc, setDoc, getDoc, updateDoc,
   serverTimestamp, increment
 } from 'firebase/firestore'
+import { isKnownGame } from './games'
 
 // ── Leaderboard helpers ──────────────────────────────────────────────────────
 
@@ -64,6 +65,11 @@ function calcStreak(lastActiveDate, currentStreak) {
 // Guarda una actividad completada
 // data: { type, game, category, score, passed, timeSpent, bonusCoins?, userName?, userPhoto? }
 export async function saveActivity(uid, data) {
+  // Los juegos deben estar en el registro (src/lib/games.js) para aparecer en
+  // el perfil. Los exámenes (type 'examen'/'daily') tienen sus propios IDs.
+  if (import.meta.env.DEV && data.type === 'juego' && !isKnownGame(data.game)) {
+    console.warn(`[saveActivity] gameId '${data.game}' no está en el registro de src/lib/games.js — no aparecerá en el perfil`)
+  }
   await addDoc(collection(db, 'users', uid, 'activity'), {
     type: data.type, game: data.game, category: data.category,
     score: data.score, passed: data.passed, timeSpent: data.timeSpent,
