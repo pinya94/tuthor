@@ -51,8 +51,16 @@ export function LangProvider({ children }) {
     return obj[field]
   }
 
+  // Patrón estándar para textos traducidos: tr({ es: '...', en: '...', ca: '...' }).
+  // Cae al español si falta el idioma activo. Añadir un idioma nuevo = añadir
+  // su clave en los objetos + una entrada en LANGS (sin ternarios por página).
+  function tr(obj) {
+    if (!obj) return ''
+    return obj[lang] ?? obj[DEFAULT_LANG] ?? ''
+  }
+
   return (
-    <LangContext.Provider value={{ lang, t, lt, localPath, switchLang }}>
+    <LangContext.Provider value={{ lang, t, lt, tr, localPath, switchLang }}>
       {children}
     </LangContext.Provider>
   )
