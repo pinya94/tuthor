@@ -565,7 +565,7 @@ export default function AcercateRoguelike() {
                 <p className="text-white/30 text-xs uppercase tracking-widest font-semibold mb-3">{au.mejoras}</p>
                 <div className="flex flex-wrap gap-2 justify-center">
                   {rd.mejoras.map((id, i) => {
-                    const m = MEJORAS_POOL.find(x => x.id === id)
+                    const m = (MEJORAS_POOL[lang] || MEJORAS_POOL.es).find(x => x.id === id)
                     return (
                       <span key={i} className="bg-white/10 rounded-xl px-3 py-1.5 text-sm font-semibold text-white flex items-center gap-1.5">
                         <span>{m?.emoji}</span> {m?.titulo}
