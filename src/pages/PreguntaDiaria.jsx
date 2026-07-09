@@ -230,7 +230,7 @@ export default function PreguntaDiaria() {
         <div className="fixed top-20 left-1/2 -translate-x-1/2 z-[200] animate-bounce">
           <div className="bg-amber-500 text-black font-black text-lg px-6 py-3 rounded-2xl shadow-2xl shadow-amber-500/50 flex items-center gap-2">
             <span className="text-2xl">💰</span>
-            +1.000 {ca ? 'monedes' : en ? 'coins' : 'monedas'}
+            +200 {ca ? 'monedes' : en ? 'coins' : 'monedas'}
           </div>
         </div>
       )}
