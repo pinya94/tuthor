@@ -102,6 +102,7 @@ export default function GeoMapaEspanaExamen() {
   const [fase, setFase]           = useState('jugando')
 
   // Guardar al terminar (una vez por partida)
+  const startRef = useRef(Date.now())
   const savedRef = useRef(false)
   useEffect(() => {
     if (fase !== 'resultado' || savedRef.current || !user) return
@@ -109,6 +110,7 @@ export default function GeoMapaEspanaExamen() {
     saveActivity(user.uid, {
       type: 'examen', game: 'geomapa-espana-examen', category: 'geomapa-espana-examen',
       score: aciertos * 100, passed: aciertos >= 5,
+      timeSpent: Math.round((Date.now() - startRef.current) / 1000),
       coinsEarned: Math.min(aciertos * 20, 200),
       userName: user.displayName, userPhoto: user.photoURL,
     }).catch(() => {})

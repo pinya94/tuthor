@@ -164,7 +164,7 @@ export default function Perfil() {
         const s = statsByGame[id] || {}
         if (!s.plays) return null
         const lbl = subj.examLabels[id]
-        return { id, label: lbl?.[lang] || lbl?.es || id, plays: s.plays, passed: statsByCategory[id]?.examsPassed || 0 }
+        return { id, label: lbl?.[lang] || lbl?.es || id, plays: s.plays, passed: statsByCategory[id]?.examsPassed || 0, timeSpent: s.timeSpent || 0 }
       }),
       ...subj.catIds.map(id => {
         const s = statsByCategory[id] || {}
@@ -172,15 +172,16 @@ export default function Perfil() {
         // Only show if it looks like an exam (has examsPassed data or type examen)
         if ((s.examsPassed ?? -1) < 0) return null
         const lbl = subj.examLabels[id]
-        return { id, label: lbl?.[lang] || lbl?.es || id, plays: s.plays, passed: s.examsPassed || 0 }
+        return { id, label: lbl?.[lang] || lbl?.es || id, plays: s.plays, passed: s.examsPassed || 0, timeSpent: s.timeSpent || 0 }
       }),
     ].filter(Boolean)
 
     const totalExamPlays  = examRows.reduce((a, r) => a + r.plays, 0)
     const totalPassed     = examRows.reduce((a, r) => a + r.passed, 0)
+    const examTimeSpent   = examRows.reduce((a, r) => a + (r.timeSpent || 0), 0)
     const totalPlays      = gameStats.plays + totalExamPlays
 
-    return { ...subj, gameStats, examRows, totalExamPlays, totalPassed, totalPlays, timeSpent: gameStats.timeSpent }
+    return { ...subj, gameStats, examRows, totalExamPlays, totalPassed, totalPlays, timeSpent: gameStats.timeSpent + examTimeSpent }
   }).filter(s => s.totalPlays > 0)
 
   return (

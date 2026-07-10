@@ -14,7 +14,6 @@ import { useLang } from '../context/LangContext'
 import { useAuth } from '../context/AuthContext'
 import { saveActivity } from '../lib/activity'
 import CoinsAnimation from './CoinsAnimation'
-import MiniLeaderboard from './MiniLeaderboard'
 import PageMeta from './PageMeta'
 import QuizSchema from './QuizSchema'
 import AuthModal from './AuthModal'
@@ -278,8 +277,6 @@ export default function ExamenMC({ titulo, emoji, nivelInfo, backFallback, gameI
             </div>
           )}
           {showAuth && <AuthModal onClose={() => setShowAuth(false)} />}
-
-          <MiniLeaderboard game={gameId} currentScore={aciertos * 100} currentUid={user?.uid} lang={lang} />
 
           <div className="bg-white/5 border border-white/10 rounded-2xl p-4 mb-5 mt-4">
             <p className="text-white/30 text-xs uppercase tracking-widest mb-3 font-semibold">

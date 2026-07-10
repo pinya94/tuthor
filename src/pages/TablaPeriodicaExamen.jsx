@@ -300,6 +300,7 @@ export default function TablaPeriodicaExamen() {
   const backTo = backPath ? localPath(backPath) : localPath('/estudiar/quimica')
 
   // Guardar al terminar el examen (una sola vez por partida)
+  const startRef = useRef(Date.now())
   const savedRef = useRef(false)
   useEffect(() => {
     if (fase !== 'resultado' || savedRef.current || !user) return
@@ -307,6 +308,7 @@ export default function TablaPeriodicaExamen() {
     saveActivity(user.uid, {
       type: 'examen', game: 'tabla-periodica', category: 'tabla-periodica',
       score: aciertos * 100, passed: aciertos >= 5,
+      timeSpent: Math.round((Date.now() - startRef.current) / 1000),
       coinsEarned: Math.min(aciertos * 20, 200),
       userName: user.displayName, userPhoto: user.photoURL,
     }).catch(() => {})

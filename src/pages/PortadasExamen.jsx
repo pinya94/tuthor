@@ -94,6 +94,7 @@ export default function PortadasExamen() {
   const [fase,       setFase]       = useState('jugando') // 'jugando' | 'feedback' | 'resultado'
 
   // Guardar al terminar (una vez por partida)
+  const startRef = useRef(Date.now())
   const savedRef = useRef(false)
   useEffect(() => {
     if (fase !== 'resultado' || savedRef.current || !user) return
@@ -101,6 +102,7 @@ export default function PortadasExamen() {
     saveActivity(user.uid, {
       type: 'examen', game: 'portadas-examen', category: 'portadas-examen',
       score: aciertos * 100, passed: aciertos >= 5,
+      timeSpent: Math.round((Date.now() - startRef.current) / 1000),
       coinsEarned: Math.min(aciertos * 20, 200),
       userName: user.displayName, userPhoto: user.photoURL,
     }).catch(() => {})

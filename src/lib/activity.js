@@ -143,9 +143,9 @@ export async function saveActivity(uid, data) {
       totalTime: t,
       gamesPlayed: 1,
       examsPassed: data.passed ? 1 : 0,
-      bestScores: data.score ? { [data.game]: data.score } : {},
+      bestScores: (data.type === 'juego' && data.score) ? { [data.game]: data.score } : {},
       coins: coinsEarned,
-      statsByGame: { [data.game]: { plays: 1, timeSpent: t, bestScore: data.score || 0 } },
+      statsByGame: { [data.game]: { plays: 1, timeSpent: t, bestScore: data.type === 'juego' ? (data.score || 0) : 0 } },
       statsByCategory: data.category
         ? { [data.category]: { plays: 1, timeSpent: t, examsPassed: data.passed ? 1 : 0 } }
         : {},
@@ -163,7 +163,10 @@ export async function saveActivity(uid, data) {
       [`statsByGame.${data.game}.plays`]: increment(1),
       [`statsByGame.${data.game}.timeSpent`]: increment(t),
     }
-    if (data.score) {
+    // Récord y leaderboard SOLO para juegos. Los exámenes son para estudiar
+    // (máx 10 aciertos): no compiten en ranking, solo cuentan partidas,
+    // minutos y aprobados para el perfil.
+    if (data.type === 'juego' && data.score) {
       const currentBest = current.bestScores?.[data.game] || 0
       if (data.score > currentBest) {
         updates[`bestScores.${data.game}`] = data.score
