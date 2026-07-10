@@ -121,10 +121,10 @@ export default function InfoEstudiarFicha() {
       </div>
 
       {/* Contenido claro */}
-      <div className="bg-[#f5f5f0] text-gray-900 rounded-t-[2rem] sm:rounded-t-[3rem]">
+      <div className="text-white">
         <div className="max-w-3xl mx-auto px-4 sm:px-8 py-12">
 
-          <p className="text-gray-600 leading-relaxed text-lg mb-8">{ficha.intro}</p>
+          <p className="text-white/60 leading-relaxed text-lg mb-8">{ficha.intro}</p>
 
           <div className={`bg-gradient-to-br ${ficha.gradient} rounded-2xl h-48 sm:h-64 flex items-center justify-center mb-10 relative overflow-hidden`}>
             <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '24px 24px' }} />
@@ -137,7 +137,7 @@ export default function InfoEstudiarFicha() {
           {/* CTA 1 */}
           <div className="flex flex-col sm:flex-row gap-3 justify-center mb-10">
             <Link to={localPath(ficha.examPath)}
-              className="inline-block py-4 px-10 bg-teal-600 hover:bg-teal-500 text-white font-black text-lg rounded-2xl transition-all hover:scale-[1.02] shadow-lg shadow-teal-600/30 text-center">
+              className="inline-block py-4 px-10 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-lg rounded-2xl transition-all hover:scale-[1.02] shadow-lg shadow-amber-500/30 text-center">
               {ui.hacerExamen}
             </Link>
             <Link to={localPath(ficha.studyPath)}
@@ -150,28 +150,28 @@ export default function InfoEstudiarFicha() {
 
           {/* Beneficios */}
           <section className="mb-10">
-            <h2 className="text-2xl font-black text-gray-900 mb-6">{ui.beneficiosH2}</h2>
+            <h2 className="text-2xl font-black text-white mb-6">{ui.beneficiosH2}</h2>
             <div className="space-y-5">
               {ficha.beneficios.map(b => (
-                <div key={b.titulo} className="bg-white rounded-2xl border border-gray-200 p-6">
-                  <h3 className="font-black text-gray-900 text-lg mb-2">{b.titulo}</h3>
-                  <p className="text-gray-500 leading-relaxed">{b.texto}</p>
+                <div key={b.titulo} className="bg-[rgba(17,20,29,0.86)] rounded-2xl border border-white/10 p-6">
+                  <h3 className="font-black text-white text-lg mb-2">{b.titulo}</h3>
+                  <p className="text-white/60 leading-relaxed">{b.texto}</p>
                 </div>
               ))}
             </div>
           </section>
 
           <section className="mb-10">
-            <h2 className="text-2xl font-black text-gray-900 mb-4">{ui.ejemploH2}</h2>
-            <div className="bg-teal-50 border border-teal-200 rounded-2xl p-6">
-              <p className="text-teal-800 leading-relaxed italic">"{ficha.ejemplo}"</p>
+            <h2 className="text-2xl font-black text-white mb-4">{ui.ejemploH2}</h2>
+            <div className="bg-amber-500/10 border border-amber-500/25 rounded-2xl p-6">
+              <p className="text-amber-100/90 leading-relaxed italic">"{ficha.ejemplo}"</p>
             </div>
           </section>
 
           {/* CTA 2 */}
           <div className="text-center mb-10">
             <Link to={localPath(ficha.examPath)}
-              className="inline-block py-4 px-10 bg-teal-600 hover:bg-teal-500 text-white font-black text-lg rounded-2xl transition-all hover:scale-[1.02] shadow-lg shadow-teal-600/30">
+              className="inline-block py-4 px-10 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-lg rounded-2xl transition-all hover:scale-[1.02] shadow-lg shadow-amber-500/30">
               {ui.probar} {ficha.titulo} {ui.ahora}
             </Link>
           </div>
@@ -180,14 +180,14 @@ export default function InfoEstudiarFicha() {
 
           {/* Consejos de estudio */}
           <section className="mb-10">
-            <h2 className="text-2xl font-black text-gray-900 mb-2">{ui.consejosH2}</h2>
-            <p className="text-gray-400 mb-5">{ui.consejosPre}</p>
-            <div className="bg-white rounded-2xl border border-gray-200 p-6">
+            <h2 className="text-2xl font-black text-white mb-2">{ui.consejosH2}</h2>
+            <p className="text-white/55 mb-5">{ui.consejosPre}</p>
+            <div className="bg-[rgba(17,20,29,0.86)] rounded-2xl border border-white/10 p-6">
               <ol className="space-y-3">
                 {ficha.consejos.map((c, i) => (
                   <li key={i} className="flex gap-3">
-                    <span className="w-7 h-7 rounded-full bg-teal-100 border border-teal-200 text-teal-700 font-black text-sm flex items-center justify-center shrink-0">{i + 1}</span>
-                    <p className="text-gray-600 leading-relaxed pt-0.5">{c}</p>
+                    <span className="w-7 h-7 rounded-full bg-amber-500/15 border border-amber-500/30 text-amber-300 font-black text-sm flex items-center justify-center shrink-0">{i + 1}</span>
+                    <p className="text-white/60 leading-relaxed pt-0.5">{c}</p>
                   </li>
                 ))}
               </ol>
@@ -196,14 +196,14 @@ export default function InfoEstudiarFicha() {
 
           {/* Temas relacionados */}
           <section className="mb-10">
-            <h2 className="text-2xl font-black text-gray-900 mb-2">{ui.relacionadosH2}</h2>
-            <p className="text-gray-400 mb-5">{ui.relacionadosPre} {ficha.titulo}{ui.relacionadosPost}</p>
+            <h2 className="text-2xl font-black text-white mb-2">{ui.relacionadosH2}</h2>
+            <p className="text-white/55 mb-5">{ui.relacionadosPre} {ficha.titulo}{ui.relacionadosPost}</p>
             <div className="grid gap-3 sm:grid-cols-2">
               {ficha.relacionados.map(r => (
                 <Link key={r.slug} to={localPath(`/info/estudiar/${r.slug}`)}
-                  className="bg-white rounded-2xl border border-gray-200 p-5 hover:border-teal-300 hover:shadow-sm transition-all group">
-                  <h3 className="font-bold text-gray-900 mb-1 group-hover:text-teal-700 transition-colors">{r.nombre}</h3>
-                  <p className="text-teal-600 text-sm font-semibold">{ui.verMas}</p>
+                  className="bg-[rgba(17,20,29,0.86)] rounded-2xl border border-white/10 p-5 hover:border-amber-500/30 hover:shadow-sm transition-all group">
+                  <h3 className="font-bold text-white mb-1 group-hover:text-amber-300 transition-colors">{r.nombre}</h3>
+                  <p className="text-amber-400 text-sm font-semibold">{ui.verMas}</p>
                 </Link>
               ))}
             </div>
@@ -213,10 +213,10 @@ export default function InfoEstudiarFicha() {
 
           {/* CTA final */}
           <footer className="text-center pt-4">
-            <h2 className="text-2xl font-black text-gray-900 mb-3">{ui.listoH2}</h2>
-            <p className="text-gray-400 mb-6">{ui.listoSub}</p>
+            <h2 className="text-2xl font-black text-white mb-3">{ui.listoH2}</h2>
+            <p className="text-white/55 mb-6">{ui.listoSub}</p>
             <Link to={localPath(ficha.examPath)}
-              className="inline-block py-4 px-10 bg-teal-600 hover:bg-teal-500 text-white font-black text-lg rounded-2xl transition-all hover:scale-[1.02] shadow-lg shadow-teal-600/30">
+              className="inline-block py-4 px-10 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-lg rounded-2xl transition-all hover:scale-[1.02] shadow-lg shadow-amber-500/30">
               {ui.empezar} {ficha.titulo} →
             </Link>
           </footer>

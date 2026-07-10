@@ -90,18 +90,18 @@ export default function InfoDiaria() {
         </header>
       </div>
 
-      <div className="bg-[#f5f5f0] text-gray-900 rounded-t-[2rem] sm:rounded-t-[3rem]">
+      <div className="text-white">
         <div className="max-w-3xl mx-auto px-4 sm:px-8 py-12">
 
           <aside className="ad-slot" aria-label="Publicidad" data-ad-slot="info-diaria-top" style={{ minHeight: '90px', marginBottom: '2.5rem' }} />
 
           <section className="mb-10">
-            <h2 className="text-2xl font-black text-gray-900 mb-6">{d.porQue}</h2>
+            <h2 className="text-2xl font-black text-white mb-6">{d.porQue}</h2>
             <div className="space-y-5">
               {d.beneficios.map(b => (
-                <div key={b.titulo} className="bg-white rounded-2xl border border-gray-200 p-6">
-                  <h3 className="font-black text-gray-900 text-lg mb-2">{b.titulo}</h3>
-                  <p className="text-gray-500 leading-relaxed">{b.texto}</p>
+                <div key={b.titulo} className="bg-[rgba(17,20,29,0.86)] rounded-2xl border border-white/10 p-6">
+                  <h3 className="font-black text-white text-lg mb-2">{b.titulo}</h3>
+                  <p className="text-white/60 leading-relaxed">{b.texto}</p>
                 </div>
               ))}
             </div>
@@ -110,32 +110,32 @@ export default function InfoDiaria() {
           <aside className="ad-slot" aria-label="Publicidad" data-ad-slot="info-diaria-mid" style={{ minHeight: '90px', marginBottom: '2.5rem' }} />
 
           <section className="mb-10">
-            <h2 className="text-2xl font-black text-gray-900 mb-6">{d.tiposH2}</h2>
+            <h2 className="text-2xl font-black text-white mb-6">{d.tiposH2}</h2>
             <div className="grid gap-4 sm:grid-cols-2">
               {d.tipos.map(r => (
-                <div key={r.titulo} className="bg-white rounded-2xl border border-gray-200 p-5">
+                <div key={r.titulo} className="bg-[rgba(17,20,29,0.86)] rounded-2xl border border-white/10 p-5">
                   <div className="flex items-center gap-3 mb-2">
                     <span className="text-2xl">{r.emoji}</span>
-                    <h3 className="font-black text-gray-900">{r.titulo}</h3>
+                    <h3 className="font-black text-white">{r.titulo}</h3>
                   </div>
-                  <p className="text-gray-400 text-sm leading-relaxed">{r.desc}</p>
+                  <p className="text-white/55 text-sm leading-relaxed">{r.desc}</p>
                 </div>
               ))}
             </div>
           </section>
 
-          <section className="mb-10 bg-white rounded-2xl border border-gray-200 p-6 sm:p-8">
-            <h2 className="text-2xl font-black text-gray-900 mb-3">{d.rachaH2}</h2>
-            <p className="text-gray-500 leading-relaxed">{d.rachaTexto}</p>
+          <section className="mb-10 bg-[rgba(17,20,29,0.86)] rounded-2xl border border-white/10 p-6 sm:p-8">
+            <h2 className="text-2xl font-black text-white mb-3">{d.rachaH2}</h2>
+            <p className="text-white/60 leading-relaxed">{d.rachaTexto}</p>
           </section>
 
           <aside className="ad-slot" aria-label="Publicidad" data-ad-slot="info-diaria-bottom" style={{ minHeight: '90px', marginBottom: '2.5rem' }} />
 
           <footer className="text-center pt-4">
-            <h2 className="text-2xl font-black text-gray-900 mb-3">{d.ctaTitulo}</h2>
-            <p className="text-gray-400 mb-6">{d.ctaSub}</p>
+            <h2 className="text-2xl font-black text-white mb-3">{d.ctaTitulo}</h2>
+            <p className="text-white/55 mb-6">{d.ctaSub}</p>
             <Link to={localPath('/diaria')}
-              className="inline-block py-4 px-10 bg-teal-600 hover:bg-teal-500 text-white font-black text-lg rounded-2xl transition-all hover:scale-[1.02] shadow-lg shadow-teal-600/30">
+              className="inline-block py-4 px-10 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-lg rounded-2xl transition-all hover:scale-[1.02] shadow-lg shadow-amber-500/30">
               {d.cta}
             </Link>
           </footer>

@@ -270,7 +270,7 @@ export default function InfoEstudiar() {
         </header>
       </div>
 
-      <div className="bg-[#f5f5f0] text-gray-900 rounded-t-[2rem] sm:rounded-t-[3rem]">
+      <div className="text-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-8 py-12 space-y-10">
 
           <aside className="ad-slot" aria-label="Publicidad" data-ad-slot="info-estudiar-top" style={{ minHeight: '90px' }} />
@@ -279,18 +279,18 @@ export default function InfoEstudiar() {
             <section key={cat.titulo}>
               <div className="flex items-center gap-3 mb-3">
                 <span className="text-3xl">{cat.emoji}</span>
-                <h2 className="text-2xl font-black text-gray-900">{cat.titulo}</h2>
+                <h2 className="text-2xl font-black text-white">{cat.titulo}</h2>
               </div>
-              <p className="text-gray-500 leading-relaxed mb-6 max-w-3xl">{cat.texto}</p>
+              <p className="text-white/60 leading-relaxed mb-6 max-w-3xl">{cat.texto}</p>
 
               <div className="grid gap-3 sm:grid-cols-2">
                 {cat.temas.map(t => (
-                    <div key={t.nombre} className="bg-white rounded-2xl border border-gray-200 p-5">
-                      <h3 className="font-black text-gray-900 mb-1">{t.nombre}</h3>
-                      <p className="text-gray-400 text-sm leading-relaxed">{t.desc}</p>
+                    <div key={t.nombre} className="bg-[rgba(17,20,29,0.86)] rounded-2xl border border-white/10 p-5">
+                      <h3 className="font-black text-white mb-1">{t.nombre}</h3>
+                      <p className="text-white/55 text-sm leading-relaxed">{t.desc}</p>
                       {t.slug && (
                         <Link to={localPath(`/info/estudiar/${t.slug}`)}
-                          className="inline-block mt-3 text-teal-600 text-sm font-semibold hover:text-teal-500 transition-colors">
+                          className="inline-block mt-3 text-amber-400 text-sm font-semibold hover:text-amber-300 transition-colors">
                           {verMas}
                         </Link>
                       )}
@@ -301,7 +301,7 @@ export default function InfoEstudiar() {
               {catIdx < d.categorias.length - 1 && (
                 <>
                   <aside className="ad-slot" aria-label="Publicidad" data-ad-slot={`info-estudiar-${catIdx}`} style={{ minHeight: '90px', marginTop: '2rem' }} />
-                  <hr className="border-gray-200 mt-6" />
+                  <hr className="border-white/10 mt-6" />
                 </>
               )}
             </section>
@@ -311,7 +311,7 @@ export default function InfoEstudiar() {
 
           <footer className="text-center pt-4">
             <Link to={localPath('/estudiar')}
-              className="inline-block py-4 px-10 bg-teal-600 hover:bg-teal-500 text-white font-black text-lg rounded-2xl transition-all hover:scale-[1.02] shadow-lg shadow-teal-600/30">
+              className="inline-block py-4 px-10 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-lg rounded-2xl transition-all hover:scale-[1.02] shadow-lg shadow-amber-500/30">
               {d.cta}
             </Link>
           </footer>
