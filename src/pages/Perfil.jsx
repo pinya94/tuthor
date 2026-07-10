@@ -4,7 +4,7 @@ import { useLang } from '../context/LangContext'
 import { getStatsAndCosmetics, setHidePhoto, formatTime, getUserRank } from '../lib/activity'
 import { useNavigate } from 'react-router-dom'
 import AvatarFrame from '../components/AvatarFrame'
-import { FRAME_BY_ID, BANNER_BY_ID } from '../data/cosmetics'
+import { BANNER_BY_ID } from '../data/cosmetics'
 import { GAMES } from '../lib/games'
 import { examsBySubject } from '../lib/exams'
 
@@ -184,37 +184,49 @@ export default function Perfil() {
     return { ...subj, gameStats, examRows, totalExamPlays, totalPassed, totalPlays, timeSpent: gameStats.timeSpent + examTimeSpent }
   }).filter(s => s.totalPlays > 0)
 
-  return (
-    <div className="relative z-10 flex flex-col min-h-[calc(100vh-4rem)] px-4 sm:px-8 py-8">
-      <div className="max-w-2xl mx-auto w-full">
+  // Titulares del perfil
+  const totalBestPts = Object.values(stats?.bestScores || {}).reduce((a, b) => a + b, 0)
+  const examsTaken   = subjectEntries.reduce((a, s) => a + s.totalExamPlays, 0)
 
-        {/* Cabecera */}
+  const t2 = 'text-white/60'
+  const t3 = 'text-white/45'
+
+  return (
+    <div className="relative z-10 flex flex-col min-h-[calc(100vh-4rem)] px-4 sm:px-6 py-6">
+      <div className="max-w-3xl mx-auto w-full">
+
+        {/* ── HERO ── */}
         {(() => {
           const banner = BANNER_BY_ID[equippedBanner]
           const hasBanner = banner?.bg
           return (
             <div
-              className="flex items-center gap-4 mb-8 px-4 py-4 rounded-2xl transition-all"
+              className="flex items-center gap-4 flex-wrap mb-3.5 p-5 rounded-[22px] border border-white/10"
               style={{
-                background: hasBanner ? banner.bg : undefined,
+                background: hasBanner ? banner.bg : 'linear-gradient(135deg, rgba(139,92,246,.16), rgba(237,174,73,.07))',
                 borderLeft: hasBanner ? `4px solid ${banner.border}` : undefined,
                 backgroundSize: banner?.animated ? '300% 300%' : undefined,
                 animation: banner?.animated ? 'frameRotate 3s ease infinite' : undefined,
               }}
             >
               <AvatarFrame user={user} frameId={equippedFrame} avatarEmoji={equippedAvatar} size="lg" hidePhoto={hidePhoto} />
-              <div>
-                <h1 className="text-2xl font-black text-white">{user.displayName}</h1>
-                <p className="text-white/40 text-sm">{user.email}</p>
+              <div className="flex-1 min-w-[150px]">
+                <h1 className="text-2xl font-black text-white tracking-tight">{user.displayName}</h1>
+                <p className={`${t3} text-[13px] mt-0.5`}>{user.email}</p>
+                {streak > 0 && (
+                  <span className="inline-flex items-center gap-1.5 mt-2 bg-amber-500/12 border border-amber-500/30 text-amber-400 text-xs font-bold px-3 py-1 rounded-full">
+                    🔥 {ca ? `Ratxa de ${streak} ${streak === 1 ? 'dia' : 'dies'}` : en ? `${streak}-day streak` : `Racha de ${streak} ${streak === 1 ? 'día' : 'días'}`}
+                  </span>
+                )}
               </div>
-              <div className="ml-auto flex flex-col gap-2 items-end">
-                <button onClick={logout}
-                  className="text-white/30 hover:text-white/70 text-sm border border-white/10 hover:border-white/30 px-3 py-1.5 rounded-lg transition-all">
-                  {ca ? 'Tancar sessió' : en ? 'Sign out' : 'Cerrar sesión'}
-                </button>
+              <div className="flex gap-2 w-full sm:w-auto">
                 <button onClick={() => navigate(localPath('/tienda'))}
-                  className="text-amber-400/70 hover:text-amber-400 text-sm border border-amber-500/20 hover:border-amber-500/40 px-3 py-1.5 rounded-lg transition-all">
+                  className="flex-1 sm:flex-none bg-violet-500 hover:brightness-110 text-[#140d24] font-bold text-[13px] px-4 py-2 rounded-xl transition-all whitespace-nowrap">
                   🛍 {ca ? 'Botiga' : en ? 'Shop' : 'Tienda'}
+                </button>
+                <button onClick={logout}
+                  className={`flex-1 sm:flex-none ${t2} hover:text-white text-[13px] font-bold border border-white/15 hover:bg-white/8 px-4 py-2 rounded-xl transition-all`}>
+                  {ca ? 'Tancar sessió' : en ? 'Sign out' : 'Cerrar sesión'}
                 </button>
               </div>
             </div>
@@ -222,199 +234,176 @@ export default function Perfil() {
         })()}
 
         {loading ? (
-          <div className="text-white/30 text-center py-12">{ca ? 'Carregant estadístiques...' : en ? 'Loading stats...' : 'Cargando estadísticas...'}</div>
+          <div className={`${t3} text-center py-12`}>{ca ? 'Carregant estadístiques...' : en ? 'Loading stats...' : 'Cargando estadísticas...'}</div>
         ) : !stats ? (
           <div className="text-center py-12">
             <p className="text-4xl mb-3">🎮</p>
-            <p className="text-white/40">{ca ? 'Encara no has jugat res. Comença ara!' : en ? "You haven't played anything yet. Start now!" : 'Aún no has jugado nada. ¡Empieza ahora!'}</p>
+            <p className={t2}>{ca ? 'Encara no has jugat res. Comença ara!' : en ? "You haven't played anything yet. Start now!" : 'Aún no has jugado nada. ¡Empieza ahora!'}</p>
           </div>
         ) : (
           <>
-            {/* Monedas + Puntos */}
-            <div className="grid grid-cols-2 gap-3 mb-4">
-              <div className="bg-amber-500/10 border border-amber-500/30 rounded-2xl p-4 text-center">
-                <span className="text-2xl block mb-1">💰</span>
-                <p className="text-amber-400 font-black text-2xl tabular-nums">{(stats.coins ?? 0).toLocaleString()}</p>
-                <p className="text-amber-400/50 text-xs">{ca ? 'monedes' : en ? 'coins' : 'monedas'}</p>
+            {/* ── TITULARES: monedas / puntos / actividades ── */}
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-3">
+              <div className="bg-amber-500/12 border border-amber-500/30 rounded-2xl p-4 text-center">
+                <span className="text-xl block leading-none">💰</span>
+                <p className="text-amber-400 font-black text-[28px] leading-none tabular-nums mt-1.5">{(stats.coins ?? 0).toLocaleString()}</p>
+                <p className={`${t2} text-[12.5px] font-semibold mt-1.5`}>{ca ? 'monedes' : en ? 'coins' : 'monedas'}</p>
               </div>
-              <div className="bg-violet-500/10 border border-violet-500/30 rounded-2xl p-4 text-center">
-                <span className="text-2xl block mb-1">⭐</span>
-                <p className="text-violet-400 font-black text-2xl tabular-nums">{Object.values(stats.bestScores || {}).reduce((a, b) => a + b, 0).toLocaleString()}</p>
-                <p className="text-violet-400/50 text-xs">{ca ? 'millors pts totals' : en ? 'total best pts' : 'mejores pts totales'}</p>
+              <div className="bg-violet-500/14 border border-violet-500/30 rounded-2xl p-4 text-center">
+                <span className="text-xl block leading-none">⭐</span>
+                <p className="text-violet-400 font-black text-[28px] leading-none tabular-nums mt-1.5">{totalBestPts.toLocaleString()}</p>
+                <p className={`${t2} text-[12.5px] font-semibold mt-1.5`}>{ca ? 'millors punts' : en ? 'best points' : 'mejores puntos'}</p>
+              </div>
+              <div className="bg-white/5 border border-white/10 rounded-2xl p-4 text-center col-span-2 sm:col-span-1">
+                <span className="text-xl block leading-none">🎮</span>
+                <p className="text-white font-black text-[28px] leading-none tabular-nums mt-1.5">{(stats.gamesPlayed ?? 0).toLocaleString()}</p>
+                <p className={`${t2} text-[12.5px] font-semibold mt-1.5`}>{ca ? 'activitats' : en ? 'activities' : 'actividades'}</p>
               </div>
             </div>
 
-            {/* Recompensas / tienda */}
-            <div className="bg-violet-500/10 border border-violet-500/20 rounded-2xl p-4 mb-4 flex items-center gap-4">
-              <div className="flex-1">
-                <p className="text-violet-300 font-black text-sm mb-0.5">🛍 {ca ? 'Botiga de cosmétics' : en ? 'Cosmetics shop' : 'Tienda de cosméticos'}</p>
-                <p className="text-white/40 text-xs">
-                  {ca ? `Marc: ${FRAME_BY_ID[equippedFrame]?.name?.ca ?? equippedFrame}` : en ? `Frame: ${FRAME_BY_ID[equippedFrame]?.name?.en ?? equippedFrame}` : `Marco: ${FRAME_BY_ID[equippedFrame]?.name?.es ?? equippedFrame}`}
-                  {' · '}
-                  {ca ? `Banner: ${BANNER_BY_ID[equippedBanner]?.name?.ca ?? equippedBanner}` : en ? `Banner: ${BANNER_BY_ID[equippedBanner]?.name?.en ?? equippedBanner}` : `Banner: ${BANNER_BY_ID[equippedBanner]?.name?.es ?? equippedBanner}`}
-                </p>
-              </div>
-              <button onClick={() => navigate(localPath('/tienda'))}
-                className="bg-violet-600 hover:bg-violet-500 text-white font-black text-sm px-4 py-2.5 rounded-xl transition-all whitespace-nowrap">
-                {ca ? 'Obrir botiga' : en ? 'Open shop' : 'Abrir tienda'}
-              </button>
-            </div>
-
-            {/* Toggle foto de perfil */}
-            {user.photoURL && (
-              <button
-                onClick={toggleHidePhoto}
-                className="w-full mb-4 flex items-center justify-between bg-white/5 border border-white/10 rounded-2xl px-4 py-3 hover:bg-white/8 transition-colors"
-              >
-                <span className="text-white/60 text-sm">
-                  {ca ? 'Usar emoji en lloc de foto' : en ? 'Use emoji instead of photo' : 'Usar emoji en lugar de foto'}
-                </span>
-                <span className={`w-10 h-6 rounded-full transition-colors flex items-center px-1 ${hidePhoto ? 'bg-violet-600' : 'bg-white/20'}`}>
-                  <span className={`w-4 h-4 rounded-full bg-white transition-transform ${hidePhoto ? 'translate-x-4' : 'translate-x-0'}`} />
-                </span>
-              </button>
-            )}
-
-            {/* Stats resumen */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
+            {/* ── TIRA SECUNDARIA: tiempo / aprobados / exámenes ── */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-5">
               {[
-                { label: ca ? 'Ratxa' : en ? 'Streak' : 'Racha', value: `${streak}`, sub: ca ? (streak === 1 ? 'dia' : 'dies') : en ? (streak === 1 ? 'day' : 'days') : (streak === 1 ? 'día' : 'días'), emoji: '🔥' },
-                { label: ca ? 'Temps' : en ? 'Time' : 'Tiempo', value: formatTime(stats.totalTime), emoji: '⏱️' },
-                { label: ca ? 'Activitats' : en ? 'Activities' : 'Actividades', value: stats.gamesPlayed ?? 0, emoji: '🎮' },
-                { label: ca ? 'Aprovats' : en ? 'Passed' : 'Aprobados', value: stats.examsPassed ?? 0, emoji: '✅' },
+                { emoji: '⏱️', value: formatTime(stats.totalTime), label: ca ? 'temps total' : en ? 'total time' : 'tiempo total' },
+                { emoji: '✅', value: stats.examsPassed ?? 0, label: ca ? 'exàmens aprovats' : en ? 'exams passed' : 'exámenes aprobados' },
+                { emoji: '📚', value: examsTaken, label: ca ? 'exàmens fets' : en ? 'exams taken' : 'exámenes hechos' },
               ].map(s => (
-                <div key={s.label} className="bg-white/5 border border-white/10 rounded-2xl p-4 text-center">
-                  <span className="text-2xl block mb-1">{s.emoji}</span>
-                  <p className="text-xl font-black text-white">{s.value}</p>
-                  <p className="text-white/40 text-xs mt-0.5">{s.sub || s.label}</p>
+                <div key={s.label} className="bg-white/5 border border-white/10 rounded-2xl p-3.5 flex items-center gap-3">
+                  <span className="text-lg">{s.emoji}</span>
+                  <div>
+                    <p className="text-white font-black text-xl leading-none tabular-nums">{s.value}</p>
+                    <p className={`${t3} text-xs font-semibold mt-1`}>{s.label}</p>
+                  </div>
                 </div>
               ))}
             </div>
 
-            {/* Reto diario */}
-            <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-4">
-              <div className="flex items-center justify-between mb-3">
-                <h2 className="font-black text-white">📅 {ca ? 'Repte Diari' : en ? 'Daily Challenge' : 'Reto Diario'}</h2>
-                <span className={`text-xs font-bold px-3 py-1 rounded-full border ${dailyDoneToday ? 'border-green-500/40 bg-green-500/10 text-green-400' : 'border-amber-500/40 bg-amber-500/10 text-amber-400'}`}>
+            {/* ── RETO DIARIO ── */}
+            <div className="rounded-2xl p-[18px] mb-5 border border-orange-500/30"
+              style={{ background: 'linear-gradient(135deg, rgba(251,146,60,.14), rgba(237,174,73,.05))' }}>
+              <div className="flex items-center justify-between gap-2 mb-3.5">
+                <h2 className="font-black text-white text-base flex items-center gap-2">📅 {ca ? 'Repte diari' : en ? 'Daily challenge' : 'Reto diario'}</h2>
+                <span className={`text-xs font-bold px-3 py-1.5 rounded-full border whitespace-nowrap ${dailyDoneToday ? 'border-green-500/40 bg-green-500/12 text-green-400' : 'border-amber-500/40 bg-amber-500/12 text-amber-400'}`}>
                   {dailyDoneToday ? (ca ? '✓ Fet avui' : en ? '✓ Done today' : '✓ Hecho hoy') : (ca ? 'Pendent avui' : en ? 'Pending today' : 'Pendiente hoy')}
                 </span>
               </div>
-              <div className="flex items-center gap-4">
-                <div className="flex-1 bg-black/20 rounded-xl p-3 text-center">
-                  <p className="text-2xl font-black text-white">🔥 {dailyStreak}</p>
-                  <p className="text-white/40 text-xs mt-0.5">{ca ? 'dies seguits' : en ? 'days in a row' : 'días seguidos'}</p>
+              <div className="grid grid-cols-2 gap-2.5">
+                <div className="bg-black/20 rounded-xl p-3 text-center">
+                  <p className="text-[22px] font-black text-white leading-none tabular-nums">🔥 {dailyStreak}</p>
+                  <p className={`${t3} text-xs mt-1.5`}>{ca ? 'dies seguits' : en ? 'days in a row' : 'días seguidos'}</p>
                 </div>
-                <div className="flex-1 bg-black/20 rounded-xl p-3 text-center">
-                  <p className="text-2xl font-black text-white">{stats.dailyTotal ?? 0}</p>
-                  <p className="text-white/40 text-xs mt-0.5">{ca ? 'reptes totals' : en ? 'total challenges' : 'retos totales'}</p>
+                <div className="bg-black/20 rounded-xl p-3 text-center">
+                  <p className="text-[22px] font-black text-white leading-none tabular-nums">{stats.dailyTotal ?? 0}</p>
+                  <p className={`${t3} text-xs mt-1.5`}>{ca ? 'reptes totals' : en ? 'total challenges' : 'retos totales'}</p>
                 </div>
               </div>
               {!dailyDoneToday && (
-                <a href="/diaria" className="mt-3 flex items-center justify-center gap-2 w-full bg-orange-500/20 border border-orange-500/30 text-orange-400 font-semibold py-2.5 rounded-xl text-sm hover:bg-orange-500/30 transition-colors">
+                <a href={localPath('/diaria')} className="mt-3 flex items-center justify-center w-full bg-orange-500/20 border border-orange-500/35 text-orange-400 font-bold py-2.5 rounded-xl text-[13.5px] hover:bg-orange-500/30 transition-colors">
                   {ca ? 'Fer el repte d\'avui →' : en ? "Do today's challenge →" : 'Hacer el reto de hoy →'}
                 </a>
               )}
             </div>
 
-            {/* Por juego */}
+            {/* ── POR JUEGO ── */}
             {gameEntries.length > 0 && (
-              <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-4">
-                <h2 className="font-black text-white mb-4">🎮 {ca ? 'Per joc' : en ? 'By game' : 'Por juego'}</h2>
-                <div className="space-y-1">
-                  {visibleGames.map(g => {
+              <section className="mb-5">
+                <div className="flex items-baseline gap-2 mb-3 px-0.5">
+                  <h2 className="font-black text-white text-[17px] tracking-tight">🎮 {ca ? 'Per joc' : en ? 'By game' : 'Por juego'}</h2>
+                  <span className={`${t3} text-[13px] font-semibold ml-auto`}>{gameEntries.length} {ca ? 'jugats' : en ? 'played' : 'jugados'}</span>
+                </div>
+                <div className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden">
+                  {visibleGames.map((g, i) => {
                     const rank = rankings[g.key]
+                    const parts = []
+                    parts.push(`${g.plays ?? 0} ${ca ? 'partides' : en ? 'games' : 'partidas'}`)
+                    if ((g.timeSpent || 0) > 0) parts.push(formatTime(g.timeSpent))
                     return (
-                      <div key={g.key} className="flex items-center gap-3 py-3 border-b border-white/5 last:border-0">
-                        <span className="text-lg w-7 text-center">{g.emoji}</span>
+                      <div key={g.key} className={`flex items-center gap-3 px-4 py-3.5 ${i < visibleGames.length - 1 ? 'border-b border-white/10' : ''}`}>
+                        <span className="text-[22px] w-[30px] text-center shrink-0">{g.emoji}</span>
                         <div className="flex-1 min-w-0">
-                          <p className="text-white/80 text-sm font-medium truncate">{g.label}</p>
-                          {rank && (
-                            <p className="text-amber-400/70 text-[10px] font-semibold">
-                              #{rank.rank} {ca ? 'de' : en ? 'of' : 'de'} {rank.total}
-                            </p>
-                          )}
+                          <p className="text-white text-[14.5px] font-bold flex items-center flex-wrap gap-x-2">
+                            <span className="truncate">{g.label}</span>
+                            {rank && (
+                              <span className="inline-flex items-center gap-1 text-[11.5px] font-extrabold text-amber-400 bg-amber-500/12 border border-amber-500/30 px-2 py-0.5 rounded-full">
+                                🏅 #{rank.rank} {ca ? 'de' : en ? 'of' : 'de'} {rank.total}
+                              </span>
+                            )}
+                          </p>
+                          <p className={`${t3} text-[12.5px] mt-1`}>{parts.join(' · ')}</p>
                         </div>
-                        <div className="flex items-center gap-3 text-right shrink-0">
-                          <div className="text-center min-w-[36px]">
-                            <p className="text-white font-bold text-sm">{g.plays ?? 0}</p>
-                            <p className="text-white/30 text-[10px]">{ca ? 'partides' : en ? 'games' : 'partidas'}</p>
+                        {(g.bestScore || 0) > 0 && (
+                          <div className="text-right shrink-0">
+                            <p className="text-violet-400 font-black text-xl leading-none tabular-nums">{g.bestScore.toLocaleString()}</p>
+                            <p className={`${t3} text-[11.5px] font-semibold mt-1`}>{ca ? 'millor pts' : en ? 'best pts' : 'mejor pts'}</p>
                           </div>
-                          {(g.timeSpent || 0) > 0 && (
-                            <div className="text-center min-w-[44px]">
-                              <p className="text-white font-bold text-sm">{formatTime(g.timeSpent)}</p>
-                              <p className="text-white/30 text-[10px]">{ca ? 'temps total' : en ? 'total time' : 'tiempo total'}</p>
-                            </div>
-                          )}
-                          {(g.bestScore || 0) > 0 && (
-                            <div className="text-center min-w-[44px]">
-                              <p className="text-violet-400 font-black text-sm">{g.bestScore.toLocaleString()}</p>
-                              <p className="text-white/30 text-[10px]">{ca ? 'millor pts' : en ? 'best pts' : 'mejor pts'}</p>
-                            </div>
-                          )}
-                        </div>
+                        )}
                       </div>
                     )
                   })}
+                  {gameEntries.length > 4 && (
+                    <button onClick={() => setShowAllGames(!showAllGames)}
+                      className="w-full text-center py-3 border-t border-white/10 text-violet-400 hover:bg-white/5 font-bold text-[13.5px] transition-colors">
+                      {showAllGames
+                        ? (ca ? 'Veure menys ↑' : en ? 'Show less ↑' : 'Ver menos ↑')
+                        : (ca ? `Veure els ${gameEntries.length} jocs ↓` : en ? `Show all ${gameEntries.length} games ↓` : `Ver los ${gameEntries.length} juegos ↓`)}
+                    </button>
+                  )}
                 </div>
-                {gameEntries.length > 4 && (
-                  <button onClick={() => setShowAllGames(!showAllGames)}
-                    className="mt-3 w-full text-center text-sm text-violet-400 hover:text-violet-300 font-semibold transition-colors">
-                    {showAllGames
-                      ? (ca ? 'Veure menys ↑' : en ? 'Show less ↑' : 'Ver menos ↑')
-                      : (ca ? `Veure els ${gameEntries.length} jocs ↓` : en ? `Show all ${gameEntries.length} games ↓` : `Ver los ${gameEntries.length} juegos ↓`)}
-                  </button>
-                )}
-              </div>
+              </section>
             )}
 
-            {/* Por materia */}
+            {/* ── POR MATERIA ── */}
             {subjectEntries.length > 0 && (
-              <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-4">
-                <h2 className="font-black text-white mb-4">📚 {ca ? 'Per matèria' : en ? 'By subject' : 'Por materia'}</h2>
-                <div className="space-y-1">
-                  {subjectEntries.map(subj => {
+              <section className="mb-5">
+                <div className="flex items-baseline gap-2 mb-3 px-0.5">
+                  <h2 className="font-black text-white text-[17px] tracking-tight">📚 {ca ? 'Per matèria' : en ? 'By subject' : 'Por materia'}</h2>
+                  <span className={`${t3} text-[13px] font-semibold ml-auto`}>{subjectEntries.length} {ca ? 'matèries' : en ? 'subjects' : 'materias'}</span>
+                </div>
+                <div className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden">
+                  {subjectEntries.map((subj, i) => {
                     const subjLabel = subj.label[lang] || subj.label.es
                     const isOpen = expandedSubject === subj.id
                     const failed = subj.totalExamPlays - subj.totalPassed
                     return (
-                      <div key={subj.id} className="border-b border-white/5 last:border-0">
+                      <div key={subj.id} className={i < subjectEntries.length - 1 ? 'border-b border-white/10' : ''}>
                         <button
                           onClick={() => setExpandedSubject(isOpen ? null : subj.id)}
-                          className="w-full flex items-center gap-3 py-3 text-left hover:bg-white/3 rounded-lg transition-colors"
+                          className="w-full flex items-center gap-3 px-4 py-3.5 text-left hover:bg-white/5 transition-colors"
                         >
-                          <span className="text-lg w-7 text-center">{subj.emoji}</span>
-                          <div className="flex-1">
-                            <p className="text-white/80 text-sm font-semibold">{subjLabel}</p>
-                            <p className="text-white/30 text-[10px]">
-                              {subj.totalPlays} {ca ? 'activitats' : en ? 'activities' : 'actividades'}
-                              {subj.totalExamPlays > 0 && ` · ${subj.totalPassed}✅ ${failed > 0 ? `${failed}❌` : ''}`}
+                          <span className="text-[22px] w-[30px] text-center shrink-0">{subj.emoji}</span>
+                          <div className="flex-1 min-w-0">
+                            <p className="text-white text-[14.5px] font-bold">{subjLabel}</p>
+                            <p className={`${t3} text-[12.5px] mt-1 flex gap-2 flex-wrap items-center`}>
+                              <span>{subj.totalPlays} {ca ? 'activitats' : en ? 'activities' : 'actividades'}</span>
+                              {subj.totalExamPlays > 0 && <span className="text-green-400 font-bold">{subj.totalPassed} ✅</span>}
+                              {failed > 0 && <span className="text-red-400 font-bold">{failed} ❌</span>}
                             </p>
                           </div>
                           {(subj.timeSpent || 0) > 0 && (
-                            <span className="text-white/40 text-xs">{formatTime(subj.timeSpent)}</span>
+                            <span className={`${t2} text-[13px] font-semibold whitespace-nowrap`}>{formatTime(subj.timeSpent)}</span>
                           )}
-                          <span className="text-white/30 text-xs ml-1">{isOpen ? '▲' : '▼'}</span>
+                          <span className={`${t3} text-xs ml-1 transition-transform ${isOpen ? 'rotate-180' : ''}`}>▾</span>
                         </button>
                         {isOpen && subj.examRows.length > 0 && (
-                          <div className="ml-10 mb-3 space-y-1">
-                            <p className="text-white/30 text-[10px] uppercase tracking-wider mb-2">
+                          <div className="px-4 pb-3.5 pl-[59px]">
+                            <p className={`${t3} text-[11px] uppercase tracking-wider font-bold mb-1.5`}>
                               {ca ? 'Exàmens' : en ? 'Exams' : 'Exámenes'}
                             </p>
                             {subj.examRows.map(row => {
                               const rowFailed = row.plays - row.passed
                               return (
-                                <div key={row.id} className="flex items-center gap-2 py-1.5">
-                                  <span className="flex-1 text-white/60 text-xs">{row.label}</span>
-                                  <span className="text-white/40 text-xs">{row.plays}x</span>
-                                  <span className="text-green-400 text-xs font-bold">{row.passed}✅</span>
-                                  {rowFailed > 0 && <span className="text-red-400 text-xs font-bold">{rowFailed}❌</span>}
+                                <div key={row.id} className="flex items-center gap-2 py-1.5 border-b border-white/5 last:border-0">
+                                  <span className={`flex-1 ${t2} text-[13px]`}>{row.label}</span>
+                                  <span className={`${t3} text-[12.5px] font-semibold`}>{row.plays}×</span>
+                                  <span className="text-green-400 text-[12.5px] font-extrabold">{row.passed} ✅</span>
+                                  {rowFailed > 0 && <span className="text-red-400 text-[12.5px] font-extrabold">{rowFailed} ❌</span>}
                                 </div>
                               )
                             })}
                           </div>
                         )}
                         {isOpen && subj.examRows.length === 0 && subj.gameStats.plays > 0 && (
-                          <p className="ml-10 mb-3 text-white/30 text-xs">
+                          <p className={`px-4 pb-3.5 pl-[59px] ${t3} text-[13px]`}>
                             {ca ? 'Sense exàmens fets' : en ? 'No exams taken' : 'Sin exámenes realizados'}
                           </p>
                         )}
@@ -422,7 +411,22 @@ export default function Perfil() {
                     )
                   })}
                 </div>
-              </div>
+              </section>
+            )}
+
+            {/* ── Ajuste: usar emoji en lugar de foto ── */}
+            {user.photoURL && (
+              <button
+                onClick={toggleHidePhoto}
+                className="w-full mb-4 flex items-center justify-between bg-white/5 border border-white/10 rounded-2xl px-4 py-3 hover:bg-white/8 transition-colors"
+              >
+                <span className={`${t2} text-[13.5px]`}>
+                  {ca ? 'Usar emoji en lloc de foto' : en ? 'Use emoji instead of photo' : 'Usar emoji en lugar de foto'}
+                </span>
+                <span className={`w-10 h-6 rounded-full transition-colors flex items-center px-1 ${hidePhoto ? 'bg-violet-600' : 'bg-white/20'}`}>
+                  <span className={`w-4 h-4 rounded-full bg-white transition-transform ${hidePhoto ? 'translate-x-4' : 'translate-x-0'}`} />
+                </span>
+              </button>
             )}
           </>
         )}
