@@ -191,6 +191,14 @@ export default function Perfil() {
   const t2 = 'text-white/60'
   const t3 = 'text-white/45'
 
+  // Superficies casi opacas: el tinte de color va sobre una base oscura para
+  // que el fondo del bosque no reste legibilidad.
+  const surf      = 'rgba(17,20,29,.86)'
+  const surfCoins = `linear-gradient(135deg, rgba(237,174,73,.15), rgba(237,174,73,.04)), ${surf}`
+  const surfPts   = `linear-gradient(135deg, rgba(139,92,246,.18), rgba(139,92,246,.05)), ${surf}`
+  const surfHero  = `linear-gradient(135deg, rgba(139,92,246,.18), rgba(237,174,73,.07)), ${surf}`
+  const surfDaily = `linear-gradient(135deg, rgba(251,146,60,.16), rgba(237,174,73,.05)), ${surf}`
+
   return (
     <div className="relative z-10 flex flex-col min-h-[calc(100vh-4rem)] px-4 sm:px-6 py-6">
       <div className="max-w-3xl mx-auto w-full">
@@ -203,7 +211,7 @@ export default function Perfil() {
             <div
               className="flex items-center gap-4 flex-wrap mb-3.5 p-5 rounded-[22px] border border-white/10"
               style={{
-                background: hasBanner ? banner.bg : 'linear-gradient(135deg, rgba(139,92,246,.16), rgba(237,174,73,.07))',
+                background: hasBanner ? banner.bg : surfHero,
                 borderLeft: hasBanner ? `4px solid ${banner.border}` : undefined,
                 backgroundSize: banner?.animated ? '300% 300%' : undefined,
                 animation: banner?.animated ? 'frameRotate 3s ease infinite' : undefined,
@@ -244,17 +252,17 @@ export default function Perfil() {
           <>
             {/* ── TITULARES: monedas / puntos / actividades ── */}
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-3">
-              <div className="bg-amber-500/12 border border-amber-500/30 rounded-2xl p-4 text-center">
+              <div className="border border-amber-500/30 rounded-2xl p-4 text-center" style={{ background: surfCoins }}>
                 <span className="text-xl block leading-none">💰</span>
                 <p className="text-amber-400 font-black text-[28px] leading-none tabular-nums mt-1.5">{(stats.coins ?? 0).toLocaleString()}</p>
                 <p className={`${t2} text-[12.5px] font-semibold mt-1.5`}>{ca ? 'monedes' : en ? 'coins' : 'monedas'}</p>
               </div>
-              <div className="bg-violet-500/14 border border-violet-500/30 rounded-2xl p-4 text-center">
+              <div className="border border-violet-500/30 rounded-2xl p-4 text-center" style={{ background: surfPts }}>
                 <span className="text-xl block leading-none">⭐</span>
                 <p className="text-violet-400 font-black text-[28px] leading-none tabular-nums mt-1.5">{totalBestPts.toLocaleString()}</p>
                 <p className={`${t2} text-[12.5px] font-semibold mt-1.5`}>{ca ? 'millors punts' : en ? 'best points' : 'mejores puntos'}</p>
               </div>
-              <div className="bg-white/5 border border-white/10 rounded-2xl p-4 text-center col-span-2 sm:col-span-1">
+              <div className="border border-white/10 rounded-2xl p-4 text-center col-span-2 sm:col-span-1" style={{ background: surf }}>
                 <span className="text-xl block leading-none">🎮</span>
                 <p className="text-white font-black text-[28px] leading-none tabular-nums mt-1.5">{(stats.gamesPlayed ?? 0).toLocaleString()}</p>
                 <p className={`${t2} text-[12.5px] font-semibold mt-1.5`}>{ca ? 'activitats' : en ? 'activities' : 'actividades'}</p>
@@ -268,7 +276,7 @@ export default function Perfil() {
                 { emoji: '✅', value: stats.examsPassed ?? 0, label: ca ? 'exàmens aprovats' : en ? 'exams passed' : 'exámenes aprobados' },
                 { emoji: '📚', value: examsTaken, label: ca ? 'exàmens fets' : en ? 'exams taken' : 'exámenes hechos' },
               ].map(s => (
-                <div key={s.label} className="bg-white/5 border border-white/10 rounded-2xl p-3.5 flex items-center gap-3">
+                <div key={s.label} className="border border-white/10 rounded-2xl p-3.5 flex items-center gap-3" style={{ background: surf }}>
                   <span className="text-lg">{s.emoji}</span>
                   <div>
                     <p className="text-white font-black text-xl leading-none tabular-nums">{s.value}</p>
@@ -280,7 +288,7 @@ export default function Perfil() {
 
             {/* ── RETO DIARIO ── */}
             <div className="rounded-2xl p-[18px] mb-5 border border-orange-500/30"
-              style={{ background: 'linear-gradient(135deg, rgba(251,146,60,.14), rgba(237,174,73,.05))' }}>
+              style={{ background: surfDaily }}>
               <div className="flex items-center justify-between gap-2 mb-3.5">
                 <h2 className="font-black text-white text-base flex items-center gap-2">📅 {ca ? 'Repte diari' : en ? 'Daily challenge' : 'Reto diario'}</h2>
                 <span className={`text-xs font-bold px-3 py-1.5 rounded-full border whitespace-nowrap ${dailyDoneToday ? 'border-green-500/40 bg-green-500/12 text-green-400' : 'border-amber-500/40 bg-amber-500/12 text-amber-400'}`}>
@@ -288,11 +296,11 @@ export default function Perfil() {
                 </span>
               </div>
               <div className="grid grid-cols-2 gap-2.5">
-                <div className="bg-black/20 rounded-xl p-3 text-center">
+                <div className="bg-black/35 rounded-xl p-3 text-center">
                   <p className="text-[22px] font-black text-white leading-none tabular-nums">🔥 {dailyStreak}</p>
                   <p className={`${t3} text-xs mt-1.5`}>{ca ? 'dies seguits' : en ? 'days in a row' : 'días seguidos'}</p>
                 </div>
-                <div className="bg-black/20 rounded-xl p-3 text-center">
+                <div className="bg-black/35 rounded-xl p-3 text-center">
                   <p className="text-[22px] font-black text-white leading-none tabular-nums">{stats.dailyTotal ?? 0}</p>
                   <p className={`${t3} text-xs mt-1.5`}>{ca ? 'reptes totals' : en ? 'total challenges' : 'retos totales'}</p>
                 </div>
@@ -311,7 +319,7 @@ export default function Perfil() {
                   <h2 className="font-black text-white text-[17px] tracking-tight">🎮 {ca ? 'Per joc' : en ? 'By game' : 'Por juego'}</h2>
                   <span className={`${t3} text-[13px] font-semibold ml-auto`}>{gameEntries.length} {ca ? 'jugats' : en ? 'played' : 'jugados'}</span>
                 </div>
-                <div className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden">
+                <div className="border border-white/10 rounded-2xl overflow-hidden" style={{ background: surf }}>
                   {visibleGames.map((g, i) => {
                     const rank = rankings[g.key]
                     const parts = []
@@ -359,7 +367,7 @@ export default function Perfil() {
                   <h2 className="font-black text-white text-[17px] tracking-tight">📚 {ca ? 'Per matèria' : en ? 'By subject' : 'Por materia'}</h2>
                   <span className={`${t3} text-[13px] font-semibold ml-auto`}>{subjectEntries.length} {ca ? 'matèries' : en ? 'subjects' : 'materias'}</span>
                 </div>
-                <div className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden">
+                <div className="border border-white/10 rounded-2xl overflow-hidden" style={{ background: surf }}>
                   {subjectEntries.map((subj, i) => {
                     const subjLabel = subj.label[lang] || subj.label.es
                     const isOpen = expandedSubject === subj.id
@@ -418,7 +426,8 @@ export default function Perfil() {
             {user.photoURL && (
               <button
                 onClick={toggleHidePhoto}
-                className="w-full mb-4 flex items-center justify-between bg-white/5 border border-white/10 rounded-2xl px-4 py-3 hover:bg-white/8 transition-colors"
+                className="w-full mb-4 flex items-center justify-between border border-white/10 rounded-2xl px-4 py-3 hover:bg-white/8 transition-colors"
+                style={{ background: surf }}
               >
                 <span className={`${t2} text-[13.5px]`}>
                   {ca ? 'Usar emoji en lloc de foto' : en ? 'Use emoji instead of photo' : 'Usar emoji en lugar de foto'}
