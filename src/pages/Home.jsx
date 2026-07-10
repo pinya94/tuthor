@@ -13,14 +13,18 @@ const PREVIEW_FRAMES  = ['silver', 'gold', 'rainbow', 'galaxy', 'fire', 'neon']
 const PREVIEW_BANNERS = ['banner_crimson', 'banner_ocean', 'banner_amber', 'banner_galaxy']
 const PREVIEW_AVATARS = ['🐱', '🦊', '🐲', '🤖', '👽', '⭐']
 
+// Superficie oscura casi opaca: legibilidad sobre el fondo del bosque
+const SURF = 'rgba(17,20,29,0.86)'
+
 function RewardsSection({ lang, navigate, user, onLogin }) {
   const en = lang === 'en', ca = lang === 'ca'
   const previewFrames = FRAMES.filter(f => PREVIEW_FRAMES.includes(f.id)).slice(0, 4)
 
   return (
-    <section className="mb-10">
-      <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden">
-        <div className="bg-gradient-to-br from-violet-950 to-indigo-900 px-5 py-4 flex items-center gap-4">
+    <section className="mb-8">
+      <div className="rounded-2xl border border-violet-500/25 overflow-hidden"
+        style={{ background: 'linear-gradient(135deg, rgba(139,92,246,.2), rgba(237,174,73,.08)), ' + SURF }}>
+        <div className="px-5 sm:px-6 py-4 flex items-center gap-4">
           <div className="flex-1">
             <p className="text-violet-300 text-xs font-bold uppercase tracking-widest mb-0.5">
               {ca ? 'Recompenses' : en ? 'Rewards' : 'Recompensas'}
@@ -28,7 +32,7 @@ function RewardsSection({ lang, navigate, user, onLogin }) {
             <p className="text-white font-black text-base leading-tight">
               {ca ? 'Juga i guanya monedes 💰' : en ? 'Play and earn coins 💰' : 'Juega y gana monedas 💰'}
             </p>
-            <p className="text-white/40 text-xs mt-0.5">
+            <p className="text-white/50 text-xs mt-0.5">
               {ca ? 'Marcs · Banners · Avatars' : en ? 'Frames · Banners · Avatars' : 'Marcos · Banners · Avatares'}
             </p>
           </div>
@@ -45,7 +49,7 @@ function RewardsSection({ lang, navigate, user, onLogin }) {
           </div>
         </div>
 
-        <div className="px-5 py-4">
+        <div className="px-5 sm:px-6 pb-4">
           {user ? (
             <button onClick={() => navigate('/tienda')} className="w-full py-2.5 bg-violet-600 hover:bg-violet-500 text-white font-black rounded-xl transition-all text-sm">
               🛍 {ca ? 'Anar a la botiga' : en ? 'Go to shop' : 'Ir a la tienda'}
@@ -55,7 +59,7 @@ function RewardsSection({ lang, navigate, user, onLogin }) {
               <button onClick={onLogin} className="w-full py-2.5 bg-violet-600 hover:bg-violet-500 text-white font-black rounded-xl transition-all text-sm">
                 {ca ? '✨ Registra\'t gratis' : en ? '✨ Sign up free' : '✨ Regístrate gratis'}
               </button>
-              <p className="text-gray-400 text-xs shrink-0">
+              <p className="text-white/40 text-xs shrink-0">
                 {ca ? 'per desbloquejar la botiga' : en ? 'to unlock the shop' : 'para desbloquear la tienda'}
               </p>
             </div>
@@ -70,6 +74,7 @@ export default function Home() {
   const navigate = useNavigate()
   const { t, localPath, lang } = useLang()
   const en = lang === 'en'
+  const ca = lang === 'ca'
   const { user } = useAuth()
   const [stats, setStats] = useState(null)
   const [showAuth, setShowAuth] = useState(false)
@@ -90,10 +95,15 @@ export default function Home() {
       <SEOHead title={seo.title} description={seo.desc} path="/" lang={lang} />
       {/* ── HERO: ocupa toda la pantalla de aterrizaje ── */}
       <div className="flex flex-col min-h-[calc(100vh-4rem)] py-5 gap-4">
-        {/* Título */}
-        <div className="text-center">
-          <h1 className="text-2xl font-black text-white">{t('home.titulo')}</h1>
-          <p className="text-white/40 mt-0.5 text-sm">{t('home.subtitulo')}</p>
+        {/* Título / propuesta de valor (h1 único, SEO) */}
+        <div className="text-center pt-1">
+          <span className="inline-block text-amber-400 bg-amber-500/12 border border-amber-500/30 text-[11px] sm:text-xs font-bold uppercase tracking-widest px-3 py-1.5 rounded-full mb-3">
+            {ca ? 'Gratis · Primària · ESO · Batxillerat' : en ? 'Free · Primary · Secondary · Sixth Form' : 'Gratis · Primaria · ESO · Bachillerato'}
+          </span>
+          <h1 className="text-3xl sm:text-[40px] font-black text-white leading-[1.1] tracking-tight max-w-[18ch] mx-auto" style={{ textWrap: 'balance' }}>
+            {t('home.seo.titulo')}
+          </h1>
+          <p className="text-white/60 mt-3 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">{t('home.seo.subtitulo')}</p>
         </div>
 
         {/* Cards principales */}
@@ -120,22 +130,13 @@ export default function Home() {
       </div>
       </div>
 
-      {/* ── TRANSICIÓN oscuro → claro ─────────────────────────────────────── */}
-      <div className="h-24 bg-gradient-to-b from-transparent to-[#f5f5f0] mt-8" />
-
-      {/* ── SECCIONES SEO (fondo claro) ───────────────────────────────────── */}
-      <div className="bg-[#f5f5f0] text-gray-900 pb-16">
-        <div className="max-w-4xl mx-auto px-4 sm:px-8">
-
-          {/* Titular */}
-          <div className="text-center pt-4 pb-10">
-            <h2 className="text-3xl sm:text-4xl font-black text-gray-900 mb-3">{t('home.seo.titulo')}</h2>
-            <p className="text-gray-500 leading-relaxed max-w-xl mx-auto text-lg">{t('home.seo.subtitulo')}</p>
-          </div>
+      {/* ── SECCIONES SEO (mismo mundo noche) ─────────────────────────────── */}
+      <div className="text-white pb-16 mt-10">
+        <div className="max-w-4xl mx-auto">
 
           {/* JUGAR */}
-          <section className="mb-10">
-            <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden sm:flex">
+          <section className="mb-8">
+            <div className="rounded-2xl border border-white/10 overflow-hidden sm:flex" style={{ background: SURF }}>
               <div className="sm:w-2/5 bg-gradient-to-br from-violet-950 to-indigo-900 flex items-center justify-center p-6 sm:p-8 min-h-[200px] relative overflow-hidden">
                 <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '24px 24px' }} />
                 <div className="relative text-center space-y-3">
@@ -150,7 +151,7 @@ export default function Home() {
                     <span className="text-amber-300 text-xs font-bold">🎯 {t('common.objetivo')}: </span>
                     <span className="text-white font-black text-lg">45</span>
                   </div>
-                  <div className="flex justify-center gap-3 text-xs text-white/40">
+                  <div className="flex justify-center gap-3 text-xs text-white/50">
                     <span>⏱️ 32s</span>
                     <span>⭐ 1.240 {t('common.puntos')}</span>
                     <span>🔥 ×3</span>
@@ -158,21 +159,21 @@ export default function Home() {
                 </div>
               </div>
               <div className="sm:w-3/5 p-6 sm:p-8">
-                <p className="text-teal-600 text-xs font-bold uppercase tracking-widest mb-2">{t('home.seo.jugar.tag')}</p>
-                <h2 className="text-2xl font-black text-gray-900 mb-3">{t('home.seo.jugar.titulo')}</h2>
-                <p className="text-gray-500 leading-relaxed mb-5">{t('home.seo.jugar.texto')}</p>
-                <Link to={localPath('/info/juegos')} className="inline-flex items-center gap-2 text-teal-600 hover:text-teal-500 font-bold transition-colors">
+                <p className="text-amber-400 text-xs font-bold uppercase tracking-widest mb-2">{t('home.seo.jugar.tag')}</p>
+                <h2 className="text-2xl font-black text-white mb-3">{t('home.seo.jugar.titulo')}</h2>
+                <p className="text-white/60 leading-relaxed mb-5">{t('home.seo.jugar.texto')}</p>
+                <Link to={localPath('/info/juegos')} className="inline-flex items-center gap-2 text-amber-400 hover:text-amber-300 font-bold transition-colors">
                   {t('home.seo.jugar.link')}
                 </Link>
               </div>
             </div>
           </section>
 
-          <aside className="ad-slot" aria-label="Publicidad" data-ad-slot="home-seo-1" style={{ minHeight: '90px', marginBottom: '2.5rem' }} />
+          <aside className="ad-slot" aria-label="Publicidad" data-ad-slot="home-seo-1" style={{ minHeight: '90px', marginBottom: '2rem' }} />
 
           {/* ESTUDIAR + RETO DIARIO */}
-          <section className="grid sm:grid-cols-2 gap-6 mb-10">
-            <div className="bg-white rounded-2xl border border-gray-200 p-6 sm:p-8 flex flex-col">
+          <section className="grid sm:grid-cols-2 gap-4 mb-8">
+            <div className="rounded-2xl border border-white/10 p-6 sm:p-7 flex flex-col" style={{ background: SURF }}>
               <div className="bg-gradient-to-br from-indigo-950 to-blue-900 rounded-xl h-36 flex items-center justify-center mb-5 relative overflow-hidden">
                 <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '20px 20px' }} />
                 <div className="relative text-center">
@@ -186,15 +187,15 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-              <p className="text-teal-600 text-xs font-bold uppercase tracking-widest mb-2">{t('home.seo.estudiar.tag')}</p>
-              <h2 className="text-xl font-black text-gray-900 mb-3">{t('home.seo.estudiar.titulo')}</h2>
-              <p className="text-gray-500 leading-relaxed text-sm mb-5 flex-1">{t('home.seo.estudiar.texto')}</p>
-              <Link to={localPath('/info/estudiar')} className="text-teal-600 hover:text-teal-500 text-sm font-bold transition-colors">
+              <p className="text-amber-400 text-xs font-bold uppercase tracking-widest mb-2">{t('home.seo.estudiar.tag')}</p>
+              <h2 className="text-xl font-black text-white mb-3">{t('home.seo.estudiar.titulo')}</h2>
+              <p className="text-white/60 leading-relaxed text-sm mb-5 flex-1">{t('home.seo.estudiar.texto')}</p>
+              <Link to={localPath('/info/estudiar')} className="text-amber-400 hover:text-amber-300 text-sm font-bold transition-colors">
                 {t('home.seo.estudiar.link')}
               </Link>
             </div>
 
-            <div className="bg-white rounded-2xl border border-gray-200 p-6 sm:p-8 flex flex-col">
+            <div className="rounded-2xl border border-white/10 p-6 sm:p-7 flex flex-col" style={{ background: SURF }}>
               <div className="bg-gradient-to-br from-orange-950 to-rose-900 rounded-xl h-36 flex items-center justify-center mb-5 relative overflow-hidden">
                 <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '20px 20px' }} />
                 <div className="relative text-center">
@@ -210,25 +211,25 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-              <p className="text-teal-600 text-xs font-bold uppercase tracking-widest mb-2">{t('home.seo.diaria.tag')}</p>
-              <h2 className="text-xl font-black text-gray-900 mb-3">{t('home.seo.diaria.titulo')}</h2>
-              <p className="text-gray-500 leading-relaxed text-sm mb-5 flex-1">{t('home.seo.diaria.texto')}</p>
-              <Link to={localPath('/info/diaria')} className="text-teal-600 hover:text-teal-500 text-sm font-bold transition-colors">
+              <p className="text-amber-400 text-xs font-bold uppercase tracking-widest mb-2">{t('home.seo.diaria.tag')}</p>
+              <h2 className="text-xl font-black text-white mb-3">{t('home.seo.diaria.titulo')}</h2>
+              <p className="text-white/60 leading-relaxed text-sm mb-5 flex-1">{t('home.seo.diaria.texto')}</p>
+              <Link to={localPath('/info/diaria')} className="text-amber-400 hover:text-amber-300 text-sm font-bold transition-colors">
                 {t('home.seo.diaria.link')}
               </Link>
             </div>
           </section>
 
-          <aside className="ad-slot" aria-label="Publicidad" data-ad-slot="home-seo-2" style={{ minHeight: '90px', marginBottom: '2.5rem' }} />
+          <aside className="ad-slot" aria-label="Publicidad" data-ad-slot="home-seo-2" style={{ minHeight: '90px', marginBottom: '2rem' }} />
 
           {/* RECOMPENSAS */}
           <RewardsSection lang={lang} navigate={navigate} user={user} onLogin={() => setShowAuth(true)} />
 
           {/* VIDEO */}
-          <section className="bg-white rounded-2xl border border-gray-200 p-6 sm:p-8">
-            <h2 className="text-2xl font-black text-gray-900 text-center mb-2">{t('home.seo.video.titulo')}</h2>
-            <p className="text-gray-400 text-center mb-6 max-w-lg mx-auto">{t('home.seo.video.subtitulo')}</p>
-            <div className="aspect-video rounded-xl overflow-hidden bg-gray-100 border border-gray-200">
+          <section className="rounded-2xl border border-white/10 p-6 sm:p-8 mb-8" style={{ background: SURF }}>
+            <h2 className="text-2xl font-black text-white text-center mb-2">{t('home.seo.video.titulo')}</h2>
+            <p className="text-white/55 text-center mb-6 max-w-lg mx-auto">{t('home.seo.video.subtitulo')}</p>
+            <div className="aspect-video rounded-xl overflow-hidden bg-black/40 border border-white/10">
               <iframe
                 className="w-full h-full"
                 src="https://www.youtube-nocookie.com/embed/QfN7qCTzFBM?si=wvU_yIXHbGE3oKik"
@@ -242,10 +243,10 @@ export default function Home() {
           </section>
 
           {/* PATROCINADOR DESTACADO: Igraal */}
-          <section className="mb-6">
+          <section className="mb-8">
             <a href="https://es.igraal.com/padrinazgo?padrino=AG_638200fb04960&utm_medium=inf&utm_source=premium"
               target="_blank" rel="noopener noreferrer"
-              className="group block bg-gradient-to-r from-green-600 to-emerald-500 hover:from-green-500 hover:to-emerald-400 rounded-2xl p-6 sm:p-8 transition-all hover:shadow-lg hover:shadow-green-200">
+              className="group block bg-gradient-to-r from-green-600 to-emerald-500 hover:from-green-500 hover:to-emerald-400 rounded-2xl p-6 sm:p-8 transition-all hover:shadow-lg hover:shadow-green-900/40">
               <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-2">
@@ -275,24 +276,24 @@ export default function Home() {
           </section>
 
           {/* COMUNIDAD */}
-          <section className="mb-10">
+          <section className="mb-8">
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
 
               {/* Bug report */}
               <Link to={localPath('/reportar-bug')}
-                className="group bg-white border border-gray-200 hover:border-violet-300 rounded-2xl p-6 flex flex-col gap-3 transition-all hover:shadow-md hover:shadow-violet-100">
-                <div className="w-10 h-10 rounded-xl bg-violet-50 flex items-center justify-center text-xl">🐛</div>
+                className="group rounded-2xl border border-white/10 hover:border-violet-400/50 p-6 flex flex-col gap-3 transition-all" style={{ background: SURF }}>
+                <div className="w-10 h-10 rounded-xl bg-violet-500/15 flex items-center justify-center text-xl">🐛</div>
                 <div className="flex-1">
-                  <h3 className="text-gray-900 font-bold text-sm">
+                  <h3 className="text-white font-bold text-sm">
                     {lang === 'en' ? 'Report a bug' : lang === 'ca' ? 'Reportar un error' : 'Reportar un bug'}
                   </h3>
-                  <p className="text-gray-400 text-xs mt-1 leading-relaxed">
+                  <p className="text-white/50 text-xs mt-1 leading-relaxed">
                     {lang === 'en' ? "Something not working? Let us know and we'll fix it."
                       : lang === 'ca' ? "Alguna cosa no funciona? Explica'ns-ho i ho arreglem."
                       : 'Algo no funciona bien? Cuéntanoslo y lo arreglamos.'}
                   </p>
                 </div>
-                <span className="text-xs font-semibold text-violet-500 group-hover:text-violet-600 flex items-center gap-1">
+                <span className="text-xs font-bold text-violet-400 group-hover:text-violet-300 flex items-center gap-1">
                   {lang === 'en' ? 'Open form' : lang === 'ca' ? 'Obrir formulari' : 'Abrir formulario'}
                   <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
                 </span>
@@ -300,19 +301,19 @@ export default function Home() {
 
               {/* Ko-fi */}
               <a href="https://ko-fi.com/consiguetualgogratis" target="_blank" rel="noopener noreferrer"
-                className="group bg-white border border-gray-200 hover:border-amber-300 rounded-2xl p-6 flex flex-col gap-3 transition-all hover:shadow-md hover:shadow-amber-100">
-                <div className="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center text-xl">☕</div>
+                className="group rounded-2xl border border-white/10 hover:border-amber-400/50 p-6 flex flex-col gap-3 transition-all" style={{ background: SURF }}>
+                <div className="w-10 h-10 rounded-xl bg-amber-500/15 flex items-center justify-center text-xl">☕</div>
                 <div className="flex-1">
-                  <h3 className="text-gray-900 font-bold text-sm">
+                  <h3 className="text-white font-bold text-sm">
                     {lang === 'en' ? 'Buy us a coffee' : lang === 'ca' ? "Convida'ns a un cafè" : 'Invítanos a un café'}
                   </h3>
-                  <p className="text-gray-400 text-xs mt-1 leading-relaxed">
+                  <p className="text-white/50 text-xs mt-1 leading-relaxed">
                     {lang === 'en' ? 'Tuthor is free and always will be. A small donation helps us keep going.'
                       : lang === 'ca' ? "Tuthor és gratuït i sempre ho serà. Una petita donació ens ajuda a continuar."
                       : 'Tuthor es gratuito y siempre lo será. Una pequeña donación nos ayuda a seguir adelante.'}
                   </p>
                 </div>
-                <span className="text-xs font-semibold text-amber-600 group-hover:text-amber-700 flex items-center gap-1">
+                <span className="text-xs font-bold text-amber-400 group-hover:text-amber-300 flex items-center gap-1">
                   {lang === 'en' ? 'Support on Ko-fi' : lang === 'ca' ? 'Donar a Ko-fi' : 'Apoyar en Ko-fi'}
                   <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
                 </span>
@@ -320,19 +321,19 @@ export default function Home() {
 
               {/* Colaborar */}
               <Link to={localPath('/colaborar')}
-                className="group bg-white border border-gray-200 hover:border-teal-300 rounded-2xl p-6 flex flex-col gap-3 transition-all hover:shadow-md hover:shadow-teal-100">
-                <div className="w-10 h-10 rounded-xl bg-teal-50 flex items-center justify-center text-xl">📣</div>
+                className="group rounded-2xl border border-white/10 hover:border-emerald-400/50 p-6 flex flex-col gap-3 transition-all" style={{ background: SURF }}>
+                <div className="w-10 h-10 rounded-xl bg-emerald-500/15 flex items-center justify-center text-xl">📣</div>
                 <div className="flex-1">
-                  <h3 className="text-gray-900 font-bold text-sm">
+                  <h3 className="text-white font-bold text-sm">
                     {lang === 'en' ? 'Collaborate or advertise' : lang === 'ca' ? "Col·laborar o anunciar-se" : 'Colaborar o anunciarse'}
                   </h3>
-                  <p className="text-gray-400 text-xs mt-1 leading-relaxed">
+                  <p className="text-white/50 text-xs mt-1 leading-relaxed">
                     {lang === 'en' ? "School, publisher or ed-tech project? Let's talk about working together."
                       : lang === 'ca' ? 'Acadèmia, editorial o projecte educatiu? Parlem de com treballar junts.'
                       : '¿Academia, editorial o proyecto educativo? Hablemos de cómo trabajar juntos.'}
                   </p>
                 </div>
-                <span className="text-xs font-semibold text-teal-600 group-hover:text-teal-700 flex items-center gap-1">
+                <span className="text-xs font-bold text-emerald-400 group-hover:text-emerald-300 flex items-center gap-1">
                   {lang === 'en' ? 'Write to us' : lang === 'ca' ? "Escriu-nos" : 'Escribirnos'}
                   <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
                 </span>
@@ -342,21 +343,21 @@ export default function Home() {
           </section>
 
           {/* CONTACTO */}
-          <section className="bg-white rounded-2xl border border-gray-200 p-6 sm:p-8 text-center">
-            <h2 className="text-2xl font-black text-gray-900 mb-2">{t('home.seo.contacto.titulo')}</h2>
-            <p className="text-gray-400 mb-5 max-w-md mx-auto">{t('home.seo.contacto.texto')}</p>
+          <section className="rounded-2xl border border-white/10 p-6 sm:p-8 text-center" style={{ background: SURF }}>
+            <h2 className="text-2xl font-black text-white mb-2">{t('home.seo.contacto.titulo')}</h2>
+            <p className="text-white/55 mb-5 max-w-md mx-auto">{t('home.seo.contacto.texto')}</p>
             <Link to={localPath('/contacto')}
-              className="inline-flex items-center gap-2 px-6 py-3 bg-teal-600 hover:bg-teal-500 text-white font-bold text-sm rounded-xl transition-all hover:scale-[1.02]">
+              className="inline-flex items-center gap-2 px-6 py-3 bg-violet-600 hover:bg-violet-500 text-white font-bold text-sm rounded-xl transition-all hover:scale-[1.02]">
               📧 {lang === 'ca' ? 'Escriu-nos' : lang === 'en' ? 'Write to us' : 'Escríbenos'}
             </Link>
           </section>
 
-          <aside className="ad-slot" aria-label="Publicidad" data-ad-slot="home-seo-footer" style={{ minHeight: '90px' }} />
+          <aside className="ad-slot" aria-label="Publicidad" data-ad-slot="home-seo-footer" style={{ minHeight: '90px', marginTop: '2rem' }} />
 
           {/* CTA final */}
-          <div className="text-center mt-6">
+          <div className="text-center mt-8">
             <Link to={localPath('/juegos')}
-              className="inline-block py-4 px-10 bg-teal-600 hover:bg-teal-500 text-white font-black text-lg rounded-2xl transition-all hover:scale-[1.02] shadow-lg shadow-teal-600/30">
+              className="inline-block py-4 px-10 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-lg rounded-2xl transition-all hover:scale-[1.02] shadow-lg shadow-amber-500/30">
               {t('home.seo.cta')}
             </Link>
           </div>
