@@ -2,6 +2,9 @@ import { Link } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import SEOHead from '../components/SEOHead'
 
+// Superficie oscura casi opaca: legibilidad sobre el fondo del bosque
+const SURF = 'rgba(17,20,29,0.86)'
+
 const DATA = {
   es: {
     h1: 'Juegos Educativos Online',
@@ -134,10 +137,10 @@ export default function InfoJuegosHub() {
         </header>
       </div>
 
-      <div className="bg-[#f5f5f0] text-gray-900 rounded-t-[2rem] sm:rounded-t-[3rem]">
-        <div className="max-w-4xl mx-auto px-4 sm:px-8 py-12 space-y-10">
+      <div className="text-white">
+        <div className="max-w-4xl mx-auto px-4 sm:px-8 pb-12 space-y-10">
 
-          <p className="text-gray-600 leading-relaxed max-w-2xl mx-auto text-center text-lg">{d.body}</p>
+          <p className="text-white/60 leading-relaxed max-w-2xl mx-auto text-center text-lg">{d.body}</p>
 
           <aside className="ad-slot" aria-label="Publicidad" data-ad-slot="info-juegos" style={{ minHeight: '90px' }} />
 
@@ -145,27 +148,28 @@ export default function InfoJuegosHub() {
             <section key={cat.titulo}>
               <div className="flex items-center gap-3 mb-3">
                 <span className="text-3xl">{cat.emoji}</span>
-                <h2 className="text-2xl font-black text-gray-900">{cat.titulo}</h2>
+                <h2 className="text-2xl font-black text-white">{cat.titulo}</h2>
               </div>
-              <p className="text-gray-500 leading-relaxed mb-6 max-w-3xl">{cat.texto}</p>
+              <p className="text-white/60 leading-relaxed mb-6 max-w-3xl">{cat.texto}</p>
 
               <div className="grid gap-4 sm:grid-cols-2">
                 {juegos[catIdx].map(j => (
                   <Link key={j.slug} to={localPath(`/info/juegos/${j.slug}`)}
-                    className="group bg-white rounded-2xl border border-gray-200 hover:border-gray-300 overflow-hidden transition-all hover:shadow-lg hover:shadow-gray-200/50 hover:scale-[1.01]">
+                    className="group rounded-2xl border border-white/10 hover:border-white/25 overflow-hidden transition-all hover:scale-[1.01]"
+                    style={{ background: SURF }}>
                     <div className={`bg-gradient-to-br ${j.gradient} h-28 flex items-center justify-center relative overflow-hidden`}>
                       <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '20px 20px' }} />
                       <span className="text-5xl relative drop-shadow-lg group-hover:scale-110 transition-transform">{j.emoji}</span>
                       <div className="absolute bottom-2 right-3 flex gap-1.5">
                         {j.tags.map(t => (
-                          <span key={t} className="text-[10px] font-bold bg-black/30 text-white/80 px-2 py-0.5 rounded-full">{t}</span>
+                          <span key={t} className="text-[10px] font-bold bg-black/40 text-white/90 px-2 py-0.5 rounded-full">{t}</span>
                         ))}
                       </div>
                     </div>
                     <div className="p-5">
-                      <h3 className="font-black text-gray-900 text-lg group-hover:text-teal-600 transition-colors mb-1">{j.titulo}</h3>
-                      <p className="text-gray-500 text-sm leading-relaxed mb-3">{j.desc}</p>
-                      <span className="text-sm font-semibold text-teal-600 group-hover:text-teal-500 transition-colors">{d.verMas}</span>
+                      <h3 className="font-black text-white text-lg group-hover:text-amber-400 transition-colors mb-1">{j.titulo}</h3>
+                      <p className="text-white/55 text-sm leading-relaxed mb-3">{j.desc}</p>
+                      <span className="text-sm font-bold text-amber-400 group-hover:text-amber-300 transition-colors">{d.verMas}</span>
                     </div>
                   </Link>
                 ))}
@@ -174,7 +178,7 @@ export default function InfoJuegosHub() {
               {catIdx < d.categorias.length - 1 && (
                 <>
                   <aside className="ad-slot" aria-label="Publicidad" data-ad-slot={`info-juegos-${catIdx}`} style={{ minHeight: '90px', marginTop: '2rem' }} />
-                  <hr className="border-gray-200 mt-6" />
+                  <hr className="border-white/10 mt-6" />
                 </>
               )}
             </section>
@@ -183,16 +187,16 @@ export default function InfoJuegosHub() {
           <section>
             <div className="flex items-center gap-3 mb-3">
               <span className="text-3xl">🔬</span>
-              <h2 className="text-2xl font-black text-gray-900">{d.proximamente}</h2>
+              <h2 className="text-2xl font-black text-white">{d.proximamente}</h2>
             </div>
-            <p className="text-gray-500 leading-relaxed max-w-3xl">{d.proximamenteTexto}</p>
+            <p className="text-white/60 leading-relaxed max-w-3xl">{d.proximamenteTexto}</p>
           </section>
 
           <aside className="ad-slot" aria-label="Publicidad" data-ad-slot="info-juegos-bottom" style={{ minHeight: '90px' }} />
 
           <footer className="text-center pt-4">
             <Link to={localPath('/juegos')}
-              className="inline-block py-4 px-10 bg-teal-600 hover:bg-teal-500 text-white font-black text-lg rounded-2xl transition-all hover:scale-[1.02] shadow-lg shadow-teal-600/30">
+              className="inline-block py-4 px-10 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-lg rounded-2xl transition-all hover:scale-[1.02] shadow-lg shadow-amber-500/30">
               {d.cta}
             </Link>
           </footer>

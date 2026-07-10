@@ -2,6 +2,9 @@ import { useParams, Link } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import SEOHead from '../components/SEOHead'
 
+// Superficie oscura casi opaca: legibilidad sobre el fondo del bosque
+const SURF = 'rgba(17,20,29,0.86)'
+
 const FICHAS_ES = {
   'acercate': {
     titulo: 'Acércate al Número',
@@ -879,24 +882,24 @@ export default function InfoJuegoFicha() {
         </header>
       </div>
 
-      {/* Contenido claro */}
-      <div className="bg-[#f5f5f0] text-gray-900 rounded-t-[2rem] sm:rounded-t-[3rem]">
-        <div className="max-w-3xl mx-auto px-4 sm:px-8 py-12">
+      {/* Contenido (mismo mundo noche) */}
+      <div className="text-white">
+        <div className="max-w-3xl mx-auto px-4 sm:px-8 pb-12">
 
-          <p className="text-gray-600 leading-relaxed text-lg mb-8">{ficha.intro}</p>
+          <p className="text-white/60 leading-relaxed text-lg mb-8">{ficha.intro}</p>
 
           <div className={`bg-gradient-to-br ${ficha.gradient} rounded-2xl h-48 sm:h-64 flex items-center justify-center mb-10 relative overflow-hidden`}>
             <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '24px 24px' }} />
             <div className="relative text-center">
               <span className="text-8xl sm:text-9xl drop-shadow-2xl">{ficha.emoji}</span>
-              <p className="text-white/60 text-sm font-bold mt-2">{ficha.asignatura} · {ficha.niveles}</p>
+              <p className="text-white/70 text-sm font-bold mt-2">{ficha.asignatura} · {ficha.niveles}</p>
             </div>
           </div>
 
           {/* CTA 1 */}
           <div className={`text-center mb-10 ${ficha.examPath ? 'flex flex-col sm:flex-row gap-3 justify-center' : ''}`}>
             <Link to={localPath(ficha.path)}
-              className="inline-block py-4 px-10 bg-teal-600 hover:bg-teal-500 text-white font-black text-lg rounded-2xl transition-all hover:scale-[1.02] shadow-lg shadow-teal-600/30">
+              className="inline-block py-4 px-10 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-lg rounded-2xl transition-all hover:scale-[1.02] shadow-lg shadow-amber-500/30">
               {ui.jugar} {ficha.titulo} →
             </Link>
             {ficha.examPath && (
@@ -911,28 +914,28 @@ export default function InfoJuegoFicha() {
 
           {/* Beneficios */}
           <section className="mb-10">
-            <h2 className="text-2xl font-black text-gray-900 mb-6">{ui.beneficiosH2}</h2>
-            <div className="space-y-5">
+            <h2 className="text-2xl font-black text-white mb-6">{ui.beneficiosH2}</h2>
+            <div className="space-y-4">
               {ficha.beneficios.map(b => (
-                <div key={b.titulo} className="bg-white rounded-2xl border border-gray-200 p-6">
-                  <h3 className="font-black text-gray-900 text-lg mb-2">{b.titulo}</h3>
-                  <p className="text-gray-500 leading-relaxed">{b.texto}</p>
+                <div key={b.titulo} className="rounded-2xl border border-white/10 p-6" style={{ background: SURF }}>
+                  <h3 className="font-black text-white text-lg mb-2">{b.titulo}</h3>
+                  <p className="text-white/60 leading-relaxed">{b.texto}</p>
                 </div>
               ))}
             </div>
           </section>
 
           <section className="mb-10">
-            <h2 className="text-2xl font-black text-gray-900 mb-4">{ui.ejemploH2}</h2>
-            <div className="bg-teal-50 border border-teal-200 rounded-2xl p-6">
-              <p className="text-teal-800 leading-relaxed italic">"{ficha.ejemplo}"</p>
+            <h2 className="text-2xl font-black text-white mb-4">{ui.ejemploH2}</h2>
+            <div className="bg-amber-500/10 border border-amber-500/25 rounded-2xl p-6">
+              <p className="text-amber-100/90 leading-relaxed italic">"{ficha.ejemplo}"</p>
             </div>
           </section>
 
           {/* CTA 2 */}
           <div className="text-center mb-10">
             <Link to={localPath(ficha.path)}
-              className="inline-block py-4 px-10 bg-teal-600 hover:bg-teal-500 text-white font-black text-lg rounded-2xl transition-all hover:scale-[1.02] shadow-lg shadow-teal-600/30">
+              className="inline-block py-4 px-10 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-lg rounded-2xl transition-all hover:scale-[1.02] shadow-lg shadow-amber-500/30">
               {ui.probar} {ficha.titulo} {ui.ahora}
             </Link>
           </div>
@@ -941,14 +944,14 @@ export default function InfoJuegoFicha() {
 
           {/* En papel */}
           <section className="mb-10">
-            <h2 className="text-2xl font-black text-gray-900 mb-2">📝 {ficha.enPapel.titulo}</h2>
-            <p className="text-gray-400 mb-5">{ui.papelPre}</p>
-            <div className="bg-white rounded-2xl border border-gray-200 p-6">
+            <h2 className="text-2xl font-black text-white mb-2">📝 {ficha.enPapel.titulo}</h2>
+            <p className="text-white/55 mb-5">{ui.papelPre}</p>
+            <div className="rounded-2xl border border-white/10 p-6" style={{ background: SURF }}>
               <ol className="space-y-3">
                 {ficha.enPapel.pasos.map((p, i) => (
                   <li key={i} className="flex gap-3">
-                    <span className="w-7 h-7 rounded-full bg-teal-100 border border-teal-200 text-teal-700 font-black text-sm flex items-center justify-center shrink-0">{i + 1}</span>
-                    <p className="text-gray-600 leading-relaxed pt-0.5">{p}</p>
+                    <span className="w-7 h-7 rounded-full bg-amber-500/15 border border-amber-500/30 text-amber-300 font-black text-sm flex items-center justify-center shrink-0">{i + 1}</span>
+                    <p className="text-white/65 leading-relaxed pt-0.5">{p}</p>
                   </li>
                 ))}
               </ol>
@@ -957,13 +960,13 @@ export default function InfoJuegoFicha() {
 
           {/* Alternativas */}
           <section className="mb-10">
-            <h2 className="text-2xl font-black text-gray-900 mb-2">{ui.altH2}</h2>
-            <p className="text-gray-400 mb-5">{ui.altPre} {ficha.titulo}{ui.altPost}</p>
+            <h2 className="text-2xl font-black text-white mb-2">{ui.altH2}</h2>
+            <p className="text-white/55 mb-5">{ui.altPre} {ficha.titulo}{ui.altPost}</p>
             <div className="grid gap-3 sm:grid-cols-2">
               {ficha.alternativas.map(a => (
-                <div key={a.nombre} className="bg-white rounded-2xl border border-gray-200 p-5">
-                  <h3 className="font-bold text-gray-900 mb-1">{a.nombre}</h3>
-                  <p className="text-gray-400 text-sm leading-relaxed">{a.desc}</p>
+                <div key={a.nombre} className="rounded-2xl border border-white/10 p-5" style={{ background: SURF }}>
+                  <h3 className="font-bold text-white mb-1">{a.nombre}</h3>
+                  <p className="text-white/55 text-sm leading-relaxed">{a.desc}</p>
                 </div>
               ))}
             </div>
@@ -973,10 +976,10 @@ export default function InfoJuegoFicha() {
 
           {/* CTA final */}
           <footer className="text-center pt-4">
-            <h2 className="text-2xl font-black text-gray-900 mb-3">{ui.listoH2}</h2>
-            <p className="text-gray-400 mb-6">{ui.listoSub}</p>
+            <h2 className="text-2xl font-black text-white mb-3">{ui.listoH2}</h2>
+            <p className="text-white/55 mb-6">{ui.listoSub}</p>
             <Link to={localPath(ficha.path)}
-              className="inline-block py-4 px-10 bg-teal-600 hover:bg-teal-500 text-white font-black text-lg rounded-2xl transition-all hover:scale-[1.02] shadow-lg shadow-teal-600/30">
+              className="inline-block py-4 px-10 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-lg rounded-2xl transition-all hover:scale-[1.02] shadow-lg shadow-amber-500/30">
               {ui.jugar} {ficha.titulo} →
             </Link>
           </footer>
