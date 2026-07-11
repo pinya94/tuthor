@@ -86,7 +86,7 @@ const PREGUNTAS = [
     { es:'Si tiro dos monedas a la vez, ¿cuál es la probabilidad de obtener dos caras?', en:'If I toss two coins at once, what is the probability of getting two heads?', ca:'Si llenço dues monedes alhora, quina és la probabilitat d\'obtenir dues cares?' },
     { es:['1/2','2/4 = 1/2','1/4','1/3'], en:['1/2','2/4 = 1/2','1/4','1/3'], ca:['1/2','2/4 = 1/2','1/4','1/3'] },
     { es:'1/4', en:'1/4', ca:'1/4' },
-    '🪙',
+    '🎲',
     { es:'Espacio muestral: {CC, CX, XC, XX} → 4 casos igualmente probables. Caso favorable: {CC} → 1. P(dos caras) = 1/4. Regla del producto (sucesos independientes): P(C)×P(C) = 1/2 × 1/2 = 1/4. Independientes: el resultado de una moneda no afecta a la otra.', en:'Sample space: {HH, HT, TH, TT} → 4 equally likely outcomes. Favourable case: {HH} → 1. P(two heads) = 1/4. Multiplication rule (independent events): P(H)×P(H) = 1/2 × 1/2 = 1/4. Independent: the result of one coin does not affect the other.', ca:'Espai mostral: {CC, CX, XC, XX} → 4 casos igualment probables. Cas favorable: {CC} → 1. P(dues cares) = 1/4. Regla del producte (successos independents): P(C)×P(C) = 1/2 × 1/2 = 1/4. Independents: el resultat d\'una moneda no afecta l\'altra.' },
   ),
   q('es-13','primaria',

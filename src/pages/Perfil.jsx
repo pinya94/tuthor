@@ -315,7 +315,7 @@ export default function Perfil() {
             {coinsHistory.length > 0 && (
               <section className="mb-5">
                 <div className="flex items-baseline gap-2 mb-3 px-0.5">
-                  <h2 className="font-black text-white text-[17px] tracking-tight">🪙 {ca ? "D'on venen les teves monedes" : en ? 'Where your coins come from' : 'De dónde vienen tus monedas'}</h2>
+                  <h2 className="font-black text-white text-[17px] tracking-tight">💰 {ca ? "D'on venen les teves monedes" : en ? 'Where your coins come from' : 'De dónde vienen tus monedas'}</h2>
                   {coinsToday > 0 && (
                     <span className="ml-auto text-amber-400 bg-amber-500/12 border border-amber-500/30 text-xs font-bold px-2.5 py-1 rounded-full whitespace-nowrap">
                       +{coinsToday.toLocaleString()} {ca ? 'avui' : en ? 'today' : 'hoy'}
