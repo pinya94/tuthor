@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react'
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
-import { getStatsAndCosmetics, setHidePhoto, formatTime, getUserRank } from '../lib/activity'
+import { getStatsAndCosmetics, setHidePhoto, formatTime, getUserRank, getCoinsHistory } from '../lib/activity'
 import { useNavigate } from 'react-router-dom'
 import AvatarFrame from '../components/AvatarFrame'
 import { BANNER_BY_ID } from '../data/cosmetics'
 import { GAMES } from '../lib/games'
-import { examsBySubject } from '../lib/exams'
+import { examsBySubject, EXAMS } from '../lib/exams'
 
 function todayStr() { return new Date().toISOString().slice(0, 10) }
 
@@ -101,6 +101,8 @@ export default function Perfil() {
   const [equippedAvatar, setEquippedAvatar] = useState(null)
   const [hidePhoto, setHidePhotoState] = useState(false)
   const [rankings, setRankings] = useState({})
+  const [coinsHistory, setCoinsHistory] = useState([])
+  const [showAllCoins, setShowAllCoins] = useState(false)
 
   useEffect(() => {
     if (!user) { navigate(localPath('/')); return }
@@ -120,6 +122,7 @@ export default function Perfil() {
         return [k, rank]
       })).then(results => setRankings(Object.fromEntries(results.filter(([, v]) => v))))
     })
+    getCoinsHistory(user.uid).then(setCoinsHistory)
   }, [user])
 
   async function toggleHidePhoto() {
@@ -187,6 +190,28 @@ export default function Perfil() {
   // Titulares del perfil
   const totalBestPts = Object.values(stats?.bestScores || {}).reduce((a, b) => a + b, 0)
   const examsTaken   = subjectEntries.reduce((a, s) => a + s.totalExamPlays, 0)
+
+  // Historial de monedas: fuente (nombre + emoji) y tiempo relativo
+  function coinSource(gid) {
+    if (gid === 'pregunta-diaria') return { name: ca ? 'Repte diari' : en ? 'Daily challenge' : 'Reto diario', emoji: '📅' }
+    if (GAMES[gid])  return { name: GAMES[gid].label[lang] || GAMES[gid].label.es, emoji: GAMES[gid].emoji }
+    if (EXAMS[gid])  return { name: EXAMS[gid].label[lang] || EXAMS[gid].label.es, emoji: EXAMS[gid].emoji }
+    return { name: gid, emoji: '🎮' }
+  }
+  function timeAgo(date) {
+    if (!date) return ''
+    const s = Math.floor((Date.now() - date.getTime()) / 1000)
+    if (s < 60)     return ca ? 'ara' : en ? 'now' : 'ahora'
+    const m = Math.floor(s / 60)
+    if (m < 60)     return `${ca || en ? '' : 'hace '}${m} min${en ? ' ago' : ca ? ' enrere' : ''}`.trim()
+    const h = Math.floor(m / 60)
+    if (h < 24)     return en ? `${h}h ago` : ca ? `fa ${h}h` : `hace ${h}h`
+    const d = Math.floor(h / 24)
+    if (d < 7)      return en ? `${d}d ago` : ca ? `fa ${d}d` : `hace ${d}d`
+    return date.toLocaleDateString(lang === 'en' ? 'en-GB' : lang === 'ca' ? 'ca-ES' : 'es-ES', { day: 'numeric', month: 'short' })
+  }
+  const isToday = date => date && date.toISOString().slice(0, 10) === todayStr()
+  const coinsToday = coinsHistory.filter(e => isToday(e.at)).reduce((a, e) => a + e.coins, 0)
 
   const t2 = 'text-white/60'
   const t3 = 'text-white/45'
@@ -285,6 +310,43 @@ export default function Perfil() {
                 </div>
               ))}
             </div>
+
+            {/* ── HISTORIAL DE MONEDAS ── */}
+            {coinsHistory.length > 0 && (
+              <section className="mb-5">
+                <div className="flex items-baseline gap-2 mb-3 px-0.5">
+                  <h2 className="font-black text-white text-[17px] tracking-tight">🪙 {ca ? "D'on venen les teves monedes" : en ? 'Where your coins come from' : 'De dónde vienen tus monedas'}</h2>
+                  {coinsToday > 0 && (
+                    <span className="ml-auto text-amber-400 bg-amber-500/12 border border-amber-500/30 text-xs font-bold px-2.5 py-1 rounded-full whitespace-nowrap">
+                      +{coinsToday.toLocaleString()} {ca ? 'avui' : en ? 'today' : 'hoy'}
+                    </span>
+                  )}
+                </div>
+                <div className="border border-white/10 rounded-2xl overflow-hidden" style={{ background: surf }}>
+                  {(showAllCoins ? coinsHistory : coinsHistory.slice(0, 6)).map((e, i, arr) => {
+                    const src = coinSource(e.game)
+                    return (
+                      <div key={e.id} className={`flex items-center gap-3 px-4 py-2.5 ${i < arr.length - 1 ? 'border-b border-white/10' : ''}`}>
+                        <span className="text-lg w-7 text-center shrink-0">{src.emoji}</span>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-white/90 text-sm font-semibold truncate">{src.name}</p>
+                          <p className={`${t3} text-[11px] mt-0.5`}>{timeAgo(e.at)}</p>
+                        </div>
+                        <span className="text-amber-400 font-black tabular-nums shrink-0">+{e.coins.toLocaleString()}</span>
+                      </div>
+                    )
+                  })}
+                  {coinsHistory.length > 6 && (
+                    <button onClick={() => setShowAllCoins(!showAllCoins)}
+                      className="w-full text-center py-2.5 border-t border-white/10 text-violet-400 hover:bg-white/5 font-bold text-[13px] transition-colors">
+                      {showAllCoins
+                        ? (ca ? 'Veure menys ↑' : en ? 'Show less ↑' : 'Ver menos ↑')
+                        : (ca ? `Veure les ${coinsHistory.length} últimes ↓` : en ? `Show last ${coinsHistory.length} ↓` : `Ver las ${coinsHistory.length} últimas ↓`)}
+                    </button>
+                  )}
+                </div>
+              </section>
+            )}
 
             {/* ── RETO DIARIO ── */}
             <div className="rounded-2xl p-[18px] mb-5 border border-orange-500/30"

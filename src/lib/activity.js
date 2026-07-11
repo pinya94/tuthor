@@ -120,9 +120,16 @@ export async function saveActivity(uid, data) {
   if (import.meta.env.DEV && data.type === 'juego' && !isKnownGame(data.game)) {
     console.warn(`[saveActivity] gameId '${data.game}' no está en el registro de src/lib/games.js — no aparecerá en el perfil`)
   }
+  const coinsEarned = data.coinsEarned !== undefined
+    ? Math.min(Math.max(0, Math.round(data.coinsEarned)), 500)
+    : Math.min(Math.floor((data.score || 0) / 10), 200)
+
+  // El registro de actividad guarda las monedas de cada partida para el
+  // historial del perfil ("de dónde vienen mis monedas").
   await addDoc(collection(db, 'users', uid, 'activity'), {
     type: data.type, game: data.game, category: data.category,
     score: data.score, passed: data.passed, timeSpent: data.timeSpent,
+    coinsEarned,
     createdAt: serverTimestamp(),
   })
 
@@ -132,10 +139,6 @@ export async function saveActivity(uid, data) {
   const statsRef = doc(db, 'users', uid, 'stats', 'global')
   const snap = await getDoc(statsRef)
   const t = data.timeSpent || 0
-
-  const coinsEarned = data.coinsEarned !== undefined
-    ? Math.min(Math.max(0, Math.round(data.coinsEarned)), 500)
-    : Math.min(Math.floor((data.score || 0) / 10), 200)
 
   if (!snap.exists()) {
     await setDoc(statsRef, {
@@ -193,13 +196,13 @@ export async function saveDailyChallenge(uid, passed) {
 
   if (snap.exists() && snap.data().lastDailyDate === today) return false // ya hecho
 
-  await addDoc(collection(db, 'users', uid, 'activity'), {
-    type: 'daily', game: 'pregunta-diaria', passed, createdAt: serverTimestamp(),
-  })
-
   // Equiparado a la partida perfecta de un juego (tope 200) para no
   // desequilibrar la economía de monedas.
   const dailyCoins = 200
+
+  await addDoc(collection(db, 'users', uid, 'activity'), {
+    type: 'daily', game: 'pregunta-diaria', passed, coinsEarned: dailyCoins, createdAt: serverTimestamp(),
+  })
 
   if (!snap.exists()) {
     await setDoc(statsRef, {
@@ -237,6 +240,32 @@ export async function getDailyStatus(uid) {
 export async function getStats(uid) {
   const snap = await getDoc(doc(db, 'users', uid, 'stats', 'global'))
   return snap.exists() ? snap.data() : null
+}
+
+// Historial de monedas: últimas actividades que dieron monedas, para el
+// desglose "de dónde vienen mis monedas" en el perfil. Solo actividades
+// guardadas desde que se registra coinsEarned (retroactivo no disponible).
+export async function getCoinsHistory(uid, n = 25) {
+  try {
+    const q = query(
+      collection(db, 'users', uid, 'activity'),
+      orderBy('createdAt', 'desc'),
+      limit(n),
+    )
+    const snap = await getDocs(q)
+    return snap.docs
+      .map(d => {
+        const x = d.data()
+        return {
+          id: d.id,
+          type: x.type,
+          game: x.game,
+          coins: x.coinsEarned || 0,
+          at: x.createdAt?.toDate?.() || null,
+        }
+      })
+      .filter(e => e.coins > 0)
+  } catch { return [] }
 }
 
 // Crea o actualiza el perfil del usuario
