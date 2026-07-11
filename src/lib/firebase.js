@@ -1,6 +1,6 @@
 import { initializeApp } from 'firebase/app'
 import { getAuth, GoogleAuthProvider } from 'firebase/auth'
-import { getFirestore } from 'firebase/firestore'
+import { initializeFirestore } from 'firebase/firestore'
 
 const firebaseConfig = {
   apiKey: "AIzaSyDmrfNpR4qM3Ko87i_o0HKQXbZ7iNsucpY",
@@ -13,5 +13,9 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig)
 export const auth = getAuth(app)
-export const db = getFirestore(app)
+// ignoreUndefinedProperties: los campos undefined se omiten en vez de lanzar
+// excepción. Sin esto, saveActivity reventaba (y el .catch lo tragaba) en
+// juegos que no pasan `category` (El Intruso, NumPath, GeoMapa, Línea Temporal),
+// que no guardaban ni monedas ni stats.
+export const db = initializeFirestore(app, { ignoreUndefinedProperties: true })
 export const googleProvider = new GoogleAuthProvider()
