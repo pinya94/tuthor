@@ -77,7 +77,7 @@ export const PREGUNTAS = [
       en:['Filtration','Decantation','Distillation','Sieving'],
       ca:['Filtració','Decantació','Destil·lació','Tamisat'] },
     { es:'Decantación', en:'Decantation', ca:'Decantació' },
-    '🫙',
+    '🧪',
     { es:'La decantación deja reposar la mezcla hasta que los líquidos se separan en capas, y luego se vierte el líquido superior. Ejemplo: separar agua y aceite.', en:'Decantation lets the mixture rest until the liquids separate into layers, then the upper liquid is poured off. Example: separating water and oil.', ca:'La decantació deixa reposar la barreja fins que els líquids es separen en capes, i després s\'aboca el líquid superior. Exemple: separar aigua i oli.' },
   ),
   q('s-04','separacion','primaria',

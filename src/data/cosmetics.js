@@ -54,7 +54,7 @@ export const FRAMES = [
   {
     id: 'pink',
     name: { es: 'Rosa', en: 'Pink', ca: 'Rosa' },
-    emoji: '🩷',
+    emoji: '💗',
     price: 7500,
     color: '#ec4899',
     style: { background: 'linear-gradient(135deg, #ec4899, #be185d)' },
@@ -62,7 +62,7 @@ export const FRAMES = [
   {
     id: 'cyan',
     name: { es: 'Cian', en: 'Cyan', ca: 'Cian' },
-    emoji: '🩵',
+    emoji: '💠',
     price: 7500,
     color: '#06b6d4',
     style: { background: 'linear-gradient(135deg, #06b6d4, #0e7490)' },

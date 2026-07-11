@@ -77,7 +77,7 @@ export const PREGUNTAS = [
       en:['Ammonia','Acetic acid (vinegar)','Calcium hydroxide','Bicarbonate'],
       ca:['Amoníac','Àcid acètic (vinagre)','Hidròxid de calci','Bicarbonat'] },
     { es:'Ácido acético (vinagre)', en:'Acetic acid (vinegar)', ca:'Àcid acètic (vinagre)' },
-    '🫙',
+    '🧪',
     { es:'El vinagre contiene ácido acético (CH₃COOH), un ácido débil con pH ≈ 3. También encontramos ácido cítrico en cítricos y ácido láctico en yogur.', en:'Vinegar contains acetic acid (CH₃COOH), a weak acid with pH ≈ 3. We also find citric acid in citrus fruits and lactic acid in yoghurt.', ca:'El vinagre conté àcid acètic (CH₃COOH), un àcid feble amb pH ≈ 3. També trobem àcid cítric en cítrics i àcid làctic en iogurt.' },
   ),
 
