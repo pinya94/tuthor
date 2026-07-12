@@ -11,7 +11,7 @@ const UI = {
     estudiarTema: 'Estudiar el tema →',
     probar: 'Empezar',
     ahora: 'ahora →',
-    resumenH2: '📖 Resumen del conflicto',
+    resumenH2: '📖 Resumen',
     timelineH2: '🕰️ Línea del tiempo',
     videoH2: '🎬 Vídeo recomendado',
     juegosH2: '🎮 Practica este tema jugando',
@@ -36,7 +36,7 @@ const UI = {
     estudiarTema: 'Study the topic →',
     probar: 'Start',
     ahora: 'now →',
-    resumenH2: '📖 Summary of the conflict',
+    resumenH2: '📖 Summary',
     timelineH2: '🕰️ Timeline',
     videoH2: '🎬 Recommended video',
     juegosH2: '🎮 Practise this topic by playing',
@@ -61,7 +61,7 @@ const UI = {
     estudiarTema: 'Estudiar el tema →',
     probar: 'Començar',
     ahora: 'ara →',
-    resumenH2: '📖 Resum del conflicte',
+    resumenH2: '📖 Resum',
     timelineH2: '🕰️ Línia del temps',
     videoH2: '🎬 Vídeo recomanat',
     juegosH2: '🎮 Practica aquest tema jugant',
@@ -172,8 +172,8 @@ export default function InfoEstudiarFicha() {
             </section>
           )}
 
-          {/* Vídeo recomendado */}
-          {ficha.videoId && (
+          {/* Vídeo recomendado (solo en español: los vídeos no están traducidos) */}
+          {ficha.videoId && lang === 'es' && (
             <section className="mb-10">
               <h2 className="text-2xl font-black text-white mb-2">{ui.videoH2}</h2>
               {ficha.videoNota && <p className="text-white/55 mb-5">{ficha.videoNota}</p>}
