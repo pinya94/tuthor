@@ -191,6 +191,11 @@ export const FICHAS_ES = {
     studyPath: '/examen/geometria',
     asignatura: 'Matemáticas', niveles: 'Primaria, ESO',
     intro: 'Repasa las fórmulas de geometría plana y espacial: áreas de triángulos, cuadrados, rectángulos y círculos; tipos de ángulos y triángulos; el teorema de Pitágoras con ejemplos numéricos; y volúmenes de cubos y cilindros. Todo explicado tras cada pregunta.',
+    resumen: [
+      'La geometría es la rama de las matemáticas que estudia las figuras, sus medidas y sus propiedades: puntos, rectas, ángulos, polígonos y cuerpos en el espacio. Es una de las partes más visuales de las matemáticas y aparece constantemente en la vida real, desde calcular la superficie de una habitación hasta el volumen de un depósito.',
+      'En Primaria y ESO se trabajan sobre todo el cálculo de perímetros, áreas y volúmenes, los tipos de ángulos y triángulos, y el teorema de Pitágoras, que relaciona los lados de un triángulo rectángulo (a²+b²=c²). Dominar las fórmulas básicas —área del triángulo, del círculo, volumen del cilindro— y saber cuándo aplicarlas es la clave del tema.',
+      'Repasa todas estas fórmulas y conceptos con el examen de geometría de abajo: 10 preguntas con explicación tras cada respuesta, para aprender del error y fijar los procedimientos.',
+    ],
     beneficios: [
       { titulo: 'Fórmulas con Ejemplos', texto: 'No basta con saber que el área del triángulo es (base×altura)/2. El examen pide aplicarla con números concretos. Cada explicación incluye el cálculo completo.' },
       { titulo: 'Pitágoras Paso a Paso', texto: 'a²+b²=c². Las ternas pitagóricas más frecuentes (3-4-5, 6-8-10) aparecen en el examen para que las automatices antes de enfrentarte a casos generales.' },
@@ -217,6 +222,11 @@ export const FICHAS_ES = {
     studyPath: '/estudiar/matematicas/fracciones',
     asignatura: 'Matemáticas', niveles: 'Primaria, ESO',
     intro: 'Practica las fracciones desde cero: numerador y denominador, fracciones equivalentes, simplificación con el MCD, suma con distinto denominador usando el MCM, multiplicación y división (Keep-Change-Flip), conversión a decimal y porcentaje. Cada pregunta incluye el procedimiento completo.',
+    resumen: [
+      'Una fracción representa una parte de un todo: el numerador indica cuántas partes tomamos y el denominador en cuántas se divide el total. Las fracciones son la puerta de entrada a los números racionales y aparecen en todas partes: recetas, porcentajes, probabilidades y proporciones.',
+      'Los conceptos clave son las fracciones equivalentes, la simplificación con el máximo común divisor (MCD), y las operaciones: sumar y restar buscando común denominador con el mínimo común múltiplo (MCM), multiplicar en línea y dividir con la regla del ‘Keep-Change-Flip’. También es esencial saber convertir una fracción a decimal y a porcentaje.',
+      'Practica todo el bloque de fracciones y decimales con el examen de abajo, con el procedimiento completo en cada pregunta para que veas el paso a paso.',
+    ],
     beneficios: [
       { titulo: 'De Primaria a ESO', texto: 'Primaria trabaja fracciones sencillas, decimales básicos y porcentajes simples. ESO añade potencias de fracciones, decimales periódicos y operaciones mixtas.' },
       { titulo: 'Procedimiento Visible', texto: 'Tras cada respuesta aparece el cálculo paso a paso: desde buscar el MCM para sumar hasta aplicar Keep-Change-Flip para dividir fracciones.' },
@@ -243,6 +253,11 @@ export const FICHAS_ES = {
     studyPath: '/estudiar/matematicas/estadistica',
     asignatura: 'Matemáticas', niveles: 'Primaria, ESO',
     intro: 'Aprende a analizar datos con las medidas de centralización y dispersión: media aritmética, mediana, moda y rango. Entiende la diferencia entre frecuencia absoluta y relativa, interpreta histogramas y diagramas de sectores. Calcula probabilidades simples y de sucesos independientes.',
+    resumen: [
+      'La estadística es la parte de las matemáticas que recoge, organiza y analiza datos para extraer conclusiones. Está por todas partes: encuestas, resultados deportivos, notas de clase o previsiones del tiempo. La probabilidad, muy ligada a ella, mide cómo de posible es que ocurra un suceso.',
+      'Los conceptos básicos de ESO son las medidas de centralización —media, mediana y moda— y de dispersión —el rango—, además de la diferencia entre frecuencia absoluta y relativa. También se interpretan gráficos como histogramas y diagramas de sectores, y se calculan probabilidades simples y de sucesos independientes, como sacar dos caras al lanzar dos monedas.',
+      'Repasa medias, gráficos y probabilidad con el examen de abajo, con explicación razonada en cada pregunta.',
+    ],
     beneficios: [
       { titulo: 'Medidas Explicadas', texto: 'No solo sabrás calcular la media: el examen distingue cuándo conviene usar la mediana (datos con valores extremos) y cuándo la moda (datos cualitativos).' },
       { titulo: 'Probabilidad Desde Cero', texto: 'Desde lanzar un dado hasta calcular la probabilidad de dos monedas, el examen cubre sucesos simples, complementarios e independientes con explicación tras cada respuesta.' },
@@ -269,6 +284,11 @@ export const FICHAS_ES = {
     studyPath: '/estudiar/matematicas/enteros-racionales',
     asignatura: 'Matemáticas', niveles: 'ESO',
     intro: 'Domina los números enteros y su extensión a los racionales: suma y resta con signos, multiplicación y división de negativos, valor absoluto, jerarquía de operaciones, potencias de base negativa, exponentes negativos y raíces cuadradas. Todo con explicación razonada tras cada respuesta.',
+    resumen: [
+      'Los números enteros son los positivos, los negativos y el cero (…-2, -1, 0, 1, 2…). Aparecen cuando una resta da menos que cero: temperaturas bajo cero, deudas, plantas de un sótano. Los números racionales los amplían añadiendo las fracciones y decimales, es decir, todo número que se puede escribir como una fracción.',
+      'El reto principal es operar con signos: recordar que menos por menos es más, respetar la jerarquía de operaciones y manejar el valor absoluto, las potencias de base negativa, los exponentes negativos y las raíces cuadradas. Son la base del álgebra y de casi todo lo que viene después en ESO y Bachillerato.',
+      'Practica las operaciones con negativos y racionales con el examen de abajo, con una explicación razonada tras cada respuesta para que no queden dudas.',
+    ],
     beneficios: [
       { titulo: 'Regla de Signos Clara', texto: 'El examen refuerza sistemáticamente: (−)×(−)=+, (−)×(+)=−. Tras varias repeticiones con contexto, la regla queda fijada sin memorizar por fuerza.' },
       { titulo: 'Jerarquía de Operaciones', texto: 'Paréntesis primero, luego potencias, luego multiplicación/división, finalmente suma/resta. El examen incluye expresiones con varias operaciones para practicar el orden correcto.' },
@@ -295,6 +315,11 @@ export const FICHAS_ES = {
     studyPath: '/estudiar/matematicas/algebra',
     asignatura: 'Matemáticas', niveles: 'ESO',
     intro: 'Aprende álgebra desde las variables y monomios hasta las ecuaciones de 2.º grado y sistemas de ecuaciones. El examen cubre: simplificación de expresiones, ecuaciones lineales con paréntesis, verificación de soluciones, factorización, identidades notables y la fórmula cuadrática con discriminante.',
+    resumen: [
+      'El álgebra es la parte de las matemáticas que usa letras (variables) para representar números desconocidos y expresar relaciones generales. Pasar de la aritmética al álgebra —de los números concretos a las ‘x’ e ‘y’— es uno de los grandes saltos de la ESO, y la base de casi todas las matemáticas superiores.',
+      'Los contenidos clave van de las expresiones y los monomios a las ecuaciones de primer grado (despejar la incógnita), las identidades notables, la factorización, los sistemas de ecuaciones y, finalmente, las ecuaciones de segundo grado resueltas con la fórmula cuadrática y su discriminante.',
+      'Repasa desde las ecuaciones sencillas hasta la fórmula cuadrática con el examen de abajo, con la resolución completa en cada pregunta.',
+    ],
     beneficios: [
       { titulo: 'De lo Concreto a lo Abstracto', texto: 'El examen empieza con ecuaciones sencillas (3x=12) y avanza hacia ecuaciones con paréntesis, 2.º grado y sistemas. Cada paso se explica con el procedimiento completo.' },
       { titulo: 'Fórmula Cuadrática', texto: 'x = (−b ± √(b²−4ac)) / 2a. El examen incluye el cálculo del discriminante y su interpretación: Δ>0 dos soluciones, Δ=0 una solución, Δ<0 sin soluciones reales.' },
@@ -1572,6 +1597,11 @@ export const FICHAS_EN = {
     studyPath: '/examen/geometria',
     asignatura: 'Mathematics', niveles: 'Primary, Secondary',
     intro: 'Revise plane and solid geometry formulae: areas of triangles, squares, rectangles and circles; types of angles and triangles; the Pythagorean theorem with numerical examples; and volumes of cubes and cylinders — all explained after each question.',
+    resumen: [
+      'Geometry is the branch of mathematics that studies shapes, their measurements and their properties: points, lines, angles, polygons and solids in space. It is one of the most visual parts of maths and appears constantly in real life, from working out the area of a room to the volume of a tank.',
+      'In Primary and Secondary school the focus is on calculating perimeters, areas and volumes, the types of angles and triangles, and the Pythagorean theorem, which relates the sides of a right-angled triangle (a²+b²=c²). Mastering the basic formulas —area of a triangle, of a circle, volume of a cylinder— and knowing when to apply them is the key to the topic.',
+      'Revise all these formulas and concepts with the geometry exam below: 10 questions with an explanation after each answer, so you learn from mistakes and fix the procedures.',
+    ],
     beneficios: [
       { titulo: 'Formulae with Examples', texto: 'Knowing that the triangle area is (base×height)/2 is not enough. The exam requires applying it with concrete numbers. Each explanation includes the full calculation.' },
       { titulo: 'Pythagoras Step by Step', texto: 'a²+b²=c². The most common Pythagorean triples (3-4-5, 6-8-10) appear in the exam so students can automate them before tackling general cases.' },
@@ -1598,6 +1628,11 @@ export const FICHAS_EN = {
     studyPath: '/estudiar/matematicas/fracciones',
     asignatura: 'Mathematics', niveles: 'Primary, Secondary',
     intro: 'Practise fractions from scratch: numerator and denominator, equivalent fractions, simplification using the GCD, adding fractions with different denominators using the LCM, multiplication and division (Keep-Change-Flip), conversion to decimals and percentages. Every question shows the full procedure.',
+    resumen: [
+      'A fraction represents a part of a whole: the numerator shows how many parts we take and the denominator how many the total is divided into. Fractions are the gateway to rational numbers and appear everywhere: recipes, percentages, probabilities and proportions.',
+      'The key concepts are equivalent fractions, simplifying with the greatest common divisor (GCD), and the operations: adding and subtracting by finding a common denominator with the lowest common multiple (LCM), multiplying straight across and dividing with the ‘Keep-Change-Flip’ rule. Knowing how to convert a fraction to a decimal and a percentage is also essential.',
+      'Practise the whole fractions and decimals block with the exam below, with the full procedure in every question so you can see each step.',
+    ],
     beneficios: [
       { titulo: 'Primary to Secondary', texto: 'Primary covers simple fractions, basic decimals and easy percentages. Secondary adds powers of fractions, recurring decimals and mixed operations.' },
       { titulo: 'Visible Procedure', texto: 'After each answer the full step-by-step calculation appears: from finding the LCM to applying Keep-Change-Flip when dividing fractions.' },
@@ -1624,6 +1659,11 @@ export const FICHAS_EN = {
     studyPath: '/estudiar/matematicas/estadistica',
     asignatura: 'Mathematics', niveles: 'Primary, Secondary',
     intro: 'Learn to analyse data using measures of central tendency and spread: arithmetic mean, median, mode and range. Understand the difference between absolute and relative frequency, interpret histograms and pie charts. Calculate simple and independent-event probabilities.',
+    resumen: [
+      'Statistics is the part of mathematics that collects, organises and analyses data to draw conclusions. It is everywhere: surveys, sports results, class marks or weather forecasts. Probability, closely linked to it, measures how likely an event is to happen.',
+      'The basic Secondary concepts are the measures of central tendency —mean, median and mode— and of spread —the range—, as well as the difference between absolute and relative frequency. You also interpret charts such as histograms and pie charts, and calculate simple probabilities and those of independent events, like getting two heads when tossing two coins.',
+      'Revise averages, charts and probability with the exam below, with a reasoned explanation in every question.',
+    ],
     beneficios: [
       { titulo: 'Measures Explained', texto: 'Not just how to calculate the mean: the exam distinguishes when to use the median (data with outliers) and when the mode (categorical data) is more appropriate.' },
       { titulo: 'Probability From Scratch', texto: 'From rolling a die to calculating the probability of two coins, the exam covers simple, complementary and independent events with an explanation after each answer.' },
@@ -1650,6 +1690,11 @@ export const FICHAS_EN = {
     studyPath: '/estudiar/matematicas/enteros-racionales',
     asignatura: 'Mathematics', niveles: 'Secondary',
     intro: 'Master integers and their extension to rational numbers: adding and subtracting with signs, multiplying and dividing negatives, absolute value, order of operations, powers with negative bases, negative exponents and square roots. Every answer includes a step-by-step explanation.',
+    resumen: [
+      'Integers are the positive numbers, the negative numbers and zero (…-2, -1, 0, 1, 2…). They appear whenever a subtraction gives less than zero: temperatures below zero, debts, basement floors. Rational numbers extend them by adding fractions and decimals, that is, any number that can be written as a fraction.',
+      'The main challenge is operating with signs: remembering that minus times minus is plus, respecting the order of operations, and handling absolute value, powers with a negative base, negative exponents and square roots. They are the foundation of algebra and of almost everything that follows in Secondary and Sixth Form.',
+      'Practise operations with negatives and rationals with the exam below, with a reasoned explanation after each answer so no doubts remain.',
+    ],
     beneficios: [
       { titulo: 'Sign Rules Made Clear', texto: 'The exam systematically reinforces: (−)×(−)=+, (−)×(+)=−. After several repetitions with context the rule sticks without rote memorisation.' },
       { titulo: 'Order of Operations', texto: 'Brackets first, then powers, then multiplication/division, finally addition/subtraction. The exam includes expressions with multiple operations to practise the correct order.' },
@@ -1676,6 +1721,11 @@ export const FICHAS_EN = {
     studyPath: '/estudiar/matematicas/algebra',
     asignatura: 'Mathematics', niveles: 'Secondary',
     intro: 'Learn algebra from variables and monomials to quadratic equations and systems. The exam covers: simplifying expressions, linear equations with brackets, verifying solutions, factorisation, notable identities and the quadratic formula with the discriminant.',
+    resumen: [
+      'Algebra is the part of mathematics that uses letters (variables) to represent unknown numbers and express general relationships. Moving from arithmetic to algebra —from concrete numbers to ‘x’ and ‘y’— is one of the great leaps of Secondary school, and the basis of almost all higher mathematics.',
+      'The key content ranges from expressions and monomials to first-degree equations (isolating the unknown), special products, factoring, systems of equations and, finally, quadratic equations solved with the quadratic formula and its discriminant.',
+      'Revise everything from simple equations to the quadratic formula with the exam below, with the full working in each question.',
+    ],
     beneficios: [
       { titulo: 'Concrete to Abstract', texto: 'The exam starts with simple equations (3x=12) and progresses to equations with brackets, quadratics and systems. Every step is explained with the full procedure.' },
       { titulo: 'Quadratic Formula', texto: 'x = (−b ± √(b²−4ac)) / 2a. The exam includes calculating the discriminant and interpreting it: Δ>0 two solutions, Δ=0 one solution, Δ<0 no real solutions.' },
@@ -2956,6 +3006,11 @@ export const FICHAS_CA = {
     studyPath: '/examen/geometria',
     asignatura: 'Matemàtiques', niveles: 'Primària, ESO',
     intro: 'Repassa les fórmules de geometria plana i espacial: àrees de triangles, quadrats, rectangles i cercles; tipus d\'angles i triangles; el teorema de Pitàgores amb exemples numèrics; i volums de cubs i cilindres. Tot explicat després de cada pregunta.',
+    resumen: [
+      'La geometria és la branca de les matemàtiques que estudia les figures, les seves mesures i propietats: punts, rectes, angles, polígons i cossos a l’espai. És una de les parts més visuals de les matemàtiques i apareix constantment a la vida real, des de calcular la superfície d’una habitació fins al volum d’un dipòsit.',
+      'A Primària i ESO es treballen sobretot el càlcul de perímetres, àrees i volums, els tipus d’angles i triangles, i el teorema de Pitàgores, que relaciona els costats d’un triangle rectangle (a²+b²=c²). Dominar les fórmules bàsiques —àrea del triangle, del cercle, volum del cilindre— i saber quan aplicar-les és la clau del tema.',
+      'Repassa totes aquestes fórmules i conceptes amb l’examen de geometria de sota: 10 preguntes amb explicació després de cada resposta, per aprendre de l’error i fixar els procediments.',
+    ],
     beneficios: [
       { titulo: 'Fórmules amb Exemples', texto: 'No n\'hi ha prou amb saber que l\'àrea del triangle és (base×alçada)/2. L\'examen demana aplicar-la amb nombres concrets. Cada explicació inclou el càlcul complet.' },
       { titulo: 'Pitàgores Pas a Pas', texto: 'a²+b²=c². Les ternes pitagòriques més freqüents (3-4-5, 6-8-10) apareixen a l\'examen perquè les automatitzis abans d\'enfrontar-te a casos generals.' },
@@ -2982,6 +3037,11 @@ export const FICHAS_CA = {
     studyPath: '/estudiar/matematicas/fracciones',
     asignatura: 'Matemàtiques', niveles: 'Primària, ESO',
     intro: 'Practica les fraccions des de zero: numerador i denominador, fraccions equivalents, simplificació amb el MCD, suma amb diferent denominador usant el MCM, multiplicació i divisió (Keep-Change-Flip), conversió a decimal i percentatge. Cada pregunta inclou el procediment complet.',
+    resumen: [
+      'Una fracció representa una part d’un tot: el numerador indica quantes parts prenem i el denominador en quantes es divideix el total. Les fraccions són la porta d’entrada als nombres racionals i apareixen a tot arreu: receptes, percentatges, probabilitats i proporcions.',
+      'Els conceptes clau són les fraccions equivalents, la simplificació amb el màxim comú divisor (MCD), i les operacions: sumar i restar buscant un denominador comú amb el mínim comú múltiple (MCM), multiplicar en línia i dividir amb la regla del ‘Keep-Change-Flip’. També és essencial saber convertir una fracció a decimal i a percentatge.',
+      'Practica tot el bloc de fraccions i decimals amb l’examen de sota, amb el procediment complet a cada pregunta perquè en vegis el pas a pas.',
+    ],
     beneficios: [
       { titulo: 'De Primària a ESO', texto: 'Primària treballa fraccions senzilles, decimals bàsics i percentatges simples. ESO afegeix potències de fraccions, decimals periòdics i operacions mixtes.' },
       { titulo: 'Procediment Visible', texto: 'Després de cada resposta apareix el càlcul pas a pas: des de trobar el MCM per sumar fins a aplicar Keep-Change-Flip per dividir fraccions.' },
@@ -3008,6 +3068,11 @@ export const FICHAS_CA = {
     studyPath: '/estudiar/matematicas/estadistica',
     asignatura: 'Matemàtiques', niveles: 'Primària, ESO',
     intro: 'Aprèn a analitzar dades amb les mesures de centralització i dispersió: mitjana aritmètica, mediana, moda i rang. Entén la diferència entre freqüència absoluta i relativa, interpreta histogrames i diagrames de sectors. Calcula probabilitats simples i de successos independents.',
+    resumen: [
+      'L’estadística és la part de les matemàtiques que recull, organitza i analitza dades per treure conclusions. És a tot arreu: enquestes, resultats esportius, notes de classe o previsions del temps. La probabilitat, molt lligada a ella, mesura com de possible és que passi un fet.',
+      'Els conceptes bàsics d’ESO són les mesures de centralització —mitjana, mediana i moda— i de dispersió —el rang—, a més de la diferència entre freqüència absoluta i relativa. També s’interpreten gràfics com histogrames i diagrames de sectors, i es calculen probabilitats simples i de successos independents, com treure dues cares en llançar dues monedes.',
+      'Repassa mitjanes, gràfics i probabilitat amb l’examen de sota, amb explicació raonada a cada pregunta.',
+    ],
     beneficios: [
       { titulo: 'Mesures Explicades', texto: 'No sols sabràs calcular la mitjana: l\'examen distingeix quan convé usar la mediana (dades amb valors extrems) i quan la moda (dades qualitatives).' },
       { titulo: 'Probabilitat des de Zero', texto: 'Des de llançar un dau fins a calcular la probabilitat de dues monedes, l\'examen cobreix successos simples, complementaris i independents amb explicació després de cada resposta.' },
@@ -3034,6 +3099,11 @@ export const FICHAS_CA = {
     studyPath: '/estudiar/matematicas/enteros-racionales',
     asignatura: 'Matemàtiques', niveles: 'ESO',
     intro: 'Domina els nombres enters i la seva extensió als racionals: suma i resta amb signes, multiplicació i divisió de negatius, valor absolut, jerarquia d\'operacions, potències de base negativa, exponents negatius i arrels quadrades. Tot amb explicació raonada després de cada resposta.',
+    resumen: [
+      'Els nombres enters són els positius, els negatius i el zero (…-2, -1, 0, 1, 2…). Apareixen quan una resta dona menys que zero: temperatures sota zero, deutes, plantes d’un soterrani. Els nombres racionals els amplien afegint les fraccions i els decimals, és a dir, tot nombre que es pot escriure com una fracció.',
+      'El repte principal és operar amb signes: recordar que menys per menys és més, respectar la jerarquia d’operacions i manejar el valor absolut, les potències de base negativa, els exponents negatius i les arrels quadrades. Són la base de l’àlgebra i de gairebé tot el que ve després a l’ESO i el Batxillerat.',
+      'Practica les operacions amb negatius i racionals amb l’examen de sota, amb una explicació raonada després de cada resposta perquè no quedin dubtes.',
+    ],
     beneficios: [
       { titulo: 'Regla de Signes Clara', texto: 'L\'examen reforça sistemàticament: (−)×(−)=+, (−)×(+)=−. Després de diverses repeticions amb context, la regla queda fixada sense memoritzar per força.' },
       { titulo: 'Jerarquia d\'Operacions', texto: 'Parèntesis primer, després potències, després multiplicació/divisió, finalment suma/resta. L\'examen inclou expressions amb diverses operacions per practicar l\'ordre correcte.' },
@@ -3060,6 +3130,11 @@ export const FICHAS_CA = {
     studyPath: '/estudiar/matematicas/algebra',
     asignatura: 'Matemàtiques', niveles: 'ESO',
     intro: 'Aprèn àlgebra des de les variables i monomis fins a les equacions de 2n grau i sistemes. L\'examen cobreix: simplificació d\'expressions, equacions lineals amb parèntesis, verificació de solucions, factorització, identitats notables i la fórmula quadràtica amb el discriminant.',
+    resumen: [
+      'L’àlgebra és la part de les matemàtiques que fa servir lletres (variables) per representar nombres desconeguts i expressar relacions generals. Passar de l’aritmètica a l’àlgebra —dels nombres concrets a les ‘x’ i ‘y’— és un dels grans salts de l’ESO, i la base de gairebé totes les matemàtiques superiors.',
+      'Els continguts clau van de les expressions i els monomis a les equacions de primer grau (aïllar la incògnita), les identitats notables, la factorització, els sistemes d’equacions i, finalment, les equacions de segon grau resoltes amb la fórmula quadràtica i el seu discriminant.',
+      'Repassa des de les equacions senzilles fins a la fórmula quadràtica amb l’examen de sota, amb la resolució completa a cada pregunta.',
+    ],
     beneficios: [
       { titulo: 'Del Concret a l\'Abstracte', texto: 'L\'examen comença amb equacions senzilles (3x=12) i avança cap a equacions amb parèntesis, 2n grau i sistemes. Cada pas s\'explica amb el procediment complet.' },
       { titulo: 'Fórmula Quadràtica', texto: 'x = (−b ± √(b²−4ac)) / 2a. L\'examen inclou el càlcul del discriminant i la seva interpretació: Δ>0 dues solucions, Δ=0 una solució, Δ<0 sense solucions reals.' },
