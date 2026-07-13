@@ -57,8 +57,7 @@ function Confetti() {
 //   onPlayAgain: si se pasa, se muestra el botón "Otra ronda" (modo práctica libre)
 //   onExit:     si se pasa, se muestra un botón para salir
 export default function CombinaNumeros({ ops, cfg, nivelLabel, onFinish, onPlayAgain, onExit, playAgainLabel = 'Otra ronda' }) {
-  const { lang } = useLang()
-  const en = lang === 'en'
+  const { tr } = useLang()
   const [fase,       setFase]       = useState('jugando')
   const [objetivo,   setObjetivo]   = useState(null)
   const [numeros,    setNumeros]    = useState([])
@@ -187,17 +186,20 @@ export default function CombinaNumeros({ ops, cfg, nivelLabel, onFinish, onPlayA
         <div className="max-w-md w-full text-center">
           <div className="text-7xl mb-4">{exact ? '🎉' : cerca ? '😮' : '😅'}</div>
           <h2 className="text-3xl font-black text-white mb-2">
-            {exact ? (en ? 'Exact!' : '¡Exacto!') : cerca ? (en ? 'Close!' : '¡Casi!') : finInfo?.porTiempo ? (en ? 'Time!' : '¡Tiempo!') : (en ? 'Round over' : 'Ronda terminada')}
+            {exact ? tr({ es: '¡Exacto!', en: 'Exact!', ca: 'Exacte!' })
+              : cerca ? tr({ es: '¡Casi!', en: 'Close!', ca: 'Gairebé!' })
+              : finInfo?.porTiempo ? tr({ es: '¡Tiempo!', en: 'Time!', ca: 'Temps!' })
+              : tr({ es: 'Ronda terminada', en: 'Round over', ca: 'Ronda acabada' })}
           </h2>
           {exact ? (
             <p className="text-white/50 text-sm mb-1">
-              {en ? 'You reached' : 'Llegaste a'} <span className="text-amber-400 font-bold">{objetivo}</span> — {en ? 'perfect!' : '¡perfecto!'}
+              {tr({ es: 'Llegaste a', en: 'You reached', ca: 'Has arribat a' })} <span className="text-amber-400 font-bold">{objetivo}</span> — {tr({ es: '¡perfecto!', en: 'perfect!', ca: 'perfecte!' })}
             </p>
           ) : (
             <p className="text-white/50 text-sm mb-1">
-              {en ? 'You reached' : 'Llegaste a'} <span className="text-white font-bold">{finInfo?.mejor}</span>
-              {' '}· {en ? 'target' : 'objetivo'}: <span className="text-amber-400 font-bold">{objetivo}</span>
-              {finInfo?.diff > 0 && <span className="text-white/30"> ({en ? 'diff' : 'diferencia'}: {finInfo.diff})</span>}
+              {tr({ es: 'Llegaste a', en: 'You reached', ca: 'Has arribat a' })} <span className="text-white font-bold">{finInfo?.mejor}</span>
+              {' '}· {tr({ es: 'objetivo', en: 'target', ca: 'objectiu' })}: <span className="text-amber-400 font-bold">{objetivo}</span>
+              {finInfo?.diff > 0 && <span className="text-white/30"> ({tr({ es: 'diferencia', en: 'diff', ca: 'diferència' })}: {finInfo.diff})</span>}
             </p>
           )}
           <div className={`text-6xl font-black mt-4 mb-8 ${finInfo?.pts > 0 ? 'text-amber-400' : 'text-white/30'}`}>
@@ -213,7 +215,7 @@ export default function CombinaNumeros({ ops, cfg, nivelLabel, onFinish, onPlayA
             {onExit && (
               <button onClick={onExit}
                 className="px-6 py-3 bg-white/10 hover:bg-white/20 text-white font-bold rounded-2xl transition-all">
-                {en ? 'Menu' : 'Menú'}
+                {tr({ es: 'Menú', en: 'Menu', ca: 'Menú' })}
               </button>
             )}
           </div>
@@ -229,15 +231,15 @@ export default function CombinaNumeros({ ops, cfg, nivelLabel, onFinish, onPlayA
       {/* HUD */}
       <div className="grid grid-cols-3 gap-2 mb-4">
         <div className="flex flex-col items-center bg-white/5 border border-white/10 rounded-xl py-2 px-1">
-          <span className="text-white/30 text-[9px] uppercase tracking-wider font-semibold">{en ? 'Level' : 'Nivel'}</span>
+          <span className="text-white/30 text-[9px] uppercase tracking-wider font-semibold">{tr({ es: 'Nivel', en: 'Level', ca: 'Nivell' })}</span>
           <span className="text-white font-bold text-sm mt-0.5">{nivelLabel?.emoji} {nivelLabel?.label}</span>
         </div>
         <div className="flex flex-col items-center bg-amber-500/15 border-2 border-amber-500/50 rounded-2xl py-2 px-1">
-          <span className="text-amber-400/70 text-[9px] uppercase tracking-widest font-semibold">{en ? 'Target' : 'Objetivo'}</span>
+          <span className="text-amber-400/70 text-[9px] uppercase tracking-widest font-semibold">{tr({ es: 'Objetivo', en: 'Target', ca: 'Objectiu' })}</span>
           <span className="text-amber-300 font-black text-3xl leading-none">{objetivo}</span>
         </div>
         <div className="flex flex-col items-center bg-white/5 border border-white/10 rounded-xl py-2 px-1">
-          <span className="text-white/30 text-[9px] uppercase tracking-wider font-semibold">{en ? 'Time' : 'Tiempo'}</span>
+          <span className="text-white/30 text-[9px] uppercase tracking-wider font-semibold">{tr({ es: 'Tiempo', en: 'Time', ca: 'Temps' })}</span>
           <span className={`font-black text-xl leading-none mt-0.5 ${tiempoColor}`}>{tiempo}s</span>
         </div>
       </div>
@@ -249,7 +251,7 @@ export default function CombinaNumeros({ ops, cfg, nivelLabel, onFinish, onPlayA
           :            'border-white/10 bg-white/3'
       }`}>
         {!sel1 ? (
-          <p className="text-white/20 text-sm">{en ? 'Select a number to start' : 'Selecciona un número para empezar'}</p>
+          <p className="text-white/20 text-sm">{tr({ es: 'Selecciona un número para empezar', en: 'Select a number to start', ca: 'Selecciona un número per començar' })}</p>
         ) : (
           <>
             <span className="text-white font-black text-3xl">{sel1.valor}</span>
@@ -259,12 +261,12 @@ export default function CombinaNumeros({ ops, cfg, nivelLabel, onFinish, onPlayA
             }
           </>
         )}
-        {errorFlash && <span className="text-red-400 text-sm font-bold absolute">{en ? 'Non-exact division' : 'División no exacta'}</span>}
+        {errorFlash && <span className="text-red-400 text-sm font-bold absolute">{tr({ es: 'División no exacta', en: 'Non-exact division', ca: 'Divisió no exacta' })}</span>}
       </div>
 
       {/* Números disponibles */}
       <div className="mb-5">
-        <p className="text-white/25 text-[10px] uppercase tracking-widest mb-2 font-semibold text-center">{en ? 'Available numbers' : 'Números disponibles'}</p>
+        <p className="text-white/25 text-[10px] uppercase tracking-widest mb-2 font-semibold text-center">{tr({ es: 'Números disponibles', en: 'Available numbers', ca: 'Números disponibles' })}</p>
         <div className="flex flex-wrap gap-3 justify-center">
           {numeros.map(n => {
             const isSelected = sel1?.id === n.id
@@ -280,13 +282,13 @@ export default function CombinaNumeros({ ops, cfg, nivelLabel, onFinish, onPlayA
               </button>
             )
           })}
-          {numeros.length === 0 && <p className="text-white/20 text-sm py-4">{en ? 'No numbers — reset or finish' : 'Sin números — reinicia o termina'}</p>}
+          {numeros.length === 0 && <p className="text-white/20 text-sm py-4">{tr({ es: 'Sin números — reinicia o termina', en: 'No numbers — reset or finish', ca: 'Sense números — reinicia o acaba' })}</p>}
         </div>
       </div>
 
       {/* Operadores */}
       <div className="mb-5">
-        <p className="text-white/25 text-[10px] uppercase tracking-widest mb-2 font-semibold text-center">{en ? 'Operation' : 'Operación'}</p>
+        <p className="text-white/25 text-[10px] uppercase tracking-widest mb-2 font-semibold text-center">{tr({ es: 'Operación', en: 'Operation', ca: 'Operació' })}</p>
         <div className={`grid gap-2 ${ops.length === 1 ? 'grid-cols-1' : ops.length === 2 ? 'grid-cols-2' : 'grid-cols-4'}`}>
           {ops.map(op => {
             const style    = OP_STYLE[op]
@@ -310,15 +312,15 @@ export default function CombinaNumeros({ ops, cfg, nivelLabel, onFinish, onPlayA
       <div className="grid grid-cols-3 gap-2">
         <button onClick={undo} disabled={!historial.length && !sel1}
           className="py-3 bg-white/10 hover:bg-white/20 disabled:opacity-30 text-white font-bold rounded-2xl transition-all text-sm">
-          {en ? '↩ Undo' : '↩ Deshacer'}
+          {tr({ es: '↩ Deshacer', en: '↩ Undo', ca: '↩ Desfer' })}
         </button>
         <button onClick={resetear} disabled={historial.length === 0}
           className="py-3 bg-white/5 hover:bg-white/10 disabled:opacity-20 text-white/60 hover:text-white font-bold rounded-2xl transition-all text-sm">
-          {en ? '🔄 Reset' : '🔄 Reiniciar'}
+          {tr({ es: '🔄 Reiniciar', en: '🔄 Reset', ca: '🔄 Reiniciar' })}
         </button>
         <button onClick={() => acabar()}
           className="py-3 bg-amber-500/20 hover:bg-amber-500/30 text-amber-400 font-bold rounded-2xl transition-all border border-amber-500/30 text-sm">
-          {en ? 'Finish' : 'Terminar'}
+          {tr({ es: 'Terminar', en: 'Finish', ca: 'Acabar' })}
         </button>
       </div>
     </div>

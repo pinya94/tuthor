@@ -1,25 +1,15 @@
 import { useState } from 'react'
 import { useLang } from '../context/LangContext'
 
-const NIVELES_FILTRO = {
-  es: [
-    { id: 'todas',        label: 'Todas',        emoji: '📚' },
-    { id: 'primaria',     label: 'Primaria',     emoji: '🎒' },
-    { id: 'eso',          label: 'ESO',          emoji: '📖' },
-    { id: 'bachillerato', label: 'Bachillerato', emoji: '🎓' },
-  ],
-  en: [
-    { id: 'todas',        label: 'All',          emoji: '📚' },
-    { id: 'primaria',     label: 'Primary',      emoji: '🎒' },
-    { id: 'eso',          label: 'Secondary',    emoji: '📖' },
-    { id: 'bachillerato', label: 'Sixth Form',   emoji: '🎓' },
-  ],
-}
+const NIVELES_FILTRO = [
+  { id: 'todas',        label: { es: 'Todas',        en: 'All',        ca: 'Totes' },       emoji: '📚' },
+  { id: 'primaria',     label: { es: 'Primaria',     en: 'Primary',    ca: 'Primària' },    emoji: '🎒' },
+  { id: 'eso',          label: { es: 'ESO',          en: 'Secondary',  ca: 'ESO' },         emoji: '📖' },
+  { id: 'bachillerato', label: { es: 'Bachillerato', en: 'Sixth Form', ca: 'Batxillerat' }, emoji: '🎓' },
+]
 
 export default function TemarioGrid({ items, onSelect, placeholder = 'Buscar...' }) {
-  const { lang } = useLang()
-  const en = lang === 'en'
-  const niveles = NIVELES_FILTRO[lang] || NIVELES_FILTRO.es
+  const { tr } = useLang()
   const [query, setQuery]       = useState('')
   const [nivelFiltro, setNivel] = useState('todas')
 
@@ -41,7 +31,7 @@ export default function TemarioGrid({ items, onSelect, placeholder = 'Buscar...'
     <>
       <div className="max-w-3xl mx-auto w-full mb-5">
         <div className="flex gap-2 p-1 bg-white/5 border border-white/10 rounded-xl w-fit">
-          {niveles.map(n => (
+          {NIVELES_FILTRO.map(n => (
             <button
               key={n.id}
               onClick={() => setNivel(n.id)}
@@ -50,7 +40,7 @@ export default function TemarioGrid({ items, onSelect, placeholder = 'Buscar...'
               }`}
             >
               <span className="text-base">{n.emoji}</span>
-              <span className="hidden sm:inline">{n.label}</span>
+              <span className="hidden sm:inline">{tr(n.label)}</span>
             </button>
           ))}
         </div>
@@ -81,8 +71,8 @@ export default function TemarioGrid({ items, onSelect, placeholder = 'Buscar...'
         {filtrados.length === 0 ? (
           <div className="col-span-full text-center py-12">
             <p className="text-3xl mb-3">🔎</p>
-            <p className="text-white/40 text-sm">{en ? 'No results found for' : 'No se encontraron resultados para'} <span className="text-white/60">"{query}"</span></p>
-            <button onClick={() => setQuery('')} className="mt-3 text-amber-400 text-sm hover:underline">{en ? 'Clear search' : 'Limpiar búsqueda'}</button>
+            <p className="text-white/40 text-sm">{tr({ es: 'No se encontraron resultados para', en: 'No results found for', ca: "No s'han trobat resultats per a" })} <span className="text-white/60">"{query}"</span></p>
+            <button onClick={() => setQuery('')} className="mt-3 text-amber-400 text-sm hover:underline">{tr({ es: 'Limpiar búsqueda', en: 'Clear search', ca: 'Netejar cerca' })}</button>
           </div>
         ) : (
           filtrados.map(item => {
@@ -99,7 +89,9 @@ export default function TemarioGrid({ items, onSelect, placeholder = 'Buscar...'
                 <div className={`bg-gradient-to-br ${item.gradient} p-5 aspect-square flex flex-col justify-between`}>
                   {!disp && (
                     <span className="absolute top-2 right-2 bg-black/40 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
-                      {item.ready === false ? (en ? 'Soon' : 'Pronto') : (en ? 'Not available' : 'No disponible')}
+                      {item.ready === false
+                        ? tr({ es: 'Pronto', en: 'Soon', ca: 'Aviat' })
+                        : tr({ es: 'No disponible', en: 'Not available', ca: 'No disponible' })}
                     </span>
                   )}
                   <span className="text-4xl">{item.emoji}</span>
