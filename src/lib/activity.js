@@ -17,7 +17,8 @@ const lbEntriesCol = game => collection(db, 'leaderboards', game, 'entries')
 async function updateLeaderboard(game, uid, name, photoURL, score, avatarEmoji, bannerId, frameId) {
   try {
     const entry = {
-      name: name || 'Anónimo',
+      // Truncado a 40: las rules rechazan nombres desbocados (tope 60)
+      name: (name || 'Anónimo').slice(0, 40),
       photoURL: photoURL || null,
       score,
       updatedAt: serverTimestamp(),
