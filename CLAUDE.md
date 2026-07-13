@@ -1,6 +1,6 @@
 # Tuthor — convenciones del proyecto
 
-Plataforma educativa React 18 + Vite + Tailwind + Firebase (Firestore). Deploy en Vercel desde `main`.
+Plataforma educativa React 19 + Vite + Tailwind + Firebase (Firestore). Deploy en Vercel desde `main`.
 
 ## Registros centrales (fuente única de verdad)
 
@@ -28,6 +28,12 @@ Plataforma educativa React 18 + Vite + Tailwind + Firebase (Firestore). Deploy e
 - Leaderboards: `leaderboards/{game}/entries/{uid}` — un doc por jugador. Top-N con orderBy+limit, posición con `getUserRank` (counts agregados). Los docs legacy `_stats/leaderboard_*` son solo lectura (fallback).
 - Cambios en `firestore.rules` requieren `npx firebase-tools deploy --only firestore:rules` (Vercel no los despliega).
 
+## SEO
+
+- Meta única: `<SEOHead>` (src/components/SEOHead.jsx) — title, description, canonical y hreflang. `path` SIN prefijo de idioma; el idioma sale de LangContext. `PageMeta` es un wrapper legacy: no usarlo en código nuevo.
+- `npm run build` = `vite build` + `scripts/prerender.mjs`: genera un index.html estático por cada URL del sitemap con la meta correcta (crawlers y scrapers de redes no ejecutan JS). URL nueva = añadirla a public/sitemap.xml; el prerender resuelve su meta desde los registros/fichas o STATIC_META (avisa si queda genérica).
+
 ## Verificación
 
-- `npx vite build` antes de commitear. El build NO detecta referencias runtime rotas (setters sin estado, etc.) — verificar en el preview.
+- `npm run build` antes de commitear (incluye el prerender; falla si el sitemap y las fuentes de meta se desincronizan). El build NO detecta referencias runtime rotas (setters sin estado, etc.) — verificar en el preview.
+- `npx vitest run` — tests de invariantes de los registros (games, exams, sitemap↔meta).

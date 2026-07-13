@@ -1,0 +1,176 @@
+// ── Resolución de meta SEO por URL ───────────────────────────────────────────
+// Módulo puro (sin I/O): dado un path neutro y un idioma devuelve
+// { title, desc }. Lo usan scripts/prerender.mjs (build) y los tests de
+// invariantes (src/lib/__tests__), que comprueban que toda URL del sitemap
+// resuelve meta específica.
+//
+// Fuentes (las mismas que usan las páginas):
+//   - src/lib/exams.js      → /examen/*
+//   - src/lib/games.js      → /juegos/*
+//   - src/data/fichasEstudiarIndex.js → /info/estudiar/* (una ficha por fichero)
+//   - src/data/infoJuegosFichas.js   → /info/juegos/*
+//   - STATIC_META (abajo)   → portadas de sección y páginas sueltas
+
+import { EXAMS } from '../src/lib/exams.js'
+import { GAMES } from '../src/lib/games.js'
+import { FICHAS as FICHAS_ESTUDIAR } from '../src/data/fichasEstudiarIndex.js'
+import {
+  FICHAS_ES as JUEGOS_FICHAS_ES,
+  FICHAS_EN as JUEGOS_FICHAS_EN,
+} from '../src/data/infoJuegosFichas.js'
+
+export const BASE_URL = 'https://www.tuthor.es'
+// Idiomas publicados en hreflang — mantener en sintonía con SEOHead.jsx
+export const HREFLANG_LANGS = ['es', 'en']
+
+// ── Meta manual de páginas estáticas (path neutro, sin prefijo de idioma) ───
+export const STATIC_META = {
+  '/': {
+    es: { title: null, desc: 'Plataforma educativa gratuita con exámenes gamificados para Primaria, ESO y Bachillerato. Historia, matemáticas, geografía, ciencias, español e inglés. Aprende jugando.' },
+    en: { title: null, desc: 'Free educational platform with gamified exams for primary and secondary school. History, maths, geography, science, Spanish and English. Learn by playing.' },
+  },
+  '/estudiar': {
+    es: { title: 'Estudiar por materias', desc: 'Elige materia y repasa con juegos y exámenes tipo test: historia, matemáticas, geografía, ciencias e idiomas. Gratis y sin registro.' },
+    en: { title: 'Study by subject', desc: 'Pick a subject and revise with games and quizzes: history, maths, geography, science and languages. Free, no sign-up needed.' },
+  },
+  '/juegos': {
+    es: { title: 'Juegos educativos gratis', desc: 'Catálogo de juegos educativos: cálculo mental, cronología histórica, geografía y vocabulario. Partidas de 5 minutos con ranking y monedas.' },
+    en: { title: 'Free educational games', desc: 'Catalogue of educational games: mental maths, history timelines, geography and vocabulary. 5-minute rounds with rankings and coins.' },
+  },
+  '/estudiar/historia': {
+    es: { title: 'Historia — temas y exámenes', desc: 'Repasa historia con juegos: Guerra Civil, Segunda Guerra Mundial, Roma, líneas temporales y personajes. Exámenes tipo test con nota.' },
+    en: { title: 'History — topics and exams', desc: 'Revise history with games: Spanish Civil War, WWII, Ancient Rome, timelines and famous figures. Multiple-choice exams with grades.' },
+  },
+  '/estudiar/matematicas': {
+    es: { title: 'Matemáticas — práctica y exámenes', desc: 'Cálculo mental, fracciones, álgebra, geometría, estadística y funciones. Practica en modo libre o ponte a prueba con exámenes con nota.' },
+    en: { title: 'Maths — practice and exams', desc: 'Mental arithmetic, fractions, algebra, geometry, statistics and functions. Practise freely or test yourself with graded exams.' },
+  },
+  '/estudiar/geografia': {
+    es: { title: 'Geografía — mapas y exámenes', desc: 'Aprende países, capitales y banderas de todos los continentes con mapas interactivos y exámenes tipo test. España y EE. UU. incluidos.' },
+    en: { title: 'Geography — maps and exams', desc: 'Learn countries, capitals and flags of every continent with interactive maps and quizzes. Spain and USA maps included.' },
+  },
+  '/estudiar/quimica': {
+    es: { title: 'Física y Química — temas y exámenes', desc: 'Tabla periódica, estados de la materia, mezclas, átomos y más. Teoría breve y exámenes tipo test por nivel: Primaria, ESO y Bachillerato.' },
+    en: { title: 'Physics & Chemistry — topics and exams', desc: 'Periodic table, states of matter, mixtures, atoms and more. Short theory and level-based quizzes for primary and secondary school.' },
+  },
+  '/estudiar/idiomas': {
+    es: { title: 'Idiomas — español e inglés', desc: 'Gramática y ortografía del español, grammar del inglés. Teoría breve con ejemplos y exámenes tipo test con explicación en cada respuesta.' },
+    en: { title: 'Languages — Spanish and English', desc: 'Spanish grammar and spelling, English grammar. Short theory with examples and quizzes with an explanation for every answer.' },
+  },
+  '/estudiar/idiomas/espanol': {
+    es: { title: 'Lengua Española — gramática y ortografía', desc: 'Sustantivos, verbos, sintaxis, acentuación y ortografía. Teoría con ejemplos y exámenes tipo test para Primaria y ESO.' },
+    en: { title: 'Spanish — grammar and spelling', desc: 'Nouns, verbs, syntax, accents and spelling. Theory with examples and multiple-choice tests for primary and secondary school.' },
+  },
+  '/estudiar/idiomas/espanol/gramatica': {
+    es: { title: 'Gramática española — teoría y exámenes', desc: 'Sustantivos, verbos y sintaxis con teoría breve, ejemplos y exámenes tipo test con explicación. Para Primaria y ESO.' },
+    en: { title: 'Spanish grammar — theory and tests', desc: 'Nouns, verbs and syntax with short theory, examples and multiple-choice tests with explanations. For primary and secondary levels.' },
+  },
+  '/estudiar/idiomas/espanol/ortografia': {
+    es: { title: 'Ortografía española — teoría y exámenes', desc: 'Acentuación, B y V, y las reglas de ortografía que más caen en examen. Teoría breve y tests con explicación en cada respuesta.' },
+    en: { title: 'Spanish spelling — theory and tests', desc: 'Accents, B vs V and the spelling rules that matter most in exams. Short theory and quizzes with explained answers.' },
+  },
+  '/estudiar/idiomas/ingles': {
+    es: { title: 'Inglés — grammar y exámenes', desc: 'Present simple, past simple, present perfect, articles y passive voice. Teoría breve y exámenes tipo test con explicación.' },
+    en: { title: 'English — grammar and tests', desc: 'Present simple, past simple, present perfect, articles and passive voice. Short theory and multiple-choice tests with explanations.' },
+  },
+  '/estudiar/idiomas/ingles/grammar': {
+    es: { title: 'English grammar — teoría y exámenes', desc: 'Los tiempos verbales y estructuras del inglés que entran en examen, con teoría breve, ejemplos y tests con explicación.' },
+    en: { title: 'English grammar — theory and tests', desc: 'The English tenses and structures that come up in exams, with short theory, examples and explained quizzes.' },
+  },
+  '/examen/historia': {
+    es: { title: 'Examen de Historia tipo test', desc: 'Ponte a prueba con preguntas de historia de España y universal: fechas, personajes y acontecimientos. Con nota final y explicaciones.' },
+    en: { title: 'History multiple-choice exam', desc: 'Test yourself with Spanish and world history questions: dates, figures and events. Final grade and explanations included.' },
+  },
+  '/examen/linea-temporal': {
+    es: { title: 'Examen de Línea Temporal', desc: 'Ordena acontecimientos históricos en su línea temporal: de la Prehistoria a la actualidad. Examen con nota y ranking.' },
+    en: { title: 'Timeline exam', desc: 'Put historical events in the right order on the timeline, from prehistory to today. Graded exam with rankings.' },
+  },
+  '/info/estudiar': {
+    es: { title: 'Guías de estudio por tema', desc: 'Guías de cada tema: qué entra en el examen, consejos de estudio y acceso directo al test interactivo. Historia, mates, ciencias e idiomas.' },
+    en: { title: 'Study guides by topic', desc: 'Guides for every topic: what the exam covers, study tips and direct access to the interactive test. History, maths, science and languages.' },
+  },
+  '/info/juegos': {
+    es: { title: 'Juegos educativos — base pedagógica', desc: 'Qué trabaja cada juego de Tuthor, su base pedagógica y cómo jugarlo también en papel. Guía para familias y profesores.' },
+    en: { title: 'Educational games — pedagogical basis', desc: 'What each Tuthor game trains, its pedagogical basis and how to play it on paper too. A guide for families and teachers.' },
+  },
+  '/info/diaria': {
+    es: { title: 'Pregunta diaria — crea el hábito de estudio', desc: 'Un reto nuevo cada día de 2 minutos: trivia, cálculo o geografía. La ciencia del hábito aplicada al estudio, con rachas y recompensas.' },
+    en: { title: 'Daily question — build a study habit', desc: 'A new 2-minute challenge every day: trivia, arithmetic or geography. Habit science applied to studying, with streaks and rewards.' },
+  },
+  '/privacidad': {
+    es: { title: 'Política de privacidad', desc: 'Política de privacidad y protección de datos de Tuthor: qué datos tratamos, con qué finalidad y cuáles son tus derechos.' },
+    en: { title: 'Privacy policy', desc: 'Tuthor privacy and data protection policy: what data we process, why, and what your rights are.' },
+  },
+}
+
+// Temas de matemáticas con página propia (/estudiar/matematicas/:tema)
+const MATH_TEMAS = ['algebra', 'enteros-racionales', 'estadistica', 'fracciones', 'funciones', 'geometria']
+
+// /examen/<sufijo> cuya entrada en EXAMS usa otro id
+const EXAM_PATH_ALIASES = {
+  'portadas': 'portadas-examen',
+  'geografia': 'geografia-examen',
+  'geomapa': 'geomapa-examen',
+  'geomapa-espana': 'geomapa-espana-examen',
+  'geomapa-eeuu': 'geomapa-eeuu-examen',
+  'portero': 'portero-examen',
+  'trayectoria': 'trayectoria-examen',
+}
+
+const label = (entry, lang) => entry.label[lang] ?? entry.label.es
+
+// Devuelve { title, desc } para un path neutro, o null si no hay meta específica.
+export function resolveMeta(path, lang) {
+  const l = lang === 'en' ? 'en' : 'es' // ca cae a es mientras no esté traducido
+
+  const stat = STATIC_META[path]
+  if (stat) return stat[l]
+
+  let m = path.match(/^\/info\/estudiar\/([\w-]+)$/)
+  if (m) {
+    const entry = FICHAS_ESTUDIAR[m[1]]
+    const ficha = entry && (entry[l] ?? entry.es)
+    if (ficha) return { title: `${ficha.titulo} — ${ficha.subtitulo}`, desc: `${ficha.intro.slice(0, 155)}…` }
+  }
+
+  m = path.match(/^\/info\/juegos\/([\w-]+)$/)
+  if (m) {
+    const ficha = (l === 'en' ? JUEGOS_FICHAS_EN : JUEGOS_FICHAS_ES)[m[1]]
+    if (ficha) return { title: `${ficha.titulo} — ${ficha.subtitulo}`, desc: `${ficha.intro.slice(0, 155)}…` }
+  }
+
+  m = path.match(/^\/examen\/([\w-]+)$/)
+  if (m) {
+    const exam = EXAMS[EXAM_PATH_ALIASES[m[1]] ?? m[1]]
+    if (exam) {
+      const name = label(exam, l)
+      return l === 'en'
+        ? { title: `${name} — multiple-choice exam`, desc: `Free interactive ${name} exam with instant feedback, explained answers and a final grade. For primary and secondary school students.` }
+        : { title: `Examen de ${name} tipo test`, desc: `Examen interactivo de ${name} gratis, con corrección al instante, explicación en cada respuesta y nota final. Para Primaria, ESO y Bachillerato.` }
+    }
+  }
+
+  m = path.match(/^\/juegos\/([\w-]+)$/)
+  if (m) {
+    const game = Object.values(GAMES).find(g => g.route === path)
+    if (game) {
+      const name = label(game, l)
+      return l === 'en'
+        ? { title: `${name} — free educational game`, desc: `Play ${name} for free: quick 5-minute rounds, coins, rankings and real learning. No install, works on mobile and desktop.` }
+        : { title: `${name} — juego educativo gratis`, desc: `Juega gratis a ${name}: partidas rápidas de 5 minutos, monedas, ranking y aprendizaje real. Sin instalar nada, en móvil y ordenador.` }
+    }
+  }
+
+  m = path.match(/^\/estudiar\/matematicas\/([\w-]+)$/)
+  if (m && MATH_TEMAS.includes(m[1])) {
+    const exam = EXAMS[m[1]]
+    if (exam) {
+      const name = label(exam, l)
+      return l === 'en'
+        ? { title: `${name} — theory, examples and exam`, desc: `Learn ${name} with short theory, worked examples and an interactive exam with explained answers. Free for primary and secondary school.` }
+        : { title: `${name} — teoría, ejemplos y examen`, desc: `Aprende ${name} con teoría breve, ejemplos resueltos y un examen interactivo con explicaciones. Gratis, para Primaria, ESO y Bachillerato.` }
+    }
+  }
+
+  return null
+}
