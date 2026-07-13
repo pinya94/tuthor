@@ -1,7 +1,11 @@
+import { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
+import SEOHead from '../components/SEOHead'
 
-import { FICHAS_ES, FICHAS_EN, FICHAS_CA } from '../data/infoEstudiarFichas'
+// Un chunk por ficha: solo se descarga la del slug visitado
+// (src/data/fichasEstudiar/<slug>.js exporta { es, en, ca }).
+const FICHA_MODULES = import.meta.glob('../data/fichasEstudiar/*.js')
 
 const UI = {
   es: {
@@ -84,10 +88,26 @@ const UI = {
 export default function InfoEstudiarFicha() {
   const { slug } = useParams()
   const { lang, localPath } = useLang()
-  const fichas = lang === 'ca' ? FICHAS_CA : lang === 'en' ? FICHAS_EN : FICHAS_ES
   const ui = UI[lang] || UI.es
-  const ficha = fichas[slug]
+  // { slug, data } de la última ficha cargada; si no coincide con el slug
+  // actual es que aún está cargando (llega en ms, sin spinner ni parpadeo)
+  const [loaded, setLoaded] = useState(null)
+  const load = FICHA_MODULES[`../data/fichasEstudiar/${slug}.js`]
 
+  useEffect(() => {
+    if (!load) return
+    let alive = true
+    load().then(
+      m => { if (alive) setLoaded({ slug, data: m.default }) },
+      () => { if (alive) setLoaded({ slug, data: null }) },
+    )
+    return () => { alive = false }
+  }, [slug, load])
+
+  if (load && loaded?.slug !== slug) return null // cargando
+
+  const entry = load ? loaded.data : null
+  const ficha = entry && (entry[lang] ?? entry.es)
   if (!ficha) {
     return (
       <div className="relative z-10 flex items-center justify-center min-h-[calc(100vh-4rem)] px-4">
@@ -113,6 +133,7 @@ export default function InfoEstudiarFicha() {
 
   return (
     <div className="relative z-10">
+      <SEOHead title={`${ficha.titulo} — ${ficha.subtitulo}`} description={`${ficha.intro.slice(0, 155)}…`} path={`/info/estudiar/${slug}`} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       {/* Header oscuro */}
       <div className="px-4 sm:px-8 py-10 max-w-3xl mx-auto">
