@@ -83,6 +83,7 @@ export function crearPartida(seed = Math.floor(Math.random() * 2 ** 31)) {
     usados: [],
     historial: [],                            // decisiones para el resumen final
     autopsias: [],                            // lecciones reveladas
+    experiencias: [],                         // vivencias compradas (viajes, bodas…) — abren caminos
     indice: 1,                                // índice de precios (1 = euros de hoy al empezar)
     fin: false,
   }
@@ -129,6 +130,7 @@ function crearCtx(p, evento) {
       p.activos.push({ estado: 'vivo', edadCompra: p.edad, valor: def.invertido, ...def })
     },
     autopsia: a => { p.autopsias.push({ edad: p.edad, ...a }) },
+    experiencia: titulo => { p.experiencias.push({ edad: p.edad, titulo }) },
   }
 }
 
@@ -163,6 +165,14 @@ function hitosDelAño(p, log) {
       p.alquilerAnual = escala(p, 8400)
       log.push({ tipo: 'hito', texto: { es: '🏠 Te independizas: trabajo mejor pagado, pero ahora pagas alquiler. Bienvenido a la vida adulta.', en: '🏠 You move out: better-paid job, but now you pay rent. Welcome to adult life.', ca: '🏠 T\'independitzes: feina més ben pagada, però ara pagues lloguer. Benvingut a la vida adulta.' } })
     }
+  }
+  if (p.edad === 40) {
+    const cafe = (1.5 * p.indice).toFixed(2).replace('.', ',')
+    log.push({ tipo: 'hito', texto: {
+      es: `📊 Te fijas en algo: el café que costaba 1,50 € cuando naciste ahora cuesta ${cafe} €. Es la inflación — los precios suben cada año y cada euro compra un poco menos. Por eso el dinero parado en la cuenta pierde valor aunque el número no cambie.`,
+      en: `📊 You notice something: the coffee that cost €1.50 when you were born now costs €${cafe}. That's inflation — prices rise every year and each euro buys a little less. That's why money sitting in your account loses value even if the number doesn't change.`,
+      ca: `📊 T'adones d'una cosa: el cafè que costava 1,50 € quan vas néixer ara costa ${cafe} €. És la inflació — els preus pugen cada any i cada euro compra una mica menys. Per això els diners aturats al compte perden valor encara que el número no canviï.`,
+    } })
   }
   if (p.edad === 67 && !p.flags.includes('jubilado')) {
     p.flags.push('jubilado')

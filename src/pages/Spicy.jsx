@@ -104,8 +104,9 @@ export default function Spicy() {
             </p>
           </div>
           <div className="rounded-2xl border border-white/10 p-4 mb-6 text-sm text-white/50 space-y-2" style={{ background: SURF }}>
-            <p>🎯 {tr({ es: 'Objetivo: llegar al final con el mayor patrimonio en euros de hoy.', en: 'Goal: reach the end with the most wealth in today\'s euros.', ca: 'Objectiu: arribar al final amb el màxim patrimoni en euros d\'avui.' })}</p>
+            <p>🎯 {tr({ es: 'Objetivo: acabar con el máximo patrimonio. Ojo: los precios suben toda la vida — lo que cuenta es lo que puedas comprar.', en: 'Goal: end with the most wealth. Careful: prices rise your whole life — what counts is what you can buy.', ca: 'Objectiu: acabar amb el màxim patrimoni. Ull: els preus pugen tota la vida — el que compta és el que puguis comprar.' })}</p>
             <p>🧐 {tr({ es: 'Fíjate en las señales: "garantizado", prisas, sin regular… o entidad seria y diversificada.', en: 'Watch the signals: "guaranteed", urgency, unregulated… or serious and diversified institutions.', ca: 'Fixa\'t en els senyals: "garantit", presses, sense regular… o entitat seriosa i diversificada.' })}</p>
+            <p>🌟 {tr({ es: 'Gastar no siempre es perder: hay experiencias que abren caminos que el dinero quieto nunca abrirá.', en: 'Spending isn\'t always losing: some experiences open paths that idle money never will.', ca: 'Gastar no sempre és perdre: hi ha experiències que obren camins que els diners aturats mai obriran.' })}</p>
             <p>🔁 {tr({ es: 'Cada vida es distinta: crisis, burbujas y golpes de suerte cambian en cada partida.', en: 'Every life is different: crises, bubbles and strokes of luck change every run.', ca: 'Cada vida és diferent: crisis, bombolles i cops de sort canvien a cada partida.' })}</p>
           </div>
           <button onClick={empezar}
@@ -138,14 +139,17 @@ export default function Spicy() {
         score={nota}
         scoreLabel={{ es: 'nota financiera', en: 'financial score', ca: 'nota financera' }}
         message={tr(
-          real >= 300000 ? { es: '🏆 Patrimonio sólido y decisiones con cabeza', en: '🏆 Solid wealth and level-headed decisions', ca: '🏆 Patrimoni sòlid i decisions amb seny' }
+          real >= 300000 && p.experiencias.length >= 3 ? { es: '🏆 Rico y con una vida bien vivida — la partida redonda', en: '🏆 Wealthy and a life well lived — the perfect run', ca: '🏆 Ric i amb una vida ben viscuda — la partida rodona' }
+          : real >= 300000 ? { es: '💰 Patrimonio sólido… aunque algo austero. ¿Te dejaste vivir?', en: '💰 Solid wealth… though a bit austere. Did you let yourself live?', ca: '💰 Patrimoni sòlid… encara que una mica auster. Et vas deixar viure?' }
+          : real >= 60000 && p.experiencias.length >= 3 ? { es: '👍 Equilibrio entre cartera y vida — así se hace', en: '👍 Balance between wallet and life — that\'s how it\'s done', ca: '👍 Equilibri entre cartera i vida — així es fa' }
           : real >= 60000 ? { es: '👍 Una vida financiera razonable', en: '👍 A reasonable financial life', ca: '👍 Una vida financera raonable' }
+          : real > 0 && p.experiencias.length >= 4 ? { es: '🌟 Una vida riquísima en experiencias, justita de cartera', en: '🌟 A life rich in experiences, tight on wallet', ca: '🌟 Una vida riquíssima en experiències, justeta de cartera' }
           : real > 0 ? { es: 'Llegaste justo — la próxima vida, empieza a ahorrar antes', en: 'You barely made it — next life, start saving earlier', ca: 'Vas arribar just — la pròxima vida, comença a estalviar abans' }
           : { es: '💸 Acabaste en números rojos. Cada vida enseña algo', en: '💸 You ended in the red. Every life teaches something', ca: '💸 Vas acabar en números vermells. Cada vida ensenya alguna cosa' }
         )}
         stats={[
-          { label: tr({ es: 'Patrimonio (€ de hoy)', en: 'Wealth (today\'s €)', ca: 'Patrimoni (€ d\'avui)' }), value: fmt(real), emoji: '💰' },
-          { label: tr({ es: 'Decisiones tomadas', en: 'Decisions made', ca: 'Decisions preses' }), value: p.historial.length, emoji: '🧭' },
+          { label: tr({ es: 'Poder de compra', en: 'Purchasing power', ca: 'Poder de compra' }), value: fmt(real), emoji: '💰' },
+          { label: tr({ es: 'Experiencias vividas', en: 'Experiences lived', ca: 'Experiències viscudes' }), value: p.experiencias.length, emoji: '🌟' },
         ]}
         shareText={shareText}
         onPlayAgain={empezar}
@@ -153,6 +157,18 @@ export default function Spicy() {
         secondaryActions={[{ label: tr({ es: 'Volver a juegos', en: 'Back to games', ca: 'Tornar a jocs' }), onClick: () => navigate(localPath('/juegos')) }]}
         user={user} lang={lang}
       >
+        <p className="text-white/40 text-xs mt-4 leading-relaxed">
+          {tr({
+            es: `Tu cuenta marca ${fmt(patrimonio(p))}, pero los precios se han multiplicado x${p.indice.toFixed(1).replace('.', ',')} desde que naciste: ese dinero compra lo que ${fmt(real)} compraban entonces. Eso es la inflación.`,
+            en: `Your account shows ${fmt(patrimonio(p))}, but prices have multiplied x${p.indice.toFixed(1)} since you were born: that money buys what ${fmt(real)} bought back then. That's inflation.`,
+            ca: `El teu compte marca ${fmt(patrimonio(p))}, però els preus s'han multiplicat x${p.indice.toFixed(1).replace('.', ',')} des que vas néixer: aquests diners compren el que ${fmt(real)} compraven llavors. Això és la inflació.`,
+          })}
+        </p>
+        {p.experiencias.length > 0 && (
+          <p className="text-white/50 text-xs mt-3">
+            🌟 {p.experiencias.map(e => tr(e.titulo)).join(' · ')}
+          </p>
+        )}
         {(mejores.length > 0 || peores.length > 0) && (
           <div className="mt-5 text-left space-y-2">
             {[...peores.slice(0, 2), ...mejores.slice(0, 2)].map((a, i) => (
@@ -191,9 +207,9 @@ export default function Spicy() {
           <p className="text-white/25 text-[10px]">{tr({ es: 'sueldo', en: 'salary', ca: 'sou' })} {fmt(p.ingresos)}/año</p>
         </div>
         <div className="rounded-xl border border-amber-500/40 bg-amber-500/10 py-2 px-3">
-          <p className="text-amber-400/70 text-[9px] uppercase tracking-wider font-semibold">{tr({ es: 'Patrimonio (€ de hoy)', en: 'Wealth (today\'s €)', ca: 'Patrimoni (€ d\'avui)' })}</p>
-          <p className="text-amber-300 font-black text-lg leading-tight">{fmt(real)}</p>
-          <p className="text-white/25 text-[10px]">{tr({ es: 'nominal', en: 'nominal', ca: 'nominal' })}: {fmt(patrimonio(p))}</p>
+          <p className="text-amber-400/70 text-[9px] uppercase tracking-wider font-semibold">{tr({ es: 'Patrimonio', en: 'Wealth', ca: 'Patrimoni' })}</p>
+          <p className="text-amber-300 font-black text-lg leading-tight">{fmt(patrimonio(p))}</p>
+          <p className="text-white/25 text-[10px]">🛒 {tr({ es: 'compra como', en: 'buys like', ca: 'compra com' })} {fmt(real)}</p>
         </div>
       </div>
 
