@@ -114,11 +114,11 @@ export const GAMES = {
     // % de aciertos sobre 150 monedas máx
     coins: ({ correct, total }) => (total > 0 ? Math.round((correct / total) * 150) : 0),
   },
-  'una-vida': {
-    label: { es: 'Una Vida', en: 'One Life', ca: 'Una Vida' },
-    emoji: '⏳',
+  'spicy': {
+    label: { es: 'Spicy', en: 'Spicy', ca: 'Spicy' },
+    emoji: '🌶️',
     subject: 'economia',
-    route: '/juegos/una-vida',
+    route: '/juegos/spicy',
     // nota financiera 0-10000 → hasta 200 monedas con nota ≥ 2000
     coins: DEFAULT_COINS,
   },

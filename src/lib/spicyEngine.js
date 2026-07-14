@@ -1,4 +1,4 @@
-// ── Motor de "Una Vida" ──────────────────────────────────────────────────────
+// ── Motor de "Spicy" ─────────────────────────────────────────────────────────
 // Simulación económica por turnos: 1 año = 1 tick. Cada partida tiene una
 // seed que genera su línea económica (inflación, bolsa, vivienda, crisis):
 // misma seed + mismas decisiones = misma vida.
@@ -9,7 +9,7 @@
 // Los números reales solo se revelan en la autopsia, cuando el riesgo ya se
 // materializó (o no). Nunca convertir una decisión en cálculo de valor esperado.
 
-import { EVENTOS } from '../data/vidaEventos'
+import { EVENTOS } from '../data/spicyEventos'
 
 // ── RNG con seed (mulberry32) ────────────────────────────────────────────────
 export function mulberry32(seed) {

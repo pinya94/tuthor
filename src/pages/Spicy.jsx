@@ -9,11 +9,11 @@ import SEOHead from '../components/SEOHead'
 import {
   crearPartida, avanzarAño, elegirOpcion, interpolar,
   patrimonio, patrimonioReal, notaFinanciera, fmt, SENALES,
-} from '../lib/vidaEngine'
+} from '../lib/spicyEngine'
 
 const SURF = 'rgba(17,20,29,0.86)'
 
-export default function UnaVida() {
+export default function Spicy() {
   const { lang, tr, localPath } = useLang()
   const { user } = useAuth()
   const navigate = useNavigate()
@@ -70,8 +70,8 @@ export default function UnaVida() {
     const score = notaFinanciera(p)
     if (user && score > 0) {
       saveActivity(user.uid, {
-        type: 'juego', game: 'una-vida', score, passed: patrimonioReal(p) > 0,
-        timeSpent: 0, coinsEarned: computeCoins('una-vida', { score }),
+        type: 'juego', game: 'spicy', score, passed: patrimonioReal(p) > 0,
+        timeSpent: 0, coinsEarned: computeCoins('spicy', { score }),
         userName: user.displayName, userPhoto: user.photoURL,
       }).catch(() => {})
     }
@@ -82,9 +82,9 @@ export default function UnaVida() {
     return (
       <div className="relative z-10 flex items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
         <SEOHead
-          title={tr({ es: 'Una Vida — juego de educación financiera', en: 'One Life — financial education game', ca: 'Una Vida — joc d\'educació financera' })}
+          title={tr({ es: 'Spicy — juego de educación financiera', en: 'Spicy — financial education game', ca: 'Spicy — joc d\'educació financera' })}
           description={tr({ es: 'Vive una vida entera tomando decisiones con dinero: ahorro, inflación, inversión, vivienda y timos. Aprende a leer las señales de riesgo jugando.', en: 'Live a whole life making money decisions: saving, inflation, investing, housing and scams. Learn to read risk signals by playing.', ca: 'Viu una vida sencera prenent decisions amb diners: estalvi, inflació, inversió, habitatge i estafes. Aprèn a llegir els senyals de risc jugant.' })}
-          path="/juegos/una-vida"
+          path="/juegos/spicy"
         />
         <div className="max-w-md w-full">
           <button onClick={() => navigate(localPath('/juegos'))}
@@ -92,8 +92,9 @@ export default function UnaVida() {
             {tr({ es: '← Volver a juegos', en: '← Back to games', ca: '← Tornar a jocs' })}
           </button>
           <div className="text-center mb-8">
-            <span className="text-6xl block mb-3">⏳</span>
-            <h1 className="text-3xl font-black text-white mb-2">{tr({ es: 'Una Vida', en: 'One Life', ca: 'Una Vida' })}</h1>
+            <span className="text-6xl block mb-3">🌶️</span>
+            <h1 className="text-3xl font-black text-white mb-2">Spicy</h1>
+            <p className="text-white/40 text-sm mb-3">{tr({ es: 'Decisiones que pican', en: 'Decisions with a kick', ca: 'Decisions que piquen' })}</p>
             <p className="text-white/50 text-sm leading-relaxed">
               {tr({
                 es: 'De la hucha de los 8 años a la jubilación. Cada año pueden aparecer decisiones: ahorrar o gastar, comprar o alquilar, invertir o pasar. La inflación corre siempre — y nadie te dirá los riesgos con números: aprende a leer las señales.',
@@ -125,14 +126,14 @@ export default function UnaVida() {
     const mejores = p.autopsias.filter(a => a.tipo === 'buena')
     const peores = p.autopsias.filter(a => a.tipo === 'mala')
     const shareText = tr({
-      es: `He vivido Una Vida en Tuthor: ${p.edadFinal} años y un patrimonio de ${fmt(real)} (en euros de hoy) 💰 ¿Gestionas tú mejor una vida? https://tuthor.es/juegos/una-vida`,
-      en: `I lived One Life on Tuthor: ${p.edadFinal} years and ${fmt(real)} in today's money 💰 Can you manage a life better? https://tuthor.es/juegos/una-vida`,
-      ca: `He viscut Una Vida a Tuthor: ${p.edadFinal} anys i un patrimoni de ${fmt(real)} (en euros d'avui) 💰 Gestiones tu millor una vida? https://tuthor.es/juegos/una-vida`,
+      es: `He jugado a Spicy en Tuthor: ${p.edadFinal} años y un patrimonio de ${fmt(real)} (en euros de hoy) 💰🌶️ ¿Gestionas tú mejor una vida? https://tuthor.es/juegos/spicy`,
+      en: `I played Spicy on Tuthor: ${p.edadFinal} years and ${fmt(real)} in today's money 💰🌶️ Can you manage a life better? https://tuthor.es/juegos/spicy`,
+      ca: `He jugat a Spicy a Tuthor: ${p.edadFinal} anys i un patrimoni de ${fmt(real)} (en euros d'avui) 💰🌶️ Gestiones tu millor una vida? https://tuthor.es/juegos/spicy`,
     })
     return (
       <GameEndScreen
-        game="una-vida"
-        emoji="⏳"
+        game="spicy"
+        emoji="🌶️"
         title={tr({ es: `Una vida completa — ${p.edadFinal} años`, en: `A full life — ${p.edadFinal} years`, ca: `Una vida completa — ${p.edadFinal} anys` })}
         score={nota}
         scoreLabel={{ es: 'nota financiera', en: 'financial score', ca: 'nota financera' }}

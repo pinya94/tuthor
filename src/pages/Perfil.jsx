@@ -75,7 +75,7 @@ const SUBJECT_DEFS = [
   {
     id: 'economia', emoji: '💰',
     label: { es: 'Economía', en: 'Economics', ca: 'Economia' },
-    gameIds: ['una-vida'],
+    gameIds: ['spicy'],
     catIds: [],
     catLabels: {},
   },

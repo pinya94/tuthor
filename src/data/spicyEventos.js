@@ -1,8 +1,8 @@
-// ── Mazo de eventos de "Una Vida" ────────────────────────────────────────────
+// ── Mazo de eventos de "Spicy" ───────────────────────────────────────────────
 // Cada evento: ventana de edad, texto {es,en,ca}, señales de riesgo visibles
 // y opciones cuya función aplicar(p, ctx) muta la partida. Los números de
 // riesgo van SIEMPRE ocultos dentro de los activos (oculto: {...}); el jugador
-// solo ve las señales. Ver src/lib/vidaEngine.js (SENALES y crearCtx).
+// solo ve las señales. Ver src/lib/spicyEngine.js (SENALES y crearCtx).
 //
 // Cantidades: en € "de hoy" (año 0 de la partida); el motor las escala con la
 // inflación acumulada. En los textos, {nombre} se interpola ya escalado.
