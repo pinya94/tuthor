@@ -72,6 +72,13 @@ const SUBJECT_DEFS = [
     catIds: [],
     catLabels: {},
   },
+  {
+    id: 'economia', emoji: '💰',
+    label: { es: 'Economía', en: 'Economics', ca: 'Economia' },
+    gameIds: ['una-vida'],
+    catIds: [],
+    catLabels: {},
+  },
 ]
 
 const SUBJECTS = SUBJECT_DEFS.map(s => {
