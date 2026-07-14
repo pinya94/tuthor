@@ -13,6 +13,7 @@ export const EVENTOS = [
   {
     id: 'cromo-especial',
     edad: [8, 9],
+    prob: 0.65,
     cantidades: { precio: 10 },
     texto: {
       es: 'En el patio venden un cromo de edición limitada de tu ídolo. Cuesta {precio} — toda tu paga del mes. Tu amigo dice que "algún día valdrá una fortuna".',
@@ -51,7 +52,10 @@ export const EVENTOS = [
       {
         id: 'gastar',
         texto: { es: 'Disfrutarla cada semana', en: 'Enjoy it every week', ca: 'Gaudir-la cada setmana' },
-        aplicar: () => ({ nota: { es: 'Un año dulce. En la hucha, eso sí, no queda nada.', en: 'A sweet year. Nothing left in the piggy bank though.', ca: 'Un any dolç. A la guardiola, això sí, no queda res.' } }),
+        aplicar: (p, ctx) => {
+          ctx.bienestar(4)
+          return { nota: { es: 'Un año dulce. En la hucha, eso sí, no queda nada.', en: 'A sweet year. Nothing left in the piggy bank though.', ca: 'Un any dolç. A la guardiola, això sí, no queda res.' } }
+        },
       },
       {
         id: 'mitad',
@@ -75,6 +79,7 @@ export const EVENTOS = [
   {
     id: 'videojuego-rebajas',
     edad: [12, 13],
+    prob: 0.85,
     cantidades: { hoy: 70, rebajado: 25 },
     texto: {
       es: 'Sale el videojuego del año: {hoy} de lanzamiento. Todos tus amigos ya lo tienen. En 8 meses estará rebajado a {rebajado}.',
@@ -117,13 +122,17 @@ export const EVENTOS = [
         aplicar: (p, ctx) => {
           ctx.dinero(ctx.cant('sueldo'))
           ctx.flag('curro-temprano')
-          return { nota: { es: 'Tu primer dinero ganado. Sabe distinto al regalado.', en: 'Your first earned money. It tastes different from gifted money.', ca: 'Els teus primers diners guanyats. Tenen un gust diferent dels regalats.' } }
+          ctx.bienestar(-2)
+          return { nota: { es: 'Tu primer dinero ganado. Sabe distinto al regalado — aunque el verano se te hizo corto.', en: 'Your first earned money. It tastes different from gifted money — though summer felt short.', ca: 'Els teus primers diners guanyats. Tenen un gust diferent dels regalats — encara que l\'estiu se t\'ha fet curt.' } }
         },
       },
       {
         id: 'descansar',
         texto: { es: 'Disfrutar el verano', en: 'Enjoy the summer', ca: 'Gaudir l\'estiu' },
-        aplicar: () => ({ nota: { es: 'Un verano de piscina y amigos. Eso también cuenta — solo que no en la hucha.', en: 'A summer of pool and friends. That counts too — just not in the piggy bank.', ca: 'Un estiu de piscina i amics. Això també compta — però no a la guardiola.' } }),
+        aplicar: (p, ctx) => {
+          ctx.bienestar(6)
+          return { nota: { es: 'Un verano de piscina y amigos. Eso también cuenta — solo que no en la hucha.', en: 'A summer of pool and friends. That counts too — just not in the piggy bank.', ca: 'Un estiu de piscina i amics. Això també compta — però no a la guardiola.' } }
+        },
       },
     ],
   },
@@ -150,8 +159,10 @@ export const EVENTOS = [
           }
           ctx.dinero(-c)
           ctx.flag('formacion')
+          // El máster no es garantía: en ~1 de cada 5 vidas el sector cambia y no llega a amortizarse
+          ctx.flag(ctx.rng() < 0.8 ? 'master-util' : 'master-caduco')
           ctx.experiencia({ es: 'Máster de especialización', en: 'Specialist master\'s', ca: 'Màster d\'especialització' })
-          return { nota: { es: 'Un año duro de trabajar y estudiar. Invertir en ti no cotiza en bolsa, pero es el único activo que nadie puede quitarte.', en: 'A tough year of working and studying. Investing in yourself isn\'t listed on any exchange, but it\'s the only asset nobody can take from you.', ca: 'Un any dur de treballar i estudiar. Invertir en tu no cotitza a borsa, però és l\'únic actiu que ningú et pot prendre.' } }
+          return { nota: { es: 'Un año duro de trabajar y estudiar. Formarte suele abrir puertas — pero es una apuesta, no una garantía. El tiempo dirá si esta se amortiza.', en: 'A tough year of working and studying. Training usually opens doors — but it\'s a bet, not a guarantee. Time will tell whether this one pays off.', ca: 'Un any dur de treballar i estudiar. Formar-te sol obrir portes — però és una aposta, no una garantia. El temps dirà si aquesta s\'amortitza.' } }
         },
       },
       {
@@ -193,6 +204,7 @@ export const EVENTOS = [
         aplicar: (p, ctx) => {
           ctx.dinero(-Math.round(ctx.cant('ahorro') * 0.8))
           ctx.flag('viaje-mochilero')
+          ctx.bienestar(10)
           ctx.experiencia({ es: 'Mochilero por Asia', en: 'Backpacking across Asia', ca: 'Motxiller per Àsia' })
           return { nota: { es: 'Dinero convertido en mundo. Vuelves con la mochila rota, mil historias y contactos de todas partes. ¿Quién sabe qué puertas abre esto?', en: 'Money turned into world. You come back with a broken backpack, a thousand stories and contacts from everywhere. Who knows what doors this opens?', ca: 'Diners convertits en món. Tornes amb la motxilla trencada, mil històries i contactes de tot arreu. Qui sap quines portes obre això?' } }
         },
@@ -226,6 +238,45 @@ export const EVENTOS = [
         aplicar: (p, ctx) => {
           ctx.flag('esquivo-cripto')
           return { nota: { es: '"Garantizado", prisa y sin regular: tres banderas rojas en una frase. Sea lo que sea eso, que lo disfrute otro.', en: '"Guaranteed", urgency and unregulated: three red flags in one sentence. Whatever that is, let someone else enjoy it.', ca: '"Garantit", pressa i sense regular: tres banderes vermelles en una frase. Sigui el que sigui, que ho gaudeixi un altre.' } }
+        },
+      },
+    ],
+  },
+  {
+    id: 'pareja',
+    edad: [26, 28],
+    prob: 0.85,
+    texto: {
+      es: 'Llevas un año con alguien y la cosa va en serio. Toca hablar de futuro: ¿juntáis vidas (y gastos), o cada cual en su casa?',
+      en: 'You\'ve been with someone for a year and it\'s getting serious. Time to talk future: join lives (and expenses), or keep separate homes?',
+      ca: 'Portes un any amb algú i la cosa va de debò. Toca parlar de futur: ajunteu vides (i despeses), o cadascú a casa seva?',
+    },
+    opciones: [
+      {
+        id: 'juntos',
+        texto: { es: 'Mudaros juntos', en: 'Move in together', ca: 'Mudar-vos junts' },
+        aplicar: (p, ctx) => {
+          ctx.flag('pareja')
+          p.alquilerAnual = Math.round(p.alquilerAnual * 0.65)
+          ctx.bienestar(8)
+          return { nota: { es: 'Dos sueldos, un alquiler: tu gasto de vivienda baja un tercio. Compartir la vida también es la decisión financiera más grande que casi nadie mira como tal.', en: 'Two salaries, one rent: your housing cost drops by a third. Sharing your life is also the biggest financial decision almost nobody treats as one.', ca: 'Dos sous, un lloguer: la teva despesa d\'habitatge baixa un terç. Compartir la vida també és la decisió financera més gran que gairebé ningú mira com a tal.' } }
+        },
+      },
+      {
+        id: 'separados',
+        texto: { es: 'Seguir juntos, cada cual su casa', en: 'Stay together, separate homes', ca: 'Seguir junts, cadascú a casa seva' },
+        aplicar: (p, ctx) => {
+          ctx.flag('pareja')
+          ctx.bienestar(4)
+          return { nota: { es: 'La relación avanza a su ritmo, las cuentas siguen separadas. Ni mejor ni peor: otra manera de organizarse.', en: 'The relationship moves at its own pace, the finances stay separate. Not better or worse: another way to organise.', ca: 'La relació avança al seu ritme, els comptes segueixen separats. Ni millor ni pitjor: una altra manera d\'organitzar-se.' } }
+        },
+      },
+      {
+        id: 'solo',
+        texto: { es: 'No es tu momento — lo dejáis', en: 'It\'s not your moment — you break up', ca: 'No és el teu moment — ho deixeu' },
+        aplicar: (p, ctx) => {
+          ctx.bienestar(-3)
+          return { nota: { es: 'Duele un tiempo. Tu vida sigue siendo tuya entera — con sus gastos enteros también.', en: 'It hurts for a while. Your life stays entirely yours — with its expenses entirely yours too.', ca: 'Fa mal un temps. La teva vida segueix sent teva sencera — amb les despeses senceres també.' } }
         },
       },
     ],
@@ -311,6 +362,7 @@ export const EVENTOS = [
   {
     id: 'startup-oferta',
     edad: [40, 41],
+    prob: 0.8,
     texto: {
       es: 'Una startup te ficha: +35% de sueldo, oficina bonita, futbolín. Aún no gana dinero — "estamos en fase de crecimiento", dicen. Tu empresa actual es aburrida pero lleva 40 años en pie.',
       en: 'A startup wants you: +35% salary, nice office, table football. It doesn\'t make money yet — "we\'re in growth phase", they say. Your current company is boring but has stood for 40 years.',
@@ -388,6 +440,7 @@ export const EVENTOS = [
   {
     id: 'boda-amigo',
     edad: [33, 34],
+    prob: 0.85,
     cantidades: { coste: 1200 },
     texto: {
       es: 'Tu amigo del alma se casa en otra punta del país. Entre viaje, hotel, traje y regalo se te van {coste}. Justo este año ibas apurado.',
@@ -401,6 +454,7 @@ export const EVENTOS = [
         aplicar: (p, ctx) => {
           ctx.dinero(-ctx.cant('coste'))
           ctx.flag('red-social')
+          ctx.bienestar(6)
           ctx.experiencia({ es: 'La boda de tu mejor amigo', en: 'Your best friend\'s wedding', ca: 'La boda del teu millor amic' })
           return { nota: { es: 'Bailas hasta las tantas y conoces a gente de todas partes. Las relaciones no salen en el extracto del banco, pero también son patrimonio.', en: 'You dance till late and meet people from everywhere. Relationships don\'t show on your bank statement, but they\'re wealth too.', ca: 'Balles fins a la matinada i coneixes gent de tot arreu. Les relacions no surten a l\'extracte del banc, però també són patrimoni.' } }
         },
@@ -410,6 +464,7 @@ export const EVENTOS = [
         texto: { es: 'Excusarte y enviar un regalo', en: 'Make excuses and send a gift', ca: 'Excusar-te i enviar un regal' },
         aplicar: (p, ctx) => {
           ctx.dinero(-Math.round(ctx.cant('coste') * 0.15))
+          ctx.bienestar(-4)
           return { nota: { es: 'Ahorras casi todo el coste. Tu amigo dice que lo entiende. Las cosas que no se hacen también dejan huella.', en: 'You save almost the whole cost. Your friend says he understands. The things left undone leave a mark too.', ca: 'Estalvies gairebé tot el cost. El teu amic diu que ho entén. Les coses que no es fan també deixen empremta.' } }
         },
       },
@@ -418,6 +473,7 @@ export const EVENTOS = [
   {
     id: 'tu-boda',
     edad: [36, 37],
+    requiere: ['pareja'],
     cantidades: { grande: 15000, intima: 2500 },
     texto: {
       es: 'Tu pareja y tú decidís casaros. La pregunta de los {grande}: ¿el bodorrio con todos los que os importan, o algo íntimo y usar el resto para vivir?',
@@ -431,6 +487,7 @@ export const EVENTOS = [
         aplicar: (p, ctx) => {
           ctx.dinero(-ctx.cant('grande'))
           ctx.flag('red-social')
+          ctx.bienestar(10)
           ctx.experiencia({ es: 'Vuestra gran boda', en: 'Your big wedding', ca: 'La vostra gran boda' })
           return { nota: { es: 'Un día irrepetible con todos los tuyos. Caro, sí. ¿Tirado? Eso no lo dicen los números — lo dirás tú dentro de 30 años.', en: 'An unrepeatable day with everyone you love. Expensive, yes. Wasted? Numbers can\'t tell you that — you\'ll tell yourself in 30 years.', ca: 'Un dia irrepetible amb tots els teus. Car, sí. Llençat? Això no ho diuen els números — ho diràs tu d\'aquí a 30 anys.' } }
         },
@@ -440,6 +497,7 @@ export const EVENTOS = [
         texto: { es: 'Algo íntimo ({intima})', en: 'Something intimate ({intima})', ca: 'Una cosa íntima ({intima})' },
         aplicar: (p, ctx) => {
           ctx.dinero(-ctx.cant('intima'))
+          ctx.bienestar(7)
           ctx.experiencia({ es: 'Vuestra boda íntima', en: 'Your intimate wedding', ca: 'La vostra boda íntima' })
           return { nota: { es: 'Veinte personas, un restaurante pequeño y cero deudas. El matrimonio es el mismo; la cuenta, no.', en: 'Twenty people, a small restaurant and zero debt. The marriage is the same; the bill isn\'t.', ca: 'Vint persones, un restaurant petit i zero deutes. El matrimoni és el mateix; el compte, no.' } }
         },
@@ -460,13 +518,23 @@ export const EVENTOS = [
     opciones: [
       {
         id: 'entrar',
-        texto: { es: 'Entrar como socio ({parte})', en: 'Become a partner ({parte})', ca: 'Entrar com a soci ({parte})' },
+        texto: { es: 'Entrar con tus ahorros ({parte})', en: 'Go in with your savings ({parte})', ca: 'Entrar amb els teus estalvis ({parte})' },
         aplicar: (p, ctx) => {
           const c = ctx.cant('parte')
-          if (p.dinero < c) return { rechazo: true, nota: { es: 'No tienes el dinero. La puerta que abrió aquel viaje se cierra por falta de colchón — dolorosa combinación.', en: 'You don\'t have the money. The door that trip opened closes for lack of savings — a painful combination.', ca: 'No tens els diners. La porta que va obrir aquell viatge es tanca per falta de coixí — combinació dolorosa.' } }
+          if (p.dinero < c) return { rechazo: true, nota: { es: 'No tienes el dinero líquido. Quedaba la opción del préstamo — pero ya has dicho que con ahorros, y no llegan.', en: 'You don\'t have the cash. The loan was an option — but you said savings, and they don\'t stretch.', ca: 'No tens els diners líquids. Quedava l\'opció del préstec — però has dit que amb estalvis, i no arriben.' } }
           ctx.dinero(-c)
           ctx.activo({ id: 'negocio-nadia', tipo: 'negocio', invertido: c, senales: ['conocido', 'negocio-real', 'iliquido'], oculto: { pQuiebraAnual: 0.06, renta: 0.20 }, nombre: { es: 'La empresa de Nadia', en: 'Nadia\'s company', ca: 'L\'empresa de la Nadia' } })
           return { nota: { es: 'Dentro. Aquel viaje de los 25 acaba de convertirse en la inversión con mejor pinta de tu vida. Las experiencias también componen interés.', en: 'You\'re in. That trip at 25 just became the best-looking investment of your life. Experiences compound too.', ca: 'Dins. Aquell viatge dels 25 acaba de convertir-se en la inversió amb més bona pinta de la teva vida. Les experiències també componen interès.' } }
+        },
+      },
+      {
+        id: 'prestamo',
+        texto: { es: 'Entrar pidiendo un préstamo', en: 'Go in with a loan', ca: 'Entrar demanant un préstec' },
+        aplicar: (p, ctx) => {
+          const c = ctx.cant('parte')
+          ctx.prestamo({ importe: c, años: 5 })
+          ctx.activo({ id: 'negocio-nadia', tipo: 'negocio', invertido: c, senales: ['conocido', 'negocio-real', 'iliquido'], oculto: { pQuiebraAnual: 0.06, renta: 0.20 }, nombre: { es: 'La empresa de Nadia', en: 'Nadia\'s company', ca: 'L\'empresa de la Nadia' } })
+          return { nota: { es: 'Dentro, con dinero del banco. Endeudarse para invertir no es malo en sí: multiplica el resultado, sea cual sea. Si la empresa va, las rentas pagarán las cuotas; si cae, las cuotas seguirán llegando igual.', en: 'You\'re in, with the bank\'s money. Borrowing to invest isn\'t inherently bad: it multiplies the outcome, whatever it is. If the company thrives, the income pays the instalments; if it falls, the instalments keep coming anyway.', ca: 'Dins, amb diners del banc. Endeutar-se per invertir no és dolent en si: multiplica el resultat, sigui quin sigui. Si l\'empresa va bé, les rendes pagaran les quotes; si cau, les quotes seguiran arribant igual.' } }
         },
       },
       {
@@ -477,9 +545,29 @@ export const EVENTOS = [
     ],
   },
   {
+    id: 'master-caduco',
+    edad: [42, 43],
+    requiere: ['formacion', 'master-caduco'],
+    texto: {
+      es: 'Malas noticias silenciosas: tu sector ha pivotado y aquel máster que pagaste apenas cuenta ya en las entrevistas. Nadie te devuelve el dinero ni el año.',
+      en: 'Quiet bad news: your sector has pivoted and that master\'s you paid for barely counts in interviews anymore. Nobody refunds the money or the year.',
+      ca: 'Males notícies silencioses: el teu sector ha pivotat i aquell màster que vas pagar gairebé ja no compta a les entrevistes. Ningú et torna els diners ni l\'any.',
+    },
+    opciones: [
+      {
+        id: 'asumir',
+        texto: { es: 'Asumirlo y seguir', en: 'Accept it and move on', ca: 'Assumir-ho i seguir' },
+        aplicar: (p, ctx) => {
+          ctx.autopsia({ tipo: 'neutra', titulo: { es: 'El máster que no se amortizó', en: 'The master\'s that never paid off', ca: 'El màster que no es va amortitzar' }, senales: [], texto: { es: 'Formarse suele compensar, pero no es una garantía: a ~1 de cada 5 personas el mercado les cambia debajo de los pies. Fue una buena apuesta con mal dado — no una mala decisión.', en: 'Training usually pays, but it\'s no guarantee: for ~1 in 5 people the market shifts under their feet. It was a good bet with a bad roll — not a bad decision.', ca: 'Formar-se sol compensar, però no és una garantia: a ~1 de cada 5 persones el mercat els canvia sota els peus. Va ser una bona aposta amb mal dau — no una mala decisió.' } })
+          return { nota: { es: 'La formación no caduca del todo — aprendiste a aprender. Pero el ascenso que esperabas no vendrá por esa puerta.', en: 'Training never fully expires — you learned how to learn. But the promotion you hoped for won\'t come through that door.', ca: 'La formació no caduca del tot — vas aprendre a aprendre. Però l\'ascens que esperaves no vindrà per aquesta porta.' } }
+        },
+      },
+    ],
+  },
+  {
     id: 'ascenso',
     edad: [42, 43],
-    requiere: ['formacion'],
+    requiere: ['formacion', 'master-util'],
     texto: {
       es: 'Se abre una plaza de dirección y tu máster te pone el primero de la lista. Más sueldo (+30%)… y más horas, más viajes, más teléfono encendido a las 22h.',
       en: 'A management position opens and your master\'s puts you first in line. More salary (+30%)… and more hours, more travel, more phone on at 10pm.',
@@ -489,8 +577,9 @@ export const EVENTOS = [
       {
         id: 'aceptar',
         texto: { es: 'Aceptar la dirección (+30%)', en: 'Take the management job (+30%)', ca: 'Acceptar la direcció (+30%)' },
-        aplicar: (p) => {
+        aplicar: (p, ctx) => {
           p.ingresos = Math.round(p.ingresos * 1.3)
+          ctx.bienestar(-8)
           return { nota: { es: 'El máster de los 23 por fin se paga solo — con intereses. La factura ahora es de tiempo, no de dinero.', en: 'The master\'s from age 23 finally pays for itself — with interest. The bill now comes in time, not money.', ca: 'El màster dels 23 per fi es paga sol — amb interessos. La factura ara és de temps, no de diners.' } }
         },
       },
@@ -498,6 +587,7 @@ export const EVENTOS = [
         id: 'rechazar',
         texto: { es: 'Rechazarla y proteger tu tiempo', en: 'Turn it down and protect your time', ca: 'Rebutjar-la i protegir el teu temps' },
         aplicar: (p, ctx) => {
+          ctx.bienestar(6)
           ctx.experiencia({ es: 'Elegiste tiempo sobre dinero', en: 'You chose time over money', ca: 'Vas triar temps sobre diners' })
           return { nota: { es: 'Menos sueldo del que podrías tener, más tardes tuyas. Hay gente que se arrepiente de esto y gente que se arrepiente de lo contrario.', en: 'Less salary than you could have, more afternoons of your own. Some people regret this, and some regret the opposite.', ca: 'Menys sou del que podries tenir, més tardes teves. Hi ha gent que se\'n penedeix d\'això i gent que se\'n penedeix del contrari.' } }
         },
@@ -534,6 +624,7 @@ export const EVENTOS = [
   {
     id: 'bar-socio',
     edad: [46, 47],
+    prob: 0.8,
     cantidades: { parte: 10000 },
     texto: {
       es: 'Tu mejor amiga monta un bar en un buen local. Lleva 10 años en hostelería y tiene el plan hecho. Te ofrece ser socio con {parte}. Te enseña las cuentas: no promete nada, "los bares son duros, pero este puede ir bien".',
@@ -554,6 +645,16 @@ export const EVENTOS = [
         },
       },
       {
+        id: 'prestamo',
+        texto: { es: 'Entrar pidiendo un préstamo', en: 'Go in with a loan', ca: 'Entrar demanant un préstec' },
+        aplicar: (p, ctx) => {
+          const c = ctx.cant('parte')
+          ctx.prestamo({ importe: c, años: 5 })
+          ctx.activo({ id: 'bar-1', tipo: 'negocio', invertido: c, senales: ['conocido', 'negocio-real', 'iliquido'], oculto: { pQuiebraAnual: 0.11, renta: 0.18 }, nombre: { es: 'El bar de tu amiga', en: 'Your friend\'s bar', ca: 'El bar de la teva amiga' } })
+          return { nota: { es: 'Socio con dinero prestado: apalancado. Si el bar funciona, sus rentas pagan las cuotas y todos contentos. Si cierra, deberás las cuotas de algo que ya no existe. Más picante que entrar con ahorros.', en: 'A partner with borrowed money: leveraged. If the bar works, its income pays the instalments and everyone\'s happy. If it closes, you\'ll owe instalments on something that no longer exists. Spicier than going in with savings.', ca: 'Soci amb diners prestats: palanquejat. Si el bar funciona, les rendes paguen les quotes i tots contents. Si tanca, deuràs les quotes d\'una cosa que ja no existeix. Més picant que entrar amb estalvis.' } }
+        },
+      },
+      {
         id: 'no',
         texto: { es: 'Apoyarla, pero sin invertir', en: 'Support her, but not invest', ca: 'Donar-li suport, però sense invertir' },
         aplicar: () => ({ nota: { es: 'Decisión respetable: mezclar dinero y amistad tiene un riesgo que no sale en las cuentas.', en: 'A respectable call: mixing money and friendship carries a risk that doesn\'t show in the numbers.', ca: 'Decisió respectable: barrejar diners i amistat té un risc que no surt als comptes.' } }),
@@ -563,6 +664,7 @@ export const EVENTOS = [
   {
     id: 'herencia',
     edad: [48, 49],
+    prob: 0.5,
     cantidades: { herencia: 15000 },
     texto: {
       es: 'Tu tía abuela te deja {herencia} en herencia. Dinero caído del cielo — y las decisiones con dinero regalado son las que más retratan.',
@@ -604,6 +706,36 @@ export const EVENTOS = [
     ],
   },
   {
+    id: 'burnout',
+    edad: [48, 49],
+    condicion: p => p.bienestar < 40,
+    texto: {
+      es: 'El médico te mira por encima de las gafas: tensión alta, ansiedad, insomnio. "Su cuerpo lleva años pagando lo que su agenda no quiere pagar." Algo tiene que cambiar.',
+      en: 'The doctor looks at you over her glasses: high blood pressure, anxiety, insomnia. "Your body has been paying for years what your calendar refuses to pay." Something has to change.',
+      ca: 'La metgessa et mira per sobre de les ulleres: tensió alta, ansietat, insomni. "El seu cos fa anys que paga el que la seva agenda no vol pagar." Alguna cosa ha de canviar.',
+    },
+    opciones: [
+      {
+        id: 'frenar',
+        texto: { es: 'Bajar el ritmo (−15% de ingresos)', en: 'Slow down (−15% income)', ca: 'Baixar el ritme (−15% d\'ingressos)' },
+        aplicar: (p, ctx) => {
+          p.ingresos = Math.round(p.ingresos * 0.85)
+          ctx.bienestar(18)
+          ctx.experiencia({ es: 'Aprendiste a frenar a tiempo', en: 'You learned to brake in time', ca: 'Vas aprendre a frenar a temps' })
+          return { nota: { es: 'Menos nómina, más vida. La salud es el único activo que, cuando quiebra del todo, no tiene rescate.', en: 'Less payslip, more life. Health is the only asset that has no bailout when it fully collapses.', ca: 'Menys nòmina, més vida. La salut és l\'únic actiu que, quan fa fallida del tot, no té rescat.' } }
+        },
+      },
+      {
+        id: 'apretar',
+        texto: { es: 'Apretar los dientes y seguir', en: 'Grit your teeth and push on', ca: 'Serrar les dents i seguir' },
+        aplicar: (p, ctx) => {
+          ctx.bienestar(-10)
+          return { nota: { es: 'La nómina sigue intacta. El cuerpo toma nota y guarda la factura para más adelante.', en: 'The payslip stays intact. Your body takes note and saves the bill for later.', ca: 'La nòmina segueix intacta. El cos en pren nota i guarda la factura per a més endavant.' } }
+        },
+      },
+    ],
+  },
+  {
     id: 'nivel-de-vida',
     edad: [50, 51],
     texto: {
@@ -617,6 +749,7 @@ export const EVENTOS = [
         texto: { es: 'Vivir mejor cada día (+30% de gastos)', en: 'Live better every day (+30% expenses)', ca: 'Viure millor cada dia (+30% de despeses)' },
         aplicar: (p, ctx) => {
           p.gastos = Math.round(p.gastos * 1.3)
+          ctx.bienestar(8)
           ctx.experiencia({ es: 'Años de vivir bien', en: 'Years of living well', ca: 'Anys de viure bé' })
           return { nota: { es: 'La vida sabe mejor. Ojo al detalle: los gastos que suben casi nunca vuelven a bajar — acabas de mover tu listón para siempre.', en: 'Life tastes better. Mind the detail: expenses that go up almost never come back down — you just moved your bar for good.', ca: 'La vida té més bon gust. Ull al detall: les despeses que pugen gairebé mai tornen a baixar — acabes de moure el teu llistó per sempre.' } }
         },
@@ -626,6 +759,7 @@ export const EVENTOS = [
         texto: { es: 'Mantener tu nivel de siempre', en: 'Keep your usual lifestyle', ca: 'Mantenir el teu nivell de sempre' },
         aplicar: (p, ctx) => {
           ctx.flag('frugal')
+          ctx.bienestar(-3)
           return { nota: { es: 'Cada subida de sueldo se convierte en ahorro en vez de en costumbre. Es la jugada silenciosa que más patrimonios ha construido… y también hay que saber disfrutar por el camino.', en: 'Every raise becomes savings instead of habit. It\'s the quiet move that has built the most fortunes… though you also need to enjoy the ride.', ca: 'Cada pujada de sou es converteix en estalvi en lloc de costum. És la jugada silenciosa que més patrimonis ha construït… i també cal saber gaudir pel camí.' } }
         },
       },
@@ -634,6 +768,7 @@ export const EVENTOS = [
   {
     id: 'imprevisto',
     edad: [55, 56],
+    prob: 0.85,
     cantidades: { golpe: 4000, financiado: 5500 },
     texto: {
       es: 'Mala semana: la caldera revienta y al coche le toca una reparación seria. Total: {golpe}, y no pueden esperar. El taller ofrece financiarlo "cómodamente" (pagarías {financiado} en total).',
@@ -654,7 +789,7 @@ export const EVENTOS = [
         texto: { es: 'Financiarlo a plazos', en: 'Finance it in instalments', ca: 'Finançar-ho a terminis' },
         aplicar: (p, ctx) => {
           ctx.dinero(-ctx.cant('financiado'))
-          return { nota: { es: 'Pagas {financiado} por un problema de {golpe}: la "comodidad" costó 1.500. Financiar imprevistos es alquilar dinero caro.', en: 'You pay {financiado} for a {golpe} problem: the "comfort" cost 1,500. Financing emergencies is renting expensive money.', ca: 'Pagues {financiado} per un problema de {golpe}: la "comoditat" va costar 1.500. Finançar imprevistos és llogar diners cars.' } }
+          return { nota: { es: 'Pagas {financiado} por un problema de {golpe}: la diferencia es el precio de no descapitalizarte de golpe. A veces compensa (si ese dinero está trabajando en otro sitio); si simplemente no había colchón, sale caro.', en: 'You pay {financiado} for a {golpe} problem: the difference is the price of not draining your cash at once. Sometimes it\'s worth it (if that money is working elsewhere); if there simply was no cushion, it\'s expensive.', ca: 'Pagues {financiado} per un problema de {golpe}: la diferència és el preu de no descapitalitzar-te de cop. De vegades compensa (si aquests diners treballen en un altre lloc); si simplement no hi havia coixí, surt car.' } }
         },
       },
     ],
@@ -662,6 +797,7 @@ export const EVENTOS = [
   {
     id: 'coche',
     edad: [53, 54],
+    prob: 0.85,
     cantidades: { nuevo: 32000, cuotaTotal: 39000, usado: 9500 },
     texto: {
       es: 'Tu coche dice basta. El concesionario te tienta: uno nuevo por {nuevo}, "financiado cómodamente" (pagarás {cuotaTotal} en total). O uno de segunda mano decente al contado por {usado}.',
@@ -674,7 +810,8 @@ export const EVENTOS = [
         texto: { es: 'Nuevo financiado', en: 'New, financed', ca: 'Nou finançat' },
         aplicar: (p, ctx) => {
           ctx.dinero(-ctx.cant('cuotaTotal'))
-          return { nota: { es: 'Huele a nuevo. La financiación "cómoda" te costó {cuotaTotal} por un coche de {nuevo}: pagaste 7.000 por no esperar.', en: 'That new car smell. The "comfortable" financing cost you {cuotaTotal} for a {nuevo} car: you paid 7,000 for not waiting.', ca: 'Olor de nou. El finançament "còmode" et va costar {cuotaTotal} per un cotxe de {nuevo}: vas pagar 7.000 per no esperar.' } }
+          ctx.bienestar(4)
+          return { nota: { es: 'Huele a nuevo y da gusto conducirlo. Los intereses fueron el precio de tenerlo ya sin vaciar la cuenta — tú sabrás si esta vez lo valía. Ni héroe ni villano: una compra con su coste.', en: 'That new car smell, and it\'s a joy to drive. The interest was the price of having it now without emptying your account — you\'ll know whether it was worth it this time. Neither hero nor villain: a purchase with its cost.', ca: 'Olor de nou i dona gust conduir-lo. Els interessos van ser el preu de tenir-lo ja sense buidar el compte — tu sabràs si aquesta vegada ho valia. Ni heroi ni vilà: una compra amb el seu cost.' } }
         },
       },
       {
@@ -690,6 +827,7 @@ export const EVENTOS = [
   {
     id: 'timo-paraiso',
     edad: [59, 60],
+    prob: 0.85,
     cantidades: { mucho: 20000, poco: 5000 },
     texto: {
       es: 'Un "gestor patrimonial" que conociste en una cena te ofrece algo "solo para gente selecta": una sociedad en un paraíso fiscal con retorno garantizado del 18% anual. Papeles impecables, palabras complicadas, y una cuenta atrás: "el fondo se cierra el viernes".',
@@ -791,6 +929,7 @@ export const EVENTOS = [
   {
     id: 'prejubilacion',
     edad: [61, 62],
+    prob: 0.75,
     cantidades: { indemnizacion: 65000 },
     texto: {
       es: 'Tu empresa ofrece prejubilaciones: {indemnizacion} de indemnización si te vas ya. Si te quedas, sueldo normal hasta los 67. Tu cuerpo pide descanso; tu cuenta pide cabeza.',
@@ -805,6 +944,7 @@ export const EVENTOS = [
           ctx.dinero(ctx.cant('indemnizacion'))
           p.ingresos = Math.round(p.ingresos * 0.35)
           ctx.flag('prejubilado')
+          ctx.bienestar(10)
           return { nota: { es: 'Libertad anticipada. La indemnización parece mucha — repártela mentalmente entre los años que faltan hasta la pensión y parece menos.', en: 'Early freedom. The severance seems big — spread it mentally over the years until your pension and it seems smaller.', ca: 'Llibertat anticipada. La indemnització sembla molta — reparteix-la mentalment entre els anys que falten fins a la pensió i sembla menys.' } }
         },
       },
@@ -863,6 +1003,7 @@ export const EVENTOS = [
           const c = ctx.cant('viaje')
           if (p.dinero < c) return { rechazo: true, nota: { es: 'No te llega. El "algún día" se queda en eso — la jubilación se disfruta con lo sembrado antes.', en: 'You can\'t afford it. "Someday" stays a someday — retirement is enjoyed with what was sown earlier.', ca: 'No t\'arriba. L\'"algun dia" es queda en això — la jubilació es gaudeix amb el que s\'ha sembrat abans.' } }
           ctx.dinero(-c)
+          ctx.bienestar(12)
           ctx.experiencia({ es: 'El gran viaje de tu vida', en: 'The great trip of your life', ca: 'El gran viatge de la teva vida' })
           return { nota: { es: 'Fiordos al amanecer y cerezos en flor. Para ESTO ahorraste 50 años: el dinero que no se convierte en vida solo es un número que hereda otro.', en: 'Fjords at dawn and cherry blossoms. THIS is what you saved 50 years for: money that never becomes life is just a number someone else inherits.', ca: 'Fiords a l\'alba i cirerers en flor. Per AIXÒ vas estalviar 50 anys: els diners que no es converteixen en vida només són un número que hereta un altre.' } }
         },
@@ -870,7 +1011,10 @@ export const EVENTOS = [
       {
         id: 'no',
         texto: { es: 'Mejor lo guardo', en: 'Better keep it', ca: 'Millor ho guardo' },
-        aplicar: () => ({ nota: { es: 'El dinero se queda. La foto de los fiordos, en el salvapantallas. Guardar también tiene un coste — solo que no sale en el banco.', en: 'The money stays. The fjords photo stays on the screensaver. Keeping money has a cost too — it just doesn\'t show at the bank.', ca: 'Els diners es queden. La foto dels fiords, al salvapantalles. Guardar també té un cost — només que no surt al banc.' } }),
+        aplicar: (p, ctx) => {
+          ctx.bienestar(-4)
+          return { nota: { es: 'El dinero se queda. La foto de los fiordos, en el salvapantallas. Guardar también tiene un coste — solo que no sale en el banco.', en: 'The money stays. The fjords photo stays on the screensaver. Keeping money has a cost too — it just doesn\'t show at the bank.', ca: 'Els diners es queden. La foto dels fiords, al salvapantalles. Guardar també té un cost — només que no surt al banc.' } }
+        },
       },
     ],
   },
@@ -907,6 +1051,7 @@ export const EVENTOS = [
   {
     id: 'nieto-universidad',
     edad: [76, 80],
+    prob: 0.6,
     cantidades: { ayuda: 10000 },
     texto: {
       es: 'Tu nieta ha entrado en la universidad que quería, en otra ciudad. A su familia no le llega para la residencia. Tú podrías ayudar con {ayuda}.',
@@ -922,6 +1067,7 @@ export const EVENTOS = [
           if (p.dinero < c) return { rechazo: true, nota: { es: 'Quisieras, pero no llegas. Le ayudas con lo que puedes.', en: 'You wish you could, but can\'t. You help with what you can.', ca: 'Voldries, però no hi arribes. L\'ajudes amb el que pots.' } }
           ctx.dinero(-c)
           ctx.flag('legado')
+          ctx.bienestar(8)
           return { nota: { es: 'Para esto también sirve el dinero bien gestionado: para poder decir "sí" cuando importa.', en: 'This is also what well-managed money is for: being able to say "yes" when it matters.', ca: 'Per a això també serveixen els diners ben gestionats: per poder dir "sí" quan importa.' } }
         },
       },

@@ -69,15 +69,20 @@ function generarEconomia(rng) {
 export function crearPartida(seed = Math.floor(Math.random() * 2 ** 31)) {
   const rng = mulberry32(seed)
   const economia = generarEconomia(rng)
+  // No todas las vidas tienen los mismos eventos: los que declaran `prob`
+  // pueden no existir en esta vida (no siempre hay cromo, herencia o sobrina)
+  const omitidos = EVENTOS.filter(ev => ev.prob != null && rng() > ev.prob).map(ev => ev.id)
   return {
-    seed, rng, economia,
+    seed, rng, economia, omitidos,
     edad: 6,
     edadFinal: 82 + Math.floor(rng() * 9),   // 82-90
     dinero: 15,                               // la hucha del niño
     ingresos: 0, gastos: 0,
+    bienestar: 65,                            // 0-100: salud/felicidad — el dinero no lo es todo
     vivienda: 'familia',                      // familia | alquiler | propia
     alquilerAnual: 0,
     hipoteca: null,                           // { pendiente, cuota, años }
+    prestamos: [],                            // [{ pendiente, cuota, años }]
     activos: [],
     flags: [],
     usados: [],
@@ -101,10 +106,25 @@ export function escala(p, base) {
   return Math.round(v / 500) * 500
 }
 
+// Factor de variación por vida y evento (0.75–1.45, estable dentro de la run):
+// la herencia de esta vida no es la de la anterior
+export function factorEvento(p, eventoId) {
+  let h = 0
+  for (let i = 0; i < eventoId.length; i++) h = (h * 31 + eventoId.charCodeAt(i)) | 0
+  return 0.75 + mulberry32(p.seed ^ h)() * 0.7
+}
+
+// Cantidad de un evento: base × factor de esta vida × inflación acumulada
+export function cantEvento(p, evento, nombre) {
+  const base = evento.cantidades?.[nombre] ?? 0
+  return escala(p, base * factorEvento(p, evento.id))
+}
+
 export function patrimonio(p) {
   let total = p.dinero
   for (const a of p.activos) if (a.estado === 'vivo') total += a.valor
   if (p.hipoteca) total -= p.hipoteca.pendiente
+  for (const pr of p.prestamos ?? []) total -= pr.pendiente
   return total
 }
 export function patrimonioReal(p) {
@@ -122,12 +142,24 @@ function crearCtx(p, evento) {
   return {
     rng: p.rng,
     f: fmt,
-    cant: nombre => escala(p, evento.cantidades?.[nombre] ?? 0),
+    cant: nombre => cantEvento(p, evento, nombre),
     dinero: delta => { p.dinero += delta },
     flag: f => { if (!p.flags.includes(f)) p.flags.push(f) },
     tieneFlag: f => p.flags.includes(f),
+    bienestar: delta => { p.bienestar = Math.max(0, Math.min(100, p.bienestar + delta)) },
+    // Los riesgos ocultos también varían por vida: la cripto de esta run
+    // puede ser menos (o más) letal que la de la anterior
     activo: def => {
-      p.activos.push({ estado: 'vivo', edadCompra: p.edad, valor: def.invertido, ...def })
+      const oculto = def.oculto?.pQuiebraAnual != null
+        ? { ...def.oculto, pQuiebraAnual: Math.min(0.9, def.oculto.pQuiebraAnual * (0.65 + p.rng() * 0.7)) }
+        : def.oculto
+      p.activos.push({ estado: 'vivo', edadCompra: p.edad, valor: def.invertido, ...def, oculto })
+    },
+    // Préstamo al consumo/negocio: recibes el importe como inversión, pagas
+    // cuotas con interés. Apalancarse multiplica ambos finales.
+    prestamo: ({ importe, años = 5, interes = 0.25 }) => {
+      const total = Math.round(importe * (1 + interes))
+      p.prestamos.push({ pendiente: total, cuota: Math.round(total / años), años })
     },
     autopsia: a => { p.autopsias.push({ edad: p.edad, ...a }) },
     experiencia: titulo => { p.experiencias.push({ edad: p.edad, titulo }) },
@@ -142,7 +174,7 @@ export function interpolar(p, evento, textoObj) {
     let t = textoObj[l] ?? textoObj.es
     if (evento.cantidades) {
       for (const nombre of Object.keys(evento.cantidades)) {
-        t = t.replaceAll(`{${nombre}}`, fmt(escala(p, evento.cantidades[nombre])))
+        t = t.replaceAll(`{${nombre}}`, fmt(cantEvento(p, evento, nombre)))
       }
     }
     out[l] = t
@@ -257,8 +289,10 @@ function elegirEvento(p) {
   const elegibles = EVENTOS.filter(ev =>
     p.edad >= ev.edad[0] && p.edad <= ev.edad[1] &&
     !p.usados.includes(ev.id) &&
+    !p.omitidos.includes(ev.id) &&
     (ev.requiere ?? []).every(f => p.flags.includes(f)) &&
-    !(ev.sinFlags ?? []).some(f => p.flags.includes(f))
+    !(ev.sinFlags ?? []).some(f => p.flags.includes(f)) &&
+    (ev.condicion == null || ev.condicion(p))
   )
   if (elegibles.length === 0) return null
   // Los que se acaban este año son obligatorios; el resto, con probabilidad
@@ -300,12 +334,27 @@ export function avanzarAño(p) {
       log.push({ tipo: 'bueno', texto: { es: '🎉 ¡Última cuota de la hipoteca! La casa es tuya. Gracias a la inflación, la cuota fija de hace 25 años se había quedado pequeña.', en: '🎉 Final mortgage payment! The house is yours. Thanks to inflation, the fixed payment from 25 years ago had become small.', ca: '🎉 Última quota de la hipoteca! La casa és teva. Gràcies a la inflació, la quota fixa de fa 25 anys s\'havia quedat petita.' } })
     }
   }
-  p.dinero += p.ingresos - p.gastos - p.alquilerAnual - cuota
+  // Préstamos al consumo/negocio: cuota anual fija
+  let cuotasPrestamos = 0
+  p.prestamos ??= []
+  for (const pr of p.prestamos) {
+    cuotasPrestamos += pr.cuota
+    pr.pendiente = Math.max(0, pr.pendiente - pr.cuota)
+    pr.años -= 1
+  }
+  const pagados = p.prestamos.filter(pr => pr.años <= 0)
+  if (pagados.length > 0) {
+    p.prestamos = p.prestamos.filter(pr => pr.años > 0)
+    log.push({ tipo: 'bueno', texto: { es: '✅ Última cuota del préstamo: deuda saldada.', en: '✅ Final loan instalment: debt cleared.', ca: '✅ Última quota del préstec: deute saldat.' } })
+  }
 
-  // Números rojos: la deuda cobra intereses
+  p.dinero += p.ingresos - p.gastos - p.alquilerAnual - cuota - cuotasPrestamos
+
+  // Números rojos: la deuda cobra intereses y quita el sueño
   if (p.dinero < 0) {
     p.dinero = Math.round(p.dinero * 1.12)
-    log.push({ tipo: 'malo', texto: { es: `🔴 Estás en números rojos (${fmt(p.dinero)}). El banco te cobra un 12% de interés por el descubierto.`, en: `🔴 You're in the red (${fmt(p.dinero)}). The bank charges 12% interest on your overdraft.`, ca: `🔴 Estàs en números vermells (${fmt(p.dinero)}). El banc et cobra un 12% d'interès pel descobert.` } })
+    p.bienestar = Math.max(0, p.bienestar - 4)
+    log.push({ tipo: 'malo', texto: { es: `🔴 Estás en números rojos (${fmt(p.dinero)}). El banco te cobra un 12% de interés por el descubierto — y tú lo pagas en noches sin dormir.`, en: `🔴 You're in the red (${fmt(p.dinero)}). The bank charges 12% interest on your overdraft — and you pay it in sleepless nights.`, ca: `🔴 Estàs en números vermells (${fmt(p.dinero)}). El banc et cobra un 12% d'interès pel descobert — i tu el pagues en nits sense dormir.` } })
   }
 
   resolverActivos(p, log)

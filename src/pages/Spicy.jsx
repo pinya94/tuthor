@@ -139,17 +139,20 @@ export default function Spicy() {
         score={nota}
         scoreLabel={{ es: 'nota financiera', en: 'financial score', ca: 'nota financera' }}
         message={tr(
-          real >= 300000 && p.experiencias.length >= 3 ? { es: '🏆 Rico y con una vida bien vivida — la partida redonda', en: '🏆 Wealthy and a life well lived — the perfect run', ca: '🏆 Ric i amb una vida ben viscuda — la partida rodona' }
+          real >= 300000 && p.bienestar >= 60 ? { es: '🏆 Rico y con una vida bien vivida — la partida redonda', en: '🏆 Wealthy and a life well lived — the perfect run', ca: '🏆 Ric i amb una vida ben viscuda — la partida rodona' }
+          : real >= 300000 && p.bienestar < 35 ? { es: '💼 Rico… y hecho polvo. ¿Para quién era todo ese dinero?', en: '💼 Rich… and worn out. Who was all that money for?', ca: '💼 Ric… i fet pols. Per a qui eren tots aquests diners?' }
           : real >= 300000 ? { es: '💰 Patrimonio sólido… aunque algo austero. ¿Te dejaste vivir?', en: '💰 Solid wealth… though a bit austere. Did you let yourself live?', ca: '💰 Patrimoni sòlid… encara que una mica auster. Et vas deixar viure?' }
-          : real >= 60000 && p.experiencias.length >= 3 ? { es: '👍 Equilibrio entre cartera y vida — así se hace', en: '👍 Balance between wallet and life — that\'s how it\'s done', ca: '👍 Equilibri entre cartera i vida — així es fa' }
+          : real >= 60000 && p.bienestar >= 60 ? { es: '👍 Equilibrio entre cartera y vida — así se hace', en: '👍 Balance between wallet and life — that\'s how it\'s done', ca: '👍 Equilibri entre cartera i vida — així es fa' }
           : real >= 60000 ? { es: '👍 Una vida financiera razonable', en: '👍 A reasonable financial life', ca: '👍 Una vida financera raonable' }
-          : real > 0 && p.experiencias.length >= 4 ? { es: '🌟 Una vida riquísima en experiencias, justita de cartera', en: '🌟 A life rich in experiences, tight on wallet', ca: '🌟 Una vida riquíssima en experiències, justeta de cartera' }
+          : real > 0 && p.bienestar >= 65 ? { es: '🌟 Una vida riquísima en experiencias, justita de cartera', en: '🌟 A life rich in experiences, tight on wallet', ca: '🌟 Una vida riquíssima en experiències, justeta de cartera' }
           : real > 0 ? { es: 'Llegaste justo — la próxima vida, empieza a ahorrar antes', en: 'You barely made it — next life, start saving earlier', ca: 'Vas arribar just — la pròxima vida, comença a estalviar abans' }
           : { es: '💸 Acabaste en números rojos. Cada vida enseña algo', en: '💸 You ended in the red. Every life teaches something', ca: '💸 Vas acabar en números vermells. Cada vida ensenya alguna cosa' }
         )}
         stats={[
           { label: tr({ es: 'Poder de compra', en: 'Purchasing power', ca: 'Poder de compra' }), value: fmt(real), emoji: '💰' },
+          { label: tr({ es: 'Bienestar', en: 'Wellbeing', ca: 'Benestar' }), value: `${p.bienestar}/100`, emoji: '❤️' },
           { label: tr({ es: 'Experiencias vividas', en: 'Experiences lived', ca: 'Experiències viscudes' }), value: p.experiencias.length, emoji: '🌟' },
+          { label: tr({ es: 'Decisiones', en: 'Decisions', ca: 'Decisions' }), value: p.historial.length, emoji: '🧭' },
         ]}
         shareText={shareText}
         onPlayAgain={empezar}
@@ -187,13 +190,15 @@ export default function Spicy() {
   const activosVivos = p.activos.filter(a => a.estado === 'vivo')
   const real = Math.round(patrimonioReal(p))
   const vidaPct = Math.min(100, Math.round(((p.edad - 6) / (p.edadFinal - 6)) * 100))
+  const cuotasAnual = (p.hipoteca?.cuota ?? 0) + (p.prestamos ?? []).reduce((a, pr) => a + pr.cuota, 0)
+  const netoMes = Math.round((p.ingresos - p.gastos - p.alquilerAnual - cuotasAnual) / 12)
   const ev = vista?.evento
   const respondido = feedback !== null
 
   return (
     <div className="relative z-10 px-4 py-6 max-w-2xl mx-auto">
       {/* HUD */}
-      <div className="grid grid-cols-3 gap-2 mb-4">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-4">
         <div className="rounded-xl border border-white/10 py-2 px-3" style={{ background: SURF }}>
           <p className="text-white/30 text-[9px] uppercase tracking-wider font-semibold">{tr({ es: 'Edad', en: 'Age', ca: 'Edat' })}</p>
           <p className="text-white font-black text-xl leading-tight">{p.edad}</p>
@@ -202,9 +207,18 @@ export default function Spicy() {
           </div>
         </div>
         <div className="rounded-xl border border-white/10 py-2 px-3" style={{ background: SURF }}>
+          <p className="text-white/30 text-[9px] uppercase tracking-wider font-semibold">❤️ {tr({ es: 'Bienestar', en: 'Wellbeing', ca: 'Benestar' })}</p>
+          <p className={`font-black text-xl leading-tight ${p.bienestar >= 60 ? 'text-emerald-300' : p.bienestar >= 35 ? 'text-amber-300' : 'text-red-400'}`}>{p.bienestar}</p>
+          <div className="h-1 bg-white/10 rounded-full mt-1">
+            <div className={`h-1 rounded-full ${p.bienestar >= 60 ? 'bg-emerald-400' : p.bienestar >= 35 ? 'bg-amber-400' : 'bg-red-500'}`} style={{ width: `${p.bienestar}%` }} />
+          </div>
+        </div>
+        <div className="rounded-xl border border-white/10 py-2 px-3" style={{ background: SURF }}>
           <p className="text-white/30 text-[9px] uppercase tracking-wider font-semibold">{tr({ es: 'Dinero', en: 'Cash', ca: 'Diners' })}</p>
           <p className={`font-black text-lg leading-tight ${p.dinero < 0 ? 'text-red-400' : 'text-white'}`}>{fmt(p.dinero)}</p>
-          <p className="text-white/25 text-[10px]">{tr({ es: 'sueldo', en: 'salary', ca: 'sou' })} {fmt(p.ingresos)}/año</p>
+          <p className={`text-[10px] ${netoMes >= 0 ? 'text-emerald-400/60' : 'text-red-400/70'}`}>
+            {netoMes >= 0 ? '+' : ''}{fmt(netoMes)}/{tr({ es: 'mes', en: 'mo', ca: 'mes' })} {tr({ es: 'tras gastos', en: 'after costs', ca: 'després de despeses' })}
+          </p>
         </div>
         <div className="rounded-xl border border-amber-500/40 bg-amber-500/10 py-2 px-3">
           <p className="text-amber-400/70 text-[9px] uppercase tracking-wider font-semibold">{tr({ es: 'Patrimonio', en: 'Wealth', ca: 'Patrimoni' })}</p>
@@ -225,6 +239,9 @@ export default function Spicy() {
           {p.hipoteca && (
             <span className="text-white/50">📋 {tr({ es: 'Hipoteca pendiente', en: 'Mortgage left', ca: 'Hipoteca pendent' })}: <span className="text-red-300/80 font-semibold">-{fmt(p.hipoteca.pendiente)}</span></span>
           )}
+          {(p.prestamos ?? []).map((pr, i) => (
+            <span key={i} className="text-white/50">💳 {tr({ es: 'Préstamo', en: 'Loan', ca: 'Préstec' })}: <span className="text-red-300/80 font-semibold">-{fmt(pr.pendiente)}</span></span>
+          ))}
         </div>
       )}
 
