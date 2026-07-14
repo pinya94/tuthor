@@ -85,7 +85,6 @@ export default function PreguntaDiaria() {
   const esGeoRush  = desafio.tipo === 'georush'
   const esNumPath  = desafio.tipo === 'numpath'
   const esGeoMapa  = desafio.tipo === 'geomapa'
-  const esIntruso  = desafio.tipo === 'intruso'
   const pregunta   = desafio.tipo === 'trivia' ? desafio.pregunta : null
   const portadaHoy = desafio.tipo === 'portada' ? desafio.portada : null
   const paisHoy    = (desafio.tipo === 'georush' || desafio.tipo === 'geomapa') ? desafio.pais : null
@@ -470,38 +469,6 @@ export default function PreguntaDiaria() {
             </div>
             <div className="px-6 sm:px-8 pb-6">
               <p className="text-center text-white/20 text-xs">{ca ? 'Nou país demà · Torna cada dia' : en ? 'New country tomorrow · Come back every day' : 'Nuevo país mañana · Vuelve cada día'}</p>
-            </div>
-          </>
-        ) : esIntruso ? (
-          /* ── El Intruso daily ── */
-          <>
-            <div className="px-6 sm:px-8 py-6 text-center">
-              <p className="text-xs font-semibold text-white/40 uppercase tracking-widest mb-4">
-                🔍 {ca ? 'L\'Intrús' : en ? 'Odd One Out' : 'El Intruso'}
-              </p>
-              <p className="text-white/60 text-sm mb-6">
-                {ca ? 'Troba la paraula que no encaixa entre les quatre. Tindràs un repte de 10 preguntes.' : en ? 'Find the word that does not fit among the four. You get a 10-question challenge.' : 'Encuentra la palabra que no encaja entre las cuatro. Tendrás un reto de 10 preguntas.'}
-              </p>
-              {!answered ? (
-                <button
-                  onClick={() => navigate(localPath('/juegos/intruso'), { state: { modoDaily: true, nivel: desafio.nivel } })}
-                  className="w-full bg-violet-600 hover:bg-violet-500 text-white font-black py-4 rounded-xl transition-all text-lg"
-                >
-                  {ca ? 'Jugar L\'Intrús →' : en ? 'Play Odd One Out →' : 'Jugar El Intruso →'}
-                </button>
-              ) : (
-                <>
-                  <div className="bg-green-500/20 text-green-400 font-bold py-3 rounded-xl mb-3">
-                    {ca ? '✓ Completat' : en ? '✓ Completed' : '✓ Completado'}
-                  </div>
-                  <button onClick={() => navigate(localPath('/juegos/intruso'))} className="w-full bg-violet-600 hover:bg-violet-500 text-white font-bold py-2.5 rounded-xl text-sm transition-colors">
-                    {ca ? 'Seguir jugant →' : en ? 'Keep playing →' : 'Seguir jugando →'}
-                  </button>
-                </>
-              )}
-            </div>
-            <div className="px-6 sm:px-8 pb-6">
-              <p className="text-center text-white/20 text-xs">{ca ? 'Nou repte demà · Torna cada dia' : en ? 'New challenge tomorrow · Come back every day' : 'Nuevo reto mañana · Vuelve cada día'}</p>
             </div>
           </>
         ) : esMate ? (

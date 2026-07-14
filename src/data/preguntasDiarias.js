@@ -58,31 +58,30 @@ export function getPaisDeHoy() {
   return PAISES[dia % PAISES.length]
 }
 
-const INTRUSO_NIVELES = ['facil', 'medio', 'dificil']
-
-// Rota entre trivia, cálculo mental, portada, georush, numpath, geomapa e intruso (cada 7 días)
+// Rota entre trivia, cálculo mental, portada, georush, numpath y geomapa (cada 6 días).
+// El Intruso se sacó de la rotación: la mecánica de categoría puede tener más
+// de una respuesta válida (p. ej. todas masculinas menos una, pero también
+// distinta por otro criterio), lo que generaba retos diarios ambiguos. El
+// juego sigue disponible en /juegos/intruso, solo no se ofrece como reto del día.
 export function getDesafioDeHoy() {
   const dia = dayOfYear()
-  const tipo7 = dia % 7
-  if (tipo7 === 0) {
+  const tipo6 = dia % 6
+  if (tipo6 === 0) {
     return { tipo: 'trivia', pregunta: getPreguntaDeHoy() }
   }
-  if (tipo7 === 1) {
+  if (tipo6 === 1) {
     const modoId  = MODO_IDS[dia % MODO_IDS.length]
-    const nivelId = GRADO_IDS[Math.floor(dia / 7) % GRADO_IDS.length]
+    const nivelId = GRADO_IDS[Math.floor(dia / 6) % GRADO_IDS.length]
     return { tipo: 'matematicas', modo: MODOS[modoId], grado: GRADOS[nivelId] }
   }
-  if (tipo7 === 2) {
+  if (tipo6 === 2) {
     return { tipo: 'portada', portada: getPortadaDeHoy() }
   }
-  if (tipo7 === 3) {
+  if (tipo6 === 3) {
     return { tipo: 'georush', pais: getPaisDeHoy() }
   }
-  if (tipo7 === 4) {
+  if (tipo6 === 4) {
     return { tipo: 'numpath' }
   }
-  if (tipo7 === 5) {
-    return { tipo: 'geomapa', pais: getPaisDeHoy() }
-  }
-  return { tipo: 'intruso', nivel: INTRUSO_NIVELES[Math.floor(dia / 7) % INTRUSO_NIVELES.length] }
+  return { tipo: 'geomapa', pais: getPaisDeHoy() }
 }
