@@ -307,6 +307,16 @@ function hitosDelAño(p, log) {
     p.gastos = Math.round(escala(p, 9500) * MODOS_VIDA[p.modoVida].factor)
     log.push({ tipo: 'hito', texto: { es: '🏠 Te independizas: alquiler, facturas, comida, transporte. Tu neto mensual acaba de conocer la realidad.', en: '🏠 You move out: rent, bills, food, transport. Your monthly net just met reality.', ca: '🏠 T\'independitzes: lloguer, factures, menjar, transport. El teu net mensual acaba de conèixer la realitat.' } })
   }
+  // La experiencia también sube sueldos — sin título, con techo más bajo
+  if (!p.estudios && p.ingresos > 0 && !p.flags.includes('jubilado')) {
+    if (!p.flags.includes('titulado')) {
+      if (p.edad === 21) p.ingresos = Math.max(p.ingresos, escala(p, 13500))
+      if (p.edad === 26) p.ingresos = Math.max(p.ingresos, escala(p, 16500))
+      if (p.edad === 33) p.ingresos = Math.max(p.ingresos, escala(p, 18500))
+    } else if (p.edad === 30) {
+      p.ingresos = Math.max(p.ingresos, escala(p, 17000))
+    }
+  }
   if (p.edad === 40) {
     const cafe = (1.5 * p.indice).toFixed(2).replace('.', ',')
     log.push({ tipo: 'hito', texto: {
@@ -369,7 +379,7 @@ function finDeCurso(p, log) {
 
 // ── Empleo: despido y recolocación (mensual) ─────────────────────────────────
 function empleoMensual(p, log) {
-  if (p.flags.includes('jubilado') || p.estudios) return
+  if (p.edad < 16 || p.flags.includes('jubilado') || p.estudios) return
   // En paro: cuenta atrás de la prestación + búsqueda
   if (p.paroMeses > 0) {
     p.paroMeses -= 1
@@ -387,9 +397,9 @@ function empleoMensual(p, log) {
     return
   }
   if (p.ingresos <= 0) {
-    // Sin prestación: sigue buscando
-    if (p.rng() < 0.10) {
-      p.ingresos = Math.round((p.ingresosPrevios || escala(p, 12000)) * 0.85)
+    // Sin prestación: sigue buscando — solo si alguna vez tuviste empleo
+    if (p.ingresosPrevios > 0 && p.rng() < 0.10) {
+      p.ingresos = Math.round(p.ingresosPrevios * 0.85)
       log.push({ tipo: 'bueno', texto: { es: `💼 Por fin: trabajo nuevo (${fmt(Math.round(p.ingresos / 12))}/mes).`, en: `💼 At last: a new job (${fmt(Math.round(p.ingresos / 12))}/mo).`, ca: `💼 Per fi: feina nova (${fmt(Math.round(p.ingresos / 12))}/mes).` } })
     }
     return
