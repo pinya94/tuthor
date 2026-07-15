@@ -7,61 +7,78 @@ import { computeCoins } from '../lib/games'
 import GameEndScreen from '../components/GameEndScreen'
 import SEOHead from '../components/SEOHead'
 import {
-  crearPartida, avanzarAño, elegirOpcion, interpolar,
-  patrimonio, patrimonioReal, notaFinanciera, fmt, SENALES,
+  crearPartida, avanzarMes, elegirOpcion, interpolar,
+  patrimonio, patrimonioReal, notaFinanciera, fmt, escala, SENALES,
+  MODOS_VIDA, CLASES_INVERSION, cambiarModoVida, invertir, venderActivo, buscarEmpleo,
 } from '../lib/spicyEngine'
 
 const SURF = 'rgba(17,20,29,0.86)'
+const MESES = {
+  es: ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'],
+  en: ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'],
+  ca: ['gen', 'feb', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'oct', 'nov', 'des'],
+}
 
 export default function Spicy() {
   const { lang, tr, localPath } = useLang()
   const { user } = useAuth()
   const navigate = useNavigate()
 
-  const partidaRef = useRef(null)
+  // La partida es un objeto mutable (lo muta el motor); los re-renders los
+  // disparan vista/feedback. Vive en useState solo para poder leerla en render.
+  const [partida, setPartida] = useState(null)
   const [fase, setFase] = useState('intro')          // intro | jugando | fin
-  const [vista, setVista] = useState(null)           // { logs, evento, spanDesde }
+  const [vista, setVista] = useState(null)           // { logs, evento }
   const [feedback, setFeedback] = useState(null)     // { nota } tras elegir
+  const [accion, setAccion] = useState(null)         // null | 'invertir' | 'vender' | 'vida'
+  const [accionNota, setAccionNota] = useState(null) // feedback de acciones libres
   const savedRef = useRef(false)
 
   function empezar() {
-    partidaRef.current = crearPartida()
+    const nueva = crearPartida()
+    setPartida(nueva)
     savedRef.current = false
     setFeedback(null)
+    setAccion(null)
+    setAccionNota(null)
     setFase('jugando')
-    continuar(true)
+    continuar(nueva, true)
   }
 
-  // Avanza años hasta la siguiente decisión (o el final), acumulando el feed
-  function continuar(primera = false) {
-    const p = partidaRef.current
+  // Avanza mes a mes hasta la siguiente decisión (o el final), acumulando el feed
+  function continuar(p = partida, primera = false) {
     const logs = []
-    const spanDesde = p.edad + 1
     const autopsiasAntes = p.autopsias.length
     let evento = null
-    for (;;) {
-      const r = avanzarAño(p)
-      for (const l of r.logs) logs.push({ edad: p.edad, ...l })
+    for (let i = 0; i < 12 * 40; i++) {
+      const r = avanzarMes(p)
+      for (const l of r.logs) logs.push({ edad: p.edad, mes: p.mes, ...l })
       if (r.fin) {
         guardar(p)
         setFase('fin')
         return
       }
       if (r.evento) { evento = r.evento; break }
-      if (p.edad - spanDesde > 25) break // red de seguridad
     }
-    // Autopsias generadas durante el avance → tarjetas de lección en el feed
     for (const a of p.autopsias.slice(autopsiasAntes)) {
       logs.push({ edad: a.edad, tipo: 'autopsia', autopsia: a })
     }
     setFeedback(null)
-    setVista({ logs, evento, spanDesde, spanHasta: p.edad, primera })
+    setAccion(null)
+    setAccionNota(null)
+    setVista({ logs, evento, primera })
   }
 
   function elegir(opcion) {
-    const p = partidaRef.current
-    const res = elegirOpcion(p, vista.evento, opcion)
+    const res = elegirOpcion(partida, vista.evento, opcion)
     setFeedback(res ? { ...res, evento: vista.evento } : { nota: null })
+  }
+
+  // Acciones libres: no consumen tiempo, solo dinero/estado
+  function ejecutarAccion(fn) {
+    const res = fn(partida)
+    setAccion(null)
+    if (res?.nota) setAccionNota(res.nota)
   }
 
   function guardar(p) {
@@ -118,7 +135,7 @@ export default function Spicy() {
     )
   }
 
-  const p = partidaRef.current
+  const p = partida
 
   // ── FIN ────────────────────────────────────────────────────────────────────
   if (fase === 'fin') {
@@ -188,10 +205,13 @@ export default function Spicy() {
 
   // ── JUGANDO ────────────────────────────────────────────────────────────────
   const activosVivos = p.activos.filter(a => a.estado === 'vivo')
+  const vendibles = activosVivos.filter(a => ['fondo', 'acciones', 'cripto', 'coleccion', 'deposito'].includes(a.tipo))
   const real = Math.round(patrimonioReal(p))
   const vidaPct = Math.min(100, Math.round(((p.edad - 6) / (p.edadFinal - 6)) * 100))
-  const cuotasAnual = (p.hipoteca?.cuota ?? 0) + (p.prestamos ?? []).reduce((a, pr) => a + pr.cuota, 0)
-  const netoMes = Math.round((p.ingresos - p.gastos - p.alquilerAnual - cuotasAnual) / 12)
+  const cuotasMes = (p.hipoteca?.cuota ?? 0) / 12 + (p.prestamos ?? []).reduce((a, pr) => a + pr.cuotaMes, 0)
+  const extraEstudios = p.estudios?.mediaJornada ? escala(p, 6000) : 0
+  const netoMes = Math.round((p.ingresos + extraEstudios - p.gastos - p.alquilerAnual) / 12 - cuotasMes)
+  const mesLabel = (MESES[lang] ?? MESES.es)[p.mes]
   const ev = vista?.evento
   const respondido = feedback !== null
 
@@ -201,7 +221,7 @@ export default function Spicy() {
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-4">
         <div className="rounded-xl border border-white/10 py-2 px-3" style={{ background: SURF }}>
           <p className="text-white/30 text-[9px] uppercase tracking-wider font-semibold">{tr({ es: 'Edad', en: 'Age', ca: 'Edat' })}</p>
-          <p className="text-white font-black text-xl leading-tight">{p.edad}</p>
+          <p className="text-white font-black text-xl leading-tight">{p.edad} <span className="text-white/30 text-xs font-semibold">· {mesLabel}</span></p>
           <div className="h-1 bg-white/10 rounded-full mt-1">
             <div className="h-1 rounded-full bg-[#EDAE49]" style={{ width: `${vidaPct}%` }} />
           </div>
@@ -227,21 +247,100 @@ export default function Spicy() {
         </div>
       </div>
 
-      {/* Cartera */}
+      {/* Cartera con evolución */}
       {(activosVivos.length > 0 || p.hipoteca) && (
-        <div className="rounded-xl border border-white/10 px-3 py-2 mb-4 flex flex-wrap gap-x-4 gap-y-1 text-xs" style={{ background: SURF }}>
-          {activosVivos.map(a => (
-            <span key={a.id} className="text-white/50">
-              {a.tipo === 'casa' ? '🏠' : a.tipo === 'fondo' ? '📈' : a.tipo === 'deposito' ? '🏦' : a.tipo === 'negocio' ? '🏪' : a.tipo === 'cromo' ? '🃏' : '❓'}{' '}
-              {tr(a.nombre)}: <span className="text-white/80 font-semibold">{fmt(a.valor)}</span>
-            </span>
-          ))}
+        <div className="rounded-xl border border-white/10 px-3 py-2 mb-3 flex flex-wrap gap-x-4 gap-y-1 text-xs" style={{ background: SURF }}>
+          {activosVivos.map(a => {
+            const cambio = a.invertido > 0 ? Math.round((a.valor / a.invertido - 1) * 100) : 0
+            const conMercado = ['fondo', 'acciones', 'cripto', 'coleccion', 'deposito'].includes(a.tipo)
+            return (
+              <span key={a.id} className="text-white/50">
+                {a.tipo === 'casa' ? '🏠' : a.tipo === 'fondo' ? '📈' : a.tipo === 'acciones' ? '📊' : a.tipo === 'cripto' ? '🪙' : a.tipo === 'coleccion' ? '🃏' : a.tipo === 'deposito' ? '🏦' : a.tipo === 'negocio' ? '🏪' : '❓'}{' '}
+                {tr(a.nombre)}: <span className="text-white/80 font-semibold">{fmt(a.valor)}</span>
+                {conMercado && <span className={`ml-1 font-semibold ${cambio >= 0 ? 'text-emerald-400/80' : 'text-red-400/80'}`}>{cambio >= 0 ? '▲' : '▼'}{Math.abs(cambio)}%</span>}
+              </span>
+            )
+          })}
           {p.hipoteca && (
             <span className="text-white/50">📋 {tr({ es: 'Hipoteca pendiente', en: 'Mortgage left', ca: 'Hipoteca pendent' })}: <span className="text-red-300/80 font-semibold">-{fmt(p.hipoteca.pendiente)}</span></span>
           )}
           {(p.prestamos ?? []).map((pr, i) => (
             <span key={i} className="text-white/50">💳 {tr({ es: 'Préstamo', en: 'Loan', ca: 'Préstec' })}: <span className="text-red-300/80 font-semibold">-{fmt(pr.pendiente)}</span></span>
           ))}
+        </div>
+      )}
+
+      {/* Barra de acciones libres — disponibles en cualquier pausa */}
+      <div className="flex flex-wrap gap-1.5 mb-3">
+        <button onClick={() => { setAccion(accion === 'invertir' ? null : 'invertir'); setAccionNota(null) }}
+          className={`text-xs font-bold px-3 py-1.5 rounded-lg border transition-colors ${accion === 'invertir' ? 'bg-amber-500/25 border-amber-500/50 text-amber-300' : 'bg-white/5 border-white/10 text-white/60 hover:text-white'}`}>
+          📈 {tr({ es: 'Invertir', en: 'Invest', ca: 'Invertir' })}
+        </button>
+        {vendibles.length > 0 && (
+          <button onClick={() => { setAccion(accion === 'vender' ? null : 'vender'); setAccionNota(null) }}
+            className={`text-xs font-bold px-3 py-1.5 rounded-lg border transition-colors ${accion === 'vender' ? 'bg-amber-500/25 border-amber-500/50 text-amber-300' : 'bg-white/5 border-white/10 text-white/60 hover:text-white'}`}>
+            💸 {tr({ es: 'Vender', en: 'Sell', ca: 'Vendre' })}
+          </button>
+        )}
+        <button onClick={() => { setAccion(accion === 'vida' ? null : 'vida'); setAccionNota(null) }}
+          className={`text-xs font-bold px-3 py-1.5 rounded-lg border transition-colors ${accion === 'vida' ? 'bg-amber-500/25 border-amber-500/50 text-amber-300' : 'bg-white/5 border-white/10 text-white/60 hover:text-white'}`}>
+          {MODOS_VIDA[p.modoVida].emoji} {tr({ es: 'Nivel de gasto', en: 'Spending level', ca: 'Nivell de despesa' })}: {tr(MODOS_VIDA[p.modoVida].label)}
+        </button>
+        {p.ingresos > 0 && !p.estudios && !p.flags.includes('jubilado') && (
+          <button onClick={() => ejecutarAccion(pp => buscarEmpleo(pp))}
+            className="text-xs font-bold px-3 py-1.5 rounded-lg border bg-white/5 border-white/10 text-white/60 hover:text-white transition-colors">
+            💼 {tr({ es: 'Buscar otro empleo', en: 'Look for another job', ca: 'Buscar una altra feina' })}
+          </button>
+        )}
+      </div>
+
+      {/* Panel de acción abierta */}
+      {accion === 'invertir' && (
+        <div className="rounded-xl border border-white/10 p-3 mb-3 space-y-2" style={{ background: SURF }}>
+          <p className="text-white/40 text-xs">{tr({ es: `Dinero disponible: ${fmt(p.dinero)}. Elige clase y cuánto:`, en: `Available cash: ${fmt(p.dinero)}. Pick a class and how much:`, ca: `Diners disponibles: ${fmt(p.dinero)}. Tria classe i quant:` })}</p>
+          {Object.entries(CLASES_INVERSION).map(([clase, def]) => (
+            <div key={clase} className="flex flex-wrap items-center gap-1.5">
+              <span className="text-white/70 text-xs font-semibold w-36">{def.emoji} {tr(def.label)}</span>
+              <span className="text-white/25 text-[10px] mr-1">{def.senales.map(s => SENALES[s]?.emoji).join('')}</span>
+              {[0.25, 0.5, 0.9].map(f => {
+                const importe = Math.floor(p.dinero * f)
+                return (
+                  <button key={f} disabled={importe < 50}
+                    onClick={() => ejecutarAccion(pp => invertir(pp, clase, importe))}
+                    className="text-[11px] font-bold px-2 py-1 rounded bg-white/10 hover:bg-amber-500/25 border border-white/10 text-white/70 disabled:opacity-25 transition-colors">
+                    {Math.round(f * 100)}% ({fmt(importe)})
+                  </button>
+                )
+              })}
+            </div>
+          ))}
+        </div>
+      )}
+      {accion === 'vender' && (
+        <div className="rounded-xl border border-white/10 p-3 mb-3 space-y-1.5" style={{ background: SURF }}>
+          {vendibles.map(a => (
+            <button key={a.id} onClick={() => ejecutarAccion(pp => venderActivo(pp, a.id))}
+              className="w-full text-left text-xs font-semibold px-3 py-2 rounded-lg bg-white/5 hover:bg-amber-500/20 border border-white/10 text-white/70 transition-colors">
+              {tr(a.nombre)} — {tr({ es: 'vender por', en: 'sell for', ca: 'vendre per' })} ~{fmt(a.valor * (a.tipo === 'coleccion' ? 0.85 : 1))}
+              {a.tipo === 'coleccion' && <span className="text-white/35"> ({tr({ es: 'con descuento de iliquidez', en: 'illiquidity haircut applied', ca: 'amb descompte d\'iliquiditat' })})</span>}
+            </button>
+          ))}
+        </div>
+      )}
+      {accion === 'vida' && (
+        <div className="rounded-xl border border-white/10 p-3 mb-3 flex flex-wrap gap-1.5" style={{ background: SURF }}>
+          {Object.entries(MODOS_VIDA).map(([modo, def]) => (
+            <button key={modo} disabled={modo === p.modoVida}
+              onClick={() => ejecutarAccion(pp => cambiarModoVida(pp, modo))}
+              className={`text-xs font-bold px-3 py-2 rounded-lg border transition-colors ${modo === p.modoVida ? 'bg-amber-500/25 border-amber-500/50 text-amber-300' : 'bg-white/5 border-white/10 text-white/60 hover:text-white'}`}>
+              {def.emoji} {tr(def.label)} ({Math.round((def.factor - 1) * 100) >= 0 ? '+' : ''}{Math.round((def.factor - 1) * 100)}%)
+            </button>
+          ))}
+        </div>
+      )}
+      {accionNota && (
+        <div className="rounded-xl border border-white/15 bg-white/5 p-3 mb-3">
+          <p className="text-white/60 text-xs leading-relaxed">{tr(accionNota)}</p>
         </div>
       )}
 
@@ -260,7 +359,9 @@ export default function Spicy() {
             </div>
           ) : (
             <div key={i} className="flex gap-2 items-start text-sm">
-              <span className="text-white/25 text-xs font-bold tabular-nums shrink-0 mt-0.5">{l.edad}</span>
+              <span className="text-white/25 text-[11px] font-bold tabular-nums shrink-0 mt-0.5 w-12">
+                {l.edad}<span className="text-white/15 font-medium">·{(MESES[lang] ?? MESES.es)[l.mes ?? 0]}</span>
+              </span>
               <p className={`leading-snug ${l.tipo === 'malo' ? 'text-red-300/80' : l.tipo === 'bueno' ? 'text-emerald-300/80' : 'text-white/55'}`}>{tr(l.texto)}</p>
             </div>
           ))}
@@ -303,7 +404,7 @@ export default function Spicy() {
 
       {/* Continuar */}
       {(respondido || !ev) && (
-        <button onClick={() => continuar()}
+        <button onClick={() => continuar(partida)}
           className="w-full bg-[#EDAE49] hover:bg-amber-400 text-black font-black py-4 rounded-2xl transition-all hover:scale-[1.01] mt-1">
           {tr({ es: 'Seguir viviendo →', en: 'Keep living →', ca: 'Seguir vivint →' })}
         </button>
