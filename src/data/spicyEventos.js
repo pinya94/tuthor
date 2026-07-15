@@ -13,7 +13,7 @@ export const EVENTOS = [
   {
     id: 'cromo-especial',
     edad: [8, 9],
-    prob: 0.65,
+    prob: 0.5,
     cantidades: { precio: 10 },
     texto: {
       es: 'En el patio venden un cromo de edición limitada de tu ídolo. Cuesta {precio} — toda tu paga del mes. Tu amigo dice que "algún día valdrá una fortuna".',
@@ -36,6 +36,110 @@ export const EVENTOS = [
         id: 'hucha',
         texto: { es: 'A la hucha', en: 'Into the piggy bank', ca: 'A la guardiola' },
         aplicar: () => ({ nota: { es: 'Tu paga sigue en la hucha. Aburrido, pero sigue ahí.', en: 'Your allowance stays in the piggy bank. Boring, but still there.', ca: 'La paga segueix a la guardiola. Avorrit, però segueix allà.' } }),
+      },
+    ],
+  },
+  {
+    id: 'consola-segunda-mano',
+    edad: [8, 9],
+    prob: 0.5,
+    cantidades: { precio: 12 },
+    texto: {
+      es: 'Tu prima mayor vende su consola vieja por {precio} — "funciona perfecta", dice. Nueva costaría cinco veces más. Sin garantía, claro.',
+      en: 'Your older cousin is selling her old console for {precio} — "works perfectly", she says. New it would cost five times more. No warranty, of course.',
+      ca: 'La teva cosina gran ven la seva consola vella per {precio} — "funciona perfecta", diu. Nova costaria cinc vegades més. Sense garantia, és clar.',
+    },
+    opciones: [
+      {
+        id: 'comprar',
+        texto: { es: 'Comprársela', en: 'Buy it from her', ca: 'Comprar-la-hi' },
+        aplicar: (p, ctx) => {
+          ctx.dinero(-ctx.cant('precio'))
+          if (ctx.rng() < 0.7) {
+            ctx.bienestar(5)
+            return { nota: { es: 'Funciona de maravilla: tardes enteras de juego por una fracción del precio. Comprar de segunda mano tiene riesgo — esta vez pagó.', en: 'Works like a charm: whole afternoons of gaming for a fraction of the price. Buying second-hand has risk — this time it paid.', ca: 'Funciona de meravella: tardes senceres de joc per una fracció del preu. Comprar de segona mà té risc — aquesta vegada va pagar.' } }
+          }
+          ctx.bienestar(-3)
+          return { nota: { es: 'A las tres semanas no enciende. Sin garantía no hay reclamación: lo barato a veces sale caro… y a veces no — hoy no fue tu día.', en: 'Three weeks in, it won\'t turn on. No warranty, no claim: cheap sometimes turns out expensive… and sometimes not — today wasn\'t your day.', ca: 'A les tres setmanes no s\'encén. Sense garantia no hi ha reclamació: el barat de vegades surt car… i de vegades no — avui no va ser el teu dia.' } }
+        },
+      },
+      {
+        id: 'no',
+        texto: { es: 'Seguir ahorrando', en: 'Keep saving', ca: 'Seguir estalviant' },
+        aplicar: () => ({ nota: { es: 'La hucha sigue intacta. La consola de tu prima acabará en otras manos — a saber si funcionaba.', en: 'The piggy bank stays intact. Your cousin\'s console will end up in other hands — who knows if it worked.', ca: 'La guardiola segueix intacta. La consola de la teva cosina acabarà en altres mans — vés a saber si funcionava.' } }),
+      },
+    ],
+  },
+  {
+    id: 'puesto-limonada',
+    edad: [10, 11],
+    prob: 0.5,
+    cantidades: { material: 15 },
+    texto: {
+      es: 'Fiesta del barrio este finde. Se te ocurre montar un puesto de limonada y galletas: el material cuesta {material} de tu hucha. Puede petarlo… o puede llover.',
+      en: 'Neighbourhood fair this weekend. You think of setting up a lemonade-and-cookies stand: supplies cost {material} from your piggy bank. It could be a hit… or it could rain.',
+      ca: 'Festa del barri aquest cap de setmana. Se t\'acut muntar una parada de llimonada i galetes: el material costa {material} de la teva guardiola. Pot petar-ho… o pot ploure.',
+    },
+    opciones: [
+      {
+        id: 'montar',
+        texto: { es: 'Montar el puesto ({material})', en: 'Set up the stand ({material})', ca: 'Muntar la parada ({material})' },
+        aplicar: (p, ctx) => {
+          const c = ctx.cant('material')
+          ctx.dinero(-c)
+          const r = ctx.rng()
+          if (r < 0.5) {
+            ctx.dinero(c * 3)
+            ctx.bienestar(5)
+            return { nota: { es: 'Se vendió TODO. Triplicaste lo invertido y encima fue divertido: tu primer negocio con beneficios. Que no se te suba: también pudo llover.', en: 'EVERYTHING sold. You tripled your stake and it was fun too: your first profitable business. Don\'t let it go to your head: it could also have rained.', ca: 'Es va vendre TOT. Vas triplicar la inversió i a sobre va ser divertit: el teu primer negoci amb beneficis. Que no se\'t pugi al cap: també podia ploure.' } }
+          }
+          if (r < 0.8) {
+            ctx.dinero(c)
+            return { nota: { es: 'Vendiste lo justo para recuperar el material. Beneficio: cero. Aprendizaje: montar algo cuesta más de lo que parece — eso ya lo tienes.', en: 'You sold just enough to recover the supplies. Profit: zero. Learning: setting something up costs more than it looks — that you now have.', ca: 'Vas vendre just per recuperar el material. Benefici: zero. Aprenentatge: muntar alguna cosa costa més del que sembla — això ja ho tens.' } }
+          }
+          ctx.bienestar(-2)
+          return { nota: { es: 'Diluvió. Nadie salió a la calle y las galletas acabaron de merienda familiar. Tu primer negocio en pérdidas — hasta los buenos planes dependen del cielo.', en: 'It poured. Nobody came out and the cookies became the family snack. Your first loss-making business — even good plans depend on the sky.', ca: 'Va diluviar. Ningú va sortir al carrer i les galetes van acabar de berenar familiar. El teu primer negoci en pèrdues — fins i tot els bons plans depenen del cel.' } }
+        },
+      },
+      {
+        id: 'no',
+        texto: { es: 'Mejor ir a la fiesta y ya', en: 'Just enjoy the fair', ca: 'Millor anar a la festa i ja' },
+        aplicar: (p, ctx) => {
+          ctx.bienestar(2)
+          return { nota: { es: 'Tarde de churros y atracciones. El puesto de limonada lo montó otro niño — le fue bien, dicen.', en: 'An afternoon of churros and rides. Another kid set up the lemonade stand — went well for him, they say.', ca: 'Tarda de xurros i atraccions. La parada de llimonada la va muntar un altre nen — li va anar bé, diuen.' } }
+        },
+      },
+    ],
+  },
+  {
+    id: 'apuesta-recreo',
+    edad: [12, 13],
+    prob: 0.45,
+    cantidades: { apuesta: 5 },
+    texto: {
+      es: 'Torneo de fútbol del recreo. Tus amigos apuestan {apuesta} por cabeza a que gana la clase de al lado. "Es dinero fácil", dicen. Nadie sabe realmente quién ganará.',
+      en: 'Playground football tournament. Your friends bet {apuesta} each that the class next door wins. "Easy money", they say. Nobody actually knows who\'ll win.',
+      ca: 'Torneig de futbol del pati. Els teus amics aposten {apuesta} per cap que guanya la classe del costat. "Són diners fàcils", diuen. Ningú sap realment qui guanyarà.',
+    },
+    opciones: [
+      {
+        id: 'apostar',
+        texto: { es: 'Apostar tus {apuesta}', en: 'Bet your {apuesta}', ca: 'Apostar els teus {apuesta}' },
+        aplicar: (p, ctx) => {
+          const c = ctx.cant('apuesta')
+          if (ctx.rng() < 0.4) {
+            ctx.dinero(c)
+            ctx.bienestar(3)
+            return { nota: { es: 'Ganasteis y doblaste. Ojo con la trampa: acertar una apuesta hace creer que "se te da bien" — el azar no lleva la cuenta de tus rachas.', en: 'You won and doubled up. Mind the trap: winning a bet makes you think you\'re "good at it" — chance keeps no record of your streaks.', ca: 'Vau guanyar i vas doblar. Compte amb la trampa: encertar una aposta fa creure que "se\'t dona bé" — l\'atzar no porta el compte de les teves ratxes.' } }
+          }
+          ctx.dinero(-c)
+          return { nota: { es: 'Perdisteis. El "dinero fácil" casi siempre viaja en dirección contraria. Barata, como lección, no está mal.', en: 'You lost. "Easy money" almost always travels the other way. As lessons go, this one was cheap.', ca: 'Vau perdre. Els "diners fàcils" gairebé sempre viatgen en direcció contrària. Barata, com a lliçó, no està malament.' } }
+        },
+      },
+      {
+        id: 'no',
+        texto: { es: 'Guardarte el dinero', en: 'Keep your money', ca: 'Guardar-te els diners' },
+        aplicar: () => ({ nota: { es: 'Te llamaron rancio cinco minutos. Tu hucha ni se enteró del torneo.', en: 'They called you boring for five minutes. Your piggy bank never even heard about the tournament.', ca: 'Et van dir rànci cinc minuts. La teva guardiola ni es va assabentar del torneig.' } }),
       },
     ],
   },
@@ -272,7 +376,10 @@ export const EVENTOS = [
       {
         id: 'cuenta',
         texto: { es: 'Dejarlo en la cuenta', en: 'Leave it in the account', ca: 'Deixar-los al compte' },
-        aplicar: () => ({ nota: { es: 'Disponible al instante… y desprotegido: la inflación se lo irá comiendo en silencio.', en: 'Instantly available… and unprotected: inflation will quietly eat it.', ca: 'Disponible a l\'instant… i desprotegit: la inflació se\'ls anirà menjant en silenci.' } }),
+        aplicar: (p, ctx) => {
+          ctx.flag('sabe-invertir')
+          return { nota: { es: 'Disponible al instante… y desprotegido: la inflación se lo irá comiendo en silencio.', en: 'Instantly available… and unprotected: inflation will quietly eat it.', ca: 'Disponible a l\'instant… i desprotegit: la inflació se\'ls anirà menjant en silenci.' } }
+        },
       },
       {
         id: 'mochilero',

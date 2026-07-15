@@ -547,7 +547,13 @@ export function avanzarMes(p) {
     }
 
     evento = elegirEvento(p)
-    if (evento) p.usados.push(evento.id)
+    if (evento) {
+      p.usados.push(evento.id)
+      // El mundo de la inversión se descubre cuando la vida te lo presenta
+      if (['primer-colchon', 'fondo-indexado', 'cripto-gimnasio'].includes(evento.id) && !p.flags.includes('sabe-invertir')) {
+        p.flags.push('sabe-invertir')
+      }
+    }
   }
 
   // ── Cada mes ──

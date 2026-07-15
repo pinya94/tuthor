@@ -270,23 +270,27 @@ export default function Spicy() {
         </div>
       )}
 
-      {/* Barra de acciones libres — disponibles en cualquier pausa */}
+      {/* Barra de acciones libres — se desbloquean cuando la vida te las presenta */}
       <div className="flex flex-wrap gap-1.5 mb-3">
-        <button onClick={() => { setAccion(accion === 'invertir' ? null : 'invertir'); setAccionNota(null) }}
-          className={`text-xs font-bold px-3 py-1.5 rounded-lg border transition-colors ${accion === 'invertir' ? 'bg-amber-500/25 border-amber-500/50 text-amber-300' : 'bg-white/5 border-white/10 text-white/60 hover:text-white'}`}>
-          📈 {tr({ es: 'Invertir', en: 'Invest', ca: 'Invertir' })}
-        </button>
-        {vendibles.length > 0 && (
+        {p.flags.includes('sabe-invertir') && (
+          <button onClick={() => { setAccion(accion === 'invertir' ? null : 'invertir'); setAccionNota(null) }}
+            className={`text-xs font-bold px-3 py-1.5 rounded-lg border transition-colors ${accion === 'invertir' ? 'bg-amber-500/25 border-amber-500/50 text-amber-300' : 'bg-white/5 border-white/10 text-white/60 hover:text-white'}`}>
+            📈 {tr({ es: 'Invertir', en: 'Invest', ca: 'Invertir' })}
+          </button>
+        )}
+        {p.flags.includes('sabe-invertir') && vendibles.length > 0 && (
           <button onClick={() => { setAccion(accion === 'vender' ? null : 'vender'); setAccionNota(null) }}
             className={`text-xs font-bold px-3 py-1.5 rounded-lg border transition-colors ${accion === 'vender' ? 'bg-amber-500/25 border-amber-500/50 text-amber-300' : 'bg-white/5 border-white/10 text-white/60 hover:text-white'}`}>
             💸 {tr({ es: 'Vender', en: 'Sell', ca: 'Vendre' })}
           </button>
         )}
-        <button onClick={() => { setAccion(accion === 'vida' ? null : 'vida'); setAccionNota(null) }}
-          className={`text-xs font-bold px-3 py-1.5 rounded-lg border transition-colors ${accion === 'vida' ? 'bg-amber-500/25 border-amber-500/50 text-amber-300' : 'bg-white/5 border-white/10 text-white/60 hover:text-white'}`}>
-          {MODOS_VIDA[p.modoVida].emoji} {tr({ es: 'Nivel de gasto', en: 'Spending level', ca: 'Nivell de despesa' })}: {tr(MODOS_VIDA[p.modoVida].label)}
-        </button>
-        {p.ingresos > 0 && !p.estudios && !p.flags.includes('jubilado') && (
+        {p.edad >= 18 && (
+          <button onClick={() => { setAccion(accion === 'vida' ? null : 'vida'); setAccionNota(null) }}
+            className={`text-xs font-bold px-3 py-1.5 rounded-lg border transition-colors ${accion === 'vida' ? 'bg-amber-500/25 border-amber-500/50 text-amber-300' : 'bg-white/5 border-white/10 text-white/60 hover:text-white'}`}>
+            {MODOS_VIDA[p.modoVida].emoji} {tr({ es: 'Nivel de gasto', en: 'Spending level', ca: 'Nivell de despesa' })}: {tr(MODOS_VIDA[p.modoVida].label)}
+          </button>
+        )}
+        {p.edad >= 16 && p.ingresos > 0 && !p.estudios && !p.flags.includes('jubilado') && (
           <button onClick={() => ejecutarAccion(pp => buscarEmpleo(pp))}
             className="text-xs font-bold px-3 py-1.5 rounded-lg border bg-white/5 border-white/10 text-white/60 hover:text-white transition-colors">
             💼 {tr({ es: 'Buscar otro empleo', en: 'Look for another job', ca: 'Buscar una altra feina' })}
