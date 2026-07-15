@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import { useAuth } from '../context/AuthContext'
@@ -24,75 +24,91 @@ export default function Spicy() {
   const { user } = useAuth()
   const navigate = useNavigate()
 
-  // La partida es un objeto mutable (lo muta el motor); los re-renders los
-  // disparan vista/feedback. Vive en useState solo para poder leerla en render.
+  // La partida es un objeto mutable (lo muta el motor). `tick` fuerza el
+  // re-render en cada mes simulado; el resto de estados gobiernan las pausas.
   const [partida, setPartida] = useState(null)
+  const [, setTick] = useState(0)
   const [fase, setFase] = useState('intro')          // intro | jugando | fin
   const [vista, setVista] = useState(null)           // { logs, evento }
   const [feedback, setFeedback] = useState(null)     // { nota } tras elegir
   const [accion, setAccion] = useState(null)         // null | 'invertir' | 'vender' | 'vida'
   const [accionNota, setAccionNota] = useState(null) // feedback de acciones libres
+  const [corriendo, setCorriendo] = useState(false)  // el reloj de la vida avanza
+  const [sliderVal, setSliderVal] = useState(0.5)    // deslizador del evento activo
+  const logsRef = useRef([])                         // feed acumulado (no re-render por sí solo)
   const savedRef = useRef(false)
 
   function empezar() {
     const nueva = crearPartida()
     setPartida(nueva)
     savedRef.current = false
+    logsRef.current = []
     setFeedback(null)
     setAccion(null)
     setAccionNota(null)
+    setVista({ logs: [], evento: null })
     setFase('jugando')
-    continuar(nueva, true)
+    setCorriendo(true)
   }
 
-  // Avanza mes a mes hasta la siguiente decisión (o el final), acumulando el feed
-  function continuar(p = partida, primera = false) {
-    const logs = []
-    const autopsiasAntes = p.autopsias.length
-    let evento = null
-    for (let i = 0; i < 12 * 40; i++) {
+  // El reloj: mientras `corriendo` y no haya evento/pausa, avanza un mes cada tijeretazo
+  useEffect(() => {
+    if (fase !== 'jugando') return
+    if (!corriendo || vista?.evento || feedback || accion) return
+    const p = partida
+    const t = setTimeout(() => {
+      const autopsiasAntes = p.autopsias.length
       const r = avanzarMes(p)
-      for (const l of r.logs) logs.push({ edad: p.edad, mes: p.mes, ...l })
+      for (const l of r.logs) logsRef.current.push({ edad: p.edad, mes: p.mes, ...l })
+      for (const a of p.autopsias.slice(autopsiasAntes)) logsRef.current.push({ edad: a.edad, tipo: 'autopsia', autopsia: a })
+      if (logsRef.current.length > 60) logsRef.current = logsRef.current.slice(-60)
       if (r.fin) {
-        guardar(p)
-        setFase('fin')
+        if (!savedRef.current) {
+          savedRef.current = true
+          const score = notaFinanciera(p)
+          if (user && score > 0) {
+            saveActivity(user.uid, {
+              type: 'juego', game: 'spicy', score, passed: patrimonioReal(p) > 0,
+              timeSpent: 0, coinsEarned: computeCoins('spicy', { score }),
+              userName: user.displayName, userPhoto: user.photoURL,
+            }).catch(() => {})
+          }
+        }
+        setCorriendo(false); setFase('fin'); return
+      }
+      if (r.evento) {
+        setSliderVal(r.evento.slider?.defecto ?? 0.5)
+        setVista({ logs: logsRef.current.slice(), evento: r.evento })
+        setCorriendo(false)
         return
       }
-      if (r.evento) { evento = r.evento; break }
-    }
-    for (const a of p.autopsias.slice(autopsiasAntes)) {
-      logs.push({ edad: a.edad, tipo: 'autopsia', autopsia: a })
-    }
-    setFeedback(null)
-    setAccion(null)
-    setAccionNota(null)
-    setVista({ logs, evento, primera })
-  }
+      setVista({ logs: logsRef.current.slice(), evento: null })
+      setTick(x => x + 1)
+    }, 80)
+    return () => clearTimeout(t)
+  }, [corriendo, fase, vista, feedback, accion, partida, user])
 
   function elegir(opcion) {
-    const res = elegirOpcion(partida, vista.evento, opcion)
+    const res = elegirOpcion(partida, vista.evento, opcion, vista.evento.slider ? sliderVal : undefined)
+    if (res?.rechazo) { setAccionNota(res.nota); return }   // no gastó: sigue la decisión abierta
     setFeedback(res ? { ...res, evento: vista.evento } : { nota: null })
   }
 
-  // Acciones libres: no consumen tiempo, solo dinero/estado
+  // Tras leer el feedback de una decisión, reanuda el reloj
+  function seguir() {
+    setFeedback(null)
+    setVista(v => ({ ...v, evento: null }))
+    setCorriendo(true)
+  }
+
+  // Acciones libres: no consumen tiempo, solo dinero/estado. Abrir una pausa el reloj.
   function ejecutarAccion(fn) {
     const res = fn(partida)
     setAccion(null)
+    setTick(x => x + 1)
     if (res?.nota) setAccionNota(res.nota)
   }
 
-  function guardar(p) {
-    if (savedRef.current) return
-    savedRef.current = true
-    const score = notaFinanciera(p)
-    if (user && score > 0) {
-      saveActivity(user.uid, {
-        type: 'juego', game: 'spicy', score, passed: patrimonioReal(p) > 0,
-        timeSpent: 0, coinsEarned: computeCoins('spicy', { score }),
-        userName: user.displayName, userPhoto: user.photoURL,
-      }).catch(() => {})
-    }
-  }
 
   // ── INTRO ──────────────────────────────────────────────────────────────────
   if (fase === 'intro') {
@@ -114,9 +130,9 @@ export default function Spicy() {
             <p className="text-white/40 text-sm mb-3">{tr({ es: 'Decisiones que pican', en: 'Decisions with a kick', ca: 'Decisions que piquen' })}</p>
             <p className="text-white/50 text-sm leading-relaxed">
               {tr({
-                es: 'De la hucha de los 8 años a la jubilación. Cada año pueden aparecer decisiones: ahorrar o gastar, comprar o alquilar, invertir o pasar. La inflación corre siempre — y nadie te dirá los riesgos con números: aprende a leer las señales.',
-                en: 'From the piggy bank at 8 to retirement. Each year decisions may appear: save or spend, buy or rent, invest or pass. Inflation never stops — and nobody tells you the risks in numbers: learn to read the signals.',
-                ca: 'De la guardiola dels 8 anys a la jubilació. Cada any poden aparèixer decisions: estalviar o gastar, comprar o llogar, invertir o passar. La inflació corre sempre — i ningú et dirà els riscos amb números: aprèn a llegir els senyals.',
+                es: 'Empiezas con 5 años y los meses corren solos. Cuando la vida te planta una decisión, el tiempo se para: ahorrar o gastar, estudiar o trabajar, comprar o alquilar, invertir o esperar. Y mientras el reloj corre, puedes mover tus ahorros cuando quieras. La inflación no descansa — y nadie te dirá los riesgos con números: aprende a leer las señales.',
+                en: 'You start at 5 and the months run on their own. When life drops a decision, time stops: save or spend, study or work, buy or rent, invest or wait. And while the clock ticks, you can move your savings whenever you want. Inflation never rests — and nobody tells you the risks in numbers: learn to read the signals.',
+                ca: 'Comences amb 5 anys i els mesos corren sols. Quan la vida et planta una decisió, el temps es para: estalviar o gastar, estudiar o treballar, comprar o llogar, invertir o esperar. I mentre el rellotge corre, pots moure els teus estalvis quan vulguis. La inflació no descansa — i ningú et dirà els riscos amb números: aprèn a llegir els senyals.',
               })}
             </p>
           </div>
@@ -207,7 +223,7 @@ export default function Spicy() {
   const activosVivos = p.activos.filter(a => a.estado === 'vivo')
   const vendibles = activosVivos.filter(a => ['fondo', 'acciones', 'cripto', 'coleccion', 'deposito'].includes(a.tipo))
   const real = Math.round(patrimonioReal(p))
-  const vidaPct = Math.min(100, Math.round(((p.edad - 6) / (p.edadFinal - 6)) * 100))
+  const vidaPct = Math.min(100, Math.round(((p.edad - 5) / (p.edadFinal - 5)) * 100))
   const cuotasMes = (p.hipoteca?.cuota ?? 0) / 12 + (p.prestamos ?? []).reduce((a, pr) => a + pr.cuotaMes, 0)
   const extraEstudios = p.estudios?.mediaJornada ? escala(p, 6000) : 0
   const netoMes = Math.round((p.ingresos + extraEstudios - p.gastos - p.alquilerAnual) / 12 - cuotasMes)
@@ -388,6 +404,21 @@ export default function Spicy() {
               ))}
             </div>
           )}
+          {/* Deslizador de reparto (p. ej. la paga) */}
+          {ev.slider && (
+            <div className="mb-4">
+              <div className="flex justify-between text-[11px] text-white/40 mb-1">
+                <span>{tr(ev.slider.izq)}</span>
+                <span>{tr(ev.slider.der)}</span>
+              </div>
+              <input type="range" min="0" max="100" value={Math.round(sliderVal * 100)}
+                onChange={e => setSliderVal(Number(e.target.value) / 100)}
+                className="w-full accent-[#EDAE49]" />
+              <p className="text-center text-amber-300 font-bold text-sm mt-1">
+                {tr(ev.slider.etiqueta)}: {Math.round(sliderVal * 100)}%
+              </p>
+            </div>
+          )}
           <div className="space-y-2">
             {ev.opciones.map(op => (
               <button key={op.id} onClick={() => elegir(op)}
@@ -406,12 +437,24 @@ export default function Spicy() {
         </div>
       )}
 
-      {/* Continuar */}
-      {(respondido || !ev) && (
-        <button onClick={() => continuar(partida)}
+      {/* Tras una decisión: reanudar la vida */}
+      {respondido && (
+        <button onClick={seguir}
           className="w-full bg-[#EDAE49] hover:bg-amber-400 text-black font-black py-4 rounded-2xl transition-all hover:scale-[1.01] mt-1">
           {tr({ es: 'Seguir viviendo →', en: 'Keep living →', ca: 'Seguir vivint →' })}
         </button>
+      )}
+
+      {/* Control del reloj cuando la vida fluye (sin evento pendiente) */}
+      {!ev && !respondido && (
+        <div className="flex items-center gap-3 mt-1">
+          <button onClick={() => setCorriendo(c => !c)}
+            className="flex-1 bg-white/10 hover:bg-white/20 text-white font-bold py-3 rounded-2xl transition-all">
+            {corriendo ? tr({ es: '⏸ Pausar el tiempo', en: '⏸ Pause time', ca: '⏸ Pausar el temps' })
+                       : tr({ es: '▶ Dejar correr la vida', en: '▶ Let life run', ca: '▶ Deixar córrer la vida' })}
+          </button>
+          {corriendo && <span className="text-white/25 text-xs animate-pulse whitespace-nowrap">{tr({ es: 'pasan los meses…', en: 'months tick by…', ca: 'passen els mesos…' })}</span>}
+        </div>
       )}
     </div>
   )

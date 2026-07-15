@@ -25,6 +25,9 @@ export const EVENTOS = [
         id: 'comprar',
         texto: { es: 'Comprarlo — es único', en: 'Buy it — it\'s unique', ca: 'Comprar-lo — és únic' },
         aplicar: (p, ctx) => {
+          if (!ctx.puedePagar(ctx.cant('precio'))) {
+            return { rechazo: true, nota: { es: 'No te llega la paga para el cromo — y a los 8 años nadie te fía. Te quedas mirándolo. Aprender que sin dinero no hay compra también es aprender.', en: 'Your allowance isn\'t enough for the card — and at 8 nobody lends you money. You just stare at it. Learning that no money means no purchase is learning too.', ca: 'No t\'arriba la paga per al cromo — i als 8 anys ningú et fia. Et quedes mirant-lo. Aprendre que sense diners no hi ha compra també és aprendre.' } }
+          }
           ctx.dinero(-ctx.cant('precio'))
           // El destino del cromo se decide AHORA con la seed (30% se revaloriza)
           ctx.flag(ctx.rng() < 0.3 ? 'cromo-bueno' : 'cromo-malo')
@@ -54,6 +57,9 @@ export const EVENTOS = [
         id: 'comprar',
         texto: { es: 'Comprársela', en: 'Buy it from her', ca: 'Comprar-la-hi' },
         aplicar: (p, ctx) => {
+          if (!ctx.puedePagar(ctx.cant('precio'))) {
+            return { rechazo: true, nota: { es: 'No te llega. Tu prima se la vende a otro primo. Sin dinero no hay trato — a ninguna edad, pero de niño menos.', en: 'You can\'t afford it. Your cousin sells it to another cousin. No money, no deal — at any age, but as a kid even more so.', ca: 'No t\'arriba. La teva cosina la ven a un altre cosí. Sense diners no hi ha tracte — a qualsevol edat, però de nen menys.' } }
+          }
           ctx.dinero(-ctx.cant('precio'))
           if (ctx.rng() < 0.7) {
             ctx.bienestar(5)
@@ -86,6 +92,9 @@ export const EVENTOS = [
         texto: { es: 'Montar el puesto ({material})', en: 'Set up the stand ({material})', ca: 'Muntar la parada ({material})' },
         aplicar: (p, ctx) => {
           const c = ctx.cant('material')
+          if (!ctx.puedePagar(c)) {
+            return { rechazo: true, nota: { es: 'No tienes ni para el material. Sin dinero no se monta ni un puesto de limonada — el primer capital siempre es el más difícil.', en: 'You can\'t even cover the supplies. No money, not even a lemonade stand — the first capital is always the hardest.', ca: 'No tens ni per al material. Sense diners no es munta ni una parada de llimonada — el primer capital sempre és el més difícil.' } }
+          }
           ctx.dinero(-c)
           const r = ctx.rng()
           if (r < 0.5) {
@@ -127,6 +136,9 @@ export const EVENTOS = [
         texto: { es: 'Apostar tus {apuesta}', en: 'Bet your {apuesta}', ca: 'Apostar els teus {apuesta}' },
         aplicar: (p, ctx) => {
           const c = ctx.cant('apuesta')
+          if (!ctx.puedePagar(c)) {
+            return { rechazo: true, nota: { es: 'No tienes ni para la apuesta. Te libras, sin saberlo, de perder — la hucha vacía a veces protege.', en: 'You can\'t even cover the bet. You\'re spared a loss without knowing it — an empty piggy bank sometimes protects.', ca: 'No tens ni per a l\'aposta. Et lliures, sense saber-ho, de perdre — la guardiola buida de vegades protegeix.' } }
+          }
           if (ctx.rng() < 0.4) {
             ctx.dinero(c)
             ctx.bienestar(3)
@@ -145,37 +157,37 @@ export const EVENTOS = [
   },
   {
     id: 'paga-semanal',
-    edad: [10, 11],
+    edad: [9, 12],
     cantidades: { total: 90 },
+    // Deslizador: el jugador reparte la paga entre hucha y disfrute.
+    slider: {
+      etiqueta: { es: 'Cuánto ahorras', en: 'How much you save', ca: 'Quant estalvies' },
+      izq: { es: 'Todo a disfrutar', en: 'All on fun', ca: 'Tot a gaudir' },
+      der: { es: 'Todo a la hucha', en: 'All to savings', ca: 'Tot a la guardiola' },
+      defecto: 0.5,
+    },
     texto: {
-      es: 'Este año te suben la paga. Si la gastas cada semana en chuches y cartas, se va sin darte cuenta. Si ahorras una parte, a final de año tendrás {total}.',
-      en: 'Your allowance goes up this year. Spend it weekly on sweets and cards and it vanishes. Save part of it and you\'ll have {total} by year\'s end.',
-      ca: 'Aquest any et pugen la paga. Si la gastes cada setmana en llaminadures, se\'n va sense adonar-te\'n. Si n\'estalvies una part, a final d\'any tindràs {total}.',
+      es: 'Este año te suben la paga: unos {total} en total si la juntas. Cada euro que no gastes en chuches, cromos y el cine con amigos se queda en la hucha. ¿Cómo la repartes?',
+      en: 'Your allowance goes up this year: about {total} in total if you pool it. Every euro you don\'t spend on sweets, cards and the cinema with friends stays in the piggy bank. How do you split it?',
+      ca: 'Aquest any et pugen la paga: uns {total} en total si la ajuntes. Cada euro que no gastis en llaminadures, cromos i el cine amb amics es queda a la guardiola. Com la reparteixes?',
     },
     opciones: [
       {
-        id: 'gastar',
-        texto: { es: 'Disfrutarla cada semana', en: 'Enjoy it every week', ca: 'Gaudir-la cada setmana' },
-        aplicar: (p, ctx) => {
-          ctx.bienestar(4)
-          return { nota: { es: 'Un año dulce. En la hucha, eso sí, no queda nada.', en: 'A sweet year. Nothing left in the piggy bank though.', ca: 'Un any dolç. A la guardiola, això sí, no queda res.' } }
-        },
-      },
-      {
-        id: 'mitad',
-        texto: { es: 'Ahorrar la mitad', en: 'Save half', ca: 'Estalviar la meitat' },
-        aplicar: (p, ctx) => {
-          ctx.dinero(Math.round(ctx.cant('total') / 2))
-          return { nota: { es: 'Chuches Y ahorro. El equilibrio existe.', en: 'Sweets AND savings. Balance exists.', ca: 'Llaminadures I estalvi. L\'equilibri existeix.' } }
-        },
-      },
-      {
-        id: 'todo',
-        texto: { es: 'Ahorrarla casi entera', en: 'Save almost all of it', ca: 'Estalviar-la gairebé sencera' },
-        aplicar: (p, ctx) => {
-          ctx.dinero(ctx.cant('total'))
-          ctx.flag('ahorrador-precoz')
-          return { nota: { es: 'Tu hucha engorda. Ahorrar de niño es fácil: no tienes facturas.', en: 'Your piggy bank grows. Saving as a kid is easy: no bills.', ca: 'La guardiola s\'engreixa. Estalviar de petit és fàcil: no tens factures.' } }
+        id: 'repartir',
+        // El % del deslizador llega en `extra`; sin él, mitad y mitad
+        texto: { es: 'Repartir así', en: 'Split it this way', ca: 'Repartir-ho així' },
+        aplicar: (p, ctx, extra) => {
+          const ahorroPct = typeof extra === 'number' ? extra : 0.5
+          const total = ctx.cant('total')
+          ctx.dinero(Math.round(total * ahorroPct))
+          ctx.bienestar(Math.round((1 - ahorroPct) * 6))   // disfrutar da ánimo
+          if (ahorroPct >= 0.8) ctx.flag('ahorrador-precoz')
+          const pct = Math.round(ahorroPct * 100)
+          return { nota:
+            ahorroPct >= 0.8 ? { es: `Guardas casi toda la paga (${pct}%). Tu hucha engorda — ahorrar de niño es fácil, no tienes facturas. Ojo con pasarse: también toca ser niño.`, en: `You save almost all of it (${pct}%). Your piggy bank grows — saving as a kid is easy, no bills. Don't overdo it though: being a kid matters too.`, ca: `Guardes gairebé tota la paga (${pct}%). La guardiola s'engreixa — estalviar de petit és fàcil, no tens factures. Compte amb passar-se: també toca ser nen.` }
+            : ahorroPct <= 0.2 ? { es: `Casi todo a disfrutar (${100 - pct}%). Un año dulce y de cine con amigos. En la hucha no queda gran cosa — y no pasa nada, eres un niño.`, en: `Almost all on fun (${100 - pct}%). A sweet year of cinema with friends. Not much left in the piggy bank — and that's fine, you're a kid.`, ca: `Gairebé tot a gaudir (${100 - pct}%). Un any dolç i de cine amb amics. A la guardiola no queda gran cosa — i no passa res, ets un nen.` }
+            : { es: `Mitad y mitad, más o menos (${pct}% ahorrado). Chuches Y hucha: el equilibrio existe, y de mayor se agradece haberlo practicado pronto.`, en: `Roughly half and half (${pct}% saved). Sweets AND savings: balance exists, and later in life you'll be glad you practised it early.`, ca: `Meitat i meitat, més o menys (${pct}% estalviat). Llaminadures I guardiola: l'equilibri existeix, i de gran s'agraeix haver-ho practicat aviat.` }
+          }
         },
       },
     ],
@@ -195,6 +207,9 @@ export const EVENTOS = [
         id: 'hoy',
         texto: { es: 'Comprarlo hoy y jugar con todos', en: 'Buy it today and play with everyone', ca: 'Comprar-lo avui i jugar amb tots' },
         aplicar: (p, ctx) => {
+          if (!ctx.puedePagar(ctx.cant('hoy'))) {
+            return { rechazo: true, nota: { es: 'No te llega para el juego a precio de salida. Tendrás que esperar sí o sí — a veces la cartera decide por ti.', en: 'You can\'t afford it at launch price. You\'ll have to wait whether you like it or not — sometimes your wallet decides for you.', ca: 'No t\'arriba per al joc a preu de sortida. Hauràs d\'esperar sí o sí — de vegades la cartera decideix per tu.' } }
+          }
           ctx.dinero(-ctx.cant('hoy'))
           ctx.bienestar(5)
           return { nota: { es: 'Pagaste precio completo y jugaste la temporada entera con tu gente. Caro por caro, barato por lo demás — según cómo lo mires.', en: 'You paid full price and played the whole season with your people. Expensive one way, cheap another — depends how you look at it.', ca: 'Vas pagar preu complet i vas jugar la temporada sencera amb la teva gent. Car per car, barat per la resta — segons com ho miris.' } }

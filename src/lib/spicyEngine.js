@@ -112,7 +112,7 @@ export function crearPartida(seed = Math.floor(Math.random() * 2 ** 31)) {
   const omitidos = EVENTOS.filter(ev => ev.prob != null && rng() > ev.prob).map(ev => ev.id)
   return {
     seed, rng, economia, omitidos,
-    edad: 6, mes: 0, mesesTotales: 0,
+    edad: 5, mes: 0, mesesTotales: 0,
     edadFinal: 82 + Math.floor(rng() * 9),   // 82-90
     dinero: 15,                               // la hucha del niño
     ingresos: 0, gastos: 0,                   // anuales (el mes paga 1/12)
@@ -181,6 +181,8 @@ function crearCtx(p, evento) {
     f: fmt,
     cant: nombre => cantEvento(p, evento, nombre),
     dinero: delta => { p.dinero += delta },
+    // Antes de los 16 no hay crédito: si no tienes el dinero, no puedes gastarlo
+    puedePagar: coste => p.edad >= 16 || p.dinero >= coste,
     flag: f => { if (!p.flags.includes(f)) p.flags.push(f) },
     tieneFlag: f => p.flags.includes(f),
     bienestar: delta => { p.bienestar = clampB(p.bienestar + delta) },
@@ -582,7 +584,8 @@ export function avanzarMes(p) {
     p.dinero = Math.max(p.dinero, -escala(p, 8000))
   }
   if (p.dinero < 0) {
-    p.dinero = Math.round(p.dinero * 1.01)
+    // Sin redondear: el 1% mensual muerde también a las deudas pequeñas
+    p.dinero = p.dinero * 1.01
     if (p.mes % 4 === 0) {
       p.bienestar = clampB(p.bienestar - 2)
       log.push({ tipo: 'malo', texto: { es: `🔴 Números rojos (${fmt(p.dinero)}): el descubierto cobra intereses y quita el sueño.`, en: `🔴 In the red (${fmt(p.dinero)}): the overdraft charges interest and steals sleep.`, ca: `🔴 Números vermells (${fmt(p.dinero)}): el descobert cobra interessos i treu la son.` } })
@@ -616,9 +619,10 @@ export function avanzarMes(p) {
 }
 
 // ── Aplicar la opción elegida ────────────────────────────────────────────────
-export function elegirOpcion(p, evento, opcion) {
+// `extra` transporta datos de UI (p. ej. el % del deslizador de la paga)
+export function elegirOpcion(p, evento, opcion, extra) {
   const ctx = crearCtx(p, evento)
-  const resultado = opcion.aplicar ? opcion.aplicar(p, ctx) : null
+  const resultado = opcion.aplicar ? opcion.aplicar(p, ctx, extra) : null
   p.historial.push({ edad: p.edad, eventoId: evento.id, opcionId: opcion.id })
   return resultado
 }
