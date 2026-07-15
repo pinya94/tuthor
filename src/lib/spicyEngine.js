@@ -37,6 +37,8 @@ export const SENALES = {
   'iliquido':      { emoji: '🔒', label: { es: 'Difícil de recuperar', en: 'Hard to cash out', ca: 'Difícil de recuperar' } },
   'negocio-real':  { emoji: '🏪', label: { es: 'Negocio tangible', en: 'Tangible business', ca: 'Negoci tangible' } },
   'urgencia-tel':  { emoji: '📞', label: { es: 'Te llaman ellos y piden claves', en: 'They call YOU and ask for codes', ca: 'Et truquen ells i demanen claus' } },
+  'volatil':       { emoji: '🎢', label: { es: 'Sube y baja violentamente', en: 'Swings violently', ca: 'Puja i baixa violentament' } },
+  'especulativo':  { emoji: '🃏', label: { es: 'Vale lo que otro quiera pagar', en: 'Worth what someone else will pay', ca: 'Val el que un altre vulgui pagar' } },
 }
 
 // ── Línea económica de la partida ────────────────────────────────────────────
@@ -185,13 +187,13 @@ export function interpolar(p, evento, textoObj) {
 // ── Hitos vitales automáticos (sin decisión) ─────────────────────────────────
 function hitosDelAño(p, log) {
   if (p.edad === 18) {
-    p.ingresos = escala(p, 14000)
-    p.gastos = escala(p, 7000)
+    p.ingresos = escala(p, 11000)   // ~900 €/mes: primer curro
+    p.gastos = escala(p, 6000)
     log.push({ tipo: 'hito', texto: { es: '🎓 Terminas los estudios y empiezas a trabajar. Sigues viviendo con tu familia: es la época dorada para ahorrar.', en: '🎓 You finish school and start working. Still living with your family: the golden age for saving.', ca: "🎓 Acabes els estudis i comences a treballar. Encara vius amb la família: l'època daurada per estalviar." } })
   }
   if (p.edad === 25) {
-    p.ingresos = escala(p, 24000)
-    p.gastos = escala(p, 10000)
+    p.ingresos = escala(p, 19000)   // ~1.300 €/mes netos: sueldo normal de verdad
+    p.gastos = escala(p, 9500)
     if (p.vivienda === 'familia') {
       p.vivienda = 'alquiler'
       p.alquilerAnual = escala(p, 8400)
@@ -321,6 +323,10 @@ export function avanzarAño(p) {
   hitosDelAño(p, log)
   efectosCrisis(p, log)
   recuperarEmpleo(p, log)
+
+  // El modo de vida elegido pesa año a año sobre el bienestar
+  if (p.flags.includes('vida-ajustada')) p.bienestar = Math.max(0, p.bienestar - 1)
+  if (p.flags.includes('vida-alegre')) p.bienestar = Math.min(100, p.bienestar + 1)
 
   // Flujo de caja del año
   let cuota = 0

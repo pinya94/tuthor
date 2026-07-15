@@ -139,11 +139,11 @@ export default function Spicy() {
         score={nota}
         scoreLabel={{ es: 'nota financiera', en: 'financial score', ca: 'nota financera' }}
         message={tr(
-          real >= 300000 && p.bienestar >= 60 ? { es: '🏆 Rico y con una vida bien vivida — la partida redonda', en: '🏆 Wealthy and a life well lived — the perfect run', ca: '🏆 Ric i amb una vida ben viscuda — la partida rodona' }
-          : real >= 300000 && p.bienestar < 35 ? { es: '💼 Rico… y hecho polvo. ¿Para quién era todo ese dinero?', en: '💼 Rich… and worn out. Who was all that money for?', ca: '💼 Ric… i fet pols. Per a qui eren tots aquests diners?' }
-          : real >= 300000 ? { es: '💰 Patrimonio sólido… aunque algo austero. ¿Te dejaste vivir?', en: '💰 Solid wealth… though a bit austere. Did you let yourself live?', ca: '💰 Patrimoni sòlid… encara que una mica auster. Et vas deixar viure?' }
-          : real >= 60000 && p.bienestar >= 60 ? { es: '👍 Equilibrio entre cartera y vida — así se hace', en: '👍 Balance between wallet and life — that\'s how it\'s done', ca: '👍 Equilibri entre cartera i vida — així es fa' }
-          : real >= 60000 ? { es: '👍 Una vida financiera razonable', en: '👍 A reasonable financial life', ca: '👍 Una vida financera raonable' }
+          real >= 180000 && p.bienestar >= 60 ? { es: '🏆 Rico y con una vida bien vivida — la partida redonda', en: '🏆 Wealthy and a life well lived — the perfect run', ca: '🏆 Ric i amb una vida ben viscuda — la partida rodona' }
+          : real >= 180000 && p.bienestar < 35 ? { es: '💼 Rico… y hecho polvo. ¿Para quién era todo ese dinero?', en: '💼 Rich… and worn out. Who was all that money for?', ca: '💼 Ric… i fet pols. Per a qui eren tots aquests diners?' }
+          : real >= 180000 ? { es: '💰 Patrimonio sólido… aunque algo austero. ¿Te dejaste vivir?', en: '💰 Solid wealth… though a bit austere. Did you let yourself live?', ca: '💰 Patrimoni sòlid… encara que una mica auster. Et vas deixar viure?' }
+          : real >= 45000 && p.bienestar >= 60 ? { es: '👍 Equilibrio entre cartera y vida — así se hace', en: '👍 Balance between wallet and life — that\'s how it\'s done', ca: '👍 Equilibri entre cartera i vida — així es fa' }
+          : real >= 45000 ? { es: '👍 Una vida financiera razonable', en: '👍 A reasonable financial life', ca: '👍 Una vida financera raonable' }
           : real > 0 && p.bienestar >= 65 ? { es: '🌟 Una vida riquísima en experiencias, justita de cartera', en: '🌟 A life rich in experiences, tight on wallet', ca: '🌟 Una vida riquíssima en experiències, justeta de cartera' }
           : real > 0 ? { es: 'Llegaste justo — la próxima vida, empieza a ahorrar antes', en: 'You barely made it — next life, start saving earlier', ca: 'Vas arribar just — la pròxima vida, comença a estalviar abans' }
           : { es: '💸 Acabaste en números rojos. Cada vida enseña algo', en: '💸 You ended in the red. Every life teaches something', ca: '💸 Vas acabar en números vermells. Cada vida ensenya alguna cosa' }
