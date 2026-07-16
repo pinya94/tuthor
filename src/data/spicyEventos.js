@@ -157,37 +157,70 @@ export const EVENTOS = [
   },
   {
     id: 'paga-semanal',
-    edad: [9, 12],
-    cantidades: { total: 90 },
-    // Deslizador: el jugador reparte la paga entre hucha y disfrute.
+    edad: [9, 10],
+    // Solo aparece si en tu casa hay costumbre de paga (media/acomodada)
+    condicion: p => p.familia !== 'humilde',
     slider: {
-      etiqueta: { es: 'Cuánto ahorras', en: 'How much you save', ca: 'Quant estalvies' },
+      etiqueta: { es: 'Cuánto ahorras cada mes', en: 'How much you save monthly', ca: 'Quant estalvies cada mes' },
       izq: { es: 'Todo a disfrutar', en: 'All on fun', ca: 'Tot a gaudir' },
       der: { es: 'Todo a la hucha', en: 'All to savings', ca: 'Tot a la guardiola' },
       defecto: 0.5,
     },
     texto: {
-      es: 'Este año te suben la paga: unos {total} en total si la juntas. Cada euro que no gastes en chuches, cromos y el cine con amigos se queda en la hucha. ¿Cómo la repartes?',
-      en: 'Your allowance goes up this year: about {total} in total if you pool it. Every euro you don\'t spend on sweets, cards and the cinema with friends stays in the piggy bank. How do you split it?',
-      ca: 'Aquest any et pugen la paga: uns {total} en total si la ajuntes. Cada euro que no gastis en llaminadures, cromos i el cine amb amics es queda a la guardiola. Com la reparteixes?',
+      es: 'Tus padres empiezan a darte una paga mensual para chuches, cromos y el cine con amigos. No es mucho, pero es tuya. Cada mes puedes guardarte una parte en la hucha. ¿Cuánto ahorras de aquí en adelante?',
+      en: 'Your parents start giving you a monthly allowance for sweets, cards and the cinema with friends. It\'s not much, but it\'s yours. Each month you can save part of it. How much do you save from now on?',
+      ca: 'Els teus pares comencen a donar-te una paga mensual per a llaminadures, cromos i el cine amb amics. No és molt, però és teva. Cada mes en pots guardar una part. Quant estalvies d\'ara endavant?',
     },
     opciones: [
       {
         id: 'repartir',
-        // El % del deslizador llega en `extra`; sin él, mitad y mitad
-        texto: { es: 'Repartir así', en: 'Split it this way', ca: 'Repartir-ho així' },
+        texto: { es: 'Repartir así cada mes', en: 'Split it this way each month', ca: 'Repartir-ho així cada mes' },
         aplicar: (p, ctx, extra) => {
           const ahorroPct = typeof extra === 'number' ? extra : 0.5
-          const total = ctx.cant('total')
-          ctx.dinero(Math.round(total * ahorroPct))
-          ctx.bienestar(Math.round((1 - ahorroPct) * 6))   // disfrutar da ánimo
+          const pagaMes = ctx.pagaMesFamilia * p.indice
+          p.pagaAhorroMes = Math.round(pagaMes * ahorroPct)
+          ctx.bienestar(Math.round((1 - ahorroPct) * 5))
           if (ahorroPct >= 0.8) ctx.flag('ahorrador-precoz')
-          const pct = Math.round(ahorroPct * 100)
           return { nota:
-            ahorroPct >= 0.8 ? { es: `Guardas casi toda la paga (${pct}%). Tu hucha engorda — ahorrar de niño es fácil, no tienes facturas. Ojo con pasarse: también toca ser niño.`, en: `You save almost all of it (${pct}%). Your piggy bank grows — saving as a kid is easy, no bills. Don't overdo it though: being a kid matters too.`, ca: `Guardes gairebé tota la paga (${pct}%). La guardiola s'engreixa — estalviar de petit és fàcil, no tens factures. Compte amb passar-se: també toca ser nen.` }
-            : ahorroPct <= 0.2 ? { es: `Casi todo a disfrutar (${100 - pct}%). Un año dulce y de cine con amigos. En la hucha no queda gran cosa — y no pasa nada, eres un niño.`, en: `Almost all on fun (${100 - pct}%). A sweet year of cinema with friends. Not much left in the piggy bank — and that's fine, you're a kid.`, ca: `Gairebé tot a gaudir (${100 - pct}%). Un any dolç i de cine amb amics. A la guardiola no queda gran cosa — i no passa res, ets un nen.` }
-            : { es: `Mitad y mitad, más o menos (${pct}% ahorrado). Chuches Y hucha: el equilibrio existe, y de mayor se agradece haberlo practicado pronto.`, en: `Roughly half and half (${pct}% saved). Sweets AND savings: balance exists, and later in life you'll be glad you practised it early.`, ca: `Meitat i meitat, més o menys (${pct}% estalviat). Llaminadures I guardiola: l'equilibri existeix, i de gran s'agraeix haver-ho practicat aviat.` }
+            ahorroPct >= 0.8 ? { es: `Guardarás casi toda la paga (${ctx.f(p.pagaAhorroMes)}/mes). Poco a poco la hucha crece — el hábito de apartar, aunque sea poco, es lo que de mayor marca la diferencia.`, en: `You'll save almost all your allowance (${ctx.f(p.pagaAhorroMes)}/mo). Bit by bit the piggy bank grows — the habit of setting aside, however little, is what makes the difference later.`, ca: `Guardaràs gairebé tota la paga (${ctx.f(p.pagaAhorroMes)}/mes). A poc a poc la guardiola creix — l'hàbit d'apartar, encara que sigui poc, és el que de gran marca la diferència.` }
+            : ahorroPct <= 0.2 ? { es: `Casi todo a disfrutar (${ctx.f(p.pagaAhorroMes)}/mes a la hucha). Cine y chuches con amigos — eres un niño, también toca. La hucha crecerá despacito.`, en: `Almost all on fun (${ctx.f(p.pagaAhorroMes)}/mo to savings). Cinema and sweets with friends — you're a kid, that matters too. The piggy bank grows slowly.`, ca: `Gairebé tot a gaudir (${ctx.f(p.pagaAhorroMes)}/mes a la guardiola). Cine i llaminadures amb amics — ets un nen, també toca. La guardiola creixerà a poc a poc.` }
+            : { es: `Mitad y mitad (${ctx.f(p.pagaAhorroMes)}/mes a la hucha). Chuches Y ahorro: el equilibrio que de mayor se agradece haber practicado pronto.`, en: `Half and half (${ctx.f(p.pagaAhorroMes)}/mo to savings). Sweets AND savings: the balance you'll be glad you practised early.`, ca: `Meitat i meitat (${ctx.f(p.pagaAhorroMes)}/mes a la guardiola). Llaminadures I estalvi: l'equilibri que de gran s'agraeix haver practicat aviat.` }
           }
+        },
+      },
+    ],
+  },
+  {
+    id: 'pedir-paga',
+    edad: [10, 12],
+    // Si en casa no dan paga: ves que tus amigos sí tienen. ¿La pides?
+    condicion: p => p.familia === 'humilde' && p.pagaAhorroMes === 0,
+    texto: {
+      es: 'Tus amigos tienen paga y tú no. En casa el dinero está justo — lo sabes, lo notas en las conversaciones. Podrías pedirla igualmente… o no.',
+      en: 'Your friends get an allowance and you don\'t. Money is tight at home — you know it, you feel it in the conversations. You could ask anyway… or not.',
+      ca: 'Els teus amics tenen paga i tu no. A casa els diners estan justos — ho saps, ho notes a les converses. Podries demanar-la igualment… o no.',
+    },
+    opciones: [
+      {
+        id: 'pedir',
+        texto: { es: 'Pedirla de todas formas', en: 'Ask for it anyway', ca: 'Demanar-la igualment' },
+        aplicar: (p, ctx) => {
+          if (ctx.rng() < 0.5) {
+            p.pagaAhorroMes = Math.round(3 * p.indice)
+            ctx.bienestar(2)
+            return { nota: { es: 'Hacen un esfuerzo: una paga pequeña, la que pueden. Aprendes pronto que el dinero en tu casa se estira, no sobra — una lección que a otros les llega tarde.', en: 'They make an effort: a small allowance, what they can manage. You learn early that money at home stretches, it doesn\'t overflow — a lesson others learn late.', ca: 'Fan un esforç: una paga petita, la que poden. Aprens aviat que els diners a casa teva s\'estiren, no sobren — una lliçó que a d\'altres els arriba tard.' } }
+          }
+          ctx.bienestar(-3)
+          return { nota: { es: 'Te explican, sin dramas, que ahora mismo no puede ser. Duele un poco, pero entiendes algo que vale más que la paga: cómo funciona el dinero de verdad en una casa.', en: 'They explain, without drama, that right now it\'s not possible. It stings a little, but you understand something worth more than the allowance: how money really works in a household.', ca: 'T\'expliquen, sense drames, que ara mateix no pot ser. Fa una mica de mal, però entens una cosa que val més que la paga: com funciona el diner de debò en una casa.' } }
+        },
+      },
+      {
+        id: 'no',
+        texto: { es: 'No pedir nada', en: 'Don\'t ask', ca: 'No demanar res' },
+        aplicar: (p, ctx) => {
+          ctx.flag('consciente-pronto')
+          ctx.bienestar(1)
+          return { nota: { es: 'Decides no añadir presión. A cambio, empiezas a fijarte en cómo ganar tu propio dinero — el que nadie te tiene que dar.', en: 'You choose not to add pressure. In return, you start looking at how to earn your own money — the kind nobody has to give you.', ca: 'Decideixes no afegir pressió. A canvi, comences a fixar-te en com guanyar els teus propis diners — els que ningú t\'ha de donar.' } }
         },
       },
     ],
@@ -220,13 +253,14 @@ export const EVENTOS = [
         texto: { es: 'Esperar a que baje de precio', en: 'Wait for the price to drop', ca: 'Esperar que baixi de preu' },
         aplicar: (p, ctx) => {
           const r = ctx.rng()
+          const compra = ctx.puedePagar(ctx.cant('rebajado'))   // solo compra si le llega
           if (r < 0.5) {
-            ctx.dinero(-ctx.cant('rebajado'))
+            if (compra) ctx.dinero(-ctx.cant('rebajado'))
             ctx.bienestar(2)
             return { nota: { es: 'Bajó a los pocos meses: mismo juego por un tercio, y aún llegaste a las partidas con tus amigos. Esta vez esperar salió redondo — no siempre sale.', en: 'It dropped within months: same game for a third, and you still made it to the matches with your friends. Waiting paid off this time — it doesn\'t always.', ca: 'Va baixar al cap de pocs mesos: el mateix joc per un terç, i encara vas arribar a les partides amb els teus amics. Aquesta vegada esperar va sortir rodó — no sempre surt.' } }
           }
           if (r < 0.8) {
-            ctx.dinero(-ctx.cant('rebajado'))
+            if (compra) ctx.dinero(-ctx.cant('rebajado'))
             ctx.bienestar(-4)
             return { nota: { es: 'Tardó casi un año en bajar. Lo compraste barato… y ya no jugaba nadie: la temporada fue de los demás y tú la viste desde el banquillo. El precio no era solo dinero.', en: 'It took nearly a year to drop. You bought it cheap… and nobody was playing anymore: the season belonged to the others and you watched from the bench. The price wasn\'t only money.', ca: 'Va trigar gairebé un any a baixar. El vas comprar barat… i ja no hi jugava ningú: la temporada va ser dels altres i tu la vas veure des de la banqueta. El preu no era només diners.' } }
           }
@@ -280,17 +314,31 @@ export const EVENTOS = [
       {
         id: 'uni',
         texto: { es: 'Universidad (4 años)', en: 'University (4 years)', ca: 'Universitat (4 anys)' },
-        aplicar: (p) => {
+        aplicar: (p, ctx) => {
           p.estudios = { tipo: 'uni', añosRestantes: 4, mediaJornada: false }
-          return { nota: { es: 'Matriculado. Cuatro años sin sueldo apostando a un techo más alto. Se puede suspender, el mercado puede estar frío al salir — y aun así, de media, compensa. De media.', en: 'Enrolled. Four unpaid years betting on a higher ceiling. You can fail years, the market can be cold when you finish — and still, on average, it pays. On average.', ca: 'Matriculat. Quatre anys sense sou apostant per un sostre més alt. Es pot suspendre, el mercat pot estar fred en sortir — i tot i així, de mitjana, compensa. De mitjana.' } }
+          // Quién paga la carrera depende de tu familia
+          if (ctx.esFamilia('acomodada')) {
+            return { nota: { es: 'Matriculado, y en tu casa lo pagan sin que suponga un problema. Empiezas con una ventaja que no elegiste — aprovecharla o no ya es cosa tuya.', en: 'Enrolled, and your family covers it without strain. You start with an advantage you didn\'t choose — making the most of it is up to you.', ca: 'Matriculat, i a casa teva ho paguen sense que suposi un problema. Comences amb un avantatge que no vas triar — aprofitar-lo o no ja és cosa teva.' } }
+          }
+          if (ctx.esFamilia('media')) {
+            return { nota: { es: 'Matriculado. En casa hacen un esfuerzo para pagar la matrícula. Vas sin deuda, pero sabiendo lo que le cuesta a tu familia — eso también pesa a la hora de estudiar.', en: 'Enrolled. At home they make an effort to pay the tuition. No debt, but knowing what it costs your family — that weighs on you when you study too.', ca: 'Matriculat. A casa fan un esforç per pagar la matrícula. Vas sense deute, però sabent el que li costa a la teva família — això també pesa a l\'hora d\'estudiar.' } }
+          }
+          // Humilde: no pueden pagarla → beca-préstamo, y tendrás que compaginar
+          ctx.prestamo({ importe: Math.round(9000 * p.indice), años: 12, interes: 0.15 })
+          ctx.flag('beca-prestamo')
+          return { nota: { es: 'En casa no llegan a la matrícula, así que entras con una beca-préstamo: estudias ahora, lo devuelves después. Casi seguro tendrás que trabajar a la vez — la puerta se abre, pero con esfuerzo doble.', en: 'Your family can\'t cover tuition, so you go in on a student loan: study now, repay later. You\'ll almost certainly have to work alongside — the door opens, but with double the effort.', ca: 'A casa no arriben a la matrícula, així que entres amb una beca-préstec: estudies ara, ho tornes després. Gairebé segur que hauràs de treballar alhora — la porta s\'obre, però amb esforç doble.' } }
         },
       },
       {
         id: 'fp',
         texto: { es: 'Grado de FP (2 años)', en: 'Vocational course (2 years)', ca: 'Grau d\'FP (2 anys)' },
-        aplicar: (p) => {
+        aplicar: (p, ctx) => {
           p.estudios = { tipo: 'fp', añosRestantes: 2, mediaJornada: false }
-          return { nota: { es: 'Matriculado. Dos años, taller y prácticas: al mercado le gustan los oficios. Menos techo teórico que la uni, pero llegas antes y con algo que hacen falta manos para hacer.', en: 'Enrolled. Two years, workshop and internships: the market likes trades. A lower theoretical ceiling than uni, but you arrive sooner with skills that need actual hands.', ca: 'Matriculat. Dos anys, taller i pràctiques: al mercat li agraden els oficis. Menys sostre teòric que la uni, però hi arribes abans i amb una cosa que calen mans per fer.' } }
+          if (ctx.esFamilia('humilde')) {
+            ctx.prestamo({ importe: Math.round(3000 * p.indice), años: 8, interes: 0.12 })
+            ctx.flag('beca-prestamo')
+          }
+          return { nota: { es: 'Matriculado. Dos años, taller y prácticas: al mercado le gustan los oficios. Menos techo teórico que la uni, pero llegas antes y más barato, con algo que hacen falta manos para hacer.', en: 'Enrolled. Two years, workshop and internships: the market likes trades. A lower theoretical ceiling than uni, but you arrive sooner and cheaper, with skills that need actual hands.', ca: 'Matriculat. Dos anys, taller i pràctiques: al mercat li agraden els oficis. Menys sostre teòric que la uni, però hi arribes abans i més barat, amb una cosa que calen mans per fer.' } }
         },
       },
       {
@@ -304,29 +352,48 @@ export const EVENTOS = [
     ],
   },
   {
-    id: 'media-jornada',
+    id: 'trabajo-estudiante',
     edad: [17, 21],
     condicion: p => p.estudios != null && !p.estudios.mediaJornada,
     texto: {
-      es: 'Te ofrecen media jornada en una tienda compatible (a medias) con las clases. Dinero cada mes que tus compañeros no tienen… y horas de estudio que se esfuman.',
-      en: 'You\'re offered part-time work at a shop (sort of) compatible with classes. Monthly money your classmates don\'t have… and study hours that vanish.',
-      ca: 'T\'ofereixen mitja jornada en una botiga compatible (a mitges) amb les classes. Diners cada mes que els teus companys no tenen… i hores d\'estudi que s\'esfumen.',
+      es: 'Buscas un trabajillo para estudiante y te salen dos ofertas muy distintas. Una da más dinero pero come más horas y flexibilidad; la otra paga menos pero te deja estudiar. También puedes centrarte solo en la carrera.',
+      en: 'You look for a student job and two very different offers come up. One pays more but eats more hours and flexibility; the other pays less but leaves you room to study. You can also just focus on your degree.',
+      ca: 'Busques una feineta d\'estudiant i et surten dues ofertes molt diferents. Una dona més diners però menja més hores i flexibilitat; l\'altra paga menys però et deixa estudiar. També pots centrar-te només en la carrera.',
     },
     opciones: [
       {
-        id: 'aceptar',
-        texto: { es: 'Aceptar la media jornada', en: 'Take the part-time job', ca: 'Acceptar la mitja jornada' },
+        id: 'camarero',
+        texto: { es: 'Camarero de findes — ~700 €/mes, turnos duros', en: 'Weekend waiter — ~€700/mo, tough shifts', ca: 'Cambrer de caps de setmana — ~700 €/mes, torns durs' },
         aplicar: (p, ctx) => {
           p.estudios.mediaJornada = true
+          p.estudios.sueldoJornada = 8400
+          p.estudios.riesgoExtra = 0.13   // menos horas de estudio
           ctx.flag('curro-temprano')
-          ctx.bienestar(-5)
-          return { nota: { es: 'Nómina y apuntes a la vez: entra dinero todos los meses, duermes menos y las probabilidades de suspender suben. Nadie dijo que compaginar fuera gratis.', en: 'Payslip and lecture notes at once: money comes in monthly, you sleep less and your odds of failing go up. Nobody said juggling was free.', ca: 'Nòmina i apunts alhora: entren diners cada mes, dorms menys i les probabilitats de suspendre pugen. Ningú va dir que compaginar fos gratis.' } }
+          ctx.bienestar(-6)
+          return { nota: { es: 'Buen dinero para un estudiante, pero los findes son de bandeja y los lunes de ojeras. Sube bastante el riesgo de suspender algún curso — el tiempo no es infinito.', en: 'Good money for a student, but weekends are all trays and Mondays all eye-bags. It raises your chance of failing a year quite a bit — time isn\'t infinite.', ca: 'Bons diners per a un estudiant, però els caps de setmana són de safata i els dilluns d\'ulleres. Puja força el risc de suspendre algun curs — el temps no és infinit.' } }
+        },
+      },
+      {
+        id: 'biblioteca',
+        texto: { es: 'Becario en la biblioteca — ~450 €/mes, flexible', en: 'Library assistant — ~€450/mo, flexible', ca: 'Becari a la biblioteca — ~450 €/mes, flexible' },
+        aplicar: (p, ctx) => {
+          p.estudios.mediaJornada = true
+          p.estudios.sueldoJornada = 5400
+          p.estudios.riesgoExtra = 0.04   // casi no afecta a las notas
+          ctx.flag('curro-temprano')
+          ctx.bienestar(-2)
+          return { nota: { es: 'Menos dinero, pero entre usuario y usuario estudias, y los horarios se adaptan a tus exámenes. Compaginar sin hundir las notas también es una habilidad.', en: 'Less money, but between users you study, and the hours flex around your exams. Juggling without sinking your grades is a skill too.', ca: 'Menys diners, però entre usuari i usuari estudies, i els horaris s\'adapten als teus exàmens. Compaginar sense enfonsar les notes també és una habilitat.' } }
         },
       },
       {
         id: 'no',
-        texto: { es: 'Centrarte en estudiar', en: 'Focus on studying', ca: 'Centrar-te a estudiar' },
-        aplicar: () => ({ nota: { es: 'Todas las horas para los libros. La cuenta no crece, las probabilidades de aprobar sí. También es una inversión — solo que no se ve en el banco.', en: 'All hours for the books. Your account doesn\'t grow, your odds of passing do. That\'s an investment too — it just doesn\'t show at the bank.', ca: 'Totes les hores per als llibres. El compte no creix, les probabilitats d\'aprovar sí. També és una inversió — només que no es veu al banc.' } }),
+        texto: { es: 'Centrarte solo en estudiar', en: 'Just focus on studying', ca: 'Centrar-te només a estudiar' },
+        aplicar: (p) => {
+          if (p.flags.includes('beca-prestamo')) {
+            return { rechazo: true, nota: { es: 'Ojalá, pero entraste con una beca-préstamo y hay que ir pagándola: no puedes permitirte no trabajar. Elige uno de los dos empleos.', en: 'You wish, but you came in on a student loan and it needs paying: not working isn\'t an option. Pick one of the two jobs.', ca: 'Tant de bo, però vas entrar amb una beca-préstec i s\'ha d\'anar pagant: no pots permetre\'t no treballar. Tria una de les dues feines.' } }
+          }
+          return { nota: { es: 'Todas las horas para los libros. La cuenta no crece, las probabilidades de aprobar sí. También es una inversión — solo que no se ve en el banco.', en: 'All hours for the books. Your account doesn\'t grow, your odds of passing do. That\'s an investment too — it just doesn\'t show at the bank.', ca: 'Totes les hores per als llibres. El compte no creix, les probabilitats d\'aprovar sí. També és una inversió — només que no es veu al banc.' } }
+        },
       },
     ],
   },

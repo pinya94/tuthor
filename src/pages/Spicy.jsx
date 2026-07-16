@@ -9,7 +9,7 @@ import SEOHead from '../components/SEOHead'
 import {
   crearPartida, avanzarMes, elegirOpcion, interpolar,
   patrimonio, patrimonioReal, notaFinanciera, fmt, escala, SENALES,
-  MODOS_VIDA, CLASES_INVERSION, cambiarModoVida, invertir, venderActivo, buscarEmpleo,
+  MODOS_VIDA, CLASES_INVERSION, FAMILIAS, cambiarModoVida, invertir, venderActivo, buscarEmpleo,
 } from '../lib/spicyEngine'
 
 const SURF = 'rgba(17,20,29,0.86)'
@@ -42,11 +42,18 @@ export default function Spicy() {
     const nueva = crearPartida()
     setPartida(nueva)
     savedRef.current = false
-    logsRef.current = []
+    logsRef.current = [{
+      edad: 5, mes: 0, tipo: 'hito',
+      texto: {
+        es: `👶 Naces en una ${tr(FAMILIAS[nueva.familia].label).toLowerCase()}. No lo has elegido — pero marca tu punto de salida${nueva.familia === 'humilde' ? ': sin paga fija y la universidad tocará pagártela tú' : nueva.familia === 'acomodada' ? ': paga generosa y la universidad, cubierta' : ': con una paga modesta y algún esfuerzo para los estudios'}.`,
+        en: `👶 You're born into a ${tr(FAMILIAS[nueva.familia].label).toLowerCase()}. You didn't choose it — but it sets your starting point${nueva.familia === 'humilde' ? ': no regular allowance, and university you will have to fund yourself' : nueva.familia === 'acomodada' ? ': generous allowance and university covered' : ': a modest allowance and some effort for studies'}.`,
+        ca: `👶 Neixes en una ${tr(FAMILIAS[nueva.familia].label).toLowerCase()}. No ho has triat — però marca el teu punt de sortida${nueva.familia === 'humilde' ? ': sense paga fixa i la universitat hauràs de pagar-te-la tu' : nueva.familia === 'acomodada' ? ': paga generosa i la universitat, coberta' : ': amb una paga modesta i algun esforç per als estudis'}.`,
+      },
+    }]
     setFeedback(null)
     setAccion(null)
     setAccionNota(null)
-    setVista({ logs: [], evento: null })
+    setVista({ logs: logsRef.current.slice(), evento: null })
     setFase('jugando')
     setCorriendo(true)
   }
@@ -225,8 +232,8 @@ export default function Spicy() {
   const real = Math.round(patrimonioReal(p))
   const vidaPct = Math.min(100, Math.round(((p.edad - 5) / (p.edadFinal - 5)) * 100))
   const cuotasMes = (p.hipoteca?.cuota ?? 0) / 12 + (p.prestamos ?? []).reduce((a, pr) => a + pr.cuotaMes, 0)
-  const extraEstudios = p.estudios?.mediaJornada ? escala(p, 6000) : 0
-  const netoMes = Math.round((p.ingresos + extraEstudios - p.gastos - p.alquilerAnual) / 12 - cuotasMes)
+  const extraEstudios = p.estudios?.mediaJornada ? escala(p, p.estudios.sueldoJornada ?? 7200) : 0
+  const netoMes = Math.round((p.ingresos + extraEstudios - p.gastos - p.alquilerAnual) / 12 - cuotasMes + (p.edad < 16 ? p.pagaAhorroMes : 0))
   const mesLabel = (MESES[lang] ?? MESES.es)[p.mes]
   const ev = vista?.evento
   const respondido = feedback !== null

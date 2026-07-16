@@ -105,20 +105,32 @@ function generarEconomia(rng) {
   return { inflacion, bolsa, vivienda, crisis: [crisis1, crisis2], crisisYears }
 }
 
+// ── Contexto familiar: no toda la infancia es igual ──────────────────────────
+// Determina si hay paga, si la familia puede pagarte la universidad y cuánto
+// te "cubren" de joven. No es bueno ni malo — cambia el punto de partida.
+export const FAMILIAS = {
+  humilde:   { label: { es: 'Familia trabajadora', en: 'Working-class family', ca: 'Família treballadora' }, pagaMes: 0,  uniPagada: false, cubreJoven: 0.3 },
+  media:     { label: { es: 'Familia de clase media', en: 'Middle-class family', ca: 'Família de classe mitjana' }, pagaMes: 5,  uniPagada: false, cubreJoven: 0.55 },
+  acomodada: { label: { es: 'Familia acomodada', en: 'Well-off family', ca: 'Família benestant' }, pagaMes: 15, uniPagada: true, cubreJoven: 0.85 },
+}
+
 // ── Partida nueva ────────────────────────────────────────────────────────────
 export function crearPartida(seed = Math.floor(Math.random() * 2 ** 31)) {
   const rng = mulberry32(seed)
   const economia = generarEconomia(rng)
   const omitidos = EVENTOS.filter(ev => ev.prob != null && rng() > ev.prob).map(ev => ev.id)
+  const rf = rng()
+  const familia = rf < 0.4 ? 'humilde' : rf < 0.8 ? 'media' : 'acomodada'
   return {
-    seed, rng, economia, omitidos,
+    seed, rng, economia, omitidos, familia,
     edad: 5, mes: 0, mesesTotales: 0,
     edadFinal: 82 + Math.floor(rng() * 9),   // 82-90
-    dinero: 15,                               // la hucha del niño
+    dinero: 5,                                // la hucha del niño
     ingresos: 0, gastos: 0,                   // anuales (el mes paga 1/12)
+    pagaAhorroMes: 0,                         // lo que la paga añade a la hucha cada mes
     bienestar: 65,                            // 0-100: salud/felicidad
     modoVida: 'medio',
-    estudios: null,                           // { tipo: 'uni'|'fp', añosRestantes, mediaJornada }
+    estudios: null,                           // { tipo: 'uni'|'fp', añosRestantes, mediaJornada, sueldoJornada }
     paroMeses: 0, ingresosPrevios: 0,
     señaladoMeses: 0,                         // te buscaste otro empleo y se supo
     ultimaBusqueda: -999,
@@ -134,6 +146,20 @@ export function crearPartida(seed = Math.floor(Math.random() * 2 ** 31)) {
     experiencias: [],
     indice: 1,
     fin: false,
+  }
+}
+
+// Cambia el sueldo anual dejando siempre rastro en el feed (nunca cambia "de golpe")
+export function setIngresos(p, nuevoAnual, log, motivo) {
+  const antes = p.ingresos
+  p.ingresos = Math.round(nuevoAnual)
+  if (log && motivo && Math.abs(p.ingresos - antes) > 1) {
+    const signo = p.ingresos >= antes ? '📈' : '📉'
+    log.push({ tipo: p.ingresos >= antes ? 'bueno' : 'malo', texto: {
+      es: `${signo} ${motivo.es} Tu sueldo pasa a ${fmt(Math.round(p.ingresos / 12))}/mes.`,
+      en: `${signo} ${motivo.en} Your salary is now ${fmt(Math.round(p.ingresos / 12))}/mo.`,
+      ca: `${signo} ${motivo.ca} El teu sou passa a ${fmt(Math.round(p.ingresos / 12))}/mes.`,
+    } })
   }
 }
 
@@ -196,6 +222,9 @@ function crearCtx(p, evento) {
       const total = Math.round(importe * (1 + interes))
       p.prestamos.push({ pendiente: total, cuotaMes: Math.round(total / (años * 12)), meses: años * 12 })
     },
+    familia: p.familia,
+    esFamilia: nivel => p.familia === nivel,
+    pagaMesFamilia: FAMILIAS[p.familia].pagaMes,
     autopsia: a => { p.autopsias.push({ edad: p.edad, ...a }) },
     experiencia: titulo => { p.experiencias.push({ edad: p.edad, titulo }) },
   }
@@ -297,28 +326,43 @@ export function buscarEmpleo(p) {
   return { nota: { es: 'Alguien te vio en una entrevista y llegó a oídos de tu jefa. Nadie dice nada… pero tu nombre subió puestos en la lista de prescindibles.', en: 'Someone saw you at an interview and word reached your boss. Nobody says anything… but your name moved up the expendables list.', ca: 'Algú et va veure en una entrevista i va arribar a oïdes de la teva cap. Ningú diu res… però el teu nom va pujar llocs a la llista de prescindibles.' } }
 }
 
+// Recalcula los gastos de vida según la fase y la familia. Autoridad anual:
+// en casa de los padres ahorras una parte realista del sueldo (300-900 €/mes);
+// independizado, el alquiler y la vida se comen casi todo (ahorras poco).
+function ajustarGastos(p) {
+  const f = MODOS_VIDA[p.modoVida].factor
+  if (p.vivienda !== 'familia') {
+    p.gastos = Math.round(escala(p, 7000) * f)          // comida, suministros, ocio, transporte
+  } else if (p.edad < 18) {
+    p.gastos = 0                                        // menor en casa: la familia cubre lo esencial
+  } else if (p.ingresos > 0) {
+    // Trabajas viviendo con tu familia: contribuyes en casa + tu vida.
+    // Cuánto ahorras depende de si te dejan quedarte con lo tuyo (300-900 €/mes).
+    const consumo = { humilde: 0.82, media: 0.74, acomodada: 0.62 }[p.familia]
+    p.gastos = Math.round(p.ingresos * consumo * f)
+  } else {
+    p.gastos = Math.round(escala(p, 2400) * f)          // adulto estudiando en casa: gasto propio modesto
+  }
+}
+
 // ── Hitos vitales (al cambiar de año) ────────────────────────────────────────
 function hitosDelAño(p, log) {
-  if (p.edad === 16) {
-    // Aunque vivas con tu familia, tu vida cuesta dinero (móvil, ropa, salir)
-    p.gastos = Math.round(escala(p, 3600) * MODOS_VIDA[p.modoVida].factor)
-  }
   if (p.edad === 25 && p.vivienda === 'familia') {
     p.vivienda = 'alquiler'
-    p.alquilerAnual = escala(p, 8400)
-    p.gastos = Math.round(escala(p, 9500) * MODOS_VIDA[p.modoVida].factor)
-    log.push({ tipo: 'hito', texto: { es: '🏠 Te independizas: alquiler, facturas, comida, transporte. Tu neto mensual acaba de conocer la realidad.', en: '🏠 You move out: rent, bills, food, transport. Your monthly net just met reality.', ca: '🏠 T\'independitzes: lloguer, factures, menjar, transport. El teu net mensual acaba de conèixer la realitat.' } })
+    p.alquilerAnual = escala(p, 8400) * (p.flags.includes('capital') ? 1.4 : 1)
+    log.push({ tipo: 'hito', texto: { es: '🏠 Te independizas: alquiler, facturas, comida, transporte. Ahora ahorras mucho menos del sueldo — bienvenido a la vida adulta.', en: '🏠 You move out: rent, bills, food, transport. You now save much less of your salary — welcome to adult life.', ca: '🏠 T\'independitzes: lloguer, factures, menjar, transport. Ara estalvies molt menys del sou — benvingut a la vida adulta.' } })
   }
-  // La experiencia también sube sueldos — sin título, con techo más bajo
+  // La experiencia también sube sueldos — sin título, con techo más bajo. Avisa siempre.
   if (!p.estudios && p.ingresos > 0 && !p.flags.includes('jubilado')) {
     if (!p.flags.includes('titulado')) {
-      if (p.edad === 21) p.ingresos = Math.max(p.ingresos, escala(p, 13500))
-      if (p.edad === 26) p.ingresos = Math.max(p.ingresos, escala(p, 16500))
-      if (p.edad === 33) p.ingresos = Math.max(p.ingresos, escala(p, 18500))
-    } else if (p.edad === 30) {
-      p.ingresos = Math.max(p.ingresos, escala(p, 17000))
+      if (p.edad === 21 && p.ingresos < escala(p, 13500)) setIngresos(p, escala(p, 13500), log, { es: 'Con un par de años de experiencia, te suben.', en: 'With a couple of years\' experience, you get a raise.', ca: 'Amb un parell d\'anys d\'experiència, et pugen.' })
+      if (p.edad === 26 && p.ingresos < escala(p, 16500)) setIngresos(p, escala(p, 16500), log, { es: 'Tu experiencia empieza a pesar en la nómina.', en: 'Your experience starts to show on the payslip.', ca: 'La teva experiència comença a pesar a la nòmina.' })
+      if (p.edad === 33 && p.ingresos < escala(p, 18500)) setIngresos(p, escala(p, 18500), log, { es: 'Años de oficio: te consolidas.', en: 'Years on the job: you consolidate.', ca: 'Anys d\'ofici: et consolides.' })
+    } else if (p.edad === 30 && p.ingresos < escala(p, 17000)) {
+      setIngresos(p, escala(p, 17000), log, { es: 'Tu carrera coge tracción.', en: 'Your career gains traction.', ca: 'La teva carrera agafa tracció.' })
     }
   }
+  ajustarGastos(p)
   if (p.edad === 40) {
     const cafe = (1.5 * p.indice).toFixed(2).replace('.', ',')
     log.push({ tipo: 'hito', texto: {
@@ -351,9 +395,10 @@ function hitosDelAño(p, log) {
 function finDeCurso(p, log) {
   const e = p.estudios
   if (!e) return
+  // La matrícula la cubre la familia (media/acomodada) o la beca-préstamo:
+  // nunca sale de la hucha de un estudiante que no trabaja
   const matricula = escala(p, e.tipo === 'uni' ? 2200 : 1200)
-  p.dinero -= matricula
-  let pSuspenso = (e.tipo === 'uni' ? 0.16 : 0.10) + (e.mediaJornada ? 0.09 : 0)
+  let pSuspenso = (e.tipo === 'uni' ? 0.16 : 0.10) + (e.riesgoExtra ?? 0)
   if (p.rng() < pSuspenso) {
     p.bienestar = clampB(p.bienestar - 4)
     log.push({ tipo: 'malo', texto: { es: `📕 Curso suspendido${e.mediaJornada ? ' — compaginar trabajo y estudios pasa factura' : ''}. Repites año: otra matrícula (${fmt(matricula)}) y doce meses más.`, en: `📕 Failed the year${e.mediaJornada ? ' — juggling work and study takes its toll' : ''}. You repeat: another tuition fee (${fmt(matricula)}) and twelve more months.`, ca: `📕 Curs suspès${e.mediaJornada ? ' — compaginar feina i estudis passa factura' : ''}. Repeteixes any: una altra matrícula (${fmt(matricula)}) i dotze mesos més.` } })
@@ -372,6 +417,7 @@ function finDeCurso(p, log) {
   p.ingresos = escala(p, sueldo)
   p.estudios = null
   p.flags.push('titulado')
+  ajustarGastos(p)
   if (bueno) {
     log.push({ tipo: 'bueno', texto: { es: `🎓 Título en mano y suerte en las entrevistas: entras en un buen puesto (${fmt(Math.round(p.ingresos / 12))}/mes). El título abrió la puerta; cruzarla fue cosa tuya (y del mercado).`, en: `🎓 Degree in hand and luck in interviews: you land a good job (${fmt(Math.round(p.ingresos / 12))}/mo). The degree opened the door; walking through was you (and the market).`, ca: `🎓 Títol a la mà i sort a les entrevistes: entres en un bon lloc (${fmt(Math.round(p.ingresos / 12))}/mes). El títol va obrir la porta; creuar-la va ser cosa teva (i del mercat).` } })
   } else {
@@ -537,6 +583,9 @@ export function avanzarMes(p) {
     // El modo de vida pesa año a año sobre el ánimo
     if (p.modoVida === 'ajustado') p.bienestar = clampB(p.bienestar - 1)
     if (p.modoVida === 'alegre') p.bienestar = clampB(p.bienestar + 1)
+    // Resiliencia: sin sobresaltos, el ánimo tiende a un punto medio (ni euforia
+    // ni hundimiento permanentes). Los golpes de la vida lo mueven; el tiempo cura.
+    p.bienestar = clampB(Math.round(p.bienestar + (52 - p.bienestar) * 0.07))
 
     if (p.hipoteca) {
       p.hipoteca.años -= 1
@@ -563,6 +612,9 @@ export function avanzarMes(p) {
   empleoMensual(p, log)
   mercadosMensuales(p, log)
 
+  // La paga se ingresa MES a MES (no de golpe a fin de año)
+  if (p.pagaAhorroMes > 0 && p.edad < 16) p.dinero += p.pagaAhorroMes
+
   // Flujo de caja mensual
   let cuotaMes = (p.hipoteca?.cuota ?? 0) / 12
   for (const pr of p.prestamos) {
@@ -575,8 +627,21 @@ export function avanzarMes(p) {
     p.prestamos = p.prestamos.filter(pr => pr.meses > 0)
     log.push({ tipo: 'bueno', texto: { es: '✅ Última cuota del préstamo: deuda saldada.', en: '✅ Final loan instalment: debt cleared.', ca: '✅ Última quota del préstec: deute saldat.' } })
   }
-  const extraEstudios = p.estudios?.mediaJornada ? escala(p, 6000) : 0
-  p.dinero += Math.round((p.ingresos + extraEstudios - p.gastos - p.alquilerAnual) / 12 - cuotaMes)
+  const extraEstudios = p.estudios?.mediaJornada ? escala(p, p.estudios.sueldoJornada ?? 7200) : 0
+  const antesDinero = p.dinero
+  p.dinero += (p.ingresos + extraEstudios - p.gastos - p.alquilerAnual) / 12 - cuotaMes
+
+  // Un menor de edad no acumula deuda: la familia cubre lo esencial
+  if (p.edad < 18 && p.dinero < antesDinero && p.dinero < 0) p.dinero = Math.max(0, antesDinero)
+
+  // Apretarse el cinturón: si trabajas y la cuenta se pone en rojo por vivir
+  // (no por deudas), recortas gastos automáticamente. No te arruinas por comer,
+  // simplemente ahorras poco o nada — el drama del alquiler de por vida.
+  const soloVivir = (p.prestamos?.length ?? 0) === 0 && !p.hipoteca
+  if (p.dinero < 0 && p.ingresos > 0 && soloVivir && !p.flags.includes('arruinado')) {
+    if (p.modoVida !== 'ajustado') { p.modoVida = 'ajustado'; ajustarGastos(p) }
+    p.dinero = Math.max(p.dinero, -escala(p, 1500))
+  }
 
   // Números rojos: interés mensual y noches sin dormir. Tras una quiebra
   // nadie te presta más: la deuda toca suelo y se vive al día.
@@ -586,7 +651,9 @@ export function avanzarMes(p) {
   if (p.dinero < 0) {
     // Sin redondear: el 1% mensual muerde también a las deudas pequeñas
     p.dinero = p.dinero * 1.01
-    if (p.mes % 4 === 0) {
+    // El ánimo solo se resiente de verdad con una deuda seria (no el sobregiro
+    // de supervivencia): vivir apretado desgasta, pero no como ahogarse en deudas.
+    if (p.mes % 4 === 0 && p.dinero < -escala(p, 3000)) {
       p.bienestar = clampB(p.bienestar - 2)
       log.push({ tipo: 'malo', texto: { es: `🔴 Números rojos (${fmt(p.dinero)}): el descubierto cobra intereses y quita el sueño.`, en: `🔴 In the red (${fmt(p.dinero)}): the overdraft charges interest and steals sleep.`, ca: `🔴 Números vermells (${fmt(p.dinero)}): el descobert cobra interessos i treu la son.` } })
     }
