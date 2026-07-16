@@ -167,7 +167,7 @@ export function setIngresos(p, nuevoAnual, log, motivo) {
   p.ingresos = Math.round(nuevoAnual)
   if (log && motivo && Math.abs(p.ingresos - antes) > 1) {
     const signo = p.ingresos >= antes ? '📈' : '📉'
-    log.push({ tipo: p.ingresos >= antes ? 'bueno' : 'malo', texto: {
+    log.push({ tipo: p.ingresos >= antes ? 'bueno' : 'malo', importante: true, texto: {
       es: `${signo} ${motivo.es} Tu sueldo pasa a ${fmt(Math.round(p.ingresos / 12))}/mes.`,
       en: `${signo} ${motivo.en} Your salary is now ${fmt(Math.round(p.ingresos / 12))}/mo.`,
       ca: `${signo} ${motivo.ca} El teu sou passa a ${fmt(Math.round(p.ingresos / 12))}/mes.`,
@@ -318,21 +318,25 @@ export function invertir(p, clase, importe) {
   return { nota: notas[clase] }
 }
 
-// Vender una posición entera (el coleccionismo paga su iliquidez)
+// Vender una posición entera (el coleccionismo y lo no regulado pagan su iliquidez)
 export function venderActivo(p, activoId) {
   const a = p.activos.find(x => x.id === activoId && x.estado === 'vivo')
   if (!a) return null
-  const haircut = a.tipo === 'coleccion' ? 0.85 : 1
+  const haircut = a.tipo === 'coleccion' ? 0.85 : a.tipo === 'turbio' ? 0.9 : 1
   const importe = Math.max(0, Math.round(a.valor * haircut))
   p.dinero += importe
   a.estado = 'vendido'
   const gano = importe >= a.invertido
+  const extraDescuento = {
+    coleccion: { es: ' El 15% se quedó en el camino: encontrar comprador tiene precio.', en: ' 15% was lost on the way: finding a buyer has a price.', ca: ' El 15% es va quedar pel camí: trobar comprador té preu.' },
+    turbio: { es: ' Salir de algo no regulado tiene descuento: el 10% se quedó en el camino.', en: ' Cashing out of something unregulated has a discount: 10% was lost on the way.', ca: ' Sortir d\'una cosa no regulada té descompte: el 10% es va quedar pel camí.' },
+  }[a.tipo] ?? { es: '', en: '', ca: '' }
   return {
     importe,
     nota: {
-      es: `Vendido por ${fmt(importe)} (pusiste ${fmt(a.invertido)}).${a.tipo === 'coleccion' ? ' El 15% se quedó en el camino: encontrar comprador tiene precio.' : ''}${gano ? '' : ' Vender en pérdidas a veces es lo correcto y a veces es pánico — solo el tiempo lo dice.'}`,
-      en: `Sold for ${fmt(importe)} (you put in ${fmt(a.invertido)}).${a.tipo === 'coleccion' ? ' 15% was lost on the way: finding a buyer has a price.' : ''}${gano ? '' : ' Selling at a loss is sometimes right and sometimes panic — only time tells.'}`,
-      ca: `Venut per ${fmt(importe)} (hi vas posar ${fmt(a.invertido)}).${a.tipo === 'coleccion' ? ' El 15% es va quedar pel camí: trobar comprador té preu.' : ''}${gano ? '' : ' Vendre en pèrdues de vegades és correcte i de vegades és pànic — només el temps ho diu.'}`,
+      es: `Vendido por ${fmt(importe)} (pusiste ${fmt(a.invertido)}).${extraDescuento.es}${gano ? '' : ' Vender en pérdidas a veces es lo correcto y a veces es pánico — solo el tiempo lo dice.'}`,
+      en: `Sold for ${fmt(importe)} (you put in ${fmt(a.invertido)}).${extraDescuento.en}${gano ? '' : ' Selling at a loss is sometimes right and sometimes panic — only time tells.'}`,
+      ca: `Venut per ${fmt(importe)} (hi vas posar ${fmt(a.invertido)}).${extraDescuento.ca}${gano ? '' : ' Vendre en pèrdues de vegades és correcte i de vegades és pànic — només el temps ho diu.'}`,
     },
   }
 }
@@ -381,6 +385,17 @@ export function donarSegundaVivienda(p) {
   return { nota: { es: 'Se la donáis a vuestros hijos. Sale de vuestras cuentas — pero hay patrimonios que no se miden en tu propio balance.', en: 'You gift it to your kids. It leaves your books — but some wealth isn\'t measured on your own balance sheet.', ca: 'La doneu als vostres fills. Surt dels vostres comptes — però hi ha patrimonis que no es mesuren en el teu propi balanç.' } }
 }
 
+// Techo salarial realista según formación: sin título ~26k, FP ~34k, uni ~46k
+// (en € de hoy; escala con la inflación). Un máster sube el techo un 20%.
+// El mercado no paga sin límite: la formación marca hasta dónde llegan las subidas.
+export function techoSalarial(p) {
+  let base = 26000
+  if (p.flags.includes('titulo-fp')) base = 34000
+  if (p.flags.includes('titulo-uni')) base = 46000
+  if (p.flags.includes('formacion')) base *= 1.2
+  return escala(p, base)
+}
+
 // Buscar otro empleo: puede mejorar, no hacer nada… o señalarte
 export function buscarEmpleo(p) {
   if (p.estudios || p.flags.includes('jubilado') || p.ingresos <= 0 || p.paroMeses > 0) {
@@ -388,6 +403,9 @@ export function buscarEmpleo(p) {
   }
   if (p.mesesTotales - p.ultimaBusqueda < 24) {
     return { nota: { es: 'Acabas de moverte hace poco: el mercado (y tu currículum) necesitan un tiempo antes del siguiente salto.', en: 'You moved recently: the market (and your CV) need time before the next jump.', ca: 'Acabes de moure\'t fa poc: el mercat (i el teu currículum) necessiten un temps abans del següent salt.' } }
+  }
+  if (p.ingresos >= techoSalarial(p) * 0.98) {
+    return { nota: { es: 'Miras ofertas… y ninguna mejora lo que ya ganas: con tu formación, estás en el techo del mercado. Para subir de ahí haría falta más formación — o montar algo propio.', en: 'You browse offers… and none beats what you already earn: with your training, you\'re at the market ceiling. Going higher would take more education — or starting something of your own.', ca: 'Mires ofertes… i cap millora el que ja guanyes: amb la teva formació, ets al sostre del mercat. Per pujar d\'aquí caldria més formació — o muntar alguna cosa pròpia.' } }
   }
   p.ultimaBusqueda = p.mesesTotales
   const r = p.rng()
@@ -419,7 +437,7 @@ export function buscarEmpleo(p) {
 // concreta y si las próximas subidas llegarán solas o habrá que pedirlas.
 export function elegirOfertaEmpleo(p, oferta) {
   const antes = p.ingresos
-  p.ingresos = Math.round(p.ingresos * oferta.subida)
+  p.ingresos = Math.min(techoSalarial(p), Math.round(p.ingresos * oferta.subida))
   p.flags = p.flags.filter(f => f !== 'startup' && f !== 'revision-automatica' && f !== 'revision-manual')
   p.flags.push(oferta.automatica ? 'revision-automatica' : 'revision-manual')
   p.señaladoMeses = 0
@@ -444,12 +462,15 @@ export function pedirAumento(p) {
   if (p.mesesTotales - (p.ultimaPeticionAumento ?? -999) < 12) {
     return { nota: { es: 'Ya lo pediste hace poco. Insistir tan pronto no suele sentar bien.', en: 'You already asked recently. Pushing again this soon rarely lands well.', ca: 'Ja ho vas demanar fa poc. Insistir tan aviat no sol sentar bé.' } }
   }
+  if (p.ingresos >= techoSalarial(p) * 0.98) {
+    return { nota: { es: 'Tu jefa es sincera: cobras lo máximo que este puesto puede pagar. Con tu formación, subir de ahí no depende de pedirlo — depende de estudiar más o cambiar de juego.', en: 'Your boss is honest: you earn the most this role can pay. With your training, going higher isn\'t about asking — it\'s about studying more or changing the game.', ca: 'La teva cap és sincera: cobres el màxim que aquest lloc pot pagar. Amb la teva formació, pujar d\'aquí no depèn de demanar-ho — depèn d\'estudiar més o canviar de joc.' } }
+  }
   p.ultimaPeticionAumento = p.mesesTotales
   const r = p.rng()
   if (r < 0.35) {
     const subida = 1.05 + p.rng() * 0.08
     const antes = p.ingresos
-    p.ingresos = Math.round(p.ingresos * subida)
+    p.ingresos = Math.min(techoSalarial(p), Math.round(p.ingresos * subida))
     return { nota: { es: `Te lo conceden: +${Math.round((p.ingresos / antes - 1) * 100)}% de sueldo. Pedir no garantiza nada — pero no pedir garantiza que no llegue solo.`, en: `They grant it: +${Math.round((p.ingresos / antes - 1) * 100)}% salary. Asking doesn't guarantee anything — but not asking guarantees it won't come on its own.`, ca: `T'ho concedeixen: +${Math.round((p.ingresos / antes - 1) * 100)}% de sou. Demanar no garanteix res — però no demanar garanteix que no arribi sol.` } }
   }
   if (r < 0.8) {
@@ -511,7 +532,7 @@ function hitosDelAño(p, log) {
   if (p.edad === 25 && p.vivienda === 'familia') {
     p.vivienda = 'alquiler'
     p.alquilerAnual = Math.round(escala(p, 8400) * (p.flags.includes('capital') ? 1.4 : 1))
-    log.push({ tipo: 'hito', texto: { es: `🏠 Te independizas: alquiler (${fmt(Math.round(p.alquilerAnual / 12))}/mes), facturas, comida, transporte. Ahora ahorras mucho menos del sueldo — bienvenido a la vida adulta.`, en: `🏠 You move out: rent (${fmt(Math.round(p.alquilerAnual / 12))}/mo), bills, food, transport. You now save much less of your salary — welcome to adult life.`, ca: `🏠 T'independitzes: lloguer (${fmt(Math.round(p.alquilerAnual / 12))}/mes), factures, menjar, transport. Ara estalvies molt menys del sou — benvingut a la vida adulta.` } })
+    log.push({ tipo: 'hito', importante: true, texto: { es: `🏠 Te independizas: alquiler (${fmt(Math.round(p.alquilerAnual / 12))}/mes), facturas, comida, transporte. Ahora ahorras mucho menos del sueldo — bienvenido a la vida adulta.`, en: `🏠 You move out: rent (${fmt(Math.round(p.alquilerAnual / 12))}/mo), bills, food, transport. You now save much less of your salary — welcome to adult life.`, ca: `🏠 T'independitzes: lloguer (${fmt(Math.round(p.alquilerAnual / 12))}/mes), factures, menjar, transport. Ara estalvies molt menys del sou — benvingut a la vida adulta.` } })
   }
   // La experiencia también sube sueldos — sin título, con techo más bajo. Avisa siempre.
   if (!p.estudios && p.ingresos > 0 && !p.flags.includes('jubilado')) {
@@ -523,9 +544,10 @@ function hitosDelAño(p, log) {
       setIngresos(p, escala(p, 17000), log, { es: 'Tu carrera coge tracción.', en: 'Your career gains traction.', ca: 'La teva carrera agafa tracció.' })
     }
   }
-  // Revisión salarial automática: te lo dijeron al fichar, y aquí llega sola — no toda subida depende de pedirla
+  // Revisión salarial automática: te lo dijeron al fichar, y aquí llega sola — no toda
+  // subida depende de pedirla. El techo de tu formación limita hasta dónde llega.
   if (p.flags.includes('revision-automatica') && p.ingresos > 0 && p.rng() < 0.7) {
-    setIngresos(p, Math.round(p.ingresos * (1.02 + p.rng() * 0.03)), log, { es: 'Revisión salarial automática de la empresa.', en: 'Automatic company salary review.', ca: 'Revisió salarial automàtica de l\'empresa.' })
+    setIngresos(p, Math.min(techoSalarial(p), Math.round(p.ingresos * (1.02 + p.rng() * 0.03))), log, { es: 'Revisión salarial automática de la empresa.', en: 'Automatic company salary review.', ca: 'Revisió salarial automàtica de l\'empresa.' })
   }
   ajustarGastos(p)
   if (p.edad === 40) {
@@ -552,7 +574,7 @@ function hitosDelAño(p, log) {
     const factor = p.flags.includes('plan-pensiones') ? 0.72 : 0.58
     p.ingresos = Math.round(Math.max(p.ingresos, p.ingresosPrevios) * factor)
     ajustarGastos(p)   // recalcula ya con el flag 'jubilado' puesto: vida algo más modesta
-    log.push({ tipo: 'hito', texto: { es: `👴 Te jubilas. Tu pensión es menor que tu último sueldo${p.flags.includes('plan-pensiones') ? ', pero tu plan de pensiones la complementa' : ''}. A partir de aquí, vives de lo sembrado.`, en: `👴 You retire. Your pension is lower than your last salary${p.flags.includes('plan-pensiones') ? ', but your pension plan tops it up' : ''}. From here on, you live off what you sowed.`, ca: `👴 Et jubiles. La pensió és menor que l'últim sou${p.flags.includes('plan-pensiones') ? ', però el pla de pensions la complementa' : ''}. A partir d'aquí, vius del que has sembrat.` } })
+    log.push({ tipo: 'hito', importante: true, texto: { es: `👴 Te jubilas. Tu pensión: ${fmt(Math.round(p.ingresos / 12))}/mes — menor que tu último sueldo${p.flags.includes('plan-pensiones') ? ', pero tu plan de pensiones la complementa' : ''}. A partir de aquí, vives de lo sembrado.`, en: `👴 You retire. Your pension: ${fmt(Math.round(p.ingresos / 12))}/mo — lower than your last salary${p.flags.includes('plan-pensiones') ? ', but your pension plan tops it up' : ''}. From here on, you live off what you sowed.`, ca: `👴 Et jubiles. La pensió: ${fmt(Math.round(p.ingresos / 12))}/mes — menor que l'últim sou${p.flags.includes('plan-pensiones') ? ', però el pla de pensions la complementa' : ''}. A partir d'aquí, vius del que has sembrat.` } })
   }
 }
 
@@ -577,7 +599,7 @@ function finDeCurso(p, log) {
   // Graduación: el título mejora tus opciones — no te cae un sueldo del cielo.
   // Toca buscar el primer empleo (lleva su tiempo) y elegir entre ofertas reales.
   p.estudios = null
-  p.flags.push('titulado')
+  p.flags.push('titulado', e.tipo === 'uni' ? 'titulo-uni' : 'titulo-fp')
   p.tipoTituloPendiente = e.tipo
   p.buscandoEmpleoMeses = 2 + Math.floor(p.rng() * 5)   // 2 a 6 meses buscando
   ajustarGastos(p)
@@ -648,10 +670,10 @@ function empleoMensual(p, log) {
       p.paroMeses = 0
       p.flags = p.flags.filter(f => f !== 'despedido')
       p.bienestar = clampB(p.bienestar + 6)
-      log.push({ tipo: 'bueno', texto: { es: `💼 Nuevo trabajo (${fmt(Math.round(p.ingresos / 12))}/mes). El paro fue un puente, no un destino.`, en: `💼 New job (${fmt(Math.round(p.ingresos / 12))}/mo). Unemployment was a bridge, not a destination.`, ca: `💼 Nova feina (${fmt(Math.round(p.ingresos / 12))}/mes). L'atur va ser un pont, no una destinació.` } })
+      log.push({ tipo: 'bueno', importante: true, texto: { es: `💼 Nuevo trabajo (${fmt(Math.round(p.ingresos / 12))}/mes). El paro fue un puente, no un destino.`, en: `💼 New job (${fmt(Math.round(p.ingresos / 12))}/mo). Unemployment was a bridge, not a destination.`, ca: `💼 Nova feina (${fmt(Math.round(p.ingresos / 12))}/mes). L'atur va ser un pont, no una destinació.` } })
     } else if (p.paroMeses === 0) {
       p.ingresos = 0
-      log.push({ tipo: 'malo', texto: { es: '🔻 Se agota la prestación de paro y sigues sin trabajo. Ahora tiran (solo) tus ahorros.', en: '🔻 Unemployment benefits run out and you\'re still jobless. Now (only) your savings carry you.', ca: '🔻 S\'esgota la prestació d\'atur i segueixes sense feina. Ara tiren (només) els teus estalvis.' } })
+      log.push({ tipo: 'malo', importante: true, texto: { es: '🔻 Se agota la prestación de paro y sigues sin trabajo. Ahora tiran (solo) tus ahorros.', en: '🔻 Unemployment benefits run out and you\'re still jobless. Now (only) your savings carry you.', ca: '🔻 S\'esgota la prestació d\'atur i segueixes sense feina. Ara tiren (només) els teus estalvis.' } })
     }
     return
   }
@@ -659,7 +681,7 @@ function empleoMensual(p, log) {
     // Sin prestación: sigue buscando — solo si alguna vez tuviste empleo
     if (p.ingresosPrevios > 0 && p.rng() < 0.10) {
       p.ingresos = Math.round(p.ingresosPrevios * 0.85)
-      log.push({ tipo: 'bueno', texto: { es: `💼 Por fin: trabajo nuevo (${fmt(Math.round(p.ingresos / 12))}/mes).`, en: `💼 At last: a new job (${fmt(Math.round(p.ingresos / 12))}/mo).`, ca: `💼 Per fi: feina nova (${fmt(Math.round(p.ingresos / 12))}/mes).` } })
+      log.push({ tipo: 'bueno', importante: true, texto: { es: `💼 Por fin: trabajo nuevo (${fmt(Math.round(p.ingresos / 12))}/mes).`, en: `💼 At last: a new job (${fmt(Math.round(p.ingresos / 12))}/mo).`, ca: `💼 Per fi: feina nova (${fmt(Math.round(p.ingresos / 12))}/mes).` } })
     }
     return
   }
@@ -675,7 +697,7 @@ function empleoMensual(p, log) {
     p.paroMeses = 18
     p.flags.push('despedido')
     p.bienestar = clampB(p.bienestar - 8)
-    log.push({ tipo: 'malo', texto: { es: `📦 Te despiden${p.economia.crisisYears.has(p.edad) ? ' — la crisis se lleva puestos a miles' : ''}. Prestación de paro: el 60% de tu sueldo, máximo año y medio.`, en: `📦 You're laid off${p.economia.crisisYears.has(p.edad) ? ' — the crisis is taking thousands of jobs' : ''}. Unemployment benefit: 60% of your salary, for up to 18 months.`, ca: `📦 T'acomiaden${p.economia.crisisYears.has(p.edad) ? ' — la crisi s\'emporta llocs a milers' : ''}. Prestació d'atur: el 60% del teu sou, màxim any i mig.` } })
+    log.push({ tipo: 'malo', importante: true, texto: { es: `📦 Te despiden${p.economia.crisisYears.has(p.edad) ? ' — la crisis se lleva puestos a miles' : ''}. Prestación de paro: ${fmt(Math.round(p.ingresos / 12))}/mes (el 60% de tu sueldo), máximo año y medio.`, en: `📦 You're laid off${p.economia.crisisYears.has(p.edad) ? ' — the crisis is taking thousands of jobs' : ''}. Unemployment benefit: ${fmt(Math.round(p.ingresos / 12))}/mo (60% of your salary), for up to 18 months.`, ca: `📦 T'acomiaden${p.economia.crisisYears.has(p.edad) ? ' — la crisi s\'emporta llocs a milers' : ''}. Prestació d'atur: ${fmt(Math.round(p.ingresos / 12))}/mes (el 60% del teu sou), màxim any i mig.` } })
   }
 }
 
@@ -809,9 +831,13 @@ export function avanzarMes(p) {
     }
     const inf = p.economia.inflacion[p.edad]
     p.indice *= 1 + inf
-    p.ingresos = Math.round(p.ingresos * (1 + inf * 0.9))   // el sueldo va por detrás de los precios
-    p.gastos = Math.round(p.gastos * (1 + inf))
+    // El sueldo va por detrás de los precios. Y si estás muy por encima del techo
+    // de tu formación (startup, capital…), la empresa deja de compensarte el IPC:
+    // te has quedado "caro" y tu sueldo real decae solo — nadie recorta, pero nadie sube.
+    const sobreTecho = !p.flags.includes('jubilado') && p.ingresos > techoSalarial(p) * 1.4
+    p.ingresos = Math.round(p.ingresos * (1 + inf * (sobreTecho ? 0.3 : 0.9)))
     p.alquilerAnual = Math.round(p.alquilerAnual * (1 + inf))
+    // (los gastos de vida los recalcula ajustarGastos con el índice ya actualizado)
 
     if (p.economia.crisisYears.has(p.edad) && !p.economia.crisisYears.has(p.edad - 1)) {
       log.push({ tipo: 'malo', texto: { es: '📰 CRISIS ECONÓMICA. Los mercados se desploman y hay despidos por todas partes.', en: '📰 ECONOMIC CRISIS. Markets crash and layoffs are everywhere.', ca: '📰 CRISI ECONÒMICA. Els mercats s\'enfonsen i hi ha acomiadaments a tot arreu.' } })
@@ -832,7 +858,7 @@ export function avanzarMes(p) {
       if (p.hipoteca.años <= 0) {
         p.hipoteca = null
         p.flags.push('casa-pagada')
-        log.push({ tipo: 'bueno', texto: { es: '🎉 ¡Última cuota de la hipoteca! La casa es tuya. La cuota fija de hace 25 años se había quedado pequeña gracias a la inflación.', en: '🎉 Final mortgage payment! The house is yours. The fixed payment from 25 years ago had become small thanks to inflation.', ca: '🎉 Última quota de la hipoteca! La casa és teva. La quota fixa de fa 25 anys s\'havia quedat petita gràcies a la inflació.' } })
+        log.push({ tipo: 'bueno', importante: true, texto: { es: '🎉 ¡Última cuota de la hipoteca! La casa es tuya. La cuota fija de hace 25 años se había quedado pequeña gracias a la inflación.', en: '🎉 Final mortgage payment! The house is yours. The fixed payment from 25 years ago had become small thanks to inflation.', ca: '🎉 Última quota de la hipoteca! La casa és teva. La quota fixa de fa 25 anys s\'havia quedat petita gràcies a la inflació.' } })
       }
     }
 
@@ -924,7 +950,7 @@ export function avanzarMes(p) {
       p.prestamos = []
       p.dinero = -escala(p, 2000)
       p.bienestar = clampB(p.bienestar - 20)
-      log.push({ tipo: 'malo', texto: { es: '🏚️ Quiebra personal: concurso de acreedores. Las deudas se reestructuran y empiezas casi de cero, con la mochila (y el historial crediticio) cargados.', en: '🏚️ Personal bankruptcy: creditors\' arrangement. Debts are restructured and you start almost from zero, with a heavy load (and credit record).', ca: '🏚️ Fallida personal: concurs de creditors. Els deutes es reestructuren i comences gairebé de zero, amb la motxilla (i l\'historial creditici) carregats.' } })
+      log.push({ tipo: 'malo', importante: true, texto: { es: '🏚️ Quiebra personal: concurso de acreedores. Las deudas se reestructuran y empiezas casi de cero, con la mochila (y el historial crediticio) cargados.', en: '🏚️ Personal bankruptcy: creditors\' arrangement. Debts are restructured and you start almost from zero, with a heavy load (and credit record).', ca: '🏚️ Fallida personal: concurs de creditors. Els deutes es reestructuren i comences gairebé de zero, amb la motxilla (i l\'historial creditici) carregats.' } })
       p.autopsias.push({ edad: p.edad, tipo: 'mala', titulo: { es: 'La quiebra personal', en: 'Personal bankruptcy', ca: 'La fallida personal' }, senales: [], texto: { es: 'La deuda compone igual que el interés — pero en contra. Cuando los gastos superan a los ingresos mes tras mes, no hay inversión que lo arregle: primero se tapa el agujero, después se invierte.', en: 'Debt compounds just like interest — but against you. When expenses beat income month after month, no investment fixes it: first plug the hole, then invest.', ca: 'El deute compon igual que l\'interès — però en contra. Quan les despeses superen els ingressos mes rere mes, no hi ha inversió que ho arregli: primer es tapa el forat, després s\'inverteix.' } })
     }
   }

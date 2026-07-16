@@ -36,6 +36,7 @@ export default function Spicy() {
   const [accion, setAccion] = useState(null)         // null | 'invertir' | 'vender' | 'vida'
   const [accionNota, setAccionNota] = useState(null) // feedback de acciones libres
   const [ofertasEmpleo, setOfertasEmpleo] = useState(null) // ofertas de buscarEmpleo() a elegir
+  const [avisos, setAvisos] = useState(null)         // cambios importantes (despido, sueldo…): paran el reloj
   const [corriendo, setCorriendo] = useState(false)  // el reloj de la vida avanza
   const [sliderVal, setSliderVal] = useState(0.5)    // deslizador del evento activo
   const logsRef = useRef([])                         // feed acumulado (no re-render por sí solo)
@@ -56,6 +57,8 @@ export default function Spicy() {
     setFeedback(null)
     setAccion(null)
     setAccionNota(null)
+    setOfertasEmpleo(null)
+    setAvisos(null)
     setVista({ logs: logsRef.current.slice(), evento: null })
     setFase('jugando')
     setCorriendo(true)
@@ -64,7 +67,7 @@ export default function Spicy() {
   // El reloj: mientras `corriendo` y no haya evento/pausa, avanza un mes cada tijeretazo
   useEffect(() => {
     if (fase !== 'jugando') return
-    if (!corriendo || vista?.evento || feedback || accion || ofertasEmpleo) return
+    if (!corriendo || vista?.evento || feedback || accion || ofertasEmpleo || avisos) return
     const p = partida
     const t = setTimeout(() => {
       const autopsiasAntes = p.autopsias.length
@@ -92,11 +95,20 @@ export default function Spicy() {
         setCorriendo(false)
         return
       }
+      // Cambios importantes (despido, sueldo, paro, hitos): el reloj se para
+      // y se muestran en grande — nada de enterarte a toro pasado.
+      const importantes = r.logs.filter(l => l.importante)
+      if (importantes.length > 0) {
+        setAvisos(importantes)
+        setVista({ logs: logsRef.current.slice(), evento: null })
+        setCorriendo(false)
+        return
+      }
       setVista({ logs: logsRef.current.slice(), evento: null })
       setTick(x => x + 1)
     }, 80)
     return () => clearTimeout(t)
-  }, [corriendo, fase, vista, feedback, accion, ofertasEmpleo, partida, user])
+  }, [corriendo, fase, vista, feedback, accion, ofertasEmpleo, avisos, partida, user])
 
   function elegir(opcion) {
     const res = elegirOpcion(partida, vista.evento, opcion, vista.evento.slider ? sliderVal : undefined)
@@ -240,7 +252,7 @@ export default function Spicy() {
 
   // ── JUGANDO ────────────────────────────────────────────────────────────────
   const activosVivos = p.activos.filter(a => a.estado === 'vivo')
-  const vendibles = activosVivos.filter(a => ['fondo', 'acciones', 'cripto', 'coleccion', 'deposito'].includes(a.tipo))
+  const vendibles = activosVivos.filter(a => ['fondo', 'acciones', 'cripto', 'coleccion', 'deposito', 'turbio'].includes(a.tipo))
   const real = Math.round(patrimonioReal(p))
   const vidaPct = Math.min(100, Math.round(((p.edad - 5) / (p.edadFinal - 5)) * 100))
   const prestamosMes = (p.prestamos ?? []).reduce((a, pr) => a + pr.cuotaMes, 0)
@@ -287,8 +299,17 @@ export default function Spicy() {
         </div>
       </div>
 
-      {/* Desglose: en qué se va cada euro */}
+      {/* Desglose: en qué se va cada euro — y tu situación laboral, siempre visible */}
       <div className="rounded-xl border border-white/10 px-3 py-2 mb-3 flex flex-wrap gap-x-4 gap-y-1 text-xs" style={{ background: SURF }}>
+        <span className="text-amber-300/90 font-semibold">
+          {p.flags.includes('jubilado') ? tr({ es: '👴 Jubilado', en: '👴 Retired', ca: '👴 Jubilat' })
+            : p.estudios ? (p.estudios.mediaJornada ? tr({ es: '📚 Estudiando y trabajando', en: '📚 Studying and working', ca: '📚 Estudiant i treballant' }) : tr({ es: '📚 Estudiando', en: '📚 Studying', ca: '📚 Estudiant' }))
+            : p.buscandoEmpleoMeses > 0 ? tr({ es: '🔎 Buscando tu primer empleo', en: '🔎 Looking for your first job', ca: '🔎 Buscant la teva primera feina' })
+            : p.paroMeses > 0 ? tr({ es: `🔻 En paro (quedan ${p.paroMeses} meses de prestación)`, en: `🔻 Unemployed (${p.paroMeses} months of benefit left)`, ca: `🔻 A l'atur (queden ${p.paroMeses} mesos de prestació)` })
+            : p.ingresos > 0 ? tr({ es: '💼 Trabajando', en: '💼 Working', ca: '💼 Treballant' })
+            : p.edad >= 16 ? tr({ es: '❌ Sin ingresos', en: '❌ No income', ca: '❌ Sense ingressos' })
+            : tr({ es: '🧒 Infancia', en: '🧒 Childhood', ca: '🧒 Infància' })}
+        </span>
         <span className="text-emerald-400/80">
           {tr({ es: 'Ingresos', en: 'Income', ca: 'Ingressos' })}: <span className="font-semibold">+{fmt(ingresosMes)}/{tr({ es: 'mes', en: 'mo', ca: 'mes' })}</span>
         </span>
@@ -320,10 +341,10 @@ export default function Spicy() {
         <div className="rounded-xl border border-white/10 px-3 py-2 mb-3 flex flex-wrap gap-x-4 gap-y-1 text-xs" style={{ background: SURF }}>
           {activosVivos.map(a => {
             const cambio = a.invertido > 0 ? Math.round((a.valor / a.invertido - 1) * 100) : 0
-            const conMercado = ['fondo', 'acciones', 'cripto', 'coleccion', 'deposito'].includes(a.tipo)
+            const conMercado = ['fondo', 'acciones', 'cripto', 'coleccion', 'deposito', 'turbio'].includes(a.tipo)
             return (
               <span key={a.id} className="text-white/50">
-                {a.tipo === 'casa' ? '🏠' : a.tipo === 'casa2' ? '🏡' : a.tipo === 'fondo' ? '📈' : a.tipo === 'acciones' ? '📊' : a.tipo === 'cripto' ? '🪙' : a.tipo === 'coleccion' ? '🃏' : a.tipo === 'deposito' ? '🏦' : a.tipo === 'negocio' ? '🏪' : '❓'}{' '}
+                {a.tipo === 'casa' ? '🏠' : a.tipo === 'casa2' ? '🏡' : a.tipo === 'fondo' ? '📈' : a.tipo === 'acciones' ? '📊' : a.tipo === 'cripto' ? '🪙' : a.tipo === 'coleccion' ? '🃏' : a.tipo === 'deposito' ? '🏦' : a.tipo === 'negocio' ? '🏪' : a.tipo === 'turbio' ? '🕶️' : '❓'}{' '}
                 {tr(a.nombre)}: <span className="text-white/80 font-semibold">{fmt(a.valor)}</span>
                 {conMercado && <span className={`ml-1 font-semibold ${cambio >= 0 ? 'text-emerald-400/80' : 'text-red-400/80'}`}>{cambio >= 0 ? '▲' : '▼'}{Math.abs(cambio)}%</span>}
               </span>
@@ -405,8 +426,8 @@ export default function Spicy() {
           {vendibles.map(a => (
             <button key={a.id} onClick={() => ejecutarAccion(pp => venderActivo(pp, a.id))}
               className="w-full text-left text-xs font-semibold px-3 py-2 rounded-lg bg-white/5 hover:bg-amber-500/20 border border-white/10 text-white/70 transition-colors">
-              {tr(a.nombre)} — {tr({ es: 'vender por', en: 'sell for', ca: 'vendre per' })} ~{fmt(a.valor * (a.tipo === 'coleccion' ? 0.85 : 1))}
-              {a.tipo === 'coleccion' && <span className="text-white/35"> ({tr({ es: 'con descuento de iliquidez', en: 'illiquidity haircut applied', ca: 'amb descompte d\'iliquiditat' })})</span>}
+              {tr(a.nombre)} — {tr({ es: 'vender por', en: 'sell for', ca: 'vendre per' })} ~{fmt(a.valor * (a.tipo === 'coleccion' ? 0.85 : a.tipo === 'turbio' ? 0.9 : 1))}
+              {(a.tipo === 'coleccion' || a.tipo === 'turbio') && <span className="text-white/35"> ({tr({ es: 'con descuento de iliquidez', en: 'illiquidity haircut applied', ca: 'amb descompte d\'iliquiditat' })})</span>}
             </button>
           ))}
         </div>
@@ -484,6 +505,22 @@ export default function Spicy() {
         </div>
       )}
 
+      {/* Cambios importantes: el reloj se ha parado para que te enteres */}
+      {avisos && (
+        <div className="rounded-2xl border-2 border-amber-500/60 p-5 mb-4" style={{ background: SURF }}>
+          <p className="text-amber-400/80 text-[10px] uppercase tracking-widest font-semibold mb-3">
+            ⚠️ {tr({ es: 'Cambio importante', en: 'Important change', ca: 'Canvi important' })} · {p.edad} {tr({ es: 'años', en: 'years old', ca: 'anys' })}
+          </p>
+          {avisos.map((l, i) => (
+            <p key={i} className={`leading-relaxed mb-2 font-semibold ${l.tipo === 'malo' ? 'text-red-300' : l.tipo === 'bueno' ? 'text-emerald-300' : 'text-white'}`}>{tr(l.texto)}</p>
+          ))}
+          <button onClick={() => { setAvisos(null); setCorriendo(true) }}
+            className="w-full bg-[#EDAE49] hover:bg-amber-400 text-black font-black py-3 rounded-2xl transition-all mt-2">
+            {tr({ es: 'Seguir viviendo →', en: 'Keep living →', ca: 'Seguir vivint →' })}
+          </button>
+        </div>
+      )}
+
       {/* Ofertas de empleo a elegir tras buscar otro trabajo */}
       {ofertasEmpleo && (
         <div className="rounded-2xl border-2 border-[#EDAE49]/50 p-5 mb-4" style={{ background: SURF }}>
@@ -519,7 +556,7 @@ export default function Spicy() {
               <span className="text-white/25 text-[11px] font-bold tabular-nums shrink-0 mt-0.5 w-12">
                 {l.edad}<span className="text-white/15 font-medium">·{(MESES[lang] ?? MESES.es)[l.mes ?? 0]}</span>
               </span>
-              <p className={`leading-snug ${l.tipo === 'malo' ? 'text-red-300/80' : l.tipo === 'bueno' ? 'text-emerald-300/80' : 'text-white/55'}`}>{tr(l.texto)}</p>
+              <p className={`leading-snug ${l.importante ? 'font-bold ' : ''}${l.tipo === 'malo' ? 'text-red-300/80' : l.tipo === 'bueno' ? 'text-emerald-300/80' : 'text-white/55'}`}>{tr(l.texto)}</p>
             </div>
           ))}
         </div>
@@ -582,8 +619,8 @@ export default function Spicy() {
         </button>
       )}
 
-      {/* Control del reloj cuando la vida fluye (sin evento pendiente) */}
-      {!ev && !respondido && (
+      {/* Control del reloj cuando la vida fluye (sin evento ni aviso pendiente) */}
+      {!ev && !respondido && !avisos && !ofertasEmpleo && (
         <div className="flex items-center gap-3 mt-1">
           <button onClick={() => setCorriendo(c => !c)}
             className="flex-1 bg-white/10 hover:bg-white/20 text-white font-bold py-3 rounded-2xl transition-all">

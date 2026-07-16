@@ -139,7 +139,7 @@ export const EVENTOS = [
           if (!ctx.puedePagar(c)) {
             return { rechazo: true, nota: { es: 'No tienes ni para la apuesta. Te libras, sin saberlo, de perder — la hucha vacía a veces protege.', en: 'You can\'t even cover the bet. You\'re spared a loss without knowing it — an empty piggy bank sometimes protects.', ca: 'No tens ni per a l\'aposta. Et lliures, sense saber-ho, de perdre — la guardiola buida de vegades protegeix.' } }
           }
-          if (ctx.rng() < 0.4) {
+          if (ctx.rng() < 0.5) {
             ctx.dinero(c)
             ctx.bienestar(3)
             ctx.flag('racha-apuestas')
