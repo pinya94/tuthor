@@ -131,7 +131,7 @@ export function crearPartida(seed = Math.floor(Math.random() * 2 ** 31)) {
     seed, rng, economia, omitidos, familia,
     edad: 5, mes: 0, mesesTotales: 0,
     edadFinal: 82 + Math.floor(rng() * 9),   // 82-90
-    dinero: 5,                                // la hucha del niño
+    dinero: 30 + Math.floor(rng() * 71),      // la hucha del niño: entre 30 y 100€, si no no se puede comprar nada
     ingresos: 0, gastos: 0,                   // anuales (el mes paga 1/12)
     pagaAhorroMes: 0,                         // lo que la paga añade a la hucha cada mes
     bienestar: 65,                            // 0-100: salud/felicidad
@@ -256,12 +256,15 @@ function crearCtx(p, evento) {
   }
 }
 
-// Interpola {nombre} de cantidades en un texto trilingüe
+// Interpola {nombre} de cantidades en un texto trilingüe. `textoObj` puede ser
+// el objeto {es,en,ca} o una función (p) => {es,en,ca} para texto que depende
+// del estado de la partida (p. ej. quién paga los estudios según la familia).
 export function interpolar(p, evento, textoObj) {
   if (!textoObj) return textoObj
+  const resuelto = typeof textoObj === 'function' ? textoObj(p) : textoObj
   const out = {}
   for (const l of ['es', 'en', 'ca']) {
-    let t = textoObj[l] ?? textoObj.es
+    let t = resuelto[l] ?? resuelto.es
     if (evento.cantidades) {
       for (const nombre of Object.keys(evento.cantidades)) {
         t = t.replaceAll(`{${nombre}}`, fmt(cantEvento(p, evento, nombre)))
@@ -279,10 +282,11 @@ export function cambiarModoVida(p, modo) {
   const antes = MODOS_VIDA[p.modoVida].factor
   p.gastos = Math.round(p.gastos / antes * MODOS_VIDA[modo].factor)
   p.modoVida = modo
+  const gastoMes = fmt(Math.round(p.gastos / 12))
   const notas = {
-    ajustado: { es: 'Tupper, marcas blancas y ticket mirado. Cada mes sobra más — y cada mes pesa un poco más.', en: 'Packed lunches, own brands and checked receipts. More left over each month — and each month weighs a little more.', ca: 'Carmanyola, marques blanques i tiquet mirat. Cada mes sobra més — i cada mes pesa una mica més.' },
-    medio: { es: 'Ni monje ni derrochador: gastos normales.', en: 'Neither monk nor spendthrift: normal expenses.', ca: 'Ni monjo ni malgastador: despeses normals.' },
-    alegre: { es: 'Cenas fuera, planes que no se posponen. El neto mensual se resiente; el ánimo, al revés.', en: 'Dinners out, plans that don\'t wait. Monthly net takes the hit; your mood, the opposite.', ca: 'Sopars fora, plans que no es posposen. El net mensual se\'n ressent; l\'ànim, al revés.' },
+    ajustado: { es: `Tupper, marcas blancas y ticket mirado. Nuevo gasto: ${gastoMes}/mes. Cada mes sobra más — y cada mes pesa un poco más.`, en: `Packed lunches, own brands and checked receipts. New spending: ${gastoMes}/mo. More left over each month — and each month weighs a little more.`, ca: `Carmanyola, marques blanques i tiquet mirat. Nova despesa: ${gastoMes}/mes. Cada mes sobra més — i cada mes pesa una mica més.` },
+    medio: { es: `Ni monje ni derrochador: gastos normales (${gastoMes}/mes).`, en: `Neither monk nor spendthrift: normal expenses (${gastoMes}/mo).`, ca: `Ni monjo ni malgastador: despeses normals (${gastoMes}/mes).` },
+    alegre: { es: `Cenas fuera, planes que no se posponen. Nuevo gasto: ${gastoMes}/mes. El neto mensual se resiente; el ánimo, al revés.`, en: `Dinners out, plans that don't wait. New spending: ${gastoMes}/mo. Monthly net takes the hit; your mood, the opposite.`, ca: `Sopars fora, plans que no es posposen. Nova despesa: ${gastoMes}/mes. El net mensual se'n ressent; l'ànim, al revés.` },
   }
   return { nota: notas[modo] }
 }
@@ -461,8 +465,8 @@ function ajustarGastos(p) {
 function hitosDelAño(p, log) {
   if (p.edad === 25 && p.vivienda === 'familia') {
     p.vivienda = 'alquiler'
-    p.alquilerAnual = escala(p, 8400) * (p.flags.includes('capital') ? 1.4 : 1)
-    log.push({ tipo: 'hito', texto: { es: '🏠 Te independizas: alquiler, facturas, comida, transporte. Ahora ahorras mucho menos del sueldo — bienvenido a la vida adulta.', en: '🏠 You move out: rent, bills, food, transport. You now save much less of your salary — welcome to adult life.', ca: '🏠 T\'independitzes: lloguer, factures, menjar, transport. Ara estalvies molt menys del sou — benvingut a la vida adulta.' } })
+    p.alquilerAnual = Math.round(escala(p, 8400) * (p.flags.includes('capital') ? 1.4 : 1))
+    log.push({ tipo: 'hito', texto: { es: `🏠 Te independizas: alquiler (${fmt(Math.round(p.alquilerAnual / 12))}/mes), facturas, comida, transporte. Ahora ahorras mucho menos del sueldo — bienvenido a la vida adulta.`, en: `🏠 You move out: rent (${fmt(Math.round(p.alquilerAnual / 12))}/mo), bills, food, transport. You now save much less of your salary — welcome to adult life.`, ca: `🏠 T'independitzes: lloguer (${fmt(Math.round(p.alquilerAnual / 12))}/mes), factures, menjar, transport. Ara estalvies molt menys del sou — benvingut a la vida adulta.` } })
   }
   // La experiencia también sube sueldos — sin título, con techo más bajo. Avisa siempre.
   if (!p.estudios && p.ingresos > 0 && !p.flags.includes('jubilado')) {

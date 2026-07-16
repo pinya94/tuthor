@@ -306,10 +306,29 @@ export const EVENTOS = [
   {
     id: 'estudios-16',
     edad: [16, 16],
-    texto: {
-      es: 'Los 16: la primera decisión que marca década. ¿Carrera universitaria (4 años, la matrícula más cara), un grado de FP (2 años, más barato y práctico), o ponerte a trabajar ya y empezar a cobrar desde el primer mes? Ningún camino garantiza nada — cada uno cambia tus probabilidades.',
-      en: 'Sixteen: the first decade-shaping decision. University (4 years, pricier tuition), a vocational course (2 years, cheaper and practical), or start working now and earn from month one? No path guarantees anything — each changes your odds.',
-      ca: 'Els 16: la primera decisió que marca dècada. Carrera universitària (4 anys, la matrícula més cara), un grau d\'FP (2 anys, més barat i pràctic), o posar-te a treballar ja i començar a cobrar des del primer mes? Cap camí garanteix res — cadascun canvia les teves probabilitats.',
+    texto: p => {
+      const porFamilia = {
+        humilde: {
+          es: ' En tu casa el dinero no llega para pagar matrícula: si eliges universidad o FP, entrarás con una beca-préstamo que devolverás después, y casi seguro tendrás que compaginarlo con un trabajo.',
+          en: ' Money at home won\'t stretch to tuition: if you choose university or vocational training, you\'ll go in on a student loan you\'ll repay later, and you\'ll almost certainly need a job alongside it.',
+          ca: ' A casa teva els diners no arriben per pagar matrícula: si tries universitat o FP, hi entraràs amb una beca-préstec que tornaràs després, i gairebé segur hauràs de compaginar-ho amb una feina.',
+        },
+        media: {
+          es: ' En tu casa pueden pagarte la matrícula haciendo un esfuerzo — la universidad es la más cara de las tres opciones.',
+          en: ' Your family can cover tuition, though it\'ll be a stretch — university is the priciest of the three options.',
+          ca: ' A casa teva poden pagar-te la matrícula fent un esforç — la universitat és la més cara de les tres opcions.',
+        },
+        acomodada: {
+          es: ' En tu casa pueden pagarte cualquiera de los dos estudios sin que sea un problema.',
+          en: ' Your family can cover either path without it being a problem.',
+          ca: ' A casa teva poden pagar-te qualsevol dels dos estudis sense que sigui un problema.',
+        },
+      }[p.familia]
+      return {
+        es: `Los 16: la primera decisión que marca década. ¿Carrera universitaria (4 años), un grado de FP (2 años, más barato y práctico), o ponerte a trabajar ya y empezar a cobrar desde el primer mes?${porFamilia.es} Ningún camino garantiza nada — cada uno cambia tus probabilidades.`,
+        en: `Sixteen: the first decade-shaping decision. University (4 years), a vocational course (2 years, cheaper and practical), or start working now and earn from month one?${porFamilia.en} No path guarantees anything — each changes your odds.`,
+        ca: `Els 16: la primera decisió que marca dècada. Carrera universitària (4 anys), un grau d'FP (2 anys, més barat i pràctic), o posar-te a treballar ja i començar a cobrar des del primer mes?${porFamilia.ca} Cap camí garanteix res — cadascun canvia les teves probabilitats.`,
+      }
     },
     opciones: [
       {
@@ -1656,9 +1675,10 @@ export const EVENTOS = [
           p.alquilerAnual = Math.round(ctx.cant('alquiler') * (p.flags.includes('capital') ? 1.4 : 1))
           ctx.recalcularGastos()
           ctx.bienestar(p.ingresos > 0 ? -5 : -10)
+          const alquilerMes = ctx.f(Math.round(p.alquilerAnual / 12))
           return { nota: p.ingresos > 0
-            ? { es: 'Duele que no fuera tu decisión, pero tienes sueldo: te las apañas. Bienvenido a pagar alquiler antes de lo que esperabas.', en: 'It stings that it wasn\'t your call, but you have a salary: you manage. Welcome to paying rent earlier than expected.', ca: 'Fa mal que no fos decisió teva, però tens sou: te\'n surts. Benvingut a pagar lloguer abans del que esperaves.' }
-            : { es: 'Sin sueldo fijo, cada mes va a rozar el límite. Nadie te preguntó si estabas listo — la vida tampoco suele preguntar.', en: 'With no steady salary, every month will scrape the limit. Nobody asked if you were ready — life rarely does.', ca: 'Sense sou fix, cada mes fregarà el límit. Ningú et va preguntar si estaves llest — la vida tampoc sol preguntar.' }
+            ? { es: `Duele que no fuera tu decisión, pero tienes sueldo: te las apañas. Bienvenido a pagar alquiler (${alquilerMes}/mes) antes de lo que esperabas.`, en: `It stings that it wasn't your call, but you have a salary: you manage. Welcome to paying rent (${alquilerMes}/mo) earlier than expected.`, ca: `Fa mal que no fos decisió teva, però tens sou: te'n surts. Benvingut a pagar lloguer (${alquilerMes}/mes) abans del que esperaves.` }
+            : { es: `Sin sueldo fijo, el alquiler (${alquilerMes}/mes) va a rozar el límite cada mes. Nadie te preguntó si estabas listo — la vida tampoco suele preguntar.`, en: `With no steady salary, the rent (${alquilerMes}/mo) will scrape the limit every month. Nobody asked if you were ready — life rarely does.`, ca: `Sense sou fix, el lloguer (${alquilerMes}/mes) fregarà el límit cada mes. Ningú et va preguntar si estaves llest — la vida tampoc sol preguntar.` }
           }
         },
       },
@@ -1687,15 +1707,17 @@ export const EVENTOS = [
           const extra = { es: '', en: '', ca: '' }
           if (p.vivienda === 'alquiler') {
             p.alquilerAnual = Math.round(p.alquilerAnual * 1.3)
-            extra.es = ' Necesitáis una habitación más: os cambiáis a un piso más grande y el alquiler sube.'
-            extra.en = ' You need one more room: you move to a bigger flat and the rent goes up.'
-            extra.ca = ' Necessiteu una habitació més: us canvieu a un pis més gran i el lloguer puja.'
+            const alquilerMes = ctx.f(Math.round(p.alquilerAnual / 12))
+            extra.es = ` Necesitáis una habitación más: os cambiáis a un piso más grande — el alquiler sube a ${alquilerMes}/mes.`
+            extra.en = ` You need one more room: you move to a bigger flat — rent goes up to ${alquilerMes}/mo.`
+            extra.ca = ` Necessiteu una habitació més: us canvieu a un pis més gran — el lloguer puja a ${alquilerMes}/mes.`
           } else if (p.vivienda === 'propia' && !p.flags.includes('casa-ampliada')) {
-            ctx.prestamo({ importe: ctx.cant('obras'), años: 10, interes: 0.2 })
+            const importe = ctx.cant('obras')
+            ctx.prestamo({ importe, años: 10, interes: 0.2 })
             ctx.flag('casa-ampliada')
-            extra.es = ' Vuestro piso se queda pequeño: pedís un préstamo para ampliarlo.'
-            extra.en = ' Your flat is too small now: you take out a loan to extend it.'
-            extra.ca = ' El vostre pis es queda petit: demaneu un préstec per ampliar-lo.'
+            extra.es = ` Vuestro piso se queda pequeño: pedís un préstamo de ${ctx.f(importe)} para ampliarlo.`
+            extra.en = ` Your flat is too small now: you take out a ${ctx.f(importe)} loan to extend it.`
+            extra.ca = ` El vostre pis es queda petit: demaneu un préstec de ${ctx.f(importe)} per ampliar-lo.`
           }
           ctx.recalcularGastos()
           return { nota: { es: `Bienvenido a la familia. Gastos del primer año: ${ctx.f(c)}.${extra.es} A partir de ahora, una parte fija del sueldo es suya — hasta que cumpla 18.`, en: `Welcome to the family. First-year costs: ${ctx.f(c)}.${extra.en} From now on, a fixed slice of your salary is theirs — until they turn 18.`, ca: `Benvingut a la família. Despeses del primer any: ${ctx.f(c)}.${extra.ca} A partir d'ara, una part fixa del sou és seva — fins que en faci 18.` } }
@@ -1748,11 +1770,11 @@ export const EVENTOS = [
             p.vivienda = 'alquiler'
             p.alquilerAnual = Math.round(ctx.cant('alquilerSolo'))
             ctx.recalcularGastos()
-            return { nota: { es: 'Vendéis el piso y repartís: con tu mitad, vuelves de alquiler — solo, con todos los gastos para ti.', en: 'You sell the flat and split it: with your half, you go back to renting — alone, with every cost on you.', ca: 'Veneu el pis i repartiu: amb la teva meitat, tornes de lloguer — sol, amb totes les despeses per a tu.' } }
+            return { nota: { es: `Vendéis el piso y repartís: con tu mitad, vuelves de alquiler (${ctx.f(Math.round(p.alquilerAnual / 12))}/mes) — solo, con todos los gastos para ti.`, en: `You sell the flat and split it: with your half, you go back to renting (${ctx.f(Math.round(p.alquilerAnual / 12))}/mo) — alone, with every cost on you.`, ca: `Veneu el pis i repartiu: amb la teva meitat, tornes de lloguer (${ctx.f(Math.round(p.alquilerAnual / 12))}/mes) — sol, amb totes les despeses per a tu.` } }
           }
           p.alquilerAnual = Math.round(ctx.cant('alquilerSolo') * (p.flags.includes('capital') ? 1.4 : 1))
           ctx.recalcularGastos()
-          return { nota: { es: 'Buscas piso para ti solo: sin dos sueldos, el alquiler completo pesa más.', en: 'You find a place on your own: without two salaries, the full rent weighs more.', ca: 'Busques pis per a tu sol: sense dos sous, el lloguer complet pesa més.' } }
+          return { nota: { es: `Buscas piso para ti solo (${ctx.f(Math.round(p.alquilerAnual / 12))}/mes): sin dos sueldos, el alquiler completo pesa más.`, en: `You find a place on your own (${ctx.f(Math.round(p.alquilerAnual / 12))}/mo): without two salaries, the full rent weighs more.`, ca: `Busques pis per a tu sol (${ctx.f(Math.round(p.alquilerAnual / 12))}/mes): sense dos sous, el lloguer complet pesa més.` } }
         },
       },
     ],
