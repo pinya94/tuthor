@@ -327,6 +327,11 @@ export function venderActivo(p, activoId) {
   p.dinero += importe
   a.estado = 'vendido'
   const gano = importe >= a.invertido
+  // Salir de un activo turbio con ganancias merece su lección: sobrevivir al
+  // riesgo no lo convierte en buena decisión — solo en una que salió bien.
+  if (a.tipo === 'turbio' && gano && a.oculto?.pQuiebraAnual) {
+    p.autopsias.push({ edad: p.edad, tipo: 'neutra', titulo: a.nombre, senales: a.senales, texto: { es: `Esta vez salió bien — pero tenía un ${Math.round(a.oculto.pQuiebraAnual * 100)}% de quiebra anual. Que una apuesta salga bien no la convierte en buena decisión.`, en: `It worked out this time — but it had a ${Math.round(a.oculto.pQuiebraAnual * 100)}% yearly collapse chance. A bet paying off doesn't make it a good decision.`, ca: `Aquesta vegada va sortir bé — però tenia un ${Math.round(a.oculto.pQuiebraAnual * 100)}% de fallida anual. Que una aposta surti bé no la converteix en bona decisió.` } })
+  }
   const extraDescuento = {
     coleccion: { es: ' El 15% se quedó en el camino: encontrar comprador tiene precio.', en: ' 15% was lost on the way: finding a buyer has a price.', ca: ' El 15% es va quedar pel camí: trobar comprador té preu.' },
     turbio: { es: ' Salir de algo no regulado tiene descuento: el 10% se quedó en el camino.', en: ' Cashing out of something unregulated has a discount: 10% was lost on the way.', ca: ' Sortir d\'una cosa no regulada té descompte: el 10% es va quedar pel camí.' },
@@ -398,7 +403,7 @@ export function techoSalarial(p) {
 
 // Buscar otro empleo: puede mejorar, no hacer nada… o señalarte
 export function buscarEmpleo(p) {
-  if (p.estudios || p.flags.includes('jubilado') || p.ingresos <= 0 || p.paroMeses > 0) {
+  if (p.estudios || p.flags.includes('jubilado') || p.flags.includes('prejubilado') || p.ingresos <= 0 || p.paroMeses > 0) {
     return { nota: { es: 'Ahora mismo no estás en situación de moverte de empleo.', en: 'Right now you\'re in no position to switch jobs.', ca: 'Ara mateix no estàs en situació de moure\'t de feina.' } }
   }
   if (p.mesesTotales - p.ultimaBusqueda < 24) {
@@ -456,7 +461,7 @@ export function elegirOfertaEmpleo(p, oferta) {
 // Pedir un aumento en tu empleo actual: agencia real del jugador sobre el sueldo,
 // en vez de esperar a que "toque" solo. Riesgo real de que te digan que no.
 export function pedirAumento(p) {
-  if (p.estudios || p.flags.includes('jubilado') || p.ingresos <= 0 || p.paroMeses > 0) {
+  if (p.estudios || p.flags.includes('jubilado') || p.flags.includes('prejubilado') || p.ingresos <= 0 || p.paroMeses > 0) {
     return { nota: { es: 'Ahora mismo no tienes a quién pedírselo.', en: 'Right now there\'s nobody to ask.', ca: 'Ara mateix no tens a qui demanar-l\'hi.' } }
   }
   if (p.mesesTotales - (p.ultimaPeticionAumento ?? -999) < 12) {
@@ -529,10 +534,24 @@ function ajustarGastos(p) {
 
 // ── Hitos vitales (al cambiar de año) ────────────────────────────────────────
 function hitosDelAño(p, log) {
-  if (p.edad === 25 && p.vivienda === 'familia') {
+  // Independizarse es una DECISIÓN (evento 'independizarse' a los 24-26), no un
+  // automatismo. Pero nadie vive con sus padres para siempre: a los 34, si sigues
+  // en casa, la vida (y la familia) te empujan fuera — con aviso, como todo.
+  if (p.edad === 34 && p.vivienda === 'familia') {
     p.vivienda = 'alquiler'
     p.alquilerAnual = Math.round(escala(p, 8400) * (p.flags.includes('capital') ? 1.4 : 1))
-    log.push({ tipo: 'hito', importante: true, texto: { es: `🏠 Te independizas: alquiler (${fmt(Math.round(p.alquilerAnual / 12))}/mes), facturas, comida, transporte. Ahora ahorras mucho menos del sueldo — bienvenido a la vida adulta.`, en: `🏠 You move out: rent (${fmt(Math.round(p.alquilerAnual / 12))}/mo), bills, food, transport. You now save much less of your salary — welcome to adult life.`, ca: `🏠 T'independitzes: lloguer (${fmt(Math.round(p.alquilerAnual / 12))}/mes), factures, menjar, transport. Ara estalvies molt menys del sou — benvingut a la vida adulta.` } })
+    ajustarGastos(p)
+    log.push({ tipo: 'hito', importante: true, texto: { es: `🏠 A los 34, quedarse en casa deja de ser una opción: te independizas sí o sí. Alquiler: ${fmt(Math.round(p.alquilerAnual / 12))}/mes, más facturas y vida.`, en: `🏠 At 34, staying home stops being an option: you move out for good. Rent: ${fmt(Math.round(p.alquilerAnual / 12))}/mo, plus bills and living costs.`, ca: `🏠 Als 34, quedar-se a casa deixa de ser una opció: t'independitzes sí o sí. Lloguer: ${fmt(Math.round(p.alquilerAnual / 12))}/mes, més factures i vida.` } })
+  }
+  // A los 20 se abre el mundo de la inversión — con aviso, no en silencio
+  if (p.edad === 20 && !p.flags.includes('sabe-invertir')) {
+    p.flags.push('sabe-invertir')
+    log.push({ tipo: 'hito', importante: true, texto: { es: '📈 Ya tienes edad (y cabeza) para invertir: se desbloquea el botón Invertir. Fondo indexado, acciones, cripto, depósito… cada uno con sus señales de riesgo. Nadie te obliga — pero el tiempo es tu mejor aliado.', en: '📈 You\'re old (and wise) enough to invest: the Invest button unlocks. Index fund, stocks, crypto, deposit… each with its risk signals. Nobody forces you — but time is your best ally.', ca: '📈 Ja tens edat (i cap) per invertir: es desbloqueja el botó Invertir. Fons indexat, accions, cripto, dipòsit… cadascun amb els seus senyals de risc. Ningú t\'obliga — però el temps és el teu millor aliat.' } })
+  }
+  // Al superar 50.000 € líquidos (de hoy), aviso único: la segunda vivienda es alcanzable
+  if (p.edad >= 25 && !p.flags.includes('aviso-casa2') && p.dinero > escala(p, 50000) && !p.activos.some(a => a.tipo === 'casa2' && a.estado === 'vivo')) {
+    p.flags.push('aviso-casa2')
+    log.push({ tipo: 'hito', importante: true, texto: { es: `🏡 Tienes ${fmt(p.dinero)} en la cuenta: una segunda vivienda ya está a tu alcance (botón Segunda vivienda). Alquilarla da renta; también trae inquilinos, okupas y arreglos. Tú decides si el ladrillo es tu juego.`, en: `🏡 You have ${fmt(p.dinero)} in the bank: a second home is within reach (Second home button). Renting it out brings income; it also brings tenants, squatters and repairs. You decide if bricks are your game.`, ca: `🏡 Tens ${fmt(p.dinero)} al compte: una segona vivenda ja és al teu abast (botó Segona vivenda). Llogar-la dona renda; també porta inquilins, okupes i arranjaments. Tu decideixes si el totxo és el teu joc.` } })
   }
   // La experiencia también sube sueldos — sin título, con techo más bajo. Avisa siempre.
   if (!p.estudios && p.ingresos > 0 && !p.flags.includes('jubilado')) {
@@ -546,7 +565,8 @@ function hitosDelAño(p, log) {
   }
   // Revisión salarial automática: te lo dijeron al fichar, y aquí llega sola — no toda
   // subida depende de pedirla. El techo de tu formación limita hasta dónde llega.
-  if (p.flags.includes('revision-automatica') && p.ingresos > 0 && p.rng() < 0.7) {
+  // Solo mientras trabajas (fase trabajador): jubilado no hay empresa que revise nada.
+  if (p.flags.includes('revision-automatica') && p.ingresos > 0 && !p.flags.includes('jubilado') && !p.flags.includes('prejubilado') && !p.estudios && p.paroMeses === 0 && p.rng() < 0.5) {
     setIngresos(p, Math.min(techoSalarial(p), Math.round(p.ingresos * (1.02 + p.rng() * 0.03))), log, { es: 'Revisión salarial automática de la empresa.', en: 'Automatic company salary review.', ca: 'Revisió salarial automàtica de l\'empresa.' })
   }
   ajustarGastos(p)
@@ -660,7 +680,9 @@ function tickBusquedaPrimerEmpleo(p) {
 
 // ── Empleo: despido y recolocación (mensual) ─────────────────────────────────
 function empleoMensual(p, log) {
-  if (p.edad < 16 || p.flags.includes('jubilado') || p.estudios) return
+  // Fases de la vida: infancia/estudiante → trabajador → (pre)jubilado.
+  // Fuera de la fase trabajador no hay despidos, recolocaciones ni prestaciones.
+  if (p.edad < 16 || p.flags.includes('jubilado') || p.flags.includes('prejubilado') || p.estudios) return
   // En paro: cuenta atrás de la prestación + búsqueda
   if (p.paroMeses > 0) {
     p.paroMeses -= 1
@@ -776,17 +798,27 @@ function resolverActivosAnuales(p, log) {
     } else if (a.tipo === 'turbio') {
       if (p.rng() < a.oculto.pQuiebraAnual) {
         a.estado = 'quebrado'; a.valor = 0
-        log.push({ tipo: 'malo', texto: { es: `💥 ${a.nombre.es} desaparece de la noche a la mañana. Pierdes ${fmt(a.invertido)}.`, en: `💥 ${a.nombre.en} vanishes overnight. You lose ${fmt(a.invertido)}.`, ca: `💥 ${a.nombre.ca} desapareix d'un dia per l'altre. Perds ${fmt(a.invertido)}.` } })
+        log.push({ tipo: 'malo', importante: true, texto: { es: `💥 ${a.nombre.es} desaparece de la noche a la mañana. Pierdes ${fmt(a.invertido)}.`, en: `💥 ${a.nombre.en} vanishes overnight. You lose ${fmt(a.invertido)}.`, ca: `💥 ${a.nombre.ca} desapareix d'un dia per l'altre. Perds ${fmt(a.invertido)}.` } })
         p.autopsias.push({ edad: p.edad, tipo: 'mala', titulo: a.nombre, senales: a.senales, texto: { es: `Tenía un ${Math.round(a.oculto.pQuiebraAnual * 100)}% de probabilidad de esfumarse CADA año. Las señales estaban ahí: varias juntas no son una oportunidad — son un anzuelo.`, en: `It had a ${Math.round(a.oculto.pQuiebraAnual * 100)}% chance of vanishing EVERY year. The signals were there: several together aren't an opportunity — they're bait.`, ca: `Tenia un ${Math.round(a.oculto.pQuiebraAnual * 100)}% de probabilitat d'esfumar-se CADA any. Els senyals hi eren: diversos junts no són una oportunitat — són un ham.` } })
       } else {
-        a.valor *= 1 + a.oculto.retorno + normal(p.rng) * a.oculto.vol
-        if (años >= a.oculto.horizonte) {
-          a.estado = 'vendido'
-          p.dinero += Math.max(0, Math.round(a.valor))
-          const gano = a.valor > a.invertido
-          log.push({ tipo: gano ? 'bueno' : 'malo', texto: { es: `${gano ? '🍀' : '📉'} Recuperas ${fmt(Math.max(0, a.valor))} de ${a.nombre.es} (pusiste ${fmt(a.invertido)}).`, en: `${gano ? '🍀' : '📉'} You cash out ${fmt(Math.max(0, a.valor))} from ${a.nombre.en} (you put in ${fmt(a.invertido)}).`, ca: `${gano ? '🍀' : '📉'} Recuperes ${fmt(Math.max(0, a.valor))} de ${a.nombre.ca} (hi vas posar ${fmt(a.invertido)}).` } })
-          if (gano) p.autopsias.push({ edad: p.edad, tipo: 'neutra', titulo: a.nombre, senales: a.senales, texto: { es: `Esta vez salió bien — pero tenía un ${Math.round(a.oculto.pQuiebraAnual * 100)}% de quiebra anual. Que una apuesta salga bien no la convierte en buena decisión.`, en: `It worked out this time — but it had a ${Math.round(a.oculto.pQuiebraAnual * 100)}% yearly collapse chance. A bet paying off doesn't make it a good decision.`, ca: `Aquesta vegada va sortir bé — però tenia un ${Math.round(a.oculto.pQuiebraAnual * 100)}% de fallida anual. Que una aposta surti bé no la converteix en bona decisió.` } })
-        }
+        // Nadie vende por ti: el activo sigue vivo (y en riesgo) hasta que TÚ
+        // decidas venderlo desde la acción Vender. Pasado su recorrido, se agota.
+        a.valor *= 1 + (años >= a.oculto.horizonte ? 0 : a.oculto.retorno) + normal(p.rng) * a.oculto.vol
+      }
+    }
+    // La primera vez que una inversión se mueve fuerte, el juego avisa (luego ya
+    // controlas tú): así aprendes a mirar tu cartera sin que nadie venda por ti.
+    if (a.estado === 'vivo' && !a.avisoMovimiento && a.invertido > 0 && ['turbio', 'fondo', 'acciones', 'cripto', 'coleccion'].includes(a.tipo)) {
+      const ratio = a.valor / a.invertido
+      if (ratio >= 1.5 || ratio <= 0.6) {
+        a.avisoMovimiento = true
+        const sube = ratio >= 1.5
+        const pct = Math.abs(Math.round((ratio - 1) * 100))
+        log.push({ tipo: sube ? 'bueno' : 'malo', importante: true, texto: {
+          es: `${sube ? '📈' : '📉'} ${a.nombre.es} ${sube ? 'ha subido' : 'ha caído'} un ${pct}% desde que lo compraste (vale ${fmt(a.valor)}). Puedes venderlo cuando quieras — a partir de aquí, vigilarlo es cosa tuya.`,
+          en: `${sube ? '📈' : '📉'} ${a.nombre.en} ${sube ? 'is up' : 'is down'} ${pct}% since you bought it (worth ${fmt(a.valor)}). You can sell whenever you want — from here on, watching it is on you.`,
+          ca: `${sube ? '📈' : '📉'} ${a.nombre.ca} ${sube ? 'ha pujat' : 'ha caigut'} un ${pct}% des que el vas comprar (val ${fmt(a.valor)}). Pots vendre'l quan vulguis — a partir d'aquí, vigilar-lo és cosa teva.`,
+        } })
       }
     }
   }
@@ -831,11 +863,19 @@ export function avanzarMes(p) {
     }
     const inf = p.economia.inflacion[p.edad]
     p.indice *= 1 + inf
-    // El sueldo va por detrás de los precios. Y si estás muy por encima del techo
-    // de tu formación (startup, capital…), la empresa deja de compensarte el IPC:
-    // te has quedado "caro" y tu sueldo real decae solo — nadie recorta, pero nadie sube.
-    const sobreTecho = !p.flags.includes('jubilado') && p.ingresos > techoSalarial(p) * 1.4
-    p.ingresos = Math.round(p.ingresos * (1 + inf * (sobreTecho ? 0.3 : 0.9)))
+    // El sueldo NO se actualiza cada año: la pensión sí sube con el IPC, pero un
+    // sueldo normal solo se revisa algunos años (puede pasarse 3 congelado — y
+    // mientras tanto los precios siguen subiendo: así se pierde poder adquisitivo).
+    // Si estás muy por encima del techo de tu formación (startup, capital…), la
+    // empresa deja de compensarte casi siempre: te has quedado "caro".
+    if (p.flags.includes('jubilado') || p.flags.includes('prejubilado')) {
+      p.ingresos = Math.round(p.ingresos * (1 + inf))
+    } else if (p.ingresos > 0) {
+      const sobreTecho = p.ingresos > techoSalarial(p) * 1.4
+      if (p.rng() < (sobreTecho ? 0.25 : 0.55)) {
+        p.ingresos = Math.round(p.ingresos * (1 + inf * (sobreTecho ? 0.6 : 1.5)))
+      }
+    }
     p.alquilerAnual = Math.round(p.alquilerAnual * (1 + inf))
     // (los gastos de vida los recalcula ajustarGastos con el índice ya actualizado)
 

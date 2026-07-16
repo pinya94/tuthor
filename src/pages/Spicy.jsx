@@ -303,6 +303,7 @@ export default function Spicy() {
       <div className="rounded-xl border border-white/10 px-3 py-2 mb-3 flex flex-wrap gap-x-4 gap-y-1 text-xs" style={{ background: SURF }}>
         <span className="text-amber-300/90 font-semibold">
           {p.flags.includes('jubilado') ? tr({ es: '👴 Jubilado', en: '👴 Retired', ca: '👴 Jubilat' })
+            : p.flags.includes('prejubilado') ? tr({ es: '🌴 Prejubilado', en: '🌴 Early retired', ca: '🌴 Prejubilat' })
             : p.estudios ? (p.estudios.mediaJornada ? tr({ es: '📚 Estudiando y trabajando', en: '📚 Studying and working', ca: '📚 Estudiant i treballant' }) : tr({ es: '📚 Estudiando', en: '📚 Studying', ca: '📚 Estudiant' }))
             : p.buscandoEmpleoMeses > 0 ? tr({ es: '🔎 Buscando tu primer empleo', en: '🔎 Looking for your first job', ca: '🔎 Buscant la teva primera feina' })
             : p.paroMeses > 0 ? tr({ es: `🔻 En paro (quedan ${p.paroMeses} meses de prestación)`, en: `🔻 Unemployed (${p.paroMeses} months of benefit left)`, ca: `🔻 A l'atur (queden ${p.paroMeses} mesos de prestació)` })
@@ -379,13 +380,13 @@ export default function Spicy() {
             {MODOS_VIDA[p.modoVida].emoji} {tr({ es: 'Nivel de gasto', en: 'Spending level', ca: 'Nivell de despesa' })}: {tr(MODOS_VIDA[p.modoVida].label)}
           </button>
         )}
-        {p.edad >= 16 && p.ingresos > 0 && !p.estudios && !p.flags.includes('jubilado') && (
+        {p.edad >= 16 && p.ingresos > 0 && !p.estudios && !p.flags.includes('jubilado') && !p.flags.includes('prejubilado') && (
           <button onClick={() => ejecutarAccion(pp => buscarEmpleo(pp))}
             className="text-xs font-bold px-3 py-1.5 rounded-lg border bg-white/5 border-white/10 text-white/60 hover:text-white transition-colors">
             💼 {tr({ es: 'Buscar otro empleo', en: 'Look for another job', ca: 'Buscar una altra feina' })}
           </button>
         )}
-        {p.edad >= 18 && p.ingresos > 0 && !p.estudios && !p.flags.includes('jubilado') && (
+        {p.edad >= 18 && p.ingresos > 0 && !p.estudios && !p.flags.includes('jubilado') && !p.flags.includes('prejubilado') && (
           <button onClick={() => ejecutarAccion(pp => pedirAumento(pp))}
             className="text-xs font-bold px-3 py-1.5 rounded-lg border bg-white/5 border-white/10 text-white/60 hover:text-white transition-colors">
             🙋 {tr({ es: 'Pedir un aumento', en: 'Ask for a raise', ca: 'Demanar un augment' })}

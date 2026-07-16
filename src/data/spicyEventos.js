@@ -540,6 +540,7 @@ export const EVENTOS = [
     id: 'traslado-capital',
     edad: [29, 30],
     prob: 0.75,
+    condicion: p => p.ingresos > 0 && !p.estudios && p.paroMeses === 0,
     texto: {
       es: 'Tu empresa abre sede en la capital y te quiere allí: +25% de sueldo. La letra pequeña: los alquileres son un 40% más caros y tu gente se queda a 400 km.',
       en: 'Your company opens an office in the capital and wants you there: +25% salary. The small print: rents are 40% higher and your people stay 400 km behind.',
@@ -571,6 +572,7 @@ export const EVENTOS = [
     id: 'pareja',
     edad: [26, 28],
     prob: 0.85,
+    cantidades: { alquilerCompartido: 5500 },
     texto: {
       es: 'Llevas un año con alguien y la cosa va en serio. Toca hablar de futuro: ¿juntáis vidas (y gastos), o cada cual en su casa?',
       en: 'You\'ve been with someone for a year and it\'s getting serious. Time to talk future: join lives (and expenses), or keep separate homes?',
@@ -583,9 +585,17 @@ export const EVENTOS = [
         aplicar: (p, ctx) => {
           ctx.flag('pareja')
           ctx.flag('convive')
+          if (p.vivienda === 'familia') {
+            // Mudarse en pareja también es independizarse: sales de casa de tus padres
+            p.vivienda = 'alquiler'
+            p.alquilerAnual = Math.round(ctx.cant('alquilerCompartido') * (p.flags.includes('capital') ? 1.4 : 1))
+            ctx.recalcularGastos()
+            ctx.bienestar(8)
+            return { nota: { es: `Salís de casa de vuestras familias a un piso juntos: tu parte del alquiler son ${ctx.f(Math.round(p.alquilerAnual / 12))}/mes. Dos sueldos reparten mejor los gastos — y la vida cambia entera.`, en: `You both leave your family homes for a flat together: your share of the rent is ${ctx.f(Math.round(p.alquilerAnual / 12))}/mo. Two salaries split costs better — and life changes entirely.`, ca: `Sortiu de casa de les vostres famílies a un pis junts: la teva part del lloguer són ${ctx.f(Math.round(p.alquilerAnual / 12))}/mes. Dos sous reparteixen millor les despeses — i la vida canvia sencera.` } }
+          }
           p.alquilerAnual = Math.round(p.alquilerAnual * 0.65)
           ctx.bienestar(8)
-          return { nota: { es: 'Dos sueldos, un alquiler: tu gasto de vivienda baja un tercio. Compartir la vida también es la decisión financiera más grande que casi nadie mira como tal.', en: 'Two salaries, one rent: your housing cost drops by a third. Sharing your life is also the biggest financial decision almost nobody treats as one.', ca: 'Dos sous, un lloguer: la teva despesa d\'habitatge baixa un terç. Compartir la vida també és la decisió financera més gran que gairebé ningú mira com a tal.' } }
+          return { nota: { es: `Dos sueldos, un alquiler: tu gasto de vivienda baja a ${ctx.f(Math.round(p.alquilerAnual / 12))}/mes. Compartir la vida también es la decisión financiera más grande que casi nadie mira como tal.`, en: `Two salaries, one rent: your housing cost drops to ${ctx.f(Math.round(p.alquilerAnual / 12))}/mo. Sharing your life is also the biggest financial decision almost nobody treats as one.`, ca: `Dos sous, un lloguer: la teva despesa d'habitatge baixa a ${ctx.f(Math.round(p.alquilerAnual / 12))}/mes. Compartir la vida també és la decisió financera més gran que gairebé ningú mira com a tal.` } }
         },
       },
       {
@@ -694,6 +704,7 @@ export const EVENTOS = [
     id: 'startup-oferta',
     edad: [40, 41],
     prob: 0.8,
+    condicion: p => p.ingresos > 0 && !p.estudios && p.paroMeses === 0,
     texto: {
       es: 'Una startup te ficha: +30% de sueldo, oficina bonita, futbolín. Aún no gana dinero — "estamos en fase de crecimiento", dicen. Tu empresa actual es aburrida pero lleva 40 años en pie.',
       en: 'A startup wants you: +30% salary, nice office, table football. It doesn\'t make money yet — "we\'re in growth phase", they say. Your current company is boring but has stood for 40 years.',
@@ -772,6 +783,7 @@ export const EVENTOS = [
     id: 'roadtrip',
     edad: [28, 42],
     prob: 0.7,
+    condicion: p => p.ingresos > 0 && !p.estudios && p.paroMeses === 0,
     cantidades: { coste: 900 },
     texto: {
       es: 'Tus amigos de siempre montan LA ruta: dos semanas en furgoneta por la costa. El problema: el trabajo va a tope y no te quedan vacaciones. El viaje cuesta {coste}… más lo que decidas jugarte.',
@@ -925,6 +937,7 @@ export const EVENTOS = [
     id: 'segunda-carrera',
     edad: [33, 45],
     prob: 0.55,
+    condicion: p => p.ingresos > 0 && !p.estudios && p.paroMeses === 0,
     cantidades: { coste: 6000 },
     texto: {
       es: 'Tu trabajo se ha estancado y hay un campo que te tira desde siempre. Estudiar otra carrera a distancia, por las tardes: {coste} y dos años sin apenas vida social. Nadie te asegura que el mercado premie el cambio.',
@@ -960,6 +973,7 @@ export const EVENTOS = [
     id: 'emprender',
     edad: [34, 46],
     prob: 0.6,
+    condicion: p => p.ingresos > 0 && !p.estudios && p.paroMeses === 0,
     cantidades: { inversion: 15000 },
     senales: ['negocio-real', 'iliquido'],
     texto: {
@@ -1058,6 +1072,7 @@ export const EVENTOS = [
   {
     id: 'relojes',
     edad: [47, 55],
+    condicion: p => p.ingresos > 0 && !p.estudios,
     prob: 0.5,
     cantidades: { reloj: 6000 },
     senales: ['especulativo', 'iliquido'],
@@ -1090,6 +1105,7 @@ export const EVENTOS = [
     id: 'master-caduco',
     edad: [42, 43],
     requiere: ['formacion', 'master-caduco'],
+    condicion: p => p.ingresos > 0 && !p.estudios && p.paroMeses === 0,
     texto: {
       es: 'Malas noticias silenciosas: tu sector ha pivotado y aquel máster que pagaste apenas cuenta ya en las entrevistas. Nadie te devuelve el dinero ni el año.',
       en: 'Quiet bad news: your sector has pivoted and that master\'s you paid for barely counts in interviews anymore. Nobody refunds the money or the year.',
@@ -1110,6 +1126,7 @@ export const EVENTOS = [
     id: 'ascenso',
     edad: [42, 43],
     requiere: ['formacion', 'master-util'],
+    condicion: p => p.ingresos > 0 && !p.estudios && p.paroMeses === 0,
     texto: {
       es: 'Se abre una plaza de dirección y tu máster te pone el primero de la lista. Más sueldo (+30%)… y más horas, más viajes, más teléfono encendido a las 22h.',
       en: 'A management position opens and your master\'s puts you first in line. More salary (+30%)… and more hours, more travel, more phone on at 10pm.',
@@ -1140,6 +1157,7 @@ export const EVENTOS = [
     id: 'contacto-boda',
     edad: [44, 45],
     requiere: ['red-social'],
+    condicion: p => p.ingresos > 0 && !p.estudios && p.paroMeses === 0,
     texto: {
       es: 'Te llama alguien que conociste en una boda hace años: dirige una empresa consolidada y busca a alguien de tu perfil. Oferta seria: +15% de sueldo y estabilidad de las de antes.',
       en: 'Someone you met at a wedding years ago calls: they run an established company and want someone with your profile. A serious offer: +15% salary and old-school stability.',
@@ -1250,7 +1268,7 @@ export const EVENTOS = [
   {
     id: 'burnout',
     edad: [48, 49],
-    condicion: p => p.bienestar < 40,
+    condicion: p => p.bienestar < 40 && p.ingresos > 0 && !p.estudios && p.paroMeses === 0,
     texto: {
       es: 'El médico te mira por encima de las gafas: tensión alta, ansiedad, insomnio. "Su cuerpo lleva años pagando lo que su agenda no quiere pagar." Algo tiene que cambiar.',
       en: 'The doctor looks at you over her glasses: high blood pressure, anxiety, insomnia. "Your body has been paying for years what your calendar refuses to pay." Something has to change.',
@@ -1280,6 +1298,7 @@ export const EVENTOS = [
   {
     id: 'nivel-de-vida',
     edad: [50, 51],
+    condicion: p => p.ingresos > 0 && !p.estudios && p.paroMeses === 0,
     texto: {
       es: 'Ganas más que nunca y lo notas: restaurantes mejores, ropa mejor, "¿por qué no?" más a menudo. Puedes subirte el tren de vida de verdad… o mantener el de siempre y que la diferencia trabaje.',
       en: 'You earn more than ever and it shows: better restaurants, better clothes, more frequent "why nots". You can genuinely upgrade your lifestyle… or keep the old one and let the difference work for you.',
@@ -1473,6 +1492,7 @@ export const EVENTOS = [
     id: 'prejubilacion',
     edad: [61, 62],
     prob: 0.75,
+    condicion: p => p.ingresos > 0 && !p.estudios && p.paroMeses === 0,
     cantidades: { indemnizacion: 65000 },
     texto: {
       es: 'Tu empresa ofrece prejubilaciones: {indemnizacion} de indemnización si te vas ya. Si te quedas, sueldo normal hasta los 67. Tu cuerpo pide descanso; tu cuenta pide cabeza.',
@@ -1627,6 +1647,7 @@ export const EVENTOS = [
     edad: [24, 32],
     prob: 0.6,
     requiere: ['racha-apuestas'],
+    condicion: p => p.ingresos > 0 && !p.estudios,
     cantidades: { entrada: 500 },
     texto: {
       es: 'Póker con gente de la oficina, entrada de {entrada}. En el fondo piensas en aquella apuesta del recreo que ganaste — "esto se me da bien". Nadie más en la mesa piensa eso de sí mismo.',
@@ -1659,6 +1680,39 @@ export const EVENTOS = [
         aplicar: (p, ctx) => {
           ctx.flag('esquivo-racha')
           return { nota: { es: 'Decides que una victoria a los 12 años no dice nada sobre un póker a los 28. Reconocer que una racha pasada no es una garantía también es una habilidad — y de las que no se ven en la mesa.', en: 'You decide that a win at 12 says nothing about poker at 28. Recognising that a past streak isn\'t a guarantee is also a skill — one that doesn\'t show at the table.', ca: 'Decideixes que una victòria als 12 anys no diu res sobre un pòquer als 28. Reconèixer que una ratxa passada no és una garantia també és una habilitat — i de les que no es veuen a la taula.' } }
+        },
+      },
+    ],
+  },
+
+  {
+    id: 'independizarse',
+    edad: [24, 26],
+    condicion: p => p.vivienda === 'familia' && !p.estudios,
+    cantidades: { alquiler: 8400 },
+    texto: {
+      es: 'Tus amigos van cayendo uno a uno: piso compartido, estudio diminuto, las llaves de su propia vida. En casa se está bien (y barato)… pero la pregunta ya está encima de la mesa: ¿te independizas?',
+      en: 'Your friends are dropping one by one: shared flat, tiny studio, the keys to their own life. Home is comfortable (and cheap)… but the question is on the table: do you move out?',
+      ca: 'Els teus amics van caient un a un: pis compartit, estudi diminut, les claus de la seva pròpia vida. A casa s\'hi està bé (i barat)… però la pregunta ja és sobre la taula: t\'independitzes?',
+    },
+    opciones: [
+      {
+        id: 'irse',
+        texto: { es: 'Independizarte ya', en: 'Move out now', ca: 'Independitzar-te ja' },
+        aplicar: (p, ctx) => {
+          p.vivienda = 'alquiler'
+          p.alquilerAnual = Math.round(ctx.cant('alquiler') * (p.flags.includes('capital') ? 1.4 : 1))
+          ctx.recalcularGastos()
+          ctx.bienestar(4)
+          return { nota: { es: `Llaves propias. Alquiler: ${ctx.f(Math.round(p.alquilerAnual / 12))}/mes, más facturas, comida y transporte — ahorrarás mucho menos, pero la vida es tuya. Las dos cosas son verdad a la vez.`, en: `Your own keys. Rent: ${ctx.f(Math.round(p.alquilerAnual / 12))}/mo, plus bills, food and transport — you'll save much less, but the life is yours. Both things are true at once.`, ca: `Claus pròpies. Lloguer: ${ctx.f(Math.round(p.alquilerAnual / 12))}/mes, més factures, menjar i transport — estalviaràs molt menys, però la vida és teva. Les dues coses són veritat alhora.` } }
+        },
+      },
+      {
+        id: 'quedarse',
+        texto: { es: 'Quedarte en casa y seguir ahorrando', en: 'Stay home and keep saving', ca: 'Quedar-te a casa i seguir estalviant' },
+        aplicar: (p, ctx) => {
+          ctx.bienestar(-2)
+          return { nota: { es: 'Te quedas. Cada mes que pasa en casa es dinero que otros gastan en alquiler — la jugada financiera es buena. La cara B: la independencia también se entrena, y eso no sale en el extracto.', en: 'You stay. Every month at home is money others spend on rent — financially it\'s a smart play. The flip side: independence is also a skill you train, and that doesn\'t show on a statement.', ca: 'Et quedes. Cada mes que passa a casa són diners que altres gasten en lloguer — la jugada financera és bona. La cara B: la independència també s\'entrena, i això no surt a l\'extracte.' } }
         },
       },
     ],
