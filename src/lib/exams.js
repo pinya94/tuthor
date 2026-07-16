@@ -47,6 +47,13 @@ export const EXAMS = {
     emoji: '🇺🇸', subject: 'geografia',
   },
 
+  // ── Economía ───────────────────────────────────────────────────────────────
+  'finanzas-personales': {
+    label: { es: 'Finanzas Personales', en: 'Personal Finance', ca: 'Finances Personals' },
+    emoji: '💰', subject: 'economia',
+    path: 'examen/finanzas-personales', page: () => import('../pages/FinanzasPersonalesExamen'),
+  },
+
   // ── Matemáticas ────────────────────────────────────────────────────────────
   'algebra': {
     label: { es: 'Álgebra', en: 'Algebra', ca: 'Àlgebra' },

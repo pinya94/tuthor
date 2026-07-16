@@ -295,6 +295,35 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Matemáticas', niveles: 'Primaria, ESO, Bachillerato',
   },
+  'spicy': {
+    titulo: 'Spicy',
+    subtitulo: 'Simulador de Vida Financiera',
+    emoji: '🌶️', gradient: 'from-amber-500 to-red-700',
+    path: '/juegos/spicy',
+    examPath: '/examen/finanzas-personales',
+    intro: 'Vive una vida entera, de los 5 a los 80-90 años, tomando las decisiones de dinero que marcan de verdad una vida: estudiar o trabajar, alquilar o comprar, ahorrar o invertir, fiarte de una oferta o desconfiar. El tiempo corre solo; cuando toca decidir, se para. La inflación no descansa, y nadie te dice los riesgos con números — hay que aprender a leer las señales.',
+    beneficios: [
+      { titulo: 'Educación Financiera Vivida, no Memorizada', texto: 'En vez de definiciones de libro, el alumno experimenta en carne propia qué es la inflación, el interés compuesto, la diversificación o una hipoteca — y qué se siente al perder dinero en un timo con "rentabilidad garantizada".' },
+      { titulo: 'Pensamiento Probabilístico', texto: 'Casi ninguna decisión del juego tiene una respuesta "correcta" fija: los porcentajes deciden. El alumno aprende que invertir es gestionar probabilidades, no acertar un examen.' },
+      { titulo: 'Reconocimiento de Señales de Riesgo', texto: 'Cada oferta turbia viene marcada con señales visibles (sin regular, prisa, "garantizado"...). Con la repetición, detectarlas se vuelve automático — la mejor defensa contra las estafas reales.' },
+    ],
+    ejemplo: 'Un jugador de 25 años recibe 3.000 € de su primer año trabajando. Puede meterlos en un depósito seguro, dejarlos en la cuenta (donde la inflación se los va comiendo en silencio) o gastárselos en un viaje. No hay una sola respuesta correcta — cada camino cambia el resto de la partida.',
+    enPapel: {
+      titulo: 'El juego de la vida financiera en papel',
+      pasos: [
+        'Escribe en tarjetas 15-20 decisiones de dinero típicas de cada edad (comprar algo caro de niño, elegir estudios a los 16, invertir los primeros ahorros, comprar piso...).',
+        'Cada jugador empieza con una "familia" al azar (humilde, media, acomodada) que determina cuánta paga y ayuda recibe.',
+        'Por turnos, roba una tarjeta y decide. Anota en una hoja el dinero que entra y sale.',
+        'Al final, compara quién terminó con más patrimonio — y discutid qué decisiones fueron suerte y cuáles, buena gestión.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'El examen de Finanzas Personales', desc: 'Repasa en formato test las ideas clave que enseña Spicy: inflación, interés compuesto, diversificación, deuda y señales de estafa.' },
+      { nombre: 'Simuladores de bolsa para principiantes', desc: 'Muchas plataformas ofrecen carteras "de mentira" con dinero ficticio para practicar comprar y vender sin riesgo real.' },
+      { nombre: 'El juego de la Bolsa de mesa', desc: 'Juegos de mesa clásicos sobre invertir en empresas y gestionar una cartera enseñan las mismas ideas de riesgo y diversificación sin pantallas.' },
+    ],
+    asignatura: 'Economía', niveles: 'ESO, Bachillerato',
+  },
 }
 
 export const FICHAS_EN = {
@@ -523,6 +552,35 @@ export const FICHAS_EN = {
       { nombre: 'Probability game', desc: 'Use dice or cards to simulate penalty shootouts and apply probability rules to see whether strategy improves outcomes.' },
     ],
     asignatura: 'Mathematics', niveles: 'Primary, Secondary, Sixth Form',
+  },
+  'spicy': {
+    titulo: 'Spicy',
+    subtitulo: 'Financial Life Simulator',
+    emoji: '🌶️', gradient: 'from-amber-500 to-red-700',
+    path: '/juegos/spicy',
+    examPath: '/examen/finanzas-personales',
+    intro: 'Live an entire life, from age 5 to 80-90, making the money decisions that really shape a life: study or work, rent or buy, save or invest, trust an offer or stay wary. Time runs on its own; when a decision comes up, it stops. Inflation never rests, and nobody tells you the risks in numbers — you have to learn to read the signals.',
+    beneficios: [
+      { titulo: 'Financial Education Lived, not Memorised', texto: 'Instead of textbook definitions, students experience firsthand what inflation, compound interest, diversification or a mortgage actually are — and what it feels like to lose money to a "guaranteed return" scam.' },
+      { titulo: 'Probabilistic Thinking', texto: 'Almost no decision in the game has one fixed "right" answer: percentages decide. Students learn that investing is about managing probabilities, not acing an exam.' },
+      { titulo: 'Recognising Risk Signals', texto: 'Every shady offer comes marked with visible signals (unregulated, urgency, "guaranteed"...). With repetition, spotting them becomes automatic — the best defence against real-world scams.' },
+    ],
+    ejemplo: 'A 25-year-old player receives €3,000 from their first year working. They can put it in a safe deposit, leave it in the account (where inflation quietly eats it away) or spend it on a trip. There is no single right answer — each path changes the rest of the run.',
+    enPapel: {
+      titulo: 'The financial life game on paper',
+      pasos: [
+        'Write 15-20 typical money decisions for each age on cards (buying something expensive as a kid, choosing what to study at 16, investing your first savings, buying a flat...).',
+        'Each player starts with a random "family" (working-class, middle-class, well-off) that determines how much allowance and help they get.',
+        'Take turns drawing a card and deciding. Track the money coming in and out on a sheet.',
+        'At the end, compare who ended up with the most wealth — and discuss which decisions were luck and which were good management.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'The Personal Finance exam', desc: 'Review the key ideas Spicy teaches in quiz form: inflation, compound interest, diversification, debt and scam signals.' },
+      { nombre: 'Beginner stock-market simulators', desc: 'Many platforms offer "fake" portfolios with play money to practise buying and selling without real risk.' },
+      { nombre: 'Board games about investing', desc: 'Classic board games about investing in companies and managing a portfolio teach the same risk and diversification ideas without screens.' },
+    ],
+    asignatura: 'Economics', niveles: 'Secondary, Sixth Form',
   },
 }
 
@@ -820,5 +878,34 @@ export const FICHAS_CA = {
       { nombre: 'Joc de probabilitats', desc: 'Amb daus o cartes, simula partits de penals i aplica regles de probabilitat per veure si l\'estratègia millora el resultat.' },
     ],
     asignatura: 'Matemàtiques', niveles: 'Primària, ESO, Batxillerat',
+  },
+  'spicy': {
+    titulo: 'Spicy',
+    subtitulo: 'Simulador de Vida Financera',
+    emoji: '🌶️', gradient: 'from-amber-500 to-red-700',
+    path: '/juegos/spicy',
+    examPath: '/examen/finanzas-personales',
+    intro: 'Viu una vida sencera, dels 5 als 80-90 anys, prenent les decisions de diners que marquen de debò una vida: estudiar o treballar, llogar o comprar, estalviar o invertir, fiar-te d\'una oferta o desconfiar. El temps corre sol; quan toca decidir, es para. La inflació no descansa, i ningú et diu els riscos amb números — cal aprendre a llegir els senyals.',
+    beneficios: [
+      { titulo: 'Educació Financera Viscuda, no Memoritzada', texto: 'En lloc de definicions de llibre, l\'alumne experimenta en primera persona què és la inflació, l\'interès compost, la diversificació o una hipoteca — i què se sent en perdre diners en una estafa amb "rendibilitat garantida".' },
+      { titulo: 'Pensament Probabilístic', texto: 'Gairebé cap decisió del joc té una resposta "correcta" fixa: els percentatges decideixen. L\'alumne aprèn que invertir és gestionar probabilitats, no encertar un examen.' },
+      { titulo: 'Reconeixement de Senyals de Risc', texto: 'Cada oferta tèrbola ve marcada amb senyals visibles (sense regular, pressa, "garantit"...). Amb la repetició, detectar-los es torna automàtic — la millor defensa contra les estafes reals.' },
+    ],
+    ejemplo: 'Un jugador de 25 anys rep 3.000 € del seu primer any treballant. Pot ficar-los en un dipòsit segur, deixar-los al compte (on la inflació se\'ls va menjant en silenci) o gastar-los en un viatge. No hi ha una única resposta correcta — cada camí canvia la resta de la partida.',
+    enPapel: {
+      titulo: 'El joc de la vida financera en paper',
+      pasos: [
+        'Escriu en targetes 15-20 decisions de diners típiques de cada edat (comprar alguna cosa cara de nen, triar estudis als 16, invertir els primers estalvis, comprar pis...).',
+        'Cada jugador comença amb una "família" a l\'atzar (treballadora, mitjana, benestant) que determina quanta paga i ajuda rep.',
+        'Per torns, roba una targeta i decideix. Anota en un full els diners que entren i surten.',
+        'Al final, compara qui va acabar amb més patrimoni — i discutiu quines decisions van ser sort i quines, bona gestió.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'L\'examen de Finances Personals', desc: 'Repassa en format test les idees clau que ensenya Spicy: inflació, interès compost, diversificació, deute i senyals d\'estafa.' },
+      { nombre: 'Simuladors de borsa per a principiants', desc: 'Moltes plataformes ofereixen carteres "de mentida" amb diners ficticis per practicar comprar i vendre sense risc real.' },
+      { nombre: 'El joc de la Borsa de taula', desc: 'Jocs de taula clàssics sobre invertir en empreses i gestionar una cartera ensenyen les mateixes idees de risc i diversificació sense pantalles.' },
+    ],
+    asignatura: 'Economia', niveles: 'ESO, Batxillerat',
   },
 }

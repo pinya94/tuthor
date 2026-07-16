@@ -19,6 +19,7 @@ const DATA = {
       { titulo: 'Historia y Ciencias Sociales', emoji: '⏳', texto: 'Aprender fechas, contextos y personajes históricos no tiene por qué ser memorización pasiva. Nuestros juegos convierten los temarios oficiales en experiencias interactivas que fijan los conceptos de forma duradera.' },
       { titulo: 'Geografía', emoji: '🌍', texto: 'La geografía cobra vida cuando tienes que pensar rápido. Aprende países, continentes, ríos y montañas a través de pistas progresivas que te obligan a conectar datos geográficos en tiempo real.' },
       { titulo: 'Idiomas y Gramática', emoji: '🔍', texto: 'Trabajar vocabulario, categorías gramaticales y ortografía de forma activa es mucho más eficaz que estudiar listas de palabras. Nuestros juegos de lengua plantean retos contextualizados que refuerzan el español, el catalán y el inglés.' },
+      { titulo: 'Economía y Finanzas Personales', emoji: '💰', texto: 'Entender el dinero de verdad requiere tomar decisiones, no memorizar definiciones. Nuestro simulador de vida financiera enseña inflación, interés compuesto, deuda y señales de estafa jugando una vida entera.' },
     ],
   },
   en: {
@@ -34,6 +35,7 @@ const DATA = {
       { titulo: 'History & Social Sciences', emoji: '⏳', texto: 'Learning dates, contexts and historical figures does not have to be passive memorisation. Our games turn official syllabuses into interactive experiences that make concepts stick.' },
       { titulo: 'Geography', emoji: '🌍', texto: 'Geography comes alive when you have to think fast. Learn countries, continents, rivers and mountains through progressive clues that force you to connect geographical data in real time.' },
       { titulo: 'Languages & Grammar', emoji: '🔍', texto: 'Actively working on vocabulary, word classes and spelling is far more effective than studying word lists. Our language games present contextualised challenges that reinforce Spanish, Catalan and English.' },
+      { titulo: 'Economics & Personal Finance', emoji: '💰', texto: 'Truly understanding money takes making decisions, not memorising definitions. Our financial life simulator teaches inflation, compound interest, debt and scam signals by playing out a whole life.' },
     ],
   },
   ca: {
@@ -49,6 +51,7 @@ const DATA = {
       { titulo: 'Història i Ciències Socials', emoji: '⏳', texto: 'Aprendre dates, contextos i personatges històrics no ha de ser memorització passiva. Els nostres jocs converteixen els temaris oficials en experiències interactives que fixen els conceptes de forma duradora.' },
       { titulo: 'Geografia', emoji: '🌍', texto: 'La geografia pren vida quan has de pensar ràpid. Aprèn països, continents, rius i muntanyes a través de pistes progressives que t\'obliguen a connectar dades geogràfiques en temps real.' },
       { titulo: 'Idiomes i Gramàtica', emoji: '🔍', texto: 'Treballar vocabulari, categories gramaticals i ortografia de forma activa és molt més eficaç que estudiar llistes de paraules. Els nostres jocs de llengua plantegen reptes contextualitzats que reforcen el català, el castellà i l\'anglès.' },
+      { titulo: 'Economia i Finances Personals', emoji: '💰', texto: 'Entendre els diners de debò requereix prendre decisions, no memoritzar definicions. El nostre simulador de vida financera ensenya inflació, interès compost, deute i senyals d\'estafa jugant una vida sencera.' },
     ],
   },
 }
@@ -72,6 +75,9 @@ const JUEGOS = {
     [
       { slug: 'intruso', titulo: 'El Intruso', desc: 'Cuatro palabras, una no encaja. Vocabulario y gramática a contrarreloj en español, catalán e inglés.', emoji: '🔍', gradient: 'from-violet-500 to-purple-700', tags: ['Idiomas','Gramática'] },
     ],
+    [
+      { slug: 'spicy', titulo: 'Spicy', desc: 'Vive una vida entera tomando decisiones de dinero: estudiar o trabajar, alquilar o invertir, ahorrar o gastar. Aprende a leer las señales de riesgo jugando.', emoji: '🌶️', gradient: 'from-amber-500 to-red-700', tags: ['Economía','Simulación'] },
+    ],
   ],
   en: [
     [
@@ -91,6 +97,9 @@ const JUEGOS = {
     [
       { slug: 'intruso', titulo: 'Odd One Out', desc: 'Four words, one does not fit. Vocabulary and grammar against the clock in Spanish, Catalan and English.', emoji: '🔍', gradient: 'from-violet-500 to-purple-700', tags: ['Languages','Grammar'] },
     ],
+    [
+      { slug: 'spicy', titulo: 'Spicy', desc: 'Live an entire life making money decisions: study or work, rent or invest, save or spend. Learn to read risk signals by playing.', emoji: '🌶️', gradient: 'from-amber-500 to-red-700', tags: ['Economics','Simulation'] },
+    ],
   ],
   ca: [
     [
@@ -109,6 +118,9 @@ const JUEGOS = {
     ],
     [
       { slug: 'intruso', titulo: "L'Intrús", desc: 'Quatre paraules, una no hi encaixa. Vocabulari i gramàtica a contrarellotge en català, castellà i anglès.', emoji: '🔍', gradient: 'from-violet-500 to-purple-700', tags: ['Idiomes','Gramàtica'] },
+    ],
+    [
+      { slug: 'spicy', titulo: 'Spicy', desc: 'Viu una vida sencera prenent decisions de diners: estudiar o treballar, llogar o invertir, estalviar o gastar. Aprèn a llegir els senyals de risc jugant.', emoji: '🌶️', gradient: 'from-amber-500 to-red-700', tags: ['Economia','Simulació'] },
     ],
   ],
 }
