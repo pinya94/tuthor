@@ -78,6 +78,12 @@ export const CLASES_INVERSION = {
     senales: ['especulativo', 'iliquido'],
     nombre: { es: 'Tu colección', en: 'Your collection', ca: 'La teva col·lecció' },
   },
+  deposito: {
+    emoji: '🏦', tipo: 'deposito',
+    label: { es: 'Depósito a plazo fijo', en: 'Fixed-term deposit', ca: 'Dipòsit a termini fix' },
+    senales: ['entidad-seria'],
+    nombre: { es: 'Depósito a plazo fijo', en: 'Fixed-term deposit', ca: 'Dipòsit a termini fix' },
+  },
 }
 
 // ── Línea económica de la partida ────────────────────────────────────────────
@@ -138,6 +144,7 @@ export function crearPartida(seed = Math.floor(Math.random() * 2 ** 31)) {
     alquilerAnual: 0,
     hipoteca: null,                           // { pendiente, cuota (anual), años }
     prestamos: [],                            // [{ pendiente, cuotaMes, meses }]
+    hijos: [],                                // [{ edadNacimiento }]
     activos: [],
     flags: [],
     usados: [],
@@ -227,6 +234,7 @@ function crearCtx(p, evento) {
     pagaMesFamilia: FAMILIAS[p.familia].pagaMes,
     autopsia: a => { p.autopsias.push({ edad: p.edad, ...a }) },
     experiencia: titulo => { p.experiencias.push({ edad: p.edad, titulo }) },
+    recalcularGastos: () => ajustarGastos(p),
   }
 }
 
@@ -279,6 +287,7 @@ export function invertir(p, clase, importe) {
     acciones: { es: 'Acciones compradas. Empresas concretas: más recorrido y más sustos que un fondo.', en: 'Stocks bought. Specific companies: more upside and more scares than a fund.', ca: 'Accions comprades. Empreses concretes: més recorregut i més ensurts que un fons.' },
     cripto: { es: 'Cripto comprada. Puede doblar o quedarse en la mitad — solo dinero que puedas ver caer.', en: 'Crypto bought. It can double or halve — only money you can watch fall.', ca: 'Cripto comprada. Pot doblar o quedar-se a la meitat — només diners que puguis veure caure.' },
     coleccion: { es: 'A la vitrina. Recuerda: no produce nada y venderlo lleva tiempo y descuento.', en: 'Into the display case. Remember: it produces nothing, and selling takes time and a haircut.', ca: 'A la vitrina. Recorda: no produeix res i vendre-ho porta temps i descompte.' },
+    deposito: { es: 'Al depósito a plazo fijo. Seguro y tranquilo — pero si el interés no supera la inflación, tu dinero "crece" y aun así compra menos.', en: 'Into the fixed-term deposit. Safe and calm — but if the rate doesn\'t beat inflation, your money "grows" and still buys less.', ca: 'Al dipòsit a termini fix. Segur i tranquil — però si l\'interès no supera la inflació, els teus diners "creixen" i tot i així compren menys.' },
   }
   return { nota: notas[clase] }
 }
@@ -300,6 +309,50 @@ export function venderActivo(p, activoId) {
       ca: `Venut per ${fmt(importe)} (hi vas posar ${fmt(a.invertido)}).${a.tipo === 'coleccion' ? ' El 15% es va quedar pel camí: trobar comprador té preu.' : ''}${gano ? '' : ' Vendre en pèrdues de vegades és correcte i de vegades és pànic — només el temps ho diu.'}`,
     },
   }
+}
+
+// ── Segunda vivienda: comprar, usar, vender, donar ───────────────────────────
+export function precioSegundaVivienda(p) {
+  return escala(p, 90000)
+}
+export function comprarSegundaVivienda(p) {
+  if (p.activos.some(a => a.tipo === 'casa2' && a.estado === 'vivo')) return null
+  const precio = precioSegundaVivienda(p)
+  if (p.dinero < precio) return null
+  p.dinero -= precio
+  p.activos.push({ id: 'casa2', tipo: 'casa2', estado: 'vivo', edadCompra: p.edad, invertido: precio, valor: precio, uso: 'vacia', senales: ['iliquido'], nombre: { es: 'Tu segunda vivienda', en: 'Your second home', ca: 'La teva segona vivenda' } })
+  return { nota: { es: 'Comprada. Ahora toca decidir: ¿la usáis vosotros, la alquiláis, o la dejáis esperando mejor momento (con riesgo de okupas)?', en: 'Bought. Now decide: use it yourselves, rent it out, or leave it waiting for a better moment (with squatting risk)?', ca: 'Comprada. Ara toca decidir: la useu vosaltres, la llogueu, o la deixeu esperant un moment millor (amb risc d\'okupes)?' } }
+}
+export function usarSegundaVivienda(p, uso) {
+  const a = p.activos.find(x => x.tipo === 'casa2' && x.estado === 'vivo')
+  if (!a || a.uso === 'ocupada' || a.uso === uso) return null
+  a.uso = uso
+  const notas = {
+    vive: { es: 'La reserváis para vosotros: findes y vacaciones. No da renta, pero tampoco corre riesgo de okupas.', en: 'You keep it for yourselves: weekends and holidays. No income, but no squatting risk either.', ca: 'La reserveu per a vosaltres: caps de setmana i vacances. No dona renda, però tampoc corre risc d\'okupes.' },
+    alquiler: { es: 'La ponéis en alquiler. Renta extra cada año — con el riesgo de un mal inquilino o de que algún año no encontréis a nadie.', en: 'You put it up for rent. Extra income every year — with the risk of a bad tenant.', ca: 'La poseu en lloguer. Renda extra cada any — amb el risc d\'un mal inquilí.' },
+    vacia: { es: 'La dejáis vacía. Sin gestión ni renta — pero una vivienda vacía también es un imán para problemas.', en: 'You leave it empty. No management, no income — but an empty home is also a magnet for trouble.', ca: 'La deixeu buida. Sense gestió ni renda — però una vivenda buida també és un imant per a problemes.' },
+  }
+  return { nota: notas[uso] }
+}
+export function venderSegundaVivienda(p) {
+  const a = p.activos.find(x => x.tipo === 'casa2' && x.estado === 'vivo')
+  if (!a) return null
+  const factor = a.uso === 'ocupada' ? 0.55 : 1
+  const importe = Math.round(a.valor * factor)
+  p.dinero += importe
+  a.estado = 'vendido'
+  return { importe, nota: {
+    es: `Vendida por ${fmt(importe)}${a.uso === 'ocupada' ? ' — vender con okupas dentro sale caro, literalmente' : ''}.`,
+    en: `Sold for ${fmt(importe)}${a.uso === 'ocupada' ? ' — selling with squatters inside is literally costly' : ''}.`,
+    ca: `Venuda per ${fmt(importe)}${a.uso === 'ocupada' ? ' — vendre amb okupes a dins surt car, literalment' : ''}.`,
+  } }
+}
+export function donarSegundaVivienda(p) {
+  const a = p.activos.find(x => x.tipo === 'casa2' && x.estado === 'vivo')
+  if (!a || (p.hijos ?? []).length === 0 || a.uso === 'ocupada') return null
+  a.estado = 'donada'
+  if (!p.flags.includes('legado')) p.flags.push('legado')
+  return { nota: { es: 'Se la donáis a vuestros hijos. Sale de vuestras cuentas — pero hay patrimonios que no se miden en tu propio balance.', en: 'You gift it to your kids. It leaves your books — but some wealth isn\'t measured on your own balance sheet.', ca: 'La doneu als vostres fills. Surt dels vostres comptes — però hi ha patrimonis que no es mesuren en el teu propi balanç.' } }
 }
 
 // Buscar otro empleo: puede mejorar, no hacer nada… o señalarte
@@ -329,19 +382,26 @@ export function buscarEmpleo(p) {
 // Recalcula los gastos de vida según la fase y la familia. Autoridad anual:
 // en casa de los padres ahorras una parte realista del sueldo (300-900 €/mes);
 // independizado, el alquiler y la vida se comen casi todo (ahorras poco).
+// Coste anual fijo de los hijos menores de 18 (comida, ropa, cole, extraescolares…)
+function costeHijos(p) {
+  const menores = (p.hijos ?? []).filter(h => p.edad - h.edadNacimiento < 18).length
+  return menores > 0 ? escala(p, 3000) * menores : 0
+}
+
 function ajustarGastos(p) {
   const f = MODOS_VIDA[p.modoVida].factor
+  const hijos = costeHijos(p)
   if (p.vivienda !== 'familia') {
-    p.gastos = Math.round(escala(p, 7000) * f)          // comida, suministros, ocio, transporte
+    p.gastos = Math.round(escala(p, 7000) * f) + hijos  // comida, suministros, ocio, transporte
   } else if (p.edad < 18) {
     p.gastos = 0                                        // menor en casa: la familia cubre lo esencial
   } else if (p.ingresos > 0) {
     // Trabajas viviendo con tu familia: contribuyes en casa + tu vida.
     // Cuánto ahorras depende de si te dejan quedarte con lo tuyo (300-900 €/mes).
     const consumo = { humilde: 0.82, media: 0.74, acomodada: 0.62 }[p.familia]
-    p.gastos = Math.round(p.ingresos * consumo * f)
+    p.gastos = Math.round(p.ingresos * consumo * f) + hijos
   } else {
-    p.gastos = Math.round(escala(p, 2400) * f)          // adulto estudiando en casa: gasto propio modesto
+    p.gastos = Math.round(escala(p, 2400) * f) + hijos  // adulto estudiando en casa: gasto propio modesto
   }
 }
 
@@ -516,6 +576,29 @@ function resolverActivosAnuales(p, log) {
         if (años === 5) {
           p.autopsias.push({ edad: p.edad, tipo: 'buena', titulo: a.nombre, senales: a.senales, texto: { es: 'El negocio sobrevive y reparte cada año. Era arriesgado (muchos quiebran), pero era real, con plan, y solo pusiste lo que podías perder.', en: 'The business survives and pays out yearly. It was risky (many fail), but it was real, planned, and you only risked what you could lose.', ca: 'El negoci sobreviu i reparteix cada any. Era arriscat (molts fan fallida), però era real, amb pla, i només hi vas posar el que podies perdre.' } })
         }
+      }
+    } else if (a.tipo === 'casa2') {
+      a.valor *= 1 + vivienda[p.edad]
+      if (a.uso === 'alquiler') {
+        const renta = Math.round(a.valor * 0.045)
+        p.dinero += renta
+        if (p.rng() < 0.05) {
+          const dano = Math.round(a.valor * (0.05 + p.rng() * 0.1))
+          a.valor = Math.max(0, a.valor - dano)
+          log.push({ tipo: 'malo', texto: { es: `🔨 El inquilino de tu segunda vivienda se va dejando destrozos: -${fmt(dano)} en arreglos.`, en: `🔨 Your tenant leaves your second home trashed on the way out: -${fmt(dano)} in repairs.`, ca: `🔨 L'inquilí de la teva segona vivenda marxa deixant destrosses: -${fmt(dano)} en arranjaments.` } })
+        } else if (p.rng() < 0.02) {
+          a.uso = 'ocupada'
+          log.push({ tipo: 'malo', texto: { es: '🚪 Te okupan la segunda vivienda: se acabó la renta hasta que consigas el desalojo — y eso lleva tiempo y abogados.', en: '🚪 Your second home gets squatted: no more rent until you get it evicted — and that takes time and lawyers.', ca: '🚪 Et okupen la segona vivenda: s\'ha acabat la renda fins que aconsegueixis el desnonament — i això porta temps i advocats.' } })
+        }
+      } else if (a.uso === 'vacia' && p.rng() < 0.03) {
+        a.uso = 'ocupada'
+        log.push({ tipo: 'malo', texto: { es: '🚪 Una vivienda vacía llama la atención: te la okupan. Sin alquiler, sin uso, y con un desalojo por delante.', en: '🚪 An empty home draws attention: it gets squatted. No rent, no use, and an eviction ahead.', ca: '🚪 Una vivenda buida crida l\'atenció: te la okupen. Sense lloguer, sense ús, i amb un desnonament per davant.' } })
+      } else if (a.uso === 'vive') {
+        p.bienestar = clampB(p.bienestar + 1)
+      }
+      if (a.uso === 'ocupada' && p.rng() < 0.3) {
+        a.uso = 'vacia'
+        log.push({ tipo: 'bueno', texto: { es: '⚖️ Consigues el desalojo tras meses de papeleo: tu segunda vivienda vuelve a estar libre para decidir qué hacer con ella.', en: '⚖️ You get the eviction after months of paperwork: your second home is free again to decide what to do with it.', ca: '⚖️ Aconsegueixes el desnonament després de mesos de paperassa: la teva segona vivenda torna a estar lliure per decidir què fer-ne.' } })
       }
     } else if (a.tipo === 'turbio') {
       if (p.rng() < a.oculto.pQuiebraAnual) {

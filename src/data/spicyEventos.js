@@ -451,7 +451,7 @@ export const EVENTOS = [
         aplicar: (p, ctx) => {
           const c = ctx.cant('ahorro')
           ctx.dinero(-c)
-          ctx.activo({ id: 'deposito-1', tipo: 'deposito', invertido: c, senales: ['entidad-seria'], nombre: { es: 'Depósito a plazo fijo', en: 'Fixed-term deposit', ca: 'Dipòsit a termini fix' } })
+          ctx.activo({ id: 'inv-deposito', tipo: 'deposito', invertido: c, senales: ['entidad-seria'], nombre: { es: 'Depósito a plazo fijo', en: 'Fixed-term deposit', ca: 'Dipòsit a termini fix' } })
           return { nota: { es: 'Seguro y tranquilo. Ojo: si el interés es menor que la inflación, tu dinero "crece" pero compra menos.', en: 'Safe and calm. Careful: if interest is below inflation, your money "grows" but buys less.', ca: 'Segur i tranquil. Ull: si l\'interès és menor que la inflació, els teus diners "creixen" però compren menys.' } }
         },
       },
@@ -553,6 +553,7 @@ export const EVENTOS = [
         texto: { es: 'Mudaros juntos', en: 'Move in together', ca: 'Mudar-vos junts' },
         aplicar: (p, ctx) => {
           ctx.flag('pareja')
+          ctx.flag('convive')
           p.alquilerAnual = Math.round(p.alquilerAnual * 0.65)
           ctx.bienestar(8)
           return { nota: { es: 'Dos sueldos, un alquiler: tu gasto de vivienda baja un tercio. Compartir la vida también es la decisión financiera más grande que casi nadie mira como tal.', en: 'Two salaries, one rent: your housing cost drops by a third. Sharing your life is also the biggest financial decision almost nobody treats as one.', ca: 'Dos sous, un lloguer: la teva despesa d\'habitatge baixa un terç. Compartir la vida també és la decisió financera més gran que gairebé ningú mira com a tal.' } }
@@ -1587,6 +1588,186 @@ export const EVENTOS = [
         id: 'no',
         texto: { es: 'No puedes comprometerte', en: 'You can\'t commit to it', ca: 'No pots comprometre\'t' },
         aplicar: () => ({ nota: { es: 'Cada uno conoce sus números. Decir "no" a tiempo también es responsabilidad financiera.', en: 'Everyone knows their own numbers. Saying "no" in time is also financial responsibility.', ca: 'Cadascú coneix els seus números. Dir "no" a temps també és responsabilitat financera.' } }),
+      },
+    ],
+  },
+
+  // ══ CICLO VITAL: familia, vivienda y herencia ══════════════════════════════
+  {
+    id: 'padres-te-echan',
+    edad: [18, 22],
+    prob: 0.18,
+    condicion: p => p.vivienda === 'familia',
+    cantidades: { alquiler: 8400 },
+    texto: {
+      es: 'Las cosas en casa se han puesto tensas — o simplemente hace falta tu habitación. Tus padres te dicen que ya toca volar solo. No lo habías planeado tú: te toca ahora.',
+      en: 'Things at home have gotten tense — or your room is simply needed. Your parents tell you it\'s time to fly solo. You didn\'t plan this one: it\'s happening now.',
+      ca: 'Les coses a casa s\'han posat tenses — o simplement fa falta la teva habitació. Els teus pares et diuen que ja toca volar sol. No ho havies planejat tu: et toca ara.',
+    },
+    opciones: [
+      {
+        id: 'ok',
+        texto: { es: 'Buscar piso ya', en: 'Find a flat now', ca: 'Buscar pis ja' },
+        aplicar: (p, ctx) => {
+          p.vivienda = 'alquiler'
+          p.alquilerAnual = Math.round(ctx.cant('alquiler') * (p.flags.includes('capital') ? 1.4 : 1))
+          ctx.recalcularGastos()
+          ctx.bienestar(p.ingresos > 0 ? -5 : -10)
+          return { nota: p.ingresos > 0
+            ? { es: 'Duele que no fuera tu decisión, pero tienes sueldo: te las apañas. Bienvenido a pagar alquiler antes de lo que esperabas.', en: 'It stings that it wasn\'t your call, but you have a salary: you manage. Welcome to paying rent earlier than expected.', ca: 'Fa mal que no fos decisió teva, però tens sou: te\'n surts. Benvingut a pagar lloguer abans del que esperaves.' }
+            : { es: 'Sin sueldo fijo, cada mes va a rozar el límite. Nadie te preguntó si estabas listo — la vida tampoco suele preguntar.', en: 'With no steady salary, every month will scrape the limit. Nobody asked if you were ready — life rarely does.', ca: 'Sense sou fix, cada mes fregarà el límit. Ningú et va preguntar si estaves llest — la vida tampoc sol preguntar.' }
+          }
+        },
+      },
+    ],
+  },
+  {
+    id: 'tener-hijos',
+    edad: [26, 37],
+    prob: 0.65,
+    cantidades: { inicial: 2500, obras: 12000 },
+    texto: {
+      es: 'La pregunta de fondo: ¿queréis tener un hijo? Cambia la vida entera — y también las cuentas: cuna, ropa, pediatra al principio, y después, años de gasto fijo que no negocia con la inflación.',
+      en: 'The big question: do you want to have a child? It changes your whole life — and your accounts too: crib, clothes, paediatrician at first, then years of a fixed cost that doesn\'t negotiate with inflation.',
+      ca: 'La pregunta de fons: voleu tenir un fill? Canvia la vida sencera — i també els comptes: bressol, roba, pediatra al principi, i després, anys de despesa fixa que no negocia amb la inflació.',
+    },
+    opciones: [
+      {
+        id: 'si',
+        texto: { es: 'Sí, adelante', en: 'Yes, let\'s do it', ca: 'Sí, endavant' },
+        aplicar: (p, ctx) => {
+          const c = ctx.cant('inicial')
+          ctx.dinero(-c)
+          p.hijos = [...(p.hijos ?? []), { edadNacimiento: p.edad }]
+          ctx.flag('padre')
+          ctx.bienestar(10)
+          const extra = { es: '', en: '', ca: '' }
+          if (p.vivienda === 'alquiler') {
+            p.alquilerAnual = Math.round(p.alquilerAnual * 1.3)
+            extra.es = ' Necesitáis una habitación más: os cambiáis a un piso más grande y el alquiler sube.'
+            extra.en = ' You need one more room: you move to a bigger flat and the rent goes up.'
+            extra.ca = ' Necessiteu una habitació més: us canvieu a un pis més gran i el lloguer puja.'
+          } else if (p.vivienda === 'propia' && !p.flags.includes('casa-ampliada')) {
+            ctx.prestamo({ importe: ctx.cant('obras'), años: 10, interes: 0.2 })
+            ctx.flag('casa-ampliada')
+            extra.es = ' Vuestro piso se queda pequeño: pedís un préstamo para ampliarlo.'
+            extra.en = ' Your flat is too small now: you take out a loan to extend it.'
+            extra.ca = ' El vostre pis es queda petit: demaneu un préstec per ampliar-lo.'
+          }
+          ctx.recalcularGastos()
+          return { nota: { es: `Bienvenido a la familia. Gastos del primer año: ${ctx.f(c)}.${extra.es} A partir de ahora, una parte fija del sueldo es suya — hasta que cumpla 18.`, en: `Welcome to the family. First-year costs: ${ctx.f(c)}.${extra.en} From now on, a fixed slice of your salary is theirs — until they turn 18.`, ca: `Benvingut a la família. Despeses del primer any: ${ctx.f(c)}.${extra.ca} A partir d'ara, una part fixa del sou és seva — fins que en faci 18.` } }
+        },
+      },
+      {
+        id: 'no',
+        texto: { es: 'Ahora no', en: 'Not right now', ca: 'Ara no' },
+        aplicar: (p, ctx) => {
+          ctx.bienestar(1)
+          return { nota: { es: 'Seguís centrados en lo vuestro. También es una decisión legítima — y una que no todo el mundo se plantea con calculadora en mano.', en: 'You stay focused on your own thing. It\'s a legitimate choice too — one not everybody weighs with a calculator in hand.', ca: 'Seguiu centrats en el vostre. També és una decisió legítima — i una que no tothom es planteja amb calculadora a la mà.' } }
+        },
+      },
+    ],
+  },
+  {
+    id: 'separacion',
+    edad: [40, 55],
+    prob: 0.25,
+    requiere: ['convive'],
+    cantidades: { alquilerSolo: 8400 },
+    texto: {
+      es: 'Después de tantos años, la relación se ha apagado. Os separáis. Toca deshacer una vida compartida — empezando por la casa.',
+      en: 'After all these years, the relationship has faded. You\'re splitting up. Time to undo a shared life — starting with the house.',
+      ca: 'Després de tants anys, la relació s\'ha apagat. Us separeu. Toca desfer una vida compartida — començant per la casa.',
+    },
+    opciones: [
+      {
+        id: 'ok',
+        texto: { es: 'Seguir adelante, cada uno por su lado', en: 'Move on, each your own way', ca: 'Seguir endavant, cadascú pel seu costat' },
+        aplicar: (p, ctx) => {
+          ctx.bienestar(-10)
+          ctx.flag('separado')
+          const casa2 = p.activos.find(a => a.tipo === 'casa2' && a.estado === 'vivo' && a.uso !== 'ocupada')
+          if (casa2) {
+            casa2.uso = 'vive'
+            if (p.vivienda === 'alquiler') p.alquilerAnual = 0
+            ctx.recalcularGastos()
+            return { nota: { es: 'Duele, pero al menos no empiezas de cero: te mudas a tu segunda vivienda. Tener un colchón inmobiliario también sirve para esto.', en: 'It hurts, but at least you\'re not starting from zero: you move into your second home. Having a property cushion is good for this too.', ca: 'Fa mal, però almenys no comences de zero: et mudes a la teva segona vivenda. Tenir un coixí immobiliari també serveix per a això.' } }
+          }
+          if (p.vivienda === 'propia') {
+            const casa = p.activos.find(a => a.tipo === 'casa' && a.estado === 'vivo')
+            if (casa) {
+              const deuda = p.hipoteca?.pendiente ?? 0
+              const neto = Math.max(0, casa.valor - deuda)
+              p.dinero += Math.round(neto * 0.5)
+              casa.estado = 'vendido'
+              p.hipoteca = null
+            }
+            p.vivienda = 'alquiler'
+            p.alquilerAnual = Math.round(ctx.cant('alquilerSolo'))
+            ctx.recalcularGastos()
+            return { nota: { es: 'Vendéis el piso y repartís: con tu mitad, vuelves de alquiler — solo, con todos los gastos para ti.', en: 'You sell the flat and split it: with your half, you go back to renting — alone, with every cost on you.', ca: 'Veneu el pis i repartiu: amb la teva meitat, tornes de lloguer — sol, amb totes les despeses per a tu.' } }
+          }
+          p.alquilerAnual = Math.round(ctx.cant('alquilerSolo') * (p.flags.includes('capital') ? 1.4 : 1))
+          ctx.recalcularGastos()
+          return { nota: { es: 'Buscas piso para ti solo: sin dos sueldos, el alquiler completo pesa más.', en: 'You find a place on your own: without two salaries, the full rent weighs more.', ca: 'Busques pis per a tu sol: sense dos sous, el lloguer complet pesa més.' } }
+        },
+      },
+    ],
+  },
+  {
+    id: 'herencia-padres',
+    edad: [45, 60],
+    prob: 0.8,
+    cantidades: { humilde: 1500, media: 15000, acomodada: 40000 },
+    texto: {
+      es: 'Tus padres han fallecido. Entre el duelo toca ocuparte de la herencia — lo que dejan (o no dejan) también cuenta cómo vivieron ellos el dinero.',
+      en: 'Your parents have passed away. Between the grief, you have to deal with the inheritance — what they leave (or don\'t) also tells the story of how they lived with money.',
+      ca: 'Els teus pares han mort. Entre el dol toca ocupar-te de l\'herència — el que deixen (o no deixen) també explica com van viure ells els diners.',
+    },
+    opciones: [
+      {
+        id: 'aceptar',
+        texto: { es: 'Ocuparte de todo', en: 'Take care of it all', ca: 'Ocupar-te de tot' },
+        aplicar: (p, ctx) => {
+          ctx.bienestar(-8)
+          const monto = ctx.cant(p.familia)
+          const extra = { es: '', en: '', ca: '' }
+          if (p.familia === 'humilde') {
+            if (ctx.rng() < 0.5) {
+              ctx.dinero(monto)
+              extra.es = `Dejan ${ctx.f(monto)} — los ahorros de toda una vida de estirar cada mes.`
+              extra.en = `They leave ${ctx.f(monto)} — a lifetime of stretching every month.`
+              extra.ca = `Deixen ${ctx.f(monto)} — els estalvis de tota una vida estirant cada mes.`
+            } else {
+              extra.es = 'No dejan prácticamente nada — vivieron al día, como pudieron. La herencia más grande que te dejan no está en el banco.'
+              extra.en = 'They leave almost nothing — they lived day to day, as best they could. The biggest thing they leave you isn\'t in the bank.'
+              extra.ca = 'No deixen pràcticament res — van viure al dia, com van poder. L\'herència més gran que et deixen no és al banc.'
+            }
+          } else if (p.familia === 'media') {
+            ctx.dinero(monto)
+            extra.es = `Dejan ${ctx.f(monto)} de ahorros de toda la vida.`
+            extra.en = `They leave ${ctx.f(monto)} in lifetime savings.`
+            extra.ca = `Deixen ${ctx.f(monto)} d'estalvis de tota la vida.`
+            if (ctx.rng() < 0.3 && !p.activos.some(a => a.tipo === 'casa2' && a.estado === 'vivo')) {
+              ctx.activo({ id: 'casa2', tipo: 'casa2', invertido: Math.round(monto * 3), uso: 'vacia', senales: ['iliquido'], nombre: { es: 'La casa de tus padres', en: 'Your parents\' house', ca: 'La casa dels teus pares' } })
+              extra.es += ' Y además, la casa del pueblo: ahora es tuya. Decide qué hacer con ella.'
+              extra.en += ' And on top of that, the family house: it\'s yours now. Decide what to do with it.'
+              extra.ca += ' I a més, la casa del poble: ara és teva. Decideix què fer-ne.'
+            }
+          } else {
+            ctx.dinero(monto)
+            extra.es = `Dejan ${ctx.f(monto)}.`
+            extra.en = `They leave ${ctx.f(monto)}.`
+            extra.ca = `Deixen ${ctx.f(monto)}.`
+            if (ctx.rng() < 0.55 && !p.activos.some(a => a.tipo === 'casa2' && a.estado === 'vivo')) {
+              ctx.activo({ id: 'casa2', tipo: 'casa2', invertido: Math.round(monto * 4), uso: 'vacia', senales: ['iliquido'], nombre: { es: 'La casa familiar', en: 'The family house', ca: 'La casa familiar' } })
+              extra.es += ' Y la casa familiar: ahora es tuya. Decide qué hacer con ella.'
+              extra.en += ' And the family house: it\'s yours now. Decide what to do with it.'
+              extra.ca += ' I la casa familiar: ara és teva. Decideix què fer-ne.'
+            }
+          }
+          return { nota: { es: `Despides a tus padres con cariño. ${extra.es}`, en: `You say goodbye to your parents with love. ${extra.en}`, ca: `Acomiades els teus pares amb estimació. ${extra.ca}` } }
+        },
       },
     ],
   },

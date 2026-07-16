@@ -10,6 +10,7 @@ import {
   crearPartida, avanzarMes, elegirOpcion, interpolar,
   patrimonio, patrimonioReal, notaFinanciera, fmt, escala, SENALES,
   MODOS_VIDA, CLASES_INVERSION, FAMILIAS, cambiarModoVida, invertir, venderActivo, buscarEmpleo,
+  precioSegundaVivienda, comprarSegundaVivienda, usarSegundaVivienda, venderSegundaVivienda, donarSegundaVivienda,
 } from '../lib/spicyEngine'
 
 const SURF = 'rgba(17,20,29,0.86)'
@@ -278,7 +279,7 @@ export default function Spicy() {
             const conMercado = ['fondo', 'acciones', 'cripto', 'coleccion', 'deposito'].includes(a.tipo)
             return (
               <span key={a.id} className="text-white/50">
-                {a.tipo === 'casa' ? '🏠' : a.tipo === 'fondo' ? '📈' : a.tipo === 'acciones' ? '📊' : a.tipo === 'cripto' ? '🪙' : a.tipo === 'coleccion' ? '🃏' : a.tipo === 'deposito' ? '🏦' : a.tipo === 'negocio' ? '🏪' : '❓'}{' '}
+                {a.tipo === 'casa' ? '🏠' : a.tipo === 'casa2' ? '🏡' : a.tipo === 'fondo' ? '📈' : a.tipo === 'acciones' ? '📊' : a.tipo === 'cripto' ? '🪙' : a.tipo === 'coleccion' ? '🃏' : a.tipo === 'deposito' ? '🏦' : a.tipo === 'negocio' ? '🏪' : '❓'}{' '}
                 {tr(a.nombre)}: <span className="text-white/80 font-semibold">{fmt(a.valor)}</span>
                 {conMercado && <span className={`ml-1 font-semibold ${cambio >= 0 ? 'text-emerald-400/80' : 'text-red-400/80'}`}>{cambio >= 0 ? '▲' : '▼'}{Math.abs(cambio)}%</span>}
               </span>
@@ -317,6 +318,12 @@ export default function Spicy() {
           <button onClick={() => ejecutarAccion(pp => buscarEmpleo(pp))}
             className="text-xs font-bold px-3 py-1.5 rounded-lg border bg-white/5 border-white/10 text-white/60 hover:text-white transition-colors">
             💼 {tr({ es: 'Buscar otro empleo', en: 'Look for another job', ca: 'Buscar una altra feina' })}
+          </button>
+        )}
+        {p.edad >= 25 && (
+          <button onClick={() => { setAccion(accion === 'segunda' ? null : 'segunda'); setAccionNota(null) }}
+            className={`text-xs font-bold px-3 py-1.5 rounded-lg border transition-colors ${accion === 'segunda' ? 'bg-amber-500/25 border-amber-500/50 text-amber-300' : 'bg-white/5 border-white/10 text-white/60 hover:text-white'}`}>
+            🏡 {tr({ es: 'Segunda vivienda', en: 'Second home', ca: 'Segona vivenda' })}
           </button>
         )}
       </div>
@@ -365,6 +372,62 @@ export default function Spicy() {
           ))}
         </div>
       )}
+      {accion === 'segunda' && (() => {
+        const casa2 = activosVivos.find(a => a.tipo === 'casa2')
+        const precio = precioSegundaVivienda(p)
+        const usoLabel = {
+          vive: { es: 'la usáis vosotros', en: 'you use it', ca: 'la useu vosaltres' },
+          alquiler: { es: 'alquilada', en: 'rented out', ca: 'llogada' },
+          ocupada: { es: 'okupada', en: 'squatted', ca: 'okupada' },
+          vacia: { es: 'vacía', en: 'empty', ca: 'buida' },
+        }
+        return (
+          <div className="rounded-xl border border-white/10 p-3 mb-3 space-y-2" style={{ background: SURF }}>
+            {!casa2 ? (
+              <>
+                <p className="text-white/40 text-xs">{tr({ es: `Un piso pequeño para invertir o disfrutar: ${fmt(precio)}.`, en: `A small flat to invest or enjoy: ${fmt(precio)}.`, ca: `Un pis petit per invertir o gaudir: ${fmt(precio)}.` })}</p>
+                <button disabled={p.dinero < precio}
+                  onClick={() => ejecutarAccion(pp => comprarSegundaVivienda(pp))}
+                  className="text-xs font-bold px-3 py-2 rounded-lg bg-white/10 hover:bg-amber-500/25 border border-white/10 text-white/70 disabled:opacity-25 transition-colors">
+                  {tr({ es: `Comprarla (${fmt(precio)})`, en: `Buy it (${fmt(precio)})`, ca: `Comprar-la (${fmt(precio)})` })}
+                </button>
+              </>
+            ) : (
+              <>
+                <p className="text-white/60 text-xs">{tr(casa2.nombre)}: <span className="text-white font-semibold">{fmt(casa2.valor)}</span> · {tr(usoLabel[casa2.uso])}</p>
+                {casa2.uso === 'ocupada' ? (
+                  <p className="text-white/35 text-[11px]">{tr({ es: 'Okupada: nada que hacer salvo esperar el desalojo.', en: 'Squatted: nothing to do but wait for the eviction.', ca: 'Okupada: no hi ha res a fer fins al desnonament.' })}</p>
+                ) : (
+                  <div className="flex flex-wrap gap-1.5">
+                    {casa2.uso !== 'vive' && (
+                      <button onClick={() => ejecutarAccion(pp => usarSegundaVivienda(pp, 'vive'))}
+                        className="text-[11px] font-bold px-2 py-1 rounded bg-white/10 hover:bg-amber-500/25 border border-white/10 text-white/70 transition-colors">
+                        {tr({ es: 'Usarla vosotros', en: 'Use it yourselves', ca: 'Usar-la vosaltres' })}
+                      </button>
+                    )}
+                    {casa2.uso !== 'alquiler' && (
+                      <button onClick={() => ejecutarAccion(pp => usarSegundaVivienda(pp, 'alquiler'))}
+                        className="text-[11px] font-bold px-2 py-1 rounded bg-white/10 hover:bg-amber-500/25 border border-white/10 text-white/70 transition-colors">
+                        {tr({ es: 'Alquilarla', en: 'Rent it out', ca: 'Llogar-la' })}
+                      </button>
+                    )}
+                    <button onClick={() => ejecutarAccion(pp => venderSegundaVivienda(pp))}
+                      className="text-[11px] font-bold px-2 py-1 rounded bg-white/10 hover:bg-red-500/25 border border-white/10 text-white/70 transition-colors">
+                      {tr({ es: 'Venderla', en: 'Sell it', ca: 'Vendre-la' })}
+                    </button>
+                    {(p.hijos ?? []).length > 0 && (
+                      <button onClick={() => ejecutarAccion(pp => donarSegundaVivienda(pp))}
+                        className="text-[11px] font-bold px-2 py-1 rounded bg-white/10 hover:bg-emerald-500/25 border border-white/10 text-white/70 transition-colors">
+                        {tr({ es: 'Donarla a tus hijos', en: 'Give it to your kids', ca: 'Donar-la als teus fills' })}
+                      </button>
+                    )}
+                  </div>
+                )}
+              </>
+            )}
+          </div>
+        )
+      })()}
       {accionNota && (
         <div className="rounded-xl border border-white/15 bg-white/5 p-3 mb-3">
           <p className="text-white/60 text-xs leading-relaxed">{tr(accionNota)}</p>
