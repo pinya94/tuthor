@@ -10,7 +10,7 @@ import {
   crearPartida, avanzarMes, elegirOpcion, interpolar,
   patrimonio, patrimonioReal, notaFinanciera, fmt, escala, SENALES,
   MODOS_VIDA, CLASES_INVERSION, FAMILIAS, cambiarModoVida, invertir, venderActivo, buscarEmpleo, pedirAumento,
-  elegirOfertaEmpleo,
+  elegirOfertaEmpleo, VIVIENDA_TIERS, cambiarViviendaTier, rentaMensualActivo,
   precioSegundaVivienda, comprarSegundaVivienda, usarSegundaVivienda, venderSegundaVivienda, donarSegundaVivienda,
 } from '../lib/spicyEngine'
 
@@ -260,9 +260,10 @@ export default function Spicy() {
   const cuotasMes = hipotecaMes + prestamosMes
   const extraEstudios = p.estudios?.mediaJornada ? escala(p, p.estudios.sueldoJornada ?? 7200) : 0
   const pagaMes = p.edad < 16 ? p.pagaAhorroMes : 0
-  const ingresosMes = Math.round(p.ingresos / 12 + extraEstudios / 12 + pagaMes)
+  const otrosIngresosMes = activosVivos.reduce((sum, a) => sum + rentaMensualActivo(a), 0)
+  const ingresosMes = Math.round(p.ingresos / 12 + extraEstudios / 12 + pagaMes + otrosIngresosMes)
   const alquilerMes = Math.round(p.alquilerAnual / 12)
-  const netoMes = Math.round((p.ingresos + extraEstudios - p.gastos - p.alquilerAnual) / 12 - cuotasMes + pagaMes)
+  const netoMes = Math.round((p.ingresos + extraEstudios - p.gastos - p.alquilerAnual) / 12 - cuotasMes + pagaMes + otrosIngresosMes)
   const mesLabel = (MESES[lang] ?? MESES.es)[p.mes]
   const ev = vista?.evento
   const respondido = feedback !== null
@@ -343,11 +344,13 @@ export default function Spicy() {
           {activosVivos.map(a => {
             const cambio = a.invertido > 0 ? Math.round((a.valor / a.invertido - 1) * 100) : 0
             const conMercado = ['fondo', 'acciones', 'cripto', 'coleccion', 'deposito', 'turbio'].includes(a.tipo)
+            const renta = rentaMensualActivo(a)
             return (
               <span key={a.id} className="text-white/50">
                 {a.tipo === 'casa' ? '🏠' : a.tipo === 'casa2' ? '🏡' : a.tipo === 'fondo' ? '📈' : a.tipo === 'acciones' ? '📊' : a.tipo === 'cripto' ? '🪙' : a.tipo === 'coleccion' ? '🃏' : a.tipo === 'deposito' ? '🏦' : a.tipo === 'negocio' ? '🏪' : a.tipo === 'turbio' ? '🕶️' : '❓'}{' '}
                 {tr(a.nombre)}: <span className="text-white/80 font-semibold">{fmt(a.valor)}</span>
                 {conMercado && <span className={`ml-1 font-semibold ${cambio >= 0 ? 'text-emerald-400/80' : 'text-red-400/80'}`}>{cambio >= 0 ? '▲' : '▼'}{Math.abs(cambio)}%</span>}
+                {renta > 0 && <span className="ml-1 font-semibold text-emerald-400/80">(+{fmt(renta)}/{tr({ es: 'mes', en: 'mo', ca: 'mes' })})</span>}
               </span>
             )
           })}
@@ -398,6 +401,12 @@ export default function Spicy() {
             🏡 {tr({ es: 'Segunda vivienda', en: 'Second home', ca: 'Segona vivenda' })}
           </button>
         )}
+        {p.vivienda === 'alquiler' && (
+          <button onClick={() => { setAccion(accion === 'piso' ? null : 'piso'); setAccionNota(null) }}
+            className={`text-xs font-bold px-3 py-1.5 rounded-lg border transition-colors ${accion === 'piso' ? 'bg-amber-500/25 border-amber-500/50 text-amber-300' : 'bg-white/5 border-white/10 text-white/60 hover:text-white'}`}>
+            {VIVIENDA_TIERS[p.viviendaTier].emoji} {tr({ es: 'Cambiar de piso', en: 'Change flat', ca: 'Canviar de pis' })}: {tr(VIVIENDA_TIERS[p.viviendaTier].label)}
+          </button>
+        )}
       </div>
 
       {/* Panel de acción abierta */}
@@ -439,6 +448,17 @@ export default function Spicy() {
             <button key={modo} disabled={modo === p.modoVida}
               onClick={() => ejecutarAccion(pp => cambiarModoVida(pp, modo))}
               className={`text-xs font-bold px-3 py-2 rounded-lg border transition-colors ${modo === p.modoVida ? 'bg-amber-500/25 border-amber-500/50 text-amber-300' : 'bg-white/5 border-white/10 text-white/60 hover:text-white'}`}>
+              {def.emoji} {tr(def.label)} ({Math.round((def.factor - 1) * 100) >= 0 ? '+' : ''}{Math.round((def.factor - 1) * 100)}%)
+            </button>
+          ))}
+        </div>
+      )}
+      {accion === 'piso' && (
+        <div className="rounded-xl border border-white/10 p-3 mb-3 flex flex-wrap gap-1.5" style={{ background: SURF }}>
+          {Object.entries(VIVIENDA_TIERS).map(([tier, def]) => (
+            <button key={tier} disabled={tier === p.viviendaTier}
+              onClick={() => ejecutarAccion(pp => cambiarViviendaTier(pp, tier))}
+              className={`text-xs font-bold px-3 py-2 rounded-lg border transition-colors ${tier === p.viviendaTier ? 'bg-amber-500/25 border-amber-500/50 text-amber-300' : 'bg-white/5 border-white/10 text-white/60 hover:text-white'}`}>
               {def.emoji} {tr(def.label)} ({Math.round((def.factor - 1) * 100) >= 0 ? '+' : ''}{Math.round((def.factor - 1) * 100)}%)
             </button>
           ))}

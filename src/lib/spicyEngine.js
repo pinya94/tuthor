@@ -52,6 +52,14 @@ export const MODOS_VIDA = {
   alegre:   { factor: 1.2, emoji: '🥂', label: { es: 'Alegre', en: 'Free-spending', ca: 'Alegre' } },
 }
 
+// ── Niveles de vivienda de alquiler (acción libre): reaccionar ANTES de que
+// el dinero se desplome, no solo cuando ya es demasiado tarde ────────────────
+export const VIVIENDA_TIERS = {
+  barata: { factor: 0.7, emoji: '🏚️', label: { es: 'Piso barato', en: 'Cheap flat', ca: 'Pis barat' } },
+  normal: { factor: 1.0, emoji: '🏠', label: { es: 'Piso normal', en: 'Regular flat', ca: 'Pis normal' } },
+  buena:  { factor: 1.4, emoji: '🏡', label: { es: 'Piso mejor', en: 'Nicer flat', ca: 'Pis millor' } },
+}
+
 // ── Clases de inversión (acción libre; parámetros MENSUALES ocultos) ─────────
 export const CLASES_INVERSION = {
   fondo: {
@@ -145,6 +153,8 @@ export function crearPartida(seed = Math.floor(Math.random() * 2 ** 31)) {
     ultimaPeticionAumento: -999,
     buscandoEmpleoMeses: 0,                   // tras graduarte, meses hasta que llegan ofertas reales
     tipoTituloPendiente: null,
+    ultimaCrisis: -999,                        // último mes en que se ofreció salir de números rojos
+    viviendaTier: 'normal',                    // barata | normal | buena (solo aplica de alquiler)
     vivienda: 'familia',                      // familia | alquiler | propia
     alquilerAnual: 0,
     hipoteca: null,                           // { pendiente, cuota (anual), años }
@@ -293,6 +303,34 @@ export function cambiarModoVida(p, modo) {
     alegre: { es: `Cenas fuera, planes que no se posponen. Nuevo gasto: ${gastoMes}/mes. El neto mensual se resiente; el ánimo, al revés.`, en: `Dinners out, plans that don't wait. New spending: ${gastoMes}/mo. Monthly net takes the hit; your mood, the opposite.`, ca: `Sopars fora, plans que no es posposen. Nova despesa: ${gastoMes}/mes. El net mensual se'n ressent; l'ànim, al revés.` },
   }
   return { nota: notas[modo] }
+}
+
+// Cambiar de piso (de alquiler): reaccionar a un mal momento sin esperar a
+// que el dinero se desplome solo, igual que cambiarModoVida pero con la casa.
+export function cambiarViviendaTier(p, tier) {
+  if (!VIVIENDA_TIERS[tier] || tier === p.viviendaTier || p.vivienda !== 'alquiler') return null
+  const antes = VIVIENDA_TIERS[p.viviendaTier].factor
+  p.alquilerAnual = Math.round(p.alquilerAnual / antes * VIVIENDA_TIERS[tier].factor)
+  p.viviendaTier = tier
+  const alquilerMes = fmt(Math.round(p.alquilerAnual / 12))
+  if (tier === 'barata') p.bienestar = clampB(p.bienestar - 3)
+  if (tier === 'buena') p.bienestar = clampB(p.bienestar + 3)
+  const notas = {
+    barata: { es: `Te mudas a algo más modesto. Nuevo alquiler: ${alquilerMes}/mes. Menos comodidad, más margen — puedes volver a subir cuando quieras.`, en: `You move somewhere more modest. New rent: ${alquilerMes}/mo. Less comfort, more breathing room — you can upgrade again whenever you want.`, ca: `Et mudes a alguna cosa més modesta. Nou lloguer: ${alquilerMes}/mes. Menys comoditat, més marge — pots tornar a pujar quan vulguis.` },
+    normal: { es: `Vuelves a un piso normal. Alquiler: ${alquilerMes}/mes.`, en: `You move back to a regular flat. Rent: ${alquilerMes}/mo.`, ca: `Tornes a un pis normal. Lloguer: ${alquilerMes}/mes.` },
+    buena: { es: `Te mudas a un piso mejor. Nuevo alquiler: ${alquilerMes}/mes — más comodidad, menos margen cada mes.`, en: `You move somewhere nicer. New rent: ${alquilerMes}/mo — more comfort, less breathing room each month.`, ca: `Et mudes a un pis millor. Nou lloguer: ${alquilerMes}/mes — més comoditat, menys marge cada mes.` },
+  }
+  return { nota: notas[tier] }
+}
+
+// Renta mensual que da un activo AHORA (negocio o segunda vivienda alquilada).
+// No revela el riesgo oculto (pQuiebraAnual): solo el flujo de caja visible,
+// igual que un dueño real conoce su facturación aunque no el futuro.
+export function rentaMensualActivo(a) {
+  if (a.estado !== 'vivo') return 0
+  if (a.tipo === 'negocio') return Math.round((a.invertido * a.oculto.renta) / 12)
+  if (a.tipo === 'casa2' && a.uso === 'alquiler') return Math.round((a.valor * 0.045) / 12)
+  return 0
 }
 
 // Invertir dinero disponible en una clase (crea o amplía la posición)
@@ -678,6 +716,84 @@ function tickBusquedaPrimerEmpleo(p) {
   return ofertaGraduacion(p)
 }
 
+// Cuándo se ofrece la crisis financiera: cuenta en números rojos serios y no
+// más de una vez al año para no ser cargante con una situación que tarda en
+// resolverse. Sin ingresos también se ofrece (paro, hipoteca que no espera) —
+// solo que sin la opción del préstamo, que ningún banco da sin nómina.
+function tickCrisisFinanciera(p) {
+  if (p.flags.includes('arruinado')) return null
+  if (p.dinero >= -escala(p, 5000)) return null
+  // Si la situación sigue empeorando (no solo "sigue mal"), se ofrece antes:
+  // cada 3 meses en vez de cada 12, para no dejar que la deuda se dispare
+  // en silencio entre una crisis resuelta y la siguiente.
+  if (p.mesesTotales - (p.ultimaCrisis ?? -999) < 3) return null
+  p.ultimaCrisis = p.mesesTotales
+  return crisisFinanciera(p)
+}
+
+// La cuenta se ha puesto muy en rojo: en vez de un ajuste silencioso, el
+// jugador elige cómo salir — nunca "te pasa" sin más.
+function crisisFinanciera(p) {
+  const agujero = Math.round(-p.dinero)
+  const sinPadres = p.usados.includes('herencia-padres')
+  const opciones = [
+    p.ingresos > 0 ? {
+      id: 'prestamo',
+      texto: { es: `Pedir un préstamo bancario (${fmt(Math.round(agujero * 1.3))})`, en: `Take out a bank loan (${fmt(Math.round(agujero * 1.3))})`, ca: `Demanar un préstec bancari (${fmt(Math.round(agujero * 1.3))})` },
+      aplicar: (p, ctx) => {
+        const importe = Math.round(agujero * 1.3)
+        ctx.prestamo({ importe, años: 5, interes: 0.2 })
+        p.dinero += importe
+        ctx.bienestar(-3)
+        return { nota: { es: `El banco te presta ${ctx.f(importe)}: la cuenta respira, pero ahora hay una cuota fija cada mes durante 5 años.`, en: `The bank lends you ${ctx.f(importe)}: the account breathes again, but now there's a fixed instalment every month for 5 years.`, ca: `El banc et presta ${ctx.f(importe)}: el compte respira, però ara hi ha una quota fixa cada mes durant 5 anys.` } }
+      },
+    } : null,
+    !sinPadres ? {
+      id: 'padres',
+      texto: { es: 'Pedir ayuda a tus padres', en: 'Ask your parents for help', ca: 'Demanar ajuda als teus pares' },
+      aplicar: (p, ctx) => {
+        const pAyuda = { humilde: 0.35, media: 0.65, acomodada: 0.9 }[p.familia]
+        if (ctx.rng() < pAyuda) {
+          p.dinero += agujero
+          ctx.bienestar(-2)
+          return { nota: { es: 'Cuesta pedirlo, pero tus padres cubren el agujero. No es un cheque en blanco — es la última vez que pueden hacerlo así de fácil.', en: 'It\'s hard to ask, but your parents cover the hole. It\'s not a blank cheque — it\'s the last time they can do it this easily.', ca: 'Costa demanar-ho, però els teus pares cobreixen el forat. No és un xec en blanc — és l\'última vegada que ho poden fer així de fàcil.' } }
+        }
+        ctx.bienestar(-6)
+        return { nota: { es: 'Tus padres querrían ayudar, pero ellos tampoco andan sobrados. Te quedas con el problema — y con la vergüenza de haberlo pedido.', en: 'Your parents would like to help, but they\'re not exactly flush either. You\'re left with the problem — and the embarrassment of having asked.', ca: 'Els teus pares voldrien ajudar, però ells tampoc van sobrats. Et quedes amb el problema — i amb la vergonya d\'haver-ho demanat.' } }
+      },
+    } : null,
+    {
+      id: 'recortar',
+      texto: { es: 'Recortar al máximo y aguantar solo', en: 'Cut everything to the bone and tough it out', ca: 'Retallar al màxim i aguantar sol' },
+      aplicar: (p, ctx) => {
+        p.modoVida = 'ajustado'
+        ctx.recalcularGastos()
+        p.dinero = Math.max(p.dinero, -escala(p, 3000))
+        ctx.bienestar(-5)
+        return { nota: { es: 'Ni un gasto de más a partir de ahora. Duro, pero la deuda deja de crecer a este ritmo — el resto depende de aguantar el tipo.', en: 'Not a euro of extra spending from now on. Hard, but the debt stops growing at this rate — the rest depends on holding on.', ca: 'Ni una despesa de més a partir d\'ara. Dur, però el deute deixa de créixer a aquest ritme — la resta depèn d\'aguantar.' } }
+      },
+    },
+    p.vivienda === 'alquiler' ? {
+      id: 'dejar-piso',
+      texto: { es: 'Dejar el piso — mudarte a algo mínimo', en: 'Give up the flat — move somewhere minimal', ca: 'Deixar el pis — mudar-te a alguna cosa mínima' },
+      aplicar: (p, ctx) => {
+        p.alquilerAnual = escala(p, 2400)
+        p.viviendaTier = 'normal'
+        ctx.recalcularGastos()
+        p.dinero = Math.max(p.dinero, -escala(p, 1500))
+        ctx.bienestar(-10)
+        return { nota: { es: `Dejas el piso y te mudas a una habitación compartida (${ctx.f(Math.round(p.alquilerAnual / 12))}/mes). Duele el orgullo, pero el agujero deja de crecer — y siempre puedes volver a subir cuando la cosa mejore.`, en: `You give up the flat for a shared room (${ctx.f(Math.round(p.alquilerAnual / 12))}/mo). It hurts the pride, but the hole stops growing — and you can always upgrade again once things improve.`, ca: `Deixes el pis i et mudes a una habitació compartida (${ctx.f(Math.round(p.alquilerAnual / 12))}/mes). Fa mal a l'orgull, però el forat deixa de créixer — i sempre pots tornar a pujar quan la cosa millori.` } }
+      },
+    } : null,
+  ].filter(Boolean)
+
+  return {
+    id: 'crisis-financiera',
+    texto: { es: `🔴 La cuenta está en ${fmt(p.dinero)}. Esto ya no se arregla solo — toca decidir cómo salir.`, en: `🔴 Your account is at ${fmt(p.dinero)}. This won't fix itself — time to decide how to get out.`, ca: `🔴 El compte està en ${fmt(p.dinero)}. Això ja no s'arregla sol — toca decidir com sortir-ne.` },
+    opciones,
+  }
+}
+
 // ── Empleo: despido y recolocación (mensual) ─────────────────────────────────
 function empleoMensual(p, log) {
   // Fases de la vida: infancia/estudiante → trabajador → (pre)jubilado.
@@ -947,15 +1063,6 @@ export function avanzarMes(p) {
   const sinIngresosProtegido = (p.estudios && p.ingresos <= 0) || p.buscandoEmpleoMeses > 0
   if ((p.edad < 18 || sinIngresosProtegido) && p.dinero < antesDinero && p.dinero < 0) p.dinero = Math.max(0, antesDinero)
 
-  // Apretarse el cinturón: si trabajas y la cuenta se pone en rojo por vivir
-  // (no por deudas), recortas gastos automáticamente. No te arruinas por comer,
-  // simplemente ahorras poco o nada — el drama del alquiler de por vida.
-  const soloVivir = (p.prestamos?.length ?? 0) === 0 && !p.hipoteca
-  if (p.dinero < 0 && p.ingresos > 0 && soloVivir && !p.flags.includes('arruinado')) {
-    if (p.modoVida !== 'ajustado') { p.modoVida = 'ajustado'; ajustarGastos(p) }
-    p.dinero = Math.max(p.dinero, -escala(p, 1500))
-  }
-
   // Números rojos: interés mensual y noches sin dormir. Tras una quiebra
   // nadie te presta más: la deuda toca suelo y se vive al día.
   if (p.flags.includes('arruinado')) {
@@ -970,6 +1077,13 @@ export function avanzarMes(p) {
       p.bienestar = clampB(p.bienestar - 2)
       log.push({ tipo: 'malo', texto: { es: `🔴 Números rojos (${fmt(p.dinero)}): el descubierto cobra intereses y quita el sueño.`, en: `🔴 In the red (${fmt(p.dinero)}): the overdraft charges interest and steals sleep.`, ca: `🔴 Números vermells (${fmt(p.dinero)}): el descobert cobra interessos i treu la son.` } })
     }
+  }
+
+  // Antes de que el banco actúe por su cuenta, te ofrecen elegir: préstamo,
+  // ayuda familiar, apretarte el cinturón o dejar el piso. Nunca en silencio.
+  if (!evento) {
+    const crisisEv = tickCrisisFinanciera(p)
+    if (crisisEv) evento = crisisEv
   }
 
   // El banco no presta sin fin: liquidación forzosa y, si no basta, quiebra

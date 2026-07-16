@@ -1342,7 +1342,9 @@ export const EVENTOS = [
         id: 'contado',
         texto: { es: 'Pagarlo del colchón ({golpe})', en: 'Pay it from savings ({golpe})', ca: 'Pagar-ho del coixí ({golpe})' },
         aplicar: (p, ctx) => {
-          ctx.dinero(-ctx.cant('golpe'))
+          const c = ctx.cant('golpe')
+          if (p.dinero < c) return { rechazo: true, nota: { es: 'No tienes colchón que gastar: no te llega para pagarlo al contado. Toca financiarlo.', en: 'You don\'t have a cushion to spend: you can\'t cover it in cash. Time to finance it.', ca: 'No tens coixí per gastar: no t\'arriba per pagar-ho al comptat. Toca finançar-ho.' } }
+          ctx.dinero(-c)
           return { nota: { es: 'Duele, pero se paga y se olvida. Exactamente para esto existe el colchón de emergencia: los imprevistos no avisan, se presentan.', en: 'It hurts, but you pay and move on. This is exactly what the emergency fund is for: surprises don\'t warn you, they just show up.', ca: 'Fa mal, però es paga i s\'oblida. Exactament per a això existeix el coixí d\'emergència: els imprevistos no avisen, es presenten.' } }
         },
       },
@@ -1350,8 +1352,10 @@ export const EVENTOS = [
         id: 'financiar',
         texto: { es: 'Financiarlo a plazos', en: 'Finance it in instalments', ca: 'Finançar-ho a terminis' },
         aplicar: (p, ctx) => {
-          ctx.dinero(-ctx.cant('financiado'))
-          return { nota: { es: 'Pagas {financiado} por un problema de {golpe}: la diferencia es el precio de no descapitalizarte de golpe. A veces compensa (si ese dinero está trabajando en otro sitio); si simplemente no había colchón, sale caro.', en: 'You pay {financiado} for a {golpe} problem: the difference is the price of not draining your cash at once. Sometimes it\'s worth it (if that money is working elsewhere); if there simply was no cushion, it\'s expensive.', ca: 'Pagues {financiado} per un problema de {golpe}: la diferència és el preu de no descapitalitzar-te de cop. De vegades compensa (si aquests diners treballen en un altre lloc); si simplement no hi havia coixí, surt car.' } }
+          const golpe = ctx.cant('golpe')
+          const financiado = ctx.cant('financiado')
+          ctx.prestamo({ importe: golpe, años: 3, interes: financiado / golpe - 1 })
+          return { nota: { es: `Pagarás ${ctx.f(financiado)} en total por un problema de ${ctx.f(golpe)}, en cuotas durante 3 años: la diferencia es el precio de no descapitalizarte de golpe. A veces compensa (si ese dinero está trabajando en otro sitio); si simplemente no había colchón, sale caro.`, en: `You'll pay ${ctx.f(financiado)} in total for a ${ctx.f(golpe)} problem, in instalments over 3 years: the difference is the price of not draining your cash at once. Sometimes it's worth it (if that money is working elsewhere); if there simply was no cushion, it's expensive.`, ca: `Pagaràs ${ctx.f(financiado)} en total per un problema de ${ctx.f(golpe)}, en quotes durant 3 anys: la diferència és el preu de no descapitalitzar-te de cop. De vegades compensa (si aquests diners treballen en un altre lloc); si simplement no hi havia coixí, surt car.` } }
         },
       },
     ],
@@ -1371,9 +1375,12 @@ export const EVENTOS = [
         id: 'nuevo',
         texto: { es: 'Nuevo financiado', en: 'New, financed', ca: 'Nou finançat' },
         aplicar: (p, ctx) => {
-          ctx.dinero(-ctx.cant('cuotaTotal'))
+          // "Financiado cómodamente": un préstamo a cuotas, no un pago de golpe
+          const precio = ctx.cant('nuevo')
+          const total = ctx.cant('cuotaTotal')
+          ctx.prestamo({ importe: precio, años: 5, interes: total / precio - 1 })
           ctx.bienestar(4)
-          return { nota: { es: 'Huele a nuevo y da gusto conducirlo. Los intereses fueron el precio de tenerlo ya sin vaciar la cuenta — tú sabrás si esta vez lo valía. Ni héroe ni villano: una compra con su coste.', en: 'That new car smell, and it\'s a joy to drive. The interest was the price of having it now without emptying your account — you\'ll know whether it was worth it this time. Neither hero nor villain: a purchase with its cost.', ca: 'Olor de nou i dona gust conduir-lo. Els interessos van ser el preu de tenir-lo ja sense buidar el compte — tu sabràs si aquesta vegada ho valia. Ni heroi ni vilà: una compra amb el seu cost.' } }
+          return { nota: { es: `Huele a nuevo y da gusto conducirlo. Ahora hay una cuota fija cada mes durante 5 años — en total, ${ctx.f(total)}. Ni héroe ni villano: una compra con su coste.`, en: `That new car smell, and it's a joy to drive. Now there's a fixed instalment every month for 5 years — ${ctx.f(total)} in total. Neither hero nor villain: a purchase with its cost.`, ca: `Olor de nou i dona gust conduir-lo. Ara hi ha una quota fixa cada mes durant 5 anys — en total, ${ctx.f(total)}. Ni heroi ni vilà: una compra amb el seu cost.` } }
         },
       },
       {
