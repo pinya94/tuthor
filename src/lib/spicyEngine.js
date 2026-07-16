@@ -879,7 +879,7 @@ function resolverActivosAnuales(p, log) {
     } else if (a.tipo === 'negocio') {
       if (p.rng() < a.oculto.pQuiebraAnual) {
         a.estado = 'quebrado'; a.valor = 0
-        log.push({ tipo: 'malo', texto: { es: `💥 ${a.nombre.es} cierra. Pierdes lo invertido (${fmt(a.invertido)}).`, en: `💥 ${a.nombre.en} shuts down. You lose your investment (${fmt(a.invertido)}).`, ca: `💥 ${a.nombre.ca} tanca. Perds la inversió (${fmt(a.invertido)}).` } })
+        log.push({ tipo: 'malo', importante: true, texto: { es: `💥 ${a.nombre.es} cierra. Pierdes lo invertido (${fmt(a.invertido)}).`, en: `💥 ${a.nombre.en} shuts down. You lose your investment (${fmt(a.invertido)}).`, ca: `💥 ${a.nombre.ca} tanca. Perds la inversió (${fmt(a.invertido)}).` } })
         p.autopsias.push({ edad: p.edad, tipo: 'mala', titulo: a.nombre, senales: a.senales, texto: { es: 'La mayoría de negocios pequeños no superan los 5 años. Puede salir bien — pero solo con dinero que puedas permitirte perder.', en: 'Most small businesses don\'t survive 5 years. It can work out — but only with money you can afford to lose.', ca: 'La majoria de negocis petits no superen els 5 anys. Pot sortir bé — però només amb diners que puguis permetre\'t perdre.' } })
       } else {
         const renta = Math.round(a.invertido * a.oculto.renta)

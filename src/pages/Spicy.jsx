@@ -37,6 +37,7 @@ export default function Spicy() {
   const [accionNota, setAccionNota] = useState(null) // feedback de acciones libres
   const [ofertasEmpleo, setOfertasEmpleo] = useState(null) // ofertas de buscarEmpleo() a elegir
   const [avisos, setAvisos] = useState(null)         // cambios importantes (despido, sueldo…): paran el reloj
+  const [finPendiente, setFinPendiente] = useState(false) // true si el próximo "seguir" debe ir a resultados
   const [corriendo, setCorriendo] = useState(false)  // el reloj de la vida avanza
   const [sliderVal, setSliderVal] = useState(0.5)    // deslizador del evento activo
   const logsRef = useRef([])                         // feed acumulado (no re-render por sí solo)
@@ -59,6 +60,7 @@ export default function Spicy() {
     setAccionNota(null)
     setOfertasEmpleo(null)
     setAvisos(null)
+    setFinPendiente(false)
     setVista({ logs: logsRef.current.slice(), evento: null })
     setFase('jugando')
     setCorriendo(true)
@@ -87,7 +89,15 @@ export default function Spicy() {
             }).catch(() => {})
           }
         }
-        setCorriendo(false); setFase('fin'); return
+        // Aviso de muerte antes de saltar a resultados — nunca directo a la pantalla final
+        setAvisos([{ tipo: 'malo', importante: true, texto: {
+          es: `💀 A los ${p.edad} años, tu vida llega a su fin.`,
+          en: `💀 At ${p.edad}, your life comes to an end.`,
+          ca: `💀 Als ${p.edad} anys, la teva vida arriba a la fi.`,
+        } }])
+        setFinPendiente(true)
+        setCorriendo(false)
+        return
       }
       if (r.evento) {
         setSliderVal(r.evento.slider?.defecto ?? 0.5)
@@ -253,6 +263,7 @@ export default function Spicy() {
   // ── JUGANDO ────────────────────────────────────────────────────────────────
   const activosVivos = p.activos.filter(a => a.estado === 'vivo')
   const vendibles = activosVivos.filter(a => ['fondo', 'acciones', 'cripto', 'coleccion', 'deposito', 'turbio'].includes(a.tipo))
+  const casaPropia = activosVivos.find(a => a.tipo === 'casa')
   const real = Math.round(patrimonioReal(p))
   const vidaPct = Math.min(100, Math.round(((p.edad - 5) / (p.edadFinal - 5)) * 100))
   const prestamosMes = (p.prestamos ?? []).reduce((a, pr) => a + pr.cuotaMes, 0)
@@ -320,6 +331,9 @@ export default function Spicy() {
         )}
         {hipotecaMes > 0 && (
           <span className="text-red-300/70">{tr({ es: 'Hipoteca', en: 'Mortgage', ca: 'Hipoteca' })}: <span className="font-semibold">-{fmt(Math.round(hipotecaMes))}/{tr({ es: 'mes', en: 'mo', ca: 'mes' })}</span></span>
+        )}
+        {p.vivienda === 'propia' && casaPropia && (
+          <span className="text-white/70">🏠 {tr({ es: 'Tu vivienda vale', en: 'Your home is worth', ca: 'La teva vivenda val' })}: <span className="font-semibold text-white">{fmt(casaPropia.valor)}</span></span>
         )}
         {p.gastoVivienda > 0 && (
           <span className="text-red-300/70">{tr({ es: 'Ayuda en casa', en: 'Help at home', ca: 'Ajuda a casa' })}: <span className="font-semibold">-{fmt(Math.round(p.gastoVivienda / 12))}/{tr({ es: 'mes', en: 'mo', ca: 'mes' })}</span></span>
@@ -526,18 +540,18 @@ export default function Spicy() {
         </div>
       )}
 
-      {/* Cambios importantes: el reloj se ha parado para que te enteres */}
+      {/* Cambios importantes (o el fin de la vida): el reloj se ha parado para que te enteres */}
       {avisos && (
-        <div className="rounded-2xl border-2 border-amber-500/60 p-5 mb-4" style={{ background: SURF }}>
-          <p className="text-amber-400/80 text-[10px] uppercase tracking-widest font-semibold mb-3">
-            ⚠️ {tr({ es: 'Cambio importante', en: 'Important change', ca: 'Canvi important' })} · {p.edad} {tr({ es: 'años', en: 'years old', ca: 'anys' })}
+        <div className={`rounded-2xl border-2 p-5 mb-4 ${finPendiente ? 'border-white/30' : 'border-amber-500/60'}`} style={{ background: SURF }}>
+          <p className={`text-[10px] uppercase tracking-widest font-semibold mb-3 ${finPendiente ? 'text-white/50' : 'text-amber-400/80'}`}>
+            {finPendiente ? tr({ es: 'Fin de la partida', en: 'End of the run', ca: 'Fi de la partida' }) : `⚠️ ${tr({ es: 'Cambio importante', en: 'Important change', ca: 'Canvi important' })} · ${p.edad} ${tr({ es: 'años', en: 'years old', ca: 'anys' })}`}
           </p>
           {avisos.map((l, i) => (
             <p key={i} className={`leading-relaxed mb-2 font-semibold ${l.tipo === 'malo' ? 'text-red-300' : l.tipo === 'bueno' ? 'text-emerald-300' : 'text-white'}`}>{tr(l.texto)}</p>
           ))}
-          <button onClick={() => { setAvisos(null); setCorriendo(true) }}
+          <button onClick={() => { setAvisos(null); if (finPendiente) { setFinPendiente(false); setFase('fin') } else { setCorriendo(true) } }}
             className="w-full bg-[#EDAE49] hover:bg-amber-400 text-black font-black py-3 rounded-2xl transition-all mt-2">
-            {tr({ es: 'Seguir viviendo →', en: 'Keep living →', ca: 'Seguir vivint →' })}
+            {finPendiente ? tr({ es: 'Ver resultados →', en: 'See results →', ca: 'Veure resultats →' }) : tr({ es: 'Seguir viviendo →', en: 'Keep living →', ca: 'Seguir vivint →' })}
           </button>
         </div>
       )}
