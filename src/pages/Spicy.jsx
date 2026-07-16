@@ -10,6 +10,7 @@ import {
   crearPartida, avanzarMes, elegirOpcion, interpolar,
   patrimonio, patrimonioReal, notaFinanciera, fmt, escala, SENALES,
   MODOS_VIDA, CLASES_INVERSION, FAMILIAS, cambiarModoVida, invertir, venderActivo, buscarEmpleo, pedirAumento,
+  elegirOfertaEmpleo,
   precioSegundaVivienda, comprarSegundaVivienda, usarSegundaVivienda, venderSegundaVivienda, donarSegundaVivienda,
 } from '../lib/spicyEngine'
 
@@ -34,6 +35,7 @@ export default function Spicy() {
   const [feedback, setFeedback] = useState(null)     // { nota } tras elegir
   const [accion, setAccion] = useState(null)         // null | 'invertir' | 'vender' | 'vida'
   const [accionNota, setAccionNota] = useState(null) // feedback de acciones libres
+  const [ofertasEmpleo, setOfertasEmpleo] = useState(null) // ofertas de buscarEmpleo() a elegir
   const [corriendo, setCorriendo] = useState(false)  // el reloj de la vida avanza
   const [sliderVal, setSliderVal] = useState(0.5)    // deslizador del evento activo
   const logsRef = useRef([])                         // feed acumulado (no re-render por sí solo)
@@ -62,7 +64,7 @@ export default function Spicy() {
   // El reloj: mientras `corriendo` y no haya evento/pausa, avanza un mes cada tijeretazo
   useEffect(() => {
     if (fase !== 'jugando') return
-    if (!corriendo || vista?.evento || feedback || accion) return
+    if (!corriendo || vista?.evento || feedback || accion || ofertasEmpleo) return
     const p = partida
     const t = setTimeout(() => {
       const autopsiasAntes = p.autopsias.length
@@ -94,7 +96,7 @@ export default function Spicy() {
       setTick(x => x + 1)
     }, 80)
     return () => clearTimeout(t)
-  }, [corriendo, fase, vista, feedback, accion, partida, user])
+  }, [corriendo, fase, vista, feedback, accion, ofertasEmpleo, partida, user])
 
   function elegir(opcion) {
     const res = elegirOpcion(partida, vista.evento, opcion, vista.evento.slider ? sliderVal : undefined)
@@ -113,6 +115,15 @@ export default function Spicy() {
   function ejecutarAccion(fn) {
     const res = fn(partida)
     setAccion(null)
+    setTick(x => x + 1)
+    if (res?.ofertas) { setOfertasEmpleo(res.ofertas); return }
+    if (res?.nota) setAccionNota(res.nota)
+  }
+
+  // Elegir una de las ofertas de buscarEmpleo(): nunca se asigna sola
+  function elegirOferta(oferta) {
+    const res = elegirOfertaEmpleo(partida, oferta)
+    setOfertasEmpleo(null)
     setTick(x => x + 1)
     if (res?.nota) setAccionNota(res.nota)
   }
@@ -470,6 +481,23 @@ export default function Spicy() {
       {accionNota && (
         <div className="rounded-xl border border-white/15 bg-white/5 p-3 mb-3">
           <p className="text-white/60 text-xs leading-relaxed">{tr(accionNota)}</p>
+        </div>
+      )}
+
+      {/* Ofertas de empleo a elegir tras buscar otro trabajo */}
+      {ofertasEmpleo && (
+        <div className="rounded-2xl border-2 border-[#EDAE49]/50 p-5 mb-4" style={{ background: SURF }}>
+          <p className="text-amber-400/70 text-[10px] uppercase tracking-widest font-semibold mb-3">
+            {tr({ es: 'Te llegan ofertas', en: 'Offers come in', ca: 'Et arriben ofertes' })}
+          </p>
+          <div className="space-y-2">
+            {ofertasEmpleo.map(o => (
+              <button key={o.id} onClick={() => elegirOferta(o)}
+                className="w-full text-left bg-white/10 hover:bg-white/20 border border-white/15 hover:border-amber-500/40 text-white font-semibold px-4 py-3 rounded-xl transition-all">
+                {tr(o.label)}
+              </button>
+            ))}
+          </div>
         </div>
       )}
 

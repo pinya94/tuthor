@@ -143,6 +143,8 @@ export function crearPartida(seed = Math.floor(Math.random() * 2 ** 31)) {
     señaladoMeses: 0,                         // te buscaste otro empleo y se supo
     ultimaBusqueda: -999,
     ultimaPeticionAumento: -999,
+    buscandoEmpleoMeses: 0,                   // tras graduarte, meses hasta que llegan ofertas reales
+    tipoTituloPendiente: null,
     vivienda: 'familia',                      // familia | alquiler | propia
     alquilerAnual: 0,
     hipoteca: null,                           // { pendiente, cuota (anual), años }
@@ -390,27 +392,47 @@ export function buscarEmpleo(p) {
   p.ultimaBusqueda = p.mesesTotales
   const r = p.rng()
   if (r < 0.4) {
-    const subida = 1.08 + p.rng() * 0.10
-    p.ingresos = Math.round(p.ingresos * subida)
-    p.flags = p.flags.filter(f => f !== 'startup' && f !== 'revision-automatica' && f !== 'revision-manual')
-    p.señaladoMeses = 0
-    // Cada empresa te lo deja claro en la entrevista: revisión automática, o toca pedirlo tú
-    const automatica = p.rng() < 0.4
-    p.flags.push(automatica ? 'revision-automatica' : 'revision-manual')
-    const condicion = automatica
-      ? { es: 'Te avisan: aquí las subidas llegan solas, con revisión salarial cada año.', en: 'They tell you upfront: here raises come on their own, with a yearly salary review.', ca: 'T\'avisen: aquí les pujades arriben soles, amb revisió salarial cada any.' }
-      : { es: 'Te avisan: aquí las subidas no llegan solas — si quieres una, toca pedirla tú.', en: 'They tell you upfront: here raises don\'t come on their own — if you want one, you have to ask.', ca: 'T\'avisen: aquí les pujades no arriben soles — si en vols una, l\'has de demanar tu.' }
-    return { nota: {
-      es: `Unas semanas de entrevistas y llega la oferta: +${Math.round((subida - 1) * 100)}% de sueldo. Moverse tiene riesgo — esta vez pagó. ${condicion.es}`,
-      en: `A few weeks of interviews and the offer lands: +${Math.round((subida - 1) * 100)}% salary. Moving has risk — this time it paid. ${condicion.en}`,
-      ca: `Unes setmanes d'entrevistes i arriba l'oferta: +${Math.round((subida - 1) * 100)}% de sou. Moure's té risc — aquesta vegada va pagar. ${condicion.ca}`,
-    } }
+    // Dos ofertas reales, no una subida asignada en silencio: tú eliges el trade-off.
+    const subidaA = 1.05 + p.rng() * 0.05      // conservadora: revisión automática
+    const subidaB = 1.13 + p.rng() * 0.10      // más agresiva: las subidas hay que pedirlas
+    return {
+      ofertas: [
+        {
+          id: 'conservadora', subida: subidaA, automatica: true, bienestarDelta: 0,
+          label: { es: `Cambio con revisión salarial automática (+${Math.round((subidaA - 1) * 100)}%)`, en: `Move with automatic salary review (+${Math.round((subidaA - 1) * 100)}%)`, ca: `Canvi amb revisió salarial automàtica (+${Math.round((subidaA - 1) * 100)}%)` },
+        },
+        {
+          id: 'agresiva', subida: subidaB, automatica: false, bienestarDelta: -2,
+          label: { es: `Cambio más agresivo, las subidas las pides tú (+${Math.round((subidaB - 1) * 100)}%)`, en: `More aggressive move, you ask for raises yourself (+${Math.round((subidaB - 1) * 100)}%)`, ca: `Canvi més agressiu, les pujades les demanes tu (+${Math.round((subidaB - 1) * 100)}%)` },
+        },
+      ],
+    }
   }
   if (r < 0.9) {
     return { nota: { es: 'Entrevistas, silencios y algún "ya te llamaremos". El mercado está parado: te quedas donde estás.', en: 'Interviews, silences and a few "we\'ll call you". The market is flat: you stay put.', ca: 'Entrevistes, silencis i algun "ja et trucarem". El mercat està aturat: et quedes on ets.' } }
   }
   p.señaladoMeses = 24
   return { nota: { es: 'Alguien te vio en una entrevista y llegó a oídos de tu jefa. Nadie dice nada… pero tu nombre subió puestos en la lista de prescindibles.', en: 'Someone saw you at an interview and word reached your boss. Nobody says anything… but your name moved up the expendables list.', ca: 'Algú et va veure en una entrevista i va arribar a oïdes de la teva cap. Ningú diu res… però el teu nom va pujar llocs a la llista de prescindibles.' } }
+}
+
+// Aplica la oferta elegida tras buscarEmpleo(). Siempre avisa con la cifra
+// concreta y si las próximas subidas llegarán solas o habrá que pedirlas.
+export function elegirOfertaEmpleo(p, oferta) {
+  const antes = p.ingresos
+  p.ingresos = Math.round(p.ingresos * oferta.subida)
+  p.flags = p.flags.filter(f => f !== 'startup' && f !== 'revision-automatica' && f !== 'revision-manual')
+  p.flags.push(oferta.automatica ? 'revision-automatica' : 'revision-manual')
+  p.señaladoMeses = 0
+  if (oferta.bienestarDelta) p.bienestar = clampB(p.bienestar + oferta.bienestarDelta)
+  const subidaPct = Math.round((p.ingresos / antes - 1) * 100)
+  const condicion = oferta.automatica
+    ? { es: 'Aquí las subidas llegan solas, con revisión salarial cada año.', en: 'Here raises come on their own, with a yearly salary review.', ca: 'Aquí les pujades arriben soles, amb revisió salarial cada any.' }
+    : { es: 'Aquí las subidas no llegan solas — si quieres una, toca pedirla tú.', en: 'Here raises don\'t come on their own — if you want one, you have to ask.', ca: 'Aquí les pujades no arriben soles — si en vols una, l\'has de demanar tu.' }
+  return { nota: {
+    es: `Aceptas: +${subidaPct}% de sueldo (${fmt(Math.round(p.ingresos / 12))}/mes). ${condicion.es}`,
+    en: `You accept: +${subidaPct}% salary (${fmt(Math.round(p.ingresos / 12))}/mo). ${condicion.en}`,
+    ca: `Acceptes: +${subidaPct}% de sou (${fmt(Math.round(p.ingresos / 12))}/mes). ${condicion.ca}`,
+  } }
 }
 
 // Pedir un aumento en tu empleo actual: agencia real del jugador sobre el sueldo,
@@ -552,20 +574,66 @@ function finDeCurso(p, log) {
     log.push({ tipo: 'hito', texto: { es: `📗 Curso aprobado (quedan ${e.añosRestantes}). La matrícula del que viene: ${fmt(matricula)}.`, en: `📗 Year passed (${e.añosRestantes} to go). Next year's tuition: ${fmt(matricula)}.`, ca: `📗 Curs aprovat (en queden ${e.añosRestantes}). La matrícula del que ve: ${fmt(matricula)}.` } })
     return
   }
-  // Graduación: el título mejora tus opciones — no las garantiza
-  const bonus = p.flags.includes('curro-temprano') ? 0.05 : 0
-  const pBueno = (e.tipo === 'uni' ? 0.65 : 0.60) + bonus
-  const bueno = p.rng() < pBueno
-  const sueldo = e.tipo === 'uni' ? (bueno ? 21000 : 14500) : (bueno ? 17500 : 13000)
-  p.ingresos = escala(p, sueldo)
+  // Graduación: el título mejora tus opciones — no te cae un sueldo del cielo.
+  // Toca buscar el primer empleo (lleva su tiempo) y elegir entre ofertas reales.
   p.estudios = null
   p.flags.push('titulado')
+  p.tipoTituloPendiente = e.tipo
+  p.buscandoEmpleoMeses = 2 + Math.floor(p.rng() * 5)   // 2 a 6 meses buscando
   ajustarGastos(p)
-  if (bueno) {
-    log.push({ tipo: 'bueno', texto: { es: `🎓 Título en mano y suerte en las entrevistas: entras en un buen puesto (${fmt(Math.round(p.ingresos / 12))}/mes). El título abrió la puerta; cruzarla fue cosa tuya (y del mercado).`, en: `🎓 Degree in hand and luck in interviews: you land a good job (${fmt(Math.round(p.ingresos / 12))}/mo). The degree opened the door; walking through was you (and the market).`, ca: `🎓 Títol a la mà i sort a les entrevistes: entres en un bon lloc (${fmt(Math.round(p.ingresos / 12))}/mes). El títol va obrir la porta; creuar-la va ser cosa teva (i del mercat).` } })
-  } else {
-    log.push({ tipo: 'neutro', texto: { es: `🎓 Título en mano… y un mercado frío: aceptas un puesto por debajo de lo que esperabas (${fmt(Math.round(p.ingresos / 12))}/mes). Estudiar mejora las probabilidades — no reparte certezas.`, en: `🎓 Degree in hand… and a cold market: you take a job below what you hoped (${fmt(Math.round(p.ingresos / 12))}/mo). Studying improves the odds — it doesn't hand out certainties.`, ca: `🎓 Títol a la mà… i un mercat fred: acceptes un lloc per sota del que esperaves (${fmt(Math.round(p.ingresos / 12))}/mes). Estudiar millora les probabilitats — no reparteix certeses.` } })
+  log.push({ tipo: 'hito', texto: { es: '🎓 Título en mano. Ahora toca buscar el primer trabajo — rara vez es inmediato.', en: '🎓 Degree in hand. Now the search for a first job begins — it\'s rarely immediate.', ca: '🎓 Títol a la mà. Ara toca buscar la primera feina — rares vegades és immediat.' } })
+}
+
+// Ofertas del primer empleo tras graduarse: dos reales, con sus trade-offs —
+// nunca un sueldo asignado en silencio. La suerte de mercado fija el nivel;
+// elegir entre las dos ofertas sigue siendo tuyo.
+function ofertaGraduacion(p) {
+  const tipo = p.tipoTituloPendiente
+  p.tipoTituloPendiente = null
+  const bonus = p.flags.includes('curro-temprano') ? 0.05 : 0
+  const pBueno = (tipo === 'uni' ? 0.65 : 0.60) + bonus
+  const bueno = p.rng() < pBueno
+  const [baseA, baseB] = tipo === 'uni'
+    ? (bueno ? [12500, 13200] : [10200, 10800])
+    : (bueno ? [10800, 11400] : [9000, 9500])
+  const sueldoA = escala(p, baseA)
+  const sueldoB = escala(p, baseB)
+  return {
+    id: 'oferta-graduacion',
+    texto: bueno
+      ? { es: '🎓 Título en mano y suerte en las entrevistas: te llegan dos ofertas reales. El título abrió la puerta; cuál cruzar es cosa tuya.', en: '🎓 Degree in hand and luck in interviews: two real offers come in. The degree opened the door; which to walk through is up to you.', ca: '🎓 Títol a la mà i sort a les entrevistes: et arriben dues ofertes reals. El títol va obrir la porta; quina creuar és cosa teva.' }
+      : { es: '🎓 Título en mano… y un mercado frío. Ha costado, pero al final llegan dos ofertas — ninguna es la soñada, pero hay que empezar por algún sitio.', en: '🎓 Degree in hand… and a cold market. It took a while, but two offers finally arrive — neither is the dream job, but you have to start somewhere.', ca: '🎓 Títol a la mà… i un mercat fred. Ha costat, però al final arriben dues ofertes — cap és la somiada, però cal començar per algun lloc.' },
+    opciones: [
+      {
+        id: 'estable',
+        texto: { es: `Empresa grande, revisión salarial automática (${fmt(Math.round(sueldoA / 12))}/mes)`, en: `Large company, automatic salary review (${fmt(Math.round(sueldoA / 12))}/mo)`, ca: `Empresa gran, revisió salarial automàtica (${fmt(Math.round(sueldoA / 12))}/mes)` },
+        aplicar: (p) => {
+          p.ingresos = sueldoA
+          p.flags.push('empleo-estable', 'revision-automatica')
+          return { nota: { es: `Entras en un puesto estable (${fmt(Math.round(sueldoA / 12))}/mes). Menos brillante, pero las subidas llegarán solas.`, en: `You start a stable job (${fmt(Math.round(sueldoA / 12))}/mo). Less flashy, but raises will come on their own.`, ca: `Entres en un lloc estable (${fmt(Math.round(sueldoA / 12))}/mes). Menys brillant, però les pujades arribaran soles.` } }
+        },
+      },
+      {
+        id: 'ambiciosa',
+        texto: { es: `Empresa pequeña, algo más de sueldo pero las subidas hay que pedirlas (${fmt(Math.round(sueldoB / 12))}/mes)`, en: `Small company, a bit more pay but you'll have to ask for raises (${fmt(Math.round(sueldoB / 12))}/mo)`, ca: `Empresa petita, una mica més de sou però les pujades s'han de demanar (${fmt(Math.round(sueldoB / 12))}/mes)` },
+        aplicar: (p) => {
+          p.ingresos = sueldoB
+          p.flags.push('revision-manual')
+          return { nota: { es: `Entras con algo más de sueldo (${fmt(Math.round(sueldoB / 12))}/mes), pero aquí nadie te lo sube si no lo pides tú.`, en: `You start with a bit more pay (${fmt(Math.round(sueldoB / 12))}/mo), but here nobody raises it unless you ask.`, ca: `Entres amb una mica més de sou (${fmt(Math.round(sueldoB / 12))}/mes), però aquí ningú te'l puja si no el demanes tu.` } }
+        },
+      },
+    ],
   }
+}
+
+// Cuenta atrás de la búsqueda del primer empleo: mientras dura, sin ingresos
+// (protegido de números rojos, igual que un estudiante). Al llegar a cero,
+// materializa las ofertas — nunca antes de que "pase el tiempo" de verdad.
+function tickBusquedaPrimerEmpleo(p) {
+  if (!p.buscandoEmpleoMeses || p.buscandoEmpleoMeses <= 0) return null
+  p.buscandoEmpleoMeses -= 1
+  if (p.buscandoEmpleoMeses > 0) return null
+  return ofertaGraduacion(p)
 }
 
 // ── Empleo: despido y recolocación (mensual) ─────────────────────────────────
@@ -779,7 +847,11 @@ export function avanzarMes(p) {
   }
 
   // ── Cada mes ──
-  if (p.mes === 8) finDeCurso(p, log)         // junio: notas y matrículas
+  if (p.mes === 8) finDeCurso(p, log)         // junio: notas, matrículas y graduación
+  if (!evento) {
+    const ofertaEv = tickBusquedaPrimerEmpleo(p)
+    if (ofertaEv) evento = ofertaEv
+  }
   empleoMensual(p, log)
   mercadosMensuales(p, log)
 
@@ -803,9 +875,11 @@ export function avanzarMes(p) {
   p.dinero += (p.ingresos + extraEstudios - p.gastos - p.alquilerAnual) / 12 - cuotaMes
 
   // Un menor de edad no acumula deuda: la familia cubre lo esencial.
-  // Un estudiante sin ingresos tampoco: sin nómina no hay banco que preste,
-  // así que no hay números rojos posibles — la única salida es trabajar o dejarlo.
-  if ((p.edad < 18 || (p.estudios && p.ingresos <= 0)) && p.dinero < antesDinero && p.dinero < 0) p.dinero = Math.max(0, antesDinero)
+  // Un estudiante sin ingresos tampoco, ni quien busca su primer empleo tras
+  // graduarse: sin nómina no hay banco que preste, así que no hay números
+  // rojos posibles — la única salida es trabajar o dejarlo.
+  const sinIngresosProtegido = (p.estudios && p.ingresos <= 0) || p.buscandoEmpleoMeses > 0
+  if ((p.edad < 18 || sinIngresosProtegido) && p.dinero < antesDinero && p.dinero < 0) p.dinero = Math.max(0, antesDinero)
 
   // Apretarse el cinturón: si trabajas y la cuenta se pone en rojo por vivir
   // (no por deudas), recortas gastos automáticamente. No te arruinas por comer,
