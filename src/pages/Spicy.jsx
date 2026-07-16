@@ -232,9 +232,14 @@ export default function Spicy() {
   const vendibles = activosVivos.filter(a => ['fondo', 'acciones', 'cripto', 'coleccion', 'deposito'].includes(a.tipo))
   const real = Math.round(patrimonioReal(p))
   const vidaPct = Math.min(100, Math.round(((p.edad - 5) / (p.edadFinal - 5)) * 100))
-  const cuotasMes = (p.hipoteca?.cuota ?? 0) / 12 + (p.prestamos ?? []).reduce((a, pr) => a + pr.cuotaMes, 0)
+  const prestamosMes = (p.prestamos ?? []).reduce((a, pr) => a + pr.cuotaMes, 0)
+  const hipotecaMes = (p.hipoteca?.cuota ?? 0) / 12
+  const cuotasMes = hipotecaMes + prestamosMes
   const extraEstudios = p.estudios?.mediaJornada ? escala(p, p.estudios.sueldoJornada ?? 7200) : 0
-  const netoMes = Math.round((p.ingresos + extraEstudios - p.gastos - p.alquilerAnual) / 12 - cuotasMes + (p.edad < 16 ? p.pagaAhorroMes : 0))
+  const pagaMes = p.edad < 16 ? p.pagaAhorroMes : 0
+  const ingresosMes = Math.round(p.ingresos / 12 + extraEstudios / 12 + pagaMes)
+  const alquilerMes = Math.round(p.alquilerAnual / 12)
+  const netoMes = Math.round((p.ingresos + extraEstudios - p.gastos - p.alquilerAnual) / 12 - cuotasMes + pagaMes)
   const mesLabel = (MESES[lang] ?? MESES.es)[p.mes]
   const ev = vista?.evento
   const respondido = feedback !== null
@@ -269,6 +274,34 @@ export default function Spicy() {
           <p className="text-amber-300 font-black text-lg leading-tight">{fmt(patrimonio(p))}</p>
           <p className="text-white/25 text-[10px]">🛒 {tr({ es: 'compra como', en: 'buys like', ca: 'compra com' })} {fmt(real)}</p>
         </div>
+      </div>
+
+      {/* Desglose: en qué se va cada euro */}
+      <div className="rounded-xl border border-white/10 px-3 py-2 mb-3 flex flex-wrap gap-x-4 gap-y-1 text-xs" style={{ background: SURF }}>
+        <span className="text-emerald-400/80">
+          {tr({ es: 'Ingresos', en: 'Income', ca: 'Ingressos' })}: <span className="font-semibold">+{fmt(ingresosMes)}/{tr({ es: 'mes', en: 'mo', ca: 'mes' })}</span>
+        </span>
+        {alquilerMes > 0 && (
+          <span className="text-red-300/70">{tr({ es: 'Alquiler', en: 'Rent', ca: 'Lloguer' })}: <span className="font-semibold">-{fmt(alquilerMes)}/{tr({ es: 'mes', en: 'mo', ca: 'mes' })}</span></span>
+        )}
+        {hipotecaMes > 0 && (
+          <span className="text-red-300/70">{tr({ es: 'Hipoteca', en: 'Mortgage', ca: 'Hipoteca' })}: <span className="font-semibold">-{fmt(Math.round(hipotecaMes))}/{tr({ es: 'mes', en: 'mo', ca: 'mes' })}</span></span>
+        )}
+        {p.gastoVivienda > 0 && (
+          <span className="text-red-300/70">{tr({ es: 'Ayuda en casa', en: 'Help at home', ca: 'Ajuda a casa' })}: <span className="font-semibold">-{fmt(Math.round(p.gastoVivienda / 12))}/{tr({ es: 'mes', en: 'mo', ca: 'mes' })}</span></span>
+        )}
+        {p.gastoVida > 0 && (
+          <span className="text-red-300/70">{tr({ es: 'Nivel de vida', en: 'Lifestyle', ca: 'Nivell de vida' })}: <span className="font-semibold">-{fmt(Math.round(p.gastoVida / 12))}/{tr({ es: 'mes', en: 'mo', ca: 'mes' })}</span></span>
+        )}
+        {p.gastoHijos > 0 && (
+          <span className="text-red-300/70">{tr({ es: 'Hijos', en: 'Kids', ca: 'Fills' })}: <span className="font-semibold">-{fmt(Math.round(p.gastoHijos / 12))}/{tr({ es: 'mes', en: 'mo', ca: 'mes' })}</span></span>
+        )}
+        {prestamosMes > 0 && (
+          <span className="text-red-300/70">{tr({ es: 'Préstamos', en: 'Loans', ca: 'Préstecs' })}: <span className="font-semibold">-{fmt(Math.round(prestamosMes))}/{tr({ es: 'mes', en: 'mo', ca: 'mes' })}</span></span>
+        )}
+        {p.edad < 18 && p.vivienda === 'familia' && (
+          <span className="text-white/35">{tr({ es: 'Lo esencial lo cubre tu familia', en: 'Your family covers the essentials', ca: 'Els essencials els cobreix la teva família' })}</span>
+        )}
       </div>
 
       {/* Cartera con evolución */}

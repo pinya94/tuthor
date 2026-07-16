@@ -309,9 +309,9 @@ export const EVENTOS = [
     texto: p => {
       const porFamilia = {
         humilde: {
-          es: ' En tu casa el dinero no llega para pagar matrícula: si eliges universidad o FP, entrarás con una beca-préstamo que devolverás después, y casi seguro tendrás que compaginarlo con un trabajo.',
-          en: ' Money at home won\'t stretch to tuition: if you choose university or vocational training, you\'ll go in on a student loan you\'ll repay later, and you\'ll almost certainly need a job alongside it.',
-          ca: ' A casa teva els diners no arriben per pagar matrícula: si tries universitat o FP, hi entraràs amb una beca-préstec que tornaràs després, i gairebé segur hauràs de compaginar-ho amb una feina.',
+          es: ' En tu casa el dinero no llega para pagar matrícula: si eliges universidad o FP, vas a necesitar un trabajo compatible desde el principio — sin nómina no hay banco que te preste, así que toca compaginar estudio y curro.',
+          en: ' Money at home won\'t stretch to tuition: if you choose university or vocational training, you\'ll need a compatible job from the start — no bank lends without a payslip, so you\'ll be juggling both.',
+          ca: ' A casa teva els diners no arriben per pagar matrícula: si tries universitat o FP, necessitaràs una feina compatible des del principi — sense nòmina cap banc et presta, així que toca compaginar estudi i feina.',
         },
         media: {
           es: ' En tu casa pueden pagarte la matrícula haciendo un esfuerzo — la universidad es la más cara de las tres opciones.',
@@ -343,10 +343,9 @@ export const EVENTOS = [
           if (ctx.esFamilia('media')) {
             return { nota: { es: 'Matriculado. En casa hacen un esfuerzo para pagar la matrícula. Vas sin deuda, pero sabiendo lo que le cuesta a tu familia — eso también pesa a la hora de estudiar.', en: 'Enrolled. At home they make an effort to pay the tuition. No debt, but knowing what it costs your family — that weighs on you when you study too.', ca: 'Matriculat. A casa fan un esforç per pagar la matrícula. Vas sense deute, però sabent el que li costa a la teva família — això també pesa a l\'hora d\'estudiar.' } }
           }
-          // Humilde: no pueden pagarla → beca-préstamo, y tendrás que compaginar
-          ctx.prestamo({ importe: Math.round(9000 * p.indice), años: 12, interes: 0.15 })
-          ctx.flag('beca-prestamo')
-          return { nota: { es: 'En casa no llegan a la matrícula, así que entras con una beca-préstamo: estudias ahora, lo devuelves después. Casi seguro tendrás que trabajar a la vez — la puerta se abre, pero con esfuerzo doble.', en: 'Your family can\'t cover tuition, so you go in on a student loan: study now, repay later. You\'ll almost certainly have to work alongside — the door opens, but with double the effort.', ca: 'A casa no arriben a la matrícula, així que entres amb una beca-préstec: estudies ara, ho tornes després. Gairebé segur que hauràs de treballar alhora — la porta s\'obre, però amb esforç doble.' } }
+          // Humilde: no pueden pagarla, y sin nómina no hay préstamo posible — tocará compaginar con trabajo
+          ctx.flag('necesita-trabajar')
+          return { nota: { es: 'En casa no llegan a la matrícula. Sin ingresos no hay banco que te preste, así que la única puerta es compaginar los estudios con un trabajo desde ya — se abre, pero con esfuerzo doble.', en: 'Your family can\'t cover tuition. With no income, no bank will lend to you, so the only door is combining studies with a job from now on — it opens, but with double the effort.', ca: 'A casa no arriben a la matrícula. Sense ingressos cap banc et presta, així que l\'única porta és compaginar els estudis amb una feina des d\'ara — s\'obre, però amb esforç doble.' } }
         },
       },
       {
@@ -355,8 +354,7 @@ export const EVENTOS = [
         aplicar: (p, ctx) => {
           p.estudios = { tipo: 'fp', añosRestantes: 2, mediaJornada: false }
           if (ctx.esFamilia('humilde')) {
-            ctx.prestamo({ importe: Math.round(3000 * p.indice), años: 8, interes: 0.12 })
-            ctx.flag('beca-prestamo')
+            ctx.flag('necesita-trabajar')
           }
           return { nota: { es: 'Matriculado. Dos años, taller y prácticas: al mercado le gustan los oficios. Menos techo teórico que la uni, pero llegas antes y más barato, con algo que hacen falta manos para hacer.', en: 'Enrolled. Two years, workshop and internships: the market likes trades. A lower theoretical ceiling than uni, but you arrive sooner and cheaper, with skills that need actual hands.', ca: 'Matriculat. Dos anys, taller i pràctiques: al mercat li agraden els oficis. Menys sostre teòric que la uni, però hi arribes abans i més barat, amb una cosa que calen mans per fer.' } }
         },
@@ -375,6 +373,7 @@ export const EVENTOS = [
     id: 'trabajo-estudiante',
     edad: [17, 21],
     condicion: p => p.estudios != null && !p.estudios.mediaJornada,
+    cantidades: { sueldoSinTitulo: 11000 },
     texto: {
       es: 'Buscas un trabajillo para estudiante y te salen dos ofertas muy distintas. Una da más dinero pero come más horas y flexibilidad; la otra paga menos pero te deja estudiar. También puedes centrarte solo en la carrera.',
       en: 'You look for a student job and two very different offers come up. One pays more but eats more hours and flexibility; the other pays less but leaves you room to study. You can also just focus on your degree.',
@@ -409,10 +408,20 @@ export const EVENTOS = [
         id: 'no',
         texto: { es: 'Centrarte solo en estudiar', en: 'Just focus on studying', ca: 'Centrar-te només a estudiar' },
         aplicar: (p) => {
-          if (p.flags.includes('beca-prestamo')) {
-            return { rechazo: true, nota: { es: 'Ojalá, pero entraste con una beca-préstamo y hay que ir pagándola: no puedes permitirte no trabajar. Elige uno de los dos empleos.', en: 'You wish, but you came in on a student loan and it needs paying: not working isn\'t an option. Pick one of the two jobs.', ca: 'Tant de bo, però vas entrar amb una beca-préstec i s\'ha d\'anar pagant: no pots permetre\'t no treballar. Tria una de les dues feines.' } }
+          if (p.flags.includes('necesita-trabajar')) {
+            return { rechazo: true, nota: { es: 'Ojalá, pero en tu casa no llegan a mantenerte sin más: sin ingresos no hay banco que te preste, así que no trabajar no es una opción. Elige uno de los dos empleos, o deja los estudios.', en: 'You wish, but your family can\'t simply support you: with no income, no bank will lend to you, so not working isn\'t an option. Pick one of the two jobs, or drop out.', ca: 'Tant de bo, però a casa teva no arriben a mantenir-te sense més: sense ingressos cap banc et presta, així que no treballar no és una opció. Tria una de les dues feines, o deixa els estudis.' } }
           }
           return { nota: { es: 'Todas las horas para los libros. La cuenta no crece, las probabilidades de aprobar sí. También es una inversión — solo que no se ve en el banco.', en: 'All hours for the books. Your account doesn\'t grow, your odds of passing do. That\'s an investment too — it just doesn\'t show at the bank.', ca: 'Totes les hores per als llibres. El compte no creix, les probabilitats d\'aprovar sí. També és una inversió — només que no es veu al banc.' } }
+        },
+      },
+      {
+        id: 'dejar',
+        texto: { es: 'Dejar los estudios y ponerte a trabajar', en: 'Drop out and get a job', ca: 'Deixar els estudis i posar-te a treballar' },
+        aplicar: (p, ctx) => {
+          p.estudios = null
+          p.ingresos = ctx.cant('sueldoSinTitulo')
+          ctx.bienestar(-6)
+          return { nota: { es: 'Dejas los estudios. Entras al mercado sin título — menos techo, pero una nómina ya desde este mes. No es un camino peor por definición: es otro camino, con otras probabilidades.', en: 'You drop out. You enter the job market without a degree — a lower ceiling, but a payslip from this month on. It\'s not a worse path by definition: it\'s a different one, with different odds.', ca: 'Deixes els estudis. Entres al mercat sense títol — menys sostre, però una nòmina ja des d\'aquest mes. No és un camí pitjor per definició: és un altre camí, amb altres probabilitats.' } }
         },
       },
     ],
@@ -1281,7 +1290,8 @@ export const EVENTOS = [
         id: 'subir',
         texto: { es: 'Vivir mejor cada día (+30% de gastos)', en: 'Live better every day (+30% expenses)', ca: 'Viure millor cada dia (+30% de despeses)' },
         aplicar: (p, ctx) => {
-          p.gastos = Math.round(p.gastos * 1.3)
+          p.nivelVidaFactor *= 1.3
+          ctx.recalcularGastos()
           ctx.bienestar(8)
           ctx.experiencia({ es: 'Años de vivir bien', en: 'Years of living well', ca: 'Anys de viure bé' })
           return { nota: { es: 'La vida sabe mejor. Ojo al detalle: los gastos que suben casi nunca vuelven a bajar — acabas de mover tu listón para siempre.', en: 'Life tastes better. Mind the detail: expenses that go up almost never come back down — you just moved your bar for good.', ca: 'La vida té més bon gust. Ull al detall: les despeses que pugen gairebé mai tornen a baixar — acabes de moure el teu llistó per sempre.' } }

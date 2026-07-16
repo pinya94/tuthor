@@ -133,6 +133,8 @@ export function crearPartida(seed = Math.floor(Math.random() * 2 ** 31)) {
     edadFinal: 82 + Math.floor(rng() * 9),   // 82-90
     dinero: 30 + Math.floor(rng() * 71),      // la hucha del niño: entre 30 y 100€, si no no se puede comprar nada
     ingresos: 0, gastos: 0,                   // anuales (el mes paga 1/12)
+    gastoVivienda: 0, gastoVida: 0, gastoHijos: 0, // desglose de "gastos" para mostrarlo en la interfaz
+    nivelVidaFactor: 1,                       // subida permanente de gastos (evento "nivel de vida"): nunca baja sola
     pagaAhorroMes: 0,                         // lo que la paga añade a la hucha cada mes
     bienestar: 65,                            // 0-100: salud/felicidad
     modoVida: 'medio',
@@ -441,24 +443,45 @@ function costeHijos(p) {
   return menores > 0 ? escala(p, 3000) * menores : 0
 }
 
-// Recalcula los gastos de vida según la fase y la familia. Autoridad anual:
-// en casa de los padres ahorras una parte realista del sueldo (300-900 €/mes);
-// independizado, el alquiler y la vida se comen casi todo (ahorras poco).
+// Recalcula los gastos de vida según la fase y la familia, guardando el
+// desglose (vivienda / vida / hijos) para que la interfaz pueda mostrar en
+// qué se va cada euro, no solo el total. Autoridad anual: en casa de los
+// padres ahorras una parte realista del sueldo (300-900 €/mes); independizado,
+// el alquiler y la vida se comen casi todo (ahorras poco).
 function ajustarGastos(p) {
   const f = MODOS_VIDA[p.modoVida].factor
   const hijos = costeHijos(p)
   if (p.vivienda !== 'familia') {
-    p.gastos = Math.round(escala(p, 7000) * f) + hijos  // comida, suministros, ocio, transporte
+    // El alquiler/hipoteca ya se descuenta aparte (p.alquilerAnual / hipoteca.cuota):
+    // aquí solo va la vida diaria (comida, suministros, ocio, transporte).
+    p.gastoVivienda = 0
+    p.gastoVida = Math.round(escala(p, 7000) * f)
   } else if (p.edad < 18) {
-    p.gastos = 0                                        // menor en casa: la familia cubre lo esencial
+    p.gastoVivienda = 0                                 // menor en casa: la familia cubre lo esencial
+    p.gastoVida = 0
   } else if (p.ingresos > 0) {
-    // Trabajas viviendo con tu familia: contribuyes en casa + tu vida.
-    // Cuánto ahorras depende de si te dejan quedarte con lo tuyo (300-900 €/mes).
+    // Trabajas viviendo con tu familia: una parte es lo que aportas en casa,
+    // el resto tu propio gasto de vida. Cuánto ahorras (300-900 €/mes) depende
+    // de si te dejan quedarte con lo tuyo.
     const consumo = { humilde: 0.82, media: 0.74, acomodada: 0.62 }[p.familia]
-    p.gastos = Math.round(p.ingresos * consumo * f) + hijos
+    const total = Math.round(p.ingresos * consumo * f)
+    p.gastoVivienda = Math.round(total * 0.45)          // ayuda en casa
+    p.gastoVida = total - p.gastoVivienda               // tu vida (nivel de gasto)
   } else {
-    p.gastos = Math.round(escala(p, 2400) * f) + hijos  // adulto estudiando en casa: gasto propio modesto
+    p.gastoVivienda = 0
+    p.gastoVida = Math.round(escala(p, 2400) * f)       // adulto estudiando en casa: gasto propio modesto
   }
+  // Jubilado: vida algo más modesta que de activo, aplicado aquí (no como
+  // un multiplicador suelto) para que el desglose siga cuadrando siempre.
+  if (p.flags.includes('jubilado')) {
+    p.gastoVivienda = Math.round(p.gastoVivienda * 0.9)
+    p.gastoVida = Math.round(p.gastoVida * 0.9)
+  }
+  // Subida de nivel de vida (evento "nivel de vida" a los 50): permanente,
+  // se aplica aquí para que el desglose no se desincronice del total.
+  p.gastoVida = Math.round(p.gastoVida * p.nivelVidaFactor)
+  p.gastoHijos = hijos
+  p.gastos = p.gastoVivienda + p.gastoVida + p.gastoHijos
 }
 
 // ── Hitos vitales (al cambiar de año) ────────────────────────────────────────
@@ -506,7 +529,7 @@ function hitosDelAño(p, log) {
     }
     const factor = p.flags.includes('plan-pensiones') ? 0.72 : 0.58
     p.ingresos = Math.round(Math.max(p.ingresos, p.ingresosPrevios) * factor)
-    p.gastos = Math.round(p.gastos * 0.9)
+    ajustarGastos(p)   // recalcula ya con el flag 'jubilado' puesto: vida algo más modesta
     log.push({ tipo: 'hito', texto: { es: `👴 Te jubilas. Tu pensión es menor que tu último sueldo${p.flags.includes('plan-pensiones') ? ', pero tu plan de pensiones la complementa' : ''}. A partir de aquí, vives de lo sembrado.`, en: `👴 You retire. Your pension is lower than your last salary${p.flags.includes('plan-pensiones') ? ', but your pension plan tops it up' : ''}. From here on, you live off what you sowed.`, ca: `👴 Et jubiles. La pensió és menor que l'últim sou${p.flags.includes('plan-pensiones') ? ', però el pla de pensions la complementa' : ''}. A partir d'aquí, vius del que has sembrat.` } })
   }
 }
@@ -690,6 +713,11 @@ function elegirEvento(p) {
     (ev.condicion == null || ev.condicion(p))
   )
   if (elegibles.length === 0) return null
+  // Sin ingresos no hay préstamo posible: si tus estudios dependen de trabajar, no se deja al azar
+  if (p.flags.includes('necesita-trabajar') && p.ingresos <= 0) {
+    const forzoso = elegibles.find(ev => ev.id === 'trabajo-estudiante')
+    if (forzoso) return forzoso
+  }
   const urgentes = elegibles.filter(ev => ev.edad[1] === p.edad)
   if (urgentes.length > 0) return urgentes[Math.floor(p.rng() * urgentes.length)]
   if (p.rng() < 0.75) return elegibles[Math.floor(p.rng() * elegibles.length)]
@@ -774,8 +802,10 @@ export function avanzarMes(p) {
   const antesDinero = p.dinero
   p.dinero += (p.ingresos + extraEstudios - p.gastos - p.alquilerAnual) / 12 - cuotaMes
 
-  // Un menor de edad no acumula deuda: la familia cubre lo esencial
-  if (p.edad < 18 && p.dinero < antesDinero && p.dinero < 0) p.dinero = Math.max(0, antesDinero)
+  // Un menor de edad no acumula deuda: la familia cubre lo esencial.
+  // Un estudiante sin ingresos tampoco: sin nómina no hay banco que preste,
+  // así que no hay números rojos posibles — la única salida es trabajar o dejarlo.
+  if ((p.edad < 18 || (p.estudios && p.ingresos <= 0)) && p.dinero < antesDinero && p.dinero < 0) p.dinero = Math.max(0, antesDinero)
 
   // Apretarse el cinturón: si trabajas y la cuenta se pone en rojo por vivir
   // (no por deudas), recortas gastos automáticamente. No te arruinas por comer,
