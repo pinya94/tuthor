@@ -6,6 +6,13 @@
 //
 // Cantidades: en € "de hoy" (año 0 de la partida); el motor las escala con la
 // inflación acumulada. En los textos, {nombre} se interpola ya escalado.
+//
+// `texto` (del evento o de una opción) puede ser un objeto {es,en,ca} o una
+// función (p) => {es,en,ca} para texto que depende del estado de la partida.
+// Cuando el texto de una opción muestra un sueldo/precio que también se
+// aplica en `aplicar`, usar escala(p, mismaBase) en ambos sitios: así la
+// etiqueta nunca se desincroniza de lo que realmente se cobra o se paga.
+import { escala, fmt } from '../lib/spicyEngine'
 
 export const EVENTOS = [
 
@@ -269,6 +276,14 @@ export const EVENTOS = [
           return { nota: { es: 'Edición limitada: nunca bajó. Te quedaste sin juego, con el dinero en la hucha y con medio grupo hablando de pantallas que no viste. Esperar también es una apuesta.', en: 'Limited edition: it never dropped. You ended up with no game, money still in the piggy bank and half the group talking about levels you never saw. Waiting is a bet too.', ca: 'Edició limitada: mai va baixar. Et vas quedar sense joc, amb els diners a la guardiola i mig grup parlant de pantalles que no vas veure. Esperar també és una aposta.' } }
         },
       },
+      {
+        id: 'no',
+        texto: { es: 'Pasar — no es tan importante', en: 'Skip it — it\'s not that important', ca: 'Passar — no és tan important' },
+        aplicar: (p, ctx) => {
+          ctx.bienestar(-5)
+          return { nota: { es: 'Te lo guardas. La hucha sigue intacta, pero las tardes con tus amigos hablando del juego te dejan un poco fuera — no todo lo que cuenta se mide en euros.', en: 'You pass. The piggy bank stays intact, but the evenings with your friends talking about the game leave you a little out of it — not everything that matters is measured in euros.', ca: 'T\'ho guardes. La guardiola segueix intacta, però les tardes amb els teus amics parlant del joc et deixen una mica fora — no tot el que compta es mesura en euros.' } }
+        },
+      },
     ],
   },
   {
@@ -306,57 +321,26 @@ export const EVENTOS = [
   {
     id: 'estudios-16',
     edad: [16, 16],
-    texto: p => {
-      const porFamilia = {
-        humilde: {
-          es: ' En tu casa el dinero no llega para pagar matrícula: si eliges universidad o FP, vas a necesitar un trabajo compatible desde el principio — sin nómina no hay banco que te preste, así que toca compaginar estudio y curro.',
-          en: ' Money at home won\'t stretch to tuition: if you choose university or vocational training, you\'ll need a compatible job from the start — no bank lends without a payslip, so you\'ll be juggling both.',
-          ca: ' A casa teva els diners no arriben per pagar matrícula: si tries universitat o FP, necessitaràs una feina compatible des del principi — sense nòmina cap banc et presta, així que toca compaginar estudi i feina.',
-        },
-        media: {
-          es: ' En tu casa pueden pagarte la matrícula haciendo un esfuerzo — la universidad es la más cara de las tres opciones.',
-          en: ' Your family can cover tuition, though it\'ll be a stretch — university is the priciest of the three options.',
-          ca: ' A casa teva poden pagar-te la matrícula fent un esforç — la universitat és la més cara de les tres opcions.',
-        },
-        acomodada: {
-          es: ' En tu casa pueden pagarte cualquiera de los dos estudios sin que sea un problema.',
-          en: ' Your family can cover either path without it being a problem.',
-          ca: ' A casa teva poden pagar-te qualsevol dels dos estudis sense que sigui un problema.',
-        },
-      }[p.familia]
-      return {
-        es: `Los 16: la primera decisión que marca década. ¿Carrera universitaria (4 años), un grado de FP (2 años, más barato y práctico), o ponerte a trabajar ya y empezar a cobrar desde el primer mes?${porFamilia.es} Ningún camino garantiza nada — cada uno cambia tus probabilidades.`,
-        en: `Sixteen: the first decade-shaping decision. University (4 years), a vocational course (2 years, cheaper and practical), or start working now and earn from month one?${porFamilia.en} No path guarantees anything — each changes your odds.`,
-        ca: `Els 16: la primera decisió que marca dècada. Carrera universitària (4 anys), un grau d'FP (2 anys, més barat i pràctic), o posar-te a treballar ja i començar a cobrar des del primer mes?${porFamilia.ca} Cap camí garanteix res — cadascun canvia les teves probabilitats.`,
-      }
+    texto: {
+      es: 'Los 16: toca elegir. Bachillerato (2 años, más teórico, la vía clásica hacia la universidad), un Grado de FP de nivel medio (2 años, más práctico, un oficio concreto), o ponerte a trabajar ya y empezar a cobrar desde el primer mes. Bachillerato y FP son públicos: en casa no vas a pagar matrícula por esto. Ningún camino garantiza nada — cada uno cambia tus probabilidades, y al terminar volverás a decidir.',
+      en: 'Sixteen: time to choose. Sixth form / Bachillerato (2 years, more theoretical, the classic route to university), an intermediate vocational course (2 years, more practical, a specific trade), or start working now and earn from month one. Sixth form and vocational training are public: your family won\'t pay tuition for this. No path guarantees anything — each changes your odds, and once you finish you\'ll decide again.',
+      ca: 'Els 16: toca triar. Batxillerat (2 anys, més teòric, la via clàssica cap a la universitat), un Grau d\'FP de nivell mitjà (2 anys, més pràctic, un ofici concret), o posar-te a treballar ja i començar a cobrar des del primer mes. Batxillerat i FP són públics: a casa no pagaràs matrícula per això. Cap camí garanteix res — cadascun canvia les teves probabilitats, i en acabar tornaràs a decidir.',
     },
     opciones: [
       {
-        id: 'uni',
-        texto: { es: 'Universidad (4 años)', en: 'University (4 years)', ca: 'Universitat (4 anys)' },
-        aplicar: (p, ctx) => {
-          p.estudios = { tipo: 'uni', añosRestantes: 4, mediaJornada: false }
-          // Quién paga la carrera depende de tu familia
-          if (ctx.esFamilia('acomodada')) {
-            return { nota: { es: 'Matriculado, y en tu casa lo pagan sin que suponga un problema. Empiezas con una ventaja que no elegiste — aprovecharla o no ya es cosa tuya.', en: 'Enrolled, and your family covers it without strain. You start with an advantage you didn\'t choose — making the most of it is up to you.', ca: 'Matriculat, i a casa teva ho paguen sense que suposi un problema. Comences amb un avantatge que no vas triar — aprofitar-lo o no ja és cosa teva.' } }
-          }
-          if (ctx.esFamilia('media')) {
-            return { nota: { es: 'Matriculado. En casa hacen un esfuerzo para pagar la matrícula. Vas sin deuda, pero sabiendo lo que le cuesta a tu familia — eso también pesa a la hora de estudiar.', en: 'Enrolled. At home they make an effort to pay the tuition. No debt, but knowing what it costs your family — that weighs on you when you study too.', ca: 'Matriculat. A casa fan un esforç per pagar la matrícula. Vas sense deute, però sabent el que li costa a la teva família — això també pesa a l\'hora d\'estudiar.' } }
-          }
-          // Humilde: no pueden pagarla, y sin nómina no hay préstamo posible — tocará compaginar con trabajo
-          ctx.flag('necesita-trabajar')
-          return { nota: { es: 'En casa no llegan a la matrícula. Sin ingresos no hay banco que te preste, así que la única puerta es compaginar los estudios con un trabajo desde ya — se abre, pero con esfuerzo doble.', en: 'Your family can\'t cover tuition. With no income, no bank will lend to you, so the only door is combining studies with a job from now on — it opens, but with double the effort.', ca: 'A casa no arriben a la matrícula. Sense ingressos cap banc et presta, així que l\'única porta és compaginar els estudis amb una feina des d\'ara — s\'obre, però amb esforç doble.' } }
+        id: 'bachillerato',
+        texto: { es: 'Bachillerato (2 años)', en: 'Sixth form (2 years)', ca: 'Batxillerat (2 anys)' },
+        aplicar: (p) => {
+          p.estudios = { tipo: 'bachillerato', añosRestantes: 2, mediaJornada: false }
+          return { nota: { es: 'Matriculado. Público y gratuito: en casa no notan la matrícula. Es la vía más teórica — y la que deja la puerta abierta a la universidad cuando termines.', en: 'Enrolled. Public and free: your family won\'t feel the tuition. It\'s the more theoretical route — and the one that keeps university open to you once you finish.', ca: 'Matriculat. Públic i gratuït: a casa no ho noten. És la via més teòrica — i la que deixa la porta oberta a la universitat quan acabis.' } }
         },
       },
       {
-        id: 'fp',
-        texto: { es: 'Grado de FP (2 años)', en: 'Vocational course (2 years)', ca: 'Grau d\'FP (2 anys)' },
-        aplicar: (p, ctx) => {
-          p.estudios = { tipo: 'fp', añosRestantes: 2, mediaJornada: false }
-          if (ctx.esFamilia('humilde')) {
-            ctx.flag('necesita-trabajar')
-          }
-          return { nota: { es: 'Matriculado. Dos años, taller y prácticas: al mercado le gustan los oficios. Menos techo teórico que la uni, pero llegas antes y más barato, con algo que hacen falta manos para hacer.', en: 'Enrolled. Two years, workshop and internships: the market likes trades. A lower theoretical ceiling than uni, but you arrive sooner and cheaper, with skills that need actual hands.', ca: 'Matriculat. Dos anys, taller i pràctiques: al mercat li agraden els oficis. Menys sostre teòric que la uni, però hi arribes abans i més barat, amb una cosa que calen mans per fer.' } }
+        id: 'fp-medio',
+        texto: { es: 'Grado de FP medio (2 años)', en: 'Intermediate vocational course (2 years)', ca: 'Grau d\'FP mitjà (2 anys)' },
+        aplicar: (p) => {
+          p.estudios = { tipo: 'fp-medio', añosRestantes: 2, mediaJornada: false }
+          return { nota: { es: 'Matriculado. Dos años de taller y prácticas: al mercado le gustan los oficios. Al terminar podrás seguir con un grado superior o ponerte a trabajar con lo aprendido.', en: 'Enrolled. Two years of workshop and internships: the market likes trades. Once you finish you can continue with an advanced course or start working with what you\'ve learned.', ca: 'Matriculat. Dos anys de taller i pràctiques: al mercat li agraden els oficis. En acabar podràs seguir amb un grau superior o posar-te a treballar amb el que has après.' } }
         },
       },
       {
@@ -364,14 +348,14 @@ export const EVENTOS = [
         texto: { es: 'Trabajar ya', en: 'Start working now', ca: 'Treballar ja' },
         aplicar: (p) => {
           p.ingresos = Math.round(10000 * p.indice)
-          return { nota: { es: 'Primer contrato, primera nómina. Mientras otros pagan matrículas tú ya ahorras — tu ventaja es el tiempo, tu riesgo es el techo. Ninguna de las dos cosas está escrita.', en: 'First contract, first payslip. While others pay tuition you\'re already saving — your edge is time, your risk is the ceiling. Neither is set in stone.', ca: 'Primer contracte, primera nòmina. Mentre altres paguen matrícules tu ja estalvies — el teu avantatge és el temps, el teu risc és el sostre. Cap de les dues coses està escrita.' } }
+          return { nota: { es: 'Primer contrato, primera nómina. Mientras otros siguen en clase tú ya ahorras — tu ventaja es el tiempo, tu riesgo es el techo. Ninguna de las dos cosas está escrita.', en: 'First contract, first payslip. While others stay in class you\'re already saving — your edge is time, your risk is the ceiling. Neither is set in stone.', ca: 'Primer contracte, primera nòmina. Mentre altres segueixen a classe tu ja estalvies — el teu avantatge és el temps, el teu risc és el sostre. Cap de les dues coses està escrita.' } }
         },
       },
     ],
   },
   {
     id: 'trabajo-estudiante',
-    edad: [17, 21],
+    edad: [17, 22],
     condicion: p => p.estudios != null && !p.estudios.mediaJornada,
     cantidades: { sueldoSinTitulo: 11000 },
     texto: {
@@ -382,7 +366,12 @@ export const EVENTOS = [
     opciones: [
       {
         id: 'camarero',
-        texto: { es: 'Camarero de findes — ~700 €/mes, turnos duros', en: 'Weekend waiter — ~€700/mo, tough shifts', ca: 'Cambrer de caps de setmana — ~700 €/mes, torns durs' },
+        // La misma base (8400) que fija sueldoJornada abajo: la etiqueta muestra
+        // exactamente lo que vas a cobrar, no una cifra fija que la inflación desmiente.
+        texto: p => {
+          const mes = fmt(Math.round(escala(p, 8400) / 12))
+          return { es: `Camarero de findes — ${mes}/mes, turnos duros`, en: `Weekend waiter — ${mes}/mo, tough shifts`, ca: `Cambrer de caps de setmana — ${mes}/mes, torns durs` }
+        },
         aplicar: (p, ctx) => {
           p.estudios.mediaJornada = true
           p.estudios.sueldoJornada = 8400
@@ -394,7 +383,10 @@ export const EVENTOS = [
       },
       {
         id: 'biblioteca',
-        texto: { es: 'Becario en la biblioteca — ~450 €/mes, flexible', en: 'Library assistant — ~€450/mo, flexible', ca: 'Becari a la biblioteca — ~450 €/mes, flexible' },
+        texto: p => {
+          const mes = fmt(Math.round(escala(p, 5400) / 12))
+          return { es: `Becario en la biblioteca — ${mes}/mes, flexible`, en: `Library assistant — ${mes}/mo, flexible`, ca: `Becari a la biblioteca — ${mes}/mes, flexible` }
+        },
         aplicar: (p, ctx) => {
           p.estudios.mediaJornada = true
           p.estudios.sueldoJornada = 5400

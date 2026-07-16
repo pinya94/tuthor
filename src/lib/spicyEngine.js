@@ -637,31 +637,92 @@ function hitosDelAño(p, log) {
 }
 
 // ── Estudios: fin de curso (junio) ───────────────────────────────────────────
+// Etapas: bachillerato/fp-medio (16-18, sin coste real: públicos y con menor
+// de edad protegido) → universidad/fp-superior (18+, aquí sí pesa quién paga).
+const ETAPAS_INTERMEDIAS = ['bachillerato', 'fp-medio']
 function finDeCurso(p, log) {
   const e = p.estudios
-  if (!e) return
-  // La matrícula la cubre la familia (media/acomodada) o la beca-préstamo:
-  // nunca sale de la hucha de un estudiante que no trabaja
-  const matricula = escala(p, e.tipo === 'uni' ? 2200 : 1200)
-  let pSuspenso = (e.tipo === 'uni' ? 0.16 : 0.10) + (e.riesgoExtra ?? 0)
+  if (!e) return null
+  const esUni = e.tipo === 'universidad'
+  const matricula = escala(p, esUni ? 2200 : e.tipo === 'fp-superior' ? 1200 : 300)
+  let pSuspenso = (esUni ? 0.16 : 0.10) + (e.riesgoExtra ?? 0)
   if (p.rng() < pSuspenso) {
     p.bienestar = clampB(p.bienestar - 4)
     log.push({ tipo: 'malo', texto: { es: `📕 Curso suspendido${e.mediaJornada ? ' — compaginar trabajo y estudios pasa factura' : ''}. Repites año: otra matrícula (${fmt(matricula)}) y doce meses más.`, en: `📕 Failed the year${e.mediaJornada ? ' — juggling work and study takes its toll' : ''}. You repeat: another tuition fee (${fmt(matricula)}) and twelve more months.`, ca: `📕 Curs suspès${e.mediaJornada ? ' — compaginar feina i estudis passa factura' : ''}. Repeteixes any: una altra matrícula (${fmt(matricula)}) i dotze mesos més.` } })
-    return
+    return null
   }
   e.añosRestantes -= 1
   if (e.añosRestantes > 0) {
     log.push({ tipo: 'hito', texto: { es: `📗 Curso aprobado (quedan ${e.añosRestantes}). La matrícula del que viene: ${fmt(matricula)}.`, en: `📗 Year passed (${e.añosRestantes} to go). Next year's tuition: ${fmt(matricula)}.`, ca: `📗 Curs aprovat (en queden ${e.añosRestantes}). La matrícula del que ve: ${fmt(matricula)}.` } })
-    return
+    return null
   }
-  // Graduación: el título mejora tus opciones — no te cae un sueldo del cielo.
-  // Toca buscar el primer empleo (lleva su tiempo) y elegir entre ofertas reales.
+  // Etapa intermedia (bachillerato / FP medio): no hay título de verdad
+  // todavía — toca decidir qué haces a partir de aquí.
+  if (ETAPAS_INTERMEDIAS.includes(e.tipo)) {
+    p.estudios = null
+    p.flags.push(e.tipo === 'bachillerato' ? 'completo-bachillerato' : 'completo-fp-medio')
+    ajustarGastos(p)
+    log.push({ tipo: 'hito', texto: { es: `📗 Terminas ${e.tipo === 'bachillerato' ? 'el bachillerato' : 'el grado medio de FP'}. Toca decidir el siguiente paso.`, en: `📗 You finish ${e.tipo === 'bachillerato' ? 'sixth form' : 'the intermediate vocational course'}. Time to decide your next step.`, ca: `📗 Acabes ${e.tipo === 'bachillerato' ? 'el batxillerat' : 'el grau mitjà d\'FP'}. Toca decidir el següent pas.` } })
+    return { decision18: e.tipo }
+  }
+  // Graduación de verdad (universidad o FP superior): el título mejora tus
+  // opciones — no te cae un sueldo del cielo. Toca buscar el primer empleo
+  // (lleva su tiempo) y elegir entre ofertas reales.
   p.estudios = null
-  p.flags.push('titulado', e.tipo === 'uni' ? 'titulo-uni' : 'titulo-fp')
-  p.tipoTituloPendiente = e.tipo
+  p.flags.push('titulado', esUni ? 'titulo-uni' : 'titulo-fp')
+  p.tipoTituloPendiente = esUni ? 'uni' : 'fp'
   p.buscandoEmpleoMeses = 2 + Math.floor(p.rng() * 5)   // 2 a 6 meses buscando
   ajustarGastos(p)
   log.push({ tipo: 'hito', texto: { es: '🎓 Título en mano. Ahora toca buscar el primer trabajo — rara vez es inmediato.', en: '🎓 Degree in hand. Now the search for a first job begins — it\'s rarely immediate.', ca: '🎓 Títol a la mà. Ara toca buscar la primera feina — rares vegades és immediat.' } })
+  return null
+}
+
+// Decisión a los 18 (nada más terminar bachillerato o FP medio): universidad
+// solo se ofrece si vienes de bachillerato; FP superior siempre; trabajar
+// siempre. Aquí sí pesa quién paga (universidad tiene coste real).
+function decisionEstudios18(p, origen) {
+  const opciones = []
+  if (origen === 'bachillerato') {
+    opciones.push({
+      id: 'universidad',
+      texto: { es: 'Universidad (4 años)', en: 'University (4 years)', ca: 'Universitat (4 anys)' },
+      aplicar: (p, ctx) => {
+        p.estudios = { tipo: 'universidad', añosRestantes: 4, mediaJornada: false }
+        if (ctx.esFamilia('acomodada')) {
+          return { nota: { es: 'Matriculado, y en tu casa lo pagan sin que suponga un problema. Empiezas con una ventaja que no elegiste.', en: 'Enrolled, and your family covers it without strain. You start with an advantage you didn\'t choose.', ca: 'Matriculat, i a casa teva ho paguen sense que suposi un problema. Comences amb un avantatge que no vas triar.' } }
+        }
+        if (ctx.esFamilia('media')) {
+          return { nota: { es: 'Matriculado. En casa hacen un esfuerzo para pagar la matrícula. Vas sin deuda, pero sabiendo lo que le cuesta a tu familia.', en: 'Enrolled. At home they make an effort to pay the tuition. No debt, but knowing what it costs your family.', ca: 'Matriculat. A casa fan un esforç per pagar la matrícula. Vas sense deute, però sabent el que li costa a la teva família.' } }
+        }
+        ctx.flag('necesita-trabajar')
+        return { nota: { es: 'En casa no llegan a la matrícula. Sin ingresos no hay banco que te preste, así que la única puerta es compaginar la universidad con un trabajo desde ya.', en: 'Your family can\'t cover tuition. With no income, no bank will lend to you, so the only door is combining university with a job from now on.', ca: 'A casa no arriben a la matrícula. Sense ingressos cap banc et presta, així que l\'única porta és compaginar la universitat amb una feina des d\'ara.' } }
+      },
+    })
+  }
+  opciones.push({
+    id: 'fp-superior',
+    texto: { es: 'FP de grado superior (2 años)', en: 'Advanced vocational course (2 years)', ca: 'FP de grau superior (2 anys)' },
+    aplicar: (p) => {
+      p.estudios = { tipo: 'fp-superior', añosRestantes: 2, mediaJornada: false }
+      return { nota: { es: 'Matriculado. Es público y accesible: dos años más de taller y prácticas especializadas, con salida real al mercado laboral.', en: 'Enrolled. It\'s public and accessible: two more years of workshop and specialised internships, with a real path into the job market.', ca: 'Matriculat. És públic i accessible: dos anys més de taller i pràctiques especialitzades, amb sortida real al mercat laboral.' } }
+    },
+  })
+  opciones.push({
+    id: 'trabajar',
+    texto: { es: 'Ponerte a trabajar ya', en: 'Start working now', ca: 'Posar-te a treballar ja' },
+    aplicar: (p, ctx) => {
+      setIngresos(p, escala(p, origen === 'bachillerato' ? 12000 : 13500), null, null)
+      ctx.recalcularGastos()
+      return { nota: { es: `Entras al mercado sin título superior — ${ctx.f(Math.round(p.ingresos / 12))}/mes. Menos techo que con un título, pero ya estás dentro.`, en: `You enter the job market without a higher qualification — ${ctx.f(Math.round(p.ingresos / 12))}/mo. A lower ceiling than with a degree, but you're already in.`, ca: `Entres al mercat sense títol superior — ${ctx.f(Math.round(p.ingresos / 12))}/mes. Menys sostre que amb un títol, però ja hi ets dins.` } }
+    },
+  })
+  return {
+    id: 'decision-18',
+    texto: origen === 'bachillerato'
+      ? { es: 'Con el bachillerato terminado, ¿qué haces ahora: universidad, un FP de grado superior, o directamente a trabajar?', en: 'With sixth form finished, what now: university, an advanced vocational course, or straight to work?', ca: 'Amb el batxillerat acabat, què fas ara: universitat, un FP de grau superior, o directament a treballar?' }
+      : { es: 'Con el grado medio de FP terminado, ¿sigues con un grado superior o te pones a trabajar ya con lo aprendido?', en: 'With the intermediate vocational course finished, do you continue with an advanced course or start working with what you\'ve learned?', ca: 'Amb el grau mitjà d\'FP acabat, segueixes amb un grau superior o et poses a treballar ja amb el que has après?' },
+    opciones,
+  }
 }
 
 // Ofertas del primer empleo tras graduarse: dos reales, con sus trade-offs —
@@ -1029,7 +1090,10 @@ export function avanzarMes(p) {
   }
 
   // ── Cada mes ──
-  if (p.mes === 8) finDeCurso(p, log)         // junio: notas, matrículas y graduación
+  if (p.mes === 8) {                          // junio: notas, matrículas y graduación
+    const finCurso = finDeCurso(p, log)
+    if (finCurso?.decision18 && !evento) evento = decisionEstudios18(p, finCurso.decision18)
+  }
   if (!evento) {
     const ofertaEv = tickBusquedaPrimerEmpleo(p)
     if (ofertaEv) evento = ofertaEv
@@ -1097,7 +1161,7 @@ export function avanzarMes(p) {
     }
     if (liquidado > 0) {
       p.dinero += liquidado
-      log.push({ tipo: 'malo', texto: { es: `⚖️ El banco fuerza la venta de tus inversiones (${fmt(liquidado)}) para cubrir la deuda. Vender con prisas siempre sale peor.`, en: `⚖️ The bank forces the sale of your investments (${fmt(liquidado)}) to cover the debt. Selling in a hurry always goes worse.`, ca: `⚖️ El banc força la venda de les teves inversions (${fmt(liquidado)}) per cobrir el deute. Vendre amb presses sempre surt pitjor.` } })
+      log.push({ tipo: 'malo', importante: true, texto: { es: `⚖️ El banco fuerza la venta de tus inversiones (${fmt(liquidado)}) para cubrir la deuda. Vender con prisas siempre sale peor.`, en: `⚖️ The bank forces the sale of your investments (${fmt(liquidado)}) to cover the debt. Selling in a hurry always goes worse.`, ca: `⚖️ El banc força la venda de les teves inversions (${fmt(liquidado)}) per cobrir el deute. Vendre amb presses sempre surt pitjor.` } })
     }
     if (p.dinero < -escala(p, 10000)) {
       p.flags.push('arruinado')
