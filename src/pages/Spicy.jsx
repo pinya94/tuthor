@@ -9,7 +9,7 @@ import SEOHead from '../components/SEOHead'
 import {
   crearPartida, avanzarMes, elegirOpcion, interpolar,
   patrimonio, patrimonioReal, notaFinanciera, fmt, escala, SENALES,
-  MODOS_VIDA, CLASES_INVERSION, FAMILIAS, cambiarModoVida, invertir, venderActivo, buscarEmpleo,
+  MODOS_VIDA, CLASES_INVERSION, FAMILIAS, cambiarModoVida, invertir, venderActivo, buscarEmpleo, pedirAumento,
   precioSegundaVivienda, comprarSegundaVivienda, usarSegundaVivienda, venderSegundaVivienda, donarSegundaVivienda,
 } from '../lib/spicyEngine'
 
@@ -318,6 +318,12 @@ export default function Spicy() {
           <button onClick={() => ejecutarAccion(pp => buscarEmpleo(pp))}
             className="text-xs font-bold px-3 py-1.5 rounded-lg border bg-white/5 border-white/10 text-white/60 hover:text-white transition-colors">
             💼 {tr({ es: 'Buscar otro empleo', en: 'Look for another job', ca: 'Buscar una altra feina' })}
+          </button>
+        )}
+        {p.edad >= 18 && p.ingresos > 0 && !p.estudios && !p.flags.includes('jubilado') && (
+          <button onClick={() => ejecutarAccion(pp => pedirAumento(pp))}
+            className="text-xs font-bold px-3 py-1.5 rounded-lg border bg-white/5 border-white/10 text-white/60 hover:text-white transition-colors">
+            🙋 {tr({ es: 'Pedir un aumento', en: 'Ask for a raise', ca: 'Demanar un augment' })}
           </button>
         )}
         {p.edad >= 25 && (

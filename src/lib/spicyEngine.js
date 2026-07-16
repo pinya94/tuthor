@@ -140,6 +140,7 @@ export function crearPartida(seed = Math.floor(Math.random() * 2 ** 31)) {
     paroMeses: 0, ingresosPrevios: 0,
     señaladoMeses: 0,                         // te buscaste otro empleo y se supo
     ultimaBusqueda: -999,
+    ultimaPeticionAumento: -999,
     vivienda: 'familia',                      // familia | alquiler | propia
     alquilerAnual: 0,
     hipoteca: null,                           // { pendiente, cuota (anual), años }
@@ -200,9 +201,26 @@ export function patrimonio(p) {
 export function patrimonioReal(p) {
   return patrimonio(p) / p.indice
 }
+// La nota no es solo "cuánto queda al final": el patrimonio bruto puede venir de
+// una herencia con suerte o de una vida entera bien gestionada, y el número final
+// no distingue eso. Por eso pesan también la diversificación, las quiebras
+// evitadas (o no) y las lecciones de las autopsias — decisiones, no solo resultado.
 export function notaFinanciera(p) {
   const real = Math.max(0, patrimonioReal(p))
-  return Math.max(0, Math.min(10000, Math.round(1500 * Math.log(1 + real / 10000))))
+  let base = 1500 * Math.log(1 + real / 10000)
+
+  const tipos = new Set(p.activos.filter(a => a.tipo !== 'casa').map(a => a.tipo))
+  if (tipos.size >= 2) base *= 1.05
+  if (tipos.size >= 3) base *= 1.05
+
+  const buenas = p.autopsias.filter(a => a.tipo === 'buena').length
+  const malas = p.autopsias.filter(a => a.tipo === 'mala').length
+  base += buenas * 60 - malas * 40
+
+  if (p.flags.includes('arruinado')) base *= 0.7
+  if (p.flags.includes('legado')) base += 150
+
+  return Math.max(0, Math.min(10000, Math.round(base)))
 }
 
 const clampB = v => Math.max(0, Math.min(100, v))
@@ -368,9 +386,19 @@ export function buscarEmpleo(p) {
   if (r < 0.4) {
     const subida = 1.08 + p.rng() * 0.10
     p.ingresos = Math.round(p.ingresos * subida)
-    p.flags = p.flags.filter(f => f !== 'startup')
+    p.flags = p.flags.filter(f => f !== 'startup' && f !== 'revision-automatica' && f !== 'revision-manual')
     p.señaladoMeses = 0
-    return { nota: { es: `Unas semanas de entrevistas y llega la oferta: +${Math.round((subida - 1) * 100)}% de sueldo. Moverse tiene riesgo — esta vez pagó.`, en: `A few weeks of interviews and the offer lands: +${Math.round((subida - 1) * 100)}% salary. Moving has risk — this time it paid.`, ca: `Unes setmanes d'entrevistes i arriba l'oferta: +${Math.round((subida - 1) * 100)}% de sou. Moure's té risc — aquesta vegada va pagar.` } }
+    // Cada empresa te lo deja claro en la entrevista: revisión automática, o toca pedirlo tú
+    const automatica = p.rng() < 0.4
+    p.flags.push(automatica ? 'revision-automatica' : 'revision-manual')
+    const condicion = automatica
+      ? { es: 'Te avisan: aquí las subidas llegan solas, con revisión salarial cada año.', en: 'They tell you upfront: here raises come on their own, with a yearly salary review.', ca: 'T\'avisen: aquí les pujades arriben soles, amb revisió salarial cada any.' }
+      : { es: 'Te avisan: aquí las subidas no llegan solas — si quieres una, toca pedirla tú.', en: 'They tell you upfront: here raises don\'t come on their own — if you want one, you have to ask.', ca: 'T\'avisen: aquí les pujades no arriben soles — si en vols una, l\'has de demanar tu.' }
+    return { nota: {
+      es: `Unas semanas de entrevistas y llega la oferta: +${Math.round((subida - 1) * 100)}% de sueldo. Moverse tiene riesgo — esta vez pagó. ${condicion.es}`,
+      en: `A few weeks of interviews and the offer lands: +${Math.round((subida - 1) * 100)}% salary. Moving has risk — this time it paid. ${condicion.en}`,
+      ca: `Unes setmanes d'entrevistes i arriba l'oferta: +${Math.round((subida - 1) * 100)}% de sou. Moure's té risc — aquesta vegada va pagar. ${condicion.ca}`,
+    } }
   }
   if (r < 0.9) {
     return { nota: { es: 'Entrevistas, silencios y algún "ya te llamaremos". El mercado está parado: te quedas donde estás.', en: 'Interviews, silences and a few "we\'ll call you". The market is flat: you stay put.', ca: 'Entrevistes, silencis i algun "ja et trucarem". El mercat està aturat: et quedes on ets.' } }
@@ -379,15 +407,39 @@ export function buscarEmpleo(p) {
   return { nota: { es: 'Alguien te vio en una entrevista y llegó a oídos de tu jefa. Nadie dice nada… pero tu nombre subió puestos en la lista de prescindibles.', en: 'Someone saw you at an interview and word reached your boss. Nobody says anything… but your name moved up the expendables list.', ca: 'Algú et va veure en una entrevista i va arribar a oïdes de la teva cap. Ningú diu res… però el teu nom va pujar llocs a la llista de prescindibles.' } }
 }
 
-// Recalcula los gastos de vida según la fase y la familia. Autoridad anual:
-// en casa de los padres ahorras una parte realista del sueldo (300-900 €/mes);
-// independizado, el alquiler y la vida se comen casi todo (ahorras poco).
+// Pedir un aumento en tu empleo actual: agencia real del jugador sobre el sueldo,
+// en vez de esperar a que "toque" solo. Riesgo real de que te digan que no.
+export function pedirAumento(p) {
+  if (p.estudios || p.flags.includes('jubilado') || p.ingresos <= 0 || p.paroMeses > 0) {
+    return { nota: { es: 'Ahora mismo no tienes a quién pedírselo.', en: 'Right now there\'s nobody to ask.', ca: 'Ara mateix no tens a qui demanar-l\'hi.' } }
+  }
+  if (p.mesesTotales - (p.ultimaPeticionAumento ?? -999) < 12) {
+    return { nota: { es: 'Ya lo pediste hace poco. Insistir tan pronto no suele sentar bien.', en: 'You already asked recently. Pushing again this soon rarely lands well.', ca: 'Ja ho vas demanar fa poc. Insistir tan aviat no sol sentar bé.' } }
+  }
+  p.ultimaPeticionAumento = p.mesesTotales
+  const r = p.rng()
+  if (r < 0.35) {
+    const subida = 1.05 + p.rng() * 0.08
+    const antes = p.ingresos
+    p.ingresos = Math.round(p.ingresos * subida)
+    return { nota: { es: `Te lo conceden: +${Math.round((p.ingresos / antes - 1) * 100)}% de sueldo. Pedir no garantiza nada — pero no pedir garantiza que no llegue solo.`, en: `They grant it: +${Math.round((p.ingresos / antes - 1) * 100)}% salary. Asking doesn't guarantee anything — but not asking guarantees it won't come on its own.`, ca: `T'ho concedeixen: +${Math.round((p.ingresos / antes - 1) * 100)}% de sou. Demanar no garanteix res — però no demanar garanteix que no arribi sol.` } }
+  }
+  if (r < 0.8) {
+    return { nota: { es: '"Ahora mismo no toca, pero lo tendremos en cuenta." La respuesta clásica. Ni sí ni no — pero al menos lo has puesto sobre la mesa.', en: '"Not right now, but we\'ll keep it in mind." The classic answer. Neither yes nor no — but at least it\'s on the table.', ca: '"Ara mateix no toca, però ho tindrem en compte." La resposta clàssica. Ni sí ni no — però almenys ho has posat sobre la taula.' } }
+  }
+  p.bienestar = clampB(p.bienestar - 3)
+  return { nota: { es: 'Te dicen que no, y con cara de pocos amigos: parece que pedir se ha notado más de lo que esperabas.', en: 'They say no, and not kindly: asking seems to have registered more than you expected.', ca: 'Et diuen que no, i amb mala cara: sembla que demanar s\'ha notat més del que esperaves.' } }
+}
+
 // Coste anual fijo de los hijos menores de 18 (comida, ropa, cole, extraescolares…)
 function costeHijos(p) {
   const menores = (p.hijos ?? []).filter(h => p.edad - h.edadNacimiento < 18).length
   return menores > 0 ? escala(p, 3000) * menores : 0
 }
 
+// Recalcula los gastos de vida según la fase y la familia. Autoridad anual:
+// en casa de los padres ahorras una parte realista del sueldo (300-900 €/mes);
+// independizado, el alquiler y la vida se comen casi todo (ahorras poco).
 function ajustarGastos(p) {
   const f = MODOS_VIDA[p.modoVida].factor
   const hijos = costeHijos(p)
@@ -421,6 +473,10 @@ function hitosDelAño(p, log) {
     } else if (p.edad === 30 && p.ingresos < escala(p, 17000)) {
       setIngresos(p, escala(p, 17000), log, { es: 'Tu carrera coge tracción.', en: 'Your career gains traction.', ca: 'La teva carrera agafa tracció.' })
     }
+  }
+  // Revisión salarial automática: te lo dijeron al fichar, y aquí llega sola — no toda subida depende de pedirla
+  if (p.flags.includes('revision-automatica') && p.ingresos > 0 && p.rng() < 0.7) {
+    setIngresos(p, Math.round(p.ingresos * (1.02 + p.rng() * 0.03)), log, { es: 'Revisión salarial automática de la empresa.', en: 'Automatic company salary review.', ca: 'Revisió salarial automàtica de l\'empresa.' })
   }
   ajustarGastos(p)
   if (p.edad === 40) {

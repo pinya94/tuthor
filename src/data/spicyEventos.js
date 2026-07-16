@@ -142,7 +142,8 @@ export const EVENTOS = [
           if (ctx.rng() < 0.4) {
             ctx.dinero(c)
             ctx.bienestar(3)
-            return { nota: { es: 'Ganasteis y doblaste. Ojo con la trampa: acertar una apuesta hace creer que "se te da bien" — el azar no lleva la cuenta de tus rachas.', en: 'You won and doubled up. Mind the trap: winning a bet makes you think you\'re "good at it" — chance keeps no record of your streaks.', ca: 'Vau guanyar i vas doblar. Compte amb la trampa: encertar una aposta fa creure que "se\'t dona bé" — l\'atzar no porta el compte de les teves ratxes.' } }
+            ctx.flag('racha-apuestas')
+            return { nota: { es: 'Ganasteis y doblaste. Ojo con la trampa: acertar una apuesta hace creer que "se te da bien" — el azar no lleva la cuenta de tus rachas. Puede que esta victoria te salga cara más adelante.', en: 'You won and doubled up. Mind the trap: winning a bet makes you think you\'re "good at it" — chance keeps no record of your streaks. This win might cost you later.', ca: 'Vau guanyar i vas doblar. Compte amb la trampa: encertar una aposta fa creure que "se\'t dona bé" — l\'atzar no porta el compte de les teves ratxes. Potser aquesta victòria et surt cara més endavant.' } }
           }
           ctx.dinero(-c)
           return { nota: { es: 'Perdisteis. El "dinero fácil" casi siempre viaja en dirección contraria. Barata, como lección, no está mal.', en: 'You lost. "Easy money" almost always travels the other way. As lessons go, this one was cheap.', ca: 'Vau perdre. Els "diners fàcils" gairebé sempre viatgen en direcció contrària. Barata, com a lliçó, no està malament.' } }
@@ -1588,6 +1589,48 @@ export const EVENTOS = [
         id: 'no',
         texto: { es: 'No puedes comprometerte', en: 'You can\'t commit to it', ca: 'No pots comprometre\'t' },
         aplicar: () => ({ nota: { es: 'Cada uno conoce sus números. Decir "no" a tiempo también es responsabilidad financiera.', en: 'Everyone knows their own numbers. Saying "no" in time is also financial responsibility.', ca: 'Cadascú coneix els seus números. Dir "no" a temps també és responsabilitat financera.' } }),
+      },
+    ],
+  },
+
+  {
+    id: 'poker-oficina',
+    edad: [24, 32],
+    prob: 0.6,
+    requiere: ['racha-apuestas'],
+    cantidades: { entrada: 500 },
+    texto: {
+      es: 'Póker con gente de la oficina, entrada de {entrada}. En el fondo piensas en aquella apuesta del recreo que ganaste — "esto se me da bien". Nadie más en la mesa piensa eso de sí mismo.',
+      en: 'Poker with people from the office, buy-in of {entrada}. Deep down you\'re thinking of that playground bet you won — "I\'m good at this". Nobody else at the table thinks that about themselves.',
+      ca: 'Pòquer amb gent de l\'oficina, entrada de {entrada}. En el fons penses en aquella aposta del pati que vas guanyar — "això se m\'hi dona bé". Ningú més a la taula pensa això de si mateix.',
+    },
+    opciones: [
+      {
+        id: 'jugar',
+        texto: { es: 'Jugar — se te da bien esto', en: 'Play — you\'re good at this', ca: 'Jugar — se\'t dona bé això' },
+        aplicar: (p, ctx) => {
+          const c = ctx.cant('entrada')
+          if (p.dinero < c) return { rechazo: true, nota: { es: 'No te llega la entrada. Esta vez la cartera decide por ti — y probablemente te hace un favor.', en: 'You can\'t cover the buy-in. This time your wallet decides for you — and probably does you a favour.', ca: 'No t\'arriba l\'entrada. Aquesta vegada la cartera decideix per tu — i probablement et fa un favor.' } }
+          ctx.dinero(-c)
+          // La racha de la infancia no cambia las probabilidades reales: aquí son peores de lo que la confianza sugiere
+          if (ctx.rng() < 0.25) {
+            ctx.dinero(c * 2.5)
+            ctx.bienestar(4)
+            ctx.autopsia({ tipo: 'neutra', titulo: { es: 'La racha del recreo', en: 'The playground streak', ca: 'La ratxa del pati' }, senales: [], texto: { es: 'Ganaste otra vez — y eso, paradójicamente, es el peor resultado posible: refuerza una confianza que las probabilidades reales no respaldan. Solo 1 de cada 4 partidas como esta se ganan.', en: 'You won again — and that, paradoxically, is the worst possible outcome: it reinforces a confidence the real odds don\'t back up. Only 1 in 4 games like this are won.', ca: 'Vas guanyar una altra vegada — i això, paradoxalment, és el pitjor resultat possible: reforça una confiança que les probabilitats reals no avalen. Només 1 de cada 4 partides com aquesta es guanyen.' } })
+            return { nota: { es: 'Ganas de nuevo. Ojo: ganar aquí es la trampa perfecta para volver a sentarte a esta mesa con más dinero la próxima vez.', en: 'You win again. Watch out: winning here is the perfect trap to sit at this table with more money next time.', ca: 'Guanyes de nou. Compte: guanyar aquí és la trampa perfecta per tornar-te a asseure a aquesta taula amb més diners la propera vegada.' } }
+          }
+          ctx.bienestar(-4)
+          ctx.autopsia({ tipo: 'mala', titulo: { es: 'La racha del recreo', en: 'The playground streak', ca: 'La ratxa del pati' }, senales: [], texto: { es: 'La suerte de los 12 años no era una habilidad — era suerte, y ya se había gastado. Confiar en una racha pasada para justificar un riesgo nuevo es uno de los sesgos más caros que existen.', en: 'The luck you had at 12 wasn\'t a skill — it was luck, and it had already been spent. Trusting a past streak to justify a new risk is one of the costliest biases there is.', ca: 'La sort dels 12 anys no era una habilitat — era sort, i ja s\'havia gastat. Confiar en una ratxa passada per justificar un risc nou és un dels biaixos més cars que existeixen.' } })
+          return { nota: { es: 'Pierdes. La racha de la infancia no predecía nada — y esta vez la cuenta la pagas tú.', en: 'You lose. The childhood streak predicted nothing — and this time you\'re the one paying for it.', ca: 'Perds. La ratxa de la infància no predeia res — i aquesta vegada la paga la pagues tu.' } }
+        },
+      },
+      {
+        id: 'no',
+        texto: { es: 'Pasar de la partida', en: 'Skip the game', ca: 'Passar de la partida' },
+        aplicar: (p, ctx) => {
+          ctx.flag('esquivo-racha')
+          return { nota: { es: 'Decides que una victoria a los 12 años no dice nada sobre un póker a los 28. Reconocer que una racha pasada no es una garantía también es una habilidad — y de las que no se ven en la mesa.', en: 'You decide that a win at 12 says nothing about poker at 28. Recognising that a past streak isn\'t a guarantee is also a skill — one that doesn\'t show at the table.', ca: 'Decideixes que una victòria als 12 anys no diu res sobre un pòquer als 28. Reconèixer que una ratxa passada no és una garantia també és una habilitat — i de les que no es veuen a la taula.' } }
+        },
       },
     ],
   },
