@@ -20,6 +20,7 @@ import f15 from './fichasEstudiar/estadistica.js'
 import f16 from './fichasEstudiar/estados-materia.js'
 import f17 from './fichasEstudiar/fracciones.js'
 import f18 from './fichasEstudiar/fuerzas.js'
+import f48 from './fichasEstudiar/finanzas-personales.js'
 import f19 from './fichasEstudiar/genetica.js'
 import f20 from './fichasEstudiar/geografia-africa.js'
 import f21 from './fichasEstudiar/geografia-america.js'
@@ -70,6 +71,7 @@ export const FICHAS = {
   'estados-materia': f16,
   'fracciones': f17,
   'fuerzas': f18,
+  'finanzas-personales': f48,
   'genetica': f19,
   'geografia-africa': f20,
   'geografia-america': f21,

@@ -83,6 +83,13 @@ const DATA = {
           { nombre: 'English — Passive Voice', desc: 'Be + past participle in all tenses.', slug: 'ingles-grammar-passive' },
         ],
       },
+      {
+        titulo: 'Economía', emoji: '💰',
+        texto: 'Repasa las ideas clave de las finanzas personales: inflación, interés compuesto, deuda, inversión y señales de estafa. Basado en las lecciones del simulador de vida financiera Spicy.',
+        temas: [
+          { nombre: 'Finanzas Personales', desc: 'Inflación, interés compuesto, deuda y señales de estafa.', slug: 'finanzas-personales' },
+        ],
+      },
     ],
   },
   en: {
@@ -166,6 +173,13 @@ const DATA = {
           { nombre: 'English — Passive Voice', desc: 'Be + past participle in all tenses.', slug: 'ingles-grammar-passive' },
         ],
       },
+      {
+        titulo: 'Economics', emoji: '💰',
+        texto: 'Revise the key ideas of personal finance: inflation, compound interest, debt, investing and scam signals. Based on the lessons from the Spicy financial life simulator.',
+        temas: [
+          { nombre: 'Personal Finance', desc: 'Inflation, compound interest, debt and scam signals.', slug: 'finanzas-personales' },
+        ],
+      },
     ],
   },
   ca: {
@@ -247,6 +261,13 @@ const DATA = {
           { nombre: 'English — Present Perfect', desc: 'Have/has + past participle, for/since, just/already/yet.', slug: 'ingles-grammar-present-perfect' },
           { nombre: 'English — Articles', desc: 'A, an, the and zero article: rules and exceptions.', slug: 'ingles-grammar-articles' },
           { nombre: 'English — Passive Voice', desc: 'Be + past participle in all tenses.', slug: 'ingles-grammar-passive' },
+        ],
+      },
+      {
+        titulo: 'Economia', emoji: '💰',
+        texto: 'Repassa les idees clau de les finances personals: inflació, interès compost, deute, inversió i senyals d\'estafa. Basat en les lliçons del simulador de vida financera Spicy.',
+        temas: [
+          { nombre: 'Finances Personals', desc: 'Inflació, interès compost, deute i senyals d\'estafa.', slug: 'finanzas-personales' },
         ],
       },
     ],
