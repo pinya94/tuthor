@@ -12,7 +12,7 @@
 // Cuando el texto de una opción muestra un sueldo/precio que también se
 // aplica en `aplicar`, usar escala(p, mismaBase) en ambos sitios: así la
 // etiqueta nunca se desincroniza de lo que realmente se cobra o se paga.
-import { escala, fmt } from '../lib/spicyEngine'
+import { escala, fmt, techoSalarial } from '../lib/spicyEngine'
 
 export const EVENTOS = [
 
@@ -543,7 +543,7 @@ export const EVENTOS = [
         id: 'ir',
         texto: { es: 'Aceptar el traslado (+25%)', en: 'Take the relocation (+25%)', ca: 'Acceptar el trasllat (+25%)' },
         aplicar: (p, ctx) => {
-          p.ingresos = Math.round(p.ingresos * 1.25)
+          p.ingresos = Math.min(techoSalarial(p), Math.round(p.ingresos * 1.25))
           p.alquilerAnual = Math.round(p.alquilerAnual * 1.4)
           ctx.bienestar(-5)
           ctx.flag('capital')
@@ -708,7 +708,7 @@ export const EVENTOS = [
         id: 'saltar',
         texto: { es: 'Saltar a la startup (+30%)', en: 'Jump to the startup (+30%)', ca: 'Saltar a la startup (+30%)' },
         aplicar: (p, ctx) => {
-          p.ingresos = Math.round(p.ingresos * 1.3)
+          p.ingresos = Math.min(techoSalarial(p), Math.round(p.ingresos * 1.3))
           ctx.flag('startup')
           return { nota: { es: 'Sueldazo. Pero pregúntate: si viene una crisis, ¿quién paga tu nómina — los beneficios que no tienen, o los inversores que se asustan?', en: 'Great salary. But ask yourself: if a crisis comes, who pays your wage — the profits they don\'t have, or investors who get scared?', ca: 'Souàs. Però pregunta\'t: si ve una crisi, qui paga la teva nòmina — els beneficis que no tenen, o els inversors que s\'espanten?' } }
         },
@@ -717,7 +717,7 @@ export const EVENTOS = [
         id: 'quedarse',
         texto: { es: 'Quedarte donde estás', en: 'Stay where you are', ca: 'Quedar-te on ets' },
         aplicar: (p, ctx) => {
-          p.ingresos = Math.round(p.ingresos * 1.08)
+          p.ingresos = Math.min(techoSalarial(p), Math.round(p.ingresos * 1.08))
           ctx.flag('empleo-estable')
           return { nota: { es: 'Te suben un poco por no irte. Menos brillo, más cimientos.', en: 'They give you a small raise to stay. Less shine, more foundations.', ca: 'Et pugen una mica per no marxar. Menys brillantor, més fonaments.' } }
         },
@@ -948,7 +948,7 @@ export const EVENTOS = [
           ctx.bienestar(-4)
           ctx.experiencia({ es: `Reinventarte a los ${p.edad}`, en: `Reinventing yourself at ${p.edad}`, ca: `Reinventar-te als ${p.edad}` })
           if (ctx.rng() < 0.6) {
-            p.ingresos = Math.round(p.ingresos * 1.18)
+            p.ingresos = Math.min(techoSalarial(p), Math.round(p.ingresos * 1.18))
             return { nota: { es: 'Dos años duros… y funciona: cambias de campo con subida. Reinventarse de adulto es caro en tiempo y dinero — esta vez salió a cuenta.', en: 'Two hard years… and it works: you switch fields with a raise. Reinventing yourself as an adult is expensive in time and money — this time it paid.', ca: 'Dos anys durs… i funciona: canvies de camp amb pujada. Reinventar-se d\'adult és car en temps i diners — aquesta vegada va sortir a compte.' } }
           }
           return { nota: { es: 'Acabas la carrera… y el cambio no llega: en tu zona ese sector paga igual o menos. El título no siempre mueve el mercado. Aprendiste, eso nadie lo devuelve — pero la cuenta no salió.', en: 'You finish the degree… and the switch never comes: in your area that sector pays the same or less. A diploma doesn\'t always move the market. You learned, nobody takes that back — but the maths didn\'t work out.', ca: 'Acabes la carrera… i el canvi no arriba: a la teva zona aquest sector paga igual o menys. El títol no sempre mou el mercat. Vas aprendre, això ningú ho torna — però el compte no va sortir.' } }
@@ -1129,7 +1129,7 @@ export const EVENTOS = [
         id: 'aceptar',
         texto: { es: 'Aceptar la dirección (+30%)', en: 'Take the management job (+30%)', ca: 'Acceptar la direcció (+30%)' },
         aplicar: (p, ctx) => {
-          p.ingresos = Math.round(p.ingresos * 1.3)
+          p.ingresos = Math.min(techoSalarial(p), Math.round(p.ingresos * 1.3))
           ctx.bienestar(-8)
           return { nota: { es: 'El máster de los 23 por fin se paga solo — con intereses. La factura ahora es de tiempo, no de dinero.', en: 'The master\'s from age 23 finally pays for itself — with interest. The bill now comes in time, not money.', ca: 'El màster dels 23 per fi es paga sol — amb interessos. La factura ara és de temps, no de diners.' } }
         },
@@ -1161,7 +1161,7 @@ export const EVENTOS = [
         id: 'aceptar',
         texto: { es: 'Aceptar la oferta (+15%)', en: 'Take the offer (+15%)', ca: 'Acceptar l\'oferta (+15%)' },
         aplicar: (p, ctx) => {
-          p.ingresos = Math.round(p.ingresos * 1.15)
+          p.ingresos = Math.min(techoSalarial(p), Math.round(p.ingresos * 1.15))
           ctx.flag('empleo-estable')
           return { nota: { es: 'Aquella boda a la que fuiste "aunque ibas apurado" acaba de subirte el sueldo. Nadie contrata a un desconocido: la red se cultiva antes de necesitarla.', en: 'That wedding you attended "even though money was tight" just raised your salary. Nobody hires a stranger: networks are built before you need them.', ca: 'Aquella boda a la qual vas anar "encara que anaves apurat" acaba de pujar-te el sou. Ningú contracta un desconegut: la xarxa es cultiva abans de necessitar-la.' } }
         },

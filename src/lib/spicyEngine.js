@@ -630,7 +630,9 @@ function hitosDelAño(p, log) {
       }
     }
     const factor = p.flags.includes('plan-pensiones') ? 0.72 : 0.58
-    p.ingresos = Math.round(Math.max(p.ingresos, p.ingresosPrevios) * factor)
+    // La pensión pública tiene un tope máximo real (~44.500 €/año de hoy), gane
+    // lo que gane el jubilado: por eso un sueldo alto no se traduce 1:1 en pensión.
+    p.ingresos = Math.min(escala(p, 44500), Math.round(Math.max(p.ingresos, p.ingresosPrevios) * factor))
     ajustarGastos(p)   // recalcula ya con el flag 'jubilado' puesto: vida algo más modesta
     log.push({ tipo: 'hito', importante: true, texto: { es: `👴 Te jubilas. Tu pensión: ${fmt(Math.round(p.ingresos / 12))}/mes — menor que tu último sueldo${p.flags.includes('plan-pensiones') ? ', pero tu plan de pensiones la complementa' : ''}. A partir de aquí, vives de lo sembrado.`, en: `👴 You retire. Your pension: ${fmt(Math.round(p.ingresos / 12))}/mo — lower than your last salary${p.flags.includes('plan-pensiones') ? ', but your pension plan tops it up' : ''}. From here on, you live off what you sowed.`, ca: `👴 Et jubiles. La pensió: ${fmt(Math.round(p.ingresos / 12))}/mes — menor que l'últim sou${p.flags.includes('plan-pensiones') ? ', però el pla de pensions la complementa' : ''}. A partir d'aquí, vius del que has sembrat.` } })
   }
@@ -865,7 +867,7 @@ function empleoMensual(p, log) {
     p.paroMeses -= 1
     const pReempleo = 0.08 + (p.flags.includes('titulado') ? 0.03 : 0)
     if (p.rng() < pReempleo) {
-      p.ingresos = Math.round(p.ingresosPrevios * (0.85 + p.rng() * 0.3))
+      p.ingresos = Math.min(techoSalarial(p), Math.round(p.ingresosPrevios * (0.85 + p.rng() * 0.3)))
       p.paroMeses = 0
       p.flags = p.flags.filter(f => f !== 'despedido')
       p.bienestar = clampB(p.bienestar + 6)
@@ -1050,7 +1052,11 @@ export function avanzarMes(p) {
     } else if (p.ingresos > 0) {
       const sobreTecho = p.ingresos > techoSalarial(p) * 1.4
       if (p.rng() < (sobreTecho ? 0.25 : 0.55)) {
-        p.ingresos = Math.round(p.ingresos * (1 + inf * (sobreTecho ? 0.6 : 1.5)))
+        const nuevo = Math.round(p.ingresos * (1 + inf * (sobreTecho ? 0.6 : 1.5)))
+        // Por debajo del techo, la revisión nunca te saca del rango de mercado;
+        // por encima (sobreTecho), se deja subir algo más lento sin techo nuevo,
+        // porque ya es un sueldo "excepcional" que la inflación irá erosionando.
+        p.ingresos = sobreTecho ? nuevo : Math.min(techoSalarial(p), nuevo)
       }
     }
     p.alquilerAnual = Math.round(p.alquilerAnual * (1 + inf))
