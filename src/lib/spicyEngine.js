@@ -154,6 +154,7 @@ export function crearPartida(seed = Math.floor(Math.random() * 2 ** 31)) {
     buscandoEmpleoMeses: 0,                   // tras graduarte, meses hasta que llegan ofertas reales
     tipoTituloPendiente: null,
     ultimaCrisis: -999,                        // último mes en que se ofreció salir de números rojos
+    negocioEnRiesgo: null,                     // id del negocio a punto de cerrar, pendiente de decisión
     viviendaTier: 'normal',                    // barata | normal | buena (solo aplica de alquiler)
     vivienda: 'familia',                      // familia | alquiler | propia
     alquilerAnual: 0,
@@ -384,17 +385,54 @@ export function venderActivo(p, activoId) {
   }
 }
 
+// ── Vivienda principal: comprar desde el menú (siempre con hipoteca) ─────────
+// Antes solo se podía comprar en la ventana narrativa 31-33: si en ese momento
+// no llegabas a la entrada, quedabas de alquiler para siempre ("alquiler-vitalicio").
+// Ahora, igual que la segunda vivienda, se puede intentar en cualquier momento.
+export function precioViviendaPropia(p) {
+  return escala(p, 180000)
+}
+export function comprarViviendaPropia(p) {
+  if (p.vivienda === 'propia' || p.estudios || p.edad < 18 || p.ingresos <= 0) return null
+  const parte = p.flags.includes('pareja') ? 0.55 : 1
+  const precio = Math.round(precioViviendaPropia(p) * parte)
+  const entrada = Math.round(escala(p, 36000) * parte)
+  if (p.dinero < entrada) return null
+  p.dinero -= entrada
+  p.vivienda = 'propia'
+  p.alquilerAnual = 0
+  p.hipoteca = { pendiente: precio - entrada, cuota: Math.round(((precio - entrada) * 1.35) / 25), años: 25 }
+  p.activos.push({ id: 'casa-1', tipo: 'casa', estado: 'vivo', edadCompra: p.edad, invertido: precio, valor: precio, senales: ['iliquido'], nombre: parte < 1 ? { es: 'Tu mitad del piso', en: 'Your half of the flat', ca: 'La teva meitat del pis' } : { es: 'Tu piso', en: 'Your flat', ca: 'El teu pis' } })
+  if (!p.flags.includes('hipoteca')) p.flags.push('hipoteca')
+  ajustarGastos(p)
+  return { nota: parte < 1
+    ? { es: 'Vuestro (bueno, del banco durante 25 años). Entre dos sueldos la cuota pesa la mitad — la ventaja financiera menos romántica de la pareja.', en: 'Yours together (well, the bank\'s for 25 years). Between two salaries the payment weighs half — the least romantic financial perk of a couple.', ca: 'Vostre (bé, del banc durant 25 anys). Entre dos sous la quota pesa la meitat — l\'avantatge financer menys romàntic de la parella.' }
+    : { es: 'Tuya (bueno, del banco durante 25 años). La cuota es fija: la inflación jugará a tu favor esta vez.', en: 'Yours (well, the bank\'s for 25 years). The payment is fixed: inflation will work in your favour this time.', ca: 'Teu (bé, del banc durant 25 anys). La quota és fixa: la inflació jugarà a favor teu aquesta vegada.' } }
+}
+
 // ── Segunda vivienda: comprar, usar, vender, donar ───────────────────────────
 export function precioSegundaVivienda(p) {
   return escala(p, 90000)
 }
-export function comprarSegundaVivienda(p) {
+export function comprarSegundaVivienda(p, financiado = false) {
   if (p.activos.some(a => a.tipo === 'casa2' && a.estado === 'vivo')) return null
   const precio = precioSegundaVivienda(p)
-  if (p.dinero < precio) return null
-  p.dinero -= precio
+  let entrada = precio
+  if (financiado) {
+    if (p.ingresos <= 0) return null
+    entrada = Math.round(precio * 0.3)
+    if (p.dinero < entrada) return null
+    const importe = precio - entrada
+    const total = Math.round(importe * 1.3)
+    p.prestamos.push({ pendiente: total, cuotaMes: Math.round(total / (20 * 12)), meses: 20 * 12 })
+  } else {
+    if (p.dinero < precio) return null
+  }
+  p.dinero -= entrada
   p.activos.push({ id: 'casa2', tipo: 'casa2', estado: 'vivo', edadCompra: p.edad, invertido: precio, valor: precio, uso: 'vacia', senales: ['iliquido'], nombre: { es: 'Tu segunda vivienda', en: 'Your second home', ca: 'La teva segona vivenda' } })
-  return { nota: { es: 'Comprada. Ahora toca decidir: ¿la usáis vosotros, la alquiláis, o la dejáis esperando mejor momento (con riesgo de okupas)?', en: 'Bought. Now decide: use it yourselves, rent it out, or leave it waiting for a better moment (with squatting risk)?', ca: 'Comprada. Ara toca decidir: la useu vosaltres, la llogueu, o la deixeu esperant un moment millor (amb risc d\'okupes)?' } }
+  return { nota: financiado
+    ? { es: `Comprada con ${fmt(entrada)} de entrada y el resto a préstamo (20 años). Ahora toca decidir: ¿la usáis vosotros, la alquiláis, o la dejáis esperando mejor momento (con riesgo de okupas)?`, en: `Bought with ${fmt(entrada)} down and the rest on a loan (20 years). Now decide: use it yourselves, rent it out, or leave it waiting for a better moment (with squatting risk)?`, ca: `Comprada amb ${fmt(entrada)} d'entrada i la resta a préstec (20 anys). Ara toca decidir: la useu vosaltres, la llogueu, o la deixeu esperant un moment millor (amb risc d'okupes)?` }
+    : { es: 'Comprada. Ahora toca decidir: ¿la usáis vosotros, la alquiláis, o la dejáis esperando mejor momento (con riesgo de okupas)?', en: 'Bought. Now decide: use it yourselves, rent it out, or leave it waiting for a better moment (with squatting risk)?', ca: 'Comprada. Ara toca decidir: la useu vosaltres, la llogueu, o la deixeu esperant un moment millor (amb risc d\'okupes)?' } }
 }
 export function usarSegundaVivienda(p, uso) {
   const a = p.activos.find(x => x.tipo === 'casa2' && x.estado === 'vivo')
@@ -629,7 +667,11 @@ function hitosDelAño(p, log) {
         log.push({ tipo: 'bueno', texto: { es: `🔑 Traspasas ${a.nombre.es} por ${fmt(traspaso)}: los negocios también se jubilan.`, en: `🔑 You sell ${a.nombre.en} on for ${fmt(traspaso)}: businesses retire too.`, ca: `🔑 Traspasses ${a.nombre.ca} per ${fmt(traspaso)}: els negocis també es jubilen.` } })
       }
     }
-    const factor = p.flags.includes('plan-pensiones') ? 0.72 : 0.58
+    // Un sistema de reparto (lo que cotizan los activos paga a los jubilados)
+    // con cada vez menos gente trabajando por cada pensionista no se sostiene
+    // igual dentro de décadas: se asume una tasa de sustitución bastante más
+    // baja que la actual (~72-80%), no la de hoy.
+    const factor = p.flags.includes('plan-pensiones') ? 0.50 : 0.35
     // La pensión pública tiene un tope máximo real (~44.500 €/año de hoy), gane
     // lo que gane el jubilado: por eso un sueldo alto no se traduce 1:1 en pensión.
     p.ingresos = Math.min(escala(p, 44500), Math.round(Math.max(p.ingresos, p.ingresosPrevios) * factor))
@@ -940,10 +982,10 @@ function resolverActivosAnuales(p, log) {
     if (a.tipo === 'casa') {
       a.valor *= 1 + vivienda[p.edad]
     } else if (a.tipo === 'negocio') {
-      if (p.rng() < a.oculto.pQuiebraAnual) {
-        a.estado = 'quebrado'; a.valor = 0
-        log.push({ tipo: 'malo', importante: true, texto: { es: `💥 ${a.nombre.es} cierra. Pierdes lo invertido (${fmt(a.invertido)}).`, en: `💥 ${a.nombre.en} shuts down. You lose your investment (${fmt(a.invertido)}).`, ca: `💥 ${a.nombre.ca} tanca. Perds la inversió (${fmt(a.invertido)}).` } })
-        p.autopsias.push({ edad: p.edad, tipo: 'mala', titulo: a.nombre, senales: a.senales, texto: { es: 'La mayoría de negocios pequeños no superan los 5 años. Puede salir bien — pero solo con dinero que puedas permitirte perder.', en: 'Most small businesses don\'t survive 5 years. It can work out — but only with money you can afford to lose.', ca: 'La majoria de negocis petits no superen els 5 anys. Pot sortir bé — però només amb diners que puguis permetre\'t perdre.' } })
+      // No cierra en silencio: si el riesgo se materializa, se ofrece antes la
+      // opción de meter más dinero para intentar salvarlo (tickRescateNegocio).
+      if (!p.negocioEnRiesgo && p.rng() < a.oculto.pQuiebraAnual) {
+        p.negocioEnRiesgo = a.id
       } else {
         const renta = Math.round(a.invertido * a.oculto.renta)
         p.dinero += renta
@@ -1000,6 +1042,56 @@ function resolverActivosAnuales(p, log) {
         } })
       }
     }
+  }
+}
+
+// Se resuelve en el primer mes libre tras marcarse en riesgo (puede ceder el
+// turno a otro evento del mismo año): nunca cierra sin que el jugador decida.
+function tickRescateNegocio(p) {
+  if (!p.negocioEnRiesgo) return null
+  const a = p.activos.find(x => x.id === p.negocioEnRiesgo && x.estado === 'vivo')
+  p.negocioEnRiesgo = null
+  if (!a) return null
+  return ofertaRescateNegocio(p, a)
+}
+
+// El negocio está a punto de quebrar: meter más dinero puede salvarlo, o solo
+// aplazar (y encarecer) la misma pérdida — nunca es un cierre automático.
+function ofertaRescateNegocio(p, a) {
+  const inyeccion = Math.round(a.invertido * 0.5)
+  const cerrar = (p, ctx, extra) => {
+    a.estado = 'quebrado'; a.valor = 0
+    p.autopsias.push({ edad: p.edad, tipo: 'mala', titulo: a.nombre, senales: a.senales, texto: { es: 'La mayoría de negocios pequeños no superan los 5 años. Puede salir bien — pero solo con dinero que puedas permitirte perder.', en: 'Most small businesses don\'t survive 5 years. It can work out — but only with money you can afford to lose.', ca: 'La majoria de negocis petits no superen els 5 anys. Pot sortir bé — però només amb diners que puguis permetre\'t perdre.' } })
+    return { nota: { es: `${extra ?? ''}${a.nombre.es} cierra. Pierdes lo invertido (${fmt(a.invertido)}).`, en: `${extra ?? ''}${a.nombre.en} shuts down. You lose your investment (${fmt(a.invertido)}).`, ca: `${extra ?? ''}${a.nombre.ca} tanca. Perds la inversió (${fmt(a.invertido)}).` } }
+  }
+  return {
+    id: 'rescate-negocio',
+    texto: {
+      es: `⚠️ ${a.nombre.es} está a punto de cerrar. Meter ${fmt(inyeccion)} más puede salvarlo… o perderlo también.`,
+      en: `⚠️ ${a.nombre.en} is about to close. Putting in ${fmt(inyeccion)} more could save it… or lose that too.`,
+      ca: `⚠️ ${a.nombre.ca} està a punt de tancar. Ficar-hi ${fmt(inyeccion)} més el pot salvar… o perdre-ho també.`,
+    },
+    opciones: [
+      p.dinero >= inyeccion ? {
+        id: 'rescatar',
+        texto: { es: `Meter ${fmt(inyeccion)} más para intentar salvarlo`, en: `Put in ${fmt(inyeccion)} more to try to save it`, ca: `Ficar-hi ${fmt(inyeccion)} més per intentar salvar-lo` },
+        aplicar: (p, ctx) => {
+          ctx.dinero(-inyeccion)
+          a.invertido += inyeccion
+          if (ctx.rng() < 0.5) {
+            ctx.bienestar(2)
+            return { nota: { es: 'La inyección llega a tiempo: el negocio sobrevive, al menos por ahora. El riesgo de quiebra no ha desaparecido — solo se ha aplazado.', en: 'The injection arrives in time: the business survives, at least for now. The risk of failure hasn\'t gone away — just been postponed.', ca: 'La injecció arriba a temps: el negoci sobreviu, almenys de moment. El risc de fallida no ha desaparegut — només s\'ha ajornat.' } }
+          }
+          ctx.bienestar(-6)
+          return cerrar(p, ctx, '')
+        },
+      } : null,
+      {
+        id: 'dejar',
+        texto: { es: 'No arriesgar más — dejarlo cerrar', en: 'Risk no more — let it close', ca: 'No arriscar més — deixar-lo tancar' },
+        aplicar: cerrar,
+      },
+    ].filter(Boolean),
   }
 }
 
@@ -1103,6 +1195,10 @@ export function avanzarMes(p) {
   if (!evento) {
     const ofertaEv = tickBusquedaPrimerEmpleo(p)
     if (ofertaEv) evento = ofertaEv
+  }
+  if (!evento) {
+    const rescateEv = tickRescateNegocio(p)
+    if (rescateEv) evento = rescateEv
   }
   empleoMensual(p, log)
   mercadosMensuales(p, log)

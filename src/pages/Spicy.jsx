@@ -12,6 +12,7 @@ import {
   MODOS_VIDA, CLASES_INVERSION, FAMILIAS, cambiarModoVida, invertir, venderActivo, buscarEmpleo, pedirAumento,
   elegirOfertaEmpleo, VIVIENDA_TIERS, cambiarViviendaTier, rentaMensualActivo,
   precioSegundaVivienda, comprarSegundaVivienda, usarSegundaVivienda, venderSegundaVivienda, donarSegundaVivienda,
+  precioViviendaPropia, comprarViviendaPropia,
 } from '../lib/spicyEngine'
 
 const SURF = 'rgba(17,20,29,0.86)'
@@ -415,6 +416,12 @@ export default function Spicy() {
             🙋 {tr({ es: 'Pedir un aumento', en: 'Ask for a raise', ca: 'Demanar un augment' })}
           </button>
         )}
+        {p.vivienda !== 'propia' && p.edad >= 18 && (
+          <button onClick={() => { setAccion(accion === 'vivienda' ? null : 'vivienda'); setAccionNota(null) }}
+            className={`text-xs font-bold px-3 py-1.5 rounded-lg border transition-colors ${accion === 'vivienda' ? 'bg-amber-500/25 border-amber-500/50 text-amber-300' : 'bg-white/5 border-white/10 text-white/60 hover:text-white'}`}>
+            🏠 {tr({ es: 'Comprar vivienda', en: 'Buy a home', ca: 'Comprar vivenda' })}
+          </button>
+        )}
         {p.edad >= 25 && (
           <button onClick={() => { setAccion(accion === 'segunda' ? null : 'segunda'); setAccionNota(null) }}
             className={`text-xs font-bold px-3 py-1.5 rounded-lg border transition-colors ${accion === 'segunda' ? 'bg-amber-500/25 border-amber-500/50 text-amber-300' : 'bg-white/5 border-white/10 text-white/60 hover:text-white'}`}>
@@ -484,9 +491,32 @@ export default function Spicy() {
           ))}
         </div>
       )}
+      {accion === 'vivienda' && (() => {
+        const parte = p.flags.includes('pareja') ? 0.55 : 1
+        const precio = Math.round(precioViviendaPropia(p) * parte)
+        const entrada = Math.round(escala(p, 36000) * parte)
+        const puedeAhora = !p.estudios && p.ingresos > 0
+        return (
+          <div className="rounded-xl border border-white/10 p-3 mb-3 space-y-2" style={{ background: SURF }}>
+            {!puedeAhora ? (
+              <p className="text-white/40 text-xs">{tr({ es: 'Sin ingresos estables, ningún banco te da una hipoteca todavía.', en: 'Without a stable income, no bank will give you a mortgage yet.', ca: 'Sense ingressos estables, cap banc et dona una hipoteca encara.' })}</p>
+            ) : (
+              <>
+                <p className="text-white/40 text-xs">{tr({ es: `Piso de ${fmt(precio)}: entrada de ${fmt(entrada)} y el resto a hipoteca (25 años).`, en: `A ${fmt(precio)} flat: ${fmt(entrada)} down and the rest on a 25-year mortgage.`, ca: `Pis de ${fmt(precio)}: entrada de ${fmt(entrada)} i la resta a hipoteca (25 anys).` })}</p>
+                <button disabled={p.dinero < entrada}
+                  onClick={() => ejecutarAccion(pp => comprarViviendaPropia(pp))}
+                  className="text-xs font-bold px-3 py-2 rounded-lg bg-white/10 hover:bg-amber-500/25 border border-white/10 text-white/70 disabled:opacity-25 transition-colors">
+                  {tr({ es: `Comprarla (entrada ${fmt(entrada)})`, en: `Buy it (${fmt(entrada)} down)`, ca: `Comprar-lo (entrada ${fmt(entrada)})` })}
+                </button>
+              </>
+            )}
+          </div>
+        )
+      })()}
       {accion === 'segunda' && (() => {
         const casa2 = activosVivos.find(a => a.tipo === 'casa2')
         const precio = precioSegundaVivienda(p)
+        const entradaFinanciada = Math.round(precio * 0.3)
         const usoLabel = {
           vive: { es: 'la usáis vosotros', en: 'you use it', ca: 'la useu vosaltres' },
           alquiler: { es: 'alquilada', en: 'rented out', ca: 'llogada' },
@@ -498,11 +528,18 @@ export default function Spicy() {
             {!casa2 ? (
               <>
                 <p className="text-white/40 text-xs">{tr({ es: `Un piso pequeño para invertir o disfrutar: ${fmt(precio)}.`, en: `A small flat to invest or enjoy: ${fmt(precio)}.`, ca: `Un pis petit per invertir o gaudir: ${fmt(precio)}.` })}</p>
-                <button disabled={p.dinero < precio}
-                  onClick={() => ejecutarAccion(pp => comprarSegundaVivienda(pp))}
-                  className="text-xs font-bold px-3 py-2 rounded-lg bg-white/10 hover:bg-amber-500/25 border border-white/10 text-white/70 disabled:opacity-25 transition-colors">
-                  {tr({ es: `Comprarla (${fmt(precio)})`, en: `Buy it (${fmt(precio)})`, ca: `Comprar-la (${fmt(precio)})` })}
-                </button>
+                <div className="flex flex-wrap gap-1.5">
+                  <button disabled={p.dinero < precio}
+                    onClick={() => ejecutarAccion(pp => comprarSegundaVivienda(pp))}
+                    className="text-xs font-bold px-3 py-2 rounded-lg bg-white/10 hover:bg-amber-500/25 border border-white/10 text-white/70 disabled:opacity-25 transition-colors">
+                    {tr({ es: `Al contado (${fmt(precio)})`, en: `Cash (${fmt(precio)})`, ca: `Al comptat (${fmt(precio)})` })}
+                  </button>
+                  <button disabled={p.dinero < entradaFinanciada || p.ingresos <= 0}
+                    onClick={() => ejecutarAccion(pp => comprarSegundaVivienda(pp, true))}
+                    className="text-xs font-bold px-3 py-2 rounded-lg bg-white/10 hover:bg-amber-500/25 border border-white/10 text-white/70 disabled:opacity-25 transition-colors">
+                    {tr({ es: `Con préstamo (entrada ${fmt(entradaFinanciada)})`, en: `On credit (${fmt(entradaFinanciada)} down)`, ca: `Amb préstec (entrada ${fmt(entradaFinanciada)})` })}
+                  </button>
+                </div>
               </>
             ) : (
               <>

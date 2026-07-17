@@ -612,6 +612,7 @@ export const EVENTOS = [
   {
     id: 'casa-o-alquiler',
     edad: [31, 33],
+    condicion: p => p.vivienda !== 'propia',
     cantidades: { precio: 180000, entrada: 36000 },
     texto: {
       es: 'Encuentras un piso que te encaja: {precio}. El banco pide {entrada} de entrada y una hipoteca de 25 años con cuota fija (si tienes pareja y vais a medias, tu parte de la entrada baja casi a la mitad). O puedes seguir de alquiler, libre de ataduras… y de escrituras.',
