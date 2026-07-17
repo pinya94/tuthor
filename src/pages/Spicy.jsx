@@ -42,6 +42,7 @@ export default function Spicy() {
   const [sliderVal, setSliderVal] = useState(0.5)    // deslizador del evento activo
   const logsRef = useRef([])                         // feed acumulado (no re-render por sí solo)
   const savedRef = useRef(false)
+  const feedRef = useRef(null)                       // contenedor del feed: siempre visible lo último
 
   function empezar() {
     const nueva = crearPartida()
@@ -65,6 +66,11 @@ export default function Spicy() {
     setFase('jugando')
     setCorriendo(true)
   }
+
+  // El feed siempre muestra lo último que ha pasado, sin que haya que scrollear a mano
+  useEffect(() => {
+    if (feedRef.current) feedRef.current.scrollTop = feedRef.current.scrollHeight
+  }, [vista?.logs.length])
 
   // El reloj: mientras `corriendo` y no haya evento/pausa, avanza un mes cada tijeretazo
   useEffect(() => {
@@ -575,7 +581,7 @@ export default function Spicy() {
 
       {/* Feed de años */}
       {vista?.logs.length > 0 && (
-        <div className="space-y-2 mb-4 max-h-56 overflow-y-auto pr-1">
+        <div ref={feedRef} className="space-y-2 mb-4 max-h-56 overflow-y-auto pr-1">
           {vista.logs.map((l, i) => l.tipo === 'autopsia' ? (
             <div key={i} className={`rounded-xl border p-3 ${l.autopsia.tipo === 'mala' ? 'border-red-500/25 bg-red-500/10' : l.autopsia.tipo === 'buena' ? 'border-emerald-500/25 bg-emerald-500/10' : 'border-amber-500/25 bg-amber-500/10'}`}>
               <p className="text-white font-bold text-xs mb-1">💡 {tr({ es: 'Lección', en: 'Lesson', ca: 'Lliçó' })} — {tr(l.autopsia.titulo)}</p>
