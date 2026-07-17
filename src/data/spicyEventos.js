@@ -532,7 +532,7 @@ export const EVENTOS = [
     id: 'traslado-capital',
     edad: [29, 30],
     prob: 0.75,
-    condicion: p => p.ingresos > 0 && !p.estudios && p.paroMeses === 0,
+    condicion: p => p.ingresos > 0 && !p.estudios && p.paroMeses === 0 && p.ingresos < techoSalarial(p) * 0.98,
     texto: {
       es: 'Tu empresa abre sede en la capital y te quiere allí: +25% de sueldo. La letra pequeña: los alquileres son un 40% más caros y tu gente se queda a 400 km.',
       en: 'Your company opens an office in the capital and wants you there: +25% salary. The small print: rents are 40% higher and your people stay 400 km behind.',
@@ -696,7 +696,7 @@ export const EVENTOS = [
     id: 'startup-oferta',
     edad: [40, 41],
     prob: 0.8,
-    condicion: p => p.ingresos > 0 && !p.estudios && p.paroMeses === 0,
+    condicion: p => p.ingresos > 0 && !p.estudios && p.paroMeses === 0 && p.ingresos < techoSalarial(p) * 0.98,
     texto: {
       es: 'Una startup te ficha: +30% de sueldo, oficina bonita, futbolín. Aún no gana dinero — "estamos en fase de crecimiento", dicen. Tu empresa actual es aburrida pero lleva 40 años en pie.',
       en: 'A startup wants you: +30% salary, nice office, table football. It doesn\'t make money yet — "we\'re in growth phase", they say. Your current company is boring but has stood for 40 years.',
@@ -929,7 +929,7 @@ export const EVENTOS = [
     id: 'segunda-carrera',
     edad: [33, 45],
     prob: 0.55,
-    condicion: p => p.ingresos > 0 && !p.estudios && p.paroMeses === 0,
+    condicion: p => p.ingresos > 0 && !p.estudios && p.paroMeses === 0 && p.ingresos < techoSalarial(p) * 0.98,
     cantidades: { coste: 6000 },
     texto: {
       es: 'Tu trabajo se ha estancado y hay un campo que te tira desde siempre. Estudiar otra carrera a distancia, por las tardes: {coste} y dos años sin apenas vida social. Nadie te asegura que el mercado premie el cambio.',
@@ -1118,7 +1118,7 @@ export const EVENTOS = [
     id: 'ascenso',
     edad: [42, 43],
     requiere: ['formacion', 'master-util'],
-    condicion: p => p.ingresos > 0 && !p.estudios && p.paroMeses === 0,
+    condicion: p => p.ingresos > 0 && !p.estudios && p.paroMeses === 0 && p.ingresos < techoSalarial(p) * 0.98,
     texto: {
       es: 'Se abre una plaza de dirección y tu máster te pone el primero de la lista. Más sueldo (+30%)… y más horas, más viajes, más teléfono encendido a las 22h.',
       en: 'A management position opens and your master\'s puts you first in line. More salary (+30%)… and more hours, more travel, more phone on at 10pm.',
@@ -1149,7 +1149,7 @@ export const EVENTOS = [
     id: 'contacto-boda',
     edad: [44, 45],
     requiere: ['red-social'],
-    condicion: p => p.ingresos > 0 && !p.estudios && p.paroMeses === 0,
+    condicion: p => p.ingresos > 0 && !p.estudios && p.paroMeses === 0 && p.ingresos < techoSalarial(p) * 0.98,
     texto: {
       es: 'Te llama alguien que conociste en una boda hace años: dirige una empresa consolidada y busca a alguien de tu perfil. Oferta seria: +15% de sueldo y estabilidad de las de antes.',
       en: 'Someone you met at a wedding years ago calls: they run an established company and want someone with your profile. A serious offer: +15% salary and old-school stability.',
