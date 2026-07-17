@@ -10,6 +10,7 @@ import {
   crearPartida, avanzarMes, elegirOpcion, interpolar,
   patrimonio, patrimonioReal, notaFinanciera, fmt, escala, SENALES,
   MODOS_VIDA, CLASES_INVERSION, FAMILIAS, cambiarModoVida, invertir, venderActivo, buscarEmpleo, pedirAumento,
+  configurarDCA, desactivarDCA,
   elegirOfertaEmpleo, VIVIENDA_TIERS, cambiarViviendaTier, rentaMensualActivo,
   precioSegundaVivienda, comprarSegundaVivienda, usarSegundaVivienda, venderSegundaVivienda, donarSegundaVivienda,
   precioViviendaPropia, comprarViviendaPropia, venderViviendaPropia,
@@ -41,6 +42,7 @@ export default function Spicy() {
   const [finPendiente, setFinPendiente] = useState(false) // true si el próximo "seguir" debe ir a resultados
   const [corriendo, setCorriendo] = useState(false)  // el reloj de la vida avanza
   const [sliderVal, setSliderVal] = useState(0.5)    // deslizador del evento activo
+  const [dcaClase, setDcaClase] = useState('fondo')  // clase elegida en el panel de aportación automática
   const logsRef = useRef([])                         // feed acumulado (no re-render por sí solo)
   const savedRef = useRef(false)
   const feedRef = useRef(null)                       // contenedor del feed: siempre visible lo último
@@ -398,6 +400,12 @@ export default function Spicy() {
             💸 {tr({ es: 'Vender', en: 'Sell', ca: 'Vendre' })}
           </button>
         )}
+        {p.flags.includes('sabe-invertir') && (
+          <button onClick={() => { setAccion(accion === 'dca' ? null : 'dca'); setAccionNota(null) }}
+            className={`text-xs font-bold px-3 py-1.5 rounded-lg border transition-colors ${accion === 'dca' ? 'bg-amber-500/25 border-amber-500/50 text-amber-300' : 'bg-white/5 border-white/10 text-white/60 hover:text-white'}`}>
+            🔁 {p.dca ? tr({ es: `DCA: ${Math.round(p.dca.pct * 100)}% → ${CLASES_INVERSION[p.dca.clase].label.es}`, en: `DCA: ${Math.round(p.dca.pct * 100)}% → ${CLASES_INVERSION[p.dca.clase].label.en}`, ca: `DCA: ${Math.round(p.dca.pct * 100)}% → ${CLASES_INVERSION[p.dca.clase].label.ca}` }) : tr({ es: 'Aportación automática', en: 'Automatic contribution', ca: 'Aportació automàtica' })}
+          </button>
+        )}
         {p.edad >= 18 && (
           <button onClick={() => { setAccion(accion === 'vida' ? null : 'vida'); setAccionNota(null) }}
             className={`text-xs font-bold px-3 py-1.5 rounded-lg border transition-colors ${accion === 'vida' ? 'bg-amber-500/25 border-amber-500/50 text-amber-300' : 'bg-white/5 border-white/10 text-white/60 hover:text-white'}`}>
@@ -459,16 +467,63 @@ export default function Spicy() {
         </div>
       )}
       {accion === 'vender' && (
-        <div className="rounded-xl border border-white/10 p-3 mb-3 space-y-1.5" style={{ background: SURF }}>
-          {vendibles.map(a => (
-            <button key={a.id} onClick={() => ejecutarAccion(pp => venderActivo(pp, a.id))}
-              className="w-full text-left text-xs font-semibold px-3 py-2 rounded-lg bg-white/5 hover:bg-amber-500/20 border border-white/10 text-white/70 transition-colors">
-              {tr(a.nombre)} — {tr({ es: 'vender por', en: 'sell for', ca: 'vendre per' })} ~{fmt(a.valor * (a.tipo === 'coleccion' ? 0.85 : a.tipo === 'turbio' ? 0.9 : 1))}
-              {(a.tipo === 'coleccion' || a.tipo === 'turbio') && <span className="text-white/35"> ({tr({ es: 'con descuento de iliquidez', en: 'illiquidity haircut applied', ca: 'amb descompte d\'iliquiditat' })})</span>}
-            </button>
-          ))}
+        <div className="rounded-xl border border-white/10 p-3 mb-3 space-y-2" style={{ background: SURF }}>
+          {vendibles.map(a => {
+            const haircut = a.tipo === 'coleccion' ? 0.85 : a.tipo === 'turbio' ? 0.9 : 1
+            return (
+              <div key={a.id} className="space-y-1">
+                <p className="text-white/70 text-xs font-semibold">
+                  {tr(a.nombre)} — <span className="text-white/40 font-normal">{fmt(a.valor)}</span>
+                  {(a.tipo === 'coleccion' || a.tipo === 'turbio') && <span className="text-white/35 font-normal"> ({tr({ es: 'descuento de iliquidez al vender', en: 'illiquidity haircut on sale', ca: 'descompte d\'iliquiditat en vendre' })})</span>}
+                </p>
+                <div className="flex flex-wrap gap-1.5">
+                  {[0.25, 0.5, 1].map(f => (
+                    <button key={f} onClick={() => ejecutarAccion(pp => venderActivo(pp, a.id, f))}
+                      className="text-[11px] font-bold px-2 py-1 rounded bg-white/10 hover:bg-amber-500/25 border border-white/10 text-white/70 transition-colors">
+                      {f === 1 ? tr({ es: 'Todo', en: 'All', ca: 'Tot' }) : `${Math.round(f * 100)}%`} ({fmt(Math.round(a.valor * f * haircut))})
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )
+          })}
         </div>
       )}
+      {accion === 'dca' && (() => {
+        return (
+          <div className="rounded-xl border border-white/10 p-3 mb-3 space-y-2" style={{ background: SURF }}>
+            {p.dca ? (
+              <>
+                <p className="text-white/60 text-xs">{tr({ es: `Activo: cada mes, un ${Math.round(p.dca.pct * 100)}% de lo que te sobre va a ${CLASES_INVERSION[p.dca.clase].label.es}.`, en: `Active: every month, ${Math.round(p.dca.pct * 100)}% of what's left over goes into ${CLASES_INVERSION[p.dca.clase].label.en}.`, ca: `Actiu: cada mes, un ${Math.round(p.dca.pct * 100)}% del que et sobri va a ${CLASES_INVERSION[p.dca.clase].label.ca}.` })}</p>
+                <button onClick={() => ejecutarAccion(pp => desactivarDCA(pp))}
+                  className="text-xs font-bold px-3 py-2 rounded-lg bg-white/10 hover:bg-red-500/25 border border-white/10 text-white/70 transition-colors">
+                  {tr({ es: 'Desactivar', en: 'Turn off', ca: 'Desactivar' })}
+                </button>
+              </>
+            ) : (
+              <>
+                <p className="text-white/40 text-xs">{tr({ es: 'Cada mes que te sobre dinero, un % se invertirá solo — sin esperar a tener un dineral para decidir.', en: 'Every month you have money left over, a % will invest itself — no need to wait for a big lump sum to decide.', ca: 'Cada mes que et sobrin diners, un % s\'invertirà sol — sense esperar a tenir un dineral per decidir.' })}</p>
+                <div className="flex flex-wrap gap-1.5">
+                  {Object.entries(CLASES_INVERSION).map(([clase, def]) => (
+                    <button key={clase} onClick={() => setDcaClase(clase)}
+                      className={`text-[11px] font-bold px-2 py-1 rounded border transition-colors ${dcaClase === clase ? 'bg-amber-500/25 border-amber-500/50 text-amber-300' : 'bg-white/10 border-white/10 text-white/70 hover:text-white'}`}>
+                      {def.emoji} {tr(def.label)}
+                    </button>
+                  ))}
+                </div>
+                <div className="flex flex-wrap gap-1.5">
+                  {[0.1, 0.25, 0.5].map(pct => (
+                    <button key={pct} onClick={() => ejecutarAccion(pp => configurarDCA(pp, dcaClase, pct))}
+                      className="text-[11px] font-bold px-2 py-1 rounded bg-white/10 hover:bg-amber-500/25 border border-white/10 text-white/70 transition-colors">
+                      {Math.round(pct * 100)}%
+                    </button>
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
+        )
+      })()}
       {accion === 'vida' && (
         <div className="rounded-xl border border-white/10 p-3 mb-3 flex flex-wrap gap-1.5" style={{ background: SURF }}>
           {Object.entries(MODOS_VIDA).map(([modo, def]) => (

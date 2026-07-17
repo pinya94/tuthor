@@ -159,6 +159,7 @@ export function crearPartida(seed = Math.floor(Math.random() * 2 ** 31)) {
     vivienda: 'familia',                      // familia | alquiler | propia
     alquilerAnual: 0,
     hipoteca: null,                           // { pendiente, cuota (anual), años }
+    dca: null,                                 // { clase, pct }: aportación automática mensual (% del sobrante)
     prestamos: [],                            // [{ pendiente, cuotaMes, meses }]
     hijos: [],                                // [{ edadNacimiento }]
     activos: [],
@@ -359,15 +360,42 @@ export function invertir(p, clase, importe) {
   return { nota: notas[clase] }
 }
 
+// ── DCA: aportación automática mensual (un % del sobrante de cada mes) ──────
+export function configurarDCA(p, clase, pct) {
+  const def = CLASES_INVERSION[clase]
+  if (!def || pct <= 0 || pct > 1) return null
+  p.dca = { clase, pct }
+  return { nota: {
+    es: `Activado: cada mes que te sobre dinero, un ${Math.round(pct * 100)}% irá solo a ${def.label.es}. Lo desactivas cuando quieras.`,
+    en: `Activated: every month you have money left over, ${Math.round(pct * 100)}% will go automatically into ${def.label.en}. You can turn it off whenever you want.`,
+    ca: `Activat: cada mes que et sobrin diners, un ${Math.round(pct * 100)}% anirà sol a ${def.label.ca}. El desactives quan vulguis.`,
+  } }
+}
+export function desactivarDCA(p) {
+  if (!p.dca) return null
+  p.dca = null
+  return { nota: { es: 'Aportación automática desactivada. A partir de ahora, invertir vuelve a ser cosa tuya mes a mes.', en: 'Automatic contribution turned off. From now on, investing is manual again, month by month.', ca: 'Aportació automàtica desactivada. A partir d\'ara, invertir torna a ser cosa teva mes a mes.' } }
+}
+
 // Vender una posición entera (el coleccionismo y lo no regulado pagan su iliquidez)
-export function venderActivo(p, activoId) {
+// fraccion: 0-1, cuánta parte de la posición se vende (1 = toda, por defecto).
+export function venderActivo(p, activoId, fraccion = 1) {
   const a = p.activos.find(x => x.id === activoId && x.estado === 'vivo')
   if (!a) return null
+  const f = Math.min(1, Math.max(0, fraccion))
+  if (f <= 0) return null
   const haircut = a.tipo === 'coleccion' ? 0.85 : a.tipo === 'turbio' ? 0.9 : 1
-  const importe = Math.max(0, Math.round(a.valor * haircut))
+  const valorVendido = a.valor * f
+  const invertidoVendido = a.invertido * f
+  const importe = Math.max(0, Math.round(valorVendido * haircut))
   p.dinero += importe
-  a.estado = 'vendido'
-  const gano = importe >= a.invertido
+  const gano = importe >= invertidoVendido
+  if (f >= 1) {
+    a.estado = 'vendido'
+  } else {
+    a.valor -= valorVendido
+    a.invertido -= invertidoVendido
+  }
   // Salir de un activo turbio con ganancias merece su lección: sobrevivir al
   // riesgo no lo convierte en buena decisión — solo en una que salió bien.
   if (a.tipo === 'turbio' && gano && a.oculto?.pQuiebraAnual) {
@@ -377,12 +405,13 @@ export function venderActivo(p, activoId) {
     coleccion: { es: ' El 15% se quedó en el camino: encontrar comprador tiene precio.', en: ' 15% was lost on the way: finding a buyer has a price.', ca: ' El 15% es va quedar pel camí: trobar comprador té preu.' },
     turbio: { es: ' Salir de algo no regulado tiene descuento: el 10% se quedó en el camino.', en: ' Cashing out of something unregulated has a discount: 10% was lost on the way.', ca: ' Sortir d\'una cosa no regulada té descompte: el 10% es va quedar pel camí.' },
   }[a.tipo] ?? { es: '', en: '', ca: '' }
+  const parcial = f < 1
   return {
     importe,
     nota: {
-      es: `Vendido por ${fmt(importe)} (pusiste ${fmt(a.invertido)}).${extraDescuento.es}${gano ? '' : ' Vender en pérdidas a veces es lo correcto y a veces es pánico — solo el tiempo lo dice.'}`,
-      en: `Sold for ${fmt(importe)} (you put in ${fmt(a.invertido)}).${extraDescuento.en}${gano ? '' : ' Selling at a loss is sometimes right and sometimes panic — only time tells.'}`,
-      ca: `Venut per ${fmt(importe)} (hi vas posar ${fmt(a.invertido)}).${extraDescuento.ca}${gano ? '' : ' Vendre en pèrdues de vegades és correcte i de vegades és pànic — només el temps ho diu.'}`,
+      es: `Vendido por ${fmt(importe)} (${parcial ? `${Math.round(f * 100)}% de la posición, pusiste ${fmt(Math.round(invertidoVendido))}` : `pusiste ${fmt(Math.round(invertidoVendido))}`}).${extraDescuento.es}${gano ? '' : ' Vender en pérdidas a veces es lo correcto y a veces es pánico — solo el tiempo lo dice.'}`,
+      en: `Sold for ${fmt(importe)} (${parcial ? `${Math.round(f * 100)}% of the position, you put in ${fmt(Math.round(invertidoVendido))}` : `you put in ${fmt(Math.round(invertidoVendido))}`}).${extraDescuento.en}${gano ? '' : ' Selling at a loss is sometimes right and sometimes panic — only time tells.'}`,
+      ca: `Venut per ${fmt(importe)} (${parcial ? `${Math.round(f * 100)}% de la posició, hi vas posar ${fmt(Math.round(invertidoVendido))}` : `hi vas posar ${fmt(Math.round(invertidoVendido))}`}).${extraDescuento.ca}${gano ? '' : ' Vendre en pèrdues de vegades és correcte i de vegades és pànic — només el temps ho diu.'}`,
     },
   }
 }
@@ -1353,6 +1382,16 @@ export function avanzarMes(p) {
     if (p.mes % 4 === 0 && p.dinero < -escala(p, 3000)) {
       p.bienestar = clampB(p.bienestar - 2)
       log.push({ tipo: 'malo', texto: { es: `🔴 Números rojos (${fmt(p.dinero)}): el descubierto cobra intereses y quita el sueño.`, en: `🔴 In the red (${fmt(p.dinero)}): the overdraft charges interest and steals sleep.`, ca: `🔴 Números vermells (${fmt(p.dinero)}): el descobert cobra interessos i treu la son.` } })
+    }
+  }
+
+  // DCA: si tienes una aportación automática activa, se invierte un % del
+  // sobrante de ESTE mes (solo si hay sobrante y no estás en números rojos).
+  if (p.dca && p.dinero > 0) {
+    const sobrante = p.dinero - antesDinero
+    if (sobrante > 0) {
+      const aportar = Math.floor(sobrante * p.dca.pct)
+      if (aportar > 0) invertir(p, p.dca.clase, aportar)
     }
   }
 
