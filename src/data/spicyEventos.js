@@ -1746,6 +1746,40 @@ export const EVENTOS = [
           }
         },
       },
+      {
+        id: 'padres',
+        texto: { es: 'Pedir ayuda a tus padres para el primer tramo', en: 'Ask your parents to help with the first stretch', ca: 'Demanar ajuda als teus pares pel primer tram' },
+        aplicar: (p, ctx) => {
+          const pAyuda = { humilde: 0.35, media: 0.65, acomodada: 0.9 }[p.familia]
+          p.vivienda = 'alquiler'
+          p.alquilerAnual = Math.round(ctx.cant('alquiler') * (p.flags.includes('capital') ? 1.4 : 1))
+          ctx.recalcularGastos()
+          if (ctx.rng() < pAyuda) {
+            const ayuda = Math.round(p.alquilerAnual * 0.5)
+            ctx.dinero(ayuda)
+            ctx.bienestar(-3)
+            return { nota: { es: `Aceptan ayudarte: ${ctx.f(ayuda)} para arrancar. No es gratis del todo — cuesta el orgullo — pero amortigua el golpe de independizarte sin haberlo elegido.`, en: `They agree to help: ${ctx.f(ayuda)} to get started. It's not entirely free — it costs some pride — but it cushions the blow of moving out without choosing to.`, ca: `Accepten ajudar-te: ${ctx.f(ayuda)} per començar. No és del tot gratis — costa l'orgull — però amorteix el cop d'independitzar-te sense haver-ho triat.` } }
+          }
+          ctx.bienestar(-9)
+          return { nota: { es: 'No pueden ayudarte más de lo que ya hacen. Te independizas igual, pero sin colchón.', en: 'They can\'t help beyond what they already do. You move out anyway, but with no cushion.', ca: 'No et poden ajudar més del que ja fan. T\'independitzes igualment, però sense coixí.' } }
+        },
+      },
+      {
+        id: 'dejar-estudios',
+        texto: { es: 'Dejar los estudios y ponerte a trabajar ya', en: 'Drop your studies and get a job now', ca: 'Deixar els estudis i posar-te a treballar ja' },
+        aplicar: (p, ctx) => {
+          if (!p.estudios) {
+            return { rechazo: true, nota: { es: 'Ya no estás estudiando: esta puerta no aplica.', en: 'You\'re not studying anymore: this option doesn\'t apply.', ca: 'Ja no estàs estudiant: aquesta porta no aplica.' } }
+          }
+          p.estudios = null
+          p.ingresos = Math.round(escala(p, 12000))
+          p.vivienda = 'alquiler'
+          p.alquilerAnual = Math.round(ctx.cant('alquiler') * (p.flags.includes('capital') ? 1.4 : 1))
+          ctx.recalcularGastos()
+          ctx.bienestar(-8)
+          return { nota: { es: `Vivir solo y estudiar sin ingresos no se sostiene: dejas la carrera y entras a trabajar (${ctx.f(Math.round(p.ingresos / 12))}/mes). Duele soltar los estudios — pero el alquiler no espera a que te gradúes.`, en: `Living alone and studying with no income doesn't add up: you drop the degree and start working (${ctx.f(Math.round(p.ingresos / 12))}/mo). Letting go of your studies hurts — but rent won't wait for you to graduate.`, ca: `Viure sol i estudiar sense ingressos no es sosté: deixes la carrera i entres a treballar (${ctx.f(Math.round(p.ingresos / 12))}/mes). Fa mal deixar els estudis — però el lloguer no espera que et graduïs.` } }
+        },
+      },
     ],
   },
   {
