@@ -53,6 +53,10 @@ export const STATIC_META = {
     es: { title: 'Física y Química — temas y exámenes', desc: 'Tabla periódica, estados de la materia, mezclas, átomos y más. Teoría breve y exámenes tipo test por nivel: Primaria, ESO y Bachillerato.' },
     en: { title: 'Physics & Chemistry — topics and exams', desc: 'Periodic table, states of matter, mixtures, atoms and more. Short theory and level-based quizzes for primary and secondary school.' },
   },
+  '/estudiar/economia': {
+    es: { title: 'Economía — Finanzas Personales', desc: 'Inflación, interés compuesto, deuda y señales de estafa. Repasa con el examen tipo test o vive una vida entera en el simulador Spicy.' },
+    en: { title: 'Economics — Personal Finance', desc: 'Inflation, compound interest, debt and scam signals. Revise with the quiz or live a whole life in the Spicy simulator.' },
+  },
   '/estudiar/idiomas': {
     es: { title: 'Idiomas — español e inglés', desc: 'Gramática y ortografía del español, grammar del inglés. Teoría breve con ejemplos y exámenes tipo test con explicación en cada respuesta.' },
     en: { title: 'Languages — Spanish and English', desc: 'Spanish grammar and spelling, English grammar. Short theory with examples and quizzes with an explanation for every answer.' },
