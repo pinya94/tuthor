@@ -658,7 +658,7 @@ function hitosDelAño(p, log) {
     p.flags.push('jubilado')
     p.estudios = null
     p.paroMeses = 0
-    // Traspaso de negocios: nadie regenta un bar a los 80
+    // Traspaso de negocios: nadie regenta un bar a los 80 (aplica igual si ya estabas prejubilado)
     for (const a of p.activos) {
       if (a.tipo === 'negocio' && a.estado === 'vivo') {
         const traspaso = Math.round(a.invertido * (0.9 + p.rng() * 0.9))
@@ -667,17 +667,28 @@ function hitosDelAño(p, log) {
         log.push({ tipo: 'bueno', texto: { es: `🔑 Traspasas ${a.nombre.es} por ${fmt(traspaso)}: los negocios también se jubilan.`, en: `🔑 You sell ${a.nombre.en} on for ${fmt(traspaso)}: businesses retire too.`, ca: `🔑 Traspasses ${a.nombre.ca} per ${fmt(traspaso)}: els negocis també es jubilen.` } })
       }
     }
-    // Un sistema de reparto (lo que cotizan los activos paga a los jubilados)
-    // con cada vez menos gente trabajando por cada pensionista no se sostiene
-    // igual dentro de décadas: se asume una tasa de sustitución bastante más
-    // baja que la actual (~72-80%), no la de hoy.
-    const factor = p.flags.includes('plan-pensiones') ? 0.50 : 0.35
-    // La pensión pública tiene un tope máximo real (~44.500 €/año de hoy), gane
-    // lo que gane el jubilado: por eso un sueldo alto no se traduce 1:1 en pensión.
-    p.ingresos = Math.min(escala(p, 44500), Math.round(Math.max(p.ingresos, p.ingresosPrevios) * factor))
-    ajustarGastos(p)   // recalcula ya con el flag 'jubilado' puesto: vida algo más modesta
-    log.push({ tipo: 'hito', importante: true, texto: { es: `👴 Te jubilas. Tu pensión: ${fmt(Math.round(p.ingresos / 12))}/mes — menor que tu último sueldo${p.flags.includes('plan-pensiones') ? ', pero tu plan de pensiones la complementa' : ''}. A partir de aquí, vives de lo sembrado.`, en: `👴 You retire. Your pension: ${fmt(Math.round(p.ingresos / 12))}/mo — lower than your last salary${p.flags.includes('plan-pensiones') ? ', but your pension plan tops it up' : ''}. From here on, you live off what you sowed.`, ca: `👴 Et jubiles. La pensió: ${fmt(Math.round(p.ingresos / 12))}/mes — menor que l'últim sou${p.flags.includes('plan-pensiones') ? ', però el pla de pensions la complementa' : ''}. A partir d'aquí, vius del que has sembrat.` } })
+    if (p.flags.includes('prejubilado')) {
+      // Ya cobras tu pensión desde que aceptaste la prejubilación: no se
+      // recalcula ni se anuncia una segunda vez — solo cambia la etiqueta.
+      ajustarGastos(p)
+    } else {
+      p.ingresos = pensionDesde(p, Math.max(p.ingresos, p.ingresosPrevios))
+      ajustarGastos(p)   // recalcula ya con el flag 'jubilado' puesto: vida algo más modesta
+      log.push({ tipo: 'hito', importante: true, texto: { es: `👴 Te jubilas. Tu pensión: ${fmt(Math.round(p.ingresos / 12))}/mes — menor que tu último sueldo${p.flags.includes('plan-pensiones') ? ', pero tu plan de pensiones la complementa' : ''}. A partir de aquí, vives de lo sembrado.`, en: `👴 You retire. Your pension: ${fmt(Math.round(p.ingresos / 12))}/mo — lower than your last salary${p.flags.includes('plan-pensiones') ? ', but your pension plan tops it up' : ''}. From here on, you live off what you sowed.`, ca: `👴 Et jubiles. La pensió: ${fmt(Math.round(p.ingresos / 12))}/mes — menor que l'últim sou${p.flags.includes('plan-pensiones') ? ', però el pla de pensions la complementa' : ''}. A partir d'aquí, vius del que has sembrat.` } })
+    }
   }
+}
+
+// Un sistema de reparto (lo que cotizan los activos paga a los jubilados) con
+// cada vez menos gente trabajando por cada pensionista no se sostiene igual
+// dentro de décadas: se asume una tasa de sustitución bastante más baja que
+// la actual (~72-80%), no la de hoy. Además hay un tope máximo real (~44.500
+// €/año de hoy), gane lo que gane el jubilado: un sueldo alto no se traduce
+// 1:1 en pensión. Se usa tanto en la jubilación normal (67) como al aceptar
+// la prejubilación (desde ese momento ya cobras pensión, no sueldo).
+export function pensionDesde(p, baseAnual) {
+  const factor = p.flags.includes('plan-pensiones') ? 0.50 : 0.35
+  return Math.min(escala(p, 44500), Math.round(baseAnual * factor))
 }
 
 // ── Estudios: fin de curso (junio) ───────────────────────────────────────────
@@ -1004,17 +1015,17 @@ function resolverActivosAnuales(p, log) {
           log.push({ tipo: 'malo', texto: { es: `🔨 El inquilino de tu segunda vivienda se va dejando destrozos: -${fmt(dano)} en arreglos.`, en: `🔨 Your tenant leaves your second home trashed on the way out: -${fmt(dano)} in repairs.`, ca: `🔨 L'inquilí de la teva segona vivenda marxa deixant destrosses: -${fmt(dano)} en arranjaments.` } })
         } else if (p.rng() < 0.02) {
           a.uso = 'ocupada'
-          log.push({ tipo: 'malo', texto: { es: '🚪 Te okupan la segunda vivienda: se acabó la renta hasta que consigas el desalojo — y eso lleva tiempo y abogados.', en: '🚪 Your second home gets squatted: no more rent until you get it evicted — and that takes time and lawyers.', ca: '🚪 Et okupen la segona vivenda: s\'ha acabat la renda fins que aconsegueixis el desnonament — i això porta temps i advocats.' } })
+          log.push({ tipo: 'malo', importante: true, texto: { es: '🚪 Te okupan la segunda vivienda: se acabó la renta hasta que consigas el desalojo — y eso lleva tiempo y abogados.', en: '🚪 Your second home gets squatted: no more rent until you get it evicted — and that takes time and lawyers.', ca: '🚪 Et okupen la segona vivenda: s\'ha acabat la renda fins que aconsegueixis el desnonament — i això porta temps i advocats.' } })
         }
       } else if (a.uso === 'vacia' && p.rng() < 0.03) {
         a.uso = 'ocupada'
-        log.push({ tipo: 'malo', texto: { es: '🚪 Una vivienda vacía llama la atención: te la okupan. Sin alquiler, sin uso, y con un desalojo por delante.', en: '🚪 An empty home draws attention: it gets squatted. No rent, no use, and an eviction ahead.', ca: '🚪 Una vivenda buida crida l\'atenció: te la okupen. Sense lloguer, sense ús, i amb un desnonament per davant.' } })
+        log.push({ tipo: 'malo', importante: true, texto: { es: '🚪 Una vivienda vacía llama la atención: te la okupan. Sin alquiler, sin uso, y con un desalojo por delante.', en: '🚪 An empty home draws attention: it gets squatted. No rent, no use, and an eviction ahead.', ca: '🚪 Una vivenda buida crida l\'atenció: te la okupen. Sense lloguer, sense ús, i amb un desnonament per davant.' } })
       } else if (a.uso === 'vive') {
         p.bienestar = clampB(p.bienestar + 1)
       }
       if (a.uso === 'ocupada' && p.rng() < 0.3) {
         a.uso = 'vacia'
-        log.push({ tipo: 'bueno', texto: { es: '⚖️ Consigues el desalojo tras meses de papeleo: tu segunda vivienda vuelve a estar libre para decidir qué hacer con ella.', en: '⚖️ You get the eviction after months of paperwork: your second home is free again to decide what to do with it.', ca: '⚖️ Aconsegueixes el desnonament després de mesos de paperassa: la teva segona vivenda torna a estar lliure per decidir què fer-ne.' } })
+        log.push({ tipo: 'bueno', importante: true, texto: { es: '⚖️ Consigues el desalojo tras meses de papeleo: tu segunda vivienda vuelve a estar libre para decidir qué hacer con ella.', en: '⚖️ You get the eviction after months of paperwork: your second home is free again to decide what to do with it.', ca: '⚖️ Aconsegueixes el desnonament després de mesos de paperassa: la teva segona vivenda torna a estar lliure per decidir què fer-ne.' } })
       }
     } else if (a.tipo === 'turbio') {
       if (p.rng() < a.oculto.pQuiebraAnual) {

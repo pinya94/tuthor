@@ -12,7 +12,7 @@
 // Cuando el texto de una opción muestra un sueldo/precio que también se
 // aplica en `aplicar`, usar escala(p, mismaBase) en ambos sitios: así la
 // etiqueta nunca se desincroniza de lo que realmente se cobra o se paga.
-import { escala, fmt, techoSalarial } from '../lib/spicyEngine'
+import { escala, fmt, techoSalarial, pensionDesde } from '../lib/spicyEngine'
 
 export const EVENTOS = [
 
@@ -1505,10 +1505,12 @@ export const EVENTOS = [
         texto: { es: 'Aceptar e irte ({indemnizacion})', en: 'Accept and leave ({indemnizacion})', ca: 'Acceptar i marxar ({indemnizacion})' },
         aplicar: (p, ctx) => {
           ctx.dinero(ctx.cant('indemnizacion'))
-          p.ingresos = Math.round(p.ingresos * 0.35)
+          // Desde ya cobras tu pensión (no un sueldo reducido "de mentira"): a
+          // los 67 no se vuelve a recalcular ni se anuncia una segunda jubilación.
+          p.ingresos = pensionDesde(p, p.ingresos)
           ctx.flag('prejubilado')
           ctx.bienestar(10)
-          return { nota: { es: 'Libertad anticipada. La indemnización parece mucha — repártela mentalmente entre los años que faltan hasta la pensión y parece menos.', en: 'Early freedom. The severance seems big — spread it mentally over the years until your pension and it seems smaller.', ca: 'Llibertat anticipada. La indemnització sembla molta — reparteix-la mentalment entre els anys que falten fins a la pensió i sembla menys.' } }
+          return { nota: { es: `Libertad anticipada. Tu pensión desde ya: ${ctx.f(Math.round(p.ingresos / 12))}/mes. La indemnización parece mucha — repártela mentalmente entre los años que faltan hasta los 67 y parece menos.`, en: `Early freedom. Your pension from now on: ${ctx.f(Math.round(p.ingresos / 12))}/mo. The severance seems big — spread it mentally over the years until 67 and it seems smaller.`, ca: `Llibertat anticipada. La teva pensió des d'ara: ${ctx.f(Math.round(p.ingresos / 12))}/mes. La indemnització sembla molta — reparteix-la mentalment entre els anys que falten fins als 67 i sembla menys.` } }
         },
       },
       {
