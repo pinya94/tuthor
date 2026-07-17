@@ -472,7 +472,9 @@ export const EVENTOS = [
         aplicar: (p, ctx) => {
           const c = ctx.cant('ahorro')
           ctx.dinero(-c)
-          ctx.activo({ id: 'inv-deposito', tipo: 'deposito', invertido: c, senales: ['entidad-seria'], nombre: { es: 'Depósito a plazo fijo', en: 'Fixed-term deposit', ca: 'Dipòsit a termini fix' } })
+          const depositoA = p.activos.find(a => a.tipo === 'deposito' && a.estado === 'vivo')
+          if (depositoA) { depositoA.valor += c; depositoA.invertido += c }
+          else ctx.activo({ id: 'inv-deposito', tipo: 'deposito', invertido: c, senales: ['entidad-seria'], nombre: { es: 'Depósito a plazo fijo', en: 'Fixed-term deposit', ca: 'Dipòsit a termini fix' } })
           return { nota: { es: 'Seguro y tranquilo. Ojo: si el interés es menor que la inflación, tu dinero "crece" pero compra menos.', en: 'Safe and calm. Careful: if interest is below inflation, your money "grows" but buys less.', ca: 'Segur i tranquil. Ull: si l\'interès és menor que la inflació, els teus diners "creixen" però compren menys.' } }
         },
       },
@@ -672,7 +674,9 @@ export const EVENTOS = [
           const c = ctx.cant('mucho')
           if (p.dinero < c) return { rechazo: true, nota: { es: 'No llegas a esa cantidad. Puedes empezar con menos.', en: 'You can\'t reach that amount. You can start smaller.', ca: 'No arribes a aquesta quantitat. Pots començar amb menys.' } }
           ctx.dinero(-c)
-          ctx.activo({ id: 'fondo-1', tipo: 'fondo', invertido: c, senales: ['entidad-seria', 'diversificado'], nombre: { es: 'Fondo indexado global', en: 'Global index fund', ca: 'Fons indexat global' } })
+          const fondoA = p.activos.find(a => a.tipo === 'fondo' && a.estado === 'vivo')
+          if (fondoA) { fondoA.valor += c; fondoA.invertido += c }
+          else ctx.activo({ id: 'fondo-1', tipo: 'fondo', invertido: c, senales: ['entidad-seria', 'diversificado'], nombre: { es: 'Fondo indexado global', en: 'Global index fund', ca: 'Fons indexat global' } })
           return { nota: { es: 'Invertido. La regla de oro: no mirarlo cada día y NO vender en pánico cuando caiga. Porque caerá.', en: 'Invested. The golden rule: don\'t check it daily and do NOT panic-sell when it drops. Because it will.', ca: 'Invertit. La regla d\'or: no mirar-lo cada dia i NO vendre en pànic quan caigui. Perquè caurà.' } }
         },
       },
@@ -682,7 +686,9 @@ export const EVENTOS = [
         aplicar: (p, ctx) => {
           const c = ctx.cant('poco')
           ctx.dinero(-c)
-          ctx.activo({ id: 'fondo-1', tipo: 'fondo', invertido: c, senales: ['entidad-seria', 'diversificado'], nombre: { es: 'Fondo indexado global', en: 'Global index fund', ca: 'Fons indexat global' } })
+          const fondoB = p.activos.find(a => a.tipo === 'fondo' && a.estado === 'vivo')
+          if (fondoB) { fondoB.valor += c; fondoB.invertido += c }
+          else ctx.activo({ id: 'fondo-1', tipo: 'fondo', invertido: c, senales: ['entidad-seria', 'diversificado'], nombre: { es: 'Fondo indexado global', en: 'Global index fund', ca: 'Fons indexat global' } })
           return { nota: { es: 'Un comienzo prudente. Lo importante del interés compuesto no es la cantidad: es empezar pronto.', en: 'A prudent start. What matters with compound interest isn\'t the amount: it\'s starting early.', ca: 'Un començament prudent. L\'important de l\'interès compost no és la quantitat: és començar aviat.' } }
         },
       },

@@ -334,18 +334,20 @@ export function rentaMensualActivo(a) {
   return 0
 }
 
-// Invertir dinero disponible en una clase (crea o amplía la posición)
+// Invertir dinero disponible en una clase (crea o amplía la posición). Se
+// busca por TIPO, no por id: así se amplía la misma posición aunque viniera
+// de un evento narrativo (fondo-indexado, primer-colchon…) en vez del menú,
+// sin acabar con dos tarjetas duplicadas del mismo fondo con distinto id.
 export function invertir(p, clase, importe) {
   const def = CLASES_INVERSION[clase]
   if (!def || importe <= 0 || importe > p.dinero) return null
   p.dinero -= importe
-  const id = `inv-${clase}`
-  const existente = p.activos.find(a => a.id === id && a.estado === 'vivo')
+  const existente = p.activos.find(a => a.tipo === def.tipo && a.estado === 'vivo')
   if (existente) {
     existente.valor += importe
     existente.invertido += importe
   } else {
-    p.activos.push({ id, tipo: def.tipo, estado: 'vivo', edadCompra: p.edad, invertido: importe, valor: importe, senales: def.senales, nombre: def.nombre })
+    p.activos.push({ id: `inv-${clase}`, tipo: def.tipo, estado: 'vivo', edadCompra: p.edad, invertido: importe, valor: importe, senales: def.senales, nombre: def.nombre })
   }
   const notas = {
     fondo: { es: 'Al fondo indexado. Aburrido a corto plazo — que es justo lo que quieres a largo.', en: 'Into the index fund. Boring short-term — exactly what you want long-term.', ca: 'Al fons indexat. Avorrit a curt termini — que és just el que vols a llarg.' },
