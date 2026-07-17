@@ -12,7 +12,7 @@ import {
   MODOS_VIDA, CLASES_INVERSION, FAMILIAS, cambiarModoVida, invertir, venderActivo, buscarEmpleo, pedirAumento,
   elegirOfertaEmpleo, VIVIENDA_TIERS, cambiarViviendaTier, rentaMensualActivo,
   precioSegundaVivienda, comprarSegundaVivienda, usarSegundaVivienda, venderSegundaVivienda, donarSegundaVivienda,
-  precioViviendaPropia, comprarViviendaPropia,
+  precioViviendaPropia, comprarViviendaPropia, venderViviendaPropia,
 } from '../lib/spicyEngine'
 
 const SURF = 'rgba(17,20,29,0.86)'
@@ -416,10 +416,10 @@ export default function Spicy() {
             🙋 {tr({ es: 'Pedir un aumento', en: 'Ask for a raise', ca: 'Demanar un augment' })}
           </button>
         )}
-        {p.vivienda !== 'propia' && p.edad >= 18 && (
+        {p.edad >= 18 && (
           <button onClick={() => { setAccion(accion === 'vivienda' ? null : 'vivienda'); setAccionNota(null) }}
             className={`text-xs font-bold px-3 py-1.5 rounded-lg border transition-colors ${accion === 'vivienda' ? 'bg-amber-500/25 border-amber-500/50 text-amber-300' : 'bg-white/5 border-white/10 text-white/60 hover:text-white'}`}>
-            🏠 {tr({ es: 'Comprar vivienda', en: 'Buy a home', ca: 'Comprar vivenda' })}
+            🏠 {p.vivienda === 'propia' ? tr({ es: 'Tu vivienda', en: 'Your home', ca: 'La teva vivenda' }) : tr({ es: 'Comprar vivienda', en: 'Buy a home', ca: 'Comprar vivenda' })}
           </button>
         )}
         {p.edad >= 25 && (
@@ -492,6 +492,21 @@ export default function Spicy() {
         </div>
       )}
       {accion === 'vivienda' && (() => {
+        if (p.vivienda === 'propia') {
+          const casa = activosVivos.find(a => a.tipo === 'casa')
+          const deuda = p.hipoteca?.pendiente ?? 0
+          return (
+            <div className="rounded-xl border border-white/10 p-3 mb-3 space-y-2" style={{ background: SURF }}>
+              {casa && (
+                <p className="text-white/60 text-xs">{tr(casa.nombre)}: <span className="text-white font-semibold">{fmt(casa.valor)}</span>{deuda > 0 && <> · {tr({ es: 'hipoteca pendiente', en: 'mortgage left', ca: 'hipoteca pendent' })}: {fmt(deuda)}</>}</p>
+              )}
+              <button onClick={() => ejecutarAccion(pp => venderViviendaPropia(pp))}
+                className="text-xs font-bold px-3 py-2 rounded-lg bg-white/10 hover:bg-red-500/25 border border-white/10 text-white/70 transition-colors">
+                {tr({ es: 'Venderla y volver a alquiler', en: 'Sell it and go back to renting', ca: 'Vendre-la i tornar a lloguer' })}
+              </button>
+            </div>
+          )
+        }
         const parte = p.flags.includes('pareja') ? 0.55 : 1
         const precio = Math.round(precioViviendaPropia(p) * parte)
         const entrada = Math.round(escala(p, 36000) * parte)

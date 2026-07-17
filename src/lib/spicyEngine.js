@@ -409,6 +409,27 @@ export function comprarViviendaPropia(p) {
     ? { es: 'Vuestro (bueno, del banco durante 25 años). Entre dos sueldos la cuota pesa la mitad — la ventaja financiera menos romántica de la pareja.', en: 'Yours together (well, the bank\'s for 25 years). Between two salaries the payment weighs half — the least romantic financial perk of a couple.', ca: 'Vostre (bé, del banc durant 25 anys). Entre dos sous la quota pesa la meitat — l\'avantatge financer menys romàntic de la parella.' }
     : { es: 'Tuya (bueno, del banco durante 25 años). La cuota es fija: la inflación jugará a tu favor esta vez.', en: 'Yours (well, the bank\'s for 25 years). The payment is fixed: inflation will work in your favour this time.', ca: 'Teu (bé, del banc durant 25 anys). La quota és fixa: la inflació jugarà a favor teu aquesta vegada.' } }
 }
+// Vender la vivienda principal desde el menú, en cualquier momento — no solo
+// en el evento narrativo de la jubilación. Salda la hipoteca pendiente con la
+// venta y vuelves a alquiler (nadie se queda sin techo al vender).
+export function venderViviendaPropia(p) {
+  const casa = p.activos.find(a => a.tipo === 'casa' && a.estado === 'vivo')
+  if (!casa) return null
+  const deuda = p.hipoteca?.pendiente ?? 0
+  const neto = Math.max(0, Math.round(casa.valor - deuda))
+  p.dinero += neto
+  casa.estado = 'vendido'
+  p.hipoteca = null
+  p.flags = p.flags.filter(f => f !== 'hipoteca')
+  p.vivienda = 'alquiler'
+  p.alquilerAnual = Math.round(escala(p, 8400) * (p.flags.includes('capital') ? 1.4 : 1))
+  ajustarGastos(p)
+  return { nota: {
+    es: `Vendida por ${fmt(casa.valor)}${deuda > 0 ? ` (quedaba ${fmt(deuda)} de hipoteca pendiente)` : ''}: te quedan ${fmt(neto)} libres. Vuelves a vivir de alquiler.`,
+    en: `Sold for ${fmt(casa.valor)}${deuda > 0 ? ` (${fmt(deuda)} of mortgage still owed)` : ''}: you keep ${fmt(neto)} free. You're back to renting.`,
+    ca: `Venuda per ${fmt(casa.valor)}${deuda > 0 ? ` (quedava ${fmt(deuda)} d'hipoteca pendent)` : ''}: et queden ${fmt(neto)} lliures. Tornes a viure de lloguer.`,
+  } }
+}
 
 // ── Segunda vivienda: comprar, usar, vender, donar ───────────────────────────
 export function precioSegundaVivienda(p) {

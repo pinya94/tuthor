@@ -1433,6 +1433,7 @@ export const EVENTOS = [
     id: 'subida-alquiler',
     edad: [51, 52],
     requiere: ['alquiler-vitalicio'],
+    condicion: p => p.vivienda === 'alquiler',
     texto: {
       es: 'Carta del casero: te sube el alquiler un 25% "por precios de mercado". Llevas 20 años pagando puntualmente y el barrio se ha puesto de moda.',
       en: 'Letter from the landlord: rent goes up 25% "due to market prices". You\'ve paid on time for 20 years and the neighbourhood is now trendy.',
