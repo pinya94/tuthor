@@ -1126,8 +1126,8 @@ function resolverActivosAnuales(p, log) {
       if (!p.negocioEnRiesgo && p.rng() < a.oculto.pQuiebraAnual) {
         p.negocioEnRiesgo = a.id
       } else {
-        const renta = Math.round(a.invertido * a.oculto.renta)
-        p.dinero += renta
+        // La renta ya se cobra cada mes (rentaMensualActivo, en el flujo de
+        // caja mensual) — aquí solo quedan los efectos no monetarios del año.
         if (años === 5) {
           p.autopsias.push({ edad: p.edad, tipo: 'buena', titulo: a.nombre, senales: a.senales, texto: { es: 'El negocio sobrevive y reparte cada año. Era arriesgado (muchos quiebran), pero era real, con plan, y solo pusiste lo que podías perder.', en: 'The business survives and pays out yearly. It was risky (many fail), but it was real, planned, and you only risked what you could lose.', ca: 'El negoci sobreviu i reparteix cada any. Era arriscat (molts fan fallida), però era real, amb pla, i només hi vas posar el que podies perdre.' } })
         }
@@ -1135,8 +1135,8 @@ function resolverActivosAnuales(p, log) {
     } else if (a.tipo === 'casa2') {
       a.valor *= 1 + vivienda[p.edad]
       if (a.uso === 'alquiler') {
-        const renta = Math.round(a.valor * 0.045)
-        p.dinero += renta
+        // La renta ya se cobra cada mes (rentaMensualActivo, en el flujo de
+        // caja mensual) — aquí solo quedan el riesgo de daños y de okupación.
         if (p.rng() < 0.05) {
           const dano = Math.round(a.valor * (0.05 + p.rng() * 0.1))
           a.valor = Math.max(0, a.valor - dano)
@@ -1359,8 +1359,12 @@ export function avanzarMes(p) {
     log.push({ tipo: 'bueno', texto: { es: '✅ Última cuota del préstamo: deuda saldada.', en: '✅ Final loan instalment: debt cleared.', ca: '✅ Última quota del préstec: deute saldat.' } })
   }
   const extraEstudios = p.estudios?.mediaJornada ? escala(p, p.estudios.sueldoJornada ?? 7200) : 0
+  // Renta de negocios y segunda vivienda alquilada: se cobra cada mes, no de
+  // golpe una vez al año — así coincide con el "+X€/mes" que ya se muestra
+  // junto a cada activo en la cartera.
+  const rentaActivos = p.activos.reduce((total, a) => total + rentaMensualActivo(a), 0)
   const antesDinero = p.dinero
-  p.dinero += (p.ingresos + extraEstudios - p.gastos - p.alquilerAnual) / 12 - cuotaMes
+  p.dinero += (p.ingresos + extraEstudios - p.gastos - p.alquilerAnual) / 12 + rentaActivos - cuotaMes
 
   // Un menor de edad no acumula deuda: la familia cubre lo esencial.
   // Un estudiante sin ingresos tampoco, ni quien busca su primer empleo tras
