@@ -491,21 +491,24 @@ export function buscarEmpleo(p) {
   p.ultimaBusqueda = p.mesesTotales
   const r = p.rng()
   if (r < 0.4) {
-    // Dos ofertas reales, no una subida asignada en silencio: tú eliges el trade-off.
-    const subidaA = 1.05 + p.rng() * 0.05      // conservadora: revisión automática
-    const subidaB = 1.13 + p.rng() * 0.10      // más agresiva: las subidas hay que pedirlas
-    return {
-      ofertas: [
-        {
-          id: 'conservadora', subida: subidaA, automatica: true, bienestarDelta: 0,
-          label: { es: `Cambio con revisión salarial automática (+${Math.round((subidaA - 1) * 100)}%)`, en: `Move with automatic salary review (+${Math.round((subidaA - 1) * 100)}%)`, ca: `Canvi amb revisió salarial automàtica (+${Math.round((subidaA - 1) * 100)}%)` },
-        },
-        {
-          id: 'agresiva', subida: subidaB, automatica: false, bienestarDelta: -2,
-          label: { es: `Cambio más agresivo, las subidas las pides tú (+${Math.round((subidaB - 1) * 100)}%)`, en: `More aggressive move, you ask for raises yourself (+${Math.round((subidaB - 1) * 100)}%)`, ca: `Canvi més agressiu, les pujades les demanes tu (+${Math.round((subidaB - 1) * 100)}%)` },
-        },
-      ],
+    // Ofertas reales, no una subida asignada en silencio: tú eliges el trade-off.
+    // El mercado no siempre paga más que tu sueldo actual — a veces vale menos
+    // de lo que llevas cobrando, o implica mudarte de ciudad.
+    const tipo = p.rng()
+    let ofertas
+    if (tipo < 0.2) {
+      const subida = 0.85 + p.rng() * 0.1
+      ofertas = [{ id: 'baja', subida, automatica: true, bienestarDelta: -2, mudanza: false }]
+    } else if (tipo < 0.4) {
+      const subida = 1.15 + p.rng() * 0.15
+      ofertas = [{ id: 'mudanza', subida, automatica: false, bienestarDelta: -4, mudanza: true }]
+    } else {
+      ofertas = [
+        { id: 'conservadora', subida: 1.05 + p.rng() * 0.05, automatica: true, bienestarDelta: 0, mudanza: false },
+        { id: 'agresiva', subida: 1.13 + p.rng() * 0.10, automatica: false, bienestarDelta: -2, mudanza: false },
+      ]
     }
+    return { ofertas: ofertas.map(o => ({ ...o, label: labelOfertaEmpleo(o) })) }
   }
   if (r < 0.9) {
     return { nota: { es: 'Entrevistas, silencios y algún "ya te llamaremos". El mercado está parado: te quedas donde estás.', en: 'Interviews, silences and a few "we\'ll call you". The market is flat: you stay put.', ca: 'Entrevistes, silencis i algun "ja et trucarem". El mercat està aturat: et quedes on ets.' } }
@@ -514,23 +517,47 @@ export function buscarEmpleo(p) {
   return { nota: { es: 'Alguien te vio en una entrevista y llegó a oídos de tu jefa. Nadie dice nada… pero tu nombre subió puestos en la lista de prescindibles.', en: 'Someone saw you at an interview and word reached your boss. Nobody says anything… but your name moved up the expendables list.', ca: 'Algú et va veure en una entrevista i va arribar a oïdes de la teva cap. Ningú diu res… però el teu nom va pujar llocs a la llista de prescindibles.' } }
 }
 
+// Etiqueta de una oferta de buscarEmpleo(): el signo y el texto se adaptan a
+// si es subida, bajada o implica mudanza — nunca se asume que siempre sube.
+function labelOfertaEmpleo(o) {
+  const pct = Math.round((o.subida - 1) * 100)
+  const signo = pct >= 0 ? '+' : ''
+  if (o.mudanza) {
+    return { es: `Cambio con mudanza a otra ciudad (${signo}${pct}%, alquiler más caro)`, en: `Move to another city (${signo}${pct}%, pricier rent)`, ca: `Canvi amb trasllat a una altra ciutat (${signo}${pct}%, lloguer més car)` }
+  }
+  if (pct < 0) {
+    return { es: `Oferta a la baja (${pct}%) — no siempre el mercado paga más que lo que ya cobras`, en: `Lower offer (${pct}%) — the market doesn't always pay more than you already earn`, ca: `Oferta a la baixa (${pct}%) — no sempre el mercat paga més del que ja cobres` }
+  }
+  return o.automatica
+    ? { es: `Cambio con revisión salarial automática (${signo}${pct}%)`, en: `Move with automatic salary review (${signo}${pct}%)`, ca: `Canvi amb revisió salarial automàtica (${signo}${pct}%)` }
+    : { es: `Cambio más agresivo, las subidas las pides tú (${signo}${pct}%)`, en: `More aggressive move, you ask for raises yourself (${signo}${pct}%)`, ca: `Canvi més agressiu, les pujades les demanes tu (${signo}${pct}%)` }
+}
+
 // Aplica la oferta elegida tras buscarEmpleo(). Siempre avisa con la cifra
 // concreta y si las próximas subidas llegarán solas o habrá que pedirlas.
 export function elegirOfertaEmpleo(p, oferta) {
   const antes = p.ingresos
   p.ingresos = Math.min(techoSalarial(p), Math.round(p.ingresos * oferta.subida))
+  if (oferta.mudanza) {
+    p.alquilerAnual = Math.round(p.alquilerAnual * 1.4)
+    if (!p.flags.includes('capital')) p.flags.push('capital')
+  }
   p.flags = p.flags.filter(f => f !== 'startup' && f !== 'revision-automatica' && f !== 'revision-manual')
   p.flags.push(oferta.automatica ? 'revision-automatica' : 'revision-manual')
   p.señaladoMeses = 0
   if (oferta.bienestarDelta) p.bienestar = clampB(p.bienestar + oferta.bienestarDelta)
   const subidaPct = Math.round((p.ingresos / antes - 1) * 100)
+  const signo = subidaPct >= 0 ? '+' : ''
   const condicion = oferta.automatica
     ? { es: 'Aquí las subidas llegan solas, con revisión salarial cada año.', en: 'Here raises come on their own, with a yearly salary review.', ca: 'Aquí les pujades arriben soles, amb revisió salarial cada any.' }
     : { es: 'Aquí las subidas no llegan solas — si quieres una, toca pedirla tú.', en: 'Here raises don\'t come on their own — if you want one, you have to ask.', ca: 'Aquí les pujades no arriben soles — si en vols una, l\'has de demanar tu.' }
+  const mudanzaTxt = oferta.mudanza
+    ? { es: ' El alquiler también sube por el cambio de ciudad.', en: ' Rent also goes up from the city move.', ca: ' El lloguer també puja pel canvi de ciutat.' }
+    : { es: '', en: '', ca: '' }
   return { nota: {
-    es: `Aceptas: +${subidaPct}% de sueldo (${fmt(Math.round(p.ingresos / 12))}/mes). ${condicion.es}`,
-    en: `You accept: +${subidaPct}% salary (${fmt(Math.round(p.ingresos / 12))}/mo). ${condicion.en}`,
-    ca: `Acceptes: +${subidaPct}% de sou (${fmt(Math.round(p.ingresos / 12))}/mes). ${condicion.ca}`,
+    es: `Aceptas: ${signo}${subidaPct}% de sueldo (${fmt(Math.round(p.ingresos / 12))}/mes).${mudanzaTxt.es} ${condicion.es}`,
+    en: `You accept: ${signo}${subidaPct}% salary (${fmt(Math.round(p.ingresos / 12))}/mo).${mudanzaTxt.en} ${condicion.en}`,
+    ca: `Acceptes: ${signo}${subidaPct}% de sou (${fmt(Math.round(p.ingresos / 12))}/mes).${mudanzaTxt.ca} ${condicion.ca}`,
   } }
 }
 
@@ -911,33 +938,30 @@ function crisisFinanciera(p) {
 }
 
 // ── Empleo: despido y recolocación (mensual) ─────────────────────────────────
+// Devuelve un evento de oferta cuando toca recolocarse (o null): recolocarte
+// nunca es un sueldo asignado en silencio, siempre eliges aceptar o seguir buscando.
 function empleoMensual(p, log) {
   // Fases de la vida: infancia/estudiante → trabajador → (pre)jubilado.
   // Fuera de la fase trabajador no hay despidos, recolocaciones ni prestaciones.
-  if (p.edad < 16 || p.flags.includes('jubilado') || p.flags.includes('prejubilado') || p.estudios) return
+  if (p.edad < 16 || p.flags.includes('jubilado') || p.flags.includes('prejubilado') || p.estudios) return null
   // En paro: cuenta atrás de la prestación + búsqueda
   if (p.paroMeses > 0) {
     p.paroMeses -= 1
     const pReempleo = 0.08 + (p.flags.includes('titulado') ? 0.03 : 0)
     if (p.rng() < pReempleo) {
-      p.ingresos = Math.min(techoSalarial(p), Math.round(p.ingresosPrevios * (0.85 + p.rng() * 0.3)))
-      p.paroMeses = 0
-      p.flags = p.flags.filter(f => f !== 'despedido')
-      p.bienestar = clampB(p.bienestar + 6)
-      log.push({ tipo: 'bueno', importante: true, texto: { es: `💼 Nuevo trabajo (${fmt(Math.round(p.ingresos / 12))}/mes). El paro fue un puente, no un destino.`, en: `💼 New job (${fmt(Math.round(p.ingresos / 12))}/mo). Unemployment was a bridge, not a destination.`, ca: `💼 Nova feina (${fmt(Math.round(p.ingresos / 12))}/mes). L'atur va ser un pont, no una destinació.` } })
+      return ofertaTrasParo(p)
     } else if (p.paroMeses === 0) {
       p.ingresos = 0
       log.push({ tipo: 'malo', importante: true, texto: { es: '🔻 Se agota la prestación de paro y sigues sin trabajo. Ahora tiran (solo) tus ahorros.', en: '🔻 Unemployment benefits run out and you\'re still jobless. Now (only) your savings carry you.', ca: '🔻 S\'esgota la prestació d\'atur i segueixes sense feina. Ara tiren (només) els teus estalvis.' } })
     }
-    return
+    return null
   }
   if (p.ingresos <= 0) {
     // Sin prestación: sigue buscando — solo si alguna vez tuviste empleo
     if (p.ingresosPrevios > 0 && p.rng() < 0.10) {
-      p.ingresos = Math.round(p.ingresosPrevios * 0.85)
-      log.push({ tipo: 'bueno', importante: true, texto: { es: `💼 Por fin: trabajo nuevo (${fmt(Math.round(p.ingresos / 12))}/mes).`, en: `💼 At last: a new job (${fmt(Math.round(p.ingresos / 12))}/mo).`, ca: `💼 Per fi: feina nova (${fmt(Math.round(p.ingresos / 12))}/mes).` } })
+      return ofertaTrasParo(p)
     }
-    return
+    return null
   }
   // Con empleo: siempre existe un riesgo real de perderlo
   let pDespido = 0.003                                        // ~3,5% anual
@@ -952,6 +976,58 @@ function empleoMensual(p, log) {
     p.flags.push('despedido')
     p.bienestar = clampB(p.bienestar - 8)
     log.push({ tipo: 'malo', importante: true, texto: { es: `📦 Te despiden${p.economia.crisisYears.has(p.edad) ? ' — la crisis se lleva puestos a miles' : ''}. Prestación de paro: ${fmt(Math.round(p.ingresos / 12))}/mes (el 60% de tu sueldo), máximo año y medio.`, en: `📦 You're laid off${p.economia.crisisYears.has(p.edad) ? ' — the crisis is taking thousands of jobs' : ''}. Unemployment benefit: ${fmt(Math.round(p.ingresos / 12))}/mo (60% of your salary), for up to 18 months.`, ca: `📦 T'acomiaden${p.economia.crisisYears.has(p.edad) ? ' — la crisi s\'emporta llocs a milers' : ''}. Prestació d'atur: ${fmt(Math.round(p.ingresos / 12))}/mes (el 60% del teu sou), màxim any i mig.` } })
+  }
+  return null
+}
+
+// Al recolocarte tras un despido o una búsqueda larga, la oferta puede ser
+// mejor, peor o implicar mudarte — nunca un sueldo asignado en silencio.
+// Rechazarla no cierra la puerta: sigues buscando el mes que viene.
+function ofertaTrasParo(p) {
+  const base = p.ingresosPrevios
+  const tipo = p.rng()
+  const opciones = []
+  if (tipo < 0.25) {
+    const sueldo = Math.min(techoSalarial(p), Math.round(base * (0.75 + p.rng() * 0.15)))
+    opciones.push(opcionOfertaParo('aceptar', sueldo, false, base, { es: `Aceptar — ${fmt(Math.round(sueldo / 12))}/mes (menos que antes)`, en: `Accept — ${fmt(Math.round(sueldo / 12))}/mo (less than before)`, ca: `Acceptar — ${fmt(Math.round(sueldo / 12))}/mes (menys que abans)` }))
+  } else if (tipo < 0.45) {
+    const sueldo = Math.min(techoSalarial(p), Math.round(base * (1.0 + p.rng() * 0.15)))
+    opciones.push(opcionOfertaParo('mudanza', sueldo, true, base, { es: `Aceptar con mudanza a otra ciudad — ${fmt(Math.round(sueldo / 12))}/mes (alquiler más caro)`, en: `Accept, moving to another city — ${fmt(Math.round(sueldo / 12))}/mo (pricier rent)`, ca: `Acceptar amb trasllat a una altra ciutat — ${fmt(Math.round(sueldo / 12))}/mes (lloguer més car)` }))
+  } else {
+    const sueldoA = Math.min(techoSalarial(p), Math.round(base * (0.85 + p.rng() * 0.15)))
+    const sueldoB = Math.min(techoSalarial(p), Math.round(base * (1.0 + p.rng() * 0.15)))
+    opciones.push(opcionOfertaParo('segura', sueldoA, false, base, { es: `Puesto seguro — ${fmt(Math.round(sueldoA / 12))}/mes`, en: `Safe role — ${fmt(Math.round(sueldoA / 12))}/mo`, ca: `Lloc segur — ${fmt(Math.round(sueldoA / 12))}/mes` }))
+    opciones.push(opcionOfertaParo('mejor', sueldoB, false, base, { es: `Algo más de sueldo — ${fmt(Math.round(sueldoB / 12))}/mes`, en: `A bit more pay — ${fmt(Math.round(sueldoB / 12))}/mo`, ca: `Una mica més de sou — ${fmt(Math.round(sueldoB / 12))}/mes` }))
+  }
+  opciones.push({
+    id: 'seguir-buscando',
+    texto: { es: 'Rechazar y seguir buscando', en: 'Decline and keep searching', ca: 'Rebutjar i seguir buscant' },
+    aplicar: () => ({ nota: { es: 'Declinas. Sigues buscando algo mejor — el paro no espera para siempre, pero hoy no era la oferta.', en: 'You decline. You keep looking for something better — unemployment benefits won\'t last forever, but today wasn\'t the offer.', ca: 'Declines. Segueixes buscant alguna cosa millor — l\'atur no espera per sempre, però avui no era l\'oferta.' } }),
+  })
+  return {
+    id: 'oferta-tras-paro',
+    texto: { es: '📨 Te llega una oferta de trabajo. ¿La aceptas o sigues buscando?', en: '📨 A job offer comes in. Do you accept it or keep looking?', ca: '📨 T\'arriba una oferta de feina. L\'acceptes o segueixes buscant?' },
+    opciones,
+  }
+}
+function opcionOfertaParo(id, sueldo, mudanza, base, texto) {
+  return {
+    id, texto,
+    aplicar: (p, ctx) => {
+      p.ingresos = sueldo
+      p.paroMeses = 0
+      p.flags = p.flags.filter(f => f !== 'despedido')
+      if (mudanza) {
+        p.alquilerAnual = Math.round(p.alquilerAnual * 1.4)
+        if (!p.flags.includes('capital')) p.flags.push('capital')
+      }
+      ctx.bienestar(sueldo >= base ? 6 : 2)
+      return { nota: {
+        es: `Aceptas: ${fmt(Math.round(sueldo / 12))}/mes.${mudanza ? ' El alquiler también sube por el cambio de ciudad.' : ''} El paro fue un puente, no un destino.`,
+        en: `You accept: ${fmt(Math.round(sueldo / 12))}/mo.${mudanza ? ' Rent also goes up from the city move.' : ''} Unemployment was a bridge, not a destination.`,
+        ca: `Acceptes: ${fmt(Math.round(sueldo / 12))}/mes.${mudanza ? ' El lloguer també puja pel canvi de ciutat.' : ''} L'atur va ser un pont, no una destinació.`,
+      } }
+    },
   }
 }
 
@@ -1211,7 +1287,8 @@ export function avanzarMes(p) {
     const rescateEv = tickRescateNegocio(p)
     if (rescateEv) evento = rescateEv
   }
-  empleoMensual(p, log)
+  const empleoEv = empleoMensual(p, log)
+  if (!evento && empleoEv) evento = empleoEv
   mercadosMensuales(p, log)
 
   // La paga se ingresa MES a MES (no de golpe a fin de año)
