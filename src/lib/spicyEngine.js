@@ -96,11 +96,25 @@ export const CLASES_INVERSION = {
 
 // ── Línea económica de la partida ────────────────────────────────────────────
 function generarEconomia(rng) {
-  const inflacion = [], bolsa = [], vivienda = []
+  const inflacion = [], bolsa = [], vivienda = [], salarios = []
   const crisis1 = 28 + Math.floor(rng() * 14)          // 28-41
   const crisis2 = 48 + Math.floor(rng() * 14)          // 48-61
   const crisisYears = new Set([crisis1, crisis1 + 1, crisis2, crisis2 + 1])
   const burbuja = new Set([crisis1 - 2, crisis1 - 1])
+
+  // Estancamiento salarial: el techo del mercado no siempre sube al ritmo de
+  // los precios. En España 1994-2024 el salario real casi no se movió (+2,76%
+  // en 30 años) y en 2020-2023 el IPC subió un 14% mientras el salario real
+  // solo un 1,5%. Aquí se modelan 2-3 episodios de varios años en los que el
+  // techo salarial crece solo una fracción pequeña de esa inflación — no
+  // siempre coinciden con una crisis de mercado, aunque a veces se solapan.
+  const numEstancamientos = 2 + Math.floor(rng() * 2)   // 2-3 episodios en la vida
+  const estancamientoYears = new Set()
+  for (let n = 0; n < numEstancamientos; n++) {
+    const inicio = 22 + Math.floor(rng() * 55)          // en cualquier tramo de la vida laboral
+    const duracion = 2 + Math.floor(rng() * 4)          // 2-5 años
+    for (let a = inicio; a < inicio + duracion; a++) estancamientoYears.add(a)
+  }
 
   for (let edad = 0; edad < 100; edad++) {
     const enCrisis = crisisYears.has(edad)
@@ -115,8 +129,12 @@ function generarEconomia(rng) {
     vivienda[edad] = enCrisis
       ? -(0.08 + rng() * 0.08)
       : 0.03 + normal(rng) * 0.03
+    // Fuera de estancamiento, el techo sigue de cerca la inflación (como antes);
+    // en estancamiento, solo un 5-20% de esa inflación — igual que en la realidad
+    // los precios no se paran mientras los sueldos sí.
+    salarios[edad] = estancamientoYears.has(edad) ? inflacion[edad] * (0.05 + rng() * 0.15) : inflacion[edad]
   }
-  return { inflacion, bolsa, vivienda, crisis: [crisis1, crisis2], crisisYears }
+  return { inflacion, bolsa, vivienda, salarios, crisis: [crisis1, crisis2], crisisYears, estancamientoYears }
 }
 
 // ── Contexto familiar: no toda la infancia es igual ──────────────────────────
@@ -169,6 +187,7 @@ export function crearPartida(seed = Math.floor(Math.random() * 2 ** 31)) {
     autopsias: [],
     experiencias: [],
     indice: 1,
+    indiceSalarial: 1,                        // como indice, pero para el techo salarial (puede ir más lento)
     fin: false,
   }
 }
@@ -526,7 +545,9 @@ export function techoSalarial(p) {
   if (p.flags.includes('titulo-fp')) base = 34000
   if (p.flags.includes('titulo-uni')) base = 46000
   if (p.flags.includes('formacion')) base *= 1.2
-  return escala(p, base)
+  // indiceSalarial, no indice: el techo del mercado no siempre sube al ritmo
+  // de los precios (ver generarEconomia — episodios de estancamiento salarial).
+  return base * p.indiceSalarial
 }
 
 // Buscar otro empleo: puede mejorar, no hacer nada… o señalarte
@@ -1273,6 +1294,7 @@ export function avanzarMes(p) {
     }
     const inf = p.economia.inflacion[p.edad]
     p.indice *= 1 + inf
+    p.indiceSalarial *= 1 + p.economia.salarios[p.edad]
     // El sueldo NO se actualiza cada año: la pensión sí sube con el IPC, pero un
     // sueldo normal solo se revisa algunos años (puede pasarse 3 congelado — y
     // mientras tanto los precios siguen subiendo: así se pierde poder adquisitivo).
@@ -1295,6 +1317,11 @@ export function avanzarMes(p) {
 
     if (p.economia.crisisYears.has(p.edad) && !p.economia.crisisYears.has(p.edad - 1)) {
       log.push({ tipo: 'malo', texto: { es: '📰 CRISIS ECONÓMICA. Los mercados se desploman y hay despidos por todas partes.', en: '📰 ECONOMIC CRISIS. Markets crash and layoffs are everywhere.', ca: '📰 CRISI ECONÒMICA. Els mercats s\'enfonsen i hi ha acomiadaments a tot arreu.' } })
+    }
+    if (p.economia.estancamientoYears.has(p.edad) && !p.economia.estancamientoYears.has(p.edad - 1)) {
+      log.push({ tipo: 'malo', importante: true, texto: { es: '📉 ESTANCAMIENTO SALARIAL. Los sueldos apenas van a moverse durante varios años, aunque los precios sigan subiendo.', en: '📉 WAGE STAGNATION. Salaries will barely move for several years, even as prices keep rising.', ca: '📉 ESTANCAMENT SALARIAL. Els sous amb prou feines es mouran durant diversos anys, encara que els preus segueixin pujant.' } })
+    } else if (!p.economia.estancamientoYears.has(p.edad) && p.economia.estancamientoYears.has(p.edad - 1)) {
+      log.push({ tipo: 'bueno', texto: { es: '📈 El mercado laboral se descongela: los sueldos vuelven a seguir el ritmo de los precios.', en: '📈 The job market thaws: salaries start tracking prices again.', ca: '📈 El mercat laboral es descongela: els sous tornen a seguir el ritme dels preus.' } })
     }
     hitosDelAño(p, log)
     resolverActivosAnuales(p, log)
