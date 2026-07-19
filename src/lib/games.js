@@ -130,6 +130,14 @@ export const GAMES = {
     // nota financiera 0-10000 → hasta 200 monedas con nota ≥ 2000
     coins: DEFAULT_COINS,
   },
+  'reaccion': {
+    label: { es: 'Reacción', en: 'Reacción', ca: 'Reacció' },
+    emoji: '🚑',
+    subject: 'vida-practica',
+    route: '/juegos/reaccion',
+    // 150 monedas base, -10 por fallo leve de orden, -40 por decisión peligrosa
+    coins: ({ ordenErrores = 0, decisionesPeligrosas = 0 } = {}) => 150 - ordenErrores * 10 - decisionesPeligrosas * 40,
+  },
 }
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
