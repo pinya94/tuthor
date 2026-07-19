@@ -21,8 +21,10 @@ import GameEndScreen from '../components/GameEndScreen'
 import SEOHead from '../components/SEOHead'
 import PentagramaSVG from '../components/PentagramaSVG'
 import PianoVirtual from '../components/PianoVirtual'
+import MidiConnectButton from '../components/MidiConnectButton'
 import { ensureAudio, playNote, playClick } from '../lib/pentagramaAudio'
 import { FASES, melodiasDeFase, totalBeats, COUNT_IN_BEATS } from '../data/pentagramaMelodies'
+import { useMidiPiano, transponer } from '../lib/midiInput'
 
 const LS_PROGRESO = 'pentagrama-path-fase'
 
@@ -51,6 +53,8 @@ export default function MusicaExamen() {
   const [entreMelodias, setEntreMelodias] = useState(false)
   const [final, setFinal] = useState(null)
   const [progreso, setProgreso] = useState(() => Number(localStorage.getItem(LS_PROGRESO) || 0))
+
+  const midi = useMidiPiano()
 
   const resRef = useRef([])
   const histRef = useRef([])
@@ -227,6 +231,14 @@ export default function MusicaExamen() {
     setPantalla('intro')
   }
 
+  // Si el piano MIDI se conectó en la intro, sigue escuchando: solo hace
+  // falta redirigir sus notas al examen mientras haya una fase en curso.
+  useEffect(() => {
+    if (pantalla !== 'jugando') { midi.onNoteRef.current = null; return }
+    midi.onNoteRef.current = midiNote => onPianoKey(transponer(midiNote, fase.octavaBase))
+    return () => { midi.onNoteRef.current = null }
+  }, [pantalla, faseId])
+
   // ── INTRO ─────────────────────────────────────────────────────────────────
   if (pantalla === 'intro') {
     return (
@@ -247,6 +259,11 @@ export default function MusicaExamen() {
               {tr({ es: 'Examen de lectura de partituras, por fases', en: 'Sheet-music reading exam, in phases', ca: 'Examen de lectura de partitures, per fases' })}
             </p>
           </div>
+
+          <p className="text-white/30 text-xs text-center mb-3">
+            {tr({ es: '¿Tienes un piano MIDI? Conéctalo antes de empezar', en: 'Got a MIDI piano? Connect it before you start', ca: 'Tens un piano MIDI? Connecta\'l abans de començar' })}
+          </p>
+          <MidiConnectButton midi={midi} className="mb-6" />
 
           <div className="space-y-3 mb-6">
             {Object.entries(FASES).map(([id, f]) => {
@@ -456,6 +473,7 @@ export default function MusicaExamen() {
           hintPitch={hintPitch}
           conNegras={conNegras}
           disabled={entreMelodias}
+          midiActivo={midi.estado === 'conectado'}
         />
         <p className="text-center text-white/25 text-xs mt-2 hidden sm:block">
           {tr({ es: 'Teclado: A S D F G H J K', en: 'Keyboard: A S D F G H J K', ca: 'Teclat: A S D F G H J K' })}

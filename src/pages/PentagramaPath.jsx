@@ -26,9 +26,11 @@ import GameEndScreen from '../components/GameEndScreen'
 import SEOHead from '../components/SEOHead'
 import PentagramaSVG from '../components/PentagramaSVG'
 import PianoVirtual from '../components/PianoVirtual'
+import MidiConnectButton from '../components/MidiConnectButton'
 import { ensureAudio, playNote, playClick } from '../lib/pentagramaAudio'
 import { COUNT_IN_BEATS } from '../data/pentagramaMelodies'
 import { FAILS_LIMIT, LOOKAHEAD_BEATS, stageFor, siguienteEvento } from '../lib/pentagramaSurvivor'
+import { useMidiPiano, transponer } from '../lib/midiInput'
 
 const LS_SURVIVOR_BEST = 'pentagrama-path-survivor-best'
 
@@ -71,6 +73,11 @@ export default function PentagramaPath() {
   const [survBest] = useState(() => Number(localStorage.getItem(LS_SURVIVOR_BEST) || 0))
   const [bonusOpen, setBonusOpen] = useState(false)
   const [bonusOpciones, setBonusOpciones] = useState([])
+  const [pausado, setPausado] = useState(false)
+
+  const midi = useMidiPiano()
+  const pausadoRef = useRef(false)
+  pausadoRef.current = pausado
 
   const survNotasRef = useRef([])
   const survResRef = useRef([])
@@ -144,6 +151,7 @@ export default function PentagramaPath() {
     tempoBoostRef.current = null
     wideRef.current = null
     setBonusOpen(false)
+    setPausado(false)
 
     // Compás inicial de silencio (siempre): el jugador ve el playhead cruzar
     // un compás vacío a tempo antes de la primera nota, en vez de un
@@ -185,16 +193,12 @@ export default function PentagramaPath() {
     setBonusOpen(true)
   }
 
-  function elegirBono(bono) {
-    bono.apply()
-    bonusPendingRef.current = false
-    setBonusOpen(false)
-
-    // Compás en blanco tras elegir: recorta las notas generadas pero aún
-    // no resueltas (el jugador nunca llegó a leerlas) y las sustituye por
-    // un respiro + partitura nueva a partir del siguiente compás, para
-    // volver a jugar con margen de preparación en vez de retomar a mitad
-    // de una nota ya casi encima.
+  // Recorta las notas ya generadas pero aún no resueltas (el jugador nunca
+  // llegó a leerlas) y las sustituye por un respiro + partitura nueva a
+  // partir del siguiente compás. Se usa al reanudar tras un bono o tras una
+  // pausa manual, para volver a jugar con margen de preparación en vez de
+  // retomar a mitad de una nota ya casi encima.
+  function reanudarConRespiro() {
     const notasOld = survNotasRef.current
     const resOld = survResRef.current
     const yaResueltas = [], resYaResueltas = []
@@ -218,6 +222,25 @@ export default function PentagramaPath() {
     survBeatRef.current = pausaEn
     setSurvPlayBeat(pausaEn)
     survLastFrameRef.current = performance.now()
+  }
+
+  function elegirBono(bono) {
+    bono.apply()
+    bonusPendingRef.current = false
+    setBonusOpen(false)
+    reanudarConRespiro()
+    cancelAnimationFrame(survRafRef.current)
+    survRafRef.current = requestAnimationFrame(survivorTick)
+  }
+
+  function pausar() {
+    cancelAnimationFrame(survRafRef.current)
+    setPausado(true)
+  }
+
+  function reanudar() {
+    setPausado(false)
+    reanudarConRespiro()
     cancelAnimationFrame(survRafRef.current)
     survRafRef.current = requestAnimationFrame(survivorTick)
   }
@@ -322,7 +345,7 @@ export default function PentagramaPath() {
   }
 
   function onSurvivorPianoKey(pitch) {
-    if (survFinishedRef.current) return
+    if (survFinishedRef.current || pausadoRef.current) return
     const beat = survBeatRef.current
     const notas = survNotasRef.current
     const stage = stageFor(survResueltasRef.current)
@@ -365,6 +388,19 @@ export default function PentagramaPath() {
     setPantalla('intro')
   }
 
+  // Si el piano MIDI se conectó en la intro (o incluso en la pausa), sigue
+  // escuchando: solo hace falta redirigir sus notas al juego mientras haya
+  // una partida en curso.
+  useEffect(() => {
+    if (pantalla !== 'survivor') { midi.onNoteRef.current = null; return }
+    midi.onNoteRef.current = midiNote => {
+      const pitch = transponer(midiNote, 4)
+      playNote(pitch, 0.35)
+      onSurvivorPianoKey(pitch)
+    }
+    return () => { midi.onNoteRef.current = null }
+  }, [pantalla])
+
   // ── INTRO ─────────────────────────────────────────────────────────────────
   if (pantalla === 'intro') {
     return (
@@ -390,9 +426,14 @@ export default function PentagramaPath() {
           </div>
 
           <button onClick={startSurvivor}
-            className="w-full py-4 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-xl rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-amber-500/30 mb-5">
+            className="w-full py-4 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-xl rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-amber-500/30 mb-3">
             🔥 {tr({ es: '¡Empezar!', en: 'Start!', ca: 'Comença!' })}
           </button>
+
+          <p className="text-white/30 text-xs text-center mb-3">
+            {tr({ es: '¿Tienes un piano MIDI? Conéctalo antes de empezar', en: 'Got a MIDI piano? Connect it before you start', ca: 'Tens un piano MIDI? Connecta\'l abans de començar' })}
+          </p>
+          <MidiConnectButton midi={midi} className="mb-5" />
 
           <button onClick={() => navigate(localPath('/examen/musica'))}
             className="w-full text-left rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 p-4 mb-5 transition-all">
@@ -430,6 +471,7 @@ export default function PentagramaPath() {
                 ['💔', tr({ es: `Solo "perfecto" no cuesta vida: ${FAILS_LIMIT} fallos y se acaba`, en: `Only "perfect" costs no life: ${FAILS_LIMIT} misses and it's over`, ca: `Només "perfecte" no costa vida: ${FAILS_LIMIT} errades i s'acaba` })],
                 ['📈', tr({ es: 'El tempo y la dificultad suben solos cuanto más aguantas', en: 'Tempo and difficulty rise on their own the longer you survive', ca: 'El tempo i la dificultat pugen sols com més aguantes' })],
                 ['🎁', tr({ es: 'Cada cierto tiempo eliges un bono (vidas, tempo, puntería, puntos) — cada vez cuesta más conseguirlo', en: 'Every so often you pick a bonus (lives, tempo, aim, points) — each one takes longer to earn', ca: 'Cada cert temps tries un bo (vides, tempo, punteria, punts) — cada vegada costa més aconseguir-lo' })],
+                ['⏸️', tr({ es: 'Puedes pausar en cualquier momento — útil si el piano MIDI se desconecta a media partida', en: 'You can pause any time — handy if the MIDI piano disconnects mid-run', ca: 'Pots pausar en qualsevol moment — útil si el piano MIDI es desconnecta a mitja partida' })],
               ].map(([e, t]) => (
                 <div key={t} className="flex items-start gap-3">
                   <span className="text-base w-5 shrink-0 text-center">{e}</span>
@@ -484,6 +526,30 @@ export default function PentagramaPath() {
     const survConNegras = survNotas.some(n => n.pitch?.includes('#'))
     const vidas = FAILS_LIMIT - survFails
 
+    if (pausado) {
+      return (
+        <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
+          <div className="max-w-md w-full text-center">
+            <span className="text-6xl block mb-3">⏸️</span>
+            <h2 className="text-2xl font-black text-white mb-1">
+              {tr({ es: 'Pausa', en: 'Paused', ca: 'Pausa' })}
+            </h2>
+            <p className="text-white/40 text-sm mb-6">
+              {tr({ es: 'La partida está congelada — tómate el tiempo que necesites', en: 'The run is frozen — take all the time you need', ca: 'La partida està congelada — pren-te el temps que necessitis' })}
+            </p>
+            <button onClick={reanudar}
+              className="w-full py-4 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-lg rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-amber-500/30 mb-3">
+              ▶ {tr({ es: 'Reanudar', en: 'Resume', ca: 'Reprendre' })}
+            </button>
+            <MidiConnectButton midi={midi} className="mb-3" />
+            <button onClick={salir} className="w-full text-white/40 hover:text-white/70 text-sm py-2 transition-colors">
+              {tr({ es: '🚪 Abandonar partida', en: '🚪 Abandon run', ca: '🚪 Abandonar partida' })}
+            </button>
+          </div>
+        </div>
+      )
+    }
+
     if (bonusOpen) {
       return (
         <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
@@ -525,6 +591,9 @@ export default function PentagramaPath() {
             <span className="tabular-nums text-white/40">
               {tr({ es: 'Nv.', en: 'Lv.', ca: 'Nv.' })}{stage.nivel} · ♩={stage.tempoBPM}
             </span>
+            <button onClick={pausar} className="text-white/50 hover:text-white/80 text-lg leading-none transition-colors" aria-label="Pausa">
+              ⏸️
+            </button>
           </div>
         </div>
 
@@ -559,7 +628,7 @@ export default function PentagramaPath() {
         </div>
 
         <div className="mt-auto">
-          <PianoVirtual octavaBase={4} onKey={onPianoKey} conNegras={survConNegras} />
+          <PianoVirtual octavaBase={4} onKey={onPianoKey} conNegras={survConNegras} midiActivo={midi.estado === 'conectado'} />
           <p className="text-center text-white/25 text-xs mt-2 hidden sm:block">
             {tr({ es: 'Teclado: A S D F G H J K', en: 'Keyboard: A S D F G H J K', ca: 'Teclat: A S D F G H J K' })}
             {survConNegras && ' · W E T Y U'}
