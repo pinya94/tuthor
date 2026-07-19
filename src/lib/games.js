@@ -122,6 +122,13 @@ export const GAMES = {
     // puntos por nota leída (100 máx/nota) → hasta 200 monedas
     coins: DEFAULT_COINS,
   },
+  'pentagrama-survivor': {
+    label: { es: 'Pentagrama Path: Survivor', en: 'Pentagrama Path: Survivor', ca: 'Pentagrama Path: Survivor' },
+    emoji: '🔥',
+    subject: 'musica',
+    route: '/juegos/pentagrama-path',
+    coins: DEFAULT_COINS,
+  },
   'spicy': {
     label: { es: 'Spicy', en: 'Spicy', ca: 'Spicy' },
     emoji: '🌶️',
