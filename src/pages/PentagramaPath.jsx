@@ -1,12 +1,20 @@
 // ── Pentagrama Path ──────────────────────────────────────────────────────────
-// Juego de lectura de partituras: lee el pentagrama y toca la melodía en un
-// piano virtual de una octava. Dos modos según la fase:
-//   Modo A (fases 1-2): sin presión de tiempo — el cursor espera cada nota.
-//   Modo B (fases 3-4): playhead a tempo real (requestAnimationFrame) con
-//     ventana de tolerancia por nota. Se evalúan DOS ejes por nota:
-//     ¿tecla correcta? y ¿dentro de la ventana? → 4 resultados:
-//       perfecto (verde) · nota bien, tiempo mal (amarillo) ·
-//       tiempo bien, nota mal (naranja) · fallo (rojo)
+// Modo Survivor: partitura infinita generada sobre la marcha. La dificultad
+// escala con las notas resueltas (tempo, ventana de tolerancia, ritmos y
+// alteraciones) y la partida termina a los FAILS_LIMIT fallos.
+//
+// Se evalúan DOS ejes por nota (¿tecla correcta? y ¿dentro de la ventana?)
+// → 4 resultados: perfecto (verde) · nota bien, tiempo mal (amarillo) ·
+// tiempo bien, nota mal (naranja) · fallo (rojo). Solo "perfecto" libra de
+// perder una vida — si no, machacar todas las teclas a la vez no costaría
+// nada.
+//
+// Cada cierto número de notas resueltas se ofrece un bono a elegir (vidas,
+// tempo más lento, puntería ancha o puntos) — el hueco entre bonos crece
+// hasta que dejan de aparecer tras BONUS_THRESHOLDS.length rondas.
+//
+// La versión estructurada por fases (progresión graduada, sin partitura
+// infinita) vive en /examen/musica — ver src/pages/MusicaExamen.jsx.
 
 import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -19,18 +27,27 @@ import SEOHead from '../components/SEOHead'
 import PentagramaSVG from '../components/PentagramaSVG'
 import PianoVirtual from '../components/PianoVirtual'
 import { ensureAudio, playNote, playClick } from '../lib/pentagramaAudio'
-import { FASES, melodiasDeFase, totalBeats, COUNT_IN_BEATS } from '../data/pentagramaMelodies'
+import { COUNT_IN_BEATS } from '../data/pentagramaMelodies'
 import { FAILS_LIMIT, LOOKAHEAD_BEATS, stageFor, siguienteEvento } from '../lib/pentagramaSurvivor'
 
-const LS_PROGRESO = 'pentagrama-path-fase'
 const LS_SURVIVOR_BEST = 'pentagrama-path-survivor-best'
 
-// Puntos por nota según resultado
-const PTS = { verde: 100, perfecto: 100, amarillo: 60, naranja: 30, rojo: 0 }
+// Notas blancas de la octava (para el bono "puntería ancha": nota vecina)
+const WHITE_ORDER = ['C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B4', 'C5']
+function esVecina(pulsada, objetivo) {
+  const i = WHITE_ORDER.indexOf(objetivo)
+  if (i < 0) return false
+  return pulsada === WHITE_ORDER[i - 1] || pulsada === WHITE_ORDER[i + 1]
+}
+
+// Nº de notas resueltas a las que aparece cada bono. El hueco crece
+// (8, 12, 15, 20, 25) y no hay más ofertas después de la 5ª.
+const BONUS_THRESHOLDS = [8, 20, 35, 55, 80]
+
+const PTS = { perfecto: 100, amarillo: 60, naranja: 30, rojo: 0 }
 
 const RESULT_UI = {
   perfecto: { color: 'bg-green-400',  label: { es: 'Perfecto', en: 'Perfect', ca: 'Perfecte' } },
-  verde:    { color: 'bg-green-400',  label: { es: 'Correcta', en: 'Correct', ca: 'Correcta' } },
   amarillo: { color: 'bg-yellow-400', label: { es: 'Nota bien, tiempo mal', en: 'Right note, wrong time', ca: 'Nota bé, temps malament' } },
   naranja:  { color: 'bg-orange-400', label: { es: 'Tiempo bien, nota mal', en: 'Right time, wrong note', ca: 'Temps bé, nota malament' } },
   rojo:     { color: 'bg-red-400',    label: { es: 'Fallo', en: 'Miss', ca: 'Errada' } },
@@ -41,18 +58,8 @@ export default function PentagramaPath() {
   const { lang, tr, localPath } = useLang()
   const { user } = useAuth()
 
-  const [pantalla, setPantalla] = useState('intro') // intro | jugando | fin | survivor | survivor-fin
-  const [faseId, setFaseId] = useState(1)
-  const [melIdx, setMelIdx] = useState(0)
-  const [notaRes, setNotaRes] = useState([])
-  const [cursor, setCursor] = useState(0)
-  const [playBeat, setPlayBeat] = useState(null)
-  const [hintPitch, setHintPitch] = useState(null)
-  const [entreMelodias, setEntreMelodias] = useState(false)
-  const [final, setFinal] = useState(null)
-  const [progreso, setProgreso] = useState(() => Number(localStorage.getItem(LS_PROGRESO) || 0))
+  const [pantalla, setPantalla] = useState('intro') // intro | survivor | survivor-fin
 
-  // ── Modo Survivor: partitura infinita, dificultad progresiva ─────────────
   const [survNotas, setSurvNotas] = useState([])
   const [survRes, setSurvRes] = useState([])
   const [survPlayBeat, setSurvPlayBeat] = useState(null)
@@ -62,15 +69,8 @@ export default function PentagramaPath() {
   const [survResueltas, setSurvResueltas] = useState(0)
   const [survFinal, setSurvFinal] = useState(null)
   const [survBest] = useState(() => Number(localStorage.getItem(LS_SURVIVOR_BEST) || 0))
-
-  const resRef = useRef([])
-  const histRef = useRef([])
-  const cursorRef = useRef(0)
-  const startRef = useRef(0)
-  const rafRef = useRef(null)
-  const lastClickRef = useRef(-1)
-  const finishedRef = useRef(false)
-  const savedRef = useRef(false)
+  const [bonusOpen, setBonusOpen] = useState(false)
+  const [bonusOpciones, setBonusOpciones] = useState([])
 
   const survNotasRef = useRef([])
   const survResRef = useRef([])
@@ -85,130 +85,44 @@ export default function PentagramaPath() {
   const survRafRef = useRef(null)
   const survFinishedRef = useRef(false)
   const survSavedRef = useRef(false)
+  const bonusIdxRef = useRef(0)
+  const bonusPendingRef = useRef(false) // true entre offerBonus() y elegirBono()
+  const tempoBoostRef = useRef(null) // { until, factor }
+  const wideRef = useRef(null)       // { until }
 
-  const fase = FASES[faseId]
-  const melodias = melodiasDeFase(faseId)
-  const melodia = melodias[melIdx]
-  const conNegras = melodias.some(m => m.notas.some(n => n.pitch?.includes('#')))
+  useEffect(() => () => cancelAnimationFrame(survRafRef.current), [])
 
-  useEffect(() => () => {
-    cancelAnimationFrame(rafRef.current)
-    cancelAnimationFrame(survRafRef.current)
-  }, [])
-
-  function marcar(i, status) {
-    resRef.current[i] = status
-    setNotaRes(resRef.current.slice())
-  }
-
-  function startFase(id) {
-    ensureAudio()
-    histRef.current = []
-    savedRef.current = false
-    setFinal(null)
-    setFaseId(id)
-    setPantalla('jugando')
-    startMelodia(id, 0)
-  }
-
-  function startMelodia(fId, idx) {
-    const mel = melodiasDeFase(fId)[idx]
-    setMelIdx(idx)
-    setEntreMelodias(false)
-    resRef.current = mel.notas.map(() => null)
-    setNotaRes(resRef.current.slice())
-    finishedRef.current = false
-    cursorRef.current = 0
-    setCursor(0)
-    setHintPitch(null)
-    cancelAnimationFrame(rafRef.current)
-    if (FASES[fId].modo === 'B') {
-      startRef.current = performance.now()
-      lastClickRef.current = -1
-      setPlayBeat(-COUNT_IN_BEATS)
-      rafRef.current = requestAnimationFrame(() => tick(fId, idx))
-    } else {
-      setPlayBeat(null)
-    }
-  }
-
-  // ── Motor modo B: playhead + metrónomo + notas caducadas ──────────────────
-  function tick(fId, idx) {
-    const f = FASES[fId]
-    const mel = melodiasDeFase(fId)[idx]
-    const beatMs = 60000 / mel.tempoBPM
-    const totalB = totalBeats(mel)
-    const elapsed = (performance.now() - startRef.current) / beatMs // pulsos desde el inicio del count-in
-    const beat = elapsed - COUNT_IN_BEATS
-
-    const bi = Math.floor(elapsed)
-    if (bi !== lastClickRef.current && bi < COUNT_IN_BEATS + Math.ceil(totalB)) {
-      lastClickRef.current = bi
-      playClick(((bi - COUNT_IN_BEATS) % 4 + 4) % 4 === 0)
-    }
-    setPlayBeat(beat)
-
-    // La nota no caduca al cerrarse la ventana de tolerancia: hay un periodo de
-    // gracia (~1 pulso) en el que una pulsación correcta tardía aún cuenta como
-    // amarillo ("nota bien, tiempo mal"). Sin él, el amarillo tardío sería imposible.
-    const tolB = f.ventanaMs / beatMs
-    const caducaB = Math.max(tolB, 0.9)
-    mel.notas.forEach((n, i) => {
-      if (n.pitch && resRef.current[i] == null && beat > n.cum + caducaB) marcar(i, 'rojo')
-    })
-
-    if (beat > totalB + 0.6) { finishMelodia(fId, idx); return }
-    rafRef.current = requestAnimationFrame(() => tick(fId, idx))
-  }
-
-  function finishMelodia(fId, idx) {
-    cancelAnimationFrame(rafRef.current)
-    finishedRef.current = true
-    const mels = melodiasDeFase(fId)
-    histRef.current = [...histRef.current, { mel: mels[idx], res: resRef.current.slice() }]
-    if (idx + 1 < mels.length) {
-      setEntreMelodias(true)
-      setTimeout(() => startMelodia(fId, idx + 1), 1400)
-    } else {
-      terminarFase(fId)
-    }
-  }
-
-  function terminarFase(fId) {
-    const f = FASES[fId]
-    const flat = histRef.current.flatMap(h => h.res.filter((_, i) => h.mel.notas[i].pitch))
-    const total = flat.length
-    const notasOk = flat.filter(r => r === 'verde' || r === 'perfecto' || r === 'amarillo').length
-    const tiempoOk = flat.filter(r => r === 'perfecto' || r === 'naranja').length
-    const score = flat.reduce((s, r) => s + (PTS[r] || 0), 0)
-    const notaPct = total ? Math.round((notasOk / total) * 100) : 0
-    const tiempoPct = total ? Math.round((tiempoOk / total) * 100) : 0
-    const superada = notaPct >= 70 && (f.modo === 'A' || tiempoPct >= 50)
-    if (superada && fId > progreso) {
-      setProgreso(fId)
-      localStorage.setItem(LS_PROGRESO, String(fId))
-    }
-    setFinal({ score, notaPct, tiempoPct, superada, modo: f.modo, detalle: histRef.current })
-    setPantalla('fin')
-  }
-
-  // Guardar la partida al llegar a la pantalla final
-  useEffect(() => {
-    if (pantalla !== 'fin' || !final || !user || savedRef.current) return
-    savedRef.current = true
-    saveActivity(user.uid, {
-      type: 'juego', game: 'pentagrama-path', score: final.score, passed: final.superada,
-      timeSpent: 0, coinsEarned: computeCoins('pentagrama-path', { score: final.score }),
-      userName: user.displayName, userPhoto: user.photoURL,
-    }).catch(() => {})
-  }, [pantalla, final, user])
-
-  // ── Motor del Modo Survivor ─────────────────────────────────────────────
-  // Partitura infinita: se genera un semillero de notas y se va ampliando por
-  // delante del playhead. El tempo no es fijo como en las fases: cada frame
-  // avanza el pulso con el tempo de la etapa actual (según notas resueltas),
-  // así la aceleración es progresiva y no da saltos al cambiar de etapa.
-  const SURV_PTS = PTS
+  // Bonos de la partida: definidos aquí dentro para que `apply` cierre sobre
+  // los refs/setters de este componente sin pasarlos como argumentos.
+  const BONUS_TYPES = [
+    {
+      id: 'vidas', emoji: '❤️',
+      label: tr({ es: 'Segunda oportunidad', en: 'Second chance', ca: 'Segona oportunitat' }),
+      desc: tr({ es: 'Recupera 3 vidas', en: 'Recover 3 lives', ca: 'Recupera 3 vides' }),
+      apply: () => {
+        survFailsRef.current = Math.max(0, survFailsRef.current - 3)
+        setSurvFails(survFailsRef.current)
+      },
+    },
+    {
+      id: 'tempo', emoji: '🐢',
+      label: tr({ es: 'Respiro', en: 'Breather', ca: 'Respir' }),
+      desc: tr({ es: 'Tempo un 20% más lento durante 15 notas', en: '20% slower tempo for 15 notes', ca: 'Tempo un 20% més lent durant 15 notes' }),
+      apply: () => { tempoBoostRef.current = { until: survResueltasRef.current + 15, factor: 0.8 } },
+    },
+    {
+      id: 'ancha', emoji: '🎯',
+      label: tr({ es: 'Puntería ancha', en: 'Wide aim', ca: 'Punteria ampla' }),
+      desc: tr({ es: 'La nota de arriba o abajo también vale, 12 notas', en: 'The note above or below also counts, 12 notes', ca: 'La nota de dalt o baix també val, 12 notes' }),
+      apply: () => { wideRef.current = { until: survResueltasRef.current + 12 } },
+    },
+    {
+      id: 'puntos', emoji: '💎',
+      label: tr({ es: 'Botín', en: 'Loot', ca: 'Botí' }),
+      desc: tr({ es: '+300 puntos al momento', en: '+300 points instantly', ca: '+300 punts a l\'instant' }),
+      apply: () => { survScoreRef.current += 300; setSurvScore(survScoreRef.current) },
+    },
+  ]
 
   function generarEvento(notas) {
     const prevPitch = [...notas].reverse().find(n => n.pitch)?.pitch ?? null
@@ -226,6 +140,10 @@ export default function PentagramaPath() {
     survFinishedRef.current = false
     survSavedRef.current = false
     survLastClickFloorRef.current = null
+    bonusIdxRef.current = 0
+    tempoBoostRef.current = null
+    wideRef.current = null
+    setBonusOpen(false)
 
     // Compás inicial de silencio (siempre): el jugador ve el playhead cruzar
     // un compás vacío a tempo antes de la primera nota, en vez de un
@@ -248,6 +166,30 @@ export default function PentagramaPath() {
     survLastFrameRef.current = performance.now()
     setSurvPlayBeat(0)
     setPantalla('survivor')
+    cancelAnimationFrame(survRafRef.current)
+    survRafRef.current = requestAnimationFrame(survivorTick)
+  }
+
+  function checkBonusThreshold() {
+    if (bonusIdxRef.current >= BONUS_THRESHOLDS.length) return
+    if (survResueltasRef.current < BONUS_THRESHOLDS[bonusIdxRef.current]) return
+    bonusIdxRef.current += 1
+    offerBonus()
+  }
+
+  function offerBonus() {
+    cancelAnimationFrame(survRafRef.current)
+    bonusPendingRef.current = true
+    const opciones = [...BONUS_TYPES].sort(() => Math.random() - 0.5).slice(0, 3)
+    setBonusOpciones(opciones)
+    setBonusOpen(true)
+  }
+
+  function elegirBono(bono) {
+    bono.apply()
+    bonusPendingRef.current = false
+    setBonusOpen(false)
+    survLastFrameRef.current = performance.now()
     cancelAnimationFrame(survRafRef.current)
     survRafRef.current = requestAnimationFrame(survivorTick)
   }
@@ -278,15 +220,22 @@ export default function PentagramaPath() {
 
     // Racha de "perfecto": +50% de puntos cada 5, hasta x2.
     const mult = 1 + Math.min(2, Math.floor(survStreakRef.current / 5)) * 0.5
-    survScoreRef.current += Math.round((SURV_PTS[resultado] || 0) * mult)
+    survScoreRef.current += Math.round((PTS[resultado] || 0) * mult)
     setSurvScore(survScoreRef.current)
+
+    checkBonusThreshold()
   }
 
   function survivorTick() {
     const now = performance.now()
     const stage = stageFor(survResueltasRef.current)
-    const beatMs = 60000 / stage.tempoBPM
-    const dt = now - survLastFrameRef.current
+    const boost = tempoBoostRef.current && survResueltasRef.current < tempoBoostRef.current.until
+      ? tempoBoostRef.current.factor : 1
+    const beatMs = 60000 / (stage.tempoBPM * boost)
+    // Si la pestaña estuvo en segundo plano, dt puede ser enorme: sin este
+    // tope, el playhead saltaría de golpe al volver y caducaría de una vez
+    // todas las notas pendientes. 150ms es margen de sobra a 60fps normales.
+    const dt = Math.min(now - survLastFrameRef.current, 150)
     survLastFrameRef.current = now
     survBeatRef.current += dt / beatMs
     const beat = survBeatRef.current
@@ -309,7 +258,7 @@ export default function PentagramaPath() {
     }
     setSurvNotas(notas.slice())
 
-    // Caduca las notas no resueltas a tiempo (mismo margen de gracia que en las fases)
+    // Caduca las notas no resueltas a tiempo (mismo margen de gracia que en el examen)
     notas.forEach((n, i) => {
       if (!n.pitch || survResRef.current[i] != null) return
       const tolB = n.ventanaMs / beatMs
@@ -318,6 +267,12 @@ export default function PentagramaPath() {
     })
 
     if (survFailsRef.current >= FAILS_LIMIT) { finishSurvivor(); return }
+    // marcarSurvivor puede haber abierto el selector de bonos (vía
+    // checkBonusThreshold) en medio de este mismo tick, antes de que el
+    // estado `bonusOpen` se haya re-renderizado todavía. Sin este flag,
+    // el bucle se reprogramaría igualmente aquí abajo y seguiría generando
+    // y caducando notas (restando vidas) con la pantalla de bono ya abierta.
+    if (bonusPendingRef.current) return
     survRafRef.current = requestAnimationFrame(survivorTick)
   }
 
@@ -343,7 +298,9 @@ export default function PentagramaPath() {
     const beat = survBeatRef.current
     const notas = survNotasRef.current
     const stage = stageFor(survResueltasRef.current)
-    const beatMs = 60000 / stage.tempoBPM
+    const boost = tempoBoostRef.current && survResueltasRef.current < tempoBoostRef.current.until
+      ? tempoBoostRef.current.factor : 1
+    const beatMs = 60000 / (stage.tempoBPM * boost)
     let best = -1, bestD = Infinity
     notas.forEach((n, i) => {
       if (!n.pitch || survResRef.current[i] != null) return
@@ -353,7 +310,8 @@ export default function PentagramaPath() {
     if (best < 0 || bestD > 1) return
     const n = notas[best]
     const enVentana = bestD * beatMs <= n.ventanaMs
-    const notaOk = pitch === n.pitch
+    const wideActivo = wideRef.current && survResueltasRef.current < wideRef.current.until
+    const notaOk = pitch === n.pitch || (wideActivo && esVecina(pitch, n.pitch))
     if (notaOk && enVentana) marcarSurvivor(best, 'perfecto')
     else if (notaOk) marcarSurvivor(best, 'amarillo')
     else if (enVentana) marcarSurvivor(best, 'naranja')
@@ -363,62 +321,18 @@ export default function PentagramaPath() {
     if (pantalla !== 'survivor-fin' || !survFinal || !user || survSavedRef.current) return
     survSavedRef.current = true
     saveActivity(user.uid, {
-      type: 'juego', game: 'pentagrama-survivor', score: survFinal.score, passed: true,
-      timeSpent: 0, coinsEarned: computeCoins('pentagrama-survivor', { score: survFinal.score }),
+      type: 'juego', game: 'pentagrama-path', score: survFinal.score, passed: true,
+      timeSpent: 0, coinsEarned: computeCoins('pentagrama-path', { score: survFinal.score }),
       userName: user.displayName, userPhoto: user.photoURL,
     }).catch(() => {})
   }, [pantalla, survFinal, user])
 
-  // ── Entrada del piano (ratón o teclado físico) ────────────────────────────
   function onPianoKey(pitch) {
     playNote(pitch, 0.35)
-    if (pantalla === 'survivor') { onSurvivorPianoKey(pitch); return }
-    if (pantalla !== 'jugando' || finishedRef.current || entreMelodias) return
-    const mel = melodia
-    if (!mel) return
-
-    if (fase.modo === 'A') {
-      const i = cursorRef.current
-      if (i >= mel.notas.length) return
-      const n = mel.notas[i]
-      const ok = pitch === n.pitch
-      marcar(i, ok ? 'verde' : 'rojo')
-      if (!ok) {
-        setHintPitch(n.pitch)
-        setTimeout(() => playNote(n.pitch, 0.45), 280)
-        setTimeout(() => setHintPitch(null), 1000)
-      }
-      const next = i + 1
-      if (next >= mel.notas.length) {
-        finishedRef.current = true
-        setTimeout(() => finishMelodia(faseId, melIdx), 700)
-      } else {
-        cursorRef.current = next
-        setCursor(next)
-      }
-      return
-    }
-
-    // Modo B: atribuir la pulsación a la nota pendiente más cercana en el tiempo
-    const beatMs = 60000 / mel.tempoBPM
-    const beat = (performance.now() - startRef.current) / beatMs - COUNT_IN_BEATS
-    let best = -1, bestD = Infinity
-    mel.notas.forEach((n, i) => {
-      if (!n.pitch || resRef.current[i] != null) return
-      const d = Math.abs(beat - n.cum)
-      if (d < bestD) { bestD = d; best = i }
-    })
-    if (best < 0 || bestD > 1) return // pulsación suelta, lejos de toda nota
-    const enVentana = bestD * beatMs <= fase.ventanaMs
-    const notaOk = pitch === mel.notas[best].pitch
-    if (notaOk && enVentana) marcar(best, 'perfecto')
-    else if (notaOk) marcar(best, 'amarillo')
-    else if (enVentana) marcar(best, 'naranja')
-    // nota incorrecta fuera de ventana: se ignora — la nota caducará en rojo
+    onSurvivorPianoKey(pitch)
   }
 
   function salir() {
-    cancelAnimationFrame(rafRef.current)
     cancelAnimationFrame(survRafRef.current)
     setPantalla('intro')
   }
@@ -428,8 +342,8 @@ export default function PentagramaPath() {
     return (
       <div className="relative z-10 flex flex-col items-center min-h-[calc(100vh-4rem)] px-4 py-8">
         <SEOHead
-          title={tr({ es: 'Pentagrama Path — aprende a leer partituras jugando', en: 'Pentagrama Path — learn to read sheet music by playing', ca: 'Pentagrama Path — aprèn a llegir partitures jugant' })}
-          description={tr({ es: 'Lee el pentagrama y toca la melodía en un piano virtual. Cuatro fases: de reconocer notas sin prisa a tocar a tempo real con clave de fa y alteraciones.', en: 'Read the staff and play the melody on a virtual piano. Four phases: from note recognition at your own pace to real-tempo playing with bass clef and sharps.', ca: 'Llegeix el pentagrama i toca la melodia en un piano virtual. Quatre fases: de reconèixer notes sense pressa a tocar a tempo real amb clau de fa i alteracions.' })}
+          title={tr({ es: 'Pentagrama Path — lee partituras a contrarreloj', en: 'Pentagrama Path — sight-read against the clock', ca: 'Pentagrama Path — llegeix partitures contrarellotge' })}
+          description={tr({ es: 'Partitura infinita: toca la nota correcta en su momento antes de que la dificultad se dispare. Bonos de vidas, tempo y puntos por el camino. 10 fallos y fuera.', en: 'Endless sheet music: hit the right note on time before the difficulty spikes. Life, tempo and score bonuses along the way. 10 misses and you\'re out.', ca: 'Partitura infinita: toca la nota correcta al seu moment abans que la dificultat es dispari. Bons de vides, tempo i punts pel camí. 10 errades i fora.' })}
           path="/juegos/pentagrama-path" lang={lang} />
         <div className="max-w-md w-full">
           <button onClick={() => navigate(localPath('/juegos'))}
@@ -440,60 +354,32 @@ export default function PentagramaPath() {
             <span className="text-7xl block mb-4">🎼</span>
             <h1 className="text-4xl font-black text-white mb-2">Pentagrama Path</h1>
             <p className="text-white/40">
-              {tr({ es: 'Lee la partitura y tócala en el piano', en: 'Read the score and play it on the piano', ca: 'Llegeix la partitura i toca-la al piano' })}
+              {tr({ es: 'Partitura infinita — lee y toca antes de que se acabe el tiempo', en: 'Endless score — read and play before time runs out', ca: 'Partitura infinita — llegeix i toca abans que s\'acabi el temps' })}
             </p>
+            {survBest > 0 && (
+              <p className="text-amber-400 text-sm font-bold mt-2">🏆 {tr({ es: 'Mejor puntuación', en: 'Best score', ca: 'Millor puntuació' })}: {survBest}</p>
+            )}
           </div>
 
           <button onClick={startSurvivor}
-            className="w-full text-left rounded-2xl border border-red-500/30 bg-gradient-to-r from-red-600/10 to-orange-600/10 p-4 mb-6 hover:from-red-600/20 hover:to-orange-600/20 transition-all hover:scale-[1.01] active:scale-[0.99]">
+            className="w-full py-4 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-xl rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-amber-500/30 mb-5">
+            🔥 {tr({ es: '¡Empezar!', en: 'Start!', ca: 'Comença!' })}
+          </button>
+
+          <button onClick={() => navigate(localPath('/examen/musica'))}
+            className="w-full text-left rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 p-4 mb-5 transition-all">
             <div className="flex items-center gap-3">
-              <span className="text-3xl">🔥</span>
+              <span className="text-2xl">📚</span>
               <div className="flex-1 min-w-0">
-                <p className="text-white font-black">{tr({ es: 'Modo Survivor', en: 'Survivor Mode', ca: 'Mode Survivor' })}</p>
-                <p className="text-white/40 text-xs mt-0.5">
-                  {tr({
-                    es: `Partitura infinita — ${FAILS_LIMIT} fallos y fuera. La dificultad sube sola.`,
-                    en: `Endless score — ${FAILS_LIMIT} misses and you're out. Difficulty ramps up on its own.`,
-                    ca: `Partitura infinita — ${FAILS_LIMIT} errades i fora. La dificultat puja sola.`,
-                  })}
-                </p>
+                <p className="text-white font-bold text-sm">{tr({ es: '¿Prefieres progresar por fases?', en: 'Prefer to progress through phases?', ca: 'Prefereixes progressar per fases?' })}</p>
+                <p className="text-white/40 text-xs">{tr({ es: 'Prueba el Examen de Música →', en: 'Try the Music Exam →', ca: 'Prova l\'Examen de Música →' })}</p>
               </div>
-              {survBest > 0 && <span className="text-amber-400 text-xs font-bold shrink-0">🏆 {survBest}</span>}
-              <span className="text-white/30 shrink-0">▶</span>
             </div>
           </button>
 
-          <p className="text-white/30 text-xs font-semibold uppercase tracking-widest mb-3">
-            {tr({ es: 'O progresa por fases', en: 'Or progress through phases', ca: 'O progressa per fases' })}
-          </p>
-          <div className="space-y-3 mb-6">
-            {Object.entries(FASES).map(([id, f]) => {
-              const fId = Number(id)
-              const bloqueada = fId > progreso + 1
-              const completada = fId <= progreso
-              return (
-                <button key={id} disabled={bloqueada}
-                  onClick={() => startFase(fId)}
-                  className={`w-full text-left rounded-2xl border p-4 transition-all ${
-                    bloqueada ? 'bg-white/[0.02] border-white/5 opacity-50 cursor-not-allowed'
-                    : 'bg-white/5 border-white/10 hover:bg-white/10 hover:scale-[1.01] active:scale-[0.99]'
-                  }`}>
-                  <div className="flex items-center gap-3">
-                    <span className="text-3xl">{bloqueada ? '🔒' : f.emoji}</span>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-white font-black">{tr(f.label)} {completada && <span className="text-green-400">✓</span>}</p>
-                      <p className="text-white/40 text-xs mt-0.5">{tr(f.desc)}</p>
-                    </div>
-                    {!bloqueada && <span className="text-white/30">▶</span>}
-                  </div>
-                </button>
-              )
-            })}
-          </div>
-
           <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-5">
             <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-3">
-              {tr({ es: 'Colores del resultado (fases a tempo)', en: 'Result colours (tempo phases)', ca: 'Colors del resultat (fases a tempo)' })}
+              {tr({ es: 'Colores del resultado', en: 'Result colours', ca: 'Colors del resultat' })}
             </p>
             <div className="space-y-2 text-sm">
               {['perfecto', 'amarillo', 'naranja', 'rojo'].map(k => (
@@ -512,9 +398,10 @@ export default function PentagramaPath() {
             <div className="space-y-2 text-sm text-white/50">
               {[
                 ['🎹', tr({ es: 'Toca con el ratón o con el teclado: A-K (blancas), W E T Y U (negras)', en: 'Play with the mouse or keyboard: A-K (white keys), W E T Y U (black keys)', ca: 'Toca amb el ratolí o amb el teclat: A-K (blanques), W E T Y U (negres)' })],
-                ['👀', tr({ es: 'Fases 1-2: el cursor espera a que aciertes cada nota', en: 'Phases 1-2: the cursor waits until you hit each note', ca: 'Fases 1-2: el cursor espera que encertis cada nota' })],
-                ['⏱️', tr({ es: 'Fases 3-4: el playhead avanza solo — toca cada nota en su momento', en: 'Phases 3-4: the playhead moves on its own — hit each note on time', ca: 'Fases 3-4: el playhead avança sol — toca cada nota al seu moment' })],
-                ['🥁', tr({ es: 'Antes de cada melodía a tempo oirás 4 pulsos de metrónomo', en: 'Before each tempo melody you\'ll hear 4 metronome beats', ca: 'Abans de cada melodia a tempo sentiràs 4 polsos de metrònom' })],
+                ['⏱️', tr({ es: 'El playhead avanza solo — toca cada nota en su momento', en: 'The playhead moves on its own — hit each note on time', ca: 'El playhead avança sol — toca cada nota al seu moment' })],
+                ['💔', tr({ es: `Solo "perfecto" no cuesta vida: ${FAILS_LIMIT} fallos y se acaba`, en: `Only "perfect" costs no life: ${FAILS_LIMIT} misses and it's over`, ca: `Només "perfecte" no costa vida: ${FAILS_LIMIT} errades i s'acaba` })],
+                ['📈', tr({ es: 'El tempo y la dificultad suben solos cuanto más aguantas', en: 'Tempo and difficulty rise on their own the longer you survive', ca: 'El tempo i la dificultat pugen sols com més aguantes' })],
+                ['🎁', tr({ es: 'Cada cierto tiempo eliges un bono (vidas, tempo, puntería, puntos) — cada vez cuesta más conseguirlo', en: 'Every so often you pick a bonus (lives, tempo, aim, points) — each one takes longer to earn', ca: 'Cada cert temps tries un bo (vides, tempo, punteria, punts) — cada vegada costa més aconseguir-lo' })],
               ].map(([e, t]) => (
                 <div key={t} className="flex items-start gap-3">
                   <span className="text-base w-5 shrink-0 text-center">{e}</span>
@@ -528,68 +415,11 @@ export default function PentagramaPath() {
     )
   }
 
-  // ── FIN DE FASE ───────────────────────────────────────────────────────────
-  if (pantalla === 'fin' && final) {
-    const stats = [
-      { label: tr({ es: 'Notas correctas', en: 'Correct notes', ca: 'Notes correctes' }), value: `${final.notaPct}%`, emoji: '🎵' },
-    ]
-    if (final.modo === 'B') {
-      stats.push({ label: tr({ es: 'En tiempo', en: 'On time', ca: 'A temps' }), value: `${final.tiempoPct}%`, emoji: '⏱️' })
-    }
-    const siguiente = final.superada && faseId < 4
-    return (
-      <GameEndScreen
-        game="pentagrama-path"
-        emoji="🎼"
-        title={`${tr(fase.label)} · ${final.superada
-          ? tr({ es: 'Superada', en: 'Cleared', ca: 'Superada' })
-          : tr({ es: 'No superada', en: 'Not cleared', ca: 'No superada' })}`}
-        score={final.score}
-        message={final.superada
-          ? (siguiente ? tr({ es: '¡Fase desbloqueada! Ya puedes pasar a la siguiente', en: 'Phase unlocked! You can move on to the next one', ca: 'Fase desbloquejada! Ja pots passar a la següent' })
-            : tr({ es: '¡Has completado todas las fases! 🏆', en: 'You\'ve completed every phase! 🏆', ca: 'Has completat totes les fases! 🏆' }))
-          : tr({ es: 'Necesitas un 70% de notas correctas para superar la fase', en: 'You need 70% correct notes to clear the phase', ca: 'Necessites un 70% de notes correctes per superar la fase' })}
-        stats={stats}
-        shareText={tr({
-          es: `He conseguido ${final.score} puntos leyendo partituras en Pentagrama Path 🎼 (${final.notaPct}% de notas correctas) — ¿puedes superarme? https://tuthor.es/juegos/pentagrama-path`,
-          en: `I scored ${final.score} points reading sheet music in Pentagrama Path 🎼 (${final.notaPct}% correct notes) — can you beat me? https://tuthor.es/juegos/pentagrama-path`,
-          ca: `He aconseguit ${final.score} punts llegint partitures a Pentagrama Path 🎼 (${final.notaPct}% de notes correctes) — pots superar-me? https://tuthor.es/juegos/pentagrama-path`,
-        })}
-        onPlayAgain={() => (siguiente ? startFase(faseId + 1) : startFase(faseId))}
-        playAgainLabel={siguiente
-          ? tr({ es: '▶ Siguiente fase', en: '▶ Next phase', ca: '▶ Fase següent' })
-          : tr({ es: '▶ Repetir fase', en: '▶ Retry phase', ca: '▶ Repetir fase' })}
-        secondaryActions={[
-          ...(siguiente ? [{ label: tr({ es: 'Repetir esta fase', en: 'Retry this phase', ca: 'Repetir aquesta fase' }), onClick: () => startFase(faseId) }] : []),
-          { label: tr({ es: 'Elegir fase', en: 'Choose phase', ca: 'Triar fase' }), onClick: salir },
-        ]}
-        user={user} lang={lang}
-      >
-        {/* Desglose por melodía: un punto de color por nota */}
-        <div className="mt-5 text-left space-y-3">
-          {final.detalle.map((h, mi) => (
-            <div key={mi} className="bg-white/5 border border-white/10 rounded-xl p-3">
-              <p className="text-white/40 text-xs font-semibold mb-2">🎵 {tr(h.mel.titulo)}</p>
-              <div className="flex gap-1.5 flex-wrap">
-                {h.res.map((r, i) => (
-                  h.mel.notas[i].pitch
-                    ? <span key={i} title={r ? tr(RESULT_UI[r].label) : ''}
-                        className={`w-3.5 h-3.5 rounded-full ${r ? RESULT_UI[r].color : 'bg-white/15'}`} />
-                    : null
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
-      </GameEndScreen>
-    )
-  }
-
   // ── SURVIVOR: FIN DE PARTIDA ─────────────────────────────────────────────
   if (pantalla === 'survivor-fin' && survFinal) {
     return (
       <GameEndScreen
-        game="pentagrama-survivor"
+        game="pentagrama-path"
         emoji="🔥"
         title={tr({ es: `${FAILS_LIMIT} fallos — fin de la partida`, en: `${FAILS_LIMIT} misses — run over`, ca: `${FAILS_LIMIT} errades — fi de la partida` })}
         score={survFinal.score}
@@ -602,13 +432,13 @@ export default function PentagramaPath() {
           { label: tr({ es: 'Nivel alcanzado', en: 'Level reached', ca: 'Nivell assolit' }), value: survFinal.nivel, emoji: '⭐' },
         ]}
         shareText={tr({
-          es: `He conseguido ${survFinal.score} puntos en el Modo Survivor de Pentagrama Path 🔥 (nivel ${survFinal.nivel}) — ¿puedes superarme? https://tuthor.es/juegos/pentagrama-path`,
-          en: `I scored ${survFinal.score} points in Pentagrama Path's Survivor Mode 🔥 (level ${survFinal.nivel}) — can you beat me? https://tuthor.es/juegos/pentagrama-path`,
-          ca: `He aconseguit ${survFinal.score} punts al Mode Survivor de Pentagrama Path 🔥 (nivell ${survFinal.nivel}) — pots superar-me? https://tuthor.es/juegos/pentagrama-path`,
+          es: `He conseguido ${survFinal.score} puntos en Pentagrama Path 🔥 (nivel ${survFinal.nivel}) — ¿puedes superarme? https://tuthor.es/juegos/pentagrama-path`,
+          en: `I scored ${survFinal.score} points in Pentagrama Path 🔥 (level ${survFinal.nivel}) — can you beat me? https://tuthor.es/juegos/pentagrama-path`,
+          ca: `He aconseguit ${survFinal.score} punts a Pentagrama Path 🔥 (nivell ${survFinal.nivel}) — pots superar-me? https://tuthor.es/juegos/pentagrama-path`,
         })}
         onPlayAgain={startSurvivor}
         playAgainLabel={tr({ es: '▶ Otra vez', en: '▶ Play again', ca: '▶ Una altra vegada' })}
-        secondaryActions={[{ label: tr({ es: 'Elegir modo', en: 'Choose mode', ca: 'Triar mode' }), onClick: salir }]}
+        secondaryActions={[{ label: tr({ es: '← Menú', en: '← Menu', ca: '← Menú' }), onClick: salir }]}
         user={user} lang={lang}
       />
     )
@@ -625,6 +455,36 @@ export default function PentagramaPath() {
     // en la partitura sin su tecla negra correspondiente en el piano.
     const survConNegras = survNotas.some(n => n.pitch?.includes('#'))
     const vidas = FAILS_LIMIT - survFails
+
+    if (bonusOpen) {
+      return (
+        <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
+          <div className="max-w-md w-full text-center">
+            <span className="text-6xl block mb-3">🎁</span>
+            <h2 className="text-2xl font-black text-white mb-1">
+              {tr({ es: '¡Mejora desbloqueada!', en: 'Upgrade unlocked!', ca: 'Millora desbloquejada!' })}
+            </h2>
+            <p className="text-white/40 text-sm mb-6">
+              {tr({ es: 'Elige un bono para seguir', en: 'Pick a bonus to continue', ca: 'Tria un bo per continuar' })}
+            </p>
+            <div className="space-y-3">
+              {bonusOpciones.map(b => (
+                <button key={b.id} onClick={() => elegirBono(b)}
+                  className="w-full text-left rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-[#EDAE49]/40 p-4 transition-all hover:scale-[1.01] active:scale-[0.99]">
+                  <div className="flex items-center gap-3">
+                    <span className="text-3xl">{b.emoji}</span>
+                    <div>
+                      <p className="text-white font-black">{b.label}</p>
+                      <p className="text-white/40 text-xs mt-0.5">{b.desc}</p>
+                    </div>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      )
+    }
 
     return (
       <div className="relative z-10 flex flex-col min-h-[calc(100vh-4rem)] px-3 py-3 max-w-2xl mx-auto w-full">
@@ -681,90 +541,5 @@ export default function PentagramaPath() {
     )
   }
 
-  // ── JUGANDO ───────────────────────────────────────────────────────────────
-  if (!melodia) return null
-  const enCountIn = fase.modo === 'B' && playBeat != null && playBeat < 0
-  const beatActual = fase.modo === 'B' && playBeat != null ? Math.floor(playBeat + COUNT_IN_BEATS) : -1
-
-  return (
-    <div className="relative z-10 flex flex-col min-h-[calc(100vh-4rem)] px-3 py-3 max-w-2xl mx-auto w-full">
-      <div className="flex items-center justify-between mb-3">
-        <button onClick={salir} className="text-white/40 hover:text-white/70 text-sm transition-colors">
-          {tr({ es: '← Salir', en: '← Exit', ca: '← Sortir' })}
-        </button>
-        <div className="text-sm text-white/50 flex items-center gap-3">
-          <span className="text-white font-bold">{fase.emoji} {tr(fase.label)}</span>
-          <span className="tabular-nums">🎵 {melIdx + 1}/{melodias.length}</span>
-          {fase.modo === 'B' && <span className="tabular-nums text-white/40">♩ = {melodia.tempoBPM}</span>}
-        </div>
-      </div>
-
-      <p className="text-center text-white/60 font-bold mb-1">{tr(melodia.titulo)}</p>
-
-      {/* Metrónomo visual (modo B): 4 puntos que pulsan con el beat */}
-      {fase.modo === 'B' && (
-        <div className="flex justify-center gap-2 mb-2 h-3">
-          {[0, 1, 2, 3].map(i => (
-            <span key={i} className={`w-3 h-3 rounded-full transition-all duration-100 ${
-              beatActual >= 0 && ((beatActual % 4) + 4) % 4 === i
-                ? 'bg-[#EDAE49] scale-125' : 'bg-white/15'
-            }`} />
-          ))}
-        </div>
-      )}
-
-      <div className="relative bg-white/5 border border-white/10 rounded-2xl px-2 py-3 mb-3">
-        <PentagramaSVG
-          clave={fase.clave}
-          notas={melodia.notas}
-          resultados={notaRes}
-          cursorIdx={fase.modo === 'A' ? cursor : null}
-          playheadBeat={fase.modo === 'B' ? playBeat : null}
-        />
-        {enCountIn && (
-          <div className="absolute inset-0 flex items-center justify-center bg-black/40 rounded-2xl">
-            <div className="text-center">
-              <p className="text-6xl font-black text-[#EDAE49] tabular-nums animate-pulse">{Math.ceil(-playBeat)}</p>
-              <p className="text-white/50 text-xs mt-1 uppercase tracking-widest">
-                {tr({ es: 'Escucha el pulso…', en: 'Feel the beat…', ca: 'Escolta el pols…' })}
-              </p>
-            </div>
-          </div>
-        )}
-        {entreMelodias && (
-          <div className="absolute inset-0 flex items-center justify-center bg-black/50 rounded-2xl">
-            <p className="text-xl font-black text-green-400">
-              ✅ {tr({ es: 'Melodía completada', en: 'Melody complete', ca: 'Melodia completada' })}
-            </p>
-          </div>
-        )}
-      </div>
-
-      {/* Leyenda compacta en modo B */}
-      {fase.modo === 'B' && (
-        <div className="flex justify-center gap-3 mb-3 text-[10px] text-white/40">
-          {['perfecto', 'amarillo', 'naranja', 'rojo'].map(k => (
-            <span key={k} className="flex items-center gap-1">
-              <span className={`w-2 h-2 rounded-full ${RESULT_UI[k].color}`} />
-              {tr(RESULT_UI[k].label)}
-            </span>
-          ))}
-        </div>
-      )}
-
-      <div className="mt-auto">
-        <PianoVirtual
-          octavaBase={fase.octavaBase}
-          onKey={onPianoKey}
-          hintPitch={hintPitch}
-          conNegras={conNegras}
-          disabled={entreMelodias}
-        />
-        <p className="text-center text-white/25 text-xs mt-2 hidden sm:block">
-          {tr({ es: 'Teclado: A S D F G H J K', en: 'Keyboard: A S D F G H J K', ca: 'Teclat: A S D F G H J K' })}
-          {conNegras && ' · W E T Y U'}
-        </p>
-      </div>
-    </div>
-  )
+  return null
 }

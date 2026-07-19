@@ -47,6 +47,13 @@ export const EXAMS = {
     emoji: '🇺🇸', subject: 'geografia',
   },
 
+  // ── Música ─────────────────────────────────────────────────────────────────
+  'musica': {
+    label: { es: 'Lectura de Partituras', en: 'Sheet Music Reading', ca: 'Lectura de Partitures' },
+    emoji: '🎼', subject: 'musica',
+    path: 'examen/musica', page: () => import('../pages/MusicaExamen'),
+  },
+
   // ── Economía ───────────────────────────────────────────────────────────────
   'finanzas-personales': {
     label: { es: 'Finanzas Personales', en: 'Personal Finance', ca: 'Finances Personals' },

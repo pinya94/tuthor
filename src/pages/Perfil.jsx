@@ -82,7 +82,7 @@ const SUBJECT_DEFS = [
   {
     id: 'musica', emoji: '🎼',
     label: { es: 'Música', en: 'Music', ca: 'Música' },
-    gameIds: ['pentagrama-path', 'pentagrama-survivor'],
+    gameIds: ['pentagrama-path'],
     catIds: [],
     catLabels: {},
   },
