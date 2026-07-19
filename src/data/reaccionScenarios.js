@@ -39,9 +39,14 @@ export const SCENARIOS = [
       },
       {
         id: 'd1', tipo: 'decision', posicionEnSecuencia: 2,
+        pregunta: {
+          es: 'No responde con palabras, no tose y sigue haciendo gestos de ahogo.',
+          en: 'They don\'t answer, can\'t cough, and keep gesturing that they\'re choking.',
+          ca: 'No respon amb paraules, no tus i segueix fent gestos d\'ofec.',
+        },
         opciones: [
           {
-            texto: { es: 'No puede toser, hablar ni respirar: actúa de inmediato', en: 'Cannot cough, speak or breathe: act immediately', ca: 'No pot tossir, parlar ni respirar: actua de seguida' },
+            texto: { es: 'Actúa de inmediato: empieza la maniobra de desobstrucción', en: 'Act immediately: start the choking maneuver', ca: 'Actua de seguida: comença la maniobra de desobstrucció' },
             esCorrecta: true, esPeligrosa: false,
             explicacion: {
               es: 'Sin tos ni entrada de aire es una obstrucción total: hay que actuar ya, no esperar.',
@@ -87,9 +92,14 @@ export const SCENARIOS = [
       },
       {
         id: 'd2', tipo: 'decision', posicionEnSecuencia: 5,
+        pregunta: {
+          es: 'Le has dado 5 golpes en la espalda y sigue sin poder respirar.',
+          en: 'You\'ve given 5 back blows and they still can\'t breathe.',
+          ca: 'Li has donat 5 cops a l\'esquena i encara no pot respirar.',
+        },
         opciones: [
           {
-            texto: { es: 'Sigue sin respirar: pasa a las compresiones abdominales (Heimlich)', en: 'Still not breathing: move to abdominal thrusts (Heimlich)', ca: 'Segueix sense respirar: passa a les compressions abdominals (Heimlich)' },
+            texto: { es: 'Pasa a las compresiones abdominales (maniobra de Heimlich)', en: 'Move on to abdominal thrusts (Heimlich maneuver)', ca: 'Passa a les compressions abdominals (maniobra de Heimlich)' },
             esCorrecta: true, esPeligrosa: false,
             explicacion: {
               es: 'Si los golpes en la espalda no liberan la vía aérea, el protocolo pasa a compresiones abdominales.',
@@ -107,7 +117,7 @@ export const SCENARIOS = [
             },
           },
           {
-            texto: { es: 'Repite los golpes en la espalda otras 5 veces antes de probar otra cosa', en: 'Repeat back blows 5 more times before trying anything else', ca: 'Repeteix els cops a l\'esquena 5 vegades més abans de provar una altra cosa' },
+            texto: { es: 'Repite los golpes en la espalda otras 5 veces', en: 'Repeat back blows 5 more times', ca: 'Repeteix els cops a l\'esquena 5 vegades més' },
             esCorrecta: false, esPeligrosa: false,
             explicacion: {
               es: 'El protocolo alterna 5 golpes y 5 compresiones, no repite solo golpes indefinidamente.',
@@ -127,9 +137,14 @@ export const SCENARIOS = [
       },
       {
         id: 'd3', tipo: 'decision', posicionEnSecuencia: 7,
+        pregunta: {
+          es: 'A mitad de las compresiones abdominales, pierde el conocimiento.',
+          en: 'Midway through the abdominal thrusts, they lose consciousness.',
+          ca: 'A mig de les compressions abdominals, perd el coneixement.',
+        },
         opciones: [
           {
-            texto: { es: 'Si pierde el conocimiento: túmbale en el suelo, llama al 112 e inicia RCP', en: 'If they lose consciousness: lay them on the ground, call emergency services and start CPR', ca: 'Si perd el coneixement: estira\'l a terra, truca al 112 i inicia la RCP' },
+            texto: { es: 'Túmbale en el suelo, llama al 112 e inicia RCP', en: 'Lay them on the ground, call emergency services and start CPR', ca: 'Estira\'l a terra, truca al 112 i inicia la RCP' },
             esCorrecta: true, esPeligrosa: false,
             explicacion: {
               es: 'Ante la pérdida de conciencia, el protocolo es avisar a emergencias e iniciar reanimación cardiopulmonar.',
@@ -138,7 +153,7 @@ export const SCENARIOS = [
             },
           },
           {
-            texto: { es: 'Si pierde el conocimiento, sigue haciendo compresiones abdominales de pie', en: 'If they lose consciousness, keep doing abdominal thrusts standing up', ca: 'Si perd el coneixement, segueix fent compressions abdominals dret' },
+            texto: { es: 'Sigue haciendo compresiones abdominales de pie', en: 'Keep doing abdominal thrusts standing up', ca: 'Segueix fent compressions abdominals dret' },
             esCorrecta: false, esPeligrosa: true,
             explicacion: {
               es: 'Las compresiones abdominales de pie no tienen sentido ni son seguras con la persona inconsciente; hay que tumbarla y pasar a RCP.',
@@ -147,7 +162,7 @@ export const SCENARIOS = [
             },
           },
           {
-            texto: { es: 'Espera a que reaccione antes de llamar al 112', en: 'Wait for them to come round before calling emergency services', ca: 'Espera que reaccioni abans de trucar al 112' },
+            texto: { es: 'Espera a que reaccione antes de llamar', en: 'Wait for them to come round before calling', ca: 'Espera que reaccioni abans de trucar' },
             esCorrecta: false, esPeligrosa: true,
             explicacion: {
               es: 'Ante una pérdida de conciencia por atragantamiento hay que llamar a emergencias de inmediato, no esperar.',

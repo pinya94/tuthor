@@ -27,12 +27,18 @@ function formatTiempo(s) {
 
 const RESULTADO_INICIAL = () => ({ ordenErrores: [], decisionesLeves: [], decisionesPeligrosas: [] })
 
+// Orden de los escenarios para una partida: aleatorio, sin repetir ninguno.
+function ordenAleatorioEscenarios() {
+  return SCENARIOS.map((_, i) => i).sort(() => Math.random() - 0.5)
+}
+
 export default function Reaccion() {
   const navigate = useNavigate()
   const { lang, tr, localPath } = useLang()
   const { user } = useAuth()
 
   const [pantalla, setPantalla] = useState('intro') // intro | orden | decision | resumen | final
+  const [ordenEscenarios, setOrdenEscenarios] = useState(ordenAleatorioEscenarios)
   const [scenarioIndex, setScenarioIndex] = useState(0)
   const [decisionIndex, setDecisionIndex] = useState(0)
   const [resultadoEscenario, setResultadoEscenario] = useState(RESULTADO_INICIAL)
@@ -40,7 +46,7 @@ export default function Reaccion() {
   const [elapsed, setElapsed] = useState(0)
 
   const savedRef = useRef(false)
-  const escenario = SCENARIOS[scenarioIndex]
+  const escenario = SCENARIOS[ordenEscenarios[scenarioIndex]]
   const pasosOrden = escenario.pasos.filter(p => p.tipo === 'orden')
   const decisiones = escenario.pasos.filter(p => p.tipo === 'decision').sort((a, b) => a.posicionEnSecuencia - b.posicionEnSecuencia)
 
@@ -105,6 +111,7 @@ export default function Reaccion() {
 
   function jugarDeNuevo() {
     savedRef.current = false
+    setOrdenEscenarios(ordenAleatorioEscenarios())
     setScenarioIndex(0)
     setDecisionIndex(0)
     setResultadoEscenario(RESULTADO_INICIAL())

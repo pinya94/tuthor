@@ -15,6 +15,13 @@ export default function ReaccionDecisionCritica({ decision, onElegir }) {
         {tr({ es: 'Decisión crítica', en: 'Critical decision', ca: 'Decisió crítica' })}
       </p>
 
+      <div className="bg-white/5 border border-white/10 rounded-xl p-4 mb-4">
+        <p className="text-white/80 text-sm leading-relaxed">{tr(decision.pregunta)}</p>
+        <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mt-2">
+          {tr({ es: '¿Qué haces?', en: 'What do you do?', ca: 'Què fas?' })}
+        </p>
+      </div>
+
       <div className="space-y-3 mb-6">
         {decision.opciones.map((op, i) => {
           const activa = elegida === i
