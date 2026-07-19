@@ -612,7 +612,12 @@ export default function PentagramaPath() {
     const stage = stageFor(survResueltas)
     const enCountIn = survPlayBeat != null && survPlayBeat < 0
     const beatActual = survPlayBeat != null ? Math.floor(survPlayBeat) : -1
-    const survConNegras = stage.pool.some(p => p.includes('#'))
+    // Las notas se generan con antelación (buffer por delante del playhead) con
+    // la dificultad de esa etapa futura, así que puede haber un sostenido ya
+    // generado antes de que `stage` (basado en notas resueltas) lo refleje.
+    // Hay que mirar las notas reales, no la etapa, para no dejar un sostenido
+    // en la partitura sin su tecla negra correspondiente en el piano.
+    const survConNegras = survNotas.some(n => n.pitch?.includes('#'))
     const vidas = FAILS_LIMIT - survFails
 
     return (
