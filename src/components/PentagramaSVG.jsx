@@ -3,6 +3,12 @@
 // plica y corchete, líneas adicionales, alteraciones, silencios y playhead.
 // Las X se derivan del pulso acumulado (`cum`) de cada nota, de modo que el
 // playhead (en pulsos) y las notas comparten la misma escala temporal.
+//
+// Cámara automática: en pantallas estrechas el pentagrama no cabe entero, así
+// que el scroll sigue a la nota/playhead activo (como en un juego de ritmo)
+// en vez de obligar al jugador a arrastrar manualmente mientras toca.
+
+import { useEffect, useRef } from 'react'
 
 const LETTER_STEP = { C: 0, D: 1, E: 2, F: 3, G: 4, A: 5, B: 6 }
 
@@ -112,8 +118,33 @@ export default function PentagramaSVG({ clave = 'sol', notas, resultados = [], c
   const width = beatX(total) + 30
   const showPlayhead = playheadBeat != null && playheadBeat >= -0.02 && playheadBeat <= total + 0.5
 
+  const scrollRef = useRef(null)
+
+  // Sigue a la nota/playhead activo con un margen de "vista previa" a la
+  // derecha: solo se mueve cuando el activo se acerca al borde, así el
+  // jugador ve venir las próximas notas sin arrastrar el scroll a mano.
+  useEffect(() => {
+    const el = scrollRef.current
+    if (!el || el.clientWidth === 0) return
+    const activeX = playheadBeat != null
+      ? beatX(Math.max(0, playheadBeat))
+      : cursorIdx != null && notas[cursorIdx]
+        ? beatX(notas[cursorIdx].cum)
+        : null
+    if (activeX == null) return
+
+    const margin = el.clientWidth * 0.28
+    const maxScroll = Math.max(0, width - el.clientWidth)
+    let target = el.scrollLeft
+    if (activeX < el.scrollLeft + margin) target = activeX - margin
+    else if (activeX > el.scrollLeft + el.clientWidth - margin) target = activeX - margin
+    target = Math.min(Math.max(0, target), maxScroll)
+
+    el.scrollLeft = target
+  }, [cursorIdx, playheadBeat, width, notas])
+
   return (
-    <div className="overflow-x-auto">
+    <div ref={scrollRef} className="overflow-x-auto">
       <svg viewBox={`0 0 ${width} 150`} width={width} height="150" className="block" style={{ minWidth: '100%' }}>
         {[0, 1, 2, 3, 4].map(i => (
           <line key={i} x1="12" x2={width - 12}
