@@ -268,4 +268,232 @@ export const CASOS = [
       },
     ],
   },
+  {
+    id: 'motorista-consciente',
+    situacion: {
+      es: 'Un motorista se cae en el arcén: está consciente, se queja de dolor en la pierna, y lleva el casco puesto.',
+      en: 'A motorcyclist falls onto the road shoulder: conscious, complaining of leg pain, still wearing their helmet.',
+      ca: 'Un motorista cau al voral: està conscient, es queixa de dolor a la cama, i porta el casc posat.',
+    },
+    opciones: [
+      {
+        texto: { es: 'Señalizar la zona y llamar al 112, sin moverlo ni quitarle el casco', en: 'Mark the area as a hazard and call emergency services, without moving him or removing the helmet', ca: 'Senyalitzar la zona i trucar al 112, sense moure\'l ni treure-li el casc' },
+        esCorrecta: true, esPeligrosa: false,
+        explicacion: { es: 'El casco solo lo retira personal sanitario, salvo que impida respirar. Moverlo puede agravar una posible lesión de columna.', en: 'Only medical staff should remove the helmet, unless it\'s blocking breathing. Moving him could worsen a possible spinal injury.', ca: 'El casc només el retira personal sanitari, tret que impedeixi respirar. Moure\'l pot agreujar una possible lesió de columna.' },
+      },
+      {
+        texto: { es: 'Quitarle el casco para que esté más cómodo', en: 'Remove his helmet so he\'s more comfortable', ca: 'Treure-li el casc perquè estigui més còmode' },
+        esCorrecta: false, esPeligrosa: true,
+        explicacion: { es: 'Quitar el casco sin necesidad, y sin la técnica adecuada entre dos personas, puede dañar el cuello o la columna.', en: 'Removing the helmet without need, and without the proper two-person technique, can injure the neck or spine.', ca: 'Treure el casc sense necessitat, i sense la tècnica adequada entre dues persones, pot malmetre el coll o la columna.' },
+      },
+      {
+        texto: { es: 'Arrastrarlo por los brazos hasta la acera', en: 'Drag him by the arms onto the pavement', ca: 'Arrossegar-lo pels braços fins a la vorera' },
+        esCorrecta: false, esPeligrosa: true,
+        explicacion: { es: 'Sin peligro inmediato (fuego, tráfico encima), no se mueve a alguien con posibles lesiones: podría agravarlas.', en: 'Without immediate danger (fire, oncoming traffic), you don\'t move someone with possible injuries: it could make them worse.', ca: 'Sense perill immediat (foc, trànsit a sobre), no es mou algú amb possibles lesions: podria agreujar-les.' },
+      },
+    ],
+  },
+  {
+    id: 'motorista-inconsciente',
+    situacion: {
+      es: 'Un motorista caído no responde a tu voz, pero notas que respira con normalidad. Lleva el casco puesto.',
+      en: 'A fallen motorcyclist doesn\'t respond to your voice, but you can see they\'re breathing normally. Still wearing their helmet.',
+      ca: 'Un motorista caigut no respon a la teva veu, però notes que respira amb normalitat. Porta el casc posat.',
+    },
+    opciones: [
+      {
+        texto: { es: 'No moverlo ni tocarle el casco, y llamar al 112 mientras lo vigilas', en: 'Don\'t move him or touch the helmet, and call emergency services while watching him', ca: 'No moure\'l ni tocar-li el casc, i trucar al 112 mentre el vigiles' },
+        esCorrecta: true, esPeligrosa: false,
+        explicacion: { es: 'Si respira con normalidad no hace falta tocar el casco ni moverlo: solo avisar a emergencias y vigilarlo hasta que lleguen.', en: 'If they\'re breathing normally there\'s no need to touch the helmet or move them: just alert emergency services and watch over them.', ca: 'Si respira amb normalitat no cal tocar el casc ni moure\'l: només avisar emergències i vigilar-lo fins que arribin.' },
+      },
+      {
+        texto: { es: 'Quitarle el casco para comprobar si reacciona', en: 'Remove the helmet to check if he responds', ca: 'Treure-li el casc per comprovar si reacciona' },
+        esCorrecta: false, esPeligrosa: true,
+        explicacion: { es: 'Con respiración normal no hay motivo para tocar el casco: hacerlo sin necesidad añade riesgo de lesión cervical.', en: 'With normal breathing there\'s no reason to touch the helmet: doing so unnecessarily adds a risk of neck injury.', ca: 'Amb respiració normal no hi ha motiu per tocar el casc: fer-ho sense necessitat afegeix risc de lesió cervical.' },
+      },
+      {
+        texto: { es: 'Zarandearlo con fuerza para que despierte', en: 'Shake him hard to wake him up', ca: 'Sacsejar-lo fort perquè es desperti' },
+        esCorrecta: false, esPeligrosa: true,
+        explicacion: { es: 'Zarandear a alguien que podría tener una lesión de columna puede agravarla seriamente.', en: 'Shaking someone who might have a spinal injury can seriously worsen it.', ca: 'Sacsejar algú que podria tenir una lesió de columna la pot agreujar seriosament.' },
+      },
+    ],
+  },
+  {
+    id: 'hipoglucemia-consciente',
+    situacion: {
+      es: 'Una persona diabética suda frío, tiembla y está confusa, pero consciente y puede tragar.',
+      en: 'Someone with diabetes is cold and sweaty, shaky and confused, but conscious and able to swallow.',
+      ca: 'Una persona diabètica sua fred, tremola i està confusa, però conscient i pot empassar.',
+    },
+    opciones: [
+      {
+        texto: { es: 'Darle algo de azúcar de absorción rápida: zumo, un azucarillo o un refresco azucarado', en: 'Give them fast-acting sugar: juice, a sugar cube or a sugary soda', ca: 'Donar-li alguna cosa de sucre d\'absorció ràpida: suc, un sucrat o un refresc ensucrat' },
+        esCorrecta: true, esPeligrosa: false,
+        explicacion: { es: 'Son síntomas de hipoglucemia (azúcar bajo): consciente y pudiendo tragar, la regla es dar 15g de azúcar rápido y esperar unos minutos.', en: 'These are hypoglycemia (low blood sugar) symptoms: while conscious and able to swallow, the rule is 15g of fast sugar and waiting a few minutes.', ca: 'Són símptomes d\'hipoglucèmia (sucre baix): conscient i podent empassar, la regla és donar 15g de sucre ràpid i esperar uns minuts.' },
+      },
+      {
+        texto: { es: 'Ponerle su dosis de insulina para bajarle el azúcar', en: 'Give them their insulin dose to lower their blood sugar', ca: 'Posar-li la seva dosi d\'insulina per baixar-li el sucre' },
+        esCorrecta: false, esPeligrosa: true,
+        explicacion: { es: 'El azúcar ya está bajo: ponerle insulina lo bajaría todavía más y puede ser gravísimo. Es justo lo contrario de lo que hace falta.', en: 'Their blood sugar is already low: giving insulin would lower it further and can be very serious. It\'s the exact opposite of what\'s needed.', ca: 'El sucre ja és baix: posar-li insulina el baixaria encara més i pot ser molt greu. És justament el contrari del que cal.' },
+      },
+      {
+        texto: { es: 'Esperar a que se le pase solo, sin hacer nada', en: 'Wait for it to pass on its own, without doing anything', ca: 'Esperar que se li passi sol, sense fer res' },
+        esCorrecta: false, esPeligrosa: false,
+        explicacion: { es: 'Sin azúcar, una hipoglucemia puede empeorar hasta la pérdida de conciencia: no cuesta nada dársela ya.', en: 'Without sugar, hypoglycemia can worsen into loss of consciousness: there\'s no reason not to give it right away.', ca: 'Sense sucre, una hipoglucèmia pot empitjorar fins a la pèrdua de coneixement: no costa res donar-la ja.' },
+      },
+    ],
+  },
+  {
+    id: 'hipoglucemia-inconsciente',
+    situacion: {
+      es: 'Una persona diabética no responde y está inconsciente, pero respira.',
+      en: 'Someone with diabetes doesn\'t respond and is unconscious, but breathing.',
+      ca: 'Una persona diabètica no respon i està inconscient, però respira.',
+    },
+    opciones: [
+      {
+        texto: { es: 'Colocarla en posición lateral de seguridad y llamar al 112, sin darle nada por la boca', en: 'Put them in the recovery position and call emergency services, without giving anything by mouth', ca: 'Col·locar-la en posició lateral de seguretat i trucar al 112, sense donar-li res per la boca' },
+        esCorrecta: true, esPeligrosa: false,
+        explicacion: { es: 'Inconsciente no se le da nada de comer ni beber: se le coloca de lado, protegiendo la vía aérea, y se llama a emergencias.', en: 'Unconscious, they shouldn\'t be given anything to eat or drink: put them on their side to protect the airway, and call emergency services.', ca: 'Inconscient no se li dona res de menjar ni beure: es col·loca de costat, protegint la via aèria, i es truca a emergències.' },
+      },
+      {
+        texto: { es: 'Meterle azúcar o zumo en la boca aunque esté inconsciente', en: 'Put sugar or juice in their mouth even though unconscious', ca: 'Ficar-li sucre o suc a la boca encara que estigui inconscient' },
+        esCorrecta: false, esPeligrosa: true,
+        explicacion: { es: 'Dar de comer o beber a alguien inconsciente puede hacer que se atragante: nunca se hace por la boca sin que esté despierto.', en: 'Giving food or drink to someone unconscious can make them choke: never do it by mouth unless they\'re awake.', ca: 'Donar de menjar o beure a algú inconscient pot fer que s\'ennuegui: mai es fa per la boca sense que estigui despert.' },
+      },
+      {
+        texto: { es: 'Esperar a que despierte por sí sola para actuar', en: 'Wait for them to wake up on their own before acting', ca: 'Esperar que es desperti sola per actuar' },
+        esCorrecta: false, esPeligrosa: true,
+        explicacion: { es: 'Una hipoglucemia con pérdida de conciencia es una emergencia: hay que llamar ya, no esperar a que se recupere sola.', en: 'Hypoglycemia with loss of consciousness is an emergency: call now, don\'t wait for them to recover on their own.', ca: 'Una hipoglucèmia amb pèrdua de coneixement és una emergència: cal trucar ja, no esperar que es recuperi sola.' },
+      },
+    ],
+  },
+  {
+    id: 'fiebre-nino-leve',
+    ambiguo: true,
+    situacion: {
+      es: 'Tu hijo tiene 38°C de fiebre desde esta mañana, pero juega con normalidad y come bien.',
+      en: 'Your child has had a 38°C fever since this morning, but is playing normally and eating well.',
+      ca: 'El teu fill té 38°C de febre des d\'aquest matí, però juga amb normalitat i menja bé.',
+    },
+    opciones: [
+      {
+        texto: { es: 'Quedarte en casa, controlar la fiebre y que descanse', en: 'Stay home, monitor the fever and let them rest', ca: 'Quedar-te a casa, controlar la febre i que descansi' },
+        esCorrecta: true, esPeligrosa: false,
+        explicacion: { es: 'Fiebre moderada sin otros síntomas de alarma en un niño que juega y come con normalidad no es una urgencia: se controla en casa.', en: 'A moderate fever with no other warning signs in a child who\'s playing and eating normally isn\'t an emergency: manage it at home.', ca: 'Febre moderada sense altres símptomes d\'alarma en un nen que juga i menja amb normalitat no és una urgència: es controla a casa.' },
+      },
+      {
+        texto: { es: 'Ir a urgencias ahora mismo', en: 'Go to the ER right now', ca: 'Anar a urgències ara mateix' },
+        esCorrecta: false, esPeligrosa: false,
+        explicacion: { es: 'Sin señales de alarma (decaimiento, dificultad para respirar, manchas en la piel...) no hace falta urgencias: satura el servicio sin necesidad.', en: 'Without warning signs (lethargy, breathing trouble, skin rashes...) the ER isn\'t needed: it just adds strain to the service for no reason.', ca: 'Sense senyals d\'alarma (decaïment, dificultat per respirar, taques a la pell...) no cal urgències: satura el servei sense necessitat.' },
+      },
+      {
+        texto: { es: 'Darle un antibiótico que sobró de la última vez', en: 'Give them leftover antibiotics from last time', ca: 'Donar-li un antibiòtic que va sobrar de l\'última vegada' },
+        esCorrecta: false, esPeligrosa: true,
+        explicacion: { es: 'La mayoría de fiebres son virales: un antibiótico no ayuda y automedicarse sin indicación médica es peligroso.', en: 'Most fevers are viral: an antibiotic won\'t help, and self-medicating without medical guidance is dangerous.', ca: 'La majoria de febres són virals: un antibiòtic no ajuda i automedicar-se sense indicació mèdica és perillós.' },
+      },
+    ],
+  },
+  {
+    id: 'dolor-cabeza-subito',
+    situacion: {
+      es: 'Tienes el peor dolor de cabeza de tu vida: ha empezado de golpe y ves borroso.',
+      en: 'You have the worst headache of your life: it started suddenly and your vision is blurry.',
+      ca: 'Tens el pitjor mal de cap de la teva vida: ha començat de cop i hi veus borrós.',
+    },
+    opciones: [
+      {
+        texto: { es: 'Ir a urgencias ahora', en: 'Go to the ER now', ca: 'Anar a urgències ara' },
+        esCorrecta: true, esPeligrosa: false,
+        explicacion: { es: 'Un dolor de cabeza súbito, intensísimo y con cambios de visión es una señal de alarma que puede indicar algo grave: no se espera.', en: 'A sudden, extremely intense headache with vision changes is a warning sign that can indicate something serious: don\'t wait.', ca: 'Un mal de cap sobtat, intensíssim i amb canvis de visió és una senyal d\'alarma que pot indicar alguna cosa greu: no s\'espera.' },
+      },
+      {
+        texto: { es: 'Tomar un analgésico y esperar en casa a ver si se pasa', en: 'Take a painkiller and wait at home to see if it passes', ca: 'Prendre un analgèsic i esperar a casa a veure si es passa' },
+        esCorrecta: false, esPeligrosa: true,
+        explicacion: { es: 'Con estas señales de alarma, esperar en casa retrasa un diagnóstico que puede ser urgente.', en: 'With these warning signs, waiting at home delays a diagnosis that could be urgent.', ca: 'Amb aquestes senyals d\'alarma, esperar a casa retarda un diagnòstic que pot ser urgent.' },
+      },
+      {
+        texto: { es: 'Pedir cita con el médico de cabecera para dentro de unos días', en: 'Book an appointment with your GP for a few days from now', ca: 'Demanar cita amb el metge de capçalera per d\'aquí uns dies' },
+        esCorrecta: false, esPeligrosa: true,
+        explicacion: { es: 'Estas señales de alarma no admiten esperar días a una cita programada: hace falta valoración urgente ya.', en: 'These warning signs can\'t wait days for a scheduled appointment: urgent evaluation is needed now.', ca: 'Aquestes senyals d\'alarma no admeten esperar dies a una cita programada: cal valoració urgent ja.' },
+      },
+    ],
+  },
+  {
+    id: 'lunar-cambiante',
+    ambiguo: true,
+    situacion: {
+      es: 'Notas un lunar que ha cambiado de forma y de color en los últimos meses, sin dolor ni sangrado.',
+      en: 'You notice a mole that has changed shape and colour over the last few months, with no pain or bleeding.',
+      ca: 'Notes un piga que ha canviat de forma i de color en els últims mesos, sense dolor ni sagnat.',
+    },
+    opciones: [
+      {
+        texto: { es: 'Pedir cita con el dermatólogo en los próximos días', en: 'Book an appointment with a dermatologist in the coming days', ca: 'Demanar cita amb el dermatòleg en els propers dies' },
+        esCorrecta: true, esPeligrosa: false,
+        explicacion: { es: 'Un lunar que cambia de forma o color no es una urgencia, pero sí debe valorarlo un especialista sin dejarlo pasar mucho tiempo.', en: 'A mole changing shape or colour isn\'t an emergency, but a specialist should assess it without letting too much time pass.', ca: 'Un piga que canvia de forma o color no és una urgència, però sí que l\'ha de valorar un especialista sense deixar-ho passar gaire temps.' },
+      },
+      {
+        texto: { es: 'Ir a urgencias ahora mismo', en: 'Go to the ER right now', ca: 'Anar a urgències ara mateix' },
+        esCorrecta: false, esPeligrosa: false,
+        explicacion: { es: 'Sin sangrado activo ni otra urgencia, no hace falta ir a urgencias: lo adecuado es una cita con el especialista.', en: 'Without active bleeding or another emergency, the ER isn\'t needed: the right move is a specialist appointment.', ca: 'Sense sagnat actiu ni una altra urgència, no cal anar a urgències: el correcte és una cita amb l\'especialista.' },
+      },
+      {
+        texto: { es: 'No hacer nada, seguro que no es importante', en: 'Do nothing, it\'s surely not important', ca: 'No fer res, segur que no és important' },
+        esCorrecta: false, esPeligrosa: true,
+        explicacion: { es: 'Un lunar que cambia es precisamente la señal que hay que vigilar: ignorarlo puede retrasar el diagnóstico de algo serio.', en: 'A changing mole is exactly the sign to watch for: ignoring it can delay diagnosis of something serious.', ca: 'Un piga que canvia és precisament la senyal que cal vigilar: ignorar-ho pot retardar el diagnòstic d\'alguna cosa seriosa.' },
+      },
+    ],
+  },
+  {
+    id: 'catarro-comun',
+    ambiguo: true,
+    situacion: {
+      es: 'Te duele un poco la garganta y tienes mocos desde ayer, sin fiebre alta ni dificultad para tragar o respirar.',
+      en: 'Your throat hurts a little and you\'ve had a runny nose since yesterday, with no high fever or trouble swallowing or breathing.',
+      ca: 'Et fa mal una mica la gola i tens mocs des d\'ahir, sense febre alta ni dificultat per empassar o respirar.',
+    },
+    opciones: [
+      {
+        texto: { es: 'Quedarte en casa, descansar e hidratarte', en: 'Stay home, rest and stay hydrated', ca: 'Quedar-te a casa, descansar i hidratar-te' },
+        esCorrecta: true, esPeligrosa: false,
+        explicacion: { es: 'Un catarro común sin señales de alarma se cuida en casa: descanso, líquidos y tiempo.', en: 'A common cold with no warning signs is looked after at home: rest, fluids and time.', ca: 'Un refredat comú sense senyals d\'alarma es cuida a casa: descans, líquids i temps.' },
+      },
+      {
+        texto: { es: 'Pedir cita urgente con el médico de cabecera para hoy mismo', en: 'Book an urgent same-day appointment with your GP', ca: 'Demanar cita urgent amb el metge de capçalera per avui mateix' },
+        esCorrecta: false, esPeligrosa: false,
+        explicacion: { es: 'Sin señales de alarma, un catarro leve no necesita una cita urgente: puede cuidarse en casa unos días.', en: 'Without warning signs, a mild cold doesn\'t need an urgent appointment: it can be managed at home for a few days.', ca: 'Sense senyals d\'alarma, un refredat lleu no necessita una cita urgent: es pot cuidar a casa uns dies.' },
+      },
+      {
+        texto: { es: 'Tomar antibióticos que tenías guardados de otra vez', en: 'Take leftover antibiotics from another time', ca: 'Prendre antibiòtics que tenies guardats d\'una altra vegada' },
+        esCorrecta: false, esPeligrosa: true,
+        explicacion: { es: 'La mayoría de catarros son víricos: los antibióticos no sirven y automedicarse sin indicación es un riesgo real.', en: 'Most colds are viral: antibiotics don\'t help, and self-medicating without guidance is a real risk.', ca: 'La majoria de refredats són vírics: els antibiòtics no serveixen i automedicar-se sense indicació és un risc real.' },
+      },
+    ],
+  },
+  {
+    id: 'dolor-abdominal-agudo',
+    situacion: {
+      es: 'Dolor abdominal muy intenso y repentino en la parte baja derecha del abdomen, con fiebre y vómitos.',
+      en: 'Very intense, sudden abdominal pain in the lower right abdomen, with fever and vomiting.',
+      ca: 'Dolor abdominal molt intens i sobtat a la part baixa dreta de l\'abdomen, amb febre i vòmits.',
+    },
+    opciones: [
+      {
+        texto: { es: 'Ir a urgencias ahora', en: 'Go to the ER now', ca: 'Anar a urgències ara' },
+        esCorrecta: true, esPeligrosa: false,
+        explicacion: { es: 'Dolor intenso y repentino en esa zona, con fiebre y vómitos, es una presentación clásica de apendicitis: requiere valoración urgente.', en: 'Intense, sudden pain in that area, with fever and vomiting, is a classic appendicitis presentation: it needs urgent assessment.', ca: 'Dolor intens i sobtat en aquesta zona, amb febre i vòmits, és una presentació clàssica d\'apendicitis: requereix valoració urgent.' },
+      },
+      {
+        texto: { es: 'Tomar un laxante para aliviar la tripa', en: 'Take a laxative to ease the stomach', ca: 'Prendre un laxant per alleujar la panxa' },
+        esCorrecta: false, esPeligrosa: true,
+        explicacion: { es: 'Ante un posible abdomen agudo, un laxante puede empeorar las cosas: hace falta valoración médica, no automedicarse.', en: 'With a possible acute abdomen, a laxative can make things worse: it needs medical assessment, not self-medication.', ca: 'Davant un possible abdomen agut, un laxant pot empitjorar les coses: cal valoració mèdica, no automedicar-se.' },
+      },
+      {
+        texto: { es: 'Esperar unos días a ver si se pasa antes de pedir cita', en: 'Wait a few days to see if it passes before booking an appointment', ca: 'Esperar uns dies a veure si es passa abans de demanar cita' },
+        esCorrecta: false, esPeligrosa: true,
+        explicacion: { es: 'Un posible apéndice inflamado puede perforarse si se espera: no se deja pasar el tiempo con estos síntomas.', en: 'A possibly inflamed appendix can rupture if you wait: you don\'t let time pass with these symptoms.', ca: 'Un possible apèndix inflamat es pot perforar si s\'espera: no es deixa passar el temps amb aquests símptomes.' },
+      },
+    ],
+  },
 ]

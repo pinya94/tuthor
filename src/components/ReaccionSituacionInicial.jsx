@@ -30,15 +30,19 @@ export default function ReaccionSituacionInicial({ onEmpezar, mejorPuntuacion })
         <div className="space-y-2 text-sm text-white/60">
           <div className="flex items-start gap-3">
             <span className="text-base w-5 shrink-0 text-center">⏱️</span>
-            <span>{tr({ es: 'Cada caso tiene un tiempo para decidir que se acorta cuanto más aciertas', en: 'Each case gives you less time to decide the more you get right', ca: 'Cada cas té un temps per decidir que s\'escurça com més encertes' })}</span>
+            <span>{tr({ es: 'Un reloj corre siempre: empieza en 1 minuto, acertar suma 10s y fallar resta 20s', en: 'A clock always runs: it starts at 1 minute, a right answer adds 10s and a wrong one costs 20s', ca: 'Un rellotge corre sempre: comença en 1 minut, encertar suma 10s i fallar resta 20s' })}</span>
           </div>
           <div className="flex items-start gap-3">
             <span className="text-base w-5 shrink-0 text-center">🔴</span>
-            <span>{tr({ es: 'Una decisión peligrosa cuesta más que un simple despiste', en: 'A dangerous choice costs more than a small slip-up', ca: 'Una decisió perillosa costa més que un simple despistament' })}</span>
+            <span>{tr({ es: 'Una decisión peligrosa cuesta lo mismo que cualquier otro fallo, pero queda marcada aparte al final', en: 'A dangerous choice costs the same as any other mistake, but it\'s flagged separately at the end', ca: 'Una decisió perillosa costa el mateix que qualsevol altre error, però queda marcada a part al final' })}</span>
           </div>
           <div className="flex items-start gap-3">
-            <span className="text-base w-5 shrink-0 text-center">💔</span>
-            <span>{tr({ es: 'La partida acaba cuando se agotan las vidas', en: 'The run ends when you run out of lives', ca: 'La partida s\'acaba quan s\'esgoten les vides' })}</span>
+            <span className="text-base w-5 shrink-0 text-center">🎁</span>
+            <span>{tr({ es: 'Cada 5 aciertos eliges una mejora (más tiempo, un escudo o más puntos)', en: 'Every 5 correct answers you pick an upgrade (more time, a shield or more points)', ca: 'Cada 5 encerts tries una millora (més temps, un escut o més punts)' })}</span>
+          </div>
+          <div className="flex items-start gap-3">
+            <span className="text-base w-5 shrink-0 text-center">⏳</span>
+            <span>{tr({ es: 'La partida acaba cuando el reloj llega a 0', en: 'The run ends when the clock hits 0', ca: 'La partida s\'acaba quan el rellotge arriba a 0' })}</span>
           </div>
         </div>
       </div>
