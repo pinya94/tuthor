@@ -227,9 +227,12 @@ export default function PentagramaPath() {
     survSavedRef.current = false
     survLastClickFloorRef.current = null
 
-    const notas = []
-    let cum = 0
-    while (cum < LOOKAHEAD_BEATS) {
+    // Compás inicial de silencio (siempre): el jugador ve el playhead cruzar
+    // un compás vacío a tempo antes de la primera nota, en vez de un
+    // contador tapando la partitura — así "ve" el tempo antes de leer.
+    const notas = [{ pitch: null, beats: COUNT_IN_BEATS, cum: 0 }]
+    let cum = COUNT_IN_BEATS
+    while (cum < COUNT_IN_BEATS + LOOKAHEAD_BEATS) {
       const ev = generarEvento(notas)
       notas.push({ ...ev, cum })
       cum += ev.beats
@@ -241,9 +244,9 @@ export default function PentagramaPath() {
     setSurvFails(0); setSurvScore(0); setSurvStreak(0); setSurvResueltas(0)
     setSurvFinal(null)
 
-    survBeatRef.current = -COUNT_IN_BEATS
+    survBeatRef.current = 0
     survLastFrameRef.current = performance.now()
-    setSurvPlayBeat(-COUNT_IN_BEATS)
+    setSurvPlayBeat(0)
     setPantalla('survivor')
     cancelAnimationFrame(survRafRef.current)
     survRafRef.current = requestAnimationFrame(survivorTick)
@@ -264,7 +267,11 @@ export default function PentagramaPath() {
     }
     setSurvStreak(survStreakRef.current)
 
-    if (resultado === 'rojo') {
+    // Solo "perfecto" (nota y tiempo correctos) libra de perder una vida.
+    // Si no, machacar todas las teclas a la vez nunca costaría nada: siempre
+    // habría alguna tecla cerca en nota o en tiempo que "resolviera" la nota
+    // sin arriesgar la partida.
+    if (resultado !== 'perfecto') {
       survFailsRef.current += 1
       setSurvFails(survFailsRef.current)
     }
@@ -610,7 +617,6 @@ export default function PentagramaPath() {
   // ── SURVIVOR: JUGANDO ────────────────────────────────────────────────────
   if (pantalla === 'survivor') {
     const stage = stageFor(survResueltas)
-    const enCountIn = survPlayBeat != null && survPlayBeat < 0
     const beatActual = survPlayBeat != null ? Math.floor(survPlayBeat) : -1
     // Las notas se generan con antelación (buffer por delante del playhead) con
     // la dificultad de esa etapa futura, así que puede haber un sostenido ya
@@ -662,16 +668,6 @@ export default function PentagramaPath() {
             resultados={survRes}
             playheadBeat={survPlayBeat}
           />
-          {enCountIn && (
-            <div className="absolute inset-0 flex items-center justify-center bg-black/40 rounded-2xl">
-              <div className="text-center">
-                <p className="text-6xl font-black text-[#EDAE49] tabular-nums animate-pulse">{Math.ceil(-survPlayBeat)}</p>
-                <p className="text-white/50 text-xs mt-1 uppercase tracking-widest">
-                  {tr({ es: 'Escucha el pulso…', en: 'Feel the beat…', ca: 'Escolta el pols…' })}
-                </p>
-              </div>
-            </div>
-          )}
         </div>
 
         <div className="mt-auto">
