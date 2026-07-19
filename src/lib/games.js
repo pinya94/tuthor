@@ -114,6 +114,14 @@ export const GAMES = {
     // % de aciertos sobre 150 monedas máx
     coins: ({ correct, total }) => (total > 0 ? Math.round((correct / total) * 150) : 0),
   },
+  'pentagrama-path': {
+    label: { es: 'Pentagrama Path', en: 'Pentagrama Path', ca: 'Pentagrama Path' },
+    emoji: '🎼',
+    subject: 'musica',
+    route: '/juegos/pentagrama-path',
+    // puntos por nota leída (100 máx/nota) → hasta 200 monedas
+    coins: DEFAULT_COINS,
+  },
   'spicy': {
     label: { es: 'Spicy', en: 'Spicy', ca: 'Spicy' },
     emoji: '🌶️',

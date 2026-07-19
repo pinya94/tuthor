@@ -79,6 +79,13 @@ const SUBJECT_DEFS = [
     catIds: [],
     catLabels: {},
   },
+  {
+    id: 'musica', emoji: '🎼',
+    label: { es: 'Música', en: 'Music', ca: 'Música' },
+    gameIds: ['pentagrama-path'],
+    catIds: [],
+    catLabels: {},
+  },
 ]
 
 const SUBJECTS = SUBJECT_DEFS.map(s => {

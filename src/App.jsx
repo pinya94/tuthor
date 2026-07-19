@@ -63,6 +63,7 @@ const QuimicaTema            = lazy(() => import('./pages/QuimicaTema'))
 const GeometriaTema          = lazy(() => import('./pages/GeometriaTema'))
 const ElIntruso              = lazy(() => import('./pages/ElIntruso'))
 const Spicy                  = lazy(() => import('./pages/Spicy'))
+const PentagramaPath         = lazy(() => import('./pages/PentagramaPath'))
 const FraccionesTema         = lazy(() => import('./pages/FraccionesTema'))
 const EstadisticaTema        = lazy(() => import('./pages/EstadisticaTema'))
 const EnterosRacionalesTema  = lazy(() => import('./pages/EnterosRacionalesTema'))
@@ -151,6 +152,7 @@ function AppRoutes() {
       <Route path="juegos/portero" element={<Portero />} />
       <Route path="juegos/intruso" element={<ElIntruso />} />
       <Route path="juegos/spicy" element={<Spicy />} />
+      <Route path="juegos/pentagrama-path" element={<PentagramaPath />} />
       <Route path="examen/portero" element={<PorteroExamen />} />
       <Route path="examen/trayectoria" element={<TrayectoriaExamen />} />
 
