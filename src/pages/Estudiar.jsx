@@ -10,6 +10,7 @@ const MATERIAS = [
   { id: 'espanol', titulo: 'Español', tituloEn: 'Spanish', tituloCa: 'Castellà', subtitulo: 'Gramática y ortografía del español', subtituloEn: 'Spanish grammar and spelling', subtituloCa: 'Gramàtica i ortografia del castellà', emoji: '✏️', gradient: 'from-red-500 to-yellow-500', ready: true, path: '/estudiar/idiomas/espanol' },
   { id: 'ingles', titulo: 'English', tituloEn: 'English', tituloCa: 'Anglès', subtitulo: 'Grammar: tenses, articles, passive...', subtituloEn: 'Grammar: tenses, articles, passive...', subtituloCa: 'Gramàtica: temps, articles, passiva...', emoji: '💬', gradient: 'from-blue-700 to-red-600', ready: true, path: '/estudiar/idiomas/ingles' },
   { id: 'economia', titulo: 'Economía', tituloEn: 'Economics', tituloCa: 'Economia', subtitulo: 'Finanzas personales: inflación, deuda, inversión', subtituloEn: 'Personal finance: inflation, debt, investing', subtituloCa: 'Finances personals: inflació, deute, inversió', emoji: '💰', gradient: 'from-amber-500 to-red-700', ready: true, path: '/estudiar/economia' },
+  { id: 'musica', titulo: 'Música', tituloEn: 'Music', tituloCa: 'Música', subtitulo: 'Lectura de partituras y ritmo', subtituloEn: 'Sheet music reading and rhythm', subtituloCa: 'Lectura de partitures i ritme', emoji: '🎼', gradient: 'from-indigo-500 to-fuchsia-700', ready: true, path: '/estudiar/musica' },
 ]
 
 export default function Estudiar() {

@@ -59,6 +59,7 @@ const GeoMapaEspanaExamen  = lazy(() => import('./pages/GeoMapaEspanaExamen'))
 const GeoMapaEEUUExamen    = lazy(() => import('./pages/GeoMapaEEUUExamen'))
 const QuimicaIndex           = lazy(() => import('./pages/QuimicaIndex'))
 const EconomiaIndex          = lazy(() => import('./pages/EconomiaIndex'))
+const MusicaIndex            = lazy(() => import('./pages/MusicaIndex'))
 const QuimicaTema            = lazy(() => import('./pages/QuimicaTema'))
 const GeometriaTema          = lazy(() => import('./pages/GeometriaTema'))
 const ElIntruso              = lazy(() => import('./pages/ElIntruso'))
@@ -97,6 +98,7 @@ function AppRoutes() {
       <Route path="estudiar/historia" element={<HistoriaIndex />} />
       <Route path="estudiar/historia/:categoria" element={<HistoriaTema />} />
       <Route path="estudiar/economia" element={<EconomiaIndex />} />
+      <Route path="estudiar/musica" element={<MusicaIndex />} />
       <Route path="estudiar/matematicas" element={<MatematicasIndex />} />
       <Route path="estudiar/matematicas/funciones" element={<FuncionesTema />} />
       <Route path="estudiar/matematicas/geometria" element={<GeometriaTema />} />

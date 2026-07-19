@@ -189,6 +189,34 @@ export default function PentagramaPath() {
     bono.apply()
     bonusPendingRef.current = false
     setBonusOpen(false)
+
+    // Compás en blanco tras elegir: recorta las notas generadas pero aún
+    // no resueltas (el jugador nunca llegó a leerlas) y las sustituye por
+    // un respiro + partitura nueva a partir del siguiente compás, para
+    // volver a jugar con margen de preparación en vez de retomar a mitad
+    // de una nota ya casi encima.
+    const notasOld = survNotasRef.current
+    const resOld = survResRef.current
+    const yaResueltas = [], resYaResueltas = []
+    notasOld.forEach((n, i) => {
+      if (resOld[i] != null) { yaResueltas.push(n); resYaResueltas.push(resOld[i]) }
+    })
+    const pausaEn = (Math.floor(survBeatRef.current / COUNT_IN_BEATS) + 1) * COUNT_IN_BEATS
+    const nuevas = [{ pitch: null, beats: COUNT_IN_BEATS, cum: pausaEn }]
+    let cum = pausaEn + COUNT_IN_BEATS
+    while (cum < pausaEn + COUNT_IN_BEATS + LOOKAHEAD_BEATS) {
+      const ev = generarEvento(nuevas)
+      nuevas.push({ ...ev, cum })
+      cum += ev.beats
+    }
+    const notasFinal = [...yaResueltas, ...nuevas]
+    survNotasRef.current = notasFinal
+    survResRef.current = [...resYaResueltas, ...nuevas.map(() => null)]
+    setSurvNotas(notasFinal.slice())
+    setSurvRes(survResRef.current.slice())
+
+    survBeatRef.current = pausaEn
+    setSurvPlayBeat(pausaEn)
     survLastFrameRef.current = performance.now()
     cancelAnimationFrame(survRafRef.current)
     survRafRef.current = requestAnimationFrame(survivorTick)
