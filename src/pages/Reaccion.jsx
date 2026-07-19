@@ -1,10 +1,12 @@
-// ── Reacción (primeros auxilios) ────────────────────────────────────────────
-// Cada escenario: fase de orden (arrastra TODOS los pasos 'orden' del
-// escenario a su sitio) seguida de fase de decisión (las 'decision' del
-// escenario, una a una, en su posiciónEnSecuencia). Al terminar el escenario
-// se muestra su resumen (fallos leves vs decisiones peligrosas) antes de
-// pasar al siguiente escenario o, si era el último, a la pantalla final
-// estándar de Tuthor con monedas y ranking.
+// ── Reacción (arcade de primeros auxilios, estilo Papers, Please) ───────────
+// Casos de emergencia llegan uno tras otro; cada uno da un tiempo para
+// decidir que se acorta con la racha (mismo patrón que el Survivor de
+// Pentagrama Path). Una decisión peligrosa cuesta más vidas que un despiste.
+// La partida acaba al agotar las vidas y termina en la pantalla final
+// estándar de Tuthor con el desglose de errores.
+//
+// El contenido "profundo" del protocolo (ordenar pasos, explicaciones largas)
+// vive aparte en el Examen de Primeros Auxilios — ver src/pages/PrimerosAuxiliosExamen.jsx.
 import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
@@ -14,10 +16,12 @@ import { computeCoins } from '../lib/games'
 import GameEndScreen from '../components/GameEndScreen'
 import SEOHead from '../components/SEOHead'
 import ReaccionSituacionInicial from '../components/ReaccionSituacionInicial'
-import ReaccionPasosDragDrop from '../components/ReaccionPasosDragDrop'
-import ReaccionDecisionCritica from '../components/ReaccionDecisionCritica'
-import ReaccionResumenEscenario from '../components/ReaccionResumenEscenario'
-import { SCENARIOS } from '../data/reaccionScenarios'
+import ReaccionCaso from '../components/ReaccionCaso'
+import ReaccionResumenFinal from '../components/ReaccionResumenFinal'
+import { CASOS } from '../data/reaccionCasos'
+import { FAILS_LIMIT, tiempoPara, elegirSiguienteCaso, puntosPorCaso } from '../lib/reaccionArcade'
+
+const LS_BEST = 'reaccion-best'
 
 function formatTiempo(s) {
   const m = Math.floor(s / 60)
@@ -25,115 +29,96 @@ function formatTiempo(s) {
   return `${m}:${String(r).padStart(2, '0')}`
 }
 
-const RESULTADO_INICIAL = () => ({ ordenErrores: [], decisionesLeves: [], decisionesPeligrosas: [] })
-
-// Orden de los escenarios para una partida: aleatorio, sin repetir ninguno.
-function ordenAleatorioEscenarios() {
-  return SCENARIOS.map((_, i) => i).sort(() => Math.random() - 0.5)
-}
-
 export default function Reaccion() {
   const navigate = useNavigate()
   const { lang, tr, localPath } = useLang()
   const { user } = useAuth()
 
-  const [pantalla, setPantalla] = useState('intro') // intro | orden | decision | resumen | final
-  const [ordenEscenarios, setOrdenEscenarios] = useState(ordenAleatorioEscenarios)
-  const [scenarioIndex, setScenarioIndex] = useState(0)
-  const [decisionIndex, setDecisionIndex] = useState(0)
-  const [resultadoEscenario, setResultadoEscenario] = useState(RESULTADO_INICIAL)
-  const [totales, setTotales] = useState(RESULTADO_INICIAL)
+  const [pantalla, setPantalla] = useState('intro') // intro | jugando | final
+  const [caso, setCaso] = useState(null)
+  const [tiempoMs, setTiempoMs] = useState(tiempoPara(0))
+  const [resueltos, setResueltos] = useState(0)
+  const [vidasPerdidas, setVidasPerdidas] = useState(0)
+  const [racha, setRacha] = useState(0)
+  const [mejorRacha, setMejorRacha] = useState(0)
+  const [score, setScore] = useState(0)
+  const [leves, setLeves] = useState([])
+  const [peligrosas, setPeligrosas] = useState([])
   const [elapsed, setElapsed] = useState(0)
+  const [best] = useState(() => Number(localStorage.getItem(LS_BEST) || 0))
 
   const savedRef = useRef(false)
-  const escenario = SCENARIOS[ordenEscenarios[scenarioIndex]]
-  const pasosOrden = escenario.pasos.filter(p => p.tipo === 'orden')
-  const decisiones = escenario.pasos.filter(p => p.tipo === 'decision').sort((a, b) => a.posicionEnSecuencia - b.posicionEnSecuencia)
+  const ultimoIdRef = useRef(null)
 
-  // Timer suave: corre durante todo el escenario, no bloquea ni penaliza por sí solo.
   useEffect(() => {
-    if (pantalla === 'intro' || pantalla === 'final') return
+    if (pantalla !== 'jugando') return
     const id = setInterval(() => setElapsed(e => e + 1), 1000)
     return () => clearInterval(id)
   }, [pantalla])
 
-  function empezarEscenario() {
-    setDecisionIndex(0)
-    setResultadoEscenario(RESULTADO_INICIAL())
-    setPantalla('orden')
-  }
-
-  function onConfirmarOrden(orderedIds) {
-    const objetivo = [...pasosOrden].sort((a, b) => a.posicionCorrecta - b.posicionCorrecta)
-    const ordenErrores = []
-    orderedIds.forEach((id, i) => {
-      if (id === objetivo[i].id) return
-      const paso = pasosOrden.find(p => p.id === id)
-      ordenErrores.push({ texto: paso.texto, posicionCorrecta: paso.posicionCorrecta })
-    })
-    setResultadoEscenario(r => ({ ...r, ordenErrores }))
-    if (decisiones.length > 0) {
-      setPantalla('decision')
-    } else {
-      setPantalla('resumen')
-    }
-  }
-
-  function onElegirDecision(opcion) {
-    if (!opcion.esCorrecta) {
-      const entrada = { texto: opcion.texto, explicacion: opcion.explicacion }
-      setResultadoEscenario(r =>
-        opcion.esPeligrosa
-          ? { ...r, decisionesPeligrosas: [...r.decisionesPeligrosas, entrada] }
-          : { ...r, decisionesLeves: [...r.decisionesLeves, entrada] }
-      )
-    }
-    if (decisionIndex + 1 < decisiones.length) {
-      setDecisionIndex(i => i + 1)
-    } else {
-      setPantalla('resumen')
-    }
-  }
-
-  function onContinuarResumen() {
-    setTotales(t => ({
-      ordenErrores: [...t.ordenErrores, ...resultadoEscenario.ordenErrores],
-      decisionesLeves: [...t.decisionesLeves, ...resultadoEscenario.decisionesLeves],
-      decisionesPeligrosas: [...t.decisionesPeligrosas, ...resultadoEscenario.decisionesPeligrosas],
-    }))
-    if (scenarioIndex + 1 < SCENARIOS.length) {
-      setScenarioIndex(i => i + 1)
-      setPantalla('intro')
-    } else {
-      setPantalla('final')
-    }
-  }
-
-  function jugarDeNuevo() {
+  function empezar() {
     savedRef.current = false
-    setOrdenEscenarios(ordenAleatorioEscenarios())
-    setScenarioIndex(0)
-    setDecisionIndex(0)
-    setResultadoEscenario(RESULTADO_INICIAL())
-    setTotales(RESULTADO_INICIAL())
-    setElapsed(0)
-    setPantalla('intro')
+    setResueltos(0); setVidasPerdidas(0); setRacha(0); setMejorRacha(0); setScore(0)
+    setLeves([]); setPeligrosas([]); setElapsed(0)
+    const primero = elegirSiguienteCaso(CASOS, 0, null)
+    ultimoIdRef.current = primero.id
+    setCaso(primero)
+    setTiempoMs(tiempoPara(0))
+    setPantalla('jugando')
   }
 
-  const totalPasos = SCENARIOS.reduce((n, e) => n + e.pasos.length, 0)
-  const fallos = totales.ordenErrores.length + totales.decisionesLeves.length + totales.decisionesPeligrosas.length
-  const score = Math.max(0, (totalPasos - fallos) * 10)
+  function onResuelto(opcion, msRestante) {
+    let nuevaRacha = racha
+    let nuevasVidasPerdidas = vidasPerdidas
+
+    if (!opcion) {
+      // Tiempo agotado: fallo leve
+      setLeves(l => [...l, {
+        situacion: caso.situacion,
+        explicacion: { es: 'No hubo tiempo para decidir — en una emergencia real, dudar también tiene coste.', en: 'There was no time to decide — in a real emergency, hesitating has a cost too.', ca: 'No hi va haver temps per decidir — en una emergència real, dubtar també té un cost.' },
+      }])
+      nuevaRacha = 0
+      nuevasVidasPerdidas += 1
+    } else if (opcion.esCorrecta) {
+      nuevaRacha = racha + 1
+      setScore(s => s + puntosPorCaso(msRestante, tiempoMs, nuevaRacha))
+    } else if (opcion.esPeligrosa) {
+      setPeligrosas(p => [...p, { situacion: caso.situacion, texto: opcion.texto, explicacion: opcion.explicacion }])
+      nuevaRacha = 0
+      nuevasVidasPerdidas += 2
+    } else {
+      setLeves(l => [...l, { situacion: caso.situacion, texto: opcion.texto, explicacion: opcion.explicacion }])
+      nuevaRacha = 0
+      nuevasVidasPerdidas += 1
+    }
+
+    setRacha(nuevaRacha)
+    setMejorRacha(m => Math.max(m, nuevaRacha))
+    setVidasPerdidas(nuevasVidasPerdidas)
+    const nuevosResueltos = resueltos + 1
+    setResueltos(nuevosResueltos)
+
+    if (nuevasVidasPerdidas >= FAILS_LIMIT) {
+      setPantalla('final')
+      return
+    }
+    const siguiente = elegirSiguienteCaso(CASOS, nuevosResueltos, ultimoIdRef.current)
+    ultimoIdRef.current = siguiente.id
+    setCaso(siguiente)
+    setTiempoMs(tiempoPara(nuevosResueltos))
+  }
 
   useEffect(() => {
-    if (pantalla !== 'final' || !user || savedRef.current) return
+    if (pantalla !== 'final' || savedRef.current) return
     savedRef.current = true
-    const coinsEarned = computeCoins('reaccion', {
-      ordenErrores: totales.ordenErrores.length,
-      decisionesPeligrosas: totales.decisionesPeligrosas.length,
-    })
+    if (score > Number(localStorage.getItem(LS_BEST) || 0)) {
+      localStorage.setItem(LS_BEST, String(score))
+    }
+    if (!user) return
+    const coinsEarned = computeCoins('reaccion', { score, peligrosas: peligrosas.length })
     saveActivity(user.uid, {
       type: 'juego', game: 'reaccion', score, coinsEarned,
-      passed: totales.decisionesPeligrosas.length === 0,
+      passed: peligrosas.length === 0,
       timeSpent: elapsed,
       userName: user.displayName || 'Jugador', userPhoto: user.photoURL || null,
     }).catch(() => {})
@@ -144,39 +129,42 @@ export default function Reaccion() {
     return (
       <GameEndScreen
         game="reaccion"
-        result={{ ordenErrores: totales.ordenErrores.length, decisionesPeligrosas: totales.decisionesPeligrosas.length }}
+        result={{ score, peligrosas: peligrosas.length }}
         emoji="🚑"
-        title={tr({ es: 'Simulacro completado', en: 'Drill completed', ca: 'Simulacre completat' })}
+        title={tr({ es: `${FAILS_LIMIT} vidas perdidas — fin de la partida`, en: `${FAILS_LIMIT} lives lost — run over`, ca: `${FAILS_LIMIT} vides perdudes — fi de la partida` })}
         score={score}
-        message={totales.decisionesPeligrosas.length > 0
+        message={peligrosas.length > 0
           ? tr({ es: 'Revisa las decisiones peligrosas antes de la próxima', en: 'Review the dangerous decisions before your next run', ca: 'Revisa les decisions perilloses abans de la propera' })
           : null}
         stats={[
-          { label: tr({ es: 'Fallos leves', en: 'Minor mistakes', ca: 'Errades lleus' }), value: totales.ordenErrores.length + totales.decisionesLeves.length, emoji: '🟠' },
-          { label: tr({ es: 'Decisiones peligrosas', en: 'Dangerous decisions', ca: 'Decisions perilloses' }), value: totales.decisionesPeligrosas.length, emoji: '🔴' },
+          { label: tr({ es: 'Casos resueltos', en: 'Cases resolved', ca: 'Casos resolts' }), value: resueltos, emoji: '📋' },
+          { label: tr({ es: 'Mejor racha', en: 'Best streak', ca: 'Millor ratxa' }), value: mejorRacha, emoji: '🔥' },
+          { label: tr({ es: 'Decisiones peligrosas', en: 'Dangerous decisions', ca: 'Decisions perilloses' }), value: peligrosas.length, emoji: '🔴' },
           { label: tr({ es: 'Tiempo', en: 'Time', ca: 'Temps' }), value: formatTiempo(elapsed), emoji: '⏱️' },
         ]}
         shareText={tr({
-          es: `He completado un simulacro de primeros auxilios en Reacción con ${score} puntos 🚑 https://tuthor.es/juegos/reaccion`,
-          en: `I completed a first-aid drill in Reacción with ${score} points 🚑 https://tuthor.es/juegos/reaccion`,
-          ca: `He completat un simulacre de primers auxilis a Reacció amb ${score} punts 🚑 https://tuthor.es/juegos/reaccion`,
+          es: `He conseguido ${score} puntos en Reacción 🚑 (${resueltos} casos resueltos) — ¿puedes superarme? https://tuthor.es/juegos/reaccion`,
+          en: `I scored ${score} points in Reacción 🚑 (${resueltos} cases resolved) — can you beat me? https://tuthor.es/juegos/reaccion`,
+          ca: `He aconseguit ${score} punts a Reacció 🚑 (${resueltos} casos resolts) — pots superar-me? https://tuthor.es/juegos/reaccion`,
         })}
-        onPlayAgain={jugarDeNuevo}
-        playAgainLabel={tr({ es: '▶ Otro simulacro', en: '▶ Another drill', ca: '▶ Un altre simulacre' })}
+        onPlayAgain={empezar}
+        playAgainLabel={tr({ es: '▶ Otra vez', en: '▶ Play again', ca: '▶ Una altra vegada' })}
         secondaryActions={[{ label: tr({ es: '← Todos los juegos', en: '← All games', ca: '← Tots els jocs' }), onClick: () => navigate(localPath('/juegos')) }]}
         user={user} lang={lang}
-      />
+      >
+        <ReaccionResumenFinal leves={leves} peligrosas={peligrosas} />
+      </GameEndScreen>
     )
   }
 
   return (
     <div className="relative z-10 flex flex-col items-center min-h-[calc(100vh-4rem)] px-4 py-8">
       <SEOHead
-        title={tr({ es: 'Reacción — primeros auxilios básicos', en: 'Reacción — basic first aid', ca: 'Reacció — primers auxilis bàsics' })}
+        title={tr({ es: 'Reacción — arcade de primeros auxilios', en: 'Reacción — first-aid arcade', ca: 'Reacció — arcade de primers auxilis' })}
         description={tr({
-          es: 'Ordena los pasos y toma las decisiones correctas ante una emergencia: atragantamiento y más escenarios de primeros auxilios básicos.',
-          en: 'Order the steps and make the right calls in an emergency: choking and more basic first-aid scenarios.',
-          ca: 'Ordena els passos i pren les decisions correctes davant una emergència: ennuegament i més escenaris de primers auxilis bàsics.',
+          es: 'Casos de emergencia llegan uno tras otro: decide rápido qué hacer ante un atragantamiento, una quemadura, una alergia y más. Educativo, no sustituye una formación oficial.',
+          en: 'Emergency cases arrive one after another: decide fast what to do for choking, burns, allergic reactions and more. Educational, not a substitute for official training.',
+          ca: 'Casos d\'emergència arriben un darrere l\'altre: decideix ràpid què fer davant un ennuegament, una cremada, una al·lèrgia i més. Educatiu, no substitueix una formació oficial.',
         })}
         path="/juegos/reaccion" lang={lang} />
 
@@ -185,30 +173,20 @@ export default function Reaccion() {
           className="text-white/30 hover:text-white/60 text-sm flex items-center gap-1 transition-colors">
           {tr({ es: '← Volver', en: '← Back', ca: '← Tornar' })}
         </button>
-        {pantalla !== 'intro' && (
-          <span className="text-white/30 text-sm font-mono">⏱️ {formatTiempo(elapsed)}</span>
+        {pantalla === 'jugando' && (
+          <div className="flex items-center gap-3 text-sm font-mono">
+            <span className="text-red-400">{'❤️'.repeat(Math.max(0, FAILS_LIMIT - vidasPerdidas))}</span>
+            <span className="text-white/30">💰 {score}</span>
+          </div>
         )}
       </div>
 
       {pantalla === 'intro' && (
-        <ReaccionSituacionInicial escenario={escenario} onEmpezar={empezarEscenario} />
+        <ReaccionSituacionInicial onEmpezar={empezar} mejorPuntuacion={best} />
       )}
 
-      {pantalla === 'orden' && (
-        <ReaccionPasosDragDrop pasos={pasosOrden} onConfirm={onConfirmarOrden} />
-      )}
-
-      {pantalla === 'decision' && (
-        <ReaccionDecisionCritica key={decisiones[decisionIndex].id} decision={decisiones[decisionIndex]} onElegir={onElegirDecision} />
-      )}
-
-      {pantalla === 'resumen' && (
-        <ReaccionResumenEscenario
-          ordenErrores={resultadoEscenario.ordenErrores}
-          decisionesLeves={resultadoEscenario.decisionesLeves}
-          decisionesPeligrosas={resultadoEscenario.decisionesPeligrosas}
-          onContinuar={onContinuarResumen}
-        />
+      {pantalla === 'jugando' && caso && (
+        <ReaccionCaso key={`${resueltos}-${caso.id}`} caso={caso} tiempoMs={tiempoMs} onResuelto={onResuelto} />
       )}
     </div>
   )

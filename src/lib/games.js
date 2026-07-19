@@ -135,8 +135,8 @@ export const GAMES = {
     emoji: '🚑',
     subject: 'vida-practica',
     route: '/juegos/reaccion',
-    // 150 monedas base, -10 por fallo leve de orden, -40 por decisión peligrosa
-    coins: ({ ordenErrores = 0, decisionesPeligrosas = 0 } = {}) => 150 - ordenErrores * 10 - decisionesPeligrosas * 40,
+    // puntuación / 5 (tope 200), menos 15 monedas por cada decisión peligrosa
+    coins: ({ score = 0, peligrosas = 0 } = {}) => Math.min(score / 5, 200) - peligrosas * 15,
   },
 }
 

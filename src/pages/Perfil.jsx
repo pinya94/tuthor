@@ -86,6 +86,13 @@ const SUBJECT_DEFS = [
     catIds: [],
     catLabels: {},
   },
+  {
+    id: 'vida-practica', emoji: '🚑',
+    label: { es: 'Vida Práctica', en: 'Life Skills', ca: 'Vida Pràctica' },
+    gameIds: ['reaccion'],
+    catIds: [],
+    catLabels: {},
+  },
 ]
 
 const SUBJECTS = SUBJECT_DEFS.map(s => {

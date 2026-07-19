@@ -47,6 +47,13 @@ export const EXAMS = {
     emoji: '🇺🇸', subject: 'geografia',
   },
 
+  // ── Vida Práctica ──────────────────────────────────────────────────────────
+  'primeros-auxilios': {
+    label: { es: 'Primeros Auxilios', en: 'First Aid', ca: 'Primers Auxilis' },
+    emoji: '🚑', subject: 'vida-practica',
+    path: 'examen/primeros-auxilios', page: () => import('../pages/PrimerosAuxiliosExamen'),
+  },
+
   // ── Música ─────────────────────────────────────────────────────────────────
   'musica': {
     label: { es: 'Lectura de Partituras', en: 'Sheet Music Reading', ca: 'Lectura de Partitures' },
