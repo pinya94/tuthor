@@ -1,12 +1,22 @@
 import { useState, useRef } from 'react'
 import { useLang } from '../context/LangContext'
 
+function shuffle(arr) {
+  const a = [...arr]
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
+    ;[a[i], a[j]] = [a[j], a[i]]
+  }
+  return a
+}
+
 // Un caso del arcade: situación + acciones puras. Sin timer propio — el
 // reloj de la partida corre de fondo y es el único que manda. Al elegir se
 // ve un destello de color medio segundo y se avisa al padre; sin
 // explicación aquí, eso se guarda para el resumen final.
 export default function ReaccionCaso({ caso, onResuelto }) {
   const { tr } = useLang()
+  const [opciones] = useState(() => shuffle(caso.opciones))
   const [elegida, setElegida] = useState(null)
   const resueltoRef = useRef(false)
 
@@ -14,7 +24,7 @@ export default function ReaccionCaso({ caso, onResuelto }) {
     if (resueltoRef.current) return
     resueltoRef.current = true
     setElegida(i)
-    setTimeout(() => onResuelto(caso.opciones[i]), 500)
+    setTimeout(() => onResuelto(opciones[i]), 500)
   }
 
   const resuelto = elegida !== null
@@ -30,7 +40,7 @@ export default function ReaccionCaso({ caso, onResuelto }) {
       </p>
 
       <div className="space-y-3">
-        {caso.opciones.map((op, i) => {
+        {opciones.map((op, i) => {
           const activa = elegida === i
           const estilo = !resuelto
             ? 'border-white/15 bg-white/5 hover:bg-white/10'

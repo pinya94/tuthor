@@ -671,4 +671,114 @@ export const CASOS = [
       },
     ],
   },
+  {
+    id: 'rcp-esperar',
+    situacion: {
+      es: 'Vas a hacer RCP a un adulto que no respira. ¿Hay que esperar a que llegue la ambulancia para empezar?',
+      en: 'You\'re about to give CPR to an adult who isn\'t breathing. Should you wait for the ambulance before starting?',
+      ca: 'Vas a fer RCP a un adult que no respira. Cal esperar que arribi l\'ambulància per començar?',
+    },
+    opciones: [
+      {
+        texto: { es: 'No, hay que empezar la RCP ya mismo', en: 'No, CPR should start right away', ca: 'No, cal començar la RCP ja mateix' },
+        esCorrecta: true, esPeligrosa: false,
+        explicacion: { es: 'Cada minuto sin RCP reduce mucho las probabilidades de que la persona sobreviva: no se espera a que llegue nadie.', en: 'Every minute without CPR greatly reduces the chances of survival: you don\'t wait for anyone to arrive.', ca: 'Cada minut sense RCP redueix molt les probabilitats que la persona sobrevisqui: no s\'espera que arribi ningú.' },
+      },
+      {
+        texto: { es: 'Sí, mejor esperar a personal sanitario', en: 'Yes, better to wait for medical staff', ca: 'Sí, millor esperar personal sanitari' },
+        esCorrecta: false, esPeligrosa: true,
+        explicacion: { es: 'Esperar sin hacer nada reduce drásticamente las opciones de reanimar a la persona: la RCP la puede hacer cualquiera mientras llega ayuda.', en: 'Waiting and doing nothing drastically lowers the chances of reviving the person: anyone can perform CPR while help is on its way.', ca: 'Esperar sense fer res redueix dràsticament les opcions de reanimar la persona: la RCP la pot fer qualsevol mentre arriba ajuda.' },
+      },
+    ],
+  },
+  {
+    id: 'alcohol-fiebre-nino',
+    situacion: {
+      es: 'Un familiar te dice que hay que frotar alcohol en la piel de un niño para bajarle la fiebre. ¿Es buena idea?',
+      en: 'A relative tells you to rub alcohol on a child\'s skin to bring down their fever. Is that a good idea?',
+      ca: 'Un familiar et diu que cal fregar alcohol a la pell d\'un nen per baixar-li la febre. És bona idea?',
+    },
+    opciones: [
+      {
+        texto: { es: 'No, puede ser peligroso: mejor un paño fresco o un antitérmico', en: 'No, it can be dangerous: better a cool cloth or a fever reducer', ca: 'No, pot ser perillós: millor un drap fresc o un antitèrmic' },
+        esCorrecta: true, esPeligrosa: false,
+        explicacion: { es: 'El alcohol se absorbe por la piel y también se inhala: hay casos documentados de niños intoxicados o en coma por este remedio casero.', en: 'Alcohol is absorbed through the skin and also inhaled: there are documented cases of children poisoned or in a coma from this home remedy.', ca: 'L\'alcohol s\'absorbeix per la pell i també s\'inhala: hi ha casos documentats de nens intoxicats o en coma per aquest remei casolà.' },
+      },
+      {
+        texto: { es: 'Sí, es un remedio casero seguro', en: 'Yes, it\'s a safe home remedy', ca: 'Sí, és un remei casolà segur' },
+        esCorrecta: false, esPeligrosa: true,
+        explicacion: { es: 'Es un mito peligroso: el alcohol en la piel de un niño puede absorberse y provocar una intoxicación grave.', en: 'It\'s a dangerous myth: alcohol on a child\'s skin can be absorbed and cause serious poisoning.', ca: 'És un mite perillós: l\'alcohol a la pell d\'un nen es pot absorbir i provocar una intoxicació greu.' },
+      },
+    ],
+  },
+  {
+    id: 'orden-presion-elevar',
+    situacion: {
+      es: 'Alguien se corta y sangra bastante de una pierna. ¿Qué va primero: presionar la herida o levantarle la pierna?',
+      en: 'Someone cuts their leg and it\'s bleeding quite a bit. Which comes first: pressing the wound or raising the leg?',
+      ca: 'Algú es talla i sagna força d\'una cama. Què va primer: pressionar la ferida o alçar-li la cama?',
+    },
+    opciones: [
+      {
+        texto: { es: 'Presionar la herida primero; ya con la presión puesta, se puede levantar la pierna', en: 'Press the wound first; once pressure is applied, the leg can be raised', ca: 'Pressionar la ferida primer; ja amb la pressió posada, es pot alçar la cama' },
+        esCorrecta: true, esPeligrosa: false,
+        explicacion: { es: 'La prioridad siempre es cortar la hemorragia con presión directa; levantar la extremidad ayuda, pero no sustituye la presión.', en: 'The priority is always to stop the bleeding with direct pressure; raising the limb helps, but doesn\'t replace pressure.', ca: 'La prioritat sempre és tallar l\'hemorràgia amb pressió directa; alçar l\'extremitat ajuda, però no substitueix la pressió.' },
+      },
+      {
+        texto: { es: 'Levantarle la pierna primero y presionar después', en: 'Raise the leg first and press afterwards', ca: 'Alçar-li la cama primer i pressionar després' },
+        esCorrecta: false, esPeligrosa: false,
+        explicacion: { es: 'Levantar sin presionar antes no corta el sangrado: la presión directa va siempre primero.', en: 'Raising it without pressing first doesn\'t stop the bleeding: direct pressure always comes first.', ca: 'Alçar sense pressionar abans no talla el sagnat: la pressió directa va sempre primer.' },
+      },
+    ],
+  },
+  {
+    id: 'orden-enfriar-cubrir',
+    situacion: {
+      es: 'Alguien se quema con aceite caliente. ¿Qué va primero: enfriar la zona con agua o cubrirla?',
+      en: 'Someone burns themselves with hot oil. Which comes first: cooling the area with water or covering it?',
+      ca: 'Algú es crema amb oli calent. Què va primer: refredar la zona amb aigua o cobrir-la?',
+    },
+    opciones: [
+      {
+        texto: { es: 'Enfriar con agua fría primero; cubrir con un paño limpio después si hace falta', en: 'Cool with cold water first; cover with a clean cloth afterwards if needed', ca: 'Refredar amb aigua freda primer; cobrir amb un drap net després si cal' },
+        esCorrecta: true, esPeligrosa: false,
+        explicacion: { es: 'El agua fría es lo primero: reduce el daño en el tejido. Cubrir antes de enfriar deja que el calor siga actuando.', en: 'Cold water comes first: it reduces tissue damage. Covering before cooling lets the heat keep doing damage.', ca: 'L\'aigua freda és el primer: redueix el dany al teixit. Cobrir abans de refredar deixa que la calor segueixi actuant.' },
+      },
+      {
+        texto: { es: 'Cubrir la quemadura primero y enfriarla después', en: 'Cover the burn first and cool it afterwards', ca: 'Cobrir la cremada primer i refredar-la després' },
+        esCorrecta: false, esPeligrosa: false,
+        explicacion: { es: 'Cubrir antes de enfriar retrasa lo más importante: el agua fría, que limita el daño mientras antes se aplique.', en: 'Covering before cooling delays the most important step: cold water, which limits damage the sooner it\'s applied.', ca: 'Cobrir abans de refredar retarda el més important: l\'aigua freda, que limita el dany com més aviat s\'apliqui.' },
+      },
+    ],
+  },
+  {
+    id: 'dolor-espalda-mayor',
+    situacion: {
+      es: 'Tu vecino de 78 años, que toma medicación para el corazón, se queja de un dolor repentino y muy fuerte en la espalda, entre los omóplatos, que no mejora aunque cambie de postura. Está pálido y sudoroso.',
+      en: 'Your 78-year-old neighbour, who takes heart medication, complains of sudden, very intense pain in his back, between the shoulder blades, that doesn\'t improve when he changes position. He\'s pale and sweaty.',
+      ca: 'El teu veí de 78 anys, que pren medicació per al cor, es queixa d\'un dolor sobtat i molt fort a l\'esquena, entre els omòplats, que no millora encara que canviï de postura. Està pàl·lid i suat.',
+    },
+    opciones: [
+      {
+        texto: { es: 'Llamar al 112 ahora mismo', en: 'Call emergency services right now', ca: 'Trucar al 112 ara mateix' },
+        esCorrecta: true, esPeligrosa: false,
+        explicacion: { es: 'Dolor de espalda súbito e intenso que no cambia con la postura, en una persona mayor con cardiopatía, palidez y sudoración, es una combinación de señales de alarma de un problema grave del corazón o los vasos sanguíneos.', en: 'Sudden, intense back pain unchanged by position, in an older person with heart disease, pallor and sweating, is a combination of warning signs of a serious heart or blood vessel problem.', ca: 'Dolor d\'esquena sobtat i intens que no canvia amb la postura, en una persona gran amb cardiopatia, pal·lidesa i suor, és una combinació de senyals d\'alarma d\'un problema greu del cor o dels vasos sanguinis.' },
+      },
+      {
+        texto: { es: 'Darle un analgésico y ver cómo evoluciona en casa', en: 'Give him a painkiller and see how he does at home', ca: 'Donar-li un analgèsic i veure com evoluciona a casa' },
+        esCorrecta: false, esPeligrosa: true,
+        explicacion: { es: 'Con estas señales de alarma, esperar en casa retrasa una atención que puede ser urgente.', en: 'With these warning signs, waiting at home delays care that could be urgent.', ca: 'Amb aquestes senyals d\'alarma, esperar a casa retarda una atenció que pot ser urgent.' },
+      },
+      {
+        texto: { es: 'Aplicarle calor en la zona para relajar el músculo', en: 'Apply heat to the area to relax the muscle', ca: 'Aplicar-li calor a la zona per relaxar el múscul' },
+        esCorrecta: false, esPeligrosa: true,
+        explicacion: { es: 'Tratarlo como si fuera un dolor muscular retrasa reconocer una posible urgencia médica real detrás del dolor.', en: 'Treating it as if it were muscle pain delays recognizing a possible real medical emergency behind the pain.', ca: 'Tractar-ho com si fos un dolor muscular retarda reconèixer una possible urgència mèdica real darrere del dolor.' },
+      },
+      {
+        texto: { es: 'Ayudarle a hacer estiramientos suaves', en: 'Help him do some gentle stretches', ca: 'Ajudar-lo a fer estiraments suaus' },
+        esCorrecta: false, esPeligrosa: true,
+        explicacion: { es: 'Hacer esfuerzo físico ante un posible problema cardiovascular grave puede empeorar la situación.', en: 'Physical exertion during a possible serious cardiovascular problem can make things worse.', ca: 'Fer esforç físic davant un possible problema cardiovascular greu pot empitjorar la situació.' },
+      },
+    ],
+  },
 ]

@@ -61,6 +61,7 @@ export default function Reaccion() {
   const savedRef = useRef(false)
   const mazoRef = useRef([])
   const relojRef = useRef(RELOJ_INICIAL_MS)
+  const relojMaxRef = useRef(RELOJ_INICIAL_MS) // techo de la barra: sube con el reloj, nunca baja
   const escudoRef = useRef(false)
   const multiplicadorRef = useRef(1)
 
@@ -85,6 +86,7 @@ export default function Reaccion() {
     savedRef.current = false
     mazoRef.current = barajarMazo(CASOS)
     relojRef.current = RELOJ_INICIAL_MS
+    relojMaxRef.current = RELOJ_INICIAL_MS
     escudoRef.current = false
     multiplicadorRef.current = 1
     setResueltos(0); setAciertos(0); setRacha(0); setMejorRacha(0); setScore(0)
@@ -105,6 +107,7 @@ export default function Reaccion() {
       setAciertos(nuevoAciertos)
       setScore(s => s + puntosPorCaso(nuevaRacha, multiplicadorRef.current))
       relojRef.current += ACIERTO_MS
+      relojMaxRef.current = Math.max(relojMaxRef.current, relojRef.current)
     } else {
       nuevaRacha = 0
       let penal = FALLO_MS
@@ -134,6 +137,7 @@ export default function Reaccion() {
   function onMejoraElegida(mejora) {
     if (mejora.id === 'tiempo') {
       relojRef.current += 5000
+      relojMaxRef.current = Math.max(relojMaxRef.current, relojRef.current)
       setRelojMs(relojRef.current)
     } else if (mejora.id === 'escudo') {
       escudoRef.current = true
@@ -200,6 +204,8 @@ export default function Reaccion() {
     )
   }
 
+  const relojPct = Math.max(0, Math.min(100, (relojMs / relojMaxRef.current) * 100))
+
   return (
     <div className="relative z-10 flex flex-col items-center min-h-[calc(100vh-4rem)] px-4 py-8">
       <SEOHead
@@ -211,16 +217,26 @@ export default function Reaccion() {
         })}
         path="/juegos/reaccion" lang={lang} />
 
-      <div className="w-full max-w-md flex items-center justify-between mb-4">
-        <button onClick={() => navigate(localPath('/juegos'))}
-          className="text-white/30 hover:text-white/60 text-sm flex items-center gap-1 transition-colors">
-          {tr({ es: '← Volver', en: '← Back', ca: '← Tornar' })}
-        </button>
+      <div className="w-full max-w-md mb-4">
+        <div className="flex items-center justify-between">
+          <button onClick={() => navigate(localPath('/juegos'))}
+            className="text-white/30 hover:text-white/60 text-sm flex items-center gap-1 transition-colors">
+            {tr({ es: '← Volver', en: '← Back', ca: '← Tornar' })}
+          </button>
+          {pantalla === 'jugando' && (
+            <div className="flex items-center gap-3 text-sm font-mono">
+              {escudoActivo && <span>🛡️</span>}
+              <span className={relojMs < 10000 ? 'text-red-400 font-bold' : 'text-white/70'}>⏱️ {formatReloj(relojMs)}</span>
+              <span className="text-white/30">💰 {score}</span>
+            </div>
+          )}
+        </div>
         {pantalla === 'jugando' && (
-          <div className="flex items-center gap-3 text-sm font-mono">
-            {escudoActivo && <span>🛡️</span>}
-            <span className={relojMs < 10000 ? 'text-red-400 font-bold' : 'text-white/70'}>⏱️ {formatReloj(relojMs)}</span>
-            <span className="text-white/30">💰 {score}</span>
+          <div className="h-2 bg-white/10 rounded-full overflow-hidden mt-2">
+            <div
+              className={`h-full rounded-full transition-all ${relojPct < 25 ? 'bg-red-500' : relojPct < 50 ? 'bg-orange-400' : 'bg-[#EDAE49]'}`}
+              style={{ width: `${relojPct}%`, transitionDuration: `${TICK_MS}ms`, transitionTimingFunction: 'linear' }}
+            />
           </div>
         )}
       </div>
