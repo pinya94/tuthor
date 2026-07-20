@@ -496,4 +496,179 @@ export const CASOS = [
       },
     ],
   },
+  {
+    id: 'ahogamiento-consciente',
+    situacion: {
+      es: 'Sacas a alguien de la piscina: tose, respira y está consciente, aunque aturdido.',
+      en: 'You pull someone out of the pool: they\'re coughing, breathing and conscious, though dazed.',
+      ca: 'Treus algú de la piscina: tus, respira i està conscient, encara que atordit.',
+    },
+    opciones: [
+      {
+        texto: { es: 'Llevarlo a un lugar seguro, abrigarlo y buscar valoración médica aunque parezca estar bien', en: 'Move them somewhere safe, keep them warm, and seek medical evaluation even if they seem fine', ca: 'Portar-lo a un lloc segur, abrigar-lo i buscar valoració mèdica encara que sembli estar bé' },
+        esCorrecta: true, esPeligrosa: false,
+        explicacion: { es: 'Un casi ahogamiento puede tener complicaciones horas después (agua en los pulmones) aunque la persona respire con normalidad al principio.', en: 'A near-drowning can have complications hours later (water in the lungs) even if the person is breathing normally at first.', ca: 'Un quasi ofegament pot tenir complicacions hores després (aigua als pulmons) encara que la persona respiri amb normalitat al principi.' },
+      },
+      {
+        texto: { es: 'Ponerlo boca abajo y presionarle el abdomen para sacarle el agua', en: 'Lay them face down and press their abdomen to force the water out', ca: 'Posar-lo boca avall i pressionar-li l\'abdomen per treure-li l\'aigua' },
+        esCorrecta: false, esPeligrosa: true,
+        explicacion: { es: 'Presionar el abdomen para "sacar el agua" no es un primer auxilio recomendado: puede provocar vómito y que lo aspire.', en: 'Pressing the abdomen to "force out the water" isn\'t a recommended first-aid technique: it can cause vomiting and aspiration.', ca: 'Pressionar l\'abdomen per "treure l\'aigua" no és un primer auxili recomanat: pot provocar vòmit i que ho aspiri.' },
+      },
+      {
+        texto: { es: 'Dejarlo descansar sin más, seguro que no pasa nada', en: 'Just let them rest, it\'s surely nothing', ca: 'Deixar-lo descansar sense més, segur que no passa res' },
+        esCorrecta: false, esPeligrosa: false,
+        explicacion: { es: 'Aunque respire con normalidad, conviene vigilarlo y que lo valore un médico por el riesgo de complicaciones tardías.', en: 'Even if they\'re breathing normally, they should be watched and seen by a doctor because of the risk of delayed complications.', ca: 'Encara que respiri amb normalitat, convé vigilar-lo i que el valori un metge pel risc de complicacions tardanes.' },
+      },
+    ],
+  },
+  {
+    id: 'ahogamiento-inconsciente',
+    situacion: {
+      es: 'Sacas a un niño de la piscina: no responde y no respira con normalidad.',
+      en: 'You pull a child out of the pool: they don\'t respond and aren\'t breathing normally.',
+      ca: 'Treus un nen de la piscina: no respon i no respira amb normalitat.',
+    },
+    opciones: [
+      {
+        texto: { es: 'Empezar la RCP de inmediato y que alguien llame al 112', en: 'Start CPR immediately and have someone call emergency services', ca: 'Començar la RCP de seguida i que algú truqui al 112' },
+        esCorrecta: true, esPeligrosa: false,
+        explicacion: { es: 'Sin respiración normal tras sacarlo del agua, lo prioritario es empezar la reanimación cardiopulmonar ya, sin retrasarla.', en: 'Without normal breathing after being pulled from the water, the priority is to start CPR right away, without delay.', ca: 'Sense respiració normal després de treure\'l de l\'aigua, el prioritari és començar la reanimació cardiopulmonar ja, sense retardar-la.' },
+      },
+      {
+        texto: { es: 'Ponerlo boca abajo para que expulse el agua antes de hacer nada más', en: 'Lay them face down to expel the water before doing anything else', ca: 'Posar-lo boca avall perquè expulsi l\'aigua abans de fer res més' },
+        esCorrecta: false, esPeligrosa: true,
+        explicacion: { es: 'Intentar sacar el agua primero retrasa la RCP, que es lo que de verdad puede salvarle la vida.', en: 'Trying to drain the water first delays CPR, which is what can actually save their life.', ca: 'Intentar treure l\'aigua primer retarda la RCP, que és el que de veritat li pot salvar la vida.' },
+      },
+      {
+        texto: { es: 'Esperar unos minutos a ver si reacciona solo', en: 'Wait a few minutes to see if they come round on their own', ca: 'Esperar uns minuts a veure si reacciona sol' },
+        esCorrecta: false, esPeligrosa: true,
+        explicacion: { es: 'Sin respiración, cada minuto sin RCP reduce mucho las opciones: no se espera a ver qué pasa.', en: 'Without breathing, every minute without CPR greatly reduces the chances: you don\'t wait and see.', ca: 'Sense respiració, cada minut sense RCP redueix molt les opcions: no s\'espera a veure què passa.' },
+      },
+    ],
+  },
+  {
+    id: 'convulsion-epileptica',
+    situacion: {
+      es: 'Alguien cae al suelo y todo su cuerpo empieza a sacudirse en una convulsión.',
+      en: 'Someone falls to the ground and their whole body starts shaking in a seizure.',
+      ca: 'Algú cau a terra i tot el seu cos comença a sacsejar-se en una convulsió.',
+    },
+    opciones: [
+      {
+        texto: { es: 'Apartar objetos con los que se pueda golpear y ponerle algo blando bajo la cabeza', en: 'Move away anything they could hit and put something soft under their head', ca: 'Apartar objectes amb què es pugui copejar i posar-li alguna cosa tova sota el cap' },
+        esCorrecta: true, esPeligrosa: false,
+        explicacion: { es: 'No se puede detener una convulsión: lo único que hace falta es protegerle de golpes hasta que pase sola.', en: 'A seizure can\'t be stopped: all that\'s needed is to protect them from injury until it passes on its own.', ca: 'No es pot aturar una convulsió: l\'única cosa que cal és protegir-lo de cops fins que passi sola.' },
+      },
+      {
+        texto: { es: 'Sujetarle con fuerza para que pare de temblar', en: 'Hold them down firmly to stop the shaking', ca: 'Subjectar-lo amb força perquè pari de tremolar' },
+        esCorrecta: false, esPeligrosa: true,
+        explicacion: { es: 'Sujetarlo no detiene la convulsión y puede provocarle una lesión, como una fractura o una luxación.', en: 'Holding them down doesn\'t stop the seizure and can cause an injury, like a fracture or dislocation.', ca: 'Subjectar-lo no atura la convulsió i li pot provocar una lesió, com una fractura o una luxació.' },
+      },
+      {
+        texto: { es: 'Meterle algo en la boca para que no se trague la lengua', en: 'Put something in their mouth so they don\'t swallow their tongue', ca: 'Ficar-li alguna cosa a la boca perquè no s\'empassi la llengua' },
+        esCorrecta: false, esPeligrosa: true,
+        explicacion: { es: 'Es un mito: es físicamente imposible tragarse la lengua. Meter algo en la boca puede romperle un diente o bloquearle la vía aérea.', en: 'This is a myth: it\'s physically impossible to swallow your tongue. Putting something in the mouth can break a tooth or block the airway.', ca: 'És un mite: és físicament impossible empassar-se la llengua. Ficar alguna cosa a la boca li pot trencar una dent o bloquejar-li la via aèria.' },
+      },
+    ],
+  },
+  {
+    id: 'golpe-calor',
+    situacion: {
+      es: 'Un corredor se desploma en un día de mucho calor: está confuso, con la piel muy caliente y seca, apenas suda.',
+      en: 'A runner collapses on a very hot day: confused, with hot, dry skin, barely sweating.',
+      ca: 'Un corredor s\'esfondra en un dia de molta calor: està confús, amb la pell molt calenta i seca, gairebé no sua.',
+    },
+    opciones: [
+      {
+        texto: { es: 'Llevarlo a la sombra, quitarle ropa de más y refrescarlo con agua fría mientras llamas al 112', en: 'Move them to the shade, remove excess clothing and cool them with cold water while calling emergency services', ca: 'Portar-lo a l\'ombra, treure-li roba de més i refrescar-lo amb aigua freda mentre truques al 112' },
+        esCorrecta: true, esPeligrosa: false,
+        explicacion: { es: 'Confusión, piel caliente y seca y apenas sudor son señales de golpe de calor: es una emergencia que requiere enfriar activamente y pedir ayuda.', en: 'Confusion, hot dry skin and barely sweating are heatstroke signs: it\'s an emergency that needs active cooling and calling for help.', ca: 'Confusió, pell calenta i seca i gairebé sense suor són senyals de cop de calor: és una emergència que requereix refredar activament i demanar ajuda.' },
+      },
+      {
+        texto: { es: 'Darle una aspirina para bajarle la temperatura', en: 'Give them an aspirin to lower their temperature', ca: 'Donar-li una aspirina per baixar-li la temperatura' },
+        esCorrecta: false, esPeligrosa: true,
+        explicacion: { es: 'El golpe de calor no es fiebre por infección: los antitérmicos no ayudan y pueden ser perjudiciales en esta situación.', en: 'Heatstroke isn\'t a fever from infection: fever-reducing drugs don\'t help and can be harmful in this situation.', ca: 'El cop de calor no és febre per infecció: els antitèrmics no ajuden i poden ser perjudicials en aquesta situació.' },
+      },
+      {
+        texto: { es: 'Taparlo con una manta para que no coja frío', en: 'Cover them with a blanket so they don\'t get cold', ca: 'Tapar-lo amb una manta perquè no agafi fred' },
+        esCorrecta: false, esPeligrosa: true,
+        explicacion: { es: 'Taparlo impide justo lo que necesita: perder el calor que le está poniendo en peligro.', en: 'Covering them prevents exactly what they need: losing the heat that\'s putting them in danger.', ca: 'Tapar-lo impedeix justament el que necessita: perdre la calor que el posa en perill.' },
+      },
+    ],
+  },
+  {
+    id: 'descarga-electrica',
+    situacion: {
+      es: 'Alguien recibe una descarga con un electrodoméstico y sigue en contacto con la corriente.',
+      en: 'Someone gets shocked by an appliance and is still in contact with the current.',
+      ca: 'Algú rep una descàrrega amb un electrodomèstic i segueix en contacte amb el corrent.',
+    },
+    opciones: [
+      {
+        texto: { es: 'Cortar la corriente, o apartarlo con algo de madera o plástico seco, antes de tocarlo', en: 'Cut the power, or push them away with something dry made of wood or plastic, before touching them', ca: 'Tallar el corrent, o apartar-lo amb alguna cosa de fusta o plàstic sec, abans de tocar-lo' },
+        esCorrecta: true, esPeligrosa: false,
+        explicacion: { es: 'Tocar a alguien que sigue en contacto con la corriente puede electrocutarte también a ti: primero hay que cortarla o apartarla sin conducir la electricidad.', en: 'Touching someone still in contact with the current can electrocute you too: first cut it or push it away without conducting electricity yourself.', ca: 'Tocar algú que segueix en contacte amb el corrent et pot electrocutar també a tu: primer cal tallar-lo o apartar-lo sense conduir l\'electricitat.' },
+      },
+      {
+        texto: { es: 'Tirar de él con las manos para separarlo de la corriente', en: 'Pull them away with your bare hands', ca: 'Estirar-lo amb les mans per separar-lo del corrent' },
+        esCorrecta: false, esPeligrosa: true,
+        explicacion: { es: 'Si sigue en contacto con la corriente, tocarlo directamente puede electrocutarte a ti también.', en: 'If they\'re still in contact with the current, touching them directly can electrocute you too.', ca: 'Si segueix en contacte amb el corrent, tocar-lo directament et pot electrocutar a tu també.' },
+      },
+      {
+        texto: { es: 'Echarle agua para que reaccione', en: 'Splash water on them to wake them up', ca: 'Tirar-li aigua perquè reaccioni' },
+        esCorrecta: false, esPeligrosa: true,
+        explicacion: { es: 'El agua conduce la electricidad: echarla cerca de una fuente eléctrica activa es muy peligroso.', en: 'Water conducts electricity: pouring it near a live electrical source is very dangerous.', ca: 'L\'aigua condueix l\'electricitat: tirar-la a prop d\'una font elèctrica activa és molt perillós.' },
+      },
+    ],
+  },
+  {
+    id: 'hemorragia-nasal',
+    situacion: {
+      es: 'A alguien le empieza a sangrar la nariz de repente, sin haberse golpeado.',
+      en: 'Someone\'s nose suddenly starts bleeding, without having been hit.',
+      ca: 'A algú li comença a sagnar el nas de sobte, sense haver-se copejat.',
+    },
+    opciones: [
+      {
+        texto: { es: 'Sentarlo inclinado hacia delante y apretar la parte blanda de la nariz unos minutos', en: 'Sit them leaning forward and pinch the soft part of the nose for a few minutes', ca: 'Asseure\'l inclinat cap endavant i prémer la part tova del nas uns minuts' },
+        esCorrecta: true, esPeligrosa: false,
+        explicacion: { es: 'Inclinarse hacia delante evita tragar sangre, y la presión directa sobre la nariz corta la mayoría de los sangrados nasales.', en: 'Leaning forward avoids swallowing blood, and direct pressure on the nose stops most nosebleeds.', ca: 'Inclinar-se cap endavant evita empassar sang, i la pressió directa sobre el nas talla la majoria de sagnats nasals.' },
+      },
+      {
+        texto: { es: 'Echarle la cabeza hacia atrás', en: 'Tilt their head back', ca: 'Tirar-li el cap enrere' },
+        esCorrecta: false, esPeligrosa: true,
+        explicacion: { es: 'Con la cabeza hacia atrás la sangre baja por la garganta, lo que puede provocar náuseas o vómitos en vez de cortar el sangrado.', en: 'With the head tilted back, blood runs down the throat, which can cause nausea or vomiting instead of stopping the bleed.', ca: 'Amb el cap enrere la sang baixa per la gola, la qual cosa pot provocar nàusees o vòmits en comptes de tallar el sagnat.' },
+      },
+      {
+        texto: { es: 'Que se suene fuerte la nariz para limpiarla', en: 'Have them blow their nose hard to clear it', ca: 'Que es moqui fort per netejar-se el nas' },
+        esCorrecta: false, esPeligrosa: false,
+        explicacion: { es: 'Sonarse fuerte justo después puede remover el coágulo que se está formando y reiniciar el sangrado.', en: 'Blowing hard right after can dislodge the clot that\'s forming and restart the bleeding.', ca: 'Mocar-se fort just després pot remoure el coàgul que s\'està formant i reiniciar el sagnat.' },
+      },
+    ],
+  },
+  {
+    id: 'quimico-en-ojo',
+    situacion: {
+      es: 'Le salpica un producto de limpieza en un ojo y le escuece mucho.',
+      en: 'A cleaning product splashes into their eye and it stings badly.',
+      ca: 'Li esquitxa un producte de neteja a un ull i li pica molt.',
+    },
+    opciones: [
+      {
+        texto: { es: 'Lavar el ojo con agua abundante durante varios minutos, sin frotar', en: 'Rinse the eye with plenty of water for several minutes, without rubbing', ca: 'Rentar l\'ull amb aigua abundant durant diversos minuts, sense fregar' },
+        esCorrecta: true, esPeligrosa: false,
+        explicacion: { es: 'El lavado inmediato y abundante con agua es lo más importante: diluye el producto y protege el ojo.', en: 'Immediate, abundant rinsing with water is the most important thing: it dilutes the product and protects the eye.', ca: 'El rentat immediat i abundant amb aigua és el més important: dilueix el producte i protegeix l\'ull.' },
+      },
+      {
+        texto: { es: 'Frotarse el ojo para quitarse el producto', en: 'Rub the eye to get the product out', ca: 'Fregar-se l\'ull per treure\'s el producte' },
+        esCorrecta: false, esPeligrosa: true,
+        explicacion: { es: 'Frotar puede extender el químico por el ojo y dañar más la córnea.', en: 'Rubbing can spread the chemical across the eye and damage the cornea further.', ca: 'Fregar pot estendre el químic per l\'ull i danyar més la còrnia.' },
+      },
+      {
+        texto: { es: 'Taparse el ojo con una venda y esperar a que escueza menos', en: 'Cover the eye with a bandage and wait for it to sting less', ca: 'Tapar-se l\'ull amb una bena i esperar que piqui menys' },
+        esCorrecta: false, esPeligrosa: true,
+        explicacion: { es: 'Tapar el ojo sin lavarlo antes deja el producto químico actuando y empeora la lesión.', en: 'Covering the eye without rinsing it first leaves the chemical acting and worsens the injury.', ca: 'Tapar l\'ull sense rentar-lo abans deixa el producte químic actuant i empitjora la lesió.' },
+      },
+    ],
+  },
 ]

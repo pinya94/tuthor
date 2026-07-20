@@ -55,6 +55,7 @@ export default function Reaccion() {
   const [leves, setLeves] = useState([])
   const [peligrosas, setPeligrosas] = useState([])
   const [elapsed, setElapsed] = useState(0)
+  const [motivoFin, setMotivoFin] = useState('tiempo') // 'tiempo' | 'completado'
   const [best] = useState(() => Number(localStorage.getItem(LS_BEST) || 0))
 
   const savedRef = useRef(false)
@@ -62,7 +63,6 @@ export default function Reaccion() {
   const relojRef = useRef(RELOJ_INICIAL_MS)
   const escudoRef = useRef(false)
   const multiplicadorRef = useRef(1)
-  const pendingUltimoIdRef = useRef(null)
 
   useEffect(() => {
     if (pantalla !== 'jugando') return
@@ -75,9 +75,10 @@ export default function Reaccion() {
     return () => { clearInterval(idElapsed); clearInterval(idReloj) }
   }, [pantalla])
 
-  function sacarSiguienteCaso(evitarId) {
-    if (mazoRef.current.length === 0) mazoRef.current = barajarMazo(CASOS, evitarId)
-    return mazoRef.current.shift()
+  // Saca la siguiente carta del mazo, o null si ya se han resuelto todos
+  // los casos — en ese caso la partida termina, no tiene sentido repreguntar.
+  function sacarSiguienteCaso() {
+    return mazoRef.current.length > 0 ? mazoRef.current.shift() : null
   }
 
   function empezar() {
@@ -88,13 +89,13 @@ export default function Reaccion() {
     multiplicadorRef.current = 1
     setResueltos(0); setAciertos(0); setRacha(0); setMejorRacha(0); setScore(0)
     setEscudoActivo(false); setLeves([]); setPeligrosas([]); setElapsed(0)
+    setMotivoFin('tiempo')
     setRelojMs(RELOJ_INICIAL_MS)
     setCaso(mazoRef.current.shift())
     setPantalla('jugando')
   }
 
   function onResuelto(opcion) {
-    const ultimoId = caso.id
     let nuevaRacha = racha
     let nuevoAciertos = aciertos
 
@@ -119,19 +120,20 @@ export default function Reaccion() {
     setRelojMs(Math.max(0, relojRef.current))
     setResueltos(r => r + 1)
 
-    if (relojRef.current <= 0) { setPantalla('final'); return }
+    if (relojRef.current <= 0) { setMotivoFin('tiempo'); setPantalla('final'); return }
 
     if (opcion.esCorrecta && nuevoAciertos % MEJORA_CADA === 0) {
-      pendingUltimoIdRef.current = ultimoId
       setPantalla('mejora')
       return
     }
-    setCaso(sacarSiguienteCaso(ultimoId))
+    const siguiente = sacarSiguienteCaso()
+    if (!siguiente) { setMotivoFin('completado'); setPantalla('final'); return }
+    setCaso(siguiente)
   }
 
   function onMejoraElegida(mejora) {
     if (mejora.id === 'tiempo') {
-      relojRef.current += 15000
+      relojRef.current += 5000
       setRelojMs(relojRef.current)
     } else if (mejora.id === 'escudo') {
       escudoRef.current = true
@@ -139,7 +141,9 @@ export default function Reaccion() {
     } else if (mejora.id === 'multiplicador') {
       multiplicadorRef.current *= 1.3
     }
-    setCaso(sacarSiguienteCaso(pendingUltimoIdRef.current))
+    const siguiente = sacarSiguienteCaso()
+    if (!siguiente) { setMotivoFin('completado'); setPantalla('final'); return }
+    setCaso(siguiente)
     setPantalla('jugando')
   }
 
@@ -165,11 +169,15 @@ export default function Reaccion() {
       <GameEndScreen
         game="reaccion"
         result={{ score, peligrosas: peligrosas.length }}
-        emoji="🚑"
-        title={tr({ es: 'Se acabó el tiempo — fin de la partida', en: 'Time\'s up — run over', ca: 'S\'ha acabat el temps — fi de la partida' })}
+        emoji={motivoFin === 'completado' ? '🏆' : '🚑'}
+        title={motivoFin === 'completado'
+          ? tr({ es: '¡Has resuelto todos los casos!', en: 'You\'ve resolved every case!', ca: 'Has resolt tots els casos!' })
+          : tr({ es: 'Se acabó el tiempo — fin de la partida', en: 'Time\'s up — run over', ca: 'S\'ha acabat el temps — fi de la partida' })}
         score={score}
         message={peligrosas.length > 0
           ? tr({ es: 'Revisa las decisiones peligrosas antes de la próxima', en: 'Review the dangerous decisions before your next run', ca: 'Revisa les decisions perilloses abans de la propera' })
+          : motivoFin === 'completado'
+          ? tr({ es: 'No quedan más casos por hoy — vuelve otro día para otra tanda', en: 'No more cases left for today — come back another day for a new batch', ca: 'No queden més casos per avui — torna un altre dia per a una altra tanda' })
           : null}
         stats={[
           { label: tr({ es: 'Casos resueltos', en: 'Cases resolved', ca: 'Casos resolts' }), value: resueltos, emoji: '📋' },

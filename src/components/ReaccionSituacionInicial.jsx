@@ -1,10 +1,15 @@
 import { useLang } from '../context/LangContext'
 import { DISCLAIMER } from '../data/reaccionCasos'
+import { RELOJ_INICIAL_MS, ACIERTO_MS, FALLO_MS } from '../lib/reaccionArcade'
 
 // Pantalla de inicio del arcade: disclaimer fijo, cómo funciona el ritmo y
-// botón de empezar.
+// botón de empezar. Los segundos se leen de reaccionArcade.js para que este
+// texto nunca se desincronice de los números reales del juego.
 export default function ReaccionSituacionInicial({ onEmpezar, mejorPuntuacion }) {
   const { tr } = useLang()
+  const inicioS = Math.round(RELOJ_INICIAL_MS / 1000)
+  const aciertoS = Math.round(ACIERTO_MS / 1000)
+  const falloS = Math.round(FALLO_MS / 1000)
 
   return (
     <div className="max-w-md w-full mx-auto text-center">
@@ -30,7 +35,7 @@ export default function ReaccionSituacionInicial({ onEmpezar, mejorPuntuacion })
         <div className="space-y-2 text-sm text-white/60">
           <div className="flex items-start gap-3">
             <span className="text-base w-5 shrink-0 text-center">⏱️</span>
-            <span>{tr({ es: 'Un reloj corre siempre: empieza en 1 minuto, acertar suma 10s y fallar resta 20s', en: 'A clock always runs: it starts at 1 minute, a right answer adds 10s and a wrong one costs 20s', ca: 'Un rellotge corre sempre: comença en 1 minut, encertar suma 10s i fallar resta 20s' })}</span>
+            <span>{tr({ es: `Un reloj corre siempre: empieza en ${inicioS}s, acertar suma ${aciertoS}s y fallar resta ${falloS}s`, en: `A clock always runs: it starts at ${inicioS}s, a right answer adds ${aciertoS}s and a wrong one costs ${falloS}s`, ca: `Un rellotge corre sempre: comença en ${inicioS}s, encertar suma ${aciertoS}s i fallar resta ${falloS}s` })}</span>
           </div>
           <div className="flex items-start gap-3">
             <span className="text-base w-5 shrink-0 text-center">🔴</span>
@@ -42,7 +47,7 @@ export default function ReaccionSituacionInicial({ onEmpezar, mejorPuntuacion })
           </div>
           <div className="flex items-start gap-3">
             <span className="text-base w-5 shrink-0 text-center">⏳</span>
-            <span>{tr({ es: 'La partida acaba cuando el reloj llega a 0', en: 'The run ends when the clock hits 0', ca: 'La partida s\'acaba quan el rellotge arriba a 0' })}</span>
+            <span>{tr({ es: 'La partida acaba cuando el reloj llega a 0 — o si resuelves todos los casos', en: 'The run ends when the clock hits 0 — or if you resolve every case', ca: 'La partida s\'acaba quan el rellotge arriba a 0 — o si resols tots els casos' })}</span>
           </div>
         </div>
       </div>
