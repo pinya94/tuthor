@@ -14,7 +14,7 @@ export default function VidaPracticaIndex() {
   return (
     <div className="relative z-10 flex flex-col items-center min-h-[calc(100vh-4rem)] px-4 py-8">
       <SEOHead
-        title={tr({ es: 'Vida Práctica — Primeros Auxilios', en: 'Life Skills — First Aid', ca: 'Vida Pràctica — Primers Auxilis' })}
+        title={tr({ es: 'Primeros Auxilios', en: 'First Aid', ca: 'Primers Auxilis' })}
         description={tr({
           es: 'Practica primeros auxilios tema a tema: atragantamiento, quemaduras, desmayo, cortes y picaduras. Ordena los pasos y toma las decisiones correctas.',
           en: 'Practice first aid topic by topic: choking, burns, fainting, cuts and stings. Order the steps and make the right calls.',
@@ -31,15 +31,15 @@ export default function VidaPracticaIndex() {
         <div className="text-center mb-7">
           <span className="text-6xl block mb-4">🚑</span>
           <h1 className="text-3xl font-black text-white mb-2">
-            {tr({ es: 'Vida Práctica', en: 'Life Skills', ca: 'Vida Pràctica' })}
+            {tr({ es: 'Primeros Auxilios', en: 'First Aid', ca: 'Primers Auxilis' })}
           </h1>
           <p className="text-white/40">
-            {tr({ es: 'Primeros auxilios, tema a tema', en: 'First aid, topic by topic', ca: 'Primers auxilis, tema a tema' })}
+            {tr({ es: 'Practica tema a tema', en: 'Practice topic by topic', ca: 'Practica tema a tema' })}
           </p>
         </div>
 
         <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-3">
-          {tr({ es: 'Primeros auxilios', en: 'First aid', ca: 'Primers auxilis' })}
+          {tr({ es: 'Escenarios', en: 'Scenarios', ca: 'Escenaris' })}
         </p>
 
         <div className="space-y-3 mb-6">
