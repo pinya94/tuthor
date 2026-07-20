@@ -61,6 +61,10 @@ export const STATIC_META = {
     es: { title: 'Música — teoría y exámenes', desc: 'Lectura de partituras y ritmo. Teoría breve y exámenes interactivos con piano virtual, para Primaria, ESO y Bachillerato.' },
     en: { title: 'Music — theory and exams', desc: 'Sheet music reading and rhythm. Short theory and interactive exams with a virtual piano, for primary and secondary school.' },
   },
+  '/estudiar/vida-practica': {
+    es: { title: 'Vida Práctica — Primeros Auxilios', desc: 'Practica primeros auxilios tema a tema: atragantamiento, quemaduras, desmayo, cortes y picaduras. Ordena los pasos y toma las decisiones correctas.' },
+    en: { title: 'Life Skills — First Aid', desc: 'Practice first aid topic by topic: choking, burns, fainting, cuts and stings. Order the steps and make the right calls.' },
+  },
   '/estudiar/idiomas': {
     es: { title: 'Idiomas — español e inglés', desc: 'Gramática y ortografía del español, grammar del inglés. Teoría breve con ejemplos y exámenes tipo test con explicación en cada respuesta.' },
     en: { title: 'Languages — Spanish and English', desc: 'Spanish grammar and spelling, English grammar. Short theory with examples and quizzes with an explanation for every answer.' },

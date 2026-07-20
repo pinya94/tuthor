@@ -54,6 +54,9 @@
   <url><loc>https://www.tuthor.es/estudiar/geografia</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/estudiar/economia</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/estudiar/musica</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+
+  <url><loc>https://www.tuthor.es/estudiar/vida-practica</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/en/estudiar/vida-practica</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/estudiar/idiomas</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/estudiar/idiomas/espanol</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/estudiar/idiomas/espanol/gramatica</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
