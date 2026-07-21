@@ -61,10 +61,17 @@ export default function MiniLeaderboard({ game, currentScore, currentUid, curren
   const seeAll   = lang === 'en' ? 'See full ranking →' : lang === 'ca' ? 'Veure ranking complet →' : 'Ver ranking completo →'
   const close    = lang === 'en' ? 'Close' : lang === 'ca' ? 'Tancar' : 'Cerrar'
 
+  // La puntuación de esta partida puede ser peor que tu mejor marca ya guardada
+  // (que solo se sobreescribe en Firestore si mejora, ver saveActivity). Aquí
+  // mostramos siempre la mayor de las dos para no dar la impresión de que un
+  // resultado peor "pisa" tu récord real.
   const displayTop = (() => {
-    if (!currentUid || !currentScore || currentScore <= 0) return top
+    if (!currentUid) return top
+    const myOwnEntry = top.find(e => e.uid === currentUid)
+    const effectiveScore = Math.max(currentScore || 0, myOwnEntry?.score || 0)
+    if (effectiveScore <= 0) return top
     const withoutMe = top.filter(e => e.uid !== currentUid)
-    const myEntry = { uid: currentUid, name: currentName || '?', photoURL: currentPhoto || null, score: currentScore, bannerId: currentBannerId || null, avatarEmoji: currentAvatarEmoji || null, frameId: currentFrameId || null }
+    const myEntry = { uid: currentUid, name: currentName || '?', photoURL: currentPhoto || null, score: effectiveScore, bannerId: currentBannerId || null, avatarEmoji: currentAvatarEmoji || null, frameId: currentFrameId || null }
     return [...withoutMe, myEntry].sort((a, b) => b.score - a.score).slice(0, 10)
   })()
 
