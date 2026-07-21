@@ -28,15 +28,20 @@ import ReaccionCaso from '../components/ReaccionCaso'
 import ReaccionMejora from '../components/ReaccionMejora'
 import ReaccionResumenFinal from '../components/ReaccionResumenFinal'
 import { ESCENARIOS } from '../data/reaccionEscenarios'
-// import { CASOS } from '../data/reaccionCasos' // TODO: reintegrar como escenarios de 1 fase cuando se pruebe bien la parte encadenada
+import { CASOS } from '../data/reaccionCasos'
 import { RELOJ_INICIAL_MS, ACIERTO_MS, FALLO_MS, MEJORA_CADA, barajarMazo, puntosPorCaso } from '../lib/reaccionArcade'
 
 const LS_BEST = 'reaccion-best'
 const TICK_MS = 100
 
-// De momento, solo los escenarios encadenados (los casos sueltos de
-// reaccionCasos.js se quedan en reserva hasta probar bien esta parte).
-const TODOS_LOS_ESCENARIOS = ESCENARIOS
+// Los casos sueltos son, a efectos del mazo, escenarios de una sola fase —
+// dan variedad de ritmo entre los escenarios encadenados más largos.
+const CASOS_DE_UNA_FASE = CASOS.map(c => ({
+  id: c.id,
+  ambiguo: c.ambiguo,
+  pasos: [{ situacion: c.situacion, opciones: c.opciones }],
+}))
+const TODOS_LOS_ESCENARIOS = [...ESCENARIOS, ...CASOS_DE_UNA_FASE]
 
 function formatReloj(ms) {
   const s = Math.ceil(ms / 1000)
