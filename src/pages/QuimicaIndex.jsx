@@ -124,6 +124,14 @@ const TEMAS = [
     niveles: ['primaria', 'eso'],
   },
   {
+    id: 'ciclos-naturaleza',
+    titulo: 'Ciclos y Procesos', tituloEn: 'Cycles & Processes', tituloCa: 'Cicles i Processos',
+    subtitulo: 'Ordena los pasos: ciclo del agua, Krebs, Calvin y más', subtituloEn: 'Order the steps: water cycle, Krebs, Calvin and more', subtituloCa: 'Ordena els passos: cicle de l\'aigua, Krebs, Calvin i més',
+    emoji: '🔄', gradient: 'from-emerald-500 to-teal-700',
+    tags: ['ciclo del agua', 'krebs', 'calvin', 'nitrogeno', 'rocas', 'mitosis', 'metamorfosis', 'water cycle', 'krebs cycle', 'calvin cycle'],
+    niveles: ['primaria', 'eso', 'bachillerato'],
+  },
+  {
     id: 'ondas-luz',
     titulo: 'Ondas y Luz', tituloEn: 'Waves and Light', tituloCa: 'Ones i Llum',
     subtitulo: 'Sonido, espectro electromagnético, reflexión y refracción', subtituloEn: 'Sound, electromagnetic spectrum, reflection and refraction', subtituloCa: 'So, espectre electromagnètic, reflexió i refracció',

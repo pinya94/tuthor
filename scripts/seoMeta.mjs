@@ -13,6 +13,7 @@
 
 import { EXAMS } from '../src/lib/exams.js'
 import { GAMES } from '../src/lib/games.js'
+import { CICLOS } from '../src/data/ciclosCientificos.js'
 import { FICHAS as FICHAS_ESTUDIAR } from '../src/data/fichasEstudiarIndex.js'
 import {
   FICHAS_ES as JUEGOS_FICHAS_ES,
@@ -159,6 +160,18 @@ export function resolveMeta(path, lang) {
       return l === 'en'
         ? { title: `${name} — multiple-choice exam`, desc: `Free interactive ${name} exam with instant feedback, explained answers and a final grade. For primary and secondary school students.` }
         : { title: `Examen de ${name} tipo test`, desc: `Examen interactivo de ${name} gratis, con corrección al instante, explicación en cada respuesta y nota final. Para Primaria, ESO y Bachillerato.` }
+    }
+  }
+
+  m = path.match(/^\/examen\/ciclo\/([\w-]+)$/)
+  if (m) {
+    const ciclo = CICLOS[m[1]]
+    if (ciclo) {
+      const name = label(ciclo, l)
+      const desc = ciclo.descripcion[l] ?? ciclo.descripcion.es
+      return l === 'en'
+        ? { title: `${name} — order the steps`, desc: `${desc} Free interactive exam: place each step before or after the others in the right order.` }
+        : { title: `Examen de ${name} — ordena los pasos`, desc: `${desc} Examen interactivo gratis: coloca cada paso antes o después en el orden correcto.` }
     }
   }
 
