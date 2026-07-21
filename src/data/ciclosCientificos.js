@@ -2,7 +2,25 @@
 // Mismo mecanismo que la Línea Temporal de Historia, pero en vez de años se
 // ordena por `orden` (posición 1..N dentro del ciclo/proceso).
 //
-// Cada ciclo: { label, emoji, gradient, descripcion, pasos: [...] }
+// Cada ciclo vive DENTRO de un tema existente de Ciencias (no tiene sección
+// propia): `home` es el id del tema de QuimicaIndex/QuimicaTema que lo aloja
+// (p. ej. 'estados-materia', 'celula'...). `niveles` es para qué cursos tiene
+// sentido este ciclo — se usa para el chip informativo en QuimicaTema y para
+// que el tema anfitrión declare el nivel más alto que ofrece.
+//
+// Los ciclos no tienen un "inicio" real (son un bucle), así que fijamos un
+// punto de corte convencional: `orden: 1` es el paso que los libros de texto
+// suelen usar como arranque, y el examen representa una única vuelta lineal
+// desde ahí. Eso evita la ambigüedad de "¿esto va antes o después?" sin
+// necesidad de aceptar dos posiciones como válidas para la misma carta.
+//
+// `cerrado: true` marca los procesos que de verdad se repiten en bucle (agua,
+// Krebs, Calvin, nitrógeno, rocas, célula) — ahí el examen avisa de que
+// empezamos a contar convencionalmente desde el paso 1. Los que no son un
+// bucle real (p. ej. la metamorfosis) van con `cerrado: false` y no necesitan
+// ese aviso.
+//
+// Cada ciclo: { label, emoji, gradient, descripcion, home, niveles, cerrado, pasos: [...] }
 // Cada paso:  { id, orden, dificultad, nombre, descripcion }
 // nombre/descripcion siguen el patrón nuevo: tr({ es, en, ca }).
 
@@ -11,6 +29,9 @@ export const CICLOS = {
     label: { es: 'Ciclo del Agua', en: 'Water Cycle', ca: "Cicle de l'Aigua" },
     emoji: '💧',
     gradient: 'from-blue-500 to-cyan-600',
+    home: 'estados-materia',
+    niveles: ['primaria', 'eso'],
+    cerrado: true,
     descripcion: {
       es: 'El agua circula sin parar entre la atmósfera, la superficie y el subsuelo.',
       en: 'Water keeps circulating between the atmosphere, the surface and the ground.',
@@ -39,6 +60,9 @@ export const CICLOS = {
     label: { es: 'Ciclo de Krebs', en: 'Krebs Cycle', ca: 'Cicle de Krebs' },
     emoji: '🧬',
     gradient: 'from-rose-500 to-red-700',
+    home: 'celula',
+    niveles: ['bachillerato'],
+    cerrado: true,
     descripcion: {
       es: 'La ruta metabólica que extrae energía del Acetil-CoA en la mitocondria.',
       en: 'The metabolic pathway that extracts energy from Acetyl-CoA in the mitochondria.',
@@ -70,6 +94,9 @@ export const CICLOS = {
     label: { es: 'Ciclo de Calvin', en: 'Calvin Cycle', ca: 'Cicle de Calvin' },
     emoji: '🌿',
     gradient: 'from-green-500 to-emerald-700',
+    home: 'celula',
+    niveles: ['bachillerato'],
+    cerrado: true,
     descripcion: {
       es: 'La fase oscura de la fotosíntesis, donde el CO2 se convierte en azúcares.',
       en: 'The light-independent phase of photosynthesis, where CO2 becomes sugar.',
@@ -98,6 +125,9 @@ export const CICLOS = {
     label: { es: 'Ciclo del Nitrógeno', en: 'Nitrogen Cycle', ca: 'Cicle del Nitrogen' },
     emoji: '🍃',
     gradient: 'from-teal-500 to-cyan-700',
+    home: 'ecosistemas',
+    niveles: ['eso', 'bachillerato'],
+    cerrado: true,
     descripcion: {
       es: 'Cómo viaja el nitrógeno entre la atmósfera, el suelo y los seres vivos.',
       en: 'How nitrogen travels between the atmosphere, the soil and living things.',
@@ -129,6 +159,9 @@ export const CICLOS = {
     label: { es: 'Ciclo de las Rocas', en: 'Rock Cycle', ca: 'Cicle de les Roques' },
     emoji: '🪨',
     gradient: 'from-amber-600 to-orange-800',
+    home: 'estados-materia',
+    niveles: ['primaria', 'eso'],
+    cerrado: true,
     descripcion: {
       es: 'Cómo se transforma la roca entre sus tres grandes tipos a lo largo de millones de años.',
       en: 'How rock transforms between its three great types over millions of years.',
@@ -160,6 +193,9 @@ export const CICLOS = {
     label: { es: 'Ciclo Celular', en: 'Cell Cycle', ca: 'Cicle Cel·lular' },
     emoji: '🔬',
     gradient: 'from-violet-500 to-purple-700',
+    home: 'celula',
+    niveles: ['eso', 'bachillerato'],
+    cerrado: true,
     descripcion: {
       es: 'Las fases que atraviesa una célula desde que nace hasta que se divide en dos.',
       en: 'The phases a cell goes through from birth until it divides into two.',
@@ -194,6 +230,8 @@ export const CICLOS = {
     label: { es: 'Metamorfosis de la Rana', en: "Frog's Metamorphosis", ca: 'Metamorfosi de la Granota' },
     emoji: '🐸',
     gradient: 'from-lime-500 to-green-700',
+    home: 'seres-vivos',
+    niveles: ['primaria', 'eso'],
     descripcion: {
       es: 'El camino que recorre una rana desde el huevo hasta convertirse en adulta.',
       en: 'The journey a frog goes through from egg to adult.',
@@ -230,6 +268,11 @@ export function getPasos(categoriaId) {
 
 export function listCiclos() {
   return Object.entries(CICLOS).map(([id, c]) => ({ id, ...c, total: c.pasos.length }))
+}
+
+// Ciclos alojados dentro de un tema concreto de Ciencias (p. ej. 'celula').
+export function ciclosPorTema(temaId) {
+  return listCiclos().filter(c => c.home === temaId)
 }
 
 // Posición correcta donde insertar `card` en la línea `tl` (ya ordenada por `orden`).

@@ -1,10 +1,22 @@
 import { useNavigate, useParams } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import { ELEMENTOS } from '../data/tablaperiodica'
-import { listCiclos } from '../data/ciclosCientificos'
+import { ciclosPorTema } from '../data/ciclosCientificos'
 import PageMeta from '../components/PageMeta'
 import CourseSchema from '../components/CourseSchema'
 import BreadcrumbSchema from '../components/BreadcrumbSchema'
+
+const NIVEL_LABEL = {
+  primaria:     { es: 'Primaria',     en: 'Primary',   ca: 'Primària' },
+  eso:          { es: 'ESO',          en: 'Secondary', ca: 'ESO' },
+  bachillerato: { es: 'Bachillerato', en: 'Sixth Form', ca: 'Batxillerat' },
+}
+const NIVEL_CONJ = { es: ' y ', en: ' & ', ca: ' i ' }
+
+// Chip informativo con los niveles a los que se dirige un ciclo, p. ej. "ESO y Bachillerato".
+function nivelesChip(niveles, lang) {
+  return (niveles || []).map(n => NIVEL_LABEL[n]?.[lang] ?? NIVEL_LABEL[n]?.es ?? n).join(NIVEL_CONJ[lang] ?? NIVEL_CONJ.es)
+}
 
 const TEMAS_META = {
   es: {
@@ -24,7 +36,6 @@ const TEMAS_META = {
     'energia':           { titulo: 'Energía',              emoji: '🔋', descripcion: 'Energía cinética, potencial, térmica, renovable y rendimiento energético.' },
     'electricidad':      { titulo: 'Electricidad',         emoji: '💡', descripcion: 'Corriente eléctrica, circuitos, ley de Ohm, conductores, magnetismo y electroimanes.' },
     'ondas-luz':         { titulo: 'Ondas y Luz',          emoji: '🌊', descripcion: 'Ondas mecánicas, sonido, luz, reflexión, refracción y espectro electromagnético.' },
-    'ciclos-naturaleza': { titulo: 'Ciclos y Procesos',    emoji: '🔄', descripcion: 'Ordena los pasos de ciclos naturales y procesos biológicos: agua, Krebs, Calvin, nitrógeno, rocas, célula y metamorfosis.' },
   },
   en: {
     'tabla-periodica':   { titulo: 'Periodic Table',       emoji: '⚗️', descripcion: 'Symbols, names, atomic numbers, groups and types of chemical elements.' },
@@ -43,7 +54,6 @@ const TEMAS_META = {
     'energia':           { titulo: 'Energy',               emoji: '🔋', descripcion: 'Kinetic, potential, thermal and renewable energy, power and efficiency.' },
     'electricidad':      { titulo: 'Electricity',          emoji: '💡', descripcion: 'Electric current, circuits, Ohm\'s law, conductors, magnetism and electromagnets.' },
     'ondas-luz':         { titulo: 'Waves and Light',      emoji: '🌊', descripcion: 'Mechanical waves, sound, light, reflection, refraction and the electromagnetic spectrum.' },
-    'ciclos-naturaleza': { titulo: 'Cycles & Processes',   emoji: '🔄', descripcion: 'Order the steps of natural cycles and biological processes: water, Krebs, Calvin, nitrogen, rocks, the cell and metamorphosis.' },
   },
   ca: {
     'tabla-periodica':   { titulo: 'Taula Periòdica',      emoji: '⚗️', descripcion: 'Símbols, noms, números atòmics, grups i tipus dels elements químics.' },
@@ -62,7 +72,6 @@ const TEMAS_META = {
     'energia':           { titulo: 'Energia',              emoji: '🔋', descripcion: 'Energia cinètica, potencial, tèrmica, renovable i rendiment energètic.' },
     'electricidad':      { titulo: 'Electricitat',         emoji: '💡', descripcion: 'Corrent elèctric, circuits, llei d\'Ohm, conductors, magnetisme i electroimants.' },
     'ondas-luz':         { titulo: 'Ones i Llum',          emoji: '🌊', descripcion: 'Ones mecàniques, so, llum, reflexió, refracció i espectre electromagnètic.' },
-    'ciclos-naturaleza': { titulo: 'Cicles i Processos',   emoji: '🔄', descripcion: 'Ordena els passos de cicles naturals i processos biològics: aigua, Krebs, Calvin, nitrogen, roques, cèl·lula i metamorfosi.' },
   },
 }
 
@@ -235,18 +244,19 @@ export default function QuimicaTema() {
 
   if (!meta) { navigate(localPath('/estudiar/quimica')); return null }
 
-  const modos = tema === 'ciclos-naturaleza'
-    ? listCiclos().map(c => ({
-        id: c.id, emoji: c.emoji, gradient: c.gradient,
-        titulo: c.label, descripcion: c.descripcion,
-        detalles: {
-          es: [`${c.total} pasos`, '3 vidas', 'Antes o después'],
-          en: [`${c.total} steps`, '3 lives', 'Before or after'],
-          ca: [`${c.total} passos`, '3 vides', 'Abans o després'],
-        },
-        path: `ciclo/${c.id}`,
-      }))
-    : (MODOS_POR_TEMA[tema] || [])
+  const modos = [
+    ...(MODOS_POR_TEMA[tema] || []),
+    ...ciclosPorTema(tema).map(c => ({
+      id: c.id, emoji: c.emoji, gradient: c.gradient,
+      titulo: c.label, descripcion: c.descripcion,
+      detalles: {
+        es: [nivelesChip(c.niveles, 'es'), `${c.total} pasos`, 'Antes o después'],
+        en: [nivelesChip(c.niveles, 'en'), `${c.total} steps`, 'Before or after'],
+        ca: [nivelesChip(c.niveles, 'ca'), `${c.total} passos`, 'Abans o després'],
+      },
+      path: `ciclo/${c.id}`,
+    })),
+  ]
   const pageMeta = <PageMeta title={meta.titulo} description={meta.descripcion} path={`/estudiar/ciencias/${tema}`} lang={lang} />
   const courseSchema = <CourseSchema name={meta.titulo} description={meta.descripcion} path={`/estudiar/ciencias/${tema}`} lang={lang} subject={en ? 'Science' : ca ? 'Ciències' : 'Ciencias'} />
   const breadcrumb = <BreadcrumbSchema lang={lang} items={[

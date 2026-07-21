@@ -32,6 +32,15 @@ function Intro({ ciclo, total, onStart, tr }) {
         </div>
         <div className="bg-white/5 border border-white/10 rounded-2xl p-6 mb-6 space-y-4">
           <p className="text-white/60 text-sm leading-relaxed">{tr(ciclo.descripcion)}</p>
+          {ciclo.cerrado && (
+            <p className="text-white/40 text-xs leading-relaxed bg-white/5 border border-white/10 rounded-lg px-3 py-2">
+              🔄 {tr({
+                es: `Es un ciclo continuo: aquí lo recorremos en una sola vuelta, empezando por «${tr(ciclo.pasos[0].nombre)}».`,
+                en: `This is a continuous cycle: here we go around it once, starting from "${tr(ciclo.pasos[0].nombre)}".`,
+                ca: `És un cicle continu: aquí el recorrem en una sola volta, començant per «${tr(ciclo.pasos[0].nombre)}».`,
+              })}
+            </p>
+          )}
           <div className="border-t border-white/10 pt-4 space-y-3">
             {[
               { icon: '🃏', title: tr({ es: 'Coloca cada paso en su posición', en: 'Place each step in position', ca: 'Col·loca cada pas en la seva posició' }), desc: tr({ es: 'El paso está oculto. Decide si va antes o después de los que ya tienes.', en: "The step is hidden. Decide if it goes before or after the ones you already have.", ca: 'El pas està amagat. Decideix si va abans o després dels que ja tens.' }) },
@@ -164,7 +173,7 @@ export default function CicloOrdenExamen() {
   }, [phase, wasCorrect, correctSlot])
 
   useEffect(() => {
-    if (!ciclo) navigate(localPath('/estudiar/quimica/ciclos-naturaleza'))
+    if (!ciclo) navigate(localPath('/estudiar/quimica'))
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
   if (!ciclo) return null
 
@@ -251,7 +260,7 @@ export default function CicloOrdenExamen() {
       <Resultado
         placed={placed} lives={lives} total={total} ciclo={ciclo}
         onRepetir={startGame}
-        onSalir={() => navigate(localPath(backPath || '/estudiar/quimica/ciclos-naturaleza'))}
+        onSalir={() => navigate(localPath(backPath || `/estudiar/quimica/${ciclo.home}`))}
         tr={tr}
       />
       {coinsToShow > 0 && <CoinsAnimation coins={coinsToShow} />}

@@ -16,7 +16,7 @@ const TEMAS = [
     titulo: 'Estados de la Materia', tituloEn: 'States of Matter', tituloCa: 'Estats de la Matèria',
     subtitulo: 'Sólido, líquido, gas y cambios de estado', subtituloEn: 'Solid, liquid, gas and changes of state', subtituloCa: 'Sòlid, líquid, gas i canvis d\'estat',
     emoji: '🧪', gradient: 'from-teal-500 to-cyan-700',
-    tags: ['estados', 'solido', 'liquido', 'gas', 'fusion', 'evaporacion', 'materia', 'states', 'matter'],
+    tags: ['estados', 'solido', 'liquido', 'gas', 'fusion', 'evaporacion', 'materia', 'states', 'matter', 'ciclo del agua', 'ciclo de las rocas', 'water cycle', 'rock cycle', 'condensacion', 'erosion'],
     niveles: ['primaria', 'eso'],
   },
   {
@@ -56,8 +56,8 @@ const TEMAS = [
     titulo: 'La Célula', tituloEn: 'The Cell', tituloCa: 'La Cèl·lula',
     subtitulo: 'Tipos, orgánulos y funciones celulares', subtituloEn: 'Types, organelles and cell functions', subtituloCa: 'Tipus, orgànuls i funcions cel·lulars',
     emoji: '🔬', gradient: 'from-green-500 to-teal-700',
-    tags: ['celula', 'nucleo', 'mitocondria', 'cloroplasto', 'procariota', 'eucariota', 'cell', 'organelle'],
-    niveles: ['eso'],
+    tags: ['celula', 'nucleo', 'mitocondria', 'cloroplasto', 'procariota', 'eucariota', 'cell', 'organelle', 'ciclo de krebs', 'ciclo de calvin', 'ciclo celular', 'mitosis', 'krebs cycle', 'calvin cycle', 'respiracion celular', 'fotosintesis'],
+    niveles: ['eso', 'bachillerato'],
   },
   {
     id: 'cuerpo-humano',
@@ -72,7 +72,7 @@ const TEMAS = [
     titulo: 'Seres Vivos', tituloEn: 'Living Things', tituloCa: 'Éssers Vius',
     subtitulo: 'Reinos, clasificación, vertebrados e invertebrados', subtituloEn: 'Kingdoms, classification, vertebrates and invertebrates', subtituloCa: 'Regnes, classificació, vertebrats i invertebrats',
     emoji: '🌱', gradient: 'from-emerald-500 to-green-700',
-    tags: ['seres vivos', 'reinos', 'vertebrados', 'plantas', 'animales', 'hongos', 'living things', 'kingdoms'],
+    tags: ['seres vivos', 'reinos', 'vertebrados', 'plantas', 'animales', 'hongos', 'living things', 'kingdoms', 'metamorfosis', 'ciclo de vida', 'rana', 'renacuajo', 'frog metamorphosis'],
     niveles: ['primaria', 'eso'],
   },
   {
@@ -80,8 +80,8 @@ const TEMAS = [
     titulo: 'Ecosistemas', tituloEn: 'Ecosystems', tituloCa: 'Ecosistemes',
     subtitulo: 'Cadenas tróficas, biomas y adaptaciones', subtituloEn: 'Food chains, biomes and adaptations', subtituloCa: 'Cadenes tròfiques, biomes i adaptacions',
     emoji: '🌍', gradient: 'from-teal-500 to-emerald-700',
-    tags: ['ecosistema', 'cadena trofica', 'bioma', 'biodiversidad', 'habitat', 'ecosystems', 'food chain', 'biome'],
-    niveles: ['primaria', 'eso'],
+    tags: ['ecosistema', 'cadena trofica', 'bioma', 'biodiversidad', 'habitat', 'ecosystems', 'food chain', 'biome', 'ciclo del nitrogeno', 'nitrogen cycle', 'bacterias', 'fijacion del nitrogeno'],
+    niveles: ['primaria', 'eso', 'bachillerato'],
   },
   {
     id: 'genetica',
@@ -122,14 +122,6 @@ const TEMAS = [
     emoji: '💡', gradient: 'from-amber-500 to-yellow-600',
     tags: ['electricidad', 'circuito', 'corriente', 'voltaje', 'resistencia', 'ohm', 'iman', 'electricity', 'circuit', 'ohm law'],
     niveles: ['primaria', 'eso'],
-  },
-  {
-    id: 'ciclos-naturaleza',
-    titulo: 'Ciclos y Procesos', tituloEn: 'Cycles & Processes', tituloCa: 'Cicles i Processos',
-    subtitulo: 'Ordena los pasos: ciclo del agua, Krebs, Calvin y más', subtituloEn: 'Order the steps: water cycle, Krebs, Calvin and more', subtituloCa: 'Ordena els passos: cicle de l\'aigua, Krebs, Calvin i més',
-    emoji: '🔄', gradient: 'from-emerald-500 to-teal-700',
-    tags: ['ciclo del agua', 'krebs', 'calvin', 'nitrogeno', 'rocas', 'mitosis', 'metamorfosis', 'water cycle', 'krebs cycle', 'calvin cycle'],
-    niveles: ['primaria', 'eso', 'bachillerato'],
   },
   {
     id: 'ondas-luz',
