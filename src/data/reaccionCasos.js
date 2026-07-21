@@ -17,107 +17,6 @@ export const DISCLAIMER = {
 
 export const CASOS = [
   {
-    id: 'desmayo-normal',
-    situacion: {
-      es: 'Un señor se desmaya en la calle y respira con normalidad.',
-      en: 'A man faints in the street and is breathing normally.',
-      ca: 'Un home es desmaia al carrer i respira amb normalitat.',
-    },
-    opciones: [
-      {
-        texto: { es: 'Colocarlo en posición lateral de seguridad', en: 'Put him in the recovery position', ca: 'Col·locar-lo en posició lateral de seguretat' },
-        esCorrecta: true, esPeligrosa: false,
-        explicacion: { es: 'Con respiración normal, la posición lateral de seguridad mantiene la vía aérea libre mientras se recupera.', en: 'With normal breathing, the recovery position keeps the airway clear while he comes round.', ca: 'Amb respiració normal, la posició lateral de seguretat manté la via aèria lliure mentre es recupera.' },
-      },
-      {
-        texto: { es: 'Darle algo de beber para que reaccione', en: 'Give him something to drink to wake him up', ca: 'Donar-li alguna cosa de beure perquè reaccioni' },
-        esCorrecta: false, esPeligrosa: true,
-        explicacion: { es: 'Nunca se da de beber ni comer a alguien inconsciente: puede atragantarse.', en: 'Never give food or drink to someone unconscious: they could choke.', ca: 'Mai es dona de beure ni menjar a algú inconscient: es pot ennuegar.' },
-      },
-      {
-        texto: { es: 'Sentarlo apoyado contra una pared', en: 'Sit him up against a wall', ca: 'Asseure\'l recolzat contra una paret' },
-        esCorrecta: false, esPeligrosa: false,
-        explicacion: { es: 'No es peligroso, pero sentado la vía aérea no queda tan protegida como tumbado de lado.', en: 'Not dangerous, but sitting up doesn\'t protect the airway as well as lying on his side.', ca: 'No és perillós, però assegut la via aèria no queda tan protegida com ajagut de costat.' },
-      },
-    ],
-  },
-  {
-    id: 'quemadura-plancha',
-    situacion: {
-      es: 'Una niña se quema la mano con la plancha: la piel está roja pero no hay ampollas.',
-      en: 'A girl burns her hand on the iron: the skin is red but there are no blisters.',
-      ca: 'Una nena es crema la mà amb la planxa: la pell està vermella però no hi ha butllofes.',
-    },
-    opciones: [
-      {
-        texto: { es: 'Agua fría del grifo durante unos 20 minutos', en: 'Cool running tap water for about 20 minutes', ca: 'Aigua freda de l\'aixeta durant uns 20 minuts' },
-        esCorrecta: true, esPeligrosa: false,
-        explicacion: { es: 'El agua fría (no helada) corriendo un buen rato reduce el daño en el tejido y calma el dolor.', en: 'Cool (not icy) running water for a good while reduces tissue damage and eases the pain.', ca: 'L\'aigua freda (no gelada) corrent una bona estona redueix el dany al teixit i calma el dolor.' },
-      },
-      {
-        texto: { es: 'Hielo directo sobre la quemadura', en: 'Ice directly on the burn', ca: 'Gel directe sobre la cremada' },
-        esCorrecta: false, esPeligrosa: true,
-        explicacion: { es: 'El frío extremo del hielo puede lesionar aún más el tejido ya dañado.', en: 'The extreme cold of ice can injure the already-damaged tissue even more.', ca: 'El fred extrem del gel pot lesionar encara més el teixit ja malmès.' },
-      },
-      {
-        texto: { es: 'Pomada casera o aceite sobre la quemadura', en: 'Home-made ointment or oil on the burn', ca: 'Pomada casolana o oli sobre la cremada' },
-        esCorrecta: false, esPeligrosa: true,
-        explicacion: { es: 'Aceites y pomadas caseras irritan la lesión, dificultan valorarla y aumentan el riesgo de infección.', en: 'Home oils and ointments irritate the wound, make it harder to assess and raise the infection risk.', ca: 'Olis i pomades casolanes irriten la lesió, dificulten valorar-la i augmenten el risc d\'infecció.' },
-      },
-    ],
-  },
-  {
-    id: 'corte-cuter',
-    situacion: {
-      es: 'Un compañero se corta con un cúter: sangra, pero no a chorros.',
-      en: 'A coworker cuts himself with a box cutter: it\'s bleeding, but not spurting.',
-      ca: 'Un company es talla amb un cúter: sagna, però no a raig.',
-    },
-    opciones: [
-      {
-        texto: { es: 'Presión directa sobre la herida con un paño limpio', en: 'Direct pressure on the wound with a clean cloth', ca: 'Pressió directa sobre la ferida amb un drap net' },
-        esCorrecta: true, esPeligrosa: false,
-        explicacion: { es: 'La presión directa es la primera acción ante cualquier sangrado: permite que la sangre coagule.', en: 'Direct pressure is the first response to any bleeding: it lets the blood clot.', ca: 'La pressió directa és la primera acció davant qualsevol sagnat: permet que la sang coaguli.' },
-      },
-      {
-        texto: { es: 'Un torniquete en el brazo', en: 'A tourniquet on the arm', ca: 'Un torniquet al braç' },
-        esCorrecta: false, esPeligrosa: true,
-        explicacion: { es: 'El torniquete es el último recurso, solo si la presión directa no basta ante una hemorragia grave. Aquí es excesivo.', en: 'A tourniquet is a last resort, only if direct pressure fails to stop severe bleeding. Here it\'s excessive.', ca: 'El torniquet és l\'últim recurs, només si la pressió directa no n\'hi ha prou davant una hemorràgia greu. Aquí és excessiu.' },
-      },
-      {
-        texto: { es: 'Alcohol directamente en la herida abierta', en: 'Alcohol directly on the open wound', ca: 'Alcohol directament a la ferida oberta' },
-        esCorrecta: false, esPeligrosa: false,
-        explicacion: { es: 'El alcohol irrita el tejido y no es la prioridad: lo primero es parar la hemorragia con presión.', en: 'Alcohol irritates the tissue and isn\'t the priority: the first thing is to stop the bleeding with pressure.', ca: 'L\'alcohol irrita el teixit i no és la prioritat: el primer és aturar l\'hemorràgia amb pressió.' },
-      },
-    ],
-  },
-  {
-    id: 'picadura-abeja',
-    ambiguo: true,
-    situacion: {
-      es: 'Le pica mucho un brazo tras una picadura de abeja, sin hinchazón en la cara ni falta de aire.',
-      en: 'Their arm is very itchy after a bee sting, with no facial swelling or shortness of breath.',
-      ca: 'Li pica molt un braç després d\'una picada d\'abella, sense inflor a la cara ni falta d\'aire.',
-    },
-    opciones: [
-      {
-        texto: { es: 'Retirar el aguijón raspando y lavar la zona', en: 'Scrape the stinger out and wash the area', ca: 'Retirar l\'agulló raspant i rentar la zona' },
-        esCorrecta: true, esPeligrosa: false,
-        explicacion: { es: 'Raspar con un borde fino (una tarjeta) saca el aguijón sin apretar el saco de veneno.', en: 'Scraping with a thin edge (like a card) removes the stinger without squeezing the venom sac.', ca: 'Raspar amb una vora fina (una targeta) treu l\'agulló sense prémer el sac de verí.' },
-      },
-      {
-        texto: { es: 'Llamar al 112 de inmediato', en: 'Call emergency services immediately', ca: 'Trucar al 112 de seguida' },
-        esCorrecta: false, esPeligrosa: false,
-        explicacion: { es: 'Sin hinchazón facial ni problemas para respirar no es una emergencia: solo lo sería si hay signos de reacción alérgica grave.', en: 'Without facial swelling or breathing trouble this isn\'t an emergency: it only would be with signs of a severe allergic reaction.', ca: 'Sense inflor facial ni problemes per respirar no és una emergència: només ho seria amb signes de reacció al·lèrgica greu.' },
-      },
-      {
-        texto: { es: 'Apretar la zona con los dedos para sacar el veneno', en: 'Squeeze the area with your fingers to get the venom out', ca: 'Prémer la zona amb els dits per treure el verí' },
-        esCorrecta: false, esPeligrosa: false,
-        explicacion: { es: 'Apretar o usar pinzas puede inyectar más veneno del saco: mejor raspar que apretar.', en: 'Squeezing or using tweezers can inject more venom from the sac: scraping beats squeezing.', ca: 'Prémer o usar pinces pot injectar més verí del sac: millor raspar que prémer.' },
-      },
-    ],
-  },
-  {
     id: 'atragantamiento-parcial',
     situacion: {
       es: 'Un amigo se atraganta comiendo, pero tose fuerte y puede hablar.',
@@ -139,31 +38,6 @@ export const CASOS = [
         texto: { es: 'Hacerle la maniobra de Heimlich ya', en: 'Do the Heimlich maneuver right away', ca: 'Fer-li la maniobra de Heimlich ja' },
         esCorrecta: false, esPeligrosa: true,
         explicacion: { es: 'La maniobra de Heimlich es para obstrucción total. Aquí puede toser y hablar: aún no toca.', en: 'The Heimlich maneuver is for total obstruction. Here they can cough and speak: it\'s not time yet.', ca: 'La maniobra de Heimlich és per a obstrucció total. Aquí pot tossir i parlar: encara no toca.' },
-      },
-    ],
-  },
-  {
-    id: 'anafilaxia',
-    situacion: {
-      es: 'Alguien alérgico a frutos secos se hincha la cara y le cuesta respirar tras comer algo.',
-      en: 'Someone allergic to nuts has facial swelling and trouble breathing after eating something.',
-      ca: 'Algú al·lèrgic a fruits secs se li infla la cara i li costa respirar després de menjar alguna cosa.',
-    },
-    opciones: [
-      {
-        texto: { es: 'Llamar al 112 y usar su autoinyector de adrenalina si lo lleva', en: 'Call emergency services and use their adrenaline auto-injector if they carry one', ca: 'Trucar al 112 i fer servir el seu autoinjector d\'adrenalina si el porta' },
-        esCorrecta: true, esPeligrosa: false,
-        explicacion: { es: 'La anafilaxia se trata con adrenalina cuanto antes: sin ella, no tratada, puede matar en menos de media hora.', en: 'Anaphylaxis is treated with adrenaline as soon as possible: untreated, it can kill in under half an hour.', ca: 'L\'anafilaxi es tracta amb adrenalina com abans millor: sense ella, no tractada, pot matar en menys de mitja hora.' },
-      },
-      {
-        texto: { es: 'Darle un antihistamínico y esperar en casa', en: 'Give them an antihistamine and wait at home', ca: 'Donar-li un antihistamínic i esperar a casa' },
-        esCorrecta: false, esPeligrosa: true,
-        explicacion: { es: 'Un antihistamínico no basta ante una anafilaxia: hace falta adrenalina y atención de emergencias ya.', en: 'An antihistamine isn\'t enough for anaphylaxis: it needs adrenaline and emergency care right away.', ca: 'Un antihistamínic no n\'hi ha prou davant una anafilaxi: cal adrenalina i atenció d\'emergències ja.' },
-      },
-      {
-        texto: { es: 'Tumbarle y darle agua', en: 'Lay them down and give them water', ca: 'Estirar-lo i donar-li aigua' },
-        esCorrecta: false, esPeligrosa: true,
-        explicacion: { es: 'Sin llamar a emergencias ni usar adrenalina se pierde el tiempo que más importa; además, darle agua con dificultad para respirar puede hacer que se atragante.', en: 'Without calling emergency services or using adrenaline you lose the time that matters most; also, giving water while they struggle to breathe risks choking.', ca: 'Sense trucar a emergències ni fer servir adrenalina es perd el temps que més importa; a més, donar-li aigua amb dificultat per respirar pot fer que s\'ennuegui.' },
       },
     ],
   },
@@ -265,106 +139,6 @@ export const CASOS = [
         texto: { es: 'No darle importancia y que siga con lo que hacía', en: 'Not worry about it and let them carry on', ca: 'No donar-hi importància i que segueixi amb el que feia' },
         esCorrecta: false, esPeligrosa: false,
         explicacion: { es: 'Aunque no sea grave, conviene observarlo un rato y no dejarlo solo por si el desmayo se repite.', en: 'Even if it\'s not serious, it\'s worth watching them for a while and not leaving them alone in case it happens again.', ca: 'Encara que no sigui greu, convé observar-lo una estona i no deixar-lo sol per si el desmai es repeteix.' },
-      },
-    ],
-  },
-  {
-    id: 'motorista-consciente',
-    situacion: {
-      es: 'Un motorista se cae en el arcén: está consciente, se queja de dolor en la pierna, y lleva el casco puesto.',
-      en: 'A motorcyclist falls onto the road shoulder: conscious, complaining of leg pain, still wearing their helmet.',
-      ca: 'Un motorista cau al voral: està conscient, es queixa de dolor a la cama, i porta el casc posat.',
-    },
-    opciones: [
-      {
-        texto: { es: 'Señalizar la zona y llamar al 112, sin moverlo ni quitarle el casco', en: 'Mark the area as a hazard and call emergency services, without moving him or removing the helmet', ca: 'Senyalitzar la zona i trucar al 112, sense moure\'l ni treure-li el casc' },
-        esCorrecta: true, esPeligrosa: false,
-        explicacion: { es: 'El casco solo lo retira personal sanitario, salvo que impida respirar. Moverlo puede agravar una posible lesión de columna.', en: 'Only medical staff should remove the helmet, unless it\'s blocking breathing. Moving him could worsen a possible spinal injury.', ca: 'El casc només el retira personal sanitari, tret que impedeixi respirar. Moure\'l pot agreujar una possible lesió de columna.' },
-      },
-      {
-        texto: { es: 'Quitarle el casco para que esté más cómodo', en: 'Remove his helmet so he\'s more comfortable', ca: 'Treure-li el casc perquè estigui més còmode' },
-        esCorrecta: false, esPeligrosa: true,
-        explicacion: { es: 'Quitar el casco sin necesidad, y sin la técnica adecuada entre dos personas, puede dañar el cuello o la columna.', en: 'Removing the helmet without need, and without the proper two-person technique, can injure the neck or spine.', ca: 'Treure el casc sense necessitat, i sense la tècnica adequada entre dues persones, pot malmetre el coll o la columna.' },
-      },
-      {
-        texto: { es: 'Arrastrarlo por los brazos hasta la acera', en: 'Drag him by the arms onto the pavement', ca: 'Arrossegar-lo pels braços fins a la vorera' },
-        esCorrecta: false, esPeligrosa: true,
-        explicacion: { es: 'Sin peligro inmediato (fuego, tráfico encima), no se mueve a alguien con posibles lesiones: podría agravarlas.', en: 'Without immediate danger (fire, oncoming traffic), you don\'t move someone with possible injuries: it could make them worse.', ca: 'Sense perill immediat (foc, trànsit a sobre), no es mou algú amb possibles lesions: podria agreujar-les.' },
-      },
-    ],
-  },
-  {
-    id: 'motorista-inconsciente',
-    situacion: {
-      es: 'Un motorista caído no responde a tu voz, pero notas que respira con normalidad. Lleva el casco puesto.',
-      en: 'A fallen motorcyclist doesn\'t respond to your voice, but you can see they\'re breathing normally. Still wearing their helmet.',
-      ca: 'Un motorista caigut no respon a la teva veu, però notes que respira amb normalitat. Porta el casc posat.',
-    },
-    opciones: [
-      {
-        texto: { es: 'No moverlo ni tocarle el casco, y llamar al 112 mientras lo vigilas', en: 'Don\'t move him or touch the helmet, and call emergency services while watching him', ca: 'No moure\'l ni tocar-li el casc, i trucar al 112 mentre el vigiles' },
-        esCorrecta: true, esPeligrosa: false,
-        explicacion: { es: 'Si respira con normalidad no hace falta tocar el casco ni moverlo: solo avisar a emergencias y vigilarlo hasta que lleguen.', en: 'If they\'re breathing normally there\'s no need to touch the helmet or move them: just alert emergency services and watch over them.', ca: 'Si respira amb normalitat no cal tocar el casc ni moure\'l: només avisar emergències i vigilar-lo fins que arribin.' },
-      },
-      {
-        texto: { es: 'Quitarle el casco para comprobar si reacciona', en: 'Remove the helmet to check if he responds', ca: 'Treure-li el casc per comprovar si reacciona' },
-        esCorrecta: false, esPeligrosa: true,
-        explicacion: { es: 'Con respiración normal no hay motivo para tocar el casco: hacerlo sin necesidad añade riesgo de lesión cervical.', en: 'With normal breathing there\'s no reason to touch the helmet: doing so unnecessarily adds a risk of neck injury.', ca: 'Amb respiració normal no hi ha motiu per tocar el casc: fer-ho sense necessitat afegeix risc de lesió cervical.' },
-      },
-      {
-        texto: { es: 'Zarandearlo con fuerza para que despierte', en: 'Shake him hard to wake him up', ca: 'Sacsejar-lo fort perquè es desperti' },
-        esCorrecta: false, esPeligrosa: true,
-        explicacion: { es: 'Zarandear a alguien que podría tener una lesión de columna puede agravarla seriamente.', en: 'Shaking someone who might have a spinal injury can seriously worsen it.', ca: 'Sacsejar algú que podria tenir una lesió de columna la pot agreujar seriosament.' },
-      },
-    ],
-  },
-  {
-    id: 'hipoglucemia-consciente',
-    situacion: {
-      es: 'Una persona diabética suda frío, tiembla y está confusa, pero consciente y puede tragar.',
-      en: 'Someone with diabetes is cold and sweaty, shaky and confused, but conscious and able to swallow.',
-      ca: 'Una persona diabètica sua fred, tremola i està confusa, però conscient i pot empassar.',
-    },
-    opciones: [
-      {
-        texto: { es: 'Darle algo de azúcar de absorción rápida: zumo, un azucarillo o un refresco azucarado', en: 'Give them fast-acting sugar: juice, a sugar cube or a sugary soda', ca: 'Donar-li alguna cosa de sucre d\'absorció ràpida: suc, un sucrat o un refresc ensucrat' },
-        esCorrecta: true, esPeligrosa: false,
-        explicacion: { es: 'Son síntomas de hipoglucemia (azúcar bajo): consciente y pudiendo tragar, la regla es dar 15g de azúcar rápido y esperar unos minutos.', en: 'These are hypoglycemia (low blood sugar) symptoms: while conscious and able to swallow, the rule is 15g of fast sugar and waiting a few minutes.', ca: 'Són símptomes d\'hipoglucèmia (sucre baix): conscient i podent empassar, la regla és donar 15g de sucre ràpid i esperar uns minuts.' },
-      },
-      {
-        texto: { es: 'Ponerle su dosis de insulina para bajarle el azúcar', en: 'Give them their insulin dose to lower their blood sugar', ca: 'Posar-li la seva dosi d\'insulina per baixar-li el sucre' },
-        esCorrecta: false, esPeligrosa: true,
-        explicacion: { es: 'El azúcar ya está bajo: ponerle insulina lo bajaría todavía más y puede ser gravísimo. Es justo lo contrario de lo que hace falta.', en: 'Their blood sugar is already low: giving insulin would lower it further and can be very serious. It\'s the exact opposite of what\'s needed.', ca: 'El sucre ja és baix: posar-li insulina el baixaria encara més i pot ser molt greu. És justament el contrari del que cal.' },
-      },
-      {
-        texto: { es: 'Esperar a que se le pase solo, sin hacer nada', en: 'Wait for it to pass on its own, without doing anything', ca: 'Esperar que se li passi sol, sense fer res' },
-        esCorrecta: false, esPeligrosa: false,
-        explicacion: { es: 'Sin azúcar, una hipoglucemia puede empeorar hasta la pérdida de conciencia: no cuesta nada dársela ya.', en: 'Without sugar, hypoglycemia can worsen into loss of consciousness: there\'s no reason not to give it right away.', ca: 'Sense sucre, una hipoglucèmia pot empitjorar fins a la pèrdua de coneixement: no costa res donar-la ja.' },
-      },
-    ],
-  },
-  {
-    id: 'hipoglucemia-inconsciente',
-    situacion: {
-      es: 'Una persona diabética no responde y está inconsciente, pero respira.',
-      en: 'Someone with diabetes doesn\'t respond and is unconscious, but breathing.',
-      ca: 'Una persona diabètica no respon i està inconscient, però respira.',
-    },
-    opciones: [
-      {
-        texto: { es: 'Colocarla en posición lateral de seguridad y llamar al 112, sin darle nada por la boca', en: 'Put them in the recovery position and call emergency services, without giving anything by mouth', ca: 'Col·locar-la en posició lateral de seguretat i trucar al 112, sense donar-li res per la boca' },
-        esCorrecta: true, esPeligrosa: false,
-        explicacion: { es: 'Inconsciente no se le da nada de comer ni beber: se le coloca de lado, protegiendo la vía aérea, y se llama a emergencias.', en: 'Unconscious, they shouldn\'t be given anything to eat or drink: put them on their side to protect the airway, and call emergency services.', ca: 'Inconscient no se li dona res de menjar ni beure: es col·loca de costat, protegint la via aèria, i es truca a emergències.' },
-      },
-      {
-        texto: { es: 'Meterle azúcar o zumo en la boca aunque esté inconsciente', en: 'Put sugar or juice in their mouth even though unconscious', ca: 'Ficar-li sucre o suc a la boca encara que estigui inconscient' },
-        esCorrecta: false, esPeligrosa: true,
-        explicacion: { es: 'Dar de comer o beber a alguien inconsciente puede hacer que se atragante: nunca se hace por la boca sin que esté despierto.', en: 'Giving food or drink to someone unconscious can make them choke: never do it by mouth unless they\'re awake.', ca: 'Donar de menjar o beure a algú inconscient pot fer que s\'ennuegui: mai es fa per la boca sense que estigui despert.' },
-      },
-      {
-        texto: { es: 'Esperar a que despierte por sí sola para actuar', en: 'Wait for them to wake up on their own before acting', ca: 'Esperar que es desperti sola per actuar' },
-        esCorrecta: false, esPeligrosa: true,
-        explicacion: { es: 'Una hipoglucemia con pérdida de conciencia es una emergencia: hay que llamar ya, no esperar a que se recupere sola.', en: 'Hypoglycemia with loss of consciousness is an emergency: call now, don\'t wait for them to recover on their own.', ca: 'Una hipoglucèmia amb pèrdua de coneixement és una emergència: cal trucar ja, no esperar que es recuperi sola.' },
       },
     ],
   },
@@ -493,56 +267,6 @@ export const CASOS = [
         texto: { es: 'Esperar unos días a ver si se pasa antes de pedir cita', en: 'Wait a few days to see if it passes before booking an appointment', ca: 'Esperar uns dies a veure si es passa abans de demanar cita' },
         esCorrecta: false, esPeligrosa: true,
         explicacion: { es: 'Un posible apéndice inflamado puede perforarse si se espera: no se deja pasar el tiempo con estos síntomas.', en: 'A possibly inflamed appendix can rupture if you wait: you don\'t let time pass with these symptoms.', ca: 'Un possible apèndix inflamat es pot perforar si s\'espera: no es deixa passar el temps amb aquests símptomes.' },
-      },
-    ],
-  },
-  {
-    id: 'ahogamiento-consciente',
-    situacion: {
-      es: 'Sacas a alguien de la piscina: tose, respira y está consciente, aunque aturdido.',
-      en: 'You pull someone out of the pool: they\'re coughing, breathing and conscious, though dazed.',
-      ca: 'Treus algú de la piscina: tus, respira i està conscient, encara que atordit.',
-    },
-    opciones: [
-      {
-        texto: { es: 'Llevarlo a un lugar seguro, abrigarlo y buscar valoración médica aunque parezca estar bien', en: 'Move them somewhere safe, keep them warm, and seek medical evaluation even if they seem fine', ca: 'Portar-lo a un lloc segur, abrigar-lo i buscar valoració mèdica encara que sembli estar bé' },
-        esCorrecta: true, esPeligrosa: false,
-        explicacion: { es: 'Un casi ahogamiento puede tener complicaciones horas después (agua en los pulmones) aunque la persona respire con normalidad al principio.', en: 'A near-drowning can have complications hours later (water in the lungs) even if the person is breathing normally at first.', ca: 'Un quasi ofegament pot tenir complicacions hores després (aigua als pulmons) encara que la persona respiri amb normalitat al principi.' },
-      },
-      {
-        texto: { es: 'Ponerlo boca abajo y presionarle el abdomen para sacarle el agua', en: 'Lay them face down and press their abdomen to force the water out', ca: 'Posar-lo boca avall i pressionar-li l\'abdomen per treure-li l\'aigua' },
-        esCorrecta: false, esPeligrosa: true,
-        explicacion: { es: 'Presionar el abdomen para "sacar el agua" no es un primer auxilio recomendado: puede provocar vómito y que lo aspire.', en: 'Pressing the abdomen to "force out the water" isn\'t a recommended first-aid technique: it can cause vomiting and aspiration.', ca: 'Pressionar l\'abdomen per "treure l\'aigua" no és un primer auxili recomanat: pot provocar vòmit i que ho aspiri.' },
-      },
-      {
-        texto: { es: 'Dejarlo descansar sin más, seguro que no pasa nada', en: 'Just let them rest, it\'s surely nothing', ca: 'Deixar-lo descansar sense més, segur que no passa res' },
-        esCorrecta: false, esPeligrosa: false,
-        explicacion: { es: 'Aunque respire con normalidad, conviene vigilarlo y que lo valore un médico por el riesgo de complicaciones tardías.', en: 'Even if they\'re breathing normally, they should be watched and seen by a doctor because of the risk of delayed complications.', ca: 'Encara que respiri amb normalitat, convé vigilar-lo i que el valori un metge pel risc de complicacions tardanes.' },
-      },
-    ],
-  },
-  {
-    id: 'ahogamiento-inconsciente',
-    situacion: {
-      es: 'Sacas a un niño de la piscina: no responde y no respira con normalidad.',
-      en: 'You pull a child out of the pool: they don\'t respond and aren\'t breathing normally.',
-      ca: 'Treus un nen de la piscina: no respon i no respira amb normalitat.',
-    },
-    opciones: [
-      {
-        texto: { es: 'Empezar la RCP de inmediato y que alguien llame al 112', en: 'Start CPR immediately and have someone call emergency services', ca: 'Començar la RCP de seguida i que algú truqui al 112' },
-        esCorrecta: true, esPeligrosa: false,
-        explicacion: { es: 'Sin respiración normal tras sacarlo del agua, lo prioritario es empezar la reanimación cardiopulmonar ya, sin retrasarla.', en: 'Without normal breathing after being pulled from the water, the priority is to start CPR right away, without delay.', ca: 'Sense respiració normal després de treure\'l de l\'aigua, el prioritari és començar la reanimació cardiopulmonar ja, sense retardar-la.' },
-      },
-      {
-        texto: { es: 'Ponerlo boca abajo para que expulse el agua antes de hacer nada más', en: 'Lay them face down to expel the water before doing anything else', ca: 'Posar-lo boca avall perquè expulsi l\'aigua abans de fer res més' },
-        esCorrecta: false, esPeligrosa: true,
-        explicacion: { es: 'Intentar sacar el agua primero retrasa la RCP, que es lo que de verdad puede salvarle la vida.', en: 'Trying to drain the water first delays CPR, which is what can actually save their life.', ca: 'Intentar treure l\'aigua primer retarda la RCP, que és el que de veritat li pot salvar la vida.' },
-      },
-      {
-        texto: { es: 'Esperar unos minutos a ver si reacciona solo', en: 'Wait a few minutes to see if they come round on their own', ca: 'Esperar uns minuts a veure si reacciona sol' },
-        esCorrecta: false, esPeligrosa: true,
-        explicacion: { es: 'Sin respiración, cada minuto sin RCP reduce mucho las opciones: no se espera a ver qué pasa.', en: 'Without breathing, every minute without CPR greatly reduces the chances: you don\'t wait and see.', ca: 'Sense respiració, cada minut sense RCP redueix molt les opcions: no s\'espera a veure què passa.' },
       },
     ],
   },
@@ -958,57 +682,6 @@ export const CASOS = [
     ],
   },
   {
-    id: 'golpe-cabeza-nino-leve',
-    ambiguo: true,
-    situacion: {
-      es: 'Un niño se golpea la cabeza jugando en el parque. Llora un momento, pero enseguida vuelve a jugar con normalidad.',
-      en: 'A child bumps his head playing in the park. He cries for a moment, but soon goes back to playing normally.',
-      ca: 'Un nen es colpeja el cap jugant al parc. Plora un moment, però de seguida torna a jugar amb normalitat.',
-    },
-    opciones: [
-      {
-        texto: { es: 'Tranquilizarlo y vigilarlo en casa durante las horas siguientes', en: 'Calm him down and watch him at home over the next few hours', ca: 'Tranquil·litzar-lo i vigilar-lo a casa durant les hores següents' },
-        esCorrecta: true, esPeligrosa: false,
-        explicacion: { es: 'Sin pérdida de conocimiento y volviendo a jugar con normalidad, basta con vigilarlo en casa por si aparecen señales de alarma.', en: 'Without loss of consciousness and going back to normal play, it\'s enough to watch him at home in case warning signs appear.', ca: 'Sense pèrdua de coneixement i tornant a jugar amb normalitat, n\'hi ha prou amb vigilar-lo a casa per si apareixen senyals d\'alarma.' },
-      },
-      {
-        texto: { es: 'Llevarlo a urgencias ahora mismo por si acaso', en: 'Take him to the ER right away just in case', ca: 'Portar-lo a urgències ara mateix per si de cas' },
-        esCorrecta: false, esPeligrosa: false,
-        explicacion: { es: 'Sin señales de alarma (pérdida de conocimiento, vómitos, somnolencia excesiva), no hace falta urgencias: basta con observarlo en casa.', en: 'Without warning signs (loss of consciousness, vomiting, excessive drowsiness), the ER isn\'t needed: watching him at home is enough.', ca: 'Sense senyals d\'alarma (pèrdua de coneixement, vòmits, somnolència excessiva), no cal urgències: n\'hi ha prou amb observar-lo a casa.' },
-      },
-      {
-        texto: { es: 'No volver a pensar en ello, los golpes de niño no tienen importancia', en: 'Not think about it again, kids\' bumps don\'t matter', ca: 'No tornar-hi a pensar, els cops de nen no tenen importància' },
-        esCorrecta: false, esPeligrosa: true,
-        explicacion: { es: 'Aunque parezca leve, conviene vigilar al niño las horas siguientes por si aparecen señales de alarma que sí requieran atención médica.', en: 'Even if it seems mild, the child should be watched over the following hours in case warning signs appear that do need medical attention.', ca: 'Encara que sembli lleu, convé vigilar el nen les hores següents per si apareixen senyals d\'alarma que sí que requereixin atenció mèdica.' },
-      },
-    ],
-  },
-  {
-    id: 'golpe-cabeza-nino-alarma',
-    situacion: {
-      es: 'El mismo niño, un rato después de golpearse la cabeza, vomita dos veces y está muy somnoliento, distinto a como es normalmente.',
-      en: 'The same child, a while after bumping his head, vomits twice and is very drowsy, unlike his usual self.',
-      ca: 'El mateix nen, una estona després de colpejar-se el cap, vomita dues vegades i està molt somnolent, diferent de com és normalment.',
-    },
-    opciones: [
-      {
-        texto: { es: 'Llevarlo a urgencias ahora: vomitar varias veces y estar muy somnoliento son señales de alarma', en: 'Take him to the ER now: vomiting repeatedly and being very drowsy are warning signs', ca: 'Portar-lo a urgències ara: vomitar diverses vegades i estar molt somnolent són senyals d\'alarma' },
-        esCorrecta: true, esPeligrosa: false,
-        explicacion: { es: 'Vómitos repetidos y somnolencia excesiva tras un golpe en la cabeza son señales de alarma que requieren valoración médica sin esperar.', en: 'Repeated vomiting and excessive drowsiness after a head bump are warning signs that need medical evaluation without delay.', ca: 'Vòmits repetits i somnolència excessiva després d\'un cop al cap són senyals d\'alarma que requereixen valoració mèdica sense esperar.' },
-      },
-      {
-        texto: { es: 'Dejarlo dormir mucho, seguro que está simplemente cansado', en: 'Let him sleep it off, he\'s probably just tired', ca: 'Deixar-lo dormir molt, segur que només està cansat' },
-        esCorrecta: false, esPeligrosa: true,
-        explicacion: { es: 'Confundir señales de alarma con simple cansancio puede retrasar la detección de una lesión interna importante.', en: 'Mistaking warning signs for simple tiredness can delay detecting a significant internal injury.', ca: 'Confondre senyals d\'alarma amb simple cansament pot retardar la detecció d\'una lesió interna important.' },
-      },
-      {
-        texto: { es: 'Darle de comer para que recupere fuerzas', en: 'Give him food to regain his strength', ca: 'Donar-li de menjar perquè recuperi forces' },
-        esCorrecta: false, esPeligrosa: true,
-        explicacion: { es: 'Con vómitos y señales de alarma tras un golpe en la cabeza, lo prioritario es buscar atención médica, no darle de comer.', en: 'With vomiting and warning signs after a head bump, the priority is seeking medical attention, not feeding him.', ca: 'Amb vòmits i senyals d\'alarma després d\'un cop al cap, el prioritari és buscar atenció mèdica, no donar-li de menjar.' },
-      },
-    ],
-  },
-  {
     id: 'ictus-fast',
     situacion: {
       es: 'Tu padre, mientras habláis, se le cae de golpe media cara, no puede levantar un brazo, y las palabras le salen arrastradas y confusas.',
@@ -1332,31 +1005,6 @@ export const CASOS = [
         texto: { es: 'Lavarte el ojo con agua abundante', en: 'Rinse your eye with plenty of water', ca: 'Rentar-te l\'ull amb aigua abundant' },
         esCorrecta: false, esPeligrosa: false,
         explicacion: { es: 'Lavar con agua es lo indicado ante un químico en el ojo, pero no ante un golpe: aquí lo que hace falta es frío suave y valoración médica.', en: 'Rinsing with water is right for a chemical in the eye, but not for a blow: what\'s needed here is gentle cold and medical assessment.', ca: 'Rentar amb aigua és el que toca davant un químic a l\'ull, però no davant un cop: aquí el que cal és fred suau i valoració mèdica.' },
-      },
-    ],
-  },
-  {
-    id: 'anafilaxia-segunda-dosis',
-    situacion: {
-      es: 'Alguien con anafilaxia ya recibió una dosis de su autoinyector de adrenalina hace 10 minutos, pero sigue con dificultad para respirar.',
-      en: 'Someone with anaphylaxis already received a dose from their adrenaline auto-injector 10 minutes ago, but is still struggling to breathe.',
-      ca: 'Algú amb anafilaxi ja ha rebut una dosi del seu autoinjector d\'adrenalina fa 10 minuts, però segueix amb dificultat per respirar.',
-    },
-    opciones: [
-      {
-        texto: { es: 'Ponerle una segunda dosis si la tiene disponible, y seguir esperando al 112', en: 'Give a second dose if available, and keep waiting for emergency services', ca: 'Posar-li una segona dosi si en té disponible, i seguir esperant el 112' },
-        esCorrecta: true, esPeligrosa: false,
-        explicacion: { es: 'Si no mejora entre 5 y 15 minutos, se puede repetir la dosis de adrenalina si hay una disponible, sin dejar de esperar a emergencias.', en: 'If there\'s no improvement within 5 to 15 minutes, the adrenaline dose can be repeated if one is available, while still waiting for emergency services.', ca: 'Si no millora entre 5 i 15 minuts, es pot repetir la dosi d\'adrenalina si n\'hi ha una disponible, sense deixar d\'esperar emergències.' },
-      },
-      {
-        texto: { es: 'Pensar que una dosis siempre es suficiente y no hacer nada más', en: 'Assume one dose is always enough and do nothing else', ca: 'Pensar que una dosi sempre n\'hi ha prou i no fer res més' },
-        esCorrecta: false, esPeligrosa: true,
-        explicacion: { es: 'A veces hace falta una segunda dosis si los síntomas no mejoran: no actuar puede dejar a la persona sin el tratamiento que necesita.', en: 'Sometimes a second dose is needed if symptoms don\'t improve: not acting can leave the person without the treatment they need.', ca: 'De vegades cal una segona dosi si els símptomes no milloren: no actuar pot deixar la persona sense el tractament que necessita.' },
-      },
-      {
-        texto: { es: 'Cancelar el aviso al 112 porque ya se ha puesto el autoinyector', en: 'Cancel the call to emergency services since the auto-injector was already used', ca: 'Cancel·lar l\'avís al 112 perquè ja s\'ha posat l\'autoinjector' },
-        esCorrecta: false, esPeligrosa: true,
-        explicacion: { es: 'Siempre hay que ir a urgencias tras usar el autoinyector, aunque mejore: puede haber una segunda reacción horas después.', en: 'You should always go to the ER after using the auto-injector, even if things improve: a second reaction can happen hours later.', ca: 'Sempre cal anar a urgències després de fer servir l\'autoinjector, encara que millori: pot haver-hi una segona reacció hores després.' },
       },
     ],
   },

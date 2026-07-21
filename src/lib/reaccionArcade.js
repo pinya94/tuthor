@@ -4,16 +4,16 @@
 // que se gana con un acierto (para que los fallos pesen de verdad). La
 // partida acaba cuando el reloj llega a 0.
 //
-// Los casos se reparten como un mazo que se baraja entero al empezar y se
-// van sacando sin reposición: nunca se repite ninguno. Si se llega a
-// resolver el mazo entero, la partida termina ahí — no tiene sentido
-// repreguntar los mismos casos.
+// Los escenarios (algunos con varias fases encadenadas, otros de una sola)
+// se reparten como un mazo que se baraja entero al empezar y se van
+// sacando sin reposición: nunca se repite ninguno. Si se llega a resolver
+// el mazo entero, la partida termina ahí — no tiene sentido repreguntar.
 //
 // Cada cierto número de aciertos se ofrece elegir 1 de 3 mejoras (mismo
 // patrón que el modo roguelike de Acércate: src/pages/AcercateRoguelike.jsx).
 
-export const RELOJ_INICIAL_MS = 30000
-export const ACIERTO_MS = 6000
+export const RELOJ_INICIAL_MS = 40000
+export const ACIERTO_MS = 8000
 export const FALLO_MS = 25000
 export const MEJORA_CADA = 5
 

@@ -1,12 +1,20 @@
 // ── Reacción (arcade roguelike de primeros auxilios) ────────────────────────
-// Un único reloj para toda la partida en vez de vidas: empieza en 1 minuto,
-// cada acierto suma 10s y cada fallo resta 20s — el reloj corre siempre de
+// Un único reloj para toda la partida en vez de vidas: empieza bajo, cada
+// acierto suma tiempo y cada fallo resta más — el reloj corre siempre de
 // fondo, así que decidir despacio también cuesta tiempo. Cada 5 aciertos se
-// elige 1 de 3 mejoras (mismo patrón que el modo roguelike de Acércate). Los
-// casos salen de un mazo barajado sin repetición dentro de la partida.
+// elige 1 de 3 mejoras (mismo patrón que el modo roguelike de Acércate).
+//
+// Los "escenarios" salen de un mazo barajado sin repetición dentro de la
+// partida. Un escenario puede tener varias fases encadenadas (p. ej.
+// atragantamiento: confirmar → golpes → Heimlich → RCP si pierde el
+// conocimiento): al resolver una fase se avanza automáticamente a la
+// siguiente fase del MISMO escenario, no se vuelve al mazo. Algunas
+// opciones llevan `saltaEscenario: true` — representan un error de
+// seguridad de la propia escena (acercarte sin comprobar el peligro) y
+// cortan el escenario ahí mismo, aunque la partida sigue con el siguiente.
 //
 // El contenido "profundo" del protocolo (ordenar pasos, explicaciones largas)
-// vive aparte en el Examen de Primeros Auxilios — ver src/pages/PrimerosAuxiliosExamen.jsx.
+// vive aparte en Estudiar > Vida Práctica — ver src/pages/PrimerosAuxiliosEscenario.jsx.
 import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
@@ -19,11 +27,16 @@ import ReaccionSituacionInicial from '../components/ReaccionSituacionInicial'
 import ReaccionCaso from '../components/ReaccionCaso'
 import ReaccionMejora from '../components/ReaccionMejora'
 import ReaccionResumenFinal from '../components/ReaccionResumenFinal'
-import { CASOS } from '../data/reaccionCasos'
+import { ESCENARIOS } from '../data/reaccionEscenarios'
+// import { CASOS } from '../data/reaccionCasos' // TODO: reintegrar como escenarios de 1 fase cuando se pruebe bien la parte encadenada
 import { RELOJ_INICIAL_MS, ACIERTO_MS, FALLO_MS, MEJORA_CADA, barajarMazo, puntosPorCaso } from '../lib/reaccionArcade'
 
 const LS_BEST = 'reaccion-best'
 const TICK_MS = 100
+
+// De momento, solo los escenarios encadenados (los casos sueltos de
+// reaccionCasos.js se quedan en reserva hasta probar bien esta parte).
+const TODOS_LOS_ESCENARIOS = ESCENARIOS
 
 function formatReloj(ms) {
   const s = Math.ceil(ms / 1000)
@@ -44,7 +57,8 @@ export default function Reaccion() {
   const { user } = useAuth()
 
   const [pantalla, setPantalla] = useState('intro') // intro | jugando | mejora | final
-  const [caso, setCaso] = useState(null)
+  const [escenarioActual, setEscenarioActual] = useState(null)
+  const [pasoIndex, setPasoIndex] = useState(0)
   const [relojMs, setRelojMs] = useState(RELOJ_INICIAL_MS)
   const [resueltos, setResueltos] = useState(0)
   const [aciertos, setAciertos] = useState(0)
@@ -64,6 +78,7 @@ export default function Reaccion() {
   const relojMaxRef = useRef(RELOJ_INICIAL_MS) // techo de la barra: sube con el reloj, nunca baja
   const escudoRef = useRef(false)
   const multiplicadorRef = useRef(1)
+  const pendingAvanceRef = useRef(null) // qué toca tras elegir una mejora: siguiente fase o siguiente escenario
 
   useEffect(() => {
     if (pantalla !== 'jugando') return
@@ -76,15 +91,15 @@ export default function Reaccion() {
     return () => { clearInterval(idElapsed); clearInterval(idReloj) }
   }, [pantalla])
 
-  // Saca la siguiente carta del mazo, o null si ya se han resuelto todos
-  // los casos — en ese caso la partida termina, no tiene sentido repreguntar.
-  function sacarSiguienteCaso() {
+  // Saca el siguiente escenario del mazo, o null si ya se han resuelto
+  // todos — en ese caso la partida termina, no tiene sentido repreguntar.
+  function sacarSiguienteEscenario() {
     return mazoRef.current.length > 0 ? mazoRef.current.shift() : null
   }
 
   function empezar() {
     savedRef.current = false
-    mazoRef.current = barajarMazo(CASOS)
+    mazoRef.current = barajarMazo(TODOS_LOS_ESCENARIOS)
     relojRef.current = RELOJ_INICIAL_MS
     relojMaxRef.current = RELOJ_INICIAL_MS
     escudoRef.current = false
@@ -93,13 +108,15 @@ export default function Reaccion() {
     setEscudoActivo(false); setLeves([]); setPeligrosas([]); setElapsed(0)
     setMotivoFin('tiempo')
     setRelojMs(RELOJ_INICIAL_MS)
-    setCaso(mazoRef.current.shift())
+    setEscenarioActual(mazoRef.current.shift())
+    setPasoIndex(0)
     setPantalla('jugando')
   }
 
   function onResuelto(opcion) {
     let nuevaRacha = racha
     let nuevoAciertos = aciertos
+    const pasoActual = escenarioActual.pasos[pasoIndex]
 
     if (opcion.esCorrecta) {
       nuevaRacha = racha + 1
@@ -113,7 +130,7 @@ export default function Reaccion() {
       let penal = FALLO_MS
       if (escudoRef.current) { escudoRef.current = false; setEscudoActivo(false); penal = 0 }
       relojRef.current -= penal
-      const entrada = { situacion: caso.situacion, texto: opcion.texto, explicacion: opcion.explicacion }
+      const entrada = { situacion: pasoActual.situacion, texto: opcion.texto, explicacion: opcion.explicacion }
       if (opcion.esPeligrosa) setPeligrosas(p => [...p, entrada])
       else setLeves(l => [...l, entrada])
     }
@@ -125,13 +142,25 @@ export default function Reaccion() {
 
     if (relojRef.current <= 0) { setMotivoFin('tiempo'); setPantalla('final'); return }
 
+    // Un salto de escenario (error de seguridad de la escena) corta la
+    // cadena aquí mismo, aunque queden fases por delante.
+    const haySiguienteFase = !opcion.saltaEscenario && pasoIndex + 1 < escenarioActual.pasos.length
+
     if (opcion.esCorrecta && nuevoAciertos % MEJORA_CADA === 0) {
+      pendingAvanceRef.current = haySiguienteFase ? { tipo: 'fase', pasoIndex: pasoIndex + 1 } : { tipo: 'escenario' }
       setPantalla('mejora')
       return
     }
-    const siguiente = sacarSiguienteCaso()
+
+    if (haySiguienteFase) {
+      setPasoIndex(pasoIndex + 1)
+      return
+    }
+
+    const siguiente = sacarSiguienteEscenario()
     if (!siguiente) { setMotivoFin('completado'); setPantalla('final'); return }
-    setCaso(siguiente)
+    setEscenarioActual(siguiente)
+    setPasoIndex(0)
   }
 
   function onMejoraElegida(mejora) {
@@ -145,9 +174,17 @@ export default function Reaccion() {
     } else if (mejora.id === 'multiplicador') {
       multiplicadorRef.current *= 1.3
     }
-    const siguiente = sacarSiguienteCaso()
+
+    const pending = pendingAvanceRef.current
+    if (pending?.tipo === 'fase') {
+      setPasoIndex(pending.pasoIndex)
+      setPantalla('jugando')
+      return
+    }
+    const siguiente = sacarSiguienteEscenario()
     if (!siguiente) { setMotivoFin('completado'); setPantalla('final'); return }
-    setCaso(siguiente)
+    setEscenarioActual(siguiente)
+    setPasoIndex(0)
     setPantalla('jugando')
   }
 
@@ -175,24 +212,24 @@ export default function Reaccion() {
         result={{ score, peligrosas: peligrosas.length }}
         emoji={motivoFin === 'completado' ? '🏆' : '🚑'}
         title={motivoFin === 'completado'
-          ? tr({ es: '¡Has resuelto todos los casos!', en: 'You\'ve resolved every case!', ca: 'Has resolt tots els casos!' })
+          ? tr({ es: '¡Has resuelto todos los escenarios!', en: 'You\'ve resolved every scenario!', ca: 'Has resolt tots els escenaris!' })
           : tr({ es: 'Se acabó el tiempo — fin de la partida', en: 'Time\'s up — run over', ca: 'S\'ha acabat el temps — fi de la partida' })}
         score={score}
         message={peligrosas.length > 0
           ? tr({ es: 'Revisa las decisiones peligrosas antes de la próxima', en: 'Review the dangerous decisions before your next run', ca: 'Revisa les decisions perilloses abans de la propera' })
           : motivoFin === 'completado'
-          ? tr({ es: 'No quedan más casos por hoy — vuelve otro día para otra tanda', en: 'No more cases left for today — come back another day for a new batch', ca: 'No queden més casos per avui — torna un altre dia per a una altra tanda' })
+          ? tr({ es: 'No quedan más escenarios por hoy — vuelve otro día para otra tanda', en: 'No more scenarios left for today — come back another day for a new batch', ca: 'No queden més escenaris per avui — torna un altre dia per a una altra tanda' })
           : null}
         stats={[
-          { label: tr({ es: 'Casos resueltos', en: 'Cases resolved', ca: 'Casos resolts' }), value: resueltos, emoji: '📋' },
+          { label: tr({ es: 'Fases resueltas', en: 'Steps resolved', ca: 'Fases resoltes' }), value: resueltos, emoji: '📋' },
           { label: tr({ es: 'Mejor racha', en: 'Best streak', ca: 'Millor ratxa' }), value: mejorRacha, emoji: '🔥' },
           { label: tr({ es: 'Decisiones peligrosas', en: 'Dangerous decisions', ca: 'Decisions perilloses' }), value: peligrosas.length, emoji: '🔴' },
           { label: tr({ es: 'Tiempo jugado', en: 'Time played', ca: 'Temps jugat' }), value: formatTiempo(elapsed), emoji: '⏱️' },
         ]}
         shareText={tr({
-          es: `He conseguido ${score} puntos en Reacción 🚑 (${resueltos} casos resueltos) — ¿puedes superarme? https://tuthor.es/juegos/reaccion`,
-          en: `I scored ${score} points in Reacción 🚑 (${resueltos} cases resolved) — can you beat me? https://tuthor.es/juegos/reaccion`,
-          ca: `He aconseguit ${score} punts a Reacció 🚑 (${resueltos} casos resolts) — pots superar-me? https://tuthor.es/juegos/reaccion`,
+          es: `He conseguido ${score} puntos en Reacción 🚑 (${resueltos} fases resueltas) — ¿puedes superarme? https://tuthor.es/juegos/reaccion`,
+          en: `I scored ${score} points in Reacción 🚑 (${resueltos} steps resolved) — can you beat me? https://tuthor.es/juegos/reaccion`,
+          ca: `He aconseguit ${score} punts a Reacció 🚑 (${resueltos} fases resoltes) — pots superar-me? https://tuthor.es/juegos/reaccion`,
         })}
         onPlayAgain={empezar}
         playAgainLabel={tr({ es: '▶ Otra vez', en: '▶ Play again', ca: '▶ Una altra vegada' })}
@@ -205,15 +242,17 @@ export default function Reaccion() {
   }
 
   const relojPct = Math.max(0, Math.min(100, (relojMs / relojMaxRef.current) * 100))
+  const pasoActual = escenarioActual?.pasos[pasoIndex]
+  const enCadena = escenarioActual && escenarioActual.pasos.length > 1
 
   return (
     <div className="relative z-10 flex flex-col items-center min-h-[calc(100vh-4rem)] px-4 py-8">
       <SEOHead
         title={tr({ es: 'Reacción — arcade roguelike de primeros auxilios', en: 'Reacción — first-aid roguelike arcade', ca: 'Reacció — arcade roguelike de primers auxilis' })}
         description={tr({
-          es: 'Un reloj contrarreloj y casos de emergencia sin repetir: atragantamientos, accidentes de moto, hipoglucemias, cuándo ir a urgencias y más. Educativo, no sustituye una formación oficial.',
-          en: 'A ticking clock and non-repeating emergency cases: choking, motorcycle accidents, low blood sugar, when to go to the ER and more. Educational, not a substitute for official training.',
-          ca: 'Un rellotge contrarellotge i casos d\'emergència sense repetir: ennuegaments, accidents de moto, hipoglucèmies, quan anar a urgències i més. Educatiu, no substitueix una formació oficial.',
+          es: 'Un reloj contrarreloj y escenarios de emergencia encadenados: atragantamiento, accidente de moto, hipoglucemia y más. Educativo, no sustituye una formación oficial.',
+          en: 'A ticking clock and chained emergency scenarios: choking, motorcycle accidents, low blood sugar and more. Educational, not a substitute for official training.',
+          ca: 'Un rellotge contrarellotge i escenaris d\'emergència encadenats: ennuegament, accident de moto, hipoglucèmia i més. Educatiu, no substitueix una formació oficial.',
         })}
         path="/juegos/reaccion" lang={lang} />
 
@@ -239,14 +278,19 @@ export default function Reaccion() {
             />
           </div>
         )}
+        {pantalla === 'jugando' && enCadena && (
+          <p className="text-white/30 text-xs text-center mt-2">
+            {tr(escenarioActual.titulo)} · {tr({ es: 'paso', en: 'step', ca: 'pas' })} {pasoIndex + 1}/{escenarioActual.pasos.length}
+          </p>
+        )}
       </div>
 
       {pantalla === 'intro' && (
         <ReaccionSituacionInicial onEmpezar={empezar} mejorPuntuacion={best} />
       )}
 
-      {pantalla === 'jugando' && caso && (
-        <ReaccionCaso key={`${resueltos}-${caso.id}`} caso={caso} onResuelto={onResuelto} />
+      {pantalla === 'jugando' && pasoActual && (
+        <ReaccionCaso key={`${resueltos}-${escenarioActual.id}-${pasoIndex}`} caso={pasoActual} onResuelto={onResuelto} />
       )}
 
       {pantalla === 'mejora' && (
