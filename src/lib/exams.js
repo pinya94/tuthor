@@ -110,82 +110,82 @@ export const EXAMS = {
   // ── Ciencias ───────────────────────────────────────────────────────────────
   'acidos-bases': {
     label: { es: 'Ácidos y Bases', en: 'Acids & Bases', ca: 'Àcids i Bases' },
-    emoji: '🧴', subject: 'ciencias',
+    emoji: '🧴', subject: 'quimica',
     path: 'examen/acidos-bases', page: () => import('../pages/AcidosBasesExamen'),
   },
   'atomos-moleculas': {
     label: { es: 'Átomos y Moléculas', en: 'Atoms & Molecules', ca: 'Àtoms i Molècules' },
-    emoji: '⚛️', subject: 'ciencias',
+    emoji: '⚛️', subject: 'quimica',
     path: 'examen/atomos-moleculas', page: () => import('../pages/AtomosMoleculasExamen'),
   },
   'celula': {
     label: { es: 'La Célula', en: 'The Cell', ca: 'La Cèl·lula' },
-    emoji: '🔬', subject: 'ciencias',
+    emoji: '🔬', subject: 'biologia',
     path: 'examen/celula', page: () => import('../pages/LaCelulaExamen'),
   },
   'cuerpo-humano': {
     label: { es: 'Cuerpo Humano', en: 'Human Body', ca: 'Cos Humà' },
-    emoji: '❤️', subject: 'ciencias',
+    emoji: '❤️', subject: 'biologia',
     path: 'examen/cuerpo-humano', page: () => import('../pages/CuerpoHumanoExamen'),
   },
   'ecosistemas': {
     label: { es: 'Ecosistemas', en: 'Ecosystems', ca: 'Ecosistemes' },
-    emoji: '🌍', subject: 'ciencias',
+    emoji: '🌍', subject: 'biologia',
     path: 'examen/ecosistemas', page: () => import('../pages/EcosistemasExamen'),
   },
   'electricidad': {
     label: { es: 'Electricidad', en: 'Electricity', ca: 'Electricitat' },
-    emoji: '💡', subject: 'ciencias',
+    emoji: '💡', subject: 'fisica',
     path: 'examen/electricidad', page: () => import('../pages/ElectricidadExamen'),
   },
   'energia': {
     label: { es: 'Energía', en: 'Energy', ca: 'Energia' },
-    emoji: '🔋', subject: 'ciencias',
+    emoji: '🔋', subject: 'fisica',
     path: 'examen/energia', page: () => import('../pages/EnergiaExamen'),
   },
   'estados-materia': {
     label: { es: 'Estados de la Materia', en: 'States of Matter', ca: 'Estats de la Matèria' },
-    emoji: '🧪', subject: 'ciencias',
+    emoji: '🧪', subject: 'quimica',
     path: 'examen/estados-materia', page: () => import('../pages/EstadosMateriaExamen'),
   },
   'fuerzas': {
     label: { es: 'Fuerzas y Movimiento', en: 'Forces & Motion', ca: 'Forces i Moviment' },
-    emoji: '⚡', subject: 'ciencias',
+    emoji: '⚡', subject: 'fisica',
     path: 'examen/fuerzas', page: () => import('../pages/FuerzasExamen'),
   },
   'genetica': {
     label: { es: 'Genética', en: 'Genetics', ca: 'Genètica' },
-    emoji: '🧬', subject: 'ciencias',
+    emoji: '🧬', subject: 'biologia',
     path: 'examen/genetica', page: () => import('../pages/GeneticaExamen'),
   },
   'mezclas-separacion': {
     label: { es: 'Mezclas y Separación', en: 'Mixtures & Separation', ca: 'Mescles i Separació' },
-    emoji: '🔀', subject: 'ciencias',
+    emoji: '🔀', subject: 'quimica',
     path: 'examen/mezclas-separacion', page: () => import('../pages/MezclasExamen'),
   },
   'nutricion': {
     label: { es: 'Nutrición', en: 'Nutrition', ca: 'Nutrició' },
-    emoji: '🥗', subject: 'ciencias',
+    emoji: '🥗', subject: 'biologia',
     path: 'examen/nutricion', page: () => import('../pages/NutricionExamen'),
   },
   'ondas-luz': {
     label: { es: 'Ondas y Luz', en: 'Waves & Light', ca: 'Ones i Llum' },
-    emoji: '🌊', subject: 'ciencias',
+    emoji: '🌊', subject: 'fisica',
     path: 'examen/ondas-luz', page: () => import('../pages/OndasLuzExamen'),
   },
   'seres-vivos': {
     label: { es: 'Seres Vivos', en: 'Living Things', ca: 'Éssers Vius' },
-    emoji: '🌱', subject: 'ciencias',
+    emoji: '🌱', subject: 'biologia',
     path: 'examen/seres-vivos', page: () => import('../pages/SeresVivosExamen'),
   },
   'sistema-solar': {
     label: { es: 'Sistema Solar', en: 'Solar System', ca: 'Sistema Solar' },
-    emoji: '🪐', subject: 'ciencias',
+    emoji: '🪐', subject: 'geologia',
     path: 'examen/sistema-solar', page: () => import('../pages/SistemaSolarExamen'),
   },
   'tabla-periodica': {
     label: { es: 'Tabla Periódica', en: 'Periodic Table', ca: 'Taula Periòdica' },
-    emoji: '⚗️', subject: 'ciencias',
+    emoji: '⚗️', subject: 'quimica',
     path: 'examen/tabla-periodica', page: () => import('../pages/TablaPeriodicaExamen'),
   },
 
