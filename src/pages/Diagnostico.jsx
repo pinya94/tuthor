@@ -299,7 +299,8 @@ export default function Diagnostico() {
   const bloqueado = Boolean(finalizado)
 
   return (
-    <div className="relative z-10 flex flex-col min-h-[calc(100vh-4rem)] px-2 sm:px-6 py-3">
+    <div className="relative z-10 flex flex-col items-center min-h-[calc(100vh-4rem)] px-2 sm:px-6 py-3">
+      <div className="max-w-2xl w-full flex flex-col flex-1">
 
       {/* Popup: a punto de descartar al correcto */}
       {popupDescarte && (
@@ -441,6 +442,7 @@ export default function Diagnostico() {
             {tr({ es: 'Rendirse y ver la respuesta', en: 'Give up and see the answer', ca: 'Rendir-se i veure la resposta' })}
           </button>
         )}
+      </div>
       </div>
     </div>
   )
