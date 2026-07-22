@@ -1,20 +1,24 @@
 // ── Diagnóstico ──────────────────────────────────────────────────────────────
-// Mecánica tipo "¿Quién es Quién?" para Ciencias: el jugador elige un tema,
-// ve el tablero completo de candidatos desde el inicio y va descartando según
-// pistas que se ACUMULAN (a diferencia de quien-es-quien, aquí no sustituyen
-// a la anterior — el jugador puede repasar todas). Sin cronómetro: lo que
-// puntúa es cuántas pistas hicieron falta, no la velocidad.
+// Herramienta de estudio de Ciencias (no un "juego" del catálogo: sin
+// monedas de games.js, sin ranking). Mecánica tipo "¿Quién es Quién?": el
+// alumno elige un tema, ve el tablero completo de candidatos desde el
+// inicio y va descartando según pistas que se ACUMULAN (a diferencia de
+// quien-es-quien, aquí no sustituyen a la anterior — se pueden repasar
+// todas). Sin cronómetro: lo que importa es razonar bien, no la velocidad.
 //
-// Cada "partida" es una ronda (un candidato secreto dentro del tema elegido).
-// El mazo de rondas de un tema se baraja sin repetición dentro de la sesión
-// (mazoRef), igual que hace Reacción con sus escenarios.
+// Cada "partida" es una ronda (un candidato secreto dentro del tema
+// elegido). El mazo de rondas de un tema se baraja sin repetición dentro
+// de la sesión (mazoRef), igual que hace Reacción con sus escenarios.
+//
+// Registro de actividad: type 'examen' (como CicloOrdenExamen), no 'juego'
+// — no necesita entrada en games.js. Las monedas son un premio modesto
+// local, no la fórmula de computeCoins.
 import { useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import { useAuth } from '../context/AuthContext'
 import { saveActivity } from '../lib/activity'
-import { computeCoins } from '../lib/games'
-import GameEndScreen from '../components/GameEndScreen'
+import CoinsAnimation, { CoinsEarnedBadge } from '../components/CoinsAnimation'
 import SEOHead from '../components/SEOHead'
 import { TEMAS_DIAGNOSTICO, getTemaDiagnostico } from '../data/diagnostico'
 
@@ -130,7 +134,71 @@ function TemaSelect({ onElegir, lang, tr }) {
   )
 }
 
-// ── JUEGO ─────────────────────────────────────────────────────────────────────
+// ── RESULTADO DE LA RONDA ────────────────────────────────────────────────────
+function Resultado({ tema, ronda, acierto, penalizaciones, pistasUsadas, coins, onOtraRonda, onCambiarTema, onSalir, tr, lang }) {
+  const respuesta = tema.candidatos.find(c => c.id === ronda.respuesta)
+  return (
+    <div className="flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
+      <div className="max-w-md w-full">
+        <div className="bg-white/5 border border-white/10 rounded-2xl p-8 text-center mb-5">
+          <div className="text-6xl mb-3">{acierto ? '🩺' : '🔍'}</div>
+          <h1 className="text-2xl font-black text-white mb-1">
+            {acierto
+              ? tr({ es: '¡Diagnóstico correcto!', en: 'Correct diagnosis!', ca: 'Diagnòstic correcte!' })
+              : tr({ es: 'No era esta vez', en: 'Not this time', ca: 'Aquesta vegada no' })}
+          </h1>
+          <p className="text-white/50 text-sm">
+            {tr({ es: `Era: ${tr(respuesta.nombre)}.`, en: `It was: ${tr(respuesta.nombre)}.`, ca: `Era: ${tr(respuesta.nombre)}.` })}
+          </p>
+          {acierto && <CoinsEarnedBadge coins={coins} lang={lang} />}
+
+          <div className="grid grid-cols-2 gap-3 mt-5">
+            <div className="bg-white/5 border border-white/10 rounded-xl p-3">
+              <p className="text-white/30 text-[10px] uppercase tracking-widest font-semibold mb-0.5">
+                {tr({ es: 'Pistas usadas', en: 'Clues used', ca: 'Pistes usades' })}
+              </p>
+              <p className="text-white font-black text-2xl">{pistasUsadas}</p>
+            </div>
+            <div className="bg-white/5 border border-white/10 rounded-xl p-3">
+              <p className="text-white/30 text-[10px] uppercase tracking-widest font-semibold mb-0.5">
+                {tr({ es: 'Descartes erróneos', en: 'Wrong discards', ca: 'Descartaments erronis' })}
+              </p>
+              <p className="text-white font-black text-2xl">{penalizaciones}</p>
+            </div>
+          </div>
+
+          {penalizaciones > 0 && (
+            <p className="text-amber-400/80 text-xs mt-3">
+              {tr({ es: '💡 En algún momento descartaste la opción correcta — repásala.', en: '💡 At some point you discarded the correct option — go over it again.', ca: '💡 En algun moment vas descartar l\'opció correcta — repassa-la.' })}
+            </p>
+          )}
+
+          <div className="mt-4 pt-4 border-t border-white/10 text-left">
+            <p className="text-white/30 text-[10px] uppercase tracking-widest font-semibold mb-2">
+              {tr({ es: 'Dato curioso', en: 'Fun fact', ca: 'Dada curiosa' })}
+            </p>
+            <p className="text-white/70 text-sm leading-relaxed">{tr(ronda.dato_extra)}</p>
+          </div>
+        </div>
+
+        <div className="space-y-3">
+          <button onClick={onOtraRonda} className="w-full bg-[#EDAE49] hover:bg-amber-400 text-black font-black py-4 text-lg rounded-xl transition">
+            {tr({ es: '▶ Otra ronda', en: '▶ Another round', ca: '▶ Una altra ronda' })}
+          </button>
+          <button onClick={onCambiarTema} className="w-full text-white/40 hover:text-white/70 text-sm py-2 transition">
+            {tr({ es: 'Cambiar de tema', en: 'Change topic', ca: 'Canviar de tema' })}
+          </button>
+          <button onClick={onSalir} className="w-full text-white/40 hover:text-white/70 text-sm py-2 transition">
+            {tr({ es: '← Volver a Ciencias', en: '← Back to Science', ca: '← Tornar a Ciències' })}
+          </button>
+        </div>
+      </div>
+      {acierto && coins > 0 && <CoinsAnimation coins={coins} />}
+    </div>
+  )
+}
+
+// ── HERRAMIENTA ───────────────────────────────────────────────────────────────
 export default function Diagnostico() {
   const navigate = useNavigate()
   const { lang, tr, localPath } = useLang()
@@ -214,9 +282,9 @@ export default function Diagnostico() {
       if (user && !savedRef.current) {
         savedRef.current = true
         saveActivity(user.uid, {
-          type: 'juego', game: 'diagnostico', category: temaId,
+          type: 'examen', game: 'diagnostico', category: temaId,
           score: pts, passed: acierto, timeSpent: 0,
-          coinsEarned: computeCoins('diagnostico', { score: pts }),
+          coinsEarned: pts,
           userName: user.displayName, userPhoto: user.photoURL,
         }).catch(() => {})
       }
@@ -229,9 +297,9 @@ export default function Diagnostico() {
     return (
       <>
         <SEOHead
-          title={tr({ es: 'Diagnóstico — Juego de deducción científica', en: 'Diagnosis — Science deduction game', ca: 'Diagnòstic — Joc de deducció científica' })}
+          title={tr({ es: 'Diagnóstico — Practica Ciencias por descarte', en: 'Diagnosis — Practise Science by elimination', ca: 'Diagnòstic — Practica Ciències per descart' })}
           description={tr({ es: 'Descarta candidatos con pistas científicas progresivas y confirma tu diagnóstico. Cuerpo humano, rocas, materia y tabla periódica.', en: 'Rule out candidates with progressive science clues and confirm your diagnosis. Human body, rocks, matter and the periodic table.', ca: 'Descarta candidats amb pistes científiques progressives i confirma el teu diagnòstic. Cos humà, roques, matèria i taula periòdica.' })}
-          path="/juegos/diagnostico"
+          path="/examen/diagnostico"
           lang={lang}
         />
         <TemaSelect onElegir={siguienteRonda} lang={lang} tr={tr} />
@@ -241,43 +309,17 @@ export default function Diagnostico() {
 
   // ── Pantalla final ────────────────────────────────────────────────────────
   if (fase === 'fin') {
-    const shareText = tr({
-      es: `He conseguido ${finalizado.puntos} pts en Diagnóstico 🩺 — ¿puedes superarme? https://tuthor.es/juegos/diagnostico`,
-      en: `I scored ${finalizado.puntos} pts in Diagnosis 🩺 — can you beat me? https://tuthor.es/juegos/diagnostico`,
-      ca: `He aconseguit ${finalizado.puntos} pts a Diagnòstic 🩺 — em pots superar? https://tuthor.es/juegos/diagnostico`,
-    })
-    const respuesta = tema.candidatos.find(c => c.id === ronda.respuesta)
     return (
-      <GameEndScreen
-        game="diagnostico"
-        emoji={finalizado.acierto ? '🩺' : '🔍'}
-        title={tr(tema.titulo)}
-        score={finalizado.puntos}
-        message={
-          finalizado.acierto
-            ? tr({ es: `¡Diagnóstico correcto! Era ${tr(respuesta.nombre)}.`, en: `Correct diagnosis! It was ${tr(respuesta.nombre)}.`, ca: `Diagnòstic correcte! Era ${tr(respuesta.nombre)}.` })
-            : tr({ es: `No era esta vez. Era ${tr(respuesta.nombre)}.`, en: `Not this time. It was ${tr(respuesta.nombre)}.`, ca: `Aquesta vegada no. Era ${tr(respuesta.nombre)}.` })
-        }
-        stats={[
-          { label: tr({ es: 'Pistas usadas', en: 'Clues used', ca: 'Pistes usades' }), value: pistaIdx + 1 },
-          { label: tr({ es: 'Descartes erróneos', en: 'Wrong discards', ca: 'Descartaments erronis' }), value: penalizaciones },
-        ]}
-        shareText={shareText}
-        onPlayAgain={() => siguienteRonda(temaId)}
-        playAgainLabel={tr({ es: '▶ Otra ronda', en: '▶ Another round', ca: '▶ Una altra ronda' })}
-        secondaryActions={[
-          { label: tr({ es: 'Cambiar de tema', en: 'Change topic', ca: 'Canviar de tema' }), onClick: () => setFase('temaSelect') },
-          { label: tr({ es: '← Volver a juegos', en: '← Back to games', ca: '← Tornar a jocs' }), onClick: () => navigate(localPath('/juegos')) },
-        ]}
-        user={user} lang={lang}
-      >
-        <div className="mt-4 pt-4 border-t border-white/10 text-left">
-          <p className="text-white/30 text-[10px] uppercase tracking-widest font-semibold mb-2">
-            {tr({ es: 'Dato curioso', en: 'Fun fact', ca: 'Dada curiosa' })}
-          </p>
-          <p className="text-white/70 text-sm leading-relaxed">{tr(ronda.dato_extra)}</p>
-        </div>
-      </GameEndScreen>
+      <Resultado
+        tema={tema} ronda={ronda}
+        acierto={finalizado.acierto} puntos={finalizado.puntos}
+        penalizaciones={penalizaciones} pistasUsadas={pistaIdx + 1}
+        coins={finalizado.puntos}
+        onOtraRonda={() => siguienteRonda(temaId)}
+        onCambiarTema={() => setFase('temaSelect')}
+        onSalir={() => navigate(localPath('/estudiar/quimica'))}
+        tr={tr} lang={lang}
+      />
     )
   }
 

@@ -138,14 +138,6 @@ export const GAMES = {
     // puntuación / 5 (tope 200), menos 15 monedas por cada decisión peligrosa
     coins: ({ score = 0, peligrosas = 0 } = {}) => Math.min(score / 5, 200) - peligrosas * 15,
   },
-  'diagnostico': {
-    label: { es: 'Diagnóstico', en: 'Diagnosis', ca: 'Diagnòstic' },
-    emoji: '🩺',
-    subject: 'ciencias',
-    route: '/juegos/diagnostico',
-    // puntuación de la ronda (100/70/40/0, menos 20 por descarte erróneo) = monedas 1:1
-    coins: ({ score = 0 } = {}) => Math.max(0, score),
-  },
 }
 
 // ── Helpers ──────────────────────────────────────────────────────────────────

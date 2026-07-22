@@ -121,6 +121,7 @@ function AppRoutes() {
       <Route path="examen/historia" element={<ExamenJuego />} />
       <Route path="examen/linea-temporal" element={<ExamenLineaTemporal />} />
       <Route path="examen/ciclo/:categoria" element={<CicloOrdenExamen />} />
+      <Route path="examen/diagnostico" element={<Diagnostico />} />
 
       {/* ── JUEGOS ── */}
       <Route path="juegos" element={<Juegos />} />
@@ -164,7 +165,6 @@ function AppRoutes() {
       <Route path="juegos/spicy" element={<Spicy />} />
       <Route path="juegos/pentagrama-path" element={<PentagramaPath />} />
       <Route path="juegos/reaccion" element={<Reaccion />} />
-      <Route path="juegos/diagnostico" element={<Diagnostico />} />
       <Route path="examen/portero" element={<PorteroExamen />} />
       <Route path="examen/trayectoria" element={<TrayectoriaExamen />} />
 

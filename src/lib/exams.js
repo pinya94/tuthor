@@ -46,6 +46,13 @@ export const EXAMS = {
     label: { es: 'GeoMapa EE. UU.', en: 'GeoMap USA', ca: 'GeoMapa EUA' },
     emoji: '🇺🇸', subject: 'geografia',
   },
+  'diagnostico': {
+    // Herramienta de estudio de Ciencias con ruta hardcoded en App.jsx
+    // (/examen/diagnostico), sin path/page: registrada solo para etiqueta,
+    // materia y meta SEO — igual que matematicas-examen, portero-examen...
+    label: { es: 'Diagnóstico', en: 'Diagnosis', ca: 'Diagnòstic' },
+    emoji: '🩺', subject: 'ciencias',
+  },
 
   // ── Vida Práctica ──────────────────────────────────────────────────────────
   'primeros-auxilios': {

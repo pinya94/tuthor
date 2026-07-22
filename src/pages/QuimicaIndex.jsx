@@ -160,6 +160,21 @@ export default function QuimicaIndex() {
         </p>
       </div>
 
+      <button
+        onClick={() => navigate(localPath('/examen/diagnostico'))}
+        className="max-w-2xl w-full mx-auto mb-6 bg-gradient-to-r from-cyan-600/20 to-teal-700/20 hover:from-cyan-600/30 hover:to-teal-700/30 border border-cyan-500/30 rounded-2xl px-5 py-4 flex items-center gap-4 text-left transition-all"
+      >
+        <span className="text-3xl">🩺</span>
+        <div>
+          <p className="text-white font-bold text-sm">
+            {ca ? 'Diagnòstic — posa a prova el que saps' : en ? 'Diagnosis — put what you know to the test' : 'Diagnóstico — pon a prueba lo que sabes'}
+          </p>
+          <p className="text-white/40 text-xs mt-0.5">
+            {ca ? 'Descarta candidats amb pistes fins a endevinar-lo' : en ? 'Rule out candidates with clues until you guess it' : 'Descarta candidatos con pistas hasta adivinarlo'}
+          </p>
+        </div>
+      </button>
+
       <TemarioGrid
         items={items}
         onSelect={item => navigate(localPath(`/estudiar/quimica/${item.id}`))}
