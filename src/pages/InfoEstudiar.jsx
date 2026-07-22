@@ -47,7 +47,7 @@ const DATA = {
       },
       {
         titulo: 'Ciencias', emoji: '🔬',
-        texto: 'Exámenes de ciencias naturales y química adaptados al currículum oficial de Primaria, ESO y Bachillerato. Preguntas de opción múltiple con explicación tras cada respuesta.',
+        texto: 'Física, química, biología y geología adaptadas al currículum oficial de Primaria, ESO y Bachillerato. Preguntas de opción múltiple con explicación tras cada respuesta.',
         temas: [
           { nombre: 'Tabla Periódica', desc: 'Símbolos, nombres, número atómico y grupos. 3 niveles.', slug: 'tabla-periodica' },
           { nombre: 'Estados de la Materia', desc: 'Sólido, líquido, gas y cambios de estado.', slug: 'estados-materia' },
@@ -137,7 +137,7 @@ const DATA = {
       },
       {
         titulo: 'Science', emoji: '🔬',
-        texto: 'Natural science and chemistry exams aligned to the official Primary, Secondary and Sixth Form syllabus. Multiple choice questions with an explanation after each answer.',
+        texto: 'Physics, chemistry, biology and geology aligned to the official Primary, Secondary and Sixth Form syllabus. Multiple choice questions with an explanation after each answer.',
         temas: [
           { nombre: 'Periodic Table', desc: 'Symbols, names, atomic number and groups. 3 levels.', slug: 'tabla-periodica' },
           { nombre: 'States of Matter', desc: 'Solid, liquid, gas and changes of state.', slug: 'estados-materia' },
@@ -227,7 +227,7 @@ const DATA = {
       },
       {
         titulo: 'Ciències', emoji: '🔬',
-        texto: 'Exàmens de ciències naturals i química adaptats al currículum oficial de Primària, ESO i Batxillerat. Preguntes d\'opció múltiple amb explicació després de cada resposta.',
+        texto: 'Física, química, biologia i geologia adaptades al currículum oficial de Primària, ESO i Batxillerat. Preguntes d\'opció múltiple amb explicació després de cada resposta.',
         temas: [
           { nombre: 'Taula Periòdica', desc: 'Símbols, noms, nombre atòmic i grups. 3 nivells.', slug: 'tabla-periodica' },
           { nombre: 'Estats de la Matèria', desc: 'Sòlid, líquid, gas i canvis d\'estat.', slug: 'estados-materia' },
