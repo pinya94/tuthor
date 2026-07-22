@@ -52,8 +52,20 @@ export const STATIC_META = {
     en: { title: 'Geography — maps and exams', desc: 'Learn countries, capitals and flags of every continent with interactive maps and quizzes. Spain and USA maps included.' },
   },
   '/estudiar/quimica': {
-    es: { title: 'Física y Química — temas y exámenes', desc: 'Tabla periódica, estados de la materia, mezclas, átomos y más. Teoría breve y exámenes tipo test por nivel: Primaria, ESO y Bachillerato.' },
-    en: { title: 'Physics & Chemistry — topics and exams', desc: 'Periodic table, states of matter, mixtures, atoms and more. Short theory and level-based quizzes for primary and secondary school.' },
+    es: { title: 'Química — temas y exámenes', desc: 'Tabla periódica, estados de la materia, mezclas, ácidos y átomos. Teoría breve y exámenes tipo test por nivel: Primaria, ESO y Bachillerato.' },
+    en: { title: 'Chemistry — topics and exams', desc: 'Periodic table, states of matter, mixtures, acids and atoms. Short theory and level-based quizzes for primary and secondary school.' },
+  },
+  '/estudiar/fisica': {
+    es: { title: 'Física — temas y exámenes', desc: 'Fuerzas y movimiento, energía, electricidad, ondas y luz. Teoría breve y exámenes tipo test por nivel: Primaria, ESO y Bachillerato.' },
+    en: { title: 'Physics — topics and exams', desc: 'Forces and motion, energy, electricity, waves and light. Short theory and level-based quizzes for primary and secondary school.' },
+  },
+  '/estudiar/biologia': {
+    es: { title: 'Biología — temas y exámenes', desc: 'La célula, cuerpo humano, seres vivos, ecosistemas, genética y nutrición. Teoría breve y exámenes tipo test por nivel.' },
+    en: { title: 'Biology — topics and exams', desc: 'The cell, human body, living things, ecosystems, genetics and nutrition. Short theory and level-based quizzes for school.' },
+  },
+  '/estudiar/geologia': {
+    es: { title: 'Geología y el Universo — temas y exámenes', desc: 'Rocas y minerales y el sistema solar. Teoría breve, juegos y exámenes tipo test por nivel: Primaria, ESO y Bachillerato.' },
+    en: { title: 'Geology & the Universe — topics and exams', desc: 'Rocks and minerals and the solar system. Short theory, games and level-based quizzes for primary and secondary school.' },
   },
   '/estudiar/economia': {
     es: { title: 'Economía — Finanzas Personales', desc: 'Inflación, interés compuesto, deuda y señales de estafa. Repasa con el examen tipo test o vive una vida entera en el simulador Spicy.' },

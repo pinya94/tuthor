@@ -18,7 +18,7 @@ export default function OndasLuzExamen() {
       titulo={{ es: 'Ondas y Luz', en: 'Waves and Light', ca: 'Ones i Llum' }}
       emoji="🌊"
       nivelInfo={nivelInfo}
-      backFallback="/estudiar/quimica/ondas-luz"
+      backFallback="/estudiar/fisica/ondas-luz"
       gameId="ondas-luz"
     />
   )

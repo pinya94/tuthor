@@ -18,7 +18,7 @@ export default function EnergiaExamen() {
       titulo={{ es: 'Energía', en: 'Energy', ca: 'Energia' }}
       emoji="🔋"
       nivelInfo={nivelInfo}
-      backFallback="/estudiar/quimica/energia"
+      backFallback="/estudiar/fisica/energia"
       gameId="energia"
     />
   )

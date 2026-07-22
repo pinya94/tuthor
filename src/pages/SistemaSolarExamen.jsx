@@ -12,7 +12,7 @@ export default function SistemaSolarExamen() {
       titulo={{ es: 'Sistema Solar', en: 'Solar System', ca: 'Sistema Solar' }}
       emoji="🌍"
       nivelInfo={NIVEL_INFO}
-      backFallback="/estudiar/quimica/sistema-solar"
+      backFallback="/estudiar/geologia/sistema-solar"
       gameId="sistema-solar"
     />
   )

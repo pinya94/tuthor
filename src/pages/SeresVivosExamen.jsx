@@ -12,7 +12,7 @@ export default function SeresVivosExamen() {
       titulo={{ es: 'Seres Vivos', en: 'Living Things', ca: 'Éssers Vius' }}
       emoji="🌱"
       nivelInfo={NIVEL_INFO}
-      backFallback="/estudiar/quimica"
+      backFallback="/estudiar/biologia/seres-vivos"
       gameId="seres-vivos"
     />
   )

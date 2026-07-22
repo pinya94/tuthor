@@ -12,7 +12,7 @@ export default function EcosistemasExamen() {
       titulo={{ es: 'Ecosistemas', en: 'Ecosystems', ca: 'Ecosistemes' }}
       emoji="🌍"
       nivelInfo={NIVEL_INFO}
-      backFallback="/estudiar/quimica"
+      backFallback="/estudiar/biologia/ecosistemas"
       gameId="ecosistemas"
     />
   )

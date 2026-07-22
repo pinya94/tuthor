@@ -18,7 +18,7 @@ export default function FuerzasExamen() {
       titulo={{ es: 'Fuerzas y Movimiento', en: 'Forces and Motion', ca: 'Forces i Moviment' }}
       emoji="⚡"
       nivelInfo={nivelInfo}
-      backFallback="/estudiar/quimica/fuerzas"
+      backFallback="/estudiar/fisica/fuerzas"
       gameId="fuerzas"
     />
   )

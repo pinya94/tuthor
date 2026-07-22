@@ -11,7 +11,7 @@ export default function GeneticaExamen() {
       titulo={{ es: 'Genética', en: 'Genetics', ca: 'Genètica' }}
       emoji="🧬"
       nivelInfo={NIVEL_INFO}
-      backFallback="/estudiar/quimica"
+      backFallback="/estudiar/biologia/genetica"
       gameId="genetica"
     />
   )

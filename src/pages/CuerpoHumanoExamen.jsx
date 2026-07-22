@@ -12,7 +12,7 @@ export default function CuerpoHumanoExamen() {
       titulo={{ es: 'Cuerpo Humano', en: 'Human Body', ca: 'Cos Humà' }}
       emoji="❤️"
       nivelInfo={NIVEL_INFO}
-      backFallback="/estudiar/quimica"
+      backFallback="/estudiar/biologia/cuerpo-humano"
       gameId="cuerpo-humano"
     />
   )

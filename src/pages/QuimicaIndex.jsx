@@ -1,16 +1,8 @@
 import { useNavigate } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import TemarioGrid from '../components/TemarioGrid'
-
-// Disciplinas de Ciencias: agrupan los temas del índice (solo presentación —
-// las rutas siguen siendo /estudiar/quimica/:tema). El orden aquí es el orden
-// de las secciones en pantalla.
-const GRUPOS = [
-  { id: 'quimica',  emoji: '⚗️', label: { es: 'Química',   en: 'Chemistry', ca: 'Química' } },
-  { id: 'fisica',   emoji: '⚡', label: { es: 'Física',    en: 'Physics',   ca: 'Física' } },
-  { id: 'biologia', emoji: '🧬', label: { es: 'Biología',  en: 'Biology',   ca: 'Biologia' } },
-  { id: 'geologia', emoji: '🪐', label: { es: 'Geología y el Universo', en: 'Geology & the Universe', ca: "Geologia i l'Univers" } },
-]
+import SEOHead from '../components/SEOHead'
+import { getDisciplina } from '../data/ciencias'
 
 const TEMAS = [
   {
@@ -151,12 +143,16 @@ const TEMAS = [
   },
 ]
 
-export default function QuimicaIndex() {
+// Índice de UNA disciplina de ciencias (Física, Química, Biología o Geología).
+// `disciplina` llega por prop desde la ruta correspondiente en App.jsx.
+export default function QuimicaIndex({ disciplina = 'quimica' }) {
   const navigate = useNavigate()
-  const { lang, localPath, lt } = useLang()
+  const { lang, localPath, lt, tr } = useLang()
   const ca = lang === 'ca', en = lang === 'en'
 
-  const items = TEMAS.map(t => ({
+  const disc = getDisciplina(disciplina) || getDisciplina('quimica')
+
+  const items = TEMAS.filter(t => t.disciplina === disc.id).map(t => ({
     ...t,
     titulo:    lt(t, 'titulo'),
     subtitulo: lt(t, 'subtitulo'),
@@ -164,24 +160,32 @@ export default function QuimicaIndex() {
 
   return (
     <div className="relative z-10 flex flex-col min-h-[calc(100vh-4rem)] px-4 sm:px-8 py-6">
-      <div className="text-center mb-6">
-        <p className="text-white/40 text-sm mb-1">
-          {ca ? 'Estudiar · Ciències' : en ? 'Study · Science' : 'Estudiar · Ciencias'}
+      <SEOHead
+        title={tr({ es: `${tr(disc.label)} — temas y exámenes`, en: `${tr(disc.label)} — topics and exams`, ca: `${tr(disc.label)} — temes i exàmens` })}
+        description={tr({ es: `${tr(disc.subtitulo)}. Teoría breve, juegos y exámenes tipo test por nivel: Primaria, ESO y Bachillerato.`, en: `${tr(disc.subtitulo)}. Short theory, games and level-based quizzes for primary and secondary school.`, ca: `${tr(disc.subtitulo)}. Teoria breu, jocs i exàmens tipus test per nivell.` })}
+        path={`/estudiar/${disc.id}`}
+        lang={lang}
+      />
+      <div className="max-w-3xl mx-auto w-full mb-5">
+        <p className="text-white/30 text-xs mb-4">
+          <button onClick={() => navigate(localPath('/estudiar'))} className="hover:text-white/60 transition-colors">
+            {ca ? 'Estudiar' : en ? 'Study' : 'Estudiar'}
+          </button>
+          {' / '}
+          <span className="text-white/50">{tr(disc.label)}</span>
         </p>
-        <h1 className="text-2xl sm:text-3xl font-black text-white">
-          {ca ? 'Tria un tema' : en ? 'Pick a topic' : 'Elige un tema'}
-        </h1>
-        <p className="text-white/40 mt-1 text-sm">
-          {ca ? 'Física, química, biologia i geologia per a tots els nivells'
-            : en ? 'Physics, chemistry, biology and geology for all levels'
-            : 'Física, química, biología y geología para todos los niveles'}
-        </p>
+        <div className="flex items-center gap-4">
+          <span className="text-5xl">{disc.emoji}</span>
+          <div>
+            <h1 className="text-2xl sm:text-3xl font-black text-white leading-tight">{tr(disc.label)}</h1>
+            <p className="text-white/40 text-sm mt-0.5">{tr(disc.subtitulo)}</p>
+          </div>
+        </div>
       </div>
 
       <TemarioGrid
         items={items}
-        groups={GRUPOS}
-        onSelect={item => navigate(localPath(`/estudiar/quimica/${item.id}`))}
+        onSelect={item => navigate(localPath(`/estudiar/${disc.id}/${item.id}`))}
         placeholder={ca ? 'Cercar tema...' : en ? 'Search topic...' : 'Buscar tema...'}
       />
     </div>

@@ -11,7 +11,7 @@ export default function LaCelulaExamen() {
       titulo={{ es: 'La Célula', en: 'The Cell', ca: 'La Cèl·lula' }}
       emoji="🔬"
       nivelInfo={NIVEL_INFO}
-      backFallback="/estudiar/quimica/celula"
+      backFallback="/estudiar/biologia/celula"
       gameId="celula"
     />
   )

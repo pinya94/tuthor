@@ -138,9 +138,15 @@ function AppRoutes() {
       {/* ── EXÁMENES (generados desde src/lib/exams.js) ── */}
       {EXAM_ROUTES.map(e => <Route key={e.id} path={e.path} element={<e.Component />} />)}
 
-      {/* ── CIENCIAS ── */}
-      <Route path="estudiar/quimica" element={<QuimicaIndex />} />
+      {/* ── CIENCIAS (cuatro asignaturas: química, física, biología, geología) ── */}
+      <Route path="estudiar/quimica" element={<QuimicaIndex disciplina="quimica" />} />
       <Route path="estudiar/quimica/:tema" element={<QuimicaTema />} />
+      <Route path="estudiar/fisica" element={<QuimicaIndex disciplina="fisica" />} />
+      <Route path="estudiar/fisica/:tema" element={<QuimicaTema />} />
+      <Route path="estudiar/biologia" element={<QuimicaIndex disciplina="biologia" />} />
+      <Route path="estudiar/biologia/:tema" element={<QuimicaTema />} />
+      <Route path="estudiar/geologia" element={<QuimicaIndex disciplina="geologia" />} />
+      <Route path="estudiar/geologia/:tema" element={<QuimicaTema />} />
 
       {/* ── IDIOMAS ── */}
       <Route path="estudiar/idiomas"                          element={<IdiomasIndex />} />

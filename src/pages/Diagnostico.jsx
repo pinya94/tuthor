@@ -21,6 +21,7 @@ import { saveActivity } from '../lib/activity'
 import CoinsAnimation, { CoinsEarnedBadge } from '../components/CoinsAnimation'
 import SEOHead from '../components/SEOHead'
 import { TEMAS_DIAGNOSTICO, getTemaDiagnostico } from '../data/diagnostico'
+import { disciplinaDeTema } from '../data/ciencias'
 
 function barajar(arr) {
   const a = [...arr]
@@ -212,7 +213,7 @@ export default function Diagnostico() {
   const { diagId } = useParams()
   const directo = Boolean(diagId && getTemaDiagnostico(diagId))
   const backPath = location.state?.backPath
-    ?? (directo ? `/estudiar/quimica/${getTemaDiagnostico(diagId).home}` : '/estudiar/quimica')
+    ?? (directo ? `/estudiar/${disciplinaDeTema(getTemaDiagnostico(diagId).home)}/${getTemaDiagnostico(diagId).home}` : '/estudiar')
 
   // Semilla del modo directo: primera ronda + mazo restante barajado, calculada
   // una sola vez para inicializar el estado sin setState durante el render.

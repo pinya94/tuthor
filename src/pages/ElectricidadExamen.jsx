@@ -18,7 +18,7 @@ export default function ElectricidadExamen() {
       titulo={{ es: 'Electricidad', en: 'Electricity', ca: 'Electricitat' }}
       emoji="💡"
       nivelInfo={nivelInfo}
-      backFallback="/estudiar/quimica/electricidad"
+      backFallback="/estudiar/fisica/electricidad"
       gameId="electricidad"
     />
   )

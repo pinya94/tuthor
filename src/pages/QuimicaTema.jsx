@@ -3,6 +3,7 @@ import { useLang } from '../context/LangContext'
 import { ELEMENTOS } from '../data/tablaperiodica'
 import { ciclosPorTema } from '../data/ciclosCientificos'
 import { diagnosticosPorTema } from '../data/diagnostico'
+import { disciplinaDeTema, getDisciplina } from '../data/ciencias'
 import PageMeta from '../components/PageMeta'
 import CourseSchema from '../components/CourseSchema'
 import BreadcrumbSchema from '../components/BreadcrumbSchema'
@@ -246,7 +247,10 @@ export default function QuimicaTema() {
   const temasMeta = TEMAS_META[lang] || TEMAS_META.es
   const meta = temasMeta[tema]
 
-  if (!meta) { navigate(localPath('/estudiar/quimica')); return null }
+  const disc = getDisciplina(disciplinaDeTema(tema))
+  const discPath = `/estudiar/${disc.id}`
+
+  if (!meta) { navigate(localPath('/estudiar')); return null }
 
   const modos = [
     ...(MODOS_POR_TEMA[tema] || []),
@@ -278,12 +282,13 @@ export default function QuimicaTema() {
       path: `diagnostico/${d.id}`,
     })),
   ]
-  const pageMeta = <PageMeta title={meta.titulo} description={meta.descripcion} path={`/estudiar/ciencias/${tema}`} lang={lang} />
-  const courseSchema = <CourseSchema name={meta.titulo} description={meta.descripcion} path={`/estudiar/ciencias/${tema}`} lang={lang} subject={en ? 'Science' : ca ? 'Ciències' : 'Ciencias'} />
+  const discLabel = disc.label[lang] ?? disc.label.es
+  const pageMeta = <PageMeta title={meta.titulo} description={meta.descripcion} path={`${discPath}/${tema}`} lang={lang} />
+  const courseSchema = <CourseSchema name={meta.titulo} description={meta.descripcion} path={`${discPath}/${tema}`} lang={lang} subject={discLabel} />
   const breadcrumb = <BreadcrumbSchema lang={lang} items={[
     { name: en ? 'Study' : ca ? 'Estudiar' : 'Estudiar', path: '/estudiar' },
-    { name: en ? 'Science' : ca ? 'Ciències' : 'Ciencias', path: '/estudiar/ciencias' },
-    { name: meta.titulo, path: `/estudiar/ciencias/${tema}` },
+    { name: discLabel, path: discPath },
+    { name: meta.titulo, path: `${discPath}/${tema}` },
   ]} />
 
   function getLabel(obj) {
@@ -299,8 +304,8 @@ export default function QuimicaTema() {
             {ca ? 'Estudiar' : en ? 'Study' : 'Estudiar'}
           </button>
           {' / '}
-          <button onClick={() => navigate(localPath('/estudiar/quimica'))} className="hover:text-white/60 transition-colors">
-            {ca ? 'Ciències' : en ? 'Science' : 'Ciencias'}
+          <button onClick={() => navigate(localPath(discPath))} className="hover:text-white/60 transition-colors">
+            {discLabel}
           </button>
           {' / '}
           <span className="text-white/50">{meta.titulo}</span>
@@ -324,7 +329,7 @@ export default function QuimicaTema() {
           <button
             key={modo.id}
             onClick={() => navigate(localPath(`/examen/${modo.path}`), {
-              state: { backPath: `/estudiar/quimica/${tema}` }
+              state: { backPath: `${discPath}/${tema}` }
             })}
             className="w-full group relative rounded-2xl overflow-hidden text-left transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:shadow-black/40"
           >

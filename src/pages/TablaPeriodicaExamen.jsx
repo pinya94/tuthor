@@ -297,7 +297,7 @@ export default function TablaPeriodicaExamen() {
   }
 
   const q = questions[idx]
-  const backTo = backPath ? localPath(backPath) : localPath('/estudiar/quimica')
+  const backTo = backPath ? localPath(backPath) : localPath('/estudiar/quimica/tabla-periodica')
 
   // Guardar al terminar el examen (una sola vez por partida)
   const startRef = useRef(Date.now())

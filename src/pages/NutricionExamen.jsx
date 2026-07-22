@@ -12,7 +12,7 @@ export default function NutricionExamen() {
       titulo={{ es: 'Nutrición', en: 'Nutrition', ca: 'Nutrició' }}
       emoji="🥗"
       nivelInfo={NIVEL_INFO}
-      backFallback="/estudiar/quimica"
+      backFallback="/estudiar/biologia/nutricion"
       gameId="nutricion"
     />
   )
