@@ -122,6 +122,7 @@ function AppRoutes() {
       <Route path="examen/linea-temporal" element={<ExamenLineaTemporal />} />
       <Route path="examen/ciclo/:categoria" element={<CicloOrdenExamen />} />
       <Route path="examen/diagnostico" element={<Diagnostico />} />
+      <Route path="examen/diagnostico/:diagId" element={<Diagnostico />} />
 
       {/* ── JUEGOS ── */}
       <Route path="juegos" element={<Juegos />} />

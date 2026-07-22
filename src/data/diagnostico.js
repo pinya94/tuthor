@@ -9,6 +9,10 @@
 // un mismo tema da varias partidas distintas sin repetirse dentro de una
 // sesión — ver Diagnostico.jsx (barajarRondas).
 //
+// `home` es el id del tema de Ciencias (QuimicaIndex/QuimicaTema) que aloja
+// este diagnóstico, igual que en ciclosCientificos: el diagnóstico aparece
+// como una "prueba disponible" más dentro de ese tema, junto al examen.
+//
 // Regla de contenido: la pista 1 agrupa por un rasgo compartido por VARIOS
 // candidatos del tablero (nunca es única de uno solo, para que la primera
 // pista nunca resuelva la ronda por sí sola). Las siguientes pistas van
@@ -25,6 +29,7 @@ export const TEMAS_DIAGNOSTICO = [
   {
     id: 'sistema-digestivo',
     subject: 'ciencias',
+    home: 'cuerpo-humano',
     emoji: '🍽️',
     titulo: { es: 'Sistema Digestivo', en: 'Digestive System', ca: 'Sistema Digestiu' },
     candidatos: candidatos([
@@ -117,6 +122,7 @@ export const TEMAS_DIAGNOSTICO = [
   {
     id: 'sistema-nervioso',
     subject: 'ciencias',
+    home: 'cuerpo-humano',
     emoji: '🧠',
     titulo: { es: 'Sistema Nervioso y Sensorial', en: 'Nervous & Sensory System', ca: 'Sistema Nerviós i Sensorial' },
     candidatos: candidatos([
@@ -209,6 +215,7 @@ export const TEMAS_DIAGNOSTICO = [
   {
     id: 'rocas-minerales',
     subject: 'ciencias',
+    home: 'rocas-minerales',
     emoji: '🪨',
     titulo: { es: 'Rocas y Minerales', en: 'Rocks & Minerals', ca: 'Roques i Minerals' },
     candidatos: candidatos([
@@ -301,6 +308,7 @@ export const TEMAS_DIAGNOSTICO = [
   {
     id: 'estados-materia',
     subject: 'ciencias',
+    home: 'estados-materia',
     emoji: '🧪',
     titulo: { es: 'Estados y Cambios de la Materia', en: 'States & Changes of Matter', ca: 'Estats i Canvis de la Matèria' },
     candidatos: candidatos([
@@ -393,6 +401,7 @@ export const TEMAS_DIAGNOSTICO = [
   {
     id: 'tabla-periodica',
     subject: 'ciencias',
+    home: 'tabla-periodica',
     emoji: '⚗️',
     titulo: { es: 'Tabla Periódica Básica', en: 'Basic Periodic Table', ca: 'Taula Periòdica Bàsica' },
     candidatos: candidatos([
@@ -484,4 +493,10 @@ export const TEMAS_DIAGNOSTICO = [
 
 export function getTemaDiagnostico(id) {
   return TEMAS_DIAGNOSTICO.find(t => t.id === id) ?? null
+}
+
+// Diagnósticos alojados dentro de un tema concreto de Ciencias (p. ej.
+// 'cuerpo-humano' aloja el digestivo y el nervioso). Espejo de ciclosPorTema.
+export function diagnosticosPorTema(temaId) {
+  return TEMAS_DIAGNOSTICO.filter(t => t.home === temaId)
 }

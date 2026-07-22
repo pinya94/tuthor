@@ -2,6 +2,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import { ELEMENTOS } from '../data/tablaperiodica'
 import { ciclosPorTema } from '../data/ciclosCientificos'
+import { diagnosticosPorTema } from '../data/diagnostico'
 import PageMeta from '../components/PageMeta'
 import CourseSchema from '../components/CourseSchema'
 import BreadcrumbSchema from '../components/BreadcrumbSchema'
@@ -25,6 +26,7 @@ const TEMAS_META = {
     'mezclas-separacion':{ titulo: 'Mezclas y Separación', emoji: '🔀', descripcion: 'Mezclas homogéneas y heterogéneas. Filtración, destilación, decantación y más.' },
     'acidos-bases':      { titulo: 'Ácidos y Bases',       emoji: '🧴', descripcion: 'Escala de pH, ácidos y bases cotidianos, indicadores y neutralización.' },
     'atomos-moleculas':  { titulo: 'Átomos y Moléculas',   emoji: '⚛️', descripcion: 'Estructura atómica, partículas subatómicas, elementos y compuestos.' },
+    'rocas-minerales':   { titulo: 'Rocas y Minerales',    emoji: '🪨', descripcion: 'Rocas ígneas, sedimentarias y metamórficas, minerales y cómo se forman.' },
     'sistema-solar':     { titulo: 'Sistema Solar',        emoji: '🌍', descripcion: 'Planetas, astros, movimientos de traslación y rotación, y características del sistema solar.' },
     'celula':            { titulo: 'La Célula',            emoji: '🔬', descripcion: 'Tipos de célula, orgánulos, membrana, fotosíntesis y división celular.' },
     'cuerpo-humano':     { titulo: 'Cuerpo Humano',        emoji: '❤️', descripcion: 'Sistemas digestivo, circulatorio, respiratorio y nervioso. Órganos y funciones.' },
@@ -43,6 +45,7 @@ const TEMAS_META = {
     'mezclas-separacion':{ titulo: 'Mixtures & Separation',emoji: '🔀', descripcion: 'Homogeneous and heterogeneous mixtures. Filtration, distillation, decantation and more.' },
     'acidos-bases':      { titulo: 'Acids & Bases',        emoji: '🧴', descripcion: 'pH scale, everyday acids and bases, indicators and neutralisation.' },
     'atomos-moleculas':  { titulo: 'Atoms & Molecules',    emoji: '⚛️', descripcion: 'Atomic structure, subatomic particles, elements and compounds.' },
+    'rocas-minerales':   { titulo: 'Rocks & Minerals',     emoji: '🪨', descripcion: 'Igneous, sedimentary and metamorphic rocks, minerals and how they form.' },
     'sistema-solar':     { titulo: 'Solar System',         emoji: '🌍', descripcion: 'Planets, celestial bodies, orbital and rotational movements, and solar system features.' },
     'celula':            { titulo: 'The Cell',             emoji: '🔬', descripcion: 'Cell types, organelles, membrane, photosynthesis and cell division.' },
     'cuerpo-humano':     { titulo: 'Human Body',           emoji: '❤️', descripcion: 'Digestive, circulatory, respiratory and nervous systems. Organs and functions.' },
@@ -61,6 +64,7 @@ const TEMAS_META = {
     'mezclas-separacion':{ titulo: 'Mescles i Separació',  emoji: '🔀', descripcion: 'Mescles homogènies i heterogènies. Filtració, destil·lació, decantació i més.' },
     'acidos-bases':      { titulo: 'Àcids i Bases',        emoji: '🧴', descripcion: 'Escala de pH, àcids i bases quotidians, indicadors i neutralització.' },
     'atomos-moleculas':  { titulo: 'Àtoms i Molècules',    emoji: '⚛️', descripcion: 'Estructura atòmica, partícules subatòmiques, elements i compostos.' },
+    'rocas-minerales':   { titulo: 'Roques i Minerals',    emoji: '🪨', descripcion: 'Roques ígnies, sedimentàries i metamòrfiques, minerals i com es formen.' },
     'sistema-solar':     { titulo: 'Sistema Solar',        emoji: '🌍', descripcion: 'Planetes, astres, moviments de translació i rotació, i característiques del sistema solar.' },
     'celula':            { titulo: 'La Cèl·lula',          emoji: '🔬', descripcion: 'Tipus de cèl·lula, orgànuls, membrana, fotosíntesi i divisió cel·lular.' },
     'cuerpo-humano':     { titulo: 'Cos Humà',             emoji: '❤️', descripcion: 'Sistemes digestiu, circulatori, respiratori i nerviós. Òrgans i funcions.' },
@@ -255,6 +259,23 @@ export default function QuimicaTema() {
         ca: [nivelesChip(c.niveles, 'ca'), `${c.total} passos`, 'Abans o després'],
       },
       path: `ciclo/${c.id}`,
+    })),
+    ...diagnosticosPorTema(tema).map(d => ({
+      id: `diag-${d.id}`, emoji: '🩺', gradient: 'from-cyan-500 to-teal-700',
+      titulo: {
+        es: `Diagnóstico: ${d.titulo.es}`, en: `Diagnosis: ${d.titulo.en}`, ca: `Diagnòstic: ${d.titulo.ca}`,
+      },
+      descripcion: {
+        es: 'Descarta candidatos con pistas científicas progresivas hasta dar con el correcto. Otra forma de repasar el mismo temario.',
+        en: 'Rule out candidates with progressive science clues until you find the right one. Another way to revise the same content.',
+        ca: 'Descarta candidats amb pistes científiques progressives fins a trobar el correcte. Una altra manera de repassar el mateix temari.',
+      },
+      detalles: {
+        es: ['Deducción', `${d.candidatos.length} candidatos`, 'Sin cronómetro'],
+        en: ['Deduction', `${d.candidatos.length} candidates`, 'No timer'],
+        ca: ['Deducció', `${d.candidatos.length} candidats`, 'Sense cronòmetre'],
+      },
+      path: `diagnostico/${d.id}`,
     })),
   ]
   const pageMeta = <PageMeta title={meta.titulo} description={meta.descripcion} path={`/estudiar/ciencias/${tema}`} lang={lang} />

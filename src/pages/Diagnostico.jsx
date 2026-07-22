@@ -14,7 +14,7 @@
 // — no necesita entrada en games.js. Las monedas son un premio modesto
 // local, no la fórmula de computeCoins.
 import { useState, useRef } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams, useLocation } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import { useAuth } from '../context/AuthContext'
 import { saveActivity } from '../lib/activity'
@@ -135,7 +135,7 @@ function TemaSelect({ onElegir, lang, tr }) {
 }
 
 // ── RESULTADO DE LA RONDA ────────────────────────────────────────────────────
-function Resultado({ tema, ronda, acierto, penalizaciones, pistasUsadas, coins, onOtraRonda, onCambiarTema, onSalir, tr, lang }) {
+function Resultado({ tema, ronda, acierto, penalizaciones, pistasUsadas, coins, onOtraRonda, onCambiarTema, onSalir, salirLabel, tr, lang }) {
   const respuesta = tema.candidatos.find(c => c.id === ronda.respuesta)
   return (
     <div className="flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
@@ -185,11 +185,13 @@ function Resultado({ tema, ronda, acierto, penalizaciones, pistasUsadas, coins, 
           <button onClick={onOtraRonda} className="w-full bg-[#EDAE49] hover:bg-amber-400 text-black font-black py-4 text-lg rounded-xl transition">
             {tr({ es: '▶ Otra ronda', en: '▶ Another round', ca: '▶ Una altra ronda' })}
           </button>
-          <button onClick={onCambiarTema} className="w-full text-white/40 hover:text-white/70 text-sm py-2 transition">
-            {tr({ es: 'Cambiar de tema', en: 'Change topic', ca: 'Canviar de tema' })}
-          </button>
+          {onCambiarTema && (
+            <button onClick={onCambiarTema} className="w-full text-white/40 hover:text-white/70 text-sm py-2 transition">
+              {tr({ es: 'Cambiar de tema', en: 'Change topic', ca: 'Canviar de tema' })}
+            </button>
+          )}
           <button onClick={onSalir} className="w-full text-white/40 hover:text-white/70 text-sm py-2 transition">
-            {tr({ es: '← Volver a Ciencias', en: '← Back to Science', ca: '← Tornar a Ciències' })}
+            {salirLabel}
           </button>
         </div>
       </div>
@@ -201,12 +203,30 @@ function Resultado({ tema, ronda, acierto, penalizaciones, pistasUsadas, coins, 
 // ── HERRAMIENTA ───────────────────────────────────────────────────────────────
 export default function Diagnostico() {
   const navigate = useNavigate()
+  const location = useLocation()
   const { lang, tr, localPath } = useLang()
   const { user } = useAuth()
+  // Con :diagId en la ruta (/examen/diagnostico/:diagId) se juega ese
+  // diagnóstico directamente, sin selector — es el acceso desde su tema de
+  // Ciencias. Sin parámetro (/examen/diagnostico) se muestra el selector.
+  const { diagId } = useParams()
+  const directo = Boolean(diagId && getTemaDiagnostico(diagId))
+  const backPath = location.state?.backPath
+    ?? (directo ? `/estudiar/quimica/${getTemaDiagnostico(diagId).home}` : '/estudiar/quimica')
 
-  const [fase, setFase] = useState('temaSelect') // temaSelect | jugando | fin
-  const [temaId, setTemaId] = useState(null)
-  const [ronda, setRonda] = useState(null)
+  // Semilla del modo directo: primera ronda + mazo restante barajado, calculada
+  // una sola vez para inicializar el estado sin setState durante el render.
+  const seedRef = useRef(null)
+  if (directo && !seedRef.current) {
+    const t = getTemaDiagnostico(diagId)
+    const orden = barajar(t.rondas.map((_, i) => i))
+    const primera = orden.shift()
+    seedRef.current = { orden, ronda: t.rondas[primera] }
+  }
+
+  const [fase, setFase] = useState(directo ? 'jugando' : 'temaSelect') // temaSelect | jugando | fin
+  const [temaId, setTemaId] = useState(directo ? diagId : null)
+  const [ronda, setRonda] = useState(directo ? seedRef.current.ronda : null)
   const [pistaIdx, setPistaIdx] = useState(0)
   const [descartados, setDescartados] = useState(new Set())
   const [penalizaciones, setPenalizaciones] = useState(0)
@@ -216,7 +236,7 @@ export default function Diagnostico() {
   const [finalizado, setFinalizado] = useState(null) // { acierto, puntos }
 
   const savedRef = useRef(false)
-  const mazoRef = useRef({}) // temaId -> [índices de ronda pendientes]
+  const mazoRef = useRef(directo ? { [diagId]: seedRef.current.orden } : {}) // temaId -> [índices de ronda pendientes]
   // Si en algún momento se descarta la respuesta correcta (aunque luego se
   // deshaga), queda marcado aquí para penalizar al confirmar — sin avisar
   // durante la partida, porque avisar delataría cuál es la correcta.
@@ -292,6 +312,17 @@ export default function Diagnostico() {
     }, 700)
   }
 
+  // Meta SEO del modo directo (/examen/diagnostico/:diagId): en ese modo no se
+  // pasa por la pantalla de selección, así que la inyectamos aquí.
+  const directoMeta = directo && tema ? (
+    <SEOHead
+      title={tr({ es: `Diagnóstico de ${tr(tema.titulo)}`, en: `${tr(tema.titulo)} Diagnosis`, ca: `Diagnòstic de ${tr(tema.titulo)}` })}
+      description={tr({ es: `Repasa ${tr(tema.titulo)} por descarte: elimina candidatos con pistas científicas progresivas hasta dar con el correcto.`, en: `Revise ${tr(tema.titulo)} by elimination: rule out candidates with progressive science clues until you find the right one.`, ca: `Repassa ${tr(tema.titulo)} per descart: elimina candidats amb pistes científiques progressives fins a trobar el correcte.` })}
+      path={`/examen/diagnostico/${temaId}`}
+      lang={lang}
+    />
+  ) : null
+
   // ── SEO + selector de tema ──────────────────────────────────────────────
   if (fase === 'temaSelect') {
     return (
@@ -310,16 +341,22 @@ export default function Diagnostico() {
   // ── Pantalla final ────────────────────────────────────────────────────────
   if (fase === 'fin') {
     return (
+      <>
+      {directoMeta}
       <Resultado
         tema={tema} ronda={ronda}
         acierto={finalizado.acierto} puntos={finalizado.puntos}
         penalizaciones={penalizaciones} pistasUsadas={pistaIdx + 1}
         coins={finalizado.puntos}
         onOtraRonda={() => siguienteRonda(temaId)}
-        onCambiarTema={() => setFase('temaSelect')}
-        onSalir={() => navigate(localPath('/estudiar/quimica'))}
+        onCambiarTema={directo ? null : () => setFase('temaSelect')}
+        onSalir={() => navigate(localPath(backPath))}
+        salirLabel={directo
+          ? tr({ es: `← Volver a ${tr(tema.titulo)}`, en: `← Back to ${tr(tema.titulo)}`, ca: `← Tornar a ${tr(tema.titulo)}` })
+          : tr({ es: '← Volver a Ciencias', en: '← Back to Science', ca: '← Tornar a Ciències' })}
         tr={tr} lang={lang}
       />
+      </>
     )
   }
 
@@ -330,6 +367,7 @@ export default function Diagnostico() {
 
   return (
     <div className="relative z-10 flex flex-col items-center min-h-[calc(100vh-4rem)] px-2 sm:px-6 py-3">
+      {directoMeta}
       <div className="max-w-3xl w-full flex flex-col flex-1">
 
       {/* Popup: confirmar único restante */}
@@ -356,7 +394,7 @@ export default function Diagnostico() {
 
       {/* Header */}
       <div className="flex items-center justify-between mb-2 px-1">
-        <button onClick={() => setFase('temaSelect')} className="text-white/40 hover:text-white/70 text-sm transition-colors">
+        <button onClick={() => directo ? navigate(localPath(backPath)) : setFase('temaSelect')} className="text-white/40 hover:text-white/70 text-sm transition-colors">
           {tr({ es: '← Salir', en: '← Exit', ca: '← Sortir' })}
         </button>
         <div className="flex items-center gap-2 text-sm text-white/50">

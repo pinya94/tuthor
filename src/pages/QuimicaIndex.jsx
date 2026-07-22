@@ -44,6 +44,14 @@ const TEMAS = [
     niveles: ['primaria', 'eso'],
   },
   {
+    id: 'rocas-minerales',
+    titulo: 'Rocas y Minerales', tituloEn: 'Rocks & Minerals', tituloCa: 'Roques i Minerals',
+    subtitulo: 'Tipos de rocas, minerales y cómo se forman', subtituloEn: 'Rock types, minerals and how they form', subtituloCa: 'Tipus de roques, minerals i com es formen',
+    emoji: '🪨', gradient: 'from-stone-500 to-neutral-700',
+    tags: ['rocas', 'minerales', 'granito', 'marmol', 'cuarzo', 'igneas', 'sedimentarias', 'metamorficas', 'geologia', 'rocks', 'minerals', 'geology'],
+    niveles: ['primaria', 'eso'],
+  },
+  {
     id: 'sistema-solar',
     titulo: 'Sistema Solar', tituloEn: 'Solar System', tituloCa: 'Sistema Solar',
     subtitulo: 'Planetas, astros, movimientos y características', subtituloEn: 'Planets, celestial bodies, movements and features', subtituloCa: 'Planetes, astres, moviments i característiques',
@@ -159,21 +167,6 @@ export default function QuimicaIndex() {
             : 'Química y ciencias naturales para todos los niveles'}
         </p>
       </div>
-
-      <button
-        onClick={() => navigate(localPath('/examen/diagnostico'))}
-        className="max-w-2xl w-full mx-auto mb-6 bg-gradient-to-r from-cyan-600/20 to-teal-700/20 hover:from-cyan-600/30 hover:to-teal-700/30 border border-cyan-500/30 rounded-2xl px-5 py-4 flex items-center gap-4 text-left transition-all"
-      >
-        <span className="text-3xl">🩺</span>
-        <div>
-          <p className="text-white font-bold text-sm">
-            {ca ? 'Diagnòstic — posa a prova el que saps' : en ? 'Diagnosis — put what you know to the test' : 'Diagnóstico — pon a prueba lo que sabes'}
-          </p>
-          <p className="text-white/40 text-xs mt-0.5">
-            {ca ? 'Descarta candidats amb pistes fins a endevinar-lo' : en ? 'Rule out candidates with clues until you guess it' : 'Descarta candidatos con pistas hasta adivinarlo'}
-          </p>
-        </div>
-      </button>
 
       <TemarioGrid
         items={items}

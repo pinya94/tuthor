@@ -14,6 +14,7 @@
 import { EXAMS } from '../src/lib/exams.js'
 import { GAMES } from '../src/lib/games.js'
 import { CICLOS } from '../src/data/ciclosCientificos.js'
+import { TEMAS_DIAGNOSTICO } from '../src/data/diagnostico.js'
 import { FICHAS as FICHAS_ESTUDIAR } from '../src/data/fichasEstudiarIndex.js'
 import {
   FICHAS_ES as JUEGOS_FICHAS_ES,
@@ -172,6 +173,17 @@ export function resolveMeta(path, lang) {
       return l === 'en'
         ? { title: `${name} — order the steps`, desc: `${desc} Free interactive exam: place each step before or after the others in the right order.` }
         : { title: `Examen de ${name} — ordena los pasos`, desc: `${desc} Examen interactivo gratis: coloca cada paso antes o después en el orden correcto.` }
+    }
+  }
+
+  m = path.match(/^\/examen\/diagnostico\/([\w-]+)$/)
+  if (m) {
+    const diag = TEMAS_DIAGNOSTICO.find(t => t.id === m[1])
+    if (diag) {
+      const name = diag.titulo[l] ?? diag.titulo.es
+      return l === 'en'
+        ? { title: `${name} Diagnosis — revise by elimination`, desc: `Revise ${name} by ruling out candidates with progressive science clues until you find the right one. Free interactive practice.` }
+        : { title: `Diagnóstico de ${name} — repasa por descarte`, desc: `Repasa ${name} descartando candidatos con pistas científicas progresivas hasta dar con el correcto. Práctica interactiva gratis.` }
     }
   }
 
