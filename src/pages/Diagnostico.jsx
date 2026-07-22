@@ -28,12 +28,16 @@ function barajar(arr) {
 }
 
 function puntosPorPistas(pistasReveladas, penalizaciones) {
-  const base = pistasReveladas <= 2 ? 100 : pistasReveladas === 3 ? 70 : 40
+  const base = pistasReveladas <= 1 ? 100 : pistasReveladas === 2 ? 70 : 40
   return Math.max(0, base - penalizaciones * 20)
 }
 
 // ── TARJETA DE CANDIDATO ─────────────────────────────────────────────────────
-function Tarjeta({ c, nombre, tachado, bloqueado, modoConfirmar, resultado, onClick }) {
+// Nota: el descarte se ve y se comporta IGUAL para todos los candidatos,
+// incluida la respuesta correcta — cualquier pista visual distinta en el
+// momento de descartar (popup, color, icono) delataría cuál es la buena.
+// La penalización por haberla descartado se revela solo al final.
+function Tarjeta({ c, nombre, tachado, modoConfirmar, resultado, onClick }) {
   let opacidad = 'opacity-100'
   let escala = 'scale-100'
   let anillo = ''
@@ -42,14 +46,7 @@ function Tarjeta({ c, nombre, tachado, bloqueado, modoConfirmar, resultado, onCl
   if (resultado === 'correcto') { anillo = 'ring-2 ring-green-400'; escala = 'scale-110' }
   else if (resultado === 'incorrecto') { opacidad = 'opacity-40' }
   else if (resultado === 'revelado') { anillo = 'ring-2 ring-amber-400'; escala = 'scale-105' }
-  else if (bloqueado) {
-    opacidad = 'opacity-15'
-    overlay = (
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-        <span className="text-xl">🔒</span>
-      </div>
-    )
-  } else if (tachado) {
+  else if (tachado) {
     opacidad = 'opacity-25'
     overlay = (
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
@@ -64,13 +61,11 @@ function Tarjeta({ c, nombre, tachado, bloqueado, modoConfirmar, resultado, onCl
     escala = 'hover:scale-105'; opacidad = 'hover:opacity-90'
   }
 
-  const cursor = bloqueado ? 'cursor-not-allowed' : 'cursor-pointer'
-
   return (
     <div
-      className={`relative rounded-xl shadow transition-all duration-200 select-none ${cursor} ${opacidad} ${escala} ${anillo}`}
+      className={`relative rounded-xl shadow transition-all duration-200 select-none cursor-pointer ${opacidad} ${escala} ${anillo}`}
       style={{ backgroundColor: c.color, width: '100%', paddingBottom: '100%' }}
-      onClick={bloqueado ? undefined : onClick}
+      onClick={onClick}
     >
       <div style={{ position: 'absolute', inset: 0 }} className="flex flex-col items-center justify-center p-2 sm:p-3 overflow-hidden">
         {resultado === 'correcto' && <span className="text-2xl">✓</span>}
@@ -103,7 +98,7 @@ function TemaSelect({ onElegir, lang, tr }) {
           {[
             { icon: '🎴', title: tr({ es: 'Tablero completo desde el inicio', en: 'Full board from the start', ca: 'Tauler complet des de l\'inici' }), desc: tr({ es: 'Todos los candidatos están visibles desde el primer momento.', en: 'Every candidate is visible right from the start.', ca: 'Tots els candidats són visibles des del primer moment.' }) },
             { icon: '💡', title: tr({ es: 'Las pistas se acumulan', en: 'Clues stack up', ca: 'Les pistes s\'acumulen' }), desc: tr({ es: 'Cada pista nueva se suma a las anteriores: puedes repasarlas todas.', en: 'Every new clue is added to the previous ones: you can review them all.', ca: 'Cada pista nova se suma a les anteriors: pots repassar-les totes.' }) },
-            { icon: '⚠️', title: tr({ es: 'Ojo con descartar al correcto', en: 'Watch out for discarding the right one', ca: 'Vigila a l\'hora de descartar el correcte' }), desc: tr({ es: 'Si descartas la opción correcta pierdes puntos y no hay marcha atrás.', en: "If you discard the correct option you lose points, and there's no undo.", ca: 'Si descartes l\'opció correcta perds punts i no hi ha marxa enrere.' }) },
+            { icon: '⚠️', title: tr({ es: 'Ojo con descartar al correcto', en: 'Watch out for discarding the right one', ca: 'Vigila a l\'hora de descartar el correcte' }), desc: tr({ es: 'Si en algún momento descartas la opción correcta, lo pagarás en puntos — no lo sabrás hasta el final.', en: "If you discard the correct option at any point, it'll cost you points — you won't find out until the end.", ca: 'Si en algun moment descartes l\'opció correcta, ho pagaràs en punts — no ho sabràs fins al final.' }) },
           ].map(r => (
             <div key={r.title} className="flex items-start gap-4">
               <span className="text-2xl">{r.icon}</span>
@@ -146,16 +141,18 @@ export default function Diagnostico() {
   const [ronda, setRonda] = useState(null)
   const [pistaIdx, setPistaIdx] = useState(0)
   const [descartados, setDescartados] = useState(new Set())
-  const [bloqueados, setBloqueados] = useState(new Set())
   const [penalizaciones, setPenalizaciones] = useState(0)
   const [modoConfirmar, setModoConfirmar] = useState(false)
   const [resultados, setResultados] = useState({}) // id -> 'correcto' | 'incorrecto' | 'revelado'
-  const [popupDescarte, setPopupDescarte] = useState(null) // candidato a punto de descartarse (es el correcto)
   const [popupConfirm, setPopupConfirm] = useState(null) // candidato único restante a confirmar
   const [finalizado, setFinalizado] = useState(null) // { acierto, puntos }
 
   const savedRef = useRef(false)
   const mazoRef = useRef({}) // temaId -> [índices de ronda pendientes]
+  // Si en algún momento se descarta la respuesta correcta (aunque luego se
+  // deshaga), queda marcado aquí para penalizar al confirmar — sin avisar
+  // durante la partida, porque avisar delataría cuál es la correcta.
+  const descartoCorrectaRef = useRef(false)
 
   const tema = temaId ? getTemaDiagnostico(temaId) : null
 
@@ -166,44 +163,34 @@ export default function Diagnostico() {
     }
     const idx = mazoRef.current[id].shift()
     savedRef.current = false
+    descartoCorrectaRef.current = false
     setTemaId(id)
     setRonda(t.rondas[idx])
     setPistaIdx(0)
     setDescartados(new Set())
-    setBloqueados(new Set())
     setPenalizaciones(0)
     setModoConfirmar(false)
     setResultados({})
-    setPopupDescarte(null)
     setPopupConfirm(null)
     setFinalizado(null)
     setFase('jugando')
   }
 
   function toggleDescarte(c) {
-    if (modoConfirmar || bloqueados.has(c.id) || finalizado) return
+    if (modoConfirmar || finalizado) return
     if (descartados.has(c.id)) {
       setDescartados(prev => { const n = new Set(prev); n.delete(c.id); return n })
       return
     }
-    if (c.id === ronda.respuesta) {
-      setPopupDescarte(c)
-      return
-    }
+    if (c.id === ronda.respuesta) descartoCorrectaRef.current = true
     setDescartados(prev => new Set(prev).add(c.id))
-  }
-
-  function confirmarDescarteCorrecto() {
-    const c = popupDescarte
-    setPopupDescarte(null)
-    setDescartados(prev => new Set(prev).add(c.id))
-    setBloqueados(prev => new Set(prev).add(c.id))
-    setPenalizaciones(p => p + 1)
   }
 
   function resolverRonda(candidato) {
     const acierto = candidato.id === ronda.respuesta
-    const pts = puntosPorPistas(pistaIdx + 1, penalizaciones)
+    const penal = descartoCorrectaRef.current ? 1 : 0
+    const pts = puntosPorPistas(pistaIdx + 1, penal)
+    setPenalizaciones(penal)
     setModoConfirmar(false)
     setPopupConfirm(null)
     if (acierto) {
@@ -215,6 +202,7 @@ export default function Diagnostico() {
   }
 
   function rendirse() {
+    setPenalizaciones(descartoCorrectaRef.current ? 1 : 0)
     setModoConfirmar(false)
     setResultados({ [ronda.respuesta]: 'revelado' })
     guardarYFinalizar(false, 0)
@@ -300,28 +288,7 @@ export default function Diagnostico() {
 
   return (
     <div className="relative z-10 flex flex-col items-center min-h-[calc(100vh-4rem)] px-2 sm:px-6 py-3">
-      <div className="max-w-2xl w-full flex flex-col flex-1">
-
-      {/* Popup: a punto de descartar al correcto */}
-      {popupDescarte && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center px-6" style={{ backgroundColor: 'rgba(0,0,0,0.7)' }}>
-          <div className="bg-[#0d0d1a] border border-white/10 rounded-2xl p-6 w-full max-w-sm text-center shadow-2xl">
-            <span className="text-5xl block mb-3">⚠️</span>
-            <h3 className="text-white font-black text-xl mb-2">{tr({ es: '¡Cuidado!', en: 'Careful!', ca: 'Compte!' })}</h3>
-            <p className="text-white/50 text-sm mb-5">
-              {tr({ es: 'Vas a descartar la opción correcta. Perderás puntos y no podrás recuperarla. ¿Seguro?', en: "You're about to discard the correct option. You'll lose points and won't be able to bring it back. Are you sure?", ca: 'Descartaràs l\'opció correcta. Perdràs punts i no la podràs recuperar. Segur?' })}
-            </p>
-            <div className="flex gap-3">
-              <button onClick={() => setPopupDescarte(null)} className="flex-1 bg-white/5 hover:bg-white/10 border border-white/10 text-white/60 font-bold py-3 rounded-xl transition-all">
-                {tr({ es: 'Cancelar', en: 'Cancel', ca: 'Cancel·lar' })}
-              </button>
-              <button onClick={confirmarDescarteCorrecto} className="flex-1 font-black py-3 rounded-xl text-black" style={{ backgroundColor: '#EDAE49' }}>
-                {tr({ es: 'Sí, descartar', en: 'Yes, discard', ca: 'Sí, descartar' })}
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      <div className="max-w-3xl w-full flex flex-col flex-1">
 
       {/* Popup: confirmar único restante */}
       {popupConfirm && (
@@ -365,21 +332,19 @@ export default function Diagnostico() {
           </p>
         )}
 
-        <div className="flex items-center justify-between px-1">
+        <div className="px-1">
           <span className="text-white/40 text-xs">
             {tr({ es: `${activos.length} sin descartar`, en: `${activos.length} not ruled out`, ca: `${activos.length} sense descartar` })}
           </span>
-          {penalizaciones > 0 && <span className="text-red-400 text-xs font-semibold">-{penalizaciones * 20} pts</span>}
         </div>
 
-        <div className="grid grid-cols-4 gap-3 sm:gap-5 justify-items-center">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-5 justify-items-center">
           {tema.candidatos.map(c => (
             <Tarjeta
               key={c.id}
               c={c}
               nombre={tr(c.nombre)}
               tachado={descartados.has(c.id)}
-              bloqueado={bloqueados.has(c.id)}
               modoConfirmar={modoConfirmar && !descartados.has(c.id) && !resultados[c.id]}
               resultado={resultados[c.id] ?? null}
               onClick={() => {
