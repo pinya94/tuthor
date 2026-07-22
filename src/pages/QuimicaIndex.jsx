@@ -2,9 +2,19 @@ import { useNavigate } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import TemarioGrid from '../components/TemarioGrid'
 
+// Disciplinas de Ciencias: agrupan los temas del índice (solo presentación —
+// las rutas siguen siendo /estudiar/quimica/:tema). El orden aquí es el orden
+// de las secciones en pantalla.
+const GRUPOS = [
+  { id: 'quimica',  emoji: '⚗️', label: { es: 'Química',   en: 'Chemistry', ca: 'Química' } },
+  { id: 'fisica',   emoji: '⚡', label: { es: 'Física',    en: 'Physics',   ca: 'Física' } },
+  { id: 'biologia', emoji: '🧬', label: { es: 'Biología',  en: 'Biology',   ca: 'Biologia' } },
+  { id: 'geologia', emoji: '🪐', label: { es: 'Geología y el Universo', en: 'Geology & the Universe', ca: "Geologia i l'Univers" } },
+]
+
 const TEMAS = [
   {
-    id: 'tabla-periodica',
+    id: 'tabla-periodica', disciplina: 'quimica',
     titulo: 'Tabla Periódica', tituloEn: 'Periodic Table', tituloCa: 'Taula Periòdica',
     subtitulo: 'Símbolos, nombres y grupos de los elementos', subtituloEn: 'Symbols, names and groups of elements', subtituloCa: 'Símbols, noms i grups dels elements',
     emoji: '⚗️', gradient: 'from-violet-500 to-purple-700',
@@ -12,15 +22,15 @@ const TEMAS = [
     niveles: ['primaria', 'eso', 'bachillerato'],
   },
   {
-    id: 'estados-materia',
+    id: 'estados-materia', disciplina: 'quimica',
     titulo: 'Estados de la Materia', tituloEn: 'States of Matter', tituloCa: 'Estats de la Matèria',
     subtitulo: 'Sólido, líquido, gas y cambios de estado', subtituloEn: 'Solid, liquid, gas and changes of state', subtituloCa: 'Sòlid, líquid, gas i canvis d\'estat',
     emoji: '🧪', gradient: 'from-teal-500 to-cyan-700',
-    tags: ['estados', 'solido', 'liquido', 'gas', 'fusion', 'evaporacion', 'materia', 'states', 'matter', 'ciclo del agua', 'ciclo de las rocas', 'water cycle', 'rock cycle', 'condensacion', 'erosion'],
+    tags: ['estados', 'solido', 'liquido', 'gas', 'fusion', 'evaporacion', 'materia', 'states', 'matter', 'ciclo del agua', 'water cycle', 'condensacion'],
     niveles: ['primaria', 'eso'],
   },
   {
-    id: 'mezclas-separacion',
+    id: 'mezclas-separacion', disciplina: 'quimica',
     titulo: 'Mezclas y Separación', tituloEn: 'Mixtures & Separation', tituloCa: 'Mescles i Separació',
     subtitulo: 'Homogéneas, heterogéneas y métodos de separación', subtituloEn: 'Homogeneous, heterogeneous and separation methods', subtituloCa: 'Homogènies, heterogènies i mètodes de separació',
     emoji: '🔀', gradient: 'from-orange-500 to-amber-600',
@@ -28,7 +38,7 @@ const TEMAS = [
     niveles: ['primaria', 'eso'],
   },
   {
-    id: 'acidos-bases',
+    id: 'acidos-bases', disciplina: 'quimica',
     titulo: 'Ácidos y Bases', tituloEn: 'Acids & Bases', tituloCa: 'Àcids i Bases',
     subtitulo: 'pH, indicadores y neutralización', subtituloEn: 'pH, indicators and neutralisation', subtituloCa: 'pH, indicadors i neutralització',
     emoji: '🧴', gradient: 'from-green-500 to-emerald-700',
@@ -36,7 +46,7 @@ const TEMAS = [
     niveles: ['eso'],
   },
   {
-    id: 'atomos-moleculas',
+    id: 'atomos-moleculas', disciplina: 'quimica',
     titulo: 'Átomos y Moléculas', tituloEn: 'Atoms & Molecules', tituloCa: 'Àtoms i Molècules',
     subtitulo: 'Estructura atómica, elementos y compuestos', subtituloEn: 'Atomic structure, elements and compounds', subtituloCa: 'Estructura atòmica, elements i compostos',
     emoji: '⚛️', gradient: 'from-blue-500 to-indigo-700',
@@ -44,15 +54,15 @@ const TEMAS = [
     niveles: ['primaria', 'eso'],
   },
   {
-    id: 'rocas-minerales',
+    id: 'rocas-minerales', disciplina: 'geologia',
     titulo: 'Rocas y Minerales', tituloEn: 'Rocks & Minerals', tituloCa: 'Roques i Minerals',
     subtitulo: 'Tipos de rocas, minerales y cómo se forman', subtituloEn: 'Rock types, minerals and how they form', subtituloCa: 'Tipus de roques, minerals i com es formen',
     emoji: '🪨', gradient: 'from-stone-500 to-neutral-700',
-    tags: ['rocas', 'minerales', 'granito', 'marmol', 'cuarzo', 'igneas', 'sedimentarias', 'metamorficas', 'geologia', 'rocks', 'minerals', 'geology'],
+    tags: ['rocas', 'minerales', 'granito', 'marmol', 'cuarzo', 'igneas', 'sedimentarias', 'metamorficas', 'geologia', 'ciclo de las rocas', 'rock cycle', 'erosion', 'rocks', 'minerals', 'geology'],
     niveles: ['primaria', 'eso'],
   },
   {
-    id: 'sistema-solar',
+    id: 'sistema-solar', disciplina: 'geologia',
     titulo: 'Sistema Solar', tituloEn: 'Solar System', tituloCa: 'Sistema Solar',
     subtitulo: 'Planetas, astros, movimientos y características', subtituloEn: 'Planets, celestial bodies, movements and features', subtituloCa: 'Planetes, astres, moviments i característiques',
     emoji: '🌍', gradient: 'from-indigo-500 to-purple-700',
@@ -60,7 +70,7 @@ const TEMAS = [
     niveles: ['primaria', 'eso'],
   },
   {
-    id: 'celula',
+    id: 'celula', disciplina: 'biologia',
     titulo: 'La Célula', tituloEn: 'The Cell', tituloCa: 'La Cèl·lula',
     subtitulo: 'Tipos, orgánulos y funciones celulares', subtituloEn: 'Types, organelles and cell functions', subtituloCa: 'Tipus, orgànuls i funcions cel·lulars',
     emoji: '🔬', gradient: 'from-green-500 to-teal-700',
@@ -68,7 +78,7 @@ const TEMAS = [
     niveles: ['eso', 'bachillerato'],
   },
   {
-    id: 'cuerpo-humano',
+    id: 'cuerpo-humano', disciplina: 'biologia',
     titulo: 'Cuerpo Humano', tituloEn: 'Human Body', tituloCa: 'Cos Humà',
     subtitulo: 'Sistemas digestivo, circulatorio, respiratorio y nervioso', subtituloEn: 'Digestive, circulatory, respiratory and nervous systems', subtituloCa: 'Sistemes digestiu, circulatori, respiratori i nerviós',
     emoji: '❤️', gradient: 'from-red-500 to-rose-700',
@@ -76,7 +86,7 @@ const TEMAS = [
     niveles: ['primaria', 'eso'],
   },
   {
-    id: 'seres-vivos',
+    id: 'seres-vivos', disciplina: 'biologia',
     titulo: 'Seres Vivos', tituloEn: 'Living Things', tituloCa: 'Éssers Vius',
     subtitulo: 'Reinos, clasificación, vertebrados e invertebrados', subtituloEn: 'Kingdoms, classification, vertebrates and invertebrates', subtituloCa: 'Regnes, classificació, vertebrats i invertebrats',
     emoji: '🌱', gradient: 'from-emerald-500 to-green-700',
@@ -84,7 +94,7 @@ const TEMAS = [
     niveles: ['primaria', 'eso'],
   },
   {
-    id: 'ecosistemas',
+    id: 'ecosistemas', disciplina: 'biologia',
     titulo: 'Ecosistemas', tituloEn: 'Ecosystems', tituloCa: 'Ecosistemes',
     subtitulo: 'Cadenas tróficas, biomas y adaptaciones', subtituloEn: 'Food chains, biomes and adaptations', subtituloCa: 'Cadenes tròfiques, biomes i adaptacions',
     emoji: '🌍', gradient: 'from-teal-500 to-emerald-700',
@@ -92,7 +102,7 @@ const TEMAS = [
     niveles: ['primaria', 'eso', 'bachillerato'],
   },
   {
-    id: 'genetica',
+    id: 'genetica', disciplina: 'biologia',
     titulo: 'Genética', tituloEn: 'Genetics', tituloCa: 'Genètica',
     subtitulo: 'ADN, genes, herencia y mutaciones', subtituloEn: 'DNA, genes, heredity and mutations', subtituloCa: 'ADN, gens, herència i mutacions',
     emoji: '🧬', gradient: 'from-purple-500 to-violet-700',
@@ -100,7 +110,7 @@ const TEMAS = [
     niveles: ['eso'],
   },
   {
-    id: 'nutricion',
+    id: 'nutricion', disciplina: 'biologia',
     titulo: 'Nutrición', tituloEn: 'Nutrition', tituloCa: 'Nutrició',
     subtitulo: 'Macronutrientes, vitaminas y dieta saludable', subtituloEn: 'Macronutrients, vitamins and healthy diet', subtituloCa: 'Macronutrients, vitamines i dieta saludable',
     emoji: '🥗', gradient: 'from-lime-500 to-green-600',
@@ -108,7 +118,7 @@ const TEMAS = [
     niveles: ['primaria', 'eso'],
   },
   {
-    id: 'fuerzas',
+    id: 'fuerzas', disciplina: 'fisica',
     titulo: 'Fuerzas y Movimiento', tituloEn: 'Forces and Motion', tituloCa: 'Forces i Moviment',
     subtitulo: 'Leyes de Newton, velocidad, gravedad y presión', subtituloEn: 'Newton\'s laws, speed, gravity and pressure', subtituloCa: 'Lleis de Newton, velocitat, gravetat i pressió',
     emoji: '⚡', gradient: 'from-yellow-500 to-orange-600',
@@ -116,7 +126,7 @@ const TEMAS = [
     niveles: ['primaria', 'eso'],
   },
   {
-    id: 'energia',
+    id: 'energia', disciplina: 'fisica',
     titulo: 'Energía', tituloEn: 'Energy', tituloCa: 'Energia',
     subtitulo: 'Tipos, transformaciones y fuentes de energía renovable', subtituloEn: 'Types, transformations and renewable energy sources', subtituloCa: 'Tipus, transformacions i fonts d\'energia renovable',
     emoji: '🔋', gradient: 'from-green-500 to-teal-600',
@@ -124,7 +134,7 @@ const TEMAS = [
     niveles: ['primaria', 'eso'],
   },
   {
-    id: 'electricidad',
+    id: 'electricidad', disciplina: 'fisica',
     titulo: 'Electricidad', tituloEn: 'Electricity', tituloCa: 'Electricitat',
     subtitulo: 'Circuitos, corriente, tensión, resistencia y magnetismo', subtituloEn: 'Circuits, current, voltage, resistance and magnetism', subtituloCa: 'Circuits, corrent, tensió, resistència i magnetisme',
     emoji: '💡', gradient: 'from-amber-500 to-yellow-600',
@@ -132,7 +142,7 @@ const TEMAS = [
     niveles: ['primaria', 'eso'],
   },
   {
-    id: 'ondas-luz',
+    id: 'ondas-luz', disciplina: 'fisica',
     titulo: 'Ondas y Luz', tituloEn: 'Waves and Light', tituloCa: 'Ones i Llum',
     subtitulo: 'Sonido, espectro electromagnético, reflexión y refracción', subtituloEn: 'Sound, electromagnetic spectrum, reflection and refraction', subtituloCa: 'So, espectre electromagnètic, reflexió i refracció',
     emoji: '🌊', gradient: 'from-blue-500 to-cyan-600',
@@ -162,14 +172,15 @@ export default function QuimicaIndex() {
           {ca ? 'Tria un tema' : en ? 'Pick a topic' : 'Elige un tema'}
         </h1>
         <p className="text-white/40 mt-1 text-sm">
-          {ca ? 'Química i ciències naturals per a tots els nivells'
-            : en ? 'Chemistry and natural sciences for all levels'
-            : 'Química y ciencias naturales para todos los niveles'}
+          {ca ? 'Física, química, biologia i geologia per a tots els nivells'
+            : en ? 'Physics, chemistry, biology and geology for all levels'
+            : 'Física, química, biología y geología para todos los niveles'}
         </p>
       </div>
 
       <TemarioGrid
         items={items}
+        groups={GRUPOS}
         onSelect={item => navigate(localPath(`/estudiar/quimica/${item.id}`))}
         placeholder={ca ? 'Cercar tema...' : en ? 'Search topic...' : 'Buscar tema...'}
       />
