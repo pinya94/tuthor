@@ -61,8 +61,16 @@ const unresolved = urls.filter(urlPath => {
 
 const server = await preview({ root: ROOT, preview: { port: 4174, strictPort: false }, logLevel: 'warn' })
 const base = server.resolvedUrls.local[0].replace(/\/$/, '')
+// @sparticuz/chromium mete --single-process (todo el navegador, todas las
+// pestañas, en un solo proceso del SO) porque está pensado para una
+// invocación de Lambda que renderiza una página y termina. Aquí abrimos
+// decenas de páginas en paralelo durante minutos: con --single-process,
+// que UNA pestaña reviente tira abajo el navegador entero. Lo quitamos
+// (junto a --no-zygote, que va de la mano) para que Chromium use su
+// arquitectura normal multiproceso, mucho más resiliente para esto.
+const vercelArgs = sparticuzChromium.args.filter(a => a !== '--single-process' && a !== '--no-zygote')
 const browser = ON_VERCEL
-  ? await chromium.launch({ args: sparticuzChromium.args, executablePath: await sparticuzChromium.executablePath() })
+  ? await chromium.launch({ args: vercelArgs, executablePath: await sparticuzChromium.executablePath() })
   : await chromium.launch()
 
 let cursor = 0
