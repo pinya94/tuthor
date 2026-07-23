@@ -81,14 +81,27 @@ async function renderOne(page, urlPath) {
   return page.content()
 }
 
-async function worker() {
+async function newContext() {
   const context = await browser.newContext()
   await context.route('**/*', route => (
     BLOCKED_HOSTS.test(route.request().url()) ? route.abort() : route.continue()
   ))
-  const page = await context.newPage()
+  return context
+}
+
+// Reciclamos página (y de vez en cuando el contexto entero) tras cada
+// render: reutilizar la misma pestaña para las ~80 navegaciones de un
+// worker acumulaba memoria en Chromium hasta que el proceso se caía a
+// mitad del build. Cerrar y reabrir es barato comparado con perder el
+// build entero a falta de unas pocas URLs.
+const RECYCLE_CONTEXT_EVERY = 25
+
+async function worker() {
+  let context = await newContext()
+  let renderedInContext = 0
   while (cursor < urls.length) {
     const urlPath = urls[cursor++]
+    const page = await context.newPage()
     try {
       let html
       try {
@@ -103,6 +116,14 @@ async function worker() {
       written++
     } catch (err) {
       failed.push({ urlPath, err: err?.message ?? String(err) })
+    } finally {
+      await page.close()
+    }
+    renderedInContext++
+    if (renderedInContext >= RECYCLE_CONTEXT_EVERY) {
+      await context.close()
+      context = await newContext()
+      renderedInContext = 0
     }
   }
   await context.close()
