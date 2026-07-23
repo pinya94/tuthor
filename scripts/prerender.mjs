@@ -39,9 +39,16 @@ import { resolveMeta } from './seoMeta.mjs'
 const ON_VERCEL = Boolean(process.env.VERCEL)
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..')
-const CONCURRENCY = 6
+// Concurrencia baja: la máquina de build de Vercel tiene solo 2 núcleos.
+const CONCURRENCY = 3
 const NAV_TIMEOUT = 30_000
 const CONTENT_TIMEOUT = 15_000
+
+// Bloqueamos anuncios/analítica reales durante el snapshot: no aportan
+// contenido, e ir cargando anuncios de doubleclick 237 veces se comía la
+// memoria del build (el navegador headless llegó a caerse a mitad de
+// proceso) y generaba impresiones falsas contra la propia cuenta de AdSense.
+const BLOCKED_HOSTS = /doubleclick\.net|googlesyndication\.com|googleadservices\.com|google-analytics\.com|googletagmanager\.com/
 
 const sitemap = readFileSync(join(ROOT, 'public', 'sitemap.xml'), 'utf8')
 const urls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m => new URL(m[1]).pathname)
@@ -76,6 +83,9 @@ async function renderOne(page, urlPath) {
 
 async function worker() {
   const context = await browser.newContext()
+  await context.route('**/*', route => (
+    BLOCKED_HOSTS.test(route.request().url()) ? route.abort() : route.continue()
+  ))
   const page = await context.newPage()
   while (cursor < urls.length) {
     const urlPath = urls[cursor++]
