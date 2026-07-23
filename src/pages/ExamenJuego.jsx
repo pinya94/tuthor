@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { getEventosPorCategoria, calcularMargen } from '../data/historiaEvents'
+import { getEventosPorCategoria, calcularMargen, EXAMENES_HISTORIA } from '../data/historiaEvents'
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
 import { saveActivity } from '../lib/activity'
@@ -244,9 +244,12 @@ export default function ExamenJuego() {
   const { lang, localPath, lt } = useLang()
   const en = lang === 'en'
   const location = useLocation()
-  const examen = location.state?.examen
-  const nivel = location.state?.nivel
-  const backPath = location.state?.backPath || '/estudiar'
+  // Acceso directo a la URL (enlace compartido, buscador): sin state del
+  // picker, se usa un examen por defecto en vez de dejar la página en
+  // blanco (antes hacía navigate(-1), que no lleva a ningún sitio real).
+  const examen = location.state?.examen || EXAMENES_HISTORIA[0]
+  const nivel = location.state?.nivel || examen.niveles[0]
+  const backPath = location.state?.backPath || '/estudiar/historia'
 
   const [fase, setFase] = useState('intro') // intro | jugando | resultado
   const [eventos, setEventos] = useState([])
@@ -260,13 +263,10 @@ export default function ExamenJuego() {
   const { user } = useAuth()
 
   useEffect(() => {
-    if (!examen) { navigate(-1); return }
     const evs = getEventosPorCategoria(examen.id, nivel)
     setEventos(evs)
     setMargen(calcularMargen(examen.id, nivel))
   }, [examen])
-
-  if (!examen) return null
 
   function iniciar() {
     setFase('jugando')

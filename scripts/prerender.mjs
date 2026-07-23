@@ -86,7 +86,19 @@ async function renderOne(page, urlPath) {
   )
   // Margen corto para dejar asentar efectos tardíos (helmet, imágenes, etc.)
   await page.waitForTimeout(250)
-  return page.content()
+  // Alguna página redirige sola nada más montar (p. ej. si depende de
+  // location.state y no lo recibe). Si para cuando leemos el HTML ya no
+  // estamos en la URL esperada, es mejor fallar (y conservar el shell
+  // original de vite) que guardar el contenido de la página a la que
+  // saltó — que no tiene nada que ver con esta URL.
+  if (new URL(page.url()).pathname !== urlPath) {
+    throw new Error(`la página navegó a ${page.url()} en vez de quedarse en ${urlPath}`)
+  }
+  const html = await page.content()
+  if (html.length < 500) {
+    throw new Error('contenido sospechosamente corto tras el render')
+  }
+  return html
 }
 
 async function newContext() {

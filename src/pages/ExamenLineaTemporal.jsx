@@ -185,11 +185,6 @@ export default function ExamenLineaTemporal() {
     el.scrollTo({ left: Math.max(0, target), behavior: 'smooth' })
   }, [phase, wasCorrect, correctSlot])
 
-  useEffect(() => {
-    if (!categoria) navigate(localPath('/estudiar/historia'))
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
-  if (!categoria) return null
-
   const pageMeta = <PageMeta
     title={en ? 'Timeline Exam — History' : 'Examen Línea del Tiempo — Historia'}
     description={en ? 'Sort historical events chronologically. Interactive timeline exam on Tuthor.' : 'Ordena los eventos históricos cronológicamente. Examen de línea del tiempo interactivo en Tuthor.'}
