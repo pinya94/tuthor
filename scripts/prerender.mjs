@@ -79,9 +79,18 @@ const failed = []
 
 async function renderOne(page, urlPath) {
   await page.goto(base + urlPath, { waitUntil: 'load', timeout: NAV_TIMEOUT })
-  // Espera a que React haya pintado contenido real (no el shell vacío).
+  // Espera a que React haya pintado contenido real: no solo el shell vacío,
+  // sino la ruta en sí ya cargada. Las rutas se cargan con lazy(), así que
+  // justo tras el 'load' del documento el <div id="root"> puede tener ya
+  // texto (nav + banner de cookies) mientras la ruta sigue en su fallback
+  // de Suspense (el spinner de PageLoader, App.jsx) — de ahí que también
+  // haga falta comprobar que no quede ningún spinner visible.
   await page.waitForFunction(
-    () => (document.getElementById('root')?.innerText?.length ?? 0) > 40,
+    () => {
+      const root = document.getElementById('root')
+      if (!root || root.querySelector('.animate-spin')) return false
+      return (root.innerText?.length ?? 0) > 40
+    },
     { timeout: CONTENT_TIMEOUT },
   )
   // Margen corto para dejar asentar efectos tardíos (helmet, imágenes, etc.)
