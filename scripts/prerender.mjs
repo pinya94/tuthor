@@ -17,15 +17,26 @@
 // La resolución de meta "esperada" vive en scripts/seoMeta.mjs (módulo
 // puro, testeado en src/lib/__tests__) y aquí solo se usa para avisar de
 // URLs sin meta específica; el HTML real sale siempre del snapshot.
+//
+// Chromium: el contenedor de build de Vercel no tiene las librerías de
+// sistema que necesita el Chromium normal de Playwright (falla con
+// "libnspr4.so: cannot open shared object file"), y no hay acceso root
+// para instalarlas. En Vercel (process.env.VERCEL) se usa el binario
+// autocontenido de @sparticuz/chromium (pensado para entornos serverless
+// sin esas libs). En local se usa el Chromium que ya gestiona Playwright
+// — instálalo una vez con `npx playwright install chromium`.
 
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 import { chromium } from 'playwright'
+import sparticuzChromium from '@sparticuz/chromium'
 import { preview } from 'vite'
 
 import { resolveMeta } from './seoMeta.mjs'
+
+const ON_VERCEL = Boolean(process.env.VERCEL)
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..')
 const CONCURRENCY = 6
@@ -43,7 +54,9 @@ const unresolved = urls.filter(urlPath => {
 
 const server = await preview({ root: ROOT, preview: { port: 4174, strictPort: false }, logLevel: 'warn' })
 const base = server.resolvedUrls.local[0].replace(/\/$/, '')
-const browser = await chromium.launch()
+const browser = ON_VERCEL
+  ? await chromium.launch({ args: sparticuzChromium.args, executablePath: await sparticuzChromium.executablePath() })
+  : await chromium.launch()
 
 let cursor = 0
 let written = 0
