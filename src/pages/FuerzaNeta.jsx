@@ -36,8 +36,11 @@ function answerFromNet(nx, ny) {
 const rnd = (a, b) => a + Math.floor(Math.random() * (b - a + 1))
 const shuffle = arr => [...arr].sort(() => Math.random() - 0.5)
 
+const DIAGONAL = ['NE', 'NW', 'SE', 'SW']
+const FULL_POOL = ['E', 'W', 'N', 'S', 'NE', 'NW', 'SE', 'SW', 'STILL']
+
 function magFor(diff) {
-  const max = diff === 'easy' ? 4 : diff === 'medium' ? 5 : 6
+  const max = { easy: 4, medium: 5, hard: 6, expert: 6, master: 7 }[diff] ?? 5
   return rnd(1, max) * 10
 }
 
@@ -50,33 +53,44 @@ function buildOptions(answer, count, pool) {
 
 function genRound(diff) {
   const forces = []
-  let pool
+  let pool = FULL_POOL
   if (diff === 'easy') {
     const axis = Math.random() < 0.5 ? ['E', 'W'] : ['N', 'S']
     for (let i = 0; i < 2; i++) forces.push({ dir: axis[rnd(0, 1)], mag: magFor('easy') })
     pool = [...axis, 'STILL']
-  } else {
-    const n = diff === 'medium' ? rnd(2, 3) : rnd(3, 4)
-    for (let i = 0; i < n; i++) forces.push({ dir: CARDINAL[rnd(0, 3)], mag: magFor(diff) })
-    pool = ['E', 'W', 'N', 'S', 'NE', 'NW', 'SE', 'SW', 'STILL']
+  } else if (diff === 'medium') {
+    const n = rnd(2, 3)
+    for (let i = 0; i < n; i++) forces.push({ dir: CARDINAL[rnd(0, 3)], mag: magFor('medium') })
+  } else if (diff === 'hard') {
+    const n = rnd(3, 4)
+    for (let i = 0; i < n; i++) forces.push({ dir: CARDINAL[rnd(0, 3)], mag: magFor('hard') })
+  } else if (diff === 'expert') {
+    // cardinales + 1 diagonal
+    const n = rnd(2, 3)
+    for (let i = 0; i < n; i++) forces.push({ dir: CARDINAL[rnd(0, 3)], mag: magFor('expert') })
+    forces.push({ dir: DIAGONAL[rnd(0, 3)], mag: magFor('expert') })
+  } else { // master
+    const nc = rnd(2, 3), nd = rnd(1, 2)
+    for (let i = 0; i < nc; i++) forces.push({ dir: CARDINAL[rnd(0, 3)], mag: magFor('master') })
+    for (let i = 0; i < nd; i++) forces.push({ dir: DIAGONAL[rnd(0, 3)], mag: magFor('master') })
   }
+  const shuffled = shuffle(forces)
   let nx = 0, ny = 0
-  for (const f of forces) { const d = DIRS[f.dir]; nx += d.dx * f.mag; ny += d.dy * f.mag }
+  for (const f of shuffled) { const d = DIRS[f.dir]; nx += d.dx * f.mag; ny += d.dy * f.mag }
   const answer = answerFromNet(nx, ny)
-  const count = diff === 'easy' ? 3 : diff === 'medium' ? 4 : 5
-  return { forces, netX: nx, netY: ny, answer, options: buildOptions(answer, count, pool) }
+  const count = diff === 'easy' ? 3 : diff === 'medium' || diff === 'hard' ? 4 : 5
+  return { forces: shuffled, netX: nx, netY: ny, answer, options: buildOptions(answer, count, pool) }
 }
 
-// Desglose por eje para el feedback: "+40 −10 = +30"
-function axisBreakdown(forces, axisDirs) {
-  const terms = forces.filter(f => axisDirs.includes(f.dir))
-  if (terms.length === 0) return '0'
-  const parts = terms.map(f => {
-    const sign = (f.dir === 'E' || f.dir === 'N') ? '+' : '−'
-    return `${sign}${f.mag}`
-  })
-  let sum = 0
-  for (const f of terms) sum += ((f.dir === 'E' || f.dir === 'N') ? 1 : -1) * f.mag
+// Desglose de un eje ('H'|'V') para el feedback: "+40 −10 = +30".
+// Incluye las diagonales, que aportan a los dos ejes.
+function axisBreakdown(forces, axis) {
+  const contribs = forces
+    .map(f => (axis === 'H' ? DIRS[f.dir].dx : DIRS[f.dir].dy) * f.mag)
+    .filter(c => c !== 0)
+  if (contribs.length === 0) return '0'
+  const parts = contribs.map(c => (c > 0 ? `+${c}` : `−${Math.abs(c)}`))
+  const sum = contribs.reduce((a, b) => a + b, 0)
   const sumStr = sum > 0 ? `+${sum}` : sum < 0 ? `−${Math.abs(sum)}` : '0'
   return parts.length > 1 ? `${parts.join(' ')} = ${sumStr}` : sumStr
 }
@@ -91,9 +105,11 @@ function forceLen(mag) { return 30 + mag * 0.78 }
 function Arrow({ dir, len, color, width, label, offset = 0 }) {
   const d = DIRS[dir]
   const START_GAP = 22 // arranca fuera de la caja
-  // vector "a lo largo" (pantalla) y "perpendicular" (pantalla)
-  const ax = d.dx, ay = -d.dy
-  const px = d.dy, py = d.dx
+  // vector "a lo largo" (pantalla) normalizado + perpendicular unitario
+  const rawx = d.dx, rawy = -d.dy
+  const norm = Math.hypot(rawx, rawy) || 1
+  const ax = rawx / norm, ay = rawy / norm
+  const px = -ay, py = ax
   const sx = CX + px * offset + ax * START_GAP
   const sy = CY + py * offset + ay * START_GAP
   const ex = CX + px * offset + ax * len
@@ -139,6 +155,7 @@ const C = {
   p2:     { es: 'Suma las que van en el mismo eje: las opuestas se restan.', en: 'Add the ones on the same axis: opposite ones subtract.', ca: 'Suma les del mateix eix: les oposades es resten.' },
   p3:     { es: 'La fuerza neta te dice hacia dónde se mueve — o si se queda quieta.', en: 'The net force tells you which way it moves — or if it stays still.', ca: 'La força neta et diu cap on es mou — o si es queda quieta.' },
   eq:     { es: 'Si todas se cancelan, está en equilibrio y no se mueve.', en: 'If they all cancel out, it is balanced and does not move.', ca: 'Si totes es cancel·len, està en equilibri i no es mou.' },
+  diag:   { es: 'Una fuerza diagonal (↗) suma su valor a los dos ejes a la vez.', en: 'A diagonal force (↗) adds its value to both axes at once.', ca: 'Una força diagonal (↗) suma el seu valor als dos eixos alhora.' },
   time:   { es: 'Tiempo', en: 'Time', ca: 'Temps' },
   timeVal:{ es: '90 segundos', en: '90 seconds', ca: '90 segons' },
   pts:    { es: 'Puntos', en: 'Points', ca: 'Punts' },
@@ -161,7 +178,9 @@ function T(k, l) { return C[k]?.[l] ?? C[k]?.es ?? k }
 const DIFS = {
   easy:   { emoji: '🟢', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' }, desc: { es: 'Dos fuerzas en un solo eje', en: 'Two forces on one axis', ca: 'Dues forces en un sol eix' } },
   medium: { emoji: '🟡', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' }, desc: { es: 'Varias fuerzas en los dos ejes', en: 'Several forces on both axes', ca: 'Diverses forces als dos eixos' } },
-  hard:   { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' }, desc: { es: 'Hasta 4 fuerzas y números mayores', en: 'Up to 4 forces and bigger numbers', ca: 'Fins a 4 forces i números més grans' } },
+  hard:   { emoji: '🟠', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' }, desc: { es: 'Hasta 4 fuerzas y números mayores', en: 'Up to 4 forces and bigger numbers', ca: 'Fins a 4 forces i números més grans' } },
+  expert: { emoji: '🔴', label: { es: 'Experto', en: 'Expert', ca: 'Expert' }, desc: { es: 'Aparecen fuerzas diagonales (45°)', en: 'Diagonal forces appear (45°)', ca: 'Apareixen forces diagonals (45°)' } },
+  master: { emoji: '🟣', label: { es: 'Maestro', en: 'Master', ca: 'Mestre' }, desc: { es: 'Varias diagonales y números grandes', en: 'Several diagonals and big numbers', ca: 'Diverses diagonals i números grans' } },
 }
 
 const GAME_TIME = 90
@@ -176,10 +195,10 @@ function DifficultyScreen({ onSelect, l }) {
         <h1 className="text-3xl font-black text-white text-center mb-1">{T('title', l)}</h1>
         <p className="text-white/40 text-sm text-center mb-6">{T('sub', l)}</p>
 
-        <div className="flex gap-2 p-1 bg-white/5 border border-white/10 rounded-xl mb-3 w-fit mx-auto">
+        <div className="flex flex-wrap justify-center gap-1.5 p-1 bg-white/5 border border-white/10 rounded-xl mb-3 mx-auto">
           {Object.entries(DIFS).map(([id, d]) => (
             <button key={id} onClick={() => setDif(id)}
-              className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold transition-all ${dif === id ? 'bg-white/15 text-white shadow-sm' : 'text-white/40 hover:text-white/70'}`}>
+              className={`flex items-center gap-1 px-3 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all ${dif === id ? 'bg-white/15 text-white shadow-sm' : 'text-white/40 hover:text-white/70'}`}>
               {d.emoji} {d.label[l] ?? d.label.es}
             </button>
           ))}
@@ -189,7 +208,7 @@ function DifficultyScreen({ onSelect, l }) {
         <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-4">
           <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-3">{T('how', l)}</p>
           <div className="space-y-2">
-            {[['🏹', T('p1', l)], ['➕', T('p2', l)], ['🧭', T('p3', l)], ['⚖️', T('eq', l)]].map(([e, text]) => (
+            {[['🏹', T('p1', l)], ['➕', T('p2', l)], ['↗', T('diag', l)], ['🧭', T('p3', l)], ['⚖️', T('eq', l)]].map(([e, text]) => (
               <div key={text} className="flex items-start gap-3 text-sm text-white/50">
                 <span className="text-base w-5 shrink-0 text-center">{e}</span><span>{text}</span>
               </div>
@@ -380,7 +399,7 @@ export default function FuerzaNeta() {
               {won ? T('correct', l) : T('wrong', l)} · {DIRS[correct].arrow} {DIRS[correct].label[l] ?? DIRS[correct].label.es}
             </p>
             <p className="text-white/70 text-xs font-mono mt-1">
-              {T('horiz', l)}: {axisBreakdown(round.forces, ['E', 'W'])} · {T('vert', l)}: {axisBreakdown(round.forces, ['N', 'S'])}
+              {T('horiz', l)}: {axisBreakdown(round.forces, 'H')} · {T('vert', l)}: {axisBreakdown(round.forces, 'V')}
             </p>
           </div>
         )}
