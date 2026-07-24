@@ -138,6 +138,14 @@ export const GAMES = {
     // puntuación / 5 (tope 200), menos 15 monedas por cada decisión peligrosa
     coins: ({ score = 0, peligrosas = 0 } = {}) => Math.min(score / 5, 200) - peligrosas * 15,
   },
+  'fuerza-neta': {
+    label: { es: 'Fuerza Neta', en: 'Net Force', ca: 'Força Neta' },
+    emoji: '🧭',
+    subject: 'fisica',
+    route: '/juegos/fuerza-neta',
+    // aciertos × 10 puntos → hasta 200 monedas
+    coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
+  },
 }
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
