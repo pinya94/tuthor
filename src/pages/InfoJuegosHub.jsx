@@ -20,6 +20,7 @@ const DATA = {
       { titulo: 'Geografía', emoji: '🌍', texto: 'La geografía cobra vida cuando tienes que pensar rápido. Aprende países, continentes, ríos y montañas a través de pistas progresivas que te obligan a conectar datos geográficos en tiempo real.' },
       { titulo: 'Idiomas y Gramática', emoji: '🔍', texto: 'Trabajar vocabulario, categorías gramaticales y ortografía de forma activa es mucho más eficaz que estudiar listas de palabras. Nuestros juegos de lengua plantean retos contextualizados que refuerzan el español, el catalán y el inglés.' },
       { titulo: 'Economía y Finanzas Personales', emoji: '💰', texto: 'Entender el dinero de verdad requiere tomar decisiones, no memorizar definiciones. Nuestro simulador de vida financiera enseña inflación, interés compuesto, deuda y señales de estafa jugando una vida entera.' },
+      { titulo: 'Física y Fuerzas', emoji: '🧭', texto: 'La física se entiende mejor viéndola. Nuestros juegos convierten conceptos como las fuerzas, los vectores y el equilibrio en retos visuales donde el alumno predice el resultado y comprueba al instante si acertó.' },
     ],
   },
   en: {
@@ -36,6 +37,7 @@ const DATA = {
       { titulo: 'Geography', emoji: '🌍', texto: 'Geography comes alive when you have to think fast. Learn countries, continents, rivers and mountains through progressive clues that force you to connect geographical data in real time.' },
       { titulo: 'Languages & Grammar', emoji: '🔍', texto: 'Actively working on vocabulary, word classes and spelling is far more effective than studying word lists. Our language games present contextualised challenges that reinforce Spanish, Catalan and English.' },
       { titulo: 'Economics & Personal Finance', emoji: '💰', texto: 'Truly understanding money takes making decisions, not memorising definitions. Our financial life simulator teaches inflation, compound interest, debt and scam signals by playing out a whole life.' },
+      { titulo: 'Physics & Forces', emoji: '🧭', texto: 'Physics is best understood by seeing it. Our games turn concepts like forces, vectors and equilibrium into visual challenges where the student predicts the outcome and checks instantly whether they were right.' },
     ],
   },
   ca: {
@@ -52,6 +54,7 @@ const DATA = {
       { titulo: 'Geografia', emoji: '🌍', texto: 'La geografia pren vida quan has de pensar ràpid. Aprèn països, continents, rius i muntanyes a través de pistes progressives que t\'obliguen a connectar dades geogràfiques en temps real.' },
       { titulo: 'Idiomes i Gramàtica', emoji: '🔍', texto: 'Treballar vocabulari, categories gramaticals i ortografia de forma activa és molt més eficaç que estudiar llistes de paraules. Els nostres jocs de llengua plantegen reptes contextualitzats que reforcen el català, el castellà i l\'anglès.' },
       { titulo: 'Economia i Finances Personals', emoji: '💰', texto: 'Entendre els diners de debò requereix prendre decisions, no memoritzar definicions. El nostre simulador de vida financera ensenya inflació, interès compost, deute i senyals d\'estafa jugant una vida sencera.' },
+      { titulo: 'Física i Forces', emoji: '🧭', texto: 'La física s\'entén millor veient-la. Els nostres jocs converteixen conceptes com les forces, els vectors i l\'equilibri en reptes visuals on l\'alumne prediu el resultat i comprova a l\'instant si ha encertat.' },
     ],
   },
 }
@@ -78,6 +81,9 @@ const JUEGOS = {
     [
       { slug: 'spicy', titulo: 'Spicy', desc: 'Vive una vida entera tomando decisiones de dinero: estudiar o trabajar, alquilar o invertir, ahorrar o gastar. Aprende a leer las señales de riesgo jugando.', emoji: '🌶️', gradient: 'from-amber-500 to-red-700', tags: ['Economía','Simulación'] },
     ],
+    [
+      { slug: 'fuerza-neta', titulo: 'Fuerza Neta', desc: 'Suma las fuerzas que actúan sobre una caja y predice hacia dónde se mueve, o si está en equilibrio. Incluye fuerzas diagonales.', emoji: '🧭', gradient: 'from-sky-600 to-blue-800', tags: ['Física','Vectores'] },
+    ],
   ],
   en: [
     [
@@ -100,6 +106,9 @@ const JUEGOS = {
     [
       { slug: 'spicy', titulo: 'Spicy', desc: 'Live an entire life making money decisions: study or work, rent or invest, save or spend. Learn to read risk signals by playing.', emoji: '🌶️', gradient: 'from-amber-500 to-red-700', tags: ['Economics','Simulation'] },
     ],
+    [
+      { slug: 'fuerza-neta', titulo: 'Net Force', desc: 'Add up the forces acting on a box and predict which way it moves, or if it is balanced. Includes diagonal forces.', emoji: '🧭', gradient: 'from-sky-600 to-blue-800', tags: ['Physics','Vectors'] },
+    ],
   ],
   ca: [
     [
@@ -121,6 +130,9 @@ const JUEGOS = {
     ],
     [
       { slug: 'spicy', titulo: 'Spicy', desc: 'Viu una vida sencera prenent decisions de diners: estudiar o treballar, llogar o invertir, estalviar o gastar. Aprèn a llegir els senyals de risc jugant.', emoji: '🌶️', gradient: 'from-amber-500 to-red-700', tags: ['Economia','Simulació'] },
+    ],
+    [
+      { slug: 'fuerza-neta', titulo: 'Força Neta', desc: 'Suma les forces que actuen sobre una caixa i prediu cap on es mou, o si està en equilibri. Inclou forces diagonals.', emoji: '🧭', gradient: 'from-sky-600 to-blue-800', tags: ['Física','Vectors'] },
     ],
   ],
 }

@@ -1,6 +1,34 @@
 // Contenido de las fichas SEO de /info/juegos/:slug (es/en/ca).
 // Solo datos: el componente que las renderiza es src/pages/InfoJuegoFicha.jsx.
 export const FICHAS_ES = {
+  'fuerza-neta': {
+    titulo: 'Fuerza Neta',
+    subtitulo: 'Juego de Fuerzas, Vectores y Equilibrio',
+    emoji: '🧭', gradient: 'from-sky-600 to-blue-800',
+    path: '/juegos/fuerza-neta',
+    intro: 'Un juego de física para entender las fuerzas de verdad: sobre una caja actúan varias flechas (fuerzas en newtons) y tú sumas sus efectos para predecir hacia dónde se moverá, o si se queda quieta en equilibrio. Suma de vectores por componentes, nivel a nivel, con feedback inmediato.',
+    beneficios: [
+      { titulo: 'Suma de Vectores', texto: 'Descomponer cada fuerza en su parte horizontal y vertical y sumarlas por separado es la base del cálculo vectorial. El juego lo entrena de forma visual e intuitiva.' },
+      { titulo: 'Concepto de Equilibrio', texto: 'Cuando todas las fuerzas se cancelan, el objeto no se mueve. Verlo una y otra vez fija la primera ley de Newton sin necesidad de memorizar el enunciado.' },
+      { titulo: 'Razonamiento Espacial', texto: 'Anticipar la dirección resultante (arriba, abajo, diagonal…) desarrolla la intuición física que después se formaliza con vectores en Secundaria y Bachillerato.' },
+    ],
+    ejemplo: 'En lugar de una fórmula abstracta, el alumno ve una fuerza de 40 N a la derecha y otra de 10 N a la izquierda, calcula 40 − 10 = 30 N y predice que la caja se mueve a la derecha.',
+    enPapel: {
+      titulo: 'Fuerzas en papel',
+      pasos: [
+        'Dibuja un cuadrado (la caja) en el centro de una hoja.',
+        'Dibuja 2 o 3 flechas saliendo de ella, cada una con un número (la fuerza en newtons).',
+        'Suma las de la misma dirección y resta las opuestas, eje por eje (horizontal y vertical).',
+        'Predice hacia dónde se mueve. Si todo se cancela, está en equilibrio.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'Tira y afloja', desc: 'Dos equipos tiran de una cuerda con fuerzas distintas: gana quien aplique más fuerza neta. Física de fuerzas en el patio.' },
+      { nombre: 'Diagramas de cuerpo libre', desc: 'Dibuja todas las fuerzas sobre un objeto (peso, normal, rozamiento…) y súmalas. Es el método estándar en clase de física.' },
+      { nombre: 'Experimento con imanes', desc: 'Coloca un clip entre dos imanes y observa hacia dónde se va según la fuerza de cada uno.' },
+    ],
+    asignatura: 'Física', niveles: 'Primaria, ESO, Bachillerato',
+  },
   'acercate': {
     titulo: 'Acércate al Número',
     subtitulo: 'Juego de Cálculo Mental y Lógica Matemática',
@@ -327,6 +355,24 @@ export const FICHAS_ES = {
 }
 
 export const FICHAS_EN = {
+  'fuerza-neta': {
+    titulo: 'Net Force', subtitulo: 'Forces, Vectors & Equilibrium Game',
+    emoji: '🧭', gradient: 'from-sky-600 to-blue-800', path: '/juegos/fuerza-neta',
+    intro: 'A physics game to really understand forces: several arrows (forces in newtons) act on a box and you add up their effects to predict which way it will move, or whether it stays still in equilibrium. Vector addition by components, level after level, with instant feedback.',
+    beneficios: [
+      { titulo: 'Vector Addition', texto: 'Breaking each force into its horizontal and vertical part and adding them separately is the basis of vector calculus. The game trains it visually and intuitively.' },
+      { titulo: 'Concept of Equilibrium', texto: 'When all forces cancel out, the object does not move. Seeing it again and again cements Newton\'s first law without memorising the statement.' },
+      { titulo: 'Spatial Reasoning', texto: 'Anticipating the resultant direction (up, down, diagonal…) builds the physical intuition later formalised with vectors in secondary school.' },
+    ],
+    ejemplo: 'Instead of an abstract formula, the student sees a 40 N force to the right and a 10 N force to the left, computes 40 − 10 = 30 N and predicts the box moves right.',
+    enPapel: { titulo: 'Forces on paper', pasos: ['Draw a square (the box) in the middle of a sheet.', 'Draw 2 or 3 arrows coming out of it, each with a number (the force in newtons).', 'Add the ones in the same direction and subtract the opposite ones, axis by axis (horizontal and vertical).', 'Predict which way it moves. If everything cancels out, it is in equilibrium.'] },
+    alternativas: [
+      { nombre: 'Tug of war', desc: 'Two teams pull a rope with different forces: whoever applies more net force wins. Force physics in the playground.' },
+      { nombre: 'Free-body diagrams', desc: 'Draw all the forces on an object (weight, normal, friction…) and add them up. The standard method in physics class.' },
+      { nombre: 'Magnet experiment', desc: 'Place a paperclip between two magnets and watch which way it goes depending on each one\'s force.' },
+    ],
+    asignatura: 'Physics', niveles: 'Primary, Secondary, Sixth Form',
+  },
   'acercate': {
     titulo: 'Target Number', subtitulo: 'Mental Arithmetic & Logic Game',
     emoji: '🎯', gradient: 'from-pink-600 to-rose-800', path: '/juegos/acercate',
@@ -585,6 +631,24 @@ export const FICHAS_EN = {
 }
 
 export const FICHAS_CA = {
+  'fuerza-neta': {
+    titulo: 'Força Neta', subtitulo: 'Joc de Forces, Vectors i Equilibri',
+    emoji: '🧭', gradient: 'from-sky-600 to-blue-800', path: '/juegos/fuerza-neta',
+    intro: 'Un joc de física per entendre les forces de debò: sobre una caixa actuen diverses fletxes (forces en newtons) i tu sumes els seus efectes per predir cap on es mourà, o si es queda quieta en equilibri. Suma de vectors per components, nivell a nivell, amb feedback immediat.',
+    beneficios: [
+      { titulo: 'Suma de Vectors', texto: 'Descompondre cada força en la seva part horitzontal i vertical i sumar-les per separat és la base del càlcul vectorial. El joc l\'entrena de manera visual i intuïtiva.' },
+      { titulo: 'Concepte d\'Equilibri', texto: 'Quan totes les forces es cancel·len, l\'objecte no es mou. Veure-ho una vegada i una altra fixa la primera llei de Newton sense memoritzar l\'enunciat.' },
+      { titulo: 'Raonament Espacial', texto: 'Anticipar la direcció resultant (amunt, avall, diagonal…) desenvolupa la intuïció física que després es formalitza amb vectors a Secundària i Batxillerat.' },
+    ],
+    ejemplo: 'En lloc d\'una fórmula abstracta, l\'alumne veu una força de 40 N a la dreta i una altra de 10 N a l\'esquerra, calcula 40 − 10 = 30 N i prediu que la caixa es mou a la dreta.',
+    enPapel: { titulo: 'Forces en paper', pasos: ['Dibuixa un quadrat (la caixa) al centre d\'un full.', 'Dibuixa 2 o 3 fletxes que en surten, cadascuna amb un número (la força en newtons).', 'Suma les de la mateixa direcció i resta les oposades, eix per eix (horitzontal i vertical).', 'Prediu cap on es mou. Si tot es cancel·la, està en equilibri.'] },
+    alternativas: [
+      { nombre: 'Estira i arronsa', desc: 'Dos equips estiren d\'una corda amb forces diferents: guanya qui apliqui més força neta. Física de forces al pati.' },
+      { nombre: 'Diagrames de cos lliure', desc: 'Dibuixa totes les forces sobre un objecte (pes, normal, fregament…) i suma-les. És el mètode estàndard a classe de física.' },
+      { nombre: 'Experiment amb imants', desc: 'Col·loca un clip entre dos imants i observa cap on va segons la força de cadascun.' },
+    ],
+    asignatura: 'Física', niveles: 'Primària, ESO, Batxillerat',
+  },
   'acercate': {
     titulo: 'Acosta\'t al Número',
     subtitulo: 'Joc de Càlcul Mental i Lògica Matemàtica',

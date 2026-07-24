@@ -301,6 +301,7 @@
   <url><loc>https://www.tuthor.es/info/juegos/portadas</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/info/juegos/georush</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/info/juegos/spicy</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/info/juegos/fuerza-neta</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/en/info/juegos/acercate</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
   <url><loc>https://www.tuthor.es/en/info/juegos/tuthor-time</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
   <url><loc>https://www.tuthor.es/en/info/juegos/linea-temporal</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
@@ -308,6 +309,7 @@
   <url><loc>https://www.tuthor.es/en/info/juegos/portadas</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
   <url><loc>https://www.tuthor.es/en/info/juegos/georush</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
   <url><loc>https://www.tuthor.es/en/info/juegos/spicy</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://www.tuthor.es/en/info/juegos/fuerza-neta</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
 
   <!-- INFO DIARIA -->
   <url>
