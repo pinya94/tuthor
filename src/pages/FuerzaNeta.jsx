@@ -85,28 +85,48 @@ function axisBreakdown(forces, axisDirs) {
 const VB = { W: 400, H: 300 }
 const CX = 200, CY = 150
 
-function forceLen(mag) { return 24 + mag * 0.72 }
+function forceLen(mag) { return 30 + mag * 0.78 }
 
-function Arrow({ dir, len, color, width, label }) {
+// offset = desplazamiento lateral (px) para separar flechas paralelas del mismo eje.
+function Arrow({ dir, len, color, width, label, offset = 0 }) {
   const d = DIRS[dir]
-  const ex = CX + d.dx * len
-  const ey = CY - d.dy * len // SVG y hacia abajo
-  // cabeza de flecha
-  const ang = Math.atan2(-(d.dy), d.dx) // ángulo en pantalla
+  const START_GAP = 22 // arranca fuera de la caja
+  // vector "a lo largo" (pantalla) y "perpendicular" (pantalla)
+  const ax = d.dx, ay = -d.dy
+  const px = d.dy, py = d.dx
+  const sx = CX + px * offset + ax * START_GAP
+  const sy = CY + py * offset + ay * START_GAP
+  const ex = CX + px * offset + ax * len
+  const ey = CY + py * offset + ay * len
+  const ang = Math.atan2(ay, ax)
   const hl = 10
   const h1x = ex - hl * Math.cos(ang - 0.4), h1y = ey - hl * Math.sin(ang - 0.4)
   const h2x = ex - hl * Math.cos(ang + 0.4), h2y = ey - hl * Math.sin(ang + 0.4)
-  const lx = CX + d.dx * (len + 16), ly = CY - d.dy * (len + 16)
+  const lx = CX + px * offset + ax * (len + 15)
+  const ly = CY + py * offset + ay * (len + 15)
   return (
     <g>
-      <line x1={CX} y1={CY} x2={ex} y2={ey} stroke={color} strokeWidth={width} strokeLinecap="round" />
+      <line x1={sx} y1={sy} x2={ex} y2={ey} stroke={color} strokeWidth={width} strokeLinecap="round" />
       <polygon points={`${ex},${ey} ${h1x},${h1y} ${h2x},${h2y}`} fill={color} />
       {label != null && (
         <text x={lx} y={ly + 4} textAnchor="middle" fontSize="13" fontWeight="bold" fill={color}
-          style={{ userSelect: 'none' }}>{label}</text>
+          style={{ userSelect: 'none', paintOrder: 'stroke' }} stroke="#0d1117" strokeWidth={3}>{label}</text>
       )}
     </g>
   )
+}
+
+// Calcula el desplazamiento lateral de cada fuerza: las que comparten dirección
+// se reparten en paralelo (−spread … +spread) para no solaparse.
+function forceOffsets(forces) {
+  const groups = {}
+  forces.forEach((f, i) => { (groups[f.dir] = groups[f.dir] || []).push(i) })
+  const off = new Array(forces.length).fill(0)
+  const SPREAD = 22
+  for (const idxs of Object.values(groups)) {
+    idxs.forEach((fi, k) => { off[fi] = (k - (idxs.length - 1) / 2) * SPREAD })
+  }
+  return off
 }
 
 // ── Copys ────────────────────────────────────────────────────────────────────
@@ -298,6 +318,7 @@ export default function FuerzaNeta() {
   const isResult = phase === 'result'
   const correct = round.answer
   const won = picked === correct
+  const forceOff = forceOffsets(round.forces)
 
   // desplazamiento de la caja en result
   const nd = DIRS[correct]
@@ -335,9 +356,10 @@ export default function FuerzaNeta() {
           <line x1={0} y1={CY} x2={VB.W} y2={CY} stroke="#ffffff10" strokeWidth={1} />
           <line x1={CX} y1={0} x2={CX} y2={VB.H} stroke="#ffffff10" strokeWidth={1} />
 
-          {/* fuerzas */}
+          {/* fuerzas (flechas paralelas separadas si comparten dirección) */}
           {round.forces.map((f, i) => (
-            <Arrow key={i} dir={f.dir} len={forceLen(f.mag)} color="#7dd3fc" width={4} label={`${f.mag} N`} />
+            <Arrow key={i} dir={f.dir} len={forceLen(f.mag)} color="#7dd3fc" width={4}
+              label={`${f.mag} N`} offset={forceOff[i]} />
           ))}
 
           {/* fuerza neta (en result) */}
