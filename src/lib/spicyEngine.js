@@ -550,6 +550,18 @@ export function techoSalarial(p) {
   return base * p.indiceSalarial
 }
 
+// Resistencia emprendedora: formarte para montar lo tuyo, o currar gratis en un
+// negocio para aprender cómo va por dentro, hacen que TUS negocios legítimos
+// aguanten mejor (menos probabilidad de quiebra). No cubre los chollos turbios:
+// eso no se cura con experiencia — un timo sigue siendo un timo. Cada fuente
+// resta un 25% a la probabilidad de quiebra, y se acumulan.
+export function factorResistencia(p) {
+  let f = 1
+  if (p.flags.includes('emprendedor')) f *= 0.75
+  if (p.flags.includes('curro-gratis')) f *= 0.75
+  return f
+}
+
 // Buscar otro empleo: puede mejorar, no hacer nada… o señalarte
 export function buscarEmpleo(p) {
   if (p.estudios || p.flags.includes('jubilado') || p.flags.includes('prejubilado') || p.ingresos <= 0 || p.paroMeses > 0) {
@@ -1144,7 +1156,9 @@ function resolverActivosAnuales(p, log) {
     } else if (a.tipo === 'negocio') {
       // No cierra en silencio: si el riesgo se materializa, se ofrece antes la
       // opción de meter más dinero para intentar salvarlo (tickRescateNegocio).
-      if (!p.negocioEnRiesgo && p.rng() < a.oculto.pQuiebraAnual) {
+      // La resistencia emprendedora (formarte para emprender / currar gratis)
+      // baja esa probabilidad — solo en negocios legítimos como este.
+      if (!p.negocioEnRiesgo && p.rng() < a.oculto.pQuiebraAnual * factorResistencia(p)) {
         p.negocioEnRiesgo = a.id
       } else {
         // La renta ya se cobra cada mes (rentaMensualActivo, en el flujo de

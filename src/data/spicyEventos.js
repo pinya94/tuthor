@@ -14,6 +14,34 @@
 // etiqueta nunca se desincroniza de lo que realmente se cobra o se paga.
 import { escala, fmt, techoSalarial, pensionDesde } from '../lib/spicyEngine'
 
+// Los eventos de vivienda (independizarse, padres-te-echan, casa-o-alquiler)
+// asumen que sigues viviendo con tu familia. Pero las acciones libres (comprar
+// vivienda) están disponibles con el reloj parado, así que puedes comprarte una
+// casa mientras la carta está en pantalla. Si al resolver la carta ya no vives
+// con tus padres, el evento quedó obsoleto: se cierra sin tocar la vivienda —
+// nunca un alquiler encima de la hipoteca.
+const yaTienesCasa = { nota: {
+  es: 'Ya te compraste tu propia casa mientras decidías: no hay alquiler que buscar. Esta decisión se resolvió sola.',
+  en: 'You already bought your own place while deciding: there\'s no flat to look for. This one sorted itself out.',
+  ca: 'Ja et vas comprar la teva pròpia casa mentre decidies: no hi ha lloguer a buscar. Aquesta decisió es va resoldre sola.',
+} }
+
+// Cómo se llama "seguir formándote" según de dónde vengas: con una carrera es
+// un máster; con FP, un curso de especialización; sin estudios, un certificado
+// profesional. Así la carta de formación no le habla de "máster" a quien no ha
+// pisado la universidad.
+function nivelFormacion(p) {
+  if (p.flags.includes('titulo-uni')) return { es: 'un máster de especialización', en: 'a specialist master\'s', ca: 'un màster d\'especialització' }
+  if (p.flags.includes('titulo-fp') || p.flags.includes('completo-fp-medio')) return { es: 'un curso de especialización', en: 'a specialist course', ca: 'un curs d\'especialització' }
+  return { es: 'un certificado profesional', en: 'a professional certificate', ca: 'un certificat professional' }
+}
+
+// No te llega el dinero para formarte: la carta no se consume (rechazo), sigue
+// abierta por si prefieres otro camino más barato o dejarlo pasar.
+function sinDineroFormacion(ctx, c) {
+  return { rechazo: true, nota: { es: `Cuesta ${ctx.f(c)} y no los tienes. Los ahorros de la infancia y los primeros sueldos son los que pagan estas puertas — esta se queda cerrada por ahora.`, en: `It costs ${ctx.f(c)} and you don't have it. Childhood savings and first salaries are what pay for these doors — this one stays shut for now.`, ca: `Costa ${ctx.f(c)} i no els tens. Els estalvis de la infància i els primers sous són els que paguen aquestes portes — aquesta es queda tancada de moment.` } }
+}
+
 export const EVENTOS = [
 
   // ══ INFANCIA (6-15) ══════════════════════════════════════════════════════
@@ -421,37 +449,110 @@ export const EVENTOS = [
 
   // ══ ADULTO (22-64) ═══════════════════════════════════════════════════════
   {
-    id: 'master',
+    id: 'formarte',
     edad: [23, 26],
     condicion: p => p.estudios == null && p.ingresos > 0,
     cantidades: { precio: 8000 },
-    texto: {
-      es: 'Llevas unos años trabajando y ves el techo: sin más formación, no pasarás de ahí. Un máster de especialización cuesta {precio}. Nadie te garantiza nada — pero abre puertas que hoy ni ves.',
-      en: 'You\'ve worked a few years and you can see the ceiling: without more training, you won\'t get past it. A specialist master\'s costs {precio}. Nobody guarantees anything — but it opens doors you can\'t even see today.',
-      ca: 'Portes uns anys treballant i veus el sostre: sense més formació, no passaràs d\'aquí. Un màster d\'especialització costa {precio}. Ningú et garanteix res — però obre portes que avui ni veus.',
+    // La carta se adapta a de dónde vengas (máster / curso / certificado) y te
+    // deja elegir el CAMINO, no solo sí o no: subir en lo tuyo, reciclarte a algo
+    // mejor, o formarte para montar lo tuyo algún día (resistencia emprendedora).
+    texto: p => {
+      const f = nivelFormacion(p)
+      return {
+        es: `Llevas unos años trabajando y ves el techo: sin más formación, no pasarás de ahí. Con {precio} y un año de esfuerzo puedes hacer ${f.es}. Y hay más de un camino: subir en lo que ya haces, reciclarte hacia otro trabajo mejor, o formarte para montar algo tuyo el día de mañana. Nadie garantiza nada — pero cada puerta lleva a un sitio distinto.`,
+        en: `You've worked a few years and you can see the ceiling: without more training, you won't get past it. With {precio} and a year of effort you can do ${f.en}. And there's more than one road: climb in what you already do, retrain for a better job, or train to run something of your own someday. Nobody guarantees anything — but each door leads somewhere different.`,
+        ca: `Portes uns anys treballant i veus el sostre: sense més formació, no passaràs d'aquí. Amb {precio} i un any d'esforç pots fer ${f.ca}. I hi ha més d'un camí: pujar en el que ja fas, reciclar-te cap a una altra feina millor, o formar-te per muntar alguna cosa teva el dia de demà. Ningú et garanteix res — però cada porta porta a un lloc diferent.`,
+      }
     },
     senales: ['iliquido'],
     opciones: [
       {
-        id: 'estudiar',
-        texto: { es: 'Pagarte el máster ({precio})', en: 'Pay for the master\'s ({precio})', ca: 'Pagar-te el màster ({precio})' },
+        id: 'especializar',
+        texto: p => {
+          const f = nivelFormacion(p)
+          return { es: `Especializarte en lo tuyo (${f.es}, {precio})`, en: `Specialise in what you do (${f.en}, {precio})`, ca: `Especialitzar-te en el que fas (${f.ca}, {precio})` }
+        },
         aplicar: (p, ctx) => {
           const c = ctx.cant('precio')
-          if (p.dinero < c) {
-            return { rechazo: true, nota: { es: `Cuesta ${ctx.f(c)} y no los tienes. Los ahorros de la infancia y los primeros sueldos son los que pagan estas puertas — esta se queda cerrada.`, en: `It costs ${ctx.f(c)} and you don't have it. Childhood savings and first salaries are what pay for these doors — this one stays shut.`, ca: `Costa ${ctx.f(c)} i no els tens. Els estalvis de la infància i els primers sous són els que paguen aquestes portes — aquesta es queda tancada.` } }
-          }
+          if (p.dinero < c) return sinDineroFormacion(ctx, c)
           ctx.dinero(-c)
           ctx.flag('formacion')
-          // El máster no es garantía: en ~1 de cada 5 vidas el sector cambia y no llega a amortizarse
+          // Subir en lo tuyo es la apuesta más segura: rara vez el sector cambia
+          // debajo de ti (~1 de cada 5).
           ctx.flag(ctx.rng() < 0.8 ? 'master-util' : 'master-caduco')
-          ctx.experiencia({ es: 'Máster de especialización', en: 'Specialist master\'s', ca: 'Màster d\'especialització' })
-          return { nota: { es: 'Un año duro de trabajar y estudiar. Formarte suele abrir puertas — pero es una apuesta, no una garantía. El tiempo dirá si esta se amortiza.', en: 'A tough year of working and studying. Training usually opens doors — but it\'s a bet, not a guarantee. Time will tell whether this one pays off.', ca: 'Un any dur de treballar i estudiar. Formar-te sol obrir portes — però és una aposta, no una garantia. El temps dirà si aquesta s\'amortitza.' } }
+          ctx.experiencia({ es: 'Te especializaste en lo tuyo', en: 'You specialised in your field', ca: 'Et vas especialitzar en el que fas' })
+          return { nota: { es: 'Un año duro de trabajar y estudiar a la vez. Subes tu techo de sueldo — pero es una apuesta, no una garantía. El tiempo dirá si se amortiza.', en: 'A tough year of working and studying at once. You raise your salary ceiling — but it\'s a bet, not a guarantee. Time will tell if it pays off.', ca: 'Un any dur de treballar i estudiar alhora. Puges el teu sostre de sou — però és una aposta, no una garantia. El temps dirà si s\'amortitza.' } }
+        },
+      },
+      {
+        id: 'reciclar',
+        texto: { es: 'Reciclarte hacia otro trabajo mejor ({precio})', en: 'Retrain for a better job ({precio})', ca: 'Reciclar-te cap a una altra feina millor ({precio})' },
+        aplicar: (p, ctx) => {
+          const c = ctx.cant('precio')
+          if (p.dinero < c) return sinDineroFormacion(ctx, c)
+          ctx.dinero(-c)
+          ctx.flag('formacion')
+          // Cambiar de campo tiene más recorrido… y más riesgo de que justo ese
+          // sector nuevo cambie: apuesta más grande (~2 de cada 5 no cuaja).
+          ctx.flag(ctx.rng() < 0.6 ? 'master-util' : 'master-caduco')
+          // Entrar en un campo mejor pagado es un salto real ya, no solo un techo
+          // más alto: subida inmediata (dentro del nuevo techo con formación).
+          const antes = p.ingresos
+          p.ingresos = Math.min(techoSalarial(p), Math.round(p.ingresos * 1.1))
+          ctx.bienestar(-2)
+          ctx.experiencia({ es: 'Te reciclaste hacia otro campo', en: 'You retrained into another field', ca: 'Et vas reciclar cap a un altre camp' })
+          const subida = Math.round((p.ingresos / antes - 1) * 100)
+          return { nota: { es: `Empezar casi de cero en otro campo cansa y asusta, pero ya se nota: +${subida}% de sueldo (${ctx.f(Math.round(p.ingresos / 12))}/mes) y un techo más alto. Es una apuesta más grande — si el sector nuevo pivota, no se amortizará.`, en: `Starting almost from scratch in another field is tiring and scary, but it shows already: +${subida}% salary (${ctx.f(Math.round(p.ingresos / 12))}/mo) and a higher ceiling. It's a bigger bet — if the new sector pivots, it won't pay off.`, ca: `Començar gairebé de zero en un altre camp cansa i fa por, però ja es nota: +${subida}% de sou (${ctx.f(Math.round(p.ingresos / 12))}/mes) i un sostre més alt. És una aposta més gran — si el sector nou pivota, no s'amortitzarà.` } }
+        },
+      },
+      {
+        id: 'emprender',
+        texto: { es: 'Formarte para montar lo tuyo ({precio})', en: 'Train to run your own thing ({precio})', ca: 'Formar-te per muntar el teu ({precio})' },
+        aplicar: (p, ctx) => {
+          const c = ctx.cant('precio')
+          if (p.dinero < c) return sinDineroFormacion(ctx, c)
+          ctx.dinero(-c)
+          ctx.flag('emprendedor')
+          ctx.bienestar(2)
+          ctx.experiencia({ es: 'Te formaste para emprender', en: 'You trained to be an entrepreneur', ca: 'Et vas formar per emprendre' })
+          return { nota: { es: 'Cuentas, proveedores, cómo aguantar un mal año: aprendes a llevar un negocio antes de tenerlo. Esto no te sube el sueldo de asalariado — pero el día que montes algo (o inviertas en el negocio de alguien), aguantará mejor las malas rachas.', en: 'Accounts, suppliers, how to weather a bad year: you learn to run a business before you have one. This won\'t raise your employee salary — but the day you start something (or invest in someone\'s business), it will weather rough patches better.', ca: 'Comptes, proveïdors, com aguantar un mal any: aprens a portar un negoci abans de tenir-lo. Això no et puja el sou d\'assalariat — però el dia que muntis alguna cosa (o inverteixis en el negoci d\'algú), aguantarà millor les males ratxes.' } }
         },
       },
       {
         id: 'no',
         texto: { es: 'Seguir como estás', en: 'Carry on as you are', ca: 'Seguir com estàs' },
         aplicar: () => ({ nota: { es: 'El dinero se queda en tu cuenta. El techo también se queda donde estaba.', en: 'The money stays in your account. The ceiling stays where it was too.', ca: 'Els diners es queden al teu compte. El sostre també es queda on era.' } }),
+      },
+    ],
+  },
+  {
+    id: 'curro-gratis',
+    edad: [19, 28],
+    prob: 0.15,
+    condicion: p => !p.estudios && !p.flags.includes('curro-gratis') && !p.flags.includes('jubilado'),
+    cantidades: { colchon: 1200 },
+    texto: {
+      es: 'Un conocido que lleva su propio negocio te ofrece meterte con él una temporada para aprender el oficio por dentro: cómo se llevan las cuentas, cómo se trata a un proveedor, cómo se sobrevive a un mal mes. La pega: no paga nada — es solo a cambio de experiencia.',
+      en: 'Someone you know who runs their own business offers to take you on for a while to learn the trade from the inside: how the books are kept, how to deal with a supplier, how to survive a bad month. The catch: it pays nothing — it\'s purely for the experience.',
+      ca: 'Un conegut que porta el seu propi negoci t\'ofereix ficar-te amb ell una temporada per aprendre l\'ofici per dins: com es porten els comptes, com es tracta un proveïdor, com se sobreviu a un mal mes. La pega: no paga res — és només a canvi d\'experiència.',
+    },
+    senales: ['negocio-real'],
+    opciones: [
+      {
+        id: 'aceptar',
+        texto: { es: 'Aceptar y currar gratis una temporada', en: 'Accept and work for free for a while', ca: 'Acceptar i currar gratis una temporada' },
+        aplicar: (p, ctx) => {
+          ctx.dinero(-ctx.cant('colchon'))   // vives de tus ahorros esos meses sin cobrar
+          ctx.flag('curro-gratis')
+          ctx.bienestar(-2)
+          ctx.experiencia({ es: 'Curraste gratis para aprender el oficio', en: 'You worked for free to learn the trade', ca: 'Vas currar gratis per aprendre l\'ofici' })
+          return { nota: { es: 'Meses sin cobrar y viviendo de tus ahorros, pero viste cómo respira un negocio desde dentro. El día que montes algo tuyo (o metas dinero en el de alguien), sabrás oler los problemas antes de que exploten — y aguantará mejor las malas rachas.', en: 'Months unpaid, living off your savings, but you saw how a business breathes from the inside. The day you start something of your own (or put money into someone\'s), you\'ll smell trouble before it blows up — and it\'ll weather rough patches better.', ca: 'Mesos sense cobrar i vivint dels teus estalvis, però vas veure com respira un negoci des de dins. El dia que muntis alguna cosa teva (o hi posis diners en la d\'algú), sabràs olorar els problemes abans que explotin — i aguantarà millor les males ratxes.' } }
+        },
+      },
+      {
+        id: 'no',
+        texto: { es: 'No — tu tiempo también vale dinero', en: 'No — your time is worth money too', ca: 'No — el teu temps també val diners' },
+        aplicar: () => ({ nota: { es: 'Trabajar gratis tiene un coste real: el tiempo que no recuperas. A veces la experiencia lo vale y a veces no — esta vez decides que no.', en: 'Working for free has a real cost: the time you don\'t get back. Sometimes the experience is worth it and sometimes not — this time you decide it isn\'t.', ca: 'Treballar gratis té un cost real: el temps que no recuperes. De vegades l\'experiència ho val i de vegades no — aquesta vegada decideixes que no.' } }),
       },
     ],
   },
@@ -627,6 +728,7 @@ export const EVENTOS = [
         id: 'comprar',
         texto: { es: 'Comprar el piso', en: 'Buy the flat', ca: 'Comprar el pis' },
         aplicar: (p, ctx) => {
+          if (p.vivienda === 'propia') return yaTienesCasa
           // En pareja compras (y posees) tu mitad: entrada, hipoteca y piso a medias
           const parte = ctx.tieneFlag('pareja') ? 0.55 : 1
           const entrada = Math.round(ctx.cant('entrada') * parte)
@@ -650,6 +752,7 @@ export const EVENTOS = [
         id: 'alquiler',
         texto: { es: 'Seguir de alquiler', en: 'Keep renting', ca: 'Seguir de lloguer' },
         aplicar: (p, ctx) => {
+          if (p.vivienda === 'propia') return yaTienesCasa
           ctx.flag('alquiler-vitalicio')
           return { nota: { es: 'Flexibilidad total. El riesgo: el alquiler sube con la inflación todos los años, para siempre.', en: 'Total flexibility. The risk: rent rises with inflation every year, forever.', ca: 'Flexibilitat total. El risc: el lloguer puja amb la inflació cada any, per sempre.' } }
         },
@@ -1106,16 +1209,16 @@ export const EVENTOS = [
     requiere: ['formacion', 'master-caduco'],
     condicion: p => p.ingresos > 0 && !p.estudios && p.paroMeses === 0,
     texto: {
-      es: 'Malas noticias silenciosas: tu sector ha pivotado y aquel máster que pagaste apenas cuenta ya en las entrevistas. Nadie te devuelve el dinero ni el año.',
-      en: 'Quiet bad news: your sector has pivoted and that master\'s you paid for barely counts in interviews anymore. Nobody refunds the money or the year.',
-      ca: 'Males notícies silencioses: el teu sector ha pivotat i aquell màster que vas pagar gairebé ja no compta a les entrevistes. Ningú et torna els diners ni l\'any.',
+      es: 'Malas noticias silenciosas: tu sector ha pivotado y aquella formación que pagaste apenas cuenta ya en las entrevistas. Nadie te devuelve el dinero ni el año.',
+      en: 'Quiet bad news: your sector has pivoted and that training you paid for barely counts in interviews anymore. Nobody refunds the money or the year.',
+      ca: 'Males notícies silencioses: el teu sector ha pivotat i aquella formació que vas pagar gairebé ja no compta a les entrevistes. Ningú et torna els diners ni l\'any.',
     },
     opciones: [
       {
         id: 'asumir',
         texto: { es: 'Asumirlo y seguir', en: 'Accept it and move on', ca: 'Assumir-ho i seguir' },
         aplicar: (p, ctx) => {
-          ctx.autopsia({ tipo: 'neutra', titulo: { es: 'El máster que no se amortizó', en: 'The master\'s that never paid off', ca: 'El màster que no es va amortitzar' }, senales: [], texto: { es: 'Formarse suele compensar, pero no es una garantía: a ~1 de cada 5 personas el mercado les cambia debajo de los pies. Fue una buena apuesta con mal dado — no una mala decisión.', en: 'Training usually pays, but it\'s no guarantee: for ~1 in 5 people the market shifts under their feet. It was a good bet with a bad roll — not a bad decision.', ca: 'Formar-se sol compensar, però no és una garantia: a ~1 de cada 5 persones el mercat els canvia sota els peus. Va ser una bona aposta amb mal dau — no una mala decisió.' } })
+          ctx.autopsia({ tipo: 'neutra', titulo: { es: 'La formación que no se amortizó', en: 'The training that never paid off', ca: 'La formació que no es va amortitzar' }, senales: [], texto: { es: 'Formarse suele compensar, pero no es una garantía: a ~1 de cada 5 personas el mercado les cambia debajo de los pies. Fue una buena apuesta con mal dado — no una mala decisión.', en: 'Training usually pays, but it\'s no guarantee: for ~1 in 5 people the market shifts under their feet. It was a good bet with a bad roll — not a bad decision.', ca: 'Formar-se sol compensar, però no és una garantia: a ~1 de cada 5 persones el mercat els canvia sota els peus. Va ser una bona aposta amb mal dau — no una mala decisió.' } })
           return { nota: { es: 'La formación no caduca del todo — aprendiste a aprender. Pero el ascenso que esperabas no vendrá por esa puerta.', en: 'Training never fully expires — you learned how to learn. But the promotion you hoped for won\'t come through that door.', ca: 'La formació no caduca del tot — vas aprendre a aprendre. Però l\'ascens que esperaves no vindrà per aquesta porta.' } }
         },
       },
@@ -1127,9 +1230,9 @@ export const EVENTOS = [
     requiere: ['formacion', 'master-util'],
     condicion: p => p.ingresos > 0 && !p.estudios && p.paroMeses === 0 && p.ingresos < techoSalarial(p) * 0.98,
     texto: {
-      es: 'Se abre una plaza de dirección y tu máster te pone el primero de la lista. Más sueldo (+30%)… y más horas, más viajes, más teléfono encendido a las 22h.',
-      en: 'A management position opens and your master\'s puts you first in line. More salary (+30%)… and more hours, more travel, more phone on at 10pm.',
-      ca: 'S\'obre una plaça de direcció i el teu màster et posa el primer de la llista. Més sou (+30%)… i més hores, més viatges, més telèfon encès a les 22h.',
+      es: 'Se abre una plaza de dirección y tu formación te pone el primero de la lista. Más sueldo (+30%)… y más horas, más viajes, más teléfono encendido a las 22h.',
+      en: 'A management position opens and your training puts you first in line. More salary (+30%)… and more hours, more travel, more phone on at 10pm.',
+      ca: 'S\'obre una plaça de direcció i la teva formació et posa el primer de la llista. Més sou (+30%)… i més hores, més viatges, més telèfon encès a les 22h.',
     },
     opciones: [
       {
@@ -1138,7 +1241,7 @@ export const EVENTOS = [
         aplicar: (p, ctx) => {
           p.ingresos = Math.min(techoSalarial(p), Math.round(p.ingresos * 1.3))
           ctx.bienestar(-8)
-          return { nota: { es: 'El máster de los 23 por fin se paga solo — con intereses. La factura ahora es de tiempo, no de dinero.', en: 'The master\'s from age 23 finally pays for itself — with interest. The bill now comes in time, not money.', ca: 'El màster dels 23 per fi es paga sol — amb interessos. La factura ara és de temps, no de diners.' } }
+          return { nota: { es: 'La formación de los 23 por fin se paga sola — con intereses. La factura ahora es de tiempo, no de dinero.', en: 'The training from age 23 finally pays for itself — with interest. The bill now comes in time, not money.', ca: 'La formació dels 23 per fi es paga sola — amb interessos. La factura ara és de temps, no de diners.' } }
         },
       },
       {
@@ -1709,6 +1812,14 @@ export const EVENTOS = [
         id: 'irse',
         texto: { es: 'Independizarte ya', en: 'Move out now', ca: 'Independitzar-te ja' },
         aplicar: (p, ctx) => {
+          // Puede que ya te hayas comprado una casa (acción libre) mientras
+          // decidías: en ese caso ya no vives con tus padres y meterte un
+          // alquiler encima de la hipoteca no tiene sentido — la independencia
+          // ya está hecha.
+          if (p.vivienda !== 'familia') {
+            ctx.bienestar(4)
+            return { nota: { es: 'Mientras lo pensabas ya diste el paso: tienes tu propia casa. La independencia ya está hecha — sin alquiler que pagar encima.', en: 'While you were mulling it over you already took the leap: you have your own place. You\'re independent now — with no rent to pay on top.', ca: 'Mentre t\'ho pensaves ja vas fer el pas: tens la teva pròpia casa. La independència ja està feta — sense lloguer a pagar a sobre.' } }
+          }
           p.vivienda = 'alquiler'
           p.alquilerAnual = Math.round(ctx.cant('alquiler') * (p.flags.includes('capital') ? 1.4 : 1))
           ctx.recalcularGastos()
@@ -1720,6 +1831,11 @@ export const EVENTOS = [
         id: 'quedarse',
         texto: { es: 'Quedarte en casa y seguir ahorrando', en: 'Stay home and keep saving', ca: 'Quedar-te a casa i seguir estalviant' },
         aplicar: (p, ctx) => {
+          // Si ya compraste casa mientras decidías, quedarte en casa de tus
+          // padres ya no es una opción real: la decisión se resolvió sola.
+          if (p.vivienda !== 'familia') {
+            return { nota: { es: 'Demasiado tarde para quedarte en casa: ya tienes tu propia vivienda. La decisión se resolvió sola.', en: 'Too late to stay home: you already have your own place. The decision sorted itself out.', ca: 'Massa tard per quedar-te a casa: ja tens el teu propi habitatge. La decisió es va resoldre sola.' } }
+          }
           ctx.bienestar(-2)
           return { nota: { es: 'Te quedas. Cada mes que pasa en casa es dinero que otros gastan en alquiler — la jugada financiera es buena. La cara B: la independencia también se entrena, y eso no sale en el extracto.', en: 'You stay. Every month at home is money others spend on rent — financially it\'s a smart play. The flip side: independence is also a skill you train, and that doesn\'t show on a statement.', ca: 'Et quedes. Cada mes que passa a casa són diners que altres gasten en lloguer — la jugada financera és bona. La cara B: la independència també s\'entrena, i això no surt a l\'extracte.' } }
         },
@@ -1744,6 +1860,7 @@ export const EVENTOS = [
         id: 'ok',
         texto: { es: 'Buscar piso ya', en: 'Find a flat now', ca: 'Buscar pis ja' },
         aplicar: (p, ctx) => {
+          if (p.vivienda !== 'familia') return yaTienesCasa
           p.vivienda = 'alquiler'
           p.alquilerAnual = Math.round(ctx.cant('alquiler') * (p.flags.includes('capital') ? 1.4 : 1))
           ctx.recalcularGastos()
@@ -1759,6 +1876,7 @@ export const EVENTOS = [
         id: 'padres',
         texto: { es: 'Pedir ayuda a tus padres para el primer tramo', en: 'Ask your parents to help with the first stretch', ca: 'Demanar ajuda als teus pares pel primer tram' },
         aplicar: (p, ctx) => {
+          if (p.vivienda !== 'familia') return yaTienesCasa
           const pAyuda = { humilde: 0.35, media: 0.65, acomodada: 0.9 }[p.familia]
           p.vivienda = 'alquiler'
           p.alquilerAnual = Math.round(ctx.cant('alquiler') * (p.flags.includes('capital') ? 1.4 : 1))
@@ -1777,6 +1895,7 @@ export const EVENTOS = [
         id: 'dejar-estudios',
         texto: { es: 'Dejar los estudios y ponerte a trabajar ya', en: 'Drop your studies and get a job now', ca: 'Deixar els estudis i posar-te a treballar ja' },
         aplicar: (p, ctx) => {
+          if (p.vivienda !== 'familia') return yaTienesCasa
           if (!p.estudios) {
             return { rechazo: true, nota: { es: 'Ya no estás estudiando: esta puerta no aplica.', en: 'You\'re not studying anymore: this option doesn\'t apply.', ca: 'Ja no estàs estudiant: aquesta porta no aplica.' } }
           }
