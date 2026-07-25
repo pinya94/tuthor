@@ -8,6 +8,8 @@ import { PAISES, NOMBRES_PAISES, NOMBRES_PAISES_EN } from '../data/paises'
 import AuthModal from '../components/AuthModal'
 import CombinaNumeros from '../components/CombinaNumeros'
 import WorldMap from '../components/WorldMap'
+import ForceDiagram from '../components/ForceDiagram'
+import { DIRS, axisBreakdown } from '../lib/fuerzaNeta'
 
 function GeoInput({ value, onChange, onSubmit, disabled, useEnglish }) {
   const [focused, setFocused] = useState(false)
@@ -85,6 +87,8 @@ export default function PreguntaDiaria() {
   const esGeoRush  = desafio.tipo === 'georush'
   const esNumPath  = desafio.tipo === 'numpath'
   const esGeoMapa  = desafio.tipo === 'geomapa'
+  const esFuerza   = desafio.tipo === 'fuerza-neta'
+  const fnRound    = esFuerza ? desafio.round : null
   const pregunta   = desafio.tipo === 'trivia' ? desafio.pregunta : null
   const portadaHoy = desafio.tipo === 'portada' ? desafio.portada : null
   const paisHoy    = (desafio.tipo === 'georush' || desafio.tipo === 'geomapa') ? desafio.pais : null
@@ -136,6 +140,16 @@ export default function PreguntaDiaria() {
     if (user) {
       const correcto = respuesta === portadaHoy.veracidad
       const saved    = await saveDailyChallenge(user.uid, correcto)
+      if (saved) { setStreak(s => s + 1); triggerCoins() }
+    }
+  }
+
+  async function confirmarFuerza(opt) {
+    if (answered) return
+    setSelected(opt)
+    setAnswered(true)
+    if (user) {
+      const saved = await saveDailyChallenge(user.uid, opt === fnRound.answer)
       if (saved) { setStreak(s => s + 1); triggerCoins() }
     }
   }
@@ -502,6 +516,58 @@ export default function PreguntaDiaria() {
                 </button>
               )}
               <p className="text-center text-white/20 text-xs mt-4">{ca ? 'Nou repte demà · Torna cada dia' : en ? 'New challenge tomorrow · Come back every day' : 'Nuevo reto mañana · Vuelve cada día'}</p>
+            </div>
+          </>
+        ) : esFuerza ? (
+          /* ── Fuerza Neta ── */
+          <>
+            <div className="px-6 sm:px-8 py-4">
+              <p className="text-xs font-semibold text-white/40 uppercase tracking-widest mb-3">
+                {ca ? '🧭 Cap on es mou la caixa?' : en ? '🧭 Which way does the box move?' : '🧭 ¿Hacia dónde se mueve la caja?'}
+              </p>
+              <div className="relative rounded-xl overflow-hidden border border-white/10 bg-[#0d1117] mb-3">
+                <ForceDiagram round={fnRound} reveal={answered} />
+                {answered && (
+                  <div className="absolute inset-x-0 bottom-0 bg-black/70 backdrop-blur-sm p-2 text-center">
+                    <p className={`font-black ${selected === fnRound.answer ? 'text-green-400' : 'text-red-400'}`}>
+                      {selected === fnRound.answer ? (ca ? '🎉 Correcte!' : en ? '🎉 Correct!' : '🎉 ¡Correcto!') : '❌'} {DIRS[fnRound.answer].arrow} {DIRS[fnRound.answer].label[lang] ?? DIRS[fnRound.answer].label.es}
+                    </p>
+                    <p className="text-white/70 text-[11px] font-mono mt-0.5">
+                      H: {axisBreakdown(fnRound.forces, 'H')} · V: {axisBreakdown(fnRound.forces, 'V')}
+                    </p>
+                  </div>
+                )}
+              </div>
+              <div className="grid grid-cols-2 gap-2">
+                {fnRound.options.map(opt => {
+                  const isCorrect = answered && opt === fnRound.answer
+                  const isWrong   = answered && opt === selected && selected !== fnRound.answer
+                  let cls = 'border-white/10 text-white/70 hover:border-violet-400 hover:bg-violet-500/10'
+                  if (isCorrect)     cls = 'border-green-500 bg-green-500/20 text-green-400'
+                  else if (isWrong)  cls = 'border-red-500 bg-red-500/20 text-red-400'
+                  else if (answered) cls = 'border-white/10 text-white/30'
+                  return (
+                    <button key={opt} onClick={() => confirmarFuerza(opt)} disabled={answered}
+                      className={`py-3 px-3 rounded-xl border-2 font-semibold text-sm transition-all flex items-center gap-2 ${cls}`}>
+                      <span className="text-lg">{DIRS[opt].arrow}</span>
+                      <span className="text-left text-xs">{DIRS[opt].label[lang] ?? DIRS[opt].label.es}</span>
+                    </button>
+                  )
+                })}
+              </div>
+              {answered && !user && (
+                <button onClick={() => setShowAuth(true)} className="mt-3 w-full bg-amber-500/20 border border-amber-500/30 text-amber-400 font-semibold py-2.5 rounded-xl text-sm hover:bg-amber-500/30 transition-colors">
+                  {ca ? 'Inicia sessió per guardar la ratxa 🔥' : en ? 'Sign in to save your streak 🔥' : 'Inicia sesión para guardar tu racha 🔥'}
+                </button>
+              )}
+              {answered && (
+                <button onClick={() => navigate(localPath('/juegos/fuerza-neta'))} className="mt-3 w-full bg-violet-600 hover:bg-violet-500 text-white font-bold py-2.5 rounded-xl text-sm transition-colors">
+                  {ca ? 'Seguir jugant →' : en ? 'Keep playing →' : 'Seguir jugando →'}
+                </button>
+              )}
+            </div>
+            <div className="px-6 sm:px-8 pb-6">
+              <p className="text-center text-white/20 text-xs">{ca ? 'Nou repte demà · Torna cada dia' : en ? 'New challenge tomorrow · Come back every day' : 'Nuevo reto mañana · Vuelve cada día'}</p>
             </div>
           </>
         ) : (

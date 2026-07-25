@@ -36,6 +36,7 @@ import { EVENTOS_HISTORIA, eventosToPreguntas } from './historiaEvents'
 import { MODO_IDS, GRADO_IDS, GRADOS, MODOS, dayOfYear } from '../lib/mathEngine'
 import { PORTADAS } from './portadas'
 import { PAISES } from './paises'
+import { genRound, makeRng } from '../lib/fuerzaNeta'
 
 const PREGUNTAS_AUTO = eventosToPreguntas(EVENTOS_HISTORIA)
 
@@ -65,23 +66,27 @@ export function getPaisDeHoy() {
 // juego sigue disponible en /juegos/intruso, solo no se ofrece como reto del día.
 export function getDesafioDeHoy() {
   const dia = dayOfYear()
-  const tipo6 = dia % 6
-  if (tipo6 === 0) {
+  const tipo = dia % 7
+  if (tipo === 0) {
     return { tipo: 'trivia', pregunta: getPreguntaDeHoy() }
   }
-  if (tipo6 === 1) {
+  if (tipo === 1) {
     const modoId  = MODO_IDS[dia % MODO_IDS.length]
-    const nivelId = GRADO_IDS[Math.floor(dia / 6) % GRADO_IDS.length]
+    const nivelId = GRADO_IDS[Math.floor(dia / 7) % GRADO_IDS.length]
     return { tipo: 'matematicas', modo: MODOS[modoId], grado: GRADOS[nivelId] }
   }
-  if (tipo6 === 2) {
+  if (tipo === 2) {
     return { tipo: 'portada', portada: getPortadaDeHoy() }
   }
-  if (tipo6 === 3) {
+  if (tipo === 3) {
     return { tipo: 'georush', pais: getPaisDeHoy() }
   }
-  if (tipo6 === 4) {
+  if (tipo === 4) {
     return { tipo: 'numpath' }
   }
-  return { tipo: 'geomapa', pais: getPaisDeHoy() }
+  if (tipo === 5) {
+    return { tipo: 'geomapa', pais: getPaisDeHoy() }
+  }
+  // Fuerza Neta: una ronda determinista (misma para todos ese día).
+  return { tipo: 'fuerza-neta', round: genRound('medio', makeRng(dia)) }
 }
