@@ -171,8 +171,8 @@ const C = {
   time:   { es: 'Tiempo', en: 'Time', ca: 'Temps' },
   timeVal:{ es: '40 segundos', en: '40 seconds', ca: '40 segons' },
   pts:    { es: 'Puntos', en: 'Points', ca: 'Punts' },
-  ptsVal: { es: 'Acierto +1 (racha = más) · Fallo −1 y −3s', en: 'Correct +1 (streak = more) · Wrong −1 and −3s', ca: 'Encert +1 (ratxa = més) · Errada −1 i −3s' },
-  streak: { es: 'Encadena aciertos: la racha da puntos extra y algo de tiempo.', en: 'Chain correct answers: a streak gives extra points and time.', ca: 'Encadena encerts: la ratxa dona punts extra i temps.' },
+  ptsVal: { es: 'Acierto +1 y +3s · Fallo −1 y −3s', en: 'Correct +1 and +3s · Wrong −1 and −3s', ca: 'Encert +1 i +3s · Errada −1 i −3s' },
+  streak: { es: 'Encadena aciertos: la racha da puntos extra por respuesta.', en: 'Chain correct answers: a streak gives extra points per answer.', ca: 'Encadena encerts: la ratxa dona punts extra per resposta.' },
   start:  { es: '▶ Empezar', en: '▶ Start', ca: '▶ Començar' },
   q:      { es: '¿Hacia dónde se mueve la caja?', en: 'Which way does the box move?', ca: 'Cap on es mou la caixa?' },
   correct:{ es: '¡Correcto!', en: 'Correct!', ca: 'Correcte!' },
@@ -197,8 +197,7 @@ const DIFS = {
 
 const GAME_TIME = 40
 const WRONG_TIME = 3    // segundos que resta cada fallo
-const STREAK_EVERY = 5  // cada N aciertos seguidos…
-const STREAK_TIME = 3   // …regala estos segundos
+const CORRECT_TIME = 3  // segundos que suma cada acierto
 
 // ── Pantalla de dificultad ─────────────────────────────────────────────────────
 function DifficultyScreen({ onSelect, l }) {
@@ -325,9 +324,8 @@ export default function FuerzaNeta() {
       setCorrect(c => c + 1)
       const gain = Math.min(5, 1 + Math.floor((ns - 1) / 3)) // 1,1,1,2,2,2,3… (tope 5)
       setScore(s => s + gain)
-      const timeBonus = ns % STREAK_EVERY === 0
-      if (timeBonus) setTimeLeft(t => t + STREAK_TIME)
-      setDelta({ won: true, gain, streak: ns, timeBonus })
+      setTimeLeft(t => t + CORRECT_TIME) // cada acierto da tiempo
+      setDelta({ won: true, gain, streak: ns })
     } else {
       setStreak(0)
       setScore(s => Math.max(0, s - 1)) // resta, sin bajar de 0
@@ -438,7 +436,7 @@ export default function FuerzaNeta() {
             {delta && (
               <p className="text-xs font-bold mt-0.5">
                 {delta.won
-                  ? <span className="text-green-400">+{delta.gain}{delta.streak >= 2 ? ` · 🔥 ${delta.streak}` : ''}{delta.timeBonus ? ` · +${STREAK_TIME}s ⏱️` : ''}</span>
+                  ? <span className="text-green-400">+{delta.gain} · +{CORRECT_TIME}s ⏱️{delta.streak >= 2 ? ` · 🔥 ${delta.streak}` : ''}</span>
                   : <span className="text-red-400">−1 · −{WRONG_TIME}s ⏱️</span>}
               </p>
             )}
