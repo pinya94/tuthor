@@ -146,6 +146,14 @@ export const GAMES = {
     // aciertos × 10 puntos → hasta 200 monedas
     coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
   },
+  'balanza': {
+    label: { es: 'Balanza', en: 'Balance', ca: 'Balança' },
+    emoji: '⚖️',
+    subject: 'fisica',
+    route: '/juegos/balanza',
+    // aciertos × 10 puntos → hasta 200 monedas
+    coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
+  },
 }
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
