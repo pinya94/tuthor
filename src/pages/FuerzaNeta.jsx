@@ -51,20 +51,32 @@ function buildOptions(answer, count, pool) {
   return shuffle([...opts])
 }
 
-function genRound(diff) {
+// Cada nivel de la UI mezcla varios "tipos" de ronda al azar → variedad.
+const TYPE_POOLS = {
+  facil:   ['easy'],
+  medio:   ['medium', 'hard'],
+  dificil: ['expert', 'master'],
+}
+
+function genRound(uiDiff) {
+  const pool = TYPE_POOLS[uiDiff] || ['easy']
+  return genByType(pool[rnd(0, pool.length - 1)])
+}
+
+function genByType(type) {
   const forces = []
   let pool = FULL_POOL
-  if (diff === 'easy') {
+  if (type === 'easy') {
     const axis = Math.random() < 0.5 ? ['E', 'W'] : ['N', 'S']
     for (let i = 0; i < 2; i++) forces.push({ dir: axis[rnd(0, 1)], mag: magFor('easy') })
     pool = [...axis, 'STILL']
-  } else if (diff === 'medium') {
+  } else if (type === 'medium') {
     const n = rnd(2, 3)
     for (let i = 0; i < n; i++) forces.push({ dir: CARDINAL[rnd(0, 3)], mag: magFor('medium') })
-  } else if (diff === 'hard') {
+  } else if (type === 'hard') {
     const n = rnd(3, 4)
     for (let i = 0; i < n; i++) forces.push({ dir: CARDINAL[rnd(0, 3)], mag: magFor('hard') })
-  } else if (diff === 'expert') {
+  } else if (type === 'expert') {
     // cardinales + 1 diagonal
     const n = rnd(2, 3)
     for (let i = 0; i < n; i++) forces.push({ dir: CARDINAL[rnd(0, 3)], mag: magFor('expert') })
@@ -78,7 +90,7 @@ function genRound(diff) {
   let nx = 0, ny = 0
   for (const f of shuffled) { const d = DIRS[f.dir]; nx += d.dx * f.mag; ny += d.dy * f.mag }
   const answer = answerFromNet(nx, ny)
-  const count = diff === 'easy' ? 3 : diff === 'medium' || diff === 'hard' ? 4 : 5
+  const count = type === 'easy' ? 3 : type === 'medium' || type === 'hard' ? 4 : 5
   return { forces: shuffled, netX: nx, netY: ny, answer, options: buildOptions(answer, count, pool) }
 }
 
@@ -157,9 +169,9 @@ const C = {
   eq:     { es: 'Si todas se cancelan, está en equilibrio y no se mueve.', en: 'If they all cancel out, it is balanced and does not move.', ca: 'Si totes es cancel·len, està en equilibri i no es mou.' },
   diag:   { es: 'Una fuerza diagonal (↗) suma su valor a los dos ejes a la vez.', en: 'A diagonal force (↗) adds its value to both axes at once.', ca: 'Una força diagonal (↗) suma el seu valor als dos eixos alhora.' },
   time:   { es: 'Tiempo', en: 'Time', ca: 'Temps' },
-  timeVal:{ es: '90 segundos', en: '90 seconds', ca: '90 segons' },
+  timeVal:{ es: '40 segundos', en: '40 seconds', ca: '40 segons' },
   pts:    { es: 'Puntos', en: 'Points', ca: 'Punts' },
-  ptsVal: { es: 'Cada acierto = 10 pts → monedas', en: 'Each correct = 10 pts → coins', ca: 'Cada encert = 10 pts → monedes' },
+  ptsVal: { es: 'Acierto +1 · Fallo −1', en: 'Correct +1 · Wrong −1', ca: 'Encert +1 · Errada −1' },
   start:  { es: '▶ Empezar', en: '▶ Start', ca: '▶ Començar' },
   q:      { es: '¿Hacia dónde se mueve la caja?', en: 'Which way does the box move?', ca: 'Cap on es mou la caixa?' },
   correct:{ es: '¡Correcto!', en: 'Correct!', ca: 'Correcte!' },
@@ -170,24 +182,23 @@ const C = {
   next:   { es: 'Siguiente →', en: 'Next →', ca: 'Següent →' },
   end:    { es: 'Tiempo', en: "Time's up", ca: 'Temps' },
   hits:   { es: 'aciertos', en: 'correct', ca: 'encerts' },
+  scoreLbl:{ es: 'puntos', en: 'points', ca: 'punts' },
   again:  { es: '▶ Jugar de nuevo', en: '▶ Play again', ca: '▶ Jugar de nou' },
   changeDif: { es: 'Cambiar dificultad', en: 'Change difficulty', ca: 'Canviar dificultat' },
 }
 function T(k, l) { return C[k]?.[l] ?? C[k]?.es ?? k }
 
 const DIFS = {
-  easy:   { emoji: '🟢', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' }, desc: { es: 'Dos fuerzas en un solo eje', en: 'Two forces on one axis', ca: 'Dues forces en un sol eix' } },
-  medium: { emoji: '🟡', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' }, desc: { es: 'Varias fuerzas en los dos ejes', en: 'Several forces on both axes', ca: 'Diverses forces als dos eixos' } },
-  hard:   { emoji: '🟠', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' }, desc: { es: 'Hasta 4 fuerzas y números mayores', en: 'Up to 4 forces and bigger numbers', ca: 'Fins a 4 forces i números més grans' } },
-  expert: { emoji: '🔴', label: { es: 'Experto', en: 'Expert', ca: 'Expert' }, desc: { es: 'Aparecen fuerzas diagonales (45°)', en: 'Diagonal forces appear (45°)', ca: 'Apareixen forces diagonals (45°)' } },
-  master: { emoji: '🟣', label: { es: 'Maestro', en: 'Master', ca: 'Mestre' }, desc: { es: 'Varias diagonales y números grandes', en: 'Several diagonals and big numbers', ca: 'Diverses diagonals i números grans' } },
+  facil:   { emoji: '🟢', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' }, desc: { es: 'Dos fuerzas en un solo eje', en: 'Two forces on one axis', ca: 'Dues forces en un sol eix' } },
+  medio:   { emoji: '🟡', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' }, desc: { es: 'Varias fuerzas en los dos ejes', en: 'Several forces on both axes', ca: 'Diverses forces als dos eixos' } },
+  dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' }, desc: { es: 'Fuerzas diagonales (45°) y números grandes', en: 'Diagonal forces (45°) and big numbers', ca: 'Forces diagonals (45°) i números grans' } },
 }
 
-const GAME_TIME = 90
+const GAME_TIME = 40
 
 // ── Pantalla de dificultad ─────────────────────────────────────────────────────
 function DifficultyScreen({ onSelect, l }) {
-  const [dif, setDif] = useState('easy')
+  const [dif, setDif] = useState('facil')
   return (
     <div className="relative z-10 flex flex-col items-center min-h-[calc(100vh-4rem)] px-4 py-8">
       <div className="max-w-md w-full">
@@ -241,9 +252,10 @@ export default function FuerzaNeta() {
   const l = lang === 'en' ? 'en' : lang === 'ca' ? 'ca' : 'es'
 
   const [screen, setScreen] = useState('difficulty') // difficulty | playing | end
-  const [difficulty, setDifficulty] = useState('easy')
+  const [difficulty, setDifficulty] = useState('facil')
   const [timeLeft, setTimeLeft] = useState(GAME_TIME)
-  const [score, setScore] = useState(0)
+  const [score, setScore] = useState(0)     // puntuación neta (sube/baja)
+  const [correct, setCorrect] = useState(0) // aciertos totales (solo para la stat)
   const [round, setRound] = useState(null)
   const [phase, setPhase] = useState('choose')       // choose | result
   const [picked, setPicked] = useState(null)
@@ -264,6 +276,7 @@ export default function FuerzaNeta() {
     setDifficulty(diff)
     setScreen('playing')
     setScore(0)
+    setCorrect(0)
     setTimeLeft(GAME_TIME)
     next(diff)
   }
@@ -299,7 +312,8 @@ export default function FuerzaNeta() {
     if (phase !== 'choose') return
     setPicked(opt)
     setPhase('result')
-    if (opt === round.answer) setScore(s => s + 1)
+    if (opt === round.answer) { setScore(s => s + 1); setCorrect(c => c + 1) }
+    else setScore(s => Math.max(0, s - 1)) // resta, sin bajar de 0
   }
 
   // ── SEO ──
@@ -315,15 +329,15 @@ export default function FuerzaNeta() {
 
   if (screen === 'end') {
     const pts = score * 10
-    const msg = { es: score === 0 ? '¡Sigue practicando!' : score < 5 ? 'Buen comienzo' : score < 12 ? '¡Bien hecho!' : '¡Dominas las fuerzas! 💪', en: score === 0 ? 'Keep practising!' : score < 5 ? 'Good start' : score < 12 ? 'Well done!' : 'You master forces! 💪', ca: score === 0 ? 'Segueix practicant!' : score < 5 ? 'Bon començament' : score < 12 ? 'Ben fet!' : 'Domines les forces! 💪' }[l]
+    const msg = { es: score === 0 ? '¡Sigue practicando!' : score < 4 ? 'Buen comienzo' : score < 9 ? '¡Bien hecho!' : '¡Dominas las fuerzas! 💪', en: score === 0 ? 'Keep practising!' : score < 4 ? 'Good start' : score < 9 ? 'Well done!' : 'You master forces! 💪', ca: score === 0 ? 'Segueix practicant!' : score < 4 ? 'Bon començament' : score < 9 ? 'Ben fet!' : 'Domines les forces! 💪' }[l]
     const shareText = l === 'en'
-      ? `I got ${score} right in Net Force 🧭 — can you beat me? https://tuthor.es/juegos/fuerza-neta`
+      ? `I got ${correct} right in Net Force 🧭 — can you beat me? https://tuthor.es/juegos/fuerza-neta`
       : l === 'ca'
-      ? `He encertat ${score} a Força Neta 🧭 — pots superar-me? https://tuthor.es/juegos/fuerza-neta`
-      : `He acertado ${score} en Fuerza Neta 🧭 — ¿puedes superarme? https://tuthor.es/juegos/fuerza-neta`
+      ? `He encertat ${correct} a Força Neta 🧭 — pots superar-me? https://tuthor.es/juegos/fuerza-neta`
+      : `He acertado ${correct} en Fuerza Neta 🧭 — ¿puedes superarme? https://tuthor.es/juegos/fuerza-neta`
     return (
       <GameEndScreen game="fuerza-neta" emoji="🧭" title={T('end', l)} score={pts} message={msg}
-        stats={[{ label: T('hits', l), value: score, emoji: '✅' }]}
+        stats={[{ label: T('hits', l), value: correct, emoji: '✅' }]}
         shareText={shareText} onPlayAgain={() => startGame(difficulty)} playAgainLabel={T('again', l)}
         secondaryActions={[{ label: T('changeDif', l), onClick: () => setScreen('difficulty') }]}
         user={user} lang={lang} />
@@ -335,12 +349,12 @@ export default function FuerzaNeta() {
   const timerPct = timeLeft / GAME_TIME
   const timerColor = timeLeft > 30 ? '#22c55e' : timeLeft > 10 ? '#f59e0b' : '#ef4444'
   const isResult = phase === 'result'
-  const correct = round.answer
-  const won = picked === correct
+  const answer = round.answer
+  const won = picked === answer
   const forceOff = forceOffsets(round.forces)
 
   // desplazamiento de la caja en result
-  const nd = DIRS[correct]
+  const nd = DIRS[answer]
   const boxShift = isResult ? { x: nd.dx * 26, y: -nd.dy * 26 } : { x: 0, y: 0 }
 
   return (
@@ -351,7 +365,7 @@ export default function FuerzaNeta() {
       <div className="w-full max-w-[520px] flex items-center justify-between mb-3 px-1">
         <div>
           <p className="text-white/40 text-xs uppercase tracking-widest">🧭 {DIFS[difficulty].label[l] ?? DIFS[difficulty].label.es}</p>
-          <p className="text-white font-bold text-lg">{score} {T('hits', l)}</p>
+          <p className="text-white font-bold text-lg">{score} {T('scoreLbl', l)}</p>
         </div>
         <div className="relative w-14 h-14">
           <svg className="absolute inset-0" viewBox="0 0 56 56">
@@ -382,8 +396,8 @@ export default function FuerzaNeta() {
           ))}
 
           {/* fuerza neta (en result) */}
-          {isResult && correct !== 'STILL' && (
-            <Arrow dir={correct} len={forceLen(Math.hypot(round.netX, round.netY))} color="#EDAE49" width={5} label={null} />
+          {isResult && answer !== 'STILL' && (
+            <Arrow dir={answer} len={forceLen(Math.hypot(round.netX, round.netY))} color="#EDAE49" width={5} label={null} />
           )}
 
           {/* caja */}
@@ -396,7 +410,7 @@ export default function FuerzaNeta() {
         {isResult && (
           <div className="absolute inset-x-0 bottom-0 bg-black/70 backdrop-blur-sm p-3 text-center">
             <p className={`font-black text-lg ${won ? 'text-green-400' : 'text-red-400'}`}>
-              {won ? T('correct', l) : T('wrong', l)} · {DIRS[correct].arrow} {DIRS[correct].label[l] ?? DIRS[correct].label.es}
+              {won ? T('correct', l) : T('wrong', l)} · {DIRS[answer].arrow} {DIRS[answer].label[l] ?? DIRS[answer].label.es}
             </p>
             <p className="text-white/70 text-xs font-mono mt-1">
               {T('horiz', l)}: {axisBreakdown(round.forces, 'H')} · {T('vert', l)}: {axisBreakdown(round.forces, 'V')}
@@ -409,7 +423,7 @@ export default function FuerzaNeta() {
       <div className="w-full max-w-[520px] px-1">
         <div className="grid grid-cols-2 gap-2">
           {round.options.map(opt => {
-            const isCorrect = isResult && opt === correct
+            const isCorrect = isResult && opt === answer
             const isWrong = isResult && opt === picked && !won
             let cls = 'bg-white/5 hover:bg-white/10 border-white/10'
             if (isCorrect) cls = 'bg-green-500/20 border-green-500'
