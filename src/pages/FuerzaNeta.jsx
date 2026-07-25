@@ -171,7 +171,8 @@ const C = {
   time:   { es: 'Tiempo', en: 'Time', ca: 'Temps' },
   timeVal:{ es: '40 segundos', en: '40 seconds', ca: '40 segons' },
   pts:    { es: 'Puntos', en: 'Points', ca: 'Punts' },
-  ptsVal: { es: 'Acierto +1 · Fallo −1', en: 'Correct +1 · Wrong −1', ca: 'Encert +1 · Errada −1' },
+  ptsVal: { es: 'Acierto +1 (racha = más) · Fallo −1 y −3s', en: 'Correct +1 (streak = more) · Wrong −1 and −3s', ca: 'Encert +1 (ratxa = més) · Errada −1 i −3s' },
+  streak: { es: 'Encadena aciertos: la racha da puntos extra y algo de tiempo.', en: 'Chain correct answers: a streak gives extra points and time.', ca: 'Encadena encerts: la ratxa dona punts extra i temps.' },
   start:  { es: '▶ Empezar', en: '▶ Start', ca: '▶ Començar' },
   q:      { es: '¿Hacia dónde se mueve la caja?', en: 'Which way does the box move?', ca: 'Cap on es mou la caixa?' },
   correct:{ es: '¡Correcto!', en: 'Correct!', ca: 'Correcte!' },
@@ -195,6 +196,9 @@ const DIFS = {
 }
 
 const GAME_TIME = 40
+const WRONG_TIME = 3    // segundos que resta cada fallo
+const STREAK_EVERY = 5  // cada N aciertos seguidos…
+const STREAK_TIME = 3   // …regala estos segundos
 
 // ── Pantalla de dificultad ─────────────────────────────────────────────────────
 function DifficultyScreen({ onSelect, l }) {
@@ -219,7 +223,7 @@ function DifficultyScreen({ onSelect, l }) {
         <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-4">
           <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-3">{T('how', l)}</p>
           <div className="space-y-2">
-            {[['🏹', T('p1', l)], ['➕', T('p2', l)], ['↗', T('diag', l)], ['🧭', T('p3', l)], ['⚖️', T('eq', l)]].map(([e, text]) => (
+            {[['🏹', T('p1', l)], ['➕', T('p2', l)], ['↗', T('diag', l)], ['🧭', T('p3', l)], ['⚖️', T('eq', l)], ['🔥', T('streak', l)]].map(([e, text]) => (
               <div key={text} className="flex items-start gap-3 text-sm text-white/50">
                 <span className="text-base w-5 shrink-0 text-center">{e}</span><span>{text}</span>
               </div>
@@ -256,9 +260,11 @@ export default function FuerzaNeta() {
   const [timeLeft, setTimeLeft] = useState(GAME_TIME)
   const [score, setScore] = useState(0)     // puntuación neta (sube/baja)
   const [correct, setCorrect] = useState(0) // aciertos totales (solo para la stat)
+  const [streak, setStreak] = useState(0)   // aciertos seguidos
   const [round, setRound] = useState(null)
   const [phase, setPhase] = useState('choose')       // choose | result
   const [picked, setPicked] = useState(null)
+  const [delta, setDelta] = useState(null)  // feedback de la última respuesta
 
   const timerRef = useRef(null)
   const scoreRef = useRef(0)
@@ -277,6 +283,7 @@ export default function FuerzaNeta() {
     setScreen('playing')
     setScore(0)
     setCorrect(0)
+    setStreak(0)
     setTimeLeft(GAME_TIME)
     next(diff)
   }
@@ -312,8 +319,21 @@ export default function FuerzaNeta() {
     if (phase !== 'choose') return
     setPicked(opt)
     setPhase('result')
-    if (opt === round.answer) { setScore(s => s + 1); setCorrect(c => c + 1) }
-    else setScore(s => Math.max(0, s - 1)) // resta, sin bajar de 0
+    if (opt === round.answer) {
+      const ns = streak + 1
+      setStreak(ns)
+      setCorrect(c => c + 1)
+      const gain = Math.min(5, 1 + Math.floor((ns - 1) / 3)) // 1,1,1,2,2,2,3… (tope 5)
+      setScore(s => s + gain)
+      const timeBonus = ns % STREAK_EVERY === 0
+      if (timeBonus) setTimeLeft(t => t + STREAK_TIME)
+      setDelta({ won: true, gain, streak: ns, timeBonus })
+    } else {
+      setStreak(0)
+      setScore(s => Math.max(0, s - 1)) // resta, sin bajar de 0
+      setTimeLeft(t => Math.max(0, t - WRONG_TIME)) // penalización de tiempo
+      setDelta({ won: false })
+    }
   }
 
   // ── SEO ──
@@ -365,7 +385,10 @@ export default function FuerzaNeta() {
       <div className="w-full max-w-[520px] flex items-center justify-between mb-3 px-1">
         <div>
           <p className="text-white/40 text-xs uppercase tracking-widest">🧭 {DIFS[difficulty].label[l] ?? DIFS[difficulty].label.es}</p>
-          <p className="text-white font-bold text-lg">{score} {T('scoreLbl', l)}</p>
+          <p className="text-white font-bold text-lg flex items-center gap-2">
+            {score} {T('scoreLbl', l)}
+            {streak >= 2 && <span className="text-orange-400 text-sm font-black">🔥 {streak}</span>}
+          </p>
         </div>
         <div className="relative w-14 h-14">
           <svg className="absolute inset-0" viewBox="0 0 56 56">
@@ -412,6 +435,13 @@ export default function FuerzaNeta() {
             <p className={`font-black text-lg ${won ? 'text-green-400' : 'text-red-400'}`}>
               {won ? T('correct', l) : T('wrong', l)} · {DIRS[answer].arrow} {DIRS[answer].label[l] ?? DIRS[answer].label.es}
             </p>
+            {delta && (
+              <p className="text-xs font-bold mt-0.5">
+                {delta.won
+                  ? <span className="text-green-400">+{delta.gain}{delta.streak >= 2 ? ` · 🔥 ${delta.streak}` : ''}{delta.timeBonus ? ` · +${STREAK_TIME}s ⏱️` : ''}</span>
+                  : <span className="text-red-400">−1 · −{WRONG_TIME}s ⏱️</span>}
+              </p>
+            )}
             <p className="text-white/70 text-xs font-mono mt-1">
               {T('horiz', l)}: {axisBreakdown(round.forces, 'H')} · {T('vert', l)}: {axisBreakdown(round.forces, 'V')}
             </p>
