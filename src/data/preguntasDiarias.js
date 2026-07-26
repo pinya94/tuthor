@@ -36,7 +36,8 @@ import { EVENTOS_HISTORIA, eventosToPreguntas } from './historiaEvents'
 import { MODO_IDS, GRADO_IDS, GRADOS, MODOS, dayOfYear } from '../lib/mathEngine'
 import { PORTADAS } from './portadas'
 import { PAISES } from './paises'
-import { genRound, makeRng } from '../lib/fuerzaNeta'
+import { genRound as genFuerzaNeta, makeRng } from '../lib/fuerzaNeta'
+import { genRound as genBalanza } from '../lib/balanza'
 
 const PREGUNTAS_AUTO = eventosToPreguntas(EVENTOS_HISTORIA)
 
@@ -66,7 +67,7 @@ export function getPaisDeHoy() {
 // juego sigue disponible en /juegos/intruso, solo no se ofrece como reto del día.
 export function getDesafioDeHoy() {
   const dia = dayOfYear()
-  const tipo = dia % 7
+  const tipo = dia % 8
   if (tipo === 0) {
     return { tipo: 'trivia', pregunta: getPreguntaDeHoy() }
   }
@@ -87,6 +88,10 @@ export function getDesafioDeHoy() {
   if (tipo === 5) {
     return { tipo: 'geomapa', pais: getPaisDeHoy() }
   }
-  // Fuerza Neta: una ronda determinista (misma para todos ese día).
-  return { tipo: 'fuerza-neta', round: genRound('medio', makeRng(dia)) }
+  if (tipo === 6) {
+    // Fuerza Neta: una ronda determinista (misma para todos ese día).
+    return { tipo: 'fuerza-neta', round: genFuerzaNeta('medio', makeRng(dia)) }
+  }
+  // Balanza: una ronda determinista del día.
+  return { tipo: 'balanza', round: genBalanza('medio', makeRng(dia)) }
 }

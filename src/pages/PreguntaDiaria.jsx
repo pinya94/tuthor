@@ -10,6 +10,8 @@ import CombinaNumeros from '../components/CombinaNumeros'
 import WorldMap from '../components/WorldMap'
 import ForceDiagram from '../components/ForceDiagram'
 import { DIRS, axisBreakdown } from '../lib/fuerzaNeta'
+import BalanceBeam from '../components/BalanceBeam'
+import { torqueBreakdown } from '../lib/balanza'
 
 function GeoInput({ value, onChange, onSubmit, disabled, useEnglish }) {
   const [focused, setFocused] = useState(false)
@@ -89,6 +91,8 @@ export default function PreguntaDiaria() {
   const esGeoMapa  = desafio.tipo === 'geomapa'
   const esFuerza   = desafio.tipo === 'fuerza-neta'
   const fnRound    = esFuerza ? desafio.round : null
+  const esBalanza  = desafio.tipo === 'balanza'
+  const blRound    = esBalanza ? desafio.round : null
   const pregunta   = desafio.tipo === 'trivia' ? desafio.pregunta : null
   const portadaHoy = desafio.tipo === 'portada' ? desafio.portada : null
   const paisHoy    = (desafio.tipo === 'georush' || desafio.tipo === 'geomapa') ? desafio.pais : null
@@ -150,6 +154,16 @@ export default function PreguntaDiaria() {
     setAnswered(true)
     if (user) {
       const saved = await saveDailyChallenge(user.uid, opt === fnRound.answer)
+      if (saved) { setStreak(s => s + 1); triggerCoins() }
+    }
+  }
+
+  async function confirmarBalanza(notch) {
+    if (answered) return
+    setSelected(String(notch))
+    setAnswered(true)
+    if (user) {
+      const saved = await saveDailyChallenge(user.uid, notch === blRound.answer)
       if (saved) { setStreak(s => s + 1); triggerCoins() }
     }
   }
@@ -562,6 +576,47 @@ export default function PreguntaDiaria() {
               )}
               {answered && (
                 <button onClick={() => navigate(localPath('/juegos/fuerza-neta'))} className="mt-3 w-full bg-violet-600 hover:bg-violet-500 text-white font-bold py-2.5 rounded-xl text-sm transition-colors">
+                  {ca ? 'Seguir jugant →' : en ? 'Keep playing →' : 'Seguir jugando →'}
+                </button>
+              )}
+            </div>
+            <div className="px-6 sm:px-8 pb-6">
+              <p className="text-center text-white/20 text-xs">{ca ? 'Nou repte demà · Torna cada dia' : en ? 'New challenge tomorrow · Come back every day' : 'Nuevo reto mañana · Vuelve cada día'}</p>
+            </div>
+          </>
+        ) : esBalanza ? (
+          /* ── Balanza ── */
+          <>
+            <div className="px-6 sm:px-8 py-4">
+              <p className="text-xs font-semibold text-white/40 uppercase tracking-widest mb-2">
+                {ca ? '⚖️ Equilibra la balança' : en ? '⚖️ Balance the scale' : '⚖️ Equilibra la balanza'}
+              </p>
+              <p className="text-white/70 text-sm mb-2 text-center">
+                {ca ? 'Col·loca el teu pes de' : en ? 'Place your' : 'Coloca tu peso de'}{' '}
+                <span className="text-[#EDAE49] font-black">{blRound.playerWeight} kg</span>{' '}
+                {ca ? 'a la osca que equilibri' : en ? 'weight on the notch that balances' : 'en la muesca que equilibre'}
+              </p>
+              <div className="relative rounded-xl overflow-hidden border border-white/10 bg-[#0d1117] mb-3">
+                <BalanceBeam round={blRound} placed={answered ? Number(selected) : null} onPick={answered ? undefined : confirmarBalanza} />
+                {answered && (
+                  <div className="absolute inset-x-0 bottom-0 bg-black/70 backdrop-blur-sm p-2 text-center">
+                    <p className={`font-black ${Number(selected) === blRound.answer ? 'text-green-400' : 'text-red-400'}`}>
+                      {Number(selected) === blRound.answer ? (ca ? '⚖️ Equilibrada!' : en ? '⚖️ Balanced!' : '⚖️ ¡Equilibrada!') : (ca ? 'S’inclina' : en ? 'It tips' : 'Se inclina')}
+                      {Number(selected) !== blRound.answer && <span className="text-white/60 text-sm font-normal"> · {ca ? 'osca correcta:' : en ? 'correct notch:' : 'muesca correcta:'} {blRound.answer}</span>}
+                    </p>
+                    <p className="text-white/70 text-[11px] font-mono mt-0.5">
+                      {ca ? 'Esq' : en ? 'Left' : 'Izq'}: {torqueBreakdown(blRound.left)} · {ca ? 'Dreta' : en ? 'Right' : 'Der'}: {blRound.playerWeight}×{selected} = {blRound.playerWeight * Number(selected)}
+                    </p>
+                  </div>
+                )}
+              </div>
+              {answered && !user && (
+                <button onClick={() => setShowAuth(true)} className="mt-1 w-full bg-amber-500/20 border border-amber-500/30 text-amber-400 font-semibold py-2.5 rounded-xl text-sm hover:bg-amber-500/30 transition-colors">
+                  {ca ? 'Inicia sessió per guardar la ratxa 🔥' : en ? 'Sign in to save your streak 🔥' : 'Inicia sesión para guardar tu racha 🔥'}
+                </button>
+              )}
+              {answered && (
+                <button onClick={() => navigate(localPath('/juegos/balanza'))} className="mt-3 w-full bg-violet-600 hover:bg-violet-500 text-white font-bold py-2.5 rounded-xl text-sm transition-colors">
                   {ca ? 'Seguir jugant →' : en ? 'Keep playing →' : 'Seguir jugando →'}
                 </button>
               )}
