@@ -83,6 +83,7 @@ const JUEGOS = {
     ],
     [
       { slug: 'fuerza-neta', titulo: 'Fuerza Neta', desc: 'Suma las fuerzas que actúan sobre una caja y predice hacia dónde se mueve, o si está en equilibrio. Incluye fuerzas diagonales.', emoji: '🧭', gradient: 'from-sky-600 to-blue-800', tags: ['Física','Vectores'] },
+      { slug: 'balanza', titulo: 'Equilibra la Balanza', desc: 'Coloca el peso a la distancia correcta para equilibrar la balanza. Palancas, momentos y la ley de la palanca.', emoji: '⚖️', gradient: 'from-teal-600 to-emerald-800', tags: ['Física','Palancas'] },
     ],
   ],
   en: [
@@ -108,6 +109,7 @@ const JUEGOS = {
     ],
     [
       { slug: 'fuerza-neta', titulo: 'Net Force', desc: 'Add up the forces acting on a box and predict which way it moves, or if it is balanced. Includes diagonal forces.', emoji: '🧭', gradient: 'from-sky-600 to-blue-800', tags: ['Physics','Vectors'] },
+      { slug: 'balanza', titulo: 'Balance the Scale', desc: 'Place the weight at the right distance to balance the scale. Levers, moments and the law of the lever.', emoji: '⚖️', gradient: 'from-teal-600 to-emerald-800', tags: ['Physics','Levers'] },
     ],
   ],
   ca: [
@@ -133,6 +135,7 @@ const JUEGOS = {
     ],
     [
       { slug: 'fuerza-neta', titulo: 'Força Neta', desc: 'Suma les forces que actuen sobre una caixa i prediu cap on es mou, o si està en equilibri. Inclou forces diagonals.', emoji: '🧭', gradient: 'from-sky-600 to-blue-800', tags: ['Física','Vectors'] },
+      { slug: 'balanza', titulo: 'Equilibra la Balança', desc: 'Col·loca el pes a la distància correcta per equilibrar la balança. Palanques, moments i la llei de la palanca.', emoji: '⚖️', gradient: 'from-teal-600 to-emerald-800', tags: ['Física','Palanques'] },
     ],
   ],
 }

@@ -153,6 +153,16 @@ export const EXAMS = {
     emoji: '⚡', subject: 'fisica',
     path: 'examen/fuerzas', page: () => import('../pages/FuerzasExamen'),
   },
+  'fuerza-neta-test': {
+    label: { es: 'Fuerza Neta', en: 'Net Force', ca: 'Força Neta' },
+    emoji: '🧭', subject: 'fisica',
+    path: 'examen/fuerza-neta-test', page: () => import('../pages/FuerzaNetaExamen'),
+  },
+  'balanza-test': {
+    label: { es: 'Palancas y Momentos', en: 'Levers & Moments', ca: 'Palanques i Moments' },
+    emoji: '⚖️', subject: 'fisica',
+    path: 'examen/balanza-test', page: () => import('../pages/BalanzaExamen'),
+  },
   'genetica': {
     label: { es: 'Genética', en: 'Genetics', ca: 'Genètica' },
     emoji: '🧬', subject: 'biologia',

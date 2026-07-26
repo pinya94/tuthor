@@ -1,6 +1,34 @@
 // Contenido de las fichas SEO de /info/juegos/:slug (es/en/ca).
 // Solo datos: el componente que las renderiza es src/pages/InfoJuegoFicha.jsx.
 export const FICHAS_ES = {
+  'balanza': {
+    titulo: 'Equilibra la Balanza',
+    subtitulo: 'Juego de Palancas, Momentos y Ley de la Palanca',
+    emoji: '⚖️', gradient: 'from-teal-600 to-emerald-800',
+    path: '/juegos/balanza',
+    intro: 'Un juego de física para dominar las palancas: un lado de la balanza ya tiene pesos y tú colocas el tuyo a la distancia justa para equilibrarla. El momento de cada peso es peso × distancia al eje, y la balanza se equilibra cuando los momentos de los dos lados son iguales. Cálculo exacto, ronda tras ronda, con feedback inmediato.',
+    beneficios: [
+      { titulo: 'Ley de la Palanca', texto: 'Interiorizar que peso × distancia debe igualarse a ambos lados es la base de palancas, poleas y máquinas simples. El juego lo entrena de forma visual y con números concretos.' },
+      { titulo: 'Proporcionalidad Inversa', texto: 'Para equilibrar, si tu peso es la mitad debes ponerlo al doble de distancia. Ese razonamiento inverso refuerza la proporcionalidad, clave en matemáticas y física.' },
+      { titulo: 'Cálculo Ágil', texto: 'Dividir el momento entre tu peso para hallar la distancia exacta entrena la división y el cálculo mental bajo una meta clara y motivadora.' },
+    ],
+    ejemplo: 'A la izquierda hay 3 kg a 4 muescas (momento 12). Con un peso de 4 kg, el alumno calcula 12 ÷ 4 = 3 y lo coloca en la muesca 3 para equilibrar.',
+    enPapel: {
+      titulo: 'La balanza en papel (o con una regla)',
+      pasos: [
+        'Apoya una regla sobre un lápiz (el eje) para hacer una balanza real.',
+        'Pon monedas iguales a un lado, a cierto número de marcas del centro.',
+        'Calcula dónde poner tus monedas al otro lado para que quede horizontal: monedas × distancia igual a los dos lados.',
+        'Compruébalo colocándolas y viendo si se equilibra.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'Balancín del parque', desc: 'En un subibaja, el más pesado se acerca al centro y el más ligero se aleja para equilibrar. Física de palancas en vivo.' },
+      { nombre: 'Móvil de Calder', desc: 'Construye un móvil colgante con hilos y objetos: cada brazo debe equilibrar momentos. Manualidad y física a la vez.' },
+      { nombre: 'Romana o balanza de dos platos', desc: 'Una balanza clásica de dos platos muestra el equilibrio de pesos de forma directa.' },
+    ],
+    asignatura: 'Física', niveles: 'Primaria, ESO, Bachillerato',
+  },
   'fuerza-neta': {
     titulo: 'Fuerza Neta',
     subtitulo: 'Juego de Fuerzas, Vectores y Equilibrio',
@@ -355,6 +383,24 @@ export const FICHAS_ES = {
 }
 
 export const FICHAS_EN = {
+  'balanza': {
+    titulo: 'Balance the Scale', subtitulo: 'Levers, Moments & the Law of the Lever Game',
+    emoji: '⚖️', gradient: 'from-teal-600 to-emerald-800', path: '/juegos/balanza',
+    intro: 'A physics game to master levers: one side of the scale already has weights and you place yours at just the right distance to balance it. Each weight’s moment is weight × distance to the pivot, and the scale balances when the moments on both sides are equal. Exact calculation, round after round, with instant feedback.',
+    beneficios: [
+      { titulo: 'The Law of the Lever', texto: 'Internalising that weight × distance must match on both sides is the basis of levers, pulleys and simple machines. The game trains it visually with concrete numbers.' },
+      { titulo: 'Inverse Proportion', texto: 'To balance, if your weight is half you must place it twice as far. That inverse reasoning reinforces proportionality, key in maths and physics.' },
+      { titulo: 'Quick Calculation', texto: 'Dividing the moment by your weight to find the exact distance trains division and mental maths towards a clear, motivating goal.' },
+    ],
+    ejemplo: 'On the left there are 3 kg at 4 notches (moment 12). With a 4 kg weight, the student computes 12 ÷ 4 = 3 and places it on notch 3 to balance.',
+    enPapel: { titulo: 'The scale on paper (or with a ruler)', pasos: ['Rest a ruler on a pencil (the pivot) to make a real balance.', 'Put equal coins on one side, a certain number of marks from the centre.', 'Work out where to place your coins on the other side so it stays level: coins × distance equal on both sides.', 'Check it by placing them and seeing if it balances.'] },
+    alternativas: [
+      { nombre: 'Playground seesaw', desc: 'On a seesaw, the heavier person moves towards the centre and the lighter one away to balance. Live lever physics.' },
+      { nombre: 'Calder mobile', desc: 'Build a hanging mobile with threads and objects: each arm must balance moments. Craft and physics together.' },
+      { nombre: 'Two-pan balance', desc: 'A classic two-pan balance shows the equilibrium of weights directly.' },
+    ],
+    asignatura: 'Physics', niveles: 'Primary, Secondary, Sixth Form',
+  },
   'fuerza-neta': {
     titulo: 'Net Force', subtitulo: 'Forces, Vectors & Equilibrium Game',
     emoji: '🧭', gradient: 'from-sky-600 to-blue-800', path: '/juegos/fuerza-neta',
@@ -631,6 +677,24 @@ export const FICHAS_EN = {
 }
 
 export const FICHAS_CA = {
+  'balanza': {
+    titulo: 'Equilibra la Balança', subtitulo: 'Joc de Palanques, Moments i Llei de la Palanca',
+    emoji: '⚖️', gradient: 'from-teal-600 to-emerald-800', path: '/juegos/balanza',
+    intro: 'Un joc de física per dominar les palanques: un costat de la balança ja té pesos i tu col·loques el teu a la distància justa per equilibrar-la. El moment de cada pes és pes × distància a l’eix, i la balança s’equilibra quan els moments dels dos costats són iguals. Càlcul exacte, ronda rere ronda, amb feedback immediat.',
+    beneficios: [
+      { titulo: 'Llei de la Palanca', texto: 'Interioritzar que pes × distància s’ha d’igualar als dos costats és la base de palanques, politges i màquines simples. El joc l’entrena de manera visual amb números concrets.' },
+      { titulo: 'Proporcionalitat Inversa', texto: 'Per equilibrar, si el teu pes és la meitat l’has de posar al doble de distància. Aquell raonament invers reforça la proporcionalitat, clau en matemàtiques i física.' },
+      { titulo: 'Càlcul Àgil', texto: 'Dividir el moment entre el teu pes per trobar la distància exacta entrena la divisió i el càlcul mental amb una meta clara i motivadora.' },
+    ],
+    ejemplo: 'A l’esquerra hi ha 3 kg a 4 osques (moment 12). Amb un pes de 4 kg, l’alumne calcula 12 ÷ 4 = 3 i el col·loca a la osca 3 per equilibrar.',
+    enPapel: { titulo: 'La balança en paper (o amb un regle)', pasos: ['Recolza un regle sobre un llapis (l’eix) per fer una balança real.', 'Posa monedes iguals a un costat, a un cert nombre de marques del centre.', 'Calcula on posar les teves monedes a l’altre costat perquè quedi horitzontal: monedes × distància igual als dos costats.', 'Comprova-ho col·locant-les i veient si s’equilibra.'] },
+    alternativas: [
+      { nombre: 'Balancí del parc', desc: 'En un balancí, el més pesant s’acosta al centre i el més lleuger s’allunya per equilibrar. Física de palanques en directe.' },
+      { nombre: 'Mòbil de Calder', desc: 'Construeix un mòbil penjant amb fils i objectes: cada braç ha d’equilibrar moments. Manualitat i física alhora.' },
+      { nombre: 'Balança de dos plats', desc: 'Una balança clàssica de dos plats mostra l’equilibri de pesos de manera directa.' },
+    ],
+    asignatura: 'Física', niveles: 'Primària, ESO, Batxillerat',
+  },
   'fuerza-neta': {
     titulo: 'Força Neta', subtitulo: 'Joc de Forces, Vectors i Equilibri',
     emoji: '🧭', gradient: 'from-sky-600 to-blue-800', path: '/juegos/fuerza-neta',
