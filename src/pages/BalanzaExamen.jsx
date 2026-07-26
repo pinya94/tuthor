@@ -4,9 +4,19 @@ import { genRound, torqueBreakdown } from '../lib/balanza'
 
 // Examen con la mecánica del juego: colocas el peso en la muesca que equilibra
 // la balanza. 10 preguntas, sin tiempo, con el cálculo del momento al responder.
-function makeRound() {
-  return genRound(Math.random() < 0.4 ? 'dificil' : 'medio')
-}
+// Niveles realistas: un peso y números pequeños (Primaria) → uno o dos pesos
+// (ESO) → varios pesos y números grandes (Bachillerato).
+const LEVELS = [
+  { key: 'primaria', emoji: '🟢', difficulty: 'facil',
+    label: { es: 'Primaria', en: 'Primary', ca: 'Primària' },
+    hint: { es: 'Un peso, números pequeños', en: 'One weight, small numbers', ca: 'Un pes, números petits' } },
+  { key: 'eso', emoji: '🟡', difficulty: 'medio',
+    label: { es: 'Secundaria (ESO)', en: 'Secondary (ESO)', ca: 'Secundària (ESO)' },
+    hint: { es: 'Uno o dos pesos y más muescas', en: 'One or two weights and more notches', ca: 'Un o dos pesos i més osques' } },
+  { key: 'bachillerato', emoji: '🔴', difficulty: 'dificil',
+    label: { es: 'Bachillerato', en: 'Sixth Form', ca: 'Batxillerat' },
+    hint: { es: 'Varios pesos y números grandes', en: 'Several weights and big numbers', ca: 'Diversos pesos i números grans' } },
+]
 
 function renderQuestion({ round, phase, answer, onAnswer, l }) {
   const reveal = phase === 'result'
@@ -53,7 +63,8 @@ export default function BalanzaExamen() {
       subjectSchema="Física"
       backGamePath="/juegos/balanza"
       playLabel={{ es: 'Modo arcade (40s)', en: 'Arcade mode (40s)', ca: 'Mode arcade (40s)' }}
-      genRound={makeRound}
+      levels={LEVELS}
+      genRound={genRound}
       isCorrect={(round, ans) => ans === round.answer}
       renderQuestion={renderQuestion}
     />

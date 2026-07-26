@@ -4,9 +4,19 @@ import { genRound, DIRS, axisBreakdown } from '../lib/fuerzaNeta'
 
 // Examen con la mecánica del juego: un diagrama de fuerzas y eliges la dirección
 // de la fuerza neta. 10 preguntas, sin tiempo, con el cálculo al responder.
-function makeRound() {
-  return genRound(Math.random() < 0.4 ? 'dificil' : 'medio')
-}
+// Niveles realistas: fuerza neta en 1 eje (Primaria) → 2 ejes (ESO) → diagonales
+// y números grandes (Bachillerato) — hasta donde llega esta mecánica.
+const LEVELS = [
+  { key: 'primaria', emoji: '🟢', difficulty: 'facil',
+    label: { es: 'Primaria', en: 'Primary', ca: 'Primària' },
+    hint: { es: 'Dos fuerzas en un solo eje', en: 'Two forces on one axis', ca: 'Dues forces en un sol eix' } },
+  { key: 'eso', emoji: '🟡', difficulty: 'medio',
+    label: { es: 'Secundaria (ESO)', en: 'Secondary (ESO)', ca: 'Secundària (ESO)' },
+    hint: { es: 'Varias fuerzas en los dos ejes', en: 'Several forces on both axes', ca: 'Diverses forces als dos eixos' } },
+  { key: 'bachillerato', emoji: '🔴', difficulty: 'dificil',
+    label: { es: 'Bachillerato', en: 'Sixth Form', ca: 'Batxillerat' },
+    hint: { es: 'Fuerzas diagonales y números grandes', en: 'Diagonal forces and big numbers', ca: 'Forces diagonals i números grans' } },
+]
 
 function renderQuestion({ round, phase, answer, onAnswer, l }) {
   const reveal = phase === 'result'
@@ -64,7 +74,8 @@ export default function FuerzaNetaExamen() {
       subjectSchema="Física"
       backGamePath="/juegos/fuerza-neta"
       playLabel={{ es: 'Modo arcade (40s)', en: 'Arcade mode (40s)', ca: 'Mode arcade (40s)' }}
-      genRound={makeRound}
+      levels={LEVELS}
+      genRound={genRound}
       isCorrect={(round, ans) => ans === round.answer}
       renderQuestion={renderQuestion}
     />

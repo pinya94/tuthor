@@ -38,6 +38,7 @@ const L = {
   r3t:    { es: 'Puntuación final', en: 'Final score', ca: 'Puntuació final' },
   r3d:    { es: 'Cuántas has acertado sobre 10.', en: 'How many you got right out of 10.', ca: 'Quantes n’has encertat sobre 10.' },
   start:  { es: 'Empezar examen →', en: 'Start exam →', ca: 'Començar examen →' },
+  chooseLevel: { es: 'Elige tu nivel', en: 'Choose your level', ca: 'Tria el teu nivell' },
   back:   { es: '← Volver al juego', en: '← Back to game', ca: '← Tornar al joc' },
   next:   { es: 'Siguiente →', en: 'Next →', ca: 'Següent →' },
   finish: { es: 'Ver resultados →', en: 'See results →', ca: 'Veure resultats →' },
@@ -46,13 +47,13 @@ const L = {
   retry:  { es: '▶ Repetir examen', en: '▶ Retry exam', ca: '▶ Repetir examen' },
 }
 
-function Intro({ badge, title, sub, start, backGamePath, l }) {
+function Intro({ badge, title, sub, levels, onSelect, backGamePath, l }) {
   return (
     <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
       <div className="max-w-md w-full">
         <p className="text-white/40 text-xs uppercase tracking-widest text-center mb-2">{tr(badge, l)}</p>
         <h1 className="text-3xl font-black text-white text-center mb-1">{tr(title, l)}</h1>
-        <p className="text-white/40 text-sm text-center mb-8">{tr(sub, l)}</p>
+        <p className="text-white/40 text-sm text-center mb-6">{tr(sub, l)}</p>
         <div className="bg-white/5 border border-white/10 rounded-2xl p-6 mb-6 space-y-5">
           {[['📋', L.r1t, L.r1d], ['💡', L.r2t, L.r2d], ['🏆', L.r3t, L.r3d]].map(([e, tk, dk]) => (
             <div key={tr(tk, l)} className="flex items-start gap-4">
@@ -64,10 +65,19 @@ function Intro({ badge, title, sub, start, backGamePath, l }) {
             </div>
           ))}
         </div>
-        <button onClick={start}
-          className="w-full bg-[#EDAE49] hover:bg-amber-400 text-black font-black py-4 rounded-xl transition-colors text-lg mb-3">
-          {tr(L.start, l)}
-        </button>
+        <p className="text-white/40 text-xs uppercase tracking-widest text-center mb-3">{tr(L.chooseLevel, l)}</p>
+        <div className="flex flex-col gap-3 mb-4">
+          {levels.map(lv => (
+            <button key={lv.key} onClick={() => onSelect(lv.difficulty)}
+              className="w-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#EDAE49]/50 rounded-2xl px-5 py-4 text-left transition-all flex items-center justify-between group">
+              <div>
+                <p className="text-white font-bold">{lv.emoji} {tr(lv.label, l)}</p>
+                <p className="text-white/40 text-xs mt-0.5">{tr(lv.hint, l)}</p>
+              </div>
+              <span className="text-white/30 group-hover:text-[#EDAE49] font-black text-lg transition-colors">→</span>
+            </button>
+          ))}
+        </div>
         <Link to={backGamePath} className="block text-center text-white/40 hover:text-white/70 text-sm transition-colors">
           {tr(L.back, l)}
         </Link>
@@ -118,7 +128,7 @@ function ExamEnd({ score, results, onRetry, backGamePath, playLabel, emoji, l })
 
 export default function MechanicExam({
   gameId, emoji, badge, title, sub, metaTitle, metaDesc, metaPath, subjectSchema,
-  backGamePath, playLabel, genRound, isCorrect, renderQuestion,
+  backGamePath, playLabel, levels, genRound, isCorrect, renderQuestion,
 }) {
   const { lang } = useLang()
   const { user } = useAuth()
@@ -134,6 +144,7 @@ export default function MechanicExam({
 
   const scoreRef = useRef(0)
   const startRef = useRef(null)
+  const diffRef = useRef(null)
   useEffect(() => { scoreRef.current = score }, [score])
 
   useEffect(() => {
@@ -148,8 +159,9 @@ export default function MechanicExam({
     }).catch(() => {})
   }, [screen, user, gameId])
 
-  function startExam() {
-    setRounds(Array.from({ length: TOTAL }, () => genRound()))
+  function startExam(difficulty) {
+    diffRef.current = difficulty
+    setRounds(Array.from({ length: TOTAL }, () => genRound(difficulty)))
     setIdx(0); setScore(0); setResults([])
     setPhase('choose'); setAnswer(null)
     startRef.current = Date.now()
@@ -173,10 +185,10 @@ export default function MechanicExam({
   const pageMeta = <PageMeta title={tr(metaTitle, l)} description={tr(metaDesc, l)} path={metaPath} lang={lang} />
   const quizSchema = <QuizSchema name={tr(metaTitle, l)} description={tr(metaDesc, l)} path={metaPath} lang={lang} subject={subjectSchema} level="secondary" />
 
-  if (screen === 'intro') return <>{pageMeta}{quizSchema}<Intro badge={badge} title={title} sub={sub} start={startExam} backGamePath={backGamePath} l={l} /></>
+  if (screen === 'intro') return <>{pageMeta}{quizSchema}<Intro badge={badge} title={title} sub={sub} levels={levels} onSelect={startExam} backGamePath={backGamePath} l={l} /></>
   if (screen === 'end') return (
     <>{pageMeta}{quizSchema}
-      <ExamEnd score={score} results={results} onRetry={startExam} backGamePath={backGamePath} playLabel={playLabel} emoji={emoji} l={l} />
+      <ExamEnd score={score} results={results} onRetry={() => startExam(diffRef.current)} backGamePath={backGamePath} playLabel={playLabel} emoji={emoji} l={l} />
       {score > 0 && <CoinsAnimation coins={Math.round((score / TOTAL) * 200)} />}
     </>
   )
