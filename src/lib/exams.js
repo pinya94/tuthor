@@ -205,6 +205,11 @@ export const EXAMS = {
     label: { es: 'Gramática Española', en: 'Spanish Grammar', ca: 'Gramàtica Espanyola' },
     emoji: '🇪🇸', subject: 'lengua',
   },
+  'analiza-frases-test': {
+    label: { es: 'Analiza la Frase', en: 'Sentence Detective', ca: 'Analitza la Frase' },
+    emoji: '🧐', subject: 'lengua',
+    path: 'examen/analiza-frases-test', page: () => import('../pages/AnalizaFrasesExamen'),
+  },
   'espanol-gramatica-sustantivos-test': {
     label: { es: 'Sustantivos', en: 'Nouns', ca: 'Substantius' },
     emoji: '📚', subject: 'lengua',

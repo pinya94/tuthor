@@ -216,7 +216,7 @@ export default function MechanicExam({
 
       {/* Mecánica del juego (diagrama + input + feedback) */}
       <div className="w-full max-w-[520px]">
-        {renderQuestion({ round, phase, answer, onAnswer, l })}
+        {renderQuestion({ round, phase, answer, onAnswer, l, qIndex: idx })}
       </div>
 
       {phase === 'result' && (

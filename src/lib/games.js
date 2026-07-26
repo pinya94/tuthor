@@ -154,6 +154,14 @@ export const GAMES = {
     // aciertos × 10 puntos → hasta 200 monedas
     coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
   },
+  'analiza-frases': {
+    label: { es: 'Analiza la Frase', en: 'Sentence Detective', ca: 'Analitza la Frase' },
+    emoji: '🧐',
+    subject: 'lengua',
+    route: '/juegos/analiza-frases',
+    // aciertos × 10 puntos → hasta 200 monedas
+    coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
+  },
 }
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
