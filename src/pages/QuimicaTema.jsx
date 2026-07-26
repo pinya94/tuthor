@@ -208,6 +208,20 @@ const MODOS_POR_TEMA = {
       detalles: { es:['2 niveles','10 preguntas','Opción múltiple','Explicación tras cada respuesta'], en:['2 levels','10 questions','Multiple choice','Explanation after each answer'], ca:['2 nivells','10 preguntes','Opció múltiple','Explicació després de cada resposta'] },
       path: 'fuerzas',
     },
+    {
+      id: 'fuerza-neta-test', emoji: '🧭', gradient: 'from-sky-500 to-blue-700',
+      titulo: { es:'Fuerza Neta', en:'Net Force', ca:'Força Neta' },
+      descripcion: { es:'Suma de fuerzas, fuerza resultante, equilibrio y leyes de Newton. ¿Hacia dónde se mueve el objeto?', en:'Adding forces, resultant force, equilibrium and Newton\'s laws. Which way does the object move?', ca:'Suma de forces, força resultant, equilibri i lleis de Newton. Cap on es mou l\'objecte?' },
+      detalles: { es:['2 niveles','10 preguntas','Opción múltiple','Explicación tras cada respuesta'], en:['2 levels','10 questions','Multiple choice','Explanation after each answer'], ca:['2 nivells','10 preguntes','Opció múltiple','Explicació després de cada resposta'] },
+      path: 'fuerza-neta-test',
+    },
+    {
+      id: 'balanza-test', emoji: '⚖️', gradient: 'from-teal-500 to-emerald-700',
+      titulo: { es:'Palancas y Momentos', en:'Levers & Moments', ca:'Palanques i Moments' },
+      descripcion: { es:'Momento (peso × distancia), equilibrio de la balanza, ley de la palanca y ventaja mecánica.', en:'Moment (weight × distance), balancing the scale, the law of the lever and mechanical advantage.', ca:'Moment (pes × distància), equilibri de la balança, llei de la palanca i avantatge mecànic.' },
+      detalles: { es:['2 niveles','10 preguntas','Opción múltiple','Explicación tras cada respuesta'], en:['2 levels','10 questions','Multiple choice','Explanation after each answer'], ca:['2 nivells','10 preguntes','Opció múltiple','Explicació després de cada resposta'] },
+      path: 'balanza-test',
+    },
   ],
   'energia': [
     {
