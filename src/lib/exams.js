@@ -235,6 +235,31 @@ export const EXAMS = {
     emoji: '🧐', subject: 'lengua',
     path: 'examen/frases-verbos-test', page: () => import('../pages/FrasesVerbosExamen'),
   },
+  'frases-adjetivos-test': {
+    label: { es: 'Adjetivos (señálalos)', en: 'Adjectives (spot them)', ca: 'Adjectius (assenyala\'ls)' },
+    emoji: '🧐', subject: 'lengua',
+    path: 'examen/frases-adjetivos-test', page: () => import('../pages/FrasesAdjetivosExamen'),
+  },
+  'frases-determinantes-test': {
+    label: { es: 'Artículos y Determinantes', en: 'Articles & Determiners', ca: 'Articles i Determinants' },
+    emoji: '🧐', subject: 'lengua',
+    path: 'examen/frases-determinantes-test', page: () => import('../pages/FrasesDeterminantesExamen'),
+  },
+  'frases-pronombres-test': {
+    label: { es: 'Pronombres (señálalos)', en: 'Pronouns (spot them)', ca: 'Pronoms (assenyala\'ls)' },
+    emoji: '🧐', subject: 'lengua',
+    path: 'examen/frases-pronombres-test', page: () => import('../pages/FrasesPronombresExamen'),
+  },
+  'frases-adverbios-test': {
+    label: { es: 'Adverbios (señálalos)', en: 'Adverbs (spot them)', ca: 'Adverbis (assenyala\'ls)' },
+    emoji: '🧐', subject: 'lengua',
+    path: 'examen/frases-adverbios-test', page: () => import('../pages/FrasesAdverbiosExamen'),
+  },
+  'frases-nexos-test': {
+    label: { es: 'Preposiciones y Conjunciones', en: 'Prepositions & Conjunctions', ca: 'Preposicions i Conjuncions' },
+    emoji: '🧐', subject: 'lengua',
+    path: 'examen/frases-nexos-test', page: () => import('../pages/FrasesNexosExamen'),
+  },
   'frases-morfologia-test': {
     label: { es: 'Género y Número', en: 'Gender & Number', ca: 'Gènere i Nombre' },
     emoji: '♀️', subject: 'lengua',
