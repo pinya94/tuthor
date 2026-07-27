@@ -280,6 +280,36 @@ export const EXAMS = {
     emoji: '🔬', subject: 'lengua',
     path: 'examen/espanol-gramatica-sintaxis-test', page: () => import('../pages/EspanolGramaticaSintaxisExamen'),
   },
+  'espanol-gramatica-adjetivos-test': {
+    label: { es: 'Adjetivos', en: 'Adjectives', ca: 'Adjectius' },
+    emoji: '🎨', subject: 'lengua',
+    path: 'examen/espanol-gramatica-adjetivos-test', page: () => import('../pages/EspanolGramaticaAdjetivosExamen'),
+  },
+  'espanol-gramatica-determinantes-test': {
+    label: { es: 'Determinantes', en: 'Determiners', ca: 'Determinants' },
+    emoji: '🔖', subject: 'lengua',
+    path: 'examen/espanol-gramatica-determinantes-test', page: () => import('../pages/EspanolGramaticaDeterminantesExamen'),
+  },
+  'espanol-gramatica-pronombres-test': {
+    label: { es: 'Pronombres', en: 'Pronouns', ca: 'Pronoms' },
+    emoji: '🙋', subject: 'lengua',
+    path: 'examen/espanol-gramatica-pronombres-test', page: () => import('../pages/EspanolGramaticaPronombresExamen'),
+  },
+  'espanol-gramatica-adverbios-test': {
+    label: { es: 'Adverbios', en: 'Adverbs', ca: 'Adverbis' },
+    emoji: '⏱️', subject: 'lengua',
+    path: 'examen/espanol-gramatica-adverbios-test', page: () => import('../pages/EspanolGramaticaAdverbiosExamen'),
+  },
+  'espanol-gramatica-nexos-test': {
+    label: { es: 'Preposiciones y Conjunciones', en: 'Prepositions & Conjunctions', ca: 'Preposicions i Conjuncions' },
+    emoji: '🔗', subject: 'lengua',
+    path: 'examen/espanol-gramatica-nexos-test', page: () => import('../pages/EspanolGramaticaNexosExamen'),
+  },
+  'espanol-gramatica-morfologia-test': {
+    label: { es: 'Género y Número', en: 'Gender & Number', ca: 'Gènere i Nombre' },
+    emoji: '♀️', subject: 'lengua',
+    path: 'examen/espanol-gramatica-morfologia-test', page: () => import('../pages/EspanolGramaticaMorfologiaExamen'),
+  },
   'espanol-ortografia-acentuacion-test': {
     label: { es: 'Acentuación', en: 'Accentuation', ca: 'Accentuació' },
     emoji: '✍️', subject: 'lengua',

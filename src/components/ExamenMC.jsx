@@ -35,6 +35,12 @@ function get(obj, lang) {
   return lang === 'en' ? obj.en : lang === 'ca' ? obj.ca : obj.es
 }
 
+// La respuesta correcta puede darse como índice numérico (posición en las
+// opciones) o como objeto de texto {es,en,ca}. Devuelve siempre el texto.
+function correctText(q, lang) {
+  return typeof q.correcta === 'number' ? get(q.opciones, lang)[q.correcta] : get(q.correcta, lang)
+}
+
 function calificacion(aciertos, lang) {
   const en = lang === 'en', ca = lang === 'ca'
   if (aciertos >= 9)  return { label: en ? 'Outstanding' : ca ? 'Excel·lent'  : 'Sobresaliente', color: 'text-green-400'  }
@@ -120,7 +126,7 @@ export default function ExamenMC({ titulo, emoji, nivelInfo, backFallback, gameI
 
   const schemaQuestions = pool.length > 0 ? pool.map(q => {
     const pregunta  = get(q.pregunta, lang)
-    const correcta  = get(q.correcta, lang)
+    const correcta  = correctText(q, lang)
     const todas     = get(q.opciones, lang)
     return {
       question:      pregunta,
@@ -151,7 +157,7 @@ export default function ExamenMC({ titulo, emoji, nivelInfo, backFallback, gameI
   function handleChoice(op) {
     if (resuelto) return
     const q       = pool[idx]
-    const correcta = get(q.correcta, lang)
+    const correcta = correctText(q, lang)
     if (op === correcta) {
       const newAciertos = aciertos + 1
       setAciertos(newAciertos)
@@ -309,7 +315,7 @@ export default function ExamenMC({ titulo, emoji, nivelInfo, backFallback, gameI
   if (!q) return null
   const pregunta   = get(q.pregunta, lang)
   const opciones   = get(q.opciones, lang)
-  const correcta   = get(q.correcta, lang)
+  const correcta   = correctText(q, lang)
   const explicacion = get(q.explicacion, lang)
 
   return (

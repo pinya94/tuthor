@@ -55,6 +55,48 @@ const TEMAS = {
       },
     ],
   },
+  adjetivos: {
+    titulo: { es: 'Adjetivos', en: 'Adjectives', ca: 'Adjectius' }, emoji: '🎨',
+    modos: [
+      { id: 'espanol-gramatica-adjetivos-test', emoji: '📝', gradient: 'from-pink-500 to-rose-600', titulo: { es: 'Examen tipo test', en: 'Multiple-choice exam', ca: 'Examen tipus test' }, desc: { es: 'Preguntas de opción múltiple sobre los adjetivos, la concordancia y los grados.', en: 'Multiple-choice questions about adjectives, agreement and degrees.', ca: 'Preguntes d\'opció múltiple sobre els adjectius, la concordança i els graus.' }, detalles: { es: ['Opción múltiple', '10 preguntas', 'Con explicación'], en: ['Multiple choice', '10 questions', 'With explanation'], ca: ['Opció múltiple', '10 preguntes', 'Amb explicació'] } },
+      { id: 'frases-adjetivos-test', emoji: '🧐', gradient: 'from-violet-500 to-fuchsia-700', titulo: { es: 'Señálalos en la frase', en: 'Spot them in the sentence', ca: 'Assenyala\'ls a la frase' }, desc: { es: 'Con la mecánica del juego: marca solo los adjetivos.', en: 'Using the game mechanic: mark only the adjectives.', ca: 'Amb la mecànica del joc: marca només els adjectius.' }, detalles: { es: ['3 niveles', '10 preguntas', 'Con el juego'], en: ['3 levels', '10 questions', 'With the game'], ca: ['3 nivells', '10 preguntes', 'Amb el joc'] } },
+    ],
+  },
+  determinantes: {
+    titulo: { es: 'Determinantes', en: 'Determiners', ca: 'Determinants' }, emoji: '🔖',
+    modos: [
+      { id: 'espanol-gramatica-determinantes-test', emoji: '📝', gradient: 'from-amber-500 to-orange-600', titulo: { es: 'Examen tipo test', en: 'Multiple-choice exam', ca: 'Examen tipus test' }, desc: { es: 'Preguntas de opción múltiple sobre artículos, demostrativos, posesivos y numerales.', en: 'Multiple-choice questions about articles, demonstratives, possessives and numerals.', ca: 'Preguntes d\'opció múltiple sobre articles, demostratius, possessius i numerals.' }, detalles: { es: ['Opción múltiple', '10 preguntas', 'Con explicación'], en: ['Multiple choice', '10 questions', 'With explanation'], ca: ['Opció múltiple', '10 preguntes', 'Amb explicació'] } },
+      { id: 'frases-determinantes-test', emoji: '🧐', gradient: 'from-violet-500 to-fuchsia-700', titulo: { es: 'Señálalos en la frase', en: 'Spot them in the sentence', ca: 'Assenyala\'ls a la frase' }, desc: { es: 'Con la mecánica del juego: marca los artículos y determinantes.', en: 'Using the game mechanic: mark the articles and determiners.', ca: 'Amb la mecànica del joc: marca els articles i determinants.' }, detalles: { es: ['3 niveles', '10 preguntas', 'Con el juego'], en: ['3 levels', '10 questions', 'With the game'], ca: ['3 nivells', '10 preguntes', 'Amb el joc'] } },
+    ],
+  },
+  pronombres: {
+    titulo: { es: 'Pronombres', en: 'Pronouns', ca: 'Pronoms' }, emoji: '🙋',
+    modos: [
+      { id: 'espanol-gramatica-pronombres-test', emoji: '📝', gradient: 'from-lime-500 to-green-600', titulo: { es: 'Examen tipo test', en: 'Multiple-choice exam', ca: 'Examen tipus test' }, desc: { es: 'Preguntas de opción múltiple sobre los pronombres y sus clases.', en: 'Multiple-choice questions about pronouns and their types.', ca: 'Preguntes d\'opció múltiple sobre els pronoms i les seves classes.' }, detalles: { es: ['Opción múltiple', '10 preguntas', 'Con explicación'], en: ['Multiple choice', '10 questions', 'With explanation'], ca: ['Opció múltiple', '10 preguntes', 'Amb explicació'] } },
+      { id: 'frases-pronombres-test', emoji: '🧐', gradient: 'from-violet-500 to-fuchsia-700', titulo: { es: 'Señálalos en la frase', en: 'Spot them in the sentence', ca: 'Assenyala\'ls a la frase' }, desc: { es: 'Con la mecánica del juego: marca solo los pronombres.', en: 'Using the game mechanic: mark only the pronouns.', ca: 'Amb la mecànica del joc: marca només els pronoms.' }, detalles: { es: ['2 niveles', '10 preguntas', 'Con el juego'], en: ['2 levels', '10 questions', 'With the game'], ca: ['2 nivells', '10 preguntes', 'Amb el joc'] } },
+    ],
+  },
+  adverbios: {
+    titulo: { es: 'Adverbios', en: 'Adverbs', ca: 'Adverbis' }, emoji: '⏱️',
+    modos: [
+      { id: 'espanol-gramatica-adverbios-test', emoji: '📝', gradient: 'from-teal-500 to-cyan-600', titulo: { es: 'Examen tipo test', en: 'Multiple-choice exam', ca: 'Examen tipus test' }, desc: { es: 'Preguntas de opción múltiple sobre los adverbios y sus tipos.', en: 'Multiple-choice questions about adverbs and their types.', ca: 'Preguntes d\'opció múltiple sobre els adverbis i els seus tipus.' }, detalles: { es: ['Opción múltiple', '10 preguntas', 'Con explicación'], en: ['Multiple choice', '10 questions', 'With explanation'], ca: ['Opció múltiple', '10 preguntes', 'Amb explicació'] } },
+      { id: 'frases-adverbios-test', emoji: '🧐', gradient: 'from-violet-500 to-fuchsia-700', titulo: { es: 'Señálalos en la frase', en: 'Spot them in the sentence', ca: 'Assenyala\'ls a la frase' }, desc: { es: 'Con la mecánica del juego: marca solo los adverbios.', en: 'Using the game mechanic: mark only the adverbs.', ca: 'Amb la mecànica del joc: marca només els adverbis.' }, detalles: { es: ['2 niveles', '10 preguntas', 'Con el juego'], en: ['2 levels', '10 questions', 'With the game'], ca: ['2 nivells', '10 preguntes', 'Amb el joc'] } },
+    ],
+  },
+  nexos: {
+    titulo: { es: 'Preposiciones y conjunciones', en: 'Prepositions & conjunctions', ca: 'Preposicions i conjuncions' }, emoji: '🔗',
+    modos: [
+      { id: 'espanol-gramatica-nexos-test', emoji: '📝', gradient: 'from-sky-500 to-blue-600', titulo: { es: 'Examen tipo test', en: 'Multiple-choice exam', ca: 'Examen tipus test' }, desc: { es: 'Preguntas de opción múltiple sobre preposiciones y conjunciones.', en: 'Multiple-choice questions about prepositions and conjunctions.', ca: 'Preguntes d\'opció múltiple sobre preposicions i conjuncions.' }, detalles: { es: ['Opción múltiple', '10 preguntas', 'Con explicación'], en: ['Multiple choice', '10 questions', 'With explanation'], ca: ['Opció múltiple', '10 preguntes', 'Amb explicació'] } },
+      { id: 'frases-nexos-test', emoji: '🧐', gradient: 'from-violet-500 to-fuchsia-700', titulo: { es: 'Señálalos en la frase', en: 'Spot them in the sentence', ca: 'Assenyala\'ls a la frase' }, desc: { es: 'Con la mecánica del juego: marca las preposiciones y conjunciones.', en: 'Using the game mechanic: mark the prepositions and conjunctions.', ca: 'Amb la mecànica del joc: marca les preposicions i conjuncions.' }, detalles: { es: ['2 niveles', '10 preguntas', 'Con el juego'], en: ['2 levels', '10 questions', 'With the game'], ca: ['2 nivells', '10 preguntes', 'Amb el joc'] } },
+    ],
+  },
+  morfologia: {
+    titulo: { es: 'Género y número', en: 'Gender & number', ca: 'Gènere i nombre' }, emoji: '♀️',
+    modos: [
+      { id: 'espanol-gramatica-morfologia-test', emoji: '📝', gradient: 'from-fuchsia-500 to-purple-600', titulo: { es: 'Examen tipo test', en: 'Multiple-choice exam', ca: 'Examen tipus test' }, desc: { es: 'Preguntas de opción múltiple sobre el género y el número: reglas y excepciones.', en: 'Multiple-choice questions about gender and number: rules and exceptions.', ca: 'Preguntes d\'opció múltiple sobre el gènere i el nombre: regles i excepcions.' }, detalles: { es: ['Opción múltiple', '10 preguntas', 'Con explicación'], en: ['Multiple choice', '10 questions', 'With explanation'], ca: ['Opció múltiple', '10 preguntes', 'Amb explicació'] } },
+      { id: 'frases-morfologia-test', emoji: '🧐', gradient: 'from-violet-500 to-fuchsia-700', titulo: { es: 'Señálalas en la frase', en: 'Spot them in the sentence', ca: 'Assenyala-les a la frase' }, desc: { es: 'Con la mecánica del juego: marca las palabras en femenino, masculino, singular o plural.', en: 'Using the game mechanic: mark the feminine, masculine, singular or plural words.', ca: 'Amb la mecànica del joc: marca les paraules en femení, masculí, singular o plural.' }, detalles: { es: ['2 niveles', '10 preguntas', 'Con el juego'], en: ['2 levels', '10 questions', 'With the game'], ca: ['2 nivells', '10 preguntes', 'Amb el joc'] } },
+    ],
+  },
 }
 
 export default function EspanolGramaticaTema() {
