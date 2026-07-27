@@ -168,12 +168,13 @@ export function makeGenderedTemplates(P) {
   const animal = P.sustAnimal || []
   const sujAnim = persona.concat(animal)   // sujeto de verbos intransitivos (animado)
   const adjP = P.adjPer || P.adj            // adjetivos aptos para personas/animales (sin colores)
+  const adjC = P.adjCosa || P.adj           // adjetivos aptos para cosas (sin alto/rápido)
   return [
     // rank 0 (Primaria+)
     { id: 'g-svo', rank: 0, build(rand) {
       const s = npGen(P, rand, { pool: persona, det: pick(['def', 'ind'], rand), adj: rand() < 0.4, adjPool: adjP, role: ['sujeto'], nucleo: true })
       cap(s.units[0])
-      const cd = npGen(P, rand, { pool: cosa, det: pick(['def', 'ind'], rand), adj: rand() < 0.4, role: ['predicado', 'cd'] })
+      const cd = npGen(P, rand, { pool: cosa, det: pick(['def', 'ind'], rand), adj: rand() < 0.4, adjPool: adjC, role: ['predicado', 'cd'] })
       return [...s.units, verbU(pick(P.verbTr, rand), s.num), ...cd.units]
     } },
     { id: 'g-sv-adj', rank: 0, build(rand) {
@@ -200,7 +201,7 @@ export function makeGenderedTemplates(P) {
       const s = npGen(P, rand, { pool: anim ? sujAnim : cosa, det: 'def', role: ['sujeto'], nucleo: true })
       cap(s.units[0])
       const v = pick(P.verbCop, rand)
-      const a = pick(anim ? adjP : P.adj, rand)
+      const a = pick(anim ? adjP : adjC, rand)
       const attr = { text: a.forms[gk(s.gen, s.num)], classes: ['adjetivo'], roles: ['predicado', 'atributo'], gen: s.gen, num: s.num }
       return [...s.units, { text: v.forms[s.num], classes: ['verbo'], roles: ['predicado'] }, attr]
     } },
@@ -215,14 +216,14 @@ export function makeGenderedTemplates(P) {
     { id: 'g-pron-svo', rank: 1, build(rand) {
       const pr = pick(P.pronSuj, rand)
       const pron = { text: pr.t, classes: ['pronombre'], roles: ['sujeto', 'nucleo-sujeto'], gen: pr.gen, num: pr.num }
-      const cd = npGen(P, rand, { pool: cosa, det: pick(['def', 'ind'], rand), adj: rand() < 0.3, role: ['predicado', 'cd'] })
+      const cd = npGen(P, rand, { pool: cosa, det: pick(['def', 'ind'], rand), adj: rand() < 0.3, adjPool: adjC, role: ['predicado', 'cd'] })
       return [pron, verbU(pick(P.verbTr, rand), pr.num), ...cd.units]
     } },
     // rank 2 (Bachillerato) — frase larga
     { id: 'g-svo-cc', rank: 2, build(rand) {
       const s = npGen(P, rand, { pool: persona, det: 'def', adj: true, adjPool: adjP, role: ['sujeto'], nucleo: true })
       cap(s.units[0])
-      const cd = npGen(P, rand, { pool: cosa, det: 'ind', adj: rand() < 0.5, role: ['predicado', 'cd'] })
+      const cd = npGen(P, rand, { pool: cosa, det: 'ind', adj: rand() < 0.5, adjPool: adjC, role: ['predicado', 'cd'] })
       const prep = { text: pick(P.prepCC, rand), classes: ['preposicion'], roles: ['predicado', 'cc'] }
       const place = npGen(P, rand, { pool: cosa, det: 'def', role: ['predicado', 'cc'] })
       return [...s.units, verbU(pick(P.verbTr, rand), s.num), ...cd.units, prep, ...place.units]

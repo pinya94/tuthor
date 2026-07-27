@@ -65,6 +65,18 @@ const P = {
     { forms: { ms: 'rápido', fs: 'rápida', mp: 'rápidos', fp: 'rápidas' } },
     { forms: { ms: 'grande', fs: 'grande', mp: 'grandes', fp: 'grandes' } },
   ],
+  // Adjetivos aptos para cosas (colores y tamaño/edad; sin alto/rápido, que
+  // quedaban raros: "un libro rápido", "unas cartas altas").
+  adjCosa: [
+    { forms: { ms: 'rojo', fs: 'roja', mp: 'rojos', fp: 'rojas' } },
+    { forms: { ms: 'pequeño', fs: 'pequeña', mp: 'pequeños', fp: 'pequeñas' } },
+    { forms: { ms: 'bonito', fs: 'bonita', mp: 'bonitos', fp: 'bonitas' } },
+    { forms: { ms: 'viejo', fs: 'vieja', mp: 'viejos', fp: 'viejas' } },
+    { forms: { ms: 'nuevo', fs: 'nueva', mp: 'nuevos', fp: 'nuevas' } },
+    { forms: { ms: 'blanco', fs: 'blanca', mp: 'blancos', fp: 'blancas' } },
+    { forms: { ms: 'grande', fs: 'grande', mp: 'grandes', fp: 'grandes' } },
+    { forms: { ms: 'azul', fs: 'azul', mp: 'azules', fp: 'azules' } },
+  ],
   verbTr: [
     { forms: { sg: 'come', pl: 'comen' } },
     { forms: { sg: 'lee', pl: 'leen' } },

@@ -61,6 +61,17 @@ const P = {
     { forms: { ms: 'ràpid', fs: 'ràpida', mp: 'ràpids', fp: 'ràpides' } },
     { forms: { ms: 'gran', fs: 'gran', mp: 'grans', fp: 'grans' } },
   ],
+  // Adjectius aptes per a coses (colors i mida/edat; sense alt/ràpid).
+  adjCosa: [
+    { forms: { ms: 'vermell', fs: 'vermella', mp: 'vermells', fp: 'vermelles' } },
+    { forms: { ms: 'petit', fs: 'petita', mp: 'petits', fp: 'petites' } },
+    { forms: { ms: 'bonic', fs: 'bonica', mp: 'bonics', fp: 'boniques' } },
+    { forms: { ms: 'vell', fs: 'vella', mp: 'vells', fp: 'velles' } },
+    { forms: { ms: 'nou', fs: 'nova', mp: 'nous', fp: 'noves' } },
+    { forms: { ms: 'blanc', fs: 'blanca', mp: 'blancs', fp: 'blanques' } },
+    { forms: { ms: 'gran', fs: 'gran', mp: 'grans', fp: 'grans' } },
+    { forms: { ms: 'blau', fs: 'blava', mp: 'blaus', fp: 'blaves' } },
+  ],
   verbTr: [
     { forms: { sg: 'menja', pl: 'mengen' } },
     { forms: { sg: 'llegeix', pl: 'llegeixen' } },

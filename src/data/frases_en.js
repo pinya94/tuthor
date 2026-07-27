@@ -24,6 +24,8 @@ const P = {
   adj: ['red', 'small', 'nice', 'old', 'new', 'tall', 'fast', 'white', 'big', 'blue'],
   // Adjectives suited to people/animals (no colours: avoids "the red girl").
   adjPer: ['small', 'nice', 'old', 'new', 'tall', 'fast', 'big'],
+  // Adjectives suited to things (colours and size/age; no tall/fast).
+  adjCosa: ['red', 'small', 'nice', 'old', 'new', 'white', 'big', 'blue'],
   verbTr: [
     { forms: { sg: 'eats', pl: 'eat' } }, { forms: { sg: 'reads', pl: 'read' } },
     { forms: { sg: 'buys', pl: 'buy' } }, { forms: { sg: 'paints', pl: 'paint' } },
@@ -57,6 +59,7 @@ const persona = P.sustPer
 const animal = P.sustAnimal
 const sujAnim = persona.concat(animal)
 const adjP = P.adjPer
+const adjC = P.adjCosa
 
 const cap = u => { u.text = u.text.charAt(0).toUpperCase() + u.text.slice(1); return u }
 const verbU = (v, num) => ({ text: v.forms[num], classes: ['verbo'], roles: ['predicado'] })
@@ -65,7 +68,7 @@ export const TEMPLATES_EN = [
   { id: 'en-svo', rank: 0, build(rand) {
     const s = npEn(P, rand, { pool: persona, det: 'def', adj: rand() < 0.4, adjPool: adjP, role: ['sujeto'], nucleo: true })
     cap(s.units[0])
-    const cd = npEn(P, rand, { pool: cosa, det: 'def', adj: rand() < 0.4, role: ['predicado', 'cd'] })
+    const cd = npEn(P, rand, { pool: cosa, det: 'def', adj: rand() < 0.4, adjPool: adjC, role: ['predicado', 'cd'] })
     return [...s.units, verbU(pick(P.verbTr, rand), s.num), ...cd.units]
   } },
   { id: 'en-sv-adj', rank: 0, build(rand) {
@@ -91,7 +94,7 @@ export const TEMPLATES_EN = [
     const s = npEn(P, rand, { pool: anim ? sujAnim : cosa, det: 'def', role: ['sujeto'], nucleo: true })
     cap(s.units[0])
     const v = pick(P.verbCop, rand)
-    const attr = { text: pick(anim ? adjP : P.adj, rand), classes: ['adjetivo'], roles: ['predicado', 'atributo'] }
+    const attr = { text: pick(anim ? adjP : adjC, rand), classes: ['adjetivo'], roles: ['predicado', 'atributo'] }
     return [...s.units, { text: v.forms[s.num], classes: ['verbo'], roles: ['predicado'] }, attr]
   } },
   { id: 'en-ditr', rank: 1, build(rand) {
@@ -105,13 +108,13 @@ export const TEMPLATES_EN = [
   { id: 'en-pron-svo', rank: 1, build(rand) {
     const pr = pick(P.pronSuj, rand)
     const pron = { text: pr.t, classes: ['pronombre'], roles: ['sujeto', 'nucleo-sujeto'], num: pr.num }
-    const cd = npEn(P, rand, { pool: cosa, det: 'def', adj: rand() < 0.3, role: ['predicado', 'cd'] })
+    const cd = npEn(P, rand, { pool: cosa, det: 'def', adj: rand() < 0.3, adjPool: adjC, role: ['predicado', 'cd'] })
     return [pron, verbU(pick(P.verbTr, rand), pr.num), ...cd.units]
   } },
   { id: 'en-svo-cc', rank: 2, build(rand) {
     const s = npEn(P, rand, { pool: persona, det: 'def', adj: true, adjPool: adjP, role: ['sujeto'], nucleo: true })
     cap(s.units[0])
-    const cd = npEn(P, rand, { pool: cosa, det: 'def', adj: rand() < 0.5, role: ['predicado', 'cd'] })
+    const cd = npEn(P, rand, { pool: cosa, det: 'def', adj: rand() < 0.5, adjPool: adjC, role: ['predicado', 'cd'] })
     const prep = { text: pick(P.prepCC, rand), classes: ['preposicion'], roles: ['predicado', 'cc'] }
     const place = npEn(P, rand, { pool: cosa, det: 'def', role: ['predicado', 'cc'] })
     return [...s.units, verbU(pick(P.verbTr, rand), s.num), ...cd.units, prep, ...place.units]
