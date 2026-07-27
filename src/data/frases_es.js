@@ -10,9 +10,8 @@ const P = {
     pos: { ms: 'su', fs: 'su', mp: 'sus', fp: 'sus' },
     dem: { ms: 'este', fs: 'esta', mp: 'estos', fp: 'estas' },
   },
-  sust: [
-    { forms: { sg: 'perro', pl: 'perros' }, gen: 'm' },
-    { forms: { sg: 'gato', pl: 'gatos' }, gen: 'm' },
+  // Cosas: objetos y lugares (nunca sujeto de un verbo de acción).
+  sustCosa: [
     { forms: { sg: 'casa', pl: 'casas' }, gen: 'f' },
     { forms: { sg: 'coche', pl: 'coches' }, gen: 'm' },
     { forms: { sg: 'mesa', pl: 'mesas' }, gen: 'f' },
@@ -26,6 +25,14 @@ const P = {
     { forms: { sg: 'cuadro', pl: 'cuadros' }, gen: 'm' },
     { forms: { sg: 'silla', pl: 'sillas' }, gen: 'f' },
   ],
+  // Animales: solo como sujeto de verbos de acción (corre, salta, duerme…).
+  sustAnimal: [
+    { forms: { sg: 'perro', pl: 'perros' }, gen: 'm' },
+    { forms: { sg: 'gato', pl: 'gatos' }, gen: 'm' },
+    { forms: { sg: 'gata', pl: 'gatas' }, gen: 'f' },
+    { forms: { sg: 'caballo', pl: 'caballos' }, gen: 'm' },
+    { forms: { sg: 'vaca', pl: 'vacas' }, gen: 'f' },
+  ],
   sustPer: [
     { forms: { sg: 'niño', pl: 'niños' }, gen: 'm' },
     { forms: { sg: 'niña', pl: 'niñas' }, gen: 'f' },
@@ -34,6 +41,7 @@ const P = {
     { forms: { sg: 'amigo', pl: 'amigos' }, gen: 'm' },
     { forms: { sg: 'amiga', pl: 'amigas' }, gen: 'f' },
     { forms: { sg: 'alumno', pl: 'alumnos' }, gen: 'm' },
+    { forms: { sg: 'alumna', pl: 'alumnas' }, gen: 'f' },
   ],
   adj: [
     { forms: { ms: 'rojo', fs: 'roja', mp: 'rojos', fp: 'rojas' } },
@@ -47,6 +55,16 @@ const P = {
     { forms: { ms: 'grande', fs: 'grande', mp: 'grandes', fp: 'grandes' } },
     { forms: { ms: 'azul', fs: 'azul', mp: 'azules', fp: 'azules' } },
   ],
+  // Adjetivos aptos para personas/animales (sin colores: evita "la niña roja").
+  adjPer: [
+    { forms: { ms: 'pequeño', fs: 'pequeña', mp: 'pequeños', fp: 'pequeñas' } },
+    { forms: { ms: 'bonito', fs: 'bonita', mp: 'bonitos', fp: 'bonitas' } },
+    { forms: { ms: 'viejo', fs: 'vieja', mp: 'viejos', fp: 'viejas' } },
+    { forms: { ms: 'nuevo', fs: 'nueva', mp: 'nuevos', fp: 'nuevas' } },
+    { forms: { ms: 'alto', fs: 'alta', mp: 'altos', fp: 'altas' } },
+    { forms: { ms: 'rápido', fs: 'rápida', mp: 'rápidos', fp: 'rápidas' } },
+    { forms: { ms: 'grande', fs: 'grande', mp: 'grandes', fp: 'grandes' } },
+  ],
   verbTr: [
     { forms: { sg: 'come', pl: 'comen' } },
     { forms: { sg: 'lee', pl: 'leen' } },
@@ -55,13 +73,14 @@ const P = {
     { forms: { sg: 'guarda', pl: 'guardan' } },
     { forms: { sg: 'rompe', pl: 'rompen' } },
   ],
+  // Intransitivos válidos para personas y animales por igual.
   verbIntr: [
-    { forms: { sg: 'ladra', pl: 'ladran' } },
     { forms: { sg: 'corre', pl: 'corren' } },
     { forms: { sg: 'salta', pl: 'saltan' } },
     { forms: { sg: 'duerme', pl: 'duermen' } },
-    { forms: { sg: 'brilla', pl: 'brillan' } },
-    { forms: { sg: 'trabaja', pl: 'trabajan' } },
+    { forms: { sg: 'juega', pl: 'juegan' } },
+    { forms: { sg: 'pasea', pl: 'pasean' } },
+    { forms: { sg: 'descansa', pl: 'descansan' } },
   ],
   verbCop: [
     { forms: { sg: 'es', pl: 'son' } },

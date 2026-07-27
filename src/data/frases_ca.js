@@ -7,9 +7,8 @@ const P = {
     ind: { ms: 'un', fs: 'una', mp: 'uns', fp: 'unes' },
     dem: { ms: 'aquest', fs: 'aquesta', mp: 'aquests', fp: 'aquestes' },
   },
-  sust: [
-    { forms: { sg: 'gos', pl: 'gossos' }, gen: 'm' },
-    { forms: { sg: 'gat', pl: 'gats' }, gen: 'm' },
+  // Coses: objectes i llocs (mai subjecte d'un verb d'acció).
+  sustCosa: [
     { forms: { sg: 'casa', pl: 'cases' }, gen: 'f' },
     { forms: { sg: 'cotxe', pl: 'cotxes' }, gen: 'm' },
     { forms: { sg: 'taula', pl: 'taules' }, gen: 'f' },
@@ -22,6 +21,14 @@ const P = {
     { forms: { sg: 'regal', pl: 'regals' }, gen: 'm' },
     { forms: { sg: 'cadira', pl: 'cadires' }, gen: 'f' },
   ],
+  // Animals: només com a subjecte de verbs d'acció.
+  sustAnimal: [
+    { forms: { sg: 'gos', pl: 'gossos' }, gen: 'm' },
+    { forms: { sg: 'gat', pl: 'gats' }, gen: 'm' },
+    { forms: { sg: 'gata', pl: 'gates' }, gen: 'f' },
+    { forms: { sg: 'cavall', pl: 'cavalls' }, gen: 'm' },
+    { forms: { sg: 'vaca', pl: 'vaques' }, gen: 'f' },
+  ],
   sustPer: [
     { forms: { sg: 'nen', pl: 'nens' }, gen: 'm' },
     { forms: { sg: 'nena', pl: 'nenes' }, gen: 'f' },
@@ -29,6 +36,8 @@ const P = {
     { forms: { sg: 'professora', pl: 'professores' }, gen: 'f' },
     { forms: { sg: 'amic', pl: 'amics' }, gen: 'm' },
     { forms: { sg: 'amiga', pl: 'amigues' }, gen: 'f' },
+    { forms: { sg: 'alumne', pl: 'alumnes' }, gen: 'm' },
+    { forms: { sg: 'alumna', pl: 'alumnes' }, gen: 'f' },
   ],
   adj: [
     { forms: { ms: 'vermell', fs: 'vermella', mp: 'vermells', fp: 'vermelles' } },
@@ -42,6 +51,16 @@ const P = {
     { forms: { ms: 'gran', fs: 'gran', mp: 'grans', fp: 'grans' } },
     { forms: { ms: 'blau', fs: 'blava', mp: 'blaus', fp: 'blaves' } },
   ],
+  // Adjectius aptes per a persones/animals (sense colors).
+  adjPer: [
+    { forms: { ms: 'petit', fs: 'petita', mp: 'petits', fp: 'petites' } },
+    { forms: { ms: 'bonic', fs: 'bonica', mp: 'bonics', fp: 'boniques' } },
+    { forms: { ms: 'vell', fs: 'vella', mp: 'vells', fp: 'velles' } },
+    { forms: { ms: 'nou', fs: 'nova', mp: 'nous', fp: 'noves' } },
+    { forms: { ms: 'alt', fs: 'alta', mp: 'alts', fp: 'altes' } },
+    { forms: { ms: 'ràpid', fs: 'ràpida', mp: 'ràpids', fp: 'ràpides' } },
+    { forms: { ms: 'gran', fs: 'gran', mp: 'grans', fp: 'grans' } },
+  ],
   verbTr: [
     { forms: { sg: 'menja', pl: 'mengen' } },
     { forms: { sg: 'llegeix', pl: 'llegeixen' } },
@@ -50,13 +69,14 @@ const P = {
     { forms: { sg: 'guarda', pl: 'guarden' } },
     { forms: { sg: 'trenca', pl: 'trenquen' } },
   ],
+  // Intransitius vàlids per a persones i animals.
   verbIntr: [
-    { forms: { sg: 'lladra', pl: 'lladren' } },
     { forms: { sg: 'corre', pl: 'corren' } },
     { forms: { sg: 'salta', pl: 'salten' } },
     { forms: { sg: 'dorm', pl: 'dormen' } },
-    { forms: { sg: 'brilla', pl: 'brillen' } },
-    { forms: { sg: 'treballa', pl: 'treballen' } },
+    { forms: { sg: 'juga', pl: 'juguen' } },
+    { forms: { sg: 'passeja', pl: 'passegen' } },
+    { forms: { sg: 'descansa', pl: 'descansen' } },
   ],
   verbCop: [
     { forms: { sg: 'és', pl: 'són' } },
