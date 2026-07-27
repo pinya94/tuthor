@@ -122,11 +122,11 @@ export default function AnalizaFrases() {
   useEffect(() => { timeRef.current = timeLeft }, [timeLeft])
 
   const next = useCallback((diff) => {
-    setRound(genRound(diff))
+    setRound(genRound({ lang: l, level: diff }))
     setPhase('choose')
     setSelected([])
     setDelta(null)
-  }, [])
+  }, [l])
 
   function startGame(diff) {
     setDifficulty(diff)

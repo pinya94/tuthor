@@ -1,42 +1,17 @@
-// Analiza la Frase — lógica de rondas (sin React). Elige una frase y una tarea
-// gramatical adecuadas al nivel, y devuelve las palabras correctas a señalar.
-import { SENTENCES, TASKS, RANK } from '../data/analizaFrases'
+// Analiza la Frase — API de rondas. Genera con el motor (grammarGen) a partir
+// de las plantillas del idioma. genRound({ lang, level, filter }).
+import { TASKS, RANK } from '../data/frasesTasks'
+import { TEMPLATES_ES } from '../data/frases_es'
+import { TEMPLATES_CA } from '../data/frases_ca'
+import { TEMPLATES_EN } from '../data/frases_en'
+import { buildRound, sameSet } from './grammarGen'
 
-const rnd = (a, b, rand) => a + Math.floor(rand() * (b - a + 1))
+const TEMPLATES = { es: TEMPLATES_ES, ca: TEMPLATES_CA, en: TEMPLATES_EN }
 
-// Todas las combinaciones (frase, tarea) válidas para un rango de nivel.
-function candidates(maxRank) {
-  const out = []
-  for (const s of SENTENCES) {
-    if (RANK[s.nivel] > maxRank) continue
-    for (const find of Object.keys(s.ann)) {
-      const task = TASKS[find]
-      if (!task || task.min > maxRank) continue
-      if (!s.ann[find] || s.ann[find].length === 0) continue
-      out.push({ sentenceId: s.id, tokens: s.tokens, find, indices: s.ann[find], label: task.label, explica: task.explica })
-    }
-  }
-  return out
-}
+export { sameSet, TASKS }
 
-// nivel: 'primaria' | 'eso' | 'bach'
-export function genRound(nivel = 'primaria', rand = Math.random) {
-  const maxRank = RANK[nivel] ?? 0
-  const pool = candidates(maxRank)
-  const c = pool[rnd(0, pool.length - 1, rand)]
-  return {
-    id: c.sentenceId + ':' + c.find,
-    tokens: c.tokens,
-    find: c.find,
-    indices: c.indices,          // conjunto correcto de índices
-    label: c.label,              // {es,en,ca} de la tarea (ya lleva artículo)
-    explica: c.explica,          // {es,en,ca}
-  }
-}
-
-// ¿El conjunto seleccionado coincide exactamente con el correcto?
-export function sameSet(a, b) {
-  if (a.length !== b.length) return false
-  const sa = new Set(a)
-  return b.every(x => sa.has(x))
+// lang: 'es'|'ca'|'en' · level: 'primaria'|'eso'|'bach' · filter: [task…] | null
+export function genRound({ lang = 'es', level = 'primaria', filter = null } = {}, rand = Math.random) {
+  const templates = TEMPLATES[lang] || TEMPLATES_ES
+  return buildRound(templates, TASKS, RANK[level] ?? 0, filter, rand, lang)
 }

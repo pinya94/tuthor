@@ -210,6 +210,26 @@ export const EXAMS = {
     emoji: '🧐', subject: 'lengua',
     path: 'examen/analiza-frases-test', page: () => import('../pages/AnalizaFrasesExamen'),
   },
+  'frases-sintaxis-test': {
+    label: { es: 'Sujeto y Predicado', en: 'Subject & Predicate', ca: 'Subjecte i Predicat' },
+    emoji: '🧩', subject: 'lengua',
+    path: 'examen/frases-sintaxis-test', page: () => import('../pages/FrasesSintaxisExamen'),
+  },
+  'frases-complementos-test': {
+    label: { es: 'Complementos (CD/CI/CC)', en: 'Objects (DO/IO)', ca: 'Complements (CD/CI/CC)' },
+    emoji: '🔗', subject: 'lengua',
+    path: 'examen/frases-complementos-test', page: () => import('../pages/FrasesComplementosExamen'),
+  },
+  'frases-clases-test': {
+    label: { es: 'Clases de Palabras', en: 'Word Classes', ca: 'Classes de Paraules' },
+    emoji: '🏷️', subject: 'lengua',
+    path: 'examen/frases-clases-test', page: () => import('../pages/FrasesClasesExamen'),
+  },
+  'frases-morfologia-test': {
+    label: { es: 'Género y Número', en: 'Gender & Number', ca: 'Gènere i Nombre' },
+    emoji: '♀️', subject: 'lengua',
+    path: 'examen/frases-morfologia-test', page: () => import('../pages/FrasesMorfologiaExamen'),
+  },
   'espanol-gramatica-sustantivos-test': {
     label: { es: 'Sustantivos', en: 'Nouns', ca: 'Substantius' },
     emoji: '📚', subject: 'lengua',

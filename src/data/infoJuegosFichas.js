@@ -1,6 +1,34 @@
 // Contenido de las fichas SEO de /info/juegos/:slug (es/en/ca).
 // Solo datos: el componente que las renderiza es src/pages/InfoJuegoFicha.jsx.
 export const FICHAS_ES = {
+  'analiza-frases': {
+    titulo: 'Analiza la Frase',
+    subtitulo: 'Juego de Sintaxis, Gramática y Análisis de Oraciones',
+    emoji: '🧐', gradient: 'from-violet-600 to-fuchsia-800',
+    path: '/juegos/analiza-frases',
+    intro: 'Un juego de lengua para dominar el análisis de oraciones: aparece una frase, se te dice qué tienes que encontrar (el sujeto, el predicado, los adjetivos, las palabras en femenino…) y señalas las palabras justas antes de comprobar. Puedes marcar una sola palabra o un grupo entero. Las frases se generan solas, así que hay variedad infinita, y cada respuesta lleva su explicación.',
+    beneficios: [
+      { titulo: 'Sintaxis sin miedo', texto: 'Identificar sujeto, predicado, núcleo y complementos directamente sobre la frase entrena el análisis sintáctico de forma activa, mucho más eficaz que copiar reglas.' },
+      { titulo: 'Clases de palabras', texto: 'Distinguir sustantivos, adjetivos, verbos, pronombres, adverbios o preposiciones a golpe de vista consolida la gramática que se pide en toda Primaria y la ESO.' },
+      { titulo: 'Género y número', texto: 'Marcar las palabras en femenino, masculino, singular o plural afianza la morfología y la concordancia, base de una escritura correcta.' },
+    ],
+    ejemplo: 'Aparece «El perro grande corre por el parque» y se pide el predicado: el alumno selecciona «corre por el parque» y comprueba. Otra ronda pide los adjetivos y marca «grande».',
+    enPapel: {
+      titulo: 'Analizar frases en papel',
+      pasos: [
+        'Escribe una frase sencilla en una hoja.',
+        'Subraya de un color el sujeto (de quién se habla) y de otro el predicado (lo que se dice).',
+        'Rodea el verbo: es el núcleo del predicado y concuerda con el sujeto.',
+        'Marca las demás clases de palabras (artículos, adjetivos, complementos) con símbolos distintos.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'Análisis por colores', desc: 'Asigna un color a cada función (sujeto, verbo, CD, CC…) y pinta frases enteras. Muy visual para memorizar la estructura.' },
+      { nombre: 'Frases recortadas', desc: 'Recorta las palabras de una frase y recolócalas por grupos sintácticos como un puzle.' },
+      { nombre: 'Cazar la palabra', desc: 'En cualquier texto, busca todos los adjetivos o todos los pronombres de una página. Gramática con lo que ya se lee.' },
+    ],
+    asignatura: 'Lengua', niveles: 'Primaria, ESO, Bachillerato',
+  },
   'balanza': {
     titulo: 'Equilibra la Balanza',
     subtitulo: 'Juego de Palancas, Momentos y Ley de la Palanca',
@@ -383,6 +411,25 @@ export const FICHAS_ES = {
 }
 
 export const FICHAS_EN = {
+  'analiza-frases': {
+    titulo: 'Analyse the Sentence',
+    subtitulo: 'Syntax, Grammar & Sentence Analysis Game',
+    emoji: '🧐', gradient: 'from-violet-600 to-fuchsia-800', path: '/juegos/analiza-frases',
+    intro: 'A language game to master sentence analysis: a sentence appears, you are told what to find (the subject, the predicate, the adjectives, the plural words…) and you select the right words before checking. You can mark a single word or a whole group. Sentences are generated automatically, so there is endless variety, and every answer comes with an explanation.',
+    beneficios: [
+      { titulo: 'Syntax without fear', texto: 'Identifying subject, predicate, head and objects directly on the sentence trains parsing actively, far more effective than copying rules.' },
+      { titulo: 'Word classes', texto: 'Telling nouns, adjectives, verbs, pronouns, adverbs and prepositions apart at a glance consolidates the grammar taught throughout primary and secondary school.' },
+      { titulo: 'Gender and number', texto: 'Marking feminine, masculine, singular or plural words reinforces morphology and agreement, the basis of correct writing.' },
+    ],
+    ejemplo: 'The sentence “The big dog runs in the park” appears and the predicate is asked: the student selects “runs in the park” and checks. Another round asks for the adjectives and they mark “big”.',
+    enPapel: { titulo: 'Analysing sentences on paper', pasos: ['Write a simple sentence on a sheet.', 'Underline the subject (who it is about) in one colour and the predicate (what is said) in another.', 'Circle the verb: it is the head of the predicate and agrees with the subject.', 'Mark the other word classes (articles, adjectives, objects) with different symbols.'] },
+    alternativas: [
+      { nombre: 'Colour analysis', desc: 'Give each function a colour (subject, verb, object…) and paint whole sentences. Very visual for memorising structure.' },
+      { nombre: 'Cut-up sentences', desc: 'Cut the words of a sentence and rearrange them by syntactic group like a puzzle.' },
+      { nombre: 'Word hunt', desc: 'In any text, find every adjective or every pronoun on a page. Grammar using what you already read.' },
+    ],
+    asignatura: 'Language', niveles: 'Primary, Secondary, Sixth Form',
+  },
   'balanza': {
     titulo: 'Balance the Scale', subtitulo: 'Levers, Moments & the Law of the Lever Game',
     emoji: '⚖️', gradient: 'from-teal-600 to-emerald-800', path: '/juegos/balanza',
@@ -677,6 +724,25 @@ export const FICHAS_EN = {
 }
 
 export const FICHAS_CA = {
+  'analiza-frases': {
+    titulo: 'Analitza la Frase',
+    subtitulo: 'Joc de Sintaxi, Gramàtica i Anàlisi d’Oracions',
+    emoji: '🧐', gradient: 'from-violet-600 to-fuchsia-800', path: '/juegos/analiza-frases',
+    intro: 'Un joc de llengua per dominar l’anàlisi d’oracions: apareix una frase, se’t diu què has de trobar (el subjecte, el predicat, els adjectius, les paraules en femení…) i assenyales les paraules justes abans de comprovar. Pots marcar una sola paraula o un grup sencer. Les frases es generen soles, així que hi ha varietat infinita, i cada resposta porta la seva explicació.',
+    beneficios: [
+      { titulo: 'Sintaxi sense por', texto: 'Identificar subjecte, predicat, nucli i complements directament sobre la frase entrena l’anàlisi sintàctica de manera activa, molt més eficaç que copiar regles.' },
+      { titulo: 'Classes de paraules', texto: 'Distingir substantius, adjectius, verbs, pronoms, adverbis o preposicions d’un cop d’ull consolida la gramàtica de tota la Primària i l’ESO.' },
+      { titulo: 'Gènere i nombre', texto: 'Marcar les paraules en femení, masculí, singular o plural afiança la morfologia i la concordança, base d’una escriptura correcta.' },
+    ],
+    ejemplo: 'Apareix «El gos gran corre pel parc» i es demana el predicat: l’alumne selecciona «corre pel parc» i comprova. Una altra ronda demana els adjectius i marca «gran».',
+    enPapel: { titulo: 'Analitzar frases en paper', pasos: ['Escriu una frase senzilla en un full.', 'Subratlla d’un color el subjecte (de qui es parla) i d’un altre el predicat (el que es diu).', 'Encercla el verb: és el nucli del predicat i concorda amb el subjecte.', 'Marca les altres classes de paraules (articles, adjectius, complements) amb símbols diferents.'] },
+    alternativas: [
+      { nombre: 'Anàlisi per colors', desc: 'Assigna un color a cada funció (subjecte, verb, CD…) i pinta frases senceres. Molt visual per memoritzar l’estructura.' },
+      { nombre: 'Frases retallades', desc: 'Retalla les paraules d’una frase i recol·loca-les per grups sintàctics com un trencaclosques.' },
+      { nombre: 'Caçar la paraula', desc: 'En qualsevol text, busca tots els adjectius o tots els pronoms d’una pàgina. Gramàtica amb el que ja es llegeix.' },
+    ],
+    asignatura: 'Llengua', niveles: 'Primària, ESO, Batxillerat',
+  },
   'balanza': {
     titulo: 'Equilibra la Balança', subtitulo: 'Joc de Palanques, Moments i Llei de la Palanca',
     emoji: '⚖️', gradient: 'from-teal-600 to-emerald-800', path: '/juegos/balanza',

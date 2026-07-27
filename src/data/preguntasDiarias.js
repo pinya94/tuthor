@@ -60,14 +60,15 @@ export function getPaisDeHoy() {
   return PAISES[dia % PAISES.length]
 }
 
-// Rota entre trivia, cálculo mental, portada, georush, numpath y geomapa (cada 6 días).
+// Rota (cada 9 días) entre trivia, cálculo mental, portada, georush, numpath,
+// geomapa, Fuerza Neta, Balanza y Analiza la Frase.
 // El Intruso se sacó de la rotación: la mecánica de categoría puede tener más
 // de una respuesta válida (p. ej. todas masculinas menos una, pero también
 // distinta por otro criterio), lo que generaba retos diarios ambiguos. El
 // juego sigue disponible en /juegos/intruso, solo no se ofrece como reto del día.
 export function getDesafioDeHoy() {
   const dia = dayOfYear()
-  const tipo = dia % 8
+  const tipo = dia % 9
   if (tipo === 0) {
     return { tipo: 'trivia', pregunta: getPreguntaDeHoy() }
   }
@@ -92,6 +93,11 @@ export function getDesafioDeHoy() {
     // Fuerza Neta: una ronda determinista (misma para todos ese día).
     return { tipo: 'fuerza-neta', round: genFuerzaNeta('medio', makeRng(dia)) }
   }
-  // Balanza: una ronda determinista del día.
-  return { tipo: 'balanza', round: genBalanza('medio', makeRng(dia)) }
+  if (tipo === 7) {
+    // Balanza: una ronda determinista del día.
+    return { tipo: 'balanza', round: genBalanza('medio', makeRng(dia)) }
+  }
+  // Analiza la Frase: solo la semilla; la ronda se construye en el idioma del
+  // usuario al renderizar (los tokens dependen del idioma), pero es determinista.
+  return { tipo: 'analiza-frases', seed: dia }
 }

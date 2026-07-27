@@ -12,6 +12,9 @@ import ForceDiagram from '../components/ForceDiagram'
 import { DIRS, axisBreakdown } from '../lib/fuerzaNeta'
 import BalanceBeam from '../components/BalanceBeam'
 import { torqueBreakdown } from '../lib/balanza'
+import { makeRng } from '../lib/fuerzaNeta'
+import SentenceBoard from '../components/SentenceBoard'
+import { genRound as genFrase, sameSet } from '../lib/analizaFrases'
 
 function GeoInput({ value, onChange, onSubmit, disabled, useEnglish }) {
   const [focused, setFocused] = useState(false)
@@ -93,6 +96,13 @@ export default function PreguntaDiaria() {
   const fnRound    = esFuerza ? desafio.round : null
   const esBalanza  = desafio.tipo === 'balanza'
   const blRound    = esBalanza ? desafio.round : null
+  const esFrase    = desafio.tipo === 'analiza-frases'
+  // La ronda de frase se construye en el idioma del usuario, determinista por día.
+  const frRound = useMemo(
+    () => (esFrase ? genFrase({ lang: lang === 'en' ? 'en' : lang === 'ca' ? 'ca' : 'es', level: 'eso' }, makeRng(desafio.seed)) : null),
+    [esFrase, lang, desafio.seed],
+  )
+  const [fraseSel, setFraseSel] = useState([])
   const pregunta   = desafio.tipo === 'trivia' ? desafio.pregunta : null
   const portadaHoy = desafio.tipo === 'portada' ? desafio.portada : null
   const paisHoy    = (desafio.tipo === 'georush' || desafio.tipo === 'geomapa') ? desafio.pais : null
@@ -170,6 +180,15 @@ export default function PreguntaDiaria() {
 
   function normalize(s) {
     return s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().trim()
+  }
+
+  async function confirmarFrase() {
+    if (answered || fraseSel.length === 0) return
+    setAnswered(true)
+    if (user) {
+      const saved = await saveDailyChallenge(user.uid, sameSet(fraseSel, frRound.indices))
+      if (saved) { setStreak(s => s + 1); triggerCoins() }
+    }
   }
 
   async function handleGeoSubmit(val) {
@@ -617,6 +636,53 @@ export default function PreguntaDiaria() {
               )}
               {answered && (
                 <button onClick={() => navigate(localPath('/juegos/balanza'))} className="mt-3 w-full bg-violet-600 hover:bg-violet-500 text-white font-bold py-2.5 rounded-xl text-sm transition-colors">
+                  {ca ? 'Seguir jugant →' : en ? 'Keep playing →' : 'Seguir jugando →'}
+                </button>
+              )}
+            </div>
+            <div className="px-6 sm:px-8 pb-6">
+              <p className="text-center text-white/20 text-xs">{ca ? 'Nou repte demà · Torna cada dia' : en ? 'New challenge tomorrow · Come back every day' : 'Nuevo reto mañana · Vuelve cada día'}</p>
+            </div>
+          </>
+        ) : esFrase ? (
+          /* ── Analiza la Frase ── */
+          <>
+            <div className="px-6 sm:px-8 py-4">
+              <p className="text-xs font-semibold text-white/40 uppercase tracking-widest mb-2">
+                {ca ? '🧐 Analitza la frase' : en ? '🧐 Analyse the sentence' : '🧐 Analiza la frase'}
+              </p>
+              <p className="text-white/70 text-sm mb-3 text-center">
+                {en ? 'Select' : ca ? 'Selecciona' : 'Selecciona'}{' '}
+                <span className="text-[#EDAE49] font-black">{frRound.label[lang] ?? frRound.label.es}</span>
+              </p>
+              <div className="w-full rounded-xl border border-white/10 bg-[#0d1117] p-4 mb-3">
+                <SentenceBoard
+                  tokens={frRound.tokens}
+                  selected={fraseSel}
+                  correct={frRound.indices}
+                  reveal={answered}
+                  onToggle={answered ? undefined : (i => setFraseSel(s => (s.includes(i) ? s.filter(x => x !== i) : [...s, i])))}
+                />
+              </div>
+              {answered && (
+                <p className={`text-center font-black mb-2 ${sameSet(fraseSel, frRound.indices) ? 'text-green-400' : 'text-red-400'}`}>
+                  {sameSet(fraseSel, frRound.indices) ? (ca ? '🎉 Correcte!' : en ? '🎉 Correct!' : '🎉 ¡Correcto!') : (ca ? '❌ No hi és tot' : en ? '❌ Not quite' : '❌ No es exacto')}
+                  <span className="block text-white/60 text-xs font-normal mt-1">💡 {frRound.explica[lang] ?? frRound.explica.es}</span>
+                </p>
+              )}
+              {!answered && (
+                <button onClick={confirmarFrase} disabled={fraseSel.length === 0}
+                  className="w-full bg-violet-600 disabled:opacity-30 text-white font-bold py-3 rounded-xl hover:bg-violet-700 transition-colors disabled:cursor-not-allowed">
+                  {ca ? '✓ Comprovar' : en ? '✓ Check' : '✓ Comprobar'}
+                </button>
+              )}
+              {answered && !user && (
+                <button onClick={() => setShowAuth(true)} className="mt-3 w-full bg-amber-500/20 border border-amber-500/30 text-amber-400 font-semibold py-2.5 rounded-xl text-sm hover:bg-amber-500/30 transition-colors">
+                  {ca ? 'Inicia sessió per guardar la ratxa 🔥' : en ? 'Sign in to save your streak 🔥' : 'Inicia sesión para guardar tu racha 🔥'}
+                </button>
+              )}
+              {answered && (
+                <button onClick={() => navigate(localPath('/juegos/analiza-frases'))} className="mt-3 w-full bg-violet-600 hover:bg-violet-500 text-white font-bold py-2.5 rounded-xl text-sm transition-colors">
                   {ca ? 'Seguir jugant →' : en ? 'Keep playing →' : 'Seguir jugando →'}
                 </button>
               )}
