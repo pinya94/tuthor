@@ -2,9 +2,9 @@ import { useNavigate } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 
 const TEMAS = [
-  { id: 'sustantivos', titulo: { es: 'Sustantivos', en: 'Nouns', ca: 'Substantius' }, emoji: '📚', gradient: 'from-red-500 to-rose-600', gameId: 'espanol-gramatica-sustantivos-test' },
-  { id: 'verbos', titulo: { es: 'Verbos', en: 'Verbs', ca: 'Verbs' }, emoji: '🏃', gradient: 'from-orange-500 to-amber-600', gameId: 'espanol-gramatica-verbos-test' },
-  { id: 'sintaxis', titulo: { es: 'Sintaxis', en: 'Syntax', ca: 'Sintaxi' }, emoji: '🔬', gradient: 'from-purple-500 to-violet-600', gameId: 'espanol-gramatica-sintaxis-test' },
+  { id: 'sustantivos', titulo: { es: 'Sustantivos', en: 'Nouns', ca: 'Substantius' }, emoji: '📚', gradient: 'from-red-500 to-rose-600' },
+  { id: 'verbos', titulo: { es: 'Verbos', en: 'Verbs', ca: 'Verbs' }, emoji: '🏃', gradient: 'from-orange-500 to-amber-600' },
+  { id: 'sintaxis', titulo: { es: 'Sintaxis', en: 'Syntax', ca: 'Sintaxi' }, emoji: '🔬', gradient: 'from-purple-500 to-violet-600' },
 ]
 
 export default function EspanolGramaticaIndex() {
@@ -24,7 +24,7 @@ export default function EspanolGramaticaIndex() {
         {TEMAS.map(tema => (
           <button
             key={tema.id}
-            onClick={() => navigate(`/examen/${tema.gameId}`)}
+            onClick={() => navigate(`/estudiar/idiomas/espanol/gramatica/${tema.id}`)}
             className={`bg-gradient-to-br ${tema.gradient} text-white rounded-2xl p-6 text-left hover:scale-105 transition-transform shadow-md`}
           >
             <div className="text-4xl mb-3">{tema.emoji}</div>

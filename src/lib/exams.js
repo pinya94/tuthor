@@ -225,6 +225,16 @@ export const EXAMS = {
     emoji: '🏷️', subject: 'lengua',
     path: 'examen/frases-clases-test', page: () => import('../pages/FrasesClasesExamen'),
   },
+  'frases-sustantivos-test': {
+    label: { es: 'Sustantivos (señálalos)', en: 'Nouns (spot them)', ca: 'Substantius (assenyala\'ls)' },
+    emoji: '🧐', subject: 'lengua',
+    path: 'examen/frases-sustantivos-test', page: () => import('../pages/FrasesSustantivosExamen'),
+  },
+  'frases-verbos-test': {
+    label: { es: 'Verbos (señálalos)', en: 'Verbs (spot them)', ca: 'Verbs (assenyala\'ls)' },
+    emoji: '🧐', subject: 'lengua',
+    path: 'examen/frases-verbos-test', page: () => import('../pages/FrasesVerbosExamen'),
+  },
   'frases-morfologia-test': {
     label: { es: 'Género y Número', en: 'Gender & Number', ca: 'Gènere i Nombre' },
     emoji: '♀️', subject: 'lengua',
