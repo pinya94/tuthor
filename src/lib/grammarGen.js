@@ -115,24 +115,35 @@ export function annFromUnits(units) {
 }
 
 // ── Construye una ronda: plantilla válida + tarea válida para nivel/filtro ─────
-export function buildRound(templates, TASKS, levelRank, filter, rand, lang) {
+export function buildRound(templates, TASKS, levelRank, filter, rand, lang, fixed = []) {
   const elig = templates.filter(t => t.rank <= levelRank)
-  const mk = (t, tokens, ann, find) => ({
-    id: `${t.id}:${find}:${tokens.join('_')}`,
+  const eligFix = fixed.filter(f => f.rank <= levelRank)
+  const mk = (id, tokens, ann, find) => ({
+    id: `${id}:${find}:${tokens.join('_')}`,
     tokens, find, indices: ann[find], label: TASKS[find].label, explica: TASKS[find].explica,
   })
   let fallback = null
   for (let attempt = 0; attempt < 60; attempt++) {
-    const t = pick(elig, rand)
-    const units = contract(elide(t.build(rand), lang), lang)
+    // ~30% de las veces una frase fija (compuesta), si hay alguna para el nivel.
+    const useFix = eligFix.length && rand() < 0.3
+    let units, id
+    if (useFix) {
+      const f = pick(eligFix, rand)
+      units = f.units
+      id = 'fija'
+    } else {
+      const t = pick(elig, rand)
+      units = contract(elide(t.build(rand), lang), lang)
+      id = t.id
+    }
     const tokens = units.map(u => u.text)
     const ann = annFromUnits(units)
     const all = Object.keys(ann).filter(k => ann[k].length > 0 && TASKS[k] && TASKS[k].min <= levelRank)
     if (!all.length) continue
-    if (!fallback) fallback = mk(t, tokens, ann, pick(all, rand))
+    if (!fallback) fallback = mk(id, tokens, ann, pick(all, rand))
     const tasks = filter ? all.filter(k => filter.includes(k)) : all
     if (!tasks.length) continue
-    return mk(t, tokens, ann, pick(tasks, rand))
+    return mk(id, tokens, ann, pick(tasks, rand))
   }
   return fallback
 }
