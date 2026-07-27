@@ -322,6 +322,36 @@ export const EXAMS = {
     emoji: '🔄', subject: 'ingles',
     path: 'examen/ingles-grammar-passive-test', page: () => import('../pages/InglesGrammarPassiveExamen'),
   },
+  'ingles-pos-nouns-test': {
+    label: { es: 'Nouns (spot them)', en: 'Nouns (spot them)', ca: 'Nouns (spot them)' },
+    emoji: '🧐', subject: 'ingles',
+    path: 'examen/ingles-pos-nouns-test', page: () => import('../pages/InglesNounsExamen'),
+  },
+  'ingles-pos-verbs-test': {
+    label: { es: 'Verbs (spot them)', en: 'Verbs (spot them)', ca: 'Verbs (spot them)' },
+    emoji: '🧐', subject: 'ingles',
+    path: 'examen/ingles-pos-verbs-test', page: () => import('../pages/InglesVerbsExamen'),
+  },
+  'ingles-pos-adjectives-test': {
+    label: { es: 'Adjectives (spot them)', en: 'Adjectives (spot them)', ca: 'Adjectives (spot them)' },
+    emoji: '🧐', subject: 'ingles',
+    path: 'examen/ingles-pos-adjectives-test', page: () => import('../pages/InglesAdjectivesExamen'),
+  },
+  'ingles-pos-adverbs-test': {
+    label: { es: 'Adverbs (spot them)', en: 'Adverbs (spot them)', ca: 'Adverbs (spot them)' },
+    emoji: '🧐', subject: 'ingles',
+    path: 'examen/ingles-pos-adverbs-test', page: () => import('../pages/InglesAdverbsExamen'),
+  },
+  'ingles-pos-pronouns-test': {
+    label: { es: 'Pronouns (spot them)', en: 'Pronouns (spot them)', ca: 'Pronouns (spot them)' },
+    emoji: '🧐', subject: 'ingles',
+    path: 'examen/ingles-pos-pronouns-test', page: () => import('../pages/InglesPronounsExamen'),
+  },
+  'ingles-pos-connectors-test': {
+    label: { es: 'Prepositions & Conjunctions', en: 'Prepositions & Conjunctions', ca: 'Prepositions & Conjunctions' },
+    emoji: '🧐', subject: 'ingles',
+    path: 'examen/ingles-pos-connectors-test', page: () => import('../pages/InglesConnectorsExamen'),
+  },
 }
 
 // ── Helpers ──────────────────────────────────────────────────────────────────

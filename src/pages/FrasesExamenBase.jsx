@@ -30,9 +30,11 @@ function Question({ round, phase, answer, onAnswer, l }) {
 
 // Base de todos los exámenes de "Analiza la Frase". `filter` = tareas a las que
 // se ciñe el examen (null = todas). `levels` = niveles ofrecidos.
-export default function FrasesExamenBase({ gameId, filter = null, levels = LEVELS_ALL, badge, title, sub, metaTitle, metaDesc, metaPath }) {
+export default function FrasesExamenBase({ gameId, filter = null, levels = LEVELS_ALL, badge, title, sub, metaTitle, metaDesc, metaPath, sentenceLang, subjectSchema }) {
   const { lang } = useLang()
   const lg = lang === 'en' ? 'en' : lang === 'ca' ? 'ca' : 'es'
+  // Idioma de las FRASES (los rótulos siguen la UI). Para gramática inglesa, 'en'.
+  const sLang = sentenceLang || lg
   return (
     <MechanicExam
       gameId={gameId}
@@ -43,11 +45,11 @@ export default function FrasesExamenBase({ gameId, filter = null, levels = LEVEL
       metaTitle={metaTitle}
       metaDesc={metaDesc}
       metaPath={metaPath}
-      subjectSchema="Lengua Española"
+      subjectSchema={subjectSchema || 'Lengua Española'}
       backGamePath="/juegos/analiza-frases"
       playLabel={{ es: 'Modo arcade (40s)', en: 'Arcade mode (40s)', ca: 'Mode arcade (40s)' }}
       levels={levels}
-      genRound={level => genRound({ lang: lg, level, filter })}
+      genRound={level => genRound({ lang: sLang, level, filter })}
       isCorrect={(round, ans) => sameSet(ans, round.indices)}
       renderQuestion={props => <Question key={props.qIndex} {...props} />}
     />

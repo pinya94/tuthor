@@ -7,6 +7,13 @@ const TEMAS = [
   { id: 'present-perfect', titulo: 'Present Perfect', emoji: '🔗', gradient: 'from-purple-500 to-violet-600', gameId: 'ingles-grammar-present-perfect-test' },
   { id: 'articles', titulo: 'Articles', emoji: '📖', gradient: 'from-blue-500 to-cyan-600', gameId: 'ingles-grammar-articles-test' },
   { id: 'passive', titulo: 'Passive Voice', emoji: '🔄', gradient: 'from-red-500 to-rose-600', gameId: 'ingles-grammar-passive-test' },
+  // Parts of speech — mecánica "Analyse the Sentence" sobre frases en inglés.
+  { id: 'nouns', titulo: 'Nouns', emoji: '📚', gradient: 'from-red-500 to-rose-600', gameId: 'ingles-pos-nouns-test' },
+  { id: 'verbs', titulo: 'Verbs', emoji: '🏃', gradient: 'from-amber-500 to-orange-600', gameId: 'ingles-pos-verbs-test' },
+  { id: 'adjectives', titulo: 'Adjectives', emoji: '🎨', gradient: 'from-pink-500 to-rose-600', gameId: 'ingles-pos-adjectives-test' },
+  { id: 'adverbs', titulo: 'Adverbs', emoji: '⏱️', gradient: 'from-teal-500 to-cyan-600', gameId: 'ingles-pos-adverbs-test' },
+  { id: 'pronouns', titulo: 'Pronouns', emoji: '🙋', gradient: 'from-lime-500 to-green-600', gameId: 'ingles-pos-pronouns-test' },
+  { id: 'connectors', titulo: 'Prepositions & Conjunctions', emoji: '🔗', gradient: 'from-sky-500 to-blue-600', gameId: 'ingles-pos-connectors-test' },
 ]
 
 export default function InglesGrammarIndex() {
