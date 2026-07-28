@@ -19,6 +19,23 @@ export default function FuncionesTema() {
 
   const juegos = [
     {
+      id: 'funciones-grafica',
+      titulo: ca ? 'Caça la Funció' : en ? 'Function Hunt' : 'Caza la Función',
+      descripcion: ca
+        ? 'Llegeix la gràfica i ajusta el pendent, l\'ordenada o els coeficients fins que la teva corba encaixi. Rectes i paràboles.'
+        : en
+        ? 'Read the graph and adjust the slope, intercept or coefficients until your curve matches. Lines and parabolas.'
+        : 'Lee la gráfica y ajusta la pendiente, la ordenada o los coeficientes hasta que tu curva encaje. Rectas y parábolas.',
+      emoji: '📈',
+      gradient: 'from-pink-500 to-rose-700',
+      detalles: [
+        ca ? '3 nivells' : en ? '3 levels' : '3 niveles',
+        ca ? '10 preguntes' : en ? '10 questions' : '10 preguntas',
+        ca ? 'Amb el joc' : en ? 'With the game' : 'Con el juego',
+      ],
+      action: () => navigate(localPath('/examen/funciones-grafica-test')),
+    },
+    {
       id: 'trayectoria',
       titulo: 'Trayectoria',
       descripcion: ca

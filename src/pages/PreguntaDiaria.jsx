@@ -14,6 +14,8 @@ import BalanceBeam from '../components/BalanceBeam'
 import { torqueBreakdown } from '../lib/balanza'
 import EcuacionBalanza from '../components/EcuacionBalanza'
 import { isCorrectCoefs } from '../lib/ecuaciones'
+import AjustaGrafica from '../components/AjustaGrafica'
+import { isCorrectParams, fnText } from '../lib/funciones'
 import { makeRng } from '../lib/fuerzaNeta'
 import SentenceBoard from '../components/SentenceBoard'
 import { genRound as genFrase, sameSet } from '../lib/analizaFrases'
@@ -101,6 +103,9 @@ export default function PreguntaDiaria() {
   const esEcuacion = desafio.tipo === 'balanza-ecuaciones'
   const ecRound    = esEcuacion ? desafio.round : null
   const [ecCoefs, setEcCoefs] = useState(() => (ecRound ? [...ecRound.initial] : []))
+  const esFuncion  = desafio.tipo === 'funciones-grafica'
+  const fgRound    = esFuncion ? desafio.round : null
+  const [fgParams, setFgParams] = useState(() => (fgRound ? { ...fgRound.params0 } : {}))
   const esFrase    = desafio.tipo === 'analiza-frases'
   // La ronda de frase se construye en el idioma del usuario, determinista por día.
   const frRound = useMemo(
@@ -193,6 +198,23 @@ export default function PreguntaDiaria() {
     setAnswered(true)
     if (user) {
       const saved = await saveDailyChallenge(user.uid, isCorrectCoefs(ecRound, ecCoefs))
+      if (saved) { setStreak(s => s + 1); triggerCoins() }
+    }
+  }
+
+  function fgStep(key, d) {
+    if (answered) return
+    setFgParams(p => {
+      const c = fgRound.controls.find(c => c.key === key)
+      return { ...p, [key]: Math.max(c.min, Math.min(c.max, (p[key] || 0) + d)) }
+    })
+  }
+
+  async function confirmarFuncion() {
+    if (answered) return
+    setAnswered(true)
+    if (user) {
+      const saved = await saveDailyChallenge(user.uid, isCorrectParams(fgRound, fgParams))
       if (saved) { setStreak(s => s + 1); triggerCoins() }
     }
   }
@@ -699,6 +721,50 @@ export default function PreguntaDiaria() {
               )}
               {answered && (
                 <button onClick={() => navigate(localPath('/juegos/balanza-ecuaciones'))} className="mt-3 w-full bg-violet-600 hover:bg-violet-500 text-white font-bold py-2.5 rounded-xl text-sm transition-colors">
+                  {ca ? 'Seguir jugant →' : en ? 'Keep playing →' : 'Seguir jugando →'}
+                </button>
+              )}
+            </div>
+            <div className="px-6 sm:px-8 pb-6">
+              <p className="text-center text-white/20 text-xs">{ca ? 'Nou repte demà · Torna cada dia' : en ? 'New challenge tomorrow · Come back every day' : 'Nuevo reto mañana · Vuelve cada día'}</p>
+            </div>
+          </>
+        ) : esFuncion ? (
+          /* ── Caza la Función ── */
+          <>
+            <div className="px-6 sm:px-8 py-4">
+              <p className="text-xs font-semibold text-white/40 uppercase tracking-widest mb-2">
+                {ca ? '📈 Caça la funció' : en ? '📈 Function hunt' : '📈 Caza la función'}
+              </p>
+              <p className="text-white/70 text-sm mb-3 text-center">
+                {ca ? 'Ajusta els números fins que la teva corba encaixi sobre la puntejada' : en ? 'Adjust the numbers until your curve matches the dashed one' : 'Ajusta los números hasta que tu curva encaje sobre la punteada'}
+              </p>
+              <div className="mb-3">
+                <AjustaGrafica round={fgRound} params={fgParams} onStep={fgStep} reveal={answered} l={en ? 'en' : ca ? 'ca' : 'es'} />
+              </div>
+              {answered && (
+                <p className={`text-center font-black mb-2 ${isCorrectParams(fgRound, fgParams) ? 'text-green-400' : 'text-red-400'}`}>
+                  {isCorrectParams(fgRound, fgParams) ? (ca ? '📈 Caçada!' : en ? '📈 Caught it!' : '📈 ¡Cazada!') : (ca ? '❌ Encara no encaixa' : en ? '❌ Not matching yet' : '❌ Aún no encaja')}
+                  {!isCorrectParams(fgRound, fgParams) && (
+                    <span className="block text-white/60 text-xs font-normal font-mono mt-1">
+                      {ca ? 'Era:' : en ? 'It was:' : 'Era:'} {fnText(fgRound.kind, fgRound.target)}
+                    </span>
+                  )}
+                </p>
+              )}
+              {!answered && (
+                <button onClick={confirmarFuncion}
+                  className="w-full bg-violet-600 text-white font-bold py-3 rounded-xl hover:bg-violet-700 transition-colors">
+                  {ca ? '✓ Comprovar' : en ? '✓ Check' : '✓ Comprobar'}
+                </button>
+              )}
+              {answered && !user && (
+                <button onClick={() => setShowAuth(true)} className="mt-3 w-full bg-amber-500/20 border border-amber-500/30 text-amber-400 font-semibold py-2.5 rounded-xl text-sm hover:bg-amber-500/30 transition-colors">
+                  {ca ? 'Inicia sessió per guardar la ratxa 🔥' : en ? 'Sign in to save your streak 🔥' : 'Inicia sesión para guardar tu racha 🔥'}
+                </button>
+              )}
+              {answered && (
+                <button onClick={() => navigate(localPath('/juegos/funciones-grafica'))} className="mt-3 w-full bg-violet-600 hover:bg-violet-500 text-white font-bold py-2.5 rounded-xl text-sm transition-colors">
                   {ca ? 'Seguir jugant →' : en ? 'Keep playing →' : 'Seguir jugando →'}
                 </button>
               )}

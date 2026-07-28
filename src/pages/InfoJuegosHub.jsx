@@ -67,6 +67,7 @@ const JUEGOS = {
     [
       { slug: 'acercate', titulo: 'Acércate al Número', desc: 'Combina operaciones para llegar al número objetivo. Roguelike con mejoras entre niveles.', emoji: '🎯', gradient: 'from-pink-600 to-rose-800', tags: ['Mates','Roguelike'] },
       { slug: 'numpath', titulo: 'NumPath', desc: 'Navega por una cuadrícula de operaciones y alcanza las metas con la puntuación exacta.', emoji: '🧮', gradient: 'from-yellow-500 to-orange-500', tags: ['Mates','Estrategia'] },
+      { slug: 'funciones-grafica', titulo: 'Caza la Función', desc: 'Lee una gráfica y ajusta la pendiente y la ordenada (o a, b, c) hasta que tu recta o parábola encaje sobre la objetivo.', emoji: '📈', gradient: 'from-pink-600 to-rose-800', tags: ['Mates','Funciones'] },
     ],
     [
       { slug: 'tuthor-time', titulo: 'Tuthor Time', desc: 'Viaja en el tiempo y acierta el año de cada evento histórico.', emoji: '🕰️', gradient: 'from-amber-600 to-orange-800', tags: ['Historia','Fechas'] },
@@ -97,6 +98,7 @@ const JUEGOS = {
     [
       { slug: 'acercate', titulo: 'Target Number', desc: 'Combine operations to reach the target number. Roguelike with upgrades between levels.', emoji: '🎯', gradient: 'from-pink-600 to-rose-800', tags: ['Maths','Roguelike'] },
       { slug: 'numpath', titulo: 'NumPath', desc: 'Navigate a grid of operations and reach goals with the exact score.', emoji: '🧮', gradient: 'from-yellow-500 to-orange-500', tags: ['Maths','Strategy'] },
+      { slug: 'funciones-grafica', titulo: 'Function Hunt', desc: 'Read a graph and adjust the slope and intercept (or a, b, c) until your line or parabola matches the target.', emoji: '📈', gradient: 'from-pink-600 to-rose-800', tags: ['Maths','Functions'] },
     ],
     [
       { slug: 'tuthor-time', titulo: 'Tuthor Time', desc: 'Travel through time and guess the year of each historical event.', emoji: '🕰️', gradient: 'from-amber-600 to-orange-800', tags: ['History','Dates'] },
@@ -127,6 +129,7 @@ const JUEGOS = {
     [
       { slug: 'acercate', titulo: 'Acosta\'t al Número', desc: 'Combina operacions per arribar al número objectiu. Roguelike amb millores entre nivells.', emoji: '🎯', gradient: 'from-pink-600 to-rose-800', tags: ['Mates','Roguelike'] },
       { slug: 'numpath', titulo: 'NumPath', desc: 'Navega per una quadrícula d\'operacions i arriba a les metes amb la puntuació exacta.', emoji: '🧮', gradient: 'from-yellow-500 to-orange-500', tags: ['Mates','Estratègia'] },
+      { slug: 'funciones-grafica', titulo: 'Caça la Funció', desc: 'Llegeix una gràfica i ajusta el pendent i l’ordenada (o a, b, c) fins que la teva recta o paràbola encaixi sobre l’objectiu.', emoji: '📈', gradient: 'from-pink-600 to-rose-800', tags: ['Mates','Funcions'] },
     ],
     [
       { slug: 'tuthor-time', titulo: 'Tuthor Time', desc: 'Viatja en el temps i encerta l\'any de cada esdeveniment històric.', emoji: '🕰️', gradient: 'from-amber-600 to-orange-800', tags: ['Història','Dates'] },

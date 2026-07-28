@@ -100,6 +100,7 @@
   <url><loc>https://www.tuthor.es/examen/fuerza-neta-test</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/examen/balanza-test</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/examen/balanza-ecuaciones-test</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/examen/funciones-grafica-test</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/examen/analiza-frases-test</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/examen/frases-sintaxis-test</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/examen/frases-complementos-test</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
@@ -189,6 +190,7 @@
   <url><loc>https://www.tuthor.es/juegos/fuerza-neta</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/juegos/balanza</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/juegos/balanza-ecuaciones</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/juegos/funciones-grafica</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/juegos/analiza-frases</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/examen/musica</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
 
@@ -340,6 +342,7 @@
   <url><loc>https://www.tuthor.es/info/juegos/fuerza-neta</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/info/juegos/balanza</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/info/juegos/balanza-ecuaciones</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/info/juegos/funciones-grafica</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/info/juegos/analiza-frases</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/en/info/juegos/acercate</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
   <url><loc>https://www.tuthor.es/en/info/juegos/tuthor-time</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
@@ -351,6 +354,7 @@
   <url><loc>https://www.tuthor.es/en/info/juegos/fuerza-neta</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
   <url><loc>https://www.tuthor.es/en/info/juegos/balanza</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
   <url><loc>https://www.tuthor.es/en/info/juegos/balanza-ecuaciones</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://www.tuthor.es/en/info/juegos/funciones-grafica</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
   <url><loc>https://www.tuthor.es/en/info/juegos/analiza-frases</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
 
   <!-- INFO DIARIA -->

@@ -170,6 +170,14 @@ export const GAMES = {
     // aciertos × 10 puntos → hasta 200 monedas
     coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
   },
+  'funciones-grafica': {
+    label: { es: 'Caza la Función', en: 'Function Hunt', ca: 'Caça la Funció' },
+    emoji: '📈',
+    subject: 'matematicas',
+    route: '/juegos/funciones-grafica',
+    // aciertos × 10 puntos → hasta 200 monedas
+    coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
+  },
 }
 
 // ── Helpers ──────────────────────────────────────────────────────────────────

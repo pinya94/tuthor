@@ -106,6 +106,11 @@ export const EXAMS = {
     emoji: '📐', subject: 'matematicas',
     path: 'examen/geometria', page: () => import('../pages/GeometriaExamen'),
   },
+  'funciones-grafica-test': {
+    label: { es: 'Caza la Función', en: 'Function Hunt', ca: 'Caça la Funció' },
+    emoji: '📈', subject: 'matematicas',
+    path: 'examen/funciones-grafica-test', page: () => import('../pages/FuncionesGraficaExamen'),
+  },
 
   // ── Ciencias ───────────────────────────────────────────────────────────────
   'acidos-bases': {

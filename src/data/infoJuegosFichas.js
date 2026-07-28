@@ -85,6 +85,34 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Química', niveles: 'ESO, Bachillerato',
   },
+  'funciones-grafica': {
+    titulo: 'Caza la Función',
+    subtitulo: 'Juego de Funciones y Gráficas (rectas y parábolas)',
+    emoji: '📈', gradient: 'from-pink-600 to-rose-800',
+    path: '/juegos/funciones-grafica',
+    intro: 'Un juego de matemáticas para entender las gráficas de verdad: aparece una función dibujada (una recta o una parábola) y tú ajustas sus parámetros —la pendiente, la ordenada en el origen o los coeficientes— hasta que tu curva se superpone exactamente a la objetivo. Ves en directo cómo cada número deforma la gráfica, ronda tras ronda, con la ecuación en vivo.',
+    beneficios: [
+      { titulo: 'Leer gráficas', texto: 'Deducir la pendiente y el punto de corte a partir de una recta dibujada entrena la lectura de gráficas, una competencia clave de toda la ESO y Bachillerato.' },
+      { titulo: 'Sentido de los parámetros', texto: 'Ver cómo m inclina la recta, b la sube o baja, o cómo a abre y cierra la parábola convierte fórmulas abstractas en algo visual e intuitivo.' },
+      { titulo: 'De la gráfica a la ecuación', texto: 'Pasar de una curva a su expresión algebraica (y viceversa) es justo lo que piden los exámenes de funciones. El juego lo entrena con feedback inmediato.' },
+    ],
+    ejemplo: 'Aparece una recta que sube y corta el eje Y en 2. El alumno pone pendiente m = 1 y ordenada b = 2, su recta se superpone a la punteada y la caza: y = x + 2.',
+    enPapel: {
+      titulo: 'Funciones en papel',
+      pasos: [
+        'Dibuja unos ejes con cuadrícula en una hoja.',
+        'Pinta una recta cualquiera y fíjate dónde corta el eje Y (eso es b).',
+        'Cuenta cuánto sube por cada paso a la derecha (eso es la pendiente m).',
+        'Escribe y = mx + b y compruébalo dando valores a x. Con parábolas, prueba a cambiar a, b y c y observa cómo cambia.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'Papel milimetrado', desc: 'Representar funciones a mano en papel milimetrado sigue siendo el mejor ejercicio para entender ejes, escala y forma.' },
+      { nombre: 'Calculadora gráfica o GeoGebra', desc: 'Mueve los parámetros de una función con deslizadores y observa la gráfica en tiempo real. Ideal para explorar familias de curvas.' },
+      { nombre: 'Batalla naval con coordenadas', desc: 'Un clásico para practicar el plano cartesiano y localizar puntos (x, y) jugando.' },
+    ],
+    asignatura: 'Matemáticas', niveles: 'ESO, Bachillerato',
+  },
   'fuerza-neta': {
     titulo: 'Fuerza Neta',
     subtitulo: 'Juego de Fuerzas, Vectores y Equilibrio',
@@ -494,6 +522,24 @@ export const FICHAS_EN = {
     ],
     asignatura: 'Chemistry', niveles: 'Secondary, Sixth Form',
   },
+  'funciones-grafica': {
+    titulo: 'Function Hunt', subtitulo: 'Functions & Graphs Game (lines and parabolas)',
+    emoji: '📈', gradient: 'from-pink-600 to-rose-800', path: '/juegos/funciones-grafica',
+    intro: 'A maths game to really understand graphs: a function appears drawn (a line or a parabola) and you adjust its parameters — the slope, the y-intercept or the coefficients — until your curve overlaps the target exactly. You see live how each number reshapes the graph, round after round, with the equation updating in real time.',
+    beneficios: [
+      { titulo: 'Reading graphs', texto: 'Working out the slope and intercept from a drawn line trains graph reading, a key skill throughout secondary school.' },
+      { titulo: 'Feel for parameters', texto: 'Seeing how m tilts the line, b raises or lowers it, or how a opens and closes the parabola turns abstract formulas into something visual and intuitive.' },
+      { titulo: 'From graph to equation', texto: 'Going from a curve to its algebraic expression (and back) is exactly what function exams ask for. The game trains it with instant feedback.' },
+    ],
+    ejemplo: 'A line appears going up and crossing the Y axis at 2. The student sets slope m = 1 and intercept b = 2, their line overlaps the dashed one and they catch it: y = x + 2.',
+    enPapel: { titulo: 'Functions on paper', pasos: ['Draw axes with a grid on a sheet.', 'Draw any line and note where it crosses the Y axis (that is b).', 'Count how much it rises per step to the right (that is the slope m).', 'Write y = mx + b and check it by plugging in values of x. With parabolas, try changing a, b and c and watch how it changes.'] },
+    alternativas: [
+      { nombre: 'Graph paper', desc: 'Plotting functions by hand on graph paper is still the best exercise to understand axes, scale and shape.' },
+      { nombre: 'Graphing calculator or GeoGebra', desc: 'Move a function\'s parameters with sliders and watch the graph in real time. Great for exploring families of curves.' },
+      { nombre: 'Battleship with coordinates', desc: 'A classic for practising the coordinate plane and locating (x, y) points by playing.' },
+    ],
+    asignatura: 'Mathematics', niveles: 'Secondary, Sixth Form',
+  },
   'fuerza-neta': {
     titulo: 'Net Force', subtitulo: 'Forces, Vectors & Equilibrium Game',
     emoji: '🧭', gradient: 'from-sky-600 to-blue-800', path: '/juegos/fuerza-neta',
@@ -824,6 +870,24 @@ export const FICHAS_CA = {
       { nombre: 'Taula de recompte', desc: 'Una simple taula element/esquerra/dreta al quadern converteix l’ajust en un problema ordenat i comprovable.' },
     ],
     asignatura: 'Química', niveles: 'ESO, Batxillerat',
+  },
+  'funciones-grafica': {
+    titulo: 'Caça la Funció', subtitulo: 'Joc de Funcions i Gràfiques (rectes i paràboles)',
+    emoji: '📈', gradient: 'from-pink-600 to-rose-800', path: '/juegos/funciones-grafica',
+    intro: 'Un joc de matemàtiques per entendre les gràfiques de debò: apareix una funció dibuixada (una recta o una paràbola) i tu ajustes els seus paràmetres —el pendent, l’ordenada a l’origen o els coeficients— fins que la teva corba se superposa exactament a l’objectiu. Veus en directe com cada número deforma la gràfica, ronda rere ronda, amb l’equació en viu.',
+    beneficios: [
+      { titulo: 'Llegir gràfiques', texto: 'Deduir el pendent i el punt de tall a partir d’una recta dibuixada entrena la lectura de gràfiques, una competència clau de tota l’ESO i el Batxillerat.' },
+      { titulo: 'Sentit dels paràmetres', texto: 'Veure com m inclina la recta, b la puja o baixa, o com a obre i tanca la paràbola converteix fórmules abstractes en una cosa visual i intuïtiva.' },
+      { titulo: 'De la gràfica a l’equació', texto: 'Passar d’una corba a la seva expressió algebraica (i a la inversa) és just el que demanen els exàmens de funcions. El joc ho entrena amb feedback immediat.' },
+    ],
+    ejemplo: 'Apareix una recta que puja i talla l’eix Y a 2. L’alumne posa pendent m = 1 i ordenada b = 2, la seva recta se superposa a la puntejada i la caça: y = x + 2.',
+    enPapel: { titulo: 'Funcions en paper', pasos: ['Dibuixa uns eixos amb quadrícula en un full.', 'Pinta una recta qualsevol i fixa’t on talla l’eix Y (això és b).', 'Compta quant puja per cada pas cap a la dreta (això és el pendent m).', 'Escriu y = mx + b i comprova-ho donant valors a x. Amb paràboles, prova de canviar a, b i c i observa com canvia.'] },
+    alternativas: [
+      { nombre: 'Paper mil·limetrat', desc: 'Representar funcions a mà en paper mil·limetrat continua sent el millor exercici per entendre eixos, escala i forma.' },
+      { nombre: 'Calculadora gràfica o GeoGebra', desc: 'Mou els paràmetres d’una funció amb controls lliscants i observa la gràfica en temps real. Ideal per explorar famílies de corbes.' },
+      { nombre: 'Batalla naval amb coordenades', desc: 'Un clàssic per practicar el pla cartesià i localitzar punts (x, y) jugant.' },
+    ],
+    asignatura: 'Matemàtiques', niveles: 'ESO, Batxillerat',
   },
   'fuerza-neta': {
     titulo: 'Força Neta', subtitulo: 'Joc de Forces, Vectors i Equilibri',

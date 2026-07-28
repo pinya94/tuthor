@@ -39,6 +39,7 @@ import { PAISES } from './paises'
 import { genRound as genFuerzaNeta, makeRng } from '../lib/fuerzaNeta'
 import { genRound as genBalanza } from '../lib/balanza'
 import { genRound as genBalanzaEcuaciones } from '../lib/ecuaciones'
+import { genRound as genFuncion } from '../lib/funciones'
 
 const PREGUNTAS_AUTO = eventosToPreguntas(EVENTOS_HISTORIA)
 
@@ -61,15 +62,16 @@ export function getPaisDeHoy() {
   return PAISES[dia % PAISES.length]
 }
 
-// Rota (cada 10 días) entre trivia, cálculo mental, portada, georush, numpath,
-// geomapa, Fuerza Neta, Balanza, Balanza de Ecuaciones y Analiza la Frase.
+// Rota (cada 11 días) entre trivia, cálculo mental, portada, georush, numpath,
+// geomapa, Fuerza Neta, Balanza, Balanza de Ecuaciones, Caza la Función y
+// Analiza la Frase.
 // El Intruso se sacó de la rotación: la mecánica de categoría puede tener más
 // de una respuesta válida (p. ej. todas masculinas menos una, pero también
 // distinta por otro criterio), lo que generaba retos diarios ambiguos. El
 // juego sigue disponible en /juegos/intruso, solo no se ofrece como reto del día.
 export function getDesafioDeHoy() {
   const dia = dayOfYear()
-  const tipo = dia % 10
+  const tipo = dia % 11
   if (tipo === 0) {
     return { tipo: 'trivia', pregunta: getPreguntaDeHoy() }
   }
@@ -101,6 +103,10 @@ export function getDesafioDeHoy() {
   if (tipo === 8) {
     // Balanza de Ecuaciones: una reacción determinista del día.
     return { tipo: 'balanza-ecuaciones', round: genBalanzaEcuaciones('medio', makeRng(dia)) }
+  }
+  if (tipo === 9) {
+    // Caza la Función: una función determinista del día.
+    return { tipo: 'funciones-grafica', round: genFuncion('facil', makeRng(dia)) }
   }
   // Analiza la Frase: solo la semilla; la ronda se construye en el idioma del
   // usuario al renderizar (los tokens dependen del idioma), pero es determinista.
