@@ -21,6 +21,7 @@ const DATA = {
       { titulo: 'Idiomas y Gramática', emoji: '🔍', texto: 'Trabajar vocabulario, categorías gramaticales y ortografía de forma activa es mucho más eficaz que estudiar listas de palabras. Nuestros juegos de lengua plantean retos contextualizados que refuerzan el español, el catalán y el inglés.' },
       { titulo: 'Economía y Finanzas Personales', emoji: '💰', texto: 'Entender el dinero de verdad requiere tomar decisiones, no memorizar definiciones. Nuestro simulador de vida financiera enseña inflación, interés compuesto, deuda y señales de estafa jugando una vida entera.' },
       { titulo: 'Física y Fuerzas', emoji: '🧭', texto: 'La física se entiende mejor viéndola. Nuestros juegos convierten conceptos como las fuerzas, los vectores y el equilibrio en retos visuales donde el alumno predice el resultado y comprueba al instante si acertó.' },
+      { titulo: 'Química y Reacciones', emoji: '⚗️', texto: 'Ajustar ecuaciones químicas suele ser puro cálculo abstracto. Nuestros juegos lo convierten en equilibrar una balanza: el alumno cambia los coeficientes y ve, elemento a elemento, cómo se cumple la ley de conservación de la masa.' },
     ],
   },
   en: {
@@ -38,6 +39,7 @@ const DATA = {
       { titulo: 'Languages & Grammar', emoji: '🔍', texto: 'Actively working on vocabulary, word classes and spelling is far more effective than studying word lists. Our language games present contextualised challenges that reinforce Spanish, Catalan and English.' },
       { titulo: 'Economics & Personal Finance', emoji: '💰', texto: 'Truly understanding money takes making decisions, not memorising definitions. Our financial life simulator teaches inflation, compound interest, debt and scam signals by playing out a whole life.' },
       { titulo: 'Physics & Forces', emoji: '🧭', texto: 'Physics is best understood by seeing it. Our games turn concepts like forces, vectors and equilibrium into visual challenges where the student predicts the outcome and checks instantly whether they were right.' },
+      { titulo: 'Chemistry & Reactions', emoji: '⚗️', texto: 'Balancing chemical equations is usually pure abstract calculation. Our games turn it into balancing a scale: the student changes the coefficients and sees, element by element, how the law of conservation of mass is met.' },
     ],
   },
   ca: {
@@ -55,6 +57,7 @@ const DATA = {
       { titulo: 'Idiomes i Gramàtica', emoji: '🔍', texto: 'Treballar vocabulari, categories gramaticals i ortografia de forma activa és molt més eficaç que estudiar llistes de paraules. Els nostres jocs de llengua plantegen reptes contextualitzats que reforcen el català, el castellà i l\'anglès.' },
       { titulo: 'Economia i Finances Personals', emoji: '💰', texto: 'Entendre els diners de debò requereix prendre decisions, no memoritzar definicions. El nostre simulador de vida financera ensenya inflació, interès compost, deute i senyals d\'estafa jugant una vida sencera.' },
       { titulo: 'Física i Forces', emoji: '🧭', texto: 'La física s\'entén millor veient-la. Els nostres jocs converteixen conceptes com les forces, els vectors i l\'equilibri en reptes visuals on l\'alumne prediu el resultat i comprova a l\'instant si ha encertat.' },
+      { titulo: 'Química i Reaccions', emoji: '⚗️', texto: 'Ajustar equacions químiques sol ser pur càlcul abstracte. Els nostres jocs ho converteixen en equilibrar una balança: l\'alumne canvia els coeficients i veu, element a element, com es compleix la llei de conservació de la massa.' },
     ],
   },
 }
@@ -86,6 +89,9 @@ const JUEGOS = {
       { slug: 'fuerza-neta', titulo: 'Fuerza Neta', desc: 'Suma las fuerzas que actúan sobre una caja y predice hacia dónde se mueve, o si está en equilibrio. Incluye fuerzas diagonales.', emoji: '🧭', gradient: 'from-sky-600 to-blue-800', tags: ['Física','Vectores'] },
       { slug: 'balanza', titulo: 'Equilibra la Balanza', desc: 'Coloca el peso a la distancia correcta para equilibrar la balanza. Palancas, momentos y la ley de la palanca.', emoji: '⚖️', gradient: 'from-teal-600 to-emerald-800', tags: ['Física','Palancas'] },
     ],
+    [
+      { slug: 'balanza-ecuaciones', titulo: 'Balanza de Ecuaciones', desc: 'Ajusta los coeficientes de una reacción hasta que haya los mismos átomos de cada elemento a los dos lados. Ley de conservación de la masa jugando.', emoji: '⚗️', gradient: 'from-emerald-600 to-teal-800', tags: ['Química','Reacciones'] },
+    ],
   ],
   en: [
     [
@@ -113,6 +119,9 @@ const JUEGOS = {
       { slug: 'fuerza-neta', titulo: 'Net Force', desc: 'Add up the forces acting on a box and predict which way it moves, or if it is balanced. Includes diagonal forces.', emoji: '🧭', gradient: 'from-sky-600 to-blue-800', tags: ['Physics','Vectors'] },
       { slug: 'balanza', titulo: 'Balance the Scale', desc: 'Place the weight at the right distance to balance the scale. Levers, moments and the law of the lever.', emoji: '⚖️', gradient: 'from-teal-600 to-emerald-800', tags: ['Physics','Levers'] },
     ],
+    [
+      { slug: 'balanza-ecuaciones', titulo: 'Equation Balancer', desc: 'Adjust the coefficients of a reaction until there are the same atoms of each element on both sides. The law of conservation of mass by playing.', emoji: '⚗️', gradient: 'from-emerald-600 to-teal-800', tags: ['Chemistry','Reactions'] },
+    ],
   ],
   ca: [
     [
@@ -139,6 +148,9 @@ const JUEGOS = {
     [
       { slug: 'fuerza-neta', titulo: 'Força Neta', desc: 'Suma les forces que actuen sobre una caixa i prediu cap on es mou, o si està en equilibri. Inclou forces diagonals.', emoji: '🧭', gradient: 'from-sky-600 to-blue-800', tags: ['Física','Vectors'] },
       { slug: 'balanza', titulo: 'Equilibra la Balança', desc: 'Col·loca el pes a la distància correcta per equilibrar la balança. Palanques, moments i la llei de la palanca.', emoji: '⚖️', gradient: 'from-teal-600 to-emerald-800', tags: ['Física','Palanques'] },
+    ],
+    [
+      { slug: 'balanza-ecuaciones', titulo: 'Balança d’Equacions', desc: 'Ajusta els coeficients d’una reacció fins que hi hagi els mateixos àtoms de cada element als dos costats. Llei de conservació de la massa jugant.', emoji: '⚗️', gradient: 'from-emerald-600 to-teal-800', tags: ['Química','Reaccions'] },
     ],
   ],
 }

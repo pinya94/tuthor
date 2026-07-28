@@ -163,6 +163,11 @@ export const EXAMS = {
     emoji: '⚖️', subject: 'fisica',
     path: 'examen/balanza-test', page: () => import('../pages/BalanzaExamen'),
   },
+  'balanza-ecuaciones-test': {
+    label: { es: 'Ajuste de Ecuaciones', en: 'Balancing Equations', ca: 'Ajust d’Equacions' },
+    emoji: '⚗️', subject: 'quimica',
+    path: 'examen/balanza-ecuaciones-test', page: () => import('../pages/BalanzaEcuacionesExamen'),
+  },
   'genetica': {
     label: { es: 'Genética', en: 'Genetics', ca: 'Genètica' },
     emoji: '🧬', subject: 'biologia',

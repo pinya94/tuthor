@@ -12,6 +12,8 @@ import ForceDiagram from '../components/ForceDiagram'
 import { DIRS, axisBreakdown } from '../lib/fuerzaNeta'
 import BalanceBeam from '../components/BalanceBeam'
 import { torqueBreakdown } from '../lib/balanza'
+import EcuacionBalanza from '../components/EcuacionBalanza'
+import { isCorrectCoefs } from '../lib/ecuaciones'
 import { makeRng } from '../lib/fuerzaNeta'
 import SentenceBoard from '../components/SentenceBoard'
 import { genRound as genFrase, sameSet } from '../lib/analizaFrases'
@@ -96,6 +98,9 @@ export default function PreguntaDiaria() {
   const fnRound    = esFuerza ? desafio.round : null
   const esBalanza  = desafio.tipo === 'balanza'
   const blRound    = esBalanza ? desafio.round : null
+  const esEcuacion = desafio.tipo === 'balanza-ecuaciones'
+  const ecRound    = esEcuacion ? desafio.round : null
+  const [ecCoefs, setEcCoefs] = useState(() => (ecRound ? [...ecRound.initial] : []))
   const esFrase    = desafio.tipo === 'analiza-frases'
   // La ronda de frase se construye en el idioma del usuario, determinista por día.
   const frRound = useMemo(
@@ -174,6 +179,20 @@ export default function PreguntaDiaria() {
     setAnswered(true)
     if (user) {
       const saved = await saveDailyChallenge(user.uid, notch === blRound.answer)
+      if (saved) { setStreak(s => s + 1); triggerCoins() }
+    }
+  }
+
+  function ecStep(index, d) {
+    if (answered) return
+    setEcCoefs(cs => cs.map((c, i) => i === index ? Math.max(1, Math.min(ecRound.maxCoef, c + d)) : c))
+  }
+
+  async function confirmarEcuacion() {
+    if (answered) return
+    setAnswered(true)
+    if (user) {
+      const saved = await saveDailyChallenge(user.uid, isCorrectCoefs(ecRound, ecCoefs))
       if (saved) { setStreak(s => s + 1); triggerCoins() }
     }
   }
@@ -636,6 +655,50 @@ export default function PreguntaDiaria() {
               )}
               {answered && (
                 <button onClick={() => navigate(localPath('/juegos/balanza'))} className="mt-3 w-full bg-violet-600 hover:bg-violet-500 text-white font-bold py-2.5 rounded-xl text-sm transition-colors">
+                  {ca ? 'Seguir jugant →' : en ? 'Keep playing →' : 'Seguir jugando →'}
+                </button>
+              )}
+            </div>
+            <div className="px-6 sm:px-8 pb-6">
+              <p className="text-center text-white/20 text-xs">{ca ? 'Nou repte demà · Torna cada dia' : en ? 'New challenge tomorrow · Come back every day' : 'Nuevo reto mañana · Vuelve cada día'}</p>
+            </div>
+          </>
+        ) : esEcuacion ? (
+          /* ── Balanza de Ecuaciones ── */
+          <>
+            <div className="px-6 sm:px-8 py-4">
+              <p className="text-xs font-semibold text-white/40 uppercase tracking-widest mb-2">
+                {ca ? '⚗️ Equilibra l’equació' : en ? '⚗️ Balance the equation' : '⚗️ Equilibra la ecuación'}
+              </p>
+              <p className="text-white/70 text-sm mb-3 text-center">
+                {ca ? 'Ajusta els coeficients fins que cada element quadri' : en ? 'Adjust the coefficients until every element matches' : 'Ajusta los coeficientes hasta que cada elemento cuadre'}
+              </p>
+              <div className="mb-3">
+                <EcuacionBalanza round={ecRound} coefs={ecCoefs} onStep={ecStep} reveal={answered} l={en ? 'en' : ca ? 'ca' : 'es'} />
+              </div>
+              {answered && (
+                <p className={`text-center font-black mb-2 ${isCorrectCoefs(ecRound, ecCoefs) ? 'text-green-400' : 'text-red-400'}`}>
+                  {isCorrectCoefs(ecRound, ecCoefs) ? (ca ? '⚖️ Equilibrada!' : en ? '⚖️ Balanced!' : '⚖️ ¡Equilibrada!') : (ca ? '❌ Encara no quadra' : en ? '❌ Not balanced yet' : '❌ Aún no cuadra')}
+                  {!isCorrectCoefs(ecRound, ecCoefs) && (
+                    <span className="block text-white/60 text-xs font-normal font-mono mt-1">
+                      {ca ? 'Solució més simple:' : en ? 'Simplest solution:' : 'Solución más simple:'} {ecRound.answer.join(' · ')}
+                    </span>
+                  )}
+                </p>
+              )}
+              {!answered && (
+                <button onClick={confirmarEcuacion}
+                  className="w-full bg-violet-600 text-white font-bold py-3 rounded-xl hover:bg-violet-700 transition-colors">
+                  {ca ? '✓ Comprovar' : en ? '✓ Check' : '✓ Comprobar'}
+                </button>
+              )}
+              {answered && !user && (
+                <button onClick={() => setShowAuth(true)} className="mt-3 w-full bg-amber-500/20 border border-amber-500/30 text-amber-400 font-semibold py-2.5 rounded-xl text-sm hover:bg-amber-500/30 transition-colors">
+                  {ca ? 'Inicia sessió per guardar la ratxa 🔥' : en ? 'Sign in to save your streak 🔥' : 'Inicia sesión para guardar tu racha 🔥'}
+                </button>
+              )}
+              {answered && (
+                <button onClick={() => navigate(localPath('/juegos/balanza-ecuaciones'))} className="mt-3 w-full bg-violet-600 hover:bg-violet-500 text-white font-bold py-2.5 rounded-xl text-sm transition-colors">
                   {ca ? 'Seguir jugant →' : en ? 'Keep playing →' : 'Seguir jugando →'}
                 </button>
               )}

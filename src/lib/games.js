@@ -162,6 +162,14 @@ export const GAMES = {
     // aciertos × 10 puntos → hasta 200 monedas
     coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
   },
+  'balanza-ecuaciones': {
+    label: { es: 'Balanza de Ecuaciones', en: 'Equation Balancer', ca: 'Balança d’Equacions' },
+    emoji: '⚗️',
+    subject: 'quimica',
+    route: '/juegos/balanza-ecuaciones',
+    // aciertos × 10 puntos → hasta 200 monedas
+    coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
+  },
 }
 
 // ── Helpers ──────────────────────────────────────────────────────────────────

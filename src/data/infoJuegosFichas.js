@@ -57,6 +57,34 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Física', niveles: 'Primaria, ESO, Bachillerato',
   },
+  'balanza-ecuaciones': {
+    titulo: 'Balanza de Ecuaciones',
+    subtitulo: 'Juego de Ajuste de Ecuaciones y Reacciones Químicas',
+    emoji: '⚗️', gradient: 'from-emerald-600 to-teal-800',
+    path: '/juegos/balanza-ecuaciones',
+    intro: 'Un juego de química para dominar el ajuste de reacciones: aparece una ecuación sin ajustar y tú cambias los coeficientes delante de cada fórmula hasta que haya los mismos átomos de cada elemento a los dos lados de la flecha. La balanza se inclina hasta que todo cuadra. Reacciones reales, ronda tras ronda, con el recuento por elemento a la vista.',
+    beneficios: [
+      { titulo: 'Ley de Conservación de la Masa', texto: 'Comprobar átomo a átomo que nada se crea ni se destruye interioriza la ley de Lavoisier, base de toda la química. El juego lo hace visible con el recuento de cada elemento.' },
+      { titulo: 'Ajuste de Coeficientes', texto: 'Ajustar ecuaciones es de lo más importante y abstracto de la ESO y Bachillerato. Convertirlo en equilibrar una balanza lo hace intuitivo y sin miedo al «cómo empiezo».' },
+      { titulo: 'Razonamiento y Múltiplos', texto: 'Buscar los coeficientes enteros más pequeños entrena el mínimo común múltiplo y el razonamiento proporcional aplicado a un problema con sentido.' },
+    ],
+    ejemplo: 'Aparece «H₂ + O₂ → H₂O». El alumno pone un 2 delante del H₂ y otro delante del H₂O, deja el O₂ en 1, y la balanza se equilibra: 4 H y 2 O a cada lado.',
+    enPapel: {
+      titulo: 'Ajustar ecuaciones en papel',
+      pasos: [
+        'Escribe la reacción sin ajustar y haz una tabla con el número de átomos de cada elemento a cada lado.',
+        'Empieza por el elemento que aparece en menos fórmulas y ve poniendo coeficientes.',
+        'Deja el oxígeno o el hidrógeno para el final, que suelen aparecer en varias sustancias.',
+        'Al terminar, comprueba que los coeficientes son los números enteros más pequeños posibles.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'Ajuste con fichas o garbanzos', desc: 'Usa fichas de colores (una por elemento) para representar los átomos de cada lado y añade grupos hasta igualarlos. Muy táctil.' },
+      { nombre: 'Modelos moleculares', desc: 'Con un kit de bolas y varillas, monta las moléculas de reactivos y productos y cuenta los átomos para ajustar.' },
+      { nombre: 'Tabla de recuento', desc: 'Una simple tabla elemento/izquierda/derecha en el cuaderno convierte el ajuste en un problema ordenado y comprobable.' },
+    ],
+    asignatura: 'Química', niveles: 'ESO, Bachillerato',
+  },
   'fuerza-neta': {
     titulo: 'Fuerza Neta',
     subtitulo: 'Juego de Fuerzas, Vectores y Equilibrio',
@@ -448,6 +476,24 @@ export const FICHAS_EN = {
     ],
     asignatura: 'Physics', niveles: 'Primary, Secondary, Sixth Form',
   },
+  'balanza-ecuaciones': {
+    titulo: 'Equation Balancer', subtitulo: 'Balancing Chemical Equations & Reactions Game',
+    emoji: '⚗️', gradient: 'from-emerald-600 to-teal-800', path: '/juegos/balanza-ecuaciones',
+    intro: 'A chemistry game to master balancing reactions: an unbalanced equation appears and you change the coefficients in front of each formula until there are the same atoms of every element on both sides of the arrow. The scale tilts until everything matches. Real reactions, round after round, with the per-element count on show.',
+    beneficios: [
+      { titulo: 'Conservation of Mass', texto: 'Checking atom by atom that nothing is created or destroyed internalises Lavoisier\'s law, the basis of all chemistry. The game makes it visible with each element\'s count.' },
+      { titulo: 'Balancing Coefficients', texto: 'Balancing equations is one of the most important and abstract topics in secondary school. Turning it into balancing a scale makes it intuitive, with no fear of where to start.' },
+      { titulo: 'Reasoning & Multiples', texto: 'Looking for the smallest whole-number coefficients trains the lowest common multiple and proportional reasoning applied to a meaningful problem.' },
+    ],
+    ejemplo: 'The equation «H₂ + O₂ → H₂O» appears. The student puts a 2 in front of H₂ and another in front of H₂O, leaves O₂ at 1, and the scale balances: 4 H and 2 O on each side.',
+    enPapel: { titulo: 'Balancing equations on paper', pasos: ['Write the unbalanced reaction and make a table with the number of atoms of each element on each side.', 'Start with the element that appears in the fewest formulas and add coefficients.', 'Leave oxygen or hydrogen for last, as they usually appear in several substances.', 'When done, check the coefficients are the smallest possible whole numbers.'] },
+    alternativas: [
+      { nombre: 'Balancing with counters', desc: 'Use coloured counters (one per element) to represent the atoms on each side and add groups until they match. Very hands-on.' },
+      { nombre: 'Molecular models', desc: 'With a ball-and-stick kit, build the reactant and product molecules and count the atoms to balance.' },
+      { nombre: 'Count-up table', desc: 'A simple element/left/right table in your notebook turns balancing into a tidy, checkable problem.' },
+    ],
+    asignatura: 'Chemistry', niveles: 'Secondary, Sixth Form',
+  },
   'fuerza-neta': {
     titulo: 'Net Force', subtitulo: 'Forces, Vectors & Equilibrium Game',
     emoji: '🧭', gradient: 'from-sky-600 to-blue-800', path: '/juegos/fuerza-neta',
@@ -760,6 +806,24 @@ export const FICHAS_CA = {
       { nombre: 'Balança de dos plats', desc: 'Una balança clàssica de dos plats mostra l’equilibri de pesos de manera directa.' },
     ],
     asignatura: 'Física', niveles: 'Primària, ESO, Batxillerat',
+  },
+  'balanza-ecuaciones': {
+    titulo: 'Balança d’Equacions', subtitulo: 'Joc d’Ajust d’Equacions i Reaccions Químiques',
+    emoji: '⚗️', gradient: 'from-emerald-600 to-teal-800', path: '/juegos/balanza-ecuaciones',
+    intro: 'Un joc de química per dominar l’ajust de reaccions: apareix una equació sense ajustar i tu canvies els coeficients davant de cada fórmula fins que hi hagi els mateixos àtoms de cada element als dos costats de la fletxa. La balança s’inclina fins que tot quadra. Reaccions reals, ronda rere ronda, amb el recompte per element a la vista.',
+    beneficios: [
+      { titulo: 'Llei de Conservació de la Massa', texto: 'Comprovar àtom a àtom que res es crea ni es destrueix interioritza la llei de Lavoisier, base de tota la química. El joc ho fa visible amb el recompte de cada element.' },
+      { titulo: 'Ajust de Coeficients', texto: 'Ajustar equacions és de les coses més importants i abstractes de l’ESO i el Batxillerat. Convertir-ho en equilibrar una balança ho fa intuïtiu i sense por al «com començo».' },
+      { titulo: 'Raonament i Múltiples', texto: 'Buscar els coeficients enters més petits entrena el mínim comú múltiple i el raonament proporcional aplicat a un problema amb sentit.' },
+    ],
+    ejemplo: 'Apareix «H₂ + O₂ → H₂O». L’alumne posa un 2 davant de l’H₂ i un altre davant de l’H₂O, deixa l’O₂ en 1, i la balança s’equilibra: 4 H i 2 O a cada costat.',
+    enPapel: { titulo: 'Ajustar equacions en paper', pasos: ['Escriu la reacció sense ajustar i fes una taula amb el nombre d’àtoms de cada element a cada costat.', 'Comença per l’element que apareix en menys fórmules i ves posant coeficients.', 'Deixa l’oxigen o l’hidrogen per al final, que solen aparèixer en diverses substàncies.', 'En acabar, comprova que els coeficients són els nombres enters més petits possibles.'] },
+    alternativas: [
+      { nombre: 'Ajust amb fitxes', desc: 'Usa fitxes de colors (una per element) per representar els àtoms de cada costat i afegeix grups fins a igualar-los. Molt tàctil.' },
+      { nombre: 'Models moleculars', desc: 'Amb un kit de boles i barretes, munta les molècules de reactius i productes i compta els àtoms per ajustar.' },
+      { nombre: 'Taula de recompte', desc: 'Una simple taula element/esquerra/dreta al quadern converteix l’ajust en un problema ordenat i comprovable.' },
+    ],
+    asignatura: 'Química', niveles: 'ESO, Batxillerat',
   },
   'fuerza-neta': {
     titulo: 'Força Neta', subtitulo: 'Joc de Forces, Vectors i Equilibri',
