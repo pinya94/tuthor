@@ -16,6 +16,8 @@ import EcuacionBalanza from '../components/EcuacionBalanza'
 import { isCorrectCoefs } from '../lib/ecuaciones'
 import AjustaGrafica from '../components/AjustaGrafica'
 import { isCorrectParams, fnText } from '../lib/funciones'
+import BalanzaAlgebraicaBoard from '../components/BalanzaAlgebraica'
+import { removeTerm as algRemoveTerm, divide as algDivide, isSolved as algIsSolved } from '../lib/algebra'
 import { makeRng } from '../lib/fuerzaNeta'
 import SentenceBoard from '../components/SentenceBoard'
 import { genRound as genFrase, sameSet } from '../lib/analizaFrases'
@@ -106,6 +108,10 @@ export default function PreguntaDiaria() {
   const esFuncion  = desafio.tipo === 'funciones-grafica'
   const fgRound    = esFuncion ? desafio.round : null
   const [fgParams, setFgParams] = useState(() => (fgRound ? { ...fgRound.params0 } : {}))
+  const esAlgebra  = desafio.tipo === 'balanza-algebraica'
+  const agRound    = esAlgebra ? desafio.round : null
+  const [agState, setAgState] = useState(() => (agRound ? { L: { ...agRound.L }, R: { ...agRound.R } } : null))
+  const [agHistory, setAgHistory] = useState([])
   const esFrase    = desafio.tipo === 'analiza-frases'
   // La ronda de frase se construye en el idioma del usuario, determinista por día.
   const frRound = useMemo(
@@ -217,6 +223,34 @@ export default function PreguntaDiaria() {
       const saved = await saveDailyChallenge(user.uid, isCorrectParams(fgRound, fgParams))
       if (saved) { setStreak(s => s + 1); triggerCoins() }
     }
+  }
+
+  async function saveDaily(ok) {
+    if (user) {
+      const saved = await saveDailyChallenge(user.uid, ok)
+      if (saved) { setStreak(s => s + 1); triggerCoins() }
+    }
+  }
+
+  function agApply(ns, label) {
+    setAgState(ns)
+    setAgHistory(h => [...h, label])
+    if (algIsSolved(ns)) { setAnswered(true); saveDaily(true) }
+  }
+  function agRemove(sideKey, kind) {
+    if (answered) return
+    const { state: ns, label } = algRemoveTerm(agState, sideKey, kind)
+    agApply(ns, label)
+  }
+  function agDivideOp() {
+    if (answered) return
+    const { state: ns, label } = algDivide(agState)
+    agApply(ns, label)
+  }
+  function agGiveUp() {
+    if (answered) return
+    setAnswered(true)
+    saveDaily(false)
   }
 
   function normalize(s) {
@@ -765,6 +799,46 @@ export default function PreguntaDiaria() {
               )}
               {answered && (
                 <button onClick={() => navigate(localPath('/juegos/funciones-grafica'))} className="mt-3 w-full bg-violet-600 hover:bg-violet-500 text-white font-bold py-2.5 rounded-xl text-sm transition-colors">
+                  {ca ? 'Seguir jugant →' : en ? 'Keep playing →' : 'Seguir jugando →'}
+                </button>
+              )}
+            </div>
+            <div className="px-6 sm:px-8 pb-6">
+              <p className="text-center text-white/20 text-xs">{ca ? 'Nou repte demà · Torna cada dia' : en ? 'New challenge tomorrow · Come back every day' : 'Nuevo reto mañana · Vuelve cada día'}</p>
+            </div>
+          </>
+        ) : esAlgebra ? (
+          /* ── Balanza Algebraica ── */
+          <>
+            <div className="px-6 sm:px-8 py-4">
+              <p className="text-xs font-semibold text-white/40 uppercase tracking-widest mb-2">
+                {ca ? '🟰 Despeja la x' : en ? '🟰 Isolate x' : '🟰 Despeja la x'}
+              </p>
+              <p className="text-white/70 text-sm mb-3 text-center">
+                {ca ? 'Fes la mateixa operació als dos costats fins a deixar la x sola' : en ? 'Do the same operation to both sides until x is alone' : 'Haz la misma operación a los dos lados hasta dejar la x sola'}
+              </p>
+              <div className="mb-3">
+                <BalanzaAlgebraicaBoard state={agState} onRemove={agRemove} onDivide={agDivideOp}
+                  reveal={answered} solution={agRound.solution} history={agHistory} l={en ? 'en' : ca ? 'ca' : 'es'} />
+              </div>
+              {answered && algIsSolved(agState) && (
+                <p className="text-center font-black mb-2 text-green-400">
+                  {ca ? '🎉 Resolta!' : en ? '🎉 Solved!' : '🎉 ¡Resuelta!'}
+                </p>
+              )}
+              {!answered && (
+                <button onClick={agGiveUp}
+                  className="w-full bg-white/5 border border-white/10 text-white/50 font-semibold py-2.5 rounded-xl text-sm hover:bg-white/10 transition-colors">
+                  {ca ? 'Em rendeixo' : en ? 'Give up' : 'Me rindo'}
+                </button>
+              )}
+              {answered && !user && (
+                <button onClick={() => setShowAuth(true)} className="mt-3 w-full bg-amber-500/20 border border-amber-500/30 text-amber-400 font-semibold py-2.5 rounded-xl text-sm hover:bg-amber-500/30 transition-colors">
+                  {ca ? 'Inicia sessió per guardar la ratxa 🔥' : en ? 'Sign in to save your streak 🔥' : 'Inicia sesión para guardar tu racha 🔥'}
+                </button>
+              )}
+              {answered && (
+                <button onClick={() => navigate(localPath('/juegos/balanza-algebraica'))} className="mt-3 w-full bg-violet-600 hover:bg-violet-500 text-white font-bold py-2.5 rounded-xl text-sm transition-colors">
                   {ca ? 'Seguir jugant →' : en ? 'Keep playing →' : 'Seguir jugando →'}
                 </button>
               )}

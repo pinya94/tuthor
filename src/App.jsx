@@ -73,6 +73,7 @@ const FuerzaNeta             = lazy(() => import('./pages/FuerzaNeta'))
 const Balanza                = lazy(() => import('./pages/Balanza'))
 const BalanzaEcuaciones      = lazy(() => import('./pages/BalanzaEcuaciones'))
 const FuncionesGrafica       = lazy(() => import('./pages/FuncionesGrafica'))
+const BalanzaAlgebraica      = lazy(() => import('./pages/BalanzaAlgebraica'))
 const AnalizaFrases          = lazy(() => import('./pages/AnalizaFrases'))
 const Diagnostico            = lazy(() => import('./pages/Diagnostico'))
 const FraccionesTema         = lazy(() => import('./pages/FraccionesTema'))
@@ -183,6 +184,7 @@ function AppRoutes() {
       <Route path="juegos/balanza" element={<Balanza />} />
       <Route path="juegos/balanza-ecuaciones" element={<BalanzaEcuaciones />} />
       <Route path="juegos/funciones-grafica" element={<FuncionesGrafica />} />
+      <Route path="juegos/balanza-algebraica" element={<BalanzaAlgebraica />} />
       <Route path="juegos/analiza-frases" element={<AnalizaFrases />} />
       <Route path="examen/portero" element={<PorteroExamen />} />
       <Route path="examen/trayectoria" element={<TrayectoriaExamen />} />

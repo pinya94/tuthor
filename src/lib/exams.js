@@ -111,6 +111,11 @@ export const EXAMS = {
     emoji: '📈', subject: 'matematicas',
     path: 'examen/funciones-grafica-test', page: () => import('../pages/FuncionesGraficaExamen'),
   },
+  'balanza-algebraica-test': {
+    label: { es: 'Balanza Algebraica', en: 'Algebra Balance', ca: 'Balança Algebraica' },
+    emoji: '🟰', subject: 'matematicas',
+    path: 'examen/balanza-algebraica-test', page: () => import('../pages/BalanzaAlgebraicaExamen'),
+  },
 
   // ── Ciencias ───────────────────────────────────────────────────────────────
   'acidos-bases': {

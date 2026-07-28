@@ -26,6 +26,23 @@ export default function AlgebraTema() {
 
   const opciones = [
     {
+      id: 'balanza-algebraica',
+      titulo: ca ? 'Balança Algebraica' : en ? 'Algebra Balance' : 'Balanza Algebraica',
+      descripcion: ca
+        ? 'Amb la mecànica del joc: despeja la x fent la mateixa operació als dos costats fins a deixar-la sola. Equacions de primer grau.'
+        : en
+        ? 'Using the game mechanic: isolate x by doing the same operation to both sides until it stands alone. Linear equations.'
+        : 'Con la mecánica del juego: despeja la x haciendo la misma operación a los dos lados hasta dejarla sola. Ecuaciones de primer grado.',
+      emoji: '🟰',
+      gradient: 'from-violet-500 to-indigo-700',
+      detalles: [
+        ca ? '3 nivells' : en ? '3 levels' : '3 niveles',
+        ca ? '10 preguntes' : en ? '10 questions' : '10 preguntas',
+        ca ? 'Amb el joc' : en ? 'With the game' : 'Con el juego',
+      ],
+      action: () => navigate(localPath('/examen/balanza-algebraica-test')),
+    },
+    {
       id: 'examen',
       titulo: ca ? 'Examen de pràctica' : en ? 'Practice exam' : 'Examen de práctica',
       descripcion: ca
