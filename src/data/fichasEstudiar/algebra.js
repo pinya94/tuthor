@@ -11,6 +11,8 @@ export default {
     "asignatura": "Matemáticas",
     "niveles": "ESO",
     "intro": "Aprende álgebra desde las variables y monomios hasta las ecuaciones de 2.º grado y sistemas de ecuaciones. El examen cubre: simplificación de expresiones, ecuaciones lineales con paréntesis, verificación de soluciones, factorización, identidades notables y la fórmula cuadrática con discriminante.",
+    "videoId": "DpWiRC3CZMM",
+    "videoNota": "Una balanza es la intuición detrás de resolver ecuaciones: mientras hagas lo mismo en los dos lados, la igualdad se mantiene. Ese es el método del juego Balanza Algebraica.",
     "resumen": [
       "El álgebra es la parte de las matemáticas que usa letras (variables) para representar números desconocidos y expresar relaciones generales. Pasar de la aritmética al álgebra —de los números concretos a las ‘x’ e ‘y’— es uno de los grandes saltos de la ESO, y la base de casi todas las matemáticas superiores.",
       "Los contenidos clave van de las expresiones y los monomios a las ecuaciones de primer grado (despejar la incógnita), las identidades notables, la factorización, los sistemas de ecuaciones y, finalmente, las ecuaciones de segundo grado resueltas con la fórmula cuadrática y su discriminante.",

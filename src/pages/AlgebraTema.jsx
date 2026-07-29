@@ -114,6 +114,22 @@ export default function AlgebraTema() {
             </div>
           </button>
         ))}
+
+        {!en && !ca && (
+          <a
+            href="https://www.youtube.com/watch?v=DpWiRC3CZMM"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-3 rounded-2xl border border-white/10 p-4 transition-all hover:border-amber-500/30 hover:scale-[1.01] group"
+            style={{ background: 'rgba(17,20,29,0.86)' }}>
+            <span className="text-2xl shrink-0">🎬</span>
+            <div className="flex-1 min-w-0">
+              <p className="font-bold text-white group-hover:text-amber-300 transition-colors">Vídeo: ¿cómo funciona una balanza?</p>
+              <p className="text-white/50 text-sm leading-snug">La idea detrás del método: por qué puedes hacer lo mismo en los dos lados de una ecuación.</p>
+            </div>
+            <span className="text-amber-400 font-black shrink-0">→</span>
+          </a>
+        )}
       </div>
     </div>
   )
