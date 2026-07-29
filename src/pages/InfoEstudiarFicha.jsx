@@ -25,6 +25,7 @@ const UI = {
     ejemploH2: '💡 Ejemplo Práctico',
     consejosH2: '📝 Consejos de Estudio',
     consejosPre: 'Trucos y técnicas para dominar este tema más rápido:',
+    faqH2: '❓ Preguntas frecuentes',
     relacionadosH2: '🔬 Temas relacionados que te pueden interesar',
     relacionadosPre: 'Si estás estudiando',
     relacionadosPost: ', estos temas del currículo se complementan:',
@@ -50,6 +51,7 @@ const UI = {
     ejemploH2: '💡 Practical Example',
     consejosH2: '📝 Study Tips',
     consejosPre: 'Tricks and techniques to master this topic faster:',
+    faqH2: '❓ Frequently asked questions',
     relacionadosH2: '🔬 Related topics you might find useful',
     relacionadosPre: 'If you are studying',
     relacionadosPost: ', these curriculum topics complement each other:',
@@ -75,6 +77,7 @@ const UI = {
     ejemploH2: '💡 Exemple Pràctic',
     consejosH2: '📝 Consells d\'Estudi',
     consejosPre: 'Trucs i tècniques per dominar aquest tema més ràpid:',
+    faqH2: '❓ Preguntes freqüents',
     relacionadosH2: '🔬 Temes relacionats que et poden interessar',
     relacionadosPre: 'Si estàs estudiant',
     relacionadosPost: ', aquests temes del currículum es complementen:',
@@ -257,25 +260,33 @@ export default function InfoEstudiarFicha() {
 
           <aside className="ad-slot" aria-label="Publicidad" data-ad-slot="info-estudiar-ficha-1" style={{ minHeight: '90px', marginBottom: '2.5rem' }} />
 
-          {/* Beneficios */}
-          <section className="mb-10">
-            <h2 className="text-2xl font-black text-white mb-6">{ui.beneficiosH2}</h2>
-            <div className="space-y-5">
-              {ficha.beneficios.map(b => (
-                <div key={b.titulo} className="bg-[rgba(17,20,29,0.86)] rounded-2xl border border-white/10 p-6">
-                  <h3 className="font-black text-white text-lg mb-2">{b.titulo}</h3>
-                  <p className="text-white/60 leading-relaxed">{b.texto}</p>
-                </div>
-              ))}
-            </div>
-          </section>
+          {/* Beneficios (acepta strings o {titulo,texto}) */}
+          {ficha.beneficios && (
+            <section className="mb-10">
+              <h2 className="text-2xl font-black text-white mb-6">{ui.beneficiosH2}</h2>
+              <div className="space-y-5">
+                {ficha.beneficios.map((b, i) => (
+                  <div key={typeof b === 'string' ? i : b.titulo} className="bg-[rgba(17,20,29,0.86)] rounded-2xl border border-white/10 p-6">
+                    {typeof b === 'string'
+                      ? <p className="text-white/60 leading-relaxed">{b}</p>
+                      : <>
+                          <h3 className="font-black text-white text-lg mb-2">{b.titulo}</h3>
+                          <p className="text-white/60 leading-relaxed">{b.texto}</p>
+                        </>}
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
 
-          <section className="mb-10">
-            <h2 className="text-2xl font-black text-white mb-4">{ui.ejemploH2}</h2>
-            <div className="bg-amber-500/10 border border-amber-500/25 rounded-2xl p-6">
-              <p className="text-amber-100/90 leading-relaxed italic">"{ficha.ejemplo}"</p>
-            </div>
-          </section>
+          {ficha.ejemplo && (
+            <section className="mb-10">
+              <h2 className="text-2xl font-black text-white mb-4">{ui.ejemploH2}</h2>
+              <div className="bg-amber-500/10 border border-amber-500/25 rounded-2xl p-6">
+                <p className="text-amber-100/90 leading-relaxed italic">"{ficha.ejemplo}"</p>
+              </div>
+            </section>
+          )}
 
           {/* CTA 2 */}
           <div className="text-center mb-10">
@@ -288,23 +299,45 @@ export default function InfoEstudiarFicha() {
           <aside className="ad-slot" aria-label="Publicidad" data-ad-slot="info-estudiar-ficha-2" style={{ minHeight: '90px', marginBottom: '2.5rem' }} />
 
           {/* Consejos de estudio */}
-          <section className="mb-10">
-            <h2 className="text-2xl font-black text-white mb-2">{ui.consejosH2}</h2>
-            <p className="text-white/55 mb-5">{ui.consejosPre}</p>
-            <div className="bg-[rgba(17,20,29,0.86)] rounded-2xl border border-white/10 p-6">
-              <ol className="space-y-3">
-                {ficha.consejos.map((c, i) => (
-                  <li key={i} className="flex gap-3">
-                    <span className="w-7 h-7 rounded-full bg-amber-500/15 border border-amber-500/30 text-amber-300 font-black text-sm flex items-center justify-center shrink-0">{i + 1}</span>
-                    <p className="text-white/60 leading-relaxed pt-0.5">{c}</p>
-                  </li>
-                ))}
-              </ol>
-            </div>
-          </section>
+          {ficha.consejos && (
+            <section className="mb-10">
+              <h2 className="text-2xl font-black text-white mb-2">{ui.consejosH2}</h2>
+              <p className="text-white/55 mb-5">{ui.consejosPre}</p>
+              <div className="bg-[rgba(17,20,29,0.86)] rounded-2xl border border-white/10 p-6">
+                <ol className="space-y-3">
+                  {ficha.consejos.map((c, i) => (
+                    <li key={i} className="flex gap-3">
+                      <span className="w-7 h-7 rounded-full bg-amber-500/15 border border-amber-500/30 text-amber-300 font-black text-sm flex items-center justify-center shrink-0">{i + 1}</span>
+                      <p className="text-white/60 leading-relaxed pt-0.5">{c}</p>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            </section>
+          )}
+
+          {/* Preguntas frecuentes (formato "Pregunta — Respuesta") */}
+          {ficha.preguntasFrecuentes && (
+            <section className="mb-10">
+              <h2 className="text-2xl font-black text-white mb-5">{ui.faqH2}</h2>
+              <div className="space-y-3">
+                {ficha.preguntasFrecuentes.map((q, i) => {
+                  const [pregunta, ...resto] = String(q).split(' — ')
+                  const respuesta = resto.join(' — ')
+                  return (
+                    <div key={i} className="bg-[rgba(17,20,29,0.86)] rounded-2xl border border-white/10 p-5">
+                      <h3 className="font-bold text-white mb-1">{pregunta}</h3>
+                      {respuesta && <p className="text-white/60 leading-relaxed">{respuesta}</p>}
+                    </div>
+                  )
+                })}
+              </div>
+            </section>
+          )}
 
           {/* Temas relacionados */}
-          <section className="mb-10">
+          {ficha.relacionados && (
+            <section className="mb-10">
             <h2 className="text-2xl font-black text-white mb-2">{ui.relacionadosH2}</h2>
             <p className="text-white/55 mb-5">{ui.relacionadosPre} {ficha.titulo}{ui.relacionadosPost}</p>
             <div className="grid gap-3 sm:grid-cols-2">
@@ -316,7 +349,8 @@ export default function InfoEstudiarFicha() {
                 </Link>
               ))}
             </div>
-          </section>
+            </section>
+          )}
 
           <aside className="ad-slot" aria-label="Publicidad" data-ad-slot="info-estudiar-ficha-3" style={{ minHeight: '90px', marginBottom: '2.5rem' }} />
 
