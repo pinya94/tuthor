@@ -75,7 +75,7 @@ export const CLASES_INVERSION = {
     nombre: { es: 'Tus acciones', en: 'Your stocks', ca: 'Les teves accions' },
   },
   cripto: {
-    emoji: '🪙', tipo: 'cripto',
+    emoji: '💰', tipo: 'cripto',
     label: { es: 'Criptomonedas', en: 'Crypto', ca: 'Criptomonedes' },
     senales: ['volatil', 'no-regulado'],
     nombre: { es: 'Tus criptomonedas', en: 'Your crypto', ca: 'Les teves criptomonedes' },
@@ -1131,7 +1131,7 @@ function mercadosMensuales(p, log) {
       if (p.rng() < (enCrisis ? 0.02 : 0.006)) {
         const caida = 0.45 + p.rng() * 0.25
         a.valor *= 1 - caida
-        log.push({ tipo: 'malo', importante: true, texto: { es: `🪙 Desplome cripto: tu posición cae un ${Math.round(caida * 100)}% en semanas. Esto también era el trato.`, en: `🪙 Crypto crash: your position drops ${Math.round(caida * 100)}% in weeks. This was part of the deal too.`, ca: `🪙 Desplomada cripto: la teva posició cau un ${Math.round(caida * 100)}% en setmanes. Això també era el tracte.` } })
+        log.push({ tipo: 'malo', importante: true, texto: { es: `💰 Desplome cripto: tu posición cae un ${Math.round(caida * 100)}% en semanas. Esto también era el trato.`, en: `💰 Crypto crash: your position drops ${Math.round(caida * 100)}% in weeks. This was part of the deal too.`, ca: `💰 Desplomada cripto: la teva posició cau un ${Math.round(caida * 100)}% en setmanes. Això també era el tracte.` } })
       } else {
         a.valor *= 1 + 0.009 + normal(p.rng) * 0.14
       }

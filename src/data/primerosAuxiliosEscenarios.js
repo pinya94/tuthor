@@ -26,14 +26,14 @@ export const SCENARIOS = [
   {
     id: 'atragantamiento',
     titulo: { es: 'Atragantamiento', en: 'Choking', ca: 'Ennuegament' },
-    emoji: '🫷',
+    emoji: '✋',
     situacionInicial: {
       texto: {
         es: 'Estás comiendo con un amigo. De repente se lleva las manos al cuello: no puede hablar ni toser, y hace gestos de ahogo.',
         en: 'You are eating with a friend. Suddenly they grab their throat: they cannot speak or cough, and gesture that they are choking.',
         ca: 'Estàs menjant amb un amic. De sobte es porta les mans al coll: no pot parlar ni tossir, i fa gestos d\'ofec.',
       },
-      icono: '🫷',
+      icono: '✋',
     },
     pasos: [
       {
@@ -495,14 +495,14 @@ export const SCENARIOS = [
   {
     id: 'corte',
     titulo: { es: 'Corte con sangrado', en: 'Cut with bleeding', ca: 'Tall amb sagnat' },
-    emoji: '🩸',
+    emoji: '🔴',
     situacionInicial: {
       texto: {
         es: 'Un compañero se hace un corte profundo en el antebrazo con una herramienta y sangra abundantemente.',
         en: 'A coworker gets a deep cut on their forearm with a tool and is bleeding heavily.',
         ca: 'Un company es fa un tall profund a l\'avantbraç amb una eina i sagna abundantment.',
       },
-      icono: '🩸',
+      icono: '🔴',
     },
     pasos: [
       {

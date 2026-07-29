@@ -33,7 +33,7 @@ export default function AlgebraTema() {
         : en
         ? 'Using the game mechanic: isolate x by doing the same operation to both sides until it stands alone. Linear equations.'
         : 'Con la mecánica del juego: despeja la x haciendo la misma operación a los dos lados hasta dejarla sola. Ecuaciones de primer grado.',
-      emoji: '🟰',
+      emoji: '⚖️',
       gradient: 'from-violet-500 to-indigo-700',
       detalles: [
         ca ? '3 nivells' : en ? '3 levels' : '3 niveles',

@@ -73,7 +73,7 @@ const SUBJECT_DEFS = [
     catLabels: {},
   },
   {
-    id: 'geologia', emoji: '🪐',
+    id: 'geologia', emoji: '🌌',
     label: { es: 'Geología y el Universo', en: 'Geology & the Universe', ca: "Geologia i l'Univers" },
     gameIds: [],
     catIds: [],

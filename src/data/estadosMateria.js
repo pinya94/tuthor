@@ -55,7 +55,7 @@ export const PREGUNTAS = [
     { es: '¿Cuál de estos es un sólido?',         en: 'Which of these is a solid?',             ca: 'Quin d\'aquests és un sòlid?' },
     { es: ['Gasolina','Nitrógeno','Madera','Vinagre'], en: ['Petrol','Nitrogen','Wood','Vinegar'], ca: ['Gasolina','Nitrogen','Fusta','Vinagre'] },
     { es: 'Madera', en: 'Wood', ca: 'Fusta' },
-    '🪵',
+    '🌳',
     { es: 'La madera es un sólido: tiene forma y volumen propios.', en: 'Wood is a solid: it has its own shape and volume.', ca: 'La fusta és un sòlid: té forma i volum propis.' },
   ),
 
@@ -113,7 +113,7 @@ export const PREGUNTAS = [
     { es: 'El vapor de agua forma gotitas en un espejo. ¿Qué cambio de estado es?', en: 'Water vapour forms droplets on a mirror. What change of state is this?', ca: 'El vapor d\'aigua forma gotetes en un mirall. Quin canvi d\'estat és?' },
     { es: ['Fusión','Evaporación','Condensación','Sublimación'], en: ['Melting','Evaporation','Condensation','Sublimation'], ca: ['Fusió','Evaporació','Condensació','Sublimació'] },
     { es: 'Condensación', en: 'Condensation', ca: 'Condensació' },
-    '🪞',
+    '✨',
     { es: 'El vapor de agua (gas) se enfría al tocar el espejo frío y se convierte en gotitas de agua (líquido). Eso es condensación.', en: 'Water vapour (gas) cools when it touches the cold mirror and turns into water droplets (liquid). That is condensation.', ca: 'El vapor d\'aigua (gas) es refreda en tocar el mirall fred i es converteix en gotetes d\'aigua (líquid). Això és condensació.' },
   ),
 
@@ -122,7 +122,7 @@ export const PREGUNTAS = [
     { es: '¿Qué estado tiene forma y volumen propios?',          en: 'Which state has its own shape and volume?',              ca: 'Quin estat té forma i volum propis?' },
     { es: ['Sólido','Líquido','Gas','Ninguno'],                  en: ['Solid','Liquid','Gas','None'],                          ca: ['Sòlid','Líquid','Gas','Cap'] },
     { es: 'Sólido', en: 'Solid', ca: 'Sòlid' },
-    '🪨',
+    '⛰️',
     { es: 'El sólido tiene forma y volumen propios. No cambia de forma aunque cambiemos el recipiente.', en: 'A solid has its own shape and volume. It does not change shape even if we change the container.', ca: 'El sòlid té forma i volum propis. No canvia de forma encara que canviem el recipient.' },
   ),
   q('pr-02', 'propiedad', 'primaria',

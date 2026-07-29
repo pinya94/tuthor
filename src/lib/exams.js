@@ -51,7 +51,7 @@ export const EXAMS = {
     // (/examen/diagnostico), sin path/page: registrada solo para etiqueta,
     // materia y meta SEO — igual que matematicas-examen, portero-examen...
     label: { es: 'Diagnóstico', en: 'Diagnosis', ca: 'Diagnòstic' },
-    emoji: '🩺', subject: 'ciencias',
+    emoji: '💉', subject: 'ciencias',
   },
 
   // ── Vida Práctica ──────────────────────────────────────────────────────────
@@ -113,7 +113,7 @@ export const EXAMS = {
   },
   'balanza-algebraica-test': {
     label: { es: 'Balanza Algebraica', en: 'Algebra Balance', ca: 'Balança Algebraica' },
-    emoji: '🟰', subject: 'matematicas',
+    emoji: '⚖️', subject: 'matematicas',
     path: 'examen/balanza-algebraica-test', page: () => import('../pages/BalanzaAlgebraicaExamen'),
   },
 
@@ -205,7 +205,7 @@ export const EXAMS = {
   },
   'sistema-solar': {
     label: { es: 'Sistema Solar', en: 'Solar System', ca: 'Sistema Solar' },
-    emoji: '🪐', subject: 'geologia',
+    emoji: '🌌', subject: 'geologia',
     path: 'examen/sistema-solar', page: () => import('../pages/SistemaSolarExamen'),
   },
   'tabla-periodica': {

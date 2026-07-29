@@ -27,7 +27,7 @@ export const DISCIPLINAS = [
     subtitulo: { es: 'Célula, cuerpo humano, seres vivos, ecosistemas y genética', en: 'Cell, human body, living things, ecosystems and genetics', ca: 'Cèl·lula, cos humà, éssers vius, ecosistemes i genètica' },
   },
   {
-    id: 'geologia', emoji: '🪐', gradient: 'from-stone-500 to-neutral-700',
+    id: 'geologia', emoji: '🌌', gradient: 'from-stone-500 to-neutral-700',
     label: { es: 'Geología y el Universo', en: 'Geology & the Universe', ca: "Geologia i l'Univers" },
     subtitulo: { es: 'Rocas, minerales y el sistema solar', en: 'Rocks, minerals and the solar system', ca: 'Roques, minerals i el sistema solar' },
   },

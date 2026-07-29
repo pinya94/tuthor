@@ -60,9 +60,9 @@ export default function BalanzaAlgebraicaExamen() {
   return (
     <MechanicExam
       gameId="balanza-algebraica-test"
-      emoji="🟰"
+      emoji="⚖️"
       badge={{ es: 'Examen · Ecuaciones', en: 'Exam · Equations', ca: 'Examen · Equacions' }}
-      title={{ es: '🟰 Examen Balanza Algebraica', en: '🟰 Algebra Balance Exam', ca: '🟰 Examen Balança Algebraica' }}
+      title={{ es: '⚖️ Examen Balanza Algebraica', en: '⚖️ Algebra Balance Exam', ca: '⚖️ Examen Balança Algebraica' }}
       sub={{ es: 'Despeja la x haciendo lo mismo a los dos lados', en: 'Isolate x by doing the same to both sides', ca: 'Aïlla la x fent el mateix als dos costats' }}
       metaTitle={{ es: 'Examen de Ecuaciones de Primer Grado — Método de la Balanza', en: 'Linear Equations Exam — Balance Method', ca: 'Examen d’Equacions de Primer Grau — Mètode de la Balança' }}
       metaDesc={{ es: 'Examen de ecuaciones con la mecánica del juego: despeja la x haciendo la misma operación a los dos lados hasta dejarla sola. 10 preguntas, sin tiempo.', en: 'Equations exam using the game mechanic: isolate x by doing the same operation to both sides until it stands alone. 10 questions, no timer.', ca: 'Examen d’equacions amb la mecànica del joc: aïlla la x fent la mateixa operació als dos costats fins a deixar-la sola. 10 preguntes, sense temps.' }}

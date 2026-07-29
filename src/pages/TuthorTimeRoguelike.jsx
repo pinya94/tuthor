@@ -17,21 +17,21 @@ const DIFS = {
 
 const UPGRADE_INFO = {
   es: {
-    recuperar_agente: { label: 'Recuperar agente',  emoji: '🩺', desc: 'Un agente caído vuelve con el 60% de vida' },
+    recuperar_agente: { label: 'Recuperar agente',  emoji: '💉', desc: 'Un agente caído vuelve con el 60% de vida' },
     pista:            { label: 'Pistas temporales', emoji: '🗓️', desc: 'Los próximos 3 eventos muestran un rango aproximado del año' },
     mas_tiempo:       { label: '+8 segundos',        emoji: '⏱️', desc: 'Todos los niveles ganan 8 segundos adicionales de tiempo' },
     mas_vida:         { label: 'Salud completa',     emoji: '💊', desc: 'Todos los agentes recuperan toda su vida' },
     multiplicador:    { label: '×1.5 puntos',        emoji: '⭐', desc: 'Multiplica ×1.5 tu puntuación los próximos 3 niveles' },
   },
   en: {
-    recuperar_agente: { label: 'Recover agent',     emoji: '🩺', desc: 'A fallen agent returns with 60% health' },
+    recuperar_agente: { label: 'Recover agent',     emoji: '💉', desc: 'A fallen agent returns with 60% health' },
     pista:            { label: 'Time hints',         emoji: '🗓️', desc: 'The next 3 events show an approximate year range' },
     mas_tiempo:       { label: '+8 seconds',          emoji: '⏱️', desc: 'All levels get 8 extra seconds of time' },
     mas_vida:         { label: 'Full health',         emoji: '💊', desc: 'All agents recover full health' },
     multiplicador:    { label: '×1.5 points',         emoji: '⭐', desc: 'Multiplies your score ×1.5 for the next 3 levels' },
   },
   ca: {
-    recuperar_agente: { label: 'Recuperar agent',   emoji: '🩺', desc: 'Un agent caigut torna amb el 60% de vida' },
+    recuperar_agente: { label: 'Recuperar agent',   emoji: '💉', desc: 'Un agent caigut torna amb el 60% de vida' },
     pista:            { label: 'Pistes temporals',   emoji: '🗓️', desc: 'Els pròxims 3 esdeveniments mostren un rang aproximat de l\'any' },
     mas_tiempo:       { label: '+8 segons',           emoji: '⏱️', desc: 'Tots els nivells guanyen 8 segons addicionals de temps' },
     mas_vida:         { label: 'Salut completa',      emoji: '💊', desc: 'Tots els agents recuperen tota la vida' },

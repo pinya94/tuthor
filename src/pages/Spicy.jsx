@@ -370,7 +370,7 @@ export default function Spicy() {
             const renta = rentaMensualActivo(a)
             return (
               <span key={a.id} className="text-white/50">
-                {a.tipo === 'casa' ? '🏠' : a.tipo === 'casa2' ? '🏡' : a.tipo === 'fondo' ? '📈' : a.tipo === 'acciones' ? '📊' : a.tipo === 'cripto' ? '🪙' : a.tipo === 'coleccion' ? '🃏' : a.tipo === 'deposito' ? '🏦' : a.tipo === 'negocio' ? '🏪' : a.tipo === 'turbio' ? '🕶️' : '❓'}{' '}
+                {a.tipo === 'casa' ? '🏠' : a.tipo === 'casa2' ? '🏡' : a.tipo === 'fondo' ? '📈' : a.tipo === 'acciones' ? '📊' : a.tipo === 'cripto' ? '💰' : a.tipo === 'coleccion' ? '🃏' : a.tipo === 'deposito' ? '🏦' : a.tipo === 'negocio' ? '🏪' : a.tipo === 'turbio' ? '🕶️' : '❓'}{' '}
                 {tr(a.nombre)}: <span className="text-white/80 font-semibold">{fmt(a.valor)}</span>
                 {conMercado && <span className={`ml-1 font-semibold ${cambio >= 0 ? 'text-emerald-400/80' : 'text-red-400/80'}`}>{cambio >= 0 ? '▲' : '▼'}{Math.abs(cambio)}%</span>}
                 {renta > 0 && <span className="ml-1 font-semibold text-emerald-400/80">(+{fmt(renta)}/{tr({ es: 'mes', en: 'mo', ca: 'mes' })})</span>}

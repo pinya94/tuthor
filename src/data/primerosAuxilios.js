@@ -20,7 +20,7 @@ const PREGUNTAS = [
       ca: ['Confirmar en veu alta si s\'està ennuegant i si pot tossir', 'Donar-li cops a l\'esquena de seguida', 'Oferir-li aigua perquè s\'empassi millor', 'Fer-li la maniobra de Heimlich sense preguntar res'],
     },
     { es: 'Confirmar en voz alta si se está atragantando y si puede toser', en: 'Confirm out loud whether they\'re choking and if they can cough', ca: 'Confirmar en veu alta si s\'està ennuegant i si pot tossir' },
-    '🫷',
+    '✋',
     {
       es: 'Antes de actuar hay que distinguir obstrucción parcial (tose, puede hablar) de total (no puede toser, hablar ni respirar): el protocolo es distinto en cada caso.',
       en: 'Before acting you need to tell partial obstruction (coughing, can speak) apart from total (can\'t cough, speak or breathe): the protocol differs for each.',

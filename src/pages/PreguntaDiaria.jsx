@@ -812,7 +812,7 @@ export default function PreguntaDiaria() {
           <>
             <div className="px-6 sm:px-8 py-4">
               <p className="text-xs font-semibold text-white/40 uppercase tracking-widest mb-2">
-                {ca ? '🟰 Despeja la x' : en ? '🟰 Isolate x' : '🟰 Despeja la x'}
+                {ca ? '⚖️ Despeja la x' : en ? '⚖️ Isolate x' : '⚖️ Despeja la x'}
               </p>
               <p className="text-white/70 text-sm mb-3 text-center">
                 {ca ? 'Fes la mateixa operació als dos costats fins a deixar la x sola' : en ? 'Do the same operation to both sides until x is alone' : 'Haz la misma operación a los dos lados hasta dejar la x sola'}

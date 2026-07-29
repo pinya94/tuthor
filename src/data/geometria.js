@@ -120,7 +120,7 @@ export const PREGUNTAS = [
     { es:'¿Qué es un eje de simetría?', en:'What is an axis of symmetry?', ca:'Què és un eix de simetria?' },
     { es:['Una recta que divide una figura en dos partes iguales','El centro de un círculo','Un ángulo de 90°','El lado más largo de un triángulo'], en:['A line that divides a figure into two equal parts','The centre of a circle','A 90° angle','The longest side of a triangle'], ca:['Una recta que divideix una figura en dues parts iguals','El centre d\'un cercle','Un angle de 90°','El costat més llarg d\'un triangle'] },
     { es:'Una recta que divide una figura en dos partes iguales', en:'A line that divides a figure into two equal parts', ca:'Una recta que divideix una figura en dues parts iguals' },
-    '🪞',
+    '✨',
     { es:'Un eje de simetría divide la figura en dos mitades que son imagen especular una de la otra. Un círculo tiene infinitos ejes de simetría; un cuadrado tiene 4; un rectángulo tiene 2; un triángulo equilátero tiene 3.', en:'An axis of symmetry divides the figure into two halves that are mirror images of each other. A circle has infinite axes of symmetry; a square has 4; a rectangle has 2; an equilateral triangle has 3.', ca:'Un eix de simetria divideix la figura en dues meitats que són imatge especular l\'una de l\'altra. Un cercle té infinits eixos de simetria; un quadrat en té 4; un rectangle en té 2; un triangle equilàter en té 3.' },
   ),
   q('si-02','simetria','primaria',

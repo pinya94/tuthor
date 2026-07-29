@@ -92,7 +92,7 @@ function TemaSelect({ onElegir, lang, tr }) {
     <div className="flex flex-col items-center min-h-[calc(100vh-4rem)] px-4 py-8">
       <div className="max-w-2xl w-full">
         <div className="text-center mb-6">
-          <span className="text-6xl mb-4 block">🩺</span>
+          <span className="text-6xl mb-4 block">💉</span>
           <h1 className="text-3xl font-black text-white mb-2">{tr({ es: 'Diagnóstico', en: 'Diagnosis', ca: 'Diagnòstic' })}</h1>
           <p className="text-white/50 text-sm">
             {tr({ es: 'Descarta candidatos con cada pista hasta confirmar tu diagnóstico', en: 'Rule out candidates with every clue until you confirm your diagnosis', ca: 'Descarta candidats amb cada pista fins a confirmar el teu diagnòstic' })}
@@ -142,7 +142,7 @@ function Resultado({ tema, ronda, acierto, penalizaciones, pistasUsadas, coins, 
     <div className="flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
       <div className="max-w-md w-full">
         <div className="bg-white/5 border border-white/10 rounded-2xl p-8 text-center mb-5">
-          <div className="text-6xl mb-3">{acierto ? '🩺' : '🔍'}</div>
+          <div className="text-6xl mb-3">{acierto ? '💉' : '🔍'}</div>
           <h1 className="text-2xl font-black text-white mb-1">
             {acierto
               ? tr({ es: '¡Diagnóstico correcto!', en: 'Correct diagnosis!', ca: 'Diagnòstic correcte!' })

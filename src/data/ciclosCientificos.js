@@ -157,7 +157,7 @@ export const CICLOS = {
 
   'ciclo-rocas': {
     label: { es: 'Ciclo de las Rocas', en: 'Rock Cycle', ca: 'Cicle de les Roques' },
-    emoji: '🪨',
+    emoji: '⛰️',
     gradient: 'from-amber-600 to-orange-800',
     home: 'rocas-minerales',
     niveles: ['primaria', 'eso'],

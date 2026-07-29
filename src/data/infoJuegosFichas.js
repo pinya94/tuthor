@@ -116,7 +116,7 @@ export const FICHAS_ES = {
   'balanza-algebraica': {
     titulo: 'Balanza Algebraica',
     subtitulo: 'Juego de Ecuaciones de Primer Grado (método de la balanza)',
-    emoji: '🟰', gradient: 'from-violet-600 to-indigo-800',
+    emoji: '⚖️', gradient: 'from-violet-600 to-indigo-800',
     path: '/juegos/balanza-algebraica',
     intro: 'Un juego de matemáticas para resolver ecuaciones sin miedo: la ecuación aparece como una balanza equilibrada y tú aplicas la misma operación a los dos lados —tocas un término para restarlo en ambos platos, y divides al final— hasta dejar la x sola. La igualdad se conserva en cada paso, así que ves por qué funciona el método, no solo cómo.',
     beneficios: [
@@ -570,7 +570,7 @@ export const FICHAS_EN = {
   },
   'balanza-algebraica': {
     titulo: 'Algebra Balance', subtitulo: 'Linear Equations Game (the balance method)',
-    emoji: '🟰', gradient: 'from-violet-600 to-indigo-800', path: '/juegos/balanza-algebraica',
+    emoji: '⚖️', gradient: 'from-violet-600 to-indigo-800', path: '/juegos/balanza-algebraica',
     intro: 'A maths game to solve equations without fear: the equation appears as a balanced scale and you apply the same operation to both sides — tap a term to subtract it from both pans, and divide at the end — until x stands alone. Equality is kept at every step, so you see why the method works, not just how.',
     beneficios: [
       { titulo: 'The balance method', texto: 'Internalising that "whatever you do to one side you do to the other" is the basis for solving equations. The game makes it visual and avoids the classic sign-flipping mistakes.' },
@@ -937,7 +937,7 @@ export const FICHAS_CA = {
   },
   'balanza-algebraica': {
     titulo: 'Balança Algebraica', subtitulo: 'Joc d’Equacions de Primer Grau (mètode de la balança)',
-    emoji: '🟰', gradient: 'from-violet-600 to-indigo-800', path: '/juegos/balanza-algebraica',
+    emoji: '⚖️', gradient: 'from-violet-600 to-indigo-800', path: '/juegos/balanza-algebraica',
     intro: 'Un joc de matemàtiques per resoldre equacions sense por: l’equació apareix com una balança equilibrada i tu apliques la mateixa operació als dos costats —toques un terme per restar-lo als dos plats, i divideixes al final— fins a deixar la x sola. La igualtat es conserva a cada pas, així veus per què funciona el mètode, no només com.',
     beneficios: [
       { titulo: 'El mètode de la balança', texto: 'Interioritzar que "el que fas a un costat ho fas a l’altre" és la base per resoldre equacions. El joc ho fa visual i evita l’error clàssic de passar termes malament.' },

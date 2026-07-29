@@ -79,7 +79,7 @@ const DATA = {
         ],
       },
       {
-        titulo: 'Geología y el Universo', emoji: '🪐',
+        titulo: 'Geología y el Universo', emoji: '🌌',
         texto: 'Rocas y minerales y el sistema solar, con teoría breve y práctica interactiva por descarte para Primaria y ESO.',
         temas: [
           { nombre: 'Rocas y Minerales', desc: 'Ígneas, sedimentarias y metamórficas, y minerales.', slug: 'rocas-minerales' },
@@ -188,7 +188,7 @@ const DATA = {
         ],
       },
       {
-        titulo: 'Geology & the Universe', emoji: '🪐',
+        titulo: 'Geology & the Universe', emoji: '🌌',
         texto: 'Rocks and minerals and the solar system, with short theory and interactive elimination practice for Primary and Secondary.',
         temas: [
           { nombre: 'Rocks & Minerals', desc: 'Igneous, sedimentary and metamorphic rocks, and minerals.', slug: 'rocas-minerales' },
@@ -297,7 +297,7 @@ const DATA = {
         ],
       },
       {
-        titulo: 'Geologia i l\'Univers', emoji: '🪐',
+        titulo: 'Geologia i l\'Univers', emoji: '🌌',
         texto: 'Roques i minerals i el sistema solar, amb teoria breu i pràctica interactiva per descart per a Primària i ESO.',
         temas: [
           { nombre: 'Roques i Minerals', desc: 'Ígnies, sedimentàries i metamòrfiques, i minerals.', slug: 'rocas-minerales' },

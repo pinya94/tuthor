@@ -42,7 +42,7 @@ const TODAS = [
 
   q('pv-10', 'eso', EN('Make this passive sentence active: "The windows are cleaned by Maria."'),
     { es: ['Maria cleans the windows.', 'Maria cleaned the windows.', 'Maria is cleaning the windows.', 'The windows clean Maria.'], en: ['Maria cleans the windows.', 'Maria cleaned the windows.', 'Maria is cleaning the windows.', 'The windows clean Maria.'], ca: ['Maria cleans the windows.', 'Maria cleaned the windows.', 'Maria is cleaning the windows.', 'The windows clean Maria.'] },
-    0, '🪟', EN('Active: Maria (subject) + cleans (present simple) + the windows (object). The "by + agent" becomes the subject in the active sentence.')),
+    0, '🖼️', EN('Active: Maria (subject) + cleans (present simple) + the windows (object). The "by + agent" becomes the subject in the active sentence.')),
 
   q('pv-11', 'eso', EN('"English ___ all over the world." Choose correctly.'),
     { es: ['speaks', 'is spoken', 'is speaking', 'has spoken'], en: ['speaks', 'is spoken', 'is speaking', 'has spoken'], ca: ['speaks', 'is spoken', 'is speaking', 'has spoken'] },

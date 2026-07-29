@@ -180,7 +180,7 @@ export const GAMES = {
   },
   'balanza-algebraica': {
     label: { es: 'Balanza Algebraica', en: 'Algebra Balance', ca: 'Balança Algebraica' },
-    emoji: '🟰',
+    emoji: '⚖️',
     subject: 'matematicas',
     route: '/juegos/balanza-algebraica',
     // aciertos × 10 puntos → hasta 200 monedas

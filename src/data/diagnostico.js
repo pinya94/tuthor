@@ -216,7 +216,7 @@ export const TEMAS_DIAGNOSTICO = [
     id: 'rocas-minerales',
     subject: 'ciencias',
     home: 'rocas-minerales',
-    emoji: '🪨',
+    emoji: '⛰️',
     titulo: { es: 'Rocas y Minerales', en: 'Rocks & Minerals', ca: 'Roques i Minerals' },
     candidatos: candidatos([
       { id: 'granito', iniciales: 'GR', nombre: { es: 'Granito', en: 'Granite', ca: 'Granit' } },

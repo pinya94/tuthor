@@ -5,7 +5,7 @@ export default {
   "es": {
     "titulo": "Rocas y Minerales — Tipos y Formación",
     "subtitulo": "Geología — Rocas Ígneas, Sedimentarias y Metamórficas",
-    "emoji": "🪨",
+    "emoji": "⛰️",
     "gradient": "from-stone-500 to-neutral-700",
     "examPath": "/examen/diagnostico/rocas-minerales",
     "studyPath": "/estudiar/geologia/rocas-minerales",
@@ -51,7 +51,7 @@ export default {
   "en": {
     "titulo": "Rocks and Minerals — Types and Formation",
     "subtitulo": "Geology — Igneous, Sedimentary and Metamorphic Rocks",
-    "emoji": "🪨",
+    "emoji": "⛰️",
     "gradient": "from-stone-500 to-neutral-700",
     "examPath": "/examen/diagnostico/rocas-minerales",
     "studyPath": "/estudiar/geologia/rocas-minerales",
@@ -97,7 +97,7 @@ export default {
   "ca": {
     "titulo": "Roques i Minerals — Tipus i Formació",
     "subtitulo": "Geologia — Roques Ígnies, Sedimentàries i Metamòrfiques",
-    "emoji": "🪨",
+    "emoji": "⛰️",
     "gradient": "from-stone-500 to-neutral-700",
     "examPath": "/examen/diagnostico/rocas-minerales",
     "studyPath": "/estudiar/geologia/rocas-minerales",

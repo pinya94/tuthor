@@ -15,7 +15,7 @@ const CORRECT_TIME = 5
 
 const C = {
   badge:  { es: 'Matemáticas · Ecuaciones', en: 'Maths · Equations', ca: 'Matemàtiques · Equacions' },
-  title:  { es: '🟰 Balanza Algebraica', en: '🟰 Algebra Balance', ca: '🟰 Balança Algebraica' },
+  title:  { es: '⚖️ Balanza Algebraica', en: '⚖️ Algebra Balance', ca: '⚖️ Balança Algebraica' },
   sub:    { es: 'Despeja la x haciendo lo mismo a los dos lados', en: 'Isolate x by doing the same to both sides', ca: 'Aïlla la x fent el mateix als dos costats' },
   how:    { es: 'Cómo funciona', en: 'How it works', ca: 'Com funciona' },
   p1:     { es: 'La ecuación es una balanza equilibrada: los dos lados valen lo mismo.', en: 'The equation is a balanced scale: both sides are equal.', ca: 'L’equació és una balança equilibrada: els dos costats valen el mateix.' },
@@ -215,12 +215,12 @@ export default function BalanzaAlgebraica() {
     const pts = score * 10
     const msg = { es: score === 0 ? '¡Sigue practicando!' : score < 4 ? 'Buen comienzo' : score < 9 ? '¡Bien hecho!' : '¡Maestro del álgebra! 💪', en: score === 0 ? 'Keep practising!' : score < 4 ? 'Good start' : score < 9 ? 'Well done!' : 'Algebra master! 💪', ca: score === 0 ? 'Segueix practicant!' : score < 4 ? 'Bon començament' : score < 9 ? 'Ben fet!' : 'Mestre de l’àlgebra! 💪' }[l]
     const shareText = l === 'en'
-      ? `I solved ${correct} equations in Algebra Balance 🟰 — can you beat me? https://tuthor.es/juegos/balanza-algebraica`
+      ? `I solved ${correct} equations in Algebra Balance ⚖️ — can you beat me? https://tuthor.es/juegos/balanza-algebraica`
       : l === 'ca'
-      ? `He resolt ${correct} equacions a Balança Algebraica 🟰 — pots superar-me? https://tuthor.es/juegos/balanza-algebraica`
-      : `He resuelto ${correct} ecuaciones en Balanza Algebraica 🟰 — ¿puedes superarme? https://tuthor.es/juegos/balanza-algebraica`
+      ? `He resolt ${correct} equacions a Balança Algebraica ⚖️ — pots superar-me? https://tuthor.es/juegos/balanza-algebraica`
+      : `He resuelto ${correct} ecuaciones en Balanza Algebraica ⚖️ — ¿puedes superarme? https://tuthor.es/juegos/balanza-algebraica`
     return (
-      <GameEndScreen game="balanza-algebraica" emoji="🟰" title={T('end', l)} score={pts} message={msg}
+      <GameEndScreen game="balanza-algebraica" emoji="⚖️" title={T('end', l)} score={pts} message={msg}
         stats={[{ label: T('hits', l), value: correct, emoji: '✅' }]}
         shareText={shareText} onPlayAgain={() => startGame(difficulty)} playAgainLabel={T('again', l)}
         secondaryActions={[{ label: T('changeDif', l), onClick: () => setScreen('difficulty') }]}
@@ -241,7 +241,7 @@ export default function BalanzaAlgebraica() {
 
       <div className="w-full max-w-[520px] flex items-center justify-between mb-3 px-1">
         <div>
-          <p className="text-white/40 text-xs uppercase tracking-widest">🟰 {DIFS[difficulty].label[l] ?? DIFS[difficulty].label.es}</p>
+          <p className="text-white/40 text-xs uppercase tracking-widest">⚖️ {DIFS[difficulty].label[l] ?? DIFS[difficulty].label.es}</p>
           <p className="text-white font-bold text-lg flex items-center gap-2">
             {score} {T('scoreLbl', l)}
             {streak >= 2 && <span className="text-orange-400 text-sm font-black">🔥 {streak}</span>}
@@ -271,7 +271,7 @@ export default function BalanzaAlgebraica() {
         <div className="w-full max-w-[520px] px-1 space-y-2">
           <div className={`rounded-xl px-3 py-2 text-center ${won ? 'bg-green-500/10 border border-green-500/30' : 'bg-red-500/10 border border-red-500/30'}`}>
             <p className={`font-black ${won ? 'text-green-400' : 'text-red-400'}`}>
-              {won ? `🟰 ${T('solved', l)}` : T('failed', l)}
+              {won ? `⚖️ ${T('solved', l)}` : T('failed', l)}
             </p>
             <p className="text-xs font-bold mt-0.5">
               {won

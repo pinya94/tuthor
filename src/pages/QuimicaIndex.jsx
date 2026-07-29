@@ -49,7 +49,7 @@ const TEMAS = [
     id: 'rocas-minerales', disciplina: 'geologia',
     titulo: 'Rocas y Minerales', tituloEn: 'Rocks & Minerals', tituloCa: 'Roques i Minerals',
     subtitulo: 'Tipos de rocas, minerales y cómo se forman', subtituloEn: 'Rock types, minerals and how they form', subtituloCa: 'Tipus de roques, minerals i com es formen',
-    emoji: '🪨', gradient: 'from-stone-500 to-neutral-700',
+    emoji: '⛰️', gradient: 'from-stone-500 to-neutral-700',
     tags: ['rocas', 'minerales', 'granito', 'marmol', 'cuarzo', 'igneas', 'sedimentarias', 'metamorficas', 'geologia', 'ciclo de las rocas', 'rock cycle', 'erosion', 'rocks', 'minerals', 'geology'],
     niveles: ['primaria', 'eso'],
   },
