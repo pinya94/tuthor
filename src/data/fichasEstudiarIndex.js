@@ -5,6 +5,8 @@ import f0 from './fichasEstudiar/acidos-bases.js'
 import f1 from './fichasEstudiar/algebra.js'
 import f2 from './fichasEstudiar/atomos-moleculas.js'
 import f3 from './fichasEstudiar/celula.js'
+import f50 from './fichasEstudiar/complemento-directo.js'
+import f51 from './fichasEstudiar/complemento-indirecto.js'
 import f4 from './fichasEstudiar/cuerpo-humano.js'
 import f5 from './fichasEstudiar/ecosistemas.js'
 import f6 from './fichasEstudiar/electricidad.js'
@@ -57,6 +59,8 @@ export const FICHAS = {
   'algebra': f1,
   'atomos-moleculas': f2,
   'celula': f3,
+  'complemento-directo': f50,
+  'complemento-indirecto': f51,
   'cuerpo-humano': f4,
   'ecosistemas': f5,
   'electricidad': f6,

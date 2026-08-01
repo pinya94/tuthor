@@ -1,10 +1,10 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import { useAuth } from '../context/AuthContext'
 import { saveActivity } from '../lib/activity'
 import { computeCoins } from '../lib/games'
-import { genRound, sameSet } from '../lib/analizaFrases'
+import { genRound, sameSet, TASKS } from '../lib/analizaFrases'
 import GameEndScreen from '../components/GameEndScreen'
 import SentenceBoard from '../components/SentenceBoard'
 import SEOHead from '../components/SEOHead'
@@ -37,8 +37,52 @@ const C = {
   again:  { es: '▶ Jugar de nuevo', en: '▶ Play again', ca: '▶ Jugar de nou' },
   changeDif:{ es: 'Cambiar nivel', en: 'Change level', ca: 'Canviar nivell' },
   exam:   { es: 'Modo examen (tipo test) →', en: 'Exam mode (quiz) →', ca: 'Mode examen (tipus test) →' },
+  focusBtn: { es: '🎯 Practicar algo concreto', en: '🎯 Practise something specific', ca: '🎯 Practicar alguna cosa concreta' },
+  focusTitle: { es: '¿Qué quieres practicar?', en: 'What do you want to practise?', ca: 'Què vols practicar?' },
+  focusSub: { es: 'Elige un tema: puedes jugar solo con eso o ir a estudiarlo primero', en: 'Pick a topic: play only that, or go study it first', ca: 'Tria un tema: pots jugar només amb això o anar a estudiar-lo primer' },
+  focusBack: { es: '← Volver', en: '← Back', ca: '← Tornar' },
+  playFocus: { es: '▶ Jugar', en: '▶ Play', ca: '▶ Jugar' },
+  studyFocus: { es: '📖 Estudiar', en: '📖 Study', ca: '📖 Estudiar' },
+  changeTopic: { es: 'Elegir otro tema', en: 'Pick another topic', ca: 'Triar un altre tema' },
+  practising: { es: 'Practicando', en: 'Practising', ca: 'Practicant' },
 }
 function T(k, l) { return C[k]?.[l] ?? C[k]?.es ?? k }
+
+// Temas para "practicar algo concreto": cada uno filtra el generador a una
+// tarea (o varias de la misma categoría) y ofrece jugar filtrado + estudiar.
+// Todos se juegan a nivel ESO: es el mínimo que desbloquea CD/CI/CC/morfología
+// (TASKS[].min), así el tema pedido nunca cae a una tarea distinta por fallback.
+const catFilter = cat => Object.keys(TASKS).filter(k => TASKS[k].cat === cat)
+const TOPICS = [
+  { id: 'clases', emoji: '🏷️', filter: catFilter('clases'),
+    label: { es: 'Clases de palabras', en: 'Word classes', ca: 'Classes de paraules' },
+    desc: { es: 'Sustantivo, adjetivo, verbo, artículo, pronombre, adverbio…', en: 'Noun, adjective, verb, article, pronoun, adverb…', ca: 'Substantiu, adjectiu, verb, article, pronom, adverbi…' },
+    studyPath: '/estudiar/idiomas/espanol/gramatica' },
+  { id: 'sujeto', emoji: '🙋', filter: ['sujeto'],
+    label: { es: 'Sujeto', en: 'Subject', ca: 'Subjecte' },
+    desc: { es: 'De quién se dice algo en la frase', en: 'What the sentence is about', ca: 'De qui es diu alguna cosa a la frase' },
+    studyPath: '/estudiar/idiomas/espanol/gramatica/sintaxis' },
+  { id: 'predicado', emoji: '🏃', filter: ['predicado'],
+    label: { es: 'Predicado', en: 'Predicate', ca: 'Predicat' },
+    desc: { es: 'Lo que se dice del sujeto', en: 'What is said about the subject', ca: 'El que es diu del subjecte' },
+    studyPath: '/estudiar/idiomas/espanol/gramatica/sintaxis' },
+  { id: 'cd', emoji: '🎯', filter: ['cd'],
+    label: { es: 'Complemento Directo (CD)', en: 'Direct Object (DO)', ca: 'Complement Directe (CD)' },
+    desc: { es: 'El truco de lo/la/los/las', en: 'The lo/la/los/las trick', ca: 'El truc de lo/la/los/las' },
+    studyPath: '/info/estudiar/complemento-directo' },
+  { id: 'ci', emoji: '🎁', filter: ['ci'],
+    label: { es: 'Complemento Indirecto (CI)', en: 'Indirect Object (IO)', ca: 'Complement Indirecte (CI)' },
+    desc: { es: 'El truco de le/les', en: 'The le/les trick', ca: 'El truc de le/les' },
+    studyPath: '/info/estudiar/complemento-indirecto' },
+  { id: 'cc', emoji: '🔗', filter: ['cc'],
+    label: { es: 'Complementos Circunstanciales (CC)', en: 'Adverbials (CC)', ca: 'Complements Circumstancials (CC)' },
+    desc: { es: 'Lugar, tiempo, modo…', en: 'Place, time, manner…', ca: 'Lloc, temps, manera…' },
+    studyPath: '/estudiar/idiomas/espanol/gramatica/sintaxis' },
+  { id: 'morfologia', emoji: '♀️', filter: catFilter('morfo'),
+    label: { es: 'Género y número', en: 'Gender & number', ca: 'Gènere i nombre' },
+    desc: { es: 'Femenino, masculino, singular, plural', en: 'Feminine, masculine, singular, plural', ca: 'Femení, masculí, singular, plural' },
+    studyPath: '/estudiar/idiomas/espanol/gramatica/morfologia' },
+]
 
 const DIFS = {
   primaria: { emoji: '🟢', label: { es: 'Primaria', en: 'Primary', ca: 'Primària' }, desc: { es: 'Clases de palabras y sujeto/predicado', en: 'Word classes and subject/predicate', ca: 'Classes de paraules i subjecte/predicat' } },
@@ -46,7 +90,7 @@ const DIFS = {
   bach:     { emoji: '🔴', label: { es: 'Bachillerato', en: 'Sixth Form', ca: 'Batxillerat' }, desc: { es: 'Frases largas, atributo y CD/CI/CC', en: 'Long sentences, attribute and objects', ca: 'Frases llargues, atribut i complements' } },
 }
 
-function DifficultyScreen({ onSelect, l }) {
+function DifficultyScreen({ onSelect, onFocus, l, localPath }) {
   const [dif, setDif] = useState('primaria')
   return (
     <div className="relative z-10 flex flex-col items-center min-h-[calc(100vh-4rem)] px-4 py-8">
@@ -89,7 +133,11 @@ function DifficultyScreen({ onSelect, l }) {
           className="w-full py-4 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-lg rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-amber-500/20 mb-3">
           {T('start', l)}
         </button>
-        <Link to="/examen/analiza-frases-test" className="block text-center text-white/40 hover:text-white/70 text-sm transition-colors">
+        <button onClick={onFocus}
+          className="w-full py-3 bg-white/5 hover:bg-white/10 border border-white/10 text-white font-bold text-sm rounded-2xl transition-all hover:scale-[1.01] active:scale-[0.98] mb-3">
+          {T('focusBtn', l)}
+        </button>
+        <Link to={localPath('/examen/analiza-frases-test')} className="block text-center text-white/40 hover:text-white/70 text-sm transition-colors">
           {T('exam', l)}
         </Link>
       </div>
@@ -97,44 +145,95 @@ function DifficultyScreen({ onSelect, l }) {
   )
 }
 
+function TopicsScreen({ onPlay, onBack, l, localPath }) {
+  return (
+    <div className="relative z-10 flex flex-col items-center min-h-[calc(100vh-4rem)] px-4 py-8">
+      <div className="max-w-md w-full">
+        <button onClick={onBack} className="text-white/40 hover:text-white/70 text-sm mb-4 transition-colors">
+          {T('focusBack', l)}
+        </button>
+        <h1 className="text-2xl font-black text-white text-center mb-1">{T('focusTitle', l)}</h1>
+        <p className="text-white/40 text-sm text-center mb-6">{T('focusSub', l)}</p>
+
+        <div className="space-y-3">
+          {TOPICS.map(topic => (
+            <div key={topic.id} className="bg-white/5 border border-white/10 rounded-2xl p-4">
+              <div className="flex items-center gap-2 mb-1">
+                <span className="text-xl">{topic.emoji}</span>
+                <h3 className="font-black text-white text-base">{topic.label[l] ?? topic.label.es}</h3>
+              </div>
+              <p className="text-white/40 text-xs mb-3">{topic.desc[l] ?? topic.desc.es}</p>
+              <div className="flex gap-2">
+                <button onClick={() => onPlay(topic)}
+                  className="flex-1 py-2.5 bg-[#EDAE49] hover:bg-amber-400 text-black font-bold text-sm rounded-xl transition-all hover:scale-[1.02] active:scale-[0.98]">
+                  {T('playFocus', l)}
+                </button>
+                <Link to={localPath(topic.studyPath)}
+                  className="flex-1 py-2.5 bg-white/10 hover:bg-white/15 text-white font-bold text-sm rounded-xl text-center transition-all hover:scale-[1.02]">
+                  {T('studyFocus', l)}
+                </Link>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
+
 export default function AnalizaFrases() {
-  const { lang } = useLang()
+  const { lang, localPath } = useLang()
   const { user } = useAuth()
+  const location = useLocation()
   const l = lang === 'en' ? 'en' : lang === 'ca' ? 'ca' : 'es'
 
-  const [screen, setScreen] = useState('difficulty')
-  const [difficulty, setDifficulty] = useState('primaria')
+  // Entrada directa desde una ficha de estudio (p. ej. /info/estudiar/complemento-directo):
+  // state = { filter, level, topicId } salta el menú y arranca ya filtrado.
+  const incoming = location.state?.filter ? location.state : null
+  const incomingTopic = incoming ? TOPICS.find(t => t.id === incoming.topicId) ?? null : null
+
+  const [screen, setScreen] = useState(incoming ? 'playing' : 'difficulty')
+  const [difficulty, setDifficulty] = useState(incoming?.level ?? 'primaria')
   const [timeLeft, setTimeLeft] = useState(GAME_TIME)
   const [score, setScore] = useState(0)
   const [correct, setCorrect] = useState(0)
   const [streak, setStreak] = useState(0)
-  const [round, setRound] = useState(null)
+  const [round, setRound] = useState(() => incoming ? genRound({ lang: l, level: incoming.level ?? 'eso', filter: incoming.filter }) : null)
   const [phase, setPhase] = useState('choose')  // choose | result
   const [selected, setSelected] = useState([])
   const [won, setWon] = useState(false)
   const [delta, setDelta] = useState(null)
+  const [activeTopic, setActiveTopic] = useState(incomingTopic)
 
   const timerRef = useRef(null)
   const scoreRef = useRef(0)
   const timeRef = useRef(GAME_TIME)
-  const startedAtRef = useRef(0)
+  const startedAtRef = useRef(incoming ? Date.now() : 0)
+  const filterRef = useRef(incoming?.filter ?? null)
   useEffect(() => { scoreRef.current = score }, [score])
   useEffect(() => { timeRef.current = timeLeft }, [timeLeft])
 
   const next = useCallback((diff) => {
-    setRound(genRound({ lang: l, level: diff }))
+    setRound(genRound({ lang: l, level: diff, filter: filterRef.current }))
     setPhase('choose')
     setSelected([])
     setDelta(null)
   }, [l])
 
-  function startGame(diff) {
+  // topic = entrada de TOPICS cuando se practica algo concreto, null en el juego normal
+  function startGame(diff, topic = null) {
+    filterRef.current = topic?.filter ?? null
+    setActiveTopic(topic)
     setDifficulty(diff)
     setScreen('playing')
     setScore(0); setCorrect(0); setStreak(0)
     setTimeLeft(GAME_TIME)
     startedAtRef.current = Date.now()
     next(diff)
+  }
+
+  function playTopic(topic) {
+    startGame('eso', topic)
   }
 
   useEffect(() => {
@@ -195,7 +294,13 @@ export default function AnalizaFrases() {
   }[l]
 
   if (screen === 'difficulty') {
-    return (<><SEOHead title={seo.title} description={seo.desc} path={seo.path} lang={l} /><DifficultyScreen onSelect={startGame} l={l} /></>)
+    return (<><SEOHead title={seo.title} description={seo.desc} path={seo.path} lang={l} />
+      <DifficultyScreen onSelect={startGame} onFocus={() => setScreen('topics')} l={l} localPath={localPath} /></>)
+  }
+
+  if (screen === 'topics') {
+    return (<><SEOHead title={seo.title} description={seo.desc} path={seo.path} lang={l} />
+      <TopicsScreen onPlay={playTopic} onBack={() => setScreen('difficulty')} l={l} localPath={localPath} /></>)
   }
 
   if (screen === 'end') {
@@ -209,8 +314,11 @@ export default function AnalizaFrases() {
     return (
       <GameEndScreen game="analiza-frases" emoji="🧐" title={T('end', l)} score={pts} message={msg}
         stats={[{ label: T('hits', l), value: correct, emoji: '✅' }]}
-        shareText={shareText} onPlayAgain={() => startGame(difficulty)} playAgainLabel={T('again', l)}
-        secondaryActions={[{ label: T('changeDif', l), onClick: () => setScreen('difficulty') }]}
+        shareText={shareText} onPlayAgain={() => startGame(difficulty, activeTopic)} playAgainLabel={T('again', l)}
+        secondaryActions={[{
+          label: activeTopic ? T('changeTopic', l) : T('changeDif', l),
+          onClick: () => setScreen(activeTopic ? 'topics' : 'difficulty'),
+        }]}
         user={user} lang={lang} />
     )
   }
@@ -228,7 +336,11 @@ export default function AnalizaFrases() {
       {/* Header */}
       <div className="w-full max-w-[560px] flex items-center justify-between mb-3 px-1">
         <div>
-          <p className="text-white/40 text-xs uppercase tracking-widest">🧐 {DIFS[difficulty].label[l] ?? DIFS[difficulty].label.es}</p>
+          <p className="text-white/40 text-xs uppercase tracking-widest">
+            {activeTopic
+              ? <>🎯 {T('practising', l)}: {activeTopic.label[l] ?? activeTopic.label.es}</>
+              : <>🧐 {DIFS[difficulty].label[l] ?? DIFS[difficulty].label.es}</>}
+          </p>
           <p className="text-white font-bold text-lg flex items-center gap-2">
             {score} {T('scoreLbl', l)}
             {streak >= 2 && <span className="text-orange-400 text-sm font-black">🔥 {streak}</span>}
