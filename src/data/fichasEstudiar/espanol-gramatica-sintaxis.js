@@ -11,6 +11,11 @@ export default {
     "asignatura": "Lengua Española",
     "niveles": "Primaria, ESO",
     "intro": "Aprende a analizar oraciones en español: identificar sujeto y predicado, distinguir complemento directo (CD) e indirecto (CI) mediante sustitución pronominal, reconocer complementos circunstanciales, atributos, oraciones impersonales, coordinadas y subordinadas. 15 preguntas con oraciones reales.",
+    "resumen": [
+      "Analizar una oración —encontrar el sujeto, el predicado, el complemento directo o indirecto— es la habilidad que conecta la gramática con la comprensión real de un texto: saber quién hace qué, a quién y con qué medio. No es un ejercicio abstracto: es la base para entender bien cualquier frase compleja, en clase de Lengua o en cualquier otra asignatura.",
+      "El examen sigue la progresión habitual: primero sujeto y predicado, incluyendo el caso especial de las oraciones impersonales sin sujeto gramatical («Llueve»); después el complemento directo y el indirecto, distinguibles con un truco mecánico de sustitución pronominal (lo/la/los/las para el CD, le/les para el CI); y por último complementos circunstanciales, atributo y una introducción a las oraciones coordinadas y subordinadas.",
+      "Cada pregunta trae la explicación completa, así que sirve tanto para comprobar lo que ya sabes como para aprender el truco que te falta."
+    ],
     "beneficios": [
       {
         "titulo": "Truco del CD y CI",
@@ -57,6 +62,11 @@ export default {
     "asignatura": "Spanish Language",
     "niveles": "Primary, Secondary",
     "intro": "Learn to analyse Spanish sentences: identify subject and predicate, distinguish direct object (DO) from indirect object (IO) using pronoun substitution, recognise circumstantial complements, attribute, impersonal sentences, coordinated and subordinate clauses. 15 questions with real sentences.",
+    "resumen": [
+      "Analysing a sentence —finding the subject, the predicate, the direct or indirect object— is the skill that connects grammar with genuinely understanding a text: knowing who does what, to whom, and by what means. It isn't an abstract exercise: it's the foundation for understanding any complex sentence, whether in a Language class or any other subject.",
+      "The exam follows the usual progression: first subject and predicate, including the special case of impersonal sentences with no grammatical subject (\"Llueve\" — \"It's raining\"); then the direct and indirect object, told apart with a mechanical pronoun-substitution trick (lo/la/los/las for the direct object, le/les for the indirect object); and finally circumstantial complements, the attribute, and an introduction to coordinated and subordinate clauses.",
+      "Every question comes with a full explanation, so it works both to check what you already know and to learn the trick you're missing."
+    ],
     "beneficios": [
       {
         "titulo": "DO and IO Trick",
@@ -103,6 +113,11 @@ export default {
     "asignatura": "Llengua Espanyola",
     "niveles": "Primària, ESO",
     "intro": "Aprèn a analitzar oracions en castellà: identificar subjecte i predicat, distingir CD i CI per substitució pronominal, reconèixer CC, atributs, oracions impersonals i subordinades. 15 preguntes amb oracions reals.",
+    "resumen": [
+      "Analitzar una oració —trobar el subjecte, el predicat, el complement directe o indirecte— és l'habilitat que connecta la gramàtica amb la comprensió real d'un text: saber qui fa què, a qui i amb quin mitjà. No és un exercici abstracte: és la base per entendre bé qualsevol frase complexa, a classe de Llengua o a qualsevol altra assignatura.",
+      "L'examen segueix la progressió habitual: primer subjecte i predicat, incloent-hi el cas especial de les oracions impersonals sense subjecte gramatical («Llueve»); després el complement directe i l'indirecte, distingibles amb un truc mecànic de substitució pronominal (lo/la/los/las per al CD, le/les per al CI); i finalment complements circumstancials, atribut i una introducció a les oracions coordinades i subordinades.",
+      "Cada pregunta porta l'explicació completa, així que serveix tant per comprovar el que ja saps com per aprendre el truc que et falta."
+    ],
     "beneficios": [
       {
         "titulo": "Truc del CD i CI",

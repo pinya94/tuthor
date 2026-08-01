@@ -11,6 +11,11 @@ export default {
     "asignatura": "Química",
     "niveles": "Primaria, ESO, Bachillerato",
     "intro": "Domina los símbolos, nombres y números atómicos de los elementos químicos con exámenes adaptativos por nivel. En Primaria identificas los más comunes; en ESO añades número atómico y clasificación; en Bachillerato trabajas grupos, periodos e isótopos.",
+    "resumen": [
+      "La tabla periódica es probablemente el objeto más reconocible de toda la química: una rejilla que ordena los 118 elementos conocidos según su número atómico y sus propiedades. Dmitri Mendeléiev publicó la primera versión en 1869 y, sin saber aún que existían los electrones, dejó huecos para elementos que todavía no se habían descubierto — y acertó dónde estarían.",
+      "El examen se adapta al nivel: en Primaria basta con reconocer los símbolos de los elementos más comunes (O, H, Fe, Au...); en la ESO se añade el número atómico y la clasificación en metales, no metales y gases nobles; en Bachillerato entran en juego los grupos (columnas, con propiedades químicas parecidas), los periodos (filas) y los isótopos, átomos del mismo elemento con distinto número de neutrones.",
+      "Practica con las preguntas de abajo, que mezclan símbolo, nombre y número atómico en ambos sentidos para evitar la memorización superficial."
+    ],
     "beneficios": [
       {
         "titulo": "Aprendizaje por Niveles",
@@ -57,6 +62,11 @@ export default {
     "asignatura": "Chemistry",
     "niveles": "Primary, Secondary, Sixth Form",
     "intro": "Master the symbols, names and atomic numbers of chemical elements with adaptive exams by level. In Primary you identify the most common elements; in Secondary you add atomic number and classification; in Sixth Form you work with groups, periods and isotopes.",
+    "resumen": [
+      "The periodic table is probably the most recognisable object in all of chemistry: a grid that arranges the 118 known elements by atomic number and shared properties. Dmitri Mendeleev published the first version in 1869 and, without yet knowing electrons existed, left gaps for elements that hadn't been discovered yet — and correctly predicted where they'd fit.",
+      "The exam adapts to the level: in Primary it's enough to recognise the symbols of the most common elements (O, H, Fe, Au...); in Secondary the atomic number and the classification into metals, non-metals and noble gases are added; in Sixth Form, groups (columns, with similar chemical properties), periods (rows) and isotopes — atoms of the same element with a different number of neutrons — come into play.",
+      "Practise with the questions below, which mix symbol, name and atomic number in both directions to avoid shallow memorisation."
+    ],
     "beneficios": [
       {
         "titulo": "Level-based Learning",
@@ -103,6 +113,11 @@ export default {
     "asignatura": "Química",
     "niveles": "Primària, ESO, Batxillerat",
     "intro": "Domina els símbols, noms i números atòmics dels elements químics amb exàmens adaptatius per nivell. A Primària identifiques els més comuns; a l'ESO afegeixes número atòmic i classificació; a Batxillerat treballes grups, períodes i isòtops.",
+    "resumen": [
+      "La taula periòdica és probablement l'objecte més reconeixible de tota la química: una graella que ordena els 118 elements coneguts segons el seu número atòmic i les seves propietats. Dmitri Mendeléiev en va publicar la primera versió el 1869 i, sense saber encara que existien els electrons, va deixar buits per a elements que encara no s'havien descobert — i va encertar on estarien.",
+      "L'examen s'adapta al nivell: a Primària n'hi ha prou amb reconèixer els símbols dels elements més comuns (O, H, Fe, Au...); a l'ESO s'hi afegeix el número atòmic i la classificació en metalls, no metalls i gasos nobles; a Batxillerat entren en joc els grups (columnes, amb propietats químiques semblants), els períodes (files) i els isòtops, àtoms del mateix element amb diferent nombre de neutrons.",
+      "Practica amb les preguntes de sota, que barregen símbol, nom i número atòmic en tots dos sentits per evitar la memorització superficial."
+    ],
     "beneficios": [
       {
         "titulo": "Aprenentatge per Nivells",

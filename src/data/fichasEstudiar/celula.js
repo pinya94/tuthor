@@ -11,6 +11,11 @@ export default {
     "asignatura": "Biología y Geología",
     "niveles": "ESO",
     "intro": "Domina los conceptos clave de la biología celular: diferencia entre células procariotas y eucariotas, células animales y vegetales, función de cada orgánulo y procesos fundamentales como la fotosíntesis, la respiración celular y la mitosis. Todo con explicación detallada tras cada respuesta.",
+    "resumen": [
+      "Toda forma de vida conocida está compuesta por células, la unidad estructural y funcional más pequeña capaz de realizar las funciones vitales: nutrición, relación y reproducción. Fue el científico Robert Hooke quien acuñó el término «célula» en 1665 al observar corcho al microscopio, aunque tardarían casi dos siglos en formularse la teoría celular tal como se conoce hoy.",
+      "El examen distingue primero entre células procariotas (sin núcleo definido, como las bacterias) y eucariotas (con núcleo, como las de animales, plantas y hongos), y después entre célula animal y vegetal, cuya diferencia clave son la pared celular, los cloroplastos y la vacuola central de la vegetal. También se trabajan los orgánulos con su función —mitocondria, ribosomas, aparato de Golgi— y los procesos de fotosíntesis, respiración celular y mitosis.",
+      "Cada pregunta incluye una explicación que conecta el orgánulo con su función real, para que no se memorice como una lista sin sentido."
+    ],
     "beneficios": [
       {
         "titulo": "Procariota vs Eucariota",
@@ -57,6 +62,11 @@ export default {
     "asignatura": "Biology & Geology",
     "niveles": "Secondary",
     "intro": "Master the key concepts of cell biology: the difference between prokaryotic and eukaryotic cells, animal and plant cells, the function of each organelle, and fundamental processes such as photosynthesis, cellular respiration and mitosis — with a detailed explanation after each answer.",
+    "resumen": [
+      "Every known form of life is made up of cells, the smallest structural and functional unit capable of carrying out the vital functions: nutrition, response and reproduction. It was the scientist Robert Hooke who coined the term \"cell\" in 1665 after observing cork under a microscope, though it would take almost two centuries for cell theory to be formulated as it's known today.",
+      "The exam first distinguishes between prokaryotic cells (with no defined nucleus, like bacteria) and eukaryotic cells (with a nucleus, like those of animals, plants and fungi), and then between animal and plant cells, whose key differences are the cell wall, chloroplasts and the large central vacuole found in plant cells. It also covers organelles and their functions — mitochondria, ribosomes, the Golgi apparatus — and the processes of photosynthesis, cellular respiration and mitosis.",
+      "Each question comes with an explanation that links the organelle to its real function, so it isn't memorised as a meaningless list."
+    ],
     "beneficios": [
       {
         "titulo": "Prokaryote vs Eukaryote",
@@ -103,6 +113,11 @@ export default {
     "asignatura": "Biologia i Geologia",
     "niveles": "ESO",
     "intro": "Domina els conceptes clau de la biologia cel·lular: diferència entre cèl·lules procariotes i eucariotes, cèl·lules animals i vegetals, funció de cada orgànul i processos fonamentals com la fotosíntesi, la respiració cel·lular i la mitosi.",
+    "resumen": [
+      "Tota forma de vida coneguda està formada per cèl·lules, la unitat estructural i funcional més petita capaç de dur a terme les funcions vitals: nutrició, relació i reproducció. Va ser el científic Robert Hooke qui va encunyar el terme «cèl·lula» el 1665 en observar suro al microscopi, tot i que caldrien gairebé dos segles perquè es formulés la teoria cel·lular tal com es coneix avui.",
+      "L'examen distingeix primer entre cèl·lules procariotes (sense nucli definit, com els bacteris) i eucariotes (amb nucli, com les d'animals, plantes i fongs), i després entre cèl·lula animal i vegetal, la diferència clau de la qual són la paret cel·lular, els cloroplasts i la vacuola central de la vegetal. També es treballen els orgànuls amb la seva funció —mitocondri, ribosomes, aparell de Golgi— i els processos de fotosíntesi, respiració cel·lular i mitosi.",
+      "Cada pregunta inclou una explicació que connecta l'orgànul amb la seva funció real, perquè no es memoritzi com una llista sense sentit."
+    ],
     "beneficios": [
       {
         "titulo": "Procariota vs Eucariota",

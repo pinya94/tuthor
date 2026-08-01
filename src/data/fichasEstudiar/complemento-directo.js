@@ -11,6 +11,11 @@ export default {
     "asignatura": "Lengua Española",
     "niveles": "ESO",
     "intro": "El complemento directo (CD) es la función sintáctica que más dudas genera en Secundaria. Aquí tienes el truco que nunca falla —la sustitución por lo/la/los/las—, ejemplos resueltos, un vídeo que compara el CD con el CI, y práctica ilimitada señalándolo directamente en frases.",
+    "resumen": [
+      "El complemento directo es la función sintáctica que recibe directamente la acción del verbo, y es también la que más confusión genera en Secundaria — casi siempre por parecerse al complemento indirecto cuando ambos llevan la preposición «a». La buena noticia es que existe una prueba mecánica que resuelve la duda en segundos: la sustitución pronominal.",
+      "Este truco funciona porque los pronombres lo, la, los y las sustituyen exactamente al complemento directo, sea cual sea su forma: «Vi la película» → «La vi»; «Compré los libros» → «Los compré»; «Vi a María» → «La vi». No hace falta memorizar reglas complicadas — basta con probar la sustitución y comprobar si la frase sigue sonando natural.",
+      "Practica el reconocimiento con las preguntas de abajo, filtradas para que cada ronda trabaje únicamente el CD, o pon a prueba lo aprendido con el examen que mezcla los tres complementos."
+    ],
     "videoId": "MXHcHUOShGg",
     "videoNota": "El vídeo compara el CD con el CI en la misma explicación — es el complemento perfecto para entender de una vez por qué se confunden y cómo distinguirlos rápido.",
     "juegos": [
@@ -65,6 +70,11 @@ export default {
     "asignatura": "Spanish Language",
     "niveles": "Secondary",
     "intro": "The direct object (CD in Spanish) is the syntactic function students confuse most often. Here's the trick that never fails —substitution with lo/la/los/las— along with worked examples and study tips.",
+    "resumen": [
+      "The direct object is the syntactic function that directly receives the action of the verb, and it's also the one that causes the most confusion in Secondary school — almost always because it looks like the indirect object when both carry the preposition \"a\". The good news is there's a mechanical test that settles the doubt in seconds: pronoun substitution.",
+      "This trick works because the pronouns lo, la, los and las replace the direct object exactly, whatever form it takes: \"Vi la película\" → \"La vi\"; \"Compré los libros\" → \"Los compré\"; \"Vi a María\" → \"La vi\". There's no need to memorise complicated rules — just try the substitution and check whether the sentence still sounds natural.",
+      "Study the trick and the examples below, then put it into practice with the exam that mixes all three complements."
+    ],
     "beneficios": [
       {
         "titulo": "The Trick That Never Fails",
@@ -102,6 +112,11 @@ export default {
     "asignatura": "Llengua Espanyola",
     "niveles": "ESO",
     "intro": "El complement directe (CD) és la funció sintàctica que genera més dubtes a Secundària. Aquí tens el truc que mai falla —la substitució per lo/la/los/las— amb exemples resolts i consells d'estudi.",
+    "resumen": [
+      "El complement directe és la funció sintàctica que rep directament l'acció del verb, i també és la que genera més confusió a Secundària — gairebé sempre perquè s'assembla al complement indirecte quan tots dos porten la preposició «a». La bona notícia és que hi ha una prova mecànica que resol el dubte en segons: la substitució pronominal.",
+      "Aquest truc funciona perquè els pronoms lo, la, los i las substitueixen exactament el complement directe, sigui quina sigui la seva forma: «Vi la película» → «La vi»; «Compré los libros» → «Los compré»; «Vi a María» → «La vi». No cal memoritzar regles complicades — n'hi ha prou de provar la substitució i comprovar si la frase encara sona natural.",
+      "Estudia el truc i els exemples de sota, i després posa'l a prova amb l'examen que barreja els tres complements."
+    ],
     "beneficios": [
       {
         "titulo": "El Truc que Mai Falla",

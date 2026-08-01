@@ -11,6 +11,11 @@ export default {
     "asignatura": "Física y Química",
     "niveles": "Primaria y ESO",
     "intro": "Repasa los conceptos fundamentales de la mecánica: qué es una fuerza y cómo se mide, las tres leyes de Newton, la diferencia entre masa y peso, velocidad media, gravedad, rozamiento, presión y el principio de Arquímedes. Preguntas de opción múltiple con explicación detallada.",
+    "resumen": [
+      "La mecánica es la rama de la física que estudia el movimiento y sus causas, y suele ser el primer contacto real de un estudiante con el método científico: no basta con observar que un objeto se mueve, hay que medir, predecir y comprobar. Isaac Newton formalizó sus tres leyes en 1687 en los «Principia Mathematica», y siguen siendo la base de toda la física clásica que se estudia hasta la universidad.",
+      "El examen recorre los conceptos en el orden en que se suelen enseñar: primero qué es una fuerza y cómo se mide en Newtons, después la diferencia crucial entre masa (cantidad de materia, constante) y peso (fuerza gravitatoria, variable según el planeta), las tres leyes de Newton con ejemplos cotidianos, y por último velocidad media, rozamiento, presión y el principio de Arquímedes — el motivo por el que un barco de acero flota aunque el metal, por sí solo, se hunda.",
+      "Repasa estos conceptos con las preguntas de abajo: cada una incluye la explicación completa, así que sirve tanto para practicar como para entender el porqué de cada fórmula."
+    ],
     "beneficios": [
       "Distingue masa (kg, constante) de peso (N, varía con la gravedad).",
       "Aplica las tres leyes de Newton con ejemplos cotidianos: inercia, F=ma y acción-reacción.",
@@ -47,6 +52,11 @@ export default {
     "asignatura": "Physics & Chemistry",
     "niveles": "Primary & Secondary",
     "intro": "Review the fundamentals of mechanics: what a force is and how it is measured, Newton's three laws, the difference between mass and weight, average speed, gravity, friction, pressure and Archimedes' principle. Multiple-choice questions with detailed explanations.",
+    "resumen": [
+      "Mechanics is the branch of physics that studies motion and its causes, and it's often a student's first real encounter with the scientific method: it's not enough to observe that something moves — you have to measure, predict and check. Isaac Newton formalised his three laws in 1687 in the Principia Mathematica, and they remain the foundation of all classical physics taught up to university level.",
+      "The exam follows the concepts in the order they're usually taught: first what a force is and how it's measured in Newtons, then the crucial difference between mass (amount of matter, constant) and weight (gravitational force, which varies by planet), Newton's three laws with everyday examples, and finally average speed, friction, pressure and Archimedes' principle — the reason a steel ship floats even though the metal alone would sink.",
+      "Review these concepts with the questions below: each one comes with a full explanation, so it works both for practice and for understanding why each formula works."
+    ],
     "beneficios": [
       {
         "titulo": "Mass vs Weight",
@@ -93,6 +103,11 @@ export default {
     "asignatura": "Física i Química",
     "niveles": "Primària i ESO",
     "intro": "Repassa els fonaments de la mecànica: què és una força i com es mesura, les tres lleis de Newton, la diferència entre massa i pes, velocitat mitjana, gravetat, fregament, pressió i el principi d'Arquímedes. Preguntes d'opció múltiple amb explicació detallada.",
+    "resumen": [
+      "La mecànica és la branca de la física que estudia el moviment i les seves causes, i sol ser el primer contacte real d'un estudiant amb el mètode científic: no n'hi ha prou amb observar que un objecte es mou, cal mesurar, predir i comprovar. Isaac Newton va formalitzar les seves tres lleis el 1687 als «Principia Mathematica», i encara són la base de tota la física clàssica que s'estudia fins a la universitat.",
+      "L'examen recorre els conceptes en l'ordre en què solen ensenyar-se: primer què és una força i com es mesura en Newtons, després la diferència crucial entre massa (quantitat de matèria, constant) i pes (força gravitatòria, variable segons el planeta), les tres lleis de Newton amb exemples quotidians, i finalment velocitat mitjana, fregament, pressió i el principi d'Arquímedes — el motiu pel qual un vaixell d'acer sura tot i que el metall, tot sol, s'enfonsaria.",
+      "Repassa aquests conceptes amb les preguntes de sota: cada una inclou l'explicació completa, així que serveix tant per practicar com per entendre el perquè de cada fórmula."
+    ],
     "beneficios": [
       {
         "titulo": "Massa vs Pes",

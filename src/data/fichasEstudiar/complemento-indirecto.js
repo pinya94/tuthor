@@ -11,6 +11,11 @@ export default {
     "asignatura": "Lengua Española",
     "niveles": "ESO",
     "intro": "El complemento indirecto (CI) indica quién recibe el provecho o el daño de la acción. Aquí tienes el truco que nunca falla —la sustitución por le/les—, ejemplos resueltos, un vídeo que compara el CI con el CD, y práctica ilimitada señalándolo directamente en frases.",
+    "resumen": [
+      "El complemento indirecto señala a quién beneficia o perjudica la acción del verbo, sin ser el objeto que recibe la acción directamente — esa es la diferencia esencial con el complemento directo, aunque los dos puedan llevar la misma preposición «a» delante. Igual que con el CD, existe un truco mecánico para no dudar nunca: la sustitución pronominal.",
+      "Los pronombres le y les sustituyen siempre al complemento indirecto, sin importar si va introducido por «a» o por «para»: «Di un regalo a Juan» → «Le di un regalo»; «Compré flores para mis padres» → «Les compré flores». Si la sustitución con le/les suena natural, es CI; si suena mejor con lo/la/los/las, es CD.",
+      "Practica el reconocimiento con las preguntas de abajo, filtradas para que cada ronda trabaje únicamente el CI, o pon a prueba lo aprendido con el examen que mezcla los tres complementos."
+    ],
     "videoId": "MXHcHUOShGg",
     "videoNota": "El vídeo compara el CI con el CD en la misma explicación — es el complemento perfecto para entender de una vez por qué se confunden y cómo distinguirlos rápido.",
     "juegos": [
@@ -65,6 +70,11 @@ export default {
     "asignatura": "Spanish Language",
     "niveles": "Secondary",
     "intro": "The indirect object (CI in Spanish) shows who benefits from or is affected by the action. Here's the trick that never fails —substitution with le/les— along with worked examples and study tips.",
+    "resumen": [
+      "The indirect object shows who benefits from or is affected by the verb's action, without being the object that directly receives the action — that's the essential difference from the direct object, even though both can carry the same preposition \"a\". Just like with the direct object, there's a mechanical trick that removes the doubt: pronoun substitution.",
+      "The pronouns le and les always replace the indirect object, whether it's introduced by \"a\" or \"para\": \"Di un regalo a Juan\" → \"Le di un regalo\"; \"Compré flores para mis padres\" → \"Les compré flores\". If the le/les substitution sounds natural, it's the indirect object; if lo/la/los/las sounds better, it's the direct object.",
+      "Study the trick and the examples below, then put it into practice with the exam that mixes all three complements."
+    ],
     "beneficios": [
       {
         "titulo": "The Trick That Never Fails",
@@ -102,6 +112,11 @@ export default {
     "asignatura": "Llengua Espanyola",
     "niveles": "ESO",
     "intro": "El complement indirecte (CI) indica qui rep el profit o el dany de l'acció. Aquí tens el truc que mai falla —la substitució per le/les— amb exemples resolts i consells d'estudi.",
+    "resumen": [
+      "El complement indirecte assenyala qui es beneficia o es perjudica de l'acció del verb, sense ser l'objecte que rep l'acció directament — aquesta és la diferència essencial amb el complement directe, encara que tots dos puguin portar la mateixa preposició «a» al davant. Igual que amb el CD, hi ha un truc mecànic per no dubtar mai: la substitució pronominal.",
+      "Els pronoms le i les substitueixen sempre el complement indirecte, tant si va introduït per «a» com per «para»: «Di un regalo a Juan» → «Le di un regalo»; «Compré flores para mis padres» → «Les compré flores». Si la substitució amb le/les sona natural, és CI; si sona millor amb lo/la/los/las, és CD.",
+      "Estudia el truc i els exemples de sota, i després posa'l a prova amb l'examen que barreja els tres complements."
+    ],
     "beneficios": [
       {
         "titulo": "El Truc que Mai Falla",

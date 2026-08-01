@@ -11,6 +11,11 @@ export default {
     "asignatura": "Geografía de España",
     "niveles": "Primaria, ESO",
     "intro": "Aprende a identificar las 50 provincias españolas y sus capitales, agrupadas en las 17 comunidades autónomas. El examen trabaja la localización de provincias por su comunidad, sus capitales y sus características geográficas: ríos, sierras y costas.",
+    "resumen": [
+      "España se organiza administrativamente en 17 comunidades autónomas y 50 provincias, un mapa que combina geografía física —cordilleras, ríos, costas— con la historia de cada territorio. Aprenderlo de memoria sin contexto es tedioso; aprenderlo por bloques, relacionando cada provincia con su comunidad, su capital y algún rasgo geográfico distintivo, es mucho más eficaz y se olvida menos.",
+      "El examen trabaja tres capas de dificultad progresiva: primero localizar cada provincia dentro de su comunidad autónoma, después emparejarla con su capital (la mayoría comparten nombre con la provincia, pero hay excepciones como Álava-Vitoria o Guipúzcoa-San Sebastián), y por último relacionar el territorio con su geografía física: el Sistema Central, los Pirineos, el Ebro, el Duero o el Guadalquivir.",
+      "Practica con las preguntas de abajo: cada fallo se explica señalando en qué comunidad está la provincia y con qué se puede confundir, para que el error no se repita."
+    ],
     "beneficios": [
       {
         "titulo": "Las 17 Comunidades Autónomas",
@@ -57,6 +62,11 @@ export default {
     "asignatura": "Geography of Spain",
     "niveles": "Primary, Secondary",
     "intro": "Learn to identify Spain's 50 provinces and their capitals, grouped into the 17 autonomous communities. The exam covers province location within each community, capitals, rivers, mountain ranges and coastlines.",
+    "resumen": [
+      "Spain is administratively organised into 17 autonomous communities and 50 provinces, a map that combines physical geography —mountain ranges, rivers, coastlines— with the history of each territory. Learning it by rote without context is tedious; learning it in blocks, linking each province to its community, its capital and a distinctive geographical feature, is far more effective and sticks better.",
+      "The exam works through three layers of progressive difficulty: first locating each province within its autonomous community, then pairing it with its capital (most share a name with the province, but there are exceptions like Álava-Vitoria or Guipúzcoa-San Sebastián), and finally connecting the territory to its physical geography: the Central System, the Pyrenees, the Ebro, the Douro or the Guadalquivir.",
+      "Practise with the questions below: every mistake is explained by pointing out which community the province belongs to and what it's commonly confused with, so the error isn't repeated."
+    ],
     "beneficios": [
       {
         "titulo": "The 17 Autonomous Communities",
@@ -103,6 +113,11 @@ export default {
     "asignatura": "Geografia d'Espanya",
     "niveles": "Primària, ESO",
     "intro": "Aprèn a identificar les 50 províncies espanyoles i les seves capitals, agrupades en les 17 comunitats autònomes. L'examen treballa la localització de províncies per comunitat, les seves capitals i les seves característiques geogràfiques: rius, serralades i costes.",
+    "resumen": [
+      "Espanya s'organitza administrativament en 17 comunitats autònomes i 50 províncies, un mapa que combina geografia física —serralades, rius, costes— amb la història de cada territori. Aprendre-ho de memòria sense context és avorrit; aprendre-ho per blocs, relacionant cada província amb la seva comunitat, la seva capital i algun tret geogràfic distintiu, és molt més eficaç i es recorda millor.",
+      "L'examen treballa tres capes de dificultat progressiva: primer localitzar cada província dins la seva comunitat autònoma, després aparellar-la amb la seva capital (la majoria comparteixen nom amb la província, però hi ha excepcions com Àlaba-Vitòria o Guipúscoa-Sant Sebastià), i finalment relacionar el territori amb la seva geografia física: el Sistema Central, els Pirineus, l'Ebre, el Duero o el Guadalquivir.",
+      "Practica amb les preguntes de sota: cada error s'explica assenyalant a quina comunitat pertany la província i amb què es pot confondre, perquè no es torni a repetir."
+    ],
     "beneficios": [
       {
         "titulo": "Les 17 Comunitats Autònomes",
