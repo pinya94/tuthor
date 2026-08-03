@@ -97,6 +97,43 @@ service cloud.firestore {
       allow delete: if false;
     }
 
+    // ── Tareas asignadas por el profesor (a la clase o a alumnos concretos) ────
+    // studentIds es una foto fija de los destinatarios al crear la tarea.
+    // completions es un mapa por alumno (completions.<uid>): el profesor puede
+    // tocar cualquier campo (incluida la finalización manual de tareas de
+    // texto libre); un alumno destinatario solo puede escribir SU propia
+    // entrada dentro de completions (al completar un juego/examen asignado),
+    // nunca el resto del documento ni la entrada de otro alumno.
+    match /assignments/{taskId} {
+      function classOwnedByCaller(classId) {
+        return get(/databases/$(database)/documents/classes/$(classId)).data.teacherId == request.auth.uid;
+      }
+
+      allow create: if isTeacher(request.auth.uid)
+        && request.resource.data.teacherId == request.auth.uid
+        && classOwnedByCaller(request.resource.data.classId)
+        && request.resource.data.keys().hasOnly(['teacherId', 'classId', 'className', 'kind', 'gameId', 'title', 'studentIds', 'dueDate', 'createdAt', 'completions'])
+        && request.resource.data.kind in ['catalog', 'text']
+        && request.resource.data.studentIds is list && request.resource.data.studentIds.size() > 0
+        && request.resource.data.completions == {}
+        && request.resource.data.createdAt == request.time;
+
+      allow read: if isAdmin()
+        || (request.auth != null && request.auth.uid == resource.data.teacherId)
+        || (request.auth != null && request.auth.uid in resource.data.studentIds);
+
+      allow update: if isAdmin()
+        || (request.auth != null && request.auth.uid == resource.data.teacherId
+            && request.resource.data.teacherId == resource.data.teacherId
+            && request.resource.data.classId == resource.data.classId
+            && request.resource.data.createdAt == resource.data.createdAt)
+        || (request.auth != null && request.auth.uid in resource.data.studentIds
+            && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['completions'])
+            && request.resource.data.completions.diff(resource.data.completions).affectedKeys().hasOnly([request.auth.uid]));
+
+      allow delete: if false;
+    }
+
     // ── Contador global (solo admins leen, usuarios autenticados incrementan) ──
     match /_stats/global {
       allow read:  if isAdmin();

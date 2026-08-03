@@ -9,8 +9,15 @@ import { GAMES } from '../lib/games'
 import { EXAMS } from '../lib/exams'
 import { GAME_LABELS, aggregateStudentStats } from '../lib/statsAggregation'
 import { joinClassByCode } from '../lib/classes'
+import { getStudentAssignments } from '../lib/assignments'
 
 function todayStr() { return new Date().toISOString().slice(0, 10) }
+
+function taskLabel(task, lang) {
+  if (task.kind !== 'catalog') return task.title
+  const g = GAMES[task.gameId] || EXAMS[task.gameId]
+  return g ? `${g.emoji} ${g.label[lang] || g.label.es}` : task.gameId
+}
 
 export default function Perfil() {
   const { user, logout } = useAuth()
@@ -31,6 +38,7 @@ export default function Perfil() {
   const [showAllCoins, setShowAllCoins] = useState(false)
   const [classCode, setClassCode] = useState('')
   const [joinStatus, setJoinStatus] = useState('idle')
+  const [myTasks, setMyTasks] = useState([])
 
   useEffect(() => {
     if (!user) { navigate(localPath('/')); return }
@@ -51,6 +59,7 @@ export default function Perfil() {
       })).then(results => setRankings(Object.fromEntries(results.filter(([, v]) => v))))
     })
     getCoinsHistory(user.uid).then(setCoinsHistory)
+    getStudentAssignments(user.uid).then(setMyTasks).catch(() => {})
   }, [user])
 
   async function toggleHidePhoto() {
@@ -359,6 +368,34 @@ export default function Perfil() {
                           <p className={`px-4 pb-3.5 pl-[59px] ${t3} text-[13px]`}>
                             {ca ? 'Sense exàmens fets' : en ? 'No exams taken' : 'Sin exámenes realizados'}
                           </p>
+                        )}
+                      </div>
+                    )
+                  })}
+                </div>
+              </section>
+            )}
+
+            {/* ── MIS TAREAS ── */}
+            {myTasks.length > 0 && (
+              <section className="mb-5">
+                <h2 className="font-black text-white text-[17px] tracking-tight mb-3">📝 {tr({ es: 'Mis tareas', en: 'My tasks', ca: 'Les meves tasques' })}</h2>
+                <div className="space-y-2">
+                  {myTasks.map(task => {
+                    const c = task.completions?.[user.uid]
+                    return (
+                      <div key={task.id} className="border border-white/10 rounded-2xl px-4 py-3 flex items-center justify-between gap-3" style={{ background: surf }}>
+                        <div className="min-w-0">
+                          <p className="text-white text-[13.5px] font-bold truncate">{taskLabel(task, lang)}</p>
+                          <p className={`${t3} text-[11.5px] mt-0.5`}>{task.className}</p>
+                        </div>
+                        {c?.done ? (
+                          <span className="text-green-400 text-[12.5px] font-bold shrink-0">
+                            ✅ {tr({ es: 'Hecha', en: 'Done', ca: 'Feta' })}
+                            {c.score != null && <span className="text-white/40 ml-1.5">{c.score} pts</span>}
+                          </span>
+                        ) : (
+                          <span className="text-white/30 text-[12.5px] shrink-0">{tr({ es: 'Pendiente', en: 'Pending', ca: 'Pendent' })}</span>
                         )}
                       </div>
                     )

@@ -6,7 +6,16 @@ import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
 import { getClassWithStudents } from '../lib/classes'
 import { getStatsAndCosmetics, formatTime } from '../lib/activity'
-import { aggregateStudentStats } from '../lib/statsAggregation'
+import { aggregateStudentStats, SUBJECTS } from '../lib/statsAggregation'
+import { getClassAssignments, createAssignment, markManualCompletion } from '../lib/assignments'
+import { GAMES } from '../lib/games'
+import { EXAMS } from '../lib/exams'
+
+function catalogLabel(gameId, lang) {
+  const g = GAMES[gameId] || EXAMS[gameId]
+  if (!g) return gameId
+  return `${g.emoji} ${g.label[lang] || g.label.es}`
+}
 
 async function loadStudent(uid, lang) {
   const [userSnap, stats] = await Promise.all([
@@ -86,6 +95,59 @@ function StudentSubjects({ subjectEntries, lang, tr }) {
   )
 }
 
+// Una tarea asignada: progreso agregado + detalle por alumno al expandir.
+// onToggleManual solo se usa para tareas de texto libre (el profesor marca
+// a mano); las de catálogo se completan solas al jugar (recordAssignmentCompletion).
+function TaskCard({ task, studentsByUid, lang, tr, onToggleManual }) {
+  const [open, setOpen] = useState(false)
+  const label = task.kind === 'catalog' ? catalogLabel(task.gameId, lang) : task.title
+  const completions = task.completions || {}
+  const doneCount = task.studentIds.filter(uid => completions[uid]?.done).length
+
+  return (
+    <div className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden">
+      <button type="button" onClick={() => setOpen(o => !o)}
+        className="w-full flex items-center justify-between gap-3 px-4 py-3 text-left hover:bg-white/5 transition-colors">
+        <div className="min-w-0">
+          <p className="text-white font-bold text-sm truncate">{label}</p>
+          <p className="text-white/40 text-xs mt-0.5">
+            {doneCount}/{task.studentIds.length} {tr({ es: 'hechas', en: 'done', ca: 'fetes' })}
+          </p>
+        </div>
+        <span className={`text-white/45 text-xs shrink-0 transition-transform ${open ? 'rotate-180' : ''}`}>▾</span>
+      </button>
+      {open && (
+        <div className="border-t border-white/10 divide-y divide-white/5">
+          {task.studentIds.map(uid => {
+            const c = completions[uid]
+            const name = studentsByUid[uid]?.name || uid
+            return (
+              <div key={uid} className="flex items-center justify-between gap-3 px-4 py-2.5">
+                <span className="text-white/70 text-[13px]">{name}</span>
+                {task.kind === 'text' ? (
+                  <button type="button" onClick={() => onToggleManual(task.id, uid, !!c?.done)}
+                    className={`text-xs font-bold px-2.5 py-1 rounded-lg border transition-colors ${
+                      c?.done ? 'text-green-400 border-green-500/30 bg-green-500/10' : 'text-white/40 border-white/10 hover:border-white/25'
+                    }`}>
+                    {c?.done ? tr({ es: '✅ Hecha', en: '✅ Done', ca: '✅ Feta' }) : tr({ es: 'Marcar hecha', en: 'Mark done', ca: 'Marcar feta' })}
+                  </button>
+                ) : c?.done ? (
+                  <span className="text-[12.5px] font-semibold">
+                    <span className="text-green-400">✅ {c.passed === true ? tr({ es: 'Aprobado', en: 'Passed', ca: 'Aprovat' }) : c.passed === false ? tr({ es: 'Suspenso', en: 'Failed', ca: 'Suspès' }) : ''}</span>
+                    {c.score != null && <span className="text-white/40 ml-1.5">{c.score} pts</span>}
+                  </span>
+                ) : (
+                  <span className="text-white/30 text-[12.5px]">{tr({ es: 'Pendiente', en: 'Pending', ca: 'Pendent' })}</span>
+                )}
+              </div>
+            )
+          })}
+        </div>
+      )}
+    </div>
+  )
+}
+
 export default function ProfesorClase() {
   const { classId } = useParams()
   const { user } = useAuth()
@@ -96,6 +158,17 @@ export default function ProfesorClase() {
   const [clase, setClase] = useState(null)
   const [students, setStudents] = useState([])
   const [error, setError] = useState('')
+
+  const [assignments, setAssignments] = useState([])
+  const [showForm, setShowForm] = useState(false)
+  const [taskKind, setTaskKind] = useState('catalog')
+  const [taskGameId, setTaskGameId] = useState('')
+  const [taskTitle, setTaskTitle] = useState('')
+  const [taskTarget, setTaskTarget] = useState('all')
+  const [taskStudentIds, setTaskStudentIds] = useState([])
+  const [taskDueDate, setTaskDueDate] = useState('')
+  const [creatingTask, setCreatingTask] = useState(false)
+  const [taskError, setTaskError] = useState('')
 
   useEffect(() => {
     if (user === undefined) return
@@ -112,10 +185,51 @@ export default function ProfesorClase() {
       setClase(c)
       const list = await Promise.all((c.studentIds || []).map(uid => loadStudent(uid, lang)))
       setStudents(list)
+      await loadAssignments()
     } catch {
       setError(tr({ es: 'No se pudo cargar la clase.', en: 'Could not load the class.', ca: 'No s\'ha pogut carregar la classe.' }))
     }
     setLoading(false)
+  }
+
+  async function loadAssignments() {
+    try {
+      setAssignments(await getClassAssignments(classId))
+    } catch { /* no crítico: si falla, simplemente no se muestran tareas */ }
+  }
+
+  async function handleCreateTask(e) {
+    e.preventDefault()
+    if (taskKind === 'catalog' && !taskGameId) return
+    if (taskKind === 'text' && !taskTitle.trim()) return
+    const targetIds = taskTarget === 'all' ? clase.studentIds : taskStudentIds
+    if (!targetIds || targetIds.length === 0) return
+    setCreatingTask(true)
+    setTaskError('')
+    try {
+      await createAssignment(user.uid, classId, clase.name, {
+        kind: taskKind,
+        gameId: taskGameId,
+        title: taskTitle.trim(),
+        studentIds: targetIds,
+        dueDate: taskDueDate ? new Date(taskDueDate) : null,
+      })
+      setShowForm(false)
+      setTaskKind('catalog'); setTaskGameId(''); setTaskTitle(''); setTaskTarget('all'); setTaskStudentIds([]); setTaskDueDate('')
+      await loadAssignments()
+    } catch {
+      setTaskError(tr({ es: 'No se pudo crear la tarea. Inténtalo de nuevo.', en: 'Could not create the task. Please try again.', ca: 'No s\'ha pogut crear la tasca. Torna-ho a intentar.' }))
+    }
+    setCreatingTask(false)
+  }
+
+  async function handleToggleManual(taskId, uid, done) {
+    await markManualCompletion(taskId, uid, done)
+    await loadAssignments()
+  }
+
+  function toggleTaskStudent(uid) {
+    setTaskStudentIds(ids => ids.includes(uid) ? ids.filter(x => x !== uid) : [...ids, uid])
   }
 
   if (error) {
@@ -137,6 +251,8 @@ export default function ProfesorClase() {
     )
   }
 
+  const studentsByUid = Object.fromEntries(students.map(s => [s.uid, s]))
+
   return (
     <div className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 py-8">
       <Link to={localPath('/profesor')} className="inline-flex items-center gap-1 text-white/40 hover:text-white/70 text-sm mb-4 transition-colors">
@@ -149,6 +265,99 @@ export default function ProfesorClase() {
           {clase.code}
         </span>
       </div>
+
+      {/* ── TAREAS ── */}
+      <section className="mb-8">
+        <div className="flex items-center justify-between gap-3 mb-3">
+          <h2 className="font-black text-white text-[17px]">📝 {tr({ es: 'Tareas', en: 'Tasks', ca: 'Tasques' })}</h2>
+          <button type="button" onClick={() => setShowForm(o => !o)}
+            className="text-xs font-bold px-3 py-1.5 rounded-lg bg-teal-600 hover:bg-teal-500 text-white transition-colors">
+            {showForm ? tr({ es: 'Cancelar', en: 'Cancel', ca: 'Cancel·lar' }) : `+ ${tr({ es: 'Asignar tarea', en: 'Assign task', ca: 'Assignar tasca' })}`}
+          </button>
+        </div>
+
+        {showForm && (
+          <form onSubmit={handleCreateTask} className="bg-white/5 border border-white/10 rounded-2xl p-4 mb-4 space-y-3">
+            <div className="flex gap-2">
+              <button type="button" onClick={() => setTaskKind('catalog')}
+                className={`flex-1 text-xs font-bold py-2 rounded-lg border transition-colors ${taskKind === 'catalog' ? 'bg-teal-600 border-teal-600 text-white' : 'border-white/10 text-white/50'}`}>
+                {tr({ es: 'Juego / examen', en: 'Game / exam', ca: 'Joc / examen' })}
+              </button>
+              <button type="button" onClick={() => setTaskKind('text')}
+                className={`flex-1 text-xs font-bold py-2 rounded-lg border transition-colors ${taskKind === 'text' ? 'bg-teal-600 border-teal-600 text-white' : 'border-white/10 text-white/50'}`}>
+                {tr({ es: 'Tarea de texto', en: 'Text task', ca: 'Tasca de text' })}
+              </button>
+            </div>
+
+            {taskKind === 'catalog' ? (
+              <select value={taskGameId} onChange={e => setTaskGameId(e.target.value)}
+                className="w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2.5 text-sm text-white outline-none focus:border-teal-500 transition-colors">
+                <option value="" className="bg-[#0d0d1a]">{tr({ es: '-- Elige juego o examen --', en: '-- Pick a game or exam --', ca: '-- Tria joc o examen --' })}</option>
+                {SUBJECTS.filter(s => s.gameIds.length > 0 || s.examIds.length > 0).map(subj => (
+                  <optgroup key={subj.id} label={subj.label[lang] || subj.label.es} className="bg-[#0d0d1a]">
+                    {subj.gameIds.filter(id => GAMES[id]).map(id => (
+                      <option key={id} value={id} className="bg-[#0d0d1a]">{GAMES[id].emoji} {GAMES[id].label[lang] || GAMES[id].label.es}</option>
+                    ))}
+                    {subj.examIds.filter(id => EXAMS[id]).map(id => (
+                      <option key={id} value={id} className="bg-[#0d0d1a]">{EXAMS[id].emoji} {EXAMS[id].label[lang] || EXAMS[id].label.es}</option>
+                    ))}
+                  </optgroup>
+                ))}
+              </select>
+            ) : (
+              <input type="text" value={taskTitle} onChange={e => setTaskTitle(e.target.value)}
+                placeholder={tr({ es: 'Ej. Traer el libro de texto', en: 'E.g. Bring the textbook', ca: 'Ex. Portar el llibre de text' })}
+                className="w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2.5 text-sm text-white placeholder-white/30 outline-none focus:border-teal-500 transition-colors" />
+            )}
+
+            <div className="flex gap-2">
+              <button type="button" onClick={() => setTaskTarget('all')}
+                className={`flex-1 text-xs font-bold py-2 rounded-lg border transition-colors ${taskTarget === 'all' ? 'bg-violet-600 border-violet-600 text-white' : 'border-white/10 text-white/50'}`}>
+                {tr({ es: 'Toda la clase', en: 'Whole class', ca: 'Tota la classe' })}
+              </button>
+              <button type="button" onClick={() => setTaskTarget('some')}
+                className={`flex-1 text-xs font-bold py-2 rounded-lg border transition-colors ${taskTarget === 'some' ? 'bg-violet-600 border-violet-600 text-white' : 'border-white/10 text-white/50'}`}>
+                {tr({ es: 'Alumnos concretos', en: 'Specific students', ca: 'Alumnes concrets' })}
+              </button>
+            </div>
+
+            {taskTarget === 'some' && (
+              <div className="flex flex-wrap gap-2">
+                {students.map(s => (
+                  <button key={s.uid} type="button" onClick={() => toggleTaskStudent(s.uid)}
+                    className={`text-xs font-semibold px-2.5 py-1.5 rounded-lg border transition-colors ${
+                      taskStudentIds.includes(s.uid) ? 'bg-violet-600/30 border-violet-500/50 text-white' : 'border-white/10 text-white/50'
+                    }`}>
+                    {s.name}
+                  </button>
+                ))}
+              </div>
+            )}
+
+            <input type="date" value={taskDueDate} onChange={e => setTaskDueDate(e.target.value)}
+              className="w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2.5 text-sm text-white outline-none focus:border-teal-500 transition-colors" />
+
+            {taskError && <p className="text-red-400 text-xs">{taskError}</p>}
+
+            <button type="submit" disabled={creatingTask}
+              className="w-full py-2.5 bg-teal-600 hover:bg-teal-500 disabled:opacity-50 text-white font-bold text-sm rounded-xl transition-colors">
+              {creatingTask ? tr({ es: 'Creando…', en: 'Creating…', ca: 'Creant…' }) : tr({ es: 'Asignar', en: 'Assign', ca: 'Assignar' })}
+            </button>
+          </form>
+        )}
+
+        {assignments.length === 0 ? (
+          <p className="text-white/30 text-sm">{tr({ es: 'Todavía no has asignado ninguna tarea.', en: "You haven't assigned any tasks yet.", ca: 'Encara no has assignat cap tasca.' })}</p>
+        ) : (
+          <div className="space-y-2">
+            {assignments.map(task => (
+              <TaskCard key={task.id} task={task} studentsByUid={studentsByUid} lang={lang} tr={tr} onToggleManual={handleToggleManual} />
+            ))}
+          </div>
+        )}
+      </section>
+
+      <h2 className="font-black text-white text-[17px] mb-3">👥 {tr({ es: 'Alumnos', en: 'Students', ca: 'Alumnes' })}</h2>
 
       {students.length === 0 ? (
         <p className="text-white/30 text-sm">

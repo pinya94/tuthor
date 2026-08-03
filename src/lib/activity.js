@@ -5,6 +5,7 @@ import {
   query, orderBy, limit, where, getDocs, getCountFromServer,
 } from 'firebase/firestore'
 import { isKnownGame } from './games'
+import { recordAssignmentCompletion } from './assignments'
 
 // ── Leaderboard helpers ──────────────────────────────────────────────────────
 // Cada jugador tiene su propio documento en leaderboards/{game}/entries/{uid}:
@@ -136,6 +137,7 @@ export async function saveActivity(uid, data) {
 
   const today = todayStr()
   incrementGlobalStats(data.game, today).catch(() => {})
+  recordAssignmentCompletion(uid, data.game, { score: data.score, passed: data.passed, timeSpent: data.timeSpent }).catch(() => {})
 
   const statsRef = doc(db, 'users', uid, 'stats', 'global')
   const snap = await getDoc(statsRef)
