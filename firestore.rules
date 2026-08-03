@@ -15,9 +15,27 @@ service cloud.firestore {
       return request.auth != null && request.auth.uid == uid;
     }
 
+    // Capacidad de profesor activa sobre la propia cuenta (no es un rol
+    // exclusivo: una cuenta puede seguir jugando como alumno).
+    function isTeacher(uid) {
+      let u = get(/databases/$(database)/documents/users/$(uid)).data;
+      return request.auth != null && request.auth.uid == uid
+        && 'teacherProfile' in u && u.teacherProfile.active == true;
+    }
+
+    // Profesor vinculado a este alumno (linkedTeacherIds vive en el propio
+    // doc del alumno para que esto sea SIEMPRE una única lectura, sin
+    // importar a cuántos profesores/clases esté vinculado).
+    function isLinkedTeacher(uid) {
+      let u = get(/databases/$(database)/documents/users/$(uid)).data;
+      return request.auth != null
+        && 'linkedTeacherIds' in u && request.auth.uid in u.linkedTeacherIds;
+    }
+
     // ── Perfil de usuario ─────────────────────────────────────────────────────
     match /users/{uid} {
-      allow read:  if isOwner(uid) || isAdmin();
+      allow read:  if isOwner(uid) || isAdmin()
+        || (request.auth != null && 'linkedTeacherIds' in resource.data && request.auth.uid in resource.data.linkedTeacherIds);
       allow write: if isOwner(uid);
 
       match /activity/{activityId} {
@@ -26,9 +44,57 @@ service cloud.firestore {
       }
 
       match /stats/{statId} {
-        allow read:  if isOwner(uid) || isAdmin();
+        allow read:  if isOwner(uid) || isAdmin() || isLinkedTeacher(uid);
         allow write: if isOwner(uid);
       }
+    }
+
+    // ── Clases de profesor ────────────────────────────────────────────────────
+    // classCodes/{code}: puente de solo-lookup "código legible → classId".
+    // Lectura abierta a cualquier autenticado (no expone nada sensible: solo
+    // un classId y el uid del profesor, ambos necesarios para unirse) porque
+    // un alumno que aún no se ha unido no tiene permiso para leer /classes
+    // directamente y necesita resolver el código primero.
+    match /classCodes/{code} {
+      allow read: if request.auth != null;
+      allow create: if isTeacher(request.auth.uid)
+        && request.resource.data.teacherId == request.auth.uid
+        && request.resource.data.keys().hasOnly(['classId', 'teacherId', 'createdAt'])
+        && request.resource.data.classId is string
+        && request.resource.data.createdAt == request.time;
+      allow update, delete: if false;
+    }
+
+    match /classes/{classId} {
+      allow create: if isTeacher(request.auth.uid)
+        && request.resource.data.teacherId == request.auth.uid
+        && request.resource.data.keys().hasOnly(['teacherId', 'name', 'code', 'studentIds', 'createdAt', 'updatedAt'])
+        && request.resource.data.name is string
+        && request.resource.data.name.size() >= 1 && request.resource.data.name.size() <= 80
+        && request.resource.data.code.matches('^[A-Z0-9]{6}$')
+        && request.resource.data.studentIds == []
+        && request.resource.data.createdAt == request.time
+        && request.resource.data.updatedAt == request.time;
+
+      allow read: if isAdmin()
+        || (request.auth != null && request.auth.uid == resource.data.teacherId)
+        || (request.auth != null && request.auth.uid in resource.data.studentIds);
+
+      allow update: if isAdmin()
+        // Profesor: solo puede tocar name/updatedAt.
+        || (request.auth != null && request.auth.uid == resource.data.teacherId
+            && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['name', 'updatedAt'])
+            && request.resource.data.teacherId == resource.data.teacherId
+            && request.resource.data.studentIds == resource.data.studentIds
+            && request.resource.data.updatedAt == request.time)
+        // Alumno uniéndose: solo puede añadir su propio uid al final de
+        // studentIds, nada más (arrayUnion se resuelve antes de evaluar esto).
+        || (request.auth != null
+            && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['studentIds', 'updatedAt'])
+            && request.resource.data.studentIds == resource.data.studentIds.concat([request.auth.uid])
+            && request.resource.data.updatedAt == request.time);
+
+      allow delete: if false;
     }
 
     // ── Contador global (solo admins leen, usuarios autenticados incrementan) ──

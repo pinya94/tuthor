@@ -53,6 +53,9 @@ const Comunidad          = lazy(() => import('./pages/Comunidad'))
 const Admin              = lazy(() => import('./pages/Admin'))
 const Contacto           = lazy(() => import('./pages/Contacto'))
 const Colaborar          = lazy(() => import('./pages/Colaborar'))
+const Profesores         = lazy(() => import('./pages/Profesores'))
+const ProfesorPanel      = lazy(() => import('./pages/ProfesorPanel'))
+const ProfesorClase      = lazy(() => import('./pages/ProfesorClase'))
 const ReportarBug        = lazy(() => import('./pages/ReportarBug'))
 const PorteroExamen      = lazy(() => import('./pages/PorteroExamen'))
 const FuncionesTema       = lazy(() => import('./pages/FuncionesTema'))
@@ -207,6 +210,9 @@ function AppRoutes() {
       <Route path="contacto" element={<Contacto />} />
       <Route path="colaborar" element={<Colaborar />} />
       <Route path="reportar-bug" element={<ReportarBug />} />
+      <Route path="profesores" element={<Profesores />} />
+      <Route path="profesor" element={<ProfesorPanel />} />
+      <Route path="profesor/clase/:classId" element={<ProfesorClase />} />
     </>
   )
 }

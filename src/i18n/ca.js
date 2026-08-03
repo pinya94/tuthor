@@ -8,6 +8,7 @@ export default {
   'nav.comunidad': 'Comunitat',
   'nav.admin': 'Admin',
   'nav.cerrarSesion': 'Tancar sessió',
+  'nav.profesores': 'Professors',
 
   // Home hero
   'home.titulo': 'Què vols fer avui?',

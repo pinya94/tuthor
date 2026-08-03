@@ -127,6 +127,10 @@ export const STATIC_META = {
     es: { title: 'Política de privacidad', desc: 'Política de privacidad y protección de datos de Tuthor: qué datos tratamos, con qué finalidad y cuáles son tus derechos.' },
     en: { title: 'Privacy policy', desc: 'Tuthor privacy and data protection policy: what data we process, why, and what your rights are.' },
   },
+  '/profesores': {
+    es: { title: 'Profesores y centros', desc: 'Crea clases, comparte un código con tus alumnos y consulta cómo estudian en Tuthor.' },
+    en: { title: 'Teachers & schools', desc: 'Create classes, share a code with your students and see how they study on Tuthor.' },
+  },
 }
 
 // Temas de matemáticas con página propia (/estudiar/matematicas/:tema)
