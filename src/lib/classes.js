@@ -11,10 +11,11 @@ import {
 // alumno. subscriptionStatus queda reservado desde el día 1 para el futuro
 // gate de pago (ver firestore.rules / isTeacher).
 //
-// promoCode es obligatorio mientras no haya cobro: firestore.rules exige que
-// promoCodes/{promoCode} exista para dejar pasar active:true la primera vez
-// (becomesTeacher() / hasValidPromoCode()) — un código inválido hace que
-// este setDoc falle con permission-denied, no solo una validación de UI.
+// promoCode es obligatorio mientras no haya cobro: firestore.rules compara
+// el código hardcodeado (hasValidPromoCode(), de prueba por ahora) antes de
+// dejar pasar active:true la primera vez (becomesTeacher()) — un código
+// inválido hace que este setDoc falle con permission-denied, no solo una
+// validación de UI.
 export async function activateTeacherProfile(uid, { schoolName, stage, promoCode }) {
   await setDoc(doc(db, 'users', uid), {
     teacherProfile: {

@@ -41,13 +41,12 @@ service cloud.firestore {
         && (resource == null || !('teacherProfile' in resource.data) || resource.data.teacherProfile.active != true);
     }
 
-    // El código en sí nunca es legible por el cliente (promoCodes/{code}
-    // está bloqueado más abajo): solo se comprueba que exista el doc con
-    // ese id, vía exists(), que no está sujeto a las propias rules.
+    // Código de acceso de profesor: de prueba y único por ahora, hardcodeado
+    // aquí igual que isAdmin() hardcodea emails. Si hacen falta varios
+    // códigos más adelante, esto pasa a un `in [...]` como isAdmin().
     function hasValidPromoCode() {
       return 'teacherProfile' in request.resource.data
-        && request.resource.data.teacherProfile.promoCode is string
-        && exists(/databases/$(database)/documents/promoCodes/$(request.resource.data.teacherProfile.promoCode));
+        && request.resource.data.teacherProfile.promoCode == 'L4FXL3';
     }
 
     // ── Perfil de usuario ─────────────────────────────────────────────────────
@@ -113,15 +112,6 @@ service cloud.firestore {
             && request.resource.data.updatedAt == request.time);
 
       allow delete: if false;
-    }
-
-    // ── Códigos promocionales para activar la capacidad de profesor ───────────
-    // Un doc por código (id = el código en sí, ej. promoCodes/TUTHOR-PROFES).
-    // No se lee ni escribe nunca desde el cliente: solo lo consulta
-    // hasValidPromoCode() con exists(), que no está sujeto a estas rules.
-    // Añadir/quitar códigos es cosa de consola de Firebase, no de la app.
-    match /promoCodes/{code} {
-      allow read, write: if false;
     }
 
     // ── Tareas asignadas por el profesor (a la clase o a alumnos concretos) ────
