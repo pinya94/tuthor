@@ -10,11 +10,10 @@ import { aggregateStudentStats, SUBJECTS } from '../lib/statsAggregation'
 import { getClassAssignments, createAssignment, markManualCompletion } from '../lib/assignments'
 import { GAMES } from '../lib/games'
 import { EXAMS } from '../lib/exams'
+import { EXAM_TOPICS, EXAM_FORMATS, catalogTaskLabel } from '../lib/examTopics'
 
-function catalogLabel(gameId, lang) {
-  const g = GAMES[gameId] || EXAMS[gameId]
-  if (!g) return gameId
-  return `${g.emoji} ${g.label[lang] || g.label.es}`
+function catalogLabel(task, lang) {
+  return catalogTaskLabel(task, lang, { games: GAMES, exams: EXAMS, subjects: SUBJECTS })
 }
 
 function formatDueDate(dueDate, lang) {
@@ -124,7 +123,7 @@ function StudentSubjects({ subjectEntries, lang, tr }) {
 // a mano); las de catálogo se completan solas al jugar (recordAssignmentCompletion).
 function TaskCard({ task, studentsByUid, lang, tr, onToggleManual }) {
   const [open, setOpen] = useState(false)
-  const label = task.kind === 'catalog' ? catalogLabel(task.gameId, lang) : task.title
+  const label = task.kind === 'catalog' ? catalogLabel(task, lang) : task.title
   const completions = task.completions || {}
   const total = task.studentIds.length
   const doneCount = task.studentIds.filter(uid => completions[uid]?.done).length
@@ -191,8 +190,11 @@ export default function ProfesorClase() {
 
   const [assignments, setAssignments] = useState([])
   const [showForm, setShowForm] = useState(false)
-  const [taskKind, setTaskKind] = useState('catalog')
-  const [taskGameId, setTaskGameId] = useState('')
+  const [taskKind, setTaskKind] = useState('game') // 'game' | 'exam' | 'text'
+  const [taskGameId, setTaskGameId] = useState('') // kind 'game': id de GAMES
+  const [taskExamSubject, setTaskExamSubject] = useState('') // kind 'exam': materia elegida
+  const [taskTema, setTaskTema] = useState('') // kind 'exam', materia con EXAM_TOPICS
+  const [taskFormato, setTaskFormato] = useState('') // kind 'exam': formato (con tema) o examId plano (sin tema)
   const [taskTitle, setTaskTitle] = useState('')
   const [taskTarget, setTaskTarget] = useState('all')
   const [taskStudentIds, setTaskStudentIds] = useState([])
@@ -229,9 +231,20 @@ export default function ProfesorClase() {
     } catch { /* no crítico: si falla, simplemente no se muestran tareas */ }
   }
 
+  function resolveCatalogChoice() {
+    if (taskKind === 'game') return { gameId: taskGameId, category: null }
+    // taskKind === 'exam'
+    const hasTemas = !!EXAM_TOPICS[taskExamSubject]
+    return hasTemas
+      ? { gameId: taskFormato, category: taskTema }
+      : { gameId: taskFormato, category: null }
+  }
+
   async function handleCreateTask(e) {
     e.preventDefault()
-    if (taskKind === 'catalog' && !taskGameId) return
+    const isCatalog = taskKind === 'game' || taskKind === 'exam'
+    const { gameId, category } = isCatalog ? resolveCatalogChoice() : { gameId: null, category: null }
+    if (isCatalog && !gameId) return
     if (taskKind === 'text' && !taskTitle.trim()) return
     const targetIds = taskTarget === 'all' ? clase.studentIds : taskStudentIds
     if (!targetIds || targetIds.length === 0) return
@@ -239,14 +252,16 @@ export default function ProfesorClase() {
     setTaskError('')
     try {
       await createAssignment(user.uid, classId, clase.name, {
-        kind: taskKind,
-        gameId: taskGameId,
+        kind: isCatalog ? 'catalog' : 'text',
+        gameId,
+        category,
         title: taskTitle.trim(),
         studentIds: targetIds,
         dueDate: taskDueDate ? new Date(taskDueDate) : null,
       })
       setShowForm(false)
-      setTaskKind('catalog'); setTaskGameId(''); setTaskTitle(''); setTaskTarget('all'); setTaskStudentIds([]); setTaskDueDate('')
+      setTaskKind('game'); setTaskGameId(''); setTaskExamSubject(''); setTaskTema(''); setTaskFormato('')
+      setTaskTitle(''); setTaskTarget('all'); setTaskStudentIds([]); setTaskDueDate('')
       await loadAssignments()
     } catch {
       setTaskError(tr({ es: 'No se pudo crear la tarea. Inténtalo de nuevo.', en: 'Could not create the task. Please try again.', ca: 'No s\'ha pogut crear la tasca. Torna-ho a intentar.' }))
@@ -335,32 +350,79 @@ export default function ProfesorClase() {
         {showForm && (
           <form onSubmit={handleCreateTask} className="bg-white/5 border border-white/10 rounded-2xl p-4 mb-4 space-y-3">
             <div className="flex gap-2">
-              <button type="button" onClick={() => setTaskKind('catalog')}
-                className={`flex-1 text-xs font-bold py-2 rounded-lg border transition-colors ${taskKind === 'catalog' ? 'bg-teal-600 border-teal-600 text-white' : 'border-white/10 text-white/50'}`}>
-                {tr({ es: 'Juego / examen', en: 'Game / exam', ca: 'Joc / examen' })}
+              <button type="button" onClick={() => setTaskKind('game')}
+                className={`flex-1 text-xs font-bold py-2 rounded-lg border transition-colors ${taskKind === 'game' ? 'bg-teal-600 border-teal-600 text-white' : 'border-white/10 text-white/50'}`}>
+                {tr({ es: 'Juego', en: 'Game', ca: 'Joc' })}
+              </button>
+              <button type="button" onClick={() => setTaskKind('exam')}
+                className={`flex-1 text-xs font-bold py-2 rounded-lg border transition-colors ${taskKind === 'exam' ? 'bg-teal-600 border-teal-600 text-white' : 'border-white/10 text-white/50'}`}>
+                {tr({ es: 'Examen', en: 'Exam', ca: 'Examen' })}
               </button>
               <button type="button" onClick={() => setTaskKind('text')}
                 className={`flex-1 text-xs font-bold py-2 rounded-lg border transition-colors ${taskKind === 'text' ? 'bg-teal-600 border-teal-600 text-white' : 'border-white/10 text-white/50'}`}>
-                {tr({ es: 'Tarea de texto', en: 'Text task', ca: 'Tasca de text' })}
+                {tr({ es: 'Texto libre', en: 'Text task', ca: 'Text lliure' })}
               </button>
             </div>
 
-            {taskKind === 'catalog' ? (
+            {taskKind === 'game' && (
               <select value={taskGameId} onChange={e => setTaskGameId(e.target.value)}
                 className="w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2.5 text-sm text-white outline-none focus:border-teal-500 transition-colors">
-                <option value="" className="bg-[#0d0d1a]">{tr({ es: '-- Elige juego o examen --', en: '-- Pick a game or exam --', ca: '-- Tria joc o examen --' })}</option>
-                {SUBJECTS.filter(s => s.gameIds.length > 0 || s.examIds.length > 0).map(subj => (
+                <option value="" className="bg-[#0d0d1a]">{tr({ es: '-- Elige un juego --', en: '-- Pick a game --', ca: '-- Tria un joc --' })}</option>
+                {SUBJECTS.filter(s => s.gameIds.some(id => GAMES[id])).map(subj => (
                   <optgroup key={subj.id} label={subj.label[lang] || subj.label.es} className="bg-[#0d0d1a]">
                     {subj.gameIds.filter(id => GAMES[id]).map(id => (
                       <option key={id} value={id} className="bg-[#0d0d1a]">{GAMES[id].emoji} {GAMES[id].label[lang] || GAMES[id].label.es}</option>
                     ))}
-                    {subj.examIds.filter(id => EXAMS[id]).map(id => (
-                      <option key={id} value={id} className="bg-[#0d0d1a]">{EXAMS[id].emoji} {EXAMS[id].label[lang] || EXAMS[id].label.es}</option>
-                    ))}
                   </optgroup>
                 ))}
               </select>
-            ) : (
+            )}
+
+            {taskKind === 'exam' && (
+              <div className="space-y-2">
+                <select value={taskExamSubject} onChange={e => { setTaskExamSubject(e.target.value); setTaskTema(''); setTaskFormato('') }}
+                  className="w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2.5 text-sm text-white outline-none focus:border-teal-500 transition-colors">
+                  <option value="" className="bg-[#0d0d1a]">{tr({ es: '-- Elige materia --', en: '-- Pick a subject --', ca: '-- Tria materia --' })}</option>
+                  {SUBJECTS.filter(s => EXAM_TOPICS[s.id] || s.examIds.some(id => EXAMS[id])).map(subj => (
+                    <option key={subj.id} value={subj.id} className="bg-[#0d0d1a]">{subj.emoji} {subj.label[lang] || subj.label.es}</option>
+                  ))}
+                </select>
+
+                {taskExamSubject && EXAM_TOPICS[taskExamSubject] && (
+                  <select value={taskTema} onChange={e => { setTaskTema(e.target.value); setTaskFormato('') }}
+                    className="w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2.5 text-sm text-white outline-none focus:border-teal-500 transition-colors">
+                    <option value="" className="bg-[#0d0d1a]">{tr({ es: '-- Elige tema --', en: '-- Pick a topic --', ca: '-- Tria tema --' })}</option>
+                    {Object.keys(EXAM_TOPICS[taskExamSubject]).map(temaId => {
+                      const subj = SUBJECTS.find(s => s.id === taskExamSubject)
+                      const lbl = subj?.examLabels[temaId]
+                      return <option key={temaId} value={temaId} className="bg-[#0d0d1a]">{lbl?.[lang] || lbl?.es || temaId}</option>
+                    })}
+                  </select>
+                )}
+
+                {taskExamSubject && EXAM_TOPICS[taskExamSubject] && taskTema && (
+                  <select value={taskFormato} onChange={e => setTaskFormato(e.target.value)}
+                    className="w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2.5 text-sm text-white outline-none focus:border-teal-500 transition-colors">
+                    <option value="" className="bg-[#0d0d1a]">{tr({ es: '-- Elige formato --', en: '-- Pick a format --', ca: '-- Tria format --' })}</option>
+                    {EXAM_TOPICS[taskExamSubject][taskTema].map(formatoId => (
+                      <option key={formatoId} value={formatoId} className="bg-[#0d0d1a]">{EXAM_FORMATS[formatoId].emoji} {EXAM_FORMATS[formatoId].label[lang] || EXAM_FORMATS[formatoId].label.es}</option>
+                    ))}
+                  </select>
+                )}
+
+                {taskExamSubject && !EXAM_TOPICS[taskExamSubject] && (
+                  <select value={taskFormato} onChange={e => setTaskFormato(e.target.value)}
+                    className="w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2.5 text-sm text-white outline-none focus:border-teal-500 transition-colors">
+                    <option value="" className="bg-[#0d0d1a]">{tr({ es: '-- Elige examen --', en: '-- Pick an exam --', ca: '-- Tria examen --' })}</option>
+                    {SUBJECTS.find(s => s.id === taskExamSubject)?.examIds.filter(id => EXAMS[id]).map(id => (
+                      <option key={id} value={id} className="bg-[#0d0d1a]">{EXAMS[id].emoji} {EXAMS[id].label[lang] || EXAMS[id].label.es}</option>
+                    ))}
+                  </select>
+                )}
+              </div>
+            )}
+
+            {taskKind === 'text' && (
               <input type="text" value={taskTitle} onChange={e => setTaskTitle(e.target.value)}
                 placeholder={tr({ es: 'Ej. Traer el libro de texto', en: 'E.g. Bring the textbook', ca: 'Ex. Portar el llibre de text' })}
                 className="w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2.5 text-sm text-white placeholder-white/30 outline-none focus:border-teal-500 transition-colors" />

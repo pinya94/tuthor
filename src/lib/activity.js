@@ -137,7 +137,7 @@ export async function saveActivity(uid, data) {
 
   const today = todayStr()
   incrementGlobalStats(data.game, today).catch(() => {})
-  recordAssignmentCompletion(uid, data.game, { score: data.score, passed: data.passed, timeSpent: data.timeSpent }).catch(() => {})
+  recordAssignmentCompletion(uid, data.game, data.category, { score: data.score, passed: data.passed, timeSpent: data.timeSpent }).catch(() => {})
 
   const statsRef = doc(db, 'users', uid, 'stats', 'global')
   const snap = await getDoc(statsRef)

@@ -129,7 +129,7 @@ service cloud.firestore {
       allow create: if isTeacher(request.auth.uid)
         && request.resource.data.teacherId == request.auth.uid
         && classOwnedByCaller(request.resource.data.classId)
-        && request.resource.data.keys().hasOnly(['teacherId', 'classId', 'className', 'kind', 'gameId', 'title', 'studentIds', 'dueDate', 'createdAt', 'completions'])
+        && request.resource.data.keys().hasOnly(['teacherId', 'classId', 'className', 'kind', 'gameId', 'category', 'title', 'studentIds', 'dueDate', 'createdAt', 'completions'])
         && request.resource.data.kind in ['catalog', 'text']
         && request.resource.data.studentIds is list && request.resource.data.studentIds.size() > 0
         && request.resource.data.completions == {}

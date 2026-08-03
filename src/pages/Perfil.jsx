@@ -7,16 +7,16 @@ import AvatarFrame from '../components/AvatarFrame'
 import { BANNER_BY_ID } from '../data/cosmetics'
 import { GAMES } from '../lib/games'
 import { EXAMS } from '../lib/exams'
-import { GAME_LABELS, aggregateStudentStats } from '../lib/statsAggregation'
+import { GAME_LABELS, SUBJECTS, aggregateStudentStats } from '../lib/statsAggregation'
 import { joinClassByCode } from '../lib/classes'
 import { getStudentAssignments } from '../lib/assignments'
+import { catalogTaskLabel } from '../lib/examTopics'
 
 function todayStr() { return new Date().toISOString().slice(0, 10) }
 
 function taskLabel(task, lang) {
   if (task.kind !== 'catalog') return task.title
-  const g = GAMES[task.gameId] || EXAMS[task.gameId]
-  return g ? `${g.emoji} ${g.label[lang] || g.label.es}` : task.gameId
+  return catalogTaskLabel(task, lang, { games: GAMES, exams: EXAMS, subjects: SUBJECTS })
 }
 
 function formatDueDate(dueDate, lang) {
