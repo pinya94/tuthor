@@ -17,6 +17,25 @@ function catalogLabel(gameId, lang) {
   return `${g.emoji} ${g.label[lang] || g.label.es}`
 }
 
+function StatTile({ label, value, sub }) {
+  return (
+    <div className="bg-white/5 border border-white/10 rounded-xl p-3.5">
+      <p className="text-white/35 text-[10.5px] uppercase tracking-wider font-bold mb-1">{label}</p>
+      <p className="text-white font-black text-xl leading-none tabular-nums">{value}</p>
+      {sub && <p className="text-white/30 text-[11px] mt-1">{sub}</p>}
+    </div>
+  )
+}
+
+function ProgressBar({ value, max }) {
+  const pct = max > 0 ? Math.round((value / max) * 100) : 0
+  return (
+    <div className="flex-1 bg-white/5 rounded-full h-1.5 min-w-[48px]">
+      <div className="h-1.5 rounded-full bg-teal-500 transition-all" style={{ width: `${pct}%` }} />
+    </div>
+  )
+}
+
 async function loadStudent(uid, lang) {
   const [userSnap, stats] = await Promise.all([
     getDoc(doc(db, 'users', uid)),
@@ -102,19 +121,18 @@ function TaskCard({ task, studentsByUid, lang, tr, onToggleManual }) {
   const [open, setOpen] = useState(false)
   const label = task.kind === 'catalog' ? catalogLabel(task.gameId, lang) : task.title
   const completions = task.completions || {}
+  const total = task.studentIds.length
   const doneCount = task.studentIds.filter(uid => completions[uid]?.done).length
 
   return (
-    <div className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden">
+    <div className="border border-white/10 rounded-xl overflow-hidden bg-white/[0.02]">
       <button type="button" onClick={() => setOpen(o => !o)}
-        className="w-full flex items-center justify-between gap-3 px-4 py-3 text-left hover:bg-white/5 transition-colors">
-        <div className="min-w-0">
-          <p className="text-white font-bold text-sm truncate">{label}</p>
-          <p className="text-white/40 text-xs mt-0.5">
-            {doneCount}/{task.studentIds.length} {tr({ es: 'hechas', en: 'done', ca: 'fetes' })}
-          </p>
-        </div>
-        <span className={`text-white/45 text-xs shrink-0 transition-transform ${open ? 'rotate-180' : ''}`}>▾</span>
+        className="w-full flex items-center gap-3 px-4 py-2.5 text-left hover:bg-white/5 transition-colors">
+        <span className="shrink-0 text-base w-5 text-center">{task.kind === 'catalog' ? '🎮' : '📌'}</span>
+        <p className="text-white font-semibold text-[13.5px] truncate flex-1 min-w-[100px]">{label}</p>
+        <ProgressBar value={doneCount} max={total} />
+        <span className="text-white/45 text-[12px] font-semibold tabular-nums shrink-0 w-12 text-right">{doneCount}/{total}</span>
+        <span className={`text-white/30 text-xs shrink-0 transition-transform ${open ? 'rotate-180' : ''}`}>▾</span>
       </button>
       {open && (
         <div className="border-t border-white/10 divide-y divide-white/5">
@@ -122,22 +140,22 @@ function TaskCard({ task, studentsByUid, lang, tr, onToggleManual }) {
             const c = completions[uid]
             const name = studentsByUid[uid]?.name || uid
             return (
-              <div key={uid} className="flex items-center justify-between gap-3 px-4 py-2.5">
-                <span className="text-white/70 text-[13px]">{name}</span>
+              <div key={uid} className="flex items-center justify-between gap-3 px-4 py-2 pl-11">
+                <span className="text-white/60 text-[12.5px]">{name}</span>
                 {task.kind === 'text' ? (
                   <button type="button" onClick={() => onToggleManual(task.id, uid, !!c?.done)}
-                    className={`text-xs font-bold px-2.5 py-1 rounded-lg border transition-colors ${
+                    className={`text-[11.5px] font-bold px-2 py-1 rounded-lg border transition-colors ${
                       c?.done ? 'text-green-400 border-green-500/30 bg-green-500/10' : 'text-white/40 border-white/10 hover:border-white/25'
                     }`}>
                     {c?.done ? tr({ es: '✅ Hecha', en: '✅ Done', ca: '✅ Feta' }) : tr({ es: 'Marcar hecha', en: 'Mark done', ca: 'Marcar feta' })}
                   </button>
                 ) : c?.done ? (
-                  <span className="text-[12.5px] font-semibold">
+                  <span className="text-[12px] font-semibold">
                     <span className="text-green-400">✅ {c.passed === true ? tr({ es: 'Aprobado', en: 'Passed', ca: 'Aprovat' }) : c.passed === false ? tr({ es: 'Suspenso', en: 'Failed', ca: 'Suspès' }) : ''}</span>
                     {c.score != null && <span className="text-white/40 ml-1.5">{c.score} pts</span>}
                   </span>
                 ) : (
-                  <span className="text-white/30 text-[12.5px]">{tr({ es: 'Pendiente', en: 'Pending', ca: 'Pendent' })}</span>
+                  <span className="text-white/30 text-[12px]">{tr({ es: 'Pendiente', en: 'Pending', ca: 'Pendent' })}</span>
                 )}
               </div>
             )
@@ -169,6 +187,7 @@ export default function ProfesorClase() {
   const [taskDueDate, setTaskDueDate] = useState('')
   const [creatingTask, setCreatingTask] = useState(false)
   const [taskError, setTaskError] = useState('')
+  const [expandedStudent, setExpandedStudent] = useState(null)
 
   useEffect(() => {
     if (user === undefined) return
@@ -252,24 +271,41 @@ export default function ProfesorClase() {
   }
 
   const studentsByUid = Object.fromEntries(students.map(s => [s.uid, s]))
+  const totalTasks = assignments.length
+  const avgCompletion = totalTasks > 0
+    ? Math.round(assignments.reduce((acc, t) => {
+        const total = t.studentIds.length || 1
+        const done = t.studentIds.filter(uid => t.completions?.[uid]?.done).length
+        return acc + done / total
+      }, 0) / totalTasks * 100)
+    : null
+  const totalCoins = students.reduce((a, s) => a + (s.coins || 0), 0)
 
   return (
-    <div className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 py-8">
+    <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 py-8">
       <Link to={localPath('/profesor')} className="inline-flex items-center gap-1 text-white/40 hover:text-white/70 text-sm mb-4 transition-colors">
         ← {tr({ es: 'Mis clases', en: 'My classes', ca: 'Les meves classes' })}
       </Link>
 
-      <div className="flex items-center justify-between gap-4 flex-wrap mb-6">
+      <div className="flex items-center justify-between gap-4 flex-wrap mb-4">
         <h1 className="text-2xl font-black text-white">{clase.name}</h1>
         <span className="font-mono text-sm bg-black/30 border border-white/10 rounded-lg px-3 py-1.5 text-teal-300">
           {clase.code}
         </span>
       </div>
 
+      {/* ── RESUMEN ── */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 mb-8">
+        <StatTile label={tr({ es: 'Alumnos', en: 'Students', ca: 'Alumnes' })} value={students.length} />
+        <StatTile label={tr({ es: 'Tareas', en: 'Tasks', ca: 'Tasques' })} value={totalTasks} />
+        <StatTile label={tr({ es: 'Completado medio', en: 'Avg. completion', ca: 'Completat mitjà' })} value={avgCompletion == null ? '—' : `${avgCompletion}%`} />
+        <StatTile label={tr({ es: 'Monedas totales', en: 'Total coins', ca: 'Monedes totals' })} value={totalCoins.toLocaleString()} />
+      </div>
+
       {/* ── TAREAS ── */}
       <section className="mb-8">
         <div className="flex items-center justify-between gap-3 mb-3">
-          <h2 className="font-black text-white text-[17px]">📝 {tr({ es: 'Tareas', en: 'Tasks', ca: 'Tasques' })}</h2>
+          <h2 className="font-black text-white text-[15px] uppercase tracking-wide text-white/50">{tr({ es: 'Tareas', en: 'Tasks', ca: 'Tasques' })}</h2>
           <button type="button" onClick={() => setShowForm(o => !o)}
             className="text-xs font-bold px-3 py-1.5 rounded-lg bg-teal-600 hover:bg-teal-500 text-white transition-colors">
             {showForm ? tr({ es: 'Cancelar', en: 'Cancel', ca: 'Cancel·lar' }) : `+ ${tr({ es: 'Asignar tarea', en: 'Assign task', ca: 'Assignar tasca' })}`}
@@ -357,34 +393,49 @@ export default function ProfesorClase() {
         )}
       </section>
 
-      <h2 className="font-black text-white text-[17px] mb-3">👥 {tr({ es: 'Alumnos', en: 'Students', ca: 'Alumnes' })}</h2>
+      <section>
+        <h2 className="font-black text-[15px] uppercase tracking-wide text-white/50 mb-3">{tr({ es: 'Alumnos', en: 'Students', ca: 'Alumnes' })}</h2>
 
-      {students.length === 0 ? (
-        <p className="text-white/30 text-sm">
-          {tr({
-            es: 'Todavía no se ha unido ningún alumno. Comparte el código de arriba.',
-            en: 'No students have joined yet. Share the code above.',
-            ca: 'Encara no s\'hi ha unit cap alumne. Comparteix el codi de dalt.',
-          })}
-        </p>
-      ) : (
-        <div className="space-y-3">
-          {students.map(s => (
-            <div key={s.uid} className="bg-white/5 border border-white/10 rounded-2xl p-5">
-              <div className="flex items-center justify-between gap-4 flex-wrap mb-3">
-                <p className="text-white font-bold">{s.name}</p>
-                <div className="flex items-center gap-4 text-sm text-white/50">
-                  <span>💰 {s.coins}</span>
-                  <span>🔥 {s.streak}</span>
-                  <span>⏱ {formatTime(s.totalTime)}</span>
-                  {s.examsTaken > 0 && <span>📝 {s.examsTaken} {tr({ es: 'exámenes', en: 'exams', ca: 'exàmens' })}</span>}
-                </div>
-              </div>
-              <StudentSubjects subjectEntries={s.subjectEntries} lang={lang} tr={tr} />
+        {students.length === 0 ? (
+          <p className="text-white/30 text-sm">
+            {tr({
+              es: 'Todavía no se ha unido ningún alumno. Comparte el código de arriba.',
+              en: 'No students have joined yet. Share the code above.',
+              ca: 'Encara no s\'hi ha unit cap alumne. Comparteix el codi de dalt.',
+            })}
+          </p>
+        ) : (
+          <div className="border border-white/10 rounded-xl overflow-hidden bg-white/[0.02]">
+            <div className="hidden sm:grid grid-cols-[1.6fr_1fr_1fr_1fr_1fr] gap-3 px-4 py-2 bg-white/5 text-[10.5px] uppercase tracking-wider font-bold text-white/35">
+              <span>{tr({ es: 'Alumno', en: 'Student', ca: 'Alumne' })}</span>
+              <span className="text-right">💰</span>
+              <span className="text-right">🔥</span>
+              <span className="text-right">⏱</span>
+              <span className="text-right">📝</span>
             </div>
-          ))}
-        </div>
-      )}
+            {students.map((s, i) => {
+              const isOpen = expandedStudent === s.uid
+              return (
+                <div key={s.uid} className={i > 0 ? 'border-t border-white/5' : ''}>
+                  <button type="button" onClick={() => setExpandedStudent(isOpen ? null : s.uid)}
+                    className="w-full grid grid-cols-[1.6fr_1fr_1fr] sm:grid-cols-[1.6fr_1fr_1fr_1fr_1fr] gap-2 sm:gap-3 px-4 py-3 items-center text-left hover:bg-white/5 transition-colors">
+                    <span className="text-white font-semibold text-[13.5px] truncate">{s.name}</span>
+                    <span className="text-white/60 text-[13px] tabular-nums text-right">💰 {s.coins}</span>
+                    <span className="text-white/60 text-[13px] tabular-nums text-right sm:text-right">🔥 {s.streak}</span>
+                    <span className="text-white/60 text-[13px] tabular-nums text-right hidden sm:block">{formatTime(s.totalTime)}</span>
+                    <span className="text-white/60 text-[13px] tabular-nums text-right hidden sm:block">{s.examsTaken || 0}</span>
+                  </button>
+                  {isOpen && (
+                    <div className="px-4 pb-3">
+                      <StudentSubjects subjectEntries={s.subjectEntries} lang={lang} tr={tr} />
+                    </div>
+                  )}
+                </div>
+              )
+            })}
+          </div>
+        )}
+      </section>
     </div>
   )
 }
