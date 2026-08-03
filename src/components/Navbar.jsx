@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import { MAIN_CARDS } from '../data/constants'
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
-import { getTeacherProfile } from '../lib/classes'
+import { getTeacherProfile, hasTeacherAccess } from '../lib/classes'
 import { getStudentAssignments } from '../lib/assignments'
 import AuthModal from './AuthModal'
 
@@ -85,7 +85,7 @@ export default function Navbar() {
   // tarjeta para unirse a una clase con un código.
   async function goToClase() {
     const profile = user ? await getTeacherProfile(user.uid).catch(() => null) : null
-    navigate(localPath(profile?.active ? '/profesor' : '/perfil'))
+    navigate(localPath(hasTeacherAccess(profile) ? '/profesor' : '/perfil'))
   }
 
   const navLabels = {

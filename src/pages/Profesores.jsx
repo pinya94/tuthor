@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
 import SEOHead from '../components/SEOHead'
 import AuthModal from '../components/AuthModal'
-import { activateTeacherProfile, getTeacherProfile } from '../lib/classes'
+import { activateTeacherProfile, saveTeacherProfileDraft, getTeacherProfile, hasTeacherAccess } from '../lib/classes'
 
 const STAGES = [
   { id: 'primaria', label: { es: 'Primaria', en: 'Primary', ca: 'Primària' } },
@@ -13,6 +13,8 @@ const STAGES = [
   { id: 'otro', label: { es: 'Otro', en: 'Other', ca: 'Altre' } },
 ]
 
+const STRIPE_PAYMENT_LINK = import.meta.env.VITE_STRIPE_PAYMENT_LINK
+
 export default function Profesores() {
   const { user } = useAuth()
   const { lang, tr, localPath } = useLang()
@@ -20,6 +22,7 @@ export default function Profesores() {
 
   const [checking, setChecking] = useState(true)
   const [showAuth, setShowAuth] = useState(false)
+  const [accessMethod, setAccessMethod] = useState('pay') // 'pay' | 'code'
   const [schoolName, setSchoolName] = useState('')
   const [stage, setStage] = useState('eso')
   const [promoCode, setPromoCode] = useState('')
@@ -29,7 +32,7 @@ export default function Profesores() {
     if (user === undefined) return
     if (!user) { setChecking(false); return }
     getTeacherProfile(user.uid).then(profile => {
-      if (profile?.active) { navigate(localPath('/profesor'), { replace: true }); return }
+      if (hasTeacherAccess(profile)) { navigate(localPath('/profesor'), { replace: true }); return }
       setChecking(false)
     }).catch(() => setChecking(false))
   }, [user])
@@ -38,6 +41,20 @@ export default function Profesores() {
     e.preventDefault()
     if (!user) { setShowAuth(true); return }
     setStatus('sending')
+
+    if (accessMethod === 'pay') {
+      try {
+        await saveTeacherProfileDraft(user.uid, { schoolName, stage })
+        const url = new URL(STRIPE_PAYMENT_LINK)
+        url.searchParams.set('client_reference_id', user.uid)
+        if (user.email) url.searchParams.set('prefilled_email', user.email)
+        window.location.href = url.toString()
+      } catch {
+        setStatus('error')
+      }
+      return
+    }
+
     try {
       await activateTeacherProfile(user.uid, { schoolName, stage, promoCode: promoCode.trim().toUpperCase() })
       navigate(localPath('/profesor'))
@@ -92,21 +109,28 @@ export default function Profesores() {
           </li>
         </ul>
 
+        <div className="flex items-end justify-between gap-3 mb-6 border border-white/10 rounded-2xl px-5 py-4 bg-white/[0.03]">
+          <div>
+            <p className="text-white font-black text-3xl leading-none">50€ <span className="text-white/40 text-sm font-semibold">/ {tr({ es: 'año', en: 'year', ca: 'any' })}</span></p>
+            <p className="text-white/40 text-xs mt-1.5">{tr({ es: 'Por profesor, cancela cuando quieras', en: 'Per teacher, cancel anytime', ca: 'Per professor, cancel·la quan vulguis' })}</p>
+          </div>
+          <span className="text-3xl">🎓</span>
+        </div>
+
         <p className="text-white/35 text-[11px] uppercase tracking-wider font-bold mb-2">
           {tr({ es: 'Método de acceso', en: 'Access method', ca: 'Mètode d\'accés' })}
         </p>
         <div className="grid grid-cols-2 gap-2 mb-4">
-          <div className="relative rounded-xl border border-white/10 bg-white/[0.03] px-3 py-3 opacity-50 cursor-not-allowed">
-            <span className="absolute top-1.5 right-1.5 text-[9px] font-bold uppercase tracking-wide bg-amber-500/20 text-amber-300 px-1.5 py-0.5 rounded">
-              {tr({ es: 'Próximamente', en: 'Coming soon', ca: 'Properament' })}
-            </span>
+          <button type="button" onClick={() => setAccessMethod('pay')}
+            className={`rounded-xl border px-3 py-3 text-left transition-colors ${accessMethod === 'pay' ? 'border-teal-500/50 bg-teal-500/10' : 'border-white/10 bg-white/[0.03] hover:border-white/20'}`}>
             <span className="text-lg block mb-1">💳</span>
-            <p className="text-white/70 text-xs font-bold">{tr({ es: 'Pagar', en: 'Pay', ca: 'Pagar' })}</p>
-          </div>
-          <div className="rounded-xl border border-teal-500/50 bg-teal-500/10 px-3 py-3">
+            <p className={`text-xs font-bold ${accessMethod === 'pay' ? 'text-white' : 'text-white/70'}`}>{tr({ es: 'Pagar', en: 'Pay', ca: 'Pagar' })}</p>
+          </button>
+          <button type="button" onClick={() => setAccessMethod('code')}
+            className={`rounded-xl border px-3 py-3 text-left transition-colors ${accessMethod === 'code' ? 'border-teal-500/50 bg-teal-500/10' : 'border-white/10 bg-white/[0.03] hover:border-white/20'}`}>
             <span className="text-lg block mb-1">🎟️</span>
-            <p className="text-white text-xs font-bold">{tr({ es: 'Código de acceso', en: 'Access code', ca: 'Codi d\'accés' })}</p>
-          </div>
+            <p className={`text-xs font-bold ${accessMethod === 'code' ? 'text-white' : 'text-white/70'}`}>{tr({ es: 'Código de acceso', en: 'Access code', ca: 'Codi d\'accés' })}</p>
+          </button>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-3">
@@ -119,9 +143,11 @@ export default function Profesores() {
               <option key={s.id} value={s.id} className="bg-[#0d0d1a]">{tr(s.label)}</option>
             ))}
           </select>
-          <input type="text" required value={promoCode} onChange={e => setPromoCode(e.target.value)}
-            placeholder={tr({ es: 'Código de acceso', en: 'Access code', ca: 'Codi d\'accés' })}
-            className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder-white/30 outline-none focus:border-teal-500 transition-colors" />
+          {accessMethod === 'code' && (
+            <input type="text" required value={promoCode} onChange={e => setPromoCode(e.target.value)}
+              placeholder={tr({ es: 'Código de acceso', en: 'Access code', ca: 'Codi d\'accés' })}
+              className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder-white/30 outline-none focus:border-teal-500 transition-colors" />
+          )}
 
           {status === 'invalid-code' && (
             <p className="text-red-400 text-sm">
@@ -137,9 +163,11 @@ export default function Profesores() {
           <button type="submit" disabled={status === 'sending'}
             className="w-full px-6 py-3.5 bg-teal-600 hover:bg-teal-500 disabled:opacity-50 text-white font-bold text-sm rounded-xl transition-all hover:scale-[1.01] active:scale-[0.99]">
             {status === 'sending'
-              ? tr({ es: 'Creando…', en: 'Creating…', ca: 'Creant…' })
+              ? tr({ es: 'Un momento…', en: 'One moment…', ca: 'Un moment…' })
               : !user
               ? tr({ es: 'Iniciar sesión y empezar', en: 'Sign in and start', ca: 'Iniciar sessió i començar' })
+              : accessMethod === 'pay'
+              ? tr({ es: 'Pagar 50€/año →', en: 'Pay €50/year →', ca: 'Pagar 50€/any →' })
               : tr({ es: 'Empezar a dar clase', en: 'Start teaching', ca: 'Començar a fer classe' })}
           </button>
         </form>

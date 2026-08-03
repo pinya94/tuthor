@@ -34,6 +34,32 @@ export async function getTeacherProfile(uid) {
   return snap.exists() ? (snap.data().teacherProfile ?? null) : null
 }
 
+// Guarda centro/ciclo SIN activar todavía la cuenta — se llama justo antes
+// de redirigir a Stripe, para no perder esos datos del formulario. active
+// se deja explícitamente en false (no ausente) para que becomesTeacher()
+// en firestore.rules lo evalúe sin ambigüedad y no exija código: el webhook
+// de Stripe (api/stripe-webhook.js) es quien pondrá active:true más tarde,
+// con Firebase Admin, que no pasa por estas rules.
+export async function saveTeacherProfileDraft(uid, { schoolName, stage }) {
+  await setDoc(doc(db, 'users', uid), {
+    teacherProfile: {
+      active: false,
+      schoolName,
+      stage,
+      subscriptionStatus: 'none',
+    },
+  }, { merge: true })
+}
+
+// Punto único para no triplicar esta condición entre Navbar.jsx,
+// ProfesorPanel.jsx y firestore.rules (isTeacher() — esa sí duplicada a la
+// fuerza, las rules no pueden importar JS).
+export function hasTeacherAccess(profile) {
+  if (!profile?.active) return false
+  if (profile.promoCode === 'L4FXL3') return true
+  return ['active', 'trialing'].includes(profile.subscriptionStatus)
+}
+
 // ── Códigos de clase ─────────────────────────────────────────────────────────
 // Alfabeto sin ambigüedades (sin 0/O ni 1/I). Si se cambia aquí, hay que
 // replicar el regex en firestore.rules (classes/{classId}.code).

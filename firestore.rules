@@ -16,11 +16,20 @@ service cloud.firestore {
     }
 
     // Capacidad de profesor activa sobre la propia cuenta (no es un rol
-    // exclusivo: una cuenta puede seguir jugando como alumno).
+    // exclusivo: una cuenta puede seguir jugando como alumno). No basta con
+    // active == true: hace falta además una suscripción de Stripe viva o
+    // el código de acceso de prueba — espejo de hasTeacherAccess() en
+    // src/lib/classes.js (esa duplicación es inevitable: las rules no
+    // pueden importar JS del cliente).
     function isTeacher(uid) {
       let u = get(/databases/$(database)/documents/users/$(uid)).data;
+      let tp = u.teacherProfile;
       return request.auth != null && request.auth.uid == uid
-        && 'teacherProfile' in u && u.teacherProfile.active == true;
+        && 'teacherProfile' in u && tp.active == true
+        && (
+          ('promoCode' in tp && tp.promoCode == 'L4FXL3') ||
+          ('subscriptionStatus' in tp && tp.subscriptionStatus in ['active', 'trialing'])
+        );
     }
 
     // Profesor vinculado a este alumno (linkedTeacherIds vive en el propio

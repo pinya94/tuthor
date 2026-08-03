@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
-import { getTeacherProfile, getTeacherClasses, createClass } from '../lib/classes'
+import { getTeacherProfile, getTeacherClasses, createClass, hasTeacherAccess } from '../lib/classes'
 
 export default function ProfesorPanel() {
   const { user } = useAuth()
@@ -15,18 +15,33 @@ export default function ProfesorPanel() {
   const [newName, setNewName] = useState('')
   const [error, setError] = useState('')
   const [copiedCode, setCopiedCode] = useState('')
+  const [waitingPayment, setWaitingPayment] = useState(false)
 
   useEffect(() => {
     if (user === undefined) return
     if (!user) { navigate(localPath('/profesores'), { replace: true }); return }
-    getTeacherProfile(user.uid).then(profile => {
-      if (!profile?.active) { navigate(localPath('/profesores'), { replace: true }); return }
-      loadClasses()
-    }).catch(() => {
+    checkAccess()
+  }, [user])
+
+  // Justo después de pagar, el webhook de Stripe puede tardar un par de
+  // segundos en activar la cuenta — se reintenta unas cuantas veces antes
+  // de mandar a /profesores como si el pago no hubiera funcionado.
+  async function checkAccess(attempt = 0) {
+    const justPaid = new URLSearchParams(window.location.search).get('pago') === 'ok'
+    try {
+      const profile = await getTeacherProfile(user.uid)
+      if (hasTeacherAccess(profile)) { setWaitingPayment(false); loadClasses(); return }
+      if (justPaid && attempt < 5) {
+        setWaitingPayment(true)
+        setTimeout(() => checkAccess(attempt + 1), 2000)
+        return
+      }
+      navigate(localPath('/profesores'), { replace: true })
+    } catch {
       setError(tr({ es: 'No se pudo cargar tu perfil de profesor.', en: 'Could not load your teacher profile.', ca: 'No s\'ha pogut carregar el teu perfil de professor.' }))
       setLoading(false)
-    })
-  }, [user])
+    }
+  }
 
   async function loadClasses() {
     setLoading(true)
@@ -63,7 +78,11 @@ export default function ProfesorPanel() {
   if (user === undefined || loading) {
     return (
       <div className="flex items-center justify-center min-h-[calc(100vh-4rem)]">
-        <p className="text-white/30 text-sm">{tr({ es: 'Cargando…', en: 'Loading…', ca: 'Carregant…' })}</p>
+        <p className="text-white/30 text-sm">
+          {waitingPayment
+            ? tr({ es: 'Confirmando tu pago…', en: 'Confirming your payment…', ca: 'Confirmant el teu pagament…' })
+            : tr({ es: 'Cargando…', en: 'Loading…', ca: 'Carregant…' })}
+        </p>
       </div>
     )
   }
