@@ -39,7 +39,7 @@ export default function Profesores() {
     if (!user) { setShowAuth(true); return }
     setStatus('sending')
     try {
-      await activateTeacherProfile(user.uid, { schoolName, stage, promoCode: promoCode.trim() })
+      await activateTeacherProfile(user.uid, { schoolName, stage, promoCode: promoCode.trim().toUpperCase() })
       navigate(localPath('/profesor'))
     } catch (err) {
       setStatus(err?.code === 'permission-denied' ? 'invalid-code' : 'error')
