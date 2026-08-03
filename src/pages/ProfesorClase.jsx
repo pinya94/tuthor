@@ -125,7 +125,7 @@ function TaskCard({ task, studentsByUid, lang, tr, onToggleManual }) {
   const doneCount = task.studentIds.filter(uid => completions[uid]?.done).length
 
   return (
-    <div className="border border-white/10 rounded-xl overflow-hidden bg-white/[0.02]">
+    <div className="border border-white/10 rounded-xl overflow-hidden bg-white/[0.04]">
       <button type="button" onClick={() => setOpen(o => !o)}
         className="w-full flex items-center gap-3 px-4 py-2.5 text-left hover:bg-white/5 transition-colors">
         <span className="shrink-0 text-base w-5 text-center">{task.kind === 'catalog' ? '🎮' : '📌'}</span>
@@ -287,6 +287,10 @@ export default function ProfesorClase() {
         ← {tr({ es: 'Mis clases', en: 'My classes', ca: 'Les meves classes' })}
       </Link>
 
+      {/* Panel sólido: sobre el fondo animado del sitio, esta página necesita
+          leerse como un dashboard de datos, no fundirse con la escena. */}
+      <div className="rounded-3xl border border-white/10 p-5 sm:p-7" style={{ background: 'rgba(13,15,22,.94)' }}>
+
       <div className="flex items-center justify-between gap-4 flex-wrap mb-4">
         <h1 className="text-2xl font-black text-white">{clase.name}</h1>
         <span className="font-mono text-sm bg-black/30 border border-white/10 rounded-lg px-3 py-1.5 text-teal-300">
@@ -405,7 +409,7 @@ export default function ProfesorClase() {
             })}
           </p>
         ) : (
-          <div className="border border-white/10 rounded-xl overflow-hidden bg-white/[0.02]">
+          <div className="border border-white/10 rounded-xl overflow-hidden bg-white/[0.04]">
             <div className="hidden sm:grid grid-cols-[1.6fr_1fr_1fr_1fr_1fr] gap-3 px-4 py-2 bg-white/5 text-[10.5px] uppercase tracking-wider font-bold text-white/35">
               <span>{tr({ es: 'Alumno', en: 'Student', ca: 'Alumne' })}</span>
               <span className="text-right">💰</span>
@@ -436,6 +440,8 @@ export default function ProfesorClase() {
           </div>
         )}
       </section>
+
+      </div>
     </div>
   )
 }
