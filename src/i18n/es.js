@@ -9,6 +9,7 @@ export default {
   'nav.admin': 'Admin',
   'nav.cerrarSesion': 'Cerrar sesión',
   'nav.profesores': 'Profesores',
+  'nav.clase': 'Clase',
 
   // Home hero
   'home.titulo': '¿Qué quieres hacer hoy?',
