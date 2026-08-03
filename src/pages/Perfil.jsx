@@ -19,6 +19,11 @@ function taskLabel(task, lang) {
   return g ? `${g.emoji} ${g.label[lang] || g.label.es}` : task.gameId
 }
 
+function formatDueDate(dueDate, lang) {
+  const d = dueDate?.toDate ? dueDate.toDate() : new Date(dueDate)
+  return d.toLocaleDateString(lang === 'en' ? 'en-GB' : lang === 'ca' ? 'ca-ES' : 'es-ES', { day: 'numeric', month: 'short' })
+}
+
 export default function Perfil() {
   const { user, logout } = useAuth()
   const { lang, localPath, tr } = useLang()
@@ -72,11 +77,15 @@ export default function Perfil() {
     e.preventDefault()
     if (!classCode.trim()) return
     setJoinStatus('sending')
-    const res = await joinClassByCode(user.uid, classCode)
-    if (res.ok) { setJoinStatus('ok'); setClassCode('') }
-    else if (res.reason === 'not_found') setJoinStatus('not_found')
-    else if (res.reason === 'already_joined') setJoinStatus('already_joined')
-    else setJoinStatus('error')
+    try {
+      const res = await joinClassByCode(user.uid, classCode)
+      if (res.ok) { setJoinStatus('ok'); setClassCode('') }
+      else if (res.reason === 'not_found') setJoinStatus('not_found')
+      else if (res.reason === 'already_joined') setJoinStatus('already_joined')
+      else setJoinStatus('error')
+    } catch {
+      setJoinStatus('error')
+    }
   }
 
   if (!user) return null
@@ -389,7 +398,10 @@ export default function Perfil() {
                       <div key={task.id} className="border border-white/10 rounded-2xl px-4 py-3 flex items-center justify-between gap-3" style={{ background: surf }}>
                         <div className="min-w-0">
                           <p className="text-white text-[13.5px] font-bold truncate">{taskLabel(task, lang)}</p>
-                          <p className={`${t3} text-[11.5px] mt-0.5`}>{task.className}</p>
+                          <p className={`${t3} text-[11.5px] mt-0.5`}>
+                            {task.className}
+                            {task.dueDate && ` · ${tr({ es: 'vence', en: 'due', ca: 'venç' })} ${formatDueDate(task.dueDate, lang)}`}
+                          </p>
                         </div>
                         {c?.done ? (
                           <span className="text-green-400 text-[12.5px] font-bold shrink-0">

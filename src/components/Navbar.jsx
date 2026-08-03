@@ -4,6 +4,7 @@ import { MAIN_CARDS } from '../data/constants'
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
 import { getTeacherProfile } from '../lib/classes'
+import { getStudentAssignments } from '../lib/assignments'
 import AuthModal from './AuthModal'
 
 const LANGS = [
@@ -64,8 +65,19 @@ export default function Navbar() {
   const [avatarMenu, setAvatarMenu] = useState(false)
   const { user, logout } = useAuth()
   const { lang, t, localPath, switchLang } = useLang()
+  const [pendingTasks, setPendingTasks] = useState(0)
 
   const authLoading = user === undefined
+
+  // Aviso de tareas pendientes: se cuentan las asignadas (de cualquier
+  // clase/profesor) que este alumno aún no ha completado. Se calcula una
+  // vez por sesión al iniciar, no en tiempo real.
+  useEffect(() => {
+    if (!user) { setPendingTasks(0); return }
+    getStudentAssignments(user.uid)
+      .then(tasks => setPendingTasks(tasks.filter(t => !t.completions?.[user.uid]?.done).length))
+      .catch(() => {})
+  }, [user])
 
   // "Clase" es un único punto de entrada, pero no todos pueden crear
   // clases: solo una cuenta con la capacidad de profesor activa va al
@@ -127,10 +139,15 @@ export default function Navbar() {
                   onClick={() => setAvatarMenu(o => !o)}
                   className="flex items-center gap-2 hover:bg-white/10 px-3 py-1.5 rounded-full transition-all"
                 >
-                  {user.photoURL
-                    ? <img src={user.photoURL} alt="" className="w-7 h-7 rounded-full" />
-                    : <div className="w-7 h-7 rounded-full bg-violet-600 flex items-center justify-center text-xs font-black text-white">{user.displayName?.[0]?.toUpperCase()}</div>
-                  }
+                  <span className="relative shrink-0">
+                    {user.photoURL
+                      ? <img src={user.photoURL} alt="" className="w-7 h-7 rounded-full" />
+                      : <div className="w-7 h-7 rounded-full bg-violet-600 flex items-center justify-center text-xs font-black text-white">{user.displayName?.[0]?.toUpperCase()}</div>
+                    }
+                    {pendingTasks > 0 && (
+                      <span className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-red-500 border-2 border-[#0d0d1a]" />
+                    )}
+                  </span>
                   <span className="text-white/80 text-sm font-medium max-w-[100px] truncate">{user.displayName?.split(' ')[0]}</span>
                   <svg className="w-3 h-3 text-white/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
@@ -138,8 +155,11 @@ export default function Navbar() {
                 </button>
                 {avatarMenu && (
                   <div className="absolute right-0 top-full mt-2 bg-[#0d0d1a] border border-white/10 backdrop-blur-md rounded-xl overflow-hidden w-44 shadow-xl z-50">
-                    <button onClick={() => { navigate(localPath('/perfil')); setAvatarMenu(false) }} className="w-full text-left px-4 py-3 text-sm text-white/70 hover:text-white hover:bg-white/10 transition-colors">
-                      👤 {t('nav.perfil')}
+                    <button onClick={() => { navigate(localPath('/perfil')); setAvatarMenu(false) }} className="w-full text-left px-4 py-3 text-sm text-white/70 hover:text-white hover:bg-white/10 transition-colors flex items-center justify-between">
+                      <span>👤 {t('nav.perfil')}</span>
+                      {pendingTasks > 0 && (
+                        <span className="bg-red-500 text-white text-[10px] font-bold rounded-full w-5 h-5 flex items-center justify-center">{pendingTasks}</span>
+                      )}
                     </button>
                     <button onClick={() => { navigate(localPath('/tienda')); setAvatarMenu(false) }} className="w-full text-left px-4 py-3 text-sm text-white/70 hover:text-white hover:bg-white/10 transition-colors border-t border-white/5">
                       🛍 {lang === 'en' ? 'Shop' : lang === 'ca' ? 'Botiga' : 'Tienda'}
@@ -192,8 +212,11 @@ export default function Navbar() {
               )}
               {!authLoading && user && (
                 <>
-                  <button onClick={() => { navigate(localPath('/perfil')); setMenuOpen(false) }} className="w-full text-left px-4 py-3 rounded-xl text-sm font-medium text-white/70 hover:text-white hover:bg-white/10 transition-all">
-                    👤 {t('nav.perfil')}
+                  <button onClick={() => { navigate(localPath('/perfil')); setMenuOpen(false) }} className="w-full text-left px-4 py-3 rounded-xl text-sm font-medium text-white/70 hover:text-white hover:bg-white/10 transition-all flex items-center justify-between">
+                    <span>👤 {t('nav.perfil')}</span>
+                    {pendingTasks > 0 && (
+                      <span className="bg-red-500 text-white text-[10px] font-bold rounded-full w-5 h-5 flex items-center justify-center">{pendingTasks}</span>
+                    )}
                   </button>
                   <button onClick={() => { navigate(localPath('/tienda')); setMenuOpen(false) }} className="w-full text-left px-4 py-3 rounded-xl text-sm font-medium text-white/70 hover:text-white hover:bg-white/10 transition-all">
                     🛍 {lang === 'en' ? 'Shop' : lang === 'ca' ? 'Botiga' : 'Tienda'}

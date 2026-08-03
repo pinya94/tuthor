@@ -17,6 +17,11 @@ function catalogLabel(gameId, lang) {
   return `${g.emoji} ${g.label[lang] || g.label.es}`
 }
 
+function formatDueDate(dueDate, lang) {
+  const d = dueDate?.toDate ? dueDate.toDate() : new Date(dueDate)
+  return d.toLocaleDateString(lang === 'en' ? 'en-GB' : lang === 'ca' ? 'ca-ES' : 'es-ES', { day: 'numeric', month: 'short' })
+}
+
 function StatTile({ label, value, sub }) {
   return (
     <div className="bg-white/5 border border-white/10 rounded-xl p-3.5">
@@ -129,7 +134,14 @@ function TaskCard({ task, studentsByUid, lang, tr, onToggleManual }) {
       <button type="button" onClick={() => setOpen(o => !o)}
         className="w-full flex items-center gap-3 px-4 py-2.5 text-left hover:bg-white/5 transition-colors">
         <span className="shrink-0 text-base w-5 text-center">{task.kind === 'catalog' ? '🎮' : '📌'}</span>
-        <p className="text-white font-semibold text-[13.5px] truncate flex-1 min-w-[100px]">{label}</p>
+        <div className="flex-1 min-w-[100px]">
+          <p className="text-white font-semibold text-[13.5px] truncate">{label}</p>
+          {task.dueDate && (
+            <p className="text-white/35 text-[10.5px] mt-0.5">
+              {tr({ es: 'Vence', en: 'Due', ca: 'Venç' })} {formatDueDate(task.dueDate, lang)}
+            </p>
+          )}
+        </div>
         <ProgressBar value={doneCount} max={total} />
         <span className="text-white/45 text-[12px] font-semibold tabular-nums shrink-0 w-12 text-right">{doneCount}/{total}</span>
         <span className={`text-white/30 text-xs shrink-0 transition-transform ${open ? 'rotate-180' : ''}`}>▾</span>
@@ -243,8 +255,12 @@ export default function ProfesorClase() {
   }
 
   async function handleToggleManual(taskId, uid, done) {
-    await markManualCompletion(taskId, uid, done)
-    await loadAssignments()
+    try {
+      await markManualCompletion(taskId, uid, done)
+      await loadAssignments()
+    } catch {
+      setTaskError(tr({ es: 'No se pudo actualizar la tarea. Inténtalo de nuevo.', en: 'Could not update the task. Please try again.', ca: 'No s\'ha pogut actualitzar la tasca. Torna-ho a intentar.' }))
+    }
   }
 
   function toggleTaskStudent(uid) {
