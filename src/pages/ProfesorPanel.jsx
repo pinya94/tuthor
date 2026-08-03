@@ -22,13 +22,20 @@ export default function ProfesorPanel() {
     getTeacherProfile(user.uid).then(profile => {
       if (!profile?.active) { navigate(localPath('/profesores'), { replace: true }); return }
       loadClasses()
+    }).catch(() => {
+      setError(tr({ es: 'No se pudo cargar tu perfil de profesor.', en: 'Could not load your teacher profile.', ca: 'No s\'ha pogut carregar el teu perfil de professor.' }))
+      setLoading(false)
     })
   }, [user])
 
   async function loadClasses() {
     setLoading(true)
-    const list = await getTeacherClasses(user.uid)
-    setClasses(list)
+    try {
+      const list = await getTeacherClasses(user.uid)
+      setClasses(list)
+    } catch {
+      setError(tr({ es: 'No se pudieron cargar tus clases.', en: 'Could not load your classes.', ca: 'No s\'han pogut carregar les teves classes.' }))
+    }
     setLoading(false)
   }
 

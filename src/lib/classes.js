@@ -2,7 +2,7 @@ import { db } from './firebase'
 import {
   doc, collection, getDoc, setDoc, updateDoc,
   runTransaction, writeBatch, arrayUnion, serverTimestamp,
-  query, where, orderBy, getDocs,
+  query, where, getDocs,
 } from 'firebase/firestore'
 
 // ── Alta de profesor ─────────────────────────────────────────────────────────
@@ -68,13 +68,14 @@ export async function createClass(teacherUid, name) {
   throw new Error('could_not_generate_code')
 }
 
+// Ordenado en el cliente (no en la query) para no depender de un índice
+// compuesto de Firestore (where + orderBy en campos distintos): las clases
+// de un profesor son pocas, no hace falta paginar.
 export async function getTeacherClasses(teacherUid) {
-  const snap = await getDocs(query(
-    collection(db, 'classes'),
-    where('teacherId', '==', teacherUid),
-    orderBy('createdAt', 'desc'),
-  ))
-  return snap.docs.map(d => ({ id: d.id, ...d.data() }))
+  const snap = await getDocs(query(collection(db, 'classes'), where('teacherId', '==', teacherUid)))
+  return snap.docs
+    .map(d => ({ id: d.id, ...d.data() }))
+    .sort((a, b) => (b.createdAt?.toMillis?.() ?? 0) - (a.createdAt?.toMillis?.() ?? 0))
 }
 
 export async function getClassWithStudents(classId) {

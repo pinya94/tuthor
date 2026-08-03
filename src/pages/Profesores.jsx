@@ -30,7 +30,7 @@ export default function Profesores() {
     getTeacherProfile(user.uid).then(profile => {
       if (profile?.active) { navigate(localPath('/profesor'), { replace: true }); return }
       setChecking(false)
-    })
+    }).catch(() => setChecking(false))
   }, [user])
 
   async function handleSubmit(e) {

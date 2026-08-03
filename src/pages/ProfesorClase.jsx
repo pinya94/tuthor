@@ -32,6 +32,7 @@ export default function ProfesorClase() {
   const [loading, setLoading] = useState(true)
   const [clase, setClase] = useState(null)
   const [students, setStudents] = useState([])
+  const [error, setError] = useState('')
 
   useEffect(() => {
     if (user === undefined) return
@@ -41,12 +42,28 @@ export default function ProfesorClase() {
 
   async function load() {
     setLoading(true)
-    const c = await getClassWithStudents(classId)
-    if (!c || c.teacherId !== user.uid) { navigate(localPath('/profesor'), { replace: true }); return }
-    setClase(c)
-    const list = await Promise.all((c.studentIds || []).map(uid => loadStudent(uid, lang)))
-    setStudents(list)
+    setError('')
+    try {
+      const c = await getClassWithStudents(classId)
+      if (!c || c.teacherId !== user.uid) { navigate(localPath('/profesor'), { replace: true }); return }
+      setClase(c)
+      const list = await Promise.all((c.studentIds || []).map(uid => loadStudent(uid, lang)))
+      setStudents(list)
+    } catch {
+      setError(tr({ es: 'No se pudo cargar la clase.', en: 'Could not load the class.', ca: 'No s\'ha pogut carregar la classe.' }))
+    }
     setLoading(false)
+  }
+
+  if (error) {
+    return (
+      <div className="flex flex-col items-center justify-center gap-3 min-h-[calc(100vh-4rem)]">
+        <p className="text-red-400 text-sm">{error}</p>
+        <Link to={localPath('/profesor')} className="text-white/40 hover:text-white/70 text-sm transition-colors">
+          ← {tr({ es: 'Mis clases', en: 'My classes', ca: 'Les meves classes' })}
+        </Link>
+      </div>
+    )
   }
 
   if (user === undefined || loading || !clase) {
