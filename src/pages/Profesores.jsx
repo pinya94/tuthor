@@ -22,6 +22,7 @@ export default function Profesores() {
   const [showAuth, setShowAuth] = useState(false)
   const [schoolName, setSchoolName] = useState('')
   const [stage, setStage] = useState('eso')
+  const [promoCode, setPromoCode] = useState('')
   const [status, setStatus] = useState('idle')
 
   useEffect(() => {
@@ -38,10 +39,10 @@ export default function Profesores() {
     if (!user) { setShowAuth(true); return }
     setStatus('sending')
     try {
-      await activateTeacherProfile(user.uid, { schoolName, stage })
+      await activateTeacherProfile(user.uid, { schoolName, stage, promoCode: promoCode.trim() })
       navigate(localPath('/profesor'))
-    } catch {
-      setStatus('error')
+    } catch (err) {
+      setStatus(err?.code === 'permission-denied' ? 'invalid-code' : 'error')
     }
   }
 
@@ -91,6 +92,23 @@ export default function Profesores() {
           </li>
         </ul>
 
+        <p className="text-white/35 text-[11px] uppercase tracking-wider font-bold mb-2">
+          {tr({ es: 'Método de acceso', en: 'Access method', ca: 'Mètode d\'accés' })}
+        </p>
+        <div className="grid grid-cols-2 gap-2 mb-4">
+          <div className="relative rounded-xl border border-white/10 bg-white/[0.03] px-3 py-3 opacity-50 cursor-not-allowed">
+            <span className="absolute top-1.5 right-1.5 text-[9px] font-bold uppercase tracking-wide bg-amber-500/20 text-amber-300 px-1.5 py-0.5 rounded">
+              {tr({ es: 'Próximamente', en: 'Coming soon', ca: 'Properament' })}
+            </span>
+            <span className="text-lg block mb-1">💳</span>
+            <p className="text-white/70 text-xs font-bold">{tr({ es: 'Pagar', en: 'Pay', ca: 'Pagar' })}</p>
+          </div>
+          <div className="rounded-xl border border-teal-500/50 bg-teal-500/10 px-3 py-3">
+            <span className="text-lg block mb-1">🎟️</span>
+            <p className="text-white text-xs font-bold">{tr({ es: 'Código de acceso', en: 'Access code', ca: 'Codi d\'accés' })}</p>
+          </div>
+        </div>
+
         <form onSubmit={handleSubmit} className="space-y-3">
           <input type="text" required value={schoolName} onChange={e => setSchoolName(e.target.value)}
             placeholder={tr({ es: 'Nombre del centro', en: 'School name', ca: 'Nom del centre' })}
@@ -101,7 +119,15 @@ export default function Profesores() {
               <option key={s.id} value={s.id} className="bg-[#0d0d1a]">{tr(s.label)}</option>
             ))}
           </select>
+          <input type="text" required value={promoCode} onChange={e => setPromoCode(e.target.value)}
+            placeholder={tr({ es: 'Código de acceso', en: 'Access code', ca: 'Codi d\'accés' })}
+            className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder-white/30 outline-none focus:border-teal-500 transition-colors" />
 
+          {status === 'invalid-code' && (
+            <p className="text-red-400 text-sm">
+              {tr({ es: 'Código no válido. Comprueba que lo has escrito bien.', en: 'Invalid code. Check that you typed it correctly.', ca: 'Codi no vàlid. Comprova que l\'has escrit bé.' })}
+            </p>
+          )}
           {status === 'error' && (
             <p className="text-red-400 text-sm">
               {tr({ es: 'Error al crear tu cuenta de profesor. Inténtalo de nuevo.', en: 'Error creating your teacher account. Please try again.', ca: 'Error en crear el teu compte de professor. Torna-ho a intentar.' })}
