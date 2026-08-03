@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import { MAIN_CARDS } from '../data/constants'
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
+import { getTeacherProfile } from '../lib/classes'
 import AuthModal from './AuthModal'
 
 const LANGS = [
@@ -65,6 +66,15 @@ export default function Navbar() {
   const { lang, t, localPath, switchLang } = useLang()
 
   const authLoading = user === undefined
+
+  // "Clase" es un único punto de entrada, pero no todos pueden crear
+  // clases: solo una cuenta con la capacidad de profesor activa va al
+  // panel de creación; cualquier otra va a su perfil, donde ya tiene la
+  // tarjeta para unirse a una clase con un código.
+  async function goToClase() {
+    const profile = user ? await getTeacherProfile(user.uid).catch(() => null) : null
+    navigate(localPath(profile?.active ? '/profesor' : '/perfil'))
+  }
 
   const navLabels = {
     estudiar: t('nav.estudiar'),
@@ -134,7 +144,7 @@ export default function Navbar() {
                     <button onClick={() => { navigate(localPath('/tienda')); setAvatarMenu(false) }} className="w-full text-left px-4 py-3 text-sm text-white/70 hover:text-white hover:bg-white/10 transition-colors border-t border-white/5">
                       🛍 {lang === 'en' ? 'Shop' : lang === 'ca' ? 'Botiga' : 'Tienda'}
                     </button>
-                    <button onClick={() => { navigate(localPath('/profesor')); setAvatarMenu(false) }} className="w-full text-left px-4 py-3 text-sm text-white/70 hover:text-white hover:bg-white/10 transition-colors border-t border-white/5">
+                    <button onClick={() => { goToClase(); setAvatarMenu(false) }} className="w-full text-left px-4 py-3 text-sm text-white/70 hover:text-white hover:bg-white/10 transition-colors border-t border-white/5">
                       🎓 {t('nav.clase')}
                     </button>
                     {['pinya1994@gmail.com','consiguetualgogratis@gmail.com','consiguetualgogratis@tuthor.app'].includes(user?.email) && (
@@ -188,7 +198,7 @@ export default function Navbar() {
                   <button onClick={() => { navigate(localPath('/tienda')); setMenuOpen(false) }} className="w-full text-left px-4 py-3 rounded-xl text-sm font-medium text-white/70 hover:text-white hover:bg-white/10 transition-all">
                     🛍 {lang === 'en' ? 'Shop' : lang === 'ca' ? 'Botiga' : 'Tienda'}
                   </button>
-                  <button onClick={() => { navigate(localPath('/profesor')); setMenuOpen(false) }} className="w-full text-left px-4 py-3 rounded-xl text-sm font-medium text-white/70 hover:text-white hover:bg-white/10 transition-all">
+                  <button onClick={() => { goToClase(); setMenuOpen(false) }} className="w-full text-left px-4 py-3 rounded-xl text-sm font-medium text-white/70 hover:text-white hover:bg-white/10 transition-all">
                     🎓 {t('nav.clase')}
                   </button>
                   {['pinya1994@gmail.com','consiguetualgogratis@gmail.com','consiguetualgogratis@tuthor.app'].includes(user?.email) && (
