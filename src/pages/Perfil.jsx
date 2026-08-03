@@ -74,7 +74,9 @@ export default function Perfil() {
     setJoinStatus('sending')
     const res = await joinClassByCode(user.uid, classCode)
     if (res.ok) { setJoinStatus('ok'); setClassCode('') }
-    else setJoinStatus(res.reason === 'not_found' ? 'not_found' : 'error')
+    else if (res.reason === 'not_found') setJoinStatus('not_found')
+    else if (res.reason === 'already_joined') setJoinStatus('already_joined')
+    else setJoinStatus('error')
   }
 
   if (!user) return null
@@ -443,6 +445,9 @@ export default function Perfil() {
               )}
               {joinStatus === 'not_found' && (
                 <p className="text-red-400 text-xs mt-2">{tr({ es: 'Código no válido.', en: 'Invalid code.', ca: 'Codi no vàlid.' })}</p>
+              )}
+              {joinStatus === 'already_joined' && (
+                <p className="text-amber-300 text-xs mt-2">{tr({ es: 'Ya estás en esta clase.', en: "You're already in this class.", ca: 'Ja ets en aquesta classe.' })}</p>
               )}
               {joinStatus === 'error' && (
                 <p className="text-red-400 text-xs mt-2">{tr({ es: 'Error al unirte. Inténtalo de nuevo.', en: 'Error joining. Please try again.', ca: 'Error en unir-te. Torna-ho a intentar.' })}</p>

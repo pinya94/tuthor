@@ -99,6 +99,16 @@ export async function joinClassByCode(studentUid, rawCode) {
   if (!codeSnap.exists()) return { ok: false, reason: 'not_found' }
   const { classId, teacherId } = codeSnap.data()
 
+  // Un alumno solo puede leer la clase si ya está en studentIds (ver rules):
+  // si la lectura funciona y ya está en la lista, es un reintento del mismo
+  // código. Si falla por permisos, es la primera vez — seguimos al join.
+  try {
+    const classSnap = await getDoc(doc(db, 'classes', classId))
+    if (classSnap.exists() && classSnap.data().studentIds?.includes(studentUid)) {
+      return { ok: false, reason: 'already_joined' }
+    }
+  } catch { /* sin permiso de lectura todavía: primera vez, seguimos */ }
+
   const batch = writeBatch(db)
   batch.update(doc(db, 'classes', classId), {
     studentIds: arrayUnion(studentUid),
