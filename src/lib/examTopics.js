@@ -7,13 +7,19 @@
 // Las etiquetas de cada tema NO se duplican aquí: ya existen en
 // SUBJECTS[...].examLabels (src/lib/statsAggregation.js, vía catLabels).
 
+// Portadas (examen) se queda fuera a propósito: guarda category fijo a
+// 'portadas-examen' (no el periodo real) porque Perfil.jsx lee los
+// aprobados de un examen vía statsByCategory[gameId] cuando ese gameId
+// está en examIds (ver aggregateStudentStats en este mismo fichero) —
+// cambiarlo rompería el conteo de aprobados que ya se ve hoy en el
+// perfil. Necesitaría un campo aparte para esto, no solo enchufarlo aquí.
 export const EXAM_TOPICS = {
   historia: {
-    gce: ['linea-temporal', 'quien-es-quien'],
-    wwii: ['linea-temporal', 'quien-es-quien'],
-    roma: ['linea-temporal'], // ¿Quién es quién? no tiene pool de Roma
-    usa: ['linea-temporal', 'quien-es-quien'],
-    primaria: ['linea-temporal', 'quien-es-quien'],
+    gce: ['linea-temporal', 'quien-es-quien', 'juego-fechas'],
+    wwii: ['linea-temporal', 'quien-es-quien', 'juego-fechas'],
+    roma: ['linea-temporal', 'juego-fechas'], // sin pool de ¿Quién es quién?
+    usa: ['linea-temporal', 'quien-es-quien', 'juego-fechas'],
+    primaria: ['linea-temporal', 'quien-es-quien', 'juego-fechas'],
   },
 }
 
@@ -25,6 +31,10 @@ export const EXAM_FORMATS = {
   'quien-es-quien': {
     label: { es: '¿Quién es quién?', en: 'Who is who?', ca: 'Qui és qui?' },
     emoji: '🕵️',
+  },
+  'juego-fechas': {
+    label: { es: 'Juego de Fechas', en: 'Date Game', ca: 'Joc de Dates' },
+    emoji: '📅',
   },
 }
 
