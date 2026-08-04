@@ -9,7 +9,10 @@ import { fileURLToPath } from 'node:url'
 import { GAMES, computeCoins } from '../games.js'
 import { EXAMS, routableExams, examRoute } from '../exams.js'
 import { SUBJECT_DEFS, SUBJECTS } from '../statsAggregation.js'
-import { EXAM_TOPICS, EXAM_FORMATS, topicTask, findTopicTask } from '../examTopics.js'
+import {
+  TOPIC_CATALOG, TOPIC_SUBJECT_IDS, topicIds, topicFormats,
+  topicTask, findTopic, taskMatchesPlay,
+} from '../topicCatalog.js'
 import { GAMES as CATALOG_GAMES } from '../../data/constants.js'
 import { resolveMeta } from '../../../scripts/seoMeta.mjs'
 
@@ -131,36 +134,101 @@ describe('materias (statsAggregation.js) ↔ registros', () => {
     }
   })
 
-  it('EXAM_TOPICS solo referencia formatos con etiqueta y temas con catLabel', () => {
-    for (const [subjectId, temas] of Object.entries(EXAM_TOPICS)) {
-      const subj = SUBJECT_DEFS.find(s => s.id === subjectId)
-      expect(subj, `EXAM_TOPICS.${subjectId}: materia inexistente`).toBeTruthy()
-      for (const [temaId, formatos] of Object.entries(temas)) {
-        expect(subj.catLabels[temaId], `${subjectId}.${temaId}: sin etiqueta en catLabels`).toBeTruthy()
-        for (const f of formatos) {
-          expect(EXAM_FORMATS[f], `${subjectId}.${temaId}: formato "${f}" sin entrada en EXAM_FORMATS`).toBeTruthy()
-        }
+})
+
+// Recorre todas las combinaciones jugables del catálogo por tema.
+function everyCombo(fn) {
+  for (const materia of TOPIC_SUBJECT_IDS) {
+    for (const tema of topicIds(materia)) {
+      for (const f of topicFormats(materia, tema)) {
+        const niveles = f.niveles.length > 0 ? f.niveles : [null]
+        for (const nivel of niveles) fn({ materia, tema, formato: f.id, nivel, fmt: f })
+      }
+    }
+  }
+}
+
+describe('catálogo por tema (topicCatalog.js): materia → tema → formato → nivel', () => {
+  it('todo tema tiene etiqueta en catLabels de su materia', () => {
+    for (const materia of TOPIC_SUBJECT_IDS) {
+      const subj = SUBJECT_DEFS.find(s => s.id === materia)
+      expect(subj, `${materia}: materia inexistente en SUBJECT_DEFS`).toBeTruthy()
+      for (const tema of topicIds(materia)) {
+        expect(subj.catLabels[tema], `${materia}.${tema}: sin etiqueta en catLabels`).toBeTruthy()
       }
     }
   })
 
-  it('topicTask ↔ findTopicTask hacen ida y vuelta para toda combinación tema×formato', () => {
-    // Garantiza que toda tarea creada por el profesor se puede etiquetar y
-    // enrutar después (Clase.jsx), y que no hay dos combinaciones que
-    // produzcan la misma tarea {gameId, category}.
-    const seen = new Map()
-    for (const [materia, temas] of Object.entries(EXAM_TOPICS)) {
-      for (const [tema, formatos] of Object.entries(temas)) {
-        for (const formato of formatos) {
-          const task = topicTask(materia, tema, formato)
-          expect(task.gameId, `${materia}/${tema}/${formato}: sin gameId`).toBeTruthy()
-          expect(task.category, `${materia}/${tema}/${formato}: sin category`).toBeTruthy()
-          const key = `${task.gameId}|${task.category}`
-          expect(seen.has(key), `${materia}/${tema}/${formato}: colisiona con ${seen.get(key)}`).toBe(false)
-          seen.set(key, `${materia}/${tema}/${formato}`)
-          expect(findTopicTask(task), `${materia}/${tema}/${formato}: findTopicTask no lo recupera`).toEqual({ materia, tema, formato })
-        }
+  it('todo tema tiene al menos un formato jugable', () => {
+    for (const materia of TOPIC_SUBJECT_IDS) {
+      for (const tema of topicIds(materia)) {
+        expect(topicFormats(materia, tema).length, `${materia}.${tema}: sin formatos jugables`).toBeGreaterThan(0)
       }
+    }
+  })
+
+  it('el juego de cada formato está registrado en games.js o exams.js', () => {
+    for (const materia of TOPIC_SUBJECT_IDS) {
+      for (const [id, fmt] of Object.entries(TOPIC_CATALOG[materia].formatos)) {
+        const known = GAMES[fmt.game] || EXAMS[fmt.game] ||
+          // ids de stats sin juego propio, declarados en SUBJECT_DEFS.gameIds
+          SUBJECT_DEFS.some(s => s.gameIds.includes(fmt.game))
+        expect(known, `${materia}.${id}: game "${fmt.game}" no está en ningún registro`).toBeTruthy()
+      }
+    }
+  })
+
+  it('topicTask ↔ findTopic hacen ida y vuelta, sin colisiones', () => {
+    // Garantiza que toda tarea creada por el profesor se puede etiquetar y
+    // enrutar después (Clase.jsx), y que no hay dos combinaciones distintas
+    // que produzcan la misma tarea {gameId, category}.
+    const seen = new Map()
+    everyCombo(({ materia, tema, formato, nivel, fmt }) => {
+      const label = `${materia}/${tema}/${formato}${nivel ? `/${nivel}` : ''}`
+      const task = topicTask(materia, tema, formato, nivel)
+      expect(task.gameId, `${label}: sin gameId`).toBeTruthy()
+      expect(task.category, `${label}: sin category`).toBeTruthy()
+      expect(task.level, `${label}: level debe seguir a usesLevel`).toBe(fmt.usesLevel ? nivel : null)
+      const key = `${task.gameId}|${task.category}`
+      // Dos niveles del mismo formato comparten category si no la incluye:
+      // solo es colisión si cambia el tema o el formato.
+      const prev = seen.get(key)
+      if (prev) expect(prev, `${label}: colisiona con ${prev}`).toBe(`${materia}/${tema}/${formato}`)
+      seen.set(key, `${materia}/${tema}/${formato}`)
+      expect(findTopic(task), `${label}: findTopic no lo recupera`)
+        .toEqual({ materia, tema, formato, nivel: task.level })
+    })
+  })
+
+  it('una partida del tema completa la tarea; otra del mismo juego solo si el formato no distingue temas', () => {
+    everyCombo(({ materia, tema, formato, nivel, fmt }) => {
+      const task = { kind: 'catalog', ...topicTask(materia, tema, formato, nivel) }
+      const label = `${materia}/${tema}/${formato}`
+      // Jugar ESTE tema siempre completa
+      expect(taskMatchesPlay(task, { gameId: task.gameId, category: task.category }), `${label}: no se completa jugándolo`).toBe(true)
+      // Jugar otra cosa con el mismo juego: solo si el formato no puede saber el tema
+      expect(taskMatchesPlay(task, { gameId: task.gameId, category: '__otro__' }), `${label}: matching cruzado incorrecto`).toBe(!fmt.tracksTopic)
+      // Otro juego nunca completa
+      expect(taskMatchesPlay(task, { gameId: '__otro__', category: task.category }), `${label}: completa con otro juego`).toBe(false)
+    })
+  })
+
+  it('las listas de disponibilidad coinciden con los datos reales', async () => {
+    // El catálogo escribe estas listas a mano (para no cargar ~140 kB de datos
+    // en cada bundle). Aquí se validan contra la fuente real.
+    const { EVENTOS_HISTORIA } = await import('../../data/historiaEvents.js')
+    const { PORTADAS } = await import('../../data/portadas.js')
+
+    for (const tema of topicIds('historia')) {
+      const declarados = TOPIC_CATALOG.historia.temas[tema].niveles
+      const reales = ['primaria', 'eso', 'bachillerato'].filter(n =>
+        EVENTOS_HISTORIA.some(e => e.categoria === tema && (!e.nivel || e.nivel.includes(n))))
+      expect(declarados, `historia.${tema}: niveles declarados ≠ eventos reales`).toEqual(reales)
+
+      // Portadas necesita ≥10 titulares del tema para poder examinar
+      const conPortadas = PORTADAS.filter(p => p.temas?.includes(tema)).length >= 10
+      const ofrecePortadas = topicFormats('historia', tema).some(f => f.id === 'portadas')
+      expect(ofrecePortadas, `historia.${tema}: Portadas ofrecido=${ofrecePortadas} pero datos=${conPortadas}`).toBe(conPortadas)
     }
   })
 })

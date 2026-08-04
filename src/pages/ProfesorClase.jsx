@@ -10,7 +10,7 @@ import { aggregateStudentStats, SUBJECTS } from '../lib/statsAggregation'
 import { getClassAssignments, createAssignment, markManualCompletion } from '../lib/assignments'
 import { GAMES } from '../lib/games'
 import { EXAMS, examGroupLabel } from '../lib/exams'
-import { EXAM_TOPICS, EXAM_FORMATS, catalogTaskLabel, topicTask } from '../lib/examTopics'
+import { hasTopics, topicIds, topicFormats, formatLevels, topicTask, catalogTaskLabel, LEVELS } from '../lib/topicCatalog'
 
 function catalogLabel(task, lang) {
   return catalogTaskLabel(task, lang, { games: GAMES, exams: EXAMS, subjects: SUBJECTS })
@@ -193,8 +193,9 @@ export default function ProfesorClase() {
   const [taskKind, setTaskKind] = useState('game') // 'game' | 'exam' | 'text'
   const [taskGameId, setTaskGameId] = useState('') // kind 'game': id de GAMES
   const [taskExamSubject, setTaskExamSubject] = useState('') // kind 'exam': materia elegida
-  const [taskTema, setTaskTema] = useState('') // kind 'exam', materia con EXAM_TOPICS
-  const [taskFormato, setTaskFormato] = useState('') // kind 'exam': formato (con tema) o examId plano (sin tema)
+  const [taskTema, setTaskTema] = useState('') // kind 'exam': tema (materia del catálogo por tema)
+  const [taskFormato, setTaskFormato] = useState('') // kind 'exam': formato/mecánica (con tema) o examId plano (sin tema)
+  const [taskNivel, setTaskNivel] = useState('') // kind 'exam': nivel, si el formato lo usa
   const [taskTitle, setTaskTitle] = useState('')
   const [taskTarget, setTaskTarget] = useState('all')
   const [taskStudentIds, setTaskStudentIds] = useState([])
@@ -231,20 +232,28 @@ export default function ProfesorClase() {
     } catch { /* no crítico: si falla, simplemente no se muestran tareas */ }
   }
 
+  // Niveles disponibles para la combinación elegida ([] si el formato no usa
+  // nivel, p.ej. ¿Quién es quién?) — el selector solo aparece si hay alguno.
+  const nivelesDisponibles = (taskKind === 'exam' && taskTema && taskTema !== '__general__' && taskFormato)
+    ? formatLevels(taskExamSubject, taskTema, taskFormato)
+    : []
+
   function resolveCatalogChoice() {
-    if (taskKind === 'game') return { gameId: taskGameId, category: null }
+    if (taskKind === 'game') return { gameId: taskGameId, category: null, level: null }
     // taskKind === 'exam'; '__general__' = examen plano de la materia, sin tema
-    const hasTemas = !!EXAM_TOPICS[taskExamSubject]
-    return hasTemas && taskTema !== '__general__'
-      ? topicTask(taskExamSubject, taskTema, taskFormato)
-      : { gameId: taskFormato, category: null }
+    if (hasTopics(taskExamSubject) && taskTema && taskTema !== '__general__') {
+      return topicTask(taskExamSubject, taskTema, taskFormato, taskNivel || null)
+    }
+    return { gameId: taskFormato, category: null, level: null }
   }
 
   async function handleCreateTask(e) {
     e.preventDefault()
     const isCatalog = taskKind === 'game' || taskKind === 'exam'
-    const { gameId, category } = isCatalog ? resolveCatalogChoice() : { gameId: null, category: null }
+    const { gameId, category, level } = isCatalog ? resolveCatalogChoice() : { gameId: null, category: null, level: null }
     if (isCatalog && !gameId) return
+    // Si el formato usa nivel, hay que elegirlo antes de asignar
+    if (nivelesDisponibles.length > 0 && !taskNivel) return
     if (taskKind === 'text' && !taskTitle.trim()) return
     const targetIds = taskTarget === 'all' ? clase.studentIds : taskStudentIds
     if (!targetIds || targetIds.length === 0) return
@@ -255,12 +264,13 @@ export default function ProfesorClase() {
         kind: isCatalog ? 'catalog' : 'text',
         gameId,
         category,
+        level,
         title: taskTitle.trim(),
         studentIds: targetIds,
         dueDate: taskDueDate ? new Date(taskDueDate) : null,
       })
       setShowForm(false)
-      setTaskKind('game'); setTaskGameId(''); setTaskExamSubject(''); setTaskTema(''); setTaskFormato('')
+      setTaskKind('game'); setTaskGameId(''); setTaskExamSubject(''); setTaskTema(''); setTaskFormato(''); setTaskNivel('')
       setTaskTitle(''); setTaskTarget('all'); setTaskStudentIds([]); setTaskDueDate('')
       await loadAssignments()
     } catch {
@@ -380,19 +390,19 @@ export default function ProfesorClase() {
 
             {taskKind === 'exam' && (
               <div className="space-y-2">
-                <select value={taskExamSubject} onChange={e => { setTaskExamSubject(e.target.value); setTaskTema(''); setTaskFormato('') }}
+                <select value={taskExamSubject} onChange={e => { setTaskExamSubject(e.target.value); setTaskTema(''); setTaskFormato(''); setTaskNivel('') }}
                   className="w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2.5 text-sm text-white outline-none focus:border-teal-500 transition-colors">
                   <option value="" className="bg-[#0d0d1a]">{tr({ es: '-- Elige materia --', en: '-- Pick a subject --', ca: '-- Tria materia --' })}</option>
-                  {SUBJECTS.filter(s => EXAM_TOPICS[s.id] || s.examIds.some(id => EXAMS[id] && !EXAMS[id].retired)).map(subj => (
+                  {SUBJECTS.filter(s => hasTopics(s.id) || s.examIds.some(id => EXAMS[id] && !EXAMS[id].retired)).map(subj => (
                     <option key={subj.id} value={subj.id} className="bg-[#0d0d1a]">{subj.emoji} {subj.label[lang] || subj.label.es}</option>
                   ))}
                 </select>
 
-                {taskExamSubject && EXAM_TOPICS[taskExamSubject] && (
-                  <select value={taskTema} onChange={e => { setTaskTema(e.target.value); setTaskFormato('') }}
+                {taskExamSubject && hasTopics(taskExamSubject) && (
+                  <select value={taskTema} onChange={e => { setTaskTema(e.target.value); setTaskFormato(''); setTaskNivel('') }}
                     className="w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2.5 text-sm text-white outline-none focus:border-teal-500 transition-colors">
                     <option value="" className="bg-[#0d0d1a]">{tr({ es: '-- Elige tema --', en: '-- Pick a topic --', ca: '-- Tria tema --' })}</option>
-                    {Object.keys(EXAM_TOPICS[taskExamSubject]).map(temaId => {
+                    {topicIds(taskExamSubject).map(temaId => {
                       const subj = SUBJECTS.find(s => s.id === taskExamSubject)
                       const lbl = subj?.examLabels[temaId]
                       return <option key={temaId} value={temaId} className="bg-[#0d0d1a]">{lbl?.[lang] || lbl?.es || temaId}</option>
@@ -403,17 +413,29 @@ export default function ProfesorClase() {
                   </select>
                 )}
 
-                {taskExamSubject && EXAM_TOPICS[taskExamSubject] && taskTema && taskTema !== '__general__' && (
-                  <select value={taskFormato} onChange={e => setTaskFormato(e.target.value)}
+                {/* Formato = mecánica. Solo los disponibles para ese tema. */}
+                {taskExamSubject && hasTopics(taskExamSubject) && taskTema && taskTema !== '__general__' && (
+                  <select value={taskFormato} onChange={e => { setTaskFormato(e.target.value); setTaskNivel('') }}
                     className="w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2.5 text-sm text-white outline-none focus:border-teal-500 transition-colors">
                     <option value="" className="bg-[#0d0d1a]">{tr({ es: '-- Elige formato --', en: '-- Pick a format --', ca: '-- Tria format --' })}</option>
-                    {EXAM_TOPICS[taskExamSubject][taskTema].map(formatoId => (
-                      <option key={formatoId} value={formatoId} className="bg-[#0d0d1a]">{EXAM_FORMATS[formatoId].emoji} {EXAM_FORMATS[formatoId].label[lang] || EXAM_FORMATS[formatoId].label.es}</option>
+                    {topicFormats(taskExamSubject, taskTema).map(f => (
+                      <option key={f.id} value={f.id} className="bg-[#0d0d1a]">{f.emoji} {f.label[lang] || f.label.es}</option>
                     ))}
                   </select>
                 )}
 
-                {taskExamSubject && (!EXAM_TOPICS[taskExamSubject] || taskTema === '__general__') && (
+                {/* Nivel: solo si el formato elegido lo usa, y solo los que tiene */}
+                {nivelesDisponibles.length > 0 && (
+                  <select value={taskNivel} onChange={e => setTaskNivel(e.target.value)}
+                    className="w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2.5 text-sm text-white outline-none focus:border-teal-500 transition-colors">
+                    <option value="" className="bg-[#0d0d1a]">{tr({ es: '-- Elige nivel --', en: '-- Pick a level --', ca: '-- Tria nivell --' })}</option>
+                    {nivelesDisponibles.map(id => (
+                      <option key={id} value={id} className="bg-[#0d0d1a]">{LEVELS[id].emoji} {LEVELS[id].label[lang] || LEVELS[id].label.es}</option>
+                    ))}
+                  </select>
+                )}
+
+                {taskExamSubject && (!hasTopics(taskExamSubject) || taskTema === '__general__') && (
                   <select value={taskFormato} onChange={e => setTaskFormato(e.target.value)}
                     className="w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2.5 text-sm text-white outline-none focus:border-teal-500 transition-colors">
                     <option value="" className="bg-[#0d0d1a]">{tr({ es: '-- Elige examen --', en: '-- Pick an exam --', ca: '-- Tria examen --' })}</option>

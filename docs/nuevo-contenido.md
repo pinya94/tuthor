@@ -73,43 +73,61 @@ ningún juego tiene que hacer nada).
 Gratis al registrar: ruta, meta, perfil, aprobados/suspensos por materia,
 desplegable de exámenes del profesor, tarea clicable del alumno.
 
-## §3 Examen por tema (patrón estándar tema → formato)
+## §3 Catálogo por tema — el modelo uniforme de la plataforma
 
-Para asignar/examinar un TEMA concreto con un FORMATO concreto (mecánica o
-nivel). Ya lo usan historia (tema=periodo, formato=mecánica) y matemáticas
-(tema=operación, formato=nivel). El modelo, todo en `src/lib/examTopics.js`:
+```
+Materia  →  Tema  →  Formato  →  Nivel
+```
 
-- `EXAM_TOPICS[materia][tema] = [formatos]` — qué combinaciones existen.
-- `EXAM_FORMATS[formato]` — etiqueta/emoji del formato.
-- `topicTask(materia, tema, formato)` → `{gameId, category}` — la ÚNICA
-  pieza específica por materia (un caso en el switch): qué id de juego y qué
-  `category` debe guardar la página para que la tarea se complete sola.
-- URL estable `/examen/<materia>/<tema>/<formato>` — página puente
-  `ExamenTema.jsx` (un caso por materia: traduce a `location.state` y
-  redirige) + su `<Route>` en App.jsx.
+| Eje | Qué es | Ejemplos |
+|-----|--------|----------|
+| Materia | la asignatura | historia, matemáticas |
+| Tema | el trozo del temario | Guerra Civil, Sumas |
+| **Formato** | **la MECÁNICA con la que se hace** | Línea del Tiempo, Portadas, NumPath |
+| Nivel | la dificultad (si el formato la usa) | Primaria, ESO, Bachillerato |
 
-Pasos para conectar una materia/tema nuevo:
+**`formato` es SIEMPRE la mecánica, nunca el nivel.** Eso es lo que hace que
+la estructura sea idéntica en toda materia. El nivel es un cuarto eje aparte
+y solo existe si el formato lo usa (¿Quién es quién? y Portadas no tienen).
 
-1. La página destino debe **filtrar por tema/nivel** vía `location.state` y
-   guardar `saveActivity({ category })` EXACTAMENTE igual que lo que devuelve
-   `topicTask` (hay test de ida y vuelta que lo vigila).
-2. Añadir temas/formatos a `EXAM_TOPICS`/`EXAM_FORMATS` + caso en
-   `topicTask` si la materia resuelve distinto + caso en `ExamenTema.jsx`.
-3. Etiquetas de temas en `SUBJECT_DEFS[materia].catLabels` — si se pueden
-   derivar de datos existentes (caso mates ← mathEngine), generarlas, no
-   escribirlas a mano.
+Todo vive en **`src/lib/topicCatalog.js`**, que es la ÚNICA fuente de verdad
+de qué combinaciones existen. Lo consumen por igual:
+- las páginas del alumno (`HistoriaTema`, `MatematicasTema`) — deciden CÓMO
+  se ve cada tarjeta, no CUÁL está disponible;
+- el selector de tareas del profesor (cascada materia→tema→formato→nivel);
+- el enrutado y etiquetado de tareas.
+
+Cada formato declara:
+- `game` — el id con el que la página guarda stats.
+- `usesLevel` — si tiene dificultad.
+- `tracksTopic` — si la página puede decir QUÉ tema se jugó. Los que guardan
+  una `category` fija (Portadas, Examen de práctica, NumPath) van en `false`:
+  su tarea se completa jugando ese formato, sin distinguir tema. Es honesto y
+  evita romper el conteo de aprobados del perfil.
+- `temas` / `niveles` — restricciones de disponibilidad (opcional).
+
+Funciones: `topicFormats(materia, tema)`, `formatLevels(materia, tema, fmt)`,
+`defaultLevel(...)`, `topicTask(...)` → `{gameId, category, level}`,
+`findTopic(...)` (inversa), `taskMatchesPlay(task, play)`.
+
+### Añadir un tema o formato
+
+1. La página destino debe **filtrar por tema/nivel** vía `location.state` y,
+   si el formato es `tracksTopic: true`, guardar `saveActivity({ category })`
+   EXACTAMENTE igual que lo que devuelve `topicTask` (hay test de ida y
+   vuelta que lo vigila).
+2. Entrada en `TOPIC_CATALOG` (+ caso en `ExamenTema.jsx` si es una materia
+   nueva, + su `<Route>` en App.jsx).
+3. Etiqueta del tema en `SUBJECT_DEFS[materia].catLabels` — si se puede
+   derivar de datos existentes (caso mates ← mathEngine), generarla.
 4. Si el formato guarda stats con un id SIN entrada en games.js
    (p.ej. `juego-fechas`), añadir ese id a la lista manual `gameIds` de su
    materia en SUBJECT_DEFS (es el ÚNICO caso en que se toca esa lista).
 
-Con eso el selector del profesor (cascada materia→tema→formato), la
-etiqueta combinada, la tarea clicable del alumno y el aviso de completada
-funcionan solos.
-
-NO conectar aquí exámenes que guarden `category` fija con su propio id
-(caso portadas-examen o el examen clásico matematicas-examen): rompería el
-conteo de aprobados del perfil. Esos se asignan como "Examen general (sin
-tema)".
+Las listas de disponibilidad se escriben a mano en el catálogo (para no
+cargar ~140 kB de datos en cada bundle), pero **un test las valida contra los
+datos reales**: si añades eventos o portadas de un tema y no actualizas el
+catálogo, falla.
 
 ## §4 Materia nueva
 

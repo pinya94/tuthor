@@ -1,42 +1,46 @@
 import { useEffect } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
+import { useParams, useNavigate, useSearchParams } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import { EXAMENES_HISTORIA } from '../data/historiaEvents'
+import { MODOS } from '../lib/mathEngine'
+import { defaultLevel, formatLevels } from '../lib/topicCatalog'
 
-// Página puente del patrón tema → formato (ver src/lib/examTopics.js):
-// /examen/<materia>/<tema>/<formato> traduce la URL al location.state que ya
-// esperan las páginas existentes, sin tocarlas — así una tarea asignada puede
-// enlazar a un tema+formato concreto con una URL estable (sobrevive a
-// recargar). Materia nueva con temas = un caso más en este switch + su
-// <Route> en App.jsx.
+// Página puente del modelo uniforme materia → tema → formato → nivel
+// (ver src/lib/topicCatalog.js). La URL /examen/<materia>/<tema>/<formato>?nivel=
+// es estable (sobrevive a recargar y se puede asignar como tarea); aquí se
+// traduce al location.state que ya espera cada página de destino, sin tocarlas.
+//
+// Materia nueva con temas = un caso más en este switch + su <Route> en App.jsx.
 export default function ExamenTema({ materia }) {
   const { tema, formato } = useParams()
+  const [params] = useSearchParams()
   const navigate = useNavigate()
   const { localPath } = useLang()
 
   useEffect(() => {
     // /clase redirige solo: alumnos a sus tareas, profesores a /profesor.
     const backPath = '/clase'
+    // El nivel pedido solo vale si el formato lo admite para ese tema.
+    const pedido = params.get('nivel')
+    const disponibles = formatLevels(materia, tema, formato)
+    const nivel = disponibles.includes(pedido) ? pedido : defaultLevel(materia, tema, formato)
+    const go = (path, state) => navigate(localPath(path), { replace: true, state: { backPath, ...state } })
 
     if (materia === 'matematicas') {
-      // MatematicasPractica en modo examen guarda category `${modo}-${nivel}`
-      // — exactamente lo que topicTask('matematicas', tema, formato) espera.
-      navigate(localPath(`/estudiar/matematicas/${tema}/jugar`), {
-        replace: true,
-        state: { nivel: formato, modoExamen: true, backPath },
-      })
-      return
+      if (formato === 'examen-practica') return go(`/estudiar/matematicas/${tema}/examen`, { nivel })
+      if (formato === 'numpath') return go('/juegos/numpath', { modoExamen: true, ops: MODOS[tema]?.ops, nivel })
+      // acercate: MatematicasPractica en modo examen (guarda `${tema}-${nivel}`)
+      return go(`/estudiar/matematicas/${tema}/jugar`, { nivel, modoExamen: true })
     }
 
     // historia
-    if (formato === 'quien-es-quien') {
-      navigate(localPath('/juegos/quien-es-quien'), { replace: true, state: { pool: tema, backPath } })
-    } else if (formato === 'juego-fechas') {
+    if (formato === 'quien-es-quien') return go('/juegos/quien-es-quien', { pool: tema })
+    if (formato === 'portadas') return go('/examen/portadas', { categoria: tema })
+    if (formato === 'juego-fechas') {
       const examen = EXAMENES_HISTORIA.find(ex => ex.id === tema) || EXAMENES_HISTORIA[0]
-      navigate(localPath('/examen/historia'), { replace: true, state: { examen, backPath } })
-    } else {
-      navigate(localPath('/examen/linea-temporal'), { replace: true, state: { categoria: tema, backPath } })
+      return go('/examen/historia', { examen, nivel })
     }
+    return go('/examen/linea-temporal', { categoria: tema, nivel })
   }, [materia, tema, formato])
 
   return (

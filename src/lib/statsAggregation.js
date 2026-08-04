@@ -10,7 +10,7 @@ function todayStr() { return new Date().toISOString().slice(0, 10) }
 // ── Categorías de matemáticas, derivadas de mathEngine ────────────────────
 // MatematicasPractica guarda category `${modo}-${nivel}`; aquí se generan
 // los ids y etiquetas de todas las combinaciones para "Por materia" y para
-// los temas del selector de tareas (EXAM_TOPICS.matematicas usa los modos).
+// los temas del catálogo por tema (topicCatalog.js usa los mismos modos).
 const MATH_MODO_IDS = Object.keys(MODOS).filter(id => id !== 'funciones')
 const modoLabel = m => ({ es: m.titulo, en: m.tituloEn || m.titulo, ca: m.tituloCa || m.titulo })
 const MATH_CAT_IDS = MATH_MODO_IDS.flatMap(modo => Object.keys(GRADOS).map(nivel => `${modo}-${nivel}`))

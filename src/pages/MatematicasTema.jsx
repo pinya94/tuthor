@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate, useParams, useLocation } from 'react-router-dom'
-import { MODOS, GRADOS, GRADO_IDS } from '../lib/mathEngine'
+import { MODOS, GRADOS } from '../lib/mathEngine'
+import { topicFormats, formatLevels, defaultLevel, hasTopics } from '../lib/topicCatalog'
 import { useLang } from '../context/LangContext'
 
 export default function MatematicasTema() {
@@ -9,7 +10,9 @@ export default function MatematicasTema() {
   const { lang, localPath } = useLang()
   const { modo: modoId } = useParams()
   const modo = MODOS[modoId]
-  const [nivel, setNivel] = useState(location.state?.nivel || 'primaria')
+  const [nivel, setNivel] = useState(
+    location.state?.nivel || defaultLevel('matematicas', modoId) || 'primaria'
+  )
   const en = lang === 'en'
   const ca = lang === 'ca'
 
@@ -17,9 +20,22 @@ export default function MatematicasTema() {
 
   const grado = GRADOS[nivel]
 
+  // Qué formatos y niveles existen sale del catálogo único
+  // (src/lib/topicCatalog.js), el mismo que usa el profesor al asignar tareas:
+  // aquí solo se decide CÓMO se ve cada tarjeta. 'funciones' no es un tema del
+  // catálogo (no es una operación con niveles): tiene su rama propia abajo.
+  const enCatalogo = hasTopics('matematicas') && modoId !== 'funciones'
+  const nivelesDisponibles = enCatalogo
+    ? (formatLevels('matematicas', modoId, 'acercate') || [])
+    : Object.keys(GRADOS)
+  const formatosDisponibles = new Set(
+    enCatalogo ? topicFormats('matematicas', modoId).map(f => f.id) : []
+  )
+  const disponible = id => !enCatalogo || formatosDisponibles.has(id)
+
   const juegos = [
     {
-      id: 'examen',
+      id: 'examen-practica',
       titulo: modoId === 'funciones' ? (ca ? 'Trajectòria' : en ? 'Trajectory' : 'Trayectoria') : (ca ? 'Examen de pràctica' : en ? 'Practice exam' : 'Examen de práctica'),
       descripcion: ca ? '10 operacions directes. Escriu el resultat exacte i descobreix la teva nota al final.' : en ? '10 direct operations. Write the exact answer and see your grade.' : '10 operaciones directas. Escribe el resultado exacto y descubre tu nota al final.',
       emoji: '📝',
@@ -54,7 +70,7 @@ export default function MatematicasTema() {
       action: () => navigate(localPath('/juegos/numpath'), { state: { modoExamen: true, ops: modo.ops, nivel, backPath: `/estudiar/matematicas/${modoId}` } }),
     },
   ]),
-]
+].filter(j => disponible(j.id))
 
   return (
     <div className="relative z-10 flex flex-col min-h-[calc(100vh-4rem)] px-4 sm:px-8 py-6">
@@ -66,7 +82,7 @@ export default function MatematicasTema() {
         </p>
 
         <div className="flex gap-2 p-1 bg-white/5 border border-white/10 rounded-xl w-fit">
-          {GRADO_IDS.map(id => (
+          {nivelesDisponibles.map(id => (
             <button
               key={id}
               onClick={() => setNivel(id)}

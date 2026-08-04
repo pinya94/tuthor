@@ -7,7 +7,7 @@ import { getStudentAssignments } from '../lib/assignments'
 import { GAMES } from '../lib/games'
 import { EXAMS } from '../lib/exams'
 import { SUBJECTS } from '../lib/statsAggregation'
-import { catalogTaskLabel, catalogTaskRoute } from '../lib/examTopics'
+import { catalogTaskLabel, catalogTaskRoute } from '../lib/topicCatalog'
 
 function taskLabel(task, lang) {
   if (task.kind !== 'catalog') return task.title

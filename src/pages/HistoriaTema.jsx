@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useNavigate, useParams, useLocation } from 'react-router-dom'
 import { EVENTOS_HISTORIA, calcularMargen } from '../data/historiaEvents'
 import { PORTADAS } from '../data/portadas'
+import { topicFormats, formatLevels, defaultLevel, TOPIC_CATALOG } from '../lib/topicCatalog'
 import { useLang } from '../context/LangContext'
 import PageMeta from '../components/PageMeta'
 import CourseSchema from '../components/CourseSchema'
@@ -49,26 +50,9 @@ const TEMAS_META = {
   },
 }
 
-// Categorías con ¿Quién es quién? disponible
-const CON_PERSONAJES = ['gce', 'wwii', 'usa', 'primaria']
-
-// Qué niveles tienen Juego de Fechas disponible para cada categoría
-const NIVELES_FECHAS = {
-  primaria: [],                          // demasiado amplio para escribir año exacto
-  gce:      ['eso', 'bachillerato'],
-  wwii:     ['eso', 'bachillerato'],
-  roma:     ['eso', 'bachillerato'],
-  usa:      ['bachillerato'],
-}
-
-// Nivel por defecto para cada categoría
-const NIVEL_DEFAULT = {
-  primaria: 'primaria',
-  gce:      'eso',
-  wwii:     'eso',
-  roma:     'eso',
-  usa:      'bachillerato',
-}
+// Qué formatos y niveles existen para cada tema sale del catálogo único
+// (src/lib/topicCatalog.js), el mismo que usa el profesor al asignar tareas:
+// aquí solo se decide CÓMO se ve cada tarjeta, no CUÁL está disponible.
 
 export default function HistoriaTema() {
   const navigate       = useNavigate()
@@ -78,7 +62,7 @@ export default function HistoriaTema() {
   const temasMeta      = TEMAS_META[lang] || TEMAS_META.es
   const nivelesArr     = NIVELES[lang] || NIVELES.es
   const meta           = temasMeta[categoria]
-  const [nivel, setNivel] = useState(location.state?.nivel || NIVEL_DEFAULT[categoria] || 'primaria')
+  const [nivel, setNivel] = useState(location.state?.nivel || defaultLevel('historia', categoria) || 'primaria')
 
   const en = lang === 'en'
   const ca = lang === 'ca'
@@ -93,23 +77,23 @@ export default function HistoriaTema() {
     { name: meta.titulo, path: `/estudiar/historia/${categoria}` },
   ]} />
 
-  // Solo mostrar botones de nivel que tengan al menos un evento para esta categoría
-  const nivelesDisponibles = nivelesArr.filter(n =>
-    EVENTOS_HISTORIA.some(e => e.categoria === categoria && (!e.nivel || e.nivel.includes(n.id)))
-  )
+  // Niveles y formatos disponibles: los decide el catálogo único
+  const nivelesTema = TOPIC_CATALOG.historia.temas[categoria]?.niveles ?? []
+  const nivelesDisponibles = nivelesArr.filter(n => nivelesTema.includes(n.id))
+  const formatosDisponibles = new Set(topicFormats('historia', categoria).map(f => f.id))
+  const disponible = id => formatosDisponibles.has(id) &&
+    (formatLevels('historia', categoria, id).length === 0 || formatLevels('historia', categoria, id).includes(nivel))
 
   const eventos = EVENTOS_HISTORIA.filter(e =>
     e.categoria === categoria && (!e.nivel || e.nivel.includes(nivel))
   )
   const margen  = calcularMargen(categoria, nivel)
-  const tieneFechas = (NIVELES_FECHAS[categoria] || []).includes(nivel)
 
   const ltConfig = nivel === 'primaria'
     ? { lives: 5, winAt: Math.min(10, eventos.length), livesLabel: ca ? '5 vides' : en ? '5 lives' : '5 vidas', winLabel: ca ? `Col·loca ${Math.min(10, eventos.length)} → Aprovat` : en ? `Place ${Math.min(10, eventos.length)} → Pass` : `Coloca ${Math.min(10, eventos.length)} → Apruebas` }
     : { lives: 3, winAt: null, livesLabel: ca ? '3 vides' : en ? '3 lives' : '3 vidas', winLabel: ca ? `Col·loca ${eventos.length} → Aprovat` : en ? `Place ${eventos.length} → Pass` : `Coloca ${eventos.length} → Apruebas` }
 
   const portadasDelTema = PORTADAS.filter(p => p.temas?.includes(categoria))
-  const tienePortadas   = portadasDelTema.length >= 10
 
   const modos = [
     {
@@ -123,7 +107,7 @@ export default function HistoriaTema() {
         state: { categoria, nivel, backPath: `/estudiar/historia/${categoria}` }
       }),
     },
-    CON_PERSONAJES.includes(categoria) && {
+    disponible('quien-es-quien') && {
       id: 'personajes',
       titulo: ca ? 'Qui és qui?' : en ? 'Who is Who?' : '¿Quién es quién?',
       descripcion: ca ? 'Ratlla personatges amb cada pista fins a endevinar el secret. Les pistes canvien a cada partida.' : en ? 'Cross out figures with each clue until you guess the secret one. Clues change every game.' : 'Tacha personajes con cada pista hasta adivinar al secreto. Las pistas cambian en cada partida.',
@@ -134,7 +118,7 @@ export default function HistoriaTema() {
         state: { pool: categoria, backPath: `/estudiar/historia/${categoria}` }
       }),
     },
-    tienePortadas && {
+    disponible('portadas') && {
       id: 'portadas',
       titulo: ca ? 'Portades' : en ? 'Headlines' : 'Portadas',
       descripcion: ca ? 'Llegeix titulars reals de diaris històrics i decideix si són veritat o mentida. 10 portades, nota al final.' : en ? 'Read real historical newspaper headlines and decide if they are true or false. 10 headlines, graded.' : 'Lee titulares reales de periódicos históricos y decide si son verdad o mentira. 10 portadas, nota al final.',
@@ -145,7 +129,7 @@ export default function HistoriaTema() {
         state: { categoria, backPath: `/estudiar/historia/${categoria}` }
       }),
     },
-    tieneFechas && {
+    disponible('juego-fechas') && {
       id: 'fechas',
       titulo: ca ? 'Joc de Dates' : en ? 'Date Game' : 'Juego de Fechas',
       descripcion: ca ? `Escriu l'any exacte de cada esdeveniment. Marge de ±${margen} anys. Una vida.` : en ? `Write the exact year of each event. Margin of ±${margen} years. One life.` : `Escribe el año exacto de cada evento. Margen de ±${margen} años. Una vida.`,
@@ -243,13 +227,13 @@ export default function HistoriaTema() {
 
         {/* Próximamente */}
         {(ca ? [
-          !CON_PERSONAJES.includes(categoria) && { id: 'personajes', titulo: 'Personatges Històrics', emoji: '👤', desc: 'Qui sóc? Endevina a partir de pistes.' },
+          !disponible('quien-es-quien') && { id: 'personajes', titulo: 'Personatges Històrics', emoji: '👤', desc: 'Qui sóc? Endevina a partir de pistes.' },
           { id: 'mapas', titulo: 'Mapes Històrics', emoji: '🗺️', desc: 'Identifica territoris i batalles.' },
         ] : en ? [
-          !CON_PERSONAJES.includes(categoria) && { id: 'personajes', titulo: 'Historical Figures', emoji: '👤', desc: 'Who am I? Guess from clues.' },
+          !disponible('quien-es-quien') && { id: 'personajes', titulo: 'Historical Figures', emoji: '👤', desc: 'Who am I? Guess from clues.' },
           { id: 'mapas', titulo: 'Historical Maps', emoji: '🗺️', desc: 'Identify territories and battles.' },
         ] : [
-          !CON_PERSONAJES.includes(categoria) && { id: 'personajes', titulo: 'Personajes Históricos', emoji: '👤', desc: '¿Quién soy? Adivina a partir de pistas.' },
+          !disponible('quien-es-quien') && { id: 'personajes', titulo: 'Personajes Históricos', emoji: '👤', desc: '¿Quién soy? Adivina a partir de pistas.' },
           { id: 'mapas', titulo: 'Mapas Históricos', emoji: '🗺️', desc: 'Identifica territorios y batallas.' },
         ]).filter(Boolean).map(m => (
           <div key={m.id} className="w-full rounded-2xl bg-white/3 border border-white/8 p-5 opacity-50">
