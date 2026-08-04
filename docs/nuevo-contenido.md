@@ -1,0 +1,115 @@
+# Añadir contenido nuevo (juegos y exámenes) — guía operativa
+
+Lectura obligatoria ANTES de crear un juego, un examen o cualquier combinación.
+Los registros centrales hacen casi todo el trabajo: si un paso no está aquí,
+probablemente no hay que hacerlo (perfil, panel de profesor, "Por materia",
+leaderboards, tareas asignables y meta del prerender se derivan SOLOS de los
+registros). Los tests de invariantes (`npx vitest run`) fallan señalando el
+paso olvidado.
+
+## Árbol de decisión
+
+| Quiero crear…                                            | Sigue                        |
+|----------------------------------------------------------|------------------------------|
+| Un juego arcade (partidas, puntos, monedas)               | §1                           |
+| Un examen tipo test con nota                              | §2                           |
+| Juego + su examen (patrón Fuerza Neta / Balanza)          | §1 + §2 + `backGamePath`     |
+| Un examen por TEMA con varios formatos (patrón historia)  | §3                           |
+| Contenido de una materia que aún no existe                | §4 primero, luego §1/§2      |
+| Un reto diario del juego                                  | §5 (opcional, tras §1)       |
+
+Convención de ids: kebab-case; el id ES el `game` de Firestore (stats y
+leaderboards) — no se cambia nunca después de publicar. Si un examen acompaña
+a un juego homónimo, su id lleva sufijo `-test` (`balanza` / `balanza-test`).
+
+## §1 Juego nuevo (`mi-juego`)
+
+1. **Página** `src/pages/MiJuego.jsx`: al terminar la partida →
+   `computeCoins('mi-juego', result)` → `saveActivity({ game: 'mi-juego', type: 'juego', score, timeSpent, coinsEarned })`
+   → `<GameEndScreen>` (nunca pantalla final a mano). La fórmula de monedas
+   vive SOLO en games.js — la página no la duplica.
+2. **Registro** `src/lib/games.js`: entrada con `label {es,en,ca}`, `emoji`
+   (Win10-safe: nada de U+1FA70–1FAFF ni 🟰 — hay test), `subject` (id
+   existente de SUBJECT_DEFS), `route: '/juegos/mi-juego'`, `coins(result)`.
+3. **Ruta** `src/App.jsx`: lazy import + `<Route path="juegos/mi-juego" …>`
+   (las rutas de juegos son manuales; las de exámenes no).
+4. **Catálogo visual** `src/data/constants.js` → `GAMES` (¡OJO: array del
+   catálogo /juegos, NO es el registro de lib/games.js pese al nombre!):
+   título/subtítulos es-en-ca, emoji, gradient, `ready: true`, `path`.
+5. **Sitemap** `public/sitemap.xml`: añadir `/juegos/mi-juego` (+ /en si se
+   publica en inglés). El prerender resuelve la meta desde games.js.
+6. **Ficha SEO** `src/data/infoJuegosFichas.js`: entrada `mi-juego` en
+   FICHAS_ES/EN/CA + `/info/juegos/mi-juego` al sitemap. Muy recomendada
+   (plan AdSense "contenido de poco valor"); pendientes conocidos:
+   pentagrama-path, reaccion.
+7. **Hub de materia** (si existe): enlazar donde encaje
+   (MatematicasIndex, QuimicaIndex vía datos, HistoriaIndex…).
+
+Gratis al registrar: perfil, "Por materia", panel del profesor (Asignar
+tarea → Juego), leaderboard (`saveActivity` avisa en dev si el id no está
+registrado), tareas clicables del alumno (usa `route`).
+
+## §2 Examen nuevo (`mi-examen` o `mi-juego-test`)
+
+1. **Página** wrapper de `ExamenMC` (o base específica tipo
+   `FrasesExamenBase`) que guarde
+   `saveActivity({ type: 'examen', game: '<examId>', category: '<examId>', passed, … })`.
+   Si acompaña a un juego: prop `backGamePath="/juegos/mi-juego"`.
+2. **Registro** `src/lib/exams.js`: entrada con `label/emoji/subject` +
+   `path: 'examen/mi-examen'` (relativo, sin `/` inicial) + `page: () => import(...)`.
+   La `<Route>` se genera sola en App.jsx (`routableExams()`) y la meta del
+   prerender sale de aquí. **Prohibido** añadir rutas hardcoded nuevas de
+   exámenes en App.jsx: el campo `route` (absoluto) existe SOLO para las
+   heredadas.
+3. **Sitemap**: añadir `/examen/mi-examen`.
+4. **Retirar** un examen: quitar `path`/`page`, poner `retired: true` —
+   conserva etiquetas de stats antiguas y deja de ofrecerse como tarea.
+
+Gratis al registrar: ruta, meta, perfil, aprobados/suspensos por materia,
+desplegable de exámenes del profesor, tarea clicable del alumno.
+
+## §3 Examen por tema (tema → formato, patrón historia)
+
+Para asignar/examinar "solo Guerra Civil" con la mecánica X:
+
+1. La página del formato debe **filtrar por tema** vía `location.state`
+   (`categoria`/`pool`) y guardar `saveActivity({ category: '<tema>' })`.
+2. `src/lib/examTopics.js`: añadir el tema a `EXAM_TOPICS[materia]` con sus
+   formatos; formato nuevo → entrada en `EXAM_FORMATS`.
+3. Etiqueta del tema en `SUBJECT_DEFS[materia].catLabels`
+   (statsAggregation.js).
+4. La URL estable es `/examen/historia/:tema/:formato`
+   (`ExamenHistoriaTema.jsx` traduce a `location.state` y redirige — para
+   otra materia con temas, replicar ese patrón de página-puente).
+5. Si el formato guarda stats con un id SIN entrada en games.js
+   (p.ej. `juego-fechas`), añadir ese id a la lista manual `gameIds` de su
+   materia en SUBJECT_DEFS (es el ÚNICO caso en que se toca esa lista).
+
+NO conectar aquí exámenes que guarden `category` fija con su propio id
+(caso portadas-examen): rompería el conteo de aprobados del perfil. Esos se
+asignan como "Examen general (sin tema)".
+
+## §4 Materia nueva
+
+1. `SUBJECT_DEFS` en `src/lib/statsAggregation.js`: id/emoji/label
+   (`gameIds: []` — se llena solo desde games.js).
+2. Los juegos/exámenes usan `subject: '<id>'` — el test de invariantes falla
+   si el subject no existe.
+3. Hub `/estudiar/<materia>` + entrada en `STATIC_META`
+   (scripts/seoMeta.mjs) + sitemap.
+
+## §5 Reto diario (opcional)
+
+`src/pages/PreguntaDiaria.jsx`: nuevo `tipo` de desafío con UI propia +
+generador determinista por fecha (ver `funciones-grafica`,
+`balanza-algebraica`, `analiza-frases` como referencia).
+
+## Verificación (siempre, en este orden)
+
+```bash
+npx vitest run    # invariantes: registro↔sitemap↔meta, materias, rutas jugables, catálogo, emojis
+npm run build     # prerender: falla si una URL del sitemap queda sin meta específica
+```
+
+Y en el preview: jugar una partida (monedas + stats en perfil) y, como
+profesor, comprobar que aparece en "Asignar tarea".

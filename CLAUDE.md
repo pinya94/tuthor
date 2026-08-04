@@ -2,10 +2,16 @@
 
 Plataforma educativa React 19 + Vite + Tailwind + Firebase (Firestore). Deploy en Vercel desde `main`.
 
-## Registros centrales (fuente única de verdad)
+## Contenido nuevo (juegos/exámenes): LEER `docs/nuevo-contenido.md` PRIMERO
 
-- **`src/lib/games.js`** — todo juego que guarda stats: label {es,en,ca}, emoji, materia, ruta y fórmula de monedas. Añadir un juego = una entrada aquí + `computeCoins` en su página. El perfil y la validación en dev salen gratis.
-- **`src/lib/exams.js`** — exámenes tipo test: label, emoji, materia, ruta y loader lazy. Las rutas se generan en App.jsx desde `routableExams()`; el perfil deriva "Por materia" de `examsBySubject()`. Añadir un examen = crear el wrapper de ExamenMC + una entrada aquí.
+Guía operativa con el árbol de decisión y el checklist exacto por escenario
+(juego, examen, juego+examen, examen por tema, materia nueva, reto diario).
+Los tests de invariantes fallan señalando el paso olvidado. Resumen:
+
+- **`src/lib/games.js`** — registro de juegos (label {es,en,ca}, emoji, subject, route, fórmula de monedas). De aquí se derivan perfil, "Por materia", panel de profesor y tareas clicables. Ruta manual en App.jsx + catálogo visual en `src/data/constants.js` GAMES (¡otro GAMES, es el catálogo!) + sitemap + ficha en infoJuegosFichas.js.
+- **`src/lib/exams.js`** — registro de exámenes (label, emoji, subject + `path`/`page` → ruta y meta automáticas). `route` solo para rutas hardcodeadas heredadas; `retired: true` para retirar sin perder etiquetas. No crear rutas hardcoded nuevas de exámenes.
+- **`src/lib/statsAggregation.js`** — SUBJECT_DEFS: las materias. `gameIds` se deriva de games.js (la lista manual es SOLO para ids de stats sin juego propio, p.ej. juego-fechas). Materia nueva = entrada aquí + hub + STATIC_META.
+- **`src/lib/examTopics.js`** — exámenes por tema (tema → formato, patrón historia): EXAM_TOPICS/EXAM_FORMATS + etiqueta en catLabels.
 
 ## Monedas
 

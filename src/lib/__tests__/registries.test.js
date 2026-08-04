@@ -10,6 +10,7 @@ import { GAMES, computeCoins } from '../games.js'
 import { EXAMS, routableExams, examRoute } from '../exams.js'
 import { SUBJECT_DEFS, SUBJECTS } from '../statsAggregation.js'
 import { EXAM_TOPICS, EXAM_FORMATS } from '../examTopics.js'
+import { GAMES as CATALOG_GAMES } from '../../data/constants.js'
 import { resolveMeta } from '../../../scripts/seoMeta.mjs'
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..', '..', '..')
@@ -109,6 +110,24 @@ describe('materias (statsAggregation.js) ↔ registros', () => {
     for (const [id, e] of Object.entries(EXAMS)) {
       if (allowlist.has(e.subject)) continue
       expect(subjectIds.has(e.subject), `${id}: subject "${e.subject}" no está en SUBJECT_DEFS`).toBe(true)
+    }
+  })
+
+  it('todo juego /juegos/* del registro tiene tarjeta en el catálogo (constants.js GAMES)', () => {
+    // El catálogo visual de /juegos es la única lista manual que queda:
+    // sin tarjeta, el juego existe pero nadie lo encuentra.
+    const catalogPaths = new Set(CATALOG_GAMES.filter(g => g.ready && g.path).map(g => g.path))
+    for (const [id, g] of Object.entries(GAMES)) {
+      if (!g.route.startsWith('/juegos/')) continue
+      expect(catalogPaths.has(g.route), `${id}: falta tarjeta con path ${g.route} en src/data/constants.js`).toBe(true)
+    }
+  })
+
+  it('toda tarjeta ready del catálogo corresponde a un juego registrado (guarda stats)', () => {
+    const registryRoutes = new Set(Object.values(GAMES).map(g => g.route))
+    for (const c of CATALOG_GAMES) {
+      if (!c.ready || !c.path || !c.path.startsWith('/juegos/')) continue
+      expect(registryRoutes.has(c.path), `catálogo "${c.title}": path ${c.path} sin entrada en src/lib/games.js`).toBe(true)
     }
   })
 
