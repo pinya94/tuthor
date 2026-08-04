@@ -64,7 +64,7 @@ export default function Navbar() {
   const [showAuth, setShowAuth] = useState(false)
   const [avatarMenu, setAvatarMenu] = useState(false)
   const { user, logout } = useAuth()
-  const { lang, t, localPath, switchLang } = useLang()
+  const { lang, t, tr, localPath, switchLang } = useLang()
   const [pendingTasks, setPendingTasks] = useState(0)
 
   const authLoading = user === undefined
@@ -120,6 +120,13 @@ export default function Navbar() {
                 </button>
               )
             })}
+            <button
+              onClick={() => navigate(localPath('/profesores'))}
+              className={`px-4 py-2 rounded-full text-sm font-medium transition-all border border-white/10
+                ${location.pathname === localPath('/profesores') ? 'bg-violet-600 text-white border-transparent' : 'text-white/60 hover:text-white hover:bg-white/10'}`}
+            >
+              🎓 {tr({ es: 'Profesores', en: 'Teachers', ca: 'Professors' })}
+            </button>
           </div>
 
           {/* Auth escritorio + idioma */}
@@ -203,6 +210,11 @@ export default function Navbar() {
                 </button>
               )
             })}
+            <button onClick={() => { navigate(localPath('/profesores')); setMenuOpen(false) }}
+              className={`w-full text-left px-4 py-3 rounded-xl text-sm font-medium transition-all
+                ${location.pathname === localPath('/profesores') ? 'bg-violet-600 text-white' : 'text-white/70 hover:text-white hover:bg-white/10'}`}>
+              🎓 {tr({ es: 'Profesores', en: 'Teachers', ca: 'Professors' })}
+            </button>
             <div className="border-t border-white/10 pt-2 mt-1">
               <LangSelector lang={lang} switchLang={switchLang} onPick={() => setMenuOpen(false)} />
               {!authLoading && !user && (

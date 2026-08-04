@@ -100,11 +100,19 @@ export default function Profesores() {
             })}
           </li>
           <li className="flex items-start gap-2">
+            <span>📝</span>
+            {tr({
+              es: 'Asigna tareas — un juego, un examen o texto libre — a toda la clase o a alumnos concretos, con fecha límite.',
+              en: 'Assign tasks — a game, an exam or free text — to the whole class or specific students, with a due date.',
+              ca: 'Assigna tasques — un joc, un examen o text lliure — a tota la classe o a alumnes concrets, amb data límit.',
+            })}
+          </li>
+          <li className="flex items-start gap-2">
             <span>📊</span>
             {tr({
-              es: 'Consulta en un panel qué juegos y exámenes hacen, sus rachas y monedas.',
-              en: 'See in one panel what games and exams they play, their streaks and coins.',
-              ca: 'Consulta en un panell quins jocs i exàmens fan, les seves ratxes i monedes.',
+              es: 'Consulta en un panel qué juegos y exámenes hacen, sus rachas, monedas y qué tareas tienen pendientes.',
+              en: 'See in one panel what games and exams they play, their streaks, coins and pending tasks.',
+              ca: 'Consulta en un panell quins jocs i exàmens fan, les seves ratxes, monedes i quines tasques tenen pendents.',
             })}
           </li>
         </ul>
