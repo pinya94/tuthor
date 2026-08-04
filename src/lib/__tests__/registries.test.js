@@ -11,7 +11,7 @@ import { EXAMS, routableExams, examRoute } from '../exams.js'
 import { SUBJECT_DEFS, SUBJECTS } from '../statsAggregation.js'
 import {
   TOPIC_CATALOG, TOPIC_SUBJECT_IDS, topicIds, topicFormats,
-  topicTask, findTopic, taskMatchesPlay, examsCoveredByTopics,
+  topicTask, findTopic, taskMatchesPlay, examsCoveredByTopics, hasTopics,
 } from '../topicCatalog.js'
 import { GAMES as CATALOG_GAMES } from '../../data/constants.js'
 import { resolveMeta } from '../../../scripts/seoMeta.mjs'
@@ -225,6 +225,32 @@ describe('catálogo por tema (topicCatalog.js): materia → tema → formato →
       // Otro juego nunca completa
       expect(taskMatchesPlay(task, { gameId: '__otro__', category: task.category }), `${label}: completa con otro juego`).toBe(false)
     })
+  })
+
+  it('toda materia con exámenes está en el catálogo por tema', () => {
+    // Cazaría el olvido de una materia entera (pasó con Inglés): si una
+    // materia tiene exámenes asignables, tiene que tener temas.
+    for (const s of SUBJECTS) {
+      const asignables = s.examIds.filter(id => EXAMS[id] && !EXAMS[id].retired)
+      if (asignables.length === 0) continue
+      expect(hasTopics(s.id), `${s.id}: tiene ${asignables.length} examen(es) pero no está en TOPIC_CATALOG`).toBe(true)
+    }
+  })
+
+  it('todo examen asignable es alcanzable por algún tema', () => {
+    // Si un examen no lo cubre ningún tema, solo se llega por la lista plana:
+    // aceptable, pero debe ser una decisión consciente y corta.
+    const sueltos = []
+    for (const materia of TOPIC_SUBJECT_IDS) {
+      const cubiertos = examsCoveredByTopics(materia)
+      const subj = SUBJECTS.find(s => s.id === materia)
+      for (const id of subj.examIds) {
+        if (EXAMS[id] && !EXAMS[id].retired && !cubiertos.has(id)) sueltos.push(`${materia}/${id}`)
+      }
+    }
+    // analiza-frases-test es el examen del juego Analiza la Frase (mezcla
+    // todas las categorías), no un tema concreto: va en la lista plana.
+    expect(sueltos).toEqual(['lengua/analiza-frases-test'])
   })
 
   it('los temas de ciencias son los de TEMA_DISCIPLINA (src/data/ciencias.js)', async () => {

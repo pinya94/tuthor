@@ -24,6 +24,7 @@
 // los datos reales, así que no pueden quedarse obsoletas en silencio.
 
 import { MODOS, GRADOS } from './mathEngine'
+import { EXAMS } from './exams'
 
 const NIVEL_IDS = Object.keys(GRADOS) // primaria, eso, bachillerato
 
@@ -111,10 +112,34 @@ export const TOPIC_CATALOG = {
   },
 
   matematicas: {
-    // Todas las operaciones se practican en los tres niveles.
-    temas: Object.fromEntries(MATH_TEMA_IDS.map(id => [id, { niveles: [...NIVEL_IDS] }])),
+    temas: {
+      // Modos de cálculo: se practican en los tres niveles con las mecánicas
+      // de abajo (formato por mecánica, no por examen).
+      ...Object.fromEntries(MATH_TEMA_IDS.map(id => [id, { niveles: [...NIVEL_IDS] }])),
+      // Temas con página propia en /estudiar/matematicas/<tema>: aquí el
+      // formato es qué prueba se hace, igual que en ciencias.
+      funciones: examTema({
+        teoria: 'funciones',
+        'caza-funcion': 'funciones-grafica-test',
+        trayectoria: 'trayectoria-examen',
+        portero: 'portero-examen',
+      }),
+      algebra: examTema({ teoria: 'algebra', 'balanza-algebraica': 'balanza-algebraica-test' }),
+      geometria: examTema({ teoria: 'geometria' }),
+      fracciones: examTema({ teoria: 'fracciones' }),
+      estadistica: examTema({ teoria: 'estadistica' }),
+      'enteros-racionales': examTema({ teoria: 'enteros-racionales' }),
+    },
     formatos: {
+      // Formatos por examen (temas con página propia)
+      teoria: examFormato({ es: 'Teoría (tipo test)', en: 'Theory (quiz)', ca: 'Teoria (tipus test)' }, '📝'),
+      'caza-funcion': examFormato({ es: 'Caza la Función (con el juego)', en: 'Function Hunt (with the game)', ca: 'Caça la Funció (amb el joc)' }, '📈'),
+      trayectoria: examFormato({ es: 'Trayectoria (con el juego)', en: 'Trajectory (with the game)', ca: 'Trajectòria (amb el joc)' }, '⚽'),
+      portero: examFormato({ es: 'El Portero (con el juego)', en: 'The Goalkeeper (with the game)', ca: 'El Porter (amb el joc)' }, '🥅'),
+      'balanza-algebraica': examFormato({ es: 'Balanza Algebraica (con el juego)', en: 'Algebra Balance (with the game)', ca: 'Balança Algebraica (amb el joc)' }, '⚖️'),
+      // Formatos por mecánica (solo para los modos de cálculo)
       'examen-practica': {
+        temas: MATH_TEMA_IDS,
         label: { es: 'Examen de práctica', en: 'Practice exam', ca: 'Examen de pràctica' },
         emoji: '📝',
         game: 'matematicas-examen',
@@ -122,6 +147,7 @@ export const TOPIC_CATALOG = {
         tracksTopic: false, // guarda category fija 'matematicas-examen'
       },
       'acercate': {
+        temas: MATH_TEMA_IDS,
         label: { es: 'Acércate al número', en: 'Target Number', ca: "Apropa't al nombre" },
         emoji: '🎯',
         game: 'matematicas',
@@ -131,6 +157,7 @@ export const TOPIC_CATALOG = {
         category: (tema, nivel) => `${tema}-${nivel}`,
       },
       'numpath': {
+        temas: MATH_TEMA_IDS,
         label: { es: 'NumPath', en: 'NumPath', ca: 'NumPath' },
         emoji: '🧮',
         game: 'numpath',
@@ -240,6 +267,45 @@ export const TOPIC_CATALOG = {
       teoria: examFormato({ es: 'Teoría (tipo test)', en: 'Theory (quiz)', ca: 'Teoria (tipus test)' }, '📝'),
     },
   },
+
+  // Señalar sobre la frase (familia pos-*) para las clases de palabra, y
+  // gramática (familia grammar-*) para los tiempos verbales y estructuras.
+  ingles: {
+    temas: {
+      nouns: examTema({ senalar: 'ingles-pos-nouns-test' }),
+      verbs: examTema({ senalar: 'ingles-pos-verbs-test' }),
+      adjectives: examTema({ senalar: 'ingles-pos-adjectives-test' }),
+      adverbs: examTema({ senalar: 'ingles-pos-adverbs-test' }),
+      pronouns: examTema({ senalar: 'ingles-pos-pronouns-test' }),
+      connectors: examTema({ senalar: 'ingles-pos-connectors-test' }),
+      'present-simple': examTema({ test: 'ingles-grammar-present-simple-test' }),
+      'past-simple': examTema({ test: 'ingles-grammar-past-simple-test' }),
+      'present-perfect': examTema({ test: 'ingles-grammar-present-perfect-test' }),
+      articles: examTema({ test: 'ingles-grammar-articles-test' }),
+      passive: examTema({ test: 'ingles-grammar-passive-test' }),
+    },
+    formatos: {
+      senalar: examFormato({ es: 'Señalar en la frase', en: 'Spot in the sentence', ca: 'Assenyalar a la frase' }, '🧐'),
+      test: examFormato({ es: 'Tipo test', en: 'Multiple choice', ca: 'Tipus test' }, '📚'),
+    },
+  },
+
+  // Materias de un solo examen por ahora: entran igualmente para que la
+  // estructura ya exista cuando se añadan más formatos o temas.
+  economia: {
+    temas: { 'finanzas-personales': examTema({ examen: 'finanzas-personales' }) },
+    formatos: { examen: examFormato({ es: 'Examen', en: 'Exam', ca: 'Examen' }, '📝') },
+  },
+
+  musica: {
+    temas: { musica: examTema({ examen: 'musica' }) },
+    formatos: { examen: examFormato({ es: 'Examen', en: 'Exam', ca: 'Examen' }, '📝') },
+  },
+
+  'vida-practica': {
+    temas: { 'primeros-auxilios': examTema({ examen: 'primeros-auxilios' }) },
+    formatos: { examen: examFormato({ es: 'Examen', en: 'Exam', ca: 'Examen' }, '📝') },
+  },
 }
 
 // ── Consultas ────────────────────────────────────────────────────────────────
@@ -275,9 +341,11 @@ export function topicFormats(materia, tema) {
   // tiene (y con qué examen); el resto usa las reglas del propio formato.
   const ids = temaCfg.formatos
     ? Object.keys(temaCfg.formatos).filter(id => subj.formatos[id])
+    // Sin mapa: solo los formatos por mecánica (los que traen su propio
+    // `game`). Los formatos por examen solo existen si un tema los declara.
     : Object.keys(subj.formatos).filter(id => {
         const fmt = subj.formatos[id]
-        return !fmt.temas || fmt.temas.includes(tema)
+        return fmt.game && (!fmt.temas || fmt.temas.includes(tema))
       })
   return ids
     // resolveFormat aplica lo que declare el tema (examen propio o compartido)
@@ -289,12 +357,20 @@ export function topicFormats(materia, tema) {
 // Exámenes ya cubiertos por algún tema de la materia: el desplegable plano
 // ("Examen general (sin tema)") los omite para no ofrecer lo mismo dos veces.
 export function examsCoveredByTopics(materia) {
-  const temas = TOPIC_CATALOG[materia]?.temas ?? {}
+  const subj = TOPIC_CATALOG[materia]
   const ids = new Set()
-  for (const cfg of Object.values(temas)) {
+  // Declarados por el tema (materias basadas en exámenes)
+  for (const cfg of Object.values(subj?.temas ?? {})) {
     for (const entry of Object.values(cfg.formatos ?? {})) {
       ids.add(typeof entry === 'object' ? entry.exam : entry)
     }
+  }
+  // Declarados por el formato (materias por mecánica: Portadas, Examen de
+  // práctica…): también se llegan por tema, así que tampoco van en la lista
+  // plana. Se filtran a exámenes reales: un formato por mecánica puede
+  // apuntar a un id de juego (linea-temporal…) que no es un examen.
+  for (const fmt of Object.values(subj?.formatos ?? {})) {
+    if (typeof fmt.game === 'string' && EXAMS[fmt.game]) ids.add(fmt.game)
   }
   return ids
 }

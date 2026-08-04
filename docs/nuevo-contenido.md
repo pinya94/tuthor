@@ -97,6 +97,9 @@ de qué combinaciones existen. Lo consumen por igual:
 - el selector de tareas del profesor (cascada materia→tema→formato→nivel);
 - el enrutado y etiquetado de tareas.
 
+Cubre las **12 materias** (68 temas). Una materia con exámenes asignables
+tiene que estar aquí — hay un test que lo exige.
+
 Hay dos formas de declarar un tema, según de dónde salga el contenido:
 
 - **Por mecánica** (historia, matemáticas): el formato define el `game`, y el
@@ -109,6 +112,15 @@ Hay dos formas de declarar un tema, según de dónde salga el contenido:
   necesita ningún caso por materia en `ExamenTema.jsx` (se enruta con
   `examRoute`). Los exámenes cubiertos por un tema desaparecen de la lista
   plana "Examen general (sin tema)" para no ofrecerlos dos veces.
+  Si varios temas comparten el mismo examen (los 5 continentes comparten el
+  de GeoMapa y reciben la región por `location.state`), se declara con
+  `compartido(examId)` + `stateKey` en la materia: la `category` de la tarea
+  pasa a ser el tema (para etiquetar y enrutar) y el match cae a solo-juego,
+  porque esa página no puede decir qué tema se jugó.
+
+Una materia puede mezclar ambas: matemáticas usa mecánica para los 7 modos
+de cálculo y examen para los 6 temas con página propia (Álgebra, Funciones…).
+Los formatos por mecánica llevan `temas: [...]` para no colarse en los otros.
 
 Cada formato declara:
 - `game` — el id con el que la página guarda stats.

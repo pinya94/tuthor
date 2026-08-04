@@ -141,7 +141,20 @@ export const SUBJECT_DEFS = [
     label: { es: 'Inglés', en: 'English', ca: 'Anglès' },
     gameIds: [],
     catIds: [],
-    catLabels: {},
+    // Temas del catálogo (topicCatalog.js): clases de palabra y gramática
+    catLabels: {
+      nouns:             { es: 'Nouns (sustantivos)',      en: 'Nouns',            ca: 'Nouns (substantius)' },
+      verbs:             { es: 'Verbs (verbos)',           en: 'Verbs',            ca: 'Verbs (verbs)' },
+      adjectives:        { es: 'Adjectives (adjetivos)',   en: 'Adjectives',       ca: 'Adjectives (adjectius)' },
+      adverbs:           { es: 'Adverbs (adverbios)',      en: 'Adverbs',          ca: 'Adverbs (adverbis)' },
+      pronouns:          { es: 'Pronouns (pronombres)',    en: 'Pronouns',         ca: 'Pronouns (pronoms)' },
+      connectors:        { es: 'Prepositions & Conjunctions', en: 'Prepositions & Conjunctions', ca: 'Prepositions & Conjunctions' },
+      'present-simple':  { es: 'Present Simple',           en: 'Present Simple',   ca: 'Present Simple' },
+      'past-simple':     { es: 'Past Simple',              en: 'Past Simple',      ca: 'Past Simple' },
+      'present-perfect': { es: 'Present Perfect',          en: 'Present Perfect',  ca: 'Present Perfect' },
+      articles:          { es: 'Articles',                 en: 'Articles',         ca: 'Articles' },
+      passive:           { es: 'Passive Voice',            en: 'Passive Voice',    ca: 'Passive Voice' },
+    },
   },
   {
     id: 'economia', emoji: '💰',

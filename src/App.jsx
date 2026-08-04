@@ -144,6 +144,10 @@ function AppRoutes() {
       <Route path="examen/quimica/:tema/:formato" element={<ExamenTema materia="quimica" />} />
       <Route path="examen/biologia/:tema/:formato" element={<ExamenTema materia="biologia" />} />
       <Route path="examen/geologia/:tema/:formato" element={<ExamenTema materia="geologia" />} />
+      <Route path="examen/ingles/:tema/:formato" element={<ExamenTema materia="ingles" />} />
+      <Route path="examen/economia/:tema/:formato" element={<ExamenTema materia="economia" />} />
+      <Route path="examen/musica/:tema/:formato" element={<ExamenTema materia="musica" />} />
+      <Route path="examen/vida-practica/:tema/:formato" element={<ExamenTema materia="vida-practica" />} />
 
       {/* ── JUEGOS ── */}
       <Route path="juegos" element={<Juegos />} />
