@@ -233,9 +233,9 @@ export default function ProfesorClase() {
 
   function resolveCatalogChoice() {
     if (taskKind === 'game') return { gameId: taskGameId, category: null }
-    // taskKind === 'exam'
+    // taskKind === 'exam'; '__general__' = examen plano de la materia, sin tema
     const hasTemas = !!EXAM_TOPICS[taskExamSubject]
-    return hasTemas
+    return hasTemas && taskTema !== '__general__'
       ? { gameId: taskFormato, category: taskTema }
       : { gameId: taskFormato, category: null }
   }
@@ -383,7 +383,7 @@ export default function ProfesorClase() {
                 <select value={taskExamSubject} onChange={e => { setTaskExamSubject(e.target.value); setTaskTema(''); setTaskFormato('') }}
                   className="w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2.5 text-sm text-white outline-none focus:border-teal-500 transition-colors">
                   <option value="" className="bg-[#0d0d1a]">{tr({ es: '-- Elige materia --', en: '-- Pick a subject --', ca: '-- Tria materia --' })}</option>
-                  {SUBJECTS.filter(s => EXAM_TOPICS[s.id] || s.examIds.some(id => EXAMS[id])).map(subj => (
+                  {SUBJECTS.filter(s => EXAM_TOPICS[s.id] || s.examIds.some(id => EXAMS[id] && !EXAMS[id].retired)).map(subj => (
                     <option key={subj.id} value={subj.id} className="bg-[#0d0d1a]">{subj.emoji} {subj.label[lang] || subj.label.es}</option>
                   ))}
                 </select>
@@ -397,10 +397,13 @@ export default function ProfesorClase() {
                       const lbl = subj?.examLabels[temaId]
                       return <option key={temaId} value={temaId} className="bg-[#0d0d1a]">{lbl?.[lang] || lbl?.es || temaId}</option>
                     })}
+                    {SUBJECTS.find(s => s.id === taskExamSubject)?.examIds.some(id => EXAMS[id] && !EXAMS[id].retired) && (
+                      <option value="__general__" className="bg-[#0d0d1a]">{tr({ es: 'Examen general (sin tema)', en: 'General exam (no topic)', ca: 'Examen general (sense tema)' })}</option>
+                    )}
                   </select>
                 )}
 
-                {taskExamSubject && EXAM_TOPICS[taskExamSubject] && taskTema && (
+                {taskExamSubject && EXAM_TOPICS[taskExamSubject] && taskTema && taskTema !== '__general__' && (
                   <select value={taskFormato} onChange={e => setTaskFormato(e.target.value)}
                     className="w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2.5 text-sm text-white outline-none focus:border-teal-500 transition-colors">
                     <option value="" className="bg-[#0d0d1a]">{tr({ es: '-- Elige formato --', en: '-- Pick a format --', ca: '-- Tria format --' })}</option>
@@ -410,11 +413,11 @@ export default function ProfesorClase() {
                   </select>
                 )}
 
-                {taskExamSubject && !EXAM_TOPICS[taskExamSubject] && (
+                {taskExamSubject && (!EXAM_TOPICS[taskExamSubject] || taskTema === '__general__') && (
                   <select value={taskFormato} onChange={e => setTaskFormato(e.target.value)}
                     className="w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2.5 text-sm text-white outline-none focus:border-teal-500 transition-colors">
                     <option value="" className="bg-[#0d0d1a]">{tr({ es: '-- Elige examen --', en: '-- Pick an exam --', ca: '-- Tria examen --' })}</option>
-                    {SUBJECTS.find(s => s.id === taskExamSubject)?.examIds.filter(id => EXAMS[id]).map(id => (
+                    {SUBJECTS.find(s => s.id === taskExamSubject)?.examIds.filter(id => EXAMS[id] && !EXAMS[id].retired).map(id => (
                       <option key={id} value={id} className="bg-[#0d0d1a]">{EXAMS[id].emoji} {EXAMS[id].label[lang] || EXAMS[id].label.es}</option>
                     ))}
                   </select>

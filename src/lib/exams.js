@@ -8,50 +8,62 @@
 // Con eso la ruta se genera sola en App.jsx y el examen aparece en la sección
 // "Por materia" del perfil, sin tocar nada más.
 //
-// `page` es un loader dinámico (code-splitting); las entradas sin `path`/`page`
-// son exámenes retirados que se conservan solo para etiquetar stats antiguas.
+// `page` es un loader dinámico (code-splitting); las entradas con `route`
+// (absoluta) tienen su página montada a mano en App.jsx — `route` existe para
+// que tareas/enlaces puedan llevar al examen sin duplicar la URL. Las entradas
+// `retired: true` no tienen página: solo etiquetan stats antiguas y NO deben
+// ofrecerse como asignables.
 
 export const EXAMS = {
   // ── Exámenes con página propia (ruta hardcoded en App.jsx, sin loader) ──────
-  // Registrados solo para etiqueta + materia en el perfil.
   'matematicas-examen': {
     label: { es: 'Examen de cálculo', en: 'Maths exam', ca: 'Examen de càlcul' },
     emoji: '🧮', subject: 'matematicas',
+    // El examen real vive bajo /estudiar/matematicas/:modo/examen; se enlaza
+    // al índice para que el alumno elija modo.
+    route: '/estudiar/matematicas',
   },
   'portero-examen': {
     label: { es: 'El Portero (examen)', en: 'Goalkeeper (exam)', ca: 'El Porter (examen)' },
     emoji: '🥅', subject: 'matematicas',
+    route: '/examen/portero',
   },
   'trayectoria-examen': {
     label: { es: 'Trayectoria (examen)', en: 'Trajectory (exam)', ca: 'Trajectòria (examen)' },
     emoji: '⚽', subject: 'matematicas',
+    route: '/examen/trayectoria',
   },
   'portadas-examen': {
     label: { es: 'Portadas (examen)', en: 'Headlines (exam)', ca: 'Portades (examen)' },
     emoji: '📰', subject: 'historia',
+    route: '/examen/portadas',
   },
   'geografia-examen': {
     label: { es: 'GeoRush (examen)', en: 'GeoRush (exam)', ca: 'GeoRush (examen)' },
     emoji: '🌍', subject: 'geografia',
+    route: '/examen/geografia',
   },
   'geomapa-examen': {
     label: { es: 'GeoMapa mundo', en: 'GeoMap world', ca: 'GeoMapa món' },
     emoji: '🗺️', subject: 'geografia',
+    route: '/examen/geomapa',
   },
   'geomapa-espana-examen': {
     label: { es: 'GeoMapa España', en: 'GeoMap Spain', ca: 'GeoMapa Espanya' },
     emoji: '🇪🇸', subject: 'geografia',
+    route: '/examen/geomapa-espana',
   },
   'geomapa-eeuu-examen': {
     label: { es: 'GeoMapa EE. UU.', en: 'GeoMap USA', ca: 'GeoMapa EUA' },
     emoji: '🇺🇸', subject: 'geografia',
+    route: '/examen/geomapa-eeuu',
   },
   'diagnostico': {
-    // Herramienta de estudio de Ciencias con ruta hardcoded en App.jsx
-    // (/examen/diagnostico), sin path/page: registrada solo para etiqueta,
-    // materia y meta SEO — igual que matematicas-examen, portero-examen...
+    // Herramienta de estudio de Ciencias; subject 'ciencias' no existe en
+    // SUBJECT_DEFS a propósito (no aparece en "Por materia" ni en tareas).
     label: { es: 'Diagnóstico', en: 'Diagnosis', ca: 'Diagnòstic' },
     emoji: '💉', subject: 'ciencias',
+    route: '/examen/diagnostico',
   },
 
   // ── Vida Práctica ──────────────────────────────────────────────────────────
@@ -218,7 +230,7 @@ export const EXAMS = {
   'espanol': {
     // Examen retirado (sin ruta): etiqueta para stats antiguas
     label: { es: 'Gramática Española', en: 'Spanish Grammar', ca: 'Gramàtica Espanyola' },
-    emoji: '🇪🇸', subject: 'lengua',
+    emoji: '🇪🇸', subject: 'lengua', retired: true,
   },
   'analiza-frases-test': {
     label: { es: 'Analiza la Frase', en: 'Sentence Detective', ca: 'Analitza la Frase' },
@@ -340,7 +352,7 @@ export const EXAMS = {
   'ingles': {
     // Examen retirado (sin ruta): etiqueta para stats antiguas
     label: { es: 'English Grammar', en: 'English Grammar', ca: 'English Grammar' },
-    emoji: '🇬🇧', subject: 'ingles',
+    emoji: '🇬🇧', subject: 'ingles', retired: true,
   },
   'ingles-grammar-present-simple-test': {
     label: { es: 'Present Simple', en: 'Present Simple', ca: 'Present Simple' },
@@ -419,4 +431,13 @@ export function routableExams() {
   return Object.entries(EXAMS)
     .filter(([, e]) => e.path && e.page)
     .map(([id, e]) => ({ id, path: e.path, page: e.page }))
+}
+
+// Ruta absoluta para jugar un examen (registro o hardcodeada en App.jsx),
+// o null si está retirado / no tiene página.
+export function examRoute(id) {
+  const e = EXAMS[id]
+  if (!e || e.retired) return null
+  if (e.path) return `/${e.path}`
+  return e.route ?? null
 }

@@ -7,11 +7,15 @@ import { getStudentAssignments } from '../lib/assignments'
 import { GAMES } from '../lib/games'
 import { EXAMS } from '../lib/exams'
 import { SUBJECTS } from '../lib/statsAggregation'
-import { catalogTaskLabel } from '../lib/examTopics'
+import { catalogTaskLabel, catalogTaskRoute } from '../lib/examTopics'
 
 function taskLabel(task, lang) {
   if (task.kind !== 'catalog') return task.title
   return catalogTaskLabel(task, lang, { games: GAMES, exams: EXAMS, subjects: SUBJECTS })
+}
+
+function taskRoute(task) {
+  return catalogTaskRoute(task, { games: GAMES, exams: EXAMS })
 }
 
 function formatDueDate(dueDate, lang) {
@@ -166,9 +170,11 @@ export default function Clase() {
                 {sortedTasks.map(task => {
                   const c = task.completions?.[user.uid]
                   const overdue = !c?.done && isOverdue(task.dueDate)
-                  return (
-                    <div key={task.id} className={`border rounded-2xl px-4 py-3 flex items-center justify-between gap-3 ${overdue ? 'border-red-500/30' : 'border-white/10'}`} style={{ background: surf }}>
-                      <div className="min-w-0">
+                  // Una tarea pendiente de catálogo lleva directa al juego/examen
+                  const route = !c?.done ? taskRoute(task) : null
+                  const inner = (
+                    <>
+                      <div className="min-w-0 text-left">
                         <p className="text-white text-[13.5px] font-bold truncate">{taskLabel(task, lang)}</p>
                         <p className="text-white/45 text-[11.5px] mt-0.5">
                           {task.className}
@@ -184,11 +190,26 @@ export default function Clase() {
                           ✅ {tr({ es: 'Hecha', en: 'Done', ca: 'Feta' })}
                           {c.score != null && <span className="text-white/40 ml-1.5">{c.score} pts</span>}
                         </span>
+                      ) : route ? (
+                        <span className="text-teal-300 text-[12.5px] font-bold shrink-0">
+                          {tr({ es: 'Jugar', en: 'Play', ca: 'Jugar' })} →
+                        </span>
                       ) : (
                         <span className={`text-[12.5px] shrink-0 ${overdue ? 'text-red-400 font-bold' : 'text-white/30'}`}>
                           {overdue ? tr({ es: 'Vencida', en: 'Overdue', ca: 'Vençuda' }) : tr({ es: 'Pendiente', en: 'Pending', ca: 'Pendent' })}
                         </span>
                       )}
+                    </>
+                  )
+                  const cardClass = `w-full border rounded-2xl px-4 py-3 flex items-center justify-between gap-3 ${overdue ? 'border-red-500/30' : 'border-white/10'}`
+                  return route ? (
+                    <button key={task.id} type="button" onClick={() => navigate(localPath(route))}
+                      className={`${cardClass} hover:border-teal-500/50 transition-colors`} style={{ background: surf }}>
+                      {inner}
+                    </button>
+                  ) : (
+                    <div key={task.id} className={cardClass} style={{ background: surf }}>
+                      {inner}
                     </div>
                   )
                 })}

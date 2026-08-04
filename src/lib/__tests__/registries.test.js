@@ -7,7 +7,9 @@ import { join, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 import { GAMES, computeCoins } from '../games.js'
-import { EXAMS, routableExams } from '../exams.js'
+import { EXAMS, routableExams, examRoute } from '../exams.js'
+import { SUBJECT_DEFS, SUBJECTS } from '../statsAggregation.js'
+import { EXAM_TOPICS, EXAM_FORMATS } from '../examTopics.js'
 import { resolveMeta } from '../../../scripts/seoMeta.mjs'
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..', '..', '..')
@@ -74,6 +76,52 @@ describe('registro de exámenes (exams.js)', () => {
   it('las rutas de los exámenes están en el sitemap', () => {
     for (const { path } of routableExams()) {
       expect(neutralPaths.has(`/${path}`), `falta /${path} en public/sitemap.xml`).toBe(true)
+    }
+  })
+})
+
+describe('materias (statsAggregation.js) ↔ registros', () => {
+  const subjectIds = new Set(SUBJECT_DEFS.map(s => s.id))
+
+  it('todo juego pertenece a una materia existente (si no, desaparece del perfil y del panel de profesor)', () => {
+    for (const [id, g] of Object.entries(GAMES)) {
+      expect(subjectIds.has(g.subject), `${id}: subject "${g.subject}" no está en SUBJECT_DEFS`).toBe(true)
+    }
+  })
+
+  it('SUBJECTS incluye todos los juegos del registro en su materia', () => {
+    for (const [id, g] of Object.entries(GAMES)) {
+      const subj = SUBJECTS.find(s => s.id === g.subject)
+      expect(subj.gameIds, `${id}: falta en gameIds de ${g.subject}`).toContain(id)
+    }
+  })
+
+  it('todo examen no retirado es jugable: tiene path (registro) o route (hardcoded en App.jsx)', () => {
+    for (const [id, e] of Object.entries(EXAMS)) {
+      if (e.retired) continue
+      expect(examRoute(id), `${id}: sin ruta jugable — o se le añade route/path o se marca retired`).toMatch(/^\//)
+    }
+  })
+
+  it('los exámenes de materias reales pertenecen a una materia existente', () => {
+    // 'ciencias' (diagnostico) queda fuera de SUBJECT_DEFS a propósito
+    const allowlist = new Set(['ciencias'])
+    for (const [id, e] of Object.entries(EXAMS)) {
+      if (allowlist.has(e.subject)) continue
+      expect(subjectIds.has(e.subject), `${id}: subject "${e.subject}" no está en SUBJECT_DEFS`).toBe(true)
+    }
+  })
+
+  it('EXAM_TOPICS solo referencia formatos con etiqueta y temas con catLabel', () => {
+    for (const [subjectId, temas] of Object.entries(EXAM_TOPICS)) {
+      const subj = SUBJECT_DEFS.find(s => s.id === subjectId)
+      expect(subj, `EXAM_TOPICS.${subjectId}: materia inexistente`).toBeTruthy()
+      for (const [temaId, formatos] of Object.entries(temas)) {
+        expect(subj.catLabels[temaId], `${subjectId}.${temaId}: sin etiqueta en catLabels`).toBeTruthy()
+        for (const f of formatos) {
+          expect(EXAM_FORMATS[f], `${subjectId}.${temaId}: formato "${f}" sin entrada en EXAM_FORMATS`).toBeTruthy()
+        }
+      }
     }
   })
 })

@@ -12,14 +12,17 @@ export const GAME_LABELS = Object.fromEntries(
 )
 
 // ── Agrupación por materia ────────────────────────────────────────────────
-// Los exámenes (examIds/examLabels) se derivan del registro central
-// (src/lib/exams.js): un examen nuevo aparece aquí sin tocar este fichero.
+// Los exámenes (examIds/examLabels) y los juegos del catálogo se derivan de
+// los registros centrales (src/lib/exams.js, src/lib/games.js): un juego o
+// examen nuevo aparece aquí sin tocar este fichero. gameIds solo lista los
+// ids de stats SIN entrada en GAMES (formatos de examen por tema como
+// juego-fechas/linea-temporal); el resto se completa solo desde GAMES.
 // catIds son categorías de juego (no exámenes) y mantienen sus etiquetas.
 export const SUBJECT_DEFS = [
   {
     id: 'historia', emoji: '⚔️',
     label: { es: 'Historia', en: 'History', ca: 'Història' },
-    gameIds: ['tuthor-time', 'juego-fechas', 'orden-temporal', 'linea-temporal', 'quien-es-quien', 'portadas'],
+    gameIds: ['juego-fechas', 'linea-temporal'],
     catIds: ['gce', 'wwii', 'roma', 'usa', 'primaria', 'global'],
     catLabels: {
       'gce':     { es: 'Guerra Civil Española',    en: 'Spanish Civil War',     ca: 'Guerra Civil Espanyola'  },
@@ -33,14 +36,14 @@ export const SUBJECT_DEFS = [
   {
     id: 'geografia', emoji: '🌍',
     label: { es: 'Geografía', en: 'Geography', ca: 'Geografia' },
-    gameIds: ['georush', 'geomapa'],
+    gameIds: [],
     catIds: [],
     catLabels: {},
   },
   {
     id: 'matematicas', emoji: '🔢',
     label: { es: 'Matemáticas', en: 'Maths', ca: 'Matemàtiques' },
-    gameIds: ['matematicas', 'acercate-clasico', 'acercate-roguelike', 'numpath', 'trayectoria', 'portero'],
+    gameIds: [],
     catIds: ['facil', 'medio', 'dificil', 'combinado-primaria', 'combinado-eso', 'combinado-bachillerato',
              'sumas-primaria', 'sumas-eso', 'sumas-bachillerato',
              'multiplicacion-primaria', 'multiplicacion-eso', 'multiplicacion-bachillerato',
@@ -78,7 +81,7 @@ export const SUBJECT_DEFS = [
   {
     id: 'lengua', emoji: '📖',
     label: { es: 'Lengua', en: 'Language', ca: 'Llengua' },
-    gameIds: ['intruso'],
+    gameIds: [],
     catIds: [],
     catLabels: {},
   },
@@ -92,21 +95,21 @@ export const SUBJECT_DEFS = [
   {
     id: 'economia', emoji: '💰',
     label: { es: 'Economía', en: 'Economics', ca: 'Economia' },
-    gameIds: ['spicy'],
+    gameIds: [],
     catIds: [],
     catLabels: {},
   },
   {
     id: 'musica', emoji: '🎼',
     label: { es: 'Música', en: 'Music', ca: 'Música' },
-    gameIds: ['pentagrama-path'],
+    gameIds: [],
     catIds: [],
     catLabels: {},
   },
   {
     id: 'vida-practica', emoji: '🚑',
     label: { es: 'Vida Práctica', en: 'Life Skills', ca: 'Vida Pràctica' },
-    gameIds: ['reaccion'],
+    gameIds: [],
     catIds: [],
     catLabels: {},
   },
@@ -114,8 +117,12 @@ export const SUBJECT_DEFS = [
 
 export const SUBJECTS = SUBJECT_DEFS.map(s => {
   const exams = examsBySubject(s.id)
+  const registryGameIds = Object.entries(GAMES)
+    .filter(([, g]) => g.subject === s.id)
+    .map(([id]) => id)
   return {
     ...s,
+    gameIds: [...new Set([...registryGameIds, ...s.gameIds])],
     examIds: exams.map(e => e.id),
     examLabels: {
       ...Object.fromEntries(exams.map(e => [e.id, e.label])),

@@ -54,3 +54,17 @@ export function catalogTaskLabel(task, lang, { games, exams, subjects }) {
   const g = games[task.gameId] || exams[task.gameId]
   return g ? `${g.emoji} ${g.label[lang] || g.label.es}` : task.gameId
 }
+
+// Ruta para JUGAR una tarea de catálogo (el alumno pincha la tarea y va al
+// juego/examen), o null si no hay página (tarea de texto, examen retirado).
+// Mismo patrón de parámetros que catalogTaskLabel.
+export function catalogTaskRoute(task, { games, exams }) {
+  if (task.kind !== 'catalog') return null
+  // Examen por tema (historia): URL propia tema+formato (ExamenHistoriaTema)
+  if (task.category) return `/examen/historia/${task.category}/${task.gameId}`
+  if (games[task.gameId]) return games[task.gameId].route
+  const e = exams[task.gameId]
+  if (!e || e.retired) return null
+  if (e.path) return `/${e.path}`
+  return e.route ?? null
+}
