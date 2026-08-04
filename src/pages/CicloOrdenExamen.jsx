@@ -16,8 +16,8 @@ const DIFICULTAD = {
   difícil: { es: 'difícil', en: 'hard',   ca: 'difícil', cls: 'text-red-400 bg-red-500/10 border-red-500/30' },
 }
 
-function formatPaso(orden, tr) {
-  return tr({ es: `Paso ${orden}`, en: `Step ${orden}`, ca: `Pas ${orden}` })
+function formatPaso(orden, total, tr) {
+  return tr({ es: `Paso ${orden} de ${total}`, en: `Step ${orden} of ${total}`, ca: `Pas ${orden} de ${total}` })
 }
 
 // ── INTRO ──────────────────────────────────────────────────────────────────────
@@ -32,12 +32,20 @@ function Intro({ ciclo, total, onStart, tr }) {
         </div>
         <div className="bg-white/5 border border-white/10 rounded-2xl p-6 mb-6 space-y-4">
           <p className="text-white/60 text-sm leading-relaxed">{tr(ciclo.descripcion)}</p>
-          {ciclo.cerrado && (
+          {ciclo.cerrado ? (
             <p className="text-white/40 text-xs leading-relaxed bg-white/5 border border-white/10 rounded-lg px-3 py-2">
               🔄 {tr({
-                es: `Es un ciclo continuo: aquí lo recorremos en una sola vuelta, empezando por «${tr(ciclo.pasos[0].nombre)}».`,
-                en: `This is a continuous cycle: here we go around it once, starting from "${tr(ciclo.pasos[0].nombre)}".`,
-                ca: `És un cicle continu: aquí el recorrem en una sola volta, començant per «${tr(ciclo.pasos[0].nombre)}».`,
+                es: `Es un ciclo continuo. Aquí lo recorremos en una sola vuelta: 🚩 empieza en «${tr(ciclo.pasos[0].nombre)}» y 🏁 termina en «${tr(ciclo.pasos[ciclo.pasos.length - 1].nombre)}» (después vuelve a empezar).`,
+                en: `This is a continuous cycle. Here we go around it once: 🚩 it starts at "${tr(ciclo.pasos[0].nombre)}" and 🏁 ends at "${tr(ciclo.pasos[ciclo.pasos.length - 1].nombre)}" (then it starts over).`,
+                ca: `És un cicle continu. Aquí el recorrem en una sola volta: 🚩 comença a «${tr(ciclo.pasos[0].nombre)}» i 🏁 acaba a «${tr(ciclo.pasos[ciclo.pasos.length - 1].nombre)}» (després torna a començar).`,
+              })}
+            </p>
+          ) : (
+            <p className="text-white/40 text-xs leading-relaxed bg-white/5 border border-white/10 rounded-lg px-3 py-2">
+              {tr({
+                es: `🚩 Empieza en «${tr(ciclo.pasos[0].nombre)}» y 🏁 termina en «${tr(ciclo.pasos[ciclo.pasos.length - 1].nombre)}».`,
+                en: `🚩 It starts at "${tr(ciclo.pasos[0].nombre)}" and 🏁 ends at "${tr(ciclo.pasos[ciclo.pasos.length - 1].nombre)}".`,
+                ca: `🚩 Comença a «${tr(ciclo.pasos[0].nombre)}» i 🏁 acaba a «${tr(ciclo.pasos[ciclo.pasos.length - 1].nombre)}».`,
               })}
             </p>
           )}
@@ -193,10 +201,13 @@ export default function CicloOrdenExamen() {
     level="secondary" />
 
   function startGame() {
-    const shuffled = [...allSteps].sort(() => Math.random() - 0.5)
-    setTL([shuffled[0]])
-    setPending(shuffled.slice(2))
-    setCurrent(shuffled[1])
+    // La semilla es SIEMPRE el paso 1 real (nunca uno al azar): así la
+    // cronología queda clara desde la primera carta que ves en pantalla.
+    const [primero, ...resto] = allSteps
+    const shuffled = resto.sort(() => Math.random() - 0.5)
+    setTL([primero])
+    setPending(shuffled.slice(1))
+    setCurrent(shuffled[0])
     // Empieza en 1: la primera carta se coloca gratis como semilla de la línea.
     setLives(MAX_LIVES); setPlaced(1)
     setFase('jugando'); setPhase('placing')
@@ -311,7 +322,7 @@ export default function CicloOrdenExamen() {
             <div className="flex items-center justify-between">
               <span className={`text-sm font-bold px-4 py-1.5 rounded-full border ${DIFICULTAD[current.dificultad].cls}`}>{tr(DIFICULTAD[current.dificultad])}</span>
               <span className={`text-2xl sm:text-3xl font-black tabular-nums transition-all duration-500 ${phase === 'revealing' ? 'text-emerald-400' : 'text-white/15'}`}>
-                {phase === 'revealing' ? formatPaso(current.orden, tr) : '????'}
+                {phase === 'revealing' ? formatPaso(current.orden, total, tr) : '????'}
               </span>
             </div>
           </div>
@@ -342,9 +353,11 @@ export default function CicloOrdenExamen() {
               const big = timeline.length <= 4
               return (
                 <div key={ev.id} className="flex items-stretch gap-0">
-                  <div className={`flex flex-col justify-between bg-white/10 border border-white/20 rounded-xl mx-1 p-3 transition-all duration-300 ${big ? 'min-w-[150px] max-w-[170px]' : 'min-w-[110px] max-w-[130px]'}`}>
+                  <div className={`flex flex-col justify-between bg-white/10 border border-white/20 rounded-xl mx-1 p-3 transition-all duration-300 ${big ? 'min-w-[150px] max-w-[170px]' : 'min-w-[110px] max-w-[130px]'} ${ev.orden === 1 ? 'ring-1 ring-emerald-400/50' : ''} ${ev.orden === total ? 'ring-1 ring-amber-400/50' : ''}`}>
+                    {ev.orden === 1 && <p className="text-emerald-400 text-[9px] font-bold uppercase tracking-wide mb-1">🚩 {tr({ es: 'Inicio', en: 'Start', ca: 'Inici' })}</p>}
+                    {ev.orden === total && <p className="text-amber-400 text-[9px] font-bold uppercase tracking-wide mb-1">🏁 {tr({ es: 'Fin', en: 'End', ca: 'Fi' })}</p>}
                     <p className={`text-white font-bold leading-snug line-clamp-3 ${big ? 'text-sm' : 'text-xs'}`}>{tr(ev.nombre)}</p>
-                    <p className={`text-emerald-400 font-black mt-1 ${big ? 'text-base' : 'text-xs'}`}>{formatPaso(ev.orden, tr)}</p>
+                    <p className={`text-emerald-400 font-black mt-1 ${big ? 'text-base' : 'text-xs'}`}>{formatPaso(ev.orden, total, tr)}</p>
                   </div>
                   <SlotBtn index={i + 1} phase={phase} chosen={chosenSlot} correct={correctSlot} onPlace={placeCard} tr={tr} />
                 </div>
