@@ -97,6 +97,19 @@ de qué combinaciones existen. Lo consumen por igual:
 - el selector de tareas del profesor (cascada materia→tema→formato→nivel);
 - el enrutado y etiquetado de tareas.
 
+Hay dos formas de declarar un tema, según de dónde salga el contenido:
+
+- **Por mecánica** (historia, matemáticas): el formato define el `game`, y el
+  tema es un filtro que la página aplica. `Guerra Civil` + `Línea del Tiempo`
+  → game `linea-temporal`, category `gce`.
+- **Por examen** (lengua, geografía, física, química): cada combinación
+  tema+formato ES un examen distinto del registro, declarado en el mapa
+  `formatos: { <formato>: <examId> }` del tema. `Sustantivos` + `Tipo test`
+  → examen `espanol-gramatica-sustantivos-test`. Admite ids irregulares y no
+  necesita ningún caso por materia en `ExamenTema.jsx` (se enruta con
+  `examRoute`). Los exámenes cubiertos por un tema desaparecen de la lista
+  plana "Examen general (sin tema)" para no ofrecerlos dos veces.
+
 Cada formato declara:
 - `game` — el id con el que la página guarda stats.
 - `usesLevel` — si tiene dificultad.

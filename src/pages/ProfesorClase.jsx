@@ -10,7 +10,7 @@ import { aggregateStudentStats, SUBJECTS } from '../lib/statsAggregation'
 import { getClassAssignments, createAssignment, markManualCompletion } from '../lib/assignments'
 import { GAMES } from '../lib/games'
 import { EXAMS, examGroupLabel } from '../lib/exams'
-import { hasTopics, topicIds, topicFormats, formatLevels, topicTask, catalogTaskLabel, LEVELS } from '../lib/topicCatalog'
+import { hasTopics, topicIds, topicFormats, formatLevels, topicTask, catalogTaskLabel, examsCoveredByTopics, LEVELS } from '../lib/topicCatalog'
 
 function catalogLabel(task, lang) {
   return catalogTaskLabel(task, lang, { games: GAMES, exams: EXAMS, subjects: SUBJECTS })
@@ -407,7 +407,8 @@ export default function ProfesorClase() {
                       const lbl = subj?.examLabels[temaId]
                       return <option key={temaId} value={temaId} className="bg-[#0d0d1a]">{lbl?.[lang] || lbl?.es || temaId}</option>
                     })}
-                    {SUBJECTS.find(s => s.id === taskExamSubject)?.examIds.some(id => EXAMS[id] && !EXAMS[id].retired) && (
+                    {SUBJECTS.find(s => s.id === taskExamSubject)?.examIds.some(id =>
+                      EXAMS[id] && !EXAMS[id].retired && !examsCoveredByTopics(taskExamSubject).has(id)) && (
                       <option value="__general__" className="bg-[#0d0d1a]">{tr({ es: 'Examen general (sin tema)', en: 'General exam (no topic)', ca: 'Examen general (sense tema)' })}</option>
                     )}
                   </select>
@@ -442,7 +443,11 @@ export default function ProfesorClase() {
                     {(() => {
                       // Agrupación estándar: exámenes de la misma familia (ver
                       // examGroupLabel en exams.js) bajo un optgroup; sueltos primero.
-                      const ids = SUBJECTS.find(s => s.id === taskExamSubject)?.examIds.filter(id => EXAMS[id] && !EXAMS[id].retired) || []
+                      // Se omiten los ya cubiertos por algún tema: se asignan
+                      // por la vía tema→formato, no dos veces.
+                      const cubiertos = examsCoveredByTopics(taskExamSubject)
+                      const ids = SUBJECTS.find(s => s.id === taskExamSubject)?.examIds
+                        .filter(id => EXAMS[id] && !EXAMS[id].retired && !cubiertos.has(id)) || []
                       const groups = new Map()
                       for (const id of ids) {
                         const g = examGroupLabel(id, lang) || ''

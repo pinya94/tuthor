@@ -3,7 +3,8 @@ import { useParams, useNavigate, useSearchParams } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import { EXAMENES_HISTORIA } from '../data/historiaEvents'
 import { MODOS } from '../lib/mathEngine'
-import { defaultLevel, formatLevels } from '../lib/topicCatalog'
+import { examRoute } from '../lib/exams'
+import { defaultLevel, formatLevels, topicTask } from '../lib/topicCatalog'
 
 // Página puente del modelo uniforme materia → tema → formato → nivel
 // (ver src/lib/topicCatalog.js). La URL /examen/<materia>/<tema>/<formato>?nivel=
@@ -25,6 +26,13 @@ export default function ExamenTema({ materia }) {
     const disponibles = formatLevels(materia, tema, formato)
     const nivel = disponibles.includes(pedido) ? pedido : defaultLevel(materia, tema, formato)
     const go = (path, state) => navigate(localPath(path), { replace: true, state: { backPath, ...state } })
+
+    // Materias basadas en exámenes (lengua, geografía, física, química): cada
+    // combinación tema+formato ES un examen del registro, con su propia ruta.
+    // No hace falta ningún caso específico por materia.
+    const task = topicTask(materia, tema, formato)
+    const ruta = task && examRoute(task.gameId)
+    if (ruta) return go(ruta)
 
     if (materia === 'matematicas') {
       if (formato === 'examen-practica') return go(`/estudiar/matematicas/${tema}/examen`, { nivel })

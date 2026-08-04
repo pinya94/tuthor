@@ -41,6 +41,14 @@ export const LEVELS = Object.fromEntries(
   NIVEL_IDS.map(id => [id, { label: nivelLabel(id), emoji: GRADOS[id].emoji }])
 )
 
+// Materias basadas en exámenes (ExamenMC): cada combinación tema+formato ES un
+// examen distinto del registro, y ExamenMC guarda `category = su propio id`.
+// Se declaran con el mapa `formatos: { <formato>: <examId> }` dentro del tema,
+// que además permite ids irregulares (ortografía no sigue el patrón de
+// gramática). El formato solo aporta la etiqueta; el examen sale del tema.
+const examTema = (formatos, extra = {}) => ({ niveles: [], formatos, ...extra })
+const examFormato = (label, emoji) => ({ label, emoji, usesLevel: false, tracksTopic: true })
+
 export const TOPIC_CATALOG = {
   historia: {
     // Niveles con eventos para cada tema (validado en tests contra
@@ -126,6 +134,75 @@ export const TOPIC_CATALOG = {
       },
     },
   },
+
+  // La misma materia analizada de dos maneras: señalar sobre la frase real
+  // (familia frases-*, la mecánica de Analiza la Frase) o tipo test
+  // (familia espanol-*). Antes eran 23 exámenes planos con nombres casi
+  // idénticos ("Sustantivos" salía dos veces).
+  lengua: {
+    temas: {
+      sustantivos: examTema({ senalar: 'frases-sustantivos-test', test: 'espanol-gramatica-sustantivos-test' }),
+      verbos: examTema({ senalar: 'frases-verbos-test', test: 'espanol-gramatica-verbos-test' }),
+      adjetivos: examTema({ senalar: 'frases-adjetivos-test', test: 'espanol-gramatica-adjetivos-test' }),
+      determinantes: examTema({ senalar: 'frases-determinantes-test', test: 'espanol-gramatica-determinantes-test' }),
+      pronombres: examTema({ senalar: 'frases-pronombres-test', test: 'espanol-gramatica-pronombres-test' }),
+      adverbios: examTema({ senalar: 'frases-adverbios-test', test: 'espanol-gramatica-adverbios-test' }),
+      nexos: examTema({ senalar: 'frases-nexos-test', test: 'espanol-gramatica-nexos-test' }),
+      morfologia: examTema({ senalar: 'frases-morfologia-test', test: 'espanol-gramatica-morfologia-test' }),
+      sintaxis: examTema({ senalar: 'frases-sintaxis-test', test: 'espanol-gramatica-sintaxis-test' }),
+      complementos: examTema({ senalar: 'frases-complementos-test' }),
+      clases: examTema({ senalar: 'frases-clases-test' }),
+      acentuacion: examTema({ test: 'espanol-ortografia-acentuacion-test' }),
+      bv: examTema({ test: 'espanol-ortografia-bv-test' }),
+    },
+    formatos: {
+      senalar: examFormato({ es: 'Señalar en la frase', en: 'Spot in the sentence', ca: 'Assenyalar a la frase' }, '🧐'),
+      test: examFormato({ es: 'Tipo test', en: 'Multiple choice', ca: 'Tipus test' }, '📚'),
+    },
+  },
+
+  // Tema = la región; formato = la mecánica con la que se examina.
+  geografia: {
+    temas: {
+      mundo: examTema({ pistas: 'geografia-examen', mapa: 'geomapa-examen' }),
+      espana: examTema({ mapa: 'geomapa-espana-examen' }),
+      eeuu: examTema({ mapa: 'geomapa-eeuu-examen' }),
+    },
+    formatos: {
+      pistas: examFormato({ es: 'Adivina por pistas', en: 'Guess from clues', ca: 'Endevina per pistes' }, '🌍'),
+      mapa: examFormato({ es: 'Señala en el mapa', en: 'Point on the map', ca: 'Assenyala al mapa' }, '🗺️'),
+    },
+  },
+
+  // Teoría (examen tipo test) vs práctica (el examen del juego del tema).
+  fisica: {
+    temas: {
+      fuerzas: examTema({ teoria: 'fuerzas', practica: 'fuerza-neta-test' }),
+      palancas: examTema({ practica: 'balanza-test' }),
+      energia: examTema({ teoria: 'energia' }),
+      electricidad: examTema({ teoria: 'electricidad' }),
+      'ondas-luz': examTema({ teoria: 'ondas-luz' }),
+    },
+    formatos: {
+      teoria: examFormato({ es: 'Teoría (tipo test)', en: 'Theory (quiz)', ca: 'Teoria (tipus test)' }, '📝'),
+      practica: examFormato({ es: 'Práctica (con el juego)', en: 'Practice (with the game)', ca: 'Pràctica (amb el joc)' }, '🎮'),
+    },
+  },
+
+  quimica: {
+    temas: {
+      'ajuste-ecuaciones': examTema({ practica: 'balanza-ecuaciones-test' }),
+      'tabla-periodica': examTema({ teoria: 'tabla-periodica' }),
+      'atomos-moleculas': examTema({ teoria: 'atomos-moleculas' }),
+      'estados-materia': examTema({ teoria: 'estados-materia' }),
+      'mezclas-separacion': examTema({ teoria: 'mezclas-separacion' }),
+      'acidos-bases': examTema({ teoria: 'acidos-bases' }),
+    },
+    formatos: {
+      teoria: examFormato({ es: 'Teoría (tipo test)', en: 'Theory (quiz)', ca: 'Teoria (tipus test)' }, '📝'),
+      practica: examFormato({ es: 'Práctica (con el juego)', en: 'Practice (with the game)', ca: 'Pràctica (amb el joc)' }, '🎮'),
+    },
+  },
 }
 
 // ── Consultas ────────────────────────────────────────────────────────────────
@@ -155,12 +232,31 @@ export function formatLevels(materia, tema, formatoId) {
 // Formatos jugables para (materia, tema), ya resueltos con sus niveles.
 export function topicFormats(materia, tema) {
   const subj = TOPIC_CATALOG[materia]
-  if (!subj?.temas?.[tema]) return []
-  return Object.entries(subj.formatos)
-    .filter(([, fmt]) => !fmt.temas || fmt.temas.includes(tema))
-    .map(([id, fmt]) => ({ id, ...fmt, niveles: formatLevels(materia, tema, id) }))
+  const temaCfg = subj?.temas?.[tema]
+  if (!temaCfg) return []
+  // Materias basadas en exámenes: el tema declara exactamente qué formatos
+  // tiene (y con qué examen); el resto usa las reglas del propio formato.
+  const ids = temaCfg.formatos
+    ? Object.keys(temaCfg.formatos).filter(id => subj.formatos[id])
+    : Object.keys(subj.formatos).filter(id => {
+        const fmt = subj.formatos[id]
+        return !fmt.temas || fmt.temas.includes(tema)
+      })
+  return ids
+    .map(id => ({ id, ...subj.formatos[id], niveles: formatLevels(materia, tema, id) }))
     // Un formato que usa nivel pero no tiene ninguno disponible no es jugable
     .filter(f => !f.usesLevel || f.niveles.length > 0)
+}
+
+// Exámenes ya cubiertos por algún tema de la materia: el desplegable plano
+// ("Examen general (sin tema)") los omite para no ofrecer lo mismo dos veces.
+export function examsCoveredByTopics(materia) {
+  const temas = TOPIC_CATALOG[materia]?.temas ?? {}
+  const ids = new Set()
+  for (const cfg of Object.values(temas)) {
+    for (const examId of Object.values(cfg.formatos ?? {})) ids.add(examId)
+  }
+  return ids
 }
 
 // Nivel por defecto de un tema: el primero disponible (Primaria para
@@ -177,8 +273,14 @@ export function defaultLevel(materia, tema, formatoId) {
 // `category` debe coincidir con lo que la página guarda en saveActivity para
 // que la tarea se complete sola (salvo formatos con tracksTopic: false).
 export function topicTask(materia, tema, formatoId, nivel = null) {
-  const fmt = TOPIC_CATALOG[materia]?.formatos?.[formatoId]
+  const subj = TOPIC_CATALOG[materia]
+  const fmt = subj?.formatos?.[formatoId]
   if (!fmt) return null
+  // Materia basada en exámenes: el examen lo declara el tema, y ExamenMC
+  // guarda `category = su propio id`, así que gameId y category coinciden.
+  const examId = subj.temas?.[tema]?.formatos?.[formatoId]
+  if (examId) return { gameId: examId, category: examId, level: null }
+
   const category = typeof fmt.category === 'function' ? fmt.category(tema, nivel) : tema
   return {
     gameId: fmt.game,

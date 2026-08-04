@@ -11,7 +11,7 @@ import { EXAMS, routableExams, examRoute } from '../exams.js'
 import { SUBJECT_DEFS, SUBJECTS } from '../statsAggregation.js'
 import {
   TOPIC_CATALOG, TOPIC_SUBJECT_IDS, topicIds, topicFormats,
-  topicTask, findTopic, taskMatchesPlay,
+  topicTask, findTopic, taskMatchesPlay, examsCoveredByTopics,
 } from '../topicCatalog.js'
 import { GAMES as CATALOG_GAMES } from '../../data/constants.js'
 import { resolveMeta } from '../../../scripts/seoMeta.mjs'
@@ -149,12 +149,13 @@ function everyCombo(fn) {
 }
 
 describe('catálogo por tema (topicCatalog.js): materia → tema → formato → nivel', () => {
-  it('todo tema tiene etiqueta en catLabels de su materia', () => {
+  it('todo tema tiene etiqueta (catLabels propia o la del examen homónimo)', () => {
     for (const materia of TOPIC_SUBJECT_IDS) {
-      const subj = SUBJECT_DEFS.find(s => s.id === materia)
+      const subj = SUBJECTS.find(s => s.id === materia)
       expect(subj, `${materia}: materia inexistente en SUBJECT_DEFS`).toBeTruthy()
       for (const tema of topicIds(materia)) {
-        expect(subj.catLabels[tema], `${materia}.${tema}: sin etiqueta en catLabels`).toBeTruthy()
+        // examLabels ya mezcla las etiquetas de exámenes y las de catLabels
+        expect(subj.examLabels[tema], `${materia}.${tema}: sin etiqueta`).toBeTruthy()
       }
     }
   })
@@ -167,13 +168,26 @@ describe('catálogo por tema (topicCatalog.js): materia → tema → formato →
     }
   })
 
-  it('el juego de cada formato está registrado en games.js o exams.js', () => {
+  it('el juego/examen de cada combinación está registrado y es jugable', () => {
+    everyCombo(({ materia, tema, formato, nivel }) => {
+      const { gameId } = topicTask(materia, tema, formato, nivel)
+      const known = GAMES[gameId] || EXAMS[gameId] ||
+        // ids de stats sin juego propio, declarados en SUBJECT_DEFS.gameIds
+        SUBJECT_DEFS.some(s => s.gameIds.includes(gameId))
+      expect(known, `${materia}/${tema}/${formato}: "${gameId}" no está en ningún registro`).toBeTruthy()
+      // Si es un examen del registro, debe tener ruta (no estar retirado)
+      if (EXAMS[gameId]) {
+        expect(examRoute(gameId), `${materia}/${tema}/${formato}: examen "${gameId}" sin ruta jugable`).toMatch(/^\//)
+      }
+    })
+  })
+
+  it('cada examen se ofrece por una sola vía: o por tema, o en la lista plana', () => {
     for (const materia of TOPIC_SUBJECT_IDS) {
-      for (const [id, fmt] of Object.entries(TOPIC_CATALOG[materia].formatos)) {
-        const known = GAMES[fmt.game] || EXAMS[fmt.game] ||
-          // ids de stats sin juego propio, declarados en SUBJECT_DEFS.gameIds
-          SUBJECT_DEFS.some(s => s.gameIds.includes(fmt.game))
-        expect(known, `${materia}.${id}: game "${fmt.game}" no está en ningún registro`).toBeTruthy()
+      const cubiertos = examsCoveredByTopics(materia)
+      for (const id of cubiertos) {
+        expect(EXAMS[id], `${materia}: el tema referencia "${id}", que no existe en exams.js`).toBeTruthy()
+        expect(EXAMS[id].retired, `${materia}: el tema referencia "${id}", que está retirado`).toBeFalsy()
       }
     }
   })

@@ -61,7 +61,12 @@ export const SUBJECT_DEFS = [
     label: { es: 'Geografía', en: 'Geography', ca: 'Geografia' },
     gameIds: [],
     catIds: [],
-    catLabels: {},
+    // Temas = regiones (topicCatalog.js)
+    catLabels: {
+      mundo:  { es: 'Mundo',     en: 'World', ca: 'Món' },
+      espana: { es: 'España',    en: 'Spain', ca: 'Espanya' },
+      eeuu:   { es: 'EE. UU.',   en: 'USA',   ca: 'EUA' },
+    },
   },
   {
     id: 'matematicas', emoji: '🔢',
@@ -79,14 +84,20 @@ export const SUBJECT_DEFS = [
     label: { es: 'Química', en: 'Chemistry', ca: 'Química' },
     gameIds: [],
     catIds: [],
-    catLabels: {},
+    catLabels: {
+      'ajuste-ecuaciones': { es: 'Ajuste de Ecuaciones', en: 'Balancing Equations', ca: 'Ajust d\'Equacions' },
+    },
   },
   {
     id: 'fisica', emoji: '⚡',
     label: { es: 'Física', en: 'Physics', ca: 'Física' },
     gameIds: [],
     catIds: [],
-    catLabels: {},
+    // Los demás temas del catálogo comparten id con su examen y ya llevan
+    // etiqueta desde exams.js; solo hace falta la del tema sin examen propio.
+    catLabels: {
+      palancas: { es: 'Palancas y Momentos', en: 'Levers & Moments', ca: 'Palanques i Moments' },
+    },
   },
   {
     id: 'biologia', emoji: '🧬',
@@ -107,7 +118,23 @@ export const SUBJECT_DEFS = [
     label: { es: 'Lengua', en: 'Language', ca: 'Llengua' },
     gameIds: [],
     catIds: [],
-    catLabels: {},
+    // Temas del catálogo (topicCatalog.js): cada uno se examina señalando
+    // sobre la frase o tipo test.
+    catLabels: {
+      sustantivos:   { es: 'Sustantivos',            en: 'Nouns',                       ca: 'Substantius' },
+      verbos:        { es: 'Verbos',                 en: 'Verbs',                       ca: 'Verbs' },
+      adjetivos:     { es: 'Adjetivos',              en: 'Adjectives',                  ca: 'Adjectius' },
+      determinantes: { es: 'Determinantes',          en: 'Determiners',                 ca: 'Determinants' },
+      pronombres:    { es: 'Pronombres',             en: 'Pronouns',                    ca: 'Pronoms' },
+      adverbios:     { es: 'Adverbios',              en: 'Adverbs',                     ca: 'Adverbis' },
+      nexos:         { es: 'Preposiciones y Conjunciones', en: 'Prepositions & Conjunctions', ca: 'Preposicions i Conjuncions' },
+      morfologia:    { es: 'Género y Número',        en: 'Gender & Number',             ca: 'Gènere i Nombre' },
+      sintaxis:      { es: 'Sintaxis',               en: 'Syntax',                      ca: 'Sintaxi' },
+      complementos:  { es: 'Complementos (CD/CI/CC)', en: 'Objects (DO/IO)',            ca: 'Complements (CD/CI/CC)' },
+      clases:        { es: 'Clases de Palabras',     en: 'Word Classes',                ca: 'Classes de Paraules' },
+      acentuacion:   { es: 'Acentuación',            en: 'Accentuation',                ca: 'Accentuació' },
+      bv:            { es: 'B y V',                  en: 'B and V',                     ca: 'B i V' },
+    },
   },
   {
     id: 'ingles', emoji: '🇬🇧',

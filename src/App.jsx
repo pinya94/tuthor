@@ -135,8 +135,13 @@ function AppRoutes() {
       <Route path="examen/ciclo/:categoria" element={<CicloOrdenExamen />} />
       <Route path="examen/diagnostico" element={<Diagnostico />} />
       <Route path="examen/diagnostico/:diagId" element={<Diagnostico />} />
+      {/* Catálogo por tema (src/lib/topicCatalog.js): una ruta por materia */}
       <Route path="examen/historia/:tema/:formato" element={<ExamenTema materia="historia" />} />
       <Route path="examen/matematicas/:tema/:formato" element={<ExamenTema materia="matematicas" />} />
+      <Route path="examen/lengua/:tema/:formato" element={<ExamenTema materia="lengua" />} />
+      <Route path="examen/geografia/:tema/:formato" element={<ExamenTema materia="geografia" />} />
+      <Route path="examen/fisica/:tema/:formato" element={<ExamenTema materia="fisica" />} />
+      <Route path="examen/quimica/:tema/:formato" element={<ExamenTema materia="quimica" />} />
 
       {/* ── JUEGOS ── */}
       <Route path="juegos" element={<Juegos />} />
