@@ -1,11 +1,15 @@
+import { useEffect, useState } from 'react'
 import CoinsAnimation, { CoinsEarnedBadge } from './CoinsAnimation'
 import GameResultFooter from './GameResultFooter'
 import ShareButton from './ShareButton'
 import { computeCoins } from '../lib/games'
+import { consumeCompletedAssignments } from '../lib/activity'
 
 const L = {
   ptsLabel:  { es: 'puntos', en: 'points', ca: 'punts' },
   playAgain: { es: '▶ Jugar de nuevo', en: '▶ Play again', ca: '▶ Jugar de nou' },
+  taskDone:  { es: 'Tarea de', en: 'Task for', ca: 'Tasca de' },
+  taskDoneEnd: { es: 'completada', en: 'completed', ca: 'completada' },
 }
 
 /**
@@ -39,6 +43,18 @@ export default function GameEndScreen({
     ? (scoreLabel[lang] ?? scoreLabel.es)
     : (scoreLabel ?? L.ptsLabel[lang] ?? L.ptsLabel.es)
 
+  // Aviso de tarea(s) del profesor completadas con esta partida — llega desde
+  // saveActivity (ver consumeCompletedAssignments en src/lib/activity.js).
+  // Buffer + evento cubren que el hook resuelva antes o después de montar.
+  const [completedTasks, setCompletedTasks] = useState(null)
+  useEffect(() => {
+    const buffered = consumeCompletedAssignments()
+    if (buffered) setCompletedTasks(buffered)
+    const onCompleted = e => setCompletedTasks(e.detail)
+    window.addEventListener('tuthor:assignments-completed', onCompleted)
+    return () => window.removeEventListener('tuthor:assignments-completed', onCompleted)
+  }, [])
+
   return (
     <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-6">
       <div className="max-w-lg w-full">
@@ -49,6 +65,11 @@ export default function GameEndScreen({
           <p className="text-5xl font-black text-white mb-1">{(score ?? 0).toLocaleString()}</p>
           <p className="text-white/60 text-lg">{sLabel}</p>
           <CoinsEarnedBadge coins={coins} lang={lang} />
+          {completedTasks?.map((t, i) => (
+            <p key={i} className="text-green-400 font-bold text-sm mt-3">
+              ✅ {L.taskDone[lang] ?? L.taskDone.es} {t.className} {L.taskDoneEnd[lang] ?? L.taskDoneEnd.es}
+            </p>
+          ))}
           {message && <p className="text-[#EDAE49] font-bold mt-3">{message}</p>}
 
           {stats?.length > 0 && (

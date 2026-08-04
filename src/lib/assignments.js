@@ -59,7 +59,11 @@ export async function recordAssignmentCompletion(uid, gameId, category, { score,
   const snap = await getDocs(query(collection(db, 'assignments'), where('studentIds', 'array-contains', uid)))
   const matches = snap.docs.filter(d => {
     const data = d.data()
-    return data.kind === 'catalog' && data.gameId === gameId && (!data.category || data.category === category)
+    // Solo tareas aún no hechas: repetir un juego ya completado no debe
+    // volver a anunciar "tarea completada" en la pantalla final.
+    return data.kind === 'catalog' && data.gameId === gameId
+      && (!data.category || data.category === category)
+      && !data.completions?.[uid]?.done
   })
   await Promise.all(matches.map(d => updateDoc(d.ref, {
     [`completions.${uid}`]: {
@@ -70,4 +74,6 @@ export async function recordAssignmentCompletion(uid, gameId, category, { score,
       completedAt: serverTimestamp(),
     },
   })))
+  // Para el aviso de GameEndScreen ("✅ Tarea de 3º ESO A completada")
+  return matches.map(d => ({ className: d.data().className }))
 }

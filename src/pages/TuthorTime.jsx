@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { useAuth } from '../context/AuthContext'
 import { saveActivity } from '../lib/activity'
+import { computeCoins } from '../lib/games'
 
 export default function TuthorTime() {
   const { user } = useAuth()
@@ -15,6 +16,7 @@ export default function TuthorTime() {
           type: 'juego',
           game: 'tuthor-time',
           timeSpent,
+          coinsEarned: computeCoins('tuthor-time', { timeSpent }),
         }).catch(() => {})
       }
     }

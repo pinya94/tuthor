@@ -47,7 +47,9 @@ a un juego homónimo, su id lleva sufijo `-test` (`balanza` / `balanza-test`).
 
 Gratis al registrar: perfil, "Por materia", panel del profesor (Asignar
 tarea → Juego), leaderboard (`saveActivity` avisa en dev si el id no está
-registrado), tareas clicables del alumno (usa `route`).
+registrado), tareas clicables del alumno (usa `route`) y el aviso
+"✅ Tarea de X completada" en GameEndScreen (evento de saveActivity —
+ningún juego tiene que hacer nada).
 
 ## §2 Examen nuevo (`mi-examen` o `mi-juego-test`)
 
@@ -62,32 +64,52 @@ registrado), tareas clicables del alumno (usa `route`).
    exámenes en App.jsx: el campo `route` (absoluto) existe SOLO para las
    heredadas.
 3. **Sitemap**: añadir `/examen/mi-examen`.
-4. **Retirar** un examen: quitar `path`/`page`, poner `retired: true` —
+4. **Familia de exámenes** (varios del mismo bloque, p.ej. gramática): que
+   compartan prefijo de id y añade el prefijo a `EXAM_GROUPS` (exams.js) —
+   los desplegables largos los agrupan solos con `<optgroup>`.
+5. **Retirar** un examen: quitar `path`/`page`, poner `retired: true` —
    conserva etiquetas de stats antiguas y deja de ofrecerse como tarea.
 
 Gratis al registrar: ruta, meta, perfil, aprobados/suspensos por materia,
 desplegable de exámenes del profesor, tarea clicable del alumno.
 
-## §3 Examen por tema (tema → formato, patrón historia)
+## §3 Examen por tema (patrón estándar tema → formato)
 
-Para asignar/examinar "solo Guerra Civil" con la mecánica X:
+Para asignar/examinar un TEMA concreto con un FORMATO concreto (mecánica o
+nivel). Ya lo usan historia (tema=periodo, formato=mecánica) y matemáticas
+(tema=operación, formato=nivel). El modelo, todo en `src/lib/examTopics.js`:
 
-1. La página del formato debe **filtrar por tema** vía `location.state`
-   (`categoria`/`pool`) y guardar `saveActivity({ category: '<tema>' })`.
-2. `src/lib/examTopics.js`: añadir el tema a `EXAM_TOPICS[materia]` con sus
-   formatos; formato nuevo → entrada en `EXAM_FORMATS`.
-3. Etiqueta del tema en `SUBJECT_DEFS[materia].catLabels`
-   (statsAggregation.js).
-4. La URL estable es `/examen/historia/:tema/:formato`
-   (`ExamenHistoriaTema.jsx` traduce a `location.state` y redirige — para
-   otra materia con temas, replicar ese patrón de página-puente).
-5. Si el formato guarda stats con un id SIN entrada en games.js
+- `EXAM_TOPICS[materia][tema] = [formatos]` — qué combinaciones existen.
+- `EXAM_FORMATS[formato]` — etiqueta/emoji del formato.
+- `topicTask(materia, tema, formato)` → `{gameId, category}` — la ÚNICA
+  pieza específica por materia (un caso en el switch): qué id de juego y qué
+  `category` debe guardar la página para que la tarea se complete sola.
+- URL estable `/examen/<materia>/<tema>/<formato>` — página puente
+  `ExamenTema.jsx` (un caso por materia: traduce a `location.state` y
+  redirige) + su `<Route>` en App.jsx.
+
+Pasos para conectar una materia/tema nuevo:
+
+1. La página destino debe **filtrar por tema/nivel** vía `location.state` y
+   guardar `saveActivity({ category })` EXACTAMENTE igual que lo que devuelve
+   `topicTask` (hay test de ida y vuelta que lo vigila).
+2. Añadir temas/formatos a `EXAM_TOPICS`/`EXAM_FORMATS` + caso en
+   `topicTask` si la materia resuelve distinto + caso en `ExamenTema.jsx`.
+3. Etiquetas de temas en `SUBJECT_DEFS[materia].catLabels` — si se pueden
+   derivar de datos existentes (caso mates ← mathEngine), generarlas, no
+   escribirlas a mano.
+4. Si el formato guarda stats con un id SIN entrada en games.js
    (p.ej. `juego-fechas`), añadir ese id a la lista manual `gameIds` de su
    materia en SUBJECT_DEFS (es el ÚNICO caso en que se toca esa lista).
 
+Con eso el selector del profesor (cascada materia→tema→formato), la
+etiqueta combinada, la tarea clicable del alumno y el aviso de completada
+funcionan solos.
+
 NO conectar aquí exámenes que guarden `category` fija con su propio id
-(caso portadas-examen): rompería el conteo de aprobados del perfil. Esos se
-asignan como "Examen general (sin tema)".
+(caso portadas-examen o el examen clásico matematicas-examen): rompería el
+conteo de aprobados del perfil. Esos se asignan como "Examen general (sin
+tema)".
 
 ## §4 Materia nueva
 

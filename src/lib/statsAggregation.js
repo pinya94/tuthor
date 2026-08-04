@@ -3,8 +3,31 @@
 // panel de profesor (una llamada por alumno de la clase).
 import { GAMES } from './games'
 import { examsBySubject } from './exams'
+import { MODOS, GRADOS } from './mathEngine'
 
 function todayStr() { return new Date().toISOString().slice(0, 10) }
+
+// ── Categorías de matemáticas, derivadas de mathEngine ────────────────────
+// MatematicasPractica guarda category `${modo}-${nivel}`; aquí se generan
+// los ids y etiquetas de todas las combinaciones para "Por materia" y para
+// los temas del selector de tareas (EXAM_TOPICS.matematicas usa los modos).
+const MATH_MODO_IDS = Object.keys(MODOS).filter(id => id !== 'funciones')
+const modoLabel = m => ({ es: m.titulo, en: m.tituloEn || m.titulo, ca: m.tituloCa || m.titulo })
+const MATH_CAT_IDS = MATH_MODO_IDS.flatMap(modo => Object.keys(GRADOS).map(nivel => `${modo}-${nivel}`))
+const MATH_CAT_LABELS = {
+  // El modo a secas (tema del selector de tareas): "Divisiones"
+  ...Object.fromEntries(MATH_MODO_IDS.map(id => [id, modoLabel(MODOS[id])])),
+  // La combinación (fila de stats): "Divisiones (ESO)"
+  ...Object.fromEntries(MATH_MODO_IDS.flatMap(modo => Object.keys(GRADOS).map(nivel => {
+    const m = modoLabel(MODOS[modo])
+    const g = GRADOS[nivel]
+    return [`${modo}-${nivel}`, {
+      es: `${m.es} (${g.label})`,
+      en: `${m.en} (${g.labelEn || g.label})`,
+      ca: `${m.ca} (${g.label})`,
+    }]
+  }))),
+}
 
 // ── Juegos reales, derivados del registro central (src/lib/games.js) ──────
 export const GAME_LABELS = Object.fromEntries(
@@ -44,11 +67,12 @@ export const SUBJECT_DEFS = [
     id: 'matematicas', emoji: '🔢',
     label: { es: 'Matemáticas', en: 'Maths', ca: 'Matemàtiques' },
     gameIds: [],
-    catIds: ['facil', 'medio', 'dificil', 'combinado-primaria', 'combinado-eso', 'combinado-bachillerato',
-             'sumas-primaria', 'sumas-eso', 'sumas-bachillerato',
+    // Combinaciones modo×nivel derivadas de mathEngine + ids legacy de
+    // stats antiguas (singular / dificultades retiradas), solo lectura.
+    catIds: [...MATH_CAT_IDS, 'facil', 'medio', 'dificil',
              'multiplicacion-primaria', 'multiplicacion-eso', 'multiplicacion-bachillerato',
              'division-primaria', 'division-eso', 'division-bachillerato'],
-    catLabels: {},
+    catLabels: MATH_CAT_LABELS,
   },
   {
     id: 'quimica', emoji: '⚗️',

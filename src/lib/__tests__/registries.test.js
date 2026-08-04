@@ -9,7 +9,7 @@ import { fileURLToPath } from 'node:url'
 import { GAMES, computeCoins } from '../games.js'
 import { EXAMS, routableExams, examRoute } from '../exams.js'
 import { SUBJECT_DEFS, SUBJECTS } from '../statsAggregation.js'
-import { EXAM_TOPICS, EXAM_FORMATS } from '../examTopics.js'
+import { EXAM_TOPICS, EXAM_FORMATS, topicTask, findTopicTask } from '../examTopics.js'
 import { GAMES as CATALOG_GAMES } from '../../data/constants.js'
 import { resolveMeta } from '../../../scripts/seoMeta.mjs'
 
@@ -139,6 +139,26 @@ describe('materias (statsAggregation.js) ↔ registros', () => {
         expect(subj.catLabels[temaId], `${subjectId}.${temaId}: sin etiqueta en catLabels`).toBeTruthy()
         for (const f of formatos) {
           expect(EXAM_FORMATS[f], `${subjectId}.${temaId}: formato "${f}" sin entrada en EXAM_FORMATS`).toBeTruthy()
+        }
+      }
+    }
+  })
+
+  it('topicTask ↔ findTopicTask hacen ida y vuelta para toda combinación tema×formato', () => {
+    // Garantiza que toda tarea creada por el profesor se puede etiquetar y
+    // enrutar después (Clase.jsx), y que no hay dos combinaciones que
+    // produzcan la misma tarea {gameId, category}.
+    const seen = new Map()
+    for (const [materia, temas] of Object.entries(EXAM_TOPICS)) {
+      for (const [tema, formatos] of Object.entries(temas)) {
+        for (const formato of formatos) {
+          const task = topicTask(materia, tema, formato)
+          expect(task.gameId, `${materia}/${tema}/${formato}: sin gameId`).toBeTruthy()
+          expect(task.category, `${materia}/${tema}/${formato}: sin category`).toBeTruthy()
+          const key = `${task.gameId}|${task.category}`
+          expect(seen.has(key), `${materia}/${tema}/${formato}: colisiona con ${seen.get(key)}`).toBe(false)
+          seen.set(key, `${materia}/${tema}/${formato}`)
+          expect(findTopicTask(task), `${materia}/${tema}/${formato}: findTopicTask no lo recupera`).toEqual({ materia, tema, formato })
         }
       }
     }

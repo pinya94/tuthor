@@ -7,6 +7,25 @@ import {
 import { isKnownGame } from './games'
 import { recordAssignmentCompletion } from './assignments'
 
+// ── Aviso "tarea completada" para GameEndScreen ──────────────────────────────
+// recordAssignmentCompletion corre fire-and-forget desde saveActivity, así
+// que puede resolverse antes O después de que GameEndScreen monte. Se cubren
+// los dos órdenes: buffer consumible (si llegó antes) + evento (si llega
+// después). GameEndScreen es el único consumidor — cero cambios por juego.
+let pendingCompletedAssignments = null
+
+function announceCompletedAssignments(tasks) {
+  if (!tasks || tasks.length === 0) return
+  pendingCompletedAssignments = tasks
+  window.dispatchEvent(new CustomEvent('tuthor:assignments-completed', { detail: tasks }))
+}
+
+export function consumeCompletedAssignments() {
+  const tasks = pendingCompletedAssignments
+  pendingCompletedAssignments = null
+  return tasks
+}
+
 // ── Leaderboard helpers ──────────────────────────────────────────────────────
 // Cada jugador tiene su propio documento en leaderboards/{game}/entries/{uid}:
 // sin límite de tamaño, sin carreras (cada uno escribe solo el suyo) y el
@@ -137,7 +156,9 @@ export async function saveActivity(uid, data) {
 
   const today = todayStr()
   incrementGlobalStats(data.game, today).catch(() => {})
-  recordAssignmentCompletion(uid, data.game, data.category, { score: data.score, passed: data.passed, timeSpent: data.timeSpent }).catch(() => {})
+  recordAssignmentCompletion(uid, data.game, data.category, { score: data.score, passed: data.passed, timeSpent: data.timeSpent })
+    .then(announceCompletedAssignments)
+    .catch(() => {})
 
   const statsRef = doc(db, 'users', uid, 'stats', 'global')
   const snap = await getDoc(statsRef)

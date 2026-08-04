@@ -25,7 +25,7 @@ const TuthorTime         = lazy(() => import('./pages/TuthorTime'))
 const TuthorTimeRoguelike= lazy(() => import('./pages/TuthorTimeRoguelike'))
 const OrdenTemporal      = lazy(() => import('./pages/OrdenTemporal'))
 const ExamenLineaTemporal= lazy(() => import('./pages/ExamenLineaTemporal'))
-const ExamenHistoriaTema = lazy(() => import('./pages/ExamenHistoriaTema'))
+const ExamenTema         = lazy(() => import('./pages/ExamenTema'))
 const CicloOrdenExamen   = lazy(() => import('./pages/CicloOrdenExamen'))
 const Perfil             = lazy(() => import('./pages/Perfil'))
 const Tienda             = lazy(() => import('./pages/Tienda'))
@@ -135,7 +135,8 @@ function AppRoutes() {
       <Route path="examen/ciclo/:categoria" element={<CicloOrdenExamen />} />
       <Route path="examen/diagnostico" element={<Diagnostico />} />
       <Route path="examen/diagnostico/:diagId" element={<Diagnostico />} />
-      <Route path="examen/historia/:tema/:formato" element={<ExamenHistoriaTema />} />
+      <Route path="examen/historia/:tema/:formato" element={<ExamenTema materia="historia" />} />
+      <Route path="examen/matematicas/:tema/:formato" element={<ExamenTema materia="matematicas" />} />
 
       {/* ── JUEGOS ── */}
       <Route path="juegos" element={<Juegos />} />

@@ -9,8 +9,8 @@ import { getStatsAndCosmetics, formatTime } from '../lib/activity'
 import { aggregateStudentStats, SUBJECTS } from '../lib/statsAggregation'
 import { getClassAssignments, createAssignment, markManualCompletion } from '../lib/assignments'
 import { GAMES } from '../lib/games'
-import { EXAMS } from '../lib/exams'
-import { EXAM_TOPICS, EXAM_FORMATS, catalogTaskLabel } from '../lib/examTopics'
+import { EXAMS, examGroupLabel } from '../lib/exams'
+import { EXAM_TOPICS, EXAM_FORMATS, catalogTaskLabel, topicTask } from '../lib/examTopics'
 
 function catalogLabel(task, lang) {
   return catalogTaskLabel(task, lang, { games: GAMES, exams: EXAMS, subjects: SUBJECTS })
@@ -236,7 +236,7 @@ export default function ProfesorClase() {
     // taskKind === 'exam'; '__general__' = examen plano de la materia, sin tema
     const hasTemas = !!EXAM_TOPICS[taskExamSubject]
     return hasTemas && taskTema !== '__general__'
-      ? { gameId: taskFormato, category: taskTema }
+      ? topicTask(taskExamSubject, taskTema, taskFormato)
       : { gameId: taskFormato, category: null }
   }
 
@@ -417,9 +417,26 @@ export default function ProfesorClase() {
                   <select value={taskFormato} onChange={e => setTaskFormato(e.target.value)}
                     className="w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2.5 text-sm text-white outline-none focus:border-teal-500 transition-colors">
                     <option value="" className="bg-[#0d0d1a]">{tr({ es: '-- Elige examen --', en: '-- Pick an exam --', ca: '-- Tria examen --' })}</option>
-                    {SUBJECTS.find(s => s.id === taskExamSubject)?.examIds.filter(id => EXAMS[id] && !EXAMS[id].retired).map(id => (
-                      <option key={id} value={id} className="bg-[#0d0d1a]">{EXAMS[id].emoji} {EXAMS[id].label[lang] || EXAMS[id].label.es}</option>
-                    ))}
+                    {(() => {
+                      // Agrupación estándar: exámenes de la misma familia (ver
+                      // examGroupLabel en exams.js) bajo un optgroup; sueltos primero.
+                      const ids = SUBJECTS.find(s => s.id === taskExamSubject)?.examIds.filter(id => EXAMS[id] && !EXAMS[id].retired) || []
+                      const groups = new Map()
+                      for (const id of ids) {
+                        const g = examGroupLabel(id, lang) || ''
+                        if (!groups.has(g)) groups.set(g, [])
+                        groups.get(g).push(id)
+                      }
+                      const opt = id => (
+                        <option key={id} value={id} className="bg-[#0d0d1a]">{EXAMS[id].emoji} {EXAMS[id].label[lang] || EXAMS[id].label.es}</option>
+                      )
+                      return [
+                        ...(groups.get('') || []).map(opt),
+                        ...[...groups.entries()].filter(([g]) => g !== '').map(([g, gIds]) => (
+                          <optgroup key={g} label={g} className="bg-[#0d0d1a]">{gIds.map(opt)}</optgroup>
+                        )),
+                      ]
+                    })()}
                   </select>
                 )}
               </div>

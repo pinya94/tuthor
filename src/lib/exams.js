@@ -441,3 +441,26 @@ export function examRoute(id) {
   if (e.path) return `/${e.path}`
   return e.route ?? null
 }
+
+// ── Grupos visuales para desplegables largos (optgroup) ──────────────────────
+// Convención: los exámenes de una misma familia comparten prefijo de id.
+// Familia nueva = una entrada aquí; los desplegables (ProfesorClase) agrupan
+// solos. Los exámenes sin grupo se listan sueltos al principio.
+const EXAM_GROUPS = [
+  { match: id => id === 'analiza-frases-test' || id.startsWith('frases-'),
+    label: { es: 'Analiza la Frase (señalar)', en: 'Sentence Detective (spot them)', ca: 'Analitza la Frase (assenyalar)' } },
+  { match: id => id.startsWith('espanol-gramatica-'),
+    label: { es: 'Gramática (tipo test)', en: 'Grammar (quiz)', ca: 'Gramàtica (tipus test)' } },
+  { match: id => id.startsWith('espanol-ortografia-'),
+    label: { es: 'Ortografía', en: 'Spelling', ca: 'Ortografia' } },
+  { match: id => id.startsWith('ingles-grammar-'),
+    label: { es: 'Grammar (tipo test)', en: 'Grammar (quiz)', ca: 'Grammar (tipus test)' } },
+  { match: id => id.startsWith('ingles-pos-'),
+    label: { es: 'Señalar palabras', en: 'Spot the words', ca: 'Assenyalar paraules' } },
+]
+
+// Etiqueta de grupo de un examen, o null si va suelto.
+export function examGroupLabel(id, lang = 'es') {
+  const g = EXAM_GROUPS.find(g => g.match(id))
+  return g ? (g.label[lang] ?? g.label.es) : null
+}

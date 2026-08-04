@@ -492,6 +492,62 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Economía', niveles: 'ESO, Bachillerato',
   },
+  'pentagrama-path': {
+    titulo: 'Pentagrama Path',
+    subtitulo: 'Juego de Lectura de Partituras y Notas Musicales',
+    emoji: '🎼', gradient: 'from-indigo-500 to-fuchsia-700',
+    path: '/juegos/pentagrama-path',
+    intro: 'Un juego de música para aprender a leer partituras: las notas aparecen sobre el pentagrama y las tocas en un piano en pantalla. Cada nota leída a tiempo suma puntos, y encadenar aciertos multiplica la puntuación. Empiezas con las notas centrales y el juego va ampliando el rango a medida que mejoras, sin necesitar ningún instrumento en casa.',
+    beneficios: [
+      { titulo: 'Lectura Musical Real', texto: 'Asociar cada posición del pentagrama con su tecla entrena la lectura a primera vista, la habilidad básica de cualquier músico, con la misma mecánica de repetición que usan los conservatorios.' },
+      { titulo: 'Memoria Visual y Espacial', texto: 'El cerebro aprende a reconocer las notas por su posición sin contar líneas, igual que se reconoce una palabra sin deletrearla. La velocidad llega sola con las rondas.' },
+      { titulo: 'Coordinación y Ritmo', texto: 'Leer y tocar bajo el reloj entrena la coordinación ojo-mano y la anticipación, las mismas destrezas que después hacen falta para tocar cualquier instrumento.' },
+    ],
+    ejemplo: 'Aparece una nota en el segundo espacio del pentagrama en clave de sol: el alumno pulsa La en el piano de pantalla, suma 100 puntos y la racha multiplica el siguiente acierto.',
+    enPapel: {
+      titulo: 'Leer partituras en papel',
+      pasos: [
+        'Dibuja un pentagrama y escribe las notas Mi-Sol-Si-Re-Fa sobre las líneas (en clave de sol).',
+        'Escribe Fa-La-Do-Mi en los espacios y memoriza ambas series como dos "escaleras".',
+        'Copia una melodía sencilla y escribe debajo de cada nota su nombre, cronometrándote.',
+        'Repite la misma melodía al día siguiente intentando bajar tu tiempo.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'Tarjetas de notas', desc: 'Haz tarjetas con una nota dibujada por delante y su nombre por detrás. Cinco minutos al día bastan para automatizar la lectura.' },
+      { nombre: 'Piano de papel', desc: 'Imprime o dibuja un teclado a tamaño real y "toca" sobre él las notas que leas: la memoria muscular también cuenta.' },
+      { nombre: 'Dictado musical inverso', desc: 'Alguien dice nombres de notas en voz alta y tú las escribes en el pentagrama. Refuerza la asociación en los dos sentidos.' },
+    ],
+    asignatura: 'Música', niveles: 'Primaria, ESO, Bachillerato',
+  },
+  'reaccion': {
+    titulo: 'Reacción',
+    subtitulo: 'Juego de Primeros Auxilios y Decisiones de Emergencia',
+    emoji: '🚑', gradient: 'from-red-500 to-rose-700',
+    path: '/juegos/reaccion',
+    intro: 'Un juego de primeros auxilios a contrarreloj: se te presenta una emergencia real (un atragantamiento, una quemadura, un desmayo…) y tienes segundos para decidir qué hacer primero. Cada decisión correcta suma; las peligrosas —esas que "todo el mundo hace" pero empeoran la situación— restan y se explican. La presión del reloj imita la de una emergencia de verdad.',
+    beneficios: [
+      { titulo: 'Protocolos que Salvan Vidas', texto: 'Conducta PAS, posición lateral de seguridad, maniobra de Heimlich, qué hacer (y qué no) ante una quemadura: el juego convierte los protocolos oficiales en reflejos.' },
+      { titulo: 'Decidir Bajo Presión', texto: 'En una emergencia real nadie te da tiempo ilimitado. Entrenar la decisión con el reloj corriendo prepara para actuar en vez de quedarse bloqueado.' },
+      { titulo: 'Desmontar Mitos Peligrosos', texto: 'Poner mantequilla en una quemadura, sacudir a quien se desmaya, provocar el vómito… El juego señala los errores populares y explica por qué hacen daño.' },
+    ],
+    ejemplo: 'Un compañero se atraganta y no puede toser: el alumno elige entre darle agua, cinco palmadas interescapulares o esperar. Elige las palmadas, acierta, y el juego explica cuándo pasar a la maniobra de Heimlich.',
+    enPapel: {
+      titulo: 'Simulacros de primeros auxilios en casa o clase',
+      pasos: [
+        'Escribe en tarjetas 10 emergencias típicas (atragantamiento, corte, quemadura, desmayo, picadura...).',
+        'Por turnos, roba una tarjeta y describe en voz alta los pasos en orden, empezando por Proteger-Avisar-Socorrer.',
+        'El resto del grupo detecta errores u omisiones y los corrige con ayuda de una guía oficial.',
+        'Practica físicamente la posición lateral de seguridad con un voluntario.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'Los escenarios de Vida Práctica', desc: 'En la sección Estudiar de Tuthor puedes repasar cada tema de primeros auxilios paso a paso, ordenando las acciones correctas.' },
+      { nombre: 'El examen de Primeros Auxilios', desc: 'Ponte a prueba en formato test con los protocolos oficiales: 10 preguntas con nota y explicaciones.' },
+      { nombre: 'Curso presencial de primeros auxilios', desc: 'Cruz Roja y otras entidades ofrecen talleres prácticos con maniquíes. Nada sustituye practicar la RCP con las manos.' },
+    ],
+    asignatura: 'Vida Práctica', niveles: 'Primaria, ESO, Bachillerato',
+  },
 }
 
 export const FICHAS_EN = {
@@ -858,6 +914,44 @@ export const FICHAS_EN = {
       { nombre: 'Board games about investing', desc: 'Classic board games about investing in companies and managing a portfolio teach the same risk and diversification ideas without screens.' },
     ],
     asignatura: 'Economics', niveles: 'Secondary, Sixth Form',
+  },
+  'pentagrama-path': {
+    titulo: 'Pentagrama Path',
+    subtitulo: 'Sheet Music & Note Reading Game',
+    emoji: '🎼', gradient: 'from-indigo-500 to-fuchsia-700', path: '/juegos/pentagrama-path',
+    intro: 'A music game to learn to read sheet music: notes appear on the staff and you play them on an on-screen piano. Every note read in time scores points, and chaining hits multiplies your score. You start with the central notes and the game widens the range as you improve — no instrument needed at home.',
+    beneficios: [
+      { titulo: 'Real Music Reading', texto: 'Linking each staff position to its key trains sight-reading, the core skill of any musician, with the same repetition mechanics conservatoires use.' },
+      { titulo: 'Visual & Spatial Memory', texto: 'The brain learns to recognise notes by position without counting lines, just like reading a word without spelling it. Speed comes on its own with the rounds.' },
+      { titulo: 'Coordination & Rhythm', texto: 'Reading and playing against the clock trains eye-hand coordination and anticipation, the same skills needed later to play any instrument.' },
+    ],
+    ejemplo: 'A note appears on the second space of the treble staff: the student presses A on the on-screen piano, scores 100 points and the streak multiplies the next hit.',
+    enPapel: { titulo: 'Reading sheet music on paper', pasos: ['Draw a staff and write the line notes E-G-B-D-F (treble clef).', 'Write F-A-C-E in the spaces and memorise both series as two "ladders".', 'Copy a simple melody and write each note\'s name below it, timing yourself.', 'Repeat the same melody the next day trying to beat your time.'] },
+    alternativas: [
+      { nombre: 'Note flashcards', desc: 'Make cards with a drawn note on the front and its name on the back. Five minutes a day is enough to automate reading.' },
+      { nombre: 'Paper piano', desc: 'Print or draw a real-size keyboard and "play" the notes you read on it: muscle memory counts too.' },
+      { nombre: 'Reverse dictation', desc: 'Someone says note names out loud and you write them on the staff. Reinforces the association both ways.' },
+    ],
+    asignatura: 'Music', niveles: 'Primary, Secondary, Sixth Form',
+  },
+  'reaccion': {
+    titulo: 'Reacción',
+    subtitulo: 'First Aid & Emergency Decisions Game',
+    emoji: '🚑', gradient: 'from-red-500 to-rose-700', path: '/juegos/reaccion',
+    intro: 'A first-aid game against the clock: you face a real emergency (choking, a burn, fainting…) and have seconds to decide what to do first. Every correct decision scores; dangerous ones — the kind "everyone does" but that make things worse — cost points and get explained. The ticking clock mimics the pressure of a real emergency.',
+    beneficios: [
+      { titulo: 'Protocols that Save Lives', texto: 'Check-Call-Care, the recovery position, the Heimlich manoeuvre, what to do (and not do) with a burn: the game turns official protocols into reflexes.' },
+      { titulo: 'Deciding Under Pressure', texto: 'In a real emergency nobody gives you unlimited time. Training decisions with the clock running prepares you to act instead of freezing.' },
+      { titulo: 'Busting Dangerous Myths', texto: 'Butter on a burn, shaking someone who fainted, inducing vomiting… The game flags popular mistakes and explains why they cause harm.' },
+    ],
+    ejemplo: 'A classmate is choking and cannot cough: the student chooses between giving water, five back blows or waiting. They choose the back blows, score, and the game explains when to move on to the Heimlich manoeuvre.',
+    enPapel: { titulo: 'First-aid drills at home or in class', pasos: ['Write 10 typical emergencies on cards (choking, cut, burn, fainting, sting...).', 'Take turns drawing a card and describing the steps out loud in order, starting with Check-Call-Care.', 'The rest of the group spots mistakes or omissions and corrects them with an official guide.', 'Physically practise the recovery position with a volunteer.'] },
+    alternativas: [
+      { nombre: 'The Life Skills scenarios', desc: 'In Tuthor\'s Study section you can review each first-aid topic step by step, ordering the correct actions.' },
+      { nombre: 'The First Aid exam', desc: 'Test yourself on the official protocols in quiz form: 10 graded questions with explanations.' },
+      { nombre: 'In-person first-aid course', desc: 'The Red Cross and other organisations run hands-on workshops with mannequins. Nothing replaces practising CPR with your hands.' },
+    ],
+    asignatura: 'Life Skills', niveles: 'Primary, Secondary, Sixth Form',
   },
 }
 
@@ -1293,5 +1387,43 @@ export const FICHAS_CA = {
       { nombre: 'El joc de la Borsa de taula', desc: 'Jocs de taula clàssics sobre invertir en empreses i gestionar una cartera ensenyen les mateixes idees de risc i diversificació sense pantalles.' },
     ],
     asignatura: 'Economia', niveles: 'ESO, Batxillerat',
+  },
+  'pentagrama-path': {
+    titulo: 'Pentagrama Path',
+    subtitulo: 'Joc de Lectura de Partitures i Notes Musicals',
+    emoji: '🎼', gradient: 'from-indigo-500 to-fuchsia-700', path: '/juegos/pentagrama-path',
+    intro: 'Un joc de música per aprendre a llegir partitures: les notes apareixen sobre el pentagrama i les toques en un piano en pantalla. Cada nota llegida a temps suma punts, i encadenar encerts multiplica la puntuació. Comences amb les notes centrals i el joc va ampliant el rang a mesura que millores, sense necessitar cap instrument a casa.',
+    beneficios: [
+      { titulo: 'Lectura Musical Real', texto: 'Associar cada posició del pentagrama amb la seva tecla entrena la lectura a primera vista, l\'habilitat bàsica de qualsevol músic, amb la mateixa mecànica de repetició que fan servir els conservatoris.' },
+      { titulo: 'Memòria Visual i Espacial', texto: 'El cervell aprèn a reconèixer les notes per la seva posició sense comptar línies, igual que es reconeix una paraula sense lletrejar-la. La velocitat arriba sola amb les rondes.' },
+      { titulo: 'Coordinació i Ritme', texto: 'Llegir i tocar sota el rellotge entrena la coordinació ull-mà i l\'anticipació, les mateixes destreses que després calen per tocar qualsevol instrument.' },
+    ],
+    ejemplo: 'Apareix una nota al segon espai del pentagrama en clau de sol: l\'alumne prem La al piano de pantalla, suma 100 punts i la ratxa multiplica el següent encert.',
+    enPapel: { titulo: 'Llegir partitures en paper', pasos: ['Dibuixa un pentagrama i escriu les notes Mi-Sol-Si-Re-Fa sobre les línies (en clau de sol).', 'Escriu Fa-La-Do-Mi als espais i memoritza les dues sèries com dues "escales".', 'Copia una melodia senzilla i escriu sota cada nota el seu nom, cronometrant-te.', 'Repeteix la mateixa melodia l\'endemà intentant baixar el teu temps.'] },
+    alternativas: [
+      { nombre: 'Targetes de notes', desc: 'Fes targetes amb una nota dibuixada al davant i el seu nom al darrere. Cinc minuts al dia basten per automatitzar la lectura.' },
+      { nombre: 'Piano de paper', desc: 'Imprimeix o dibuixa un teclat a mida real i "toca-hi" les notes que llegeixis: la memòria muscular també compta.' },
+      { nombre: 'Dictat musical invers', desc: 'Algú diu noms de notes en veu alta i tu les escrius al pentagrama. Reforça l\'associació en els dos sentits.' },
+    ],
+    asignatura: 'Música', niveles: 'Primària, ESO, Batxillerat',
+  },
+  'reaccion': {
+    titulo: 'Reacció',
+    subtitulo: 'Joc de Primers Auxilis i Decisions d\'Emergència',
+    emoji: '🚑', gradient: 'from-red-500 to-rose-700', path: '/juegos/reaccion',
+    intro: 'Un joc de primers auxilis a contrarellotge: se\'t presenta una emergència real (un ennuegament, una cremada, un desmai…) i tens segons per decidir què fer primer. Cada decisió correcta suma; les perilloses —aquelles que "tothom fa" però empitjoren la situació— resten i s\'expliquen. La pressió del rellotge imita la d\'una emergència de debò.',
+    beneficios: [
+      { titulo: 'Protocols que Salven Vides', texto: 'Conducta PAS, posició lateral de seguretat, maniobra de Heimlich, què fer (i què no) davant una cremada: el joc converteix els protocols oficials en reflexos.' },
+      { titulo: 'Decidir Sota Pressió', texto: 'En una emergència real ningú no et dona temps il·limitat. Entrenar la decisió amb el rellotge corrent prepara per actuar en comptes de quedar-se bloquejat.' },
+      { titulo: 'Desmuntar Mites Perillosos', texto: 'Posar mantega en una cremada, sacsejar qui es desmaia, provocar el vòmit… El joc assenyala els errors populars i explica per què fan mal.' },
+    ],
+    ejemplo: 'Un company s\'ennuega i no pot tossir: l\'alumne tria entre donar-li aigua, cinc copets interescapulars o esperar. Tria els copets, encerta, i el joc explica quan passar a la maniobra de Heimlich.',
+    enPapel: { titulo: 'Simulacres de primers auxilis a casa o a classe', pasos: ['Escriu en targetes 10 emergències típiques (ennuegament, tall, cremada, desmai, picada...).', 'Per torns, roba una targeta i descriu en veu alta els passos en ordre, començant per Protegir-Avisar-Socórrer.', 'La resta del grup detecta errors o omissions i els corregeix amb l\'ajuda d\'una guia oficial.', 'Practica físicament la posició lateral de seguretat amb un voluntari.'] },
+    alternativas: [
+      { nombre: 'Els escenaris de Vida Pràctica', desc: 'A la secció Estudiar de Tuthor pots repassar cada tema de primers auxilis pas a pas, ordenant les accions correctes.' },
+      { nombre: 'L\'examen de Primers Auxilis', desc: 'Posa\'t a prova en format test amb els protocols oficials: 10 preguntes amb nota i explicacions.' },
+      { nombre: 'Curs presencial de primers auxilis', desc: 'La Creu Roja i altres entitats ofereixen tallers pràctics amb maniquins. Res no substitueix practicar la RCP amb les mans.' },
+    ],
+    asignatura: 'Vida Pràctica', niveles: 'Primària, ESO, Batxillerat',
   },
 }

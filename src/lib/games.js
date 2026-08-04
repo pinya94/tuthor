@@ -19,7 +19,10 @@ export const GAMES = {
     emoji: '🕰️',
     subject: 'historia',
     route: '/juegos/tuthor-time',
-    coins: () => 0, // iframe externo: solo registra tiempo
+    // iframe externo sin puntuación: recompensa el tiempo de estudio
+    // (5 monedas/min, tope 100) para que jugarlo no sea el único juego
+    // del catálogo que "no renta".
+    coins: ({ timeSpent = 0 } = {}) => Math.min(Math.floor(timeSpent / 60) * 5, 100),
   },
   'tuthor-time-roguelike': {
     label: { es: 'Tuthor Time Roguelike', en: 'Tuthor Time RL', ca: 'Tuthor Time Roguelike' },
