@@ -8,21 +8,9 @@ import { BANNER_BY_ID } from '../data/cosmetics'
 import { GAMES } from '../lib/games'
 import { EXAMS } from '../lib/exams'
 import { GAME_LABELS, SUBJECTS, aggregateStudentStats } from '../lib/statsAggregation'
-import { joinClassByCode } from '../lib/classes'
 import { getStudentAssignments } from '../lib/assignments'
-import { catalogTaskLabel } from '../lib/examTopics'
 
 function todayStr() { return new Date().toISOString().slice(0, 10) }
-
-function taskLabel(task, lang) {
-  if (task.kind !== 'catalog') return task.title
-  return catalogTaskLabel(task, lang, { games: GAMES, exams: EXAMS, subjects: SUBJECTS })
-}
-
-function formatDueDate(dueDate, lang) {
-  const d = dueDate?.toDate ? dueDate.toDate() : new Date(dueDate)
-  return d.toLocaleDateString(lang === 'en' ? 'en-GB' : lang === 'ca' ? 'ca-ES' : 'es-ES', { day: 'numeric', month: 'short' })
-}
 
 export default function Perfil() {
   const { user, logout } = useAuth()
@@ -41,9 +29,7 @@ export default function Perfil() {
   const [rankings, setRankings] = useState({})
   const [coinsHistory, setCoinsHistory] = useState([])
   const [showAllCoins, setShowAllCoins] = useState(false)
-  const [classCode, setClassCode] = useState('')
-  const [joinStatus, setJoinStatus] = useState('idle')
-  const [myTasks, setMyTasks] = useState([])
+  const [pendingTasks, setPendingTasks] = useState(0)
 
   useEffect(() => {
     if (!user) { navigate(localPath('/')); return }
@@ -64,28 +50,15 @@ export default function Perfil() {
       })).then(results => setRankings(Object.fromEntries(results.filter(([, v]) => v))))
     })
     getCoinsHistory(user.uid).then(setCoinsHistory)
-    getStudentAssignments(user.uid).then(setMyTasks).catch(() => {})
+    getStudentAssignments(user.uid)
+      .then(list => setPendingTasks(list.filter(t => !t.completions?.[user.uid]?.done).length))
+      .catch(() => {})
   }, [user])
 
   async function toggleHidePhoto() {
     const next = !hidePhoto
     setHidePhotoState(next)
     await setHidePhoto(user.uid, next)
-  }
-
-  async function handleJoinClass(e) {
-    e.preventDefault()
-    if (!classCode.trim()) return
-    setJoinStatus('sending')
-    try {
-      const res = await joinClassByCode(user.uid, classCode)
-      if (res.ok) { setJoinStatus('ok'); setClassCode('') }
-      else if (res.reason === 'not_found') setJoinStatus('not_found')
-      else if (res.reason === 'already_joined') setJoinStatus('already_joined')
-      else setJoinStatus('error')
-    } catch {
-      setJoinStatus('error')
-    }
   }
 
   if (!user) return null
@@ -387,37 +360,6 @@ export default function Perfil() {
               </section>
             )}
 
-            {/* ── MIS TAREAS ── */}
-            {myTasks.length > 0 && (
-              <section className="mb-5">
-                <h2 className="font-black text-white text-[17px] tracking-tight mb-3">📝 {tr({ es: 'Mis tareas', en: 'My tasks', ca: 'Les meves tasques' })}</h2>
-                <div className="space-y-2">
-                  {myTasks.map(task => {
-                    const c = task.completions?.[user.uid]
-                    return (
-                      <div key={task.id} className="border border-white/10 rounded-2xl px-4 py-3 flex items-center justify-between gap-3" style={{ background: surf }}>
-                        <div className="min-w-0">
-                          <p className="text-white text-[13.5px] font-bold truncate">{taskLabel(task, lang)}</p>
-                          <p className={`${t3} text-[11.5px] mt-0.5`}>
-                            {task.className}
-                            {task.dueDate && ` · ${tr({ es: 'vence', en: 'due', ca: 'venç' })} ${formatDueDate(task.dueDate, lang)}`}
-                          </p>
-                        </div>
-                        {c?.done ? (
-                          <span className="text-green-400 text-[12.5px] font-bold shrink-0">
-                            ✅ {tr({ es: 'Hecha', en: 'Done', ca: 'Feta' })}
-                            {c.score != null && <span className="text-white/40 ml-1.5">{c.score} pts</span>}
-                          </span>
-                        ) : (
-                          <span className="text-white/30 text-[12.5px] shrink-0">{tr({ es: 'Pendiente', en: 'Pending', ca: 'Pendent' })}</span>
-                        )}
-                      </div>
-                    )
-                  })}
-                </div>
-              </section>
-            )}
-
             {/* ── Ajuste: usar emoji en lugar de foto ── */}
             {user.photoURL && (
               <button
@@ -434,37 +376,21 @@ export default function Perfil() {
               </button>
             )}
 
-            {/* ── Unirse a una clase con el código de un profesor ── */}
-            <div className="w-full mb-4 border border-white/10 rounded-2xl px-4 py-3" style={{ background: surf }}>
-              <form onSubmit={handleJoinClass} className="flex items-center gap-2">
-                <input
-                  type="text"
-                  value={classCode}
-                  onChange={e => { setClassCode(e.target.value); if (joinStatus !== 'sending') setJoinStatus('idle') }}
-                  placeholder={tr({ es: 'Código de clase de tu profesor', en: "Your teacher's class code", ca: 'Codi de classe del teu professor' })}
-                  maxLength={6}
-                  className="flex-1 min-w-0 rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm text-white placeholder-white/30 outline-none focus:border-teal-500 transition-colors uppercase"
-                />
-                <button type="submit" disabled={joinStatus === 'sending'}
-                  className="shrink-0 px-4 py-2 bg-teal-600 hover:bg-teal-500 disabled:opacity-50 text-white font-bold text-sm rounded-lg transition-colors">
-                  {joinStatus === 'sending'
-                    ? tr({ es: 'Uniendo…', en: 'Joining…', ca: 'Unint…' })
-                    : tr({ es: 'Unirme', en: 'Join', ca: "Unir-me" })}
-                </button>
-              </form>
-              {joinStatus === 'ok' && (
-                <p className="text-teal-300 text-xs mt-2">{tr({ es: '¡Te has unido a la clase!', en: 'You joined the class!', ca: "T'has unit a la classe!" })}</p>
+            {/* ── Clase: único punto de entrada, ver Navbar.jsx goToClase() ── */}
+            <button
+              onClick={() => navigate(localPath('/clase'))}
+              className="w-full mb-4 flex items-center justify-between border border-white/10 rounded-2xl px-4 py-3 hover:bg-white/8 transition-colors"
+              style={{ background: surf }}
+            >
+              <span className={`${t2} text-[13.5px] font-semibold`}>🏫 {tr({ es: 'Mi clase', en: 'My class', ca: 'La meva classe' })}</span>
+              {pendingTasks > 0 ? (
+                <span className="text-amber-300 text-xs font-bold bg-amber-500/10 border border-amber-500/20 rounded-full px-2.5 py-1">
+                  {pendingTasks} {tr({ es: 'pendiente(s)', en: 'pending', ca: 'pendent(s)' })}
+                </span>
+              ) : (
+                <span className="text-white/30 text-xs">→</span>
               )}
-              {joinStatus === 'not_found' && (
-                <p className="text-red-400 text-xs mt-2">{tr({ es: 'Código no válido.', en: 'Invalid code.', ca: 'Codi no vàlid.' })}</p>
-              )}
-              {joinStatus === 'already_joined' && (
-                <p className="text-amber-300 text-xs mt-2">{tr({ es: 'Ya estás en esta clase.', en: "You're already in this class.", ca: 'Ja ets en aquesta classe.' })}</p>
-              )}
-              {joinStatus === 'error' && (
-                <p className="text-red-400 text-xs mt-2">{tr({ es: 'Error al unirte. Inténtalo de nuevo.', en: 'Error joining. Please try again.', ca: 'Error en unir-te. Torna-ho a intentar.' })}</p>
-              )}
-            </div>
+            </button>
           </>
         )}
       </div>

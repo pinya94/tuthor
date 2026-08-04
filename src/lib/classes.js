@@ -116,6 +116,17 @@ export async function getClassWithStudents(classId) {
   return snap.exists() ? { id: snap.id, ...snap.data() } : null
 }
 
+// Clases a las que un alumno se ha unido (array-contains, un único filtro:
+// la regla de /classes lo permite porque coincide exactamente con la
+// condición `uid in studentIds` de allow read). Orden en el cliente, mismo
+// motivo que getTeacherClasses.
+export async function getStudentClasses(studentUid) {
+  const snap = await getDocs(query(collection(db, 'classes'), where('studentIds', 'array-contains', studentUid)))
+  return snap.docs
+    .map(d => ({ id: d.id, ...d.data() }))
+    .sort((a, b) => (b.createdAt?.toMillis?.() ?? 0) - (a.createdAt?.toMillis?.() ?? 0))
+}
+
 // ── Unión de un alumno a una clase por código ────────────────────────────────
 export async function joinClassByCode(studentUid, rawCode) {
   const code = (rawCode || '').trim().toUpperCase()

@@ -81,11 +81,11 @@ export default function Navbar() {
 
   // "Clase" es un único punto de entrada, pero no todos pueden crear
   // clases: solo una cuenta con la capacidad de profesor activa va al
-  // panel de creación; cualquier otra va a su perfil, donde ya tiene la
-  // tarjeta para unirse a una clase con un código.
+  // panel de creación; cualquier otra va a /clase, donde ve sus tareas
+  // pendientes o, si aún no está en ninguna clase, el código de acceso.
   async function goToClase() {
     const profile = user ? await getTeacherProfile(user.uid).catch(() => null) : null
-    navigate(localPath(hasTeacherAccess(profile) ? '/profesor' : '/perfil'))
+    navigate(localPath(hasTeacherAccess(profile) ? '/profesor' : '/clase'))
   }
 
   const navLabels = {
