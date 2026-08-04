@@ -4,7 +4,8 @@ import { useLang } from '../context/LangContext'
 import { EXAMENES_HISTORIA } from '../data/historiaEvents'
 import { MODOS } from '../lib/mathEngine'
 import { examRoute } from '../lib/exams'
-import { defaultLevel, formatLevels, topicTask } from '../lib/topicCatalog'
+import { SUBJECTS } from '../lib/statsAggregation'
+import { defaultLevel, formatLevels, topicTask, resolveFormat } from '../lib/topicCatalog'
 
 // Página puente del modelo uniforme materia → tema → formato → nivel
 // (ver src/lib/topicCatalog.js). La URL /examen/<materia>/<tema>/<formato>?nivel=
@@ -16,7 +17,7 @@ export default function ExamenTema({ materia }) {
   const { tema, formato } = useParams()
   const [params] = useSearchParams()
   const navigate = useNavigate()
-  const { localPath } = useLang()
+  const { lang, localPath } = useLang()
 
   useEffect(() => {
     // /clase redirige solo: alumnos a sus tareas, profesores a /profesor.
@@ -27,12 +28,20 @@ export default function ExamenTema({ materia }) {
     const nivel = disponibles.includes(pedido) ? pedido : defaultLevel(materia, tema, formato)
     const go = (path, state) => navigate(localPath(path), { replace: true, state: { backPath, ...state } })
 
-    // Materias basadas en exámenes (lengua, geografía, física, química): cada
+    // Materias basadas en exámenes (lengua, geografía, ciencias): cada
     // combinación tema+formato ES un examen del registro, con su propia ruta.
-    // No hace falta ningún caso específico por materia.
-    const task = topicTask(materia, tema, formato)
+    // No hace falta ningún caso específico por materia: los exámenes
+    // compartidos entre temas reciben cuál les toca por location.state.
+    const fmt = resolveFormat(materia, tema, formato)
+    const task = fmt && topicTask(materia, tema, formato)
     const ruta = task && examRoute(task.gameId)
-    if (ruta) return go(ruta)
+    if (ruta) {
+      const subj = SUBJECTS.find(s => s.id === materia)
+      const lbl = subj?.examLabels[tema]
+      return go(ruta, fmt.stateKey
+        ? { [fmt.stateKey]: tema, titulo: lbl?.[lang] || lbl?.es || tema }
+        : undefined)
+    }
 
     if (materia === 'matematicas') {
       if (formato === 'examen-practica') return go(`/estudiar/matematicas/${tema}/examen`, { nivel })

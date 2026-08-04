@@ -227,6 +227,23 @@ describe('catálogo por tema (topicCatalog.js): materia → tema → formato →
     })
   })
 
+  it('los temas de ciencias son los de TEMA_DISCIPLINA (src/data/ciencias.js)', async () => {
+    // La lista canónica de temas de ciencias es la que usa /estudiar: si se
+    // añade un tema allí, tiene que poder asignarse. Se exceptúan los que
+    // todavía no tienen ningún examen.
+    const { TEMA_DISCIPLINA } = await import('../../data/ciencias.js')
+    const sinExamen = new Set(['rocas-minerales'])
+    for (const [tema, disciplina] of Object.entries(TEMA_DISCIPLINA)) {
+      if (sinExamen.has(tema)) continue
+      expect(topicIds(disciplina), `${disciplina}: falta el tema "${tema}"`).toContain(tema)
+    }
+  })
+
+  it('los temas de geografía son las 7 regiones de /estudiar/geografia', () => {
+    const regiones = ['europa', 'america', 'asia', 'africa', 'oceania', 'espana', 'eeuu']
+    expect(topicIds('geografia').sort()).toEqual([...regiones].sort())
+  })
+
   it('las listas de disponibilidad coinciden con los datos reales', async () => {
     // El catálogo escribe estas listas a mano (para no cargar ~140 kB de datos
     // en cada bundle). Aquí se validan contra la fuente real.

@@ -61,11 +61,15 @@ export const SUBJECT_DEFS = [
     label: { es: 'Geografía', en: 'Geography', ca: 'Geografia' },
     gameIds: [],
     catIds: [],
-    // Temas = regiones (topicCatalog.js)
+    // Temas = las 7 regiones de /estudiar/geografia (topicCatalog.js)
     catLabels: {
-      mundo:  { es: 'Mundo',     en: 'World', ca: 'Món' },
-      espana: { es: 'España',    en: 'Spain', ca: 'Espanya' },
-      eeuu:   { es: 'EE. UU.',   en: 'USA',   ca: 'EUA' },
+      europa:  { es: 'Europa',          en: 'Europe',        ca: 'Europa' },
+      america: { es: 'América',         en: 'America',       ca: 'Amèrica' },
+      asia:    { es: 'Asia',            en: 'Asia',          ca: 'Àsia' },
+      africa:  { es: 'África',          en: 'Africa',        ca: 'Àfrica' },
+      oceania: { es: 'Oceanía',         en: 'Oceania',       ca: 'Oceania' },
+      espana:  { es: 'España',          en: 'Spain',         ca: 'Espanya' },
+      eeuu:    { es: 'Estados Unidos',  en: 'United States', ca: 'Estats Units' },
     },
   },
   {
@@ -84,20 +88,16 @@ export const SUBJECT_DEFS = [
     label: { es: 'Química', en: 'Chemistry', ca: 'Química' },
     gameIds: [],
     catIds: [],
-    catLabels: {
-      'ajuste-ecuaciones': { es: 'Ajuste de Ecuaciones', en: 'Balancing Equations', ca: 'Ajust d\'Equacions' },
-    },
+    catLabels: {},
   },
   {
     id: 'fisica', emoji: '⚡',
     label: { es: 'Física', en: 'Physics', ca: 'Física' },
     gameIds: [],
     catIds: [],
-    // Los demás temas del catálogo comparten id con su examen y ya llevan
-    // etiqueta desde exams.js; solo hace falta la del tema sin examen propio.
-    catLabels: {
-      palancas: { es: 'Palancas y Momentos', en: 'Levers & Moments', ca: 'Palanques i Moments' },
-    },
+    // Los temas del catálogo comparten id con su examen teórico y ya llevan
+    // etiqueta desde exams.js.
+    catLabels: {},
   },
   {
     id: 'biologia', emoji: '🧬',

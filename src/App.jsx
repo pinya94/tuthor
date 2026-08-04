@@ -142,6 +142,8 @@ function AppRoutes() {
       <Route path="examen/geografia/:tema/:formato" element={<ExamenTema materia="geografia" />} />
       <Route path="examen/fisica/:tema/:formato" element={<ExamenTema materia="fisica" />} />
       <Route path="examen/quimica/:tema/:formato" element={<ExamenTema materia="quimica" />} />
+      <Route path="examen/biologia/:tema/:formato" element={<ExamenTema materia="biologia" />} />
+      <Route path="examen/geologia/:tema/:formato" element={<ExamenTema materia="geologia" />} />
 
       {/* ── JUEGOS ── */}
       <Route path="juegos" element={<Juegos />} />

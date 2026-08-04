@@ -48,6 +48,11 @@ export const LEVELS = Object.fromEntries(
 // gramática). El formato solo aporta la etiqueta; el examen sale del tema.
 const examTema = (formatos, extra = {}) => ({ niveles: [], formatos, ...extra })
 const examFormato = (label, emoji) => ({ label, emoji, usesLevel: false, tracksTopic: true })
+// Examen COMPARTIDO por varios temas (p.ej. el mismo examen de GeoMapa sirve
+// para Europa, Asia…, recibiendo la región por location.state). Como la página
+// guarda `category` fija, no puede decir qué tema se jugó: la category de la
+// tarea es el tema (para etiquetar y enrutar) y el match cae a solo-juego.
+const compartido = exam => ({ exam, shared: true })
 
 export const TOPIC_CATALOG = {
   historia: {
@@ -161,10 +166,17 @@ export const TOPIC_CATALOG = {
     },
   },
 
-  // Tema = la región; formato = la mecánica con la que se examina.
+  // Tema = la región (las 7 de /estudiar/geografia); formato = la mecánica.
+  // Los cinco continentes comparten los dos exámenes y reciben la región por
+  // location.state; España y EE. UU. tienen examen propio.
   geografia: {
+    stateKey: 'region', // qué clave de location.state espera el examen
     temas: {
-      mundo: examTema({ pistas: 'geografia-examen', mapa: 'geomapa-examen' }),
+      europa: examTema({ pistas: compartido('geografia-examen'), mapa: compartido('geomapa-examen') }),
+      america: examTema({ pistas: compartido('geografia-examen'), mapa: compartido('geomapa-examen') }),
+      asia: examTema({ pistas: compartido('geografia-examen'), mapa: compartido('geomapa-examen') }),
+      africa: examTema({ pistas: compartido('geografia-examen'), mapa: compartido('geomapa-examen') }),
+      oceania: examTema({ pistas: compartido('geografia-examen'), mapa: compartido('geomapa-examen') }),
       espana: examTema({ mapa: 'geomapa-espana-examen' }),
       eeuu: examTema({ mapa: 'geomapa-eeuu-examen' }),
     },
@@ -174,33 +186,58 @@ export const TOPIC_CATALOG = {
     },
   },
 
-  // Teoría (examen tipo test) vs práctica (el examen del juego del tema).
+  // Ciencias: los temas son los de TEMA_DISCIPLINA (src/data/ciencias.js) y
+  // los formatos, las pruebas que ya ofrece /estudiar/<disciplina>/<tema>:
+  // el examen teórico y, en los temas que tienen juego, su examen.
   fisica: {
     temas: {
-      fuerzas: examTema({ teoria: 'fuerzas', practica: 'fuerza-neta-test' }),
-      palancas: examTema({ practica: 'balanza-test' }),
+      fuerzas: examTema({ teoria: 'fuerzas', 'fuerza-neta': 'fuerza-neta-test', balanza: 'balanza-test' }),
       energia: examTema({ teoria: 'energia' }),
       electricidad: examTema({ teoria: 'electricidad' }),
       'ondas-luz': examTema({ teoria: 'ondas-luz' }),
     },
     formatos: {
       teoria: examFormato({ es: 'Teoría (tipo test)', en: 'Theory (quiz)', ca: 'Teoria (tipus test)' }, '📝'),
-      practica: examFormato({ es: 'Práctica (con el juego)', en: 'Practice (with the game)', ca: 'Pràctica (amb el joc)' }, '🎮'),
+      'fuerza-neta': examFormato({ es: 'Fuerza Neta (con el juego)', en: 'Net Force (with the game)', ca: 'Força Neta (amb el joc)' }, '🧭'),
+      balanza: examFormato({ es: 'Balanza (con el juego)', en: 'Balance (with the game)', ca: 'Balança (amb el joc)' }, '⚖️'),
     },
   },
 
   quimica: {
     temas: {
-      'ajuste-ecuaciones': examTema({ practica: 'balanza-ecuaciones-test' }),
+      'atomos-moleculas': examTema({ teoria: 'atomos-moleculas', 'balanza-ecuaciones': 'balanza-ecuaciones-test' }),
       'tabla-periodica': examTema({ teoria: 'tabla-periodica' }),
-      'atomos-moleculas': examTema({ teoria: 'atomos-moleculas' }),
       'estados-materia': examTema({ teoria: 'estados-materia' }),
       'mezclas-separacion': examTema({ teoria: 'mezclas-separacion' }),
       'acidos-bases': examTema({ teoria: 'acidos-bases' }),
     },
     formatos: {
       teoria: examFormato({ es: 'Teoría (tipo test)', en: 'Theory (quiz)', ca: 'Teoria (tipus test)' }, '📝'),
-      practica: examFormato({ es: 'Práctica (con el juego)', en: 'Practice (with the game)', ca: 'Pràctica (amb el joc)' }, '🎮'),
+      'balanza-ecuaciones': examFormato({ es: 'Balanza de Ecuaciones (con el juego)', en: 'Equation Balancer (with the game)', ca: "Balança d'Equacions (amb el joc)" }, '⚗️'),
+    },
+  },
+
+  biologia: {
+    temas: {
+      celula: examTema({ teoria: 'celula' }),
+      'cuerpo-humano': examTema({ teoria: 'cuerpo-humano' }),
+      'seres-vivos': examTema({ teoria: 'seres-vivos' }),
+      ecosistemas: examTema({ teoria: 'ecosistemas' }),
+      genetica: examTema({ teoria: 'genetica' }),
+      nutricion: examTema({ teoria: 'nutricion' }),
+    },
+    formatos: {
+      teoria: examFormato({ es: 'Teoría (tipo test)', en: 'Theory (quiz)', ca: 'Teoria (tipus test)' }, '📝'),
+    },
+  },
+
+  geologia: {
+    // rocas-minerales existe como tema de estudio pero aún no tiene examen
+    temas: {
+      'sistema-solar': examTema({ teoria: 'sistema-solar' }),
+    },
+    formatos: {
+      teoria: examFormato({ es: 'Teoría (tipo test)', en: 'Theory (quiz)', ca: 'Teoria (tipus test)' }, '📝'),
     },
   },
 }
@@ -243,7 +280,8 @@ export function topicFormats(materia, tema) {
         return !fmt.temas || fmt.temas.includes(tema)
       })
   return ids
-    .map(id => ({ id, ...subj.formatos[id], niveles: formatLevels(materia, tema, id) }))
+    // resolveFormat aplica lo que declare el tema (examen propio o compartido)
+    .map(id => ({ id, ...resolveFormat(materia, tema, id), niveles: formatLevels(materia, tema, id) }))
     // Un formato que usa nivel pero no tiene ninguno disponible no es jugable
     .filter(f => !f.usesLevel || f.niveles.length > 0)
 }
@@ -254,7 +292,9 @@ export function examsCoveredByTopics(materia) {
   const temas = TOPIC_CATALOG[materia]?.temas ?? {}
   const ids = new Set()
   for (const cfg of Object.values(temas)) {
-    for (const examId of Object.values(cfg.formatos ?? {})) ids.add(examId)
+    for (const entry of Object.values(cfg.formatos ?? {})) {
+      ids.add(typeof entry === 'object' ? entry.exam : entry)
+    }
   }
   return ids
 }
@@ -272,16 +312,37 @@ export function defaultLevel(materia, tema, formatoId) {
 // (materia, tema, formato, nivel) → lo que se guarda en el documento de tarea.
 // `category` debe coincidir con lo que la página guarda en saveActivity para
 // que la tarea se complete sola (salvo formatos con tracksTopic: false).
-export function topicTask(materia, tema, formatoId, nivel = null) {
+// Resuelve una combinación concreta a sus datos efectivos. Unifica las tres
+// formas de declarar un formato: por mecánica (el formato trae el `game`),
+// por examen propio del tema, y por examen compartido entre temas.
+export function resolveFormat(materia, tema, formatoId) {
   const subj = TOPIC_CATALOG[materia]
   const fmt = subj?.formatos?.[formatoId]
-  if (!fmt) return null
-  // Materia basada en exámenes: el examen lo declara el tema, y ExamenMC
-  // guarda `category = su propio id`, así que gameId y category coinciden.
-  const examId = subj.temas?.[tema]?.formatos?.[formatoId]
-  if (examId) return { gameId: examId, category: examId, level: null }
+  if (!fmt || !subj.temas?.[tema]) return null
+  const entry = subj.temas[tema].formatos?.[formatoId]
+  if (entry) {
+    const shared = typeof entry === 'object' && entry.shared
+    const exam = typeof entry === 'object' ? entry.exam : entry
+    return {
+      ...fmt,
+      game: exam,
+      // Examen propio: ExamenMC guarda `category = su propio id`, así que el
+      // match es exacto. Compartido: la category real es fija, así que se usa
+      // el tema para etiquetar/enrutar y el match cae a solo-juego.
+      resolvedCategory: shared ? tema : exam,
+      tracksTopic: !shared,
+      usesLevel: false,
+      stateKey: shared ? subj.stateKey : null,
+    }
+  }
+  return fmt
+}
 
-  const category = typeof fmt.category === 'function' ? fmt.category(tema, nivel) : tema
+export function topicTask(materia, tema, formatoId, nivel = null) {
+  const fmt = resolveFormat(materia, tema, formatoId)
+  if (!fmt) return null
+  const category = fmt.resolvedCategory
+    ?? (typeof fmt.category === 'function' ? fmt.category(tema, nivel) : tema)
   return {
     gameId: fmt.game,
     category,
@@ -316,7 +377,7 @@ export function taskMatchesPlay(task, play) {
   if (task.kind !== 'catalog' || task.gameId !== play.gameId) return false
   if (!task.category) return true
   const topic = findTopic(task)
-  const fmt = topic && TOPIC_CATALOG[topic.materia]?.formatos?.[topic.formato]
+  const fmt = topic && resolveFormat(topic.materia, topic.tema, topic.formato)
   if (fmt && !fmt.tracksTopic) return true
   return task.category === play.category
 }
