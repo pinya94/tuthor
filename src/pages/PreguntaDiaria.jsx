@@ -715,7 +715,7 @@ export default function PreguntaDiaria() {
             </div>
           </>
         ) : esEcuacion ? (
-          /* ── Balanza de Ecuaciones ── */
+          /* ── Átomos en Equilibrio ── */
           <>
             <div className="px-6 sm:px-8 py-4">
               <p className="text-xs font-semibold text-white/40 uppercase tracking-widest mb-2">

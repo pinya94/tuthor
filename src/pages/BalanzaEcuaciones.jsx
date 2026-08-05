@@ -15,7 +15,7 @@ const CORRECT_TIME = 4
 
 const C = {
   badge:  { es: 'Química · Reacciones', en: 'Chemistry · Reactions', ca: 'Química · Reaccions' },
-  title:  { es: '⚗️ Balanza de Ecuaciones', en: '⚗️ Equation Balancer', ca: '⚗️ Balança d’Equacions' },
+  title:  { es: '⚗️ Átomos en Equilibrio', en: '⚗️ Atoms in Balance', ca: '⚗️ Àtoms en Equilibri' },
   sub:    { es: 'Ajusta los coeficientes para equilibrar la reacción', en: 'Adjust the coefficients to balance the reaction', ca: 'Ajusta els coeficients per equilibrar la reacció' },
   how:    { es: 'Cómo funciona', en: 'How it works', ca: 'Com funciona' },
   p1:     { es: 'En una reacción no se crean ni destruyen átomos: debe haber los mismos de cada elemento a los dos lados.', en: 'In a reaction atoms are neither created nor destroyed: there must be the same of each element on both sides.', ca: 'En una reacció no es creen ni es destrueixen àtoms: hi ha d’haver els mateixos de cada element als dos costats.' },
@@ -189,9 +189,9 @@ export default function BalanzaEcuaciones() {
   }
 
   const seo = {
-    es: { title: 'Balanza de Ecuaciones — Ajustar reacciones químicas', desc: 'Equilibra ecuaciones químicas ajustando los coeficientes hasta que cada elemento tenga los mismos átomos a los dos lados. Aprende a balancear reacciones jugando. Juego de química gratis.', path: '/juegos/balanza-ecuaciones' },
-    en: { title: 'Equation Balancer — Balance chemical reactions', desc: 'Balance chemical equations by adjusting the coefficients until every element has the same number of atoms on both sides. Learn to balance reactions by playing. Free chemistry game.', path: '/en/juegos/balanza-ecuaciones' },
-    ca: { title: 'Balança d’Equacions — Ajustar reaccions químiques', desc: 'Equilibra equacions químiques ajustant els coeficients fins que cada element tingui els mateixos àtoms als dos costats. Aprèn a balancejar reaccions jugant. Joc de química gratis.', path: '/ca/juegos/balanza-ecuaciones' },
+    es: { title: 'Átomos en Equilibrio — Ajustar reacciones químicas', desc: 'Equilibra ecuaciones químicas ajustando los coeficientes hasta que cada elemento tenga los mismos átomos a los dos lados. Aprende a balancear reacciones jugando. Juego de química gratis.', path: '/juegos/balanza-ecuaciones' },
+    en: { title: 'Atoms in Balance — Balance chemical reactions', desc: 'Balance chemical equations by adjusting the coefficients until every element has the same number of atoms on both sides. Learn to balance reactions by playing. Free chemistry game.', path: '/en/juegos/balanza-ecuaciones' },
+    ca: { title: 'Àtoms en Equilibri — Ajustar reaccions químiques', desc: 'Equilibra equacions químiques ajustant els coeficients fins que cada element tingui els mateixos àtoms als dos costats. Aprèn a balancejar reaccions jugant. Joc de química gratis.', path: '/ca/juegos/balanza-ecuaciones' },
   }[l]
 
   if (screen === 'difficulty') {
@@ -202,10 +202,10 @@ export default function BalanzaEcuaciones() {
     const pts = score * 10
     const msg = { es: score === 0 ? '¡Sigue practicando!' : score < 4 ? 'Buen comienzo' : score < 9 ? '¡Bien hecho!' : '¡Química de precisión! 💪', en: score === 0 ? 'Keep practising!' : score < 4 ? 'Good start' : score < 9 ? 'Well done!' : 'Precision chemistry! 💪', ca: score === 0 ? 'Segueix practicant!' : score < 4 ? 'Bon començament' : score < 9 ? 'Ben fet!' : 'Química de precisió! 💪' }[l]
     const shareText = l === 'en'
-      ? `I balanced ${correct} equations in Equation Balancer ⚗️ — can you beat me? https://tuthor.es/juegos/balanza-ecuaciones`
+      ? `I balanced ${correct} equations in Atoms in Balance ⚗️ — can you beat me? https://tuthor.es/juegos/balanza-ecuaciones`
       : l === 'ca'
-      ? `He equilibrat ${correct} equacions a Balança d’Equacions ⚗️ — pots superar-me? https://tuthor.es/juegos/balanza-ecuaciones`
-      : `He equilibrado ${correct} ecuaciones en Balanza de Ecuaciones ⚗️ — ¿puedes superarme? https://tuthor.es/juegos/balanza-ecuaciones`
+      ? `He equilibrat ${correct} equacions a Àtoms en Equilibri ⚗️ — pots superar-me? https://tuthor.es/juegos/balanza-ecuaciones`
+      : `He equilibrado ${correct} ecuaciones en Átomos en Equilibrio ⚗️ — ¿puedes superarme? https://tuthor.es/juegos/balanza-ecuaciones`
     return (
       <GameEndScreen game="balanza-ecuaciones" emoji="⚗️" title={T('end', l)} score={pts} message={msg}
         stats={[{ label: T('hits', l), value: correct, emoji: '✅' }]}

@@ -64,7 +64,7 @@ export function getPaisDeHoy() {
 }
 
 // Rota (cada 12 días) entre trivia, cálculo mental, portada, georush, numpath,
-// geomapa, Fuerza Neta, Balanza, Balanza de Ecuaciones, Caza la Función,
+// geomapa, Fuerza Neta, Balanza, Átomos en Equilibrio, Caza la Función,
 // Balanza Algebraica y Analiza la Frase.
 // El Intruso se sacó de la rotación: la mecánica de categoría puede tener más
 // de una respuesta válida (p. ej. todas masculinas menos una, pero también
@@ -102,7 +102,7 @@ export function getDesafioDeHoy() {
     return { tipo: 'balanza', round: genBalanza('medio', makeRng(dia)) }
   }
   if (tipo === 8) {
-    // Balanza de Ecuaciones: una reacción determinista del día.
+    // Átomos en Equilibrio: una reacción determinista del día.
     return { tipo: 'balanza-ecuaciones', round: genBalanzaEcuaciones('medio', makeRng(dia)) }
   }
   if (tipo === 9) {

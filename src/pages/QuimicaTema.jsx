@@ -138,7 +138,7 @@ const MODOS_POR_TEMA = {
     },
     {
       id: 'balanza-ecuaciones-test', emoji: '⚗️', gradient: 'from-emerald-500 to-teal-700',
-      titulo: { es:'Balanza de Ecuaciones', en:'Equation Balancer', ca:'Balança d’Equacions' },
+      titulo: { es:'Átomos en Equilibrio', en:'Atoms in Balance', ca:'Àtoms en Equilibri' },
       descripcion: { es:'Con la mecánica del juego: ajusta los coeficientes hasta que haya los mismos átomos de cada elemento a los dos lados de la reacción.', en:'Using the game mechanic: adjust the coefficients until there are the same atoms of each element on both sides of the reaction.', ca:'Amb la mecànica del joc: ajusta els coeficients fins que hi hagi els mateixos àtoms de cada element als dos costats de la reacció.' },
       detalles: { es:['3 niveles','10 preguntas','Sin cronómetro','Con el juego'], en:['3 levels','10 questions','No timer','With the game'], ca:['3 nivells','10 preguntes','Sense cronòmetre','Amb el joc'] },
       path: 'balanza-ecuaciones-test',

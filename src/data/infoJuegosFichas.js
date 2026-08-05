@@ -58,7 +58,7 @@ export const FICHAS_ES = {
     asignatura: 'Física', niveles: 'Primaria, ESO, Bachillerato',
   },
   'balanza-ecuaciones': {
-    titulo: 'Balanza de Ecuaciones',
+    titulo: 'Átomos en Equilibrio',
     subtitulo: 'Juego de Ajuste de Ecuaciones y Reacciones Químicas',
     emoji: '⚗️', gradient: 'from-emerald-600 to-teal-800',
     path: '/juegos/balanza-ecuaciones',
@@ -589,7 +589,7 @@ export const FICHAS_EN = {
     asignatura: 'Physics', niveles: 'Primary, Secondary, Sixth Form',
   },
   'balanza-ecuaciones': {
-    titulo: 'Equation Balancer', subtitulo: 'Balancing Chemical Equations & Reactions Game',
+    titulo: 'Atoms in Balance', subtitulo: 'Balancing Chemical Equations & Reactions Game',
     emoji: '⚗️', gradient: 'from-emerald-600 to-teal-800', path: '/juegos/balanza-ecuaciones',
     intro: 'A chemistry game to master balancing reactions: an unbalanced equation appears and you change the coefficients in front of each formula until there are the same atoms of every element on both sides of the arrow. The scale tilts until everything matches. Real reactions, round after round, with the per-element count on show.',
     beneficios: [
@@ -994,7 +994,7 @@ export const FICHAS_CA = {
     asignatura: 'Física', niveles: 'Primària, ESO, Batxillerat',
   },
   'balanza-ecuaciones': {
-    titulo: 'Balança d’Equacions', subtitulo: 'Joc d’Ajust d’Equacions i Reaccions Químiques',
+    titulo: 'Àtoms en Equilibri', subtitulo: 'Joc d’Ajust d’Equacions i Reaccions Químiques',
     emoji: '⚗️', gradient: 'from-emerald-600 to-teal-800', path: '/juegos/balanza-ecuaciones',
     intro: 'Un joc de química per dominar l’ajust de reaccions: apareix una equació sense ajustar i tu canvies els coeficients davant de cada fórmula fins que hi hagi els mateixos àtoms de cada element als dos costats de la fletxa. La balança s’inclina fins que tot quadra. Reaccions reals, ronda rere ronda, amb el recompte per element a la vista.',
     beneficios: [

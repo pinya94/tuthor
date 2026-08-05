@@ -166,7 +166,7 @@ export const GAMES = {
     coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
   },
   'balanza-ecuaciones': {
-    label: { es: 'Balanza de Ecuaciones', en: 'Equation Balancer', ca: 'Balança d’Equacions' },
+    label: { es: 'Átomos en Equilibrio', en: 'Atoms in Balance', ca: 'Àtoms en Equilibri' },
     emoji: '⚗️',
     subject: 'quimica',
     route: '/juegos/balanza-ecuaciones',

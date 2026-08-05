@@ -240,7 +240,7 @@ export const TOPIC_CATALOG = {
     },
     formatos: {
       teoria: examFormato({ es: 'Teoría (tipo test)', en: 'Theory (quiz)', ca: 'Teoria (tipus test)' }, '📝'),
-      'balanza-ecuaciones': examFormato({ es: 'Balanza de Ecuaciones (con el juego)', en: 'Equation Balancer (with the game)', ca: "Balança d'Equacions (amb el joc)" }, '⚗️'),
+      'balanza-ecuaciones': examFormato({ es: 'Átomos en Equilibrio (con el juego)', en: 'Atoms in Balance (with the game)', ca: "Àtoms en Equilibri (amb el joc)" }, '⚗️'),
     },
   },
 

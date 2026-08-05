@@ -92,7 +92,7 @@ const JUEGOS = {
       { slug: 'balanza', titulo: 'Equilibra la Balanza', desc: 'Coloca el peso a la distancia correcta para equilibrar la balanza. Palancas, momentos y la ley de la palanca.', emoji: '⚖️', gradient: 'from-teal-600 to-emerald-800', tags: ['Física','Palancas'] },
     ],
     [
-      { slug: 'balanza-ecuaciones', titulo: 'Balanza de Ecuaciones', desc: 'Ajusta los coeficientes de una reacción hasta que haya los mismos átomos de cada elemento a los dos lados. Ley de conservación de la masa jugando.', emoji: '⚗️', gradient: 'from-emerald-600 to-teal-800', tags: ['Química','Reacciones'] },
+      { slug: 'balanza-ecuaciones', titulo: 'Átomos en Equilibrio', desc: 'Ajusta los coeficientes de una reacción hasta que haya los mismos átomos de cada elemento a los dos lados. Ley de conservación de la masa jugando.', emoji: '⚗️', gradient: 'from-emerald-600 to-teal-800', tags: ['Química','Reacciones'] },
     ],
     [
       { slug: 'pentagrama-path', titulo: 'Pentagrama Path', desc: 'Lee las notas del pentagrama y tócalas en el piano de pantalla antes de que se acabe el tiempo. Lectura musical con rachas y niveles.', emoji: '🎼', gradient: 'from-indigo-500 to-fuchsia-700', tags: ['Música','Lectura'] },
@@ -128,7 +128,7 @@ const JUEGOS = {
       { slug: 'balanza', titulo: 'Balance the Scale', desc: 'Place the weight at the right distance to balance the scale. Levers, moments and the law of the lever.', emoji: '⚖️', gradient: 'from-teal-600 to-emerald-800', tags: ['Physics','Levers'] },
     ],
     [
-      { slug: 'balanza-ecuaciones', titulo: 'Equation Balancer', desc: 'Adjust the coefficients of a reaction until there are the same atoms of each element on both sides. The law of conservation of mass by playing.', emoji: '⚗️', gradient: 'from-emerald-600 to-teal-800', tags: ['Chemistry','Reactions'] },
+      { slug: 'balanza-ecuaciones', titulo: 'Atoms in Balance', desc: 'Adjust the coefficients of a reaction until there are the same atoms of each element on both sides. The law of conservation of mass by playing.', emoji: '⚗️', gradient: 'from-emerald-600 to-teal-800', tags: ['Chemistry','Reactions'] },
     ],
     [
       { slug: 'pentagrama-path', titulo: 'Pentagrama Path', desc: 'Read the notes on the staff and play them on the on-screen piano before time runs out. Music reading with streaks and levels.', emoji: '🎼', gradient: 'from-indigo-500 to-fuchsia-700', tags: ['Music','Reading'] },
@@ -164,7 +164,7 @@ const JUEGOS = {
       { slug: 'balanza', titulo: 'Equilibra la Balança', desc: 'Col·loca el pes a la distància correcta per equilibrar la balança. Palanques, moments i la llei de la palanca.', emoji: '⚖️', gradient: 'from-teal-600 to-emerald-800', tags: ['Física','Palanques'] },
     ],
     [
-      { slug: 'balanza-ecuaciones', titulo: 'Balança d’Equacions', desc: 'Ajusta els coeficients d’una reacció fins que hi hagi els mateixos àtoms de cada element als dos costats. Llei de conservació de la massa jugant.', emoji: '⚗️', gradient: 'from-emerald-600 to-teal-800', tags: ['Química','Reaccions'] },
+      { slug: 'balanza-ecuaciones', titulo: 'Àtoms en Equilibri', desc: 'Ajusta els coeficients d’una reacció fins que hi hagi els mateixos àtoms de cada element als dos costats. Llei de conservació de la massa jugant.', emoji: '⚗️', gradient: 'from-emerald-600 to-teal-800', tags: ['Química','Reaccions'] },
     ],
     [
       { slug: 'pentagrama-path', titulo: 'Pentagrama Path', desc: 'Llegeix les notes del pentagrama i toca-les al piano de pantalla abans que s\'acabi el temps. Lectura musical amb ratxes i nivells.', emoji: '🎼', gradient: 'from-indigo-500 to-fuchsia-700', tags: ['Música','Lectura'] },

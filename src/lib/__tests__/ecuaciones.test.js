@@ -1,4 +1,4 @@
-// Invariantes del pool de la Balanza de Ecuaciones. Cazan la clase de bug que
+// Invariantes del pool de la Átomos en Equilibrio. Cazan la clase de bug que
 // el build no ve: una reacción mal escrita (no cuadra) o con coeficientes que no
 // son la forma mínima, o una respuesta que el stepper no puede alcanzar.
 import { describe, it, expect } from 'vitest'

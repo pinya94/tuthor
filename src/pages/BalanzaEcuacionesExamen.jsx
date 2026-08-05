@@ -61,7 +61,7 @@ export default function BalanzaEcuacionesExamen() {
       gameId="balanza-ecuaciones-test"
       emoji="⚗️"
       badge={{ es: 'Examen · Reacciones', en: 'Exam · Reactions', ca: 'Examen · Reaccions' }}
-      title={{ es: '⚗️ Examen Balanza de Ecuaciones', en: '⚗️ Equation Balancer Exam', ca: '⚗️ Examen Balança d’Equacions' }}
+      title={{ es: '⚗️ Examen Átomos en Equilibrio', en: '⚗️ Atoms in Balance Exam', ca: '⚗️ Examen Àtoms en Equilibri' }}
       sub={{ es: 'Ajusta los coeficientes hasta equilibrar cada reacción', en: 'Adjust the coefficients until each reaction is balanced', ca: 'Ajusta els coeficients fins a equilibrar cada reacció' }}
       metaTitle={{ es: 'Examen de Ajuste de Ecuaciones Químicas', en: 'Balancing Chemical Equations Exam', ca: 'Examen d’Ajust d’Equacions Químiques' }}
       metaDesc={{ es: 'Examen para ajustar ecuaciones químicas con la mecánica del juego: cambia los coeficientes hasta que cada elemento tenga los mismos átomos a los dos lados. 10 preguntas, sin tiempo.', en: 'Exam to balance chemical equations using the game mechanic: change the coefficients until every element has the same atoms on both sides. 10 questions, no timer.', ca: 'Examen per ajustar equacions químiques amb la mecànica del joc: canvia els coeficients fins que cada element tingui els mateixos àtoms als dos costats. 10 preguntes, sense temps.' }}
