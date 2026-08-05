@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import MechanicExam from '../components/MechanicExam'
 import BalanzaAlgebraicaBoard from '../components/BalanzaAlgebraica'
-import { genRound, removeTerm, divide, isSolved } from '../lib/algebra'
+import { genRound, applyOp, isSolved } from '../lib/algebra'
 
 // Examen con la mecánica del juego: despejas la x haciendo lo mismo a los dos
 // lados. 10 preguntas, sin tiempo. Resolverla cuenta como acierto; "me rindo"
@@ -29,14 +29,9 @@ function Question({ round, phase, onAnswer, l }) {
     setHistory(h => [...h, label])
     if (isSolved(ns)) onAnswer('ok')
   }
-  function onRemove(sideKey, kind) {
+  function onOp(op) {
     if (reveal) return
-    const { state: ns, label } = removeTerm(state, sideKey, kind)
-    applyStep(ns, label)
-  }
-  function onDivide() {
-    if (reveal) return
-    const { state: ns, label } = divide(state)
+    const { state: ns, label } = applyOp(state, op)
     applyStep(ns, label)
   }
 
@@ -44,7 +39,7 @@ function Question({ round, phase, onAnswer, l }) {
 
   return (
     <>
-      <BalanzaAlgebraicaBoard state={state} onRemove={onRemove} onDivide={onDivide}
+      <BalanzaAlgebraicaBoard state={state} onOp={onOp}
         reveal={reveal} solution={round.solution} history={history} l={l} />
       {!reveal && (
         <button onClick={() => onAnswer('fail')}

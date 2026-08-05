@@ -17,7 +17,7 @@ import { isCorrectCoefs } from '../lib/ecuaciones'
 import AjustaGrafica from '../components/AjustaGrafica'
 import { isCorrectParams, fnText } from '../lib/funciones'
 import BalanzaAlgebraicaBoard from '../components/BalanzaAlgebraica'
-import { removeTerm as algRemoveTerm, divide as algDivide, isSolved as algIsSolved } from '../lib/algebra'
+import { applyOp as algApplyOp, isSolved as algIsSolved } from '../lib/algebra'
 import { makeRng } from '../lib/fuerzaNeta'
 import SentenceBoard from '../components/SentenceBoard'
 import { genRound as genFrase, sameSet } from '../lib/analizaFrases'
@@ -237,14 +237,9 @@ export default function PreguntaDiaria() {
     setAgHistory(h => [...h, label])
     if (algIsSolved(ns)) { setAnswered(true); saveDaily(true) }
   }
-  function agRemove(sideKey, kind) {
+  function agOp(op) {
     if (answered) return
-    const { state: ns, label } = algRemoveTerm(agState, sideKey, kind)
-    agApply(ns, label)
-  }
-  function agDivideOp() {
-    if (answered) return
-    const { state: ns, label } = algDivide(agState)
+    const { state: ns, label } = algApplyOp(agState, op)
     agApply(ns, label)
   }
   function agGiveUp() {
@@ -818,7 +813,7 @@ export default function PreguntaDiaria() {
                 {ca ? 'Fes la mateixa operació als dos costats fins a deixar la x sola' : en ? 'Do the same operation to both sides until x is alone' : 'Haz la misma operación a los dos lados hasta dejar la x sola'}
               </p>
               <div className="mb-3">
-                <BalanzaAlgebraicaBoard state={agState} onRemove={agRemove} onDivide={agDivideOp}
+                <BalanzaAlgebraicaBoard state={agState} onOp={agOp}
                   reveal={answered} solution={agRound.solution} history={agHistory} l={en ? 'en' : ca ? 'ca' : 'es'} />
               </div>
               {answered && algIsSolved(agState) && (

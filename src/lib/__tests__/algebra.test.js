@@ -1,9 +1,10 @@
-// Invariantes de la Balanza Algebraica: toda ronda generada es resoluble con el
-// método de la balanza (cancelar términos + dividir), la solución hallada
-// coincide con la real, y las operaciones conservan la igualdad. Cazan
-// generaciones sin salida (p. ej. coeficiente −1 no divisible).
+// Invariantes de la Balanza Algebraica: toda ronda generada es resoluble
+// USANDO SOLO las opciones que se le ofrecen al jugador, la solución hallada
+// coincide con la real, y ninguna opción puede romper la igualdad ni sacar la
+// ecuación de los enteros. Cazan generaciones sin salida (p. ej. coeficiente
+// −1 no divisible) y opciones que dejarían la ronda impracticable.
 import { describe, it, expect } from 'vitest'
-import { genRound, removeTerm, divide, canDivide, isSolved, solvedValue, sideText } from '../algebra.js'
+import { genRound, availableOps, applyOp, isSolved, solvedValue, sideText } from '../algebra.js'
 
 function seededRand(seed) {
   let s = seed
@@ -13,18 +14,32 @@ function seededRand(seed) {
 // Valor de un lado en x (para comprobar que las operaciones conservan la igualdad).
 const evalSide = (side, x) => side.m * x + side.k
 
-// Resuelve una ronda siguiendo la estrategia canónica del método de la balanza.
+// ¿Puede el jugador ganar SOLO con las opciones que se le ofrecen? Se explora
+// en anchura porque hay caminos que se pisan (cancelar 4x y volver a sumarlo
+// es legal, pero da vueltas): lo que importa es que exista un camino, no que
+// el primero que se pruebe acierte.
+const keyOf = s => `${s.L.m},${s.L.k},${s.R.m},${s.R.k}`
+
 function solve(round) {
-  let st = { L: { ...round.L }, R: { ...round.R } }
-  let guard = 0
-  // 1. Cancelar la x del lado derecho (restarla a los dos lados).
-  if (st.R.m !== 0) st = removeTerm(st, 'R', 'x').state
-  // 2. Cancelar la constante del lado izquierdo.
-  if (st.L.k !== 0) st = removeTerm(st, 'L', 'k').state
-  // 3. Si aún hay constante a la derecha con x a la izquierda, ya está m·x = k.
-  //    Dividir hasta resolver.
-  while (!isSolved(st) && canDivide(st) && guard++ < 5) st = divide(st).state
-  return st
+  const start = { L: { ...round.L }, R: { ...round.R } }
+  const seen = new Set([keyOf(start)])
+  let frontier = [start]
+  for (let depth = 0; depth < 8 && frontier.length; depth++) {
+    const next = []
+    for (const st of frontier) {
+      if (isSolved(st)) return st
+      for (const op of availableOps(st)) {
+        const ns = applyOp(st, op).state
+        const k = keyOf(ns)
+        if (seen.has(k)) continue
+        seen.add(k)
+        if (isSolved(ns)) return ns
+        next.push(ns)
+      }
+    }
+    frontier = next
+  }
+  return frontier[0] ?? start
 }
 
 describe('sideText', () => {
@@ -37,7 +52,7 @@ describe('sideText', () => {
 })
 
 describe('genRound + método de la balanza', () => {
-  it('toda ronda es resoluble y da la solución correcta, en las 3 dificultades', () => {
+  it('toda ronda se resuelve con las opciones ofrecidas, en las 3 dificultades', () => {
     for (const diff of ['facil', 'medio', 'dificil']) {
       const rand = seededRand(diff.length * 13 + 1)
       for (let n = 0; n < 120; n++) {
@@ -47,21 +62,58 @@ describe('genRound + método de la balanza', () => {
         expect(isSolved({ L: r.L, R: r.R }), `${diff}: ${eq0} arranca resuelta`).toBe(false)
         // La ecuación es cierta en x0 (generación coherente).
         expect(evalSide(r.L, r.solution), `${diff}: ${eq0} no cuadra en x0`).toBe(evalSide(r.R, r.solution))
-        // Resoluble con el método, y la solución coincide con x0.
+        // Resoluble solo con lo que ve el jugador, y la solución coincide con x0.
         const st = solve(r)
-        expect(isSolved(st), `${diff}: ${eq0} no se resuelve`).toBe(true)
+        expect(isSolved(st), `${diff}: ${eq0} no se resuelve con las opciones dadas`).toBe(true)
         expect(solvedValue(st), `${diff}: ${eq0} solución incorrecta`).toBe(r.solution)
       }
     }
   })
 
-  it('las operaciones conservan la igualdad (misma solución en cada paso)', () => {
-    const r = genRound('dificil', seededRand(77))
-    let st = { L: { ...r.L }, R: { ...r.R } }
-    const holds = s => evalSide(s.L, r.solution) === evalSide(s.R, r.solution)
-    expect(holds(st)).toBe(true)
-    st = removeTerm(st, 'R', 'x').state; expect(holds(st)).toBe(true)
-    if (st.L.k !== 0) { st = removeTerm(st, 'L', 'k').state; expect(holds(st)).toBe(true) }
-    if (canDivide(st)) { st = divide(st).state; expect(holds(st)).toBe(true) }
+  it('nunca se ofrece una pantalla sin salida (siempre hay alguna opción)', () => {
+    for (const diff of ['facil', 'medio', 'dificil']) {
+      const rand = seededRand(diff.length * 7 + 3)
+      for (let n = 0; n < 60; n++) {
+        let st = (({ L, R }) => ({ L: { ...L }, R: { ...R } }))(genRound(diff, rand))
+        for (let guard = 0; guard < 6 && !isSolved(st); guard++) {
+          const ops = availableOps(st)
+          expect(ops.length, `${sideText(st.L)} = ${sideText(st.R)}: sin opciones`).toBeGreaterThan(0)
+          expect(ops.some(o => o.helps), `${sideText(st.L)} = ${sideText(st.R)}: sin salida`).toBe(true)
+          st = applyOp(st, ops.find(o => o.helps)).state
+        }
+      }
+    }
+  })
+
+  it('ninguna opción rompe la igualdad ni saca la ecuación de los enteros', () => {
+    // También las que no ayudan: elegir mal debe dejar la balanza equilibrada
+    // (es álgebra legal), solo que sin acercar la x.
+    for (const diff of ['facil', 'medio', 'dificil']) {
+      const rand = seededRand(diff.length * 5 + 11)
+      for (let n = 0; n < 40; n++) {
+        const r = genRound(diff, rand)
+        const st = { L: { ...r.L }, R: { ...r.R } }
+        for (const op of availableOps(st)) {
+          const ns = applyOp(st, op).state
+          const eq = `${sideText(st.L)} = ${sideText(st.R)} · ${op.label.es}`
+          expect(evalSide(ns.L, r.solution), `${eq}: rompe la igualdad`).toBe(evalSide(ns.R, r.solution))
+          for (const v of [ns.L.m, ns.L.k, ns.R.m, ns.R.k]) {
+            expect(Number.isInteger(v), `${eq}: saca decimales`).toBe(true)
+          }
+        }
+      }
+    }
+  })
+
+  it('cada opción tiene id y etiqueta únicos en los 3 idiomas', () => {
+    const rand = seededRand(99)
+    for (let n = 0; n < 40; n++) {
+      const r = genRound('dificil', rand)
+      const ops = availableOps({ L: { ...r.L }, R: { ...r.R } })
+      expect(new Set(ops.map(o => o.id)).size, 'ids duplicados').toBe(ops.length)
+      for (const l of ['es', 'en', 'ca']) {
+        expect(new Set(ops.map(o => o.label[l])).size, `etiquetas duplicadas en ${l}`).toBe(ops.length)
+      }
+    }
   })
 })

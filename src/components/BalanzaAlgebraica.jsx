@@ -1,8 +1,15 @@
-import { sideTerms, canDivide, coefToDivide, isSolved, solvedValue } from '../lib/algebra'
+import { useState } from 'react'
+import { sideTerms, isSolved, solvedValue, availableOps } from '../lib/algebra'
 
-// Balanza algebraica: la ecuación como una balanza SIEMPRE nivelada. Cada término
-// es una "pesa" tocable; al tocarla se resta a los DOS lados (misma operación).
-// Cuando queda m·x = k aparece el botón de dividir. Todo en HTML salvo la viga.
+// Balanza algebraica: la ecuación como una balanza SIEMPRE nivelada.
+//
+// Los términos son solo pesas VISUALES: el jugador elige abajo qué OPERACIÓN
+// aplica a los dos lados ("restar 4 a los dos lados"). Antes se tocaba el
+// término y se restaba solo, lo que dejaba ganar a base de toquetear sin
+// entender el método. Ahora hay que leer la ecuación y nombrar el paso.
+//
+// Todas las opciones son legales: elijas la que elijas la balanza sigue
+// equilibrada. Solo algunas acercan la x, y verlo es parte de la lección.
 
 const COL = { x: '#EDAE49', k: '#7dd3fc' }
 
@@ -24,25 +31,23 @@ function Beam() {
   )
 }
 
-function TermChip({ kind, value, onClick, disabled }) {
+function TermChip({ kind, value }) {
   const text = kind === 'x'
     ? (value === 1 ? 'x' : value === -1 ? '−x' : `${value < 0 ? '−' : ''}${Math.abs(value)}x`)
     : `${value}`
   return (
-    <button type="button" onClick={onClick} disabled={disabled}
-      className="px-3 py-2 rounded-lg font-black text-lg border transition disabled:cursor-default"
+    <span className="px-3 py-2 rounded-lg font-black text-lg border"
       style={{
         color: kind === 'x' ? COL.x : COL.k,
         borderColor: `${kind === 'x' ? COL.x : COL.k}55`,
         background: `${kind === 'x' ? COL.x : COL.k}12`,
-        cursor: disabled ? 'default' : 'pointer',
       }}>
       {text}
-    </button>
+    </span>
   )
 }
 
-function Side({ side, sideKey, onRemove, disabled }) {
+function Side({ side }) {
   const terms = sideTerms(side)
   if (terms.length === 0) return <span className="text-white/40 font-black text-lg px-2">0</span>
   return (
@@ -50,44 +55,61 @@ function Side({ side, sideKey, onRemove, disabled }) {
       {terms.map((t, i) => (
         <span key={t.kind} className="inline-flex items-center gap-1.5">
           {i > 0 && <span className="text-white/30 font-black">{t.value < 0 ? '−' : '+'}</span>}
-          <TermChip kind={t.kind} value={i > 0 ? Math.abs(t.value) : t.value}
-            onClick={() => onRemove(sideKey, t.kind)} disabled={disabled} />
+          <TermChip kind={t.kind} value={i > 0 ? Math.abs(t.value) : t.value} />
         </span>
       ))}
     </span>
   )
 }
 
-export default function BalanzaAlgebraica({ state, onRemove, onDivide, reveal, solution, history = [], l = 'es' }) {
-  const solved = isSolved(state)
-  const div = canDivide(state)
-  const value = solvedValue(state)
-  const disabled = reveal || solved
+const L10N = {
+  ask:    { es: '¿Qué operación haces?', en: 'Which operation do you apply?', ca: 'Quina operació fas?' },
+  noHelp: { es: 'Sigue equilibrada, pero eso no despeja la x.', en: "Still balanced, but that doesn't isolate x.", ca: 'Segueix equilibrada, però això no aïlla la x.' },
+}
 
-  const tapHint = { es: 'Toca un término para restarlo a los dos lados', en: 'Tap a term to subtract it from both sides', ca: 'Toca un terme per restar-lo als dos costats' }[l]
-  const divLabel = { es: `÷ ${coefToDivide(state)} a los dos lados`, en: `÷ ${coefToDivide(state)} on both sides`, ca: `÷ ${coefToDivide(state)} als dos costats` }[l]
+export default function BalanzaAlgebraica({ state, onOp, reveal, solution, history = [], l = 'es' }) {
+  const solved = isSolved(state)
+  const value = solvedValue(state)
+  const [hint, setHint] = useState(false)
+
+  const ops = solved || reveal ? [] : availableOps(state)
+
+  function choose(op) {
+    setHint(!op.helps)
+    onOp(op)
+  }
 
   return (
     <div className="w-full">
       <div className="flex justify-center mb-1"><Beam /></div>
 
-      {/* Ecuación como balanza */}
+      {/* Ecuación como balanza (solo visual) */}
       <div className="flex items-center justify-center gap-3 bg-[#0d1117] border border-white/10 rounded-xl px-3 py-5 mb-2">
-        <Side side={state.L} sideKey="L" onRemove={onRemove} disabled={disabled} />
+        <Side side={state.L} />
         <span className="text-white/70 font-black text-2xl">=</span>
-        <Side side={state.R} sideKey="R" onRemove={onRemove} disabled={disabled} />
+        <Side side={state.R} />
       </div>
 
-      {!solved && !reveal && (
-        <p className="text-center text-white/40 text-xs mb-2">{tapHint}</p>
-      )}
-
-      {/* Botón dividir */}
-      {div && !solved && !reveal && (
-        <button onClick={onDivide}
-          className="w-full py-2.5 rounded-xl bg-[#EDAE49]/20 border border-[#EDAE49]/50 text-[#EDAE49] font-black hover:bg-[#EDAE49]/30 transition mb-2">
-          {divLabel}
-        </button>
+      {/* Operaciones: hay que nombrar el paso, no toquetear términos */}
+      {ops.length > 0 && (
+        <div className="mb-2">
+          <p className="text-center text-white/40 text-xs mb-1.5">{L10N.ask[l] ?? L10N.ask.es}</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
+            {ops.map(op => (
+              <button key={op.id} onClick={() => choose(op)}
+                className={`py-2.5 px-3 rounded-xl font-bold text-sm border transition text-center ${
+                  op.op === 'div'
+                    ? 'bg-[#EDAE49]/20 border-[#EDAE49]/50 text-[#EDAE49] hover:bg-[#EDAE49]/30'
+                    : 'bg-white/5 border-white/15 text-white/80 hover:bg-white/10 hover:border-white/30'
+                }`}>
+                {op.label[l] ?? op.label.es}
+              </button>
+            ))}
+          </div>
+          {hint && (
+            <p className="text-center text-amber-400/80 text-xs mt-1.5">{L10N.noHelp[l] ?? L10N.noHelp.es}</p>
+          )}
+        </div>
       )}
 
       {/* Solución */}

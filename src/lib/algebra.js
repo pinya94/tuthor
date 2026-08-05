@@ -36,17 +36,6 @@ export function sideTerms(side) {
   return terms
 }
 
-// Quitar un término (restarlo a los dos lados). Devuelve {state, label}.
-export function removeTerm(state, sideKey, kind) {
-  const L = { ...state.L }, R = { ...state.R }
-  const v = state[sideKey][kind === 'x' ? 'm' : 'k']
-  if (kind === 'x') { L.m -= v; R.m -= v } else { L.k -= v; R.k -= v }
-  const label = kind === 'x'
-    ? `${v < 0 ? '+' : '−'} ${Math.abs(v)}x`
-    : `${v < 0 ? '+' : '−'} ${Math.abs(v)}`
-  return { state: { ...state, L, R }, label: `${label} (a los dos lados)` }
-}
-
 // ¿Se puede dividir? Un lado es m·x puro (k=0) y el otro constante puro (m=0),
 // y el coeficiente divide exacto a la constante.
 export function canDivide(state) {
@@ -83,6 +72,91 @@ export function solvedValue(state) {
   if (L.m === 1 && L.k === 0 && R.m === 0) return R.k
   if (R.m === 1 && R.k === 0 && L.m === 0) return L.k
   return null
+}
+
+// ── Operaciones ofrecidas ─────────────────────────────────────────────────────
+// El jugador NO toca los términos: elige la operación que aplica a los dos
+// lados ("restar 4 a los dos lados"). Así tiene que leer la ecuación y nombrar
+// el paso, en vez de ir tocando fichas hasta que salga.
+//
+// Todas las opciones son legales y mantienen enteros: la balanza sigue
+// equilibrada elijas la que elijas, y la solución no cambia. Solo algunas
+// acercan la x (`helps`), y elegir una que no ayuda enseña justamente eso —
+// sumar lo que querías restar deja la ecuación peor, y se ve.
+
+function opText(op) {
+  const n = Math.abs(op.amount)
+  const t = op.isX ? `${n}x` : `${n}`
+  if (op.op === 'div') return {
+    es: `Dividir entre ${op.amount} los dos lados`,
+    en: `Divide both sides by ${op.amount}`,
+    ca: `Dividir entre ${op.amount} els dos costats`,
+  }
+  if (op.op === 'sub') return {
+    es: `Restar ${t} a los dos lados`,
+    en: `Subtract ${t} from both sides`,
+    ca: `Restar ${t} als dos costats`,
+  }
+  return {
+    es: `Sumar ${t} a los dos lados`,
+    en: `Add ${t} to both sides`,
+    ca: `Sumar ${t} als dos costats`,
+  }
+}
+
+const mkOp = (op, amount, isX, helps) => {
+  const o = { id: `${op}:${amount}:${isX ? 'x' : 'k'}`, op, amount: Math.abs(amount), isX, helps }
+  return { ...o, label: opText({ ...o, amount: op === 'div' ? amount : Math.abs(amount) }) }
+}
+
+// Hash estable: el orden de las opciones no puede cambiar entre renders, pero
+// tampoco debe salir siempre la correcta la primera.
+function hash(s) {
+  let h = 0
+  for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0
+  return Math.abs(h)
+}
+
+export function availableOps(state) {
+  const { L, R } = state
+  // Valores distintos presentes en la ecuación (un término por valor y tipo)
+  const seen = new Set()
+  const terms = []
+  for (const side of [L, R]) {
+    for (const [isX, v] of [[true, side.m], [false, side.k]]) {
+      const key = `${isX}:${v}`
+      if (v === 0 || seen.has(key)) continue
+      seen.add(key)
+      terms.push({ isX, v })
+    }
+  }
+
+  const ops = []
+  for (const { isX, v } of terms) {
+    // Cancelar el término: restarlo si es positivo, sumarlo si es negativo
+    ops.push(mkOp(v > 0 ? 'sub' : 'add', v, isX, true))
+    // El error clásico: hacer la operación contraria (lo duplica)
+    ops.push(mkOp(v > 0 ? 'add' : 'sub', v, isX, false))
+  }
+  if (canDivide(state)) ops.push(mkOp('div', coefToDivide(state), false, true))
+
+  // Todas las que ayudan + distractores hasta 4, en orden estable pero variado
+  const sig = eqText(state)
+  const by = a => hash(a.id + sig)
+  const utiles = ops.filter(o => o.helps).sort((a, b) => by(a) - by(b))
+  const otras = ops.filter(o => !o.helps).sort((a, b) => by(a) - by(b))
+  const total = Math.max(4, utiles.length)
+  return [...utiles, ...otras.slice(0, Math.max(0, total - utiles.length))]
+    .sort((a, b) => by(a) - by(b))
+}
+
+export function applyOp(state, op) {
+  const { L, R } = state
+  if (op.op === 'div') return divide(state)
+  const d = op.op === 'sub' ? -op.amount : op.amount
+  const nl = { ...L }, nr = { ...R }
+  if (op.isX) { nl.m += d; nr.m += d } else { nl.k += d; nr.k += d }
+  return { state: { ...state, L: nl, R: nr }, label: `${op.op === 'sub' ? '−' : '+'} ${op.amount}${op.isX ? 'x' : ''} (a los dos lados)` }
 }
 
 // ── Generador ─────────────────────────────────────────────────────────────────

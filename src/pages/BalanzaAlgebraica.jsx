@@ -4,7 +4,7 @@ import { useLang } from '../context/LangContext'
 import { useAuth } from '../context/AuthContext'
 import { saveActivity } from '../lib/activity'
 import { computeCoins } from '../lib/games'
-import { genRound, removeTerm, divide, isSolved } from '../lib/algebra'
+import { genRound, applyOp, isSolved } from '../lib/algebra'
 import GameEndScreen from '../components/GameEndScreen'
 import BalanzaAlgebraicaBoard from '../components/BalanzaAlgebraica'
 import SEOHead from '../components/SEOHead'
@@ -19,7 +19,7 @@ const C = {
   sub:    { es: 'Despeja la x haciendo lo mismo a los dos lados', en: 'Isolate x by doing the same to both sides', ca: 'Aïlla la x fent el mateix als dos costats' },
   how:    { es: 'Cómo funciona', en: 'How it works', ca: 'Com funciona' },
   p1:     { es: 'La ecuación es una balanza equilibrada: los dos lados valen lo mismo.', en: 'The equation is a balanced scale: both sides are equal.', ca: 'L’equació és una balança equilibrada: els dos costats valen el mateix.' },
-  p2:     { es: 'Toca un término para restarlo a los DOS lados. Así cancelas números y equis.', en: 'Tap a term to subtract it from BOTH sides. That cancels numbers and x’s.', ca: 'Toca un terme per restar-lo als DOS costats. Així canceŀles números i x.' },
+  p2:     { es: 'Elige qué operación haces a los DOS lados: restar 4, sumar 2x… Solo cancelar términos acerca la x.', en: 'Choose which operation you apply to BOTH sides: subtract 4, add 2x… Only cancelling terms gets you closer to x.', ca: 'Tria quina operació fas als DOS costats: restar 4, sumar 2x… Només cancel·lar termes acosta la x.' },
   p3:     { es: 'Cuando queda m·x = k, divide entre m a los dos lados para dejar la x sola.', en: 'When you reach m·x = k, divide both sides by m to isolate x.', ca: 'Quan queda m·x = k, divideix entre m als dos costats per deixar la x sola.' },
   time:   { es: 'Tiempo', en: 'Time', ca: 'Temps' },
   timeVal:{ es: '75 segundos', en: '75 seconds', ca: '75 segons' },
@@ -68,7 +68,7 @@ function DifficultyScreen({ onSelect, l }) {
         <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-4">
           <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-3">{T('how', l)}</p>
           <div className="space-y-2">
-            {[['⚖️', T('p1', l)], ['👆', T('p2', l)], ['➗', T('p3', l)]].map(([e, text]) => (
+            {[['⚖️', T('p1', l)], ['🔢', T('p2', l)], ['➗', T('p3', l)]].map(([e, text]) => (
               <div key={text} className="flex items-start gap-3 text-sm text-white/50">
                 <span className="text-base w-5 shrink-0 text-center">{e}</span><span>{text}</span>
               </div>
@@ -180,15 +180,9 @@ export default function BalanzaAlgebraica() {
     if (isSolved(nextState)) win()
   }
 
-  function onRemove(sideKey, kind) {
+  function onOp(op) {
     if (phase !== 'choose') return
-    const { state: ns, label } = removeTerm(state, sideKey, kind)
-    applyStep(ns, label)
-  }
-
-  function onDivide() {
-    if (phase !== 'choose') return
-    const { state: ns, label } = divide(state)
+    const { state: ns, label } = applyOp(state, op)
     applyStep(ns, label)
   }
 
@@ -263,7 +257,7 @@ export default function BalanzaAlgebraica() {
       <p className="text-white/70 text-sm mb-2 text-center px-2">{T('prompt', l)}</p>
 
       <div className="w-full max-w-[520px] mb-3">
-        <BalanzaAlgebraicaBoard state={state} onRemove={onRemove} onDivide={onDivide}
+        <BalanzaAlgebraicaBoard state={state} onOp={onOp}
           reveal={isResult} solution={round.solution} history={history} l={l} />
       </div>
 
