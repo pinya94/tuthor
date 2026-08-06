@@ -195,6 +195,11 @@ export const EXAMS = {
     emoji: '🧬', subject: 'biologia',
     path: 'examen/genetica', page: () => import('../pages/GeneticaExamen'),
   },
+  'genetica-test': {
+    label: { es: 'Genética (con el juego)', en: 'Genetics (with the game)', ca: 'Genètica (amb el joc)' },
+    emoji: '🧬', subject: 'biologia',
+    path: 'examen/genetica-test', page: () => import('../pages/GeneticaExamenJuego'),
+  },
   'mezclas-separacion': {
     label: { es: 'Mezclas y Separación', en: 'Mixtures & Separation', ca: 'Mescles i Separació' },
     emoji: '🔀', subject: 'quimica',

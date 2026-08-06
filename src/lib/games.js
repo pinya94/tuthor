@@ -181,6 +181,16 @@ export const GAMES = {
     // aciertos × 10 puntos → hasta 200 monedas
     coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
   },
+  // 'genetica' ya es el id del examen teórico de biología (exams.js), así que
+  // el juego lleva sufijo para no pisarle las stats.
+  'genetica-juego': {
+    label: { es: 'Genética', en: 'Genetics', ca: 'Genètica' },
+    emoji: '🧬',
+    subject: 'biologia',
+    route: '/juegos/genetica',
+    // aciertos × 10 puntos → hasta 200 monedas
+    coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
+  },
   'ordena-frase': {
     label: { es: 'Ordena la Frase', en: 'Word Order', ca: 'Ordena la Frase' },
     emoji: '🔤',

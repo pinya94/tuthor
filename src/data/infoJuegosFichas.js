@@ -1,6 +1,35 @@
 // Contenido de las fichas SEO de /info/juegos/:slug (es/en/ca).
 // Solo datos: el componente que las renderiza es src/pages/InfoJuegoFicha.jsx.
 export const FICHAS_ES = {
+  'genetica': {
+    titulo: 'Genética',
+    subtitulo: 'Juego de Cuadro de Punnett y Herencia Mendeliana',
+    emoji: '🧬', gradient: 'from-green-600 to-emerald-800',
+    path: '/juegos/genetica',
+    examPath: '/examen/genetica-test',
+    intro: 'Un juego de biología para dominar la herencia: se cruzan dos progenitores y hay que predecir cómo saldrá la descendencia. Primero razonas y respondes; el cuadro de Punnett aparece después, ya resuelto, para enseñarte de dónde sale la proporción. También al revés: por la descendencia, deducir qué genotipo tenían los padres.',
+    beneficios: [
+      { titulo: 'La proporción 3:1 con sentido', texto: 'En vez de memorizar que un cruce Aa × Aa da 3:1, el alumno lo deduce: cada progenitor aporta un alelo, salen cuatro combinaciones y basta un alelo dominante para que se vea. La regla deja de ser un dato y pasa a ser una consecuencia.' },
+      { titulo: 'Entender qué es un portador', texto: 'El caso que más cuesta —dos padres del mismo aspecto con un hijo distinto— aquí es una ronda entera: si sale un recesivo, los dos padres tenían que llevar ese alelo escondido. Es el concepto de portador, visto desde el resultado.' },
+      { titulo: 'Cuando la dominancia no es completa', texto: 'Roja × blanca dando todas rosas rompe el 3:1 que el alumno cree universal. Ver que el heterocigoto puede ser un tercer fenotipo evita el error más típico de los exámenes de Bachillerato.' },
+    ],
+    ejemplo: 'Se cruzan dos plantas de flor púrpura (Aa × Aa) y se pregunta cuántas de cada 4 tendrán flor blanca. El alumno responde 1 y el cuadro aparece mostrando AA, Aa, Aa, aa: solo la última es blanca.',
+    enPapel: {
+      titulo: 'El cuadro de Punnett en papel',
+      pasos: [
+        'Dibuja una cuadrícula de 2×2 y escribe los alelos de un progenitor arriba y los del otro a la izquierda.',
+        'Rellena cada casilla combinando el alelo de su fila con el de su columna.',
+        'Cuenta cuántas casillas llevan al menos un alelo dominante: esas muestran el carácter dominante.',
+        'Comprueba: el recesivo solo aparece cuando la casilla tiene los dos alelos minúsculos.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'Monedas como alelos', desc: 'Cada progenitor lanza una moneda (cara = alelo dominante, cruz = recesivo). Repítelo 20 veces y compara la proporción obtenida con la teórica: se ve que 3:1 es una probabilidad, no una garantía.' },
+      { nombre: 'El árbol de tu familia', desc: 'Anota un rasgo sencillo (lóbulo de la oreja suelto o pegado) en tres generaciones. Aparecen portadores reales y saltos de generación.' },
+      { nombre: 'Los guisantes de Mendel', desc: 'Repasa el experimento original: por qué eligió guisantes, qué siete caracteres estudió y cómo llegó a las proporciones sin saber que existía el ADN.' },
+    ],
+    asignatura: 'Biología', niveles: 'ESO, Bachillerato',
+  },
   'ordena-frase': {
     titulo: 'Ordena la Frase',
     subtitulo: 'Juego de Word Order — el orden de las palabras en inglés',
@@ -579,6 +608,26 @@ export const FICHAS_ES = {
 }
 
 export const FICHAS_EN = {
+  'genetica': {
+    titulo: 'Genetics',
+    subtitulo: 'Punnett Square & Mendelian Inheritance Game',
+    emoji: '🧬', gradient: 'from-green-600 to-emerald-800', path: '/juegos/genetica',
+    examPath: '/examen/genetica-test',
+    intro: 'A biology game to master inheritance: two parents are crossed and you must predict how the offspring will turn out. First you reason and answer; the Punnett square appears afterwards, already solved, to show you where the ratio comes from. And the other way round too: from the offspring, deduce the parents’ genotype.',
+    beneficios: [
+      { titulo: 'The 3:1 ratio, but understood', texto: 'Instead of memorising that Aa × Aa gives 3:1, the student derives it: each parent passes one allele, four combinations come out, and one dominant allele is enough to show. The rule stops being a fact and becomes a consequence.' },
+      { titulo: 'Understanding what a carrier is', texto: 'The hardest case — two similar-looking parents with a different child — is a whole round type here: if a recessive appears, both parents must have been carrying that hidden allele.' },
+      { titulo: 'When dominance is not complete', texto: 'Red × white giving all pink breaks the 3:1 students think is universal. Seeing that the heterozygote can be a third phenotype avoids the most typical exam mistake.' },
+    ],
+    ejemplo: 'Two purple-flowered plants (Aa × Aa) are crossed and the question is how many out of 4 will have white flowers. The student answers 1 and the square appears showing AA, Aa, Aa, aa: only the last one is white.',
+    enPapel: { titulo: 'The Punnett square on paper', pasos: ['Draw a 2×2 grid and write one parent’s alleles on top and the other’s on the left.', 'Fill each cell by combining the allele of its row with the one of its column.', 'Count how many cells carry at least one dominant allele: those show the dominant trait.', 'Check: the recessive only appears when the cell has both lowercase alleles.'] },
+    alternativas: [
+      { nombre: 'Coins as alleles', desc: 'Each parent flips a coin (heads = dominant allele, tails = recessive). Repeat 20 times and compare the ratio you get with the theoretical one: 3:1 is a probability, not a guarantee.' },
+      { nombre: 'Your family tree', desc: 'Track a simple trait (attached or free earlobe) across three generations. Real carriers and generation skips show up.' },
+      { nombre: 'Mendel’s peas', desc: 'Review the original experiment: why he chose peas, which seven traits he studied and how he reached the ratios without knowing DNA existed.' },
+    ],
+    asignatura: 'Biology', niveles: 'Secondary, Sixth Form',
+  },
   'ordena-frase': {
     titulo: 'Word Order',
     subtitulo: 'English Word Order Game',
@@ -1003,6 +1052,26 @@ export const FICHAS_EN = {
 }
 
 export const FICHAS_CA = {
+  'genetica': {
+    titulo: 'Genètica',
+    subtitulo: 'Joc de Quadre de Punnett i Herència Mendeliana',
+    emoji: '🧬', gradient: 'from-green-600 to-emerald-800', path: '/juegos/genetica',
+    examPath: '/examen/genetica-test',
+    intro: 'Un joc de biologia per dominar l’herència: es creuen dos progenitors i cal predir com sortirà la descendència. Primer raones i respons; el quadre de Punnett apareix després, ja resolt, per ensenyar-te d’on surt la proporció. També a l’inrevés: per la descendència, deduir quin genotip tenien els pares.',
+    beneficios: [
+      { titulo: 'La proporció 3:1 amb sentit', texto: 'En comptes de memoritzar que un creuament Aa × Aa dona 3:1, l’alumne ho dedueix: cada progenitor aporta un al·lel, surten quatre combinacions i amb un al·lel dominant ja es veu. La regla deixa de ser una dada i passa a ser una conseqüència.' },
+      { titulo: 'Entendre què és un portador', texto: 'El cas que més costa —dos pares del mateix aspecte amb un fill diferent— aquí és un tipus de ronda sencer: si surt un recessiu, els dos pares havien de portar aquell al·lel amagat.' },
+      { titulo: 'Quan la dominància no és completa', texto: 'Vermella × blanca donant totes roses trenca el 3:1 que l’alumne creu universal. Veure que l’heterozigot pot ser un tercer fenotip evita l’error més típic dels exàmens.' },
+    ],
+    ejemplo: 'Es creuen dues plantes de flor porpra (Aa × Aa) i es pregunta quantes de cada 4 tindran flor blanca. L’alumne respon 1 i el quadre apareix mostrant AA, Aa, Aa, aa: només l’última és blanca.',
+    enPapel: { titulo: 'El quadre de Punnett en paper', pasos: ['Dibuixa una quadrícula de 2×2 i escriu els al·lels d’un progenitor a dalt i els de l’altre a l’esquerra.', 'Omple cada casella combinant l’al·lel de la seva fila amb el de la seva columna.', 'Compta quantes caselles porten com a mínim un al·lel dominant: aquelles mostren el caràcter dominant.', 'Comprova: el recessiu només apareix quan la casella té els dos al·lels en minúscula.'] },
+    alternativas: [
+      { nombre: 'Monedes com a al·lels', desc: 'Cada progenitor llança una moneda (cara = al·lel dominant, creu = recessiu). Repeteix-ho 20 vegades i compara la proporció obtinguda amb la teòrica: 3:1 és una probabilitat, no una garantia.' },
+      { nombre: 'L’arbre de la teva família', desc: 'Anota un tret senzill (lòbul de l’orella solt o enganxat) en tres generacions. Apareixen portadors reals i salts de generació.' },
+      { nombre: 'Els pèsols de Mendel', desc: 'Repassa l’experiment original: per què va triar pèsols, quins set caràcters va estudiar i com va arribar a les proporcions sense saber que existia l’ADN.' },
+    ],
+    asignatura: 'Biologia', niveles: 'ESO, Batxillerat',
+  },
   'ordena-frase': {
     titulo: 'Ordena la Frase',
     subtitulo: 'Joc de Word Order — l’ordre de les paraules en anglès',

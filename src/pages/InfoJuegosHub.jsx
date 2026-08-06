@@ -84,6 +84,7 @@ const JUEGOS = {
       { slug: 'intruso', titulo: 'El Intruso', desc: 'Cuatro palabras, una no encaja. Vocabulario y gramática a contrarreloj en español, catalán e inglés.', emoji: '🔍', gradient: 'from-violet-500 to-purple-700', tags: ['Idiomas','Gramática'] },
       { slug: 'analiza-frases', titulo: 'Analiza la Frase', desc: 'Aparece una frase y señalas lo que se te pide: el sujeto, el predicado, los adjetivos, las palabras en femenino… Sintaxis, gramática y morfología jugando.', emoji: '🧐', gradient: 'from-violet-600 to-fuchsia-800', tags: ['Lengua','Sintaxis'] },
       { slug: 'ordena-frase', titulo: 'Ordena la Frase', desc: 'Las palabras de una frase en inglés salen desordenadas y hay que colocarlas bien. Adjetivo antes del nombre, adverbios de frecuencia, preguntas con auxiliar.', emoji: '🔤', gradient: 'from-cyan-600 to-blue-800', tags: ['Inglés','Word order'] },
+      { slug: 'genetica', titulo: 'Genética', desc: 'Cruza dos progenitores y predice la descendencia. El cuadro de Punnett aparece después para enseñarte de dónde sale la proporción.', emoji: '🧬', gradient: 'from-green-600 to-emerald-800', tags: ['Biología','Herencia'] },
     ],
     [
       { slug: 'spicy', titulo: 'Spicy', desc: 'Vive una vida entera tomando decisiones de dinero: estudiar o trabajar, alquilar o invertir, ahorrar o gastar. Aprende a leer las señales de riesgo jugando.', emoji: '🌶️', gradient: 'from-amber-500 to-red-700', tags: ['Economía','Simulación'] },
@@ -121,6 +122,7 @@ const JUEGOS = {
       { slug: 'intruso', titulo: 'Odd One Out', desc: 'Four words, one does not fit. Vocabulary and grammar against the clock in Spanish, Catalan and English.', emoji: '🔍', gradient: 'from-violet-500 to-purple-700', tags: ['Languages','Grammar'] },
       { slug: 'analiza-frases', titulo: 'Analyse the Sentence', desc: 'A sentence appears and you point out what is asked: the subject, the predicate, the adjectives, the plural words… Syntax, grammar and morphology by playing.', emoji: '🧐', gradient: 'from-violet-600 to-fuchsia-800', tags: ['Language','Syntax'] },
       { slug: 'ordena-frase', titulo: 'Word Order', desc: 'The words of an English sentence appear scrambled and you must put them in order. Adjective before noun, frequency adverbs, questions with auxiliaries.', emoji: '🔤', gradient: 'from-cyan-600 to-blue-800', tags: ['English','Word order'] },
+      { slug: 'genetica', titulo: 'Genetics', desc: 'Cross two parents and predict the offspring. The Punnett square appears afterwards to show you where the ratio comes from.', emoji: '🧬', gradient: 'from-green-600 to-emerald-800', tags: ['Biology','Inheritance'] },
     ],
     [
       { slug: 'spicy', titulo: 'Spicy', desc: 'Live an entire life making money decisions: study or work, rent or invest, save or spend. Learn to read risk signals by playing.', emoji: '🌶️', gradient: 'from-amber-500 to-red-700', tags: ['Economics','Simulation'] },
@@ -158,6 +160,7 @@ const JUEGOS = {
       { slug: 'intruso', titulo: "L'Intrús", desc: 'Quatre paraules, una no hi encaixa. Vocabulari i gramàtica a contrarellotge en català, castellà i anglès.', emoji: '🔍', gradient: 'from-violet-500 to-purple-700', tags: ['Idiomes','Gramàtica'] },
       { slug: 'analiza-frases', titulo: 'Analitza la Frase', desc: 'Apareix una frase i assenyales el que se’t demana: el subjecte, el predicat, els adjectius, les paraules en femení… Sintaxi, gramàtica i morfologia jugant.', emoji: '🧐', gradient: 'from-violet-600 to-fuchsia-800', tags: ['Llengua','Sintaxi'] },
       { slug: 'ordena-frase', titulo: 'Ordena la Frase', desc: 'Les paraules d’una frase en anglès surten desordenades i cal col·locar-les bé. Adjectiu abans del nom, adverbis de freqüència, preguntes amb auxiliar.', emoji: '🔤', gradient: 'from-cyan-600 to-blue-800', tags: ['Anglès','Word order'] },
+      { slug: 'genetica', titulo: 'Genètica', desc: 'Creua dos progenitors i prediu la descendència. El quadre de Punnett apareix després per ensenyar-te d’on surt la proporció.', emoji: '🧬', gradient: 'from-green-600 to-emerald-800', tags: ['Biologia','Herència'] },
     ],
     [
       { slug: 'spicy', titulo: 'Spicy', desc: 'Viu una vida sencera prenent decisions de diners: estudiar o treballar, llogar o invertir, estalviar o gastar. Aprèn a llegir els senyals de risc jugant.', emoji: '🌶️', gradient: 'from-amber-500 to-red-700', tags: ['Economia','Simulació'] },
