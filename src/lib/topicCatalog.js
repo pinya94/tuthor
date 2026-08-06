@@ -283,10 +283,16 @@ export const TOPIC_CATALOG = {
       'present-perfect': examTema({ test: 'ingles-grammar-present-perfect-test' }),
       articles: examTema({ test: 'ingles-grammar-articles-test' }),
       passive: examTema({ test: 'ingles-grammar-passive-test' }),
+      // El orden de las palabras es un tema propio del temario, no un formato
+      // de los demás: su examen mezcla adjetivos, adverbios y preguntas a
+      // propósito, así que colgarlo de "Adjectives" o "Present Simple" daría
+      // al profesor un examen que no va de ese tema.
+      'word-order': examTema({ ordenar: 'ordena-frase-test' }),
     },
     formatos: {
       senalar: examFormato({ es: 'Señalar en la frase', en: 'Spot in the sentence', ca: 'Assenyalar a la frase' }, '🧐'),
       test: examFormato({ es: 'Tipo test', en: 'Multiple choice', ca: 'Tipus test' }, '📚'),
+      ordenar: examFormato({ es: 'Ordenar la frase', en: 'Order the sentence', ca: 'Ordenar la frase' }, '🔤'),
     },
   },
 

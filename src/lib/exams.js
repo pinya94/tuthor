@@ -379,6 +379,11 @@ export const EXAMS = {
     emoji: '🔄', subject: 'ingles',
     path: 'examen/ingles-grammar-passive-test', page: () => import('../pages/InglesGrammarPassiveExamen'),
   },
+  'ordena-frase-test': {
+    label: { es: 'Ordena la Frase', en: 'Word Order', ca: 'Ordena la Frase' },
+    emoji: '🔤', subject: 'ingles',
+    path: 'examen/ordena-frase-test', page: () => import('../pages/OrdenaFraseExamen'),
+  },
   'ingles-pos-nouns-test': {
     label: { es: 'Nouns (spot them)', en: 'Nouns (spot them)', ca: 'Nouns (spot them)' },
     emoji: '🧐', subject: 'ingles',

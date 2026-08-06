@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
+import { Link } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import { useAuth } from '../context/AuthContext'
 import { saveActivity } from '../lib/activity'
@@ -35,6 +36,7 @@ const C = {
   hits:   { es: 'frases', en: 'sentences', ca: 'frases' },
   scoreLbl:{ es: 'puntos', en: 'points', ca: 'punts' },
   changeDif:{ es: 'Cambiar nivel', en: 'Change level', ca: 'Canviar nivell' },
+  exam:   { es: 'Modo examen (sin tiempo) →', en: 'Exam mode (no timer) →', ca: 'Mode examen (sense temps) →' },
 }
 function T(k, l) { return C[k]?.[l] ?? C[k]?.es ?? k }
 
@@ -84,9 +86,13 @@ function DifficultyScreen({ onSelect, l }) {
         </div>
 
         <button onClick={() => onSelect(dif)}
-          className="w-full py-4 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-lg rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-amber-500/20">
+          className="w-full py-4 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-lg rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-amber-500/20 mb-3">
           {T('start', l)}
         </button>
+        <Link to="/examen/ordena-frase-test"
+          className="block text-center text-white/30 hover:text-white/60 text-sm transition-colors">
+          {T('exam', l)}
+        </Link>
       </div>
     </div>
   )
