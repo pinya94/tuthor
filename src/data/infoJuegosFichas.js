@@ -1,6 +1,34 @@
 // Contenido de las fichas SEO de /info/juegos/:slug (es/en/ca).
 // Solo datos: el componente que las renderiza es src/pages/InfoJuegoFicha.jsx.
 export const FICHAS_ES = {
+  'ordena-frase': {
+    titulo: 'Ordena la Frase',
+    subtitulo: 'Juego de Word Order — el orden de las palabras en inglés',
+    emoji: '🔤', gradient: 'from-cyan-600 to-blue-800',
+    path: '/juegos/ordena-frase',
+    intro: 'Un juego de inglés para dominar el word order: aparecen las palabras de una frase desordenadas y hay que colocarlas en el orden correcto. Cada ronda entrena una regla concreta —el adjetivo antes del nombre, los adverbios de frecuencia entre sujeto y verbo, el auxiliar delante en las preguntas— y al comprobar te dice cuál era, no solo si acertaste.',
+    beneficios: [
+      { titulo: 'El orden fijo del inglés', texto: 'En español el orden es libre («el coche rojo» / «rojo, el coche») y en inglés no. Colocar las palabras una a una obliga a interiorizar que en inglés la posición ES gramática, no estilo.' },
+      { titulo: 'Los errores típicos del hispanohablante', texto: 'Cada patrón ataca un fallo real y frecuente: «a car red», «she plays always», «you like football?». Se aprende justo donde se falla, en vez de repasar lo que ya se sabe.' },
+      { titulo: 'Gramática sin memorizar reglas', texto: 'La regla aparece después de intentarlo, cuando ya te has hecho la pregunta. Así se fija mucho mejor que leyéndola antes en una lista.' },
+    ],
+    ejemplo: 'Aparecen «yesterday · a film · we · watched» y el alumno forma «We watched a film yesterday». Al comprobar lee la regla: la expresión de tiempo va al final, nunca entre el verbo y el objeto.',
+    enPapel: {
+      titulo: 'Ordenar frases en papel',
+      pasos: [
+        'Coge una frase en inglés de tu libro y escribe cada palabra en un papelito.',
+        'Mézclalos y vuelve a ordenarlos sin mirar el original.',
+        'Comprueba y, si fallaste, escribe al lado la regla que se te escapó.',
+        'Repite la misma frase al día siguiente: si sale sola, pasa a otra más larga.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'Traducir al revés', desc: 'Traduce una frase del inglés al español y luego, sin mirar, vuelve a traducirla al inglés. Los cambios de orden que te salgan son justo lo que hay que trabajar.' },
+      { nombre: 'Cazar el orden al leer', desc: 'En cualquier texto en inglés, subraya los adjetivos y comprueba que siempre van antes del nombre. Confirma la regla con material real.' },
+      { nombre: 'Canciones con hueco', desc: 'Escucha una canción en inglés con la letra desordenada por versos y colócalos. Mismo ejercicio, con ritmo.' },
+    ],
+    asignatura: 'Inglés', niveles: 'Primaria, ESO, Bachillerato',
+  },
   'analiza-frases': {
     titulo: 'Analiza la Frase',
     subtitulo: 'Juego de Sintaxis, Gramática y Análisis de Oraciones',
@@ -551,6 +579,25 @@ export const FICHAS_ES = {
 }
 
 export const FICHAS_EN = {
+  'ordena-frase': {
+    titulo: 'Word Order',
+    subtitulo: 'English Word Order Game',
+    emoji: '🔤', gradient: 'from-cyan-600 to-blue-800', path: '/juegos/ordena-frase',
+    intro: 'An English game to master word order: the words of a sentence appear scrambled and you must put them in the right order. Each round trains one specific rule — adjective before noun, frequency adverbs between subject and verb, the auxiliary first in questions — and on checking it tells you which rule it was, not just whether you got it right.',
+    beneficios: [
+      { titulo: 'English word order is fixed', texto: 'Spanish word order is flexible; English is not. Placing the words one by one makes it click that in English position IS grammar, not style.' },
+      { titulo: 'The typical Spanish-speaker mistakes', texto: 'Every pattern targets a real, frequent error: “a car red”, “she plays always”, “you like football?”. You practise exactly where you fail instead of revising what you already know.' },
+      { titulo: 'Grammar without memorising rules', texto: 'The rule appears after you try, once you have already asked yourself the question. That sticks far better than reading it in a list beforehand.' },
+    ],
+    ejemplo: 'The words “yesterday · a film · we · watched” appear and the student builds “We watched a film yesterday”. On checking they read the rule: the time expression goes at the end, never between verb and object.',
+    enPapel: { titulo: 'Ordering sentences on paper', pasos: ['Take an English sentence from your book and write each word on a slip of paper.', 'Shuffle them and put them back in order without looking at the original.', 'Check and, if you got it wrong, write the rule you missed next to it.', 'Repeat the same sentence the next day: if it comes out easily, move on to a longer one.'] },
+    alternativas: [
+      { nombre: 'Back-translation', desc: 'Translate a sentence from English into Spanish and then, without looking, back into English. The order changes you make are exactly what needs work.' },
+      { nombre: 'Hunt the order while reading', desc: 'In any English text, underline the adjectives and check they always come before the noun. Confirm the rule with real material.' },
+      { nombre: 'Scrambled song lyrics', desc: 'Listen to an English song with the lyrics scrambled by lines and put them back in order. Same exercise, with rhythm.' },
+    ],
+    asignatura: 'English', niveles: 'Primary, Secondary, Sixth Form',
+  },
   'analiza-frases': {
     titulo: 'Analyse the Sentence',
     subtitulo: 'Syntax, Grammar & Sentence Analysis Game',
@@ -956,6 +1003,25 @@ export const FICHAS_EN = {
 }
 
 export const FICHAS_CA = {
+  'ordena-frase': {
+    titulo: 'Ordena la Frase',
+    subtitulo: 'Joc de Word Order — l’ordre de les paraules en anglès',
+    emoji: '🔤', gradient: 'from-cyan-600 to-blue-800', path: '/juegos/ordena-frase',
+    intro: 'Un joc d’anglès per dominar el word order: apareixen les paraules d’una frase desordenades i cal col·locar-les en l’ordre correcte. Cada ronda entrena una regla concreta —l’adjectiu abans del nom, els adverbis de freqüència entre subjecte i verb, l’auxiliar davant a les preguntes— i en comprovar et diu quina era, no només si has encertat.',
+    beneficios: [
+      { titulo: 'L’ordre fix de l’anglès', texto: 'En català i castellà l’ordre és lliure i en anglès no. Col·locar les paraules una a una obliga a interioritzar que en anglès la posició ÉS gramàtica, no estil.' },
+      { titulo: 'Els errors típics del catalanoparlant', texto: 'Cada patró ataca una errada real i freqüent: «a car red», «she plays always», «you like football?». S’aprèn justament on es falla.' },
+      { titulo: 'Gramàtica sense memoritzar regles', texto: 'La regla apareix després d’intentar-ho, quan ja t’has fet la pregunta. Així es fixa molt millor que llegint-la abans en una llista.' },
+    ],
+    ejemplo: 'Apareixen «yesterday · a film · we · watched» i l’alumne forma «We watched a film yesterday». En comprovar llegeix la regla: l’expressió de temps va al final, mai entre el verb i l’objecte.',
+    enPapel: { titulo: 'Ordenar frases en paper', pasos: ['Agafa una frase en anglès del teu llibre i escriu cada paraula en un paperet.', 'Barreja’ls i torna a ordenar-los sense mirar l’original.', 'Comprova i, si has fallat, escriu al costat la regla que se t’ha escapat.', 'Repeteix la mateixa frase l’endemà: si surt sola, passa a una de més llarga.'] },
+    alternativas: [
+      { nombre: 'Traduir a l’inrevés', desc: 'Tradueix una frase de l’anglès al català i després, sense mirar, torna a traduir-la a l’anglès. Els canvis d’ordre que et surtin són just el que cal treballar.' },
+      { nombre: 'Caçar l’ordre llegint', desc: 'En qualsevol text en anglès, subratlla els adjectius i comprova que sempre van abans del nom.' },
+      { nombre: 'Cançons amb versos desordenats', desc: 'Escolta una cançó en anglès amb la lletra desordenada per versos i col·loca’ls. Mateix exercici, amb ritme.' },
+    ],
+    asignatura: 'Anglès', niveles: 'Primària, ESO, Batxillerat',
+  },
   'analiza-frases': {
     titulo: 'Analitza la Frase',
     subtitulo: 'Joc de Sintaxi, Gramàtica i Anàlisi d’Oracions',
