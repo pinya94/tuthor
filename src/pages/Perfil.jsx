@@ -9,6 +9,7 @@ import { GAMES } from '../lib/games'
 import { EXAMS } from '../lib/exams'
 import { GAME_LABELS, SUBJECTS, aggregateStudentStats } from '../lib/statsAggregation'
 import { getStudentAssignments } from '../lib/assignments'
+import ChildCodeCard from '../components/ChildCodeCard'
 
 function todayStr() { return new Date().toISOString().slice(0, 10) }
 
@@ -185,6 +186,12 @@ export default function Perfil() {
                   </div>
                 </div>
               ))}
+            </div>
+
+            {/* ── CÓDIGO DE ACCESO DEL HIJO ── */}
+            {/* Se oculta solo en una sesión de hijo (ver ChildCodeCard) */}
+            <div className="mb-5">
+              <ChildCodeCard />
             </div>
 
             {/* ── HISTORIAL DE MONEDAS ── */}

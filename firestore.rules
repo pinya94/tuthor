@@ -24,7 +24,10 @@ service cloud.firestore {
     function isTeacher(uid) {
       let u = get(/databases/$(database)/documents/users/$(uid)).data;
       let tp = u.teacherProfile;
-      return request.auth != null && request.auth.uid == uid
+      // isChildSession(): si el padre es profesor, su hijo comparte uid y
+      // heredaría el aula entera — crear clases, asignar tareas, ver a los
+      // alumnos. La capacidad es del padre, no de la cuenta.
+      return request.auth != null && request.auth.uid == uid && !isChildSession()
         && 'teacherProfile' in u && tp.active == true
         && (
           ('promoCode' in tp && tp.promoCode == 'L4FXL3') ||
@@ -58,11 +61,64 @@ service cloud.firestore {
         && request.resource.data.teacherProfile.promoCode == 'L4FXL3';
     }
 
+    // Campos que dan acceso de pago y que por tanto SOLO puede escribir
+    // Firebase Admin (api/stripe-webhook.js y scripts/backfill-legacy-free.mjs,
+    // que no pasan por estas rules). Sin esto el muro es decorativo: el dueño
+    // del doc se autoconcede la suscripción desde la consola del navegador con
+    // un updateDoc. Espejo de accessReason() en src/lib/access.js.
+    function touchesPaidFields() {
+      return resource == null
+        ? request.resource.data.keys().hasAny(['subscription', 'legacyFree', 'sponsoredByTeacher', 'childCode', 'stripeCustomerId'])
+        : request.resource.data.diff(resource.data).affectedKeys()
+            .hasAny(['subscription', 'legacyFree', 'sponsoredByTeacher', 'childCode', 'stripeCustomerId']);
+    }
+
+    // Sesión abierta con el código del hijo (api/child-login.js mintea el token
+    // con este claim). Padre e hijo comparten uid — para request.auth.uid son
+    // la MISMA persona — así que este claim es lo único que los distingue.
+    // Sin él, "el niño no entra en los ajustes" sería solo un botón oculto.
+    function isChildSession() {
+      return request.auth != null && request.auth.token.get('childMode', false) == true;
+    }
+
+    // El niño no toca el perfil de profesor: ni lo activa, ni cambia el centro,
+    // ni mete un código. El resto de su doc (stats, cosméticos, progreso) sí,
+    // porque es su cuenta y es lo que hace al jugar.
+    function touchesTeacherProfile() {
+      return resource == null
+        ? 'teacherProfile' in request.resource.data
+        : request.resource.data.diff(resource.data).affectedKeys().hasAny(['teacherProfile']);
+    }
+
+    // Igual, pero para teacherProfile.subscriptionStatus, que vive anidado y
+    // no lo caza el diff de arriba (affectedKeys solo mira el primer nivel).
+    // Lo escribe el webhook; el cliente solo puede poner el resto del perfil
+    // (centro, ciclo, código).
+    function touchesTeacherSubStatus() {
+      return !('teacherProfile' in request.resource.data)
+        ? false
+        : (resource == null || !('teacherProfile' in resource.data))
+          ? request.resource.data.teacherProfile.get('subscriptionStatus', 'none') != 'none'
+          : request.resource.data.teacherProfile.diff(resource.data.teacherProfile)
+              .affectedKeys().hasAny(['subscriptionStatus']);
+    }
+
     // ── Perfil de usuario ─────────────────────────────────────────────────────
     match /users/{uid} {
       allow read:  if isOwner(uid) || isAdmin()
         || (request.auth != null && 'linkedTeacherIds' in resource.data && request.auth.uid in resource.data.linkedTeacherIds);
-      allow write: if isOwner(uid) && (!becomesTeacher() || hasValidPromoCode());
+      // create/update en vez de write: en un delete `request.resource` es null
+      // y touchesPaidFields() reventaría al mirar sus claves.
+      allow create, update: if isOwner(uid)
+        && (!becomesTeacher() || hasValidPromoCode())
+        && !touchesPaidFields()
+        && !touchesTeacherSubStatus()
+        && !(isChildSession() && touchesTeacherProfile());
+
+      // Aquí vive legacyFree (el acceso gratis de por vida de las cuentas
+      // antiguas). Nada en la app borra este doc, y si alguien lo borrase
+      // perdería ese acceso sin forma de recuperarlo.
+      allow delete: if false;
 
       match /activity/{activityId} {
         allow read:  if isOwner(uid) || isAdmin();
@@ -73,6 +129,18 @@ service cloud.firestore {
         allow read:  if isOwner(uid) || isAdmin() || isLinkedTeacher(uid);
         allow write: if isOwner(uid);
       }
+    }
+
+    // ── Códigos de acceso del hijo ────────────────────────────────────────────
+    // childCodes/{code} → { uid } es un llavero: quien pudiera leer esta
+    // colección tendría la entrada a todas las cuentas. Cerrada por completo al
+    // cliente; solo la tocan api/child-login.js y api/child-code.js con Firebase
+    // Admin, que no pasa por estas rules.
+    //
+    // Ojo con el impulso de abrir el read "solo para comprobar si un código
+    // existe": eso convierte la colección en un oráculo de fuerza bruta gratis.
+    match /childCodes/{code} {
+      allow read, write: if false;
     }
 
     // ── Clases de profesor ────────────────────────────────────────────────────

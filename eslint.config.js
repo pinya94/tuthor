@@ -18,4 +18,11 @@ export default defineConfig([
       parserOptions: { ecmaFeatures: { jsx: true } },
     },
   },
+  {
+    // api/ y scripts/ corren en Node (funciones de Vercel y scripts de
+    // mantenimiento), no en el navegador: sin esto, `process` y `Buffer` se
+    // reportan como no definidos y el lint de esos ficheros era ruido.
+    files: ['api/**/*.js', 'scripts/**/*.{js,mjs}'],
+    languageOptions: { globals: globals.node },
+  },
 ])

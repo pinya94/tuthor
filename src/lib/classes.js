@@ -8,8 +8,12 @@ import {
 // ── Alta de profesor ─────────────────────────────────────────────────────────
 // "Profesor" es una capacidad que se activa sobre una cuenta ya existente
 // (no un tipo de cuenta aparte): la misma persona puede seguir jugando como
-// alumno. subscriptionStatus queda reservado desde el día 1 para el futuro
-// gate de pago (ver firestore.rules / isTeacher).
+// alumno.
+//
+// subscriptionStatus NO se escribe aquí: es de Firebase Admin (el webhook de
+// Stripe) y firestore.rules rechaza este setDoc si lo incluye —
+// touchesTeacherSubStatus(). Escribirlo desde el cliente era regalar acceso de
+// pago a quien abriera la consola.
 //
 // promoCode es obligatorio mientras no haya cobro: firestore.rules compara
 // el código hardcodeado (hasValidPromoCode(), de prueba por ahora) antes de
@@ -24,7 +28,6 @@ export async function activateTeacherProfile(uid, { schoolName, stage, promoCode
       stage,
       promoCode,
       createdAt: serverTimestamp(),
-      subscriptionStatus: 'none',
     },
   }, { merge: true })
 }
@@ -46,7 +49,6 @@ export async function saveTeacherProfileDraft(uid, { schoolName, stage }) {
       active: false,
       schoolName,
       stage,
-      subscriptionStatus: 'none',
     },
   }, { merge: true })
 }
