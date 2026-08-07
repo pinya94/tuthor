@@ -43,6 +43,9 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..')
 const CONCURRENCY = 3
 const NAV_TIMEOUT = 30_000
 const CONTENT_TIMEOUT = 15_000
+// Espera a que Helmet aplique la meta. Corto a propósito: cuando ya hay
+// contenido pintado, la meta llega en milisegundos o no va a llegar.
+const META_TIMEOUT = 3_000
 
 // Bloqueamos anuncios/analítica reales durante el snapshot: no aportan
 // contenido, e ir cargando anuncios de doubleclick 237 veces se comía la
@@ -76,6 +79,10 @@ const browser = ON_VERCEL
 let cursor = 0
 let written = 0
 const failed = []
+// Los HTML se acumulan aquí y se vuelcan al final, con el servidor ya cerrado
+// (ver el porqué junto al bucle de escritura). Son ~312 páginas de unos 100 KB:
+// unas decenas de MB en memoria, nada al lado de lo que ocupa Chromium.
+const rendered = []
 
 async function renderOne(page, urlPath) {
   await page.goto(base + urlPath, { waitUntil: 'load', timeout: NAV_TIMEOUT })
@@ -93,8 +100,30 @@ async function renderOne(page, urlPath) {
     },
     { timeout: CONTENT_TIMEOUT },
   )
-  // Margen corto para dejar asentar efectos tardíos (helmet, imágenes, etc.)
-  await page.waitForTimeout(250)
+  // Esperar a que Helmet haya aplicado la meta, no a que pasen 250 ms. El
+  // margen fijo que había aquí era una carrera y la perdían unas 20 páginas por
+  // build: se capturaban con el <title> genérico del shell y SIN canonical
+  // ninguno, que es justo el aspecto que tiene una página "de poco valor" a
+  // ojos de Google. El canonical es la señal más fiable de que Helmet ya pasó,
+  // porque SEOHead siempre lo emite.
+  // Se traga el fallo a propósito: hay páginas del sitemap que no montan
+  // SEOHead y ahí el canonical no va a llegar nunca. Reventar por eso las
+  // dejaría fuera del prerender (y con el retry, +30 s de build cada una).
+  // Que no aparezca es un problema de esa página, no de este script.
+  await page.waitForFunction(
+    () => document.head.querySelector('link[rel="canonical"]') !== null,
+    { timeout: META_TIMEOUT },
+  ).catch(() => {})
+  // Margen corto para el resto de efectos tardíos (imágenes, og:*)
+  await page.waitForTimeout(100)
+
+  // El shell de Vite trae su propio <title> y Helmet añade el suyo en vez de
+  // reemplazarlo, así que quedaban dos por página. Nos quedamos con el primero,
+  // que es el de Helmet y el que usan navegador y buscadores.
+  await page.evaluate(() => {
+    const titles = [...document.head.querySelectorAll('title')]
+    titles.slice(1).forEach(t => t.remove())
+  })
   // Alguna página redirige sola nada más montar (p. ej. si depende de
   // location.state y no lo recibe). Si para cuando leemos el HTML ya no
   // estamos en la URL esperada, es mejor fallar (y conservar el shell
@@ -138,11 +167,8 @@ async function worker() {
       } catch {
         html = await renderOne(page, urlPath) // un reintento antes de rendirse
       }
-      const clean = urlPath.replace(/\/$/, '')
-      const outDir = clean ? join(ROOT, 'dist', ...clean.split('/').filter(Boolean)) : join(ROOT, 'dist')
-      mkdirSync(outDir, { recursive: true })
-      writeFileSync(join(outDir, 'index.html'), html, 'utf8')
-      written++
+      // NO se escribe todavía: ver el volcado tras cerrar el servidor.
+      rendered.push({ urlPath, html })
     } catch (err) {
       failed.push({ urlPath, err: err?.message ?? String(err) })
     } finally {
@@ -162,6 +188,28 @@ await Promise.all(Array.from({ length: Math.min(CONCURRENCY, urls.length) }, wor
 
 await browser.close()
 await new Promise((resolve, reject) => server.httpServer.close(err => (err ? reject(err) : resolve())))
+
+// El volcado va DESPUÉS de cerrar el servidor, y no dentro del worker, por un
+// motivo que costó encontrar: `vite preview` sirve desde dist/. Al escribir
+// dist/index.html en cuanto terminaba de renderizar "/", todas las URLs que
+// aún no tenían fichero propio dejaban de recibir el shell limpio de Vite y
+// pasaban a recibir la home YA RENDERIZADA como fallback del SPA. React
+// montaba encima, y como Helmet solo gestiona las etiquetas que él mismo creó,
+// las de la home se quedaban ahí: 289 de 312 páginas acababan con dos
+// <link rel="canonical"> (el suyo y el de la home) y dos descripciones.
+//
+// Para Google eso son cientos de URLs declarando como canónica la portada, que
+// es la definición práctica de "contenido duplicado / de poco valor".
+//
+// Mientras nada se escriba en dist durante el render, el fallback sigue siendo
+// el shell limpio y cada página sale con su meta y solo la suya.
+for (const { urlPath, html } of rendered) {
+  const clean = urlPath.replace(/\/$/, '')
+  const outDir = clean ? join(ROOT, 'dist', ...clean.split('/').filter(Boolean)) : join(ROOT, 'dist')
+  mkdirSync(outDir, { recursive: true })
+  writeFileSync(join(outDir, 'index.html'), html, 'utf8')
+  written++
+}
 
 console.log(`[prerender] ${written}/${urls.length} páginas generadas con contenido real`)
 if (unresolved.length) {
