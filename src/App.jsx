@@ -1,5 +1,5 @@
 import { useState, lazy, Suspense } from 'react'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
 import { Analytics } from '@vercel/analytics/react'
 import Particles from './components/Particles'
 import Navbar from './components/Navbar'
@@ -9,6 +9,8 @@ import { LangProvider, useLang } from './context/LangContext'
 import { routableExams } from './lib/exams'
 
 // Lazy-loaded pages — only downloaded when the user navigates to them
+const Landing            = lazy(() => import('./pages/Landing'))
+const PagoGracias        = lazy(() => import('./pages/PagoGracias'))
 const Home               = lazy(() => import('./pages/Home'))
 const Estudiar           = lazy(() => import('./pages/Estudiar'))
 const HistoriaIndex      = lazy(() => import('./pages/HistoriaIndex'))
@@ -110,7 +112,11 @@ function PageLoader() {
 function AppRoutes() {
   return (
     <>
-      <Route index element={<Home />} />
+      {/* La raíz es la landing de venta; la home de la app se movió a /app.
+          Ambas se sirven con chrome distinto — ver CHROMELESS_PATHS. */}
+      <Route index element={<Landing />} />
+      <Route path="app" element={<Home />} />
+      <Route path="pago/gracias" element={<PagoGracias />} />
 
       {/* ── ESTUDIAR ── */}
       <Route path="estudiar" element={<Estudiar />} />
@@ -255,37 +261,60 @@ function NotFound() {
   )
 }
 
+// Páginas que traen su propio encabezado y su propio fondo: la landing de
+// venta y la vuelta del pago. Se les quita el chrome de la app (navbar, bosque
+// de fondo, partículas) para que se lean como lo que son — páginas de producto,
+// no producto. El path llega sin prefijo de idioma.
+const CHROMELESS_PATHS = new Set(['/', '/pago/gracias'])
+
+function useIsChromeless() {
+  const { pathname } = useLocation()
+  const neutral = pathname.replace(/^\/(en|ca)(?=\/|$)/, '') || '/'
+  // Sin la barra final, /pago/gracias/ y /pago/gracias son la misma página.
+  return CHROMELESS_PATHS.has(neutral.replace(/\/$/, '') || '/')
+}
+
 function Layout({ onConsent }) {
+  const chromeless = useIsChromeless()
+
+  const routes = (
+    <Suspense fallback={<PageLoader />}>
+      <Routes>
+        {/* Rutas en español (por defecto) */}
+        <Route path="/">{AppRoutes()}</Route>
+        {/* Rutas en inglés (prefijo /en) */}
+        <Route path="/en">{AppRoutes()}</Route>
+        {/* Catalán — rutas activas pero selector oculto hasta completar traducción */}
+        <Route path="/ca">{AppRoutes()}</Route>
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </Suspense>
+  )
+
   return (
     <ErrorBoundary>
     <LangProvider>
-      <div className="min-h-screen font-sans" style={{ position: 'relative' }}>
-        <div
-          className="fixed inset-0 z-0"
-          style={{
-            backgroundImage: 'url(/fondo.webp)',
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            filter: 'brightness(0.5)',
-          }}
-        />
-        <Particles />
-        <div className="relative z-10">
-          <Navbar />
-          <Suspense fallback={<PageLoader />}>
-            <Routes>
-              {/* Rutas en español (por defecto) */}
-              <Route path="/">{AppRoutes()}</Route>
-              {/* Rutas en inglés (prefijo /en) */}
-              <Route path="/en">{AppRoutes()}</Route>
-              {/* Catalán — rutas activas pero selector oculto hasta completar traducción */}
-              <Route path="/ca">{AppRoutes()}</Route>
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </Suspense>
+      {chromeless ? (
+        <div className="min-h-screen font-sans">{routes}</div>
+      ) : (
+        <div className="min-h-screen font-sans" style={{ position: 'relative' }}>
+          <div
+            className="fixed inset-0 z-0"
+            style={{
+              backgroundImage: 'url(/fondo.webp)',
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              filter: 'brightness(0.5)',
+            }}
+          />
+          <Particles />
+          <div className="relative z-10">
+            <Navbar />
+            {routes}
+          </div>
         </div>
-        <CookieBanner onConsent={onConsent} />
-      </div>
+      )}
+      <CookieBanner onConsent={onConsent} />
     </LangProvider>
     </ErrorBoundary>
   )

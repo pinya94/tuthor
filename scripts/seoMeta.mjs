@@ -27,9 +27,16 @@ export const HREFLANG_LANGS = ['es', 'en']
 
 // ── Meta manual de páginas estáticas (path neutro, sin prefijo de idioma) ───
 export const STATIC_META = {
+  // La raíz es la landing de venta desde el pivot a suscripción; la home de la
+  // app vive en /app. Mantener en sintonía con el <SEOHead> de Landing.jsx: el
+  // prerender genera el HTML que ven crawlers y scrapers, que no ejecutan JS.
   '/': {
-    es: { title: null, desc: 'Plataforma educativa gratuita con exámenes gamificados para Primaria, ESO y Bachillerato. Historia, matemáticas, geografía, ciencias, español e inglés. Aprende jugando.' },
-    en: { title: null, desc: 'Free educational platform with gamified exams for primary and secondary school. History, maths, geography, science, Spanish and English. Learn by playing.' },
+    es: { title: 'Aprende jugando: el mismo concepto desde varios ángulos', desc: 'Plataforma educativa para Primaria, ESO y Bachillerato. Juegos y exámenes en 11 materias, con panel de seguimiento para padres. Cada concepto, explicado de varias formas distintas.' },
+    en: { title: 'Learn by playing: one concept, several angles', desc: 'Educational platform for primary and secondary school. Games and exams across 11 subjects, with a tracking panel for parents. Every concept, explained in several different ways.' },
+  },
+  '/app': {
+    es: { title: 'Tu panel de estudio', desc: 'Tu progreso, tus rachas y tus monedas. Elige materia y sigue repasando con juegos y exámenes tipo test.' },
+    en: { title: 'Your study dashboard', desc: 'Your progress, streaks and coins. Pick a subject and keep revising with games and quizzes.' },
   },
   '/estudiar': {
     es: { title: 'Estudiar por materias', desc: 'Elige materia y repasa con juegos y exámenes tipo test: historia, matemáticas, geografía, ciencias e idiomas. Gratis y sin registro.' },

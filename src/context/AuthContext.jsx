@@ -1,23 +1,20 @@
 import { createContext, useContext, useEffect, useRef, useState } from 'react'
 import {
-  onAuthStateChanged, signInWithPopup, signOut,
-  createUserWithEmailAndPassword, signInWithEmailAndPassword,
-  signInWithCustomToken, sendPasswordResetEmail, updateProfile,
+  onAuthStateChanged, signInWithPopup, signOut, signInWithCustomToken,
 } from 'firebase/auth'
 import { auth, googleProvider } from '../lib/firebase'
 import { upsertUserProfile } from '../lib/activity'
 
 const AuthContext = createContext({ user: undefined, logout: () => {} })
 
-// Convierte username en email interno — nunca se muestra al usuario.
-// OJO: las cuentas creadas así NO tienen email real, así que no pueden
-// recuperar la contraseña ni recibir una factura. Sirven para un alumno, no
-// para quien paga: el carril de pago exige registerWithEmail().
-function usernameToEmail(username) {
-  return `${username.toLowerCase()}@tuthor.app`
-}
-
-// hasRealEmail() y authErrorKey() viven en src/lib/authErrors.js
+// Solo hay dos formas de entrar:
+//   · Google — el adulto. Trae email real, necesario para la factura de Stripe
+//     y para recuperar la cuenta.
+//   · Código de hijo — entra en la misma cuenta, en modo restringido.
+// No hay email+contraseña ni usuario+contraseña: una credencial más que
+// recordar, que recuperar y que acaba compartida con el crío.
+//
+// authErrorKey() vive en src/lib/authErrors.js
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(undefined) // undefined = cargando
@@ -59,47 +56,6 @@ export function AuthProvider({ children }) {
     await signInWithPopup(auth, googleProvider)
   }
 
-  async function registerWithUsername(username, password) {
-    const email = usernameToEmail(username)
-    const cred = await createUserWithEmailAndPassword(auth, email, password)
-    await updateProfile(cred.user, { displayName: username })
-    // Forzamos que el contexto vea el displayName actualizado
-    setUser({ ...cred.user, displayName: username })
-  }
-
-  async function loginWithUsername(username, password) {
-    const email = usernameToEmail(username)
-    await signInWithEmailAndPassword(auth, email, password)
-  }
-
-  // ── Carril de email real ───────────────────────────────────────────────────
-  // El que usa quien paga: hace falta un email de verdad para la factura de
-  // Stripe, los avisos de renovación y poder recuperar la contraseña. Google
-  // sigue valiendo (también da email real); esto es para quien no lo quiere.
-
-  async function registerWithEmail(email, password, displayName) {
-    const cred = await createUserWithEmailAndPassword(auth, email.trim(), password)
-    if (displayName) {
-      await updateProfile(cred.user, { displayName })
-      // onAuthStateChanged ya disparó con el usuario SIN displayName (el
-      // updateProfile es posterior), así que el contexto se quedaría con el
-      // nombre vacío hasta el siguiente refresco. Lo empujamos a mano, igual
-      // que hace registerWithUsername.
-      setUser({ ...cred.user, displayName })
-    }
-    return cred.user
-  }
-
-  async function loginWithEmail(email, password) {
-    await signInWithEmailAndPassword(auth, email.trim(), password)
-  }
-
-  // No revela si el email existe: Firebase responde igual en ambos casos y la
-  // UI dice siempre "si esa cuenta existe, te hemos enviado un correo".
-  async function resetPassword(email) {
-    await sendPasswordResetEmail(auth, email.trim())
-  }
-
   // ── Entrada del hijo con el código del padre ───────────────────────────────
   // El niño no tiene email ni contraseña: escribe el código y entra en la
   // cuenta del padre en modo restringido. El token lo mintea el servidor
@@ -134,10 +90,7 @@ export function AuthProvider({ children }) {
   return (
     <AuthContext.Provider value={{
       user, childMode, logout,
-      loginWithGoogle,
-      registerWithUsername, loginWithUsername,
-      registerWithEmail, loginWithEmail, resetPassword,
-      loginWithChildCode,
+      loginWithGoogle, loginWithChildCode,
     }}>
       {children}
     </AuthContext.Provider>

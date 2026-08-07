@@ -76,7 +76,9 @@ export default async function handler(req, res) {
       subscription_data: { metadata: { uid, plan } },
       allow_promotion_codes: true,
       success_url: `${baseUrl(req)}/pago/gracias?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${baseUrl(req)}/precios`,
+      // Vuelve a la sección de precios de la landing, no a una página aparte:
+      // quien cancela suele querer mirar el otro plan, no empezar de cero.
+      cancel_url: `${baseUrl(req)}/#precios`,
     })
 
     return res.status(200).json({ url: session.url })
