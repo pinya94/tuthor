@@ -22,8 +22,13 @@ export async function startCheckout(plan) {
   })
 
   if (!res.ok) {
-    const { error } = await res.json().catch(() => ({}))
-    throw new Error(error ?? 'unknown')
+    const { error, detail } = await res.json().catch(() => ({}))
+    const err = new Error(error ?? 'unknown')
+    // El servidor solo manda `detail` si DEBUG_API está puesta, así que esto
+    // no filtra nada en operación normal: es el operador quien decide
+    // enseñarlo, y sirve para depurar sin rebuscar en los logs.
+    err.detail = detail
+    throw err
   }
 
   const { url } = await res.json()

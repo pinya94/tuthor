@@ -183,18 +183,21 @@ export default function Landing() {
   const { user } = useAuth()
   const [showAuth, setShowAuth] = useState(false)
   const [busyPlan, setBusyPlan] = useState(null)
-  const [checkoutError, setCheckoutError] = useState(false)
+  // null = sin error; true = error genérico; string = detalle del servidor
+  const [checkoutError, setCheckoutError] = useState(null)
 
   // Sin sesión no se puede cobrar: el checkout necesita saber a qué cuenta dar
   // el acceso. Se abre el login y el usuario vuelve a pulsar — mandarlo a
   // Stripe y pedirle la cuenta después es peor: paga y no sabes de quién es.
   async function pickPlan(planId) {
     if (!user) { setShowAuth(true); return }
-    setBusyPlan(planId); setCheckoutError(false)
+    setBusyPlan(planId); setCheckoutError(null)
     try {
       await startCheckout(planId)
-    } catch {
-      setCheckoutError(true)
+    } catch (err) {
+      // `detail` solo llega cuando el operador ha puesto DEBUG_API en el
+      // servidor; en operación normal se muestra el mensaje genérico.
+      setCheckoutError(err?.detail ?? true)
       setBusyPlan(null)
     }
   }
@@ -382,13 +385,18 @@ export default function Landing() {
           </div>
 
           {checkoutError && (
-            <p className="mt-5 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-center text-sm text-red-700">
-              {tr({
-                es: 'No hemos podido abrir la pasarela de pago. Inténtalo de nuevo en un momento.',
-                en: "We couldn't open the payment page. Please try again in a moment.",
-                ca: 'No hem pogut obrir la passarel·la de pagament. Torna-ho a intentar en un moment.',
-              })}
-            </p>
+            <div className="mt-5 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-center text-sm text-red-700">
+              <p>
+                {tr({
+                  es: 'No hemos podido abrir la pasarela de pago. Inténtalo de nuevo en un momento.',
+                  en: "We couldn't open the payment page. Please try again in a moment.",
+                  ca: 'No hem pogut obrir la passarel·la de pagament. Torna-ho a intentar en un moment.',
+                })}
+              </p>
+              {typeof checkoutError === 'string' && (
+                <p className="mt-2 font-mono text-xs break-words text-red-500">{checkoutError}</p>
+              )}
+            </div>
           )}
 
           <p className="mt-6 text-center text-sm text-slate-500">
