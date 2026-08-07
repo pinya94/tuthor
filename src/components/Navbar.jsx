@@ -106,8 +106,10 @@ export default function Navbar() {
   // clases: solo una cuenta con la capacidad de profesor activa va al
   // panel de creación; cualquier otra va a /clase, donde ve sus tareas
   // pendientes o, si aún no está en ninguna clase, el código de acceso.
+  const claseDest = isTeacher ? '/profesor' : '/clase'
   function goToClase() {
-    navigate(localPath(isTeacher ? '/profesor' : '/clase'))
+    navigate(localPath(claseDest))
+    setMenuOpen(false)
   }
 
   const navLabels = {
@@ -143,17 +145,20 @@ export default function Navbar() {
                 </button>
               )
             })}
-            {/* Solo para quien tiene la capacidad de profesor pagada, y lleva
-                a SU panel. La página de venta /profesores no pinta aquí: esto
-                es la app del alumno, y la captación de profesores ocurre en la
-                landing (que ya enlaza a /profesores en su pie). */}
-            {isTeacher && (
+            {/* El mismo enlace sirve para los dos lados del aula: el profesor
+                va a su panel, el alumno a la suya (o a meter el código si aún
+                no está en ninguna). Lo que NO se enseña aquí es /profesores,
+                que es la página de venta: esto es la app del alumno y la
+                captación ocurre en la landing, que ya la enlaza en su pie. */}
+            {user && (
               <button
-                onClick={() => navigate(localPath('/profesor'))}
+                onClick={goToClase}
                 className={`px-4 py-2 rounded-full text-sm font-medium transition-all border border-white/10
-                  ${location.pathname === localPath('/profesor') ? 'bg-violet-600 text-white border-transparent' : 'text-white/60 hover:text-white hover:bg-white/10'}`}
+                  ${location.pathname === localPath(claseDest) ? 'bg-violet-600 text-white border-transparent' : 'text-white/60 hover:text-white hover:bg-white/10'}`}
               >
-                🎓 {tr({ es: 'Mis clases', en: 'My classes', ca: 'Les meves classes' })}
+                {isTeacher
+                  ? `🎓 ${tr({ es: 'Mis clases', en: 'My classes', ca: 'Les meves classes' })}`
+                  : `🎒 ${tr({ es: 'Mi clase', en: 'My class', ca: 'La meva classe' })}`}
               </button>
             )}
           </div>
@@ -239,11 +244,13 @@ export default function Navbar() {
                 </button>
               )
             })}
-            {isTeacher && (
-              <button onClick={() => { navigate(localPath('/profesor')); setMenuOpen(false) }}
+            {user && (
+              <button onClick={goToClase}
                 className={`w-full text-left px-4 py-3 rounded-xl text-sm font-medium transition-all
-                  ${location.pathname === localPath('/profesor') ? 'bg-violet-600 text-white' : 'text-white/70 hover:text-white hover:bg-white/10'}`}>
-                🎓 {tr({ es: 'Mis clases', en: 'My classes', ca: 'Les meves classes' })}
+                  ${location.pathname === localPath(claseDest) ? 'bg-violet-600 text-white' : 'text-white/70 hover:text-white hover:bg-white/10'}`}>
+                {isTeacher
+                  ? `🎓 ${tr({ es: 'Mis clases', en: 'My classes', ca: 'Les meves classes' })}`
+                  : `🎒 ${tr({ es: 'Mi clase', en: 'My class', ca: 'La meva classe' })}`}
               </button>
             )}
             <div className="border-t border-white/10 pt-2 mt-1">

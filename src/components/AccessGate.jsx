@@ -1,0 +1,174 @@
+import { useEffect, useState } from 'react'
+import { Link, useLocation } from 'react-router-dom'
+import { useAuth } from '../context/AuthContext'
+import { useLang } from '../context/LangContext'
+import { loadAccessCached, PLANS, annualSavings } from '../lib/access'
+import { requiresAccess } from '../lib/paidRoutes'
+import AuthModal from './AuthModal'
+
+// Puerta única del muro de pago. Se monta una sola vez alrededor de las rutas
+// (App.jsx) en lugar de envolver ruta por ruta: las de juegos y exámenes están
+// repartidas por todo el fichero y anidarlas obligaría a reordenarlas, que es
+// mucho movimiento para algo que se decide igual mirando la ruta actual.
+//
+// Qué es de pago lo dice requiresAccess() en lib/paidRoutes.js, no este
+// componente. Aquí solo se decide qué enseñar.
+//
+// Este muro no es una barrera criptográfica: el contenido va en el bundle de
+// JS y quien sepa abrir las devtools entra igual. Existe para el 99 % que no
+// lo hará. Lo que sí está protegido de verdad son los DATOS — firestore.rules
+// impide escribir los campos que conceden acceso.
+
+const SAVINGS = annualSavings()
+
+function Locked({ onLogin, user }) {
+  const { tr, localPath } = useLang()
+  const monthly = PLANS.family_monthly.price.toFixed(2).replace('.', ',')
+  const annual = PLANS.family_annual.price.toFixed(2).replace('.', ',')
+
+  return (
+    <div className="relative z-10 mx-auto flex min-h-[calc(100vh-4rem)] max-w-lg flex-col items-center justify-center px-5 py-12 text-center">
+      <span className="mb-5 text-5xl">🔒</span>
+
+      <h1 className="text-2xl font-black leading-tight text-white sm:text-3xl">
+        {tr({
+          es: 'Esto es parte de la suscripción',
+          en: 'This is part of the subscription',
+          ca: 'Això forma part de la subscripció',
+        })}
+      </h1>
+
+      <p className="mt-3 text-sm leading-relaxed text-white/50">
+        {tr({
+          es: 'Los juegos y los exámenes van con el plan. Los temarios y las fichas siguen siendo gratis para todo el mundo.',
+          en: 'Games and exams come with the plan. Study notes and guides stay free for everyone.',
+          ca: 'Els jocs i els exàmens van amb el pla. Els temaris i les fitxes continuen sent gratis per a tothom.',
+        })}
+      </p>
+
+      <div className="mt-7 w-full rounded-2xl border border-violet-500/25 bg-violet-500/5 p-5">
+        <p className="text-white font-black text-lg">
+          {annual} € <span className="text-sm font-semibold text-white/40">
+            {tr({ es: '/ año', en: '/ year', ca: '/ any' })}
+          </span>
+        </p>
+        <p className="mt-0.5 text-xs text-white/40">
+          {tr({
+            es: `o ${monthly} € al mes · ahorras un ${SAVINGS.percent} % con el anual`,
+            en: `or €${monthly} a month · save ${SAVINGS.percent}% with the annual plan`,
+            ca: `o ${monthly} € al mes · estalvies un ${SAVINGS.percent} % amb l'anual`,
+          })}
+        </p>
+
+        <Link
+          to={`${localPath('/')}#precios`}
+          className="mt-4 block w-full rounded-xl bg-violet-600 px-6 py-3.5 text-sm font-black text-white transition-colors hover:bg-violet-500"
+        >
+          {tr({ es: 'Ver los planes', en: 'See the plans', ca: 'Veure els plans' })}
+        </Link>
+      </div>
+
+      {/* Quien ya paga y llega aquí sin sesión (otro dispositivo, sesión
+          caducada) necesita una salida que no sea volver a pagar. */}
+      {!user && (
+        <button
+          onClick={onLogin}
+          className="mt-5 text-sm font-bold text-violet-400 transition-colors hover:text-violet-300"
+        >
+          {tr({ es: 'Ya tengo cuenta — iniciar sesión', en: 'I already have an account — sign in', ca: 'Ja tinc compte — iniciar sessió' })}
+        </button>
+      )}
+
+      <Link
+        to={localPath('/estudiar')}
+        className="mt-8 text-xs text-white/30 transition-colors hover:text-white/60"
+      >
+        {tr({ es: '← Ver los temarios gratuitos', en: '← Browse the free study notes', ca: '← Veure els temaris gratuïts' })}
+      </Link>
+    </div>
+  )
+}
+
+function Checking() {
+  return (
+    <div className="relative z-10 flex min-h-[calc(100vh-4rem)] items-center justify-center">
+      <div className="h-8 w-8 animate-spin rounded-full border-2 border-white/20 border-t-[#EDAE49]" />
+    </div>
+  )
+}
+
+export default function AccessGate({ children }) {
+  const { pathname } = useLocation()
+  const { user } = useAuth()
+  const { tr, localPath } = useLang()
+  // Solo guarda el resultado ya resuelto, junto al uid al que corresponde. Los
+  // casos "aún no sé" y "no hay sesión" se deducen al renderizar, para no
+  // escribir estado dentro del efecto y provocar renders en cascada.
+  const [resolved, setResolved] = useState(null) // { uid, result }
+  const [showAuth, setShowAuth] = useState(false)
+
+  const gated = requiresAccess(pathname)
+
+  useEffect(() => {
+    if (!gated || !user) return
+
+    let alive = true
+    loadAccessCached(user.uid)
+      .then(({ allowed }) => { if (alive) setResolved({ uid: user.uid, result: allowed ? 'allowed' : 'locked' }) })
+      // Un fallo de red no puede cerrarle la puerta a quien ha pagado: se
+      // ofrece reintentar, nunca un "paga otra vez".
+      .catch(() => { if (alive) setResolved({ uid: user.uid, result: 'error' }) })
+    return () => { alive = false }
+  }, [gated, user])
+
+  if (!gated) return children
+  if (user === undefined) return <Checking />   // la sesión aún se resuelve
+
+  if (!user) {
+    return (
+      <>
+        <Locked onLogin={() => setShowAuth(true)} user={user} />
+        {showAuth && <AuthModal onClose={() => setShowAuth(false)} />}
+      </>
+    )
+  }
+
+  // Resultado de otro uid (o todavía ninguno): seguimos comprobando.
+  if (resolved?.uid !== user.uid) return <Checking />
+  const state = resolved.result
+
+  if (state === 'error') {
+    return (
+      <div className="relative z-10 mx-auto flex min-h-[calc(100vh-4rem)] max-w-sm flex-col items-center justify-center px-5 text-center">
+        <span className="mb-4 text-4xl">📡</span>
+        <p className="text-white/70 text-sm">
+          {tr({
+            es: 'No hemos podido comprobar tu cuenta. Puede ser cosa de la conexión.',
+            en: "We couldn't check your account. It may be your connection.",
+            ca: 'No hem pogut comprovar el teu compte. Pot ser cosa de la connexió.',
+          })}
+        </p>
+        <button
+          onClick={() => window.location.reload()}
+          className="mt-5 rounded-xl bg-white/10 px-5 py-2.5 text-sm font-bold text-white transition-colors hover:bg-white/20"
+        >
+          {tr({ es: 'Reintentar', en: 'Try again', ca: 'Tornar-ho a provar' })}
+        </button>
+        <Link to={localPath('/estudiar')} className="mt-6 text-xs text-white/30 hover:text-white/60">
+          {tr({ es: '← Temarios gratuitos', en: '← Free study notes', ca: '← Temaris gratuïts' })}
+        </Link>
+      </div>
+    )
+  }
+
+  if (state === 'locked') {
+    return (
+      <>
+        <Locked onLogin={() => setShowAuth(true)} user={user} />
+        {showAuth && <AuthModal onClose={() => setShowAuth(false)} />}
+      </>
+    )
+  }
+
+  return children
+}

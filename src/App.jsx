@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
 import { Analytics } from '@vercel/analytics/react'
 import Particles from './components/Particles'
 import Navbar from './components/Navbar'
+import AccessGate from './components/AccessGate'
 import CookieBanner, { useCookieConsent } from './components/CookieBanner'
 import ErrorBoundary from './components/ErrorBoundary'
 import { LangProvider, useLang } from './context/LangContext'
@@ -277,7 +278,12 @@ function useIsChromeless() {
 function Layout({ onConsent }) {
   const chromeless = useIsChromeless()
 
+  // El muro envuelve TODAS las rutas y decide mirando la ruta actual
+  // (requiresAccess en lib/paidRoutes.js). Envolver ruta por ruta obligaría a
+  // reordenar las de juegos y exámenes, que están repartidas por todo el
+  // fichero, para poder anidarlas.
   const routes = (
+    <AccessGate>
     <Suspense fallback={<PageLoader />}>
       <Routes>
         {/* Rutas en español (por defecto) */}
@@ -289,6 +295,7 @@ function Layout({ onConsent }) {
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Suspense>
+    </AccessGate>
   )
 
   return (

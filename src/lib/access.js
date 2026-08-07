@@ -93,6 +93,29 @@ export function subscriptionWarning(subscription) {
 
 // ── Carga ────────────────────────────────────────────────────────────────────
 
+// El resultado se cachea por uid: sin esto, cada navegación a un juego o a un
+// examen sería una lectura más de Firestore, y el alumno que va saltando de
+// juego en juego pagaría una por pantalla.
+//
+// No caduca sola. Se limpia al cambiar de sesión y, sobre todo, justo después
+// de pagar (PagoGracias): si no, el recién suscrito arrastraría el "no tiene
+// acceso" que se cacheó un minuto antes y se comería el muro que acaba de
+// pagar por saltarse.
+const accessCache = new Map()
+
+export function clearAccessCache(uid) {
+  if (uid) accessCache.delete(uid)
+  else accessCache.clear()
+}
+
+export async function loadAccessCached(uid) {
+  if (!uid) return loadAccess(uid)
+  if (accessCache.has(uid)) return accessCache.get(uid)
+  const result = await loadAccess(uid)
+  accessCache.set(uid, result)
+  return result
+}
+
 // Resuelve el acceso de un uid con UNA lectura. Un fallo de red no debe
 // abrir el muro ni cerrarlo a quien ha pagado: se propaga la excepción y
 // decide quien llame (el muro muestra "no hemos podido comprobar tu cuenta"

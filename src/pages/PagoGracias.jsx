@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
-import { loadAccess } from '../lib/access'
+import { loadAccess, clearAccessCache } from '../lib/access'
 import { getChildCode, formatChildCode } from '../lib/childCode'
 import SEOHead from '../components/SEOHead'
 
@@ -35,6 +35,10 @@ export default function PagoGracias() {
         const { allowed } = await loadAccess(user.uid)
         if (!alive) return
         if (allowed) {
+          // El muro cachea el acceso por uid. Si el usuario pasó por un juego
+          // antes de pagar, ahí quedó guardado un "no tiene acceso" que le
+          // cerraría la puerta que acaba de comprar.
+          clearAccessCache(user.uid)
           setState('ready')
           // El código es lo primero que necesita el padre: sin él, el hijo no
           // puede entrar y la compra no le sirve de nada todavía.

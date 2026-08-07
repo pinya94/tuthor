@@ -2,8 +2,6 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
-import { GAMES } from '../lib/games'
-import { EXAMS } from '../lib/exams'
 import { PLANS, annualSavings } from '../lib/access'
 import { startCheckout } from '../lib/checkout'
 import AuthModal from '../components/AuthModal'
@@ -13,17 +11,10 @@ import SEOHead from '../components/SEOHead'
 // (clara, editorial) para que se lea como lo que es: la página que explica el
 // producto, no el producto.
 //
-// Todas las cifras salen de los registros, nunca escritas a mano: un catálogo
-// que crece y una landing que sigue diciendo "15 juegos" es la forma más tonta
-// de parecer más pequeño de lo que eres.
-//
-// Se cuentan RUTAS únicas, no ids: Tuthor Time y Acércate tienen dos entradas
-// cada uno (clásico y roguelike) que son el mismo juego con dos modos. Decir
-// 25 sería inflar el número.
-const GAME_COUNT = new Set(Object.values(GAMES).map(g => g.route)).size
-const SUBJECT_COUNT = new Set(Object.values(GAMES).map(g => g.subject)).size
-const EXAM_COUNT = Object.values(EXAMS).filter(e => !e.retired).length
-
+// Sin cifras de catálogo a propósito. Un "23 juegos" envejece mal en los dos
+// sentidos: hoy suena a poco y dentro de un año estará desactualizado. Lo que
+// vende no es cuántos hay, sino que el mismo concepto se explica de varias
+// formas — y eso se demuestra enseñándolo, no contándolo.
 const SAVINGS = annualSavings()
 
 // Los tres ángulos con los que se ataca un mismo concepto. Son juegos reales
@@ -242,9 +233,9 @@ export default function Landing() {
           ca: 'Tuthor — Aprèn jugant: el mateix concepte des de diversos angles',
         })}
         description={tr({
-          es: `Plataforma educativa para Primaria, ESO y Bachillerato. ${GAME_COUNT} juegos y ${EXAM_COUNT} exámenes en ${SUBJECT_COUNT} materias, con panel de seguimiento para padres. Desde ${SAVINGS.equivalentMonthly.toFixed(2).replace('.', ',')} € al mes.`,
-          en: `Educational platform for primary and secondary school. ${GAME_COUNT} games and ${EXAM_COUNT} exams across ${SUBJECT_COUNT} subjects, with a tracking panel for parents. From €${SAVINGS.equivalentMonthly.toFixed(2)} a month.`,
-          ca: `Plataforma educativa per a Primària, ESO i Batxillerat. ${GAME_COUNT} jocs i ${EXAM_COUNT} exàmens en ${SUBJECT_COUNT} matèries, amb panell de seguiment per a pares. Des de ${SAVINGS.equivalentMonthly.toFixed(2).replace('.', ',')} € al mes.`,
+          es: `Plataforma educativa para Primaria, ESO y Bachillerato. Cada concepto explicado desde varios ángulos distintos, en formato de juego, con panel de seguimiento para padres. Desde ${SAVINGS.equivalentMonthly.toFixed(2).replace('.', ',')} € al mes.`,
+          en: `Educational platform for primary and secondary school. Every concept explained from several different angles, as games, with a tracking panel for parents. From €${SAVINGS.equivalentMonthly.toFixed(2)} a month.`,
+          ca: `Plataforma educativa per a Primària, ESO i Batxillerat. Cada concepte explicat des de diversos angles diferents, en format de joc, amb panell de seguiment per a pares. Des de ${SAVINGS.equivalentMonthly.toFixed(2).replace('.', ',')} € al mes.`,
         })}
       />
 
@@ -281,18 +272,18 @@ export default function Landing() {
           </a>
         </div>
 
-        <dl className="mx-auto mt-14 grid max-w-2xl grid-cols-3 gap-4">
+        <div className="mx-auto mt-14 grid max-w-2xl gap-4 sm:grid-cols-3">
           {[
-            { n: GAME_COUNT, l: { es: 'juegos', en: 'games', ca: 'jocs' } },
-            { n: EXAM_COUNT, l: { es: 'exámenes', en: 'exams', ca: 'exàmens' } },
-            { n: SUBJECT_COUNT, l: { es: 'materias', en: 'subjects', ca: 'matèries' } },
+            { emoji: '🎮', l: { es: 'Juegos por materia', en: 'Games by subject', ca: 'Jocs per matèria' } },
+            { emoji: '📝', l: { es: 'Exámenes con nota', en: 'Graded exams', ca: 'Exàmens amb nota' } },
+            { emoji: '📊', l: { es: 'Panel para padres', en: 'Panel for parents', ca: 'Panell per a pares' } },
           ].map(s => (
-            <div key={s.l.es} className="rounded-2xl border border-slate-200 bg-white/70 py-5">
-              <dt className="text-3xl font-black text-violet-600 tabular-nums">{s.n}</dt>
-              <dd className="mt-0.5 text-sm font-semibold text-slate-500">{tr(s.l)}</dd>
+            <div key={s.l.es} className="rounded-2xl border border-slate-200 bg-white/70 px-4 py-5">
+              <p className="text-2xl">{s.emoji}</p>
+              <p className="mt-1.5 text-sm font-bold text-slate-700">{tr(s.l)}</p>
             </div>
           ))}
-        </dl>
+        </div>
       </section>
 
       {/* ── EL DIFERENCIAL ── */}
@@ -338,9 +329,9 @@ export default function Landing() {
 
           <p className="mt-8 text-sm text-slate-500">
             {tr({
-              es: `Y así con el resto: ${GAME_COUNT} juegos repartidos en ${SUBJECT_COUNT} materias, cada uno con su forma de contar lo mismo.`,
-              en: `And so on: ${GAME_COUNT} games across ${SUBJECT_COUNT} subjects, each with its own way of telling the same story.`,
-              ca: `I així amb la resta: ${GAME_COUNT} jocs repartits en ${SUBJECT_COUNT} matèries, cadascun amb la seva manera d'explicar el mateix.`,
+              es: 'Y así con el resto de materias: matemáticas, lengua, historia, geografía, física, química, biología, inglés, música y economía. Cada tema, con más de una forma de entrarle.',
+              en: 'And the same across the rest: maths, language, history, geography, physics, chemistry, biology, English, music and economics. Every topic, with more than one way in.',
+              ca: 'I així amb la resta de matèries: matemàtiques, llengua, història, geografia, física, química, biologia, anglès, música i economia. Cada tema, amb més d\'una manera d\'entrar-hi.',
             })}
           </p>
         </div>
@@ -403,9 +394,9 @@ export default function Landing() {
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-center text-slate-600">
             {tr({
-              es: `Los ${GAME_COUNT} juegos, los ${EXAM_COUNT} exámenes y el panel de seguimiento. Sin extras ni niveles de suscripción.`,
-              en: `All ${GAME_COUNT} games, all ${EXAM_COUNT} exams and the tracking panel. No add-ons, no tiers.`,
-              ca: `Els ${GAME_COUNT} jocs, els ${EXAM_COUNT} exàmens i el panell de seguiment. Sense extres ni nivells de subscripció.`,
+              es: 'Todos los juegos, todos los exámenes y el panel de seguimiento. Sin extras ni niveles de suscripción, y lo que se añada entra incluido.',
+              en: 'Every game, every exam and the tracking panel. No add-ons, no tiers, and whatever we add is included.',
+              ca: 'Tots els jocs, tots els exàmens i el panell de seguiment. Sense extres ni nivells de subscripció, i el que s\'afegeixi hi entra inclòs.',
             })}
           </p>
 
