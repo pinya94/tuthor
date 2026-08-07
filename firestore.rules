@@ -92,15 +92,22 @@ service cloud.firestore {
 
     // Igual, pero para teacherProfile.subscriptionStatus, que vive anidado y
     // no lo caza el diff de arriba (affectedKeys solo mira el primer nivel).
-    // Lo escribe el webhook; el cliente solo puede poner el resto del perfil
-    // (centro, ciclo, código).
-    function touchesTeacherSubStatus() {
-      return !('teacherProfile' in request.resource.data)
-        ? false
-        : (resource == null || !('teacherProfile' in resource.data))
-          ? request.resource.data.teacherProfile.get('subscriptionStatus', 'none') != 'none'
-          : request.resource.data.teacherProfile.diff(resource.data.teacherProfile)
-              .affectedKeys().hasAny(['subscriptionStatus']);
+    //
+    // Se bloquea el VALOR, no el campo: 'none' no concede acceso a nada, así
+    // que dejarlo pasar no abre ningún agujero, y a cambio el cliente antiguo
+    // —que lo escribe al dar de alta a un profesor— sigue funcionando mientras
+    // el despliegue nuevo no haya llegado a todos. Lo que no puede hacer el
+    // cliente es ponerse 'active' o 'trialing': eso es del webhook.
+    //
+    // La condición del diff deja pasar además las escrituras con merge que
+    // arrastran el valor que ya puso el webhook sin modificarlo.
+    function setsPrivilegedTeacherStatus() {
+      return 'teacherProfile' in request.resource.data
+        && request.resource.data.teacherProfile.get('subscriptionStatus', 'none') != 'none'
+        && (resource == null
+            || !('teacherProfile' in resource.data)
+            || request.resource.data.teacherProfile.diff(resource.data.teacherProfile)
+                 .affectedKeys().hasAny(['subscriptionStatus']));
     }
 
     // ── Perfil de usuario ─────────────────────────────────────────────────────
@@ -112,7 +119,7 @@ service cloud.firestore {
       allow create, update: if isOwner(uid)
         && (!becomesTeacher() || hasValidPromoCode())
         && !touchesPaidFields()
-        && !touchesTeacherSubStatus()
+        && !setsPrivilegedTeacherStatus()
         && !(isChildSession() && touchesTeacherProfile());
 
       // Aquí vive legacyFree (el acceso gratis de por vida de las cuentas
