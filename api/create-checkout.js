@@ -5,10 +5,17 @@
 // falsificar (basta con escribir la URL a mano), así que esa página solo dice
 // "gracias", no desbloquea nada.
 import Stripe from 'stripe'
-import { db, adminAuth } from './_admin.js'
+import { getDb, getAdminAuth, fail } from './_admin.js'
 import { PLANS, priceIdFor } from './_plans.js'
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
+// Perezoso, igual que Firebase Admin: `new Stripe(undefined)` lanza, y hacerlo
+// en el cuerpo del módulo convierte una variable de entorno ausente en un
+// FUNCTION_INVOCATION_FAILED opaco en vez de un error que se pueda leer.
+function stripeClient() {
+  const key = process.env.STRIPE_SECRET_KEY
+  if (!key) throw new Error('falta la variable de entorno STRIPE_SECRET_KEY')
+  return new Stripe(key)
+}
 
 // Origen permitido para las URLs de vuelta. Se valida contra esta lista en vez
 // de confiar en la cabecera Origin tal cual: si no, cualquiera podría hacer que
@@ -36,9 +43,15 @@ export default async function handler(req, res) {
 
   let decoded
   try {
-    decoded = await adminAuth.verifyIdToken(authHeader.slice(7))
-  } catch {
-    return res.status(401).json({ error: 'unauthorized' })
+    const adminAuth = await getAdminAuth()
+    try {
+      decoded = await adminAuth.verifyIdToken(authHeader.slice(7))
+    } catch {
+      return res.status(401).json({ error: 'unauthorized' })
+    }
+  } catch (err) {
+    // Fallo de infraestructura, no del token: no puede confundirse con un 401.
+    return fail(res, err, 'create-checkout/init')
   }
 
   // El hijo comparte uid con el padre: sin esto podría contratar o cambiar la
@@ -51,6 +64,8 @@ export default async function handler(req, res) {
   const uid = decoded.uid
 
   try {
+    const db = await getDb()
+    const stripe = stripeClient()
     const userSnap = await db.doc(`users/${uid}`).get()
     const userData = userSnap.exists ? userSnap.data() : {}
 
@@ -83,7 +98,6 @@ export default async function handler(req, res) {
 
     return res.status(200).json({ url: session.url })
   } catch (err) {
-    console.error('create-checkout error:', err)
-    return res.status(500).json({ error: 'unknown' })
+    return fail(res, err, 'create-checkout')
   }
 }

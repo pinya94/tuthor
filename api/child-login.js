@@ -10,7 +10,7 @@
 // que firestore.rules sí puede leer (request.auth.token.childMode). Sin ese
 // claim, "el niño no entra a los ajustes" sería un display:none que se salta
 // escribiendo la URL: para el servidor sería exactamente la misma persona.
-import { db, adminAuth, normalizeCode } from './_admin.js'
+import { getDb, getAdminAuth, normalizeCode, fail } from './_admin.js'
 
 // Freno de fuerza bruta. Es por instancia de lambda y se pierde en cada frío,
 // así que no es una defensa seria — la defensa seria es la entropía del código
@@ -43,6 +43,7 @@ export default async function handler(req, res) {
   if (code.length < 8) return res.status(400).json({ error: 'not_found' })
 
   try {
+    const db = await getDb()
     const snap = await db.doc(`childCodes/${code}`).get()
     // Mismo error que un código mal escrito, a propósito: distinguir
     // "no existe" de "existe pero algo falla" solo ayudaría a quien esté
@@ -52,10 +53,10 @@ export default async function handler(req, res) {
     const { uid, revoked } = snap.data()
     if (!uid || revoked === true) return res.status(404).json({ error: 'not_found' })
 
+    const adminAuth = await getAdminAuth()
     const token = await adminAuth.createCustomToken(uid, { childMode: true })
     return res.status(200).json({ token })
   } catch (err) {
-    console.error('child-login error:', err)
-    return res.status(500).json({ error: 'unknown' })
+    return fail(res, err, 'child-login')
   }
 }

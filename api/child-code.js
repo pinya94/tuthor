@@ -12,7 +12,7 @@
 // claim childMode. Si no se comprobara, el niño podría rotar el código (y
 // dejar fuera a sus hermanos) o simplemente leerlo desde la consola.
 import { randomInt } from 'node:crypto'
-import { db, adminAuth, CODE_ALPHABET, CODE_LENGTH } from './_admin.js'
+import { getDb, getAdminAuth, CODE_ALPHABET, CODE_LENGTH, fail } from './_admin.js'
 
 // randomInt en vez de Math.random: esto es una credencial, y Math.random no es
 // criptográficamente seguro (su secuencia es predecible si se conoce el
@@ -25,7 +25,7 @@ function generateCode() {
   return code
 }
 
-async function generateUniqueCode() {
+async function generateUniqueCode(db) {
   for (let attempt = 0; attempt < 5; attempt++) {
     const code = generateCode()
     const snap = await db.doc(`childCodes/${code}`).get()
@@ -42,11 +42,18 @@ export default async function handler(req, res) {
   const authHeader = String(req.headers.authorization ?? '')
   if (!authHeader.startsWith('Bearer ')) return res.status(401).json({ error: 'unauthorized' })
 
-  let decoded
+  let db, decoded
   try {
-    decoded = await adminAuth.verifyIdToken(authHeader.slice(7))
-  } catch {
-    return res.status(401).json({ error: 'unauthorized' })
+    db = await getDb()
+    const adminAuth = await getAdminAuth()
+    try {
+      decoded = await adminAuth.verifyIdToken(authHeader.slice(7))
+    } catch {
+      return res.status(401).json({ error: 'unauthorized' })
+    }
+  } catch (err) {
+    // Fallo de infraestructura, no del token: no puede confundirse con un 401.
+    return fail(res, err, 'child-code/init')
   }
 
   // El punto entero del modo niño: misma cuenta, permisos distintos.
@@ -62,7 +69,7 @@ export default async function handler(req, res) {
 
     if (current && !rotate) return res.status(200).json({ code: current })
 
-    const code = await generateUniqueCode()
+    const code = await generateUniqueCode(db)
 
     const batch = db.batch()
     batch.set(db.doc(`childCodes/${code}`), {
@@ -77,7 +84,6 @@ export default async function handler(req, res) {
 
     return res.status(200).json({ code })
   } catch (err) {
-    console.error('child-code error:', err)
-    return res.status(500).json({ error: 'unknown' })
+    return fail(res, err, 'child-code')
   }
 }
