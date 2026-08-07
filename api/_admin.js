@@ -40,6 +40,15 @@ export async function getDb() {
   return getFirestore()
 }
 
+// OJO con la versión de Node: verifyIdToken pasa por jwks-rsa, que es CommonJS
+// y hace require('jose'), y jose 6 es solo ESM. require() de un módulo ESM no
+// existe hasta Node 22.12, así que en Node 18 o 20 esto revienta con
+// "require() of ES Module ... not supported". De ahí el campo `engines` en
+// package.json: no es cosmético, es lo que mantiene vivos los endpoints que
+// verifican tokens (create-checkout y child-code).
+//
+// createCustomToken no se ve afectado: firma con la clave del service account
+// y no toca jwks-rsa. Por eso child-login funcionaba mientras los otros dos no.
 export async function getAdminAuth() {
   ensureApp()
   const { getAuth } = await import('firebase-admin/auth')
