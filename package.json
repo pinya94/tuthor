@@ -6,6 +6,10 @@
   "engines": {
     "node": "22.x"
   },
+  "comment:overrides": "jwks-rsa (vía firebase-admin, para verifyIdToken) es CommonJS y hace require('jose'), pero jose 6 es solo ESM y require() de ESM no existe hasta Node 22.12. jose 5 trae build CommonJS y expone las mismas importJWK/exportSPKI que jwks-rsa usa, así que fijarla aquí hace que los endpoints que verifican tokens funcionen en cualquier Node. Quitar cuando jwks-rsa pase a import() dinámico.",
+  "overrides": {
+    "jose": "^5.10.0"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build && node scripts/prerender.mjs",
