@@ -92,7 +92,10 @@ export default function Home() {
 
   return (
     <div className="relative z-10 px-4 sm:px-8">
-      <SEOHead title={seo.title} description={seo.desc} path="/" lang={lang} />
+      {/* path="/app", no "/": la raíz es la landing de venta desde el pivot a
+          suscripción. Con "/" esta página declaraba como canónica la landing y
+          Google la habría tratado como un duplicado suyo. */}
+      <SEOHead title={seo.title} description={seo.desc} path="/app" lang={lang} />
       {/* ── HERO: ocupa toda la pantalla de aterrizaje ── */}
       <div className="flex flex-col min-h-[calc(100vh-4rem)] py-5 gap-4">
         {/* Título / propuesta de valor (h1 único, SEO) */}
