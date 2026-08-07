@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
 import { GAMES } from '../lib/games'
@@ -181,16 +181,26 @@ function PlanCard({ planId, featured, tr, onPick, busy }) {
 export default function Landing() {
   const { tr, localPath } = useLang()
   const { user } = useAuth()
+  const navigate = useNavigate()
   const [showAuth, setShowAuth] = useState(false)
   const [busyPlan, setBusyPlan] = useState(null)
+  // Plan que el usuario pulsó sin tener sesión: se retoma al terminar el login
+  const [pendingPlan, setPendingPlan] = useState(null)
   // null = sin error; true = error genérico; string = detalle del servidor
   const [checkoutError, setCheckoutError] = useState(null)
 
   // Sin sesión no se puede cobrar: el checkout necesita saber a qué cuenta dar
-  // el acceso. Se abre el login y el usuario vuelve a pulsar — mandarlo a
-  // Stripe y pedirle la cuenta después es peor: paga y no sabes de quién es.
-  async function pickPlan(planId) {
-    if (!user) { setShowAuth(true); return }
+  // el acceso. Mandarlo a Stripe y preguntarle la cuenta después es peor: paga
+  // y no sabes de quién es el dinero.
+  //
+  // El plan se recuerda mientras se inicia sesión y el pago sigue solo al
+  // terminar. Antes había que volver a pulsarlo, y quien acaba de decidir que
+  // paga no debería tener que decidirlo dos veces.
+  // El pago en sí, sin comprobar la sesión: startCheckout lee auth.currentUser,
+  // que Firebase actualiza en cuanto el login resuelve. El `user` del contexto
+  // tarda un render más, así que comprobarlo aquí justo después de entrar daría
+  // un falso negativo y reabriría el modal en bucle.
+  async function runCheckout(planId) {
     setBusyPlan(planId); setCheckoutError(null)
     try {
       await startCheckout(planId)
@@ -199,6 +209,26 @@ export default function Landing() {
       // servidor; en operación normal se muestra el mensaje genérico.
       setCheckoutError(err?.detail ?? true)
       setBusyPlan(null)
+    }
+  }
+
+  function pickPlan(planId) {
+    if (!user) { setPendingPlan(planId); setShowAuth(true); return }
+    runCheckout(planId)
+  }
+
+  // Qué hacer justo después de entrar, según por qué se abrió el login:
+  // si venía de pulsar un plan, se sigue al pago; si no, se entra en la app.
+  // Quedarse en la landing es lo único que no tiene sentido en ningún caso —
+  // y es lo que hacía antes, dejando al niño mirando la página de ventas.
+  function handleAuthSuccess() {
+    setShowAuth(false)
+    if (pendingPlan) {
+      const plan = pendingPlan
+      setPendingPlan(null)
+      runCheckout(plan)
+    } else {
+      navigate(localPath('/app'))
     }
   }
 
@@ -468,7 +498,12 @@ export default function Landing() {
         </div>
       </footer>
 
-      {showAuth && <AuthModal onClose={() => setShowAuth(false)} />}
+      {showAuth && (
+        <AuthModal
+          onClose={() => { setShowAuth(false); setPendingPlan(null) }}
+          onSuccess={handleAuthSuccess}
+        />
+      )}
     </div>
   )
 }

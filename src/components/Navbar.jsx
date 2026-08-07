@@ -63,7 +63,7 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [showAuth, setShowAuth] = useState(false)
   const [avatarMenu, setAvatarMenu] = useState(false)
-  const { user, logout } = useAuth()
+  const { user, childMode, logout } = useAuth()
   const { lang, t, tr, localPath, switchLang } = useLang()
   const [pendingTasks, setPendingTasks] = useState(0)
 
@@ -79,13 +79,35 @@ export default function Navbar() {
       .catch(() => {})
   }, [user])
 
+  // ¿Esta cuenta tiene la capacidad de profesor pagada? Se resuelve una vez al
+  // cargar en lugar de al pulsar, porque de ello depende si el enlace del panel
+  // llega a pintarse.
+  //
+  // En modo niño nunca: padre e hijo comparten uid, así que si el padre es
+  // profesor su hijo heredaría el enlace al aula entera. Las rules ya lo
+  // bloquean (isTeacher() excluye la sesión de hijo), pero enseñar un botón que
+  // solo puede dar error es peor que no enseñarlo.
+  const [teacherAccess, setTeacherAccess] = useState(false)
+  useEffect(() => {
+    if (!user || childMode) return
+    let alive = true
+    getTeacherProfile(user.uid)
+      .then(p => { if (alive) setTeacherAccess(hasTeacherAccess(p)) })
+      .catch(() => {})
+    return () => { alive = false }
+  }, [user, childMode])
+
+  // Las condiciones de sesión se evalúan en el render, no dentro del efecto:
+  // así cerrar sesión o entrar en modo niño oculta el enlace en el acto, sin
+  // depender de que un efecto vuelva a correr.
+  const isTeacher = Boolean(user) && !childMode && teacherAccess
+
   // "Clase" es un único punto de entrada, pero no todos pueden crear
   // clases: solo una cuenta con la capacidad de profesor activa va al
   // panel de creación; cualquier otra va a /clase, donde ve sus tareas
   // pendientes o, si aún no está en ninguna clase, el código de acceso.
-  async function goToClase() {
-    const profile = user ? await getTeacherProfile(user.uid).catch(() => null) : null
-    navigate(localPath(hasTeacherAccess(profile) ? '/profesor' : '/clase'))
+  function goToClase() {
+    navigate(localPath(isTeacher ? '/profesor' : '/clase'))
   }
 
   const navLabels = {
@@ -121,13 +143,19 @@ export default function Navbar() {
                 </button>
               )
             })}
-            <button
-              onClick={() => navigate(localPath('/profesores'))}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-all border border-white/10
-                ${location.pathname === localPath('/profesores') ? 'bg-violet-600 text-white border-transparent' : 'text-white/60 hover:text-white hover:bg-white/10'}`}
-            >
-              🎓 {tr({ es: 'Profesores', en: 'Teachers', ca: 'Professors' })}
-            </button>
+            {/* Solo para quien tiene la capacidad de profesor pagada, y lleva
+                a SU panel. La página de venta /profesores no pinta aquí: esto
+                es la app del alumno, y la captación de profesores ocurre en la
+                landing (que ya enlaza a /profesores en su pie). */}
+            {isTeacher && (
+              <button
+                onClick={() => navigate(localPath('/profesor'))}
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-all border border-white/10
+                  ${location.pathname === localPath('/profesor') ? 'bg-violet-600 text-white border-transparent' : 'text-white/60 hover:text-white hover:bg-white/10'}`}
+              >
+                🎓 {tr({ es: 'Mis clases', en: 'My classes', ca: 'Les meves classes' })}
+              </button>
+            )}
           </div>
 
           {/* Auth escritorio + idioma */}
@@ -211,11 +239,13 @@ export default function Navbar() {
                 </button>
               )
             })}
-            <button onClick={() => { navigate(localPath('/profesores')); setMenuOpen(false) }}
-              className={`w-full text-left px-4 py-3 rounded-xl text-sm font-medium transition-all
-                ${location.pathname === localPath('/profesores') ? 'bg-violet-600 text-white' : 'text-white/70 hover:text-white hover:bg-white/10'}`}>
-              🎓 {tr({ es: 'Profesores', en: 'Teachers', ca: 'Professors' })}
-            </button>
+            {isTeacher && (
+              <button onClick={() => { navigate(localPath('/profesor')); setMenuOpen(false) }}
+                className={`w-full text-left px-4 py-3 rounded-xl text-sm font-medium transition-all
+                  ${location.pathname === localPath('/profesor') ? 'bg-violet-600 text-white' : 'text-white/70 hover:text-white hover:bg-white/10'}`}>
+                🎓 {tr({ es: 'Mis clases', en: 'My classes', ca: 'Les meves classes' })}
+              </button>
+            )}
             <div className="border-t border-white/10 pt-2 mt-1">
               <LangSelector lang={lang} switchLang={switchLang} onPick={() => setMenuOpen(false)} />
               {!authLoading && !user && (

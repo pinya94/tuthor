@@ -18,8 +18,13 @@ const ERRORS = {
   unknown:   { es: 'Algo ha fallado. Inténtalo de nuevo.', en: 'Something went wrong. Please try again.', ca: 'Alguna cosa ha fallat. Torna-ho a intentar.' },
 }
 
-export default function AuthModal({ onClose, defaultMode = 'login' }) {
+// `onSuccess` se llama tras entrar de verdad, en lugar de onClose. Sin él, el
+// usuario acaba donde estaba: el niño que teclea su código se queda mirando la
+// landing de venta, y quien inicia sesión para pagar tiene que volver a pulsar
+// el plan. Cerrar el modal no es lo mismo que haber entrado.
+export default function AuthModal({ onClose, onSuccess, defaultMode = 'login' }) {
   const { loginWithGoogle, loginWithChildCode } = useAuth()
+  const done = onSuccess ?? onClose
   // Puede montarse fuera del LangProvider: tr cae al español
   let tr = obj => obj.es
   try { const ctx = useLang(); if (ctx?.tr) tr = ctx.tr } catch { /* fuera del provider */ }
@@ -35,7 +40,7 @@ export default function AuthModal({ onClose, defaultMode = 'login' }) {
 
   async function handleGoogle() {
     setLoading(true); setErrorKey('')
-    try { await loginWithGoogle(); onClose() }
+    try { await loginWithGoogle(); done() }
     catch { setErrorKey('google') }
     finally { setLoading(false) }
   }
@@ -45,7 +50,7 @@ export default function AuthModal({ onClose, defaultMode = 'login' }) {
     setLoading(true); setErrorKey('')
     try {
       await loginWithChildCode(code)
-      onClose()
+      done()
     } catch (err) {
       setErrorKey(authErrorKey(err))
     } finally {
