@@ -35,6 +35,7 @@ import sparticuzChromium from '@sparticuz/chromium'
 import { preview } from 'vite'
 
 import { resolveMeta } from './seoMeta.mjs'
+import { requiresAccess, normalizePath } from '../src/lib/paidRoutes.js'
 
 const ON_VERCEL = Boolean(process.env.VERCEL)
 
@@ -70,7 +71,27 @@ const META_TIMEOUT = 3_000
 const BLOCKED_HOSTS = /doubleclick\.net|googlesyndication\.com|googleadservices\.com|google-analytics\.com|googletagmanager\.com/
 
 const sitemap = readFileSync(join(ROOT, 'public', 'sitemap.xml'), 'utf8')
-const urls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m => new URL(m[1]).pathname)
+const allUrls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m => new URL(m[1]).pathname)
+
+// Las ~110 URLs de /juegos/* y /examen/* NO se prerrenderizan. Salida de
+// emergencia tras varios builds seguidos muriendo por el límite de 45 min de
+// Vercel sin que acotar timeouts ni quitar el reintento lo arreglara del
+// todo: quitando de un plumazo la mitad de las páginas que hay que procesar,
+// el build no puede volver a acercarse al límite pase lo que pase con la
+// causa de fondo (sin identificar con certeza).
+//
+// No cuesta nada real: AccessGate (src/components/AccessGate.jsx) decide el
+// muro en el navegador del usuario, en tiempo real — funciona igual de bien
+// sin importar si la página llegó pre-renderizada o como el shell vacío de
+// siempre (así ha funcionado SIEMPRE el resto del sitio antes de que
+// existiera este script). Lo único que se pierde es la meta específica por
+// URL (título/descripción en el HTML inicial, que ayuda a crawlers y a la
+// vista previa de compartir en WhatsApp) en esas páginas concretas — y como
+// son de pago, no hay anuncios detrás que dependan de que Google las indexe.
+//
+// Revertir cuando se entienda y arregle la causa real de la lentitud.
+const urls = allUrls.filter(u => !requiresAccess(normalizePath(u)))
+console.log(`[prerender] ${allUrls.length - urls.length} URLs de pago excluidas del prerender (ver comentario)`)
 
 const unresolved = urls.filter(urlPath => {
   const lang = urlPath.startsWith('/ca') ? 'ca' : urlPath.startsWith('/en') ? 'en' : 'es'
