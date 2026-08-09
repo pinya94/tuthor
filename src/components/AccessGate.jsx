@@ -97,6 +97,26 @@ function Checking() {
   )
 }
 
+// Cuánto se espera a Firebase antes de dejar de confiar en que va a
+// responder. Existe por un fallo real: en el prerender (scripts/prerender.mjs)
+// Chromium headless vía @sparticuz/chromium no resuelve nunca
+// onAuthStateChanged — probablemente porque ese Chromium recortado, pensado
+// para funciones serverless, no soporta bien IndexedDB, que es donde Firebase
+// Auth persiste la sesión. <Checking/> se quedaba esperando para siempre, el
+// prerender espera exactamente a que desaparezca su spinner (misma clase
+// animate-spin) para dar la página por cargada, y eso colgó un despliegue de
+// producción 46 minutos hasta que hubo que cancelarlo a mano.
+// El mismo timeout protege a un usuario real con una conexión que se cae a
+// mitad de comprobar la sesión: sin esto se quedaba mirando un spinner sin
+// salida en vez de ver el muro con un botón para reintentar.
+//
+// 4s y no más: son ~110 páginas de /juegos y /examen las que pagan esta
+// espera durante el prerender (nunca hay sesión ahí), y cada segundo de más
+// aquí se multiplica por 110/CONCURRENCY en el build. Un usuario real con
+// Firebase funcionando normal resuelve en milisegundos; esto es solo el techo
+// para cuando no resuelve nunca.
+const AUTH_TIMEOUT_MS = 4000
+
 export default function AccessGate({ children }) {
   const { pathname } = useLocation()
   const { user } = useAuth()
@@ -108,6 +128,30 @@ export default function AccessGate({ children }) {
   const [showAuth, setShowAuth] = useState(false)
 
   const gated = requiresAccess(pathname)
+  const waitingOnAuth = user === undefined
+  const waitingOnAccess = gated && !!user && resolved?.uid !== user.uid
+  const stillWaiting = gated && (waitingOnAuth || waitingOnAccess)
+
+  // Identifica DE QUÉ espera se trata, con valores puros (nada de refs: leer
+  // un ref durante el render rompe la pureza que React exige — Strict Mode
+  // renderiza dos veces a propósito para cazar justo esto).
+  const waitKey = waitingOnAuth ? `auth:${pathname}` : waitingOnAccess ? `access:${pathname}:${user.uid}` : null
+
+  // Se guarda QUÉ waitKey ha agotado el plazo, no un booleano suelto: así,
+  // en cuanto cambia de página o de uid, la comparación de abajo es distinta
+  // sin tener que resetear nada a mano (que sería un setState síncrono en el
+  // cuerpo del efecto — react-hooks/set-state-in-effect — y es justo el fallo
+  // que tenía la primera versión de este arreglo).
+  const [timedOutKey, setTimedOutKey] = useState(null)
+
+  useEffect(() => {
+    if (!stillWaiting) return
+    const key = waitKey
+    const t = setTimeout(() => setTimedOutKey(key), AUTH_TIMEOUT_MS)
+    return () => clearTimeout(t)
+  }, [stillWaiting, waitKey])
+
+  const timedOut = stillWaiting && timedOutKey === waitKey
 
   useEffect(() => {
     if (!gated || !user) return
@@ -122,20 +166,27 @@ export default function AccessGate({ children }) {
   }, [gated, user])
 
   if (!gated) return children
-  if (user === undefined) return <Checking />   // la sesión aún se resuelve
+  if (stillWaiting && !timedOut) return <Checking />
 
-  if (!user) {
+  // A partir de aquí ya hay bastante para decidir, tanto si se resolvió como
+  // si se agotó el plazo. Agotar el plazo esperando la sesión se trata como
+  // "sin sesión" — nunca como si hubiese una: es la lectura que no puede
+  // regalar acceso por error.
+  const effectiveUser = waitingOnAuth ? null : user
+
+  if (!effectiveUser) {
     return (
       <>
-        <Locked onLogin={() => setShowAuth(true)} user={user} />
+        <Locked onLogin={() => setShowAuth(true)} user={effectiveUser} />
         {showAuth && <AuthModal onClose={() => setShowAuth(false)} />}
       </>
     )
   }
 
-  // Resultado de otro uid (o todavía ninguno): seguimos comprobando.
-  if (resolved?.uid !== user.uid) return <Checking />
-  const state = resolved.result
+  // Agotar el plazo esperando la comprobación de acceso (con sesión ya
+  // resuelta) es indistinguible de un fallo de red: mismo estado 'error',
+  // mismo reintento, nunca "paga otra vez" para quien ya pagó.
+  const state = resolved?.uid === effectiveUser.uid ? resolved.result : 'error'
 
   if (state === 'error') {
     return (
@@ -164,7 +215,7 @@ export default function AccessGate({ children }) {
   if (state === 'locked') {
     return (
       <>
-        <Locked onLogin={() => setShowAuth(true)} user={user} />
+        <Locked onLogin={() => setShowAuth(true)} user={effectiveUser} />
         {showAuth && <AuthModal onClose={() => setShowAuth(false)} />}
       </>
     )
