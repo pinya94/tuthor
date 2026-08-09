@@ -41,20 +41,24 @@ const ON_VERCEL = Boolean(process.env.VERCEL)
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..')
 // Concurrencia baja: la máquina de build de Vercel tiene solo 2 núcleos.
 const CONCURRENCY = 3
-// NAV_TIMEOUT y CONTENT_TIMEOUT recortados a propósito (antes 30s/15s): un
-// despliegue tardó 45m38s y Vercel lo mató por su propio límite de build
-// (Build Failed: timed out), no por un fallo de la app. La navegación en sí
-// es rápida siempre (<1s medido, incluso bajo la misma concurrencia que usa
-// este script) — el tiempo se va en la espera de contenido tras el goto,
-// cuya causa exacta bajo carga real no se ha podido fijar con certeza
-// (candidatos: Firebase sin resolver en este Chromium, @vercel/analytics
-// intentando alcanzar un endpoint que no existe en el preview local, algo
-// más). Sea cual sea la causa, con reintento incluido el PEOR caso posible
-// (312 páginas, TODAS agotando ambos timeouts) es ahora
-// 312 × 2 × 8s / CONCURRENCY ≈ 27 min — cómodamente por debajo del límite de
-// 45 min incluso si el problema de fondo no se resolviera nunca.
-const NAV_TIMEOUT = 10_000
-const CONTENT_TIMEOUT = 8_000
+// NAV_TIMEOUT y CONTENT_TIMEOUT recortados a propósito (antes 30s/15s, luego
+// 10s/8s — TODAVÍA insuficiente): dos despliegues seguidos murieron a los
+// ~45-46 min por el propio límite de build de Vercel (Build Failed: timed
+// out), no por un fallo de la app. La navegación en sí es rápida siempre
+// (<1s medido, incluso bajo la misma concurrencia que usa este script) — el
+// tiempo se va en la espera de contenido tras el goto, cuya causa exacta bajo
+// carga real de Vercel no se ha podido fijar con certeza (candidatos:
+// Firebase sin resolver en ese Chromium, @vercel/analytics contra un
+// endpoint que no existe en el preview local del build). Visto en directo:
+// una página tardando 32.7s, justo timeout + reintento con los valores
+// anteriores — así que además de recortar más, el reintento se ha quitado
+// (ver worker(), más abajo): dobla el peor caso sin aportar gran cosa ahora
+// que el build tolera un puñado de páginas fallidas (umbral del 5%).
+// Peor caso con estos valores, SIN reintento: 312 × (8s+6s) / CONCURRENCY
+// ≈ 24 min — margen de sobra bajo el límite de 45 min aunque la causa de
+// fondo no se resuelva nunca.
+const NAV_TIMEOUT = 8_000
+const CONTENT_TIMEOUT = 6_000
 // Espera a que Helmet aplique la meta. Corto a propósito: cuando ya hay
 // contenido pintado, la meta llega en milisegundos o no va a llegar.
 const META_TIMEOUT = 3_000
@@ -181,12 +185,15 @@ async function worker() {
     const page = await context.newPage()
     const startedAt = Date.now()
     try {
-      let html
-      try {
-        html = await renderOne(page, urlPath)
-      } catch {
-        html = await renderOne(page, urlPath) // un reintento antes de rendirse
-      }
+      // SIN reintento a propósito: el reintento DOBLABA el peor caso posible
+      // del build entero (312 páginas × dos timeouts completos cada una) y
+      // fue lo que hizo que el build superase el límite de 45 min de Vercel
+      // dos veces seguidas, aun con los timeouts ya recortados — se vio en
+      // vivo una página tardando 32.7s, justo el patrón de "agota timeout,
+      // reintenta, agota otra vez". Sin reintento el build tolerante a
+      // fallos (más abajo, umbral del 5%) es lo que absorbe la página suelta
+      // que falle de verdad, sin pagar el doble en TODAS las páginas lentas.
+      const html = await renderOne(page, urlPath)
       // NO se escribe todavía: ver el volcado tras cerrar el servidor.
       rendered.push({ urlPath, html })
     } catch (err) {
