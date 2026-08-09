@@ -38,13 +38,16 @@ export const STATIC_META = {
     es: { title: 'Tu panel de estudio', desc: 'Tu progreso, tus rachas y tus monedas. Elige materia y sigue repasando con juegos y exámenes tipo test.' },
     en: { title: 'Your study dashboard', desc: 'Your progress, streaks and coins. Pick a subject and keep revising with games and quizzes.' },
   },
+  // Sin "gratis" desde el muro de pago: los temarios y las fichas siguen
+  // abiertos, pero jugar y examinarse va con la suscripción, y estas dos
+  // páginas son la puerta a ambos.
   '/estudiar': {
-    es: { title: 'Estudiar por materias', desc: 'Elige materia y repasa con juegos y exámenes tipo test: historia, matemáticas, geografía, ciencias e idiomas. Gratis y sin registro.' },
-    en: { title: 'Study by subject', desc: 'Pick a subject and revise with games and quizzes: history, maths, geography, science and languages. Free, no sign-up needed.' },
+    es: { title: 'Estudiar por materias', desc: 'Elige materia y repasa con juegos y exámenes tipo test: historia, matemáticas, geografía, ciencias e idiomas. Temario abierto para todos.' },
+    en: { title: 'Study by subject', desc: 'Pick a subject and revise with games and quizzes: history, maths, geography, science and languages. Study notes open to everyone.' },
   },
   '/juegos': {
-    es: { title: 'Juegos educativos gratis', desc: 'Catálogo de juegos educativos: cálculo mental, cronología histórica, geografía y vocabulario. Partidas de 5 minutos con ranking y monedas.' },
-    en: { title: 'Free educational games', desc: 'Catalogue of educational games: mental maths, history timelines, geography and vocabulary. 5-minute rounds with rankings and coins.' },
+    es: { title: 'Juegos educativos por materia', desc: 'Catálogo de juegos educativos: cálculo mental, cronología histórica, geografía y vocabulario. Partidas de 5 minutos con ranking y monedas.' },
+    en: { title: 'Educational games by subject', desc: 'Catalogue of educational games: mental maths, history timelines, geography and vocabulary. 5-minute rounds with rankings and coins.' },
   },
   '/estudiar/historia': {
     es: { title: 'Historia — temas y exámenes', desc: 'Repasa historia con juegos: Guerra Civil, Segunda Guerra Mundial, Roma, líneas temporales y personajes. Exámenes tipo test con nota.' },
@@ -181,9 +184,12 @@ export function resolveMeta(path, lang) {
     const exam = EXAMS[EXAM_PATH_ALIASES[m[1]] ?? m[1]]
     if (exam) {
       const name = label(exam, l)
+      // Sin "gratis": los exámenes van con la suscripción desde el muro de
+      // pago. Anunciar como gratuito lo que se cobra genera devoluciones y
+      // reseñas malas, y sale en el título de ~88 páginas.
       return l === 'en'
-        ? { title: `${name} — multiple-choice exam`, desc: `Free interactive ${name} exam with instant feedback, explained answers and a final grade. For primary and secondary school students.` }
-        : { title: `Examen de ${name} tipo test`, desc: `Examen interactivo de ${name} gratis, con corrección al instante, explicación en cada respuesta y nota final. Para Primaria, ESO y Bachillerato.` }
+        ? { title: `${name} — multiple-choice exam`, desc: `Interactive ${name} exam with instant feedback, explained answers and a final grade. For primary and secondary school students.` }
+        : { title: `Examen de ${name} tipo test`, desc: `Examen interactivo de ${name}, con corrección al instante, explicación en cada respuesta y nota final. Para Primaria, ESO y Bachillerato.` }
     }
   }
 
@@ -194,8 +200,8 @@ export function resolveMeta(path, lang) {
       const name = label(ciclo, l)
       const desc = ciclo.descripcion[l] ?? ciclo.descripcion.es
       return l === 'en'
-        ? { title: `${name} — order the steps`, desc: `${desc} Free interactive exam: place each step before or after the others in the right order.` }
-        : { title: `Examen de ${name} — ordena los pasos`, desc: `${desc} Examen interactivo gratis: coloca cada paso antes o después en el orden correcto.` }
+        ? { title: `${name} — order the steps`, desc: `${desc} Interactive exam: place each step before or after the others in the right order.` }
+        : { title: `Examen de ${name} — ordena los pasos`, desc: `${desc} Examen interactivo: coloca cada paso antes o después en el orden correcto.` }
     }
   }
 

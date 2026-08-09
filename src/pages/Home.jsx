@@ -101,7 +101,9 @@ export default function Home() {
         {/* Título / propuesta de valor (h1 único, SEO) */}
         <div className="text-center pt-1">
           <span className="inline-block text-amber-400 bg-amber-500/12 border border-amber-500/30 text-[11px] sm:text-xs font-bold uppercase tracking-widest px-3 py-1.5 rounded-full mb-3">
-            {ca ? 'Gratis · Primària · ESO · Batxillerat' : en ? 'Free · Primary · Secondary · Sixth Form' : 'Gratis · Primaria · ESO · Bachillerato'}
+            {/* Ya no dice "Gratis": jugar y examinarse va con la suscripción
+                desde el muro de pago (lib/paidRoutes.js). */}
+            {ca ? 'Primària · ESO · Batxillerat' : en ? 'Primary · Secondary · Sixth Form' : 'Primaria · ESO · Bachillerato'}
           </span>
           <h1 className="text-3xl sm:text-[40px] font-black text-white leading-[1.1] tracking-tight max-w-[18ch] mx-auto" style={{ textWrap: 'balance' }}>
             {t('home.seo.titulo')}

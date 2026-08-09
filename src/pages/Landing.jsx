@@ -11,75 +11,230 @@ import SEOHead from '../components/SEOHead'
 // (clara, editorial) para que se lea como lo que es: la página que explica el
 // producto, no el producto.
 //
-// Sin cifras de catálogo a propósito. Un "23 juegos" envejece mal en los dos
-// sentidos: hoy suena a poco y dentro de un año estará desactualizado. Lo que
-// vende no es cuántos hay, sino que el mismo concepto se explica de varias
-// formas — y eso se demuestra enseñándolo, no contándolo.
+// Sin cifras de catálogo a propósito ("23 juegos" envejece mal en los dos
+// sentidos) y sin decir "tres" enfoques: el número de puertas a un concepto no
+// está cerrado, y fijarlo en el copy obliga a mantenerlo a mano.
+//
+// El texto en español lo escribió el usuario; en/ca son traducción fiel. Al
+// tocarlo, respetar el registro: la sección de metodología usa vocabulario
+// técnico a propósito — es lo que transmite que detrás hay profesores.
 const SAVINGS = annualSavings()
+const EQUIV = SAVINGS.equivalentMonthly.toFixed(2).replace('.', ',')
 
-// Los tres ángulos con los que se ataca un mismo concepto. Son juegos reales
-// del catálogo, no ejemplos inventados: si alguno se retira, hay que tocar
-// esto (el test de registries lo cazaría al desaparecer del catálogo).
+// Los enfoques, en abstracto. Van antes que los ejemplos porque son la idea
+// que hay que comprar; los juegos concretos vienen después como prueba.
+const APPROACHES = [
+  {
+    key: { es: 'Deducir', en: 'Deduce', ca: 'Deduir' },
+    body: {
+      es: 'Resuelve un problema real anticipando el resultado.',
+      en: 'Solve a real problem by anticipating the outcome.',
+      ca: 'Resol un problema real anticipant el resultat.',
+    },
+  },
+  {
+    key: { es: 'Construir', en: 'Build', ca: 'Construir' },
+    body: {
+      es: 'Manipula los elementos y ve en directo cómo cambia la regla.',
+      en: 'Handle the parts and watch the rule change live.',
+      ca: 'Manipula els elements i veu en directe com canvia la regla.',
+    },
+  },
+  {
+    key: { es: 'Visualizar', en: 'Visualise', ca: 'Visualitzar' },
+    body: {
+      es: 'Asocia la teoría a un dibujo o a un patrón intuitivo.',
+      en: 'Tie the theory to a drawing or an intuitive pattern.',
+      ca: 'Associa la teoria a un dibuix o a un patró intuïtiu.',
+    },
+  },
+]
+
+// Metodología aplicada: cada juego con su nombre pedagógico. El titular es la
+// competencia que se trabaja, no el nombre comercial del juego — a un padre
+// "El Portero" no le dice nada, "inferencia y deducción funcional" sí.
 const ANGLES = [
   {
-    concept: { es: 'Funciones y gráficas', en: 'Functions and graphs', ca: 'Funcions i gràfiques' },
+    concept: { es: 'Funciones y representación gráfica', en: 'Functions and graphing', ca: 'Funcions i representació gràfica' },
     emoji: '📈',
     games: [
-      { name: 'El Portero', hook: { es: 'para el balón calculando su parábola', en: 'save the ball by working out its parabola', ca: 'atura la pilota calculant-ne la paràbola' } },
-      { name: 'Caza la Función', hook: { es: 'ajusta la ecuación hasta que encaje en la gráfica', en: 'tweak the equation until it fits the graph', ca: "ajusta l'equació fins que encaixi al gràfic" } },
-      { name: 'Trayectoria', hook: { es: 'dispara y ve la curva que has descrito', en: 'shoot and watch the curve you traced', ca: 'dispara i mira la corba que has descrit' } },
+      {
+        angle: { es: 'Inferencia y deducción funcional', en: 'Functional inference and deduction', ca: 'Inferència i deducció funcional' },
+        name: 'El Portero',
+        img: '/games/capturas/portero.webp',
+        body: {
+          es: 'A partir de la expresión algebraica de la función, el alumno debe predecir y anticipar la trayectoria de la curva para resolver una situación de interceptación vectorial en tiempo real.',
+          en: 'From the algebraic expression of the function, the pupil must predict and anticipate the path of the curve to resolve a real-time vector interception.',
+          ca: "A partir de l'expressió algebraica de la funció, l'alumne ha de predir i anticipar la trajectòria de la corba per resoldre una situació d'interceptació vectorial en temps real.",
+        },
+      },
+      {
+        angle: { es: 'Manipulación paramétrica e interactiva', en: 'Interactive parametric manipulation', ca: 'Manipulació paramètrica i interactiva' },
+        name: 'Caza la Función',
+        img: '/games/capturas/caza-funcion.webp',
+        body: {
+          es: 'Al modificar los coeficientes y variables independientes uno a uno, observa de manera inmediata cómo se alteran la pendiente, la concavidad y la traslación de la gráfica en el plano cartesiano.',
+          en: 'By changing the coefficients and independent variables one at a time, they see immediately how the slope, concavity and translation of the graph shift across the Cartesian plane.',
+          ca: 'En modificar els coeficients i variables independents un a un, observa de manera immediata com s\'alteren el pendent, la concavitat i la translació de la gràfica en el pla cartesià.',
+        },
+      },
+      {
+        angle: { es: 'Geometría analítica y reconocimiento espacial', en: 'Analytic geometry and spatial recognition', ca: 'Geometria analítica i reconeixement espacial' },
+        name: 'Trayectoria',
+        img: '/games/capturas/trayectoria.webp',
+        body: {
+          es: 'A través de la resolución de obstáculos en un sistema de coordenadas, el estudiante identifica la ecuación matemática idónea que conecta distintos puntos del espacio continuo.',
+          en: 'By clearing obstacles within a coordinate system, the student identifies the right mathematical equation connecting different points of continuous space.',
+          ca: "Mitjançant la resolució d'obstacles en un sistema de coordenades, l'estudiant identifica l'equació matemàtica idònia que connecta diferents punts de l'espai continu.",
+        },
+      },
     ],
   },
   {
-    concept: { es: 'Cálculo mental', en: 'Mental arithmetic', ca: 'Càlcul mental' },
-    emoji: '🔢',
+    concept: { es: 'Aritmética y cálculo operacional', en: 'Arithmetic and operational calculation', ca: 'Aritmètica i càlcul operacional' },
+    emoji: '➕',
     games: [
-      { name: 'Cálculo Mental', hook: { es: 'operaciones a contrarreloj', en: 'timed operations', ca: 'operacions a contrarellotge' } },
-      { name: 'Acércate', hook: { es: 'combina números para llegar al objetivo', en: 'combine numbers to hit the target', ca: "combina nombres per arribar a l'objectiu" } },
-      { name: 'NumPath', hook: { es: 'recorre el laberinto resolviendo el camino', en: 'cross the maze by solving the path', ca: 'recorre el laberint resolent el camí' } },
+      {
+        angle: { es: 'Modelado sintético y descomposición numérica', en: 'Synthetic modelling and number decomposition', ca: 'Modelatge sintètic i descomposició numèrica' },
+        name: 'Acércate',
+        img: '/games/capturas/acercate.webp',
+        body: {
+          es: 'En lugar de resolver un algoritmo predeterminado, el alumno realiza la descomposición inversa de una cifra objetivo planteando sus propios términos y operadores matemáticos.',
+          en: 'Instead of working through a set algorithm, the pupil reverse-decomposes a target figure by proposing their own terms and mathematical operators.',
+          ca: "En lloc de resoldre un algoritme predeterminat, l'alumne fa la descomposició inversa d'una xifra objectiu plantejant els seus propis termes i operadors matemàtics.",
+        },
+      },
+      {
+        angle: { es: 'Lógica secuencial y resolución de algoritmos', en: 'Sequential logic and algorithm solving', ca: "Lògica seqüencial i resolució d'algoritmes" },
+        name: 'NumPath',
+        img: '/games/capturas/numpath.webp',
+        body: {
+          es: 'Mediante una estructura de grafos y laberintos lógicos, cada nodo exige la resolución de una operación aritmética cuya precisión condiciona la viabilidad de la ruta.',
+          en: 'Through a structure of graphs and logical mazes, each node demands an arithmetic operation whose accuracy determines whether the route remains viable.',
+          ca: "Mitjançant una estructura de grafs i laberints lògics, cada node exigeix la resolució d'una operació aritmètica la precisió de la qual condiciona la viabilitat de la ruta.",
+        },
+      },
+      {
+        angle: { es: 'Mecanización, consolidación y evaluación', en: 'Drilling, consolidation and assessment', ca: 'Mecanització, consolidació i avaluació' },
+        name: { es: 'Examen de sumas', en: 'Sums exam', ca: 'Examen de sumes' },
+        img: '/games/capturas/examen-sumas.webp',
+        body: {
+          es: 'Evaluación formativa orientada a la consolidación del cálculo mental autómata, con corrección procedimental explicada al instante para fijar el aprendizaje sin generar ansiedad académica.',
+          en: 'Formative assessment aimed at consolidating automatic mental arithmetic, with step-by-step corrections explained instantly to fix learning without creating academic anxiety.',
+          ca: "Avaluació formativa orientada a la consolidació del càlcul mental automàtic, amb correcció procedimental explicada a l'instant per fixar l'aprenentatge sense generar ansietat acadèmica.",
+        },
+      },
     ],
   },
 ]
 
+const SUBJECTS = {
+  es: 'Matemáticas, Lengua, Historia, Geografía, Física, Química, Biología, Inglés, Música y Economía.',
+  en: 'Maths, Language, History, Geography, Physics, Chemistry, Biology, English, Music and Economics.',
+  ca: 'Matemàtiques, Llengua, Història, Geografia, Física, Química, Biologia, Anglès, Música i Economia.',
+}
+
 const PAINS = [
   {
-    emoji: '🤷',
-    title: { es: '«No sé por dónde va»', en: '"I have no idea how they\'re doing"', ca: '«No sé per on va»' },
-    body: { es: 'Ves qué materias toca, cuánto tiempo dedica y qué nota saca en cada examen. Sin preguntar y sin discusiones.', en: 'See which subjects they touch, how long they spend and what they score on each exam. No asking, no arguments.', ca: 'Veus quines matèries toca, quant temps hi dedica i quina nota treu a cada examen. Sense preguntar i sense discussions.' },
+    emoji: '⏱️',
+    title: { es: '«En clase van muy rápido»', en: '"Class moves too fast"', ca: '«A classe van molt de pressa»' },
+    body: {
+      es: 'Un profesor con treinta alumnos no puede pararse a buscarle otra explicación a cada uno. No es culpa suya: no hay tiempo. En Tuthor el tema espera lo que tu hijo necesite.',
+      en: 'A teacher with thirty pupils cannot stop to find a different explanation for each one. It is not their fault: there is no time. Here the topic waits as long as your child needs.',
+      ca: 'Un professor amb trenta alumnes no es pot aturar a buscar una altra explicació per a cadascun. No és culpa seva: no hi ha temps. A Tuthor el tema espera el que el teu fill necessiti.',
+    },
   },
   {
     emoji: '😑',
-    title: { es: '«Se aburre a los cinco minutos»', en: '"They get bored in five minutes"', ca: '«S\'avorreix als cinc minuts»' },
-    body: { es: 'Partidas cortas, monedas, rachas y ranking. La misma mecánica que le engancha al móvil, puesta a trabajar a tu favor.', en: 'Short rounds, coins, streaks and rankings. The same mechanics that hook them on their phone, working for you instead.', ca: 'Partides curtes, monedes, ratxes i rànquing. La mateixa mecànica que l\'enganxa al mòbil, treballant al teu favor.' },
+    title: { es: '«Se aburre a los cinco minutos»', en: '"They get bored in five minutes"', ca: "«S'avorreix als cinc minuts»" },
+    body: {
+      es: 'Partidas cortas, monedas, rachas y rankings. La misma mecánica que le engancha a los videojuegos, puesta a trabajar a favor de sus notas.',
+      en: 'Short rounds, coins, streaks and rankings. The same mechanics that hook them on video games, put to work in favour of their grades.',
+      ca: 'Partides curtes, monedes, ratxes i rànquings. La mateixa mecànica que l\'enganxa als videojocs, posada a treballar a favor de les seves notes.',
+    },
   },
   {
     emoji: '📉',
     title: { es: '«Estudia y suspende igual»', en: '"They study and still fail"', ca: '«Estudia i suspèn igual»' },
-    body: { es: 'Casi siempre es que no lo ha entendido, no que no lo haya leído. Por eso cada concepto viene desde varios ángulos.', en: "Usually it's that they didn't understand it, not that they didn't read it. That's why each concept comes from several angles.", ca: 'Gairebé sempre és que no ho ha entès, no que no ho hagi llegit. Per això cada concepte ve des de diversos angles.' },
+    body: {
+      es: 'Casi nunca es falta de horas; es que no lo ha entendido desde el principio. Releer lo mismo otra vez no arregla la duda. Contárselo de otra forma, sí.',
+      en: 'It is rarely a lack of hours; they did not understand it in the first place. Re-reading the same thing does not clear the doubt. Being told another way does.',
+      ca: "Gairebé mai és falta d'hores; és que no ho ha entès des del principi. Rellegir el mateix no arregla el dubte. Explicar-l'hi d'una altra manera, sí.",
+    },
   },
   {
     emoji: '💸',
-    title: { es: '«Una academia son 150 € al mes»', en: '"Tutoring costs €150 a month"', ca: '«Una acadèmia són 150 € al mes»' },
-    body: { es: `Tuthor son ${SAVINGS.equivalentMonthly.toFixed(2).replace('.', ',')} € al mes en el plan anual, y lo usa cuando quiere, no cuando toca clase.`, en: `Tuthor is €${SAVINGS.equivalentMonthly.toFixed(2)} a month on the annual plan, used whenever they want, not when class happens.`, ca: `Tuthor són ${SAVINGS.equivalentMonthly.toFixed(2).replace('.', ',')} € al mes en el pla anual, i l'usa quan vol, no quan toca classe.` },
+    title: { es: '«Una academia cuesta 150 € al mes»', en: '"Tutoring costs €150 a month"', ca: '«Una acadèmia costa 150 € al mes»' },
+    body: {
+      es: `Y requiere desplazamientos y adaptarse al ritmo del grupo. Tuthor cuesta ${EQUIV} € al mes en su plan anual, a la hora que él quiera y enfocado en lo que flojea.`,
+      en: `And it means travelling and fitting the group's pace. Tuthor costs €${SAVINGS.equivalentMonthly.toFixed(2)} a month on the annual plan, whenever they want and focused on where they struggle.`,
+      ca: `I requereix desplaçaments i adaptar-se al ritme del grup. Tuthor costa ${EQUIV} € al mes en el seu pla anual, a l'hora que ell vulgui i enfocat en el que flluixeja.`,
+    },
+  },
+]
+
+const PANEL = [
+  {
+    emoji: '🔑',
+    title: { es: 'Sin cuenta ni email para el niño', en: 'No account or email for the child', ca: 'Sense compte ni email per al nen' },
+    body: {
+      es: 'Le pasas un código corto, lo escribe y entra. No tiene que recordar ni compartir contraseñas ni correos.',
+      en: 'You give them a short code, they type it and they are in. Nothing to remember and no passwords or emails to share.',
+      ca: 'Li passes un codi curt, l\'escriu i entra. No ha de recordar ni compartir contrasenyes ni correus.',
+    },
+  },
+  {
+    emoji: '📊',
+    title: { es: 'Progreso por materia en tiempo real', en: 'Progress by subject in real time', ca: 'Progrés per matèria en temps real' },
+    body: {
+      es: 'Consulta qué temas ha trabajado, cuánto tiempo le ha dedicado y las notas que saca en sus exámenes.',
+      en: 'Check which topics they have worked on, how long they spent and the grades they get in their exams.',
+      ca: 'Consulta quins temes ha treballat, quant temps hi ha dedicat i les notes que treu als seus exàmens.',
+    },
+  },
+  {
+    emoji: '🔒',
+    title: { es: 'Control absoluto', en: 'Full control', ca: 'Control absolut' },
+    body: {
+      es: 'El niño no puede acceder a los ajustes, al panel de datos ni a la suscripción. Todo queda bloqueado desde el servidor.',
+      en: 'The child cannot reach the settings, the data panel or the subscription. It is all locked down on the server.',
+      ca: 'El nen no pot accedir als ajustos, al panell de dades ni a la subscripció. Tot queda bloquejat des del servidor.',
+    },
   },
 ]
 
 const FAQ = [
   {
-    q: { es: '¿Mi hijo necesita un email o una contraseña?', en: 'Does my child need an email or password?', ca: 'El meu fill necessita un email o una contrasenya?' },
-    a: { es: 'No. Tú entras con tu cuenta de Google y le das un código. Él lo escribe y entra directo, sin contraseña. Con ese código puede jugar y hacer exámenes, pero no ve el panel de seguimiento ni puede tocar la suscripción.', en: "No. You sign in with your Google account and give them a code. They type it and they're in, no password. With that code they can play and take exams, but they can't see the tracking panel or touch the subscription.", ca: 'No. Tu entres amb el teu compte de Google i li dones un codi. Ell l\'escriu i entra directe, sense contrasenya. Amb aquest codi pot jugar i fer exàmens, però no veu el panell de seguiment ni pot tocar la subscripció.' },
+    q: { es: '¿Mi hijo necesita un email o una contraseña?', en: 'Does my child need an email or a password?', ca: 'El meu fill necessita un email o una contrasenya?' },
+    a: {
+      es: 'No. Tú creas la cuenta con tu Google y a él solo le das un código de acceso único.',
+      en: 'No. You create the account with your Google and all they get is a single access code.',
+      ca: 'No. Tu crees el compte amb el teu Google i a ell només li dones un codi d\'accés únic.',
+    },
   },
   {
     q: { es: '¿Para qué edades sirve?', en: 'What ages is it for?', ca: 'Per a quines edats serveix?' },
-    a: { es: 'Primaria, ESO y Bachillerato. Cada materia tiene contenido por nivel, así que el mismo tema se puede repasar más fácil o más difícil.', en: 'Primary and secondary school. Each subject has content by level, so the same topic can be revised at an easier or harder setting.', ca: 'Primària, ESO i Batxillerat. Cada matèria té contingut per nivell, així que el mateix tema es pot repassar més fàcil o més difícil.' },
+    a: {
+      es: 'Cubre contenidos adaptados desde Educación Primaria hasta Bachillerato.',
+      en: 'It covers content adapted from primary school through to sixth form.',
+      ca: 'Cobreix continguts adaptats des d\'Educació Primària fins a Batxillerat.',
+    },
   },
   {
     q: { es: '¿Vale para varios hermanos?', en: 'Does it work for several siblings?', ca: 'Serveix per a diversos germans?' },
-    a: { es: 'Una suscripción es una cuenta, pensada para un alumno. Si la comparten, funciona, pero el progreso y las estadísticas de los dos se mezclan en el mismo sitio y el panel deja de decirte gran cosa.', en: 'One subscription is one account, meant for one student. If they share it, it works, but both their progress and stats get mixed in the same place and the panel stops telling you much.', ca: 'Una subscripció és un compte, pensada per a un alumne. Si la comparteixen, funciona, però el progrés i les estadístiques dels dos es barregen al mateix lloc i el panell deixa de dir-te gran cosa.' },
+    a: {
+      es: 'Puedes gestionar su progreso desde tu mismo panel de control.',
+      en: 'You can follow their progress from your own control panel.',
+      ca: 'Pots gestionar el seu progrés des del teu mateix panell de control.',
+    },
   },
   {
-    q: { es: '¿Puedo cancelar cuando quiera?', en: 'Can I cancel any time?', ca: 'Puc cancel·lar quan vulgui?' },
-    a: { es: 'Sí, desde tu cuenta y en cualquier momento. Sigues teniendo acceso hasta el final del periodo que ya has pagado.', en: 'Yes, from your account and at any time. You keep access until the end of the period you already paid for.', ca: 'Sí, des del teu compte i en qualsevol moment. Continues tenint accés fins al final del període que ja has pagat.' },
+    q: { es: '¿Puedo cancelar cuando quiera?', en: 'Can I cancel whenever I want?', ca: 'Puc cancel·lar quan vulgui?' },
+    a: {
+      es: 'Sí, sin llamadas ni trámites complicados. Lo haces en un clic desde tus ajustes.',
+      en: 'Yes, with no phone calls or paperwork. One click from your settings.',
+      ca: 'Sí, sense trucades ni tràmits complicats. Ho fas amb un clic des dels teus ajustos.',
+    },
   },
 ]
 
@@ -133,7 +288,11 @@ function PlanCard({ planId, featured, tr, onPick, busy }) {
         </span>
       )}
 
-      <p className="text-sm font-bold uppercase tracking-wider text-slate-500">{tr(plan.label)}</p>
+      <p className="text-sm font-bold uppercase tracking-wider text-slate-500">
+        {isAnnual
+          ? tr({ es: 'Plan Anual', en: 'Annual plan', ca: 'Pla Anual' })
+          : tr({ es: 'Plan Mensual', en: 'Monthly plan', ca: 'Pla Mensual' })}
+      </p>
 
       <p className="mt-3 flex items-baseline gap-1.5">
         <span className="text-4xl font-black text-slate-900">{price} €</span>
@@ -144,11 +303,7 @@ function PlanCard({ planId, featured, tr, onPick, busy }) {
 
       <p className="mt-1 min-h-[20px] text-sm text-slate-500">
         {isAnnual
-          ? tr({
-              es: `Equivale a ${SAVINGS.equivalentMonthly.toFixed(2).replace('.', ',')} € al mes`,
-              en: `Works out to €${SAVINGS.equivalentMonthly.toFixed(2)} a month`,
-              ca: `Equival a ${SAVINGS.equivalentMonthly.toFixed(2).replace('.', ',')} € al mes`,
-            })
+          ? tr({ es: `Equivale a ${EQUIV} € al mes`, en: `Works out to €${SAVINGS.equivalentMonthly.toFixed(2)} a month`, ca: `Equival a ${EQUIV} € al mes` })
           : tr({ es: 'Sin permanencia', en: 'No commitment', ca: 'Sense permanència' })}
       </p>
 
@@ -156,14 +311,12 @@ function PlanCard({ planId, featured, tr, onPick, busy }) {
         onClick={() => onPick(planId)}
         disabled={busy}
         className={`mt-5 rounded-xl px-5 py-3 text-sm font-black transition-colors disabled:opacity-50 ${
-          featured
-            ? 'bg-violet-600 text-white hover:bg-violet-500'
-            : 'bg-slate-900 text-white hover:bg-slate-700'
+          featured ? 'bg-violet-600 text-white hover:bg-violet-500' : 'bg-slate-900 text-white hover:bg-slate-700'
         }`}
       >
         {busy
           ? tr({ es: 'Un momento…', en: 'One moment…', ca: 'Un moment…' })
-          : tr({ es: 'Empezar', en: 'Get started', ca: 'Començar' })}
+          : tr({ es: 'Empezar ahora', en: 'Get started', ca: 'Començar ara' })}
       </button>
     </div>
   )
@@ -180,13 +333,6 @@ export default function Landing() {
   // null = sin error; true = error genérico; string = detalle del servidor
   const [checkoutError, setCheckoutError] = useState(null)
 
-  // Sin sesión no se puede cobrar: el checkout necesita saber a qué cuenta dar
-  // el acceso. Mandarlo a Stripe y preguntarle la cuenta después es peor: paga
-  // y no sabes de quién es el dinero.
-  //
-  // El plan se recuerda mientras se inicia sesión y el pago sigue solo al
-  // terminar. Antes había que volver a pulsarlo, y quien acaba de decidir que
-  // paga no debería tener que decidirlo dos veces.
   // El pago en sí, sin comprobar la sesión: startCheckout lee auth.currentUser,
   // que Firebase actualiza en cuanto el login resuelve. El `user` del contexto
   // tarda un render más, así que comprobarlo aquí justo después de entrar daría
@@ -203,15 +349,17 @@ export default function Landing() {
     }
   }
 
+  // Sin sesión no se puede cobrar: el checkout necesita saber a qué cuenta dar
+  // el acceso. Mandarlo a Stripe y preguntarle la cuenta después es peor: paga
+  // y no sabes de quién es el dinero.
   function pickPlan(planId) {
     if (!user) { setPendingPlan(planId); setShowAuth(true); return }
     runCheckout(planId)
   }
 
-  // Qué hacer justo después de entrar, según por qué se abrió el login:
-  // si venía de pulsar un plan, se sigue al pago; si no, se entra en la app.
-  // Quedarse en la landing es lo único que no tiene sentido en ningún caso —
-  // y es lo que hacía antes, dejando al niño mirando la página de ventas.
+  // Qué hacer justo después de entrar, según por qué se abrió el login: si
+  // venía de pulsar un plan, se sigue al pago; si no, se entra en la app.
+  // Quedarse en la landing es lo único que no tiene sentido en ningún caso.
   function handleAuthSuccess() {
     setShowAuth(false)
     if (pendingPlan) {
@@ -228,14 +376,14 @@ export default function Landing() {
       <SEOHead
         path="/"
         title={tr({
-          es: 'Tuthor — Aprende jugando: el mismo concepto desde varios ángulos',
-          en: 'Tuthor — Learn by playing: one concept, several angles',
-          ca: 'Tuthor — Aprèn jugant: el mateix concepte des de diversos angles',
+          es: 'No le falta capacidad. Le falta que se lo expliquen en su idioma',
+          en: "It's not ability they lack. It's an explanation in their own language",
+          ca: 'No li falta capacitat. Li falta que li ho expliquin en el seu idioma',
         })}
         description={tr({
-          es: `Plataforma educativa para Primaria, ESO y Bachillerato. Cada concepto explicado desde varios ángulos distintos, en formato de juego, con panel de seguimiento para padres. Desde ${SAVINGS.equivalentMonthly.toFixed(2).replace('.', ',')} € al mes.`,
-          en: `Educational platform for primary and secondary school. Every concept explained from several different angles, as games, with a tracking panel for parents. From €${SAVINGS.equivalentMonthly.toFixed(2)} a month.`,
-          ca: `Plataforma educativa per a Primària, ESO i Batxillerat. Cada concepte explicat des de diversos angles diferents, en format de joc, amb panell de seguiment per a pares. Des de ${SAVINGS.equivalentMonthly.toFixed(2).replace('.', ',')} € al mes.`,
+          es: `Plataforma educativa para Primaria, ESO y Bachillerato. Un equipo de profesores plantea cada concepto desde distintos puntos de vista, con panel de seguimiento para padres. Desde ${EQUIV} € al mes.`,
+          en: `Educational platform for primary and secondary school. A team of teachers frames each concept from different points of view, with a tracking panel for parents. From €${SAVINGS.equivalentMonthly.toFixed(2)} a month.`,
+          ca: `Plataforma educativa per a Primària, ESO i Batxillerat. Un equip de professors planteja cada concepte des de diferents punts de vista, amb panell de seguiment per a pares. Des de ${EQUIV} € al mes.`,
         })}
       />
 
@@ -244,22 +392,30 @@ export default function Landing() {
       {/* ── HERO ── */}
       <section className="mx-auto max-w-4xl px-5 pb-16 pt-16 text-center sm:pt-24">
         <p className="mb-5 inline-block rounded-full border border-violet-200 bg-violet-100/70 px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-violet-700">
-          {tr({ es: 'Primaria · ESO · Bachillerato', en: 'Primary · Secondary', ca: 'Primària · ESO · Batxillerat' })}
+          {tr({ es: 'Primaria · ESO · Bachillerato', en: 'Primary · Secondary · Sixth form', ca: 'Primària · ESO · Batxillerat' })}
         </p>
 
         <h1 className="text-4xl font-black leading-[1.1] tracking-tight sm:text-6xl">
           {tr({
-            es: 'Tu hijo no necesita más horas. Necesita entenderlo de otra forma.',
-            en: "Your child doesn't need more hours. They need to get it a different way.",
-            ca: 'El teu fill no necessita més hores. Necessita entendre-ho d\'una altra manera.',
+            es: 'No le falta capacidad. Le falta que se lo expliquen en su idioma.',
+            en: "It's not ability they lack. It's an explanation in their own language.",
+            ca: 'No li falta capacitat. Li falta que li ho expliquin en el seu idioma.',
           })}
         </h1>
 
         <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-slate-600">
           {tr({
-            es: 'Tuthor enseña cada concepto desde varios ángulos distintos, en formato de juego. Cuando una explicación no le encaja, la siguiente sí.',
-            en: 'Tuthor teaches each concept from several different angles, as a game. When one explanation doesn\'t click, the next one does.',
-            ca: 'Tuthor ensenya cada concepte des de diversos angles diferents, en format de joc. Quan una explicació no li encaixa, la següent sí.',
+            es: 'En una clase con treinta alumnos hay un temario que terminar y un solo ritmo. No hay tiempo para buscar distintas formas de explicar lo mismo. En Tuthor sí.',
+            en: 'A class of thirty pupils has a syllabus to finish and a single pace. There is no time to look for different ways of explaining the same thing. Here there is.',
+            ca: 'En una classe amb trenta alumnes hi ha un temari per acabar i un sol ritme. No hi ha temps per buscar diferents formes d\'explicar el mateix. A Tuthor sí.',
+          })}
+        </p>
+
+        <p className="mx-auto mt-4 max-w-2xl text-lg leading-relaxed text-slate-600">
+          {tr({
+            es: 'Un equipo de profesores plantea cada concepto desde distintos puntos de vista. Si a tu hijo no le entra por la deducción, le entra por la práctica o por la imagen. No paramos hasta dar con la puerta que le encaja.',
+            en: 'A team of teachers frames each concept from different points of view. If deduction is not your child\'s way in, practice or imagery will be. We do not stop until we find the door that fits.',
+            ca: 'Un equip de professors planteja cada concepte des de diferents punts de vista. Si al teu fill no li entra per la deducció, li entra per la pràctica o per la imatge. No parem fins a trobar la porta que li encaixa.',
           })}
         </p>
 
@@ -271,68 +427,110 @@ export default function Landing() {
             {tr({ es: 'Ver cómo funciona', en: 'See how it works', ca: 'Veure com funciona' })}
           </a>
         </div>
-
-        <div className="mx-auto mt-14 grid max-w-2xl gap-4 sm:grid-cols-3">
-          {[
-            { emoji: '🎮', l: { es: 'Juegos por materia', en: 'Games by subject', ca: 'Jocs per matèria' } },
-            { emoji: '📝', l: { es: 'Exámenes con nota', en: 'Graded exams', ca: 'Exàmens amb nota' } },
-            { emoji: '📊', l: { es: 'Panel para padres', en: 'Panel for parents', ca: 'Panell per a pares' } },
-          ].map(s => (
-            <div key={s.l.es} className="rounded-2xl border border-slate-200 bg-white/70 px-4 py-5">
-              <p className="text-2xl">{s.emoji}</p>
-              <p className="mt-1.5 text-sm font-bold text-slate-700">{tr(s.l)}</p>
-            </div>
-          ))}
-        </div>
       </section>
 
-      {/* ── EL DIFERENCIAL ── */}
+      {/* ── LOS ENFOQUES, EN ABSTRACTO ── */}
       <section id="como-funciona" className="scroll-mt-20 border-y border-slate-200 bg-white py-20">
         <div className="mx-auto max-w-5xl px-5">
-          <h2 className="max-w-2xl text-3xl font-black leading-tight tracking-tight sm:text-4xl">
+          <h2 className="max-w-3xl text-3xl font-black leading-tight tracking-tight sm:text-4xl">
             {tr({
-              es: 'El mismo concepto, tres juegos completamente distintos',
-              en: 'One concept, three completely different games',
-              ca: 'El mateix concepte, tres jocs completament diferents',
+              es: 'Diferentes formas de entender lo mismo. Ninguna se parece a un libro de texto.',
+              en: 'Different ways of understanding the same thing. None of them looks like a textbook.',
+              ca: 'Diferents formes d\'entendre el mateix. Cap s\'assembla a un llibre de text.',
             })}
           </h2>
+
           <p className="mt-4 max-w-2xl text-lg leading-relaxed text-slate-600">
             {tr({
-              es: 'A un chaval que no entiende una parábola dibujada en unos ejes puede hacérsele evidente parando un balón. No es el mismo ejercicio repintado: son mecánicas distintas que atacan la misma idea por sitios distintos.',
-              en: "A kid who can't see a parabola drawn on axes might find it obvious when saving a football. It's not the same exercise repainted: they're different mechanics attacking the same idea from different places.",
-              ca: 'A un noi que no entén una paràbola dibuixada en uns eixos se li pot fer evident aturant una pilota. No és el mateix exercici repintat: són mecàniques diferents que ataquen la mateixa idea per llocs diferents.',
+              es: 'Repetir la misma explicación más despacio o más alto no es una explicación nueva. Es volver a tropezar con la misma piedra. En Tuthor cambiamos el enfoque para que el concepto haga clic:',
+              en: 'Repeating the same explanation more slowly or more loudly is not a new explanation. It is tripping over the same stone again. Here we change the approach so the concept clicks:',
+              ca: 'Repetir la mateixa explicació més a poc a poc o més fort no és una explicació nova. És tornar a ensopegar amb la mateixa pedra. A Tuthor canviem l\'enfocament perquè el concepte faci clic:',
             })}
           </p>
 
-          <div className="mt-12 grid gap-6 md:grid-cols-2">
-            {ANGLES.map(angle => (
-              <div key={angle.concept.es} className="rounded-2xl border border-slate-200 bg-slate-50/60 p-6">
-                <p className="flex items-center gap-2 text-sm font-black uppercase tracking-wider text-violet-700">
-                  <span className="text-lg">{angle.emoji}</span> {tr(angle.concept)}
-                </p>
-                <ul className="mt-5 space-y-4">
-                  {angle.games.map((g, i) => (
-                    <li key={g.name} className="flex gap-3">
-                      <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-violet-600 text-xs font-black text-white">
-                        {i + 1}
-                      </span>
-                      <p className="text-sm leading-relaxed text-slate-700">
-                        <span className="font-bold text-slate-900">{g.name}</span>
-                        {' — '}{tr(g.hook)}
-                      </p>
-                    </li>
-                  ))}
-                </ul>
+          <div className="mt-8 grid gap-4 sm:grid-cols-3">
+            {APPROACHES.map(a => (
+              <div key={a.key.es} className="rounded-2xl border border-slate-200 bg-slate-50/60 p-5">
+                <p className="text-base font-black text-violet-700">{tr(a.key)}</p>
+                <p className="mt-1.5 text-sm leading-relaxed text-slate-600">{tr(a.body)}</p>
               </div>
             ))}
           </div>
+        </div>
+      </section>
 
-          <p className="mt-8 text-sm text-slate-500">
+      {/* ── METODOLOGÍA APLICADA ── */}
+      <section className="py-20">
+        <div className="mx-auto max-w-5xl px-5">
+          <h2 className="text-3xl font-black tracking-tight sm:text-4xl">
             {tr({
-              es: 'Y así con el resto de materias: matemáticas, lengua, historia, geografía, física, química, biología, inglés, música y economía. Cada tema, con más de una forma de entrarle.',
-              en: 'And the same across the rest: maths, language, history, geography, physics, chemistry, biology, English, music and economics. Every topic, with more than one way in.',
-              ca: 'I així amb la resta de matèries: matemàtiques, llengua, història, geografia, física, química, biologia, anglès, música i economia. Cada tema, amb més d\'una manera d\'entrar-hi.',
+              es: 'Así se aprende en Tuthor',
+              en: 'This is how learning works in Tuthor',
+              ca: 'Així s\'aprèn a Tuthor',
             })}
+          </h2>
+          <p className="mt-2 text-sm font-semibold uppercase tracking-wider text-violet-600">
+            {tr({ es: 'Metodología aplicada', en: 'Methodology in practice', ca: 'Metodologia aplicada' })}
+          </p>
+
+          <div className="mt-12 space-y-14">
+            {ANGLES.map(angle => (
+              <div key={angle.concept.es}>
+                <p className="flex items-center gap-2 text-sm font-black uppercase tracking-wider text-violet-700">
+                  <span className="text-lg">{angle.emoji}</span> {tr(angle.concept)}
+                </p>
+
+                <div className="mt-5 grid gap-5 sm:grid-cols-3">
+                  {angle.games.map(g => (
+                    <figure key={typeof g.name === 'string' ? g.name : g.name.es}
+                      className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+                      {/* Altura fija y recorte por arriba: las capturas vienen
+                          con proporciones distintas y sin esto la fila queda
+                          como una sierra. loading="lazy" porque están abajo. */}
+                      <img
+                        src={g.img}
+                        alt={`${typeof g.name === 'string' ? g.name : tr(g.name)} — ${tr(g.angle)}`}
+                        loading="lazy"
+                        className="h-44 w-full bg-slate-900 object-cover object-top"
+                      />
+                      <figcaption className="p-5">
+                        <p className="text-base font-black leading-tight text-slate-900">{tr(g.angle)}</p>
+                        <p className="mt-1.5 text-xs font-bold uppercase tracking-wider text-violet-600">
+                          {typeof g.name === 'string' ? g.name : tr(g.name)}
+                        </p>
+                        <p className="mt-3 text-sm leading-relaxed text-slate-600">{tr(g.body)}</p>
+                      </figcaption>
+                    </figure>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── TODAS LAS MATERIAS ── */}
+      <section className="border-y border-slate-200 bg-white py-20">
+        <div className="mx-auto max-w-3xl px-5 text-center">
+          <h2 className="text-3xl font-black tracking-tight sm:text-4xl">
+            {tr({
+              es: 'Todas las materias que necesita en un solo lugar',
+              en: 'Every subject they need, in one place',
+              ca: 'Totes les matèries que necessita en un sol lloc',
+            })}
+          </h2>
+
+          <p className="mx-auto mt-5 max-w-2xl text-lg leading-relaxed text-slate-600">
+            {tr({
+              es: 'No hay una sola forma correcta de aprender. Hay mentes que entienden a la primera con un dibujo, otras con un número y otras mediante la deducción. Lo importante no es imponer un método, sino que tu hijo tenga opciones para elegir el suyo.',
+              en: 'There is no single correct way to learn. Some minds get it straight away with a drawing, others with a number, others through deduction. What matters is not imposing a method, but giving your child options so they can pick their own.',
+              ca: 'No hi ha una sola forma correcta d\'aprendre. Hi ha ments que entenen a la primera amb un dibuix, d\'altres amb un número i d\'altres mitjançant la deducció. L\'important no és imposar un mètode, sinó que el teu fill tingui opcions per triar el seu.',
+            })}
+          </p>
+
+          <p className="mx-auto mt-7 max-w-2xl rounded-2xl border border-violet-200 bg-violet-50/70 px-6 py-4 text-sm font-semibold text-slate-700">
+            <span className="text-violet-700">{tr({ es: 'Disponible para:', en: 'Available for:', ca: 'Disponible per a:' })}</span>{' '}
+            {tr(SUBJECTS)}
           </p>
         </div>
       </section>
@@ -341,7 +539,11 @@ export default function Landing() {
       <section className="py-20">
         <div className="mx-auto max-w-5xl px-5">
           <h2 className="text-3xl font-black tracking-tight sm:text-4xl">
-            {tr({ es: 'Lo que nos dicen los padres', en: 'What parents tell us', ca: 'El que ens diuen els pares' })}
+            {tr({
+              es: 'Lo que nos dicen los padres (y cómo lo resolvemos)',
+              en: 'What parents tell us (and how we solve it)',
+              ca: 'El que ens diuen els pares (i com ho resolem)',
+            })}
           </h2>
 
           <div className="mt-10 grid gap-5 sm:grid-cols-2">
@@ -360,26 +562,26 @@ export default function Landing() {
       <section className="border-y border-slate-200 bg-slate-900 py-20 text-white">
         <div className="mx-auto max-w-5xl px-5">
           <h2 className="max-w-2xl text-3xl font-black leading-tight tracking-tight sm:text-4xl">
-            {tr({ es: 'Tú ves los datos. Él ve un juego.', en: 'You see the data. They see a game.', ca: 'Tu veus les dades. Ell veu un joc.' })}
+            {tr({
+              es: 'Tú ves los datos. Él siente que solo está jugando.',
+              en: 'You see the data. They feel like they are just playing.',
+              ca: 'Tu veus les dades. Ell sent que només està jugant.',
+            })}
           </h2>
           <p className="mt-4 max-w-2xl text-lg leading-relaxed text-slate-300">
             {tr({
-              es: 'Entras con tu Google y le pasas un código. Él lo escribe y juega, sin contraseñas que recordar ni que compartir. Tú entras con tu cuenta y ves qué ha hecho, cuánto tiempo y con qué resultado.',
-              en: 'You sign in with Google and hand them a code. They type it and play, with no passwords to remember or share. You sign in with your account and see what they did, for how long and how well.',
-              ca: 'Entres amb el teu Google i li passes un codi. Ell l\'escriu i juga, sense contrasenyes per recordar ni per compartir. Tu entres amb el teu compte i veus què ha fet, quant temps i amb quin resultat.',
+              es: 'Diseñado para que la tecnología no sea un dolor de cabeza ni un riesgo en casa:',
+              en: 'Built so the technology is neither a headache nor a risk at home:',
+              ca: 'Dissenyat perquè la tecnologia no sigui un mal de cap ni un risc a casa:',
             })}
           </p>
 
           <div className="mt-10 grid gap-4 sm:grid-cols-3">
-            {[
-              { emoji: '🔑', t: { es: 'Sin cuenta para el niño', en: 'No account for the kid', ca: 'Sense compte per al nen' }, d: { es: 'Un código y dentro. Nunca ve tu email ni tu contraseña.', en: 'A code and they\'re in. They never see your email or password.', ca: 'Un codi i a dins. Mai no veu el teu email ni la teva contrasenya.' } },
-              { emoji: '📊', t: { es: 'Progreso por materia', en: 'Progress by subject', ca: 'Progrés per matèria' }, d: { es: 'Qué toca, cuánto tiempo y qué nota saca en cada examen.', en: 'What they touch, how long and what they score on each exam.', ca: 'Què toca, quant temps i quina nota treu a cada examen.' } },
-              { emoji: '🔒', t: { es: 'Él no toca nada', en: 'They can\'t touch anything', ca: 'Ell no toca res' }, d: { es: 'Ni el panel, ni los ajustes, ni la suscripción. Está bloqueado en el servidor.', en: 'Not the panel, the settings or the subscription. It\'s locked on the server.', ca: 'Ni el panell, ni els ajustos, ni la subscripció. Està bloquejat al servidor.' } },
-            ].map(c => (
-              <div key={c.t.es} className="rounded-2xl border border-white/10 bg-white/5 p-5">
+            {PANEL.map(c => (
+              <div key={c.title.es} className="rounded-2xl border border-white/10 bg-white/5 p-5">
                 <p className="text-2xl">{c.emoji}</p>
-                <p className="mt-3 font-black">{tr(c.t)}</p>
-                <p className="mt-1.5 text-sm leading-relaxed text-slate-400">{tr(c.d)}</p>
+                <p className="mt-3 font-black">{tr(c.title)}</p>
+                <p className="mt-1.5 text-sm leading-relaxed text-slate-400">{tr(c.body)}</p>
               </div>
             ))}
           </div>
@@ -390,13 +592,13 @@ export default function Landing() {
       <section id="precios" className="scroll-mt-20 py-20">
         <div className="mx-auto max-w-3xl px-5">
           <h2 className="text-center text-3xl font-black tracking-tight sm:text-4xl">
-            {tr({ es: 'Un precio, todo dentro', en: 'One price, everything included', ca: 'Un preu, tot inclòs' })}
+            {tr({ es: 'Un precio. Todo incluido.', en: 'One price. Everything included.', ca: 'Un preu. Tot inclòs.' })}
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-center text-slate-600">
             {tr({
-              es: 'Todos los juegos, todos los exámenes y el panel de seguimiento. Sin extras ni niveles de suscripción, y lo que se añada entra incluido.',
-              en: 'Every game, every exam and the tracking panel. No add-ons, no tiers, and whatever we add is included.',
-              ca: 'Tots els jocs, tots els exàmens i el panell de seguiment. Sense extres ni nivells de subscripció, i el que s\'afegeixi hi entra inclòs.',
+              es: 'Acceso ilimitado a todos los juegos, todos los exámenes y al panel de seguimiento parental. Sin micropagos, sin compras integradas y con todas las actualizaciones futuras incluidas.',
+              en: 'Unlimited access to every game, every exam and the parental tracking panel. No micropayments, no in-app purchases, and every future update included.',
+              ca: 'Accés il·limitat a tots els jocs, tots els exàmens i al panell de seguiment parental. Sense micropagaments, sense compres integrades i amb totes les actualitzacions futures incloses.',
             })}
           </p>
 
@@ -422,9 +624,9 @@ export default function Landing() {
 
           <p className="mt-6 text-center text-sm text-slate-500">
             {tr({
-              es: 'Cancela cuando quieras desde tu cuenta. Pago seguro con Stripe.',
-              en: 'Cancel any time from your account. Secure payment via Stripe.',
-              ca: 'Cancel·la quan vulguis des del teu compte. Pagament segur amb Stripe.',
+              es: 'Cancela cuando quieras desde tu perfil con un solo clic. Pago 100 % seguro procesado por Stripe.',
+              en: 'Cancel whenever you like from your profile in one click. Payment processed securely by Stripe.',
+              ca: 'Cancel·la quan vulguis des del teu perfil amb un sol clic. Pagament 100 % segur processat per Stripe.',
             })}
           </p>
         </div>
@@ -458,13 +660,13 @@ export default function Landing() {
           </h2>
           <p className="mt-3 text-violet-100">
             {tr({
-              es: 'Se tarda dos minutos en tenerlo jugando.',
-              en: 'It takes two minutes to have them playing.',
-              ca: 'Es triga dos minuts a tenir-lo jugant.',
+              es: 'Se tarda menos de dos minutos en configurarlo y tenerle aprendiendo.',
+              en: 'It takes less than two minutes to set up and have them learning.',
+              ca: 'Es triga menys de dos minuts a configurar-ho i tenir-lo aprenent.',
             })}
           </p>
           <a href="#precios" className="mt-7 inline-block rounded-xl bg-white px-8 py-4 text-base font-black text-violet-700 transition-colors hover:bg-violet-50">
-            {tr({ es: 'Ver los planes', en: 'See the plans', ca: 'Veure els plans' })}
+            {tr({ es: 'Empezar ahora', en: 'Get started', ca: 'Començar ara' })}
           </a>
         </div>
       </section>
