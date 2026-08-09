@@ -56,11 +56,17 @@ function RewardsSection({ lang, navigate, user, onLogin }) {
             </button>
           ) : (
             <div className="flex flex-col sm:flex-row gap-2 items-center">
+              {/* "Iniciar sesión", no "Regístrate gratis": quien llega aquí sin
+                  sesión normalmente ya tiene cuenta (entró desde la landing o
+                  se le cerró la sesión) — y "gratis" ya no es cierto, la
+                  tienda depende de monedas que solo se ganan jugando, y jugar
+                  va con la suscripción. Mismo texto que LockedWidget más
+                  abajo, para no decir dos cosas distintas en la misma página. */}
               <button onClick={onLogin} className="w-full py-2.5 bg-violet-600 hover:bg-violet-500 text-white font-black rounded-xl transition-all text-sm">
-                {ca ? '✨ Registra\'t gratis' : en ? '✨ Sign up free' : '✨ Regístrate gratis'}
+                {ca ? 'Iniciar sessió' : en ? 'Sign in' : 'Iniciar sesión'}
               </button>
               <p className="text-white/40 text-xs shrink-0">
-                {ca ? 'per desbloquejar la botiga' : en ? 'to unlock the shop' : 'para desbloquear la tienda'}
+                {ca ? 'per veure la teva botiga' : en ? 'to see your shop' : 'para ver tu tienda'}
               </p>
             </div>
           )}
@@ -84,10 +90,15 @@ export default function Home() {
     else setStats(null)
   }, [user])
 
+  // Igual que STATIC_META['/app'] en scripts/seoMeta.mjs (esa es la que ve un
+  // crawler, vía el prerender; esta es la que aplica Helmet en cuanto carga
+  // el JS en un navegador real). Si divergen, Helmet pisa la meta correcta
+  // del prerender con esta en cuanto hidrata — ya pasó: esta seguía diciendo
+  // "gratuita" mucho después de que el resto del sitio dejara de serlo.
   const seo = {
-    es: { title: 'Estudia con juegos educativos', desc: 'Plataforma educativa gratuita con juegos de historia, geografía, matemáticas y más. Aprende jugando para Primaria, ESO y Bachillerato.' },
-    en: { title: 'Study with educational games', desc: 'Free educational platform with games for history, geography, maths and more. Learn by playing for Primary, Secondary and Sixth Form.' },
-    ca: { title: 'Estudia amb jocs educatius', desc: 'Plataforma educativa gratuïta amb jocs d\'història, geografia, matemàtiques i més. Aprèn jugant per a Primària, ESO i Batxillerat.' },
+    es: { title: 'Tu panel de estudio', desc: 'Tu progreso, tus rachas y tus monedas. Elige materia y sigue repasando con juegos y exámenes tipo test.' },
+    en: { title: 'Your study dashboard', desc: 'Your progress, streaks and coins. Pick a subject and keep revising with games and quizzes.' },
+    ca: { title: 'El teu tauler d\'estudi', desc: 'El teu progrés, les teves ratxes i les teves monedes. Tria matèria i segueix repassant amb jocs i exàmens tipus test.' },
   }[lang] || {}
 
   return (
