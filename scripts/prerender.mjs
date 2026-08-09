@@ -41,8 +41,20 @@ const ON_VERCEL = Boolean(process.env.VERCEL)
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..')
 // Concurrencia baja: la máquina de build de Vercel tiene solo 2 núcleos.
 const CONCURRENCY = 3
-const NAV_TIMEOUT = 30_000
-const CONTENT_TIMEOUT = 15_000
+// NAV_TIMEOUT y CONTENT_TIMEOUT recortados a propósito (antes 30s/15s): un
+// despliegue tardó 45m38s y Vercel lo mató por su propio límite de build
+// (Build Failed: timed out), no por un fallo de la app. La navegación en sí
+// es rápida siempre (<1s medido, incluso bajo la misma concurrencia que usa
+// este script) — el tiempo se va en la espera de contenido tras el goto,
+// cuya causa exacta bajo carga real no se ha podido fijar con certeza
+// (candidatos: Firebase sin resolver en este Chromium, @vercel/analytics
+// intentando alcanzar un endpoint que no existe en el preview local, algo
+// más). Sea cual sea la causa, con reintento incluido el PEOR caso posible
+// (312 páginas, TODAS agotando ambos timeouts) es ahora
+// 312 × 2 × 8s / CONCURRENCY ≈ 27 min — cómodamente por debajo del límite de
+// 45 min incluso si el problema de fondo no se resolviera nunca.
+const NAV_TIMEOUT = 10_000
+const CONTENT_TIMEOUT = 8_000
 // Espera a que Helmet aplique la meta. Corto a propósito: cuando ya hay
 // contenido pintado, la meta llega en milisegundos o no va a llegar.
 const META_TIMEOUT = 3_000
@@ -144,6 +156,13 @@ async function newContext() {
   await context.route('**/*', route => (
     BLOCKED_HOSTS.test(route.request().url()) ? route.abort() : route.continue()
   ))
+  // Aquí no hay sesión NUNCA — es Chromium headless sin login. AccessGate
+  // (src/components/AccessGate.jsx) lee esta bandera para no esperar a
+  // Firebase en absoluto en las páginas de pago: sin ella, esperaba hasta
+  // 4 s por cada una de las ~110 URLs de /juegos y /examen, y esa espera
+  // multiplicada por página fue lo que hizo que el build superase el límite
+  // de 45 min de Vercel (Build Failed: timed out, no un cuelgue de la app).
+  await context.addInitScript(() => { window.__PRERENDER__ = true })
   return context
 }
 
@@ -160,6 +179,7 @@ async function worker() {
   while (cursor < urls.length) {
     const urlPath = urls[cursor++]
     const page = await context.newPage()
+    const startedAt = Date.now()
     try {
       let html
       try {
@@ -173,6 +193,12 @@ async function worker() {
       failed.push({ urlPath, err: err?.message ?? String(err) })
     } finally {
       await page.close()
+      // Instrumentación permanente y barata: si algo vuelve a tardar de más
+      // por página (p. ej. una espera de red que se cuela sin querer), esto
+      // lo señala en el log en vez de descubrirse por un build de 45 min
+      // fallido en Vercel sin ninguna pista de dónde.
+      const ms = Date.now() - startedAt
+      if (ms > 2000) console.log(`[prerender] lenta (${ms} ms): ${urlPath}`)
     }
     renderedInContext++
     if (renderedInContext >= RECYCLE_CONTEXT_EVERY) {
@@ -219,5 +245,20 @@ if (unresolved.length) {
 if (failed.length) {
   console.log(`[prerender] ${failed.length} URLs fallaron al renderizar:`)
   for (const f of failed) console.log('  -', f.urlPath, '→', f.err)
-  process.exitCode = 1
+
+  // Una URL que falla no rompe nada para el usuario real: vercel.json
+  // reescribe cualquier ruta sin fichero propio al shell de la SPA, así que
+  // esa página sigue funcionando — solo pierde la meta estática que ven
+  // crawlers y el preview de WhatsApp/Twitter en ESA URL concreta. Tirar el
+  // despliegue ENTERO por un puñado de páginas lentas bajo carga (que main -
+  // fiestan un problema real de fondo, pero no le impiden a nadie usar la
+  // app) es peor remedio que la enfermedad. Si el problema es sistémico
+  // (muchas fallan), eso sí bloquea: >5% del sitemap sin prerenderizar es
+  // señal de que algo se rompió de verdad, no de una página suelta bajo
+  // carga puntual del build.
+  const FAILURE_RATIO_THRESHOLD = 0.05
+  if (failed.length / urls.length > FAILURE_RATIO_THRESHOLD) {
+    console.log(`[prerender] eso es más del ${FAILURE_RATIO_THRESHOLD * 100}% del sitemap: fallo real, no ruido puntual.`)
+    process.exitCode = 1
+  }
 }

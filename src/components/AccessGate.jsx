@@ -117,6 +117,15 @@ function Checking() {
 // para cuando no resuelve nunca.
 const AUTH_TIMEOUT_MS = 4000
 
+// Durante el prerender NUNCA hay sesión: es Chromium headless sin login (ver
+// newContext() en scripts/prerender.mjs, que inyecta esta bandera antes de
+// cualquier navegación). Sin este atajo, cada una de las ~110 URLs de pago
+// pagaba el AUTH_TIMEOUT_MS completo esperando a un Firebase que no iba a
+// resolver nunca ahí, y esa espera multiplicada por página fue lo que hizo
+// que el build superase el límite de 45 min de Vercel (Build Failed: timed
+// out — no un cuelgue infinito, pero igual de fatal para el despliegue).
+const IS_PRERENDER = typeof window !== 'undefined' && window.__PRERENDER__ === true
+
 export default function AccessGate({ children }) {
   const { pathname } = useLocation()
   const { user } = useAuth()
@@ -128,7 +137,10 @@ export default function AccessGate({ children }) {
   const [showAuth, setShowAuth] = useState(false)
 
   const gated = requiresAccess(pathname)
-  const waitingOnAuth = user === undefined
+  // En prerender, "esperando sesión" nunca es cierto: se trata como resuelto
+  // a "sin sesión" en el acto, aunque el `user` real de Firebase se quede en
+  // `undefined` para siempre (que es justo lo que pasa ahí).
+  const waitingOnAuth = !IS_PRERENDER && user === undefined
   const waitingOnAccess = gated && !!user && resolved?.uid !== user.uid
   const stillWaiting = gated && (waitingOnAuth || waitingOnAccess)
 
