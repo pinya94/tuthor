@@ -5,6 +5,8 @@ import { useLang } from '../context/LangContext'
 import SEOHead from '../components/SEOHead'
 import AuthModal from '../components/AuthModal'
 import { activateTeacherProfile, saveTeacherProfileDraft, getTeacherProfile, hasTeacherAccess } from '../lib/classes'
+import { TEACHER_PLAN } from '../lib/access'
+import { startCheckout } from '../lib/checkout'
 
 const STAGES = [
   { id: 'primaria', label: { es: 'Primaria', en: 'Primary', ca: 'Primària' } },
@@ -12,8 +14,6 @@ const STAGES = [
   { id: 'bachillerato', label: { es: 'Bachillerato', en: 'Sixth Form', ca: 'Batxillerat' } },
   { id: 'otro', label: { es: 'Otro', en: 'Other', ca: 'Altre' } },
 ]
-
-const STRIPE_PAYMENT_LINK = import.meta.env.VITE_STRIPE_PAYMENT_LINK
 
 // ── Identidad visual propia ──────────────────────────────────────────────────
 // Esta landing necesita sentirse como un SaaS aparte, no como una página más
@@ -167,11 +167,10 @@ export default function Profesores() {
 
     if (accessMethod === 'pay') {
       try {
+        // active se deja en false a propósito — lo pone el webhook de Stripe
+        // al confirmar el cobro (api/stripe-webhook.js), no esta escritura.
         await saveTeacherProfileDraft(user.uid, { schoolName, stage })
-        const url = new URL(STRIPE_PAYMENT_LINK)
-        url.searchParams.set('client_reference_id', user.uid)
-        if (user.email) url.searchParams.set('prefilled_email', user.email)
-        window.location.href = url.toString()
+        await startCheckout('teacher')
       } catch {
         setStatus('error')
       }
@@ -334,7 +333,9 @@ export default function Profesores() {
           <div className="max-w-md mx-auto">
             <div className="flex items-end justify-between gap-3 mb-6 border border-teal-500/20 rounded-2xl px-5 py-4 bg-teal-500/[0.06]">
               <div>
-                <p className="text-white font-black text-3xl leading-none">50€ <span className="text-white/40 text-sm font-semibold">/ {tr({ es: 'año', en: 'year', ca: 'any' })}</span></p>
+                <p className="text-white font-black text-3xl leading-none">
+                  {TEACHER_PLAN.price.toFixed(2).replace('.', ',')}€ <span className="text-white/40 text-sm font-semibold">/ {tr({ es: 'mes', en: 'month', ca: 'mes' })}</span>
+                </p>
                 <p className="text-white/40 text-xs mt-1.5">{tr({ es: 'Por profesor, cancela cuando quieras', en: 'Per teacher, cancel anytime', ca: 'Per professor, cancel·la quan vulguis' })}</p>
               </div>
               <span className="text-3xl">🎓</span>
@@ -390,7 +391,11 @@ export default function Profesores() {
                   : !user
                   ? tr({ es: 'Iniciar sesión y empezar', en: 'Sign in and start', ca: 'Iniciar sessió i començar' })
                   : accessMethod === 'pay'
-                  ? tr({ es: 'Pagar 50€/año →', en: 'Pay €50/year →', ca: 'Pagar 50€/any →' })
+                  ? tr({
+                      es: `Pagar ${TEACHER_PLAN.price.toFixed(2).replace('.', ',')}€/mes →`,
+                      en: `Pay €${TEACHER_PLAN.price.toFixed(2)}/month →`,
+                      ca: `Pagar ${TEACHER_PLAN.price.toFixed(2).replace('.', ',')}€/mes →`,
+                    })
                   : tr({ es: 'Empezar a dar clase', en: 'Start teaching', ca: 'Començar a fer classe' })}
               </button>
             </form>

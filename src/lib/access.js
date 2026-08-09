@@ -37,6 +37,18 @@ export const PLANS = {
   family_annual:  { price: 69.99, interval: 'year',  label: { es: 'Anual',   en: 'Annual',  ca: 'Anual' } },
 }
 
+// Fuera de PLANS a propósito (ver el test "los planes del cliente son solo
+// familiares" en access.test.js): el plan de profesor se vende en su propia
+// página (Profesores.jsx), no en la landing de familias, y colarlo en PLANS
+// lo sacaría también ahí. Aun así necesita UNA fuente de verdad — antes vivía
+// escrito a mano en Profesores.jsx ("50€/año", ya obsoleto) y quedaba
+// desincronizado del precio real de Stripe cada vez que este cambiaba.
+export const TEACHER_PLAN = {
+  price: 99.99,
+  interval: 'month',
+  label: { es: 'Mensual', en: 'Monthly', ca: 'Mensual' },
+}
+
 // Lo que se ahorra pagando el año de golpe. Se calcula en vez de escribirse a
 // mano porque es el número que va en el copy de la landing ("ahorras un 42 %"),
 // y un precio que cambia sin que cambie el reclamo es publicidad engañosa.
