@@ -42,8 +42,6 @@ export default {
   'home.seo.paso4.desc': 'Streaks, grades and stats to see how far you have come',
   'home.seo.equipo.titulo': 'The Project & the Team',
   'home.seo.equipo.texto': 'Tuthor was born to transform education. Gamification and pedagogical science hand in hand: working memory, critical thinking, cognitive flexibility.',
-  'home.seo.video.titulo': 'How we are building Tuthor',
-  'home.seo.video.subtitulo': 'The process behind the platform, told by the team',
   'home.seo.contacto.titulo': 'Get in touch',
   'home.seo.contacto.texto': 'Are you a teacher, parent or student? Have an idea, suggestion or want to collaborate? Write to us and we will reply within 24 hours.',
   'home.seo.cta': 'Start playing for free →',

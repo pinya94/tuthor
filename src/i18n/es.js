@@ -42,8 +42,6 @@ export default {
   'home.seo.paso4.desc': 'Rachas, notas y estadísticas para ver cuánto has mejorado',
   'home.seo.equipo.titulo': 'El Proyecto y el Equipo',
   'home.seo.equipo.texto': 'Tuthor nace para transformar la educación. Gamificación y ciencia pedagógica de la mano: memoria de trabajo, pensamiento crítico, flexibilidad cognitiva.',
-  'home.seo.video.titulo': 'Cómo estamos creando Tuthor',
-  'home.seo.video.subtitulo': 'El proceso detrás de la plataforma, contado por el equipo',
   'home.seo.contacto.titulo': 'Contacta con nosotros',
   'home.seo.contacto.texto': '¿Eres docente, padre o estudiante? ¿Tienes una idea, sugerencia o quieres colaborar? Escríbenos y te respondemos en menos de 24 horas.',
   'home.seo.cta': 'Empezar a jugar gratis →',

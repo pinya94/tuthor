@@ -131,7 +131,6 @@ export default function Home() {
         )}
         {showAuth && <AuthModal onClose={() => setShowAuth(false)} />}
         {/* pass setShowAuth down via closure — used by RewardsSection */}
-        <aside className="ad-slot" aria-label="Publicidad" data-ad-slot="home-hero" style={{ minHeight: '50px' }} />
       </div>
       </div>
 
@@ -173,8 +172,6 @@ export default function Home() {
               </div>
             </div>
           </section>
-
-          <aside className="ad-slot" aria-label="Publicidad" data-ad-slot="home-seo-1" style={{ minHeight: '90px', marginBottom: '2rem' }} />
 
           {/* ESTUDIAR + RETO DIARIO */}
           <section className="grid sm:grid-cols-2 gap-4 mb-8">
@@ -225,64 +222,12 @@ export default function Home() {
             </div>
           </section>
 
-          <aside className="ad-slot" aria-label="Publicidad" data-ad-slot="home-seo-2" style={{ minHeight: '90px', marginBottom: '2rem' }} />
-
           {/* RECOMPENSAS */}
           <RewardsSection lang={lang} navigate={navigate} user={user} onLogin={() => setShowAuth(true)} />
 
-          {/* VIDEO */}
-          <section className="rounded-2xl border border-white/10 p-6 sm:p-8 mb-8" style={{ background: SURF }}>
-            <h2 className="text-2xl font-black text-white text-center mb-2">{t('home.seo.video.titulo')}</h2>
-            <p className="text-white/55 text-center mb-6 max-w-lg mx-auto">{t('home.seo.video.subtitulo')}</p>
-            <div className="aspect-video rounded-xl overflow-hidden bg-black/40 border border-white/10">
-              <iframe
-                className="w-full h-full"
-                src="https://www.youtube-nocookie.com/embed/QfN7qCTzFBM?si=wvU_yIXHbGE3oKik"
-                title={t('home.seo.video.titulo')}
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                referrerPolicy="strict-origin-when-cross-origin"
-                allowFullScreen
-              />
-            </div>
-          </section>
-
-          {/* PATROCINADOR DESTACADO: Igraal */}
-          <section className="mb-8">
-            <a href="https://es.igraal.com/padrinazgo?padrino=AG_638200fb04960&utm_medium=inf&utm_source=premium"
-              target="_blank" rel="noopener noreferrer"
-              className="group block bg-gradient-to-r from-green-600 to-emerald-500 hover:from-green-500 hover:to-emerald-400 rounded-2xl p-6 sm:p-8 transition-all hover:shadow-lg hover:shadow-green-900/40">
-              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-                <div className="flex-1">
-                  <div className="flex items-center gap-2 mb-2">
-                    <span className="text-xs font-bold uppercase tracking-widest text-green-100/70">
-                      {lang === 'en' ? 'Featured sponsor' : lang === 'ca' ? 'Patrocinador destacat' : 'Patrocinador destacado'}
-                    </span>
-                  </div>
-                  <h2 className="text-white font-black text-xl sm:text-2xl mb-1">
-                    {lang === 'en' ? 'Save money with Igraal — and support Tuthor' : lang === 'ca' ? "Estalvia amb Igraal — i dóna suport a Tuthor" : 'Ahorra con Igraal — y apoya Tuthor'}
-                  </h2>
-                  <p className="text-green-100 text-sm leading-relaxed max-w-xl">
-                    {lang === 'en'
-                      ? 'Igraal is a free cashback platform where you earn money on your online purchases. Sign up through our link, get €10, and help us keep Tuthor free.'
-                      : lang === 'ca'
-                      ? "Igraal és una plataforma gratuïta de cashback on guanyes diners en les teves compres en línia. Registra't amb el nostre link, guanya 10€ i ajuda'ns a mantenir Tuthor gratuït."
-                      : 'Igraal es una plataforma gratuita de cashback donde ganas dinero en tus compras online. Regístrate con nuestro enlace, llévate 10€ y ayúdanos a mantener Tuthor gratuito.'}
-                  </p>
-                </div>
-                <div className="shrink-0">
-                  <span className="inline-flex items-center gap-2 bg-white text-green-700 font-black px-6 py-3 rounded-xl text-sm group-hover:bg-green-50 transition-colors shadow-sm">
-                    🎁 {lang === 'en' ? 'Get €10 free' : lang === 'ca' ? 'Aconsegueix 10€ gratis' : 'Consigue 10€ gratis'}
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
-                  </span>
-                </div>
-              </div>
-            </a>
-          </section>
-
           {/* COMUNIDAD */}
           <section className="mb-8">
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 
               {/* Bug report */}
               <Link to={localPath('/reportar-bug')}
@@ -303,26 +248,6 @@ export default function Home() {
                   <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
                 </span>
               </Link>
-
-              {/* Ko-fi */}
-              <a href="https://ko-fi.com/consiguetualgogratis" target="_blank" rel="noopener noreferrer"
-                className="group rounded-2xl border border-white/10 hover:border-amber-400/50 p-6 flex flex-col gap-3 transition-all" style={{ background: SURF }}>
-                <div className="w-10 h-10 rounded-xl bg-amber-500/15 flex items-center justify-center text-xl">☕</div>
-                <div className="flex-1">
-                  <h3 className="text-white font-bold text-sm">
-                    {lang === 'en' ? 'Buy us a coffee' : lang === 'ca' ? "Convida'ns a un cafè" : 'Invítanos a un café'}
-                  </h3>
-                  <p className="text-white/50 text-xs mt-1 leading-relaxed">
-                    {lang === 'en' ? 'Tuthor is free and always will be. A small donation helps us keep going.'
-                      : lang === 'ca' ? "Tuthor és gratuït i sempre ho serà. Una petita donació ens ajuda a continuar."
-                      : 'Tuthor es gratuito y siempre lo será. Una pequeña donación nos ayuda a seguir adelante.'}
-                  </p>
-                </div>
-                <span className="text-xs font-bold text-amber-400 group-hover:text-amber-300 flex items-center gap-1">
-                  {lang === 'en' ? 'Support on Ko-fi' : lang === 'ca' ? 'Donar a Ko-fi' : 'Apoyar en Ko-fi'}
-                  <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
-                </span>
-              </a>
 
               {/* Colaborar */}
               <Link to={localPath('/colaborar')}
@@ -356,8 +281,6 @@ export default function Home() {
               📧 {lang === 'ca' ? 'Escriu-nos' : lang === 'en' ? 'Write to us' : 'Escríbenos'}
             </Link>
           </section>
-
-          <aside className="ad-slot" aria-label="Publicidad" data-ad-slot="home-seo-footer" style={{ minHeight: '90px', marginTop: '2rem' }} />
 
           {/* CTA final */}
           <div className="text-center mt-8">

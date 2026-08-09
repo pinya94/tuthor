@@ -42,8 +42,6 @@ export default {
   'home.seo.paso4.desc': 'Ratxes, notes i estadístiques per veure com has millorat',
   'home.seo.equipo.titulo': 'El Projecte i l\'Equip',
   'home.seo.equipo.texto': 'Tuthor neix per transformar l\'educació. Gamificació i ciència pedagògica de la mà: memòria de treball, pensament crític, flexibilitat cognitiva.',
-  'home.seo.video.titulo': 'Com estem creant Tuthor',
-  'home.seo.video.subtitulo': 'El procés darrere de la plataforma, explicat per l\'equip',
   'home.seo.contacto.titulo': 'Contacta amb nosaltres',
   'home.seo.contacto.texto': 'Ets docent, pare o estudiant? Tens una idea, suggeriment o vols col·laborar? Escriu-nos i et responem en menys de 24 hores.',
   'home.seo.cta': 'Començar a jugar gratis →',
