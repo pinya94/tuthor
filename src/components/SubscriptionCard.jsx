@@ -38,7 +38,7 @@ export default function SubscriptionCard() {
   async function handleManage() {
     setOpening(true); setError(false)
     try {
-      await openBillingPortal(localPath('/perfil'))
+      await openBillingPortal(localPath('/mi-plan'))
     } catch {
       setError(true)
       setOpening(false)
@@ -103,8 +103,6 @@ export default function SubscriptionCard() {
 
   return (
     <section className="rounded-2xl border border-white/10 bg-white/5 p-5">
-      <h3 className="text-white font-black text-base mb-1">💳 {tr({ es: 'Tu plan', en: 'Your plan', ca: 'El teu pla' })}</h3>
-
       {planPrice ? (
         <p className="text-white/50 text-sm mb-4">{planPrice}</p>
       ) : (

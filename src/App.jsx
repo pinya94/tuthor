@@ -32,6 +32,7 @@ const ExamenTema         = lazy(() => import('./pages/ExamenTema'))
 const CicloOrdenExamen   = lazy(() => import('./pages/CicloOrdenExamen'))
 const Perfil             = lazy(() => import('./pages/Perfil'))
 const Tienda             = lazy(() => import('./pages/Tienda'))
+const MiPlan             = lazy(() => import('./pages/MiPlan'))
 const QuienEsQuien       = lazy(() => import('./pages/QuienEsQuien'))
 const Acercate           = lazy(() => import('./pages/Acercate'))
 const AcercateRoguelike  = lazy(() => import('./pages/AcercateRoguelike'))
@@ -230,6 +231,7 @@ function AppRoutes() {
       <Route path="progreso" element={<Progreso />} />
       <Route path="perfil" element={<Perfil />} />
       <Route path="tienda" element={<Tienda />} />
+      <Route path="mi-plan" element={<MiPlan />} />
       <Route path="privacidad" element={<Privacidad />} />
       <Route path="comunidad" element={<Comunidad />} />
       <Route path="admin" element={<Admin />} />
