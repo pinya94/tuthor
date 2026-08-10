@@ -6,6 +6,7 @@ import { PLANS, annualSavings } from '../lib/access'
 import { startCheckout } from '../lib/checkout'
 import AuthModal from '../components/AuthModal'
 import SEOHead from '../components/SEOHead'
+import PreguntaDiaria from './PreguntaDiaria'
 
 // Landing de venta. Estilo deliberadamente distinto al de dentro de la app
 // (clara, editorial) para que se lea como lo que es: la página que explica el
@@ -585,6 +586,36 @@ export default function Landing() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* ── PRUÉBALO ── */}
+      {/* El único juego del catálogo que funciona sin sesión y sin muro (ver
+          requiresAccess() en lib/paidRoutes.js) — de ahí que sea el único
+          sitio de toda la landing donde se puede jugar de verdad en vez de
+          solo leer sobre el producto. Fondo oscuro a propósito: la tarjeta
+          del juego usa colores translúcidos pensados para el tema oscuro de
+          la app (bg-white/5, texto blanco); sobre el fondo claro del resto
+          de la landing se leería mal. */}
+      <section className="border-y border-slate-200 bg-slate-900 py-20 text-white">
+        <div className="mx-auto max-w-2xl px-5 text-center">
+          <h2 className="text-3xl font-black leading-tight tracking-tight sm:text-4xl">
+            {tr({
+              es: 'Pruébalo tú mismo, sin registrarte',
+              en: 'Try it yourself, no sign-up needed',
+              ca: 'Prova-ho tu mateix, sense registrar-te',
+            })}
+          </h2>
+          <p className="mt-4 text-lg leading-relaxed text-slate-300">
+            {tr({
+              es: 'Este es el reto diario de hoy — el mismo que ve cualquier alumno. Contesta y compruébalo.',
+              en: "This is today's actual daily challenge — the same one any student sees. Answer it and see for yourself.",
+              ca: 'Aquest és el repte diari d\'avui — el mateix que veu qualsevol alumne. Respon-lo i comprova-ho.',
+            })}
+          </p>
+        </div>
+        <div className="mt-10 px-5">
+          <PreguntaDiaria embedded />
         </div>
       </section>
 

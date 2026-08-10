@@ -16,8 +16,6 @@ export default {
   'home.subtitulo': 'Tria una secció i comença ara',
 
   // Home SEO
-  'home.seo.titulo': 'La forma intel·ligent de repassar sense avorrir-te',
-  'home.seo.subtitulo': 'Partides ràpides de 5 minuts. Matemàtiques, història, geografia — dissenyat sobre principis pedagògics reals perquè aprenguis sense adonar-te\'n.',
   'home.seo.jugar.titulo': 'Jugar: diverteix-te mentre repasses',
   'home.seo.jugar.tag': '6 jocs disponibles',
   'home.seo.jugar.texto': 'El nostre catàleg cobreix càlcul mental, cronologia històrica, geografia i pensament crític. Mecàniques de videojoc — roguelike, puzles contra rellotge, deducció per pistes — perquè el repàs se senti com un repte, no com una obligació.',
@@ -44,12 +42,9 @@ export default {
   'home.seo.equipo.texto': 'Tuthor neix per transformar l\'educació. Gamificació i ciència pedagògica de la mà: memòria de treball, pensament crític, flexibilitat cognitiva.',
   'home.seo.contacto.titulo': 'Contacta amb nosaltres',
   'home.seo.contacto.texto': 'Ets docent, pare o estudiant? Tens una idea, suggeriment o vols col·laborar? Escriu-nos i et responem en menys de 24 hores.',
-  'home.seo.cta': 'Començar a jugar gratis →',
 
   // Common
-  'common.objetivo': 'Objectiu',
   'common.tiempo': 'Temps',
-  'common.puntos': 'pts',
   'common.verdad': 'VERITAT',
   'common.mentira': 'MENTIDA',
   'common.continuar': 'Continuar →',
@@ -62,10 +57,8 @@ export default {
   'common.tiempoAgotado': 'Temps esgotat!',
   'common.correcto': 'Correcte!',
   'common.incorrecto': 'Incorrecte!',
-  'common.aprobado': 'Aprovat',
   'common.suspenso': 'Suspès',
   'common.paises': 'Països',
-  'common.mejorRacha': 'Millor ratxa',
   'common.puntuacion': 'Puntuació',
 
   // Juegos page

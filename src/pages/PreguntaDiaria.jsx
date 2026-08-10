@@ -78,7 +78,14 @@ function GeoInput({ value, onChange, onSubmit, disabled, useEnglish }) {
   )
 }
 
-export default function PreguntaDiaria() {
+// `embedded`: se usa desde Landing.jsx para meter el reto de hoy, jugable de
+// verdad, en la página de venta — es el único juego que funciona sin sesión y
+// sin muro (ver requiresAccess() en lib/paidRoutes.js), así que es el único
+// sitio de la landing donde se puede PROBAR el producto en vez de leer sobre
+// él. Solo cambia el contenedor (nada de min-h-[100vh] ni el margen del
+// navbar, que no existen en la landing); toda la lógica del juego es idéntica
+// a la ruta /diaria de siempre.
+export default function PreguntaDiaria({ embedded = false }) {
   const { user } = useAuth()
   const { lang, localPath, lt } = useLang()
   const navigate = useNavigate()
@@ -338,7 +345,7 @@ export default function PreguntaDiaria() {
   const correct = pregunta ? lt(pregunta, 'correcta') : null
 
   return (
-    <div className="relative z-10 flex items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-6">
+    <div className={embedded ? 'flex items-center justify-center' : 'relative z-10 flex items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-6'}>
       {showAuth && <AuthModal onClose={() => setShowAuth(false)} />}
 
       {/* Coin reward notification */}

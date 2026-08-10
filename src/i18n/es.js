@@ -16,8 +16,6 @@ export default {
   'home.subtitulo': 'Elige una sección y empieza ahora',
 
   // Home SEO
-  'home.seo.titulo': 'La forma inteligente de repasar sin aburrirte',
-  'home.seo.subtitulo': 'Partidas rápidas de 5 minutos. Matemáticas, historia, geografía — diseñado sobre principios pedagógicos reales para que aprendas sin darte cuenta.',
   'home.seo.jugar.titulo': 'Jugar: diviértete mientras repasas',
   'home.seo.jugar.tag': '6 juegos disponibles',
   'home.seo.jugar.texto': 'Nuestro catálogo cubre cálculo mental, cronología histórica, geografía y pensamiento crítico. Mecánicas de videojuego — roguelike, puzzles contra reloj, deducción por pistas — para que el repaso se sienta como un reto, no como una obligación.',
@@ -44,12 +42,9 @@ export default {
   'home.seo.equipo.texto': 'Tuthor nace para transformar la educación. Gamificación y ciencia pedagógica de la mano: memoria de trabajo, pensamiento crítico, flexibilidad cognitiva.',
   'home.seo.contacto.titulo': 'Contacta con nosotros',
   'home.seo.contacto.texto': '¿Eres docente, padre o estudiante? ¿Tienes una idea, sugerencia o quieres colaborar? Escríbenos y te respondemos en menos de 24 horas.',
-  'home.seo.cta': 'Empezar a jugar gratis →',
 
   // Common
-  'common.objetivo': 'Objetivo',
   'common.tiempo': 'Tiempo',
-  'common.puntos': 'pts',
   'common.verdad': 'VERDAD',
   'common.mentira': 'MENTIRA',
   'common.continuar': 'Continuar →',
@@ -62,10 +57,8 @@ export default {
   'common.tiempoAgotado': '¡Tiempo agotado!',
   'common.correcto': '¡Correcto!',
   'common.incorrecto': '¡Incorrecto!',
-  'common.aprobado': 'Aprobado',
   'common.suspenso': 'Suspenso',
   'common.paises': 'Países',
-  'common.mejorRacha': 'Mejor racha',
   'common.puntuacion': 'Puntuación',
 
   // Juegos page

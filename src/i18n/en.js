@@ -16,8 +16,6 @@ export default {
   'home.subtitulo': 'Pick a section and start now',
 
   // Home SEO
-  'home.seo.titulo': 'The smart way to study without getting bored',
-  'home.seo.subtitulo': 'Quick 5-minute sessions. Maths, history, geography — built on real pedagogical principles so you learn without even realizing it.',
   'home.seo.jugar.titulo': 'Play: have fun while you revise',
   'home.seo.jugar.tag': '6 games available',
   'home.seo.jugar.texto': 'Our catalogue covers mental arithmetic, historical chronology, geography and critical thinking. Video-game mechanics — roguelike, timed puzzles, deduction — so revision feels like a challenge, not a chore.',
@@ -44,12 +42,9 @@ export default {
   'home.seo.equipo.texto': 'Tuthor was born to transform education. Gamification and pedagogical science hand in hand: working memory, critical thinking, cognitive flexibility.',
   'home.seo.contacto.titulo': 'Get in touch',
   'home.seo.contacto.texto': 'Are you a teacher, parent or student? Have an idea, suggestion or want to collaborate? Write to us and we will reply within 24 hours.',
-  'home.seo.cta': 'Start playing for free →',
 
   // Common
-  'common.objetivo': 'Target',
   'common.tiempo': 'Time',
-  'common.puntos': 'pts',
   'common.verdad': 'TRUE',
   'common.mentira': 'FALSE',
   'common.continuar': 'Continue →',
@@ -62,10 +57,8 @@ export default {
   'common.tiempoAgotado': 'Time is up!',
   'common.correcto': 'Correct!',
   'common.incorrecto': 'Wrong!',
-  'common.aprobado': 'Passed',
   'common.suspenso': 'Failed',
   'common.paises': 'Countries',
-  'common.mejorRacha': 'Best streak',
   'common.puntuacion': 'Score',
 
   // Games page

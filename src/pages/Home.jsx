@@ -5,18 +5,17 @@ import { MAIN_CARDS } from '../data/constants'
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
 import { getStats, formatTime } from '../lib/activity'
-import AuthModal from '../components/AuthModal'
-import { FRAMES, BANNERS, AVATARS } from '../data/cosmetics'
+import { getStudentClasses } from '../lib/classes'
+import { getStudentAssignments } from '../lib/assignments'
+import { FRAMES } from '../data/cosmetics'
 import SEOHead from '../components/SEOHead'
 
-const PREVIEW_FRAMES  = ['silver', 'gold', 'rainbow', 'galaxy', 'fire', 'neon']
-const PREVIEW_BANNERS = ['banner_crimson', 'banner_ocean', 'banner_amber', 'banner_galaxy']
-const PREVIEW_AVATARS = ['🐱', '🦊', '🐲', '🤖', '👽', '⭐']
+const PREVIEW_FRAMES = ['silver', 'gold', 'rainbow', 'galaxy', 'fire', 'neon']
 
 // Superficie oscura casi opaca: legibilidad sobre el fondo del bosque
 const SURF = 'rgba(17,20,29,0.86)'
 
-function RewardsSection({ lang, navigate, user, onLogin }) {
+function RewardsSection({ lang, navigate }) {
   const en = lang === 'en', ca = lang === 'ca'
   const previewFrames = FRAMES.filter(f => PREVIEW_FRAMES.includes(f.id)).slice(0, 4)
 
@@ -50,259 +49,45 @@ function RewardsSection({ lang, navigate, user, onLogin }) {
         </div>
 
         <div className="px-5 sm:px-6 pb-4">
-          {user ? (
-            <button onClick={() => navigate('/tienda')} className="w-full py-2.5 bg-violet-600 hover:bg-violet-500 text-white font-black rounded-xl transition-all text-sm">
-              🛍 {ca ? 'Anar a la botiga' : en ? 'Go to shop' : 'Ir a la tienda'}
-            </button>
-          ) : (
-            <div className="flex flex-col sm:flex-row gap-2 items-center">
-              {/* "Iniciar sesión", no "Regístrate gratis": quien llega aquí sin
-                  sesión normalmente ya tiene cuenta (entró desde la landing o
-                  se le cerró la sesión) — y "gratis" ya no es cierto, la
-                  tienda depende de monedas que solo se ganan jugando, y jugar
-                  va con la suscripción. Mismo texto que LockedWidget más
-                  abajo, para no decir dos cosas distintas en la misma página. */}
-              <button onClick={onLogin} className="w-full py-2.5 bg-violet-600 hover:bg-violet-500 text-white font-black rounded-xl transition-all text-sm">
-                {ca ? 'Iniciar sessió' : en ? 'Sign in' : 'Iniciar sesión'}
-              </button>
-              <p className="text-white/40 text-xs shrink-0">
-                {ca ? 'per veure la teva botiga' : en ? 'to see your shop' : 'para ver tu tienda'}
-              </p>
-            </div>
-          )}
+          <button onClick={() => navigate('/tienda')} className="w-full py-2.5 bg-violet-600 hover:bg-violet-500 text-white font-black rounded-xl transition-all text-sm">
+            🛍 {ca ? 'Anar a la botiga' : en ? 'Go to shop' : 'Ir a la tienda'}
+          </button>
         </div>
       </div>
     </section>
   )
 }
 
-export default function Home() {
-  const navigate = useNavigate()
-  const { t, localPath, lang } = useLang()
-  const en = lang === 'en'
-  const ca = lang === 'ca'
-  const { user } = useAuth()
-  const [stats, setStats] = useState(null)
-  const [showAuth, setShowAuth] = useState(false)
-
-  useEffect(() => {
-    if (user) getStats(user.uid).then(setStats)
-    else setStats(null)
-  }, [user])
-
-  // Igual que STATIC_META['/app'] en scripts/seoMeta.mjs (esa es la que ve un
-  // crawler, vía el prerender; esta es la que aplica Helmet en cuanto carga
-  // el JS en un navegador real). Si divergen, Helmet pisa la meta correcta
-  // del prerender con esta en cuanto hidrata — ya pasó: esta seguía diciendo
-  // "gratuita" mucho después de que el resto del sitio dejara de serlo.
-  const seo = {
-    es: { title: 'Tu panel de estudio', desc: 'Tu progreso, tus rachas y tus monedas. Elige materia y sigue repasando con juegos y exámenes tipo test.' },
-    en: { title: 'Your study dashboard', desc: 'Your progress, streaks and coins. Pick a subject and keep revising with games and quizzes.' },
-    ca: { title: 'El teu tauler d\'estudi', desc: 'El teu progrés, les teves ratxes i les teves monedes. Tria matèria i segueix repassant amb jocs i exàmens tipus test.' },
-  }[lang] || {}
-
+// Solo se muestra si el alumno está en al menos una clase — nada que ofrecer
+// aquí a quien no lo está (no es un profesor vendiendo el panel, es una
+// cuenta ya de pago; "únete a una clase" no pinta nada en su navegación).
+function MisClasesCard({ classes, pendingTasks, navigate, localPath, lang }) {
+  const en = lang === 'en', ca = lang === 'ca'
+  const clase = classes[0]
   return (
-    <div className="relative z-10 px-4 sm:px-8">
-      {/* path="/app", no "/": la raíz es la landing de venta desde el pivot a
-          suscripción. Con "/" esta página declaraba como canónica la landing y
-          Google la habría tratado como un duplicado suyo. */}
-      <SEOHead title={seo.title} description={seo.desc} path="/app" lang={lang} />
-      {/* ── HERO: ocupa toda la pantalla de aterrizaje ── */}
-      <div className="flex flex-col min-h-[calc(100vh-4rem)] py-5 gap-4">
-        {/* Título / propuesta de valor (h1 único, SEO) */}
-        <div className="text-center pt-1">
-          <span className="inline-block text-amber-400 bg-amber-500/12 border border-amber-500/30 text-[11px] sm:text-xs font-bold uppercase tracking-widest px-3 py-1.5 rounded-full mb-3">
-            {/* Ya no dice "Gratis": jugar y examinarse va con la suscripción
-                desde el muro de pago (lib/paidRoutes.js). */}
-            {ca ? 'Primària · ESO · Batxillerat' : en ? 'Primary · Secondary · Sixth Form' : 'Primaria · ESO · Bachillerato'}
-          </span>
-          <h1 className="text-3xl sm:text-[40px] font-black text-white leading-[1.1] tracking-tight max-w-[18ch] mx-auto" style={{ textWrap: 'balance' }}>
-            {t('home.seo.titulo')}
-          </h1>
-          <p className="text-white/60 mt-3 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">{t('home.seo.subtitulo')}</p>
-        </div>
-
-        {/* Cards principales */}
-        <div className="flex-1 grid grid-cols-1 sm:grid-cols-3 gap-4" style={{ minHeight: '280px' }}>
-          {MAIN_CARDS.map(card => (
-            <div key={card.id} className="min-h-[220px] sm:min-h-0">
-              <HeroCard card={card} onClick={() => navigate(localPath(card.path))} priority={card.id === 'estudiar'} />
-            </div>
-          ))}
-        </div>
-
-      {/* Banner progreso */}
-      <div className="space-y-2">
-        {user && stats ? (
-          <StatsWidget stats={stats} name={user.displayName?.split(' ')[0]} onVerMas={() => navigate(localPath('/perfil'))} en={en} lang={lang} />
-        ) : user ? (
-          <EmptyStatsWidget onVerMas={() => navigate(localPath('/perfil'))} en={en} lang={lang} />
-        ) : (
-          <LockedWidget onLogin={() => setShowAuth(true)} en={en} lang={lang} />
-        )}
-        {showAuth && <AuthModal onClose={() => setShowAuth(false)} />}
-        {/* pass setShowAuth down via closure — used by RewardsSection */}
-      </div>
-      </div>
-
-      {/* ── SECCIONES SEO (mismo mundo noche) ─────────────────────────────── */}
-      <div className="text-white pb-16 mt-10">
-        <div className="max-w-4xl mx-auto">
-
-          {/* JUGAR */}
-          <section className="mb-8">
-            <div className="rounded-2xl border border-white/10 overflow-hidden sm:flex" style={{ background: SURF }}>
-              <div className="sm:w-2/5 bg-gradient-to-br from-violet-950 to-indigo-900 flex items-center justify-center p-6 sm:p-8 min-h-[200px] relative overflow-hidden">
-                <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '24px 24px' }} />
-                <div className="relative text-center space-y-3">
-                  <div className="flex justify-center gap-2">
-                    {['7','×','6','+','3','=','?'].map((n, i) => (
-                      <span key={i} className={`w-8 h-8 rounded-lg flex items-center justify-center text-sm font-black ${
-                        n === '?' ? 'bg-amber-400 text-black' : n === '×' || n === '+' || n === '=' ? 'text-violet-300' : 'bg-white/10 text-white border border-white/20'
-                      }`}>{n}</span>
-                    ))}
-                  </div>
-                  <div className="bg-amber-400/20 border border-amber-400/40 rounded-xl px-4 py-2">
-                    <span className="text-amber-300 text-xs font-bold">🎯 {t('common.objetivo')}: </span>
-                    <span className="text-white font-black text-lg">45</span>
-                  </div>
-                  <div className="flex justify-center gap-3 text-xs text-white/50">
-                    <span>⏱️ 32s</span>
-                    <span>⭐ 1.240 {t('common.puntos')}</span>
-                    <span>🔥 ×3</span>
-                  </div>
-                </div>
-              </div>
-              <div className="sm:w-3/5 p-6 sm:p-8">
-                <p className="text-amber-400 text-xs font-bold uppercase tracking-widest mb-2">{t('home.seo.jugar.tag')}</p>
-                <h2 className="text-2xl font-black text-white mb-3">{t('home.seo.jugar.titulo')}</h2>
-                <p className="text-white/60 leading-relaxed mb-5">{t('home.seo.jugar.texto')}</p>
-                <Link to={localPath('/info/juegos')} className="inline-flex items-center gap-2 text-amber-400 hover:text-amber-300 font-bold transition-colors">
-                  {t('home.seo.jugar.link')}
-                </Link>
-              </div>
-            </div>
-          </section>
-
-          {/* ESTUDIAR + RETO DIARIO */}
-          <section className="grid sm:grid-cols-2 gap-4 mb-8">
-            <div className="rounded-2xl border border-white/10 p-6 sm:p-7 flex flex-col" style={{ background: SURF }}>
-              <div className="bg-gradient-to-br from-indigo-950 to-blue-900 rounded-xl h-36 flex items-center justify-center mb-5 relative overflow-hidden">
-                <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '20px 20px' }} />
-                <div className="relative text-center">
-                  <p className="text-green-400 text-xs font-bold mb-1">✅ {t('common.aprobado')}</p>
-                  <p className="text-white font-black text-2xl">Notable</p>
-                  <p className="text-blue-300 font-black text-3xl">7/10</p>
-                  <div className="flex gap-1 justify-center mt-2">
-                    {[1,1,0,1,1,1,0,1,0,1].map((v, i) => (
-                      <div key={i} className={`w-3 h-3 rounded-full ${v ? 'bg-green-400' : 'bg-red-400'}`} />
-                    ))}
-                  </div>
-                </div>
-              </div>
-              <p className="text-amber-400 text-xs font-bold uppercase tracking-widest mb-2">{t('home.seo.estudiar.tag')}</p>
-              <h2 className="text-xl font-black text-white mb-3">{t('home.seo.estudiar.titulo')}</h2>
-              <p className="text-white/60 leading-relaxed text-sm mb-5 flex-1">{t('home.seo.estudiar.texto')}</p>
-              <Link to={localPath('/info/estudiar')} className="text-amber-400 hover:text-amber-300 text-sm font-bold transition-colors">
-                {t('home.seo.estudiar.link')}
-              </Link>
-            </div>
-
-            <div className="rounded-2xl border border-white/10 p-6 sm:p-7 flex flex-col" style={{ background: SURF }}>
-              <div className="bg-gradient-to-br from-orange-950 to-rose-900 rounded-xl h-36 flex items-center justify-center mb-5 relative overflow-hidden">
-                <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '20px 20px' }} />
-                <div className="relative text-center">
-                  <p className="text-orange-300 text-xs font-bold mb-1">{t('home.seo.diaria.tag')}</p>
-                  <p className="text-white font-black text-4xl">🔥 14</p>
-                  <p className="text-orange-200/50 text-xs mt-1">14 {t('common.mejorRacha', 'days')}</p>
-                  <div className="flex gap-1 justify-center mt-2">
-                    {['L','M','X','J','V','S','D'].map((d, i) => (
-                      <div key={i} className={`w-5 h-5 rounded text-[8px] font-bold flex items-center justify-center ${
-                        i < 6 ? 'bg-orange-400/30 text-orange-300' : 'bg-white/10 text-white/30'
-                      }`}>{d}</div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-              <p className="text-amber-400 text-xs font-bold uppercase tracking-widest mb-2">{t('home.seo.diaria.tag')}</p>
-              <h2 className="text-xl font-black text-white mb-3">{t('home.seo.diaria.titulo')}</h2>
-              <p className="text-white/60 leading-relaxed text-sm mb-5 flex-1">{t('home.seo.diaria.texto')}</p>
-              <Link to={localPath('/info/diaria')} className="text-amber-400 hover:text-amber-300 text-sm font-bold transition-colors">
-                {t('home.seo.diaria.link')}
-              </Link>
-            </div>
-          </section>
-
-          {/* RECOMPENSAS */}
-          <RewardsSection lang={lang} navigate={navigate} user={user} onLogin={() => setShowAuth(true)} />
-
-          {/* COMUNIDAD */}
-          <section className="mb-8">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-
-              {/* Bug report */}
-              <Link to={localPath('/reportar-bug')}
-                className="group rounded-2xl border border-white/10 hover:border-violet-400/50 p-6 flex flex-col gap-3 transition-all" style={{ background: SURF }}>
-                <div className="w-10 h-10 rounded-xl bg-violet-500/15 flex items-center justify-center text-xl">🐛</div>
-                <div className="flex-1">
-                  <h3 className="text-white font-bold text-sm">
-                    {lang === 'en' ? 'Report a bug' : lang === 'ca' ? 'Reportar un error' : 'Reportar un bug'}
-                  </h3>
-                  <p className="text-white/50 text-xs mt-1 leading-relaxed">
-                    {lang === 'en' ? "Something not working? Let us know and we'll fix it."
-                      : lang === 'ca' ? "Alguna cosa no funciona? Explica'ns-ho i ho arreglem."
-                      : 'Algo no funciona bien? Cuéntanoslo y lo arreglamos.'}
-                  </p>
-                </div>
-                <span className="text-xs font-bold text-violet-400 group-hover:text-violet-300 flex items-center gap-1">
-                  {lang === 'en' ? 'Open form' : lang === 'ca' ? 'Obrir formulari' : 'Abrir formulario'}
-                  <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
-                </span>
-              </Link>
-
-              {/* Colaborar */}
-              <Link to={localPath('/colaborar')}
-                className="group rounded-2xl border border-white/10 hover:border-emerald-400/50 p-6 flex flex-col gap-3 transition-all" style={{ background: SURF }}>
-                <div className="w-10 h-10 rounded-xl bg-emerald-500/15 flex items-center justify-center text-xl">📣</div>
-                <div className="flex-1">
-                  <h3 className="text-white font-bold text-sm">
-                    {lang === 'en' ? 'Collaborate or advertise' : lang === 'ca' ? "Col·laborar o anunciar-se" : 'Colaborar o anunciarse'}
-                  </h3>
-                  <p className="text-white/50 text-xs mt-1 leading-relaxed">
-                    {lang === 'en' ? "School, publisher or ed-tech project? Let's talk about working together."
-                      : lang === 'ca' ? 'Acadèmia, editorial o projecte educatiu? Parlem de com treballar junts.'
-                      : '¿Academia, editorial o proyecto educativo? Hablemos de cómo trabajar juntos.'}
-                  </p>
-                </div>
-                <span className="text-xs font-bold text-emerald-400 group-hover:text-emerald-300 flex items-center gap-1">
-                  {lang === 'en' ? 'Write to us' : lang === 'ca' ? "Escriu-nos" : 'Escribirnos'}
-                  <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
-                </span>
-              </Link>
-
-            </div>
-          </section>
-
-          {/* CONTACTO */}
-          <section className="rounded-2xl border border-white/10 p-6 sm:p-8 text-center" style={{ background: SURF }}>
-            <h2 className="text-2xl font-black text-white mb-2">{t('home.seo.contacto.titulo')}</h2>
-            <p className="text-white/55 mb-5 max-w-md mx-auto">{t('home.seo.contacto.texto')}</p>
-            <Link to={localPath('/contacto')}
-              className="inline-flex items-center gap-2 px-6 py-3 bg-violet-600 hover:bg-violet-500 text-white font-bold text-sm rounded-xl transition-all hover:scale-[1.02]">
-              📧 {lang === 'ca' ? 'Escriu-nos' : lang === 'en' ? 'Write to us' : 'Escríbenos'}
-            </Link>
-          </section>
-
-          {/* CTA final */}
-          <div className="text-center mt-8">
-            <Link to={localPath('/juegos')}
-              className="inline-block py-4 px-10 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-lg rounded-2xl transition-all hover:scale-[1.02] shadow-lg shadow-amber-500/30">
-              {t('home.seo.cta')}
-            </Link>
+    <section className="mb-8">
+      <button onClick={() => navigate(localPath('/clase'))}
+        className="w-full text-left rounded-2xl border border-white/10 hover:border-teal-400/40 p-5 flex items-center justify-between gap-4 transition-all" style={{ background: SURF }}>
+        <div className="flex items-center gap-3">
+          <span className="text-2xl">🏫</span>
+          <div>
+            <p className="text-white font-bold text-sm">
+              {classes.length > 1
+                ? (ca ? `Les teves classes (${classes.length})` : en ? `Your classes (${classes.length})` : `Tus clases (${classes.length})`)
+                : clase.name}
+            </p>
+            <p className="text-white/40 text-xs mt-0.5">
+              {pendingTasks > 0
+                ? (ca ? `${pendingTasks} tasca${pendingTasks === 1 ? '' : 's'} pendent${pendingTasks === 1 ? '' : 's'}` : en ? `${pendingTasks} pending task${pendingTasks === 1 ? '' : 's'}` : `${pendingTasks} tarea${pendingTasks === 1 ? '' : 's'} pendiente${pendingTasks === 1 ? '' : 's'}`)
+                : (ca ? 'Sense tasques pendents' : en ? 'No pending tasks' : 'Sin tareas pendientes')}
+            </p>
           </div>
         </div>
-      </div>
-    </div>
+        {pendingTasks > 0 && (
+          <span className="shrink-0 text-xs font-bold bg-amber-500/20 text-amber-400 px-2.5 py-1 rounded-full">{pendingTasks}</span>
+        )}
+      </button>
+    </section>
   )
 }
 
@@ -362,38 +147,170 @@ function EmptyStatsWidget({ onVerMas, en, lang }) {
   )
 }
 
-function LockedWidget({ onLogin, en, lang }) {
-  const ca = lang === 'ca'
-  const preview = [
-    { emoji: '🔥', label: ca ? 'Ratxa' : en ? 'Streak' : 'Racha' },
-    { emoji: '💰', label: ca ? 'Monedes' : en ? 'Coins' : 'Monedas' },
-    { emoji: '✅', label: ca ? 'Aprovats' : en ? 'Passed' : 'Aprobados' },
-    { emoji: '🎮', label: ca ? 'Activitats' : en ? 'Activities' : 'Actividades' },
-  ]
+// Mismo spinner que AccessGate.jsx (Checking): se usa mientras se resuelve si
+// hay sesión, y también durante el instante en que se está redirigiendo a "/"
+// a quien no la tiene — nunca se llega a pintar el resto de la página para
+// ese caso.
+function Loader() {
   return (
-    <div className="rounded-xl border border-white/15 bg-white/5 backdrop-blur-sm overflow-hidden">
-      <div className="flex items-center justify-between px-5 py-3 border-b border-white/5">
-        <div>
-          <p className="font-bold text-white text-sm">{ca ? 'El teu progrés' : en ? 'Your progress' : 'Tu progreso'}</p>
-          <p className="text-white/40 text-xs">{ca ? 'Registra\'t per guardar monedes i personalitzar el perfil' : en ? 'Sign up to save coins and customise your profile' : 'Regístrate para guardar monedas y personalizar tu perfil'}</p>
-        </div>
-        <button
-          onClick={onLogin}
-          className="text-xs font-bold bg-violet-600 hover:bg-violet-700 text-white px-4 py-1.5 rounded-full transition-colors whitespace-nowrap"
-        >
-          {ca ? 'Iniciar sessió' : en ? 'Sign in' : 'Iniciar sesión'}
-        </button>
-      </div>
-      <div className="grid grid-cols-4 divide-x divide-white/5">
-        {preview.map(item => (
-          <div key={item.label} className="flex flex-col items-center py-3 px-2 opacity-30">
-            <span className="text-lg mb-0.5">{item.emoji}</span>
-            <span className="text-white font-black text-sm">—</span>
-            <span className="text-white/50 text-xs">{item.label}</span>
-          </div>
-        ))}
-      </div>
+    <div className="relative z-10 flex min-h-[calc(100vh-4rem)] items-center justify-center">
+      <div className="h-8 w-8 animate-spin rounded-full border-2 border-white/20 border-t-[#EDAE49]" />
     </div>
   )
 }
 
+export default function Home() {
+  const navigate = useNavigate()
+  const { t, localPath, lang } = useLang()
+  const en = lang === 'en'
+  const ca = lang === 'ca'
+  const { user } = useAuth()
+  const [stats, setStats] = useState(null)
+  const [classes, setClasses] = useState(null) // null = aún sin comprobar
+  const [pendingTasks, setPendingTasks] = useState(0)
+
+  // /app es el panel de quien ya tiene cuenta — la venta ocurre en "/"
+  // (Landing.jsx), no aquí. Nadie debería llegar sin sesión salvo por un
+  // enlace viejo o el propio prerender (que tampoco tiene sesión nunca:
+  // ver IS_PRERENDER en AccessGate.jsx para el motivo). En ambos casos la
+  // respuesta correcta es la misma: mandar a la página que sí vende.
+  useEffect(() => {
+    if (user === null) navigate(localPath('/'), { replace: true })
+  }, [user])
+
+  // Sin reseteo para !user, mismo motivo que el efecto de clases de abajo:
+  // el componente vuelve <Loader/> mientras no hay usuario, así que nada lee
+  // `stats` en ese estado.
+  useEffect(() => {
+    if (user) getStats(user.uid).then(setStats)
+  }, [user])
+
+  // Mismo patrón que Navbar.jsx para el aviso de tareas pendientes: se cuenta
+  // una vez por sesión, no en tiempo real. Sin reseteo explícito para !user:
+  // mientras no hay usuario el componente ya no llega a renderizar nada que
+  // lea `classes` (vuelve <Loader/> más abajo), así que no hace falta —y
+  // resetear aquí sería un setState síncrono en el cuerpo del efecto.
+  useEffect(() => {
+    if (!user) return
+    getStudentClasses(user.uid).then(setClasses).catch(() => setClasses([]))
+    getStudentAssignments(user.uid)
+      .then(tasks => setPendingTasks(tasks.filter(t => !t.completions?.[user.uid]?.done).length))
+      .catch(() => {})
+  }, [user])
+
+  // Igual que STATIC_META['/app'] en scripts/seoMeta.mjs (esa es la que ve un
+  // crawler, vía el prerender; esta es la que aplica Helmet en cuanto carga
+  // el JS en un navegador real). Si divergen, Helmet pisa la meta correcta
+  // del prerender con esta en cuanto hidrata — ya pasó una vez.
+  const seo = {
+    es: { title: 'Tu panel de estudio', desc: 'Tu progreso, tus rachas y tus monedas. Elige materia y sigue repasando con juegos y exámenes tipo test.' },
+    en: { title: 'Your study dashboard', desc: 'Your progress, streaks and coins. Pick a subject and keep revising with games and quizzes.' },
+    ca: { title: 'El teu tauler d\'estudi', desc: 'El teu progrés, les teves ratxes i les teves monedes. Tria matèria i segueix repassant amb jocs i exàmens tipus test.' },
+  }[lang] || {}
+
+  // undefined = la sesión aún se resuelve; null = confirmado sin sesión,
+  // a punto de redirigir. En ninguno de los dos casos hay nada que pintar.
+  if (user === undefined || user === null) return <Loader />
+
+  return (
+    <div className="relative z-10 px-4 sm:px-8">
+      {/* /app ya no está en el sitemap (era panel privado disfrazado de página
+          de marketing); esta meta sigue aquí solo por si algún cliente viejo
+          o un compartido directo cae en la URL con JS ya cargado. */}
+      <SEOHead title={seo.title} description={seo.desc} path="/app" lang={lang} noindex />
+
+      <div className="pt-6 pb-4 text-center">
+        <p className="text-white/40 text-sm">
+          {ca ? `Hola, ${user.displayName?.split(' ')[0] || ''}` : en ? `Hi, ${user.displayName?.split(' ')[0] || ''}` : `Hola, ${user.displayName?.split(' ')[0] || ''}`}
+        </p>
+      </div>
+
+      {/* Cards principales: van directas a la página real (/estudiar,
+          /juegos, /diaria), no a una ficha informativa — no hace falta
+          convencer a nadie de entrar, ya está pagando. */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4" style={{ minHeight: '220px' }}>
+        {MAIN_CARDS.map(card => (
+          <div key={card.id} className="min-h-[220px] sm:min-h-0">
+            <HeroCard card={card} onClick={() => navigate(localPath(card.path))} priority={card.id === 'estudiar'} />
+          </div>
+        ))}
+      </div>
+
+      <div className="max-w-4xl mx-auto mt-6 pb-16">
+        {/* PROGRESO */}
+        <div className="mb-8">
+          {stats ? (
+            <StatsWidget stats={stats} name={user.displayName?.split(' ')[0]} onVerMas={() => navigate(localPath('/perfil'))} en={en} lang={lang} />
+          ) : (
+            <EmptyStatsWidget onVerMas={() => navigate(localPath('/perfil'))} en={en} lang={lang} />
+          )}
+        </div>
+
+        {/* MIS CLASES — solo si el alumno está en alguna */}
+        {classes && classes.length > 0 && (
+          <MisClasesCard classes={classes} pendingTasks={pendingTasks} navigate={navigate} localPath={localPath} lang={lang} />
+        )}
+
+        {/* RECOMPENSAS */}
+        <RewardsSection lang={lang} navigate={navigate} />
+
+        {/* COMUNIDAD */}
+        <section className="mb-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+            {/* Bug report */}
+            <Link to={localPath('/reportar-bug')}
+              className="group rounded-2xl border border-white/10 hover:border-violet-400/50 p-6 flex flex-col gap-3 transition-all" style={{ background: SURF }}>
+              <div className="w-10 h-10 rounded-xl bg-violet-500/15 flex items-center justify-center text-xl">🐛</div>
+              <div className="flex-1">
+                <h3 className="text-white font-bold text-sm">
+                  {lang === 'en' ? 'Report a bug' : lang === 'ca' ? 'Reportar un error' : 'Reportar un bug'}
+                </h3>
+                <p className="text-white/50 text-xs mt-1 leading-relaxed">
+                  {lang === 'en' ? "Something not working? Let us know and we'll fix it."
+                    : lang === 'ca' ? "Alguna cosa no funciona? Explica'ns-ho i ho arreglem."
+                    : 'Algo no funciona bien? Cuéntanoslo y lo arreglamos.'}
+                </p>
+              </div>
+              <span className="text-xs font-bold text-violet-400 group-hover:text-violet-300 flex items-center gap-1">
+                {lang === 'en' ? 'Open form' : lang === 'ca' ? 'Obrir formulari' : 'Abrir formulario'}
+                <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+              </span>
+            </Link>
+
+            {/* Colaborar */}
+            <Link to={localPath('/colaborar')}
+              className="group rounded-2xl border border-white/10 hover:border-emerald-400/50 p-6 flex flex-col gap-3 transition-all" style={{ background: SURF }}>
+              <div className="w-10 h-10 rounded-xl bg-emerald-500/15 flex items-center justify-center text-xl">📣</div>
+              <div className="flex-1">
+                <h3 className="text-white font-bold text-sm">
+                  {lang === 'en' ? 'Collaborate or advertise' : lang === 'ca' ? "Col·laborar o anunciar-se" : 'Colaborar o anunciarse'}
+                </h3>
+                <p className="text-white/50 text-xs mt-1 leading-relaxed">
+                  {lang === 'en' ? "School, publisher or ed-tech project? Let's talk about working together."
+                    : lang === 'ca' ? 'Acadèmia, editorial o projecte educatiu? Parlem de com treballar junts.'
+                    : '¿Academia, editorial o proyecto educativo? Hablemos de cómo trabajar juntos.'}
+                </p>
+              </div>
+              <span className="text-xs font-bold text-emerald-400 group-hover:text-emerald-300 flex items-center gap-1">
+                {lang === 'en' ? 'Write to us' : lang === 'ca' ? "Escriu-nos" : 'Escribirnos'}
+                <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+              </span>
+            </Link>
+
+          </div>
+        </section>
+
+        {/* CONTACTO */}
+        <section className="rounded-2xl border border-white/10 p-6 sm:p-8 text-center" style={{ background: SURF }}>
+          <h2 className="text-2xl font-black text-white mb-2">{t('home.seo.contacto.titulo')}</h2>
+          <p className="text-white/55 mb-5 max-w-md mx-auto">{t('home.seo.contacto.texto')}</p>
+          <Link to={localPath('/contacto')}
+            className="inline-flex items-center gap-2 px-6 py-3 bg-violet-600 hover:bg-violet-500 text-white font-bold text-sm rounded-xl transition-all hover:scale-[1.02]">
+            📧 {lang === 'ca' ? 'Escriu-nos' : lang === 'en' ? 'Write to us' : 'Escríbenos'}
+          </Link>
+        </section>
+      </div>
+    </div>
+  )
+}
