@@ -269,6 +269,7 @@ export const TOPIC_CATALOG = {
     temas: {
       'sistema-solar': examTema({ teoria: 'sistema-solar' }),
       'rocas-minerales': examTema({ teoria: 'rocas-minerales' }),
+      'placas-tectonicas': examTema({ teoria: 'placas-tectonicas' }),
     },
     formatos: {
       teoria: examFormato({ es: 'Teoría (tipo test)', en: 'Theory (quiz)', ca: 'Teoria (tipus test)' }, '📝'),

@@ -51,6 +51,7 @@ export const TEMA_DISCIPLINA = {
   'genetica':           'biologia',
   'nutricion':          'biologia',
   'rocas-minerales':    'geologia',
+  'placas-tectonicas':  'geologia',
   'sistema-solar':      'geologia',
 }
 

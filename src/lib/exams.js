@@ -261,6 +261,11 @@ export const EXAMS = {
     emoji: '⛰️', subject: 'geologia',
     path: 'examen/rocas-minerales', page: () => import('../pages/RocasMineralesExamen'),
   },
+  'placas-tectonicas': {
+    label: { es: 'Placas Tectónicas', en: 'Tectonic Plates', ca: 'Plaques Tectòniques' },
+    emoji: '🌋', subject: 'geologia',
+    path: 'examen/placas-tectonicas', page: () => import('../pages/PlacasTectonicasExamen'),
+  },
   'tabla-periodica': {
     label: { es: 'Tabla Periódica', en: 'Periodic Table', ca: 'Taula Periòdica' },
     emoji: '⚗️', subject: 'quimica',

@@ -100,6 +100,7 @@
   <url><loc>https://www.tuthor.es/examen/atomos-moleculas</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/examen/sistema-solar</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/examen/rocas-minerales</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/examen/placas-tectonicas</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/examen/celula</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/examen/cuerpo-humano</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/examen/diagnostico</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
@@ -289,6 +290,7 @@
   <url><loc>https://www.tuthor.es/info/estudiar/atomos-moleculas</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/info/estudiar/sistema-solar</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/info/estudiar/rocas-minerales</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/info/estudiar/placas-tectonicas</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/info/estudiar/celula</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/info/estudiar/cuerpo-humano</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/info/estudiar/seres-vivos</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
@@ -306,6 +308,7 @@
   <url><loc>https://www.tuthor.es/en/info/estudiar/atomos-moleculas</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/en/info/estudiar/sistema-solar</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/en/info/estudiar/rocas-minerales</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/en/info/estudiar/placas-tectonicas</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/en/info/estudiar/celula</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/en/info/estudiar/cuerpo-humano</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/en/info/estudiar/seres-vivos</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
