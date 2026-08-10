@@ -225,7 +225,7 @@ const PAINS = [
     body: {
       es: `Y requiere desplazamientos y adaptarse al ritmo del grupo. Tuthor cuesta ${EQUIV} € al mes en su plan anual, a la hora que él quiera y enfocado en lo que flojea.`,
       en: `And it means travelling and fitting the group's pace. Tuthor costs €${SAVINGS.equivalentMonthly.toFixed(2)} a month on the annual plan, whenever they want and focused on where they struggle.`,
-      ca: `I requereix desplaçaments i adaptar-se al ritme del grup. Tuthor costa ${EQUIV} € al mes en el seu pla anual, a l'hora que ell vulgui i enfocat en el que flluixeja.`,
+      ca: `I requereix desplaçaments i adaptar-se al ritme del grup. Tuthor costa ${EQUIV} € al mes en el seu pla anual, a l'hora que ell vulgui i enfocat en el que fluixeja.`,
     },
   },
 ]
