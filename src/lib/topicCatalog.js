@@ -258,6 +258,7 @@ export const TOPIC_CATALOG = {
       ecosistemas: examTema({ teoria: 'ecosistemas' }),
       genetica: examTema({ teoria: 'genetica', 'punnett': 'genetica-test' }),
       nutricion: examTema({ teoria: 'nutricion' }),
+      evolucion: examTema({ teoria: 'evolucion' }),
     },
     formatos: {
       teoria: examFormato({ es: 'Teoría (tipo test)', en: 'Theory (quiz)', ca: 'Teoria (tipus test)' }, '📝'),

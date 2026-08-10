@@ -48,6 +48,7 @@ import f40 from './fichasEstudiar/matematicas-multiplicacion.js'
 import f41 from './fichasEstudiar/matematicas-sumas-restas.js'
 import f42 from './fichasEstudiar/mezclas-separacion.js'
 import f43 from './fichasEstudiar/nutricion.js'
+import f53 from './fichasEstudiar/evolucion.js'
 import f44 from './fichasEstudiar/ondas-luz.js'
 import f49 from './fichasEstudiar/rocas-minerales.js'
 import f52 from './fichasEstudiar/placas-tectonicas.js'
@@ -103,6 +104,7 @@ export const FICHAS = {
   'matematicas-sumas-restas': f41,
   'mezclas-separacion': f42,
   'nutricion': f43,
+  'evolucion': f53,
   'ondas-luz': f44,
   'rocas-minerales': f49,
   'placas-tectonicas': f52,

@@ -241,6 +241,11 @@ export const EXAMS = {
     emoji: '🥗', subject: 'biologia',
     path: 'examen/nutricion', page: () => import('../pages/NutricionExamen'),
   },
+  'evolucion': {
+    label: { es: 'Evolución', en: 'Evolution', ca: 'Evolució' },
+    emoji: '🧬', subject: 'biologia',
+    path: 'examen/evolucion', page: () => import('../pages/EvolucionExamen'),
+  },
   'ondas-luz': {
     label: { es: 'Ondas y Luz', en: 'Waves & Light', ca: 'Ones i Llum' },
     emoji: '🌊', subject: 'fisica',
