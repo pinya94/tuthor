@@ -69,6 +69,11 @@ ningún juego tiene que hacer nada).
    los desplegables largos los agrupan solos con `<optgroup>`.
 5. **Retirar** un examen: quitar `path`/`page`, poner `retired: true` —
    conserva etiquetas de stats antiguas y deja de ofrecerse como tarea.
+6. **Si el tema tiene ficha SEO** en `src/data/fichasEstudiar/mi-tema.js`
+   (`/info/estudiar/mi-tema`): `InfoEstudiarFicha.jsx` la recoge sola por
+   `import.meta.glob`, pero la meta del prerender NO — hay que registrarla
+   además en `src/data/fichasEstudiarIndex.js` (import + entrada en el mapa
+   por slug) o el test de sitemap↔meta falla señalando la URL.
 
 Gratis al registrar: ruta, meta, perfil, aprobados/suspensos por materia,
 desplegable de exámenes del profesor, tarea clicable del alumno.
