@@ -59,14 +59,20 @@ export const TOPIC_CATALOG = {
   historia: {
     // Niveles con eventos para cada tema (validado en tests contra
     // historiaEvents.js). Un tema sin nivel disponible no se puede jugar.
+    // Cada tema mantiene sus niveles (para la mecánica) y AHORA además
+    // declara `formatos.teoria`: el examen tipo test propio del tema, que
+    // topicFormats() fusiona con los de mecánica de abajo (ver el comentario
+    // de esa función — antes de este cambio, declarar cualquier formato por
+    // examen apagaba los de mecánica del tema entero).
     temas: {
-      primaria: { niveles: ['primaria'] },
-      gce: { niveles: ['eso', 'bachillerato'] },
-      wwii: { niveles: ['eso', 'bachillerato'] },
-      roma: { niveles: ['eso', 'bachillerato'] },
-      usa: { niveles: ['bachillerato'] },
+      primaria: { niveles: ['primaria'], formatos: { teoria: 'primaria' } },
+      gce: { niveles: ['eso', 'bachillerato'], formatos: { teoria: 'gce' } },
+      wwii: { niveles: ['eso', 'bachillerato'], formatos: { teoria: 'wwii' } },
+      roma: { niveles: ['eso', 'bachillerato'], formatos: { teoria: 'roma' } },
+      usa: { niveles: ['bachillerato'], formatos: { teoria: 'usa' } },
     },
     formatos: {
+      teoria: examFormato({ es: 'Teoría (tipo test)', en: 'Theory (quiz)', ca: 'Teoria (tipus test)' }, '📝'),
       'linea-temporal': {
         label: { es: 'Línea del Tiempo', en: 'Timeline', ca: 'Línia del Temps' },
         emoji: '📜',
@@ -344,16 +350,23 @@ export function topicFormats(materia, tema) {
   const subj = TOPIC_CATALOG[materia]
   const temaCfg = subj?.temas?.[tema]
   if (!temaCfg) return []
-  // Materias basadas en exámenes: el tema declara exactamente qué formatos
-  // tiene (y con qué examen); el resto usa las reglas del propio formato.
-  const ids = temaCfg.formatos
+  // Un tema puede declarar SUS PROPIOS formatos por examen (`temaCfg.formatos`)
+  // Y, a la vez, seguir recibiendo los formatos por mecánica del nivel de la
+  // materia (los que traen su propio `game` y no restringen `temas`, o lo
+  // restringen incluyendo este tema) — es el caso de historia, donde Línea
+  // del Tiempo/¿Quién es quién?/Portadas/Juego de Fechas (mecánica, sin mapa
+  // por tema) conviven con un examen de teoría propio por tema (declarado).
+  // Antes esto era todo-o-nada: declarar CUALQUIER formato por examen apagaba
+  // los de mecánica del tema entero. Los declarados ganan si hay colisión de
+  // id (no debería darse: son namespaces con nombres distintos).
+  const declarados = temaCfg.formatos
     ? Object.keys(temaCfg.formatos).filter(id => subj.formatos[id])
-    // Sin mapa: solo los formatos por mecánica (los que traen su propio
-    // `game`). Los formatos por examen solo existen si un tema los declara.
-    : Object.keys(subj.formatos).filter(id => {
-        const fmt = subj.formatos[id]
-        return fmt.game && (!fmt.temas || fmt.temas.includes(tema))
-      })
+    : []
+  const mecanica = Object.keys(subj.formatos).filter(id => {
+    const fmt = subj.formatos[id]
+    return fmt.game && (!fmt.temas || fmt.temas.includes(tema)) && !declarados.includes(id)
+  })
+  const ids = [...mecanica, ...declarados]
   return ids
     // resolveFormat aplica lo que declare el tema (examen propio o compartido)
     .map(id => ({ id, ...resolveFormat(materia, tema, id), niveles: formatLevels(materia, tema, id) }))

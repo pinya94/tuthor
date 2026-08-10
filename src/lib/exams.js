@@ -38,6 +38,37 @@ export const EXAMS = {
     emoji: '📰', subject: 'historia',
     route: '/examen/portadas',
   },
+
+  // ── Historia — Teoría (tipo test) por tema ──────────────────────────────────
+  // Hasta ahora Historia se evaluaba solo jugando (Línea del Tiempo, ¿Quién es
+  // quién?) o con Portadas (verdad/mentira, sin distinguir tema). Estos son
+  // los primeros exámenes tipo test reales de la materia, uno por tema — mismo
+  // patrón que Matemáticas/Física/Química/Biología (topicCatalog.js).
+  'gce': {
+    label: { es: 'Guerra Civil Española (teoría)', en: 'Spanish Civil War (theory)', ca: 'Guerra Civil Espanyola (teoria)' },
+    emoji: '⚔️', subject: 'historia',
+    path: 'examen/gce', page: () => import('../pages/HistoriaGceExamen'),
+  },
+  'wwii': {
+    label: { es: 'Segunda Guerra Mundial (teoría)', en: 'World War II (theory)', ca: 'Segona Guerra Mundial (teoria)' },
+    emoji: '⚔️', subject: 'historia',
+    path: 'examen/wwii', page: () => import('../pages/HistoriaWwiiExamen'),
+  },
+  'roma': {
+    label: { es: 'Antigua Roma (teoría)', en: 'Ancient Rome (theory)', ca: 'Antiga Roma (teoria)' },
+    emoji: '🏛️', subject: 'historia',
+    path: 'examen/roma', page: () => import('../pages/HistoriaRomaExamen'),
+  },
+  'usa': {
+    label: { es: 'Independencia Americana (teoría)', en: 'American Independence (theory)', ca: 'Independència Americana (teoria)' },
+    emoji: '🦅', subject: 'historia',
+    path: 'examen/usa', page: () => import('../pages/HistoriaUsaExamen'),
+  },
+  'primaria': {
+    label: { es: 'Grandes Hitos (teoría)', en: 'Great Milestones (theory)', ca: 'Grans Fites (teoria)' },
+    emoji: '🌍', subject: 'historia',
+    path: 'examen/primaria', page: () => import('../pages/HistoriaHitosExamen'),
+  },
   'geografia-examen': {
     label: { es: 'GeoRush (examen)', en: 'GeoRush (exam)', ca: 'GeoRush (examen)' },
     emoji: '🌍', subject: 'geografia',
@@ -457,6 +488,11 @@ export function examRoute(id) {
 // Familia nueva = una entrada aquí; los desplegables (ProfesorClase) agrupan
 // solos. Los exámenes sin grupo se listan sueltos al principio.
 const EXAM_GROUPS = [
+  // Sin prefijo compartido (los ids son los mismos que usan Línea del Tiempo
+  // / ¿Quién es quién? para category, ver topicCatalog.js): se agrupan por
+  // lista explícita en vez de por prefijo.
+  { match: id => ['gce', 'wwii', 'roma', 'usa', 'primaria'].includes(id),
+    label: { es: 'Historia (teoría, tipo test)', en: 'History (theory quiz)', ca: 'Història (teoria, tipus test)' } },
   { match: id => id === 'analiza-frases-test' || id.startsWith('frases-'),
     label: { es: 'Analiza la Frase (señalar)', en: 'Sentence Detective (spot them)', ca: 'Analitza la Frase (assenyalar)' } },
   { match: id => id.startsWith('espanol-gramatica-'),

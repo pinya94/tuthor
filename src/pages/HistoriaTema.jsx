@@ -144,6 +144,21 @@ export default function HistoriaTema() {
         }
       }),
     },
+    // El id del examen ES la categoria (gce, wwii, roma, usa, primaria): ver
+    // topicCatalog.js. A diferencia de los otros tres modos (una sola página
+    // compartida por todos los temas), cada tema tiene aquí su propia página
+    // de examen — por eso navega a /examen/<categoria> en vez de a una ruta fija.
+    disponible('teoria') && {
+      id: 'teoria',
+      titulo: ca ? 'Teoria (tipus test)' : en ? 'Theory (quiz)' : 'Teoría (tipo test)',
+      descripcion: ca ? '10 preguntes tipus test amb explicació a cada resposta. Nota al final.' : en ? '10 multiple-choice questions with an explanation for every answer. Graded at the end.' : '10 preguntas tipo test con explicación en cada respuesta. Nota al final.',
+      emoji: '📝',
+      gradient: 'from-emerald-600 to-teal-800',
+      detalles: [`10 ${ca ? 'preguntes' : en ? 'questions' : 'preguntas'}`, ca ? 'Explicació a cada resposta' : en ? 'Explanation each answer' : 'Explicación en cada respuesta'],
+      action: () => navigate(localPath(`/examen/${categoria}`), {
+        state: { backPath: `/estudiar/historia/${categoria}` }
+      }),
+    },
   ].filter(Boolean)
 
   return (
