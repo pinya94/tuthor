@@ -186,9 +186,9 @@ const ANGLES = [
 ]
 
 const SUBJECTS = {
-  es: 'Matemáticas, Lengua, Historia, Geografía, Física, Química, Biología, Inglés, Música y Economía.',
-  en: 'Maths, Language, History, Geography, Physics, Chemistry, Biology, English, Music and Economics.',
-  ca: 'Matemàtiques, Llengua, Història, Geografia, Física, Química, Biologia, Anglès, Música i Economia.',
+  es: 'Matemáticas, Lengua, Historia, Geografía, Física, Química, Biología, Geología, Inglés, Música, Economía y Vida Práctica.',
+  en: 'Maths, Language, History, Geography, Physics, Chemistry, Biology, Geology, English, Music, Economics and Life Skills.',
+  ca: 'Matemàtiques, Llengua, Història, Geografia, Física, Química, Biologia, Geologia, Anglès, Música, Economia i Vida Pràctica.',
 }
 
 const PAINS = [

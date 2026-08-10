@@ -33,8 +33,12 @@ export default function SEOHead({
   const lang = langProp || ctxLang || 'es'
   const trF = tr || (o => o.es)
 
+  // La marca va primero: en una pestaña estrecha el navegador corta por la
+  // derecha, así que "Tuthor" tiene que ser lo primero que se lea o
+  // desaparece del todo con muchas pestañas abiertas — pasaba con
+  // "${title} | Tuthor", donde la marca era literalmente lo último.
   const fullTitle = title
-    ? `${title} | Tuthor`
+    ? `Tuthor · ${title}`
     : trF({ es: 'Tuthor — Estudia con juegos', en: 'Tuthor — Study with games', ca: 'Tuthor — Estudia amb jocs' })
   const cleanPath = stripLangPrefix(path)
   const pagePath = cleanPath === '/' ? '' : cleanPath
