@@ -219,24 +219,33 @@ export default function Home() {
           o un compartido directo cae en la URL con JS ya cargado. */}
       <SEOHead title={seo.title} description={seo.desc} path="/app" lang={lang} noindex />
 
-      <div className="pt-6 pb-4 text-center">
-        <p className="text-white/40 text-sm">
-          {ca ? `Hola, ${user.displayName?.split(' ')[0] || ''}` : en ? `Hi, ${user.displayName?.split(' ')[0] || ''}` : `Hola, ${user.displayName?.split(' ')[0] || ''}`}
-        </p>
-      </div>
+      {/* Un único contenedor de ancho fijo para TODO, tarjetas incluidas: antes
+          las tarjetas vivían fuera de max-w-4xl y se estiraban a lo ancho de
+          toda la ventana en pantallas grandes mientras el resto del contenido
+          quedaba centrado y estrecho — el "descuadre" que se ve en pantallas
+          anchas. HeroCard no tiene proporción propia (w-full h-full, ocupa
+          lo que le des), así que un contenedor demasiado ancho también las
+          dejaba planas y "enanas" en vez de cuadradas. aspect-square en el
+          envoltorio de cada tarjeta les da una proporción fija en vez de una
+          altura arbitraria en píxeles. */}
+      <div className="max-w-4xl mx-auto pb-16">
+        <div className="pt-6 pb-4 text-center">
+          <p className="text-white/40 text-sm">
+            {ca ? `Hola, ${user.displayName?.split(' ')[0] || ''}` : en ? `Hi, ${user.displayName?.split(' ')[0] || ''}` : `Hola, ${user.displayName?.split(' ')[0] || ''}`}
+          </p>
+        </div>
 
-      {/* Cards principales: van directas a la página real (/estudiar,
-          /juegos, /diaria), no a una ficha informativa — no hace falta
-          convencer a nadie de entrar, ya está pagando. */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4" style={{ minHeight: '220px' }}>
-        {MAIN_CARDS.map(card => (
-          <div key={card.id} className="min-h-[220px] sm:min-h-0">
-            <HeroCard card={card} onClick={() => navigate(localPath(card.path))} priority={card.id === 'estudiar'} />
-          </div>
-        ))}
-      </div>
+        {/* Cards principales: van directas a la página real (/estudiar,
+            /juegos, /diaria), no a una ficha informativa — no hace falta
+            convencer a nadie de entrar, ya está pagando. */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          {MAIN_CARDS.map(card => (
+            <div key={card.id} className="aspect-square sm:aspect-[4/5]">
+              <HeroCard card={card} onClick={() => navigate(localPath(card.path))} priority={card.id === 'estudiar'} />
+            </div>
+          ))}
+        </div>
 
-      <div className="max-w-4xl mx-auto mt-6 pb-16">
         {/* PROGRESO */}
         <div className="mb-8">
           {stats ? (
