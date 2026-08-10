@@ -153,6 +153,15 @@ const MODOS_POR_TEMA = {
       path: 'sistema-solar',
     },
   ],
+  'rocas-minerales': [
+    {
+      id: 'examen', emoji: '📝', gradient: 'from-stone-500 to-neutral-700',
+      titulo: { es:'Examen', en:'Exam', ca:'Examen' },
+      descripcion: { es:'Rocas ígneas, sedimentarias y metamórficas, cómo se forman y en qué se diferencian de los minerales.', en:'Igneous, sedimentary and metamorphic rocks, how they form and how they differ from minerals.', ca:'Roques ígnies, sedimentàries i metamòrfiques, com es formen i en què es diferencien dels minerals.' },
+      detalles: { es:['2 niveles','10 preguntas','Opción múltiple','Explicación tras cada respuesta'], en:['2 levels','10 questions','Multiple choice','Explanation after each answer'], ca:['2 nivells','10 preguntes','Opció múltiple','Explicació després de cada resposta'] },
+      path: 'rocas-minerales',
+    },
+  ],
   'celula': [
     {
       id: 'examen', emoji: '📝', gradient: 'from-green-500 to-teal-700',

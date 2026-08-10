@@ -1,13 +1,12 @@
 // Ficha SEO de /info/estudiar/rocas-minerales (por idioma; ca cae a es si falta).
 // Renderizada por src/pages/InfoEstudiarFicha.jsx. Editable a mano.
-// No hay examen tipo test de rocas: la práctica interactiva es el Diagnóstico.
 export default {
   "es": {
     "titulo": "Rocas y Minerales — Tipos y Formación",
     "subtitulo": "Geología — Rocas Ígneas, Sedimentarias y Metamórficas",
     "emoji": "⛰️",
     "gradient": "from-stone-500 to-neutral-700",
-    "examPath": "/examen/diagnostico/rocas-minerales",
+    "examPath": "/examen/rocas-minerales",
     "studyPath": "/estudiar/geologia/rocas-minerales",
     "asignatura": "Geología",
     "niveles": "Primaria, ESO",
@@ -53,7 +52,7 @@ export default {
     "subtitulo": "Geology — Igneous, Sedimentary and Metamorphic Rocks",
     "emoji": "⛰️",
     "gradient": "from-stone-500 to-neutral-700",
-    "examPath": "/examen/diagnostico/rocas-minerales",
+    "examPath": "/examen/rocas-minerales",
     "studyPath": "/estudiar/geologia/rocas-minerales",
     "asignatura": "Geology",
     "niveles": "Primary, Secondary",
@@ -99,7 +98,7 @@ export default {
     "subtitulo": "Geologia — Roques Ígnies, Sedimentàries i Metamòrfiques",
     "emoji": "⛰️",
     "gradient": "from-stone-500 to-neutral-700",
-    "examPath": "/examen/diagnostico/rocas-minerales",
+    "examPath": "/examen/rocas-minerales",
     "studyPath": "/estudiar/geologia/rocas-minerales",
     "asignatura": "Geologia",
     "niveles": "Primària, ESO",

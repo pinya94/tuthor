@@ -266,9 +266,9 @@ export const TOPIC_CATALOG = {
   },
 
   geologia: {
-    // rocas-minerales existe como tema de estudio pero aún no tiene examen
     temas: {
       'sistema-solar': examTema({ teoria: 'sistema-solar' }),
+      'rocas-minerales': examTema({ teoria: 'rocas-minerales' }),
     },
     formatos: {
       teoria: examFormato({ es: 'Teoría (tipo test)', en: 'Theory (quiz)', ca: 'Teoria (tipus test)' }, '📝'),

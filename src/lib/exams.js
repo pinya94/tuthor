@@ -256,6 +256,11 @@ export const EXAMS = {
     emoji: '🌌', subject: 'geologia',
     path: 'examen/sistema-solar', page: () => import('../pages/SistemaSolarExamen'),
   },
+  'rocas-minerales': {
+    label: { es: 'Rocas y Minerales', en: 'Rocks & Minerals', ca: 'Roques i Minerals' },
+    emoji: '⛰️', subject: 'geologia',
+    path: 'examen/rocas-minerales', page: () => import('../pages/RocasMineralesExamen'),
+  },
   'tabla-periodica': {
     label: { es: 'Tabla Periódica', en: 'Periodic Table', ca: 'Taula Periòdica' },
     emoji: '⚗️', subject: 'quimica',
