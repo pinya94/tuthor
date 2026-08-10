@@ -77,3 +77,23 @@ export function fail(res, err, where) {
   if (process.env.DEBUG_API) body.detail = err?.message ?? String(err)
   return res.status(500).json(body)
 }
+
+// Origen permitido para las URLs de vuelta de Stripe (checkout y billing
+// portal). Se valida contra esta lista en vez de confiar en la cabecera
+// Origin tal cual: si no, cualquiera podría hacer que Stripe devolviese al
+// usuario a un dominio que él controle. Compartido entre create-checkout.js y
+// create-portal-session.js — un solo sitio donde se puede desincronizar.
+const ALLOWED_ORIGINS = [
+  'https://www.tuthor.es',
+  'https://tuthor.es',
+  'http://localhost:5173',
+]
+
+export function baseUrl(req) {
+  const origin = String(req.headers.origin ?? '')
+  if (ALLOWED_ORIGINS.includes(origin)) return origin
+  // Los previews de Vercel tienen dominio distinto en cada despliegue, así que
+  // no pueden ir en una lista fija.
+  if (/^https:\/\/[a-z0-9-]+\.vercel\.app$/.test(origin)) return origin
+  return ALLOWED_ORIGINS[0]
+}

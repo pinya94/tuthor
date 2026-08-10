@@ -10,6 +10,7 @@ import { EXAMS } from '../lib/exams'
 import { GAME_LABELS, SUBJECTS, aggregateStudentStats } from '../lib/statsAggregation'
 import { getStudentAssignments } from '../lib/assignments'
 import ChildCodeCard from '../components/ChildCodeCard'
+import SubscriptionCard from '../components/SubscriptionCard'
 
 function todayStr() { return new Date().toISOString().slice(0, 10) }
 
@@ -186,6 +187,12 @@ export default function Perfil() {
                   </div>
                 </div>
               ))}
+            </div>
+
+            {/* ── TU PLAN ── */}
+            {/* Se oculta sola si no hay nada que gestionar (ver SubscriptionCard) */}
+            <div className="mb-5">
+              <SubscriptionCard />
             </div>
 
             {/* ── CÓDIGO DE ACCESO DEL HIJO ── */}

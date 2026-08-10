@@ -5,7 +5,7 @@
 // falsificar (basta con escribir la URL a mano), así que esa página solo dice
 // "gracias", no desbloquea nada.
 import Stripe from 'stripe'
-import { getDb, getAdminAuth, fail } from './_admin.js'
+import { getDb, getAdminAuth, baseUrl, fail } from './_admin.js'
 import { PLANS, priceIdFor } from './_plans.js'
 
 // Perezoso, igual que Firebase Admin: `new Stripe(undefined)` lanza, y hacerlo
@@ -15,24 +15,6 @@ function stripeClient() {
   const key = process.env.STRIPE_SECRET_KEY
   if (!key) throw new Error('falta la variable de entorno STRIPE_SECRET_KEY')
   return new Stripe(key)
-}
-
-// Origen permitido para las URLs de vuelta. Se valida contra esta lista en vez
-// de confiar en la cabecera Origin tal cual: si no, cualquiera podría hacer que
-// Stripe devolviese al usuario a un dominio que él controle.
-const ALLOWED_ORIGINS = [
-  'https://www.tuthor.es',
-  'https://tuthor.es',
-  'http://localhost:5173',
-]
-
-function baseUrl(req) {
-  const origin = String(req.headers.origin ?? '')
-  if (ALLOWED_ORIGINS.includes(origin)) return origin
-  // Los previews de Vercel tienen dominio distinto en cada despliegue, así que
-  // no pueden ir en una lista fija.
-  if (/^https:\/\/[a-z0-9-]+\.vercel\.app$/.test(origin)) return origin
-  return ALLOWED_ORIGINS[0]
 }
 
 export default async function handler(req, res) {

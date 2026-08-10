@@ -37,3 +37,34 @@ export async function startCheckout(plan) {
   // Navegación completa, no un router push: Stripe Checkout es otro dominio.
   window.location.href = url
 }
+
+// Abre el Customer Portal de Stripe (cambiar tarjeta, ver facturas, cancelar).
+// `returnPath` es la ruta a la que Stripe devuelve al terminar — se manda con
+// el prefijo de idioma ya puesto (localPath('/perfil')) porque el servidor no
+// sabe en qué idioma estaba el usuario.
+export async function openBillingPortal(returnPath) {
+  const user = auth.currentUser
+  if (!user) throw new Error('not_signed_in')
+
+  const idToken = await user.getIdToken()
+  const res = await fetch('/api/create-portal-session', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${idToken}`,
+    },
+    body: JSON.stringify({ returnPath }),
+  })
+
+  if (!res.ok) {
+    const { error, detail } = await res.json().catch(() => ({}))
+    const err = new Error(error ?? 'unknown')
+    err.detail = detail
+    throw err
+  }
+
+  const { url } = await res.json()
+  if (!url) throw new Error('unknown')
+
+  window.location.href = url
+}
