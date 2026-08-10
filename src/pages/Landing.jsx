@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
@@ -21,6 +21,62 @@ import PreguntaDiaria from './PreguntaDiaria'
 // técnico a propósito — es lo que transmite que detrás hay profesores.
 const SAVINGS = annualSavings()
 const EQUIV = SAVINGS.equivalentMonthly.toFixed(2).replace('.', ',')
+
+// ── Fase de lanzamiento ──────────────────────────────────────────────────────
+// A propósito NO promete una consecuencia concreta ("el precio sube el día
+// X"): eso obligaría a subir el precio de verdad ese día o la promesa queda
+// caducada y rozando publicidad engañosa (España regula esto explícitamente
+// desde el RDL 24/2021 — el precio "antes" de un descuento tiene que ser
+// real). Esto es más simple y sigue siendo honesto: solo delimita un periodo
+// real de lanzamiento del producto. Se autodesactiva sola pasada la fecha —
+// nunca debe quedar una cuenta atrás en negativo ni una promesa vieja en la
+// web, así que ni el badge ni el countdown se muestran una vez pasado.
+const LAUNCH_DEADLINE = new Date('2026-09-13T00:00:00+02:00')
+
+function useLaunchCountdown() {
+  const [now, setNow] = useState(() => new Date())
+  useEffect(() => {
+    const id = setInterval(() => setNow(new Date()), 60_000)
+    return () => clearInterval(id)
+  }, [])
+  const msLeft = LAUNCH_DEADLINE - now
+  if (msLeft <= 0) return null
+  return {
+    days: Math.floor(msLeft / 86_400_000),
+    hours: Math.floor((msLeft % 86_400_000) / 3_600_000),
+  }
+}
+
+function LaunchBadge({ tr, className = '' }) {
+  const left = useLaunchCountdown()
+  if (!left) return null
+  // "dia" → "dies" en catalán, no "dias" (eso es español) — plural distinto,
+  // no vale la misma regla de añadir una "s" que en es/en.
+  const dias = left.days > 0
+    ? tr({ es: `quedan ${left.days} día${left.days === 1 ? '' : 's'}`, en: `${left.days} day${left.days === 1 ? '' : 's'} left`, ca: `queden ${left.days} ${left.days === 1 ? 'dia' : 'dies'}` })
+    : tr({ es: `quedan ${left.hours} h`, en: `${left.hours}h left`, ca: `queden ${left.hours} h` })
+  return (
+    <span className={`inline-flex items-center gap-1.5 rounded-full bg-amber-100 px-3.5 py-1.5 text-xs font-black text-amber-800 ${className}`}>
+      🚀 {tr({ es: 'Precio de lanzamiento', en: 'Launch price', ca: 'Preu de llançament' })} · {dias}
+    </span>
+  )
+}
+
+// CTA intermedio reutilizable: se coloca justo después de los dos momentos de
+// la página con más intención de compra (la demostración de metodología y el
+// juego jugado de verdad), no al azar — es donde a alguien convencido le
+// cuesta menos seguir hasta precios.
+function MidPageCTA({ tr, text, dark = false }) {
+  return (
+    <div className="mt-14 text-center">
+      <a href="#precios" className={`inline-block rounded-xl px-7 py-3.5 text-sm font-black transition-all hover:scale-[1.02] ${
+        dark ? 'bg-white text-violet-700 hover:bg-violet-50' : 'bg-violet-600 text-white shadow-md shadow-violet-200 hover:bg-violet-500'
+      }`}>
+        {tr(text)}
+      </a>
+    </div>
+  )
+}
 
 // Los enfoques, en abstracto. Van antes que los ejemplos porque son la idea
 // que hay que comprar; los juegos concretos vienen después como prueba.
@@ -420,7 +476,11 @@ export default function Landing() {
           })}
         </p>
 
-        <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
+        <div className="mt-7">
+          <LaunchBadge tr={tr} />
+        </div>
+
+        <div className="mt-5 flex flex-col items-center justify-center gap-3 sm:flex-row">
           <a href="#precios" className="w-full rounded-xl bg-violet-600 px-7 py-4 text-base font-black text-white shadow-lg shadow-violet-300/60 transition-all hover:bg-violet-500 hover:shadow-xl sm:w-auto">
             {tr({ es: 'Empezar ahora', en: 'Get started', ca: 'Començar ara' })}
           </a>
@@ -507,6 +567,8 @@ export default function Landing() {
               </div>
             ))}
           </div>
+
+          <MidPageCTA tr={tr} text={{ es: 'Ver los planes →', en: 'See the plans →', ca: 'Veure els plans →' }} />
         </div>
       </section>
 
@@ -617,11 +679,17 @@ export default function Landing() {
         <div className="mt-10 px-5">
           <PreguntaDiaria embedded />
         </div>
+        <div className="px-5">
+          <MidPageCTA tr={tr} dark text={{ es: '¿Le ha gustado? Empieza ahora →', en: 'Did they like it? Get started →', ca: 'Li ha agradat? Comença ara →' }} />
+        </div>
       </section>
 
       {/* ── PRECIOS ── */}
       <section id="precios" className="scroll-mt-20 py-20">
         <div className="mx-auto max-w-3xl px-5">
+          <div className="mb-5 flex justify-center">
+            <LaunchBadge tr={tr} />
+          </div>
           <h2 className="text-center text-3xl font-black tracking-tight sm:text-4xl">
             {tr({ es: 'Un precio. Todo incluido.', en: 'One price. Everything included.', ca: 'Un preu. Tot inclòs.' })}
           </h2>
