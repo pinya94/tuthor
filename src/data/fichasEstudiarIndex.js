@@ -36,6 +36,7 @@ import f28 from './fichasEstudiar/historia-antigua-roma.js'
 import f29 from './fichasEstudiar/historia-guerra-civil.js'
 import f30 from './fichasEstudiar/historia-hitos.js'
 import f54 from './fichasEstudiar/historia-franquismo.js'
+import f55 from './fichasEstudiar/historia-prehistoria.js'
 import f31 from './fichasEstudiar/historia-independencia-americana.js'
 import f32 from './fichasEstudiar/historia-segunda-guerra-mundial.js'
 import f33 from './fichasEstudiar/ingles.js'
@@ -93,6 +94,7 @@ export const FICHAS = {
   'historia-guerra-civil': f29,
   'historia-hitos': f30,
   'historia-franquismo': f54,
+  'historia-prehistoria': f55,
   'historia-independencia-americana': f31,
   'historia-segunda-guerra-mundial': f32,
   'ingles': f33,

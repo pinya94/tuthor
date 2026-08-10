@@ -81,6 +81,8 @@ export const TOPIC_CATALOG = {
       // al examen — 'teoria' tiene usesLevel:false y elige nivel dentro de la
       // propia página, no vía la píldora de arriba de HistoriaTema.jsx.
       franquismo: { niveles: [], formatos: { teoria: 'franquismo' } },
+      // Mismo caso que franquismo: sin eventos/personajes/portadas reales.
+      prehistoria: { niveles: [], formatos: { teoria: 'prehistoria' } },
     },
     formatos: {
       teoria: examFormato({ es: 'Teoría (tipo test)', en: 'Theory (quiz)', ca: 'Teoria (tipus test)' }, '📝'),
@@ -90,7 +92,7 @@ export const TOPIC_CATALOG = {
         game: 'linea-temporal',
         usesLevel: true,
         tracksTopic: true,
-        temas: ['primaria', 'gce', 'wwii', 'roma', 'usa'], // franquismo aún sin eventos
+        temas: ['primaria', 'gce', 'wwii', 'roma', 'usa'], // franquismo/prehistoria aún sin eventos
       },
       'quien-es-quien': {
         label: { es: '¿Quién es quién?', en: 'Who is who?', ca: 'Qui és qui?' },
@@ -117,7 +119,7 @@ export const TOPIC_CATALOG = {
         game: 'juego-fechas',
         usesLevel: true,
         tracksTopic: true,
-        temas: ['primaria', 'gce', 'wwii', 'roma', 'usa'], // franquismo aún sin eventos
+        temas: ['primaria', 'gce', 'wwii', 'roma', 'usa'], // franquismo/prehistoria aún sin eventos
         // Escribir el año exacto es inviable en Primaria (rango demasiado amplio)
         niveles: {
           primaria: [],

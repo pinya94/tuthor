@@ -34,6 +34,7 @@ const TEMAS_META = {
     roma:     { titulo: 'Antigua Roma',            emoji: '🏛️', descripcion: 'Desde la fundación de Roma hasta la caída del Imperio.' },
     usa:      { titulo: 'Independencia Americana', emoji: '🦅', descripcion: 'De las colonias británicas a los Estados Unidos, 1773–1789.' },
     franquismo: { titulo: 'Franquismo y Transición', emoji: '🕊️', descripcion: 'De la dictadura de Franco a la Constitución de 1978, 1939–1982.' },
+    prehistoria: { titulo: 'Prehistoria', emoji: '🦴', descripcion: 'Del Paleolítico al Neolítico: nómadas, fuego, agricultura y sedentarismo.' },
   },
   en: {
     primaria: { titulo: 'Great Milestones',        emoji: '🌍', descripcion: 'The most important moments that changed the world.' },
@@ -42,6 +43,7 @@ const TEMAS_META = {
     roma:     { titulo: 'Ancient Rome',             emoji: '🏛️', descripcion: 'From the founding of Rome to the fall of the Empire.' },
     usa:      { titulo: 'American Independence',    emoji: '🦅', descripcion: 'From the British colonies to the United States, 1773–1789.' },
     franquismo: { titulo: 'Francoism & Transition', emoji: '🕊️', descripcion: 'From Franco\'s dictatorship to the 1978 Constitution, 1939–1982.' },
+    prehistoria: { titulo: 'Prehistory', emoji: '🦴', descripcion: 'From the Palaeolithic to the Neolithic: nomads, fire, agriculture and settled life.' },
   },
   ca: {
     primaria: { titulo: 'Grans Fites',              emoji: '🌍', descripcion: 'Els moments més importants que van canviar el món.' },
@@ -50,6 +52,7 @@ const TEMAS_META = {
     roma:     { titulo: 'Antiga Roma',               emoji: '🏛️', descripcion: 'Des de la fundació de Roma fins a la caiguda de l\'Imperi.' },
     usa:      { titulo: 'Independència Americana',   emoji: '🦅', descripcion: 'De les colònies britàniques als Estats Units, 1773–1789.' },
     franquismo: { titulo: 'Franquisme i Transició', emoji: '🕊️', descripcion: 'De la dictadura de Franco a la Constitució del 1978, 1939–1982.' },
+    prehistoria: { titulo: 'Prehistòria', emoji: '🦴', descripcion: 'Del Paleolític al Neolític: nòmades, foc, agricultura i sedentarisme.' },
   },
 }
 

@@ -74,6 +74,11 @@ export const EXAMS = {
     emoji: '🕊️', subject: 'historia',
     path: 'examen/franquismo', page: () => import('../pages/HistoriaFranquismoExamen'),
   },
+  'prehistoria': {
+    label: { es: 'Prehistoria (teoría)', en: 'Prehistory (theory)', ca: 'Prehistòria (teoria)' },
+    emoji: '🦴', subject: 'historia',
+    path: 'examen/prehistoria', page: () => import('../pages/HistoriaPrehistoriaExamen'),
+  },
   'geografia-examen': {
     label: { es: 'GeoRush (examen)', en: 'GeoRush (exam)', ca: 'GeoRush (examen)' },
     emoji: '🌍', subject: 'geografia',
@@ -511,7 +516,7 @@ const EXAM_GROUPS = [
   // Sin prefijo compartido (los ids son los mismos que usan Línea del Tiempo
   // / ¿Quién es quién? para category, ver topicCatalog.js): se agrupan por
   // lista explícita en vez de por prefijo.
-  { match: id => ['gce', 'wwii', 'roma', 'usa', 'primaria', 'franquismo'].includes(id),
+  { match: id => ['gce', 'wwii', 'roma', 'usa', 'primaria', 'franquismo', 'prehistoria'].includes(id),
     label: { es: 'Historia (teoría, tipo test)', en: 'History (theory quiz)', ca: 'Història (teoria, tipus test)' } },
   { match: id => id === 'analiza-frases-test' || id.startsWith('frases-'),
     label: { es: 'Analiza la Frase (señalar)', en: 'Sentence Detective (spot them)', ca: 'Analitza la Frase (assenyalar)' } },

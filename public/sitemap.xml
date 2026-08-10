@@ -83,6 +83,7 @@
   <url><loc>https://www.tuthor.es/examen/usa</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/examen/primaria</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/examen/franquismo</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/examen/prehistoria</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/examen/trayectoria</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/en/examen/trayectoria</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/examen/portero</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
@@ -331,12 +332,14 @@
   <url><loc>https://www.tuthor.es/info/estudiar/historia-antigua-roma</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/info/estudiar/historia-hitos</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/info/estudiar/historia-franquismo</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/info/estudiar/historia-prehistoria</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/en/info/estudiar/historia-guerra-civil</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/en/info/estudiar/historia-segunda-guerra-mundial</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/en/info/estudiar/historia-independencia-americana</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/en/info/estudiar/historia-antigua-roma</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/en/info/estudiar/historia-hitos</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/en/info/estudiar/historia-franquismo</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/en/info/estudiar/historia-prehistoria</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
 
   <!-- INFO ESTUDIAR — Fichas Geografía -->
   <url><loc>https://www.tuthor.es/info/estudiar/geografia-europa</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>

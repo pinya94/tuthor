@@ -46,7 +46,7 @@ export const SUBJECT_DEFS = [
     id: 'historia', emoji: '⚔️',
     label: { es: 'Historia', en: 'History', ca: 'Història' },
     gameIds: ['juego-fechas', 'linea-temporal'],
-    catIds: ['gce', 'wwii', 'roma', 'usa', 'primaria', 'franquismo', 'global'],
+    catIds: ['gce', 'wwii', 'roma', 'usa', 'primaria', 'franquismo', 'prehistoria', 'global'],
     catLabels: {
       'gce':     { es: 'Guerra Civil Española',    en: 'Spanish Civil War',     ca: 'Guerra Civil Espanyola'  },
       'wwii':    { es: 'Segunda Guerra Mundial',   en: 'World War II',          ca: 'Segona Guerra Mundial'   },
@@ -54,6 +54,7 @@ export const SUBJECT_DEFS = [
       'usa':     { es: 'Independencia Americana',  en: 'American Independence', ca: 'Independència Americana' },
       'primaria':{ es: 'Grandes Hitos',            en: 'Great Milestones',      ca: 'Grans Fites'             },
       'franquismo': { es: 'Franquismo y Transición', en: 'Francoism & Transition', ca: 'Franquisme i Transició' },
+      'prehistoria': { es: 'Prehistoria', en: 'Prehistory', ca: 'Prehistòria' },
       'global':  { es: 'Historia Global',          en: 'World History',         ca: 'Història Global'         },
     },
   },
