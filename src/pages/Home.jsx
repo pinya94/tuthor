@@ -7,6 +7,7 @@ import { useLang } from '../context/LangContext'
 import { getStats, formatTime } from '../lib/activity'
 import { getStudentClasses } from '../lib/classes'
 import { getStudentAssignments } from '../lib/assignments'
+import { aggregateStudentStats } from '../lib/statsAggregation'
 import { FRAMES } from '../data/cosmetics'
 import SEOHead from '../components/SEOHead'
 
@@ -53,6 +54,48 @@ function RewardsSection({ lang, navigate }) {
             🛍 {ca ? 'Anar a la botiga' : en ? 'Go to shop' : 'Ir a la tienda'}
           </button>
         </div>
+      </div>
+    </section>
+  )
+}
+
+// La ruta del hub de "/estudiar" coincide con subj.id salvo estas dos: lengua
+// e inglés cuelgan de /estudiar/idiomas/* (ver App.jsx), el resto es directo.
+const SUBJECT_HUB_PATH = { lengua: '/estudiar/idiomas/espanol', ingles: '/estudiar/idiomas/ingles' }
+
+// Solo se muestra si hay alguna materia con actividad — mismo dato que ya
+// calcula Perfil.jsx (aggregateStudentStats), aquí en versión compacta y
+// sin acordeón: cada tarjeta lleva directo al hub de la materia.
+function SubjectsGrid({ subjectEntries, navigate, localPath, lang }) {
+  const en = lang === 'en', ca = lang === 'ca'
+  return (
+    <section className="mb-8">
+      <div className="flex items-baseline gap-2 mb-3 px-0.5">
+        <h2 className="text-white font-black text-[15px]">📚 {ca ? 'Per matèria' : en ? 'By subject' : 'Por materia'}</h2>
+        <span className="text-white/40 text-xs font-semibold ml-auto">
+          {subjectEntries.length} {ca ? 'matèries' : en ? 'subjects' : 'materias'}
+        </span>
+      </div>
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
+        {subjectEntries.map(subj => {
+          const label = subj.label[lang] || subj.label.es
+          const failed = subj.totalExamPlays - subj.totalPassed
+          const path = SUBJECT_HUB_PATH[subj.id] || `/estudiar/${subj.id}`
+          return (
+            <button key={subj.id} onClick={() => navigate(localPath(path))}
+              className="text-left rounded-xl border border-white/10 hover:border-violet-400/40 p-3.5 transition-all" style={{ background: SURF }}>
+              <div className="flex items-center gap-2 mb-2">
+                <span className="text-xl">{subj.emoji}</span>
+                <span className="text-white font-bold text-[13.5px] truncate">{label}</span>
+              </div>
+              <div className="flex items-center gap-2 text-xs flex-wrap">
+                <span className="text-white/45">{subj.totalPlays} {ca ? 'activitats' : en ? 'activities' : 'actividades'}</span>
+                {subj.totalExamPlays > 0 && <span className="text-green-400 font-bold">{subj.totalPassed} ✅</span>}
+                {failed > 0 && <span className="text-red-400 font-bold">{failed} ❌</span>}
+              </div>
+            </button>
+          )
+        })}
       </div>
     </section>
   )
@@ -212,6 +255,8 @@ export default function Home() {
   // a punto de redirigir. En ninguno de los dos casos hay nada que pintar.
   if (user === undefined || user === null) return <Loader />
 
+  const subjectEntries = stats ? aggregateStudentStats(stats, lang).subjectEntries : []
+
   return (
     <div className="relative z-10 px-4 sm:px-8">
       {/* /app ya no está en el sitemap (era panel privado disfrazado de página
@@ -254,6 +299,11 @@ export default function Home() {
             <EmptyStatsWidget onVerMas={() => navigate(localPath('/perfil'))} en={en} lang={lang} />
           )}
         </div>
+
+        {/* POR MATERIA — solo materias con actividad registrada */}
+        {subjectEntries.length > 0 && (
+          <SubjectsGrid subjectEntries={subjectEntries} navigate={navigate} localPath={localPath} lang={lang} />
+        )}
 
         {/* MIS CLASES — solo si el alumno está en alguna */}
         {classes && classes.length > 0 && (
