@@ -33,6 +33,7 @@ const TEMAS_META = {
     wwii:     { titulo: 'Segunda Guerra Mundial',  emoji: '⚔️', descripcion: 'El conflicto más grande de la historia, 1939–1945.' },
     roma:     { titulo: 'Antigua Roma',            emoji: '🏛️', descripcion: 'Desde la fundación de Roma hasta la caída del Imperio.' },
     usa:      { titulo: 'Independencia Americana', emoji: '🦅', descripcion: 'De las colonias británicas a los Estados Unidos, 1773–1789.' },
+    franquismo: { titulo: 'Franquismo y Transición', emoji: '🕊️', descripcion: 'De la dictadura de Franco a la Constitución de 1978, 1939–1982.' },
   },
   en: {
     primaria: { titulo: 'Great Milestones',        emoji: '🌍', descripcion: 'The most important moments that changed the world.' },
@@ -40,6 +41,7 @@ const TEMAS_META = {
     wwii:     { titulo: 'World War II',             emoji: '⚔️', descripcion: 'The greatest conflict in history, 1939–1945.' },
     roma:     { titulo: 'Ancient Rome',             emoji: '🏛️', descripcion: 'From the founding of Rome to the fall of the Empire.' },
     usa:      { titulo: 'American Independence',    emoji: '🦅', descripcion: 'From the British colonies to the United States, 1773–1789.' },
+    franquismo: { titulo: 'Francoism & Transition', emoji: '🕊️', descripcion: 'From Franco\'s dictatorship to the 1978 Constitution, 1939–1982.' },
   },
   ca: {
     primaria: { titulo: 'Grans Fites',              emoji: '🌍', descripcion: 'Els moments més importants que van canviar el món.' },
@@ -47,6 +49,7 @@ const TEMAS_META = {
     wwii:     { titulo: 'Segona Guerra Mundial',     emoji: '⚔️', descripcion: 'El conflicte més gran de la història, 1939–1945.' },
     roma:     { titulo: 'Antiga Roma',               emoji: '🏛️', descripcion: 'Des de la fundació de Roma fins a la caiguda de l\'Imperi.' },
     usa:      { titulo: 'Independència Americana',   emoji: '🦅', descripcion: 'De les colònies britàniques als Estats Units, 1773–1789.' },
+    franquismo: { titulo: 'Franquisme i Transició', emoji: '🕊️', descripcion: 'De la dictadura de Franco a la Constitució del 1978, 1939–1982.' },
   },
 }
 
@@ -96,7 +99,11 @@ export default function HistoriaTema() {
   const portadasDelTema = PORTADAS.filter(p => p.temas?.includes(categoria))
 
   const modos = [
-    {
+    // Hasta ahora TODOS los temas de historia tenían Línea del Tiempo, así que
+    // nunca hizo falta comprobar disponible('linea-temporal') aquí (a
+    // diferencia de las otras tres). Franquismo es el primer tema sin eventos
+    // reales — sin este guard se ofrecería un juego vacío (0 eventos).
+    disponible('linea-temporal') && {
       id: 'linea',
       titulo: ca ? 'Línia del Temps' : en ? 'Timeline' : 'Línea del Tiempo',
       descripcion: ca ? 'Col·loca els esdeveniments en ordre cronològic sense veure l\'any. Pura intuïció històrica.' : en ? 'Place events in chronological order without seeing the year. Pure historical intuition.' : 'Coloca los eventos en orden cronológico sin ver el año. Solo intuición histórica.',

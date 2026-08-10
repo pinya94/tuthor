@@ -70,6 +70,17 @@ export const TOPIC_CATALOG = {
       wwii: { niveles: ['eso', 'bachillerato'], formatos: { teoria: 'wwii' } },
       roma: { niveles: ['eso', 'bachillerato'], formatos: { teoria: 'roma' } },
       usa: { niveles: ['bachillerato'], formatos: { teoria: 'usa' } },
+      // Solo examen de teoría por ahora: a diferencia de los otros temas, no
+      // hay eventos en historiaEvents.js ni personajes ni portadas para
+      // franquismo — añadir esos formatos aquí sin ese contenido real
+      // ofrecería un juego vacío. Ver la restricción `temas` que se añade
+      // abajo a linea-temporal y juego-fechas (los dos sin restricción hasta
+      // ahora, porque nunca hizo falta excluir un tema).
+      // `niveles: []` a propósito: un test valida que coincida con los
+      // eventos reales de historiaEvents.js, y aquí no hay ninguno. No afecta
+      // al examen — 'teoria' tiene usesLevel:false y elige nivel dentro de la
+      // propia página, no vía la píldora de arriba de HistoriaTema.jsx.
+      franquismo: { niveles: [], formatos: { teoria: 'franquismo' } },
     },
     formatos: {
       teoria: examFormato({ es: 'Teoría (tipo test)', en: 'Theory (quiz)', ca: 'Teoria (tipus test)' }, '📝'),
@@ -79,6 +90,7 @@ export const TOPIC_CATALOG = {
         game: 'linea-temporal',
         usesLevel: true,
         tracksTopic: true,
+        temas: ['primaria', 'gce', 'wwii', 'roma', 'usa'], // franquismo aún sin eventos
       },
       'quien-es-quien': {
         label: { es: '¿Quién es quién?', en: 'Who is who?', ca: 'Qui és qui?' },
@@ -105,6 +117,7 @@ export const TOPIC_CATALOG = {
         game: 'juego-fechas',
         usesLevel: true,
         tracksTopic: true,
+        temas: ['primaria', 'gce', 'wwii', 'roma', 'usa'], // franquismo aún sin eventos
         // Escribir el año exacto es inviable en Primaria (rango demasiado amplio)
         niveles: {
           primaria: [],
