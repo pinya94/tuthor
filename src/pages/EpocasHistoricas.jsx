@@ -8,7 +8,6 @@ import { saveActivity } from '../lib/activity'
 import { computeCoins } from '../lib/games'
 import SEOHead from '../components/SEOHead'
 
-const VIDAS_INICIALES = 3
 const BASE_PTS = 100
 const SLIDER_MAX = 1000
 
@@ -29,56 +28,56 @@ const ERA_RANGOS = {
 
 const UI = {
   es: {
-    titulo: '¿Qué Época Es?', desc: 'Modo roguelike: adivina la época en fotos reales, ronda tras ronda, hasta que se te acaben las vidas.',
+    titulo: '¿Qué Época Es?', desc: 'Modo roguelike: adivina la época en fotos reales, ronda tras ronda. Un fallo y se acaba — ¿hasta dónde aguantas?',
     volver: '← Volver', empezar: '¡Empezar partida! →',
     comoFunciona: 'Cómo funciona',
     paso1: 'Aparece una fotografía histórica real',
     paso2: 'Desliza en la línea temporal hasta la época que retrata (¡no cuándo se hizo la foto!)',
-    paso3: `Aciertas: sigues y suman puntos con racha. Fallas: pierdes una vida`,
-    paso4: `Tienes ${VIDAS_INICIALES} vidas — cuando se acaban, termina la partida`,
+    paso3: 'Aciertas: sigues y suman puntos con racha',
+    paso4: 'Un solo fallo y se acaba la partida — sin colchón',
     aviso: 'Ojo: algunas fotos son de excavaciones, pinturas o reconstrucciones modernas de algo mucho más antiguo. Lo que cuenta es la época que retrata la imagen, no cuándo se hizo la fotografía o el cuadro.',
-    salir: '← Salir', ronda: 'Ronda', vidas: 'Vidas',
+    salir: '← Salir', ronda: 'Ronda',
     tuRespuesta: 'Tu respuesta', confirmar: 'Confirmar →',
-    correcto: '¡Correcto!', incorrecto: '¡Incorrecto!', vidaPerdida: '💔 −1 vida',
+    correcto: '¡Correcto!', incorrecto: '¡Incorrecto!', finAqui: 'Fin de la partida',
     eraTexto: 'Esto retrata…', fechaTexto: 'Fecha real',
     siguiente: 'Siguiente →', verResultado: 'Ver resultado →',
-    finPartida: 'Fin de la partida', rondas: 'Rondas', mejorRacha: 'Mejor racha',
+    finPartida: 'Fin de la partida', rondas: 'Rondas superadas', ronda1: 'Ronda superada',
     compartir: '🔗 Compartir resultado', reintentar: 'Jugar de nuevo', volverMenu: 'Volver al menú',
     aC: 'a.C.', dC: 'd.C.', haceAnos: n => `hace ~${n} años`,
   },
   en: {
-    titulo: 'What Era Is This?', desc: 'Roguelike mode: guess the era in real photos, round after round, until you run out of lives.',
+    titulo: 'What Era Is This?', desc: 'Roguelike mode: guess the era in real photos, round after round. One miss and it is over — how far can you go?',
     volver: '← Back', empezar: 'Start game! →',
     comoFunciona: 'How it works',
     paso1: 'A real historical photograph appears',
     paso2: 'Drag the timeline to the era it shows (not when the photo was taken!)',
-    paso3: 'Correct: keep going, points add up with your streak. Wrong: lose a life',
-    paso4: `You have ${VIDAS_INICIALES} lives — when they run out, the game ends`,
+    paso3: 'Correct: keep going, points add up with your streak',
+    paso4: 'One single miss ends the run — no safety net',
     aviso: "Heads up: some photos are of excavations, paintings or modern reconstructions of something much older. What counts is the era shown, not when the photograph or painting was made.",
-    salir: '← Exit', ronda: 'Round', vidas: 'Lives',
+    salir: '← Exit', ronda: 'Round',
     tuRespuesta: 'Your answer', confirmar: 'Confirm →',
-    correcto: 'Correct!', incorrecto: 'Wrong!', vidaPerdida: '💔 −1 life',
+    correcto: 'Correct!', incorrecto: 'Wrong!', finAqui: 'Game over',
     eraTexto: 'This shows…', fechaTexto: 'Real date',
     siguiente: 'Next →', verResultado: 'See result →',
-    finPartida: 'Game over', rondas: 'Rounds', mejorRacha: 'Best streak',
+    finPartida: 'Game over', rondas: 'Rounds survived', ronda1: 'Round survived',
     compartir: '🔗 Share result', reintentar: 'Play again', volverMenu: 'Back to menu',
     aC: 'BC', dC: 'AD', haceAnos: n => `~${n} years ago`,
   },
   ca: {
-    titulo: 'Quina Època És?', desc: 'Mode roguelike: endevina l\'època en fotos reals, ronda rere ronda, fins que se t\'acabin les vides.',
+    titulo: 'Quina Època És?', desc: 'Mode roguelike: endevina l\'època en fotos reals, ronda rere ronda. Un error i s\'acaba — fins on aguantes?',
     volver: '← Tornar', empezar: 'Comença la partida! →',
     comoFunciona: 'Com funciona',
     paso1: 'Apareix una fotografia històrica real',
     paso2: 'Arrossega a la línia temporal fins a l\'època que retrata (no pas quan es va fer la foto!)',
-    paso3: 'Encertes: continues i sumes punts amb la ratxa. Falles: perds una vida',
-    paso4: `Tens ${VIDAS_INICIALES} vides — quan s'acaben, la partida s'atura`,
+    paso3: 'Encertes: continues i sumes punts amb la ratxa',
+    paso4: 'Un sol error i s\'acaba la partida — sense coixí',
     aviso: "Compte: algunes fotos són d'excavacions, pintures o reconstruccions modernes d'alguna cosa molt més antiga. El que compta és l'època que retrata la imatge, no pas quan es va fer la fotografia o el quadre.",
-    salir: '← Sortir', ronda: 'Ronda', vidas: 'Vides',
+    salir: '← Sortir', ronda: 'Ronda',
     tuRespuesta: 'La teva resposta', confirmar: 'Confirmar →',
-    correcto: 'Correcte!', incorrecto: 'Incorrecte!', vidaPerdida: '💔 −1 vida',
+    correcto: 'Correcte!', incorrecto: 'Incorrecte!', finAqui: 'Fi de la partida',
     eraTexto: 'Això retrata…', fechaTexto: 'Data real',
     siguiente: 'Següent →', verResultado: 'Veure resultat →',
-    finPartida: 'Fi de la partida', rondas: 'Rondes', mejorRacha: 'Millor ratxa',
+    finPartida: 'Fi de la partida', rondas: 'Rondes superades', ronda1: 'Ronda superada',
     compartir: '🔗 Compartir resultat', reintentar: 'Jugar de nou', volverMenu: 'Tornar al menú',
     aC: 'aC', dC: 'dC', haceAnos: n => `fa ~${n} anys`,
   },
@@ -135,12 +134,8 @@ export default function EpocasHistoricas() {
   const [fase, setFase]         = useState('intro')
   const [foto, setFoto]         = useState(null)
   const [cola, setCola]         = useState([]) // próximas fotos, sin incluir la actual
-  const [vidas, setVidas]       = useState(VIDAS_INICIALES)
   const [puntos, setPuntos]     = useState(0)
-  const [racha, setRacha]       = useState(0)
-  const [mejorRacha, setMejorRacha] = useState(0)
-  const [rondas, setRondas]     = useState(0)
-  const [aciertos, setAciertos] = useState(0)
+  const [racha, setRacha]       = useState(0) // = rondas superadas, porque un fallo termina la partida
   const [feedback, setFeedback] = useState(null)
   const [saved, setSaved]       = useState(false)
   const [sliderVal, setSliderVal] = useState(Math.round(SLIDER_MAX / 2))
@@ -152,12 +147,8 @@ export default function EpocasHistoricas() {
     const mazo = nuevoMazo(null)
     setFoto(mazo[0])
     setCola(mazo.slice(1))
-    setVidas(VIDAS_INICIALES)
     setPuntos(0)
     setRacha(0)
-    setMejorRacha(0)
-    setRondas(0)
-    setAciertos(0)
     setFeedback(null)
     setSaved(false)
     setSliderVal(Math.round(SLIDER_MAX / 2))
@@ -171,7 +162,7 @@ export default function EpocasHistoricas() {
     const timeSpent = startRef.current ? Math.round((Date.now() - startRef.current) / 1000) : 0
     saveActivity(user.uid, {
       type: 'juego', game: 'epocas-historicas', category: 'general',
-      score: puntos, passed: rondas >= 5, timeSpent,
+      score: puntos, passed: racha >= 3, timeSpent,
       coinsEarned: computeCoins('epocas-historicas', { score: puntos }),
       userName: user.displayName, userPhoto: user.photoURL,
     }).catch(() => {})
@@ -182,24 +173,18 @@ export default function EpocasHistoricas() {
     const epocaId = preview.eraId
     const correcto = epocaId === foto.epoca
     const pts = correcto ? Math.round(BASE_PTS * (1 + racha * 0.25)) : 0
-    const nuevaRacha = correcto ? racha + 1 : 0
-    const vidasRestantes = correcto ? vidas : vidas - 1
 
     if (correcto) {
-      setAciertos(a => a + 1)
       setPuntos(p => p + pts)
+      setRacha(r => r + 1)
     }
-    setRondas(r => r + 1)
-    setRacha(nuevaRacha)
-    setMejorRacha(m => Math.max(m, nuevaRacha))
-    setVidas(vidasRestantes)
-    setFeedback({ correcto, pts, rachaAntes: racha, vidasRestantes })
+    setFeedback({ correcto, pts, rachaAntes: racha })
     setFase('feedback')
   }
 
   function siguiente() {
     setSliderVal(Math.round(SLIDER_MAX / 2))
-    if (feedback && feedback.vidasRestantes <= 0) {
+    if (feedback && !feedback.correcto) {
       setFase('fin')
       return
     }
@@ -217,7 +202,7 @@ export default function EpocasHistoricas() {
       <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
         <SEOHead
           title={lang === 'en' ? 'What Era Is This? — Guess the Historical Period' : lang === 'ca' ? 'Quina Època És? — Endevina el Període Històric' : '¿Qué Época Es? — Adivina el Periodo Histórico'}
-          description={lang === 'en' ? 'Look at real historical photographs — from Prehistory to World War II — and guess which era they belong to, roguelike style: how many rounds can you survive? Free history game.' : lang === 'ca' ? 'Mira fotografies històriques reals — des de la Prehistòria fins a la Segona Guerra Mundial — i endevina a quina època pertanyen, a l\'estil roguelike: quantes rondes pots superar? Joc d\'història gratuït.' : 'Mira fotografías históricas reales —desde la Prehistoria hasta la Segunda Guerra Mundial— y adivina a qué época pertenecen, al estilo roguelike: ¿cuántas rondas aguantas? Juego de historia gratuito.'}
+          description={lang === 'en' ? 'Look at real historical photographs — from Prehistory to World War II — and guess which era they belong to, roguelike style: one miss ends it, how far can you go? Free history game.' : lang === 'ca' ? 'Mira fotografies històriques reals — des de la Prehistòria fins a la Segona Guerra Mundial — i endevina a quina època pertanyen, a l\'estil roguelike: un error ho acaba, fins on arribes? Joc d\'història gratuït.' : 'Mira fotografías históricas reales —desde la Prehistoria hasta la Segunda Guerra Mundial— y adivina a qué época pertenecen, al estilo roguelike: un fallo lo acaba, ¿hasta dónde llegas? Juego de historia gratuito.'}
           path={lang === 'en' ? '/en/juegos/epocas-historicas' : lang === 'ca' ? '/ca/juegos/epocas-historicas' : '/juegos/epocas-historicas'}
           lang={lang}
         />
@@ -239,7 +224,7 @@ export default function EpocasHistoricas() {
                 ['🖼️', t.paso1],
                 ['🤔', t.paso2],
                 ['✅', t.paso3],
-                ['❤️', t.paso4],
+                ['💥', t.paso4],
               ].map(([e, txt]) => (
                 <div key={txt} className="flex items-start gap-2 text-sm text-white/50">
                   <span className="text-base w-5 shrink-0 text-center">{e}</span>
@@ -273,12 +258,7 @@ export default function EpocasHistoricas() {
           <div className="flex items-center gap-3 text-sm text-white/50">
             {racha >= 2 && <span className="text-amber-400 font-bold">🔥 ×{racha}</span>}
             <span className="text-white font-bold tabular-nums">{puntos.toLocaleString()} pts</span>
-            <span className="flex gap-0.5">
-              {Array.from({ length: VIDAS_INICIALES }).map((_, i) => (
-                <span key={i} className={i < vidas ? '' : 'opacity-20'}>❤️</span>
-              ))}
-            </span>
-            <span className="text-white/30 hidden sm:inline">{t.ronda} {rondas + 1}</span>
+            <span className="text-white/30">{t.ronda} {racha + 1}</span>
           </div>
         </div>
 
@@ -334,14 +314,14 @@ export default function EpocasHistoricas() {
 
   // ── FEEDBACK ──────────────────────────────────────────────────────────────
   if (fase === 'feedback' && feedback && foto) {
-    const { correcto, pts, rachaAntes, vidasRestantes } = feedback
+    const { correcto, pts, rachaAntes } = feedback
     return (
       <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-6">
         <div className="max-w-lg w-full space-y-4">
           <div className={`rounded-2xl p-6 border text-center ${
             correcto ? 'bg-green-900/30 border-green-500/40' : 'bg-red-900/30 border-red-500/40'
           }`}>
-            <div className="text-5xl mb-2">{correcto ? '✅' : '❌'}</div>
+            <div className="text-5xl mb-2">{correcto ? '✅' : '💥'}</div>
             <h2 className={`text-3xl font-black ${correcto ? 'text-green-400' : 'text-red-400'}`}>
               {correcto ? t.correcto : t.incorrecto}
             </h2>
@@ -349,18 +329,15 @@ export default function EpocasHistoricas() {
               <span className="text-amber-300 font-bold text-lg block mt-1">+{pts} pts</span>
             )}
             {!correcto && (
-              <span className="text-red-300 font-bold text-lg block mt-1">{t.vidaPerdida}</span>
+              <span className="text-red-300 font-bold text-lg block mt-1">
+                {t.finAqui} · {rachaAntes} {rachaAntes === 1 ? t.ronda1 : t.rondas}
+              </span>
             )}
-            {correcto && racha >= 2 && (
+            {correcto && rachaAntes >= 1 && (
               <p className="text-amber-400 text-sm font-bold mt-1">
                 🔥 ×{(1 + rachaAntes * 0.25).toFixed(2)}
               </p>
             )}
-            <div className="flex gap-1 justify-center mt-3">
-              {Array.from({ length: VIDAS_INICIALES }).map((_, i) => (
-                <span key={i} className={`text-lg ${i < vidasRestantes ? '' : 'opacity-20'}`}>❤️</span>
-              ))}
-            </div>
           </div>
 
           <div className="rounded-2xl overflow-hidden border border-white/10 bg-black/30">
@@ -382,7 +359,7 @@ export default function EpocasHistoricas() {
             onClick={siguiente}
             className="w-full py-4 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-lg rounded-2xl transition-all hover:scale-[1.02]"
           >
-            {vidasRestantes <= 0 ? t.verResultado : t.siguiente}
+            {correcto ? t.siguiente : t.verResultado}
           </button>
         </div>
       </div>
@@ -391,18 +368,15 @@ export default function EpocasHistoricas() {
 
   // ── FIN ───────────────────────────────────────────────────────────────────
   if (fase === 'fin') {
-    const emoji = rondas >= 15 ? '🏆' : rondas >= 8 ? '🏺' : rondas >= 4 ? '🤔' : '😬'
-    const shareText = `He aguantado ${rondas} rondas y ${puntos.toLocaleString()} pts en ¿Qué Época Es? 🏺 — ¿puedes superarme? https://tuthor.es/juegos/epocas-historicas`
+    const emoji = racha >= 12 ? '🏆' : racha >= 6 ? '🏺' : racha >= 3 ? '🤔' : '😬'
+    const shareText = `He superado ${racha} rondas con ${puntos.toLocaleString()} pts en ¿Qué Época Es? 🏺 — ¿puedes superarme? https://tuthor.es/juegos/epocas-historicas`
     return (
       <GameEndScreen
         game="epocas-historicas"
         emoji={emoji}
         title={t.finPartida}
         score={puntos}
-        stats={[
-          { label: t.rondas, value: rondas, emoji: '🎲' },
-          { label: t.mejorRacha, value: `×${mejorRacha}`, emoji: '🔥' },
-        ]}
+        stats={[{ label: t.rondas, value: racha, emoji: '🎲' }]}
         shareText={shareText}
         onPlayAgain={iniciar}
         playAgainLabel={t.reintentar}
