@@ -10,6 +10,22 @@ import SEOHead from '../components/SEOHead'
 
 const TOTAL_PREGUNTAS = 10
 const BASE_PTS = 100
+const SLIDER_MAX = 1000
+
+// Rango de años reales (numeración con signo: negativo = a.C.) que cubre
+// cada época en la línea temporal. Deliberadamente NO proporcional al
+// tiempo real: cada época ocupa el mismo ancho visual (1/5 del slider) para
+// que la Prehistoria —millones de años— no se coma la barra entera y deje
+// el resto invisible. Dentro de cada tramo sí se interpola linealmente en
+// años reales, solo para el año que se muestra en pantalla mientras
+// arrastras; lo que se evalúa sigue siendo la época, nunca el año exacto.
+const ERA_RANGOS = {
+  prehistoria:    { start: -3300000, end: -3000 },
+  antigua:        { start: -3000,    end: 476 },
+  'edad-media':   { start: 476,      end: 1492 },
+  'edad-moderna': { start: 1492,     end: 1789 },
+  contemporanea:  { start: 1789,     end: new Date().getFullYear() },
+}
 
 const UI = {
   es: {
@@ -17,49 +33,76 @@ const UI = {
     volver: '← Volver', empezar: '¡Empezar! →',
     comoFunciona: 'Cómo funciona',
     paso1: 'Aparece una fotografía histórica real',
-    paso2: 'Elige a qué época pertenece lo que retrata (¡no cuándo se hizo la foto!)',
+    paso2: 'Desliza en la línea temporal hasta la época que retrata (¡no cuándo se hizo la foto!)',
     paso3: 'Aciertas: ganas puntos. Fallas: sigues, sin puntos',
     paso4: 'Siempre verás la explicación y la fecha exacta',
     aviso: 'Ojo: algunas fotos son de excavaciones o reconstrucciones modernas de algo mucho más antiguo. Lo que cuenta es la época que retrata la imagen, no cuándo se hizo la fotografía.',
     salir: '← Salir', pregunta: 'Pregunta', de: 'de',
+    tuRespuesta: 'Tu respuesta', confirmar: 'Confirmar →',
     correcto: '¡Correcto!', incorrecto: '¡Incorrecto!',
     eraTexto: 'Esto retrata…', fechaTexto: 'Fecha real',
     siguiente: 'Siguiente →', verResultado: 'Ver resultado →',
     puntuacionFinal: 'Puntuación final', aciertos: 'Aciertos', precision: 'Precisión',
     compartir: '🔗 Compartir resultado', reintentar: 'Jugar de nuevo', volverMenu: 'Volver al menú',
+    aC: 'a.C.', dC: 'd.C.', haceAnos: n => `hace ~${n} años`,
   },
   en: {
     titulo: 'What Era Is This?', desc: 'Look at the real image and guess which historical era it belongs to.',
     volver: '← Back', empezar: 'Start! →',
     comoFunciona: 'How it works',
     paso1: 'A real historical photograph appears',
-    paso2: 'Pick the era of what it shows (not when the photo was taken!)',
+    paso2: 'Drag the timeline to the era it shows (not when the photo was taken!)',
     paso3: 'Correct: earn points. Wrong: keep going, no points',
     paso4: "You'll always see the explanation and the exact date",
     aviso: "Heads up: some photos are of excavations or modern reconstructions of something much older. What counts is the era shown, not when the photograph itself was taken.",
     salir: '← Exit', pregunta: 'Question', de: 'of',
+    tuRespuesta: 'Your answer', confirmar: 'Confirm →',
     correcto: 'Correct!', incorrecto: 'Wrong!',
     eraTexto: 'This shows…', fechaTexto: 'Real date',
     siguiente: 'Next →', verResultado: 'See result →',
     puntuacionFinal: 'Final score', aciertos: 'Correct', precision: 'Accuracy',
     compartir: '🔗 Share result', reintentar: 'Play again', volverMenu: 'Back to menu',
+    aC: 'BC', dC: 'AD', haceAnos: n => `~${n} years ago`,
   },
   ca: {
     titulo: 'Quina Època És?', desc: 'Mira la imatge real i endevina a quina època històrica pertany.',
     volver: '← Tornar', empezar: 'Comença! →',
     comoFunciona: 'Com funciona',
     paso1: 'Apareix una fotografia històrica real',
-    paso2: 'Tria a quina època pertany el que retrata (no pas quan es va fer la foto!)',
+    paso2: 'Arrossega a la línia temporal fins a l\'època que retrata (no pas quan es va fer la foto!)',
     paso3: 'Encertes: guanyes punts. Falles: continues, sense punts',
     paso4: "Sempre veuràs l'explicació i la data exacta",
     aviso: "Compte: algunes fotos són d'excavacions o reconstruccions modernes d'alguna cosa molt més antiga. El que compta és l'època que retrata la imatge, no pas quan es va fer la fotografia.",
     salir: '← Sortir', pregunta: 'Pregunta', de: 'de',
+    tuRespuesta: 'La teva resposta', confirmar: 'Confirmar →',
     correcto: 'Correcte!', incorrecto: 'Incorrecte!',
     eraTexto: 'Això retrata…', fechaTexto: 'Data real',
     siguiente: 'Següent →', verResultado: 'Veure resultat →',
     puntuacionFinal: 'Puntuació final', aciertos: 'Encerts', precision: 'Precisió',
     compartir: '🔗 Compartir resultat', reintentar: 'Jugar de nou', volverMenu: 'Tornar al menú',
+    aC: 'aC', dC: 'dC', haceAnos: n => `fa ~${n} anys`,
   },
+}
+
+// value (0..SLIDER_MAX) → { eraId, year } — cada época ocupa 1/5 del slider
+// por igual, con el año interpolado linealmente solo dentro de ese tramo.
+function sliderToEraYear(value, epocasOrden) {
+  const segSize = SLIDER_MAX / epocasOrden.length
+  const segIdx  = Math.min(epocasOrden.length - 1, Math.floor(value / segSize))
+  const eraId   = epocasOrden[segIdx]
+  const frac    = (value - segIdx * segSize) / segSize
+  const { start, end } = ERA_RANGOS[eraId]
+  const year = Math.round(start + frac * (end - start))
+  return { eraId, year }
+}
+
+function formatYear(eraId, year, t) {
+  if (eraId === 'prehistoria') {
+    const yearsAgo = new Date().getFullYear() - year
+    return t.haceAnos(yearsAgo.toLocaleString())
+  }
+  if (year < 0) return `${Math.abs(year).toLocaleString()} ${t.aC}`
+  return `${year.toLocaleString()} ${t.dC}`
 }
 
 function shuffle(arr) {
@@ -93,9 +136,11 @@ export default function EpocasHistoricas() {
   const [aciertos, setAciertos] = useState(0)
   const [feedback, setFeedback] = useState(null)
   const [saved, setSaved]       = useState(false)
+  const [sliderVal, setSliderVal] = useState(Math.round(SLIDER_MAX / 2))
   const startRef = useRef(null)
 
   const foto = ronda[idx]
+  const preview = sliderToEraYear(sliderVal, epocasOrden)
 
   function iniciar() {
     setRonda(pickRonda(TOTAL_PREGUNTAS))
@@ -105,6 +150,7 @@ export default function EpocasHistoricas() {
     setAciertos(0)
     setFeedback(null)
     setSaved(false)
+    setSliderVal(Math.round(SLIDER_MAX / 2))
     setFase('jugando')
     startRef.current = Date.now()
   }
@@ -123,7 +169,8 @@ export default function EpocasHistoricas() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fase])
 
-  function responder(epocaId) {
+  function confirmar() {
+    const epocaId = preview.eraId
     const correcto = epocaId === foto.epoca
     const nuevaRacha = correcto ? racha + 1 : 0
     const pts = correcto ? Math.round(BASE_PTS * (1 + racha * 0.25)) : 0
@@ -138,6 +185,7 @@ export default function EpocasHistoricas() {
 
   function siguiente() {
     const nextIdx = idx + 1
+    setSliderVal(Math.round(SLIDER_MAX / 2))
     if (nextIdx >= ronda.length) {
       setFase('fin')
       return
@@ -221,17 +269,44 @@ export default function EpocasHistoricas() {
           />
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          {epocasOrden.map(id => (
-            <button
-              key={id}
-              onClick={() => responder(id)}
-              className="py-4 px-4 bg-white/5 hover:bg-white/15 border border-white/10 text-white font-bold rounded-2xl transition-all hover:scale-[1.02] active:scale-95 text-left"
-            >
-              {EPOCAS[id][lang] ?? EPOCAS[id].es}
-            </button>
-          ))}
+        <div className="bg-white/5 border border-white/10 rounded-2xl p-5">
+          <div className="text-center mb-4">
+            <p className="text-white/30 text-xs uppercase tracking-widest mb-1">{t.tuRespuesta}</p>
+            <p className="text-white font-black text-2xl">{EPOCAS[preview.eraId][lang] ?? EPOCAS[preview.eraId].es}</p>
+            <p className="text-amber-300 font-semibold text-sm mt-0.5">{formatYear(preview.eraId, preview.year, t)}</p>
+          </div>
+
+          {/* Tramos iguales por época (no proporcionales a años reales) */}
+          <div className="flex gap-0.5 h-2.5 rounded-full overflow-hidden mb-2">
+            {epocasOrden.map(id => (
+              <div key={id} className={`flex-1 rounded-full transition-colors ${id === preview.eraId ? 'bg-[#EDAE49]' : 'bg-white/10'}`} />
+            ))}
+          </div>
+
+          <input
+            type="range"
+            min={0}
+            max={SLIDER_MAX}
+            value={sliderVal}
+            onChange={e => setSliderVal(Number(e.target.value))}
+            className="w-full accent-[#EDAE49]"
+          />
+
+          <div className="flex text-[10px] text-white/30 mt-1 px-0.5">
+            {epocasOrden.map(id => (
+              <span key={id} className={`flex-1 text-center truncate px-0.5 ${id === preview.eraId ? 'text-amber-300 font-semibold' : ''}`}>
+                {EPOCAS[id][lang] ?? EPOCAS[id].es}
+              </span>
+            ))}
+          </div>
         </div>
+
+        <button
+          onClick={confirmar}
+          className="w-full mt-4 py-4 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-lg rounded-2xl transition-all hover:scale-[1.02] active:scale-95"
+        >
+          {t.confirmar}
+        </button>
       </div>
     )
   }
