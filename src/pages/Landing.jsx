@@ -433,9 +433,9 @@ export default function Landing() {
       <SEOHead
         path="/"
         title={tr({
-          es: 'No le falta capacidad. Le falta que se lo expliquen en su idioma',
-          en: "It's not ability they lack. It's an explanation in their own language",
-          ca: 'No li falta capacitat. Li falta que li ho expliquin en el seu idioma',
+          es: 'La misma clase, explicada de todas las formas que hacen falta',
+          en: 'The same class, explained every way it takes',
+          ca: 'La mateixa classe, explicada de totes les maneres que calgui',
         })}
         description={tr({
           es: `Plataforma educativa para Primaria, ESO y Bachillerato. Un equipo de profesores plantea cada concepto desde distintos puntos de vista, con panel de seguimiento para padres. Desde ${EQUIV} € al mes.`,
@@ -454,9 +454,9 @@ export default function Landing() {
 
         <h1 className="text-4xl font-black leading-[1.1] tracking-tight sm:text-6xl">
           {tr({
-            es: 'No le falta capacidad. Le falta que se lo expliquen en su idioma.',
-            en: "It's not ability they lack. It's an explanation in their own language.",
-            ca: 'No li falta capacitat. Li falta que li ho expliquin en el seu idioma.',
+            es: 'La misma clase, explicada de todas las formas que hacen falta.',
+            en: 'The same class, explained every way it takes.',
+            ca: 'La mateixa classe, explicada de totes les maneres que calgui.',
           })}
         </h1>
 
