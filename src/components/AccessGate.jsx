@@ -127,8 +127,7 @@ const AUTH_TIMEOUT_MS = 4000
 const IS_PRERENDER = typeof window !== 'undefined' && window.__PRERENDER__ === true
 
 export default function AccessGate({ children }) {
-  const location = useLocation()
-  const { pathname } = location
+  const { pathname } = useLocation()
   const { user } = useAuth()
   const { tr, localPath } = useLang()
   // Solo guarda el resultado ya resuelto, junto al uid al que corresponde. Los
@@ -137,16 +136,7 @@ export default function AccessGate({ children }) {
   const [resolved, setResolved] = useState(null) // { uid, result }
   const [showAuth, setShowAuth] = useState(false)
 
-  // El reto diario de NumPath (PreguntaDiaria.jsx, un día de cada 12) navega
-  // aquí con state.modoDaily para dejar jugar gratis sin cuenta ni suscripción
-  // — NumPath.jsx ya sabe recibir esa bandera y montar el modo de una ronda,
-  // pero nunca llegaba a ejecutarse: este muro decide solo mirando la ruta, así
-  // que a quien no pagaba le tapaba el CTA "Jugar NumPath →" con el muro de
-  // pago justo ese día, rompiendo la promesa de "pruébalo gratis" 1 de cada 12
-  // días. `endsWith` en vez de comparar con normalizePath: cubre /juegos/numpath
-  // con o sin prefijo de idioma sin tener que importarlo aquí.
-  const isNumPathDaily = location.state?.modoDaily === true && pathname.endsWith('/juegos/numpath')
-  const gated = requiresAccess(pathname) && !isNumPathDaily
+  const gated = requiresAccess(pathname)
   // En prerender, "esperando sesión" nunca es cierto: se trata como resuelto
   // a "sin sesión" en el acto, aunque el `user` real de Firebase se quede en
   // `undefined` para siempre (que es justo lo que pasa ahí).

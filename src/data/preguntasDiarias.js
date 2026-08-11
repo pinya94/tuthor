@@ -37,6 +37,7 @@ import { MODO_IDS, GRADO_IDS, GRADOS, MODOS, dayOfYear } from '../lib/mathEngine
 import { PORTADAS } from './portadas'
 import { PAISES } from './paises'
 import { genRound as genFuerzaNeta, makeRng } from '../lib/fuerzaNeta'
+import { genRound as genNumPath } from '../lib/numpath'
 import { genRound as genBalanza } from '../lib/balanza'
 import { genRound as genBalanzaEcuaciones } from '../lib/ecuaciones'
 import { genRound as genFuncion } from '../lib/funciones'
@@ -88,7 +89,10 @@ export function getDesafioDeHoy() {
     return { tipo: 'georush', pais: getPaisDeHoy() }
   }
   if (tipo === 4) {
-    return { tipo: 'numpath' }
+    // NumPath: un tablero determinista del día, jugado dentro de la propia
+    // página del reto (igual que Fuerza Neta/Balanza) — no navega a la ruta
+    // de pago real, así que no hace falta ningún hueco en el muro para esto.
+    return { tipo: 'numpath', round: genNumPath(makeRng(dia)) }
   }
   if (tipo === 5) {
     return { tipo: 'geomapa', pais: getPaisDeHoy() }

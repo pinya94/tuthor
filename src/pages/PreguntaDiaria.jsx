@@ -9,6 +9,7 @@ import AuthModal from '../components/AuthModal'
 import CombinaNumeros from '../components/CombinaNumeros'
 import WorldMap from '../components/WorldMap'
 import ForceDiagram from '../components/ForceDiagram'
+import NumPathBoard from '../components/NumPathBoard'
 import { DIRS, axisBreakdown } from '../lib/fuerzaNeta'
 import BalanceBeam from '../components/BalanceBeam'
 import { torqueBreakdown } from '../lib/balanza'
@@ -104,6 +105,7 @@ export default function PreguntaDiaria({ embedded = false }) {
   const esPortada  = desafio.tipo === 'portada'
   const esGeoRush  = desafio.tipo === 'georush'
   const esNumPath  = desafio.tipo === 'numpath'
+  const npRound    = esNumPath ? desafio.round : null
   const esGeoMapa  = desafio.tipo === 'geomapa'
   const esFuerza   = desafio.tipo === 'fuerza-neta'
   const fnRound    = esFuerza ? desafio.round : null
@@ -159,6 +161,26 @@ export default function PreguntaDiaria({ embedded = false }) {
   function triggerCoins() {
     setShowCoins(true)
     setTimeout(() => setShowCoins(false), 3000)
+  }
+
+  // NumPath: 30s para llegar a la meta del tablero de hoy. Si se acaba el
+  // tiempo sin acertar, cuenta como fallo — igual que agotar las pistas en
+  // GeoRush/GeoMapa.
+  const [npTimeLeft, setNpTimeLeft] = useState(30)
+  useEffect(() => {
+    if (!esNumPath || answered) return
+    if (npTimeLeft <= 0) { handleNumPathFinish(false); return }
+    const t = setTimeout(() => setNpTimeLeft(s => s - 1), 1000)
+    return () => clearTimeout(t)
+  }, [esNumPath, answered, npTimeLeft]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  async function handleNumPathFinish(won) {
+    if (answered) return
+    setAnswered(true)
+    if (user) {
+      const saved = await saveDailyChallenge(user.uid, won)
+      if (saved) { setStreak(s => s + 1); triggerCoins() }
+    }
   }
 
   async function confirmar() {
@@ -459,25 +481,36 @@ export default function PreguntaDiaria({ embedded = false }) {
         ) : esNumPath ? (
           /* ── NumPath daily ── */
           <>
-            <div className="px-6 sm:px-8 py-6 text-center">
-              <p className="text-xs font-semibold text-white/40 uppercase tracking-widest mb-4">
-                🧮 NumPath
+            <div className="px-6 sm:px-8 py-4">
+              <p className="text-xs font-semibold text-white/40 uppercase tracking-widest mb-2 text-center">
+                🧮 {ca ? 'Arriba a la meta amb la puntuació exacta' : en ? 'Reach the goal with the exact score' : 'Llega a la meta con la puntuación exacta'}
               </p>
-              <p className="text-white/60 text-sm mb-6">
-                {ca ? 'Resol un tauler en 30 segons. Navega fins a una meta amb la puntuació exacta.' : en ? 'Solve one grid in 30 seconds. Navigate to a goal with the exact score.' : 'Resuelve un tablero en 30 segundos. Navega hasta una meta con la puntuación exacta.'}
-              </p>
-              {!answered ? (
-                <button
-                  onClick={() => { navigate(localPath('/juegos/numpath'), { state: { modoDaily: true } }) }}
-                  className="w-full bg-[#EDAE49] hover:bg-amber-400 text-black font-black py-4 rounded-xl transition-all text-lg"
-                >
-                  {ca ? 'Jugar NumPath →' : en ? 'Play NumPath →' : 'Jugar NumPath →'}
-                </button>
-              ) : (
+              {!answered && (
+                <div className="flex justify-between text-xs text-white/40 mb-2 px-1">
+                  <span>{ca ? 'Temps' : en ? 'Time' : 'Tiempo'}</span>
+                  <span className={`font-bold tabular-nums ${npTimeLeft <= 10 ? 'text-red-400' : ''}`}>{npTimeLeft}s</span>
+                </div>
+              )}
+              <NumPathBoard
+                round={npRound}
+                disabled={answered}
+                onWin={() => handleNumPathFinish(true)}
+                meta={ca ? 'Meta' : en ? 'Goal' : 'Meta'}
+              />
+              {answered && (
                 <>
-                  <div className="bg-green-500/20 text-green-400 font-bold py-3 rounded-xl mb-3">
-                    {ca ? '✓ Completat' : en ? '✓ Completed' : '✓ Completado'}
+                  <div className={`text-center py-3 rounded-xl font-bold mt-3 mb-3 ${
+                    npTimeLeft > 0 ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'
+                  }`}>
+                    {npTimeLeft > 0
+                      ? (ca ? '✓ Completat' : en ? '✓ Completed' : '✓ Completado')
+                      : (ca ? '⏱️ Temps esgotat' : en ? '⏱️ Time is up' : '⏱️ Tiempo agotado')}
                   </div>
+                  {!user && (
+                    <button onClick={() => setShowAuth(true)} className="mb-3 w-full bg-amber-500/20 border border-amber-500/30 text-amber-400 font-semibold py-2.5 rounded-xl text-sm hover:bg-amber-500/30 transition-colors">
+                      {ca ? 'Inicia sessió per guardar la ratxa 🔥' : en ? 'Sign in to save your streak 🔥' : 'Inicia sesión para guardar tu racha 🔥'}
+                    </button>
+                  )}
                   <button onClick={() => navigate(localPath('/juegos/numpath'))} className="w-full bg-violet-600 hover:bg-violet-500 text-white font-bold py-2.5 rounded-xl text-sm transition-colors">
                     {ca ? 'Seguir jugant →' : en ? 'Keep playing →' : 'Seguir jugando →'}
                   </button>
