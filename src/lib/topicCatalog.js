@@ -84,6 +84,7 @@ export const TOPIC_CATALOG = {
       // Mismo caso que franquismo: sin eventos/personajes/portadas reales.
       prehistoria: { niveles: [], formatos: { teoria: 'prehistoria' } },
       'edad-media': { niveles: [], formatos: { teoria: 'edad-media' } },
+      'edad-moderna': { niveles: [], formatos: { teoria: 'edad-moderna' } },
     },
     formatos: {
       teoria: examFormato({ es: 'Teoría (tipo test)', en: 'Theory (quiz)', ca: 'Teoria (tipus test)' }, '📝'),
@@ -93,7 +94,7 @@ export const TOPIC_CATALOG = {
         game: 'linea-temporal',
         usesLevel: true,
         tracksTopic: true,
-        temas: ['primaria', 'gce', 'wwii', 'roma', 'usa'], // franquismo/prehistoria/edad-media aún sin eventos
+        temas: ['primaria', 'gce', 'wwii', 'roma', 'usa'], // franquismo/prehistoria/edad-media/edad-moderna aún sin eventos
       },
       'quien-es-quien': {
         label: { es: '¿Quién es quién?', en: 'Who is who?', ca: 'Qui és qui?' },
@@ -120,7 +121,7 @@ export const TOPIC_CATALOG = {
         game: 'juego-fechas',
         usesLevel: true,
         tracksTopic: true,
-        temas: ['primaria', 'gce', 'wwii', 'roma', 'usa'], // franquismo/prehistoria/edad-media aún sin eventos
+        temas: ['primaria', 'gce', 'wwii', 'roma', 'usa'], // franquismo/prehistoria/edad-media/edad-moderna aún sin eventos
         // Escribir el año exacto es inviable en Primaria (rango demasiado amplio)
         niveles: {
           primaria: [],

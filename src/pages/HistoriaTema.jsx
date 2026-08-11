@@ -36,6 +36,7 @@ const TEMAS_META = {
     franquismo: { titulo: 'Franquismo y Transición', emoji: '🕊️', descripcion: 'De la dictadura de Franco a la Constitución de 1978, 1939–1982.' },
     prehistoria: { titulo: 'Prehistoria', emoji: '🦴', descripcion: 'Del Paleolítico al Neolítico: nómadas, fuego, agricultura y sedentarismo.' },
     'edad-media': { titulo: 'Edad Media', emoji: '🏰', descripcion: 'Feudalismo, Al-Ándalus y la Reconquista, 476–1492.' },
+    'edad-moderna': { titulo: 'Edad Moderna', emoji: '⛵', descripcion: 'Reyes Católicos, Descubrimiento de América e Ilustración, 1492–1789.' },
   },
   en: {
     primaria: { titulo: 'Great Milestones',        emoji: '🌍', descripcion: 'The most important moments that changed the world.' },
@@ -46,6 +47,7 @@ const TEMAS_META = {
     franquismo: { titulo: 'Francoism & Transition', emoji: '🕊️', descripcion: 'From Franco\'s dictatorship to the 1978 Constitution, 1939–1982.' },
     prehistoria: { titulo: 'Prehistory', emoji: '🦴', descripcion: 'From the Palaeolithic to the Neolithic: nomads, fire, agriculture and settled life.' },
     'edad-media': { titulo: 'The Middle Ages', emoji: '🏰', descripcion: 'Feudalism, Al-Andalus and the Reconquista, 476–1492.' },
+    'edad-moderna': { titulo: 'The Early Modern Period', emoji: '⛵', descripcion: 'The Catholic Monarchs, the discovery of America and the Enlightenment, 1492–1789.' },
   },
   ca: {
     primaria: { titulo: 'Grans Fites',              emoji: '🌍', descripcion: 'Els moments més importants que van canviar el món.' },
@@ -56,6 +58,7 @@ const TEMAS_META = {
     franquismo: { titulo: 'Franquisme i Transició', emoji: '🕊️', descripcion: 'De la dictadura de Franco a la Constitució del 1978, 1939–1982.' },
     prehistoria: { titulo: 'Prehistòria', emoji: '🦴', descripcion: 'Del Paleolític al Neolític: nòmades, foc, agricultura i sedentarisme.' },
     'edad-media': { titulo: 'Edat Mitjana', emoji: '🏰', descripcion: 'Feudalisme, Al-Àndalus i la Reconquesta, 476–1492.' },
+    'edad-moderna': { titulo: 'Edat Moderna', emoji: '⛵', descripcion: 'Reis Catòlics, Descobriment d\'Amèrica i Il·lustració, 1492–1789.' },
   },
 }
 
