@@ -35,6 +35,7 @@ const TEMAS_META = {
     usa:      { titulo: 'Independencia Americana', emoji: '🦅', descripcion: 'De las colonias británicas a los Estados Unidos, 1773–1789.' },
     franquismo: { titulo: 'Franquismo y Transición', emoji: '🕊️', descripcion: 'De la dictadura de Franco a la Constitución de 1978, 1939–1982.' },
     prehistoria: { titulo: 'Prehistoria', emoji: '🦴', descripcion: 'Del Paleolítico al Neolítico: nómadas, fuego, agricultura y sedentarismo.' },
+    'edad-media': { titulo: 'Edad Media', emoji: '🏰', descripcion: 'Feudalismo, Al-Ándalus y la Reconquista, 476–1492.' },
   },
   en: {
     primaria: { titulo: 'Great Milestones',        emoji: '🌍', descripcion: 'The most important moments that changed the world.' },
@@ -44,6 +45,7 @@ const TEMAS_META = {
     usa:      { titulo: 'American Independence',    emoji: '🦅', descripcion: 'From the British colonies to the United States, 1773–1789.' },
     franquismo: { titulo: 'Francoism & Transition', emoji: '🕊️', descripcion: 'From Franco\'s dictatorship to the 1978 Constitution, 1939–1982.' },
     prehistoria: { titulo: 'Prehistory', emoji: '🦴', descripcion: 'From the Palaeolithic to the Neolithic: nomads, fire, agriculture and settled life.' },
+    'edad-media': { titulo: 'The Middle Ages', emoji: '🏰', descripcion: 'Feudalism, Al-Andalus and the Reconquista, 476–1492.' },
   },
   ca: {
     primaria: { titulo: 'Grans Fites',              emoji: '🌍', descripcion: 'Els moments més importants que van canviar el món.' },
@@ -53,6 +55,7 @@ const TEMAS_META = {
     usa:      { titulo: 'Independència Americana',   emoji: '🦅', descripcion: 'De les colònies britàniques als Estats Units, 1773–1789.' },
     franquismo: { titulo: 'Franquisme i Transició', emoji: '🕊️', descripcion: 'De la dictadura de Franco a la Constitució del 1978, 1939–1982.' },
     prehistoria: { titulo: 'Prehistòria', emoji: '🦴', descripcion: 'Del Paleolític al Neolític: nòmades, foc, agricultura i sedentarisme.' },
+    'edad-media': { titulo: 'Edat Mitjana', emoji: '🏰', descripcion: 'Feudalisme, Al-Àndalus i la Reconquesta, 476–1492.' },
   },
 }
 
