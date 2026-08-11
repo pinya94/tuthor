@@ -84,8 +84,10 @@ export const TOPIC_CATALOG = {
       // Mismo caso que franquismo: sin eventos/personajes/portadas reales.
       prehistoria: { niveles: [], formatos: { teoria: 'prehistoria' } },
       // Panorama de Mesopotamia/Egipto/Grecia — Roma ya tiene su propio tema
-      // 'roma' (con Línea del Tiempo real), este es solo examen de teoría.
-      antigua: { niveles: [], formatos: { teoria: 'antigua' } },
+      // 'roma'. Ahora con eventos reales en historiaEvents.js (categoria:
+      // 'antigua'), así que además de teoría tiene Línea del Tiempo y Juego
+      // de Fechas — ver la restricción `temas` de esos dos formatos abajo.
+      antigua: { niveles: ['primaria', 'eso', 'bachillerato'], formatos: { teoria: 'antigua' } },
       'edad-media': { niveles: [], formatos: { teoria: 'edad-media' } },
       'edad-moderna': { niveles: [], formatos: { teoria: 'edad-moderna' } },
     },
@@ -97,7 +99,7 @@ export const TOPIC_CATALOG = {
         game: 'linea-temporal',
         usesLevel: true,
         tracksTopic: true,
-        temas: ['primaria', 'gce', 'wwii', 'roma', 'usa'], // franquismo/prehistoria/edad-media/edad-moderna aún sin eventos
+        temas: ['primaria', 'gce', 'wwii', 'roma', 'usa', 'antigua'], // franquismo/prehistoria/edad-media/edad-moderna aún sin eventos
       },
       'quien-es-quien': {
         label: { es: '¿Quién es quién?', en: 'Who is who?', ca: 'Qui és qui?' },
@@ -124,7 +126,7 @@ export const TOPIC_CATALOG = {
         game: 'juego-fechas',
         usesLevel: true,
         tracksTopic: true,
-        temas: ['primaria', 'gce', 'wwii', 'roma', 'usa'], // franquismo/prehistoria/edad-media/edad-moderna aún sin eventos
+        temas: ['primaria', 'gce', 'wwii', 'roma', 'usa', 'antigua'], // franquismo/prehistoria/edad-media/edad-moderna aún sin eventos
         // Escribir el año exacto es inviable en Primaria (rango demasiado amplio)
         niveles: {
           primaria: [],
@@ -132,6 +134,7 @@ export const TOPIC_CATALOG = {
           wwii: ['eso', 'bachillerato'],
           roma: ['eso', 'bachillerato'],
           usa: ['bachillerato'],
+          antigua: ['eso', 'bachillerato'],
         },
       },
     },
