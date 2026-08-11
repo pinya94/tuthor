@@ -1,5 +1,13 @@
-// ¿Qué Época Es? — banco de imágenes reales (dominio público) para adivinar
-// la época histórica que retratan.
+// ¿Qué Época Es? — banco de imágenes reales para adivinar la época
+// histórica que retratan.
+//
+// REGLA sobre qué fotos entran aquí: nunca arte que retrate algo
+// mitológico, bíblico o histórico pintado mucho después (tipo un cuadro
+// barroco de una batalla romana) — no hay forma limpia de que el jugador
+// acierte sin ambigüedad ahí (¿cuenta cuándo se pintó o de qué habla?).
+// Sí valen: fotos de algo real y anterior (ruinas, monumentos que siguen
+// en pie), y arte que retrata su propio presente (un retrato de un
+// contemporáneo, una escena cotidiana del propio pintor).
 //
 // IMPORTANTE sobre lo que se pregunta: siempre la ÉPOCA QUE RETRATA la
 // imagen, nunca cuándo se hizo la fotografía. Con Tutankamón, por ejemplo,
@@ -15,9 +23,12 @@
 // haya examen específico de una época (ej. distinguir 1941 de 1945 dentro
 // de la Segunda Guerra Mundial).
 //
-// `credito` recoge la procedencia y licencia de cada imagen — todas de
-// dominio público, verificadas una a una en su página de Wikimedia Commons
-// antes de subirlas (no vale fiarse de una categoría a ciegas).
+// `credito` recoge la procedencia y licencia de cada imagen, verificada una
+// a una en su página de Wikimedia Commons antes de subirla (no vale fiarse
+// de una categoría a ciegas). La mayoría son de dominio público; algunas
+// son CC BY / CC BY-SA de un autor concreto — en ese caso `credito` lleva
+// el nombre del autor y la licencia exacta, que es lo que exige ese tipo
+// de licencia y es justo lo que se muestra bajo la foto en el juego.
 function foto(id, src, epoca, tema, fecha, explicacion, credito, emoji) {
   return { id, src, epoca, tema, fecha, explicacion, credito, emoji }
 }
@@ -384,5 +395,61 @@ export const FOTOS = [
     },
     'Dorothea Lange, 1936 — Farm Security Administration / Library of Congress, dominio público',
     '😔',
+  ),
+  foto(
+    'prehistoria-gobekli-tepe',
+    '/games/epocas/prehistoria-gobekli-tepe.jpg',
+    'prehistoria',
+    { es: 'Göbekli Tepe — Neolítico precerámico', en: 'Göbekli Tepe — Pre-Pottery Neolithic', ca: 'Göbekli Tepe — Neolític precerámic' },
+    { es: 'hacia 9600 a. C. (construcción)', en: 'c. 9600 BC (construction)', ca: 'cap al 9600 aC (construcció)' },
+    {
+      es: 'Göbekli Tepe, en el sureste de Turquía, la estructura monumental más antigua conocida en el mundo: más de seis mil años anterior a Stonehenge y a las pirámides de Egipto. La construyeron cazadores-recolectores antes de que existiera la agricultura, lo que obligó a repensar cuándo empezó realmente la civilización.',
+      en: 'Göbekli Tepe, in south-eastern Turkey, the oldest known monumental structure in the world — more than six thousand years older than Stonehenge and the Egyptian pyramids. It was built by hunter-gatherers before farming existed, forcing historians to rethink when civilisation actually began.',
+      ca: 'Göbekli Tepe, al sud-est de Turquia, l\'estructura monumental més antiga coneguda al món: més de sis mil anys anterior a Stonehenge i a les piràmides d\'Egipte. La van construir caçadors-recol·lectors abans que existís l\'agricultura, cosa que va obligar a repensar quan va començar realment la civilització.',
+    },
+    'Spica-Vega Photo Arts (Banu Nazikcan), 2021 — Wikimedia Commons, CC BY-SA 4.0',
+    '🦴',
+  ),
+  foto(
+    'prehistoria-newgrange',
+    '/games/epocas/prehistoria-newgrange.jpg',
+    'prehistoria',
+    { es: 'Newgrange — Neolítico irlandés', en: 'Newgrange — Irish Neolithic', ca: 'Newgrange — Neolític irlandès' },
+    { es: 'hacia 3200 a. C. (construcción)', en: 'c. 3200 BC (construction)', ca: 'cap al 3200 aC (construcció)' },
+    {
+      es: 'Newgrange, en Irlanda, una tumba de corredor construida hacia el 3200 a. C. — más antigua que Stonehenge y que las pirámides de Guiza. Cada solsticio de invierno, un rayo de sol entra exactamente por su corredor e ilumina la cámara interior, una alineación astronómica deliberada de hace más de cinco mil años.',
+      en: 'Newgrange, in Ireland, a passage tomb built around 3200 BC — older than Stonehenge and the pyramids of Giza. Every winter solstice, a beam of sunlight enters exactly through its passage and lights up the inner chamber, a deliberate astronomical alignment more than five thousand years old.',
+      ca: 'Newgrange, a Irlanda, una tomba de corredor construïda cap al 3200 aC — més antiga que Stonehenge i que les piràmides de Giza. Cada solstici d\'hivern, un raig de sol entra exactament pel seu corredor i il·lumina la cambra interior, una alineació astronòmica deliberada de fa més de cinc mil anys.',
+    },
+    'Hofi0006 (retoque: Locutus Borg), 2005 — Wikimedia Commons, CC BY-SA 3.0',
+    '🌀',
+  ),
+  foto(
+    'contemporanea-torre-eiffel',
+    '/games/epocas/contemporanea-torre-eiffel.jpg',
+    'contemporanea',
+    { es: 'Construcción de la Torre Eiffel — Revolución Industrial', en: 'Construction of the Eiffel Tower — Industrial Revolution', ca: 'Construcció de la Torre Eiffel — Revolució Industrial' },
+    { es: '1887–1889 (construcción)', en: '1887–1889 (construction)', ca: '1887–1889 (construcció)' },
+    {
+      es: 'Secuencia de la construcción de la Torre Eiffel entre 1887 y 1889, para la Exposición Universal de París. En su momento fue la estructura más alta jamás construida por el ser humano —un símbolo de la ingeniería del hierro de la Revolución Industrial— y muchos parisinos la consideraron una fealdad temporal que debía desmontarse.',
+      en: 'Sequence showing the construction of the Eiffel Tower between 1887 and 1889, for the Paris World\'s Fair. At the time it was the tallest structure ever built by humans — a symbol of Industrial Revolution ironwork engineering — and many Parisians considered it a temporary eyesore that should be taken down.',
+      ca: 'Seqüència de la construcció de la Torre Eiffel entre el 1887 i el 1889, per a l\'Exposició Universal de París. En aquell moment va ser l\'estructura més alta mai construïda per l\'ésser humà —un símbol de l\'enginyeria del ferro de la Revolució Industrial— i molts parisencs la van considerar una lletjor temporal que calia desmuntar.',
+    },
+    'The New York Times photo archive, 1887–1889 — Wikimedia Commons, dominio público',
+    '🗼',
+  ),
+  foto(
+    'contemporanea-pearl-harbor',
+    '/games/epocas/contemporanea-pearl-harbor.jpg',
+    'contemporanea',
+    { es: 'Ataque a Pearl Harbor — Segunda Guerra Mundial', en: 'Attack on Pearl Harbor — World War II', ca: 'Atac a Pearl Harbor — Segona Guerra Mundial' },
+    { es: '7 de diciembre de 1941', en: '7 December 1941', ca: '7 de desembre de 1941' },
+    {
+      es: 'El acorazado USS West Virginia envuelto en humo tras el ataque japonés a la base naval de Pearl Harbor, el 7 de diciembre de 1941. El ataque llevó a Estados Unidos a entrar en la Segunda Guerra Mundial —una fase muy distinta de la guerra a la del desembarco de Normandía, tres años después.',
+      en: 'The battleship USS West Virginia engulfed in smoke after the Japanese attack on the Pearl Harbor naval base, 7 December 1941. The attack brought the United States into World War II — a very different phase of the war from the Normandy landings, three years later.',
+      ca: 'El cuirassat USS West Virginia embolicat en fum després de l\'atac japonès a la base naval de Pearl Harbor, el 7 de desembre de 1941. L\'atac va portar els Estats Units a entrar a la Segona Guerra Mundial —una fase molt diferent de la guerra a la del desembarcament de Normandia, tres anys després.',
+    },
+    'Marina de EE. UU. — Archivos Nacionales de EE. UU. (NARA), dominio público',
+    '🔥',
   ),
 ]
