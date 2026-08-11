@@ -362,6 +362,33 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Historia', niveles: 'ESO, Bachillerato',
   },
+  'epocas-historicas': {
+    titulo: '¿Qué Época Es?',
+    subtitulo: 'Reconoce Periodos Históricos en Fotografías Reales',
+    emoji: '🏺', gradient: 'from-amber-700 to-stone-800',
+    path: '/juegos/epocas-historicas',
+    intro: 'Fotografías históricas reales —el Antiguo Egipto, la Segunda Guerra Mundial y más eras por llegar— para adivinar a qué época pertenece lo que retratan, no cuándo se hizo la foto.',
+    beneficios: [
+      { titulo: 'Distinguir la Época del Registro', texto: 'La foto de una máscara funeraria egipcia es de 1925, pero retrata algo de hace más de 3000 años. Separar "cuándo se fotografió" de "cuándo ocurrió" es una habilidad histórica real.' },
+      { titulo: 'Cronología a Simple Vista', texto: 'Reconocer una época por el vestuario, la tecnología o el contexto de una imagen entrena la ubicación temporal sin depender de fechas memorizadas.' },
+      { titulo: 'Fuentes Primarias', texto: 'Cada imagen incluye su fecha real y procedencia. Se aprende historia a partir de fuentes primarias auténticas, no de dibujos genéricos.' },
+    ],
+    ejemplo: 'Una fotografía de la máscara de Tutankamón, tomada en 1925 durante la excavación de su tumba. La respuesta correcta es "Edad Antigua" —la época del faraón, no la del fotógrafo.',
+    enPapel: {
+      titulo: 'Adivina la época con fotos impresas',
+      pasos: [
+        'Recopila fotos históricas variadas (revistas viejas, libros de texto, internet impreso).',
+        'Mézclalas boca abajo y ve sacando una a una sin decir de qué época es.',
+        'Cada jugador escribe su respuesta (Prehistoria, Antigua, Media, Moderna o Contemporánea) antes de destaparla.',
+        'Comprueba juntos: ¿qué detalle de la imagen daba la pista real?',
+      ],
+    },
+    alternativas: [
+      { nombre: 'Línea del tiempo mural', desc: 'Pega las fotos impresas en una línea temporal larga en la pared, por orden cronológico de lo que retratan.' },
+      { nombre: '¿Foto o reconstrucción?', desc: 'Comenta en grupo qué imágenes son fotografías directas y cuáles son excavaciones o reconstrucciones de algo mucho más antiguo.' },
+    ],
+    asignatura: 'Historia', niveles: 'Primaria, ESO, Bachillerato',
+  },
   'georush': {
     titulo: 'GeoRush',
     subtitulo: 'Geografía y Deducción por Pistas',
@@ -841,6 +868,23 @@ export const FICHAS_EN = {
       { nombre: 'Class newspaper', desc: 'Students write real and fake headlines about a topic. Classmates classify them.' },
     ],
     asignatura: 'History', niveles: 'Secondary, Sixth Form',
+  },
+  'epocas-historicas': {
+    titulo: 'What Era Is This?', subtitulo: 'Recognise Historical Periods in Real Photographs',
+    emoji: '🏺', gradient: 'from-amber-700 to-stone-800', path: '/juegos/epocas-historicas',
+    intro: 'Real historical photographs — Ancient Egypt, World War II and more eras to come — to guess which era they show, not when the photo itself was taken.',
+    beneficios: [
+      { titulo: 'Telling the Record Apart from the Event', texto: 'A photo of an Egyptian funerary mask dates from 1925, but shows something over 3,000 years old. Separating "when it was photographed" from "when it happened" is a genuine historical skill.' },
+      { titulo: 'Chronology at a Glance', texto: 'Recognising an era from clothing, technology or context trains time placement without relying on memorised dates.' },
+      { titulo: 'Primary Sources', texto: 'Each image comes with its real date and provenance. History learned from authentic primary sources, not generic illustrations.' },
+    ],
+    ejemplo: "A photograph of Tutankhamun's mask, taken in 1925 during the excavation of his tomb. The correct answer is \"Antiquity\" — the pharaoh's era, not the photographer's.",
+    enPapel: { titulo: 'Guess the era with printed photos', pasos: ['Gather varied historical photos (old magazines, textbooks, printed from the internet).', 'Shuffle them face down and reveal one at a time without saying the era.', 'Each player writes their answer (Prehistory, Antiquity, Middle Ages, Early Modern or Contemporary) before it is revealed.', 'Check together: which detail in the image was the real clue?'] },
+    alternativas: [
+      { nombre: 'Timeline wall', desc: 'Stick the printed photos on a long timeline on the wall, in the chronological order of what they show.' },
+      { nombre: 'Photo or reconstruction?', desc: 'Discuss as a group which images are direct photographs and which are excavations or reconstructions of something much older.' },
+    ],
+    asignatura: 'History', niveles: 'Primary, Secondary, Sixth Form',
   },
   'georush': {
     titulo: 'GeoRush', subtitulo: 'Geography & Deduction by Clues',
@@ -1335,6 +1379,33 @@ export const FICHAS_CA = {
       { nombre: 'Diari de l\'aula', desc: 'Els alumnes redacten titulars reals i falsos sobre un tema. Els companys els classifiquen.' },
     ],
     asignatura: 'Història', niveles: 'ESO, Batxillerat',
+  },
+  'epocas-historicas': {
+    titulo: 'Quina Època És?',
+    subtitulo: 'Reconeix Períodes Històrics en Fotografies Reals',
+    emoji: '🏺', gradient: 'from-amber-700 to-stone-800',
+    path: '/juegos/epocas-historicas',
+    intro: 'Fotografies històriques reals —l\'Antic Egipte, la Segona Guerra Mundial i més èpoques per arribar— per endevinar a quina època pertany el que retraten, no pas quan es va fer la foto.',
+    beneficios: [
+      { titulo: 'Distingir l\'Època del Registre', texto: 'La foto d\'una màscara funerària egípcia és del 1925, però retrata alguna cosa de fa més de 3000 anys. Separar "quan es va fotografiar" de "quan va passar" és una habilitat històrica real.' },
+      { titulo: 'Cronologia a Cop d\'Ull', texto: 'Reconèixer una època pel vestuari, la tecnologia o el context d\'una imatge entrena la ubicació temporal sense dependre de dates memoritzades.' },
+      { titulo: 'Fonts Primàries', texto: 'Cada imatge inclou la seva data real i procedència. S\'aprèn història a partir de fonts primàries autèntiques, no de dibuixos genèrics.' },
+    ],
+    ejemplo: 'Una fotografia de la màscara de Tutankamon, presa el 1925 durant l\'excavació de la seva tomba. La resposta correcta és "Edat Antiga" —l\'època del faraó, no la del fotògraf.',
+    enPapel: {
+      titulo: 'Endevina l\'època amb fotos impreses',
+      pasos: [
+        'Recopila fotos històriques variades (revistes velles, llibres de text, internet imprès).',
+        'Barreja-les cap per avall i ves traient-ne una a una sense dir de quina època és.',
+        'Cada jugador escriu la seva resposta (Prehistòria, Antiga, Mitjana, Moderna o Contemporània) abans de destapar-la.',
+        'Comproveu-ho junts: quin detall de la imatge donava la pista real?',
+      ],
+    },
+    alternativas: [
+      { nombre: 'Línia del temps mural', desc: 'Enganxa les fotos impreses en una línia temporal llarga a la paret, per ordre cronològic del que retraten.' },
+      { nombre: 'Foto o reconstrucció?', desc: 'Comenteu en grup quines imatges són fotografies directes i quines són excavacions o reconstruccions d\'alguna cosa molt més antiga.' },
+    ],
+    asignatura: 'Història', niveles: 'Primària, ESO, Batxillerat',
   },
   'georush': {
     titulo: 'GeoRush',

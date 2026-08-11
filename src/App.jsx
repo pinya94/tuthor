@@ -38,6 +38,7 @@ const Acercate           = lazy(() => import('./pages/Acercate'))
 const AcercateRoguelike  = lazy(() => import('./pages/AcercateRoguelike'))
 const Portadas           = lazy(() => import('./pages/Portadas'))
 const PortadasExamen     = lazy(() => import('./pages/PortadasExamen'))
+const EpocasHistoricas   = lazy(() => import('./pages/EpocasHistoricas'))
 const GeoRush            = lazy(() => import('./pages/GeoRush'))
 const GeoMapa            = lazy(() => import('./pages/GeoMapa'))
 const NumPath            = lazy(() => import('./pages/NumPath'))
@@ -169,6 +170,7 @@ function AppRoutes() {
       <Route path="juegos/acercate/clasico" element={<Acercate />} />
       <Route path="juegos/portadas" element={<Portadas />} />
       <Route path="examen/portadas" element={<PortadasExamen />} />
+      <Route path="juegos/epocas-historicas" element={<EpocasHistoricas />} />
 
       {/* ── EXÁMENES (generados desde src/lib/exams.js) ── */}
       {EXAM_ROUTES.map(e => <Route key={e.id} path={e.path} element={<e.Component />} />)}

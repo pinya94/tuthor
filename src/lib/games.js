@@ -207,6 +207,14 @@ export const GAMES = {
     // aciertos × 10 puntos → hasta 200 monedas
     coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
   },
+  'epocas-historicas': {
+    label: { es: '¿Qué Época Es?', en: 'What Era Is This?', ca: 'Quina Època És?' },
+    emoji: '🏺',
+    subject: 'historia',
+    route: '/juegos/epocas-historicas',
+    // aciertos × 10 puntos → hasta 200 monedas
+    coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
+  },
 }
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
