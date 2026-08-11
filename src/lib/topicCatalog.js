@@ -83,6 +83,9 @@ export const TOPIC_CATALOG = {
       franquismo: { niveles: [], formatos: { teoria: 'franquismo' } },
       // Mismo caso que franquismo: sin eventos/personajes/portadas reales.
       prehistoria: { niveles: [], formatos: { teoria: 'prehistoria' } },
+      // Panorama de Mesopotamia/Egipto/Grecia — Roma ya tiene su propio tema
+      // 'roma' (con Línea del Tiempo real), este es solo examen de teoría.
+      antigua: { niveles: [], formatos: { teoria: 'antigua' } },
       'edad-media': { niveles: [], formatos: { teoria: 'edad-media' } },
       'edad-moderna': { niveles: [], formatos: { teoria: 'edad-moderna' } },
     },

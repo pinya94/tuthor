@@ -79,6 +79,11 @@ export const EXAMS = {
     emoji: '🦴', subject: 'historia',
     path: 'examen/prehistoria', page: () => import('../pages/HistoriaPrehistoriaExamen'),
   },
+  'antigua': {
+    label: { es: 'Edad Antigua (teoría)', en: 'Antiquity (theory)', ca: 'Edat Antiga (teoria)' },
+    emoji: '🏛️', subject: 'historia',
+    path: 'examen/antigua', page: () => import('../pages/HistoriaAntiguaExamen'),
+  },
   'edad-media': {
     label: { es: 'Edad Media (teoría)', en: 'The Middle Ages (theory)', ca: 'Edat Mitjana (teoria)' },
     emoji: '🏰', subject: 'historia',
@@ -526,7 +531,7 @@ const EXAM_GROUPS = [
   // Sin prefijo compartido (los ids son los mismos que usan Línea del Tiempo
   // / ¿Quién es quién? para category, ver topicCatalog.js): se agrupan por
   // lista explícita en vez de por prefijo.
-  { match: id => ['gce', 'wwii', 'roma', 'usa', 'primaria', 'franquismo', 'prehistoria', 'edad-media', 'edad-moderna'].includes(id),
+  { match: id => ['gce', 'wwii', 'roma', 'usa', 'primaria', 'franquismo', 'prehistoria', 'antigua', 'edad-media', 'edad-moderna'].includes(id),
     label: { es: 'Historia (teoría, tipo test)', en: 'History (theory quiz)', ca: 'Història (teoria, tipus test)' } },
   { match: id => id === 'analiza-frases-test' || id.startsWith('frases-'),
     label: { es: 'Analiza la Frase (señalar)', en: 'Sentence Detective (spot them)', ca: 'Analitza la Frase (assenyalar)' } },

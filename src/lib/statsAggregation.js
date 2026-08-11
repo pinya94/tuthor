@@ -46,7 +46,7 @@ export const SUBJECT_DEFS = [
     id: 'historia', emoji: '⚔️',
     label: { es: 'Historia', en: 'History', ca: 'Història' },
     gameIds: ['juego-fechas', 'linea-temporal'],
-    catIds: ['gce', 'wwii', 'roma', 'usa', 'primaria', 'franquismo', 'prehistoria', 'edad-media', 'edad-moderna', 'global'],
+    catIds: ['gce', 'wwii', 'roma', 'usa', 'primaria', 'franquismo', 'prehistoria', 'antigua', 'edad-media', 'edad-moderna', 'global'],
     catLabels: {
       'gce':     { es: 'Guerra Civil Española',    en: 'Spanish Civil War',     ca: 'Guerra Civil Espanyola'  },
       'wwii':    { es: 'Segunda Guerra Mundial',   en: 'World War II',          ca: 'Segona Guerra Mundial'   },
@@ -55,6 +55,7 @@ export const SUBJECT_DEFS = [
       'primaria':{ es: 'Grandes Hitos',            en: 'Great Milestones',      ca: 'Grans Fites'             },
       'franquismo': { es: 'Franquismo y Transición', en: 'Francoism & Transition', ca: 'Franquisme i Transició' },
       'prehistoria': { es: 'Prehistoria', en: 'Prehistory', ca: 'Prehistòria' },
+      'antigua': { es: 'Edad Antigua', en: 'Antiquity', ca: 'Edat Antiga' },
       'edad-media': { es: 'Edad Media', en: 'The Middle Ages', ca: 'Edat Mitjana' },
       'edad-moderna': { es: 'Edad Moderna', en: 'The Early Modern Period', ca: 'Edat Moderna' },
       'global':  { es: 'Historia Global',          en: 'World History',         ca: 'Història Global'         },
