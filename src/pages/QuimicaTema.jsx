@@ -201,6 +201,13 @@ const MODOS_POR_TEMA = {
       detalles: { es:['2 niveles','10 preguntas','Opción múltiple','Explicación tras cada respuesta'], en:['2 levels','10 questions','Multiple choice','Explanation after each answer'], ca:['2 nivells','10 preguntes','Opció múltiple','Explicació després de cada resposta'] },
       path: 'cuerpo-humano',
     },
+    {
+      id: 'rayos-x-test', emoji: '🧠', gradient: 'from-indigo-700 to-slate-900',
+      titulo: { es:'Rayos X', en:'X-Ray', ca:'Raigs X' },
+      descripcion: { es:'Con la mecánica del juego: toca la silueta del cuerpo donde crees que está el órgano pedido.', en:'Using the game mechanic: tap the body silhouette where you think the requested organ is.', ca:'Amb la mecànica del joc: toca la silueta del cos on creus que és l\'òrgan demanat.' },
+      detalles: { es:['10 preguntas','Sin cronómetro','Acierto o fallo','Con el juego'], en:['10 questions','No timer','Right or wrong','With the game'], ca:['10 preguntes','Sense cronòmetre','Encert o error','Amb el joc'] },
+      path: 'rayos-x-test',
+    },
   ],
   'seres-vivos': [
     {

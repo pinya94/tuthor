@@ -89,6 +89,7 @@ const OrdenaFrase            = lazy(() => import('./pages/OrdenaFrase'))
 const Genetica               = lazy(() => import('./pages/Genetica'))
 const Orbita                 = lazy(() => import('./pages/Orbita'))
 const Coordenadas            = lazy(() => import('./pages/Coordenadas'))
+const RayosX                 = lazy(() => import('./pages/RayosX'))
 const Diagnostico            = lazy(() => import('./pages/Diagnostico'))
 const FraccionesTema         = lazy(() => import('./pages/FraccionesTema'))
 const EstadisticaTema        = lazy(() => import('./pages/EstadisticaTema'))
@@ -222,6 +223,7 @@ function AppRoutes() {
       <Route path="juegos/genetica" element={<Genetica />} />
       <Route path="juegos/orbita" element={<Orbita />} />
       <Route path="juegos/coordenadas" element={<Coordenadas />} />
+      <Route path="juegos/rayos-x" element={<RayosX />} />
       <Route path="examen/portero" element={<PorteroExamen />} />
       <Route path="examen/trayectoria" element={<TrayectoriaExamen />} />
 

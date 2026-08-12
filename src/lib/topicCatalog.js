@@ -281,7 +281,7 @@ export const TOPIC_CATALOG = {
   biologia: {
     temas: {
       celula: examTema({ teoria: 'celula' }),
-      'cuerpo-humano': examTema({ teoria: 'cuerpo-humano' }),
+      'cuerpo-humano': examTema({ teoria: 'cuerpo-humano', rayosX: 'rayos-x-test' }),
       'seres-vivos': examTema({ teoria: 'seres-vivos' }),
       ecosistemas: examTema({ teoria: 'ecosistemas' }),
       genetica: examTema({ teoria: 'genetica', 'punnett': 'genetica-test' }),
@@ -291,6 +291,7 @@ export const TOPIC_CATALOG = {
     formatos: {
       teoria: examFormato({ es: 'Teoría (tipo test)', en: 'Theory (quiz)', ca: 'Teoria (tipus test)' }, '📝'),
       punnett: examFormato({ es: 'Cuadro de Punnett (con el juego)', en: 'Punnett square (with the game)', ca: 'Quadre de Punnett (amb el joc)' }, '🧬'),
+      rayosX: examFormato({ es: 'Rayos X (con el juego)', en: 'X-Ray (with the game)', ca: 'Raigs X (amb el joc)' }, '🧠'),
     },
   },
 

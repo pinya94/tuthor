@@ -690,6 +690,35 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Geografía', niveles: 'Primaria, ESO',
   },
+  'rayos-x': {
+    titulo: 'Rayos X',
+    subtitulo: 'Juego de Anatomía y Localización de Órganos',
+    emoji: '🧠', gradient: 'from-indigo-700 to-slate-900',
+    path: '/juegos/rayos-x',
+    examPath: '/examen/rayos-x-test',
+    intro: 'Un juego de biología para aprender dónde está cada órgano de verdad: tocas la silueta del cuerpo en el punto donde crees que está el órgano pedido y confirmas cuando estés seguro. Sin reloj ni reflejos — el reto es razonar la anatomía, no ser rápido. Cuanto más cerca del centro real, más puntos, y cada intento, acierte o no, enseña su función y un dato real.',
+    beneficios: [
+      { titulo: 'Localización real, no una lista de nombres', texto: 'La mayoría de repasos de anatomía piden memorizar una lista de órganos y su sistema. Aquí hay que situarlos de verdad sobre el cuerpo, con la altura y el lado correctos.' },
+      { titulo: 'Función y dato en cada intento', texto: 'Acierte o falle, cada ronda enseña para qué sirve el órgano y un hecho concreto: el hígado se regenera, el intestino delgado mide 6-7 metros, el estómago tiene un pH capaz de disolver metal. Datos verificables, no curiosidades sueltas.' },
+      { titulo: 'Los 4 sistemas principales, de un vistazo', texto: 'Cerebro (nervioso), corazón (circulatorio), pulmones y diafragma (respiratorio), estómago, hígado e intestinos (digestivo) — los mismos sistemas que trata el examen teórico, pero situados sobre el cuerpo.' },
+    ],
+    ejemplo: 'Toca localizar el hígado. El jugador sabe que está en el sistema digestivo, en la parte alta del abdomen: toca la zona superior derecha del vientre y confirma. La silueta revela el punto exacto — "Órgano correcto" y suma puntos, con su función (filtra la sangre y produce bilis) y el dato de que es el único órgano capaz de regenerarse.',
+    enPapel: {
+      titulo: 'Localizar órganos en papel',
+      pasos: [
+        'Dibuja el contorno de un cuerpo humano de frente, sin más detalle.',
+        'Escribe en una lista aparte 7 órganos: cerebro, corazón, pulmones, diafragma, estómago, hígado e intestinos.',
+        'Para cada uno, dibuja un punto donde creas que está y escribe su función al lado.',
+        'Comprueba con un libro de biología o un atlas anatómico y corrige los que hayas fallado.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'El examen de Cuerpo Humano', desc: 'Después de jugar, repasa con el examen tipo test: sistemas digestivo, circulatorio, respiratorio y nervioso, con explicación tras cada respuesta.' },
+      { nombre: 'Un órgano al día', desc: 'Cada día busca un dato nuevo de un órgano distinto y anótalo en una ficha. Al cabo de una semana tienes tu propio atlas de anatomía.' },
+      { nombre: 'Palpar el propio cuerpo', desc: 'Pon la mano sobre tu pecho para sentir los latidos del corazón, o respira hondo notando cómo se mueve el diafragma — la mejor referencia real está a mano.' },
+    ],
+    asignatura: 'Biología', niveles: 'Primaria, ESO',
+  },
 }
 
 export const FICHAS_EN = {
@@ -1208,6 +1237,35 @@ export const FICHAS_EN = {
       { nombre: 'A real globe', desc: 'If you have one at home or in class, spin it to a random point and practise reading its approximate latitude and longitude out loud.' },
     ],
     asignatura: 'Geography', niveles: 'Primary, Secondary',
+  },
+  'rayos-x': {
+    titulo: 'X-Ray',
+    subtitulo: 'Anatomy & Organ Location Game',
+    emoji: '🧠', gradient: 'from-indigo-700 to-slate-900',
+    path: '/juegos/rayos-x',
+    examPath: '/examen/rayos-x-test',
+    intro: "A biology game to really learn where each organ is: you tap the body silhouette at the point where you think the requested organ is, and confirm once you're sure. No clock, no reflexes — the challenge is reasoning about anatomy, not being fast. The closer to the real centre, the more points, and every attempt, right or wrong, reveals the organ's function and a real fact.",
+    beneficios: [
+      { titulo: 'Real location, not a list of names', texto: 'Most anatomy revision asks you to memorise a list of organs and their system. Here you actually have to place them on the body, at the right height and side.' },
+      { titulo: 'Function and fact on every attempt', texto: 'Right or wrong, every round teaches what the organ does and a concrete fact: the liver regenerates, the small intestine is 6-7 metres long, the stomach\'s acid is strong enough to dissolve metal. Verifiable facts, not loose trivia.' },
+      { titulo: 'The 4 main systems, at a glance', texto: 'Brain (nervous), heart (circulatory), lungs and diaphragm (respiratory), stomach, liver and intestines (digestive) — the same systems covered by the theory exam, but placed on the body.' },
+    ],
+    ejemplo: "It's time to locate the liver. The player knows it's part of the digestive system, in the upper abdomen: they tap the upper-right area of the belly and confirm. The silhouette reveals the exact spot — \"Right organ\" and points are scored, along with its function (filters the blood and produces bile) and the fact that it's the only organ able to regenerate.",
+    enPapel: {
+      titulo: 'Locating organs on paper',
+      pasos: [
+        'Draw the outline of a human body from the front, nothing more.',
+        'Write down a separate list of 7 organs: brain, heart, lungs, diaphragm, stomach, liver and intestines.',
+        'For each one, draw a dot where you think it is and write its function next to it.',
+        'Check against a biology book or an anatomy atlas and correct any you got wrong.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'The Human Body exam', desc: 'After playing, revise with the multiple-choice exam: digestive, circulatory, respiratory and nervous systems, with an explanation after every answer.' },
+      { nombre: 'One organ a day', desc: 'Each day, look up a new fact about a different organ and write it down. After a week you have your own anatomy atlas.' },
+      { nombre: 'Feel your own body', desc: 'Put a hand on your chest to feel your heartbeat, or breathe deeply and notice how your diaphragm moves — the best real reference is right there.' },
+    ],
+    asignatura: 'Biology', niveles: 'Primary, Secondary',
   },
 }
 
@@ -1805,5 +1863,34 @@ export const FICHAS_CA = {
       { nombre: 'Un globus terraqui real', desc: 'Si en tens un a casa o a classe, gira\'l fins a un punt a l\'atzar i practica llegir en veu alta la seva latitud i longitud aproximades.' },
     ],
     asignatura: 'Geografia', niveles: 'Primària, ESO',
+  },
+  'rayos-x': {
+    titulo: 'Raigs X',
+    subtitulo: 'Joc d\'Anatomia i Localització d\'Òrgans',
+    emoji: '🧠', gradient: 'from-indigo-700 to-slate-900',
+    path: '/juegos/rayos-x',
+    examPath: '/examen/rayos-x-test',
+    intro: 'Un joc de biologia per aprendre on és cada òrgan de veritat: toques la silueta del cos al punt on creus que és l\'òrgan demanat i confirmes quan estiguis segur. Sense rellotge ni reflexos — el repte és raonar l\'anatomia, no ser ràpid. Com més a prop del centre real, més punts, i cada intent, encertis o no, ensenya la seva funció i una dada real.',
+    beneficios: [
+      { titulo: 'Localització real, no una llista de noms', texto: 'La majoria de repassos d\'anatomia demanen memoritzar una llista d\'òrgans i el seu sistema. Aquí cal situar-los de veritat sobre el cos, amb l\'alçada i el costat correctes.' },
+      { titulo: 'Funció i dada en cada intent', texto: 'Encertis o no, cada ronda ensenya per a què serveix l\'òrgan i un fet concret: el fetge es regenera, l\'intestí prim fa 6-7 metres, l\'estómac té un pH capaç de dissoldre metall. Dades verificables, no curiositats soltes.' },
+      { titulo: 'Els 4 sistemes principals, d\'un cop d\'ull', texto: 'Cervell (nerviós), cor (circulatori), pulmons i diafragma (respiratori), estómac, fetge i intestins (digestiu) — els mateixos sistemes que tracta l\'examen teòric, però situats sobre el cos.' },
+    ],
+    ejemplo: 'Toca localitzar el fetge. El jugador sap que és al sistema digestiu, a la part alta de l\'abdomen: toca la zona superior dreta del ventre i confirma. La silueta revela el punt exacte — "Òrgan correcte" i suma punts, amb la seva funció (filtra la sang i produeix bilis) i la dada que és l\'únic òrgan capaç de regenerar-se.',
+    enPapel: {
+      titulo: 'Localitzar òrgans en paper',
+      pasos: [
+        'Dibuixa el contorn d\'un cos humà de front, sense més detall.',
+        'Escriu en una llista a part 7 òrgans: cervell, cor, pulmons, diafragma, estómac, fetge i intestins.',
+        'Per a cadascun, dibuixa un punt on creguis que és i escriu la seva funció al costat.',
+        'Comprova amb un llibre de biologia o un atles anatòmic i corregeix els que hagis fallat.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'L\'examen de Cos Humà', desc: 'Després de jugar, repassa amb l\'examen tipus test: sistemes digestiu, circulatori, respiratori i nerviós, amb explicació després de cada resposta.' },
+      { nombre: 'Un òrgan al dia', desc: 'Cada dia busca una dada nova d\'un òrgan diferent i anota-la en una fitxa. Al cap d\'una setmana tens el teu propi atles d\'anatomia.' },
+      { nombre: 'Palpar el propi cos', desc: 'Posa la mà sobre el pit per sentir els batecs del cor, o respira fons notant com es mou el diafragma — la millor referència real la tens a mà.' },
+    ],
+    asignatura: 'Biologia', niveles: 'Primària, ESO',
   },
 }

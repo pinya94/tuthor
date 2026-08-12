@@ -231,6 +231,14 @@ export const GAMES = {
     // aciertos × 10 puntos → hasta 200 monedas
     coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
   },
+  'rayos-x': {
+    label: { es: 'Rayos X', en: 'X-Ray', ca: 'Raigs X' },
+    emoji: '🧠',
+    subject: 'biologia',
+    route: '/juegos/rayos-x',
+    // aciertos × 10 puntos → hasta 200 monedas
+    coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
+  },
 }
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
