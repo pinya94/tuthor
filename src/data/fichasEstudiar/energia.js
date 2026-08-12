@@ -11,6 +11,11 @@ export default {
     "asignatura": "Física y Química",
     "niveles": "Primaria y ESO",
     "intro": "Estudia los tipos de energía (cinética, potencial, térmica, luminosa, química, nuclear), el principio de conservación, las transformaciones energéticas en centrales eléctricas, las diferencias entre fuentes renovables y no renovables, el rendimiento de las máquinas y la potencia eléctrica.",
+    "resumen": [
+      "La energía no se crea ni se destruye, solo se transforma: es una de las leyes más importantes de toda la física, y entenderla explica desde por qué un coche se calienta al frenar hasta por qué ninguna máquina es 100% eficiente. Es un tema que conecta directamente con el debate sobre energías renovables.",
+      "El examen cubre los tipos de energía (cinética, potencial, térmica, luminosa, química, nuclear), las transformaciones energéticas en una central eléctrica, la diferencia entre fuentes renovables y no renovables, y el cálculo del rendimiento de una máquina.",
+      "Repasa las transformaciones de energía y las fuentes renovables con el examen de abajo, con la explicación completa en cada pregunta."
+    ],
     "beneficios": [
       "Comprende el principio de conservación: la energía no se crea ni se destruye, solo se transforma.",
       "Distingue energías renovables (solar, eólica, hidráulica) de no renovables (carbón, petróleo, nuclear).",
@@ -47,6 +52,11 @@ export default {
     "asignatura": "Physics & Chemistry",
     "niveles": "Primary & Secondary",
     "intro": "Study the types of energy (kinetic, potential, thermal, light, chemical, nuclear), the conservation principle, energy transformations in power stations, the differences between renewable and non-renewable sources, machine efficiency and electrical power.",
+    "resumen": [
+      "Energy is never created or destroyed, only transformed: it is one of the most important laws in all of physics, and understanding it explains everything from why a car heats up when it brakes to why no machine is 100% efficient. It is a topic that connects directly to the debate on renewable energy.",
+      "The exam covers the types of energy (kinetic, potential, thermal, light, chemical, nuclear), energy transformations in a power station, the difference between renewable and non-renewable sources, and calculating a machine's efficiency.",
+      "Revise energy transformations and renewable sources with the exam below, with the full explanation in every question."
+    ],
     "beneficios": [
       {
         "titulo": "Conservation of Energy",
@@ -93,6 +103,11 @@ export default {
     "asignatura": "Física i Química",
     "niveles": "Primària i ESO",
     "intro": "Estudia els tipus d'energia (cinètica, potencial, tèrmica, lluminosa, química, nuclear), el principi de conservació, les transformacions energètiques en centrals elèctriques, les diferències entre fonts renovables i no renovables, el rendiment de les màquines i la potència elèctrica.",
+    "resumen": [
+      "L'energia no es crea ni es destrueix, només es transforma: és una de les lleis més importants de tota la física, i entendre-la explica des de per què un cotxe s'escalfa en frenar fins a per què cap màquina és 100% eficient. És un tema que connecta directament amb el debat sobre les energies renovables.",
+      "L'examen cobreix els tipus d'energia (cinètica, potencial, tèrmica, lluminosa, química, nuclear), les transformacions energètiques en una central elèctrica, la diferència entre fonts renovables i no renovables, i el càlcul del rendiment d'una màquina.",
+      "Repassa les transformacions d'energia i les fonts renovables amb l'examen de sota, amb l'explicació completa a cada pregunta."
+    ],
     "beneficios": [
       {
         "titulo": "Conservació de l'Energia",

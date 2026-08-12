@@ -11,6 +11,11 @@ export default {
     "asignatura": "Lengua Española",
     "niveles": "Primaria, ESO",
     "intro": "Repasa la gramática española desde las categorías de palabras hasta la sintaxis oracional. El examen cubre: sustantivos, adjetivos, verbos, adverbios, pronombres, tipos de oraciones, acentuación, ortografía (b/v, hay/ahí/ay, sino/si no) y análisis sintáctico (sujeto, CD, CI).",
+    "resumen": [
+      "La gramática es el esqueleto de cualquier idioma: saber identificar sustantivos, verbos y adjetivos, entender por qué una palabra lleva tilde o por qué una oración necesita un complemento directo no es un capricho académico, es lo que permite escribir y leer con precisión. Es una de las asignaturas donde más se nota la diferencia entre memorizar reglas sueltas y entender el sistema completo.",
+      "El examen recorre las categorías gramaticales, la acentuación, la ortografía de casos frecuentes (b/v, hay/ahí/ay, sino/si no) y el análisis sintáctico básico —sujeto, complemento directo, complemento indirecto— con el truco de sustitución para no confundirlos nunca más.",
+      "Repasa toda la gramática española, de Primaria a ESO, con el examen de abajo."
+    ],
     "beneficios": [
       {
         "titulo": "Ortografía con Reglas",
@@ -57,6 +62,11 @@ export default {
     "asignatura": "Spanish Language",
     "niveles": "Primary, Secondary",
     "intro": "Revise Spanish grammar from word classes to sentence syntax. The exam covers: nouns, adjectives, verbs, adverbs, pronouns, sentence types, stress rules, spelling (b/v, hay/ahí/ay, sino/si no) and syntactic analysis (subject, direct object, indirect object).",
+    "resumen": [
+      "Grammar is the skeleton of any language: knowing how to identify nouns, verbs and adjectives, understanding why a word needs an accent or why a sentence needs a direct object is not an academic whim — it's what lets you write and read with precision. It's one of those subjects where the gap between memorising loose rules and understanding the whole system really shows.",
+      "The exam covers word classes, accentuation, common spelling cases (b/v, hay/ahí/ay, sino/si no) and basic syntactic analysis —subject, direct object, indirect object— with the substitution trick so you never confuse them again.",
+      "Revise all of Spanish grammar, from Primary to Secondary, with the exam below."
+    ],
     "beneficios": [
       {
         "titulo": "Spelling with Rules",
@@ -103,6 +113,11 @@ export default {
     "asignatura": "Llengua Espanyola",
     "niveles": "Primària, ESO",
     "intro": "Repassa la gramàtica espanyola des de les categories de paraules fins a la sintaxi oracional. L'examen cobreix: substantius, adjectius, verbs, adverbis, pronoms, tipus d'oracions, accentuació, ortografia (b/v, hay/ahí/ay, sino/si no) i anàlisi sintàctica (subjecte, CD, CI).",
+    "resumen": [
+      "La gramàtica és l'esquelet de qualsevol idioma: saber identificar substantius, verbs i adjectius, entendre per què una paraula porta accent o per què una oració necessita un complement directe no és un caprici acadèmic, és el que permet escriure i llegir amb precisió. És una de les assignatures on més es nota la diferència entre memoritzar regles soltes i entendre el sistema complet.",
+      "L'examen recorre les categories gramaticals, l'accentuació, l'ortografia de casos freqüents (b/v, hay/ahí/ay, sino/si no) i l'anàlisi sintàctica bàsica —subjecte, complement directe, complement indirecte— amb el truc de substitució per no confondre'ls mai més.",
+      "Repassa tota la gramàtica espanyola, de Primària a ESO, amb l'examen de sota."
+    ],
     "beneficios": [
       {
         "titulo": "Ortografia amb Regles",

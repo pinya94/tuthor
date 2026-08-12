@@ -11,6 +11,11 @@ export default {
     "asignatura": "Lengua Española",
     "niveles": "Primaria, ESO",
     "intro": "Domina los sustantivos en español: identificación entre categorías, género femenino en palabras que acaban en -o (la mano, la foto), plural de palabras acabadas en -z (pez→peces), sustantivos colectivos, abstractos, epicenos y ambiguos. 15 preguntas cubren desde nivel Primaria hasta ESO.",
+    "resumen": [
+      "El sustantivo es la categoría gramatical más básica y, al mismo tiempo, una de las que más excepciones esconde en español: palabras masculinas que terminan en -a, femeninas que terminan en -o, plurales que cambian por completo la raíz. Dominarlo bien es la base para todo lo demás en gramática.",
+      "El examen trabaja las excepciones de género más frecuentes (la mano, la foto, la moto), los plurales irregulares (pez→peces, régimen→regímenes) y los tipos de sustantivo —propio, común, colectivo, abstracto, epiceno— con ejemplos reales del currículum.",
+      "Repasa el sustantivo de Primaria a ESO con el examen de abajo, con explicación en cada pregunta."
+    ],
     "beneficios": [
       {
         "titulo": "Excepciones de Género",
@@ -57,6 +62,11 @@ export default {
     "asignatura": "Spanish Language",
     "niveles": "Primary, Secondary",
     "intro": "Master Spanish nouns: identifying nouns among other word classes, feminine gender exceptions in -o words (la mano, la foto), plural of -z words (pez→peces), collective nouns (bosque), abstract nouns (amor), epicene nouns (la serpiente), and invariable plurals (la hipótesis/las hipótesis). 15 questions from Primary to Secondary.",
+    "resumen": [
+      "The noun is the most basic grammatical category and, at the same time, one that hides the most exceptions in Spanish: masculine words ending in -a, feminine words ending in -o, plurals that completely change the root. Mastering it well is the foundation for everything else in grammar.",
+      "The exam covers the most frequent gender exceptions (la mano, la foto, la moto), irregular plurals (pez→peces, régimen→regímenes) and noun types —proper, common, collective, abstract, epicene— with real curriculum examples.",
+      "Revise nouns from Primary to Secondary with the exam below, with an explanation for every question."
+    ],
     "beneficios": [
       {
         "titulo": "Gender Exceptions",
@@ -103,6 +113,11 @@ export default {
     "asignatura": "Llengua Espanyola",
     "niveles": "Primària, ESO",
     "intro": "Domina els substantius en castellà: identificació entre categories, gènere femení en paraules acabades en -o (la mano, la foto), plural de paraules en -z (pez→peces), substantius col·lectius, abstractes, epicens i ambigus. 15 preguntes de Primària a ESO.",
+    "resumen": [
+      "El substantiu és la categoria gramatical més bàsica i, alhora, una de les que amaga més excepcions en castellà: paraules masculines acabades en -a, femenines acabades en -o, plurals que canvien completament l'arrel. Dominar-lo bé és la base per a tota la resta de la gramàtica.",
+      "L'examen treballa les excepcions de gènere més freqüents (la mano, la foto, la moto), els plurals irregulars (pez→peces, régimen→regímenes) i els tipus de substantiu —propi, comú, col·lectiu, abstracte, epicè— amb exemples reals del currículum.",
+      "Repassa el substantiu de Primària a ESO amb l'examen de sota, amb explicació a cada pregunta."
+    ],
     "beneficios": [
       {
         "titulo": "Excepcions de Gènere",

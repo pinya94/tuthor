@@ -11,6 +11,11 @@ export default {
     "asignatura": "Biología",
     "niveles": "ESO, Bachillerato",
     "intro": "Aprende la teoría de la evolución de Darwin: qué es la selección natural, por qué hace falta variabilidad genética para que funcione, el ejemplo clásico de los pinzones de las Islas Galápagos, y en qué se equivocaba Lamarck antes de Darwin. Preguntas adaptadas a ESO y Bachillerato.",
+    "resumen": [
+      "La evolución es probablemente la idea más malentendida de la biología: no va de que las especies \"mejoren\" con un propósito, sino de que la variación aleatoria combinada con la supervivencia diferencial produce, generación tras generación, cambios que parecen diseñados sin que nadie los haya diseñado.",
+      "El examen trabaja la selección natural paso a paso, el papel imprescindible de la variabilidad genética, el ejemplo histórico de los pinzones de Darwin en las Galápagos, y el contraste con la teoría equivocada de Lamarck —la que casi todo el mundo confunde con la de Darwin la primera vez que la estudia.",
+      "Repasa la teoría de la evolución de ESO a Bachillerato con el examen de abajo."
+    ],
     "beneficios": [
       {
         "titulo": "Selección Natural, Paso a Paso",
@@ -48,6 +53,11 @@ export default {
     "asignatura": "Biology",
     "niveles": "Secondary, Sixth Form",
     "intro": "Learn Darwin's theory of evolution: what natural selection is, why genetic variability is needed for it to work, the classic example of the Galápagos finches, and where Lamarck got it wrong before Darwin. Questions adapted to Secondary and Sixth Form.",
+    "resumen": [
+      "Evolution is probably the most misunderstood idea in biology: it isn't about species \"improving\" toward a goal, it's about random variation combined with differential survival producing, generation after generation, changes that look designed even though nobody designed them.",
+      "The exam covers natural selection step by step, the essential role of genetic variability, the historic example of Darwin's Galápagos finches, and the contrast with Lamarck's mistaken theory —the one almost everyone confuses with Darwin's the first time they study it.",
+      "Revise the theory of evolution from Secondary to Sixth Form with the exam below."
+    ],
     "beneficios": [
       {
         "titulo": "Natural Selection, Step by Step",
@@ -85,6 +95,11 @@ export default {
     "asignatura": "Biologia",
     "niveles": "ESO, Batxillerat",
     "intro": "Aprèn la teoria de l'evolució de Darwin: què és la selecció natural, per què cal variabilitat genètica perquè funcioni, l'exemple clàssic dels pinsans de les Illes Galápagos, i en què s'equivocava Lamarck abans de Darwin. Preguntes adaptades a ESO i Batxillerat.",
+    "resumen": [
+      "L'evolució és probablement la idea més mal entesa de la biologia: no va que les espècies \"millorin\" amb un propòsit, sinó que la variació aleatòria combinada amb la supervivència diferencial produeix, generació rere generació, canvis que semblen dissenyats sense que ningú els hagi dissenyat.",
+      "L'examen treballa la selecció natural pas a pas, el paper imprescindible de la variabilitat genètica, l'exemple històric dels pinsans de Darwin a les Galápagos, i el contrast amb la teoria equivocada de Lamarck —la que gairebé tothom confon amb la de Darwin la primera vegada que l'estudia.",
+      "Repassa la teoria de l'evolució d'ESO a Batxillerat amb l'examen de sota."
+    ],
     "beneficios": [
       {
         "titulo": "Selecció Natural, Pas a Pas",

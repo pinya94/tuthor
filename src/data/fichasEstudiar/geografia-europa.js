@@ -11,6 +11,11 @@ export default {
     "asignatura": "Geografía",
     "niveles": "Primaria, ESO",
     "intro": "Aprende a identificar los países de Europa a través de pistas progresivas: hemisferio, número de países vecinos, población, montañas, ríos, idioma oficial y capital. El juego se vuelve más difícil si tardas más. Cada error suma una pista nueva hasta revelar la respuesta.",
+    "resumen": [
+      "Europa es el continente más estudiado en los colegios españoles, pero también uno de los que más confusiones genera: capitales poco conocidas, países pequeños con fronteras cambiantes en el último siglo, e idiomas que no siempre coinciden con las fronteras políticas.",
+      "El examen usa un sistema de pistas progresivas —hemisferio, tamaño, ríos, montañas, idioma, capital— que obliga a razonar en vez de memorizar de golpe, cubriendo desde los 5 países más grandes hasta las capitales \"trampa\" como Bratislava o Ljubljana.",
+      "Pon a prueba lo que sabes de Europa con el juego de abajo, cada error te da una pista nueva."
+    ],
     "beneficios": [
       {
         "titulo": "Sistema de Pistas Progresivas",
@@ -57,6 +62,11 @@ export default {
     "asignatura": "Geography",
     "niveles": "Primary, Secondary",
     "intro": "Learn to identify the countries of Europe through progressive clues: hemisphere, number of neighbours, population, mountains, rivers, official language and capital. The game gets harder the longer you take. Each wrong answer reveals a new clue.",
+    "resumen": [
+      "Europe is the most studied continent in Spanish schools, but also one of the most confusing: little-known capitals, small countries with borders that have shifted within the last century, and languages that do not always match political borders.",
+      "The exam uses a system of progressive clues —hemisphere, size, rivers, mountains, language, capital— that forces reasoning instead of rote memorising, covering everything from the 5 largest countries to tricky capitals like Bratislava or Ljubljana.",
+      "Test what you know about Europe with the game below — every wrong answer gives you a new clue."
+    ],
     "beneficios": [
       {
         "titulo": "Progressive Clue System",
@@ -103,6 +113,11 @@ export default {
     "asignatura": "Geografia",
     "niveles": "Primària, ESO",
     "intro": "Aprèn a identificar els països d'Europa a través de pistes progressives: hemisferi, nombre de veïns, població, muntanyes, rius, idioma oficial i capital. El joc es fa més difícil si tardes més. Cada error suma una pista nova fins a revelar la resposta.",
+    "resumen": [
+      "Europa és el continent més estudiat a les escoles espanyoles, però també un dels que genera més confusions: capitals poc conegudes, països petits amb fronteres que han canviat en l'últim segle, i idiomes que no sempre coincideixen amb les fronteres polítiques.",
+      "L'examen fa servir un sistema de pistes progressives —hemisferi, mida, rius, muntanyes, idioma, capital— que obliga a raonar en comptes de memoritzar de cop, cobrint des dels 5 països més grans fins a les capitals \"trampa\" com Bratislava o Ljubljana.",
+      "Posa a prova el que saps d'Europa amb el joc de sota, cada error et dona una pista nova."
+    ],
     "beneficios": [
       {
         "titulo": "Sistema de Pistes Progressives",

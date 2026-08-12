@@ -11,6 +11,11 @@ export default {
     "asignatura": "Física y Química",
     "niveles": "Primaria, ESO",
     "intro": "Desde la estructura básica del átomo hasta los isótopos, este examen cubre todo lo que necesitas saber sobre la materia a nivel subatómico. Primaria trabaja conceptos esenciales; ESO profundiza en número atómico, número másico y diferencia entre elemento y compuesto.",
+    "resumen": [
+      "Todo lo que existe está hecho de átomos: entender su estructura —núcleo con protones y neutrones, electrones orbitando alrededor— es la base de toda la química y buena parte de la física. Es uno de esos temas que, una vez se entiende de verdad, hace que el resto de la asignatura encaje.",
+      "En Primaria se trabajan los conceptos esenciales (núcleo, electrones, molécula como átomos unidos). En ESO se profundiza con el número atómico (Z), el número másico (A), el cálculo de neutrones (N = A − Z) y los isótopos —mismo elemento, distinto número de neutrones—, además de la diferencia entre elemento y compuesto.",
+      "Practica desde lo más básico hasta los isótopos con el examen de abajo, con la explicación razonada en cada respuesta."
+    ],
     "beneficios": [
       {
         "titulo": "De lo Simple a lo Complejo",
@@ -57,6 +62,11 @@ export default {
     "asignatura": "Physics & Chemistry",
     "niveles": "Primary, Secondary",
     "intro": "From the basic structure of the atom to isotopes, this exam covers everything you need to know about matter at the subatomic level. Primary tackles essential concepts; Secondary goes deeper with atomic number, mass number and the difference between element and compound.",
+    "resumen": [
+      "Everything that exists is made of atoms: understanding their structure —a nucleus with protons and neutrons, electrons orbiting around it— is the foundation of all chemistry and much of physics. It is one of those topics that, once truly understood, makes the rest of the subject click into place.",
+      "Primary school covers the essential concepts (nucleus, electrons, molecules as bonded atoms). Secondary goes deeper with atomic number (Z), mass number (A), calculating neutrons (N = A − Z) and isotopes —same element, different number of neutrons— plus the difference between element and compound.",
+      "Practise everything from the basics to isotopes with the exam below, with a reasoned explanation for every answer."
+    ],
     "beneficios": [
       {
         "titulo": "From Simple to Complex",
@@ -103,6 +113,11 @@ export default {
     "asignatura": "Física i Química",
     "niveles": "Primària, ESO",
     "intro": "Des de l'estructura bàsica de l'àtom fins als isòtops, aquest examen cobreix tot el que necessites saber sobre la matèria a nivell subatòmic. Primària treballa conceptes essencials; ESO aprofundeix en número atòmic, número màssic i diferència entre element i compost.",
+    "resumen": [
+      "Tot el que existeix està fet d'àtoms: entendre la seva estructura —nucli amb protons i neutrons, electrons orbitant al voltant— és la base de tota la química i bona part de la física. És un d'aquells temes que, un cop s'entén de veritat, fa que la resta de l'assignatura encaixi.",
+      "A Primària es treballen els conceptes essencials (nucli, electrons, molècula com a àtoms units). A l'ESO s'aprofundeix amb el número atòmic (Z), el número màssic (A), el càlcul de neutrons (N = A − Z) i els isòtops —mateix element, diferent número de neutrons—, a més de la diferència entre element i compost.",
+      "Practica des del més bàsic fins als isòtops amb l'examen de sota, amb l'explicació raonada a cada resposta."
+    ],
     "beneficios": [
       {
         "titulo": "Del Simple al Complex",

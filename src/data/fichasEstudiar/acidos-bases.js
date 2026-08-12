@@ -11,6 +11,11 @@ export default {
     "asignatura": "Química",
     "niveles": "ESO",
     "intro": "Aprende a usar la escala de pH del 0 al 14, identifica ácidos y bases cotidianos, entiende qué hacen los indicadores como el tornasol y comprende la reacción de neutralización con ejemplos del laboratorio y la cocina.",
+    "resumen": [
+      "La escala de pH es una de las herramientas más usadas en química, biología y hasta en cocina: mide cuán ácida o básica es una sustancia en una escala del 0 al 14, con el 7 como punto neutro (el agua pura). Entender esta escala es el primer paso para comprender reacciones tan distintas como la digestión, la limpieza del hogar o el cuidado de una piscina.",
+      "El examen cubre identificar ácidos y bases en productos cotidianos (zumo de limón, jabón, lejía, antiácidos), interpretar indicadores como el papel de tornasol (rojo en ácido, azul en base) y comprender la reacción de neutralización (ácido + base → sal + agua), la ecuación química más básica y más repetida de la ESO.",
+      "Repasa desde los conceptos más simples hasta la neutralización con el examen de abajo, con la explicación completa en cada pregunta."
+    ],
     "beneficios": [
       {
         "titulo": "pH en la Vida Cotidiana",
@@ -57,6 +62,11 @@ export default {
     "asignatura": "Chemistry",
     "niveles": "Secondary",
     "intro": "Learn to use the pH scale from 0 to 14, identify everyday acids and bases, understand what indicators like litmus do and grasp the neutralisation reaction with examples from the lab and the kitchen.",
+    "resumen": [
+      "The pH scale is one of the most widely used tools in chemistry, biology and even cooking: it measures how acidic or basic a substance is on a scale from 0 to 14, with 7 as the neutral point (pure water). Understanding this scale is the first step to grasping reactions as different as digestion, household cleaning or pool maintenance.",
+      "The exam covers identifying acids and bases in everyday products (lemon juice, soap, bleach, antacids), interpreting indicators like litmus paper (red in acid, blue in base) and understanding the neutralisation reaction (acid + base → salt + water), the most basic and most repeated chemical equation in Secondary school.",
+      "Revise everything from the simplest concepts to neutralisation with the exam below, with the full explanation in every question."
+    ],
     "beneficios": [
       {
         "titulo": "pH in Everyday Life",
@@ -103,6 +113,11 @@ export default {
     "asignatura": "Química",
     "niveles": "ESO",
     "intro": "Aprèn a fer servir l'escala de pH de 0 a 14, identifica àcids i bases quotidians, entèn què fan els indicadors com el tornasol i comprèn la reacció de neutralització amb exemples del laboratori i la cuina.",
+    "resumen": [
+      "L'escala de pH és una de les eines més utilitzades en química, biologia i fins i tot en cuina: mesura com d'àcida o bàsica és una substància en una escala del 0 al 14, amb el 7 com a punt neutre (l'aigua pura). Entendre aquesta escala és el primer pas per comprendre reaccions tan diferents com la digestió, la neteja de la llar o el manteniment d'una piscina.",
+      "L'examen cobreix identificar àcids i bases en productes quotidians (suc de llimona, sabó, lleixiu, antiàcids), interpretar indicadors com el paper de tornasol (vermell en àcid, blau en base) i comprendre la reacció de neutralització (àcid + base → sal + aigua), l'equació química més bàsica i més repetida de l'ESO.",
+      "Repassa des dels conceptes més senzills fins a la neutralització amb l'examen de sota, amb l'explicació completa a cada pregunta."
+    ],
     "beneficios": [
       {
         "titulo": "pH a la Vida Quotidiana",

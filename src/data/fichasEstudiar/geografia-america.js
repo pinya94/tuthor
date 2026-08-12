@@ -11,6 +11,11 @@ export default {
     "asignatura": "Geografía",
     "niveles": "Primaria, ESO",
     "intro": "Recorre los 35 países del continente americano: desde Canadá y Estados Unidos al norte, pasando por los países centroamericanos y del Caribe, hasta Argentina y Chile en el sur. Aprende capitales, idiomas, ríos (Amazonas, Orinoco, Mississippi) y características físicas con pistas progresivas.",
+    "resumen": [
+      "América son en realidad dos continentes unidos por un istmo: 35 países que van desde el Ártico canadiense hasta la Patagonia, con una mezcla de idiomas —español, inglés, portugués, francés, holandés— que refleja siglos de historia colonial.",
+      "El examen cubre las capitales de los 35 países, incluidas las menos conocidas (Surinam, Bolivia con sus dos capitales), los grandes ríos como el Amazonas y el Mississippi, y la diferencia entre Hispanoamérica, Latinoamérica y América Anglosajona.",
+      "Repasa el continente entero, de Canadá a Chile, con el juego de pistas progresivas."
+    ],
     "beneficios": [
       {
         "titulo": "América del Norte vs del Sur",
@@ -57,6 +62,11 @@ export default {
     "asignatura": "Geography",
     "niveles": "Primary, Secondary",
     "intro": "Explore the 35 countries of the American continent: from Canada and the United States in the north, through Central America and the Caribbean, to Argentina and Chile in the south. Learn capitals, languages, rivers (Amazon, Orinoco, Mississippi) and physical features with progressive clues.",
+    "resumen": [
+      "The Americas are really two continents joined by an isthmus: 35 countries stretching from the Canadian Arctic to Patagonia, with a mix of languages —Spanish, English, Portuguese, French, Dutch— that reflects centuries of colonial history.",
+      "The exam covers the capitals of all 35 countries, including the lesser-known ones (Suriname, Bolivia with its two capitals), major rivers like the Amazon and the Mississippi, and the difference between Hispanic America, Latin America and Anglo-Saxon America.",
+      "Revise the whole continent, from Canada to Chile, with the progressive-clue game."
+    ],
     "beneficios": [
       {
         "titulo": "North vs South America",
@@ -103,6 +113,11 @@ export default {
     "asignatura": "Geografia",
     "niveles": "Primària, ESO",
     "intro": "Recorre els 35 països del continent americà: des de Canadà i els Estats Units al nord, passant pels països centreamericans i del Carib, fins a l'Argentina i Xile al sud. Aprèn capitals, idiomes, rius (Amazones, Orinoco, Mississipí) i característiques físiques amb pistes progressives.",
+    "resumen": [
+      "Amèrica són en realitat dos continents units per un istme: 35 països que van des de l'Àrtic canadenc fins a la Patagònia, amb una barreja d'idiomes —castellà, anglès, portuguès, francès, neerlandès— que reflecteix segles d'història colonial.",
+      "L'examen cobreix les capitals dels 35 països, incloses les menys conegudes (Surinam, Bolívia amb les seves dues capitals), els grans rius com l'Amazones i el Mississipí, i la diferència entre Hispanoamèrica, Llatinoamèrica i Amèrica anglosaxona.",
+      "Repassa el continent sencer, del Canadà a Xile, amb el joc de pistes progressives."
+    ],
     "beneficios": [
       {
         "titulo": "Amèrica del Nord vs del Sud",

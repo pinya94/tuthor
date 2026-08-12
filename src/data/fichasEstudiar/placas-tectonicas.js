@@ -11,6 +11,11 @@ export default {
     "asignatura": "Geología",
     "niveles": "Primaria, ESO",
     "intro": "Descubre las capas de la Tierra (corteza, manto, núcleo), qué son las placas tectónicas y por qué se mueven, y cómo su choque o separación produce terremotos y volcanes. Incluye la teoría de la deriva continental de Wegener y el supercontinente Pangea.",
+    "resumen": [
+      "Los terremotos y volcanes no aparecen al azar en el mapa: se concentran casi exactamente en los bordes de las placas tectónicas, y entender por qué convierte un fenómeno que parece caótico en algo perfectamente predecible por zonas.",
+      "El examen trabaja las capas de la Tierra de dentro a fuera, los tres tipos de borde de placa —convergente, divergente, transformante— y cómo cada uno produce un paisaje distinto, además de la teoría de Wegener sobre Pangea que dio origen a todo el modelo actual.",
+      "Repasa placas tectónicas, terremotos y volcanes con el examen de abajo."
+    ],
     "beneficios": [
       {
         "titulo": "Las Capas de la Tierra",
@@ -48,6 +53,11 @@ export default {
     "asignatura": "Geology",
     "niveles": "Primary, Secondary",
     "intro": "Discover Earth's layers (crust, mantle, core), what tectonic plates are and why they move, and how their collision or separation causes earthquakes and volcanoes. Includes Wegener's continental drift theory and the supercontinent Pangaea.",
+    "resumen": [
+      "Earthquakes and volcanoes don't appear randomly on the map: they cluster almost exactly along tectonic plate boundaries, and understanding why turns a phenomenon that looks chaotic into something predictable by zone.",
+      "The exam covers Earth's layers from the inside out, the three types of plate boundary —convergent, divergent, transform— and how each produces a different landscape, plus Wegener's theory of Pangaea that gave rise to the whole modern model.",
+      "Revise tectonic plates, earthquakes and volcanoes with the exam below."
+    ],
     "beneficios": [
       {
         "titulo": "Earth's Layers",
@@ -85,6 +95,11 @@ export default {
     "asignatura": "Geologia",
     "niveles": "Primària, ESO",
     "intro": "Descobreix les capes de la Terra (escorça, mantell, nucli), què són les plaques tectòniques i per què es mouen, i com el seu xoc o separació produeix terratrèmols i volcans. Inclou la teoria de la deriva continental de Wegener i el supercontinent Pangea.",
+    "resumen": [
+      "Els terratrèmols i volcans no apareixen a l'atzar al mapa: es concentren gairebé exactament a les vores de les plaques tectòniques, i entendre per què converteix un fenomen que sembla caòtic en una cosa perfectament predictible per zones.",
+      "L'examen treballa les capes de la Terra de dins a fora, els tres tipus de vora de placa —convergent, divergent, transformant— i com cadascuna produeix un paisatge diferent, a més de la teoria de Wegener sobre Pangea que va donar origen a tot el model actual.",
+      "Repassa plaques tectòniques, terratrèmols i volcans amb l'examen de sota."
+    ],
     "beneficios": [
       {
         "titulo": "Les Capes de la Terra",

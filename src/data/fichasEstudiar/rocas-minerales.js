@@ -11,6 +11,11 @@ export default {
     "asignatura": "Geología",
     "niveles": "Primaria, ESO",
     "intro": "Aprende a distinguir los tres grandes tipos de rocas (ígneas, sedimentarias y metamórficas), cómo se forman y en qué se diferencian los minerales, con práctica adaptada a Primaria y ESO. El Diagnóstico te hace razonar por descarte hasta identificar cada roca por sus pistas.",
+    "resumen": [
+      "Cada roca cuenta la historia de cómo se formó: si viene del magma enfriándose, de sedimentos acumulados capa a capa durante miles de años, o de otra roca transformada por calor y presión. Aprender a leer esas pistas es la parte más útil —y más olvidada— del tema.",
+      "El examen trabaja los tres grandes tipos de roca con su proceso de formación, ejemplos concretos como el granito, la caliza o el mármol, y la diferencia entre roca y mineral, uno de los errores conceptuales más comunes en Primaria y ESO.",
+      "Repasa rocas y minerales con el examen de abajo, razonando por las pistas como en el juego."
+    ],
     "beneficios": [
       {
         "titulo": "Los Tres Tipos de Roca",
@@ -57,6 +62,11 @@ export default {
     "asignatura": "Geology",
     "niveles": "Primary, Secondary",
     "intro": "Learn to tell apart the three main rock types (igneous, sedimentary and metamorphic), how they form and how minerals differ, with practice adapted to Primary and Secondary. The Diagnosis makes you reason by elimination until you identify each rock from its clues.",
+    "resumen": [
+      "Every rock tells the story of how it formed: whether it came from cooling magma, from sediment built up layer by layer over thousands of years, or from another rock transformed by heat and pressure. Learning to read those clues is the most useful — and most overlooked — part of the topic.",
+      "The exam covers the three main rock types with their formation process, concrete examples like granite, limestone or marble, and the difference between rock and mineral, one of the most common conceptual mistakes at Primary and Secondary level.",
+      "Revise rocks and minerals with the exam below, reasoning through the clues just like in the game."
+    ],
     "beneficios": [
       {
         "titulo": "The Three Rock Types",
@@ -103,6 +113,11 @@ export default {
     "asignatura": "Geologia",
     "niveles": "Primària, ESO",
     "intro": "Aprèn a distingir els tres grans tipus de roques (ígnies, sedimentàries i metamòrfiques), com es formen i en què es diferencien els minerals, amb pràctica adaptada a Primària i ESO. El Diagnòstic et fa raonar per descart fins a identificar cada roca per les seves pistes.",
+    "resumen": [
+      "Cada roca explica la història de com es va formar: si ve del magma refredant-se, de sediments acumulats capa a capa durant milers d'anys, o d'una altra roca transformada per calor i pressió. Aprendre a llegir aquestes pistes és la part més útil —i més oblidada— del tema.",
+      "L'examen treballa els tres grans tipus de roca amb el seu procés de formació, exemples concrets com el granit, la calcària o el marbre, i la diferència entre roca i mineral, un dels errors conceptuals més comuns a Primària i ESO.",
+      "Repassa roques i minerals amb l'examen de sota, raonant per les pistes com al joc."
+    ],
     "beneficios": [
       {
         "titulo": "Els Tres Tipus de Roca",

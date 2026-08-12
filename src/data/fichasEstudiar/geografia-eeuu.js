@@ -11,6 +11,11 @@ export default {
     "asignatura": "Geografía",
     "niveles": "ESO",
     "intro": "Aprende a identificar los 50 estados de Estados Unidos: sus capitales (muchas no son las ciudades más famosas), su localización en el mapa, y sus características principales. El examen usa pistas progresivas sobre la región geográfica, la población, la frontera con otros estados o países y la capital.",
+    "resumen": [
+      "Estados Unidos tiene 50 estados, y sus capitales son de lo más confuso de la geografía mundial: casi nunca coinciden con la ciudad más famosa del estado (California no es Los Ángeles, es Sacramento). Aprenderlas bien evita uno de los errores más comunes en los exámenes.",
+      "El examen trabaja las capitales sorprendentes, las grandes regiones geográficas (Nueva Inglaterra, el Medio Oeste, el Sur, la Costa Oeste) y las fronteras físicas: qué estados limitan con México, con Canadá o bordean los Grandes Lagos.",
+      "Repasa los 50 estados por región, no de uno en uno, con el juego de pistas de abajo."
+    ],
     "beneficios": [
       {
         "titulo": "Capitales Sorprendentes",
@@ -57,6 +62,11 @@ export default {
     "asignatura": "Geography",
     "niveles": "Secondary",
     "intro": "Learn to identify all 50 US states: their capitals (many are not the most famous cities), their location on the map, and their main features. The exam uses progressive clues about geographic region, population, borders with other states or countries, and the capital.",
+    "resumen": [
+      "The United States has 50 states, and its capitals are some of the trickiest in world geography: they almost never match the state's most famous city (California's capital is not Los Angeles — it's Sacramento). Learning them properly avoids one of the most common exam mistakes.",
+      "The exam covers the surprising state capitals, the major geographic regions (New England, the Midwest, the South, the West Coast) and physical borders: which states border Mexico, which border Canada, and which line the Great Lakes.",
+      "Revise all 50 states by region, not one by one, with the clue game below."
+    ],
     "beneficios": [
       {
         "titulo": "Surprising State Capitals",
@@ -103,6 +113,11 @@ export default {
     "asignatura": "Geografia",
     "niveles": "ESO",
     "intro": "Aprèn a identificar els 50 estats dels Estats Units: les seves capitals (moltes no són les ciutats més famoses), la seva localització al mapa, i les seves característiques principals. L'examen utilitza pistes progressives sobre la regió geogràfica, la població, la frontera amb altres estats o països i la capital.",
+    "resumen": [
+      "Els Estats Units tenen 50 estats, i les seves capitals són de les més confuses de la geografia mundial: gairebé mai coincideixen amb la ciutat més famosa de l'estat (la capital de Califòrnia no és Los Angeles, és Sacramento). Aprendre-les bé evita un dels errors més comuns als exàmens.",
+      "L'examen treballa les capitals sorprenents, les grans regions geogràfiques (Nova Anglaterra, el Midwest, el Sud, la Costa Oest) i les fronteres físiques: quins estats limiten amb Mèxic, quins amb el Canadà o vorejen els Grans Llacs.",
+      "Repassa els 50 estats per regió, no d'un en un, amb el joc de pistes de sota."
+    ],
     "beneficios": [
       {
         "titulo": "Capitals Sorprenents",

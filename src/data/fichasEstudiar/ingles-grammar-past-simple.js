@@ -11,6 +11,11 @@ export default {
     "asignatura": "English",
     "niveles": "Primary, Secondary",
     "intro": "Practice the past simple tense: regular verbs with -ed (worked, played), spelling rules for doubling consonants (stopped, planned), irregular verbs (go→went, see→saw, break→broke), negatives with didn't + base verb, questions with Did, was/were for the verb \"to be\", and the difference with present perfect. 15 questions.",
+    "resumen": [
+      "The past simple looks like the easiest tense in English — just add -ed — until the irregular verbs show up: go, see, have, make, take, come, none of which follow the rule, and all of which appear constantly in everyday speech.",
+      "The exam covers the regular -ed pattern with its spelling rules (stopped, planned, tried), the most common irregular verbs in context, negatives and questions built with did/didn't + base verb, was/were for \"to be\", and the key contrast with present perfect that decides which tense to use.",
+      "Practise the past simple, regular and irregular, in the exam below."
+    ],
     "beneficios": [
       {
         "titulo": "Irregular Verbs",
@@ -57,6 +62,11 @@ export default {
     "asignatura": "English",
     "niveles": "Primary, Secondary",
     "intro": "Practice the past simple: regular -ed verbs, spelling rules, irregular verbs (go→went, see→saw), negatives with didn't + base verb, questions with Did, was/were, and contrast with present perfect. 15 questions.",
+    "resumen": [
+      "The past simple looks like the easiest tense in English — just add -ed — until the irregular verbs show up: go, see, have, make, take, come, none of which follow the rule, and all of which appear constantly in everyday speech.",
+      "The exam covers the regular -ed pattern with its spelling rules (stopped, planned, tried), the most common irregular verbs in context, negatives and questions built with did/didn't + base verb, was/were for \"to be\", and the key contrast with present perfect that decides which tense to use.",
+      "Practise the past simple, regular and irregular, in the exam below."
+    ],
     "beneficios": [
       {
         "titulo": "Irregular Verbs",
@@ -103,6 +113,11 @@ export default {
     "asignatura": "Anglès",
     "niveles": "Primària, ESO",
     "intro": "Practica el past simple: verbs regulars amb -ed, irregulars (go→went, see→saw), negatives amb didn't + verb base, preguntes amb Did, was/were i contrast amb el present perfect. 15 preguntes.",
+    "resumen": [
+      "El past simple sembla el temps més fàcil de l'anglès —només afegir -ed— fins que apareixen els verbs irregulars: go, see, have, make, take, come, cap dels quals segueix la regla, i tots ells apareixen constantment en el llenguatge quotidià.",
+      "L'examen treballa el patró regular -ed amb les seves regles d'ortografia (stopped, planned, tried), els verbs irregulars més comuns en context, negatives i preguntes construïdes amb did/didn't + verb base, was/were per a \"to be\", i el contrast clau amb el present perfect que decideix quin temps fer servir.",
+      "Practica el past simple, regular i irregular, a l'examen de sota."
+    ],
     "beneficios": [
       {
         "titulo": "Verbs Irregulars",

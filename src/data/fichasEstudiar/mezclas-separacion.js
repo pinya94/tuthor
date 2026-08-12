@@ -11,6 +11,11 @@ export default {
     "asignatura": "Física y Química",
     "niveles": "Primaria, ESO",
     "intro": "Distingue mezclas homogéneas de heterogéneas y aprende qué método de separación usar en cada caso. Desde tamizar harina hasta destilar alcohol, el examen cubre todos los métodos del currículo oficial con ejemplos reales.",
+    "resumen": [
+      "Casi todo lo que nos rodea es una mezcla, no una sustancia pura, así que saber qué método de separación usar en cada caso no es teoría abstracta: es la lógica detrás de hacer café, purificar agua o fabricar cualquier producto industrial.",
+      "El examen trabaja los seis métodos básicos de separación con su ejemplo clave —filtración, destilación, decantación, imantación, tamizado, evaporación— y en ESO añade cromatografía y cristalización, siempre con preguntas de aplicación: qué método usarías y por qué.",
+      "Repasa mezclas y métodos de separación con ejemplos reales en el examen de abajo."
+    ],
     "beneficios": [
       {
         "titulo": "Aplicación Práctica",
@@ -57,6 +62,11 @@ export default {
     "asignatura": "Physics & Chemistry",
     "niveles": "Primary, Secondary",
     "intro": "Distinguish homogeneous from heterogeneous mixtures and learn which separation method to use in each case. From sieving flour to distilling alcohol, the exam covers all methods from the official curriculum with real examples.",
+    "resumen": [
+      "Almost everything around us is a mixture, not a pure substance, so knowing which separation method to use in each case isn't abstract theory — it's the logic behind making coffee, purifying water or manufacturing any industrial product.",
+      "The exam covers the six basic separation methods with their key example —filtration, distillation, decantation, magnetism, sieving, evaporation— and at Secondary level adds chromatography and crystallisation, always with application questions: which method would you use and why.",
+      "Revise mixtures and separation methods with real examples in the exam below."
+    ],
     "beneficios": [
       {
         "titulo": "Practical Application",
@@ -103,6 +113,11 @@ export default {
     "asignatura": "Física i Química",
     "niveles": "Primària, ESO",
     "intro": "Distingeix mescles homogènies de heterogènies i aprèn quin mètode de separació fer servir en cada cas. Des de tamisar farina fins a destilar alcohol, l'examen cobreix tots els mètodes del currículum oficial amb exemples reals.",
+    "resumen": [
+      "Gairebé tot el que ens envolta és una mescla, no una substància pura, així que saber quin mètode de separació fer servir en cada cas no és teoria abstracta: és la lògica darrere de fer cafè, purificar aigua o fabricar qualsevol producte industrial.",
+      "L'examen treballa els sis mètodes bàsics de separació amb el seu exemple clau —filtració, destil·lació, decantació, imantació, tamisat, evaporació— i a l'ESO afegeix cromatografia i cristal·lització, sempre amb preguntes d'aplicació: quin mètode faries servir i per què.",
+      "Repassa mescles i mètodes de separació amb exemples reals a l'examen de sota."
+    ],
     "beneficios": [
       {
         "titulo": "Aplicació Pràctica",

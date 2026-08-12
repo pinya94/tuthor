@@ -11,6 +11,11 @@ export default {
     "asignatura": "English",
     "niveles": "Primary, Secondary",
     "intro": "Master the present perfect: formation with have/has + past participle, irregular participles (go→gone, see→seen, write→written), signal words (just, already, yet, ever, never, for, since), contrast with past simple (specific time vs relevance to present), and \"How long have you...?\" questions. 15 questions.",
+    "resumen": [
+      "The present perfect doesn't really exist in Spanish or Catalan the way English uses it, which is why \"I have gone yesterday\" is one of the most common mistakes learners make — the tense connects the past to the present, and specific past times like \"yesterday\" break that connection.",
+      "The exam covers the have/has + past participle formation, the irregular participles that trip students up most, the signal words that mark this tense (just, already, yet, ever, never, for, since), and above all the contrast with past simple that decides which one to use in a real sentence.",
+      "Practise the present perfect with real sentence contrasts in the exam below."
+    ],
     "beneficios": [
       {
         "titulo": "For vs Since",
@@ -57,6 +62,11 @@ export default {
     "asignatura": "English",
     "niveles": "Primary, Secondary",
     "intro": "Master the present perfect: formation, irregular participles, signal words (just, already, yet, ever, never, for, since), contrast with past simple, and How long questions. 15 questions.",
+    "resumen": [
+      "The present perfect doesn't really exist in Spanish or Catalan the way English uses it, which is why \"I have gone yesterday\" is one of the most common mistakes learners make — the tense connects the past to the present, and specific past times like \"yesterday\" break that connection.",
+      "The exam covers the have/has + past participle formation, the irregular participles that trip students up most, the signal words that mark this tense (just, already, yet, ever, never, for, since), and above all the contrast with past simple that decides which one to use in a real sentence.",
+      "Practise the present perfect with real sentence contrasts in the exam below."
+    ],
     "beneficios": [
       {
         "titulo": "For vs Since",
@@ -103,6 +113,11 @@ export default {
     "asignatura": "Anglès",
     "niveles": "Primària, ESO",
     "intro": "Domina el present perfect: formació, participis irregulars, paraules clau (just, already, yet, ever, never, for, since) i contrast amb el past simple. 15 preguntes.",
+    "resumen": [
+      "El present perfect no existeix realment en català ni en castellà tal com el fa servir l'anglès, per això \"I have gone yesterday\" és un dels errors més comuns entre els aprenents — el temps connecta el passat amb el present, i els temps passats específics com \"yesterday\" trenquen aquesta connexió.",
+      "L'examen treballa la formació amb have/has + participi passat, els participis irregulars que més confonen, les paraules clau que marquen aquest temps (just, already, yet, ever, never, for, since), i sobretot el contrast amb el past simple que decideix quin dels dos fer servir en una oració real.",
+      "Practica el present perfect amb contrastos d'oracions reals a l'examen de sota."
+    ],
     "beneficios": [
       {
         "titulo": "For vs Since",

@@ -11,6 +11,11 @@ export default {
     "asignatura": "Biología y Geología",
     "niveles": "Primaria y ESO",
     "intro": "Repasa los cuatro grandes sistemas del cuerpo humano: el sistema digestivo (boca hasta intestino), el circulatorio (corazón, arterias y venas), el respiratorio (pulmones y alvéolos) y el nervioso (neuronas, reflejos y cerebelo). Preguntas de opción múltiple con explicación detallada.",
+    "resumen": [
+      "Conocer cómo funciona el propio cuerpo es uno de los aprendizajes más útiles de toda la etapa escolar: ayuda a entender desde por qué nos duele el estómago hasta por qué respiramos más rápido al hacer deporte. La biología humana conecta con la vida diaria como pocos temas.",
+      "El examen repasa los cuatro grandes sistemas: el digestivo (el recorrido del alimento desde la boca hasta el intestino), el circulatorio (corazón, arterias y venas), el respiratorio (pulmones y el intercambio de gases en los alvéolos) y el nervioso (neuronas, el sistema nervioso central y periférico, y los actos reflejos).",
+      "Repasa cada sistema con preguntas de opción múltiple y explicación detallada en el examen de abajo."
+    ],
     "beneficios": [
       "Aprende el recorrido del alimento a lo largo del sistema digestivo.",
       "Distingue arterias de venas y entiende la circulación mayor y menor.",
@@ -47,6 +52,11 @@ export default {
     "asignatura": "Biology & Geology",
     "niveles": "Primary & Secondary",
     "intro": "Revise the four major systems of the human body: the digestive system (mouth to intestine), the circulatory system (heart, arteries and veins), the respiratory system (lungs and alveoli) and the nervous system (neurons, reflexes and the cerebellum). Multiple-choice questions with detailed explanation.",
+    "resumen": [
+      "Knowing how your own body works is one of the most useful things you learn at school: it explains everything from why your stomach hurts to why you breathe faster during exercise. Human biology connects to daily life like few other topics.",
+      "The exam revises the four major systems: the digestive system (the route food takes from mouth to intestine), the circulatory system (heart, arteries and veins), the respiratory system (lungs and gas exchange in the alveoli) and the nervous system (neurons, the central and peripheral nervous system, and reflex actions).",
+      "Revise every system with multiple-choice questions and a detailed explanation in the exam below."
+    ],
     "beneficios": [
       {
         "titulo": "Digestive System Order",
@@ -92,6 +102,11 @@ export default {
     "asignatura": "Biologia i Geologia",
     "niveles": "Primària i ESO",
     "intro": "Repassa els quatre grans sistemes del cos humà: el sistema digestiu (de la boca fins a l'intestí), el circulatori (cor, artèries i venes), el respiratori (pulmons i alvèols) i el nerviós (neurones, reflexos i cerebel). Preguntes d'opció múltiple amb explicació detallada.",
+    "resumen": [
+      "Conèixer com funciona el propi cos és un dels aprenentatges més útils de tota l'etapa escolar: ajuda a entendre des de per què fa mal l'estómac fins a per què respirem més ràpid en fer esport. La biologia humana connecta amb la vida diària com pocs temes.",
+      "L'examen repassa els quatre grans sistemes: el digestiu (el recorregut de l'aliment des de la boca fins a l'intestí), el circulatori (cor, artèries i venes), el respiratori (pulmons i l'intercanvi de gasos als alvèols) i el nerviós (neurones, el sistema nerviós central i perifèric, i els actes reflexos).",
+      "Repassa cada sistema amb preguntes d'opció múltiple i explicació detallada a l'examen de sota."
+    ],
     "beneficios": [
       {
         "titulo": "Ordre del Sistema Digestiu",

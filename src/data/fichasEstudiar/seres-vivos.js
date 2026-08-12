@@ -11,6 +11,11 @@ export default {
     "asignatura": "Biología y Geología",
     "niveles": "Primaria y ESO",
     "intro": "Clasifica los seres vivos en los 5 reinos (Monera, Protista, Fungi, Plantae y Animalia). Aprende a distinguir vertebrados de invertebrados, anfibios de reptiles, angiospermas de gimnospermas y células procariotas de eucariotas. Con explicación tras cada pregunta.",
+    "resumen": [
+      "Clasificar los seres vivos es el primer gran ejercicio de pensamiento científico que hace un estudiante: agrupar por características compartidas en lugar de por apariencia superficial, algo que lleva a errores clásicos como pensar que el delfín es un pez.",
+      "El examen trabaja los 5 reinos con sus rasgos definitorios, los grupos de vertebrados y sus diferencias clave —anfibios frente a reptiles, aves frente a mamíferos—, y conceptos de plantas como la fotosíntesis y la diferencia entre angiospermas y gimnospermas.",
+      "Repasa la clasificación de los seres vivos con el examen de abajo, con explicación en cada respuesta."
+    ],
     "beneficios": [
       "Memoriza las características de cada uno de los 5 reinos.",
       "Diferencia los 5 grupos de vertebrados con sus rasgos clave.",
@@ -47,6 +52,11 @@ export default {
     "asignatura": "Biology & Geology",
     "niveles": "Primary & Secondary",
     "intro": "Classify living things into the 5 kingdoms (Monera, Protista, Fungi, Plantae and Animalia). Learn to distinguish vertebrates from invertebrates, amphibians from reptiles, angiosperms from gymnosperms, and prokaryotic from eukaryotic cells — with an explanation after every question.",
+    "resumen": [
+      "Classifying living things is the first great exercise in scientific thinking a student does: grouping by shared characteristics instead of surface appearance, which is exactly what leads to classic mistakes like thinking a dolphin is a fish.",
+      "The exam covers the 5 kingdoms with their defining traits, vertebrate groups and their key differences —amphibians vs reptiles, birds vs mammals— and plant concepts like photosynthesis and the difference between angiosperms and gymnosperms.",
+      "Revise the classification of living things with the exam below, with an explanation for every answer."
+    ],
     "beneficios": [
       {
         "titulo": "5 Kingdoms",
@@ -92,6 +102,11 @@ export default {
     "asignatura": "Biologia i Geologia",
     "niveles": "Primària i ESO",
     "intro": "Classifica els éssers vius en els 5 regnes (Monera, Protista, Fungi, Plantae i Animalia). Aprèn a distingir vertebrats d'invertebrats, amfibis de rèptils, angiospermes de gimnospermes i cèl·lules procariotes d'eucariotes. Amb explicació després de cada pregunta.",
+    "resumen": [
+      "Classificar els éssers vius és el primer gran exercici de pensament científic que fa un estudiant: agrupar per característiques compartides en lloc de per aparença superficial, cosa que porta a errors clàssics com pensar que el dofí és un peix.",
+      "L'examen treballa els 5 regnes amb els seus trets definitoris, els grups de vertebrats i les seves diferències clau —amfibis davant rèptils, ocells davant mamífers— i conceptes de plantes com la fotosíntesi i la diferència entre angiospermes i gimnospermes.",
+      "Repassa la classificació dels éssers vius amb l'examen de sota, amb explicació a cada resposta."
+    ],
     "beneficios": [
       {
         "titulo": "5 Regnes",

@@ -11,6 +11,11 @@ export default {
     "asignatura": "Física y Química",
     "niveles": "Primaria y ESO",
     "intro": "Explora el mundo de las ondas: la propagación del sonido (por qué no hay sonido en el espacio), frecuencia y amplitud, la velocidad de la luz, reflexión en espejos, refracción en lentes y prismas, el espectro visible y electromagnético, los ultrasonidos y por qué el cielo es azul.",
+    "resumen": [
+      "Las ondas explican fenómenos que se ven a diario pero rara vez se entienden: por qué una pajita parece doblada en un vaso de agua, por qué el cielo es azul y el atardecer rojo, o por qué en las películas de ciencia ficción las explosiones en el espacio deberían ser silenciosas.",
+      "El examen trabaja la diferencia entre sonido (necesita un medio) y luz (no lo necesita), reflexión y refracción con sus aplicaciones —espejos, lentes, arcoíris— y el espectro electromagnético completo, de los rayos gamma a las ondas de radio, ordenado por energía.",
+      "Repasa ondas y luz con ejemplos cotidianos en el examen de abajo."
+    ],
     "beneficios": [
       "Explica por qué el sonido necesita un medio material y la luz no.",
       "Relaciona frecuencia con tono y amplitud con volumen en el sonido.",
@@ -47,6 +52,11 @@ export default {
     "asignatura": "Physics & Chemistry",
     "niveles": "Primary & Secondary",
     "intro": "Explore the world of waves: how sound propagates (why there is no sound in space), frequency and amplitude, the speed of light, mirror reflection, refraction in lenses and prisms, the visible and electromagnetic spectrum, ultrasound and why the sky is blue.",
+    "resumen": [
+      "Waves explain phenomena we see every day but rarely understand: why a straw looks bent in a glass of water, why the sky is blue and sunsets are red, or why explosions in space movies should actually be silent.",
+      "The exam covers the difference between sound (needs a medium) and light (doesn't), reflection and refraction with their applications —mirrors, lenses, rainbows— and the full electromagnetic spectrum, from gamma rays to radio waves, ordered by energy.",
+      "Revise waves and light with everyday examples in the exam below."
+    ],
     "beneficios": [
       {
         "titulo": "Sound vs Light",
@@ -93,6 +103,11 @@ export default {
     "asignatura": "Física i Química",
     "niveles": "Primària i ESO",
     "intro": "Explora el món de les ones: la propagació del so (per què no hi ha so a l'espai), freqüència i amplitud, la velocitat de la llum, reflexió en miralls, refracció en lents i prismes, l'espectre visible i electromagnètic, els ultrasons i per què el cel és blau.",
+    "resumen": [
+      "Les ones expliquen fenòmens que es veuen cada dia però rarament s'entenen: per què una palla sembla doblegada en un got d'aigua, per què el cel és blau i la posta de sol vermella, o per què a les pel·lícules de ciència-ficció les explosions a l'espai haurien de ser silencioses.",
+      "L'examen treballa la diferència entre so (necessita un medi) i llum (no en necessita), reflexió i refracció amb les seves aplicacions —miralls, lents, arcs de Sant Martí— i l'espectre electromagnètic complet, dels raigs gamma a les ones de ràdio, ordenat per energia.",
+      "Repassa ones i llum amb exemples quotidians a l'examen de sota."
+    ],
     "beneficios": [
       {
         "titulo": "So vs Llum",

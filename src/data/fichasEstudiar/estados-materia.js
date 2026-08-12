@@ -11,6 +11,11 @@ export default {
     "asignatura": "Física y Química",
     "niveles": "Primaria, ESO",
     "intro": "Aprende a identificar los tres estados de la materia, sus propiedades físicas y todos los cambios de estado — fusión, solidificación, evaporación, condensación y sublimación — con preguntas de opción múltiple adaptadas a Primaria y ESO.",
+    "resumen": [
+      "Los cambios de estado están entre los primeros fenómenos científicos que un niño puede observar directamente: el hielo que se derrite, el vaho que empaña un espejo, la sal que aparece al secarse el agua del mar. Entender qué ocurre a nivel de partículas en cada caso es la puerta de entrada a toda la física y química posterior.",
+      "El examen trabaja los seis cambios de estado con su nombre correcto (fusión, solidificación, evaporación, condensación, sublimación, deposición), sus ejemplos cotidianos, y en el nivel de ESO añade la compresibilidad de los gases y las temperaturas de cambio de estado del agua.",
+      "Repasa los tres estados de la materia con ejemplos reales en el examen de abajo."
+    ],
     "beneficios": [
       {
         "titulo": "Explicación tras Cada Respuesta",
@@ -57,6 +62,11 @@ export default {
     "asignatura": "Physics & Chemistry",
     "niveles": "Primary, Secondary",
     "intro": "Learn to identify the three states of matter, their physical properties and all changes of state — melting, solidification, evaporation, condensation and sublimation — with multiple-choice questions adapted for Primary and Secondary.",
+    "resumen": [
+      "Changes of state are among the first scientific phenomena a child can observe directly: melting ice, a misted-up mirror, salt left behind when seawater dries. Understanding what happens at the particle level in each case is the gateway to all the physics and chemistry that follows.",
+      "The exam covers all six changes of state with their correct names (melting, solidification, evaporation, condensation, sublimation, deposition), everyday examples, and at Secondary level adds gas compressibility and water's transition temperatures.",
+      "Revise the three states of matter with real examples in the exam below."
+    ],
     "beneficios": [
       {
         "titulo": "Explanation after Every Answer",
@@ -103,6 +113,11 @@ export default {
     "asignatura": "Física i Química",
     "niveles": "Primària, ESO",
     "intro": "Aprèn a identificar els tres estats de la matèria, les seves propietats físiques i tots els canvis d'estat — fusió, solidificació, evaporació, condensació i sublimació — amb preguntes d'opció múltiple adaptades a Primària i ESO.",
+    "resumen": [
+      "Els canvis d'estat són dels primers fenòmens científics que un infant pot observar directament: el gel que es fon, el vapor que entela un mirall, la sal que apareix quan s'asseca l'aigua del mar. Entendre què passa a nivell de partícules en cada cas és la porta d'entrada a tota la física i química posterior.",
+      "L'examen treballa els sis canvis d'estat amb el seu nom correcte (fusió, solidificació, evaporació, condensació, sublimació, deposició), els seus exemples quotidians, i al nivell d'ESO afegeix la compressibilitat dels gasos i les temperatures de canvi d'estat de l'aigua.",
+      "Repassa els tres estats de la matèria amb exemples reals a l'examen de sota."
+    ],
     "beneficios": [
       {
         "titulo": "Explicació després de Cada Resposta",

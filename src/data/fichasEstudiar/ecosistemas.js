@@ -11,6 +11,11 @@ export default {
     "asignatura": "Biología y Geología",
     "niveles": "Primaria y ESO",
     "intro": "Domina los conceptos de ecología: qué es un ecosistema, cómo funciona una cadena trófica (productores, consumidores y descomponedores), los principales biomas del planeta (selva tropical, tundra, desierto) y las relaciones entre especies (mutualismo, parasitismo, comensalismo).",
+    "resumen": [
+      "Un ecosistema es la red de relaciones entre los seres vivos y su entorno: quién se come a quién, qué necesita cada especie para sobrevivir y cómo un cambio en un eslabón afecta a todos los demás. Entender esta red es la base de la ecología y de por qué proteger la biodiversidad es tan importante.",
+      "El examen cubre las cadenas tróficas (productores, consumidores y descomponedores), los principales biomas del planeta —selva tropical, tundra, desierto, taiga— con sus características, y las relaciones entre especies: mutualismo, comensalismo, parasitismo y depredación.",
+      "Construye cadenas tróficas y repasa los biomas del planeta con el examen de abajo, con explicación en cada pregunta."
+    ],
     "beneficios": [
       "Construye cadenas tróficas y sitúa cada ser vivo en su nivel.",
       "Identifica los biomas del planeta y sus características principales.",
@@ -47,6 +52,11 @@ export default {
     "asignatura": "Biology & Geology",
     "niveles": "Primary & Secondary",
     "intro": "Master ecology concepts: what an ecosystem is, how a food chain works (producers, consumers and decomposers), the main biomes of the planet (tropical rainforest, tundra, desert) and species relationships (mutualism, parasitism, commensalism).",
+    "resumen": [
+      "An ecosystem is the network of relationships between living things and their environment: who eats whom, what each species needs to survive, and how a change in one link affects all the others. Understanding this network is the basis of ecology and why protecting biodiversity matters so much.",
+      "The exam covers food chains (producers, consumers and decomposers), the planet's main biomes —tropical rainforest, tundra, desert, taiga— with their characteristics, and relationships between species: mutualism, commensalism, parasitism and predation.",
+      "Build food chains and revise the planet's biomes with the exam below, with an explanation for every question."
+    ],
     "beneficios": [
       {
         "titulo": "Trophic Levels",
@@ -92,6 +102,11 @@ export default {
     "asignatura": "Biologia i Geologia",
     "niveles": "Primària i ESO",
     "intro": "Domina els conceptes d'ecologia: què és un ecosistema, com funciona una cadena tròfica (productors, consumidors i descomponedors), els principals biomes del planeta (selva tropical, tundra, desert) i les relacions entre espècies (mutualisme, parasitisme, comensalisme).",
+    "resumen": [
+      "Un ecosistema és la xarxa de relacions entre els éssers vius i el seu entorn: qui menja qui, què necessita cada espècie per sobreviure i com un canvi en una baula afecta totes les altres. Entendre aquesta xarxa és la base de l'ecologia i de per què protegir la biodiversitat és tan important.",
+      "L'examen cobreix les cadenes tròfiques (productors, consumidors i descomponedors), els principals biomes del planeta —selva tropical, tundra, desert, taigà— amb les seves característiques, i les relacions entre espècies: mutualisme, comensalisme, parasitisme i depredació.",
+      "Construeix cadenes tròfiques i repassa els biomes del planeta amb l'examen de sota, amb explicació a cada pregunta."
+    ],
     "beneficios": [
       {
         "titulo": "Nivells Tròfics",

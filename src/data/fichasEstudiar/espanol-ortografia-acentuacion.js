@@ -11,6 +11,11 @@ export default {
     "asignatura": "Lengua Española",
     "niveles": "Primaria, ESO",
     "intro": "Domina las reglas de acentuación en español: palabras agudas (tilde si acaban en vocal, -n o -s), llanas (tilde si NO acaban en vocal, -n o -s), esdrújulas (siempre tilde), tilde diacrítica (tú/tu, sé/se, más/mas), diptongos e hiatos. 15 preguntas con casos reales del currículum.",
+    "resumen": [
+      "La acentuación tiene fama de arbitraria, pero es de las partes más sistemáticas de la ortografía española: con solo tres categorías (agudas, llanas, esdrújulas) y una regla clara para cada una, se puede acentuar correctamente casi cualquier palabra sin memorizarla de antemano.",
+      "El examen trabaja la regla de las tres categorías, la tilde diacrítica (tú/tu, sé/se, más/mas) que distingue palabras idénticas con significado distinto, y los cambios de la RAE de 2010 que muchos adultos todavía no aplican bien.",
+      "Repasa la acentuación con casos reales del currículum en el examen de abajo."
+    ],
     "beneficios": [
       {
         "titulo": "Regla de las Tres Categorías",
@@ -57,6 +62,11 @@ export default {
     "asignatura": "Spanish Language",
     "niveles": "Primary, Secondary",
     "intro": "Master Spanish accentuation rules: agudas (accent if ending in vowel, -n or -s), llanas (accent if NOT ending in vowel, -n or -s), esdrújulas (always accented), diacritical accent (tú/tu, sé/se, más/mas), diphthongs and hiatuses. 15 questions with real curriculum cases.",
+    "resumen": [
+      "Accentuation has a reputation for being arbitrary, but it is actually one of the most systematic parts of Spanish spelling: with just three categories (agudas, llanas, esdrújulas) and one clear rule for each, you can correctly accent almost any word without memorising it in advance.",
+      "The exam covers the three-category rule, the diacritical accent (tú/tu, sé/se, más/mas) that distinguishes identical words with different meanings, and the 2010 RAE changes that many adults still don't apply correctly.",
+      "Revise accentuation with real curriculum cases in the exam below."
+    ],
     "beneficios": [
       {
         "titulo": "The Three-Category Rule",
@@ -103,6 +113,11 @@ export default {
     "asignatura": "Llengua Espanyola",
     "niveles": "Primària, ESO",
     "intro": "Domina les regles d'accentuació en castellà: agudes, planes, esdrúixoles, accent diacrític, diftongs i hiats. 15 preguntes amb casos reals del currículum.",
+    "resumen": [
+      "L'accentuació té fama de ser arbitrària, però és una de les parts més sistemàtiques de l'ortografia espanyola: amb només tres categories (agudes, planes, esdrúixoles) i una regla clara per a cadascuna, es pot accentuar correctament gairebé qualsevol paraula sense memoritzar-la per endavant.",
+      "L'examen treballa la regla de les tres categories, l'accent diacrític (tú/tu, sé/se, más/mas) que distingeix paraules idèntiques amb significat diferent, i els canvis de la RAE del 2010 que molts adults encara no apliquen bé.",
+      "Repassa l'accentuació amb casos reals del currículum a l'examen de sota."
+    ],
     "beneficios": [
       {
         "titulo": "La Regla de les Tres Categories",

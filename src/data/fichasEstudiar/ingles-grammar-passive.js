@@ -11,6 +11,11 @@ export default {
     "asignatura": "English",
     "niveles": "Primary, Secondary",
     "intro": "Master the passive voice in English: formation with be + past participle in all tenses (is made, was made, has been made, will be made), when to use it (unknown or unimportant agent), active to passive transformation, modal passives (must be checked), and the by-agent. 15 questions covering Primary and Secondary level.",
+    "resumen": [
+      "The passive voice is where many students get lost trying to identify the subject: in \"The cake was eaten\", the cake didn't do anything, yet it's still the grammatical subject. Once that clicks, the whole be + past participle pattern becomes mechanical across every tense.",
+      "The exam covers the formation of the passive across present, past, present perfect and future, when native speakers actually choose passive over active (unknown or unimportant agent), the active-to-passive transformation, and the by-agent, with real sentences instead of isolated conjugation drills.",
+      "Practise the passive voice across all tenses in the exam below."
+    ],
     "beneficios": [
       {
         "titulo": "Formation Across Tenses",
@@ -57,6 +62,11 @@ export default {
     "asignatura": "English",
     "niveles": "Primary, Secondary",
     "intro": "Master the passive voice: formation with be + past participle in all tenses, when to use it, active to passive transformation, modal passives and by-agent. 15 questions.",
+    "resumen": [
+      "The passive voice is where many students get lost trying to identify the subject: in \"The cake was eaten\", the cake didn't do anything, yet it's still the grammatical subject. Once that clicks, the whole be + past participle pattern becomes mechanical across every tense.",
+      "The exam covers the formation of the passive across present, past, present perfect and future, when native speakers actually choose passive over active (unknown or unimportant agent), the active-to-passive transformation, and the by-agent, with real sentences instead of isolated conjugation drills.",
+      "Practise the passive voice across all tenses in the exam below."
+    ],
     "beneficios": [
       {
         "titulo": "All Tenses",
@@ -103,6 +113,11 @@ export default {
     "asignatura": "Anglès",
     "niveles": "Primària, ESO",
     "intro": "Domina la veu passiva: formació amb be + participi passat en tots els temps, quan usar-la, transformació activa-passiva, passiva modal i complement agent. 15 preguntes.",
+    "resumen": [
+      "La veu passiva és on molts alumnes es perden intentant identificar el subjecte: a \"The cake was eaten\", el pastís no fa res, però tot i així és el subjecte gramatical. Un cop s'entén això, tot el patró be + participi passat es torna mecànic en qualsevol temps verbal.",
+      "L'examen treballa la formació de la passiva en present, passat, present perfect i futur, quan els parlants natius trien realment la passiva en lloc de l'activa (agent desconegut o poc important), la transformació activa-passiva, i el complement agent, amb oracions reals en lloc d'exercicis de conjugació aïllats.",
+      "Practica la veu passiva en tots els temps a l'examen de sota."
+    ],
     "beneficios": [
       {
         "titulo": "Tots els Temps",

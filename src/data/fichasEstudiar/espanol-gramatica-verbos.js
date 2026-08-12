@@ -11,6 +11,11 @@ export default {
     "asignatura": "Lengua Española",
     "niveles": "Primaria, ESO",
     "intro": "Repasa el verbo español en profundidad: presente de indicativo de verbos regulares e irregulares (-go, diptongan), pretérito indefinido vs imperfecto, ser vs estar, futuro simple, condicional, participios irregulares, verbos pronominales, imperativo y subjuntivo. 15 preguntas de Primaria a ESO.",
+    "resumen": [
+      "El verbo es la parte más compleja de la gramática española: cambia de forma según la persona, el tiempo y el modo, y esconde irregularidades que confunden incluso a hispanohablantes nativos, como la diferencia entre ser y estar o entre el pretérito indefinido y el imperfecto.",
+      "El examen trabaja los verbos irregulares más comunes (los que llevan -go en primera persona: tengo, pongo, hago), la diferencia entre ser y estar, los tiempos del pasado y los participios irregulares, con ejemplos en contexto real.",
+      "Repasa la conjugación española de Primaria a ESO con el examen de abajo."
+    ],
     "beneficios": [
       {
         "titulo": "Irregulares Más Comunes",
@@ -57,6 +62,11 @@ export default {
     "asignatura": "Spanish Language",
     "niveles": "Primary, Secondary",
     "intro": "Revise Spanish verbs in depth: present indicative of regular and irregular verbs (-go group), preterite vs imperfect, ser vs estar, simple future, conditional, irregular past participles, pronominal verbs, imperative and subjunctive. 15 questions from Primary to Secondary level.",
+    "resumen": [
+      "The verb is the most complex part of Spanish grammar: it changes form depending on person, tense and mood, and hides irregularities that confuse even native speakers, like the difference between ser and estar or between the preterite and the imperfect.",
+      "The exam covers the most common irregular verbs (the ones with -go in the first person: tengo, pongo, hago), the difference between ser and estar, past tenses and irregular participles, with real-context examples.",
+      "Revise Spanish conjugation from Primary to Secondary with the exam below."
+    ],
     "beneficios": [
       {
         "titulo": "Irregular -go Verbs",
@@ -103,6 +113,11 @@ export default {
     "asignatura": "Llengua Espanyola",
     "niveles": "Primària, ESO",
     "intro": "Repassa el verb castellà en profunditat: present d'indicatiu de verbs regulars i irregulars (grup -go), pretèrit indefinit vs imperfet, ser vs estar, futur simple, condicional, participis irregulars, verbs pronominals, imperatiu i subjuntiu. 15 preguntes.",
+    "resumen": [
+      "El verb és la part més complexa de la gramàtica espanyola: canvia de forma segons la persona, el temps i el mode, i amaga irregularitats que confonen fins i tot parlants nadius, com la diferència entre ser i estar o entre el pretèrit indefinit i l'imperfet.",
+      "L'examen treballa els verbs irregulars més comuns (els que porten -go en primera persona: tengo, pongo, hago), la diferència entre ser i estar, els temps del passat i els participis irregulars, amb exemples en context real.",
+      "Repassa la conjugació espanyola de Primària a ESO amb l'examen de sota."
+    ],
     "beneficios": [
       {
         "titulo": "Irregulars -go",

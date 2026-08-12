@@ -11,6 +11,11 @@ export default {
     "asignatura": "English",
     "niveles": "Primary, Secondary",
     "intro": "Learn the article system in English: a vs an (based on sound, not spelling), the for specific or previously mentioned nouns, zero article with uncountable nouns, languages, meals and institutions, unique things like the sun or the east, musical instruments vs sports, superlatives, and tricky exceptions like \"an honest man\" or \"a university\". 15 questions.",
+    "resumen": [
+      "Articles are one of the trickiest parts of English for Spanish and Catalan speakers, because neither \"a/an\" nor the zero article map cleanly onto anything in their own language — getting them right takes a different kind of intuition, built through examples, not translation.",
+      "The exam covers the sound-based a/an rule (an hour, a university), the first-vs-second-mention logic behind the/a, zero article with languages, meals and uncountable nouns, and the classic exceptions that trip up even advanced students, like musical instruments taking \"the\" while sports take none.",
+      "Practise articles with real sentence examples in the exam below."
+    ],
     "beneficios": [
       {
         "titulo": "Sound, Not Spelling",
@@ -57,6 +62,11 @@ export default {
     "asignatura": "English",
     "niveles": "Primary, Secondary",
     "intro": "Learn the article system: a vs an (based on sound), the for specific nouns, zero article with uncountable nouns, languages, meals, sports vs instruments. 15 questions.",
+    "resumen": [
+      "Articles are one of the trickiest parts of English for many learners, because neither \"a/an\" nor the zero article map cleanly onto anything in their own language — getting them right takes a different kind of intuition, built through examples, not translation.",
+      "The exam covers the sound-based a/an rule (an hour, a university), the first-vs-second-mention logic behind the/a, zero article with languages, meals and uncountable nouns, and the classic exceptions that trip up even advanced students, like musical instruments taking \"the\" while sports take none.",
+      "Practise articles with real sentence examples in the exam below."
+    ],
     "beneficios": [
       {
         "titulo": "Sound, Not Spelling",
@@ -103,6 +113,11 @@ export default {
     "asignatura": "Anglès",
     "niveles": "Primària, ESO",
     "intro": "Aprèn el sistema d'articles en anglès: a vs an (basat en el so), the per a noms específics, zero article amb noms incomptables, idiomes, menjars, esports vs instruments. 15 preguntes.",
+    "resumen": [
+      "Els articles són una de les parts més complicades de l'anglès per a parlants de català o castellà, perquè ni \"a/an\" ni el zero article tenen un equivalent net en la seva llengua — encertar-los requereix una intuïció diferent, construïda amb exemples, no amb traducció.",
+      "L'examen treballa la regla d'a/an basada en el so (an hour, a university), la lògica de primera i segona menció darrere de the/a, el zero article amb idiomes, menjars i noms incomptables, i les excepcions clàssiques que confonen fins i tot alumnes avançats, com els instruments musicals amb \"the\" davant els esports sense article.",
+      "Practica els articles amb exemples reals a l'examen de sota."
+    ],
     "beneficios": [
       {
         "titulo": "So, no Ortografia",

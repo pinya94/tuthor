@@ -11,6 +11,11 @@ export default {
     "asignatura": "Lengua Española",
     "niveles": "Primaria, ESO",
     "intro": "Aprende cuándo usar b y cuándo usar v en español mediante reglas sistemáticas: imperfecto -aba siempre con b, prefijos vice-/viso- con v, verbos en -bir con b, después de m siempre b, adjetivos en -ivo/-iva con v, homofonos tubo/tuvo. 15 preguntas que cubren las reglas más frecuentes.",
+    "resumen": [
+      "B y v suenan igual en español, así que no hay forma de acertar por oído: la única manera fiable de escribirlas bien es conocer las reglas. Por suerte son reglas muy sistemáticas que, una vez aprendidas, cubren cientos de palabras de golpe.",
+      "El examen trabaja las reglas más rentables —el imperfecto en -aba siempre con b, los adjetivos en -ivo/-iva siempre con v, los verbos en -bir con b (con sus excepciones: vivir, servir, hervir)— y los homófonos más confundidos como tubo/tuvo.",
+      "Repasa b y v con reglas, no con listas de palabras sueltas, en el examen de abajo."
+    ],
     "beneficios": [
       {
         "titulo": "Reglas, No Memorización",
@@ -57,6 +62,11 @@ export default {
     "asignatura": "Spanish Language",
     "niveles": "Primary, Secondary",
     "intro": "Learn when to use b and when to use v in Spanish with systematic rules: imperfect -aba always with b, vice-/viso- prefixes with v, -bir verbs with b, after m always b, -ivo/-iva adjectives with v, homophones tubo/tuvo. 15 questions covering the most frequent rules.",
+    "resumen": [
+      "B and v sound identical in Spanish, so there's no way to get them right by ear: the only reliable way to spell them correctly is to know the rules. Fortunately, these are very systematic rules that, once learned, cover hundreds of words at once.",
+      "The exam covers the most useful rules —the imperfect tense in -aba is always b, adjectives ending in -ivo/-iva are always v, verbs ending in -bir take b (with exceptions: vivir, servir, hervir)— and the most commonly confused homophones like tubo/tuvo.",
+      "Revise b and v through rules, not lists of individual words, in the exam below."
+    ],
     "beneficios": [
       {
         "titulo": "Rules, Not Memorisation",
@@ -103,6 +113,11 @@ export default {
     "asignatura": "Llengua Espanyola",
     "niveles": "Primària, ESO",
     "intro": "Aprèn quan usar b i quan usar v en castellà amb regles sistemàtiques: imperfet -aba sempre amb b, prefixos vice-/viso- amb v, verbs en -bir amb b, darrere de m sempre b, adjectius en -ivo/-iva amb v. 15 preguntes.",
+    "resumen": [
+      "B i v sonen igual en castellà, així que no hi ha manera d'encertar-les a l'oïda: l'única manera fiable d'escriure-les bé és conèixer les regles. Per sort són regles molt sistemàtiques que, un cop apreses, cobreixen centenars de paraules de cop.",
+      "L'examen treballa les regles més rendibles —l'imperfet en -aba sempre amb b, els adjectius en -ivo/-iva sempre amb v, els verbs en -bir amb b (amb les seves excepcions: vivir, servir, hervir)— i els homòfons més confosos com tubo/tuvo.",
+      "Repassa b i v amb regles, no amb llistes de paraules soltes, a l'examen de sota."
+    ],
     "beneficios": [
       {
         "titulo": "Regles, no Memorització",

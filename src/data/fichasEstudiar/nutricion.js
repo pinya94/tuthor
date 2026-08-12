@@ -11,6 +11,11 @@ export default {
     "asignatura": "Biología y Geología",
     "niveles": "Primaria y ESO",
     "intro": "Repasa los pilares de la nutrición: macronutrientes (hidratos, proteínas y grasas), vitaminas liposolubles e hidrosolubles, minerales esenciales, la dieta mediterránea y la importancia del agua y la fibra. Preguntas de opción múltiple con explicación detallada.",
+    "resumen": [
+      "La nutrición es uno de esos temas que se estudian en el aula pero se aplican todos los días en la mesa: entender qué hace cada nutriente, por qué el cuerpo necesita vitaminas en cantidades tan distintas, o por qué la dieta mediterránea es un modelo de referencia mundial, cambia cómo se mira un plato de comida.",
+      "El examen trabaja los macronutrientes y su función energética, la diferencia entre vitaminas liposolubles e hidrosolubles (y por qué unas se pueden acumular y otras no), los minerales esenciales y la dieta mediterránea, con preguntas que conectan la teoría con hábitos reales.",
+      "Repasa nutrición y alimentación saludable con el examen de abajo."
+    ],
     "beneficios": [
       "Distingue macronutrientes (energía) de micronutrientes (reguladores).",
       "Sabe qué vitaminas son liposolubles (A, D, E, K) y cuáles hidrosolubles (B, C).",
@@ -47,6 +52,11 @@ export default {
     "asignatura": "Biology & Geology",
     "niveles": "Primary & Secondary",
     "intro": "Review the pillars of nutrition: macronutrients (carbohydrates, proteins and fats), fat-soluble and water-soluble vitamins, essential minerals, the Mediterranean diet and the importance of water and fibre. Multiple-choice questions with detailed explanation.",
+    "resumen": [
+      "Nutrition is one of those subjects studied in the classroom but applied every day at the table: understanding what each nutrient does, why the body needs vitamins in such different amounts, or why the Mediterranean diet is a global reference model changes how you look at a plate of food.",
+      "The exam covers macronutrients and their energy role, the difference between fat-soluble and water-soluble vitamins (and why some can build up in the body and others can't), essential minerals and the Mediterranean diet, with questions that connect theory to real habits.",
+      "Revise nutrition and healthy eating with the exam below."
+    ],
     "beneficios": [
       {
         "titulo": "Macronutrients",
@@ -92,6 +102,11 @@ export default {
     "asignatura": "Biologia i Geologia",
     "niveles": "Primària i ESO",
     "intro": "Repassa els pilars de la nutrició: macronutrients (hidrats, proteïnes i greixos), vitamines liposolubles i hidrosolubles, minerals essencials, la dieta mediterrània i la importància de l'aigua i la fibra. Preguntes d'opció múltiple amb explicació detallada.",
+    "resumen": [
+      "La nutrició és un d'aquells temes que s'estudien a l'aula però s'apliquen cada dia a taula: entendre què fa cada nutrient, per què el cos necessita vitamines en quantitats tan diferents, o per què la dieta mediterrània és un model de referència mundial, canvia com es mira un plat de menjar.",
+      "L'examen treballa els macronutrients i la seva funció energètica, la diferència entre vitamines liposolubles i hidrosolubles (i per què unes es poden acumular i altres no), els minerals essencials i la dieta mediterrània, amb preguntes que connecten la teoria amb hàbits reals.",
+      "Repassa nutrició i alimentació saludable amb l'examen de sota."
+    ],
     "beneficios": [
       {
         "titulo": "Macronutrients",

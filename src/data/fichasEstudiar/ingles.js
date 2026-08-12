@@ -11,6 +11,11 @@ export default {
     "asignatura": "Inglés",
     "niveles": "Primaria, ESO",
     "intro": "Practica la gramática inglesa con preguntas siempre en inglés. El examen cubre: artículos (a/an/the), plurales irregulares, present simple, past simple irregular, present perfect, first y second conditional, phrasal verbs, voz pasiva, comparativos, relative clauses y reported speech.",
+    "resumen": [
+      "El inglés es la asignatura donde traducir mentalmente desde el español suele jugar en contra: estructuras como el present perfect o la voz pasiva no tienen un equivalente directo, y solo se dominan pensando ya en inglés desde el principio.",
+      "Por eso este examen está siempre en inglés, incluso las preguntas: cubre artículos, tiempos verbales (present simple, past simple, present perfect), condicionales, voz pasiva, comparativos y relative clauses, con la explicación de cada regla en el idioma en el que hay que aprenderla.",
+      "Practica la gramática inglesa pensando en inglés, con el examen de abajo."
+    ],
     "beneficios": [
       {
         "titulo": "Preguntas en Inglés",
@@ -57,6 +62,11 @@ export default {
     "asignatura": "English",
     "niveles": "Primary, Secondary",
     "intro": "Practise English grammar with questions always written in English. The exam covers: articles (a/an/the), irregular plurals, present simple, irregular past simple, present perfect, first and second conditionals, phrasal verbs, passive voice, comparatives, relative clauses and reported speech.",
+    "resumen": [
+      "English is a subject where mentally translating from your first language usually works against you: structures like the present perfect or the passive voice have no direct equivalent, and they only click once you start thinking in English from the start.",
+      "That's why this exam is always in English, even the questions: it covers articles, verb tenses (present simple, past simple, present perfect), conditionals, passive voice, comparatives and relative clauses, with each rule explained in the language you need to learn it in.",
+      "Practise English grammar by thinking in English, with the exam below."
+    ],
     "beneficios": [
       {
         "titulo": "Questions in English",
@@ -103,6 +113,11 @@ export default {
     "asignatura": "Anglès",
     "niveles": "Primària, ESO",
     "intro": "Practica la gramàtica anglesa amb preguntes sempre escrites en anglès. L'examen cobreix: articles (a/an/the), plurals irregulars, present simple, passat simple irregular, present perfect, primer i segon condicional, phrasal verbs, veu passiva, comparatius, clàusules relatives i estil indirecte.",
+    "resumen": [
+      "L'anglès és l'assignatura on traduir mentalment des del català o el castellà sol jugar en contra: estructures com el present perfect o la veu passiva no tenen un equivalent directe, i només es dominen pensant ja en anglès des del principi.",
+      "Per això aquest examen sempre és en anglès, fins i tot les preguntes: cobreix articles, temps verbals (present simple, past simple, present perfect), condicionals, veu passiva, comparatius i clàusules relatives, amb l'explicació de cada regla en l'idioma en què cal aprendre-la.",
+      "Practica la gramàtica anglesa pensant en anglès, amb l'examen de sota."
+    ],
     "beneficios": [
       {
         "titulo": "Preguntes en Anglès",

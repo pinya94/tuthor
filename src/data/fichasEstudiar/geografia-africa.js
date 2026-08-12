@@ -11,6 +11,11 @@ export default {
     "asignatura": "Geografía",
     "niveles": "ESO",
     "intro": "África es el continente con mayor número de países del mundo (54) y el segundo en extensión y población. Aprende a identificar los países de África del Norte (el Magreb), África Subsahariana, los grandes ríos (Nilo, Congo, Níger) y los accidentes geográficos más importantes con pistas progresivas.",
+    "resumen": [
+      "África es el continente con más países del mundo —54— y una diversidad geográfica, cultural y lingüística enorme: desde el desierto del Sahara hasta la selva del Congo, desde el árabe del Magreb hasta las lenguas bantúes del sur. Aprender su geografía es aprender a situar una parte del mundo que muchos libros de texto tratan de forma superficial.",
+      "El examen trabaja con pistas progresivas los países de África del Norte (el Magreb) y África Subsahariana, sus capitales —algunas tan sorprendentes como las tres capitales de Sudáfrica—, y los grandes accidentes geográficos: el Nilo, el Congo, el Sahara y el Kilimanjaro.",
+      "Practica con el juego de pistas progresivas y consulta esta ficha como referencia mientras aprendes los 54 países del continente."
+    ],
     "beneficios": [
       {
         "titulo": "El Magreb y África del Norte",
@@ -57,6 +62,11 @@ export default {
     "asignatura": "Geography",
     "niveles": "Secondary",
     "intro": "Africa has more countries than any other continent (54) and is second in area and population. Learn to identify the countries of North Africa (the Maghreb), Sub-Saharan Africa, the great rivers (Nile, Congo, Niger) and the most important physical features with progressive clues.",
+    "resumen": [
+      "Africa has more countries than any other continent —54— and enormous geographic, cultural and linguistic diversity: from the Sahara desert to the Congo rainforest, from Maghreb Arabic to the Bantu languages of the south. Learning its geography means learning to place a part of the world that many textbooks cover only superficially.",
+      "The exam uses progressive clues to work through the countries of North Africa (the Maghreb) and Sub-Saharan Africa, their capitals —some as surprising as South Africa's three capitals— and the continent's major physical features: the Nile, the Congo, the Sahara and Kilimanjaro.",
+      "Practise with the progressive-clue game and use this page as a reference while you learn the continent's 54 countries."
+    ],
     "beneficios": [
       {
         "titulo": "The Maghreb and North Africa",
@@ -103,6 +113,11 @@ export default {
     "asignatura": "Geografia",
     "niveles": "ESO",
     "intro": "Àfrica és el continent amb més països del món (54) i el segon en extensió i població. Aprèn a identificar els països de l'Àfrica del Nord (el Magrib), l'Àfrica Subsahariana, els grans rius (Nil, Congo, Níger) i els accidents geogràfics més importants amb pistes progressives.",
+    "resumen": [
+      "Àfrica és el continent amb més països del món —54— i una diversitat geogràfica, cultural i lingüística enorme: des del desert del Sàhara fins a la selva del Congo, des de l'àrab del Magrib fins a les llengües bantus del sud. Aprendre la seva geografia és aprendre a situar una part del món que molts llibres de text tracten de manera superficial.",
+      "L'examen treballa amb pistes progressives els països de l'Àfrica del Nord (el Magrib) i l'Àfrica Subsahariana, les seves capitals —algunes tan sorprenents com les tres capitals de Sud-àfrica— i els grans accidents geogràfics: el Nil, el Congo, el Sàhara i el Kilimanjaro.",
+      "Practica amb el joc de pistes progressives i consulta aquesta fitxa com a referència mentre aprens els 54 països del continent."
+    ],
     "beneficios": [
       {
         "titulo": "El Magrib i l'Àfrica del Nord",

@@ -11,6 +11,11 @@ export default {
     "asignatura": "Ciencias Naturales",
     "niveles": "Primaria, ESO",
     "intro": "Aprende los 8 planetas del sistema solar, sus características principales y los movimientos de la Tierra con preguntas adaptadas a Primaria y ESO. Desde el más cercano al Sol hasta los gigantes gaseosos con anillos, el examen cubre todo el currículo oficial de Astronomía.",
+    "resumen": [
+      "El sistema solar es de los pocos temas de ciencias donde casi todos los alumnos llegan sabiendo algo, pero pocos distinguen bien rotación de traslación o saben por qué existen las estaciones — dos confusiones tan comunes que aparecen en casi todos los exámenes.",
+      "El examen trabaja el orden de los 8 planetas desde el Sol, la diferencia entre rotación (día y noche) y traslación (año y estaciones), y en el nivel de ESO añade el año luz y la inclinación del eje terrestre como causa real de las estaciones.",
+      "Repasa el sistema solar de Primaria a ESO con el examen de abajo."
+    ],
     "beneficios": [
       {
         "titulo": "Los 8 Planetas en Orden",
@@ -57,6 +62,11 @@ export default {
     "asignatura": "Natural Science",
     "niveles": "Primary, Secondary",
     "intro": "Learn the 8 planets of the solar system, their main features and Earth's movements with questions adapted to Primary and Secondary. From the planet closest to the Sun to the gas giants with rings, this exam covers the full official astronomy curriculum.",
+    "resumen": [
+      "The solar system is one of the few science topics almost every student arrives already knowing something about, yet few can clearly tell rotation from revolution or explain why the seasons happen — two mix-ups common enough to show up in nearly every exam.",
+      "The exam covers the order of the 8 planets from the Sun, the difference between rotation (day and night) and revolution (year and seasons), and at Secondary level adds the light year and Earth's axial tilt as the real cause of the seasons.",
+      "Revise the solar system from Primary to Secondary with the exam below."
+    ],
     "beneficios": [
       {
         "titulo": "The 8 Planets in Order",
@@ -103,6 +113,11 @@ export default {
     "asignatura": "Ciències Naturals",
     "niveles": "Primària, ESO",
     "intro": "Aprèn els 8 planetes del sistema solar, les seves característiques principals i els moviments de la Terra amb preguntes adaptades a Primària i ESO. Des del planeta més proper al Sol fins als gegants gasosos amb anells, l'examen cobreix tot el currículum oficial d'Astronomia.",
+    "resumen": [
+      "El sistema solar és dels pocs temes de ciències on gairebé tots els alumnes arriben sabent-ne alguna cosa, però pocs distingeixen bé rotació de translació o saben per què existeixen les estacions — dues confusions tan comunes que apareixen en gairebé tots els exàmens.",
+      "L'examen treballa l'ordre dels 8 planetes des del Sol, la diferència entre rotació (dia i nit) i translació (any i estacions), i al nivell d'ESO afegeix l'any llum i la inclinació de l'eix terrestre com a causa real de les estacions.",
+      "Repassa el sistema solar de Primària a ESO amb l'examen de sota."
+    ],
     "beneficios": [
       {
         "titulo": "Els 8 Planetes en Ordre",

@@ -11,6 +11,11 @@ export default {
     "asignatura": "Física y Química",
     "niveles": "Primaria y ESO",
     "intro": "Domina las tres magnitudes eléctricas (tensión, intensidad y resistencia), la ley de Ohm (V = I × R), los circuitos en serie y en paralelo, la diferencia entre corriente continua y alterna, los conductores e aislantes, el magnetismo, los electroimanes y la potencia eléctrica.",
+    "resumen": [
+      "La electricidad está en todas partes —el móvil, la nevera, la luz de casa— pero pocas veces nos paramos a entender qué es realmente: cargas moviéndose por un circuito, gobernadas por una relación tan simple como potente, la ley de Ohm. Es uno de los temas donde más se nota la diferencia entre memorizar y entender de verdad.",
+      "El examen cubre las tres magnitudes eléctricas (tensión, intensidad y resistencia) y la ley de Ohm (V = I × R), la diferencia entre circuitos en serie y en paralelo, conductores y aislantes, corriente continua y alterna, y los fundamentos del electromagnetismo: cómo una corriente genera un campo magnético y cómo eso mueve motores y trenes maglev.",
+      "Aplica la ley de Ohm y repasa circuitos con el examen de abajo, con la resolución explicada paso a paso."
+    ],
     "beneficios": [
       "Aplica la ley de Ohm (V = I × R) para calcular cualquier magnitud eléctrica.",
       "Diferencia circuitos en serie (misma corriente) de circuitos en paralelo (misma tensión).",
@@ -47,6 +52,11 @@ export default {
     "asignatura": "Physics & Chemistry",
     "niveles": "Primary & Secondary",
     "intro": "Master the three electrical quantities (voltage, current and resistance), Ohm's law (V = I × R), series and parallel circuits, the difference between direct and alternating current, conductors and insulators, magnetism, electromagnets and electrical power.",
+    "resumen": [
+      "Electricity is everywhere —your phone, the fridge, the light in your room— but we rarely stop to understand what it actually is: charges moving through a circuit, governed by a relationship as simple as it is powerful, Ohm's law. It is one of those topics where the gap between memorising and truly understanding really shows.",
+      "The exam covers the three electrical quantities (voltage, current and resistance) and Ohm's law (V = I × R), the difference between series and parallel circuits, conductors and insulators, direct and alternating current, and the basics of electromagnetism: how a current generates a magnetic field and how that drives motors and maglev trains.",
+      "Apply Ohm's law and revise circuits with the exam below, with the working explained step by step."
+    ],
     "beneficios": [
       {
         "titulo": "Ohm's Law Triangle",
@@ -93,6 +103,11 @@ export default {
     "asignatura": "Física i Química",
     "niveles": "Primària i ESO",
     "intro": "Domina les tres magnituds elèctriques (tensió, intensitat i resistència), la llei d'Ohm (V = I × R), els circuits en sèrie i en paral·lel, la diferència entre corrent continu i altern, els conductors i aïllants, el magnetisme, els electroimants i la potència elèctrica.",
+    "resumen": [
+      "L'electricitat és a tot arreu —el mòbil, la nevera, el llum de casa— però poques vegades ens aturem a entendre què és realment: càrregues movent-se per un circuit, governades per una relació tan senzilla com potent, la llei d'Ohm. És un d'aquells temes on més es nota la diferència entre memoritzar i entendre de veritat.",
+      "L'examen cobreix les tres magnituds elèctriques (tensió, intensitat i resistència) i la llei d'Ohm (V = I × R), la diferència entre circuits en sèrie i en paral·lel, conductors i aïllants, corrent continu i altern, i els fonaments de l'electromagnetisme: com un corrent genera un camp magnètic i com això mou motors i trens maglev.",
+      "Aplica la llei d'Ohm i repassa circuits amb l'examen de sota, amb la resolució explicada pas a pas."
+    ],
     "beneficios": [
       {
         "titulo": "Triangle de la Llei d'Ohm",

@@ -11,6 +11,11 @@ export default {
     "asignatura": "Geografía",
     "niveles": "ESO",
     "intro": "Oceanía es el continente más pequeño del mundo: 14 países y territorios que se extienden por el Pacífico Sur. Aprende a identificar Australia (Canberra), Nueva Zelanda (Wellington), Papua Nueva Guinea, Fiyi, Samoa y las demás islas del Pacífico con sus características geográficas únicas.",
+    "resumen": [
+      "Oceanía es el continente más pequeño y menos estudiado en los colegios, lo que lo convierte también en el que más sorpresas guarda: Australia ocupa un continente entero pero su capital ni siquiera es su ciudad más conocida, y sus vecinos son diminutas naciones insulares soberanas repartidas por el Pacífico.",
+      "El examen trabaja Australia y su confusión más frecuente (Canberra, no Sydney, es la capital), Nueva Zelanda y su geografía única, y los países del Pacífico —Fiyi, Samoa, Tonga y otros— que rara vez aparecen en los libros de texto.",
+      "Descubre un continente que la mayoría de exámenes se salta, con el juego de pistas de abajo."
+    ],
     "beneficios": [
       {
         "titulo": "Australia: Continente e Isla",
@@ -57,6 +62,11 @@ export default {
     "asignatura": "Geography",
     "niveles": "Secondary",
     "intro": "Oceania is the smallest continent: 14 countries and territories spread across the South Pacific. Learn to identify Australia (Canberra), New Zealand (Wellington), Papua New Guinea, Fiji, Samoa and the other Pacific islands with their unique geographic features.",
+    "resumen": [
+      "Oceania is the smallest and least studied continent in schools, which also makes it the one with the most surprises: Australia occupies an entire continent, yet its capital is not even its best-known city, and its neighbours are tiny sovereign island nations scattered across the Pacific.",
+      "The exam covers Australia and its most common mix-up (Canberra, not Sydney, is the capital), New Zealand's unique geography, and the Pacific nations —Fiji, Samoa, Tonga and others— that rarely appear in textbooks.",
+      "Discover a continent most exams skip, with the clue game below."
+    ],
     "beneficios": [
       {
         "titulo": "Australia: Continent and Island",
@@ -103,6 +113,11 @@ export default {
     "asignatura": "Geografia",
     "niveles": "ESO",
     "intro": "Oceania és el continent més petit del món: 14 països i territoris que s'estenen pel Pacífic Sud. Aprèn a identificar Austràlia (Canberra), Nova Zelanda (Wellington), Papua Nova Guinea, Fiji, Samoa i les altres illes del Pacífic amb les seves característiques geogràfiques úniques.",
+    "resumen": [
+      "Oceania és el continent més petit i menys estudiat a les escoles, cosa que també el converteix en el que guarda més sorpreses: Austràlia ocupa un continent sencer però la seva capital ni tan sols és la seva ciutat més coneguda, i els seus veïns són diminutes nacions insulars sobiranes escampades pel Pacífic.",
+      "L'examen treballa Austràlia i la seva confusió més freqüent (Canberra, no Sydney, és la capital), Nova Zelanda i la seva geografia única, i els països del Pacífic —Fiji, Samoa, Tonga i altres— que rarament apareixen als llibres de text.",
+      "Descobreix un continent que la majoria d'exàmens s'salta, amb el joc de pistes de sota."
+    ],
     "beneficios": [
       {
         "titulo": "Austràlia: Continent i Illa",

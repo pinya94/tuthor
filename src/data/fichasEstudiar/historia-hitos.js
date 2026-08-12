@@ -11,6 +11,11 @@ export default {
     "asignatura": "Historia Universal",
     "niveles": "Primaria, ESO",
     "intro": "Desde la escritura en Mesopotamia hasta la llegada a la Luna, este examen cubre los eventos más importantes de la historia de la humanidad: civilizaciones antiguas, grandes descubrimientos, revoluciones y hitos del siglo XX. Adaptado al currículo de Conocimiento del Medio y Ciencias Sociales.",
+    "resumen": [
+      "Repasar los grandes hitos de la historia no es memorizar una lista de fechas sueltas, es construir el hilo temporal que conecta todo lo demás: sin saber cuándo fue la escritura, cuándo la imprenta o cuándo las guerras mundiales, cualquier otro tema de historia flota sin anclaje.",
+      "El examen recorre las civilizaciones antiguas y su legado, los grandes descubrimientos que cambiaron la humanidad —la imprenta, la llegada a América, la revolución científica— y los hitos del siglo XX que todavía marcan el mundo actual, con las fechas clave siempre puestas en contexto.",
+      "Repasa la línea temporal completa de la historia universal con el examen de abajo."
+    ],
     "beneficios": [
       {
         "titulo": "Civilizaciones Antiguas",
@@ -57,6 +62,11 @@ export default {
     "asignatura": "World History",
     "niveles": "Primary, Secondary",
     "intro": "From writing in Mesopotamia to the Moon landing, this exam covers the most important events in human history: ancient civilisations, great discoveries, revolutions and 20th-century milestones. Aligned to the Primary Social Studies and Secondary History curriculum.",
+    "resumen": [
+      "Revising the great milestones of history isn't about memorising a list of loose dates — it's about building the timeline that everything else hangs on: without knowing roughly when writing, the printing press or the World Wars happened, every other history topic floats without an anchor.",
+      "The exam covers ancient civilisations and their legacy, the great discoveries that changed humanity —the printing press, the arrival in America, the scientific revolution— and the 20th-century milestones that still shape today's world, always placing key dates in context.",
+      "Revise the full timeline of world history with the exam below."
+    ],
     "beneficios": [
       {
         "titulo": "Ancient Civilisations",
@@ -103,6 +113,11 @@ export default {
     "asignatura": "Història Universal",
     "niveles": "Primària, ESO",
     "intro": "Des de l'escriptura a Mesopotàmia fins a l'arribada a la Lluna, aquest examen cobreix els esdeveniments més importants de la història de la humanitat: civilitzacions antigues, grans descobriments, revolucions i fites del segle XX. Adaptat al currículum de Coneixement del Medi i Ciències Socials.",
+    "resumen": [
+      "Repassar les grans fites de la història no és memoritzar una llista de dates soltes, és construir el fil temporal que connecta tota la resta: sense saber quan va ser l'escriptura, quan la impremta o quan les guerres mundials, qualsevol altre tema d'història flota sense ancoratge.",
+      "L'examen recorre les civilitzacions antigues i el seu llegat, els grans descobriments que van canviar la humanitat —la impremta, l'arribada a Amèrica, la revolució científica— i les fites del segle XX que encara marquen el món actual, amb les dates clau sempre posades en context.",
+      "Repassa la línia temporal completa de la història universal amb l'examen de sota."
+    ],
     "beneficios": [
       {
         "titulo": "Civilitzacions Antigues",
