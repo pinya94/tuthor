@@ -300,7 +300,7 @@ function Header({ onLogin, user, tr, localPath }) {
     <header className="sticky top-0 z-40 border-b border-slate-200/70 bg-white/85 backdrop-blur-md">
       <div className="mx-auto flex max-w-6xl items-center gap-4 px-5 py-3.5">
         <Link to={localPath('/')} className="flex items-center gap-2 font-black text-lg text-slate-900">
-          <span className="text-xl">🦉</span> Tuthor
+          <img src="/favicon.svg" alt="Tuthor" className="h-6 w-6" /> Tuthor
         </Link>
 
         <nav className="ml-auto flex items-center gap-1 sm:gap-3">
@@ -772,7 +772,7 @@ export default function Landing() {
 
       <footer className="border-t border-slate-200 bg-white py-10">
         <div className="mx-auto flex max-w-6xl flex-col items-center gap-4 px-5 text-sm text-slate-500 sm:flex-row">
-          <p className="font-black text-slate-900">🦉 Tuthor</p>
+          <p className="flex items-center gap-1.5 font-black text-slate-900"><img src="/favicon.svg" alt="Tuthor" className="h-4 w-4" /> Tuthor</p>
           <nav className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 sm:ml-auto">
             <Link to={localPath('/profesores')} className="transition-colors hover:text-slate-900">
               {tr({ es: 'Para profesores', en: 'For teachers', ca: 'Per a professors' })}
