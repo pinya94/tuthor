@@ -48,6 +48,11 @@ const L = {
 }
 
 function Intro({ badge, title, sub, levels, onSelect, backGamePath, backLabel, l }) {
+  // Un solo nivel = la mecánica no tiene un eje de dificultad real que
+  // ofrecer (p.ej. Órbita: acierto/fallo binario, no hay "más o menos
+  // preciso" con sentido). En ese caso no tiene sentido la pantalla de
+  // "elige tu nivel" con una sola opción: se salta directa a un botón único.
+  const single = levels.length === 1 ? levels[0] : null
   return (
     <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
       <div className="max-w-md w-full">
@@ -65,19 +70,28 @@ function Intro({ badge, title, sub, levels, onSelect, backGamePath, backLabel, l
             </div>
           ))}
         </div>
-        <p className="text-white/40 text-xs uppercase tracking-widest text-center mb-3">{tr(L.chooseLevel, l)}</p>
-        <div className="flex flex-col gap-3 mb-4">
-          {levels.map(lv => (
-            <button key={lv.key} onClick={() => onSelect(lv.difficulty)}
-              className="w-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#EDAE49]/50 rounded-2xl px-5 py-4 text-left transition-all flex items-center justify-between group">
-              <div>
-                <p className="text-white font-bold">{lv.emoji} {tr(lv.label, l)}</p>
-                <p className="text-white/40 text-xs mt-0.5">{tr(lv.hint, l)}</p>
-              </div>
-              <span className="text-white/30 group-hover:text-[#EDAE49] font-black text-lg transition-colors">→</span>
-            </button>
-          ))}
-        </div>
+        {single ? (
+          <button onClick={() => onSelect(single.difficulty)}
+            className="w-full py-4 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-lg rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] mb-4">
+            {tr(L.start, l)}
+          </button>
+        ) : (
+          <>
+            <p className="text-white/40 text-xs uppercase tracking-widest text-center mb-3">{tr(L.chooseLevel, l)}</p>
+            <div className="flex flex-col gap-3 mb-4">
+              {levels.map(lv => (
+                <button key={lv.key} onClick={() => onSelect(lv.difficulty)}
+                  className="w-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#EDAE49]/50 rounded-2xl px-5 py-4 text-left transition-all flex items-center justify-between group">
+                  <div>
+                    <p className="text-white font-bold">{lv.emoji} {tr(lv.label, l)}</p>
+                    <p className="text-white/40 text-xs mt-0.5">{tr(lv.hint, l)}</p>
+                  </div>
+                  <span className="text-white/30 group-hover:text-[#EDAE49] font-black text-lg transition-colors">→</span>
+                </button>
+              ))}
+            </div>
+          </>
+        )}
         <Link to={backGamePath} className="block text-center text-white/40 hover:text-white/70 text-sm transition-colors">
           {backLabel ? tr(backLabel, l) : tr(L.back, l)}
         </Link>

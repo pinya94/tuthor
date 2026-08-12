@@ -5,19 +5,13 @@ import { genRound, isCorrectGuess } from '../lib/orbita'
 
 // Examen con la mecánica del juego Órbita: arrastras la sonda a lo largo de
 // la barra hasta la distancia al Sol donde crees que está el planeta pedido.
-// 10 preguntas, sin tiempo. A diferencia del juego (puntos por precisión),
-// aquí es acierto/fallo simple con un margen que se endurece por nivel (ver
-// MARGEN_NIVEL en lib/orbita.js).
+// 10 preguntas, sin tiempo, acierto/fallo simple (¿cayó en la zona correcta,
+// sí o no?). Sin niveles: los planetas están en un sitio fijo, así que no
+// hay un eje real de "más o menos difícil" que ofrecer — ver lib/orbita.js.
 const LEVELS = [
-  { key: 'primaria', emoji: '🟢', difficulty: 'facil',
-    label: { es: 'Iniciación', en: 'Beginner', ca: 'Iniciació' },
-    hint: { es: 'Basta con acertar la zona del planeta', en: 'Just land in the planet\'s zone', ca: 'Prou amb encertar la zona del planeta' } },
-  { key: 'eso', emoji: '🟡', difficulty: 'medio',
-    label: { es: 'Secundaria (ESO)', en: 'Secondary (ESO)', ca: 'Secundària (ESO)' },
-    hint: { es: 'Hay que acercarse bastante al centro', en: 'You need to get fairly close to the centre', ca: 'Cal apropar-se força al centre' } },
-  { key: 'bachillerato', emoji: '🔴', difficulty: 'dificil',
-    label: { es: 'Bachillerato', en: 'Sixth Form', ca: 'Batxillerat' },
-    hint: { es: 'Solo vale una órbita casi perfecta', en: 'Only an almost-perfect orbit counts', ca: 'Només val una òrbita gairebé perfecta' } },
+  { key: 'unico', difficulty: 'unico',
+    label: { es: 'Sistema Solar', en: 'Solar System', ca: 'Sistema Solar' },
+    hint: { es: '¿En qué zona del Sol está cada planeta?', en: "Which zone of the Sun is each planet in?", ca: 'En quina zona del Sol és cada planeta?' } },
 ]
 
 const SLIDER_MAX = 1000
