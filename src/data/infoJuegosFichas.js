@@ -632,6 +632,35 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Vida Práctica', niveles: 'Primaria, ESO, Bachillerato',
   },
+  'orbita': {
+    titulo: 'Órbita',
+    subtitulo: 'Juego de Distancias y Orden de los Planetas',
+    emoji: '🛰️', gradient: 'from-indigo-600 to-slate-900',
+    path: '/juegos/orbita',
+    examPath: '/examen/sistema-solar',
+    intro: 'Un juego de geología para aprender el sistema solar sin memorizar una lista de números: arrastras un slider a lo largo de una barra que representa la distancia al Sol y lanzas la sonda donde creas que está el planeta pedido. Sin reloj ni reflejos — el reto es saber, no ser rápido. Cuanto más centrado el lanzamiento, más puntos, y cada intento, acierte o no, enseña un dato real sobre ese planeta.',
+    beneficios: [
+      { titulo: 'El orden se aprende jugando, no memorizando', texto: 'En vez de repetir "Mercurio, Venus, Tierra, Marte…" de carrerilla, cada ronda obliga a situar un planeta concreto en la barra. El orden se queda porque se ha usado, no porque se ha recitado.' },
+      { titulo: 'Proporciones reales, no una lista plana', texto: 'La barra no reparte los 8 planetas a partes iguales: los 4 rocosos quedan apretados al principio y los gigantes gaseosos muy separados, como en la realidad. Se nota, jugando, que Mercurio y Venus están mucho más cerca entre sí que Saturno y Neptuno.' },
+      { titulo: 'Un dato nuevo en cada lanzamiento', texto: 'Acierte o falle, cada ronda enseña un hecho concreto sobre el planeta: el volcán más grande del sistema solar está en Marte, Saturno flotaría en agua, Neptuno tiene los vientos más rápidos. Datos verificables, no curiosidades sueltas.' },
+    ],
+    ejemplo: 'Toca lanzar la sonda a Júpiter. La fila de arriba lo marca como el 5º planeta desde el Sol; el jugador mueve el slider hasta donde cree que está esa distancia y lanza, sin prisa. Si cae cerca del centro, "¡Órbita perfecta!" y suma 100 puntos más la racha; si cae en la franja de Marte o Saturno, pierde una vida y aprende dónde estaba realmente Júpiter.',
+    enPapel: {
+      titulo: 'Ordenar el sistema solar en papel',
+      pasos: [
+        'Dibuja una línea recta y marca el Sol en un extremo.',
+        'Escribe los 8 planetas en una lista aparte, sin orden.',
+        'Coloca cada uno en la línea según creas que está más cerca o más lejos que el anterior.',
+        'Comprueba el orden real (Mercurio, Venus, Tierra, Marte, Júpiter, Saturno, Urano, Neptuno) y corrige.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'La maqueta con pasos', desc: 'Camina una distancia proporcional por cada planeta (por ejemplo, un paso = Mercurio, dos = Venus…) para sentir físicamente cómo crece el hueco entre planetas.' },
+      { nombre: 'Un planeta al día', desc: 'Cada día de la semana busca un dato nuevo de un planeta distinto y anótalo en una ficha. Al cabo de 8 días tienes tu propia enciclopedia del sistema solar.' },
+      { nombre: 'El examen de Sistema Solar', desc: 'Después de jugar, repasa con el examen tipo test: movimientos de rotación y traslación, tipos de astros y las confusiones más típicas de cada nivel.' },
+    ],
+    asignatura: 'Geología', niveles: 'Primaria, ESO',
+  },
 }
 
 export const FICHAS_EN = {
@@ -1092,6 +1121,35 @@ export const FICHAS_EN = {
       { nombre: 'In-person first-aid course', desc: 'The Red Cross and other organisations run hands-on workshops with mannequins. Nothing replaces practising CPR with your hands.' },
     ],
     asignatura: 'Life Skills', niveles: 'Primary, Secondary, Sixth Form',
+  },
+  'orbita': {
+    titulo: 'Orbit',
+    subtitulo: 'Planet Order & Distance Game',
+    emoji: '🛰️', gradient: 'from-indigo-600 to-slate-900',
+    path: '/juegos/orbita',
+    examPath: '/examen/sistema-solar',
+    intro: "A geology game to learn the solar system without memorising a list of numbers: you drag a slider along a bar that represents the distance to the Sun and launch the probe where you think the requested planet is. No clock, no reflexes — the challenge is knowing, not being fast. The more centred the launch, the more points, and every attempt, right or wrong, teaches a real fact about that planet.",
+    beneficios: [
+      { titulo: 'The order sticks because you use it, not recite it', texto: 'Instead of chanting "Mercury, Venus, Earth, Mars…" from memory, every round forces you to place one specific planet on the bar. The order sticks because it was used, not repeated.' },
+      { titulo: 'Real proportions, not a flat list', texto: 'The bar does not split the 8 planets evenly: the 4 rocky ones are squeezed together at the start and the gas giants are spread far apart, just like in reality. Playing, you notice Mercury and Venus sit much closer to each other than Saturn and Neptune do.' },
+      { titulo: 'A new fact with every launch', texto: 'Whether you hit or miss, every round teaches a concrete fact about the planet: the largest volcano in the solar system is on Mars, Saturn would float in water, Neptune has the fastest winds. Verifiable facts, not loose trivia.' },
+    ],
+    ejemplo: "It's time to launch the probe to Jupiter. The row above marks it as the 5th planet from the Sun; the player waits for the probe, swinging along the bar, to reach that zone and launches. Landing near the centre gives \"Perfect orbit!\" and 100 points plus the streak bonus; landing in Mars' or Saturn's stretch costs a life and teaches where Jupiter actually sits.",
+    enPapel: {
+      titulo: 'Ordering the solar system on paper',
+      pasos: [
+        'Draw a straight line and mark the Sun at one end.',
+        'Write the 8 planets in a separate list, unordered.',
+        'Place each one on the line based on whether you think it is closer or farther than the last.',
+        'Check the real order (Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus, Neptune) and correct it.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'Walk the model', desc: 'Walk a proportional distance for each planet (say, one step = Mercury, two = Venus…) to physically feel how the gap between planets grows.' },
+      { nombre: 'A planet a day', desc: 'Each day of the week, find one new fact about a different planet and write it down. After 8 days you have your own solar system encyclopaedia.' },
+      { nombre: 'The Solar System exam', desc: 'After playing, revise with the quiz: rotation and revolution, types of celestial bodies and the most common mix-ups at each level.' },
+    ],
+    asignatura: 'Geology', niveles: 'Primary, Secondary',
   },
 }
 
@@ -1631,5 +1689,34 @@ export const FICHAS_CA = {
       { nombre: 'Curs presencial de primers auxilis', desc: 'La Creu Roja i altres entitats ofereixen tallers pràctics amb maniquins. Res no substitueix practicar la RCP amb les mans.' },
     ],
     asignatura: 'Vida Pràctica', niveles: 'Primària, ESO, Batxillerat',
+  },
+  'orbita': {
+    titulo: 'Òrbita',
+    subtitulo: 'Joc de Distàncies i Ordre dels Planetes',
+    emoji: '🛰️', gradient: 'from-indigo-600 to-slate-900',
+    path: '/juegos/orbita',
+    examPath: '/examen/sistema-solar',
+    intro: 'Un joc de geologia per aprendre el sistema solar sense memoritzar una llista de números: arrossegues un slider al llarg d\'una barra que representa la distància al Sol i llances la sonda on creguis que és el planeta demanat. Sense rellotge ni reflexos — el repte és saber-ho, no ser ràpid. Com més centrat el llançament, més punts, i cada intent, encerti o no, ensenya una dada real sobre aquell planeta.',
+    beneficios: [
+      { titulo: 'L\'ordre s\'aprèn jugant, no memoritzant', texto: 'En comptes de repetir "Mercuri, Venus, Terra, Mart…" de memòria, cada ronda obliga a situar un planeta concret a la barra. L\'ordre queda perquè s\'ha fet servir, no perquè s\'ha recitat.' },
+      { titulo: 'Proporcions reals, no una llista plana', texto: 'La barra no reparteix els 8 planetes a parts iguals: els 4 rocosos queden apretats al principi i els gegants gasosos molt separats, com a la realitat. Es nota, jugant, que Mercuri i Venus estan molt més a prop l\'un de l\'altre que Saturn i Neptú.' },
+      { titulo: 'Una dada nova a cada llançament', texto: 'Encerti o falli, cada ronda ensenya un fet concret sobre el planeta: el volcà més gran del sistema solar és a Mart, Saturn flotaria en aigua, Neptú té els vents més ràpids. Dades verificables, no curiositats soltes.' },
+    ],
+    ejemplo: 'Toca llançar la sonda a Júpiter. La fila de dalt el marca com el 5è planeta des del Sol; el jugador mou el slider fins on creu que és aquella distància i llança, sense presses. Si cau a prop del centre, "Òrbita perfecta!" i suma 100 punts més la ratxa; si cau a la franja de Mart o Saturn, perd una vida i aprèn on era realment Júpiter.',
+    enPapel: {
+      titulo: 'Ordenar el sistema solar en paper',
+      pasos: [
+        'Dibuixa una línia recta i marca el Sol en un extrem.',
+        'Escriu els 8 planetes en una llista a part, sense ordre.',
+        'Col·loca cadascun a la línia segons creguis que està més a prop o més lluny que l\'anterior.',
+        'Comprova l\'ordre real (Mercuri, Venus, Terra, Mart, Júpiter, Saturn, Urà, Neptú) i corregeix.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'La maqueta amb passos', desc: 'Camina una distància proporcional per cada planeta (per exemple, un pas = Mercuri, dos = Venus…) per sentir físicament com creix el buit entre planetes.' },
+      { nombre: 'Un planeta al dia', desc: 'Cada dia de la setmana busca una dada nova d\'un planeta diferent i anota-la en una fitxa. Al cap de 8 dies tens la teva pròpia enciclopèdia del sistema solar.' },
+      { nombre: 'L\'examen de Sistema Solar', desc: 'Després de jugar, repassa amb l\'examen tipus test: moviments de rotació i translació, tipus d\'astres i les confusions més típiques de cada nivell.' },
+    ],
+    asignatura: 'Geologia', niveles: 'Primària, ESO',
   },
 }

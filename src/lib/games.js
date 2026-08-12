@@ -215,6 +215,14 @@ export const GAMES = {
     // aciertos × 10 puntos → hasta 200 monedas
     coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
   },
+  'orbita': {
+    label: { es: 'Órbita', en: 'Orbit', ca: 'Òrbita' },
+    emoji: '🛰️',
+    subject: 'geologia',
+    route: '/juegos/orbita',
+    // aciertos × 10 puntos → hasta 200 monedas
+    coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
+  },
 }
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
