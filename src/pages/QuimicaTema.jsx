@@ -158,6 +158,13 @@ const MODOS_POR_TEMA = {
       detalles: { es:['2 niveles','10 preguntas','Opción múltiple','Explicación tras cada respuesta'], en:['2 levels','10 questions','Multiple choice','Explanation after each answer'], ca:['2 nivells','10 preguntes','Opció múltiple','Explicació després de cada resposta'] },
       path: 'sistema-solar',
     },
+    {
+      id: 'orbita-test', emoji: '🛰️', gradient: 'from-cyan-700 to-indigo-900',
+      titulo: { es:'Órbita', en:'Orbit', ca:'Òrbita' },
+      descripcion: { es:'Con la mecánica del juego: lanza la sonda a la distancia al Sol donde crees que está cada planeta.', en:'Using the game mechanic: launch the probe to the distance from the Sun where you think each planet is.', ca:'Amb la mecànica del joc: llança la sonda a la distància al Sol on creus que és cada planeta.' },
+      detalles: { es:['3 niveles','10 preguntas','Sin cronómetro','Con el juego'], en:['3 levels','10 questions','No timer','With the game'], ca:['3 nivells','10 preguntes','Sense cronòmetre','Amb el joc'] },
+      path: 'orbita-test',
+    },
   ],
   'rocas-minerales': [
     {

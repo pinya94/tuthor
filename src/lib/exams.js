@@ -291,6 +291,11 @@ export const EXAMS = {
     emoji: '🌌', subject: 'geologia',
     path: 'examen/sistema-solar', page: () => import('../pages/SistemaSolarExamen'),
   },
+  'orbita-test': {
+    label: { es: 'Órbita', en: 'Orbit', ca: 'Òrbita' },
+    emoji: '🛰️', subject: 'geologia',
+    path: 'examen/orbita-test', page: () => import('../pages/OrbitaExamen'),
+  },
   'rocas-minerales': {
     label: { es: 'Rocas y Minerales', en: 'Rocks & Minerals', ca: 'Roques i Minerals' },
     emoji: '⛰️', subject: 'geologia',

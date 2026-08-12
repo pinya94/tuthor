@@ -4,10 +4,11 @@ import { useLang } from '../context/LangContext'
 import { useAuth } from '../context/AuthContext'
 import { saveActivity } from '../lib/activity'
 import { computeCoins } from '../lib/games'
-import { nuevoMazo, CENTROS, FRONTERAS, evaluarLanzamiento } from '../lib/orbita'
+import { nuevoMazo, CENTROS, evaluarLanzamiento } from '../lib/orbita'
 import { PLANETAS } from '../data/planetas'
 import GameEndScreen from '../components/GameEndScreen'
 import SEOHead from '../components/SEOHead'
+import BarraOrbita from '../components/BarraOrbita'
 
 // Roguelike corto y cerrado: 8 rondas como máximo (un lanzamiento por
 // planeta, sin repetir). Sin reloj ni sonda animada: el jugador arrastra el
@@ -36,7 +37,7 @@ const UI = {
     siguiente: 'Siguiente planeta →', verResultado: 'Ver resultado →',
     finPartida: 'Misión terminada', reintentar: '🚀 Nueva misión', volverMenu: '← Volver al menú',
     planetasLbl: 'Planetas', rachaLbl: 'Mejor racha',
-    examen: 'Examen de Sistema Solar (tipo test) →',
+    examen: 'Examen con la mecánica del juego →',
     cerca: 'Sol', lejos: 'Muy lejos',
   },
   en: {
@@ -55,7 +56,7 @@ const UI = {
     siguiente: 'Next planet →', verResultado: 'See result →',
     finPartida: 'Mission over', reintentar: '🚀 New mission', volverMenu: '← Back to menu',
     planetasLbl: 'Planets', rachaLbl: 'Best streak',
-    examen: 'Solar System exam (quiz) →',
+    examen: 'Exam using the game mechanic →',
     cerca: 'Sun', lejos: 'Very far',
   },
   ca: {
@@ -74,57 +75,9 @@ const UI = {
     siguiente: 'Planeta següent →', verResultado: 'Veure resultat →',
     finPartida: 'Missió acabada', reintentar: '🚀 Nova missió', volverMenu: '← Torna al menú',
     planetasLbl: 'Planetes', rachaLbl: 'Millor ratxa',
-    examen: 'Examen de Sistema Solar (tipus test) →',
+    examen: 'Examen amb la mecànica del joc →',
     cerca: 'Sol', lejos: 'Molt lluny',
   },
-}
-
-// ── Barra de distancias ──────────────────────────────────────────────────────
-// Durante 'jugando' solo se ve el Sol y la sonda en la posición elegida — los
-// planetas y la zona objetivo se revelan al lanzar, en fase 'resultado'.
-function BarraOrbita({ pos, objetivoIdx, resultado }) {
-  const revelada = resultado != null
-  const glow = resultado === 'perfecto' ? 'drop-shadow-[0_0_10px_rgba(74,222,128,0.9)]'
-    : resultado === 'orbita' ? 'drop-shadow-[0_0_10px_rgba(250,204,21,0.9)]'
-    : resultado === 'fallo' ? 'drop-shadow-[0_0_10px_rgba(248,113,113,0.9)]'
-    : ''
-
-  return (
-    <div className="relative w-full h-16 sm:h-20 rounded-2xl border border-white/10 bg-gradient-to-b from-[#0b1030] to-[#050714] overflow-hidden">
-      <div className="absolute left-1.5 top-1/2 -translate-y-1/2 text-xl sm:text-2xl">☀️</div>
-
-      {revelada && objetivoIdx != null && (
-        <div className="absolute top-0 bottom-0 bg-[#EDAE49]/10 border-x border-[#EDAE49]/40"
-          style={{
-            left: `${objetivoIdx > 0 ? FRONTERAS[objetivoIdx - 1] : 0}%`,
-            right: `${objetivoIdx < FRONTERAS.length ? 100 - FRONTERAS[objetivoIdx] : 0}%`,
-          }} />
-      )}
-
-      {/* Marcas neutras: las 8 paradas existen y se ve dónde están, pero no
-          cuál es cuál — solo el número de orden desde el Sol. Sin esto es
-          adivinar a ciegas; con el emoji ya puesto sería demasiado fácil. */}
-      {!revelada && PLANETAS.map((p, i) => (
-        <div key={p.id} className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 flex flex-col items-center select-none"
-          style={{ left: `${CENTROS[i]}%` }}>
-          <span className="w-2 h-2 rounded-full bg-white/25 border border-white/40" />
-          <span className="text-[8px] sm:text-[9px] text-white/30 font-bold mt-0.5">{i + 1}</span>
-        </div>
-      ))}
-
-      {revelada && PLANETAS.map((p, i) => (
-        <div key={p.id} className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 text-base sm:text-lg select-none"
-          style={{ left: `${CENTROS[i]}%` }}>
-          {p.emoji}
-        </div>
-      ))}
-
-      <div className={`absolute top-1/2 -translate-y-1/2 -translate-x-1/2 text-xl sm:text-2xl select-none transition-[left] ${revelada ? '' : 'duration-75'} ${glow}`}
-        style={{ left: `${pos}%` }}>
-        🛰️
-      </div>
-    </div>
-  )
 }
 
 // ── Fila de planetas en orden (referencia visual, resalta el objetivo) ──────
@@ -275,7 +228,7 @@ export default function Orbita() {
             className="w-full py-4 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-xl rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-amber-500/30 mb-3">
             {t.empezar}
           </button>
-          <button onClick={() => navigate(localPath('/examen/sistema-solar'))}
+          <button onClick={() => navigate(localPath('/examen/orbita-test'))}
             className="text-white/30 hover:text-white/60 text-sm transition-colors">
             {t.examen}
           </button>

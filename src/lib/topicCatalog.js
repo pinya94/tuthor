@@ -296,12 +296,13 @@ export const TOPIC_CATALOG = {
 
   geologia: {
     temas: {
-      'sistema-solar': examTema({ teoria: 'sistema-solar' }),
+      'sistema-solar': examTema({ teoria: 'sistema-solar', orbita: 'orbita-test' }),
       'rocas-minerales': examTema({ teoria: 'rocas-minerales' }),
       'placas-tectonicas': examTema({ teoria: 'placas-tectonicas' }),
     },
     formatos: {
       teoria: examFormato({ es: 'Teoría (tipo test)', en: 'Theory (quiz)', ca: 'Teoria (tipus test)' }, '📝'),
+      orbita: examFormato({ es: 'Órbita (con el juego)', en: 'Orbit (with the game)', ca: 'Òrbita (amb el joc)' }, '🛰️'),
     },
   },
 

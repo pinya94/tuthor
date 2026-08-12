@@ -73,3 +73,23 @@ export function nuevoMazo() {
   }
   return a
 }
+
+// ── Examen (OrbitaExamen.jsx, con MechanicExam) ─────────────────────────────
+// Acierto/fallo simple (a diferencia del juego, que da puntos por tiers). El
+// margen que cuenta como acierto se endurece por nivel reutilizando la misma
+// zona/semiancho de evaluarLanzamiento(): en primaria basta con acertar la
+// zona del planeta (margen 1 = todo el semiancho útil), en bachillerato hace
+// falta la misma precisión que una "órbita perfecta" (margen 0.45, igual que
+// arriba). 10 preguntas con reposición: solo hay 8 planetas.
+const MARGEN_NIVEL = { facil: 1, medio: 0.6, dificil: 0.45 }
+
+export function genRound(difficulty = 'medio') {
+  const idx = Math.floor(Math.random() * PLANETAS.length)
+  return { planeta: PLANETAS[idx], idx, margen: MARGEN_NIVEL[difficulty] ?? 0.6 }
+}
+
+export function isCorrectGuess(round, pos) {
+  if (indiceZona(pos) !== round.idx) return false
+  const dist = Math.abs(pos - CENTROS[round.idx])
+  return dist <= semianchoUtil(round.idx) * round.margen
+}

@@ -637,7 +637,7 @@ export const FICHAS_ES = {
     subtitulo: 'Juego de Distancias y Orden de los Planetas',
     emoji: '🛰️', gradient: 'from-indigo-600 to-slate-900',
     path: '/juegos/orbita',
-    examPath: '/examen/sistema-solar',
+    examPath: '/examen/orbita-test',
     intro: 'Un juego de geología para aprender el sistema solar sin memorizar una lista de números: arrastras un slider a lo largo de una barra que representa la distancia al Sol y lanzas la sonda donde creas que está el planeta pedido. Sin reloj ni reflejos — el reto es saber, no ser rápido. Cuanto más centrado el lanzamiento, más puntos, y cada intento, acierte o no, enseña un dato real sobre ese planeta.',
     beneficios: [
       { titulo: 'El orden se aprende jugando, no memorizando', texto: 'En vez de repetir "Mercurio, Venus, Tierra, Marte…" de carrerilla, cada ronda obliga a situar un planeta concreto en la barra. El orden se queda porque se ha usado, no porque se ha recitado.' },
@@ -1156,7 +1156,7 @@ export const FICHAS_EN = {
     subtitulo: 'Planet Order & Distance Game',
     emoji: '🛰️', gradient: 'from-indigo-600 to-slate-900',
     path: '/juegos/orbita',
-    examPath: '/examen/sistema-solar',
+    examPath: '/examen/orbita-test',
     intro: "A geology game to learn the solar system without memorising a list of numbers: you drag a slider along a bar that represents the distance to the Sun and launch the probe where you think the requested planet is. No clock, no reflexes — the challenge is knowing, not being fast. The more centred the launch, the more points, and every attempt, right or wrong, teaches a real fact about that planet.",
     beneficios: [
       { titulo: 'The order sticks because you use it, not recite it', texto: 'Instead of chanting "Mercury, Venus, Earth, Mars…" from memory, every round forces you to place one specific planet on the bar. The order sticks because it was used, not repeated.' },
@@ -1753,7 +1753,7 @@ export const FICHAS_CA = {
     subtitulo: 'Joc de Distàncies i Ordre dels Planetes',
     emoji: '🛰️', gradient: 'from-indigo-600 to-slate-900',
     path: '/juegos/orbita',
-    examPath: '/examen/sistema-solar',
+    examPath: '/examen/orbita-test',
     intro: 'Un joc de geologia per aprendre el sistema solar sense memoritzar una llista de números: arrossegues un slider al llarg d\'una barra que representa la distància al Sol i llances la sonda on creguis que és el planeta demanat. Sense rellotge ni reflexos — el repte és saber-ho, no ser ràpid. Com més centrat el llançament, més punts, i cada intent, encerti o no, ensenya una dada real sobre aquell planeta.',
     beneficios: [
       { titulo: 'L\'ordre s\'aprèn jugant, no memoritzant', texto: 'En comptes de repetir "Mercuri, Venus, Terra, Mart…" de memòria, cada ronda obliga a situar un planeta concret a la barra. L\'ordre queda perquè s\'ha fet servir, no perquè s\'ha recitat.' },
