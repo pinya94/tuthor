@@ -34,7 +34,7 @@ function Question({ round, phase, onAnswer, l }) {
       </p>
 
       <SiluetaCuerpo guess={guess} onPick={reveal ? null : setGuess} revelado={reveal}
-        resultado={reveal ? (ok ? 'perfecto' : 'fallo') : null} />
+        resultado={reveal ? (ok ? 'perfecto' : 'fallo') : null} compact={reveal} />
 
       {reveal ? (
         <div className={`mt-3 rounded-xl px-3 py-2 text-center ${ok ? 'bg-green-500/10 border border-green-500/30' : 'bg-red-500/10 border border-red-500/30'}`}>
