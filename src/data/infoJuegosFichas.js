@@ -661,6 +661,34 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Geología', niveles: 'Primaria, ESO',
   },
+  'coordenadas': {
+    titulo: 'Coordenadas',
+    subtitulo: 'Juego de Latitud, Longitud y Localización de Países',
+    emoji: '🌐', gradient: 'from-cyan-600 to-blue-900',
+    path: '/juegos/coordenadas',
+    intro: 'Un juego de geografía para aprender a leer coordenadas de verdad: mueves dos sliders, uno de latitud y otro de longitud, hasta marcar en el mapa dónde crees que está el país pedido, y confirmas cuando estés seguro. Sin reloj ni reflejos — el reto es razonar con el mapa, no ser rápido. Cuanto más cerca en kilómetros reales, más puntos, y cada país enseña su capital y un dato al confirmar.',
+    beneficios: [
+      { titulo: 'Latitud y longitud, no solo un mapa mudo', texto: 'La mayoría de juegos de geografía piden señalar un país sobre su silueta. Aquí el jugador maneja los dos números que de verdad lo localizan en el globo, con lectura en grados y N/S/E/O en todo momento.' },
+      { titulo: 'La distancia real decide, no una casilla', texto: 'El acierto no es binario: se mide en kilómetros con la fórmula real de distancia entre dos puntos de la Tierra. Acertar la región ya puntúa; acertar el país, más.' },
+      { titulo: 'Un hemisferio a la vez', texto: 'Jugando se nota rápido que el signo de la latitud separa norte de sur y el de la longitud separa este de oeste — la base para entender cualquier mapa con coordenadas.' },
+    ],
+    ejemplo: 'Toca situar Argentina. El jugador sabe que está en Sudamérica, en el hemisferio sur: mueve la latitud a unos 35° S y la longitud a unos 60° O, y confirma. El mapa revela Buenos Aires a poca distancia — "Cerca — buena zona" y suma puntos, con la capital y un dato del país.',
+    enPapel: {
+      titulo: 'Practicar coordenadas en papel',
+      pasos: [
+        'Dibuja un rectángulo y marca el ecuador (latitud 0°) y el meridiano de Greenwich (longitud 0°) cruzándolo en el centro.',
+        'Marca los cuatro cuadrantes: norte-este, norte-oeste, sur-este, sur-oeste.',
+        'Para un país conocido, decide primero en qué cuadrante cae y luego afina el número.',
+        'Comprueba con un atlas o un globo terráqueo real y corrige tu estimación.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'GeoRush y GeoMapa', desc: 'Los otros dos juegos de geografía de Tuthor: adivina el país por pistas o señálalo iluminado en el mapa — mecánicas distintas para reforzar lo mismo desde otro ángulo.' },
+      { nombre: 'El juego de las capitales', desc: 'Elige 10 países al azar y trata de decir su capital sin mirar. Luego comprueba en qué hemisferio y a qué distancia aproximada del ecuador está cada una.' },
+      { nombre: 'Un globo terráqueo real', desc: 'Si tienes uno en casa o en clase, gira hasta un punto al azar y practica leer en voz alta su latitud y longitud aproximadas.' },
+    ],
+    asignatura: 'Geografía', niveles: 'Primaria, ESO',
+  },
 }
 
 export const FICHAS_EN = {
@@ -1150,6 +1178,34 @@ export const FICHAS_EN = {
       { nombre: 'The Solar System exam', desc: 'After playing, revise with the quiz: rotation and revolution, types of celestial bodies and the most common mix-ups at each level.' },
     ],
     asignatura: 'Geology', niveles: 'Primary, Secondary',
+  },
+  'coordenadas': {
+    titulo: 'Coordinates',
+    subtitulo: 'Latitude, Longitude & Country Location Game',
+    emoji: '🌐', gradient: 'from-cyan-600 to-blue-900',
+    path: '/juegos/coordenadas',
+    intro: "A geography game to learn to read real coordinates: you move two sliders, one for latitude and one for longitude, until you mark on the map where you think the requested country is, and confirm once you're sure. No clock, no reflexes — the challenge is reasoning with the map, not being fast. The closer in real kilometres, the more points, and every country reveals its capital and a fact on confirming.",
+    beneficios: [
+      { titulo: 'Latitude and longitude, not just a blank map', texto: 'Most geography games ask you to point at a country on its silhouette. Here the player handles the two numbers that actually locate it on the globe, with a live degree readout and N/S/E/W at all times.' },
+      { titulo: 'Real distance decides, not a tickbox', texto: 'Success is not binary: it is measured in kilometres using the real formula for distance between two points on Earth. Getting the region right already scores; getting the country right scores more.' },
+      { titulo: 'One hemisphere at a time', texto: 'Playing, it clicks fast that the sign of latitude separates north from south and the sign of longitude separates east from west — the basis for reading any map with coordinates.' },
+    ],
+    ejemplo: "It's time to place Argentina. The player knows it's in South America, southern hemisphere: they move latitude to about 35° S and longitude to about 60° W, and confirm. The map reveals Buenos Aires close by — \"Close — good region\" and points are scored, along with the capital and a country fact.",
+    enPapel: {
+      titulo: 'Practising coordinates on paper',
+      pasos: [
+        'Draw a rectangle and mark the equator (latitude 0°) and the Greenwich meridian (longitude 0°) crossing at the centre.',
+        'Mark the four quadrants: north-east, north-west, south-east, south-west.',
+        'For a country you know, first decide which quadrant it falls in, then refine the number.',
+        'Check against an atlas or a real globe and correct your estimate.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'GeoRush and GeoMap', desc: "Tuthor's other two geography games: guess the country from clues or point it out highlighted on the map — different mechanics reinforcing the same skill from another angle." },
+      { nombre: 'The capitals game', desc: 'Pick 10 random countries and try to name their capital without looking. Then check which hemisphere and roughly how far from the equator each one is.' },
+      { nombre: 'A real globe', desc: 'If you have one at home or in class, spin it to a random point and practise reading its approximate latitude and longitude out loud.' },
+    ],
+    asignatura: 'Geography', niveles: 'Primary, Secondary',
   },
 }
 
@@ -1718,5 +1774,33 @@ export const FICHAS_CA = {
       { nombre: 'L\'examen de Sistema Solar', desc: 'Després de jugar, repassa amb l\'examen tipus test: moviments de rotació i translació, tipus d\'astres i les confusions més típiques de cada nivell.' },
     ],
     asignatura: 'Geologia', niveles: 'Primària, ESO',
+  },
+  'coordenadas': {
+    titulo: 'Coordenades',
+    subtitulo: 'Joc de Latitud, Longitud i Localització de Països',
+    emoji: '🌐', gradient: 'from-cyan-600 to-blue-900',
+    path: '/juegos/coordenadas',
+    intro: 'Un joc de geografia per aprendre a llegir coordenades de veritat: mous dos sliders, un de latitud i un altre de longitud, fins a marcar al mapa on creus que és el país demanat, i confirmes quan estiguis segur. Sense rellotge ni reflexos — el repte és raonar amb el mapa, no ser ràpid. Com més a prop en quilòmetres reals, més punts, i cada país ensenya la seva capital i una dada en confirmar.',
+    beneficios: [
+      { titulo: 'Latitud i longitud, no només un mapa mut', texto: 'La majoria de jocs de geografia demanen assenyalar un país sobre la seva silueta. Aquí el jugador maneja els dos números que realment el localitzen al globus, amb lectura en graus i N/S/E/O en tot moment.' },
+      { titulo: 'La distància real decideix, no una casella', texto: 'L\'encert no és binari: es mesura en quilòmetres amb la fórmula real de distància entre dos punts de la Terra. Encertar la regió ja puntua; encertar el país, més.' },
+      { titulo: 'Un hemisferi cada vegada', texto: 'Jugant es nota ràpid que el signe de la latitud separa nord de sud i el de la longitud separa est d\'oest — la base per entendre qualsevol mapa amb coordenades.' },
+    ],
+    ejemplo: 'Toca situar l\'Argentina. El jugador sap que és a Sud-amèrica, a l\'hemisferi sud: mou la latitud a uns 35° S i la longitud a uns 60° O, i confirma. El mapa revela Buenos Aires a poca distància — "A prop — bona zona" i suma punts, amb la capital i una dada del país.',
+    enPapel: {
+      titulo: 'Practicar coordenades en paper',
+      pasos: [
+        'Dibuixa un rectangle i marca l\'equador (latitud 0°) i el meridià de Greenwich (longitud 0°) creuant-lo al centre.',
+        'Marca els quatre quadrants: nord-est, nord-oest, sud-est, sud-oest.',
+        'Per a un país conegut, decideix primer en quin quadrant cau i després afina el número.',
+        'Comprova amb un atles o un globus terraqui real i corregeix la teva estimació.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'GeoRush i GeoMapa', desc: 'Els altres dos jocs de geografia de Tuthor: endevina el país per pistes o assenyala\'l il·luminat al mapa — mecàniques diferents per reforçar el mateix des d\'un altre angle.' },
+      { nombre: 'El joc de les capitals', desc: 'Tria 10 països a l\'atzar i intenta dir la seva capital sense mirar. Després comprova en quin hemisferi i a quina distància aproximada de l\'equador és cadascuna.' },
+      { nombre: 'Un globus terraqui real', desc: 'Si en tens un a casa o a classe, gira\'l fins a un punt a l\'atzar i practica llegir en veu alta la seva latitud i longitud aproximades.' },
+    ],
+    asignatura: 'Geografia', niveles: 'Primària, ESO',
   },
 }

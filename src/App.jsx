@@ -88,6 +88,7 @@ const AnalizaFrases          = lazy(() => import('./pages/AnalizaFrases'))
 const OrdenaFrase            = lazy(() => import('./pages/OrdenaFrase'))
 const Genetica               = lazy(() => import('./pages/Genetica'))
 const Orbita                 = lazy(() => import('./pages/Orbita'))
+const Coordenadas            = lazy(() => import('./pages/Coordenadas'))
 const Diagnostico            = lazy(() => import('./pages/Diagnostico'))
 const FraccionesTema         = lazy(() => import('./pages/FraccionesTema'))
 const EstadisticaTema        = lazy(() => import('./pages/EstadisticaTema'))
@@ -220,6 +221,7 @@ function AppRoutes() {
       <Route path="juegos/ordena-frase" element={<OrdenaFrase />} />
       <Route path="juegos/genetica" element={<Genetica />} />
       <Route path="juegos/orbita" element={<Orbita />} />
+      <Route path="juegos/coordenadas" element={<Coordenadas />} />
       <Route path="examen/portero" element={<PorteroExamen />} />
       <Route path="examen/trayectoria" element={<TrayectoriaExamen />} />
 
