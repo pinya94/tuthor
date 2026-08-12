@@ -114,6 +114,11 @@ export const EXAMS = {
     emoji: '🇺🇸', subject: 'geografia',
     route: '/examen/geomapa-eeuu',
   },
+  'coordenadas-test': {
+    label: { es: 'Coordenadas (con el juego)', en: 'Coordinates (with the game)', ca: 'Coordenades (amb el joc)' },
+    emoji: '🌐', subject: 'geografia',
+    path: 'examen/coordenadas-test', page: () => import('../pages/CoordenadasExamen'),
+  },
   'diagnostico': {
     // Herramienta de estudio de Ciencias; subject 'ciencias' no existe en
     // SUBJECT_DEFS a propósito (no aparece en "Por materia" ni en tareas).

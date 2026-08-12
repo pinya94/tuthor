@@ -228,17 +228,22 @@ export const TOPIC_CATALOG = {
   geografia: {
     stateKey: 'region', // qué clave de location.state espera el examen
     temas: {
-      europa: examTema({ pistas: compartido('geografia-examen'), mapa: compartido('geomapa-examen') }),
-      america: examTema({ pistas: compartido('geografia-examen'), mapa: compartido('geomapa-examen') }),
-      asia: examTema({ pistas: compartido('geografia-examen'), mapa: compartido('geomapa-examen') }),
-      africa: examTema({ pistas: compartido('geografia-examen'), mapa: compartido('geomapa-examen') }),
-      oceania: examTema({ pistas: compartido('geografia-examen'), mapa: compartido('geomapa-examen') }),
+      europa: examTema({ pistas: compartido('geografia-examen'), mapa: compartido('geomapa-examen'), coordenadas: compartido('coordenadas-test') }),
+      america: examTema({ pistas: compartido('geografia-examen'), mapa: compartido('geomapa-examen'), coordenadas: compartido('coordenadas-test') }),
+      asia: examTema({ pistas: compartido('geografia-examen'), mapa: compartido('geomapa-examen'), coordenadas: compartido('coordenadas-test') }),
+      africa: examTema({ pistas: compartido('geografia-examen'), mapa: compartido('geomapa-examen'), coordenadas: compartido('coordenadas-test') }),
+      oceania: examTema({ pistas: compartido('geografia-examen'), mapa: compartido('geomapa-examen'), coordenadas: compartido('coordenadas-test') }),
       espana: examTema({ mapa: 'geomapa-espana-examen' }),
       eeuu: examTema({ mapa: 'geomapa-eeuu-examen' }),
     },
     formatos: {
       pistas: examFormato({ es: 'Adivina por pistas', en: 'Guess from clues', ca: 'Endevina per pistes' }, '🌍'),
       mapa: examFormato({ es: 'Señala en el mapa', en: 'Point on the map', ca: 'Assenyala al mapa' }, '🗺️'),
+      // España y EE. UU. no lo tienen: Coordenadas trabaja con el pool de
+      // PAÍSES curado (coordenadasPaises.js), no con comunidades autónomas
+      // ni estados — esa sería una mecánica distinta con datos que aún no
+      // existen (lat/lon de cada comunidad/estado).
+      coordenadas: examFormato({ es: 'Latitud y longitud (con el juego)', en: 'Latitude & longitude (with the game)', ca: 'Latitud i longitud (amb el joc)' }, '🌐'),
     },
   },
 

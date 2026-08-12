@@ -47,7 +47,7 @@ const L = {
   retry:  { es: '▶ Repetir examen', en: '▶ Retry exam', ca: '▶ Repetir examen' },
 }
 
-function Intro({ badge, title, sub, levels, onSelect, backGamePath, l }) {
+function Intro({ badge, title, sub, levels, onSelect, backGamePath, backLabel, l }) {
   return (
     <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
       <div className="max-w-md w-full">
@@ -79,7 +79,7 @@ function Intro({ badge, title, sub, levels, onSelect, backGamePath, l }) {
           ))}
         </div>
         <Link to={backGamePath} className="block text-center text-white/40 hover:text-white/70 text-sm transition-colors">
-          {tr(L.back, l)}
+          {backLabel ? tr(backLabel, l) : tr(L.back, l)}
         </Link>
       </div>
     </div>
@@ -128,7 +128,7 @@ function ExamEnd({ score, results, onRetry, backGamePath, playLabel, emoji, l })
 
 export default function MechanicExam({
   gameId, emoji, badge, title, sub, metaTitle, metaDesc, metaPath, subjectSchema,
-  backGamePath, playLabel, levels, genRound, isCorrect, renderQuestion,
+  backGamePath, backLabel, playLabel, levels, genRound, isCorrect, renderQuestion,
 }) {
   const { lang } = useLang()
   const { user } = useAuth()
@@ -185,7 +185,7 @@ export default function MechanicExam({
   const pageMeta = <PageMeta title={tr(metaTitle, l)} description={tr(metaDesc, l)} path={metaPath} lang={lang} />
   const quizSchema = <QuizSchema name={tr(metaTitle, l)} description={tr(metaDesc, l)} path={metaPath} lang={lang} subject={subjectSchema} level="secondary" />
 
-  if (screen === 'intro') return <>{pageMeta}{quizSchema}<Intro badge={badge} title={title} sub={sub} levels={levels} onSelect={startExam} backGamePath={backGamePath} l={l} /></>
+  if (screen === 'intro') return <>{pageMeta}{quizSchema}<Intro badge={badge} title={title} sub={sub} levels={levels} onSelect={startExam} backGamePath={backGamePath} backLabel={backLabel} l={l} /></>
   if (screen === 'end') return (
     <>{pageMeta}{quizSchema}
       <ExamEnd score={score} results={results} onRetry={() => startExam(diffRef.current)} backGamePath={backGamePath} playLabel={playLabel} emoji={emoji} l={l} />

@@ -1,6 +1,7 @@
 import { useNavigate, useParams } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import { PAISES } from '../data/paises'
+import { paisesDeRegion } from '../lib/coordenadas'
 import PageMeta from '../components/PageMeta'
 import CourseSchema from '../components/CourseSchema'
 import BreadcrumbSchema from '../components/BreadcrumbSchema'
@@ -67,6 +68,10 @@ export default function GeografiaTema() {
   const filter      = REGION_FILTER[region]
   const paisesCount = filter ? PAISES.filter(filter).length : 0
   const paisesMapaCount = filter ? PAISES.filter(p => filter(p) && p.area >= 30000).length : 0
+  // Coordenadas usa su propio pool curado (coordenadasPaises.js, más
+  // pequeño que PAISES.js), así que se cuenta aparte y con un mínimo más
+  // bajo — no necesita 10 países distintos porque el examen puede repetir.
+  const coordenadasCount = (region === 'espana' || region === 'eeuu') ? 0 : paisesDeRegion(region).length
 
   let modos = []
   if (region === 'espana') {
@@ -130,6 +135,21 @@ export default function GeografiaTema() {
         gradient: 'from-purple-500 to-violet-700',
         detalles: [`${paisesMapaCount} ${ca ? 'països' : en ? 'countries' : 'países'}`, `10 ${ca ? 'per examen' : en ? 'per exam' : 'por examen'}`, `3 ${ca ? 'intents per país' : en ? 'attempts per country' : 'intentos por país'}`],
         action: () => navigate(localPath('/examen/geomapa'), {
+          state: { region, titulo: meta.titulo, backPath: `/estudiar/geografia/${region}` }
+        }),
+      },
+      coordenadasCount >= 3 && {
+        id: 'coordenadas',
+        titulo: 'Coordenadas',
+        descripcion: ca
+          ? 'Mou la latitud i la longitud fins a marcar cada país al mapa. Sense rellotge — el repte és saber, no ser ràpid.'
+          : en
+          ? 'Move latitude and longitude to mark each country on the map. No clock — the challenge is knowing, not being fast.'
+          : 'Mueve la latitud y la longitud hasta marcar cada país en el mapa. Sin reloj — el reto es saber, no ser rápido.',
+        emoji: '🌐',
+        gradient: 'from-cyan-600 to-blue-900',
+        detalles: [`${coordenadasCount} ${ca ? 'països' : en ? 'countries' : 'países'}`, `10 ${ca ? 'per examen' : en ? 'per exam' : 'por examen'}`, ca ? 'Sense temps' : en ? 'No timer' : 'Sin tiempo'],
+        action: () => navigate(localPath('/examen/coordenadas-test'), {
           state: { region, titulo: meta.titulo, backPath: `/estudiar/geografia/${region}` }
         }),
       },

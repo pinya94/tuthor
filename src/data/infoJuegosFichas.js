@@ -666,6 +666,7 @@ export const FICHAS_ES = {
     subtitulo: 'Juego de Latitud, Longitud y Localización de Países',
     emoji: '🌐', gradient: 'from-cyan-600 to-blue-900',
     path: '/juegos/coordenadas',
+    examPath: '/examen/coordenadas-test',
     intro: 'Un juego de geografía para aprender a leer coordenadas de verdad: mueves dos sliders, uno de latitud y otro de longitud, hasta marcar en el mapa dónde crees que está el país pedido, y confirmas cuando estés seguro. Sin reloj ni reflejos — el reto es razonar con el mapa, no ser rápido. Cuanto más cerca en kilómetros reales, más puntos, y cada país enseña su capital y un dato al confirmar.',
     beneficios: [
       { titulo: 'Latitud y longitud, no solo un mapa mudo', texto: 'La mayoría de juegos de geografía piden señalar un país sobre su silueta. Aquí el jugador maneja los dos números que de verdad lo localizan en el globo, con lectura en grados y N/S/E/O en todo momento.' },
@@ -1184,6 +1185,7 @@ export const FICHAS_EN = {
     subtitulo: 'Latitude, Longitude & Country Location Game',
     emoji: '🌐', gradient: 'from-cyan-600 to-blue-900',
     path: '/juegos/coordenadas',
+    examPath: '/examen/coordenadas-test',
     intro: "A geography game to learn to read real coordinates: you move two sliders, one for latitude and one for longitude, until you mark on the map where you think the requested country is, and confirm once you're sure. No clock, no reflexes — the challenge is reasoning with the map, not being fast. The closer in real kilometres, the more points, and every country reveals its capital and a fact on confirming.",
     beneficios: [
       { titulo: 'Latitude and longitude, not just a blank map', texto: 'Most geography games ask you to point at a country on its silhouette. Here the player handles the two numbers that actually locate it on the globe, with a live degree readout and N/S/E/W at all times.' },
@@ -1780,6 +1782,7 @@ export const FICHAS_CA = {
     subtitulo: 'Joc de Latitud, Longitud i Localització de Països',
     emoji: '🌐', gradient: 'from-cyan-600 to-blue-900',
     path: '/juegos/coordenadas',
+    examPath: '/examen/coordenadas-test',
     intro: 'Un joc de geografia per aprendre a llegir coordenades de veritat: mous dos sliders, un de latitud i un altre de longitud, fins a marcar al mapa on creus que és el país demanat, i confirmes quan estiguis segur. Sense rellotge ni reflexos — el repte és raonar amb el mapa, no ser ràpid. Com més a prop en quilòmetres reals, més punts, i cada país ensenya la seva capital i una dada en confirmar.',
     beneficios: [
       { titulo: 'Latitud i longitud, no només un mapa mut', texto: 'La majoria de jocs de geografia demanen assenyalar un país sobre la seva silueta. Aquí el jugador maneja els dos números que realment el localitzen al globus, amb lectura en graus i N/S/E/O en tot moment.' },

@@ -25,8 +25,9 @@ const COORDS = [
   ['USA', 38.9, -77.0], ['CAN', 45.4, -75.7], ['MEX', 19.4, -99.1], ['BRA', -15.8, -47.9],
   ['ARG', -34.6, -58.4], ['CHL', -33.4, -70.6], ['COL', 4.7, -74.1], ['PER', -12.0, -77.0],
   ['CUB', 23.1, -82.4], ['VEN', 10.5, -66.9], ['CRI', 9.9, -84.1],
-  // Oceanía
-  ['AUS', -35.3, 149.1], ['NZL', -41.3, 174.8],
+  // Oceanía — solo 3 países en PAISES.js (mismo límite que ya tiene GeoRush/
+  // GeoMapa para esta región): Australia, Nueva Zelanda y Papúa Nueva Guinea.
+  ['AUS', -35.3, 149.1], ['NZL', -41.3, 174.8], ['PNG', -9.4, 147.2],
 ]
 
 export const PAISES_COORDS = COORDS
