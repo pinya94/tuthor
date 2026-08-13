@@ -4,42 +4,28 @@
 // Las posiciones no se muestran hasta después de confirmar (las pinta
 // SiluetaCuerpo.jsx solo cuando `revelado` está activo).
 //
-// A diferencia de Órbita (1 eje, zonas con fronteras explícitas) esto es un
-// clic en 2D: en vez de precalcular fronteras entre 7 puntos, la zona de
-// cada órgano es simplemente "más cerca de él que de cualquier otro" —
-// vecino más próximo, el mismo resultado que un Voronoi 2D sin tener que
-// dibujarlo.
-import { ORGANOS, getOrgano } from '../data/organos'
+// A diferencia de Órbita (1 eje, un único margen para los 8 planetas) cada
+// órgano tiene su PROPIO radio de tolerancia (ver organos.js): un clic
+// cuenta si cae dentro del radio del órgano que toca esa ronda, sin
+// comparar contra los demás. Un órgano pequeño y delimitado como el corazón
+// pide más precisión que uno grande y repartido como los intestinos, y como
+// cada pregunta solo mira el radio del órgano preguntado, da igual que dos
+// radios se solapen — no hace falta que las zonas sean excluyentes.
+import { ORGANOS } from '../data/organos'
 
 function dist(x1, y1, x2, y2) {
   return Math.hypot(x1 - x2, y1 - y2)
 }
 
-// Órgano cuyo punto está más cerca de `pos` ({x,y} en coordenadas de
-// SiluetaCuerpo.jsx, viewBox 0-147.998 / 0-318.455).
-export function organoMasCercano(pos) {
-  let mejor = ORGANOS[0], mejorD = Infinity
-  for (const o of ORGANOS) {
-    const d = dist(pos.x, pos.y, o.x, o.y)
-    if (d < mejorD) { mejorD = d; mejor = o }
-  }
-  return mejor
-}
-
-// Radio "perfecto" del juego: bastante más ajustado que la distancia típica
-// entre órganos vecinos (~19-36 unidades en este viewBox), así que solo
-// premia con el máximo un clic realmente preciso, no solo acertar la zona.
-const RADIO_PERFECTO = 11
-
-// Resultado de un clic en `pos` cuando el objetivo es el órgano `objetivoId`.
-//   'perfecto' → a menos de RADIO_PERFECTO de su centro real
-//   'organo'   → el órgano más cercano al clic es el correcto, pero no centrado
-//   'fallo'    → el clic quedó más cerca de otro órgano
-export function evaluarClick(pos, objetivoId) {
-  const cercano = organoMasCercano(pos)
-  if (cercano.id !== objetivoId) return 'fallo'
-  const objetivo = getOrgano(objetivoId)
-  return dist(pos.x, pos.y, objetivo.x, objetivo.y) <= RADIO_PERFECTO ? 'perfecto' : 'organo'
+// Resultado de un clic en `pos` ({x,y} en coordenadas de SiluetaCuerpo.jsx)
+// cuando el objetivo es el órgano `objetivo`.
+//   'perfecto' → a menos de la mitad del radio del órgano (clic centrado)
+//   'organo'   → dentro del radio del órgano, pero no centrado
+//   'fallo'    → fuera del radio del órgano
+export function evaluarClick(pos, objetivo) {
+  const d = dist(pos.x, pos.y, objetivo.x, objetivo.y)
+  if (d > objetivo.radio) return 'fallo'
+  return d <= objetivo.radio * 0.5 ? 'perfecto' : 'organo'
 }
 
 // Baraja los 7 órganos sin repetición (Fisher-Yates), mismo patrón que
@@ -54,8 +40,8 @@ export function nuevoMazo() {
 }
 
 // ── Examen (RayosXExamen.jsx, con MechanicExam) ─────────────────────────────
-// Acierto/fallo simple: ¿el órgano más cercano al clic es el pedido, sí o
-// no? Los órganos están en un sitio fijo — igual que en Órbita, no hay un
+// Acierto/fallo simple: ¿el clic cae dentro del radio del órgano pedido, sí
+// o no? Los órganos están en un sitio fijo — igual que en Órbita, no hay un
 // eje real de dificultad que ofrecer, así que no hay niveles (MechanicExam
 // recibe un único nivel). 10 preguntas con reposición: solo hay 7 órganos.
 export function genRound() {
@@ -64,5 +50,5 @@ export function genRound() {
 }
 
 export function isCorrectGuess(round, pos) {
-  return organoMasCercano(pos).id === round.organo.id
+  return dist(pos.x, pos.y, round.organo.x, round.organo.y) <= round.organo.radio
 }

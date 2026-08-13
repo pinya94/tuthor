@@ -149,7 +149,7 @@ export default function RayosX() {
 
   function marcar() {
     if (fase !== 'jugando' || !organo || !guess) return
-    const resultado = evaluarClick(guess, organo.id)
+    const resultado = evaluarClick(guess, organo)
     const gano = resultado !== 'fallo'
     const base = resultado === 'perfecto' ? 100 : resultado === 'organo' ? 50 : 0
     const bonus = resultado === 'perfecto' ? Math.min(racha * 10, 50) : 0
