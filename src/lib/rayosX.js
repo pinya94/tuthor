@@ -11,10 +11,33 @@
 // pide más precisión que uno grande y repartido como los intestinos, y como
 // cada pregunta solo mira el radio del órgano preguntado, da igual que dos
 // radios se solapen — no hace falta que las zonas sean excluyentes.
+//
+// Los huesos largos (`segmento` en organos.js) no tienen un punto único: la
+// distancia se mide al SEGMENTO más cercano (proyección sobre la línea,
+// recortada a los extremos), no al punto medio — si no, un clic en un
+// extremo del fémur contaría como lejos aunque esté claramente sobre el
+// hueso.
 import { ORGANOS } from '../data/organos'
 
 function dist(x1, y1, x2, y2) {
   return Math.hypot(x1 - x2, y1 - y2)
+}
+
+// Distancia de `pos` al segmento (x1,y1)-(x2,y2): proyecta pos sobre la
+// recta y recorta el parámetro a [0,1] para quedarse dentro del segmento.
+function distSegmento(pos, { x1, y1, x2, y2 }) {
+  const dx = x2 - x1, dy = y2 - y1
+  const largo2 = dx * dx + dy * dy
+  if (largo2 === 0) return dist(pos.x, pos.y, x1, y1)
+  let t = ((pos.x - x1) * dx + (pos.y - y1) * dy) / largo2
+  t = Math.max(0, Math.min(1, t))
+  return dist(pos.x, pos.y, x1 + t * dx, y1 + t * dy)
+}
+
+// Distancia de `pos` a un órgano, ya sea de punto (x,y) o de segmento
+// (huesos largos, ver arriba).
+function distOrgano(pos, organo) {
+  return organo.segmento ? distSegmento(pos, organo.segmento) : dist(pos.x, pos.y, organo.x, organo.y)
 }
 
 // Resultado de un clic en `pos` ({x,y} en coordenadas de SiluetaCuerpo.jsx)
@@ -23,7 +46,7 @@ function dist(x1, y1, x2, y2) {
 //   'organo'   → dentro del radio del órgano, pero no centrado
 //   'fallo'    → fuera del radio del órgano
 export function evaluarClick(pos, objetivo) {
-  const d = dist(pos.x, pos.y, objetivo.x, objetivo.y)
+  const d = distOrgano(pos, objetivo)
   if (d > objetivo.radio) return 'fallo'
   return d <= objetivo.radio * 0.5 ? 'perfecto' : 'organo'
 }
@@ -43,12 +66,12 @@ export function nuevoMazo() {
 // Acierto/fallo simple: ¿el clic cae dentro del radio del órgano pedido, sí
 // o no? Los órganos están en un sitio fijo — igual que en Órbita, no hay un
 // eje real de dificultad que ofrecer, así que no hay niveles (MechanicExam
-// recibe un único nivel). 10 preguntas con reposición: solo hay 7 órganos.
+// recibe un único nivel). 10 preguntas con reposición.
 export function genRound() {
   const idx = Math.floor(Math.random() * ORGANOS.length)
   return { organo: ORGANOS[idx] }
 }
 
 export function isCorrectGuess(round, pos) {
-  return dist(pos.x, pos.y, round.organo.x, round.organo.y) <= round.organo.radio
+  return distOrgano(pos, round.organo) <= round.organo.radio
 }

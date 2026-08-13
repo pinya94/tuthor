@@ -59,21 +59,35 @@ const LABEL_OFFSET = {
   tobillo: [14, 0],
 }
 
-// Anotación estilo diagrama científico: punto exacto + círculo de margen
-// (discontinuo, el radio real que cuenta como acierto) + etiqueta con el
+// Anotación estilo diagrama científico: zona de margen + etiqueta con el
 // nombre y una línea guía. Con un pulso continuo (radar) para que la vista
 // vaya directa a la zona en vez de tener que buscarla.
+//
+// Los huesos largos (organo.segmento) se marcan con una CÁPSULA a lo largo
+// del hueso, no un círculo — un trazo grueso con extremos redondeados entre
+// los dos puntos del segmento, que es exactamente lo que mide
+// isCorrectGuess/evaluarClick en lib/rayosX.js (distancia al segmento, no
+// al centro). El punto pulsante va en el punto medio, solo de referencia
+// visual.
 function AnnotationMarker({ organo, l }) {
   const [dx, dy] = LABEL_OFFSET[organo.id] ?? [16, 0]
   const anchor = dx === 0 ? 'middle' : dx > 0 ? 'start' : 'end'
   const lx = organo.x + dx, ly = organo.y + dy
   const nombre = organo.nombre[l] ?? organo.nombre.es
+  const seg = organo.segmento
   return (
     <g>
-      <circle cx={organo.x} cy={organo.y} r={organo.radio}
-        fill="none" stroke={organo.color} strokeWidth="0.7" strokeDasharray="2.2 2.2">
-        <animate attributeName="opacity" values="0.35;0.9;0.35" dur="1.6s" repeatCount="indefinite" />
-      </circle>
+      {seg ? (
+        <line x1={seg.x1} y1={seg.y1} x2={seg.x2} y2={seg.y2}
+          stroke={organo.color} strokeWidth={organo.radio * 2} strokeLinecap="round" opacity="0.3">
+          <animate attributeName="opacity" values="0.22;0.42;0.22" dur="1.6s" repeatCount="indefinite" />
+        </line>
+      ) : (
+        <circle cx={organo.x} cy={organo.y} r={organo.radio}
+          fill="none" stroke={organo.color} strokeWidth="0.7" strokeDasharray="2.2 2.2">
+          <animate attributeName="opacity" values="0.35;0.9;0.35" dur="1.6s" repeatCount="indefinite" />
+        </circle>
+      )}
       <circle cx={organo.x} cy={organo.y} r="2.2" fill={organo.color} stroke="#050714" strokeWidth="0.8">
         <animate attributeName="r" values="2.2;3.1;2.2" dur="1.6s" repeatCount="indefinite" />
       </circle>
