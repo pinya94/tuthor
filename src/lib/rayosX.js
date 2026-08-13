@@ -16,7 +16,7 @@ function dist(x1, y1, x2, y2) {
 }
 
 // Órgano cuyo punto está más cerca de `pos` ({x,y} en coordenadas de
-// SiluetaCuerpo.jsx, viewBox 0-200 / 0-400).
+// SiluetaCuerpo.jsx, viewBox 0-147.998 / 0-318.455).
 export function organoMasCercano(pos) {
   let mejor = ORGANOS[0], mejorD = Infinity
   for (const o of ORGANOS) {
@@ -27,10 +27,9 @@ export function organoMasCercano(pos) {
 }
 
 // Radio "perfecto" del juego: bastante más ajustado que la distancia típica
-// entre órganos vecinos (27-40 unidades — ver comentario en organos.js), así
-// que solo premia con el máximo un clic realmente preciso, no solo acertar
-// la zona.
-const RADIO_PERFECTO = 14
+// entre órganos vecinos (~19-36 unidades en este viewBox), así que solo
+// premia con el máximo un clic realmente preciso, no solo acertar la zona.
+const RADIO_PERFECTO = 11
 
 // Resultado de un clic en `pos` cuando el objetivo es el órgano `objetivoId`.
 //   'perfecto' → a menos de RADIO_PERFECTO de su centro real
