@@ -31,11 +31,15 @@ function clientToSvgPoint(svgEl, clientX, clientY) {
 }
 
 // Desplazamiento de la etiqueta respecto al punto del órgano (unidades del
-// viewBox) — a mano por órgano para que las 7 etiquetas no choquen entre
-// ellas ni con los brazos. Los de la izquierda del torso tiran hacia la
-// izquierda, los de la derecha hacia la derecha, intestinos hacia abajo.
+// viewBox) — a mano por órgano para que las etiquetas no choquen entre ellas
+// ni con los brazos. Como solo se anota UN órgano a la vez (el preguntado
+// esa ronda, ver `objetivo`), estos valores no necesitan evitar chocar entre
+// sí — solo quedar dentro del lienzo y no montarse sobre la propia silueta.
 const LABEL_OFFSET = {
-  cerebro: [17, 3],
+  cerebro: [17, 0],
+  ojos: [16, 0],
+  boca: [-14, 2],
+  traquea: [17, 2],
   pulmones: [19, -7],
   corazon: [-17, 2],
   diafragma: [19, 3],

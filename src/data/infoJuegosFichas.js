@@ -700,14 +700,14 @@ export const FICHAS_ES = {
     beneficios: [
       { titulo: 'Localización real, no una lista de nombres', texto: 'La mayoría de repasos de anatomía piden memorizar una lista de órganos y su sistema. Aquí hay que situarlos de verdad sobre el cuerpo, con la altura y el lado correctos.' },
       { titulo: 'Función y dato en cada intento', texto: 'Acierte o falle, cada ronda enseña para qué sirve el órgano y un hecho concreto: el hígado se regenera, el intestino delgado mide 6-7 metros, el estómago tiene un pH capaz de disolver metal. Datos verificables, no curiosidades sueltas.' },
-      { titulo: 'Los 4 sistemas principales, de un vistazo', texto: 'Cerebro (nervioso), corazón (circulatorio), pulmones y diafragma (respiratorio), estómago, hígado e intestinos (digestivo) — los mismos sistemas que trata el examen teórico, pero situados sobre el cuerpo.' },
+      { titulo: 'Los 4 sistemas principales, de un vistazo', texto: 'Cerebro y ojos (nervioso), corazón (circulatorio), tráquea y pulmones (respiratorio), boca, estómago, hígado e intestinos (digestivo) — los mismos sistemas que trata el examen teórico, pero situados sobre el cuerpo.' },
     ],
     ejemplo: 'Toca localizar el hígado. El jugador sabe que está en el sistema digestivo, en la parte alta del abdomen: toca la zona superior derecha del vientre y confirma. La silueta revela el punto exacto — "Órgano correcto" y suma puntos, con su función (filtra la sangre y produce bilis) y el dato de que es el único órgano capaz de regenerarse.',
     enPapel: {
       titulo: 'Localizar órganos en papel',
       pasos: [
         'Dibuja el contorno de un cuerpo humano de frente, sin más detalle.',
-        'Escribe en una lista aparte 7 órganos: cerebro, corazón, pulmones, diafragma, estómago, hígado e intestinos.',
+        'Escribe en una lista aparte 10 partes: cerebro, ojos, boca, tráquea, corazón, pulmones, diafragma, estómago, hígado e intestinos.',
         'Para cada uno, dibuja un punto donde creas que está y escribe su función al lado.',
         'Comprueba con un libro de biología o un atlas anatómico y corrige los que hayas fallado.',
       ],
@@ -1248,14 +1248,14 @@ export const FICHAS_EN = {
     beneficios: [
       { titulo: 'Real location, not a list of names', texto: 'Most anatomy revision asks you to memorise a list of organs and their system. Here you actually have to place them on the body, at the right height and side.' },
       { titulo: 'Function and fact on every attempt', texto: 'Right or wrong, every round teaches what the organ does and a concrete fact: the liver regenerates, the small intestine is 6-7 metres long, the stomach\'s acid is strong enough to dissolve metal. Verifiable facts, not loose trivia.' },
-      { titulo: 'The 4 main systems, at a glance', texto: 'Brain (nervous), heart (circulatory), lungs and diaphragm (respiratory), stomach, liver and intestines (digestive) — the same systems covered by the theory exam, but placed on the body.' },
+      { titulo: 'The 4 main systems, at a glance', texto: 'Brain and eyes (nervous), heart (circulatory), trachea and lungs (respiratory), mouth, stomach, liver and intestines (digestive) — the same systems covered by the theory exam, but placed on the body.' },
     ],
     ejemplo: "It's time to locate the liver. The player knows it's part of the digestive system, in the upper abdomen: they tap the upper-right area of the belly and confirm. The silhouette reveals the exact spot — \"Right organ\" and points are scored, along with its function (filters the blood and produces bile) and the fact that it's the only organ able to regenerate.",
     enPapel: {
       titulo: 'Locating organs on paper',
       pasos: [
         'Draw the outline of a human body from the front, nothing more.',
-        'Write down a separate list of 7 organs: brain, heart, lungs, diaphragm, stomach, liver and intestines.',
+        'Write down a separate list of 10 parts: brain, eyes, mouth, trachea, heart, lungs, diaphragm, stomach, liver and intestines.',
         'For each one, draw a dot where you think it is and write its function next to it.',
         'Check against a biology book or an anatomy atlas and correct any you got wrong.',
       ],
@@ -1874,14 +1874,14 @@ export const FICHAS_CA = {
     beneficios: [
       { titulo: 'Localització real, no una llista de noms', texto: 'La majoria de repassos d\'anatomia demanen memoritzar una llista d\'òrgans i el seu sistema. Aquí cal situar-los de veritat sobre el cos, amb l\'alçada i el costat correctes.' },
       { titulo: 'Funció i dada en cada intent', texto: 'Encertis o no, cada ronda ensenya per a què serveix l\'òrgan i un fet concret: el fetge es regenera, l\'intestí prim fa 6-7 metres, l\'estómac té un pH capaç de dissoldre metall. Dades verificables, no curiositats soltes.' },
-      { titulo: 'Els 4 sistemes principals, d\'un cop d\'ull', texto: 'Cervell (nerviós), cor (circulatori), pulmons i diafragma (respiratori), estómac, fetge i intestins (digestiu) — els mateixos sistemes que tracta l\'examen teòric, però situats sobre el cos.' },
+      { titulo: 'Els 4 sistemes principals, d\'un cop d\'ull', texto: 'Cervell i ulls (nerviós), cor (circulatori), tràquea i pulmons (respiratori), boca, estómac, fetge i intestins (digestiu) — els mateixos sistemes que tracta l\'examen teòric, però situats sobre el cos.' },
     ],
     ejemplo: 'Toca localitzar el fetge. El jugador sap que és al sistema digestiu, a la part alta de l\'abdomen: toca la zona superior dreta del ventre i confirma. La silueta revela el punt exacte — "Òrgan correcte" i suma punts, amb la seva funció (filtra la sang i produeix bilis) i la dada que és l\'únic òrgan capaç de regenerar-se.',
     enPapel: {
       titulo: 'Localitzar òrgans en paper',
       pasos: [
         'Dibuixa el contorn d\'un cos humà de front, sense més detall.',
-        'Escriu en una llista a part 7 òrgans: cervell, cor, pulmons, diafragma, estómac, fetge i intestins.',
+        'Escriu en una llista a part 10 parts: cervell, ulls, boca, tràquea, cor, pulmons, diafragma, estómac, fetge i intestins.',
         'Per a cadascun, dibuixa un punt on creguis que és i escriu la seva funció al costat.',
         'Comprova amb un llibre de biologia o un atles anatòmic i corregeix els que hagis fallat.',
       ],

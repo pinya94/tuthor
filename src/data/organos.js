@@ -1,6 +1,13 @@
-// Datos de los 7 órganos para el juego Rayos X (src/pages/RayosX.jsx) y su
-// lógica (src/lib/rayosX.js). Mismo espíritu que planetas.js para Órbita: el
-// `dato` es un hecho concreto y verificable, no una curiosidad vaga.
+// Datos de los órganos y partes del cuerpo para el juego Rayos X
+// (src/pages/RayosX.jsx) y su lógica (src/lib/rayosX.js). Mismo espíritu que
+// planetas.js para Órbita: el `dato` es un hecho concreto y verificable, no
+// una curiosidad vaga.
+//
+// Solo entran partes con una posición inequívoca vistas de frente — por eso
+// no hay médula espinal (estructura de la espalda, ambigua de frente) ni
+// riñones (están a los lados/detrás, se solaparían con estómago/hígado sin
+// poder distinguirse). Ojos, boca y tráquea sí entran: cabeza y cuello dan
+// sitio de sobra para verlos por separado sin ambigüedad de profundidad.
 //
 // Posición (x,y) en el sistema de coordenadas de SiluetaCuerpo.jsx —
 // coincide con el viewBox nativo de public/img/cuerpo-humano.svg
@@ -34,10 +41,25 @@ export const SISTEMAS = {
 // Orden de arriba abajo del cuerpo (cabeza → pecho → abdomen), como los
 // planetas van de más cerca a más lejos del Sol.
 export const ORGANOS = [
-  organo('cerebro', 'nervioso', 74, 15, 12, '#a78bfa',
+  organo('cerebro', 'nervioso', 74, 10, 9, '#a78bfa',
     { es: 'Cerebro', en: 'Brain', ca: 'Cervell' },
     { es: 'Controla todo el cuerpo y procesa la información de los sentidos.', en: 'Controls the whole body and processes information from the senses.', ca: 'Controla tot el cos i processa la informació dels sentits.' },
     { es: 'Consume cerca del 20% de la energía diaria del cuerpo aunque pesa solo un 2% del peso corporal.', en: 'It uses about 20% of the body\'s daily energy despite weighing only 2% of body weight.', ca: 'Consumeix prop del 20% de l\'energia diària del cos tot i pesar només un 2% del pes corporal.' }),
+
+  organo('ojos', 'nervioso', 74, 19, 6, '#67e8f9',
+    { es: 'Ojos', en: 'Eyes', ca: 'Ulls' },
+    { es: 'Captan la luz y la convierten en señales que el cerebro interpreta como imágenes.', en: 'Capture light and turn it into signals the brain interprets as images.', ca: 'Capten la llum i la converteixen en senyals que el cervell interpreta com a imatges.' },
+    { es: 'Cada ojo tiene más de 100 millones de células sensibles a la luz — más que píxeles tiene la mayoría de cámaras de móvil.', en: 'Each eye has over 100 million light-sensitive cells — more than the pixel count of most phone cameras.', ca: 'Cada ull té més de 100 milions de cèl·lules sensibles a la llum — més que píxels té la majoria de càmeres de mòbil.' }),
+
+  organo('boca', 'digestivo', 74, 29, 6, '#f472b6',
+    { es: 'Boca', en: 'Mouth', ca: 'Boca' },
+    { es: 'Primer paso de la digestión: los dientes trituran el alimento y la saliva empieza a descomponerlo.', en: 'The first step of digestion: teeth grind up food and saliva starts breaking it down.', ca: 'Primer pas de la digestió: les dents trituren l\'aliment i la saliva comença a descompondre\'l.' },
+    { es: 'Produce entre 1 y 1,5 litros de saliva al día, con enzimas que ya empiezan a descomponer el almidón antes de tragar.', en: 'It produces between 1 and 1.5 litres of saliva a day, with enzymes that start breaking down starch before you even swallow.', ca: 'Produeix entre 1 i 1,5 litres de saliva al dia, amb enzims que ja comencen a descompondre el midó abans d\'empassar.' }),
+
+  organo('traquea', 'respiratorio', 74, 41, 7, '#7dd3fc',
+    { es: 'Tráquea', en: 'Trachea', ca: 'Tràquea' },
+    { es: 'Conduce el aire entre la garganta y los pulmones, protegida por anillos de cartílago.', en: 'Carries air between the throat and the lungs, protected by rings of cartilage.', ca: 'Condueix l\'aire entre la gola i els pulmons, protegida per anells de cartílag.' },
+    { es: 'Sus anillos de cartílago tienen forma de C, abiertos por detrás, para dejar sitio al esófago cuando tragamos.', en: 'Its cartilage rings are C-shaped, open at the back, to leave room for the oesophagus when we swallow.', ca: 'Els seus anells de cartílag tenen forma de C, oberts per darrere, per deixar lloc a l\'esòfag quan empassem.' }),
 
   organo('pulmones', 'respiratorio', 74, 70, 24, '#60a5fa',
     { es: 'Pulmones', en: 'Lungs', ca: 'Pulmons' },
