@@ -14,12 +14,20 @@
 //
 // Posición (x,y) en el sistema de coordenadas de SiluetaCuerpo.jsx —
 // coincide con el viewBox nativo de public/img/cuerpo-humano.svg
-// (0 0 147.998 318.455, vista frontal real, no un dibujo a mano). Medidas a
-// ojo sobre el propio SVG con una cuadrícula de referencia superpuesta (no
-// a ojo sobre una miniatura pequeña): cabeza 2-32 (mentón ~32), torso ancho
-// y sin apenas cintura de 50 a 140, ingle hacia 170, brazo derecho hombro
-// ~95→codo ~128→muñeca ~155, pierna derecha cadera ~172→rodilla ~233→
-// tobillo ~295. Brazo y pierna van siempre del lado derecho (x>74, el mismo
+// (0 0 147.998 318.455, vista frontal real, no un dibujo a mano). Cabeza y
+// torso medidos a ojo sobre una cuadrícula de referencia superpuesta al
+// propio SVG; brazo y pierna (los huesos largos) medidos con precisión de
+// píxel: se pinta el SVG en un <canvas> y se escanea fila a fila buscando
+// dónde hay alpha>0, para sacar el contorno y el centro reales del brazo o
+// la pierna en cada altura — a ojo sobre una imagen pequeña el "hombro" de
+// húmero quedó una vez DENTRO del torso, no sobre el brazo visible, y no se
+// notaba hasta probarlo. En esta ilustración el brazo es casi recto (no hay
+// un doblez de codo dibujado), así que el centro del brazo va de hombro
+// (114,90) a muñeca (129,148) casi en línea recta; el codo (122,120) es una
+// proporción de esa línea (mitad húmero / mitad antebrazo), no un punto que
+// se vea distinto en el dibujo. Pierna derecha cadera ~172→rodilla ~233→
+// tobillo ~295 (esta sí ya salía bien a ojo, centro estable en x≈93-96 todo
+// el trayecto). Brazo y pierna van siempre del lado derecho (x>74, el mismo
 // convenio que ya usaban estómago/hígado) — es simetría bilateral, el lado
 // es una elección arbitraria, no hace falta repetir cada hueso a los dos
 // lados. Cubren los 5 sistemas que ya trata el examen teórico de Cuerpo
@@ -119,27 +127,27 @@ export const ORGANOS = [
     { es: 'Une el esternón con el hombro y sirve de puntal para que el brazo se mueva con libertad.', en: 'Connects the breastbone to the shoulder and acts as a strut so the arm can move freely.', ca: 'Uneix l\'estèrnum amb l\'espatlla i fa de puntal perquè el braç es mogui amb llibertat.' },
     { es: 'Es de los huesos que más se rompen en caídas sobre el hombro o el brazo extendido, y de los primeros en empezar a osificarse antes de nacer.', en: 'It is one of the most commonly broken bones in falls onto the shoulder or an outstretched arm, and one of the first to start ossifying before birth.', ca: 'És dels ossos que més es trenquen en caigudes sobre l\'espatlla o el braç estès, i dels primers a començar a ossificar-se abans de néixer.' }),
 
-  organoLargo('humero', 'oseo', 100, 95, 128, 128, 13, '#cbd5e1',
+  organoLargo('humero', 'oseo', 114, 90, 122, 120, 13, '#cbd5e1',
     { es: 'Húmero', en: 'Humerus', ca: 'Húmer' },
     { es: 'Hueso largo del brazo, entre el hombro y el codo, donde se anclan los músculos que lo mueven.', en: 'The long bone of the upper arm, between the shoulder and the elbow, anchoring the muscles that move it.', ca: 'Os llarg del braç, entre l\'espatlla i el colze, on s\'ancoren els músculs que el mouen.' },
     { es: 'Es el hueso más largo y grueso del brazo — un golpe en su extremo inferior, cerca del codo, es el famoso "hueso de la risa".', en: 'It is the longest, thickest bone in the arm — a knock near its lower end, by the elbow, is the famous "funny bone".', ca: 'És l\'os més llarg i gruixut del braç — un cop al seu extrem inferior, a prop del colze, és el famós "os de la rialla".' }),
 
-  organo('codo', 'oseo', 128, 128, 10, '#e2e8f0',
+  organo('codo', 'oseo', 122, 120, 10, '#e2e8f0',
     { es: 'Codo', en: 'Elbow', ca: 'Colze' },
     { es: 'Articulación que une el húmero con el radio y el cúbito, y permite doblar el brazo.', en: 'The joint connecting the humerus to the radius and ulna, letting the arm bend.', ca: 'Articulació que uneix l\'húmer amb el radi i el cúbit, i permet doblegar el braç.' },
     { es: 'Es una articulación de bisagra: solo se dobla en un plano, a diferencia del hombro, que gira en casi todas direcciones.', en: 'It is a hinge joint: it only bends in one plane, unlike the shoulder, which rotates in almost every direction.', ca: 'És una articulació de frontissa: només es doblega en un pla, a diferència de l\'espatlla, que gira en gairebé totes direccions.' }),
 
-  organoLargo('radio', 'oseo', 130, 130, 133, 153, 8, '#cbd5e1',
+  organoLargo('radio', 'oseo', 126, 120, 133, 148, 8, '#cbd5e1',
     { es: 'Radio', en: 'Radius', ca: 'Radi' },
     { es: 'Uno de los dos huesos del antebrazo, del lado del pulgar, entre el codo y la muñeca.', en: 'One of the two forearm bones, on the thumb side, between the elbow and the wrist.', ca: 'Un dels dos ossos de l\'avantbraç, del costat del polze, entre el colze i el canell.' },
     { es: 'Al girar la palma de la mano hacia arriba o abajo, es el radio el que gira sobre el cúbito — el cúbito apenas se mueve.', en: 'When you turn your palm up or down, it is the radius that rotates around the ulna — the ulna barely moves.', ca: 'En girar el palmell de la mà cap amunt o avall, és el radi el que gira sobre el cúbit — el cúbit tot just es mou.' }),
 
-  organoLargo('cubito', 'oseo', 126, 130, 122, 153, 8, '#e2e8f0',
+  organoLargo('cubito', 'oseo', 118, 120, 125, 148, 8, '#e2e8f0',
     { es: 'Cúbito', en: 'Ulna', ca: 'Cúbit' },
     { es: 'El otro hueso del antebrazo, del lado del meñique, entre el codo y la muñeca.', en: 'The other forearm bone, on the little-finger side, between the elbow and the wrist.', ca: 'L\'altre os de l\'avantbraç, del costat del dit petit, entre el colze i el canell.' },
     { es: 'Su extremo superior forma la punta del codo — el hueso que notas al apoyarlo sobre la mesa.', en: 'Its upper end forms the point of the elbow — the bone you feel when you rest it on a table.', ca: 'El seu extrem superior forma la punta del colze — l\'os que notes en recolzar-lo sobre la taula.' }),
 
-  organo('muneca', 'oseo', 128, 155, 9, '#e2e8f0',
+  organo('muneca', 'oseo', 129, 148, 9, '#e2e8f0',
     { es: 'Muñeca', en: 'Wrist', ca: 'Canell' },
     { es: 'Articulación entre el antebrazo y la mano, formada por ocho huesos pequeños (los carpianos).', en: 'The joint between the forearm and the hand, made up of eight small bones (the carpals).', ca: 'Articulació entre l\'avantbraç i la mà, formada per vuit ossos petits (els carpians).' },
     { es: 'Sus ocho huesos carpianos son de los últimos del cuerpo en terminar de osificarse, sobre los 18-25 años.', en: 'Its eight carpal bones are among the last in the body to finish ossifying, around age 18-25.', ca: 'Els seus vuit ossos carpians són dels últims del cos a acabar d\'ossificar-se, cap als 18-25 anys.' }),
