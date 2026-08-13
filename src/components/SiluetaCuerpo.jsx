@@ -46,11 +46,23 @@ const LABEL_OFFSET = {
   estomago: [-17, 2],
   higado: [17, 2],
   intestinos: [0, 18],
+  clavicula: [13, -2],
+  humero: [15, 0],
+  codo: [-13, 0],
+  radio: [-13, -3],
+  cubito: [-13, 3],
+  muneca: [-13, 0],
+  femur: [15, 0],
+  rotula: [14, 0],
+  tibia: [-14, 0],
+  perone: [14, 0],
+  tobillo: [14, 0],
 }
 
 // Anotación estilo diagrama científico: punto exacto + círculo de margen
 // (discontinuo, el radio real que cuenta como acierto) + etiqueta con el
-// nombre y una línea guía si la etiqueta queda lejos del punto.
+// nombre y una línea guía. Con un pulso continuo (radar) para que la vista
+// vaya directa a la zona en vez de tener que buscarla.
 function AnnotationMarker({ organo, l }) {
   const [dx, dy] = LABEL_OFFSET[organo.id] ?? [16, 0]
   const anchor = dx === 0 ? 'middle' : dx > 0 ? 'start' : 'end'
@@ -59,8 +71,12 @@ function AnnotationMarker({ organo, l }) {
   return (
     <g>
       <circle cx={organo.x} cy={organo.y} r={organo.radio}
-        fill="none" stroke={organo.color} strokeWidth="0.7" strokeDasharray="2.2 2.2" opacity="0.7" />
-      <circle cx={organo.x} cy={organo.y} r="2.4" fill={organo.color} stroke="#050714" strokeWidth="0.8" />
+        fill="none" stroke={organo.color} strokeWidth="0.7" strokeDasharray="2.2 2.2">
+        <animate attributeName="opacity" values="0.35;0.9;0.35" dur="1.6s" repeatCount="indefinite" />
+      </circle>
+      <circle cx={organo.x} cy={organo.y} r="2.2" fill={organo.color} stroke="#050714" strokeWidth="0.8">
+        <animate attributeName="r" values="2.2;3.1;2.2" dur="1.6s" repeatCount="indefinite" />
+      </circle>
       <line x1={organo.x + dx * 0.35} y1={organo.y + dy * 0.35} x2={lx - dx * 0.12} y2={ly - dy * 0.12}
         stroke={organo.color} strokeWidth="0.7" opacity="0.8" />
       <text x={lx} y={ly} textAnchor={anchor} dominantBaseline="middle"

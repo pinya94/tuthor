@@ -74,28 +74,6 @@ const UI = {
   },
 }
 
-// ── Fila de órganos en orden (referencia visual, resalta el objetivo) ───────
-function FilaOrganos({ objetivoId, l }) {
-  return (
-    <div className="flex justify-between gap-1 w-full mb-1 flex-wrap">
-      {ORGANOS.map(o => {
-        const activo = o.id === objetivoId
-        return (
-          <div key={o.id}
-            className={`flex-1 min-w-[38px] flex flex-col items-center py-1.5 rounded-lg border text-center transition-all ${
-              activo ? 'bg-[#EDAE49]/15 border-[#EDAE49]/50 scale-105' : 'bg-white/5 border-white/10 opacity-50'
-            }`}>
-            <span className="w-3 h-3 rounded-full mb-0.5" style={{ background: o.color }} />
-            <span className={`text-[8px] sm:text-[9px] font-semibold leading-tight ${activo ? 'text-[#EDAE49]' : 'text-white/40'}`}>
-              {(o.nombre[l] ?? o.nombre.es).slice(0, 5)}
-            </span>
-          </div>
-        )
-      })}
-    </div>
-  )
-}
-
 export default function RayosX() {
   const navigate = useNavigate()
   const { lang, localPath } = useLang()
@@ -285,7 +263,6 @@ export default function RayosX() {
           {t.objetivo} {o.nombre[l] ?? o.nombre.es}
         </p>
 
-        <FilaOrganos objetivoId={o.id} l={l} />
         <SiluetaCuerpo guess={guessMarcado} onPick={null} revelado resultado={resultado} compact objetivo={o} l={l} />
 
         <div className="bg-white/5 border border-white/10 rounded-2xl p-4 mt-4 text-sm text-white/60 leading-relaxed">
