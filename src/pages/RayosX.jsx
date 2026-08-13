@@ -286,7 +286,7 @@ export default function RayosX() {
         </p>
 
         <FilaOrganos objetivoId={o.id} l={l} />
-        <SiluetaCuerpo guess={guessMarcado} onPick={null} revelado resultado={resultado} compact />
+        <SiluetaCuerpo guess={guessMarcado} onPick={null} revelado resultado={resultado} compact l={l} />
 
         <div className="bg-white/5 border border-white/10 rounded-2xl p-4 mt-4 text-sm text-white/60 leading-relaxed">
           <p className="text-white/80 font-semibold mb-1">{o.funcion[l] ?? o.funcion.es}</p>
