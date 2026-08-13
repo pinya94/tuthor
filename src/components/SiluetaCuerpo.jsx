@@ -3,18 +3,18 @@
 // un componente de solo dibujo, sin botón de confirmar (eso lo gestiona cada
 // página). Antes de responder la silueta va completamente limpia — sin
 // ninguna marca de dónde están los 7 órganos, para no dar pistas; al
-// revelar, cada órgano se anota como en un diagrama científico: un punto
-// exacto, el círculo de margen aceptado y una etiqueta con su nombre — nada
-// de iconos ilustrados.
+// revelar, se anota SOLO el órgano preguntado esa ronda (`objetivo`) como en
+// un diagrama científico: un punto exacto, el círculo de margen aceptado y
+// una etiqueta con su nombre — marcar los 7 a la vez no aporta nada (no es
+// una pregunta sobre los demás) y satura el dibujo.
 //
 // El cuerpo es una ilustración real (public/img/cuerpo-humano.svg, adaptada
 // de una silueta de Wikimedia Commons de dominio público — ver el propio
 // fichero para la fuente), no un dibujo a mano. Encima va una capa SVG
-// transparente con el MISMO viewBox que sirve para los clics y las
-// anotaciones — así no hace falta tocar coordenadas al cambiar de imagen de
+// transparente con el MISMO viewBox que sirve para los clics y la
+// anotación — así no hace falta tocar coordenadas al cambiar de imagen de
 // fondo, solo VB_W/VB_H.
 import { useRef } from 'react'
-import { ORGANOS } from '../data/organos'
 
 // viewBox nativo de cuerpo-humano.svg — coincide con las coordenadas (x,y)
 // de cada órgano en src/data/organos.js.
@@ -68,7 +68,7 @@ function AnnotationMarker({ organo, l }) {
   )
 }
 
-export default function SiluetaCuerpo({ guess, onPick, revelado, resultado, compact, l = 'es' }) {
+export default function SiluetaCuerpo({ guess, onPick, revelado, resultado, compact, objetivo, l = 'es' }) {
   const svgRef = useRef(null)
 
   function handleClick(e) {
@@ -101,7 +101,7 @@ export default function SiluetaCuerpo({ guess, onPick, revelado, resultado, comp
         className="absolute inset-0 w-full h-full pointer-events-none select-none" />
       <svg ref={svgRef} viewBox={`0 0 ${VB_W} ${VB_H}`} className="absolute inset-0 w-full h-full block select-none"
         style={{ cursor: revelado ? 'default' : 'crosshair', touchAction: 'none' }} onClick={handleClick}>
-        {revelado && ORGANOS.map(o => <AnnotationMarker key={o.id} organo={o} l={l} />)}
+        {revelado && objetivo && <AnnotationMarker organo={objetivo} l={l} />}
 
         {guess && (
           <g style={{ filter: glow }}>
