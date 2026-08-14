@@ -13,12 +13,15 @@
 // fichero para la fuente), no un dibujo a mano. Encima va una capa SVG
 // transparente con el MISMO viewBox que sirve para los clics y la
 // anotación — así no hace falta tocar coordenadas al cambiar de imagen de
-// fondo, solo VB_W/VB_H.
+// fondo, solo VB_W/VB_H (importados de data/organos.js, fuente única).
+//
+// Los huesos/articulaciones (`objetivo.bilateral`) solo están descritos del
+// lado derecho pero cuentan en los dos — ver mirrorOrgano en lib/rayosX.js
+// — así que al revelar se anotan LOS DOS lados, no solo el guardado, para
+// que quede claro que cualquiera de los dos era válido.
 import { useRef } from 'react'
-
-// viewBox nativo de cuerpo-humano.svg — coincide con las coordenadas (x,y)
-// de cada órgano en src/data/organos.js.
-const VB_W = 147.998, VB_H = 318.455
+import { VB_W, VB_H } from '../data/organos'
+import { mirrorOrgano } from '../lib/rayosX'
 
 function clientToSvgPoint(svgEl, clientX, clientY) {
   const pt = svgEl.createSVGPoint()
@@ -69,8 +72,12 @@ const LABEL_OFFSET = {
 // isCorrectGuess/evaluarClick en lib/rayosX.js (distancia al segmento, no
 // al centro). El punto pulsante va en el punto medio, solo de referencia
 // visual.
-function AnnotationMarker({ organo, l }) {
-  const [dx, dy] = LABEL_OFFSET[organo.id] ?? [16, 0]
+function AnnotationMarker({ organo, l, mirrored }) {
+  const [baseDx, dy] = LABEL_OFFSET[organo.id] ?? [16, 0]
+  // Lado izquierdo (reflejo): la etiqueta tira hacia el lado contrario del
+  // que le tocaba en el derecho, para seguir alejándose del centro del
+  // cuerpo en vez de meterse por encima del torso.
+  const dx = mirrored ? -baseDx : baseDx
   const anchor = dx === 0 ? 'middle' : dx > 0 ? 'start' : 'end'
   const lx = organo.x + dx, ly = organo.y + dy
   const nombre = organo.nombre[l] ?? organo.nombre.es
@@ -135,7 +142,16 @@ export default function SiluetaCuerpo({ guess, onPick, revelado, resultado, comp
         className="absolute inset-0 w-full h-full pointer-events-none select-none" />
       <svg ref={svgRef} viewBox={`0 0 ${VB_W} ${VB_H}`} className="absolute inset-0 w-full h-full block select-none"
         style={{ cursor: revelado ? 'default' : 'crosshair', touchAction: 'none' }} onClick={handleClick}>
-        {revelado && objetivo && <AnnotationMarker organo={objetivo} l={l} />}
+        {revelado && objetivo && (
+          <>
+            <AnnotationMarker organo={objetivo} l={l} />
+            {/* Bilateral (huesos/articulaciones del sistema óseo): el lado
+                izquierdo cuenta igual que el derecho — ver mirrorOrgano en
+                lib/rayosX.js — así que también se marca, para que quede
+                claro que cualquiera de los dos valía. */}
+            {objetivo.bilateral && <AnnotationMarker organo={mirrorOrgano(objetivo)} l={l} mirrored />}
+          </>
+        )}
 
         {guess && (
           <g style={{ filter: glow }}>

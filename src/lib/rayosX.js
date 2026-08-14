@@ -17,10 +17,32 @@
 // recortada a los extremos), no al punto medio — si no, un clic en un
 // extremo del fémur contaría como lejos aunque esté claramente sobre el
 // hueso.
-import { ORGANOS } from '../data/organos'
+//
+// Los del sistema óseo/articular (`bilateral: true`) solo están descritos
+// del lado derecho, pero el brazo/pierna IZQUIERDO tiene los mismos huesos
+// — un clic en el codo izquierdo es tan correcto como en el derecho. Se
+// mide la distancia al lado guardado Y a su reflejo especular
+// (mirrorOrgano, x → VB_W-x) y se toma la menor, en vez de duplicar cada
+// hueso a los dos lados.
+import { ORGANOS, VB_W } from '../data/organos'
 
 function dist(x1, y1, x2, y2) {
   return Math.hypot(x1 - x2, y1 - y2)
+}
+
+// Reflejo especular de un órgano (mismo radio/color/nombre/etc., posición y
+// segmento invertidos en x). Se usa para los `bilateral: true` — ver arriba
+// — y también SiluetaCuerpo.jsx la reutiliza para DIBUJAR el lado
+// izquierdo, no solo para puntuar.
+export function mirrorOrgano(organo) {
+  return {
+    ...organo,
+    x: VB_W - organo.x,
+    segmento: organo.segmento && {
+      x1: VB_W - organo.segmento.x1, y1: organo.segmento.y1,
+      x2: VB_W - organo.segmento.x2, y2: organo.segmento.y2,
+    },
+  }
 }
 
 // Distancia de `pos` al segmento (x1,y1)-(x2,y2): proyecta pos sobre la
@@ -34,10 +56,15 @@ function distSegmento(pos, { x1, y1, x2, y2 }) {
   return dist(pos.x, pos.y, x1 + t * dx, y1 + t * dy)
 }
 
-// Distancia de `pos` a un órgano, ya sea de punto (x,y) o de segmento
-// (huesos largos, ver arriba).
+// Distancia de `pos` a un órgano (punto o segmento, ver arriba). Para los
+// `bilateral: true` se compara también contra el reflejo del otro lado y se
+// toma la menor — cualquiera de los dos lados cuenta como acierto.
 function distOrgano(pos, organo) {
-  return organo.segmento ? distSegmento(pos, organo.segmento) : dist(pos.x, pos.y, organo.x, organo.y)
+  const d = organo.segmento ? distSegmento(pos, organo.segmento) : dist(pos.x, pos.y, organo.x, organo.y)
+  if (!organo.bilateral) return d
+  const m = mirrorOrgano(organo)
+  const dm = m.segmento ? distSegmento(pos, m.segmento) : dist(pos.x, pos.y, m.x, m.y)
+  return Math.min(d, dm)
 }
 
 // Resultado de un clic en `pos` ({x,y} en coordenadas de SiluetaCuerpo.jsx)
