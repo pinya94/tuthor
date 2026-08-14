@@ -223,9 +223,12 @@ export function resolveMeta(path, lang) {
     const game = Object.values(GAMES).find(g => g.route === path)
     if (game) {
       const name = label(game, l)
+      // Sin "gratis" — igual que en /examen/* más abajo: jugar va con la
+      // suscripción desde el muro de pago, y anunciar como gratuito lo que
+      // se cobra sale en el título de ~22 páginas y genera reseñas malas.
       return l === 'en'
-        ? { title: `${name} — free educational game`, desc: `Play ${name} for free: quick 5-minute rounds, coins, rankings and real learning. No install, works on mobile and desktop.` }
-        : { title: `${name} — juego educativo gratis`, desc: `Juega gratis a ${name}: partidas rápidas de 5 minutos, monedas, ranking y aprendizaje real. Sin instalar nada, en móvil y ordenador.` }
+        ? { title: `${name} — educational game`, desc: `Play ${name}: quick 5-minute rounds, coins, rankings and real learning. For primary and secondary school students.` }
+        : { title: `${name} — juego educativo`, desc: `Juega a ${name}: partidas rápidas de 5 minutos, monedas, ranking y aprendizaje real. Para Primaria, ESO y Bachillerato.` }
     }
   }
 

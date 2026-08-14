@@ -3,8 +3,16 @@ import { Link, useLocation } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
 import { loadAccessCached, PLANS, annualSavings } from '../lib/access'
-import { requiresAccess } from '../lib/paidRoutes'
+import { requiresAccess, normalizePath } from '../lib/paidRoutes'
 import AuthModal from './AuthModal'
+import SEOHead from './SEOHead'
+import QuizSchema from './QuizSchema'
+// resolveMeta vive en scripts/ porque lo usa el prerender (Node) y los tests
+// de invariantes, pero es un módulo puro (sin I/O) — se puede importar aquí
+// igual que cualquier otro módulo de src/. Es la MISMA fuente que ya usa el
+// prerender para title/desc, así que no hay dos ideas distintas de la meta
+// de una URL.
+import { resolveMeta } from '../../scripts/seoMeta.mjs'
 
 // Puerta única del muro de pago. Se monta una sola vez alrededor de las rutas
 // (App.jsx) en lugar de envolver ruta por ruta: las de juegos y exámenes están
@@ -97,6 +105,35 @@ function Checking() {
   )
 }
 
+// Meta SEO + JSON-LD para la pantalla de muro (Locked). Sin esto, la página
+// real — con su propio <SEOHead>/<QuizSchema> — nunca llega a montar cuando
+// está de pago (Locked sustituye a `children`, no lo envuelve), así que un
+// crawler o una vista previa de WhatsApp solo veían el título/canonical
+// genéricos del shell: 110 páginas indistinguibles entre sí, justo el patrón
+// de "contenido de poco valor" que ya penalizó una vez (ver memoria
+// adsense-contenido-poco-valor.md). resolveMeta reutiliza la MISMA fuente
+// que ya usa el prerender para title/desc — no hay una segunda idea de la
+// meta de una URL escrita a mano aquí.
+//
+// isAccessibleForFree: false es la señal que documenta Google para contenido
+// de pago — deja la página indexable y describible sin fingir que es
+// gratis ni ocultarla del todo (justo lo que pedía la nota del pivot a
+// suscripción). kind: 'Quiz' para /examen/*, 'LearningResource' para el
+// resto — no hay preguntas reales que enseñar aquí (la página de verdad no
+// ha llegado a montar), así que no se inventa un `hasPart`.
+function LockedMeta({ pathname, lang }) {
+  const neutral = normalizePath(pathname)
+  const meta = resolveMeta(neutral, lang)
+  if (!meta) return null
+  const kind = neutral === '/examen' || neutral.startsWith('/examen/') ? 'Quiz' : 'LearningResource'
+  return (
+    <>
+      <SEOHead title={meta.title} description={meta.desc} path={neutral} lang={lang} />
+      <QuizSchema name={meta.title} description={meta.desc} path={neutral} lang={lang} kind={kind} isAccessibleForFree={false} />
+    </>
+  )
+}
+
 // Cuánto se espera a Firebase antes de dejar de confiar en que va a
 // responder. Existe por un fallo real: en el prerender (scripts/prerender.mjs)
 // Chromium headless vía @sparticuz/chromium no resuelve nunca
@@ -129,7 +166,7 @@ const IS_PRERENDER = typeof window !== 'undefined' && window.__PRERENDER__ === t
 export default function AccessGate({ children }) {
   const { pathname } = useLocation()
   const { user } = useAuth()
-  const { tr, localPath } = useLang()
+  const { tr, localPath, lang } = useLang()
   // Solo guarda el resultado ya resuelto, junto al uid al que corresponde. Los
   // casos "aún no sé" y "no hay sesión" se deducen al renderizar, para no
   // escribir estado dentro del efecto y provocar renders en cascada.
@@ -189,6 +226,7 @@ export default function AccessGate({ children }) {
   if (!effectiveUser) {
     return (
       <>
+        <LockedMeta pathname={pathname} lang={lang} />
         <Locked onLogin={() => setShowAuth(true)} user={effectiveUser} />
         {showAuth && <AuthModal onClose={() => setShowAuth(false)} />}
       </>
@@ -227,6 +265,7 @@ export default function AccessGate({ children }) {
   if (state === 'locked') {
     return (
       <>
+        <LockedMeta pathname={pathname} lang={lang} />
         <Locked onLogin={() => setShowAuth(true)} user={effectiveUser} />
         {showAuth && <AuthModal onClose={() => setShowAuth(false)} />}
       </>

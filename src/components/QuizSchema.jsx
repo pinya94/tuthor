@@ -3,7 +3,9 @@ import { Helmet } from 'react-helmet-async'
 const BASE_URL = 'https://www.tuthor.es'
 
 /**
- * JSON-LD Quiz schema for exam pages.
+ * JSON-LD Quiz schema for exam pages (also reused for game pages behind the
+ * paywall — ver AccessGate.jsx — con kind='LearningResource', que no implica
+ * preguntas).
  * props:
  *   name        string   — exam title (in page language)
  *   description string   — short description
@@ -12,8 +14,12 @@ const BASE_URL = 'https://www.tuthor.es'
  *   subject     string   — topic/subject (e.g. 'Funciones matemáticas')
  *   level       string   — 'primary' | 'secondary' | 'highschool'  (default: 'secondary')
  *   questions   Array    — optional: [{ question, correctAnswer, wrongAnswers: [] }]
+ *   kind        string   — '@type' schema.org, 'Quiz' (default) o 'LearningResource'
+ *   isAccessibleForFree boolean — default true. AccessGate lo pone a false en
+ *     la pantalla de muro (Locked): mismo patrón que documenta Google para
+ *     contenido de pago — no ocultar del todo la página, marcarla como tal.
  */
-export default function QuizSchema({ name, description, path, lang = 'es', subject, level = 'secondary', questions }) {
+export default function QuizSchema({ name, description, path, lang = 'es', subject, level = 'secondary', questions, kind = 'Quiz', isAccessibleForFree = true }) {
   const url  = `${BASE_URL}${lang === 'es' ? '' : `/${lang}`}${path}`
   const inLang = lang === 'en' ? 'en' : lang === 'ca' ? 'ca' : 'es'
 
@@ -37,14 +43,15 @@ export default function QuizSchema({ name, description, path, lang = 'es', subje
 
   const schema = {
     '@context': 'https://schema.org',
-    '@type': 'Quiz',
+    '@type': kind,
     'name': name,
     'description': description,
     'url': url,
     'inLanguage': inLang,
-    'learningResourceType': 'Quiz',
+    'isAccessibleForFree': isAccessibleForFree,
+    'learningResourceType': kind === 'Quiz' ? 'Quiz' : undefined,
     'educationalLevel': { '@type': 'DefinedTerm', 'name': eduLevel },
-    'numberOfQuestions': questions?.length ?? 10,
+    'numberOfQuestions': kind === 'Quiz' ? (questions?.length ?? 10) : undefined,
     'about': subject ? { '@type': 'Thing', 'name': subject } : undefined,
     'provider': {
       '@type': 'Organization',

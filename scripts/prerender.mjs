@@ -35,7 +35,10 @@ import sparticuzChromium from '@sparticuz/chromium'
 import { preview } from 'vite'
 
 import { resolveMeta } from './seoMeta.mjs'
-import { requiresAccess, normalizePath } from '../src/lib/paidRoutes.js'
+// requiresAccess/normalizePath ya NO se usan para excluir URLs (ver el
+// comentario junto a `urls` más abajo) — se dejan de importar aquí; el
+// snippet de reversión de emergencia que documenta ese comentario los
+// necesitaría de vuelta.
 
 const ON_VERCEL = Boolean(process.env.VERCEL)
 
@@ -73,24 +76,34 @@ const BLOCKED_HOSTS = /doubleclick\.net|googlesyndication\.com|googleadservices\
 const sitemap = readFileSync(join(ROOT, 'public', 'sitemap.xml'), 'utf8')
 const allUrls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m => new URL(m[1]).pathname)
 
-// Las ~110 URLs de /juegos/* y /examen/* NO se prerrenderizan. Salida de
-// emergencia tras varios builds seguidos muriendo por el límite de 45 min de
-// Vercel sin que acotar timeouts ni quitar el reintento lo arreglara del
-// todo: quitando de un plumazo la mitad de las páginas que hay que procesar,
-// el build no puede volver a acercarse al límite pase lo que pase con la
-// causa de fondo (sin identificar con certeza).
+// Hasta 2026-08, las ~146 URLs de /juegos/* y /examen/* quedaban FUERA del
+// prerender por completo: salida de emergencia tras varios builds seguidos
+// muriendo contra el límite de 45 min de Vercel, sin identificar la causa de
+// fondo con certeza. Se repuestas ahora porque:
 //
-// No cuesta nada real: AccessGate (src/components/AccessGate.jsx) decide el
-// muro en el navegador del usuario, en tiempo real — funciona igual de bien
-// sin importar si la página llegó pre-renderizada o como el shell vacío de
-// siempre (así ha funcionado SIEMPRE el resto del sitio antes de que
-// existiera este script). Lo único que se pierde es la meta específica por
-// URL (título/descripción en el HTML inicial, que ayuda a crawlers y a la
-// vista previa de compartir en WhatsApp) en esas páginas concretas — y como
-// son de pago, no hay anuncios detrás que dependan de que Google las indexe.
+//   1. AccessGate (src/components/AccessGate.jsx) ya resuelve estas páginas
+//      a la pantalla de muro (Locked) de forma SÍNCRONA durante el prerender
+//      — sin esperar a Firebase (IS_PRERENDER en ese fichero) — así que no
+//      cargan Firestore ni la lógica del juego/examen: es la vista más
+//      ligera del sitio, no la más pesada.
+//   2. Locked ahora monta su propia meta (LockedMeta en AccessGate.jsx,
+//      reutilizando resolveMeta de aquí abajo) con isAccessibleForFree:false
+//      — antes de esto, aunque se hubiesen prerrenderizado, un crawler solo
+//      veía el título genérico del shell (children nunca llega a montar
+//      tras el muro), así que excluirlas no perdía nada que no se perdiera
+//      ya por el propio muro.
+//   3. Medido en local: incluirlas (351 URLs en vez de 205) no añadió NI UN
+//      fallo ni una página lenta — los únicos timeouts siguen siendo el
+//      mismo grupo pequeño y ya conocido de hubs /estudiar/* y /info/* que
+//      fallaba igual antes de este cambio (ver el 30% de tolerancia más
+//      abajo). Con eso, el peor caso teórico (351×12s/3 ≈ 23 min) sigue con
+//      margen de sobra bajo el límite de Vercel.
 //
-// Revertir cuando se entienda y arregle la causa real de la lentitud.
-const urls = allUrls.filter(u => !requiresAccess(normalizePath(u)))
+// Si un despliegue vuelve a morir por tiempo, revertir esta línea a
+// `allUrls.filter(u => !requiresAccess(normalizePath(u)))` es la salida de
+// emergencia de siempre — y en ese caso SÍ apuntaría a estas páginas como
+// causa, cosa que los datos de arriba no sugieren.
+const urls = allUrls
 console.log(`[prerender] ${allUrls.length - urls.length} URLs de pago excluidas del prerender (ver comentario)`)
 
 const unresolved = urls.filter(urlPath => {
