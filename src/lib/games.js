@@ -157,6 +157,14 @@ export const GAMES = {
     // aciertos × 10 puntos → hasta 200 monedas
     coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
   },
+  'circuito-cerrado': {
+    label: { es: 'Circuito Cerrado', en: 'Circuit Complete', ca: 'Circuit Complet' },
+    emoji: '💡',
+    subject: 'fisica',
+    route: '/juegos/circuito-cerrado',
+    // aciertos × 10 puntos → hasta 200 monedas
+    coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
+  },
   'analiza-frases': {
     label: { es: 'Analiza la Frase', en: 'Sentence Detective', ca: 'Analitza la Frase' },
     emoji: '🧐',

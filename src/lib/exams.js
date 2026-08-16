@@ -266,6 +266,11 @@ export const EXAMS = {
     emoji: '🧠', subject: 'biologia',
     path: 'examen/rayos-x-test', page: () => import('../pages/RayosXExamen'),
   },
+  'circuito-cerrado-test': {
+    label: { es: 'Circuito Cerrado', en: 'Circuit Complete', ca: 'Circuit Complet' },
+    emoji: '💡', subject: 'fisica',
+    path: 'examen/circuito-cerrado-test', page: () => import('../pages/CircuitoCerradoExamen'),
+  },
   'mezclas-separacion': {
     label: { es: 'Mezclas y Separación', en: 'Mixtures & Separation', ca: 'Mescles i Separació' },
     emoji: '🔀', subject: 'quimica',

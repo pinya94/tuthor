@@ -719,6 +719,35 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Biología', niveles: 'Primaria, ESO',
   },
+  'circuito-cerrado': {
+    titulo: 'Circuito Cerrado',
+    subtitulo: 'Juego de Electricidad Básica',
+    emoji: '💡', gradient: 'from-amber-500 to-orange-700',
+    path: '/juegos/circuito-cerrado',
+    examPath: '/examen/circuito-cerrado-test',
+    intro: 'Un juego de física para razonar circuitos, no construirlos a ciegas: el circuito ya está dibujado, con su batería, su interruptor y sus bombillas, y hay que predecir CÓMO va a brillar cada una — apagada, tenue o a tope — antes de comprobarlo. Sin arrastrar cables ni piezas — el reto es entender POR QUÉ, leyendo si el interruptor está cerrado, si las bombillas están en serie o en paralelo y si alguna está fundida.',
+    beneficios: [
+      { titulo: 'Serie y paralelo, con las manos', texto: 'La diferencia entre serie y paralelo suele quedarse en una frase de memoria. Aquí se ve en la práctica: en serie, las bombillas se reparten la misma pila y brillan tenues; en paralelo, cada una recibe la pila entera y brilla a tope.' },
+      { titulo: 'No es solo encendida o apagada', texto: 'Predecir el BRILLO, no solo si pasa corriente, obliga a razonar cuántas bombillas comparten cada lazo — el mismo matiz que se pierde si el examen solo pregunta "sí o no".' },
+      { titulo: 'De un interruptor a un circuito mixto', texto: 'Primaria empieza con una sola bombilla y un interruptor. ESO añade dos bombillas en serie o en paralelo. Bachillerato llega a un circuito mixto: una bombilla en serie que reparte la corriente en dos ramas, cada una con su propio interruptor.' },
+    ],
+    ejemplo: 'El circuito tiene dos bombillas en serie y el interruptor está cerrado, pero una de las bombillas aparece marcada como fundida. El jugador razona: "están en el mismo lazo, así que si una no puede dejar pasar la corriente, la otra tampoco" — y marca las dos como apagadas. Al confirmar, el circuito revela que efectivamente ninguna brilla, ni siquiera tenue.',
+    enPapel: {
+      titulo: 'Dibujar un circuito en papel',
+      pasos: [
+        'Dibuja un rectángulo: una batería a un lado, un interruptor arriba y una bombilla al otro lado, todo conectado con líneas (los cables).',
+        'Decide si el interruptor está abierto o cerrado y dibújalo: una línea que cierra el hueco (cerrado) o que lo deja abierto (abierto).',
+        'Antes de mirar la respuesta, escribe si la bombilla va a encender y por qué.',
+        'Repite añadiendo una segunda bombilla, primero en el mismo lazo (serie) y después en una rama aparte (paralelo) — compara qué cambia si una de las dos se "funde".',
+      ],
+    },
+    alternativas: [
+      { nombre: 'El examen de Electricidad', desc: 'Después de jugar, repasa con el examen teórico tipo test: corriente, voltaje, resistencia y los mismos conceptos de serie y paralelo, con explicación en cada respuesta.' },
+      { nombre: 'Pila, bombilla y cables de verdad', desc: 'Si tienes una pila petaca, una bombilla pequeña y dos cables en casa, monta el circuito real y comprueba con las manos lo que aquí se predice en pantalla.' },
+      { nombre: 'Los interruptores de tu casa', desc: 'Fíjate en las luces de casa: ¿qué pasa si se funde una bombilla de la lámpara del salón, se apagan las demás? Esa observación es la diferencia entre serie y paralelo aplicada a la vida real.' },
+    ],
+    asignatura: 'Física', niveles: 'Primaria, ESO, Bachillerato',
+  },
 }
 
 export const FICHAS_EN = {
@@ -1266,6 +1295,35 @@ export const FICHAS_EN = {
       { nombre: 'Feel your own body', desc: 'Put a hand on your chest to feel your heartbeat, or breathe deeply and notice how your diaphragm moves — the best real reference is right there.' },
     ],
     asignatura: 'Biology', niveles: 'Primary, Secondary',
+  },
+  'circuito-cerrado': {
+    titulo: 'Circuit Complete',
+    subtitulo: 'Basic Electricity Game',
+    emoji: '💡', gradient: 'from-amber-500 to-orange-700',
+    path: '/juegos/circuito-cerrado',
+    examPath: '/examen/circuito-cerrado-test',
+    intro: "A physics game about reasoning through circuits, not wiring them blind: the circuit is already drawn, with its battery, switch and bulbs, and you have to predict HOW each one will shine — off, dim or full brightness — before checking. No dragging wires or parts — the challenge is understanding WHY, by reading whether the switch is closed, whether the bulbs are in series or parallel, and whether one of them is burnt out.",
+    beneficios: [
+      { titulo: 'Series and parallel, hands-on', texto: 'The difference between series and parallel usually stays a memorised sentence. Here it shows in practice: in series, bulbs share the same battery and shine dim; in parallel, each one gets the full battery and shines at full brightness.' },
+      { titulo: "It's not just on or off", texto: 'Predicting BRIGHTNESS, not just whether current flows, forces you to reason through how many bulbs share each loop — the nuance that gets lost if the question is only "yes or no".' },
+      { titulo: 'From one switch to a mixed circuit', texto: 'Primary starts with a single bulb and a single switch. Secondary adds two bulbs in series or parallel. Sixth Form reaches a mixed circuit: one bulb in series that splits the current into two branches, each with its own switch.' },
+    ],
+    ejemplo: "The circuit has two bulbs in series and the switch is closed, but one of the bulbs is marked as burnt out. The player reasons: \"they're on the same loop, so if one can't let the current through, neither can the other\" — and marks both as off. On confirming, the circuit reveals that indeed neither shines, not even dimly.",
+    enPapel: {
+      titulo: 'Drawing a circuit on paper',
+      pasos: [
+        'Draw a rectangle: a battery on one side, a switch on top and a bulb on the other side, all connected with lines (the wires).',
+        'Decide whether the switch is open or closed and draw it: a line closing the gap (closed) or leaving it open (open).',
+        "Before looking at the answer, write down whether the bulb will light up and why.",
+        'Repeat by adding a second bulb, first on the same loop (series) and then on a separate branch (parallel) — compare what changes if one of them "burns out".',
+      ],
+    },
+    alternativas: [
+      { nombre: 'The Electricity exam', desc: 'After playing, revise with the theory multiple-choice exam: current, voltage, resistance and the same series/parallel concepts, with an explanation for every answer.' },
+      { nombre: 'A real battery, bulb and wires', desc: "If you have a small battery, a small bulb and two wires at home, build the real circuit and check with your hands what's predicted here on screen." },
+      { nombre: 'The switches in your house', desc: "Look at the lights at home: if one bulb in the living room lamp burns out, do the others switch off too? That observation is series vs parallel applied to real life." },
+    ],
+    asignatura: 'Physics', niveles: 'Primary, Secondary, Sixth Form',
   },
 }
 
@@ -1892,5 +1950,34 @@ export const FICHAS_CA = {
       { nombre: 'Palpar el propi cos', desc: 'Posa la mà sobre el pit per sentir els batecs del cor, o respira fons notant com es mou el diafragma — la millor referència real la tens a mà.' },
     ],
     asignatura: 'Biologia', niveles: 'Primària, ESO',
+  },
+  'circuito-cerrado': {
+    titulo: 'Circuit Complet',
+    subtitulo: 'Joc d\'Electricitat Bàsica',
+    emoji: '💡', gradient: 'from-amber-500 to-orange-700',
+    path: '/juegos/circuito-cerrado',
+    examPath: '/examen/circuito-cerrado-test',
+    intro: 'Un joc de física per raonar circuits, no construir-los a cegues: el circuit ja està dibuixat, amb la seva bateria, el seu interruptor i les seves bombetes, i cal predir COM brillarà cadascuna — apagada, tènue o a tota potència — abans de comprovar-ho. Sense arrossegar cables ni peces — el repte és entendre PER QUÈ, llegint si l\'interruptor està tancat, si les bombetes són en sèrie o en paral·lel i si alguna està fosa.',
+    beneficios: [
+      { titulo: 'Sèrie i paral·lel, amb les mans', texto: 'La diferència entre sèrie i paral·lel sol quedar-se en una frase de memòria. Aquí es veu a la pràctica: en sèrie, les bombetes es reparteixen la mateixa pila i brillen tènues; en paral·lel, cadascuna rep la pila sencera i brilla a tota potència.' },
+      { titulo: 'No és només encesa o apagada', texto: 'Predir la LLUMINOSITAT, no només si passa corrent, obliga a raonar quantes bombetes comparteixen cada llaç — el matís que es perd si la pregunta només és "sí o no".' },
+      { titulo: 'D\'un interruptor a un circuit mixt', texto: 'Primària comença amb una sola bombeta i un interruptor. ESO afegeix dues bombetes en sèrie o en paral·lel. Batxillerat arriba a un circuit mixt: una bombeta en sèrie que reparteix el corrent en dues branques, cadascuna amb el seu propi interruptor.' },
+    ],
+    ejemplo: 'El circuit té dues bombetes en sèrie i l\'interruptor està tancat, però una de les bombetes apareix marcada com a fosa. El jugador raona: "són al mateix llaç, així que si una no pot deixar passar el corrent, l\'altra tampoc" — i marca les dues com a apagades. En confirmar, el circuit revela que efectivament cap brilla, ni tan sols tènue.',
+    enPapel: {
+      titulo: 'Dibuixar un circuit en paper',
+      pasos: [
+        'Dibuixa un rectangle: una bateria a un costat, un interruptor a dalt i una bombeta a l\'altre costat, tot connectat amb línies (els cables).',
+        'Decideix si l\'interruptor està obert o tancat i dibuixa\'l: una línia que tanca el buit (tancat) o que el deixa obert (obert).',
+        'Abans de mirar la resposta, escriu si la bombeta s\'encendrà i per què.',
+        'Repeteix afegint una segona bombeta, primer al mateix llaç (sèrie) i després en una branca a part (paral·lel) — compara què canvia si una de les dues es "fon".',
+      ],
+    },
+    alternativas: [
+      { nombre: 'L\'examen d\'Electricitat', desc: 'Després de jugar, repassa amb l\'examen teòric tipus test: corrent, voltatge, resistència i els mateixos conceptes de sèrie i paral·lel, amb explicació a cada resposta.' },
+      { nombre: 'Pila, bombeta i cables de veritat', desc: 'Si tens una pila petita, una bombeta petita i dos cables a casa, munta el circuit real i comprova amb les mans el que aquí es prediu a la pantalla.' },
+      { nombre: 'Els interruptors de casa teva', desc: 'Fixa\'t en els llums de casa: si es fon una bombeta del llum del menjador, s\'apaguen les altres? Aquesta observació és la diferència entre sèrie i paral·lel aplicada a la vida real.' },
+    ],
+    asignatura: 'Física', niveles: 'Primària, ESO, Batxillerat',
   },
 }

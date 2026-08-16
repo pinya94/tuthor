@@ -254,13 +254,14 @@ export const TOPIC_CATALOG = {
     temas: {
       fuerzas: examTema({ teoria: 'fuerzas', 'fuerza-neta': 'fuerza-neta-test', balanza: 'balanza-test' }),
       energia: examTema({ teoria: 'energia' }),
-      electricidad: examTema({ teoria: 'electricidad' }),
+      electricidad: examTema({ teoria: 'electricidad', circuito: 'circuito-cerrado-test' }),
       'ondas-luz': examTema({ teoria: 'ondas-luz' }),
     },
     formatos: {
       teoria: examFormato({ es: 'Teoría (tipo test)', en: 'Theory (quiz)', ca: 'Teoria (tipus test)' }, '📝'),
       'fuerza-neta': examFormato({ es: 'Fuerza Neta (con el juego)', en: 'Net Force (with the game)', ca: 'Força Neta (amb el joc)' }, '🧭'),
       balanza: examFormato({ es: 'Balanza (con el juego)', en: 'Balance (with the game)', ca: 'Balança (amb el joc)' }, '⚖️'),
+      circuito: examFormato({ es: 'Circuito Cerrado (con el juego)', en: 'Circuit Complete (with the game)', ca: 'Circuit Complet (amb el joc)' }, '💡'),
     },
   },
 

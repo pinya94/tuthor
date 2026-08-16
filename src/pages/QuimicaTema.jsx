@@ -294,6 +294,13 @@ const MODOS_POR_TEMA = {
       detalles: { es:['2 niveles','10 preguntas','Opción múltiple','Explicación tras cada respuesta'], en:['2 levels','10 questions','Multiple choice','Explanation after each answer'], ca:['2 nivells','10 preguntes','Opció múltiple','Explicació després de cada resposta'] },
       path: 'electricidad',
     },
+    {
+      id: 'circuito-cerrado-test', emoji: '💡', gradient: 'from-amber-500 to-orange-700',
+      titulo: { es:'Circuito Cerrado', en:'Circuit Complete', ca:'Circuit Complet' },
+      descripcion: { es:'Con la mecánica del juego: predice si cada bombilla brilla apagada, tenue o a tope, según el interruptor y si están en serie o en paralelo.', en:'Using the game mechanic: predict whether each bulb is off, dim or at full brightness, based on the switch and whether they\'re in series or parallel.', ca:'Amb la mecànica del joc: prediu si cada bombeta brilla apagada, tènue o a tota potència, segons l\'interruptor i si són en sèrie o en paral·lel.' },
+      detalles: { es:['3 niveles','10 preguntas','Sin cronómetro','Con el juego'], en:['3 levels','10 questions','No timer','With the game'], ca:['3 nivells','10 preguntes','Sense cronòmetre','Amb el joc'] },
+      path: 'circuito-cerrado-test',
+    },
   ],
   'ondas-luz': [
     {
