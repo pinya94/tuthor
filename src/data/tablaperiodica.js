@@ -54,6 +54,54 @@ export const ELEMENTOS = [
   { symbol:'Au', nombre:'Oro',        nombreEn:'Gold',       nombreCa:'Or',          z:79, grupo:11, periodo:6, tipo:'metal-transicion',      niveles:['primaria','eso','bachillerato'] },
   { symbol:'Hg', nombre:'Mercurio',   nombreEn:'Mercury',    nombreCa:'Mercuri',     z:80, grupo:12, periodo:6, tipo:'metal-transicion',      niveles:['eso','bachillerato'] },
   { symbol:'Pb', nombre:'Plomo',      nombreEn:'Lead',       nombreCa:'Plom',        z:82, grupo:14, periodo:6, tipo:'otro-metal',            niveles:['eso','bachillerato'] },
+
+  // Resto de los periodos 4-6, para que Encuentra el Elemento (juego de
+  // tabla periódica) enseñe la tabla completa hasta el Radón (Z=86) en vez
+  // de dejar huecos donde SÍ hay elemento real — el bloque f (lantánidos
+  // 57-71 y actínidos 89-103) se queda fuera a propósito, simplificado
+  // como en cualquier tabla periódica de instituto (ver TablaPeriodicaGrid.jsx,
+  // celda especial en grupo 3 · periodo 6). Ninguno de estos entra en
+  // `niveles: primaria` — el pool de Primaria se queda igual que antes (12
+  // elementos cotidianos); estos son ESO/Bachillerato.
+  // Periodo 4 (huecos: Sc, V, Ga, Ge, As, Se, Kr)
+  { symbol:'Sc', nombre:'Escandio',   nombreEn:'Scandium',   nombreCa:'Escandi',     z:21, grupo:3,  periodo:4, tipo:'metal-transicion',      niveles:['bachillerato'] },
+  { symbol:'V',  nombre:'Vanadio',    nombreEn:'Vanadium',   nombreCa:'Vanadi',      z:23, grupo:5,  periodo:4, tipo:'metal-transicion',      niveles:['bachillerato'] },
+  { symbol:'Ga', nombre:'Galio',      nombreEn:'Gallium',    nombreCa:'Gal·li',      z:31, grupo:13, periodo:4, tipo:'otro-metal',            niveles:['bachillerato'] },
+  { symbol:'Ge', nombre:'Germanio',   nombreEn:'Germanium',  nombreCa:'Germani',     z:32, grupo:14, periodo:4, tipo:'semimetal',             niveles:['bachillerato'] },
+  { symbol:'As', nombre:'Arsénico',   nombreEn:'Arsenic',    nombreCa:'Arsènic',     z:33, grupo:15, periodo:4, tipo:'semimetal',             niveles:['eso','bachillerato'] },
+  { symbol:'Se', nombre:'Selenio',    nombreEn:'Selenium',   nombreCa:'Seleni',      z:34, grupo:16, periodo:4, tipo:'no-metal',              niveles:['bachillerato'] },
+  { symbol:'Kr', nombre:'Kriptón',    nombreEn:'Krypton',    nombreCa:'Kriptó',      z:36, grupo:18, periodo:4, tipo:'gas-noble',             niveles:['eso','bachillerato'] },
+  // Periodo 5 (completo salvo Ag/Sn/I, ya en la tabla)
+  { symbol:'Rb', nombre:'Rubidio',    nombreEn:'Rubidium',   nombreCa:'Rubidi',      z:37, grupo:1,  periodo:5, tipo:'metal-alcalino',        niveles:['bachillerato'] },
+  { symbol:'Sr', nombre:'Estroncio',  nombreEn:'Strontium',  nombreCa:'Estronci',    z:38, grupo:2,  periodo:5, tipo:'metal-alcalinotérreo',  niveles:['bachillerato'] },
+  { symbol:'Y',  nombre:'Itrio',      nombreEn:'Yttrium',    nombreCa:'Itri',        z:39, grupo:3,  periodo:5, tipo:'metal-transicion',      niveles:['bachillerato'] },
+  { symbol:'Zr', nombre:'Circonio',   nombreEn:'Zirconium',  nombreCa:'Zirconi',     z:40, grupo:4,  periodo:5, tipo:'metal-transicion',      niveles:['bachillerato'] },
+  { symbol:'Nb', nombre:'Niobio',     nombreEn:'Niobium',    nombreCa:'Niobi',       z:41, grupo:5,  periodo:5, tipo:'metal-transicion',      niveles:['bachillerato'] },
+  { symbol:'Mo', nombre:'Molibdeno',  nombreEn:'Molybdenum', nombreCa:'Molibdè',     z:42, grupo:6,  periodo:5, tipo:'metal-transicion',      niveles:['bachillerato'] },
+  { symbol:'Tc', nombre:'Tecnecio',   nombreEn:'Technetium', nombreCa:'Tecneci',     z:43, grupo:7,  periodo:5, tipo:'metal-transicion',      niveles:['bachillerato'] },
+  { symbol:'Ru', nombre:'Rutenio',    nombreEn:'Ruthenium',  nombreCa:'Ruteni',      z:44, grupo:8,  periodo:5, tipo:'metal-transicion',      niveles:['bachillerato'] },
+  { symbol:'Rh', nombre:'Rodio',      nombreEn:'Rhodium',    nombreCa:'Rodi',        z:45, grupo:9,  periodo:5, tipo:'metal-transicion',      niveles:['bachillerato'] },
+  { symbol:'Pd', nombre:'Paladio',    nombreEn:'Palladium',  nombreCa:'Pal·ladi',    z:46, grupo:10, periodo:5, tipo:'metal-transicion',      niveles:['bachillerato'] },
+  { symbol:'Cd', nombre:'Cadmio',     nombreEn:'Cadmium',    nombreCa:'Cadmi',       z:48, grupo:12, periodo:5, tipo:'metal-transicion',      niveles:['bachillerato'] },
+  { symbol:'In', nombre:'Indio',      nombreEn:'Indium',     nombreCa:'Indi',        z:49, grupo:13, periodo:5, tipo:'otro-metal',            niveles:['bachillerato'] },
+  { symbol:'Sb', nombre:'Antimonio',  nombreEn:'Antimony',   nombreCa:'Antimoni',    z:51, grupo:15, periodo:5, tipo:'semimetal',             niveles:['bachillerato'] },
+  { symbol:'Te', nombre:'Telurio',    nombreEn:'Tellurium',  nombreCa:'Tel·luri',    z:52, grupo:16, periodo:5, tipo:'semimetal',             niveles:['bachillerato'] },
+  { symbol:'Xe', nombre:'Xenón',      nombreEn:'Xenon',      nombreCa:'Xenó',        z:54, grupo:18, periodo:5, tipo:'gas-noble',             niveles:['eso','bachillerato'] },
+  // Periodo 6 (completo salvo Ba/Au/Hg/Pb, ya en la tabla; grupo 3 es el
+  // hueco de los lantánidos, sin dato — ver la celda especial del grid)
+  { symbol:'Cs', nombre:'Cesio',      nombreEn:'Cesium',     nombreCa:'Cesi',        z:55, grupo:1,  periodo:6, tipo:'metal-alcalino',        niveles:['bachillerato'] },
+  { symbol:'Hf', nombre:'Hafnio',     nombreEn:'Hafnium',    nombreCa:'Hafni',       z:72, grupo:4,  periodo:6, tipo:'metal-transicion',      niveles:['bachillerato'] },
+  { symbol:'Ta', nombre:'Tántalo',    nombreEn:'Tantalum',   nombreCa:'Tàntal',      z:73, grupo:5,  periodo:6, tipo:'metal-transicion',      niveles:['bachillerato'] },
+  { symbol:'W',  nombre:'Wolframio',  nombreEn:'Tungsten',   nombreCa:'Wolfram',     z:74, grupo:6,  periodo:6, tipo:'metal-transicion',      niveles:['eso','bachillerato'] },
+  { symbol:'Re', nombre:'Renio',      nombreEn:'Rhenium',    nombreCa:'Reni',        z:75, grupo:7,  periodo:6, tipo:'metal-transicion',      niveles:['bachillerato'] },
+  { symbol:'Os', nombre:'Osmio',      nombreEn:'Osmium',     nombreCa:'Osmi',        z:76, grupo:8,  periodo:6, tipo:'metal-transicion',      niveles:['bachillerato'] },
+  { symbol:'Ir', nombre:'Iridio',     nombreEn:'Iridium',    nombreCa:'Iridi',       z:77, grupo:9,  periodo:6, tipo:'metal-transicion',      niveles:['bachillerato'] },
+  { symbol:'Pt', nombre:'Platino',    nombreEn:'Platinum',   nombreCa:'Platí',       z:78, grupo:10, periodo:6, tipo:'metal-transicion',      niveles:['eso','bachillerato'] },
+  { symbol:'Tl', nombre:'Talio',      nombreEn:'Thallium',   nombreCa:'Tal·li',      z:81, grupo:13, periodo:6, tipo:'otro-metal',            niveles:['bachillerato'] },
+  { symbol:'Bi', nombre:'Bismuto',    nombreEn:'Bismuth',    nombreCa:'Bismut',      z:83, grupo:15, periodo:6, tipo:'otro-metal',            niveles:['bachillerato'] },
+  { symbol:'Po', nombre:'Polonio',    nombreEn:'Polonium',   nombreCa:'Poloni',      z:84, grupo:16, periodo:6, tipo:'otro-metal',            niveles:['bachillerato'] },
+  { symbol:'At', nombre:'Astato',     nombreEn:'Astatine',   nombreCa:'Àstat',       z:85, grupo:17, periodo:6, tipo:'halogeno',             niveles:['bachillerato'] },
+  { symbol:'Rn', nombre:'Radón',      nombreEn:'Radon',      nombreCa:'Radó',        z:86, grupo:18, periodo:6, tipo:'gas-noble',             niveles:['eso','bachillerato'] },
 ]
 
 export const NOMBRES_ELEMENTOS    = ELEMENTOS.map(e => e.nombre)

@@ -748,6 +748,35 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Física', niveles: 'Primaria, ESO, Bachillerato',
   },
+  'encuentra-elemento': {
+    titulo: 'Encuentra el Elemento',
+    subtitulo: 'Juego de la Tabla Periódica',
+    emoji: '🔬', gradient: 'from-cyan-600 to-teal-800',
+    path: '/juegos/encuentra-elemento',
+    examPath: '/examen/encuentra-elemento-test',
+    intro: 'Un juego de química para moverse de verdad por la tabla periódica: cada celda ya enseña su símbolo y su número atómico, como una tabla real, y hay que tocar la celda del elemento que pide la pista. La pista nunca repite lo que ya se ve en la celda — puede ser su nombre (hay que traducirlo a símbolo), su número atómico, o su categoría junto con el grupo y el periodo (hay que razonar la posición, no solo leerla).',
+    beneficios: [
+      { titulo: 'Traducir de verdad, no elegir entre 4', texto: 'Un test de opción múltiple da pistas sin querer (una opción rara, otra repetida). Aquí hay que saber que "Hierro" es "Fe" y tocar su celda exacta entre las 71 posibles — no hay atajos.' },
+      { titulo: 'La categoría también es una pista de posición', texto: 'En Bachillerato, la pista es "metal de transición, grupo 11, periodo 6" — para acertar hay que entender que los grupos son columnas y los periodos filas, no solo memorizar símbolos sueltos.' },
+      { titulo: 'De 12 elementos a la tabla completa hasta el Radón', texto: 'Primaria empieza con los elementos más cotidianos (hierro, oro, oxígeno...) y solo pide el nombre. ESO y Bachillerato añaden el resto de los periodos 1-6 y pistas más indirectas.' },
+    ],
+    ejemplo: 'La pista dice "Metal alcalino · Grupo 1 · Periodo 4". El jugador sabe que el grupo 1 es la primera columna y el periodo 4 la cuarta fila, así que busca esa intersección: ahí está el Potasio (K, Z=19). Toca esa celda y confirma — la tabla revela si acertó.',
+    enPapel: {
+      titulo: 'Dibujar la tabla periódica de memoria',
+      pasos: [
+        'Dibuja una cuadrícula vacía de 18 columnas (grupos) y unas cuantas filas (periodos), dejando huecos donde sabes que no hay elementos en los periodos 1-3.',
+        'Sin mirar ningún libro, intenta colocar los elementos que ya conoces: H y He arriba, los metales alcalinos en la primera columna, los gases nobles en la última.',
+        'Comprueba con una tabla periódica real y corrige los que hayas puesto en el sitio equivocado.',
+        'Repite al cabo de unos días añadiendo más elementos cada vez — el hueco vacío es lo que te dice qué te falta por aprender.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'El examen de teoría de Tabla Periódica', desc: 'Antes o después de jugar, repasa con el examen tipo test: símbolo, nombre, número atómico, grupo, periodo y categoría, con explicación en cada respuesta.' },
+      { nombre: 'Un póster real en la pared', desc: 'Si tienes una tabla periódica de pared o de libro de texto, tenerla a la vista mientras juegas (o justo después, para comprobar) refuerza mucho más que memorizarla de golpe.' },
+      { nombre: 'El elemento del día', desc: 'Cada día elige un elemento al azar de la tabla y busca un dato curioso sobre él: para qué se usa, cuándo se descubrió, de dónde viene su nombre.' },
+    ],
+    asignatura: 'Química', niveles: 'Primaria, ESO, Bachillerato',
+  },
 }
 
 export const FICHAS_EN = {
@@ -1324,6 +1353,35 @@ export const FICHAS_EN = {
       { nombre: 'The switches in your house', desc: "Look at the lights at home: if one bulb in the living room lamp burns out, do the others switch off too? That observation is series vs parallel applied to real life." },
     ],
     asignatura: 'Physics', niveles: 'Primary, Secondary, Sixth Form',
+  },
+  'encuentra-elemento': {
+    titulo: 'Find the Element',
+    subtitulo: 'Periodic Table Game',
+    emoji: '🔬', gradient: 'from-cyan-600 to-teal-800',
+    path: '/juegos/encuentra-elemento',
+    examPath: '/examen/encuentra-elemento-test',
+    intro: "A chemistry game about really navigating the periodic table: every cell already shows its symbol and atomic number, like a real table, and you have to tap the cell of the element the clue asks for. The clue never repeats what the cell already shows — it can be the name (you have to translate it to a symbol), the atomic number, or its category together with the group and period (you have to reason the position, not just read it).",
+    beneficios: [
+      { titulo: "Real translation, not picking from 4", texto: 'A multiple-choice test gives clues away by accident (one odd option, one repeated). Here you need to know that "Iron" is "Fe" and tap its exact cell among 71 possible ones — no shortcuts.' },
+      { titulo: 'Category is also a position clue', texto: 'In Sixth Form, the clue is "transition metal, group 11, period 6" — to get it right you have to understand that groups are columns and periods are rows, not just memorise loose symbols.' },
+      { titulo: 'From 12 elements to the full table up to Radon', texto: 'Primary starts with the most everyday elements (iron, gold, oxygen...) and only asks for the name. Secondary and Sixth Form add the rest of periods 1-6 and more indirect clues.' },
+    ],
+    ejemplo: 'The clue reads "Alkali metal · Group 1 · Period 4". The player knows group 1 is the first column and period 4 the fourth row, so they look for that intersection: that\'s Potassium (K, Z=19). They tap that cell and confirm — the table reveals whether they got it right.',
+    enPapel: {
+      titulo: 'Drawing the periodic table from memory',
+      pasos: [
+        'Draw an empty grid of 18 columns (groups) and a few rows (periods), leaving gaps where you know there are no elements in periods 1-3.',
+        'Without looking anything up, try to place the elements you already know: H and He at the top, alkali metals in the first column, noble gases in the last one.',
+        'Check against a real periodic table and fix any you placed in the wrong spot.',
+        'Repeat a few days later, adding more elements each time — the empty gaps tell you what you still need to learn.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'The Periodic Table theory exam', desc: 'Before or after playing, revise with the multiple-choice exam: symbol, name, atomic number, group, period and category, with an explanation for every answer.' },
+      { nombre: 'A real poster on the wall', desc: 'If you have a wall or textbook periodic table, keeping it in view while you play (or right after, to check) reinforces far more than memorising it all at once.' },
+      { nombre: 'Element of the day', desc: 'Each day pick a random element from the table and look up a fun fact about it: what it\'s used for, when it was discovered, where its name comes from.' },
+    ],
+    asignatura: 'Chemistry', niveles: 'Primary, Secondary, Sixth Form',
   },
 }
 
@@ -1979,5 +2037,34 @@ export const FICHAS_CA = {
       { nombre: 'Els interruptors de casa teva', desc: 'Fixa\'t en els llums de casa: si es fon una bombeta del llum del menjador, s\'apaguen les altres? Aquesta observació és la diferència entre sèrie i paral·lel aplicada a la vida real.' },
     ],
     asignatura: 'Física', niveles: 'Primària, ESO, Batxillerat',
+  },
+  'encuentra-elemento': {
+    titulo: 'Troba l\'Element',
+    subtitulo: 'Joc de la Taula Periòdica',
+    emoji: '🔬', gradient: 'from-cyan-600 to-teal-800',
+    path: '/juegos/encuentra-elemento',
+    examPath: '/examen/encuentra-elemento-test',
+    intro: 'Un joc de química per moure\'s de veritat per la taula periòdica: cada cel·la ja ensenya el seu símbol i el seu número atòmic, com una taula real, i cal tocar la cel·la de l\'element que demana la pista. La pista mai repeteix el que ja es veu a la cel·la — pot ser el seu nom (cal traduir-lo a símbol), el seu número atòmic, o la seva categoria juntament amb el grup i el període (cal raonar la posició, no només llegir-la).',
+    beneficios: [
+      { titulo: 'Traduir de veritat, no triar entre 4', texto: 'Un test d\'opció múltiple dona pistes sense voler (una opció rara, una altra repetida). Aquí cal saber que "Ferro" és "Fe" i tocar la seva cel·la exacta entre les 71 possibles — no hi ha dreceres.' },
+      { titulo: 'La categoria també és una pista de posició', texto: 'A Batxillerat, la pista és "metall de transició, grup 11, període 6" — per encertar cal entendre que els grups són columnes i els períodes files, no només memoritzar símbols solts.' },
+      { titulo: 'De 12 elements a la taula completa fins al Radó', texto: 'Primària comença amb els elements més quotidians (ferro, or, oxigen...) i només demana el nom. ESO i Batxillerat afegeixen la resta dels períodes 1-6 i pistes més indirectes.' },
+    ],
+    ejemplo: 'La pista diu "Metall alcalí · Grup 1 · Període 4". El jugador sap que el grup 1 és la primera columna i el període 4 la quarta fila, així que busca aquesta intersecció: allà és el Potassi (K, Z=19). Toca aquesta cel·la i confirma — la taula revela si ha encertat.',
+    enPapel: {
+      titulo: 'Dibuixar la taula periòdica de memòria',
+      pasos: [
+        'Dibuixa una graella buida de 18 columnes (grups) i unes quantes files (períodes), deixant buits on saps que no hi ha elements als períodes 1-3.',
+        'Sense mirar cap llibre, intenta col·locar els elements que ja coneixes: H i He a dalt, els metalls alcalins a la primera columna, els gasos nobles a l\'última.',
+        'Comprova amb una taula periòdica real i corregeix els que hagis posat al lloc equivocat.',
+        'Repeteix al cap d\'uns dies afegint més elements cada vegada — el buit és el que et diu què et falta per aprendre.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'L\'examen de teoria de Taula Periòdica', desc: 'Abans o després de jugar, repassa amb l\'examen tipus test: símbol, nom, número atòmic, grup, període i categoria, amb explicació a cada resposta.' },
+      { nombre: 'Un pòster real a la paret', desc: 'Si tens una taula periòdica de paret o de llibre de text, tenir-la a la vista mentre jugues (o just després, per comprovar) reforça molt més que memoritzar-la de cop.' },
+      { nombre: 'L\'element del dia', desc: 'Cada dia tria un element a l\'atzar de la taula i busca una dada curiosa sobre ell: per a què s\'utilitza, quan es va descobrir, d\'on ve el seu nom.' },
+    ],
+    asignatura: 'Química', niveles: 'Primària, ESO, Batxillerat',
   },
 }

@@ -268,7 +268,7 @@ export const TOPIC_CATALOG = {
   quimica: {
     temas: {
       'atomos-moleculas': examTema({ teoria: 'atomos-moleculas', 'balanza-ecuaciones': 'balanza-ecuaciones-test' }),
-      'tabla-periodica': examTema({ teoria: 'tabla-periodica' }),
+      'tabla-periodica': examTema({ teoria: 'tabla-periodica', 'encuentra-elemento': 'encuentra-elemento-test' }),
       'estados-materia': examTema({ teoria: 'estados-materia' }),
       'mezclas-separacion': examTema({ teoria: 'mezclas-separacion' }),
       'acidos-bases': examTema({ teoria: 'acidos-bases' }),
@@ -276,6 +276,7 @@ export const TOPIC_CATALOG = {
     formatos: {
       teoria: examFormato({ es: 'Teoría (tipo test)', en: 'Theory (quiz)', ca: 'Teoria (tipus test)' }, '📝'),
       'balanza-ecuaciones': examFormato({ es: 'Átomos en Equilibrio (con el juego)', en: 'Atoms in Balance (with the game)', ca: "Àtoms en Equilibri (amb el joc)" }, '⚗️'),
+      'encuentra-elemento': examFormato({ es: 'Encuentra el Elemento (con el juego)', en: 'Find the Element (with the game)', ca: "Troba l'Element (amb el joc)" }, '🔬'),
     },
   },
 

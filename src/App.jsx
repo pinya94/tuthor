@@ -91,6 +91,7 @@ const Orbita                 = lazy(() => import('./pages/Orbita'))
 const Coordenadas            = lazy(() => import('./pages/Coordenadas'))
 const RayosX                 = lazy(() => import('./pages/RayosX'))
 const CircuitoCerrado        = lazy(() => import('./pages/CircuitoCerrado'))
+const EncuentraElemento      = lazy(() => import('./pages/EncuentraElemento'))
 const Diagnostico            = lazy(() => import('./pages/Diagnostico'))
 const FraccionesTema         = lazy(() => import('./pages/FraccionesTema'))
 const EstadisticaTema        = lazy(() => import('./pages/EstadisticaTema'))
@@ -226,6 +227,7 @@ function AppRoutes() {
       <Route path="juegos/coordenadas" element={<Coordenadas />} />
       <Route path="juegos/rayos-x" element={<RayosX />} />
       <Route path="juegos/circuito-cerrado" element={<CircuitoCerrado />} />
+      <Route path="juegos/encuentra-elemento" element={<EncuentraElemento />} />
       <Route path="examen/portero" element={<PorteroExamen />} />
       <Route path="examen/trayectoria" element={<TrayectoriaExamen />} />
 

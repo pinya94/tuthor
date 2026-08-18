@@ -271,6 +271,11 @@ export const EXAMS = {
     emoji: '💡', subject: 'fisica',
     path: 'examen/circuito-cerrado-test', page: () => import('../pages/CircuitoCerradoExamen'),
   },
+  'encuentra-elemento-test': {
+    label: { es: 'Encuentra el Elemento', en: 'Find the Element', ca: 'Troba l\'Element' },
+    emoji: '🔬', subject: 'quimica',
+    path: 'examen/encuentra-elemento-test', page: () => import('../pages/EncuentraElementoExamen'),
+  },
   'mezclas-separacion': {
     label: { es: 'Mezclas y Separación', en: 'Mixtures & Separation', ca: 'Mescles i Separació' },
     emoji: '🔀', subject: 'quimica',

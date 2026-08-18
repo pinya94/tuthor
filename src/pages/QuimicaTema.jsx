@@ -106,6 +106,13 @@ const MODOS_POR_TEMA = {
       },
       path: 'tabla-periodica',
     },
+    {
+      id: 'encuentra-elemento-test', emoji: '🔬', gradient: 'from-cyan-600 to-teal-800',
+      titulo: { es:'Encuentra el Elemento', en:'Find the Element', ca:'Troba l\'Element' },
+      descripcion: { es:'Con la mecánica del juego: toca la celda de la tabla periódica que pide la pista — nombre, número atómico o categoría.', en:'Using the game mechanic: tap the periodic table cell the clue asks for — name, atomic number or category.', ca:'Amb la mecànica del joc: toca la cel·la de la taula periòdica que demana la pista — nom, número atòmic o categoria.' },
+      detalles: { es:['3 niveles','10 preguntas','Sin cronómetro','Con el juego'], en:['3 levels','10 questions','No timer','With the game'], ca:['3 nivells','10 preguntes','Sense cronòmetre','Amb el joc'] },
+      path: 'encuentra-elemento-test',
+    },
   ],
   'estados-materia': [
     {
