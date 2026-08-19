@@ -306,6 +306,11 @@ export const EXAMS = {
     emoji: '🧠', subject: 'biologia',
     path: 'examen/rayos-x-test', page: () => import('../pages/RayosXExamen'),
   },
+  'cadena-alimentaria-test': {
+    label: { es: 'Cadena Alimentaria', en: 'Food Chain', ca: 'Cadena Alimentària' },
+    emoji: '🌿', subject: 'biologia',
+    path: 'examen/cadena-alimentaria-test', page: () => import('../pages/CadenaAlimentariaExamen'),
+  },
   'circuito-cerrado-test': {
     label: { es: 'Circuito Cerrado', en: 'Circuit Complete', ca: 'Circuit Complet' },
     emoji: '💡', subject: 'fisica',

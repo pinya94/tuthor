@@ -857,6 +857,35 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Química', niveles: 'Primaria, ESO, Bachillerato',
   },
+  'cadena-alimentaria': {
+    titulo: 'Cadena Alimentaria',
+    subtitulo: 'Juego de Roles Tróficos',
+    emoji: '🌿', gradient: 'from-lime-600 to-green-800',
+    path: '/juegos/cadena-alimentaria',
+    examPath: '/examen/cadena-alimentaria-test',
+    intro: 'Un juego de biología para razonar de verdad quién come a quién: cada organismo trae un dato real sobre cómo se alimenta (hierba que hace fotosíntesis, zorro que caza conejos, seta que descompone hojas muertas) y hay que decidir su rol trófico entre cinco posibles: productor, consumidor primario, secundario, terciario o descomponedor. No se pide memorizar una lista, sino aplicar la lógica de quién come a quién.',
+    beneficios: [
+      { titulo: 'El dato ya es la pista, hay que razonarla', texto: 'No hay que memorizar "el zorro es consumidor secundario": el propio dato dice que caza conejos, y un conejo come plantas — de ahí se deduce el rol, igual que en un examen de verdad.' },
+      { titulo: 'El consumidor terciario, con ejemplos reales completos', texto: 'A partir de ESO aparece el cuarto nivel con dos cadenas completas y reales: hierba → conejo → zorro → águila, y fitoplancton → pez → foca → orca, para ver por qué hay tan pocos depredadores en la cima.' },
+      { titulo: 'De 8 organismos y 4 roles a 25 organismos y 5 roles', texto: 'Primaria empieza con los ejemplos más evidentes (vaca, león, seta...). ESO y Bachillerato añaden organismos menos obvios (araña, moho, fitoplancton) y el rol de consumidor terciario.' },
+    ],
+    ejemplo: 'Sale "Águila 🦅 — En la cadena hierba → conejo → zorro → águila, caza al zorro". El jugador razona: el zorro ya es un consumidor secundario (caza al conejo), así que algo que caza al zorro está un escalón por encima — consumidor terciario. Toca ese botón y confirma.',
+    enPapel: {
+      titulo: 'Dibujar tu propia cadena alimentaria',
+      pasos: [
+        'Elige un ecosistema que conozcas (un bosque, un jardín, el mar) y dibuja una flecha por cada "se lo come": productor → consumidor primario → consumidor secundario.',
+        'Añade un consumidor terciario si puedes pensar en un depredador que cace a otro carnívoro.',
+        'Dibuja un hongo o una lombriz al lado de toda la cadena, con flechas desde cada organismo hacia él: los descomponedores actúan sobre todos, no solo sobre el último eslabón.',
+        'Compara tu cadena con la de un compañero: ¿elegisteis el mismo ecosistema pero organismos distintos?',
+      ],
+    },
+    alternativas: [
+      { nombre: 'El examen de teoría de Ecosistemas', desc: 'Antes o después de jugar, repasa con el examen tipo test: qué es un ecosistema, biomas, adaptaciones y relaciones entre especies, con explicación en cada respuesta.' },
+      { nombre: 'Observar un ecosistema real', desc: 'En un parque o jardín, identifica una planta, un animal herbívoro y un depredador que veas — inténtalo ordenar como una cadena alimentaria de verdad.' },
+      { nombre: '¿Qué pasaría si...?', desc: 'Elige un organismo de la cadena y pregúntate qué pasaría con el resto si desapareciera — es la mejor forma de entender por qué cada eslabón importa.' },
+    ],
+    asignatura: 'Biología', niveles: 'Primaria, ESO, Bachillerato',
+  },
 }
 
 export const FICHAS_EN = {
@@ -1542,6 +1571,35 @@ export const FICHAS_EN = {
       { nombre: 'Element of the day', desc: 'Each day pick a random element from the table and look up a fun fact about it: what it\'s used for, when it was discovered, where its name comes from.' },
     ],
     asignatura: 'Chemistry', niveles: 'Primary, Secondary, Sixth Form',
+  },
+  'cadena-alimentaria': {
+    titulo: 'Food Chain',
+    subtitulo: 'Trophic Roles Game',
+    emoji: '🌿', gradient: 'from-lime-600 to-green-800',
+    path: '/juegos/cadena-alimentaria',
+    examPath: '/examen/cadena-alimentaria-test',
+    intro: "A biology game about really reasoning through who eats whom: every organism comes with a real fact about how it feeds (grass that photosynthesises, a fox that hunts rabbits, a mushroom that breaks down dead leaves) and you have to decide its trophic role among five options: producer, primary, secondary or tertiary consumer, or decomposer. It's not about memorising a list — it's about applying the logic of who eats whom.",
+    beneficios: [
+      { titulo: "The fact is the clue — you have to reason it out", texto: 'You don\'t need to memorise "the fox is a secondary consumer": the fact itself says it hunts rabbits, and a rabbit eats plants — the role follows from that, just like in a real exam.' },
+      { titulo: 'Tertiary consumers, with complete real examples', texto: 'From Secondary onwards the fourth level appears with two complete, real chains: grass → rabbit → fox → eagle, and phytoplankton → fish → seal → orca, to see why there are so few predators at the top.' },
+      { titulo: 'From 8 organisms and 4 roles to 25 organisms and 5 roles', texto: 'Primary starts with the most obvious examples (cow, lion, mushroom...). Secondary and Sixth Form add less obvious organisms (spider, mould, phytoplankton) and the tertiary consumer role.' },
+    ],
+    ejemplo: 'The card reads "Eagle 🦅 — In the chain grass → rabbit → fox → eagle, it hunts the fox". The player reasons: the fox is already a secondary consumer (it hunts the rabbit), so something that hunts the fox is one level above — a tertiary consumer. They tap that button and confirm.',
+    enPapel: {
+      titulo: 'Draw your own food chain',
+      pasos: [
+        'Pick an ecosystem you know (a forest, a garden, the sea) and draw an arrow for every "eats": producer → primary consumer → secondary consumer.',
+        'Add a tertiary consumer if you can think of a predator that hunts another carnivore.',
+        'Draw a mushroom or an earthworm next to the whole chain, with arrows from every organism to it: decomposers act on all of them, not just the last link.',
+        'Compare your chain with a classmate\'s: did you pick the same ecosystem but different organisms?',
+      ],
+    },
+    alternativas: [
+      { nombre: 'The Ecosystems theory exam', desc: 'Before or after playing, revise with the multiple-choice exam: what an ecosystem is, biomes, adaptations and species relationships, with an explanation for every answer.' },
+      { nombre: 'Observe a real ecosystem', desc: 'In a park or garden, identify a plant, a herbivore and a predator you see — try to order them into a real food chain.' },
+      { nombre: 'What would happen if...?', desc: 'Pick an organism in the chain and ask what would happen to the rest if it disappeared — it\'s the best way to understand why every link matters.' },
+    ],
+    asignatura: 'Biology', niveles: 'Primary, Secondary, Sixth Form',
   },
 }
 
@@ -2306,5 +2364,34 @@ export const FICHAS_CA = {
       { nombre: 'L\'element del dia', desc: 'Cada dia tria un element a l\'atzar de la taula i busca una dada curiosa sobre ell: per a què s\'utilitza, quan es va descobrir, d\'on ve el seu nom.' },
     ],
     asignatura: 'Química', niveles: 'Primària, ESO, Batxillerat',
+  },
+  'cadena-alimentaria': {
+    titulo: 'Cadena Alimentària',
+    subtitulo: 'Joc de Rols Tròfics',
+    emoji: '🌿', gradient: 'from-lime-600 to-green-800',
+    path: '/juegos/cadena-alimentaria',
+    examPath: '/examen/cadena-alimentaria-test',
+    intro: 'Un joc de biologia per raonar de veritat qui es menja qui: cada organisme porta una dada real sobre com s\'alimenta (herba que fa fotosíntesi, guineu que caça conills, bolet que descompon fulles mortes) i cal decidir el seu rol tròfic entre cinc possibles: productor, consumidor primari, secundari, terciari o descomponedor. No cal memoritzar una llista, sinó aplicar la lògica de qui es menja qui.',
+    beneficios: [
+      { titulo: 'La dada ja és la pista, cal raonar-la', texto: 'No cal memoritzar "la guineu és consumidor secundari": la mateixa dada diu que caça conills, i un conill menja plantes — d\'aquí es dedueix el rol, igual que en un examen de veritat.' },
+      { titulo: 'El consumidor terciari, amb exemples reals complets', texto: 'A partir d\'ESO apareix el quart nivell amb dues cadenes completes i reals: herba → conill → guineu → àliga, i fitoplàncton → peix → foca → orca, per veure per què hi ha tan pocs depredadors al cim.' },
+      { titulo: 'De 8 organismes i 4 rols a 25 organismes i 5 rols', texto: 'Primària comença amb els exemples més evidents (vaca, lleó, bolet...). ESO i Batxillerat afegeixen organismes menys obvis (aranya, floridura, fitoplàncton) i el rol de consumidor terciari.' },
+    ],
+    ejemplo: 'Surt "Àliga 🦅 — En la cadena herba → conill → guineu → àliga, caça la guineu". El jugador raona: la guineu ja és un consumidor secundari (caça el conill), així que allò que caça la guineu és un esglaó per sobre — consumidor terciari. Toca aquest botó i confirma.',
+    enPapel: {
+      titulo: 'Dibuixar la teva pròpia cadena alimentària',
+      pasos: [
+        'Tria un ecosistema que coneguis (un bosc, un jardí, el mar) i dibuixa una fletxa per cada "se’l menja": productor → consumidor primari → consumidor secundari.',
+        'Afegeix un consumidor terciari si pots pensar en un depredador que caci un altre carnívor.',
+        'Dibuixa un bolet o un cuc de terra al costat de tota la cadena, amb fletxes des de cada organisme cap a ell: els descomponedors actuen sobre tots, no només sobre l\'últim esglaó.',
+        'Compara la teva cadena amb la d\'un company: vau triar el mateix ecosistema però organismes diferents?',
+      ],
+    },
+    alternativas: [
+      { nombre: 'L\'examen de teoria d\'Ecosistemes', desc: 'Abans o després de jugar, repassa amb l\'examen tipus test: què és un ecosistema, biomes, adaptacions i relacions entre espècies, amb explicació a cada resposta.' },
+      { nombre: 'Observar un ecosistema real', desc: 'En un parc o jardí, identifica una planta, un animal herbívor i un depredador que vegis — intenta ordenar-los com una cadena alimentària de veritat.' },
+      { nombre: 'Què passaria si...?', desc: 'Tria un organisme de la cadena i pregunta\'t què passaria amb la resta si desaparegués — és la millor manera d\'entendre per què cada esglaó importa.' },
+    ],
+    asignatura: 'Biologia', niveles: 'Primària, ESO, Batxillerat',
   },
 }

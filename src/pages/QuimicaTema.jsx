@@ -233,6 +233,13 @@ const MODOS_POR_TEMA = {
       detalles: { es:['2 niveles','10 preguntas','Opción múltiple','Explicación tras cada respuesta'], en:['2 levels','10 questions','Multiple choice','Explanation after each answer'], ca:['2 nivells','10 preguntes','Opció múltiple','Explicació després de cada resposta'] },
       path: 'ecosistemas',
     },
+    {
+      id: 'cadena-alimentaria-test', emoji: '🌿', gradient: 'from-lime-600 to-green-800',
+      titulo: { es:'Cadena Alimentaria', en:'Food Chain', ca:'Cadena Alimentària' },
+      descripcion: { es:'Con la mecánica del juego: elige el rol trófico de cada organismo (productor, consumidor o descomponedor) a partir de un dato real.', en:'Using the game mechanic: pick each organism\'s trophic role (producer, consumer or decomposer) from a real fact.', ca:'Amb la mecànica del joc: tria el rol tròfic de cada organisme (productor, consumidor o descomponedor) a partir d\'una dada real.' },
+      detalles: { es:['3 niveles','10 preguntas','Sin cronómetro','Con el juego'], en:['3 levels','10 questions','No timer','With the game'], ca:['3 nivells','10 preguntes','Sense cronòmetre','Amb el joc'] },
+      path: 'cadena-alimentaria-test',
+    },
   ],
   'genetica': [
     {

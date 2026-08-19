@@ -304,7 +304,7 @@ export const TOPIC_CATALOG = {
       celula: examTema({ teoria: 'celula' }),
       'cuerpo-humano': examTema({ teoria: 'cuerpo-humano', rayosX: 'rayos-x-test' }),
       'seres-vivos': examTema({ teoria: 'seres-vivos' }),
-      ecosistemas: examTema({ teoria: 'ecosistemas' }),
+      ecosistemas: examTema({ teoria: 'ecosistemas', cadena: 'cadena-alimentaria-test' }),
       genetica: examTema({ teoria: 'genetica', 'punnett': 'genetica-test' }),
       nutricion: examTema({ teoria: 'nutricion' }),
       evolucion: examTema({ teoria: 'evolucion' }),
@@ -313,6 +313,7 @@ export const TOPIC_CATALOG = {
       teoria: examFormato({ es: 'Teoría (tipo test)', en: 'Theory (quiz)', ca: 'Teoria (tipus test)' }, '📝'),
       punnett: examFormato({ es: 'Cuadro de Punnett (con el juego)', en: 'Punnett square (with the game)', ca: 'Quadre de Punnett (amb el joc)' }, '🧬'),
       rayosX: examFormato({ es: 'Rayos X (con el juego)', en: 'X-Ray (with the game)', ca: 'Raigs X (amb el joc)' }, '🧠'),
+      cadena: examFormato({ es: 'Cadena Alimentaria (con el juego)', en: 'Food Chain (with the game)', ca: 'Cadena Alimentària (amb el joc)' }, '🌿'),
     },
   },
 
