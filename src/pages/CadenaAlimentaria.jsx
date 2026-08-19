@@ -22,9 +22,9 @@ const CORRECT_TIME = 1
 const PAUSA_CADENA_COMPLETA = 700 // ms que se ve la cadena entera antes de la siguiente
 
 const DIFS = {
-  facil:   { emoji: '🟢', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' }, desc: { es: 'Cadenas de 3 eslabones, del productor al depredador', en: '3-link chains, from producer to predator', ca: 'Cadenes de 3 esglaons, del productor al depredador' } },
-  medio:   { emoji: '🟡', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' }, desc: { es: 'También cadenas de 4 eslabones, con consumidor terciario', en: 'Also 4-link chains, with a tertiary consumer', ca: 'També cadenes de 4 esglaons, amb consumidor terciari' } },
-  dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' }, desc: { es: 'Las mismas cadenas, pero al revés: del depredador al productor', en: 'The same chains, but backwards: from predator to producer', ca: 'Les mateixes cadenes, però al revés: del depredador al productor' } },
+  facil:   { emoji: '🟢', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' }, desc: { es: '5 cadenas de 3 eslabones, del productor al depredador', en: '5 chains of 3 links, from producer to predator', ca: '5 cadenes de 3 esglaons, del productor al depredador' } },
+  medio:   { emoji: '🟡', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' }, desc: { es: '+7 cadenas de 4 eslabones: consumidor terciario o descomponedor', en: '+7 chains of 4 links: tertiary consumer or decomposer', ca: '+7 cadenes de 4 esglaons: consumidor terciari o descomponedor' } },
+  dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' }, desc: { es: 'Las mismas 12 cadenas, pero al revés: de la cima al productor', en: 'The same 12 chains, but backwards: from the top down to the producer', ca: 'Les mateixes 12 cadenes, però al revés: del cim al productor' } },
 }
 
 const UI = {

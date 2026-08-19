@@ -187,19 +187,48 @@ export const ORGANISMOS = [
 // eslabón es un id real de ORGANISMOS y cada relación depredador→presa es
 // consistente con el `dato` que ya tiene ese organismo más arriba (p. ej.
 // 'lobo' ya dice que caza ciervos, así que la cadena bosque = roble→ciervo→lobo).
-// dificultad 'facil' = 3 eslabones (sin consumidor terciario); 'medio' añade
-// las dos cadenas de 4 eslabones. No hay pool 'dificil' propio: en su lugar,
-// el juego reutiliza el pool de 'medio' pero pide construir la cadena AL
+//
+// 12 cadenas cubriendo 23 de los 25 organismos (todos menos cactus y alga,
+// que se quedan solo en el examen por no tener una presa/depredador real
+// verificable en este set). Varias comparten los primeros eslabones a
+// propósito (hierba→saltamontes→rana Y hierba→saltamontes→araña; fitoplancton
+// →pez→foca→orca Y →tiburón): en una red trófica real, la misma presa suele
+// tener más de un depredador — no es contenido repetido, es la misma base
+// ramificándose, como en la vida real.
+//
+// dificultad 'facil' = 3 eslabones, sin terciario ni descomponedor (lo más
+// sencillo para Primaria). 'medio' añade cadenas de 4 eslabones — con
+// consumidor terciario (pradera, océano) O terminando en un descomponedor
+// en vez de un depredador más (ciclo-*), para que los descomponedores
+// también aparezcan en el juego, no solo en el examen. No hay pool 'dificil'
+// propio: reutiliza el pool de 'medio' pero pide construir la cadena AL
 // REVÉS (de la cima al productor) — mismo contenido, reto distinto.
 export const CADENAS = [
+  // ── FÁCIL (3 eslabones) ────────────────────────────────────────────────
   { id: 'bosque', nombre: 'Bosque', nombreEn: 'Forest', nombreCa: 'Bosc', emoji: '🌳', dificultad: 'facil',
     eslabones: ['roble', 'ciervo', 'lobo'] },
-  { id: 'prado-insectos', nombre: 'Prado', nombreEn: 'Meadow', nombreCa: 'Prat', emoji: '🦗', dificultad: 'facil',
-    eslabones: ['hierba', 'saltamontes', 'rana'] },
   { id: 'sabana', nombre: 'Sabana', nombreEn: 'Savannah', nombreCa: 'Sabana', emoji: '🦁', dificultad: 'facil',
     eslabones: ['hierba', 'conejo', 'leon'] },
+  { id: 'prado-rana', nombre: 'Prado (rana)', nombreEn: 'Meadow (frog)', nombreCa: 'Prat (granota)', emoji: '🐸', dificultad: 'facil',
+    eslabones: ['hierba', 'saltamontes', 'rana'] },
+  { id: 'prado-arana', nombre: 'Prado (araña)', nombreEn: 'Meadow (spider)', nombreCa: 'Prat (aranya)', emoji: '🕷️', dificultad: 'facil',
+    eslabones: ['hierba', 'saltamontes', 'arana'] },
+  { id: 'trigal', nombre: 'Trigal', nombreEn: 'Wheat field', nombreCa: 'Camp de blat', emoji: '🌿', dificultad: 'facil',
+    eslabones: ['trigo', 'oveja', 'lobo'] },
+
+  // ── MEDIO (4 eslabones: terciario o descomponedor) ──────────────────────
   { id: 'pradera', nombre: 'Pradera', nombreEn: 'Grassland', nombreCa: 'Prada', emoji: '🦅', dificultad: 'medio',
     eslabones: ['hierba', 'conejo', 'zorro', 'aguila'] },
-  { id: 'oceano', nombre: 'Océano', nombreEn: 'Ocean', nombreCa: 'Oceà', emoji: '🐋', dificultad: 'medio',
+  { id: 'oceano-orca', nombre: 'Océano (orca)', nombreEn: 'Ocean (orca)', nombreCa: 'Oceà (orca)', emoji: '🐋', dificultad: 'medio',
     eslabones: ['fitoplancton', 'pez-pequeno', 'foca', 'orca'] },
+  { id: 'oceano-tiburon', nombre: 'Océano (tiburón)', nombreEn: 'Ocean (shark)', nombreCa: 'Oceà (tauró)', emoji: '🦈', dificultad: 'medio',
+    eslabones: ['fitoplancton', 'pez-pequeno', 'foca', 'tiburon'] },
+  { id: 'ciclo-bosque', nombre: 'Bosque (ciclo)', nombreEn: 'Forest (cycle)', nombreCa: 'Bosc (cicle)', emoji: '🍄', dificultad: 'medio',
+    eslabones: ['roble', 'ciervo', 'lobo', 'lombriz'] },
+  { id: 'ciclo-sabana', nombre: 'Sabana (ciclo)', nombreEn: 'Savannah (cycle)', nombreCa: 'Sabana (cicle)', emoji: '🧫', dificultad: 'medio',
+    eslabones: ['hierba', 'conejo', 'leon', 'bacteria'] },
+  { id: 'ciclo-prado', nombre: 'Prado (ciclo)', nombreEn: 'Meadow (cycle)', nombreCa: 'Prat (cicle)', emoji: '🦠', dificultad: 'medio',
+    eslabones: ['hierba', 'saltamontes', 'arana', 'moho'] },
+  { id: 'ciclo-trigal', nombre: 'Trigal (ciclo)', nombreEn: 'Wheat field (cycle)', nombreCa: 'Camp de blat (cicle)', emoji: '🍄', dificultad: 'medio',
+    eslabones: ['trigo', 'vaca', 'seta'] },
 ]
