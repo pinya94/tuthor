@@ -5,6 +5,7 @@ import { useAuth } from '../context/AuthContext'
 import { saveActivity } from '../lib/activity'
 import { computeCoins } from '../lib/games'
 import { genCadena, isNextEslabon } from '../lib/cadenaAlimentaria'
+import { ROLES } from '../data/cadenaTrofica'
 import GameEndScreen from '../components/GameEndScreen'
 import SEOHead from '../components/SEOHead'
 
@@ -32,10 +33,10 @@ const UI = {
     badge: 'Biología · Ecosistemas', titulo: '🌿 Cadena Alimentaria',
     sub: 'Reconstruye quién se come a quién', how: 'Cómo funciona',
     p1: 'Se baraja una cadena alimentaria real: hierba, conejo, zorro, águila...',
-    p2: 'Toca las fichas en el orden correcto — del productor al depredador de la cima.',
+    p2: 'Toca las fichas en el orden correcto — del productor al último eslabón (a veces un depredador, a veces un descomponedor).',
     time: 'Tiempo', timeVal: '40 segundos', pts: 'Puntos', ptsVal: 'Ficha correcta +1 y +1s · Fallo −1 y −2s',
     volver: '← Volver', empezar: '🌿 ¡Empezar!', salir: '← Salir',
-    empiezaPor: 'Empieza por:', productor: 'el productor', depredador: 'el depredador de la cima',
+    empiezaPor: 'Empieza por:',
     finPartida: 'Partida terminada', reintentar: '🌿 Nueva partida', cambiarDif: 'Cambiar dificultad',
     aciertosLbl: 'Fichas correctas', cadenasLbl: 'Cadenas completas',
     examen: 'Examen con otra mecánica →',
@@ -45,10 +46,10 @@ const UI = {
     badge: 'Biology · Ecosystems', titulo: '🌿 Food Chain',
     sub: 'Rebuild who eats whom', how: 'How it works',
     p1: 'A real food chain gets shuffled: grass, rabbit, fox, eagle...',
-    p2: 'Tap the tiles in the right order — from the producer to the top predator.',
+    p2: 'Tap the tiles in the right order — from the producer to the last link (sometimes a predator, sometimes a decomposer).',
     time: 'Time', timeVal: '40 seconds', pts: 'Points', ptsVal: 'Right tile +1 and +1s · Wrong −1 and −2s',
     volver: '← Back', empezar: '🌿 Start!', salir: '← Exit',
-    empiezaPor: 'Start with:', productor: 'the producer', depredador: 'the top predator',
+    empiezaPor: 'Start with:',
     finPartida: 'Game over', reintentar: '🌿 New game', cambiarDif: 'Change difficulty',
     aciertosLbl: 'Correct tiles', cadenasLbl: 'Chains completed',
     examen: 'Exam with a different mechanic →',
@@ -58,10 +59,10 @@ const UI = {
     badge: 'Biologia · Ecosistemes', titulo: '🌿 Cadena Alimentària',
     sub: 'Reconstrueix qui es menja qui', how: 'Com funciona',
     p1: 'Es barreja una cadena alimentària real: herba, conill, guineu, àliga...',
-    p2: 'Toca les fitxes en l\'ordre correcte — del productor al depredador del cim.',
+    p2: 'Toca les fitxes en l\'ordre correcte — del productor a l\'últim esglaó (a vegades un depredador, a vegades un descomponedor).',
     time: 'Temps', timeVal: '40 segons', pts: 'Punts', ptsVal: 'Fitxa correcta +1 i +1s · Errada −1 i −2s',
     volver: '← Enrere', empezar: '🌿 Comença!', salir: '← Sortir',
-    empiezaPor: 'Comença per:', productor: 'el productor', depredador: 'el depredador del cim',
+    empiezaPor: 'Comença per:',
     finPartida: 'Partida acabada', reintentar: '🌿 Nova partida', cambiarDif: 'Canvia dificultat',
     aciertosLbl: 'Fitxes correctes', cadenasLbl: 'Cadenes completes',
     examen: 'Examen amb una altra mecànica →',
@@ -71,6 +72,24 @@ const UI = {
 
 const NOMBRE_KEY = { es: 'nombre', en: 'nombreEn', ca: 'nombreCa' }
 const CADENA_NOMBRE_KEY = { es: 'nombre', en: 'nombreEn', ca: 'nombreCa' }
+
+function lowerFirst(str) {
+  return str ? str.charAt(0).toLowerCase() + str.slice(1) : str
+}
+
+// "Empieza por" describe el PRIMER eslabón real de la ronda (`secuencia[0]`),
+// que ya viene orientado según `invertido` — así que nunca hay que
+// distinguir a mano entre "empieza por el productor" y "empieza por el
+// depredador": algunas cadenas (las 'ciclo-*') terminan en un descomponedor,
+// no en un depredador, y decirlo mal sería un error real, no solo de estilo
+// (un moho no es un depredador). Se deriva siempre del rol real del
+// organismo, sea cual sea.
+function rolInicialLabel(round, l) {
+  const primero = round.secuencia[0]
+  const rol = ROLES[primero.rol]
+  const label = rol.label[l] ?? rol.label.es
+  return l === 'en' ? `the ${lowerFirst(label)}` : `el ${lowerFirst(label)}` // es/ca: todos los roles son masculinos
+}
 
 function DifficultyScreen({ onSelect, t, l }) {
   const [dif, setDif] = useState('facil')
@@ -235,9 +254,9 @@ export default function CadenaAlimentaria() {
   }
 
   const seo = {
-    es: { title: 'Cadena Alimentaria — Reconstruye quién se come a quién', desc: 'Baraja una cadena alimentaria real y toca las fichas en el orden correcto, del productor al depredador de la cima. Contrarreloj. Juego de biología.', path: '/juegos/cadena-alimentaria' },
-    en: { title: 'Food Chain — Rebuild who eats whom', desc: 'A real food chain gets shuffled — tap the tiles in the right order, from the producer to the top predator. Against the clock. Biology game.', path: '/en/juegos/cadena-alimentaria' },
-    ca: { title: 'Cadena Alimentària — Reconstrueix qui es menja qui', desc: 'Es barreja una cadena alimentària real i cal tocar les fitxes en l\'ordre correcte, del productor al depredador del cim. Contrarellotge. Joc de biologia.', path: '/ca/juegos/cadena-alimentaria' },
+    es: { title: 'Cadena Alimentaria — Reconstruye quién se come a quién', desc: 'Baraja una cadena alimentaria real y toca las fichas en el orden correcto, del productor al último eslabón: un depredador o un descomponedor. Contrarreloj. Juego de biología.', path: '/juegos/cadena-alimentaria' },
+    en: { title: 'Food Chain — Rebuild who eats whom', desc: 'A real food chain gets shuffled — tap the tiles in the right order, from the producer to the last link: a predator or a decomposer. Against the clock. Biology game.', path: '/en/juegos/cadena-alimentaria' },
+    ca: { title: 'Cadena Alimentària — Reconstrueix qui es menja qui', desc: 'Es barreja una cadena alimentària real i cal tocar les fitxes en l\'ordre correcte, del productor a l\'últim esglaó: un depredador o un descomponedor. Contrarellotge. Joc de biologia.', path: '/ca/juegos/cadena-alimentaria' },
   }[l]
 
   if (screen === 'difficulty') {
@@ -295,7 +314,7 @@ export default function CadenaAlimentaria() {
 
       <div className="w-full max-w-lg text-center mb-2">
         <p className="text-white/40 text-xs uppercase tracking-widest">
-          {round.cadena.emoji} {round.cadena[CADENA_NOMBRE_KEY[l]]} · {t.empiezaPor} {round.invertido ? t.depredador : t.productor}
+          {round.cadena.emoji} {round.cadena[CADENA_NOMBRE_KEY[l]]} · {t.empiezaPor} {rolInicialLabel(round, l)}
         </p>
       </div>
 
