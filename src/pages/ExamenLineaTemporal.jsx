@@ -113,10 +113,19 @@ export default function ExamenLineaTemporal() {
   const en = lang === 'en'
   const { categoria, nivel, backPath } = location.state || {}
 
-  // Configuración según nivel
+  const allEvents = EVENTOS_HISTORIA.filter(e =>
+    e.categoria === (categoria || 'primaria') &&
+    (!nivel || !e.nivel || e.nivel.includes(nivel))
+  )
+
+  // Configuración según nivel. `winAt` no puede pedir más eventos de los
+  // que existen de verdad para ese tema+nivel — Math.min con allEvents.length
+  // evita un objetivo imposible (p. ej. Prehistoria en Primaria solo tiene 3
+  // eventos: pedir "coloca 10" haría que acertar TODOS los que hay siguiera
+  // marcando SUSPENSO, que es justo el bug que se reportó).
   const isPrimaria = nivel === 'primaria'
   const maxLives   = isPrimaria ? MAX_LIVES_PRIMARIA : MAX_LIVES_EXAM
-  const winAt      = isPrimaria ? WIN_AT_PRIMARIA : null // null = colocar todos
+  const winAt      = isPrimaria ? Math.min(WIN_AT_PRIMARIA, allEvents.length) : null // null = colocar todos
 
   const CONFIGS = en ? {
     primaria: { label: 'Great Milestones', emoji: '🌍', descripcion: 'The most important moments that changed the world. Perfect for revising key milestones of universal history.', lives: maxLives, winAt },
@@ -125,6 +134,10 @@ export default function ExamenLineaTemporal() {
     roma:     { label: 'Ancient Rome', emoji: '🏛️', descripcion: 'From the founding of Rome to the fall of the Western Empire. Master the history of Roman civilisation.', lives: maxLives, winAt },
     usa:      { label: 'American Independence', emoji: '🦅', descripcion: 'From the Boston Tea Party to the American Constitution. Sort the events of the first modern democracy.', lives: maxLives, winAt },
     antigua:  { label: 'Antiquity', emoji: '🏛️', descripcion: 'From the invention of writing to the fall of Rome. Sort the milestones of Mesopotamia, Egypt and Greece.', lives: maxLives, winAt },
+    franquismo:   { label: 'Francoism & Transition', emoji: '🕊️', descripcion: 'From Franco\'s victory in the Civil War to his death. Sort the events of 36 years of dictatorship.', lives: maxLives, winAt },
+    prehistoria:  { label: 'Prehistory', emoji: '🦴', descripcion: 'From fire to writing: sort the first steps of humanity, from the Palaeolithic to the Neolithic.', lives: maxLives, winAt },
+    'edad-media': { label: 'The Middle Ages', emoji: '🏰', descripcion: 'From the fall of Rome to the conquest of Granada. Sort the milestones of a thousand years of history.', lives: maxLives, winAt },
+    'edad-moderna': { label: 'The Early Modern Period', emoji: '⛵', descripcion: 'From the discovery of America to the French Revolution. Sort the events that shaped the modern world.', lives: maxLives, winAt },
   } : {
     primaria: { label: 'Grandes Hitos', emoji: '🌍', descripcion: 'Los momentos más importantes que cambiaron el mundo. Ideal para repasar los hitos clave de la historia universal.', lives: maxLives, winAt },
     wwii:     { label: 'Segunda Guerra Mundial', emoji: '⚔️', descripcion: 'Desde el inicio del conflicto hasta la rendición de Japón. Domina la cronología del mayor conflicto de la historia.', lives: maxLives, winAt },
@@ -132,13 +145,13 @@ export default function ExamenLineaTemporal() {
     roma:     { label: 'Antigua Roma', emoji: '🏛️', descripcion: 'Desde la fundación de Roma hasta la caída del Imperio de Occidente. Domina la historia de la civilización romana.', lives: maxLives, winAt },
     usa:      { label: 'Independencia Americana', emoji: '🦅', descripcion: 'Del motín del té a la Constitución americana. Ordena los eventos de la primera democracia moderna.', lives: maxLives, winAt },
     antigua:  { label: 'Edad Antigua', emoji: '🏛️', descripcion: 'De la invención de la escritura a la caída de Roma. Ordena los hitos de Mesopotamia, Egipto y Grecia.', lives: maxLives, winAt },
+    franquismo:   { label: 'Franquismo y Transición', emoji: '🕊️', descripcion: 'De la victoria de Franco en la Guerra Civil a su muerte. Ordena los eventos de 36 años de dictadura.', lives: maxLives, winAt },
+    prehistoria:  { label: 'Prehistoria', emoji: '🦴', descripcion: 'Del fuego a la escritura: ordena los primeros pasos de la humanidad, del Paleolítico al Neolítico.', lives: maxLives, winAt },
+    'edad-media': { label: 'Edad Media', emoji: '🏰', descripcion: 'De la caída de Roma a la conquista de Granada. Ordena los hitos de mil años de historia.', lives: maxLives, winAt },
+    'edad-moderna': { label: 'Edad Moderna', emoji: '⛵', descripcion: 'Del descubrimiento de América a la Revolución Francesa. Ordena los eventos que dieron forma al mundo moderno.', lives: maxLives, winAt },
   }
 
   const config = CONFIGS[categoria] || CONFIGS.primaria
-  const allEvents = EVENTOS_HISTORIA.filter(e =>
-    e.categoria === (categoria || 'primaria') &&
-    (!nivel || !e.nivel || e.nivel.includes(nivel))
-  )
 
   const [fase, setFase]       = useState('intro')
   const [timeline, setTL]     = useState([])
