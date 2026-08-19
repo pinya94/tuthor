@@ -95,6 +95,18 @@ export const ORGANISMOS = [
     'Diminutos organismos que flotan cerca de la superficie del mar y hacen fotosíntesis: son la base de casi toda cadena alimentaria marina.',
     'Tiny organisms that float near the sea surface and photosynthesise: they are the base of almost every marine food chain.',
     'Organismes diminuts que floten prop de la superfície del mar i fan fotosíntesi: són la base de gairebé tota cadena alimentària marina.'),
+  o('girasol', 'Girasol', 'Sunflower', 'Gira-sol', '🌻', 'productor', 'medio',
+    'Una planta que gira para seguir al sol y fabrica su alimento mediante la fotosíntesis, como cualquier otra planta.',
+    'A plant that turns to follow the sun and makes its own food through photosynthesis, like any other plant.',
+    'Una planta que gira per seguir el sol i fabrica el seu aliment mitjançant la fotosíntesi, com qualsevol altra planta.'),
+  o('manzano', 'Manzano', 'Apple tree', 'Pomera', '🍎', 'productor', 'facil',
+    'Un árbol frutal que, como toda planta, fabrica su propio alimento con la luz del sol.',
+    'A fruit tree that, like every plant, makes its own food from sunlight.',
+    'Un arbre fruiter que, com tota planta, fabrica el seu propi aliment amb la llum del sol.'),
+  o('lechuga', 'Lechuga', 'Lettuce', 'Enciam', '🥬', 'productor', 'facil',
+    'Una hortaliza de huerto que hace la fotosíntesis como cualquier planta.',
+    'A garden vegetable that photosynthesises like any plant.',
+    'Una hortalissa d\'hort que fa la fotosíntesi com qualsevol planta.'),
 
   // ── CONSUMIDORES PRIMARIOS ───────────────────────────────────────────────
   o('conejo', 'Conejo', 'Rabbit', 'Conill', '🐇', 'consumidor-primario', 'facil',
@@ -121,6 +133,22 @@ export const ORGANISMOS = [
     'Se alimenta de fitoplancton: es el primer eslabón animal de muchas cadenas marinas.',
     'It feeds on phytoplankton: it is the first animal link in many marine chains.',
     'S\'alimenta de fitoplàncton: és el primer baula animal de moltes cadenes marines.'),
+  o('gallina', 'Gallina', 'Chicken', 'Gallina', '🐔', 'consumidor-primario', 'facil',
+    'Picotea grano y semillas: se alimenta directamente de las plantas.',
+    'It pecks at grain and seeds: it feeds directly on plants.',
+    'Picoteja gra i llavors: s\'alimenta directament de les plantes.'),
+  o('raton', 'Ratón', 'Mouse', 'Ratolí', '🐭', 'consumidor-primario', 'facil',
+    'Roe semillas, bellotas y granos: es un herbívoro muy extendido.',
+    'It gnaws on seeds, acorns and grain: a very widespread herbivore.',
+    'Rosega llavors, aglans i gra: és un herbívor molt estès.'),
+  o('cabra', 'Cabra', 'Goat', 'Cabra', '🐐', 'consumidor-primario', 'medio',
+    'Come casi cualquier planta que encuentra: es un herbívoro muy poco exigente.',
+    'It eats almost any plant it finds: a very unfussy herbivore.',
+    'Menja gairebé qualsevol planta que troba: és un herbívor molt poc exigent.'),
+  o('oruga', 'Oruga', 'Caterpillar', 'Eruga', '🐛', 'consumidor-primario', 'medio',
+    'Antes de convertirse en mariposa, pasa su vida comiendo hojas.',
+    'Before turning into a butterfly, it spends its life eating leaves.',
+    'Abans de convertir-se en papallona, passa la seva vida menjant fulles.'),
 
   // ── CONSUMIDORES SECUNDARIOS ─────────────────────────────────────────────
   o('zorro', 'Zorro', 'Fox', 'Guineu', '🦊', 'consumidor-secundario', 'facil',
@@ -147,13 +175,21 @@ export const ORGANISMOS = [
     'Caza peces que se alimentan de fitoplancton.',
     'It hunts fish that feed on phytoplankton.',
     'Caça peixos que s\'alimenten de fitoplàncton.'),
+  o('buho', 'Búho', 'Owl', 'Duc', '🦉', 'consumidor-secundario', 'medio',
+    'Caza de noche pequeños roedores como ratones.',
+    'It hunts small rodents like mice at night.',
+    'Caça de nit petits rosegadors com ratolins.'),
+  o('serpiente', 'Serpiente', 'Snake', 'Serp', '🐍', 'consumidor-secundario', 'medio',
+    'Caza insectos herbívoros y pequeños animales para tragárselos enteros.',
+    'It hunts herbivorous insects and small animals, swallowing them whole.',
+    'Caça insectes herbívors i petits animals per empassar-se\'ls sencers.'),
 
   // ── CONSUMIDORES TERCIARIOS ──────────────────────────────────────────────
   o('aguila', 'Águila', 'Eagle', 'Àliga', '🦅', 'consumidor-terciario', 'medio',
     'En la cadena hierba → conejo → zorro → águila, caza al zorro: está en la cima, por eso es un consumidor terciario.',
     'In the chain grass → rabbit → fox → eagle, it hunts the fox: it is at the top, which is why it is a tertiary consumer.',
     'En la cadena herba → conill → guineu → àliga, caça la guineu: és al cim, per això és un consumidor terciari.'),
-  o('orca', 'Orca', 'Orca', 'Orca', '🐋', 'consumidor-terciario', 'medio',
+  o('orca', 'Orca', 'Orca', 'Orca', '🐬', 'consumidor-terciario', 'medio',
     'En la cadena marina fitoplancton → pez → foca → orca, caza a la foca: no tiene depredadores naturales.',
     'In the marine chain phytoplankton → fish → seal → orca, it hunts the seal: it has no natural predators.',
     'En la cadena marina fitoplàncton → peix → foca → orca, caça la foca: no té depredadors naturals.'),
@@ -188,13 +224,14 @@ export const ORGANISMOS = [
 // consistente con el `dato` que ya tiene ese organismo más arriba (p. ej.
 // 'lobo' ya dice que caza ciervos, así que la cadena bosque = roble→ciervo→lobo).
 //
-// 12 cadenas cubriendo 23 de los 25 organismos (todos menos cactus y alga,
-// que se quedan solo en el examen por no tener una presa/depredador real
-// verificable en este set). Varias comparten los primeros eslabones a
-// propósito (hierba→saltamontes→rana Y hierba→saltamontes→araña; fitoplancton
-// →pez→foca→orca Y →tiburón): en una red trófica real, la misma presa suele
-// tener más de un depredador — no es contenido repetido, es la misma base
-// ramificándose, como en la vida real.
+// 19 cadenas cubriendo 32 de los 34 organismos (cactus y alga se quedan
+// solo en el examen por no tener una presa/depredador real verificable en
+// este set — mejor dejarlos fuera que inventar una relación que no es
+// cierta). Varias comparten los primeros eslabones a propósito
+// (hierba→saltamontes→rana Y →araña Y →serpiente; fitoplancton→pez→foca→orca
+// Y →tiburón; roble→ratón→búho Y girasol→ratón→búho): en una red trófica
+// real, la misma presa suele tener más de un depredador — no es contenido
+// repetido, es la misma base ramificándose, como en la vida real.
 //
 // dificultad 'facil' = 3 eslabones, sin terciario ni descomponedor (lo más
 // sencillo para Primaria). 'medio' añade cadenas de 4 eslabones — con
@@ -219,7 +256,7 @@ export const CADENAS = [
   // ── MEDIO (4 eslabones: terciario o descomponedor) ──────────────────────
   { id: 'pradera', nombre: 'Pradera', nombreEn: 'Grassland', nombreCa: 'Prada', emoji: '🦅', dificultad: 'medio',
     eslabones: ['hierba', 'conejo', 'zorro', 'aguila'] },
-  { id: 'oceano-orca', nombre: 'Océano (orca)', nombreEn: 'Ocean (orca)', nombreCa: 'Oceà (orca)', emoji: '🐋', dificultad: 'medio',
+  { id: 'oceano-orca', nombre: 'Océano (orca)', nombreEn: 'Ocean (orca)', nombreCa: 'Oceà (orca)', emoji: '🐬', dificultad: 'medio',
     eslabones: ['fitoplancton', 'pez-pequeno', 'foca', 'orca'] },
   { id: 'oceano-tiburon', nombre: 'Océano (tiburón)', nombreEn: 'Ocean (shark)', nombreCa: 'Oceà (tauró)', emoji: '🦈', dificultad: 'medio',
     eslabones: ['fitoplancton', 'pez-pequeno', 'foca', 'tiburon'] },
@@ -231,4 +268,22 @@ export const CADENAS = [
     eslabones: ['hierba', 'saltamontes', 'arana', 'moho'] },
   { id: 'ciclo-trigal', nombre: 'Trigal (ciclo)', nombreEn: 'Wheat field (cycle)', nombreCa: 'Camp de blat (cicle)', emoji: '🍄', dificultad: 'medio',
     eslabones: ['trigo', 'vaca', 'seta'] },
+
+  // ── FÁCIL, ronda 2 (más variedad de granja/huerto) ──────────────────────
+  { id: 'corral', nombre: 'Corral', nombreEn: 'Farmyard', nombreCa: 'Corral', emoji: '🐔', dificultad: 'facil',
+    eslabones: ['trigo', 'gallina', 'zorro'] },
+  { id: 'bosque-nocturno', nombre: 'Bosque (noche)', nombreEn: 'Forest (night)', nombreCa: 'Bosc (nit)', emoji: '🦉', dificultad: 'facil',
+    eslabones: ['roble', 'raton', 'buho'] },
+  { id: 'pradera-serpiente', nombre: 'Pradera (serpiente)', nombreEn: 'Grassland (snake)', nombreCa: 'Prada (serp)', emoji: '🐍', dificultad: 'facil',
+    eslabones: ['hierba', 'saltamontes', 'serpiente'] },
+
+  // ── MEDIO, ronda 2 ───────────────────────────────────────────────────────
+  { id: 'girasoles', nombre: 'Girasoles', nombreEn: 'Sunflowers', nombreCa: 'Gira-sols', emoji: '🌻', dificultad: 'medio',
+    eslabones: ['girasol', 'raton', 'buho'] },
+  { id: 'huerto', nombre: 'Huerto', nombreEn: 'Garden', nombreCa: 'Hort', emoji: '🥬', dificultad: 'medio',
+    eslabones: ['lechuga', 'cabra', 'lobo'] },
+  { id: 'manzanal', nombre: 'Manzanal', nombreEn: 'Orchard', nombreCa: 'Pomerar', emoji: '🍎', dificultad: 'medio',
+    eslabones: ['manzano', 'oruga', 'rana'] },
+  { id: 'ciclo-corral', nombre: 'Corral (ciclo)', nombreEn: 'Farmyard (cycle)', nombreCa: 'Corral (cicle)', emoji: '🦠', dificultad: 'medio',
+    eslabones: ['trigo', 'gallina', 'zorro', 'moho'] },
 ]
