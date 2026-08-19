@@ -7,7 +7,9 @@
 // aquí el propio dato del organismo YA da la pista — el jugador tiene que
 // RAZONAR el rol a partir de qué come o cómo se alimenta, no memorizar una
 // posición.
-import { ORGANISMOS, ROLE_ORDER } from '../data/cadenaTrofica'
+import { ORGANISMOS, ROLE_ORDER, CADENAS } from '../data/cadenaTrofica'
+
+const ORGANISMOS_POR_ID = Object.fromEntries(ORGANISMOS.map(org => [org.id, org]))
 
 // facil/medio/dificil (dificultad de la UI) → qué organismos entran en el
 // pool. Acumulativo, igual que encuentraElemento.js: "dificil" incluye a
@@ -43,4 +45,39 @@ export function genRound(uiDiff, rand = Math.random) {
 
 export function isCorrect(round, rolGuess) {
   return rolGuess === round.organismo.rol
+}
+
+// ── Modo "construye la cadena" (juego arcade) ───────────────────────────────
+// A diferencia de isCorrect/genRound de arriba (clasificar UN organismo
+// suelto, lo que usa el examen), aquí se reconstruye la cadena ENTERA en
+// orden: se sortea una cadena real, se baraja y hay que ir tocando el
+// siguiente eslabón correcto. facil = solo cadenas de 3 eslabones; medio =
+// añade las de 4 (con consumidor terciario); dificil reutiliza el pool de
+// medio pero pide construirla AL REVÉS (de la cima al productor).
+const NIVEL_ORDEN_CADENA = ['facil', 'medio', 'dificil']
+
+function poolCadenas(uiDiff) {
+  // 'dificil' no añade cadenas nuevas: reutiliza las de 'medio' (todas),
+  // el reto extra sale de invertir el orden, no de más contenido.
+  const idx = Math.min(NIVEL_ORDEN_CADENA.indexOf(uiDiff), 1)
+  return CADENAS.filter(c => NIVEL_ORDEN_CADENA.indexOf(c.dificultad) <= Math.max(0, idx))
+}
+
+// Ronda de "construye la cadena": sortea una cadena, la baraja, y devuelve
+// tanto el orden correcto (`secuencia`, ya orientado según `invertido`) como
+// las fichas a mostrar (`fichas`, barajadas). El jugador debe tocarlas en el
+// mismo orden que `secuencia`.
+export function genCadena(uiDiff, rand = Math.random) {
+  const pool = poolCadenas(uiDiff)
+  const cadena = pool[Math.floor(rand() * pool.length)]
+  const invertido = uiDiff === 'dificil'
+  const orden = invertido ? [...cadena.eslabones].reverse() : cadena.eslabones
+  const secuencia = orden.map(id => ORGANISMOS_POR_ID[id])
+  const fichas = [...secuencia].sort(() => rand() - 0.5)
+  return { cadena, invertido, secuencia, fichas }
+}
+
+// ¿La ficha tocada es el siguiente eslabón correcto, dado lo ya colocado?
+export function isNextEslabon(round, placedIds, fichaId) {
+  return round.secuencia[placedIds.length]?.id === fichaId
 }

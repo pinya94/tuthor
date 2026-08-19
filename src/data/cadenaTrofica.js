@@ -180,3 +180,26 @@ export const ORGANISMOS = [
     'Microorganisms invisible to the naked eye that break down dead organic matter at a microscopic level.',
     'Microorganismes invisibles a simple vista que descomponen matèria orgànica morta a nivell microscòpic.'),
 ]
+
+// Cadenas reales (secuencias completas "quién se come a quién", del
+// productor a la cima) que usa el JUEGO — a diferencia del examen, que
+// clasifica organismos sueltos, el juego reconstruye la cadena entera. Cada
+// eslabón es un id real de ORGANISMOS y cada relación depredador→presa es
+// consistente con el `dato` que ya tiene ese organismo más arriba (p. ej.
+// 'lobo' ya dice que caza ciervos, así que la cadena bosque = roble→ciervo→lobo).
+// dificultad 'facil' = 3 eslabones (sin consumidor terciario); 'medio' añade
+// las dos cadenas de 4 eslabones. No hay pool 'dificil' propio: en su lugar,
+// el juego reutiliza el pool de 'medio' pero pide construir la cadena AL
+// REVÉS (de la cima al productor) — mismo contenido, reto distinto.
+export const CADENAS = [
+  { id: 'bosque', nombre: 'Bosque', nombreEn: 'Forest', nombreCa: 'Bosc', emoji: '🌳', dificultad: 'facil',
+    eslabones: ['roble', 'ciervo', 'lobo'] },
+  { id: 'prado-insectos', nombre: 'Prado', nombreEn: 'Meadow', nombreCa: 'Prat', emoji: '🦗', dificultad: 'facil',
+    eslabones: ['hierba', 'saltamontes', 'rana'] },
+  { id: 'sabana', nombre: 'Sabana', nombreEn: 'Savannah', nombreCa: 'Sabana', emoji: '🦁', dificultad: 'facil',
+    eslabones: ['hierba', 'conejo', 'leon'] },
+  { id: 'pradera', nombre: 'Pradera', nombreEn: 'Grassland', nombreCa: 'Prada', emoji: '🦅', dificultad: 'medio',
+    eslabones: ['hierba', 'conejo', 'zorro', 'aguila'] },
+  { id: 'oceano', nombre: 'Océano', nombreEn: 'Ocean', nombreCa: 'Oceà', emoji: '🐋', dificultad: 'medio',
+    eslabones: ['fitoplancton', 'pez-pequeno', 'foca', 'orca'] },
+]

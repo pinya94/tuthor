@@ -859,17 +859,17 @@ export const FICHAS_ES = {
   },
   'cadena-alimentaria': {
     titulo: 'Cadena Alimentaria',
-    subtitulo: 'Juego de Roles Tróficos',
+    subtitulo: 'Juego de Reconstruir la Cadena',
     emoji: '🌿', gradient: 'from-lime-600 to-green-800',
     path: '/juegos/cadena-alimentaria',
     examPath: '/examen/cadena-alimentaria-test',
-    intro: 'Un juego de biología para razonar de verdad quién come a quién: cada organismo trae un dato real sobre cómo se alimenta (hierba que hace fotosíntesis, zorro que caza conejos, seta que descompone hojas muertas) y hay que decidir su rol trófico entre cinco posibles: productor, consumidor primario, secundario, terciario o descomponedor. No se pide memorizar una lista, sino aplicar la lógica de quién come a quién.',
+    intro: 'Un juego de biología para reconstruir cadenas alimentarias reales contra el reloj: se baraja una cadena — por ejemplo hierba, conejo, zorro y águila — y hay que ir tocando las fichas en el orden correcto, del productor al depredador de la cima. No hay pistas de texto: hay que razonar quién se come a quién con lo que ya sabes de cada animal o planta.',
     beneficios: [
-      { titulo: 'El dato ya es la pista, hay que razonarla', texto: 'No hay que memorizar "el zorro es consumidor secundario": el propio dato dice que caza conejos, y un conejo come plantas — de ahí se deduce el rol, igual que en un examen de verdad.' },
-      { titulo: 'El consumidor terciario, con ejemplos reales completos', texto: 'A partir de ESO aparece el cuarto nivel con dos cadenas completas y reales: hierba → conejo → zorro → águila, y fitoplancton → pez → foca → orca, para ver por qué hay tan pocos depredadores en la cima.' },
-      { titulo: 'De 8 organismos y 4 roles a 25 organismos y 5 roles', texto: 'Primaria empieza con los ejemplos más evidentes (vaca, león, seta...). ESO y Bachillerato añaden organismos menos obvios (araña, moho, fitoplancton) y el rol de consumidor terciario.' },
+      { titulo: 'Reconstruir, no solo reconocer', texto: 'No basta con saber que un zorro es carnívoro: hay que decidir si va antes o después del conejo y del águila en la misma cadena, aplicando la lógica completa de quién caza a quién.' },
+      { titulo: 'El consumidor terciario, con dos cadenas completas y reales', texto: 'A partir de ESO aparecen cadenas de 4 eslabones: hierba → conejo → zorro → águila, y fitoplancton → pez → foca → orca — para ver por qué hay tan pocos depredadores en la cima.' },
+      { titulo: 'El mismo contenido, del revés', texto: 'En Bachillerato se reconstruyen las mismas cadenas pero empezando por el depredador de la cima y bajando hasta el productor — mismo conocimiento, ángulo distinto y más difícil.' },
     ],
-    ejemplo: 'Sale "Águila 🦅 — En la cadena hierba → conejo → zorro → águila, caza al zorro". El jugador razona: el zorro ya es un consumidor secundario (caza al conejo), así que algo que caza al zorro está un escalón por encima — consumidor terciario. Toca ese botón y confirma.',
+    ejemplo: 'Aparecen barajadas cuatro fichas: 🦅 Águila, 🌾 Hierba, 🐇 Conejo, 🦊 Zorro. El jugador sabe que la hierba no caza a nadie, así que es la primera; el conejo come hierba, va después; el zorro caza conejos; el águila, en la cima, caza al zorro. Toca las cuatro fichas en ese orden y la cadena se construye con flechas, ficha a ficha.',
     enPapel: {
       titulo: 'Dibujar tu propia cadena alimentaria',
       pasos: [
@@ -1574,17 +1574,17 @@ export const FICHAS_EN = {
   },
   'cadena-alimentaria': {
     titulo: 'Food Chain',
-    subtitulo: 'Trophic Roles Game',
+    subtitulo: 'Rebuild-the-Chain Game',
     emoji: '🌿', gradient: 'from-lime-600 to-green-800',
     path: '/juegos/cadena-alimentaria',
     examPath: '/examen/cadena-alimentaria-test',
-    intro: "A biology game about really reasoning through who eats whom: every organism comes with a real fact about how it feeds (grass that photosynthesises, a fox that hunts rabbits, a mushroom that breaks down dead leaves) and you have to decide its trophic role among five options: producer, primary, secondary or tertiary consumer, or decomposer. It's not about memorising a list — it's about applying the logic of who eats whom.",
+    intro: "A biology game about rebuilding real food chains against the clock: a chain gets shuffled — say grass, rabbit, fox and eagle — and you have to tap the tiles in the right order, from the producer to the top predator. There are no text clues: you have to reason out who eats whom from what you already know about each animal or plant.",
     beneficios: [
-      { titulo: "The fact is the clue — you have to reason it out", texto: 'You don\'t need to memorise "the fox is a secondary consumer": the fact itself says it hunts rabbits, and a rabbit eats plants — the role follows from that, just like in a real exam.' },
-      { titulo: 'Tertiary consumers, with complete real examples', texto: 'From Secondary onwards the fourth level appears with two complete, real chains: grass → rabbit → fox → eagle, and phytoplankton → fish → seal → orca, to see why there are so few predators at the top.' },
-      { titulo: 'From 8 organisms and 4 roles to 25 organisms and 5 roles', texto: 'Primary starts with the most obvious examples (cow, lion, mushroom...). Secondary and Sixth Form add less obvious organisms (spider, mould, phytoplankton) and the tertiary consumer role.' },
+      { titulo: "Rebuilding, not just recognising", texto: "Knowing a fox is a carnivore isn't enough: you have to decide whether it comes before or after the rabbit and the eagle in the very same chain, applying the full logic of who hunts whom." },
+      { titulo: 'Tertiary consumers, with two complete real chains', texto: 'From Secondary onwards, 4-link chains appear: grass → rabbit → fox → eagle, and phytoplankton → fish → seal → orca — to see why there are so few predators at the top.' },
+      { titulo: 'Same content, backwards', texto: 'In Sixth Form the same chains are rebuilt but starting from the top predator and working down to the producer — same knowledge, different angle, and harder.' },
     ],
-    ejemplo: 'The card reads "Eagle 🦅 — In the chain grass → rabbit → fox → eagle, it hunts the fox". The player reasons: the fox is already a secondary consumer (it hunts the rabbit), so something that hunts the fox is one level above — a tertiary consumer. They tap that button and confirm.',
+    ejemplo: 'Four shuffled tiles appear: 🦅 Eagle, 🌾 Grass, 🐇 Rabbit, 🦊 Fox. The player knows grass doesn\'t hunt anything, so it goes first; the rabbit eats grass, so it\'s next; the fox hunts rabbits; the eagle, at the top, hunts the fox. They tap the four tiles in that order and the chain builds up with arrows, tile by tile.',
     enPapel: {
       titulo: 'Draw your own food chain',
       pasos: [
@@ -2367,17 +2367,17 @@ export const FICHAS_CA = {
   },
   'cadena-alimentaria': {
     titulo: 'Cadena Alimentària',
-    subtitulo: 'Joc de Rols Tròfics',
+    subtitulo: 'Joc de Reconstruir la Cadena',
     emoji: '🌿', gradient: 'from-lime-600 to-green-800',
     path: '/juegos/cadena-alimentaria',
     examPath: '/examen/cadena-alimentaria-test',
-    intro: 'Un joc de biologia per raonar de veritat qui es menja qui: cada organisme porta una dada real sobre com s\'alimenta (herba que fa fotosíntesi, guineu que caça conills, bolet que descompon fulles mortes) i cal decidir el seu rol tròfic entre cinc possibles: productor, consumidor primari, secundari, terciari o descomponedor. No cal memoritzar una llista, sinó aplicar la lògica de qui es menja qui.',
+    intro: 'Un joc de biologia per reconstruir cadenes alimentàries reals contra rellotge: es barreja una cadena — per exemple herba, conill, guineu i àliga — i cal anar tocant les fitxes en l\'ordre correcte, del productor al depredador del cim. No hi ha pistes de text: cal raonar qui es menja qui amb el que ja saps de cada animal o planta.',
     beneficios: [
-      { titulo: 'La dada ja és la pista, cal raonar-la', texto: 'No cal memoritzar "la guineu és consumidor secundari": la mateixa dada diu que caça conills, i un conill menja plantes — d\'aquí es dedueix el rol, igual que en un examen de veritat.' },
-      { titulo: 'El consumidor terciari, amb exemples reals complets', texto: 'A partir d\'ESO apareix el quart nivell amb dues cadenes completes i reals: herba → conill → guineu → àliga, i fitoplàncton → peix → foca → orca, per veure per què hi ha tan pocs depredadors al cim.' },
-      { titulo: 'De 8 organismes i 4 rols a 25 organismes i 5 rols', texto: 'Primària comença amb els exemples més evidents (vaca, lleó, bolet...). ESO i Batxillerat afegeixen organismes menys obvis (aranya, floridura, fitoplàncton) i el rol de consumidor terciari.' },
+      { titulo: 'Reconstruir, no només reconèixer', texto: 'No n\'hi ha prou de saber que una guineu és carnívora: cal decidir si va abans o després del conill i de l\'àliga en la mateixa cadena, aplicant la lògica completa de qui caça qui.' },
+      { titulo: 'El consumidor terciari, amb dues cadenes completes i reals', texto: 'A partir d\'ESO apareixen cadenes de 4 esglaons: herba → conill → guineu → àliga, i fitoplàncton → peix → foca → orca — per veure per què hi ha tan pocs depredadors al cim.' },
+      { titulo: 'El mateix contingut, del revés', texto: 'A Batxillerat es reconstrueixen les mateixes cadenes però començant pel depredador del cim i baixant fins al productor — mateix coneixement, angle diferent i més difícil.' },
     ],
-    ejemplo: 'Surt "Àliga 🦅 — En la cadena herba → conill → guineu → àliga, caça la guineu". El jugador raona: la guineu ja és un consumidor secundari (caça el conill), així que allò que caça la guineu és un esglaó per sobre — consumidor terciari. Toca aquest botó i confirma.',
+    ejemplo: 'Apareixen barrejades quatre fitxes: 🦅 Àliga, 🌾 Herba, 🐇 Conill, 🦊 Guineu. El jugador sap que l\'herba no caça ningú, així que és la primera; el conill menja herba, va després; la guineu caça conills; l\'àliga, al cim, caça la guineu. Toca les quatre fitxes en aquest ordre i la cadena es construeix amb fletxes, fitxa a fitxa.',
     enPapel: {
       titulo: 'Dibuixar la teva pròpia cadena alimentària',
       pasos: [

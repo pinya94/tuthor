@@ -4,65 +4,73 @@ import { useLang } from '../context/LangContext'
 import { useAuth } from '../context/AuthContext'
 import { saveActivity } from '../lib/activity'
 import { computeCoins } from '../lib/games'
-import { genRound, isCorrect, rolesDisponibles } from '../lib/cadenaAlimentaria'
+import { genCadena, isNextEslabon } from '../lib/cadenaAlimentaria'
 import GameEndScreen from '../components/GameEndScreen'
-import RolTroficoSelector from '../components/RolTroficoSelector'
 import SEOHead from '../components/SEOHead'
 
-// Mismo esqueleto que Balanza/Circuito Cerrado/Encuentra el Elemento (40s +
-// racha, sin vidas): contrarreloj de partida entera, acertar suma tiempo,
-// fallar lo resta. Rondas con reposición (genRound), igual que el examen.
+// Mecánica: "construye la cadena". Se sortea una cadena real (p. ej. hierba →
+// conejo → zorro → águila), se baraja, y hay que ir tocando el SIGUIENTE
+// eslabón correcto — no clasificar un organismo suelto (eso ya lo hace el
+// examen, con la misma mecánica de siempre: ver CadenaAlimentariaExamen.jsx,
+// que no ha cambiado). Contrarreloj, sin vidas, mismo esqueleto de
+// Balanza/Circuito Cerrado, pero el premio/castigo es por FICHA tocada, no
+// por pregunta — varias fichas por cadena, así que las cantidades son
+// menores que en esos juegos para no desbordar el reloj.
 const GAME_TIME = 40
-const WRONG_TIME = 3
-const CORRECT_TIME = 3
+const WRONG_TIME = 2
+const CORRECT_TIME = 1
+const PAUSA_CADENA_COMPLETA = 700 // ms que se ve la cadena entera antes de la siguiente
 
 const DIFS = {
-  facil:   { emoji: '🟢', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' }, desc: { es: '8 organismos, 4 roles', en: '8 organisms, 4 roles', ca: '8 organismes, 4 rols' } },
-  medio:   { emoji: '🟡', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' }, desc: { es: '16 organismos, 5 roles (aparece el consumidor terciario)', en: '16 organisms, 5 roles (tertiary consumer appears)', ca: '16 organismes, 5 rols (apareix el consumidor terciari)' } },
-  dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' }, desc: { es: 'Los 25 organismos, incluida una cadena marina', en: 'All 25 organisms, including a marine chain', ca: 'Els 25 organismes, incloent-hi una cadena marina' } },
+  facil:   { emoji: '🟢', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' }, desc: { es: 'Cadenas de 3 eslabones, del productor al depredador', en: '3-link chains, from producer to predator', ca: 'Cadenes de 3 esglaons, del productor al depredador' } },
+  medio:   { emoji: '🟡', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' }, desc: { es: 'También cadenas de 4 eslabones, con consumidor terciario', en: 'Also 4-link chains, with a tertiary consumer', ca: 'També cadenes de 4 esglaons, amb consumidor terciari' } },
+  dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' }, desc: { es: 'Las mismas cadenas, pero al revés: del depredador al productor', en: 'The same chains, but backwards: from predator to producer', ca: 'Les mateixes cadenes, però al revés: del depredador al productor' } },
 }
 
 const UI = {
   es: {
     badge: 'Biología · Ecosistemas', titulo: '🌿 Cadena Alimentaria',
-    sub: 'Elige el rol trófico de cada organismo', how: 'Cómo funciona',
-    p1: 'Cada organismo trae un dato real sobre qué come o cómo se alimenta.',
-    p2: 'Razona su rol: productor, consumidor primario, secundario, terciario o descomponedor.',
-    time: 'Tiempo', timeVal: '40 segundos', pts: 'Puntos', ptsVal: 'Acierto +1 y +3s · Fallo −1 y −3s',
-    volver: '← Volver', empezar: '🌿 ¡Empezar!', salir: '← Salir', marcar: '📍 Confirmar',
-    objetivo: '¿Qué rol tiene?', correcto: '¡Correcto!', fallo: 'No era ese rol',
-    siguiente: 'Siguiente →',
+    sub: 'Reconstruye quién se come a quién', how: 'Cómo funciona',
+    p1: 'Se baraja una cadena alimentaria real: hierba, conejo, zorro, águila...',
+    p2: 'Toca las fichas en el orden correcto — del productor al depredador de la cima.',
+    time: 'Tiempo', timeVal: '40 segundos', pts: 'Puntos', ptsVal: 'Ficha correcta +1 y +1s · Fallo −1 y −2s',
+    volver: '← Volver', empezar: '🌿 ¡Empezar!', salir: '← Salir',
+    empiezaPor: 'Empieza por:', productor: 'el productor', depredador: 'el depredador de la cima',
     finPartida: 'Partida terminada', reintentar: '🌿 Nueva partida', cambiarDif: 'Cambiar dificultad',
-    aciertosLbl: 'Aciertos',
-    examen: 'Examen con la mecánica del juego →',
+    aciertosLbl: 'Fichas correctas', cadenasLbl: 'Cadenas completas',
+    examen: 'Examen con otra mecánica →',
+    cadenaCompleta: '¡Cadena completa! 🎉',
   },
   en: {
     badge: 'Biology · Ecosystems', titulo: '🌿 Food Chain',
-    sub: 'Pick each organism\'s trophic role', how: 'How it works',
-    p1: 'Every organism comes with a real fact about what it eats or how it feeds.',
-    p2: 'Reason out its role: producer, primary, secondary or tertiary consumer, or decomposer.',
-    time: 'Time', timeVal: '40 seconds', pts: 'Points', ptsVal: 'Correct +1 and +3s · Wrong −1 and −3s',
-    volver: '← Back', empezar: '🌿 Start!', salir: '← Exit', marcar: '📍 Confirm',
-    objetivo: 'What role does it have?', correcto: 'Correct!', fallo: 'Not that role',
-    siguiente: 'Next →',
+    sub: 'Rebuild who eats whom', how: 'How it works',
+    p1: 'A real food chain gets shuffled: grass, rabbit, fox, eagle...',
+    p2: 'Tap the tiles in the right order — from the producer to the top predator.',
+    time: 'Time', timeVal: '40 seconds', pts: 'Points', ptsVal: 'Right tile +1 and +1s · Wrong −1 and −2s',
+    volver: '← Back', empezar: '🌿 Start!', salir: '← Exit',
+    empiezaPor: 'Start with:', productor: 'the producer', depredador: 'the top predator',
     finPartida: 'Game over', reintentar: '🌿 New game', cambiarDif: 'Change difficulty',
-    aciertosLbl: 'Correct',
-    examen: 'Exam using the game mechanic →',
+    aciertosLbl: 'Correct tiles', cadenasLbl: 'Chains completed',
+    examen: 'Exam with a different mechanic →',
+    cadenaCompleta: 'Chain complete! 🎉',
   },
   ca: {
     badge: 'Biologia · Ecosistemes', titulo: '🌿 Cadena Alimentària',
-    sub: 'Tria el rol tròfic de cada organisme', how: 'Com funciona',
-    p1: 'Cada organisme porta una dada real sobre què menja o com s\'alimenta.',
-    p2: 'Raona el seu rol: productor, consumidor primari, secundari, terciari o descomponedor.',
-    time: 'Temps', timeVal: '40 segons', pts: 'Punts', ptsVal: 'Encert +1 i +3s · Errada −1 i −3s',
-    volver: '← Enrere', empezar: '🌿 Comença!', salir: '← Sortir', marcar: '📍 Confirma',
-    objetivo: 'Quin rol té?', correcto: 'Correcte!', fallo: 'No era aquest rol',
-    siguiente: 'Següent →',
+    sub: 'Reconstrueix qui es menja qui', how: 'Com funciona',
+    p1: 'Es barreja una cadena alimentària real: herba, conill, guineu, àliga...',
+    p2: 'Toca les fitxes en l\'ordre correcte — del productor al depredador del cim.',
+    time: 'Temps', timeVal: '40 segons', pts: 'Punts', ptsVal: 'Fitxa correcta +1 i +1s · Errada −1 i −2s',
+    volver: '← Enrere', empezar: '🌿 Comença!', salir: '← Sortir',
+    empiezaPor: 'Comença per:', productor: 'el productor', depredador: 'el depredador del cim',
     finPartida: 'Partida acabada', reintentar: '🌿 Nova partida', cambiarDif: 'Canvia dificultat',
-    aciertosLbl: 'Encerts',
-    examen: 'Examen amb la mecànica del joc →',
+    aciertosLbl: 'Fitxes correctes', cadenasLbl: 'Cadenes completes',
+    examen: 'Examen amb una altra mecànica →',
+    cadenaCompleta: 'Cadena completa! 🎉',
   },
 }
+
+const NOMBRE_KEY = { es: 'nombre', en: 'nombreEn', ca: 'nombreCa' }
+const CADENA_NOMBRE_KEY = { es: 'nombre', en: 'nombreEn', ca: 'nombreCa' }
 
 function DifficultyScreen({ onSelect, t, l }) {
   const [dif, setDif] = useState('facil')
@@ -92,7 +100,7 @@ function DifficultyScreen({ onSelect, t, l }) {
         <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-4 w-full">
           <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-3">{t.how}</p>
           <div className="space-y-2">
-            {[['🐾', t.p1], ['🔎', t.p2]].map(([e, text]) => (
+            {[['🔀', t.p1], ['👆', t.p2]].map(([e, text]) => (
               <div key={text} className="flex items-start gap-3 text-sm text-white/50">
                 <span className="text-base w-5 shrink-0 text-center">{e}</span><span>{text}</span>
               </div>
@@ -132,33 +140,38 @@ export default function CadenaAlimentaria() {
   const [dificultad, setDificultad] = useState('facil')
   const [timeLeft, setTimeLeft] = useState(GAME_TIME)
   const [score, setScore] = useState(0)
-  const [correct, setCorrect] = useState(0)
+  const [correctas, setCorrectas] = useState(0)
+  const [cadenasCompletas, setCadenasCompletas] = useState(0)
   const [streak, setStreak] = useState(0)
   const [round, setRound] = useState(null)
-  const [phase, setPhase] = useState('choose') // choose | result
-  const [guess, setGuess] = useState(null)
-  const [delta, setDelta] = useState(null)
+  const [placed, setPlaced] = useState([])
+  const [flash, setFlash] = useState(null) // { id, ok } — feedback momentáneo en una ficha
+  const [chainDone, setChainDone] = useState(false)
 
   const timerRef = useRef(null)
+  const flashTimeoutRef = useRef(null)
+  const nextChainTimeoutRef = useRef(null)
   const scoreRef = useRef(0)
   const timeRef = useRef(GAME_TIME)
+  const cadenasRef = useRef(0)
   const startedAtRef = useRef(0)
   useEffect(() => { scoreRef.current = score }, [score])
   useEffect(() => { timeRef.current = timeLeft }, [timeLeft])
+  useEffect(() => { cadenasRef.current = cadenasCompletas }, [cadenasCompletas])
 
-  const next = useCallback((dif) => {
-    setRound(genRound(dif))
-    setPhase('choose')
-    setGuess(null)
+  const nextCadena = useCallback((dif) => {
+    setRound(genCadena(dif))
+    setPlaced([])
+    setChainDone(false)
   }, [])
 
   function startGame(dif) {
     setDificultad(dif)
     setScreen('playing')
-    setScore(0); setCorrect(0); setStreak(0)
+    setScore(0); setCorrectas(0); setCadenasCompletas(0); setStreak(0)
     setTimeLeft(GAME_TIME)
     startedAtRef.current = Date.now()
-    next(dif)
+    nextCadena(dif)
   }
 
   useEffect(() => {
@@ -172,7 +185,11 @@ export default function CadenaAlimentaria() {
     return () => clearInterval(timerRef.current)
   }, [screen])
 
-  useEffect(() => () => { if (timerRef.current) clearInterval(timerRef.current) }, [])
+  useEffect(() => () => {
+    if (timerRef.current) clearInterval(timerRef.current)
+    if (flashTimeoutRef.current) clearTimeout(flashTimeoutRef.current)
+    if (nextChainTimeoutRef.current) clearTimeout(nextChainTimeoutRef.current)
+  }, [])
 
   useEffect(() => {
     if (screen !== 'end' || !user?.uid) return
@@ -186,30 +203,41 @@ export default function CadenaAlimentaria() {
     }).catch(() => {})
   }, [screen, user])
 
-  function marcar() {
-    if (phase !== 'choose' || !round || !guess) return
-    setPhase('result')
-    const acierto = isCorrect(round, guess)
-    if (acierto) {
+  function tocarFicha(ficha) {
+    if (chainDone || !round) return
+    if (placed.some(p => p.id === ficha.id)) return // ya colocada
+
+    if (isNextEslabon(round, placed, ficha.id)) {
+      const newPlaced = [...placed, ficha]
+      setPlaced(newPlaced)
+      setCorrectas(c => c + 1)
       const ns = streak + 1
       setStreak(ns)
-      setCorrect(c => c + 1)
-      const gain = Math.min(5, 1 + Math.floor((ns - 1) / 3))
+      const gain = Math.min(3, 1 + Math.floor((ns - 1) / 4))
       setScore(s => s + gain)
       setTimeLeft(tl => tl + CORRECT_TIME)
-      setDelta({ won: true, gain, streak: ns })
+      setFlash({ id: ficha.id, ok: true })
+
+      if (newPlaced.length === round.secuencia.length) {
+        setChainDone(true)
+        setCadenasCompletas(c => c + 1)
+        nextChainTimeoutRef.current = setTimeout(() => nextCadena(dificultad), PAUSA_CADENA_COMPLETA)
+      }
     } else {
       setStreak(0)
       setScore(s => Math.max(0, s - 1))
       setTimeLeft(tl => Math.max(0, tl - WRONG_TIME))
-      setDelta({ won: false })
+      setFlash({ id: ficha.id, ok: false })
     }
+
+    if (flashTimeoutRef.current) clearTimeout(flashTimeoutRef.current)
+    flashTimeoutRef.current = setTimeout(() => setFlash(null), 500)
   }
 
   const seo = {
-    es: { title: 'Cadena Alimentaria — Roles tróficos jugando', desc: 'Elige el rol trófico de cada organismo a partir de un dato real sobre cómo se alimenta: productor, consumidor primario, secundario, terciario o descomponedor. Contrarreloj. Juego de biología.', path: '/juegos/cadena-alimentaria' },
-    en: { title: 'Food Chain — Trophic roles by playing', desc: 'Pick each organism\'s trophic role from a real fact about how it feeds: producer, primary, secondary or tertiary consumer, or decomposer. Against the clock. Biology game.', path: '/en/juegos/cadena-alimentaria' },
-    ca: { title: 'Cadena Alimentària — Rols tròfics jugant', desc: 'Tria el rol tròfic de cada organisme a partir d\'una dada real sobre com s\'alimenta: productor, consumidor primari, secundari, terciari o descomponedor. Contrarellotge. Joc de biologia.', path: '/ca/juegos/cadena-alimentaria' },
+    es: { title: 'Cadena Alimentaria — Reconstruye quién se come a quién', desc: 'Baraja una cadena alimentaria real y toca las fichas en el orden correcto, del productor al depredador de la cima. Contrarreloj. Juego de biología.', path: '/juegos/cadena-alimentaria' },
+    en: { title: 'Food Chain — Rebuild who eats whom', desc: 'A real food chain gets shuffled — tap the tiles in the right order, from the producer to the top predator. Against the clock. Biology game.', path: '/en/juegos/cadena-alimentaria' },
+    ca: { title: 'Cadena Alimentària — Reconstrueix qui es menja qui', desc: 'Es barreja una cadena alimentària real i cal tocar les fitxes en l\'ordre correcte, del productor al depredador del cim. Contrarellotge. Joc de biologia.', path: '/ca/juegos/cadena-alimentaria' },
   }[l]
 
   if (screen === 'difficulty') {
@@ -218,15 +246,15 @@ export default function CadenaAlimentaria() {
 
   if (screen === 'end') {
     const pts = score * 10
-    const msg = { es: score === 0 ? '¡Sigue practicando!' : score < 4 ? 'Buen comienzo' : score < 9 ? '¡Bien hecho!' : '¡Maestro del ecosistema! 🌿', en: score === 0 ? 'Keep practising!' : score < 4 ? 'Good start' : score < 9 ? 'Well done!' : 'Ecosystem master! 🌿', ca: score === 0 ? 'Segueix practicant!' : score < 4 ? 'Bon començament' : score < 9 ? 'Ben fet!' : 'Mestre de l\'ecosistema! 🌿' }[l]
+    const msg = { es: cadenasCompletas === 0 ? '¡Sigue practicando!' : cadenasCompletas < 3 ? 'Buen comienzo' : cadenasCompletas < 7 ? '¡Bien hecho!' : '¡Maestro del ecosistema! 🌿', en: cadenasCompletas === 0 ? 'Keep practising!' : cadenasCompletas < 3 ? 'Good start' : cadenasCompletas < 7 ? 'Well done!' : 'Ecosystem master! 🌿', ca: cadenasCompletas === 0 ? 'Segueix practicant!' : cadenasCompletas < 3 ? 'Bon començament' : cadenasCompletas < 7 ? 'Ben fet!' : 'Mestre de l\'ecosistema! 🌿' }[l]
     const shareText = l === 'en'
-      ? `I got ${correct} trophic roles right in Food Chain 🌿 — can you beat me? https://tuthor.es/juegos/cadena-alimentaria`
+      ? `I rebuilt ${cadenasCompletas} food chains in Food Chain 🌿 — can you beat me? https://tuthor.es/juegos/cadena-alimentaria`
       : l === 'ca'
-      ? `He encertat ${correct} rols tròfics a Cadena Alimentària 🌿 — pots superar-me? https://tuthor.es/juegos/cadena-alimentaria`
-      : `He acertado ${correct} roles tróficos en Cadena Alimentaria 🌿 — ¿puedes superarme? https://tuthor.es/juegos/cadena-alimentaria`
+      ? `He reconstruït ${cadenasCompletas} cadenes alimentàries a Cadena Alimentària 🌿 — pots superar-me? https://tuthor.es/juegos/cadena-alimentaria`
+      : `He reconstruido ${cadenasCompletas} cadenas alimentarias en Cadena Alimentaria 🌿 — ¿puedes superarme? https://tuthor.es/juegos/cadena-alimentaria`
     return (
       <GameEndScreen game="cadena-alimentaria" emoji="🌿" title={t.finPartida} score={pts} message={msg}
-        stats={[{ label: t.aciertosLbl, value: correct, emoji: '✅' }]}
+        stats={[{ label: t.cadenasLbl, value: cadenasCompletas, emoji: '🔗' }, { label: t.aciertosLbl, value: correctas, emoji: '✅' }]}
         shareText={shareText} onPlayAgain={() => startGame(dificultad)} playAgainLabel={t.reintentar}
         secondaryActions={[{ label: t.cambiarDif, onClick: () => setScreen('difficulty') }]}
         user={user} lang={l} />
@@ -237,20 +265,19 @@ export default function CadenaAlimentaria() {
 
   const timerPct = timeLeft / GAME_TIME
   const timerColor = timeLeft > 30 ? '#22c55e' : timeLeft > 10 ? '#f59e0b' : '#ef4444'
-  const isResult = phase === 'result'
-  const roles = rolesDisponibles(dificultad)
+  const restantes = round.fichas.filter(f => !placed.some(p => p.id === f.id))
 
   return (
     <div className="relative z-10 flex flex-col items-center min-h-[calc(100vh-4rem)] px-2 sm:px-4 py-4">
       <SEOHead title={seo.title} description={seo.desc} path={seo.path} lang={l} />
 
       {/* Header */}
-      <div className="w-full max-w-md flex items-center justify-between mb-3 px-1">
+      <div className="w-full max-w-lg flex items-center justify-between mb-3 px-1">
         <div>
           <p className="text-white/40 text-xs uppercase tracking-widest">🌿 {DIFS[dificultad].label[l] ?? DIFS[dificultad].label.es}</p>
           <p className="text-white font-bold text-lg flex items-center gap-2">
             {score} {t.pts.toLowerCase()}
-            {streak >= 2 && <span className="text-orange-400 text-sm font-black">🔥 {streak}</span>}
+            {streak >= 3 && <span className="text-orange-400 text-sm font-black">🔥 {streak}</span>}
           </p>
         </div>
         <div className="relative w-14 h-14">
@@ -266,42 +293,42 @@ export default function CadenaAlimentaria() {
         </div>
       </div>
 
-      <p className="text-white/40 text-xs uppercase tracking-widest text-center mb-2">{t.objetivo}</p>
+      <div className="w-full max-w-lg text-center mb-2">
+        <p className="text-white/40 text-xs uppercase tracking-widest">
+          {round.cadena.emoji} {round.cadena[CADENA_NOMBRE_KEY[l]]} · {t.empiezaPor} {round.invertido ? t.depredador : t.productor}
+        </p>
+      </div>
 
-      <RolTroficoSelector organismo={round.organismo} roles={roles} guess={guess}
-        onPick={isResult ? null : setGuess} revelado={isResult} lang={l} />
+      {/* Cadena en construcción */}
+      <div className="w-full max-w-lg bg-white/5 border border-white/10 rounded-2xl p-3 mb-3 min-h-[4.5rem] flex items-center flex-wrap gap-1.5 justify-center">
+        {placed.length === 0 && <span className="text-white/25 text-xs">···</span>}
+        {placed.map((p, i) => (
+          <span key={p.id} className="flex items-center gap-1.5">
+            <span className={`flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-sm font-bold ${chainDone ? 'bg-green-500/20 text-green-300 border border-green-500/40' : 'bg-white/10 text-white'}`}>
+              <span className="text-lg">{p.emoji}</span>{p[NOMBRE_KEY[l]]}
+            </span>
+            {i < placed.length - 1 && <span className="text-white/20">→</span>}
+          </span>
+        ))}
+        {chainDone && <span className="w-full text-center text-green-400 font-black text-sm mt-1">{t.cadenaCompleta}</span>}
+      </div>
 
-      {isResult && (
-        <div className="w-full max-w-md mt-3 text-center">
-          <p className={`font-black text-lg ${isCorrect(round, guess) ? 'text-green-400' : 'text-red-400'}`}>
-            {isCorrect(round, guess) ? t.correcto : t.fallo}
-          </p>
-          {delta && (
-            <p className="text-xs font-bold mt-0.5">
-              {delta.won
-                ? <span className="text-green-400">+{delta.gain} · +{CORRECT_TIME}s ⏱️{delta.streak >= 2 ? ` · 🔥 ${delta.streak}` : ''}</span>
-                : <span className="text-red-400">−1 · −{WRONG_TIME}s ⏱️</span>}
-            </p>
-          )}
-        </div>
-      )}
-
-      {!isResult && (
-        <div className="w-full max-w-md px-1 mt-4">
-          <button onClick={marcar} disabled={!guess}
-            className="w-full py-4 rounded-2xl bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-lg transition-all hover:scale-[1.02] active:scale-[0.97] shadow-lg shadow-amber-500/20 disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:scale-100">
-            {t.marcar}
-          </button>
-        </div>
-      )}
-      {isResult && (
-        <div className="w-full max-w-md px-1 mt-4">
-          <button onClick={() => next(dificultad)}
-            className="w-full py-4 rounded-2xl bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-lg transition-all hover:scale-[1.02]">
-            {t.siguiente}
-          </button>
-        </div>
-      )}
+      {/* Fichas por colocar */}
+      <div className="w-full max-w-lg grid grid-cols-2 sm:grid-cols-3 gap-2">
+        {restantes.map(f => {
+          const isFlash = flash?.id === f.id
+          let cls = 'border-white/10 bg-white/5 text-white hover:bg-white/10 active:scale-[0.97]'
+          if (isFlash && flash.ok) cls = 'border-green-500/50 bg-green-500/15 text-green-300'
+          if (isFlash && !flash.ok) cls = 'border-red-500/50 bg-red-500/15 text-red-300 animate-pulse'
+          return (
+            <button key={f.id} onClick={() => tocarFicha(f)} disabled={chainDone}
+              className={`flex flex-col items-center gap-1 py-4 rounded-xl border font-semibold transition-all ${cls} ${chainDone ? 'opacity-40 cursor-default' : 'cursor-pointer'}`}>
+              <span className="text-2xl">{f.emoji}</span>
+              <span className="text-xs text-center px-1">{f[NOMBRE_KEY[l]]}</span>
+            </button>
+          )
+        })}
+      </div>
     </div>
   )
 }
