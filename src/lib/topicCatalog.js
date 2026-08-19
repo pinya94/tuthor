@@ -101,7 +101,10 @@ export const TOPIC_CATALOG = {
         game: 'quien-es-quien',
         usesLevel: false, // el pool de personajes no depende del nivel
         tracksTopic: true,
-        temas: ['primaria', 'gce', 'wwii', 'usa'], // Roma no tiene pool
+        // Roma/Antigua/Prehistoria se quedan fuera: sin pool propio de
+        // personajes. Prehistoria además no puede tenerlo NUNCA — no hay
+        // ningún nombre propio conocido de esa época, por definición.
+        temas: ['primaria', 'gce', 'wwii', 'usa', 'franquismo', 'edad-media', 'edad-moderna'],
       },
       'portadas': {
         label: { es: 'Portadas', en: 'Headlines', ca: 'Portades' },
@@ -112,7 +115,12 @@ export const TOPIC_CATALOG = {
         // decir qué tema se jugó: la tarea se completa jugando Portadas de
         // cualquier tema. Cambiarlo rompería el conteo de aprobados del perfil.
         tracksTopic: false,
-        temas: ['primaria', 'gce', 'wwii', 'usa'], // Roma no tiene portadas
+        // Roma/Antigua/Edad Media/Prehistoria se quedan fuera a propósito:
+        // no existía prensa escrita en esas épocas — un titular de periódico
+        // ahí sería anacrónico, no un descuido. Edad Moderna entra pero con
+        // datos.temas filtrados a partir de ~1600 (los primeros periódicos
+        // reales), no con toda su franja 1492-1789.
+        temas: ['primaria', 'gce', 'wwii', 'usa', 'franquismo', 'edad-moderna'],
       },
       'juego-fechas': {
         label: { es: 'Juego de Fechas', en: 'Date Game', ca: 'Joc de Dates' },

@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { PERSONAJES_TODOS, PERSONAJES_GCE, PERSONAJES_WWII, PERSONAJES_USA, PERSONAJES_GLOBAL, montarTablero, generarPistas } from '../data/personajes'
+import { PERSONAJES_TODOS, PERSONAJES_GCE, PERSONAJES_WWII, PERSONAJES_USA, PERSONAJES_GLOBAL, PERSONAJES_FRANQUISMO, PERSONAJES_EDADMEDIA, PERSONAJES_EDADMODERNA, montarTablero, generarPistas } from '../data/personajes'
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
 import { saveActivity } from '../lib/activity'
@@ -15,16 +15,19 @@ const POOL_LABEL = {
     gce: 'Guerra Civil Española', wwii: 'Segunda Guerra Mundial',
     usa: 'Independencia Americana', primaria: 'Personajes históricos de todas las épocas',
     global: 'Personajes históricos de todas las épocas',
+    franquismo: 'Franquismo', 'edad-media': 'Edad Media', 'edad-moderna': 'Edad Moderna',
   },
   en: {
     gce: 'Spanish Civil War', wwii: 'World War II',
     usa: 'American Independence', primaria: 'Historical figures from all eras',
     global: 'Historical figures from all eras',
+    franquismo: 'Francoism', 'edad-media': 'The Middle Ages', 'edad-moderna': 'The Early Modern Period',
   },
   ca: {
     gce: 'Guerra Civil Espanyola', wwii: 'Segona Guerra Mundial',
     usa: 'Independència Americana', primaria: 'Personatges històrics de totes les èpoques',
     global: 'Personatges històrics de totes les èpoques',
+    franquismo: 'Franquisme', 'edad-media': 'Edat Mitjana', 'edad-moderna': 'Edat Moderna',
   },
 }
 
@@ -215,10 +218,13 @@ export default function QuienEsQuien() {
   // Si venimos desde /estudiar/historia/gce usamos solo el pool GCE
   const poolKey  = location.state?.pool ?? 'global'
   const backPath = location.state?.backPath ?? '/juegos'
-  const pool = poolKey === 'gce'      ? PERSONAJES_GCE
-             : poolKey === 'wwii'     ? PERSONAJES_WWII
-             : poolKey === 'usa'      ? PERSONAJES_USA
-             : poolKey === 'primaria' ? PERSONAJES_GLOBAL
+  const pool = poolKey === 'gce'          ? PERSONAJES_GCE
+             : poolKey === 'wwii'         ? PERSONAJES_WWII
+             : poolKey === 'usa'          ? PERSONAJES_USA
+             : poolKey === 'franquismo'   ? PERSONAJES_FRANQUISMO
+             : poolKey === 'edad-media'   ? PERSONAJES_EDADMEDIA
+             : poolKey === 'edad-moderna' ? PERSONAJES_EDADMODERNA
+             : poolKey === 'primaria'     ? PERSONAJES_GLOBAL
              : PERSONAJES_TODOS
 
   const TIME_START = 60
