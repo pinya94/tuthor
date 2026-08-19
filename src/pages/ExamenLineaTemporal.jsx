@@ -57,12 +57,13 @@ function Intro({ config, totalEvents, onStart, en }) {
 // ── RESULTADO ─────────────────────────────────────────────────────────────────
 function Resultado({ placed, lives, config, onRepetir, onSalir, en }) {
   const { winAt, totalEvents } = config
-  const target = winAt ?? totalEvents
+  const maxAchievable = Math.max(0, totalEvents - 1) // uno se coloca solo de ancla y no cuenta
+  const target = winAt ?? maxAchievable
   const aprobado = placed >= target
 
   let nota, notaColor
   if (!aprobado)          { nota = en ? 'FAIL' : 'SUSPENSO';              notaColor = 'text-red-400' }
-  else if (placed >= totalEvents) { nota = en ? 'OUTSTANDING' : 'SOBRESALIENTE'; notaColor = 'text-violet-400' }
+  else if (placed >= maxAchievable) { nota = en ? 'OUTSTANDING' : 'SOBRESALIENTE'; notaColor = 'text-violet-400' }
   else if (placed >= target * 1.3) { nota = en ? 'GOOD' : 'NOTABLE';      notaColor = 'text-blue-400' }
   else                    { nota = en ? 'PASS' : 'APROBADO';              notaColor = 'text-green-400' }
 
@@ -118,14 +119,16 @@ export default function ExamenLineaTemporal() {
     (!nivel || !e.nivel || e.nivel.includes(nivel))
   )
 
-  // Configuración según nivel. `winAt` no puede pedir más eventos de los
-  // que existen de verdad para ese tema+nivel — Math.min con allEvents.length
-  // evita un objetivo imposible (p. ej. Prehistoria en Primaria solo tiene 3
-  // eventos: pedir "coloca 10" haría que acertar TODOS los que hay siguiera
-  // marcando SUSPENSO, que es justo el bug que se reportó).
+  // Configuración según nivel. El primer evento (shuffled[0]) se coloca solo
+  // como ancla inicial y NUNCA cuenta en `placed` — el máximo alcanzable de
+  // verdad es allEvents.length-1, no allEvents.length. `winAt` no puede pedir
+  // más que eso (p. ej. Prehistoria en Primaria solo tiene unos pocos eventos:
+  // pedir más de los que se pueden colocar de verdad deja el examen en
+  // SUSPENSO permanente aunque se acierte todo, que es justo el bug reportado).
+  const maxAchievable = Math.max(0, allEvents.length - 1)
   const isPrimaria = nivel === 'primaria'
   const maxLives   = isPrimaria ? MAX_LIVES_PRIMARIA : MAX_LIVES_EXAM
-  const winAt      = isPrimaria ? Math.min(WIN_AT_PRIMARIA, allEvents.length) : null // null = colocar todos
+  const winAt      = isPrimaria ? Math.min(WIN_AT_PRIMARIA, maxAchievable) : null // null = colocar todos los alcanzables
 
   const CONFIGS = en ? {
     primaria: { label: 'Great Milestones', emoji: '🌍', descripcion: 'The most important moments that changed the world. Perfect for revising key milestones of universal history.', lives: maxLives, winAt },
@@ -243,7 +246,7 @@ export default function ExamenLineaTemporal() {
     }
 
     // ¿Condición de victoria?
-    const target = winAt ?? allEvents.length
+    const target = winAt ?? maxAchievable
     const won    = newPlaced >= target
 
     setTimeout(() => {
@@ -289,7 +292,7 @@ export default function ExamenLineaTemporal() {
   )
 
   const dif = { fácil: 'text-green-400 bg-green-500/10 border-green-500/30', medio: 'text-amber-400 bg-amber-500/10 border-amber-500/30', difícil: 'text-red-400 bg-red-500/10 border-red-500/30' }
-  const target   = winAt ?? allEvents.length
+  const target   = winAt ?? maxAchievable
   const progress = Math.round((placed / target) * 100)
 
   return (
