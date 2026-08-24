@@ -37,6 +37,23 @@ export default function EconomiaIndex() {
             </div>
           </div>
         </button>
+
+        <button
+          onClick={() => navigate(localPath('/examen/punto-equilibrio'))}
+          className="group relative rounded-2xl overflow-hidden text-left transition-all duration-300 hover:scale-[1.03] hover:shadow-xl hover:shadow-black/40 cursor-pointer"
+        >
+          <div className="bg-gradient-to-br from-emerald-500 to-teal-700 p-5 aspect-square flex flex-col justify-between">
+            <span className="text-4xl">🏭</span>
+            <div>
+              <h3 className="font-black text-white text-base leading-tight">
+                {ca ? 'Punt d\'Equilibri' : en ? 'Break-Even Point' : 'Punto de Equilibrio'}
+              </h3>
+              <p className="text-white/65 text-xs mt-1 leading-relaxed line-clamp-2">
+                {ca ? 'Calcula el llindar de rendibilitat: CF, preu i cost variable' : en ? 'Work out the break-even threshold: fixed costs, price and variable cost' : 'Calcula el umbral de rentabilidad: costes fijos, precio y coste variable'}
+              </p>
+            </div>
+          </div>
+        </button>
       </div>
     </div>
   )

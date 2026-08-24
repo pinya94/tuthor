@@ -42,6 +42,7 @@ const EpocasHistoricas   = lazy(() => import('./pages/EpocasHistoricas'))
 const GeoRush            = lazy(() => import('./pages/GeoRush'))
 const GeoMapa            = lazy(() => import('./pages/GeoMapa'))
 const NumPath            = lazy(() => import('./pages/NumPath'))
+const RepartePastel      = lazy(() => import('./pages/RepartePastel'))
 const Trayectoria        = lazy(() => import('./pages/Trayectoria'))
 const TrayectoriaExamen  = lazy(() => import('./pages/TrayectoriaExamen'))
 const Portero            = lazy(() => import('./pages/Portero'))
@@ -209,6 +210,7 @@ function AppRoutes() {
       <Route path="juegos/georush" element={<GeoRush />} />
       <Route path="juegos/geomapa" element={<GeoMapa />} />
       <Route path="juegos/numpath" element={<NumPath />} />
+      <Route path="juegos/reparte-pastel" element={<RepartePastel />} />
       <Route path="juegos/trayectoria" element={<Trayectoria />} />
       <Route path="juegos/portero" element={<Portero />} />
       <Route path="juegos/intruso" element={<ElIntruso />} />

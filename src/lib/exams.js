@@ -147,6 +147,11 @@ export const EXAMS = {
     emoji: '💰', subject: 'economia',
     path: 'examen/finanzas-personales', page: () => import('../pages/FinanzasPersonalesExamen'),
   },
+  'punto-equilibrio': {
+    label: { es: 'Punto de Equilibrio', en: 'Break-Even Point', ca: 'Punt d\'Equilibri' },
+    emoji: '🏭', subject: 'economia',
+    path: 'examen/punto-equilibrio', page: () => import('../pages/PuntoEquilibrioExamen'),
+  },
 
   // ── Matemáticas ────────────────────────────────────────────────────────────
   'algebra': {
@@ -168,6 +173,11 @@ export const EXAMS = {
     label: { es: 'Fracciones', en: 'Fractions', ca: 'Fraccions' },
     emoji: '🍕', subject: 'matematicas',
     path: 'examen/fracciones', page: () => import('../pages/FraccionesExamen'),
+  },
+  'reparte-pastel-test': {
+    label: { es: 'Reparte el Pastel', en: 'Slice the Cake', ca: 'Reparteix el Pastís' },
+    emoji: '🍰', subject: 'matematicas',
+    path: 'examen/reparte-pastel-test', page: () => import('../pages/RepartePastelExamen'),
   },
   'funciones': {
     label: { es: 'Funciones', en: 'Functions', ca: 'Funcions' },

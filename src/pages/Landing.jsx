@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
@@ -295,7 +295,60 @@ const FAQ = [
   },
 ]
 
-function Header({ onLogin, user, tr, localPath }) {
+// Mismos tres idiomas y banderas que el LangSelector del Navbar de dentro de
+// la app (src/components/Navbar.jsx) — duplicado a propósito, no compartido:
+// la landing tiene su propio header con estilo claro y no depende del resto.
+const LANDING_LANGS = [
+  { code: 'es', flag: 'es', label: 'Español' },
+  { code: 'en', flag: 'gb', label: 'English' },
+  { code: 'ca', flag: 'ad', label: 'Català' },
+]
+
+function LandingLangSwitcher({ lang, switchLang }) {
+  const [open, setOpen] = useState(false)
+  const ref = useRef(null)
+  const current = LANDING_LANGS.find(l => l.code === lang) || LANDING_LANGS[0]
+
+  useEffect(() => {
+    if (!open) return
+    const close = e => { if (ref.current && !ref.current.contains(e.target)) setOpen(false) }
+    document.addEventListener('mousedown', close)
+    return () => document.removeEventListener('mousedown', close)
+  }, [open])
+
+  return (
+    <div className="relative" ref={ref}>
+      <button
+        onClick={() => setOpen(o => !o)}
+        className="flex items-center gap-1.5 rounded-lg px-2 py-2 text-sm font-semibold text-slate-600 transition-colors hover:bg-slate-100 hover:text-slate-900"
+      >
+        <img src={`https://flagcdn.com/w40/${current.flag}.png`} alt={current.label} width={20} height={15} className="rounded-sm" />
+        <svg className={`h-3 w-3 transition-transform ${open ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
+      {open && (
+        <div className="absolute right-0 top-full mt-1.5 w-40 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-xl z-50">
+          {LANDING_LANGS.map(l => (
+            <button
+              key={l.code}
+              onClick={() => { switchLang(l.code); setOpen(false) }}
+              className={`flex w-full items-center gap-2.5 px-3 py-2.5 text-left text-sm transition-colors ${
+                l.code === lang ? 'bg-violet-50 text-violet-700' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
+              }`}
+            >
+              <img src={`https://flagcdn.com/w40/${l.flag}.png`} alt={l.label} width={20} height={15} className="rounded-sm" />
+              <span className="font-medium">{l.label}</span>
+              {l.code === lang && <span className="ml-auto text-xs text-violet-500">✓</span>}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
+
+function Header({ onLogin, user, tr, localPath, lang, switchLang }) {
   return (
     <header className="sticky top-0 z-40 border-b border-slate-200/70 bg-white/85 backdrop-blur-md">
       <div className="mx-auto flex max-w-6xl items-center gap-4 px-5 py-3.5">
@@ -313,6 +366,7 @@ function Header({ onLogin, user, tr, localPath }) {
           <Link to={localPath('/profesores')} className="rounded-lg px-3 py-2 text-sm font-semibold text-slate-600 transition-colors hover:text-slate-900">
             {tr({ es: 'Soy profe', en: "I'm a teacher", ca: 'Sóc profe' })}
           </Link>
+          <LandingLangSwitcher lang={lang} switchLang={switchLang} />
           {user ? (
             <Link to={localPath('/app')} className="rounded-xl bg-slate-900 px-4 py-2 text-sm font-bold text-white transition-colors hover:bg-slate-700">
               {tr({ es: 'Entrar', en: 'Open', ca: 'Entrar' })}
@@ -380,7 +434,7 @@ function PlanCard({ planId, featured, tr, onPick, busy }) {
 }
 
 export default function Landing() {
-  const { tr, localPath } = useLang()
+  const { tr, localPath, lang, switchLang } = useLang()
   const { user } = useAuth()
   const navigate = useNavigate()
   const [showAuth, setShowAuth] = useState(false)
@@ -444,7 +498,7 @@ export default function Landing() {
         })}
       />
 
-      <Header onLogin={() => setShowAuth(true)} user={user} tr={tr} localPath={localPath} />
+      <Header onLogin={() => setShowAuth(true)} user={user} tr={tr} localPath={localPath} lang={lang} switchLang={switchLang} />
 
       {/* ── HERO ── */}
       <section className="mx-auto max-w-4xl px-5 pb-16 pt-16 text-center sm:pt-24">

@@ -95,6 +95,13 @@ export const GAMES = {
     route: '/juegos/numpath',
     coins: DEFAULT_COINS,
   },
+  'reparte-pastel': {
+    label: { es: 'Reparte el Pastel', en: 'Slice the Cake', ca: 'Reparteix el Pastís' },
+    emoji: '🍰',
+    subject: 'matematicas',
+    route: '/juegos/reparte-pastel',
+    coins: DEFAULT_COINS,
+  },
   'trayectoria': {
     label: { es: 'Trayectoria', en: 'Trajectory', ca: 'Trajectòria' },
     emoji: '⚽',

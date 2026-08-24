@@ -462,6 +462,33 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Matemáticas', niveles: 'Primaria, ESO, Bachillerato',
   },
+  'reparte-pastel': {
+    titulo: 'Reparte el Pastel',
+    subtitulo: 'Juego Visual de Fracciones con Porciones',
+    emoji: '🍰', gradient: 'from-pink-500 to-rose-700', path: '/juegos/reparte-pastel',
+    intro: 'Un pastel circular dividido en porciones iguales, a contrarreloj. Unas veces hay que leer qué fracción está sombreada; otras, tocar las porciones justas para construir la fracción que se pide — incluso cuando el pastel tiene más porciones que el denominador, así que hay que caer en la fracción equivalente.',
+    beneficios: [
+      { titulo: 'Fracción como Algo que se Ve, no que se Memoriza', texto: 'En vez de manipular numerador y denominador como símbolos abstractos, el alumno ve directamente qué cantidad representan — la base real de entender una fracción.' },
+      { titulo: 'Equivalencia sin Explicarla con Palabras', texto: 'Cuando el pastel tiene el doble o el triple de porciones que el denominador pedido, el alumno descubre por sí mismo que 2/3 y 4/6 son "la misma cantidad de pastel".' },
+      { titulo: 'Repetición sin Aburrir', texto: 'El contrarreloj y las rachas convierten una tarea que en un cuaderno sería repetitiva en algo con tensión y ganas de superar la puntuación anterior.' },
+    ],
+    ejemplo: 'Pide "2/3" y el pastel tiene 9 porciones (el triple de 3). El alumno tiene que caer en que 2/3 = 6/9 y tocar exactamente 6 porciones, no 2 — ahí está el aprendizaje real de la ronda.',
+    enPapel: {
+      titulo: 'El pastel de fracciones en papel',
+      pasos: [
+        'Dibuja un círculo y divídelo en un número de porciones que sea múltiplo de varios denominadores (por ejemplo, 12).',
+        'Pide una fracción (por ejemplo, 1/3) y que el alumno coloree las porciones exactas (4 de 12).',
+        'Pide la misma cantidad expresada como otra fracción equivalente (2/6, 4/12…) y comprueba que colorea lo mismo.',
+        'Repite con fracciones distintas, subiendo la dificultad con denominadores menos habituales (7, 8, 9…).',
+      ],
+    },
+    alternativas: [
+      { nombre: 'El examen de Fracciones y Decimales', desc: 'Repasa en formato test equivalencias, operaciones, decimales y porcentajes.' },
+      { nombre: 'Tiras de fracciones de papel', desc: 'Tiras de papel iguales dobladas en distintas partes (mitades, tercios, cuartos…) para comparar longitudes a ojo.' },
+      { nombre: 'Recetas de cocina reales', desc: 'Doblar o partir por la mitad una receta real es practicar fracciones con consecuencias sabrosas si sale mal.' },
+    ],
+    asignatura: 'Matemáticas', niveles: 'Primaria, ESO',
+  },
   'trayectoria': {
     titulo: 'Trayectoria',
     subtitulo: 'Juego de Funciones Matemáticas con Mecánica de Fútbol',
@@ -1085,6 +1112,33 @@ export const FICHAS_EN = {
       { nombre: 'Maths mazes', desc: 'Mazes where each fork applies an operation. Great for primary school.' },
     ],
     asignatura: 'Mathematics', niveles: 'Primary, Secondary, Sixth Form',
+  },
+  'reparte-pastel': {
+    titulo: 'Slice the Cake',
+    subtitulo: 'Visual Fractions Game with Cake Slices',
+    emoji: '🍰', gradient: 'from-pink-500 to-rose-700', path: '/juegos/reparte-pastel',
+    intro: 'A round cake cut into equal slices, against the clock. Sometimes you read which fraction is shaded; other times you tap exactly the right slices to build the fraction you are asked for — even when the cake has more slices than the denominator, so you have to spot the equivalent fraction.',
+    beneficios: [
+      { titulo: 'A Fraction as Something You See, not Memorise', texto: 'Instead of manipulating numerator and denominator as abstract symbols, students see directly how much they represent — the real basis for understanding a fraction.' },
+      { titulo: 'Equivalence without Explaining it in Words', texto: 'When the cake has double or triple the slices of the requested denominator, students discover for themselves that 2/3 and 4/6 are "the same amount of cake".' },
+      { titulo: 'Repetition without Boredom', texto: 'The countdown and streaks turn what would be a repetitive worksheet task into something with tension and a score to beat.' },
+    ],
+    ejemplo: 'It asks for "2/3" and the cake has 9 slices (triple 3). The student has to realise 2/3 = 6/9 and tap exactly 6 slices, not 2 — that is where the real learning of the round happens.',
+    enPapel: {
+      titulo: 'The fraction cake on paper',
+      pasos: [
+        'Draw a circle and split it into a number of slices that is a multiple of several denominators (12, for example).',
+        'Ask for a fraction (1/3, say) and have the student colour the exact slices (4 of 12).',
+        'Ask for the same amount expressed as a different equivalent fraction (2/6, 4/12…) and check they colour the same amount.',
+        'Repeat with different fractions, raising the difficulty with less common denominators (7, 8, 9…).',
+      ],
+    },
+    alternativas: [
+      { nombre: 'The Fractions and Decimals exam', desc: 'Review equivalences, operations, decimals and percentages in quiz form.' },
+      { nombre: 'Paper fraction strips', desc: 'Equal paper strips folded into different parts (halves, thirds, quarters…) to compare lengths by eye.' },
+      { nombre: 'Real cooking recipes', desc: 'Doubling or halving a real recipe is practising fractions with tasty consequences if it goes wrong.' },
+    ],
+    asignatura: 'Mathematics', niveles: 'Primary, Secondary',
   },
   'trayectoria': {
     titulo: 'Trajectory',
@@ -1769,6 +1823,33 @@ export const FICHAS_CA = {
       { nombre: 'Laberints matemàtics', desc: 'Laberints on cada bifurcació aplica una operació. Ideal per a primària.' },
     ],
     asignatura: 'Matemàtiques', niveles: 'Primària, ESO, Batxillerat',
+  },
+  'reparte-pastel': {
+    titulo: 'Reparteix el Pastís',
+    subtitulo: 'Joc Visual de Fraccions amb Porcions',
+    emoji: '🍰', gradient: 'from-pink-500 to-rose-700', path: '/juegos/reparte-pastel',
+    intro: 'Un pastís rodó tallat en porcions iguals, a contrarellotge. A vegades cal llegir quina fracció està ombrejada; d\'altres, tocar les porcions justes per construir la fracció que es demana — fins i tot quan el pastís té més porcions que el denominador, així que cal caure en la fracció equivalent.',
+    beneficios: [
+      { titulo: 'Una Fracció com Alguna Cosa que es Veu, no que es Memoritza', texto: 'En lloc de manipular numerador i denominador com a símbols abstractes, l\'alumne veu directament quina quantitat representen — la base real per entendre una fracció.' },
+      { titulo: 'Equivalència sense Explicar-la amb Paraules', texto: 'Quan el pastís té el doble o el triple de porcions que el denominador demanat, l\'alumne descobreix per si mateix que 2/3 i 4/6 són "la mateixa quantitat de pastís".' },
+      { titulo: 'Repetició sense Avorrir', texto: 'El contrarellotge i les ratxes converteixen una tasca que en un quadern seria repetitiva en alguna cosa amb tensió i ganes de superar la puntuació anterior.' },
+    ],
+    ejemplo: 'Demana "2/3" i el pastís té 9 porcions (el triple de 3). L\'alumne ha de caure en el fet que 2/3 = 6/9 i tocar exactament 6 porcions, no 2 — aquí és on hi ha l\'aprenentatge real de la ronda.',
+    enPapel: {
+      titulo: 'El pastís de fraccions en paper',
+      pasos: [
+        'Dibuixa un cercle i divideix-lo en un nombre de porcions que sigui múltiple de diversos denominadors (12, per exemple).',
+        'Demana una fracció (1/3, per exemple) i que l\'alumne coloregi les porcions exactes (4 de 12).',
+        'Demana la mateixa quantitat expressada com una altra fracció equivalent (2/6, 4/12…) i comprova que coloreja el mateix.',
+        'Repeteix amb fraccions diferents, pujant la dificultat amb denominadors menys habituals (7, 8, 9…).',
+      ],
+    },
+    alternativas: [
+      { nombre: 'L\'examen de Fraccions i Decimals', desc: 'Repassa en format test equivalències, operacions, decimals i percentatges.' },
+      { nombre: 'Tires de fraccions de paper', desc: 'Tires de paper iguals doblegades en parts diferents (meitats, terços, quarts…) per comparar longituds a ull.' },
+      { nombre: 'Receptes de cuina reals', desc: 'Doblar o partir per la meitat una recepta real és practicar fraccions amb conseqüències saboroses si surt malament.' },
+    ],
+    asignatura: 'Matemàtiques', niveles: 'Primària, ESO',
   },
   'trayectoria': {
     titulo: 'Trajectòria',

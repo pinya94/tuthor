@@ -161,7 +161,7 @@ export const TOPIC_CATALOG = {
       }),
       algebra: examTema({ teoria: 'algebra', 'balanza-algebraica': 'balanza-algebraica-test' }),
       geometria: examTema({ teoria: 'geometria' }),
-      fracciones: examTema({ teoria: 'fracciones' }),
+      fracciones: examTema({ teoria: 'fracciones', 'reparte-pastel': 'reparte-pastel-test' }),
       estadistica: examTema({ teoria: 'estadistica' }),
       'enteros-racionales': examTema({ teoria: 'enteros-racionales' }),
     },
@@ -172,6 +172,7 @@ export const TOPIC_CATALOG = {
       trayectoria: examFormato({ es: 'Trayectoria (con el juego)', en: 'Trajectory (with the game)', ca: 'Trajectòria (amb el joc)' }, '⚽'),
       portero: examFormato({ es: 'El Portero (con el juego)', en: 'The Goalkeeper (with the game)', ca: 'El Porter (amb el joc)' }, '🥅'),
       'balanza-algebraica': examFormato({ es: 'Balanza Algebraica (con el juego)', en: 'Algebra Balance (with the game)', ca: 'Balança Algebraica (amb el joc)' }, '⚖️'),
+      'reparte-pastel': examFormato({ es: 'Reparte el Pastel (con el juego)', en: 'Slice the Cake (with the game)', ca: 'Reparteix el Pastís (amb el joc)' }, '🍰'),
       // Formatos por mecánica (solo para los modos de cálculo)
       'examen-practica': {
         temas: MATH_TEMA_IDS,
@@ -346,7 +347,10 @@ export const TOPIC_CATALOG = {
   // Materias de un solo examen por ahora: entran igualmente para que la
   // estructura ya exista cuando se añadan más formatos o temas.
   economia: {
-    temas: { 'finanzas-personales': examTema({ examen: 'finanzas-personales' }) },
+    temas: {
+      'finanzas-personales': examTema({ examen: 'finanzas-personales' }),
+      'punto-equilibrio': examTema({ examen: 'punto-equilibrio' }),
+    },
     formatos: { examen: examFormato({ es: 'Examen', en: 'Exam', ca: 'Examen' }, '📝') },
   },
 

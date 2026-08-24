@@ -26,6 +26,23 @@ export default function FraccionesTema() {
 
   const opciones = [
     {
+      id: 'reparte-pastel',
+      titulo: ca ? 'Reparteix el Pastís' : en ? 'Slice the Cake' : 'Reparte el Pastel',
+      descripcion: ca
+        ? 'Amb la mecànica del joc: identifica, construeix i suma fraccions tocant les porcions d\'un pastís.'
+        : en
+        ? 'Using the game mechanic: identify, build and add fractions by tapping cake slices.'
+        : 'Con la mecánica del juego: identifica, construye y suma fracciones tocando las porciones de un pastel.',
+      emoji: '🍰',
+      gradient: 'from-pink-500 to-rose-700',
+      detalles: [
+        ca ? '3 nivells' : en ? '3 levels' : '3 niveles',
+        ca ? '10 preguntes' : en ? '10 questions' : '10 preguntas',
+        ca ? 'Amb el joc' : en ? 'With the game' : 'Con el juego',
+      ],
+      action: () => navigate(localPath('/examen/reparte-pastel-test')),
+    },
+    {
       id: 'examen',
       titulo: ca ? 'Examen de pràctica' : en ? 'Practice exam' : 'Examen de práctica',
       descripcion: ca
