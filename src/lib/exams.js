@@ -189,6 +189,11 @@ export const EXAMS = {
     emoji: '📐', subject: 'matematicas',
     path: 'examen/geometria', page: () => import('../pages/GeometriaExamen'),
   },
+  'figuras-compuestas': {
+    label: { es: 'Figuras Compuestas', en: 'Composite Shapes', ca: 'Figures Compostes' },
+    emoji: '📐', subject: 'matematicas',
+    path: 'examen/figuras-compuestas', page: () => import('../pages/FigurasCompuestasExamen'),
+  },
   'funciones-grafica-test': {
     label: { es: 'Caza la Función', en: 'Function Hunt', ca: 'Caça la Funció' },
     emoji: '📈', subject: 'matematicas',

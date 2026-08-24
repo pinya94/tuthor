@@ -26,6 +26,23 @@ export default function GeometriaTema() {
 
   const opciones = [
     {
+      id: 'figuras-compuestas',
+      titulo: ca ? 'Figures Compostes' : en ? 'Composite Shapes' : 'Figuras Compuestas',
+      descripcion: ca
+        ? 'Toca el tall que parteix una figura en forma de L en dos rectangles — l\'exercici clàssic d\'àrea per descomposició.'
+        : en
+        ? 'Tap the cut that splits an L-shaped figure into two rectangles — the classic area-by-decomposition exercise.'
+        : 'Toca el corte que parte una figura en forma de L en dos rectángulos — el ejercicio clásico de área por descomposición.',
+      emoji: '📐',
+      gradient: 'from-fuchsia-500 to-purple-700',
+      detalles: [
+        ca ? '3 nivells' : en ? '3 levels' : '3 niveles',
+        ca ? '10 preguntes' : en ? '10 questions' : '10 preguntas',
+        ca ? 'Visual' : en ? 'Visual' : 'Visual',
+      ],
+      action: () => navigate(localPath('/examen/figuras-compuestas')),
+    },
+    {
       id: 'examen',
       titulo: ca ? 'Examen de pràctica' : en ? 'Practice exam' : 'Examen de práctica',
       descripcion: ca

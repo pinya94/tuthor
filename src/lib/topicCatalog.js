@@ -160,7 +160,7 @@ export const TOPIC_CATALOG = {
         portero: 'portero-examen',
       }),
       algebra: examTema({ teoria: 'algebra', 'balanza-algebraica': 'balanza-algebraica-test' }),
-      geometria: examTema({ teoria: 'geometria' }),
+      geometria: examTema({ teoria: 'geometria', 'figuras-compuestas': 'figuras-compuestas' }),
       fracciones: examTema({ teoria: 'fracciones', 'reparte-pastel': 'reparte-pastel-test' }),
       estadistica: examTema({ teoria: 'estadistica' }),
       'enteros-racionales': examTema({ teoria: 'enteros-racionales' }),
@@ -173,6 +173,7 @@ export const TOPIC_CATALOG = {
       portero: examFormato({ es: 'El Portero (con el juego)', en: 'The Goalkeeper (with the game)', ca: 'El Porter (amb el joc)' }, '🥅'),
       'balanza-algebraica': examFormato({ es: 'Balanza Algebraica (con el juego)', en: 'Algebra Balance (with the game)', ca: 'Balança Algebraica (amb el joc)' }, '⚖️'),
       'reparte-pastel': examFormato({ es: 'Reparte el Pastel (con el juego)', en: 'Slice the Cake (with the game)', ca: 'Reparteix el Pastís (amb el joc)' }, '🍰'),
+      'figuras-compuestas': examFormato({ es: 'Figuras Compuestas', en: 'Composite Shapes', ca: 'Figures Compostes' }, '📐'),
       // Formatos por mecánica (solo para los modos de cálculo)
       'examen-practica': {
         temas: MATH_TEMA_IDS,
