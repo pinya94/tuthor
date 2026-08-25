@@ -102,6 +102,13 @@ export const GAMES = {
     route: '/juegos/reparte-pastel',
     coins: DEFAULT_COINS,
   },
+  'salta-recta': {
+    label: { es: 'Salta la Recta', en: 'Jump the Number Line', ca: 'Salta la Recta' },
+    emoji: '🐸',
+    subject: 'matematicas',
+    route: '/juegos/salta-recta',
+    coins: DEFAULT_COINS,
+  },
   'trayectoria': {
     label: { es: 'Trayectoria', en: 'Trajectory', ca: 'Trajectòria' },
     emoji: '⚽',

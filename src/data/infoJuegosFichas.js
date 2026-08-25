@@ -489,6 +489,33 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Matemáticas', niveles: 'Primaria, ESO',
   },
+  'salta-recta': {
+    titulo: 'Salta la Recta',
+    subtitulo: 'Juego de Enteros con Recta Numérica',
+    emoji: '🐸', gradient: 'from-lime-500 to-green-700', path: '/juegos/salta-recta',
+    intro: 'Una recta numérica y una rana que salta, a contrarreloj. Unas veces se da la salida y una operación con signo y hay que tocar dónde cae; otras, se ven salida y llegada y hay que adivinar qué operación fue. En difícil, algunas operaciones se escriben con doble signo (como "−(−6)") para practicar la regla de que restar un negativo es sumar.',
+    beneficios: [
+      { titulo: 'La Regla de Signos, Vista, no Memorizada', texto: 'En vez de aprenderse "menos por menos es más" de memoria, el alumno ve el salto en la recta y comprueba dónde cae realmente — el error se corrige con la vista, no con la fórmula.' },
+      { titulo: 'Dos Sentidos del Mismo Concepto', texto: 'Saltar (de la operación al resultado) y adivinar (del resultado a la operación) son las dos direcciones en las que se pregunta esto en un examen — practicar solo una deja cojo el aprendizaje.' },
+      { titulo: 'Repetición sin Aburrir', texto: 'El contrarreloj y las rachas convierten unas cuentas con enteros, que en un cuaderno serían monótonas, en algo con tensión y una puntuación que superar.' },
+    ],
+    ejemplo: 'Empieza en −3 y salta "−(−5)". Como restar un negativo es sumar, el salto real es +5, así que cae en 2 — no en −8, que es el error típico de no aplicar la regla de signos.',
+    enPapel: {
+      titulo: 'La recta numérica en papel',
+      pasos: [
+        'Dibuja una recta del −10 al 10 en el suelo o en un papel largo, con una marca por cada entero.',
+        'Un jugador se coloca en un número de salida (puede ser con el propio cuerpo, saltando de marca en marca).',
+        'Otro jugador dice una operación con signo, incluyendo alguna con doble signo ("resta −4").',
+        'El primero salta hasta el resultado y el grupo comprueba si ha caído en el sitio correcto.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'El examen de Enteros y Racionales', desc: 'Repasa en formato test enteros, valor absoluto, operaciones con signos y números racionales.' },
+      { nombre: 'Termómetros y temperaturas bajo cero', desc: 'Comparar temperaturas negativas de ciudades reales es una forma cotidiana de manejar enteros con sentido.' },
+      { nombre: 'Juegos de ascensor', desc: 'Un edificio con plantas de sótano (negativas) y un ascensor que sube y baja es otra recta numérica disfrazada.' },
+    ],
+    asignatura: 'Matemáticas', niveles: 'ESO',
+  },
   'trayectoria': {
     titulo: 'Trayectoria',
     subtitulo: 'Juego de Funciones Matemáticas con Mecánica de Fútbol',
@@ -1139,6 +1166,33 @@ export const FICHAS_EN = {
       { nombre: 'Real cooking recipes', desc: 'Doubling or halving a real recipe is practising fractions with tasty consequences if it goes wrong.' },
     ],
     asignatura: 'Mathematics', niveles: 'Primary, Secondary',
+  },
+  'salta-recta': {
+    titulo: 'Jump the Number Line',
+    subtitulo: 'Integers Game with a Number Line',
+    emoji: '🐸', gradient: 'from-lime-500 to-green-700', path: '/juegos/salta-recta',
+    intro: 'A number line and a jumping frog, against the clock. Sometimes you get a starting point and a signed operation and must tap where it lands; other times you see the start and landing and must guess which operation it was. On hard, some operations are written with a double sign (like "−(−6)") to practise the rule that subtracting a negative is adding.',
+    beneficios: [
+      { titulo: 'The Sign Rule, Seen, not Memorised', texto: 'Instead of memorising "minus times minus is plus", students see the jump on the line and check where it actually lands — the mistake gets corrected by sight, not by formula.' },
+      { titulo: 'Two Directions of the Same Idea', texto: 'Jumping (from operation to result) and guessing (from result to operation) are the two directions this gets tested in an exam — practising only one leaves the learning half-done.' },
+      { titulo: 'Repetition without Boredom', texto: 'The countdown and streaks turn integer arithmetic, which would be monotonous on paper, into something with tension and a score to beat.' },
+    ],
+    ejemplo: 'Starting at −3, jump "−(−5)". Since subtracting a negative is adding, the real jump is +5, landing on 2 — not −8, the typical mistake from not applying the sign rule.',
+    enPapel: {
+      titulo: 'The number line on paper',
+      pasos: [
+        'Draw a line from −10 to 10 on the floor or a long sheet of paper, with a mark for each integer.',
+        'One player stands on a starting number (can be done physically, hopping mark to mark).',
+        'Another player calls out a signed operation, including some with a double sign ("subtract −4").',
+        'The first player jumps to the result and the group checks whether they landed in the right spot.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'The Integers and Rationals exam', desc: 'Review integers, absolute value, signed operations and rational numbers in quiz form.' },
+      { nombre: 'Thermometers and below-zero temperatures', desc: 'Comparing real negative temperatures across cities is an everyday way to handle integers meaningfully.' },
+      { nombre: 'Lift/elevator games', desc: 'A building with basement floors (negative) and a lift going up and down is another number line in disguise.' },
+    ],
+    asignatura: 'Mathematics', niveles: 'Secondary',
   },
   'trayectoria': {
     titulo: 'Trajectory',
@@ -1850,6 +1904,33 @@ export const FICHAS_CA = {
       { nombre: 'Receptes de cuina reals', desc: 'Doblar o partir per la meitat una recepta real és practicar fraccions amb conseqüències saboroses si surt malament.' },
     ],
     asignatura: 'Matemàtiques', niveles: 'Primària, ESO',
+  },
+  'salta-recta': {
+    titulo: 'Salta la Recta',
+    subtitulo: 'Joc d\'Enters amb Recta Numèrica',
+    emoji: '🐸', gradient: 'from-lime-500 to-green-700', path: '/juegos/salta-recta',
+    intro: 'Una recta numèrica i una granota que salta, a contrarellotge. A vegades es dona la sortida i una operació amb signe i cal tocar on cau; d\'altres, es veuen sortida i arribada i cal endevinar quina operació va ser. En difícil, algunes operacions s\'escriuen amb doble signe (com "−(−6)") per practicar la regla que restar un negatiu és sumar.',
+    beneficios: [
+      { titulo: 'La Regla de Signes, Vista, no Memoritzada', texto: 'En lloc d\'aprendre\'s "menys per menys és més" de memòria, l\'alumne veu el salt a la recta i comprova on cau realment — l\'error es corregeix amb la vista, no amb la fórmula.' },
+      { titulo: 'Dos Sentits del Mateix Concepte', texto: 'Saltar (de l\'operació al resultat) i endevinar (del resultat a l\'operació) són els dos sentits en què es pregunta això a un examen — practicar només un deixa coix l\'aprenentatge.' },
+      { titulo: 'Repetició sense Avorrir', texto: 'El contrarellotge i les ratxes converteixen uns comptes amb enters, que en un quadern serien monòtons, en alguna cosa amb tensió i una puntuació a superar.' },
+    ],
+    ejemplo: 'Comença a −3 i salta "−(−5)". Com que restar un negatiu és sumar, el salt real és +5, així que cau a 2 — no a −8, l\'error típic de no aplicar la regla de signes.',
+    enPapel: {
+      titulo: 'La recta numèrica en paper',
+      pasos: [
+        'Dibuixa una recta del −10 al 10 al terra o en un paper llarg, amb una marca per a cada enter.',
+        'Un jugador se situa en un número de sortida (pot ser amb el propi cos, saltant de marca en marca).',
+        'Un altre jugador diu una operació amb signe, incloent-ne alguna amb doble signe ("resta −4").',
+        'El primer salta fins al resultat i el grup comprova si ha caigut al lloc correcte.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'L\'examen d\'Enters i Racionals', desc: 'Repassa en format test enters, valor absolut, operacions amb signes i nombres racionals.' },
+      { nombre: 'Termòmetres i temperatures sota zero', desc: 'Comparar temperatures negatives de ciutats reals és una manera quotidiana de manejar enters amb sentit.' },
+      { nombre: 'Jocs d\'ascensor', desc: 'Un edifici amb plantes de soterrani (negatives) i un ascensor que puja i baixa és una altra recta numèrica disfressada.' },
+    ],
+    asignatura: 'Matemàtiques', niveles: 'ESO',
   },
   'trayectoria': {
     titulo: 'Trajectòria',

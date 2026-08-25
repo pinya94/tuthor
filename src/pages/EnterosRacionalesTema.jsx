@@ -26,6 +26,23 @@ export default function EnterosRacionalesTema() {
 
   const opciones = [
     {
+      id: 'salta-recta',
+      titulo: ca ? 'Salta la Recta' : en ? 'Jump the Number Line' : 'Salta la Recta',
+      descripcion: ca
+        ? 'Salta per una recta numèrica: toca on cau una operació o endevina quina operació va ser. Practica la regla de signes.'
+        : en
+        ? 'Jump along a number line: tap where an operation lands or guess which operation it was. Practise the sign rule.'
+        : 'Salta por una recta numérica: toca dónde cae una operación o adivina qué operación fue. Practica la regla de signos.',
+      emoji: '🐸',
+      gradient: 'from-lime-500 to-green-700',
+      detalles: [
+        ca ? 'Contrarellotge' : en ? 'Against the clock' : 'Contrarreloj',
+        'ESO',
+        ca ? 'Visual' : en ? 'Visual' : 'Visual',
+      ],
+      action: () => navigate(localPath('/juegos/salta-recta')),
+    },
+    {
       id: 'examen',
       titulo: ca ? 'Examen de pràctica' : en ? 'Practice exam' : 'Examen de práctica',
       descripcion: ca
