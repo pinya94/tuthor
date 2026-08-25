@@ -164,6 +164,11 @@ export const EXAMS = {
     emoji: '🔢', subject: 'matematicas',
     path: 'examen/enteros-racionales', page: () => import('../pages/EnterosRacionalesExamen'),
   },
+  'salta-recta-test': {
+    label: { es: 'Salta la Recta', en: 'Jump the Number Line', ca: 'Salta la Recta' },
+    emoji: '🐸', subject: 'matematicas',
+    path: 'examen/salta-recta-test', page: () => import('../pages/SaltaRectaExamen'),
+  },
   'estadistica': {
     label: { es: 'Estadística', en: 'Statistics', ca: 'Estadística' },
     emoji: '📊', subject: 'matematicas',

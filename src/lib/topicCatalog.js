@@ -163,7 +163,7 @@ export const TOPIC_CATALOG = {
       geometria: examTema({ teoria: 'geometria', 'figuras-compuestas': 'figuras-compuestas' }),
       fracciones: examTema({ teoria: 'fracciones', 'reparte-pastel': 'reparte-pastel-test' }),
       estadistica: examTema({ teoria: 'estadistica' }),
-      'enteros-racionales': examTema({ teoria: 'enteros-racionales' }),
+      'enteros-racionales': examTema({ teoria: 'enteros-racionales', 'salta-recta': 'salta-recta-test' }),
     },
     formatos: {
       // Formatos por examen (temas con página propia)
@@ -174,6 +174,7 @@ export const TOPIC_CATALOG = {
       'balanza-algebraica': examFormato({ es: 'Balanza Algebraica (con el juego)', en: 'Algebra Balance (with the game)', ca: 'Balança Algebraica (amb el joc)' }, '⚖️'),
       'reparte-pastel': examFormato({ es: 'Reparte el Pastel (con el juego)', en: 'Slice the Cake (with the game)', ca: 'Reparteix el Pastís (amb el joc)' }, '🍰'),
       'figuras-compuestas': examFormato({ es: 'Figuras Compuestas', en: 'Composite Shapes', ca: 'Figures Compostes' }, '📐'),
+      'salta-recta': examFormato({ es: 'Salta la Recta (con el juego)', en: 'Jump the Number Line (with the game)', ca: 'Salta la Recta (amb el joc)' }, '🐸'),
       // Formatos por mecánica (solo para los modos de cálculo)
       'examen-practica': {
         temas: MATH_TEMA_IDS,

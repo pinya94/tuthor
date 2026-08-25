@@ -29,18 +29,18 @@ export default function EnterosRacionalesTema() {
       id: 'salta-recta',
       titulo: ca ? 'Salta la Recta' : en ? 'Jump the Number Line' : 'Salta la Recta',
       descripcion: ca
-        ? 'Salta per una recta numèrica: toca on cau una operació o endevina quina operació va ser. Practica la regla de signes.'
+        ? 'Amb la mecànica del joc: salta per una recta numèrica o endevina quina operació va ser. Practica la regla de signes.'
         : en
-        ? 'Jump along a number line: tap where an operation lands or guess which operation it was. Practise the sign rule.'
-        : 'Salta por una recta numérica: toca dónde cae una operación o adivina qué operación fue. Practica la regla de signos.',
+        ? 'Using the game mechanic: jump along a number line or guess which operation it was. Practise the sign rule.'
+        : 'Con la mecánica del juego: salta por una recta numérica o adivina qué operación fue. Practica la regla de signos.',
       emoji: '🐸',
       gradient: 'from-lime-500 to-green-700',
       detalles: [
-        ca ? 'Contrarellotge' : en ? 'Against the clock' : 'Contrarreloj',
-        'ESO',
-        ca ? 'Visual' : en ? 'Visual' : 'Visual',
+        ca ? '3 nivells' : en ? '3 levels' : '3 niveles',
+        ca ? '10 preguntes' : en ? '10 questions' : '10 preguntas',
+        ca ? 'Amb el joc' : en ? 'With the game' : 'Con el juego',
       ],
-      action: () => navigate(localPath('/juegos/salta-recta')),
+      action: () => navigate(localPath('/examen/salta-recta-test')),
     },
     {
       id: 'examen',
