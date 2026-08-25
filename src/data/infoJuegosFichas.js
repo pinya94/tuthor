@@ -516,6 +516,32 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Matemáticas', niveles: 'ESO',
   },
+  'estadistico-expres': {
+    titulo: 'Estadístico Exprés',
+    subtitulo: 'Calcula Media, Mediana, Moda y Rango a Contrarreloj',
+    emoji: '📊', gradient: 'from-sky-500 to-blue-700', path: '/juegos/estadistico-expres',
+    intro: 'Sin ruletas ni azar: se muestra un conjunto de datos como gráfico de barras y hay que calcular, escribiendo el número, la media, la mediana, la moda o el rango — aplicar la fórmula de verdad, a contrarreloj. Los números se generan para que la respuesta siempre sea un entero exacto, así que nunca se discute si tocaba redondear.',
+    beneficios: [
+      { titulo: 'Calcular, no Predecir', texto: 'Cada ronda pide un número que se obtiene aplicando una fórmula concreta sobre datos reales — no hay azar, ni apuesta, ni intuición: solo cálculo.' },
+      { titulo: 'Las Cuatro Medidas, no Solo la Media', texto: 'Mediana y moda se enseñan menos que la media, y son las que más se confunden entre sí. Practicarlas mezcladas obliga a distinguir bien qué pide cada una.' },
+      { titulo: 'Repetición sin Aburrir', texto: 'El contrarreloj y las rachas convierten unos cálculos que en un cuaderno serían monótonos en algo con tensión y una puntuación que superar.' },
+    ],
+    ejemplo: 'Datos: 4, 7, 4, 9, 6. La moda es 4 (el único que se repite). La mediana, ordenando (4, 4, 6, 7, 9), es 6. La media es (4+7+4+9+6)÷5 = 6. El rango es 9−4 = 5.',
+    enPapel: {
+      titulo: 'Media, mediana, moda y rango con datos reales',
+      pasos: [
+        'Recoge un dataset real y pequeño: la edad de cada persona de la familia, las notas de los últimos 5 exámenes, minutos de deporte cada día de la semana.',
+        'Calcula a mano las cuatro medidas: media (suma ÷ cuántos hay), mediana (el del medio, con los datos ordenados), moda (el que más se repite) y rango (mayor menos menor).',
+        'Cambia un solo dato por uno muy grande o muy pequeño y recalcula — así se ve que la media cambia mucho pero la mediana casi no se mueve.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'El examen de Estadística', desc: 'Repasa en formato test media, mediana, moda, probabilidad y gráficos estadísticos.' },
+      { nombre: 'Encuestas de clase reales', desc: 'Preguntar algo a toda la clase (altura, hermanos, minutos de pantalla) y calcular las cuatro medidas con datos propios, no inventados.' },
+      { nombre: 'Comparar dos grupos de datos', desc: 'Calcular la media de dos conjuntos distintos (por ejemplo, las notas de dos evaluaciones) y discutir cuál mejoró de verdad.' },
+    ],
+    asignatura: 'Matemáticas', niveles: 'Primaria, ESO',
+  },
   'trayectoria': {
     titulo: 'Trayectoria',
     subtitulo: 'Juego de Funciones Matemáticas con Mecánica de Fútbol',
@@ -1193,6 +1219,32 @@ export const FICHAS_EN = {
       { nombre: 'Lift/elevator games', desc: 'A building with basement floors (negative) and a lift going up and down is another number line in disguise.' },
     ],
     asignatura: 'Mathematics', niveles: 'Secondary',
+  },
+  'estadistico-expres': {
+    titulo: 'Quick Statistician',
+    subtitulo: 'Calculate Mean, Median, Mode and Range Against the Clock',
+    emoji: '📊', gradient: 'from-sky-500 to-blue-700', path: '/juegos/estadistico-expres',
+    intro: 'No wheels, no chance: a dataset is shown as a bar chart and you calculate, by typing the number, the mean, median, mode or range — applying the actual formula, against the clock. Numbers are generated so the answer is always an exact integer, so there is never a debate about whether to round.',
+    beneficios: [
+      { titulo: 'Calculating, not Predicting', texto: 'Every round asks for a number obtained by applying a specific formula to real data — no chance, no bet, no gut feeling: just calculation.' },
+      { titulo: 'All Four Measures, not Just the Mean', texto: 'Median and mode get taught less than the mean, and are the ones most often confused with each other. Practising them mixed together forces you to tell them apart properly.' },
+      { titulo: 'Repetition without Boredom', texto: 'The countdown and streaks turn calculations that would be monotonous on paper into something with tension and a score to beat.' },
+    ],
+    ejemplo: 'Data: 4, 7, 4, 9, 6. The mode is 4 (the only repeated value). The median, sorting (4, 4, 6, 7, 9), is 6. The mean is (4+7+4+9+6)÷5 = 6. The range is 9−4 = 5.',
+    enPapel: {
+      titulo: 'Mean, median, mode and range with real data',
+      pasos: [
+        'Collect a small, real dataset: each family member\'s age, the last 5 test scores, minutes of sport each day of the week.',
+        'Work out all four measures by hand: mean (sum ÷ how many), median (the middle one, sorted), mode (the most frequent) and range (largest minus smallest).',
+        'Swap one value for a very large or very small one and recalculate — this shows how much the mean shifts while the median barely moves.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'The Statistics exam', desc: 'Review mean, median, mode, probability and statistical charts in quiz form.' },
+      { nombre: 'Real class surveys', desc: 'Ask the whole class something (height, siblings, screen time) and calculate all four measures with real data, not made-up numbers.' },
+      { nombre: 'Comparing two datasets', desc: 'Calculate the mean of two different sets (say, two exams\' scores) and discuss which one actually improved.' },
+    ],
+    asignatura: 'Mathematics', niveles: 'Primary, Secondary',
   },
   'trayectoria': {
     titulo: 'Trajectory',
@@ -1931,6 +1983,32 @@ export const FICHAS_CA = {
       { nombre: 'Jocs d\'ascensor', desc: 'Un edifici amb plantes de soterrani (negatives) i un ascensor que puja i baixa és una altra recta numèrica disfressada.' },
     ],
     asignatura: 'Matemàtiques', niveles: 'ESO',
+  },
+  'estadistico-expres': {
+    titulo: 'Estadístic Exprés',
+    subtitulo: 'Calcula Mitjana, Mediana, Moda i Rang a Contrarellotge',
+    emoji: '📊', gradient: 'from-sky-500 to-blue-700', path: '/juegos/estadistico-expres',
+    intro: 'Sense rodes ni atzar: es mostra un conjunt de dades com a gràfic de barres i cal calcular, escrivint el número, la mitjana, la mediana, la moda o el rang — aplicar la fórmula de debò, a contrarellotge. Els números es generen perquè la resposta sigui sempre un enter exacte, així que mai es discuteix si tocava arrodonir.',
+    beneficios: [
+      { titulo: 'Calcular, no Predir', texto: 'Cada ronda demana un número que s\'obté aplicant una fórmula concreta sobre dades reals — no hi ha atzar, ni aposta, ni intuïció: només càlcul.' },
+      { titulo: 'Les Quatre Mesures, no Només la Mitjana', texto: 'Mediana i moda s\'ensenyen menys que la mitjana, i són les que més es confonen entre elles. Practicar-les barrejades obliga a distingir bé què demana cadascuna.' },
+      { titulo: 'Repetició sense Avorrir', texto: 'El contrarellotge i les ratxes converteixen uns càlculs que en un quadern serien monòtons en alguna cosa amb tensió i una puntuació a superar.' },
+    ],
+    ejemplo: 'Dades: 4, 7, 4, 9, 6. La moda és 4 (l\'únic que es repeteix). La mediana, ordenant (4, 4, 6, 7, 9), és 6. La mitjana és (4+7+4+9+6)÷5 = 6. El rang és 9−4 = 5.',
+    enPapel: {
+      titulo: 'Mitjana, mediana, moda i rang amb dades reals',
+      pasos: [
+        'Recull un conjunt de dades real i petit: l\'edat de cada membre de la família, les notes dels últims 5 examens, minuts d\'esport cada dia de la setmana.',
+        'Calcula a mà les quatre mesures: mitjana (suma ÷ quants n\'hi ha), mediana (el del mig, amb les dades ordenades), moda (el que més es repeteix) i rang (el més gran menys el més petit).',
+        'Canvia una sola dada per una de molt gran o molt petita i recalcula — així es veu que la mitjana canvia molt però la mediana gairebé no es mou.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'L\'examen d\'Estadística', desc: 'Repassa en format test mitjana, mediana, moda, probabilitat i gràfics estadístics.' },
+      { nombre: 'Enquestes de classe reals', desc: 'Preguntar alguna cosa a tota la classe (alçada, germans, minuts de pantalla) i calcular les quatre mesures amb dades pròpies, no inventades.' },
+      { nombre: 'Comparar dos grups de dades', desc: 'Calcular la mitjana de dos conjunts diferents (per exemple, les notes de dues avaluacions) i discutir quin va millorar de debò.' },
+    ],
+    asignatura: 'Matemàtiques', niveles: 'Primària, ESO',
   },
   'trayectoria': {
     titulo: 'Trajectòria',

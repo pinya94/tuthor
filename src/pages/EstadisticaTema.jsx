@@ -26,6 +26,23 @@ export default function EstadisticaTema() {
 
   const opciones = [
     {
+      id: 'estadistico-expres',
+      titulo: ca ? 'Estadístic Exprés' : en ? 'Quick Statistician' : 'Estadístico Exprés',
+      descripcion: ca
+        ? 'Calcula mitjana, mediana, moda i rang d\'un conjunt de dades real, a contrarellotge. Sense rodes ni atzar: només càlcul.'
+        : en
+        ? 'Calculate mean, median, mode and range from a real dataset, against the clock. No wheels, no chance: just calculation.'
+        : 'Calcula media, mediana, moda y rango de un conjunto de datos real, a contrarreloj. Sin ruletas ni azar: solo cálculo.',
+      emoji: '📊',
+      gradient: 'from-sky-500 to-blue-700',
+      detalles: [
+        ca ? 'Contrarellotge' : en ? 'Against the clock' : 'Contrarreloj',
+        ca ? 'Primària i ESO' : en ? 'Primary & Secondary' : 'Primaria y ESO',
+        ca ? 'Càlcul, no atzar' : en ? 'Calculation, not chance' : 'Cálculo, no azar',
+      ],
+      action: () => navigate(localPath('/juegos/estadistico-expres')),
+    },
+    {
       id: 'examen',
       titulo: ca ? 'Examen de pràctica' : en ? 'Practice exam' : 'Examen de práctica',
       descripcion: ca
