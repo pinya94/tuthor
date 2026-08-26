@@ -2,12 +2,13 @@ import { useState } from 'react'
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
 import { authErrorKey } from '../lib/authErrors'
+import { CHILD_CODE_LOGIN_ENABLED } from '../lib/childCode'
 
-// Dos formas de entrar y ninguna más:
-//   · Google — el adulto. Trae email real, que hace falta para la factura de
-//     Stripe y para recuperar la cuenta.
-//   · Código — el hijo. Entra en la misma cuenta sin contraseña y en modo
-//     restringido (ver api/child-login.js).
+// Una sola forma de entrar mientras CHILD_CODE_LOGIN_ENABLED esté a false
+// (ver lib/childCode.js): Google. El modo código —el hijo entra en la misma
+// cuenta sin contraseña, en modo restringido (api/child-login.js)— sigue
+// aquí, escondido, no borrado: con el muro apagado, jugar ya no exige la
+// cuenta del padre, así que no hace falta esa puerta de entrada.
 // No hay registro con email y contraseña a propósito: una contraseña más que
 // recordar, que recuperar y que se acaba compartiendo con el crío.
 const ERRORS = {
@@ -29,7 +30,10 @@ export default function AuthModal({ onClose, onSuccess, defaultMode = 'login' })
   let tr = obj => obj.es
   try { const ctx = useLang(); if (ctx?.tr) tr = ctx.tr } catch { /* fuera del provider */ }
 
-  const [mode, setMode]         = useState(defaultMode) // login | child
+  // CHILD_CODE_LOGIN_ENABLED=false fuerza 'login' pase lo que sea defaultMode:
+  // sin esto, un caller que aún pidiera defaultMode="child" (ninguno lo hace
+  // hoy) colaría el modo escondido por la puerta de atrás.
+  const [mode, setMode]         = useState(CHILD_CODE_LOGIN_ENABLED ? defaultMode : 'login') // login | child
   const [code, setCode]         = useState('')
   const [loading, setLoading]   = useState(false)
   const [errorKey, setErrorKey] = useState('')
@@ -129,14 +133,16 @@ export default function AuthModal({ onClose, onSuccess, defaultMode = 'login' })
             </>
           )}
 
-          <div className="mt-6 pt-4 border-t border-white/5">
-            <button onClick={() => switchMode(isChild ? 'login' : 'child')}
-              className="text-violet-400 hover:text-violet-300 text-xs font-bold transition-colors">
-              {isChild
-                ? tr({ es: '← Soy el padre o la madre', en: "← I'm the parent", ca: '← Sóc el pare o la mare' })
-                : tr({ es: '🧒 Soy peque: entrar con mi código', en: "🧒 I'm a kid: sign in with my code", ca: '🧒 Sóc petit: entrar amb el meu codi' })}
-            </button>
-          </div>
+          {CHILD_CODE_LOGIN_ENABLED && (
+            <div className="mt-6 pt-4 border-t border-white/5">
+              <button onClick={() => switchMode(isChild ? 'login' : 'child')}
+                className="text-violet-400 hover:text-violet-300 text-xs font-bold transition-colors">
+                {isChild
+                  ? tr({ es: '← Soy el padre o la madre', en: "← I'm the parent", ca: '← Sóc el pare o la mare' })
+                  : tr({ es: '🧒 Soy peque: entrar con mi código', en: "🧒 I'm a kid: sign in with my code", ca: '🧒 Sóc petit: entrar amb el meu codi' })}
+              </button>
+            </div>
+          )}
 
           {!isChild && (
             <p className="mt-4 text-white/20 text-xs">

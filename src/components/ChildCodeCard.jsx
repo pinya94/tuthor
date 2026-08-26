@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
-import { getChildCode, rotateChildCode, formatChildCode } from '../lib/childCode'
+import { getChildCode, rotateChildCode, formatChildCode, CHILD_CODE_LOGIN_ENABLED } from '../lib/childCode'
 
 // El código con el que el hijo entra en esta cuenta sin contraseña.
 //
@@ -20,7 +20,7 @@ export default function ChildCodeCard() {
   const [error, setError]     = useState(false)
 
   useEffect(() => {
-    if (!user || childMode) return
+    if (!CHILD_CODE_LOGIN_ENABLED || !user || childMode) return
     let alive = true
     getChildCode()
       .then(c => { if (alive) setCode(c) })
@@ -29,7 +29,7 @@ export default function ChildCodeCard() {
     return () => { alive = false }
   }, [user, childMode])
 
-  if (!user || childMode) return null
+  if (!CHILD_CODE_LOGIN_ENABLED || !user || childMode) return null
 
   async function handleRotate() {
     setRotating(true); setError(false)

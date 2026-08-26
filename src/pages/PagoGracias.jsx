@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
 import { loadAccess, clearAccessCache } from '../lib/access'
-import { getChildCode, formatChildCode } from '../lib/childCode'
+import { getChildCode, formatChildCode, CHILD_CODE_LOGIN_ENABLED } from '../lib/childCode'
 import SEOHead from '../components/SEOHead'
 
 // Página de vuelta del checkout. NO concede nada: esta URL se puede escribir a
@@ -40,9 +40,11 @@ export default function PagoGracias() {
           // cerraría la puerta que acaba de comprar.
           clearAccessCache(user.uid)
           setState('ready')
-          // El código es lo primero que necesita el padre: sin él, el hijo no
-          // puede entrar y la compra no le sirve de nada todavía.
-          getChildCode().then(c => { if (alive) setChildCode(c) }).catch(() => {})
+          // El código está escondido (CHILD_CODE_LOGIN_ENABLED=false, ver
+          // lib/childCode.js): ya no hace falta para jugar, así que no se pide.
+          if (CHILD_CODE_LOGIN_ENABLED) {
+            getChildCode().then(c => { if (alive) setChildCode(c) }).catch(() => {})
+          }
           return
         }
       } catch { /* reintentamos igual */ }
@@ -95,28 +97,30 @@ export default function PagoGracias() {
           <>
             <p className="mt-4 text-slate-600">
               {tr({
-                es: 'Tu suscripción está activa. Este es el código para que entre tu hijo, sin contraseña:',
-                en: "Your subscription is active. Here's the code for your child to sign in, no password needed:",
-                ca: 'La teva subscripció està activa. Aquest és el codi perquè entri el teu fill, sense contrasenya:',
+                es: 'Tu Pro está activo: sin publicidad y con el panel de seguimiento completo.',
+                en: 'Your Pro is active: no ads and the full tracking panel.',
+                ca: 'El teu Pro està actiu: sense publicitat i amb el panell de seguiment complet.',
               })}
             </p>
 
-            <div className="mt-5 rounded-2xl border border-violet-200 bg-white p-5 shadow-sm">
-              {childCode ? (
-                <code className="block select-all font-mono text-xl font-black tracking-[0.2em] text-slate-900">
-                  {formatChildCode(childCode)}
-                </code>
-              ) : (
-                <div className="mx-auto h-7 w-52 animate-pulse rounded bg-slate-100" />
-              )}
-              <p className="mt-3 text-xs text-slate-500">
-                {tr({
-                  es: 'Lo tienes siempre en tu perfil, y puedes cambiarlo cuando quieras.',
-                  en: "It's always in your profile, and you can change it whenever you like.",
-                  ca: 'El tens sempre al teu perfil, i el pots canviar quan vulguis.',
-                })}
-              </p>
-            </div>
+            {CHILD_CODE_LOGIN_ENABLED && (
+              <div className="mt-5 rounded-2xl border border-violet-200 bg-white p-5 shadow-sm">
+                {childCode ? (
+                  <code className="block select-all font-mono text-xl font-black tracking-[0.2em] text-slate-900">
+                    {formatChildCode(childCode)}
+                  </code>
+                ) : (
+                  <div className="mx-auto h-7 w-52 animate-pulse rounded bg-slate-100" />
+                )}
+                <p className="mt-3 text-xs text-slate-500">
+                  {tr({
+                    es: 'Lo tienes siempre en tu perfil, y puedes cambiarlo cuando quieras.',
+                    en: "It's always in your profile, and you can change it whenever you like.",
+                    ca: 'El tens sempre al teu perfil, i el pots canviar quan vulguis.',
+                  })}
+                </p>
+              </div>
+            )}
 
             <Link to={localPath('/app')}
               className="mt-7 inline-block rounded-xl bg-violet-600 px-8 py-4 font-black text-white transition-colors hover:bg-violet-500">

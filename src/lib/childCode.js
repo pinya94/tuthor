@@ -7,6 +7,18 @@
 
 import { auth } from './firebase'
 
+// ── Entrada por código: escondida (2026-08) ──────────────────────────────
+// Nació para que el hijo entrara en la cuenta DE PAGO del padre sin
+// compartir contraseña — tenía sentido cuando jugar exigía esa cuenta. Ahora
+// que el muro está apagado (ver paidRoutes.js) ya no hace falta: el niño
+// juega sin sesión (nada se guarda, se le anima a registrarse — ver
+// GameResultFooter.jsx) o se registra él mismo con Google, como un adulto.
+// No se borra el mecanismo (api/child-code.js, loginWithChildCode) por si
+// se quiere recuperar — solo se esconde la UI que lleva hasta él: el
+// selector de modo en AuthModal, la tarjeta en Perfil (ChildCodeCard) y el
+// aviso en PagoGracias.
+export const CHILD_CODE_LOGIN_ENABLED = false
+
 async function callChildCode(body) {
   const user = auth.currentUser
   if (!user) throw new Error('not_signed_in')
