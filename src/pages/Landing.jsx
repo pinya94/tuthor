@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
-import { PLANS, annualSavings } from '../lib/access'
+import { PLANS } from '../lib/access'
 import { startCheckout } from '../lib/checkout'
 import AuthModal from '../components/AuthModal'
 import SEOHead from '../components/SEOHead'
@@ -19,8 +19,7 @@ import PreguntaDiaria from './PreguntaDiaria'
 // El texto en español lo escribió el usuario; en/ca son traducción fiel. Al
 // tocarlo, respetar el registro: la sección de metodología usa vocabulario
 // técnico a propósito — es lo que transmite que detrás hay profesores.
-const SAVINGS = annualSavings()
-const EQUIV = SAVINGS.equivalentMonthly.toFixed(2).replace('.', ',')
+const PRO_PRICE = PLANS.pro.price.toFixed(2).replace('.', ',')
 
 // ── Fase de lanzamiento ──────────────────────────────────────────────────────
 // A propósito NO promete una consecuencia concreta ("el precio sube el día
@@ -63,17 +62,21 @@ function LaunchBadge({ tr, className = '' }) {
 }
 
 // CTA intermedio reutilizable: se coloca justo después de los dos momentos de
-// la página con más intención de compra (la demostración de metodología y el
-// juego jugado de verdad), no al azar — es donde a alguien convencido le
-// cuesta menos seguir hasta precios.
-function MidPageCTA({ tr, text, dark = false }) {
+// la página con más intención (la demostración de metodología y el juego
+// jugado de verdad), no al azar — es donde a alguien convencido le cuesta
+// menos seguir. Por defecto lleva a #precios (informativo); con `onClick`
+// hace otra cosa — normalmente entrar directo a la app, que es gratis y no
+// necesita pasar por precios primero.
+function MidPageCTA({ tr, text, dark = false, onClick }) {
+  const cls = `mt-14 text-center`
+  const btnCls = `inline-block rounded-xl px-7 py-3.5 text-sm font-black transition-all hover:scale-[1.02] ${
+    dark ? 'bg-white text-violet-700 hover:bg-violet-50' : 'bg-violet-600 text-white shadow-md shadow-violet-200 hover:bg-violet-500'
+  }`
   return (
-    <div className="mt-14 text-center">
-      <a href="#precios" className={`inline-block rounded-xl px-7 py-3.5 text-sm font-black transition-all hover:scale-[1.02] ${
-        dark ? 'bg-white text-violet-700 hover:bg-violet-50' : 'bg-violet-600 text-white shadow-md shadow-violet-200 hover:bg-violet-500'
-      }`}>
-        {tr(text)}
-      </a>
+    <div className={cls}>
+      {onClick
+        ? <button onClick={onClick} className={btnCls}>{tr(text)}</button>
+        : <a href="#precios" className={btnCls}>{tr(text)}</a>}
     </div>
   )
 }
@@ -223,9 +226,9 @@ const PAINS = [
     emoji: '💸',
     title: { es: '«Una academia cuesta 150 € al mes»', en: '"Tutoring costs €150 a month"', ca: '«Una acadèmia costa 150 € al mes»' },
     body: {
-      es: `Y requiere desplazamientos y adaptarse al ritmo del grupo. Tuthor cuesta ${EQUIV} € al mes en su plan anual, a la hora que él quiera y enfocado en lo que flojea.`,
-      en: `And it means travelling and fitting the group's pace. Tuthor costs €${SAVINGS.equivalentMonthly.toFixed(2)} a month on the annual plan, whenever they want and focused on where they struggle.`,
-      ca: `I requereix desplaçaments i adaptar-se al ritme del grup. Tuthor costa ${EQUIV} € al mes en el seu pla anual, a l'hora que ell vulgui i enfocat en el que fluixeja.`,
+      es: `Y requiere desplazamientos y adaptarse al ritmo del grupo. Tuthor es gratis, a la hora que él quiera y enfocado en lo que flojea — y si quieres el panel de seguimiento completo y sin publicidad, Pro son solo ${PRO_PRICE} € al mes.`,
+      en: `And it means travelling and fitting the group's pace. Tuthor is free, whenever they want and focused on where they struggle — and if you want the full tracking panel with no ads, Pro is just €${PRO_PRICE} a month.`,
+      ca: `I requereix desplaçaments i adaptar-se al ritme del grup. Tuthor és gratis, a l'hora que ell vulgui i enfocat en el que fluixeja — i si vols el panell de seguiment complet i sense publicitat, Pro són només ${PRO_PRICE} € al mes.`,
     },
   },
 ]
@@ -382,52 +385,44 @@ function Header({ onLogin, user, tr, localPath, lang, switchLang }) {
   )
 }
 
-function PlanCard({ planId, featured, tr, onPick, busy }) {
-  const plan = PLANS[planId]
-  const isAnnual = planId === 'family_annual'
-  const price = plan.price.toFixed(2).replace('.', ',')
+// Un solo plan (Pro) desde que el producto en sí es gratis: no hay nada que
+// comparar entre mensual/anual, así que la tarjeta pasa de "elige un precio"
+// a "esto es lo que compra tu suscripción".
+const PRO_FEATURES = [
+  { es: 'Sin publicidad', en: 'No ads', ca: 'Sense publicitat' },
+  { es: 'Panel de seguimiento completo (por juego, por materia)', en: 'Full tracking panel (by game, by subject)', ca: 'Panell de seguiment complet (per joc, per matèria)' },
+  { es: 'Apoyas que sigamos haciendo contenido nuevo', en: "You help us keep making new content", ca: 'Ajudes que seguim fent contingut nou' },
+]
+
+function PlanCard({ tr, onPick, busy }) {
+  const price = PLANS.pro.price.toFixed(2).replace('.', ',')
 
   return (
-    <div className={`relative flex flex-col rounded-2xl border p-6 ${
-      featured
-        ? 'border-violet-300 bg-white shadow-xl shadow-violet-200/50 ring-1 ring-violet-200'
-        : 'border-slate-200 bg-white/70'
-    }`}>
-      {featured && (
-        <span className="absolute -top-3 left-6 rounded-full bg-violet-600 px-3 py-1 text-xs font-black text-white">
-          {tr({ es: `Ahorras un ${SAVINGS.percent} %`, en: `Save ${SAVINGS.percent}%`, ca: `Estalvies un ${SAVINGS.percent} %` })}
-        </span>
-      )}
-
-      <p className="text-sm font-bold uppercase tracking-wider text-slate-500">
-        {isAnnual
-          ? tr({ es: 'Plan Anual', en: 'Annual plan', ca: 'Pla Anual' })
-          : tr({ es: 'Plan Mensual', en: 'Monthly plan', ca: 'Pla Mensual' })}
-      </p>
+    <div className="relative flex flex-col rounded-2xl border border-violet-300 bg-white p-6 shadow-xl shadow-violet-200/50 ring-1 ring-violet-200">
+      <p className="text-sm font-bold uppercase tracking-wider text-slate-500">Pro</p>
 
       <p className="mt-3 flex items-baseline gap-1.5">
         <span className="text-4xl font-black text-slate-900">{price} €</span>
-        <span className="text-sm font-semibold text-slate-500">
-          {isAnnual ? tr({ es: '/ año', en: '/ year', ca: '/ any' }) : tr({ es: '/ mes', en: '/ month', ca: '/ mes' })}
-        </span>
+        <span className="text-sm font-semibold text-slate-500">{tr({ es: '/ mes', en: '/ month', ca: '/ mes' })}</span>
       </p>
+      <p className="mt-1 text-sm text-slate-500">{tr({ es: 'Sin permanencia', en: 'No commitment', ca: 'Sense permanència' })}</p>
 
-      <p className="mt-1 min-h-[20px] text-sm text-slate-500">
-        {isAnnual
-          ? tr({ es: `Equivale a ${EQUIV} € al mes`, en: `Works out to €${SAVINGS.equivalentMonthly.toFixed(2)} a month`, ca: `Equival a ${EQUIV} € al mes` })
-          : tr({ es: 'Sin permanencia', en: 'No commitment', ca: 'Sense permanència' })}
-      </p>
+      <ul className="mt-4 space-y-2">
+        {PRO_FEATURES.map(f => (
+          <li key={f.es} className="flex items-start gap-2 text-sm text-slate-600">
+            <span className="text-violet-600 font-bold">✓</span>{tr(f)}
+          </li>
+        ))}
+      </ul>
 
       <button
-        onClick={() => onPick(planId)}
+        onClick={() => onPick('pro')}
         disabled={busy}
-        className={`mt-5 rounded-xl px-5 py-3 text-sm font-black transition-colors disabled:opacity-50 ${
-          featured ? 'bg-violet-600 text-white hover:bg-violet-500' : 'bg-slate-900 text-white hover:bg-slate-700'
-        }`}
+        className="mt-5 rounded-xl bg-violet-600 px-5 py-3 text-sm font-black text-white transition-colors hover:bg-violet-500 disabled:opacity-50"
       >
         {busy
           ? tr({ es: 'Un momento…', en: 'One moment…', ca: 'Un moment…' })
-          : tr({ es: 'Empezar ahora', en: 'Get started', ca: 'Començar ara' })}
+          : tr({ es: 'Hazte Pro', en: 'Go Pro', ca: 'Fes-te Pro' })}
       </button>
     </div>
   )
@@ -468,6 +463,16 @@ export default function Landing() {
     runCheckout(planId)
   }
 
+  // El producto es gratis: la mayoría de los CTA de la landing ya no tienen
+  // que llevar a #precios, tienen que meter a la persona en la app cuanto
+  // antes — precios queda para quien lo busca explícitamente (el enlace del
+  // header y la sección en sí). Sin pendingPlan, handleAuthSuccess ya
+  // navega a /app solo al terminar el login.
+  function startFree() {
+    if (!user) { setShowAuth(true); return }
+    navigate(localPath('/app'))
+  }
+
   // Qué hacer justo después de entrar, según por qué se abrió el login: si
   // venía de pulsar un plan, se sigue al pago; si no, se entra en la app.
   // Quedarse en la landing es lo único que no tiene sentido en ningún caso.
@@ -492,9 +497,9 @@ export default function Landing() {
           ca: 'La mateixa classe, explicada de totes les maneres que calgui',
         })}
         description={tr({
-          es: `Plataforma educativa para Primaria, ESO y Bachillerato. Un equipo de profesores plantea cada concepto desde distintos puntos de vista, con panel de seguimiento para padres. Desde ${EQUIV} € al mes.`,
-          en: `Educational platform for primary and secondary school. A team of teachers frames each concept from different points of view, with a tracking panel for parents. From €${SAVINGS.equivalentMonthly.toFixed(2)} a month.`,
-          ca: `Plataforma educativa per a Primària, ESO i Batxillerat. Un equip de professors planteja cada concepte des de diferents punts de vista, amb panell de seguiment per a pares. Des de ${EQUIV} € al mes.`,
+          es: `Plataforma educativa gratuita para Primaria, ESO y Bachillerato. Un equipo de profesores plantea cada concepto desde distintos puntos de vista. Pro (sin publicidad y panel de seguimiento completo) desde ${PRO_PRICE} € al mes.`,
+          en: `Free educational platform for primary and secondary school. A team of teachers frames each concept from different points of view. Pro (no ads, full tracking panel) from €${PRO_PRICE} a month.`,
+          ca: `Plataforma educativa gratuïta per a Primària, ESO i Batxillerat. Un equip de professors planteja cada concepte des de diferents punts de vista. Pro (sense publicitat i panell de seguiment complet) des de ${PRO_PRICE} € al mes.`,
         })}
       />
 
@@ -535,9 +540,9 @@ export default function Landing() {
         </div>
 
         <div className="mt-5 flex flex-col items-center justify-center gap-3 sm:flex-row">
-          <a href="#precios" className="w-full rounded-xl bg-violet-600 px-7 py-4 text-base font-black text-white shadow-lg shadow-violet-300/60 transition-all hover:bg-violet-500 hover:shadow-xl sm:w-auto">
-            {tr({ es: 'Empezar ahora', en: 'Get started', ca: 'Començar ara' })}
-          </a>
+          <button onClick={startFree} className="w-full rounded-xl bg-violet-600 px-7 py-4 text-base font-black text-white shadow-lg shadow-violet-300/60 transition-all hover:bg-violet-500 hover:shadow-xl sm:w-auto">
+            {tr({ es: 'Empezar gratis', en: 'Start for free', ca: 'Començar gratis' })}
+          </button>
           <a href="#como-funciona" className="w-full rounded-xl border border-slate-300 bg-white px-7 py-4 text-base font-bold text-slate-700 transition-colors hover:border-slate-400 sm:w-auto">
             {tr({ es: 'Ver cómo funciona', en: 'See how it works', ca: 'Veure com funciona' })}
           </a>
@@ -734,7 +739,7 @@ export default function Landing() {
           <PreguntaDiaria embedded />
         </div>
         <div className="px-5">
-          <MidPageCTA tr={tr} dark text={{ es: '¿Le ha gustado? Empieza ahora →', en: 'Did they like it? Get started →', ca: 'Li ha agradat? Comença ara →' }} />
+          <MidPageCTA tr={tr} dark onClick={startFree} text={{ es: '¿Le ha gustado? Empieza gratis →', en: 'Did they like it? Start for free →', ca: 'Li ha agradat? Comença gratis →' }} />
         </div>
       </section>
 
@@ -755,10 +760,17 @@ export default function Landing() {
             })}
           </p>
 
-          <div className="mt-12 grid gap-5 sm:grid-cols-2">
-            <PlanCard planId="family_annual" featured tr={tr} onPick={pickPlan} busy={busyPlan === 'family_annual'} />
-            <PlanCard planId="family_monthly" tr={tr} onPick={pickPlan} busy={busyPlan === 'family_monthly'} />
+          <div className="mt-12 mx-auto max-w-sm">
+            <PlanCard tr={tr} onPick={pickPlan} busy={busyPlan === 'pro'} />
           </div>
+
+          <p className="mx-auto mt-6 max-w-md text-center text-sm text-slate-500">
+            {tr({
+              es: 'No hace falta Pro para jugar: se compra cuando ya estás dentro de la app, desde tu perfil.',
+              en: "You don't need Pro to play: it's bought once you're already inside the app, from your profile.",
+              ca: 'No cal Pro per jugar: es compra quan ja ets dins de l\'app, des del teu perfil.',
+            })}
+          </p>
 
           {checkoutError && (
             <div className="mt-5 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-center text-sm text-red-700">
@@ -818,9 +830,9 @@ export default function Landing() {
               ca: 'Es triga menys de dos minuts a configurar-ho i tenir-lo aprenent.',
             })}
           </p>
-          <a href="#precios" className="mt-7 inline-block rounded-xl bg-white px-8 py-4 text-base font-black text-violet-700 transition-colors hover:bg-violet-50">
-            {tr({ es: 'Empezar ahora', en: 'Get started', ca: 'Començar ara' })}
-          </a>
+          <button onClick={startFree} className="mt-7 inline-block rounded-xl bg-white px-8 py-4 text-base font-black text-violet-700 transition-colors hover:bg-violet-50">
+            {tr({ es: 'Empezar gratis', en: 'Start for free', ca: 'Començar gratis' })}
+          </button>
         </div>
       </section>
 

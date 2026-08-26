@@ -8,17 +8,16 @@
 // Atados los dos al mismo entorno, no se pueden desincronizar.
 //
 // En Vercel → Settings → Environment Variables:
-//   STRIPE_PRICE_FAMILY_MONTHLY   plan familiar mensual
-//   STRIPE_PRICE_FAMILY_ANNUAL    plan familiar anual
-//   STRIPE_PRICE_TEACHER          plan de profesor
+//   STRIPE_PRICE_PRO       plan Pro familiar (único, 1,99€/mes — ver PLANS
+//                          en src/lib/access.js)
+//   STRIPE_PRICE_TEACHER   plan de profesor
 //
 // `interval` es solo informativo (logs y metadata). Quien manda de verdad es
 // la configuración del precio en Stripe: si ahí pone mensual, se cobra
 // mensual, diga lo que diga este fichero.
 export const PLANS = {
-  family_monthly: { env: 'STRIPE_PRICE_FAMILY_MONTHLY', interval: 'month', audience: 'family' },
-  family_annual:  { env: 'STRIPE_PRICE_FAMILY_ANNUAL',  interval: 'year',  audience: 'family' },
-  teacher:        { env: 'STRIPE_PRICE_TEACHER',        interval: 'month', audience: 'teacher' },
+  pro:     { env: 'STRIPE_PRICE_PRO',     interval: 'month', audience: 'family' },
+  teacher: { env: 'STRIPE_PRICE_TEACHER', interval: 'month', audience: 'teacher' },
 }
 
 // Falla ruidosamente si falta la variable. Un checkout que arranca con un

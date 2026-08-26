@@ -34,9 +34,9 @@ function ProLock({ lang, localPath }) {
           ? "Where their coins come from, how they're doing game by game and subject by subject — the part of the panel built for you, not for your child."
           : 'De dónde vienen sus monedas, cómo le va juego a juego y materia a materia — la parte del panel pensada para ti, no para tu hijo.'}
       </p>
-      <Link to={`${localPath('/')}#precios`}
+      <Link to={localPath('/mi-plan')}
         className="inline-block bg-violet-600 hover:bg-violet-500 text-white font-black text-sm px-6 py-3 rounded-xl transition-colors">
-        {ca ? 'Veure els plans Pro →' : en ? 'See Pro plans →' : 'Ver los planes Pro →'}
+        {ca ? 'Fes-te Pro →' : en ? 'Go Pro →' : 'Hazte Pro →'}
       </Link>
     </div>
   )

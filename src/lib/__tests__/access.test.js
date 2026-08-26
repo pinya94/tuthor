@@ -10,7 +10,7 @@ import { describe, it, expect } from 'vitest'
 import { readFileSync } from 'node:fs'
 import {
   hasAccess, accessReason, hasActiveSubscription,
-  subscriptionWarning, annualSavings, ACTIVE_STATUSES, PLANS,
+  subscriptionWarning, ACTIVE_STATUSES, PLANS,
 } from '../access.js'
 
 describe('hasActiveSubscription', () => {
@@ -57,7 +57,7 @@ describe('hasAccess', () => {
   })
 
   it('una suscripción familiar viva entra', () => {
-    expect(hasAccess({ subscription: { status: 'active', plan: 'family_annual' } })).toBe(true)
+    expect(hasAccess({ subscription: { status: 'active', plan: 'pro' } })).toBe(true)
     expect(accessReason({ subscription: { status: 'trialing' } })).toBe('subscription')
   })
 
@@ -129,25 +129,11 @@ describe('subscriptionWarning', () => {
 })
 
 describe('PLANS', () => {
-  it('coincide con los precios configurados en Stripe', () => {
-    // Si cambian en Stripe y no aquí, la landing anuncia un precio y el
+  it('coincide con el precio configurado en Stripe', () => {
+    // Si cambia en Stripe y no aquí, la landing anuncia un precio y el
     // checkout cobra otro.
-    expect(PLANS.family_monthly.price).toBe(9.99)
-    expect(PLANS.family_annual.price).toBe(69.99)
-  })
-
-  it('el anual sale más barato que 12 meses (si no, no hay razón para elegirlo)', () => {
-    expect(PLANS.family_annual.price).toBeLessThan(PLANS.family_monthly.price * 12)
-  })
-
-  it('annualSavings cuadra con los precios', () => {
-    const s = annualSavings()
-    expect(s.amount).toBe(49.89)          // 119,88 − 69,99
-    expect(s.percent).toBe(42)
-    expect(s.equivalentMonthly).toBe(5.83)
-    // El reclamo solo es honesto si el ahorro es real y notable.
-    expect(s.percent).toBeGreaterThan(0)
-    expect(s.equivalentMonthly).toBeLessThan(PLANS.family_monthly.price)
+    expect(PLANS.pro.price).toBe(1.99)
+    expect(PLANS.pro.interval).toBe('month')
   })
 
   it('todo plan tiene etiqueta en los tres idiomas', () => {

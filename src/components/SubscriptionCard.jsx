@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
 import { loadAccess, PLANS, TEACHER_PLAN } from '../lib/access'
-import { openBillingPortal } from '../lib/checkout'
+import { openBillingPortal, startCheckout } from '../lib/checkout'
 
 // "Mi plan": qué tiene contratado esta cuenta y el botón para gestionarlo.
 //
@@ -22,6 +22,10 @@ export default function SubscriptionCard() {
   const [loading, setLoading] = useState(true)
   const [opening, setOpening] = useState(false)
   const [error, setError] = useState(false)
+  // Compra directa de Pro, sin pasar por la landing (ver checkout() más
+  // abajo) — mismo patrón que runCheckout en Landing.jsx.
+  const [buying, setBuying] = useState(false)
+  const [buyError, setBuyError] = useState(null) // null | true | string (detalle)
 
   useEffect(() => {
     if (!user || childMode) return
@@ -42,6 +46,16 @@ export default function SubscriptionCard() {
     } catch {
       setError(true)
       setOpening(false)
+    }
+  }
+
+  async function handleBuyPro() {
+    setBuying(true); setBuyError(null)
+    try {
+      await startCheckout('pro')
+    } catch (err) {
+      setBuyError(err?.detail ?? true)
+      setBuying(false)
     }
   }
 
@@ -88,7 +102,35 @@ export default function SubscriptionCard() {
         </section>
       )
     }
-    return null
+    // Cuenta que nunca ha pagado: aquí es donde se compra Pro sin salir de
+    // la app — antes esta rama no enseñaba nada (return null), así que la
+    // única forma de hacerse Pro era volver a la landing y su ancla
+    // #precios. Mismo checkout que la landing (startCheckout), solo que
+    // disparado desde dentro.
+    const price = PLANS.pro.price.toFixed(2).replace('.', ',')
+    return (
+      <section className="rounded-2xl border border-violet-500/25 bg-violet-500/5 p-5">
+        <h3 className="text-white font-black text-base mb-1">✨ {tr({ es: 'Hazte Pro', en: 'Go Pro', ca: 'Fes-te Pro' })}</h3>
+        <p className="text-white/50 text-sm mb-4">
+          {tr({
+            es: `${price} € / mes — sin publicidad y con el panel de seguimiento completo (por juego, por materia, historial de monedas).`,
+            en: `€${price} / month — no ads and the full tracking panel (by game, by subject, coin history).`,
+            ca: `${price} € / mes — sense publicitat i amb el panell de seguiment complet (per joc, per matèria, historial de monedes).`,
+          })}
+        </p>
+        <button onClick={handleBuyPro} disabled={buying}
+          className="rounded-xl bg-violet-600 hover:bg-violet-500 disabled:opacity-50 px-5 py-2.5 text-sm font-bold text-white transition-colors">
+          {buying
+            ? tr({ es: 'Abriendo…', en: 'Opening…', ca: 'Obrint…' })
+            : tr({ es: 'Hazte Pro →', en: 'Go Pro →', ca: 'Fes-te Pro →' })}
+        </button>
+        {buyError && (
+          <p className="mt-3 text-red-400 text-sm">
+            {tr({ es: 'No hemos podido abrir la pasarela de pago. Inténtalo de nuevo.', en: "We couldn't open the payment page. Please try again.", ca: 'No hem pogut obrir la passarel·la de pagament. Torna-ho a intentar.' })}
+          </p>
+        )}
+      </section>
+    )
   }
 
   // El precio solo se enseña si `reason` confirma que la suscripción da
@@ -104,7 +146,12 @@ export default function SubscriptionCard() {
   return (
     <section className="rounded-2xl border border-white/10 bg-white/5 p-5">
       {planPrice ? (
-        <p className="text-white/50 text-sm mb-4">{planPrice}</p>
+        <>
+          <p className="text-white/50 text-sm mb-1">{planPrice}</p>
+          <p className="text-white/35 text-xs mb-4">
+            {tr({ es: '✓ Sin publicidad · ✓ Panel de seguimiento completo', en: '✓ No ads · ✓ Full tracking panel', ca: '✓ Sense publicitat · ✓ Panell de seguiment complet' })}
+          </p>
+        </>
       ) : (
         <p className="text-white/50 text-sm mb-4">
           {tr({ es: 'Sin suscripción activa. Puedes ver tus facturas o volver a suscribirte.', en: 'No active subscription. You can view your invoices or subscribe again.', ca: 'Sense subscripció activa. Pots veure les teves factures o tornar a subscriure\'t.' })}

@@ -34,9 +34,12 @@ import { useAuth } from '../context/AuthContext'
 // no entran: ahí Stripe ya se rindió.
 export const ACTIVE_STATUSES = ['active', 'trialing', 'past_due']
 
+// Un solo plan familiar desde que el muro de juegos/exámenes está apagado
+// (ver paidRoutes.js): ya no hay mensual/anual con descuento por adelantar
+// — Pro es un único precio mensual, así que no hay "ahorra pagando el año"
+// que anunciar (por eso ya no existe annualSavings()).
 export const PLANS = {
-  family_monthly: { price: 9.99,  interval: 'month', label: { es: 'Mensual', en: 'Monthly', ca: 'Mensual' } },
-  family_annual:  { price: 69.99, interval: 'year',  label: { es: 'Anual',   en: 'Annual',  ca: 'Anual' } },
+  pro: { price: 1.99, interval: 'month', label: { es: 'Pro', en: 'Pro', ca: 'Pro' } },
 }
 
 // Fuera de PLANS a propósito (ver el test "los planes del cliente son solo
@@ -49,19 +52,6 @@ export const TEACHER_PLAN = {
   price: 99.99,
   interval: 'month',
   label: { es: 'Mensual', en: 'Monthly', ca: 'Mensual' },
-}
-
-// Lo que se ahorra pagando el año de golpe. Se calcula en vez de escribirse a
-// mano porque es el número que va en el copy de la landing ("ahorras un 42 %"),
-// y un precio que cambia sin que cambie el reclamo es publicidad engañosa.
-export function annualSavings() {
-  const twelveMonths = PLANS.family_monthly.price * 12
-  const annual = PLANS.family_annual.price
-  return {
-    amount: Math.round((twelveMonths - annual) * 100) / 100,
-    percent: Math.round((1 - annual / twelveMonths) * 100),
-    equivalentMonthly: Math.round((annual / 12) * 100) / 100,
-  }
 }
 
 // ── Predicados puros ─────────────────────────────────────────────────────────

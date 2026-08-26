@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
-import { loadAccessCached, PLANS, annualSavings } from '../lib/access'
+import { loadAccessCached, PLANS } from '../lib/access'
 import { requiresAccess, normalizePath } from '../lib/paidRoutes'
 import AuthModal from './AuthModal'
 import SEOHead from './SEOHead'
@@ -27,12 +27,9 @@ import { resolveMeta } from '../../scripts/seoMeta.mjs'
 // lo hará. Lo que sí está protegido de verdad son los DATOS — firestore.rules
 // impide escribir los campos que conceden acceso.
 
-const SAVINGS = annualSavings()
-
 function Locked({ onLogin, user }) {
   const { tr, localPath } = useLang()
-  const monthly = PLANS.family_monthly.price.toFixed(2).replace('.', ',')
-  const annual = PLANS.family_annual.price.toFixed(2).replace('.', ',')
+  const price = PLANS.pro.price.toFixed(2).replace('.', ',')
 
   return (
     <div className="relative z-10 mx-auto flex min-h-[calc(100vh-4rem)] max-w-lg flex-col items-center justify-center px-5 py-12 text-center">
@@ -56,16 +53,9 @@ function Locked({ onLogin, user }) {
 
       <div className="mt-7 w-full rounded-2xl border border-violet-500/25 bg-violet-500/5 p-5">
         <p className="text-white font-black text-lg">
-          {annual} € <span className="text-sm font-semibold text-white/40">
-            {tr({ es: '/ año', en: '/ year', ca: '/ any' })}
+          {price} € <span className="text-sm font-semibold text-white/40">
+            {tr({ es: '/ mes', en: '/ month', ca: '/ mes' })}
           </span>
-        </p>
-        <p className="mt-0.5 text-xs text-white/40">
-          {tr({
-            es: `o ${monthly} € al mes · ahorras un ${SAVINGS.percent} % con el anual`,
-            en: `or €${monthly} a month · save ${SAVINGS.percent}% with the annual plan`,
-            ca: `o ${monthly} € al mes · estalvies un ${SAVINGS.percent} % amb l'anual`,
-          })}
         </p>
 
         <Link
