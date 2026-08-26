@@ -4,6 +4,7 @@ import { useAuth } from '../context/AuthContext'
 import { saveActivity } from '../lib/activity'
 import { computeCoins } from '../lib/games'
 import GameEndScreen from '../components/GameEndScreen'
+import IgraalCard from '../components/IgraalCard'
 import SEOHead from '../components/SEOHead'
 import { POOLS } from '../data/porteroLevels'
 import {
@@ -339,6 +340,8 @@ function DifficultyScreen({ onSelect, l }) {
             ))}
           </div>
         </div>
+
+        <IgraalCard variant="banner" className="mb-4" />
 
         <button onClick={() => onSelect(dif)}
           className="w-full py-4 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-lg rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-amber-500/20">

@@ -1,9 +1,10 @@
 import { createContext, useContext, useEffect, useRef, useState } from 'react'
 import {
-  onAuthStateChanged, signInWithPopup, signOut, signInWithCustomToken,
+  onAuthStateChanged, signInWithPopup, signOut, signInWithCustomToken, getAdditionalUserInfo,
 } from 'firebase/auth'
 import { auth, googleProvider } from '../lib/firebase'
 import { upsertUserProfile } from '../lib/activity'
+import { trackEvent } from '../lib/analytics'
 
 const AuthContext = createContext({ user: undefined, logout: () => {} })
 
@@ -53,7 +54,14 @@ export function AuthProvider({ children }) {
   }, [])
 
   async function loginWithGoogle() {
-    await signInWithPopup(auth, googleProvider)
+    const cred = await signInWithPopup(auth, googleProvider)
+    // isNewUser viene de Firebase, no de nada que se pueda falsear desde
+    // aquí: es la señal correcta para "sign_up" (cuenta creada de verdad),
+    // no "cualquier inicio de sesión" — si no, cada vuelta contaría como
+    // un registro nuevo.
+    if (getAdditionalUserInfo(cred)?.isNewUser) {
+      trackEvent('sign_up', { method: 'google' })
+    }
   }
 
   // ── Entrada del hijo con el código del padre ───────────────────────────────

@@ -465,12 +465,12 @@ export default function Landing() {
 
   // El producto es gratis: la mayoría de los CTA de la landing ya no tienen
   // que llevar a #precios, tienen que meter a la persona en la app cuanto
-  // antes — precios queda para quien lo busca explícitamente (el enlace del
-  // header y la sección en sí). Sin pendingPlan, handleAuthSuccess ya
-  // navega a /app solo al terminar el login.
+  // antes. Y "cuanto antes" ahora es de verdad antes: sin pedir registro
+  // aquí — se juega sin sesión y el registro se pide donde tiene sentido
+  // pedirlo, al querer guardar la puntuación (ver GameResultFooter.jsx),
+  // no como peaje de entrada. /juegos no requiere sesión (paidRoutes.js).
   function startFree() {
-    if (!user) { setShowAuth(true); return }
-    navigate(localPath('/app'))
+    navigate(localPath(user ? '/app' : '/juegos'))
   }
 
   // Qué hacer justo después de entrar, según por qué se abrió el login: si

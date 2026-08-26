@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
-import { loadAccess, clearAccessCache } from '../lib/access'
+import { loadAccess, clearAccessCache, PLANS } from '../lib/access'
 import { getChildCode, formatChildCode, CHILD_CODE_LOGIN_ENABLED } from '../lib/childCode'
+import { trackEvent } from '../lib/analytics'
 import SEOHead from '../components/SEOHead'
 
 // Página de vuelta del checkout. NO concede nada: esta URL se puede escribir a
@@ -20,6 +21,7 @@ const MAX_TRIES = 8
 export default function PagoGracias() {
   const { tr, localPath } = useLang()
   const { user } = useAuth()
+  const [searchParams] = useSearchParams()
   const [state, setState] = useState('waiting') // waiting | ready | slow
   const [childCode, setChildCode] = useState(null)
 
@@ -44,6 +46,25 @@ export default function PagoGracias() {
           // lib/childCode.js): ya no hace falta para jugar, así que no se pide.
           if (CHILD_CODE_LOGIN_ENABLED) {
             getChildCode().then(c => { if (alive) setChildCode(c) }).catch(() => {})
+          }
+          // El evento de conversión de verdad: hasta hoy ni Google Ads ni
+          // GA4 se enteraban nunca de que aquí se paga (ver la conversación
+          // de monetización — "no convierte" no significaba que no
+          // funcionase, sino que nadie se lo contaba a Google). Solo con
+          // session_id en la URL: sin él, esta pantalla se pudo llegar
+          // escribiendo la ruta a mano por alguien con acceso por otra vía
+          // (fundador, profesor, patrocinado), y eso no es una compra.
+          // sessionStorage evita contar dos veces la misma sesión de Stripe
+          // si se recarga esta página.
+          const sessionId = searchParams.get('session_id')
+          if (sessionId && sessionStorage.getItem(`tracked_purchase_${sessionId}`) !== '1') {
+            sessionStorage.setItem(`tracked_purchase_${sessionId}`, '1')
+            trackEvent('purchase', {
+              transaction_id: sessionId,
+              value: PLANS.pro.price,
+              currency: 'EUR',
+              items: [{ item_id: 'pro', item_name: 'Pro', price: PLANS.pro.price }],
+            })
           }
           return
         }

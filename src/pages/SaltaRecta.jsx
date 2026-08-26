@@ -6,6 +6,7 @@ import { saveActivity } from '../lib/activity'
 import { computeCoins } from '../lib/games'
 import { RANGOS, generarRonda } from '../lib/saltaRectaEngine'
 import GameEndScreen from '../components/GameEndScreen'
+import IgraalCard from '../components/IgraalCard'
 import SEOHead from '../components/SEOHead'
 import NumberLine from '../components/NumberLine'
 
@@ -212,6 +213,8 @@ export default function SaltaRecta() {
               ))}
             </div>
           </div>
+
+          <IgraalCard variant="banner" className="mb-4" />
 
           <button onClick={() => startGame(difId)}
             className="w-full py-4 bg-lime-500 hover:bg-lime-400 text-black font-black text-xl rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-lime-500/30">
