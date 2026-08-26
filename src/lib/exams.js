@@ -174,6 +174,26 @@ export const EXAMS = {
     emoji: '📊', subject: 'matematicas',
     path: 'examen/estadistica', page: () => import('../pages/EstadisticaExamen'),
   },
+  'estadistico-media-test': {
+    label: { es: 'Media', en: 'Mean', ca: 'Mitjana' },
+    emoji: '📊', subject: 'matematicas',
+    path: 'examen/estadistico-media-test', page: () => import('../pages/EstadisticoMediaExamen'),
+  },
+  'estadistico-mediana-test': {
+    label: { es: 'Mediana', en: 'Median', ca: 'Mediana' },
+    emoji: '📊', subject: 'matematicas',
+    path: 'examen/estadistico-mediana-test', page: () => import('../pages/EstadisticoMedianaExamen'),
+  },
+  'estadistico-moda-test': {
+    label: { es: 'Moda', en: 'Mode', ca: 'Moda' },
+    emoji: '📊', subject: 'matematicas',
+    path: 'examen/estadistico-moda-test', page: () => import('../pages/EstadisticoModaExamen'),
+  },
+  'estadistico-rango-test': {
+    label: { es: 'Rango', en: 'Range', ca: 'Rang' },
+    emoji: '📊', subject: 'matematicas',
+    path: 'examen/estadistico-rango-test', page: () => import('../pages/EstadisticoRangoExamen'),
+  },
   'fracciones': {
     label: { es: 'Fracciones', en: 'Fractions', ca: 'Fraccions' },
     emoji: '🍕', subject: 'matematicas',
@@ -582,6 +602,8 @@ const EXAM_GROUPS = [
     label: { es: 'Analiza la Frase (señalar)', en: 'Sentence Detective (spot them)', ca: 'Analitza la Frase (assenyalar)' } },
   { match: id => id.startsWith('espanol-gramatica-'),
     label: { es: 'Gramática (tipo test)', en: 'Grammar (quiz)', ca: 'Gramàtica (tipus test)' } },
+  { match: id => id.startsWith('estadistico-'),
+    label: { es: 'Estadístico Exprés (por medida)', en: 'Quick Statistician (by measure)', ca: 'Estadístic Exprés (per mesura)' } },
   { match: id => id.startsWith('espanol-ortografia-'),
     label: { es: 'Ortografía', en: 'Spelling', ca: 'Ortografia' } },
   { match: id => id.startsWith('ingles-grammar-'),

@@ -114,6 +114,33 @@ export default function EstadisticaTema() {
             </div>
           </button>
         ))}
+
+        <div className="pt-2">
+          <p className="text-white/30 text-xs uppercase tracking-widest font-semibold mb-3">
+            {ca ? 'Exàmens per mesura' : en ? 'Exams by measure' : 'Exámenes por medida'}
+          </p>
+          <div className="grid grid-cols-2 gap-3">
+            {[
+              { id: 'media', titulo: ca ? 'Mitjana' : en ? 'Mean' : 'Media', path: '/examen/estadistico-media-test' },
+              { id: 'mediana', titulo: ca ? 'Mediana' : en ? 'Median' : 'Mediana', path: '/examen/estadistico-mediana-test' },
+              { id: 'moda', titulo: ca ? 'Moda' : en ? 'Mode' : 'Moda', path: '/examen/estadistico-moda-test' },
+              { id: 'rango', titulo: ca ? 'Rang' : en ? 'Range' : 'Rango', path: '/examen/estadistico-rango-test' },
+            ].map(m => (
+              <button key={m.id} onClick={() => navigate(localPath(m.path))}
+                className="bg-white/5 hover:bg-white/10 border border-white/10 hover:border-sky-400/40 rounded-xl px-4 py-3.5 text-left transition-all flex items-center justify-between gap-2">
+                <span className="text-white font-bold text-sm">{m.titulo}</span>
+                <span className="text-white/30 text-sm">→</span>
+              </button>
+            ))}
+          </div>
+          <p className="text-white/25 text-xs mt-2.5">
+            {ca
+              ? 'Un examen centrat només en aquesta mesura, sense barrejar-la amb les altres.'
+              : en
+              ? 'An exam focused only on this measure, without mixing it with the others.'
+              : 'Un examen centrado solo en esa medida, sin mezclarla con las demás.'}
+          </p>
+        </div>
       </div>
     </div>
   )

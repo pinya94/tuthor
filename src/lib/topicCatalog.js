@@ -162,7 +162,13 @@ export const TOPIC_CATALOG = {
       algebra: examTema({ teoria: 'algebra', 'balanza-algebraica': 'balanza-algebraica-test' }),
       geometria: examTema({ teoria: 'geometria', 'figuras-compuestas': 'figuras-compuestas' }),
       fracciones: examTema({ teoria: 'fracciones', 'reparte-pastel': 'reparte-pastel-test' }),
-      estadistica: examTema({ teoria: 'estadistica' }),
+      estadistica: examTema({
+        teoria: 'estadistica',
+        'estadistico-media': 'estadistico-media-test',
+        'estadistico-mediana': 'estadistico-mediana-test',
+        'estadistico-moda': 'estadistico-moda-test',
+        'estadistico-rango': 'estadistico-rango-test',
+      }),
       'enteros-racionales': examTema({ teoria: 'enteros-racionales', 'salta-recta': 'salta-recta-test' }),
     },
     formatos: {
@@ -175,6 +181,10 @@ export const TOPIC_CATALOG = {
       'reparte-pastel': examFormato({ es: 'Reparte el Pastel (con el juego)', en: 'Slice the Cake (with the game)', ca: 'Reparteix el Pastís (amb el joc)' }, '🍰'),
       'figuras-compuestas': examFormato({ es: 'Figuras Compuestas', en: 'Composite Shapes', ca: 'Figures Compostes' }, '📐'),
       'salta-recta': examFormato({ es: 'Salta la Recta (con el juego)', en: 'Jump the Number Line (with the game)', ca: 'Salta la Recta (amb el joc)' }, '🐸'),
+      'estadistico-media': examFormato({ es: 'Solo Media', en: 'Mean Only', ca: 'Només Mitjana' }, '📊'),
+      'estadistico-mediana': examFormato({ es: 'Solo Mediana', en: 'Median Only', ca: 'Només Mediana' }, '📊'),
+      'estadistico-moda': examFormato({ es: 'Solo Moda', en: 'Mode Only', ca: 'Només Moda' }, '📊'),
+      'estadistico-rango': examFormato({ es: 'Solo Rango', en: 'Range Only', ca: 'Només Rang' }, '📊'),
       // Formatos por mecánica (solo para los modos de cálculo)
       'examen-practica': {
         temas: MATH_TEMA_IDS,

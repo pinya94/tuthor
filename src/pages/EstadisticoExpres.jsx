@@ -4,8 +4,10 @@ import { useLang } from '../context/LangContext'
 import { useAuth } from '../context/AuthContext'
 import { saveActivity } from '../lib/activity'
 import { computeCoins } from '../lib/games'
+import { RANGOS, generarRonda, explicacion } from '../lib/estadisticoEngine'
 import GameEndScreen from '../components/GameEndScreen'
 import SEOHead from '../components/SEOHead'
+import BarChart from '../components/BarChart'
 
 // ── Estadístico Exprés ───────────────────────────────────────────────────
 // Deliberadamente NO es una ruleta ni nada con pinta de azar/apuesta: se
@@ -14,16 +16,17 @@ import SEOHead from '../components/SEOHead'
 // predecir ni apostar. Contrarreloj para que no se vuelva monótono, pero la
 // mecánica en sí es puro cálculo.
 //
-// Los datos se generan al revés para que la respuesta sea siempre un entero
-// exacto (igual que en Punto de Equilibrio): para "media" se fija primero el
-// resultado y se reparten desviaciones que suman cero; para "mediana" se
-// descarta el sorteo si el par central no promedia a un entero.
+// La generación de datasets vive en lib/estadisticoEngine.js — la comparten
+// los 4 exámenes por medida (Estadistico{Media,Mediana,Moda,Rango}Examen.jsx)
+// para que "calcula la media" signifique lo mismo en todos los sitios.
 
-const DIFS = {
-  facil:   { n: [4, 5], rango: [1, 15], tipos: ['media', 'mediana', 'moda', 'rango'], time: 80, bonus: 6 },
-  medio:   { n: [5, 7], rango: [1, 25], tipos: ['media', 'mediana', 'moda', 'rango'], time: 70, bonus: 5 },
-  dificil: { n: [6, 9], rango: [1, 40], tipos: ['media', 'mediana', 'moda', 'rango'], time: 60, bonus: 4 },
-}
+const TIPOS = ['media', 'mediana', 'moda', 'rango']
+
+const DIFS = Object.fromEntries(Object.entries(RANGOS).map(([id, r]) => [id, {
+  ...r,
+  time: id === 'facil' ? 80 : id === 'medio' ? 70 : 60,
+  bonus: id === 'facil' ? 6 : 5,
+}]))
 
 const DIF_LABEL = {
   facil:   { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
@@ -46,119 +49,6 @@ const PROMPT_LABEL = {
   mediana: { es: 'Calcula la mediana', en: 'Calculate the median', ca: 'Calcula la mediana' },
   moda:    { es: 'Calcula la moda', en: 'Calculate the mode', ca: 'Calcula la moda' },
   rango:   { es: 'Calcula el rango', en: 'Calculate the range', ca: 'Calcula el rang' },
-}
-
-function rng(min, max) { return min + Math.floor(Math.random() * (max - min + 1)) }
-function pick(arr) { return arr[Math.floor(Math.random() * arr.length)] }
-function shuffle(arr) {
-  const a = [...arr]
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1))
-    ;[a[i], a[j]] = [a[j], a[i]]
-  }
-  return a
-}
-
-function generarMedia(dif) {
-  const n = rng(...dif.n)
-  for (let intento = 0; intento < 12; intento++) {
-    const media = rng(...dif.rango)
-    const desviaciones = Array.from({ length: n - 1 }, () => rng(-5, 5))
-    const ultima = -desviaciones.reduce((a, b) => a + b, 0)
-    const valores = [...desviaciones, ultima].map(d => media + d)
-    if (valores.every(v => v >= 0 && v <= dif.rango[1] + 15)) {
-      return { tipo: 'media', valores: shuffle(valores), respuesta: media }
-    }
-  }
-  const media = rng(...dif.rango) // red de seguridad: dataset constante, media trivial
-  return { tipo: 'media', valores: Array.from({ length: n }, () => media), respuesta: media }
-}
-
-function generarMediana(dif) {
-  const n = rng(...dif.n)
-  for (let intento = 0; intento < 12; intento++) {
-    const valores = Array.from({ length: n }, () => rng(...dif.rango))
-    const ordenado = [...valores].sort((a, b) => a - b)
-    if (n % 2 === 1) {
-      return { tipo: 'mediana', valores, respuesta: ordenado[(n - 1) / 2] }
-    }
-    const suma = ordenado[n / 2 - 1] + ordenado[n / 2]
-    if (suma % 2 === 0) return { tipo: 'mediana', valores, respuesta: suma / 2 }
-  }
-  const valores = Array.from({ length: 5 }, () => rng(...dif.rango)) // red de seguridad: n impar, siempre exacta
-  const ordenado = [...valores].sort((a, b) => a - b)
-  return { tipo: 'mediana', valores, respuesta: ordenado[2] }
-}
-
-function generarModa(dif) {
-  const n = rng(...dif.n)
-  const base = new Set()
-  while (base.size < n - 1) base.add(rng(...dif.rango))
-  const distintos = [...base]
-  const modaVal = pick(distintos)
-  return { tipo: 'moda', valores: shuffle([...distintos, modaVal]), respuesta: modaVal }
-}
-
-function generarRango(dif) {
-  const n = rng(...dif.n)
-  const valores = Array.from({ length: n }, () => rng(...dif.rango))
-  return { tipo: 'rango', valores, respuesta: Math.max(...valores) - Math.min(...valores) }
-}
-
-function generarRonda(dif) {
-  const tipo = pick(dif.tipos)
-  if (tipo === 'media') return generarMedia(dif)
-  if (tipo === 'mediana') return generarMediana(dif)
-  if (tipo === 'moda') return generarModa(dif)
-  return generarRango(dif)
-}
-
-function explicacion(ronda, tr) {
-  const { tipo, valores, respuesta } = ronda
-  if (tipo === 'media') {
-    const suma = valores.reduce((a, b) => a + b, 0)
-    return tr({
-      es: `Suma: ${valores.join(' + ')} = ${suma}. Media = ${suma} ÷ ${valores.length} = ${respuesta}.`,
-      en: `Sum: ${valores.join(' + ')} = ${suma}. Mean = ${suma} ÷ ${valores.length} = ${respuesta}.`,
-      ca: `Suma: ${valores.join(' + ')} = ${suma}. Mitjana = ${suma} ÷ ${valores.length} = ${respuesta}.`,
-    })
-  }
-  if (tipo === 'mediana') {
-    const ordenado = [...valores].sort((a, b) => a - b)
-    return tr({
-      es: `Ordenados: ${ordenado.join(', ')} → el valor central es ${respuesta}.`,
-      en: `Sorted: ${ordenado.join(', ')} → the middle value is ${respuesta}.`,
-      ca: `Ordenats: ${ordenado.join(', ')} → el valor central és ${respuesta}.`,
-    })
-  }
-  if (tipo === 'moda') {
-    return tr({
-      es: `El ${respuesta} aparece 2 veces; el resto, solo 1 → moda = ${respuesta}.`,
-      en: `${respuesta} appears twice; the rest, only once → mode = ${respuesta}.`,
-      ca: `El ${respuesta} apareix 2 vegades; la resta, només 1 → moda = ${respuesta}.`,
-    })
-  }
-  const max = Math.max(...valores), min = Math.min(...valores)
-  return tr({
-    es: `Rango = máximo − mínimo = ${max} − ${min} = ${respuesta}.`,
-    en: `Range = maximum − minimum = ${max} − ${min} = ${respuesta}.`,
-    ca: `Rang = màxim − mínim = ${max} − ${min} = ${respuesta}.`,
-  })
-}
-
-function BarChart({ valores }) {
-  const max = Math.max(...valores, 1)
-  const ancho = Math.min(48, Math.floor(260 / valores.length))
-  return (
-    <div className="flex items-end justify-center gap-2 h-36 mt-4 mb-3">
-      {valores.map((v, i) => (
-        <div key={i} className="flex flex-col items-center gap-1.5" style={{ width: `${ancho}px` }}>
-          <div className="w-full rounded-t-md bg-sky-500" style={{ height: `${Math.max(6, (v / max) * 110)}px` }} />
-          <span className="text-white/60 text-[11px] font-bold tabular-nums">{v}</span>
-        </div>
-      ))}
-    </div>
-  )
 }
 
 export default function EstadisticoExpres() {
@@ -190,7 +80,7 @@ export default function EstadisticoExpres() {
   const dif = DIFS[difId]
 
   function nuevaRonda(d) {
-    setRonda(generarRonda(d || dif))
+    setRonda(generarRonda(d || dif, TIPOS))
     setInputVal('')
     setFeedback(null)
     setBloqueado(false)
@@ -415,7 +305,7 @@ export default function EstadisticoExpres() {
             ✓
           </button>
         </div>
-        {bloqueado && <p className="text-white/50 text-sm text-center mt-3">{explicacion(ronda, tr)}</p>}
+        {bloqueado && <p className="text-white/50 text-sm text-center mt-3">{explicacion(ronda, lang)}</p>}
       </div>
     </div>
   )
