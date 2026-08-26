@@ -23,6 +23,7 @@ import { useAuth } from '../context/AuthContext'
 import { saveActivity } from '../lib/activity'
 import { computeCoins } from '../lib/games'
 import GameEndScreen from '../components/GameEndScreen'
+import SupportBlock from '../components/SupportBlock'
 import SEOHead from '../components/SEOHead'
 import PentagramaSVG from '../components/PentagramaSVG'
 import PianoVirtual from '../components/PianoVirtual'
@@ -424,6 +425,8 @@ export default function PentagramaPath() {
               <p className="text-amber-400 text-sm font-bold mt-2">🏆 {tr({ es: 'Mejor puntuación', en: 'Best score', ca: 'Millor puntuació' })}: {survBest}</p>
             )}
           </div>
+
+          <SupportBlock variant="top" className="mb-4" />
 
           <button onClick={startSurvivor}
             className="w-full py-4 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-xl rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-amber-500/30 mb-3">

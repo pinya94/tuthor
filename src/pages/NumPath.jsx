@@ -5,6 +5,7 @@ import { useAuth } from '../context/AuthContext'
 import { saveActivity, saveDailyChallenge } from '../lib/activity'
 import { computeCoins } from '../lib/games'
 import GameEndScreen from '../components/GameEndScreen'
+import SupportBlock from '../components/SupportBlock'
 import SEOHead from '../components/SEOHead'
 
 const DIFS = {
@@ -346,6 +347,8 @@ export default function NumPath() {
             <h1 className="text-4xl font-black text-white mb-2">{u.titulo}</h1>
             <p className="text-white/40">{u.desc}</p>
           </div>
+
+          <SupportBlock variant="top" className="mb-5 w-full" />
 
           <div className="flex gap-2 p-1 bg-white/5 border border-white/10 rounded-xl mb-5 w-fit mx-auto">
             {Object.entries(DIFS).map(([id, dd]) => (

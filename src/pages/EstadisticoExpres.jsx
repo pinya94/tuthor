@@ -6,6 +6,7 @@ import { saveActivity } from '../lib/activity'
 import { computeCoins } from '../lib/games'
 import { RANGOS, generarRonda, explicacion } from '../lib/estadisticoEngine'
 import GameEndScreen from '../components/GameEndScreen'
+import SupportBlock from '../components/SupportBlock'
 import SEOHead from '../components/SEOHead'
 import BarChart from '../components/BarChart'
 
@@ -178,6 +179,8 @@ export default function EstadisticoExpres() {
             <h1 className="text-4xl font-black text-white mb-2">{tr({ es: 'Estadístico Exprés', en: 'Quick Statistician', ca: 'Estadístic Exprés' })}</h1>
             <p className="text-white/40">{tr({ es: 'Calcula media, mediana, moda y rango a partir de datos reales', en: 'Calculate mean, median, mode and range from real data', ca: 'Calcula mitjana, mediana, moda i rang a partir de dades reals' })}</p>
           </div>
+
+          <SupportBlock variant="top" className="mb-5" />
 
           <div className="flex gap-2 p-1 bg-white/5 border border-white/10 rounded-xl mb-5 w-fit mx-auto">
             {Object.keys(DIFS).map(id => (

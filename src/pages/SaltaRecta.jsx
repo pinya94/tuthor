@@ -6,7 +6,7 @@ import { saveActivity } from '../lib/activity'
 import { computeCoins } from '../lib/games'
 import { RANGOS, generarRonda } from '../lib/saltaRectaEngine'
 import GameEndScreen from '../components/GameEndScreen'
-import IgraalCard from '../components/IgraalCard'
+import SupportBlock from '../components/SupportBlock'
 import SEOHead from '../components/SEOHead'
 import NumberLine from '../components/NumberLine'
 
@@ -169,6 +169,9 @@ export default function SaltaRecta() {
             className="text-white/30 hover:text-white/60 text-sm mb-6 flex items-center gap-1 transition-colors">
             {tr({ es: '← Volver', en: '← Back', ca: '← Tornar' })}
           </button>
+
+          <SupportBlock variant="top" className="mb-5" />
+
           <div className="text-center mb-7">
             <span className="text-7xl block mb-4">🐸</span>
             <h1 className="text-4xl font-black text-white mb-2">{tr({ es: 'Salta la Recta', en: 'Jump the Number Line', ca: 'Salta la Recta' })}</h1>
@@ -213,8 +216,6 @@ export default function SaltaRecta() {
               ))}
             </div>
           </div>
-
-          <IgraalCard variant="banner" className="mb-4" />
 
           <button onClick={() => startGame(difId)}
             className="w-full py-4 bg-lime-500 hover:bg-lime-400 text-black font-black text-xl rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-lime-500/30">

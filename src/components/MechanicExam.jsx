@@ -21,6 +21,7 @@ import { useLang } from '../context/LangContext'
 import { useAuth } from '../context/AuthContext'
 import { saveActivity } from '../lib/activity'
 import CoinsAnimation from './CoinsAnimation'
+import SupportBlock from './SupportBlock'
 import PageMeta from './PageMeta'
 import QuizSchema from './QuizSchema'
 
@@ -59,6 +60,7 @@ function Intro({ badge, title, sub, levels, onSelect, backGamePath, backLabel, l
         <p className="text-white/40 text-xs uppercase tracking-widest text-center mb-2">{tr(badge, l)}</p>
         <h1 className="text-3xl font-black text-white text-center mb-1">{tr(title, l)}</h1>
         <p className="text-white/40 text-sm text-center mb-6">{tr(sub, l)}</p>
+        <SupportBlock variant="top" className="mb-5" />
         <div className="bg-white/5 border border-white/10 rounded-2xl p-6 mb-6 space-y-5">
           {[['📋', L.r1t, L.r1d], ['💡', L.r2t, L.r2d], ['🏆', L.r3t, L.r3d]].map(([e, tk, dk]) => (
             <div key={tr(tk, l)} className="flex items-start gap-4">

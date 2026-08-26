@@ -6,6 +6,7 @@ import { useAuth } from '../context/AuthContext'
 import { saveActivity } from '../lib/activity'
 import { computeCoins } from '../lib/games'
 import GameEndScreen from '../components/GameEndScreen'
+import SupportBlock from '../components/SupportBlock'
 import WorldMap from '../components/WorldMap'
 import SEOHead from '../components/SEOHead'
 
@@ -307,6 +308,8 @@ export default function GeoMapa() {
             <h1 className="text-4xl font-black text-white mb-2">{u.titulo}</h1>
             <p className="text-white/40">{u.desc}</p>
           </div>
+
+          <SupportBlock variant="top" className="mb-5 w-full" />
 
           <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-6">
             <WorldMap highlight="" className="rounded-xl overflow-hidden mb-4" />

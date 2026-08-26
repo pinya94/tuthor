@@ -14,6 +14,7 @@ import { useLang } from '../context/LangContext'
 import { useAuth } from '../context/AuthContext'
 import { saveActivity } from '../lib/activity'
 import CoinsAnimation from './CoinsAnimation'
+import SupportBlock from './SupportBlock'
 import PageMeta from './PageMeta'
 import QuizSchema from './QuizSchema'
 import AuthModal from './AuthModal'
@@ -207,9 +208,10 @@ export default function ExamenMC({ titulo, emoji, nivelInfo, backFallback, gameI
         <div className="max-w-sm w-full text-center">
           <div className="text-5xl mb-4">{emoji}</div>
           <h1 className="text-white font-black text-2xl mb-2">{tituloStr}</h1>
-          <p className="text-white/40 text-sm mb-8">
+          <p className="text-white/40 text-sm mb-6">
             {en ? 'Select a level to start' : ca ? 'Selecciona un nivell per començar' : 'Selecciona un nivel para empezar'}
           </p>
+          <SupportBlock variant="top" className="mb-6" />
           <div className="flex flex-col gap-3">
             {Object.entries(nivelInfo).map(([key, info]) => (
               <button key={key} onClick={() => setNivelSel(key)}

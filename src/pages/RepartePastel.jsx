@@ -5,6 +5,7 @@ import { useAuth } from '../context/AuthContext'
 import { saveActivity } from '../lib/activity'
 import { computeCoins } from '../lib/games'
 import GameEndScreen from '../components/GameEndScreen'
+import SupportBlock from '../components/SupportBlock'
 import SEOHead from '../components/SEOHead'
 import Pastel from '../components/Pastel'
 
@@ -210,6 +211,8 @@ export default function RepartePastel() {
             <h1 className="text-4xl font-black text-white mb-2">{tr({ es: 'Reparte el Pastel', en: 'Slice the Cake', ca: 'Reparteix el Pastís' })}</h1>
             <p className="text-white/40">{tr({ es: 'Lee y construye fracciones tocando las porciones', en: 'Read and build fractions by tapping the slices', ca: 'Llegeix i construeix fraccions tocant les porcions' })}</p>
           </div>
+
+          <SupportBlock variant="top" className="mb-5" />
 
           <div className="flex gap-2 p-1 bg-white/5 border border-white/10 rounded-xl mb-5 w-fit mx-auto">
             {Object.entries(DIFS).map(([id]) => (

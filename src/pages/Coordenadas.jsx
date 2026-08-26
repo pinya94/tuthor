@@ -6,6 +6,7 @@ import { saveActivity } from '../lib/activity'
 import { computeCoins } from '../lib/games'
 import { nuevoMazo, distanciaKm, evaluarDistancia } from '../lib/coordenadas'
 import GameEndScreen from '../components/GameEndScreen'
+import SupportBlock from '../components/SupportBlock'
 import SEOHead from '../components/SEOHead'
 import MapaCoordenadas, { FlagImg, fmtCoord } from '../components/MapaCoordenadas'
 
@@ -178,6 +179,9 @@ export default function Coordenadas() {
             className="text-white/30 hover:text-white/60 text-sm mb-6 flex items-center gap-1 transition-colors">
             {t.volver}
           </button>
+
+          <SupportBlock variant="top" className="mb-5 w-full" />
+
           <div className="text-center mb-7">
             <span className="text-7xl block mb-4">🌐</span>
             <h1 className="text-4xl font-black text-white mb-2">{t.titulo}</h1>

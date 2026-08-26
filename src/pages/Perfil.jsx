@@ -11,6 +11,7 @@ import { EXAMS } from '../lib/exams'
 import { GAME_LABELS, SUBJECTS, aggregateStudentStats } from '../lib/statsAggregation'
 import { getStudentAssignments } from '../lib/assignments'
 import ChildCodeCard from '../components/ChildCodeCard'
+import SupportBlock from '../components/SupportBlock'
 
 // Qué parte del panel es de pago desde que el muro de juegos/exámenes está
 // apagado (ver paidRoutes.js): el resumen de arriba (monedas, puntos,
@@ -38,6 +39,10 @@ function ProLock({ lang, localPath }) {
         className="inline-block bg-violet-600 hover:bg-violet-500 text-white font-black text-sm px-6 py-3 rounded-xl transition-colors">
         {ca ? 'Fes-te Pro →' : en ? 'Go Pro →' : 'Hazte Pro →'}
       </Link>
+      {/* Para quien no quiere pagar ahora mismo pero sí quiere apoyar de
+          otra forma — mismo bloque que en juegos/exámenes, se oculta solo
+          si ya es Pro (comprueba su propio acceso, no depende de ProLock). */}
+      <SupportBlock variant="top" className="mt-4" />
     </div>
   )
 }

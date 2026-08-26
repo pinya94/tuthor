@@ -6,6 +6,7 @@ import { saveActivity } from '../lib/activity'
 import { computeCoins } from '../lib/games'
 import { genRound, isCorrectGuess, pistaTexto } from '../lib/encuentraElemento'
 import GameEndScreen from '../components/GameEndScreen'
+import SupportBlock from '../components/SupportBlock'
 import TablaPeriodicaGrid from '../components/TablaPeriodicaGrid'
 import SEOHead from '../components/SEOHead'
 
@@ -82,6 +83,8 @@ function DifficultyScreen({ onSelect, t, l }) {
         <p className="text-white/40 text-xs uppercase tracking-widest text-center mb-2">{t.badge}</p>
         <h1 className="text-3xl font-black text-white text-center mb-1">{t.titulo}</h1>
         <p className="text-white/40 text-sm text-center mb-6">{t.sub}</p>
+
+        <SupportBlock variant="top" className="mb-5" />
 
         <div className="flex flex-wrap justify-center gap-1.5 p-1 bg-white/5 border border-white/10 rounded-xl mb-3 mx-auto">
           {Object.entries(DIFS).map(([id, d]) => (

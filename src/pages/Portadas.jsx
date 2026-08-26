@@ -4,6 +4,7 @@ import { PORTADAS } from '../data/portadas'
 import { useLang } from '../context/LangContext'
 import { useAuth } from '../context/AuthContext'
 import GameEndScreen from '../components/GameEndScreen'
+import SupportBlock from '../components/SupportBlock'
 import { saveActivity } from '../lib/activity'
 import { computeCoins } from '../lib/games'
 import SEOHead from '../components/SEOHead'
@@ -249,6 +250,8 @@ export default function Portadas() {
             <h1 className="text-4xl font-black text-white mb-2">{pu.titulo}</h1>
             <p className="text-white/40">{pu.desc}</p>
           </div>
+
+          <SupportBlock variant="top" className="mb-5 w-full" />
 
           <div className="flex gap-2 p-1 bg-white/5 border border-white/10 rounded-xl mb-6 w-fit mx-auto">
             {Object.entries(DIFS).map(([id, d]) => (

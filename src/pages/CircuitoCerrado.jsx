@@ -7,7 +7,7 @@ import { computeCoins } from '../lib/games'
 import { genRound, isCorrect } from '../lib/circuito'
 import GameEndScreen from '../components/GameEndScreen'
 import CircuitoDiagrama, { siguienteEstado } from '../components/CircuitoDiagrama'
-import IgraalCard from '../components/IgraalCard'
+import SupportBlock from '../components/SupportBlock'
 import SEOHead from '../components/SEOHead'
 
 // Mismo esqueleto que Balanza.jsx (40s + racha), la otra mecánica de física
@@ -56,6 +56,8 @@ function DifficultyScreen({ onSelect, l }) {
   return (
     <div className="relative z-10 flex flex-col items-center min-h-[calc(100vh-4rem)] px-4 py-8">
       <div className="max-w-md w-full">
+        <SupportBlock variant="top" className="mb-5" />
+
         <p className="text-white/40 text-xs uppercase tracking-widest text-center mb-2">{T('badge', l)}</p>
         <h1 className="text-3xl font-black text-white text-center mb-1">{T('title', l)}</h1>
         <p className="text-white/40 text-sm text-center mb-6">{T('sub', l)}</p>
@@ -89,8 +91,6 @@ function DifficultyScreen({ onSelect, l }) {
             </div>
           ))}
         </div>
-
-        <IgraalCard variant="banner" className="mb-4" />
 
         <button onClick={() => onSelect(dif)}
           className="w-full py-4 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-lg rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-amber-500/20 mb-3">

@@ -7,6 +7,7 @@ import { computeCoins } from '../lib/games'
 import { nuevoMazo, CENTROS, evaluarLanzamiento } from '../lib/orbita'
 import { PLANETAS } from '../data/planetas'
 import GameEndScreen from '../components/GameEndScreen'
+import SupportBlock from '../components/SupportBlock'
 import SEOHead from '../components/SEOHead'
 import BarraOrbita from '../components/BarraOrbita'
 
@@ -201,6 +202,9 @@ export default function Orbita() {
             className="text-white/30 hover:text-white/60 text-sm mb-6 flex items-center gap-1 transition-colors">
             {t.volver}
           </button>
+
+          <SupportBlock variant="top" className="mb-5 w-full" />
+
           <div className="text-center mb-7">
             <span className="text-7xl block mb-4">🛰️</span>
             <h1 className="text-4xl font-black text-white mb-2">{t.titulo}</h1>

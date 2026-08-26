@@ -4,6 +4,7 @@ import { FOTOS, EPOCAS } from '../data/epocasHistoricas'
 import { useLang } from '../context/LangContext'
 import { useAuth } from '../context/AuthContext'
 import GameEndScreen from '../components/GameEndScreen'
+import SupportBlock from '../components/SupportBlock'
 import { saveActivity } from '../lib/activity'
 import { computeCoins } from '../lib/games'
 import SEOHead from '../components/SEOHead'
@@ -226,6 +227,8 @@ export default function EpocasHistoricas() {
             <h1 className="text-4xl font-black text-white mb-2">{t.titulo}</h1>
             <p className="text-white/40">{t.desc}</p>
           </div>
+
+          <SupportBlock variant="top" className="mb-5 w-full" />
 
           <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-5">
             <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-3">{t.comoFunciona}</p>

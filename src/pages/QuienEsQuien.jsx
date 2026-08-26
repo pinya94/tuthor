@@ -6,6 +6,7 @@ import { useLang } from '../context/LangContext'
 import { saveActivity } from '../lib/activity'
 import { computeCoins } from '../lib/games'
 import GameEndScreen from '../components/GameEndScreen'
+import SupportBlock from '../components/SupportBlock'
 import SEOHead from '../components/SEOHead'
 
 const BOARD_SIZE = 12
@@ -130,6 +131,9 @@ function Intro({ pool, onStart, lang }) {
             {(POOL_LABEL[lang] || POOL_LABEL.es)[pool] ?? pool}
           </p>
         </div>
+
+        <SupportBlock variant="top" className="mb-5" />
+
         <div className="bg-white/5 border border-white/10 rounded-2xl p-6 mb-6 space-y-4">
           {(lang === 'ca' ? [
             { icon: '🎴', title: 'Tauler de 12 personatges', desc: 'Cada partida, 12 figures diferents seleccionades a l\'atzar.' },
