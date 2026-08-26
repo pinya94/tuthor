@@ -9,8 +9,8 @@
 // pila entera y brilla a tope. Ese contraste es el concepto que se pone a
 // prueba, no solo "¿pasa corriente sí o no?".
 //
-//   apagada   — no le llega corriente (interruptor abierto en su camino,
-//               fundida, o cualquiera en su mismo lazo en serie lo está)
+//   apagada   — no le llega corriente (interruptor abierto en su camino, o
+//               cualquiera en su mismo lazo en serie lo está)
 //   tenue     — le llega corriente pero repartida con otra bombilla del
 //               mismo lazo en serie
 //   brillante — le llega toda la corriente de la pila: sola en su lazo, o
@@ -23,16 +23,14 @@
 //
 //   simple   — 1 interruptor + 1 bombilla en un único lazo. Sola en su
 //              lazo, nunca puede salir "tenue": o brilla a tope o no
-//              brilla. Sin bombilla fundida — el único factor es el
-//              interruptor. (Primaria)
+//              brilla. El único factor es el interruptor. (Primaria)
 //   serie    — 1 interruptor + 2 bombillas en el MISMO lazo: si el
-//              interruptor está abierto o CUALQUIERA está fundida, las dos
-//              se apagan (no hay camino alternativo); si no, las dos
-//              brillan TENUE — comparten la misma pila. (ESO)
+//              interruptor está abierto, las dos se apagan (no hay camino
+//              alternativo); si no, las dos brillan TENUE — comparten la
+//              misma pila. (ESO)
 //   paralelo — 1 interruptor (en el tronco común) + 2 bombillas en ramas
-//              independientes: cada una que funcione brilla a tope (su
-//              rama recibe la pila entera), y que una esté fundida no
-//              afecta al brillo de la otra. (ESO)
+//              independientes: cada una brilla a tope si el interruptor
+//              está cerrado (su rama recibe la pila entera). (ESO)
 //   mixto    — una bombilla "tronco" en serie con el interruptor principal
 //              — brilla tenue cuando funciona, porque reparte corriente
 //              con lo que viene detrás — que después se reparte en dos
@@ -52,31 +50,27 @@ const pick = (arr, rand) => arr[rnd(0, arr.length - 1, rand)]
 // Interruptor: sesgado a más veces cerrado que abierto — un circuito
 // siempre abierto es menos instructivo (nunca hay nada que predecir bien).
 const cerrado = rand => rand() < 0.6
-// Bombilla fundida: rara, para que sea la excepción a explicar, no la norma.
-const fundida = (rand, p = 0.28) => rand() < p
 
 function genSimple(rand) {
   const c1 = cerrado(rand)
   return {
     tipo: 'simple',
-    bombillas: [{ id: 'b1', fundida: false, estado: c1 ? 'brillante' : 'apagada' }],
+    bombillas: [{ id: 'b1', estado: c1 ? 'brillante' : 'apagada' }],
     interruptores: [{ id: 'i1', cerrado: c1 }],
   }
 }
 
 function genSerie(rand) {
   const c1 = cerrado(rand)
-  const f1 = fundida(rand), f2 = fundida(rand)
-  // En serie: UNA sola interrupción (el interruptor o cualquiera de las dos
-  // bombillas fundidas) apaga las DOS. Si no hay ninguna, las dos reparten
-  // la misma pila → tenue, nunca a tope.
-  const enciende = c1 && !f1 && !f2
-  const estado = enciende ? 'tenue' : 'apagada'
+  // En serie: el interruptor abierto apaga las DOS (no hay camino
+  // alternativo). Si está cerrado, las dos reparten la misma pila → tenue,
+  // nunca a tope.
+  const estado = c1 ? 'tenue' : 'apagada'
   return {
     tipo: 'serie',
     bombillas: [
-      { id: 'b1', fundida: f1, estado },
-      { id: 'b2', fundida: f2, estado },
+      { id: 'b1', estado },
+      { id: 'b2', estado },
     ],
     interruptores: [{ id: 'i1', cerrado: c1 }],
   }
@@ -84,15 +78,13 @@ function genSerie(rand) {
 
 function genParalelo(rand) {
   const c1 = cerrado(rand)
-  const f1 = fundida(rand), f2 = fundida(rand)
-  // En paralelo: el interruptor del tronco corta a las dos por igual, pero
-  // cada bombilla fundida solo se apaga a sí misma — su rama es propia — y
-  // la que funciona recibe la pila entera: siempre a tope, nunca tenue.
+  // En paralelo: el interruptor del tronco corta a las dos por igual; la
+  // que recibe corriente lo hace entera — siempre a tope, nunca tenue.
   return {
     tipo: 'paralelo',
     bombillas: [
-      { id: 'b1', fundida: f1, estado: c1 && !f1 ? 'brillante' : 'apagada' },
-      { id: 'b2', fundida: f2, estado: c1 && !f2 ? 'brillante' : 'apagada' },
+      { id: 'b1', estado: c1 ? 'brillante' : 'apagada' },
+      { id: 'b2', estado: c1 ? 'brillante' : 'apagada' },
     ],
     interruptores: [{ id: 'i1', cerrado: c1 }],
   }
@@ -101,21 +93,17 @@ function genParalelo(rand) {
 function genMixto(rand) {
   const c1 = cerrado(rand)
   const c2 = cerrado(rand)
-  // La bombilla del tronco (b1) se funde poco: si se funde, la ronda entera
-  // se reduce a "nada enciende", que enseña poco — se deja como la sorpresa
-  // ocasional, no el caso típico.
-  const f1 = fundida(rand, 0.15), f2 = fundida(rand), f3 = fundida(rand)
-  const tronco = c1 && !f1
+  const tronco = c1
   return {
     tipo: 'mixto',
     bombillas: [
       // El tronco reparte corriente con lo que venga detrás (las dos ramas):
       // cuando funciona, siempre tenue, nunca a tope.
-      { id: 'b1', fundida: f1, estado: tronco ? 'tenue' : 'apagada' },
+      { id: 'b1', estado: tronco ? 'tenue' : 'apagada' },
       // Las ramas, en cambio, reciben la pila entera cada una: a tope si
       // llega corriente hasta ellas, apagada si no.
-      { id: 'b2', fundida: f2, estado: tronco && c2 && !f2 ? 'brillante' : 'apagada' },
-      { id: 'b3', fundida: f3, estado: tronco && !f3 ? 'brillante' : 'apagada' },
+      { id: 'b2', estado: tronco && c2 ? 'brillante' : 'apagada' },
+      { id: 'b3', estado: tronco ? 'brillante' : 'apagada' },
     ],
     interruptores: [
       { id: 'i1', cerrado: c1 },

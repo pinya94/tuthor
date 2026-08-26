@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import SEOHead from '../components/SEOHead'
+import IgraalCard from '../components/IgraalCard'
 
 // Un chunk por ficha: solo se descarga la del slug visitado
 // (src/data/fichasEstudiar/<slug>.js exporta { es, en, ca }).
@@ -258,7 +259,7 @@ export default function InfoEstudiarFicha() {
             </div>
           )}
 
-          <aside className="ad-slot" aria-label="Publicidad" data-ad-slot="info-estudiar-ficha-1" style={{ minHeight: '90px', marginBottom: '2.5rem' }} />
+          <IgraalCard className="mb-10" />
 
           {/* Beneficios (acepta strings o {titulo,texto}) */}
           {ficha.beneficios && (
@@ -296,7 +297,7 @@ export default function InfoEstudiarFicha() {
             </Link>
           </div>
 
-          <aside className="ad-slot" aria-label="Publicidad" data-ad-slot="info-estudiar-ficha-2" style={{ minHeight: '90px', marginBottom: '2.5rem' }} />
+          <IgraalCard className="mb-10" />
 
           {/* Consejos de estudio */}
           {ficha.consejos && (
@@ -352,7 +353,7 @@ export default function InfoEstudiarFicha() {
             </section>
           )}
 
-          <aside className="ad-slot" aria-label="Publicidad" data-ad-slot="info-estudiar-ficha-3" style={{ minHeight: '90px', marginBottom: '2.5rem' }} />
+          <IgraalCard className="mb-10" />
 
           {/* CTA final */}
           <footer className="text-center pt-4">

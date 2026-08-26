@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react'
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
 import { getStatsAndCosmetics, setHidePhoto, formatTime, getUserRank, getCoinsHistory } from '../lib/activity'
-import { useNavigate } from 'react-router-dom'
+import { useAccessStatus } from '../lib/access'
+import { useNavigate, Link } from 'react-router-dom'
 import AvatarFrame from '../components/AvatarFrame'
 import { BANNER_BY_ID } from '../data/cosmetics'
 import { GAMES } from '../lib/games'
@@ -11,12 +12,48 @@ import { GAME_LABELS, SUBJECTS, aggregateStudentStats } from '../lib/statsAggreg
 import { getStudentAssignments } from '../lib/assignments'
 import ChildCodeCard from '../components/ChildCodeCard'
 
+// Qué parte del panel es de pago desde que el muro de juegos/exámenes está
+// apagado (ver paidRoutes.js): el resumen de arriba (monedas, puntos,
+// actividades, tiempo, aprobados) se queda de teaser gratis para todos —
+// motiva sin necesitar cuenta Pro. El desglose de VERDAD — de dónde viene
+// cada moneda, cómo le va en cada juego y en cada materia — es lo que vende
+// la suscripción ahora: es la herramienta del padre, no la del hijo.
+function ProLock({ lang, localPath }) {
+  const ca = lang === 'ca', en = lang === 'en'
+  return (
+    <div className="border border-violet-500/25 rounded-2xl p-6 text-center mb-5"
+      style={{ background: 'linear-gradient(135deg, rgba(139,92,246,.14), rgba(139,92,246,.03))' }}>
+      <p className="text-3xl mb-2">🔒</p>
+      <p className="text-white font-black text-base mb-1.5">
+        {ca ? 'El desglossament complet és Pro' : en ? 'The full breakdown is Pro' : 'El desglose completo es Pro'}
+      </p>
+      <p className="text-white/50 text-sm leading-relaxed mb-4 max-w-sm mx-auto">
+        {ca
+          ? "D'on venen les seves monedes, com li va joc a joc i matèria a matèria — la part del panell pensada per a tu, no per al teu fill."
+          : en
+          ? "Where their coins come from, how they're doing game by game and subject by subject — the part of the panel built for you, not for your child."
+          : 'De dónde vienen sus monedas, cómo le va juego a juego y materia a materia — la parte del panel pensada para ti, no para tu hijo.'}
+      </p>
+      <Link to={`${localPath('/')}#precios`}
+        className="inline-block bg-violet-600 hover:bg-violet-500 text-white font-black text-sm px-6 py-3 rounded-xl transition-colors">
+        {ca ? 'Veure els plans Pro →' : en ? 'See Pro plans →' : 'Ver los planes Pro →'}
+      </Link>
+    </div>
+  )
+}
+
 function todayStr() { return new Date().toISOString().slice(0, 10) }
 
 export default function Perfil() {
   const { user, logout } = useAuth()
   const { lang, localPath, tr } = useLang()
   const navigate = useNavigate()
+  const access = useAccessStatus()
+  // null mientras se sabe si es Pro: no se muestra ni el detalle ni el
+  // aviso de "hazte Pro" hasta saberlo, para no enseñarle un candado un
+  // instante a quien sí paga.
+  const isPro = access?.allowed === true
+  const accessKnown = access !== null
   const en = lang === 'en'
   const ca = lang === 'ca'
   const [stats, setStats] = useState(null)
@@ -194,44 +231,9 @@ export default function Perfil() {
               <ChildCodeCard />
             </div>
 
-            {/* ── HISTORIAL DE MONEDAS ── */}
-            {coinsHistory.length > 0 && (
-              <section className="mb-5">
-                <div className="flex items-baseline gap-2 mb-3 px-0.5">
-                  <h2 className="font-black text-white text-[17px] tracking-tight">💰 {ca ? "D'on venen les teves monedes" : en ? 'Where your coins come from' : 'De dónde vienen tus monedas'}</h2>
-                  {coinsToday > 0 && (
-                    <span className="ml-auto text-amber-400 bg-amber-500/12 border border-amber-500/30 text-xs font-bold px-2.5 py-1 rounded-full whitespace-nowrap">
-                      +{coinsToday.toLocaleString()} {ca ? 'avui' : en ? 'today' : 'hoy'}
-                    </span>
-                  )}
-                </div>
-                <div className="border border-white/10 rounded-2xl overflow-hidden" style={{ background: surf }}>
-                  {(showAllCoins ? coinsHistory : coinsHistory.slice(0, 6)).map((e, i, arr) => {
-                    const src = coinSource(e.game)
-                    return (
-                      <div key={e.id} className={`flex items-center gap-3 px-4 py-2.5 ${i < arr.length - 1 ? 'border-b border-white/10' : ''}`}>
-                        <span className="text-lg w-7 text-center shrink-0">{src.emoji}</span>
-                        <div className="flex-1 min-w-0">
-                          <p className="text-white/90 text-sm font-semibold truncate">{src.name}</p>
-                          <p className={`${t3} text-[11px] mt-0.5`}>{timeAgo(e.at)}</p>
-                        </div>
-                        <span className="text-amber-400 font-black tabular-nums shrink-0">+{e.coins.toLocaleString()}</span>
-                      </div>
-                    )
-                  })}
-                  {coinsHistory.length > 6 && (
-                    <button onClick={() => setShowAllCoins(!showAllCoins)}
-                      className="w-full text-center py-2.5 border-t border-white/10 text-violet-400 hover:bg-white/5 font-bold text-[13px] transition-colors">
-                      {showAllCoins
-                        ? (ca ? 'Veure menys ↑' : en ? 'Show less ↑' : 'Ver menos ↑')
-                        : (ca ? `Veure les ${coinsHistory.length} últimes ↓` : en ? `Show last ${coinsHistory.length} ↓` : `Ver las ${coinsHistory.length} últimas ↓`)}
-                    </button>
-                  )}
-                </div>
-              </section>
-            )}
-
             {/* ── RETO DIARIO ── */}
+            {/* Gratis para todos, movido delante del desglose de pago: es la
+                llamada a la acción diaria, no un dato que "seguir". */}
             <div className="rounded-2xl p-[18px] mb-5 border border-orange-500/30"
               style={{ background: surfDaily }}>
               <div className="flex items-center justify-between gap-2 mb-3.5">
@@ -257,115 +259,170 @@ export default function Perfil() {
               )}
             </div>
 
-            {/* ── POR JUEGO ── */}
-            {gameEntries.length > 0 && (
-              <section className="mb-5">
-                <div className="flex items-baseline gap-2 mb-3 px-0.5">
-                  <h2 className="font-black text-white text-[17px] tracking-tight">🎮 {ca ? 'Per joc' : en ? 'By game' : 'Por juego'}</h2>
-                  <span className={`${t3} text-[13px] font-semibold ml-auto`}>{gameEntries.length} {ca ? 'jugats' : en ? 'played' : 'jugados'}</span>
-                </div>
-                <div className="border border-white/10 rounded-2xl overflow-hidden" style={{ background: surf }}>
-                  {visibleGames.map((g, i) => {
-                    const rank = rankings[g.key]
-                    const parts = []
-                    parts.push(`${g.plays ?? 0} ${ca ? 'partides' : en ? 'games' : 'partidas'}`)
-                    if ((g.timeSpent || 0) > 0) parts.push(formatTime(g.timeSpent))
-                    return (
-                      <div key={g.key} className={`flex items-center gap-3 px-4 py-3.5 ${i < visibleGames.length - 1 ? 'border-b border-white/10' : ''}`}>
-                        <span className="text-[22px] w-[30px] text-center shrink-0">{g.emoji}</span>
-                        <div className="flex-1 min-w-0">
-                          <p className="text-white text-[14.5px] font-bold flex items-center flex-wrap gap-x-2">
-                            <span className="truncate">{g.label}</span>
-                            {rank && (
-                              <span className="inline-flex items-center gap-1 text-[11.5px] font-extrabold text-amber-400 bg-amber-500/12 border border-amber-500/30 px-2 py-0.5 rounded-full">
-                                🏅 #{rank.rank} {ca ? 'de' : en ? 'of' : 'de'} {rank.total}
-                              </span>
-                            )}
-                          </p>
-                          <p className={`${t3} text-[12.5px] mt-1`}>{parts.join(' · ')}</p>
-                        </div>
-                        {(g.bestScore || 0) > 0 && (
-                          <div className="text-right shrink-0">
-                            <p className="text-violet-400 font-black text-xl leading-none tabular-nums">{g.bestScore.toLocaleString()}</p>
-                            <p className={`${t3} text-[11.5px] font-semibold mt-1`}>{ca ? 'millor pts' : en ? 'best pts' : 'mejor pts'}</p>
-                          </div>
+            {/* ── DESGLOSE DETALLADO: de pago (ver access.js) ── */}
+            {/* Historial de monedas, por juego y por materia son la parte
+                "de seguimiento" de verdad del panel — la herramienta del
+                padre, no la del hijo. Mientras no se sabe si es Pro
+                (accessKnown === false) no se enseña nada de esto, para no
+                mostrarle un candado un instante a quien sí paga. Sin datos
+                que enseñar (hasDetail === false, cuenta recién creada), no
+                se enseña tampoco el aviso de "hazte Pro": no hay nada que
+                desbloquear todavía. */}
+            {accessKnown && (() => {
+              const hasDetail = coinsHistory.length > 0 || gameEntries.length > 0 || subjectEntries.length > 0
+              if (!hasDetail) return null
+              if (!isPro) return <ProLock lang={lang} localPath={localPath} />
+              return (
+                <>
+                  {/* ── HISTORIAL DE MONEDAS ── */}
+                  {coinsHistory.length > 0 && (
+                    <section className="mb-5">
+                      <div className="flex items-baseline gap-2 mb-3 px-0.5">
+                        <h2 className="font-black text-white text-[17px] tracking-tight">💰 {ca ? "D'on venen les teves monedes" : en ? 'Where your coins come from' : 'De dónde vienen tus monedas'}</h2>
+                        {coinsToday > 0 && (
+                          <span className="ml-auto text-amber-400 bg-amber-500/12 border border-amber-500/30 text-xs font-bold px-2.5 py-1 rounded-full whitespace-nowrap">
+                            +{coinsToday.toLocaleString()} {ca ? 'avui' : en ? 'today' : 'hoy'}
+                          </span>
                         )}
                       </div>
-                    )
-                  })}
-                  {gameEntries.length > 4 && (
-                    <button onClick={() => setShowAllGames(!showAllGames)}
-                      className="w-full text-center py-3 border-t border-white/10 text-violet-400 hover:bg-white/5 font-bold text-[13.5px] transition-colors">
-                      {showAllGames
-                        ? (ca ? 'Veure menys ↑' : en ? 'Show less ↑' : 'Ver menos ↑')
-                        : (ca ? `Veure els ${gameEntries.length} jocs ↓` : en ? `Show all ${gameEntries.length} games ↓` : `Ver los ${gameEntries.length} juegos ↓`)}
-                    </button>
+                      <div className="border border-white/10 rounded-2xl overflow-hidden" style={{ background: surf }}>
+                        {(showAllCoins ? coinsHistory : coinsHistory.slice(0, 6)).map((e, i, arr) => {
+                          const src = coinSource(e.game)
+                          return (
+                            <div key={e.id} className={`flex items-center gap-3 px-4 py-2.5 ${i < arr.length - 1 ? 'border-b border-white/10' : ''}`}>
+                              <span className="text-lg w-7 text-center shrink-0">{src.emoji}</span>
+                              <div className="flex-1 min-w-0">
+                                <p className="text-white/90 text-sm font-semibold truncate">{src.name}</p>
+                                <p className={`${t3} text-[11px] mt-0.5`}>{timeAgo(e.at)}</p>
+                              </div>
+                              <span className="text-amber-400 font-black tabular-nums shrink-0">+{e.coins.toLocaleString()}</span>
+                            </div>
+                          )
+                        })}
+                        {coinsHistory.length > 6 && (
+                          <button onClick={() => setShowAllCoins(!showAllCoins)}
+                            className="w-full text-center py-2.5 border-t border-white/10 text-violet-400 hover:bg-white/5 font-bold text-[13px] transition-colors">
+                            {showAllCoins
+                              ? (ca ? 'Veure menys ↑' : en ? 'Show less ↑' : 'Ver menos ↑')
+                              : (ca ? `Veure les ${coinsHistory.length} últimes ↓` : en ? `Show last ${coinsHistory.length} ↓` : `Ver las ${coinsHistory.length} últimas ↓`)}
+                          </button>
+                        )}
+                      </div>
+                    </section>
                   )}
-                </div>
-              </section>
-            )}
 
-            {/* ── POR MATERIA ── */}
-            {subjectEntries.length > 0 && (
-              <section className="mb-5">
-                <div className="flex items-baseline gap-2 mb-3 px-0.5">
-                  <h2 className="font-black text-white text-[17px] tracking-tight">📚 {ca ? 'Per matèria' : en ? 'By subject' : 'Por materia'}</h2>
-                  <span className={`${t3} text-[13px] font-semibold ml-auto`}>{subjectEntries.length} {ca ? 'matèries' : en ? 'subjects' : 'materias'}</span>
-                </div>
-                <div className="border border-white/10 rounded-2xl overflow-hidden" style={{ background: surf }}>
-                  {subjectEntries.map((subj, i) => {
-                    const subjLabel = subj.label[lang] || subj.label.es
-                    const isOpen = expandedSubject === subj.id
-                    const failed = subj.totalExamPlays - subj.totalPassed
-                    return (
-                      <div key={subj.id} className={i < subjectEntries.length - 1 ? 'border-b border-white/10' : ''}>
-                        <button
-                          onClick={() => setExpandedSubject(isOpen ? null : subj.id)}
-                          className="w-full flex items-center gap-3 px-4 py-3.5 text-left hover:bg-white/5 transition-colors"
-                        >
-                          <span className="text-[22px] w-[30px] text-center shrink-0">{subj.emoji}</span>
-                          <div className="flex-1 min-w-0">
-                            <p className="text-white text-[14.5px] font-bold">{subjLabel}</p>
-                            <p className={`${t3} text-[12.5px] mt-1 flex gap-2 flex-wrap items-center`}>
-                              <span>{subj.totalPlays} {ca ? 'activitats' : en ? 'activities' : 'actividades'}</span>
-                              {subj.totalExamPlays > 0 && <span className="text-green-400 font-bold">{subj.totalPassed} ✅</span>}
-                              {failed > 0 && <span className="text-red-400 font-bold">{failed} ❌</span>}
-                            </p>
-                          </div>
-                          {(subj.timeSpent || 0) > 0 && (
-                            <span className={`${t2} text-[13px] font-semibold whitespace-nowrap`}>{formatTime(subj.timeSpent)}</span>
-                          )}
-                          <span className={`${t3} text-xs ml-1 transition-transform ${isOpen ? 'rotate-180' : ''}`}>▾</span>
-                        </button>
-                        {isOpen && subj.examRows.length > 0 && (
-                          <div className="px-4 pb-3.5 pl-[59px]">
-                            <p className={`${t3} text-[11px] uppercase tracking-wider font-bold mb-1.5`}>
-                              {ca ? 'Exàmens' : en ? 'Exams' : 'Exámenes'}
-                            </p>
-                            {subj.examRows.map(row => {
-                              const rowFailed = row.plays - row.passed
-                              return (
-                                <div key={row.id} className="flex items-center gap-2 py-1.5 border-b border-white/5 last:border-0">
-                                  <span className={`flex-1 ${t2} text-[13px]`}>{row.label}</span>
-                                  <span className={`${t3} text-[12.5px] font-semibold`}>{row.plays}×</span>
-                                  <span className="text-green-400 text-[12.5px] font-extrabold">{row.passed} ✅</span>
-                                  {rowFailed > 0 && <span className="text-red-400 text-[12.5px] font-extrabold">{rowFailed} ❌</span>}
+                  {/* ── POR JUEGO ── */}
+                  {gameEntries.length > 0 && (
+                    <section className="mb-5">
+                      <div className="flex items-baseline gap-2 mb-3 px-0.5">
+                        <h2 className="font-black text-white text-[17px] tracking-tight">🎮 {ca ? 'Per joc' : en ? 'By game' : 'Por juego'}</h2>
+                        <span className={`${t3} text-[13px] font-semibold ml-auto`}>{gameEntries.length} {ca ? 'jugats' : en ? 'played' : 'jugados'}</span>
+                      </div>
+                      <div className="border border-white/10 rounded-2xl overflow-hidden" style={{ background: surf }}>
+                        {visibleGames.map((g, i) => {
+                          const rank = rankings[g.key]
+                          const parts = []
+                          parts.push(`${g.plays ?? 0} ${ca ? 'partides' : en ? 'games' : 'partidas'}`)
+                          if ((g.timeSpent || 0) > 0) parts.push(formatTime(g.timeSpent))
+                          return (
+                            <div key={g.key} className={`flex items-center gap-3 px-4 py-3.5 ${i < visibleGames.length - 1 ? 'border-b border-white/10' : ''}`}>
+                              <span className="text-[22px] w-[30px] text-center shrink-0">{g.emoji}</span>
+                              <div className="flex-1 min-w-0">
+                                <p className="text-white text-[14.5px] font-bold flex items-center flex-wrap gap-x-2">
+                                  <span className="truncate">{g.label}</span>
+                                  {rank && (
+                                    <span className="inline-flex items-center gap-1 text-[11.5px] font-extrabold text-amber-400 bg-amber-500/12 border border-amber-500/30 px-2 py-0.5 rounded-full">
+                                      🏅 #{rank.rank} {ca ? 'de' : en ? 'of' : 'de'} {rank.total}
+                                    </span>
+                                  )}
+                                </p>
+                                <p className={`${t3} text-[12.5px] mt-1`}>{parts.join(' · ')}</p>
+                              </div>
+                              {(g.bestScore || 0) > 0 && (
+                                <div className="text-right shrink-0">
+                                  <p className="text-violet-400 font-black text-xl leading-none tabular-nums">{g.bestScore.toLocaleString()}</p>
+                                  <p className={`${t3} text-[11.5px] font-semibold mt-1`}>{ca ? 'millor pts' : en ? 'best pts' : 'mejor pts'}</p>
                                 </div>
-                              )
-                            })}
-                          </div>
-                        )}
-                        {isOpen && subj.examRows.length === 0 && subj.gameStats.plays > 0 && (
-                          <p className={`px-4 pb-3.5 pl-[59px] ${t3} text-[13px]`}>
-                            {ca ? 'Sense exàmens fets' : en ? 'No exams taken' : 'Sin exámenes realizados'}
-                          </p>
+                              )}
+                            </div>
+                          )
+                        })}
+                        {gameEntries.length > 4 && (
+                          <button onClick={() => setShowAllGames(!showAllGames)}
+                            className="w-full text-center py-3 border-t border-white/10 text-violet-400 hover:bg-white/5 font-bold text-[13.5px] transition-colors">
+                            {showAllGames
+                              ? (ca ? 'Veure menys ↑' : en ? 'Show less ↑' : 'Ver menos ↑')
+                              : (ca ? `Veure els ${gameEntries.length} jocs ↓` : en ? `Show all ${gameEntries.length} games ↓` : `Ver los ${gameEntries.length} juegos ↓`)}
+                          </button>
                         )}
                       </div>
-                    )
-                  })}
-                </div>
-              </section>
-            )}
+                    </section>
+                  )}
+
+                  {/* ── POR MATERIA ── */}
+                  {subjectEntries.length > 0 && (
+                    <section className="mb-5">
+                      <div className="flex items-baseline gap-2 mb-3 px-0.5">
+                        <h2 className="font-black text-white text-[17px] tracking-tight">📚 {ca ? 'Per matèria' : en ? 'By subject' : 'Por materia'}</h2>
+                        <span className={`${t3} text-[13px] font-semibold ml-auto`}>{subjectEntries.length} {ca ? 'matèries' : en ? 'subjects' : 'materias'}</span>
+                      </div>
+                      <div className="border border-white/10 rounded-2xl overflow-hidden" style={{ background: surf }}>
+                        {subjectEntries.map((subj, i) => {
+                          const subjLabel = subj.label[lang] || subj.label.es
+                          const isOpen = expandedSubject === subj.id
+                          const failed = subj.totalExamPlays - subj.totalPassed
+                          return (
+                            <div key={subj.id} className={i < subjectEntries.length - 1 ? 'border-b border-white/10' : ''}>
+                              <button
+                                onClick={() => setExpandedSubject(isOpen ? null : subj.id)}
+                                className="w-full flex items-center gap-3 px-4 py-3.5 text-left hover:bg-white/5 transition-colors"
+                              >
+                                <span className="text-[22px] w-[30px] text-center shrink-0">{subj.emoji}</span>
+                                <div className="flex-1 min-w-0">
+                                  <p className="text-white text-[14.5px] font-bold">{subjLabel}</p>
+                                  <p className={`${t3} text-[12.5px] mt-1 flex gap-2 flex-wrap items-center`}>
+                                    <span>{subj.totalPlays} {ca ? 'activitats' : en ? 'activities' : 'actividades'}</span>
+                                    {subj.totalExamPlays > 0 && <span className="text-green-400 font-bold">{subj.totalPassed} ✅</span>}
+                                    {failed > 0 && <span className="text-red-400 font-bold">{failed} ❌</span>}
+                                  </p>
+                                </div>
+                                {(subj.timeSpent || 0) > 0 && (
+                                  <span className={`${t2} text-[13px] font-semibold whitespace-nowrap`}>{formatTime(subj.timeSpent)}</span>
+                                )}
+                                <span className={`${t3} text-xs ml-1 transition-transform ${isOpen ? 'rotate-180' : ''}`}>▾</span>
+                              </button>
+                              {isOpen && subj.examRows.length > 0 && (
+                                <div className="px-4 pb-3.5 pl-[59px]">
+                                  <p className={`${t3} text-[11px] uppercase tracking-wider font-bold mb-1.5`}>
+                                    {ca ? 'Exàmens' : en ? 'Exams' : 'Exámenes'}
+                                  </p>
+                                  {subj.examRows.map(row => {
+                                    const rowFailed = row.plays - row.passed
+                                    return (
+                                      <div key={row.id} className="flex items-center gap-2 py-1.5 border-b border-white/5 last:border-0">
+                                        <span className={`flex-1 ${t2} text-[13px]`}>{row.label}</span>
+                                        <span className={`${t3} text-[12.5px] font-semibold`}>{row.plays}×</span>
+                                        <span className="text-green-400 text-[12.5px] font-extrabold">{row.passed} ✅</span>
+                                        {rowFailed > 0 && <span className="text-red-400 text-[12.5px] font-extrabold">{rowFailed} ❌</span>}
+                                      </div>
+                                    )
+                                  })}
+                                </div>
+                              )}
+                              {isOpen && subj.examRows.length === 0 && subj.gameStats.plays > 0 && (
+                                <p className={`px-4 pb-3.5 pl-[59px] ${t3} text-[13px]`}>
+                                  {ca ? 'Sense exàmens fets' : en ? 'No exams taken' : 'Sin exámenes realizados'}
+                                </p>
+                              )}
+                            </div>
+                          )
+                        })}
+                      </div>
+                    </section>
+                  )}
+                </>
+              )
+            })()}
 
             {/* ── Ajuste: usar emoji en lugar de foto ── */}
             {user.photoURL && (

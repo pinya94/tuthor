@@ -4,6 +4,7 @@ import GameResultFooter from './GameResultFooter'
 import ShareButton from './ShareButton'
 import { computeCoins } from '../lib/games'
 import { consumeCompletedAssignments } from '../lib/activity'
+import IgraalCard from './IgraalCard'
 
 const L = {
   ptsLabel:  { es: 'puntos', en: 'points', ca: 'punts' },
@@ -105,6 +106,8 @@ export default function GameEndScreen({
             </button>
           ))}
         </div>
+
+        <IgraalCard className="mt-5" />
 
       </div>
 

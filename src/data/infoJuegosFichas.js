@@ -805,20 +805,20 @@ export const FICHAS_ES = {
     emoji: '💡', gradient: 'from-amber-500 to-orange-700',
     path: '/juegos/circuito-cerrado',
     examPath: '/examen/circuito-cerrado-test',
-    intro: 'Un juego de física para razonar circuitos, no construirlos a ciegas: el circuito ya está dibujado, con su batería, su interruptor y sus bombillas, y hay que predecir CÓMO va a brillar cada una — apagada, tenue o a tope — antes de comprobarlo. Sin arrastrar cables ni piezas — el reto es entender POR QUÉ, leyendo si el interruptor está cerrado, si las bombillas están en serie o en paralelo y si alguna está fundida.',
+    intro: 'Un juego de física para razonar circuitos, no construirlos a ciegas: el circuito ya está dibujado, con su batería, su interruptor y sus bombillas, y hay que predecir CÓMO va a brillar cada una — apagada, tenue o a tope — antes de comprobarlo. Sin arrastrar cables ni piezas — el reto es entender POR QUÉ, leyendo si el interruptor está cerrado y si las bombillas están en serie o en paralelo.',
     beneficios: [
       { titulo: 'Serie y paralelo, con las manos', texto: 'La diferencia entre serie y paralelo suele quedarse en una frase de memoria. Aquí se ve en la práctica: en serie, las bombillas se reparten la misma pila y brillan tenues; en paralelo, cada una recibe la pila entera y brilla a tope.' },
       { titulo: 'No es solo encendida o apagada', texto: 'Predecir el BRILLO, no solo si pasa corriente, obliga a razonar cuántas bombillas comparten cada lazo — el mismo matiz que se pierde si el examen solo pregunta "sí o no".' },
       { titulo: 'De un interruptor a un circuito mixto', texto: 'Primaria empieza con una sola bombilla y un interruptor. ESO añade dos bombillas en serie o en paralelo. Bachillerato llega a un circuito mixto: una bombilla en serie que reparte la corriente en dos ramas, cada una con su propio interruptor.' },
     ],
-    ejemplo: 'El circuito tiene dos bombillas en serie y el interruptor está cerrado, pero una de las bombillas aparece marcada como fundida. El jugador razona: "están en el mismo lazo, así que si una no puede dejar pasar la corriente, la otra tampoco" — y marca las dos como apagadas. Al confirmar, el circuito revela que efectivamente ninguna brilla, ni siquiera tenue.',
+    ejemplo: 'El circuito tiene dos bombillas en serie y el interruptor está cerrado. El jugador razona: "están en el mismo lazo, así que se reparten la misma pila" — y marca las dos como tenues, no a tope. Al confirmar, el circuito revela que efectivamente las dos brillan tenues.',
     enPapel: {
       titulo: 'Dibujar un circuito en papel',
       pasos: [
         'Dibuja un rectángulo: una batería a un lado, un interruptor arriba y una bombilla al otro lado, todo conectado con líneas (los cables).',
         'Decide si el interruptor está abierto o cerrado y dibújalo: una línea que cierra el hueco (cerrado) o que lo deja abierto (abierto).',
         'Antes de mirar la respuesta, escribe si la bombilla va a encender y por qué.',
-        'Repite añadiendo una segunda bombilla, primero en el mismo lazo (serie) y después en una rama aparte (paralelo) — compara qué cambia si una de las dos se "funde".',
+        'Repite añadiendo una segunda bombilla, primero en el mismo lazo (serie) y después en una rama aparte (paralelo) — compara cómo cambia el brillo de cada una.',
       ],
     },
     alternativas: [

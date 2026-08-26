@@ -6,11 +6,10 @@
 //
 // Las bombillas son lo único clicable: un clic RECORRE las tres respuestas
 // posibles (apagada → tenue → brillante → apagada) — la predicción del
-// jugador antes de revelar. El interruptor y si una bombilla está fundida
-// son datos del circuito, visibles desde el principio — igual que en la
-// vida real se ve a simple vista si un interruptor está bajado o si una
-// bombilla tiene el filamento roto; lo que NO se sabe hasta probar es CÓMO
-// va a brillar.
+// jugador antes de revelar. El interruptor es un dato del circuito, visible
+// desde el principio — igual que en la vida real se ve a simple vista si
+// está bajado o subido; lo que NO se sabe hasta probar es CÓMO va a brillar
+// cada bombilla.
 const VB = { W: 430, H: 280 }
 const TOP_Y = 55, BOTTOM_Y = 225, BAT_X = 70, BAT_Y = 140
 
@@ -82,9 +81,6 @@ function Bombilla({ x, y, b, prediccion, revelado, onToggle }) {
       <circle cx={x} cy={y} r={16} fill={fill} stroke={stroke} strokeWidth={revelado ? 3 : 2} style={{ filter: glow, transition: 'fill 0.15s' }} />
       <line x1={x - 8} y1={y - 8} x2={x + 8} y2={y + 8} stroke={cross} strokeWidth={1.8} />
       <line x1={x - 8} y1={y + 8} x2={x + 8} y2={y - 8} stroke={cross} strokeWidth={1.8} />
-      {b.fundida && (
-        <text x={x + 14} y={y - 12} fontSize="15" style={{ userSelect: 'none' }}>💥</text>
-      )}
       {!revelado && (
         <circle cx={x} cy={y} r={22} fill="none" stroke="#ffffff" strokeOpacity={0.06} strokeWidth={1} />
       )}

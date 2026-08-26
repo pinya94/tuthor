@@ -25,7 +25,6 @@ const C = {
   p1:     { es: 'Toca cada bombilla para recorrer sus 3 estados: apagada, tenue o a tope.', en: 'Tap each bulb to cycle its 3 states: off, dim or full brightness.', ca: 'Toca cada bombeta per recórrer els seus 3 estats: apagada, tènue o a tota potència.' },
   p2:     { es: 'Un interruptor abierto (🔓) corta la corriente; cerrado (🔒), la deja pasar.', en: 'An open switch (🔓) cuts the current; closed (🔒), it flows.', ca: 'Un interruptor obert (🔓) talla el corrent; tancat (🔒), el deixa passar.' },
   p3:     { es: 'En serie, las bombillas se reparten la pila y brillan tenues. En paralelo, cada una brilla a tope.', en: 'In series, bulbs share the battery and shine dim. In parallel, each one shines at full brightness.', ca: 'En sèrie, les bombetes es reparteixen la pila i brillen tènues. En paral·lel, cadascuna brilla a tota potència.' },
-  p4:     { es: 'Una bombilla fundida (💥) se apaga a sí misma — y en serie, apaga también a las demás.', en: 'A burnt bulb (💥) switches itself off — and in series, it switches off the others too.', ca: 'Una bombeta fosa (💥) s\'apaga a si mateixa — i en sèrie, també apaga les altres.' },
   time:   { es: 'Tiempo', en: 'Time', ca: 'Temps' },
   timeVal:{ es: '40 segundos', en: '40 seconds', ca: '40 segons' },
   pts:    { es: 'Puntos', en: 'Points', ca: 'Punts' },
@@ -73,7 +72,7 @@ function DifficultyScreen({ onSelect, l }) {
         <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-4">
           <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-3">{T('how', l)}</p>
           <div className="space-y-2">
-            {[['👆', T('p1', l)], ['🔒', T('p2', l)], ['🔅', T('p3', l)], ['💥', T('p4', l)]].map(([e, text]) => (
+            {[['👆', T('p1', l)], ['🔒', T('p2', l)], ['🔅', T('p3', l)]].map(([e, text]) => (
               <div key={text} className="flex items-start gap-3 text-sm text-white/50">
                 <span className="text-base w-5 shrink-0 text-center">{e}</span><span>{text}</span>
               </div>

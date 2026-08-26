@@ -2,6 +2,7 @@ import { useParams, Link } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import SEOHead from '../components/SEOHead'
 import { FICHAS_ES, FICHAS_EN, FICHAS_CA } from '../data/infoJuegosFichas'
+import IgraalCard from '../components/IgraalCard'
 
 // Superficie oscura casi opaca: legibilidad sobre el fondo del bosque
 const SURF = 'rgba(17,20,29,0.86)'
@@ -88,7 +89,7 @@ export default function InfoJuegoFicha() {
             )}
           </div>
 
-          <aside className="ad-slot" aria-label="Publicidad" data-ad-slot="info-juego-ficha-1" style={{ minHeight: '90px', marginBottom: '2.5rem' }} />
+          <IgraalCard className="mb-10" />
 
           {/* Beneficios */}
           <section className="mb-10">
@@ -118,7 +119,7 @@ export default function InfoJuegoFicha() {
             </Link>
           </div>
 
-          <aside className="ad-slot" aria-label="Publicidad" data-ad-slot="info-juego-ficha-2" style={{ minHeight: '90px', marginBottom: '2.5rem' }} />
+          <IgraalCard className="mb-10" />
 
           {/* En papel */}
           <section className="mb-10">
@@ -150,7 +151,7 @@ export default function InfoJuegoFicha() {
             </div>
           </section>
 
-          <aside className="ad-slot" aria-label="Publicidad" data-ad-slot="info-juego-ficha-3" style={{ minHeight: '90px', marginBottom: '2.5rem' }} />
+          <IgraalCard className="mb-10" />
 
           {/* CTA final */}
           <footer className="text-center pt-4">

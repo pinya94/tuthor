@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
+import IgraalCard from '../components/IgraalCard'
 
 const DATA = {
   es: {
@@ -351,7 +352,7 @@ export default function InfoEstudiar() {
       <div className="text-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-8 py-12 space-y-10">
 
-          <aside className="ad-slot" aria-label="Publicidad" data-ad-slot="info-estudiar-top" style={{ minHeight: '90px' }} />
+          <IgraalCard />
 
           {d.categorias.map((cat, catIdx) => (
             <section key={cat.titulo}>
@@ -378,14 +379,14 @@ export default function InfoEstudiar() {
 
               {catIdx < d.categorias.length - 1 && (
                 <>
-                  <aside className="ad-slot" aria-label="Publicidad" data-ad-slot={`info-estudiar-${catIdx}`} style={{ minHeight: '90px', marginTop: '2rem' }} />
+                  <IgraalCard className="mt-8" />
                   <hr className="border-white/10 mt-6" />
                 </>
               )}
             </section>
           ))}
 
-          <aside className="ad-slot" aria-label="Publicidad" data-ad-slot="info-estudiar-bottom" style={{ minHeight: '90px' }} />
+          <IgraalCard />
 
           <footer className="text-center pt-4">
             <Link to={localPath('/estudiar')}

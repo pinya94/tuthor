@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
+import IgraalCard from '../components/IgraalCard'
 
 const DATA = {
   es: {
@@ -93,7 +94,7 @@ export default function InfoDiaria() {
       <div className="text-white">
         <div className="max-w-3xl mx-auto px-4 sm:px-8 py-12">
 
-          <aside className="ad-slot" aria-label="Publicidad" data-ad-slot="info-diaria-top" style={{ minHeight: '90px', marginBottom: '2.5rem' }} />
+          <IgraalCard className="mb-10" />
 
           <section className="mb-10">
             <h2 className="text-2xl font-black text-white mb-6">{d.porQue}</h2>
@@ -107,7 +108,7 @@ export default function InfoDiaria() {
             </div>
           </section>
 
-          <aside className="ad-slot" aria-label="Publicidad" data-ad-slot="info-diaria-mid" style={{ minHeight: '90px', marginBottom: '2.5rem' }} />
+          <IgraalCard className="mb-10" />
 
           <section className="mb-10">
             <h2 className="text-2xl font-black text-white mb-6">{d.tiposH2}</h2>
@@ -129,7 +130,7 @@ export default function InfoDiaria() {
             <p className="text-white/60 leading-relaxed">{d.rachaTexto}</p>
           </section>
 
-          <aside className="ad-slot" aria-label="Publicidad" data-ad-slot="info-diaria-bottom" style={{ minHeight: '90px', marginBottom: '2.5rem' }} />
+          <IgraalCard className="mb-10" />
 
           <footer className="text-center pt-4">
             <h2 className="text-2xl font-black text-white mb-3">{d.ctaTitulo}</h2>

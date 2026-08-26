@@ -745,13 +745,13 @@ export default function Landing() {
             <LaunchBadge tr={tr} />
           </div>
           <h2 className="text-center text-3xl font-black tracking-tight sm:text-4xl">
-            {tr({ es: 'Un precio. Todo incluido.', en: 'One price. Everything included.', ca: 'Un preu. Tot inclòs.' })}
+            {tr({ es: 'El panel completo, sin publicidad.', en: 'The full panel, ad-free.', ca: 'El panell complet, sense publicitat.' })}
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-center text-slate-600">
             {tr({
-              es: 'Acceso ilimitado a todos los juegos, todos los exámenes y al panel de seguimiento parental. Sin micropagos, sin compras integradas y con todas las actualizaciones futuras incluidas.',
-              en: 'Unlimited access to every game, every exam and the parental tracking panel. No micropayments, no in-app purchases, and every future update included.',
-              ca: 'Accés il·limitat a tots els jocs, tots els exàmens i al panell de seguiment parental. Sense micropagaments, sense compres integrades i amb totes les actualitzacions futures incloses.',
+              es: 'Todos los juegos y todos los exámenes son gratis para cualquiera, sin cuenta ni tarjeta. Pro añade el desglose completo de seguimiento (por juego, por materia, historial de monedas) y quita la tarjeta de apoyo. Con todas las actualizaciones futuras incluidas.',
+              en: 'Every game and every exam is free for anyone, no account or card needed. Pro adds the full tracking breakdown (by game, by subject, coin history) and removes the support card. Every future update included.',
+              ca: 'Tots els jocs i tots els exàmens són gratis per a qualsevol, sense compte ni targeta. Pro afegeix el desglossament complet de seguiment (per joc, per matèria, historial de monedes) i treu la targeta de suport. Amb totes les actualitzacions futures incloses.',
             })}
           </p>
 

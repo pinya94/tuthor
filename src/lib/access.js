@@ -23,8 +23,10 @@
 // cliente, que si no se autoconcede el plan con una línea en la consola.
 
 import { doc, getDoc } from 'firebase/firestore'
+import { useEffect, useState } from 'react'
 import { db } from './firebase'
 import { hasTeacherAccess } from './classes'
+import { useAuth } from '../context/AuthContext'
 
 // Estados de Stripe que dan acceso. `past_due` entra a propósito: Stripe
 // reintenta el cobro varios días y echar a una familia el mismo día que le
@@ -144,4 +146,30 @@ export async function loadAccess(uid) {
     warning: subscriptionWarning(userData?.subscription),
     userData,
   }
+}
+
+// ── Hook de conveniencia ────────────────────────────────────────────────────
+// "¿Esta cuenta es Pro?" lo necesita más de un sitio ahora que el muro ya no
+// protege páginas enteras (ver paidRoutes.js): el panel de Perfil.jsx para
+// decidir qué secciones enseña completas, IgraalCard para no mostrarse a
+// quien ya paga por quitar publicidad. Sin este hook, cada uno repetiría el
+// mismo patrón loadAccessCached + useEffect (que ya vivía, por separado, en
+// SubscriptionCard.jsx).
+//
+// Devuelve `null` mientras no se sabe todavía — un fallo de red no debe
+// leerse como "no es Pro" (le ocultaría a un Pro real sus propias secciones
+// por un error pasajero), así que se queda en null en vez de resolver a
+// `allowed: false`.
+export function useAccessStatus() {
+  const { user } = useAuth()
+  const [access, setAccess] = useState(null)
+
+  useEffect(() => {
+    if (!user) { setAccess({ allowed: false, reason: null, warning: null, userData: null }); return }
+    let alive = true
+    loadAccessCached(user.uid).then(r => { if (alive) setAccess(r) }).catch(() => { /* se queda en null */ })
+    return () => { alive = false }
+  }, [user])
+
+  return access
 }
