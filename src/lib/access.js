@@ -8,12 +8,15 @@
 // Qué NO gatea: las páginas de funnel SEO (/info/*, /estudiar/*) son gratis
 // para todo el mundo, con y sin sesión. Ver docs/monetizacion.md.
 //
-// Las cuatro vías de acceso, por orden de evaluación:
+// Las cinco vías de acceso, por orden de evaluación:
 //   1. legacyFree  — grandfathering: cuentas anteriores al muro, gratis de por
 //                    vida. Lo pone scripts/backfill-legacy-free.mjs con Admin.
 //   2. subscription — plan familiar de pago (Stripe → api/stripe-webhook.js).
 //   3. teacherProfile — el profesor tiene acceso al producto, no solo al panel.
 //   4. patrocinio  — alumno de un profesor con la suscripción viva.
+//   5. referralBonusUntil — mes(es) de Pro gratis por invitar (api/apply-
+//                    referral.js). Independiente de Stripe a propósito: no
+//                    toca facturación real, solo una fecha límite en el doc.
 //
 // IMPORTANTE: nada de esto es una barrera criptográfica. El contenido va en el
 // bundle de JS, así que quien sepa abrir las devtools entra igual. El muro
@@ -74,6 +77,13 @@ export function hasAccess(userData) {
   return accessReason(userData) !== null
 }
 
+// referralBonusUntil se guarda como epoch millis (número plano, no Timestamp
+// de Firestore) a propósito: así este predicado se testea con objetos JS
+// normales, igual que hasActiveSubscription, sin tener que simular el SDK.
+export function hasReferralBonus(userData) {
+  return typeof userData?.referralBonusUntil === 'number' && userData.referralBonusUntil > Date.now()
+}
+
 // Por qué tiene acceso — para que la UI diga "eres usuario fundador" o "acceso
 // vía tu profesor" en vez de un genérico. null si no tiene.
 export function accessReason(userData) {
@@ -82,6 +92,7 @@ export function accessReason(userData) {
   if (hasActiveSubscription(userData.subscription)) return 'subscription'
   if (hasTeacherAccess(userData.teacherProfile)) return 'teacher'
   if (userData.sponsoredByTeacher?.active === true) return 'sponsored'
+  if (hasReferralBonus(userData)) return 'referral'
   return null
 }
 

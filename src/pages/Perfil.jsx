@@ -11,6 +11,7 @@ import { EXAMS } from '../lib/exams'
 import { GAME_LABELS, SUBJECTS, aggregateStudentStats } from '../lib/statsAggregation'
 import { getStudentAssignments } from '../lib/assignments'
 import ChildCodeCard from '../components/ChildCodeCard'
+import ReferralCard from '../components/ReferralCard'
 import SupportBlock from '../components/SupportBlock'
 
 // Qué parte del panel es de pago desde que el muro de juegos/exámenes está
@@ -231,9 +232,16 @@ export default function Perfil() {
             </div>
 
             {/* ── CÓDIGO DE ACCESO DEL HIJO ── */}
-            {/* Se oculta solo en una sesión de hijo (ver ChildCodeCard) */}
+            {/* El propio componente se esconde solo (CHILD_CODE_LOGIN_ENABLED
+                en lib/childCode.js) — se sigue montando aquí sin condición
+                para que reactivarlo algún día sea solo tocar ese flag. */}
             <div className="mb-5">
               <ChildCodeCard />
+            </div>
+
+            {/* ── INVITA Y GANA UN MES DE PRO ── */}
+            <div className="mb-5">
+              <ReferralCard />
             </div>
 
             {/* ── RETO DIARIO ── */}

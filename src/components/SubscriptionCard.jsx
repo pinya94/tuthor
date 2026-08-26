@@ -17,7 +17,7 @@ import { openBillingPortal, startCheckout } from '../lib/checkout'
 // mira el claim childMode), esto solo evita enseñar un botón que fallaría.
 export default function SubscriptionCard() {
   const { user, childMode } = useAuth()
-  const { tr, localPath } = useLang()
+  const { tr, localPath, lang } = useLang()
   const [access, setAccess] = useState(null) // { reason, warning, userData }
   const [loading, setLoading] = useState(true)
   const [opening, setOpening] = useState(false)
@@ -97,6 +97,28 @@ export default function SubscriptionCard() {
               es: 'Tu profesor paga esta cuenta como parte de su clase. No hay nada que gestionar aquí.',
               en: 'Your teacher pays for this account as part of their class. Nothing to manage here.',
               ca: 'El teu professor paga aquest compte com a part de la seva classe. No hi ha res a gestionar aquí.',
+            })}
+          </p>
+        </section>
+      )
+    }
+    if (reason === 'referral') {
+      const until = new Date(userData.referralBonusUntil).toLocaleDateString(lang === 'en' ? 'en-GB' : lang === 'ca' ? 'ca-ES' : 'es-ES', { day: 'numeric', month: 'long' })
+      return (
+        <section className="rounded-2xl border border-amber-500/25 bg-amber-500/5 p-5">
+          <h3 className="text-white font-black text-base mb-1">🎁 {tr({ es: 'Pro gratis por invitar', en: 'Free Pro from inviting', ca: 'Pro gratis per convidar' })}</h3>
+          <p className="text-white/50 text-sm mb-1">
+            {tr({
+              es: `Activo hasta el ${until}. Sin publicidad y con el panel completo mientras dure.`,
+              en: `Active until ${until}. No ads and the full panel while it lasts.`,
+              ca: `Actiu fins al ${until}. Sense publicitat i amb el panell complet mentre duri.`,
+            })}
+          </p>
+          <p className="text-white/30 text-xs">
+            {tr({
+              es: 'Invita a más gente desde tu perfil para sumar meses.',
+              en: 'Invite more people from your profile to add more months.',
+              ca: 'Convida més gent des del teu perfil per sumar mesos.',
             })}
           </p>
         </section>

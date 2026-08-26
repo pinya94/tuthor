@@ -5,6 +5,7 @@ import {
 import { auth, googleProvider } from '../lib/firebase'
 import { upsertUserProfile } from '../lib/activity'
 import { trackEvent } from '../lib/analytics'
+import { applyPendingReferral } from '../lib/referral'
 
 const AuthContext = createContext({ user: undefined, logout: () => {} })
 
@@ -61,6 +62,7 @@ export function AuthProvider({ children }) {
     // un registro nuevo.
     if (getAdditionalUserInfo(cred)?.isNewUser) {
       trackEvent('sign_up', { method: 'google' })
+      applyPendingReferral()
     }
   }
 

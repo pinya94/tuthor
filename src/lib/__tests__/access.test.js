@@ -10,7 +10,7 @@ import { describe, it, expect } from 'vitest'
 import { readFileSync } from 'node:fs'
 import {
   hasAccess, accessReason, hasActiveSubscription,
-  subscriptionWarning, ACTIVE_STATUSES, PLANS,
+  subscriptionWarning, hasReferralBonus, ACTIVE_STATUSES, PLANS,
 } from '../access.js'
 
 describe('hasActiveSubscription', () => {
@@ -91,6 +91,31 @@ describe('hasAccess', () => {
     // un uid para saltarse el muro. El acceso viene de sponsoredByTeacher,
     // que solo escribe Admin.
     expect(hasAccess({ linkedTeacherIds: ['t1', 't2'] })).toBe(false)
+  })
+
+  it('el mes de Pro por invitar entra mientras no haya caducado', () => {
+    expect(hasAccess({ referralBonusUntil: Date.now() + 1000 })).toBe(true)
+    expect(accessReason({ referralBonusUntil: Date.now() + 1000 })).toBe('referral')
+  })
+
+  it('el mes de Pro por invitar caducado no entra', () => {
+    expect(hasAccess({ referralBonusUntil: Date.now() - 1000 })).toBe(false)
+    expect(accessReason({ referralBonusUntil: Date.now() - 1000 })).toBe(null)
+  })
+})
+
+describe('hasReferralBonus', () => {
+  it('true con una fecha futura', () => {
+    expect(hasReferralBonus({ referralBonusUntil: Date.now() + 60_000 })).toBe(true)
+  })
+
+  it('false sin el campo, con el campo pasado, o con un tipo raro', () => {
+    expect(hasReferralBonus({})).toBe(false)
+    expect(hasReferralBonus({ referralBonusUntil: Date.now() - 60_000 })).toBe(false)
+    // Por si algún día algo escribe un Timestamp de Firestore en vez del
+    // número plano que se espera: mejor "sin bonificación" que reventar.
+    expect(hasReferralBonus({ referralBonusUntil: { toMillis: () => Date.now() + 60_000 } })).toBe(false)
+    expect(hasReferralBonus(null)).toBe(false)
   })
 })
 

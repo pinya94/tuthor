@@ -66,11 +66,17 @@ service cloud.firestore {
     // que no pasan por estas rules). Sin esto el muro es decorativo: el dueño
     // del doc se autoconcede la suscripción desde la consola del navegador con
     // un updateDoc. Espejo de accessReason() en src/lib/access.js.
+    //
+    // referralBonusUntil/referralCount/referredBy: el mes de Pro gratis por
+    // invitar (api/apply-referral.js) es acceso igual que una suscripción —
+    // mismo motivo para que solo lo toque Admin: si no, cualquiera se pone
+    // referralBonusUntil en el futuro desde la consola y tiene Pro para
+    // siempre gratis.
     function touchesPaidFields() {
       return resource == null
-        ? request.resource.data.keys().hasAny(['subscription', 'legacyFree', 'sponsoredByTeacher', 'childCode', 'stripeCustomerId'])
+        ? request.resource.data.keys().hasAny(['subscription', 'legacyFree', 'sponsoredByTeacher', 'childCode', 'stripeCustomerId', 'referralBonusUntil', 'referralCount', 'referredBy'])
         : request.resource.data.diff(resource.data).affectedKeys()
-            .hasAny(['subscription', 'legacyFree', 'sponsoredByTeacher', 'childCode', 'stripeCustomerId']);
+            .hasAny(['subscription', 'legacyFree', 'sponsoredByTeacher', 'childCode', 'stripeCustomerId', 'referralBonusUntil', 'referralCount', 'referredBy']);
     }
 
     // Sesión abierta con el código del hijo (api/child-login.js mintea el token
