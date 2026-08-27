@@ -62,10 +62,10 @@ export default function AdSlot({ placement, className = '', fallback = true, fal
   }
 
   if (!fallback) return null
-  // El respaldo se esconde en 2xl porque el respaldo ES iGraal, y a esa
-  // anchura el raíl lateral ya lo está enseñando: serían dos veces la misma
-  // oferta en la misma pantalla. Ojo, esto NO afecta a un bloque real de
+  // El respaldo se esconde a partir de 1400px porque el respaldo ES iGraal,
+  // y a esa anchura el raíl lateral ya lo está enseñando: serían dos veces la
+  // misma oferta en la misma pantalla. Ojo, esto NO afecta a un bloque real de
   // AdSense (se pinta arriba y en todas las anchuras): cuando haya red de
   // verdad, el hueco deja de ser un duplicado del raíl y se aprovecha.
-  return <IgraalCard variant={fallbackVariant} className={`2xl:hidden ${className}`} />
+  return <IgraalCard variant={fallbackVariant} className={`min-[1400px]:hidden ${className}`} />
 }

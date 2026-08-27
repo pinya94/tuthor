@@ -4,6 +4,7 @@ import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
 import { useAccessStatus, PLANS } from '../lib/access'
 import AuthModal from './AuthModal'
+import { IgraalBanner } from './PromoBanner'
 
 // Bloque destacado con las DOS vías de apoyo, pensado para la pantalla de
 // INICIO de un juego (antes de "▶ Empezar"), nunca durante la partida.
@@ -70,20 +71,22 @@ export default function SupportBlock({ className = '', variant = 'block' }) {
   if (variant === 'top') {
     return (
       <>
-        {/* 2xl:hidden — a partir de 1536px los SideRails ya enseñan estas dos
-            mismas ofertas fijas en los márgenes. Sin esto se ven repetidas en
-            la misma pantalla, que es justo lo que hace que una página parezca
-            llena de anuncios en vez de tener un sitio para ellos. */}
-        <div className={`2xl:hidden w-full flex flex-wrap items-center justify-center gap-x-2.5 gap-y-1 rounded-xl border border-white/10 bg-white/[0.04] px-4 py-2 text-xs text-white/45 ${className}`}>
-          <span className="text-[9px] font-bold uppercase tracking-[0.14em] text-white/25">{sponsored}</span>
-          <a href={IGRAAL_URL} target="_blank" rel="sponsored noopener noreferrer"
-            className="font-semibold text-amber-300/70 hover:text-amber-300 transition-colors">
-            💚 {c.igraalTitle} {tr({ es: 'con iGraal', en: 'with iGraal', ca: 'amb iGraal' })}
+        {/* Un banner de marca de verdad, no la tira de texto que había antes:
+            es lo que el usuario pidió para juegos y exámenes. Va en la
+            pantalla de INICIO, nunca durante la partida.
+            Oculto a partir de 1400px: ahí los SideRails ya enseñan estas
+            mismas ofertas en los márgenes, y repetirlas es justo lo que hace
+            que una página parezca llena de anuncios. */}
+        <div className={`min-[1400px]:hidden ${className}`}>
+          <a
+            href={IGRAAL_URL}
+            target="_blank"
+            rel="sponsored noopener noreferrer"
+            aria-label={`${sponsored}: ${c.igraalTitle}`}
+            className="block"
+          >
+            <IgraalBanner orientation="horizontal" />
           </a>
-          <span className="text-white/15">·</span>
-          <button onClick={handlePro} className="font-semibold text-violet-300/70 hover:text-violet-300 transition-colors">
-            ✨ {c.proTitle} — {c.proSub}, {price}€/{tr({ es: 'mes', en: 'mo', ca: 'mes' })}
-          </button>
         </div>
         {showAuth && (
           <AuthModal

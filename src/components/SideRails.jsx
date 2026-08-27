@@ -18,11 +18,10 @@ import { IgraalBanner, ProBanner } from './PromoBanner'
 // (no como hermano suyo) para heredar su contexto de apilamiento; ver el
 // comentario en App.jsx.
 //
-// Solo en pantallas muy anchas (2xl, 1536px+): por debajo de eso la columna
-// central + dos raíles ya no caben con holgura, y se ve apretado en vez de
-// "espacio aprovechado". Ahí el relevo lo coge SupportBlock, que vive dentro
-// del flujo de cada página — y que por eso mismo se esconde en 2xl, para no
-// repetir la misma oferta dos veces en la misma pantalla.
+// Solo a partir de 1400px (ver railWrap): por debajo, la columna central y
+// los dos raíles ya no caben sin pisarse. Ahí el relevo lo cogen los banners
+// del flujo de cada página — que por eso mismo se esconden por encima de ese
+// umbral, para no repetir la misma oferta dos veces en la misma pantalla.
 //
 // Izquierda = iGraal, derecha = Hazte Pro: dos huecos, dos mensajes
 // distintos, en vez de repetir el mismo dos veces.
@@ -68,7 +67,15 @@ const COPY = {
 // pasar por encima. Separados a propósito: si el mismo elemento llevara el
 // -translate-y-1/2 del centrado y el escalado del hover, el segundo pisaría
 // al primero y el banner daría un salto de media altura.
-const railWrap = 'hidden 2xl:block fixed top-1/2 -translate-y-1/2 z-20 w-[212px] animate-[railIn_.45s_ease-out_both]'
+// Umbral a medida (1400px) en vez del 2xl de Tailwind (1536px): con 1536 los
+// raíles no llegaban a salir en un portátil normal —el del usuario ronda los
+// 1430px de viewport real— y el hueco lateral se quedaba sin usar justo en la
+// pantalla más común. 1400 es lo más abajo que se puede bajar sin que el raíl
+// pise el contenido: la columna más ancha del sitio con raíles es max-w-5xl
+// (1024px en /juegos), que a 1400 deja 188px de margen a cada lado, y el raíl
+// ocupa 168+8. La landing usa max-w-6xl y no daría — por eso no lleva raíles
+// (ver App.jsx); ahí los banners van en el flujo de la página.
+const railWrap = 'hidden min-[1400px]:block fixed top-1/2 -translate-y-1/2 z-20 w-[168px] animate-[railIn_.45s_ease-out_both]'
 
 export default function SideRails() {
   const { user } = useAuth()
@@ -96,7 +103,7 @@ export default function SideRails() {
           dónde cayera. El aria-label lleva la oferta entera y no solo
           "Patrocinado": aria-label sustituye al nombre accesible, no se suma,
           y un lector de pantalla anunciaba "Patrocinado, enlace" sin más. */}
-      <div className={`${railWrap} left-4`}>
+      <div className={`${railWrap} left-2`}>
         <a
           href={IGRAAL_URL}
           target="_blank"
@@ -108,7 +115,7 @@ export default function SideRails() {
         </a>
       </div>
 
-      <div className={`${railWrap} right-4`}>
+      <div className={`${railWrap} right-2`}>
         <button
           onClick={handlePro}
           aria-label={`${c.proCta}: ${c.proTitle}, ${price}€/${c.per}. ${c.proBody}`}

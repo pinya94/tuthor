@@ -330,11 +330,13 @@ function Layout({ onConsent }) {
           contexto de apilamiento, así que un raíl hermano suyo con z-20 gana
           al AuthModal (z-100) que vive DENTRO de él. Dentro del envoltorio,
           el orden sale solo: contenido < raíles(20) < navbar(50) < modal(100). */}
+      {/* La landing NO lleva raíles: su columna es max-w-6xl (1152px) y a las
+          anchuras donde los raíles aparecen (1400px+) le pisarían el
+          contenido. Ahí la promoción va en el flujo de la propia página, con
+          su sitio pensado. /pago/gracias tampoco: alguien que acaba de pagar
+          es la última persona a la que enseñarle un anuncio. */}
       {chromeless ? (
-        <div className="min-h-screen font-sans">
-          {routes}
-          <SideRails />
-        </div>
+        <div className="min-h-screen font-sans">{routes}</div>
       ) : (
         <div className="min-h-screen font-sans" style={{ position: 'relative' }}>
           <div

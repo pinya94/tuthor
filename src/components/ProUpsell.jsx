@@ -79,13 +79,13 @@ export default function ProUpsell({ variant = 'card', className = '' }) {
   if (variant === 'inline' || variant === 'rail') {
     return (
       <>
-        {/* 'inline' se esconde en 2xl: a esa anchura el raíl derecho ya lleva
-            este mismo banner y se veía dos veces en la misma pantalla. El de
-            'rail' ES el raíl, así que ese no se oculta. */}
+        {/* 'inline' se esconde a partir de 1400px: a esa anchura el raíl
+            derecho ya lleva este mismo banner y se veía dos veces en la misma
+            pantalla. El de 'rail' ES el raíl, así que ese no se oculta. */}
         <button
           onClick={handlePro}
           aria-label={`${c.cta}: ${c.title}. ${price}€/${c.per}`}
-          className={`block w-full text-left ${variant === 'inline' ? '2xl:hidden' : ''} ${className}`}
+          className={`block w-full text-left ${variant === 'inline' ? 'min-[1400px]:hidden' : ''} ${className}`}
         >
           <ProBanner orientation={variant === 'rail' ? 'vertical' : 'horizontal'} />
         </button>

@@ -6,6 +6,7 @@ import { PLANS } from '../lib/access'
 import { startCheckout } from '../lib/checkout'
 import AuthModal from '../components/AuthModal'
 import SEOHead from '../components/SEOHead'
+import { IgraalBanner } from '../components/PromoBanner'
 import PreguntaDiaria from './PreguntaDiaria'
 
 // Landing de venta. Estilo deliberadamente distinto al de dentro de la app
@@ -370,13 +371,18 @@ function Header({ onLogin, user, tr, localPath, lang, switchLang }) {
             {tr({ es: 'Soy profe', en: "I'm a teacher", ca: 'Sóc profe' })}
           </Link>
           <LandingLangSwitcher lang={lang} switchLang={switchLang} />
+          {/* Sin sesión el botón dice "Registrarse / Entrar": la misma puerta
+              sirve para las dos cosas (se entra con Google, no hay alta
+              aparte), y nombrar el registro es lo que hace ver que se puede
+              crear cuenta — "Entrar" a secas parece solo para quien ya la
+              tiene. */}
           {user ? (
             <Link to={localPath('/app')} className="rounded-xl bg-slate-900 px-4 py-2 text-sm font-bold text-white transition-colors hover:bg-slate-700">
               {tr({ es: 'Entrar', en: 'Open', ca: 'Entrar' })}
             </Link>
           ) : (
-            <button onClick={onLogin} className="rounded-xl bg-slate-900 px-4 py-2 text-sm font-bold text-white transition-colors hover:bg-slate-700">
-              {tr({ es: 'Entrar', en: 'Sign in', ca: 'Entrar' })}
+            <button onClick={onLogin} className="rounded-xl bg-slate-900 px-3 py-2 text-sm font-bold text-white transition-colors hover:bg-slate-700 sm:px-4">
+              {tr({ es: 'Registrarse / Entrar', en: 'Sign up / Sign in', ca: 'Registrar-se / Entrar' })}
             </button>
           )}
         </nav>
@@ -544,13 +550,30 @@ export default function Landing() {
           <LaunchBadge tr={tr} />
         </div>
 
-        <div className="mt-5 flex flex-col items-center justify-center gap-3 sm:flex-row">
-          <button onClick={startFree} className="w-full rounded-xl bg-violet-600 px-7 py-4 text-base font-black text-white shadow-lg shadow-violet-300/60 transition-all hover:bg-violet-500 hover:shadow-xl sm:w-auto">
-            {tr({ es: 'Empezar gratis', en: 'Start for free', ca: 'Començar gratis' })}
+        {/* El botón más grande de la landing, y a mucha distancia del resto.
+            El objetivo declarado es que la gente ENTRE Y JUEGUE, así que "sin
+            registro" va dentro del propio botón: es la objeción que frena a
+            un padre que solo viene a mirar, y ponerla en letra pequeña debajo
+            no la resuelve. "Ver cómo funciona" pasa a ser un enlace discreto
+            para no competir con él. */}
+        <div className="mt-6">
+          <button
+            onClick={startFree}
+            className="w-full rounded-2xl bg-violet-600 px-8 py-6 font-black text-white shadow-2xl shadow-violet-300/70 transition-all hover:scale-[1.02] hover:bg-violet-500 sm:w-auto sm:px-16 sm:py-8"
+          >
+            <span className="block text-2xl leading-tight sm:text-4xl">
+              {tr({ es: 'Prueba gratis', en: 'Try it free', ca: 'Prova-ho gratis' })}
+            </span>
+            <span className="mt-1 block text-sm font-bold text-violet-200 sm:text-base">
+              {tr({ es: 'Sin registro · Sin tarjeta', en: 'No sign-up · No card', ca: 'Sense registre · Sense targeta' })}
+            </span>
           </button>
-          <a href="#como-funciona" className="w-full rounded-xl border border-slate-300 bg-white px-7 py-4 text-base font-bold text-slate-700 transition-colors hover:border-slate-400 sm:w-auto">
-            {tr({ es: 'Ver cómo funciona', en: 'See how it works', ca: 'Veure com funciona' })}
-          </a>
+
+          <p className="mt-5 text-sm text-slate-500">
+            <a href="#como-funciona" className="font-semibold text-slate-600 underline decoration-slate-300 underline-offset-4 transition-colors hover:text-slate-900">
+              {tr({ es: 'Ver cómo funciona', en: 'See how it works', ca: 'Veure com funciona' })}
+            </a>
+          </p>
         </div>
       </section>
 
@@ -743,8 +766,37 @@ export default function Landing() {
         <div className="mt-10 px-5">
           <PreguntaDiaria embedded />
         </div>
-        <div className="px-5">
-          <MidPageCTA tr={tr} dark onClick={startFree} text={{ es: '¿Le ha gustado? Empieza gratis →', en: 'Did they like it? Start for free →', ca: 'Li ha agradat? Comença gratis →' }} />
+        {/* El CTA principal de la mitad de la página, en grande a propósito:
+            justo después de probar el reto diario es el punto de más
+            intención de toda la landing. Debajo, en pequeño, la vía de Pro —
+            visible pero sin competir con el "gratis", que es lo que hace
+            entrar a la mayoría. */}
+        <div className="mt-14 px-5 text-center">
+          <button
+            onClick={startFree}
+            className="w-full rounded-2xl bg-white px-8 py-6 font-black text-violet-700 shadow-2xl shadow-violet-900/40 transition-all hover:scale-[1.02] hover:bg-violet-50 sm:w-auto sm:px-16 sm:py-8"
+          >
+            <span className="block text-2xl leading-tight sm:text-4xl">
+              {tr({ es: 'Prueba gratis', en: 'Try it free', ca: 'Prova-ho gratis' })}
+            </span>
+            <span className="mt-1 block text-sm font-bold text-violet-500 sm:text-base">
+              {tr({ es: 'Sin registro · Sin tarjeta', en: 'No sign-up · No card', ca: 'Sense registre · Sense targeta' })}
+            </span>
+          </button>
+          <p className="mt-4 text-sm text-slate-400">
+            {tr({
+              es: 'Todos los juegos y todos los exámenes, gratis.',
+              en: 'All games and all quizzes, free.',
+              ca: 'Tots els jocs i tots els exàmens, gratis.',
+            })}
+          </p>
+
+          <p className="mt-7 text-sm text-slate-400">
+            {tr({ es: '¿Prefieres apoyar el proyecto?', en: 'Rather support the project?', ca: 'Prefereixes donar suport al projecte?' })}{' '}
+            <a href="#precios" className="font-bold text-white underline decoration-violet-400 underline-offset-4 transition-colors hover:text-violet-200">
+              {tr({ es: 'Hazte Pro por 1,99€/mes', en: 'Go Pro for €1.99/mo', ca: 'Fes-te Pro per 1,99€/mes' })}
+            </a>
+          </p>
         </div>
       </section>
 
@@ -822,6 +874,36 @@ export default function Landing() {
         </div>
       </section>
 
+      {/* ── PATROCINADO ── */}
+      {/* iGraal va aquí abajo y no arriba: la landing tiene que vender Tuthor
+          primero. Quien llega hasta el final ya sabe qué es esto, y el banner
+          se lee como "otra forma de apoyar", no como publicidad que estorba
+          antes de entender la página. */}
+      <section className="pb-4">
+        <div className="mx-auto max-w-3xl px-5">
+          <a
+            href="https://es.igraal.com/padrinazgo?padrino=AG_638200fb04960&utm_medium=inf&utm_source=premium"
+            target="_blank"
+            rel="sponsored noopener noreferrer"
+            aria-label={tr({
+              es: 'Patrocinado: consigue 10€ gratis registrándote en iGraal',
+              en: 'Sponsored: get €10 free by signing up to iGraal',
+              ca: "Patrocinat: aconsegueix 10€ gratis registrant-te a iGraal",
+            })}
+            className="block"
+          >
+            <IgraalBanner orientation="horizontal" />
+          </a>
+          <p className="mt-2 text-center text-xs text-slate-400">
+            {tr({
+              es: 'Usar este enlace nos ayuda a mantener Tuthor gratis.',
+              en: 'Using this link helps us keep Tuthor free.',
+              ca: 'Fer servir aquest enllaç ens ajuda a mantenir Tuthor gratis.',
+            })}
+          </p>
+        </div>
+      </section>
+
       {/* ── CIERRE ── */}
       <section className="bg-violet-600 py-16 text-center text-white">
         <div className="mx-auto max-w-2xl px-5">
@@ -835,8 +917,13 @@ export default function Landing() {
               ca: 'Es triga menys de dos minuts a configurar-ho i tenir-lo aprenent.',
             })}
           </p>
-          <button onClick={startFree} className="mt-7 inline-block rounded-xl bg-white px-8 py-4 text-base font-black text-violet-700 transition-colors hover:bg-violet-50">
-            {tr({ es: 'Empezar gratis', en: 'Start for free', ca: 'Començar gratis' })}
+          <button onClick={startFree} className="mt-7 w-full rounded-2xl bg-white px-8 py-6 font-black text-violet-700 shadow-2xl shadow-violet-900/30 transition-all hover:scale-[1.02] hover:bg-violet-50 sm:w-auto sm:px-14">
+            <span className="block text-2xl leading-tight sm:text-3xl">
+              {tr({ es: 'Prueba gratis', en: 'Try it free', ca: 'Prova-ho gratis' })}
+            </span>
+            <span className="mt-1 block text-sm font-bold text-violet-500">
+              {tr({ es: 'Sin registro · Sin tarjeta', en: 'No sign-up · No card', ca: 'Sense registre · Sense targeta' })}
+            </span>
           </button>
         </div>
       </section>

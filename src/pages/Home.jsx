@@ -359,17 +359,12 @@ export default function Home() {
           )}
         </div>
 
-        {/* Aquí, y no en los márgenes: /app es la pantalla que más se ve del
-            sitio y hasta ahora era la única sin nada. Los raíles laterales
-            solo salen a partir de 1536px, así que en un portátil normal no
-            había NINGÚN anuncio en esta página. En el flujo del contenido se
-            ve en cualquier pantalla. Los tres se ocultan solos si la cuenta
-            es Pro. */}
-        <div className="mb-8 flex flex-col gap-3">
-          <AdSlot placement="inArticle" fallbackVariant="banner" />
-          <ReferralCard variant="compact" />
-          <ProUpsell variant="inline" />
-        </div>
+        {/* Pro arriba y iGraal más abajo, separados a propósito: apilados uno
+            debajo de otro leían como un bloque de anuncios. Repartidos, cada
+            uno aparece en su momento del recorrido. Los dos se ocultan solos
+            si la cuenta es Pro, y también por encima de 1400px, donde el
+            trabajo lo hacen los raíles laterales. */}
+        <ProUpsell variant="inline" className="mb-8" />
 
         {/* POR MATERIA — solo materias con actividad registrada */}
         {subjectEntries.length > 0 && (
@@ -383,6 +378,11 @@ export default function Home() {
 
         {/* RECOMPENSAS */}
         <RewardsSection lang={lang} navigate={navigate} />
+
+        {/* iGraal y la invitación, ya avanzada la página: quien ha bajado
+            hasta aquí está navegando, no de paso. */}
+        <AdSlot placement="inArticle" className="mb-4" />
+        <ReferralCard variant="compact" className="mb-8" />
 
         {/* COMUNIDAD */}
         <section className="mb-8">

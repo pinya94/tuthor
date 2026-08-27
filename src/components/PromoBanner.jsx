@@ -69,25 +69,25 @@ export function IgraalBanner({ orientation = 'horizontal', className = '' }) {
   return (
     <div
       style={{ '--igraal-bg': IGRAAL_BG, background: `linear-gradient(135deg, #FF7A33 0%, ${IGRAAL_BG} 55%, #E04E10 100%)` }}
-      className={`relative overflow-hidden rounded-2xl text-white shadow-lg shadow-orange-900/20 transition-transform hover:scale-[1.01] ${vertical ? 'p-4' : 'p-5 sm:p-6'} ${className}`}
+      className={`@container relative overflow-hidden rounded-2xl text-white shadow-lg shadow-orange-900/20 transition-transform hover:scale-[1.01] ${vertical ? 'p-4' : 'p-4 @lg:p-6'} ${className}`}
     >
       {/* Brillo decorativo: da profundidad sin cargar ninguna imagen */}
       <div aria-hidden="true" className="pointer-events-none absolute -right-8 -top-10 h-32 w-32 rounded-full bg-white/15 blur-2xl" />
 
       <span className="absolute right-3 top-3 text-[8px] font-bold uppercase tracking-[0.16em] text-white/55">{c.tag}</span>
 
-      <div className={vertical ? 'flex flex-col' : 'flex flex-col sm:flex-row sm:items-center sm:gap-6'}>
-        <div className={`flex items-center gap-2 ${vertical ? 'mb-3' : 'mb-4 sm:mb-0 sm:shrink-0'}`}>
-          <IgraalMark className={vertical ? 'h-8 w-8' : 'h-10 w-10'} />
-          <IgraalWordmark className={vertical ? 'text-2xl' : 'text-3xl'} />
+      <div className={vertical ? 'flex flex-col' : 'flex flex-col @lg:flex-row @lg:items-center @lg:gap-6'}>
+        <div className={`flex items-center gap-2 ${vertical ? 'mb-3' : 'mb-3 @lg:mb-0 @lg:shrink-0'}`}>
+          <IgraalMark className={vertical ? 'h-8 w-8' : 'h-8 w-8 @lg:h-10 @lg:w-10'} />
+          <IgraalWordmark className={vertical ? 'text-2xl' : 'text-2xl @lg:text-3xl'} />
         </div>
 
         <div className="flex-1 min-w-0">
-          <p className={`font-black leading-[1.05] ${vertical ? 'text-lg' : 'text-2xl sm:text-3xl'}`}>{c.claim}</p>
-          <p className={`text-white/80 leading-snug ${vertical ? 'mt-1 text-[11px]' : 'mt-1.5 text-sm'}`}>{c.sub}</p>
+          <p className={`font-black leading-[1.05] ${vertical ? 'text-lg' : 'text-xl @lg:text-3xl'}`}>{c.claim}</p>
+          <p className={`text-white/80 leading-snug ${vertical ? 'mt-1 text-[11px]' : 'mt-1 text-xs @lg:mt-1.5 @lg:text-sm'}`}>{c.sub}</p>
         </div>
 
-        <span className={`inline-block shrink-0 rounded-xl bg-white px-4 py-2.5 text-center font-black text-[#D2490D] ${vertical ? 'mt-3 w-full text-xs' : 'mt-4 sm:mt-0 text-sm'}`}>
+        <span className={`inline-block shrink-0 rounded-xl bg-white px-4 py-2.5 text-center font-black text-[#D2490D] ${vertical ? 'mt-3 w-full text-xs' : 'mt-3 text-xs @lg:mt-0 @lg:text-sm'}`}>
           {c.cta} →
         </span>
       </div>
@@ -103,26 +103,26 @@ export function ProBanner({ orientation = 'horizontal', className = '' }) {
 
   return (
     <div
-      className={`relative overflow-hidden rounded-2xl bg-black text-white shadow-lg shadow-black/40 ring-1 ring-white/10 transition-transform hover:scale-[1.01] ${vertical ? 'p-4' : 'p-5 sm:p-6'} ${className}`}
+      className={`@container relative overflow-hidden rounded-2xl bg-black text-white shadow-lg shadow-black/40 ring-1 ring-white/10 transition-transform hover:scale-[1.01] ${vertical ? 'p-4' : 'p-4 @lg:p-6'} ${className}`}
     >
       {/* Mismo ámbar del logotipo, difuminado: liga el fondo negro con la marca */}
       <div aria-hidden="true" className="pointer-events-none absolute -left-10 -bottom-12 h-36 w-36 rounded-full bg-[#EDAE49]/20 blur-3xl" />
 
-      <div className={vertical ? 'flex flex-col' : 'flex flex-col sm:flex-row sm:items-center sm:gap-6'}>
-        <div className={`${vertical ? 'mb-3' : 'mb-4 sm:mb-0 sm:shrink-0'}`}>
+      <div className={vertical ? 'flex flex-col' : 'flex flex-col @lg:flex-row @lg:items-center @lg:gap-6'}>
+        <div className={`${vertical ? 'mb-3' : 'mb-3 @lg:mb-0 @lg:shrink-0'}`}>
           {/* El logotipo real del sitio, no un texto que lo imite */}
-          <img src="/logo.svg" alt="Tuthor" className={vertical ? 'h-6 w-auto' : 'h-8 w-auto'} width="160" height="32" loading="lazy" />
-          <p className={`mt-1 font-bold uppercase tracking-[0.18em] text-[#EDAE49] ${vertical ? 'text-[8px]' : 'text-[10px]'}`}>Pro</p>
+          <img src="/logo.svg" alt="Tuthor" className={vertical ? 'h-6 w-auto' : 'h-6 w-auto @lg:h-8'} width="160" height="32" loading="lazy" />
+          <p className={`mt-1 font-bold uppercase tracking-[0.18em] text-[#EDAE49] ${vertical ? 'text-[8px]' : 'text-[9px] @lg:text-[10px]'}`}>Pro</p>
         </div>
 
         <div className="flex-1 min-w-0">
-          <p className={`font-black leading-[1.05] ${vertical ? 'text-base' : 'text-2xl sm:text-3xl'}`}>{c.claim}</p>
-          <p className={`text-white/60 leading-snug ${vertical ? 'mt-1 text-[11px]' : 'mt-1.5 text-sm'}`}>
+          <p className={`font-black leading-[1.05] ${vertical ? 'text-base' : 'text-xl @lg:text-3xl'}`}>{c.claim}</p>
+          <p className={`text-white/60 leading-snug ${vertical ? 'mt-1 text-[11px]' : 'mt-1 text-xs @lg:mt-1.5 @lg:text-sm'}`}>
             {c.sub} · <span className="text-white font-bold">{price}€/{c.per}</span>
           </p>
         </div>
 
-        <span className={`inline-block shrink-0 rounded-xl bg-[#EDAE49] px-4 py-2.5 text-center font-black text-black ${vertical ? 'mt-3 w-full text-xs' : 'mt-4 sm:mt-0 text-sm'}`}>
+        <span className={`inline-block shrink-0 rounded-xl bg-[#EDAE49] px-4 py-2.5 text-center font-black text-black ${vertical ? 'mt-3 w-full text-xs' : 'mt-3 text-xs @lg:mt-0 @lg:text-sm'}`}>
           {c.cta} →
         </span>
       </div>
