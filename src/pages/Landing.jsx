@@ -469,8 +469,13 @@ export default function Landing() {
   // aquí — se juega sin sesión y el registro se pide donde tiene sentido
   // pedirlo, al querer guardar la puntuación (ver GameResultFooter.jsx),
   // no como peaje de entrada. /juegos no requiere sesión (paidRoutes.js).
+  // Siempre a /app, con cuenta o sin ella. Antes mandaba a /juegos a quien no
+  // tenía sesión (por quitar fricción) y eso dejaba al visitante metido en un
+  // listado de juegos sin ver el resto del sitio. /app es el punto desde el
+  // que se va libremente a Estudiar, Juegos o la Pregunta Diaria, y ahí
+  // dentro se le invita a registrarse en vez de exigírselo en la puerta.
   function startFree() {
-    navigate(localPath(user ? '/app' : '/juegos'))
+    navigate(localPath('/app'))
   }
 
   // Qué hacer justo después de entrar, según por qué se abrió el login: si

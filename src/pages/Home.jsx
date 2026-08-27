@@ -10,6 +10,7 @@ import { getStudentAssignments } from '../lib/assignments'
 import { aggregateStudentStats } from '../lib/statsAggregation'
 import { FRAMES } from '../data/cosmetics'
 import SEOHead from '../components/SEOHead'
+import AuthModal from '../components/AuthModal'
 import AdSlot from '../components/AdSlot'
 import ProUpsell from '../components/ProUpsell'
 import ReferralCard from '../components/ReferralCard'
@@ -193,10 +194,8 @@ function EmptyStatsWidget({ onVerMas, en, lang }) {
   )
 }
 
-// Mismo spinner que AccessGate.jsx (Checking): se usa mientras se resuelve si
-// hay sesión, y también durante el instante en que se está redirigiendo a "/"
-// a quien no la tiene — nunca se llega a pintar el resto de la página para
-// ese caso.
+// Mismo spinner que AccessGate.jsx (Checking): solo mientras se resuelve si
+// hay sesión. Sin sesión ya NO se espera nada — la página se pinta igual.
 function Loader() {
   return (
     <div className="relative z-10 flex min-h-[calc(100vh-4rem)] items-center justify-center">
@@ -205,9 +204,48 @@ function Loader() {
   )
 }
 
+// Ocupa el sitio del panel de progreso cuando no hay cuenta. Va aquí y no en
+// una pantalla de bloqueo porque el usuario acaba de llegar de la landing a
+// mirar: se le enseña qué se lleva si se registra, no se le corta el paso.
+function SignupPrompt({ onSignup }) {
+  const { tr } = useLang()
+  const perks = tr({
+    es: ['Guarda tu progreso y tus rachas', 'Gana monedas y compite en el ranking', 'Un mes de Pro gratis por cada amigo que invites'],
+    en: ['Save your progress and streaks', 'Earn coins and climb the leaderboard', 'A free month of Pro for every friend you invite'],
+    ca: ['Desa el teu progrés i les teves ratxes', 'Guanya monedes i competeix al rànquing', 'Un mes de Pro gratis per cada amic que convidis'],
+  })
+
+  return (
+    <section className="rounded-2xl border border-violet-400/25 bg-gradient-to-br from-violet-500/[0.16] via-violet-500/[0.05] to-transparent p-5">
+      <p className="text-white font-black text-lg leading-tight mb-1.5">
+        {tr({ es: 'Puedes jugar sin cuenta, pero no se guarda nada', en: 'You can play without an account, but nothing is saved', ca: 'Pots jugar sense compte, però no es desa res' })}
+      </p>
+      <p className="text-white/55 text-sm leading-relaxed mb-4">
+        {tr({
+          es: 'Crear la cuenta es gratis y tarda diez segundos con Google.',
+          en: 'Creating an account is free and takes ten seconds with Google.',
+          ca: 'Crear el compte és gratis i triga deu segons amb Google.',
+        })}
+      </p>
+      <ul className="flex flex-col gap-2 mb-5">
+        {perks.map(p => (
+          <li key={p} className="flex items-center gap-2.5 text-white/75 text-sm">
+            <span className="grid place-items-center w-5 h-5 shrink-0 rounded-full bg-violet-500/20 text-violet-300 text-[11px] font-black" aria-hidden="true">✓</span>
+            {p}
+          </li>
+        ))}
+      </ul>
+      <button onClick={onSignup}
+        className="w-full sm:w-auto rounded-xl bg-violet-600 hover:bg-violet-500 px-6 py-3 text-white text-sm font-black shadow-lg shadow-violet-500/20 transition-colors">
+        {tr({ es: 'Crear cuenta gratis →', en: 'Create a free account →', ca: 'Crear compte gratis →' })}
+      </button>
+    </section>
+  )
+}
+
 export default function Home() {
   const navigate = useNavigate()
-  const { t, localPath, lang } = useLang()
+  const { t, localPath, lang, tr } = useLang()
   const en = lang === 'en'
   const ca = lang === 'ca'
   const { user } = useAuth()
@@ -220,9 +258,18 @@ export default function Home() {
   // enlace viejo o el propio prerender (que tampoco tiene sesión nunca:
   // ver IS_PRERENDER en AccessGate.jsx para el motivo). En ambos casos la
   // respuesta correcta es la misma: mandar a la página que sí vende.
-  useEffect(() => {
-    if (user === null) navigate(localPath('/'), { replace: true })
-  }, [user])
+  const [showAuth, setShowAuth] = useState(false)
+
+  // Antes esto echaba a la landing a quien llegara sin sesión. Ya no: /app es
+  // el destino del botón "Empezar gratis" de la landing TAMBIÉN para quien no
+  // tiene cuenta — es el sitio desde el que se va libremente a Estudiar,
+  // Juegos o la Pregunta Diaria. Con la redirección puesta, ese botón hacía
+  // un bucle (landing → /app → landing).
+  //
+  // Lo que sí cambia sin sesión es qué se pinta: las tarjetas de navegación y
+  // los anuncios salen igual, y el bloque de progreso se sustituye por la
+  // invitación a registrarse (no hay progreso que enseñar de quien no tiene
+  // cuenta). Sigue con noindex: es un panel, no una página de captación.
 
   // Sin reseteo para !user, mismo motivo que el efecto de clases de abajo:
   // el componente vuelve <Loader/> mientras no hay usuario, así que nada lee
@@ -254,9 +301,10 @@ export default function Home() {
     ca: { title: 'El teu tauler d\'estudi', desc: 'El teu progrés, les teves ratxes i les teves monedes. Tria matèria i segueix repassant amb jocs i exàmens tipus test.' },
   }[lang] || {}
 
-  // undefined = la sesión aún se resuelve; null = confirmado sin sesión,
-  // a punto de redirigir. En ninguno de los dos casos hay nada que pintar.
-  if (user === undefined || user === null) return <Loader />
+  // Solo undefined (la sesión aún se resuelve) espera. `null` ya NO: sin
+  // cuenta la página se pinta igual, con la invitación a registrarse en el
+  // sitio del progreso.
+  if (user === undefined) return <Loader />
 
   const subjectEntries = stats ? aggregateStudentStats(stats, lang).subjectEntries : []
 
@@ -279,7 +327,13 @@ export default function Home() {
       <div className="max-w-4xl mx-auto pb-16">
         <div className="pt-6 pb-4 text-center">
           <p className="text-white/40 text-sm">
-            {ca ? `Hola, ${user.displayName?.split(' ')[0] || ''}` : en ? `Hi, ${user.displayName?.split(' ')[0] || ''}` : `Hola, ${user.displayName?.split(' ')[0] || ''}`}
+            {user
+              ? tr({
+                  es: `Hola, ${user.displayName?.split(' ')[0] || ''}`,
+                  en: `Hi, ${user.displayName?.split(' ')[0] || ''}`,
+                  ca: `Hola, ${user.displayName?.split(' ')[0] || ''}`,
+                })
+              : tr({ es: 'Elige por dónde empezar', en: 'Pick where to start', ca: 'Tria per on començar' })}
           </p>
         </div>
 
@@ -294,9 +348,11 @@ export default function Home() {
           ))}
         </div>
 
-        {/* PROGRESO */}
+        {/* PROGRESO — o la invitación a tener uno, si no hay cuenta */}
         <div className="mb-8">
-          {stats ? (
+          {!user ? (
+            <SignupPrompt onSignup={() => setShowAuth(true)} />
+          ) : stats ? (
             <StatsWidget stats={stats} name={user.displayName?.split(' ')[0]} onVerMas={() => navigate(localPath('/perfil'))} en={en} lang={lang} />
           ) : (
             <EmptyStatsWidget onVerMas={() => navigate(localPath('/perfil'))} en={en} lang={lang} />
@@ -385,6 +441,13 @@ export default function Home() {
           </Link>
         </section>
       </div>
+
+      {showAuth && (
+        <AuthModal
+          onClose={() => setShowAuth(false)}
+          onSuccess={() => setShowAuth(false)}
+        />
+      )}
     </div>
   )
 }
