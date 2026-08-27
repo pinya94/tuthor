@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
 import { Analytics } from '@vercel/analytics/react'
 import Particles from './components/Particles'
 import Navbar from './components/Navbar'
+import SideRails from './components/SideRails'
 import AccessGate from './components/AccessGate'
 import CookieBanner, { useCookieConsent } from './components/CookieBanner'
 import ErrorBoundary from './components/ErrorBoundary'
@@ -341,6 +342,11 @@ function Layout({ onConsent }) {
           </div>
         </div>
       )}
+      {/* Fuera del if/else a propósito: la landing ('/') es "chromeless" (su
+          propio header, sin Navbar ni fondo compartido) pero SIGUE siendo
+          un sitio donde el usuario pidió los raíles — así aparecen pase lo
+          que pase con el chrome de la página. */}
+      <SideRails />
       <CookieBanner onConsent={onConsent} />
     </LangProvider>
     </ErrorBoundary>
