@@ -4,6 +4,7 @@ import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
 import { useAccessStatus, PLANS } from '../lib/access'
 import AuthModal from './AuthModal'
+import { ProBanner } from './PromoBanner'
 
 // SOLO la venta de Pro, sin el enlace de afiliado al lado. SupportBlock mete
 // las dos vías juntas, que va bien en la cabecera de un juego pero no donde
@@ -71,21 +72,22 @@ export default function ProUpsell({ variant = 'card', className = '' }) {
     />
   )
 
-  if (variant === 'inline') {
+  // 'inline' y 'rail' pintan el banner de marca (negro + logotipo), que es lo
+  // que se ve como un anuncio de verdad. 'card' sigue siendo el bloque
+  // explicativo con los tres puntos, para donde hay sitio para argumentar
+  // (el panel de Perfil).
+  if (variant === 'inline' || variant === 'rail') {
     return (
       <>
+        {/* 'inline' se esconde en 2xl: a esa anchura el raíl derecho ya lleva
+            este mismo banner y se veía dos veces en la misma pantalla. El de
+            'rail' ES el raíl, así que ese no se oculta. */}
         <button
           onClick={handlePro}
-          className={`w-full flex items-center gap-3 rounded-2xl border border-violet-400/25 bg-gradient-to-r from-violet-500/[0.14] to-violet-500/[0.04] p-3.5 text-left hover:border-violet-400/45 transition-colors ${className}`}
+          aria-label={`${c.cta}: ${c.title}. ${price}€/${c.per}`}
+          className={`block w-full text-left ${variant === 'inline' ? '2xl:hidden' : ''} ${className}`}
         >
-          <span className="grid place-items-center w-9 h-9 shrink-0 rounded-xl bg-violet-400/15 text-lg" aria-hidden="true">✨</span>
-          <span className="flex-1 min-w-0">
-            <span className="block text-white font-black text-sm leading-tight">{c.title}</span>
-            <span className="block text-white/50 text-xs leading-snug">{c.perks.join(' · ')}</span>
-          </span>
-          <span className="shrink-0 rounded-lg bg-violet-600 px-3 py-2 text-white text-xs font-bold">
-            {c.cta} · {price}€
-          </span>
+          <ProBanner orientation={variant === 'rail' ? 'vertical' : 'horizontal'} />
         </button>
         {modal}
       </>

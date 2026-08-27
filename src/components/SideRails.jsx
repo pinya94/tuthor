@@ -4,6 +4,7 @@ import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
 import { useAccessStatus, PLANS } from '../lib/access'
 import AuthModal from './AuthModal'
+import { IgraalBanner, ProBanner } from './PromoBanner'
 
 // Los márgenes muertos a los lados en pantallas anchas — el usuario los
 // marcó a mano en una captura de /app: el contenido va en una columna
@@ -63,18 +64,11 @@ const COPY = {
   },
 }
 
-// El contenedor fija y centra; la tarjeta de dentro es la que se anima al
+// El contenedor fija y centra; el banner de dentro es el que se anima al
 // pasar por encima. Separados a propósito: si el mismo elemento llevara el
-// -translate-y-1/2 del centrado y el desplazamiento del hover, el segundo
-// pisaría al primero y la tarjeta daría un salto de media altura.
+// -translate-y-1/2 del centrado y el escalado del hover, el segundo pisaría
+// al primero y el banner daría un salto de media altura.
 const railWrap = 'hidden 2xl:block fixed top-1/2 -translate-y-1/2 z-20 w-[212px] animate-[railIn_.45s_ease-out_both]'
-const cardBase =
-  'flex flex-col rounded-2xl border p-4 backdrop-blur-md shadow-xl shadow-black/30 ' +
-  'transition-all duration-200 hover:-translate-y-0.5'
-const kicker = 'text-[9px] font-bold uppercase tracking-[0.14em]'
-const badge = 'grid place-items-center w-8 h-8 rounded-xl text-base mb-2.5'
-const body = 'text-white/50 text-[11px] leading-relaxed'
-const cta = 'mt-3 rounded-lg px-3 py-2 text-center text-[11px] font-bold transition-colors'
 
 export default function SideRails() {
   const { user } = useAuth()
@@ -96,27 +90,21 @@ export default function SideRails() {
 
   return (
     <>
-      {/* El aria-label lleva la oferta ENTERA, no solo "Patrocinado". Antes
-          decía solo eso, y como aria-label sustituye al nombre accesible (no
-          se suma), un lector de pantalla anunciaba "Patrocinado, enlace" y se
-          perdía qué había detrás. Explícito y no heredado del texto porque el
-          contenido va repartido en varios <p> y no toda herramienta lo
-          concatena igual. */}
+      {/* Los dos raíles llevan el MISMO banner de marca que el resto de la web
+          (PromoBanner), en su versión vertical — antes eran tarjetas de texto
+          propias de este componente, así que el anuncio se veía distinto según
+          dónde cayera. El aria-label lleva la oferta entera y no solo
+          "Patrocinado": aria-label sustituye al nombre accesible, no se suma,
+          y un lector de pantalla anunciaba "Patrocinado, enlace" sin más. */}
       <div className={`${railWrap} left-4`}>
         <a
           href={IGRAAL_URL}
           target="_blank"
           rel="sponsored noopener noreferrer"
           aria-label={`${c.sponsored}: ${c.igraalTitle}. ${c.igraalBody}`}
-          className={`${cardBase} group border-amber-400/20 bg-gradient-to-b from-amber-400/[0.13] to-amber-400/[0.03] hover:border-amber-400/40`}
+          className="block"
         >
-          <p className={`${kicker} text-amber-300/50 mb-2.5`}>{c.sponsored}</p>
-          <span className={`${badge} bg-amber-400/15`} aria-hidden="true">💚</span>
-          <p className="text-white font-black text-[15px] leading-tight mb-1">{c.igraalTitle}</p>
-          <p className={body}>{c.igraalBody}</p>
-          <span className={`${cta} bg-amber-400 text-black group-hover:bg-amber-300`}>
-            {c.igraalCta} →
-          </span>
+          <IgraalBanner orientation="vertical" />
         </a>
       </div>
 
@@ -124,18 +112,9 @@ export default function SideRails() {
         <button
           onClick={handlePro}
           aria-label={`${c.proCta}: ${c.proTitle}, ${price}€/${c.per}. ${c.proBody}`}
-          className={`${cardBase} group w-full text-left border-violet-400/20 bg-gradient-to-b from-violet-400/[0.13] to-violet-400/[0.03] hover:border-violet-400/40`}
+          className="block w-full text-left"
         >
-          <p className={`${kicker} text-violet-300/50 mb-2.5`}>{c.proKicker}</p>
-          <span className={`${badge} bg-violet-400/15`} aria-hidden="true">✨</span>
-          <p className="text-white font-black text-[15px] leading-tight mb-1">{c.proTitle}</p>
-          <p className={body}>{c.proBody}</p>
-          <p className="mt-2.5 text-white font-black text-sm">
-            {price}€ <span className="text-white/35 text-[11px] font-semibold">/ {c.per}</span>
-          </p>
-          <span className={`${cta} bg-violet-600 text-white group-hover:bg-violet-500`}>
-            {c.proCta} →
-          </span>
+          <ProBanner orientation="vertical" />
         </button>
       </div>
 

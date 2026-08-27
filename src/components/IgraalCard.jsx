@@ -1,5 +1,6 @@
 import { useLang } from '../context/LangContext'
 import { useAccessStatus } from '../lib/access'
+import { IgraalBanner } from './PromoBanner'
 
 // Único "anuncio" del sitio de momento: un enlace de afiliado/referido a
 // iGraal (cashback), no una red con inventario propio — por eso es un
@@ -55,40 +56,19 @@ export default function IgraalCard({ className = '', variant = 'card' }) {
   const c = COPY[lang] || COPY.es
   const label = SPONSORED_LABEL[lang] || SPONSORED_LABEL.es
 
-  if (variant === 'banner') {
-    return (
-      // Sin aria-label: la etiqueta "Patrocinado" ya va como texto visible
-      // dentro del enlace. Puesta como aria-label REEMPLAZABA al nombre
-      // accesible, y un lector de pantalla leía solo "Patrocinado, enlace".
-      <a
-        href={IGRAAL_URL}
-        target="_blank"
-        rel="sponsored noopener noreferrer"
-        className={`flex items-center gap-2.5 rounded-xl border border-amber-500/25 bg-amber-500/5 hover:bg-amber-500/10 px-4 py-2.5 text-sm transition-colors ${className}`}
-      >
-        <span className="shrink-0">💚</span>
-        <span className="flex-1 text-white/80 font-semibold truncate">{c.banner}</span>
-        <span className="shrink-0 text-[10px] font-bold uppercase tracking-widest text-amber-400/60">{label}</span>
-      </a>
-    )
-  }
-
+  // Las dos variantes pintan ya el banner de marca (PromoBanner), no una
+  // tarjeta de texto: lo que cambia entre ellas es la forma del hueco.
+  // 'card' se usa en huecos anchos y 'banner' en tiras dentro del contenido;
+  // los dos son horizontales. El vertical lo piden los raíles laterales.
   return (
-    <aside
-      aria-label={label}
-      className={`rounded-2xl border border-amber-500/25 bg-amber-500/5 p-5 ${className}`}
+    <a
+      href={IGRAAL_URL}
+      target="_blank"
+      rel="sponsored noopener noreferrer"
+      aria-label={`${label}: ${c.title}. ${c.body}`}
+      className={`block ${className}`}
     >
-      <p className="text-[10px] font-bold uppercase tracking-widest text-amber-400/70 mb-2">{label}</p>
-      <p className="text-white font-black text-base mb-1.5">{c.title}</p>
-      <p className="text-white/55 text-sm leading-relaxed mb-4">{c.body}</p>
-      <a
-        href={IGRAAL_URL}
-        target="_blank"
-        rel="sponsored noopener noreferrer"
-        className="inline-block bg-amber-500 hover:bg-amber-400 text-black font-bold text-sm px-5 py-2.5 rounded-xl transition-colors"
-      >
-        {c.cta}
-      </a>
-    </aside>
+      <IgraalBanner orientation={variant === 'rail' ? 'vertical' : 'horizontal'} />
+    </a>
   )
 }
