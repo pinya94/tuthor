@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
-import IgraalCard from '../components/IgraalCard'
+import AdSlot from '../components/AdSlot'
 
 const DATA = {
   es: {
@@ -352,7 +352,7 @@ export default function InfoEstudiar() {
       <div className="text-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-8 py-12 space-y-10">
 
-          <IgraalCard />
+          <AdSlot placement="inArticle" />
 
           {d.categorias.map((cat, catIdx) => (
             <section key={cat.titulo}>
@@ -379,14 +379,14 @@ export default function InfoEstudiar() {
 
               {catIdx < d.categorias.length - 1 && (
                 <>
-                  <IgraalCard className="mt-8" />
+                  <AdSlot placement="inArticle" className="mt-8" />
                   <hr className="border-white/10 mt-6" />
                 </>
               )}
             </section>
           ))}
 
-          <IgraalCard />
+          <AdSlot placement="inArticle" />
 
           <footer className="text-center pt-4">
             <Link to={localPath('/estudiar')}

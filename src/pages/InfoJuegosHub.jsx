@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import SEOHead from '../components/SEOHead'
-import IgraalCard from '../components/IgraalCard'
+import AdSlot from '../components/AdSlot'
 
 // Superficie oscura casi opaca: legibilidad sobre el fondo del bosque
 const SURF = 'rgba(17,20,29,0.86)'
@@ -209,7 +209,7 @@ export default function InfoJuegosHub() {
 
           <p className="text-white/60 leading-relaxed max-w-2xl mx-auto text-center text-lg">{d.body}</p>
 
-          <IgraalCard className="my-8" />
+          <AdSlot placement="inArticle" className="my-8" />
 
           {d.categorias.map((cat, catIdx) => (
             <section key={cat.titulo}>
@@ -244,7 +244,7 @@ export default function InfoJuegosHub() {
 
               {catIdx < d.categorias.length - 1 && (
                 <>
-                  <IgraalCard className="mt-8" />
+                  <AdSlot placement="inArticle" className="mt-8" />
                   <hr className="border-white/10 mt-6" />
                 </>
               )}
@@ -259,7 +259,7 @@ export default function InfoJuegosHub() {
             <p className="text-white/60 leading-relaxed max-w-3xl">{d.proximamenteTexto}</p>
           </section>
 
-          <IgraalCard className="my-8" />
+          <AdSlot placement="inArticle" className="my-8" />
 
           <footer className="text-center pt-4">
             <Link to={localPath('/juegos')}

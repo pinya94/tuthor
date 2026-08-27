@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import SEOHead from '../components/SEOHead'
-import IgraalCard from '../components/IgraalCard'
+import AdSlot from '../components/AdSlot'
 
 // Un chunk por ficha: solo se descarga la del slug visitado
 // (src/data/fichasEstudiar/<slug>.js exporta { es, en, ca }).
@@ -259,7 +259,7 @@ export default function InfoEstudiarFicha() {
             </div>
           )}
 
-          <IgraalCard className="mb-10" />
+          <AdSlot placement="inArticle" className="mb-10" />
 
           {/* Beneficios (acepta strings o {titulo,texto}) */}
           {ficha.beneficios && (
@@ -297,7 +297,7 @@ export default function InfoEstudiarFicha() {
             </Link>
           </div>
 
-          <IgraalCard className="mb-10" />
+          <AdSlot placement="inArticle" className="mb-10" />
 
           {/* Consejos de estudio */}
           {ficha.consejos && (
@@ -353,7 +353,7 @@ export default function InfoEstudiarFicha() {
             </section>
           )}
 
-          <IgraalCard className="mb-10" />
+          <AdSlot placement="inArticle" className="mb-10" />
 
           {/* CTA final */}
           <footer className="text-center pt-4">
