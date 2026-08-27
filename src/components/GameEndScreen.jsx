@@ -4,7 +4,9 @@ import GameResultFooter from './GameResultFooter'
 import ShareButton from './ShareButton'
 import { computeCoins } from '../lib/games'
 import { consumeCompletedAssignments } from '../lib/activity'
-import IgraalCard from './IgraalCard'
+import AdSlot from './AdSlot'
+import ReferralCard from './ReferralCard'
+import ProUpsell from './ProUpsell'
 
 const L = {
   ptsLabel:  { es: 'puntos', en: 'points', ca: 'punts' },
@@ -107,7 +109,14 @@ export default function GameEndScreen({
           ))}
         </div>
 
-        <IgraalCard className="mt-5" />
+        {/* Justo después de jugar es cuando más dispuesto está el usuario a
+            hacer algo: aquí van las tres vías, de menos a más compromiso —
+            invitar (gratis y le da Pro), el anuncio, y hacerse Pro.
+            ReferralCard se pinta solo si hay sesión; AdSlot cae a iGraal
+            mientras AdSense no tenga bloque para este hueco. */}
+        <ReferralCard variant="compact" className="mt-5" />
+        <AdSlot placement="gameEnd" className="mt-3" />
+        <ProUpsell variant="inline" className="mt-3" />
 
       </div>
 

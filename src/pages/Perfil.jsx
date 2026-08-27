@@ -13,6 +13,7 @@ import { getStudentAssignments } from '../lib/assignments'
 import ChildCodeCard from '../components/ChildCodeCard'
 import ReferralCard from '../components/ReferralCard'
 import SupportBlock from '../components/SupportBlock'
+import ProUpsell from '../components/ProUpsell'
 
 // Qué parte del panel es de pago desde que el muro de juegos/exámenes está
 // apagado (ver paidRoutes.js): el resumen de arriba (monedas, puntos,
@@ -20,30 +21,68 @@ import SupportBlock from '../components/SupportBlock'
 // motiva sin necesitar cuenta Pro. El desglose de VERDAD — de dónde viene
 // cada moneda, cómo le va en cada juego y en cada materia — es lo que vende
 // la suscripción ahora: es la herramienta del padre, no la del hijo.
-function ProLock({ lang, localPath }) {
-  const ca = lang === 'ca', en = lang === 'en'
+// Antes esto era un candado centrado y un botón. El problema no era el
+// texto, era que no se veía QUÉ se está perdiendo: un 🔒 no da ninguna gana
+// de pagar. Ahora se enseña el desglose de verdad, difuminado detrás —
+// mismas filas que vería un Pro, con datos de ejemplo— y encima el porqué:
+// Pro no es "quitar anuncios", es lo que mantiene el sitio gratis.
+//
+// Las filas fantasma son decorativas: aria-hidden y sin texto real, para que
+// un lector de pantalla no las lea como si fueran estadísticas del alumno.
+const PEEK_ROWS = [
+  { emoji: '💰', w: '78%' },
+  { emoji: '🎮', w: '55%' },
+  { emoji: '📚', w: '67%' },
+  { emoji: '📈', w: '41%' },
+]
+
+function ProLock() {
+  const { tr } = useLang()
+
   return (
-    <div className="border border-violet-500/25 rounded-2xl p-6 text-center mb-5"
+    <div className="rounded-2xl border border-violet-400/25 overflow-hidden mb-5"
       style={{ background: 'linear-gradient(135deg, rgba(139,92,246,.14), rgba(139,92,246,.03))' }}>
-      <p className="text-3xl mb-2">🔒</p>
-      <p className="text-white font-black text-base mb-1.5">
-        {ca ? 'El desglossament complet és Pro' : en ? 'The full breakdown is Pro' : 'El desglose completo es Pro'}
-      </p>
-      <p className="text-white/50 text-sm leading-relaxed mb-4 max-w-sm mx-auto">
-        {ca
-          ? "D'on venen les seves monedes, com li va joc a joc i matèria a matèria — la part del panell pensada per a tu, no per al teu fill."
-          : en
-          ? "Where their coins come from, how they're doing game by game and subject by subject — the part of the panel built for you, not for your child."
-          : 'De dónde vienen sus monedas, cómo le va juego a juego y materia a materia — la parte del panel pensada para ti, no para tu hijo.'}
-      </p>
-      <Link to={localPath('/mi-plan')}
-        className="inline-block bg-violet-600 hover:bg-violet-500 text-white font-black text-sm px-6 py-3 rounded-xl transition-colors">
-        {ca ? 'Fes-te Pro →' : en ? 'Go Pro →' : 'Hazte Pro →'}
-      </Link>
-      {/* Para quien no quiere pagar ahora mismo pero sí quiere apoyar de
-          otra forma — mismo bloque que en juegos/exámenes, se oculta solo
-          si ya es Pro (comprueba su propio acceso, no depende de ProLock). */}
-      <SupportBlock variant="top" className="mt-4" />
+
+      {/* Adelanto difuminado de lo que hay dentro */}
+      <div className="relative px-5 pt-5" aria-hidden="true">
+        <div className="flex flex-col gap-2.5 blur-[3px] opacity-60 select-none pointer-events-none">
+          {PEEK_ROWS.map(r => (
+            <div key={r.emoji} className="flex items-center gap-3">
+              <span className="grid place-items-center w-8 h-8 shrink-0 rounded-lg bg-white/10 text-sm">{r.emoji}</span>
+              <span className="h-2.5 rounded-full bg-white/25" style={{ width: r.w }} />
+              <span className="ml-auto h-2.5 w-10 rounded-full bg-violet-400/40" />
+            </div>
+          ))}
+        </div>
+        {/* Degradado que funde el adelanto con el bloque de venta de abajo */}
+        <div className="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-b from-transparent to-[#12101f]" />
+      </div>
+
+      <div className="px-5 pb-5 pt-4">
+        <p className="text-white font-black text-base mb-1.5">
+          {tr({
+            es: 'Aquí está el desglose completo de su progreso',
+            en: "Here's the full breakdown of their progress",
+            ca: 'Aquí hi ha el desglossament complet del seu progrés',
+          })}
+        </p>
+        <p className="text-white/50 text-sm leading-relaxed mb-4">
+          {tr({
+            es: 'De dónde vienen sus monedas, cómo le va juego a juego y materia a materia. Es la parte del panel pensada para ti, no para tu hijo.',
+            en: "Where their coins come from, how they're doing game by game and subject by subject. It's the part of the panel built for you, not for your child.",
+            ca: "D'on venen les seves monedes, com li va joc a joc i matèria a matèria. És la part del panell pensada per a tu, no per al teu fill.",
+          })}
+        </p>
+
+        {/* La venta de Pro con el "para qué" por delante: mismo bloque que en
+            el resto de la web, así el mensaje no diverge según la pantalla. */}
+        <ProUpsell />
+
+        {/* Para quien no quiere pagar ahora mismo pero sí quiere apoyar de
+            otra forma — se oculta solo si ya es Pro (comprueba su propio
+            acceso, no depende de ProLock). */}
+        <SupportBlock variant="top" className="mt-3" />
+      </div>
     </div>
   )
 }
@@ -284,7 +323,7 @@ export default function Perfil() {
             {accessKnown && (() => {
               const hasDetail = coinsHistory.length > 0 || gameEntries.length > 0 || subjectEntries.length > 0
               if (!hasDetail) return null
-              if (!isPro) return <ProLock lang={lang} localPath={localPath} />
+              if (!isPro) return <ProLock />
               return (
                 <>
                   {/* ── HISTORIAL DE MONEDAS ── */}

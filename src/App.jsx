@@ -1,4 +1,4 @@
-import { useState, lazy, Suspense } from 'react'
+import { useState, useEffect, lazy, Suspense } from 'react'
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
 import { Analytics } from '@vercel/analytics/react'
 import Particles from './components/Particles'
@@ -8,6 +8,7 @@ import AccessGate from './components/AccessGate'
 import CookieBanner, { useCookieConsent } from './components/CookieBanner'
 import ErrorBoundary from './components/ErrorBoundary'
 import { LangProvider, useLang } from './context/LangContext'
+import { applyConsent } from './lib/consent'
 import { routableExams } from './lib/exams'
 
 // Lazy-loaded pages — only downloaded when the user navigates to them
@@ -363,6 +364,13 @@ export default function App() {
   const saved = useCookieConsent()
   const [consent, setConsent] = useState(saved)
   const analyticsEnabled = consent?.analytics !== false
+
+  // index.html deja Consent Mode en "denegado" para todo hasta que se sepa
+  // qué eligió el usuario. Esto lo levanta: al arrancar con una decisión ya
+  // guardada de otra visita (si no, quien aceptó ayer arrastraba el denegado
+  // toda la sesión y no veía publicidad personalizada ni contaba en GA) y
+  // cada vez que la cambia en el banner.
+  useEffect(() => { applyConsent(consent) }, [consent])
 
   return (
     <BrowserRouter>

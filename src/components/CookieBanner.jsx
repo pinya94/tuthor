@@ -29,9 +29,19 @@ const CATEGORIES = [
     required: false,
     label: { es: 'Analítica', en: 'Analytics', ca: 'Analítica' },
     desc: {
-      es: 'Nos ayudan a entender cómo se usa Tuthor (Vercel Analytics). No recopilan datos personales identificables.',
-      en: 'Help us understand how Tuthor is used (Vercel Analytics). No personally identifiable data is collected.',
-      ca: "Ens ajuden a entendre com s'utilitza Tuthor (Vercel Analytics). No recullen dades personals identificables.",
+      es: 'Nos ayudan a entender cómo se usa Tuthor (Vercel Analytics y Google Analytics). No recopilan datos personales identificables.',
+      en: 'Help us understand how Tuthor is used (Vercel Analytics and Google Analytics). No personally identifiable data is collected.',
+      ca: "Ens ajuden a entendre com s'utilitza Tuthor (Vercel Analytics i Google Analytics). No recullen dades personals identificables.",
+    },
+  },
+  {
+    id: 'advertising',
+    required: false,
+    label: { es: 'Publicidad', en: 'Advertising', ca: 'Publicitat' },
+    desc: {
+      es: 'Permiten que Google AdSense muestre anuncios adaptados a ti. Si lo dejas desactivado seguirás viendo anuncios, pero sin personalizar — y así es como se sirven por defecto.',
+      en: 'Let Google AdSense show ads tailored to you. If you leave this off you will still see ads, just not personalised — which is how they are served by default.',
+      ca: 'Permeten que Google AdSense mostri anuncis adaptats a tu. Si ho deixes desactivat seguiràs veient anuncis, però sense personalitzar — i així és com se serveixen per defecte.',
     },
   },
 ]
@@ -43,7 +53,10 @@ export default function CookieBanner({ onConsent }) {
 
   const [visible, setVisible] = useState(false)
   const [showPrefs, setShowPrefs] = useState(false)
-  const [prefs, setPrefs] = useState({ essential: true, analytics: true })
+  // 'advertising' arranca apagado en el panel a propósito: el RGPD pide que
+  // la personalización publicitaria sea un sí explícito, no una casilla que
+  // venga marcada de casa. "Aceptar todo" sigue concediéndola de una vez.
+  const [prefs, setPrefs] = useState({ essential: true, analytics: true, advertising: false })
 
   useEffect(() => {
     const saved = useCookieConsent()
@@ -51,14 +64,14 @@ export default function CookieBanner({ onConsent }) {
   }, [])
 
   function accept(custom) {
-    const chosen = custom ?? { essential: true, analytics: true }
+    const chosen = custom ?? { essential: true, analytics: true, advertising: true }
     saveCookieConsent(chosen)
     setVisible(false)
     onConsent?.(chosen)
   }
 
   function reject() {
-    accept({ essential: true, analytics: false })
+    accept({ essential: true, analytics: false, advertising: false })
   }
 
   if (!visible) return null

@@ -21,13 +21,35 @@
     <!-- Background image — tell the browser to fetch it early -->
     <link rel="preload" as="image" href="/fondo.webp" type="image/webp">
 
+    <!-- Consent Mode v2 — TIENE que ir antes que AdSense y que Analytics.
+         Google exige una señal de consentimiento para servir anuncios en el
+         EEE; sin ella limita o bloquea la publicidad y expone la cuenta a
+         sanción, por muy aprobado que esté el sitio. Por defecto todo
+         DENEGADO: la ley pide que se deniegue hasta que el usuario elija, y
+         CookieBanner lo levanta con gtag('consent','update') (ver
+         src/lib/consent.js). wait_for_update le da 500 ms a esa decisión
+         antes de dar por buena la denegación.
+         requestNonPersonalizedAds: mientras no haya permiso explícito los
+         anuncios se piden SIN personalizar — que es además lo que toca en un
+         sitio con público menor de edad. -->
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('consent', 'default', {
+        ad_storage: 'denied',
+        ad_user_data: 'denied',
+        ad_personalization: 'denied',
+        analytics_storage: 'denied',
+        wait_for_update: 500
+      });
+      (window.adsbygoogle = window.adsbygoogle || []).requestNonPersonalizedAds = 1;
+    </script>
+
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9281841187642423" crossorigin="anonymous"></script>
 
     <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-2JYFB6HNHF"></script>
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
       gtag('config', 'G-2JYFB6HNHF');
     </script>

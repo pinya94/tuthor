@@ -10,7 +10,12 @@ import { getReferralLink } from '../lib/referral'
 //
 // No se monta en sesión de hijo: invitar es cosa del padre, igual que el
 // resto de tarjetas de cuenta.
-export default function ReferralCard() {
+// `variant`:
+//   'full'    (por defecto) — la tarjeta de Perfil, con el enlace a la vista.
+//   'compact' — una línea con un botón, para colarla donde ya hay mucho que
+//               leer (final de partida, hubs). Copia al portapapeles en vez
+//               de enseñar el enlace: ocupa un tercio y hace lo mismo.
+export default function ReferralCard({ variant = 'full', className = '' }) {
   const { user, childMode } = useAuth()
   const { tr, localPath } = useLang()
   const [copied, setCopied] = useState(false)
@@ -23,6 +28,34 @@ export default function ReferralCard() {
     navigator.clipboard?.writeText(link)
       .then(() => { setCopied(true); setTimeout(() => setCopied(false), 2000) })
       .catch(() => { /* sin permiso de portapapeles: el enlace está a la vista */ })
+  }
+
+  if (variant === 'compact') {
+    return (
+      <button
+        onClick={handleCopy}
+        className={`w-full flex items-center gap-3 rounded-2xl border border-violet-400/25 bg-gradient-to-r from-violet-500/[0.12] to-violet-500/[0.04] p-3.5 text-left hover:border-violet-400/45 transition-colors ${className}`}
+      >
+        <span className="grid place-items-center w-9 h-9 shrink-0 rounded-xl bg-violet-400/15 text-lg" aria-hidden="true">🎁</span>
+        <span className="flex-1 min-w-0">
+          <span className="block text-white font-black text-sm leading-tight">
+            {tr({ es: 'Un mes de Pro gratis', en: 'A free month of Pro', ca: 'Un mes de Pro gratis' })}
+          </span>
+          <span className="block text-white/50 text-xs leading-snug">
+            {tr({
+              es: 'Por cada amigo que se registre con tu enlace.',
+              en: 'For every friend who signs up with your link.',
+              ca: 'Per cada amic que es registri amb el teu enllaç.',
+            })}
+          </span>
+        </span>
+        <span className="shrink-0 rounded-lg bg-violet-600 px-3 py-2 text-white text-xs font-bold">
+          {copied
+            ? tr({ es: '✓ Copiado', en: '✓ Copied', ca: '✓ Copiat' })
+            : tr({ es: 'Copiar enlace', en: 'Copy link', ca: 'Copiar enllaç' })}
+        </span>
+      </button>
+    )
   }
 
   return (
