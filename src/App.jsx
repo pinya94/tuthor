@@ -322,8 +322,18 @@ function Layout({ onConsent }) {
   return (
     <ErrorBoundary>
     <LangProvider>
+      {/* <SideRails/> va DENTRO de cada rama, y repetido, a propósito. Puesto
+          una sola vez aquí fuera pasan las dos cosas malas a la vez: en la
+          landing ('/', chromeless) no se veía, y en el resto se colaba por
+          encima de los modales — el envoltorio `relative z-10` de abajo es un
+          contexto de apilamiento, así que un raíl hermano suyo con z-20 gana
+          al AuthModal (z-100) que vive DENTRO de él. Dentro del envoltorio,
+          el orden sale solo: contenido < raíles(20) < navbar(50) < modal(100). */}
       {chromeless ? (
-        <div className="min-h-screen font-sans">{routes}</div>
+        <div className="min-h-screen font-sans">
+          {routes}
+          <SideRails />
+        </div>
       ) : (
         <div className="min-h-screen font-sans" style={{ position: 'relative' }}>
           <div
@@ -339,14 +349,10 @@ function Layout({ onConsent }) {
           <div className="relative z-10">
             <Navbar />
             {routes}
+            <SideRails />
           </div>
         </div>
       )}
-      {/* Fuera del if/else a propósito: la landing ('/') es "chromeless" (su
-          propio header, sin Navbar ni fondo compartido) pero SIGUE siendo
-          un sitio donde el usuario pidió los raíles — así aparecen pase lo
-          que pase con el chrome de la página. */}
-      <SideRails />
       <CookieBanner onConsent={onConsent} />
     </LangProvider>
     </ErrorBoundary>

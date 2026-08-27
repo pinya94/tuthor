@@ -23,3 +23,17 @@ button, [role="button"] {
   animation: frameRotate 3s ease infinite;
   background-size: 300% 300%;
 }
+
+/* Los raíles laterales (SideRails) aparecen cuando se resuelve si la cuenta
+   es Pro, no en el primer pintado. Sin esto salen de golpe a mitad de carga
+   y parecen un pop-up; con el fundido leen como parte de la página.
+   Solo opacidad: el contenedor ya usa transform para centrarse en vertical. */
+@keyframes railIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .frame-animated { animation: none; }
+  [class*="animate-[railIn"] { animation: none; }
+}

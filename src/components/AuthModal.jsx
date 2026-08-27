@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
 import { authErrorKey } from '../lib/authErrors'
@@ -37,6 +37,16 @@ export default function AuthModal({ onClose, onSuccess, defaultMode = 'login' })
   const [code, setCode]         = useState('')
   const [loading, setLoading]   = useState(false)
   const [errorKey, setErrorKey] = useState('')
+
+  // Escape cierra. Antes solo se salía clicando el fondo, que no es evidente
+  // ni alcanzable con teclado: quien abría el modal sin querer (los botones
+  // de Pro lo abren) se quedaba encerrado salvo que adivinara dónde pinchar.
+  useEffect(() => {
+    if (!onClose) return
+    const onKey = e => { if (e.key === 'Escape') onClose() }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [onClose])
 
   function switchMode(next) {
     setMode(next); setErrorKey(''); setCode('')

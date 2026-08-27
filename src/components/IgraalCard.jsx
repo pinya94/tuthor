@@ -57,11 +57,13 @@ export default function IgraalCard({ className = '', variant = 'card' }) {
 
   if (variant === 'banner') {
     return (
+      // Sin aria-label: la etiqueta "Patrocinado" ya va como texto visible
+      // dentro del enlace. Puesta como aria-label REEMPLAZABA al nombre
+      // accesible, y un lector de pantalla leía solo "Patrocinado, enlace".
       <a
         href={IGRAAL_URL}
         target="_blank"
         rel="sponsored noopener noreferrer"
-        aria-label={label}
         className={`flex items-center gap-2.5 rounded-xl border border-amber-500/25 bg-amber-500/5 hover:bg-amber-500/10 px-4 py-2.5 text-sm transition-colors ${className}`}
       >
         <span className="shrink-0">💚</span>
