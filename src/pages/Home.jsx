@@ -10,6 +10,9 @@ import { getStudentAssignments } from '../lib/assignments'
 import { aggregateStudentStats } from '../lib/statsAggregation'
 import { FRAMES } from '../data/cosmetics'
 import SEOHead from '../components/SEOHead'
+import AdSlot from '../components/AdSlot'
+import ProUpsell from '../components/ProUpsell'
+import ReferralCard from '../components/ReferralCard'
 
 const PREVIEW_FRAMES = ['silver', 'gold', 'rainbow', 'galaxy', 'fire', 'neon']
 
@@ -298,6 +301,18 @@ export default function Home() {
           ) : (
             <EmptyStatsWidget onVerMas={() => navigate(localPath('/perfil'))} en={en} lang={lang} />
           )}
+        </div>
+
+        {/* Aquí, y no en los márgenes: /app es la pantalla que más se ve del
+            sitio y hasta ahora era la única sin nada. Los raíles laterales
+            solo salen a partir de 1536px, así que en un portátil normal no
+            había NINGÚN anuncio en esta página. En el flujo del contenido se
+            ve en cualquier pantalla. Los tres se ocultan solos si la cuenta
+            es Pro. */}
+        <div className="mb-8 flex flex-col gap-3">
+          <AdSlot placement="inArticle" fallbackVariant="banner" />
+          <ReferralCard variant="compact" />
+          <ProUpsell variant="inline" />
         </div>
 
         {/* POR MATERIA — solo materias con actividad registrada */}
