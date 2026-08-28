@@ -1,6 +1,6 @@
 import MechanicExam from '../components/MechanicExam'
 import EstadisticoPregunta from '../components/EstadisticoPregunta'
-import { RANGOS, generarMedia } from '../lib/estadisticoEngine'
+import { RANGOS, generarMedia, schemaQuestionEstadistico } from '../lib/estadisticoEngine'
 
 // Examen enfocado SOLO en la media — sin mezclar con mediana/moda/rango,
 // para quien quiera repasar específicamente esta medida. Misma generación
@@ -36,6 +36,7 @@ export default function EstadisticoMediaExamen() {
       levels={LEVELS}
       genRound={genRound}
       isCorrect={isCorrect}
+      schemaQuestion={schemaQuestionEstadistico}
       renderQuestion={({ round, phase, onAnswer, l, qIndex }) => (
         <EstadisticoPregunta key={qIndex} round={round} phase={phase} onAnswer={onAnswer} l={l} prompt={PROMPT} placeholder={PLACEHOLDER} />
       )}

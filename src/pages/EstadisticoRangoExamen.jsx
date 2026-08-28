@@ -1,6 +1,6 @@
 import MechanicExam from '../components/MechanicExam'
 import EstadisticoPregunta from '../components/EstadisticoPregunta'
-import { RANGOS, generarRango } from '../lib/estadisticoEngine'
+import { RANGOS, generarRango, schemaQuestionEstadistico } from '../lib/estadisticoEngine'
 
 // Examen enfocado SOLO en el rango — ver EstadisticoMediaExamen.jsx.
 
@@ -34,6 +34,7 @@ export default function EstadisticoRangoExamen() {
       levels={LEVELS}
       genRound={genRound}
       isCorrect={isCorrect}
+      schemaQuestion={schemaQuestionEstadistico}
       renderQuestion={({ round, phase, onAnswer, l, qIndex }) => (
         <EstadisticoPregunta key={qIndex} round={round} phase={phase} onAnswer={onAnswer} l={l} prompt={PROMPT} placeholder={PLACEHOLDER} />
       )}

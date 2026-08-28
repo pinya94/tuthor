@@ -114,3 +114,28 @@ export function explicacion(ronda, l) {
     ca: `Rang = màxim − mínim = ${max} − ${min} = ${respuesta}.`,
   }[l]
 }
+
+// ── Texto de una ronda para el JSON-LD ───────────────────────────────────────
+// Lo usan los cuatro exámenes de estadística (media, mediana, moda, rango) a
+// través de `schemaQuestion` de MechanicExam. Estas rondas se generan al
+// vuelo, así que no hay banco de preguntas que publicar — pero el enunciado
+// SÍ es texto plano y perfectamente indexable ("calcula la media de 4, 7,
+// 10"), que es justo como se busca esto. La respuesta va con la explicación
+// del cálculo, que ya existía para la UI.
+const ENUNCIADO = {
+  media:   { es: 'Calcula la media de', en: 'Calculate the mean of', ca: 'Calcula la mitjana de' },
+  mediana: { es: 'Calcula la mediana de', en: 'Calculate the median of', ca: 'Calcula la mediana de' },
+  moda:    { es: 'Calcula la moda de', en: 'Calculate the mode of', ca: 'Calcula la moda de' },
+  rango:   { es: 'Calcula el rango de', en: 'Calculate the range of', ca: 'Calcula el rang de' },
+}
+
+export function schemaQuestionEstadistico(ronda, l = 'es') {
+  const etiqueta = ENUNCIADO[ronda?.tipo]
+  if (!etiqueta || !ronda?.valores?.length) return null
+  const lista = ronda.valores.join(', ')
+  const explica = explicacion(ronda, l)
+  return {
+    question: `${etiqueta[l] ?? etiqueta.es}: ${lista}`,
+    correctAnswer: explica ? `${ronda.respuesta}. ${explica}` : String(ronda.respuesta),
+  }
+}
