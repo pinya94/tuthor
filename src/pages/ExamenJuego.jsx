@@ -6,6 +6,7 @@ import { useLang } from '../context/LangContext'
 import { saveActivity } from '../lib/activity'
 import PageMeta from '../components/PageMeta'
 import QuizSchema from '../components/QuizSchema'
+import { skillsFor } from '../data/exerciseSkills'
 import CoinsAnimation from '../components/CoinsAnimation'
 
 // ── PANTALLA INTRO ─────────────────────────────────────────────────────────
@@ -320,6 +321,7 @@ export default function ExamenJuego() {
     description={en ? 'Guess the year of historical events. Instant feedback and scoring.' : 'Adivina el año de los eventos históricos. Feedback y puntuación inmediata.'}
     path="/examen/historia" lang={lang} />
   const quizSchema = <QuizSchema
+    teaches={skillsFor('tuthor-time', lang)}
     name={en ? `History Exam — ${examen?.titulo || 'History'}` : `Examen Historia — ${examen?.titulo || 'Historia'}`}
     description={en ? 'Guess the year of historical events. Instant feedback.' : 'Adivina el año de los eventos históricos.'}
     path="/examen/historia" lang={lang}

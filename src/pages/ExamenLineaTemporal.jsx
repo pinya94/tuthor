@@ -6,6 +6,7 @@ import { useLang } from '../context/LangContext'
 import { saveActivity } from '../lib/activity'
 import PageMeta from '../components/PageMeta'
 import QuizSchema from '../components/QuizSchema'
+import { skillsFor } from '../data/exerciseSkills'
 import CoinsAnimation from '../components/CoinsAnimation'
 
 const MAX_LIVES_PRIMARIA = 5
@@ -208,6 +209,7 @@ export default function ExamenLineaTemporal() {
     description={en ? 'Sort historical events chronologically. Interactive timeline exam on Tuthor.' : 'Ordena los eventos históricos cronológicamente. Examen de línea del tiempo interactivo en Tuthor.'}
     path="/examen/linea-temporal" lang={lang} />
   const quizSchema = <QuizSchema
+    teaches={skillsFor('linea-temporal', lang)}
     name={en ? 'Timeline Exam — History' : 'Examen Línea del Tiempo — Historia'}
     description={en ? 'Sort historical events chronologically. Interactive timeline exam.' : 'Ordena los eventos históricos cronológicamente. Examen interactivo.'}
     path="/examen/linea-temporal" lang={lang}

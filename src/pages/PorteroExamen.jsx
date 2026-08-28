@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import PageMeta from '../components/PageMeta'
 import QuizSchema from '../components/QuizSchema'
+import { skillsFor } from '../data/exerciseSkills'
 import { useAuth } from '../context/AuthContext'
 import { saveActivity } from '../lib/activity'
 import CoinsAnimation from '../components/CoinsAnimation'
@@ -348,6 +349,7 @@ export default function PorteroExamen() {
 
   const pageMeta = <PageMeta title={metaTitle} description={metaDesc} path="/examen/portero" lang={lang} />
   const quizSchema = <QuizSchema
+    teaches={skillsFor('portero', lang)}
     name={metaTitle} description={metaDesc} path="/examen/portero" lang={lang}
     subject={T('Funciones matemáticas', 'Mathematical Functions', 'Funcions matemàtiques')}
     level="secondary" />

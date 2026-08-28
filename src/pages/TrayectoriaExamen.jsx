@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import PageMeta from '../components/PageMeta'
 import QuizSchema from '../components/QuizSchema'
+import { skillsFor } from '../data/exerciseSkills'
 import { useAuth } from '../context/AuthContext'
 import { saveActivity } from '../lib/activity'
 import CoinsAnimation from '../components/CoinsAnimation'
@@ -303,6 +304,7 @@ export default function TrayectoriaExamen() {
     : 'Examen de trayectoria: elige qué función mete el balón. 10 preguntas sobre rectas, parábolas y funciones a trozos. Sin tiempo.'
   const pageMeta = <PageMeta title={metaTitle} description={metaDesc} path="/examen/trayectoria" lang={lang} />
   const quizSchema = <QuizSchema
+    teaches={skillsFor('trayectoria', lang)}
     name={metaTitle} description={metaDesc} path="/examen/trayectoria" lang={lang}
     subject={l === 'en' ? 'Mathematical Functions' : l === 'ca' ? 'Funcions matemàtiques' : 'Funciones matemáticas'}
     level="secondary" />

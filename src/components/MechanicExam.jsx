@@ -24,6 +24,7 @@ import CoinsAnimation from './CoinsAnimation'
 import SupportBlock from './SupportBlock'
 import PageMeta from './PageMeta'
 import QuizSchema from './QuizSchema'
+import { skillsFor } from '../data/exerciseSkills'
 
 const TOTAL = 10
 // Rondas de ejemplo por nivel que se publican en el JSON-LD. Con 3 niveles
@@ -233,7 +234,18 @@ export default function MechanicExam({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [l, metaPath])
 
-  const quizSchema = <QuizSchema name={tr(metaTitle, l)} description={tr(metaDesc, l)} path={metaPath} lang={lang} subject={subjectSchema} level="secondary" questions={schemaQuestions} />
+  // Qué se practica con este ejercicio. El id del juego sale de backGamePath
+  // ("/juegos/portero" → "portero"), que estas páginas ya declaran: no hace
+  // falta un dato nuevo ni un mapa de equivalencias aparte.
+  //
+  // Importa sobre todo en los exámenes cuya ronda es un DIBUJO (portero,
+  // trayectoria, geomapa…): ahí no se pueden publicar preguntas sin que
+  // pierdan el sentido fuera de su gráfico, así que esto es lo único honesto
+  // que se puede declarar — y es además como se busca ("ejercicios para
+  // practicar razonamiento espacial").
+  const teaches = skillsFor(backGamePath?.split('/').filter(Boolean).pop(), l)
+
+  const quizSchema = <QuizSchema name={tr(metaTitle, l)} description={tr(metaDesc, l)} path={metaPath} lang={lang} subject={subjectSchema} level="secondary" questions={schemaQuestions} teaches={teaches} />
 
   if (screen === 'intro') return <>{pageMeta}{quizSchema}<Intro badge={badge} title={title} sub={sub} levels={levels} onSelect={startExam} backGamePath={backGamePath} backLabel={backLabel} l={l} /></>
   if (screen === 'end') return (

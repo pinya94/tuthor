@@ -6,6 +6,7 @@ import { saveActivity } from '../lib/activity'
 import { ELEMENTOS, TIPOS } from '../data/tablaperiodica'
 import PageMeta from '../components/PageMeta'
 import QuizSchema from '../components/QuizSchema'
+import { skillsFor } from '../data/exerciseSkills'
 
 const TOTAL = 10
 const MAX_ERRORS = 2
@@ -383,6 +384,7 @@ export default function TablaPeriodicaExamen() {
     description={en ? 'Identify elements by symbol, name or properties. Interactive periodic table exam on Tuthor.' : ca ? 'Identifica elements per símbols, nom o propietats. Examen interactiu de la taula periòdica.' : 'Identifica elementos por símbolo, nombre o propiedades. Examen interactivo de la tabla periódica.'}
     path="/examen/tabla-periodica" lang={lang} />
   const quizSchema = <QuizSchema
+    teaches={skillsFor('encuentra-elemento', lang)}
     name={en ? 'Periodic Table Exam' : ca ? 'Examen Taula Periòdica' : 'Examen Tabla Periódica'}
     description={en ? 'Identify elements by symbol, name or properties. Interactive periodic table exam on Tuthor.' : ca ? 'Identifica elements per símbols, nom o propietats.' : 'Identifica elementos por símbolo, nombre o propiedades en la tabla periódica.'}
     path="/examen/tabla-periodica" lang={lang}

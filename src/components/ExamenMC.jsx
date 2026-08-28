@@ -17,6 +17,7 @@ import CoinsAnimation from './CoinsAnimation'
 import SupportBlock from './SupportBlock'
 import PageMeta from './PageMeta'
 import QuizSchema from './QuizSchema'
+import { skillsFor } from '../data/exerciseSkills'
 import AuthModal from './AuthModal'
 
 const TOTAL      = 10
@@ -156,13 +157,20 @@ export default function ExamenMC({ titulo, emoji, nivelInfo, backFallback, gameI
     })
   }, [nivelInfo, lang])
 
+  // Qué se practica (schema.org `teaches`). El id de examen suele coincidir
+  // con el del juego; cuando lleva el sufijo "-test" se prueba también sin él
+  // ("analiza-frases-test" → "analiza-frases"). Si no hay ficha, no se
+  // declara nada: mejor omitir la propiedad que inventarse la habilidad.
+  const teaches = skillsFor(gameId, lang) ?? skillsFor(gameId.replace(/-test$/, ''), lang)
+
   const quizSchema = <QuizSchema
     name={metaTitle}
     description={metaDesc}
     path={`/examen/${gameId}`}
     lang={lang}
     subject={tituloStr}
-    questions={schemaQuestions} />
+    questions={schemaQuestions}
+    teaches={teaches} />
 
   function resetQ() {
     setErrores(0); setFeedback(null)
