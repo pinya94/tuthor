@@ -15,7 +15,7 @@
  *   isCorrect     (round, answer) => boolean
  *   renderQuestion ({ round, phase, answer, onAnswer }) => JSX  (dibuja la mecánica + input + feedback)
  */
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import { useAuth } from '../context/AuthContext'
@@ -26,6 +26,9 @@ import PageMeta from './PageMeta'
 import QuizSchema from './QuizSchema'
 
 const TOTAL = 10
+// Rondas de ejemplo por nivel que se publican en el JSON-LD. Con 3 niveles
+// típicos salen ~18 preguntas por examen, dentro del tope de QuizSchema.
+const SCHEMA_SAMPLES_PER_LEVEL = 6
 
 function tr(obj, l) { return obj?.[l] ?? obj?.es ?? '' }
 
@@ -145,6 +148,7 @@ function ExamEnd({ score, results, onRetry, backGamePath, playLabel, emoji, l })
 export default function MechanicExam({
   gameId, emoji, badge, title, sub, metaTitle, metaDesc, metaPath, subjectSchema,
   backGamePath, backLabel, playLabel, levels, genRound, isCorrect, renderQuestion,
+  schemaQuestion,
 }) {
   const { lang } = useLang()
   const { user } = useAuth()
@@ -199,7 +203,37 @@ export default function MechanicExam({
   }
 
   const pageMeta = <PageMeta title={tr(metaTitle, l)} description={tr(metaDesc, l)} path={metaPath} lang={lang} />
-  const quizSchema = <QuizSchema name={tr(metaTitle, l)} description={tr(metaDesc, l)} path={metaPath} lang={lang} subject={subjectSchema} level="secondary" />
+  // Preguntas de ejemplo para el JSON-LD. Estos exámenes no tienen banco de
+  // preguntas: cada ronda la GENERA genRound(), así que no hay nada que
+  // publicar tal cual. Se generan unas cuantas rondas aquí y cada examen las
+  // traduce a texto con su propio `schemaQuestion(round, lang)` — porque solo
+  // él sabe qué es una ronda suya (una frase que analizar, una balanza, un
+  // punto en un plano).
+  //
+  // Sin `schemaQuestion` no se publica NADA, a propósito: mejor un examen sin
+  // preguntas en el schema que un schema con preguntas inventadas o con un
+  // texto que no se entiende fuera de su dibujo.
+  //
+  // Semilla estable no: genRound() es aleatorio y cada build publicaría
+  // ejemplos distintos para la misma URL. Es asumible —son ejemplos
+  // representativos, no un temario cerrado— y a cambio Google ve variedad
+  // real del ejercicio en vez de las mismas diez frases siempre.
+  const schemaQuestions = useMemo(() => {
+    if (typeof schemaQuestion !== 'function' || !levels?.length) return undefined
+    const out = []
+    for (const lv of levels) {
+      for (let i = 0; i < SCHEMA_SAMPLES_PER_LEVEL; i++) {
+        try {
+          const q = schemaQuestion(genRound(lv.difficulty ?? lv.key ?? lv), l)
+          if (q?.question && q?.correctAnswer) out.push(q)
+        } catch { /* una ronda que no se puede describir no rompe la página */ }
+      }
+    }
+    return out.length ? out : undefined
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [l, metaPath])
+
+  const quizSchema = <QuizSchema name={tr(metaTitle, l)} description={tr(metaDesc, l)} path={metaPath} lang={lang} subject={subjectSchema} level="secondary" questions={schemaQuestions} />
 
   if (screen === 'intro') return <>{pageMeta}{quizSchema}<Intro badge={badge} title={title} sub={sub} levels={levels} onSelect={startExam} backGamePath={backGamePath} backLabel={backLabel} l={l} /></>
   if (screen === 'end') return (

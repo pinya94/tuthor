@@ -52,6 +52,26 @@ export default function FrasesExamenBase({ gameId, filter = null, levels = LEVEL
       genRound={level => genRound({ lang: sLang, level, filter })}
       isCorrect={(round, ans) => sameSet(ans, round.indices)}
       renderQuestion={props => <Question key={props.qIndex} {...props} />}
+      // Traduce una ronda a texto para el JSON-LD (ver MechanicExam). Aquí sí
+      // hay contenido que publicar aunque las rondas se generen: la frase, qué
+      // hay que localizar en ella, las palabras correctas y el porqué. Es
+      // exactamente lo que alguien busca cuando escribe "cómo identificar los
+      // adjetivos en una frase", y hasta ahora no salía en el HTML.
+      schemaQuestion={(round, l) => {
+        const pide    = round.label?.[l] ?? round.label?.es
+        const frase   = round.tokens?.join(' ')
+        const acierto = round.indices?.map(i => round.tokens[i]).join(', ')
+        if (!pide || !frase || !acierto) return null
+        const explica = round.explica?.[l] ?? round.explica?.es
+        return {
+          question: l === 'en'
+            ? `In the sentence "${frase}", select ${pide}.`
+            : l === 'ca'
+            ? `A la frase "${frase}", selecciona ${pide}.`
+            : `En la frase "${frase}", selecciona ${pide}.`,
+          correctAnswer: explica ? `${acierto}. ${explica}` : acierto,
+        }
+      }}
     />
   )
 }
