@@ -475,12 +475,20 @@ export default function Landing() {
   // aquí — se juega sin sesión y el registro se pide donde tiene sentido
   // pedirlo, al querer guardar la puntuación (ver GameResultFooter.jsx),
   // no como peaje de entrada. /juegos no requiere sesión (paidRoutes.js).
-  // Siempre a /app, con cuenta o sin ella. Antes mandaba a /juegos a quien no
-  // tenía sesión (por quitar fricción) y eso dejaba al visitante metido en un
-  // listado de juegos sin ver el resto del sitio. /app es el punto desde el
-  // que se va libremente a Estudiar, Juegos o la Pregunta Diaria, y ahí
-  // dentro se le invita a registrarse en vez de exigírselo en la puerta.
+  // Al RETO DIARIO, no a un catálogo. Es la única pantalla del sitio que no
+  // exige elegir nada: hay 34 juegos y 110 exámenes, y pedirle a alguien que
+  // acaba de llegar que elija entre ellos —y encima la dificultad, en 21 de
+  // los 32 juegos— es parálisis, no libertad. El reto de hoy es uno, es corto
+  // y se juega en un clic; al terminarlo, el propio reto ofrece seguir con un
+  // juego relacionado y guardar la racha (ver PreguntaDiaria.jsx).
   function startFree() {
+    navigate(localPath('/diaria'))
+  }
+
+  // Para los CTA que van DESPUÉS del reto ya jugado (el de media página, que
+  // vive justo debajo del reto incrustado): mandarlos otra vez al reto solo
+  // les enseñaría "ya lo hiciste hoy". Ahí toca abrir el resto del sitio.
+  function explore() {
     navigate(localPath('/app'))
   }
 
@@ -562,10 +570,10 @@ export default function Landing() {
             className="w-full rounded-2xl bg-violet-600 px-8 py-6 font-black text-white shadow-2xl shadow-violet-300/70 transition-all hover:scale-[1.02] hover:bg-violet-500 sm:w-auto sm:px-16 sm:py-8"
           >
             <span className="block text-2xl leading-tight sm:text-4xl">
-              {tr({ es: 'Prueba gratis', en: 'Try it free', ca: 'Prova-ho gratis' })}
+              {tr({ es: 'Juega el reto de hoy', en: "Play today's challenge", ca: 'Juga el repte d\'avui' })}
             </span>
             <span className="mt-1 block text-sm font-bold text-violet-200 sm:text-base">
-              {tr({ es: 'Sin registro · Sin tarjeta', en: 'No sign-up · No card', ca: 'Sense registre · Sense targeta' })}
+              {tr({ es: 'Gratis · Sin registro · Un minuto', en: 'Free · No sign-up · One minute', ca: 'Gratis · Sense registre · Un minut' })}
             </span>
           </button>
 
@@ -772,12 +780,15 @@ export default function Landing() {
             visible pero sin competir con el "gratis", que es lo que hace
             entrar a la mayoría. */}
         <div className="mt-14 px-5 text-center">
+          {/* Este va a `explore` y no a `startFree`: está justo debajo del
+              reto de hoy ya jugable, así que mandarlo al reto otra vez le
+              enseñaría "ya lo hiciste hoy". */}
           <button
-            onClick={startFree}
+            onClick={explore}
             className="w-full rounded-2xl bg-white px-8 py-6 font-black text-violet-700 shadow-2xl shadow-violet-900/40 transition-all hover:scale-[1.02] hover:bg-violet-50 sm:w-auto sm:px-16 sm:py-8"
           >
             <span className="block text-2xl leading-tight sm:text-4xl">
-              {tr({ es: 'Prueba gratis', en: 'Try it free', ca: 'Prova-ho gratis' })}
+              {tr({ es: 'Ver todos los juegos', en: 'See all the games', ca: 'Veure tots els jocs' })}
             </span>
             <span className="mt-1 block text-sm font-bold text-violet-500 sm:text-base">
               {tr({ es: 'Sin registro · Sin tarjeta', en: 'No sign-up · No card', ca: 'Sense registre · Sense targeta' })}
@@ -785,9 +796,9 @@ export default function Landing() {
           </button>
           <p className="mt-4 text-sm text-slate-400">
             {tr({
-              es: 'Todos los juegos y todos los exámenes, gratis.',
-              en: 'All games and all quizzes, free.',
-              ca: 'Tots els jocs i tots els exàmens, gratis.',
+              es: '34 juegos y 110 exámenes, todos gratis.',
+              en: '34 games and 110 quizzes, all free.',
+              ca: '34 jocs i 110 exàmens, tots gratis.',
             })}
           </p>
 
@@ -919,10 +930,10 @@ export default function Landing() {
           </p>
           <button onClick={startFree} className="mt-7 w-full rounded-2xl bg-white px-8 py-6 font-black text-violet-700 shadow-2xl shadow-violet-900/30 transition-all hover:scale-[1.02] hover:bg-violet-50 sm:w-auto sm:px-14">
             <span className="block text-2xl leading-tight sm:text-3xl">
-              {tr({ es: 'Prueba gratis', en: 'Try it free', ca: 'Prova-ho gratis' })}
+              {tr({ es: 'Juega el reto de hoy', en: "Play today's challenge", ca: 'Juga el repte d\'avui' })}
             </span>
             <span className="mt-1 block text-sm font-bold text-violet-500">
-              {tr({ es: 'Sin registro · Sin tarjeta', en: 'No sign-up · No card', ca: 'Sense registre · Sense targeta' })}
+              {tr({ es: 'Gratis · Sin registro · Un minuto', en: 'Free · No sign-up · One minute', ca: 'Gratis · Sense registre · Un minut' })}
             </span>
           </button>
         </div>

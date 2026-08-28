@@ -1,11 +1,17 @@
+// El reto diario va PRIMERO a propósito. Es la única entrada del sitio que no
+// obliga a elegir nada: hay 34 juegos y 110 exámenes, y para quien acaba de
+// llegar ese catálogo es parálisis, no libertad. El reto de hoy es uno solo,
+// dura un minuto y al acabar ya propone seguir con un juego relacionado.
+// Ponerlo el tercero lo escondía justo detrás de las dos pantallas que sí
+// exigen decidir.
 export const MAIN_CARDS = [
   {
-    id: 'estudiar',
-    title: 'Estudiar', titleEn: 'Study', titleCa: 'Estudiar',
-    subtitle: 'Temarios y tests por nivel', subtitleEn: 'Topics & tests by level', subtitleCa: 'Temaris i tests per nivell',
-    image: '/estudio.webp',
-    path: '/estudiar',
-    accent: 'from-blue-600/80 to-indigo-900/60',
+    id: 'diaria',
+    title: 'Reto de hoy', titleEn: "Today's challenge", titleCa: "Repte d'avui",
+    subtitle: 'Un minuto · Mantén tu racha', subtitleEn: 'One minute · Keep your streak', subtitleCa: 'Un minut · Mantén la ratxa',
+    image: '/racha.webp',
+    path: '/diaria',
+    accent: 'from-orange-500/80 to-rose-900/60',
   },
   {
     id: 'juegos',
@@ -16,12 +22,12 @@ export const MAIN_CARDS = [
     accent: 'from-violet-600/80 to-purple-900/60',
   },
   {
-    id: 'diaria',
-    title: 'Pregunta Diaria', titleEn: 'Daily Challenge', titleCa: 'Pregunta Diària',
-    subtitle: 'Reto de hoy · Mantén tu racha', subtitleEn: "Today's challenge · Keep your streak", subtitleCa: 'Repte d\'avui · Mantén la ratxa',
-    image: '/racha.webp',
-    path: '/diaria',
-    accent: 'from-orange-500/80 to-rose-900/60',
+    id: 'estudiar',
+    title: 'Estudiar', titleEn: 'Study', titleCa: 'Estudiar',
+    subtitle: 'Temarios y tests por nivel', subtitleEn: 'Topics & tests by level', subtitleCa: 'Temaris i tests per nivell',
+    image: '/estudio.webp',
+    path: '/estudiar',
+    accent: 'from-blue-600/80 to-indigo-900/60',
   },
 ]
 

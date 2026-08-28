@@ -343,7 +343,9 @@ export default function Home() {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           {MAIN_CARDS.map(card => (
             <div key={card.id} className="aspect-square sm:aspect-[4/5]">
-              <HeroCard card={card} onClick={() => navigate(localPath(card.path))} priority={card.id === 'estudiar'} />
+              {/* priority en la primera tarjeta, que ahora es el reto diario:
+                  es la imagen que entra en pantalla antes que ninguna. */}
+              <HeroCard card={card} onClick={() => navigate(localPath(card.path))} priority={card.id === 'diaria'} />
             </div>
           ))}
         </div>
