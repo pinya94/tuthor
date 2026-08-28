@@ -34,7 +34,7 @@ import { chromium } from 'playwright'
 import sparticuzChromium from '@sparticuz/chromium'
 import { preview } from 'vite'
 
-import { resolveMeta } from './seoMeta.mjs'
+import { resolveMeta, BASE_URL } from './seoMeta.mjs'
 // requiresAccess/normalizePath ya NO se usan para excluir URLs (ver el
 // comentario junto a `urls` más abajo) — se dejan de importar aquí; el
 // snippet de reversión de emergencia que documenta ese comentario los
@@ -72,6 +72,16 @@ const META_TIMEOUT = 3_000
 // memoria del build (el navegador headless llegó a caerse a mitad de
 // proceso) y generaba impresiones falsas contra la propia cuenta de AdSense.
 const BLOCKED_HOSTS = /doubleclick\.net|googlesyndication\.com|googleadservices\.com|google-analytics\.com|googletagmanager\.com/
+
+// El shell limpio de Vite, capturado ANTES de que el volcado sobrescriba
+// dist/index.html con la landing ya renderizada. Se usa para las URLs que no
+// se consigan renderizar (ver "meta de emergencia" al final): sin él, esas
+// URLs las sirve Vercel con el fallback del SPA —que es justo ese
+// dist/index.html ya pisado por la landing— y un crawler recibe el título, la
+// descripción y, lo peor, el <link rel="canonical"> de la PORTADA. Es decir,
+// 19 URLs distintas diciéndole a Google "mi versión buena es la home":
+// contenido duplicado, no solo contenido pobre. Comprobado en producción.
+const PRISTINE_SHELL = readFileSync(join(ROOT, 'dist', 'index.html'), 'utf8')
 
 const sitemap = readFileSync(join(ROOT, 'public', 'sitemap.xml'), 'utf8')
 const allUrls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m => new URL(m[1]).pathname)
@@ -294,12 +304,66 @@ await Promise.all(Array.from({ length: Math.min(CONCURRENCY, urls.length) }, wor
 // el de la home). Para Google eso es la definición práctica de "contenido
 // duplicado". Con el volcado tras el Promise.all, ya no hay render en marcha
 // que pueda verse afectado.
-for (const { urlPath, html } of rendered) {
+function writePage(urlPath, html) {
   const clean = urlPath.replace(/\/$/, '')
   const outDir = clean ? join(ROOT, 'dist', ...clean.split('/').filter(Boolean)) : join(ROOT, 'dist')
   mkdirSync(outDir, { recursive: true })
   writeFileSync(join(outDir, 'index.html'), html, 'utf8')
+}
+
+for (const { urlPath, html } of rendered) {
+  writePage(urlPath, html)
   written++
+}
+
+// ── Meta de emergencia para las URLs que no se pudieron renderizar ───────────
+// No sustituye al prerender: estas páginas siguen sin contenido en el HTML y
+// el cuerpo lo pinta React en el cliente. Lo que arregla es algo peor que la
+// falta de contenido — que hasta ahora se servían con la meta de la PORTADA,
+// canonical incluido (ver PRISTINE_SHELL arriba). Con esto, cada una declara
+// su propio título, su descripción y su propio canonical, así que dejan de
+// ser 19 duplicados de la home a ojos de Google.
+const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
+
+function shellWithMeta(urlPath) {
+  const lang = urlPath.startsWith('/ca') ? 'ca' : urlPath.startsWith('/en') ? 'en' : 'es'
+  const neutral = urlPath.replace(/^\/(en|ca)(?=\/|$)/, '').replace(/\/$/, '') || '/'
+  const meta = resolveMeta(neutral, lang)
+  if (!meta) return null
+
+  const abs = p => BASE_URL + (p === '/' ? '' : p)
+  const canonical = abs(urlPath.replace(/\/$/, '') || '/')
+  const esUrl = abs(neutral)
+  const enUrl = abs(neutral === '/' ? '/en' : `/en${neutral}`)
+  const title = `Tuthor · ${meta.title}`
+
+  const tags = [
+    `<meta name="description" content="${esc(meta.desc)}">`,
+    `<meta property="og:title" content="${esc(title)}">`,
+    `<meta property="og:description" content="${esc(meta.desc)}">`,
+    `<meta property="og:url" content="${esc(canonical)}">`,
+    `<meta property="og:type" content="website">`,
+    `<meta property="og:image" content="${esc(BASE_URL)}/og-image.png">`,
+    `<link rel="canonical" href="${esc(canonical)}">`,
+    `<link rel="alternate" hreflang="es" href="${esc(esUrl)}">`,
+    `<link rel="alternate" hreflang="en" href="${esc(enUrl)}">`,
+    `<link rel="alternate" hreflang="x-default" href="${esc(esUrl)}">`,
+  ].join('')
+
+  return PRISTINE_SHELL
+    .replace(/<title>[\s\S]*?<\/title>/, `<title>${esc(title)}</title>`)
+    .replace('</head>', `${tags}</head>`)
+}
+
+let patched = 0
+for (const { urlPath } of failed) {
+  const html = shellWithMeta(urlPath)
+  if (!html) continue
+  writePage(urlPath, html)
+  patched++
+}
+if (patched) {
+  console.log(`[prerender] ${patched} URLs sin render reciben al menos su meta propia (canonical incluido)`)
 }
 
 // A partir de aquí solo queda limpieza (cerrar navegador y servidor). Los
