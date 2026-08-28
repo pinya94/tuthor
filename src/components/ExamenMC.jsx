@@ -125,16 +125,36 @@ export default function ExamenMC({ titulo, emoji, nivelInfo, backFallback, gameI
     return shuffle(nivelInfo[nivelSel].pool()).slice(0, TOTAL)
   }, [nivelSel])
 
-  const schemaQuestions = pool.length > 0 ? pool.map(q => {
-    const pregunta  = get(q.pregunta, lang)
-    const correcta  = correctText(q, lang)
-    const todas     = get(q.opciones, lang)
-    return {
-      question:      pregunta,
-      correctAnswer: correcta,
-      wrongAnswers:  todas.filter(o => o !== correcta),
-    }
-  }) : undefined
+  // Las preguntas del JSON-LD salen del temario COMPLETO, no de `pool`.
+  //
+  // Antes salían de `pool`, que está vacío hasta que el usuario elige nivel
+  // — y un crawler no elige nada. Resultado: las ~74 páginas de examen que
+  // usan este shell se servían anunciando "10 preguntas" con CERO preguntas
+  // dentro (comprobado en el HTML de dist: el cuerpo entero era "Selecciona
+  // un nivel para empezar"). Ni Google ni los rastreadores de IA ejecutan
+  // JavaScript, así que no había literalmente nada que indexar ni que citar:
+  // por eso el sitio no salía como fuente de ejercicios.
+  //
+  // Sin barajar y sin cortar a TOTAL: el schema no es una partida, es el
+  // catálogo de lo que hay. Barajarlo haría que cada build publicara un
+  // orden distinto para la misma URL, que es justo lo que no conviene para
+  // indexar. El tope de 10 lo aplica QuizSchema.
+  //
+  // Va en useMemo y no en el cuerpo porque nivelInfo[].pool() lee los
+  // ficheros de datos y monta un array por nivel en cada render.
+  const schemaQuestions = useMemo(() => {
+    const todasLasPreguntas = Object.values(nivelInfo).flatMap(n => n.pool())
+    if (!todasLasPreguntas.length) return undefined
+    return todasLasPreguntas.map(q => {
+      const correcta = correctText(q, lang)
+      const todas    = get(q.opciones, lang)
+      return {
+        question:      get(q.pregunta, lang),
+        correctAnswer: correcta,
+        wrongAnswers:  todas.filter(o => o !== correcta),
+      }
+    })
+  }, [nivelInfo, lang])
 
   const quizSchema = <QuizSchema
     name={metaTitle}

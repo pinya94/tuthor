@@ -29,9 +29,23 @@ export default function QuizSchema({ name, description, path, lang = 'es', subje
     ? 'https://schema.org/HighSchool'
     : 'https://schema.org/SecondaryEducation'
 
-  const hasPart = questions?.slice(0, 10).map(q => ({
+  // Cuántas preguntas se publican en el JSON-LD. Antes eran 10 y ahora 30:
+  // decisión explícita del usuario ("publica muchas, no me preocupa que lo
+  // encuentren en Google, porque Tuthor luego sirve para entrenar"). El tope
+  // no es pudor, es peso de página — cada pregunta con sus cuatro opciones
+  // son ~300 bytes en el HTML de TODAS las visitas, y pasado cierto punto se
+  // paga en tiempo de carga sin ganar nada en indexación.
+  const MAX_SCHEMA_QUESTIONS = 30
+
+  // eduQuestionType + learningResourceType: es lo que pide Google para los
+  // resultados enriquecidos de "problemas de práctica" (education Q&A). Sin
+  // ellos el bloque se indexa como texto pero no opta a ese formato.
+  const hasPart = questions?.slice(0, MAX_SCHEMA_QUESTIONS).map(q => ({
     '@type': 'Question',
+    'eduQuestionType': 'Multiple choice',
+    'learningResourceType': 'Practice problem',
     'name': q.question,
+    'text': q.question,
     'acceptedAnswer': {
       '@type': 'Answer',
       'text': q.correctAnswer,
@@ -51,7 +65,11 @@ export default function QuizSchema({ name, description, path, lang = 'es', subje
     'isAccessibleForFree': isAccessibleForFree,
     'learningResourceType': kind === 'Quiz' ? 'Quiz' : undefined,
     'educationalLevel': { '@type': 'DefinedTerm', 'name': eduLevel },
-    'numberOfQuestions': kind === 'Quiz' ? (questions?.length ?? 10) : undefined,
+    // El número REAL de preguntas del temario, no el de las publicadas ni un
+    // 10 inventado: antes, sin `questions`, declaraba 10 preguntas en páginas
+    // que no traían ninguna. Declarar algo que el propio HTML desmiente es
+    // justo lo que hace desconfiar a un validador de datos estructurados.
+    'numberOfQuestions': kind === 'Quiz' ? questions?.length : undefined,
     'about': subject ? { '@type': 'Thing', 'name': subject } : undefined,
     'provider': {
       '@type': 'Organization',
