@@ -13,13 +13,14 @@
 // Registro de actividad: type 'examen' (como CicloOrdenExamen), no 'juego'
 // — no necesita entrada en games.js. Las monedas son un premio modesto
 // local, no la fórmula de computeCoins.
-import { useState, useRef } from 'react'
+import { useState, useRef, useMemo } from 'react'
 import { useNavigate, useParams, useLocation } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import { useAuth } from '../context/AuthContext'
 import { saveActivity } from '../lib/activity'
 import CoinsAnimation, { CoinsEarnedBadge } from '../components/CoinsAnimation'
 import SEOHead from '../components/SEOHead'
+import QuizSchema from '../components/QuizSchema'
 import { TEMAS_DIAGNOSTICO, getTemaDiagnostico } from '../data/diagnostico'
 import { disciplinaDeTema } from '../data/ciencias'
 
@@ -313,15 +314,53 @@ export default function Diagnostico() {
     }, 700)
   }
 
+  // Preguntas para el JSON-LD a partir de las rondas del tema. Cada ronda ya
+  // ES una pregunta con respuesta: las pistas describen al candidato y
+  // `respuesta` dice cuál es. Encadenadas se leen como el enunciado que
+  // alguien escribiría en un buscador ("qué órgano produce bilis"), y el
+  // dato_extra aporta el porqué. Nada de esto llegaba al HTML.
+  const schemaQuestions = useMemo(() => {
+    const rondas = tema?.rondas ?? []
+    if (!rondas.length) return undefined
+    const nombreDe = id => {
+      const c = tema.candidatos?.find(x => x.id === id)
+      return c ? tr(c.nombre) : null
+    }
+    return rondas
+      .map(r => {
+        const nombre = nombreDe(r.respuesta)
+        const pistas = (r.pistas ?? []).map(p => tr(p)).filter(Boolean)
+        if (!nombre || !pistas.length) return null
+        const extra = r.dato_extra ? tr(r.dato_extra) : ''
+        return {
+          question: `${tr(tema.titulo)}: ${pistas.join(' ')}`,
+          correctAnswer: extra ? `${nombre}. ${extra}` : nombre,
+        }
+      })
+      .filter(Boolean)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [temaId, lang])
+
   // Meta SEO del modo directo (/examen/diagnostico/:diagId): en ese modo no se
   // pasa por la pantalla de selección, así que la inyectamos aquí.
   const directoMeta = directo && tema ? (
-    <SEOHead
-      title={tr({ es: `Diagnóstico de ${tr(tema.titulo)}`, en: `${tr(tema.titulo)} Diagnosis`, ca: `Diagnòstic de ${tr(tema.titulo)}` })}
-      description={tr({ es: `Repasa ${tr(tema.titulo)} por descarte: elimina candidatos con pistas científicas progresivas hasta dar con el correcto.`, en: `Revise ${tr(tema.titulo)} by elimination: rule out candidates with progressive science clues until you find the right one.`, ca: `Repassa ${tr(tema.titulo)} per descart: elimina candidats amb pistes científiques progressives fins a trobar el correcte.` })}
-      path={`/examen/diagnostico/${temaId}`}
-      lang={lang}
-    />
+    <>
+      <SEOHead
+        title={tr({ es: `Diagnóstico de ${tr(tema.titulo)}`, en: `${tr(tema.titulo)} Diagnosis`, ca: `Diagnòstic de ${tr(tema.titulo)}` })}
+        description={tr({ es: `Repasa ${tr(tema.titulo)} por descarte: elimina candidatos con pistas científicas progresivas hasta dar con el correcto.`, en: `Revise ${tr(tema.titulo)} by elimination: rule out candidates with progressive science clues until you find the right one.`, ca: `Repassa ${tr(tema.titulo)} per descart: elimina candidats amb pistes científiques progressives fins a trobar el correcte.` })}
+        path={`/examen/diagnostico/${temaId}`}
+        lang={lang}
+      />
+      <QuizSchema
+        name={tr({ es: `Diagnóstico de ${tr(tema.titulo)}`, en: `${tr(tema.titulo)} Diagnosis`, ca: `Diagnòstic de ${tr(tema.titulo)}` })}
+        description={tr(tema.titulo)}
+        path={`/examen/diagnostico/${temaId}`}
+        lang={lang}
+        subject={tr({ es: 'Ciencias', en: 'Science', ca: 'Ciències' })}
+        level="secondary"
+        questions={schemaQuestions}
+      />
+    </>
   ) : null
 
   // ── SEO + selector de tema ──────────────────────────────────────────────

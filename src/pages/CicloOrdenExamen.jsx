@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback, useEffect } from 'react'
+import { useState, useRef, useCallback, useEffect, useMemo } from 'react'
 import { useNavigate, useLocation, useParams } from 'react-router-dom'
 import { CICLOS, getPasos, getCorrectPosCiclo } from '../data/ciclosCientificos'
 import { useAuth } from '../context/AuthContext'
@@ -193,12 +193,48 @@ export default function CicloOrdenExamen() {
     title={tr({ es: `Examen de ${tituloStr}`, en: `${tituloStr} Exam`, ca: `Examen de ${tituloStr}` })}
     description={tr({ es: `Ordena los pasos de ${tituloStr} antes o después. ${descStr}`, en: `Sort the steps of ${tituloStr} before or after. ${descStr}`, ca: `Ordena els passos de ${tituloStr} abans o després. ${descStr}` })}
     path={`/examen/ciclo/${categoria}`} lang={lang} />
+  // Preguntas para el JSON-LD, construidas con los pasos del propio ciclo.
+  // Aquí el contenido ya existe y es bueno —cada paso trae nombre y
+  // descripción escritas a mano en tres idiomas— pero no llegaba al HTML: el
+  // cuerpo lo pinta React y ningún crawler ejecuta JavaScript, así que
+  // "las fases del ciclo del agua" no aparecían por ninguna parte.
+  //
+  // Dos tipos de pregunta, que son las dos formas en que se busca esto:
+  // el orden completo ("fases del ciclo del agua") y qué pasa en cada fase
+  // ("qué es la condensación").
+  const schemaQuestions = useMemo(() => {
+    const pasos = ciclo?.pasos ?? []
+    if (!pasos.length) return undefined
+    const nombres = pasos.map(p => tr(p.nombre))
+    const orden = {
+      question: tr({
+        es: `¿Cuál es el orden de las fases del ${tituloStr}?`,
+        en: `What is the order of the stages of the ${tituloStr}?`,
+        ca: `Quin és l'ordre de les fases del ${tituloStr}?`,
+      }),
+      correctAnswer: nombres.map((n, i) => `${i + 1}. ${n}`).join(' → '),
+    }
+    const porPaso = pasos
+      .filter(p => tr(p.descripcion))
+      .map(p => ({
+        question: tr({
+          es: `¿Qué ocurre en la fase de ${tr(p.nombre)} del ${tituloStr}?`,
+          en: `What happens during the ${tr(p.nombre)} stage of the ${tituloStr}?`,
+          ca: `Què passa en la fase de ${tr(p.nombre)} del ${tituloStr}?`,
+        }),
+        correctAnswer: tr(p.descripcion),
+      }))
+    return [orden, ...porPaso]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [categoria, lang])
+
   const quizSchema = <QuizSchema
     name={tr({ es: `Examen de ${tituloStr}`, en: `${tituloStr} Exam`, ca: `Examen de ${tituloStr}` })}
     description={descStr}
     path={`/examen/ciclo/${categoria}`} lang={lang}
     subject={tr({ es: 'Ciencias', en: 'Science', ca: 'Ciències' })}
-    level="secondary" />
+    level="secondary"
+    questions={schemaQuestions} />
 
   function startGame() {
     // La semilla es SIEMPRE el paso 1 real (nunca uno al azar): así la
