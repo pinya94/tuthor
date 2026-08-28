@@ -68,6 +68,28 @@ export default function BalanzaAlgebraicaExamen() {
       levels={LEVELS}
       genRound={genRound}
       isCorrect={(round, ans) => ans === 'ok'}
+      // Texto de la ronda para el JSON-LD (ver MechanicExam). Una ronda es
+      // {L,R} con m=coeficiente de x y k=término independiente, más la
+      // solución. Se reconstruye la ecuación tal cual se lee: "3x - 5 = 7".
+      schemaQuestion={(round, l) => {
+        const s = round?.start
+        if (!s || typeof round.solution !== 'number') return null
+        const lado = ({ m, k }) => {
+          const x = m === 0 ? '' : m === 1 ? 'x' : m === -1 ? '-x' : `${m}x`
+          if (!x) return String(k)
+          if (k === 0) return x
+          return `${x} ${k > 0 ? '+' : '−'} ${Math.abs(k)}`
+        }
+        const ecuacion = `${lado(s.L)} = ${lado(s.R)}`
+        return {
+          question: l === 'en'
+            ? `Solve for x: ${ecuacion}`
+            : l === 'ca'
+            ? `Resol l'equació: ${ecuacion}`
+            : `Resuelve la ecuación: ${ecuacion}`,
+          correctAnswer: `x = ${round.solution}`,
+        }
+      }}
       renderQuestion={({ round, phase, onAnswer, l, qIndex }) => (
         <Question key={qIndex} round={round} phase={phase} onAnswer={onAnswer} l={l} />
       )}

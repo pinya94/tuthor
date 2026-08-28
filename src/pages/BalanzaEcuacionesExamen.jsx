@@ -72,6 +72,24 @@ export default function BalanzaEcuacionesExamen() {
       levels={LEVELS}
       genRound={genRound}
       isCorrect={(round, ans) => isCorrectCoefs(round, ans)}
+      // Texto de la ronda para el JSON-LD (ver MechanicExam). "Ajustar
+      // ecuaciones químicas" es de lo más buscado del temario y hasta ahora
+      // esta página no publicaba ni una sola ecuación.
+      schemaQuestion={(round, l) => {
+        const lado = (miembros, desde) => miembros
+          .map((m, i) => `${round.answer[desde + i]} ${m.f}`)
+          .join(' + ')
+        const sinCoef = miembros => miembros.map(m => m.f).join(' + ')
+        if (!round?.left?.length || !round?.right?.length) return null
+        return {
+          question: l === 'en'
+            ? `Balance the chemical equation: ${sinCoef(round.left)} → ${sinCoef(round.right)}`
+            : l === 'ca'
+            ? `Ajusta l'equació química: ${sinCoef(round.left)} → ${sinCoef(round.right)}`
+            : `Ajusta la ecuación química: ${sinCoef(round.left)} → ${sinCoef(round.right)}`,
+          correctAnswer: `${lado(round.left, 0)} → ${lado(round.right, round.left.length)}`,
+        }
+      }}
       renderQuestion={({ round, phase, onAnswer, l, qIndex }) => (
         <Question key={qIndex} round={round} phase={phase} onAnswer={onAnswer} l={l} />
       )}
