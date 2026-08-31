@@ -236,6 +236,18 @@ export const TOPIC_CATALOG = {
       bv: examTema({ test: 'espanol-ortografia-bv-test' }),
     },
     formatos: {
+      // El juego mezcla clases de palabra, género y número: su sitio es el tema
+      // "Clases de Palabras" y no los temas sueltos, que prometerían más
+      // precisión de la que tiene. tracksTopic: false porque no guarda category
+      // (ver su saveActivity) — mismo criterio que Portadas y NumPath.
+      intruso: {
+        label: { es: 'El Intruso (juego)', en: 'The Odd One Out (game)', ca: "L'Intrús (joc)" },
+        emoji: '🔍',
+        game: 'intruso',
+        usesLevel: false,
+        tracksTopic: false,
+        temas: ['clases'],
+      },
       senalar: examFormato({ es: 'Señalar en la frase', en: 'Spot in the sentence', ca: 'Assenyalar a la frase' }, '🧐'),
       test: examFormato({ es: 'Tipo test', en: 'Multiple choice', ca: 'Tipus test' }, '📚'),
     },
@@ -339,11 +351,11 @@ export const TOPIC_CATALOG = {
       adverbs: examTema({ senalar: 'ingles-pos-adverbs-test' }),
       pronouns: examTema({ senalar: 'ingles-pos-pronouns-test' }),
       connectors: examTema({ senalar: 'ingles-pos-connectors-test' }),
-      'present-simple': examTema({ test: 'ingles-grammar-present-simple-test' }),
-      'past-simple': examTema({ test: 'ingles-grammar-past-simple-test' }),
-      'present-perfect': examTema({ test: 'ingles-grammar-present-perfect-test' }),
-      articles: examTema({ test: 'ingles-grammar-articles-test' }),
-      passive: examTema({ test: 'ingles-grammar-passive-test' }),
+      'present-simple': examTema({ test: 'ingles-grammar-present-simple-test', piezasExamen: 'ingles-piezas-present-simple-test' }),
+      'past-simple': examTema({ test: 'ingles-grammar-past-simple-test', piezasExamen: 'ingles-piezas-past-simple-test' }),
+      'present-perfect': examTema({ test: 'ingles-grammar-present-perfect-test', piezasExamen: 'ingles-piezas-present-perfect-test' }),
+      articles: examTema({ test: 'ingles-grammar-articles-test', piezasExamen: 'ingles-piezas-articles-test' }),
+      passive: examTema({ test: 'ingles-grammar-passive-test', piezasExamen: 'ingles-piezas-passive-test' }),
       // El orden de las palabras es un tema propio del temario, no un formato
       // de los demás: su examen mezcla adjetivos, adverbios y preguntas a
       // propósito, así que colgarlo de "Adjectives" o "Present Simple" daría
@@ -351,9 +363,26 @@ export const TOPIC_CATALOG = {
       'word-order': examTema({ ordenar: 'ordena-frase-test' }),
     },
     formatos: {
+      // Único formato por MECÁNICA de la materia: un solo juego para los cinco
+      // temas de gramática, que hasta ahora solo tenían examen tipo test. La
+      // página guarda category = tema, así que la tarea se completa sola.
+      piezas: {
+        label: { es: 'La Pieza que Falta (juego)', en: 'Missing Piece (game)', ca: 'La Peça que Falta (joc)' },
+        emoji: '🧩',
+        game: 'pieza-que-falta',
+        usesLevel: false,
+        tracksTopic: true,
+        // Las clases de palabra (nouns, verbs…) se quedan fuera: el juego va de
+        // formas verbales, artículos y pasiva, no de identificar categorías.
+        temas: ['present-simple', 'past-simple', 'present-perfect', 'articles', 'passive'],
+      },
       senalar: examFormato({ es: 'Señalar en la frase', en: 'Spot in the sentence', ca: 'Assenyalar a la frase' }, '🧐'),
       test: examFormato({ es: 'Tipo test', en: 'Multiple choice', ca: 'Tipus test' }, '📚'),
       ordenar: examFormato({ es: 'Ordenar la frase', en: 'Order the sentence', ca: 'Ordenar la frase' }, '🔤'),
+      // El mismo juego, en versión examen: 10 frases del tema, sin reloj y con
+      // nota. Es un formato aparte de `piezas` (el arcade) porque son dos
+      // cosas distintas de asignar: una entrena, la otra evalúa.
+      piezasExamen: examFormato({ es: 'Montar la frase (examen)', en: 'Build the sentence (exam)', ca: 'Muntar la frase (examen)' }, '🧩'),
     },
   },
 
@@ -364,17 +393,38 @@ export const TOPIC_CATALOG = {
       'finanzas-personales': examTema({ examen: 'finanzas-personales' }),
       'punto-equilibrio': examTema({ examen: 'punto-equilibrio' }),
     },
-    formatos: { examen: examFormato({ es: 'Examen', en: 'Exam', ca: 'Examen' }, '📝') },
+    formatos: {
+      // Spicy no lleva `temas`: con dos temas en la materia saldría también en
+      // Punto de Equilibrio, y el juego va de finanzas personales.
+      spicy: {
+        label: { es: 'Spicy (juego)', en: 'Spicy (game)', ca: 'Spicy (joc)' },
+        emoji: '🌶️', game: 'spicy', usesLevel: false, tracksTopic: false,
+        temas: ['finanzas-personales'],
+      },
+      examen: examFormato({ es: 'Examen', en: 'Exam', ca: 'Examen' }, '📝'),
+    },
   },
 
   musica: {
     temas: { musica: examTema({ examen: 'musica' }) },
-    formatos: { examen: examFormato({ es: 'Examen', en: 'Exam', ca: 'Examen' }, '📝') },
+    formatos: {
+      pentagrama: {
+        label: { es: 'Pentagrama Path (juego)', en: 'Pentagrama Path (game)', ca: 'Pentagrama Path (joc)' },
+        emoji: '🎼', game: 'pentagrama-path', usesLevel: false, tracksTopic: false,
+      },
+      examen: examFormato({ es: 'Examen', en: 'Exam', ca: 'Examen' }, '📝'),
+    },
   },
 
   'vida-practica': {
     temas: { 'primeros-auxilios': examTema({ examen: 'primeros-auxilios' }) },
-    formatos: { examen: examFormato({ es: 'Examen', en: 'Exam', ca: 'Examen' }, '📝') },
+    formatos: {
+      reaccion: {
+        label: { es: 'Reacción (juego)', en: 'Reaction (game)', ca: 'Reacció (joc)' },
+        emoji: '🚑', game: 'reaccion', usesLevel: false, tracksTopic: false,
+      },
+      examen: examFormato({ es: 'Examen', en: 'Exam', ca: 'Examen' }, '📝'),
+    },
   },
 }
 

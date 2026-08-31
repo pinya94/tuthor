@@ -110,6 +110,7 @@ const EspanolGramaticaTema   = lazy(() => import('./pages/EspanolGramaticaTema')
 const EspanolOrtografiaIndex = lazy(() => import('./pages/EspanolOrtografiaIndex'))
 const InglesIndex            = lazy(() => import('./pages/InglesIndex'))
 const InglesGrammarIndex     = lazy(() => import('./pages/InglesGrammarIndex'))
+const PiezaQueFalta          = lazy(() => import('./pages/PiezaQueFalta'))
 
 // Rutas de exámenes generadas desde el registro central (src/lib/exams.js).
 // Añadir un examen allí crea su ruta automáticamente.
@@ -166,6 +167,7 @@ function AppRoutes() {
       <Route path="examen/quimica/:tema/:formato" element={<ExamenTema materia="quimica" />} />
       <Route path="examen/biologia/:tema/:formato" element={<ExamenTema materia="biologia" />} />
       <Route path="examen/geologia/:tema/:formato" element={<ExamenTema materia="geologia" />} />
+      <Route path="juegos/pieza-que-falta" element={<PiezaQueFalta />} />
       <Route path="examen/ingles/:tema/:formato" element={<ExamenTema materia="ingles" />} />
       <Route path="examen/economia/:tema/:formato" element={<ExamenTema materia="economia" />} />
       <Route path="examen/musica/:tema/:formato" element={<ExamenTema materia="musica" />} />

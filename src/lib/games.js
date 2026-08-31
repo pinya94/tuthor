@@ -236,6 +236,14 @@ export const GAMES = {
     // aciertos × 10 puntos → hasta 200 monedas
     coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
   },
+  'pieza-que-falta': {
+    label: { es: 'La Pieza que Falta', en: 'Missing Piece', ca: 'La Peça que Falta' },
+    emoji: '🧩',
+    subject: 'ingles',
+    route: '/juegos/pieza-que-falta',
+    // aciertos × 10 puntos → hasta 200 monedas
+    coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
+  },
   'balanza-algebraica': {
     label: { es: 'Balanza Algebraica', en: 'Algebra Balance', ca: 'Balança Algebraica' },
     emoji: '⚖️',

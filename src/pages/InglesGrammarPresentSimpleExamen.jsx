@@ -7,5 +7,5 @@ const nivelInfo = {
 }
 
 export default function InglesGrammarPresentSimpleExamen() {
-  return <ExamenMC titulo={{ es: 'Present Simple', en: 'Present Simple', ca: 'Present Simple' }} emoji="✅" nivelInfo={nivelInfo} backFallback="/estudiar/idiomas/ingles/grammar" gameId="ingles-grammar-present-simple-test" />
+  return <ExamenMC titulo={{ es: 'Present Simple', en: 'Present Simple', ca: 'Present Simple' }} emoji="✅" nivelInfo={nivelInfo} backFallback="/estudiar/idiomas/ingles/grammar" gameId="ingles-grammar-present-simple-test" otroExamen={{ path: '/examen/ingles-piezas-present-simple-test', emoji: '🧩', label: { es: 'Montar la frase', en: 'Build the sentence', ca: 'Muntar la frase' }, desc: { es: 'Completa el hueco con las piezas, sin opciones que elegir', en: 'Fill the gap with pieces, no options to pick from', ca: 'Completa el buit amb les peces, sense opcions per triar' } }} />
 }

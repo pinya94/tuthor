@@ -7,6 +7,10 @@
  *   nivelInfo   { [key]: { label: {es,en,ca}, pool: () => Array } }
  *   backFallback string            — ruta de vuelta si no viene state.backPath
  *   gameId      string             — identificador para saveActivity (p.ej. "celula")
+ *   otroExamen  { path, emoji, label:{es,en,ca}, desc:{es,en,ca} } — opcional:
+ *               otra forma de examinarse del MISMO tema, ofrecida junto a los
+ *               niveles. Nace de los exámenes de inglés, donde el mismo tema
+ *               se puede hacer tipo test o montando la frase con piezas.
  */
 import { useState, useMemo, useRef } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
@@ -86,7 +90,7 @@ function ChoiceButtons({ opciones, onSelect, disabled, correcta, revealed }) {
 }
 
 // ── Componente principal ──────────────────────────────────────────────────────
-export default function ExamenMC({ titulo, emoji, nivelInfo, backFallback, gameId }) {
+export default function ExamenMC({ titulo, emoji, nivelInfo, backFallback, gameId, otroExamen }) {
   const navigate               = useNavigate()
   const { lang, localPath }    = useLang()
   const location               = useLocation()
@@ -256,6 +260,22 @@ export default function ExamenMC({ titulo, emoji, nivelInfo, backFallback, gameI
               </button>
             ))}
           </div>
+          {otroExamen && (
+            <>
+              <p className="mt-6 mb-3 text-white/30 text-xs uppercase tracking-widest">
+                {en ? 'Or try it another way' : ca ? 'O prova-ho d’una altra manera' : 'O pruébalo de otra forma'}
+              </p>
+              <button onClick={() => navigate(localPath(otroExamen.path))}
+                className="w-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/30 rounded-2xl px-6 py-4 text-left transition-all flex items-center gap-3">
+                <span className="text-2xl">{otroExamen.emoji}</span>
+                <span>
+                  <span className="block text-white font-bold">{get(otroExamen.label, lang)}</span>
+                  <span className="block text-white/30 text-xs mt-0.5">{get(otroExamen.desc, lang)}</span>
+                </span>
+              </button>
+            </>
+          )}
+
           <button onClick={() => navigate(backTo)} className="mt-6 text-white/30 hover:text-white/60 text-sm transition-colors">
             {en ? '← Back' : '← Volver'}
           </button>

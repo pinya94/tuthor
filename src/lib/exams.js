@@ -500,6 +500,34 @@ export const EXAMS = {
     label: { es: 'English Grammar', en: 'English Grammar', ca: 'English Grammar' },
     emoji: '🇬🇧', subject: 'ingles', retired: true,
   },
+  // La Pieza que Falta por tema: la otra forma de examinarse de la misma
+  // gramática — montando la respuesta en vez de elegirla entre cuatro. Cada
+  // tema guarda sus propias stats, de ahí un examen por tema y no uno solo.
+  'ingles-piezas-present-simple-test': {
+    label: { es: 'Present Simple (montar la frase)', en: 'Present Simple (build the sentence)', ca: 'Present Simple (muntar la frase)' },
+    emoji: '🧩', subject: 'ingles',
+    path: 'examen/ingles-piezas-present-simple-test', page: () => import('../pages/InglesPiezasPresentSimpleExamen'),
+  },
+  'ingles-piezas-past-simple-test': {
+    label: { es: 'Past Simple (montar la frase)', en: 'Past Simple (build the sentence)', ca: 'Past Simple (muntar la frase)' },
+    emoji: '🧩', subject: 'ingles',
+    path: 'examen/ingles-piezas-past-simple-test', page: () => import('../pages/InglesPiezasPastSimpleExamen'),
+  },
+  'ingles-piezas-present-perfect-test': {
+    label: { es: 'Present Perfect (montar la frase)', en: 'Present Perfect (build the sentence)', ca: 'Present Perfect (muntar la frase)' },
+    emoji: '🧩', subject: 'ingles',
+    path: 'examen/ingles-piezas-present-perfect-test', page: () => import('../pages/InglesPiezasPresentPerfectExamen'),
+  },
+  'ingles-piezas-articles-test': {
+    label: { es: 'Articles (montar la frase)', en: 'Articles (build the sentence)', ca: 'Articles (muntar la frase)' },
+    emoji: '🧩', subject: 'ingles',
+    path: 'examen/ingles-piezas-articles-test', page: () => import('../pages/InglesPiezasArticlesExamen'),
+  },
+  'ingles-piezas-passive-test': {
+    label: { es: 'Passive Voice (montar la frase)', en: 'Passive Voice (build the sentence)', ca: 'Passive Voice (muntar la frase)' },
+    emoji: '🧩', subject: 'ingles',
+    path: 'examen/ingles-piezas-passive-test', page: () => import('../pages/InglesPiezasPassiveExamen'),
+  },
   'ingles-grammar-present-simple-test': {
     label: { es: 'Present Simple', en: 'Present Simple', ca: 'Present Simple' },
     emoji: '✅', subject: 'ingles',
@@ -611,6 +639,8 @@ const EXAM_GROUPS = [
     label: { es: 'Estadístico Exprés (por medida)', en: 'Quick Statistician (by measure)', ca: 'Estadístic Exprés (per mesura)' } },
   { match: id => id.startsWith('espanol-ortografia-'),
     label: { es: 'Ortografía', en: 'Spelling', ca: 'Ortografia' } },
+  { match: id => id.startsWith('ingles-piezas-'),
+    label: { es: 'Grammar (montar la frase)', en: 'Grammar (build the sentence)', ca: 'Grammar (muntar la frase)' } },
   { match: id => id.startsWith('ingles-grammar-'),
     label: { es: 'Grammar (tipo test)', en: 'Grammar (quiz)', ca: 'Grammar (tipus test)' } },
   { match: id => id.startsWith('ingles-pos-'),

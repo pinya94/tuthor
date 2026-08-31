@@ -4,6 +4,7 @@ import { useLang } from '../context/LangContext'
 import { EXAMENES_HISTORIA } from '../data/historiaEvents'
 import { MODOS } from '../lib/mathEngine'
 import { examRoute } from '../lib/exams'
+import { GAMES } from '../lib/games'
 import { SUBJECTS } from '../lib/statsAggregation'
 import { defaultLevel, formatLevels, topicTask, resolveFormat } from '../lib/topicCatalog'
 
@@ -50,14 +51,25 @@ export default function ExamenTema({ materia }) {
       return go(`/estudiar/matematicas/${tema}/jugar`, { nivel, modoExamen: true })
     }
 
-    // historia
-    if (formato === 'quien-es-quien') return go('/juegos/quien-es-quien', { pool: tema })
-    if (formato === 'portadas') return go('/examen/portadas', { categoria: tema })
-    if (formato === 'juego-fechas') {
-      const examen = EXAMENES_HISTORIA.find(ex => ex.id === tema) || EXAMENES_HISTORIA[0]
-      return go('/examen/historia', { examen, nivel })
+    if (materia === 'historia') {
+      if (formato === 'quien-es-quien') return go('/juegos/quien-es-quien', { pool: tema })
+      if (formato === 'portadas') return go('/examen/portadas', { categoria: tema })
+      if (formato === 'juego-fechas') {
+        const examen = EXAMENES_HISTORIA.find(ex => ex.id === tema) || EXAMENES_HISTORIA[0]
+        return go('/examen/historia', { examen, nivel })
+      }
+      return go('/examen/linea-temporal', { categoria: tema, nivel })
     }
-    return go('/examen/linea-temporal', { categoria: tema, nivel })
+
+    // Formato por mecánica cuyo juego está en el registro de JUEGOS (no es un
+    // examen): a la página del juego, con el tema en el state. Va el último a
+    // propósito — historia y matemáticas también apuntan a juegos del registro,
+    // pero necesitan traducir el tema a su propio state ('pool', 'categoria',
+    // 'examen'…), así que sus casos tienen que resolverse antes que esta regla
+    // general. A partir de aquí, un juego que declare su formato en el catálogo
+    // y lea location.state.tema no necesita tocar este fichero.
+    const juego = task && GAMES[task.gameId]
+    if (juego) return go(juego.route, { tema })
   }, [materia, tema, formato])
 
   return (

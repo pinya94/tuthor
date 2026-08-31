@@ -30,6 +30,34 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Biología', niveles: 'ESO, Bachillerato',
   },
+  'pieza-que-falta': {
+    titulo: 'La Pieza que Falta',
+    subtitulo: 'Juego de gramática inglesa: tiempos verbales, artículos y pasiva',
+    emoji: '🧩', gradient: 'from-sky-600 to-indigo-800',
+    path: '/juegos/pieza-que-falta',
+    intro: 'Un juego de inglés para dominar las cinco estructuras que más se atragantan: aparece una frase con un hueco y hay que montar la forma correcta tocando las piezas en orden. No es elegir entre cuatro opciones: hay que construir "has written" o "will be built" pieza a pieza, que es lo que de verdad se pide en un examen y al hablar. La pista que decide la respuesta va subrayada en la frase, y al comprobar sale la regla.',
+    beneficios: [
+      { titulo: 'Producir, no reconocer', texto: 'En un test de cuatro opciones se acierta reconociendo la respuesta. Montándola con piezas hay que saber que el tiempo lo marca el auxiliar y el significado el participio. Es la diferencia entre entender una frase y ser capaz de escribirla.' },
+      { titulo: 'Aprender a buscar la pista', texto: 'Cada frase lleva subrayado lo que decide la respuesta: "every day", "yesterday", "since 2010", "yet". Con la repetición el alumno deja de adivinar el tiempo verbal y empieza a leer la frase buscando la señal.' },
+      { titulo: 'El artículo que no se pone', texto: '"—" es una pieza más, así que no poner artículo es una decisión visible. Es el fallo más repetido del hispanohablante ("I like the music"), y solo se corrige cuando el alumno tiene que elegir el vacío a propósito.' },
+    ],
+    ejemplo: 'Aparece "She ___ here since 2010", con "since 2010" subrayado, y las piezas has · have · lived · live · lives. El alumno monta "has lived" y lee la regla: since marca el punto de inicio y pide present perfect, y con she el auxiliar es has.',
+    enPapel: {
+      titulo: 'Las piezas en papel',
+      pasos: [
+        'Escribe seis frases de tu libro dejando un hueco donde va el verbo, y subraya la palabra que delata el tiempo.',
+        'En papelitos aparte escribe las piezas: has, have, was, were, did, el verbo en base y en participio.',
+        'Monta el hueco con los papelitos y anota al lado por qué esa pieza y no otra.',
+        'Al día siguiente repite solo las que fallaste: es donde está el aprendizaje.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'Cazar marcadores al leer', desc: 'En cualquier texto en inglés subraya every day, yesterday, since, for, already y yet, y comprueba qué tiempo verbal los acompaña. Confirma la regla con material real.' },
+      { nombre: 'La misma frase en tres tiempos', desc: 'Coge una frase y reescríbela en present simple, past simple y present perfect. Ver qué cambia y qué no fija la forma mucho mejor que estudiar cada tiempo por separado.' },
+      { nombre: 'Pasiva a la inversa', desc: 'Coge titulares de periódico en inglés (suelen ir en pasiva) y reescríbelos en activa. Se ve para qué sirve la pasiva: cuando no importa quién hizo la acción.' },
+    ],
+    asignatura: 'Inglés', niveles: 'Primaria, ESO, Bachillerato',
+  },
   'ordena-frase': {
     titulo: 'Ordena la Frase',
     subtitulo: 'Juego de Word Order — el orden de las palabras en inglés',
@@ -909,6 +937,33 @@ export const FICHAS_EN = {
     ],
     asignatura: 'Biology', niveles: 'Secondary, Sixth Form',
   },
+  'pieza-que-falta': {
+    titulo: 'Missing Piece',
+    subtitulo: 'English grammar game: verb tenses, articles and the passive',
+    emoji: '🧩', gradient: 'from-sky-600 to-indigo-800', path: '/juegos/pieza-que-falta',
+    intro: 'An English game for the five structures that cause the most trouble: a sentence appears with a gap and you build the correct form by tapping the pieces in order. It is not picking one of four options: you have to assemble "has written" or "will be built" piece by piece, which is what an exam — and speaking — actually asks for. The clue that decides the answer is underlined in the sentence, and the rule appears when you check.',
+    beneficios: [
+      { titulo: 'Producing, not recognising', texto: 'In a four-option test you can get it right by recognising the answer. Building it from pieces means knowing that the auxiliary carries the tense and the participle carries the meaning. That is the difference between understanding a sentence and being able to write one.' },
+      { titulo: 'Learning to look for the clue', texto: 'Every sentence underlines what decides the answer: "every day", "yesterday", "since 2010", "yet". With repetition the student stops guessing the tense and starts reading the sentence looking for the signal.' },
+      { titulo: 'The article you do not write', texto: '"—" is a piece like any other, so using no article becomes a visible decision. It is the most repeated mistake for Spanish speakers ("I like the music"), and it is only fixed when the student has to choose the gap on purpose.' },
+    ],
+    ejemplo: 'The sentence "She ___ here since 2010" appears with "since 2010" underlined, and the pieces has · have · lived · live · lives. The student builds "has lived" and reads the rule: since marks the starting point and takes present perfect, and with she the auxiliary is has.',
+    enPapel: {
+      titulo: 'The pieces on paper',
+      pasos: [
+        'Write six sentences from your book leaving a gap where the verb goes, and underline the word that gives the tense away.',
+        'On separate slips write the pieces: has, have, was, were, did, the base verb and the participle.',
+        'Build the gap with the slips and write next to it why that piece and not another.',
+        'The next day repeat only the ones you got wrong: that is where the learning is.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'Hunt for markers while reading', desc: 'In any English text underline every day, yesterday, since, for, already and yet, and check which tense goes with them. It confirms the rule with real material.' },
+      { nombre: 'The same sentence in three tenses', desc: 'Take one sentence and rewrite it in present simple, past simple and present perfect. Seeing what changes and what does not fixes the forms far better than studying each tense apart.' },
+      { nombre: 'Passive in reverse', desc: 'Take English newspaper headlines (they are often passive) and rewrite them in the active voice. You see what the passive is for: when it does not matter who did it.' },
+    ],
+    asignatura: 'English', niveles: 'Primary, Secondary, Sixth Form',
+  },
   'ordena-frase': {
     titulo: 'Word Order',
     subtitulo: 'English Word Order Game',
@@ -1623,6 +1678,33 @@ export const FICHAS_CA = {
       { nombre: 'Els pèsols de Mendel', desc: 'Repassa l’experiment original: per què va triar pèsols, quins set caràcters va estudiar i com va arribar a les proporcions sense saber que existia l’ADN.' },
     ],
     asignatura: 'Biologia', niveles: 'ESO, Batxillerat',
+  },
+  'pieza-que-falta': {
+    titulo: 'La Peça que Falta',
+    subtitulo: 'Joc de gramàtica anglesa: temps verbals, articles i passiva',
+    emoji: '🧩', gradient: 'from-sky-600 to-indigo-800', path: '/juegos/pieza-que-falta',
+    intro: 'Un joc d’anglès per dominar les cinc estructures que més costen: apareix una frase amb un buit i cal muntar la forma correcta tocant les peces en ordre. No és triar entre quatre opcions: cal construir "has written" o "will be built" peça a peça, que és el que de debò demana un examen i el fet de parlar. La pista que decideix la resposta va subratllada a la frase, i en comprovar surt la regla.',
+    beneficios: [
+      { titulo: 'Produir, no reconèixer', texto: 'En un test de quatre opcions s’encerta reconeixent la resposta. Muntant-la amb peces cal saber que el temps el marca l’auxiliar i el significat el participi. És la diferència entre entendre una frase i ser capaç d’escriure-la.' },
+      { titulo: 'Aprendre a buscar la pista', texto: 'Cada frase porta subratllat el que decideix la resposta: "every day", "yesterday", "since 2010", "yet". Amb la repetició l’alumne deixa d’endevinar el temps verbal i comença a llegir la frase buscant el senyal.' },
+      { titulo: 'L’article que no s’hi posa', texto: '"—" és una peça més, així que no posar-hi article és una decisió visible. És l’error més repetit del catalanoparlant i del castellanoparlant ("I like the music"), i només es corregeix quan l’alumne ha de triar el buit expressament.' },
+    ],
+    ejemplo: 'Apareix "She ___ here since 2010", amb "since 2010" subratllat, i les peces has · have · lived · live · lives. L’alumne munta "has lived" i llegeix la regla: since marca el punt d’inici i demana present perfect, i amb she l’auxiliar és has.',
+    enPapel: {
+      titulo: 'Les peces en paper',
+      pasos: [
+        'Escriu sis frases del teu llibre deixant un buit on va el verb, i subratlla la paraula que delata el temps.',
+        'En papers a part escriu les peces: has, have, was, were, did, el verb en base i en participi.',
+        'Munta el buit amb els papers i anota al costat per què aquesta peça i no una altra.',
+        'L’endemà repeteix només les que has fallat: és on hi ha l’aprenentatge.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'Caçar marcadors llegint', desc: 'En qualsevol text en anglès subratlla every day, yesterday, since, for, already i yet, i comprova quin temps verbal els acompanya. Confirma la regla amb material real.' },
+      { nombre: 'La mateixa frase en tres temps', desc: 'Agafa una frase i reescriu-la en present simple, past simple i present perfect. Veure què canvia i què no fixa la forma molt millor que estudiar cada temps per separat.' },
+      { nombre: 'Passiva a la inversa', desc: 'Agafa titulars de diari en anglès (solen anar en passiva) i reescriu-los en activa. Es veu per a què serveix la passiva: quan no importa qui va fer l’acció.' },
+    ],
+    asignatura: 'Anglès', niveles: 'Primària, ESO, Batxillerat',
   },
   'ordena-frase': {
     titulo: 'Ordena la Frase',
