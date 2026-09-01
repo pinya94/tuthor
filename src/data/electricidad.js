@@ -123,6 +123,41 @@ const PREGUNTAS = [
     '🧲',
     { es:'Descubierta por Faraday (1831). Principio detrás de los generadores, transformadores y los cargadores inalámbricos (Qi). Si acercas o alejas un imán de una bobina, se genera corriente. Sin inducción electromagnética no habría centrales eléctricas ni casi ningún aparato eléctrico moderno.', en:'Discovered by Faraday (1831). The principle behind generators, transformers and wireless chargers (Qi). Moving a magnet towards or away from a coil generates current. Without electromagnetic induction there would be no power plants or almost any modern electrical device.', ca:'Descoberta per Faraday (1831). Principi darrere dels generadors, transformadors i els carregadors sense fil (Qi). Si acosten o allunyen un imant d\'una bobina, es genera corrent. Sense inducció electromagnètica no hi hauria centrals elèctriques ni quasi cap aparell elèctric modern.' },
   ),
+
+  q('el-17', 'primaria',
+    { es: "¿Qué material conduce bien la electricidad?", en: "Which material conducts electricity well?", ca: "Quin material condueix bé l'electricitat?" },
+    { es: ["La madera","El cobre","El plástico","El vidrio"], en: ["Wood","Copper","Plastic","Glass"], ca: ["La fusta","El coure","El plàstic","El vidre"] },
+    { es: "El cobre", en: "Copper", ca: "El coure" },
+    '🔌',
+    { es: "Los metales, y el cobre en particular, dejan pasar la corriente porque sus electrones se mueven con libertad. La madera, el plástico y el vidrio son aislantes.", en: "Metals, especially copper, let current through because their electrons move freely.", ca: "Els metalls, i el coure en particular, deixen passar el corrent perquè els electrons es mouen lliurement." }),
+
+  q('el-18', 'primaria',
+    { es: "¿Qué hace un interruptor en un circuito?", en: "What does a switch do in a circuit?", ca: "Què fa un interruptor en un circuit?" },
+    { es: ["Da más energía","Abre o cierra el paso de la corriente","Cambia el color de la luz","Mide el voltaje"], en: ["Gives more energy","Opens or closes the current's path","Changes the light colour","Measures voltage"], ca: ["Dona més energia","Obre o tanca el pas del corrent","Canvia el color de la llum","Mesura el voltatge"] },
+    { es: "Abre o cierra el paso de la corriente", en: "Opens or closes the current's path", ca: "Obre o tanca el pas del corrent" },
+    '💡',
+    { es: "Con el interruptor abierto el circuito se corta y no pasa corriente; al cerrarlo el camino se completa y la bombilla se enciende.", en: "An open switch breaks the circuit; closing it completes the path and the bulb lights.", ca: "Amb l'interruptor obert el circuit es talla; en tancar-lo el camí es completa." }),
+
+  q('el-19', 'primaria',
+    { es: "¿En qué unidad se mide la corriente eléctrica?", en: "In which unit is electric current measured?", ca: "En quina unitat es mesura el corrent elèctric?" },
+    { es: ["Voltios","Amperios","Vatios","Ohmios"], en: ["Volts","Amperes","Watts","Ohms"], ca: ["Volts","Ampers","Watts","Ohms"] },
+    { es: "Amperios", en: "Amperes", ca: "Ampers" },
+    '📏',
+    { es: "La corriente se mide en amperios (A). Los voltios miden la tensión, los ohmios la resistencia y los vatios la potencia.", en: "Current is measured in amperes (A); volts measure voltage, ohms resistance and watts power.", ca: "El corrent es mesura en ampers (A)." }),
+
+  q('el-20', 'primaria',
+    { es: "¿Qué necesita un circuito para que funcione?", en: "What does a circuit need to work?", ca: "Què necessita un circuit per funcionar?" },
+    { es: ["Solo una bombilla","Un generador, conductores y un receptor formando un camino cerrado","Solo cables","Un imán"], en: ["Just a bulb","A generator, conductors and a receiver forming a closed path","Just wires","A magnet"], ca: ["Només una bombeta","Un generador, conductors i un receptor formant un camí tancat","Només cables","Un imant"] },
+    { es: "Un generador, conductores y un receptor formando un camino cerrado", en: "A generator, conductors and a receiver forming a closed path", ca: "Un generador, conductors i un receptor formant un camí tancat" },
+    '🔋',
+    { es: "Hace falta que el camino esté CERRADO: pila (genera), cables (conducen) y bombilla o motor (recibe). Si el camino se corta en cualquier punto, no pasa nada.", en: "The path must be closed: battery, wires and a receiver. Break it anywhere and nothing works.", ca: "Cal que el camí estigui TANCAT: pila, cables i bombeta o motor." }),
+
+  q('el-21', 'primaria',
+    { es: "¿Qué pasa si se funde una bombilla en un circuito en serie?", en: "What happens if one bulb blows in a series circuit?", ca: "Què passa si es fon una bombeta en un circuit en sèrie?" },
+    { es: ["Las demás siguen encendidas","Se apagan todas","Brillan más","No pasa nada"], en: ["The others stay on","They all go out","They shine brighter","Nothing happens"], ca: ["Les altres continuen enceses","S'apaguen totes","Brillen més","No passa res"] },
+    { es: "Se apagan todas", en: "They all go out", ca: "S'apaguen totes" },
+    '🎄',
+    { es: "En serie hay un único camino: si se rompe en un punto, la corriente deja de circular por todo el circuito. Es el clásico problema de las luces de Navidad antiguas.", en: "In series there is a single path: break it and current stops everywhere.", ca: "En sèrie hi ha un únic camí: si es trenca, el corrent deixa de circular per tot el circuit." }),
 ]
 
 export const PREGUNTAS_PRIMARIA = PREGUNTAS.filter(p => p.nivel === 'primaria')

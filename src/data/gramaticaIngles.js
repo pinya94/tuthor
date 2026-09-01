@@ -149,6 +149,36 @@ const TODAS = [
     1, '🔄',
     EN('"Used to + infinitive" expresses a past habit that no longer exists. "Be used to + -ing" means being accustomed to something (can be present, past or future).')
   ),
+
+  q('gi-17', 'primaria',
+    EN("Which word is a verb?"),
+    { es: ["happy","swim","chair","slowly"], en: ["happy","swim","chair","slowly"], ca: ["happy","swim","chair","slowly"] },
+    1, '🏊',
+    EN("\"Swim\" is an action, so it is a verb. \"Happy\" is an adjective, \"chair\" a noun and \"slowly\" an adverb.")),
+
+  q('gi-18', 'primaria',
+    EN("Complete: \"There ___ three books on the table.\""),
+    { es: ["is","are","be","am"], en: ["is","are","be","am"], ca: ["is","are","be","am"] },
+    1, '📚',
+    EN("\"Three books\" is plural, so it takes \"are\". Singular would be \"There is a book\".")),
+
+  q('gi-19', 'primaria',
+    EN("Which is the plural of \"child\"?"),
+    { es: ["childs","children","childes","child"], en: ["childs","children","childes","child"], ca: ["childs","children","childes","child"] },
+    1, '🧒',
+    EN("\"Child\" has an irregular plural: children. Others like it: man→men, woman→women, foot→feet.")),
+
+  q('gi-20', 'primaria',
+    EN("Complete: \"This is ___ book.\" (it belongs to me)"),
+    { es: ["I","my","me","mine book"], en: ["I","my","me","mine book"], ca: ["I","my","me","mine book"] },
+    1, '📖',
+    EN("Possessive adjectives go before the noun: my, your, his, her, our, their. \"Mine\" stands alone: \"This book is mine\".")),
+
+  q('gi-21', 'primaria',
+    EN("Which sentence is correct?"),
+    { es: ["She have a dog.","She has a dog.","She haves a dog.","She having a dog."], en: ["She have a dog.","She has a dog.","She haves a dog.","She having a dog."], ca: ["She have a dog.","She has a dog.","She haves a dog.","She having a dog."] },
+    1, '🐕',
+    EN("With he/she/it the verb \"have\" becomes \"has\". It is irregular: not \"haves\".")),
 ]
 
 export const PREGUNTAS_PRIMARIA = TODAS.filter(q => q.nivel === 'primaria')

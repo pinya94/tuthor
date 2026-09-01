@@ -103,6 +103,41 @@ export const PREGUNTAS = [
     { es: 'Especiación', en: 'Speciation', ca: 'Especiació' },
     '🐦',
     { es: 'La especiación ocurre cuando dos poblaciones de una misma especie quedan aisladas (por ejemplo, en islas distintas) y, tras generaciones acumulando diferencias, terminan siendo especies distintas que ya no pueden reproducirse entre sí.', en: 'Speciation happens when two populations of the same species become isolated (for example, on different islands) and, after generations of accumulating differences, end up as distinct species that can no longer interbreed.', ca: 'L\'especiació passa quan dues poblacions d\'una mateixa espècie queden aïllades (per exemple, en illes diferents) i, després de generacions acumulant diferències, acaben sent espècies diferents que ja no es poden reproduir entre elles.' }),
+
+  q('ev-15', 'eso',
+    { es: "¿Qué es la selección natural?", en: "What is natural selection?", ca: "Què és la selecció natural?" },
+    { es: ["Que los seres vivos eligen cómo cambiar","Que sobreviven y se reproducen mejor los individuos mejor adaptados","Que las especies no cambian","Que el más fuerte siempre gana"], en: ["Living things choose how to change","Better-adapted individuals survive and reproduce more","Species do not change","The strongest always wins"], ca: ["Que els éssers vius trien com canviar","Que sobreviuen i es reprodueixen millor els individus més ben adaptats","Que les espècies no canvien","Que el més fort sempre guanya"] },
+    { es: "Que sobreviven y se reproducen mejor los individuos mejor adaptados", en: "Better-adapted individuals survive and reproduce more", ca: "Que sobreviuen i es reprodueixen millor els individus més ben adaptats" },
+    '🧬',
+    { es: "No es \"el más fuerte\", sino el mejor adaptado a SU entorno: quien deja más descendencia transmite sus características. El entorno selecciona, el individuo no decide.", en: "Not \"the strongest\" but the best adapted to its environment: whoever leaves more offspring passes on its traits.", ca: "No és \"el més fort\", sinó el més ben adaptat al SEU entorn." }),
+
+  q('ev-16', 'eso',
+    { es: "¿Qué son los fósiles y para qué sirven?", en: "What are fossils and what are they for?", ca: "Què són els fòssils i per a què serveixen?" },
+    { es: ["Piedras con formas curiosas","Restos o huellas de seres vivos del pasado, que documentan la evolución","Minerales raros","Huesos de animales actuales"], en: ["Odd-shaped stones","Remains or traces of past life that document evolution","Rare minerals","Bones of present-day animals"], ca: ["Pedres amb formes curioses","Restes o petjades d'éssers vius del passat, que documenten l'evolució","Minerals rars","Ossos d'animals actuals"] },
+    { es: "Restos o huellas de seres vivos del pasado, que documentan la evolución", en: "Remains or traces of past life that document evolution", ca: "Restes o petjades d'éssers vius del passat, que documenten l'evolució" },
+    '🦕',
+    { es: "Son la prueba directa de que las especies han cambiado. Los fósiles de transición, como Archaeopteryx entre dinosaurios y aves, son especialmente valiosos.", en: "They are direct evidence that species changed; transitional fossils like Archaeopteryx are especially valuable.", ca: "Són la prova directa que les espècies han canviat." }),
+
+  q('ev-17', 'eso',
+    { es: "¿Qué es una adaptación?", en: "What is an adaptation?", ca: "Què és una adaptació?" },
+    { es: ["Un cambio que el animal decide hacer","Una característica heredable que mejora la supervivencia en un entorno","Un tipo de fósil","Una enfermedad"], en: ["A change the animal decides to make","A heritable trait that improves survival in an environment","A kind of fossil","A disease"], ca: ["Un canvi que l'animal decideix fer","Una característica heretable que millora la supervivència en un entorn","Un tipus de fòssil","Una malaltia"] },
+    { es: "Una característica heredable que mejora la supervivencia en un entorno", en: "A heritable trait that improves survival in an environment", ca: "Una característica heretable que millora la supervivència en un entorn" },
+    '🦎',
+    { es: "Tiene que ser heredable: si no pasa a la descendencia, no cuenta para la evolución. Un músculo ganado en el gimnasio no se hereda.", en: "It must be heritable: a trait not passed on does not count for evolution.", ca: "Ha de ser heretable: si no passa a la descendència, no compta per a l'evolució." }),
+
+  q('ev-18', 'eso',
+    { es: "¿Qué diferencia hay entre la teoría de Lamarck y la de Darwin?", en: "What is the difference between Lamarck's and Darwin's theories?", ca: "Quina diferència hi ha entre la teoria de Lamarck i la de Darwin?" },
+    { es: ["Ninguna","Lamarck decía que el uso modifica al individuo y eso se hereda; Darwin, que la variación ya existe y el entorno selecciona","Darwin era anterior","Lamarck hablaba de fósiles"], en: ["None","Lamarck said use modifies the individual and that is inherited; Darwin said variation already exists and the environment selects","Darwin came first","Lamarck talked about fossils"], ca: ["Cap","Lamarck deia que l'ús modifica l'individu i això s'hereta; Darwin, que la variació ja existeix i l'entorn selecciona","Darwin era anterior","Lamarck parlava de fòssils"] },
+    { es: "Lamarck decía que el uso modifica al individuo y eso se hereda; Darwin, que la variación ya existe y el entorno selecciona", en: "Lamarck said use modifies the individual and that is inherited; Darwin said variation already exists and the environment selects", ca: "Lamarck deia que l'ús modifica l'individu i això s'hereta; Darwin, que la variació ja existeix i l'entorn selecciona" },
+    '🦒',
+    { es: "La jirafa de Lamarck estira el cuello y lo transmite; la de Darwin nace con el cuello más largo por azar y sobrevive mejor. Solo la segunda encaja con la genética.", en: "Lamarck's giraffe stretches its neck and passes that on; Darwin's is born with a longer neck by chance and survives better.", ca: "La girafa de Lamarck estira el coll i ho transmet; la de Darwin neix amb el coll més llarg per atzar." }),
+
+  q('ev-19', 'eso',
+    { es: "¿Qué son los órganos homólogos?", en: "What are homologous organs?", ca: "Què són els òrgans homòlegs?" },
+    { es: ["Órganos que hacen lo mismo pero tienen origen distinto","Órganos con la misma estructura y origen aunque cumplan funciones distintas","Órganos que ya no sirven","Órganos artificiales"], en: ["Organs doing the same job with different origins","Organs with the same structure and origin though they do different jobs","Organs no longer in use","Artificial organs"], ca: ["Òrgans que fan el mateix però tenen origen diferent","Òrgans amb la mateixa estructura i origen encara que facin funcions diferents","Òrgans que ja no serveixen","Òrgans artificials"] },
+    { es: "Órganos con la misma estructura y origen aunque cumplan funciones distintas", en: "Organs with the same structure and origin though they do different jobs", ca: "Òrgans amb la mateixa estructura i origen encara que facin funcions diferents" },
+    '🖐️',
+    { es: "El brazo humano, el ala del murciélago y la aleta de la ballena tienen los mismos huesos: prueban un antepasado común. Es de los argumentos más fuertes de la evolución.", en: "A human arm, a bat wing and a whale flipper share the same bones: evidence of a common ancestor.", ca: "El braç humà, l'ala del ratpenat i l'aleta de la balena tenen els mateixos ossos." }),
 ]
 
 export const PREGUNTAS_ESO = PREGUNTAS.filter(p => p.nivel === 'eso')

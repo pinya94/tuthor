@@ -92,6 +92,36 @@ const TODAS = [
     { es: ['faxes', 'faxs', 'fax', 'facess'], en: ['faxes', 'faxs', 'fax', 'facess'], ca: ['faxos', 'faxs', 'fax', 'faxes'] },
     0, '📠',
     { es: 'Las palabras terminadas en -x añaden -es para formar el plural: fax→faxes, relax→relaxes. Aunque en el uso coloquial se tiende a la forma invariable.', en: 'Words ending in -x add -es: fax→faxes, relax→relaxes.', ca: 'Les paraules acabades en -x: en català "faxos"; en castellà "faxes".' }),
+
+  q('sn-16', 'primaria',
+    { es: "¿Qué es un sustantivo común?", en: "What is a common noun?", ca: "Què és un substantiu comú?" },
+    { es: ["El que nombra a un ser concreto con nombre propio","El que nombra a cualquier ser de una clase","El que acompaña al verbo","El que indica cantidad"], en: ["One naming a specific being by its own name","One naming any being of a class","One accompanying the verb","One showing quantity"], ca: ["El que anomena un ésser concret amb nom propi","El que anomena qualsevol ésser d'una classe","El que acompanya el verb","El que indica quantitat"] },
+    1, '🏷️',
+    { es: "\"Perro\" vale para cualquier perro: es común. \"Toby\" nombra a uno concreto: es propio, y por eso va en mayúscula.", en: "\"Perro\" (dog) names any dog: common. \"Toby\" names one: proper, hence the capital letter.", ca: "\"Gos\" val per a qualsevol gos: és comú. \"Toby\" n'anomena un de concret: és propi." }),
+
+  q('sn-17', 'primaria',
+    { es: "¿Cuál es el plural de \"lápiz\"?", en: "What is the plural of \"lápiz\"?", ca: "Quin és el plural de \"lápiz\"?" },
+    { es: ["lápizes","lápices","lápizs","lápiz"], en: ["lápizes","lápices","lápizs","lápiz"], ca: ["lápizes","lápices","lápizs","lápiz"] },
+    1, '✏️',
+    { es: "Las palabras acabadas en -z cambian la z por c y añaden -es: lápiz → lápices, pez → peces.", en: "Words ending in -z change z to c and add -es: lápiz → lápices.", ca: "Les paraules acabades en -z canvien la z per c i afegeixen -es." }),
+
+  q('sn-18', 'primaria',
+    { es: "¿Qué género tiene \"el mapa\"?", en: "What gender is \"el mapa\"?", ca: "Quin gènere té \"el mapa\"?" },
+    { es: ["Femenino","Masculino","Neutro","Los dos"], en: ["Feminine","Masculine","Neuter","Both"], ca: ["Femení","Masculí","Neutre","Tots dos"] },
+    1, '🗺️',
+    { es: "Acaba en -a pero es masculino: el mapa, el día, el problema. La terminación no siempre marca el género, y por eso conviene fijarse en el artículo.", en: "It ends in -a but is masculine: el mapa, el día, el problema. The ending does not always mark gender.", ca: "Acaba en -a però és masculí: el mapa, el día, el problema." }),
+
+  q('sn-19', 'primaria',
+    { es: "¿Cuál de estas palabras es un sustantivo colectivo?", en: "Which of these is a collective noun?", ca: "Quina d'aquestes és un substantiu col·lectiu?" },
+    { es: ["árbol","rebaño","correr","alto"], en: ["árbol","rebaño","correr","alto"], ca: ["arbre","ramat","córrer","alt"] },
+    1, '🐑',
+    { es: "Un colectivo nombra en singular a un conjunto: rebaño (ovejas), enjambre (abejas), arboleda (árboles).", en: "A collective noun names a group in the singular: rebaño (flock), enjambre (swarm).", ca: "Un col·lectiu anomena en singular un conjunt: ramat, eixam, arbreda." }),
+
+  q('sn-20', 'primaria',
+    { es: "¿Qué tipo de sustantivo es \"alegría\"?", en: "What kind of noun is \"alegría\"?", ca: "Quin tipus de substantiu és \"alegria\"?" },
+    { es: ["Concreto","Abstracto","Propio","Colectivo"], en: ["Concrete","Abstract","Proper","Collective"], ca: ["Concret","Abstracte","Propi","Col·lectiu"] },
+    1, '💭',
+    { es: "Los abstractos nombran lo que no se puede tocar ni ver: alegría, amistad, libertad. Los concretos sí: mesa, perro, agua.", en: "Abstract nouns name what cannot be touched: joy, friendship, freedom.", ca: "Els abstractes anomenen allò que no es pot tocar: alegria, amistat, llibertat." }),
 ]
 
 export const PREGUNTAS_PRIMARIA = TODAS.filter(q => q.nivel === 'primaria')

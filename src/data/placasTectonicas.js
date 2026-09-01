@@ -103,6 +103,41 @@ export const PREGUNTAS = [
     { es: '1912', en: '1912', ca: '1912' },
     '📅',
     { es: 'Wegener presentó su teoría de la deriva continental en 1912. En su época no fue aceptada por falta de un mecanismo que la explicara, pero décadas después dio origen a la tectónica de placas moderna.', en: 'Wegener presented his theory of continental drift in 1912. It was not accepted at the time due to the lack of a mechanism to explain it, but decades later it gave rise to modern plate tectonics.', ca: 'Wegener va presentar la seva teoria de la deriva continental el 1912. En la seva època no va ser acceptada per manca d\'un mecanisme que l\'expliqués, però dècades després va donar origen a la tectònica de plaques moderna.' }),
+
+  q('pt-15', 'primaria',
+    { es: "¿Qué son las placas tectónicas?", en: "What are tectonic plates?", ca: "Què són les plaques tectòniques?" },
+    { es: ["Capas de nubes","Grandes fragmentos de la capa externa de la Tierra que se mueven","Rocas del fondo del mar","Montañas submarinas"], en: ["Cloud layers","Large fragments of Earth's outer layer that move","Rocks from the sea floor","Underwater mountains"], ca: ["Capes de núvols","Grans fragments de la capa externa de la Terra que es mouen","Roques del fons del mar","Muntanyes submarines"] },
+    { es: "Grandes fragmentos de la capa externa de la Tierra que se mueven", en: "Large fragments of Earth's outer layer that move", ca: "Grans fragments de la capa externa de la Terra que es mouen" },
+    '🌏',
+    { es: "La litosfera está partida en placas que flotan sobre el manto y se mueven unos centímetros al año: lo que crece una uña.", en: "The lithosphere is broken into plates that float on the mantle and move a few centimetres a year.", ca: "La litosfera està partida en plaques que suren sobre el mantell." }),
+
+  q('pt-16', 'primaria',
+    { es: "¿Qué ocurre cuando dos placas chocan?", en: "What happens when two plates collide?", ca: "Què passa quan dues plaques xoquen?" },
+    { es: ["Nada","Se forman montañas y hay terremotos","Se crea un desierto","Se enfría la Tierra"], en: ["Nothing","Mountains form and earthquakes happen","A desert is created","The Earth cools"], ca: ["Res","Es formen muntanyes i hi ha terratrèmols","Es crea un desert","La Terra es refreda"] },
+    { es: "Se forman montañas y hay terremotos", en: "Mountains form and earthquakes happen", ca: "Es formen muntanyes i hi ha terratrèmols" },
+    '🏔️',
+    { es: "El choque arruga la corteza y levanta cordilleras. El Himalaya sigue creciendo hoy porque la India sigue empujando contra Asia.", en: "Collisions crumple the crust into mountain ranges: the Himalayas are still growing.", ca: "El xoc arruga l'escorça i aixeca serralades: l'Himàlaia encara creix." }),
+
+  q('pt-17', 'primaria',
+    { es: "¿Qué es un terremoto?", en: "What is an earthquake?", ca: "Què és un terratrèmol?" },
+    { es: ["Una erupción","Una vibración del suelo por la liberación brusca de energía","Una ola gigante","Un hundimiento del mar"], en: ["An eruption","Ground shaking from a sudden release of energy","A giant wave","A sinking of the sea"], ca: ["Una erupció","Una vibració del sòl per l'alliberament brusc d'energia","Una ona gegant","Un enfonsament del mar"] },
+    { es: "Una vibración del suelo por la liberación brusca de energía", en: "Ground shaking from a sudden release of energy", ca: "Una vibració del sòl per l'alliberament brusc d'energia" },
+    '📳',
+    { es: "Las placas se enganchan, acumulan tensión y de golpe se sueltan. Esa energía viaja en forma de ondas y hace temblar el suelo.", en: "Plates lock, build up stress and suddenly slip, sending out waves.", ca: "Les plaques s'enganxen, acumulen tensió i de cop es deixen anar." }),
+
+  q('pt-18', 'primaria',
+    { es: "¿Dónde hay más volcanes y terremotos?", en: "Where are most volcanoes and earthquakes?", ca: "On hi ha més volcans i terratrèmols?" },
+    { es: ["En el centro de los continentes","En los bordes de las placas","En los desiertos","En los polos"], en: ["In the middle of continents","At plate boundaries","In deserts","At the poles"], ca: ["Al centre dels continents","Als límits de les plaques","Als deserts","Als pols"] },
+    { es: "En los bordes de las placas", en: "At plate boundaries", ca: "Als límits de les plaques" },
+    '🌋',
+    { es: "Casi toda la actividad se concentra en los bordes. El \"Cinturón de Fuego\" del Pacífico reúne el 75% de los volcanes activos del planeta.", en: "Almost all activity is at plate edges: the Pacific Ring of Fire holds 75% of active volcanoes.", ca: "Gairebé tota l'activitat es concentra als límits de les plaques." }),
+
+  q('pt-19', 'primaria',
+    { es: "¿Qué fue Pangea?", en: "What was Pangaea?", ca: "Què va ser Pangea?" },
+    { es: ["Un volcán gigante","Un supercontinente que reunía toda la tierra firme","Un océano","Una era glacial"], en: ["A giant volcano","A supercontinent holding all land together","An ocean","An ice age"], ca: ["Un volcà gegant","Un supercontinent que reunia tota la terra ferma","Un oceà","Una era glacial"] },
+    { es: "Un supercontinente que reunía toda la tierra firme", en: "A supercontinent holding all land together", ca: "Un supercontinent que reunia tota la terra ferma" },
+    '🗺️',
+    { es: "Hace unos 300 millones de años los continentes estaban unidos en uno solo. Al separarse quedaron las costas que hoy encajan como un puzle, como África y Sudamérica.", en: "Around 300 million years ago all land was joined; that is why Africa and South America still fit together.", ca: "Fa uns 300 milions d'anys els continents estaven units en un de sol." }),
 ]
 
 export const PREGUNTAS_PRIMARIA = PREGUNTAS.filter(p => p.nivel === 'primaria')

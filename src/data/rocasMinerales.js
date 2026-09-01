@@ -103,6 +103,41 @@ export const PREGUNTAS = [
     { es: 'Los dos son rocas ígneas', en: 'Both are igneous rocks', ca: 'Els dos són roques ígnies' },
     '🌋',
     { es: 'Granito y basalto son ambos rocas ígneas: se diferencian en la velocidad de enfriamiento (lenta y bajo tierra el granito, rápida y en superficie el basalto), no en su origen.', en: 'Granite and basalt are both igneous rocks: they differ in cooling speed (slow and underground for granite, fast and at the surface for basalt), not in their origin.', ca: 'Granit i basalt són tots dos roques ígnies: es diferencien en la velocitat de refredament (lenta i sota terra el granit, ràpida i en superfície el basalt), no en el seu origen.' }),
+
+  q('rm-15', 'primaria',
+    { es: "¿Qué diferencia hay entre una roca y un mineral?", en: "What is the difference between a rock and a mineral?", ca: "Quina diferència hi ha entre una roca i un mineral?" },
+    { es: ["Ninguna","El mineral es una sustancia única; la roca es una mezcla de minerales","La roca es más pequeña","El mineral siempre brilla"], en: ["None","A mineral is a single substance; a rock is a mixture of minerals","A rock is smaller","A mineral always shines"], ca: ["Cap","El mineral és una substància única; la roca és una barreja de minerals","La roca és més petita","El mineral sempre brilla"] },
+    { es: "El mineral es una sustancia única; la roca es una mezcla de minerales", en: "A mineral is a single substance; a rock is a mixture of minerals", ca: "El mineral és una substància única; la roca és una barreja de minerals" },
+    '💎',
+    { es: "El cuarzo es un mineral; el granito es una roca formada por cuarzo, feldespato y mica. La roca es la mezcla.", en: "Quartz is a mineral; granite is a rock made of quartz, feldspar and mica.", ca: "El quars és un mineral; el granit és una roca formada per quars, feldspat i mica." }),
+
+  q('rm-16', 'primaria',
+    { es: "¿Cómo se forman las rocas magmáticas?", en: "How are igneous rocks formed?", ca: "Com es formen les roques magmàtiques?" },
+    { es: ["Por acumulación de restos","Al enfriarse y solidificarse el magma","Por presión y calor sobre otra roca","Por la lluvia"], en: ["By piling up remains","When magma cools and solidifies","By pressure and heat on another rock","By rain"], ca: ["Per acumulació de restes","En refredar-se i solidificar-se el magma","Per pressió i calor sobre una altra roca","Per la pluja"] },
+    { es: "Al enfriarse y solidificarse el magma", en: "When magma cools and solidifies", ca: "En refredar-se i solidificar-se el magma" },
+    '🌋',
+    { es: "El magma se enfría y cristaliza. Si lo hace despacio y bajo tierra salen cristales grandes (granito); si lo hace rápido en la superficie, cristales diminutos (basalto).", en: "Magma cools and crystallises: slowly underground gives granite, fast at the surface gives basalt.", ca: "El magma es refreda i cristal·litza: a poc a poc dona granit, ràpid dona basalt." }),
+
+  q('rm-17', 'primaria',
+    { es: "¿Qué son las rocas sedimentarias?", en: "What are sedimentary rocks?", ca: "Què són les roques sedimentàries?" },
+    { es: ["Rocas de magma","Rocas formadas por acumulación y compactación de sedimentos","Rocas transformadas por calor","Rocas del espacio"], en: ["Magma rocks","Rocks formed by sediment piling up and compacting","Rocks transformed by heat","Rocks from space"], ca: ["Roques de magma","Roques formades per acumulació i compactació de sediments","Roques transformades per calor","Roques de l'espai"] },
+    { es: "Rocas formadas por acumulación y compactación de sedimentos", en: "Rocks formed by sediment piling up and compacting", ca: "Roques formades per acumulació i compactació de sediments" },
+    '🏜️',
+    { es: "Se forman en capas, y por eso son las únicas que guardan fósiles. La arenisca y la caliza son ejemplos típicos.", en: "They form in layers, which is why they are the only ones that preserve fossils.", ca: "Es formen en capes, i per això són les úniques que guarden fòssils." }),
+
+  q('rm-18', 'primaria',
+    { es: "¿Qué mineral es el más duro de la escala de Mohs?", en: "Which mineral is the hardest on the Mohs scale?", ca: "Quin mineral és el més dur de l'escala de Mohs?" },
+    { es: ["El cuarzo","El diamante","El talco","El yeso"], en: ["Quartz","Diamond","Talc","Gypsum"], ca: ["El quars","El diamant","El talc","El guix"] },
+    { es: "El diamante", en: "Diamond", ca: "El diamant" },
+    '💠',
+    { es: "El diamante es el 10, el máximo; el talco es el 1 y se raya con la uña. La escala mide qué mineral raya a cuál.", en: "Diamond is 10, the maximum; talc is 1 and can be scratched with a fingernail.", ca: "El diamant és el 10, el màxim; el talc és l'1 i es ratlla amb l'ungla." }),
+
+  q('rm-19', 'primaria',
+    { es: "¿Qué es una roca metamórfica?", en: "What is a metamorphic rock?", ca: "Què és una roca metamòrfica?" },
+    { es: ["Una roca fundida","Una roca transformada por calor y presión sin llegar a fundirse","Una roca con fósiles","Una roca del fondo marino"], en: ["A molten rock","A rock transformed by heat and pressure without melting","A rock with fossils","A sea-floor rock"], ca: ["Una roca fosa","Una roca transformada per calor i pressió sense arribar a fondre's","Una roca amb fòssils","Una roca del fons marí"] },
+    { es: "Una roca transformada por calor y presión sin llegar a fundirse", en: "A rock transformed by heat and pressure without melting", ca: "Una roca transformada per calor i pressió sense arribar a fondre's" },
+    '🗿',
+    { es: "La caliza sometida a calor y presión se convierte en mármol, y la arcilla en pizarra. Cambian sin llegar a fundirse.", en: "Limestone under heat and pressure becomes marble, clay becomes slate — without melting.", ca: "La calcària sotmesa a calor i pressió es converteix en marbre." }),
 ]
 
 export const PREGUNTAS_PRIMARIA = PREGUNTAS.filter(p => p.nivel === 'primaria')

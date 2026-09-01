@@ -119,6 +119,36 @@ const TODAS = [
     0, '✅',
     { es: '"Sino" (conjunción adversativa) une dos elementos contrapuestos: "No es A, sino B". "Si no" (condicional negado) introduce una condición: "Si no llueve, salimos".', en: '"Sino" (conjunción adversativa) une dos elementos contrapuestos: "No es A, sino B". "Si no" (condicional negado) introduce una condición: "Si no llueve, salimos".', ca: '"Sino" (conjunción adversativa) une dos elementos contrapuestos: "No es A, sino B". "Si no" (condicional negado) introduce una condición: "Si no llueve, salimos".' }
   ),
+
+  q('ge-17', 'primaria',
+    { es: "¿Qué clase de palabra es \"rápidamente\"?", en: "What word class is \"rápidamente\"?", ca: "Quina classe de paraula és \"rápidamente\"?" },
+    { es: ["Adjetivo","Adverbio","Sustantivo","Verbo"], en: ["Adjetivo","Adverbio","Sustantivo","Verbo"], ca: ["Adjetivo","Adverbio","Sustantivo","Verbo"] },
+    1, '🏃',
+    { es: "Acaba en -mente y dice cómo se hace algo: es un adverbio de modo. Además es invariable.", en: "Acaba en -mente y dice cómo se hace algo: es un adverbio de modo.", ca: "Acaba en -mente y dice cómo se hace algo: es un adverbio de modo." }),
+
+  q('ge-18', 'primaria',
+    { es: "En \"el gato duerme\", ¿cuál es el verbo?", en: "In \"el gato duerme\", which is the verb?", ca: "A \"el gato duerme\", quin és el verb?" },
+    { es: ["el","gato","duerme","ninguno"], en: ["el","gato","duerme","ninguno"], ca: ["el","gato","duerme","ninguno"] },
+    2, '😴',
+    { es: "\"Duerme\" expresa la acción: es el verbo y el núcleo del predicado.", en: "\"Duerme\" expresa la acción: es el verbo y el núcleo del predicado.", ca: "\"Duerme\" expresa la acción: es el verbo y el núcleo del predicado." }),
+
+  q('ge-19', 'primaria',
+    { es: "¿Cuántas clases de palabras hay en \"la casa grande\"?", en: "How many word classes are in \"la casa grande\"?", ca: "Quantes classes de paraules hi ha a \"la casa grande\"?" },
+    { es: ["Una","Dos","Tres","Cuatro"], en: ["Una","Dos","Tres","Cuatro"], ca: ["Una","Dos","Tres","Cuatro"] },
+    2, '🏠',
+    { es: "Tres: determinante (\"la\"), sustantivo (\"casa\") y adjetivo (\"grande\").", en: "Tres: determinante (\"la\"), sustantivo (\"casa\") y adjetivo (\"grande\").", ca: "Tres: determinante (\"la\"), sustantivo (\"casa\") y adjetivo (\"grande\")." }),
+
+  q('ge-20', 'primaria',
+    { es: "¿Qué palabra es una preposición?", en: "Which word is a preposition?", ca: "Quina paraula és una preposició?" },
+    { es: ["con","corre","perro","bonito"], en: ["con","corre","perro","bonito"], ca: ["con","corre","perro","bonito"] },
+    0, '🔗',
+    { es: "\"Con\" relaciona palabras dentro de la oración. La lista clásica empieza: a, ante, bajo, cabe, con, contra…", en: "\"Con\" relaciona palabras dentro de la oración.", ca: "\"Con\" relaciona palabras dentro de la oración." }),
+
+  q('ge-21', 'primaria',
+    { es: "En \"ellos cantan\", ¿qué es \"ellos\"?", en: "In \"ellos cantan\", what is \"ellos\"?", ca: "A \"ellos cantan\", què és \"ellos\"?" },
+    { es: ["Un verbo","Un pronombre personal","Un adverbio","Una preposición"], en: ["Un verbo","Un pronombre personal","Un adverbio","Una preposición"], ca: ["Un verbo","Un pronombre personal","Un adverbio","Una preposición"] },
+    1, '👥',
+    { es: "\"Ellos\" sustituye a un sustantivo (los nombres de quienes cantan): es un pronombre personal.", en: "\"Ellos\" sustituye a un sustantivo: es un pronombre personal.", ca: "\"Ellos\" sustituye a un sustantivo: es un pronombre personal." }),
 ]
 
 export const PREGUNTAS_PRIMARIA = TODAS.filter(q => q.nivel === 'primaria')
