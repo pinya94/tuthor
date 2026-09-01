@@ -1,4 +1,7 @@
 const EN = s => ({ es: s, en: s, ca: s })
+// Opciones iguales en los tres idiomas: en un examen de inglés las
+// respuestas son inglés y no se traducen.
+const O = a => ({ es: a, en: a, ca: a })
 function q(id, nivel, pregunta, opciones, correcta, emoji, explicacion) {
   return { id, nivel, pregunta, opciones, correcta, emoji, explicacion }
 }
@@ -63,6 +66,42 @@ const TODAS = [
   q('pa-15', 'eso', EN('When do we use past simple (not past continuous)?'),
     { es: ['For an action in progress at a past moment', 'For a completed action at a specific past time', 'For a habit in the present', 'For a future plan'], en: ['For an action in progress at a past moment', 'For a completed action at a specific past time', 'For a habit in the present', 'For a future plan'], ca: ['For an action in progress at a past moment', 'For a completed action at a specific past time', 'For a habit in the present', 'For a future plan'] },
     1, '✅', EN('Past simple = completed action at a specific past time: "I called her at 9." Past continuous = action in progress: "I was calling her when you arrived."')),
+
+  q('pa-16', 'primaria', EN("What is the past simple of \"go\"?"),
+    O(["goed","went","gone","going"]),
+    1, '🚶', EN("go → went (past) → gone (participle). It is irregular, so \"goed\" does not exist.")),
+
+  q('pa-17', 'primaria', EN("Complete: \"She ___ her homework last night.\""),
+    O(["finish","finished","finishes","finishing"]),
+    1, '📚', EN("Regular verbs add -ed for the past: finish → finished. \"Last night\" is finished time.")),
+
+  q('pa-18', 'primaria', EN("Complete the negative: \"He ___ come to the party.\""),
+    O(["didn't","doesn't","not","wasn't"]),
+    0, '🎉', EN("\"Didn't\" is the past negative for every person. And after it the verb goes back to its base form: \"didn't come\".")),
+
+  q('pa-19', 'primaria', EN("Which question is correct?"),
+    O(["Did you saw the film?","Did you see the film?","Do you saw the film?","Did you seeing the film?"]),
+    1, '🎬', EN("\"Did\" already marks the past, so the main verb stays in its base form: \"Did you see?\", never \"Did you saw?\".")),
+
+  q('pa-20', 'primaria', EN("Which word signals the past simple?"),
+    O(["every day","yesterday","already","now"]),
+    1, '📅', EN("yesterday, last week, in 2019 and two days ago point at a finished moment → past simple. \"Already\" belongs to the present perfect.")),
+
+  q('pa-21', 'primaria', EN("Complete: \"We ___ tired after the trip.\""),
+    O(["was","were","are","been"]),
+    1, '😴', EN("The verb \"be\" has its own past and does not use \"did\": was for I/he/she/it, were for you/we/they.")),
+
+  q('pa-22', 'primaria', EN("What is the past simple of \"buy\"?"),
+    O(["buyed","bought","buys","buying"]),
+    1, '🛒', EN("buy → bought. Irregular verbs have no rule: they are learnt by heart.")),
+
+  q('pa-23', 'eso', EN("Why is \"He didn't went\" wrong?"),
+    O(["\"Went\" is not a real verb","After \"did\" the verb goes back to its base form","\"Didn't\" cannot be used with \"he\"","It should use \"was\""]),
+    1, '🚫', EN("The past is marked ONCE, by \"did\". Marking it twice (\"didn't went\") is the most repeated mistake: it is \"didn't go\".")),
+
+  q('pa-24', 'eso', EN("Complete: \"I ___ that book last month.\" (read)"),
+    O(["readed","read","reads","reading"]),
+    1, '📖', EN("\"Read\" is spelt the same in the present and the past, but the past is pronounced /red/. \"Last month\" is the only clue.")),
 ]
 
 export const PREGUNTAS_PRIMARIA = TODAS.filter(q => q.nivel === 'primaria')

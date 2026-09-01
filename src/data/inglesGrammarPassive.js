@@ -1,4 +1,7 @@
 const EN = s => ({ es: s, en: s, ca: s })
+// Opciones iguales en los tres idiomas: en un examen de inglés las respuestas
+// SON inglés, así que no se traducen. Evita repetir el mismo array tres veces.
+const O = a => ({ es: a, en: a, ca: a })
 function q(id, nivel, pregunta, opciones, correcta, emoji, explicacion) {
   return { id, nivel, pregunta, opciones, correcta, emoji, explicacion }
 }
@@ -63,6 +66,66 @@ const TODAS = [
   q('pv-15', 'eso', EN('Which sentence correctly uses "by" in the passive?'),
     { es: ["This book was written by me.", "This book was written by I.", "This book is written by Shakespeare yesterday.", "This book was written from Shakespeare."], en: ["This book was written by me.", "This book was written by I.", "This book is written by Shakespeare yesterday.", "This book was written from Shakespeare."], ca: ["This book was written by me.", "This book was written by I.", "This book is written by Shakespeare yesterday.", "This book was written from Shakespeare."] },
     0, '📘', EN('"By" + object pronoun in passive: by me/him/her/us/them. Never "by I/he/she/we/they". "By" introduces the agent in passive sentences.')),
+
+  q('pv-16', 'primaria', EN('Which sentence is passive?'),
+    O(['The dog chased the cat.', 'The cat was chased by the dog.', 'The cat chased the dog.', 'The dog is chasing.']),
+    1, '🐈', EN('In a passive sentence the subject RECEIVES the action. "The cat was chased" — the cat does not chase, it is chased.')),
+
+  q('pv-17', 'primaria', EN('Complete: "English ___ in many countries."'),
+    O(['is spoken', 'speaks', 'is speaking', 'spoke']),
+    0, '🌍', EN('English does not speak; it IS spoken. Present simple passive = is/are + past participle.')),
+
+  q('pv-18', 'primaria', EN('Change to passive: "They built this house in 1990."'),
+    O(['This house built in 1990.', 'This house was built in 1990.', 'This house is built in 1990.', 'This house has built in 1990.']),
+    1, '🏠', EN('Past simple passive = was/were + past participle. "In 1990" is finished time, so it is "was built", not "is built".')),
+
+  q('pv-19', 'primaria', EN('Complete: "The letters ___ yesterday."'),
+    O(['was sent', 'were sent', 'are sent', 'sent']),
+    1, '✉️', EN('"Letters" is plural, so "be" goes plural too: were. The participle "sent" never changes.')),
+
+  q('pv-20', 'primaria', EN('What does "by" introduce in a passive sentence?'),
+    O(['The time of the action', 'The person or thing doing the action', 'The place', 'The object']),
+    1, '👤', EN('"By" introduces the agent — who or what does the action: "written BY Shakespeare", "broken BY the storm".')),
+
+  q('pv-21', 'primaria', EN('Complete: "The windows ___ every week."'),
+    O(['is cleaned', 'are cleaned', 'clean', 'were cleaning']),
+    1, '🏢', EN('"Windows" is plural → are. "Every week" is a routine → present simple passive.')),
+
+  q('pv-22', 'primaria', EN('Which is the past participle of "write"?'),
+    O(['wrote', 'written', 'writing', 'writed']),
+    1, '✍️', EN('write → wrote (past) → written (participle). The passive always takes the PARTICIPLE: "was written", never "was wrote".')),
+
+  q('pv-23', 'primaria', EN('Complete: "This song ___ by millions of people."'),
+    O(['is loved', 'are loved', 'loves', 'loving']),
+    0, '🎵', EN('"This song" is singular → is. The song does not love anyone; it is loved.')),
+
+  q('pv-24', 'primaria', EN('Change to passive: "The teacher checks the homework."'),
+    O(['The homework is checked.', 'The homework checks.', 'The homework was checked.', 'The homework checking.']),
+    0, '📝', EN('The object ("the homework") becomes the subject, and the verb goes to be + participle in the same tense: checks → is checked.')),
+
+  q('pv-25', 'primaria', EN('In a passive sentence, which word carries the tense?'),
+    O(['The past participle', 'The verb "be"', 'The subject', 'The word "by"']),
+    1, '⏱️', EN('"Be" is what moves: is built (now), was built (before), will be built (later). The participle stays exactly the same.')),
+
+  q('pv-26', 'eso', EN('Passive of "They will announce the results tomorrow."'),
+    O(['The results will announced tomorrow.', 'The results will be announced tomorrow.', 'The results are announced tomorrow.', 'The results will being announced.']),
+    1, '📢', EN('Future passive = will + BE + participle. After "will", "be" always stays in its base form.')),
+
+  q('pv-27', 'eso', EN('Which of these sentences CANNOT be made passive?'),
+    O(['She wrote a letter.', 'They arrived late.', 'He built a house.', 'We ate the cake.']),
+    1, '🚫', EN('Only verbs with an object can go passive: the object becomes the subject. "Arrive" has no object (it is intransitive), so there is nothing to promote.')),
+
+  q('pv-28', 'eso', EN('Passive of "Someone has stolen my bike."'),
+    O(['My bike has stolen.', 'My bike has been stolen.', 'My bike is stolen by someone.', 'My bike was stealing.']),
+    1, '🚲', EN('Present perfect passive = has/have + BEEN + participle. And "by someone" is dropped: an unknown agent adds nothing.')),
+
+  q('pv-29', 'eso', EN('When do we usually leave out "by + agent"?'),
+    O(['Always', 'When the agent is unknown or does not matter', 'When the sentence is long', 'When the verb is irregular']),
+    1, '🤷', EN('That is the whole point of the passive: "My wallet was stolen" — we do not know by whom, and it does not matter. You add "by" only when it tells you something.')),
+
+  q('pv-30', 'eso', EN('Passive of "They gave Anna a prize", with Anna as the subject.'),
+    O(['Anna was given a prize.', 'A prize was given Anna.', 'Anna gave a prize.', 'Anna is giving a prize.']),
+    0, '🏆', EN('Verbs with two objects (give, send, offer, tell) have two passives, and English prefers the person: "Anna was given a prize".')),
 ]
 
 export const PREGUNTAS_PRIMARIA = TODAS.filter(q => q.nivel === 'primaria')

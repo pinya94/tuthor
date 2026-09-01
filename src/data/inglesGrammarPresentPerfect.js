@@ -1,4 +1,7 @@
 const EN = s => ({ es: s, en: s, ca: s })
+// Opciones iguales en los tres idiomas: en un examen de inglés las
+// respuestas son inglés y no se traducen.
+const O = a => ({ es: a, en: a, ca: a })
 function q(id, nivel, pregunta, opciones, correcta, emoji, explicacion) {
   return { id, nivel, pregunta, opciones, correcta, emoji, explicacion }
 }
@@ -63,6 +66,46 @@ const TODAS = [
   q('pp-15', 'eso', EN('Complete: "They ___ (live) here since they were children."'),
     { es: ['They lived here since they were children.', 'They have lived here since they were children.', 'They are living here since they were children.', 'They live here since they were children.'], en: ['They lived here since they were children.', 'They have lived here since they were children.', 'They are living here since they were children.', 'They live here since they were children.'], ca: ['They lived here since they were children.', 'They have lived here since they were children.', 'They are living here since they were children.', 'They live here since they were children.'] },
     1, '🏘️', EN('"Since" + past time with present perfect shows an action/state that started in the past and continues now. "They have lived here since they were children."')),
+
+  q('pp-16', 'primaria', EN("How is the present perfect formed?"),
+    O(["have/has + past participle","have/has + infinitive","was/were + participle","do/does + verb"]),
+    0, '⚙️', EN("have/has + past participle: \"I have finished\", \"she has gone\". The participle never changes.")),
+
+  q('pp-17', 'primaria', EN("Complete: \"She ___ finished her homework.\""),
+    O(["have","has","is","did"]),
+    1, '✅', EN("With he/she/it it is \"has\"; with I/you/we/they, \"have\".")),
+
+  q('pp-18', 'primaria', EN("Which word goes with the present perfect?"),
+    O(["yesterday","last year","already","in 2010"]),
+    2, '⏳', EN("already, yet, just, ever and never belong to the present perfect. Yesterday, last year and in 2010 are finished time → past simple.")),
+
+  q('pp-19', 'primaria', EN("Complete: \"I ___ never been to Japan.\""),
+    O(["have","has","am","did"]),
+    0, '🗾', EN("With \"I\" the auxiliary is \"have\". \"Never\" is the clue: it talks about experience up to today, with no date.")),
+
+  q('pp-20', 'primaria', EN("What is the past participle of \"go\"?"),
+    O(["went","gone","going","goed"]),
+    1, '🚪', EN("go → went (past) → gone (participle). The present perfect always takes the participle: \"has gone\", never \"has went\".")),
+
+  q('pp-21', 'primaria', EN("Complete: \"They ___ just arrived.\""),
+    O(["have","has","are","were"]),
+    0, '🛬', EN("\"They\" takes \"have\". And \"just\" means it happened a moment ago and still counts now.")),
+
+  q('pp-22', 'primaria', EN("Which sentence is correct?"),
+    O(["I have saw that film.","I have seen that film.","I have see that film.","I has seen that film."]),
+    1, '🎥', EN("see → saw (past) → seen (participle). After have/has comes the participle: \"have seen\".")),
+
+  q('pp-23', 'primaria', EN("Complete the question: \"___ you ever eaten sushi?\""),
+    O(["Have","Has","Did","Are"]),
+    0, '🍣', EN("Questions with \"ever\" ask about experience → present perfect. With \"you\", the auxiliary is \"have\".")),
+
+  q('pp-24', 'eso', EN("\"She has gone to Paris\" means…"),
+    O(["She is in Paris now","She visited Paris and came back","She will go to Paris","She lives in Paris"]),
+    0, '🗼', EN("\"Has gone to\" = went and is still there. \"Has been to\" = went and is back. They are not interchangeable.")),
+
+  q('pp-25', 'eso', EN("Which sentence is WRONG?"),
+    O(["I have lived here since 2010.","I have lived here for ten years.","I have seen him yesterday.","I have already eaten."]),
+    2, '❌', EN("With a finished, specific moment (yesterday) you use the past simple: \"I saw him yesterday\". The present perfect does not take a closed date.")),
 ]
 
 export const PREGUNTAS_PRIMARIA = TODAS.filter(q => q.nivel === 'primaria')

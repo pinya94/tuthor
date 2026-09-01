@@ -1,5 +1,8 @@
 // Questions always in English — language-independent
 const EN = s => ({ es: s, en: s, ca: s })
+// Opciones iguales en los tres idiomas: en un examen de inglés las
+// respuestas son inglés y no se traducen.
+const O = a => ({ es: a, en: a, ca: a })
 function q(id, nivel, pregunta, opciones, correcta, emoji, explicacion) {
   return { id, nivel, pregunta, opciones, correcta, emoji, explicacion }
 }
@@ -64,6 +67,42 @@ const TODAS = [
   q('ps-15', 'eso', EN('"He ___ (not/understand) the question." Complete correctly.'),
     { es: ["He don't understand the question.", "He doesn't understands the question.", "He doesn't understand the question.", "He not understands the question."], en: ["He don't understand the question.", "He doesn't understands the question.", "He doesn't understand the question.", "He not understands the question."], ca: ["He don't understand the question.", "He doesn't understands the question.", "He doesn't understand the question.", "He not understands the question."] },
     2, '🤔', EN('"Understand" is a stative verb. Negative 3rd person: doesn\'t + base verb. "He doesn\'t understand." — no -s on the main verb.')),
+
+  q('ps-16', 'primaria', EN("Complete: \"He ___ football every day.\""),
+    O(["play","plays","playing","played"]),
+    1, '⚽', EN("With he/she/it the verb takes -s in the present simple: he plays. \"Every day\" tells you it is a routine.")),
+
+  q('ps-17', 'primaria', EN("Complete the negative: \"They ___ like fish.\""),
+    O(["doesn't","don't","not","aren't"]),
+    1, '🐟', EN("\"Don't\" goes with I/you/we/they; \"doesn't\" with he/she/it. After both, the verb stays in its base form.")),
+
+  q('ps-18', 'primaria', EN("Which question is correct?"),
+    O(["Do she work here?","Does she work here?","Does she works here?","Is she work here?"]),
+    1, '❓', EN("With he/she/it: Does + subject + BASE verb. The -s moves onto \"does\", so it is \"Does she work?\", never \"Does she works?\".")),
+
+  q('ps-19', 'primaria', EN("Complete: \"My sister ___ to school by bus.\""),
+    O(["go","goes","going","gos"]),
+    1, '🚌', EN("Verbs ending in -o add -es: go → goes, do → does. \"Gos\" does not exist.")),
+
+  q('ps-20', 'primaria', EN("Which word signals the present simple?"),
+    O(["now","always","yesterday","tomorrow"]),
+    1, '🔁', EN("always, usually, often, never and every day point at habits → present simple. \"Now\" points at the present continuous.")),
+
+  q('ps-21', 'primaria', EN("Complete: \"Water ___ at 100 degrees.\""),
+    O(["boil","boils","is boiling","boiled"]),
+    1, '🌡️', EN("General truths and scientific facts go in the present simple: \"water boils at 100 degrees\".")),
+
+  q('ps-22', 'primaria', EN("Where does \"never\" go?"),
+    O(["She eats never meat.","She never eats meat.","Never she eats meat.","She eats meat never."]),
+    1, '🥗', EN("Frequency adverbs go between the subject and the main verb: \"she never eats\". In Spanish they move around freely; in English they do not.")),
+
+  q('ps-23', 'eso', EN("Which is correct with the verb \"be\"?"),
+    O(["He never is late.","He is never late.","Never he is late.","He is late never."]),
+    1, '⏰', EN("With \"be\" the adverb goes AFTER: \"he is never late\". With any other verb it goes before: \"he never arrives late\".")),
+
+  q('ps-24', 'eso', EN("Complete: \"The train ___ at 7:15 every morning.\""),
+    O(["leave","leaves","is leaving","left"]),
+    1, '🚂', EN("Timetables and scheduled events take the present simple, even when they talk about the future: \"the train leaves at 7:15\".")),
 ]
 
 export const PREGUNTAS_PRIMARIA = TODAS.filter(q => q.nivel === 'primaria')

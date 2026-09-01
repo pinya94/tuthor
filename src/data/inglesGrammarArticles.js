@@ -1,4 +1,7 @@
 const EN = s => ({ es: s, en: s, ca: s })
+// Opciones iguales en los tres idiomas: en un examen de inglés las
+// respuestas son inglés y no se traducen.
+const O = a => ({ es: a, en: a, ca: a })
 function q(id, nivel, pregunta, opciones, correcta, emoji, explicacion) {
   return { id, nivel, pregunta, opciones, correcta, emoji, explicacion }
 }
@@ -63,6 +66,46 @@ const TODAS = [
   q('ar-15', 'eso', EN('"___ Eiffel Tower is in Paris." Choose the article.'),
     { es: ['A', 'An', 'The', '—'], en: ['A', 'An', 'The', '—'], ca: ['A', 'An', 'The', '—'] },
     2, '🗼', EN('"The" is used with named landmarks and unique buildings: the Eiffel Tower, the Colosseum, the Louvre, the White House. There is only one, so it is "the".')),
+
+  q('ar-16', 'primaria', EN("Complete: \"She is ___ teacher.\""),
+    O(["a","an","the","no article"]),
+    0, '👩‍🏫', EN("Jobs take a/an in English even though Spanish uses no article: \"es profesora\" → \"she is A teacher\".")),
+
+  q('ar-17', 'primaria', EN("Complete: \"I ate ___ apple.\""),
+    O(["a","an","the","no article"]),
+    1, '🍎', EN("\"Apple\" starts with a vowel sound, so it takes \"an\": an apple, an orange, an egg.")),
+
+  q('ar-18', 'primaria', EN("When do we use \"an\"?"),
+    O(["Before a vowel letter","Before a vowel SOUND","Before plurals","Before verbs"]),
+    1, '🔊', EN("It is about sound, not spelling: \"an hour\" (silent h) but \"a university\" (it sounds \"yu\").")),
+
+  q('ar-19', 'primaria', EN("Complete: \"___ sun is a star.\""),
+    O(["A","An","The","No article"]),
+    2, '☀️', EN("There is only one sun, and \"the\" is what marks something unique: the sun, the moon, the sky.")),
+
+  q('ar-20', 'primaria', EN("Complete: \"I like ___ music.\""),
+    O(["a","an","the","no article"]),
+    3, '🎵', EN("Talking in general about something uncountable takes no article: \"I like music\", not \"the music\".")),
+
+  q('ar-21', 'primaria', EN("Complete: \"It takes ___ hour to get there.\""),
+    O(["a","an","the","no article"]),
+    1, '⏰', EN("The h in \"hour\" is silent, so it starts with a vowel SOUND: \"an hour\".")),
+
+  q('ar-22', 'primaria', EN("Complete: \"I saw a cat. ___ cat was black.\""),
+    O(["A","An","The","No article"]),
+    2, '🐈', EN("First mention: a/an. From then on we know which one it is, so it becomes \"the\".")),
+
+  q('ar-23', 'primaria', EN("Complete: \"___ dogs are friendly animals.\""),
+    O(["The","A","An","No article"]),
+    3, '🐕', EN("Plurals used in a general sense take no article: \"dogs are friendly\", not \"the dogs\".")),
+
+  q('ar-24', 'eso', EN("Why is it \"a university\" and not \"an university\"?"),
+    O(["University is a masculine word","It starts with a consonant sound (/juː/)","It is a long word","It is a place"]),
+    1, '🎓', EN("\"University\" is written with a vowel but pronounced \"yu-\", which is a consonant sound. The rule follows the ear, not the eye.")),
+
+  q('ar-25', 'eso', EN("In which sentence does the gap need NO article?"),
+    O(["She plays ___ piano.","He is ___ engineer.","We go to ___ school by bus.","Close ___ door, please."]),
+    2, '🏫', EN("With school, hospital, church or prison, no article means the PURPOSE (going to study), not the building.")),
 ]
 
 export const PREGUNTAS_PRIMARIA = TODAS.filter(q => q.nivel === 'primaria')
