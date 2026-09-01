@@ -98,6 +98,7 @@ const RayosX                 = lazy(() => import('./pages/RayosX'))
 const CircuitoCerrado        = lazy(() => import('./pages/CircuitoCerrado'))
 const EncuentraElemento      = lazy(() => import('./pages/EncuentraElemento'))
 const CadenaAlimentaria      = lazy(() => import('./pages/CadenaAlimentaria'))
+const Microscopio            = lazy(() => import('./pages/Microscopio'))
 const Diagnostico            = lazy(() => import('./pages/Diagnostico'))
 const FraccionesTema         = lazy(() => import('./pages/FraccionesTema'))
 const EstadisticaTema        = lazy(() => import('./pages/EstadisticaTema'))
@@ -167,6 +168,7 @@ function AppRoutes() {
       <Route path="examen/quimica/:tema/:formato" element={<ExamenTema materia="quimica" />} />
       <Route path="examen/biologia/:tema/:formato" element={<ExamenTema materia="biologia" />} />
       <Route path="examen/geologia/:tema/:formato" element={<ExamenTema materia="geologia" />} />
+      <Route path="juegos/microscopio" element={<Microscopio />} />
       <Route path="juegos/pieza-que-falta" element={<PiezaQueFalta />} />
       <Route path="examen/ingles/:tema/:formato" element={<ExamenTema materia="ingles" />} />
       <Route path="examen/economia/:tema/:formato" element={<ExamenTema materia="economia" />} />

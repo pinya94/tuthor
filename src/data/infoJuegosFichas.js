@@ -891,6 +891,34 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Química', niveles: 'Primaria, ESO, Bachillerato',
   },
+  'microscopio': {
+    titulo: 'Bajo el Microscopio',
+    subtitulo: 'Juego de la célula: orgánulos, célula animal y célula vegetal',
+    emoji: '🔬', gradient: 'from-purple-600 to-indigo-800',
+    path: '/juegos/microscopio',
+    intro: 'Un juego de biología para dominar la célula: aparece dibujada —a veces animal, a veces vegetal— y hay que tocar directamente el orgánulo que se pide. Unas rondas dan el nombre ("toca la mitocondria") y otras solo lo que hace ("toca el que saca energía de los nutrientes"), que es exactamente como se pregunta en un examen. Y como el tipo de célula cambia sin avisar, hay que estar atento a qué partes existen en cada una: los cloroplastos y la pared celular solo están en la vegetal, y los centriolos solo en la animal.',
+    beneficios: [
+      { titulo: 'La célula como mapa, no como lista', texto: 'Señalar sobre el dibujo obliga a saber DÓNDE está cada orgánulo y qué tamaño tiene respecto a los demás, no solo a recitar una lista de nombres. Esa imagen mental es la que después permite interpretar cualquier esquema de un libro o de un examen, aunque esté dibujado de otra forma.' },
+      { titulo: 'Nombre y función, no uno u otro', texto: 'Preguntar unas veces por el nombre y otras por la función rompe el aprendizaje de memoria en un solo sentido. Quien solo ha memorizado la lista se atasca en cuanto le preguntan "cuál fabrica las proteínas", y eso es justo lo que aquí no se puede evitar.' },
+      { titulo: 'La diferencia animal / vegetal', texto: 'Es la pregunta clásica de la ESO y aquí sale sola, porque las dos células van mezcladas. Al tercer o cuarto fallo buscando un cloroplasto en una célula animal, la diferencia deja de ser una lista que memorizar y pasa a ser algo evidente.' },
+    ],
+    ejemplo: 'Sale una célula vegetal y el enunciado dice "toca el que hace la fotosíntesis". El alumno duda entre la vacuola grande del centro y unos óvalos verdes más pequeños, y toca los verdes: cloroplastos. Al acertar lee que llevan clorofila y que con luz, agua y CO2 fabrican glucosa, que es la razón por la que una planta no necesita comerse a nadie.',
+    enPapel: {
+      titulo: 'La célula en papel',
+      pasos: [
+        'Dibuja una célula grande en un folio, sin etiquetas, y fotocópiala varias veces.',
+        'En cada copia, señala con flechas cinco orgánulos y escribe solo su nombre.',
+        'En la siguiente copia, escribe solo la función y que otra persona ponga el nombre.',
+        'Al final, dibuja las dos células enfrentadas y rodea lo que solo tiene la vegetal.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'Célula con plastilina', desc: 'Montad una célula con plastilina de colores sobre un plato: un color por orgánulo. Tener que decidir el tamaño y el sitio de cada pieza enseña más que colorear una ficha ya impresa.' },
+      { nombre: 'El mapa mudo de la célula', desc: 'Imprime el esquema sin nombres y rellénalo de memoria, igual que un mapa mudo de geografía. Es el ejercicio más parecido a lo que pide un examen.' },
+      { nombre: 'La célula como una fábrica', desc: 'Repartid papeles: quién es la dirección (núcleo), quién la central eléctrica (mitocondria), quién el almacén de envíos (Golgi). Contar la analogía en voz alta fija las funciones mucho mejor que leerlas.' },
+    ],
+    asignatura: 'Biología', niveles: 'Primaria, ESO, Bachillerato',
+  },
   'cadena-alimentaria': {
     titulo: 'Cadena Alimentaria',
     subtitulo: 'Juego de Reconstruir la Cadena',
@@ -1638,6 +1666,33 @@ export const FICHAS_EN = {
       { nombre: 'Element of the day', desc: 'Each day pick a random element from the table and look up a fun fact about it: what it\'s used for, when it was discovered, where its name comes from.' },
     ],
     asignatura: 'Chemistry', niveles: 'Primary, Secondary, Sixth Form',
+  },
+  'microscopio': {
+    titulo: 'Under the Microscope',
+    subtitulo: 'Cell game: organelles, animal cell and plant cell',
+    emoji: '🔬', gradient: 'from-purple-600 to-indigo-800', path: '/juegos/microscopio',
+    intro: 'A biology game for mastering the cell: it appears drawn — sometimes animal, sometimes plant — and you tap the organelle you are asked for. Some rounds give the name ("tap the mitochondrion") and others only what it does ("tap the one that gets energy out of nutrients"), which is exactly how an exam asks. And since the cell type changes without warning, you have to watch which parts exist in each: chloroplasts and the cell wall are only in the plant one, centrioles only in the animal one.',
+    beneficios: [
+      { titulo: 'The cell as a map, not a list', texto: 'Pointing at the drawing forces you to know WHERE each organelle is and how big it is next to the others, not just to recite names. That mental image is what later lets you read any diagram in a book or an exam, however it is drawn.' },
+      { titulo: 'Name and function, not one or the other', texto: 'Asking sometimes for the name and sometimes for the function breaks one-directional rote learning. Someone who only memorised the list freezes at "which one makes the proteins" — and here that cannot be avoided.' },
+      { titulo: 'The animal / plant difference', texto: 'It is the classic secondary-school question and it comes up by itself, because both cells are mixed in. After the third or fourth miss hunting for a chloroplast in an animal cell, the difference stops being a list to memorise.' },
+    ],
+    ejemplo: 'A plant cell comes up and the prompt says "tap the one that does photosynthesis". The student hesitates between the big central vacuole and some smaller green ovals, and taps the green ones: chloroplasts. On getting it right they read that these carry chlorophyll and build glucose from light, water and CO2 — the reason a plant needs to eat nobody.',
+    enPapel: {
+      titulo: 'The cell on paper',
+      pasos: [
+        'Draw a big cell on a sheet, with no labels, and photocopy it several times.',
+        'On each copy, arrow five organelles and write only their names.',
+        'On the next copy, write only the function and let someone else add the name.',
+        'Finally, draw both cells side by side and circle what only the plant one has.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'Plasticine cell', desc: 'Build a cell out of coloured plasticine on a plate, one colour per organelle. Deciding the size and place of each piece teaches far more than colouring a printed worksheet.' },
+      { nombre: 'The blank cell diagram', desc: 'Print the diagram with no labels and fill it in from memory, like a blank map in geography. It is the exercise closest to what an exam asks.' },
+      { nombre: 'The cell as a factory', desc: 'Hand out roles: who is management (nucleus), who the power plant (mitochondrion), who the dispatch warehouse (Golgi). Telling the analogy out loud fixes the functions much better than reading them.' },
+    ],
+    asignatura: 'Biology', niveles: 'Primary, Secondary, Sixth Form',
   },
   'cadena-alimentaria': {
     titulo: 'Food Chain',
@@ -2464,6 +2519,33 @@ export const FICHAS_CA = {
       { nombre: 'L\'element del dia', desc: 'Cada dia tria un element a l\'atzar de la taula i busca una dada curiosa sobre ell: per a què s\'utilitza, quan es va descobrir, d\'on ve el seu nom.' },
     ],
     asignatura: 'Química', niveles: 'Primària, ESO, Batxillerat',
+  },
+  'microscopio': {
+    titulo: 'Sota el Microscopi',
+    subtitulo: 'Joc de la cèl·lula: orgànuls, cèl·lula animal i cèl·lula vegetal',
+    emoji: '🔬', gradient: 'from-purple-600 to-indigo-800', path: '/juegos/microscopio',
+    intro: 'Un joc de biologia per dominar la cèl·lula: apareix dibuixada —a vegades animal, a vegades vegetal— i cal tocar directament l\'orgànul que es demana. Unes rondes donen el nom ("toca el mitocondri") i d\'altres només què fa ("toca el que treu energia dels nutrients"), que és exactament com es pregunta en un examen. I com que el tipus de cèl·lula canvia sense avisar, cal estar atent a quines parts existeixen a cadascuna: els cloroplasts i la paret cel·lular només són a la vegetal, i els centríols només a l\'animal.',
+    beneficios: [
+      { titulo: 'La cèl·lula com un mapa, no com una llista', texto: 'Assenyalar sobre el dibuix obliga a saber ON és cada orgànul i quina mida té respecte als altres, no només a recitar una llista de noms. Aquesta imatge mental és la que després permet interpretar qualsevol esquema d\'un llibre o d\'un examen.' },
+      { titulo: 'Nom i funció, no l\'un o l\'altre', texto: 'Preguntar de vegades pel nom i d\'altres per la funció trenca l\'aprenentatge de memòria en un sol sentit. Qui només ha memoritzat la llista s\'encalla quan li pregunten "quin fabrica les proteïnes".' },
+      { titulo: 'La diferència animal / vegetal', texto: 'És la pregunta clàssica de l\'ESO i aquí surt sola, perquè les dues cèl·lules van barrejades. Al tercer o quart error buscant un cloroplast en una cèl·lula animal, la diferència deixa de ser una llista per memoritzar.' },
+    ],
+    ejemplo: 'Surt una cèl·lula vegetal i l\'enunciat diu "toca el que fa la fotosíntesi". L\'alumne dubta entre el vacúol gran del centre i uns ovals verds més petits, i toca els verds: cloroplasts. En encertar llegeix que porten clorofil·la i que amb llum, aigua i CO2 fabriquen glucosa.',
+    enPapel: {
+      titulo: 'La cèl·lula en paper',
+      pasos: [
+        'Dibuixa una cèl·lula gran en un full, sense etiquetes, i fotocopia-la unes quantes vegades.',
+        'A cada còpia, assenyala amb fletxes cinc orgànuls i escriu només el seu nom.',
+        'A la còpia següent, escriu només la funció i que una altra persona hi posi el nom.',
+        'Al final, dibuixa les dues cèl·lules enfrontades i encercla el que només té la vegetal.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'Cèl·lula amb plastilina', desc: 'Munteu una cèl·lula amb plastilina de colors sobre un plat: un color per orgànul. Haver de decidir la mida i el lloc de cada peça ensenya més que acolorir una fitxa impresa.' },
+      { nombre: 'El mapa mut de la cèl·lula', desc: 'Imprimeix l\'esquema sense noms i omple\'l de memòria, igual que un mapa mut de geografia. És l\'exercici més semblant al que demana un examen.' },
+      { nombre: 'La cèl·lula com una fàbrica', desc: 'Repartiu papers: qui és la direcció (nucli), qui la central elèctrica (mitocondri), qui el magatzem d\'enviaments (Golgi). Explicar l\'analogia en veu alta fixa les funcions molt millor.' },
+    ],
+    asignatura: 'Biologia', niveles: 'Primària, ESO, Batxillerat',
   },
   'cadena-alimentaria': {
     titulo: 'Cadena Alimentària',

@@ -326,6 +326,16 @@ export const TOPIC_CATALOG = {
       punnett: examFormato({ es: 'Cuadro de Punnett (con el juego)', en: 'Punnett square (with the game)', ca: 'Quadre de Punnett (amb el joc)' }, '🧬'),
       rayosX: examFormato({ es: 'Rayos X (con el juego)', en: 'X-Ray (with the game)', ca: 'Raigs X (amb el joc)' }, '🧠'),
       cadena: examFormato({ es: 'Cadena Alimentaria (con el juego)', en: 'Food Chain (with the game)', ca: 'Cadena Alimentària (amb el joc)' }, '🌿'),
+      // Formato por MECÁNICA (el juego arcade, no un examen): la página
+      // guarda category = 'celula', así que la tarea se completa sola.
+      microscopio: {
+        label: { es: 'Bajo el Microscopio (juego)', en: 'Under the Microscope (game)', ca: 'Sota el Microscopi (joc)' },
+        emoji: '🔬',
+        game: 'microscopio',
+        usesLevel: false,
+        tracksTopic: true,
+        temas: ['celula'],
+      },
     },
   },
 

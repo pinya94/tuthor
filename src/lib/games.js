@@ -284,6 +284,14 @@ export const GAMES = {
     // aciertos × 10 puntos → hasta 200 monedas
     coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
   },
+  microscopio: {
+    label: { es: 'Bajo el Microscopio', en: 'Under the Microscope', ca: 'Sota el Microscopi' },
+    emoji: '🔬',
+    subject: 'biologia',
+    route: '/juegos/microscopio',
+    // aciertos × 10 puntos → hasta 200 monedas
+    coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
+  },
   'cadena-alimentaria': {
     label: { es: 'Cadena Alimentaria', en: 'Food Chain', ca: 'Cadena Alimentària' },
     emoji: '🌿',
