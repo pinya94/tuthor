@@ -62,6 +62,54 @@ const TODAS = [
     { es: ['Distingue esa nieve de otra', 'Destaca una cualidad propia del sustantivo', 'Es un error de estilo', 'Cambia el significado del nombre'], en: ['It distinguishes that snow from another', 'It highlights a quality inherent to the noun', 'It is a style mistake', 'It changes the noun\'s meaning'], ca: ['Distingeix aquesta neu d\'una altra', 'Destaca una qualitat pròpia del substantiu', 'És un error d\'estil', 'Canvia el significat del nom'] },
     1, '❄️',
     { es: 'El epíteto es un adjetivo explicativo que resalta una cualidad ya propia del sustantivo (la nieve siempre es blanca). No sirve para distinguir.', en: 'An epithet is an explanatory adjective highlighting a quality the noun already has (snow is always white).', ca: 'L\'epítet és un adjectiu explicatiu que ressalta una qualitat ja pròpia del substantiu (la neu sempre és blanca).' }),
+
+  q('adj-11', 'primaria',
+    { es: "¿Cuál de estas palabras NO es un adjetivo?", en: "Which of these words is NOT an adjective?", ca: "Quina d'aquestes paraules NO és un adjectiu?" },
+    { es: ["alto","feliz","ventana","azul"], en: ["alto","feliz","ventana","azul"], ca: ["alt","feliç","finestra","blau"] },
+    2, '🔤',
+    { es: "\"Ventana\" es un sustantivo: nombra una cosa. Los otros tres dicen cómo es algo.", en: "\"Ventana\" (window) is a noun. The other three describe what something is like.", ca: "\"Finestra\" és un substantiu: anomena una cosa. Els altres tres diuen com és alguna cosa." }),
+
+  q('adj-12', 'primaria',
+    { es: "¿Qué forma concuerda con \"el libro\"?", en: "Which form agrees with \"el libro\"?", ca: "Quina forma concorda amb \"el llibre\"?" },
+    { es: ["nuevo","nueva","nuevos","nuevas"], en: ["nuevo","nueva","nuevos","nuevas"], ca: ["nou","nova","nous","noves"] },
+    0, '📕',
+    { es: "\"Libro\" es masculino singular, así que el adjetivo también: \"nuevo\".", en: "\"Libro\" is masculine singular → \"nuevo\".", ca: "\"Llibre\" és masculí singular, així que l'adjectiu també: \"nou\"." }),
+
+  q('adj-13', 'primaria',
+    { es: "En \"la casa vieja y oscura\", ¿cuántos adjetivos hay?", en: "In \"la casa vieja y oscura\", how many adjectives are there?", ca: "A \"la casa vella i fosca\", quants adjectius hi ha?" },
+    { es: ["Uno","Dos","Tres","Ninguno"], en: ["Uno","Dos","Tres","Ninguno"], ca: ["Un","Dos","Tres","Cap"] },
+    1, '🏚️',
+    { es: "\"Vieja\" y \"oscura\" dicen cómo es la casa: dos adjetivos unidos por \"y\".", en: "\"Vieja\" (old) and \"oscura\" (dark) both describe the house: two adjectives.", ca: "\"Vella\" i \"fosca\" diuen com és la casa: dos adjectius units per \"i\"." }),
+
+  q('adj-14', 'primaria',
+    { es: "¿Cuál es el plural de \"feliz\"?", en: "What is the plural of \"feliz\"?", ca: "Quin és el plural de \"feliç\"?" },
+    { es: ["felizes","felices","felizs","feliz"], en: ["felizes","felices","felizs","feliz"], ca: ["feliços","felices","feliçs","feliç"] },
+    1, '😊',
+    { es: "Las palabras acabadas en -z hacen el plural en -ces: feliz → felices, lápiz → lápices.", en: "Words ending in -z form the plural with -ces: feliz → felices.", ca: "Les paraules acabades en -z fan el plural en -ces: feliz → felices." }),
+
+  q('adj-15', 'primaria',
+    { es: "¿Qué adjetivo pega con \"el sol\"?", en: "Which adjective fits \"el sol\"?", ca: "Quin adjectiu va bé amb \"el sol\"?" },
+    { es: ["brillante","brillantes","brillanta","brillantos"], en: ["brillante","brillantes","brillanta","brillantos"], ca: ["brillant","brillants","brillanta","brillantos"] },
+    0, '☀️',
+    { es: "\"Sol\" es singular, así que el adjetivo va en singular. \"Brillante\" vale para masculino y femenino.", en: "\"Sol\" is singular → \"brillante\", which works for both genders.", ca: "\"Sol\" és singular, així que l'adjectiu va en singular." }),
+
+  q('adj-16', 'primaria',
+    { es: "En \"un día frío\", ¿qué palabra es el adjetivo?", en: "In \"un día frío\", which word is the adjective?", ca: "A \"un dia fred\", quina paraula és l'adjectiu?" },
+    { es: ["un","día","frío","ninguna"], en: ["un","día","frío","ninguna"], ca: ["un","dia","fred","cap"] },
+    2, '🥶',
+    { es: "\"Frío\" dice cómo es el día. \"Un\" es un determinante y \"día\" el sustantivo.", en: "\"Frío\" (cold) describes the day. \"Un\" is a determiner and \"día\" the noun.", ca: "\"Fred\" diu com és el dia. \"Un\" és un determinant i \"dia\" el substantiu." }),
+
+  q('adj-17', 'eso',
+    { es: "¿Qué grado expresa \"tan rápido como\"?", en: "Which degree does \"tan rápido como\" express?", ca: "Quin grau expressa \"tan ràpid com\"?" },
+    { es: ["Comparativo de igualdad","Comparativo de superioridad","Superlativo","Positivo"], en: ["Comparativo de igualdad","Comparativo de superioridad","Superlativo","Positivo"], ca: ["Comparatiu d'igualtat","Comparatiu de superioritat","Superlatiu","Positiu"] },
+    0, '⚖️',
+    { es: "\"Tan… como\" compara dos cosas que están al mismo nivel: comparativo de igualdad.", en: "\"Tan… como\" compares two things at the same level: comparative of equality.", ca: "\"Tan… com\" compara dues coses al mateix nivell: comparatiu d'igualtat." }),
+
+  q('adj-18', 'eso',
+    { es: "¿Cuál es la forma apocopada de \"grande\" ante un sustantivo?", en: "What is the shortened form of \"grande\" before a noun?", ca: "Quina és la forma apocopada de \"gran\" davant d'un substantiu?" },
+    { es: ["grand","gran","grandes","grando"], en: ["grand","gran","grandes","grando"], ca: ["grand","gran","grans","grando"] },
+    1, '✂️',
+    { es: "Ante un sustantivo singular, \"grande\" se apocopa: \"un gran hombre\", \"una gran idea\". Vale para los dos géneros.", en: "Before a singular noun, \"grande\" shortens to \"gran\": \"un gran hombre\".", ca: "Davant d'un substantiu singular, \"gran\" s'apocopa igual en tots dos gèneres." }),
 ]
 
 export const PREGUNTAS_PRIMARIA = TODAS.filter(x => x.nivel === 'primaria')

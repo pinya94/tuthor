@@ -62,6 +62,54 @@ const TODAS = [
     { es: ['los rubís', 'los rubíes', 'los rubises', 'los rubis'], en: ['los rubís', 'los rubíes', 'los rubises', 'los rubis'], ca: ['els robins', 'els robíes', 'els robises', 'els robis'] },
     1, '💎',
     { es: 'Las palabras acabadas en -í o -ú tónicas admiten -es (y a veces -s): rubí→rubíes, jabalí→jabalíes. Se prefiere la forma culta en -es.', en: 'Words ending in stressed -í add -es: rubí→rubíes.', ca: 'En català, "robí" → "robins".' }),
+
+  q('mor-11', 'primaria',
+    { es: "¿Qué parte de \"niños\" es la raíz?", en: "Which part of \"niños\" is the root?", ca: "Quina part de \"nens\" és l'arrel?" },
+    { es: ["niñ-","-os","ni-","niños"], en: ["niñ-","-os","ni-","niños"], ca: ["nen-","-s","ne-","nens"] },
+    0, '🌱',
+    { es: "La raíz es la parte que guarda el significado y no cambia: niñ- en niño, niña, niñez.", en: "The root carries the meaning and does not change: niñ- in niño, niña, niñez.", ca: "L'arrel guarda el significat i no canvia." }),
+
+  q('mor-12', 'primaria',
+    { es: "En \"gatito\", ¿qué añade el sufijo \"-ito\"?", en: "In \"gatito\", what does the suffix \"-ito\" add?", ca: "A \"gatet\", què afegeix el sufix \"-et\"?" },
+    { es: ["Que es grande","Que es pequeño","Que son varios","Que es femenino"], en: ["Que es grande","Que es pequeño","Que son varios","Que es femenino"], ca: ["Que és gran","Que és petit","Que són uns quants","Que és femení"] },
+    1, '🐱',
+    { es: "\"-ito\" e \"-illo\" son sufijos diminutivos: hacen pequeño lo que nombra la palabra.", en: "\"-ito\" is a diminutive suffix: it makes the thing small.", ca: "\"-et\" és un sufix diminutiu: fa petit allò que anomena la paraula." }),
+
+  q('mor-13', 'primaria',
+    { es: "¿Cuántas sílabas tiene \"ventana\"?", en: "How many syllables does \"ventana\" have?", ca: "Quantes síl·labes té \"finestra\"?" },
+    { es: ["Dos","Tres","Cuatro","Una"], en: ["Dos","Tres","Cuatro","Una"], ca: ["Dues","Tres","Quatre","Una"] },
+    1, '🔢',
+    { es: "Ven-ta-na: tres sílabas. Cada sílaba es un golpe de voz.", en: "Ven-ta-na: three syllables, one beat each.", ca: "Fi-nes-tra: tres síl·labes. Cada síl·laba és un cop de veu." }),
+
+  q('mor-14', 'primaria',
+    { es: "¿Qué palabra lleva prefijo?", en: "Which word has a prefix?", ca: "Quina paraula porta prefix?" },
+    { es: ["casita","deshacer","panadero","rápidamente"], en: ["casita","deshacer","panadero","rápidamente"], ca: ["caseta","desfer","forner","ràpidament"] },
+    1, '⬅️',
+    { es: "El prefijo va DELANTE de la raíz: des- + hacer. Los otros llevan sufijo, que va detrás.", en: "A prefix goes BEFORE the root: des- + hacer. The others take suffixes.", ca: "El prefix va DAVANT de l'arrel: des- + fer." }),
+
+  q('mor-15', 'primaria',
+    { es: "¿Qué indica la terminación \"-s\" en \"libros\"?", en: "What does the ending \"-s\" show in \"libros\"?", ca: "Què indica la terminació \"-s\" a \"llibres\"?" },
+    { es: ["El género","El número plural","El tiempo","La persona"], en: ["El género","El número plural","El tiempo","La persona"], ca: ["El gènere","El nombre plural","El temps","La persona"] },
+    1, '📚',
+    { es: "La -s marca el número: un libro / varios libros. El género lo marca la -o o la -a.", en: "The -s marks number: one book / several books.", ca: "La -s marca el nombre: un llibre / uns quants llibres." }),
+
+  q('mor-16', 'primaria',
+    { es: "¿Cuál de estas palabras es compuesta?", en: "Which of these words is a compound?", ca: "Quina d'aquestes paraules és composta?" },
+    { es: ["sacacorchos","corriendo","librería","pequeño"], en: ["sacacorchos","corriendo","librería","pequeño"], ca: ["llevataps","corrent","llibreria","petit"] },
+    0, '🔧',
+    { es: "Una palabra compuesta se forma juntando dos palabras: saca + corchos. \"Librería\" no: es raíz más sufijo.", en: "A compound joins two words: saca + corchos. \"Librería\" is root + suffix.", ca: "Una paraula composta ajunta dues paraules: lleva + taps." }),
+
+  q('mor-17', 'eso',
+    { es: "¿Qué son los morfemas flexivos?", en: "What are inflectional morphemes?", ca: "Què són els morfemes flexius?" },
+    { es: ["Los que crean palabras nuevas","Los que marcan género, número, tiempo o persona sin crear una palabra nueva","Las raíces","Los prefijos"], en: ["Los que crean palabras nuevas","Los que marcan género, número, tiempo o persona sin crear una palabra nueva","Las raíces","Los prefijos"], ca: ["Els que creen paraules noves","Els que marquen gènere, nombre, temps o persona sense crear una paraula nova","Les arrels","Els prefixos"] },
+    1, '🔁',
+    { es: "\"Gato / gata / gatos\" es la misma palabra flexionada. \"Gatuno\" sí es una palabra nueva: eso es derivación.", en: "\"Gato/gata/gatos\" is the same word inflected; \"gatuno\" is a new word (derivation).", ca: "\"Gat / gata / gats\" és la mateixa paraula flexionada; \"gatí\" és una paraula nova." }),
+
+  q('mor-18', 'eso',
+    { es: "En \"panadería\", ¿cuál es el proceso de formación?", en: "In \"panadería\", which word-formation process is used?", ca: "A \"forneria\", quin és el procés de formació?" },
+    { es: ["Composición","Derivación por sufijo","Acronimia","Flexión"], en: ["Composición","Derivación por sufijo","Acronimia","Flexión"], ca: ["Composició","Derivació per sufix","Acronímia","Flexió"] },
+    1, '🥖',
+    { es: "Pan + -adería: se añade un sufijo a la raíz y nace una palabra nueva. Eso es derivación, no composición (que junta dos palabras enteras).", en: "Pan + -adería: a suffix creates a new word — derivation, not composition.", ca: "S'afegeix un sufix a l'arrel i neix una paraula nova: derivació, no composició." }),
 ]
 
 export const PREGUNTAS_PRIMARIA = TODAS.filter(x => x.nivel === 'primaria')

@@ -62,6 +62,54 @@ const TODAS = [
     { es: ['Une elementos del mismo nivel o dos oraciones', 'Solo va al final', 'Se conjuga', 'Nombra cosas'], en: ['Joins elements of the same level or two clauses', 'Only goes at the end', 'Conjugates', 'Names things'], ca: ['Uneix elements del mateix nivell o dues oracions', 'Només va al final', 'Es conjuga', 'Anomena coses'] },
     0, '🔗',
     { es: 'La conjunción une palabras del mismo nivel u oraciones ("pan y queso", "vino pero se fue"); la preposición subordina un elemento a otro ("casa de piedra").', en: 'Conjunctions join equal elements or clauses; prepositions subordinate one element to another.', ca: 'La conjunció uneix elements iguals o oracions; la preposició subordina un element a un altre.' }),
+
+  q('nex-11', 'primaria',
+    { es: "¿Cuál de estas palabras es una conjunción?", en: "Which of these words is a conjunction?", ca: "Quina d'aquestes paraules és una conjunció?" },
+    { es: ["casa","pero","rápido","correr"], en: ["casa","pero","rápido","correr"], ca: ["casa","però","ràpid","córrer"] },
+    1, '🔗',
+    { es: "\"Pero\" une dos ideas y marca oposición. Las conjunciones no nombran nada: enlazan.", en: "\"Pero\" (but) joins two ideas and marks contrast. Conjunctions link, they do not name.", ca: "\"Però\" uneix dues idees i marca oposició. Les conjuncions enllacen." }),
+
+  q('nex-12', 'primaria',
+    { es: "Completa: \"Quiero ir ___ no puedo.\"", en: "Complete: \"Quiero ir ___ no puedo.\"", ca: "Completa: \"Vull anar-hi ___ no puc.\"" },
+    { es: ["y","pero","o","porque"], en: ["y","pero","o","porque"], ca: ["i","però","o","perquè"] },
+    1, '🚧',
+    { es: "Las dos ideas se oponen (querer / no poder), así que el nexo es \"pero\".", en: "The two ideas contrast, so the linker is \"pero\" (but).", ca: "Les dues idees s'oposen, així que el nexe és \"però\"." }),
+
+  q('nex-13', 'primaria',
+    { es: "¿Qué nexo indica una causa?", en: "Which linker shows a cause?", ca: "Quin nexe indica una causa?" },
+    { es: ["y","o","porque","pero"], en: ["y","o","porque","pero"], ca: ["i","o","perquè","però"] },
+    2, '❓',
+    { es: "\"Porque\" responde a por qué: introduce la causa. \"No salí porque llovía\".", en: "\"Porque\" (because) introduces the cause.", ca: "\"Perquè\" respon a per què: introdueix la causa." }),
+
+  q('nex-14', 'primaria',
+    { es: "En \"café o té\", ¿qué expresa \"o\"?", en: "In \"café o té\", what does \"o\" express?", ca: "A \"cafè o te\", què expressa \"o\"?" },
+    { es: ["Suma","Elección entre dos","Oposición","Causa"], en: ["Suma","Elección entre dos","Oposición","Causa"], ca: ["Suma","Elecció entre dos","Oposició","Causa"] },
+    1, '☕',
+    { es: "\"O\" es una conjunción disyuntiva: presenta alternativas de las que se elige una.", en: "\"O\" (or) is disjunctive: it presents alternatives.", ca: "\"O\" és una conjunció disjuntiva: presenta alternatives." }),
+
+  q('nex-15', 'primaria',
+    { es: "¿Cuál de estas es una preposición?", en: "Which of these is a preposition?", ca: "Quina d'aquestes és una preposició?" },
+    { es: ["sobre","canta","bonito","ellos"], en: ["sobre","canta","bonito","ellos"], ca: ["sobre","canta","bonic","ells"] },
+    0, '📦',
+    { es: "\"Sobre\" relaciona palabras dentro de la oración: \"el libro sobre la mesa\". Es una preposición.", en: "\"Sobre\" (on) relates words within the sentence: a preposition.", ca: "\"Sobre\" relaciona paraules dins l'oració: és una preposició." }),
+
+  q('nex-16', 'primaria',
+    { es: "Completa: \"Fui al cine ___ vi una película.\"", en: "Complete: \"Fui al cine ___ vi una película.\"", ca: "Completa: \"Vaig anar al cine ___ vaig veure una pel·lícula.\"" },
+    { es: ["y","pero","aunque","sino"], en: ["y","pero","aunque","sino"], ca: ["i","però","encara que","sinó"] },
+    0, '🎬',
+    { es: "Las dos acciones se suman, no se oponen: el nexo es \"y\" (copulativo).", en: "The two actions add up rather than contrast: the linker is \"y\" (and).", ca: "Les dues accions se sumen, no s'oposen: el nexe és \"i\"." }),
+
+  q('nex-17', 'eso',
+    { es: "¿Qué diferencia hay entre una conjunción coordinante y una subordinante?", en: "What is the difference between a coordinating and a subordinating conjunction?", ca: "Quina diferència hi ha entre una conjunció coordinant i una de subordinant?" },
+    { es: ["Ninguna","La coordinante une elementos del mismo nivel; la subordinante mete una oración dentro de otra","La coordinante va siempre al final","La subordinante solo une sustantivos"], en: ["Ninguna","La coordinante une elementos del mismo nivel; la subordinante mete una oración dentro de otra","La coordinante va siempre al final","La subordinante solo une sustantivos"], ca: ["Cap","La coordinant uneix elements del mateix nivell; la subordinant fica una oració dins d'una altra","La coordinant va sempre al final","La subordinant només uneix substantius"] },
+    1, '🧱',
+    { es: "\"Vino y se fue\": dos oraciones al mismo nivel. \"Dijo que vendría\": la segunda depende de la primera, es subordinada.", en: "\"Vino y se fue\": same level. \"Dijo que vendría\": the second depends on the first.", ca: "\"Va venir i se'n va anar\": mateix nivell. \"Va dir que vindria\": la segona depèn de la primera." }),
+
+  q('nex-18', 'eso',
+    { es: "En \"no es rojo sino azul\", ¿qué expresa \"sino\"?", en: "In \"no es rojo sino azul\", what does \"sino\" express?", ca: "A \"no és vermell sinó blau\", què expressa \"sinó\"?" },
+    { es: ["Adición","Corrección de lo negado antes","Causa","Consecuencia"], en: ["Adición","Corrección de lo negado antes","Causa","Consecuencia"], ca: ["Addició","Correcció del que s'ha negat abans","Causa","Conseqüència"] },
+    1, '🎨',
+    { es: "\"Sino\" es adversativo: corrige lo que se acaba de negar. No confundir con \"si no\" (condición): \"si no vienes, me voy\".", en: "\"Sino\" corrects what was just denied. Do not confuse it with \"si no\" (if not).", ca: "\"Sinó\" corregeix allò que s'acaba de negar. No confondre amb \"si no\"." }),
 ]
 
 export const PREGUNTAS_PRIMARIA = TODAS.filter(x => x.nivel === 'primaria')

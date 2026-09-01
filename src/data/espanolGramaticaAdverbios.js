@@ -62,6 +62,54 @@ const TODAS = [
     { es: ['Directo', 'Circunstancial', 'Indirecto', 'Atributo'], en: ['Direct object', 'Adverbial (circumstance)', 'Indirect object', 'Attribute'], ca: ['Directe', 'Circumstancial', 'Indirecte', 'Atribut'] },
     1, '⏰',
     { es: 'Los adverbios suelen funcionar como complemento circunstancial: indican una circunstancia (tiempo, lugar, modo…) del verbo.', en: 'Adverbs usually work as adverbials: they give a circumstance (time, place…) of the verb.', ca: 'Els adverbis solen funcionar com a complement circumstancial.' }),
+
+  q('adv-11', 'primaria',
+    { es: "¿Cuál de estas palabras es un adverbio?", en: "Which of these words is an adverb?", ca: "Quina d'aquestes paraules és un adverbi?" },
+    { es: ["rápido","rápidamente","rapidez","rapidísimo"], en: ["rápido","rápidamente","rapidez","rapidísimo"], ca: ["ràpid","ràpidament","rapidesa","rapidíssim"] },
+    1, '🏃',
+    { es: "Los adverbios acabados en -mente dicen CÓMO se hace algo y no cambian de género ni número.", en: "Adverbs ending in -mente say HOW something is done and never change form.", ca: "Els adverbis acabats en -ment diuen COM es fa alguna cosa i no canvien." }),
+
+  q('adv-12', 'primaria',
+    { es: "En \"llegó tarde\", ¿qué tipo de adverbio es \"tarde\"?", en: "In \"llegó tarde\", what kind of adverb is \"tarde\"?", ca: "A \"va arribar tard\", quin tipus d'adverbi és \"tard\"?" },
+    { es: ["De lugar","De tiempo","De modo","De cantidad"], en: ["De lugar","De tiempo","De modo","De cantidad"], ca: ["De lloc","De temps","De manera","De quantitat"] },
+    1, '⏰',
+    { es: "\"Tarde\" responde a cuándo: adverbio de tiempo, como ayer, hoy, siempre o pronto.", en: "\"Tarde\" answers when: an adverb of time.", ca: "\"Tard\" respon a quan: adverbi de temps." }),
+
+  q('adv-13', 'primaria',
+    { es: "¿Qué adverbio indica lugar?", en: "Which adverb shows place?", ca: "Quin adverbi indica lloc?" },
+    { es: ["siempre","aquí","muy","bien"], en: ["siempre","aquí","muy","bien"], ca: ["sempre","aquí","molt","bé"] },
+    1, '📍',
+    { es: "\"Aquí\" dice dónde. \"Siempre\" es de tiempo, \"muy\" de cantidad y \"bien\" de modo.", en: "\"Aquí\" says where. The others are time, quantity and manner.", ca: "\"Aquí\" diu on. Els altres són de temps, quantitat i manera." }),
+
+  q('adv-14', 'primaria',
+    { es: "¿Cambia el adverbio según el género?", en: "Do adverbs change with gender?", ca: "Canvia l'adverbi segons el gènere?" },
+    { es: ["Sí, siempre","No, es invariable","Solo en plural","Solo con verbos"], en: ["Sí, siempre","No, es invariable","Solo en plural","Solo con verbos"], ca: ["Sí, sempre","No, és invariable","Només en plural","Només amb verbs"] },
+    1, '🔒',
+    { es: "El adverbio es invariable: \"ellas corren rápidamente\", nunca \"rápidamentas\". Es lo que lo distingue del adjetivo.", en: "Adverbs are invariable: that is what separates them from adjectives.", ca: "L'adverbi és invariable: és el que el distingeix de l'adjectiu." }),
+
+  q('adv-15', 'primaria',
+    { es: "En \"come mucho\", ¿qué tipo de adverbio es \"mucho\"?", en: "In \"come mucho\", what kind of adverb is \"mucho\"?", ca: "A \"menja molt\", quin tipus d'adverbi és \"molt\"?" },
+    { es: ["De cantidad","De lugar","De duda","De negación"], en: ["De cantidad","De lugar","De duda","De negación"], ca: ["De quantitat","De lloc","De dubte","De negació"] },
+    0, '🍽️',
+    { es: "\"Mucho\" dice cuánto: adverbio de cantidad, como poco, bastante o demasiado.", en: "\"Mucho\" says how much: an adverb of quantity.", ca: "\"Molt\" diu quant: adverbi de quantitat." }),
+
+  q('adv-16', 'primaria',
+    { es: "¿Cuál es el adverbio de \"lento\"?", en: "What is the adverb form of \"lento\"?", ca: "Quin és l'adverbi de \"lent\"?" },
+    { es: ["lentos","lentamente","lentitud","lentísimo"], en: ["lentos","lentamente","lentitud","lentísimo"], ca: ["lents","lentament","lentitud","lentíssim"] },
+    1, '🐌',
+    { es: "Se forma con el femenino del adjetivo más -mente: lenta + mente → lentamente.", en: "It is formed from the feminine adjective plus -mente: lenta + mente.", ca: "Es forma amb el femení de l'adjectiu més -ment." }),
+
+  q('adv-17', 'eso',
+    { es: "¿A qué palabra puede complementar un adverbio?", en: "What can an adverb modify?", ca: "A quina paraula pot complementar un adverbi?" },
+    { es: ["Solo al verbo","Al verbo, a un adjetivo o a otro adverbio","Solo al sustantivo","Solo al sujeto"], en: ["Solo al verbo","Al verbo, a un adjetivo o a otro adverbio","Solo al sustantivo","Solo al sujeto"], ca: ["Només al verb","Al verb, a un adjectiu o a un altre adverbi","Només al substantiu","Només al subjecte"] },
+    1, '🔀',
+    { es: "\"Corre rápido\" (verbo), \"muy alto\" (adjetivo), \"bastante bien\" (otro adverbio). Lo único que NO complementa es al sustantivo: de eso se encarga el adjetivo.", en: "It modifies verbs, adjectives or other adverbs — never nouns, which is the adjective's job.", ca: "Complementa verbs, adjectius o altres adverbis; mai el substantiu, que és feina de l'adjectiu." }),
+
+  q('adv-18', 'eso',
+    { es: "En \"quizá venga mañana\", ¿qué expresa \"quizá\"?", en: "In \"quizá venga mañana\", what does \"quizá\" express?", ca: "A \"potser vindrà demà\", què expressa \"potser\"?" },
+    { es: ["Afirmación","Duda","Negación","Cantidad"], en: ["Afirmación","Duda","Negación","Cantidad"], ca: ["Afirmació","Dubte","Negació","Quantitat"] },
+    1, '🤔',
+    { es: "Los adverbios de duda (quizá, tal vez, acaso) marcan que lo dicho no es seguro, y suelen pedir subjuntivo.", en: "Adverbs of doubt (quizá, tal vez) mark uncertainty and usually take the subjunctive.", ca: "Els adverbis de dubte marquen que allò dit no és segur." }),
 ]
 
 export const PREGUNTAS_PRIMARIA = TODAS.filter(x => x.nivel === 'primaria')

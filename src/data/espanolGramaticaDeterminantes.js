@@ -62,6 +62,54 @@ const TODAS = [
     { es: ['a + el', 'a + la', 'de + el', 'a + lo'], en: ['a + el', 'a + la', 'de + el', 'a + lo'], ca: ['a + el', 'a + la', 'de + el', 'a + lo'] },
     0, '🔀',
     { es: 'En español solo hay dos contracciones obligatorias: "al" (a + el) y "del" (de + el): "voy al parque", "vengo del cine".', en: 'Spanish has two mandatory contractions: "al" (a + el) and "del" (de + el).', ca: 'En català: al (a+el), del (de+el), pel (per+el), i els plurals als, dels, pels.' }),
+
+  q('det-11', 'primaria',
+    { es: "¿Cuál de estas palabras es un determinante?", en: "Which of these words is a determiner?", ca: "Quina d'aquestes paraules és un determinant?" },
+    { es: ["correr","aquel","bonito","rápidamente"], en: ["correr","aquel","bonito","rápidamente"], ca: ["córrer","aquell","bonic","ràpidament"] },
+    1, '👉',
+    { es: "\"Aquel\" acompaña al sustantivo y lo señala: es un determinante demostrativo.", en: "\"Aquel\" (that) accompanies the noun and points at it: a demonstrative determiner.", ca: "\"Aquell\" acompanya el substantiu i l'assenyala: és un determinant demostratiu." }),
+
+  q('det-12', 'primaria',
+    { es: "¿Qué tipo de determinante es \"mi\" en \"mi casa\"?", en: "What kind of determiner is \"mi\" in \"mi casa\"?", ca: "Quin tipus de determinant és \"la meva\" a \"la meva casa\"?" },
+    { es: ["Artículo","Posesivo","Numeral","Demostrativo"], en: ["Artículo","Posesivo","Numeral","Demostrativo"], ca: ["Article","Possessiu","Numeral","Demostratiu"] },
+    1, '🏠',
+    { es: "Los posesivos (mi, tu, su, nuestro) dicen de quién es lo que nombra el sustantivo.", en: "Possessives (mi, tu, su) say who the noun belongs to.", ca: "Els possessius diuen de qui és allò que anomena el substantiu." }),
+
+  q('det-13', 'primaria',
+    { es: "¿Cuántos determinantes hay en \"las tres casas\"?", en: "How many determiners are in \"las tres casas\"?", ca: "Quants determinants hi ha a \"les tres cases\"?" },
+    { es: ["Uno","Dos","Tres","Ninguno"], en: ["Uno","Dos","Tres","Ninguno"], ca: ["Un","Dos","Tres","Cap"] },
+    1, '🔢',
+    { es: "Dos: el artículo \"las\" y el numeral \"tres\". Los dos acompañan a \"casas\".", en: "Two: the article \"las\" and the numeral \"tres\".", ca: "Dos: l'article \"les\" i el numeral \"tres\"." }),
+
+  q('det-14', 'primaria',
+    { es: "¿Cuál es el artículo correcto para \"agua\"?", en: "Which article is correct for \"agua\"?", ca: "Quin és l'article correcte per a \"aigua\"?" },
+    { es: ["la agua","el agua","lo agua","los agua"], en: ["la agua","el agua","lo agua","los agua"], ca: ["la aigua","l'aigua","lo aigua","els aigua"] },
+    1, '💧',
+    { es: "\"Agua\" es femenino, pero empieza por a- tónica y lleva \"el\" en singular para que no suenen dos aes juntas. En plural, \"las aguas\".", en: "\"Agua\" is feminine but takes \"el\" in the singular to avoid two stressed a-sounds together.", ca: "\"Aigua\" és femenina; en castellà porta \"el\" en singular per evitar dues as seguides." }),
+
+  q('det-15', 'primaria',
+    { es: "En \"esta silla\", ¿qué es \"esta\"?", en: "In \"esta silla\", what is \"esta\"?", ca: "A \"aquesta cadira\", què és \"aquesta\"?" },
+    { es: ["Un sustantivo","Un determinante demostrativo","Un verbo","Un adjetivo calificativo"], en: ["Un sustantivo","Un determinante demostrativo","Un verbo","Un adjetivo calificativo"], ca: ["Un substantiu","Un determinant demostratiu","Un verb","Un adjectiu qualificatiu"] },
+    1, '💺',
+    { es: "Los demostrativos (este, ese, aquel) señalan a qué distancia está lo que nombramos.", en: "Demonstratives (este, ese, aquel) show how far away the thing is.", ca: "Els demostratius assenyalen a quina distància és allò que anomenem." }),
+
+  q('det-16', 'primaria',
+    { es: "¿Qué determinante falta: \"___ niños juegan\"?", en: "Which determiner is missing: \"___ niños juegan\"?", ca: "Quin determinant falta: \"___ nens juguen\"?" },
+    { es: ["El","La","Los","Las"], en: ["El","La","Los","Las"], ca: ["El","La","Els","Les"] },
+    2, '🧒',
+    { es: "\"Niños\" es masculino plural, así que el artículo también: \"los niños\".", en: "\"Niños\" is masculine plural → \"los\".", ca: "\"Nens\" és masculí plural, així que l'article també: \"els\"." }),
+
+  q('det-17', 'eso',
+    { es: "¿En qué se diferencia un determinante de un pronombre?", en: "How does a determiner differ from a pronoun?", ca: "En què es diferencia un determinant d'un pronom?" },
+    { es: ["En nada, son lo mismo","El determinante acompaña al sustantivo; el pronombre lo sustituye","El determinante siempre va detrás","El pronombre solo se usa en plural"], en: ["En nada, son lo mismo","El determinante acompaña al sustantivo; el pronombre lo sustituye","El determinante siempre va detrás","El pronombre solo se usa en plural"], ca: ["En res, són el mateix","El determinant acompanya el substantiu; el pronom el substitueix","El determinant sempre va darrere","El pronom només s'usa en plural"] },
+    1, '🔀',
+    { es: "\"Este libro\" → determinante (acompaña). \"Este es mío\" → pronombre (sustituye al sustantivo). La misma palabra cambia de clase según su función.", en: "\"Este libro\" → determiner. \"Este es mío\" → pronoun. The same word changes class depending on its role.", ca: "\"Aquest llibre\" → determinant. \"Aquest és meu\" → pronom. La mateixa paraula canvia de classe segons la funció." }),
+
+  q('det-18', 'eso',
+    { es: "¿Qué tipo de determinante es \"algunos\"?", en: "What kind of determiner is \"algunos\"?", ca: "Quin tipus de determinant és \"alguns\"?" },
+    { es: ["Indefinido","Numeral","Posesivo","Demostrativo"], en: ["Indefinido","Numeral","Posesivo","Demostrativo"], ca: ["Indefinit","Numeral","Possessiu","Demostratiu"] },
+    0, '❔',
+    { es: "Los indefinidos (algún, varios, muchos, pocos) dan una cantidad imprecisa, a diferencia de los numerales, que la dan exacta.", en: "Indefinites (algún, varios, muchos) give an imprecise quantity, unlike numerals.", ca: "Els indefinits donen una quantitat imprecisa, a diferència dels numerals." }),
 ]
 
 export const PREGUNTAS_PRIMARIA = TODAS.filter(x => x.nivel === 'primaria')
