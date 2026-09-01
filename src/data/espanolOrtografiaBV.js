@@ -92,6 +92,54 @@ const TODAS = [
     { es: ['Son sinónimos', '"Tubo" = objeto cilíndrico; "tuvo" = pasado de tener', '"Tuvo" = objeto; "tubo" = pasado de tener', 'Son la misma palabra con distinta pronunciación'], en: ['They are synonyms', '"Tubo" = cylindrical object; "tuvo" = past of tener', '"Tuvo" = object; "tubo" = past of tener', 'Same word, different pronunciation'], ca: ['Són sinònims', '"Tubo" = objecte cilíndric; "tuvo" = passat de tenir', '"Tuvo" = objecte; "tubo" = passat de tenir', 'Mateixa paraula, pronunciació diferent'] },
     1, '🔬',
     { es: '"Tubo" (con b) = objeto cilíndrico (tubo de ensayo, tubo de pasta). "Tuvo" (con v) = 3ª pers. sing. pretérito indefinido de "tener". Homófonos con diferente ortografía.', en: '"Tubo" (b) = cylindrical tube. "Tuvo" (v) = 3rd pers. sing. past simple of "tener". Homophones with different spellings.', ca: '"Tub" (b) = objecte cilíndric. "Va tenir" (v) = passat de "tenir".' }),
+
+  q('bv-16', 'primaria',
+    { es: "¿Cómo se escribe correctamente?", en: "Which spelling is correct?", ca: "Com s'escriu correctament?" },
+    { es: ["bolber","volver","volber","bolver"], en: ["bolber","volver","volber","bolver"], ca: ["bolber","volver","volber","bolver"] },
+    1, '↩️',
+    { es: "\"Volver\" se escribe con v. Los verbos acabados en -olver (volver, resolver, envolver) van con v.", en: "\"Volver\" takes a v: verbs ending in -olver always do.", ca: "\"Volver\" s'escriu amb v: els verbs acabats en -olver sempre en porten." }),
+
+  q('bv-17', 'primaria',
+    { es: "¿Qué palabra está bien escrita?", en: "Which word is spelt correctly?", ca: "Quina paraula està ben escrita?" },
+    { es: ["escrivir","escribir","eskribir","escrivvir"], en: ["escrivir","escribir","eskribir","escrivvir"], ca: ["escrivir","escribir","eskribir","escrivvir"] },
+    1, '✍️',
+    { es: "\"Escribir\" va con b. Y con ella toda su familia: escribo, escrito, escritura.", en: "\"Escribir\" takes a b, like its whole word family.", ca: "\"Escribir\" va amb b, igual que tota la seva família." }),
+
+  q('bv-18', 'primaria',
+    { es: "Completa: \"El ___arco navega.\"", en: "Complete: \"El ___arco navega.\"", ca: "Completa: \"El ___arco navega.\"" },
+    { es: ["v","b","w","ninguna"], en: ["v","b","w","ninguna"], ca: ["v","b","w","ninguna"] },
+    1, '⛵',
+    { es: "\"Barco\" se escribe con b. Después de m siempre va b (bomba, tambor), y después de n va v (invierno).", en: "\"Barco\" takes a b. After m always b; after n always v.", ca: "\"Barco\" s'escriu amb b. Després de m sempre b; després de n, v." }),
+
+  q('bv-19', 'primaria',
+    { es: "¿Cuál es la forma correcta?", en: "Which form is correct?", ca: "Quina és la forma correcta?" },
+    { es: ["cantava","cantaba","cantaua","cantavva"], en: ["cantava","cantaba","cantaua","cantavva"], ca: ["cantava","cantaba","cantaua","cantavva"] },
+    1, '🎵',
+    { es: "El imperfecto de los verbos en -ar SIEMPRE va con b: cantaba, jugaba, estaba. Es la regla que más se falla.", en: "The imperfect of -ar verbs always takes a b: cantaba, jugaba, estaba.", ca: "L'imperfet dels verbs en -ar sempre va amb b en castellà: cantaba, jugaba." }),
+
+  q('bv-20', 'primaria',
+    { es: "Completa: \"Tengo ham___re.\"", en: "Complete: \"Tengo ham___re.\"", ca: "Completa: \"Tengo ham___re.\"" },
+    { es: ["v","b","p","f"], en: ["v","b","p","f"], ca: ["v","b","p","f"] },
+    1, '🍞',
+    { es: "Después de m siempre se escribe b: hambre, hombre, cambio, sombra.", en: "After m you always write b: hambre, hombre, cambio.", ca: "Després de m sempre s'escriu b: hambre, hombre, cambio." }),
+
+  q('bv-21', 'primaria',
+    { es: "¿Qué palabra lleva v?", en: "Which word takes a v?", ca: "Quina paraula porta v?" },
+    { es: ["in___ierno","am___iente","ca___allo","ár___ol"], en: ["in___ierno","am___iente","ca___allo","ár___ol"], ca: ["in___ierno","am___iente","ca___allo","ár___ol"] },
+    0, '❄️',
+    { es: "Después de n siempre va v: invierno, envío, enviar. Las otras tres llevan b.", en: "After n you always write v: invierno, envío, enviar.", ca: "Després de n sempre va v: invierno, envío, enviar." }),
+
+  q('bv-22', 'eso',
+    { es: "¿Por qué \"estuvo\" va con v y \"estaba\" con b?", en: "Why does \"estuvo\" take a v and \"estaba\" a b?", ca: "Per què \"estuvo\" va amb v i \"estaba\" amb b?" },
+    { es: ["Es arbitrario","El indefinido de estar/tener/andar va con v; el imperfecto de -ar va con b","Depende del sujeto","Depende de la persona"], en: ["Es arbitrario","El indefinido de estar/tener/andar va con v; el imperfecto de -ar va con b","Depende del sujeto","Depende de la persona"], ca: ["Es arbitrario","El indefinido de estar/tener/andar va con v; el imperfecto de -ar va con b","Depende del sujeto","Depende de la persona"] },
+    1, '📐',
+    { es: "Son dos reglas distintas: los indefinidos de estar, tener y andar (estuve, tuvo, anduvo) llevan v, y el imperfecto de los verbos en -ar lleva b.", en: "Two different rules: preterites of estar/tener/andar take v; the imperfect of -ar verbs takes b.", ca: "Són dues regles diferents: els indefinits d'estar/tener/andar porten v; l'imperfet dels verbs en -ar, b." }),
+
+  q('bv-23', 'eso',
+    { es: "¿Cuál de estos pares cambia de significado según se escriba con b o v?", en: "Which pair changes meaning depending on b or v?", ca: "Quin d'aquests parells canvia de significat segons b o v?" },
+    { es: ["casa / caza","bello / vello","hola / ola","ay / hay"], en: ["casa / caza","bello / vello","hola / ola","ay / hay"], ca: ["casa / caza","bello / vello","hola / ola","ay / hay"] },
+    1, '💇',
+    { es: "\"Bello\" es hermoso y \"vello\" es pelo fino. Son homófonos: suenan igual pero la letra cambia el significado.", en: "\"Bello\" means beautiful, \"vello\" means body hair: homophones.", ca: "\"Bello\" és bonic i \"vello\" és pèl fi: homòfons." }),
 ]
 
 export const PREGUNTAS_PRIMARIA = TODAS.filter(q => q.nivel === 'primaria')

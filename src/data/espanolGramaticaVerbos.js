@@ -92,6 +92,54 @@ const TODAS = [
     { es: ['Indicativo', 'Imperativo', 'Subjuntivo', 'Infinitivo'], en: ['Indicative', 'Imperative', 'Subjunctive', 'Infinitive'], ca: ['Indicatiu', 'Imperatiu', 'Subjuntiu', 'Infinitiu'] },
     2, '🤞',
     { es: 'El subjuntivo expresa deseo, duda, emoción o posibilidad. Se usa tras verbos de deseo (esperar, querer), emoción (alegrarse, temer) y duda con "que".', en: 'Subjunctive expresses wish, doubt, emotion or possibility. After: esperar, querer, alegrarse, temer + que.', ca: 'El subjuntiu expressa desig, dubte, emoció o possibilitat. S\'usa darrere de: esperar, voler, alegrar-se + que.' }),
+
+  q('vb-16', 'primaria',
+    { es: "¿Cuál de estas palabras es un verbo?", en: "Which of these words is a verb?", ca: "Quina d'aquestes paraules és un verb?" },
+    { es: ["mesa","saltar","azul","rápidamente"], en: ["mesa","saltar","azul","rápidamente"], ca: ["taula","saltar","blau","ràpidament"] },
+    1, '🤸',
+    { es: "El verbo expresa una acción o un estado. \"Saltar\" es una acción, en infinitivo.", en: "A verb expresses an action or state. \"Saltar\" (to jump) is an action.", ca: "El verb expressa una acció o un estat. \"Saltar\" és una acció." }),
+
+  q('vb-17', 'primaria',
+    { es: "¿En qué tiempo está \"comí\"?", en: "What tense is \"comí\" in?", ca: "En quin temps és \"vaig menjar\"?" },
+    { es: ["Presente","Pasado","Futuro","Condicional"], en: ["Presente","Pasado","Futuro","Condicional"], ca: ["Present","Passat","Futur","Condicional"] },
+    1, '🍽️',
+    { es: "\"Comí\" es pretérito perfecto simple: la acción ya terminó.", en: "\"Comí\" (I ate) is a past tense: the action is finished.", ca: "\"Vaig menjar\" és passat: l'acció ja ha acabat." }),
+
+  q('vb-18', 'primaria',
+    { es: "¿Cuáles son las tres conjugaciones del español?", en: "What are the three Spanish conjugations?", ca: "Quines són les tres conjugacions del castellà?" },
+    { es: ["-ar, -er, -ir","-ar, -or, -ir","-er, -ir, -ur","-ar, -er, -or"], en: ["-ar, -er, -ir","-ar, -or, -ir","-er, -ir, -ur","-ar, -er, -or"], ca: ["-ar, -er, -ir","-ar, -or, -ir","-er, -ir, -ur","-ar, -er, -or"] },
+    0, '📋',
+    { es: "Los infinitivos acaban en -ar (cantar), -er (comer) o -ir (vivir). Esa terminación marca la conjugación.", en: "Infinitives end in -ar, -er or -ir, and that ending sets the conjugation.", ca: "Els infinitius acaben en -ar, -er o -ir, i aquesta terminació marca la conjugació." }),
+
+  q('vb-19', 'primaria',
+    { es: "En \"nosotros cantamos\", ¿qué persona es el verbo?", en: "In \"nosotros cantamos\", which person is the verb?", ca: "A \"nosaltres cantem\", quina persona és el verb?" },
+    { es: ["Primera del singular","Primera del plural","Segunda del plural","Tercera del plural"], en: ["Primera del singular","Primera del plural","Segunda del plural","Tercera del plural"], ca: ["Primera del singular","Primera del plural","Segona del plural","Tercera del plural"] },
+    1, '🎶',
+    { es: "\"Nosotros\" es primera persona del plural, y el verbo concuerda: cantamos.", en: "\"Nosotros\" is first-person plural and the verb agrees.", ca: "\"Nosaltres\" és primera persona del plural i el verb hi concorda." }),
+
+  q('vb-20', 'primaria',
+    { es: "¿Cuál es el infinitivo de \"corrió\"?", en: "What is the infinitive of \"corrió\"?", ca: "Quin és l'infinitiu de \"va córrer\"?" },
+    { es: ["corrido","correr","corriendo","corre"], en: ["corrido","correr","corriendo","corre"], ca: ["corregut","córrer","corrent","corre"] },
+    1, '🏃',
+    { es: "El infinitivo es la forma sin conjugar, la que aparece en el diccionario: correr.", en: "The infinitive is the unconjugated form found in the dictionary.", ca: "L'infinitiu és la forma sense conjugar, la del diccionari." }),
+
+  q('vb-21', 'primaria',
+    { es: "¿Qué expresa \"cantaré\"?", en: "What does \"cantaré\" express?", ca: "Què expressa \"cantaré\"?" },
+    { es: ["Algo que ya pasó","Algo que pasa ahora","Algo que pasará","Una orden"], en: ["Algo que ya pasó","Algo que pasa ahora","Algo que pasará","Una orden"], ca: ["Alguna cosa que ja ha passat","Alguna cosa que passa ara","Alguna cosa que passarà","Una ordre"] },
+    2, '🔮',
+    { es: "\"Cantaré\" es futuro simple: la acción todavía no ha ocurrido.", en: "\"Cantaré\" (I will sing) is the simple future.", ca: "\"Cantaré\" és futur simple: l'acció encara no ha passat." }),
+
+  q('vb-22', 'eso',
+    { es: "¿Qué modo verbal expresa deseo o duda?", en: "Which verbal mood expresses wish or doubt?", ca: "Quin mode verbal expressa desig o dubte?" },
+    { es: ["Indicativo","Subjuntivo","Imperativo","Infinitivo"], en: ["Indicativo","Subjuntivo","Imperativo","Infinitivo"], ca: ["Indicatiu","Subjuntiu","Imperatiu","Infinitiu"] },
+    1, '🌙',
+    { es: "El subjuntivo expresa lo no real: deseo, duda o posibilidad. \"Ojalá venga\", \"quizá llueva\".", en: "The subjunctive expresses the unreal: wish, doubt or possibility.", ca: "El subjuntiu expressa allò no real: desig, dubte o possibilitat." }),
+
+  q('vb-23', 'eso',
+    { es: "En \"he comido\", ¿qué es \"he\"?", en: "In \"he comido\", what is \"he\"?", ca: "A \"he menjat\", què és \"he\"?" },
+    { es: ["El verbo principal","Un verbo auxiliar","Un pronombre","Un adverbio"], en: ["El verbo principal","Un verbo auxiliar","Un pronombre","Un adverbio"], ca: ["El verb principal","Un verb auxiliar","Un pronom","Un adverbi"] },
+    1, '🔧',
+    { es: "En los tiempos compuestos \"haber\" es auxiliar y no significa nada por sí solo: el significado lo pone el participio.", en: "In compound tenses \"haber\" is an auxiliary; the participle carries the meaning.", ca: "En els temps compostos \"haver\" és auxiliar i el significat el posa el participi." }),
 ]
 
 export const PREGUNTAS_PRIMARIA = TODAS.filter(q => q.nivel === 'primaria')

@@ -92,6 +92,54 @@ const TODAS = [
     { es: ['Pasiva refleja', 'Pasiva perifrástica', 'Activa pronominal', 'Oración impersonal con se'], en: ['Reflexive passive (pasiva refleja)', 'Periphrastic passive', 'Active pronominal', 'Impersonal with se'], ca: ['Passiva reflexa', 'Passiva perifràstica', 'Activa pronominal', 'Impersonal amb es'] },
     0, '🏠',
     { es: '"Se venden pisos" es una pasiva refleja (o pasiva con se): se + verbo en activa. El sujeto paciente ("pisos") concuerda con el verbo ("venden" = plural). No hay agente expreso.', en: '"Se venden pisos" is a "pasiva refleja" (reflexive passive): se + active verb. The patient subject ("pisos") agrees with the verb (plural).', ca: '"Es venen pisos" és una passiva reflexa: es + verb actiu. El subjecte pacient ("pisos") concorda amb el verb (plural).' }),
+
+  q('sx-16', 'primaria',
+    { es: "En \"el perro corre\", ¿cuál es el sujeto?", en: "In \"el perro corre\", what is the subject?", ca: "A \"el gos corre\", quin és el subjecte?" },
+    { es: ["el perro","corre","el","perro corre"], en: ["el perro","corre","el","perro corre"], ca: ["el gos","corre","el","gos corre"] },
+    0, '🐕',
+    { es: "El sujeto es quien realiza la acción: \"el perro\". Se encuentra preguntando ¿quién corre?", en: "The subject does the action: \"el perro\" (the dog). Ask: who runs?", ca: "El subjecte és qui fa l'acció: \"el gos\". Es troba preguntant qui corre." }),
+
+  q('sx-17', 'primaria',
+    { es: "¿Qué es el predicado de una oración?", en: "What is the predicate of a sentence?", ca: "Què és el predicat d'una oració?" },
+    { es: ["Lo que se dice del sujeto","Quien hace la acción","El artículo","El adjetivo"], en: ["Lo que se dice del sujeto","Quien hace la acción","El artículo","El adjetivo"], ca: ["El que es diu del subjecte","Qui fa l'acció","L'article","L'adjectiu"] },
+    0, '💬',
+    { es: "El predicado es todo lo que se dice del sujeto, y su núcleo es siempre un verbo.", en: "The predicate is everything said about the subject; its head is a verb.", ca: "El predicat és tot el que es diu del subjecte, i el seu nucli és un verb." }),
+
+  q('sx-18', 'primaria',
+    { es: "En \"María come manzanas\", ¿cuál es el núcleo del predicado?", en: "In \"María come manzanas\", what is the head of the predicate?", ca: "A \"Maria menja pomes\", quin és el nucli del predicat?" },
+    { es: ["María","come","manzanas","come manzanas"], en: ["María","come","manzanas","come manzanas"], ca: ["Maria","menja","pomes","menja pomes"] },
+    1, '🍎',
+    { es: "El núcleo del predicado es el verbo: \"come\". \"Manzanas\" es su complemento directo.", en: "The head of the predicate is the verb: \"come\" (eats).", ca: "El nucli del predicat és el verb: \"menja\"." }),
+
+  q('sx-19', 'primaria',
+    { es: "¿Cuántas palabras forman el sujeto en \"los niños pequeños juegan\"?", en: "How many words form the subject in \"los niños pequeños juegan\"?", ca: "Quantes paraules formen el subjecte a \"els nens petits juguen\"?" },
+    { es: ["Una","Dos","Tres","Cuatro"], en: ["Una","Dos","Tres","Cuatro"], ca: ["Una","Dues","Tres","Quatre"] },
+    2, '🧒',
+    { es: "El sujeto es todo el grupo \"los niños pequeños\": determinante, sustantivo y adjetivo.", en: "The subject is the whole group \"los niños pequeños\": three words.", ca: "El subjecte és tot el grup \"els nens petits\": tres paraules." }),
+
+  q('sx-20', 'primaria',
+    { es: "En \"ayer llovió mucho\", ¿hay sujeto?", en: "In \"ayer llovió mucho\", is there a subject?", ca: "A \"ahir va ploure molt\", hi ha subjecte?" },
+    { es: ["Sí, \"ayer\"","Sí, \"mucho\"","No, es una oración impersonal","Sí, \"llovió\""], en: ["Sí, \"ayer\"","Sí, \"mucho\"","No, es una oración impersonal","Sí, \"llovió\""], ca: ["Sí, \"ahir\"","Sí, \"molt\"","No, és una oració impersonal","Sí, \"va ploure\""] },
+    2, '🌧️',
+    { es: "Los verbos meteorológicos (llover, nevar, amanecer) no tienen sujeto: nadie hace la acción. Son impersonales.", en: "Weather verbs have no subject: nobody performs the action.", ca: "Els verbs meteorològics no tenen subjecte: ningú no fa l'acció." }),
+
+  q('sx-21', 'primaria',
+    { es: "¿Cómo se localiza el sujeto de una oración?", en: "How do you find the subject of a sentence?", ca: "Com es localitza el subjecte d'una oració?" },
+    { es: ["Es siempre la primera palabra","Preguntando ¿quién? al verbo","Es siempre un nombre propio","Va detrás del verbo"], en: ["Es siempre la primera palabra","Preguntando ¿quién? al verbo","Es siempre un nombre propio","Va detrás del verbo"], ca: ["És sempre la primera paraula","Preguntant qui? al verb","És sempre un nom propi","Va darrere del verb"] },
+    1, '🔍',
+    { es: "Se pregunta ¿quién? al verbo. Y ojo: el sujeto NO siempre va delante — \"llegaron los invitados\".", en: "Ask \"who?\" to the verb. The subject does not always come first.", ca: "Es pregunta qui? al verb. I compte: el subjecte no sempre va davant." }),
+
+  q('sx-22', 'eso',
+    { es: "En \"le di el libro a Ana\", ¿qué es \"a Ana\"?", en: "In \"le di el libro a Ana\", what is \"a Ana\"?", ca: "A \"li vaig donar el llibre a l'Anna\", què és \"a l'Anna\"?" },
+    { es: ["Complemento directo","Complemento indirecto","Sujeto","Complemento circunstancial"], en: ["Complemento directo","Complemento indirecto","Sujeto","Complemento circunstancial"], ca: ["Complement directe","Complement indirecte","Subjecte","Complement circumstancial"] },
+    1, '🎁',
+    { es: "El indirecto recibe el beneficio de la acción y se sustituye por \"le/les\": \"le di el libro\". El directo es \"el libro\".", en: "The indirect object receives the benefit and is replaced by \"le/les\".", ca: "L'indirecte rep el benefici de l'acció i se substitueix per \"li\"." }),
+
+  q('sx-23', 'eso',
+    { es: "¿Qué tipo de oración es \"Ana es enfermera\"?", en: "What kind of sentence is \"Ana es enfermera\"?", ca: "Quin tipus d'oració és \"L'Anna és infermera\"?" },
+    { es: ["Predicativa","Atributiva (copulativa)","Impersonal","Pasiva"], en: ["Predicativa","Atributiva (copulativa)","Impersonal","Pasiva"], ca: ["Predicativa","Atributiva (copulativa)","Impersonal","Passiva"] },
+    1, '🔗',
+    { es: "Con ser, estar o parecer la oración es copulativa, y lo que va detrás es un atributo, no un complemento directo.", en: "With ser/estar/parecer the sentence is copulative and what follows is an attribute.", ca: "Amb ser, estar o semblar l'oració és copulativa i el que va darrere és un atribut." }),
 ]
 
 export const PREGUNTAS_PRIMARIA = TODAS.filter(q => q.nivel === 'primaria')

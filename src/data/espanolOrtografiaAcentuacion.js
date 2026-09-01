@@ -92,6 +92,54 @@ const TODAS = [
     { es: ['Sí, siempre', 'No, según la RAE (2010), nunca', 'Solo cuando es pronombre, no cuando es adjetivo', 'Solo en textos ambiguos'], en: ['Yes, always', 'No, according to RAE (2010), never', 'Only as a pronoun, not as an adjective', 'Only in ambiguous texts'], ca: ['Sí, sempre', 'No, segons la RAE (2010), mai', 'Només quan és pronom, no quan és adjectiu', 'Només en textos ambigus'] },
     1, '📚',
     { es: 'Según la RAE (2010), los demostrativos (este, ese, aquel y sus variantes) ya NO llevan tilde en ningún caso, ni cuando funcionan como pronombres.', en: 'According to RAE (2010), demonstratives (este, ese, aquel) no longer take accent marks in any case, not even as pronouns.', ca: 'Segons la RAE (2010), els demostratius (este, ese, aquel) ja no porten accent mai, ni quan funcionen com a pronoms.' }),
+
+  q('ac-16', 'primaria',
+    { es: "¿Dónde lleva el acento \"cámara\"?", en: "Where is the stress in \"cámara\"?", ca: "On porta l'accent \"cámara\"?" },
+    { es: ["En la última sílaba","En la penúltima","En la antepenúltima","No lleva"], en: ["En la última sílaba","En la penúltima","En la antepenúltima","No lleva"], ca: ["En la última sílaba","En la penúltima","En la antepenúltima","No lleva"] },
+    2, '📷',
+    { es: "CÁ-ma-ra: la fuerza va en la antepenúltima sílaba, así que es esdrújula. Y todas las esdrújulas llevan tilde.", en: "CÁ-ma-ra is stressed on the third-to-last syllable: all such words take an accent.", ca: "CÁ-ma-ra: la força va a l'antepenúltima síl·laba, és esdrúixola." }),
+
+  q('ac-17', 'primaria',
+    { es: "¿Qué palabra es aguda?", en: "Which word is stressed on the last syllable?", ca: "Quina paraula és aguda?" },
+    { es: ["mesa","reloj","árbol","lámpara"], en: ["mesa","reloj","árbol","lámpara"], ca: ["mesa","reloj","árbol","lámpara"] },
+    1, '⏰',
+    { es: "Re-LOJ: la fuerza va en la última sílaba. No lleva tilde porque acaba en consonante que no es n ni s.", en: "Re-LOJ is stressed on the last syllable and needs no accent (ends in a consonant other than n/s).", ca: "Re-LOJ: la força va a l'última síl·laba." }),
+
+  q('ac-18', 'primaria',
+    { es: "¿Cuándo lleva tilde una palabra llana?", en: "When does a word stressed on the second-to-last syllable take an accent?", ca: "Quan porta accent una paraula plana?" },
+    { es: ["Siempre","Cuando NO acaba en vocal, n o s","Nunca","Cuando acaba en vocal"], en: ["Siempre","Cuando NO acaba en vocal, n o s","Nunca","Cuando acaba en vocal"], ca: ["Siempre","Cuando NO acaba en vocal, n o s","Nunca","Cuando acaba en vocal"] },
+    1, '📏',
+    { es: "Las llanas llevan tilde justo al revés que las agudas: cuando NO acaban en vocal, n o s. Por eso \"árbol\" y \"lápiz\" la llevan.", en: "Words stressed on the second-to-last syllable take an accent when they do NOT end in a vowel, n or s.", ca: "Les planes porten accent quan NO acaben en vocal, n o s." }),
+
+  q('ac-19', 'primaria',
+    { es: "¿Cuál de estas palabras necesita tilde?", en: "Which of these words needs an accent?", ca: "Quina d'aquestes paraules necessita accent?" },
+    { es: ["cancion","mesa","libro","ventana"], en: ["cancion","mesa","libro","ventana"], ca: ["cancion","mesa","libro","ventana"] },
+    0, '🎶',
+    { es: "Can-CIÓN es aguda y acaba en n, así que lleva tilde: canción. Las otras tres son llanas acabadas en vocal.", en: "\"Canción\" is stressed on the last syllable and ends in n → accent.", ca: "\"Canción\" és aguda i acaba en n, així que porta accent." }),
+
+  q('ac-20', 'primaria',
+    { es: "¿Cuántas sílabas tiene \"murciélago\"?", en: "How many syllables does \"murciélago\" have?", ca: "Quantes síl·labes té \"murciélago\"?" },
+    { es: ["Tres","Cuatro","Cinco","Dos"], en: ["Tres","Cuatro","Cinco","Dos"], ca: ["Tres","Cuatro","Cinco","Dos"] },
+    1, '🦇',
+    { es: "Mur-cié-la-go: cuatro sílabas, con la fuerza en la antepenúltima. Es esdrújula, y todas las esdrújulas llevan tilde.", en: "Mur-cié-la-go: four syllables, stressed on the third-to-last → it takes an accent.", ca: "Mur-cié-la-go: quatre síl·labes, esdrúixola i per això porta accent." }),
+
+  q('ac-21', 'primaria',
+    { es: "¿Qué palabra es esdrújula?", en: "Which word is stressed on the third-to-last syllable?", ca: "Quina paraula és esdrúixola?" },
+    { es: ["pájaro","papel","camino","jardin"], en: ["pájaro","papel","camino","jardin"], ca: ["pájaro","papel","camino","jardin"] },
+    0, '🐦',
+    { es: "PÁ-ja-ro lleva la fuerza en la antepenúltima sílaba. Todas las esdrújulas llevan tilde, sin excepción.", en: "\"Pájaro\" is stressed on the third-to-last syllable; all such words take an accent.", ca: "\"Pájaro\" porta la força a l'antepenúltima síl·laba." }),
+
+  q('ac-22', 'eso',
+    { es: "¿Para qué sirve la tilde diacrítica?", en: "What is the diacritical accent for?", ca: "Per a què serveix l'accent diacrític?" },
+    { es: ["Para marcar la sílaba fuerte","Para distinguir dos palabras que se escriben igual","Para separar sílabas","Para marcar el plural"], en: ["Para marcar la sílaba fuerte","Para distinguir dos palabras que se escriben igual","Para separar sílabas","Para marcar el plural"], ca: ["Para marcar la sílaba fuerte","Para distinguir dos palabras que se escriben igual","Para separar sílabas","Para marcar el plural"] },
+    1, '🔀',
+    { es: "Distingue palabras iguales con función distinta: él (pronombre) / el (artículo), tú / tu, sé / se, más / mas.", en: "It tells apart identical words with different roles: él/el, tú/tu, sé/se.", ca: "Distingeix paraules iguals amb funció diferent: él/el, tú/tu, sé/se." }),
+
+  q('ac-23', 'eso',
+    { es: "En \"no sé qué hacer\", ¿por qué lleva tilde \"qué\"?", en: "In \"no sé qué hacer\", why does \"qué\" take an accent?", ca: "A \"no sé què fer\", per què porta accent \"què\"?" },
+    { es: ["Es esdrújula","Porque es interrogativo indirecto","Es un error","Porque va detrás de un verbo"], en: ["Es esdrújula","Porque es interrogativo indirecto","Es un error","Porque va detrás de un verbo"], ca: ["Es esdrújula","Porque es interrogativo indirecto","Es un error","Porque va detrás de un verbo"] },
+    1, '❓',
+    { es: "Los interrogativos y exclamativos llevan tilde también en preguntas indirectas: \"no sé qué hacer\", \"dime dónde vas\".", en: "Question words take an accent in indirect questions too: \"no sé qué hacer\".", ca: "Els interrogatius porten accent també en preguntes indirectes." }),
 ]
 
 export const PREGUNTAS_PRIMARIA = TODAS.filter(q => q.nivel === 'primaria')
