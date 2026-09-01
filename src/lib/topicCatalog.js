@@ -240,6 +240,16 @@ export const TOPIC_CATALOG = {
       // "Clases de Palabras" y no los temas sueltos, que prometerían más
       // precisión de la que tiene. tracksTopic: false porque no guarda category
       // (ver su saveActivity) — mismo criterio que Portadas y NumPath.
+      // La página guarda category = 'acentuacion', así que la tarea del
+      // profesor se completa sola al jugarla.
+      tilde: {
+        label: { es: 'Pon la Tilde (juego)', en: 'Spanish Accents (game)', ca: 'Posa l\'Accent (joc)' },
+        emoji: '✏️',
+        game: 'pon-la-tilde',
+        usesLevel: false,
+        tracksTopic: true,
+        temas: ['acentuacion'],
+      },
       intruso: {
         label: { es: 'El Intruso (juego)', en: 'The Odd One Out (game)', ca: "L'Intrús (joc)" },
         emoji: '🔍',

@@ -891,6 +891,34 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Química', niveles: 'Primaria, ESO, Bachillerato',
   },
+  'pon-la-tilde': {
+    titulo: 'Pon la Tilde',
+    subtitulo: 'Juego de acentuación: agudas, llanas, esdrújulas e hiatos',
+    emoji: '✏️', gradient: 'from-rose-500 to-pink-700',
+    path: '/juegos/pon-la-tilde',
+    intro: 'Un juego de lengua para dejar de poner tildes de oído: aparece una palabra SIN acentuar y partida en sílabas, y hay que hacer dos cosas seguidas. Primero tocar la sílaba donde cae el golpe de voz, y después decidir si por eso lleva tilde. Ese orden no es un capricho: la regla de la tilde no se puede aplicar sin saber antes dónde cae el acento, y ese es exactamente el paso que casi todo el mundo se salta.',
+    beneficios: [
+      { titulo: 'Separa las dos decisiones', texto: 'Un ejercicio del tipo "¿lleva tilde árbol?" se acierta por oído sin saber ninguna regla. Aquí hay que señalar la sílaba tónica antes de responder, así que el alumno no puede esconder que no sabe localizarla, que es donde de verdad se atasca.' },
+      { titulo: 'La regla, no la lista', texto: 'Cada palabra sale con su explicación: por qué es aguda, llana o esdrújula, y qué dice la regla para ese caso. Al repetir, el alumno deja de recordar palabras sueltas y empieza a aplicar el mismo razonamiento a cualquier palabra nueva.' },
+      { titulo: 'Los hiatos, avisados', texto: 'Palabras como día, país o baúl llevan tilde por romper un diptongo, no por la regla de agudas y llanas. Salen mezcladas con las demás y la explicación avisa de que son otra cosa, en vez de dejar al alumno pensando que la regla falla.' },
+    ],
+    ejemplo: 'Sale "murcielago", partida en mur · cie · la · go. El alumno toca "cie", que es donde cae el golpe, y responde que sí lleva tilde. Acierta las dos, y lee que al caer la fuerza en la antepenúltima sílaba es esdrújula, y que todas las esdrújulas llevan tilde sin excepción: murciélago.',
+    enPapel: {
+      titulo: 'Las tildes en papel',
+      pasos: [
+        'Coge un texto cualquiera y copia veinte palabras largas quitándoles las tildes.',
+        'Parte cada una en sílabas con rayas y marca con una flecha dónde cae la fuerza.',
+        'Escribe al lado si es aguda, llana o esdrújula, y solo entonces decide la tilde.',
+        'Comprueba con el texto original: los fallos casi siempre están en la flecha, no en la regla.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'El dictado al revés', desc: 'En vez de dictar, dale un texto sin tildes y que las ponga. Corrige preguntando "¿dónde cae la fuerza?" antes que "¿lleva tilde?": es la pregunta que enseña.' },
+      { nombre: 'Palmadas por sílaba', desc: 'Dad una palmada por sílaba y una más fuerte en la tónica. Suena a juego de niños, pero es la forma más rápida de que alguien localice el acento sin dudar.' },
+      { nombre: 'Cazar tildes en el móvil', desc: 'Buscad tildes mal puestas en mensajes, carteles o titulares. Encontrar errores reales fija la regla mucho mejor que aplicarla en una ficha.' },
+    ],
+    asignatura: 'Lengua', niveles: 'Primaria, ESO, Bachillerato',
+  },
   'microscopio': {
     titulo: 'Bajo el Microscopio',
     subtitulo: 'Juego de la célula: orgánulos, célula animal y célula vegetal',
@@ -1666,6 +1694,33 @@ export const FICHAS_EN = {
       { nombre: 'Element of the day', desc: 'Each day pick a random element from the table and look up a fun fact about it: what it\'s used for, when it was discovered, where its name comes from.' },
     ],
     asignatura: 'Chemistry', niveles: 'Primary, Secondary, Sixth Form',
+  },
+  'pon-la-tilde': {
+    titulo: 'Spanish Accents',
+    subtitulo: 'Accentuation game: agudas, llanas, esdrújulas and hiatus',
+    emoji: '✏️', gradient: 'from-rose-500 to-pink-700', path: '/juegos/pon-la-tilde',
+    intro: 'A language game to stop placing Spanish accents by ear: a word appears WITHOUT its accent, split into syllables, and you do two things in a row. First tap the syllable where the stress falls, then decide whether that means it takes an accent. The order is not arbitrary: the accent rule cannot be applied without first knowing where the stress falls, and that is exactly the step almost everyone skips.',
+    beneficios: [
+      { titulo: 'It separates the two decisions', texto: 'An exercise like "does árbol take an accent?" can be answered by ear with no rule at all. Here you must point at the stressed syllable first, so a student cannot hide that they are unable to locate it — which is where they actually get stuck.' },
+      { titulo: 'The rule, not the list', texto: 'Every word comes with its explanation: why it is aguda, llana or esdrújula, and what the rule says for that case. With repetition, students stop recalling individual words and start applying the same reasoning to any new one.' },
+      { titulo: 'Hiatus, flagged as such', texto: 'Words like día, país or baúl take an accent because they break a diphthong, not because of the aguda/llana rule. They come up mixed in and the explanation says so, instead of leaving the student thinking the rule is broken.' },
+    ],
+    ejemplo: 'Up comes "murcielago", split into mur · cie · la · go. The student taps "cie", where the stress falls, and answers that yes, it takes an accent. Both right — and they read that with the stress on the third-to-last syllable it is esdrújula, and every esdrújula takes an accent without exception: murciélago.',
+    enPapel: {
+      titulo: 'Accents on paper',
+      pasos: [
+        'Take any text and copy out twenty long words with their accents removed.',
+        'Split each one into syllables with dashes and mark the stress with an arrow.',
+        'Write beside it whether it is aguda, llana or esdrújula, and only then decide the accent.',
+        'Check against the original: mistakes are almost always in the arrow, not in the rule.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'The reverse dictation', desc: 'Instead of dictating, hand over a text with no accents and have them added. Correct by asking "where does the stress fall?" before "does it take an accent?".' },
+      { nombre: 'Clap the syllables', desc: 'Clap once per syllable and harder on the stressed one. It sounds like a children\'s game, but it is the fastest way to locate the stress without hesitating.' },
+      { nombre: 'Accent hunting on the phone', desc: 'Look for wrongly placed accents in messages, signs or headlines. Finding real mistakes fixes the rule far better than applying it on a worksheet.' },
+    ],
+    asignatura: 'Spanish language', niveles: 'Primary, Secondary, Sixth Form',
   },
   'microscopio': {
     titulo: 'Under the Microscope',
@@ -2519,6 +2574,33 @@ export const FICHAS_CA = {
       { nombre: 'L\'element del dia', desc: 'Cada dia tria un element a l\'atzar de la taula i busca una dada curiosa sobre ell: per a què s\'utilitza, quan es va descobrir, d\'on ve el seu nom.' },
     ],
     asignatura: 'Química', niveles: 'Primària, ESO, Batxillerat',
+  },
+  'pon-la-tilde': {
+    titulo: 'Posa l\'Accent',
+    subtitulo: 'Joc d\'accentuació castellana: agudes, planes, esdrúixoles i hiats',
+    emoji: '✏️', gradient: 'from-rose-500 to-pink-700', path: '/juegos/pon-la-tilde',
+    intro: 'Un joc de llengua per deixar de posar accents d\'oïda: apareix una paraula SENSE accentuar i partida en síl·labes, i cal fer dues coses seguides. Primer tocar la síl·laba on cau el cop de veu, i després decidir si per això porta accent. Aquest ordre no és un caprici: la regla de l\'accent no es pot aplicar sense saber abans on cau, i aquest és el pas que gairebé tothom es salta.',
+    beneficios: [
+      { titulo: 'Separa les dues decisions', texto: 'Un exercici del tipus "porta accent árbol?" s\'encerta d\'oïda sense saber cap regla. Aquí cal assenyalar la síl·laba tònica abans de respondre, així que l\'alumne no pot amagar que no la sap localitzar.' },
+      { titulo: 'La regla, no la llista', texto: 'Cada paraula surt amb la seva explicació: per què és aguda, plana o esdrúixola, i què diu la regla per a aquest cas. En repetir, l\'alumne deixa de recordar paraules soltes i comença a aplicar el mateix raonament.' },
+      { titulo: 'Els hiats, avisats', texto: 'Paraules com día, país o baúl porten accent per trencar un diftong, no per la regla d\'agudes i planes. Surten barrejades i l\'explicació ho avisa, en comptes de deixar l\'alumne pensant que la regla falla.' },
+    ],
+    ejemplo: 'Surt "murcielago", partida en mur · cie · la · go. L\'alumne toca "cie", que és on cau el cop, i respon que sí que porta accent. Encerta les dues, i llegeix que en caure la força a l\'antepenúltima síl·laba és esdrúixola, i que totes porten accent: murciélago.',
+    enPapel: {
+      titulo: 'Els accents en paper',
+      pasos: [
+        'Agafa un text qualsevol i copia vint paraules llargues traient-los els accents.',
+        'Parteix cadascuna en síl·labes amb ratlles i marca amb una fletxa on cau la força.',
+        'Escriu al costat si és aguda, plana o esdrúixola, i només llavors decideix l\'accent.',
+        'Comprova amb el text original: els errors gairebé sempre són a la fletxa, no a la regla.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'El dictat a l\'inrevés', desc: 'En comptes de dictar, dona-li un text sense accents i que els hi posi. Corregeix preguntant "on cau la força?" abans que "porta accent?".' },
+      { nombre: 'Picar de mans per síl·laba', desc: 'Piqueu de mans un cop per síl·laba i més fort a la tònica. Sona a joc de nens, però és la manera més ràpida de localitzar l\'accent sense dubtar.' },
+      { nombre: 'Caçar accents al mòbil', desc: 'Busqueu accents mal posats en missatges, cartells o titulars. Trobar errors reals fixa la regla molt millor que aplicar-la en una fitxa.' },
+    ],
+    asignatura: 'Llengua', niveles: 'Primària, ESO, Batxillerat',
   },
   'microscopio': {
     titulo: 'Sota el Microscopi',

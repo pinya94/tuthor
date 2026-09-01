@@ -284,6 +284,14 @@ export const GAMES = {
     // aciertos × 10 puntos → hasta 200 monedas
     coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
   },
+  'pon-la-tilde': {
+    label: { es: 'Pon la Tilde', en: 'Spanish Accents', ca: 'Posa l\'Accent' },
+    emoji: '✏️',
+    subject: 'lengua',
+    route: '/juegos/pon-la-tilde',
+    // aciertos × 10 puntos → hasta 200 monedas
+    coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
+  },
   microscopio: {
     label: { es: 'Bajo el Microscopio', en: 'Under the Microscope', ca: 'Sota el Microscopi' },
     emoji: '🔬',
