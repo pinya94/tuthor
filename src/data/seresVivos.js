@@ -89,6 +89,62 @@ const PREGUNTAS = [
     '🧬',
     { es:'Reproducción asexual (un solo progenitor): gemación, fragmentación, esporulación, partenogénesis. Los descendientes son clones (idénticos). Reproducción sexual (dos progenitores): hay fecundación, mezcla de genes → variabilidad genética. Favorece la adaptación y la evolución.', en:'Asexual reproduction (single parent): budding, fragmentation, sporulation, parthenogenesis. Offspring are clones (identical). Sexual reproduction (two parents): fertilisation occurs, mixing of genes → genetic variability. Favours adaptation and evolution.', ca:'Reproducció asexual (un sol progenitor): gemació, fragmentació, esporulació, partenogènesi. Els descendents són clons (idèntics). Reproducció sexual (dos progenitors): hi ha fecundació, mescla de gens → variabilitat genètica. Afavoreix l\'adaptació i l\'evolució.' },
   ),
+
+  q('sv-12', 'primaria',
+    { es: "¿Cuáles son las tres funciones vitales de todo ser vivo?", en: "What are the three vital functions of every living thing?", ca: "Quines són les tres funcions vitals de tot ésser viu?" },
+    { es: ["Comer, dormir y crecer","Nutrición, relación y reproducción","Respirar, andar y hablar","Nacer, crecer y morir"], en: ["Eating, sleeping and growing","Nutrition, interaction and reproduction","Breathing, walking and talking","Being born, growing and dying"], ca: ["Menjar, dormir i créixer","Nutrició, relació i reproducció","Respirar, caminar i parlar","Néixer, créixer i morir"] },
+    { es: "Nutrición, relación y reproducción", en: "Nutrition, interaction and reproduction", ca: "Nutrició, relació i reproducció" },
+    '♻️',
+    { es: "Nutrición (obtener materia y energía), relación (responder al entorno) y reproducción (dejar descendencia). Las cumplen desde una bacteria hasta una ballena.", en: "Nutrition, interaction and reproduction — from a bacterium to a whale.", ca: "Nutrició, relació i reproducció: des d'un bacteri fins a una balena." }),
+
+  q('sv-13', 'primaria',
+    { es: "¿Qué tienen en común todos los seres vivos?", en: "What do all living things have in common?", ca: "Què tenen en comú tots els éssers vius?" },
+    { es: ["Que se mueven","Que están formados por células","Que tienen ojos","Que respiran aire"], en: ["They move","They are made of cells","They have eyes","They breathe air"], ca: ["Que es mouen","Que estan formats per cèl·lules","Que tenen ulls","Que respiren aire"] },
+    { es: "Que están formados por células", en: "They are made of cells", ca: "Que estan formats per cèl·lules" },
+    '🔬',
+    { es: "La célula es la unidad mínima de vida: todos los seres vivos están hechos de una o de muchas. Ni moverse ni respirar aire valen para todos.", en: "The cell is the minimum unit of life: every living thing is made of one or many.", ca: "La cèl·lula és la unitat mínima de vida: tots els éssers vius en tenen una o moltes." }),
+
+  q('sv-14', 'primaria',
+    { es: "¿A qué reino pertenecen las setas?", en: "Which kingdom do mushrooms belong to?", ca: "A quin regne pertanyen els bolets?" },
+    { es: ["Plantas","Hongos","Animales","Bacterias"], en: ["Plants","Fungi","Animals","Bacteria"], ca: ["Plantes","Fongs","Animals","Bacteris"] },
+    { es: "Hongos", en: "Fungi", ca: "Fongs" },
+    '🍄',
+    { es: "Los hongos son su propio reino: no hacen fotosíntesis como las plantas, pero tampoco se mueven ni cazan como los animales. Se alimentan absorbiendo materia.", en: "Fungi are their own kingdom: no photosynthesis, no hunting — they absorb their food.", ca: "Els fongs són el seu propi regne: no fan fotosíntesi ni cacen, s'alimenten absorbint matèria." }),
+
+  q('sv-15', 'primaria',
+    { es: "¿Qué es un animal vertebrado?", en: "What is a vertebrate animal?", ca: "Què és un animal vertebrat?" },
+    { es: ["El que vive en el agua","El que tiene columna vertebral","El que pone huevos","El que tiene pelo"], en: ["One that lives in water","One with a backbone","One that lays eggs","One with fur"], ca: ["El que viu a l'aigua","El que té columna vertebral","El que pon ous","El que té pèl"] },
+    { es: "El que tiene columna vertebral", en: "One with a backbone", ca: "El que té columna vertebral" },
+    '🦴',
+    { es: "Los vertebrados tienen esqueleto interno con columna: mamíferos, aves, reptiles, anfibios y peces. Todos los demás son invertebrados.", en: "Vertebrates have an internal skeleton with a backbone: mammals, birds, reptiles, amphibians and fish.", ca: "Els vertebrats tenen esquelet intern amb columna: mamífers, ocells, rèptils, amfibis i peixos." }),
+
+  q('sv-16', 'primaria',
+    { es: "¿Qué caracteriza a los mamíferos?", en: "What characterises mammals?", ca: "Què caracteritza els mamífers?" },
+    { es: ["Ponen huevos siempre","Alimentan a sus crías con leche","Viven solo en tierra","No tienen pelo"], en: ["They always lay eggs","They feed their young with milk","They only live on land","They have no fur"], ca: ["Sempre ponen ous","Alimenten les cries amb llet","Només viuen a terra","No tenen pèl"] },
+    { es: "Alimentan a sus crías con leche", en: "They feed their young with milk", ca: "Alimenten les cries amb llet" },
+    '🐋',
+    { es: "Los mamíferos amamantan a sus crías. La ballena lo es aunque viva en el mar, y el murciélago aunque vuele.", en: "Mammals feed their young with milk — including whales and bats.", ca: "Els mamífers alleten les cries: la balena ho és encara que visqui al mar." }),
+
+  q('sv-17', 'eso',
+    { es: "¿Qué diferencia a una célula procariota de una eucariota?", en: "What separates a prokaryotic cell from a eukaryotic one?", ca: "Què diferencia una cèl·lula procariota d'una d'eucariota?" },
+    { es: ["El tamaño solamente","La procariota no tiene núcleo definido","La eucariota no tiene ADN","Ninguna, son sinónimos"], en: ["Only the size","The prokaryote has no defined nucleus","The eukaryote has no DNA","None, they are synonyms"], ca: ["Només la mida","La procariota no té nucli definit","L'eucariota no té ADN","Cap, són sinònims"] },
+    { es: "La procariota no tiene núcleo definido", en: "The prokaryote has no defined nucleus", ca: "La procariota no té nucli definit" },
+    '🧫',
+    { es: "En la procariota (bacterias) el ADN flota libre en el citoplasma; en la eucariota está encerrado en un núcleo. Es la división más profunda de la vida.", en: "In prokaryotes the DNA floats free; in eukaryotes it is enclosed in a nucleus.", ca: "En la procariota l'ADN sura lliure; en l'eucariota està tancat en un nucli." }),
+
+  q('sv-18', 'eso',
+    { es: "¿Por qué los virus no se consideran seres vivos?", en: "Why are viruses not considered living things?", ca: "Per què els virus no es consideren éssers vius?" },
+    { es: ["Porque son muy pequeños","Porque no tienen células ni pueden reproducirse solos","Porque no tienen ADN","Porque causan enfermedades"], en: ["Because they are very small","Because they have no cells and cannot reproduce alone","Because they have no DNA","Because they cause disease"], ca: ["Perquè són molt petits","Perquè no tenen cèl·lules ni es poden reproduir sols","Perquè no tenen ADN","Perquè causen malalties"] },
+    { es: "Porque no tienen células ni pueden reproducirse solos", en: "Because they have no cells and cannot reproduce alone", ca: "Perquè no tenen cèl·lules ni es poden reproduir sols" },
+    '🦠',
+    { es: "Un virus no es una célula y no puede reproducirse por su cuenta: necesita meterse dentro de una célula viva. Sin huésped, no hace nada.", en: "A virus is not a cell and cannot reproduce alone: it needs a living host cell.", ca: "Un virus no és una cèl·lula i no es pot reproduir tot sol: necessita una cèl·lula viva." }),
+
+  q('sv-19', 'eso',
+    { es: "¿Qué es la taxonomía?", en: "What is taxonomy?", ca: "Què és la taxonomia?" },
+    { es: ["El estudio de los fósiles","La ciencia que clasifica y nombra a los seres vivos","El estudio del clima","La cría de animales"], en: ["The study of fossils","The science that classifies and names living things","The study of climate","Animal breeding"], ca: ["L'estudi dels fòssils","La ciència que classifica i anomena els éssers vius","L'estudi del clima","La cria d'animals"] },
+    { es: "La ciencia que clasifica y nombra a los seres vivos", en: "The science that classifies and names living things", ca: "La ciència que classifica i anomena els éssers vius" },
+    '🏷️',
+    { es: "Ordena la vida en niveles (reino, filo, clase, orden, familia, género, especie) y da a cada especie un nombre en latín, igual en todo el mundo.", en: "It orders life into levels and gives each species a Latin name used worldwide.", ca: "Ordena la vida en nivells i dona a cada espècie un nom en llatí igual arreu del món." }),
 ]
 
 export const PREGUNTAS_PRIMARIA = PREGUNTAS.filter(p => p.nivel === 'primaria')

@@ -103,6 +103,62 @@ const PREGUNTAS = [
     '⚡',
     { es:'El arco reflejo: estímulo → receptor sensorial → neurona sensorial → médula espinal → neurona motora → efector (músculo/glándula). Ejemplo: retirar la mano del fuego. La señal no llega al cerebro antes de la respuesta, por eso es más rápida.', en:'The reflex arc: stimulus → sensory receptor → sensory neuron → spinal cord → motor neuron → effector (muscle/gland). Example: pulling your hand away from fire. The signal does not reach the brain before the response, which is why it is faster.', ca:'L\'arc reflex: estímul → receptor sensorial → neurona sensorial → medul·la espinal → neurona motora → efector (múscul/glàndula). Exemple: retirar la mà del foc. El senyal no arriba al cervell abans de la resposta, per això és més ràpida.' },
   ),
+
+  q('cd-04', 'primaria',
+    { es: "¿Dónde empieza la digestión?", en: "Where does digestion start?", ca: "On comença la digestió?" },
+    { es: ["En el estómago","En la boca","En el intestino","En el hígado"], en: ["In the stomach","In the mouth","In the intestine","In the liver"], ca: ["A l'estómac","A la boca","A l'intestí","Al fetge"] },
+    { es: "En la boca", en: "In the mouth", ca: "A la boca" },
+    '👄',
+    { es: "Empieza en la boca: los dientes trituran y la saliva ya rompe los almidones. Cuando la comida llega al estómago, la digestión lleva rato en marcha.", en: "It starts in the mouth: teeth grind and saliva already breaks down starches.", ca: "Comença a la boca: les dents trituren i la saliva ja trenca els midons." }),
+
+  q('cc-04', 'primaria',
+    { es: "¿Cuántas cavidades tiene el corazón humano?", en: "How many chambers does the human heart have?", ca: "Quantes cavitats té el cor humà?" },
+    { es: ["Dos","Tres","Cuatro","Cinco"], en: ["Two","Three","Four","Five"], ca: ["Dues","Tres","Quatre","Cinc"] },
+    { es: "Cuatro", en: "Four", ca: "Quatre" },
+    '❤️',
+    { es: "Cuatro: dos aurículas arriba y dos ventrículos abajo. El lado derecho manda sangre a los pulmones y el izquierdo al resto del cuerpo.", en: "Four: two atria and two ventricles. The right side pumps to the lungs, the left to the rest of the body.", ca: "Quatre: dues aurícules i dos ventricles." }),
+
+  q('cr-04', 'primaria',
+    { es: "¿Qué gas tomamos del aire al respirar?", en: "Which gas do we take from the air when we breathe?", ca: "Quin gas prenem de l'aire en respirar?" },
+    { es: ["Dióxido de carbono","Oxígeno","Nitrógeno","Hidrógeno"], en: ["Carbon dioxide","Oxygen","Nitrogen","Hydrogen"], ca: ["Diòxid de carboni","Oxigen","Nitrogen","Hidrogen"] },
+    { es: "Oxígeno", en: "Oxygen", ca: "Oxigen" },
+    '💨',
+    { es: "Tomamos oxígeno y soltamos dióxido de carbono. El intercambio ocurre en los alvéolos, unos saquitos diminutos al final de los bronquios.", en: "We take in oxygen and release carbon dioxide, exchanged in the alveoli.", ca: "Prenem oxigen i deixem anar diòxid de carboni, als alvèols." }),
+
+  q('cn-05', 'primaria',
+    { es: "¿Qué órgano dirige todo el sistema nervioso?", en: "Which organ directs the whole nervous system?", ca: "Quin òrgan dirigeix tot el sistema nerviós?" },
+    { es: ["El corazón","El cerebro","El pulmón","El estómago"], en: ["The heart","The brain","The lung","The stomach"], ca: ["El cor","El cervell","El pulmó","L'estómac"] },
+    { es: "El cerebro", en: "The brain", ca: "El cervell" },
+    '🧠',
+    { es: "El cerebro recibe la información de los sentidos, la interpreta y manda las órdenes. La médula espinal es la autopista que las lleva.", en: "The brain receives information from the senses, interprets it and sends orders.", ca: "El cervell rep la informació dels sentits, la interpreta i envia les ordres." }),
+
+  q('cd-05', 'primaria',
+    { es: "¿Para qué sirve el esqueleto?", en: "What is the skeleton for?", ca: "Per a què serveix l'esquelet?" },
+    { es: ["Solo para andar","Para sostener el cuerpo y proteger los órganos","Para digerir","Para respirar"], en: ["Only for walking","To support the body and protect the organs","To digest","To breathe"], ca: ["Només per caminar","Per sostenir el cos i protegir els òrgans","Per digerir","Per respirar"] },
+    { es: "Para sostener el cuerpo y proteger los órganos", en: "To support the body and protect the organs", ca: "Per sostenir el cos i protegir els òrgans" },
+    '🦴',
+    { es: "Sostiene, da forma y protege: el cráneo guarda el cerebro y las costillas el corazón y los pulmones. Además, dentro de los huesos se fabrica la sangre.", en: "It supports, shapes and protects — and blood is made inside the bones.", ca: "Sosté, dona forma i protegeix; a més, dins dels ossos es fabrica la sang." }),
+
+  q('cc-05', 'eso',
+    { es: "¿Qué diferencia hay entre una arteria y una vena?", en: "What is the difference between an artery and a vein?", ca: "Quina diferència hi ha entre una artèria i una vena?" },
+    { es: ["Ninguna","La arteria sale del corazón y la vena vuelve a él","La arteria siempre lleva sangre limpia","La vena es más gruesa siempre"], en: ["None","The artery leaves the heart and the vein returns to it","Arteries always carry clean blood","Veins are always thicker"], ca: ["Cap","L'artèria surt del cor i la vena hi torna","L'artèria sempre porta sang neta","La vena sempre és més gruixuda"] },
+    { es: "La arteria sale del corazón y la vena vuelve a él", en: "The artery leaves the heart and the vein returns to it", ca: "L'artèria surt del cor i la vena hi torna" },
+    '❤️',
+    { es: "La diferencia es la DIRECCIÓN, no el tipo de sangre: la arteria pulmonar sale del corazón con sangre pobre en oxígeno, y la vena pulmonar vuelve con sangre rica.", en: "The difference is direction, not blood type: the pulmonary artery carries oxygen-poor blood away from the heart.", ca: "La diferència és la DIRECCIÓ, no el tipus de sang." }),
+
+  q('cr-05', 'eso',
+    { es: "¿Qué músculo hace posible la respiración?", en: "Which muscle makes breathing possible?", ca: "Quin múscul fa possible la respiració?" },
+    { es: ["El bíceps","El diafragma","El corazón","El tríceps"], en: ["The biceps","The diaphragm","The heart","The triceps"], ca: ["El bíceps","El diafragma","El cor","El tríceps"] },
+    { es: "El diafragma", en: "The diaphragm", ca: "El diafragma" },
+    '💨',
+    { es: "El diafragma separa el tórax del abdomen. Al contraerse baja, el pecho se agranda y entra el aire; al relajarse sube y el aire sale.", en: "The diaphragm contracts and flattens, the chest expands and air comes in.", ca: "El diafragma es contrau i baixa, el pit s'eixampla i entra l'aire." }),
+
+  q('cn-06', 'eso',
+    { es: "¿Qué es un acto reflejo?", en: "What is a reflex action?", ca: "Què és un acte reflex?" },
+    { es: ["Un movimiento que decidimos hacer","Una respuesta automática que no pasa por el cerebro","Un recuerdo","Un tipo de sueño"], en: ["A movement we decide to make","An automatic response that does not go through the brain","A memory","A kind of sleep"], ca: ["Un moviment que decidim fer","Una resposta automàtica que no passa pel cervell","Un record","Un tipus de son"] },
+    { es: "Una respuesta automática que no pasa por el cerebro", en: "An automatic response that does not go through the brain", ca: "Una resposta automàtica que no passa pel cervell" },
+    '⚡',
+    { es: "Al tocar algo muy caliente apartas la mano ANTES de darte cuenta: la orden sale de la médula espinal. Ganar esas décimas de segundo evita la quemadura.", en: "You pull your hand away before you notice: the order comes from the spinal cord, not the brain.", ca: "Apartes la mà ABANS d'adonar-te'n: l'ordre surt de la medul·la espinal." }),
 ]
 
 export const PREGUNTAS_PRIMARIA = PREGUNTAS.filter(p => p.nivel === 'primaria')

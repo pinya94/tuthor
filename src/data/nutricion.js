@@ -87,6 +87,62 @@ const PREGUNTAS = [
     '💧',
     { es:'El agua representa el 60-70% del cuerpo humano. No aporta calorías pero es imprescindible para: disolver nutrientes, transportarlos, regular la temperatura (sudoración), eliminar residuos por la orina y lubricar articulaciones. Se recomiendan unos 2 litros al día para adultos.', en:'Water makes up 60-70% of the human body. It provides no calories but is essential for: dissolving nutrients, transporting them, regulating temperature (sweating), eliminating waste through urine and lubricating joints. About 2 litres per day is recommended for adults.', ca:'L\'aigua representa el 60-70% del cos humà. No aporta calories però és imprescindible per: dissoldre nutrients, transportar-los, regular la temperatura (suor), eliminar residus per l\'orina i lubricar articulacions. Es recomanen uns 2 litres al dia per a adults.' },
   ),
+
+  q('nu-12', 'primaria',
+    { es: "¿Qué alimento es rico en proteínas?", en: "Which food is rich in protein?", ca: "Quin aliment és ric en proteïnes?" },
+    { es: ["El pan","Los huevos","El aceite","El azúcar"], en: ["Bread","Eggs","Oil","Sugar"], ca: ["El pa","Els ous","L'oli","El sucre"] },
+    { es: "Los huevos", en: "Eggs", ca: "Els ous" },
+    '🥚',
+    { es: "Los huevos, la carne, el pescado y las legumbres son las principales fuentes de proteína, que sirve para construir y reparar el cuerpo.", en: "Eggs, meat, fish and pulses are the main protein sources: protein builds and repairs the body.", ca: "Els ous, la carn, el peix i els llegums són les principals fonts de proteïna." }),
+
+  q('nu-13', 'primaria',
+    { es: "¿Cuántos vasos de agua se recomienda beber al día?", en: "How many glasses of water a day are recommended?", ca: "Quants gots d'aigua es recomana beure al dia?" },
+    { es: ["1 o 2","Entre 6 y 8","Más de 20","Ninguno, basta con refrescos"], en: ["1 or 2","Between 6 and 8","More than 20","None, soft drinks are enough"], ca: ["1 o 2","Entre 6 i 8","Més de 20","Cap, amb refrescos n'hi ha prou"] },
+    { es: "Entre 6 y 8", en: "Between 6 and 8", ca: "Entre 6 i 8" },
+    '💧',
+    { es: "Entre 6 y 8 vasos (1,5-2 litros). El agua no aporta energía, pero sin ella el cuerpo no puede transportar nutrientes ni regular su temperatura.", en: "Six to eight glasses (1.5-2 litres). Water has no calories but the body cannot transport nutrients without it.", ca: "Entre 6 i 8 gots (1,5-2 litres). L'aigua no aporta energia, però sense ella el cos no transporta nutrients." }),
+
+  q('nu-14', 'primaria',
+    { es: "¿Qué grupo de alimentos deberíamos comer en mayor cantidad?", en: "Which food group should we eat most of?", ca: "Quin grup d'aliments hauríem de menjar en més quantitat?" },
+    { es: ["Dulces y bollería","Frutas y verduras","Carnes rojas","Fritos"], en: ["Sweets and pastries","Fruit and vegetables","Red meat","Fried food"], ca: ["Dolços i brioixeria","Fruites i verdures","Carns vermelles","Fregits"] },
+    { es: "Frutas y verduras", en: "Fruit and vegetables", ca: "Fruites i verdures" },
+    '🥦',
+    { es: "Las frutas y verduras son la base de la dieta: aportan vitaminas, minerales y fibra con pocas calorías. Los dulces van en la punta de la pirámide.", en: "Fruit and vegetables are the base of the diet: vitamins, minerals and fibre with few calories.", ca: "Les fruites i verdures són la base de la dieta: vitamines, minerals i fibra amb poques calories." }),
+
+  q('nu-15', 'primaria',
+    { es: "¿Para qué sirve la fibra?", en: "What is fibre for?", ca: "Per a què serveix la fibra?" },
+    { es: ["Dar energía rápida","Ayudar al tránsito intestinal","Construir músculo","Formar huesos"], en: ["Giving quick energy","Helping intestinal transit","Building muscle","Forming bones"], ca: ["Donar energia ràpida","Ajudar al trànsit intestinal","Construir múscul","Formar ossos"] },
+    { es: "Ayudar al tránsito intestinal", en: "Helping intestinal transit", ca: "Ajudar al trànsit intestinal" },
+    '🌾',
+    { es: "La fibra no se digiere ni aporta energía: su trabajo es facilitar el tránsito intestinal. Está en la fruta, la verdura, las legumbres y los cereales integrales.", en: "Fibre is not digested: it helps intestinal transit. Found in fruit, vegetables, pulses and wholegrain cereals.", ca: "La fibra no es digereix: facilita el trànsit intestinal." }),
+
+  q('nu-16', 'primaria',
+    { es: "¿Qué es el desayuno?", en: "What is breakfast?", ca: "Què és l'esmorzar?" },
+    { es: ["Una comida que se puede saltar sin más","La primera comida del día, que rompe el ayuno de la noche","Solo un vaso de leche","La comida de media tarde"], en: ["A meal you can skip with no consequences","The first meal of the day, breaking the night fast","Just a glass of milk","An afternoon snack"], ca: ["Un àpat que es pot saltar sense més","El primer àpat del dia, que trenca el dejuni de la nit","Només un got de llet","L'àpat de mitja tarda"] },
+    { es: "La primera comida del día, que rompe el ayuno de la noche", en: "The first meal of the day, breaking the night fast", ca: "El primer àpat del dia, que trenca el dejuni de la nit" },
+    '🌅',
+    { es: "Tras 8-10 horas sin comer, el desayuno repone la glucosa que el cerebro necesita para concentrarse. Por eso se nota tanto en clase.", en: "After 8-10 hours without food, breakfast restores the glucose the brain needs to concentrate.", ca: "Després de 8-10 hores sense menjar, l'esmorzar reposa la glucosa que el cervell necessita." }),
+
+  q('nu-17', 'eso',
+    { es: "¿Qué diferencia hay entre una grasa saturada y una insaturada?", en: "What is the difference between saturated and unsaturated fat?", ca: "Quina diferència hi ha entre un greix saturat i un d'insaturat?" },
+    { es: ["Ninguna, es lo mismo","La saturada es sólida a temperatura ambiente y en exceso sube el colesterol; la insaturada es líquida y es cardiosaludable","La insaturada engorda más","La saturada solo está en vegetales"], en: ["None, they are the same","Saturated fat is solid at room temperature and raises cholesterol in excess; unsaturated is liquid and heart-healthy","Unsaturated fat is more fattening","Saturated fat is only in plants"], ca: ["Cap, són el mateix","El saturat és sòlid a temperatura ambient i en excés puja el colesterol; l'insaturat és líquid i és cardiosaludable","L'insaturat engreixa més","El saturat només és en vegetals"] },
+    { es: "La saturada es sólida a temperatura ambiente y en exceso sube el colesterol; la insaturada es líquida y es cardiosaludable", en: "Saturated fat is solid at room temperature and raises cholesterol in excess; unsaturated is liquid and heart-healthy", ca: "El saturat és sòlid a temperatura ambient i en excés puja el colesterol; l'insaturat és líquid i és cardiosaludable" },
+    '🥑',
+    { es: "Saturadas: mantequilla, embutidos, bollería (sólidas). Insaturadas: aceite de oliva, aguacate, frutos secos, pescado azul (líquidas). Las dos aportan 9 kcal/g, pero su efecto en las arterias es opuesto.", en: "Saturated: butter, cold meats (solid). Unsaturated: olive oil, avocado, nuts, oily fish (liquid). Same calories, opposite effect on arteries.", ca: "Saturats: mantega, embotits (sòlids). Insaturats: oli d'oliva, alvocat, fruits secs (líquids)." }),
+
+  q('nu-18', 'eso',
+    { es: "¿Qué vitamina se produce en la piel con la luz del sol?", en: "Which vitamin is produced in the skin with sunlight?", ca: "Quina vitamina es produeix a la pell amb la llum del sol?" },
+    { es: ["Vitamina C","Vitamina D","Vitamina A","Vitamina B12"], en: ["Vitamin C","Vitamin D","Vitamin A","Vitamin B12"], ca: ["Vitamina C","Vitamina D","Vitamina A","Vitamina B12"] },
+    { es: "Vitamina D", en: "Vitamin D", ca: "Vitamina D" },
+    '☀️',
+    { es: "La vitamina D se sintetiza en la piel con la radiación ultravioleta y es la que permite fijar el calcio en los huesos. Es la única que el cuerpo puede fabricar por sí solo.", en: "Vitamin D is made in the skin with UV light and lets the body fix calcium in bones — the only one the body can make itself.", ca: "La vitamina D se sintetitza a la pell amb la radiació ultraviolada i permet fixar el calci als ossos." }),
+
+  q('nu-19', 'eso',
+    { es: "¿Qué significa que un alimento tenga \"calorías vacías\"?", en: "What does it mean for a food to have \"empty calories\"?", ca: "Què vol dir que un aliment tingui \"calories buides\"?" },
+    { es: ["Que no tiene calorías","Que aporta energía pero casi ningún nutriente","Que se digiere muy rápido","Que es light"], en: ["That it has no calories","That it gives energy but almost no nutrients","That it digests very fast","That it is a light product"], ca: ["Que no té calories","Que aporta energia però gairebé cap nutrient","Que es digereix molt ràpid","Que és light"] },
+    { es: "Que aporta energía pero casi ningún nutriente", en: "That it gives energy but almost no nutrients", ca: "Que aporta energia però gairebé cap nutrient" },
+    '🍬',
+    { es: "Los refrescos azucarados y la bollería industrial dan mucha energía y casi ninguna vitamina, mineral ni fibra: llenan de calorías sin alimentar.", en: "Sugary drinks and industrial pastries give lots of energy and almost no vitamins, minerals or fibre.", ca: "Els refrescos ensucrats i la brioixeria industrial donen molta energia i gairebé cap nutrient." }),
 ]
 
 export const PREGUNTAS_PRIMARIA = PREGUNTAS.filter(p => p.nivel === 'primaria')

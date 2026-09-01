@@ -91,6 +91,62 @@ const PREGUNTAS = [
     '🐢',
     { es:'Ejemplos de especies invasoras en España: el galápago de Florida (desplaza al galápago europeo), el mejillón cebra (tapona conducciones), el visón americano (amenaza al visón europeo), la cotorra argentina. Entran accidentalmente o como mascotas liberadas.', en:'Examples of invasive species in Spain: the red-eared slider (displaces the European pond turtle), the zebra mussel (blocks pipes), the American mink (threatens the European mink), the monk parakeet. They enter accidentally or as released pets.', ca:'Exemples d\'espècies invasores a Espanya: la tortuga de Florida (desplaça la tortuga europea), el musclo zebra (tapa conduccions), el visó americà (amenacen el visó europeu), la cotorra argentina. Entren accidentalment o com a mascotes alliberades.' },
   ),
+
+  q('ec-12', 'primaria',
+    { es: "¿Qué es un hábitat?", en: "What is a habitat?", ca: "Què és un hàbitat?" },
+    { es: ["Un grupo de animales","El lugar donde vive un ser vivo","Una cadena alimentaria","Un tipo de planta"], en: ["A group of animals","The place where a living thing lives","A food chain","A kind of plant"], ca: ["Un grup d'animals","El lloc on viu un ésser viu","Una cadena alimentària","Un tipus de planta"] },
+    { es: "El lugar donde vive un ser vivo", en: "The place where a living thing lives", ca: "El lloc on viu un ésser viu" },
+    '🏞️',
+    { es: "El hábitat es el sitio concreto donde vive una especie y donde encuentra lo que necesita: comida, refugio y pareja.", en: "A habitat is the specific place where a species lives and finds food, shelter and mates.", ca: "L'hàbitat és el lloc concret on viu una espècie i on troba menjar, refugi i parella." }),
+
+  q('ec-13', 'primaria',
+    { es: "¿Qué necesitan las plantas para hacer la fotosíntesis?", en: "What do plants need for photosynthesis?", ca: "Què necessiten les plantes per fer la fotosíntesi?" },
+    { es: ["Carne y agua","Luz, agua y dióxido de carbono","Solo tierra","Oxígeno y azúcar"], en: ["Meat and water","Light, water and carbon dioxide","Only soil","Oxygen and sugar"], ca: ["Carn i aigua","Llum, aigua i diòxid de carboni","Només terra","Oxigen i sucre"] },
+    { es: "Luz, agua y dióxido de carbono", en: "Light, water and carbon dioxide", ca: "Llum, aigua i diòxid de carboni" },
+    '🌱',
+    { es: "Con luz, agua y CO2 la planta fabrica su propio alimento y suelta oxígeno. Por eso es un productor: no necesita comerse a nadie.", en: "With light, water and CO2 a plant makes its own food and releases oxygen — that is why it is a producer.", ca: "Amb llum, aigua i CO2 la planta fabrica el seu propi aliment i deixa anar oxigen." }),
+
+  q('ec-14', 'primaria',
+    { es: "¿Qué come un animal herbívoro?", en: "What does a herbivore eat?", ca: "Què menja un animal herbívor?" },
+    { es: ["Otros animales","Plantas","Restos muertos","De todo"], en: ["Other animals","Plants","Dead remains","Everything"], ca: ["Altres animals","Plantes","Restes mortes","De tot"] },
+    { es: "Plantas", en: "Plants", ca: "Plantes" },
+    '🐄',
+    { es: "El herbívoro come plantas, así que es consumidor primario: el primer eslabón después del productor.", en: "A herbivore eats plants, so it is a primary consumer: the first link after the producer.", ca: "L'herbívor menja plantes, així que és consumidor primari." }),
+
+  q('ec-15', 'primaria',
+    { es: "¿Hacia dónde va la energía en una cadena alimentaria?", en: "Which way does energy flow in a food chain?", ca: "Cap a on va l'energia en una cadena alimentària?" },
+    { es: ["Del depredador a la planta","De la planta al herbívoro y de ahí al carnívoro","En círculo sin dirección","No hay energía"], en: ["From predator to plant","From plant to herbivore and then to carnivore","In a circle with no direction","There is no energy"], ca: ["Del depredador a la planta","De la planta a l'herbívor i d'aquí al carnívor","En cercle sense direcció","No hi ha energia"] },
+    { es: "De la planta al herbívoro y de ahí al carnívoro", en: "From plant to herbivore and then to carnivore", ca: "De la planta a l'herbívor i d'aquí al carnívor" },
+    '➡️',
+    { es: "La energía entra por la planta (que la capta del sol) y sube por la cadena. En cada salto se pierde la mayor parte, por eso las cadenas son cortas.", en: "Energy enters through the plant and moves up the chain, losing most of itself at each step — which is why chains are short.", ca: "L'energia entra per la planta i puja per la cadena, perdent-ne la major part a cada salt." }),
+
+  q('ec-16', 'primaria',
+    { es: "¿Qué es un ecosistema?", en: "What is an ecosystem?", ca: "Què és un ecosistema?" },
+    { es: ["Solo los animales de un lugar","Los seres vivos de un lugar junto con el medio en el que viven","Solo las plantas","Un zoo"], en: ["Only the animals of a place","The living things of a place together with their environment","Only the plants","A zoo"], ca: ["Només els animals d'un lloc","Els éssers vius d'un lloc juntament amb el medi on viuen","Només les plantes","Un zoo"] },
+    { es: "Los seres vivos de un lugar junto con el medio en el que viven", en: "The living things of a place together with their environment", ca: "Els éssers vius d'un lloc juntament amb el medi on viuen" },
+    '🌍',
+    { es: "Un ecosistema son los seres vivos MÁS el medio físico (agua, suelo, temperatura) y las relaciones entre todos ellos.", en: "An ecosystem is the living things PLUS the physical environment and the relationships between them.", ca: "Un ecosistema són els éssers vius MÉS el medi físic i les relacions entre tots." }),
+
+  q('ec-17', 'eso',
+    { es: "¿Qué pasaría si desaparecieran los descomponedores?", en: "What would happen if decomposers disappeared?", ca: "Què passaria si desapareguessin els descomponedors?" },
+    { es: ["Nada","Los restos se acumularían y los nutrientes no volverían al suelo","Habría más plantas","Los depredadores desaparecerían primero"], en: ["Nothing","Remains would pile up and nutrients would not return to the soil","There would be more plants","Predators would disappear first"], ca: ["Res","Les restes s'acumularien i els nutrients no tornarien al sòl","Hi hauria més plantes","Els depredadors desapareixerien primer"] },
+    { es: "Los restos se acumularían y los nutrientes no volverían al suelo", en: "Remains would pile up and nutrients would not return to the soil", ca: "Les restes s'acumularien i els nutrients no tornarien al sòl" },
+    '🍄',
+    { es: "Los descomponedores (hongos y bacterias) cierran el ciclo: convierten los restos en nutrientes que las plantas vuelven a usar. Sin ellos el ciclo se rompe.", en: "Decomposers close the cycle, turning remains into nutrients plants can reuse. Without them the cycle breaks.", ca: "Els descomponedors tanquen el cicle: converteixen les restes en nutrients que les plantes tornen a fer servir." }),
+
+  q('ec-18', 'eso',
+    { es: "¿Por qué una cadena alimentaria rara vez tiene más de 4 o 5 eslabones?", en: "Why does a food chain rarely have more than 4 or 5 links?", ca: "Per què una cadena alimentària rarament té més de 4 o 5 baules?" },
+    { es: ["Porque no hay más especies","Porque en cada salto se pierde alrededor del 90% de la energía","Porque los animales grandes no comen","Por una norma de clasificación"], en: ["Because there are no more species","Because about 90% of the energy is lost at each step","Because big animals do not eat","Because of a classification rule"], ca: ["Perquè no hi ha més espècies","Perquè a cada salt es perd al voltant del 90% de l'energia","Perquè els animals grans no mengen","Per una norma de classificació"] },
+    { es: "Porque en cada salto se pierde alrededor del 90% de la energía", en: "Because about 90% of the energy is lost at each step", ca: "Perquè a cada salt es perd al voltant del 90% de l'energia" },
+    '📉',
+    { es: "Solo un 10% de la energía pasa de un nivel al siguiente; el resto se gasta en vivir y se pierde como calor. Tras 4 o 5 saltos ya no queda energía suficiente.", en: "Only about 10% of energy passes to the next level; the rest is spent living and lost as heat.", ca: "Només un 10% de l'energia passa d'un nivell al següent; la resta es perd com a calor." }),
+
+  q('ec-19', 'eso',
+    { es: "¿Qué es una especie invasora?", en: "What is an invasive species?", ca: "Què és una espècie invasora?" },
+    { es: ["Una especie en peligro","Una especie traída de fuera que se extiende y desplaza a las nativas","Una especie muy grande","Una especie extinguida"], en: ["An endangered species","A species brought from elsewhere that spreads and displaces native ones","A very large species","An extinct species"], ca: ["Una espècie en perill","Una espècie portada de fora que s'estén i desplaça les natives","Una espècie molt gran","Una espècie extingida"] },
+    { es: "Una especie traída de fuera que se extiende y desplaza a las nativas", en: "A species brought from elsewhere that spreads and displaces native ones", ca: "Una espècie portada de fora que s'estén i desplaça les natives" },
+    '⚠️',
+    { es: "Llega sin sus depredadores naturales, se reproduce sin freno y desplaza a las especies de siempre. El mejillón cebra o la cotorra argentina son ejemplos en España.", en: "It arrives without its natural predators, spreads unchecked and displaces native species.", ca: "Arriba sense els seus depredadors naturals, es reprodueix sense fre i desplaça les espècies natives." }),
 ]
 
 export const PREGUNTAS_PRIMARIA = PREGUNTAS.filter(p => p.nivel === 'primaria')
