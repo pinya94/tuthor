@@ -104,6 +104,48 @@ export const PREGUNTAS = [
     { es: 'La Revolución de Asturias', en: 'The Asturian Revolution', ca: 'La Revolució d\'Astúries' },
     '⛏️',
     { es: 'La Revolución de Asturias de 1934, una insurrección obrera duramente reprimida, es una de las causas estructurales que los historiadores señalan como antecedente de la polarización de 1936.', en: 'The 1934 Asturian Revolution, a workers\' uprising that was harshly repressed, is one of the structural causes historians point to as a precursor of the 1936 polarisation.', ca: 'La Revolució d\'Astúries de 1934, una insurrecció obrera durament reprimida, és una de les causes estructurals que els historiadors assenyalen com a antecedent de la polarització de 1936.' }),
+
+  q('gce-15', 'eso',
+    { es: "¿En qué año empezó la Guerra Civil española?", en: "In which year did the Spanish Civil War begin?", ca: "En quin any va començar la Guerra Civil espanyola?" },
+    { es: ["1931","1936","1939","1945"], en: ["1931","1936","1939","1945"], ca: ["1931","1936","1939","1945"] },
+    { es: "1936", en: "1936", ca: "1936" },
+    '📅',
+    { es: "Empezó en julio de 1936 con el golpe de Estado contra la Segunda República, y terminó el 1 de abril de 1939.", en: "It began in July 1936 with the coup against the Second Republic and ended on 1 April 1939.", ca: "Va començar el juliol de 1936 amb el cop d'Estat contra la Segona República." }),
+
+  q('gce-16', 'eso',
+    { es: "¿Qué dos bandos se enfrentaron?", en: "Which two sides fought?", ca: "Quins dos bàndols es van enfrontar?" },
+    { es: ["Liberales y absolutistas","Republicanos y sublevados (nacionales)","Aliados y del Eje","Carlistas e isabelinos"], en: ["Liberals and absolutists","Republicans and rebels (Nationalists)","Allies and Axis","Carlists and Isabelines"], ca: ["Liberals i absolutistes","Republicans i revoltats (nacionals)","Aliats i de l'Eix","Carlins i isabelins"] },
+    { es: "Republicanos y sublevados (nacionales)", en: "Republicans and rebels (Nationalists)", ca: "Republicans i revoltats (nacionals)" },
+    '⚔️',
+    { es: "De un lado el gobierno legítimo de la República; del otro los militares sublevados, que acabarían liderados por Franco.", en: "On one side the legitimate Republican government, on the other the rebel military under Franco.", ca: "D'un costat el govern legítim de la República; de l'altre els militars revoltats." }),
+
+  q('gce-17', 'eso',
+    { es: "¿Qué ciudad fue bombardeada en 1937 y pintada después por Picasso?", en: "Which town was bombed in 1937 and later painted by Picasso?", ca: "Quina ciutat va ser bombardejada el 1937 i després pintada per Picasso?" },
+    { es: ["Madrid","Guernica","Barcelona","Teruel"], en: ["Madrid","Guernica","Barcelona","Teruel"], ca: ["Madrid","Gernika","Barcelona","Terol"] },
+    { es: "Guernica", en: "Guernica", ca: "Gernika" },
+    '🖼️',
+    { es: "La aviación alemana bombardeó Gernika en abril de 1937. Picasso lo convirtió en el cuadro antibelicista más conocido del mundo.", en: "German aircraft bombed Gernika in April 1937; Picasso turned it into the best-known anti-war painting.", ca: "L'aviació alemanya va bombardejar Gernika l'abril de 1937." }),
+
+  q('gce-18', 'eso',
+    { es: "¿Qué países apoyaron al bando sublevado?", en: "Which countries supported the rebel side?", ca: "Quins països van donar suport al bàndol revoltat?" },
+    { es: ["Francia y Reino Unido","La Alemania nazi y la Italia fascista","La URSS y México","Estados Unidos"], en: ["France and the UK","Nazi Germany and Fascist Italy","The USSR and Mexico","The United States"], ca: ["França i el Regne Unit","L'Alemanya nazi i la Itàlia feixista","L'URSS i Mèxic","Els Estats Units"] },
+    { es: "La Alemania nazi y la Italia fascista", en: "Nazi Germany and Fascist Italy", ca: "L'Alemanya nazi i la Itàlia feixista" },
+    '🌍',
+    { es: "Alemania e Italia enviaron aviones, tanques y hombres. La República solo recibió ayuda de la URSS y México: las democracias europeas se declararon no intervencionistas.", en: "Germany and Italy sent planes, tanks and men; the Republic only got help from the USSR and Mexico.", ca: "Alemanya i Itàlia van enviar avions, tancs i homes." }),
+
+  q('gce-19', 'eso',
+    { es: "¿Qué fueron las Brigadas Internacionales?", en: "What were the International Brigades?", ca: "Què van ser les Brigades Internacionals?" },
+    { es: ["Un cuerpo del ejército sublevado","Voluntarios extranjeros que lucharon por la República","Una organización de ayuda médica","Un tratado de paz"], en: ["A rebel army corps","Foreign volunteers who fought for the Republic","A medical aid organisation","A peace treaty"], ca: ["Un cos de l'exèrcit revoltat","Voluntaris estrangers que van lluitar per la República","Una organització d'ajuda mèdica","Un tractat de pau"] },
+    { es: "Voluntarios extranjeros que lucharon por la República", en: "Foreign volunteers who fought for the Republic", ca: "Voluntaris estrangers que van lluitar per la República" },
+    '🤝',
+    { es: "Unos 35.000 voluntarios de más de 50 países vinieron a luchar contra el fascismo. Entre ellos escritores como George Orwell.", en: "Around 35,000 volunteers from over 50 countries came to fight fascism, among them George Orwell.", ca: "Uns 35.000 voluntaris de més de 50 països van venir a lluitar contra el feixisme." }),
+
+  q('gce-20', 'eso',
+    { es: "¿Cómo terminó la guerra?", en: "How did the war end?", ca: "Com va acabar la guerra?" },
+    { es: ["Con un acuerdo de paz","Con la victoria del bando sublevado y la dictadura de Franco","Con la victoria republicana","Con la intervención de la ONU"], en: ["With a peace agreement","With the rebels' victory and Franco's dictatorship","With a Republican victory","With UN intervention"], ca: ["Amb un acord de pau","Amb la victòria del bàndol revoltat i la dictadura de Franco","Amb la victòria republicana","Amb la intervenció de l'ONU"] },
+    { es: "Con la victoria del bando sublevado y la dictadura de Franco", en: "With the rebels' victory and Franco's dictatorship", ca: "Amb la victòria del bàndol revoltat i la dictadura de Franco" },
+    '🏳️',
+    { es: "No hubo acuerdo: el 1 de abril de 1939 Franco declaró terminada la guerra y empezó una dictadura que duró hasta 1975.", en: "There was no agreement: on 1 April 1939 Franco declared the war over and a dictatorship began.", ca: "No hi va haver acord: l'1 d'abril de 1939 Franco va declarar acabada la guerra." }),
 ]
 
 export const PREGUNTAS_ESO = PREGUNTAS.filter(p => p.nivel === 'eso')

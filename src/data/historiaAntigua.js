@@ -104,7 +104,52 @@ export const PREGUNTAS = [
     { es: 'Se desarrollaron junto a grandes ríos', en: 'They developed alongside great rivers', ca: 'Es van desenvolupar al costat de grans rius' },
     '🌊',
     { es: 'Mesopotamia (Tigris y Éufrates), Egipto (Nilo), el valle del Indo (Indo) y China (Huang He) nacieron todas junto a grandes ríos, cuyas inundaciones fertilizaban la tierra y permitían alimentar a poblaciones grandes.', en: 'Mesopotamia (Tigris and Euphrates), Egypt (Nile), the Indus Valley (Indus) and China (Yellow River) all arose beside great rivers, whose floods fertilised the land and allowed large populations to be fed.', ca: 'Mesopotàmia (Tigris i Èufrates), Egipte (Nil), la vall de l\'Indus (Indus) i la Xina (Huang He) van néixer totes al costat de grans rius, les inundacions dels quals fertilitzaven la terra i permetien alimentar poblacions grans.' }),
+
+  q('an-15', 'primaria',
+    { es: "¿Junto a qué río nació la civilización egipcia?", en: "Which river was Egyptian civilisation born beside?", ca: "Al costat de quin riu va néixer la civilització egípcia?" },
+    { es: ["El Tigris","El Nilo","El Éufrates","El Danubio"], en: ["The Tigris","The Nile","The Euphrates","The Danube"], ca: ["El Tigris","El Nil","L'Eufrates","El Danubi"] },
+    { es: "El Nilo", en: "The Nile", ca: "El Nil" },
+    '🏜️',
+    { es: "El Nilo lo era todo: sus crecidas anuales dejaban un limo fertilísimo, y por eso se decía que Egipto era \"un don del Nilo\".", en: "The Nile's annual floods left very fertile silt — Egypt was called \"a gift of the Nile\".", ca: "El Nil ho era tot: les crescudes anuals deixaven llim fertilíssim." }),
+
+  q('an-16', 'primaria',
+    { es: "¿Qué eran las pirámides de Egipto?", en: "What were the Egyptian pyramids?", ca: "Què eren les piràmides d'Egipte?" },
+    { es: ["Palacios","Tumbas de los faraones","Almacenes de grano","Templos de agua"], en: ["Palaces","Tombs of the pharaohs","Grain stores","Water temples"], ca: ["Palaus","Tombes dels faraons","Magatzems de gra","Temples d'aigua"] },
+    { es: "Tumbas de los faraones", en: "Tombs of the pharaohs", ca: "Tombes dels faraons" },
+    '🔺',
+    { es: "Eran tumbas monumentales. Los egipcios creían en la vida después de la muerte, así que enterraban al faraón con todo lo que iba a necesitar.", en: "They were monumental tombs: Egyptians believed in an afterlife.", ca: "Eren tombes monumentals: els egipcis creien en la vida després de la mort." }),
+
+  q('an-17', 'primaria',
+    { es: "¿En qué ciudad griega nació la democracia?", en: "In which Greek city was democracy born?", ca: "A quina ciutat grega va néixer la democràcia?" },
+    { es: ["Esparta","Atenas","Tebas","Corinto"], en: ["Sparta","Athens","Thebes","Corinth"], ca: ["Esparta","Atenes","Tebes","Corint"] },
+    { es: "Atenas", en: "Athens", ca: "Atenes" },
+    '🏛️',
+    { es: "En Atenas los ciudadanos votaban las decisiones en asamblea. Eso sí: no eran ciudadanos ni las mujeres, ni los esclavos, ni los extranjeros.", en: "In Athens citizens voted in assembly — though women, slaves and foreigners were not citizens.", ca: "A Atenes els ciutadans votaven en assemblea, però no ho eren ni les dones ni els esclaus." }),
+
+  q('an-18', 'primaria',
+    { es: "¿Qué escritura usaban los egipcios?", en: "What writing did the Egyptians use?", ca: "Quina escriptura feien servir els egipcis?" },
+    { es: ["El alfabeto latino","Los jeroglíficos","Los números romanos","El braille"], en: ["The Latin alphabet","Hieroglyphs","Roman numerals","Braille"], ca: ["L'alfabet llatí","Els jeroglífics","Els números romans","El braille"] },
+    { es: "Los jeroglíficos", en: "Hieroglyphs", ca: "Els jeroglífics" },
+    '📖',
+    { es: "Los jeroglíficos combinan dibujos y signos. Se descifraron gracias a la piedra de Rosetta, que repetía el mismo texto en tres escrituras.", en: "Hieroglyphs were deciphered thanks to the Rosetta Stone, which repeated one text in three scripts.", ca: "Els jeroglífics es van desxifrar gràcies a la pedra de Rosetta." }),
+
+  q('an-19', 'primaria',
+    { es: "¿Qué era una polis griega?", en: "What was a Greek polis?", ca: "Què era una polis grega?" },
+    { es: ["Un templo","Una ciudad-estado independiente","Un barco de guerra","Una moneda"], en: ["A temple","An independent city-state","A warship","A coin"], ca: ["Un temple","Una ciutat-estat independent","Un vaixell de guerra","Una moneda"] },
+    { es: "Una ciudad-estado independiente", en: "An independent city-state", ca: "Una ciutat-estat independent" },
+    '🏙️',
+    { es: "Cada polis era un estado con sus leyes, su ejército y sus dioses. Grecia no era un país unido, sino un montón de polis que competían entre ellas.", en: "Each polis was a state with its own laws and army: Greece was not one country.", ca: "Cada polis era un estat amb les seves lleis i el seu exèrcit." }),
+
+  q('an-20', 'primaria',
+    { es: "¿Qué inventaron los mesopotámicos que da comienzo a la Historia?", en: "What did the Mesopotamians invent that begins History?", ca: "Què van inventar els mesopotàmics que dona començament a la Història?" },
+    { es: ["La rueda","La escritura cuneiforme","El arco","El papel"], en: ["The wheel","Cuneiform writing","The bow","Paper"], ca: ["La roda","L'escriptura cuneïforme","L'arc","El paper"] },
+    { es: "La escritura cuneiforme", en: "Cuneiform writing", ca: "L'escriptura cuneïforme" },
+    '🖋️',
+    { es: "La escritura cuneiforme se hacía clavando una cuña en tablillas de barro. Nació para llevar las cuentas del grano, no para escribir poemas.", en: "Cuneiform was pressed into clay tablets, and was born to keep grain accounts.", ca: "L'escriptura cuneïforme es feia clavant una falca en tauletes de fang." }),
 ]
 
 export const PREGUNTAS_PRIMARIA = PREGUNTAS.filter(p => p.nivel === 'primaria')
-export const PREGUNTAS_ESO = PREGUNTAS.filter(p => p.nivel === 'eso')
+// El nivel alto usa el banco ENTERO, igual que Prehistoria, Edad Media y
+// Edad Moderna: quien va por ESO tambien puede responder las de primaria, y
+// filtrando aqui el examen se quedaba en 6 preguntas de las 20.
+export const PREGUNTAS_ESO = PREGUNTAS

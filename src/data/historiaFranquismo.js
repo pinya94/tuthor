@@ -103,6 +103,48 @@ export const PREGUNTAS = [
     { es: 'La victoria del PSOE de Felipe González', en: 'The victory of Felipe González\'s PSOE', ca: 'La victòria del PSOE de Felipe González' },
     '🌹',
     { es: 'La victoria del PSOE de Felipe González en 1982 trajo la primera alternancia real en el gobierno desde la dictadura, y suele considerarse el cierre simbólico del periodo de la Transición.', en: 'The victory of Felipe González\'s PSOE in 1982 brought the first real change of government since the dictatorship, and is often considered the symbolic close of the Transition period.', ca: 'La victòria del PSOE de Felipe González el 1982 va portar la primera alternança real en el govern des de la dictadura, i sol considerar-se el tancament simbòlic del període de la Transició.' }),
+
+  q('fr-15', 'eso',
+    { es: "¿Cuántos años duró la dictadura de Franco?", en: "How long did Franco's dictatorship last?", ca: "Quants anys va durar la dictadura de Franco?" },
+    { es: ["Unos 10 años","Casi 40 años (1939-1975)","Unos 20 años","Más de 60 años"], en: ["About 10 years","Almost 40 years (1939-1975)","About 20 years","Over 60 years"], ca: ["Uns 10 anys","Gairebé 40 anys (1939-1975)","Uns 20 anys","Més de 60 anys"] },
+    { es: "Casi 40 años (1939-1975)", en: "Almost 40 years (1939-1975)", ca: "Gairebé 40 anys (1939-1975)" },
+    '📅',
+    { es: "Desde el final de la Guerra Civil en 1939 hasta la muerte de Franco en noviembre de 1975.", en: "From the end of the Civil War in 1939 to Franco's death in November 1975.", ca: "Des del final de la Guerra Civil el 1939 fins a la mort de Franco el novembre de 1975." }),
+
+  q('fr-16', 'eso',
+    { es: "¿Qué caracterizó la etapa de la autarquía?", en: "What characterised the autarky period?", ca: "Què va caracteritzar l'etapa de l'autarquia?" },
+    { es: ["Apertura al comercio mundial","Aislamiento económico, racionamiento y hambre","Crecimiento turístico","Democracia limitada"], en: ["Opening to world trade","Economic isolation, rationing and hunger","Tourist growth","Limited democracy"], ca: ["Obertura al comerç mundial","Aïllament econòmic, racionament i fam","Creixement turístic","Democràcia limitada"] },
+    { es: "Aislamiento económico, racionamiento y hambre", en: "Economic isolation, rationing and hunger", ca: "Aïllament econòmic, racionament i fam" },
+    '🍞',
+    { es: "En los años 40 España quiso bastarse a sí misma y quedó aislada. Fueron los \"años del hambre\", con cartillas de racionamiento y mercado negro.", en: "In the 1940s Spain tried to be self-sufficient and ended up isolated: the \"hunger years\".", ca: "Als anys 40 Espanya va voler bastar-se a si mateixa i va quedar aïllada." }),
+
+  q('fr-17', 'eso',
+    { es: "¿Qué fue el \"desarrollismo\" de los años 60?", en: "What was the 1960s \"desarrollismo\"?", ca: "Què va ser el \"desarrollisme\" dels anys 60?" },
+    { es: ["Una reforma agraria","Un fuerte crecimiento económico basado en turismo, industria y emigración","Una guerra colonial","Un plan educativo"], en: ["An agrarian reform","Strong economic growth from tourism, industry and emigration","A colonial war","An education plan"], ca: ["Una reforma agrària","Un fort creixement econòmic basat en turisme, indústria i emigració","Una guerra colonial","Un pla educatiu"] },
+    { es: "Un fuerte crecimiento económico basado en turismo, industria y emigración", en: "Strong economic growth from tourism, industry and emigration", ca: "Un fort creixement econòmic basat en turisme, indústria i emigració" },
+    '🏗️',
+    { es: "España creció mucho gracias al turismo, la industria y el dinero que enviaban los emigrantes. Pero el crecimiento económico no trajo libertades.", en: "Spain grew fast on tourism, industry and emigrant remittances — but growth brought no freedoms.", ca: "Espanya va créixer molt gràcies al turisme, la indústria i els diners dels emigrants." }),
+
+  q('fr-18', 'eso',
+    { es: "¿Quién fue nombrado sucesor de Franco a título de rey?", en: "Who was named Franco's successor as king?", ca: "Qui va ser nomenat successor de Franco a títol de rei?" },
+    { es: ["Juan de Borbón","Juan Carlos I","Adolfo Suárez","Carrero Blanco"], en: ["Juan de Borbón","Juan Carlos I","Adolfo Suárez","Carrero Blanco"], ca: ["Joan de Borbó","Joan Carles I","Adolfo Suárez","Carrero Blanco"] },
+    { es: "Juan Carlos I", en: "Juan Carlos I", ca: "Joan Carles I" },
+    '👑',
+    { es: "Franco designó en 1969 a Juan Carlos, saltándose a su padre. Al morir Franco fue proclamado rey, y acabó impulsando la democracia.", en: "Franco named Juan Carlos in 1969, skipping his father; he later drove the transition to democracy.", ca: "Franco va designar Joan Carles el 1969, saltant-se el seu pare." }),
+
+  q('fr-19', 'eso',
+    { es: "¿Qué fue la Transición española?", en: "What was the Spanish Transition?", ca: "Què va ser la Transició espanyola?" },
+    { es: ["Una guerra civil","El paso de la dictadura a la democracia entre 1975 y 1978","Un golpe de Estado","Una crisis económica"], en: ["A civil war","The move from dictatorship to democracy between 1975 and 1978","A coup","An economic crisis"], ca: ["Una guerra civil","El pas de la dictadura a la democràcia entre 1975 i 1978","Un cop d'Estat","Una crisi econòmica"] },
+    { es: "El paso de la dictadura a la democracia entre 1975 y 1978", en: "The move from dictatorship to democracy between 1975 and 1978", ca: "El pas de la dictadura a la democràcia entre 1975 i 1978" },
+    '🕊️',
+    { es: "Tras la muerte de Franco se legalizaron los partidos, se celebraron elecciones en 1977 y se aprobó la Constitución en 1978.", en: "After Franco's death, parties were legalised, elections held in 1977 and the Constitution approved in 1978.", ca: "Després de la mort de Franco es van legalitzar els partits i es va aprovar la Constitució el 1978." }),
+
+  q('fr-20', 'eso',
+    { es: "¿Qué ocurrió el 23 de febrero de 1981?", en: "What happened on 23 February 1981?", ca: "Què va passar el 23 de febrer de 1981?" },
+    { es: ["Se aprobó la Constitución","Un intento de golpe de Estado en el Congreso","Murió Franco","España entró en la Unión Europea"], en: ["The Constitution was approved","An attempted coup in Congress","Franco died","Spain joined the EU"], ca: ["Es va aprovar la Constitució","Un intent de cop d'Estat al Congrés","Va morir Franco","Espanya va entrar a la Unió Europea"] },
+    { es: "Un intento de golpe de Estado en el Congreso", en: "An attempted coup in Congress", ca: "Un intent de cop d'Estat al Congrés" },
+    '🏛️',
+    { es: "El teniente coronel Tejero asaltó el Congreso con guardias civiles. El golpe fracasó esa misma noche y la democracia salió reforzada.", en: "Lieutenant Colonel Tejero stormed Congress; the coup failed that night and democracy came out stronger.", ca: "El tinent coronel Tejero va assaltar el Congrés; el cop va fracassar aquella mateixa nit." }),
 ]
 
 export const PREGUNTAS_ESO = PREGUNTAS.filter(p => p.nivel === 'eso')

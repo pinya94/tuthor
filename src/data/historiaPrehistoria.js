@@ -103,6 +103,48 @@ export const PREGUNTAS = [
     { es: 'Edad del Cobre → Edad del Bronce → Edad del Hierro', en: 'Copper Age → Bronze Age → Iron Age', ca: 'Edat del Coure → Edat del Bronze → Edat del Ferro' },
     '⚒️',
     { es: 'Tras el Neolítico llegó la Edad de los Metales, en este orden: primero el cobre, después el bronce (una aleación de cobre y estaño, más resistente) y por último el hierro, el metal más duro de trabajar pero también el más resistente.', en: 'After the Neolithic came the Metal Ages, in this order: first copper, then bronze (an alloy of copper and tin, stronger), and finally iron, the hardest metal to work but also the toughest.', ca: 'Després del Neolític va arribar l\'Edat dels Metalls, en aquest ordre: primer el coure, després el bronze (un aliatge de coure i estany, més resistent) i finalment el ferro, el metall més dur de treballar però també el més resistent.' }),
+
+  q('pr-15', 'primaria',
+    { es: "¿Qué material da nombre a la Edad de Piedra?", en: "Which material gives the Stone Age its name?", ca: "Quin material dona nom a l'Edat de Pedra?" },
+    { es: ["El bronce","La piedra","El hierro","La madera"], en: ["Bronze","Stone","Iron","Wood"], ca: ["El bronze","La pedra","El ferro","La fusta"] },
+    { es: "La piedra", en: "Stone", ca: "La pedra" },
+    '⛏️',
+    { es: "Los periodos de la Prehistoria se nombran por el material de las herramientas: piedra primero, y luego bronce y hierro.", en: "Prehistoric periods are named after tool materials: stone first, then bronze and iron.", ca: "Els períodes de la Prehistòria es nomenen pel material de les eines." }),
+
+  q('pr-16', 'primaria',
+    { es: "¿Qué gran cambio trajo el Neolítico?", en: "What big change did the Neolithic bring?", ca: "Quin gran canvi va portar el Neolític?" },
+    { es: ["El uso del fuego","La agricultura y la ganadería","La escritura","La rueda de coche"], en: ["The use of fire","Farming and livestock","Writing","The car wheel"], ca: ["L'ús del foc","L'agricultura i la ramaderia","L'escriptura","La roda de cotxe"] },
+    { es: "La agricultura y la ganadería", en: "Farming and livestock", ca: "L'agricultura i la ramaderia" },
+    '🌾',
+    { es: "Con la agricultura la gente dejó de ir detrás de la comida y empezó a producirla. De ahí vienen los poblados fijos y, con el tiempo, las ciudades.", en: "With farming, people stopped chasing food and started producing it — hence permanent villages.", ca: "Amb l'agricultura la gent va deixar de perseguir el menjar i va començar a produir-lo." }),
+
+  q('pr-17', 'primaria',
+    { es: "¿Cómo conseguían la comida en el Paleolítico?", en: "How did people get food in the Palaeolithic?", ca: "Com aconseguien el menjar al Paleolític?" },
+    { es: ["Cultivando","Cazando y recolectando","Comprándola","Criando ganado"], en: ["By farming","By hunting and gathering","By buying it","By raising livestock"], ca: ["Conreant","Caçant i recol·lectant","Comprant-lo","Criant bestiar"] },
+    { es: "Cazando y recolectando", en: "By hunting and gathering", ca: "Caçant i recol·lectant" },
+    '🏹',
+    { es: "Eran cazadores-recolectores nómadas: se movían siguiendo a los animales y buscando frutos, porque no sabían producir alimento.", en: "They were nomadic hunter-gatherers, moving after animals and fruit.", ca: "Eren caçadors-recol·lectors nòmades: es movien seguint els animals." }),
+
+  q('pr-18', 'primaria',
+    { es: "¿Para qué servía el fuego en la Prehistoria?", en: "What was fire used for in Prehistory?", ca: "Per a què servia el foc a la Prehistòria?" },
+    { es: ["Solo para ver de noche","Para calentarse, cocinar y protegerse de los animales","Para fabricar metal desde el principio","No se usaba"], en: ["Only to see at night","To keep warm, cook and keep animals away","To make metal from the start","It was not used"], ca: ["Només per veure-hi de nit","Per escalfar-se, cuinar i protegir-se dels animals","Per fabricar metall des del principi","No es feia servir"] },
+    { es: "Para calentarse, cocinar y protegerse de los animales", en: "To keep warm, cook and keep animals away", ca: "Per escalfar-se, cuinar i protegir-se dels animals" },
+    '🔥',
+    { es: "El fuego cambió la vida: cocinar hizo la comida más fácil de digerir y más segura, y ahuyentaba a los depredadores por la noche.", en: "Fire changed everything: cooking made food easier to digest and kept predators away.", ca: "El foc va canviar la vida: cuinar feia el menjar més fàcil de digerir i allunyava els depredadors." }),
+
+  q('pr-19', 'primaria',
+    { es: "¿Qué son las pinturas rupestres?", en: "What is cave art?", ca: "Què són les pintures rupestres?" },
+    { es: ["Pinturas hechas en cuevas","Un tipo de herramienta","Casas de piedra","Enterramientos"], en: ["Paintings made in caves","A kind of tool","Stone houses","Burials"], ca: ["Pintures fetes a les coves","Un tipus d'eina","Cases de pedra","Enterraments"] },
+    { es: "Pinturas hechas en cuevas", en: "Paintings made in caves", ca: "Pintures fetes a les coves" },
+    '🎨',
+    { es: "Son pinturas en las paredes de las cuevas, casi siempre de animales. Altamira, en Cantabria, es una de las más famosas del mundo.", en: "Paintings on cave walls, usually of animals. Altamira in Spain is world famous.", ca: "Són pintures a les parets de les coves, gairebé sempre d'animals. Altamira n'és una de les més famoses." }),
+
+  q('pr-20', 'primaria',
+    { es: "¿Qué marca el final de la Prehistoria?", en: "What marks the end of Prehistory?", ca: "Què marca el final de la Prehistòria?" },
+    { es: ["La llegada del fuego","La invención de la escritura","El fin de los dinosaurios","La agricultura"], en: ["The arrival of fire","The invention of writing","The end of the dinosaurs","Farming"], ca: ["L'arribada del foc","La invenció de l'escriptura","La fi dels dinosaures","L'agricultura"] },
+    { es: "La invención de la escritura", en: "The invention of writing", ca: "La invenció de l'escriptura" },
+    '📜',
+    { es: "Prehistoria significa \"antes de la historia escrita\". En cuanto aparece la escritura empieza la Historia, porque ya hay documentos que contarla.", en: "Prehistory means \"before written history\": once writing appears, History begins.", ca: "Prehistòria vol dir \"abans de la història escrita\": quan apareix l'escriptura comença la Història." }),
 ]
 
 export const PREGUNTAS_PRIMARIA = PREGUNTAS.filter(p => p.nivel === 'primaria')

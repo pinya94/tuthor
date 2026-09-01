@@ -103,6 +103,48 @@ export const PREGUNTAS = [
     { es: 'La Sociedad de Naciones', en: 'The League of Nations', ca: 'La Societat de Nacions' },
     '🕊️',
     { es: 'La Sociedad de Naciones, creada tras la Primera Guerra Mundial para evitar nuevos conflictos, fracasó al no poder frenar el expansionismo de Alemania, Italia y Japón. Tras la guerra se creó la ONU en su lugar.', en: 'The League of Nations, created after the First World War to prevent new conflicts, failed to curb the expansionism of Germany, Italy and Japan. The UN was created in its place after the war.', ca: 'La Societat de Nacions, creada després de la Primera Guerra Mundial per evitar nous conflictes, va fracassar en no poder frenar l\'expansionisme d\'Alemanya, Itàlia i el Japó. Després de la guerra es va crear l\'ONU en el seu lloc.' }),
+
+  q('wwii-15', 'eso',
+    { es: "¿Qué hecho desencadenó la Segunda Guerra Mundial en Europa?", en: "What triggered the Second World War in Europe?", ca: "Quin fet va desencadenar la Segona Guerra Mundial a Europa?" },
+    { es: ["El ataque a Pearl Harbor","La invasión alemana de Polonia","La caída de Francia","La batalla de Stalingrado"], en: ["The attack on Pearl Harbor","The German invasion of Poland","The fall of France","The battle of Stalingrad"], ca: ["L'atac a Pearl Harbor","La invasió alemanya de Polònia","La caiguda de França","La batalla de Stalingrad"] },
+    { es: "La invasión alemana de Polonia", en: "The German invasion of Poland", ca: "La invasió alemanya de Polònia" },
+    '📅',
+    { es: "El 1 de septiembre de 1939 Alemania invadió Polonia, y dos días después Reino Unido y Francia declararon la guerra.", en: "On 1 September 1939 Germany invaded Poland; two days later Britain and France declared war.", ca: "L'1 de setembre de 1939 Alemanya va envair Polònia." }),
+
+  q('wwii-16', 'eso',
+    { es: "¿Qué países formaban el Eje?", en: "Which countries formed the Axis?", ca: "Quins països formaven l'Eix?" },
+    { es: ["Reino Unido, Francia y EEUU","Alemania, Italia y Japón","URSS, China y Polonia","España, Portugal e Italia"], en: ["Britain, France and the USA","Germany, Italy and Japan","USSR, China and Poland","Spain, Portugal and Italy"], ca: ["Regne Unit, França i els EUA","Alemanya, Itàlia i el Japó","URSS, Xina i Polònia","Espanya, Portugal i Itàlia"] },
+    { es: "Alemania, Italia y Japón", en: "Germany, Italy and Japan", ca: "Alemanya, Itàlia i el Japó" },
+    '🌐',
+    { es: "El Eje: Alemania, Italia y Japón. Enfrente, los Aliados: Reino Unido, Francia, la URSS (desde 1941), Estados Unidos y China.", en: "The Axis was Germany, Italy and Japan; the Allies Britain, France, the USSR, the USA and China.", ca: "L'Eix: Alemanya, Itàlia i el Japó." }),
+
+  q('wwii-17', 'eso',
+    { es: "¿Qué fue el desembarco de Normandía?", en: "What was the Normandy landing?", ca: "Què va ser el desembarcament de Normandia?" },
+    { es: ["Una retirada alemana","El desembarco aliado en Francia el 6 de junio de 1944","Un ataque japonés","Una conferencia de paz"], en: ["A German retreat","The Allied landing in France on 6 June 1944","A Japanese attack","A peace conference"], ca: ["Una retirada alemanya","El desembarcament aliat a França el 6 de juny de 1944","Un atac japonès","Una conferència de pau"] },
+    { es: "El desembarco aliado en Francia el 6 de junio de 1944", en: "The Allied landing in France on 6 June 1944", ca: "El desembarcament aliat a França el 6 de juny de 1944" },
+    '🚢',
+    { es: "El Día D: la mayor operación anfibia de la historia abrió el frente occidental y empezó la liberación de Europa.", en: "D-Day: the largest amphibious operation in history opened the western front.", ca: "El Dia D: la major operació amfíbia de la història va obrir el front occidental." }),
+
+  q('wwii-18', 'eso',
+    { es: "¿Qué fue el Holocausto?", en: "What was the Holocaust?", ca: "Què va ser l'Holocaust?" },
+    { es: ["Una batalla","El exterminio sistemático de seis millones de judíos por el régimen nazi","Un bombardeo","Un tratado"], en: ["A battle","The systematic extermination of six million Jews by the Nazi regime","A bombing","A treaty"], ca: ["Una batalla","L'extermini sistemàtic de sis milions de jueus pel règim nazi","Un bombardeig","Un tractat"] },
+    { es: "El exterminio sistemático de seis millones de judíos por el régimen nazi", en: "The systematic extermination of six million Jews by the Nazi regime", ca: "L'extermini sistemàtic de sis milions de jueus pel règim nazi" },
+    '🕯️',
+    { es: "El régimen nazi asesinó de forma planificada a unos seis millones de judíos, y también a gitanos, personas con discapacidad, homosexuales y opositores.", en: "The Nazi regime systematically murdered around six million Jews, plus Roma, disabled people and others.", ca: "El règim nazi va assassinar de manera planificada uns sis milions de jueus." }),
+
+  q('wwii-19', 'eso',
+    { es: "¿Qué hizo entrar a Estados Unidos en la guerra?", en: "What brought the United States into the war?", ca: "Què va fer entrar els Estats Units a la guerra?" },
+    { es: ["La invasión de Polonia","El ataque japonés a Pearl Harbor","La caída de París","La batalla de Inglaterra"], en: ["The invasion of Poland","The Japanese attack on Pearl Harbor","The fall of Paris","The Battle of Britain"], ca: ["La invasió de Polònia","L'atac japonès a Pearl Harbor","La caiguda de París","La batalla d'Anglaterra"] },
+    { es: "El ataque japonés a Pearl Harbor", en: "The Japanese attack on Pearl Harbor", ca: "L'atac japonès a Pearl Harbor" },
+    '✈️',
+    { es: "El 7 de diciembre de 1941 Japón atacó por sorpresa la base de Pearl Harbor. Al día siguiente EEUU declaró la guerra.", en: "On 7 December 1941 Japan attacked Pearl Harbor; the USA declared war the next day.", ca: "El 7 de desembre de 1941 el Japó va atacar Pearl Harbor." }),
+
+  q('wwii-20', 'eso',
+    { es: "¿Cómo terminó la guerra en el Pacífico?", en: "How did the war in the Pacific end?", ca: "Com va acabar la guerra al Pacífic?" },
+    { es: ["Con la rendición alemana","Con las bombas atómicas sobre Hiroshima y Nagasaki","Con el desembarco de Normandía","Con un armisticio en 1944"], en: ["With the German surrender","With the atomic bombs on Hiroshima and Nagasaki","With the Normandy landing","With a 1944 armistice"], ca: ["Amb la rendició alemanya","Amb les bombes atòmiques sobre Hiroshima i Nagasaki","Amb el desembarcament de Normandia","Amb un armistici el 1944"] },
+    { es: "Con las bombas atómicas sobre Hiroshima y Nagasaki", en: "With the atomic bombs on Hiroshima and Nagasaki", ca: "Amb les bombes atòmiques sobre Hiroshima i Nagasaki" },
+    '☢️',
+    { es: "En agosto de 1945 EEUU lanzó dos bombas atómicas y Japón se rindió. Fue el final de la guerra y el comienzo de la era nuclear.", en: "In August 1945 the USA dropped two atomic bombs and Japan surrendered.", ca: "L'agost de 1945 els EUA van llançar dues bombes atòmiques i el Japó es va rendir." }),
 ]
 
 export const PREGUNTAS_ESO = PREGUNTAS.filter(p => p.nivel === 'eso')

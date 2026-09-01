@@ -103,6 +103,48 @@ export const PREGUNTAS = [
     { es: 'Constantino', en: 'Constantine', ca: 'Constantí' },
     '✝️',
     { es: 'El emperador Constantino, con el Edicto de Milán (313 d.C.), puso fin a las persecuciones y toleró el cristianismo, que acabaría convirtiéndose en religión oficial del Imperio.', en: 'Emperor Constantine, with the Edict of Milan (AD 313), ended the persecutions and tolerated Christianity, which would go on to become the Empire\'s official religion.', ca: 'L\'emperador Constantí, amb l\'Edicte de Milà (313 dC), va posar fi a les persecucions i va tolerar el cristianisme, que acabaria convertint-se en religió oficial de l\'Imperi.' }),
+
+  q('roma-15', 'eso',
+    { es: "¿Cuáles fueron las tres etapas políticas de Roma?", en: "What were Rome's three political stages?", ca: "Quines van ser les tres etapes polítiques de Roma?" },
+    { es: ["Monarquía, República e Imperio","República, Imperio y Democracia","Imperio, Monarquía y Reino","Solo hubo Imperio"], en: ["Monarchy, Republic and Empire","Republic, Empire and Democracy","Empire, Monarchy and Kingdom","There was only the Empire"], ca: ["Monarquia, República i Imperi","República, Imperi i Democràcia","Imperi, Monarquia i Regne","Només hi va haver Imperi"] },
+    { es: "Monarquía, República e Imperio", en: "Monarchy, Republic and Empire", ca: "Monarquia, República i Imperi" },
+    '🏛️',
+    { es: "Monarquía (753-509 a.C.), República (509-27 a.C.) e Imperio (27 a.C.-476 d.C.). Doce siglos de historia en tres formas de gobierno distintas.", en: "Monarchy, Republic and Empire — twelve centuries in three forms of government.", ca: "Monarquia, República i Imperi: dotze segles en tres formes de govern." }),
+
+  q('roma-16', 'eso',
+    { es: "¿Qué era el Senado romano?", en: "What was the Roman Senate?", ca: "Què era el Senat romà?" },
+    { es: ["El ejército","La asamblea que aconsejaba y controlaba el gobierno","Un templo","El tribunal de esclavos"], en: ["The army","The assembly that advised and controlled government","A temple","The slaves' court"], ca: ["L'exèrcit","L'assemblea que aconsellava i controlava el govern","Un temple","El tribunal d'esclaus"] },
+    { es: "La asamblea que aconsejaba y controlaba el gobierno", en: "The assembly that advised and controlled government", ca: "L'assemblea que aconsellava i controlava el govern" },
+    '📜',
+    { es: "Estaba formado por los patricios, la aristocracia. Durante la República tuvo un poder enorme; con el Imperio quedó reducido a poco más que un adorno.", en: "Made up of patricians, it held huge power in the Republic and became decorative under the Empire.", ca: "Format pels patricis, va tenir un poder enorme durant la República." }),
+
+  q('roma-17', 'eso',
+    { es: "¿Quién fue el primer emperador romano?", en: "Who was the first Roman emperor?", ca: "Qui va ser el primer emperador romà?" },
+    { es: ["Julio César","Augusto","Nerón","Trajano"], en: ["Julius Caesar","Augustus","Nero","Trajan"], ca: ["Juli Cèsar","August","Neró","Trajà"] },
+    { es: "Augusto", en: "Augustus", ca: "August" },
+    '👑',
+    { es: "Julio César nunca llegó a emperador: fue asesinado en el 44 a.C. Su sobrino Octavio se convirtió en Augusto en el 27 a.C. y abrió el Imperio.", en: "Julius Caesar was never emperor; his nephew Octavian became Augustus in 27 BC.", ca: "Juli Cèsar mai no va ser emperador; el seu nebot Octavi va esdevenir August el 27 aC." }),
+
+  q('roma-18', 'eso',
+    { es: "¿Para qué servían los acueductos?", en: "What were aqueducts for?", ca: "Per a què servien els aqüeductes?" },
+    { es: ["Para defender la ciudad","Para llevar agua potable hasta las ciudades","Para enterrar a los muertos","Para las carreras de carros"], en: ["To defend the city","To carry drinking water to cities","To bury the dead","For chariot races"], ca: ["Per defensar la ciutat","Per portar aigua potable fins a les ciutats","Per enterrar els morts","Per a les curses de carros"] },
+    { es: "Para llevar agua potable hasta las ciudades", en: "To carry drinking water to cities", ca: "Per portar aigua potable fins a les ciutats" },
+    '🌊',
+    { es: "Llevaban agua desde manantiales lejanos aprovechando solo la gravedad, con una pendiente milimétrica. El de Segovia sigue en pie sin argamasa.", en: "They carried water from distant springs using only gravity; the Segovia one still stands without mortar.", ca: "Portaven aigua des de fonts llunyanes aprofitant només la gravetat." }),
+
+  q('roma-19', 'eso',
+    { es: "¿Qué lengua hablaban los romanos y qué idiomas nacieron de ella?", en: "Which language did the Romans speak and which languages came from it?", ca: "Quina llengua parlaven els romans i quins idiomes en van néixer?" },
+    { es: ["El griego; el inglés y el alemán","El latín; el español, el catalán, el francés, el italiano y el portugués","El etrusco; solo el italiano","El árabe; el español"], en: ["Greek; English and German","Latin; Spanish, Catalan, French, Italian and Portuguese","Etruscan; only Italian","Arabic; Spanish"], ca: ["El grec; l'anglès i l'alemany","El llatí; el castellà, el català, el francès, l'italià i el portuguès","L'etrusc; només l'italià","L'àrab; el castellà"] },
+    { es: "El latín; el español, el catalán, el francés, el italiano y el portugués", en: "Latin; Spanish, Catalan, French, Italian and Portuguese", ca: "El llatí; el castellà, el català, el francès, l'italià i el portuguès" },
+    '🗣️',
+    { es: "Del latín vulgar que hablaba la gente corriente nacieron las lenguas romances. Por eso el español y el italiano se parecen tanto.", en: "The Romance languages come from the vulgar Latin spoken by ordinary people.", ca: "Del llatí vulgar que parlava la gent corrent van néixer les llengües romàniques." }),
+
+  q('roma-20', 'eso',
+    { es: "¿Qué provocó la caída del Imperio romano de Occidente?", en: "What caused the fall of the Western Roman Empire?", ca: "Què va provocar la caiguda de l'Imperi romà d'Occident?" },
+    { es: ["Una sola batalla","Una suma de crisis económica, presión de los pueblos germanos y división del imperio","Un terremoto","La peste negra"], en: ["A single battle","A mix of economic crisis, Germanic pressure and the empire's division","An earthquake","The Black Death"], ca: ["Una sola batalla","Una suma de crisi econòmica, pressió dels pobles germànics i divisió de l'imperi","Un terratrèmol","La pesta negra"] },
+    { es: "Una suma de crisis económica, presión de los pueblos germanos y división del imperio", en: "A mix of economic crisis, Germanic pressure and the empire's division", ca: "Una suma de crisi econòmica, pressió dels pobles germànics i divisió de l'imperi" },
+    '📉',
+    { es: "No fue un golpe único: crisis económica, un imperio demasiado grande para defenderlo, división en dos mitades y oleadas de pueblos germánicos. En 476 cayó el último emperador.", en: "Not one blow: economic crisis, an over-large empire, its division, and waves of Germanic peoples.", ca: "No va ser un cop únic: crisi econòmica, un imperi massa gran i onades de pobles germànics." }),
 ]
 
 export const PREGUNTAS_ESO = PREGUNTAS.filter(p => p.nivel === 'eso')

@@ -103,6 +103,48 @@ export const PREGUNTAS = [
     { es: 'La Revolución Industrial', en: 'The Industrial Revolution', ca: 'La Revolució Industrial' },
     '🏭',
     { es: 'La Revolución Industrial comenzó en Gran Bretaña a finales del siglo XVIII, sustituyendo el trabajo manual por máquinas y fábricas, y ya forma parte de la Edad Contemporánea, justo después de donde termina la Edad Moderna.', en: 'The Industrial Revolution began in Great Britain in the late 18th century, replacing manual labour with machines and factories, and already belongs to the Contemporary Age, right after the end of the Early Modern period.', ca: 'La Revolució Industrial va començar a la Gran Bretanya a finals del segle XVIII, substituint el treball manual per màquines i fàbriques, i ja forma part de l\'Edat Contemporània, just després d\'on acaba l\'Edat Moderna.' }),
+
+  q('mo-15', 'primaria',
+    { es: "¿En qué año llegó Colón a América?", en: "In which year did Columbus reach America?", ca: "En quin any va arribar Colom a Amèrica?" },
+    { es: ["1453","1492","1519","1588"], en: ["1453","1492","1519","1588"], ca: ["1453","1492","1519","1588"] },
+    { es: "1492", en: "1492", ca: "1492" },
+    '⛵',
+    { es: "El 12 de octubre de 1492. Esa fecha se toma como final de la Edad Media y comienzo de la Edad Moderna.", en: "12 October 1492, taken as the end of the Middle Ages and the start of the Modern Age.", ca: "El 12 d'octubre de 1492, final de l'Edat Mitjana i començament de l'Edat Moderna." }),
+
+  q('mo-16', 'primaria',
+    { es: "¿Qué invento de Gutenberg cambió la difusión del conocimiento?", en: "Which invention by Gutenberg changed how knowledge spread?", ca: "Quin invent de Gutenberg va canviar la difusió del coneixement?" },
+    { es: ["El telescopio","La imprenta de tipos móviles","La brújula","El reloj"], en: ["The telescope","The movable-type printing press","The compass","The clock"], ca: ["El telescopi","La impremta de tipus mòbils","La brúixola","El rellotge"] },
+    { es: "La imprenta de tipos móviles", en: "The movable-type printing press", ca: "La impremta de tipus mòbils" },
+    '🖨️',
+    { es: "Antes cada libro se copiaba a mano y costaba una fortuna. Con la imprenta se podían hacer cientos de copias, y las ideas empezaron a viajar rápido.", en: "Before, every book was copied by hand; printing let ideas travel fast.", ca: "Abans cada llibre es copiava a mà; amb la impremta les idees van començar a viatjar de pressa." }),
+
+  q('mo-17', 'primaria',
+    { es: "¿Qué fue el Renacimiento?", en: "What was the Renaissance?", ca: "Què va ser el Renaixement?" },
+    { es: ["Una guerra","Un movimiento cultural que recuperó el arte y el saber clásicos","Una epidemia","Un reino"], en: ["A war","A cultural movement recovering classical art and learning","An epidemic","A kingdom"], ca: ["Una guerra","Un moviment cultural que va recuperar l'art i el saber clàssics","Una epidèmia","Un regne"] },
+    { es: "Un movimiento cultural que recuperó el arte y el saber clásicos", en: "A cultural movement recovering classical art and learning", ca: "Un moviment cultural que va recuperar l'art i el saber clàssics" },
+    '🎨',
+    { es: "Nació en Italia y miró a Grecia y Roma para \"renacer\". El ser humano pasa al centro de todo: es lo que se llama humanismo.", en: "Born in Italy, it looked back to Greece and Rome and put the human being at the centre.", ca: "Va néixer a Itàlia i va mirar Grècia i Roma; l'ésser humà passa al centre de tot." }),
+
+  q('mo-18', 'primaria',
+    { es: "¿Quién dio la primera vuelta al mundo?", en: "Who completed the first voyage around the world?", ca: "Qui va fer la primera volta al món?" },
+    { es: ["Colón","La expedición de Magallanes y Elcano","Marco Polo","Vasco de Gama"], en: ["Columbus","The Magellan and Elcano expedition","Marco Polo","Vasco da Gama"], ca: ["Colom","L'expedició de Magallanes i Elcano","Marco Polo","Vasco de Gama"] },
+    { es: "La expedición de Magallanes y Elcano", en: "The Magellan and Elcano expedition", ca: "L'expedició de Magallanes i Elcano" },
+    '🌍',
+    { es: "Salieron cinco barcos en 1519 y volvió uno en 1522, con Elcano al mando: Magallanes había muerto por el camino. Demostró que la Tierra es redonda y navegable.", en: "Five ships left in 1519 and one returned in 1522 under Elcano; Magellan had died on the way.", ca: "Van sortir cinc vaixells el 1519 i en va tornar un el 1522, amb Elcano al comandament." }),
+
+  q('mo-19', 'primaria',
+    { es: "¿Qué es una monarquía absoluta?", en: "What is an absolute monarchy?", ca: "Què és una monarquia absoluta?" },
+    { es: ["El rey comparte el poder con el pueblo","El rey concentra todo el poder","No hay rey","El rey solo reina en la guerra"], en: ["The king shares power with the people","The king holds all the power","There is no king","The king only rules in wartime"], ca: ["El rei comparteix el poder amb el poble","El rei concentra tot el poder","No hi ha rei","El rei només regna en guerra"] },
+    { es: "El rey concentra todo el poder", en: "The king holds all the power", ca: "El rei concentra tot el poder" },
+    '👑',
+    { es: "El rey hacía las leyes, juzgaba y mandaba el ejército, sin nadie por encima. Luis XIV lo resumió en una frase: \"El Estado soy yo\".", en: "The king made laws, judged and led the army, with nobody above him.", ca: "El rei feia les lleis, jutjava i manava l'exèrcit, sense ningú per sobre." }),
+
+  q('mo-20', 'primaria',
+    { es: "¿Qué buscaban los exploradores europeos al lanzarse al mar?", en: "What were European explorers looking for at sea?", ca: "Què buscaven els exploradors europeus llançant-se al mar?" },
+    { es: ["Hielo","Nuevas rutas hacia las especias de Asia","Petróleo","Nada en concreto"], en: ["Ice","New routes to the spices of Asia","Oil","Nothing in particular"], ca: ["Gel","Noves rutes cap a les espècies d'Àsia","Petroli","Res en concret"] },
+    { es: "Nuevas rutas hacia las especias de Asia", en: "New routes to the spices of Asia", ca: "Noves rutes cap a les espècies d'Àsia" },
+    '🌶️',
+    { es: "Los turcos habían cortado la ruta terrestre a Asia, y las especias valían una fortuna. Buscando otro camino, Colón se topó con América.", en: "The land route to Asia was blocked and spices were worth a fortune; looking for another way, Columbus hit America.", ca: "La ruta terrestre cap a Àsia estava tallada i les espècies valien una fortuna." }),
 ]
 
 export const PREGUNTAS_PRIMARIA = PREGUNTAS.filter(p => p.nivel === 'primaria')

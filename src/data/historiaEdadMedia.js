@@ -103,6 +103,48 @@ export const PREGUNTAS = [
     { es: 'Cristianismo, islam y judaísmo', en: 'Christianity, Islam and Judaism', ca: 'Cristianisme, islam i judaisme' },
     '🕊️',
     { es: 'En Al-Ándalus, especialmente durante el Califato de Córdoba, convivieron —con distintos grados de tolerancia según la época— cristianos, musulmanes y judíos.', en: 'In Al-Andalus, especially during the Caliphate of Córdoba, Christians, Muslims and Jews coexisted — with varying degrees of tolerance depending on the period.', ca: 'A Al-Àndalus, especialment durant el Califat de Còrdova, van conviure —amb diferents graus de tolerància segons l\'època— cristians, musulmans i jueus.' }),
+
+  q('em-15', 'primaria',
+    { es: "¿Qué suceso marca el inicio de la Edad Media?", en: "Which event marks the start of the Middle Ages?", ca: "Quin fet marca l'inici de l'Edat Mitjana?" },
+    { es: ["El descubrimiento de América","La caída del Imperio romano de Occidente","La Revolución Francesa","La invención de la imprenta"], en: ["The discovery of America","The fall of the Western Roman Empire","The French Revolution","The invention of printing"], ca: ["El descobriment d'Amèrica","La caiguda de l'Imperi romà d'Occident","La Revolució Francesa","La invenció de la impremta"] },
+    { es: "La caída del Imperio romano de Occidente", en: "The fall of the Western Roman Empire", ca: "La caiguda de l'Imperi romà d'Occident" },
+    '🏛️',
+    { es: "En el año 476 cae el Imperio romano de Occidente y arranca la Edad Media, que dura hasta 1492.", en: "In 476 the Western Roman Empire fell and the Middle Ages began, lasting until 1492.", ca: "L'any 476 cau l'Imperi romà d'Occident i arrenca l'Edat Mitjana." }),
+
+  q('em-16', 'primaria',
+    { es: "¿Quién estaba en lo más alto de la sociedad feudal?", en: "Who was at the top of feudal society?", ca: "Qui era a dalt de tot de la societat feudal?" },
+    { es: ["Los campesinos","El rey","Los comerciantes","Los artesanos"], en: ["The peasants","The king","The merchants","The craftsmen"], ca: ["Els pagesos","El rei","Els comerciants","Els artesans"] },
+    { es: "El rey", en: "The king", ca: "El rei" },
+    '👑',
+    { es: "La pirámide feudal: el rey arriba, después la nobleza y el clero, y abajo del todo los campesinos, que eran la inmensa mayoría.", en: "The feudal pyramid: king, then nobility and clergy, and peasants at the bottom.", ca: "La piràmide feudal: el rei a dalt, després la noblesa i el clergat, i a baix els pagesos." }),
+
+  q('em-17', 'primaria',
+    { es: "¿Qué era un castillo medieval?", en: "What was a medieval castle?", ca: "Què era un castell medieval?" },
+    { es: ["Una iglesia","La fortaleza y vivienda del señor feudal","Un mercado","Una escuela"], en: ["A church","The fortress and home of the feudal lord","A market","A school"], ca: ["Una església","La fortalesa i habitatge del senyor feudal","Un mercat","Una escola"] },
+    { es: "La fortaleza y vivienda del señor feudal", en: "The fortress and home of the feudal lord", ca: "La fortalesa i habitatge del senyor feudal" },
+    '🏰',
+    { es: "Era casa y fortaleza a la vez: desde allí el señor controlaba sus tierras, y los campesinos se refugiaban dentro cuando había peligro.", en: "It was both home and fortress: peasants sheltered inside when danger came.", ca: "Era casa i fortalesa alhora: els pagesos s'hi refugiaven quan hi havia perill." }),
+
+  q('em-18', 'primaria',
+    { es: "¿Qué tres religiones convivieron en la Península Ibérica medieval?", en: "Which three religions coexisted in medieval Iberia?", ca: "Quines tres religions van conviure a la Península Ibèrica medieval?" },
+    { es: ["Cristiana, judía y musulmana","Cristiana, budista e hindú","Solo la cristiana","Musulmana y budista"], en: ["Christian, Jewish and Muslim","Christian, Buddhist and Hindu","Only Christian","Muslim and Buddhist"], ca: ["Cristiana, jueva i musulmana","Cristiana, budista i hindú","Només la cristiana","Musulmana i budista"] },
+    { es: "Cristiana, judía y musulmana", en: "Christian, Jewish and Muslim", ca: "Cristiana, jueva i musulmana" },
+    '🕌',
+    { es: "Durante siglos convivieron las tres, con épocas de convivencia y otras de conflicto. Toledo fue un centro famoso de traductores de las tres culturas.", en: "The three coexisted for centuries, with periods of tolerance and of conflict.", ca: "Durant segles hi van conviure les tres, amb èpoques de convivència i d'altres de conflicte." }),
+
+  q('em-19', 'primaria',
+    { es: "¿Qué fue la peste negra?", en: "What was the Black Death?", ca: "Què va ser la pesta negra?" },
+    { es: ["Una guerra","Una epidemia que mató a un tercio de Europa","Una hambruna","Un impuesto"], en: ["A war","An epidemic that killed a third of Europe","A famine","A tax"], ca: ["Una guerra","Una epidèmia que va matar un terç d'Europa","Una fam","Un impost"] },
+    { es: "Una epidemia que mató a un tercio de Europa", en: "An epidemic that killed a third of Europe", ca: "Una epidèmia que va matar un terç d'Europa" },
+    '🐀',
+    { es: "Llegó en 1348 y en pocos años mató a un tercio de la población europea. Cambió la sociedad entera: al faltar mano de obra, los campesinos ganaron poder.", en: "It arrived in 1348 and killed a third of Europe, giving surviving peasants more bargaining power.", ca: "Va arribar el 1348 i va matar un terç de la població europea." }),
+
+  q('em-20', 'primaria',
+    { es: "¿Qué eran los gremios?", en: "What were the guilds?", ca: "Què eren els gremis?" },
+    { es: ["Ejércitos del rey","Asociaciones de artesanos del mismo oficio","Órdenes religiosas","Tribunales"], en: ["The king's armies","Associations of craftsmen of the same trade","Religious orders","Courts"], ca: ["Exèrcits del rei","Associacions d'artesans del mateix ofici","Ordes religiosos","Tribunals"] },
+    { es: "Asociaciones de artesanos del mismo oficio", en: "Associations of craftsmen of the same trade", ca: "Associacions d'artesans del mateix ofici" },
+    '🔨',
+    { es: "Los artesanos de un mismo oficio se agrupaban para fijar precios, controlar la calidad y formar aprendices. Eran el germen de los sindicatos.", en: "Craftsmen of one trade grouped to set prices, control quality and train apprentices.", ca: "Els artesans d'un mateix ofici s'agrupaven per fixar preus i formar aprenents." }),
 ]
 
 export const PREGUNTAS_PRIMARIA = PREGUNTAS.filter(p => p.nivel === 'primaria')
