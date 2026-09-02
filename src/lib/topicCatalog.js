@@ -318,6 +318,16 @@ export const TOPIC_CATALOG = {
       teoria: examFormato({ es: 'Teoría (tipo test)', en: 'Theory (quiz)', ca: 'Teoria (tipus test)' }, '📝'),
       'balanza-ecuaciones': examFormato({ es: 'Átomos en Equilibrio (con el juego)', en: 'Atoms in Balance (with the game)', ca: "Àtoms en Equilibri (amb el joc)" }, '⚗️'),
       'encuentra-elemento': examFormato({ es: 'Encuentra el Elemento (con el juego)', en: 'Find the Element (with the game)', ca: "Troba l'Element (amb el joc)" }, '🔬'),
+      // Formato por MECÁNICA: la página guarda category = 'estados-materia',
+      // así que la tarea del profesor se completa sola al jugarla.
+      'cambio-estado': {
+        label: { es: 'Cambio de Estado (juego)', en: 'Change of State (game)', ca: "Canvi d'Estat (joc)" },
+        emoji: '🌡️',
+        game: 'cambio-estado',
+        usesLevel: false,
+        tracksTopic: true,
+        temas: ['estados-materia'],
+      },
     },
   },
 

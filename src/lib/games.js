@@ -284,6 +284,14 @@ export const GAMES = {
     // aciertos × 10 puntos → hasta 200 monedas
     coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
   },
+  'cambio-estado': {
+    label: { es: 'Cambio de Estado', en: 'Change of State', ca: 'Canvi d\'Estat' },
+    emoji: '🌡️',
+    subject: 'quimica',
+    route: '/juegos/cambio-estado',
+    // aciertos × 10 puntos → hasta 200 monedas
+    coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
+  },
   'pon-la-tilde': {
     label: { es: 'Pon la Tilde', en: 'Spanish Accents', ca: 'Posa l\'Accent' },
     emoji: '✏️',
