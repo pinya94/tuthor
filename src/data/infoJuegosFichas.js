@@ -896,11 +896,11 @@ export const FICHAS_ES = {
     subtitulo: 'Juego de los estados de la materia: sólido, líquido y gas',
     emoji: '🌡️', gradient: 'from-sky-600 to-blue-800',
     path: '/juegos/cambio-estado',
-    intro: 'Un juego de química para romper de una vez la idea de que sólido es frío y gas es caliente. Te dan una sustancia y una temperatura, con sus puntos de fusión y ebullición siempre a la vista, y tienes que decir en qué estado está. No hay nada que memorizar: hay que saber leer dónde cae esa temperatura respecto a los dos puntos de ESA sustancia. Otras rondas te dan una escena de casa —se empañan los cristales, se derrite el hielo— y hay que nombrar el cambio.',
+    intro: 'Un juego de química para romper de una vez la idea de que sólido es frío y gas es caliente. Te dan una sustancia y una temperatura, con sus puntos de fusión y ebullición siempre a la vista, y tienes que decir en qué estado está. No hay nada que memorizar: hay que saber leer dónde cae esa temperatura respecto a los dos puntos de ESA sustancia. Son 30 sustancias reales, de metales a gases, y al responder ves las partículas de ese estado: ordenadas y quietas en el sólido, sueltas en el líquido, disparadas en el gas.',
     beneficios: [
       { titulo: 'El estado es relativo, no absoluto', texto: 'El hierro a 1000 °C está al rojo vivo y sigue siendo sólido; el oxígeno a 20 °C ya es gas desde hace 200 grados. Frío y caliente son etiquetas nuestras: lo que decide el estado es la distancia a los puntos de cada sustancia, y eso solo se entiende viéndolo muchas veces.' },
       { titulo: 'Leer una escala, no memorizarla', texto: 'Los puntos de fusión y ebullición están siempre en pantalla a propósito. La habilidad que se entrena es situar un valor entre dos umbrales, que es la misma que hace falta para leer una gráfica, un termómetro o una tabla de datos en cualquier asignatura.' },
-      { titulo: 'El vocabulario que pregunta el examen', texto: 'Fusión, solidificación, vaporización, condensación, sublimación y sublimación inversa, cada uno con una escena cotidiana. Asociar el nombre a algo que se ha visto en casa lo fija mucho mejor que una lista de seis palabras que se parecen entre ellas.' },
+      { titulo: 'Una sola cosa, muchas veces', texto: 'El juego hace una única pregunta y la repite con 30 sustancias distintas. Esa insistencia es la que convierte la regla en un automatismo, en vez de dispersar la atención entre varias mecánicas en la misma partida.' },
     ],
     ejemplo: 'Sale "Mercurio, 20 °C", con sus puntos: se funde a −39 y hierve a 357. Mucha gente responde sólido porque piensa en un metal. Al ver que 20 está entre los dos, cae la respuesta: líquido. Y con ella la explicación de por qué se usaba precisamente el mercurio en los termómetros antiguos.',
     enPapel: {
@@ -1727,11 +1727,11 @@ export const FICHAS_EN = {
     titulo: 'Change of State',
     subtitulo: 'States of matter game: solid, liquid and gas',
     emoji: '🌡️', gradient: 'from-sky-600 to-blue-800', path: '/juegos/cambio-estado',
-    intro: 'A chemistry game to finally break the idea that solid means cold and gas means hot. You get a substance and a temperature, with its melting and boiling points always on screen, and you say what state it is in. There is nothing to memorise: you read where that temperature falls relative to the two points of THAT substance. Other rounds give you an everyday scene — windows fogging up, ice melting — and you name the change.',
+    intro: 'A chemistry game to finally break the idea that solid means cold and gas means hot. You get a substance and a temperature, with its melting and boiling points always on screen, and you say what state it is in. There is nothing to memorise: you read where that temperature falls relative to the two points of THAT substance. There are 30 real substances, from metals to gases, and on answering you see the particles for that state: ordered and still in a solid, loose in a liquid, flying in a gas.',
     beneficios: [
       { titulo: 'State is relative, not absolute', texto: 'Iron at 1000 °C is red hot and still solid; oxygen at 20 °C has been a gas for 200 degrees. Hot and cold are our labels: what decides the state is the distance to each substance\'s own points.' },
       { titulo: 'Reading a scale, not memorising it', texto: 'Melting and boiling points are always on screen on purpose. The skill trained is placing a value between two thresholds — the same one needed to read a graph, a thermometer or a data table in any subject.' },
-      { titulo: 'The vocabulary the exam asks for', texto: 'Melting, freezing, vaporisation, condensation, sublimation and deposition, each with an everyday scene. Linking the word to something seen at home fixes it far better than a list of six similar terms.' },
+      { titulo: 'One thing, many times', texto: 'The game asks a single question and repeats it across 30 different substances. That insistence is what turns the rule into an automatism, instead of splitting attention between several mechanics in one session.' },
     ],
     ejemplo: 'Up comes "Mercury, 20 °C", with its points: melts at −39, boils at 357. Many answer solid because they think "metal". Once they see 20 sits between the two, the answer follows: liquid — along with the explanation of why mercury was the thing inside old thermometers.',
     enPapel: {
@@ -2634,11 +2634,11 @@ export const FICHAS_CA = {
     titulo: 'Canvi d\'Estat',
     subtitulo: 'Joc dels estats de la matèria: sòlid, líquid i gas',
     emoji: '🌡️', gradient: 'from-sky-600 to-blue-800', path: '/juegos/cambio-estado',
-    intro: 'Un joc de química per trencar d\'una vegada la idea que sòlid és fred i gas és calent. Et donen una substància i una temperatura, amb els punts de fusió i ebullició sempre a la vista, i has de dir en quin estat és. No hi ha res per memoritzar: cal saber llegir on cau aquesta temperatura respecte als dos punts d\'AQUESTA substància. Altres rondes et donen una escena de casa i cal anomenar el canvi.',
+    intro: 'Un joc de química per trencar d\'una vegada la idea que sòlid és fred i gas és calent. Et donen una substància i una temperatura, amb els punts de fusió i ebullició sempre a la vista, i has de dir en quin estat és. No hi ha res per memoritzar: cal saber llegir on cau aquesta temperatura respecte als dos punts d\'AQUESTA substància. Són 30 substàncies reals, de metalls a gasos, i en respondre veus les partícules d\'aquest estat: ordenades i quietes al sòlid, soltes al líquid, disparades al gas.',
     beneficios: [
       { titulo: 'L\'estat és relatiu, no absolut', texto: 'El ferro a 1000 °C és roent i encara és sòlid; l\'oxigen a 20 °C ja fa 200 graus que és gas. Fred i calent són etiquetes nostres: el que decideix l\'estat és la distància als punts de cada substància.' },
       { titulo: 'Llegir una escala, no memoritzar-la', texto: 'Els punts són sempre a la pantalla a propòsit. L\'habilitat que s\'entrena és situar un valor entre dos llindars, la mateixa que cal per llegir una gràfica o un termòmetre.' },
-      { titulo: 'El vocabulari que pregunta l\'examen', texto: 'Fusió, solidificació, vaporització, condensació, sublimació i sublimació inversa, cadascun amb una escena quotidiana. Associar el nom a alguna cosa vista a casa ho fixa molt millor.' },
+      { titulo: 'Una sola cosa, moltes vegades', texto: 'El joc fa una única pregunta i la repeteix amb 30 substàncies diferents. Aquesta insistència és la que converteix la regla en un automatisme, en comptes de dispersar l\'atenció entre diverses mecàniques en la mateixa partida.' },
     ],
     ejemplo: 'Surt "Mercuri, 20 °C", amb els seus punts: es fon a −39 i bull a 357. Molta gent respon sòlid perquè pensa en un metall. En veure que 20 és entre els dos, cau la resposta: líquid.',
     enPapel: {

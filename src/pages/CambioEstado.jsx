@@ -5,7 +5,7 @@ import { useAuth } from '../context/AuthContext'
 import { saveActivity } from '../lib/activity'
 import { computeCoins } from '../lib/games'
 import { ESTADOS } from '../data/sustancias'
-import { ESTADO_IDS, genRound, esCorrecta, opcionesCambio } from '../lib/cambioEstado'
+import { ESTADO_IDS, genRound, esCorrecta } from '../lib/cambioEstado'
 import ParticulasSVG from '../components/ParticulasSVG'
 import GameEndScreen from '../components/GameEndScreen'
 import SEOHead from '../components/SEOHead'
@@ -23,11 +23,10 @@ const C = {
   queEs:   { es: '¿De qué va?', en: 'What is it about?', ca: 'De què va?' },
   q1:      { es: 'Te dan una sustancia y una temperatura, y tienes que decir en qué estado está. Los puntos de fusión y ebullición se ven siempre: no hay que memorizarlos, hay que saber leerlos.', en: 'You get a substance and a temperature and must say what state it is in. Melting and boiling points are always shown: you do not memorise them, you read them.', ca: 'Et donen una substància i una temperatura, i has de dir en quin estat és. Els punts es veuen sempre: no cal memoritzar-los, cal saber llegir-los.' },
   q2:      { es: 'Cuidado con lo que "parece": el hierro a 1000 °C sigue siendo sólido y el oxígeno a 20 °C ya es gas. Frío y caliente son cosa nuestra, no de la sustancia.', en: 'Careful with what "seems" right: iron at 1000 °C is still solid and oxygen at 20 °C is already gas. Hot and cold are about us, not about the substance.', ca: 'Compte amb el que "sembla": el ferro a 1000 °C encara és sòlid i l\'oxigen a 20 °C ja és gas.' },
-  q3:      { es: 'Otras rondas te dan una escena de casa —se empañan los cristales, se derrite el hielo— y hay que decir cómo se llama ese cambio.', en: 'Other rounds give you an everyday scene — windows fogging up, ice melting — and you name the change.', ca: 'Altres rondes et donen una escena de casa i cal dir com es diu aquest canvi.' },
+  q3:      { es: 'Al acertar verás las partículas del estado: ordenadas y quietas en el sólido, sueltas en el líquido, disparadas en el gas.', en: 'When you get it right you see the particles for that state: ordered and still in a solid, loose in a liquid, flying in a gas.', ca: 'En encertar veuràs les partícules de l\'estat: ordenades i quietes al sòlid, soltes al líquid, disparades al gas.' },
   ptsVal:  { es: 'Acierto +1 y +3s · Fallo −5s', en: 'Correct +1 and +3s · Wrong −5s', ca: 'Encert +1 i +3s · Error −5s' },
   start:   { es: '▶ Empezar', en: '▶ Start', ca: '▶ Començar' },
   aQue:    { es: '¿En qué estado está?', en: 'What state is it in?', ca: 'En quin estat és?' },
-  comoSe:  { es: '¿Cómo se llama este cambio?', en: 'What is this change called?', ca: 'Com es diu aquest canvi?' },
   funde:   { es: 'Se funde a', en: 'Melts at', ca: 'Es fon a' },
   hierve:  { es: 'Hierve a', en: 'Boils at', ca: 'Bull a' },
   end:     { es: 'Tiempo', en: "Time's up", ca: 'Temps' },
@@ -79,7 +78,6 @@ export default function CambioEstado() {
   const [correctCount, setCorrectCount] = useState(0)
   const [streak, setStreak] = useState(0)
   const [round, setRound] = useState(null)
-  const [opciones, setOpciones] = useState([])
   const [elegida, setElegida] = useState(null)
   const [phase, setPhase] = useState('choose')
 
@@ -90,10 +88,9 @@ export default function CambioEstado() {
   useEffect(() => { correctRef.current = correctCount }, [correctCount])
 
   const next = useCallback(() => {
-    const r = genRound('mixto', { evitar: vistosRef.current })
+    const r = genRound({ evitar: vistosRef.current })
     vistosRef.current = [r.id, ...vistosRef.current].slice(0, MEMORIA)
     setRound(r)
-    setOpciones(r.tipo === 'cambio' ? opcionesCambio(r) : [])
     setElegida(null)
     setPhase('choose')
   }, [])
@@ -149,9 +146,9 @@ export default function CambioEstado() {
   }
 
   const seo = {
-    es: { title: 'Cambio de Estado — Juego de los estados de la materia', desc: 'Sólido, líquido o gas: decide el estado de cada sustancia según su temperatura y sus puntos de fusión y ebullición, y nombra los cambios (fusión, condensación, sublimación). Juego de química gratis.', path: '/juegos/cambio-estado' },
-    en: { title: 'Change of State — States of matter game', desc: 'Solid, liquid or gas: decide each substance\'s state from its temperature and its melting and boiling points, and name the changes (melting, condensation, sublimation). Free chemistry game.', path: '/en/juegos/cambio-estado' },
-    ca: { title: 'Canvi d\'Estat — Joc dels estats de la matèria', desc: 'Sòlid, líquid o gas: decideix l\'estat de cada substància segons la temperatura i els seus punts de fusió i ebullició, i anomena els canvis. Joc de química gratis.', path: '/ca/juegos/cambio-estado' },
+    es: { title: 'Cambio de Estado — Juego de los estados de la materia', desc: 'Sólido, líquido o gas: decide el estado de cada sustancia según su temperatura y sus puntos de fusión y ebullición. Con 30 sustancias reales, de metales a gases. Juego de química gratis.', path: '/juegos/cambio-estado' },
+    en: { title: 'Change of State — States of matter game', desc: 'Solid, liquid or gas: decide each substance\'s state from its temperature and its melting and boiling points. With 30 real substances, from metals to gases. Free chemistry game.', path: '/en/juegos/cambio-estado' },
+    ca: { title: 'Canvi d\'Estat — Joc dels estats de la matèria', desc: 'Sòlid, líquid o gas: decideix l\'estat de cada substància segons la temperatura i els seus punts de fusió i ebullició. Amb 30 substàncies reals, de metalls a gasos. Joc de química gratis.', path: '/ca/juegos/cambio-estado' },
   }[l]
 
   if (screen === 'intro') {
@@ -185,7 +182,6 @@ export default function CambioEstado() {
   const timerPct = timeLeft / GAME_TIME
   const isResult = phase === 'result'
   const acerto = isResult && esCorrecta(round, elegida)
-  const esEstado = round.tipo === 'estado'
 
   const claseBoton = v => {
     if (!isResult) return 'bg-white/10 border-white/15 text-white hover:bg-white/20 active:scale-95'
@@ -219,56 +215,35 @@ export default function CambioEstado() {
         </div>
       </div>
 
-      <p className="text-white/50 text-xs uppercase tracking-widest mb-2">
-        {esEstado ? T('aQue', l) : T('comoSe', l)}
+      <p className="text-white/50 text-xs uppercase tracking-widest mb-2">{T('aQue', l)}</p>
+
+      <p className="text-white text-2xl font-black mb-1">{tr(round.sustancia.nombre, l)}</p>
+      <p className="text-[#EDAE49] text-3xl font-black mb-2">{round.temp} °C</p>
+      {/* Los puntos van SIEMPRE a la vista: el juego no es memorizarlos, es
+          saber dónde cae la temperatura respecto a ellos. */}
+      <p className="text-white/40 text-xs mb-4 text-center">
+        {T('funde', l)} {round.sustancia.fusion} °C · {T('hierve', l)} {round.sustancia.ebullicion} °C
       </p>
 
-      {esEstado ? (
-        <>
-          <p className="text-white text-2xl font-black mb-1">{tr(round.sustancia.nombre, l)}</p>
-          <p className="text-[#EDAE49] text-3xl font-black mb-2">{round.temp} °C</p>
-          {/* Los puntos van SIEMPRE a la vista: el juego no es memorizarlos,
-              es saber dónde cae la temperatura respecto a ellos. */}
-          <p className="text-white/40 text-xs mb-4 text-center">
-            {T('funde', l)} {round.sustancia.fusion} °C · {T('hierve', l)} {round.sustancia.ebullicion} °C
-          </p>
-        </>
-      ) : (
-        <p className="text-white text-xl font-bold mb-4 text-center px-3 max-w-[460px] min-h-[56px]">
-          {tr(round.cambio.ejemplo, l)}
-        </p>
-      )}
-
-      {isResult && esEstado && (
+      {isResult && (
         <div className="w-full max-w-[280px] mb-3">
           <ParticulasSVG estado={round.respuesta} />
         </div>
       )}
 
-      <div className={`w-full max-w-[460px] grid gap-2 px-1 ${esEstado ? 'grid-cols-3' : 'grid-cols-2'}`}>
-        {esEstado
-          ? ESTADO_IDS.map(id => (
-              <button key={id} onClick={() => responder(id)} disabled={isResult}
-                className={`py-3.5 rounded-2xl border font-black transition-all ${claseBoton(id)}`}>
-                {ESTADOS[id].emoji} {tr(ESTADOS[id].label, l)}
-              </button>
-            ))
-          : opciones.map(c => (
-              <button key={c.id} onClick={() => responder(c.id)} disabled={isResult}
-                className={`py-3.5 px-2 rounded-2xl border font-bold text-sm transition-all ${claseBoton(c.id)}`}>
-                {tr(c.nombre, l)}
-              </button>
-            ))}
+      <div className="w-full max-w-[460px] grid grid-cols-3 gap-2 px-1">
+        {ESTADO_IDS.map(id => (
+          <button key={id} onClick={() => responder(id)} disabled={isResult}
+            className={`py-3.5 rounded-2xl border font-black transition-all ${claseBoton(id)}`}>
+            {ESTADOS[id].emoji} {tr(ESTADOS[id].label, l)}
+          </button>
+        ))}
       </div>
 
       {isResult && (
         <div className="w-full max-w-[460px] px-1 mt-3 space-y-2">
           <div className="rounded-xl px-3 py-2.5 bg-white/5 border border-white/10">
-            <p className="text-white/70 text-sm">
-              💡 {esEstado
-                ? tr(round.sustancia.nota, l)
-                : `${tr(round.cambio.nombre, l)}: ${tr(ESTADOS[round.cambio.de].label, l).toLowerCase()} → ${tr(ESTADOS[round.cambio.a].label, l).toLowerCase()}.`}
-            </p>
+            <p className="text-white/70 text-sm">💡 {tr(round.sustancia.nota, l)}</p>
           </div>
           <p className="text-center text-xs font-bold">
             {acerto

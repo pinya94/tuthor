@@ -5,7 +5,7 @@
 // alumno fallaría algo que en realidad sabe.
 import { it, expect } from 'vitest'
 import { SUSTANCIAS, CAMBIOS } from '../../data/sustancias'
-import { estadoA, genRound, esCorrecta, opcionesCambio } from '../cambioEstado'
+import { estadoA, genRound, genRoundCambio, esCorrecta, opcionesCambio } from '../cambioEstado'
 
 it('los datos de cada sustancia son coherentes', () => {
   const ids = new Set()
@@ -33,7 +33,6 @@ it('los seis cambios de estado están y no se repiten', () => {
 it('ninguna ronda cae justo en un punto de cambio', () => {
   for (let i = 0; i < 800; i++) {
     const r = genRound()
-    if (r.tipo !== 'estado') continue
     const { sustancia: s, temp } = r
     expect(temp, `${s.id}: temperatura exactamente en la fusión`).not.toBe(s.fusion)
     expect(temp, `${s.id}: temperatura exactamente en la ebullición`).not.toBe(s.ebullicion)
@@ -43,16 +42,17 @@ it('ninguna ronda cae justo en un punto de cambio', () => {
   }
 })
 
-it('salen los tres estados y las opciones de cambio incluyen la correcta', () => {
+it('el juego saca los tres estados', () => {
   const vistos = new Set()
-  for (let i = 0; i < 600; i++) {
-    const r = genRound('estado')
-    vistos.add(r.respuesta)
-  }
+  for (let i = 0; i < 600; i++) vistos.add(genRound().respuesta)
   expect([...vistos].sort()).toEqual(['gas', 'liquido', 'solido'])
+})
 
+// El vocabulario de los cambios ya NO está en el juego: vive en su propio
+// examen y se alimenta de genRoundCambio.
+it('las opciones del examen de nombres incluyen siempre la correcta', () => {
   for (let i = 0; i < 200; i++) {
-    const r = genRound('cambio')
+    const r = genRoundCambio()
     const ops = opcionesCambio(r)
     expect(ops).toHaveLength(4)
     expect(ops.map(o => o.id)).toContain(r.cambio.id)

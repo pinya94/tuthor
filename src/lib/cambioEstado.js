@@ -1,21 +1,19 @@
 // Cambio de Estado (química · estados de la materia) — lógica pura, sin React.
 //
-// Dos tipos de ronda, y los dos atacan el mismo malentendido:
-//
-//   'estado'  sustancia + temperatura → ¿sólido, líquido o gas?
-//             El error que persigue es "sólido = frío, gas = caliente". El
-//             estado no depende de si una temperatura nos parece alta a
-//             NOSOTROS, sino de dónde cae respecto a los puntos de ESA
-//             sustancia: el hierro a 1000 °C sigue siendo sólido y el oxígeno
-//             a 20 °C ya es gas. Por eso las temperaturas se eligen a
-//             propósito entre las que suenan contradictorias.
-//
-//   'cambio'  una situación cotidiana → ¿cómo se llama ese cambio?
-//             Aquí lo que se entrena es el vocabulario (fusión, condensación,
-//             sublimación…), que es lo que pregunta el examen.
+// UNA sola mecánica en el juego: sustancia + temperatura → ¿sólido, líquido o
+// gas? El error que persigue es "sólido = frío, gas = caliente". El estado no
+// depende de si una temperatura nos parece alta a NOSOTROS, sino de dónde cae
+// respecto a los puntos de ESA sustancia: el hierro a 1000 °C sigue siendo
+// sólido y el oxígeno a 20 °C ya es gas. Por eso las temperaturas se eligen a
+// propósito entre las que suenan contradictorias.
 //
 // Los puntos de fusión y ebullición se muestran SIEMPRE. No es un juego de
 // memorizar temperaturas: es de saber leerlas.
+//
+// El vocabulario de los cambios (fusión, condensación, sublimación…) NO está
+// en el juego a propósito: es otra mecánica y mezclarlas en la misma partida
+// la vuelve confusa. Vive en su propio examen, y `genRoundCambio` de abajo es
+// lo que lo alimenta.
 
 import { SUSTANCIAS, CAMBIOS, ESTADOS } from '../data/sustancias'
 
@@ -62,21 +60,23 @@ function tempPara(s, estado, rand) {
   return entero(s.ebullicion + MARGEN, s.ebullicion + 300, rand)
 }
 
-export function genRound(modo = 'mixto', { rand = Math.random, evitar = [] } = {}) {
-  const tipo = modo === 'mixto' ? (rand() < 0.65 ? 'estado' : 'cambio') : modo
-
-  if (tipo === 'cambio') {
-    const frescos = CAMBIOS.filter(c => !evitar.includes(c.id))
-    const c = elegir(frescos.length ? frescos : CAMBIOS, rand)
-    return { tipo: 'cambio', cambio: c, id: c.id, respuesta: c.id }
-  }
-
+// La ronda del juego y del examen de estados: una sustancia, una temperatura
+// y sus dos puntos a la vista.
+export function genRound({ rand = Math.random, evitar = [] } = {}) {
   const estado = elegir(ESTADO_IDS, rand)
   const pool = POOL[estado]
   const frescas = pool.filter(s => !evitar.includes(s.id))
   const s = elegir(frescas.length ? frescas : pool, rand)
   const temp = tempPara(s, estado, rand)
   return { tipo: 'estado', sustancia: s, temp, id: s.id, respuesta: estadoA(s, temp) }
+}
+
+// La ronda del examen de nombres: una escena cotidiana → cómo se llama ese
+// cambio. Solo la usa el examen; el juego no la toca.
+export function genRoundCambio({ rand = Math.random, evitar = [] } = {}) {
+  const frescos = CAMBIOS.filter(c => !evitar.includes(c.id))
+  const c = elegir(frescos.length ? frescos : CAMBIOS, rand)
+  return { tipo: 'cambio', cambio: c, id: c.id, respuesta: c.id }
 }
 
 export const esCorrecta = (round, r) => round?.respuesta === r

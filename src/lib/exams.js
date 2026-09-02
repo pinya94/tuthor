@@ -528,6 +528,18 @@ export const EXAMS = {
     emoji: '🧩', subject: 'ingles',
     path: 'examen/ingles-piezas-passive-test', page: () => import('../pages/InglesPiezasPassiveExamen'),
   },
+  // Los dos que salen de Cambio de Estado: el juego se quedó con UNA mecánica
+  // (decir el estado) y el vocabulario de los cambios pasó a examen propio.
+  'cambio-estado-test': {
+    label: { es: 'Estados de la materia (con el juego)', en: 'States of matter (with the game)', ca: 'Estats de la matèria (amb el joc)' },
+    emoji: '🌡️', subject: 'quimica',
+    path: 'examen/cambio-estado-test', page: () => import('../pages/CambioEstadoExamen'),
+  },
+  'nombres-cambio-test': {
+    label: { es: 'Los nombres de los cambios de estado', en: 'Naming the changes of state', ca: "Els noms dels canvis d'estat" },
+    emoji: '💨', subject: 'quimica',
+    path: 'examen/nombres-cambio-test', page: () => import('../pages/NombresCambioExamen'),
+  },
   'ingles-grammar-present-simple-test': {
     label: { es: 'Present Simple', en: 'Present Simple', ca: 'Present Simple' },
     emoji: '✅', subject: 'ingles',

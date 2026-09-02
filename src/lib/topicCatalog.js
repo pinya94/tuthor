@@ -310,7 +310,7 @@ export const TOPIC_CATALOG = {
     temas: {
       'atomos-moleculas': examTema({ teoria: 'atomos-moleculas', 'balanza-ecuaciones': 'balanza-ecuaciones-test' }),
       'tabla-periodica': examTema({ teoria: 'tabla-periodica', 'encuentra-elemento': 'encuentra-elemento-test' }),
-      'estados-materia': examTema({ teoria: 'estados-materia' }),
+      'estados-materia': examTema({ teoria: 'estados-materia', 'estado-test': 'cambio-estado-test', 'nombres-cambio': 'nombres-cambio-test' }),
       'mezclas-separacion': examTema({ teoria: 'mezclas-separacion' }),
       'acidos-bases': examTema({ teoria: 'acidos-bases' }),
     },
@@ -320,6 +320,8 @@ export const TOPIC_CATALOG = {
       'encuentra-elemento': examFormato({ es: 'Encuentra el Elemento (con el juego)', en: 'Find the Element (with the game)', ca: "Troba l'Element (amb el joc)" }, '🔬'),
       // Formato por MECÁNICA: la página guarda category = 'estados-materia',
       // así que la tarea del profesor se completa sola al jugarla.
+      'estado-test': examFormato({ es: 'Estados de la materia (examen)', en: 'States of matter (exam)', ca: 'Estats de la matèria (examen)' }, '🌡️'),
+      'nombres-cambio': examFormato({ es: 'Nombres de los cambios (examen)', en: 'Naming the changes (exam)', ca: 'Noms dels canvis (examen)' }, '💨'),
       'cambio-estado': {
         label: { es: 'Cambio de Estado (juego)', en: 'Change of State (game)', ca: "Canvi d'Estat (joc)" },
         emoji: '🌡️',

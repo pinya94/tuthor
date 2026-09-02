@@ -55,6 +55,54 @@ export const SUSTANCIAS = [
 
   s('butano', { es: 'Butano', en: 'Butane', ca: 'Butà' }, -138, -1,
     { es: 'Hierve a −1 °C, así que a temperatura ambiente sería gas. En la bombona está líquido porque va a presión, no por frío.', en: 'It boils at −1 °C, so at room temperature it would be gas. In the cylinder it is liquid because of pressure, not cold.', ca: 'Bull a −1 °C: a la bombona és líquid per la pressió, no pel fred.' }),
+
+  s('estano', { es: 'Estaño', en: 'Tin', ca: 'Estany' }, 232, 2602,
+    { es: 'Se funde a 232 °C, tan poco que se derrite en una sartén. Por eso el estaño de soldar se trabaja con un simple soldador eléctrico.', en: 'It melts at 232 °C, low enough to melt in a frying pan — which is why solder works with a simple iron.', ca: 'Es fon a 232 °C, tan poc que es fon en una paella.' }),
+
+  s('zinc', { es: 'Zinc', en: 'Zinc', ca: 'Zinc' }, 420, 907,
+    { es: 'Se funde a 420 °C y hierve a 907, un margen líquido estrechísimo para un metal. Por eso se evapora al galvanizar acero.', en: 'It melts at 420 °C and boils at 907, a very narrow liquid range for a metal.', ca: 'Es fon a 420 °C i bull a 907, un marge líquid estretíssim per a un metall.' }),
+
+  s('plata', { es: 'Plata', en: 'Silver', ca: 'Plata' }, 962, 2162,
+    { es: 'Se funde a 962 °C, casi como el oro. Los dos se trabajan en los mismos hornos de joyería desde hace milenios.', en: 'It melts at 962 °C, close to gold: both are worked in the same jewellery furnaces.', ca: 'Es fon a 962 °C, gairebé com l\'or.' }),
+
+  s('wolframio', { es: 'Wolframio', en: 'Tungsten', ca: 'Tungstè' }, 3422, 5555,
+    { es: 'Es el metal que aguanta más calor sin fundirse: 3422 °C. Por eso el filamento de las bombillas antiguas era de wolframio.', en: 'The metal that resists the most heat before melting: 3422 °C. Old light-bulb filaments were made of it.', ca: 'És el metall que aguanta més calor sense fondre\'s: 3422 °C.' }),
+
+  s('hidrogeno', { es: 'Hidrógeno', en: 'Hydrogen', ca: 'Hidrogen' }, -259, -253,
+    { es: 'Solo es líquido entre −259 y −253 °C: seis grados de margen. Así se transporta como combustible de cohetes.', en: 'It is liquid only between −259 and −253 °C: a six-degree window. That is how it is carried as rocket fuel.', ca: 'Només és líquid entre −259 i −253 °C: sis graus de marge.' }),
+
+  s('metano', { es: 'Metano', en: 'Methane', ca: 'Metà' }, -182, -162,
+    { es: 'Es el gas natural de la cocina. Se licúa a −162 °C, y así viaja en barco: ocupa 600 veces menos que en gas.', en: 'The natural gas of a kitchen hob. It liquefies at −162 °C and travels by ship taking 600 times less space.', ca: 'És el gas natural de la cuina. Es liqua a −162 °C.' }),
+
+  s('amoniaco', { es: 'Amoniaco', en: 'Ammonia', ca: 'Amoníac' }, -78, -33,
+    { es: 'A temperatura ambiente es gas. El amoniaco de limpieza es ese gas disuelto en agua, no amoniaco puro.', en: 'At room temperature it is a gas. Household ammonia is that gas dissolved in water, not pure ammonia.', ca: 'A temperatura ambient és gas. L\'amoníac de neteja és aquest gas dissolt en aigua.' }),
+
+  s('acetona', { es: 'Acetona', en: 'Acetone', ca: 'Acetona' }, -95, 56,
+    { es: 'Hierve a 56 °C, bastante antes que el agua. Por eso se evapora en cuanto la pones en la piel y deja sensación de frío.', en: 'It boils at 56 °C, well before water, which is why it evaporates on skin and feels cold.', ca: 'Bull a 56 °C, bastant abans que l\'aigua.' }),
+
+  s('glicerina', { es: 'Glicerina', en: 'Glycerol', ca: 'Glicerina' }, 18, 290,
+    { es: 'Se congela a 18 °C, así que en una casa fría puede solidificar. Es de los pocos líquidos de casa que lo hacen por encima de cero.', en: 'It freezes at 18 °C, so it can solidify in a cold house — one of the few household liquids that does so above zero.', ca: 'Es congela a 18 °C, així que en una casa freda pot solidificar.' }),
+
+  s('parafina', { es: 'Parafina (vela)', en: 'Paraffin wax', ca: 'Parafina (espelma)' }, 57, 370,
+    { es: 'La cera de una vela se funde a unos 57 °C: la llama la derrite y esa cera líquida es la que sube por la mecha y arde.', en: 'Candle wax melts around 57 °C: the flame melts it and that liquid wax climbs the wick and burns.', ca: 'La cera d\'una espelma es fon als 57 °C aproximadament.' }),
+
+  s('azufre', { es: 'Azufre', en: 'Sulfur', ca: 'Sofre' }, 115, 445,
+    { es: 'Se funde a 115 °C, menos que el plomo. Es uno de los pocos no metales que aparece sólido y amarillo en la naturaleza.', en: 'It melts at 115 °C, lower than lead, and is one of the few non-metals found solid and yellow in nature.', ca: 'Es fon a 115 °C, menys que el plom.' }),
+
+  s('naftalina', { es: 'Naftalina', en: 'Naphthalene', ca: 'Naftalina' }, 80, 218,
+    { es: 'Las bolas de naftalina se hacen pequeñas sin mojar nada: pasan directamente de sólido a gas, que es sublimación.', en: 'Mothballs shrink without wetting anything: they go straight from solid to gas — sublimation.', ca: 'Les boles de naftalina es fan petites sense mullar res: subliman.' }),
+
+  s('acido-acetico', { es: 'Ácido acético (vinagre)', en: 'Acetic acid (vinegar)', ca: 'Àcid acètic (vinagre)' }, 17, 118,
+    { es: 'El ácido del vinagre se congela a 17 °C. En un laboratorio frío aparece sólido, y por eso se le llama ácido acético glacial.', en: 'Vinegar\'s acid freezes at 17 °C. In a cold lab it appears solid, hence "glacial acetic acid".', ca: 'L\'àcid del vinagre es congela a 17 °C.' }),
+
+  s('bromo', { es: 'Bromo', en: 'Bromine', ca: 'Brom' }, -7, 59,
+    { es: 'Es el único no metal líquido a temperatura ambiente, de un rojo muy oscuro. El mercurio y el bromo son los dos únicos elementos líquidos a 20 °C.', en: 'The only non-metal that is liquid at room temperature, dark red. Bromine and mercury are the only two elements liquid at 20 °C.', ca: 'És l\'únic no metall líquid a temperatura ambient.' }),
+
+  s('propano', { es: 'Propano', en: 'Propane', ca: 'Propà' }, -188, -42,
+    { es: 'Hierve a −42 °C, aún más frío que el butano. Por eso la bombona de propano aguanta mejor el invierno a la intemperie.', en: 'It boils at −42 °C, colder than butane, which is why propane cylinders cope better with winter outdoors.', ca: 'Bull a −42 °C, encara més fred que el butà.' }),
+
+  s('titanio', { es: 'Titanio', en: 'Titanium', ca: 'Titani' }, 1668, 3287,
+    { es: 'Se funde a 1668 °C, más que el hierro, y pesa casi la mitad. Esa combinación es la que lo hace ideal para aviones y prótesis.', en: 'It melts at 1668 °C, above iron, and weighs almost half as much — ideal for aircraft and implants.', ca: 'Es fon a 1668 °C, més que el ferro, i pesa gairebé la meitat.' }),
 ]
 
 export const porId = id => SUSTANCIAS.find(x => x.id === id)
