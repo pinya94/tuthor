@@ -39,9 +39,10 @@ a un juego homónimo, su id lleva sufijo `-test` (`balanza` / `balanza-test`).
 5. **Sitemap** `public/sitemap.xml`: añadir `/juegos/mi-juego` (+ /en si se
    publica en inglés). El prerender resuelve la meta desde games.js.
 6. **Ficha SEO** `src/data/infoJuegosFichas.js`: entrada `mi-juego` en
-   FICHAS_ES/EN/CA + `/info/juegos/mi-juego` al sitemap. Muy recomendada
-   (plan AdSense "contenido de poco valor"); pendientes conocidos:
-   pentagrama-path, reaccion.
+   FICHAS_ES/EN/CA + `/info/juegos/mi-juego` al sitemap (y `/en` y `/ca`).
+   NO es opcional: en cuanto la URL está en el sitemap, el test de
+   sitemap↔meta falla hasta que existe la ficha, señalando la URL exacta.
+   Ahora mismo todos los juegos del registro tienen la suya.
 7. **Hub de materia** (si existe): enlazar donde encaje
    (MatematicasIndex, QuimicaIndex vía datos, HistoriaIndex…).
 
@@ -102,7 +103,7 @@ de qué combinaciones existen. Lo consumen por igual:
 - el selector de tareas del profesor (cascada materia→tema→formato→nivel);
 - el enrutado y etiquetado de tareas.
 
-Cubre las **12 materias** (68 temas). Una materia con exámenes asignables
+Cubre las **12 materias** (78 temas). Una materia con exámenes asignables
 tiene que estar aquí — hay un test que lo exige.
 
 Hay dos formas de declarar un tema, según de dónde salga el contenido:
@@ -146,8 +147,14 @@ Funciones: `topicFormats(materia, tema)`, `formatLevels(materia, tema, fmt)`,
    si el formato es `tracksTopic: true`, guardar `saveActivity({ category })`
    EXACTAMENTE igual que lo que devuelve `topicTask` (hay test de ida y
    vuelta que lo vigila).
-2. Entrada en `TOPIC_CATALOG` (+ caso en `ExamenTema.jsx` si es una materia
-   nueva, + su `<Route>` en App.jsx).
+2. Entrada en `TOPIC_CATALOG` (+ su `<Route>` en App.jsx si la materia es
+   nueva). **Un formato por mecánica ya NO necesita tocar `ExamenTema.jsx`**:
+   al final del fichero hay una rama genérica que, si el formato apunta a un
+   juego del registro `GAMES`, se va a su `route` con `{ tema }` en el state.
+   Basta con que la página del juego lea `location.state.tema`. Solo hacen
+   falta casos propios cuando el tema hay que traducirlo a otro state
+   (historia usa `pool`, `categoria`, `examen`; matemáticas, `modoExamen`), y
+   esos casos van ANTES de la rama genérica.
 3. Etiqueta del tema en `SUBJECT_DEFS[materia].catLabels` — si se puede
    derivar de datos existentes (caso mates ← mathEngine), generarla.
 4. Si el formato guarda stats con un id SIN entrada en games.js
