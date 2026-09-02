@@ -107,6 +107,20 @@ export const SUSTANCIAS = [
 
 export const porId = id => SUSTANCIAS.find(x => x.id === id)
 
+// Sustancias cuyo estado se puede razonar SIN ver los números, porque salen en
+// cualquier libro y en la vida diaria: el agua, los metales de siempre, los
+// gases del aire, el alcohol.
+//
+// El nivel difícil del juego TAPA los puntos de fusión y ebullición, así que
+// solo puede preguntar por estas. Pedir de memoria a qué temperatura hierve el
+// wolframio no mediría química, mediría memoria; en cambio saber que el
+// mercurio a 20 °C está líquido y el oxígeno gaseoso es exactamente lo que se
+// pregunta en clase.
+export const CONOCIDAS = new Set([
+  'agua', 'hierro', 'oro', 'mercurio', 'oxigeno', 'nitrogeno', 'etanol',
+  'aluminio', 'plomo', 'sal', 'cobre', 'helio', 'cloro', 'butano',
+])
+
 // Los seis cambios de estado con su nombre. La pareja sólido↔gas es la que
 // más se olvida y la que más aparece en los exámenes.
 export const CAMBIOS = [

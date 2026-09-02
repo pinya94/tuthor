@@ -5,7 +5,7 @@ import { useAuth } from '../context/AuthContext'
 import { saveActivity } from '../lib/activity'
 import { computeCoins } from '../lib/games'
 import { ESTADOS } from '../data/sustancias'
-import { ESTADO_IDS, genRound, esCorrecta } from '../lib/cambioEstado'
+import { ESTADO_IDS, DIFICULTADES, genRound, esCorrecta } from '../lib/cambioEstado'
 import ParticulasSVG from '../components/ParticulasSVG'
 import GameEndScreen from '../components/GameEndScreen'
 import SEOHead from '../components/SEOHead'
@@ -21,10 +21,14 @@ const C = {
   title:   { es: '🌡️ Cambio de Estado', en: '🌡️ Change of State', ca: '🌡️ Canvi d\'Estat' },
   sub:     { es: '¿Sólido, líquido o gas? Depende de la sustancia', en: 'Solid, liquid or gas? It depends on the substance', ca: 'Sòlid, líquid o gas? Depèn de la substància' },
   queEs:   { es: '¿De qué va?', en: 'What is it about?', ca: 'De què va?' },
-  q1:      { es: 'Te dan una sustancia y una temperatura, y tienes que decir en qué estado está. Los puntos de fusión y ebullición se ven siempre: no hay que memorizarlos, hay que saber leerlos.', en: 'You get a substance and a temperature and must say what state it is in. Melting and boiling points are always shown: you do not memorise them, you read them.', ca: 'Et donen una substància i una temperatura, i has de dir en quin estat és. Els punts es veuen sempre: no cal memoritzar-los, cal saber llegir-los.' },
+  q1:      { es: 'Te dan una sustancia y una temperatura, y tienes que decir en qué estado está. En fácil y medio los puntos de fusión y ebullición están a la vista: no hay que memorizarlos, hay que saber leerlos.', en: 'You get a substance and a temperature and must say what state it is in. On easy and medium the melting and boiling points are shown: you do not memorise them, you read them.', ca: 'Et donen una substància i una temperatura, i has de dir en quin estat és. En fàcil i mitjà els punts es veuen: no cal memoritzar-los, cal saber llegir-los.' },
   q2:      { es: 'Cuidado con lo que "parece": el hierro a 1000 °C sigue siendo sólido y el oxígeno a 20 °C ya es gas. Frío y caliente son cosa nuestra, no de la sustancia.', en: 'Careful with what "seems" right: iron at 1000 °C is still solid and oxygen at 20 °C is already gas. Hot and cold are about us, not about the substance.', ca: 'Compte amb el que "sembla": el ferro a 1000 °C encara és sòlid i l\'oxigen a 20 °C ja és gas.' },
   q3:      { es: 'Al acertar verás las partículas del estado: ordenadas y quietas en el sólido, sueltas en el líquido, disparadas en el gas.', en: 'When you get it right you see the particles for that state: ordered and still in a solid, loose in a liquid, flying in a gas.', ca: 'En encertar veuràs les partícules de l\'estat: ordenades i quietes al sòlid, soltes al líquid, disparades al gas.' },
+  q4:      { es: 'En difícil los puntos están tapados y aparecen al corregir. Las temperaturas se sortean cada vez, así que no hay dos partidas iguales.', en: 'On hard the points are hidden and appear when the answer is revealed. Temperatures are drawn at random every time, so no two games are alike.', ca: 'En difícil els punts estan tapats i apareixen en corregir. Les temperatures se sortegen cada cop: no hi ha dues partides iguals.' },
   ptsVal:  { es: 'Acierto +1 y +3s · Fallo −5s', en: 'Correct +1 and +3s · Wrong −5s', ca: 'Encert +1 i +3s · Error −5s' },
+  nivel:   { es: 'Elige nivel', en: 'Choose a level', ca: 'Tria nivell' },
+  changeDif:{ es: 'Cambiar nivel', en: 'Change level', ca: 'Canviar nivell' },
+  oculto:  { es: 'Sin los datos: tienes que conocer la sustancia', en: 'No data: you have to know the substance', ca: 'Sense les dades: has de conèixer la substància' },
   start:   { es: '▶ Empezar', en: '▶ Start', ca: '▶ Començar' },
   aQue:    { es: '¿En qué estado está?', en: 'What state is it in?', ca: 'En quin estat és?' },
   funde:   { es: 'Se funde a', en: 'Melts at', ca: 'Es fon a' },
@@ -38,7 +42,26 @@ const C = {
 const T = (k, l) => C[k]?.[l] ?? C[k]?.es ?? k
 const tr = (o, l) => o?.[l] ?? o?.es ?? ''
 
+// Las etiquetas de los niveles. Los parámetros de verdad (cuánto se acerca la
+// temperatura al punto, si se tapan los datos) viven en DIFICULTADES, dentro de
+// la lógica: aquí solo se nombran.
+const DIFS = {
+  facil:   { emoji: '🟢', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
+             desc: { es: 'Con los datos a la vista y temperaturas claras', en: 'Data shown and clear-cut temperatures', ca: 'Amb les dades a la vista i temperatures clares' } },
+  medio:   { emoji: '🟡', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
+             desc: { es: 'Con los datos, pero la temperatura roza el punto de cambio', en: 'Data shown, but the temperature grazes the change point', ca: 'Amb les dades, però la temperatura frega el punt de canvi' } },
+  dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' },
+             desc: { es: 'Sin los datos: hay que saberse la sustancia', en: 'No data: you have to know the substance', ca: 'Sense les dades: cal saber-se la substància' } },
+}
+
+// Un nivel de más o de menos aquí sería un botón que no hace nada: genRound
+// caería al nivel por defecto sin quejarse.
+if (import.meta.env.DEV && Object.keys(DIFS).join() !== Object.keys(DIFICULTADES).join()) {
+  console.warn('[cambio-estado] los niveles de la pantalla no coinciden con DIFICULTADES')
+}
+
 function IntroScreen({ onStart, l }) {
+  const [dif, setDif] = useState('facil')
   return (
     <div className="relative z-10 flex flex-col items-center min-h-[calc(100vh-4rem)] px-4 py-8">
       <div className="max-w-md w-full">
@@ -52,11 +75,23 @@ function IntroScreen({ onStart, l }) {
             <p>{T('q1', l)}</p>
             <p>{T('q2', l)}</p>
             <p>{T('q3', l)}</p>
+            <p>{T('q4', l)}</p>
             <p className="text-white/40 text-xs pt-1">⏱️ {GAME_TIME}s · {T('ptsVal', l)}</p>
           </div>
         </div>
 
-        <button onClick={onStart}
+        <p className="text-white/40 text-xs uppercase tracking-widest text-center mb-2">{T('nivel', l)}</p>
+        <div className="flex flex-wrap justify-center gap-1.5 p-1 bg-white/5 border border-white/10 rounded-xl mb-2">
+          {Object.entries(DIFS).map(([id, d]) => (
+            <button key={id} onClick={() => setDif(id)}
+              className={`flex items-center gap-1 px-3 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all ${dif === id ? 'bg-white/15 text-white shadow-sm' : 'text-white/40 hover:text-white/70'}`}>
+              {d.emoji} {tr(d.label, l)}
+            </button>
+          ))}
+        </div>
+        <p className="text-white/40 text-xs text-center mb-5">{tr(DIFS[dif].desc, l)}</p>
+
+        <button onClick={() => onStart(dif)}
           className="w-full py-3.5 rounded-2xl bg-[#EDAE49] text-black font-black text-lg hover:bg-amber-400 transition-colors">
           {T('start', l)}
         </button>
@@ -74,6 +109,7 @@ export default function CambioEstado() {
   const backPath = location.state?.backPath
 
   const [screen, setScreen] = useState('intro')
+  const [difficulty, setDifficulty] = useState('facil')
   const [timeLeft, setTimeLeft] = useState(GAME_TIME)
   const [correctCount, setCorrectCount] = useState(0)
   const [streak, setStreak] = useState(0)
@@ -87,20 +123,21 @@ export default function CambioEstado() {
   const correctRef = useRef(0)
   useEffect(() => { correctRef.current = correctCount }, [correctCount])
 
-  const next = useCallback(() => {
-    const r = genRound({ evitar: vistosRef.current })
+  const next = useCallback(dif => {
+    const r = genRound({ dificultad: dif, evitar: vistosRef.current })
     vistosRef.current = [r.id, ...vistosRef.current].slice(0, MEMORIA)
     setRound(r)
     setElegida(null)
     setPhase('choose')
   }, [])
 
-  const startGame = useCallback(() => {
+  const startGame = useCallback((dif = 'facil') => {
+    setDifficulty(dif)
     setScreen('playing')
     setCorrectCount(0); setStreak(0)
     setTimeLeft(GAME_TIME)
     vistosRef.current = []
-    next()
+    next(dif)
   }, [next])
 
   function finish() {
@@ -142,13 +179,13 @@ export default function CambioEstado() {
       setStreak(0)
       setTimeLeft(t => Math.max(0, t - WRONG_TIME))
     }
-    nextRef.current = setTimeout(next, REVEAL_MS)
+    nextRef.current = setTimeout(() => next(difficulty), REVEAL_MS)
   }
 
   const seo = {
-    es: { title: 'Cambio de Estado — Juego de los estados de la materia', desc: 'Sólido, líquido o gas: decide el estado de cada sustancia según su temperatura y sus puntos de fusión y ebullición. Con 30 sustancias reales, de metales a gases. Juego de química gratis.', path: '/juegos/cambio-estado' },
-    en: { title: 'Change of State — States of matter game', desc: 'Solid, liquid or gas: decide each substance\'s state from its temperature and its melting and boiling points. With 30 real substances, from metals to gases. Free chemistry game.', path: '/en/juegos/cambio-estado' },
-    ca: { title: 'Canvi d\'Estat — Joc dels estats de la matèria', desc: 'Sòlid, líquid o gas: decideix l\'estat de cada substància segons la temperatura i els seus punts de fusió i ebullició. Amb 30 substàncies reals, de metalls a gasos. Joc de química gratis.', path: '/ca/juegos/cambio-estado' },
+    es: { title: 'Cambio de Estado — Juego de los estados de la materia', desc: 'Sólido, líquido o gas: decide el estado de cada sustancia según su temperatura. Tres niveles, con los puntos de fusión y ebullición a la vista o tapados, y 30 sustancias reales. Juego de química gratis.', path: '/juegos/cambio-estado' },
+    en: { title: 'Change of State — States of matter game', desc: 'Solid, liquid or gas: decide each substance\'s state from its temperature. Three levels, with the melting and boiling points shown or hidden, and 30 real substances. Free chemistry game.', path: '/en/juegos/cambio-estado' },
+    ca: { title: 'Canvi d\'Estat — Joc dels estats de la matèria', desc: 'Sòlid, líquid o gas: decideix l\'estat de cada substància segons la temperatura. Tres nivells, amb els punts de fusió i ebullició a la vista o tapats, i 30 substàncies reals. Joc de química gratis.', path: '/ca/juegos/cambio-estado' },
   }[l]
 
   if (screen === 'intro') {
@@ -167,12 +204,15 @@ export default function CambioEstado() {
       : l === 'ca'
       ? `He encertat ${correctCount} a Canvi d'Estat 🌡️ — pots superar-me? https://tuthor.es/juegos/cambio-estado`
       : `He acertado ${correctCount} en Cambio de Estado 🌡️ — ¿puedes superarme? https://tuthor.es/juegos/cambio-estado`
-    const secondary = backPath ? [{ label: T('back', l), onClick: () => navigate(localPath(backPath)) }] : []
+    const secondary = [
+      { label: T('changeDif', l), onClick: () => setScreen('intro') },
+      ...(backPath ? [{ label: T('back', l), onClick: () => navigate(localPath(backPath)) }] : []),
+    ]
     return (
       <GameEndScreen game="cambio-estado" emoji="🌡️" title={T('end', l)} score={pts} message={msg}
         stats={[{ label: T('hits', l), value: correctCount, emoji: '✅' }]}
         shareText={shareText} user={user} lang={l}
-        onPlayAgain={startGame} secondaryActions={secondary} />
+        onPlayAgain={() => startGame(difficulty)} secondaryActions={secondary} />
     )
   }
 
@@ -196,7 +236,7 @@ export default function CambioEstado() {
 
       <div className="w-full max-w-[520px] flex items-center justify-between mb-3 px-1">
         <div>
-          <p className="text-white/40 text-xs uppercase tracking-widest">🌡️ {T('badge', l)}</p>
+          <p className="text-white/40 text-xs uppercase tracking-widest">{DIFS[difficulty].emoji} {tr(DIFS[difficulty].label, l)}</p>
           <p className="text-white font-bold text-lg flex items-center gap-2">
             {correctCount} {T('scoreLbl', l)}
             {streak >= 2 && <span className="text-orange-400 text-sm font-black">🔥 {streak}</span>}
@@ -219,10 +259,13 @@ export default function CambioEstado() {
 
       <p className="text-white text-2xl font-black mb-1">{tr(round.sustancia.nombre, l)}</p>
       <p className="text-[#EDAE49] text-3xl font-black mb-2">{round.temp} °C</p>
-      {/* Los puntos van SIEMPRE a la vista: el juego no es memorizarlos, es
-          saber dónde cae la temperatura respecto a ellos. */}
-      <p className="text-white/40 text-xs mb-4 text-center">
-        {T('funde', l)} {round.sustancia.fusion} °C · {T('hierve', l)} {round.sustancia.ebullicion} °C
+      {/* En fácil y medio los puntos están a la vista: ahí el juego no es
+          memorizarlos, es saber dónde cae la temperatura respecto a ellos. En
+          difícil se tapan y salen al corregir, para que se aprendan igual. */}
+      <p className="text-white/40 text-xs mb-4 text-center px-4">
+        {round.ocultar && !isResult
+          ? <span className="text-white/30">🔒 {T('oculto', l)}</span>
+          : <>{T('funde', l)} {round.sustancia.fusion} °C · {T('hierve', l)} {round.sustancia.ebullicion} °C</>}
       </p>
 
       {isResult && (

@@ -4,18 +4,23 @@ import { ESTADOS } from '../data/sustancias'
 import { ESTADO_IDS, genRound, esCorrecta } from '../lib/cambioEstado'
 
 // Examen con la MECÁNICA del juego: misma pregunta, sin reloj y con nota.
-// Comparte genRound con el arcade, así que las 30 sustancias y la garantía de
-// que ninguna temperatura cae justo en un punto de cambio valen para los dos.
-const NIVEL_UNICO = [{
-  key: 'todos', emoji: '🌡️',
-  label: { es: 'Empezar', en: 'Start', ca: 'Començar' },
-  hint: { es: '10 sustancias, de metales a gases', en: '10 substances, from metals to gases', ca: '10 substàncies, de metalls a gasos' },
-}]
+// Comparte genRound con el arcade, así que las 30 sustancias, los niveles y la
+// garantía de que ninguna temperatura cae justo en un punto de cambio valen
+// para los dos. El nivel llega a genRound como la clave del nivel elegido.
+const NIVELES = [
+  { key: 'medio', emoji: '🌡️', difficulty: 'medio',
+    label: { es: 'Con los datos', en: 'With the data', ca: 'Amb les dades' },
+    hint: { es: 'Se ven los puntos de fusión y ebullición: hay que leerlos bien', en: 'Melting and boiling points are shown: you have to read them carefully', ca: 'Es veuen els punts de fusió i ebullició: cal llegir-los bé' } },
+  { key: 'dificil', emoji: '🔴', difficulty: 'dificil',
+    label: { es: 'Sin los datos', en: 'Without the data', ca: 'Sense les dades' },
+    hint: { es: 'Los puntos están tapados: hay que conocer la sustancia', en: 'The points are hidden: you have to know the substance', ca: 'Els punts estan tapats: cal conèixer la substància' } },
+]
 
 const T = {
   objetivo: { es: '¿En qué estado está?', en: 'What state is it in?', ca: 'En quin estat és?' },
   funde: { es: 'Se funde a', en: 'Melts at', ca: 'Es fon a' },
   hierve: { es: 'Hierve a', en: 'Boils at', ca: 'Bull a' },
+  oculto: { es: 'Sin los datos: ¿conoces la sustancia?', en: 'No data: do you know the substance?', ca: 'Sense les dades: coneixes la substància?' },
   correcto: { es: '✓ Correcto', en: '✓ Correct', ca: '✓ Correcte' },
   incorrecto: { es: '✗ Incorrecto', en: '✗ Incorrect', ca: '✗ Incorrecte' },
 }
@@ -38,8 +43,10 @@ function Question({ round, phase, answer, onAnswer, l }) {
       <p className="text-white/40 text-xs uppercase tracking-widest text-center mb-2">{t('objetivo', l)}</p>
       <p className="text-white text-2xl font-black text-center">{tr(round.sustancia.nombre, l)}</p>
       <p className="text-[#EDAE49] text-3xl font-black text-center mb-1">{round.temp} °C</p>
-      <p className="text-white/40 text-xs text-center mb-4">
-        {t('funde', l)} {round.sustancia.fusion} °C · {t('hierve', l)} {round.sustancia.ebullicion} °C
+      <p className="text-white/40 text-xs text-center mb-4 px-2">
+        {round.ocultar && !reveal
+          ? <span className="text-white/30">🔒 {t('oculto', l)}</span>
+          : <>{t('funde', l)} {round.sustancia.fusion} °C · {t('hierve', l)} {round.sustancia.ebullicion} °C</>}
       </p>
 
       {reveal && (
@@ -79,16 +86,16 @@ export default function CambioEstadoExamen() {
       sub={{ es: 'Sólido, líquido o gas según la temperatura', en: 'Solid, liquid or gas by temperature', ca: 'Sòlid, líquid o gas segons la temperatura' }}
       metaTitle={{ es: 'Examen de estados de la materia — sólido, líquido y gas', en: 'States of matter exam — solid, liquid and gas', ca: 'Examen d\'estats de la matèria — sòlid, líquid i gas' }}
       metaDesc={{
-        es: 'Examen de estados de la materia con la mecánica del juego: di si cada sustancia está sólida, líquida o gaseosa a una temperatura dada, con sus puntos de fusión y ebullición a la vista. 10 preguntas, sin tiempo y con explicación.',
-        en: 'States of matter exam using the game mechanic: say whether each substance is solid, liquid or gas at a given temperature, with its melting and boiling points shown. 10 questions, no timer, with explanations.',
-        ca: 'Examen d\'estats de la matèria amb la mecànica del joc: digues si cada substància és sòlida, líquida o gasosa a una temperatura donada. 10 preguntes, sense temps i amb explicació.',
+        es: 'Examen de estados de la materia con la mecánica del juego: di si cada sustancia está sólida, líquida o gaseosa a una temperatura dada. Dos niveles, con los puntos de fusión y ebullición a la vista o tapados. 10 preguntas, sin tiempo y con explicación.',
+        en: 'States of matter exam using the game mechanic: say whether each substance is solid, liquid or gas at a given temperature. Two levels, with the melting and boiling points shown or hidden. 10 questions, no timer, with explanations.',
+        ca: 'Examen d\'estats de la matèria amb la mecànica del joc: digues si cada substància és sòlida, líquida o gasosa a una temperatura donada. Dos nivells, amb els punts a la vista o tapats. 10 preguntes, sense temps.',
       }}
       metaPath="/examen/cambio-estado-test"
       subjectSchema="Química"
       backGamePath="/juegos/cambio-estado"
       playLabel={{ es: 'Modo arcade', en: 'Arcade mode', ca: 'Mode arcade' }}
-      levels={NIVEL_UNICO}
-      genRound={() => genRound()}
+      levels={NIVELES}
+      genRound={dificultad => genRound({ dificultad })}
       isCorrect={(round, answer) => esCorrecta(round, answer)}
       renderQuestion={({ round, phase, answer, onAnswer, l, qIndex }) => (
         <Question key={qIndex} round={round} phase={phase} answer={answer} onAnswer={onAnswer} l={l} />

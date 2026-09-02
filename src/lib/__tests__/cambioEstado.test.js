@@ -4,8 +4,10 @@
 // estado y no está "en" uno: la pregunta no tendría respuesta correcta, y el
 // alumno fallaría algo que en realidad sabe.
 import { it, expect } from 'vitest'
-import { SUSTANCIAS, CAMBIOS } from '../../data/sustancias'
-import { estadoA, genRound, genRoundCambio, esCorrecta, opcionesCambio } from '../cambioEstado'
+import { SUSTANCIAS, CAMBIOS, CONOCIDAS } from '../../data/sustancias'
+import { estadoA, DIFICULTADES, genRound, genRoundCambio, esCorrecta, opcionesCambio } from '../cambioEstado'
+
+const NIVELES = Object.keys(DIFICULTADES)
 
 it('los datos de cada sustancia son coherentes', () => {
   const ids = new Set()
@@ -30,9 +32,9 @@ it('los seis cambios de estado están y no se repiten', () => {
   }
 })
 
-it('ninguna ronda cae justo en un punto de cambio', () => {
+it.each(NIVELES)('en nivel %s ninguna ronda cae justo en un punto de cambio', nivel => {
   for (let i = 0; i < 800; i++) {
-    const r = genRound()
+    const r = genRound({ dificultad: nivel })
     const { sustancia: s, temp } = r
     expect(temp, `${s.id}: temperatura exactamente en la fusión`).not.toBe(s.fusion)
     expect(temp, `${s.id}: temperatura exactamente en la ebullición`).not.toBe(s.ebullicion)
@@ -42,10 +44,47 @@ it('ninguna ronda cae justo en un punto de cambio', () => {
   }
 })
 
-it('el juego saca los tres estados', () => {
+it.each(NIVELES)('el nivel %s saca los tres estados', nivel => {
   const vistos = new Set()
-  for (let i = 0; i < 600; i++) vistos.add(genRound().respuesta)
+  for (let i = 0; i < 600; i++) vistos.add(genRound({ dificultad: nivel }).respuesta)
   expect([...vistos].sort()).toEqual(['gas', 'liquido', 'solido'])
+})
+
+// El nivel difícil tapa los puntos, así que la pregunta solo se sostiene si la
+// sustancia es de las que se pueden razonar sin verlos. Si alguien mete una
+// sustancia rara en ese sorteo, el examen pasa a medir memoria.
+it('el nivel difícil oculta los datos y solo usa sustancias conocidas', () => {
+  for (let i = 0; i < 400; i++) {
+    const r = genRound({ dificultad: 'dificil' })
+    expect(r.ocultar).toBe(true)
+    expect(CONOCIDAS.has(r.id), `${r.id} no es una sustancia de libro`).toBe(true)
+  }
+})
+
+it('los niveles con los datos a la vista no los ocultan', () => {
+  for (const nivel of ['facil', 'medio']) {
+    expect(genRound({ dificultad: nivel }).ocultar).toBe(false)
+  }
+})
+
+// La diferencia entre fácil y medio no es cosmética: en fácil la temperatura se
+// mantiene lejos del punto de cambio y en medio puede rozarlo. Si esto se
+// rompiera, los tres niveles serían el mismo juego con otro nombre.
+it('fácil deja más margen que medio', () => {
+  const margen = nivel => {
+    let peor = Infinity
+    for (let i = 0; i < 600; i++) {
+      const { sustancia: s, temp } = genRound({ dificultad: nivel })
+      peor = Math.min(peor, Math.abs(temp - s.fusion), Math.abs(temp - s.ebullicion))
+    }
+    return peor
+  }
+  expect(margen('facil')).toBeGreaterThan(margen('medio'))
+})
+
+it('una dificultad desconocida no rompe el juego', () => {
+  const r = genRound({ dificultad: 'inventada' })
+  expect(r.respuesta).toBe(estadoA(r.sustancia, r.temp))
 })
 
 // El vocabulario de los cambios ya NO está en el juego: vive en su propio
