@@ -111,3 +111,16 @@ export async function getAttendanceMonth(classId, fecha = new Date()) {
   }
   return dias
 }
+
+// Un rango arbitrario (un trimestre, un curso entero) en vez de un solo mes.
+// Mismo patrón que getAttendanceMonth —traer la subcolección entera y filtrar
+// en el cliente—, y la comparación funciona sin más porque los ids son
+// 'YYYY-MM-DD': ese formato ordena igual como texto que como fecha.
+export async function getAttendanceRange(classId, desdeISO, hastaISO) {
+  const snap = await getDocs(collection(db, 'classes', classId, 'attendance'))
+  const dias = {}
+  for (const d of snap.docs) {
+    if (d.id >= desdeISO && d.id <= hastaISO) dias[d.id] = d.data().marks ?? {}
+  }
+  return dias
+}

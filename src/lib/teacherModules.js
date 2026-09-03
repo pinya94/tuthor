@@ -51,6 +51,15 @@ export const TEACHER_MODULES = {
       ca: 'El quadern del professor: anotacions datades per alumne, marcades com a positives, neutres o negatives. Només les veus tu.',
     },
   },
+  boletin: {
+    emoji: '📄', nucleo: false, porDefecto: false,
+    label: { es: 'Boletín', en: 'Report', ca: 'Butlletí' },
+    desc: {
+      es: 'Un informe por alumno y trimestre listo para imprimir o guardar en PDF: junta las notas, la asistencia y las observaciones en una sola página para la familia.',
+      en: 'A per-student, per-term report ready to print or save as a PDF: grades, attendance and notes together on one page for the family.',
+      ca: 'Un informe per alumne i trimestre llest per imprimir o desar en PDF: notes, assistència i observacions en una sola pàgina per a la família.',
+    },
+  },
   deberes: {
     emoji: '📚', nucleo: true, porDefecto: true,
     label: { es: 'Deberes', en: 'Homework', ca: 'Deures' },

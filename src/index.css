@@ -37,3 +37,18 @@ button, [role="button"] {
   .frame-animated { animation: none; }
   [class*="animate-[railIn"] { animation: none; }
 }
+
+/* "Imprimir solo esto": al imprimir (o "Guardar como PDF", que en el
+   navegador pasa por aquí), oculta toda la página salvo el elemento marcado
+   con .imprimir-solo-esto y lo que hay dentro. Sin esto se imprimiría
+   también el fondo animado, la barra de navegación y el resto de la app —
+   el truco de "todo invisible salvo un contenedor" funciona sin tener que
+   tocar el layout de cada página que lo use. Lo usa el boletín para
+   familias; cualquier vista futura que necesite imprimirse puede reutilizar
+   las mismas dos clases. */
+@media print {
+  body * { visibility: hidden; }
+  .imprimir-solo-esto, .imprimir-solo-esto * { visibility: visible; }
+  .imprimir-solo-esto { position: absolute; left: 0; top: 0; width: 100%; }
+  .no-imprimir { display: none !important; }
+}

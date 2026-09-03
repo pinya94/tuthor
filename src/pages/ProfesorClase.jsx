@@ -16,6 +16,7 @@ import AulaPupitres from '../components/AulaPupitres'
 import Asistencia from '../components/Asistencia'
 import Notas from '../components/Notas'
 import Observaciones from '../components/Observaciones'
+import BoletinFamilias from '../components/BoletinFamilias'
 import { EXAMS, examGroupLabel } from '../lib/exams'
 import { hasTopics, topicIds, topicFormats, formatLevels, topicTask, catalogTaskLabel, examsCoveredByTopics, LEVELS } from '../lib/topicCatalog'
 
@@ -484,6 +485,10 @@ export default function ProfesorClase() {
 
       {tab === 'observaciones' && (
         <Observaciones classId={classId} students={alumnosYFichas} lang={lang} tr={tr} />
+      )}
+
+      {tab === 'boletin' && (
+        <BoletinFamilias classId={classId} claseName={clase.name} students={alumnosYFichas} lang={lang} tr={tr} />
       )}
 
       {tab === 'ajustes' && (
