@@ -159,3 +159,26 @@ export async function joinClassByCode(studentUid, rawCode) {
   await batch.commit()
   return { ok: true, classId }
 }
+
+// ── Aula: módulos y plano de pupitres ────────────────────────────────────────
+// Los dos viven en el propio doc de la clase y no en subcolecciones porque se
+// leen SIEMPRE con ella (la pestaña activa depende de los módulos, y el plano
+// se pinta en cuanto entras): una subcolección sería una lectura extra por
+// cada visita para guardar dos objetos pequeños.
+//
+// firestore.rules limita al profesor a tocar name/modules/seating/updatedAt de
+// su clase, así que estas dos funciones son las únicas escrituras posibles
+// desde el cliente. Cambiar esa lista exige desplegar las rules a mano:
+//   npx firebase-tools deploy --only firestore:rules
+export async function setClassModules(classId, modules) {
+  await updateDoc(doc(db, 'classes', classId), { modules, updatedAt: serverTimestamp() })
+}
+
+// seating = { rows, cols, spots: { uid: índice } }, con índice = fila*cols+col.
+// Se guarda uid → sitio y no sitio → uid a propósito: un alumno solo puede
+// estar en un sitio, y así es imposible representar lo contrario. Al pintar se
+// invierte (mesas() en src/lib/seating.js, que es donde vive toda la lógica
+// del plano y donde están sus tests).
+export async function setClassSeating(classId, seating) {
+  await updateDoc(doc(db, 'classes', classId), { seating, updatedAt: serverTimestamp() })
+}

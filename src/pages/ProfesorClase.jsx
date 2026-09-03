@@ -4,11 +4,14 @@ import { doc, getDoc } from 'firebase/firestore'
 import { db } from '../lib/firebase'
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
-import { getClassWithStudents } from '../lib/classes'
+import { getClassWithStudents, setClassModules, setClassSeating } from '../lib/classes'
+import { TEACHER_MODULES, MODULE_IDS, enabledModuleIds, moduleEnabled } from '../lib/teacherModules'
 import { getStatsAndCosmetics, formatTime } from '../lib/activity'
 import { aggregateStudentStats, SUBJECTS } from '../lib/statsAggregation'
 import { getClassAssignments, createAssignment, markManualCompletion } from '../lib/assignments'
 import { GAMES } from '../lib/games'
+import StudentSubjects from '../components/StudentSubjects'
+import AulaPupitres from '../components/AulaPupitres'
 import { EXAMS, examGroupLabel } from '../lib/exams'
 import { hasTopics, topicIds, topicFormats, formatLevels, topicTask, catalogTaskLabel, examsCoveredByTopics, LEVELS } from '../lib/topicCatalog'
 
@@ -53,69 +56,6 @@ async function loadStudent(uid, lang) {
     coins: stats?.coins ?? 0,
     totalTime: stats?.totalTime ?? 0,
   }
-}
-
-// Desglose por materia de un alumno: activo/expandido para ver examen a
-// examen (aprobados/suspensos), igual que en el propio Perfil.jsx.
-function StudentSubjects({ subjectEntries, lang, tr }) {
-  const [expanded, setExpanded] = useState(null)
-
-  if (subjectEntries.length === 0) {
-    return <p className="text-white/30 text-xs">{tr({ es: 'Sin actividad todavía', en: 'No activity yet', ca: 'Sense activitat encara' })}</p>
-  }
-
-  return (
-    <div className="border border-white/10 rounded-xl overflow-hidden bg-black/20">
-      {subjectEntries.map((subj, i) => {
-        const subjLabel = subj.label[lang] || subj.label.es
-        const isOpen = expanded === subj.id
-        const failed = subj.totalExamPlays - subj.totalPassed
-        return (
-          <div key={subj.id} className={i < subjectEntries.length - 1 ? 'border-b border-white/10' : ''}>
-            <button
-              type="button"
-              onClick={() => setExpanded(isOpen ? null : subj.id)}
-              className="w-full flex items-center gap-2.5 px-3 py-2.5 text-left hover:bg-white/5 transition-colors"
-            >
-              <span className="text-lg w-6 text-center shrink-0">{subj.emoji}</span>
-              <div className="flex-1 min-w-0">
-                <p className="text-white text-[13.5px] font-bold">{subjLabel}</p>
-                <p className="text-white/45 text-[11.5px] mt-0.5 flex gap-2 flex-wrap items-center">
-                  <span>{subj.totalPlays} {tr({ es: 'actividades', en: 'activities', ca: 'activitats' })}</span>
-                  {subj.totalExamPlays > 0 && <span className="text-green-400 font-bold">{subj.totalPassed} ✅</span>}
-                  {failed > 0 && <span className="text-red-400 font-bold">{failed} ❌</span>}
-                </p>
-              </div>
-              {(subj.timeSpent || 0) > 0 && (
-                <span className="text-white/60 text-[12px] font-semibold whitespace-nowrap">{formatTime(subj.timeSpent)}</span>
-              )}
-              <span className={`text-white/45 text-xs ml-1 transition-transform ${isOpen ? 'rotate-180' : ''}`}>▾</span>
-            </button>
-            {isOpen && subj.examRows.length > 0 && (
-              <div className="px-3 pb-2.5 pl-[42px]">
-                {subj.examRows.map(row => {
-                  const rowFailed = row.plays - row.passed
-                  return (
-                    <div key={row.id} className="flex items-center gap-2 py-1 border-b border-white/5 last:border-0">
-                      <span className="flex-1 text-white/60 text-[12px]">{row.label}</span>
-                      <span className="text-white/45 text-[11.5px] font-semibold">{row.plays}×</span>
-                      <span className="text-green-400 text-[11.5px] font-extrabold">{row.passed} ✅</span>
-                      {rowFailed > 0 && <span className="text-red-400 text-[11.5px] font-extrabold">{rowFailed} ❌</span>}
-                    </div>
-                  )
-                })}
-              </div>
-            )}
-            {isOpen && subj.examRows.length === 0 && subj.gameStats.plays > 0 && (
-              <p className="px-3 pb-2.5 pl-[42px] text-white/45 text-[12px]">
-                {tr({ es: 'Sin exámenes realizados', en: 'No exams taken', ca: 'Sense exàmens fets' })}
-              </p>
-            )}
-          </div>
-        )
-      })}
-    </div>
-  )
 }
 
 // Una tarea asignada: progreso agregado + detalle por alumno al expandir.
@@ -177,6 +117,104 @@ function TaskCard({ task, studentsByUid, lang, tr, onToggleManual }) {
   )
 }
 
+// La barra de pestañas. Solo enseña los módulos activos de ESTA clase, y el
+// engranaje del final es lo único que aparece siempre: si un profesor apaga
+// todo menos lo imprescindible, tiene que poder volver a encenderlo.
+function BarraModulos({ ids, tab, onTab, lang }) {
+  return (
+    <div className="flex items-center gap-1 mb-6 border-b border-white/10 overflow-x-auto">
+      {ids.map(id => {
+        const m = TEACHER_MODULES[id]
+        const activo = tab === id
+        return (
+          <button key={id} type="button" onClick={() => onTab(id)}
+            className={`shrink-0 px-3 sm:px-4 py-2.5 text-[13px] font-bold border-b-2 -mb-px transition-colors ${
+              activo ? 'border-teal-500 text-white' : 'border-transparent text-white/40 hover:text-white/70'
+            }`}>
+            {m.emoji} {m.label[lang] || m.label.es}
+          </button>
+        )
+      })}
+      <button type="button" onClick={() => onTab('ajustes')}
+        title="Módulos"
+        className={`shrink-0 ml-auto px-3 py-2.5 text-[13px] border-b-2 -mb-px transition-colors ${
+          tab === 'ajustes' ? 'border-teal-500 text-white' : 'border-transparent text-white/30 hover:text-white/60'
+        }`}>
+        ⚙️
+      </button>
+    </div>
+  )
+}
+
+// Qué módulos ve esta clase. Los de núcleo salen bloqueados y explicando por
+// qué: es menos frustrante que un interruptor que no responde.
+function AjustesModulos({ clase, onSave, lang, tr }) {
+  const [guardando, setGuardando] = useState(false)
+  const [error, setError] = useState('')
+
+  async function alternar(id) {
+    if (TEACHER_MODULES[id].nucleo) return
+    const modules = Object.fromEntries(MODULE_IDS.map(m => [m, m === id ? !moduleEnabled(clase, m) : moduleEnabled(clase, m)]))
+    setGuardando(true); setError('')
+    try {
+      await onSave(modules)
+    } catch {
+      setError(tr({ es: 'No se pudieron guardar los módulos.', en: 'Could not save the modules.', ca: "No s'han pogut desar els mòduls." }))
+    }
+    setGuardando(false)
+  }
+
+  return (
+    <section>
+      <h2 className="font-black text-[15px] uppercase tracking-wide text-white/50 mb-1">
+        {tr({ es: 'Módulos de esta clase', en: 'Modules for this class', ca: "Mòduls d'aquesta classe" })}
+      </h2>
+      <p className="text-white/30 text-[12.5px] mb-4">
+        {tr({
+          es: 'Enciende solo lo que uses. Lo que apagues desaparece de las pestañas, pero no se borra: sus datos siguen ahí si vuelves a encenderlo.',
+          en: 'Turn on only what you use. Anything you turn off leaves the tab bar but is not deleted: its data is still there if you turn it back on.',
+          ca: "Encén només el que facis servir. El que apaguis desapareix de les pestanyes, però no s'esborra: les dades hi continuen si el tornes a encendre.",
+        })}
+      </p>
+
+      {error && <p className="text-red-400 text-[12.5px] mb-3">{error}</p>}
+
+      <div className="space-y-2">
+        {MODULE_IDS.map(id => {
+          const m = TEACHER_MODULES[id]
+          const on = moduleEnabled(clase, id)
+          return (
+            <button key={id} type="button" onClick={() => alternar(id)} disabled={m.nucleo || guardando}
+              className={`w-full text-left flex items-start gap-3 rounded-xl border p-3.5 transition-colors ${
+                m.nucleo ? 'border-white/10 bg-white/[0.02] cursor-default' : on
+                  ? 'border-teal-500/40 bg-teal-500/[0.07] hover:bg-teal-500/10'
+                  : 'border-white/10 bg-white/[0.02] hover:bg-white/5'
+              }`}>
+              <span className="text-xl shrink-0 mt-0.5">{m.emoji}</span>
+              <div className="flex-1 min-w-0">
+                <p className="text-white font-bold text-[13.5px]">
+                  {m.label[lang] || m.label.es}
+                  {m.nucleo && (
+                    <span className="text-white/30 font-semibold text-[11px] ml-2">
+                      {tr({ es: 'siempre activo', en: 'always on', ca: 'sempre actiu' })}
+                    </span>
+                  )}
+                </p>
+                <p className="text-white/40 text-[12px] mt-0.5">{m.desc[lang] || m.desc.es}</p>
+              </div>
+              <span className={`shrink-0 mt-1 w-9 h-5 rounded-full border transition-colors relative ${
+                on ? 'bg-teal-500 border-teal-400' : 'bg-white/5 border-white/15'
+              }`}>
+                <span className={`absolute top-0.5 w-3.5 h-3.5 rounded-full bg-white transition-all ${on ? 'left-[18px]' : 'left-0.5'}`} />
+              </span>
+            </button>
+          )
+        })}
+      </div>
+    </section>
+  )
+}
+
 export default function ProfesorClase() {
   const { classId } = useParams()
   const { user } = useAuth()
@@ -203,6 +241,9 @@ export default function ProfesorClase() {
   const [creatingTask, setCreatingTask] = useState(false)
   const [taskError, setTaskError] = useState('')
   const [expandedStudent, setExpandedStudent] = useState(null)
+  // La pestaña se elige al cargar la clase (loadClase), no aquí: hasta
+  // entonces no se sabe qué módulos tiene activos.
+  const [tab, setTab] = useState(null)
 
   useEffect(() => {
     if (user === undefined) return
@@ -217,6 +258,7 @@ export default function ProfesorClase() {
       const c = await getClassWithStudents(classId)
       if (!c || c.teacherId !== user.uid) { navigate(localPath('/profesor'), { replace: true }); return }
       setClase(c)
+      setTab(t => t ?? enabledModuleIds(c)[0] ?? 'ajustes')
       const list = await Promise.all((c.studentIds || []).map(uid => loadStudent(uid, lang)))
       setStudents(list)
       await loadAssignments()
@@ -224,6 +266,19 @@ export default function ProfesorClase() {
       setError(tr({ es: 'No se pudo cargar la clase.', en: 'Could not load the class.', ca: 'No s\'ha pogut carregar la classe.' }))
     }
     setLoading(false)
+  }
+
+  async function guardarModulos(modules) {
+    await setClassModules(classId, modules)
+    setClase(c => ({ ...c, modules }))
+    // Si el profesor apaga la pestaña en la que está, hay que sacarlo de ahí:
+    // quedarse en una pestaña que ya no existe deja la página en blanco.
+    setTab(t => (t === 'ajustes' || modules[t] !== false ? t : (enabledModuleIds({ modules })[0] ?? 'ajustes')))
+  }
+
+  async function guardarPlano(seating) {
+    await setClassSeating(classId, seating)
+    setClase(c => ({ ...c, seating }))
   }
 
   async function loadAssignments() {
@@ -347,7 +402,18 @@ export default function ProfesorClase() {
         <StatTile label={tr({ es: 'Monedas totales', en: 'Total coins', ca: 'Monedes totals' })} value={totalCoins.toLocaleString()} />
       </div>
 
-      {/* ── TAREAS ── */}
+      <BarraModulos ids={enabledModuleIds(clase)} tab={tab} onTab={setTab} lang={lang} />
+
+      {tab === 'aula' && (
+        <AulaPupitres clase={clase} students={students} onSave={guardarPlano} lang={lang} tr={tr} />
+      )}
+
+      {tab === 'ajustes' && (
+        <AjustesModulos clase={clase} onSave={guardarModulos} lang={lang} tr={tr} />
+      )}
+
+      {/* ── DEBERES ── */}
+      {tab === 'deberes' && (
       <section className="mb-8">
         <div className="flex items-center justify-between gap-3 mb-3">
           <h2 className="font-black text-white text-[15px] uppercase tracking-wide text-white/50">{tr({ es: 'Tareas', en: 'Tasks', ca: 'Tasques' })}</h2>
@@ -521,7 +587,10 @@ export default function ProfesorClase() {
           </div>
         )}
       </section>
+      )}
 
+      {/* ── ALUMNOS ── */}
+      {tab === 'alumnos' && (
       <section>
         <h2 className="font-black text-[15px] uppercase tracking-wide text-white/50 mb-3">{tr({ es: 'Alumnos', en: 'Students', ca: 'Alumnes' })}</h2>
 
@@ -565,6 +634,7 @@ export default function ProfesorClase() {
           </div>
         )}
       </section>
+      )}
 
       </div>
     </div>
