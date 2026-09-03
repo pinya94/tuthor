@@ -1,9 +1,10 @@
-import { db } from './firebase'
+import { db, auth } from './firebase'
 import {
-  doc, collection, getDoc, setDoc, updateDoc,
+  doc, collection, getDoc, setDoc, updateDoc, deleteField,
   runTransaction, writeBatch, arrayUnion, serverTimestamp,
   query, where, getDocs,
 } from 'firebase/firestore'
+import { generarIdFicha } from './roster'
 
 // ── Alta de profesor ─────────────────────────────────────────────────────────
 // "Profesor" es una capacidad que se activa sobre una cuenta ya existente
@@ -166,9 +167,10 @@ export async function joinClassByCode(studentUid, rawCode) {
 // se pinta en cuanto entras): una subcolección sería una lectura extra por
 // cada visita para guardar dos objetos pequeños.
 //
-// firestore.rules limita al profesor a tocar name/modules/seating/updatedAt de
-// su clase, así que estas dos funciones son las únicas escrituras posibles
-// desde el cliente. Cambiar esa lista exige desplegar las rules a mano:
+// firestore.rules limita al profesor a tocar name/modules/seating/roster/
+// updatedAt de su clase, así que estas y las de roster (más abajo) son las
+// únicas escrituras posibles desde el cliente. Cambiar esa lista exige
+// desplegar las rules a mano:
 //   npx firebase-tools deploy --only firestore:rules
 export async function setClassModules(classId, modules) {
   await updateDoc(doc(db, 'classes', classId), { modules, updatedAt: serverTimestamp() })
@@ -181,4 +183,49 @@ export async function setClassModules(classId, modules) {
 // del plano y donde están sus tests).
 export async function setClassSeating(classId, seating) {
   await updateDoc(doc(db, 'classes', classId), { seating, updatedAt: serverTimestamp() })
+}
+
+// ── Fichas de alumnos sin cuenta ─────────────────────────────────────────────
+// Viven en el propio doc de la clase, en `roster` (mismo motivo que modules y
+// seating: se leen siempre junto con ella). Ver src/lib/roster.js para la
+// lógica de qué es una ficha y cómo se convierte en "un alumno más" de cara
+// al aula, la asistencia y las notas.
+export async function addClassPlaceholder(classId, name) {
+  const id = generarIdFicha()
+  await updateDoc(doc(db, 'classes', classId), {
+    [`roster.${id}`]: { name, addedAt: serverTimestamp() },
+    updatedAt: serverTimestamp(),
+  })
+  return id
+}
+
+// Solo para deshacer un alta por error, ANTES de que alguien la reclame: una
+// vez fusionada (api/merge-placeholder.js) la ficha ya no está en `roster` y
+// esto no tendría nada que borrar.
+export async function removeClassPlaceholder(classId, id) {
+  await updateDoc(doc(db, 'classes', classId), {
+    [`roster.${id}`]: deleteField(),
+    updatedAt: serverTimestamp(),
+  })
+}
+
+// El alumno reclama una ficha como suya: traslada su sitio en el plano, sus
+// faltas y sus notas al uid real. Vive en el servidor (api/merge-placeholder.js)
+// porque el alumno no tiene permiso de escritura sobre attendance ni
+// gradeColumns con el SDK de cliente — son teacher-only en firestore.rules, y
+// con razón: si pudiera escribir ahí, podría cambiarse sus propias faltas.
+export async function claimClassPlaceholder(classId, placeholderId) {
+  const user = auth.currentUser
+  if (!user) throw new Error('not_signed_in')
+  const idToken = await user.getIdToken()
+  const res = await fetch('/api/merge-placeholder', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${idToken}` },
+    body: JSON.stringify({ classId, placeholderId }),
+  })
+  if (!res.ok) {
+    const { error } = await res.json().catch(() => ({}))
+    throw new Error(error ?? 'unknown')
+  }
+  return res.json() // { ok: true, name }
 }

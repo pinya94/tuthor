@@ -4,7 +4,8 @@ import { doc, getDoc } from 'firebase/firestore'
 import { db } from '../lib/firebase'
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
-import { getClassWithStudents, setClassModules, setClassSeating } from '../lib/classes'
+import { getClassWithStudents, setClassModules, setClassSeating, addClassPlaceholder, removeClassPlaceholder } from '../lib/classes'
+import { fichasDe, comoAlumno } from '../lib/roster'
 import { TEACHER_MODULES, MODULE_IDS, enabledModuleIds, moduleEnabled } from '../lib/teacherModules'
 import { getStatsAndCosmetics, formatTime } from '../lib/activity'
 import { aggregateStudentStats, SUBJECTS } from '../lib/statsAggregation'
@@ -243,6 +244,9 @@ export default function ProfesorClase() {
   const [creatingTask, setCreatingTask] = useState(false)
   const [taskError, setTaskError] = useState('')
   const [expandedStudent, setExpandedStudent] = useState(null)
+  const [nuevaFicha, setNuevaFicha] = useState('')
+  const [creandoFicha, setCreandoFicha] = useState(false)
+  const [errorFicha, setErrorFicha] = useState('')
   // La pestaña se elige al cargar la clase (loadClase), no aquí: hasta
   // entonces no se sabe qué módulos tiene activos.
   const [tab, setTab] = useState(null)
@@ -281,6 +285,36 @@ export default function ProfesorClase() {
   async function guardarPlano(seating) {
     await setClassSeating(classId, seating)
     setClase(c => ({ ...c, seating }))
+  }
+
+  async function anadirFicha(e) {
+    e.preventDefault()
+    const nombre = nuevaFicha.trim()
+    if (!nombre) return
+    setCreandoFicha(true); setErrorFicha('')
+    try {
+      const id = await addClassPlaceholder(classId, nombre)
+      setClase(c => ({ ...c, roster: { ...(c.roster || {}), [id]: { name: nombre } } }))
+      setNuevaFicha('')
+    } catch {
+      setErrorFicha(tr({ es: 'No se pudo crear la ficha.', en: 'Could not create the placeholder.', ca: 'No s\'ha pogut crear la fitxa.' }))
+    }
+    setCreandoFicha(false)
+  }
+
+  async function quitarFicha(id) {
+    const previa = clase.roster
+    setClase(c => {
+      const roster = { ...c.roster }
+      delete roster[id]
+      return { ...c, roster }
+    })
+    try {
+      await removeClassPlaceholder(classId, id)
+    } catch {
+      setClase(c => ({ ...c, roster: previa }))
+      setErrorFicha(tr({ es: 'No se pudo quitar la ficha.', en: 'Could not remove the placeholder.', ca: 'No s\'ha pogut treure la fitxa.' }))
+    }
   }
 
   async function loadAssignments() {
@@ -379,6 +413,14 @@ export default function ProfesorClase() {
     : null
   const totalCoins = students.reduce((a, s) => a + (s.coins || 0), 0)
 
+  // Alumnos reales + fichas sin cuenta, para Aula/Asistencia/Notas: ahí una
+  // ficha es "un alumno más" (se sienta, se le pasa lista, se le pone nota).
+  // `students` a secas se deja intacto para lo demás — en particular, para
+  // asignar Deberes: una ficha no tiene cuenta con la que jugar un juego ni
+  // examen, así que no debe poder elegirse como destinataria de una tarea.
+  const fichas = clase ? fichasDe(clase).map(comoAlumno) : []
+  const alumnosYFichas = [...students, ...fichas]
+
   return (
     <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 py-8">
       <Link to={localPath('/profesor')} className="inline-flex items-center gap-1 text-white/40 hover:text-white/70 text-sm mb-4 transition-colors">
@@ -407,15 +449,15 @@ export default function ProfesorClase() {
       <BarraModulos ids={enabledModuleIds(clase)} tab={tab} onTab={setTab} lang={lang} />
 
       {tab === 'aula' && (
-        <AulaPupitres clase={clase} students={students} onSave={guardarPlano} lang={lang} tr={tr} />
+        <AulaPupitres clase={clase} students={alumnosYFichas} onSave={guardarPlano} lang={lang} tr={tr} />
       )}
 
       {tab === 'asistencia' && (
-        <Asistencia classId={classId} students={students} lang={lang} tr={tr} />
+        <Asistencia classId={classId} students={alumnosYFichas} lang={lang} tr={tr} />
       )}
 
       {tab === 'notas' && (
-        <Notas classId={classId} students={students} tr={tr} />
+        <Notas classId={classId} students={alumnosYFichas} tr={tr} />
       )}
 
       {tab === 'ajustes' && (
@@ -643,6 +685,45 @@ export default function ProfesorClase() {
             })}
           </div>
         )}
+
+        {/* ── Fichas sin cuenta ──────────────────────────────────────────── */}
+        <div className="mt-6">
+          <h3 className="font-black text-[13px] uppercase tracking-wide text-white/40 mb-1">
+            {tr({ es: 'Alumnos sin cuenta', en: 'Students without an account', ca: 'Alumnes sense compte' })}
+          </h3>
+          <p className="text-white/25 text-[11.5px] mb-3">
+            {tr({
+              es: 'Para quien todavía no tiene cuenta de Tuthor. Aparece ya en el aula, la asistencia y las notas; cuando se registre y se una con el código de la clase, podrá reclamar su ficha y se le trasladará todo.',
+              en: 'For anyone who does not have a Tuthor account yet. They already show up in the classroom, attendance and grades; once they register and join with the class code, they can claim their placeholder and everything moves over.',
+              ca: 'Per a qui encara no té compte de Tuthor. Ja apareix a l\'aula, l\'assistència i les notes; quan es registri i s\'uneixi amb el codi de la classe, podrà reclamar la seva fitxa.',
+            })}
+          </p>
+
+          {errorFicha && <p className="text-red-400 text-[12.5px] mb-2">{errorFicha}</p>}
+
+          {fichas.length > 0 && (
+            <div className="flex flex-wrap gap-1.5 mb-3">
+              {fichas.map(f => (
+                <span key={f.uid} className="inline-flex items-center gap-1.5 text-[12.5px] font-semibold pl-2.5 pr-1.5 py-1 rounded-lg border border-dashed border-white/15 text-white/60 bg-white/[0.02]">
+                  {f.name}
+                  <button type="button" onClick={() => quitarFicha(f.uid)}
+                    title={tr({ es: 'Quitar ficha', en: 'Remove placeholder', ca: 'Treure fitxa' })}
+                    className="text-white/25 hover:text-red-400 px-1 transition-colors">✕</button>
+                </span>
+              ))}
+            </div>
+          )}
+
+          <form onSubmit={anadirFicha} className="flex items-center gap-2">
+            <input value={nuevaFicha} onChange={e => setNuevaFicha(e.target.value)} maxLength={80}
+              placeholder={tr({ es: 'Nombre del alumno', en: "Student's name", ca: "Nom de l'alumne" })}
+              className="flex-1 max-w-xs bg-black/30 border border-white/10 rounded-lg px-3 py-2 text-white text-[13px] placeholder:text-white/25 focus:outline-none focus:ring-1 focus:ring-teal-400" />
+            <button type="submit" disabled={creandoFicha || !nuevaFicha.trim()}
+              className="shrink-0 text-[12.5px] font-bold px-3.5 py-2 rounded-lg bg-white/10 hover:bg-white/15 disabled:opacity-30 text-white transition-colors">
+              + {tr({ es: 'Sin cuenta', en: 'No account', ca: 'Sense compte' })}
+            </button>
+          </form>
+        </div>
       </section>
       )}
 

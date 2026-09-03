@@ -195,7 +195,7 @@ service cloud.firestore {
         // contenido (qué módulos existen, qué índices son válidos) se limpia
         // al leer, en src/lib/seating.js y src/lib/teacherModules.js.
         || (request.auth != null && request.auth.uid == resource.data.teacherId
-            && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['name', 'modules', 'seating', 'updatedAt'])
+            && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['name', 'modules', 'seating', 'roster', 'updatedAt'])
             && request.resource.data.teacherId == resource.data.teacherId
             && request.resource.data.studentIds == resource.data.studentIds
             && (!('modules' in request.resource.data) || request.resource.data.modules is map)
@@ -205,6 +205,11 @@ service cloud.firestore {
                   && request.resource.data.seating.cols is int
                   && request.resource.data.seating.spots is map
                   && request.resource.data.seating.spots.size() <= 200))
+            // roster: alumnos "sin cuenta todavía" (src/lib/roster.js). El
+            // contenido de cada ficha se limpia al leer, igual que seating.
+            && (!('roster' in request.resource.data) || (
+                  request.resource.data.roster is map
+                  && request.resource.data.roster.size() <= 200))
             && request.resource.data.updatedAt == request.time)
         // Alumno uniéndose: solo puede añadir su propio uid al final de
         // studentIds, nada más (arrayUnion se resuelve antes de evaluar esto).

@@ -55,6 +55,14 @@ export async function getAdminAuth() {
   return getAuth()
 }
 
+// Para borrar un campo de un documento (p.ej. una entrada de un mapa) desde
+// Admin. Mismo motivo de import perezoso que getDb/getAdminAuth.
+export async function getFieldValue() {
+  ensureApp()
+  const { FieldValue } = await import('firebase-admin/firestore')
+  return FieldValue
+}
+
 // Alfabeto sin caracteres que un niño pueda confundir al teclear (sin 0/O ni
 // 1/I/L). Mismo criterio que los códigos de clase en src/lib/classes.js.
 export const CODE_ALPHABET = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789'
