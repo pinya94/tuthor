@@ -12,6 +12,7 @@ import { getClassAssignments, createAssignment, markManualCompletion } from '../
 import { GAMES } from '../lib/games'
 import StudentSubjects from '../components/StudentSubjects'
 import AulaPupitres from '../components/AulaPupitres'
+import Asistencia from '../components/Asistencia'
 import { EXAMS, examGroupLabel } from '../lib/exams'
 import { hasTopics, topicIds, topicFormats, formatLevels, topicTask, catalogTaskLabel, examsCoveredByTopics, LEVELS } from '../lib/topicCatalog'
 
@@ -406,6 +407,10 @@ export default function ProfesorClase() {
 
       {tab === 'aula' && (
         <AulaPupitres clase={clase} students={students} onSave={guardarPlano} lang={lang} tr={tr} />
+      )}
+
+      {tab === 'asistencia' && (
+        <Asistencia classId={classId} students={students} lang={lang} tr={tr} />
       )}
 
       {tab === 'ajustes' && (

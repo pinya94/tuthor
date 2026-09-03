@@ -24,6 +24,15 @@ export const TEACHER_MODULES = {
       ca: "El plànol de la classe amb els pupitres: col·loques cada alumne al seu lloc, en treus un a l'atzar i obres els seus resultats tocant la seva taula.",
     },
   },
+  asistencia: {
+    emoji: '✅', nucleo: false, porDefecto: false,
+    label: { es: 'Asistencia', en: 'Attendance', ca: 'Assistència' },
+    desc: {
+      es: 'Pasar lista de un toque por alumno, con el recuento de faltas y retrasos del mes. Solo se guardan las faltas, no las asistencias.',
+      en: 'Take the register with one tap per student, with the month’s absences and lates. Only absences are stored, not attendances.',
+      ca: "Passar llista amb un toc per alumne, amb el recompte de faltes i retards del mes. Només es desen les faltes.",
+    },
+  },
   deberes: {
     emoji: '📚', nucleo: true, porDefecto: true,
     label: { es: 'Deberes', en: 'Homework', ca: 'Deures' },
