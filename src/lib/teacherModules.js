@@ -42,6 +42,15 @@ export const TEACHER_MODULES = {
       ca: "Passar llista amb un toc per alumne, amb el recompte de faltes i retards del mes. Només es desen les faltes.",
     },
   },
+  observaciones: {
+    emoji: '📓', nucleo: false, porDefecto: false,
+    label: { es: 'Observaciones', en: 'Notes', ca: 'Observacions' },
+    desc: {
+      es: 'El cuaderno del profesor: anotaciones fechadas por alumno, marcadas como positivas, neutras o negativas. Solo lo ves tú, nunca el alumno.',
+      en: 'The teacher’s notebook: dated notes per student, tagged positive, neutral or negative. Only you see them, never the student.',
+      ca: 'El quadern del professor: anotacions datades per alumne, marcades com a positives, neutres o negatives. Només les veus tu.',
+    },
+  },
   deberes: {
     emoji: '📚', nucleo: true, porDefecto: true,
     label: { es: 'Deberes', en: 'Homework', ca: 'Deures' },

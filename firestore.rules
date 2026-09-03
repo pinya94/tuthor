@@ -266,6 +266,28 @@ service cloud.firestore {
           && request.resource.data.updatedAt == request.time;
         allow delete: if miClase();
       }
+
+      // ── Cuaderno de observaciones: un documento suelto por nota ──────────
+      // A diferencia de attendance/gradeColumns (un documento agrupa a toda
+      // la clase), aquí cada nota es su propio documento — un curso entero
+      // puede acumular cientos y no hay un límite natural de "cuántas caben
+      // en un mapa". Sin edición: una nota mal escrita se borra y se rehace.
+      match /observations/{obsId} {
+        function miClase() {
+          return request.auth != null
+            && get(/databases/$(database)/documents/classes/$(classId)).data.teacherId == request.auth.uid;
+        }
+        allow read: if isAdmin() || miClase();
+        allow create: if miClase()
+          && request.resource.data.keys().hasOnly(['uid', 'text', 'tag', 'createdAt'])
+          && request.resource.data.uid is string && request.resource.data.uid.size() > 0
+          && request.resource.data.text is string
+          && request.resource.data.text.size() >= 1 && request.resource.data.text.size() <= 500
+          && request.resource.data.tag in ['positiva', 'neutra', 'negativa']
+          && request.resource.data.createdAt == request.time;
+        allow update: if false;
+        allow delete: if miClase();
+      }
     }
 
     // ── Tareas asignadas por el profesor (a la clase o a alumnos concretos) ────
