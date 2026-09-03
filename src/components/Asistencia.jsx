@@ -3,6 +3,7 @@ import {
   ESTADO_META, diaISO, estadoDe, siguienteEstado, conMarca, resumenDelDia, totalesPorAlumno,
   getAttendance, setAttendance, getAttendanceMonth,
 } from '../lib/attendance'
+import AsistenciaResumenMes from './AsistenciaResumenMes'
 
 // Pasar lista. Un toque sobre el alumno cicla presente → falta → retraso →
 // justificada: son treinta decisiones seguidas y un desplegable por alumno las
@@ -31,6 +32,7 @@ const tr3 = (o, lang) => o?.[lang] ?? o?.es ?? ''
 
 export default function Asistencia({ classId, students, lang, tr }) {
   const hoy = useMemo(() => diaISO(), [])
+  const [vista, setVista] = useState('lista') // 'lista' (pasar lista de hoy) | 'resumen' (mes en cuadrícula)
   const [dia, setDia] = useState(hoy)
   const [marks, setMarks] = useState({})
   const [pasado, setPasado] = useState(false)   // ¿existe el documento de ese día?
@@ -111,6 +113,24 @@ export default function Asistencia({ classId, students, lang, tr }) {
 
   return (
     <div>
+      <div className="flex gap-1 p-1 bg-white/5 border border-white/10 rounded-xl mb-4 w-fit">
+        {[
+          ['lista', { es: 'Pasar lista', en: 'Take register', ca: 'Passar llista' }],
+          ['resumen', { es: 'Resumen del mes', en: 'Month overview', ca: 'Resum del mes' }],
+        ].map(([id, label]) => (
+          <button key={id} type="button" onClick={() => setVista(id)}
+            className={`px-3 py-1.5 rounded-lg text-[12.5px] font-bold transition-colors ${
+              vista === id ? 'bg-white/15 text-white' : 'text-white/40 hover:text-white/70'
+            }`}>
+            {tr(label)}
+          </button>
+        ))}
+      </div>
+
+      {vista === 'resumen' && <AsistenciaResumenMes classId={classId} students={students} lang={lang} tr={tr} />}
+
+      {vista === 'lista' && (
+      <>
       <div className="flex flex-wrap items-center gap-2 mb-4">
         <input type="date" value={dia} max={hoy}
           onChange={e => { if (e.target.value) { setCargando(true); setDia(e.target.value) } }}
@@ -164,6 +184,8 @@ export default function Asistencia({ classId, students, lang, tr }) {
           ca: "Toca un alumne per canviar el seu estat: present → falta → retard → justificada. Només es desen les faltes, així qui s'hi uneixi més tard no arrossega les d'abans.",
         })}
       </p>
+      </>
+      )}
     </div>
   )
 }
