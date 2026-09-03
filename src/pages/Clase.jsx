@@ -2,8 +2,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
-import { joinClassByCode, getStudentClasses, getTeacherProfile, hasTeacherAccess, getClassWithStudents, claimClassPlaceholder } from '../lib/classes'
-import { fichasDe } from '../lib/roster'
+import { joinClassByCode, getStudentClasses, getTeacherProfile, hasTeacherAccess } from '../lib/classes'
 import { getStudentAssignments } from '../lib/assignments'
 import { GAMES } from '../lib/games'
 import { EXAMS } from '../lib/exams'
@@ -41,12 +40,6 @@ export default function Clase() {
   const [classCode, setClassCode] = useState('')
   const [joinStatus, setJoinStatus] = useState('idle')
   const [showJoinForm, setShowJoinForm] = useState(false)
-  // Tras unirse a una clase que tiene fichas de alumnos sin cuenta sin
-  // reclamar, se ofrece "¿eres alguna de estas?" una vez. null = no hay nada
-  // que ofrecer (o ya se resolvió).
-  const [fichasPendientes, setFichasPendientes] = useState(null) // { classId, className, fichas }
-  const [fusionando, setFusionando] = useState(false)
-  const [fusionOk, setFusionOk] = useState('')
 
   useEffect(() => {
     if (user === undefined) return
@@ -67,45 +60,17 @@ export default function Clase() {
     setLoading(false)
   }
 
-  // Comprueba si la clase a la que se acaba de unir tiene fichas de alumnos
-  // sin cuenta sin reclamar, y en tal caso las ofrece. No revienta el flujo de
-  // unión si falla: es un paso extra, no el objetivo de haber entrado el código.
-  async function buscarFichas(classId) {
-    try {
-      const clase = await getClassWithStudents(classId)
-      const fichas = fichasDe(clase)
-      if (fichas.length > 0) setFichasPendientes({ classId, className: clase.name, fichas })
-    } catch { /* no crítico: el alumno ya se ha unido de todas formas */ }
-  }
-
-  async function elegirFicha(ficha) {
-    setFusionando(true)
-    try {
-      await claimClassPlaceholder(fichasPendientes.classId, ficha.id)
-      setFusionOk(ficha.name)
-      setFichasPendientes(null)
-    } catch {
-      // Alguien se adelantó a reclamarla, o ya no existe: no es un error del
-      // alumno, así que se cierra sin más — su unión a la clase ya está hecha.
-      setFichasPendientes(null)
-    }
-    setFusionando(false)
-  }
-
   async function handleJoinClass(e) {
     e.preventDefault()
     if (!classCode.trim()) return
     setJoinStatus('sending')
     try {
       const res = await joinClassByCode(user.uid, classCode)
-      if (res.ok) {
-        setJoinStatus('ok'); setClassCode(''); setShowJoinForm(false)
-        await loadData()
-        // Solo en una unión NUEVA, nunca en un reintento: si ya estaba en la
-        // clase, cualquier ficha suya ya se habría resuelto la primera vez (o
-        // el alumno ya dijo explícitamente "ninguna es la mía").
-        buscarFichas(res.classId)
-      }
+      // Si el profesor había apuntado a este alumno con solo su nombre (una
+      // ficha, ver src/lib/roster.js), es ÉL quien la vincula con esta cuenta
+      // desde su panel — no se ofrece nada que decidir aquí. Ver
+      // api/merge-placeholder.js para el porqué de ese cambio de diseño.
+      if (res.ok) { setJoinStatus('ok'); setClassCode(''); setShowJoinForm(false); await loadData() }
       else if (res.reason === 'not_found') setJoinStatus('not_found')
       else if (res.reason === 'already_joined') setJoinStatus('already_joined')
       else setJoinStatus('error')
@@ -171,39 +136,6 @@ export default function Clase() {
       <div className="w-full max-w-md">
         <span className="text-4xl block mb-3">🏫</span>
         <h1 className="text-3xl font-black text-white mb-2">{tr({ es: 'Mi clase', en: 'My class', ca: 'La meva classe' })}</h1>
-
-        {fusionOk && (
-          <p className="text-green-400 text-xs font-semibold mb-4">
-            ✅ {tr({ es: `Vinculado: ahora tienes el historial de ${fusionOk}.`, en: `Linked: you now have ${fusionOk}'s history.`, ca: `Vinculat: ara tens l'historial de ${fusionOk}.` })}
-          </p>
-        )}
-
-        {fichasPendientes && (
-          <div className="border border-teal-500/30 rounded-2xl px-5 py-4 bg-teal-500/[0.06] mb-6">
-            <p className="text-white font-bold text-sm mb-1">
-              {tr({ es: '¿Ya estabas en esta clase?', en: 'Were you already in this class?', ca: 'Ja eres en aquesta classe?' })}
-            </p>
-            <p className="text-white/45 text-[12.5px] mb-3">
-              {tr({
-                es: `Tu profesor había apuntado a alguien de ${fichasPendientes.className} antes de que te registraras. Si eres tú, tu historial de faltas y notas pasa a esta cuenta.`,
-                en: `Your teacher had added someone in ${fichasPendientes.className} before you registered. If that's you, your attendance and grade history moves to this account.`,
-                ca: `El teu professor havia apuntat algú de ${fichasPendientes.className} abans que et registressis. Si ets tu, el teu historial passa a aquest compte.`,
-              })}
-            </p>
-            <div className="flex flex-wrap gap-2 mb-2">
-              {fichasPendientes.fichas.map(f => (
-                <button key={f.id} type="button" disabled={fusionando} onClick={() => elegirFicha(f)}
-                  className="text-[12.5px] font-bold px-3 py-1.5 rounded-lg border border-white/15 bg-white/5 hover:bg-white/10 disabled:opacity-40 text-white transition-colors">
-                  {f.name}
-                </button>
-              ))}
-            </div>
-            <button type="button" disabled={fusionando} onClick={() => setFichasPendientes(null)}
-              className="text-white/40 hover:text-white/70 text-xs font-semibold transition-colors">
-              {tr({ es: 'Ninguno, soy nuevo', en: "None of them, I'm new", ca: 'Cap, sóc nou' })}
-            </button>
-          </div>
-        )}
 
         {classes.length === 0 ? (
           <>

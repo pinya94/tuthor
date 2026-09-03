@@ -4,7 +4,7 @@ import { doc, getDoc } from 'firebase/firestore'
 import { db } from '../lib/firebase'
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
-import { getClassWithStudents, setClassModules, setClassSeating, addClassPlaceholder, removeClassPlaceholder } from '../lib/classes'
+import { getClassWithStudents, setClassModules, setClassSeating, addClassPlaceholder, removeClassPlaceholder, linkClassPlaceholder } from '../lib/classes'
 import { fichasDe, comoAlumno } from '../lib/roster'
 import { TEACHER_MODULES, MODULE_IDS, enabledModuleIds, moduleEnabled } from '../lib/teacherModules'
 import { getStatsAndCosmetics, formatTime } from '../lib/activity'
@@ -247,6 +247,7 @@ export default function ProfesorClase() {
   const [nuevaFicha, setNuevaFicha] = useState('')
   const [creandoFicha, setCreandoFicha] = useState(false)
   const [errorFicha, setErrorFicha] = useState('')
+  const [vinculando, setVinculando] = useState(null) // id de la ficha que se está vinculando ahora mismo
   // La pestaña se elige al cargar la clase (loadClase), no aquí: hasta
   // entonces no se sabe qué módulos tiene activos.
   const [tab, setTab] = useState(null)
@@ -315,6 +316,26 @@ export default function ProfesorClase() {
       setClase(c => ({ ...c, roster: previa }))
       setErrorFicha(tr({ es: 'No se pudo quitar la ficha.', en: 'Could not remove the placeholder.', ca: 'No s\'ha pogut treure la fitxa.' }))
     }
+  }
+
+  // El profesor empareja una ficha con un alumno real ya unido a la clase.
+  // No optimista a propósito: mueve un curso entero de faltas y notas en el
+  // servidor, así que aquí sí se espera a que confirme antes de quitar la
+  // ficha de la pantalla.
+  async function vincularFicha(id, targetUid) {
+    setVinculando(id); setErrorFicha('')
+    try {
+      await linkClassPlaceholder(classId, id, targetUid)
+      setClase(c => {
+        const roster = { ...c.roster }
+        delete roster[id]
+        return { ...c, roster }
+      })
+      await load() // trae de vuelta el plano/asistencia/notas ya fusionados
+    } catch {
+      setErrorFicha(tr({ es: 'No se pudo vincular. ¿El alumno sigue en la clase?', en: "Could not link. Is the student still in the class?", ca: "No s'ha pogut vincular. L'alumne encara és a la classe?" }))
+    }
+    setVinculando(null)
   }
 
   async function loadAssignments() {
@@ -693,23 +714,41 @@ export default function ProfesorClase() {
           </h3>
           <p className="text-white/25 text-[11.5px] mb-3">
             {tr({
-              es: 'Para quien todavía no tiene cuenta de Tuthor. Aparece ya en el aula, la asistencia y las notas; cuando se registre y se una con el código de la clase, podrá reclamar su ficha y se le trasladará todo.',
-              en: 'For anyone who does not have a Tuthor account yet. They already show up in the classroom, attendance and grades; once they register and join with the class code, they can claim their placeholder and everything moves over.',
-              ca: 'Per a qui encara no té compte de Tuthor. Ja apareix a l\'aula, l\'assistència i les notes; quan es registri i s\'uneixi amb el codi de la classe, podrà reclamar la seva fitxa.',
+              es: 'Para quien todavía no tiene cuenta de Tuthor. Aparece ya en el aula, la asistencia y las notas. Cuando se registre y se una con el código de la clase, aparecerá en "Alumnos" y podrás vincular aquí su cuenta real: eres tú quien decide el emparejamiento, nunca el alumno.',
+              en: 'For anyone who does not have a Tuthor account yet. They already show up in the classroom, attendance and grades. Once they register and join with the class code, they will appear under "Students" and you can link their real account here: you decide the match, never the student.',
+              ca: 'Per a qui encara no té compte de Tuthor. Ja apareix a l\'aula, l\'assistència i les notes. Quan es registri i s\'uneixi amb el codi, apareixerà a "Alumnes" i podràs vincular aquí el seu compte real: tu decideixes l\'aparellament, mai l\'alumne.',
             })}
           </p>
 
           {errorFicha && <p className="text-red-400 text-[12.5px] mb-2">{errorFicha}</p>}
 
           {fichas.length > 0 && (
-            <div className="flex flex-wrap gap-1.5 mb-3">
+            <div className="border border-white/10 rounded-xl overflow-hidden bg-white/[0.02] mb-3 divide-y divide-white/5">
               {fichas.map(f => (
-                <span key={f.uid} className="inline-flex items-center gap-1.5 text-[12.5px] font-semibold pl-2.5 pr-1.5 py-1 rounded-lg border border-dashed border-white/15 text-white/60 bg-white/[0.02]">
-                  {f.name}
-                  <button type="button" onClick={() => quitarFicha(f.uid)}
+                <div key={f.uid} className="flex items-center gap-2 px-3 py-2">
+                  <span className="flex-1 min-w-0 text-white/70 text-[12.5px] font-semibold truncate">{f.name}</span>
+                  {students.length > 0 ? (
+                    <select value="" disabled={vinculando === f.uid}
+                      onChange={e => { if (e.target.value) vincularFicha(f.uid, e.target.value) }}
+                      className="shrink-0 max-w-[160px] rounded-lg border border-white/10 bg-black/30 px-2 py-1.5 text-[12px] text-white/70 outline-none focus:border-teal-500 transition-colors disabled:opacity-40">
+                      <option value="" className="bg-[#0d0d1a]">
+                        {vinculando === f.uid
+                          ? tr({ es: 'Vinculando…', en: 'Linking…', ca: 'Vinculant…' })
+                          : tr({ es: 'Vincular con…', en: 'Link to…', ca: 'Vincular amb…' })}
+                      </option>
+                      {students.map(s => (
+                        <option key={s.uid} value={s.uid} className="bg-[#0d0d1a]">{s.name}</option>
+                      ))}
+                    </select>
+                  ) : (
+                    <span className="shrink-0 text-white/25 text-[11px]">
+                      {tr({ es: 'sin alumnos aún', en: 'no students yet', ca: 'sense alumnes encara' })}
+                    </span>
+                  )}
+                  <button type="button" onClick={() => quitarFicha(f.uid)} disabled={vinculando === f.uid}
                     title={tr({ es: 'Quitar ficha', en: 'Remove placeholder', ca: 'Treure fitxa' })}
-                    className="text-white/25 hover:text-red-400 px-1 transition-colors">✕</button>
-                </span>
+                    className="shrink-0 text-white/25 hover:text-red-400 disabled:opacity-30 px-1 transition-colors">✕</button>
+                </div>
               ))}
             </div>
           )}

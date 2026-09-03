@@ -209,19 +209,27 @@ export async function removeClassPlaceholder(classId, id) {
   })
 }
 
-// El alumno reclama una ficha como suya: traslada su sitio en el plano, sus
-// faltas y sus notas al uid real. Vive en el servidor (api/merge-placeholder.js)
-// porque el alumno no tiene permiso de escritura sobre attendance ni
-// gradeColumns con el SDK de cliente — son teacher-only en firestore.rules, y
-// con razón: si pudiera escribir ahí, podría cambiarse sus propias faltas.
-export async function claimClassPlaceholder(classId, placeholderId) {
+// El PROFESOR vincula una ficha con un alumno real de su clase: traslada su
+// sitio en el plano, sus faltas y sus notas al uid de ese alumno.
+//
+// Por qué lo decide el profesor y no el propio alumno: la primera versión
+// dejaba que el alumno dijera "esa ficha soy yo" al unirse, y nada
+// comprobaba que fuera cierto más allá de conocer el código de la clase —
+// cualquiera podía reclamar el nombre de otro. El profesor, en cambio,
+// reconoce a sus propios alumnos.
+//
+// Vive en el servidor (api/merge-placeholder.js) porque ni profesor ni
+// alumno tienen forma segura de recorrer y reescribir un curso entero de
+// documentos de attendance/gradeColumns desde el cliente sin arriesgarse a
+// dejarlo a medias.
+export async function linkClassPlaceholder(classId, placeholderId, targetUid) {
   const user = auth.currentUser
   if (!user) throw new Error('not_signed_in')
   const idToken = await user.getIdToken()
   const res = await fetch('/api/merge-placeholder', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${idToken}` },
-    body: JSON.stringify({ classId, placeholderId }),
+    body: JSON.stringify({ classId, placeholderId, targetUid }),
   })
   if (!res.ok) {
     const { error } = await res.json().catch(() => ({}))

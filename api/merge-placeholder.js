@@ -1,24 +1,21 @@
-// Fusiona una ficha de alumno sin cuenta (roster) con la cuenta real del
-// alumno que la reclama: le traslada su sitio en el plano, sus faltas y sus
-// notas, y quita la ficha de la clase.
+// Fusiona una ficha de alumno sin cuenta (roster) con la cuenta real de un
+// alumno de la clase: le traslada su sitio en el plano, sus faltas y sus
+// notas, y quita la ficha.
 //
-// Por qué en el servidor con Admin: el alumno no tiene NINGÚN permiso de
-// escritura sobre attendance ni gradeColumns —son teacher-only en
-// firestore.rules, y con razón: si un alumno pudiera escribir ahí, podría
-// cambiarse sus propias faltas o notas—. Mover el historial de una ficha a su
-// uid exige por tanto saltarse esas reglas desde el servidor, igual que
-// apply-referral.js salta touchesPaidFields() para dar meses de Pro.
+// Lo decide el PROFESOR, no el alumno. La primera versión de esto dejaba que
+// el propio alumno dijera "esa ficha soy yo" al unirse — y el fallo de ese
+// diseño es que nada comprobaba que "Marta Ruiz" fuera de verdad Marta Ruiz,
+// solo que quien lo decía conocía el código de la clase. Con el profesor
+// emparejando desde su panel, es él quien reconoce a sus propios alumnos: la
+// misma garantía que ya tiene al pasar lista en persona.
 //
-// Disparador: el alumno, tras unirse a la clase con el código normal de
-// SIEMPRE (joinClassByCode, sin cambios), ve en el roster las fichas sin
-// reclamar —ya puede leerlas: está en studentIds— y elige "esa soy yo". Este
-// endpoint no une a la clase, eso ya lo hizo el código; solo traslada.
-//
-// Confianza: nada aquí comprueba que quien reclama "Marta Ruiz" sea de verdad
-// Marta Ruiz, más allá de que conozca el código de la clase. Es el mismo
-// modelo de confianza que ya tiene unirse a la clase (cualquiera con el
-// código entra como alumno): no se introduce un riesgo nuevo, solo se
-// extiende el que ya existía.
+// Por qué en el servidor con Admin, aun siendo el profesor quien llama: el
+// profesor sí puede escribir seating (ver firestore.rules), pero NO puede
+// escribir directamente en `values`/`marks` de OTRO documento por su cuenta
+// sin pasar por MechanicExam/ExamenMC ni recorrer un curso entero de
+// documentos desde el cliente sin arriesgarse a dejarlo a medias si se cierra
+// la pestaña. Server-side es, además, lo único que puede ser una transacción
+// más un batch grande de forma fiable.
 import { getDb, getAdminAuth, getFieldValue, fail } from './_admin.js'
 
 const MAX_OPS_POR_LOTE = 400 // margen bajo el límite de 500 de un batch de Firestore
@@ -43,55 +40,57 @@ export default async function handler(req, res) {
     return fail(res, err, 'merge-placeholder/init')
   }
 
-  // Igual que apply-referral.js: una sesión de hijo comparte uid con el
-  // padre, y esto es una acción que decide el propio alumno.
+  // Una sesión de hijo comparte uid con el padre — esto lo decide quien es
+  // profesor de verdad, no una sesión prestada.
   if (decoded.childMode === true) return res.status(403).json({ error: 'child_session' })
 
-  const uid = decoded.uid
+  const callerUid = decoded.uid
   const classId = String(req.body?.classId ?? '')
   const placeholderId = String(req.body?.placeholderId ?? '')
-  if (!classId || !placeholderId) return res.status(400).json({ error: 'missing_params' })
+  const targetUid = String(req.body?.targetUid ?? '')
+  if (!classId || !placeholderId || !targetUid) return res.status(400).json({ error: 'missing_params' })
   if (!placeholderId.startsWith('ph_')) return res.status(400).json({ error: 'bad_placeholder' })
 
   try {
     const classRef = db.doc(`classes/${classId}`)
 
-    // Transacción solo para el doc de la clase: confirma que el alumno ya es
-    // miembro y que la ficha sigue sin reclamar, y la quita del roster en el
-    // mismo paso. Es lo que hace idempotente al endpoint entero — una
-    // segunda llamada con el mismo par ya no encuentra la ficha (alguien se
-    // le adelantó, o el cliente reintentó) y responde "nada que hacer" en
-    // vez de repetir el traslado de faltas y notas.
+    // Transacción solo para el doc de la clase: confirma que quien llama es
+    // el profesor de ESTA clase, que el alumno elegido ya es miembro y que la
+    // ficha sigue sin vincular, y la quita del roster en el mismo paso. Es lo
+    // que hace idempotente al endpoint entero — una segunda llamada con el
+    // mismo par ya no encuentra la ficha y responde "nada que hacer" en vez
+    // de repetir el traslado.
     const resultado = await db.runTransaction(async tx => {
       const snap = await tx.get(classRef)
       if (!snap.exists) return { ok: false, reason: 'class_not_found' }
       const data = snap.data()
-      if (!(data.studentIds ?? []).includes(uid)) return { ok: false, reason: 'not_a_member' }
+      if (data.teacherId !== callerUid) return { ok: false, reason: 'not_the_teacher' }
+      if (!(data.studentIds ?? []).includes(targetUid)) return { ok: false, reason: 'not_a_member' }
       const ficha = data.roster?.[placeholderId]
       if (!ficha) return { ok: false, reason: 'placeholder_not_found' }
 
       const updates = { [`roster.${placeholderId}`]: FieldValue.delete(), updatedAt: new Date() }
       // El sitio del plano se hereda solo si el alumno todavía no tenía uno
-      // propio: si ya se había sentado antes de fusionarse (poco probable,
-      // pero posible), no se le mueve de donde está.
+      // propio: si el profesor ya lo había sentado con su cuenta real antes
+      // de vincular la ficha, no se le mueve de donde está.
       const spots = data.seating?.spots ?? {}
       if (placeholderId in spots) {
         updates[`seating.spots.${placeholderId}`] = FieldValue.delete()
-        if (!(uid in spots)) updates[`seating.spots.${uid}`] = spots[placeholderId]
+        if (!(targetUid in spots)) updates[`seating.spots.${targetUid}`] = spots[placeholderId]
       }
       tx.update(classRef, updates)
       return { ok: true, name: ficha.name }
     })
 
     if (!resultado.ok) {
-      const codigo = resultado.reason === 'not_a_member' ? 403 : 404
+      const codigo = resultado.reason === 'not_the_teacher' ? 403 : resultado.reason === 'not_a_member' ? 400 : 404
       return res.status(codigo).json({ error: resultado.reason })
     }
 
     // Fuera de la transacción a propósito: puede ser un curso entero de
     // documentos, y no hace falta que sea atómico con el paso anterior. Si
     // esto fallara a mitad, la ficha ya no está en el roster (no se puede
-    // reclamar dos veces) y lo movido hasta ese punto se queda movido — no
+    // vincular dos veces) y lo movido hasta ese punto se queda movido — no
     // hay un estado a medias que confunda a nadie, solo un traslado parcial
     // que una segunda llamada no podría reintentar (porque ya no encontraría
     // la ficha). Es la parte que peor degrada de este endpoint, y se acepta
@@ -105,7 +104,7 @@ export default async function handler(req, res) {
         const valores = docSnap.data()[campo] ?? {}
         if (!(placeholderId in valores)) continue
         const cambios = { [`${campo}.${placeholderId}`]: FieldValue.delete() }
-        if (!(uid in valores)) cambios[`${campo}.${uid}`] = valores[placeholderId]
+        if (!(targetUid in valores)) cambios[`${campo}.${targetUid}`] = valores[placeholderId]
         lote.update(docSnap.ref, cambios)
         enLote++
         if (enLote >= MAX_OPS_POR_LOTE) { await lote.commit(); lote = db.batch(); enLote = 0 }
