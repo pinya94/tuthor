@@ -13,6 +13,7 @@ import { GAMES } from '../lib/games'
 import StudentSubjects from '../components/StudentSubjects'
 import AulaPupitres from '../components/AulaPupitres'
 import Asistencia from '../components/Asistencia'
+import Notas from '../components/Notas'
 import { EXAMS, examGroupLabel } from '../lib/exams'
 import { hasTopics, topicIds, topicFormats, formatLevels, topicTask, catalogTaskLabel, examsCoveredByTopics, LEVELS } from '../lib/topicCatalog'
 
@@ -411,6 +412,10 @@ export default function ProfesorClase() {
 
       {tab === 'asistencia' && (
         <Asistencia classId={classId} students={students} lang={lang} tr={tr} />
+      )}
+
+      {tab === 'notas' && (
+        <Notas classId={classId} students={students} tr={tr} />
       )}
 
       {tab === 'ajustes' && (

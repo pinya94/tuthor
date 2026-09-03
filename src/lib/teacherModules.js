@@ -24,6 +24,15 @@ export const TEACHER_MODULES = {
       ca: "El plànol de la classe amb els pupitres: col·loques cada alumne al seu lloc, en treus un a l'atzar i obres els seus resultats tocant la seva taula.",
     },
   },
+  notas: {
+    emoji: '📝', nucleo: false, porDefecto: false,
+    label: { es: 'Notas', en: 'Grades', ca: 'Notes' },
+    desc: {
+      es: 'Un cuaderno de notas por columnas: cada columna es una evaluación, con la nota de cada alumno del 0 al 10 y las medias calculadas solas.',
+      en: 'A gradebook by columns: each column is an assessment, with each student’s 0-10 grade and the averages worked out for you.',
+      ca: 'Un quadern de notes per columnes: cada columna és una avaluació, amb la nota de cada alumne i les mitjanes calculades soles.',
+    },
+  },
   asistencia: {
     emoji: '✅', nucleo: false, porDefecto: false,
     label: { es: 'Asistencia', en: 'Attendance', ca: 'Assistència' },
