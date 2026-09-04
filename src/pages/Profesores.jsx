@@ -88,6 +88,30 @@ function MockClassList() {
   )
 }
 
+function MockSeating() {
+  const mesas = ['Marta', null, 'Iker', 'Nora', null, 'Bruno']
+  return (
+    <BrowserFrame>
+      <div className="flex items-center justify-between mb-3">
+        <p className="text-white font-black text-sm">💺 Aula · 3º ESO A</p>
+        <span className="text-[10px] font-bold px-2 py-1 rounded-lg bg-teal-600 text-white">🎲 Sale a la pizarra</span>
+      </div>
+      <div className="rounded-lg bg-white/[0.07] py-1.5 text-center mb-2">
+        <span className="text-white/35 text-[9px] uppercase tracking-[0.3em] font-bold">Pizarra</span>
+      </div>
+      <div className="grid grid-cols-3 gap-1.5">
+        {mesas.map((n, i) => (
+          <div key={i} className={`aspect-[4/3] rounded-md border flex items-center justify-center text-[11px] font-bold ${
+            n ? 'bg-white/10 border-white/20 text-white' : 'border-dashed border-white/10 text-white/15'
+          }`}>
+            {n || '·'}
+          </div>
+        ))}
+      </div>
+    </BrowserFrame>
+  )
+}
+
 function MockTasks() {
   const rows = [
     { label: '🕵️ Guerra Civil — ¿Quién es quién?', done: 3, total: 4 },
@@ -203,6 +227,10 @@ export default function Profesores() {
     { label: tr({ es: 'Rachas, monedas y tienda', en: 'Streaks, coins and shop', ca: 'Ratxes, monedes i botiga' }), free: true, teacher: true },
     { label: tr({ es: 'Crear clases con código de acceso', en: 'Create classes with an access code', ca: 'Crear classes amb codi d\'accés' }), free: false, teacher: true },
     { label: tr({ es: 'Asignar tareas (juego, examen o texto)', en: 'Assign tasks (game, exam or text)', ca: 'Assignar tasques (joc, examen o text)' }), free: false, teacher: true },
+    { label: tr({ es: 'Crear tus propios exámenes tipo test', en: 'Build your own multiple-choice quizzes', ca: 'Crear els teus propis examens tipus test' }), free: false, teacher: true },
+    { label: tr({ es: 'Plano de la clase y modo puntos', en: 'Seating plan and points mode', ca: 'Plànol de la classe i mode punts' }), free: false, teacher: true },
+    { label: tr({ es: 'Pasar lista y llevar notas por trimestre', en: 'Take attendance and grades by term', ca: 'Passar llista i portar notes per trimestre' }), free: false, teacher: true },
+    { label: tr({ es: 'Boletín para familias', en: 'Report for families', ca: 'Butlletí per a famílies' }), free: false, teacher: true },
     { label: tr({ es: 'Ver progreso agregado de la clase', en: 'See aggregated class progress', ca: 'Veure el progrés agregat de la classe' }), free: false, teacher: true },
   ]
 
@@ -281,6 +309,23 @@ export default function Profesores() {
 
           <div className="grid lg:grid-cols-2 gap-10 items-center">
             <div>
+              <span className="text-3xl block mb-3">💺</span>
+              <h2 className="text-2xl sm:text-3xl font-black text-white mb-3">
+                {tr({ es: 'El plano de la clase, en el móvil', en: 'The classroom plan, on your phone', ca: 'El plànol de la classe, al mòbil' })}
+              </h2>
+              <p className="text-white/55 text-[15px] leading-relaxed">
+                {tr({
+                  es: 'Sienta a cada alumno tocando su mesa, sortea sitios cuando haga falta y saca a alguien a la pizarra sin repetir siempre a los mismos. Toca una mesa ocupada y ves ahí mismo sus resultados.',
+                  en: 'Seat each student by tapping their desk, shuffle seats when you need to, and pick someone for the board without always repeating the same names. Tap an occupied desk to see their results right there.',
+                  ca: 'Asseu cada alumne tocant la seva taula, sorteja llocs quan calgui i treu algú a la pissarra sense repetir sempre els mateixos.',
+                })}
+              </p>
+            </div>
+            <div><MockSeating /></div>
+          </div>
+
+          <div className="grid lg:grid-cols-2 gap-10 items-center">
+            <div>
               <span className="text-3xl block mb-3">📝</span>
               <h2 className="text-2xl sm:text-3xl font-black text-white mb-3">
                 {tr({ es: 'Asigna tareas, ellos juegan', en: 'Assign tasks, they play', ca: 'Assigna tasques, ells juguen' })}
@@ -310,6 +355,48 @@ export default function Profesores() {
                   ca: 'Al seu perfil apareix un únic lloc amb les seves tasques pendents i fetes, amb la data límit ben visible.',
                 })}
               </p>
+            </div>
+          </div>
+
+          {/* Módulos opcionales: se activan por clase desde "Más módulos" —
+              se muestran en cuadrícula compacta (no como bloque alterno de
+              página completa) porque son seis capacidades y no todas las
+              clases las usan todas; el objetivo aquí es que se sepa que
+              existen, no repetir el ritmo largo de los bloques de arriba. */}
+          <div>
+            <div className="text-center mb-10">
+              <h2 className="text-2xl sm:text-3xl font-black text-white mb-2">
+                {tr({ es: 'Y lo que necesites cuando lo necesites', en: 'And whatever you need, when you need it', ca: 'I el que necessitis quan ho necessitis' })}
+              </h2>
+              <p className="text-white/45 text-sm max-w-lg mx-auto">
+                {tr({
+                  es: 'Módulos que activas o desactivas por clase desde "Más módulos" — no hace falta montar el aula entera de golpe.',
+                  en: 'Modules you turn on or off per class from "More modules" — no need to set up the whole classroom at once.',
+                  ca: 'Mòduls que actives o desactives per classe des de "Més mòduls" — no cal muntar l\'aula sencera de cop.',
+                })}
+              </p>
+            </div>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {[
+                { icon: '🙋', title: tr({ es: 'Pasar lista', en: 'Take attendance', ca: 'Passar llista' }),
+                  desc: tr({ es: 'Marca faltas en segundos, para hoy o cualquier día pasado.', en: 'Mark absences in seconds, for today or any past day.', ca: 'Marca faltes en segons, per avui o qualsevol dia passat.' }) },
+                { icon: '🔢', title: tr({ es: 'Notas por trimestre', en: 'Grades by term', ca: 'Notes per trimestre' }),
+                  desc: tr({ es: 'Columnas de nota que puedes etiquetar por trimestre y filtrar.', en: 'Grade columns you can tag by term and filter.', ca: 'Columnes de nota que pots etiquetar per trimestre i filtrar.' }) },
+                { icon: '❓', title: tr({ es: 'Crea tus propios exámenes', en: 'Build your own quizzes', ca: 'Crea els teus propis examens' }),
+                  desc: tr({ es: 'Preguntas de tipo test, tuyas, que se envían como tarea y se corrigen solas.', en: 'Your own multiple-choice questions, sent as a task and self-graded.', ca: 'Preguntes tipus test, teves, que s\'envien com a tasca i es corregeixen soles.' }) },
+                { icon: '💬', title: tr({ es: 'Observaciones', en: 'Notes on students', ca: 'Observacions' }),
+                  desc: tr({ es: 'Anota algo puntual sobre un alumno, con fecha, para no fiarlo todo a la memoria.', en: 'Jot down something about a student, dated, instead of relying on memory.', ca: 'Anota algo puntual sobre un alumne, amb data, per no fiar-ho tot a la memòria.' }) },
+                { icon: '📄', title: tr({ es: 'Boletín para familias', en: 'Report for families', ca: 'Butlletí per a famílies' }),
+                  desc: tr({ es: 'Un resumen con notas, asistencia y observaciones, listo para compartir.', en: 'A summary of grades, attendance and notes, ready to share.', ca: 'Un resum amb notes, assistència i observacions, llest per compartir.' }) },
+                { icon: '🎲', title: tr({ es: 'Modo puntos y pizarra', en: 'Points mode & the board', ca: 'Mode punts i pissarra' }),
+                  desc: tr({ es: 'Suma puntos por mesa desde el plano y sortea quién sale a la pizarra.', en: 'Award points per desk from the seating plan and pick who goes to the board.', ca: 'Suma punts per taula des del plànol i sorteja qui surt a la pissarra.' }) },
+              ].map(m => (
+                <div key={m.title} className="rounded-2xl border border-white/10 bg-white/[0.03] px-5 py-5">
+                  <span className="text-2xl block mb-2.5">{m.icon}</span>
+                  <p className="text-white font-bold text-[14px] mb-1">{m.title}</p>
+                  <p className="text-white/45 text-[12.5px] leading-relaxed">{m.desc}</p>
+                </div>
+              ))}
             </div>
           </div>
         </section>
