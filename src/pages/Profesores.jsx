@@ -89,8 +89,20 @@ function MockClassList() {
   )
 }
 
+// 26 nombres distintos — ni uno repetido, para que una clase llena no lea
+// como la misma ficha clonada 26 veces. 4 pupitres se quedan vacíos a
+// propósito (30 huecos, no 26): un plano perfectamente lleno sin un solo
+// hueco libre se ve más a maqueta imposible que a clase real.
+const NOMBRES_CLASE = [
+  'Marta', 'Iker', 'Nora', 'Bruno', 'Aitana', 'Leo', 'Uxue', 'Diego',
+  'Sara', 'Pau', 'Elena', 'Mario', 'Vera', 'Hugo', 'Alba', 'Nico',
+  'Julia', 'Enzo', 'Carla', 'Rubén', 'Naia', 'Marc', 'Lucía', 'Adrián',
+  'Irene', 'Álex',
+]
+const HUECOS_PLANO = 30
+
 function MockSeating() {
-  const mesas = ['Marta', null, 'Iker', 'Nora', null, 'Bruno']
+  const mesas = Array.from({ length: HUECOS_PLANO }, (_, i) => NOMBRES_CLASE[i] ?? null)
   return (
     <BrowserFrame>
       <div className="flex items-center justify-between mb-3">
@@ -100,9 +112,9 @@ function MockSeating() {
       <div className="rounded-lg bg-white/[0.07] py-1.5 text-center mb-2">
         <span className="text-white/35 text-[9px] uppercase tracking-[0.3em] font-bold">Pizarra</span>
       </div>
-      <div className="grid grid-cols-3 gap-1.5">
+      <div className="grid grid-cols-6 gap-1">
         {mesas.map((n, i) => (
-          <div key={i} className={`aspect-[4/3] rounded-md border flex items-center justify-center text-[11px] font-bold ${
+          <div key={i} className={`aspect-[4/3] rounded-md border flex items-center justify-center text-center leading-tight px-0.5 text-[8px] font-bold ${
             n ? 'bg-white/10 border-white/20 text-white' : 'border-dashed border-white/10 text-white/15'
           }`}>
             {n || '·'}
@@ -160,6 +172,51 @@ function MockStudentView() {
           <p className="text-white text-[12.5px] font-bold truncate">🕵️ Guerra Civil — ¿Quién es quién?</p>
           <span className="text-green-400 text-[11px] font-bold shrink-0">✅ Hecha <span className="text-white/40">92 pts</span></span>
         </div>
+      </div>
+    </BrowserFrame>
+  )
+}
+
+// Tabla, no cuadrícula de mesas: a propósito lo más distinto posible de
+// MockSeating aunque las dos vivan en la misma clase — así ninguna de las
+// dos lee como la misma imagen repetida con otro color.
+function MockGrades() {
+  const alumnos = [
+    { name: 'Marta', notas: [8.5, 7, 9] },
+    { name: 'Iker', notas: [6, 5.5, 7.5] },
+    { name: 'Nora', notas: [9.5, 9, 10] },
+    { name: 'Bruno', notas: [4.5, 6, 5] },
+    { name: 'Aitana', notas: [7, 8, 7.5] },
+  ]
+  const trimestres = ['Todas', '1º', '2º', '3º']
+  return (
+    <BrowserFrame>
+      <div className="flex items-center justify-between mb-3">
+        <p className="text-white font-black text-sm">🔢 Notas · 3º ESO A</p>
+        <span className="text-[10px] font-bold px-2 py-1 rounded-lg bg-teal-600 text-white">+ Columna</span>
+      </div>
+      <div className="flex gap-1.5 mb-2.5">
+        {trimestres.map((t, i) => (
+          <span key={t} className={`text-[10px] font-bold px-2.5 py-1 rounded-full ${i === 0 ? 'bg-teal-600 text-white' : 'bg-white/5 text-white/40'}`}>
+            {t}
+          </span>
+        ))}
+      </div>
+      <div className="rounded-xl border border-white/10 overflow-hidden">
+        <div className="grid grid-cols-[1fr_repeat(3,32px)] bg-white/5 px-3 py-1.5 text-[9px] font-bold text-white/40 uppercase tracking-wide">
+          <span>Alumno</span>
+          <span className="text-center">Ex1</span>
+          <span className="text-center">Ex2</span>
+          <span className="text-center">Ex3</span>
+        </div>
+        {alumnos.map((a, i) => (
+          <div key={a.name} className={`grid grid-cols-[1fr_repeat(3,32px)] items-center px-3 py-2 ${i < alumnos.length - 1 ? 'border-b border-white/5' : ''}`}>
+            <span className="text-white text-[12px] font-semibold truncate">{a.name}</span>
+            {a.notas.map((n, j) => (
+              <span key={j} className={`text-center text-[11px] font-black tabular-nums ${n >= 5 ? 'text-green-400' : 'text-red-400'}`}>{n}</span>
+            ))}
+          </div>
+        ))}
       </div>
     </BrowserFrame>
   )
@@ -374,6 +431,23 @@ export default function Profesores() {
             </div>
           </div>
 
+          <div className="grid lg:grid-cols-2 gap-10 items-center">
+            <div>
+              <span className="text-3xl block mb-3">🔢</span>
+              <h2 className="text-2xl sm:text-3xl font-black text-white mb-3">
+                {tr({ es: 'Las notas, organizadas por trimestre', en: 'Grades, organized by term', ca: 'Les notes, organitzades per trimestre' })}
+              </h2>
+              <p className="text-white/55 text-[15px] leading-relaxed">
+                {tr({
+                  es: 'Añade una columna por examen o trabajo, márcala con el trimestre si te sirve, y ve la media de cada alumno y de la clase entera de un vistazo. Filtra cuando quieras revisar solo uno.',
+                  en: 'Add a column per exam or assignment, tag it with the term if it helps, and see each student\'s average — and the whole class\'s — at a glance. Filter whenever you want to check just one.',
+                  ca: 'Afegeix una columna per examen o treball, marca-la amb el trimestre si et va bé, i veu la mitjana de cada alumne i de tota la classe d\'un cop d\'ull.',
+                })}
+              </p>
+            </div>
+            <div><MockGrades /></div>
+          </div>
+
           {/* Módulos opcionales: se activan por clase desde "Más módulos" —
               se muestran en cuadrícula compacta (no como bloque alterno de
               página completa) porque son seis capacidades y no todas las
@@ -396,8 +470,6 @@ export default function Profesores() {
               {[
                 { icon: '🙋', title: tr({ es: 'Pasar lista', en: 'Take attendance', ca: 'Passar llista' }),
                   desc: tr({ es: 'Marca faltas en segundos, para hoy o cualquier día pasado.', en: 'Mark absences in seconds, for today or any past day.', ca: 'Marca faltes en segons, per avui o qualsevol dia passat.' }) },
-                { icon: '🔢', title: tr({ es: 'Notas por trimestre', en: 'Grades by term', ca: 'Notes per trimestre' }),
-                  desc: tr({ es: 'Columnas de nota que puedes etiquetar por trimestre y filtrar.', en: 'Grade columns you can tag by term and filter.', ca: 'Columnes de nota que pots etiquetar per trimestre i filtrar.' }) },
                 { icon: '❓', title: tr({ es: 'Crea tus propios exámenes', en: 'Build your own quizzes', ca: 'Crea els teus propis examens' }),
                   desc: tr({ es: 'Preguntas de tipo test, tuyas, que se envían como tarea y se corrigen solas.', en: 'Your own multiple-choice questions, sent as a task and self-graded.', ca: 'Preguntes tipus test, teves, que s\'envien com a tasca i es corregeixen soles.' }) },
                 { icon: '💬', title: tr({ es: 'Observaciones', en: 'Notes on students', ca: 'Observacions' }),
