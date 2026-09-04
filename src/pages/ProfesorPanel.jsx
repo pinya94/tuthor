@@ -89,6 +89,20 @@ export default function ProfesorPanel() {
 
   return (
     <div className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 py-8">
+      {/* Recordatorio de beta: no solo en /profesores — un profesor que ya
+          entra a diario a esto sigue metiendo datos reales de sus alumnos, y
+          merece seguir sabiendo en qué está mientras dure la prueba. */}
+      <div className="flex items-center gap-2.5 mb-5 rounded-xl border border-amber-500/25 bg-amber-500/[0.06] px-3.5 py-2.5">
+        <span className="text-lg shrink-0">🧪</span>
+        <p className="text-amber-300/80 text-[12.5px]">
+          {tr({
+            es: 'Estás en la beta gratuita: algunas cosas pueden cambiar. Gracias por probarlo.',
+            en: 'You\'re on the free beta: some things may change. Thanks for testing it.',
+            ca: 'Ets a la beta gratuïta: algunes coses poden canviar. Gràcies per provar-ho.',
+          })}
+        </p>
+      </div>
+
       <h1 className="text-2xl font-black text-white mb-1">{tr({ es: 'Mis clases', en: 'My classes', ca: 'Les meves classes' })}</h1>
       <p className="text-white/50 text-sm mb-6">
         {tr({

@@ -4,9 +4,13 @@ import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
 import SEOHead from '../components/SEOHead'
 import AuthModal from '../components/AuthModal'
-import { activateTeacherProfile, saveTeacherProfileDraft, getTeacherProfile, hasTeacherAccess } from '../lib/classes'
-import { TEACHER_PLAN } from '../lib/access'
-import { startCheckout } from '../lib/checkout'
+import { activateTeacherProfile, getTeacherProfile, hasTeacherAccess, TEACHER_BETA_CODE } from '../lib/classes'
+
+// BETA GRATUITA (sept. 2026): mientras dure, no se pide pago — activateTeacherProfile
+// manda el código de la beta sin preguntárselo a nadie (ver TEACHER_BETA_CODE
+// en classes.js). El camino de pago con Stripe sigue intacto en checkout.js y
+// access.js, listo para reactivarse: basta con devolver aquí el formulario
+// "pagar / código" que había antes y volver a importar TEACHER_PLAN/startCheckout.
 
 const STAGES = [
   { id: 'primaria', label: { es: 'Primaria', en: 'Primary', ca: 'Primària' } },
@@ -143,45 +147,34 @@ export default function Profesores() {
   const { lang, tr, localPath } = useLang()
   const navigate = useNavigate()
 
-  const [checking, setChecking] = useState(true)
+  // true en cuanto se sabe si ESTE usuario ya tiene acceso de profesor — solo
+  // tiene sentido comprobarlo con sesión, así que sin usuario no hay nada que
+  // esperar (ver `loading` más abajo, que no necesita este estado para eso).
+  const [profileChecked, setProfileChecked] = useState(false)
   const [showAuth, setShowAuth] = useState(false)
-  const [accessMethod, setAccessMethod] = useState('pay') // 'pay' | 'code'
   const [schoolName, setSchoolName] = useState('')
   const [stage, setStage] = useState('eso')
-  const [promoCode, setPromoCode] = useState('')
   const [status, setStatus] = useState('idle')
 
   useEffect(() => {
-    if (user === undefined) return
-    if (!user) { setChecking(false); return }
+    if (!user) return
     getTeacherProfile(user.uid).then(profile => {
       if (hasTeacherAccess(profile)) { navigate(localPath('/profesor'), { replace: true }); return }
-      setChecking(false)
-    }).catch(() => setChecking(false))
-  }, [user])
+      setProfileChecked(true)
+    }).catch(() => setProfileChecked(true))
+  }, [user]) // eslint-disable-line react-hooks/exhaustive-deps
 
   async function handleSubmit(e) {
     e.preventDefault()
     if (!user) { setShowAuth(true); return }
     setStatus('sending')
-
-    if (accessMethod === 'pay') {
-      try {
-        // active se deja en false a propósito — lo pone el webhook de Stripe
-        // al confirmar el cobro (api/stripe-webhook.js), no esta escritura.
-        await saveTeacherProfileDraft(user.uid, { schoolName, stage })
-        await startCheckout('teacher')
-      } catch {
-        setStatus('error')
-      }
-      return
-    }
-
     try {
-      await activateTeacherProfile(user.uid, { schoolName, stage, promoCode: promoCode.trim().toUpperCase() })
+      // Beta gratuita: sin pago, sin código que teclear — ver la nota al
+      // principio del fichero.
+      await activateTeacherProfile(user.uid, { schoolName, stage, promoCode: TEACHER_BETA_CODE })
       navigate(localPath('/profesor'))
-    } catch (err) {
-      setStatus(err?.code === 'permission-denied' ? 'invalid-code' : 'error')
+    } catch {
+      setStatus('error')
     }
   }
 
@@ -192,7 +185,7 @@ export default function Profesores() {
     ca: 'Crea classes, assigna tasques i consulta com estudien els teus alumnes a Tuthor.',
   })
 
-  if (user === undefined || checking) {
+  if (user === undefined || (user && !profileChecked)) {
     return (
       <div className="flex items-center justify-center min-h-[calc(100vh-4rem)]">
         <p className="text-white/30 text-sm">{tr({ es: 'Cargando…', en: 'Loading…', ca: 'Carregant…' })}</p>
@@ -221,23 +214,35 @@ export default function Profesores() {
         {/* ── HERO ── */}
         <section className="pt-10 pb-16 sm:pt-16 sm:pb-24 grid lg:grid-cols-2 gap-12 items-center">
           <div>
-            <span className="inline-block text-[11px] font-bold uppercase tracking-widest text-teal-300 bg-teal-500/10 border border-teal-500/20 rounded-full px-3 py-1.5 mb-5">
-              {tr({ es: 'Tuthor para centros', en: 'Tuthor for schools', ca: 'Tuthor per a centres' })}
-            </span>
+            <div className="flex flex-wrap gap-2 mb-5">
+              <span className="inline-block text-[11px] font-bold uppercase tracking-widest text-teal-300 bg-teal-500/10 border border-teal-500/20 rounded-full px-3 py-1.5">
+                {tr({ es: 'Tuthor para centros', en: 'Tuthor for schools', ca: 'Tuthor per a centres' })}
+              </span>
+              <span className="inline-block text-[11px] font-bold uppercase tracking-widest text-amber-300 bg-amber-500/10 border border-amber-500/20 rounded-full px-3 py-1.5">
+                🧪 {tr({ es: 'Beta gratuita', en: 'Free beta', ca: 'Beta gratuïta' })}
+              </span>
+            </div>
             <h1 className="text-4xl sm:text-5xl font-black text-white leading-[1.05] mb-5">
               {tr({ es: 'Lleva tu clase a Tuthor', en: 'Bring your class to Tuthor', ca: 'Porta la teva classe a Tuthor' })}
             </h1>
-            <p className="text-white/55 text-base sm:text-lg mb-8 max-w-md">
+            <p className="text-white/55 text-base sm:text-lg mb-3 max-w-md">
               {tr({
                 es: 'Crea una clase, asigna tareas y mira en un panel quién ha jugado, quién ha aprobado y quién todavía no ha entrado.',
                 en: 'Create a class, assign tasks and see in one panel who has played, who has passed, and who hasn\'t logged in yet.',
                 ca: 'Crea una classe, assigna tasques i mira en un panell qui ha jugat, qui ha aprovat i qui encara no ha entrat.',
               })}
             </p>
+            <p className="text-amber-300/70 text-[13px] mb-8 max-w-md">
+              {tr({
+                es: 'Está en fase de pruebas: es gratis mientras dure y algunas cosas pueden cambiar. Tus datos se guardan igual que en el resto de Tuthor, según nuestra política de privacidad.',
+                en: 'It\'s in testing: free while it lasts, and some things may change. Your data is stored just like the rest of Tuthor, under our privacy policy.',
+                ca: 'Està en fase de proves: és gratis mentre duri i algunes coses poden canviar. Les teves dades es guarden igual que a la resta de Tuthor.',
+              })}
+            </p>
             <div className="flex flex-wrap gap-3">
-              <button onClick={() => scrollTo('pricing')}
+              <button onClick={() => scrollTo('empezar')}
                 className="px-6 py-3.5 bg-teal-600 hover:bg-teal-500 text-white font-bold text-sm rounded-xl transition-all hover:scale-[1.02] active:scale-[0.98]">
-                {tr({ es: 'Empezar ahora →', en: 'Get started →', ca: 'Començar ara →' })}
+                {tr({ es: 'Empezar gratis →', en: 'Start for free →', ca: 'Començar gratis →' })}
               </button>
               <button onClick={() => scrollTo('features')}
                 className="px-6 py-3.5 border border-white/15 hover:border-white/30 text-white/80 hover:text-white font-bold text-sm rounded-xl transition-colors">
@@ -329,32 +334,22 @@ export default function Profesores() {
         </section>
 
         {/* ── PRICING / FORMULARIO ── */}
-        <section id="pricing" className="py-16 sm:py-20 scroll-mt-8">
+        <section id="empezar" className="py-16 sm:py-20 scroll-mt-8">
           <div className="max-w-md mx-auto">
-            <div className="flex items-end justify-between gap-3 mb-6 border border-teal-500/20 rounded-2xl px-5 py-4 bg-teal-500/[0.06]">
+            <div className="flex items-start gap-3 mb-6 border border-amber-500/25 rounded-2xl px-5 py-4 bg-amber-500/[0.06]">
+              <span className="text-2xl shrink-0">🧪</span>
               <div>
-                <p className="text-white font-black text-3xl leading-none">
-                  {TEACHER_PLAN.price.toFixed(2).replace('.', ',')}€ <span className="text-white/40 text-sm font-semibold">/ {tr({ es: 'mes', en: 'month', ca: 'mes' })}</span>
+                <p className="text-white font-black text-base leading-tight">
+                  {tr({ es: 'Acceso gratuito mientras dure la beta', en: 'Free access while the beta lasts', ca: 'Accés gratuït mentre duri la beta' })}
                 </p>
-                <p className="text-white/40 text-xs mt-1.5">{tr({ es: 'Por profesor, cancela cuando quieras', en: 'Per teacher, cancel anytime', ca: 'Per professor, cancel·la quan vulguis' })}</p>
+                <p className="text-white/45 text-xs mt-1">
+                  {tr({
+                    es: 'Sin tarjeta ni compromiso. Nos ayuda mucho que nos cuentes qué falta o qué chirría.',
+                    en: 'No card, no commitment. It helps a lot if you tell us what\'s missing or what feels off.',
+                    ca: 'Sense targeta ni compromís. Ens ajuda molt que ens expliquis què falta.',
+                  })}
+                </p>
               </div>
-              <span className="text-3xl">🎓</span>
-            </div>
-
-            <p className="text-white/35 text-[11px] uppercase tracking-wider font-bold mb-2">
-              {tr({ es: 'Método de acceso', en: 'Access method', ca: 'Mètode d\'accés' })}
-            </p>
-            <div className="grid grid-cols-2 gap-2 mb-4">
-              <button type="button" onClick={() => setAccessMethod('pay')}
-                className={`rounded-xl border px-3 py-3 text-left transition-colors ${accessMethod === 'pay' ? 'border-teal-500/50 bg-teal-500/10' : 'border-white/10 bg-white/[0.03] hover:border-white/20'}`}>
-                <span className="text-lg block mb-1">💳</span>
-                <p className={`text-xs font-bold ${accessMethod === 'pay' ? 'text-white' : 'text-white/70'}`}>{tr({ es: 'Pagar', en: 'Pay', ca: 'Pagar' })}</p>
-              </button>
-              <button type="button" onClick={() => setAccessMethod('code')}
-                className={`rounded-xl border px-3 py-3 text-left transition-colors ${accessMethod === 'code' ? 'border-teal-500/50 bg-teal-500/10' : 'border-white/10 bg-white/[0.03] hover:border-white/20'}`}>
-                <span className="text-lg block mb-1">🎟️</span>
-                <p className={`text-xs font-bold ${accessMethod === 'code' ? 'text-white' : 'text-white/70'}`}>{tr({ es: 'Código de acceso', en: 'Access code', ca: 'Codi d\'accés' })}</p>
-              </button>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-3">
@@ -367,17 +362,7 @@ export default function Profesores() {
                   <option key={s.id} value={s.id} className="bg-[#0d0d1a]">{tr(s.label)}</option>
                 ))}
               </select>
-              {accessMethod === 'code' && (
-                <input type="text" required value={promoCode} onChange={e => setPromoCode(e.target.value)}
-                  placeholder={tr({ es: 'Código de acceso', en: 'Access code', ca: 'Codi d\'accés' })}
-                  className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder-white/30 outline-none focus:border-teal-500 transition-colors" />
-              )}
 
-              {status === 'invalid-code' && (
-                <p className="text-red-400 text-sm">
-                  {tr({ es: 'Código no válido. Comprueba que lo has escrito bien.', en: 'Invalid code. Check that you typed it correctly.', ca: 'Codi no vàlid. Comprova que l\'has escrit bé.' })}
-                </p>
-              )}
               {status === 'error' && (
                 <p className="text-red-400 text-sm">
                   {tr({ es: 'Error al crear tu cuenta de profesor. Inténtalo de nuevo.', en: 'Error creating your teacher account. Please try again.', ca: 'Error en crear el teu compte de professor. Torna-ho a intentar.' })}
@@ -389,14 +374,8 @@ export default function Profesores() {
                 {status === 'sending'
                   ? tr({ es: 'Un momento…', en: 'One moment…', ca: 'Un moment…' })
                   : !user
-                  ? tr({ es: 'Iniciar sesión y empezar', en: 'Sign in and start', ca: 'Iniciar sessió i començar' })
-                  : accessMethod === 'pay'
-                  ? tr({
-                      es: `Pagar ${TEACHER_PLAN.price.toFixed(2).replace('.', ',')}€/mes →`,
-                      en: `Pay €${TEACHER_PLAN.price.toFixed(2)}/month →`,
-                      ca: `Pagar ${TEACHER_PLAN.price.toFixed(2).replace('.', ',')}€/mes →`,
-                    })
-                  : tr({ es: 'Empezar a dar clase', en: 'Start teaching', ca: 'Començar a fer classe' })}
+                  ? tr({ es: 'Iniciar sesión y empezar gratis', en: 'Sign in and start for free', ca: 'Iniciar sessió i començar gratis' })
+                  : tr({ es: 'Empezar gratis →', en: 'Start for free →', ca: 'Començar gratis →' })}
               </button>
             </form>
           </div>

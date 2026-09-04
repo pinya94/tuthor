@@ -59,9 +59,18 @@ export async function saveTeacherProfileDraft(uid, { schoolName, stage }) {
 // fuerza, las rules no pueden importar JS).
 export function hasTeacherAccess(profile) {
   if (!profile?.active) return false
-  if (profile.promoCode === 'L4FXL3') return true
+  if (profile.promoCode === TEACHER_BETA_CODE) return true
   return ['active', 'trialing'].includes(profile.subscriptionStatus)
 }
+
+// El acceso de profesor está en beta abierta y gratuita (sept. 2026): en vez
+// de exigir pago, Profesores.jsx manda este código sin pedírselo a nadie —
+// ya no es un secreto, es el interruptor de "la beta es gratis". Para volver
+// a cobrar más adelante: quitar su uso en Profesores.jsx (vuelve a aparecer
+// el camino de pago con Stripe, que sigue intacto) y, si se quiere cerrar
+// también esta vía, cambiar el string aquí Y en firestore.rules
+// (hasValidPromoCode) a la vez — los dos tienen que decir lo mismo.
+export const TEACHER_BETA_CODE = 'L4FXL3'
 
 // ── Códigos de clase ─────────────────────────────────────────────────────────
 // Alfabeto sin ambigüedades (sin 0/O ni 1/I). Si se cambia aquí, hay que
