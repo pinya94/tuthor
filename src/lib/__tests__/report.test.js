@@ -3,7 +3,7 @@
 // colarse) y que el % de asistencia cuente los retrasos y las justificadas
 // como "sí vino", que es lo que le importa a una familia leyéndolo.
 import { describe, it, expect } from 'vitest'
-import { trimestresDelCurso, generarBoletin } from '../report'
+import { trimestresDelCurso, trimestreDe, generarBoletin } from '../report'
 
 const ts = iso => ({ toMillis: () => new Date(iso).getTime() })
 
@@ -28,6 +28,24 @@ describe('trimestresDelCurso', () => {
     const [t1, , t3, curso] = trimestresDelCurso(new Date(2026, 9, 1))
     expect(curso.desde <= t1.desde).toBe(true)
     expect(curso.hasta >= t3.hasta).toBe(true)
+  })
+})
+
+describe('trimestreDe', () => {
+  it('octubre cae en el 1er trimestre', () => {
+    expect(trimestreDe(new Date(2026, 9, 15))).toBe('1')
+  })
+
+  it('febrero cae en el 2º trimestre', () => {
+    expect(trimestreDe(new Date(2027, 1, 15))).toBe('2')
+  })
+
+  it('mayo cae en el 3er trimestre', () => {
+    expect(trimestreDe(new Date(2027, 4, 15))).toBe('3')
+  })
+
+  it('en verano (fuera de los tres rangos) no revienta: cae en el último', () => {
+    expect(trimestreDe(new Date(2027, 6, 15))).toBe('3')
   })
 })
 

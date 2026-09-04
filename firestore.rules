@@ -250,17 +250,26 @@ service cloud.firestore {
             && get(/databases/$(database)/documents/classes/$(classId)).data.teacherId == request.auth.uid;
         }
         allow read: if isAdmin() || miClase();
+        // trimestre: '1'/'2'/'3' o ausente/null — organiza el cuaderno, no
+        // decide nada de acceso, así que basta con acotar sus valores posibles.
+        function trimestreValido() {
+          return !('trimestre' in request.resource.data)
+            || request.resource.data.trimestre == null
+            || request.resource.data.trimestre in ['1', '2', '3'];
+        }
         allow create: if miClase()
-          && request.resource.data.keys().hasOnly(['name', 'values', 'createdAt', 'updatedAt'])
+          && request.resource.data.keys().hasOnly(['name', 'trimestre', 'values', 'createdAt', 'updatedAt'])
           && request.resource.data.name is string
           && request.resource.data.name.size() >= 1 && request.resource.data.name.size() <= 80
+          && trimestreValido()
           && request.resource.data.values == {}
           && request.resource.data.createdAt == request.time
           && request.resource.data.updatedAt == request.time;
         allow update: if miClase()
-          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['name', 'values', 'updatedAt'])
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['name', 'trimestre', 'values', 'updatedAt'])
           && request.resource.data.name is string
           && request.resource.data.name.size() >= 1 && request.resource.data.name.size() <= 80
+          && trimestreValido()
           && request.resource.data.values is map
           && request.resource.data.values.size() <= 200
           && request.resource.data.updatedAt == request.time;

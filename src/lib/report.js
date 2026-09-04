@@ -1,4 +1,5 @@
 import { promedioAlumno } from './grades'
+import { diaISO } from './attendance'
 
 // El boletín para familias: junta Notas + Asistencia + Observaciones de UN
 // alumno en UN periodo, en un solo objeto listo para pintar. No toca
@@ -29,6 +30,18 @@ export function trimestresDelCurso(fecha = new Date()) {
     { id: '3', label: { es: '3er trimestre', en: 'Term 3', ca: '3r trimestre' }, desde: `${a + 1}-04-01`, hasta: `${a + 1}-06-22` },
     { id: 'curso', label: { es: 'Curso completo', en: 'Full year', ca: 'Curs complet' }, desde: `${a}-09-01`, hasta: `${a + 1}-07-31` },
   ]
+}
+
+// A qué trimestre pertenece una fecha — para preseleccionar un valor
+// razonable al crear una columna de notas nueva (ver Notas.jsx). Fuera de los
+// tres rangos (julio-agosto) se queda en el último: es la opción menos mala,
+// y el profesor siempre puede cambiarla con el selector.
+export function trimestreDe(fecha = new Date()) {
+  const [t1, t2] = trimestresDelCurso(fecha)
+  const iso = diaISO(fecha)
+  if (iso <= t1.hasta) return t1.id
+  if (iso <= t2.hasta) return t2.id
+  return '3'
 }
 
 // Asistencia de UN alumno dentro de un mapa de días ya filtrado por rango

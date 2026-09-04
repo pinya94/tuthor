@@ -63,15 +63,24 @@ export async function getGradeColumns(classId) {
   return snap.docs.map(d => ({ id: d.id, ...d.data() }))
 }
 
-export async function createGradeColumn(classId, name) {
+// trimestre es opcional ('1'/'2'/'3', o null si el profesor no quiere
+// clasificarla): sirve para organizar el propio cuaderno cuando hay muchas
+// columnas a lo largo del curso, filtrando por trimestre en Notas.jsx. Se
+// preselecciona con trimestreDe() (src/lib/report.js) al crear la columna,
+// pero es solo una sugerencia — el profesor la cambia si no encaja.
+export async function createGradeColumn(classId, name, trimestre = null) {
   const ref = await addDoc(columnasRef(classId), {
-    name, values: {}, createdAt: serverTimestamp(), updatedAt: serverTimestamp(),
+    name, trimestre: trimestre || null, values: {}, createdAt: serverTimestamp(), updatedAt: serverTimestamp(),
   })
   return ref.id
 }
 
 export async function renameGradeColumn(classId, colId, name) {
   await updateDoc(doc(columnasRef(classId), colId), { name, updatedAt: serverTimestamp() })
+}
+
+export async function setColumnTrimestre(classId, colId, trimestre) {
+  await updateDoc(doc(columnasRef(classId), colId), { trimestre: trimestre || null, updatedAt: serverTimestamp() })
 }
 
 export async function setGrade(classId, colId, uid, nota) {

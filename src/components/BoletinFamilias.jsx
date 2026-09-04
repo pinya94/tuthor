@@ -19,6 +19,17 @@ function fechaLegible(iso, lang) {
   return new Date(a, m - 1, d).toLocaleDateString(lang === 'en' ? 'en-GB' : lang === 'ca' ? 'ca-ES' : 'es-ES', { day: 'numeric', month: 'short', year: 'numeric' })
 }
 
+// Para el createdAt de una observación: Timestamp de Firestore normalmente,
+// pero puede llegar como Date normal si viene de la actualización optimista
+// al añadir una nota (ver Observaciones.jsx). Sin año: dentro del boletín ya
+// se sabe el periodo por la cabecera, así que el año sería ruido repetido en
+// cada línea.
+function fechaCorta(fecha, lang) {
+  const d = fecha?.toDate ? fecha.toDate() : fecha instanceof Date ? fecha : null
+  if (!d) return ''
+  return d.toLocaleDateString(lang === 'en' ? 'en-GB' : lang === 'ca' ? 'ca-ES' : 'es-ES', { day: 'numeric', month: 'short' })
+}
+
 function Bloque({ titulo, children }) {
   return (
     <div className="mb-5">
@@ -94,6 +105,7 @@ function Papel({ boletin, alumno, claseName, lang, tr }) {
           <div className="space-y-1.5">
             {boletin.observaciones.map((o, i) => (
               <p key={i} className="text-[13px] text-black/75">
+                <span className="text-black/40 text-[11px] font-semibold mr-1.5 tabular-nums">{fechaCorta(o.createdAt, lang)}</span>
                 <span className="mr-1">{TAG_META[o.tag]?.emoji}</span>{o.text}
               </p>
             ))}

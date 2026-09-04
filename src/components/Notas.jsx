@@ -3,6 +3,7 @@ import {
   NOTA_MAX, parseNota, notaValida, promedioColumna, promedioAlumno, suspenso,
   getGradeColumns, createGradeColumn, setGrade, deleteGradeColumn,
 } from '../lib/grades'
+import { trimestresDelCurso, trimestreDe } from '../lib/report'
 
 // El cuaderno de notas. Cada columna es una evaluación; cada celda, un input
 // directo — es una tabla de calificar, y en una tabla de calificar se
@@ -11,6 +12,14 @@ import {
 //
 // Guardado al perder el foco (blur) o con Enter, no en cada tecla: escribir
 // "7.5" tecla a tecla no puede disparar una escritura por cada "7", "7.", …
+//
+// El trimestre de una columna es opcional y solo se decide al crearla (no
+// hay edición posterior en esta versión): organiza el propio cuaderno cuando
+// hay muchas evaluaciones en un curso, filtrando la tabla y las medias por
+// trimestre. "Curso completo" (el cuarto id de trimestresDelCurso) no
+// aparece aquí a propósito: una columna pertenece a UN trimestre o a
+// ninguno, nunca "a los tres a la vez".
+const TRIMESTRES = trimestresDelCurso().filter(t => t.id !== 'curso')
 
 const nota1dec = n => (n == null ? '' : Number.isInteger(n) ? String(n) : n.toFixed(1))
 
@@ -66,8 +75,10 @@ export default function Notas({ classId, students, tr }) {
   const [columnas, setColumnas] = useState(null) // null = cargando
   const [error, setError] = useState('')
   const [nuevaCol, setNuevaCol] = useState('')
+  const [nuevoTrimestre, setNuevoTrimestre] = useState(() => trimestreDe())
   const [creando, setCreando] = useState(false)
   const [borrarConfirm, setBorrarConfirm] = useState(null) // colId pendiente de un segundo toque
+  const [filtro, setFiltro] = useState('todas') // 'todas' | '1' | '2' | '3'
 
   useEffect(() => {
     getGradeColumns(classId)
@@ -81,8 +92,8 @@ export default function Notas({ classId, students, tr }) {
     if (!nombre) return
     setCreando(true); setError('')
     try {
-      const id = await createGradeColumn(classId, nombre)
-      setColumnas(cs => [...cs, { id, name: nombre, values: {} }])
+      const id = await createGradeColumn(classId, nombre, nuevoTrimestre)
+      setColumnas(cs => [...cs, { id, name: nombre, trimestre: nuevoTrimestre, values: {} }])
       setNuevaCol('')
     } catch {
       setError(tr({ es: 'No se pudo crear la columna.', en: 'Could not create the column.', ca: 'No s\'ha pogut crear la columna.' }))
@@ -138,17 +149,38 @@ export default function Notas({ classId, students, tr }) {
     return <p className="text-white/30 text-sm">{tr({ es: 'Cargando…', en: 'Loading…', ca: 'Carregant…' })}</p>
   }
 
+  const columnasFiltradas = filtro === 'todas' ? columnas : columnas.filter(c => c.trimestre === filtro)
+
   return (
     <div>
+      {columnas.length > 0 && (
+        <div className="flex flex-wrap gap-1.5 mb-3">
+          {[{ id: 'todas', label: { es: 'Todas', en: 'All', ca: 'Totes' } }, ...TRIMESTRES].map(t => (
+            <button key={t.id} type="button" onClick={() => setFiltro(t.id)}
+              className={`text-[12px] font-bold px-2.5 py-1.5 rounded-lg border transition-colors ${
+                filtro === t.id ? 'bg-white/15 border-white/25 text-white' : 'border-white/10 text-white/40 hover:text-white/70'
+              }`}>
+              {tr(t.label)}
+            </button>
+          ))}
+        </div>
+      )}
+
       {error && <p className="text-red-400 text-[12.5px] mb-3">{error}</p>}
 
-      {columnas.length === 0 ? (
+      {columnasFiltradas.length === 0 ? (
         <p className="text-white/30 text-sm mb-4">
-          {tr({
-            es: 'Todavía no hay ninguna evaluación. Añade la primera columna abajo.',
-            en: 'No assessment yet. Add the first column below.',
-            ca: 'Encara no hi ha cap avaluació. Afegeix la primera columna a sota.',
-          })}
+          {columnas.length === 0
+            ? tr({
+              es: 'Todavía no hay ninguna evaluación. Añade la primera columna abajo.',
+              en: 'No assessment yet. Add the first column below.',
+              ca: 'Encara no hi ha cap avaluació. Afegeix la primera columna a sota.',
+            })
+            : tr({
+              es: 'Ninguna evaluación en este trimestre todavía.',
+              en: 'No assessments in this term yet.',
+              ca: 'Cap avaluació en aquest trimestre encara.',
+            })}
         </p>
       ) : (
         <div className="overflow-x-auto -mx-1 mb-2">
@@ -158,9 +190,12 @@ export default function Notas({ classId, students, tr }) {
                 <th className="text-left text-white/35 text-[10.5px] uppercase tracking-wider font-bold px-1 pb-2 sticky left-0 bg-[rgba(13,15,22,.94)]">
                   {tr({ es: 'Alumno', en: 'Student', ca: 'Alumne' })}
                 </th>
-                {columnas.map(col => (
+                {columnasFiltradas.map(col => (
                   <th key={col.id} className="px-1.5 pb-2 min-w-[92px]">
                     <div className="flex items-center justify-center gap-1">
+                      {col.trimestre && filtro === 'todas' && (
+                        <span className="shrink-0 text-white/25 text-[9.5px] font-bold">{col.trimestre}º</span>
+                      )}
                       <span className="text-white text-[12px] font-bold truncate max-w-[100px]" title={col.name}>{col.name}</span>
                       <button type="button" onClick={() => borrarColumna(col.id)}
                         title={tr({ es: 'Borrar columna', en: 'Delete column', ca: 'Esborrar columna' })}
@@ -183,14 +218,14 @@ export default function Notas({ classId, students, tr }) {
                   <td className="text-white font-semibold text-[13px] py-1.5 px-1 truncate max-w-[140px] sticky left-0 bg-[rgba(13,15,22,.94)]">
                     {s.name}
                   </td>
-                  {columnas.map(col => (
+                  {columnasFiltradas.map(col => (
                     <td key={col.id} className="text-center py-1.5 px-1.5">
                       <Celda valor={notaValida(col.values?.[s.uid]) ? col.values[s.uid] : null}
                         onGuardar={valor => guardarNota(col.id, s.uid, valor)} />
                     </td>
                   ))}
                   <td className="text-center py-1.5 px-1.5 text-[13px] font-bold">
-                    <Media valor={promedioAlumno(columnas, s.uid)} />
+                    <Media valor={promedioAlumno(columnasFiltradas, s.uid)} />
                   </td>
                 </tr>
               ))}
@@ -198,7 +233,7 @@ export default function Notas({ classId, students, tr }) {
                 <td className="text-white/35 text-[10.5px] uppercase tracking-wider font-bold py-2 px-1 sticky left-0 bg-[rgba(13,15,22,.94)]">
                   {tr({ es: 'Media', en: 'Average', ca: 'Mitjana' })}
                 </td>
-                {columnas.map(col => (
+                {columnasFiltradas.map(col => (
                   <td key={col.id} className="text-center py-2 px-1.5 text-[13px] font-bold">
                     <Media valor={promedioColumna(col)} />
                   </td>
@@ -210,10 +245,16 @@ export default function Notas({ classId, students, tr }) {
         </div>
       )}
 
-      <form onSubmit={anadirColumna} className="flex items-center gap-2">
+      <form onSubmit={anadirColumna} className="flex items-center gap-2 flex-wrap">
         <input value={nuevaCol} onChange={e => setNuevaCol(e.target.value)} maxLength={80}
           placeholder={tr({ es: 'Nombre de la evaluación (p.ej. Examen tema 3)', en: 'Assessment name (e.g. Unit 3 test)', ca: "Nom de l'avaluació (p.ex. Examen tema 3)" })}
-          className="flex-1 bg-black/30 border border-white/10 rounded-lg px-3 py-2 text-white text-[13px] placeholder:text-white/25 focus:outline-none focus:ring-1 focus:ring-teal-400" />
+          className="flex-1 min-w-[160px] bg-black/30 border border-white/10 rounded-lg px-3 py-2 text-white text-[13px] placeholder:text-white/25 focus:outline-none focus:ring-1 focus:ring-teal-400" />
+        <select value={nuevoTrimestre} onChange={e => setNuevoTrimestre(e.target.value)}
+          className="shrink-0 bg-black/30 border border-white/10 rounded-lg px-2 py-2 text-white/70 text-[12.5px] outline-none focus:border-teal-500 transition-colors">
+          {TRIMESTRES.map(t => (
+            <option key={t.id} value={t.id} className="bg-[#0d0d1a]">{tr(t.label)}</option>
+          ))}
+        </select>
         <button type="submit" disabled={creando || !nuevaCol.trim()}
           className="shrink-0 text-[12.5px] font-bold px-3.5 py-2 rounded-lg bg-teal-600 hover:bg-teal-500 disabled:opacity-30 text-white transition-colors">
           + {tr({ es: 'Columna', en: 'Column', ca: 'Columna' })}
