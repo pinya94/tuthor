@@ -56,6 +56,17 @@ export function masRecientes(observaciones, limite = 20) {
     .slice(0, limite)
 }
 
+// El "marcador" de un alumno: positivas suman, negativas restan, neutras no
+// cuentan (son informativas — "hablado con la familia" no es ni un punto a
+// favor ni en contra). No hay un número aparte que llevar: se deriva de las
+// mismas notas del cuaderno, así que nunca puede desincronizarse del texto
+// que las explica. Lo usa el modo puntos del Aula (tocar la mesa = +1/−1).
+export function puntosDe(observaciones, uid) {
+  return observaciones
+    .filter(o => o.uid === uid)
+    .reduce((acc, o) => acc + (o.tag === 'positiva' ? 1 : o.tag === 'negativa' ? -1 : 0), 0)
+}
+
 // ── Firestore ────────────────────────────────────────────────────────────────
 const coleccion = classId => collection(db, 'classes', classId, 'observations')
 

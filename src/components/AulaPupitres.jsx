@@ -5,6 +5,7 @@ import {
   MAX_FILAS, MAX_COLUMNAS,
   normalizar, mesas, sinSitio, sentar, levantar, vaciar, sortear, redimensionar, alAzar,
 } from '../lib/seating'
+import { getClassObservations, addObservation, puntosDe } from '../lib/observations'
 
 // El plano del aula. Está pensado para dos usos distintos a la vez:
 //
@@ -16,6 +17,12 @@ import {
 //
 // Toda la lógica del plano vive en src/lib/seating.js y está testeada aparte:
 // aquí solo se pinta y se guarda.
+//
+// El "modo puntos" NO inventa un almacén nuevo: sumar o restar un punto es
+// literalmente crear una Observación positiva/negativa (src/lib/observations.js),
+// y el marcador es solo contar positivas menos negativas. Así el punto rápido
+// de clase y la nota detallada del cuaderno son la misma cosa vista con dos
+// mecánicas distintas, nunca dos números que se puedan desincronizar.
 
 const NOMBRE_CORTO = nombre => (nombre || '').trim().split(/\s+/)[0] || '—'
 const RECUERDA_AZAR = 5 // cuántos "sale a la pizarra" recuerda para no repetir
@@ -62,7 +69,39 @@ export default function AulaPupitres({ clase, students, onSave, lang, tr }) {
   const [ultimos, setUltimos] = useState([])
   const [error, setError] = useState('')
 
+  const [modoPuntos, setModoPuntos] = useState(false)
+  const [observaciones, setObservaciones] = useState(null) // null = no cargadas todavía (carga perezosa)
+  const [errorPuntos, setErrorPuntos] = useState('')
+
   const libres = sinSitio(plano, studentIds)
+
+  // Perezoso a propósito: la mayoría de profesores no usarán el modo puntos
+  // en una sesión dada, así que no tiene sentido leer observations en cada
+  // apertura del Aula si nunca se va a mostrar el marcador.
+  function alternarModoPuntos() {
+    setModoPuntos(m => !m)
+    if (observaciones === null) {
+      getClassObservations(clase.id)
+        .then(setObservaciones)
+        .catch(() => setErrorPuntos(tr({ es: 'No se pudieron cargar los puntos.', en: 'Could not load the points.', ca: 'No s\'han pogut carregar els punts.' })))
+    }
+  }
+
+  async function sumarPunto(uid, delta) {
+    const texto = delta > 0
+      ? tr({ es: 'Comportamiento +1 (Aula)', en: 'Behaviour +1 (Classroom)', ca: 'Comportament +1 (Aula)' })
+      : tr({ es: 'Comportamiento −1 (Aula)', en: 'Behaviour −1 (Classroom)', ca: 'Comportament −1 (Aula)' })
+    const tag = delta > 0 ? 'positiva' : 'negativa'
+    const previas = observaciones
+    setObservaciones(os => [...(os || []), { uid, text: texto, tag, createdAt: new Date() }])
+    setErrorPuntos('')
+    try {
+      await addObservation(clase.id, uid, texto, tag)
+    } catch {
+      setObservaciones(previas)
+      setErrorPuntos(tr({ es: 'No se pudo guardar el punto.', en: 'Could not save the point.', ca: 'No s\'ha pogut desar el punt.' }))
+    }
+  }
 
   // Optimista: se pinta ya y se revierte si Firestore dice que no. Colocar a
   // treinta alumnos esperando a la red cada vez sería inusable en clase.
@@ -110,6 +149,9 @@ export default function AulaPupitres({ clase, students, onSave, lang, tr }) {
           disabled={Object.keys(plano.spots).length === 0}>
           🗑️ {tr({ es: 'Vaciar', en: 'Clear', ca: 'Buidar' })}
         </Boton>
+        <Boton onClick={alternarModoPuntos} disabled={students.length === 0} tono={modoPuntos ? 'fuerte' : 'suave'}>
+          🎯 {tr({ es: 'Modo puntos', en: 'Points mode', ca: 'Mode punts' })}
+        </Boton>
         <div className="flex items-center gap-3 ml-auto">
           <Stepper label={tr({ es: 'Filas', en: 'Rows', ca: 'Files' })} value={plano.rows} min={1} max={MAX_FILAS}
             onChange={n => guardar(redimensionar(plano, n, plano.cols))} />
@@ -119,6 +161,7 @@ export default function AulaPupitres({ clase, students, onSave, lang, tr }) {
       </div>
 
       {error && <p className="text-red-400 text-[12.5px] mb-3">{error}</p>}
+      {errorPuntos && <p className="text-red-400 text-[12.5px] mb-3">{errorPuntos}</p>}
 
       {azar && (
         <div className="mb-4 rounded-2xl border border-teal-500/40 bg-teal-500/10 px-4 py-3 flex items-center justify-between gap-3">
@@ -144,9 +187,10 @@ export default function AulaPupitres({ clase, students, onSave, lang, tr }) {
           {mesas(plano).map(mesa => {
             const alumno = mesa.uid ? porUid[mesa.uid] : null
             const esteAbierto = abierto && mesa.uid === abierto
+            const puntos = modoPuntos && alumno && observaciones ? puntosDe(observaciones, mesa.uid) : null
             return (
               <button key={mesa.index} type="button" onClick={() => tocarMesa(mesa)}
-                className={`aspect-[4/3] rounded-lg border text-[11px] sm:text-[12.5px] font-bold px-1 flex items-center justify-center text-center leading-tight transition-all ${
+                className={`relative aspect-[4/3] rounded-lg border text-[11px] sm:text-[12.5px] font-bold px-1 flex items-center justify-center text-center leading-tight transition-all ${
                   alumno
                     ? esteAbierto
                       ? 'bg-teal-500 border-teal-400 text-black'
@@ -155,6 +199,13 @@ export default function AulaPupitres({ clase, students, onSave, lang, tr }) {
                       ? 'border-dashed border-teal-500/60 bg-teal-500/5 text-teal-300/60 hover:bg-teal-500/15'
                       : 'border-dashed border-white/10 text-white/15 hover:border-white/20'
                 }`}>
+                {puntos !== null && puntos !== 0 && (
+                  <span className={`absolute -top-1.5 -right-1.5 min-w-[18px] px-1 h-[18px] rounded-full text-[10px] font-black flex items-center justify-center leading-none ${
+                    puntos > 0 ? 'bg-green-500 text-black' : 'bg-red-500 text-white'
+                  }`}>
+                    {puntos > 0 ? `+${puntos}` : puntos}
+                  </span>
+                )}
                 <span className="line-clamp-2 break-words">{alumno ? NOMBRE_CORTO(alumno.name) : '·'}</span>
               </button>
             )
@@ -194,15 +245,53 @@ export default function AulaPupitres({ clase, students, onSave, lang, tr }) {
       <p className="text-white/25 text-[11.5px] mb-4">
         {elegido
           ? tr({ es: '👆 Ahora toca la mesa donde quieres sentarlo.', en: '👆 Now tap the desk where they sit.', ca: '👆 Ara toca la taula on vols asseure\'l.' })
-          : tr({
-            es: 'Toca un alumno de "sin sitio" para colocarlo, o una mesa ocupada para ver sus resultados.',
-            en: 'Tap a student under "not seated" to place them, or an occupied desk to see their results.',
-            ca: 'Toca un alumne de "sense lloc" per col·locar-lo, o una taula ocupada per veure els seus resultats.',
-          })}
+          : modoPuntos
+            ? tr({
+              es: 'Modo puntos activo: toca una mesa ocupada para sumar o restar un punto de comportamiento.',
+              en: 'Points mode on: tap an occupied desk to add or subtract a behaviour point.',
+              ca: 'Mode punts actiu: toca una taula ocupada per sumar o restar un punt de comportament.',
+            })
+            : tr({
+              es: 'Toca un alumno de "sin sitio" para colocarlo, o una mesa ocupada para ver sus resultados.',
+              en: 'Tap a student under "not seated" to place them, or an occupied desk to see their results.',
+              ca: 'Toca un alumne de "sense lloc" per col·locar-lo, o una taula ocupada per veure els seus resultats.',
+            })}
       </p>
 
       {/* ── Ficha del alumno cuya mesa se ha tocado ── */}
-      {alumnoAbierto && (
+      {alumnoAbierto && modoPuntos ? (
+        <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-4">
+          <div className="flex items-start justify-between gap-3 mb-4">
+            <div>
+              <p className="text-white font-black text-lg">{alumnoAbierto.name}</p>
+              <p className="text-white/45 text-[12.5px] mt-0.5">
+                {tr({ es: 'Marcador', en: 'Score', ca: 'Marcador' })}:{' '}
+                <span className="font-bold text-white/70">
+                  {observaciones ? puntosDe(observaciones, alumnoAbierto.uid) : '—'}
+                </span>
+              </p>
+            </div>
+            <button type="button" onClick={() => setAbierto(null)} className="text-white/40 hover:text-white text-lg px-1">✕</button>
+          </div>
+          <div className="flex items-center gap-2">
+            <button type="button" onClick={() => sumarPunto(alumnoAbierto.uid, 1)}
+              className="flex-1 py-3 rounded-xl bg-green-500/15 hover:bg-green-500/25 border border-green-500/30 text-green-400 font-black text-lg transition-colors">
+              +1
+            </button>
+            <button type="button" onClick={() => sumarPunto(alumnoAbierto.uid, -1)}
+              className="flex-1 py-3 rounded-xl bg-red-500/15 hover:bg-red-500/25 border border-red-500/30 text-red-400 font-black text-lg transition-colors">
+              −1
+            </button>
+          </div>
+          <p className="text-white/25 text-[11px] mt-3">
+            {tr({
+              es: 'Cada toque añade una observación al cuaderno del profesor (positiva o negativa). Para escribir el motivo, hazlo desde la pestaña Observaciones.',
+              en: 'Each tap adds a note to the teacher’s notebook (positive or negative). To write the reason, do it from the Notes tab.',
+              ca: 'Cada toc afegeix una observació al quadern del professor. Per escriure el motiu, fes-ho des de la pestanya Observacions.',
+            })}
+          </p>
+        </div>
+      ) : alumnoAbierto && (
         <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-4">
           <div className="flex items-start justify-between gap-3 mb-3">
             <div>

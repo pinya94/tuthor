@@ -3,10 +3,10 @@
 // documentos de Firestore (nunca garantizado), y que el texto vacío no cuele
 // como una nota válida.
 import { describe, it, expect } from 'vitest'
-import { TAGS, TAG_META, TEXTO_MAX, textoValido, porAlumno, masRecientes } from '../observations'
+import { TAGS, TAG_META, TEXTO_MAX, textoValido, porAlumno, masRecientes, puntosDe } from '../observations'
 
-const nota = (uid, ms, texto = 'x') => ({
-  uid, text: texto, tag: 'neutra', createdAt: { toMillis: () => ms },
+const nota = (uid, ms, texto = 'x', tag = 'neutra') => ({
+  uid, text: texto, tag, createdAt: { toMillis: () => ms },
 })
 
 describe('textoValido', () => {
@@ -67,5 +67,27 @@ describe('masRecientes', () => {
     const original = [nota('a', 1), nota('b', 2)]
     masRecientes(original)
     expect(original.map(o => o.uid)).toEqual(['a', 'b'])
+  })
+})
+
+describe('puntosDe', () => {
+  it('positivas suman, negativas restan', () => {
+    const obs = [nota('a', 1, 'x', 'positiva'), nota('a', 2, 'x', 'positiva'), nota('a', 3, 'x', 'negativa')]
+    expect(puntosDe(obs, 'a')).toBe(1)
+  })
+
+  it('las neutras no cuentan para el marcador', () => {
+    const obs = [nota('a', 1, 'x', 'positiva'), nota('a', 2, 'x', 'neutra'), nota('a', 3, 'x', 'neutra')]
+    expect(puntosDe(obs, 'a')).toBe(1)
+  })
+
+  it('solo cuenta las notas del alumno pedido', () => {
+    const obs = [nota('a', 1, 'x', 'positiva'), nota('b', 2, 'x', 'negativa')]
+    expect(puntosDe(obs, 'a')).toBe(1)
+    expect(puntosDe(obs, 'b')).toBe(-1)
+  })
+
+  it('sin notas, el marcador es 0, no null ni NaN', () => {
+    expect(puntosDe([], 'a')).toBe(0)
   })
 })
