@@ -152,6 +152,48 @@ function MockTasks() {
   )
 }
 
+// Para la HERO: "lleva tu clase a Tuthor" necesita su propia imagen, no la
+// misma que "asigna tareas" un poco más abajo (MockTasks) — dos bloques con
+// el mismo mockup leían como que solo hay una pantalla en todo el producto.
+// Esta muestra la otra mitad de la promesa del titular: no solo asignas,
+// también VES cómo le va a cada alumno con solo tocar su nombre.
+function MockStudentDetail() {
+  return (
+    <BrowserFrame>
+      <p className="text-white font-black text-sm mb-3">Alumnos · 3º ESO A</p>
+      <div className="space-y-2">
+        <div className="rounded-xl border border-violet-400/30 bg-violet-500/[0.09] px-3.5 py-3">
+          <div className="flex items-center justify-between mb-2.5">
+            <p className="text-white text-[13px] font-bold">👤 Nora</p>
+            <span className="text-violet-300 text-[10px] font-bold">Ficha ▾</span>
+          </div>
+          <div className="grid grid-cols-3 gap-2 mb-2.5">
+            <div className="bg-black/25 rounded-lg py-2 text-center">
+              <p className="text-amber-400 font-black text-sm leading-none">340</p>
+              <p className="text-white/40 text-[9px] mt-1">monedas</p>
+            </div>
+            <div className="bg-black/25 rounded-lg py-2 text-center">
+              <p className="text-green-400 font-black text-sm leading-none">12</p>
+              <p className="text-white/40 text-[9px] mt-1">aprobados</p>
+            </div>
+            <div className="bg-black/25 rounded-lg py-2 text-center">
+              <p className="text-white font-black text-sm leading-none">🔥 5</p>
+              <p className="text-white/40 text-[9px] mt-1">racha</p>
+            </div>
+          </div>
+          <p className="text-white/40 text-[10.5px]">Última actividad: hoy · ⚡ Fuerza Neta — 92 pts</p>
+        </div>
+        {['Iker', 'Bruno'].map(n => (
+          <div key={n} className="flex items-center justify-between bg-white/[0.04] border border-white/10 rounded-xl px-3.5 py-2.5">
+            <span className="text-white text-[12.5px] font-semibold">{n}</span>
+            <span className="text-white/25 text-[11px]">→</span>
+          </div>
+        ))}
+      </div>
+    </BrowserFrame>
+  )
+}
+
 function MockStudentView() {
   return (
     <BrowserFrame>
@@ -357,7 +399,7 @@ export default function Profesores() {
             </div>
           </div>
           <div className="lg:pl-6">
-            <MockTasks />
+            <MockStudentDetail />
           </div>
         </section>
 
