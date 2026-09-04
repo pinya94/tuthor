@@ -17,6 +17,8 @@ import Asistencia from '../components/Asistencia'
 import Notas from '../components/Notas'
 import Observaciones from '../components/Observaciones'
 import BoletinFamilias from '../components/BoletinFamilias'
+import QuizBuilder from '../components/QuizBuilder'
+import { preguntaVacia, quizValido, limpiarQuiz } from '../lib/quiz'
 import { EXAMS, examGroupLabel } from '../lib/exams'
 import { hasTopics, topicIds, topicFormats, formatLevels, topicTask, catalogTaskLabel, examsCoveredByTopics, LEVELS } from '../lib/topicCatalog'
 
@@ -95,7 +97,7 @@ function TaskCard({ task, studentsByUid, lang, tr, onToggleManual, onToggleFalta
     <div className="border border-white/10 rounded-xl overflow-hidden bg-white/[0.04]">
       <button type="button" onClick={() => setOpen(o => !o)}
         className="w-full flex items-center gap-3 px-4 py-2.5 text-left hover:bg-white/5 transition-colors">
-        <span className="shrink-0 text-base w-5 text-center">{task.kind === 'catalog' ? '🎮' : '📌'}</span>
+        <span className="shrink-0 text-base w-5 text-center">{task.kind === 'catalog' ? '🎮' : task.kind === 'quiz' ? '❓' : '📌'}</span>
         <div className="flex-1 min-w-[100px]">
           <p className="text-white font-semibold text-[13.5px] truncate">{label}</p>
           {task.dueDate && (
@@ -130,7 +132,7 @@ function TaskCard({ task, studentsByUid, lang, tr, onToggleManual, onToggleFalta
                   <span className="text-white/60 text-[12.5px]">{name}</span>
                   {c?.done ? (
                     <span className="text-[12px] font-semibold">
-                      {task.kind === 'catalog' ? (
+                      {task.kind === 'catalog' || task.kind === 'quiz' ? (
                         <>
                           <span className="text-green-400">✅ {c.passed === true ? tr({ es: 'Aprobado', en: 'Passed', ca: 'Aprovat' }) : c.passed === false ? tr({ es: 'Suspenso', en: 'Failed', ca: 'Suspès' }) : ''}</span>
                           {c.score != null && <span className="text-white/40 ml-1.5">{c.score} pts</span>}
@@ -297,13 +299,14 @@ export default function ProfesorClase() {
 
   const [assignments, setAssignments] = useState([])
   const [showForm, setShowForm] = useState(false)
-  const [taskKind, setTaskKind] = useState('game') // 'game' | 'exam' | 'text'
+  const [taskKind, setTaskKind] = useState('game') // 'game' | 'exam' | 'text' | 'quiz'
   const [taskGameId, setTaskGameId] = useState('') // kind 'game': id de GAMES
   const [taskExamSubject, setTaskExamSubject] = useState('') // kind 'exam': materia elegida
   const [taskTema, setTaskTema] = useState('') // kind 'exam': tema (materia del catálogo por tema)
   const [taskFormato, setTaskFormato] = useState('') // kind 'exam': formato/mecánica (con tema) o examId plano (sin tema)
   const [taskNivel, setTaskNivel] = useState('') // kind 'exam': nivel, si el formato lo usa
   const [taskTitle, setTaskTitle] = useState('')
+  const [taskQuiz, setTaskQuiz] = useState(() => [preguntaVacia()]) // kind 'quiz': preguntas del examen propio
   const [taskTarget, setTaskTarget] = useState('all')
   const [taskStudentIds, setTaskStudentIds] = useState([])
   const [taskDueDate, setTaskDueDate] = useState('')
@@ -428,28 +431,32 @@ export default function ProfesorClase() {
   async function handleCreateTask(e) {
     e.preventDefault()
     const isCatalog = taskKind === 'game' || taskKind === 'exam'
+    const isQuiz = taskKind === 'quiz'
     const { gameId, category, level } = isCatalog ? resolveCatalogChoice() : { gameId: null, category: null, level: null }
     if (isCatalog && !gameId) return
     // Si el formato usa nivel, hay que elegirlo antes de asignar
     if (nivelesDisponibles.length > 0 && !taskNivel) return
-    if (taskKind === 'text' && !taskTitle.trim()) return
+    if ((taskKind === 'text' || isQuiz) && !taskTitle.trim()) return
+    const quizLimpio = isQuiz ? limpiarQuiz(taskQuiz) : null
+    if (isQuiz && !quizValido(quizLimpio)) return
     const targetIds = taskTarget === 'all' ? clase.studentIds : taskStudentIds
     if (!targetIds || targetIds.length === 0) return
     setCreatingTask(true)
     setTaskError('')
     try {
       await createAssignment(user.uid, classId, clase.name, {
-        kind: isCatalog ? 'catalog' : 'text',
+        kind: isCatalog ? 'catalog' : isQuiz ? 'quiz' : 'text',
         gameId,
         category,
         level,
         title: taskTitle.trim(),
+        quiz: quizLimpio,
         studentIds: targetIds,
         dueDate: taskDueDate ? new Date(taskDueDate) : null,
       })
       setShowForm(false)
       setTaskKind('game'); setTaskGameId(''); setTaskExamSubject(''); setTaskTema(''); setTaskFormato(''); setTaskNivel('')
-      setTaskTitle(''); setTaskTarget('all'); setTaskStudentIds([]); setTaskDueDate('')
+      setTaskTitle(''); setTaskQuiz([preguntaVacia()]); setTaskTarget('all'); setTaskStudentIds([]); setTaskDueDate('')
       await loadAssignments()
     } catch {
       setTaskError(tr({ es: 'No se pudo crear la tarea. Inténtalo de nuevo.', en: 'Could not create the task. Please try again.', ca: 'No s\'ha pogut crear la tasca. Torna-ho a intentar.' }))
@@ -603,6 +610,10 @@ export default function ProfesorClase() {
                 className={`flex-1 text-xs font-bold py-2 rounded-lg border transition-colors ${taskKind === 'text' ? 'bg-teal-600 border-teal-600 text-white' : 'border-white/10 text-white/50'}`}>
                 {tr({ es: 'Texto libre', en: 'Text task', ca: 'Text lliure' })}
               </button>
+              <button type="button" onClick={() => setTaskKind('quiz')}
+                className={`flex-1 text-xs font-bold py-2 rounded-lg border transition-colors ${taskKind === 'quiz' ? 'bg-teal-600 border-teal-600 text-white' : 'border-white/10 text-white/50'}`}>
+                {tr({ es: 'Examen propio', en: 'Your own exam', ca: 'Examen propi' })}
+              </button>
             </div>
 
             {taskKind === 'game' && (
@@ -704,6 +715,15 @@ export default function ProfesorClase() {
               <input type="text" value={taskTitle} onChange={e => setTaskTitle(e.target.value)}
                 placeholder={tr({ es: 'Ej. Traer el libro de texto', en: 'E.g. Bring the textbook', ca: 'Ex. Portar el llibre de text' })}
                 className="w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2.5 text-sm text-white placeholder-white/30 outline-none focus:border-teal-500 transition-colors" />
+            )}
+
+            {taskKind === 'quiz' && (
+              <div className="space-y-3">
+                <input type="text" value={taskTitle} onChange={e => setTaskTitle(e.target.value)}
+                  placeholder={tr({ es: 'Nombre del examen (ej. Examen sorpresa tema 4)', en: 'Exam name (e.g. Pop quiz unit 4)', ca: "Nom de l'examen (ex. Examen sorpresa tema 4)" })}
+                  className="w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2.5 text-sm text-white placeholder-white/30 outline-none focus:border-teal-500 transition-colors" />
+                <QuizBuilder preguntas={taskQuiz} onChange={setTaskQuiz} tr={tr} />
+              </div>
             )}
 
             <div className="flex gap-2">

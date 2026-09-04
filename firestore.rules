@@ -311,11 +311,19 @@ service cloud.firestore {
         return get(/databases/$(database)/documents/classes/$(classId)).data.teacherId == request.auth.uid;
       }
 
+      // 'quiz': examen propio del profesor, con las preguntas dentro de la
+      // propia tarea (ver src/lib/quiz.js — por qué no se esconde la
+      // respuesta correcta). Aquí solo se acota la forma general (una lista
+      // de 1 a 10 preguntas); el contenido de cada pregunta se valida en el
+      // cliente al crearla, mismo patrón que seating/roster/modules.
       allow create: if isTeacher(request.auth.uid)
         && request.resource.data.teacherId == request.auth.uid
         && classOwnedByCaller(request.resource.data.classId)
-        && request.resource.data.keys().hasOnly(['teacherId', 'classId', 'className', 'kind', 'gameId', 'category', 'level', 'title', 'studentIds', 'dueDate', 'createdAt', 'completions'])
-        && request.resource.data.kind in ['catalog', 'text']
+        && request.resource.data.keys().hasOnly(['teacherId', 'classId', 'className', 'kind', 'gameId', 'category', 'level', 'title', 'quiz', 'studentIds', 'dueDate', 'createdAt', 'completions'])
+        && request.resource.data.kind in ['catalog', 'text', 'quiz']
+        && (request.resource.data.kind != 'quiz'
+            || (request.resource.data.quiz is list
+                && request.resource.data.quiz.size() >= 1 && request.resource.data.quiz.size() <= 10))
         && request.resource.data.studentIds is list && request.resource.data.studentIds.size() > 0
         && request.resource.data.completions == {}
         && request.resource.data.createdAt == request.time;

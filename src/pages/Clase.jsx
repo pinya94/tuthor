@@ -15,6 +15,7 @@ function taskLabel(task, lang) {
 }
 
 function taskRoute(task) {
+  if (task.kind === 'quiz') return `/clase/examen/${task.id}`
   return catalogTaskRoute(task, { games: GAMES, exams: EXAMS })
 }
 
