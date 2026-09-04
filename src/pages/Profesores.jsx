@@ -4,13 +4,15 @@ import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
 import SEOHead from '../components/SEOHead'
 import AuthModal from '../components/AuthModal'
-import { activateTeacherProfile, getTeacherProfile, hasTeacherAccess, TEACHER_BETA_CODE } from '../lib/classes'
+import { activateTeacherProfile, getTeacherProfile, hasTeacherAccess } from '../lib/classes'
 
-// BETA GRATUITA (sept. 2026): mientras dure, no se pide pago — activateTeacherProfile
-// manda el código de la beta sin preguntárselo a nadie (ver TEACHER_BETA_CODE
-// en classes.js). El camino de pago con Stripe sigue intacto en checkout.js y
-// access.js, listo para reactivarse: basta con devolver aquí el formulario
-// "pagar / código" que había antes y volver a importar TEACHER_PLAN/startCheckout.
+// BETA GRATUITA (sept. 2026): mientras dure, no se pide pago — pero SÍ se pide
+// la palabra de la beta (ver TEACHER_BETA_CODE en classes.js), que no se
+// enseña en ningún sitio de esta página: se comparte por fuera, con quien se
+// quiera invitar a probar. El camino de pago con Stripe sigue intacto en
+// checkout.js y access.js, listo para reactivarse: basta con devolver aquí el
+// formulario "pagar / código" que había antes y volver a importar
+// TEACHER_PLAN/startCheckout.
 
 const STAGES = [
   { id: 'primaria', label: { es: 'Primaria', en: 'Primary', ca: 'Primària' } },
@@ -154,6 +156,7 @@ export default function Profesores() {
   const [showAuth, setShowAuth] = useState(false)
   const [schoolName, setSchoolName] = useState('')
   const [stage, setStage] = useState('eso')
+  const [betaCode, setBetaCode] = useState('')
   const [status, setStatus] = useState('idle')
 
   useEffect(() => {
@@ -169,12 +172,14 @@ export default function Profesores() {
     if (!user) { setShowAuth(true); return }
     setStatus('sending')
     try {
-      // Beta gratuita: sin pago, sin código que teclear — ver la nota al
-      // principio del fichero.
-      await activateTeacherProfile(user.uid, { schoolName, stage, promoCode: TEACHER_BETA_CODE })
+      // Gratis, pero no abierto a cualquiera: hace falta la palabra de la
+      // beta (activateTeacherProfile la normaliza — da igual mayúsculas o
+      // espacios de más). Si no coincide con lo que exige firestore.rules,
+      // el propio setDoc llega denegado con permission-denied.
+      await activateTeacherProfile(user.uid, { schoolName, stage, promoCode: betaCode })
       navigate(localPath('/profesor'))
-    } catch {
-      setStatus('error')
+    } catch (err) {
+      setStatus(err?.code === 'permission-denied' ? 'invalid-code' : 'error')
     }
   }
 
@@ -340,13 +345,13 @@ export default function Profesores() {
               <span className="text-2xl shrink-0">🧪</span>
               <div>
                 <p className="text-white font-black text-base leading-tight">
-                  {tr({ es: 'Acceso gratuito mientras dure la beta', en: 'Free access while the beta lasts', ca: 'Accés gratuït mentre duri la beta' })}
+                  {tr({ es: 'Acceso gratuito por invitación', en: 'Free access by invitation', ca: 'Accés gratuït per invitació' })}
                 </p>
                 <p className="text-white/45 text-xs mt-1">
                   {tr({
-                    es: 'Sin tarjeta ni compromiso. Nos ayuda mucho que nos cuentes qué falta o qué chirría.',
-                    en: 'No card, no commitment. It helps a lot if you tell us what\'s missing or what feels off.',
-                    ca: 'Sense targeta ni compromís. Ens ajuda molt que ens expliquis què falta.',
+                    es: 'Sin tarjeta ni compromiso. Necesitas la palabra de la beta — te la habrá dado quien te haya invitado a probarlo.',
+                    en: 'No card, no commitment. You\'ll need the beta word — whoever invited you to try it should have given it to you.',
+                    ca: 'Sense targeta ni compromís. Necessites la paraula de la beta — qui t\'hagi convidat a provar-ho te l\'haurà donat.',
                   })}
                 </p>
               </div>
@@ -362,7 +367,15 @@ export default function Profesores() {
                   <option key={s.id} value={s.id} className="bg-[#0d0d1a]">{tr(s.label)}</option>
                 ))}
               </select>
+              <input type="text" required value={betaCode} onChange={e => setBetaCode(e.target.value)}
+                placeholder={tr({ es: 'Palabra de la beta', en: 'Beta word', ca: 'Paraula de la beta' })}
+                className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder-white/30 outline-none focus:border-teal-500 transition-colors" />
 
+              {status === 'invalid-code' && (
+                <p className="text-red-400 text-sm">
+                  {tr({ es: 'Esa palabra no es correcta. Comprueba que la has escrito bien.', en: 'That word isn\'t right. Check you typed it correctly.', ca: 'Aquesta paraula no és correcta. Comprova que l\'has escrit bé.' })}
+                </p>
+              )}
               {status === 'error' && (
                 <p className="text-red-400 text-sm">
                   {tr({ es: 'Error al crear tu cuenta de profesor. Inténtalo de nuevo.', en: 'Error creating your teacher account. Please try again.', ca: 'Error en crear el teu compte de professor. Torna-ho a intentar.' })}

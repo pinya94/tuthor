@@ -30,7 +30,7 @@ service cloud.firestore {
       return request.auth != null && request.auth.uid == uid && !isChildSession()
         && 'teacherProfile' in u && tp.active == true
         && (
-          ('promoCode' in tp && tp.promoCode == 'L4FXL3') ||
+          ('promoCode' in tp && tp.promoCode == 'BETATUTHOR') ||
           ('subscriptionStatus' in tp && tp.subscriptionStatus in ['active', 'trialing'])
         );
     }
@@ -58,7 +58,7 @@ service cloud.firestore {
     // códigos más adelante, esto pasa a un `in [...]` como isAdmin().
     function hasValidPromoCode() {
       return 'teacherProfile' in request.resource.data
-        && request.resource.data.teacherProfile.promoCode == 'L4FXL3';
+        && request.resource.data.teacherProfile.promoCode == 'BETATUTHOR';
     }
 
     // Campos que dan acceso de pago y que por tanto SOLO puede escribir

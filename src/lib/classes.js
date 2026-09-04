@@ -21,13 +21,19 @@ import { generarIdFicha } from './roster'
 // dejar pasar active:true la primera vez (becomesTeacher()) — un código
 // inválido hace que este setDoc falle con permission-denied, no solo una
 // validación de UI.
+// Normaliza como el resto de códigos del proyecto (código de clase, código
+// del hijo): mayúsculas y sin espacios sueltos. Así da igual si alguien
+// escribe "betatuthor", "BetaTuthor" o "  BETATUTHOR  " — todo llega igual a
+// la comparación exacta que hace firestore.rules.
+const normalizarCodigo = raw => (raw ?? '').trim().toUpperCase()
+
 export async function activateTeacherProfile(uid, { schoolName, stage, promoCode }) {
   await setDoc(doc(db, 'users', uid), {
     teacherProfile: {
       active: true,
       schoolName,
       stage,
-      promoCode,
+      promoCode: normalizarCodigo(promoCode),
       createdAt: serverTimestamp(),
     },
   }, { merge: true })
@@ -63,14 +69,19 @@ export function hasTeacherAccess(profile) {
   return ['active', 'trialing'].includes(profile.subscriptionStatus)
 }
 
-// El acceso de profesor está en beta abierta y gratuita (sept. 2026): en vez
-// de exigir pago, Profesores.jsx manda este código sin pedírselo a nadie —
-// ya no es un secreto, es el interruptor de "la beta es gratis". Para volver
-// a cobrar más adelante: quitar su uso en Profesores.jsx (vuelve a aparecer
-// el camino de pago con Stripe, que sigue intacto) y, si se quiere cerrar
-// también esta vía, cambiar el string aquí Y en firestore.rules
-// (hasValidPromoCode) a la vez — los dos tienen que decir lo mismo.
-export const TEACHER_BETA_CODE = 'L4FXL3'
+// El acceso de profesor está en beta gratuita (sept. 2026), pero NO abierta a
+// cualquiera: hace falta conocer esta palabra, que el profesor escribe él
+// mismo en Profesores.jsx (no se enseña en ningún sitio de la página — se
+// comparte por fuera, con quien se quiera invitar a probar). No es una
+// barrera de verdad —viaja en el bundle de JS, como cualquier cosa de este
+// muro (ver access.js)—, es un filtro contra quien llegue sin invitación.
+//
+// Para volver a cobrar más adelante: quitar el formulario de código en
+// Profesores.jsx y devolver el de pago con Stripe (sigue intacto). Para
+// cerrar también esta vía gratuita sin activar el pago: cambiar el string
+// aquí Y en firestore.rules (hasValidPromoCode) a la vez — los dos tienen
+// que decir lo mismo, o los profesores nuevos se quedan fuera en silencio.
+export const TEACHER_BETA_CODE = 'BETATUTHOR'
 
 // ── Códigos de clase ─────────────────────────────────────────────────────────
 // Alfabeto sin ambigüedades (sin 0/O ni 1/I). Si se cambia aquí, hay que
