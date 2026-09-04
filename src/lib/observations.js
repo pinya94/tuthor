@@ -1,5 +1,5 @@
 import { db } from './firebase'
-import { doc, collection, addDoc, deleteDoc, getDocs, serverTimestamp } from 'firebase/firestore'
+import { doc, collection, addDoc, updateDoc, deleteDoc, getDocs, query, where, serverTimestamp } from 'firebase/firestore'
 
 // El cuaderno de observaciones del profesor: notas fechadas sobre un alumno
 // ("se ha portado genial ayudando a un compañero", "tercera vez que no trae
@@ -13,9 +13,13 @@ import { doc, collection, addDoc, deleteDoc, getDocs, serverTimestamp } from 'fi
 // curso entero puede acumular cientos. Una colección plana con un filtro por
 // uid es lo que escala sin tener que decidir de antemano cuántas caben.
 //
-// Es TEACHER-ONLY, más estrictamente que la asistencia: una nota de
-// comportamiento es justo el tipo de dato que un alumno no debería poder leer
-// sobre sí mismo sin que el profesor decida enseñárselo primero.
+// Privada por defecto: una nota de comportamiento es justo el tipo de dato
+// que un alumno no debería poder leer sobre sí mismo sin que el profesor
+// decida enseñársela primero. `visibleParaAlumno` es ese interruptor —
+// nota a nota, no una decisión de todo o nada — que el profesor activa
+// cuando quiere que esa nota en concreto aparezca en el "Mi clase" del
+// alumno (ver getMyObservations más abajo). Sin marcarla, sigue siendo tan
+// privada como antes de que existiera el interruptor.
 
 export const TAGS = ['positiva', 'neutra', 'negativa']
 
@@ -75,14 +79,33 @@ export async function getClassObservations(classId) {
   return snap.docs.map(d => ({ id: d.id, ...d.data() }))
 }
 
-export async function addObservation(classId, uid, text, tag) {
-  const ref = await addDoc(coleccion(classId), { uid, text, tag, createdAt: serverTimestamp() })
+export async function addObservation(classId, uid, text, tag, visibleParaAlumno = false) {
+  const ref = await addDoc(coleccion(classId), { uid, text, tag, visibleParaAlumno, createdAt: serverTimestamp() })
   return ref.id
 }
 
-// Sin edición a propósito: una nota mal escrita se borra y se vuelve a
-// escribir, en vez de mantener una regla de "quién puede tocar qué campo" en
-// firestore.rules para un caso que ocurre poco.
+// Sin edición de texto/etiqueta a propósito: una nota mal escrita se borra y
+// se vuelve a escribir, en vez de mantener una regla de "quién puede tocar
+// qué campo" en firestore.rules para un caso que ocurre poco. El interruptor
+// de compartir es la única excepción — cambiar de idea sobre si el alumno
+// debe ver una nota no debería obligar a borrarla y perder la fecha original.
+export async function setObservationVisibility(classId, obsId, visibleParaAlumno) {
+  await updateDoc(doc(coleccion(classId), obsId), { visibleParaAlumno })
+}
+
 export async function deleteObservation(classId, obsId) {
   await deleteDoc(doc(coleccion(classId), obsId))
+}
+
+// El propio alumno, sobre sí mismo: solo las notas que el profesor marcó
+// para compartir (ver el comentario de arriba). Los DOS `where` son
+// obligatorios para que firestore.rules pueda validar la consulta entera sin
+// tener que leer cada documento — la regla exige exactamente estas mismas
+// dos condiciones (ver esLaMia() en firestore.rules), así que quitar
+// cualquiera de los dos convierte esto en un "permission-denied" en vez de
+// en una lista más corta.
+export async function getMyObservations(classId, uid) {
+  const q = query(coleccion(classId), where('uid', '==', uid), where('visibleParaAlumno', '==', true))
+  const snap = await getDocs(q)
+  return snap.docs.map(d => ({ id: d.id, ...d.data() }))
 }

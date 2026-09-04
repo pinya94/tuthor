@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { TAGS, TAG_META, TEXTO_MAX, textoValido, porAlumno, masRecientes, getClassObservations, addObservation, deleteObservation } from '../lib/observations'
+import { TAGS, TAG_META, TEXTO_MAX, textoValido, porAlumno, masRecientes, getClassObservations, addObservation, deleteObservation, setObservationVisibility } from '../lib/observations'
 
 // El cuaderno de observaciones. Dos vistas sobre los mismos datos:
 //   · "Recientes" — lo último de toda la clase, para abrir el módulo y ver de
@@ -18,7 +18,7 @@ function fechaLegible(createdAt, lang) {
   )
 }
 
-function Nota({ o, nombre, lang, onBorrar }) {
+function Nota({ o, nombre, lang, tr, onBorrar, onToggleVisible }) {
   const m = TAG_META[o.tag] ?? TAG_META.neutra
   return (
     <div className={`rounded-xl border px-3 py-2.5 ${m.color}`}>
@@ -29,9 +29,23 @@ function Nota({ o, nombre, lang, onBorrar }) {
         <button type="button" onClick={() => onBorrar(o.id)}
           className="shrink-0 text-current opacity-40 hover:opacity-90 transition-opacity px-1">✕</button>
       </div>
-      <p className="text-[10.5px] opacity-50 mt-1">
-        {nombre ? `${nombre} · ` : ''}{fechaLegible(o.createdAt, lang)}
-      </p>
+      <div className="flex items-center justify-between gap-2 mt-1">
+        <p className="text-[10.5px] opacity-50">
+          {nombre ? `${nombre} · ` : ''}{fechaLegible(o.createdAt, lang)}
+        </p>
+        {/* Interruptor nota a nota: por defecto privada (ver observations.js).
+            Se puede cambiar de idea después de escribirla, sin borrarla. */}
+        <button type="button" onClick={() => onToggleVisible(o.id, !o.visibleParaAlumno)}
+          className={`shrink-0 text-[10.5px] font-bold px-2 py-0.5 rounded-full border transition-colors ${
+            o.visibleParaAlumno
+              ? 'border-current opacity-90'
+              : 'border-current/30 opacity-40 hover:opacity-70'
+          }`}>
+          {o.visibleParaAlumno
+            ? `👁 ${tr({ es: 'Visible para el alumno', en: 'Visible to student', ca: 'Visible per a l\'alumne' })}`
+            : `🔒 ${tr({ es: 'Compartir', en: 'Share', ca: 'Compartir' })}`}
+        </button>
+      </div>
     </div>
   )
 }
@@ -39,15 +53,16 @@ function Nota({ o, nombre, lang, onBorrar }) {
 function FormularioNota({ onGuardar, tr }) {
   const [texto, setTexto] = useState('')
   const [tag, setTag] = useState('neutra')
+  const [compartir, setCompartir] = useState(false)
   const [guardando, setGuardando] = useState(false)
 
   async function enviar(e) {
     e.preventDefault()
     if (!textoValido(texto)) return
     setGuardando(true)
-    const ok = await onGuardar(texto.trim(), tag)
+    const ok = await onGuardar(texto.trim(), tag, compartir)
     setGuardando(false)
-    if (ok) { setTexto(''); setTag('neutra') }
+    if (ok) { setTexto(''); setTag('neutra'); setCompartir(false) }
   }
 
   return (
@@ -55,7 +70,7 @@ function FormularioNota({ onGuardar, tr }) {
       <textarea value={texto} onChange={e => setTexto(e.target.value)} maxLength={TEXTO_MAX} rows={2}
         placeholder={tr({ es: 'Escribe una anotación…', en: 'Write a note…', ca: 'Escriu una anotació…' })}
         className="w-full resize-none rounded-xl border border-white/10 bg-black/30 px-3 py-2 text-white text-[13px] placeholder:text-white/25 focus:outline-none focus:ring-1 focus:ring-teal-400 mb-2" />
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 flex-wrap">
         <div className="flex gap-1 p-1 bg-white/5 border border-white/10 rounded-lg">
           {TAGS.map(t => (
             <button key={t} type="button" onClick={() => setTag(t)}
@@ -66,6 +81,13 @@ function FormularioNota({ onGuardar, tr }) {
             </button>
           ))}
         </div>
+        {/* Privada por defecto: el profesor tiene que marcar esto a propósito
+            para que la nota llegue al "Mi clase" del alumno. */}
+        <label className="flex items-center gap-1.5 text-[12px] font-semibold text-white/50 hover:text-white/75 cursor-pointer transition-colors select-none">
+          <input type="checkbox" checked={compartir} onChange={e => setCompartir(e.target.checked)}
+            className="accent-teal-500 w-3.5 h-3.5" />
+          {tr({ es: 'Compartir con el alumno', en: 'Share with the student', ca: 'Compartir amb l\'alumne' })}
+        </label>
         <button type="submit" disabled={guardando || !textoValido(texto)}
           className="ml-auto text-[12.5px] font-bold px-3.5 py-2 rounded-lg bg-teal-600 hover:bg-teal-500 disabled:opacity-30 text-white transition-colors">
           {tr({ es: 'Añadir', en: 'Add', ca: 'Afegir' })}
@@ -93,12 +115,12 @@ export default function Observaciones({ classId, students, lang, tr }) {
   const grupos = useMemo(() => (observaciones ? porAlumno(observaciones) : new Map()), [observaciones])
   const recientes = useMemo(() => (observaciones ? masRecientes(observaciones) : []), [observaciones])
 
-  async function guardar(texto, tag) {
+  async function guardar(texto, tag, compartir) {
     if (!alumnoAbierto) return false
     setError('')
     try {
-      const id = await addObservation(classId, alumnoAbierto, texto, tag)
-      setObservaciones(os => [...os, { id, uid: alumnoAbierto, text: texto, tag, createdAt: new Date() }])
+      const id = await addObservation(classId, alumnoAbierto, texto, tag, compartir)
+      setObservaciones(os => [...os, { id, uid: alumnoAbierto, text: texto, tag, visibleParaAlumno: compartir, createdAt: new Date() }])
       return true
     } catch {
       setError(tr({ es: 'No se pudo guardar la anotación.', en: 'Could not save the note.', ca: 'No s\'ha pogut desar l\'anotació.' }))
@@ -114,6 +136,17 @@ export default function Observaciones({ classId, students, lang, tr }) {
     } catch {
       setObservaciones(previas)
       setError(tr({ es: 'No se pudo borrar.', en: 'Could not delete.', ca: 'No s\'ha pogut esborrar.' }))
+    }
+  }
+
+  async function toggleVisible(obsId, next) {
+    const previas = observaciones
+    setObservaciones(os => os.map(o => (o.id === obsId ? { ...o, visibleParaAlumno: next } : o)))
+    try {
+      await setObservationVisibility(classId, obsId, next)
+    } catch {
+      setObservaciones(previas)
+      setError(tr({ es: 'No se pudo cambiar la visibilidad.', en: 'Could not change visibility.', ca: 'No s\'ha pogut canviar la visibilitat.' }))
     }
   }
 
@@ -160,7 +193,7 @@ export default function Observaciones({ classId, students, lang, tr }) {
         ) : (
           <div className="space-y-2">
             {recientes.map(o => (
-              <Nota key={o.id} o={o} nombre={porUid[o.uid] || o.uid} lang={lang} onBorrar={borrar} />
+              <Nota key={o.id} o={o} nombre={porUid[o.uid] || o.uid} lang={lang} tr={tr} onBorrar={borrar} onToggleVisible={toggleVisible} />
             ))}
           </div>
         )
@@ -174,7 +207,7 @@ export default function Observaciones({ classId, students, lang, tr }) {
           ) : (
             <div className="space-y-2">
               {grupos.get(alumnoAbierto).map(o => (
-                <Nota key={o.id} o={o} nombre={null} lang={lang} onBorrar={borrar} />
+                <Nota key={o.id} o={o} nombre={null} lang={lang} tr={tr} onBorrar={borrar} onToggleVisible={toggleVisible} />
               ))}
             </div>
           )}

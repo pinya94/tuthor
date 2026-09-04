@@ -8,6 +8,7 @@ import { GAMES } from '../lib/games'
 import { EXAMS } from '../lib/exams'
 import { SUBJECTS } from '../lib/statsAggregation'
 import { catalogTaskLabel, catalogTaskRoute } from '../lib/topicCatalog'
+import { TAG_META, getMyObservations } from '../lib/observations'
 
 function taskLabel(task, lang) {
   if (task.kind !== 'catalog') return task.title
@@ -30,6 +31,12 @@ function isOverdue(dueDate) {
   return d.getTime() < Date.now()
 }
 
+function fechaLegible(createdAt, lang) {
+  const d = createdAt?.toDate ? createdAt.toDate() : createdAt instanceof Date ? createdAt : null
+  if (!d) return ''
+  return d.toLocaleDateString(lang === 'en' ? 'en-GB' : lang === 'ca' ? 'ca-ES' : 'es-ES', { day: 'numeric', month: 'short' })
+}
+
 export default function Clase() {
   const { user } = useAuth()
   const { lang, tr, localPath } = useLang()
@@ -38,6 +45,7 @@ export default function Clase() {
   const [loading, setLoading] = useState(true)
   const [classes, setClasses] = useState([])
   const [tasks, setTasks] = useState([])
+  const [observaciones, setObservaciones] = useState([])
   const [classCode, setClassCode] = useState('')
   const [joinStatus, setJoinStatus] = useState('idle')
   const [showJoinForm, setShowJoinForm] = useState(false)
@@ -59,6 +67,15 @@ export default function Clase() {
     setClasses(myClasses)
     setTasks(myTasks)
     setLoading(false)
+
+    // Aparte y sin bloquear el resto: solo las notas que cada profesor haya
+    // marcado para compartir (ver src/lib/observations.js). Una consulta por
+    // clase — un alumno está en pocas a la vez, no hace falta una sola query
+    // agregada. Si el alumno está en más de una, se guarda de qué clase viene
+    // cada nota para poder distinguirlas al mostrarlas.
+    Promise.all(myClasses.map(c =>
+      getMyObservations(c.id, user.uid).then(os => os.map(o => ({ ...o, className: c.name }))).catch(() => []),
+    )).then(porClase => setObservaciones(porClase.flat()))
   }
 
   async function handleJoinClass(e) {
@@ -97,6 +114,7 @@ export default function Clase() {
     const bDue = b.dueDate?.toMillis?.() ?? Infinity
     return aDue - bDue
   })
+  const sortedObservaciones = [...observaciones].sort((a, b) => (b.createdAt?.toMillis?.() ?? 0) - (a.createdAt?.toMillis?.() ?? 0))
 
   const joinForm = (
     <form onSubmit={handleJoinClass} className="flex items-center gap-2">
@@ -191,8 +209,18 @@ export default function Clase() {
                         </p>
                       </div>
                       {c?.done ? (
-                        <span className="text-green-400 text-[12.5px] font-bold shrink-0">
-                          ✅ {tr({ es: 'Hecha', en: 'Done', ca: 'Feta' })}
+                        // Con pass/fail (exámenes y tests propios) se enseña
+                        // aprobado/no aprobado en vez del genérico "Hecha" —
+                        // eso es justo el "resultado" que un examen tiene y un
+                        // juego normal no. c.passed es null en los juegos sin
+                        // nota de corte, así que ahí se queda el texto de
+                        // siempre.
+                        <span className={`text-[12.5px] font-bold shrink-0 text-right ${c.passed === false ? 'text-red-400' : 'text-green-400'}`}>
+                          {c.passed === false
+                            ? `❌ ${tr({ es: 'No aprobado', en: 'Not passed', ca: 'No aprovat' })}`
+                            : c.passed === true
+                            ? `✅ ${tr({ es: 'Aprobado', en: 'Passed', ca: 'Aprovat' })}`
+                            : `✅ ${tr({ es: 'Hecha', en: 'Done', ca: 'Feta' })}`}
                           {c.score != null && <span className="text-white/40 ml-1.5">{c.score} pts</span>}
                         </span>
                       ) : route ? (
@@ -219,6 +247,34 @@ export default function Clase() {
                   )
                 })}
               </div>
+            )}
+
+            {/* Solo las notas que el profesor haya marcado para compartir
+                (ver setObservationVisibility en Observaciones.jsx) — la
+                mayoría del cuaderno del profesor sigue sin verse aquí a
+                propósito. Sin sección si no hay ninguna: un "Observaciones"
+                vacío no aporta nada y sugiere que debería haber algo. */}
+            {sortedObservaciones.length > 0 && (
+              <>
+                <h2 className="font-black text-white text-[15px] tracking-tight mb-3">
+                  💬 {tr({ es: 'Observaciones de tu profesor', en: "Notes from your teacher", ca: 'Observacions del teu professor' })}
+                </h2>
+                <div className="space-y-2 mb-6">
+                  {sortedObservaciones.map(o => {
+                    const m = TAG_META[o.tag] ?? TAG_META.neutra
+                    return (
+                      <div key={o.id} className={`rounded-2xl border px-4 py-3 ${m.color}`}>
+                        <p className="text-[13.5px] leading-snug whitespace-pre-wrap break-words">
+                          <span className="mr-1">{m.emoji}</span>{o.text}
+                        </p>
+                        <p className="text-[11px] opacity-50 mt-1">
+                          {classes.length > 1 ? `${o.className} · ` : ''}{fechaLegible(o.createdAt, lang)}
+                        </p>
+                      </div>
+                    )
+                  })}
+                </div>
+              </>
             )}
 
             <div className="border border-white/10 rounded-2xl px-4 py-3" style={{ background: surf }}>

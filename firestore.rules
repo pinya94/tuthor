@@ -286,15 +286,34 @@ service cloud.firestore {
           return request.auth != null
             && get(/databases/$(database)/documents/classes/$(classId)).data.teacherId == request.auth.uid;
         }
-        allow read: if isAdmin() || miClase();
+        // El propio alumno, solo su nota y solo si el profesor la marcó para
+        // compartir (visibleParaAlumno == true — ver src/lib/observations.js).
+        // Firestore exige que la consulta lleve los DOS `where` que aparecen
+        // aquí para poder validar un `list` sin leer documento a documento;
+        // getMyObservations() los incluye a propósito.
+        function esLaMia() {
+          return request.auth != null
+            && resource.data.uid == request.auth.uid
+            && resource.data.visibleParaAlumno == true;
+        }
+        allow read: if isAdmin() || miClase() || esLaMia();
         allow create: if miClase()
-          && request.resource.data.keys().hasOnly(['uid', 'text', 'tag', 'createdAt'])
+          && request.resource.data.keys().hasOnly(['uid', 'text', 'tag', 'visibleParaAlumno', 'createdAt'])
           && request.resource.data.uid is string && request.resource.data.uid.size() > 0
           && request.resource.data.text is string
           && request.resource.data.text.size() >= 1 && request.resource.data.text.size() <= 500
           && request.resource.data.tag in ['positiva', 'neutra', 'negativa']
+          // Opcional en la creación (no `hasOnly` a secas: compatibilidad
+          // hacia atrás con notas ya escritas y con un frontend que aún no
+          // mande el campo) pero, si viene, tiene que ser un booleano de
+          // verdad.
+          && (!('visibleParaAlumno' in request.resource.data) || request.resource.data.visibleParaAlumno is bool)
           && request.resource.data.createdAt == request.time;
-        allow update: if false;
+        // Única edición permitida: el profesor cambia el interruptor de
+        // compartir, sin tocar texto ni etiqueta (esas siguen sin edición).
+        allow update: if miClase()
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['visibleParaAlumno'])
+          && request.resource.data.visibleParaAlumno is bool;
         allow delete: if miClase();
       }
     }
