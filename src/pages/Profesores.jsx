@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
 import SEOHead from '../components/SEOHead'
+import TeacherAppSchema from '../components/TeacherAppSchema'
 import AuthModal from '../components/AuthModal'
 import { activateTeacherProfile, getTeacherProfile, hasTeacherAccess } from '../lib/classes'
 
@@ -207,11 +208,22 @@ export default function Profesores() {
     }
   }
 
-  const metaTitle = tr({ es: 'Profesores y centros', en: 'Teachers & schools', ca: 'Professors i centres' })
+  // Título y descripción pensados para quien busca "herramientas para
+  // profesores" (o variantes: gestión de clase, pasar lista online, notas
+  // online) — no un genérico "Profesores y centros" que no encaja con ningún
+  // término de búsqueda real. Mantener en sync con STATIC_META['/profesores']
+  // en scripts/seoMeta.mjs: esta es la meta que de verdad llega a producción
+  // (la página renderiza a tiempo en el prerender), esa otra es solo el
+  // respaldo de emergencia si algún día dejara de hacerlo.
+  const metaTitle = tr({
+    es: 'Herramientas gratis para profesores',
+    en: 'Free tools for teachers',
+    ca: 'Eines gratuïtes per a professors',
+  })
   const metaDesc = tr({
-    es: 'Crea clases, asigna tareas y consulta cómo estudian tus alumnos en Tuthor.',
-    en: 'Create classes, assign tasks and see how your students study on Tuthor.',
-    ca: 'Crea classes, assigna tasques i consulta com estudien els teus alumnes a Tuthor.',
+    es: 'Pasa lista, pon notas, crea tus propios exámenes y gestiona toda la clase desde el móvil. Gratis durante la beta, sin tarjeta ni permanencia.',
+    en: 'Take attendance, grade your students, build your own quizzes and run the whole classroom from your phone. Free during the beta, no card required.',
+    ca: 'Passa llista, posa notes, crea els teus propis exàmens i gestiona tota la classe des del mòbil. Gratis durant la beta, sense targeta.',
   })
 
   if (user === undefined || (user && !profileChecked)) {
@@ -238,6 +250,7 @@ export default function Profesores() {
     <div className="relative">
       <SaasBackground />
       <SEOHead title={metaTitle} description={metaDesc} path="/profesores" lang={lang} />
+      <TeacherAppSchema lang={lang} />
 
       <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6">
         <Link to={localPath('/')} className="inline-flex items-center gap-1 text-white/35 hover:text-white/70 text-xs mt-6 mb-2 transition-colors">
@@ -248,8 +261,11 @@ export default function Profesores() {
         <section className="pt-10 pb-16 sm:pt-16 sm:pb-24 grid lg:grid-cols-2 gap-12 items-center">
           <div>
             <div className="flex flex-wrap gap-2 mb-5">
+              {/* El texto del badge dobla como refuerzo SEO on-page: es la
+                  frase que se busca ("herramientas para profesores"), no un
+                  genérico "Tuthor para centros" que no la contiene. */}
               <span className="inline-block text-[11px] font-bold uppercase tracking-widest text-teal-300 bg-teal-500/10 border border-teal-500/20 rounded-full px-3 py-1.5">
-                {tr({ es: 'Tuthor para centros', en: 'Tuthor for schools', ca: 'Tuthor per a centres' })}
+                {tr({ es: 'Herramientas para profesores', en: 'Tools for teachers', ca: 'Eines per a professors' })}
               </span>
               <span className="inline-block text-[11px] font-bold uppercase tracking-widest text-amber-300 bg-amber-500/10 border border-amber-500/20 rounded-full px-3 py-1.5">
                 🧪 {tr({ es: 'Beta gratuita', en: 'Free beta', ca: 'Beta gratuïta' })}

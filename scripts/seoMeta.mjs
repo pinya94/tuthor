@@ -140,8 +140,8 @@ export const STATIC_META = {
     en: { title: 'Privacy policy', desc: 'Tuthor privacy and data protection policy: what data we process, why, and what your rights are.' },
   },
   '/profesores': {
-    es: { title: 'Profesores y centros', desc: 'Crea clases, comparte un código con tus alumnos y consulta cómo estudian en Tuthor.' },
-    en: { title: 'Teachers & schools', desc: 'Create classes, share a code with your students and see how they study on Tuthor.' },
+    es: { title: 'Herramientas gratis para profesores', desc: 'Pasa lista, pon notas, crea tus propios exámenes y gestiona toda la clase desde el móvil. Gratis durante la beta, sin tarjeta ni permanencia.' },
+    en: { title: 'Free tools for teachers', desc: 'Take attendance, grade your students, build your own quizzes and run the whole classroom from your phone. Free during the beta, no card required.' },
   },
 }
 
