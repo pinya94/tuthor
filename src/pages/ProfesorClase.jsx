@@ -125,27 +125,38 @@ function TaskCard({ task, studentsByUid, lang, tr, onToggleManual }) {
 // La barra de pestañas. Solo enseña los módulos activos de ESTA clase, y el
 // engranaje del final es lo único que aparece siempre: si un profesor apaga
 // todo menos lo imprescindible, tiene que poder volver a encenderlo.
+// "Más módulos" es un botón, no una pestaña más: lo que abre es la pantalla
+// que enciende/apaga el resto (Notas, Asistencia, Observaciones, Boletín…),
+// que están apagados por defecto. Como icono suelto (⚙️ diminuto en una
+// esquina) nadie lo encontraba — de ahí el color de acento de la app y un
+// texto que dice lo que hay detrás, en vez de esperar a que alguien
+// adivine qué hace un engranaje.
+const MAS_MODULOS = { es: 'Más módulos', en: 'More modules', ca: 'Més mòduls' }
+
 function BarraModulos({ ids, tab, onTab, lang }) {
   return (
-    <div className="flex items-center gap-1 mb-6 border-b border-white/10 overflow-x-auto">
-      {ids.map(id => {
-        const m = TEACHER_MODULES[id]
-        const activo = tab === id
-        return (
-          <button key={id} type="button" onClick={() => onTab(id)}
-            className={`shrink-0 px-3 sm:px-4 py-2.5 text-[13px] font-bold border-b-2 -mb-px transition-colors ${
-              activo ? 'border-teal-500 text-white' : 'border-transparent text-white/40 hover:text-white/70'
-            }`}>
-            {m.emoji} {m.label[lang] || m.label.es}
-          </button>
-        )
-      })}
+    <div className="flex flex-wrap items-center gap-2 mb-6">
+      <div className="flex items-center gap-1 border-b border-white/10 overflow-x-auto flex-1 min-w-0">
+        {ids.map(id => {
+          const m = TEACHER_MODULES[id]
+          const activo = tab === id
+          return (
+            <button key={id} type="button" onClick={() => onTab(id)}
+              className={`shrink-0 px-3 sm:px-4 py-2.5 text-[13px] font-bold border-b-2 -mb-px transition-colors ${
+                activo ? 'border-teal-500 text-white' : 'border-transparent text-white/40 hover:text-white/70'
+              }`}>
+              {m.emoji} {m.label[lang] || m.label.es}
+            </button>
+          )
+        })}
+      </div>
       <button type="button" onClick={() => onTab('ajustes')}
-        title="Módulos"
-        className={`shrink-0 ml-auto px-3 py-2.5 text-[13px] border-b-2 -mb-px transition-colors ${
-          tab === 'ajustes' ? 'border-teal-500 text-white' : 'border-transparent text-white/30 hover:text-white/60'
+        className={`shrink-0 flex items-center gap-1.5 px-3 py-2 rounded-xl text-[12.5px] font-bold transition-colors ${
+          tab === 'ajustes'
+            ? 'bg-[#EDAE49] text-black'
+            : 'bg-[#EDAE49]/15 text-[#EDAE49] border border-[#EDAE49]/40 hover:bg-[#EDAE49]/25'
         }`}>
-        ⚙️
+        ⚙️ {MAS_MODULOS[lang] || MAS_MODULOS.es}
       </button>
     </div>
   )
