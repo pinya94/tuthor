@@ -1,6 +1,6 @@
 import { db } from './firebase'
 import {
-  doc, collection, addDoc, updateDoc, serverTimestamp,
+  doc, collection, addDoc, updateDoc, deleteField, serverTimestamp,
   query, where, getDocs,
 } from 'firebase/firestore'
 import { taskMatchesPlay } from './topicCatalog'
@@ -49,6 +49,29 @@ export async function markManualCompletion(taskId, uid, done) {
   await updateDoc(doc(db, 'assignments', taskId), {
     [`completions.${uid}`]: done ? { done: true, completedAt: serverTimestamp() } : { done: false },
   })
+}
+
+// "Falta": el profesor cierra una tarea que un alumno no ha hecho y no va a
+// hacer ya, para que deje de contar como pendiente para siempre. A
+// diferencia de markManualCompletion, vale para las DOS clases de tarea —de
+// texto y de catálogo—: un juego no se puede "marcar hecho" sin jugarlo,
+// pero sí se puede cerrar como falta si el plazo pasó.
+//
+// Desmarcar borra el campo entero (deleteField), no lo pone a false: así
+// vuelve a "sin decidir todavía" en vez de a un tercer estado ambiguo.
+export async function markMissed(taskId, uid, missed) {
+  await updateDoc(doc(db, 'assignments', taskId), {
+    [`completions.${uid}`]: missed ? { done: false, falta: true, markedAt: serverTimestamp() } : deleteField(),
+  })
+}
+
+// Lo mismo para varios alumnos a la vez —los que siguen pendientes de una
+// tarea vencida—, en una sola escritura en vez de una por alumno.
+export async function markMissedBulk(taskId, uids) {
+  if (uids.length === 0) return
+  const updates = {}
+  for (const uid of uids) updates[`completions.${uid}`] = { done: false, falta: true, markedAt: serverTimestamp() }
+  await updateDoc(doc(db, 'assignments', taskId), updates)
 }
 
 // Finalización automática al jugar: llamada fire-and-forget desde

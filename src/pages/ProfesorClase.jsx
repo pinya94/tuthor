@@ -9,7 +9,7 @@ import { fichasDe, comoAlumno } from '../lib/roster'
 import { TEACHER_MODULES, MODULE_IDS, enabledModuleIds, moduleEnabled } from '../lib/teacherModules'
 import { getStatsAndCosmetics, formatTime } from '../lib/activity'
 import { aggregateStudentStats, SUBJECTS } from '../lib/statsAggregation'
-import { getClassAssignments, createAssignment, markManualCompletion } from '../lib/assignments'
+import { getClassAssignments, createAssignment, markManualCompletion, markMissed, markMissedBulk } from '../lib/assignments'
 import { GAMES } from '../lib/games'
 import StudentSubjects from '../components/StudentSubjects'
 import AulaPupitres from '../components/AulaPupitres'
@@ -27,6 +27,12 @@ function catalogLabel(task, lang) {
 function formatDueDate(dueDate, lang) {
   const d = dueDate?.toDate ? dueDate.toDate() : new Date(dueDate)
   return d.toLocaleDateString(lang === 'en' ? 'en-GB' : lang === 'ca' ? 'ca-ES' : 'es-ES', { day: 'numeric', month: 'short' })
+}
+
+function isOverdue(dueDate) {
+  if (!dueDate) return false
+  const d = dueDate?.toDate ? dueDate.toDate() : new Date(dueDate)
+  return d.getTime() < Date.now()
 }
 
 function StatTile({ label, value, sub }) {
@@ -66,12 +72,24 @@ async function loadStudent(uid, lang) {
 // Una tarea asignada: progreso agregado + detalle por alumno al expandir.
 // onToggleManual solo se usa para tareas de texto libre (el profesor marca
 // a mano); las de catálogo se completan solas al jugar (recordAssignmentCompletion).
-function TaskCard({ task, studentsByUid, lang, tr, onToggleManual }) {
+//
+// "Falta" es un tercer estado, distinto de "hecha" y de "pendiente": lo pone
+// el profesor para cerrar una tarea que un alumno no va a hacer ya, y vale
+// para las dos clases de tarea (una de catálogo no se puede "marcar hecha"
+// sin jugarla, pero sí cerrarse como falta). Sin esto, una tarea vencida con
+// alumnos que nunca la hicieron se queda "pendiente" para siempre.
+function TaskCard({ task, studentsByUid, lang, tr, onToggleManual, onToggleFalta, onMarkFaltaBulk }) {
   const [open, setOpen] = useState(false)
   const label = task.kind === 'catalog' ? catalogLabel(task, lang) : task.title
   const completions = task.completions || {}
   const total = task.studentIds.length
-  const doneCount = task.studentIds.filter(uid => completions[uid]?.done).length
+  const pendientes = task.studentIds.filter(uid => !completions[uid]?.done && !completions[uid]?.falta)
+  // La barra de arriba mide RESUELTO (hecho + falta), no solo "hecho": una
+  // tarea con todo el mundo cerrado como falta tiene que leerse como
+  // terminada —nada pendiente que revisar—, no como un 0% que invite a
+  // seguir mirándola.
+  const resueltoCount = total - pendientes.length
+  const vencida = isOverdue(task.dueDate)
 
   return (
     <div className="border border-white/10 rounded-xl overflow-hidden bg-white/[0.04]">
@@ -81,41 +99,72 @@ function TaskCard({ task, studentsByUid, lang, tr, onToggleManual }) {
         <div className="flex-1 min-w-[100px]">
           <p className="text-white font-semibold text-[13.5px] truncate">{label}</p>
           {task.dueDate && (
-            <p className="text-white/35 text-[10.5px] mt-0.5">
+            <p className={`text-[10.5px] mt-0.5 ${vencida && pendientes.length > 0 ? 'text-amber-400/70 font-semibold' : 'text-white/35'}`}>
               {tr({ es: 'Vence', en: 'Due', ca: 'Venç' })} {formatDueDate(task.dueDate, lang)}
             </p>
           )}
         </div>
-        <ProgressBar value={doneCount} max={total} />
-        <span className="text-white/45 text-[12px] font-semibold tabular-nums shrink-0 w-12 text-right">{doneCount}/{total}</span>
+        <ProgressBar value={resueltoCount} max={total} />
+        <span className="text-white/45 text-[12px] font-semibold tabular-nums shrink-0 w-12 text-right">{resueltoCount}/{total}</span>
         <span className={`text-white/30 text-xs shrink-0 transition-transform ${open ? 'rotate-180' : ''}`}>▾</span>
       </button>
       {open && (
-        <div className="border-t border-white/10 divide-y divide-white/5">
-          {task.studentIds.map(uid => {
-            const c = completions[uid]
-            const name = studentsByUid[uid]?.name || uid
-            return (
-              <div key={uid} className="flex items-center justify-between gap-3 px-4 py-2 pl-11">
-                <span className="text-white/60 text-[12.5px]">{name}</span>
-                {task.kind === 'text' ? (
-                  <button type="button" onClick={() => onToggleManual(task.id, uid, !!c?.done)}
-                    className={`text-[11.5px] font-bold px-2 py-1 rounded-lg border transition-colors ${
-                      c?.done ? 'text-green-400 border-green-500/30 bg-green-500/10' : 'text-white/40 border-white/10 hover:border-white/25'
-                    }`}>
-                    {c?.done ? tr({ es: '✅ Hecha', en: '✅ Done', ca: '✅ Feta' }) : tr({ es: 'Marcar hecha', en: 'Mark done', ca: 'Marcar feta' })}
-                  </button>
-                ) : c?.done ? (
-                  <span className="text-[12px] font-semibold">
-                    <span className="text-green-400">✅ {c.passed === true ? tr({ es: 'Aprobado', en: 'Passed', ca: 'Aprovat' }) : c.passed === false ? tr({ es: 'Suspenso', en: 'Failed', ca: 'Suspès' }) : ''}</span>
-                    {c.score != null && <span className="text-white/40 ml-1.5">{c.score} pts</span>}
-                  </span>
-                ) : (
-                  <span className="text-white/30 text-[12px]">{tr({ es: 'Pendiente', en: 'Pending', ca: 'Pendent' })}</span>
-                )}
-              </div>
-            )
-          })}
+        <div className="border-t border-white/10">
+          {vencida && pendientes.length > 0 && (
+            <div className="px-4 py-2 bg-amber-500/[0.06] border-b border-white/5 flex items-center justify-between gap-3">
+              <p className="text-amber-400/80 text-[11.5px]">
+                {tr({ es: `Vencida con ${pendientes.length} sin hacer.`, en: `Overdue with ${pendientes.length} not done.`, ca: `Vençuda amb ${pendientes.length} sense fer.` })}
+              </p>
+              <button type="button" onClick={() => onMarkFaltaBulk(task.id, pendientes)}
+                className="shrink-0 text-[11px] font-bold px-2.5 py-1 rounded-lg border border-red-500/30 text-red-400 hover:bg-red-500/10 transition-colors">
+                {tr({ es: 'Marcar todos falta', en: 'Mark all missed', ca: 'Marcar tots falta' })}
+              </button>
+            </div>
+          )}
+          <div className="divide-y divide-white/5">
+            {task.studentIds.map(uid => {
+              const c = completions[uid]
+              const name = studentsByUid[uid]?.name || uid
+              return (
+                <div key={uid} className="flex items-center justify-between gap-3 px-4 py-2 pl-11">
+                  <span className="text-white/60 text-[12.5px]">{name}</span>
+                  {c?.done ? (
+                    <span className="text-[12px] font-semibold">
+                      {task.kind === 'catalog' ? (
+                        <>
+                          <span className="text-green-400">✅ {c.passed === true ? tr({ es: 'Aprobado', en: 'Passed', ca: 'Aprovat' }) : c.passed === false ? tr({ es: 'Suspenso', en: 'Failed', ca: 'Suspès' }) : ''}</span>
+                          {c.score != null && <span className="text-white/40 ml-1.5">{c.score} pts</span>}
+                        </>
+                      ) : (
+                        <button type="button" onClick={() => onToggleManual(task.id, uid, true)}
+                          className="text-[11.5px] font-bold px-2 py-1 rounded-lg border text-green-400 border-green-500/30 bg-green-500/10 hover:bg-green-500/20 transition-colors">
+                          {tr({ es: '✅ Hecha', en: '✅ Done', ca: '✅ Feta' })}
+                        </button>
+                      )}
+                    </span>
+                  ) : c?.falta ? (
+                    <button type="button" onClick={() => onToggleFalta(task.id, uid, false)}
+                      className="text-[11.5px] font-bold px-2 py-1 rounded-lg border text-red-400 border-red-500/30 bg-red-500/10 hover:bg-red-500/20 transition-colors">
+                      {tr({ es: '❌ Falta', en: '❌ Missed', ca: '❌ Falta' })}
+                    </button>
+                  ) : (
+                    <div className="flex items-center gap-1.5">
+                      {task.kind === 'text' && (
+                        <button type="button" onClick={() => onToggleManual(task.id, uid, false)}
+                          className="text-[11.5px] font-bold px-2 py-1 rounded-lg border text-white/40 border-white/10 hover:border-white/25 transition-colors">
+                          {tr({ es: 'Marcar hecha', en: 'Mark done', ca: 'Marcar feta' })}
+                        </button>
+                      )}
+                      <button type="button" onClick={() => onToggleFalta(task.id, uid, true)}
+                        className="text-[11.5px] font-bold px-2 py-1 rounded-lg border text-white/30 border-white/10 hover:border-red-500/40 hover:text-red-400 transition-colors">
+                        {tr({ es: 'Marcar falta', en: 'Mark missed', ca: 'Marcar falta' })}
+                      </button>
+                    </div>
+                  )}
+                </div>
+              )
+            })}
+          </div>
         </div>
       )}
     </div>
@@ -135,8 +184,12 @@ const MAS_MODULOS = { es: 'Más módulos', en: 'More modules', ca: 'Més mòduls
 
 function BarraModulos({ ids, tab, onTab, lang }) {
   return (
-    <div className="flex flex-wrap items-center gap-2 mb-6">
-      <div className="flex items-center gap-1 border-b border-white/10 overflow-x-auto flex-1 min-w-0">
+    <div className="flex flex-wrap items-start gap-2 mb-6">
+      {/* flex-wrap y no overflow-x-auto a propósito: con muchos módulos
+          encendidos a la vez, una fila que se desplaza escondía las últimas
+          pestañas hasta que alguien pensaba en deslizar. Envolviendo en la
+          fila que haga falta, todas quedan a la vista siempre. */}
+      <div className="flex flex-wrap items-center gap-x-1 gap-y-1.5 border-b border-white/10 flex-1 min-w-0 pb-0.5">
         {ids.map(id => {
           const m = TEACHER_MODULES[id]
           const activo = tab === id
@@ -413,6 +466,24 @@ export default function ProfesorClase() {
     }
   }
 
+  async function handleToggleFalta(taskId, uid, missed) {
+    try {
+      await markMissed(taskId, uid, missed)
+      await loadAssignments()
+    } catch {
+      setTaskError(tr({ es: 'No se pudo actualizar la tarea. Inténtalo de nuevo.', en: 'Could not update the task. Please try again.', ca: 'No s\'ha pogut actualitzar la tasca. Torna-ho a intentar.' }))
+    }
+  }
+
+  async function handleMarkFaltaBulk(taskId, uids) {
+    try {
+      await markMissedBulk(taskId, uids)
+      await loadAssignments()
+    } catch {
+      setTaskError(tr({ es: 'No se pudo actualizar la tarea. Inténtalo de nuevo.', en: 'Could not update the task. Please try again.', ca: 'No s\'ha pogut actualitzar la tasca. Torna-ho a intentar.' }))
+    }
+  }
+
   function toggleTaskStudent(uid) {
     setTaskStudentIds(ids => ids.includes(uid) ? ids.filter(x => x !== uid) : [...ids, uid])
   }
@@ -676,7 +747,8 @@ export default function ProfesorClase() {
         ) : (
           <div className="space-y-2">
             {assignments.map(task => (
-              <TaskCard key={task.id} task={task} studentsByUid={studentsByUid} lang={lang} tr={tr} onToggleManual={handleToggleManual} />
+              <TaskCard key={task.id} task={task} studentsByUid={studentsByUid} lang={lang} tr={tr}
+                onToggleManual={handleToggleManual} onToggleFalta={handleToggleFalta} onMarkFaltaBulk={handleMarkFaltaBulk} />
             ))}
           </div>
         )}
