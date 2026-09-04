@@ -161,14 +161,43 @@ export async function loadAccess(uid) {
 // leerse como "no es Pro" (le ocultaría a un Pro real sus propias secciones
 // por un error pasajero), así que se queda en null en vez de resolver a
 // `allowed: false`.
+
+// ── Publicidad y venta de Pro EN PAUSA (sept. 2026) ──────────────────────────
+// Decisión del usuario: nada de publicidad en los raíles ni de pedir
+// suscripción mientras el sitio está creciendo — "dar todo gratis sin
+// problema, sin pedir suscripción". SideRails, SupportBlock, ProUpsell,
+// IgraalCard y el desglose de pago de Perfil.jsx (ProLock) ya se escondían
+// solos con `if (access.allowed) return null` / `if (!isPro) return
+// <ProLock/>` en cuanto la cuenta era Pro — así que basta con que este hook
+// diga "todo el mundo tiene acceso" para que los cinco desaparezcan a la vez,
+// sin tocarlos uno a uno ni desmontar nada.
+//
+// A propósito NO toca loadAccess/accessReason/hasAccess: MiPlan.jsx (vía
+// SubscriptionCard, que llama a loadAccess directamente, nunca a este hook)
+// sigue enseñando el estado REAL de Stripe — quien ya paga puede seguir
+// gestionando su suscripción, y quien quiera apoyar el proyecto pagando
+// igualmente puede seguir haciéndolo desde ahí. Este interruptor solo apaga
+// el EMPUJE (anuncios/CTAs), no el cobro en sí, que sigue intacto.
+//
+// Para reactivar cuando haya tráfico que lo justifique: MONETIZATION_ENABLED
+// a true, sin tocar nada más.
+const MONETIZATION_ENABLED = false
+const FREE_FOR_ALL = { allowed: true, reason: 'free_for_all', warning: null, userData: null }
+
 export function useAccessStatus() {
   const { user } = useAuth()
-  const [access, setAccess] = useState(null)
+  const [access, setAccess] = useState(MONETIZATION_ENABLED ? null : FREE_FOR_ALL)
 
   useEffect(() => {
-    if (!user) { setAccess({ allowed: false, reason: null, warning: null, userData: null }); return }
+    if (!MONETIZATION_ENABLED) return
     let alive = true
-    loadAccessCached(user.uid).then(r => { if (alive) setAccess(r) }).catch(() => { /* se queda en null */ })
+    // Sin sesión, se resuelve igual por la cadena de promesas (en vez de un
+    // setState síncrono en el cuerpo del efecto — react-hooks/set-state-in-effect):
+    // Promise.resolve() encadena la misma rama .then() que el caso con uid.
+    const pending = user
+      ? loadAccessCached(user.uid)
+      : Promise.resolve({ allowed: false, reason: null, warning: null, userData: null })
+    pending.then(r => { if (alive) setAccess(r) }).catch(() => { /* se queda en null */ })
     return () => { alive = false }
   }, [user])
 
