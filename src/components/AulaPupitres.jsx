@@ -27,6 +27,17 @@ import { getClassObservations, addObservation, puntosDe } from '../lib/observati
 const NOMBRE_CORTO = nombre => (nombre || '').trim().split(/\s+/)[0] || '—'
 const RECUERDA_AZAR = 5 // cuántos "sale a la pizarra" recuerda para no repetir
 
+// Ancho máximo de una mesa. Sin tope, `1fr` reparte TODO el ancho del
+// contenedor entre las columnas que haya: con una clase de 2×2 (4 alumnos)
+// cada mesa se estira hasta ocupar medio panel — enorme e incómodo de tocar
+// con precisión. Con el tope, el grid entero deja de crecer más allá de
+// `columnas × ANCHO_MAX_MESA` y queda centrado; con muchas columnas (una
+// clase de 30) el tope casi no se nota, porque ahí sí hace falta el ancho
+// entero. `minmax(0, 1fr)` se conserva para que las mesas SIGAN encogiendo
+// por debajo del tope en una pantalla estrecha — el tope solo pone un techo,
+// nunca un suelo.
+const ANCHO_MAX_MESA = 92
+
 function Boton({ children, onClick, disabled, tono = 'suave' }) {
   const tonos = {
     suave: 'bg-white/5 hover:bg-white/10 border-white/10 text-white/70',
@@ -183,7 +194,8 @@ export default function AulaPupitres({ clase, students, onSave, lang, tr }) {
       </div>
 
       <div className="border border-t-0 border-white/10 rounded-b-xl p-2.5 sm:p-4 bg-black/20 mb-4">
-        <div className="grid gap-1.5 sm:gap-2" style={{ gridTemplateColumns: `repeat(${plano.cols}, minmax(0, 1fr))` }}>
+        <div className="grid gap-1.5 sm:gap-2 mx-auto"
+          style={{ gridTemplateColumns: `repeat(${plano.cols}, minmax(0, 1fr))`, maxWidth: `${plano.cols * ANCHO_MAX_MESA}px` }}>
           {mesas(plano).map(mesa => {
             const alumno = mesa.uid ? porUid[mesa.uid] : null
             const esteAbierto = abierto && mesa.uid === abierto
