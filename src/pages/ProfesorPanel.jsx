@@ -5,6 +5,11 @@ import { useLang } from '../context/LangContext'
 import { getTeacherProfile, getTeacherClasses, createClass, hasTeacherAccess } from '../lib/classes'
 import RecursosImprimibles from '../components/RecursosImprimibles'
 
+const PESTANAS = [
+  { id: 'clases', emoji: '🏫', label: { es: 'Mis clases', en: 'My classes', ca: 'Les meves classes' } },
+  { id: 'recursos', emoji: '🖨️', label: { es: 'Recursos', en: 'Resources', ca: 'Recursos' } },
+]
+
 export default function ProfesorPanel() {
   const { user } = useAuth()
   const { tr, localPath } = useLang()
@@ -17,6 +22,7 @@ export default function ProfesorPanel() {
   const [error, setError] = useState('')
   const [copiedCode, setCopiedCode] = useState('')
   const [waitingPayment, setWaitingPayment] = useState(false)
+  const [tab, setTab] = useState('clases')
 
   useEffect(() => {
     if (user === undefined) return
@@ -104,10 +110,31 @@ export default function ProfesorPanel() {
         </p>
       </div>
 
-      {/* Dos columnas en pantalla ancha: las clases mandan y los recursos
-          viven en el lateral, siempre a la vista sin robarle sitio a nada.
-          En móvil se apilan (los recursos quedan debajo de las clases). */}
-      <div className="grid lg:grid-cols-[minmax(0,1fr)_300px] gap-6 lg:gap-8 items-start">
+      {/* Dos pestañas del mismo peso, no una principal y una barra lateral:
+          preparar la clase (recursos) es tanto trabajo del profesor como
+          gestionarla, y en una columna de 300px no se podía trabajar. Cada
+          una se lleva el ancho entero cuando está activa. */}
+      <div className="grid grid-cols-2 gap-2 mb-6">
+        {PESTANAS.map(p => (
+          <button key={p.id} type="button" onClick={() => setTab(p.id)}
+            className={`rounded-2xl border px-4 py-3 text-left transition-colors ${
+              tab === p.id
+                ? 'border-teal-500/50 bg-teal-500/10'
+                : 'border-white/10 bg-white/[0.03] hover:border-white/25'
+            }`}>
+            <p className={`font-black text-[15px] ${tab === p.id ? 'text-white' : 'text-white/60'}`}>
+              {p.emoji} {tr(p.label)}
+            </p>
+            <p className="text-white/35 text-[11.5px] mt-0.5">
+              {p.id === 'clases'
+                ? `${classes.length} ${tr({ es: 'clase(s)', en: 'class(es)', ca: 'classe(s)' })}`
+                : tr({ es: 'Imprimibles y actividades', en: 'Printables and activities', ca: 'Imprimibles i activitats' })}
+            </p>
+          </button>
+        ))}
+      </div>
+
+      {tab === 'recursos' ? <RecursosImprimibles /> : (
       <div>
       <h1 className="text-2xl font-black text-white mb-1">{tr({ es: 'Mis clases', en: 'My classes', ca: 'Les meves classes' })}</h1>
       <p className="text-white/50 text-sm mb-6">
@@ -150,9 +177,7 @@ export default function ProfesorPanel() {
         </div>
       )}
       </div>
-
-      <RecursosImprimibles />
-      </div>
+      )}
     </div>
   )
 }

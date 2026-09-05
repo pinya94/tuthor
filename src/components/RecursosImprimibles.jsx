@@ -129,11 +129,11 @@ export default function RecursosImprimibles() {
 
   return (
     <>
-      <aside className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
-        <div className="flex gap-1 p-1 bg-black/25 border border-white/10 rounded-xl mb-3">
+      <section>
+        <div className="inline-flex gap-1 p-1 bg-black/25 border border-white/10 rounded-xl mb-4">
           {SECCIONES.map(s => (
             <button key={s.id} type="button" onClick={() => setSeccion(s.id)}
-              className={`flex-1 text-[11.5px] font-bold py-1.5 rounded-lg transition-colors ${
+              className={`text-[12.5px] font-bold px-4 py-2 rounded-lg transition-colors ${
                 seccion === s.id ? 'bg-white/15 text-white' : 'text-white/40 hover:text-white/70'
               }`}>
               {s.label}
@@ -143,27 +143,27 @@ export default function RecursosImprimibles() {
 
         {seccion === 'imprimibles' ? (
           <>
-            <p className="text-white/40 text-[12px] leading-snug mb-3">
+            <p className="text-white/45 text-[13px] leading-snug mb-4 max-w-xl">
               {tr({
                 es: 'Material ya hecho: tarjetas escritas y listas para recortar.',
                 en: 'Ready-made material: cards already written, ready to cut out.',
                 ca: 'Material ja fet: targetes escrites i a punt per retallar.',
               })}
             </p>
-            <div className="space-y-2.5 max-h-[420px] overflow-y-auto pr-0.5">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 items-start">
               {IMPRIMIBLE_IDS.map(id => {
                 const d = IMPRIMIBLES[id]
                 return (
-                  <div key={id} className="rounded-xl border border-white/[0.07] p-2.5">
-                    <p className="text-white text-[12.5px] font-bold mb-0.5">
+                  <div key={id} className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
+                    <p className="text-white text-[14px] font-bold mb-1">
                       {d.emoji} {d.titulo[lang] ?? d.titulo.es}
                     </p>
-                    <p className="text-white/35 text-[10.5px] leading-snug mb-2">{d.desc[lang] ?? d.desc.es}</p>
+                    <p className="text-white/40 text-[12px] leading-snug mb-3">{d.desc[lang] ?? d.desc.es}</p>
                     <div className="flex flex-wrap gap-1">
                       {d.variantes(lang).map(v => (
                         <button key={v.id} type="button"
                           onClick={() => setAbierta({ tipo: 'tarjetas', id, varianteId: v.id })}
-                          className="text-[10.5px] font-bold px-2 py-1 rounded-lg border border-white/10 text-white/55 hover:border-teal-500/40 hover:text-white transition-colors">
+                          className="text-[11.5px] font-bold px-2.5 py-1.5 rounded-lg border border-white/10 text-white/55 hover:border-teal-500/40 hover:text-white transition-colors">
                           {v.label} <span className="text-white/25">{v.n}</span>
                         </button>
                       ))}
@@ -175,7 +175,7 @@ export default function RecursosImprimibles() {
           </>
         ) : (
           <>
-            <p className="text-white/40 text-[12px] leading-snug mb-3">
+            <p className="text-white/45 text-[13px] leading-snug mb-4 max-w-xl">
               {tr({
                 es: `${conPapel.length} formas de llevar un juego al papel. Son instrucciones: el material lo pones tú.`,
                 en: `${conPapel.length} ways to take a game to paper. These are instructions: you provide the material.`,
@@ -192,10 +192,10 @@ export default function RecursosImprimibles() {
                 </button>
               ))}
             </div>
-            <div className="space-y-1 max-h-[360px] overflow-y-auto pr-0.5">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-2">
               {visibles.map(([slug, f]) => (
                 <button key={slug} type="button" onClick={() => setAbierta({ tipo: 'actividad', slug })}
-                  className="w-full flex items-center gap-2.5 text-left px-2.5 py-2 rounded-xl border border-white/[0.07] hover:border-teal-500/40 hover:bg-white/5 transition-colors">
+                  className="w-full flex items-center gap-2.5 text-left px-3 py-2.5 rounded-xl border border-white/10 bg-white/[0.03] hover:border-teal-500/40 hover:bg-white/5 transition-colors">
                   <span className="text-base shrink-0">{f.emoji}</span>
                   <span className="min-w-0 flex-1">
                     <span className="block text-white text-[12.5px] font-semibold truncate">{f.titulo}</span>
@@ -207,7 +207,7 @@ export default function RecursosImprimibles() {
             </div>
           </>
         )}
-      </aside>
+      </section>
 
       {/* Portal a <body> a propósito: este panel vive dentro del envoltorio
           `relative z-10` del panel del profesor, que es un contexto de
