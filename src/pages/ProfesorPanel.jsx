@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
 import { getTeacherProfile, getTeacherClasses, createClass, hasTeacherAccess } from '../lib/classes'
+import RecursosImprimibles from '../components/RecursosImprimibles'
 
 export default function ProfesorPanel() {
   const { user } = useAuth()
@@ -88,7 +89,7 @@ export default function ProfesorPanel() {
   }
 
   return (
-    <div className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 py-8">
+    <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 py-8">
       {/* Recordatorio de beta: no solo en /profesores — un profesor que ya
           entra a diario a esto sigue metiendo datos reales de sus alumnos, y
           merece seguir sabiendo en qué está mientras dure la prueba. */}
@@ -103,6 +104,11 @@ export default function ProfesorPanel() {
         </p>
       </div>
 
+      {/* Dos columnas en pantalla ancha: las clases mandan y los recursos
+          viven en el lateral, siempre a la vista sin robarle sitio a nada.
+          En móvil se apilan (los recursos quedan debajo de las clases). */}
+      <div className="grid lg:grid-cols-[minmax(0,1fr)_300px] gap-6 lg:gap-8 items-start">
+      <div>
       <h1 className="text-2xl font-black text-white mb-1">{tr({ es: 'Mis clases', en: 'My classes', ca: 'Les meves classes' })}</h1>
       <p className="text-white/50 text-sm mb-6">
         {tr({
@@ -143,6 +149,10 @@ export default function ProfesorPanel() {
           ))}
         </div>
       )}
+      </div>
+
+      <RecursosImprimibles />
+      </div>
     </div>
   )
 }
