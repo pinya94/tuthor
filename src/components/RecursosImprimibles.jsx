@@ -2,27 +2,31 @@ import { useState } from 'react'
 import { createPortal } from 'react-dom'
 import { useLang } from '../context/LangContext'
 import { FICHAS_ES, FICHAS_EN, FICHAS_CA } from '../data/infoJuegosFichas'
+import { IMPRIMIBLES, IMPRIMIBLE_IDS, tarjetasDe } from '../lib/materialImprimible'
 
-// Fichas para imprimir: la actividad "en papel" que CADA juego ya tenía
-// escrita (enPapel + alternativas en infoJuegosFichas.js) pero que solo se
-// veía en la ficha pública de SEO /info/juegos/:slug — es decir, en el sitio
-// donde el profesor no entra nunca. Aquí no se inventa contenido: se saca el
-// que ya existe (36 juegos × es/en/ca) y se le da un sitio fijo en el panel.
+// Recursos del profesor, en dos apartados que NO son lo mismo:
 //
-// Por qué en el panel y no como pestaña del aula: la barra del aula ya lleva
-// 7 módulos y fue justo lo que hubo que arreglar para que no se escondieran.
-// Además una ficha en papel no es de una clase concreta —es del catálogo—,
-// así que colgarla de /profesor/clase/:id sería mentir sobre a qué pertenece.
+//   · Actividades — la versión en papel de cada juego (el `enPapel` que ya
+//     vivía en infoJuegosFichas.js). Son INSTRUCCIONES: "escribe 15-20
+//     eventos en tarjetas y repártelas".
+//   · Imprimibles — el material de verdad (src/lib/materialImprimible.js).
+//     Trae esas tarjetas YA escritas con los datos de los juegos, listas
+//     para recortar.
 //
-// La impresión reutiliza .imprimir-solo-esto / .no-imprimir (src/index.css),
-// las mismas dos clases que ya usa el boletín de familias: sin librería de
-// PDF, window.print() deja "Guardar como PDF" en cualquier navegador.
+// Mezclarlos era el fallo de la primera versión: todo se anunciaba como
+// "fichas para imprimir" cuando la mitad solo decía qué hacer, y el profesor
+// se encontraba una hoja que le mandaba a él fabricar el material.
+//
+// Impresión: .imprimir-solo-esto / .no-imprimir (src/index.css), las mismas
+// dos clases que ya usa el boletín. Sin librería de PDF.
 
 const FICHAS_POR_LANG = { es: FICHAS_ES, en: FICHAS_EN, ca: FICHAS_CA }
 
-// La hoja que se imprime. Blanca y negra a propósito: se va a un papel de
-// verdad, así que ni fondo oscuro ni degradados que se coman el tóner.
-function Hoja({ ficha, tr }) {
+// ── Hojas ────────────────────────────────────────────────────────────────────
+// Blancas y negras a propósito: van a papel de verdad, así que ni fondo
+// oscuro ni degradados que se coman el tóner.
+
+function HojaActividad({ ficha, tr }) {
   return (
     <div className="imprimir-solo-esto bg-white text-black rounded-2xl p-6 sm:p-8 print:rounded-none print:p-0">
       <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-black/40 mb-1">
@@ -64,58 +68,145 @@ function Hoja({ ficha, tr }) {
   )
 }
 
+// Las tarjetas van en dos mitades con una línea de puntos en medio: se
+// recorta por el borde y se dobla por los puntos, y queda el enunciado por
+// una cara y la solución por la otra.
+function HojaTarjetas({ imprimible, variante, tarjetas, tr, lang }) {
+  return (
+    <div className="imprimir-solo-esto bg-white text-black rounded-2xl p-6 sm:p-8 print:rounded-none print:p-0">
+      <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-black/40 mb-1">
+        {imprimible.asignatura[lang] ?? imprimible.asignatura.es} · {variante.label} · {tarjetas.length} {tr({ es: 'tarjetas', en: 'cards', ca: 'targetes' })}
+      </p>
+      <h1 className="text-2xl font-black leading-tight mb-2">
+        {imprimible.titulo[lang] ?? imprimible.titulo.es}
+      </h1>
+      <p className="text-black/60 text-[13px] leading-relaxed mb-5">
+        {imprimible.comoUsarlo[lang] ?? imprimible.comoUsarlo.es}
+      </p>
+
+      <div className="grid grid-cols-2 gap-2">
+        {tarjetas.map((t, i) => (
+          <div key={i} className="flex items-stretch border border-black/50 rounded-md overflow-hidden break-inside-avoid">
+            <div className="flex-1 min-w-0 p-2.5">
+              <p className="text-[12.5px] font-bold leading-snug">{t.frente}</p>
+              {t.pista && <p className="text-[10px] text-black/55 leading-snug mt-1">{t.pista}</p>}
+            </div>
+            <div className="w-[34%] shrink-0 border-l border-dashed border-black/50 p-2.5 flex items-center justify-center">
+              <p className="text-[13px] font-black text-center leading-snug">{t.dorso}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <p className="text-[10px] text-black/35 mt-6 pt-3 border-t border-black/10">
+        {tr({
+          es: 'Recorta por el borde y dobla por la línea de puntos.',
+          en: 'Cut along the outer edge and fold along the dotted line.',
+          ca: 'Retalla per la vora i doblega per la línia de punts.',
+        })} · tuthor.es
+      </p>
+    </div>
+  )
+}
+
 export default function RecursosImprimibles() {
   const { lang, tr } = useLang()
-  const [abierta, setAbierta] = useState(null) // slug de la ficha abierta
+  const [seccion, setSeccion] = useState('imprimibles') // 'imprimibles' | 'actividades'
   const [filtro, setFiltro] = useState('todas')
+  const [abierta, setAbierta] = useState(null) // { tipo, ... }
 
   const fichas = FICHAS_POR_LANG[lang] ?? FICHAS_ES
-  // Solo las que tienen actividad en papel: hoy son todas, pero una ficha
-  // nueva sin enPapel no debe colarse como una hoja en blanco.
+  // Solo las que tienen actividad en papel: una ficha nueva sin `enPapel` no
+  // debe colarse como una hoja en blanco.
   const conPapel = Object.entries(fichas).filter(([, f]) => f.enPapel?.pasos?.length > 0)
   const asignaturas = [...new Set(conPapel.map(([, f]) => f.asignatura))].sort()
   const visibles = conPapel.filter(([, f]) => filtro === 'todas' || f.asignatura === filtro)
 
-  const ficha = abierta && fichas[abierta]
+  const SECCIONES = [
+    { id: 'imprimibles', label: tr({ es: '🖨️ Imprimibles', en: '🖨️ Printables', ca: '🖨️ Imprimibles' }) },
+    { id: 'actividades', label: tr({ es: '📋 Actividades', en: '📋 Activities', ca: '📋 Activitats' }) },
+  ]
 
   return (
     <>
       <aside className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
-        <h2 className="text-white font-black text-[15px] mb-0.5">
-          🖨️ {tr({ es: 'Fichas para imprimir', en: 'Printable worksheets', ca: 'Fitxes per imprimir' })}
-        </h2>
-        <p className="text-white/40 text-[12px] leading-snug mb-3">
-          {tr({
-            es: `${conPapel.length} actividades en papel, listas para el aula sin pantallas.`,
-            en: `${conPapel.length} paper activities, ready for a screen-free class.`,
-            ca: `${conPapel.length} activitats en paper, llestes per a l'aula sense pantalles.`,
-          })}
-        </p>
-
-        <div className="flex flex-wrap gap-1 mb-3">
-          {[{ id: 'todas', label: tr({ es: 'Todas', en: 'All', ca: 'Totes' }) }, ...asignaturas.map(a => ({ id: a, label: a }))].map(a => (
-            <button key={a.id} type="button" onClick={() => setFiltro(a.id)}
-              className={`text-[11px] font-bold px-2 py-1 rounded-lg border transition-colors ${
-                filtro === a.id ? 'bg-white/15 border-white/25 text-white' : 'border-white/10 text-white/40 hover:text-white/70'
+        <div className="flex gap-1 p-1 bg-black/25 border border-white/10 rounded-xl mb-3">
+          {SECCIONES.map(s => (
+            <button key={s.id} type="button" onClick={() => setSeccion(s.id)}
+              className={`flex-1 text-[11.5px] font-bold py-1.5 rounded-lg transition-colors ${
+                seccion === s.id ? 'bg-white/15 text-white' : 'text-white/40 hover:text-white/70'
               }`}>
-              {a.label}
+              {s.label}
             </button>
           ))}
         </div>
 
-        <div className="space-y-1 max-h-[360px] overflow-y-auto pr-0.5">
-          {visibles.map(([slug, f]) => (
-            <button key={slug} type="button" onClick={() => setAbierta(slug)}
-              className="w-full flex items-center gap-2.5 text-left px-2.5 py-2 rounded-xl border border-white/[0.07] hover:border-teal-500/40 hover:bg-white/5 transition-colors">
-              <span className="text-base shrink-0">{f.emoji}</span>
-              <span className="min-w-0 flex-1">
-                <span className="block text-white text-[12.5px] font-semibold truncate">{f.titulo}</span>
-                <span className="block text-white/35 text-[10.5px] truncate">{f.enPapel.titulo}</span>
-              </span>
-              <span className="text-white/20 text-[11px] shrink-0">🖨️</span>
-            </button>
-          ))}
-        </div>
+        {seccion === 'imprimibles' ? (
+          <>
+            <p className="text-white/40 text-[12px] leading-snug mb-3">
+              {tr({
+                es: 'Material ya hecho: tarjetas escritas y listas para recortar.',
+                en: 'Ready-made material: cards already written, ready to cut out.',
+                ca: 'Material ja fet: targetes escrites i a punt per retallar.',
+              })}
+            </p>
+            <div className="space-y-2.5 max-h-[420px] overflow-y-auto pr-0.5">
+              {IMPRIMIBLE_IDS.map(id => {
+                const d = IMPRIMIBLES[id]
+                return (
+                  <div key={id} className="rounded-xl border border-white/[0.07] p-2.5">
+                    <p className="text-white text-[12.5px] font-bold mb-0.5">
+                      {d.emoji} {d.titulo[lang] ?? d.titulo.es}
+                    </p>
+                    <p className="text-white/35 text-[10.5px] leading-snug mb-2">{d.desc[lang] ?? d.desc.es}</p>
+                    <div className="flex flex-wrap gap-1">
+                      {d.variantes(lang).map(v => (
+                        <button key={v.id} type="button"
+                          onClick={() => setAbierta({ tipo: 'tarjetas', id, varianteId: v.id })}
+                          className="text-[10.5px] font-bold px-2 py-1 rounded-lg border border-white/10 text-white/55 hover:border-teal-500/40 hover:text-white transition-colors">
+                          {v.label} <span className="text-white/25">{v.n}</span>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+          </>
+        ) : (
+          <>
+            <p className="text-white/40 text-[12px] leading-snug mb-3">
+              {tr({
+                es: `${conPapel.length} formas de llevar un juego al papel. Son instrucciones: el material lo pones tú.`,
+                en: `${conPapel.length} ways to take a game to paper. These are instructions: you provide the material.`,
+                ca: `${conPapel.length} maneres de portar un joc al paper. Són instruccions: el material el poses tu.`,
+              })}
+            </p>
+            <div className="flex flex-wrap gap-1 mb-3">
+              {[{ id: 'todas', label: tr({ es: 'Todas', en: 'All', ca: 'Totes' }) }, ...asignaturas.map(a => ({ id: a, label: a }))].map(a => (
+                <button key={a.id} type="button" onClick={() => setFiltro(a.id)}
+                  className={`text-[11px] font-bold px-2 py-1 rounded-lg border transition-colors ${
+                    filtro === a.id ? 'bg-white/15 border-white/25 text-white' : 'border-white/10 text-white/40 hover:text-white/70'
+                  }`}>
+                  {a.label}
+                </button>
+              ))}
+            </div>
+            <div className="space-y-1 max-h-[360px] overflow-y-auto pr-0.5">
+              {visibles.map(([slug, f]) => (
+                <button key={slug} type="button" onClick={() => setAbierta({ tipo: 'actividad', slug })}
+                  className="w-full flex items-center gap-2.5 text-left px-2.5 py-2 rounded-xl border border-white/[0.07] hover:border-teal-500/40 hover:bg-white/5 transition-colors">
+                  <span className="text-base shrink-0">{f.emoji}</span>
+                  <span className="min-w-0 flex-1">
+                    <span className="block text-white text-[12.5px] font-semibold truncate">{f.titulo}</span>
+                    <span className="block text-white/35 text-[10.5px] truncate">{f.enPapel.titulo}</span>
+                  </span>
+                  <span className="text-white/20 text-[11px] shrink-0">📋</span>
+                </button>
+              ))}
+            </div>
+          </>
+        )}
       </aside>
 
       {/* Portal a <body> a propósito: este panel vive dentro del envoltorio
@@ -123,7 +214,7 @@ export default function RecursosImprimibles() {
           apilamiento — cualquier z-index de aquí dentro sigue quedando por
           debajo de la navbar (z-50), que está fuera. Es el mismo gotcha que
           ya está documentado en App.jsx para los raíles. */}
-      {ficha && createPortal(
+      {abierta && createPortal(
         <div className="fixed inset-0 z-[90] overflow-y-auto bg-black/75 backdrop-blur-sm p-4 sm:p-8">
           <div className="mx-auto w-full max-w-2xl">
             <div className="no-imprimir flex items-center justify-between gap-3 mb-3">
@@ -136,7 +227,13 @@ export default function RecursosImprimibles() {
                 🖨️ {tr({ es: 'Imprimir', en: 'Print', ca: 'Imprimir' })}
               </button>
             </div>
-            <Hoja ficha={ficha} tr={tr} />
+            {abierta.tipo === 'actividad'
+              ? <HojaActividad ficha={fichas[abierta.slug]} tr={tr} />
+              : (() => {
+                const d = IMPRIMIBLES[abierta.id]
+                const variante = d.variantes(lang).find(v => v.id === abierta.varianteId)
+                return <HojaTarjetas imprimible={d} variante={variante} tarjetas={tarjetasDe(abierta.id, abierta.varianteId, lang)} tr={tr} lang={lang} />
+              })()}
           </div>
         </div>,
         document.body,
