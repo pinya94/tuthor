@@ -7,6 +7,7 @@ import { useLang } from '../context/LangContext'
 import PageMeta from '../components/PageMeta'
 import CourseSchema from '../components/CourseSchema'
 import BreadcrumbSchema from '../components/BreadcrumbSchema'
+import RecursosDelTema from '../components/RecursosDelTema'
 
 const NIVELES = {
   es: [
@@ -281,6 +282,12 @@ export default function HistoriaTema() {
             </div>
           </div>
         ))}
+      </div>
+
+      {/* Material en papel de ESTA época: quien está en esta página ya está
+          preparando esta clase. No pinta nada si la época no tiene tarjetas. */}
+      <div className="max-w-2xl mx-auto w-full mt-10">
+        <RecursosDelTema materia="historia" tema={categoria} />
       </div>
     </div>
   )

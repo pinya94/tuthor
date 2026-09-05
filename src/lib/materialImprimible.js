@@ -225,6 +225,39 @@ export const IMPRIMIBLES = {
 
 export const IMPRIMIBLE_IDS = Object.keys(IMPRIMIBLES)
 
+// ── Qué imprimible encaja con cada página de teoría ──────────────────────────
+// Las páginas de /estudiar/<materia>/<tema> explican el tema y desde ahí se
+// mandan los ejercicios: es donde un profesor ya está preparando esa clase,
+// así que es donde el material en papel de ESE tema tiene más sentido — mucho
+// más que un enlace genérico a /recursos.
+//
+// En historia no hace falta traducir nada: la `categoria` de la página
+// (edad-media, gce, wwii…) es literalmente el id de variante de los dos
+// imprimibles de historia. En el resto la relación es explícita porque las
+// variantes agrupan por otra cosa (tipo de elemento, rol trófico), así que se
+// ofrece el imprimible entero y el profesor elige el grupo.
+const IMPRIMIBLES_POR_TEMA = {
+  'quimica/tabla-periodica': ['quimica-elementos'],
+  'biologia/ecosistemas': ['biologia-cadena'],
+}
+
+// Devuelve [{ id, varianteId }] para una página de teoría. varianteId null =
+// "este imprimible va con el tema, pero el grupo lo elige el profesor".
+// Lista vacía si ese tema no tiene material: la página no pinta la sección.
+export function imprimiblesDeTema(materia, tema) {
+  if (!materia || !tema) return []
+
+  if (materia === 'historia') {
+    return ['historia-eventos', 'historia-portadas']
+      .filter(id => IMPRIMIBLES[id].variantes('es').some(v => v.id === tema))
+      .map(id => ({ id, varianteId: tema }))
+  }
+
+  return (IMPRIMIBLES_POR_TEMA[`${materia}/${tema}`] ?? [])
+    .filter(id => IMPRIMIBLES[id])
+    .map(id => ({ id, varianteId: null }))
+}
+
 // Reparte las tarjetas alternando la respuesta del dorso en vez de dejarlas
 // en el orden del dato. Importa de verdad en los titulares: PORTADAS trae
 // primero los verdaderos y luego los falsos, así que recortar la hoja y

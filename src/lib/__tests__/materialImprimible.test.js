@@ -3,7 +3,7 @@
 // es papel gastado en balde), que las variantes que se ofrecen tengan
 // contenido de verdad detrás, y que un id inventado no tumbe el panel.
 import { describe, it, expect } from 'vitest'
-import { IMPRIMIBLES, IMPRIMIBLE_IDS, MAX_TARJETAS, tarjetasDe, intercalarPorDorso } from '../materialImprimible'
+import { IMPRIMIBLES, IMPRIMIBLE_IDS, MAX_TARJETAS, tarjetasDe, intercalarPorDorso, imprimiblesDeTema } from '../materialImprimible'
 
 describe('catálogo de imprimibles', () => {
   it('cada imprimible tiene título, descripción y cómo usarlo en los tres idiomas', () => {
@@ -66,6 +66,39 @@ describe('catálogo de imprimibles', () => {
         }
       }
     }
+  })
+})
+
+describe('imprimiblesDeTema', () => {
+  it('una página de historia ofrece el material de SU época, no uno genérico', () => {
+    const r = imprimiblesDeTema('historia', 'edad-media')
+    expect(r.map(x => x.id).sort()).toEqual(['historia-eventos', 'historia-portadas'].filter(
+      id => IMPRIMIBLES[id].variantes('es').some(v => v.id === 'edad-media'),
+    ).sort())
+    for (const x of r) {
+      expect(x.varianteId).toBe('edad-media')
+      expect(tarjetasDe(x.id, x.varianteId).length).toBeGreaterThan(0)
+    }
+  })
+
+  it('solo ofrece el imprimible si esa época tiene material dentro', () => {
+    // roma tiene eventos pero no portadas: ofrecer las dos sería mandar al
+    // profesor a una hoja vacía.
+    for (const x of imprimiblesDeTema('historia', 'roma')) {
+      expect(tarjetasDe(x.id, x.varianteId).length, `${x.id}/roma vacío`).toBeGreaterThan(0)
+    }
+  })
+
+  it('fuera de historia el tema mapea al imprimible entero', () => {
+    expect(imprimiblesDeTema('quimica', 'tabla-periodica')).toEqual([{ id: 'quimica-elementos', varianteId: null }])
+    expect(imprimiblesDeTema('biologia', 'ecosistemas')).toEqual([{ id: 'biologia-cadena', varianteId: null }])
+  })
+
+  it('un tema sin material da lista vacía (la página no pinta nada)', () => {
+    expect(imprimiblesDeTema('quimica', 'acidos-bases')).toEqual([])
+    expect(imprimiblesDeTema('historia', 'tema-inventado')).toEqual([])
+    expect(imprimiblesDeTema(null, null)).toEqual([])
+    expect(imprimiblesDeTema('historia', undefined)).toEqual([])
   })
 })
 

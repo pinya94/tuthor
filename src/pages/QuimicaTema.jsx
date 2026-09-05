@@ -1,9 +1,9 @@
 import { useNavigate, useParams } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
-import { ELEMENTOS } from '../data/tablaperiodica'
 import { ciclosPorTema } from '../data/ciclosCientificos'
 import { diagnosticosPorTema } from '../data/diagnostico'
 import { disciplinaDeTema, getDisciplina } from '../data/ciencias'
+import RecursosDelTema from '../components/RecursosDelTema'
 import PageMeta from '../components/PageMeta'
 import CourseSchema from '../components/CourseSchema'
 import BreadcrumbSchema from '../components/BreadcrumbSchema'
@@ -447,6 +447,12 @@ export default function QuimicaTema() {
             </div>
           </button>
         ))}
+      </div>
+
+      {/* Material en papel de este tema, si lo hay: imprimiblesDeTema
+          decide, y si no hay nada este bloque no pinta nada. */}
+      <div className="max-w-2xl mx-auto w-full mt-10">
+        <RecursosDelTema materia={disc.id} tema={tema} />
       </div>
     </div>
   )
