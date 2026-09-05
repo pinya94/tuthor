@@ -139,6 +139,10 @@ export const STATIC_META = {
     es: { title: 'Política de privacidad', desc: 'Política de privacidad y protección de datos de Tuthor: qué datos tratamos, con qué finalidad y cuáles son tus derechos.' },
     en: { title: 'Privacy policy', desc: 'Tuthor privacy and data protection policy: what data we process, why, and what your rights are.' },
   },
+  '/recursos': {
+    es: { title: 'Recursos imprimibles para profesores', desc: 'Tarjetas listas para recortar: eventos históricos por época, países y capitales, elementos químicos y titulares verdaderos y falsos. Gratis y sin registro.' },
+    en: { title: 'Printable classroom resources', desc: 'Cards ready to cut out: historical events by period, countries and capitals, chemical elements and real vs fake headlines. Free, no sign-up.' },
+  },
   '/profesores': {
     es: { title: 'Herramientas gratis para profesores', desc: 'Pasa lista, pon notas, crea tus propios exámenes y gestiona toda la clase desde el móvil. Gratis durante la beta, sin tarjeta ni permanencia.' },
     en: { title: 'Free tools for teachers', desc: 'Take attendance, grade your students, build your own quizzes and run the whole classroom from your phone. Free during the beta, no card required.' },

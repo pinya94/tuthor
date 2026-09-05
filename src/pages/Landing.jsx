@@ -946,6 +946,9 @@ export default function Landing() {
             <Link to={localPath('/profesores')} className="transition-colors hover:text-slate-900">
               {tr({ es: 'Para profesores', en: 'For teachers', ca: 'Per a professors' })}
             </Link>
+            <Link to={localPath('/recursos')} className="transition-colors hover:text-slate-900">
+              {tr({ es: 'Recursos imprimibles', en: 'Printable resources', ca: 'Recursos imprimibles' })}
+            </Link>
             <Link to={localPath('/info/juegos')} className="transition-colors hover:text-slate-900">
               {tr({ es: 'Los juegos', en: 'The games', ca: 'Els jocs' })}
             </Link>

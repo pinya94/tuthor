@@ -3,7 +3,7 @@
 // es papel gastado en balde), que las variantes que se ofrecen tengan
 // contenido de verdad detrás, y que un id inventado no tumbe el panel.
 import { describe, it, expect } from 'vitest'
-import { IMPRIMIBLES, IMPRIMIBLE_IDS, MAX_TARJETAS, tarjetasDe } from '../materialImprimible'
+import { IMPRIMIBLES, IMPRIMIBLE_IDS, MAX_TARJETAS, tarjetasDe, intercalarPorDorso } from '../materialImprimible'
 
 describe('catálogo de imprimibles', () => {
   it('cada imprimible tiene título, descripción y cómo usarlo en los tres idiomas', () => {
@@ -66,6 +66,49 @@ describe('catálogo de imprimibles', () => {
         }
       }
     }
+  })
+})
+
+describe('intercalarPorDorso', () => {
+  it('los titulares no salen en bloques de la misma respuesta', () => {
+    // PORTADAS trae primero los verdaderos y luego los falsos: sin
+    // intercalar, recortar la hoja y repartir por bloques le daba a un grupo
+    // entero solo VERDAD, y ahí no hay nada que decidir.
+    for (const v of IMPRIMIBLES['historia-portadas'].variantes('es')) {
+      const dorsos = tarjetasDe('historia-portadas', v.id).map(t => t.dorso)
+      const cuenta = {}
+      for (const d of dorsos) cuenta[d] = (cuenta[d] ?? 0) + 1
+      const [mayor, menor] = Object.values(cuenta).sort((a, b) => b - a)
+
+      let racha = 1, peor = 1
+      for (let i = 1; i < dorsos.length; i++) {
+        racha = dorsos[i] === dorsos[i - 1] ? racha + 1 : 1
+        peor = Math.max(peor, racha)
+      }
+      // El tope no es fijo: con 10 verdades y 3 bulos es imposible bajar de
+      // rachas de ~3, y exigir menos sería exigir algo que no existe. Lo que
+      // sí se puede exigir es que la racha no pase de lo que impone la
+      // proporción — que es justo lo que el intercalado tiene que lograr.
+      const techo = Math.ceil(mayor / (menor + 1)) + 1
+      expect(peor, `${v.id}: racha de ${peor} (techo ${techo}, ${mayor}/${menor})`).toBeLessThanOrEqual(techo)
+    }
+  })
+
+  it('no pierde ni duplica tarjetas', () => {
+    const original = [
+      { frente: 'a', dorso: 'X' }, { frente: 'b', dorso: 'X' }, { frente: 'c', dorso: 'X' },
+      { frente: 'd', dorso: 'Y' }, { frente: 'e', dorso: 'Y' },
+    ]
+    const salida = intercalarPorDorso(original)
+    expect(salida).toHaveLength(original.length)
+    expect(salida.map(t => t.frente).sort()).toEqual(['a', 'b', 'c', 'd', 'e'])
+  })
+
+  it('es determinista: dos llamadas dan el mismo orden', () => {
+    // Reimprimir una hoja tiene que dar exactamente la misma hoja.
+    const a = tarjetasDe('historia-portadas', 'gce').map(t => t.frente)
+    const b = tarjetasDe('historia-portadas', 'gce').map(t => t.frente)
+    expect(a).toEqual(b)
   })
 })
 

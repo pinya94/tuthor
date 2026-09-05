@@ -1,6 +1,8 @@
 import { EVENTOS_HISTORIA } from '../data/historiaEvents'
 import { PAISES } from '../data/paises'
 import { ELEMENTOS, TIPOS } from '../data/tablaperiodica'
+import { PORTADAS } from '../data/portadas'
+import { ORGANISMOS, ROLES } from '../data/cadenaTrofica'
 import { SUBJECTS } from './statsAggregation'
 
 // ── Imprimibles ──────────────────────────────────────────────────────────────
@@ -147,9 +149,110 @@ export const IMPRIMIBLES = {
         }))
     },
   },
+
+  'historia-portadas': {
+    emoji: '📰',
+    // Único que lo necesita: los datos vienen agrupados por veracidad y el
+    // juego entero está en no saber si el titular es cierto (ver
+    // intercalarPorDorso más abajo).
+    intercalar: true,
+    asignatura: { es: 'Historia', en: 'History', ca: 'Història' },
+    titulo: { es: 'Titulares: ¿verdad o bulo?', en: 'Headlines: true or fake?', ca: 'Titulars: veritat o bulo?' },
+    desc: {
+      es: 'Titulares de periódico reales y falsos, con la respuesta detrás.',
+      en: 'Real and fake newspaper headlines, with the answer on the back.',
+      ca: 'Titulars de diari reals i falsos, amb la resposta al darrere.',
+    },
+    comoUsarlo: {
+      es: 'Reparte una tarjeta por grupo: leen el titular y deciden si pasó de verdad antes de girarla. Es la mejor entrada a por qué hay que contrastar una fuente.',
+      en: 'Hand out one card per group: they read the headline and decide whether it really happened before flipping it. The best way into why sources need checking.',
+      ca: 'Reparteix una targeta per grup: llegeixen el titular i decideixen si va passar de debò abans de girar-la. La millor entrada a per què cal contrastar una font.',
+    },
+    variantes(lang) {
+      const cuenta = {}
+      for (const p of PORTADAS) for (const t of p.temas ?? []) cuenta[t] = (cuenta[t] ?? 0) + 1
+      return Object.entries(cuenta)
+        .filter(([id]) => CAT_LABELS_HISTORIA[id])
+        .map(([id, n]) => ({ id, label: tr3(CAT_LABELS_HISTORIA[id], lang), n }))
+        .sort((a, b) => a.label.localeCompare(b.label))
+    },
+    tarjetas(varianteId, lang) {
+      const VERDAD = { es: 'VERDAD', en: 'TRUE', ca: 'VERITAT' }
+      const BULO = { es: 'BULO', en: 'FAKE', ca: 'BULO' }
+      return PORTADAS
+        .filter(p => (p.temas ?? []).includes(varianteId))
+        .map(p => ({
+          frente: enIdioma(p, 'titular', lang),
+          pista: `${p.periodico} · ${p.año}`,
+          dorso: tr3(p.veracidad ? VERDAD : BULO, lang),
+        }))
+    },
+  },
+
+  'biologia-cadena': {
+    emoji: '🌿',
+    asignatura: { es: 'Biología', en: 'Biology', ca: 'Biologia' },
+    titulo: { es: 'Tarjetas de la cadena alimentaria', en: 'Food chain cards', ca: 'Targetes de la cadena alimentària' },
+    desc: {
+      es: 'Un ser vivo por delante y su papel en la cadena por detrás.',
+      en: 'A living thing on the front and its role in the chain on the back.',
+      ca: 'Un ésser viu al davant i el seu paper a la cadena al darrere.',
+    },
+    comoUsarlo: {
+      es: 'Recorta y reparte: por grupos, tienen que ordenar sus tarjetas en una cadena que se sostenga, del productor al último consumidor.',
+      en: 'Cut them out and hand them round: in groups, they arrange their cards into a chain that holds up, from producer to top consumer.',
+      ca: 'Retalla i reparteix: per grups, han d\'ordenar les seves targetes en una cadena que se sostingui, del productor a l\'últim consumidor.',
+    },
+    variantes(lang) {
+      const cuenta = {}
+      for (const o of ORGANISMOS) cuenta[o.rol] = (cuenta[o.rol] ?? 0) + 1
+      return Object.entries(cuenta)
+        .filter(([id]) => ROLES[id])
+        .map(([id, n]) => ({ id, label: tr3(ROLES[id].label, lang), n }))
+        .sort((a, b) => a.label.localeCompare(b.label))
+    },
+    tarjetas(varianteId, lang) {
+      return ORGANISMOS
+        .filter(o => o.rol === varianteId)
+        .map(o => ({
+          frente: `${o.emoji} ${enIdioma(o, 'nombre', lang)}`,
+          pista: null,
+          dorso: `${ROLES[o.rol].emoji} ${tr3(ROLES[o.rol].label, lang)}`,
+        }))
+    },
+  },
 }
 
 export const IMPRIMIBLE_IDS = Object.keys(IMPRIMIBLES)
+
+// Reparte las tarjetas alternando la respuesta del dorso en vez de dejarlas
+// en el orden del dato. Importa de verdad en los titulares: PORTADAS trae
+// primero los verdaderos y luego los falsos, así que recortar la hoja y
+// repartir por bloques le daba a un grupo entero solo VERDAD y a otro solo
+// BULO — y ahí ya no hay nada que decidir.
+//
+// Determinista a propósito (nada de Math.random): la misma hoja impresa dos
+// veces tiene que salir igual, o el profesor que reimprime se encuentra otro
+// reparto y las fotocopias ya hechas dejan de encajar.
+export function intercalarPorDorso(tarjetas) {
+  const grupos = new Map()
+  for (const t of tarjetas) {
+    if (!grupos.has(t.dorso)) grupos.set(t.dorso, [])
+    grupos.get(t.dorso).push(t)
+  }
+
+  // Reparto PROPORCIONAL, no por turnos: alternar uno de cada grupo agota
+  // antes el grupo pequeño y deja toda la cola del grande al final (con 10
+  // verdades y 3 bulos quedaban 7 verdades seguidas al cierre de la hoja).
+  // A cada tarjeta se le da su posición ideal dentro de su propio grupo
+  // —(i + ½) / tamaño— y se ordena por ella, así cada grupo queda estirado a
+  // lo largo de toda la hoja en la proporción que le toca.
+  const conPosicion = []
+  for (const lista of grupos.values()) {
+    lista.forEach((t, i) => conPosicion.push({ t, pos: (i + 0.5) / lista.length }))
+  }
+  return conPosicion.sort((a, b) => a.pos - b.pos).map(x => x.t)
+}
 
 // Las tarjetas de una variante, ya acotadas a lo que cabe en una tanda
 // razonable de recorte. Devuelve [] para un id o una variante que no existan,
@@ -157,5 +260,9 @@ export const IMPRIMIBLE_IDS = Object.keys(IMPRIMIBLES)
 export function tarjetasDe(imprimibleId, varianteId, lang = 'es') {
   const def = IMPRIMIBLES[imprimibleId]
   if (!def || !varianteId) return []
-  return def.tarjetas(varianteId, lang).slice(0, MAX_TARJETAS)
+  const todas = def.tarjetas(varianteId, lang)
+  // El intercalado va ANTES del recorte: si no, quedarse con las 40 primeras
+  // de una lista ordenada por respuesta dejaría fuera casi todos los bulos.
+  const ordenadas = def.intercalar ? intercalarPorDorso(todas) : todas
+  return ordenadas.slice(0, MAX_TARJETAS)
 }

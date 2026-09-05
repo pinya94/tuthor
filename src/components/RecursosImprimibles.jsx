@@ -74,8 +74,12 @@ function HojaActividad({ ficha, tr }) {
 function HojaTarjetas({ imprimible, variante, tarjetas, tr, lang }) {
   return (
     <div className="imprimir-solo-esto bg-white text-black rounded-2xl p-6 sm:p-8 print:rounded-none print:p-0">
+      {/* `variante` puede no existir si el dato de origen cambió y ese grupo
+          ya no está: mejor imprimir la hoja sin el subtítulo que reventar
+          con un `variante.label` de undefined. */}
       <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-black/40 mb-1">
-        {imprimible.asignatura[lang] ?? imprimible.asignatura.es} · {variante.label} · {tarjetas.length} {tr({ es: 'tarjetas', en: 'cards', ca: 'targetes' })}
+        {imprimible.asignatura[lang] ?? imprimible.asignatura.es}
+        {variante && ` · ${variante.label}`} · {tarjetas.length} {tr({ es: 'tarjetas', en: 'cards', ca: 'targetes' })}
       </p>
       <h1 className="text-2xl font-black leading-tight mb-2">
         {imprimible.titulo[lang] ?? imprimible.titulo.es}

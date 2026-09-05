@@ -555,6 +555,35 @@ export default function Profesores() {
           </div>
         </section>
 
+        {/* ── RECURSOS GRATIS, SIN CUENTA ── */}
+        {/* Antes del formulario a propósito: dar algo utilizable sin
+            registrarse convence más que pedir el alta primero, y el que
+            imprime unas tarjetas y le funcionan en clase es el que luego
+            vuelve a mirar el resto. */}
+        <section className="pb-16 sm:pb-20">
+          <div className="rounded-3xl border border-white/10 bg-white/[0.03] px-6 py-8 sm:px-10 sm:py-10 text-center">
+            <span className="text-4xl block mb-3">🖨️</span>
+            <h2 className="text-2xl sm:text-3xl font-black text-white mb-3">
+              {tr({
+                es: 'Pruébalo sin registrarte: material para imprimir',
+                en: 'Try it without signing up: printable material',
+                ca: 'Prova-ho sense registrar-te: material per imprimir',
+              })}
+            </h2>
+            <p className="text-white/55 text-[15px] leading-relaxed max-w-xl mx-auto mb-6">
+              {tr({
+                es: 'Tarjetas ya escritas y listas para recortar: eventos históricos por época, países y capitales, elementos químicos, titulares verdaderos y falsos. No hace falta cuenta ni palabra de la beta.',
+                en: 'Cards already written and ready to cut out: historical events by period, countries and capitals, chemical elements, real and fake headlines. No account or beta word needed.',
+                ca: 'Targetes ja escrites i a punt per retallar: esdeveniments històrics per època, països i capitals, elements químics, titulars verdaders i falsos. No cal compte ni paraula de la beta.',
+              })}
+            </p>
+            <Link to={localPath('/recursos')}
+              className="inline-block px-6 py-3.5 rounded-xl border border-white/15 hover:border-white/35 text-white font-bold text-sm transition-colors">
+              {tr({ es: 'Ver los recursos gratis →', en: 'See the free resources →', ca: 'Veure els recursos gratis →' })}
+            </Link>
+          </div>
+        </section>
+
         {/* ── PRICING / FORMULARIO ── */}
         <section id="empezar" className="py-16 sm:py-20 scroll-mt-8">
           <div className="max-w-md mx-auto">

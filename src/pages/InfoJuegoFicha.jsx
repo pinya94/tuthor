@@ -8,9 +8,9 @@ import AdSlot from '../components/AdSlot'
 const SURF = 'rgba(17,20,29,0.86)'
 
 const UI = {
-  es: { back: '← Volver al catálogo', jugar: 'Jugar a', probar: 'Probar', ahora: 'ahora →', beneficiosH2: '🧠 Beneficios Pedagógicos', ejemploH2: '💡 Ejemplo Práctico', papelPre: '¿Prefieres aprender sin pantallas? Prueba esta versión analógica:', altH2: '🎲 Juegos similares que te pueden gustar', altPre: 'Si te gusta', altPost: ', estos juegos trabajan habilidades parecidas:', listoH2: '¿Listo para probarlo?', listoSub: 'Accede gratis y empieza a mejorar ahora.', notFound: 'Juego no encontrado' },
-  en: { back: '← Back to catalogue', jugar: 'Play', probar: 'Try', ahora: 'now →', beneficiosH2: '🧠 Pedagogical Benefits', ejemploH2: '💡 Practical Example', papelPre: 'Prefer to learn without screens? Try this analogue version:', altH2: '🎲 Similar activities you might enjoy', altPre: 'If you like', altPost: ', these activities work similar skills:', listoH2: 'Ready to try it?', listoSub: 'Access for free and start improving now.', notFound: 'Game not found' },
-  ca: { back: '← Tornar al catàleg', jugar: 'Jugar a', probar: 'Provar', ahora: 'ara →', beneficiosH2: '🧠 Beneficis Pedagògics', ejemploH2: '💡 Exemple Pràctic', papelPre: 'Prefereixes aprendre sense pantalles? Prova aquesta versió analògica:', altH2: '🎲 Jocs similars que et poden agradar', altPre: 'Si t\'agrada', altPost: ', aquests jocs treballen habilitats semblants:', listoH2: 'Preparat per provar-ho?', listoSub: 'Accedeix gratis i comença a millorar ara.', notFound: 'Joc no trobat' },
+  es: { back: '← Volver al catálogo', jugar: 'Jugar a', probar: 'Probar', ahora: 'ahora →', beneficiosH2: '🧠 Beneficios Pedagógicos', ejemploH2: '💡 Ejemplo Práctico', papelPre: '¿Prefieres aprender sin pantallas? Prueba esta versión analógica:', altH2: '🎲 Juegos similares que te pueden gustar', altPre: 'Si te gusta', altPost: ', estos juegos trabajan habilidades parecidas:', listoH2: '¿Listo para probarlo?', listoSub: 'Accede gratis y empieza a mejorar ahora.', notFound: 'Juego no encontrado', recursosTitulo: 'Material listo para imprimir', recursosSub: 'Tarjetas ya escritas para recortar: historia, geografía, química y más. Gratis, sin registro.' },
+  en: { back: '← Back to catalogue', jugar: 'Play', probar: 'Try', ahora: 'now →', beneficiosH2: '🧠 Pedagogical Benefits', ejemploH2: '💡 Practical Example', papelPre: 'Prefer to learn without screens? Try this analogue version:', altH2: '🎲 Similar activities you might enjoy', altPre: 'If you like', altPost: ', these activities work similar skills:', listoH2: 'Ready to try it?', listoSub: 'Access for free and start improving now.', notFound: 'Game not found', recursosTitulo: 'Ready-to-print material', recursosSub: 'Cards already written, ready to cut out: history, geography, chemistry and more. Free, no sign-up.' },
+  ca: { back: '← Tornar al catàleg', jugar: 'Jugar a', probar: 'Provar', ahora: 'ara →', beneficiosH2: '🧠 Beneficis Pedagògics', ejemploH2: '💡 Exemple Pràctic', papelPre: 'Prefereixes aprendre sense pantalles? Prova aquesta versió analògica:', altH2: '🎲 Jocs similars que et poden agradar', altPre: 'Si t\'agrada', altPost: ', aquests jocs treballen habilitats semblants:', listoH2: 'Preparat per provar-ho?', listoSub: 'Accedeix gratis i comença a millorar ara.', notFound: 'Joc no trobat', recursosTitulo: 'Material a punt per imprimir', recursosSub: 'Targetes ja escrites per retallar: història, geografia, química i més. Gratis, sense registre.' },
 }
 
 export default function InfoJuegoFicha() {
@@ -135,6 +135,17 @@ export default function InfoJuegoFicha() {
                 ))}
               </ol>
             </div>
+            {/* Esta sección dice cómo montar la actividad; /recursos trae el
+                material ya hecho. Enlazarlas desde las 36 fichas es también
+                lo que le da entradas a esa página desde el buscador. */}
+            <Link to={localPath('/recursos')}
+              className="mt-4 flex items-center justify-between gap-3 rounded-2xl border border-teal-500/25 bg-teal-500/[0.06] px-5 py-4 hover:border-teal-500/50 transition-colors">
+              <span>
+                <span className="block text-white font-bold text-[15px]">🖨️ {ui.recursosTitulo}</span>
+                <span className="block text-white/50 text-[13px] mt-0.5">{ui.recursosSub}</span>
+              </span>
+              <span className="text-teal-300 font-bold shrink-0">→</span>
+            </Link>
           </section>
 
           {/* Alternativas */}
