@@ -60,6 +60,20 @@ describe('datos de las preparaciones', () => {
     }
   })
 
+  it('ningún nombre se repite entre preparaciones distintas', () => {
+    // Los nombres llevan dentro de qué son ("Pata del piojo", no "Pata"):
+    // dos zonas llamadas igual en fotos distintas darían una pregunta con
+    // dos respuestas válidas y solo una contada como buena.
+    const vistos = new Map()
+    for (const p of PREPARACIONES) {
+      for (const z of p.zonas) {
+        const previo = vistos.get(z.nombre.es)
+        expect(previo, `"${z.nombre.es}" está en ${previo} y en ${p.id}`).toBeUndefined()
+        vistos.set(z.nombre.es, p.id)
+      }
+    }
+  })
+
   it('hay suficientes nombres distintos en total para llenar las opciones', () => {
     const todos = new Set(PREPARACIONES.flatMap(p => p.zonas.map(z => z.nombre.es)))
     expect(todos.size).toBeGreaterThanOrEqual(OPCIONES_POR_RONDA)

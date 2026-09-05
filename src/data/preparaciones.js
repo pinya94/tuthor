@@ -32,7 +32,7 @@ export const PREPARACIONES = [
       {
         id: 'pata',
         marca: { cx: 20, cy: 34, r: 11 },
-        nombre: { es: 'Pata con garra', en: 'Clawed leg', ca: 'Pota amb urpa' },
+        nombre: { es: 'Pata del piojo', en: 'Louse leg', ca: 'Pota del poll' },
         dato: {
           es: 'Cada pata acaba en una garra curva del grosor justo de un pelo. Por eso no se cae aunque te muevas.',
           en: 'Each leg ends in a curved claw exactly as wide as a hair. That is why it does not fall off when you move.',
@@ -42,7 +42,7 @@ export const PREPARACIONES = [
       {
         id: 'abdomen',
         marca: { cx: 50, cy: 72, r: 15 },
-        nombre: { es: 'Abdomen', en: 'Abdomen', ca: 'Abdomen' },
+        nombre: { es: 'Abdomen del piojo', en: 'Louse abdomen', ca: 'Abdomen del poll' },
         dato: {
           es: 'Se ve rojo porque está lleno de sangre recién chupada: es lo único de lo que se alimenta.',
           en: 'It looks red because it is full of freshly sucked blood: that is all it feeds on.',
@@ -52,7 +52,7 @@ export const PREPARACIONES = [
       {
         id: 'cabeza',
         marca: { cx: 50, cy: 19, r: 8 },
-        nombre: { es: 'Cabeza', en: 'Head', ca: 'Cap' },
+        nombre: { es: 'Cabeza del piojo', en: 'Louse head', ca: 'Cap del poll' },
         dato: {
           es: 'Más estrecha que el tórax y con el aparato picador escondido dentro hasta que pica.',
           en: 'Narrower than the thorax, with the piercing mouthparts tucked inside until it bites.',
@@ -72,7 +72,7 @@ export const PREPARACIONES = [
       {
         id: 'pata-salto',
         marca: { cx: 30, cy: 72, r: 16 },
-        nombre: { es: 'Pata saltadora', en: 'Jumping leg', ca: 'Pota saltadora' },
+        nombre: { es: 'Pata de la pulga', en: 'Flea leg', ca: 'Pota de la puça' },
         dato: {
           es: 'La pata trasera es enorme comparada con el cuerpo: le deja saltar más de cien veces su tamaño.',
           en: 'The hind leg is huge next to the body: it lets the flea jump over a hundred times its own size.',
@@ -82,7 +82,7 @@ export const PREPARACIONES = [
       {
         id: 'cuerpo-aplanado',
         marca: { cx: 55, cy: 27, r: 15 },
-        nombre: { es: 'Cuerpo aplanado', en: 'Flattened body', ca: 'Cos aplanat' },
+        nombre: { es: 'Cuerpo de la pulga', en: 'Flea body', ca: 'Cos de la puça' },
         dato: {
           es: 'Está aplastado de lado, no de arriba abajo: así se cuela entre los pelos como una carta entre páginas.',
           en: 'It is flattened side to side, not top to bottom: it slips between hairs like a card between pages.',
@@ -92,7 +92,7 @@ export const PREPARACIONES = [
       {
         id: 'espinas',
         marca: { cx: 34, cy: 18, r: 10 },
-        nombre: { es: 'Espinas', en: 'Spines', ca: 'Espines' },
+        nombre: { es: 'Espinas de la pulga', en: 'Flea spines', ca: 'Espines de la puça' },
         dato: {
           es: 'Todas apuntan hacia atrás. Dejan avanzar entre el pelo pero hacen dificilísimo sacarla tirando.',
           en: 'They all point backwards. They let it move forward through hair but make pulling it out very hard.',
@@ -112,7 +112,7 @@ export const PREPARACIONES = [
       {
         id: 'estoma',
         marca: { cx: 43, cy: 40, r: 7 },
-        nombre: { es: 'Estoma', en: 'Stoma', ca: 'Estoma' },
+        nombre: { es: 'Estoma de la hoja', en: 'Leaf stoma', ca: 'Estoma de la fulla' },
         dato: {
           es: 'Es la boca por la que la hoja respira: dos células la abren y la cierran para dejar entrar CO₂ sin perder agua.',
           en: 'The mouth the leaf breathes through: two cells open and close it to let CO₂ in without losing water.',
@@ -122,7 +122,7 @@ export const PREPARACIONES = [
       {
         id: 'tricoma',
         marca: { cx: 52, cy: 46, r: 13 },
-        nombre: { es: 'Tricoma (pelo)', en: 'Trichome (hair)', ca: 'Tricoma (pèl)' },
+        nombre: { es: 'Pelo de la hoja', en: 'Leaf hair', ca: 'Pèl de la fulla' },
         dato: {
           es: 'Los pelos de la hoja. En la ortiga son agujas huecas que se rompen al tocarlas y sueltan el líquido que escuece.',
           en: 'The leaf hairs. In a nettle they are hollow needles that snap when touched and release the stinging fluid.',
@@ -152,7 +152,7 @@ export const PREPARACIONES = [
       {
         id: 'parasito',
         marca: { cx: 34, cy: 41, r: 6 },
-        nombre: { es: 'Parásito de la malaria', en: 'Malaria parasite', ca: 'Paràsit de la malària' },
+        nombre: { es: 'Parásito en la sangre', en: 'Parasite in the blood', ca: 'Paràsit a la sang' },
         dato: {
           es: 'Los puntos morados son parásitos metidos DENTRO de los glóbulos rojos. Así se ve la malaria al microscopio.',
           en: 'The purple dots are parasites living INSIDE the red blood cells. This is what malaria looks like under the microscope.',
@@ -172,7 +172,7 @@ export const PREPARACIONES = [
       {
         id: 'cubo',
         marca: { cx: 46, cy: 55, r: 9 },
-        nombre: { es: 'Cristal cúbico', en: 'Cubic crystal', ca: 'Cristall cúbic' },
+        nombre: { es: 'Cristal de sal', en: 'Salt crystal', ca: 'Cristall de sal' },
         dato: {
           es: 'La sal siempre forma cubos, no por casualidad: sus átomos de sodio y cloro se colocan en una rejilla cúbica.',
           en: 'Salt always forms cubes, and not by chance: its sodium and chlorine atoms sit in a cubic grid.',
