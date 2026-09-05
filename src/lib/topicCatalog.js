@@ -335,7 +335,7 @@ export const TOPIC_CATALOG = {
 
   biologia: {
     temas: {
-      celula: examTema({ teoria: 'celula' }),
+      celula: examTema({ teoria: 'celula', microscopioTest: 'microscopio-test' }),
       'cuerpo-humano': examTema({ teoria: 'cuerpo-humano', rayosX: 'rayos-x-test' }),
       'seres-vivos': examTema({ teoria: 'seres-vivos' }),
       ecosistemas: examTema({ teoria: 'ecosistemas', cadena: 'cadena-alimentaria-test' }),
@@ -348,6 +348,7 @@ export const TOPIC_CATALOG = {
       punnett: examFormato({ es: 'Cuadro de Punnett (con el juego)', en: 'Punnett square (with the game)', ca: 'Quadre de Punnett (amb el joc)' }, '🧬'),
       rayosX: examFormato({ es: 'Rayos X (con el juego)', en: 'X-Ray (with the game)', ca: 'Raigs X (amb el joc)' }, '🧠'),
       cadena: examFormato({ es: 'Cadena Alimentaria (con el juego)', en: 'Food Chain (with the game)', ca: 'Cadena Alimentària (amb el joc)' }, '🌿'),
+      microscopioTest: examFormato({ es: 'La célula (con el juego)', en: 'The cell (with the game)', ca: 'La cèl·lula (amb el joc)' }, '🔬'),
       // Formato por MECÁNICA (el juego arcade, no un examen): la página
       // guarda category = 'celula', así que la tarea se completa sola.
       microscopio: {

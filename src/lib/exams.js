@@ -306,6 +306,11 @@ export const EXAMS = {
     emoji: '🧠', subject: 'biologia',
     path: 'examen/rayos-x-test', page: () => import('../pages/RayosXExamen'),
   },
+  'microscopio-test': {
+    label: { es: 'La Célula', en: 'The Cell', ca: 'La Cèl·lula' },
+    emoji: '🔬', subject: 'biologia',
+    path: 'examen/microscopio-test', page: () => import('../pages/MicroscopioExamen'),
+  },
   'cadena-alimentaria-test': {
     label: { es: 'Cadena Alimentaria', en: 'Food Chain', ca: 'Cadena Alimentària' },
     emoji: '🌿', subject: 'biologia',

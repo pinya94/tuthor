@@ -199,6 +199,13 @@ const MODOS_POR_TEMA = {
       detalles: { es:['1 nivel (ESO)','10 preguntas','Opción múltiple','Explicación tras cada respuesta'], en:['1 level (Secondary)','10 questions','Multiple choice','Explanation after each answer'], ca:['1 nivell (ESO)','10 preguntes','Opció múltiple','Explicació després de cada resposta'] },
       path: 'celula',
     },
+    {
+      id: 'microscopio-test', emoji: '🔬', gradient: 'from-cyan-600 to-teal-800',
+      titulo: { es:'La Célula (con el juego)', en:'The Cell (with the game)', ca:'La Cèl·lula (amb el joc)' },
+      descripcion: { es:'Con la mecánica de Bajo el Microscopio: toca sobre el dibujo el orgánulo que se te pide, en una célula animal o vegetal.', en:'Using the Under the Microscope mechanic: tap the organelle you are asked for on the diagram, in an animal or plant cell.', ca:'Amb la mecànica de Sota el Microscopi: toca sobre el dibuix l\'orgànul que se\'t demana, en una cèl·lula animal o vegetal.' },
+      detalles: { es:['3 niveles','10 preguntas','Sin cronómetro','Por nombre o por función'], en:['3 levels','10 questions','No timer','By name or by function'], ca:['3 nivells','10 preguntes','Sense cronòmetre','Pel nom o per la funció'] },
+      path: 'microscopio-test',
+    },
   ],
   'cuerpo-humano': [
     {
