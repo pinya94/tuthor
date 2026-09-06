@@ -122,6 +122,20 @@ const MODOS_POR_TEMA = {
       detalles: { es:['2 niveles','10 preguntas','Opción múltiple','Explicación tras cada respuesta'], en:['2 levels','10 questions','Multiple choice','Explanation after each answer'], ca:['2 nivells','10 preguntes','Opció múltiple','Explicació després de cada resposta'] },
       path: 'estados-materia',
     },
+    {
+      id: 'cambio-estado-test', emoji: '🌡️', gradient: 'from-sky-500 to-blue-700',
+      titulo: { es:'Estados de la Materia (con el juego)', en:'States of Matter (with the game)', ca:'Estats de la Matèria (amb el joc)' },
+      descripcion: { es:'Con la mecánica del juego: di si cada sustancia está sólida, líquida o gaseosa a una temperatura dada. En el nivel difícil se tapan los puntos de fusión y ebullición.', en:'Using the game mechanic: say whether each substance is solid, liquid or gas at a given temperature. The hard level hides the melting and boiling points.', ca:'Amb la mecànica del joc: digues si cada substància és sòlida, líquida o gasosa a una temperatura donada. Al nivell difícil s\'amaguen els punts de fusió i ebullició.' },
+      detalles: { es:['2 niveles','10 preguntas','Sin cronómetro','Con el juego'], en:['2 levels','10 questions','No timer','With the game'], ca:['2 nivells','10 preguntes','Sense cronòmetre','Amb el joc'] },
+      path: 'cambio-estado-test',
+    },
+    {
+      id: 'nombres-cambio-test', emoji: '💨', gradient: 'from-indigo-500 to-violet-700',
+      titulo: { es:'Los nombres de los cambios', en:'Naming the changes of state', ca:'Els noms dels canvis' },
+      descripcion: { es:'Fusión, condensación, sublimación… a partir de escenas cotidianas: el hielo que se derrite, los cristales que se empañan, la escarcha que se forma.', en:'Melting, condensation, sublimation… from everyday scenes: ice melting, windows fogging up, frost forming.', ca:'Fusió, condensació, sublimació… a partir d\'escenes quotidianes: el gel que es fon, els vidres que s\'entelen, el gebre que es forma.' },
+      detalles: { es:['10 preguntas','Sin cronómetro','Escenas cotidianas'], en:['10 questions','No timer','Everyday scenes'], ca:['10 preguntes','Sense cronòmetre','Escenes quotidianes'] },
+      path: 'nombres-cambio-test',
+    },
   ],
   'mezclas-separacion': [
     {
@@ -255,6 +269,13 @@ const MODOS_POR_TEMA = {
       descripcion: { es:'ADN, cromosomas, genes, leyes de Mendel, mutaciones, ingeniería genética y clonación.', en:'DNA, chromosomes, genes, Mendel\'s laws, mutations, genetic engineering and cloning.', ca:'ADN, cromosomes, gens, lleis de Mendel, mutacions, enginyeria genètica i clonació.' },
       detalles: { es:['1 nivel (ESO)','10 preguntas','Opción múltiple','Explicación tras cada respuesta'], en:['1 level (Secondary)','10 questions','Multiple choice','Explanation after each answer'], ca:['1 nivell (ESO)','10 preguntes','Opció múltiple','Explicació després de cada resposta'] },
       path: 'genetica',
+    },
+    {
+      id: 'genetica-test', emoji: '🧬', gradient: 'from-emerald-500 to-green-700',
+      titulo: { es:'Genética (con el juego)', en:'Genetics (with the game)', ca:'Genètica (amb el joc)' },
+      descripcion: { es:'Con la mecánica del juego: predice la descendencia de un cruce con el cuadro de Punnett, deduce el genotipo de los padres y resuelve casos de dominancia incompleta.', en:'Using the game mechanic: predict the offspring of a cross with the Punnett square, deduce the parents\' genotype and solve incomplete dominance cases.', ca:'Amb la mecànica del joc: prediu la descendència d\'un encreuament amb el quadre de Punnett, dedueix el genotip dels pares i resol casos de dominància incompleta.' },
+      detalles: { es:['3 niveles','10 preguntas','Sin cronómetro','Cuadro de Punnett'], en:['3 levels','10 questions','No timer','Punnett square'], ca:['3 nivells','10 preguntes','Sense cronòmetre','Quadre de Punnett'] },
+      path: 'genetica-test',
     },
   ],
   'nutricion': [

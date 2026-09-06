@@ -265,6 +265,34 @@ describe('catálogo por tema (topicCatalog.js): materia → tema → formato →
     }
   })
 
+  it('la página de cada tema de ciencias ofrece los exámenes que dice el catálogo', async () => {
+    // El catálogo por tema y la página que ve el ALUMNO son dos listas
+    // distintas: /estudiar/<materia>/<tema> se pinta con MODOS_POR_TEMA, una
+    // tabla escrita a mano dentro de QuimicaTema.jsx. Nada obligaba a que
+    // dijeran lo mismo, así que un examen podía estar registrado, ser
+    // asignable por el profesor y aun así no salir en la página del tema —
+    // solo se llegaba escribiendo la URL. Pasó tres veces: el examen del
+    // microscopio, el de genética y los dos de cambio de estado.
+    //
+    // Se comprueba sobre el fuente y no importando la página porque
+    // MODOS_POR_TEMA no se exporta (y arrastrar un componente de React a un
+    // test de registros para leer una constante sale más caro que esto).
+    const { TEMA_DISCIPLINA } = await import('../../data/ciencias.js')
+    const src = readFileSync(join(ROOT, 'src', 'pages', 'QuimicaTema.jsx'), 'utf8')
+    const ini = src.indexOf('const MODOS_POR_TEMA')
+    expect(ini, 'MODOS_POR_TEMA ya no está en QuimicaTema.jsx: actualiza este test').toBeGreaterThan(-1)
+    const tabla = src.slice(ini, src.indexOf('\n}', ini))
+
+    const ausentes = []
+    for (const [tema, materia] of Object.entries(TEMA_DISCIPLINA)) {
+      for (const f of topicFormats(materia, tema)) {
+        if (!EXAMS[f.game] || EXAMS[f.game].retired) continue
+        if (!tabla.includes(`path: '${f.game}'`)) ausentes.push(`${materia}/${tema} → ${f.game}`)
+      }
+    }
+    expect(ausentes, 'exámenes que el catálogo da por buenos y la página del tema no ofrece').toEqual([])
+  })
+
   it('los temas de geografía son las 7 regiones de /estudiar/geografia', () => {
     const regiones = ['europa', 'america', 'asia', 'africa', 'oceania', 'espana', 'eeuu']
     expect(topicIds('geografia').sort()).toEqual([...regiones].sort())
