@@ -3,6 +3,9 @@ import { PAISES } from '../data/paises'
 import { ELEMENTOS, TIPOS } from '../data/tablaperiodica'
 import { PORTADAS } from '../data/portadas'
 import { ORGANISMOS, ROLES } from '../data/cadenaTrofica'
+import { ORGANULOS, CELULAS } from '../data/organulos'
+import { ORGANOS, SISTEMAS } from '../data/organos'
+import { PLANETAS } from '../data/planetas'
 import { SUBJECTS } from './statsAggregation'
 
 // ── Imprimibles ──────────────────────────────────────────────────────────────
@@ -32,10 +35,31 @@ const tr3 = (o, lang) => o[lang] ?? o.es
 // épocas grandes (edad-media tiene 32 eventos) se quedan igual por debajo.
 export const MAX_TARJETAS = 40
 
+// Por debajo de esto un grupo no es una hoja: son tres recortes sueltos. Se
+// usa para esconder botones que imprimirían una o dos tarjetas, no para
+// esconder el contenido (esas tarjetas siguen saliendo en el grupo entero).
+const MIN_TARJETAS_GRUPO = 3
+
 // Las etiquetas de las épocas ya viven en SUBJECTS (statsAggregation), que es
 // de donde salen también en el perfil y en el panel: no se reescriben aquí
 // para que no puedan divergir.
 const CAT_LABELS_HISTORIA = SUBJECTS.find(s => s.id === 'historia')?.catLabels ?? {}
+
+// Los orgánulos que solo salen en una de las dos células. Va como pista en la
+// tarjeta porque es la única forma de que el alumno pueda comprobarse: sin
+// esto, quien tiene el cloroplasto no sabe si le tocaba estar en la animal.
+const SOLO_EN = {
+  animal:  { es: 'Solo en la animal', en: 'Animal cell only', ca: 'Només a l\'animal' },
+  vegetal: { es: 'Solo en la vegetal', en: 'Plant cell only', ca: 'Només a la vegetal' },
+}
+
+// El corte en 2 UA no es arbitrario: es el cinturón de asteroides, que es
+// justo donde los libros separan planetas rocosos de gigantes gaseosos. Se
+// calcula del dato en vez de listar nombres para que no puedan divergir.
+const GRUPOS_PLANETAS = {
+  rocosos:  { label: { es: 'Rocosos (interiores)', en: 'Rocky (inner)', ca: 'Rocosos (interiors)' }, test: p => p.distanciaUA < 2 },
+  gigantes: { label: { es: 'Gigantes (exteriores)', en: 'Giants (outer)', ca: 'Gegants (exteriors)' }, test: p => p.distanciaUA >= 2 },
+}
 
 const CONTINENTES = {
   'Europa':      { es: 'Europa', en: 'Europe', ca: 'Europa' },
@@ -43,8 +67,14 @@ const CONTINENTES = {
   'América':     { es: 'América', en: 'Americas', ca: 'Amèrica' },
   'África':      { es: 'África', en: 'Africa', ca: 'Àfrica' },
   'Oceanía':     { es: 'Oceanía', en: 'Oceania', ca: 'Oceania' },
-  'Europa/Asia': { es: 'Europa/Asia', en: 'Europe/Asia', ca: 'Europa/Àsia' },
 }
+
+// Rusia viene marcada como "Europa/Asia" en paises.js, que es correcto pero no
+// es un continente: tratarlo como uno más dejaba un botón que imprimía UNA
+// tarjeta. Los países a caballo salen en los dos continentes, que además es lo
+// que un profesor espera — quien imprime las capitales de Europa quiere Moscú
+// en el montón.
+const continentesDe = pais => String(pais.continente).split('/')
 
 // ── Los imprimibles ──────────────────────────────────────────────────────────
 // `variantes(lang)` da los grupos elegibles (época, continente, tipo…) con su
@@ -100,7 +130,7 @@ export const IMPRIMIBLES = {
     },
     variantes(lang) {
       const cuenta = {}
-      for (const p of PAISES) cuenta[p.continente] = (cuenta[p.continente] ?? 0) + 1
+      for (const p of PAISES) for (const c of continentesDe(p)) cuenta[c] = (cuenta[c] ?? 0) + 1
       return Object.entries(cuenta)
         .filter(([id]) => CONTINENTES[id])
         .map(([id, n]) => ({ id, label: tr3(CONTINENTES[id], lang), n }))
@@ -108,7 +138,7 @@ export const IMPRIMIBLES = {
     },
     tarjetas(varianteId, lang) {
       return PAISES
-        .filter(p => p.continente === varianteId)
+        .filter(p => continentesDe(p).includes(varianteId))
         .map(p => ({
           frente: `${p.bandera} ${enIdioma(p, 'nombre', lang)}`,
           pista: null,
@@ -221,6 +251,121 @@ export const IMPRIMIBLES = {
         }))
     },
   },
+
+  // ── Tres sets más, con datos que ya estaban estructurados ──────────────────
+  // Estos tres salen de datos que ya existían con la forma exacta que hace
+  // falta (nombre + función, órgano + sistema, planeta + dato), igual que los
+  // de arriba. No hay contenido inventado en ninguno: si algún día se corrige
+  // un orgánulo en el juego, la tarjeta se corrige sola.
+
+  'biologia-organulos': {
+    emoji: '🔬',
+    formato: 'plegable',
+    asignatura: { es: 'Biología', en: 'Biology', ca: 'Biologia' },
+    titulo: { es: 'Tarjetas de los orgánulos', en: 'Organelle cards', ca: 'Targetes dels orgànuls' },
+    desc: {
+      es: 'El orgánulo por delante y lo que hace por detrás.',
+      en: 'The organelle on the front and what it does on the back.',
+      ca: "L'orgànul al davant i el que fa al darrere.",
+    },
+    comoUsarlo: {
+      es: 'Recorta y reparte una a cada alumno: tiene que explicar su orgánulo al resto sin leer el dorso, y entre todos montar la célula en la pizarra. Los que salen en las dos células (membrana, núcleo, citoplasma…) están en los dos juegos, así que se puede jugar animal contra vegetal.',
+      en: 'Cut them out and hand one to each student: they explain their organelle to the rest without reading the back, and together they build the cell on the board. The ones present in both cells appear in both sets, so you can play animal against plant.',
+      ca: "Retalla i reparteix-ne una a cada alumne: ha d'explicar el seu orgànul a la resta sense llegir el darrere, i entre tots muntar la cèl·lula a la pissarra.",
+    },
+    variantes(lang) {
+      return Object.entries(CELULAS).map(([id, c]) => ({
+        id,
+        label: `${c.emoji} ${tr3(c.label, lang)}`,
+        n: ORGANULOS.filter(o => o.donde === 'ambas' || o.donde === id).length,
+      }))
+    },
+    tarjetas(varianteId, lang) {
+      return ORGANULOS
+        .filter(o => o.donde === 'ambas' || o.donde === varianteId)
+        .map(o => ({
+          frente: tr3(o.nombre, lang),
+          // Marcar los exclusivos es lo que convierte el juego de "animal
+          // contra vegetal" en algo comprobable: sin esto, un alumno no puede
+          // saber si su tarjeta debería estar en la otra célula.
+          pista: o.donde === 'ambas' ? null : tr3(SOLO_EN[o.donde], lang),
+          dorso: tr3(o.funcion, lang),
+        }))
+    },
+  },
+
+  'biologia-organos': {
+    emoji: '❤️',
+    formato: 'plegable',
+    asignatura: { es: 'Biología', en: 'Biology', ca: 'Biologia' },
+    titulo: { es: 'Tarjetas de los órganos', en: 'Organ cards', ca: 'Targetes dels òrgans' },
+    desc: {
+      es: 'El órgano por delante, su sistema y lo que hace por detrás.',
+      en: 'The organ on the front, its system and what it does on the back.',
+      ca: "L'òrgan al davant, el seu sistema i el que fa al darrere.",
+    },
+    comoUsarlo: {
+      es: 'Reparte las tarjetas y que las coloquen sobre una silueta dibujada en un papel grande, cada sistema en un color. Después se juntan las siluetas: los sistemas comparten sitio en el cuerpo, y verlo montado es justo lo que no se ve en un dibujo de libro.',
+      en: 'Hand out the cards and have students place them on a body outline drawn on a large sheet, one colour per system. Then put the outlines together: systems share space in the body, and seeing that assembled is exactly what a textbook diagram does not show.',
+      ca: 'Reparteix les targetes i que les col·loquin sobre una silueta dibuixada en un paper gran, cada sistema d\'un color. Després s\'ajunten les siluetes: els sistemes comparteixen lloc al cos.',
+    },
+    variantes(lang) {
+      // El grupo entero va primero porque es el reparto normal en clase. Los
+      // sistemas sueltos solo salen si dan para una hoja: la silueta de Rayos
+      // X —de donde vienen estos datos— tiene un solo órgano circulatorio y
+      // dos nerviosos, y ofrecer un botón que imprime UNA tarjeta es peor que
+      // no ofrecerlo. Siguen estando dentro de "Todos los sistemas".
+      const sueltos = Object.entries(SISTEMAS)
+        .map(([id, label]) => ({ id, label: tr3(label, lang), n: ORGANOS.filter(o => o.sistema === id).length }))
+        .filter(v => v.n >= MIN_TARJETAS_GRUPO)
+      return [
+        { id: 'todos', label: tr3({ es: 'Todos los sistemas', en: 'All systems', ca: 'Tots els sistemes' }, lang), n: ORGANOS.length },
+        ...sueltos,
+      ]
+    },
+    tarjetas(varianteId, lang) {
+      return ORGANOS
+        .filter(o => varianteId === 'todos' || o.sistema === varianteId)
+        .map(o => ({
+          frente: tr3(o.nombre, lang),
+          pista: tr3(SISTEMAS[o.sistema], lang),
+          dorso: tr3(o.funcion, lang),
+        }))
+    },
+  },
+
+  'geologia-planetas': {
+    emoji: '🔭',
+    formato: 'plegable',
+    asignatura: { es: 'Geología y el Universo', en: 'Geology & the Universe', ca: "Geologia i l'Univers" },
+    titulo: { es: 'Tarjetas de los planetas', en: 'Planet cards', ca: 'Targetes dels planetes' },
+    desc: {
+      es: 'El planeta y su distancia al Sol por delante, un dato real por detrás.',
+      en: 'The planet and its distance from the Sun on the front, a real fact on the back.',
+      ca: 'El planeta i la seva distància al Sol al davant, una dada real al darrere.',
+    },
+    comoUsarlo: {
+      es: 'Reparte las ocho y que las ordenen por distancia al Sol sin mirar el dorso. La distancia va en UA (1 UA = del Sol a la Tierra), que es lo que hace evidente el salto entre los rocosos y los gigantes: de Marte a Júpiter hay más hueco que del Sol a Marte.',
+      en: 'Hand out all eight and have them order the planets by distance from the Sun without looking at the back. Distance is in AU (1 AU = Sun to Earth), which makes the jump between rocky planets and giants obvious: there is more space between Mars and Jupiter than between the Sun and Mars.',
+      ca: "Reparteix les vuit i que les ordenin per distància al Sol sense mirar el darrere. La distància va en UA (1 UA = del Sol a la Terra), que és el que fa evident el salt entre els rocosos i els gegants.",
+    },
+    variantes(lang) {
+      return Object.entries(GRUPOS_PLANETAS).map(([id, g]) => ({
+        id,
+        label: tr3(g.label, lang),
+        n: PLANETAS.filter(g.test).length,
+      }))
+    },
+    tarjetas(varianteId, lang) {
+      const grupo = GRUPOS_PLANETAS[varianteId]
+      if (!grupo) return []
+      return PLANETAS.filter(grupo.test).map(p => ({
+        frente: `${p.emoji} ${tr3(p.nombre, lang)}`,
+        pista: `${p.distanciaUA} UA`,
+        dorso: tr3(p.dato, lang),
+      }))
+    },
+  },
 }
 
 export const IMPRIMIBLE_IDS = Object.keys(IMPRIMIBLES)
@@ -239,6 +384,9 @@ export const IMPRIMIBLE_IDS = Object.keys(IMPRIMIBLES)
 const IMPRIMIBLES_POR_TEMA = {
   'quimica/tabla-periodica': ['quimica-elementos'],
   'biologia/ecosistemas': ['biologia-cadena'],
+  'biologia/celula': ['biologia-organulos'],
+  'biologia/cuerpo-humano': ['biologia-organos'],
+  'geologia/sistema-solar': ['geologia-planetas'],
 }
 
 // Devuelve [{ id, varianteId }] para una página de teoría. varianteId null =

@@ -1,8 +1,9 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import { IMPRIMIBLES, imprimiblesDeTema, tarjetasDe } from '../lib/materialImprimible'
 import { HojaTarjetas, VisorHoja } from './HojasImprimibles'
+import { cargarTarjetasDeExamen } from '../lib/tarjetasExamen'
 
 // El material en papel DE ESTE TEMA, dentro de la página que lo explica.
 //
@@ -11,19 +12,60 @@ import { HojaTarjetas, VisorHoja } from './HojasImprimibles'
 // esa clase. Ofrecerle las tarjetas de esa misma época (no un enlace genérico
 // a /recursos) es la diferencia entre un banner y algo que se usa.
 //
-// No se pinta nada si el tema no tiene material (imprimiblesDeTema devuelve
-// lista vacía), así que se puede montar en cualquier página de tema sin
-// comprobar antes si le toca.
+// No se pinta nada si el tema no tiene material, así que se puede montar en
+// cualquier página de tema sin comprobar antes si le toca.
+//
+// Dos orígenes, y por eso la lista se arma aquí en vez de venir hecha:
+//   - Los imprimibles del catálogo (materialImprimible), que están cargados
+//     desde el primer render.
+//   - Las tarjetas de repaso del banco de examen del tema, que llegan por
+//     import() dinámico porque los diecisiete bancos juntos son 417 KB y esta
+//     es una página pública (ver tarjetasExamen.js). Aparecen cuando llegan;
+//     el resto de la sección no las espera.
 
 export default function RecursosDelTema({ materia, tema }) {
   const { lang, tr, localPath } = useLang()
   const [abierta, setAbierta] = useState(null) // { id, varianteId }
+  // Se guarda de QUÉ tema es lo cargado, no solo el resultado. Así al cambiar
+  // de tema no hace falta ponerlo a null dentro del efecto —que es una
+  // cascada de renders y la regla react-hooks/set-state-in-effect la prohíbe—:
+  // basta con no reconocer como suyo lo que sobró del tema anterior.
+  const [cargado, setCargado] = useState(null) // { clave, def }
+  const clave = materia + "/" + tema
+  const deExamen = cargado?.clave === clave ? cargado.def : null
 
-  const disponibles = imprimiblesDeTema(materia, tema)
-  if (disponibles.length === 0) return null
+  useEffect(() => {
+    // `vivo` y no un AbortController: no hay petición que cancelar, solo hay
+    // que no escribir el resultado de un tema que ya no se está mirando (dos
+    // navegaciones seguidas podrían llegar en cualquier orden).
+    let vivo = true
+    cargarTarjetasDeExamen(materia, tema).then(def => {
+      if (vivo) setCargado({ clave: `${materia}/${tema}`, def })
+    })
+    return () => { vivo = false }
+  }, [materia, tema])
 
-  const def = abierta && IMPRIMIBLES[abierta.id]
-  const variante = def?.variantes(lang).find(v => v.id === abierta.varianteId)
+  // Un solo tipo para los dos orígenes, así el resto del componente no tiene
+  // que saber de dónde salió cada hoja.
+  const fichas = [
+    ...imprimiblesDeTema(materia, tema).map(({ id, varianteId }) => ({
+      id,
+      def: IMPRIMIBLES[id],
+      varianteId,
+      tarjetas: (v, l) => tarjetasDe(id, v, l),
+    })),
+    ...(deExamen ? [{
+      id: 'examen',
+      def: deExamen,
+      varianteId: null,
+      tarjetas: (v, l) => deExamen.tarjetas(v, l),
+    }] : []),
+  ]
+
+  if (fichas.length === 0) return null
+
+  const ficha = abierta && fichas.find(f => f.id === abierta.id)
+  const variante = ficha?.def.variantes(lang).find(v => v.id === abierta.varianteId)
 
   return (
     <section className="mb-10">
@@ -39,13 +81,13 @@ export default function RecursosDelTema({ materia, tema }) {
       </p>
 
       <div className="grid gap-3 sm:grid-cols-2">
-        {disponibles.map(({ id, varianteId }) => {
-          const d = IMPRIMIBLES[id]
+        {fichas.map(({ id, def: d, varianteId }) => {
           // Con varianteId concreto (historia) se va directo a la hoja; sin
           // él, se ofrece cada grupo del imprimible para que elija.
           const opciones = varianteId
             ? d.variantes(lang).filter(v => v.id === varianteId)
             : d.variantes(lang)
+          if (opciones.length === 0) return null
           return (
             <div key={id} className="rounded-2xl border border-white/10 p-5" style={{ background: 'rgba(17,20,29,0.86)' }}>
               <p className="text-white font-bold text-[15px] mb-1">{d.emoji} {d.titulo[lang] ?? d.titulo.es}</p>
@@ -68,12 +110,12 @@ export default function RecursosDelTema({ materia, tema }) {
         {tr({ es: 'Ver todos los recursos imprimibles →', en: 'See all printable resources →', ca: 'Veure tots els recursos imprimibles →' })}
       </Link>
 
-      {abierta && (
+      {ficha && (
         <VisorHoja onClose={() => setAbierta(null)} tr={tr}>
           <HojaTarjetas
-            imprimible={def}
+            imprimible={ficha.def}
             variante={variante}
-            tarjetas={tarjetasDe(abierta.id, abierta.varianteId, lang)}
+            tarjetas={ficha.tarjetas(abierta.varianteId, lang)}
             tr={tr}
             lang={lang}
           />

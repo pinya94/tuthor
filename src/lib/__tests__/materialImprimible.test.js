@@ -159,3 +159,85 @@ describe('tarjetasDe', () => {
     for (const t of edadMedia) expect(t.dorso).toMatch(/^-?\d{1,4}$/)
   })
 })
+
+// ── Los tres sets con datos ya estructurados ─────────────────────────────────
+// Estos no inventan contenido: reparten datos que ya usaban los juegos. Lo que
+// hay que vigilar es justo eso — que sigan cuadrando con su fuente cuando la
+// fuente cambie, y que ningún grupo quede tan pequeño que la hoja no sirva.
+describe('orgánulos, órganos y planetas', () => {
+  it('el número que anuncia el botón es el que se imprime de verdad', () => {
+    // `n` sale en el botón antes de abrir la hoja: si miente, el profesor
+    // imprime otra cosa distinta de la que le habíamos dicho.
+    for (const id of IMPRIMIBLE_IDS) {
+      for (const v of IMPRIMIBLES[id].variantes('es')) {
+        expect(tarjetasDe(id, v.id, 'es').length, `${id}/${v.id}`).toBe(v.n)
+      }
+    }
+  })
+
+  it('ningún grupo ofrecido se queda por debajo de lo que llena una hoja', () => {
+    // Un botón que imprime una sola tarjeta (le pasaba al Sistema
+    // Circulatorio, que en la silueta de Rayos X tiene solo el corazón) es
+    // peor que no ofrecer el botón.
+    for (const id of IMPRIMIBLE_IDS) {
+      for (const v of IMPRIMIBLES[id].variantes('es')) {
+        expect(v.n, `${id}/${v.id} solo da ${v.n}`).toBeGreaterThanOrEqual(3)
+      }
+    }
+  })
+
+  it('los orgánulos exclusivos avisan de en qué célula van, y los comunes no', () => {
+    // Sin la pista, quien tiene el cloroplasto en la mano no puede saber si le
+    // tocaba estar en la célula animal: es lo que hace comprobable el juego.
+    const vegetal = tarjetasDe('biologia-organulos', 'vegetal', 'es')
+    const cloroplasto = vegetal.find(t => t.frente.toLowerCase().includes('cloroplasto'))
+    expect(cloroplasto?.pista).toBe('Solo en la vegetal')
+    expect(vegetal.find(t => t.frente === 'Núcleo')?.pista).toBe(null)
+
+    // Y ninguna célula ofrece un orgánulo que no le toca.
+    const animal = tarjetasDe('biologia-organulos', 'animal', 'es')
+    expect(animal.some(t => t.frente.toLowerCase().includes('cloroplasto'))).toBe(false)
+  })
+
+  it('"todos los sistemas" incluye los órganos que no tienen botón propio', () => {
+    const todos = tarjetasDe('biologia-organos', 'todos', 'es')
+    expect(todos.some(t => t.pista === 'Sistema Circulatorio')).toBe(true)
+    expect(todos.some(t => t.pista === 'Sistema Nervioso')).toBe(true)
+  })
+
+  it('los planetas se parten por el cinturón de asteroides, sin perder ninguno', () => {
+    const rocosos = tarjetasDe('geologia-planetas', 'rocosos', 'es')
+    const gigantes = tarjetasDe('geologia-planetas', 'gigantes', 'es')
+    expect(rocosos).toHaveLength(4)
+    expect(gigantes).toHaveLength(4)
+    expect(rocosos.some(t => t.frente.includes('Marte'))).toBe(true)
+    expect(gigantes.some(t => t.frente.includes('Júpiter'))).toBe(true)
+  })
+
+  it('las hojas con dorso largo van en formato plegable', () => {
+    // En el reparto de tira el dorso ocupa un tercio de columna: una frase
+    // entera ahí sale en una tira de palabras sueltas ilegible.
+    for (const id of IMPRIMIBLE_IDS) {
+      const d = IMPRIMIBLES[id]
+      const largo = d.variantes('es')
+        .flatMap(v => tarjetasDe(id, v.id, 'es'))
+        .reduce((max, t) => Math.max(max, String(t.dorso).length), 0)
+      if (largo > 40) expect(d.formato, `${id}: dorsos de ${largo} caracteres`).toBe('plegable')
+    }
+  })
+
+  it('los tres idiomas dan la misma cantidad de tarjetas y ninguna vacía', () => {
+    for (const id of IMPRIMIBLE_IDS) {
+      for (const v of IMPRIMIBLES[id].variantes('es')) {
+        for (const lang of ['es', 'en', 'ca']) {
+          const t = tarjetasDe(id, v.id, lang)
+          expect(t.length, `${id}/${v.id}/${lang}`).toBe(v.n)
+          for (const c of t) {
+            expect(String(c.frente).trim(), `${id}/${v.id}/${lang} frente vacío`).not.toBe('')
+            expect(String(c.dorso).trim(), `${id}/${v.id}/${lang} dorso vacío`).not.toBe('')
+          }
+        }
+      }
+    }
+  })
+})

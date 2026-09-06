@@ -53,10 +53,27 @@ export function HojaActividad({ ficha, tr }) {
   )
 }
 
+// Dos repartos distintos para la misma tarjeta, según lo largo que sea el
+// dorso — no es un capricho estético, es lo único que decide si la hoja se
+// puede usar o no:
+//
+//   `tira` (por defecto): el dorso ocupa un tercio a la DERECHA y se dobla
+//   por una línea vertical. Va perfecto cuando el dorso es un dato corto —un
+//   año, una capital, un rol— que es para lo que nacieron estas hojas.
+//
+//   `plegable`: la tarjeta ocupa el ancho entero y se dobla por una línea
+//   HORIZONTAL, con el dorso debajo. Hace falta para las preguntas de examen,
+//   donde la respuesta es una frase entera (las hay de 155 caracteres): en un
+//   tercio de columna eso sale en una tira de palabras sueltas ilegible.
+//
+// Lo elige el propio imprimible con `formato`, no quien lo monta: la forma de
+// la tarjeta es una propiedad del material, y así los dos sitios que imprimen
+// (el panel de recursos y las páginas de teoría) no tienen que saber nada.
 // Las tarjetas van en dos mitades con una línea de puntos en medio: se
 // recorta por el borde y se dobla por los puntos, y queda el enunciado por
 // una cara y la solución por la otra.
 export function HojaTarjetas({ imprimible, variante, tarjetas, tr, lang }) {
+  const plegable = imprimible.formato === 'plegable'
   return (
     <div className="imprimir-solo-esto bg-white text-black rounded-2xl p-6 sm:p-8 print:rounded-none print:p-0">
       {/* `variante` puede no existir si el dato de origen cambió y ese grupo
@@ -74,7 +91,17 @@ export function HojaTarjetas({ imprimible, variante, tarjetas, tr, lang }) {
       </p>
 
       <div className="grid grid-cols-2 gap-2">
-        {tarjetas.map((t, i) => (
+        {tarjetas.map((t, i) => plegable ? (
+          <div key={i} className="border border-black/50 rounded-md overflow-hidden break-inside-avoid">
+            <div className="p-2.5">
+              <p className="text-[12.5px] font-bold leading-snug">{t.frente}</p>
+              {t.pista && <p className="text-[10px] text-black/55 leading-snug mt-1">{t.pista}</p>}
+            </div>
+            <div className="border-t border-dashed border-black/50 p-2.5">
+              <p className="text-[11.5px] font-black leading-snug">{t.dorso}</p>
+            </div>
+          </div>
+        ) : (
           <div key={i} className="flex items-stretch border border-black/50 rounded-md overflow-hidden break-inside-avoid">
             <div className="flex-1 min-w-0 p-2.5">
               <p className="text-[12.5px] font-bold leading-snug">{t.frente}</p>
@@ -88,7 +115,11 @@ export function HojaTarjetas({ imprimible, variante, tarjetas, tr, lang }) {
       </div>
 
       <p className="text-[10px] text-black/35 mt-6 pt-3 border-t border-black/10">
-        {tr({
+        {plegable ? tr({
+          es: 'Recorta por el borde y dobla por la línea de puntos: la pregunta queda por una cara y la respuesta por la otra.',
+          en: 'Cut along the outer edge and fold along the dotted line: the question ends up on one side and the answer on the other.',
+          ca: 'Retalla per la vora i doblega per la línia de punts: la pregunta queda per una cara i la resposta per l\'altra.',
+        }) : tr({
           es: 'Recorta por el borde y dobla por la línea de puntos.',
           en: 'Cut along the outer edge and fold along the dotted line.',
           ca: 'Retalla per la vora i doblega per la línia de punts.',
