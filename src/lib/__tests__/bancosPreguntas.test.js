@@ -141,3 +141,29 @@ describe('bancos de preguntas', () => {
     expect(rotas).toEqual([])
   })
 })
+
+// ── Ids repetidos dentro de un mismo fichero ─────────────────────────────────
+// Esto casi se cuela al ampliar acentuación: los ids nuevos empezaban en ac-22
+// y el banco ya llegaba a ac-23. Dos preguntas con el mismo id no dan error —
+// el examen sirve las dos— pero rompen los tests de aquí arriba, que agrupan
+// por id para no revisar dos veces la misma pregunta: la segunda quedaría sin
+// validar y podría estar rota sin que nadie se enterase.
+it('ningún fichero repite el id de una pregunta', async () => {
+  const porFichero = new Map()
+  for (const [ruta, cargar] of Object.entries(modulos)) {
+    let mod
+    try { mod = await cargar() } catch { continue }
+    const fichero = ruta.replace('../../data/', '').replace('.js', '')
+    // Un banco se reexporta filtrado (PREGUNTAS_PRIMARIA sale de PREGUNTAS),
+    // así que se cuenta sobre el conjunto de objetos, no sobre cada array.
+    const objetos = new Set()
+    for (const valor of Object.values(mod)) {
+      if (!Array.isArray(valor)) continue
+      for (const p of valor) if (p?.opciones && p.pregunta !== undefined) objetos.add(p)
+    }
+    const ids = [...objetos].map(p => p.id).filter(id => id !== undefined)
+    const repes = ids.filter((id, i) => ids.indexOf(id) !== i)
+    if (repes.length) porFichero.set(fichero, [...new Set(repes)])
+  }
+  expect(Object.fromEntries(porFichero)).toEqual({})
+})
