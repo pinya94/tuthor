@@ -302,12 +302,24 @@ export default function Microscopio() {
               cual sea la proporción de la imagen. */}
           <div className="relative w-full max-w-[420px] rounded-2xl overflow-hidden border border-white/10 mb-3">
             <img src={round.preparacion.foto} alt="" className="w-full block" />
+            {/* Se coloca por el CENTRO y se centra con translate(-50%,-50%),
+                no restando el radio a la esquina. Restarlo mezclaba dos
+                unidades distintas: el tamaño va en % del ANCHO (con
+                aspect-square, para que sea un círculo y no un óvalo), pero
+                `top` iba en % del ALTO. En una foto cuadrada coincidía; en
+                una vertical como sal.jpg (960×1280) la marca salía ~13
+                puntos más arriba de lo debido, y el error crecía con el
+                radio — por eso "campo del microscopio" era el peor caso.
+                Con translate el desplazamiento lo calcula el navegador
+                sobre la caja real del elemento, así que no depende de la
+                proporción de la imagen. */}
             <span
               className="absolute rounded-full border-[3px] border-cyan-300 shadow-[0_0_0_9999px_rgba(0,0,0,0.35)] aspect-square pointer-events-none"
               style={{
-                left: `${round.zona.marca.cx - round.zona.marca.r}%`,
-                top: `${round.zona.marca.cy - round.zona.marca.r}%`,
+                left: `${round.zona.marca.cx}%`,
+                top: `${round.zona.marca.cy}%`,
                 width: `${round.zona.marca.r * 2}%`,
+                transform: 'translate(-50%, -50%)',
               }}
             />
           </div>

@@ -19,9 +19,77 @@ export const GRUPOS = {
   cuerpo:    { emoji: '👤', label: { es: 'Cuerpo', en: 'Body', ca: 'Cos' } },
   vegetal:   { emoji: '🌿', label: { es: 'Plantas', en: 'Plants', ca: 'Plantes' } },
   cristales: { emoji: '💎', label: { es: 'Cristales', en: 'Crystals', ca: 'Cristalls' } },
+  celula:    { emoji: '🧫', label: { es: 'Células', en: 'Cells', ca: 'Cèl·lules' } },
 }
 
 export const PREPARACIONES = [
+  // Las dos células REALES, que son las dos prácticas clásicas de clase: la
+  // de tu propia mejilla (animal) y la piel de una cebolla (vegetal). No
+  // salen todos los orgánulos —en un microscopio de instituto se ven el
+  // núcleo, el citoplasma y, en la vegetal, la pared; las mitocondrias o el
+  // Golgi necesitan microscopio electrónico— así que solo se pregunta por lo
+  // que de verdad está en la foto. Cuesta más que sobre un esquema, y esa es
+  // justo la gracia: esto es lo que se ve al mirar por el ocular.
+  {
+    id: 'mejilla',
+    grupo: 'celula',
+    foto: '/microscopio/mejilla.jpg',
+    titulo: { es: 'Célula de tu mejilla', en: 'Cell from your cheek', ca: 'Cèl·lula de la teva galta' },
+    credito: 'Kyreb · CC0',
+    zonas: [
+      {
+        id: 'nucleo-mejilla',
+        marca: { cx: 50, cy: 44, r: 5 },
+        nombre: { es: 'Núcleo de la célula animal', en: 'Animal cell nucleus', ca: 'Nucli de la cèl·lula animal' },
+        dato: {
+          es: 'El punto oscuro del centro. Se tiñe más que el resto porque dentro está el ADN, y por eso es lo primero que se distingue al microscopio.',
+          en: 'The dark dot in the middle. It stains more than the rest because the DNA is inside, which is why it is the first thing you make out.',
+          ca: 'El punt fosc del centre. Es tenyeix més que la resta perquè a dins hi ha l\'ADN, i per això és el primer que es distingeix.',
+        },
+      },
+      {
+        id: 'citoplasma-mejilla',
+        marca: { cx: 54, cy: 55, r: 5 },
+        nombre: { es: 'Citoplasma de la célula animal', en: 'Animal cell cytoplasm', ca: 'Citoplasma de la cèl·lula animal' },
+        dato: {
+          es: 'Todo el interior azulado que rodea al núcleo. No está vacío: ahí flotan los orgánulos, demasiado pequeños para verse con este microscopio.',
+          en: 'The bluish interior around the nucleus. It is not empty: the organelles float there, too small to see with this microscope.',
+          ca: 'Tot l\'interior blavós que envolta el nucli. No és buit: allà suren els orgànuls, massa petits per veure\'s amb aquest microscopi.',
+        },
+      },
+    ],
+  },
+
+  {
+    id: 'cebolla',
+    grupo: 'celula',
+    foto: '/microscopio/cebolla.jpg',
+    titulo: { es: 'Células de una cebolla', en: 'Onion cells', ca: 'Cèl·lules d\'una ceba' },
+    credito: 'Berkshire Community College · CC0',
+    zonas: [
+      {
+        id: 'nucleo-cebolla',
+        marca: { cx: 60, cy: 53, r: 5 },
+        nombre: { es: 'Núcleo de la célula vegetal', en: 'Plant cell nucleus', ca: 'Nucli de la cèl·lula vegetal' },
+        dato: {
+          es: 'En la cebolla el núcleo suele quedar pegado a la pared: la vacuola es tan grande que empuja todo lo demás hacia el borde.',
+          en: 'In onion the nucleus is usually pressed against the wall: the vacuole is so big it pushes everything else to the edge.',
+          ca: 'A la ceba el nucli sol quedar enganxat a la paret: el vacúol és tan gran que empeny tota la resta cap a la vora.',
+        },
+      },
+      {
+        id: 'pared-cebolla',
+        marca: { cx: 20, cy: 55, r: 7 },
+        nombre: { es: 'Pared celular', en: 'Cell wall', ca: 'Paret cel·lular' },
+        dato: {
+          es: 'La línea recta que separa una célula de la siguiente. Es rígida, y por eso las células vegetales tienen esquinas en vez de ser redondeadas.',
+          en: 'The straight line separating one cell from the next. It is rigid, which is why plant cells have corners instead of being rounded.',
+          ca: 'La línia recta que separa una cèl·lula de la següent. És rígida, i per això les cèl·lules vegetals tenen cantonades.',
+        },
+      },
+    ],
+  },
+
   {
     id: 'piojo',
     grupo: 'bichos',
@@ -111,7 +179,7 @@ export const PREPARACIONES = [
     zonas: [
       {
         id: 'estoma',
-        marca: { cx: 43, cy: 40, r: 7 },
+        marca: { cx: 13.5, cy: 28, r: 5 },
         nombre: { es: 'Estoma de la hoja', en: 'Leaf stoma', ca: 'Estoma de la fulla' },
         dato: {
           es: 'Es la boca por la que la hoja respira: dos células la abren y la cierran para dejar entrar CO₂ sin perder agua.',

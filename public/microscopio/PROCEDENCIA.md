@@ -13,6 +13,8 @@ Descargadas de Wikimedia Commons a 960 px (no los originales, de 1–4 MB).
 | `pulga.jpg` | Pulga, microscopio electrónico de barrido en falso color | Dominio público | Janice Haney Carr, CDC | [Flea Scanning Electron Micrograph False Color.jpg](https://commons.wikimedia.org/wiki/File:Flea_Scanning_Electron_Micrograph_False_Color.jpg) |
 | `hoja.jpg` | Epidermis de hoja de ortiga: estomas y tricomas (MEB) | Dominio público | Louisa Howard, Dartmouth Electron Microscope Facility | [Leaf epidermis.jpg](https://commons.wikimedia.org/wiki/File:Leaf_epidermis.jpg) |
 | `sangre.jpg` | Frotis de sangre: glóbulos rojos y parásitos de malaria | Dominio público | MichaelZahniser | [Plasmodium falciparum (malaria) parasite in blood.jpg](https://commons.wikimedia.org/wiki/File:Plasmodium_falciparum_(malaria)_parasite_in_blood.jpg) |
+| `mejilla.jpg` | Célula epitelial de mejilla humana: núcleo y citoplasma | CC0 | Kyreb | [Human cheek cells from science class.jpg](https://commons.wikimedia.org/wiki/File:Human_cheek_cells_from_science_class.jpg) |
+| `cebolla.jpg` | Epidermis de cebolla: núcleo y pared celular | CC0 | Berkshire Community College | [Nucleus of living onion epidermis cell](https://commons.wikimedia.org/wiki/File:Nucleus_of_living_onion_epidermis_cell_(33605022824).jpg) |
 | `sal.jpg` | Cristales cúbicos de sal vistos por el ocular | CC0 | McSquare1337 | [Salt Cubes.jpg](https://commons.wikimedia.org/wiki/File:Salt_Cubes.jpg) |
 
 ## Al añadir una imagen nueva
