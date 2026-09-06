@@ -77,7 +77,7 @@ const TODAS = [
 
   q('vb-13', 'eso',
     { es: '¿Cuál es el imperativo de "venir" en 2ª persona del singular (tú)?', en: 'What is the imperative of "venir" for 2nd person singular (tú)?', ca: 'Quin és l\'imperatiu de "venir" en 2a persona del singular (tú)?' },
-    { es: ['venes', 'viene', 'ven', 'venid'], en: ['venes', 'viene', 'ven', 'venid'], ca: ['véns', 'véns', 'vine', 'veniu'] },
+    { es: ['venes', 'viene', 'ven', 'venid'], en: ['venes', 'viene', 'ven', 'venid'], ca: ['véns', 'venies', 'vine', 'veniu'] },
     2, '👋',
     { es: '"Ven" es el imperativo irregular de "venir" en tú. Imperativos irregulares: ven, di, haz, sé, ten, pon, sal, ve (de ir).', en: '"Ven" is the irregular imperative of "venir" for tú. Irregular imperatives: ven, di, haz, sé, ten, pon, sal, ve.', ca: '"Vine" és l\'imperatiu de "venir" en tu. Imperatius irregulars en català: vine, digues, fes, sigues, tingues, posa, surt, ves.' }),
 

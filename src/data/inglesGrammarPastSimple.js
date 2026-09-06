@@ -36,7 +36,7 @@ const TODAS = [
     1, '😊', EN('"Was" = I/he/she/it. "Were" = you/we/they. "They were happy." — always use WERE with plural subjects.')),
 
   q('pa-08', 'eso', EN('What is the past simple of "try"?'),
-    { es: ['tryed', 'tryed', 'tried', 'tryed'], en: ['tryied', 'tryed', 'tried', 'trying'], ca: ['tryied', 'tryed', 'tried', 'trying'] },
+    { es: ['tryied', 'tryed', 'tried', 'trying'], en: ['tryied', 'tryed', 'tried', 'trying'], ca: ['tryied', 'tryed', 'tried', 'trying'] },
     2, '💪', EN('Verbs ending in consonant + y: change y → i and add -ed. Try→tried, study→studied, carry→carried. (But: play→played — vowel + y.)')),
 
   q('pa-09', 'eso', EN('Which sentence uses past simple correctly?'),
@@ -52,7 +52,7 @@ const TODAS = [
     1, '📋', EN('"Didn\'t + base verb" — always the base form. "Come" not "came". The -ed or irregular form is NEVER used after didn\'t.')),
 
   q('pa-12', 'eso', EN('Past simple of "lie" (to tell a lie):'),
-    { es: ['lied', 'lay', 'lain', 'lied'], en: ['lied', 'lay', 'lain', 'lied'], ca: ['lied', 'lay', 'lain', 'lied'] },
+    { es: ['lied', 'lay', 'lain', 'laid'], en: ['lied', 'lay', 'lain', 'laid'], ca: ['lied', 'lay', 'lain', 'laid'] },
     0, '🤥', EN('"Lie" (tell a lie) is regular: lied. BUT "lie" (to be horizontal) is irregular: lie→lay→lain. Common mix-up!')),
 
   q('pa-13', 'eso', EN('What are the three forms of the verb "break"?'),

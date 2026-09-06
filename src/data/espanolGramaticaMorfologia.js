@@ -35,7 +35,7 @@ const TODAS = [
 
   q('mor-06', 'primaria',
     { es: '¿Cuál es el femenino de "el gallo"?', en: 'What is the feminine of "el gallo"?', ca: 'Quin és el femení de "el gall"?' },
-    { es: ['la galla', 'la gallina', 'la gallo', 'la galla'], en: ['la galla', 'la gallina', 'la gallo', 'la gaila'], ca: ['la galla', 'la gallina', 'la gallo', 'la gaila'] },
+    { es: ['la galla', 'la gallina', 'la gallo', 'la gaila'], en: ['la galla', 'la gallina', 'la gallo', 'la gaila'], ca: ['la galla', 'la gallina', 'la gallo', 'la gaila'] },
     1, '🐔',
     { es: '"Gallina" es el femenino irregular de "gallo": no sigue la regla -o/-a. Otros: caballo→yegua, toro→vaca, rey→reina.', en: '"Gallina" is the irregular feminine of "gallo".', ca: '"Gallina" és el femení irregular de "gall".' }),
 

@@ -11,7 +11,7 @@ const TODAS = [
 
   q('sn-02', 'primaria',
     { es: '¿Cuál es el plural de "árbol"?', en: 'What is the plural of "árbol"?', ca: 'Quin és el plural de "árbol"?' },
-    { es: ['árboles', 'árbols', 'arbolses', 'árboles'], en: ['árboles', 'árbols', 'arbolses', 'arboleses'], ca: ['arbres', 'árbols', 'arbolses', 'árbolos'] },
+    { es: ['árboles', 'árbols', 'arbolses', 'arboleses'], en: ['árboles', 'árbols', 'arbolses', 'arboleses'], ca: ['arbres', 'árbols', 'arbolses', 'árbolos'] },
     0, '🌳',
     { es: 'Las palabras terminadas en consonante forman el plural añadiendo -es: árbol → árboles, papel → papeles, mes → meses.', en: 'Words ending in a consonant form the plural by adding -es: árbol→árboles.', ca: 'Les paraules acabades en consonant formen el plural afegint -es: árbol→árboles.' }),
 
