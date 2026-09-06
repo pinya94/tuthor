@@ -4,6 +4,9 @@ function q(id, nivel, pregunta, opciones, correcta, emoji, explicacion) {
 
 // English grammar exam — questions always in English regardless of app language
 const EN = s => ({ es: s, en: s, ca: s })
+// Opciones iguales en los tres idiomas: en un examen de inglés las respuestas
+// son inglés y no se traducen. Mismo helper que los demás bancos de inglés.
+const O = a => ({ es: a, en: a, ca: a })
 
 const TODAS = [
   q('gi-01', 'primaria',
@@ -162,12 +165,6 @@ const TODAS = [
     1, '📚',
     EN("\"Three books\" is plural, so it takes \"are\". Singular would be \"There is a book\".")),
 
-  q('gi-19', 'primaria',
-    EN("Which is the plural of \"child\"?"),
-    { es: ["childs","children","childes","child"], en: ["childs","children","childes","child"], ca: ["childs","children","childes","child"] },
-    1, '🧒',
-    EN("\"Child\" has an irregular plural: children. Others like it: man→men, woman→women, foot→feet.")),
-
   q('gi-20', 'primaria',
     EN("Complete: \"This is ___ book.\" (it belongs to me)"),
     { es: ["I","my","me","mine book"], en: ["I","my","me","mine book"], ca: ["I","my","me","mine book"] },
@@ -179,6 +176,58 @@ const TODAS = [
     { es: ["She have a dog.","She has a dog.","She haves a dog.","She having a dog."], en: ["She have a dog.","She has a dog.","She haves a dog.","She having a dog."], ca: ["She have a dog.","She has a dog.","She haves a dog.","She having a dog."] },
     1, '🐕',
     EN("With he/she/it the verb \"have\" becomes \"has\". It is irregular: not \"haves\".")),
+  q('gi-40', 'primaria', EN('What is the plural of "man"?'),
+    O(['mans', 'mens', 'men', 'manes']),
+    2, '👨',
+    EN('"Man" becomes "men": an irregular plural that changes the vowel instead of adding -s. The same family: woman→women, foot→feet, tooth→teeth, goose→geese.')),
+  q('gi-41', 'primaria', EN('Complete: "I ___ a student and she ___ a teacher."'),
+    O(['am / is', 'is / am', 'are / is', 'am / are']),
+    0, '🎓',
+    EN('The verb "be" changes with every person: I am, you are, he/she/it is, we/they are. It is the most irregular verb in English and the first one worth memorising.')),
+  q('gi-42', 'primaria', EN('Which word is an adjective?'),
+    O(['quickly', 'happy', 'run', 'house']),
+    1, '😀',
+    EN('"Happy" describes a noun: a happy child. "Quickly" is an adverb (it ends in -ly), "run" is a verb and "house" is a noun. In English the adjective goes BEFORE the noun, unlike Spanish.')),
+  q('gi-43', 'primaria', EN('Where does the adjective go: "a car red" or "a red car"?'),
+    O(['a car red', 'a red car', 'Both are correct', 'It depends on the colour']),
+    1, '🚗',
+    EN('In English the adjective always comes before the noun: a red car, a big house, an old book. This is the opposite of Spanish ("un coche rojo") and one of the mistakes Spanish speakers make most.')),
+  q('gi-44', 'primaria', EN('Complete: "There ___ a book on the table."'),
+    O(['are', 'is', 'have', 'has']),
+    1, '📕',
+    EN('"There is" for one thing, "there are" for several: there is a book / there are three books. Careful: it is NOT "there have" — English uses "be" here where Spanish uses "haber".')),
+  q('gi-45', 'primaria', EN('Which sentence asks about possession?'),
+    O(['Who is that?', 'Whose bag is this?', 'Where is the bag?', 'What is that?']),
+    1, '🎒',
+    EN('"Whose" asks who something belongs to. Do not confuse it with "who\'s", which sounds identical but means "who is". They are two different words that happen to sound the same.')),
+  q('gi-46', 'primaria', EN('Complete: "She is taller ___ her brother."'),
+    O(['that', 'than', 'then', 'as']),
+    1, '📏',
+    EN('Comparisons use "than": taller than, faster than, better than. "Then" means "afterwards" and is a different word — the two are mixed up constantly, even by native speakers.')),
+  q('gi-47', 'primaria', EN('What is the comparative of "good"?'),
+    O(['gooder', 'more good', 'better', 'best']),
+    2, '👍',
+    EN('"Good" is irregular: good → better → best. Most short adjectives just add -er (taller, faster), but a few change completely: bad→worse→worst, far→further→furthest.')),
+  q('gi-48', 'primaria', EN('Complete: "I have two ___."'),
+    O(['childs', 'children', 'childrens', 'child']),
+    1, '👶',
+    EN('"Children" is already plural, so "childrens" does not exist. It is a leftover from Old English, where -en was a normal plural ending — today only "children" and "oxen" keep it.')),
+  q('gi-49', 'primaria', EN('Which sentence is correct?'),
+    O(['I have 15 years old.', 'I am 15 years old.', 'I have 15 years.', 'I am 15 years.']),
+    1, '🎂',
+    EN('English says "I AM 15 years old", using the verb "be". Spanish says "tengo 15 años" with "have", and translating that word for word is one of the most recognisable Spanish-speaker mistakes.')),
+  q('gi-50', 'primaria', EN('Complete: "___ you like chocolate?"'),
+    O(['Are', 'Do', 'Is', 'Have']),
+    1, '🍫',
+    EN('Questions in the present simple use the auxiliary "do" (or "does" for he/she/it). "Are you like chocolate?" is wrong because "like" is already the verb — you cannot have two.')),
+  q('gi-51', 'primaria', EN('Complete: "My sister and I ___ going to the park."'),
+    O(['am', 'is', 'are', 'be']),
+    2, '🏞️',
+    EN('"My sister and I" is the same as "we", so the verb is "are". When the subject is two people joined by "and", it always counts as plural even if each one is singular.')),
+  q('gi-52', 'primaria', EN('Which word is a preposition of place?'),
+    O(['under', 'quickly', 'because', 'happy']),
+    0, '📦',
+    EN('"Under" says where something is: under the table. The other basic ones are in, on, at, over, behind, between, next to. "Because" joins ideas, "quickly" is an adverb and "happy" an adjective.')),
 ]
 
 export const PREGUNTAS_PRIMARIA = TODAS.filter(q => q.nivel === 'primaria')
