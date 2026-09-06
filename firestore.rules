@@ -30,7 +30,7 @@ service cloud.firestore {
       return request.auth != null && request.auth.uid == uid && !isChildSession()
         && 'teacherProfile' in u && tp.active == true
         && (
-          ('promoCode' in tp && tp.promoCode == 'BETATUTHOR') ||
+          ('promoCode' in tp && tp.promoCode in ['BETATUTHOR', 'L4FXL3']) ||
           ('subscriptionStatus' in tp && tp.subscriptionStatus in ['active', 'trialing'])
         );
     }

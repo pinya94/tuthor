@@ -65,7 +65,7 @@ export async function saveTeacherProfileDraft(uid, { schoolName, stage }) {
 // fuerza, las rules no pueden importar JS).
 export function hasTeacherAccess(profile) {
   if (!profile?.active) return false
-  if (profile.promoCode === TEACHER_BETA_CODE) return true
+  if (CODIGOS_BETA_VALIDOS.includes(profile.promoCode)) return true
   return ['active', 'trialing'].includes(profile.subscriptionStatus)
 }
 
@@ -82,6 +82,23 @@ export function hasTeacherAccess(profile) {
 // aquí Y en firestore.rules (hasValidPromoCode) a la vez — los dos tienen
 // que decir lo mismo, o los profesores nuevos se quedan fuera en silencio.
 export const TEACHER_BETA_CODE = 'BETATUTHOR'
+
+// La palabra que hay que ESCRIBIR para entrar es solo TEACHER_BETA_CODE. Esta
+// lista es otra cosa: las que se ACEPTAN a quien ya está dentro. Cuando la
+// palabra cambió de L4FXL3 a BETATUTHOR (4 sept. 2026), la comparación pasó a
+// ser contra la nueva y exacta, así que cualquier cuenta con la vieja guardada
+// en su promoCode se quedaba fuera sin un mensaje: ni panel, ni lectura de sus
+// propias clases. Probablemente solo afecte a cuentas de prueba —la ventana en
+// la que cualquiera podía registrarse duró diez minutos— pero echar a un
+// profesor de verdad en silencio es un precio muy alto para ahorrarse una
+// línea, y no hay forma de saber desde aquí a quién le pasa.
+//
+// Añadir aquí (y en isTeacher() de firestore.rules, que es el mismo criterio
+// duplicado a la fuerza) cada vez que la palabra cambie. Lo que NO lleva
+// códigos viejos es hasValidPromoCode() de las rules: ese decide quién puede
+// hacerse profesor de nuevas, y ahí solo vale la palabra vigente — si no,
+// reabriríamos la puerta que se cerró al cambiarla.
+const CODIGOS_BETA_VALIDOS = [TEACHER_BETA_CODE, 'L4FXL3']
 
 // ── Códigos de clase ─────────────────────────────────────────────────────────
 // Alfabeto sin ambigüedades (sin 0/O ni 1/I). Si se cambia aquí, hay que
