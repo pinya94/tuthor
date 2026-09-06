@@ -130,6 +130,13 @@ function TaskCard({ task, studentsByUid, lang, tr, onToggleManual, onToggleFalta
               return (
                 <div key={uid} className="flex items-center justify-between gap-3 px-4 py-2 pl-11">
                   <span className="text-white/60 text-[12.5px]">{name}</span>
+                  {/* El booleano que se manda es el estado DESEADO, no el actual: el
+                      botón que se ve cuando la tarea YA está hecha sirve para
+                      desmarcarla (false) y el que se ve cuando no lo está, para
+                      marcarla (true). Estuvieron cambiados y los dos botones no hacían
+                      nada —pulsabas y se reescribía el estado en el que ya estabas—,
+                      sin error en consola ni nada que ver. Los de falta, justo debajo,
+                      siguen el mismo criterio: mirar los cuatro juntos al tocar esto. */}
                   {c?.done ? (
                     <span className="text-[12px] font-semibold">
                       {task.kind === 'catalog' || task.kind === 'quiz' ? (
@@ -138,7 +145,7 @@ function TaskCard({ task, studentsByUid, lang, tr, onToggleManual, onToggleFalta
                           {c.score != null && <span className="text-white/40 ml-1.5">{c.score} pts</span>}
                         </>
                       ) : (
-                        <button type="button" onClick={() => onToggleManual(task.id, uid, true)}
+                        <button type="button" onClick={() => onToggleManual(task.id, uid, false)}
                           className="text-[11.5px] font-bold px-2 py-1 rounded-lg border text-green-400 border-green-500/30 bg-green-500/10 hover:bg-green-500/20 transition-colors">
                           {tr({ es: '✅ Hecha', en: '✅ Done', ca: '✅ Feta' })}
                         </button>
@@ -152,7 +159,7 @@ function TaskCard({ task, studentsByUid, lang, tr, onToggleManual, onToggleFalta
                   ) : (
                     <div className="flex items-center gap-1.5">
                       {task.kind === 'text' && (
-                        <button type="button" onClick={() => onToggleManual(task.id, uid, false)}
+                        <button type="button" onClick={() => onToggleManual(task.id, uid, true)}
                           className="text-[11.5px] font-bold px-2 py-1 rounded-lg border text-white/40 border-white/10 hover:border-white/25 transition-colors">
                           {tr({ es: 'Marcar hecha', en: 'Mark done', ca: 'Marcar feta' })}
                         </button>
