@@ -119,13 +119,6 @@ export const PREGUNTAS = [
     '🔺',
     { es: "Eran tumbas monumentales. Los egipcios creían en la vida después de la muerte, así que enterraban al faraón con todo lo que iba a necesitar.", en: "They were monumental tombs: Egyptians believed in an afterlife.", ca: "Eren tombes monumentals: els egipcis creien en la vida després de la mort." }),
 
-  q('an-17', 'primaria',
-    { es: "¿En qué ciudad griega nació la democracia?", en: "In which Greek city was democracy born?", ca: "A quina ciutat grega va néixer la democràcia?" },
-    { es: ["Esparta","Atenas","Tebas","Corinto"], en: ["Sparta","Athens","Thebes","Corinth"], ca: ["Esparta","Atenes","Tebes","Corint"] },
-    { es: "Atenas", en: "Athens", ca: "Atenes" },
-    '🏛️',
-    { es: "En Atenas los ciudadanos votaban las decisiones en asamblea. Eso sí: no eran ciudadanos ni las mujeres, ni los esclavos, ni los extranjeros.", en: "In Athens citizens voted in assembly — though women, slaves and foreigners were not citizens.", ca: "A Atenes els ciutadans votaven en assemblea, però no ho eren ni les dones ni els esclaus." }),
-
   q('an-18', 'primaria',
     { es: "¿Qué escritura usaban los egipcios?", en: "What writing did the Egyptians use?", ca: "Quina escriptura feien servir els egipcis?" },
     { es: ["El alfabeto latino","Los jeroglíficos","Los números romanos","El braille"], en: ["The Latin alphabet","Hieroglyphs","Roman numerals","Braille"], ca: ["L'alfabet llatí","Els jeroglífics","Els números romans","El braille"] },

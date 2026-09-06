@@ -144,3 +144,119 @@ describe('cargarTarjetasDeExamen', () => {
     expect(await cargarTarjetasDeExamen(undefined, undefined)).toBe(null)
   })
 })
+
+// ── Preguntas repetidas dentro del mismo banco ───────────────────────────────
+// Esto se descubrió al imprimir las tarjetas: en la hoja de Electricidad salían
+// dos veces "¿Qué hace un interruptor…?" con respuestas distintas. Pero el
+// problema no era de las tarjetas — el examen online sirve del mismo banco, así
+// que un alumno podía sacar la misma pregunta dos veces en el mismo examen y
+// una de las dos versiones contaba como la buena.
+//
+// Había cinco parejas así, todas de una segunda tanda de preguntas que se
+// añadió sin mirar las que ya estaban.
+//
+// La comparación NO ordena las palabras a propósito: en Estados de la Materia
+// hay parejas deliberadas ("¿Cómo se llama el paso de sólido a líquido?" y
+// "…de líquido a sólido") que con las palabras ordenadas serían idénticas y
+// aquí no lo son. El orden ES la pregunta.
+const PALABRAS_VACIAS = new Set(['el', 'la', 'los', 'las', 'un', 'una', 'unos', 'unas', 'de', 'del', 'en', 'y', 'o', 'a', 'que', 'se', 'su', 'sus', 'es', 'son', 'con', 'para', 'al', 'lo'])
+const normalizar = texto => String(texto ?? '')
+  .toLowerCase()
+  .normalize('NFD').replace(/\p{Diacritic}/gu, '')
+  .replace(/[^a-z0-9 ]/g, ' ')
+  .split(/\s+/)
+  .filter(palabra => palabra && !PALABRAS_VACIAS.has(palabra))
+  .join(' ')
+
+// Dos preguntas son la misma si su texto normalizado coincide, o si una es la
+// otra con palabras AÑADIDAS AL FINAL: así se caza "¿Qué hace un interruptor en
+// un circuito?" contra "…en un circuito eléctrico?", que es la pareja que sacó
+// todo esto a la luz. Compararlas como conjuntos de palabras habría valido
+// también, pero entonces "de sólido a líquido" y "de líquido a sólido" serían
+// la misma pregunta, y son dos preguntas distintas a propósito.
+const esLaMisma = (a, b) => {
+  if (a === b) return true
+  const [corta, larga] = a.length < b.length ? [a, b] : [b, a]
+  // Con menos de tres palabras con contenido el enunciado es tan corto que dos
+  // preguntas distintas pueden empezar igual sin ser la misma. Tres es el
+  // mínimo que hace falta: "hace interruptor circuito" son exactamente tres, y
+  // es la pareja real que hay que cazar.
+  if (corta.split(' ').length < 3) return false
+  return larga.startsWith(corta + ' ')
+}
+
+describe('los bancos no repiten preguntas', () => {
+  it.each(TEMAS_CON_TARJETAS_DE_EXAMEN)('%s no pregunta dos veces lo mismo', async clave => {
+    const [materia, tema] = clave.split('/')
+    const def = await cargarTarjetasDeExamen(materia, tema)
+    const vistas = []
+    const repetidas = []
+    for (const v of def.variantes('es')) {
+      for (const t of def.tarjetas(v.id, 'es')) {
+        // El emoji va delante del enunciado en la tarjeta y no es la pregunta.
+        const clean = normalizar(t.frente)
+        if (!clean) continue
+        const gemela = vistas.find(previa => esLaMisma(previa.clean, clean))
+        if (gemela) repetidas.push(`"${t.frente}" ≈ "${gemela.texto}"`)
+        else vistas.push({ clean, texto: t.frente })
+      }
+    }
+    expect(repetidas, `${clave}: ${repetidas.join(' · ')}`).toEqual([])
+  })
+})
+
+// ── Preguntas que no se pueden contestar sin las opciones ────────────────────
+// "¿Cuál de estos animales es un mamífero? → Delfín" funciona en el examen
+// online, donde el alumno ve las cuatro opciones. En una tarjeta impresa no van
+// las opciones: la pregunta no tiene respuesta única y castiga al que sabe —
+// quien conteste "perro" acierta y el dorso le dice que no. Había once así
+// repartidas por seis temas; se filtran en imprimibleDeBanco.
+describe('las tarjetas se pueden contestar sin ver las opciones', () => {
+  const DEPENDE = /cu[aá]l de (estas|estos|las siguientes|los siguientes)|de las siguientes|de los siguientes|which of (these|the following)|quin[a]? d[e’']aquest[s]?|choose the|selecciona/i
+
+  it.each(TEMAS_CON_TARJETAS_DE_EXAMEN)('%s no imprime ninguna que dependa de las opciones', async clave => {
+    const [materia, tema] = clave.split('/')
+    const def = await cargarTarjetasDeExamen(materia, tema)
+    const malas = []
+    for (const v of def.variantes('es')) {
+      for (const lang of IDIOMAS) {
+        for (const t of def.tarjetas(v.id, lang)) {
+          if (DEPENDE.test(t.frente)) malas.push(`[${v.id}/${lang}] ${t.frente}`)
+        }
+      }
+    }
+    expect(malas, `${clave}: ${malas.join(' · ')}`).toEqual([])
+  })
+
+  it('filtrar no deja ningún tema sin material', async () => {
+    // El filtro se come preguntas de verdad: si un nivel se quedara por debajo
+    // del mínimo, su botón desaparecería sin que nadie se enterase.
+    for (const clave of TEMAS_CON_TARJETAS_DE_EXAMEN) {
+      const [materia, tema] = clave.split('/')
+      const def = await cargarTarjetasDeExamen(materia, tema)
+      expect(def.variantes('es').length, `${clave} se quedó sin ningún nivel`).toBeGreaterThan(0)
+    }
+  })
+
+  it('el filtro no se lleva por delante una pregunta normal', () => {
+    const banco = { emoji: '🧪', nombre: { es: 'P', en: 'T', ca: 'P' } }
+    const q = (id, texto) => ({
+      id, nivel: 'eso',
+      pregunta: { es: texto, en: texto, ca: texto },
+      correcta: { es: 'R', en: 'A', ca: 'R' },
+    })
+    const def = imprimibleDeBanco(banco, [
+      q(1, '¿Qué es la fotosíntesis?'),
+      q(2, '¿Cuál de estos animales es un mamífero?'),
+      q(3, '¿Cuántos huesos tiene el cuerpo humano?'),
+      q(4, '¿Cuál es la unidad de fuerza?'),
+    ], 'biologia')
+    // Se va solo la 2: "¿Cuál ES la unidad…?" pregunta por un dato único y se
+    // queda, aunque empiece igual que la que sí depende de las opciones.
+    expect(def.tarjetas('eso', 'es').map(t => t.frente)).toEqual([
+      '¿Qué es la fotosíntesis?',
+      '¿Cuántos huesos tiene el cuerpo humano?',
+      '¿Cuál es la unidad de fuerza?',
+    ])
+  })
+})

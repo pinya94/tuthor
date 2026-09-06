@@ -83,10 +83,6 @@ const TODAS = [
     O(["have","has","am","did"]),
     0, '🗾', EN("With \"I\" the auxiliary is \"have\". \"Never\" is the clue: it talks about experience up to today, with no date.")),
 
-  q('pp-20', 'primaria', EN("What is the past participle of \"go\"?"),
-    O(["went","gone","going","goed"]),
-    1, '🚪', EN("go → went (past) → gone (participle). The present perfect always takes the participle: \"has gone\", never \"has went\".")),
-
   q('pp-21', 'primaria', EN("Complete: \"They ___ just arrived.\""),
     O(["have","has","are","were"]),
     0, '🛬', EN("\"They\" takes \"have\". And \"just\" means it happened a moment ago and still counts now.")),

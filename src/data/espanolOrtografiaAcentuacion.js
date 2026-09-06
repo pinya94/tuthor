@@ -117,12 +117,6 @@ const TODAS = [
     0, '🎶',
     { es: "Can-CIÓN es aguda y acaba en n, así que lleva tilde: canción. Las otras tres son llanas acabadas en vocal.", en: "\"Canción\" is stressed on the last syllable and ends in n → accent.", ca: "\"Canción\" és aguda i acaba en n, així que porta accent." }),
 
-  q('ac-20', 'primaria',
-    { es: "¿Cuántas sílabas tiene \"murciélago\"?", en: "How many syllables does \"murciélago\" have?", ca: "Quantes síl·labes té \"murciélago\"?" },
-    { es: ["Tres","Cuatro","Cinco","Dos"], en: ["Tres","Cuatro","Cinco","Dos"], ca: ["Tres","Cuatro","Cinco","Dos"] },
-    1, '🦇',
-    { es: "Mur-cié-la-go: cuatro sílabas, con la fuerza en la antepenúltima. Es esdrújula, y todas las esdrújulas llevan tilde.", en: "Mur-cié-la-go: four syllables, stressed on the third-to-last → it takes an accent.", ca: "Mur-cié-la-go: quatre síl·labes, esdrúixola i per això porta accent." }),
-
   q('ac-21', 'primaria',
     { es: "¿Qué palabra es esdrújula?", en: "Which word is stressed on the third-to-last syllable?", ca: "Quina paraula és esdrúixola?" },
     { es: ["pájaro","papel","camino","jardin"], en: ["pájaro","papel","camino","jardin"], ca: ["pájaro","papel","camino","jardin"] },

@@ -19,20 +19,6 @@ export const PREGUNTAS = [
     '📕',
     { es: 'Darwin publicó "El origen de las especies" en 1859, explicando cómo la selección natural hace que las especies cambien con el tiempo.', en: 'Darwin published "On the Origin of Species" in 1859, explaining how natural selection makes species change over time.', ca: 'Darwin va publicar "L\'origen de les espècies" el 1859, explicant com la selecció natural fa que les espècies canviïn amb el temps.' }),
 
-  q('ev-03', 'eso',
-    { es: '¿Qué es la selección natural?', en: 'What is natural selection?', ca: 'Què és la selecció natural?' },
-    { es: ['El proceso por el que los individuos mejor adaptados sobreviven y se reproducen más', 'La elección de animales para un zoo', 'Un método para clasificar especies por tamaño', 'La forma en que los humanos entrenan mascotas'], en: ['The process by which the best-adapted individuals survive and reproduce more', 'Choosing animals for a zoo', 'A method for classifying species by size', 'The way humans train pets'], ca: ['El procés pel qual els individus millor adaptats sobreviuen i es reprodueixen més', 'L\'elecció d\'animals per a un zoo', 'Un mètode per classificar espècies per mida', 'La forma en què els humans entrenen mascotes'] },
-    { es: 'El proceso por el que los individuos mejor adaptados sobreviven y se reproducen más', en: 'The process by which the best-adapted individuals survive and reproduce more', ca: 'El procés pel qual els individus millor adaptats sobreviuen i es reprodueixen més' },
-    '🌿',
-    { es: 'La selección natural es el proceso por el que los individuos con características que les ayudan a sobrevivir en su ambiente tienen más descendencia, transmitiendo esas características a la siguiente generación.', en: 'Natural selection is the process by which individuals with traits that help them survive in their environment have more offspring, passing those traits to the next generation.', ca: 'La selecció natural és el procés pel qual els individus amb característiques que els ajuden a sobreviure en el seu ambient tenen més descendència, transmetent aquestes característiques a la generació següent.' }),
-
-  q('ev-04', 'eso',
-    { es: '¿Qué es una adaptación?', en: 'What is an adaptation?', ca: 'Què és una adaptació?' },
-    { es: ['Una característica que ayuda a un ser vivo a sobrevivir en su ambiente', 'Un cambio de ambiente que hace un animal', 'Una enfermedad genética', 'El nombre científico de una especie'], en: ['A trait that helps a living thing survive in its environment', 'A change of environment made by an animal', 'A genetic disease', 'The scientific name of a species'], ca: ['Una característica que ajuda un ésser viu a sobreviure en el seu ambient', 'Un canvi d\'ambient que fa un animal', 'Una malaltia genètica', 'El nom científic d\'una espècie'] },
-    { es: 'Una característica que ayuda a un ser vivo a sobrevivir en su ambiente', en: 'A trait that helps a living thing survive in its environment', ca: 'Una característica que ajuda un ésser viu a sobreviure en el seu ambient' },
-    '🦎',
-    { es: 'Una adaptación es cualquier característica —física o de comportamiento— que aumenta las posibilidades de un ser vivo de sobrevivir y reproducirse en su ambiente concreto.', en: 'An adaptation is any trait — physical or behavioural — that increases a living thing\'s chances of surviving and reproducing in its particular environment.', ca: 'Una adaptació és qualsevol característica —física o de comportament— que augmenta les possibilitats d\'un ésser viu de sobreviure i reproduir-se en el seu ambient concret.' }),
-
   q('ev-05', 'eso',
     { es: '¿Qué archipiélago inspiró a Darwin con sus famosos pinzones de picos distintos?', en: 'Which archipelago inspired Darwin with its famous finches with different beaks?', ca: 'Quin arxipèlag va inspirar Darwin amb els seus famosos pinsans de becs diferents?' },
     { es: ['Las Islas Galápagos', 'Las Islas Canarias', 'Hawái', 'Las Maldivas'], en: ['The Galápagos Islands', 'The Canary Islands', 'Hawaii', 'The Maldives'], ca: ['Les Illes Galápagos', 'Les Illes Canàries', 'Hawaii', 'Les Maldives'] },

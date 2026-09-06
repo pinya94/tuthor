@@ -132,13 +132,6 @@ export const PREGUNTAS = [
     '🔥',
     { es: "El fuego cambió la vida: cocinar hizo la comida más fácil de digerir y más segura, y ahuyentaba a los depredadores por la noche.", en: "Fire changed everything: cooking made food easier to digest and kept predators away.", ca: "El foc va canviar la vida: cuinar feia el menjar més fàcil de digerir i allunyava els depredadors." }),
 
-  q('pr-19', 'primaria',
-    { es: "¿Qué son las pinturas rupestres?", en: "What is cave art?", ca: "Què són les pintures rupestres?" },
-    { es: ["Pinturas hechas en cuevas","Un tipo de herramienta","Casas de piedra","Enterramientos"], en: ["Paintings made in caves","A kind of tool","Stone houses","Burials"], ca: ["Pintures fetes a les coves","Un tipus d'eina","Cases de pedra","Enterraments"] },
-    { es: "Pinturas hechas en cuevas", en: "Paintings made in caves", ca: "Pintures fetes a les coves" },
-    '🎨',
-    { es: "Son pinturas en las paredes de las cuevas, casi siempre de animales. Altamira, en Cantabria, es una de las más famosas del mundo.", en: "Paintings on cave walls, usually of animals. Altamira in Spain is world famous.", ca: "Són pintures a les parets de les coves, gairebé sempre d'animals. Altamira n'és una de les més famoses." }),
-
   q('pr-20', 'primaria',
     { es: "¿Qué marca el final de la Prehistoria?", en: "What marks the end of Prehistory?", ca: "Què marca el final de la Prehistòria?" },
     { es: ["La llegada del fuego","La invención de la escritura","El fin de los dinosaurios","La agricultura"], en: ["The arrival of fire","The invention of writing","The end of the dinosaurs","Farming"], ca: ["L'arribada del foc","La invenció de l'escriptura","La fi dels dinosaures","L'agricultura"] },

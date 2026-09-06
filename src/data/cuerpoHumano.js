@@ -153,12 +153,6 @@ const PREGUNTAS = [
     '💨',
     { es: "El diafragma separa el tórax del abdomen. Al contraerse baja, el pecho se agranda y entra el aire; al relajarse sube y el aire sale.", en: "The diaphragm contracts and flattens, the chest expands and air comes in.", ca: "El diafragma es contrau i baixa, el pit s'eixampla i entra l'aire." }),
 
-  q('cn-06', 'eso',
-    { es: "¿Qué es un acto reflejo?", en: "What is a reflex action?", ca: "Què és un acte reflex?" },
-    { es: ["Un movimiento que decidimos hacer","Una respuesta automática que no pasa por el cerebro","Un recuerdo","Un tipo de sueño"], en: ["A movement we decide to make","An automatic response that does not go through the brain","A memory","A kind of sleep"], ca: ["Un moviment que decidim fer","Una resposta automàtica que no passa pel cervell","Un record","Un tipus de son"] },
-    { es: "Una respuesta automática que no pasa por el cerebro", en: "An automatic response that does not go through the brain", ca: "Una resposta automàtica que no passa pel cervell" },
-    '⚡',
-    { es: "Al tocar algo muy caliente apartas la mano ANTES de darte cuenta: la orden sale de la médula espinal. Ganar esas décimas de segundo evita la quemadura.", en: "You pull your hand away before you notice: the order comes from the spinal cord, not the brain.", ca: "Apartes la mà ABANS d'adonar-te'n: l'ordre surt de la medul·la espinal." }),
 ]
 
 export const PREGUNTAS_PRIMARIA = PREGUNTAS.filter(p => p.nivel === 'primaria')

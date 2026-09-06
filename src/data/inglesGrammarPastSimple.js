@@ -67,10 +67,6 @@ const TODAS = [
     { es: ['For an action in progress at a past moment', 'For a completed action at a specific past time', 'For a habit in the present', 'For a future plan'], en: ['For an action in progress at a past moment', 'For a completed action at a specific past time', 'For a habit in the present', 'For a future plan'], ca: ['For an action in progress at a past moment', 'For a completed action at a specific past time', 'For a habit in the present', 'For a future plan'] },
     1, '✅', EN('Past simple = completed action at a specific past time: "I called her at 9." Past continuous = action in progress: "I was calling her when you arrived."')),
 
-  q('pa-16', 'primaria', EN("What is the past simple of \"go\"?"),
-    O(["goed","went","gone","going"]),
-    1, '🚶', EN("go → went (past) → gone (participle). It is irregular, so \"goed\" does not exist.")),
-
   q('pa-17', 'primaria', EN("Complete: \"She ___ her homework last night.\""),
     O(["finish","finished","finishes","finishing"]),
     1, '📚', EN("Regular verbs add -ed for the past: finish → finished. \"Last night\" is finished time.")),

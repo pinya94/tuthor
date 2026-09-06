@@ -131,12 +131,6 @@ const PREGUNTAS = [
     '🔌',
     { es: "Los metales, y el cobre en particular, dejan pasar la corriente porque sus electrones se mueven con libertad. La madera, el plástico y el vidrio son aislantes.", en: "Metals, especially copper, let current through because their electrons move freely.", ca: "Els metalls, i el coure en particular, deixen passar el corrent perquè els electrons es mouen lliurement." }),
 
-  q('el-18', 'primaria',
-    { es: "¿Qué hace un interruptor en un circuito?", en: "What does a switch do in a circuit?", ca: "Què fa un interruptor en un circuit?" },
-    { es: ["Da más energía","Abre o cierra el paso de la corriente","Cambia el color de la luz","Mide el voltaje"], en: ["Gives more energy","Opens or closes the current's path","Changes the light colour","Measures voltage"], ca: ["Dona més energia","Obre o tanca el pas del corrent","Canvia el color de la llum","Mesura el voltatge"] },
-    { es: "Abre o cierra el paso de la corriente", en: "Opens or closes the current's path", ca: "Obre o tanca el pas del corrent" },
-    '💡',
-    { es: "Con el interruptor abierto el circuito se corta y no pasa corriente; al cerrarlo el camino se completa y la bombilla se enciende.", en: "An open switch breaks the circuit; closing it completes the path and the bulb lights.", ca: "Amb l'interruptor obert el circuit es talla; en tancar-lo el camí es completa." }),
 
   q('el-19', 'primaria',
     { es: "¿En qué unidad se mide la corriente eléctrica?", en: "In which unit is electric current measured?", ca: "En quina unitat es mesura el corrent elèctric?" },

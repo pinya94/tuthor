@@ -145,11 +145,25 @@ export function temaTieneTarjetasDeExamen(materia, tema) {
   return Boolean(BANCOS[`${materia}/${tema}`])
 }
 
+// Enunciados que solo se sostienen con las cuatro opciones delante: "¿Cuál de
+// estos animales es un mamífero?". En el examen online funcionan; en una
+// tarjeta, donde no van las opciones, no tienen respuesta posible — y encima
+// castigan al que sabe: la respuesta impresa es "Delfín", así que un alumno
+// que conteste "perro" acierta y la tarjeta le dice que no. No se pueden
+// arreglar reescribiéndolas (la pregunta ES elegir entre esas cuatro), así que
+// no se imprimen.
+const DEPENDE_DE_LAS_OPCIONES = /cu[aá]l de (estas|estos|las siguientes|los siguientes)|de las siguientes|de los siguientes|which of (these|the following)|quin[a]? d[e’']aquest[s]?|choose the|selecciona/i
+
+// Se decide con los TRES idiomas a la vez, no con el que se esté pintando: si
+// no, la misma hoja tendría 12 tarjetas en español y 13 en inglés.
+const sirveEnPapel = p =>
+  ![p.pregunta?.es, p.pregunta?.en, p.pregunta?.ca].some(t => t && DEPENDE_DE_LAS_OPCIONES.test(t))
+
 // Construye el imprimible a partir de un banco YA cargado. Separado de la
 // carga para que los tests puedan pasarle preguntas a mano, sin red.
 export function imprimibleDeBanco(banco, preguntas, materia) {
   const porNivel = {}
-  for (const p of preguntas) (porNivel[p.nivel] ??= []).push(p)
+  for (const p of preguntas.filter(sirveEnPapel)) (porNivel[p.nivel] ??= []).push(p)
 
   return {
     emoji: banco.emoji,

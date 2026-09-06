@@ -40,13 +40,6 @@ export const PREGUNTAS = [
     '☢️',
     { es: 'En agosto de 1945, Estados Unidos lanzó bombas atómicas sobre Hiroshima y Nagasaki, precipitando la rendición de Japón y el fin de la Segunda Guerra Mundial.', en: 'In August 1945, the United States dropped atomic bombs on Hiroshima and Nagasaki, hastening Japan\'s surrender and the end of the Second World War.', ca: 'A l\'agost de 1945, els Estats Units van llançar bombes atòmiques sobre Hiroshima i Nagasaki, precipitant la rendició del Japó i el final de la Segona Guerra Mundial.' }),
 
-  q('wwii-06', 'eso',
-    { es: '¿Qué fue el Holocausto?', en: 'What was the Holocaust?', ca: 'Què va ser l\'Holocaust?' },
-    { es: ['El exterminio sistemático de seis millones de judíos', 'La destrucción de Londres por bombardeos', 'La rendición de Francia', 'La ocupación de Polonia'], en: ['The systematic extermination of six million Jews', 'The destruction of London by bombing', 'The surrender of France', 'The occupation of Poland'], ca: ['L\'extermini sistemàtic de sis milions de jueus', 'La destrucció de Londres per bombardeigs', 'La rendició de França', 'L\'ocupació de Polònia'] },
-    { es: 'El exterminio sistemático de seis millones de judíos', en: 'The systematic extermination of six million Jews', ca: 'L\'extermini sistemàtic de sis milions de jueus' },
-    '🕯️',
-    { es: 'El Holocausto fue el exterminio sistemático de seis millones de judíos por la Alemania nazi, uno de los mayores crímenes de la historia de la humanidad.', en: 'The Holocaust was the systematic extermination of six million Jews by Nazi Germany, one of the greatest crimes in human history.', ca: 'L\'Holocaust va ser l\'extermini sistemàtic de sis milions de jueus per l\'Alemanya nazi, un dels majors crims de la història de la humanitat.' }),
-
   q('wwii-07', 'eso',
     { es: '¿Quién era el líder de la Alemania nazi durante la guerra?', en: 'Who was the leader of Nazi Germany during the war?', ca: 'Qui era el líder de l\'Alemanya nazi durant la guerra?' },
     { es: ['Adolf Hitler', 'Winston Churchill', 'Iósif Stalin', 'Benito Mussolini'], en: ['Adolf Hitler', 'Winston Churchill', 'Joseph Stalin', 'Benito Mussolini'], ca: ['Adolf Hitler', 'Winston Churchill', 'Ióssif Stalin', 'Benito Mussolini'] },

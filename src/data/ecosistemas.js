@@ -120,13 +120,6 @@ const PREGUNTAS = [
     '➡️',
     { es: "La energía entra por la planta (que la capta del sol) y sube por la cadena. En cada salto se pierde la mayor parte, por eso las cadenas son cortas.", en: "Energy enters through the plant and moves up the chain, losing most of itself at each step — which is why chains are short.", ca: "L'energia entra per la planta i puja per la cadena, perdent-ne la major part a cada salt." }),
 
-  q('ec-16', 'primaria',
-    { es: "¿Qué es un ecosistema?", en: "What is an ecosystem?", ca: "Què és un ecosistema?" },
-    { es: ["Solo los animales de un lugar","Los seres vivos de un lugar junto con el medio en el que viven","Solo las plantas","Un zoo"], en: ["Only the animals of a place","The living things of a place together with their environment","Only the plants","A zoo"], ca: ["Només els animals d'un lloc","Els éssers vius d'un lloc juntament amb el medi on viuen","Només les plantes","Un zoo"] },
-    { es: "Los seres vivos de un lugar junto con el medio en el que viven", en: "The living things of a place together with their environment", ca: "Els éssers vius d'un lloc juntament amb el medi on viuen" },
-    '🌍',
-    { es: "Un ecosistema son los seres vivos MÁS el medio físico (agua, suelo, temperatura) y las relaciones entre todos ellos.", en: "An ecosystem is the living things PLUS the physical environment and the relationships between them.", ca: "Un ecosistema són els éssers vius MÉS el medi físic i les relacions entre tots." }),
-
   q('ec-17', 'eso',
     { es: "¿Qué pasaría si desaparecieran los descomponedores?", en: "What would happen if decomposers disappeared?", ca: "Què passaria si desapareguessin els descomponedors?" },
     { es: ["Nada","Los restos se acumularían y los nutrientes no volverían al suelo","Habría más plantas","Los depredadores desaparecerían primero"], en: ["Nothing","Remains would pile up and nutrients would not return to the soil","There would be more plants","Predators would disappear first"], ca: ["Res","Les restes s'acumularien i els nutrients no tornarien al sòl","Hi hauria més plantes","Els depredadors desapareixerien primer"] },
@@ -141,12 +134,6 @@ const PREGUNTAS = [
     '📉',
     { es: "Solo un 10% de la energía pasa de un nivel al siguiente; el resto se gasta en vivir y se pierde como calor. Tras 4 o 5 saltos ya no queda energía suficiente.", en: "Only about 10% of energy passes to the next level; the rest is spent living and lost as heat.", ca: "Només un 10% de l'energia passa d'un nivell al següent; la resta es perd com a calor." }),
 
-  q('ec-19', 'eso',
-    { es: "¿Qué es una especie invasora?", en: "What is an invasive species?", ca: "Què és una espècie invasora?" },
-    { es: ["Una especie en peligro","Una especie traída de fuera que se extiende y desplaza a las nativas","Una especie muy grande","Una especie extinguida"], en: ["An endangered species","A species brought from elsewhere that spreads and displaces native ones","A very large species","An extinct species"], ca: ["Una espècie en perill","Una espècie portada de fora que s'estén i desplaça les natives","Una espècie molt gran","Una espècie extingida"] },
-    { es: "Una especie traída de fuera que se extiende y desplaza a las nativas", en: "A species brought from elsewhere that spreads and displaces native ones", ca: "Una espècie portada de fora que s'estén i desplaça les natives" },
-    '⚠️',
-    { es: "Llega sin sus depredadores naturales, se reproduce sin freno y desplaza a las especies de siempre. El mejillón cebra o la cotorra argentina son ejemplos en España.", en: "It arrives without its natural predators, spreads unchecked and displaces native species.", ca: "Arriba sense els seus depredadors naturals, es reprodueix sense fre i desplaça les espècies natives." }),
 ]
 
 export const PREGUNTAS_PRIMARIA = PREGUNTAS.filter(p => p.nivel === 'primaria')

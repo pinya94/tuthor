@@ -104,12 +104,6 @@ export const PREGUNTAS = [
     '📅',
     { es: 'Wegener presentó su teoría de la deriva continental en 1912. En su época no fue aceptada por falta de un mecanismo que la explicara, pero décadas después dio origen a la tectónica de placas moderna.', en: 'Wegener presented his theory of continental drift in 1912. It was not accepted at the time due to the lack of a mechanism to explain it, but decades later it gave rise to modern plate tectonics.', ca: 'Wegener va presentar la seva teoria de la deriva continental el 1912. En la seva època no va ser acceptada per manca d\'un mecanisme que l\'expliqués, però dècades després va donar origen a la tectònica de plaques moderna.' }),
 
-  q('pt-15', 'primaria',
-    { es: "¿Qué son las placas tectónicas?", en: "What are tectonic plates?", ca: "Què són les plaques tectòniques?" },
-    { es: ["Capas de nubes","Grandes fragmentos de la capa externa de la Tierra que se mueven","Rocas del fondo del mar","Montañas submarinas"], en: ["Cloud layers","Large fragments of Earth's outer layer that move","Rocks from the sea floor","Underwater mountains"], ca: ["Capes de núvols","Grans fragments de la capa externa de la Terra que es mouen","Roques del fons del mar","Muntanyes submarines"] },
-    { es: "Grandes fragmentos de la capa externa de la Tierra que se mueven", en: "Large fragments of Earth's outer layer that move", ca: "Grans fragments de la capa externa de la Terra que es mouen" },
-    '🌏',
-    { es: "La litosfera está partida en placas que flotan sobre el manto y se mueven unos centímetros al año: lo que crece una uña.", en: "The lithosphere is broken into plates that float on the mantle and move a few centimetres a year.", ca: "La litosfera està partida en plaques que suren sobre el mantell." }),
 
   q('pt-16', 'primaria',
     { es: "¿Qué ocurre cuando dos placas chocan?", en: "What happens when two plates collide?", ca: "Què passa quan dues plaques xoquen?" },
