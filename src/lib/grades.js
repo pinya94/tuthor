@@ -15,10 +15,16 @@ import {
 // "sin nota todavía" y "ha sacado un 0" son cosas distintas, así que la
 // ausencia de la clave es lo primero y un 0 explícito lo segundo.
 //
-// Las notas de los exámenes de Tuthor (Deberes, Alumnos) no se mezclan aquí a
-// propósito: sus "score" no están en la misma escala entre mecánicas (unas
-// dan puntos, otras porcentaje) y forzarlas a una nota del 0 al 10 inventaría
-// una conversión que nadie ha pedido. Este cuaderno es del profesor.
+// Las notas de los exámenes de Tuthor SÍ se pueden traer aquí, pero no se
+// mezclan solas: las trae el profesor con un botón, y llegan como una columna
+// más que él puede editar o borrar. Este cuaderno sigue siendo suyo.
+//
+// Durante un tiempo no se pudo, y el motivo está registrado: los "score" no
+// estaban en la misma escala entre mecánicas (ExamenMC guardaba aciertos×100 y
+// las otras dos, porcentaje), así que convertir habría sido adivinar. Eso se
+// arregló en el origen —ahora los tres guardan porcentaje y lo marcan con
+// `escala: 100`— y por eso la conversión ya no inventa nada. Lo que no trae esa
+// marca sigue sin convertirse: ver notaDeCompletion.
 
 export const NOTA_MIN = 0
 export const NOTA_MAX = 10
@@ -37,6 +43,44 @@ export function parseNota(texto) {
   if (!Number.isFinite(n)) return undefined // entrada no numérica: se ignora, no se guarda
   return Math.round(Math.min(Math.max(n, NOTA_MIN), NOTA_MAX) * 10) / 10 // un decimal
 }
+
+// ── Traer al cuaderno una tarea de Tuthor ────────────────────────────────────
+// Un profesor manda "Examen de la célula" a 25 alumnos, Tuthor lo corrige y
+// guarda la nota de cada uno… y hasta ahora el profesor tecleaba esas 25 notas
+// a mano en este cuaderno. Eso es trabajo administrativo puro, y de los pocos
+// que Tuthor SÍ puede quitar: es el único que tiene los datos, porque es el
+// único que corrige.
+//
+// La conversión es porcentaje ÷ 10. Lo único delicado es de qué se puede fiar:
+// una finalización solo se convierte si trae `escala: 100`. Las antiguas no lo
+// dicen, y ExamenMC guardaba entonces aciertos×100 —un "score: 800" podía ser
+// un 8 o un 800—, así que no se adivinan: se quedan sin nota y el profesor la
+// pone a mano. Poner un 10 donde había un 1 sería mucho peor que no poner nada.
+export const ESCALA_PORCENTAJE = 100
+
+export function notaDeCompletion(completion) {
+  if (!completion?.done) return null
+  if (completion.escala !== ESCALA_PORCENTAJE) return null
+  const score = completion.score
+  if (typeof score !== 'number' || !Number.isFinite(score)) return null
+  return Math.min(Math.max(Math.round(score), 0), 100) / 10
+}
+
+// Las notas de una tarea listas para una columna: { uid: nota }. Quien no la
+// haya hecho no aparece, que en este cuaderno es "sin nota" y no un cero.
+export function notasDeTarea(tarea) {
+  const values = {}
+  for (const [uid, completion] of Object.entries(tarea?.completions ?? {})) {
+    const nota = notaDeCompletion(completion)
+    if (nota !== null) values[uid] = nota
+  }
+  return values
+}
+
+// Cuántas notas saldrían de una tarea, para poder decirlo ANTES de crear la
+// columna: "Examen de la célula · 23 notas" es lo que deja decidir si vale la
+// pena traerla o si todavía falta gente por hacerla.
+export const cuantasNotasTiene = tarea => Object.keys(notasDeTarea(tarea)).length
 
 // ── Ponderaciones ────────────────────────────────────────────────────────────
 // Cada columna pesa lo que diga su `peso`; si no lo trae, 1. Antes la media era
@@ -129,6 +173,17 @@ export async function setColumnTrimestre(classId, colId, trimestre) {
 // que siempre. Así no hace falta migrar nada.
 export async function setColumnPeso(classId, colId, peso) {
   await updateDoc(doc(columnasRef(classId), colId), { peso, updatedAt: serverTimestamp() })
+}
+
+// Crea la columna de una tarea con sus notas ya dentro. Son dos escrituras y
+// no una a propósito: firestore.rules exige que una columna nazca con
+// `values == {}` (para que nadie pueda crear un cuaderno entero de golpe), así
+// que se crea vacía y se rellena con un único update. Dos escrituras siguen
+// siendo muchísimo menos que las 25 que hacía el profesor tecleando.
+export async function crearColumnaConNotas(classId, nombre, trimestre, values) {
+  const id = await createGradeColumn(classId, nombre, trimestre)
+  await updateDoc(doc(columnasRef(classId), id), { values, updatedAt: serverTimestamp() })
+  return id
 }
 
 export async function setGrade(classId, colId, uid, nota) {

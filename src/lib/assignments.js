@@ -104,6 +104,12 @@ export async function recordAssignmentCompletion(uid, gameId, category, { score,
   await Promise.all(matches.map(d => updateDoc(d.ref, {
     [`completions.${uid}`]: {
       done: true,
+      // En qué escala está `score`. Desde que ExamenMC guarda porcentaje, los
+      // tres orígenes (examen de catálogo, examen con mecánica y examen propio
+      // del profesor) dan 0-100. Marcarlo es lo que permite llevar la nota al
+      // cuaderno sin adivinar: una finalización antigua no lo trae, y entonces
+      // no se convierte en vez de arriesgarse a poner un 10 donde había un 1.
+      escala: 100,
       score: score ?? null,
       passed: passed ?? null,
       timeSpent: timeSpent || 0,
@@ -122,7 +128,7 @@ export async function recordAssignmentCompletion(uid, gameId, category, { score,
 export async function submitQuiz(taskId, uid, quiz, respuestas) {
   const { score, passed } = corregirQuiz(quiz, respuestas)
   await updateDoc(doc(db, 'assignments', taskId), {
-    [`completions.${uid}`]: { done: true, score, passed, respuestas, completedAt: serverTimestamp() },
+    [`completions.${uid}`]: { done: true, escala: 100, score, passed, respuestas, completedAt: serverTimestamp() },
   })
   return { score, passed }
 }

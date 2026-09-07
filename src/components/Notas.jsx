@@ -2,9 +2,15 @@ import { useEffect, useState } from 'react'
 import {
   NOTA_MAX, parseNota, notaValida, promedioColumna, promedioAlumno, suspenso,
   pesoDe, pesoValido, porcentajeDeColumna,
+  notasDeTarea, cuantasNotasTiene, crearColumnaConNotas,
   getGradeColumns, createGradeColumn, setGrade, setColumnPeso, deleteGradeColumn,
 } from '../lib/grades'
 import { trimestresDelCurso, trimestreDe } from '../lib/report'
+import { getClassAssignments } from '../lib/assignments'
+import { catalogTaskLabel } from '../lib/topicCatalog'
+import { GAMES } from '../lib/games'
+import { EXAMS } from '../lib/exams'
+import { SUBJECTS } from '../lib/statsAggregation'
 import { VisorHoja } from './HojasImprimibles'
 import { HojaNotas } from './HojasDeClase'
 
@@ -111,9 +117,99 @@ function PesoCelda({ columna, columnas, onGuardar, tr }) {
   )
 }
 
+// El selector de tarea: lista lo que ya está corregido y cuántas notas trae
+// cada cosa, para poder decidir antes de crear la columna. Solo salen las que
+// tienen al menos una nota convertible — una tarea que nadie ha hecho todavía
+// no es una columna, es una columna vacía.
+function TraerTarea({ classId, lang, tr, trimestre, onCreada, onCerrar }) {
+  const [tareas, setTareas] = useState(null)
+  const [creando, setCreando] = useState(null)
+  const [fallo, setFallo] = useState('')
+
+  useEffect(() => {
+    let vivo = true
+    getClassAssignments(classId)
+      .then(ts => { if (vivo) setTareas(ts.filter(t => cuantasNotasTiene(t) > 0)) })
+      .catch(() => { if (vivo) setFallo(tr({ es: 'No se pudieron cargar las tareas.', en: 'Could not load the tasks.', ca: 'No s\'han pogut carregar les tasques.' })) })
+    return () => { vivo = false }
+  }, [classId, tr])
+
+  async function traer(tarea) {
+    setCreando(tarea.id); setFallo('')
+    try {
+      const nombre = (tarea.kind === 'catalog'
+        ? catalogTaskLabel(tarea, lang, { games: GAMES, exams: EXAMS, subjects: SUBJECTS })
+        : tarea.title) || tr({ es: 'Tarea', en: 'Task', ca: 'Tasca' })
+      await onCreada(nombre.slice(0, 80), notasDeTarea(tarea))
+      onCerrar()
+    } catch {
+      setFallo(tr({ es: 'No se pudo crear la columna.', en: 'Could not create the column.', ca: 'No s\'ha pogut crear la columna.' }))
+      setCreando(null)
+    }
+  }
+
+  return (
+    <div className="rounded-xl border border-white/10 bg-black/30 p-3 mb-3">
+      <div className="flex items-center justify-between gap-2 mb-2">
+        <p className="text-white/70 text-[12.5px] font-bold">
+          {tr({ es: 'Traer una tarea ya corregida', en: 'Bring in a task Tuthor has marked', ca: 'Portar una tasca ja corregida' })}
+        </p>
+        <button type="button" onClick={onCerrar} className="text-white/40 hover:text-white text-[12px] font-bold">✕</button>
+      </div>
+
+      {fallo && <p className="text-red-400 text-[12px] mb-2">{fallo}</p>}
+
+      {tareas === null ? (
+        // Si la lectura falló ya no se está cargando: sin esto se quedaba el
+        // "Cargando…" para siempre debajo del error. La comprobación va DENTRO
+        // de la rama de null y no en su condición: sacarla fuera hacía que el
+        // caso "null + error" cayera en la rama siguiente y reventara con
+        // tareas.length.
+        fallo ? null : <p className="text-white/30 text-[12.5px]">{tr({ es: 'Cargando…', en: 'Loading…', ca: 'Carregant…' })}</p>
+      ) : tareas.length === 0 ? (
+        <p className="text-white/30 text-[12.5px]">
+          {tr({
+            es: 'Todavía no hay ninguna tarea con notas. Aparecerán aquí en cuanto tus alumnos hagan un examen que hayas mandado.',
+            en: 'No task has grades yet. They will show up here as soon as your students take an exam you have set.',
+            ca: 'Encara no hi ha cap tasca amb notes. Apareixeran aquí quan els teus alumnes facin un examen que hagis manat.',
+          })}
+        </p>
+      ) : (
+        <div className="flex flex-col gap-1.5">
+          {tareas.map(t => {
+            const nombre = (t.kind === 'catalog'
+              ? catalogTaskLabel(t, lang, { games: GAMES, exams: EXAMS, subjects: SUBJECTS })
+              : t.title) || tr({ es: 'Tarea', en: 'Task', ca: 'Tasca' })
+            return (
+              <button key={t.id} type="button" disabled={creando !== null} onClick={() => traer(t)}
+                className="flex items-center justify-between gap-3 text-left px-2.5 py-2 rounded-lg border border-white/10 hover:border-teal-500/40 hover:bg-teal-500/5 disabled:opacity-30 transition-colors">
+                <span className="text-white text-[12.5px] font-semibold truncate">{nombre}</span>
+                <span className="shrink-0 text-white/40 text-[11.5px]">
+                  {creando === t.id
+                    ? tr({ es: 'Trayendo…', en: 'Bringing…', ca: 'Portant…' })
+                    : `${cuantasNotasTiene(t)} ${tr({ es: 'notas', en: 'grades', ca: 'notes' })}`}
+                </span>
+              </button>
+            )
+          })}
+        </div>
+      )}
+
+      <p className="text-white/25 text-[11px] mt-2 leading-relaxed">
+        {tr({
+          es: `Se crea una columna con las notas sobre 10 y el trimestre que tengas elegido${trimestre ? '' : ''}. Quien no la haya hecho se queda sin nota, no con un cero. Después puedes editarla como cualquier otra.`,
+          en: 'It creates a column with the grades out of 10 and the term you have selected. Anyone who has not done it is left with no grade, not a zero. You can edit it afterwards like any other.',
+          ca: 'Es crea una columna amb les notes sobre 10 i el trimestre que tinguis triat. Qui no l\'hagi feta es queda sense nota, no amb un zero. Després la pots editar com qualsevol altra.',
+        })}
+      </p>
+    </div>
+  )
+}
+
 export default function Notas({ classId, students, claseName, lang, tr }) {
   const [columnas, setColumnas] = useState(null) // null = cargando
   const [enPapel, setEnPapel] = useState(false)
+  const [traendo, setTraendo] = useState(false)
   const [error, setError] = useState('')
   const [nuevaCol, setNuevaCol] = useState('')
   const [nuevoTrimestre, setNuevoTrimestre] = useState(() => trimestreDe())
@@ -175,6 +271,11 @@ export default function Notas({ classId, students, claseName, lang, tr }) {
       setError(tr({ es: 'No se pudo cambiar el peso.', en: 'Could not change the weight.', ca: 'No s\'ha pogut canviar el pes.' }))
       return false
     }
+  }
+
+  async function traerTarea(nombre, values) {
+    const id = await crearColumnaConNotas(classId, nombre, nuevoTrimestre, values)
+    setColumnas(cs => [...cs, { id, name: nombre, trimestre: nuevoTrimestre, values }])
   }
 
   async function borrarColumna(colId) {
@@ -308,6 +409,11 @@ export default function Notas({ classId, students, claseName, lang, tr }) {
         </div>
       )}
 
+      {traendo && (
+        <TraerTarea classId={classId} lang={lang} tr={tr} trimestre={nuevoTrimestre}
+          onCreada={traerTarea} onCerrar={() => setTraendo(false)} />
+      )}
+
       <form onSubmit={anadirColumna} className="flex items-center gap-2 flex-wrap">
         <input value={nuevaCol} onChange={e => setNuevaCol(e.target.value)} maxLength={80}
           placeholder={tr({ es: 'Nombre de la evaluación (p.ej. Examen tema 3)', en: 'Assessment name (e.g. Unit 3 test)', ca: "Nom de l'avaluació (p.ex. Examen tema 3)" })}
@@ -318,6 +424,10 @@ export default function Notas({ classId, students, claseName, lang, tr }) {
             <option key={t.id} value={t.id} className="bg-[#0d0d1a]">{tr(t.label)}</option>
           ))}
         </select>
+        <button type="button" onClick={() => setTraendo(t => !t)}
+          className="shrink-0 text-[12.5px] font-bold px-3 py-2 rounded-lg border border-teal-500/30 text-teal-300 hover:bg-teal-500/10 transition-colors">
+          ↓ {tr({ es: 'Traer tarea', en: 'Bring task', ca: 'Portar tasca' })}
+        </button>
         <button type="submit" disabled={creando || !nuevaCol.trim()}
           className="shrink-0 text-[12.5px] font-bold px-3.5 py-2 rounded-lg bg-teal-600 hover:bg-teal-500 disabled:opacity-30 text-white transition-colors">
           + {tr({ es: 'Columna', en: 'Column', ca: 'Columna' })}

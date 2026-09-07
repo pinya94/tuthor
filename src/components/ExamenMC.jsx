@@ -216,7 +216,13 @@ export default function ExamenMC({ titulo, emoji, nivelInfo, backFallback, gameI
     if (idx + 1 >= pool.length) {
       // Guardar resultado en Firebase si hay usuario autenticado
       const timeSpent = startRef.current ? Math.round((Date.now() - startRef.current) / 1000) : 0
-      const score  = currentAciertos * 100
+      // El score se guarda como PORCENTAJE de aciertos, igual que MechanicExam
+      // y que los exámenes propios del profesor (corregirQuiz). Antes aquí era
+      // aciertos*100 —o sea 0..1000— y ese desajuste era justo lo que impedía
+      // llevar las notas de las tareas al cuaderno: no se podía saber si un
+      // "score: 800" era un 8 o un 800. No afecta a rankings ni récords, que
+      // en activity.js son solo para type === 'juego' (ver el comentario allí).
+      const score  = Math.round((currentAciertos / pool.length) * 100)
       const passed = currentAciertos >= 5
       const coinsEarned = aciertos * 20
       if (user) {

@@ -5,6 +5,7 @@ import { describe, it, expect } from 'vitest'
 import {
   NOTA_MIN, NOTA_MAX, APROBADO, notaValida, parseNota, promedioColumna, promedioAlumno, suspenso,
   PESO_POR_DEFECTO, PESO_MAX, pesoValido, pesoDe, porcentajeDeColumna,
+  notaDeCompletion, notasDeTarea, cuantasNotasTiene,
 } from '../grades'
 
 describe('notaValida', () => {
@@ -171,5 +172,76 @@ describe('promedioAlumno ponderado', () => {
   it('un peso inválido no rompe la media: la columna cuenta como 1', () => {
     const cols = [{ peso: -5, values: { a: 4 } }, { peso: 1, values: { a: 8 } }]
     expect(promedioAlumno(cols, 'a')).toBe(6)
+  })
+})
+
+// ── Traer al cuaderno una tarea de Tuthor ────────────────────────────────────
+// El riesgo aquí no es que falle: es que ponga una nota EQUIVOCADA y nadie lo
+// note. Por eso la mitad de estos tests comprueban lo que NO debe convertirse.
+describe('notaDeCompletion', () => {
+  const hecha = extra => ({ done: true, escala: 100, score: 80, ...extra })
+
+  it('un porcentaje se convierte dividiendo entre 10', () => {
+    expect(notaDeCompletion(hecha())).toBe(8)
+    expect(notaDeCompletion(hecha({ score: 100 }))).toBe(10)
+    expect(notaDeCompletion(hecha({ score: 0 }))).toBe(0)
+    expect(notaDeCompletion(hecha({ score: 55 }))).toBe(5.5)
+  })
+
+  it('una finalización SIN marca de escala no se convierte', () => {
+    // Son las de antes de unificar la escala. Un "score: 800" de ExamenMC podía
+    // ser un 8 o un 800, y adivinar sería poner un 10 donde había un 1.
+    expect(notaDeCompletion({ done: true, score: 800 })).toBe(null)
+    expect(notaDeCompletion({ done: true, score: 100 })).toBe(null)
+    expect(notaDeCompletion({ done: true, escala: 10, score: 8 })).toBe(null)
+  })
+
+  it('una tarea sin hacer o sin nota no da nota', () => {
+    expect(notaDeCompletion({ done: false, escala: 100, score: 80 })).toBe(null)
+    expect(notaDeCompletion(hecha({ score: null }))).toBe(null)
+    expect(notaDeCompletion(hecha({ score: 'ocho' }))).toBe(null)
+    expect(notaDeCompletion(hecha({ score: NaN }))).toBe(null)
+    expect(notaDeCompletion(undefined)).toBe(null)
+  })
+
+  it('un score fuera de rango se acota en vez de dar una nota imposible', () => {
+    expect(notaDeCompletion(hecha({ score: 150 }))).toBe(10)
+    expect(notaDeCompletion(hecha({ score: -20 }))).toBe(0)
+  })
+
+  it('lo que sale siempre es una nota válida del cuaderno', () => {
+    for (const score of [0, 1, 33, 50, 66, 99, 100]) {
+      expect(notaValida(notaDeCompletion(hecha({ score })))).toBe(true)
+    }
+  })
+})
+
+describe('notasDeTarea', () => {
+  const tarea = {
+    completions: {
+      a: { done: true, escala: 100, score: 90 },
+      b: { done: true, escala: 100, score: 40 },
+      c: { done: false },                          // no la ha hecho
+      d: { done: true, score: 700 },               // antigua, sin escala
+    },
+  }
+
+  it('trae solo a quien tiene nota convertible', () => {
+    expect(notasDeTarea(tarea)).toEqual({ a: 9, b: 4 })
+  })
+
+  it('quien no la ha hecho no aparece: en el cuaderno eso es "sin nota", no un 0', () => {
+    expect('c' in notasDeTarea(tarea)).toBe(false)
+    expect('d' in notasDeTarea(tarea)).toBe(false)
+  })
+
+  it('el recuento que se enseña antes de traerla coincide con lo que se trae', () => {
+    expect(cuantasNotasTiene(tarea)).toBe(2)
+    expect(cuantasNotasTiene({})).toBe(0)
+  })
+
+  it('las notas traídas cuentan en la media como cualquier otra columna', () => {
+    const columna = { id: 'x', peso: 2, values: notasDeTarea(tarea) }
+    expect(promedioAlumno([columna], 'a')).toBe(9)
   })
 })
