@@ -30,7 +30,7 @@ function fechaLegible(dia, lang) {
 
 const tr3 = (o, lang) => o?.[lang] ?? o?.es ?? ''
 
-export default function Asistencia({ classId, students, lang, tr }) {
+export default function Asistencia({ classId, students, claseName, lang, tr }) {
   const hoy = useMemo(() => diaISO(), [])
   const [vista, setVista] = useState('lista') // 'lista' (pasar lista de hoy) | 'resumen' (mes en cuadrícula)
   const [dia, setDia] = useState(hoy)
@@ -127,7 +127,7 @@ export default function Asistencia({ classId, students, lang, tr }) {
         ))}
       </div>
 
-      {vista === 'resumen' && <AsistenciaResumenMes classId={classId} students={students} lang={lang} tr={tr} />}
+      {vista === 'resumen' && <AsistenciaResumenMes classId={classId} students={students} claseName={claseName} lang={lang} tr={tr} />}
 
       {vista === 'lista' && (
       <>

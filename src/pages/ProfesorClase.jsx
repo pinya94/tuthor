@@ -572,11 +572,11 @@ export default function ProfesorClase() {
       )}
 
       {tab === 'asistencia' && (
-        <Asistencia classId={classId} students={alumnosYFichas} lang={lang} tr={tr} />
+        <Asistencia classId={classId} students={alumnosYFichas} claseName={clase.name} lang={lang} tr={tr} />
       )}
 
       {tab === 'notas' && (
-        <Notas classId={classId} students={alumnosYFichas} tr={tr} />
+        <Notas classId={classId} students={alumnosYFichas} claseName={clase.name} lang={lang} tr={tr} />
       )}
 
       {tab === 'observaciones' && (

@@ -134,10 +134,14 @@ export function HojaTarjetas({ imprimible, variante, tarjetas, tr, lang }) {
 // que es un contexto de apilamiento — cualquier z-index de dentro sigue
 // quedando por debajo de la navbar (z-50), que está fuera. Es el mismo gotcha
 // que ya está documentado en App.jsx para los raíles.
-export function VisorHoja({ onClose, tr, children }) {
+// `ancho` para las hojas que llevan tabla: una hoja de notas con ocho
+// evaluaciones o un parte de asistencia de un mes no caben en el ancho de una
+// hoja de tarjetas. Solo afecta a la PANTALLA — al imprimir manda la regla de
+// .imprimir-solo-esto, que ocupa el 100% de la página en los dos casos.
+export function VisorHoja({ onClose, tr, children, ancho = 'max-w-2xl' }) {
   return createPortal(
     <div className="fixed inset-0 z-[90] overflow-y-auto bg-black/75 backdrop-blur-sm p-4 sm:p-8">
-      <div className="mx-auto w-full max-w-2xl">
+      <div className={`mx-auto w-full ${ancho}`}>
         <div className="no-imprimir flex items-center justify-between gap-3 mb-3">
           <button type="button" onClick={onClose}
             className="text-white/60 hover:text-white text-[13px] font-bold transition-colors">
@@ -145,7 +149,7 @@ export function VisorHoja({ onClose, tr, children }) {
           </button>
           <button type="button" onClick={() => window.print()}
             className="text-[12.5px] font-bold px-3.5 py-2 rounded-lg bg-teal-600 hover:bg-teal-500 text-white transition-colors">
-            🖨️ {tr({ es: 'Imprimir', en: 'Print', ca: 'Imprimir' })}
+            🖨️ {tr({ es: 'Imprimir / PDF', en: 'Print / PDF', ca: 'Imprimir / PDF' })}
           </button>
         </div>
         {children}

@@ -4,6 +4,8 @@ import {
   getGradeColumns, createGradeColumn, setGrade, deleteGradeColumn,
 } from '../lib/grades'
 import { trimestresDelCurso, trimestreDe } from '../lib/report'
+import { VisorHoja } from './HojasImprimibles'
+import { HojaNotas } from './HojasDeClase'
 
 // El cuaderno de notas. Cada columna es una evaluación; cada celda, un input
 // directo — es una tabla de calificar, y en una tabla de calificar se
@@ -71,8 +73,9 @@ function Media({ valor }) {
   return <span className={suspenso(valor) ? 'text-red-400' : 'text-green-400'}>{valor.toFixed(1)}</span>
 }
 
-export default function Notas({ classId, students, tr }) {
+export default function Notas({ classId, students, claseName, lang, tr }) {
   const [columnas, setColumnas] = useState(null) // null = cargando
+  const [enPapel, setEnPapel] = useState(false)
   const [error, setError] = useState('')
   const [nuevaCol, setNuevaCol] = useState('')
   const [nuevoTrimestre, setNuevoTrimestre] = useState(() => trimestreDe())
@@ -163,6 +166,10 @@ export default function Notas({ classId, students, tr }) {
               {tr(t.label)}
             </button>
           ))}
+          <button type="button" onClick={() => setEnPapel(true)}
+            className="ml-auto text-[12px] font-bold px-2.5 py-1.5 rounded-lg border border-teal-500/30 text-teal-300 hover:bg-teal-500/10 transition-colors">
+            🖨️ {tr({ es: 'En papel', en: 'On paper', ca: 'En paper' })}
+          </button>
         </div>
       )}
 
@@ -268,6 +275,21 @@ export default function Notas({ classId, students, tr }) {
           ca: `Escriu una nota de 0 a ${NOTA_MAX} i prem Intro o clica fora per desar-la. Deixa el camp buit per esborrar-la: no és el mateix "sense nota" que un 0.`,
         })}
       </p>
+
+      {enPapel && (
+        <VisorHoja onClose={() => setEnPapel(false)} tr={tr} ancho="max-w-5xl">
+          <HojaNotas
+            clase={claseName}
+            alumnos={students}
+            columnas={columnasFiltradas}
+            periodo={filtro === 'todas'
+              ? tr({ es: 'Todas las evaluaciones', en: 'All assessments', ca: 'Totes les avaluacions' })
+              : tr(TRIMESTRES.find(t => t.id === filtro)?.label ?? {})}
+            lang={lang}
+            tr={tr}
+          />
+        </VisorHoja>
+      )}
     </div>
   )
 }

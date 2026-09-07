@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react'
 import { ESTADO_META, diasDelMes, estadoDe, totalesPorAlumno, getAttendanceMonth } from '../lib/attendance'
+import { VisorHoja } from './HojasImprimibles'
+import { HojaAsistencia } from './HojasDeClase'
 
 // El resumen del mes: alumnos en filas, días en columnas, una casilla de color
 // por cada uno. Es la vista que responde "¿quién falta mucho?" de un vistazo,
@@ -33,7 +35,8 @@ const esFinde = iso => {
   return dow === 0 || dow === 6
 }
 
-export default function AsistenciaResumenMes({ classId, students, lang, tr }) {
+export default function AsistenciaResumenMes({ classId, students, claseName, lang, tr }) {
+  const [enPapel, setEnPapel] = useState(false)
   const [mesVisto, setMesVisto] = useState(() => new Date())
   const [dias, setDias] = useState(null) // null = cargando; { 'YYYY-MM-DD': marks }
   const [error, setError] = useState('')
@@ -68,6 +71,10 @@ export default function AsistenciaResumenMes({ classId, students, lang, tr }) {
         <p className="text-white/70 text-[13px] font-bold min-w-[130px] text-center">{nombreMes(mesVisto, lang)}</p>
         <button type="button" onClick={() => irAMes(1)} disabled={esMesActual(mesVisto)}
           className="w-7 h-7 rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 disabled:opacity-25 disabled:cursor-not-allowed text-white/60 transition-colors">›</button>
+        <button type="button" onClick={() => setEnPapel(true)} disabled={dias === null}
+          className="ml-auto text-[12px] font-bold px-2.5 py-1.5 rounded-lg border border-teal-500/30 text-teal-300 hover:bg-teal-500/10 disabled:opacity-30 transition-colors">
+          🖨️ {tr({ es: 'En papel', en: 'On paper', ca: 'En paper' })}
+        </button>
       </div>
 
       {error && <p className="text-red-400 text-[12.5px] mb-3">{error}</p>}
@@ -142,6 +149,19 @@ export default function AsistenciaResumenMes({ classId, students, lang, tr }) {
             </span>
           </div>
         </>
+      )}
+
+      {enPapel && dias && (
+        <VisorHoja onClose={() => setEnPapel(false)} tr={tr} ancho="max-w-5xl">
+          <HojaAsistencia
+            clase={claseName}
+            alumnos={students}
+            dias={dias}
+            mes={nombreMes(mesVisto, lang)}
+            lang={lang}
+            tr={tr}
+          />
+        </VisorHoja>
       )}
     </div>
   )
