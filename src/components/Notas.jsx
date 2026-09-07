@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
 import {
   NOTA_MAX, parseNota, notaValida, promedioColumna, promedioAlumno, suspenso,
-  getGradeColumns, createGradeColumn, setGrade, deleteGradeColumn,
+  pesoDe, pesoValido, porcentajeDeColumna,
+  getGradeColumns, createGradeColumn, setGrade, setColumnPeso, deleteGradeColumn,
 } from '../lib/grades'
 import { trimestresDelCurso, trimestreDe } from '../lib/report'
 import { VisorHoja } from './HojasImprimibles'
@@ -73,6 +74,43 @@ function Media({ valor }) {
   return <span className={suspenso(valor) ? 'text-red-400' : 'text-green-400'}>{valor.toFixed(1)}</span>
 }
 
+// El peso de una columna, editable en su propia cabecera. Mismo criterio que
+// Celda: se guarda al salir del campo o con Enter, no en cada tecla.
+//
+// Al lado va el porcentaje REAL que representa esa columna, calculado con los
+// pesos de todas. Es lo que convierte "×3" en algo que un profesor reconoce:
+// él piensa en "el examen es el 60%", no en múltiplos.
+function PesoCelda({ columna, columnas, onGuardar, tr }) {
+  const [texto, setTexto] = useState(String(pesoDe(columna)))
+  const [previo, setPrevio] = useState(pesoDe(columna))
+  const actual = pesoDe(columna)
+  if (actual !== previo) { setPrevio(actual); setTexto(String(actual)) }
+
+  async function confirmar() {
+    const n = Number(texto.replace(',', '.'))
+    if (!pesoValido(n)) { setTexto(String(actual)); return }
+    if (n === actual) return
+    if (!await onGuardar(n)) setTexto(String(actual))
+  }
+
+  const pct = porcentajeDeColumna(columnas, columna.id)
+  return (
+    <span className="flex items-center justify-center gap-1 mt-0.5">
+      <span className="text-white/25 text-[10px]">×</span>
+      <input
+        value={texto}
+        onChange={e => setTexto(e.target.value)}
+        onBlur={confirmar}
+        onKeyDown={e => { if (e.key === 'Enter') e.currentTarget.blur() }}
+        title={tr({ es: 'Cuánto pesa esta columna en la media', en: 'How much this column weighs in the average', ca: 'Quant pesa aquesta columna a la mitjana' })}
+        className="w-6 bg-transparent text-center text-[10.5px] font-bold text-white/60 border-b border-white/10 outline-none focus:border-teal-400 focus:text-white"
+      />
+      {/* Un 0% se pinta apagado: esa columna está a la vista pero no cuenta. */}
+      <span className={`text-[10px] ${pct > 0 ? 'text-white/30' : 'text-white/15'}`}>{Math.round(pct)}%</span>
+    </span>
+  )
+}
+
 export default function Notas({ classId, students, claseName, lang, tr }) {
   const [columnas, setColumnas] = useState(null) // null = cargando
   const [enPapel, setEnPapel] = useState(false)
@@ -119,6 +157,22 @@ export default function Notas({ classId, students, claseName, lang, tr }) {
       setError(tr({ es: 'No se pudo guardar la nota.', en: 'Could not save the grade.', ca: 'No s\'ha pogut desar la nota.' }))
       const original = await getGradeColumns(classId).catch(() => null)
       if (original) setColumnas(original)
+      return false
+    }
+  }
+
+  async function guardarPeso(colId, peso) {
+    // Optimista igual que las notas: se pinta ya —y con él el porcentaje de
+    // TODAS las columnas, que depende del reparto— y solo se revierte si
+    // Firestore rechaza la escritura.
+    const previas = columnas
+    setColumnas(cs => cs.map(c => (c.id === colId ? { ...c, peso } : c)))
+    try {
+      await setColumnPeso(classId, colId, peso)
+      return true
+    } catch {
+      setColumnas(previas)
+      setError(tr({ es: 'No se pudo cambiar el peso.', en: 'Could not change the weight.', ca: 'No s\'ha pogut canviar el pes.' }))
       return false
     }
   }
@@ -212,6 +266,8 @@ export default function Notas({ classId, students, claseName, lang, tr }) {
                         {borrarConfirm === col.id ? tr({ es: '¿Sí?', en: 'Sure?', ca: 'Sí?' }) : '✕'}
                       </button>
                     </div>
+                    <PesoCelda columna={col} columnas={columnasFiltradas} tr={tr}
+                      onGuardar={peso => guardarPeso(col.id, peso)} />
                   </th>
                 ))}
                 <th className="px-1.5 pb-2 text-white/35 text-[10.5px] uppercase tracking-wider font-bold min-w-[64px]">

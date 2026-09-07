@@ -1,5 +1,5 @@
 import { ESTADO_META, estadoDe, totalesPorAlumno } from '../lib/attendance'
-import { promedioColumna, promedioAlumno, suspenso } from '../lib/grades'
+import { promedioColumna, promedioAlumno, suspenso, porcentajeDeColumna } from '../lib/grades'
 
 // Las hojas en papel de los datos de la clase: el cuaderno de notas y el parte
 // de asistencia. Aparte del boletín de familias (BoletinFamilias.jsx), que es
@@ -59,6 +59,9 @@ export function HojaNotas({ clase, alumnos, columnas, periodo, lang, tr }) {
                 // rescate un nombre cortado, así que se parte y se lee entero.
                 <th key={c.id} className="border border-black/40 px-1.5 py-1.5 font-bold break-all min-w-[52px]">
                   {c.name}
+                  {/* El porcentaje va impreso: sin él, una media ponderada
+                      parece un error de cálculo en el papel. */}
+                  <span className="block font-normal text-black/50 text-[10px]">{Math.round(porcentajeDeColumna(columnas, c.id))}%</span>
                 </th>
               ))}
               <th className="border border-black/40 px-2 py-1.5 font-black bg-black/[0.06]">
@@ -106,9 +109,9 @@ export function HojaNotas({ clase, alumnos, columnas, periodo, lang, tr }) {
 
       <p className="text-[10px] text-black/45 mt-4">
         {tr({
-          es: 'Un guion (—) es una nota sin poner, no un cero: no cuenta para ninguna media. Las notas en negrita están suspendidas.',
-          en: 'A dash (—) is a missing grade, not a zero: it counts towards no average. Grades in bold are fails.',
-          ca: 'Un guió (—) és una nota sense posar, no un zero: no compta per a cap mitjana. Les notes en negreta estan suspeses.',
+          es: 'Un guion (—) es una nota sin poner, no un cero: no cuenta para ninguna media. Las notas en negrita están suspendidas. El porcentaje bajo cada evaluación es lo que pesa en la media.',
+          en: 'A dash (—) is a missing grade, not a zero: it counts towards no average. Grades in bold are fails. The percentage under each assessment is how much it weighs in the average.',
+          ca: 'Un guió (—) és una nota sense posar, no un zero: no compta per a cap mitjana. Les notes en negreta estan suspeses. El percentatge sota cada avaluació és el que pesa a la mitjana.',
         })}
       </p>
       {columnas.length > 6 && (
