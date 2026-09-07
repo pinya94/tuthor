@@ -43,12 +43,46 @@ button, [role="button"] {
    con .imprimir-solo-esto y lo que hay dentro. Sin esto se imprimiría
    también el fondo animado, la barra de navegación y el resto de la app —
    el truco de "todo invisible salvo un contenedor" funciona sin tener que
-   tocar el layout de cada página que lo use. Lo usa el boletín para
-   familias; cualquier vista futura que necesite imprimirse puede reutilizar
-   las mismas dos clases. */
+   tocar el layout de cada página que lo use. Lo usan el boletín de familias,
+   los recursos imprimibles y las hojas de notas y asistencia. */
 @media print {
   body * { visibility: hidden; }
   .imprimir-solo-esto, .imprimir-solo-esto * { visibility: visible; }
+
+  /* Los contenedores que envuelven la hoja pierden su maquetación de
+     pantalla. Esta regla es la que hace que se impriman VARIAS PÁGINAS.
+     Sin ella, el visor de hojas (VisorHoja) es `fixed` con
+     `overflow-y: auto`, así que era ÉL el bloque contenedor de la hoja
+     absoluta: la recortaba a la altura de una pantalla y todo lo que
+     sobraba no llegaba al papel. Comprobado en el navegador — el
+     offsetParent de la hoja era el visor, no la página.
+
+     Con los antecesores en `static`, el bloque contenedor de la hoja pasa a
+     ser la página, que es lo que el truco necesitaba desde el principio.
+     `:has()` lo soportan Chrome, Safari y Firefox desde hace años; si algún
+     navegador viejo lo ignora, se queda como estaba, no peor. */
+  :has(.imprimir-solo-esto) {
+    position: static !important;
+    overflow: visible !important;
+    max-width: none !important;
+    max-height: none !important;
+    height: auto !important;
+    padding: 0 !important;
+    background: none !important;
+  }
+
   .imprimir-solo-esto { position: absolute; left: 0; top: 0; width: 100%; }
+
+  /* Dentro de la hoja tampoco puede quedar ningún scroll: una tabla ancha
+     dentro de overflow-x:auto se ve entera en pantalla arrastrando, pero se
+     imprime cortada por la derecha y sin avisar. */
+  .imprimir-solo-esto * { overflow: visible !important; }
+
+  /* Una tabla que ocupa varias páginas: la cabecera se repite arriba de cada
+     una (si no, la segunda hoja son números sin saber de qué columna) y
+     ninguna fila se parte por la mitad entre dos páginas. */
+  .imprimir-solo-esto thead { display: table-header-group; }
+  .imprimir-solo-esto tr { break-inside: avoid; }
+
   .no-imprimir { display: none !important; }
 }
