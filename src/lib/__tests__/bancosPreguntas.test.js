@@ -38,7 +38,15 @@ function normaliza(p, lang) {
   }
 }
 
-async function cadaPregunta() {
+// Cargar los 56 ficheros cuesta varios segundos y los siete tests de aquí
+// abajo recorren el mismo conjunto: se importa una sola vez y se reparte.
+let cache = null
+function cadaPregunta() {
+  cache ??= recorrerBancos()
+  return cache
+}
+
+async function recorrerBancos() {
   const vistas = new Set()
   const lista = []
   for (const [ruta, cargar] of Object.entries(modulos)) {
@@ -67,7 +75,7 @@ describe('bancos de preguntas', () => {
     // Sin esta comprobación, romper el glob dejaría los demás tests en verde
     // sin revisar ni una pregunta.
     expect((await cadaPregunta()).length).toBeGreaterThan(1000)
-  })
+  }, 30000)
 
   it('la respuesta correcta está entre las opciones, en los tres idiomas', async () => {
     const rotas = []
