@@ -138,7 +138,7 @@ export function HojaTarjetas({ imprimible, variante, tarjetas, tr, lang }) {
 // evaluaciones o un parte de asistencia de un mes no caben en el ancho de una
 // hoja de tarjetas. Solo afecta a la PANTALLA — al imprimir manda la regla de
 // .imprimir-solo-esto, que ocupa el 100% de la página en los dos casos.
-export function VisorHoja({ onClose, tr, children, ancho = 'max-w-2xl' }) {
+export function VisorHoja({ onClose, tr, children, ancho = 'max-w-2xl', controles = null }) {
   return createPortal(
     <div className="fixed inset-0 z-[90] overflow-y-auto bg-black/75 backdrop-blur-sm p-4 sm:p-8">
       <div className={`mx-auto w-full ${ancho}`}>
@@ -147,6 +147,9 @@ export function VisorHoja({ onClose, tr, children, ancho = 'max-w-2xl' }) {
             className="text-white/60 hover:text-white text-[13px] font-bold transition-colors">
             ← {tr({ es: 'Volver', en: 'Back', ca: 'Tornar' })}
           </button>
+          {/* Los controles viven en la barra que ya lleva no-imprimir: elegir
+              qué se va a imprimir, sin que el selector salga en el papel. */}
+          {controles}
           <button type="button" onClick={() => window.print()}
             className="text-[12.5px] font-bold px-3.5 py-2 rounded-lg bg-teal-600 hover:bg-teal-500 text-white transition-colors">
             🖨️ {tr({ es: 'Imprimir / PDF', en: 'Print / PDF', ca: 'Imprimir / PDF' })}

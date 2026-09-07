@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react'
 import { ESTADO_META, diasDelMes, estadoDe, totalesPorAlumno, getAttendanceMonth } from '../lib/attendance'
+import { getAttendanceRange } from '../lib/attendance'
+import { trimestresDelCurso } from '../lib/report'
 import { VisorHoja } from './HojasImprimibles'
-import { HojaAsistencia } from './HojasDeClase'
+import { HojaAsistencia, HojaAsistenciaResumen } from './HojasDeClase'
 
 // El resumen del mes: alumnos en filas, días en columnas, una casilla de color
 // por cada uno. Es la vista que responde "¿quién falta mucho?" de un vistazo,
@@ -35,8 +37,20 @@ const esFinde = iso => {
   return dow === 0 || dow === 6
 }
 
+// Los periodos que se pueden llevar al papel. "mes" es la rejilla día a día
+// que ya se está mirando; los demás son demasiado largos para una rejilla —un
+// trimestre son unos 60 días de clase y el curso pasa de 175— y se imprimen
+// como resumen por meses. Ver HojaAsistenciaResumen.
+const PERIODOS = [
+  { id: 'mes', label: { es: 'Este mes', en: 'This month', ca: 'Aquest mes' } },
+  ...trimestresDelCurso(),
+]
+
 export default function AsistenciaResumenMes({ classId, students, claseName, lang, tr }) {
   const [enPapel, setEnPapel] = useState(false)
+  const [periodo, setPeriodo] = useState('mes')
+  const [rango, setRango] = useState(null) // { id, dias } del periodo largo cargado
+  const [cargandoRango, setCargandoRango] = useState(false)
   const [mesVisto, setMesVisto] = useState(() => new Date())
   const [dias, setDias] = useState(null) // null = cargando; { 'YYYY-MM-DD': marks }
   const [error, setError] = useState('')
@@ -57,6 +71,23 @@ export default function AsistenciaResumenMes({ classId, students, claseName, lan
   }, [classId, mesVisto]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const irAMes = delta => { setDias(null); setMesVisto(m => sumarMeses(m, delta)) }
+
+  // El rango largo se pide al elegirlo, no al montar: la mayoría de las veces
+  // el profesor solo quiere el mes que ya está viendo, y getAttendanceRange se
+  // trae la colección entera de asistencia de la clase.
+  async function elegirPeriodo(id) {
+    setPeriodo(id)
+    if (id === 'mes' || rango?.id === id) return
+    const p = PERIODOS.find(x => x.id === id)
+    if (!p?.desde) return
+    setCargandoRango(true)
+    try {
+      setRango({ id, dias: await getAttendanceRange(classId, p.desde, p.hasta) })
+    } catch {
+      setError(tr({ es: 'No se pudo cargar el periodo.', en: 'Could not load the period.', ca: 'No s\'ha pogut carregar el període.' }))
+    }
+    setCargandoRango(false)
+  }
 
   if (students.length === 0) return null
 
@@ -151,16 +182,33 @@ export default function AsistenciaResumenMes({ classId, students, claseName, lan
         </>
       )}
 
-      {enPapel && dias && (
-        <VisorHoja onClose={() => setEnPapel(false)} tr={tr} ancho="max-w-5xl">
-          <HojaAsistencia
-            clase={claseName}
-            alumnos={students}
-            dias={dias}
-            mes={nombreMes(mesVisto, lang)}
-            lang={lang}
-            tr={tr}
-          />
+      {enPapel && (
+        <VisorHoja
+          onClose={() => setEnPapel(false)} tr={tr} ancho="max-w-5xl"
+          controles={
+            <div className="flex flex-wrap items-center gap-1.5">
+              {PERIODOS.map(p => (
+                <button key={p.id} type="button" onClick={() => elegirPeriodo(p.id)}
+                  className={`text-[11.5px] font-bold px-2 py-1 rounded-lg border transition-colors ${
+                    periodo === p.id ? 'bg-white/15 border-white/25 text-white' : 'border-white/15 text-white/45 hover:text-white/80'
+                  }`}>
+                  {tr(p.label)}
+                </button>
+              ))}
+            </div>
+          }
+        >
+          {periodo === 'mes' ? (
+            dias ? (
+              <HojaAsistencia clase={claseName} alumnos={students} dias={dias}
+                mes={nombreMes(mesVisto, lang)} lang={lang} tr={tr} />
+            ) : <p className="text-white/50 text-sm">{tr({ es: 'Cargando…', en: 'Loading…', ca: 'Carregant…' })}</p>
+          ) : cargandoRango || rango?.id !== periodo ? (
+            <p className="text-white/50 text-sm">{tr({ es: 'Cargando…', en: 'Loading…', ca: 'Carregant…' })}</p>
+          ) : (
+            <HojaAsistenciaResumen clase={claseName} alumnos={students} dias={rango.dias}
+              periodo={tr(PERIODOS.find(p => p.id === periodo)?.label ?? {})} lang={lang} tr={tr} />
+          )}
         </VisorHoja>
       )}
     </div>
