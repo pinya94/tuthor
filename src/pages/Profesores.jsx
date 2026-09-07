@@ -222,20 +222,28 @@ function MockStudentView() {
 // Tabla, no cuadrícula de mesas: a propósito lo más distinto posible de
 // MockSeating aunque las dos vivan en la misma clase — así ninguna de las
 // dos lee como la misma imagen repetida con otro color.
+// El cuaderno con lo que lo distingue: cada columna lleva su PESO (el % que
+// ocupa en la media) y una de ellas viene de un examen que Tuthor ya corrigió.
+// Sin eso, la captura era una tabla de números que no cuenta nada.
 function MockGrades() {
+  const columnas = [
+    { nombre: 'Examen', pct: '60%' },
+    { nombre: 'Libreta', pct: '20%' },
+    { nombre: 'Célula', pct: '20%', deTuthor: true },
+  ]
   const alumnos = [
-    { name: 'Marta', notas: [8.5, 7, 9] },
-    { name: 'Iker', notas: [6, 5.5, 7.5] },
-    { name: 'Nora', notas: [9.5, 9, 10] },
-    { name: 'Bruno', notas: [4.5, 6, 5] },
-    { name: 'Aitana', notas: [7, 8, 7.5] },
+    { name: 'Marta', notas: [8.5, 7, 9], media: 8.3 },
+    { name: 'Iker', notas: [6, 5.5, 7.5], media: 6.2 },
+    { name: 'Nora', notas: [9.5, 9, 10], media: 9.5 },
+    { name: 'Bruno', notas: [4.5, 6, 5] , media: 4.9 },
+    { name: 'Aitana', notas: [7, 8, 7.5], media: 7.3 },
   ]
   const trimestres = ['Todas', '1º', '2º', '3º']
   return (
     <BrowserFrame>
       <div className="flex items-center justify-between mb-3">
         <p className="text-white font-black text-sm">🔢 Notas · 3º ESO A</p>
-        <span className="text-[10px] font-bold px-2 py-1 rounded-lg bg-teal-600 text-white">+ Columna</span>
+        <span className="text-[10px] font-bold px-2 py-1 rounded-lg border border-teal-500/40 text-teal-300">↓ Traer tarea</span>
       </div>
       <div className="flex gap-1.5 mb-2.5">
         {trimestres.map((t, i) => (
@@ -245,21 +253,29 @@ function MockGrades() {
         ))}
       </div>
       <div className="rounded-xl border border-white/10 overflow-hidden">
-        <div className="grid grid-cols-[1fr_repeat(3,32px)] bg-white/5 px-3 py-1.5 text-[9px] font-bold text-white/40 uppercase tracking-wide">
+        <div className="grid grid-cols-[1fr_repeat(3,42px)_38px] bg-white/5 px-3 py-1.5 text-[9px] font-bold text-white/40 uppercase tracking-wide">
           <span>Alumno</span>
-          <span className="text-center">Ex1</span>
-          <span className="text-center">Ex2</span>
-          <span className="text-center">Ex3</span>
+          {columnas.map(c => (
+            <span key={c.nombre} className="text-center leading-tight">
+              <span className={c.deTuthor ? 'text-teal-300' : ''}>{c.nombre}</span>
+              <span className="block text-white/25 normal-case">{c.pct}</span>
+            </span>
+          ))}
+          <span className="text-center text-white/60">Media</span>
         </div>
         {alumnos.map((a, i) => (
-          <div key={a.name} className={`grid grid-cols-[1fr_repeat(3,32px)] items-center px-3 py-2 ${i < alumnos.length - 1 ? 'border-b border-white/5' : ''}`}>
+          <div key={a.name} className={`grid grid-cols-[1fr_repeat(3,42px)_38px] items-center px-3 py-2 ${i < alumnos.length - 1 ? 'border-b border-white/5' : ''}`}>
             <span className="text-white text-[12px] font-semibold truncate">{a.name}</span>
             {a.notas.map((n, j) => (
               <span key={j} className={`text-center text-[11px] font-black tabular-nums ${n >= 5 ? 'text-green-400' : 'text-red-400'}`}>{n}</span>
             ))}
+            <span className={`text-center text-[11px] font-black tabular-nums ${a.media >= 5 ? 'text-white' : 'text-red-300'}`}>{a.media}</span>
           </div>
         ))}
       </div>
+      <p className="text-white/30 text-[9.5px] mt-2 leading-relaxed">
+        La columna en verde salió sola del examen de Tuthor · la media respeta los pesos
+      </p>
     </BrowserFrame>
   )
 }
@@ -320,9 +336,9 @@ export default function Profesores() {
     ca: 'Eines gratuïtes per a professors',
   })
   const metaDesc = tr({
-    es: 'Pasa lista, pon notas, crea tus propios exámenes y gestiona toda la clase desde el móvil. Gratis durante la beta, sin tarjeta ni permanencia.',
-    en: 'Take attendance, grade your students, build your own quizzes and run the whole classroom from your phone. Free during the beta, no card required.',
-    ca: 'Passa llista, posa notes, crea els teus propis exàmens i gestiona tota la classe des del mòbil. Gratis durant la beta, sense targeta.',
+    es: 'Pasa lista, lleva las notas con tus propios porcentajes, crea exámenes y imprime lo que necesites en papel. Gratis durante la beta, sin tarjeta ni permanencia.',
+    en: 'Take attendance, keep grades with your own weightings, build quizzes and print whatever you need on paper. Free during the beta, no card required.',
+    ca: 'Passa llista, porta les notes amb els teus percentatges, crea exàmens i imprimeix el que necessitis en paper. Gratis durant la beta, sense targeta.',
   })
 
   if (user === undefined || (user && !profileChecked)) {
@@ -477,13 +493,13 @@ export default function Profesores() {
             <div>
               <span className="text-3xl block mb-3">🔢</span>
               <h2 className="text-2xl sm:text-3xl font-black text-white mb-3">
-                {tr({ es: 'Las notas, organizadas por trimestre', en: 'Grades, organized by term', ca: 'Les notes, organitzades per trimestre' })}
+                {tr({ es: 'El cuaderno de notas, con TUS porcentajes', en: 'A gradebook with YOUR weightings', ca: 'El quadern de notes, amb ELS TEUS percentatges' })}
               </h2>
               <p className="text-white/55 text-[15px] leading-relaxed">
                 {tr({
-                  es: 'Añade una columna por examen o trabajo, márcala con el trimestre si te sirve, y ve la media de cada alumno y de la clase entera de un vistazo. Filtra cuando quieras revisar solo uno.',
-                  en: 'Add a column per exam or assignment, tag it with the term if it helps, and see each student\'s average — and the whole class\'s — at a glance. Filter whenever you want to check just one.',
-                  ca: 'Afegeix una columna per examen o treball, marca-la amb el trimestre si et va bé, i veu la mitjana de cada alumne i de tota la classe d\'un cop d\'ull.',
+                  es: 'Cada columna pesa lo que tú digas: si el examen es el 60% y la libreta el 20%, la media que ves ya es la tuya, sin recalcular nada en Excel. Y las notas de los exámenes que mandas por Tuthor entran solas con un botón — están corregidas, no hace falta teclearlas una a una.',
+                  en: 'Each column weighs what you say: if the exam is 60% and the notebook 20%, the average you see is already yours — no recalculating in Excel. And the grades from exams you set through Tuthor come in with one button: they are already marked, so there is nothing to type in.',
+                  ca: 'Cada columna pesa el que tu diguis: si l\'examen és el 60% i la llibreta el 20%, la mitjana que veus ja és la teva, sense recalcular res a l\'Excel. I les notes dels exàmens que manes per Tuthor entren soles amb un botó — ja estan corregides.',
                 })}
               </p>
             </div>
@@ -518,6 +534,12 @@ export default function Profesores() {
                   desc: tr({ es: 'Anota algo puntual sobre un alumno, con fecha, para no fiarlo todo a la memoria.', en: 'Jot down something about a student, dated, instead of relying on memory.', ca: 'Anota algo puntual sobre un alumne, amb data, per no fiar-ho tot a la memòria.' }) },
                 { icon: '📄', title: tr({ es: 'Boletín para familias', en: 'Report for families', ca: 'Butlletí per a famílies' }),
                   desc: tr({ es: 'Un resumen con notas, asistencia y observaciones, listo para compartir.', en: 'A summary of grades, attendance and notes, ready to share.', ca: 'Un resum amb notes, assistència i observacions, llest per compartir.' }) },
+                { icon: '📊', title: tr({ es: 'Cómo va cada alumno', en: 'How each student is doing', ca: 'Com va cada alumne' }),
+                  desc: tr({ es: 'Abre a uno y ves su desglose materia a materia: qué domina, qué le cuesta y cuánto ha practicado.', en: 'Open a student and see a subject-by-subject breakdown: what they have nailed, what they struggle with and how much they have practised.', ca: 'Obre un alumne i veus el desglossament matèria a matèria: què domina, què li costa i quant ha practicat.' }) },
+                { icon: '🖨️', title: tr({ es: 'Todo, también en papel', en: 'All of it on paper too', ca: 'Tot, també en paper' }),
+                  desc: tr({ es: 'Notas y asistencia listas para imprimir o guardar en PDF: por mes, por trimestre o el curso entero.', en: 'Grades and attendance ready to print or save as PDF: by month, by term or the whole year.', ca: 'Notes i assistència a punt per imprimir o desar en PDF: per mes, per trimestre o el curs sencer.' }) },
+                { icon: '✂️', title: tr({ es: 'Material para recortar', en: 'Material to cut out', ca: 'Material per retallar' }),
+                  desc: tr({ es: 'Tarjetas ya escritas de historia, geografía, ciencias e inglés, y las preguntas de cada tema en fichas de repaso.', en: 'Ready-made cards for history, geography, science and English, plus each topic\'s questions as revision cards.', ca: 'Targetes ja escrites d\'història, geografia, ciències i anglès, i les preguntes de cada tema en fitxes de repàs.' }) },
                 { icon: '🎲', title: tr({ es: 'Modo puntos y pizarra', en: 'Points mode & the board', ca: 'Mode punts i pissarra' }),
                   desc: tr({ es: 'Suma puntos por mesa desde el plano y sortea quién sale a la pizarra.', en: 'Award points per desk from the seating plan and pick who goes to the board.', ca: 'Suma punts per taula des del plànol i sorteja qui surt a la pissarra.' }) },
               ].map(m => (
@@ -572,9 +594,9 @@ export default function Profesores() {
             </h2>
             <p className="text-white/55 text-[15px] leading-relaxed max-w-xl mx-auto mb-6">
               {tr({
-                es: 'Tarjetas ya escritas y listas para recortar: eventos históricos por época, países y capitales, elementos químicos, titulares verdaderos y falsos. No hace falta cuenta ni palabra de la beta.',
-                en: 'Cards already written and ready to cut out: historical events by period, countries and capitals, chemical elements, real and fake headlines. No account or beta word needed.',
-                ca: 'Targetes ja escrites i a punt per retallar: esdeveniments històrics per època, països i capitals, elements químics, titulars verdaders i falsos. No cal compte ni paraula de la beta.',
+                es: 'Tarjetas ya escritas y listas para recortar: eventos históricos, países y capitales, elementos químicos, orgánulos, órganos del cuerpo, planetas, cadena alimentaria y titulares verdaderos y falsos. Y en cada tema de ciencias, sus preguntas convertidas en fichas de repaso. No hace falta cuenta ni palabra de la beta.',
+                en: 'Cards already written and ready to cut out: historical events, countries and capitals, chemical elements, organelles, body organs, planets, the food chain, and real and fake headlines. Plus every science topic\'s questions turned into revision cards. No account or beta word needed.',
+                ca: 'Targetes ja escrites i a punt per retallar: esdeveniments històrics, països i capitals, elements químics, orgànuls, òrgans del cos, planetes, cadena alimentària i titulars verdaders i falsos. I a cada tema de ciències, les seves preguntes convertides en fitxes de repàs. No cal compte ni paraula de la beta.',
               })}
             </p>
             <Link to={localPath('/recursos')}
