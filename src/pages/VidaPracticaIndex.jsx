@@ -1,11 +1,30 @@
 // ── Estudiar > Vida Práctica ─────────────────────────────────────────────────
-// Por ahora, un único bloque: Primeros Auxilios, con una tarjeta por tema.
-// Cada tarjeta lleva a la práctica en profundidad de ese escenario (situación
-// + ordenar pasos + decisiones críticas) en src/pages/PrimerosAuxiliosEscenario.jsx.
+// Tres bloques: Primeros Auxilios, Seguridad Vial e Internet Seguro.
+//
+// Primeros Auxilios es el único con escenarios: cada tarjeta lleva a la
+// práctica en profundidad de esa situación (ordenar pasos + decisiones
+// críticas) en src/pages/PrimerosAuxiliosEscenario.jsx. Los otros dos son
+// examen tipo test y punto, así que sus tarjetas van directas al examen en
+// vez de a /estudiar/vida-practica/<tema>, que espera un escenario.
 import { useNavigate } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import SEOHead from '../components/SEOHead'
 import { SCENARIOS } from '../data/primerosAuxiliosEscenarios'
+
+// Seguridad Vial e Internet Seguro no tienen escenarios: van directas a su
+// examen. Primeros Auxilios sí los tiene, y su lista completa va más abajo.
+const BLOQUES = [
+  {
+    id: 'seguridad-vial', emoji: '🚸', path: '/examen/seguridad-vial',
+    titulo: { es: 'Seguridad Vial', en: 'Road Safety', ca: 'Seguretat Viària' },
+    sub: { es: 'Peatón, bici y patinete', en: 'On foot, bike and scooter', ca: 'Vianant, bici i patinet' },
+  },
+  {
+    id: 'internet-seguro', emoji: '🔐', path: '/examen/internet-seguro',
+    titulo: { es: 'Internet Seguro', en: 'Online Safety', ca: 'Internet Segur' },
+    sub: { es: 'Privacidad, estafas y convivencia', en: 'Privacy, scams and behaviour', ca: 'Privacitat, estafes i convivència' },
+  },
+]
 
 export default function VidaPracticaIndex() {
   const navigate = useNavigate()
@@ -14,11 +33,11 @@ export default function VidaPracticaIndex() {
   return (
     <div className="relative z-10 flex flex-col items-center min-h-[calc(100vh-4rem)] px-4 py-8">
       <SEOHead
-        title={tr({ es: 'Primeros Auxilios', en: 'First Aid', ca: 'Primers Auxilis' })}
+        title={tr({ es: 'Vida Práctica', en: 'Life Skills', ca: 'Vida Pràctica' })}
         description={tr({
-          es: 'Practica primeros auxilios tema a tema: atragantamiento, quemaduras, desmayo, cortes y picaduras. Ordena los pasos y toma las decisiones correctas.',
-          en: 'Practice first aid topic by topic: choking, burns, fainting, cuts and stings. Order the steps and make the right calls.',
-          ca: 'Practica primers auxilis tema a tema: ennuegament, cremades, desmai, talls i picades. Ordena els passos i pren les decisions correctes.',
+          es: 'Primeros auxilios, seguridad vial e internet seguro. Practica situaciones reales: ordena los pasos, toma las decisiones correctas y comprueba lo que sabes.',
+          en: 'First aid, road safety and online safety. Practise real situations: order the steps, make the right calls and check what you know.',
+          ca: 'Primers auxilis, seguretat viària i internet segur. Practica situacions reals: ordena els passos, pren les decisions correctes i comprova el que saps.',
         })}
         path="/estudiar/vida-practica" lang={lang} />
 
@@ -31,15 +50,33 @@ export default function VidaPracticaIndex() {
         <div className="text-center mb-7">
           <span className="text-6xl block mb-4">🚑</span>
           <h1 className="text-3xl font-black text-white mb-2">
-            {tr({ es: 'Primeros Auxilios', en: 'First Aid', ca: 'Primers Auxilis' })}
+            {tr({ es: 'Vida Práctica', en: 'Life Skills', ca: 'Vida Pràctica' })}
           </h1>
           <p className="text-white/40">
-            {tr({ es: 'Practica tema a tema', en: 'Practice topic by topic', ca: 'Practica tema a tema' })}
+            {tr({ es: 'Lo que hay que saber fuera de clase', en: 'What you need to know outside class', ca: 'El que cal saber fora de classe' })}
           </p>
         </div>
 
-        <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-3">
-          {tr({ es: 'Escenarios', en: 'Scenarios', ca: 'Escenaris' })}
+        <div className="grid grid-cols-2 gap-3 mb-8">
+          {BLOQUES.map(b => (
+            <button key={b.id} onClick={() => navigate(localPath(b.path))}
+              className="text-left rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/30 p-4 transition-all">
+              <span className="text-2xl block mb-1">{b.emoji}</span>
+              <p className="text-white text-sm font-bold">{tr(b.titulo)}</p>
+              <p className="text-white/40 text-xs mt-0.5">{tr(b.sub)}</p>
+            </button>
+          ))}
+        </div>
+
+        <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-1">
+          {tr({ es: 'Primeros auxilios · escenarios', en: 'First aid · scenarios', ca: 'Primers auxilis · escenaris' })}
+        </p>
+        <p className="text-white/25 text-[11.5px] mb-3">
+          {tr({
+            es: 'Ordena los pasos y decide sobre la marcha, como pasaría de verdad.',
+            en: 'Order the steps and decide as you go, the way it would really happen.',
+            ca: 'Ordena els passos i decideix sobre la marxa, com passaria de debò.',
+          })}
         </p>
 
         <div className="space-y-3 mb-6">

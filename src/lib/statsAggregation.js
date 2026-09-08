@@ -188,7 +188,11 @@ export const SUBJECT_DEFS = [
     label: { es: 'Vida Práctica', en: 'Life Skills', ca: 'Vida Pràctica' },
     gameIds: [],
     catIds: [],
-    catLabels: {},
+    catLabels: {
+      'primeros-auxilios': { es: 'Primeros Auxilios', en: 'First Aid',     ca: 'Primers Auxilis' },
+      'seguridad-vial':    { es: 'Seguridad Vial',    en: 'Road Safety',   ca: 'Seguretat Viària' },
+      'internet-seguro':   { es: 'Internet Seguro',   en: 'Online Safety', ca: 'Internet Segur' },
+    },
   },
 ]
 

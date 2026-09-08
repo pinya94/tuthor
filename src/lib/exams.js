@@ -138,6 +138,16 @@ export const EXAMS = {
     emoji: '🚑', subject: 'vida-practica',
     path: 'examen/primeros-auxilios', page: () => import('../pages/PrimerosAuxiliosExamen'),
   },
+  'seguridad-vial': {
+    label: { es: 'Seguridad Vial', en: 'Road Safety', ca: 'Seguretat Viària' },
+    emoji: '🚸', subject: 'vida-practica',
+    path: 'examen/seguridad-vial', page: () => import('../pages/SeguridadVialExamen'),
+  },
+  'internet-seguro': {
+    label: { es: 'Internet Seguro', en: 'Online Safety', ca: 'Internet Segur' },
+    emoji: '🔐', subject: 'vida-practica',
+    path: 'examen/internet-seguro', page: () => import('../pages/InternetSeguroExamen'),
+  },
 
   // ── Música ─────────────────────────────────────────────────────────────────
   'musica': {

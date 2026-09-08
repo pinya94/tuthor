@@ -461,7 +461,11 @@ export const TOPIC_CATALOG = {
   },
 
   'vida-practica': {
-    temas: { 'primeros-auxilios': examTema({ examen: 'primeros-auxilios' }) },
+    temas: {
+      'primeros-auxilios': examTema({ examen: 'primeros-auxilios' }),
+      'seguridad-vial': examTema({ examen: 'seguridad-vial' }),
+      'internet-seguro': examTema({ examen: 'internet-seguro' }),
+    },
     formatos: {
       reaccion: {
         label: { es: 'Reacción (juego)', en: 'Reaction (game)', ca: 'Reacció (joc)' },
