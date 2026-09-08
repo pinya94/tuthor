@@ -176,6 +176,49 @@ export const PREGUNTAS = [
     '♨️',
     { es: 'Por encima de 100°C el agua se convierte en vapor (estado gaseoso). Por debajo de 0°C es hielo (sólido).', en: 'Above 100°C water becomes steam (gaseous state). Below 0°C it is ice (solid).', ca: 'Per sobre de 100°C l\'aigua es converteix en vapor (estat gasós). Per sota de 0°C és gel (sòlid).' },
   ),
+
+  q('pr-30', 'propiedad', 'primaria',
+    { es: '¿Por qué un gas se puede comprimir y un líquido casi no?',    en: 'Why can a gas be compressed and a liquid barely at all?',   ca: 'Per què un gas es pot comprimir i un líquid gairebé no?' },
+    { es: ['Porque en el gas las partículas están muy separadas y queda hueco entre ellas','Porque el gas pesa menos','Porque el gas está más caliente','Porque el líquido es más frío'], en: ['Because in a gas the particles are far apart with gaps between them','Because gas weighs less','Because gas is hotter','Because liquid is colder'], ca: ['Perquè en el gas les partícules estan molt separades i queda espai entre elles','Perquè el gas pesa menys','Perquè el gas és més calent','Perquè el líquid és més fred'] },
+    { es: 'Porque en el gas las partículas están muy separadas y queda hueco entre ellas', en: 'Because in a gas the particles are far apart with gaps between them', ca: 'Perquè en el gas les partícules estan molt separades i queda espai entre elles' },
+    '🎈',
+    { es: 'Comprimir es acercar las partículas, y en un líquido ya están casi pegadas: no queda sitio. Por eso los frenos de un coche funcionan con líquido y no con aire, porque el líquido transmite el empujón entero.', en: 'Compressing means bringing particles closer, and in a liquid they are already almost touching: there is no room. That is why car brakes use liquid and not air, because the liquid passes the whole push along.', ca: 'Comprimir és apropar les partícules, i en un líquid ja estan gairebé enganxades. Per això els frens d\'un cotxe funcionen amb líquid.' }),
+
+  q('pr-31', 'propiedad', 'primaria',
+    { es: 'El hielo, el agua líquida y el vapor, ¿son sustancias distintas?',    en: 'Are ice, liquid water and steam different substances?',   ca: 'El gel, l\'aigua líquida i el vapor són substàncies diferents?' },
+    { es: ['No: es la misma sustancia en tres estados distintos','Sí, son tres sustancias diferentes','Solo el hielo es agua','El vapor es aire'], en: ['No: it is the same substance in three different states','Yes, they are three different substances','Only ice is water','Steam is air'], ca: ['No: és la mateixa substància en tres estats diferents','Sí, són tres substàncies diferents','Només el gel és aigua','El vapor és aire'] },
+    { es: 'No: es la misma sustancia en tres estados distintos', en: 'No: it is the same substance in three different states', ca: 'No: és la mateixa substància en tres estats diferents' },
+    '💧',
+    { es: 'Lo único que cambia es cómo están colocadas y cuánto se mueven las partículas, no de qué está hecho. Por eso un cambio de estado es un cambio físico y se puede deshacer: congelas el agua y al calentarla vuelve a ser la misma.', en: 'The only thing that changes is how the particles are arranged and how much they move, not what it is made of. That is why a change of state is a physical change and reversible: freeze water and heating it brings the same water back.', ca: 'L\'únic que canvia és com estan col·locades les partícules, no de què està fet. Per això és un canvi físic i es pot desfer.' }),
+
+  q('cs-30', 'cambio-estado', 'primaria',
+    { es: '¿Cómo se llama el paso directo de gas a sólido, sin pasar por líquido?',    en: 'What is the direct change from gas to solid, without passing through liquid, called?',   ca: 'Com s\'anomena el pas directe de gas a sòlid, sense passar per líquid?' },
+    { es: ['Sublimación inversa','Fusión','Evaporación','Condensación'], en: ['Deposition','Melting','Evaporation','Condensation'], ca: ['Sublimació inversa','Fusió','Evaporació','Condensació'] },
+    { es: 'Sublimación inversa', en: 'Deposition', ca: 'Sublimació inversa' },
+    '❄️',
+    { es: 'Es lo que ocurre cuando se forma escarcha en el cristal de un coche en una noche fría: el vapor de agua del aire pasa a hielo directamente. La sublimación normal es el camino contrario, de sólido a gas.', en: 'It is what happens when frost forms on a car window on a cold night: water vapour in the air turns straight into ice. Ordinary sublimation is the opposite route, solid to gas.', ca: 'És el que passa quan es forma gebre al vidre d\'un cotxe en una nit freda: el vapor d\'aigua passa a gel directament.' }),
+
+  q('cs-31', 'cambio-estado', 'primaria',
+    { es: 'La ropa tendida se seca aunque no haga 100 °C. ¿Por qué?',    en: 'Washing dries on the line even without 100 °C. Why?',   ca: 'La roba estesa s\'asseca encara que no faci 100 °C. Per què?' },
+    { es: ['Porque el agua se evapora poco a poco desde la superficie, a cualquier temperatura','Porque hierve al sol','Porque el viento se lleva el agua líquida','Porque la tela absorbe el agua'], en: ['Because water evaporates slowly from the surface, at any temperature','Because it boils in the sun','Because the wind carries the liquid water away','Because the fabric absorbs the water'], ca: ['Perquè l\'aigua s\'evapora a poc a poc des de la superfície, a qualsevol temperatura','Perquè bull al sol','Perquè el vent s\'emporta l\'aigua líquida','Perquè la tela absorbeix l\'aigua'] },
+    { es: 'Porque el agua se evapora poco a poco desde la superficie, a cualquier temperatura', en: 'Because water evaporates slowly from the surface, at any temperature', ca: 'Perquè l\'aigua s\'evapora a poc a poc des de la superfície, a qualsevol temperatura' },
+    '👕',
+    { es: 'Evaporación y ebullición no son lo mismo: la ebullición ocurre a 100 °C y en toda la masa del líquido, con burbujas, mientras que la evaporación pasa solo en la superficie y a cualquier temperatura. Por eso un charco desaparece sin llegar a hervir.', en: 'Evaporation and boiling are not the same: boiling happens at 100 °C throughout the liquid, with bubbles, while evaporation happens only at the surface and at any temperature. That is why a puddle disappears without ever boiling.', ca: 'Evaporació i ebullició no són el mateix: l\'ebullició passa a 100 °C i a tota la massa, i l\'evaporació només a la superfície.' }),
+
+  q('te-30', 'temperatura', 'primaria',
+    { es: 'Mientras un cubito de hielo se está derritiendo, ¿qué le pasa a su temperatura?',    en: 'While an ice cube is melting, what happens to its temperature?',   ca: 'Mentre un glaçó s\'està desfent, què li passa a la temperatura?' },
+    { es: ['Se queda en 0 °C hasta que todo el hielo se ha fundido','Sube sin parar','Baja poco a poco','Sube de golpe a 100 °C'], en: ['It stays at 0 °C until all the ice has melted','It rises non-stop','It falls gradually','It jumps to 100 °C'], ca: ['Es queda a 0 °C fins que tot el gel s\'ha fos','Puja sense parar','Baixa a poc a poc','Puja de cop a 100 °C'] },
+    { es: 'Se queda en 0 °C hasta que todo el hielo se ha fundido', en: 'It stays at 0 °C until all the ice has melted', ca: 'Es queda a 0 °C fins que tot el gel s\'ha fos' },
+    '🌡️',
+    { es: 'El calor que entra no se usa en subir la temperatura sino en romper la estructura del hielo. Solo cuando ya no queda hielo el agua empieza a calentarse. Lo mismo ocurre a 100 °C mientras hierve: se queda clavada ahí.', en: 'The heat coming in is not used to raise the temperature but to break the ice structure. Only when no ice is left does the water start warming. The same happens at 100 °C while it boils: it stays stuck there.', ca: 'La calor que entra no s\'utilitza per pujar la temperatura sinó per trencar l\'estructura del gel.' }),
+
+  q('id-30', 'identificar-estado', 'primaria',
+    { es: '¿El aire es materia?',    en: 'Is air matter?',   ca: 'L\'aire és matèria?' },
+    { es: ['Sí: ocupa espacio y tiene masa, aunque no se vea','No, porque no se ve','No, porque no pesa','Solo cuando hace viento'], en: ['Yes: it takes up space and has mass, even though you cannot see it','No, because you cannot see it','No, because it has no weight','Only when it is windy'], ca: ['Sí: ocupa espai i té massa, encara que no es vegi','No, perquè no es veu','No, perquè no pesa','Només quan fa vent'] },
+    { es: 'Sí: ocupa espacio y tiene masa, aunque no se vea', en: 'Yes: it takes up space and has mass, even though you cannot see it', ca: 'Sí: ocupa espai i té massa, encara que no es vegi' },
+    '🎈',
+    { es: 'Se comprueba fácil: un globo hinchado pesa un poquito más que uno vacío, y si metes un vaso boca abajo en agua, el agua no entra porque el aire ya ocupa ese sitio. Materia es todo lo que ocupa espacio y tiene masa, se vea o no.', en: 'It is easy to check: an inflated balloon weighs a little more than an empty one, and if you push an upturned glass into water, the water does not get in because air already occupies that space. Matter is anything with space and mass, visible or not.', ca: 'Es comprova fàcil: si fiques un got de cap per avall a l\'aigua, l\'aigua no hi entra perquè l\'aire ja ocupa aquest lloc.' }),
+
 ]
 
 export const PREGUNTAS_PRIMARIA = PREGUNTAS.filter(p => p.nivel === 'primaria')
