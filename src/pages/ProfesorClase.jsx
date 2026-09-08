@@ -14,6 +14,7 @@ import { GAMES } from '../lib/games'
 import StudentSubjects from '../components/StudentSubjects'
 import AulaPupitres from '../components/AulaPupitres'
 import Asistencia from '../components/Asistencia'
+import Agenda from '../components/Agenda'
 import Notas from '../components/Notas'
 import Observaciones from '../components/Observaciones'
 import BoletinFamilias from '../components/BoletinFamilias'
@@ -24,6 +25,13 @@ import { hasTopics, topicIds, topicFormats, formatLevels, topicTask, catalogTask
 
 function catalogLabel(task, lang) {
   return catalogTaskLabel(task, lang, { games: GAMES, exams: EXAMS, subjects: SUBJECTS })
+}
+
+// El nombre con el que una tarea aparece en la agenda. Es el mismo que usa la
+// lista de Deberes (línea de abajo): en el calendario tiene que reconocerse
+// como la tarea que se mandó, no como otra cosa con parecido nombre.
+function tituloDeTarea(task, lang) {
+  return task.kind === 'catalog' ? catalogLabel(task, lang) : (task.title || '')
 }
 
 function formatDueDate(dueDate, lang) {
@@ -581,6 +589,11 @@ export default function ProfesorClase() {
 
       {tab === 'aula' && (
         <AulaPupitres clase={clase} students={alumnosYFichas} onSave={guardarPlano} lang={lang} tr={tr} />
+      )}
+
+      {tab === 'agenda' && (
+        <Agenda classId={classId} assignments={assignments}
+          etiquetaDeTarea={t => tituloDeTarea(t, lang)} lang={lang} tr={tr} />
       )}
 
       {tab === 'asistencia' && (

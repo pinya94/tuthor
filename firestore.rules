@@ -327,6 +327,43 @@ service cloud.firestore {
           && request.resource.data.visibleParaAlumno is bool;
         allow delete: if miClase();
       }
+
+      // ── Agenda: un documento por cosa apuntada en el calendario ──────────
+      // Solo lo PROPIO del profesor (un examen, una excursión, una reunión).
+      // Lo que sale solo en el calendario —las tareas con fecha de entrega y
+      // los días con faltas— no se guarda aquí: se calcula de /assignments y
+      // de /attendance, que ya tienen sus reglas. Duplicarlo sería tener dos
+      // verdades sobre la misma fecha.
+      //
+      // Teacher-only, como el resto de la subcolección: "reunión con la
+      // familia de X el martes" es dato del centro, no material del alumno.
+      // Con edición, a diferencia de las observaciones: una fecha mal escrita
+      // se corrige, no se rehace.
+      match /events/{eventId} {
+        function miClase() {
+          return request.auth != null
+            && get(/databases/$(database)/documents/classes/$(classId)).data.teacherId == request.auth.uid;
+        }
+        function eventoValido() {
+          return request.resource.data.dia is string
+            && request.resource.data.dia.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$')
+            && request.resource.data.titulo is string
+            && request.resource.data.titulo.size() >= 1 && request.resource.data.titulo.size() <= 80
+            && request.resource.data.tipo in ['examen', 'entrega', 'salida', 'reunion', 'nota'];
+        }
+        allow read: if isAdmin() || miClase();
+        allow create: if miClase()
+          && request.resource.data.keys().hasOnly(['dia', 'titulo', 'tipo', 'createdAt'])
+          && eventoValido()
+          && request.resource.data.createdAt == request.time;
+        // El día no se puede cambiar: mover algo de fecha es borrarlo y
+        // apuntarlo donde toca, y así el `dia` de un documento es el mismo con
+        // el que se creó.
+        allow update: if miClase()
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['titulo', 'tipo'])
+          && eventoValido();
+        allow delete: if miClase();
+      }
     }
 
     // ── Tareas asignadas por el profesor (a la clase o a alumnos concretos) ────

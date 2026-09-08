@@ -24,6 +24,15 @@ export const TEACHER_MODULES = {
       ca: "El plànol de la classe amb els pupitres: col·loques cada alumne al seu lloc, en treus un a l'atzar i obres els seus resultats tocant la seva taula.",
     },
   },
+  agenda: {
+    emoji: '📅', nucleo: false, porDefecto: false,
+    label: { es: 'Agenda', en: 'Calendar', ca: 'Agenda' },
+    desc: {
+      es: 'El mes de un vistazo: apuntas lo tuyo (un examen, una excursión, una reunión) y salen solas las tareas con fecha de entrega y los días con faltas.',
+      en: 'The month at a glance: jot down your own (a test, a trip, a meeting) and the tasks with a due date and the days with absences show up on their own.',
+      ca: "El mes d'un cop d'ull: hi apuntes el teu (un examen, una excursió, una reunió) i hi surten soles les tasques amb data de lliurament i els dies amb faltes.",
+    },
+  },
   notas: {
     emoji: '📝', nucleo: false, porDefecto: false,
     label: { es: 'Notas', en: 'Grades', ca: 'Notes' },
