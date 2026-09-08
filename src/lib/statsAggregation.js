@@ -139,6 +139,9 @@ export const SUBJECT_DEFS = [
       clases:        { es: 'Clases de Palabras',     en: 'Word Classes',                ca: 'Classes de Paraules' },
       acentuacion:   { es: 'Acentuación',            en: 'Accentuation',                ca: 'Accentuació' },
       bv:            { es: 'B y V',                  en: 'B and V',                     ca: 'B i V' },
+      gj:            { es: 'G y J',                  en: 'G and J',                     ca: 'G i J' },
+      puntuacion:    { es: 'Puntuación',             en: 'Punctuation',                 ca: 'Puntuació' },
+      literatura:    { es: 'Literatura',             en: 'Literature',                  ca: 'Literatura' },
     },
   },
   {

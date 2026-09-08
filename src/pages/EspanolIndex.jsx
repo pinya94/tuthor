@@ -4,6 +4,9 @@ import { useLang } from '../context/LangContext'
 const CATEGORIAS = [
   { id: 'gramatica', titulo: { es: 'Gramática', en: 'Grammar', ca: 'Gramàtica' }, emoji: '📚', gradient: 'from-red-500 to-orange-500', path: '/estudiar/idiomas/espanol/gramatica' },
   { id: 'ortografia', titulo: { es: 'Ortografía', en: 'Spelling', ca: 'Ortografia' }, emoji: '✍️', gradient: 'from-yellow-500 to-amber-600', path: '/estudiar/idiomas/espanol/ortografia' },
+  // Literatura tiene un solo examen, así que no necesita índice propio: la
+  // tarjeta lleva directa a la prueba, como hace Matemáticas con Porcentajes.
+  { id: 'literatura', titulo: { es: 'Literatura', en: 'Literature', ca: 'Literatura' }, emoji: '🖋️', gradient: 'from-indigo-500 to-blue-700', path: '/examen/espanol-literatura-test' },
 ]
 
 export default function EspanolIndex() {

@@ -503,6 +503,21 @@ export const EXAMS = {
     emoji: '🔤', subject: 'lengua',
     path: 'examen/espanol-ortografia-bv-test', page: () => import('../pages/EspanolOrtografiaBVExamen'),
   },
+  'espanol-ortografia-gj-test': {
+    label: { es: 'G y J', en: 'G and J', ca: 'G i J' },
+    emoji: '🔡', subject: 'lengua',
+    path: 'examen/espanol-ortografia-gj-test', page: () => import('../pages/EspanolOrtografiaGJExamen'),
+  },
+  'espanol-ortografia-puntuacion-test': {
+    label: { es: 'Puntuación', en: 'Punctuation', ca: 'Puntuació' },
+    emoji: '❓', subject: 'lengua',
+    path: 'examen/espanol-ortografia-puntuacion-test', page: () => import('../pages/EspanolOrtografiaPuntuacionExamen'),
+  },
+  'espanol-literatura-test': {
+    label: { es: 'Literatura', en: 'Literature', ca: 'Literatura' },
+    emoji: '🖋️', subject: 'lengua',
+    path: 'examen/espanol-literatura-test', page: () => import('../pages/EspanolLiteraturaExamen'),
+  },
 
   // ── Inglés ─────────────────────────────────────────────────────────────────
   'ingles': {

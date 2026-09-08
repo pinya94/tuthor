@@ -235,6 +235,9 @@ export const TOPIC_CATALOG = {
       clases: examTema({ senalar: 'frases-clases-test' }),
       acentuacion: examTema({ test: 'espanol-ortografia-acentuacion-test' }),
       bv: examTema({ test: 'espanol-ortografia-bv-test' }),
+      gj: examTema({ test: 'espanol-ortografia-gj-test' }),
+      puntuacion: examTema({ test: 'espanol-ortografia-puntuacion-test' }),
+      literatura: examTema({ test: 'espanol-literatura-test' }),
     },
     formatos: {
       // El juego mezcla clases de palabra, género y número: su sitio es el tema
