@@ -110,6 +110,77 @@ const PREGUNTAS = [
     '⚖️',
     { es:'5 y −5 son opuestos: 5 + (−5) = 0. Todo número tiene un único opuesto. El opuesto del 0 es el 0. En la recta numérica, los opuestos están a igual distancia del origen pero en sentidos contrarios. El opuesto se obtiene cambiando el signo.', en:'5 and −5 are opposites: 5 + (−5) = 0. Every number has a unique opposite. The opposite of 0 is 0. On the number line, opposites are equidistant from the origin but in opposite directions. The opposite is obtained by changing the sign.', ca:'5 i −5 són oposats: 5 + (−5) = 0. Tot nombre té un únic oposat. L\'oposat del 0 és el 0. A la recta numèrica, els oposats estan a la mateixa distància de l\'origen però en sentits contraris. L\'oposat s\'obté canviant el signe.' },
   ),
+
+  q('er-30', 'eso',
+    { es: '¿Cuánto es (−8) + 5?', en: 'What is (−8) + 5?', ca: 'Quant és (−8) + 5?' },
+    { es: ['−3', '3', '−13', '13'], en: ['−3', '3', '−13', '13'], ca: ['−3', '3', '−13', '13'] },
+    { es: '−3', en: '−3', ca: '−3' },
+    '➕',
+    { es: 'Cuando los signos son distintos se restan los valores absolutos (8 − 5 = 3) y se pone el signo del mayor, que aquí es el 8, negativo. En una recta numérica: partes de −8 y avanzas 5 hacia la derecha.', en: 'When the signs differ you subtract the absolute values (8 − 5 = 3) and keep the sign of the larger, here the negative 8. On a number line: start at −8 and move 5 to the right.', ca: 'Quan els signes són diferents es resten els valors absoluts (8 − 5 = 3) i es posa el signe del més gran.' }),
+
+  q('er-31', 'eso',
+    { es: '¿Cuánto es 7 × (−3)?', en: 'What is 7 × (−3)?', ca: 'Quant és 7 × (−3)?' },
+    { es: ['−21', '21', '−10', '4'], en: ['−21', '21', '−10', '4'], ca: ['−21', '21', '−10', '4'] },
+    { es: '−21', en: '−21', ca: '−21' },
+    '✖️',
+    { es: 'Signos distintos dan resultado negativo. Se puede ver como sumar (−3) siete veces, y el resultado se va alejando del cero hacia el lado negativo.', en: 'Different signs give a negative result. You can see it as adding (−3) seven times, moving further from zero on the negative side.', ca: 'Signes diferents donen resultat negatiu. Es pot veure com sumar (−3) set vegades.' }),
+
+  q('er-32', 'eso',
+    { es: '¿Cuánto es (−20) ÷ (−5)?', en: 'What is (−20) ÷ (−5)?', ca: 'Quant és (−20) ÷ (−5)?' },
+    { es: ['4', '−4', '−15', '25'], en: ['4', '−4', '−15', '25'], ca: ['4', '−4', '−15', '25'] },
+    { es: '4', en: '4', ca: '4' },
+    '➗',
+    { es: 'Dos signos iguales dan positivo, igual que en la multiplicación. La comprobación es directa: si el resultado fuera −4, entonces (−5) × (−4) tendría que dar −20, y da +20.', en: 'Two like signs give a positive, just as in multiplication. The check is direct: if the answer were −4, then (−5) × (−4) would have to give −20, and it gives +20.', ca: 'Dos signes iguals donen positiu, igual que en la multiplicació.' }),
+
+  q('er-33', 'eso',
+    { es: '¿Cuánto vale (−2)⁴?', en: 'What is (−2)⁴?', ca: 'Quant val (−2)⁴?' },
+    { es: ['16', '−16', '8', '−8'], en: ['16', '−16', '8', '−8'], ca: ['16', '−16', '8', '−8'] },
+    { es: '16', en: '16', ca: '16' },
+    '🔢',
+    { es: 'Son cuatro factores de −2, y los signos se anulan de dos en dos: (−2)×(−2) = 4, y 4×4 = 16. La regla general es que un exponente par siempre da positivo y uno impar conserva el signo negativo.', en: 'It is four factors of −2, and the signs cancel in pairs: (−2)×(−2) = 4, and 4×4 = 16. The general rule is that an even exponent always gives a positive and an odd one keeps the negative sign.', ca: 'Són quatre factors de −2, i els signes s\'anul·len de dos en dos. Un exponent parell sempre dona positiu.' }),
+
+  q('er-34', 'eso',
+    { es: '¿Qué número es mayor, −8 o −3?', en: 'Which number is bigger, −8 or −3?', ca: 'Quin nombre és més gran, −8 o −3?' },
+    { es: ['−3', '−8', 'Son iguales', 'No se pueden comparar'], en: ['−3', '−8', 'They are equal', 'They cannot be compared'], ca: ['−3', '−8', 'Són iguals', 'No es poden comparar'] },
+    { es: '−3', en: '−3', ca: '−3' },
+    '🌡️',
+    { es: 'Con los negativos el orden se invierte respecto a lo que dice la intuición: cuanto mayor es el número tras el signo, menor es su valor. Con temperaturas se ve claro, porque −3 °C es menos frío que −8 °C.', en: 'With negatives the order flips against intuition: the bigger the number after the sign, the smaller its value. Temperatures make it obvious, since −3 °C is less cold than −8 °C.', ca: 'Amb els negatius l\'ordre s\'inverteix: com més gran és el nombre després del signe, menor és el seu valor.' }),
+
+  q('er-35', 'eso',
+    { es: '¿Qué dice la regla de los signos en la multiplicación?', en: 'What does the sign rule say in multiplication?', ca: 'Què diu la regla dels signes en la multiplicació?' },
+    { es: ['Signos iguales dan positivo y signos distintos dan negativo', 'Siempre da positivo', 'Siempre da el signo del primer número', 'Signos iguales dan negativo'], en: ['Like signs give a positive and different signs give a negative', 'It is always positive', 'It always takes the first number\'s sign', 'Like signs give a negative'], ca: ['Signes iguals donen positiu i signes diferents donen negatiu', 'Sempre dona positiu', 'Sempre dona el signe del primer nombre', 'Signes iguals donen negatiu'] },
+    { es: 'Signos iguales dan positivo y signos distintos dan negativo', en: 'Like signs give a positive and different signs give a negative', ca: 'Signes iguals donen positiu i signes diferents donen negatiu' },
+    '➕',
+    { es: 'Vale igual para multiplicar y para dividir. Ojo con no aplicarla a las sumas: en (−5) + 3 los signos son distintos y sin embargo no hay ninguna regla de signos que valga, ahí se resta.', en: 'It applies to multiplication and division alike. Careful not to use it for addition: in (−5) + 3 the signs differ, yet no sign rule applies there — you subtract.', ca: 'Val igual per multiplicar i per dividir. Compte a no aplicar-la a les sumes.' }),
+
+  q('er-36', 'eso',
+    { es: '¿Cuánto es 5 − 8?', en: 'What is 5 − 8?', ca: 'Quant és 5 − 8?' },
+    { es: ['−3', '3', '13', '−13'], en: ['−3', '3', '13', '−13'], ca: ['−3', '3', '13', '−13'] },
+    { es: '−3', en: '−3', ca: '−3' },
+    '📉',
+    { es: 'Se puede restar más de lo que hay: el resultado simplemente cruza el cero. Precisamente por esto se inventaron los números negativos, porque en el mundo real hacen falta para deudas, temperaturas o profundidades.', en: 'You can subtract more than you have: the result simply crosses zero. That is exactly why negative numbers were invented, because the real world needs them for debts, temperatures or depths.', ca: 'Es pot restar més del que hi ha: el resultat simplement creua el zero.' }),
+
+  q('er-37', 'eso',
+    { es: '¿Cuánto vale 3⁰?', en: 'What is 3⁰?', ca: 'Quant val 3⁰?' },
+    { es: ['1', '0', '3', 'No existe'], en: ['1', '0', '3', 'It does not exist'], ca: ['1', '0', '3', 'No existeix'] },
+    { es: '1', en: '1', ca: '1' },
+    '1️⃣',
+    { es: 'Cualquier número distinto de cero elevado a 0 da 1. Se entiende mirando la secuencia hacia abajo: 3³ = 27, 3² = 9, 3¹ = 3, y cada paso divide entre 3, así que el siguiente es 3 ÷ 3 = 1.', en: 'Any non-zero number to the power 0 gives 1. It makes sense going down the sequence: 3³ = 27, 3² = 9, 3¹ = 3, each step dividing by 3, so the next is 3 ÷ 3 = 1.', ca: 'Qualsevol nombre diferent de zero elevat a 0 dona 1. Es veu mirant la seqüència: 3¹ = 3, i 3 ÷ 3 = 1.' }),
+
+  q('er-38', 'eso',
+    { es: '¿El cero es positivo o negativo?', en: 'Is zero positive or negative?', ca: 'El zero és positiu o negatiu?' },
+    { es: ['Ni una cosa ni la otra: es neutro', 'Positivo', 'Negativo', 'Depende del contexto'], en: ['Neither: it is neutral', 'Positive', 'Negative', 'It depends on the context'], ca: ['Ni una cosa ni l\'altra: és neutre', 'Positiu', 'Negatiu', 'Depèn del context'] },
+    { es: 'Ni una cosa ni la otra: es neutro', en: 'Neither: it is neutral', ca: 'Ni una cosa ni l\'altra: és neutre' },
+    '⭕',
+    { es: 'Es la frontera entre los dos lados de la recta numérica. Por eso su valor absoluto es 0 y su opuesto es él mismo: es el único número que cumple las dos cosas.', en: 'It is the border between the two sides of the number line. That is why its absolute value is 0 and its opposite is itself: the only number for which both hold.', ca: 'És la frontera entre els dos costats de la recta numèrica. El seu oposat és ell mateix.' }),
+
+  q('er-39', 'eso',
+    { es: 'La temperatura pasa de −5 °C a 3 °C. ¿Cuántos grados ha subido?', en: 'The temperature goes from −5 °C to 3 °C. By how many degrees has it risen?', ca: 'La temperatura passa de −5 °C a 3 °C. Quants graus ha pujat?' },
+    { es: ['8 grados', '2 grados', '−8 grados', '15 grados'], en: ['8 degrees', '2 degrees', '−8 degrees', '15 degrees'], ca: ['8 graus', '2 graus', '−8 graus', '15 graus'] },
+    { es: '8 grados', en: '8 degrees', ca: '8 graus' },
+    '🌡️',
+    { es: 'Se resta el final menos el inicial: 3 − (−5) = 3 + 5 = 8. Restar un negativo es sumar, y aquí se ve por qué: hay que recorrer 5 grados hasta el cero y 3 más por encima.', en: 'Subtract final minus initial: 3 − (−5) = 3 + 5 = 8. Subtracting a negative is adding, and here you can see why: you climb 5 degrees to reach zero and 3 more above it.', ca: 'Es resta el final menys l\'inicial: 3 − (−5) = 3 + 5 = 8. Restar un negatiu és sumar.' }),
+
 ]
 
 export const PREGUNTAS_ESO = PREGUNTAS

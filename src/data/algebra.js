@@ -139,6 +139,70 @@ const TODAS = [
     1, '🔣',
     { es: 'Un monomio es una expresión algebraica que es un único término: producto de coeficiente y variables.', en: 'A monomial is an algebraic expression that is a single term: product of coefficient and variables.', ca: 'Un monomio és una expressió algebraica que és un únic terme: producte de coeficient i variables.' }
   ),
+
+  q('al-30', 'eso',
+    { es: 'Resuelve: 5x − 7 = 3x + 9', en: 'Solve: 5x − 7 = 3x + 9', ca: 'Resol: 5x − 7 = 3x + 9' },
+    { es: ['x = 8', 'x = 2', 'x = 16', 'x = 1'], en: ['x = 8', 'x = 2', 'x = 16', 'x = 1'], ca: ['x = 8', 'x = 2', 'x = 16', 'x = 1'] },
+    { es: 'x = 8', en: 'x = 8', ca: 'x = 8' },
+    '⚖️',
+    { es: 'Se juntan las x a un lado y los números al otro: 5x − 3x = 9 + 7, es decir 2x = 16, y x = 8. Al pasar un término al otro lado cambia de signo, porque en realidad se está restando lo mismo en ambos lados.', en: 'Gather the x terms on one side and the numbers on the other: 5x − 3x = 9 + 7, that is 2x = 16, so x = 8. Moving a term across changes its sign, because you are really subtracting the same thing from both sides.', ca: 'Es junten les x a un costat i els nombres a l\'altre: 2x = 16, i x = 8.' }),
+
+  q('al-31', 'eso',
+    { es: 'Simplifica: 4a + 3b − 2a', en: 'Simplify: 4a + 3b − 2a', ca: 'Simplifica: 4a + 3b − 2a' },
+    { es: ['2a + 3b', '5ab', '7a − 2b', '2ab'], en: ['2a + 3b', '5ab', '7a − 2b', '2ab'], ca: ['2a + 3b', '5ab', '7a − 2b', '2ab'] },
+    { es: '2a + 3b', en: '2a + 3b', ca: '2a + 3b' },
+    '🧮',
+    { es: 'Solo se pueden juntar los términos semejantes, los que llevan la misma letra: 4a − 2a = 2a. El 3b se queda como está porque b y a son cosas distintas, igual que no se pueden sumar peras con manzanas.', en: 'Only like terms can be combined, those with the same letter: 4a − 2a = 2a. The 3b stays as it is because b and a are different things, just as you cannot add pears to apples.', ca: 'Només es poden ajuntar els termes semblants, els que porten la mateixa lletra: 4a − 2a = 2a.' }),
+
+  q('al-32', 'eso',
+    { es: '"El doble de un número más 5 es igual a 17". ¿Qué ecuación lo expresa y cuánto vale el número?', en: '"Twice a number plus 5 equals 17". Which equation says this and what is the number?', ca: '"El doble d\'un nombre més 5 és igual a 17". Quina equació ho expressa i quant val el nombre?' },
+    { es: ['2x + 5 = 17, x = 6', 'x + 5 = 17, x = 12', '2(x + 5) = 17, x = 3,5', '2x − 5 = 17, x = 11'], en: ['2x + 5 = 17, x = 6', 'x + 5 = 17, x = 12', '2(x + 5) = 17, x = 3.5', '2x − 5 = 17, x = 11'], ca: ['2x + 5 = 17, x = 6', 'x + 5 = 17, x = 12', '2(x + 5) = 17, x = 3,5', '2x − 5 = 17, x = 11'] },
+    { es: '2x + 5 = 17, x = 6', en: '2x + 5 = 17, x = 6', ca: '2x + 5 = 17, x = 6' },
+    '📝',
+    { es: 'Lo difícil de estos problemas casi nunca es resolver la ecuación, sino escribirla. "El doble de un número" es 2x, y el "más 5" va fuera del doble: por eso no es 2(x + 5). Luego 2x = 12 y x = 6.', en: 'The hard part of these problems is almost never solving the equation but writing it. "Twice a number" is 2x, and the "plus 5" sits outside the doubling: that is why it is not 2(x + 5). Then 2x = 12 and x = 6.', ca: 'El difícil d\'aquests problemes gairebé mai és resoldre l\'equació, sinó escriure-la. Després 2x = 12 i x = 6.' }),
+
+  q('al-33', 'eso',
+    { es: 'Aplica la propiedad distributiva: 3(2x − 4)', en: 'Apply the distributive property: 3(2x − 4)', ca: 'Aplica la propietat distributiva: 3(2x − 4)' },
+    { es: ['6x − 12', '6x − 4', '5x − 7', '6x + 12'], en: ['6x − 12', '6x − 4', '5x − 7', '6x + 12'], ca: ['6x − 12', '6x − 4', '5x − 7', '6x + 12'] },
+    { es: '6x − 12', en: '6x − 12', ca: '6x − 12' },
+    '✖️',
+    { es: 'El 3 multiplica a todo lo que hay dentro del paréntesis, no solo al primer término: 3 × 2x = 6x y 3 × (−4) = −12. Olvidarse del segundo es uno de los fallos más repetidos.', en: 'The 3 multiplies everything inside the brackets, not just the first term: 3 × 2x = 6x and 3 × (−4) = −12. Forgetting the second is one of the commonest mistakes.', ca: 'El 3 multiplica tot el que hi ha dins del parèntesi, no només el primer terme.' }),
+
+  q('al-34', 'eso',
+    { es: 'Resuelve: 3(x − 2) = x + 4', en: 'Solve: 3(x − 2) = x + 4', ca: 'Resol: 3(x − 2) = x + 4' },
+    { es: ['x = 5', 'x = 3', 'x = 1', 'x = 10'], en: ['x = 5', 'x = 3', 'x = 1', 'x = 10'], ca: ['x = 5', 'x = 3', 'x = 1', 'x = 10'] },
+    { es: 'x = 5', en: 'x = 5', ca: 'x = 5' },
+    '🔍',
+    { es: 'Primero se quita el paréntesis: 3x − 6 = x + 4. Luego se agrupa: 3x − x = 4 + 6, o sea 2x = 10 y x = 5. Se puede comprobar sustituyendo: 3(5 − 2) = 9 y 5 + 4 = 9.', en: 'First remove the brackets: 3x − 6 = x + 4. Then gather: 3x − x = 4 + 6, so 2x = 10 and x = 5. You can check by substituting: 3(5 − 2) = 9 and 5 + 4 = 9.', ca: 'Primer es lleva el parèntesi: 3x − 6 = x + 4. Després 2x = 10 i x = 5.' }),
+
+  q('al-35', 'eso',
+    { es: 'Resuelve la inecuación: 2x > 10', en: 'Solve the inequality: 2x > 10', ca: 'Resol la inequació: 2x > 10' },
+    { es: ['x > 5', 'x = 5', 'x < 5', 'x > 20'], en: ['x > 5', 'x = 5', 'x < 5', 'x > 20'], ca: ['x > 5', 'x = 5', 'x < 5', 'x > 20'] },
+    { es: 'x > 5', en: 'x > 5', ca: 'x > 5' },
+    '📊',
+    { es: 'Se resuelve casi igual que una ecuación, dividiendo los dos lados entre 2. La diferencia importante es que la solución no es un número sino todos los mayores que 5, y que si se multiplica o divide por un número negativo hay que dar la vuelta al signo.', en: 'You solve it almost like an equation, dividing both sides by 2. The key difference is that the solution is not one number but every number above 5, and that multiplying or dividing by a negative flips the sign.', ca: 'Es resol gairebé igual que una equació. La solució no és un nombre sinó tots els més grans que 5.' }),
+
+  q('al-36', 'eso',
+    { es: 'Desarrolla: (a + b)(a − b)', en: 'Expand: (a + b)(a − b)', ca: 'Desenvolupa: (a + b)(a − b)' },
+    { es: ['a² − b²', 'a² + b²', 'a² − 2ab + b²', 'a² − b'], en: ['a² − b²', 'a² + b²', 'a² − 2ab + b²', 'a² − b'], ca: ['a² − b²', 'a² + b²', 'a² − 2ab + b²', 'a² − b'] },
+    { es: 'a² − b²', en: 'a² − b²', ca: 'a² − b²' },
+    '🔷',
+    { es: 'Al multiplicar todo con todo salen a², −ab, +ab y −b²: los dos del medio se anulan. Es la llamada suma por diferencia, y leída al revés sirve para factorizar cualquier resta de cuadrados, como x² − 9.', en: 'Multiplying everything out gives a², −ab, +ab and −b²: the middle two cancel. It is the sum-times-difference identity, and read backwards it factorises any difference of squares, like x² − 9.', ca: 'En multiplicar tot amb tot surten a², −ab, +ab i −b²: els dos del mig s\'anul·len.' }),
+
+  q('al-37', 'eso',
+    { es: 'En la fórmula del área de un rectángulo A = b · h, ¿cómo se despeja la altura h?', en: 'In the rectangle area formula A = b · h, how do you solve for the height h?', ca: 'A la fórmula de l\'àrea d\'un rectangle A = b · h, com s\'aïlla l\'altura h?' },
+    { es: ['h = A / b', 'h = A · b', 'h = A − b', 'h = b / A'], en: ['h = A / b', 'h = A · b', 'h = A − b', 'h = b / A'], ca: ['h = A / b', 'h = A · b', 'h = A − b', 'h = b / A'] },
+    { es: 'h = A / b', en: 'h = A / b', ca: 'h = A / b' },
+    '📐',
+    { es: 'La b está multiplicando a la h, así que pasa dividiendo al otro lado. Despejar es útil justo por esto: con una sola fórmula puedes calcular cualquiera de las tres cantidades si conoces las otras dos.', en: 'The b multiplies h, so it moves across as a division. Rearranging is useful precisely for this: one formula lets you find any of the three quantities if you know the other two.', ca: 'La b està multiplicant la h, així que passa dividint a l\'altre costat.' }),
+
+  q('al-38', 'eso',
+    { es: '¿Cuál es el grado del polinomio 4x³ − 2x + 7?', en: 'What is the degree of the polynomial 4x³ − 2x + 7?', ca: 'Quin és el grau del polinomi 4x³ − 2x + 7?' },
+    { es: ['3', '4', '7', '1'], en: ['3', '4', '7', '1'], ca: ['3', '4', '7', '1'] },
+    { es: '3', en: '3', ca: '3' },
+    '📈',
+    { es: 'El grado es el exponente más alto de la variable, y aquí es el 3 de x³. No hay que confundirlo con el coeficiente, que es el número que multiplica: el coeficiente de ese término es 4.', en: 'The degree is the highest exponent of the variable, here the 3 in x³. Do not confuse it with the coefficient, the multiplying number: that term\'s coefficient is 4.', ca: 'El grau és l\'exponent més alt de la variable, i aquí és el 3 de x³. No s\'ha de confondre amb el coeficient.' }),
+
 ]
 
 export const PREGUNTAS_ESO = TODAS

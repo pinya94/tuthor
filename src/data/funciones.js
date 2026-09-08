@@ -108,6 +108,77 @@ const PREGUNTAS = [
     '📈',
     { es: 'Una función es creciente cuando al moverse hacia la derecha (x aumenta) la gráfica también sube (y aumenta). Es decreciente cuando al aumentar x, y disminuye. La pendiente positiva indica crecimiento.', en: 'A function is increasing when moving right (x increases) the graph also goes up (y increases). It is decreasing when as x increases, y decreases. A positive slope indicates growth.', ca: 'Una funció és creixent quan en moure\'s cap a la dreta (x augmenta) la gràfica també puja (y augmenta). És decreixent quan en augmentar x, y disminueix. El pendent positiu indica creixement.' }
   ),
+
+  q('f30', 'eso',
+    { es: '¿Qué es una función?', en: 'What is a function?', ca: 'Què és una funció?' },
+    { es: ['Una relación que asigna a cada valor de x un único valor de y', 'Cualquier fórmula con letras', 'Una recta cualquiera', 'Una tabla de números'], en: ['A relation assigning exactly one y value to each x value', 'Any formula with letters', 'Any straight line', 'A table of numbers'], ca: ['Una relació que assigna a cada valor de x un únic valor de y', 'Qualsevol fórmula amb lletres', 'Una recta qualsevol', 'Una taula de nombres'] },
+    { es: 'Una relación que asigna a cada valor de x un único valor de y', en: 'A relation assigning exactly one y value to each x value', ca: 'Una relació que assigna a cada valor de x un únic valor de y' },
+    '🔗',
+    { es: 'La palabra clave es único: si a un mismo valor de x le corresponden dos de y, no es una función. En la gráfica se ve rápido con la recta vertical: si una línea vertical corta el dibujo en dos puntos, no lo es.', en: 'The key word is exactly one: if one x value gives two y values, it is not a function. On a graph the vertical line test shows it fast: if a vertical line crosses the drawing at two points, it is not one.', ca: 'La paraula clau és únic: si a un mateix valor de x li corresponen dos de y, no és una funció.' }),
+
+  q('f31', 'eso',
+    { es: '¿En qué punto corta al eje Y la recta y = 2x − 5?', en: 'Where does the line y = 2x − 5 cross the Y axis?', ca: 'En quin punt talla l\'eix Y la recta y = 2x − 5?' },
+    { es: ['En (0, −5)', 'En (0, 2)', 'En (−5, 0)', 'En (5, 0)'], en: ['At (0, −5)', 'At (0, 2)', 'At (−5, 0)', 'At (5, 0)'], ca: ['A (0, −5)', 'A (0, 2)', 'A (−5, 0)', 'A (5, 0)'] },
+    { es: 'En (0, −5)', en: 'At (0, −5)', ca: 'A (0, −5)' },
+    '📍',
+    { es: 'Sobre el eje Y siempre x = 0, así que y = 2·0 − 5 = −5. Por eso la b de y = mx + b se puede leer directamente: es la altura por la que la recta cruza el eje vertical.', en: 'On the Y axis x is always 0, so y = 2·0 − 5 = −5. That is why the b in y = mx + b can be read straight off: it is the height where the line crosses the vertical axis.', ca: 'Sobre l\'eix Y sempre x = 0, així que y = 2·0 − 5 = −5.' }),
+
+  q('f32', 'eso',
+    { es: '¿Cómo es la gráfica de la función constante y = 4?', en: 'What does the graph of the constant function y = 4 look like?', ca: 'Com és la gràfica de la funció constant y = 4?' },
+    { es: ['Una recta horizontal a la altura 4', 'Una recta vertical que pasa por x = 4', 'Una recta inclinada', 'Una parábola'], en: ['A horizontal line at height 4', 'A vertical line through x = 4', 'A sloping line', 'A parabola'], ca: ['Una recta horitzontal a l\'alçada 4', 'Una recta vertical que passa per x = 4', 'Una recta inclinada', 'Una paràbola'] },
+    { es: 'Una recta horizontal a la altura 4', en: 'A horizontal line at height 4', ca: 'Una recta horitzontal a l\'alçada 4' },
+    '➖',
+    { es: 'Valga lo que valga x, la y siempre es 4: la pendiente es 0 y la recta no sube ni baja. Conviene no confundirla con x = 4, que sí es una recta vertical y que además no es una función.', en: 'Whatever x is, y is always 4: the slope is 0 and the line neither rises nor falls. Do not confuse it with x = 4, which is a vertical line and is not a function.', ca: 'Valgui el que valgui x, la y sempre és 4: el pendent és 0 i la recta no puja ni baixa.' }),
+
+  q('f33', 'eso',
+    { es: '¿Cuál es la pendiente de la recta que pasa por (1, 2) y (4, 11)?', en: 'What is the slope of the line through (1, 2) and (4, 11)?', ca: 'Quin és el pendent de la recta que passa per (1, 2) i (4, 11)?' },
+    { es: ['3', '9', '1/3', '13'], en: ['3', '9', '1/3', '13'], ca: ['3', '9', '1/3', '13'] },
+    { es: '3', en: '3', ca: '3' },
+    '📈',
+    { es: 'La pendiente es cuánto sube dividido entre cuánto avanza: (11 − 2) ÷ (4 − 1) = 9 ÷ 3 = 3. El orden de los puntos da igual mientras se respete arriba y abajo; lo que no puede ser es restar en un orden arriba y en el otro abajo.', en: 'Slope is the rise divided by the run: (11 − 2) ÷ (4 − 1) = 9 ÷ 3 = 3. The order of the points does not matter as long as it is the same top and bottom; what you cannot do is subtract one way above and the other way below.', ca: 'El pendent és quant puja dividit entre quant avança: (11 − 2) ÷ (4 − 1) = 9 ÷ 3 = 3.' }),
+
+  q('f34', 'eso',
+    { es: '¿Cómo se llama la curva que dibuja la función y = x²?', en: 'What is the curve drawn by the function y = x² called?', ca: 'Com s\'anomena la corba que dibuixa la funció y = x²?' },
+    { es: ['Parábola', 'Hipérbola', 'Circunferencia', 'Recta'], en: ['Parabola', 'Hyperbola', 'Circle', 'Straight line'], ca: ['Paràbola', 'Hipèrbola', 'Circumferència', 'Recta'] },
+    { es: 'Parábola', en: 'Parabola', ca: 'Paràbola' },
+    '🎢',
+    { es: 'Es simétrica respecto al eje Y, porque x y −x elevados al cuadrado dan lo mismo. No es una curva de matemáticas y ya: la trayectoria de una pelota lanzada al aire es exactamente una parábola.', en: 'It is symmetric about the Y axis, because x and −x squared give the same value. And it is not just a maths curve: the path of a ball thrown in the air is exactly a parabola.', ca: 'És simètrica respecte a l\'eix Y, perquè x i −x elevats al quadrat donen el mateix.' }),
+
+  q('f35', 'eso',
+    { es: '¿En qué cuadrante está el punto (5, −2)?', en: 'Which quadrant is the point (5, −2) in?', ca: 'En quin quadrant és el punt (5, −2)?' },
+    { es: ['En el cuarto', 'En el primero', 'En el segundo', 'En el tercero'], en: ['The fourth', 'The first', 'The second', 'The third'], ca: ['Al quart', 'Al primer', 'Al segon', 'Al tercer'] },
+    { es: 'En el cuarto', en: 'The fourth', ca: 'Al quart' },
+    '🧭',
+    { es: 'Los cuadrantes se numeran en sentido contrario a las agujas del reloj empezando arriba a la derecha. Con x positiva e y negativa el punto está abajo a la derecha, que es el cuarto.', en: 'Quadrants are numbered anticlockwise starting from the top right. With x positive and y negative the point sits bottom right, the fourth.', ca: 'Els quadrants es numeren en sentit contrari a les agulles del rellotge començant a dalt a la dreta.' }),
+
+  q('f36', 'eso',
+    { es: 'En una relación de proporcionalidad directa y = kx, ¿por qué punto pasa siempre la gráfica?', en: 'In a direct proportion y = kx, which point does the graph always pass through?', ca: 'En una relació de proporcionalitat directa y = kx, per quin punt passa sempre la gràfica?' },
+    { es: ['Por el origen (0, 0)', 'Por (1, 1)', 'Por (0, k)', 'Por ninguno fijo'], en: ['Through the origin (0, 0)', 'Through (1, 1)', 'Through (0, k)', 'Through no fixed point'], ca: ['Per l\'origen (0, 0)', 'Per (1, 1)', 'Per (0, k)', 'Per cap de fix'] },
+    { es: 'Por el origen (0, 0)', en: 'Through the origin (0, 0)', ca: 'Per l\'origen (0, 0)' },
+    '🎯',
+    { es: 'Si x vale 0, y también vale 0: no hay término independiente que levante la recta. Tiene sentido en la práctica, porque si compras 0 kilos de fruta pagas 0 euros.', en: 'If x is 0, y is 0 too: there is no constant term lifting the line. It makes practical sense, because buying 0 kilos of fruit costs 0 euros.', ca: 'Si x val 0, y també val 0: no hi ha terme independent que aixequi la recta.' }),
+
+  q('f37', 'eso',
+    { es: 'Si la pendiente de una recta es positiva, ¿cómo es la función?', en: 'If a line\'s slope is positive, what is the function like?', ca: 'Si el pendent d\'una recta és positiu, com és la funció?' },
+    { es: ['Creciente: al aumentar x, aumenta y', 'Decreciente: al aumentar x, disminuye y', 'Constante', 'No se puede saber'], en: ['Increasing: as x rises, y rises', 'Decreasing: as x rises, y falls', 'Constant', 'It cannot be known'], ca: ['Creixent: en augmentar x, augmenta y', 'Decreixent: en augmentar x, disminueix y', 'Constant', 'No es pot saber'] },
+    { es: 'Creciente: al aumentar x, aumenta y', en: 'Increasing: as x rises, y rises', ca: 'Creixent: en augmentar x, augmenta y' },
+    '📈',
+    { es: 'La pendiente es la que manda: positiva sube, negativa baja y cero deja la recta plana. Y cuanto mayor sea en valor absoluto, más empinada es la subida o la bajada.', en: 'The slope is what rules: positive rises, negative falls and zero leaves the line flat. And the bigger it is in absolute value, the steeper the climb or the drop.', ca: 'El pendent és el que mana: positiu puja, negatiu baixa i zero deixa la recta plana.' }),
+
+  q('f38', 'eso',
+    { es: 'En la función y = 2x + 3, ¿cuánto vale y cuando x = −1?', en: 'In the function y = 2x + 3, what is y when x = −1?', ca: 'A la funció y = 2x + 3, quant val y quan x = −1?' },
+    { es: ['1', '5', '−1', '2'], en: ['1', '5', '−1', '2'], ca: ['1', '5', '−1', '2'] },
+    { es: '1', en: '1', ca: '1' },
+    '🔢',
+    { es: 'Se sustituye y se opera: 2 × (−1) + 3 = −2 + 3 = 1. El fallo típico es olvidar el signo y calcular 2 + 3 = 5, que es justo la otra opción.', en: 'Substitute and compute: 2 × (−1) + 3 = −2 + 3 = 1. The typical mistake is dropping the sign and working out 2 + 3 = 5, which is exactly the other option.', ca: 'Se substitueix i s\'opera: 2 × (−1) + 3 = −2 + 3 = 1.' }),
+
+  q('f39', 'eso',
+    { es: '¿Qué es el recorrido (o imagen) de una función?', en: 'What is the range (or image) of a function?', ca: 'Què és el recorregut (o imatge) d\'una funció?' },
+    { es: ['El conjunto de todos los valores que puede tomar la y', 'El conjunto de valores que puede tomar la x', 'La longitud de la gráfica', 'El punto donde corta al eje X'], en: ['The set of all values y can take', 'The set of values x can take', 'The length of the graph', 'Where it crosses the X axis'], ca: ['El conjunt de tots els valors que pot prendre la y', 'El conjunt de valors que pot prendre la x', 'La longitud de la gràfica', 'El punt on talla l\'eix X'] },
+    { es: 'El conjunto de todos los valores que puede tomar la y', en: 'The set of all values y can take', ca: 'El conjunt de tots els valors que pot prendre la y' },
+    '📊',
+    { es: 'El dominio son las entradas y el recorrido las salidas. En y = x² el dominio es todos los números, pero el recorrido son solo los mayores o iguales que 0, porque un cuadrado nunca sale negativo.', en: 'The domain is the inputs and the range the outputs. In y = x² the domain is every number, but the range is only values greater than or equal to 0, because a square is never negative.', ca: 'El domini són les entrades i el recorregut les sortides. En y = x² el recorregut són només els valors majors o iguals que 0.' }),
+
 ]
 
 export const PREGUNTAS_ESO = PREGUNTAS

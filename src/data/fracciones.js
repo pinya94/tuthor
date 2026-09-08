@@ -201,6 +201,63 @@ const PREGUNTAS = [
     '📈',
     { es:'Subir un 15% es multiplicar por (1 + 15/100) = 1,15. 40 × 1,15 = 46 €. Método alternativo: calcula el 15% de 40 (40 × 0,15 = 6 €) y súmalo al precio original (40 + 6 = 46 €). Para una bajada de precio se resta en vez de sumar: precio × (1 − descuento/100).', en:'A 15% increase means multiplying by (1 + 15/100) = 1.15. 40 × 1.15 = €46. Alternative method: work out 15% of 40 (40 × 0.15 = €6) and add it to the original price (40 + 6 = €46). For a price decrease, subtract instead: price × (1 − discount/100).', ca:'Pujar un 15% és multiplicar per 1,15. 40 × 1,15 = 46 €. Mètode alternatiu: calcula el 15% de 40 (6 €) i suma-ho al preu original.' },
   ),
+
+  q('fr-30', 'primaria',
+    { es: '¿Qué es una fracción propia?', en: 'What is a proper fraction?', ca: 'Què és una fracció pròpia?' },
+    { es: ['Aquella cuyo numerador es menor que el denominador, y vale menos que 1', 'Aquella cuyo numerador es mayor que el denominador', 'Aquella que tiene el 1 arriba', 'Aquella que no se puede simplificar'], en: ['One whose numerator is smaller than the denominator, and is worth less than 1', 'One whose numerator is bigger than the denominator', 'One with a 1 on top', 'One that cannot be simplified'], ca: ['Aquella el numerador de la qual és menor que el denominador, i val menys que 1', 'Aquella el numerador de la qual és major que el denominador', 'Aquella que té l\'1 a dalt', 'Aquella que no es pot simplificar'] },
+    { es: 'Aquella cuyo numerador es menor que el denominador, y vale menos que 1', en: 'One whose numerator is smaller than the denominator, and is worth less than 1', ca: 'Aquella el numerador de la qual és menor que el denominador, i val menys que 1' },
+    '🍰',
+    { es: '3/4 es propia porque coges 3 trozos de los 4 que hay: menos que la tarta entera. Si el numerador fuera mayor, como en 5/4, sería impropia y valdría más de 1.', en: '3/4 is proper because you take 3 pieces out of 4: less than the whole cake. If the numerator were bigger, as in 5/4, it would be improper and worth more than 1.', ca: '3/4 és pròpia perquè agafes 3 trossos dels 4 que hi ha: menys que el pastís sencer.' }),
+
+  q('fr-31', 'primaria',
+    { es: 'Simplifica la fracción 6/8.', en: 'Simplify the fraction 6/8.', ca: 'Simplifica la fracció 6/8.' },
+    { es: ['3/4', '2/4', '6/4', '1/2'], en: ['3/4', '2/4', '6/4', '1/2'], ca: ['3/4', '2/4', '6/4', '1/2'] },
+    { es: '3/4', en: '3/4', ca: '3/4' },
+    '✂️',
+    { es: 'Se divide arriba y abajo por el mismo número: 6 ÷ 2 = 3 y 8 ÷ 2 = 4. La fracción cambia de aspecto pero vale exactamente lo mismo, porque dividir las dos partes por igual no altera la proporción.', en: 'Divide top and bottom by the same number: 6 ÷ 2 = 3 and 8 ÷ 2 = 4. The fraction looks different but is worth exactly the same, because dividing both parts equally does not change the proportion.', ca: 'Es divideix a dalt i a baix pel mateix nombre: 6 ÷ 2 = 3 i 8 ÷ 2 = 4.' }),
+
+  q('fr-32', 'primaria',
+    { es: '¿Cuánto es 1/2 de 30?', en: 'What is 1/2 of 30?', ca: 'Quant és 1/2 de 30?' },
+    { es: ['15', '10', '20', '60'], en: ['15', '10', '20', '60'], ca: ['15', '10', '20', '60'] },
+    { es: '15', en: '15', ca: '15' },
+    '➗',
+    { es: 'Calcular una fracción de una cantidad es dividir por el denominador y multiplicar por el numerador: 30 ÷ 2 = 15, y 15 × 1 = 15. La palabra "de" en estos problemas siempre significa multiplicar.', en: 'Finding a fraction of an amount means dividing by the denominator and multiplying by the numerator: 30 ÷ 2 = 15, and 15 × 1 = 15. The word "of" in these problems always means multiply.', ca: 'Calcular una fracció d\'una quantitat és dividir pel denominador i multiplicar pel numerador: 30 ÷ 2 = 15.' }),
+
+  q('fr-33', 'primaria',
+    { es: '¿Qué fracción es igual al decimal 0,5?', en: 'Which fraction equals the decimal 0.5?', ca: 'Quina fracció és igual al decimal 0,5?' },
+    { es: ['1/2', '1/5', '5/100', '2/5'], en: ['1/2', '1/5', '5/100', '2/5'], ca: ['1/2', '1/5', '5/100', '2/5'] },
+    { es: '1/2', en: '1/2', ca: '1/2' },
+    '🔢',
+    { es: '0,5 son cinco décimas, es decir 5/10, y simplificando queda 1/2. Es la misma cantidad escrita de tres formas distintas, y también es lo que llamamos el 50 %.', en: '0.5 is five tenths, that is 5/10, which simplifies to 1/2. It is the same amount written three different ways, and it is also what we call 50%.', ca: '0,5 són cinc dècimes, és a dir 5/10, i simplificant queda 1/2.' }),
+
+  q('fr-34', 'primaria',
+    { es: '¿Cuál es mayor, 1/3 o 1/5?', en: 'Which is bigger, 1/3 or 1/5?', ca: 'Quina és més gran, 1/3 o 1/5?' },
+    { es: ['1/3', '1/5', 'Son iguales', 'No se puede saber'], en: ['1/3', '1/5', 'They are equal', 'It cannot be known'], ca: ['1/3', '1/5', 'Són iguals', 'No es pot saber'] },
+    { es: '1/3', en: '1/3', ca: '1/3' },
+    '🍕',
+    { es: 'Parece raro porque 5 es mayor que 3, pero el denominador dice en cuántos trozos partes: cuantos más trozos, más pequeño es cada uno. Repartir una pizza entre 3 da un trozo mayor que repartirla entre 5.', en: 'It looks odd because 5 is bigger than 3, but the denominator says how many pieces you cut: the more pieces, the smaller each one. Sharing a pizza between 3 gives a bigger slice than sharing it between 5.', ca: 'Sembla estrany perquè 5 és més gran que 3, però el denominador diu en quants trossos parteixes: com més trossos, més petit és cadascun.' }),
+
+  q('fr-35', 'primaria',
+    { es: '¿Cuánto es 1/2 − 1/4?', en: 'What is 1/2 − 1/4?', ca: 'Quant és 1/2 − 1/4?' },
+    { es: ['1/4', '1/2', '2/4', '1/6'], en: ['1/4', '1/2', '2/4', '1/6'], ca: ['1/4', '1/2', '2/4', '1/6'] },
+    { es: '1/4', en: '1/4', ca: '1/4' },
+    '➖',
+    { es: 'Hay que igualar los denominadores antes de restar: 1/2 es lo mismo que 2/4, así que 2/4 − 1/4 = 1/4. Nunca se restan los denominadores entre sí, solo los numeradores una vez igualados.', en: 'You must match the denominators before subtracting: 1/2 is the same as 2/4, so 2/4 − 1/4 = 1/4. You never subtract denominators from each other, only the numerators once they match.', ca: 'Cal igualar els denominadors abans de restar: 1/2 és el mateix que 2/4, així que 2/4 − 1/4 = 1/4.' }),
+
+  q('fr-36', 'primaria',
+    { es: 'Una pizza está cortada en 8 porciones iguales y te comes 3. ¿Qué fracción queda?', en: 'A pizza is cut into 8 equal slices and you eat 3. What fraction is left?', ca: 'Una pizza està tallada en 8 porcions iguals i te\'n menges 3. Quina fracció queda?' },
+    { es: ['5/8', '3/8', '3/5', '5/3'], en: ['5/8', '3/8', '3/5', '5/3'], ca: ['5/8', '3/8', '3/5', '5/3'] },
+    { es: '5/8', en: '5/8', ca: '5/8' },
+    '🍕',
+    { es: 'La pizza entera es 8/8. Si te comes 3/8, queda 8/8 − 3/8 = 5/8. El denominador no cambia porque las porciones siguen siendo del mismo tamaño: solo cambia cuántas quedan.', en: 'The whole pizza is 8/8. If you eat 3/8, then 8/8 − 3/8 = 5/8 is left. The denominator does not change because the slices are still the same size: only how many are left changes.', ca: 'La pizza sencera és 8/8. Si en menges 3/8, queda 8/8 − 3/8 = 5/8.' }),
+
+  q('fr-37', 'primaria',
+    { es: '¿Cuántos minutos son 3/4 de hora?', en: 'How many minutes are 3/4 of an hour?', ca: 'Quants minuts són 3/4 d\'hora?' },
+    { es: ['45 minutos', '30 minutos', '34 minutos', '75 minutos'], en: ['45 minutes', '30 minutes', '34 minutes', '75 minutes'], ca: ['45 minuts', '30 minuts', '34 minuts', '75 minuts'] },
+    { es: '45 minutos', en: '45 minutes', ca: '45 minuts' },
+    '🕒',
+    { es: 'Una hora son 60 minutos: 60 ÷ 4 = 15, y 15 × 3 = 45. Es el mismo procedimiento que con cualquier cantidad, solo que aquí el total no es 100 ni 10, sino 60.', en: 'An hour is 60 minutes: 60 ÷ 4 = 15, and 15 × 3 = 45. It is the same procedure as with any amount, except the total here is not 100 or 10 but 60.', ca: 'Una hora són 60 minuts: 60 ÷ 4 = 15, i 15 × 3 = 45.' }),
+
 ]
 
 export const PREGUNTAS_PRIMARIA = PREGUNTAS.filter(p => p.nivel === 'primaria')
