@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
-import { IMPRIMIBLES, imprimiblesDeTema, tarjetasDe } from '../lib/materialImprimible'
+import { IMPRIMIBLES, imprimiblesDeTema, tarjetasDe, variantesUsables } from '../lib/materialImprimible'
 import { HojaTarjetas, VisorHoja } from './HojasImprimibles'
 import { cargarTarjetasDeExamen } from '../lib/tarjetasExamen'
 
@@ -65,7 +65,7 @@ export default function RecursosDelTema({ materia, tema }) {
   if (fichas.length === 0) return null
 
   const ficha = abierta && fichas.find(f => f.id === abierta.id)
-  const variante = ficha?.def.variantes(lang).find(v => v.id === abierta.varianteId)
+  const variante = variantesUsables(ficha?.def, lang).find(v => v.id === abierta.varianteId)
 
   return (
     <section className="mb-10">
@@ -85,8 +85,8 @@ export default function RecursosDelTema({ materia, tema }) {
           // Con varianteId concreto (historia) se va directo a la hoja; sin
           // él, se ofrece cada grupo del imprimible para que elija.
           const opciones = varianteId
-            ? d.variantes(lang).filter(v => v.id === varianteId)
-            : d.variantes(lang)
+            ? variantesUsables(d, lang).filter(v => v.id === varianteId)
+            : variantesUsables(d, lang)
           if (opciones.length === 0) return null
           return (
             <div key={id} className="rounded-2xl border border-white/10 p-5" style={{ background: 'rgba(17,20,29,0.86)' }}>

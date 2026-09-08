@@ -1,4 +1,4 @@
-import { MAX_TARJETAS } from './materialImprimible'
+import { MAX_TARJETAS, MIN_TARJETAS_GRUPO } from './materialImprimible'
 
 // ── Un imprimible más por tema de ciencias: su propio banco de examen ────────
 // Cada tema de ciencias ya tiene un banco de preguntas escrito para su examen
@@ -134,10 +134,11 @@ const ORDEN_NIVELES = Object.keys(NIVELES)
 
 const tr3 = (o, lang) => o?.[lang] ?? o?.es ?? ''
 
-// Mismo mínimo que en materialImprimible: un botón que imprime dos tarjetas no
-// vale la pena. Aquí importa más, porque hay temas con solo tres o cuatro
-// preguntas de un nivel.
-const MIN_POR_NIVEL = 3
+// Literalmente el mismo mínimo que en materialImprimible, importado y no
+// copiado: las dos clases de hoja salen juntas en la misma sección de la
+// página de tema, así que si cada una decide por su cuenta qué es "poco" el
+// profesor ve un botón de 4 tarjetas al lado de uno de 20 sin saber por qué.
+const MIN_POR_NIVEL = MIN_TARJETAS_GRUPO
 
 export const TEMAS_CON_TARJETAS_DE_EXAMEN = Object.keys(BANCOS)
 

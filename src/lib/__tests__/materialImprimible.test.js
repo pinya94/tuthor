@@ -3,7 +3,8 @@
 // es papel gastado en balde), que las variantes que se ofrecen tengan
 // contenido de verdad detrás, y que un id inventado no tumbe el panel.
 import { describe, it, expect } from 'vitest'
-import { IMPRIMIBLES, IMPRIMIBLE_IDS, MAX_TARJETAS, tarjetasDe, intercalarPorDorso, imprimiblesDeTema } from '../materialImprimible'
+import { IMPRIMIBLES, IMPRIMIBLE_IDS, MAX_TARJETAS, MIN_TARJETAS_GRUPO, tarjetasDe, variantesDe, intercalarPorDorso, imprimiblesDeTema } from '../materialImprimible'
+import { PAISES } from '../../data/paises'
 
 describe('catálogo de imprimibles', () => {
   it('cada imprimible tiene título, descripción y cómo usarlo en los tres idiomas', () => {
@@ -175,14 +176,39 @@ describe('orgánulos, órganos y planetas', () => {
     }
   })
 
-  it('ningún grupo ofrecido se queda por debajo de lo que llena una hoja', () => {
-    // Un botón que imprime una sola tarjeta (le pasaba al Sistema
-    // Circulatorio, que en la silueta de Rayos X tiene solo el corazón) es
-    // peor que no ofrecer el botón.
+  it('ningún grupo ofrecido se queda por debajo de una baraja', () => {
+    // Un botón que imprime cuatro tarjetas no es material: es un montoncito
+    // de recortes con el que no se puede jugar ni clasificar nada, y encima
+    // esconde entre botones el reparto que sí sirve. Se mira lo que ENSEÑA
+    // variantesDe, no lo que existe: los grupos pequeños siguen dentro del
+    // reparto completo, que es donde valen para algo.
     for (const id of IMPRIMIBLE_IDS) {
-      for (const v of IMPRIMIBLES[id].variantes('es')) {
-        expect(v.n, `${id}/${v.id} solo da ${v.n}`).toBeGreaterThanOrEqual(3)
+      const usables = variantesDe(id, 'es')
+      expect(usables.length, `${id} no ofrece ningún reparto`).toBeGreaterThan(0)
+      for (const v of usables) {
+        expect(v.n, `${id}/${v.id} solo da ${v.n}`).toBeGreaterThanOrEqual(MIN_TARJETAS_GRUPO)
       }
+    }
+  })
+
+  it('todo imprimible ofrece un reparto con el que se puede hacer su actividad', () => {
+    // La regla que faltaba y que rompía tres hojas a la vez: las variantes
+    // partían el material justo por donde la actividad necesitaba mezclarlo.
+    // Con nueve productores no se monta una cadena alimentaria y con cinco
+    // halógenos no se monta la tabla periódica. Cada imprimible tiene que
+    // tener al menos un reparto marcado `completo`, que es el que trae el
+    // material entero y el que sale primero en el panel.
+    for (const id of IMPRIMIBLE_IDS) {
+      const usables = variantesDe(id, 'es')
+      const completos = usables.filter(v => v.completo)
+      // Historia y capitales reparten por unidad didáctica (época,
+      // continente): ahí cada grupo ES una baraja que se usa sola, así que no
+      // necesitan uno "completo" aparte del que ya tengan.
+      const porUnidad = ['historia-eventos', 'historia-portadas'].includes(id)
+      if (porUnidad) continue
+      expect(completos.length, `${id} no ofrece el material entero`).toBeGreaterThan(0)
+      // Y va primero: es lo que el profesor tiene que ver antes que nada.
+      expect(usables[0].completo, `${id}: el primer botón no es el reparto entero`).toBe(true)
     }
   })
 
@@ -205,24 +231,93 @@ describe('orgánulos, órganos y planetas', () => {
     expect(todos.some(t => t.pista === 'Sistema Nervioso')).toBe(true)
   })
 
-  it('los planetas se parten por el cinturón de asteroides, sin perder ninguno', () => {
-    const rocosos = tarjetasDe('geologia-planetas', 'rocosos', 'es')
-    const gigantes = tarjetasDe('geologia-planetas', 'gigantes', 'es')
-    expect(rocosos).toHaveLength(4)
-    expect(gigantes).toHaveLength(4)
-    expect(rocosos.some(t => t.frente.includes('Marte'))).toBe(true)
-    expect(gigantes.some(t => t.frente.includes('Júpiter'))).toBe(true)
+  it('los planetas son los ocho y nada más', () => {
+    // Un solo reparto a propósito: partirlos en rocosos y gigantes daba dos
+    // hojas de cuatro tarjetas con las que no se puede hacer la actividad
+    // —ordenar por distancia y ver el salto del cinturón de asteroides— y
+    // encima dejaba media hoja en blanco.
+    expect(variantesDe('geologia-planetas', 'es').map(v => v.id)).toEqual(['todos'])
+    const ocho = tarjetasDe('geologia-planetas', 'todos', 'es')
+    expect(ocho).toHaveLength(8)
+    expect(ocho.some(t => t.frente.includes('Mercurio'))).toBe(true)
+    expect(ocho.some(t => t.frente.includes('Neptuno'))).toBe(true)
   })
 
-  it('las hojas con dorso largo van en formato plegable', () => {
-    // En el reparto de tira el dorso ocupa un tercio de columna: una frase
-    // entera ahí sale en una tira de palabras sueltas ilegible.
+  it('la hoja que la actividad necesita entera trae de verdad todos los grupos', () => {
+    // El fallo que tenían tres imprimibles a la vez: las variantes partían el
+    // material justo por donde la actividad necesitaba mezclarlo. Con una hoja
+    // de nueve productores no se monta ninguna cadena alimentaria, y con una
+    // de países de Europa no hay nada que clasificar por continente. Cada uno
+    // ofrece ahora el reparto completo, y esto vigila que lo siga siendo.
+    const cadena = tarjetasDe('biologia-cadena', 'todos', 'es')
+    const roles = new Set(cadena.map(t => t.dorso))
+    expect(roles.size, 'la cadena completa no trae los cinco roles').toBe(5)
+
+    const mundo = tarjetasDe('geografia-capitales', 'mundo', 'es')
+    const continentes = new Set(mundo.map(t => PAISES.find(p => t.frente.endsWith(p.nombre))?.continente))
+    // Oceanía es la que se cae sola si algún día esto se cambia por "los N
+    // más poblados del mundo": Australia es la 45ª del planeta.
+    expect([...continentes].some(c => c?.includes('Oceanía')), 'el mundo se ha quedado sin Oceanía').toBe(true)
+    expect(continentes.size, 'faltan continentes en el reparto del mundo').toBeGreaterThanOrEqual(5)
+
+    // Los períodos 1-4 tienen que ser un bloque SEGUIDO: una tabla con huecos
+    // no se puede montar sobre la mesa, que es para lo que sirve la hoja.
+    const zs = tarjetasDe('quimica-elementos', 'periodos-1-4', 'es')
+      .map(t => Number(String(t.dorso).match(/Z=(\d+)/)[1]))
+    expect(zs).toEqual(Array.from({ length: 36 }, (_, i) => i + 1))
+  })
+
+  it('el reparto completo sale mezclado, no agrupado por su respuesta', () => {
+    // Se recorta por filas y se reparte: si la hoja va agrupada, un grupo se
+    // lleva los nueve productores y otro los descomponedores. Basta con que
+    // ningún rol salga entero de seguido.
+    const dorsos = tarjetasDe('biologia-cadena', 'todos', 'es').map(t => t.dorso)
+    let racha = 1
+    let peor = 1
+    for (let i = 1; i < dorsos.length; i++) {
+      racha = dorsos[i] === dorsos[i - 1] ? racha + 1 : 1
+      peor = Math.max(peor, racha)
+    }
+    expect(peor, `hay ${peor} tarjetas seguidas del mismo rol`).toBeLessThanOrEqual(3)
+  })
+
+  it('las hojas que no caben en la tira van en formato plegable', () => {
+    // En el reparto de tira el dorso ocupa un tercio de columna, y ahí no
+    // entra de todo. Son tres cosas distintas las que no caben, y las tres se
+    // vieron impresas antes de estar aquí:
+    //
+    //   · una frase entera, que sale en una tira de palabras sueltas;
+    //   · una PALABRA larga, que no se parte por ningún sitio bueno
+    //     ("Descomponedor" salía cortada en seco en la cadena alimentaria);
+    //   · un dorso más largo que el frente, que es la tira al revés: los
+    //     elementos tenían dos letras delante y quince detrás, con dos
+    //     tercios de tarjeta en blanco.
+    const MAX_FRASE = 40
+    const MAX_PALABRA = 12
+    // La palabra larga suelta no obliga a cambiar de reparto: con break-words
+    // se parte en dos líneas, que es feo pero se lee, y la única capital del
+    // mundo que se pasa es Sri Jayawardenepura Kotte. Lo que no puede ser es
+    // que le pase a media hoja: ahí el formato está mal elegido, no el dato.
+    const TOLERANCIA_PALABRA_LARGA = 0.1
     for (const id of IMPRIMIBLE_IDS) {
       const d = IMPRIMIBLES[id]
-      const largo = d.variantes('es')
-        .flatMap(v => tarjetasDe(id, v.id, 'es'))
-        .reduce((max, t) => Math.max(max, String(t.dorso).length), 0)
-      if (largo > 40) expect(d.formato, `${id}: dorsos de ${largo} caracteres`).toBe('plegable')
+      if (d.formato === 'plegable') continue
+      for (const v of variantesDe(id, 'es')) {
+        const tarjetas = tarjetasDe(id, v.id, 'es')
+        let noCaben = 0
+        for (const t of tarjetas) {
+          const dorso = String(t.dorso)
+          const palabra = dorso.split(/\s+/).reduce((m, p) => Math.max(m, p.length), 0)
+          if (palabra > MAX_PALABRA) noCaben++
+          expect(dorso.length, `${id}: dorso de ${dorso.length} caracteres ("${dorso}")`).toBeLessThanOrEqual(MAX_FRASE)
+          // La tira al revés: dos letras delante y quince detrás deja dos
+          // tercios de tarjeta en blanco y el dorso partido.
+          expect(dorso.length, `${id}: el dorso ("${dorso}") es más largo que el frente ("${t.frente}")`)
+            .toBeLessThanOrEqual(String(t.frente).length + MAX_PALABRA)
+        }
+        expect(noCaben / tarjetas.length, `${id}/${v.id}: ${noCaben} de ${tarjetas.length} dorsos no caben de una pieza en la tira`)
+          .toBeLessThanOrEqual(TOLERANCIA_PALABRA_LARGA)
+      }
     }
   })
 

@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useLang } from '../context/LangContext'
 import { FICHAS_ES, FICHAS_EN, FICHAS_CA } from '../data/infoJuegosFichas'
-import { IMPRIMIBLES, IMPRIMIBLE_IDS, tarjetasDe } from '../lib/materialImprimible'
+import { IMPRIMIBLES, IMPRIMIBLE_IDS, tarjetasDe, variantesDe } from '../lib/materialImprimible'
 import { HojaActividad, HojaTarjetas, VisorHoja } from './HojasImprimibles'
 
 // Recursos del profesor, en dos apartados que NO son lo mismo:
@@ -73,7 +73,7 @@ export default function RecursosImprimibles() {
                     </p>
                     <p className="text-white/40 text-[12px] leading-snug mb-3">{d.desc[lang] ?? d.desc.es}</p>
                     <div className="flex flex-wrap gap-1">
-                      {d.variantes(lang).map(v => (
+                      {variantesDe(id, lang).map(v => (
                         <button key={v.id} type="button"
                           onClick={() => setAbierta({ tipo: 'tarjetas', id, varianteId: v.id })}
                           className="text-[11.5px] font-bold px-2.5 py-1.5 rounded-lg border border-white/10 text-white/55 hover:border-teal-500/40 hover:text-white transition-colors">
@@ -128,7 +128,7 @@ export default function RecursosImprimibles() {
             ? <HojaActividad ficha={fichas[abierta.slug]} tr={tr} />
             : (() => {
               const d = IMPRIMIBLES[abierta.id]
-              const variante = d.variantes(lang).find(v => v.id === abierta.varianteId)
+              const variante = variantesDe(abierta.id, lang).find(v => v.id === abierta.varianteId)
               return <HojaTarjetas imprimible={d} variante={variante} tarjetas={tarjetasDe(abierta.id, abierta.varianteId, lang)} tr={tr} lang={lang} />
             })()}
         </VisorHoja>

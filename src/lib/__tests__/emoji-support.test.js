@@ -44,5 +44,8 @@ describe('compatibilidad de emojis en Windows 10', () => {
       unique,
       `Emojis no soportados en Windows 10 (usa un equivalente pre-2016):\n${unique.join('\n')}`,
     ).toEqual([])
-  })
+    // Recorre src entero carácter a carácter, y src no para de crecer: sola
+    // tarda medio segundo, pero con la suite completa por delante se pasaba
+    // del límite de 5 s por defecto y fallaba por tiempo, no por un emoji.
+  }, 30000)
 })

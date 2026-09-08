@@ -104,11 +104,16 @@ export function HojaTarjetas({ imprimible, variante, tarjetas, tr, lang }) {
         ) : (
           <div key={i} className="flex items-stretch border border-black/50 rounded-md overflow-hidden break-inside-avoid">
             <div className="flex-1 min-w-0 p-2.5">
-              <p className="text-[12.5px] font-bold leading-snug">{t.frente}</p>
-              {t.pista && <p className="text-[10px] text-black/55 leading-snug mt-1">{t.pista}</p>}
+              <p className="text-[12.5px] font-bold leading-snug break-words">{t.frente}</p>
+              {t.pista && <p className="text-[10px] text-black/55 leading-snug mt-1 break-words">{t.pista}</p>}
             </div>
-            <div className="w-[34%] shrink-0 border-l border-dashed border-black/50 p-2.5 flex items-center justify-center">
-              <p className="text-[13px] font-black text-center leading-snug">{t.dorso}</p>
+            {/* `min-w-0` + `break-words`: la tira es estrecha y una palabra
+                larga que no cabe la desbordaba, y como la tarjeta lleva
+                overflow-hidden se imprimía CORTADA sin avisar — cuatro
+                tarjetas de la cadena alimentaria decían "Descomponedo".
+                Partida por la mitad es fea; cortada no se entiende. */}
+            <div className="w-[34%] shrink-0 min-w-0 border-l border-dashed border-black/50 p-2.5 flex items-center justify-center">
+              <p className="w-full min-w-0 text-[13px] font-black text-center leading-snug break-words">{t.dorso}</p>
             </div>
           </div>
         ))}

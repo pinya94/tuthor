@@ -106,26 +106,29 @@ describe('imprimibleDeBanco', () => {
 
   it('un nivel con pocas preguntas propias sigue dando hoja, porque acumula las de abajo', () => {
     // Dos preguntas de bachillerato no llenaban una hoja cuando cada nivel
-    // iba por su cuenta. Ahora "Bachillerato" son esas dos MÁS las seis de
+    // iba por su cuenta. Ahora "Bachillerato" son esas dos MÁS las diez de
     // ESO, que es justo lo que sirve el examen a un alumno de bachillerato.
     const def = imprimibleDeBanco(banco, [
-      ...Array.from({ length: 6 }, (_, i) => pregunta('eso', i)),
+      ...Array.from({ length: 10 }, (_, i) => pregunta('eso', i)),
       pregunta('bachillerato', 90),
       pregunta('bachillerato', 91),
     ], 'quimica')
     expect(def.variantes('es').map(v => v.id)).toEqual(['eso', 'bachillerato'])
-    expect(def.tarjetas('bachillerato', 'es')).toHaveLength(8)
+    expect(def.tarjetas('bachillerato', 'es')).toHaveLength(12)
   })
 
   it('esconde el nivel que no aporta ninguna pregunta propia', () => {
     // Sin esto, un banco sin nada de bachillerato enseñaría un botón
     // "Bachillerato" que imprime exactamente la misma hoja que "ESO".
-    const def = imprimibleDeBanco(banco, Array.from({ length: 6 }, (_, i) => pregunta('eso', i)), 'quimica')
+    const def = imprimibleDeBanco(banco, Array.from({ length: 10 }, (_, i) => pregunta('eso', i)), 'quimica')
     expect(def.variantes('es').map(v => v.id)).toEqual(['eso'])
   })
 
-  it('esconde el nivel cuya hoja acumulada sigue siendo minúscula', () => {
-    const def = imprimibleDeBanco(banco, [pregunta('primaria', 1), pregunta('primaria', 2)], 'quimica')
+  it('esconde el nivel cuya hoja acumulada no llega a una baraja', () => {
+    // El mínimo es el mismo que el de los imprimibles del catálogo
+    // (MIN_TARJETAS_GRUPO): siete tarjetas no son un juego de repaso, y las
+    // dos clases de hoja salen juntas en la misma sección de la página.
+    const def = imprimibleDeBanco(banco, Array.from({ length: 7 }, (_, i) => pregunta('primaria', i)), 'quimica')
     expect(def.variantes('es')).toEqual([])
   })
 
@@ -138,9 +141,9 @@ describe('imprimibleDeBanco', () => {
 
   it('los niveles salen de menor a mayor, no en el orden del banco', () => {
     const def = imprimibleDeBanco(banco, [
-      ...Array.from({ length: 4 }, (_, i) => pregunta('bachillerato', i)),
-      ...Array.from({ length: 4 }, (_, i) => pregunta('eso', 10 + i)),
-      ...Array.from({ length: 4 }, (_, i) => pregunta('primaria', 20 + i)),
+      ...Array.from({ length: 8 }, (_, i) => pregunta('bachillerato', i)),
+      ...Array.from({ length: 8 }, (_, i) => pregunta('eso', 10 + i)),
+      ...Array.from({ length: 8 }, (_, i) => pregunta('primaria', 20 + i)),
     ], 'fisica')
     expect(def.variantes('es').map(v => v.id)).toEqual(['primaria', 'eso', 'bachillerato'])
   })

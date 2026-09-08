@@ -1,6 +1,6 @@
 import { EVENTOS_HISTORIA } from '../data/historiaEvents'
 import { PAISES } from '../data/paises'
-import { ELEMENTOS, TIPOS } from '../data/tablaperiodica'
+import { ELEMENTOS } from '../data/tablaperiodica'
 import { PORTADAS } from '../data/portadas'
 import { ORGANISMOS, ROLES } from '../data/cadenaTrofica'
 import { ORGANULOS, CELULAS } from '../data/organulos'
@@ -35,10 +35,18 @@ const tr3 = (o, lang) => o[lang] ?? o.es
 // épocas grandes (edad-media tiene 32 eventos) se quedan igual por debajo.
 export const MAX_TARJETAS = 40
 
-// Por debajo de esto un grupo no es una hoja: son tres recortes sueltos. Se
-// usa para esconder botones que imprimirían una o dos tarjetas, no para
-// esconder el contenido (esas tarjetas siguen saliendo en el grupo entero).
-const MIN_TARJETAS_GRUPO = 3
+// Por debajo de esto un grupo no es una BARAJA: son unos recortes sueltos.
+// Cinco halógenos, tres órganos del aparato respiratorio o cuatro planetas
+// rocosos no son una actividad — no se puede jugar, ni clasificar, ni montar
+// nada con ellos. Y ofrecerlos tenía un coste doble: llenaban el panel de
+// botones inútiles y escondían entre ellos el único reparto con el que sí se
+// podía hacer algo. Esas tarjetas no se pierden: siguen saliendo en el
+// reparto completo, que es donde sirven.
+//
+// Lo exporta para tarjetasExamen, que reparte por nivel y tenía su propio
+// mínimo: un solo número o "8 tarjetas" pasa a significar dos cosas distintas
+// según de qué hoja se hable.
+export const MIN_TARJETAS_GRUPO = 8
 
 // Las etiquetas de las épocas ya viven en SUBJECTS (statsAggregation), que es
 // de donde salen también en el perfil y en el panel: no se reescriben aquí
@@ -51,20 +59,6 @@ const CAT_LABELS_HISTORIA = SUBJECTS.find(s => s.id === 'historia')?.catLabels ?
 const SOLO_EN = {
   animal:  { es: 'Solo en la animal', en: 'Animal cell only', ca: 'Només a l\'animal' },
   vegetal: { es: 'Solo en la vegetal', en: 'Plant cell only', ca: 'Només a la vegetal' },
-}
-
-// El corte en 2 UA no es arbitrario: es el cinturón de asteroides, que es
-// justo donde los libros separan planetas rocosos de gigantes gaseosos. Se
-// calcula del dato en vez de listar nombres para que no puedan divergir.
-// El sistema solar entero son OCHO tarjetas: partirlo en dos grupos de cuatro
-// deja media hoja y, sobre todo, rompe la actividad — ordenar por distancia y
-// ver el salto del cinturón de asteroides solo funciona con las ocho sobre la
-// mesa. Por eso "los ocho" va primero y es lo que sale por defecto; los dos
-// grupos se quedan para quien trabaje solo una mitad.
-const GRUPOS_PLANETAS = {
-  todos:    { label: { es: 'Los ocho planetas', en: 'All eight planets', ca: 'Els vuit planetes' }, test: () => true },
-  rocosos:  { label: { es: 'Rocosos (interiores)', en: 'Rocky (inner)', ca: 'Rocosos (interiors)' }, test: p => p.distanciaUA < 2 },
-  gigantes: { label: { es: 'Gigantes (exteriores)', en: 'Giants (outer)', ca: 'Gegants (exteriors)' }, test: p => p.distanciaUA >= 2 },
 }
 
 const CONTINENTES = {
@@ -81,6 +75,44 @@ const CONTINENTES = {
 // que un profesor espera — quien imprime las capitales de Europa quiere Moscú
 // en el montón.
 const continentesDe = pais => String(pais.continente).split('/')
+
+// El reparto "Mundo" NO son los 40 países más poblados del planeta: ese corte
+// deja fuera a Oceanía entera (Australia es la 45ª por población) y la
+// actividad de esta hoja es justo clasificar por continente. Se cogen los ocho
+// más poblados de CADA continente, así los cinco están dentro y Asia no se
+// come la hoja. Ocho porque cinco continentes por ocho ya roza el tope de
+// recorte sin pasarse.
+const POR_CONTINENTE_EN_MUNDO = 8
+
+function paisesDelMundo() {
+  const porContinente = Object.keys(CONTINENTES).map(c => PAISES
+    .filter(p => continentesDe(p).includes(c))
+    .sort((a, b) => b.poblacion - a.poblacion)
+    .slice(0, POR_CONTINENTE_EN_MUNDO))
+
+  // Ronda a ronda y no continente a continente: si la hoja saliera agrupada,
+  // el profesor que la recorta por filas y reparte le daría a un grupo Europa
+  // entera y a otro África entera, y ahí ya no queda nada que clasificar.
+  // Rusia sale en dos listas (está marcada 'Europa/Asia'), de ahí el visto.
+  const vistos = new Set()
+  const salida = []
+  for (let i = 0; i < POR_CONTINENTE_EN_MUNDO; i++) {
+    for (const lista of porContinente) {
+      const p = lista[i]
+      if (p && !vistos.has(p.iso)) { vistos.add(p.iso); salida.push(p) }
+    }
+  }
+  return salida
+}
+
+// La tabla periódica solo se puede montar sobre la mesa si el juego de
+// tarjetas es un bloque CERRADO. ELEMENTOS tiene 71 elementos hasta el Z=86,
+// con hueco a partir del 57 (faltan los lantánidos), así que "todos" no es una
+// tabla: es una tabla con agujeros y encima no cabe en una hoja. Los períodos
+// 1 a 4 sí son una tabla entera — 36 elementos seguidos, del hidrógeno al
+// criptón, que es exactamente el trozo que se estudia.
+const Z_MAX_PERIODOS_1_4 = 36
+const Z_PRIMEROS = 20
 
 // ── Los imprimibles ──────────────────────────────────────────────────────────
 // `variantes(lang)` da los grupos elegibles (época, continente, tipo…) con su
@@ -130,21 +162,26 @@ export const IMPRIMIBLES = {
       ca: 'El país al davant i la seva capital al darrere, amb la bandera.',
     },
     comoUsarlo: {
-      es: 'Recorta y reparte. Sirven para preguntarse por parejas, para un trivial rápido o para ordenarlas por continente sobre la mesa.',
-      en: 'Cut them out and hand them round. Good for pair quizzing, a quick trivia round, or sorting them by continent on the table.',
-      ca: 'Retalla i reparteix. Serveixen per preguntar-se per parelles, per a un trivial ràpid o per ordenar-les per continent sobre la taula.',
+      es: 'Recorta y reparte. Sirven para preguntarse por parejas o para un trivial rápido. Para clasificarlas por continente sobre la mesa hace falta el reparto "Mundo", que trae países de los cinco: una hoja de un solo continente no da nada que clasificar.',
+      en: 'Cut them out and hand them round. Good for pair quizzing or a quick trivia round. To sort them by continent on the table you need the "World" set, which brings countries from all five: a single-continent sheet leaves nothing to sort.',
+      ca: 'Retalla i reparteix. Serveixen per preguntar-se per parelles o per a un trivial ràpid. Per classificar-les per continent sobre la taula cal el repartiment "Món", que porta països dels cinc.',
     },
     variantes(lang) {
       const cuenta = {}
       for (const p of PAISES) for (const c of continentesDe(p)) cuenta[c] = (cuenta[c] ?? 0) + 1
-      return Object.entries(cuenta)
+      const continentes = Object.entries(cuenta)
         .filter(([id]) => CONTINENTES[id])
         .map(([id, n]) => ({ id, label: tr3(CONTINENTES[id], lang), n }))
         .sort((a, b) => a.label.localeCompare(b.label))
+      // El mundo va primero: es el único reparto con el que se puede hacer la
+      // actividad de clasificar, y los continentes sueltos son para repasar uno.
+      return [
+        { id: 'mundo', label: tr3({ es: '🌐 Mundo', en: '🌐 World', ca: '🌐 Món' }, lang), n: paisesDelMundo().length, completo: true },
+        ...continentes,
+      ]
     },
     tarjetas(varianteId, lang) {
-      return PAISES
-        .filter(p => continentesDe(p).includes(varianteId))
+      return (varianteId === 'mundo' ? paisesDelMundo() : PAISES.filter(p => continentesDe(p).includes(varianteId)))
         .map(p => ({
           frente: `${p.bandera} ${enIdioma(p, 'nombre', lang)}`,
           pista: null,
@@ -155,6 +192,11 @@ export const IMPRIMIBLES = {
 
   'quimica-elementos': {
     emoji: '⚗️',
+    // El reparto de tira está pensado para frente largo y dorso corto, y esta
+    // hoja es justo al revés: delante van dos letras ("Ti") y detrás quince
+    // ("Titanio · Z=22"). Salía una tarjeta con dos tercios en blanco y el
+    // nombre partido en la tira estrecha. Plegable le da la vuelta al reparto.
+    formato: 'plegable',
     asignatura: { es: 'Química', en: 'Chemistry', ca: 'Química' },
     titulo: { es: 'Tarjetas de elementos químicos', en: 'Chemical element cards', ca: 'Targetes d\'elements químics' },
     desc: {
@@ -163,21 +205,35 @@ export const IMPRIMIBLES = {
       ca: 'El símbol al davant i el nom i el número atòmic al darrere.',
     },
     comoUsarlo: {
-      es: 'Recorta y usa el símbolo como pregunta: qué elemento es y qué número atómico tiene. También sirven para montar la tabla periódica sobre la mesa.',
-      en: 'Cut them out and use the symbol as the question: which element is it and what is its atomic number. They also work for laying out the periodic table on a table.',
-      ca: "Retalla i fes servir el símbol com a pregunta: quin element és i quin número atòmic té. També serveixen per muntar la taula periòdica sobre la taula.",
+      es: 'Recorta y usa el símbolo como pregunta: qué elemento es y qué número atómico tiene. Con el reparto de los períodos 1 a 4 se puede montar la tabla entera sobre la mesa, porque son los 36 primeros seguidos y no falta ninguno: el número atómico del dorso es el que dice dónde va cada uno.',
+      en: 'Cut them out and use the symbol as the question: which element is it and what is its atomic number. The periods 1-4 set lets you lay out the whole table, since it is the first 36 in a row with none missing: the atomic number on the back is what says where each one goes.',
+      ca: "Retalla i fes servir el símbol com a pregunta: quin element és i quin número atòmic té. Amb el repartiment dels períodes 1 a 4 es pot muntar la taula sencera sobre la taula, perquè són els 36 primers seguits i no en falta cap.",
     },
+    // Dos bloques SEGUIDOS, no ocho montones por tipo. Antes esto ofrecía un
+    // botón por familia —cinco halógenos, seis gases nobles— y con eso no se
+    // hace nada: la actividad de unas tarjetas de elementos es montar la tabla,
+    // y una tabla necesita el bloque entero sin huecos. Los dos cortes son los
+    // que se estudian: los veinte primeros en primaria y primero de ESO, y los
+    // cuatro primeros períodos completos después.
     variantes(lang) {
-      const cuenta = {}
-      for (const e of ELEMENTOS) cuenta[e.tipo] = (cuenta[e.tipo] ?? 0) + 1
-      return Object.entries(cuenta)
-        .filter(([id]) => TIPOS[id])
-        .map(([id, n]) => ({ id, label: enIdioma(TIPOS[id], 'label', lang), n }))
-        .sort((a, b) => a.label.localeCompare(b.label))
+      const bloque = (id, label, zMax) => ({
+        id, label: tr3(label, lang), completo: true,
+        n: ELEMENTOS.filter(e => e.z <= zMax).length,
+      })
+      return [
+        bloque('primeros-20', { es: 'Los 20 primeros', en: 'The first 20', ca: 'Els 20 primers' }, Z_PRIMEROS),
+        bloque('periodos-1-4', { es: 'Períodos 1-4 (los 36)', en: 'Periods 1-4 (all 36)', ca: 'Períodes 1-4 (els 36)' }, Z_MAX_PERIODOS_1_4),
+      ]
     },
     tarjetas(varianteId, lang) {
+      const zMax = { 'primeros-20': Z_PRIMEROS, 'periodos-1-4': Z_MAX_PERIODOS_1_4 }[varianteId]
+      if (!zMax) return []
       return ELEMENTOS
-        .filter(e => e.tipo === varianteId)
+        .filter(e => e.z <= zMax)
+        // En orden de número atómico, que es el orden de la tabla. ELEMENTOS
+        // viene agrupado por tipo, así que sin esto la hoja saldría saltando
+        // del 1 al 11 y volviendo atrás.
+        .sort((a, b) => a.z - b.z)
         .map(e => ({
           frente: e.symbol,
           pista: null,
@@ -227,6 +283,16 @@ export const IMPRIMIBLES = {
 
   'biologia-cadena': {
     emoji: '🌿',
+    // Plegable aunque el dorso sea corto: no es la longitud de la frase, es la
+    // de la PALABRA. "Descomponedor" no cabe en la tira de un tercio de
+    // columna, y de las dos maneras salía mal — cortada en seco ("Descomponedo")
+    // o partida en dos líneas por la mitad. En la banda de ancho entero cabe.
+    formato: 'plegable',
+    // Como los titulares, y por lo mismo: ORGANISMOS viene agrupado por rol,
+    // así que la hoja completa salía con los nueve productores juntos al
+    // principio. El profesor la recorta por filas, reparte, y un grupo se
+    // queda con nueve plantas y ninguna cosa que se las coma.
+    intercalar: true,
     asignatura: { es: 'Biología', en: 'Biology', ca: 'Biologia' },
     titulo: { es: 'Tarjetas de la cadena alimentaria', en: 'Food chain cards', ca: 'Targetes de la cadena alimentària' },
     desc: {
@@ -235,21 +301,26 @@ export const IMPRIMIBLES = {
       ca: 'Un ésser viu al davant i el seu paper a la cadena al darrere.',
     },
     comoUsarlo: {
-      es: 'Recorta y reparte: por grupos, tienen que ordenar sus tarjetas en una cadena que se sostenga, del productor al último consumidor.',
-      en: 'Cut them out and hand them round: in groups, they arrange their cards into a chain that holds up, from producer to top consumer.',
-      ca: 'Retalla i reparteix: per grups, han d\'ordenar les seves targetes en una cadena que se sostingui, del productor a l\'últim consumidor.',
+      es: 'Imprime el ecosistema completo, recorta y reparte: por grupos, tienen que ordenar sus tarjetas en una cadena que se sostenga, del productor al último consumidor. Los roles sueltos son para repasar uno solo — con una hoja de productores no hay cadena que montar.',
+      en: 'Print the full ecosystem, cut it out and hand it round: in groups, they arrange their cards into a chain that holds up, from producer to top consumer. The single-role sets are for revising one role — a sheet of producers builds no chain.',
+      ca: "Imprimeix l'ecosistema complet, retalla i reparteix: per grups, han d'ordenar les seves targetes en una cadena que se sostingui, del productor a l'últim consumidor. Els rols solts són per repassar-ne un de sol.",
     },
+    // Un solo reparto, el ecosistema entero. Esto ofrecía un botón por rol
+    // —nueve productores, diez consumidores primarios…— y ninguno servía para
+    // nada: una cadena necesita productor, consumidor y descomponedor A LA VEZ,
+    // así que con cualquiera de esas hojas la actividad era imposible de hacer.
+    // El rol no es una baraja, es la respuesta que va detrás de la tarjeta.
     variantes(lang) {
-      const cuenta = {}
-      for (const o of ORGANISMOS) cuenta[o.rol] = (cuenta[o.rol] ?? 0) + 1
-      return Object.entries(cuenta)
-        .filter(([id]) => ROLES[id])
-        .map(([id, n]) => ({ id, label: tr3(ROLES[id].label, lang), n }))
-        .sort((a, b) => a.label.localeCompare(b.label))
+      return [{
+        id: 'todos',
+        label: tr3({ es: 'Ecosistema completo', en: 'Full ecosystem', ca: 'Ecosistema complet' }, lang),
+        n: ORGANISMOS.length,
+        completo: true,
+      }]
     },
     tarjetas(varianteId, lang) {
+      if (varianteId !== 'todos') return []
       return ORGANISMOS
-        .filter(o => o.rol === varianteId)
         .map(o => ({
           frente: `${o.emoji} ${enIdioma(o, 'nombre', lang)}`,
           pista: null,
@@ -279,11 +350,17 @@ export const IMPRIMIBLES = {
       en: 'Cut them out and hand one to each student: they explain their organelle to the rest without reading the back, and together they build the cell on the board. The ones present in both cells appear in both sets, so you can play animal against plant.',
       ca: "Retalla i reparteix-ne una a cada alumne: ha d'explicar el seu orgànul a la resta sense llegir el darrere, i entre tots muntar la cèl·lula a la pissarra.",
     },
+    // Las dos son repartos COMPLETOS, no medio material cada una: una célula
+    // animal y una vegetal son dos barajas enteras que comparten la mitad de
+    // las tarjetas (membrana, núcleo, citoplasma…). Aquí partir no rompe nada
+    // —al revés, es lo que permite jugar animal contra vegetal—, que es justo
+    // lo contrario de lo que pasaba con los roles de la cadena alimentaria.
     variantes(lang) {
       return Object.entries(CELULAS).map(([id, c]) => ({
         id,
         label: `${c.emoji} ${tr3(c.label, lang)}`,
         n: ORGANULOS.filter(o => o.donde === 'ambas' || o.donde === id).length,
+        completo: true,
       }))
     },
     tarjetas(varianteId, lang) {
@@ -316,16 +393,14 @@ export const IMPRIMIBLES = {
       ca: 'Reparteix les targetes i que les col·loquin sobre una silueta dibuixada en un paper gran, cada sistema d\'un color. Després s\'ajunten les siluetes: els sistemes comparteixen lloc al cos.',
     },
     variantes(lang) {
-      // El grupo entero va primero porque es el reparto normal en clase. Los
-      // sistemas sueltos solo salen si dan para una hoja: la silueta de Rayos
-      // X —de donde vienen estos datos— tiene un solo órgano circulatorio y
-      // dos nerviosos, y ofrecer un botón que imprime UNA tarjeta es peor que
-      // no ofrecerlo. Siguen estando dentro de "Todos los sistemas".
+      // El cuerpo entero va primero porque es el reparto normal en clase. Los
+      // sistemas sueltos los criba variantesDe: la silueta de Rayos X —de
+      // donde vienen estos datos— tiene un solo órgano circulatorio y tres del
+      // respiratorio, y eso no es una baraja. Siguen dentro de "Todos".
       const sueltos = Object.entries(SISTEMAS)
         .map(([id, label]) => ({ id, label: tr3(label, lang), n: ORGANOS.filter(o => o.sistema === id).length }))
-        .filter(v => v.n >= MIN_TARJETAS_GRUPO)
       return [
-        { id: 'todos', label: tr3({ es: 'Todos los sistemas', en: 'All systems', ca: 'Tots els sistemes' }, lang), n: ORGANOS.length },
+        { id: 'todos', label: tr3({ es: 'Todos los sistemas', en: 'All systems', ca: 'Tots els sistemes' }, lang), n: ORGANOS.length, completo: true },
         ...sueltos,
       ]
     },
@@ -358,17 +433,21 @@ export const IMPRIMIBLES = {
       en: 'Cut them out, hand them round and have the planets ordered by distance from the Sun without looking at the back. Distance is in AU (1 AU = Sun to Earth): with all eight on the table the asteroid-belt jump shows up by itself, since there is more space between Mars and Jupiter than between the Sun and Mars.',
       ca: "Retalla, reparteix i que els ordenin per distància al Sol sense mirar el darrere. La distància va en UA (1 UA = del Sol a la Terra): amb els vuit planetes sobre la taula es veu sol el salt del cinturó d'asteroides.",
     },
+    // Un solo reparto: el sistema solar son ocho planetas y caben en una hoja.
+    // Hubo un momento en que esto ofrecía "rocosos" y "gigantes" por separado,
+    // cuatro tarjetas cada uno, y era peor de las dos maneras — media hoja, y
+    // sin el salto del cinturón de asteroides no queda actividad ninguna.
     variantes(lang) {
-      return Object.entries(GRUPOS_PLANETAS).map(([id, g]) => ({
-        id,
-        label: tr3(g.label, lang),
-        n: PLANETAS.filter(g.test).length,
-      }))
+      return [{
+        id: 'todos',
+        label: tr3({ es: 'Los ocho planetas', en: 'All eight planets', ca: 'Els vuit planetes' }, lang),
+        n: PLANETAS.length,
+        completo: true,
+      }]
     },
     tarjetas(varianteId, lang) {
-      const grupo = GRUPOS_PLANETAS[varianteId]
-      if (!grupo) return []
-      return PLANETAS.filter(grupo.test).map(p => ({
+      if (varianteId !== 'todos') return []
+      return PLANETAS.map(p => ({
         frente: `${p.emoji} ${tr3(p.nombre, lang)}`,
         pista: `${p.distanciaUA} UA`,
         dorso: tr3(p.dato, lang),
@@ -378,6 +457,25 @@ export const IMPRIMIBLES = {
 }
 
 export const IMPRIMIBLE_IDS = Object.keys(IMPRIMIBLES)
+
+// Los repartos que se ENSEÑAN, que no son todos los que existen: el completo
+// siempre (va marcado `completo`, y aunque fuera corto es la actividad), y los
+// grupos sueltos solo si llenan una baraja.
+//
+// Pasa por aquí todo el que pinte botones —el panel de recursos y las páginas
+// de teoría— para que la regla viva en un sitio. Un imprimible que solo tiene
+// un reparto bueno (los planetas, la cadena alimentaria) enseña un botón y ya:
+// el objetivo de esta pantalla es que el profesor imprima algo que pueda usar,
+// no que tenga mucho donde elegir.
+// Toma la DEFINICIÓN y no el id porque las páginas de teoría mezclan estos
+// imprimibles con las barajas sacadas de los bancos de examen, que se cargan
+// aparte y no viven en IMPRIMIBLES. La regla tiene que ser la misma para las
+// dos o el mismo botón significa cosas distintas según de dónde salga.
+export function variantesUsables(def, lang = 'es') {
+  return def?.variantes(lang).filter(v => v.completo || v.n >= MIN_TARJETAS_GRUPO) ?? []
+}
+
+export const variantesDe = (imprimibleId, lang = 'es') => variantesUsables(IMPRIMIBLES[imprimibleId], lang)
 
 // ── Qué imprimible encaja con cada página de teoría ──────────────────────────
 // Las páginas de /estudiar/<materia>/<tema> explican el tema y desde ahí se
