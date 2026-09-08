@@ -199,6 +199,11 @@ export const EXAMS = {
     emoji: '🍕', subject: 'matematicas',
     path: 'examen/fracciones', page: () => import('../pages/FraccionesExamen'),
   },
+  'porcentajes': {
+    label: { es: 'Proporcionalidad y Porcentajes', en: 'Proportion and Percentages', ca: 'Proporcionalitat i Percentatges' },
+    emoji: '💯', subject: 'matematicas',
+    path: 'examen/porcentajes', page: () => import('../pages/PorcentajesExamen'),
+  },
   'reparte-pastel-test': {
     label: { es: 'Reparte el Pastel', en: 'Slice the Cake', ca: 'Reparteix el Pastís' },
     emoji: '🍰', subject: 'matematicas',

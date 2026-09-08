@@ -162,6 +162,7 @@ export const TOPIC_CATALOG = {
       algebra: examTema({ teoria: 'algebra', 'balanza-algebraica': 'balanza-algebraica-test' }),
       geometria: examTema({ teoria: 'geometria', 'figuras-compuestas': 'figuras-compuestas' }),
       fracciones: examTema({ teoria: 'fracciones', 'reparte-pastel': 'reparte-pastel-test' }),
+      porcentajes: examTema({ teoria: 'porcentajes' }),
       estadistica: examTema({
         teoria: 'estadistica',
         'estadistico-media': 'estadistico-media-test',

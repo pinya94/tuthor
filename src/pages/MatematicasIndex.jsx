@@ -4,7 +4,11 @@ import TemarioGrid from '../components/TemarioGrid'
 import { MODOS, MODO_IDS } from '../lib/mathEngine'
 
 // Examenes que van directo al examen (no usan el motor aritmético)
-const EXAM_DIRECTO = {}
+// Porcentajes tiene un solo formato, así que una página de tema intermedia
+// solo enseñaría una tarjeta: la ficha del temario lleva directa al examen.
+const EXAM_DIRECTO = {
+  porcentajes: '/examen/porcentajes',
+}
 
 const EXTRAS = [
   {
@@ -18,6 +22,12 @@ const EXTRAS = [
     titulo: 'Fracciones y Decimales', tituloEn: 'Fractions and Decimals', tituloCa: 'Fraccions i Decimals',
     emoji: '🍕', gradient: 'from-blue-500 to-indigo-600',
     tags: ['fraccion', 'decimal', 'porcentaje', 'equivalente', 'simplificar'],
+  },
+  {
+    id: 'porcentajes',
+    titulo: 'Proporcionalidad y Porcentajes', tituloEn: 'Proportion and Percentages', tituloCa: 'Proporcionalitat i Percentatges',
+    emoji: '💯', gradient: 'from-emerald-500 to-teal-700',
+    tags: ['porcentaje', 'proporcion', 'regla de tres', 'descuento', 'escala', 'iva'],
   },
   {
     id: 'estadistica',
