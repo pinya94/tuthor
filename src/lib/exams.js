@@ -119,6 +119,11 @@ export const EXAMS = {
     emoji: '🌐', subject: 'geografia',
     path: 'examen/coordenadas-test', page: () => import('../pages/CoordenadasExamen'),
   },
+  'geografia-fisica-test': {
+    label: { es: 'Geografía Física', en: 'Physical Geography', ca: 'Geografia Física' },
+    emoji: '⛰️', subject: 'geografia',
+    path: 'examen/geografia-fisica-test', page: () => import('../pages/GeografiaFisicaExamen'),
+  },
   'diagnostico': {
     // Herramienta de estudio de Ciencias; subject 'ciencias' no existe en
     // SUBJECT_DEFS a propósito (no aparece en "Por materia" ni en tareas).
@@ -139,6 +144,11 @@ export const EXAMS = {
     label: { es: 'Lectura de Partituras', en: 'Sheet Music Reading', ca: 'Lectura de Partitures' },
     emoji: '🎼', subject: 'musica',
     path: 'examen/musica', page: () => import('../pages/MusicaExamen'),
+  },
+  'musica-ritmo-test': {
+    label: { es: 'Ritmo', en: 'Rhythm', ca: 'Ritme' },
+    emoji: '🥁', subject: 'musica',
+    path: 'examen/musica-ritmo-test', page: () => import('../pages/MusicaRitmoExamen'),
   },
 
   // ── Economía ───────────────────────────────────────────────────────────────

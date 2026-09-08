@@ -280,6 +280,9 @@ export const TOPIC_CATALOG = {
       oceania: examTema({ pistas: compartido('geografia-examen'), mapa: compartido('geomapa-examen'), coordenadas: compartido('coordenadas-test') }),
       espana: examTema({ mapa: 'geomapa-espana-examen' }),
       eeuu: examTema({ mapa: 'geomapa-eeuu-examen' }),
+      // El único tema de geografía que no es una región: aquí no se señala
+      // nada en el mapa, se pregunta por los conceptos (relieve, ríos, clima).
+      fisica: examTema({ teoria: 'geografia-fisica-test' }),
     },
     formatos: {
       pistas: examFormato({ es: 'Adivina por pistas', en: 'Guess from clues', ca: 'Endevina per pistes' }, '🌍'),
@@ -289,6 +292,7 @@ export const TOPIC_CATALOG = {
       // ni estados — esa sería una mecánica distinta con datos que aún no
       // existen (lat/lon de cada comunidad/estado).
       coordenadas: examFormato({ es: 'Latitud y longitud (con el juego)', en: 'Latitude & longitude (with the game)', ca: 'Latitud i longitud (amb el joc)' }, '🌐'),
+      teoria: examFormato({ es: 'Teoría (tipo test)', en: 'Theory (quiz)', ca: 'Teoria (tipus test)' }, '📝'),
     },
   },
 
@@ -443,7 +447,10 @@ export const TOPIC_CATALOG = {
   },
 
   musica: {
-    temas: { musica: examTema({ examen: 'musica' }) },
+    temas: {
+      musica: examTema({ examen: 'musica' }),
+      ritmo: examTema({ examen: 'musica-ritmo-test' }),
+    },
     formatos: {
       pentagrama: {
         label: { es: 'Pentagrama Path (juego)', en: 'Pentagrama Path (game)', ca: 'Pentagrama Path (joc)' },

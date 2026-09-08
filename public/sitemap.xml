@@ -132,6 +132,7 @@
   <url><loc>https://www.tuthor.es/examen/ordena-frase-test</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/examen/genetica-test</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/examen/coordenadas-test</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/examen/geografia-fisica-test</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/examen/rayos-x-test</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/examen/circuito-cerrado-test</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/examen/encuentra-elemento-test</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
@@ -259,6 +260,7 @@
   <url><loc>https://www.tuthor.es/juegos/pon-la-tilde</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/juegos/microscopio</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/juegos/cadena-alimentaria</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/examen/musica-ritmo-test</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/examen/musica</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
 
   <!-- INFO ESTUDIAR — Hub -->

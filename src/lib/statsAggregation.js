@@ -75,6 +75,7 @@ export const SUBJECT_DEFS = [
       oceania: { es: 'Oceanía',         en: 'Oceania',       ca: 'Oceania' },
       espana:  { es: 'España',          en: 'Spain',         ca: 'Espanya' },
       eeuu:    { es: 'Estados Unidos',  en: 'United States', ca: 'Estats Units' },
+      fisica:  { es: 'Geografía Física', en: 'Physical Geography', ca: 'Geografia Física' },
     },
   },
   {
@@ -177,7 +178,10 @@ export const SUBJECT_DEFS = [
     label: { es: 'Música', en: 'Music', ca: 'Música' },
     gameIds: [],
     catIds: [],
-    catLabels: {},
+    catLabels: {
+      musica: { es: 'Lectura de Partituras', en: 'Sheet Music Reading', ca: 'Lectura de Partitures' },
+      ritmo:  { es: 'Ritmo',                 en: 'Rhythm',              ca: 'Ritme' },
+    },
   },
   {
     id: 'vida-practica', emoji: '🚑',

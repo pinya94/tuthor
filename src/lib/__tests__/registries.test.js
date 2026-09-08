@@ -293,9 +293,13 @@ describe('catálogo por tema (topicCatalog.js): materia → tema → formato →
     expect(ausentes, 'exámenes que el catálogo da por buenos y la página del tema no ofrece').toEqual([])
   })
 
-  it('los temas de geografía son las 7 regiones de /estudiar/geografia', () => {
+  it('los temas de geografía son las 7 regiones de /estudiar/geografia, más Geografía Física', () => {
+    // Las 7 regiones se examinan señalando en el mapa o por pistas, y por eso
+    // comparten los mismos formatos. `fisica` es el único tema que no es una
+    // región: pregunta por los conceptos (relieve, ríos, clima) con un examen
+    // propio y el formato `teoria`, que ninguna región usa.
     const regiones = ['europa', 'america', 'asia', 'africa', 'oceania', 'espana', 'eeuu']
-    expect(topicIds('geografia').sort()).toEqual([...regiones].sort())
+    expect(topicIds('geografia').sort()).toEqual([...regiones, 'fisica'].sort())
   })
 
   it('las listas de disponibilidad coinciden con los datos reales', async () => {

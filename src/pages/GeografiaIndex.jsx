@@ -4,6 +4,18 @@ import TemarioGrid from '../components/TemarioGrid'
 
 const TEMAS = [
   {
+    // El único que no es una región: no se señala nada en el mapa, se
+    // pregunta por los conceptos. Por eso lleva `examPath` y va directo al
+    // examen en vez de pasar por /estudiar/geografia/<region>.
+    id: 'fisica',
+    titulo: 'Geografía Física', tituloEn: 'Physical Geography', tituloCa: 'Geografia Física',
+    subtitulo: 'Relieve, ríos y clima', subtituloEn: 'Relief, rivers and climate', subtituloCa: 'Relleu, rius i clima',
+    emoji: '⛰️', gradient: 'from-emerald-600 to-green-800',
+    tags: ['relieve', 'rios', 'clima', 'meseta', 'peninsula', 'oceano'],
+    niveles: ['primaria', 'eso'],
+    examPath: '/examen/geografia-fisica-test',
+  },
+  {
     id: 'espana',
     titulo: 'España', tituloEn: 'Spain', tituloCa: 'Espanya',
     subtitulo: 'Las 17 comunidades autónomas', subtituloEn: 'The 17 autonomous communities', subtituloCa: 'Les 17 comunitats autònomes',
@@ -90,7 +102,7 @@ export default function GeografiaIndex() {
 
       <TemarioGrid
         items={items}
-        onSelect={item => navigate(localPath(`/estudiar/geografia/${item.id}`))}
+        onSelect={item => navigate(localPath(item.examPath || `/estudiar/geografia/${item.id}`))}
         placeholder={ca ? 'Cercar regió, país...' : en ? 'Search region, country...' : 'Buscar región, país...'}
       />
     </div>

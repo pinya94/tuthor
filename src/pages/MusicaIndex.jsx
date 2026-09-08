@@ -14,7 +14,8 @@ const TEMAS = [
     },
   },
   {
-    id: 'ritmo', emoji: '🥁', gradient: 'from-slate-500 to-slate-700', ready: false,
+    id: 'ritmo', emoji: '🥁', gradient: 'from-amber-500 to-orange-700', ready: true,
+    path: '/examen/musica-ritmo-test',
     titulo: { es: 'Ritmo', en: 'Rhythm', ca: 'Ritme' },
     subtitulo: {
       es: 'Compases, figuras y silencios',
