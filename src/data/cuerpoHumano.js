@@ -146,13 +146,91 @@ const PREGUNTAS = [
     '❤️',
     { es: "La diferencia es la DIRECCIÓN, no el tipo de sangre: la arteria pulmonar sale del corazón con sangre pobre en oxígeno, y la vena pulmonar vuelve con sangre rica.", en: "The difference is direction, not blood type: the pulmonary artery carries oxygen-poor blood away from the heart.", ca: "La diferència és la DIRECCIÓ, no el tipus de sang." }),
 
-  q('cr-05', 'eso',
-    { es: "¿Qué músculo hace posible la respiración?", en: "Which muscle makes breathing possible?", ca: "Quin múscul fa possible la respiració?" },
-    { es: ["El bíceps","El diafragma","El corazón","El tríceps"], en: ["The biceps","The diaphragm","The heart","The triceps"], ca: ["El bíceps","El diafragma","El cor","El tríceps"] },
-    { es: "El diafragma", en: "The diaphragm", ca: "El diafragma" },
+
+  q('cd-30', 'primaria',
+    { es: '¿Qué son los nutrientes?', en: 'What are nutrients?', ca: 'Què són els nutrients?' },
+    { es: ['Las sustancias útiles que el cuerpo saca de los alimentos', 'Los restos que se expulsan', 'Los jugos del estómago', 'Los dientes y la lengua'], en: ['The useful substances the body extracts from food', 'The waste that is expelled', 'The stomach juices', 'The teeth and the tongue'], ca: ['Les substàncies útils que el cos treu dels aliments', 'Les restes que s\'expulsen', 'Els sucs de l\'estómac', 'Les dents i la llengua'] },
+    { es: 'Las sustancias útiles que el cuerpo saca de los alimentos', en: 'The useful substances the body extracts from food', ca: 'Les substàncies útils que el cos treu dels aliments' },
+    '🥗',
+    { es: 'Alimento y nutriente no son lo mismo: un filete es un alimento y las proteínas que lleva son el nutriente. Digerir es justamente romper el alimento hasta dejar los nutrientes sueltos y lo bastante pequeños para pasar a la sangre.', en: 'Food and nutrient are not the same: a steak is food and the proteins in it are the nutrient. Digesting is precisely breaking food down until the nutrients are free and small enough to pass into the blood.', ca: 'Aliment i nutrient no són el mateix: un filet és un aliment i les proteïnes que porta són el nutrient.' }),
+
+  q('cd-31', 'primaria',
+    { es: '¿Para qué sirve masticar bien la comida?', en: 'What is chewing food well for?', ca: 'Per a què serveix mastegar bé el menjar?' },
+    { es: ['Para partirla en trozos pequeños y mezclarla con saliva, que empieza la digestión', 'Solo para que sepa mejor', 'Para calentarla', 'Para no hacer ruido'], en: ['To break it into small pieces and mix it with saliva, which starts digestion', 'Only to make it taste better', 'To warm it up', 'To avoid making noise'], ca: ['Per partir-lo en trossos petits i barrejar-lo amb saliva, que comença la digestió', 'Només perquè tingui millor gust', 'Per escalfar-lo', 'Per no fer soroll'] },
+    { es: 'Para partirla en trozos pequeños y mezclarla con saliva, que empieza la digestión', en: 'To break it into small pieces and mix it with saliva, which starts digestion', ca: 'Per partir-lo en trossos petits i barrejar-lo amb saliva, que comença la digestió' },
+    '🦷',
+    { es: 'La saliva no solo moja: lleva una sustancia que ya empieza a romper el almidón. Por eso si masticas mucho rato un trozo de pan acaba sabiendo dulce.', en: 'Saliva does not just wet food: it carries a substance that already starts breaking down starch. That is why a piece of bread chewed for a long time ends up tasting sweet.', ca: 'La saliva no només mulla: porta una substància que ja comença a trencar el midó.' }),
+
+  q('cd-32', 'primaria',
+    { es: '¿Qué función tiene el intestino grueso?', en: 'What does the large intestine do?', ca: 'Quina funció té l\'intestí gros?' },
+    { es: ['Absorber el agua que queda y formar las heces', 'Absorber los nutrientes', 'Fabricar la saliva', 'Bombear la sangre'], en: ['Absorb the remaining water and form the faeces', 'Absorb the nutrients', 'Make saliva', 'Pump the blood'], ca: ['Absorbir l\'aigua que queda i formar les femtes', 'Absorbir els nutrients', 'Fabricar la saliva', 'Bombar la sang'] },
+    { es: 'Absorber el agua que queda y formar las heces', en: 'Absorb the remaining water and form the faeces', ca: 'Absorbir l\'aigua que queda i formar les femtes' },
+    '💧',
+    { es: 'Los nutrientes ya se han absorbido antes, en el intestino delgado; aquí se recupera el agua para no perderla. Además viven ahí millones de bacterias buenas que ayudan a digerir y fabrican algunas vitaminas.', en: 'Nutrients were absorbed earlier, in the small intestine; here water is recovered so it is not lost. Millions of helpful bacteria also live there, aiding digestion and making some vitamins.', ca: 'Els nutrients ja s\'han absorbit abans, a l\'intestí prim; aquí es recupera l\'aigua per no perdre-la.' }),
+
+  q('cc-30', 'primaria',
+    { es: '¿Qué transporta la sangre por todo el cuerpo?', en: 'What does blood carry around the body?', ca: 'Què transporta la sang per tot el cos?' },
+    { es: ['Oxígeno, nutrientes y también los desechos que hay que eliminar', 'Solo oxígeno', 'Solo agua', 'Solo defensas'], en: ['Oxygen, nutrients and also the waste that must be removed', 'Only oxygen', 'Only water', 'Only defences'], ca: ['Oxigen, nutrients i també els residus que cal eliminar', 'Només oxigen', 'Només aigua', 'Només defenses'] },
+    { es: 'Oxígeno, nutrientes y también los desechos que hay que eliminar', en: 'Oxygen, nutrients and also the waste that must be removed', ca: 'Oxigen, nutrients i també els residus que cal eliminar' },
+    '❤️',
+    { es: 'Es el sistema de reparto y de recogida de basura a la vez. Por eso el circulatorio conecta con todos los demás: recoge oxígeno en los pulmones, nutrientes en el intestino y lleva los desechos al riñón.', en: 'It is the delivery service and the rubbish collection at once. That is why the circulatory system connects to all the others: it picks up oxygen in the lungs, nutrients in the intestine and takes waste to the kidneys.', ca: 'És el sistema de repartiment i de recollida d\'escombraries alhora.' }),
+
+  q('cc-31', 'primaria',
+    { es: '¿Qué son los glóbulos rojos?', en: 'What are red blood cells?', ca: 'Què són els glòbuls vermells?' },
+    { es: ['Las células de la sangre que transportan el oxígeno', 'Las células que nos defienden de los microbios', 'Unas células del hueso', 'Un tipo de nutriente'], en: ['The blood cells that carry oxygen', 'The cells that defend us from microbes', 'Some bone cells', 'A kind of nutrient'], ca: ['Les cèl·lules de la sang que transporten l\'oxigen', 'Les cèl·lules que ens defensen dels microbis', 'Unes cèl·lules de l\'os', 'Un tipus de nutrient'] },
+    { es: 'Las células de la sangre que transportan el oxígeno', en: 'The blood cells that carry oxygen', ca: 'Les cèl·lules de la sang que transporten l\'oxigen' },
+    '🔴',
+    { es: 'Llevan hemoglobina, que contiene hierro y es lo que da a la sangre su color rojo. Los glóbulos blancos son otra cosa: son los que nos defienden, y las plaquetas son las que taponan las heridas.', en: 'They carry haemoglobin, which contains iron and gives blood its red colour. White blood cells are something else: they defend us, and platelets plug wounds.', ca: 'Porten hemoglobina, que conté ferro i és el que dona a la sang el seu color vermell.' }),
+
+  q('cc-32', 'primaria',
+    { es: '¿Qué es el pulso que se nota en la muñeca?', en: 'What is the pulse you feel at the wrist?', ca: 'Què és el pols que es nota al canell?' },
+    { es: ['Cada latido del corazón empujando la sangre por las arterias', 'El aire que entra en los pulmones', 'El movimiento de los músculos', 'Los nervios enviando señales'], en: ['Each heartbeat pushing blood through the arteries', 'Air entering the lungs', 'Muscle movement', 'Nerves sending signals'], ca: ['Cada batec del cor empenyent la sang per les artèries', 'L\'aire que entra als pulmons', 'El moviment dels músculs', 'Els nervis enviant senyals'] },
+    { es: 'Cada latido del corazón empujando la sangre por las arterias', en: 'Each heartbeat pushing blood through the arteries', ca: 'Cada batec del cor empenyent la sang per les artèries' },
+    '💗',
+    { es: 'En reposo el corazón late unas 60 a 80 veces por minuto en un adulto, y bastante más deprisa en un niño. Al hacer ejercicio sube, porque los músculos piden más oxígeno y hay que llevárselo más rápido.', en: 'At rest an adult heart beats about 60 to 80 times a minute, and considerably faster in a child. With exercise it rises, because muscles demand more oxygen and it must be delivered faster.', ca: 'En repòs el cor batega unes 60 a 80 vegades per minut en un adult, i força més de pressa en un nen.' }),
+
+  q('cr-30', 'primaria',
+    { es: '¿Qué gas expulsamos al espirar?', en: 'What gas do we breathe out?', ca: 'Quin gas expulsem en espirar?' },
+    { es: ['Dióxido de carbono', 'Oxígeno', 'Nitrógeno puro', 'Hidrógeno'], en: ['Carbon dioxide', 'Oxygen', 'Pure nitrogen', 'Hydrogen'], ca: ['Diòxid de carboni', 'Oxigen', 'Nitrogen pur', 'Hidrogen'] },
+    { es: 'Dióxido de carbono', en: 'Carbon dioxide', ca: 'Diòxid de carboni' },
     '💨',
-    { es: "El diafragma separa el tórax del abdomen. Al contraerse baja, el pecho se agranda y entra el aire; al relajarse sube y el aire sale.", en: "The diaphragm contracts and flattens, the chest expands and air comes in.", ca: "El diafragma es contrau i baixa, el pit s'eixampla i entra l'aire." }),
-
+    { es: 'Es el residuo que producen las células al obtener energía. Y no expulsamos todo el oxígeno que entra ni lo aprovechamos entero: el aire que sale todavía lleva bastante, y por eso funciona el boca a boca.', en: 'It is the waste cells produce when getting energy. And we neither expel nor use all the oxygen that comes in: exhaled air still carries plenty, which is why mouth-to-mouth works.', ca: 'És el residu que produeixen les cèl·lules en obtenir energia. L\'aire que surt encara porta força oxigen.' }),
+
+  q('cr-31', 'primaria',
+    { es: '¿Qué recorrido hace el aire desde la nariz hasta los pulmones?', en: 'What path does air take from the nose to the lungs?', ca: 'Quin recorregut fa l\'aire des del nas fins als pulmons?' },
+    { es: ['Nariz, faringe, laringe, tráquea, bronquios y pulmones', 'Nariz, esófago, estómago y pulmones', 'Boca, corazón y pulmones', 'Nariz, pulmones y tráquea'], en: ['Nose, pharynx, larynx, trachea, bronchi and lungs', 'Nose, oesophagus, stomach and lungs', 'Mouth, heart and lungs', 'Nose, lungs and trachea'], ca: ['Nas, faringe, laringe, tràquea, bronquis i pulmons', 'Nas, esòfag, estómac i pulmons', 'Boca, cor i pulmons', 'Nas, pulmons i tràquea'] },
+    { es: 'Nariz, faringe, laringe, tráquea, bronquios y pulmones', en: 'Nose, pharynx, larynx, trachea, bronchi and lungs', ca: 'Nas, faringe, laringe, tràquea, bronquis i pulmons' },
+    '🌬️',
+    { es: 'Conviene respirar por la nariz y no por la boca: los pelillos y la mucosa filtran el polvo, calientan el aire y lo humedecen antes de que llegue abajo.', en: 'It is better to breathe through the nose than the mouth: the tiny hairs and mucus filter dust, warm the air and moisten it before it goes down.', ca: 'Convé respirar pel nas i no per la boca: els pèls i la mucosa filtren la pols i escalfen l\'aire.' }),
+
+  q('cn-30', 'primaria',
+    { es: '¿Cuáles son los cinco sentidos y para qué sirven?', en: 'What are the five senses and what are they for?', ca: 'Quins són els cinc sentits i per a què serveixen?' },
+    { es: ['Vista, oído, olfato, gusto y tacto: recogen información del exterior', 'Vista, oído, memoria, gusto y tacto', 'Vista, oído, olfato, gusto y equilibrio', 'Vista, voz, olfato, gusto y tacto'], en: ['Sight, hearing, smell, taste and touch: they gather information from outside', 'Sight, hearing, memory, taste and touch', 'Sight, hearing, smell, taste and balance', 'Sight, voice, smell, taste and touch'], ca: ['Vista, oïda, olfacte, gust i tacte: recullen informació de l\'exterior', 'Vista, oïda, memòria, gust i tacte', 'Vista, oïda, olfacte, gust i equilibri', 'Vista, veu, olfacte, gust i tacte'] },
+    { es: 'Vista, oído, olfato, gusto y tacto: recogen información del exterior', en: 'Sight, hearing, smell, taste and touch: they gather information from outside', ca: 'Vista, oïda, olfacte, gust i tacte: recullen informació de l\'exterior' },
+    '👀',
+    { es: 'Son la entrada del sistema nervioso: los órganos de los sentidos captan y los nervios llevan esa información al cerebro, que decide qué hacer. Sin ellos el cerebro estaría aislado del mundo.', en: 'They are the nervous system\'s input: sense organs capture information and nerves take it to the brain, which decides what to do. Without them the brain would be cut off from the world.', ca: 'Són l\'entrada del sistema nerviós: els òrgans dels sentits capten i els nervis porten la informació al cervell.' }),
+
+  q('cn-31', 'primaria',
+    { es: '¿Qué protege al cerebro?', en: 'What protects the brain?', ca: 'Què protegeix el cervell?' },
+    { es: ['Los huesos del cráneo, además de unas membranas y un líquido', 'La piel solamente', 'El pelo', 'Las vértebras del cuello'], en: ['The skull bones, plus membranes and a fluid', 'Only the skin', 'The hair', 'The neck vertebrae'], ca: ['Els ossos del crani, a més d\'unes membranes i un líquid', 'Només la pell', 'El cabell', 'Les vèrtebres del coll'] },
+    { es: 'Los huesos del cráneo, además de unas membranas y un líquido', en: 'The skull bones, plus membranes and a fluid', ca: 'Els ossos del crani, a més d\'unes membranes i un líquid' },
+    '🧠',
+    { es: 'El líquido hace de amortiguador, como el agua de una pecera cuando se mueve. La médula espinal va protegida igual dentro de la columna vertebral, y por eso un golpe fuerte en la espalda puede ser tan grave.', en: 'The fluid acts as a cushion, like the water in a fishbowl when it moves. The spinal cord is protected the same way inside the spine, which is why a hard blow to the back can be so serious.', ca: 'El líquid fa d\'amortidor. La medul·la espinal va protegida igual dins de la columna vertebral.' }),
+
+  q('cn-32', 'primaria',
+    { es: '¿Qué pasa en el cuerpo mientras dormimos?', en: 'What happens in the body while we sleep?', ca: 'Què passa al cos mentre dormim?' },
+    { es: ['El cerebro ordena lo aprendido y el cuerpo repara tejidos y crece', 'No pasa nada, el cuerpo se apaga', 'Solo descansan los músculos', 'Se digiere la comida y nada más'], en: ['The brain sorts what was learned and the body repairs tissue and grows', 'Nothing happens, the body shuts down', 'Only the muscles rest', 'Food is digested and nothing else'], ca: ['El cervell ordena el que ha après i el cos repara teixits i creix', 'No passa res, el cos s\'apaga', 'Només descansen els músculs', 'Es digereix el menjar i res més'] },
+    { es: 'El cerebro ordena lo aprendido y el cuerpo repara tejidos y crece', en: 'The brain sorts what was learned and the body repairs tissue and grows', ca: 'El cervell ordena el que ha après i el cos repara teixits i creix' },
+    '😴',
+    { es: 'Dormir no es tiempo perdido: la mayor parte de la hormona del crecimiento se libera de noche, y lo estudiado se fija mientras duermes. Por eso repasar y dormir bien funciona mejor que quedarse toda la noche despierto.', en: 'Sleep is not wasted time: most growth hormone is released at night, and what you studied is fixed while you sleep. That is why revising and sleeping well beats staying up all night.', ca: 'Dormir no és temps perdut: la major part de l\'hormona del creixement s\'allibera de nit.' }),
+
+  q('cn-33', 'primaria',
+    { es: '¿Qué hacen los músculos junto a los huesos?', en: 'What do muscles do together with bones?', ca: 'Què fan els músculs juntament amb els ossos?' },
+    { es: ['Tiran de los huesos al contraerse y así producen el movimiento', 'Sostienen los huesos sin moverlos', 'Fabrican la sangre', 'Protegen el cerebro'], en: ['They pull on bones when they contract and so produce movement', 'They hold bones still without moving them', 'They make blood', 'They protect the brain'], ca: ['Estiren els ossos en contraure\'s i així produeixen el moviment', 'Sostenen els ossos sense moure\'ls', 'Fabriquen la sang', 'Protegeixen el cervell'] },
+    { es: 'Tiran de los huesos al contraerse y así producen el movimiento', en: 'They pull on bones when they contract and so produce movement', ca: 'Estiren els ossos en contraure\'s i així produeixen el moviment' },
+    '💪',
+    { es: 'Un músculo solo sabe tirar, nunca empujar, así que trabajan por parejas opuestas: el bíceps dobla el brazo y el tríceps lo estira. Se unen a los huesos mediante tendones, y los huesos entre sí mediante ligamentos.', en: 'A muscle can only pull, never push, so they work in opposing pairs: the biceps bends the arm and the triceps straightens it. They join bones through tendons, and bones join each other through ligaments.', ca: 'Un múscul només sap estirar, mai empènyer, així que treballen per parelles oposades: bíceps i tríceps.' }),
+
 ]
 
 export const PREGUNTAS_PRIMARIA = PREGUNTAS.filter(p => p.nivel === 'primaria')
