@@ -1,5 +1,5 @@
 import { ESTADO_META, estadoDe, totalesPorAlumno } from '../lib/attendance'
-import { promedioColumna, promedioAlumno, suspenso, porcentajeDeColumna } from '../lib/grades'
+import { promedioColumna, promedioAlumno, suspenso, porcentajeDeColumna, pesoDe, PESO_POR_DEFECTO } from '../lib/grades'
 
 // Las hojas en papel de los datos de la clase: el cuaderno de notas y el parte
 // de asistencia. Aparte del boletín de familias (BoletinFamilias.jsx), que es
@@ -40,6 +40,10 @@ function Cabecera({ titulo, clase, subtitulo, lang, tr }) {
 // ── Cuaderno de notas ────────────────────────────────────────────────────────
 // Filas de alumnos, columnas de evaluaciones, medias por los dos lados.
 export function HojaNotas({ clase, alumnos, columnas, periodo, lang, tr }) {
+  // El porcentaje solo se imprime si el profesor ha ponderado de verdad. Con
+  // todas las columnas al mismo peso, un "33%" impreso bajo cada una parece un
+  // reparto elegido y no lo es: es simplemente una media normal.
+  const ponderado = columnas.some(c => pesoDe(c) !== PESO_POR_DEFECTO)
   return (
     <div className="imprimir-solo-esto bg-white text-black rounded-2xl p-6 sm:p-8 print:rounded-none print:p-0">
       <Cabecera
@@ -61,7 +65,9 @@ export function HojaNotas({ clase, alumnos, columnas, periodo, lang, tr }) {
                   {c.name}
                   {/* El porcentaje va impreso: sin él, una media ponderada
                       parece un error de cálculo en el papel. */}
-                  <span className="block font-normal text-black/50 text-[10px]">{Math.round(porcentajeDeColumna(columnas, c.id))}%</span>
+                  {ponderado && (
+                    <span className="block font-normal text-black/50 text-[10px]">{Math.round(porcentajeDeColumna(columnas, c.id))}%</span>
+                  )}
                 </th>
               ))}
               <th className="border border-black/40 px-2 py-1.5 font-black bg-black/[0.06]">

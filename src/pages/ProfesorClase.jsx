@@ -559,7 +559,19 @@ export default function ProfesorClase() {
 
       {/* ── RESUMEN ── */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 mb-8">
-        <StatTile label={tr({ es: 'Alumnos', en: 'Students', ca: 'Alumnes' })} value={students.length} />
+        {/* La clase real, no solo quien ha llegado a crearse una cuenta: una
+            ficha sin cuenta ocupa un pupitre, se le pasa lista y se le ponen
+            notas, así que cuenta como alumno. El desglose va debajo porque el
+            profesor sí necesita saber a cuántos les falta vincular la cuenta. */}
+        <StatTile label={tr({ es: 'Alumnos', en: 'Students', ca: 'Alumnes' })}
+          value={alumnosYFichas.length}
+          sub={fichas.length > 0
+            ? tr({
+              es: `${students.length} con cuenta · ${fichas.length} sin cuenta`,
+              en: `${students.length} with an account · ${fichas.length} without`,
+              ca: `${students.length} amb compte · ${fichas.length} sense compte`,
+            })
+            : null} />
         <StatTile label={tr({ es: 'Tareas', en: 'Tasks', ca: 'Tasques' })} value={totalTasks} />
         <StatTile label={tr({ es: 'Completado medio', en: 'Avg. completion', ca: 'Completat mitjà' })} value={avgCompletion == null ? '—' : `${avgCompletion}%`} />
         <StatTile label={tr({ es: 'Monedas totales', en: 'Total coins', ca: 'Monedes totals' })} value={totalCoins.toLocaleString()} />

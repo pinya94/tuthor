@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import {
   NOTA_MAX, parseNota, notaValida, promedioColumna, promedioAlumno, suspenso,
-  pesoDe, pesoValido, porcentajeDeColumna,
+  pesoDe, pesoValido, porcentajeDeColumna, PESO_POR_DEFECTO,
   notasDeTarea, cuantasNotasTiene, crearColumnaConNotas,
   getGradeColumns, createGradeColumn, setGrade, setColumnPeso, deleteGradeColumn,
 } from '../lib/grades'
@@ -216,6 +216,11 @@ export default function Notas({ classId, students, claseName, lang, tr }) {
   const [creando, setCreando] = useState(false)
   const [borrarConfirm, setBorrarConfirm] = useState(null) // colId pendiente de un segundo toque
   const [filtro, setFiltro] = useState('todas') // 'todas' | '1' | '2' | '3'
+  // Ponderar es opcional. Por defecto la media es la de toda la vida —todas
+  // las columnas valen igual— y no se enseña ningún control de peso: el
+  // profesor que quiera "el examen vale el 60%" lo enciende él.
+  const [ponderarManual, setPonderarManual] = useState(false)
+  const [quitarPesosConfirm, setQuitarPesosConfirm] = useState(false)
 
   useEffect(() => {
     getGradeColumns(classId)
@@ -273,6 +278,29 @@ export default function Notas({ classId, students, claseName, lang, tr }) {
     }
   }
 
+  // Encender la ponderación es solo enseñar los controles. Apagarla, en
+  // cambio, no puede limitarse a esconderlos: si quedara algún peso distinto
+  // de 1, la media seguiría siendo ponderada sin que nada lo explicase en
+  // pantalla. Por eso apagar devuelve de verdad todos los pesos a 1, y como
+  // eso sí borra un ajuste del profesor, pide un segundo toque igual que el
+  // botón de borrar columna.
+  async function alternarPonderacion() {
+    if (!ponderando) { setPonderarManual(true); return }
+    if (!hayPesos) { setPonderarManual(false); return }
+    if (!quitarPesosConfirm) { setQuitarPesosConfirm(true); return }
+    setQuitarPesosConfirm(false)
+    const previas = columnas
+    const aRestablecer = columnas.filter(c => pesoDe(c) !== PESO_POR_DEFECTO)
+    setColumnas(cs => cs.map(c => ({ ...c, peso: PESO_POR_DEFECTO })))
+    try {
+      await Promise.all(aRestablecer.map(c => setColumnPeso(classId, c.id, PESO_POR_DEFECTO)))
+      setPonderarManual(false)
+    } catch {
+      setColumnas(previas)
+      setError(tr({ es: 'No se pudieron quitar los pesos.', en: 'Could not remove the weights.', ca: 'No s\'han pogut treure els pesos.' }))
+    }
+  }
+
   async function traerTarea(nombre, values) {
     const id = await crearColumnaConNotas(classId, nombre, nuevoTrimestre, values)
     setColumnas(cs => [...cs, { id, name: nombre, trimestre: nuevoTrimestre, values }])
@@ -309,6 +337,12 @@ export default function Notas({ classId, students, claseName, lang, tr }) {
 
   const columnasFiltradas = filtro === 'todas' ? columnas : columnas.filter(c => c.trimestre === filtro)
 
+  // Se mira sobre TODAS las columnas, no sobre las del trimestre visible: un
+  // peso puesto en el primer trimestre sigue siendo un peso, y el botón no
+  // puede aparecer apagado mientras exista.
+  const hayPesos = columnas.some(c => pesoDe(c) !== PESO_POR_DEFECTO)
+  const ponderando = ponderarManual || hayPesos
+
   return (
     <div>
       {columnas.length > 0 && (
@@ -321,8 +355,23 @@ export default function Notas({ classId, students, claseName, lang, tr }) {
               {tr(t.label)}
             </button>
           ))}
+          <button type="button" onClick={alternarPonderacion}
+            title={tr({
+              es: 'Dar un peso distinto a cada columna en la media',
+              en: 'Give each column a different weight in the average',
+              ca: 'Donar un pes diferent a cada columna a la mitjana',
+            })}
+            className={`ml-auto text-[12px] font-bold px-2.5 py-1.5 rounded-lg border transition-colors ${
+              quitarPesosConfirm
+                ? 'border-red-400/40 text-red-300 bg-red-500/10'
+                : ponderando ? 'bg-white/15 border-white/25 text-white' : 'border-white/10 text-white/40 hover:text-white/70'
+            }`}>
+            ⚖️ {quitarPesosConfirm
+              ? tr({ es: '¿Quitar pesos?', en: 'Remove weights?', ca: 'Treure pesos?' })
+              : tr({ es: 'Ponderar', en: 'Weighting', ca: 'Ponderar' })}
+          </button>
           <button type="button" onClick={() => setEnPapel(true)}
-            className="ml-auto text-[12px] font-bold px-2.5 py-1.5 rounded-lg border border-teal-500/30 text-teal-300 hover:bg-teal-500/10 transition-colors">
+            className="text-[12px] font-bold px-2.5 py-1.5 rounded-lg border border-teal-500/30 text-teal-300 hover:bg-teal-500/10 transition-colors">
             🖨️ {tr({ es: 'En papel', en: 'On paper', ca: 'En paper' })}
           </button>
         </div>
@@ -367,8 +416,10 @@ export default function Notas({ classId, students, claseName, lang, tr }) {
                         {borrarConfirm === col.id ? tr({ es: '¿Sí?', en: 'Sure?', ca: 'Sí?' }) : '✕'}
                       </button>
                     </div>
-                    <PesoCelda columna={col} columnas={columnasFiltradas} tr={tr}
-                      onGuardar={peso => guardarPeso(col.id, peso)} />
+                    {ponderando && (
+                      <PesoCelda columna={col} columnas={columnasFiltradas} tr={tr}
+                        onGuardar={peso => guardarPeso(col.id, peso)} />
+                    )}
                   </th>
                 ))}
                 <th className="px-1.5 pb-2 text-white/35 text-[10.5px] uppercase tracking-wider font-bold min-w-[64px]">
