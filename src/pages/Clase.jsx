@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
 import { joinClassByCode, getStudentClasses, getTeacherProfile, hasTeacherAccess } from '../lib/classes'
-import { getStudentAssignments } from '../lib/assignments'
+import { getStudentAssignments, tareaVencida, fechaCortaDeTarea } from '../lib/assignments'
 import { GAMES } from '../lib/games'
 import { EXAMS } from '../lib/exams'
 import { SUBJECTS } from '../lib/statsAggregation'
@@ -20,16 +20,6 @@ function taskRoute(task) {
   return catalogTaskRoute(task, { games: GAMES, exams: EXAMS })
 }
 
-function formatDueDate(dueDate, lang) {
-  const d = dueDate?.toDate ? dueDate.toDate() : new Date(dueDate)
-  return d.toLocaleDateString(lang === 'en' ? 'en-GB' : lang === 'ca' ? 'ca-ES' : 'es-ES', { day: 'numeric', month: 'short' })
-}
-
-function isOverdue(dueDate) {
-  if (!dueDate) return false
-  const d = dueDate?.toDate ? dueDate.toDate() : new Date(dueDate)
-  return d.getTime() < Date.now()
-}
 
 function fechaLegible(createdAt, lang) {
   const d = createdAt?.toDate ? createdAt.toDate() : createdAt instanceof Date ? createdAt : null
@@ -192,7 +182,7 @@ export default function Clase() {
               <div className="space-y-2 mb-6">
                 {sortedTasks.map(task => {
                   const c = task.completions?.[user.uid]
-                  const overdue = !c?.done && isOverdue(task.dueDate)
+                  const overdue = !c?.done && tareaVencida(task.dueDate)
                   // Una tarea pendiente de catálogo lleva directa al juego/examen
                   const route = !c?.done ? taskRoute(task) : null
                   const inner = (
@@ -203,7 +193,7 @@ export default function Clase() {
                           {task.className}
                           {task.dueDate && (
                             <span className={overdue ? 'text-red-400 font-semibold' : ''}>
-                              {' · '}{tr({ es: 'vence', en: 'due', ca: 'venç' })} {formatDueDate(task.dueDate, lang)}
+                              {' · '}{tr({ es: 'vence', en: 'due', ca: 'venç' })} {fechaCortaDeTarea(task.dueDate, lang)}
                             </span>
                           )}
                         </p>

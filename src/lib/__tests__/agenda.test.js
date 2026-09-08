@@ -5,10 +5,11 @@ import { describe, it, expect } from 'vitest'
 import { readFileSync } from 'node:fs'
 import {
   TIPOS, TIPO_META, tituloValido, tipoValido, NOMBRES_DIAS,
-  rejillaDelMes, mesAnterior, mesSiguiente, eventosDeTareas, eventosDeAsistencia, porDia, diaDeTarea,
+  rejillaDelMes, mesAnterior, mesSiguiente, eventosDeTareas, eventosDeAsistencia, porDia,
 } from '../agenda'
 import { EXAMS } from '../exams'
 import { GAMES } from '../games'
+import { diaDeTarea, tareaVencida } from '../assignments'
 import { diaISO, desdeDiaISO } from '../attendance'
 
 describe('rejilla del mes', () => {
@@ -200,19 +201,29 @@ describe('la agenda y Deberes cuentan lo mismo', () => {
     // propio jueves — con el aviso ámbar y el botón de "marcar todos falta"—
     // mientras el calendario la enseñaba ese jueves como pendiente. Se
     // comparan DÍAS, que es la unidad en la que se mandan los deberes.
-    const vencida = dueDate => {
-      const dia = diaDeTarea(dueDate)
-      return dia != null && dia < diaISO()
-    }
     const hoy = new Date()
     const enDias = n => {
       const d = new Date(hoy.getFullYear(), hoy.getMonth(), hoy.getDate() + n)
       return { toDate: () => d }
     }
-    expect(vencida(enDias(0)), 'la de hoy no está vencida').toBe(false)
-    expect(vencida(enDias(1)), 'la de mañana no está vencida').toBe(false)
-    expect(vencida(enDias(-1)), 'la de ayer sí').toBe(true)
-    expect(vencida(null)).toBe(false)
+    expect(tareaVencida(enDias(0)), 'la de hoy no está vencida').toBe(false)
+    expect(tareaVencida(enDias(1)), 'la de mañana no está vencida').toBe(false)
+    expect(tareaVencida(enDias(-1)), 'la de ayer sí').toBe(true)
+    expect(tareaVencida(null)).toBe(false)
+  })
+
+  it('ninguna pantalla se calcula la fecha de entrega por su cuenta', () => {
+    // Esto es lo que falló de verdad: había una copia de isOverdue en el panel
+    // del profesor y otra idéntica en la página del alumno. Se arregló una y
+    // durante un rato el profesor veía la tarea como pendiente el jueves y el
+    // alumno la veía en rojo ese mismo jueves. Mientras el cálculo esté en
+    // assignments.js y solo ahí, no puede volver a pasar.
+    for (const pagina of ['ProfesorClase', 'Clase']) {
+      const fuente = readFileSync(new URL(`../../pages/${pagina}.jsx`, import.meta.url), 'utf8')
+      expect(fuente, `${pagina}.jsx se declara su propio isOverdue`).not.toMatch(/function isOverdue/)
+      expect(fuente, `${pagina}.jsx se declara su propio formatDueDate`).not.toMatch(/function formatDueDate/)
+      expect(fuente, `${pagina}.jsx compara la fecha de entrega con Date.now()`).not.toMatch(/dueDate[\s\S]{0,120}Date\.now\(\)/)
+    }
   })
 
   it('el día que enseña el calendario es el mismo que el que se guardó', () => {

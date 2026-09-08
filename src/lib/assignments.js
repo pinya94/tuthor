@@ -5,6 +5,42 @@ import {
 } from 'firebase/firestore'
 import { taskMatchesPlay } from './topicCatalog'
 import { corregirQuiz } from './quiz'
+import { diaISO, desdeDiaISO } from './attendance'
+
+// ── La fecha de entrega, en un solo sitio ────────────────────────────────────
+// Tres pantallas hablan de ella: la lista del profesor, la del alumno y el
+// calendario. Cada una tenía su copia de "¿qué día es esto?" y "¿está
+// vencida?", y una copia se arregló sin las otras: durante un rato el profesor
+// veía la tarea como pendiente el jueves y el alumno la veía en rojo el mismo
+// jueves. Vive aquí, con las tareas, y no en ninguna de las tres.
+
+// El día ('YYYY-MM-DD') de una fecha de entrega, venga como Timestamp de
+// Firestore o como el texto que da el <input type="date">. Del texto NO se
+// hace new Date(): 'new Date("2026-03-12")' es medianoche UTC y al oeste de
+// Greenwich eso ya es el día 11.
+export function diaDeTarea(dueDate) {
+  if (!dueDate) return null
+  if (typeof dueDate === 'string') return dueDate.slice(0, 10)
+  const d = dueDate?.toDate ? dueDate.toDate() : new Date(dueDate)
+  return Number.isNaN(d.getTime()) ? null : diaISO(d)
+}
+
+// Vencida = su día YA PASÓ, no "su medianoche ya pasó". Comparando instantes,
+// una tarea guardada como el jueves a las 00:00 UTC —la 01:00 en España— se
+// daba por vencida a las nueve de la mañana del propio jueves, el día en que
+// justamente tocaba hacerla.
+export function tareaVencida(dueDate) {
+  const dia = diaDeTarea(dueDate)
+  return dia != null && dia < diaISO()
+}
+
+// "12 mar", el formato corto de las dos listas de tareas.
+export function fechaCortaDeTarea(dueDate, lang) {
+  const dia = diaDeTarea(dueDate)
+  if (!dia) return ''
+  const locale = lang === 'en' ? 'en-GB' : lang === 'ca' ? 'ca-ES' : 'es-ES'
+  return desdeDiaISO(dia).toLocaleDateString(locale, { day: 'numeric', month: 'short' })
+}
 
 // Todas las queries usan como mucho un único filtro (== o array-contains) y
 // nunca orderBy en la propia query: combinar un filtro de igualdad con un

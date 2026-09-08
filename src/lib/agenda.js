@@ -1,6 +1,7 @@
 import { db } from './firebase'
 import { doc, collection, addDoc, updateDoc, deleteDoc, getDocs, serverTimestamp } from 'firebase/firestore'
 import { diaISO } from './attendance'
+import { diaDeTarea } from './assignments'
 import { EXAMS } from './exams'
 
 // ── La agenda de la clase ────────────────────────────────────────────────────
@@ -97,21 +98,9 @@ export function rejillaDelMes(fecha = new Date()) {
 
 // ── De dónde salen los eventos que no se escriben a mano ─────────────────────
 
-// El día de una tarea. `dueDate` puede llegar como Timestamp de Firestore o
-// como string 'YYYY-MM-DD', y del string NO se hace new Date():
-// 'new Date("2026-03-12")' se interpreta como UTC medianoche, que en cuanto el
-// navegador va por detrás de Greenwich es el día 11. La fecha de entrega ya
-// viene escrita en el formato que queremos.
-//
-// Lo usa también Deberes (ProfesorClase.jsx) para decidir si una tarea está
-// vencida: si cada módulo calcula el día a su manera, el calendario enseña la
-// tarea el jueves y la lista de al lado la da por vencida ese mismo jueves.
-export function diaDeTarea(dueDate) {
-  if (!dueDate) return null
-  if (typeof dueDate === 'string') return dueDate.slice(0, 10)
-  const d = dueDate?.toDate ? dueDate.toDate() : new Date(dueDate)
-  return Number.isNaN(d.getTime()) ? null : diaISO(d)
-}
+// El día de una tarea sale de assignments.js, donde viven las tareas: las
+// tres pantallas que enseñan una fecha de entrega tienen que estar de
+// acuerdo, y para eso el cálculo no puede estar copiado en cada una.
 
 // Un examen propio del profesor (kind 'quiz') y un examen del catálogo son un
 // examen; un juego o una ficha del libro son una entrega. Es la diferencia que

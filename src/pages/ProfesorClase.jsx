@@ -9,14 +9,13 @@ import { fichasDe, comoAlumno } from '../lib/roster'
 import { TEACHER_MODULES, MODULE_IDS, enabledModuleIds, moduleEnabled } from '../lib/teacherModules'
 import { getStatsAndCosmetics, formatTime } from '../lib/activity'
 import { aggregateStudentStats, SUBJECTS } from '../lib/statsAggregation'
-import { getClassAssignments, createAssignment, markManualCompletion, markMissed, markMissedBulk } from '../lib/assignments'
+import { getClassAssignments, createAssignment, markManualCompletion, markMissed, markMissedBulk, tareaVencida, fechaCortaDeTarea } from '../lib/assignments'
 import { GAMES } from '../lib/games'
 import StudentSubjects from '../components/StudentSubjects'
 import AulaPupitres from '../components/AulaPupitres'
 import Asistencia from '../components/Asistencia'
 import Agenda from '../components/Agenda'
-import { diaDeTarea } from '../lib/agenda'
-import { diaISO, desdeDiaISO } from '../lib/attendance'
+import { desdeDiaISO } from '../lib/attendance'
 import Notas from '../components/Notas'
 import Observaciones from '../components/Observaciones'
 import BoletinFamilias from '../components/BoletinFamilias'
@@ -36,22 +35,6 @@ function tituloDeTarea(task, lang) {
   return task.kind === 'catalog' ? catalogLabel(task, lang) : (task.title || '')
 }
 
-function formatDueDate(dueDate, lang) {
-  const dia = diaDeTarea(dueDate)
-  if (!dia) return ''
-  return desdeDiaISO(dia).toLocaleDateString(lang === 'en' ? 'en-GB' : lang === 'ca' ? 'ca-ES' : 'es-ES', { day: 'numeric', month: 'short' })
-}
-
-// Vencida = su día YA PASÓ, no "su medianoche ya pasó". Comparando instantes,
-// una tarea para el jueves se guardaba como el jueves a las 00:00 UTC —la 01:00
-// en España— así que a las nueve de la mañana del propio jueves la lista ya la
-// daba por vencida y ofrecía "marcar todos falta", mientras el calendario la
-// enseñaba ese mismo jueves como pendiente. Se comparan días, que es la unidad
-// en la que se piden los deberes.
-function isOverdue(dueDate) {
-  const dia = diaDeTarea(dueDate)
-  return dia != null && dia < diaISO()
-}
 
 function StatTile({ label, value, sub }) {
   return (
@@ -107,7 +90,7 @@ function TaskCard({ task, studentsByUid, lang, tr, onToggleManual, onToggleFalta
   // terminada —nada pendiente que revisar—, no como un 0% que invite a
   // seguir mirándola.
   const resueltoCount = total - pendientes.length
-  const vencida = isOverdue(task.dueDate)
+  const vencida = tareaVencida(task.dueDate)
 
   return (
     <div className="border border-white/10 rounded-xl overflow-hidden bg-white/[0.04]">
@@ -118,7 +101,7 @@ function TaskCard({ task, studentsByUid, lang, tr, onToggleManual, onToggleFalta
           <p className="text-white font-semibold text-[13.5px] truncate">{label}</p>
           {task.dueDate && (
             <p className={`text-[10.5px] mt-0.5 ${vencida && pendientes.length > 0 ? 'text-amber-400/70 font-semibold' : 'text-white/35'}`}>
-              {tr({ es: 'Vence', en: 'Due', ca: 'Venç' })} {formatDueDate(task.dueDate, lang)}
+              {tr({ es: 'Vence', en: 'Due', ca: 'Venç' })} {fechaCortaDeTarea(task.dueDate, lang)}
             </p>
           )}
         </div>
