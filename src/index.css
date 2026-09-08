@@ -46,6 +46,16 @@ button, [role="button"] {
    tocar el layout de cada página que lo use. Lo usan el boletín de familias,
    los recursos imprimibles y las hojas de notas y asistencia. */
 @media print {
+  /* La app entera sale del FLUJO, no solo de la vista. Con `visibility:
+     hidden` a secas los elementos siguen maquetados y ocupando alto, así que
+     el papel heredaba la altura de la página que hubiera detrás: una hoja de
+     cuatro tarjetas salía en dos páginas, con la segunda en blanco.
+
+     Las hojas se montan con createPortal a <body> (ver VisorHoja), así que la
+     que contiene la hoja es siempre una hija directa de body; las demás
+     sobran del todo al imprimir. */
+  body > *:not(:has(.imprimir-solo-esto)) { display: none !important; }
+
   body * { visibility: hidden; }
   .imprimir-solo-esto, .imprimir-solo-esto * { visibility: visible; }
 
@@ -71,7 +81,11 @@ button, [role="button"] {
     background: none !important;
   }
 
-  .imprimir-solo-esto { position: absolute; left: 0; top: 0; width: 100%; }
+  /* En el flujo normal, no absoluta. Al estar sola en el documento no hay
+     nada de lo que escapar, y así el navegador la pagina como cualquier
+     contenido largo: el parte de asistencia de un trimestre se reparte solo
+     entre páginas y una hoja corta ocupa exactamente una. */
+  .imprimir-solo-esto { position: static; width: 100%; }
 
   /* Dentro de la hoja tampoco puede quedar ningún scroll: una tabla ancha
      dentro de overflow-x:auto se ve entera en pantalla arrastrando, pero se

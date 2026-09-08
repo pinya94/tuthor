@@ -56,7 +56,13 @@ const SOLO_EN = {
 // El corte en 2 UA no es arbitrario: es el cinturón de asteroides, que es
 // justo donde los libros separan planetas rocosos de gigantes gaseosos. Se
 // calcula del dato en vez de listar nombres para que no puedan divergir.
+// El sistema solar entero son OCHO tarjetas: partirlo en dos grupos de cuatro
+// deja media hoja y, sobre todo, rompe la actividad — ordenar por distancia y
+// ver el salto del cinturón de asteroides solo funciona con las ocho sobre la
+// mesa. Por eso "los ocho" va primero y es lo que sale por defecto; los dos
+// grupos se quedan para quien trabaje solo una mitad.
 const GRUPOS_PLANETAS = {
+  todos:    { label: { es: 'Los ocho planetas', en: 'All eight planets', ca: 'Els vuit planetes' }, test: () => true },
   rocosos:  { label: { es: 'Rocosos (interiores)', en: 'Rocky (inner)', ca: 'Rocosos (interiors)' }, test: p => p.distanciaUA < 2 },
   gigantes: { label: { es: 'Gigantes (exteriores)', en: 'Giants (outer)', ca: 'Gegants (exteriors)' }, test: p => p.distanciaUA >= 2 },
 }
@@ -344,10 +350,13 @@ export const IMPRIMIBLES = {
       en: 'The planet and its distance from the Sun on the front, a real fact on the back.',
       ca: 'El planeta i la seva distància al Sol al davant, una dada real al darrere.',
     },
+    // Sin decir "las ocho": el mismo texto sirve para la hoja entera y para
+    // los dos grupos sueltos, así que no puede prometer un número de tarjetas
+    // que dependa de lo que se haya elegido imprimir.
     comoUsarlo: {
-      es: 'Reparte las ocho y que las ordenen por distancia al Sol sin mirar el dorso. La distancia va en UA (1 UA = del Sol a la Tierra), que es lo que hace evidente el salto entre los rocosos y los gigantes: de Marte a Júpiter hay más hueco que del Sol a Marte.',
-      en: 'Hand out all eight and have them order the planets by distance from the Sun without looking at the back. Distance is in AU (1 AU = Sun to Earth), which makes the jump between rocky planets and giants obvious: there is more space between Mars and Jupiter than between the Sun and Mars.',
-      ca: "Reparteix les vuit i que les ordenin per distància al Sol sense mirar el darrere. La distància va en UA (1 UA = del Sol a la Terra), que és el que fa evident el salt entre els rocosos i els gegants.",
+      es: 'Recorta, reparte y que las ordenen por distancia al Sol sin mirar el dorso. La distancia va en UA (1 UA = del Sol a la Tierra): con los ocho planetas sobre la mesa se ve solo el salto del cinturón de asteroides, porque de Marte a Júpiter hay más hueco que del Sol a Marte.',
+      en: 'Cut them out, hand them round and have the planets ordered by distance from the Sun without looking at the back. Distance is in AU (1 AU = Sun to Earth): with all eight on the table the asteroid-belt jump shows up by itself, since there is more space between Mars and Jupiter than between the Sun and Mars.',
+      ca: "Retalla, reparteix i que els ordenin per distància al Sol sense mirar el darrere. La distància va en UA (1 UA = del Sol a la Terra): amb els vuit planetes sobre la taula es veu sol el salt del cinturó d'asteroides.",
     },
     variantes(lang) {
       return Object.entries(GRUPOS_PLANETAS).map(([id, g]) => ({

@@ -165,6 +165,19 @@ export function imprimibleDeBanco(banco, preguntas, materia) {
   const porNivel = {}
   for (const p of preguntas.filter(sirveEnPapel)) (porNivel[p.nivel] ??= []).push(p)
 
+  // Los niveles son ACUMULATIVOS, igual que en el examen: allí "ESO" sirve el
+  // banco entero (PREGUNTAS_ESO = PREGUNTAS en casi todos los ficheros)
+  // porque quien va por ESO también contesta las de primaria. El imprimible
+  // hacía lo contrario —solo las marcadas `eso`— y salían hojas absurdas:
+  // Sistema Solar ofrecía "ESO · 3 tarjetas" cuando su examen de ESO tiene 29
+  // preguntas. Mismo criterio en los dos sitios o el papel miente.
+  const acumulado = {}
+  let acc = []
+  for (const n of ORDEN_NIVELES) {
+    acc = [...acc, ...(porNivel[n] ?? [])]
+    acumulado[n] = acc
+  }
+
   return {
     emoji: banco.emoji,
     // Plegable siempre: estas respuestas son frases enteras (las hay de 155
@@ -188,11 +201,15 @@ export function imprimibleDeBanco(banco, preguntas, materia) {
     },
     variantes(lang) {
       return ORDEN_NIVELES
-        .filter(n => (porNivel[n]?.length ?? 0) >= MIN_POR_NIVEL)
-        .map(n => ({ id: n, label: tr3(NIVELES[n], lang), n: Math.min(porNivel[n].length, MAX_TARJETAS) }))
+        // Un nivel solo se ofrece si aporta preguntas propias: sin esto, un
+        // banco sin nada de bachillerato enseñaría un botón "Bachillerato"
+        // idéntico al de ESO. Y la hoja acumulada tiene que dar para algo.
+        .filter(n => (porNivel[n]?.length ?? 0) > 0)
+        .filter(n => acumulado[n].length >= MIN_POR_NIVEL)
+        .map(n => ({ id: n, label: tr3(NIVELES[n], lang), n: Math.min(acumulado[n].length, MAX_TARJETAS) }))
     },
     tarjetas(varianteId, lang) {
-      return (porNivel[varianteId] ?? [])
+      return (acumulado[varianteId] ?? [])
         .slice(0, MAX_TARJETAS)
         .map(p => ({
           frente: p.emoji ? `${p.emoji} ${tr3(p.pregunta, lang)}` : tr3(p.pregunta, lang),

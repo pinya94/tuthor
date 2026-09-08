@@ -104,15 +104,29 @@ describe('imprimibleDeBanco', () => {
     correcta: { es: `R${i}`, en: `A${i}`, ca: `R${i}` },
   })
 
-  it('esconde los niveles que no llenan una hoja', () => {
-    // Dos preguntas de bachillerato no son un juego de tarjetas: es peor
-    // ofrecer el botón que no ofrecerlo.
+  it('un nivel con pocas preguntas propias sigue dando hoja, porque acumula las de abajo', () => {
+    // Dos preguntas de bachillerato no llenaban una hoja cuando cada nivel
+    // iba por su cuenta. Ahora "Bachillerato" son esas dos MÁS las seis de
+    // ESO, que es justo lo que sirve el examen a un alumno de bachillerato.
     const def = imprimibleDeBanco(banco, [
       ...Array.from({ length: 6 }, (_, i) => pregunta('eso', i)),
       pregunta('bachillerato', 90),
       pregunta('bachillerato', 91),
     ], 'quimica')
+    expect(def.variantes('es').map(v => v.id)).toEqual(['eso', 'bachillerato'])
+    expect(def.tarjetas('bachillerato', 'es')).toHaveLength(8)
+  })
+
+  it('esconde el nivel que no aporta ninguna pregunta propia', () => {
+    // Sin esto, un banco sin nada de bachillerato enseñaría un botón
+    // "Bachillerato" que imprime exactamente la misma hoja que "ESO".
+    const def = imprimibleDeBanco(banco, Array.from({ length: 6 }, (_, i) => pregunta('eso', i)), 'quimica')
     expect(def.variantes('es').map(v => v.id)).toEqual(['eso'])
+  })
+
+  it('esconde el nivel cuya hoja acumulada sigue siendo minúscula', () => {
+    const def = imprimibleDeBanco(banco, [pregunta('primaria', 1), pregunta('primaria', 2)], 'quimica')
+    expect(def.variantes('es')).toEqual([])
   })
 
   it('recorta a MAX_TARJETAS y lo dice en el botón', () => {
@@ -186,18 +200,25 @@ const esLaMisma = (a, b) => {
 }
 
 describe('los bancos no repiten preguntas', () => {
+  // Se revisa CADA HOJA por separado, no todas juntas: desde que los niveles
+  // son acumulativos —"ESO" incluye las de primaria, igual que en el examen—,
+  // recorrer todas las variantes seguidas encuentra a propósito las mismas
+  // preguntas dos veces. Lo que no puede pasar es que una hoja concreta, que
+  // es lo que un profesor recorta y reparte, lleve la misma pregunta repetida.
+  // El nivel más alto contiene el banco entero, así que dos preguntas gemelas
+  // se siguen cazando aunque estén declaradas en niveles distintos.
   it.each(TEMAS_CON_TARJETAS_DE_EXAMEN)('%s no pregunta dos veces lo mismo', async clave => {
     const [materia, tema] = clave.split('/')
     const def = await cargarTarjetasDeExamen(materia, tema)
-    const vistas = []
     const repetidas = []
     for (const v of def.variantes('es')) {
+      const vistas = []
       for (const t of def.tarjetas(v.id, 'es')) {
         // El emoji va delante del enunciado en la tarjeta y no es la pregunta.
         const clean = normalizar(t.frente)
         if (!clean) continue
         const gemela = vistas.find(previa => esLaMisma(previa.clean, clean))
-        if (gemela) repetidas.push(`"${t.frente}" ≈ "${gemela.texto}"`)
+        if (gemela) repetidas.push(`${v.id}: "${t.frente}" ≈ "${gemela.texto}"`)
         else vistas.push({ clean, texto: t.frente })
       }
     }
