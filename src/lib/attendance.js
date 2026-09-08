@@ -36,6 +36,15 @@ export function diaISO(fecha = new Date()) {
   return `${fecha.getFullYear()}-${p(fecha.getMonth() + 1)}-${p(fecha.getDate())}`
 }
 
+// La inversa de diaISO: de 'YYYY-MM-DD' a una fecha en hora LOCAL. Nunca
+// new Date('2026-03-12'), que es medianoche UTC y en media España son las
+// 01:00 del día 12 pero en América es todavía el día 11. La usa el formulario
+// de Deberes para guardar la fecha de entrega.
+export function desdeDiaISO(dia) {
+  const [a, m, d] = String(dia).split('-').map(Number)
+  return new Date(a, m - 1, d)
+}
+
 // Los días de un mes hasta hoy: no tiene sentido pedirle a Firestore los días
 // que aún no han pasado.
 export function diasDelMes(fecha = new Date()) {
@@ -109,6 +118,17 @@ export async function getAttendanceMonth(classId, fecha = new Date()) {
   for (const d of snap.docs) {
     if (delMes.has(d.id)) dias[d.id] = d.data().marks ?? {}
   }
+  return dias
+}
+
+// La subcolección entera, sin filtrar. Es lo que ya descargaban por dentro
+// getAttendanceMonth y getAttendanceRange, así que para quien va a mirar
+// varios periodos —el calendario, que salta de mes con las flechas— pedirla
+// una vez y filtrar al pintar es la misma lectura en vez de una por periodo.
+export async function getAllAttendance(classId) {
+  const snap = await getDocs(collection(db, 'classes', classId, 'attendance'))
+  const dias = {}
+  for (const d of snap.docs) dias[d.id] = d.data().marks ?? {}
   return dias
 }
 

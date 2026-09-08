@@ -5,8 +5,11 @@ import { describe, it, expect } from 'vitest'
 import { readFileSync } from 'node:fs'
 import {
   TIPOS, TIPO_META, tituloValido, tipoValido, NOMBRES_DIAS,
-  rejillaDelMes, mesAnterior, mesSiguiente, eventosDeTareas, eventosDeAsistencia, porDia,
+  rejillaDelMes, mesAnterior, mesSiguiente, eventosDeTareas, eventosDeAsistencia, porDia, diaDeTarea,
 } from '../agenda'
+import { EXAMS } from '../exams'
+import { GAMES } from '../games'
+import { diaISO, desdeDiaISO } from '../attendance'
 
 describe('rejilla del mes', () => {
   it('siempre son 42 casillas, empiece el mes en el día que empiece', () => {
@@ -96,11 +99,49 @@ describe('lo que aparece solo', () => {
     // es un problema, dos juegos mandados no.
     const eventos = eventosDeTareas([
       { id: '1', kind: 'quiz', title: 'Mi examen', dueDate: '2026-03-10' },
-      { id: '2', kind: 'catalog', gameId: 'sistema-solar-examen', dueDate: '2026-03-10' },
+      { id: '2', kind: 'catalog', gameId: 'sistema-solar', dueDate: '2026-03-10' },
       { id: '3', kind: 'catalog', gameId: 'numpath', dueDate: '2026-03-10' },
       { id: '4', kind: 'text', title: 'Ficha 3', dueDate: '2026-03-10' },
     ], t => t.title || t.gameId)
     expect(eventos.map(e => e.tipo)).toEqual(['examen', 'examen', 'entrega', 'entrega'])
+  })
+
+  it('reconoce como examen TODOS los exámenes del registro, no los que se llaman así', () => {
+    // El fallo que tenía: la primera versión miraba si el gameId contenía
+    // "examen". Solo 8 de los 120 lo contienen, así que 'fracciones',
+    // 'sistema-solar' o 'espanol-literatura-test' —que son exámenes de pleno
+    // derecho— se pintaban de color entrega en el calendario.
+    const ids = Object.keys(EXAMS)
+    const eventos = eventosDeTareas(
+      ids.map((gameId, i) => ({ id: `t${i}`, kind: 'catalog', gameId, dueDate: '2026-03-10' })),
+      t => t.gameId,
+    )
+    const entregas = eventos.filter(e => e.tipo !== 'examen')
+    expect(entregas.map(e => e.titulo), 'exámenes pintados como entrega').toEqual([])
+    expect(eventos).toHaveLength(ids.length)
+  })
+
+  it('los registros de juegos y exámenes no comparten ninguna clave', () => {
+    // Es lo que hace fiable la comprobación de arriba: si algún día un id
+    // estuviera en los dos, "está en EXAMS" dejaría de significar "es un
+    // examen" y el calendario pintaría juegos de rojo.
+    const enLosDos = Object.keys(GAMES).filter(id => EXAMS[id])
+    expect(enLosDos, `ids en GAMES y EXAMS a la vez: ${enLosDos.join(', ')}`).toEqual([])
+  })
+
+  it('separa faltas de retrasos: quien llega tarde ha venido', () => {
+    // Contarlo todo junto y llamarlo "3 sin asistir" era falso en cuanto uno
+    // de los tres era un retraso. Justificada sí es una falta.
+    const [ev] = eventosDeAsistencia({
+      '2026-03-02': { u1: 'ausente', u2: 'retraso', u3: 'justificada' },
+    })
+    expect(ev.faltas).toBe(2)
+    expect(ev.retrasos).toBe(1)
+  })
+
+  it('un día con solo retrasos también sale', () => {
+    const [ev] = eventosDeAsistencia({ '2026-03-02': { u1: 'retraso' } })
+    expect(ev).toMatchObject({ faltas: 0, retrasos: 1 })
   })
 
   it('los días con faltas salen con su recuento, y los días limpios no', () => {
@@ -111,7 +152,7 @@ describe('lo que aparece solo', () => {
       '2026-03-03': {},
     })
     expect(eventos).toHaveLength(1)
-    expect(eventos[0]).toMatchObject({ dia: '2026-03-02', faltas: 2, derivado: 'asistencia' })
+    expect(eventos[0]).toMatchObject({ dia: '2026-03-02', faltas: 1, retrasos: 1, derivado: 'asistencia' })
   })
 
   it('lo apuntado por el profesor va antes que lo deducido', () => {
@@ -132,6 +173,54 @@ describe('lo que aparece solo', () => {
       { id: 'x', dia: '2026-03-02' },
     ]
     expect(new Set(eventos.map(e => e.id)).size).toBe(eventos.length)
+  })
+})
+
+// El calendario y la lista de Deberes hablan del mismo dato —la fecha de
+// entrega— y cada uno la interpretaba a su manera. Estos dos vigilan que sigan
+// de acuerdo, porque el desacuerdo no daba ningún error: daba dos pantallas
+// que dicen cosas distintas de la misma tarea.
+describe('la agenda y Deberes cuentan lo mismo', () => {
+  it('la fecha se guarda en hora local, no en medianoche UTC', () => {
+    // El formulario da 'YYYY-MM-DD'. Guardándolo con new Date(cadena) sale
+    // medianoche UTC, y al oeste de Greenwich eso ya es el día anterior: la
+    // tarea del jueves aparecía el miércoles en las dos pantallas a la vez.
+    const guardado = desdeDiaISO('2026-03-12')
+    expect(guardado.getFullYear()).toBe(2026)
+    expect(guardado.getMonth()).toBe(2)
+    expect(guardado.getDate()).toBe(12)
+    expect(guardado.getHours()).toBe(0)
+    // Y al releerla, el día que sale es el mismo que se eligió.
+    expect(diaDeTarea({ toDate: () => guardado })).toBe('2026-03-12')
+  })
+
+  it('una tarea NO vence el día en que vence', () => {
+    // El bug: guardada como el jueves 00:00 UTC (la 01:00 en España),
+    // comparar instantes la daba por vencida a las nueve de la mañana del
+    // propio jueves — con el aviso ámbar y el botón de "marcar todos falta"—
+    // mientras el calendario la enseñaba ese jueves como pendiente. Se
+    // comparan DÍAS, que es la unidad en la que se mandan los deberes.
+    const vencida = dueDate => {
+      const dia = diaDeTarea(dueDate)
+      return dia != null && dia < diaISO()
+    }
+    const hoy = new Date()
+    const enDias = n => {
+      const d = new Date(hoy.getFullYear(), hoy.getMonth(), hoy.getDate() + n)
+      return { toDate: () => d }
+    }
+    expect(vencida(enDias(0)), 'la de hoy no está vencida').toBe(false)
+    expect(vencida(enDias(1)), 'la de mañana no está vencida').toBe(false)
+    expect(vencida(enDias(-1)), 'la de ayer sí').toBe(true)
+    expect(vencida(null)).toBe(false)
+  })
+
+  it('el día que enseña el calendario es el mismo que el que se guardó', () => {
+    for (const dia of ['2026-01-01', '2026-03-29', '2026-10-25', '2026-12-31']) {
+      const guardado = { toDate: () => desdeDiaISO(dia) }
+      const [ev] = eventosDeTareas([{ id: 'x', kind: 'text', title: 'T', dueDate: guardado }])
+      expect(ev.dia, `${dia} se movió de sitio`).toBe(dia)
+    }
   })
 })
 

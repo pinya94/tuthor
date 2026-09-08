@@ -1,6 +1,7 @@
 import { db } from './firebase'
 import { doc, collection, addDoc, updateDoc, deleteDoc, getDocs, serverTimestamp } from 'firebase/firestore'
 import { diaISO } from './attendance'
+import { EXAMS } from './exams'
 
 // ── La agenda de la clase ────────────────────────────────────────────────────
 // Un calendario por meses donde el profesor apunta lo suyo (un examen, una
@@ -97,11 +98,15 @@ export function rejillaDelMes(fecha = new Date()) {
 // ── De dónde salen los eventos que no se escriben a mano ─────────────────────
 
 // El día de una tarea. `dueDate` puede llegar como Timestamp de Firestore o
-// como string 'YYYY-MM-DD' (es lo que guarda el formulario de Deberes), y del
-// string NO se hace new Date(): 'new Date("2026-03-12")' se interpreta como
-// UTC medianoche, que en cuanto el navegador va por detrás de Greenwich es el
-// día 11. La fecha de entrega ya viene escrita en el formato que queremos.
-function diaDeTarea(dueDate) {
+// como string 'YYYY-MM-DD', y del string NO se hace new Date():
+// 'new Date("2026-03-12")' se interpreta como UTC medianoche, que en cuanto el
+// navegador va por detrás de Greenwich es el día 11. La fecha de entrega ya
+// viene escrita en el formato que queremos.
+//
+// Lo usa también Deberes (ProfesorClase.jsx) para decidir si una tarea está
+// vencida: si cada módulo calcula el día a su manera, el calendario enseña la
+// tarea el jueves y la lista de al lado la da por vencida ese mismo jueves.
+export function diaDeTarea(dueDate) {
   if (!dueDate) return null
   if (typeof dueDate === 'string') return dueDate.slice(0, 10)
   const d = dueDate?.toDate ? dueDate.toDate() : new Date(dueDate)
@@ -112,7 +117,13 @@ function diaDeTarea(dueDate) {
 // examen; un juego o una ficha del libro son una entrega. Es la diferencia que
 // importa al mirar el mes: un día con dos exámenes es un problema, un día con
 // dos juegos mandados no.
-const esExamen = t => t.kind === 'quiz' || (t.kind === 'catalog' && t.gameId?.includes('examen'))
+//
+// Se pregunta al REGISTRO, no al nombre del id. La primera versión miraba si
+// el gameId contenía "examen" y solo acertaba con 8 de los 120 exámenes:
+// 'sistema-solar', 'fracciones' o 'espanol-literatura-test' se pintaban como
+// entregas. Las claves de GAMES y de EXAMS no se solapan en ninguna (hay un
+// test que lo comprueba), así que estar en EXAMS es la respuesta exacta.
+const esExamen = t => t.kind === 'quiz' || (t.kind === 'catalog' && Boolean(EXAMS[t.gameId]))
 
 export function eventosDeTareas(assignments = [], etiquetaDe = t => t.title || t.gameId || '') {
   return assignments
@@ -129,11 +140,25 @@ export function eventosDeTareas(assignments = [], etiquetaDe = t => t.title || t
 
 // Los días con faltas. No se pinta el día que se pasó lista y no faltó nadie:
 // eso es el caso normal y llenaría el mes de marcas que no dicen nada.
+//
+// Faltas y retrasos van SEPARADOS. Contarlo todo junto y llamarlo "3 sin
+// asistir" era mentira en cuanto uno de los tres era un retraso: ese alumno
+// vino. Justificada sí cuenta como falta —lo es, con papel— igual que en el
+// resumen del mes de Asistencia.
 export function eventosDeAsistencia(dias = {}) {
   return Object.entries(dias)
-    .map(([dia, marks]) => [dia, Object.keys(marks || {}).length])
-    .filter(([, n]) => n > 0)
-    .map(([dia, n]) => ({ id: `falta:${dia}`, dia, tipo: 'nota', faltas: n, derivado: 'asistencia' }))
+    .map(([dia, marks]) => {
+      const estados = Object.values(marks || {})
+      return {
+        id: `falta:${dia}`,
+        dia,
+        tipo: 'nota',
+        faltas: estados.filter(e => e === 'ausente' || e === 'justificada').length,
+        retrasos: estados.filter(e => e === 'retraso').length,
+        derivado: 'asistencia',
+      }
+    })
+    .filter(e => e.faltas > 0 || e.retrasos > 0)
 }
 
 // Todo junto y agrupado por día, que es como lo pinta la rejilla. Los propios

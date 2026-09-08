@@ -4,14 +4,14 @@ import {
   rejillaDelMes, mesAnterior, mesSiguiente, eventosDeTareas, eventosDeAsistencia, porDia,
   getClassEvents, createEvent, updateEvent, deleteEvent,
 } from '../lib/agenda'
-import { getAttendanceRange } from '../lib/attendance'
+import { getAllAttendance } from '../lib/attendance'
 
 // El calendario del aula: el mes en una rejilla y, debajo, el día que se toque
 // con todo lo que hay en él.
 //
 // El mes solo tiene sitio para dos o tres líneas por casilla, así que la
-// rejilla enseña lo justo para saber DÓNDE mirar (un punto de color por
-// evento, el título del primero) y el detalle vive abajo. Meter ahí los
+// rejilla enseña lo justo para saber DÓNDE mirar (el emoji del tipo y el
+// título recortado de las dos primeras cosas) y el detalle vive abajo. Meter ahí los
 // títulos enteros da un mes ilegible en cuanto hay dos cosas el mismo día, que
 // es exactamente cuando el calendario sirve para algo.
 //
@@ -64,13 +64,15 @@ export default function Agenda({ classId, assignments = [], etiquetaDeTarea, lan
     return () => { vivo = false }
   }, [classId, tr])
 
+  // También una sola vez, y por el mismo motivo: getAllAttendance se trae la
+  // subcolección entera igual que hacía la versión por rango, así que pedirla
+  // en cada cambio de mes era descargar lo mismo doce veces para mirar un
+  // curso. El filtro por día ya lo hace la rejilla al pintar.
   useEffect(() => {
     let vivo = true
     ;(async () => {
-      const desde = rejilla[0].dia
-      const hasta = rejilla[rejilla.length - 1].dia
       try {
-        const dias = await getAttendanceRange(classId, desde, hasta)
+        const dias = await getAllAttendance(classId)
         if (vivo) setFaltas(dias)
       } catch {
         // La asistencia es un extra del calendario: si falla, el mes se pinta
@@ -79,7 +81,7 @@ export default function Agenda({ classId, assignments = [], etiquetaDeTarea, lan
       }
     })()
     return () => { vivo = false }
-  }, [classId, rejilla])
+  }, [classId])
 
   const eventos = useMemo(() => [
     ...propios.map(e => ({ ...e, propio: true })),
@@ -189,7 +191,7 @@ export default function Agenda({ classId, assignments = [], etiquetaDeTarea, lan
               {suyos.slice(0, 2).map(ev => (
                 <span key={ev.id} className="block text-[9.5px] leading-tight truncate text-white/55">
                   {ev.derivado === 'asistencia'
-                    ? `✕ ${ev.faltas}`
+                    ? [ev.faltas > 0 && `✕ ${ev.faltas}`, ev.retrasos > 0 && `⏱ ${ev.retrasos}`].filter(Boolean).join(' · ')
                     : `${TIPO_META[ev.tipo]?.emoji ?? '📌'} ${ev.titulo}`}
                 </span>
               ))}
@@ -213,9 +215,12 @@ export default function Agenda({ classId, assignments = [], etiquetaDeTarea, lan
             )}
             {abiertos.map(ev => ev.derivado === 'asistencia' ? (
               <div key={ev.id} className="flex items-center gap-2 px-3 py-2 rounded-xl border border-white/10 bg-white/[0.02]">
-                <span className="text-[13px]">✕</span>
+                <span className="text-[13px]">{ev.faltas > 0 ? '✕' : '⏱'}</span>
                 <p className="text-white/60 text-[13px] flex-1">
-                  {ev.faltas} {tr({ es: 'sin asistir', en: 'not present', ca: 'sense assistir' })}
+                  {[
+                    ev.faltas > 0 && `${ev.faltas} ${tr({ es: ev.faltas === 1 ? 'falta' : 'faltas', en: ev.faltas === 1 ? 'absence' : 'absences', ca: ev.faltas === 1 ? 'falta' : 'faltes' })}`,
+                    ev.retrasos > 0 && `${ev.retrasos} ${tr({ es: ev.retrasos === 1 ? 'retraso' : 'retrasos', en: ev.retrasos === 1 ? 'late' : 'lates', ca: ev.retrasos === 1 ? 'retard' : 'retards' })}`,
+                  ].filter(Boolean).join(' · ')}
                 </p>
                 <span className="text-white/25 text-[11px]">{tr({ es: 'Asistencia', en: 'Attendance', ca: 'Assistència' })}</span>
               </div>

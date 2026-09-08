@@ -15,6 +15,8 @@ import StudentSubjects from '../components/StudentSubjects'
 import AulaPupitres from '../components/AulaPupitres'
 import Asistencia from '../components/Asistencia'
 import Agenda from '../components/Agenda'
+import { diaDeTarea } from '../lib/agenda'
+import { diaISO, desdeDiaISO } from '../lib/attendance'
 import Notas from '../components/Notas'
 import Observaciones from '../components/Observaciones'
 import BoletinFamilias from '../components/BoletinFamilias'
@@ -35,14 +37,20 @@ function tituloDeTarea(task, lang) {
 }
 
 function formatDueDate(dueDate, lang) {
-  const d = dueDate?.toDate ? dueDate.toDate() : new Date(dueDate)
-  return d.toLocaleDateString(lang === 'en' ? 'en-GB' : lang === 'ca' ? 'ca-ES' : 'es-ES', { day: 'numeric', month: 'short' })
+  const dia = diaDeTarea(dueDate)
+  if (!dia) return ''
+  return desdeDiaISO(dia).toLocaleDateString(lang === 'en' ? 'en-GB' : lang === 'ca' ? 'ca-ES' : 'es-ES', { day: 'numeric', month: 'short' })
 }
 
+// Vencida = su día YA PASÓ, no "su medianoche ya pasó". Comparando instantes,
+// una tarea para el jueves se guardaba como el jueves a las 00:00 UTC —la 01:00
+// en España— así que a las nueve de la mañana del propio jueves la lista ya la
+// daba por vencida y ofrecía "marcar todos falta", mientras el calendario la
+// enseñaba ese mismo jueves como pendiente. Se comparan días, que es la unidad
+// en la que se piden los deberes.
 function isOverdue(dueDate) {
-  if (!dueDate) return false
-  const d = dueDate?.toDate ? dueDate.toDate() : new Date(dueDate)
-  return d.getTime() < Date.now()
+  const dia = diaDeTarea(dueDate)
+  return dia != null && dia < diaISO()
 }
 
 function StatTile({ label, value, sub }) {
@@ -467,7 +475,7 @@ export default function ProfesorClase() {
         title: taskTitle.trim(),
         quiz: quizLimpio,
         studentIds: targetIds,
-        dueDate: taskDueDate ? new Date(taskDueDate) : null,
+        dueDate: taskDueDate ? desdeDiaISO(taskDueDate) : null,
       })
       setShowForm(false)
       setTaskKind('game'); setTaskGameId(''); setTaskExamSubject(''); setTaskTema(''); setTaskFormato(''); setTaskNivel('')
