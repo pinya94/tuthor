@@ -59,7 +59,7 @@ function Locked({ onLogin, user }) {
         </p>
 
         <Link
-          to={`${localPath('/')}#precios`}
+          to={`${localPath('/')}#apoyar`}
           className="mt-4 block w-full rounded-xl bg-violet-600 px-6 py-3.5 text-sm font-black text-white transition-colors hover:bg-violet-500"
         >
           {tr({ es: 'Ver los planes', en: 'See the plans', ca: 'Veure els plans' })}

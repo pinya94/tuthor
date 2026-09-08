@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
-import { PLANS } from '../lib/access'
+import { PLANS, MONETIZATION_ENABLED } from '../lib/access'
 import { startCheckout } from '../lib/checkout'
 import AuthModal from '../components/AuthModal'
 import SEOHead from '../components/SEOHead'
@@ -49,6 +49,12 @@ function useLaunchCountdown() {
 
 function LaunchBadge({ tr, className = '' }) {
   const left = useLaunchCountdown()
+  // Un "precio de lanzamiento" con cuenta atrás mientras no hay ningún precio
+  // es la promesa más rara que puede leer alguien: sugiere que algo sube
+  // dentro de cuatro días y no hay nada que pueda subir. Se apaga con el
+  // mismo interruptor que el resto (ver src/lib/access.js), sin borrarla:
+  // vuelve tal cual el día que haya algo que lanzar.
+  if (!MONETIZATION_ENABLED) return null
   if (!left) return null
   // "dia" → "dies" en catalán, no "dias" (eso es español) — plural distinto,
   // no vale la misma regla de añadir una "s" que en es/en.
@@ -65,9 +71,9 @@ function LaunchBadge({ tr, className = '' }) {
 // CTA intermedio reutilizable: se coloca justo después de los dos momentos de
 // la página con más intención (la demostración de metodología y el juego
 // jugado de verdad), no al azar — es donde a alguien convencido le cuesta
-// menos seguir. Por defecto lleva a #precios (informativo); con `onClick`
+// menos seguir. Por defecto lleva a #apoyar (informativo); con `onClick`
 // hace otra cosa — normalmente entrar directo a la app, que es gratis y no
-// necesita pasar por precios primero.
+// necesita pasar por ahí primero.
 function MidPageCTA({ tr, text, dark = false, onClick }) {
   const cls = `mt-14 text-center`
   const btnCls = `inline-block rounded-xl px-7 py-3.5 text-sm font-black transition-all hover:scale-[1.02] ${
@@ -77,7 +83,7 @@ function MidPageCTA({ tr, text, dark = false, onClick }) {
     <div className={cls}>
       {onClick
         ? <button onClick={onClick} className={btnCls}>{tr(text)}</button>
-        : <a href="#precios" className={btnCls}>{tr(text)}</a>}
+        : <a href="#apoyar" className={btnCls}>{tr(text)}</a>}
     </div>
   )
 }
@@ -226,10 +232,14 @@ const PAINS = [
   {
     emoji: '💸',
     title: { es: '«Una academia cuesta 150 € al mes»', en: '"Tutoring costs €150 a month"', ca: '«Una acadèmia costa 150 € al mes»' },
-    body: {
+    body: MONETIZATION_ENABLED ? {
       es: `Y requiere desplazamientos y adaptarse al ritmo del grupo. Tuthor es gratis, a la hora que él quiera y enfocado en lo que flojea — y si quieres el panel de seguimiento completo y sin publicidad, Pro son solo ${PRO_PRICE} € al mes.`,
       en: `And it means travelling and fitting the group's pace. Tuthor is free, whenever they want and focused on where they struggle — and if you want the full tracking panel with no ads, Pro is just €${PRO_PRICE} a month.`,
       ca: `I requereix desplaçaments i adaptar-se al ritme del grup. Tuthor és gratis, a l'hora que ell vulgui i enfocat en el que fluixeja — i si vols el panell de seguiment complet i sense publicitat, Pro són només ${PRO_PRICE} € al mes.`,
+    } : {
+      es: 'Y requiere desplazamientos y adaptarse al ritmo del grupo. Tuthor es gratis —entero, sin plan de pago detrás—, a la hora que él quiera y enfocado justo en lo que flojea.',
+      en: "And it means travelling and fitting the group's pace. Tuthor is free — all of it, with no paid plan behind it — whenever they want and focused exactly on where they struggle.",
+      ca: "I requereix desplaçaments i adaptar-se al ritme del grup. Tuthor és gratis —sencer, sense cap pla de pagament al darrere—, a l'hora que ell vulgui i enfocat just en el que fluixeja.",
     },
   },
 ]
@@ -290,11 +300,17 @@ const FAQ = [
     },
   },
   {
-    q: { es: '¿Puedo cancelar cuando quiera?', en: 'Can I cancel whenever I want?', ca: 'Puc cancel·lar quan vulgui?' },
-    a: {
+    q: MONETIZATION_ENABLED
+      ? { es: '¿Puedo cancelar cuando quiera?', en: 'Can I cancel whenever I want?', ca: 'Puc cancel·lar quan vulgui?' }
+      : { es: '¿Gratis de verdad? ¿Dónde está el truco?', en: 'Really free? What is the catch?', ca: 'Gratis de debò? On és el truc?' },
+    a: MONETIZATION_ENABLED ? {
       es: 'Sí, sin llamadas ni trámites complicados. Lo haces en un clic desde tus ajustes.',
       en: 'Yes, with no phone calls or paperwork. One click from your settings.',
       ca: 'Sí, sense trucades ni tràmits complicats. Ho fas amb un clic des dels teus ajustos.',
+    } : {
+      es: 'No hay truco ni versión de pago esperándote: no existe. El sitio se sostiene con la publicidad y con quien se registra en iGraal desde aquí. Si algún día eso no llega, lo diremos antes de cambiar nada.',
+      en: 'There is no catch and no paid tier waiting for you: it does not exist. The site runs on ads and on people signing up to iGraal from here. If that ever stops covering it, we will say so before changing anything.',
+      ca: "No hi ha truc ni versió de pagament esperant-te: no existeix. El lloc se sosté amb la publicitat i amb qui es registra a iGraal des d'aquí. Si algun dia això no arriba, ho direm abans de canviar res.",
     },
   },
 ]
@@ -364,8 +380,10 @@ function Header({ onLogin, user, tr, localPath, lang, switchLang }) {
           <a href="#como-funciona" className="hidden rounded-lg px-3 py-2 text-sm font-semibold text-slate-600 transition-colors hover:text-slate-900 sm:block">
             {tr({ es: 'Cómo funciona', en: 'How it works', ca: 'Com funciona' })}
           </a>
-          <a href="#precios" className="hidden rounded-lg px-3 py-2 text-sm font-semibold text-slate-600 transition-colors hover:text-slate-900 sm:block">
-            {tr({ es: 'Precios', en: 'Pricing', ca: 'Preus' })}
+          <a href="#apoyar" className="hidden rounded-lg px-3 py-2 text-sm font-semibold text-slate-600 transition-colors hover:text-slate-900 sm:block">
+            {MONETIZATION_ENABLED
+              ? tr({ es: 'Precios', en: 'Pricing', ca: 'Preus' })
+              : tr({ es: 'Apoyar', en: 'Support us', ca: 'Donar suport' })}
           </a>
           <Link to={localPath('/profesores')} className="rounded-lg px-3 py-2 text-sm font-semibold text-slate-600 transition-colors hover:text-slate-900">
             {tr({ es: 'Soy profe', en: "I'm a teacher", ca: 'Sóc profe' })}
@@ -399,6 +417,133 @@ const PRO_FEATURES = [
   { es: 'Panel de seguimiento completo (por juego, por materia)', en: 'Full tracking panel (by game, by subject)', ca: 'Panell de seguiment complet (per joc, per matèria)' },
   { es: 'Apoyas que sigamos haciendo contenido nuevo', en: "You help us keep making new content", ca: 'Ajudes que seguim fent contingut nou' },
 ]
+
+// ── Cómo ayudar, cuando no hay nada que vender ───────────────────────────────
+// Con la monetización en pausa (MONETIZATION_ENABLED en src/lib/access.js),
+// una pantalla de precios en la landing es una pantalla que promete un cobro
+// que no existe. Pero quitarla y dejar el hueco sería peor: quien llega hasta
+// abajo convencido es justo quien querría echar una mano, y aquí es donde lo
+// pregunta.
+//
+// Así que en su sitio va lo que SÍ se puede pedir hoy. Todas las vías son
+// reales y ya existían en el sitio; no hay ninguna inventada para llenar la
+// cuadrícula, y ninguna pide dinero:
+//
+//   · iGraal es el afiliado que ya está en los raíles y en el pie de la
+//     landing — quien se registra se lleva 10 € y a nosotros nos deja una
+//     comisión. Va primero porque es la única que nos da algo directamente.
+//   · Contarlo es la que más mueve la aguja de verdad en un sitio sin
+//     presupuesto de publicidad.
+//   · El aula del profesor y /colaborar existen los dos desde antes.
+//
+// Los anuncios no salen como "vía": no hay nada que el visitante tenga que
+// hacer con ellos, y ponerlo pediría al lector que se fije en la publicidad.
+const IGRAAL_URL = 'https://es.igraal.com/padrinazgo?padrino=AG_638200fb04960&utm_medium=inf&utm_source=premium'
+
+const VIAS_DE_APOYO = [
+  {
+    id: 'igraal',
+    emoji: '💚',
+    href: IGRAAL_URL,
+    externo: true,
+    patrocinado: true,
+    titulo: { es: 'Regístrate en iGraal y llévate 10 €', en: 'Sign up to iGraal and get €10', ca: "Registra't a iGraal i emporta't 10 €" },
+    desc: {
+      es: 'Es cashback de compras que ya ibas a hacer. Tú te llevas los 10 € de bienvenida y a nosotros nos queda una comisión. Es lo que paga los servidores.',
+      en: 'Cashback on shopping you were doing anyway. You get the €10 welcome bonus and we get a commission. It is what pays for the servers.',
+      ca: 'És cashback de compres que ja anaves a fer. Tu t\'emportes els 10 € de benvinguda i a nosaltres ens queda una comissió. És el que paga els servidors.',
+    },
+  },
+  {
+    id: 'contarlo',
+    emoji: '📣',
+    titulo: { es: 'Cuéntaselo a alguien', en: 'Tell someone about it', ca: 'Explica-ho a algú' },
+    desc: {
+      es: 'A otro padre, a la profesora de tu hijo, en el grupo de la clase. No hay presupuesto de publicidad detrás de esto: el boca a boca es literalmente cómo llega la gente.',
+      en: 'Another parent, your child’s teacher, the class group chat. There is no advertising budget behind this: word of mouth is literally how people arrive.',
+      ca: 'A un altre pare, a la professora del teu fill, al grup de la classe. No hi ha pressupost de publicitat darrere: el boca-orella és literalment com arriba la gent.',
+    },
+  },
+  {
+    id: 'aula',
+    emoji: '🏫',
+    to: '/profesores',
+    titulo: { es: '¿Eres profesor? Úsalo en clase', en: 'A teacher? Use it in class', ca: 'Ets professor? Fes-lo servir a classe' },
+    desc: {
+      es: 'El aula, las notas, la asistencia y el material para imprimir son gratis y sin límite de alumnos. Que se use en una clase de verdad es lo que nos dice qué hay que arreglar.',
+      en: 'The classroom, grades, attendance and printable material are free with no cap on students. A real class using it is what tells us what to fix.',
+      ca: "L'aula, les notes, l'assistència i el material per imprimir són gratis i sense límit d'alumnes. Que s'usi en una classe de debò és el que ens diu què cal arreglar.",
+    },
+  },
+  {
+    id: 'colaborar',
+    emoji: '🤝',
+    to: '/colaborar',
+    titulo: { es: '¿Academia, editorial o proyecto educativo?', en: 'School, publisher or ed-tech project?', ca: 'Acadèmia, editorial o projecte educatiu?' },
+    desc: {
+      es: 'Si trabajas en educación y ves una forma de que esto llegue a más gente, escríbenos. Contestamos siempre.',
+      en: 'If you work in education and see a way to get this to more people, write to us. We always reply.',
+      ca: 'Si treballes en educació i veus una manera que això arribi a més gent, escriu-nos. Contestem sempre.',
+    },
+  },
+]
+
+function ViaDeApoyo({ via, tr, localPath }) {
+  const contenido = (
+    <>
+      <span className="text-2xl">{via.emoji}</span>
+      <p className="mt-2 font-black text-slate-900">{tr(via.titulo)}</p>
+      <p className="mt-1.5 text-sm leading-relaxed text-slate-600">{tr(via.desc)}</p>
+      {via.patrocinado && (
+        <span className="mt-2 block text-[10px] font-bold uppercase tracking-[0.14em] text-slate-400">
+          {tr({ es: 'Patrocinado', en: 'Sponsored', ca: 'Patrocinat' })}
+        </span>
+      )}
+    </>
+  )
+  const cls = 'flex flex-col rounded-2xl border border-slate-200 bg-white p-5 text-left shadow-sm transition-all hover:border-violet-300 hover:shadow-md'
+
+  // La de "cuéntaselo" no lleva a ningún sitio: no hay nada que abrir, y un
+  // enlace que no navega es peor que un texto que no lo parece.
+  if (via.externo) {
+    return <a href={via.href} target="_blank" rel="sponsored noopener noreferrer" className={cls}>{contenido}</a>
+  }
+  if (via.to) {
+    return <Link to={localPath(via.to)} className={cls}>{contenido}</Link>
+  }
+  return <div className={`${cls} hover:border-slate-200 hover:shadow-sm`}>{contenido}</div>
+}
+
+function ComoAyudar({ tr, localPath }) {
+  return (
+    <>
+      <h2 className="text-center text-3xl font-black tracking-tight sm:text-4xl">
+        {tr({ es: 'Todo el contenido es gratis.', en: 'All the content is free.', ca: 'Tot el contingut és gratis.' })}
+      </h2>
+      <p className="mx-auto mt-3 max-w-xl text-center text-slate-600">
+        {tr({
+          es: 'Todos los juegos, todos los exámenes y el aula entera del profesor, sin cuenta, sin tarjeta y sin versión recortada esperándote más adelante. No hay plan de pago: no hay nada que comprar. Si aun así quieres echar una mano, esto es lo que ayuda de verdad.',
+          en: 'Every game, every exam and the whole teacher classroom, with no account, no card and no cut-down version waiting for you later. There is no paid plan: there is nothing to buy. If you still want to help, this is what actually helps.',
+          ca: "Tots els jocs, tots els exàmens i l'aula sencera del professor, sense compte, sense targeta i sense cap versió retallada esperant-te més endavant. No hi ha pla de pagament: no hi ha res per comprar. Si tot i així vols donar un cop de mà, això és el que ajuda de debò.",
+        })}
+      </p>
+
+      <div className="mt-10 grid gap-4 sm:grid-cols-2">
+        {VIAS_DE_APOYO.map(via => (
+          <ViaDeApoyo key={via.id} via={via} tr={tr} localPath={localPath} />
+        ))}
+      </div>
+
+      <p className="mx-auto mt-8 max-w-lg text-center text-sm text-slate-500">
+        {tr({
+          es: 'Y si no puedes hacer ninguna de las cuatro, no pasa nada: úsalo igual. Para eso está.',
+          en: 'And if you can do none of the four, that is fine: use it anyway. That is what it is for.',
+          ca: 'I si no pots fer-ne cap de les quatre, no passa res: fes-lo servir igual. Per això hi és.',
+        })}
+      </p>
+    </>
+  )
+}
 
 function PlanCard({ tr, onPick, busy }) {
   const price = PLANS.pro.price.toFixed(2).replace('.', ',')
@@ -470,7 +615,7 @@ export default function Landing() {
   }
 
   // El producto es gratis: la mayoría de los CTA de la landing ya no tienen
-  // que llevar a #precios, tienen que meter a la persona en la app cuanto
+  // que llevar a #apoyar, tienen que meter a la persona en la app cuanto
   // antes. Y "cuanto antes" ahora es de verdad antes: sin pedir registro
   // aquí — se juega sin sesión y el registro se pide donde tiene sentido
   // pedirlo, al querer guardar la puntuación (ver GameResultFooter.jsx),
@@ -515,10 +660,14 @@ export default function Landing() {
           en: 'The same class, explained every way it takes',
           ca: 'La mateixa classe, explicada de totes les maneres que calgui',
         })}
-        description={tr({
+        description={MONETIZATION_ENABLED ? tr({
           es: `Plataforma educativa gratuita para Primaria, ESO y Bachillerato. Un equipo de profesores plantea cada concepto desde distintos puntos de vista. Pro (sin publicidad y panel de seguimiento completo) desde ${PRO_PRICE} € al mes.`,
           en: `Free educational platform for primary and secondary school. A team of teachers frames each concept from different points of view. Pro (no ads, full tracking panel) from €${PRO_PRICE} a month.`,
           ca: `Plataforma educativa gratuïta per a Primària, ESO i Batxillerat. Un equip de professors planteja cada concepte des de diferents punts de vista. Pro (sense publicitat i panell de seguiment complet) des de ${PRO_PRICE} € al mes.`,
+        }) : tr({
+          es: 'Plataforma educativa gratuita para Primaria, ESO y Bachillerato: 34 juegos y 110 exámenes, sin cuenta y sin plan de pago. Un equipo de profesores plantea cada concepto desde distintos puntos de vista.',
+          en: 'Free educational platform for primary and secondary school: 34 games and 110 quizzes, no account and no paid plan. A team of teachers frames each concept from different points of view.',
+          ca: 'Plataforma educativa gratuïta per a Primària, ESO i Batxillerat: 34 jocs i 110 exàmens, sense compte i sense pla de pagament. Un equip de professors planteja cada concepte des de diferents punts de vista.',
         })}
       />
 
@@ -804,16 +953,24 @@ export default function Landing() {
 
           <p className="mt-7 text-sm text-slate-400">
             {tr({ es: '¿Prefieres apoyar el proyecto?', en: 'Rather support the project?', ca: 'Prefereixes donar suport al projecte?' })}{' '}
-            <a href="#precios" className="font-bold text-white underline decoration-violet-400 underline-offset-4 transition-colors hover:text-violet-200">
-              {tr({ es: 'Hazte Pro por 1,99€/mes', en: 'Go Pro for €1.99/mo', ca: 'Fes-te Pro per 1,99€/mes' })}
+            <a href="#apoyar" className="font-bold text-white underline decoration-violet-400 underline-offset-4 transition-colors hover:text-violet-200">
+              {MONETIZATION_ENABLED
+                ? tr({ es: `Hazte Pro por ${PRO_PRICE}€/mes`, en: `Go Pro for €${PRO_PRICE}/mo`, ca: `Fes-te Pro per ${PRO_PRICE}€/mes` })
+                : tr({ es: 'Mira cómo puedes ayudar', en: 'See how you can help', ca: 'Mira com pots ajudar' })}
             </a>
           </p>
         </div>
       </section>
 
-      {/* ── PRECIOS ── */}
-      <section id="precios" className="scroll-mt-20 py-20">
+      {/* ── PRECIOS / CÓMO AYUDAR ── */}
+      {/* El mismo hueco de la página sirve para las dos cosas: mientras no
+          haya nada que cobrar es "cómo ayudar", y el día que MONETIZATION_ENABLED
+          vuelva a true reaparece el plan tal cual estaba. El ancla se llama
+          #apoyar en los dos casos — un enlace a #precios en una página sin
+          precios ya no describía nada. */}
+      <section id="apoyar" className="scroll-mt-20 py-20">
         <div className="mx-auto max-w-3xl px-5">
+          {!MONETIZATION_ENABLED ? <ComoAyudar tr={tr} localPath={localPath} /> : (<>
           <div className="mb-5 flex justify-center">
             <LaunchBadge tr={tr} />
           </div>
@@ -862,6 +1019,7 @@ export default function Landing() {
               ca: 'Cancel·la quan vulguis des del teu perfil amb un sol clic. Pagament 100 % segur processat per Stripe.',
             })}
           </p>
+          </>)}
         </div>
       </section>
 

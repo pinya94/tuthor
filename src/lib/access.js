@@ -179,9 +179,14 @@ export async function loadAccess(uid) {
 // igualmente puede seguir haciéndolo desde ahí. Este interruptor solo apaga
 // el EMPUJE (anuncios/CTAs), no el cobro en sí, que sigue intacto.
 //
+// La landing es el único sitio que NO se apagaba solo con esto: no usa el
+// hook, tenía la pantalla de precios escrita a mano. Así que la lee directa
+// (de ahí el export) y enseña "cómo ayudar" en vez de un plan de pago. Sigue
+// siendo un solo interruptor.
+//
 // Para reactivar cuando haya tráfico que lo justifique: MONETIZATION_ENABLED
 // a true, sin tocar nada más.
-const MONETIZATION_ENABLED = false
+export const MONETIZATION_ENABLED = false
 const FREE_FOR_ALL = { allowed: true, reason: 'free_for_all', warning: null, userData: null }
 
 export function useAccessStatus() {
