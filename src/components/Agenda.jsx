@@ -47,8 +47,7 @@ export default function Agenda({ classId, assignments = [], etiquetaDeTarea, lan
   const rejilla = useMemo(() => rejillaDelMes(mes), [mes])
 
   // Los eventos propios se traen UNA vez (la subcolección entera, ver
-  // agenda.js): pasar de mes no vuelve a pedir nada. La asistencia sí va por
-  // rango, porque ahí un curso entero son cientos de días.
+  // agenda.js): pasar de mes no vuelve a pedir nada.
   useEffect(() => {
     let vivo = true
     ;(async () => {
