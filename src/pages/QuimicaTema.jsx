@@ -27,6 +27,7 @@ const TEMAS_META = {
     'mezclas-separacion':{ titulo: 'Mezclas y Separación', emoji: '🔀', descripcion: 'Mezclas homogéneas y heterogéneas. Filtración, destilación, decantación y más.' },
     'acidos-bases':      { titulo: 'Ácidos y Bases',       emoji: '🧴', descripcion: 'Escala de pH, ácidos y bases cotidianos, indicadores y neutralización.' },
     'formulacion':       { titulo: 'Formulación Química',  emoji: '🔤', descripcion: 'Valencias, números de oxidación, óxidos, hidruros, hidróxidos y sales, y cómo se nombran.' },
+    'disoluciones':      { titulo: 'Disoluciones',         emoji: '🧪', descripcion: 'Soluto y disolvente, solubilidad, disoluciones saturadas, concentración en g/L, en % y molaridad.' },
     'atomos-moleculas':  { titulo: 'Átomos y Moléculas',   emoji: '⚛️', descripcion: 'Estructura atómica, partículas subatómicas, elementos y compuestos.' },
     'rocas-minerales':   { titulo: 'Rocas y Minerales',    emoji: '⛰️', descripcion: 'Rocas ígneas, sedimentarias y metamórficas, minerales y cómo se forman.' },
     'placas-tectonicas': { titulo: 'Placas Tectónicas',    emoji: '🌋', descripcion: 'Capas de la Tierra, bordes de placas, terremotos, volcanes y la deriva continental.' },
@@ -43,6 +44,7 @@ const TEMAS_META = {
     'electricidad':      { titulo: 'Electricidad',         emoji: '💡', descripcion: 'Corriente eléctrica, circuitos, ley de Ohm, conductores, magnetismo y electroimanes.' },
     'ondas-luz':         { titulo: 'Ondas y Luz',          emoji: '🌊', descripcion: 'Ondas mecánicas, sonido, luz, reflexión, refracción y espectro electromagnético.' },
     'presion-fluidos':   { titulo: 'Presión y Fluidos',    emoji: '🎈', descripcion: 'Presión, presión hidrostática, principios de Pascal y Arquímedes, flotación y presión atmosférica.' },
+    'calor-temperatura': { titulo: 'Calor y Temperatura',  emoji: '🌡️', descripcion: 'Calor frente a temperatura, escalas, dilatación, conducción, convección, radiación y calor específico.' },
   },
   en: {
     'tabla-periodica':   { titulo: 'Periodic Table',       emoji: '⚗️', descripcion: 'Symbols, names, atomic numbers, groups and types of chemical elements.' },
@@ -50,6 +52,7 @@ const TEMAS_META = {
     'mezclas-separacion':{ titulo: 'Mixtures & Separation',emoji: '🔀', descripcion: 'Homogeneous and heterogeneous mixtures. Filtration, distillation, decantation and more.' },
     'acidos-bases':      { titulo: 'Acids & Bases',        emoji: '🧴', descripcion: 'pH scale, everyday acids and bases, indicators and neutralisation.' },
     'formulacion':       { titulo: 'Chemical Formulas',    emoji: '🔤', descripcion: 'Valencies, oxidation numbers, oxides, hydrides, hydroxides and salts, and how they are named.' },
+    'disoluciones':      { titulo: 'Solutions',            emoji: '🧪', descripcion: 'Solute and solvent, solubility, saturated solutions, concentration in g/L, in % and molarity.' },
     'atomos-moleculas':  { titulo: 'Atoms & Molecules',    emoji: '⚛️', descripcion: 'Atomic structure, subatomic particles, elements and compounds.' },
     'rocas-minerales':   { titulo: 'Rocks & Minerals',     emoji: '⛰️', descripcion: 'Igneous, sedimentary and metamorphic rocks, minerals and how they form.' },
     'placas-tectonicas': { titulo: 'Tectonic Plates',      emoji: '🌋', descripcion: 'Earth\'s layers, plate boundaries, earthquakes, volcanoes and continental drift.' },
@@ -66,6 +69,7 @@ const TEMAS_META = {
     'electricidad':      { titulo: 'Electricity',          emoji: '💡', descripcion: 'Electric current, circuits, Ohm\'s law, conductors, magnetism and electromagnets.' },
     'ondas-luz':         { titulo: 'Waves and Light',      emoji: '🌊', descripcion: 'Mechanical waves, sound, light, reflection, refraction and the electromagnetic spectrum.' },
     'presion-fluidos':   { titulo: 'Pressure and Fluids',  emoji: '🎈', descripcion: 'Pressure, hydrostatic pressure, Pascal and Archimedes, floating and atmospheric pressure.' },
+    'calor-temperatura': { titulo: 'Heat and Temperature', emoji: '🌡️', descripcion: 'Heat versus temperature, scales, expansion, conduction, convection, radiation and specific heat.' },
   },
   ca: {
     'tabla-periodica':   { titulo: 'Taula Periòdica',      emoji: '⚗️', descripcion: 'Símbols, noms, números atòmics, grups i tipus dels elements químics.' },
@@ -73,6 +77,7 @@ const TEMAS_META = {
     'mezclas-separacion':{ titulo: 'Mescles i Separació',  emoji: '🔀', descripcion: 'Mescles homogènies i heterogènies. Filtració, destil·lació, decantació i més.' },
     'acidos-bases':      { titulo: 'Àcids i Bases',        emoji: '🧴', descripcion: 'Escala de pH, àcids i bases quotidians, indicadors i neutralització.' },
     'formulacion':       { titulo: 'Formulació Química', emoji: '🔤', descripcion: "Valències, números d'oxidació, òxids, hidrurs, hidròxids i sals, i com s'anomenen." },
+    'disoluciones':      { titulo: 'Dissolucions',         emoji: '🧪', descripcion: 'Solut i dissolvent, solubilitat, dissolucions saturades, concentració en g/L, en % i molaritat.' },
     'atomos-moleculas':  { titulo: 'Àtoms i Molècules',    emoji: '⚛️', descripcion: 'Estructura atòmica, partícules subatòmiques, elements i compostos.' },
     'rocas-minerales':   { titulo: 'Roques i Minerals',    emoji: '⛰️', descripcion: 'Roques ígnies, sedimentàries i metamòrfiques, minerals i com es formen.' },
     'placas-tectonicas': { titulo: 'Plaques Tectòniques',  emoji: '🌋', descripcion: 'Capes de la Terra, vores de plaques, terratrèmols, volcans i la deriva continental.' },
@@ -89,6 +94,7 @@ const TEMAS_META = {
     'electricidad':      { titulo: 'Electricitat',         emoji: '💡', descripcion: 'Corrent elèctric, circuits, llei d\'Ohm, conductors, magnetisme i electroimants.' },
     'ondas-luz':         { titulo: 'Ones i Llum',          emoji: '🌊', descripcion: 'Ones mecàniques, so, llum, reflexió, refracció i espectre electromagnètic.' },
     'presion-fluidos':   { titulo: 'Pressió i Fluids',     emoji: '🎈', descripcion: 'Pressió, pressió hidrostàtica, principis de Pascal i Arquimedes, flotació i pressió atmosfèrica.' },
+    'calor-temperatura': { titulo: 'Calor i Temperatura',  emoji: '🌡️', descripcion: 'Calor enfront de temperatura, escales, dilatació, conducció, convecció, radiació i calor específica.' },
   },
 }
 
@@ -368,6 +374,15 @@ const MODOS_POR_TEMA = {
       path: 'presion-fluidos',
     },
   ],
+  'calor-temperatura': [
+    {
+      id: 'examen', emoji: '📝', gradient: 'from-orange-500 to-red-600',
+      titulo: { es:'Examen', en:'Exam', ca:'Examen' },
+      descripcion: { es:'Qué distingue el calor de la temperatura, escalas Celsius y Kelvin, dilatación, las tres formas de transmisión, equilibrio térmico y calor específico.', en:'What tells heat from temperature, Celsius and Kelvin scales, expansion, the three transfer routes, thermal equilibrium and specific heat.', ca:'Què distingeix la calor de la temperatura, escales Celsius i Kelvin, dilatació, les tres formes de transmissió, equilibri tèrmic i calor específica.' },
+      detalles: { es:['2 niveles','10 preguntas','Opción múltiple','Explicación tras cada respuesta'], en:['2 levels','10 questions','Multiple choice','Explanation after each answer'], ca:['2 nivells','10 preguntes','Opció múltiple','Explicació després de cada resposta'] },
+      path: 'calor-temperatura',
+    },
+  ],
   formulacion: [
     {
       id: 'examen', emoji: '📝', gradient: 'from-emerald-500 to-teal-600',
@@ -375,6 +390,15 @@ const MODOS_POR_TEMA = {
       descripcion: { es:'Leer una fórmula, valencias y números de oxidación, óxidos, hidruros, hidróxidos y sales, y las reglas para nombrarlos.', en:'Reading a formula, valencies and oxidation numbers, oxides, hydrides, hydroxides and salts, and the rules for naming them.', ca:"Llegir una fórmula, valències i números d'oxidació, òxids, hidrurs, hidròxids i sals, i les regles per anomenar-los." },
       detalles: { es:['2 niveles','10 preguntas','Opción múltiple','Explicación tras cada respuesta'], en:['2 levels','10 questions','Multiple choice','Explanation after each answer'], ca:['2 nivells','10 preguntes','Opció múltiple','Explicació després de cada resposta'] },
       path: 'formulacion',
+    },
+  ],
+  disoluciones: [
+    {
+      id: 'examen', emoji: '📝', gradient: 'from-cyan-500 to-blue-600',
+      titulo: { es:'Examen', en:'Exam', ca:'Examen' },
+      descripcion: { es:'Soluto y disolvente, solubilidad y saturación, y los tres modos de medir la concentración: g/L, porcentaje en masa y molaridad.', en:'Solute and solvent, solubility and saturation, and the three ways of measuring concentration: g/L, mass percentage and molarity.', ca:'Solut i dissolvent, solubilitat i saturació, i les tres maneres de mesurar la concentració: g/L, percentatge en massa i molaritat.' },
+      detalles: { es:['2 niveles','10 preguntas','Opción múltiple','Explicación tras cada respuesta'], en:['2 levels','10 questions','Multiple choice','Explanation after each answer'], ca:['2 nivells','10 preguntes','Opció múltiple','Explicació després de cada resposta'] },
+      path: 'disoluciones',
     },
   ],
 }

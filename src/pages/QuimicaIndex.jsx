@@ -30,6 +30,14 @@ const TEMAS = [
     niveles: ['primaria', 'eso'],
   },
   {
+    id: 'disoluciones', disciplina: 'quimica',
+    titulo: 'Disoluciones', tituloEn: 'Solutions', tituloCa: 'Dissolucions',
+    subtitulo: 'Soluto y disolvente, solubilidad, saturación y concentración', subtituloEn: 'Solute and solvent, solubility, saturation and concentration', subtituloCa: 'Solut i dissolvent, solubilitat, saturació i concentració',
+    emoji: '🧪', gradient: 'from-cyan-500 to-blue-600',
+    tags: ['disolucion', 'soluto', 'disolvente', 'concentracion', 'solubilidad', 'saturada', 'molaridad', 'diluir', 'solution', 'solute', 'concentration', 'solubility'],
+    niveles: ['primaria', 'eso'],
+  },
+  {
     id: 'formulacion', disciplina: 'quimica',
     titulo: 'Formulación Química', tituloEn: 'Chemical Formulas', tituloCa: 'Formulació Química',
     subtitulo: 'Valencias, símbolos, óxidos, hidruros, sales y cómo se nombran', subtituloEn: 'Valencies, symbols, oxides, hydrides, salts and how they are named', subtituloCa: "Valències, símbols, òxids, hidrurs, sals i com s'anomenen",
@@ -139,6 +147,14 @@ const TEMAS = [
     subtitulo: 'Circuitos, corriente, tensión, resistencia y magnetismo', subtituloEn: 'Circuits, current, voltage, resistance and magnetism', subtituloCa: 'Circuits, corrent, tensió, resistència i magnetisme',
     emoji: '💡', gradient: 'from-amber-500 to-yellow-600',
     tags: ['electricidad', 'circuito', 'corriente', 'voltaje', 'resistencia', 'ohm', 'iman', 'electricity', 'circuit', 'ohm law'],
+    niveles: ['primaria', 'eso'],
+  },
+  {
+    id: 'calor-temperatura', disciplina: 'fisica',
+    titulo: 'Calor y Temperatura', tituloEn: 'Heat and Temperature', tituloCa: 'Calor i Temperatura',
+    subtitulo: 'Calor frente a temperatura, escalas, dilatación, transmisión y calor específico', subtituloEn: 'Heat versus temperature, scales, expansion, transfer and specific heat', subtituloCa: 'Calor enfront de temperatura, escales, dilatació, transmissió i calor específica',
+    emoji: '🌡️', gradient: 'from-orange-500 to-red-600',
+    tags: ['calor', 'temperatura', 'kelvin', 'celsius', 'dilatacion', 'conduccion', 'conveccion', 'radiacion', 'equilibrio', 'heat', 'temperature', 'expansion'],
     niveles: ['primaria', 'eso'],
   },
   {

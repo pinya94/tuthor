@@ -154,7 +154,9 @@
   <url><loc>https://www.tuthor.es/examen/frases-morfologia-test</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/examen/energia</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/examen/electricidad</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/examen/disoluciones</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.tuthor.es/examen/formulacion</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/examen/calor-temperatura</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.tuthor.es/examen/presion-fluidos</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.tuthor.es/examen/ondas-luz</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/examen/ciclo/ciclo-agua</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>

@@ -366,10 +366,20 @@ export const EXAMS = {
     emoji: '🧬', subject: 'biologia',
     path: 'examen/evolucion', page: () => import('../pages/EvolucionExamen'),
   },
+  'disoluciones': {
+    label: { es: 'Disoluciones', en: 'Solutions', ca: 'Dissolucions' },
+    emoji: '🧪', subject: 'quimica',
+    path: 'examen/disoluciones', page: () => import('../pages/DisolucionesExamen'),
+  },
   'formulacion': {
     label: { es: 'Formulación Química', en: 'Chemical Formulas', ca: 'Formulació Química' },
     emoji: '🔤', subject: 'quimica',
     path: 'examen/formulacion', page: () => import('../pages/FormulacionQuimicaExamen'),
+  },
+  'calor-temperatura': {
+    label: { es: 'Calor y Temperatura', en: 'Heat & Temperature', ca: 'Calor i Temperatura' },
+    emoji: '🌡️', subject: 'fisica',
+    path: 'examen/calor-temperatura', page: () => import('../pages/CalorTemperaturaExamen'),
   },
   'presion-fluidos': {
     label: { es: 'Presión y Fluidos', en: 'Pressure & Fluids', ca: 'Pressió i Fluids' },

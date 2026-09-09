@@ -306,6 +306,7 @@ export const TOPIC_CATALOG = {
       electricidad: examTema({ teoria: 'electricidad', circuito: 'circuito-cerrado-test' }),
       'ondas-luz': examTema({ teoria: 'ondas-luz' }),
       'presion-fluidos': examTema({ teoria: 'presion-fluidos' }),
+      'calor-temperatura': examTema({ teoria: 'calor-temperatura' }),
     },
     formatos: {
       teoria: examFormato({ es: 'Teoría (tipo test)', en: 'Theory (quiz)', ca: 'Teoria (tipus test)' }, '📝'),
@@ -323,6 +324,7 @@ export const TOPIC_CATALOG = {
       'mezclas-separacion': examTema({ teoria: 'mezclas-separacion' }),
       'acidos-bases': examTema({ teoria: 'acidos-bases' }),
       formulacion: examTema({ teoria: 'formulacion' }),
+      disoluciones: examTema({ teoria: 'disoluciones' }),
     },
     formatos: {
       teoria: examFormato({ es: 'Teoría (tipo test)', en: 'Theory (quiz)', ca: 'Teoria (tipus test)' }, '📝'),
