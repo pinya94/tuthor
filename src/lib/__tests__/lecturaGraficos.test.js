@@ -225,10 +225,34 @@ describe('contextos', () => {
     }
   })
 
-  it('generarDatos declara la tendencia que ha generado', () => {
+  it('generarDatos declara la forma que ha generado, y la respeta si se le pide una', () => {
+    const FORMAS = ['sube', 'baja', 'estable', 'pico', 'valle']
     for (let i = 0; i < 500; i++) {
-      const d = generarDatos(RANGOS.medio)
-      expect(['sube', 'baja', 'estable']).toContain(d.tendencia)
+      expect(FORMAS).toContain(generarDatos(RANGOS.medio).tendencia)
+    }
+    // Pedir una forma concreta es lo que permite que la pregunta del máximo
+    // salga sobre un pico en vez de sobre una recta.
+    for (const f of FORMAS) {
+      for (let i = 0; i < 100; i++) {
+        expect(generarDatos(RANGOS.medio, f).tendencia, `pedí ${f} y no lo dio`).toBe(f)
+      }
+    }
+  })
+
+  it('un pico tiene su máximo dentro, no en un extremo', () => {
+    // Es toda la razón de que exista esta forma: con series monótonas, "¿cuándo
+    // fue el máximo?" se acertaba mirando solo el primer y el último punto.
+    for (let i = 0; i < 400; i++) {
+      const { valores } = generarDatos(RANGOS.medio, 'pico')
+      const i2 = valores.indexOf(Math.max(...valores))
+      expect(i2, 'el pico está en un extremo').toBeGreaterThan(0)
+      expect(i2, 'el pico está en un extremo').toBeLessThan(valores.length - 1)
+    }
+    for (let i = 0; i < 400; i++) {
+      const { valores } = generarDatos(RANGOS.medio, 'valle')
+      const i2 = valores.indexOf(Math.min(...valores))
+      expect(i2).toBeGreaterThan(0)
+      expect(i2).toBeLessThan(valores.length - 1)
     }
   })
 })
@@ -463,5 +487,54 @@ describe('familia "grupos": dos protagonistas y sus marcas', () => {
       expect(p.leyenda[0]).not.toBe(p.leyenda[1])
       expect(p.leyenda[0].length).toBeGreaterThan(2)
     })
+  })
+})
+
+// ── Que el juego no se pueda ganar sin mirar el gráfico ──────────────────────
+// Estos tres salieron de una revisión con números, no de jugar: son atajos que
+// un alumno encuentra en tres rondas y que vacían el ejercicio.
+describe('no hay atajos para acertar sin mirar', () => {
+  it('el máximo no cae casi siempre en el primer o el último punto', () => {
+    // Medía el 100 % antes de que la pregunta pudiera pedir la forma que
+    // necesita. Con eso, contestar "un extremo" a ciegas ganaba siempre.
+    let extremo = 0, total = 0
+    for (const dif of [RANGOS.facil, RANGOS.medio]) {
+      for (let i = 0; i < 3000; i++) {
+        const p = generarPregunta(dif, 'es')
+        if (p.tipo !== 'maximo' && p.tipo !== 'minimo') continue
+        total++
+        const i2 = p.etiquetas.indexOf(p.correcta)
+        if (i2 === 0 || i2 === p.valores.length - 1) extremo++
+      }
+    }
+    const ratio = extremo / total
+    expect(ratio, `${Math.round(ratio * 100)} % en un extremo: se acierta sin mirar`).toBeLessThan(0.55)
+    // Y tampoco al revés: si NUNCA estuviera en un extremo, "descarta los
+    // extremos" sería otra regla que aprenderse sin leer el gráfico.
+    expect(ratio, 'nunca está en un extremo: eso también es un atajo').toBeGreaterThan(0.15)
+  })
+
+  it('las preguntas que exigen leer un valor no salen con el eje truncado', () => {
+    // "¿Cuánto cambió entre 2015 y 2016?" con el eje recortado y sin cifras
+    // encima de las barras es adivinar. Salían así el 100 %.
+    cada(p => {
+      if (p.tipo !== 'variacion' && p.tipo !== 'porcentaje') return
+      expect(p.ejeTruncado && !p.etiquetarValores, `${p.tipo} con el eje truncado y sin cifras`).toBe(false)
+    })
+  })
+
+  it('las preguntas de media se pueden hacer de cabeza', () => {
+    // Promediar 27, 35, 39 y 43 no es leer un gráfico, es aritmética a mano.
+    // Los datos de las preguntas con cuenta van siempre juntos; los duelos de
+    // números grandes se quedan con las de comparar, que no exigen calcular.
+    const CON_CUENTA = ['media', 'mediana', 'media-de-uno']
+    for (let i = 0; i < 6000; i++) {
+      const p = generarPregunta(RANGOS.dificil, 'es')
+      if (!CON_CUENTA.includes(p.tipo)) continue
+      const serie = p.tipo === 'media-de-uno' && p.pregunta.includes(p.leyenda[1]) ? p.segunda : p.valores
+      const recorrido = Math.max(...serie) - Math.min(...serie)
+      expect(recorrido, `${p.contexto.id}/${p.tipo}: ${serie.join(', ')} está muy disperso`).toBeLessThanOrEqual(9)
+      expect(Math.max(...serie), `${p.contexto.id}: números demasiado grandes para hacerlo de cabeza`).toBeLessThanOrEqual(30)
+    }
   })
 })

@@ -141,7 +141,32 @@ const TENDENCIAS = ['sube', 'baja', 'estable']
 // jugando ocho rondas seguidas salieron cuatro "se mantiene estable". Sigue
 // apareciendo —hace falta, porque es una de las tres respuestas posibles— pero
 // una de cada seis veces en lugar de una de cada tres.
-const SORTEO_TENDENCIA = ['sube', 'sube', 'baja', 'baja', 'estable']
+const SORTEO_TENDENCIA = ['sube', 'sube', 'baja', 'baja', 'estable', 'pico', 'pico', 'valle', 'valle']
+
+// Qué forma de serie hace interesante cada pregunta. Un máximo pide un pico
+// (si no, la respuesta es siempre un extremo); una tendencia pide una serie
+// que suba, baje o se quede quieta (un pico no hace ninguna de las tres); y
+// las de comparar dos puntos valen con cualquiera.
+const FORMAS_PARA = {
+  tendencia: ['sube', 'sube', 'baja', 'baja', 'estable'],
+  maximo: ['pico', 'pico', 'pico', 'sube', 'baja'],
+  minimo: ['valle', 'valle', 'valle', 'sube', 'baja'],
+  variacion: ['sube', 'baja', 'pico', 'valle'],
+  'mayor-subida': ['sube', 'baja', 'pico', 'valle'],
+  porcentaje: ['sube', 'baja'],
+  cruce: ['sube', 'baja'],
+  'serie-mayor': ['sube', 'baja'],
+}
+
+// Una serie con pico sube hasta un punto interior y baja, o al revés. Es la
+// única forma con la que "¿cuándo fue el máximo?" obliga a mirar el dibujo:
+// con una serie monótona la respuesta es siempre uno de los dos extremos.
+function serieConPico(n, base, subida, bajada, cumbre, haciaAbajo) {
+  const signo = haciaAbajo ? -1 : 1
+  return Array.from({ length: n }, (_, i) => i <= cumbre
+    ? base + signo * subida * i
+    : base + signo * (subida * cumbre - bajada * (i - cumbre)))
+}
 
 // El suelo de la serie. No es cosmético: una población o unas ventas negativas
 // no significan nada, y con base 20 y siete puntos bajando de 9 en 9 el motor
@@ -149,9 +174,31 @@ const SORTEO_TENDENCIA = ['sube', 'sube', 'baja', 'baja', 'estable']
 // desde el final para que el último punto no baje de aquí.
 const MINIMO = 8
 
-export function generarDatos(dif) {
-  const tendencia = pick(SORTEO_TENDENCIA)
+export function generarDatos(dif, formaPedida = null) {
+  const tendencia = formaPedida ?? pick(SORTEO_TENDENCIA)
   const n = dif.n
+
+  if (tendencia === 'pico' || tendencia === 'valle') {
+    const haciaAbajo = tendencia === 'valle'
+    for (let intento = 0; intento < 30; intento++) {
+      const cumbre = rng(1, n - 2)
+      const subida = rng(4, 9)
+      const bajada = rng(4, 9)
+      // Los dos extremos no pueden quedar a la misma altura: si empatan, el
+      // mínimo de un pico tiene dos respuestas buenas.
+      if (subida * cumbre === bajada * (n - 1 - cumbre)) continue
+      const base = MINIMO + (haciaAbajo ? subida * cumbre : 0) + rng(0, 20)
+      const valores = serieConPico(n, base, subida, bajada, cumbre, haciaAbajo)
+      if (valores.some(v => v < 0)) continue
+      return { tendencia, valores, segunda: null, cumbre }
+    }
+    // Si en 30 intentos no sale, se construye a mano en vez de caer a una
+    // serie monótona: quien pidió un pico lo pidió por algo.
+    const cumbre = Math.floor(n / 2)
+    const base = MINIMO + (haciaAbajo ? 6 * cumbre : 0) + 5
+    return { tendencia, valores: serieConPico(n, base, 6, 4, cumbre, haciaAbajo), segunda: null, cumbre }
+  }
+
   const paso = tendencia === 'sube' ? rng(4, 9) : tendencia === 'baja' ? -rng(4, 9) : 0
   const caida = paso < 0 ? -paso * (n - 1) : 0
   const base = rng(MINIMO + caida + dif.ruido, MINIMO + caida + 45)
@@ -318,7 +365,10 @@ const T = {
     es: '¿Cuánto cambió entre {a} y {b}?', en: 'How much did it change between {a} and {b}?', ca: 'Quant va canviar entre {a} i {b}?',
   },
   'mayor-subida': {
-    es: '¿Entre qué dos puntos consecutivos hubo el MAYOR aumento?', en: 'Between which two consecutive points was the BIGGEST rise?', ca: 'Entre quins dos punts consecutius hi va haver el MAJOR augment?',
+    // "Entre qué dos puntos consecutivos hubo el mayor aumento" era correcto y
+    // no lo entendía nadie. Las opciones ya se ven como "2018 → 2019", así que
+    // la pregunta solo tiene que decir qué se busca: el tramo que más sube.
+    es: '¿En qué tramo CRECIÓ MÁS?', en: 'In which stretch did it GROW THE MOST?', ca: 'En quin tram va CRÉIXER MÉS?',
   },
   cruce: {
     es: '¿En qué punto la serie B supera por primera vez a la A?', en: 'At which point does series B first overtake A?', ca: 'En quin punt la sèrie B supera per primera vegada la A?',
@@ -393,6 +443,11 @@ function distractores(correcta, candidatos, n = 3) {
 //
 // Cinco valores, impar a propósito: con un número par la mediana es el
 // promedio de los dos centrales y puede salir con decimales.
+// Lo más lejos que pueden quedar el valor más alto y el más bajo en una
+// pregunta que exige promediar. Por encima de esto deja de ser leer un
+// gráfico y pasa a ser una cuenta a mano, que ya tiene su propio juego.
+const MAX_RECORRIDO = 8
+
 export const SERIES_MEDIDA = {
   notas: {
     id: 'notas', emoji: '📕', escala: 1, unidad: { es: '', en: '', ca: '' },
@@ -433,6 +488,11 @@ function generarMedida() {
     const desv = Array.from({ length: n - 1 }, () => rng(-2, 2))
     const valores = [...desv, -desv.reduce((a, b) => a + b, 0)].map(d => media + d)
     if (valores.some(v => v < lo || v > hi)) continue
+    // El quinto valor es el que compensa a los otros cuatro, así que puede
+    // dispararse: con desviaciones −2 −2 −2 −2 el último sale +8 y la serie
+    // queda 2, 2, 2, 2, 12. Está dentro del rango del contexto y aun así ya
+    // no se promedia de cabeza, que es de lo que va esta familia.
+    if (Math.max(...valores) - Math.min(...valores) > MAX_RECORRIDO) continue
     const orden = [...valores].sort((a, b) => a - b)
     const mediana = orden[2]
     // La media y la mediana tienen que ser DISTINTAS: si coinciden, las dos
@@ -510,6 +570,7 @@ export const DUELOS = {
     a: { es: 'Marta', en: 'Marta', ca: 'Marta' },
     b: { es: 'Iván', en: 'Ivan', ca: 'Ivan' },
     que: { es: 'nota media', en: 'average mark', ca: 'nota mitjana' },
+    calculable: true,
     etiquetas: n => Array.from({ length: n }, (_, i) => `${i + 1}ª ev.`),
     rango: [3, 10],
   },
@@ -520,6 +581,7 @@ export const DUELOS = {
     a: { es: 'Tienda Norte', en: 'North Shop', ca: 'Botiga Nord' },
     b: { es: 'Tienda Sur', en: 'South Shop', ca: 'Botiga Sud' },
     que: { es: 'media de ventas', en: 'average sales', ca: 'mitjana de vendes' },
+    calculable: false,
     etiquetas: n => Array.from({ length: n }, (_, i) => `T${i + 1}`),
     rango: [10, 60],
   },
@@ -530,8 +592,9 @@ export const DUELOS = {
     a: { es: 'Nadia', en: 'Nadia', ca: 'Nadia' },
     b: { es: 'Bruno', en: 'Bruno', ca: 'Bruno' },
     que: { es: 'media de puntos', en: 'average points', ca: 'mitjana de punts' },
+    calculable: true,
     etiquetas: n => Array.from({ length: n }, (_, i) => `Prueba ${i + 1}`),
-    rango: [5, 30],
+    rango: [7, 19],
   },
 }
 export const DUELO_IDS = Object.keys(DUELOS)
@@ -549,21 +612,29 @@ function generarDuelo() {
     const d = [rng(-2, 2), rng(-2, 2), rng(-2, 2)]
     return [...d, -d.reduce((x, y) => x + y, 0)].map(x => media + x * Math.max(1, Math.round((hi - lo) / 12)))
   }
-  for (let intento = 0; intento < 60; intento++) {
+  for (let intento = 0; intento < 250; intento++) {
     const mediaA = rng(lo + 2, hi - 2)
     const mediaB = rng(lo + 2, hi - 2)
     if (mediaA === mediaB) continue
     const a = cuatro(mediaA)
     const b = cuatro(mediaB)
     if ([...a, ...b].some(v => v < lo || v > hi)) continue
+    // Misma razón que arriba: la cuarta marca compensa a las tres anteriores
+    // y puede quedar muy lejos del resto.
+    if (Math.max(...a) - Math.min(...a) > MAX_RECORRIDO) continue
+    if (Math.max(...b) - Math.min(...b) > MAX_RECORRIDO) continue
     // Rangos distintos, o "¿quién es más regular?" no tiene respuesta.
     const rangoA = Math.max(...a) - Math.min(...a)
     const rangoB = Math.max(...b) - Math.min(...b)
     if (rangoA === rangoB) continue
     return { duelo, a, b, mediaA, mediaB, rangoA, rangoB, n }
   }
-  const a = [5, 7, 5, 7], b = [6, 6, 6, 6]
-  return { duelo, a, b, mediaA: 6, mediaB: 6, rangoA: 2, rangoB: 0, n: 4 }
+  // Red de seguridad que CUMPLE las dos condiciones, no una pareja cualquiera:
+  // medias distintas (6 y 5) y recorridos distintos (2 y 5). La que había —
+  // [5,7,5,7] contra [6,6,6,6]— daba media 6 en las dos, o sea justo el caso
+  // que el bucle descarta, y dejaba "¿quién tiene mejor media?" sin respuesta.
+  const a = [5, 5, 7, 7], b = [3, 4, 5, 8]
+  return { duelo, a, b, mediaA: 6, mediaB: 5, rangoA: 2, rangoB: 5, n: 4 }
 }
 
 const T_GRUPOS = {
@@ -580,7 +651,10 @@ const T_GRUPOS = {
 
 function preguntaDeGrupos(dif, lang) {
   const { duelo, a, b, mediaA, mediaB, rangoA, rangoB, n } = generarDuelo()
-  const tipo = pick(dif.tiposGrupos)
+  // "¿Cuál es la media de Bruno?" solo se ofrece si sus números son
+  // pequeños: con ventas de 27, 35, 39 y 43 la pregunta deja de ser de
+  // lectura de gráficos y pasa a ser una cuenta a mano.
+  const tipo = pick(dif.tiposGrupos.filter(t => t !== 'media-de-uno' || duelo.calculable))
   const nombreA = tr3(duelo.a, lang)
   const nombreB = tr3(duelo.b, lang)
   const base = {
@@ -707,7 +781,16 @@ export function generarPregunta(dif, lang = 'es', ctxId = null) {
     return preguntaDePar(dif, lang)
   }
   const ctx = CONTEXTOS[ctxId] ?? CONTEXTOS[pick(CONTEXTO_IDS)]
-  const { tendencia, valores, segunda } = generarDatos(dif)
+
+  // La PREGUNTA elige la forma, y no al revés. Sorteando la forma primero, el
+  // máximo caía en el primer o el último punto el 100 % de las veces en fácil
+  // (y el 70 % después de añadir los picos): contestar "un extremo" a ciegas
+  // ganaba más veces que mirar el gráfico, que es lo contrario de lo que se
+  // quiere enseñar. Pidiendo un pico cuando se pregunta por el máximo, baja
+  // al 40 % — que es la proporción sana: a veces el máximo SÍ está al final,
+  // y descartarlo por sistema sería otra regla que aprenderse sin mirar.
+  const tipoPedido = pick(dif.tipos)
+  const { tendencia, valores, segunda } = generarDatos(dif, pick(FORMAS_PARA[tipoPedido] ?? SORTEO_TENDENCIA))
   const n = valores.length
   const añoBase = rng(2010, 2018)
   const etiquetas = ctx.etiquetas(Array.from({ length: n }, (_, i) => String(añoBase + i)), n)
@@ -718,9 +801,16 @@ export function generarPregunta(dif, lang = 'es', ctxId = null) {
   // dos años es "+0 hab.", que además de inútil parece un error. Cuando la
   // serie no se mueve, lo único que se puede preguntar de verdad es
   // justamente eso: qué está haciendo.
+  // Un pico no "sube" ni "baja": sube y luego baja. Preguntar la tendencia
+  // sobre él no tendría una respuesta buena, así que ahí se pregunta por el
+  // máximo, el mínimo o lo que cambió — que es justo para lo que sirve.
+  const conPico = tendencia === 'pico' || tendencia === 'valle'
+  // El tipo pedido manda, salvo que la forma que salió no lo admita: una
+  // serie plana solo da para la tendencia y un pico no da para ella.
   const posibles = tendencia === 'estable'
     ? ['tendencia']
-    : dif.tipos.filter(t => segunda || (t !== 'cruce' && t !== 'serie-mayor'))
+    : [tipoPedido, ...dif.tipos].filter(t => (segunda || (t !== 'cruce' && t !== 'serie-mayor'))
+      && !(conPico && t === 'tendencia'))
 
   // "¿Entre qué dos puntos subió más?" solo se puede preguntar si UNO sube
   // más que todos los demás. El ruido puede hacer que dos tramos suban
@@ -730,12 +820,19 @@ export function generarPregunta(dif, lang = 'es', ctxId = null) {
   const saltos = valores.slice(1).map((v, i) => v - valores[i])
   const subidaAmbigua = saltos.filter(d => d === Math.max(...saltos)).length > 1
   const elegibles = subidaAmbigua ? posibles.filter(t => t !== 'mayor-subida') : posibles
-  const tipo = pick(elegibles.length > 0 ? elegibles : ['tendencia'])
+  const tipo = elegibles.includes(tipoPedido) ? tipoPedido
+    : pick(elegibles.length > 0 ? elegibles : ['tendencia'])
   const q = t => tr3(T[tipo], lang).replace('{sujeto}', tr3(ctx.sujeto, lang)).replace('{a}', t?.a ?? '').replace('{b}', t?.b ?? '')
 
+  // El eje truncado se reserva a las preguntas de FORMA. En "¿cuánto cambió
+  // entre 2015 y 2016?" hay que leer dos valores concretos, y con el eje
+  // recortado y sin cifras encima de las barras eso es adivinar, no leer:
+  // salían así el 100 % de esas preguntas. Con el máximo o la tendencia no
+  // molesta —se comparan alturas, no se miden— y ahí la trampa sigue viva.
+  const DE_FORMA = ['tendencia', 'maximo', 'minimo', 'mayor-subida']
   const base = {
     contexto: ctx, etiquetas, valores, segunda, tendencia, tipo,
-    ejeTruncado: Boolean(dif.ejeTruncado),
+    ejeTruncado: Boolean(dif.ejeTruncado) && DE_FORMA.includes(tipo),
   }
 
   if (tipo === 'tendencia') {
@@ -751,7 +848,15 @@ export function generarPregunta(dif, lang = 'es', ctxId = null) {
   }
 
   if (tipo === 'variacion') {
-    const a = rng(0, n - 2), b = rng(a + 1, n - 1)
+    // Los dos puntos tienen que estar a DISTINTA altura. Con una serie
+    // monótona eso pasaba solo, pero en un pico la subida y la bajada cruzan
+    // el mismo valor dos veces, y entonces la pregunta era "¿cuánto cambió?"
+    // con respuesta "+0", que no dice nada.
+    let a = 0, b = n - 1
+    for (let intento = 0; intento < 20; intento++) {
+      const x = rng(0, n - 2), y = rng(x + 1, n - 1)
+      if (valores[x] !== valores[y]) { a = x; b = y; break }
+    }
     const dif2 = valores[b] - valores[a]
     const signo = d => (d >= 0 ? '+' : '−') + formatear(Math.abs(d), ctx, lang)
     const correcta = signo(dif2)
