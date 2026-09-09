@@ -366,6 +366,11 @@ export const EXAMS = {
     emoji: '🧬', subject: 'biologia',
     path: 'examen/evolucion', page: () => import('../pages/EvolucionExamen'),
   },
+  'formulacion': {
+    label: { es: 'Formulación Química', en: 'Chemical Formulas', ca: 'Formulació Química' },
+    emoji: '🔤', subject: 'quimica',
+    path: 'examen/formulacion', page: () => import('../pages/FormulacionQuimicaExamen'),
+  },
   'presion-fluidos': {
     label: { es: 'Presión y Fluidos', en: 'Pressure & Fluids', ca: 'Pressió i Fluids' },
     emoji: '🎈', subject: 'fisica',

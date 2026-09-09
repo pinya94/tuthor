@@ -322,6 +322,7 @@ export const TOPIC_CATALOG = {
       'estados-materia': examTema({ teoria: 'estados-materia', 'estado-test': 'cambio-estado-test', 'nombres-cambio': 'nombres-cambio-test' }),
       'mezclas-separacion': examTema({ teoria: 'mezclas-separacion' }),
       'acidos-bases': examTema({ teoria: 'acidos-bases' }),
+      formulacion: examTema({ teoria: 'formulacion' }),
     },
     formatos: {
       teoria: examFormato({ es: 'Teoría (tipo test)', en: 'Theory (quiz)', ca: 'Teoria (tipus test)' }, '📝'),

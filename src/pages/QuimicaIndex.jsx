@@ -30,6 +30,14 @@ const TEMAS = [
     niveles: ['primaria', 'eso'],
   },
   {
+    id: 'formulacion', disciplina: 'quimica',
+    titulo: 'Formulación Química', tituloEn: 'Chemical Formulas', tituloCa: 'Formulació Química',
+    subtitulo: 'Valencias, símbolos, óxidos, hidruros, sales y cómo se nombran', subtituloEn: 'Valencies, symbols, oxides, hydrides, salts and how they are named', subtituloCa: "Valències, símbols, òxids, hidrurs, sals i com s'anomenen",
+    emoji: '🔤', gradient: 'from-emerald-500 to-teal-600',
+    tags: ['formulacion', 'nomenclatura', 'valencia', 'oxido', 'hidruro', 'sal', 'stock', 'iupac', 'formula', 'naming', 'valency', 'oxide'],
+    niveles: ['primaria', 'eso'],
+  },
+  {
     id: 'acidos-bases', disciplina: 'quimica',
     titulo: 'Ácidos y Bases', tituloEn: 'Acids & Bases', tituloCa: 'Àcids i Bases',
     subtitulo: 'pH, indicadores y neutralización', subtituloEn: 'pH, indicators and neutralisation', subtituloCa: 'pH, indicadors i neutralització',

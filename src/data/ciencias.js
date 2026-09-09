@@ -45,6 +45,7 @@ export const TEMA_DISCIPLINA = {
   'electricidad':       'fisica',
   'ondas-luz':          'fisica',
   'presion-fluidos':    'fisica',
+  formulacion:          'quimica',
   'celula':             'biologia',
   'cuerpo-humano':      'biologia',
   'seres-vivos':        'biologia',
