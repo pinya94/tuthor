@@ -366,6 +366,11 @@ export const EXAMS = {
     emoji: '🧬', subject: 'biologia',
     path: 'examen/evolucion', page: () => import('../pages/EvolucionExamen'),
   },
+  'presion-fluidos': {
+    label: { es: 'Presión y Fluidos', en: 'Pressure & Fluids', ca: 'Pressió i Fluids' },
+    emoji: '🎈', subject: 'fisica',
+    path: 'examen/presion-fluidos', page: () => import('../pages/PresionFluidosExamen'),
+  },
   'ondas-luz': {
     label: { es: 'Ondas y Luz', en: 'Waves & Light', ca: 'Ones i Llum' },
     emoji: '🌊', subject: 'fisica',

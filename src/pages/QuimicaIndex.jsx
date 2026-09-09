@@ -134,6 +134,14 @@ const TEMAS = [
     niveles: ['primaria', 'eso'],
   },
   {
+    id: 'presion-fluidos', disciplina: 'fisica',
+    titulo: 'Presión y Fluidos', tituloEn: 'Pressure and Fluids', tituloCa: 'Pressió i Fluids',
+    subtitulo: 'Presión, hidrostática, Arquímedes, Pascal y presión atmosférica', subtituloEn: 'Pressure, hydrostatics, Archimedes, Pascal and atmospheric pressure', subtituloCa: 'Pressió, hidrostàtica, Arquimedes, Pascal i pressió atmosfèrica',
+    emoji: '🎈', gradient: 'from-sky-500 to-indigo-600',
+    tags: ['presion', 'pascal', 'arquimedes', 'empuje', 'flotacion', 'hidrostatica', 'atmosferica', 'fluidos', 'pressure', 'buoyancy', 'archimedes', 'floating'],
+    niveles: ['primaria', 'eso'],
+  },
+  {
     id: 'ondas-luz', disciplina: 'fisica',
     titulo: 'Ondas y Luz', tituloEn: 'Waves and Light', tituloCa: 'Ones i Llum',
     subtitulo: 'Sonido, espectro electromagnético, reflexión y refracción', subtituloEn: 'Sound, electromagnetic spectrum, reflection and refraction', subtituloCa: 'So, espectre electromagnètic, reflexió i refracció',

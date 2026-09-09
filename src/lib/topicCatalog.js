@@ -305,6 +305,7 @@ export const TOPIC_CATALOG = {
       energia: examTema({ teoria: 'energia' }),
       electricidad: examTema({ teoria: 'electricidad', circuito: 'circuito-cerrado-test' }),
       'ondas-luz': examTema({ teoria: 'ondas-luz' }),
+      'presion-fluidos': examTema({ teoria: 'presion-fluidos' }),
     },
     formatos: {
       teoria: examFormato({ es: 'Teoría (tipo test)', en: 'Theory (quiz)', ca: 'Teoria (tipus test)' }, '📝'),

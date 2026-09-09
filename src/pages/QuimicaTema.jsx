@@ -37,10 +37,11 @@ const TEMAS_META = {
     'genetica':          { titulo: 'Genética',             emoji: '🧬', descripcion: 'ADN, genes, cromosomas, leyes de Mendel, mutaciones e ingeniería genética.' },
     'nutricion':         { titulo: 'Nutrición',            emoji: '🥗', descripcion: 'Macronutrientes, vitaminas, minerales, dieta mediterránea y alimentación saludable.' },
     'evolucion':         { titulo: 'Evolución',            emoji: '🧬', descripcion: 'Darwin, selección natural, adaptación, los pinzones de Galápagos y la especiación.' },
-    'fuerzas':           { titulo: 'Fuerzas y Movimiento', emoji: '⚡', descripcion: 'Leyes de Newton, masa, peso, velocidad, gravedad, rozamiento y presión.' },
+    'fuerzas':           { titulo: 'Fuerzas y Movimiento', emoji: '⚡', descripcion: 'Leyes de Newton, masa, peso, velocidad, gravedad y rozamiento.' },
     'energia':           { titulo: 'Energía',              emoji: '🔋', descripcion: 'Energía cinética, potencial, térmica, renovable y rendimiento energético.' },
     'electricidad':      { titulo: 'Electricidad',         emoji: '💡', descripcion: 'Corriente eléctrica, circuitos, ley de Ohm, conductores, magnetismo y electroimanes.' },
     'ondas-luz':         { titulo: 'Ondas y Luz',          emoji: '🌊', descripcion: 'Ondas mecánicas, sonido, luz, reflexión, refracción y espectro electromagnético.' },
+    'presion-fluidos':   { titulo: 'Presión y Fluidos',    emoji: '🎈', descripcion: 'Presión, presión hidrostática, principios de Pascal y Arquímedes, flotación y presión atmosférica.' },
   },
   en: {
     'tabla-periodica':   { titulo: 'Periodic Table',       emoji: '⚗️', descripcion: 'Symbols, names, atomic numbers, groups and types of chemical elements.' },
@@ -58,10 +59,11 @@ const TEMAS_META = {
     'genetica':          { titulo: 'Genetics',             emoji: '🧬', descripcion: 'DNA, genes, chromosomes, Mendel\'s laws, mutations and genetic engineering.' },
     'nutricion':         { titulo: 'Nutrition',            emoji: '🥗', descripcion: 'Macronutrients, vitamins, minerals, Mediterranean diet and healthy eating.' },
     'evolucion':         { titulo: 'Evolution',            emoji: '🧬', descripcion: 'Darwin, natural selection, adaptation, the Galápagos finches and speciation.' },
-    'fuerzas':           { titulo: 'Forces and Motion',    emoji: '⚡', descripcion: 'Newton\'s laws, mass, weight, speed, gravity, friction and pressure.' },
+    'fuerzas':           { titulo: 'Forces and Motion',    emoji: '⚡', descripcion: 'Newton\'s laws, mass, weight, speed, gravity and friction.' },
     'energia':           { titulo: 'Energy',               emoji: '🔋', descripcion: 'Kinetic, potential, thermal and renewable energy, power and efficiency.' },
     'electricidad':      { titulo: 'Electricity',          emoji: '💡', descripcion: 'Electric current, circuits, Ohm\'s law, conductors, magnetism and electromagnets.' },
     'ondas-luz':         { titulo: 'Waves and Light',      emoji: '🌊', descripcion: 'Mechanical waves, sound, light, reflection, refraction and the electromagnetic spectrum.' },
+    'presion-fluidos':   { titulo: 'Pressure and Fluids',  emoji: '🎈', descripcion: 'Pressure, hydrostatic pressure, Pascal and Archimedes, floating and atmospheric pressure.' },
   },
   ca: {
     'tabla-periodica':   { titulo: 'Taula Periòdica',      emoji: '⚗️', descripcion: 'Símbols, noms, números atòmics, grups i tipus dels elements químics.' },
@@ -79,10 +81,11 @@ const TEMAS_META = {
     'genetica':          { titulo: 'Genètica',             emoji: '🧬', descripcion: 'ADN, gens, cromosomes, lleis de Mendel, mutacions i enginyeria genètica.' },
     'nutricion':         { titulo: 'Nutrició',             emoji: '🥗', descripcion: 'Macronutrients, vitamines, minerals, dieta mediterrània i alimentació saludable.' },
     'evolucion':         { titulo: 'Evolució',             emoji: '🧬', descripcion: 'Darwin, selecció natural, adaptació, els pinsans de Galápagos i l\'especiació.' },
-    'fuerzas':           { titulo: 'Forces i Moviment',    emoji: '⚡', descripcion: 'Lleis de Newton, massa, pes, velocitat, gravetat, fricció i pressió.' },
+    'fuerzas':           { titulo: 'Forces i Moviment',    emoji: '⚡', descripcion: 'Lleis de Newton, massa, pes, velocitat, gravetat i fricció.' },
     'energia':           { titulo: 'Energia',              emoji: '🔋', descripcion: 'Energia cinètica, potencial, tèrmica, renovable i rendiment energètic.' },
     'electricidad':      { titulo: 'Electricitat',         emoji: '💡', descripcion: 'Corrent elèctric, circuits, llei d\'Ohm, conductors, magnetisme i electroimants.' },
     'ondas-luz':         { titulo: 'Ones i Llum',          emoji: '🌊', descripcion: 'Ones mecàniques, so, llum, reflexió, refracció i espectre electromagnètic.' },
+    'presion-fluidos':   { titulo: 'Pressió i Fluids',     emoji: '🎈', descripcion: 'Pressió, pressió hidrostàtica, principis de Pascal i Arquimedes, flotació i pressió atmosfèrica.' },
   },
 }
 
@@ -300,7 +303,7 @@ const MODOS_POR_TEMA = {
     {
       id: 'examen', emoji: '📝', gradient: 'from-yellow-500 to-orange-600',
       titulo: { es:'Examen', en:'Exam', ca:'Examen' },
-      descripcion: { es:'Leyes de Newton, masa y peso, velocidad, gravedad, rozamiento, presión y principio de Arquímedes.', en:'Newton\'s laws, mass and weight, speed, gravity, friction, pressure and Archimedes\' principle.', ca:'Lleis de Newton, massa i pes, velocitat, gravetat, fricció, pressió i principi d\'Arquímedes.' },
+      descripcion: { es:'Leyes de Newton, masa y peso, velocidad, gravedad y rozamiento.', en:'Newton\'s laws, mass and weight, speed, gravity and friction.', ca:'Lleis de Newton, massa i pes, velocitat, gravetat i fricció.' },
       detalles: { es:['2 niveles','10 preguntas','Opción múltiple','Explicación tras cada respuesta'], en:['2 levels','10 questions','Multiple choice','Explanation after each answer'], ca:['2 nivells','10 preguntes','Opció múltiple','Explicació després de cada resposta'] },
       path: 'fuerzas',
     },
@@ -351,6 +354,15 @@ const MODOS_POR_TEMA = {
       descripcion: { es:'Ondas mecánicas y electromagnéticas, sonido, luz, reflexión, refracción y espectro electromagnético.', en:'Mechanical and electromagnetic waves, sound, light, reflection, refraction and electromagnetic spectrum.', ca:'Ones mecàniques i electromagnètiques, so, llum, reflexió, refracció i espectre electromagnètic.' },
       detalles: { es:['2 niveles','10 preguntas','Opción múltiple','Explicación tras cada respuesta'], en:['2 levels','10 questions','Multiple choice','Explanation after each answer'], ca:['2 nivells','10 preguntes','Opció múltiple','Explicació després de cada resposta'] },
       path: 'ondas-luz',
+    },
+  ],
+  'presion-fluidos': [
+    {
+      id: 'examen', emoji: '📝', gradient: 'from-sky-500 to-indigo-600',
+      titulo: { es:'Examen', en:'Exam', ca:'Examen' },
+      descripcion: { es:'Presión y superficie, presión hidrostática, principios de Pascal y Arquímedes, flotación y presión atmosférica.', en:'Pressure and area, hydrostatic pressure, Pascal and Archimedes, floating and atmospheric pressure.', ca:'Pressió i superfície, pressió hidrostàtica, principis de Pascal i Arquimedes, flotació i pressió atmosfèrica.' },
+      detalles: { es:['2 niveles','10 preguntas','Opción múltiple','Explicación tras cada respuesta'], en:['2 levels','10 questions','Multiple choice','Explanation after each answer'], ca:['2 nivells','10 preguntes','Opció múltiple','Explicació després de cada resposta'] },
+      path: 'presion-fluidos',
     },
   ],
 }
