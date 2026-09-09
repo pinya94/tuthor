@@ -40,7 +40,7 @@ describe('la pregunta siempre se puede contestar', () => {
     const esperadas = {
       tendencia: 3,
       'serie-mayor': 2, 'derivada-tendencia': 2,
-      'mejor-media': 2, 'mas-regular': 2,
+      'mejor-media': 2, 'mas-regular': 2, 'comparar-puntos': 2,
     }
     cada((p, nivel) => {
       expect(p.opciones.length, `${nivel}/${p.tipo}`).toBe(esperadas[p.tipo] ?? 4)
@@ -535,6 +535,77 @@ describe('no hay atajos para acertar sin mirar', () => {
       const recorrido = Math.max(...serie) - Math.min(...serie)
       expect(recorrido, `${p.contexto.id}/${p.tipo}: ${serie.join(', ')} está muy disperso`).toBeLessThanOrEqual(9)
       expect(Math.max(...serie), `${p.contexto.id}: números demasiado grandes para hacerlo de cabeza`).toBeLessThanOrEqual(30)
+    }
+  })
+})
+
+describe('comparar dos puntos: la lectura más básica', () => {
+  it('el punto señalado es de verdad el más alto de los dos', () => {
+    cada(p => {
+      if (p.tipo !== 'comparar-puntos') return
+      const [a, b] = p.marcar
+      const alto = p.valores[a] > p.valores[b] ? p.etiquetas[a] : p.etiquetas[b]
+      expect(p.correcta).toBe(alto)
+    })
+  })
+
+  it('los dos puntos están a distinta altura y no son vecinos', () => {
+    // Si empatan no hay respuesta, y si son consecutivos en una serie que sube
+    // la respuesta es automática sin mirar: siempre el de la derecha.
+    cada(p => {
+      if (p.tipo !== 'comparar-puntos') return
+      const [a, b] = p.marcar
+      expect(p.valores[a], 'los dos puntos empatan').not.toBe(p.valores[b])
+      expect(Math.abs(b - a), 'son dos puntos consecutivos').toBeGreaterThanOrEqual(2)
+    })
+  })
+})
+
+describe('hay variedad suficiente para que no se repita', () => {
+  it('cada nivel ofrece al menos cuatro tipos de pregunta', () => {
+    for (const [nivel, dif] of Object.entries(RANGOS)) {
+      const tipos = new Set()
+      for (let i = 0; i < 2000; i++) tipos.add(generarPregunta(dif, 'es').tipo)
+      expect(tipos.size, `${nivel} solo tiene: ${[...tipos].join(', ')}`).toBeGreaterThanOrEqual(4)
+    }
+  })
+
+  it('los datos vienen de muchos escenarios distintos, no de dos', () => {
+    // Es lo que evita que la partida se reconozca a los cinco minutos: los
+    // mismos tipos de pregunta sobre población, vivienda, luz, préstamos de
+    // biblioteca, energía, migraciones, goles, notas o cafeterías.
+    const escenarios = new Set()
+    for (const dif of Object.values(RANGOS)) {
+      for (let i = 0; i < 3000; i++) escenarios.add(generarPregunta(dif, 'es').contexto.id)
+    }
+    expect(escenarios.size, `solo ${escenarios.size} escenarios`).toBeGreaterThanOrEqual(18)
+  })
+})
+
+describe('el castellano de las preguntas está bien escrito', () => {
+  it('ningún sujeto en plural detrás de un verbo en singular', () => {
+    // "¿Qué está haciendo los usuarios de una aplicación?" — se ha colado dos
+    // veces al añadir contextos nuevos, así que lo vigila un test en vez de mi
+    // memoria. La solución es escribir el sujeto en singular ("el número de
+    // usuarios"), no inventar una plantilla por número gramatical.
+    const MAL = /(está haciendo|le pasa a|Mirando todo el periodo, ¿qué le pasa a) (los|las) /
+    for (const lang of ['es']) {
+      for (const dif of Object.values(RANGOS)) {
+        for (let i = 0; i < 3000; i++) {
+          const p = generarPregunta(dif, lang)
+          expect(p.pregunta, `concordancia: "${p.pregunta}"`).not.toMatch(MAL)
+        }
+      }
+    }
+  })
+
+  it('no queda ningún artículo mal concordado en las magnitudes derivadas', () => {
+    for (const dif of Object.values(RANGOS)) {
+      for (let i = 0; i < 2000; i++) {
+        const p = generarPregunta(dif, 'es')
+        expect(p.pregunta).not.toMatch(/\bel (variación|evolución|media|mitjana)\b/)
+        expect(p.pregunta).not.toMatch(/\bla (beneficio|saldo|balance|crecimiento)\b/)
+      }
     }
   })
 })

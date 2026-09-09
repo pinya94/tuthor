@@ -5,7 +5,7 @@ export const FICHAS_ES = {
     titulo: 'Lee el Gráfico',
     subtitulo: 'Interpreta Datos de Población, Ventas y Clima',
     emoji: '📉', gradient: 'from-cyan-500 to-teal-700', path: '/juegos/lee-el-grafico',
-    intro: "Se muestra una gráfica con datos y se pregunta por ella: ¿está creciendo o decreciendo? ¿cuándo alcanzó el máximo? ¿entre qué dos años subió más? La respuesta no se calcula, se LEE — es un juicio sobre la forma de los datos. Los contextos van rotando (población de un pueblo, ventas de una empresa, temperaturas, visitas a una web, residuos reciclados) porque un gráfico sin saber de qué habla no se puede interpretar.",
+    intro: "Se muestra una gráfica con datos y se pregunta por ella: ¿está creciendo o decreciendo? ¿cuándo alcanzó el máximo? ¿entre qué dos años subió más? La respuesta no se calcula, se LEE — es un juicio sobre la forma de los datos. Los datos salen de 26 escenarios distintos —población, precio de la vivienda, temperaturas, consumo de luz, préstamos de una biblioteca, ingresos y gastos, llegadas y salidas de una ciudad, notas de dos alumnos, goles de dos equipos— porque un gráfico sin saber de qué habla no se puede interpretar.",
     beneficios: [
       { titulo: 'La Competencia que Cruza Cuatro Asignaturas', texto: 'Leer un gráfico aparece en matemáticas, en geografía, en economía y en ciencias, y se da por sabida en todas. Es de las pocas destrezas que se examinan en cuatro sitios y no se enseñan en ninguno.' },
       { titulo: 'La Trampa del Eje que no Empieza en Cero', texto: 'En dificultad media aparecen gráficos con el eje Y truncado: la barra parece dispararse y en realidad sube un 3 %. Es la manipulación más común en prensa y en presentaciones de empresa, y la única forma de aprender a verla es que te la hagan.' },
@@ -1038,7 +1038,7 @@ export const FICHAS_EN = {
     titulo: 'Read the Chart',
     subtitulo: 'Interpret Population, Sales and Climate Data',
     emoji: '📉', gradient: 'from-cyan-500 to-teal-700', path: '/juegos/lee-el-grafico',
-    intro: "A chart of data is shown and the question is about it: is it growing or shrinking? when was the peak? between which two years did it rise most? The answer is not calculated, it is READ — a judgement about the shape of the data. Contexts rotate (a town's population, a company's sales, temperatures, website visits, recycled waste) because a chart you cannot place cannot be interpreted.",
+    intro: "A chart of data is shown and the question is about it: is it growing or shrinking? when was the peak? between which two years did it rise most? The answer is not calculated, it is READ — a judgement about the shape of the data. The data comes from 26 different scenarios — population, house prices, temperatures, electricity use, library loans, revenue and costs, arrivals and departures, two students' marks, two teams' goals — because a chart you cannot place cannot be interpreted.",
     beneficios: [
       { titulo: 'The Skill that Crosses Four Subjects', texto: 'Reading a chart shows up in maths, geography, economics and science, and is taken for granted in all of them. It is one of the few skills examined in four places and taught in none.' },
       { titulo: 'The Axis that Skips Zero', texto: 'At medium level the Y axis is truncated: the bar looks like a rocket and the real rise is 3 %. It is the commonest manipulation in the press and in company slides, and the only way to learn to spot it is to have it done to you.' },

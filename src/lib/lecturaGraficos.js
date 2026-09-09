@@ -39,6 +39,10 @@ export function shuffle(arr) {
 }
 
 // ── Los contextos ────────────────────────────────────────────────────────────
+// OJO con `sujeto`: va dentro de "¿Qué está haciendo {sujeto}?", así que
+// tiene que ir en SINGULAR. Con uno plural sale "¿Qué está haciendo los
+// usuarios de una aplicación?". Ha pasado dos veces, así que hay un test que
+// lo comprueba en los tres idiomas.
 // `escala` multiplica los valores generados para que las cifras suenen reales
 // (miles de habitantes, miles de euros). `formato` decide cómo se escribe un
 // valor en el eje y en las opciones.
@@ -79,6 +83,42 @@ export const CONTEXTOS = {
     unidad: { es: '', en: '', ca: '' },
     etiquetas: (_, n) => MESES.slice(0, n),
   },
+  vivienda: {
+    id: 'vivienda', emoji: '🏠', grafico: 'linea', escala: 1000, decimales: 0,
+    materia: { es: 'Economía', en: 'Economics', ca: 'Economia' },
+    sujeto: { es: 'el precio medio de la vivienda', en: 'the average house price', ca: 'el preu mitjà de l\'habitatge' },
+    magnitud: { es: 'euros por m²', en: 'euros per m²', ca: 'euros per m²' },
+    ejeX: { es: 'Año', en: 'Year', ca: 'Any' },
+    unidad: { es: '€', en: '€', ca: '€' },
+    etiquetas: años => años,
+  },
+  usuarios: {
+    id: 'usuarios', emoji: '📱', grafico: 'linea', escala: 1000, decimales: 0,
+    materia: { es: 'Tecnología', en: 'Technology', ca: 'Tecnologia' },
+    sujeto: { es: 'el número de usuarios de una aplicación', en: "an app's user count", ca: "el nombre d'usuaris d'una aplicació" },
+    magnitud: { es: 'usuarios', en: 'users', ca: 'usuaris' },
+    ejeX: { es: 'Mes', en: 'Month', ca: 'Mes' },
+    unidad: { es: '', en: '', ca: '' },
+    etiquetas: (_, n) => MESES.slice(0, n),
+  },
+  biblioteca: {
+    id: 'biblioteca', emoji: '📚', grafico: 'barras', escala: 10, decimales: 0,
+    materia: { es: 'Estadística', en: 'Statistics', ca: 'Estadística' },
+    sujeto: { es: 'el préstamo de libros de la biblioteca', en: "the library's book lending", ca: 'el préstec de llibres de la biblioteca' },
+    magnitud: { es: 'libros prestados', en: 'books lent', ca: 'llibres prestats' },
+    ejeX: { es: 'Mes', en: 'Month', ca: 'Mes' },
+    unidad: { es: '', en: '', ca: '' },
+    etiquetas: (_, n) => MESES.slice(0, n),
+  },
+  luz: {
+    id: 'luz', emoji: '💡', grafico: 'barras', escala: 100, decimales: 0,
+    materia: { es: 'Medio ambiente', en: 'Environment', ca: 'Medi ambient' },
+    sujeto: { es: 'el consumo eléctrico de un instituto', en: "a school's electricity use", ca: "el consum elèctric d'un institut" },
+    magnitud: { es: 'kilovatios hora', en: 'kilowatt hours', ca: 'quilowatts hora' },
+    ejeX: { es: 'Mes', en: 'Month', ca: 'Mes' },
+    unidad: { es: 'kWh', en: 'kWh', ca: 'kWh' },
+    etiquetas: (_, n) => MESES.slice(0, n),
+  },
   residuos: {
     id: 'residuos', emoji: '♻️', grafico: 'barras', escala: 1, decimales: 0,
     materia: { es: 'Medio ambiente', en: 'Environment', ca: 'Medi ambient' },
@@ -95,8 +135,8 @@ export const CONTEXTO_IDS = Object.keys(CONTEXTOS)
 const MESES = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic']
 
 export const RANGOS = {
-  facil:   { n: 5, series: 1, ruido: 0,  ejeTruncado: false, tipos: ['tendencia', 'maximo', 'minimo'] },
-  medio:   { n: 6, series: 1, ruido: 1,  ejeTruncado: true, tipos: ['tendencia', 'maximo', 'minimo', 'variacion', 'mayor-subida'] },
+  facil:   { n: 5, series: 1, ruido: 0,  ejeTruncado: false, tipos: ['tendencia', 'maximo', 'minimo', 'comparar-puntos'] },
+  medio:   { n: 6, series: 1, ruido: 1,  ejeTruncado: true, tipos: ['tendencia', 'maximo', 'minimo', 'variacion', 'mayor-subida', 'comparar-puntos'] },
   // Difícil no es "lo mismo pero con más puntos": la respuesta ya no está
   // dibujada en ninguna parte y hay que sacarla. Tres familias, para que no
   // se convierta en una sola mecánica repetida:
@@ -156,6 +196,7 @@ const FORMAS_PARA = {
   porcentaje: ['sube', 'baja'],
   cruce: ['sube', 'baja'],
   'serie-mayor': ['sube', 'baja'],
+  'comparar-puntos': ['sube', 'baja', 'pico', 'valle'],
 }
 
 // Una serie con pico sube hasta un punto interior y baja, o al revés. Es la
@@ -281,6 +322,30 @@ export const PARES = {
     negativo: { es: 'el embalse bajó', en: 'the reservoir fell', ca: "l'embassament va baixar" },
     ejeX: 'año',
   },
+  energia: {
+    id: 'energia', emoji: '⚡', escala: 100, unidad: { es: 'GWh', en: 'GWh', ca: 'GWh' },
+    materia: { es: 'Medio ambiente', en: 'Environment', ca: 'Medi ambient' },
+    sujeto: { es: 'una región', en: 'a region', ca: 'una regió' },
+    a: { es: 'Energía producida', en: 'Energy produced', ca: 'Energia produïda' },
+    b: { es: 'Energía consumida', en: 'Energy used', ca: 'Energia consumida' },
+    derivada: { es: 'balance energético', en: 'energy balance', ca: 'balanç energètic' },
+    genero: 'm',
+    positivo: { es: 'produjo más de lo que gastó', en: 'produced more than it used', ca: 'va produir més del que va gastar' },
+    negativo: { es: 'gastó más de lo que produjo', en: 'used more than it produced', ca: 'va gastar més del que va produir' },
+    ejeX: 'año',
+  },
+  migracion: {
+    id: 'migracion', emoji: '🧳', escala: 100, unidad: { es: 'pers.', en: 'people', ca: 'pers.' },
+    materia: { es: 'Geografía', en: 'Geography', ca: 'Geografia' },
+    sujeto: { es: 'una ciudad', en: 'a city', ca: 'una ciutat' },
+    a: { es: 'Llegadas', en: 'Arrivals', ca: 'Arribades' },
+    b: { es: 'Salidas', en: 'Departures', ca: 'Sortides' },
+    derivada: { es: 'saldo migratorio', en: 'migration balance', ca: 'saldo migratori' },
+    genero: 'm',
+    positivo: { es: 'ganó habitantes', en: 'gained residents', ca: 'va guanyar habitants' },
+    negativo: { es: 'perdió habitantes', en: 'lost residents', ca: 'va perdre habitants' },
+    ejeX: 'año',
+  },
   club: {
     id: 'club', emoji: '🎫', escala: 10, unidad: { es: 'socios', en: 'members', ca: 'socis' },
     materia: { es: 'Estadística', en: 'Statistics', ca: 'Estadística' },
@@ -354,6 +419,12 @@ function generarPar(dif) {
 const T = {
   tendencia: {
     es: '¿Qué está haciendo {sujeto}?', en: 'What is {sujeto} doing?', ca: 'Què està fent {sujeto}?',
+  },
+  'comparar-puntos': {
+    // La lectura más básica de todas y no estaba: mirar dos puntos y decir
+    // cuál es mayor. Es el paso previo a "¿cuánto cambió?" y encaja en fácil,
+    // donde solo había tendencia, máximo y mínimo.
+    es: '¿Cuándo hubo MÁS: en {a} o en {b}?', en: 'When was there MORE: in {a} or in {b}?', ca: 'Quan hi va haver MÉS: el {a} o el {b}?',
   },
   maximo: {
     es: '¿Cuándo alcanzó su valor MÁS ALTO?', en: 'When did it reach its HIGHEST value?', ca: 'Quan va assolir el seu valor MÉS ALT?',
@@ -464,6 +535,22 @@ export const SERIES_MEDIDA = {
     corto: { es: 'goles', en: 'goals', ca: 'gols' },
     etiquetas: n => Array.from({ length: n }, (_, i) => `P${i + 1}`),
     rango: [0, 6],
+  },
+  estudio: {
+    id: 'estudio', emoji: '⏰', escala: 1, unidad: { es: 'h', en: 'h', ca: 'h' },
+    materia: { es: 'Estadística', en: 'Statistics', ca: 'Estadística' },
+    sujeto: { es: 'las horas que estudió cada día de la semana', en: 'the hours studied each weekday', ca: 'les hores que va estudiar cada dia de la setmana' },
+    corto: { es: 'horas', en: 'hours', ca: 'hores' },
+    etiquetas: n => ['Lun', 'Mar', 'Mié', 'Jue', 'Vie'].slice(0, n),
+    rango: [1, 7],
+  },
+  libros: {
+    id: 'libros', emoji: '📚', escala: 1, unidad: { es: 'libros', en: 'books', ca: 'llibres' },
+    materia: { es: 'Lengua', en: 'Language', ca: 'Llengua' },
+    sujeto: { es: 'los libros que leyó cada mes', en: 'the books read each month', ca: 'els llibres que va llegir cada mes' },
+    corto: { es: 'libros', en: 'books', ca: 'llibres' },
+    etiquetas: n => MESES.slice(0, n),
+    rango: [0, 7],
   },
   lluvia: {
     id: 'lluvia', emoji: '🌧️', escala: 1, unidad: { es: 'días', en: 'days', ca: 'dies' },
@@ -584,6 +671,28 @@ export const DUELOS = {
     calculable: false,
     etiquetas: n => Array.from({ length: n }, (_, i) => `T${i + 1}`),
     rango: [10, 60],
+  },
+  equipos: {
+    id: 'equipos', emoji: '⚽', unidad: { es: 'goles', en: 'goals', ca: 'gols' },
+    materia: { es: 'Estadística', en: 'Statistics', ca: 'Estadística' },
+    sujeto: { es: 'los goles de dos equipos', en: "two teams' goals", ca: "els gols de dos equips" },
+    a: { es: 'Los Lobos', en: 'The Wolves', ca: 'Els Llops' },
+    b: { es: 'Las Águilas', en: 'The Eagles', ca: 'Les Àligues' },
+    que: { es: 'media de goles', en: 'average goals', ca: 'mitjana de gols' },
+    calculable: true,
+    etiquetas: n => Array.from({ length: n }, (_, i) => `Jorn. ${i + 1}`),
+    rango: [0, 8],
+  },
+  cafeterias: {
+    id: 'cafeterias', emoji: '☕', unidad: { es: 'clientes', en: 'customers', ca: 'clients' },
+    materia: { es: 'Economía', en: 'Economics', ca: 'Economia' },
+    sujeto: { es: 'los clientes de dos cafeterías', en: "two cafés' customers", ca: 'els clients de dues cafeteries' },
+    a: { es: 'Café Central', en: 'Café Central', ca: 'Cafè Central' },
+    b: { es: 'Café Estación', en: 'Station Café', ca: 'Cafè Estació' },
+    que: { es: 'media de clientes', en: 'average customers', ca: 'mitjana de clients' },
+    calculable: false,
+    etiquetas: n => Array.from({ length: n }, (_, i) => `Sem. ${i + 1}`),
+    rango: [15, 55],
   },
   atletas: {
     id: 'atletas', emoji: '🏃', unidad: { es: 'puntos', en: 'points', ca: 'punts' },
@@ -840,6 +949,18 @@ export function generarPregunta(dif, lang = 'es', ctxId = null) {
       opciones: shuffle(TENDENCIAS.map(t => tr3(RESP_TENDENCIA[t], lang))) }
   }
 
+  if (tipo === 'comparar-puntos') {
+    // Los dos puntos tienen que estar a distinta altura y no ser vecinos: si
+    // son consecutivos en una serie que sube, la respuesta es automática.
+    let a = 0, b = n - 1
+    for (let intento = 0; intento < 20; intento++) {
+      const x = rng(0, n - 3), y = rng(x + 2, n - 1)
+      if (valores[x] !== valores[y]) { a = x; b = y; break }
+    }
+    const alto = valores[a] > valores[b] ? etiquetas[a] : etiquetas[b]
+    return { ...base, pregunta: q({ a: etiquetas[a], b: etiquetas[b] }), marcar: [a, b],
+      correcta: alto, opciones: shuffle([etiquetas[a], etiquetas[b]]) }
+  }
   if (tipo === 'maximo' || tipo === 'minimo') {
     const objetivo = tipo === 'maximo' ? Math.max(...valores) : Math.min(...valores)
     const i = valores.indexOf(objetivo)
