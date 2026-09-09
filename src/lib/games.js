@@ -109,6 +109,13 @@ export const GAMES = {
     route: '/juegos/salta-recta',
     coins: DEFAULT_COINS,
   },
+  'lee-el-grafico': {
+    label: { es: 'Lee el Gráfico', en: 'Read the Chart', ca: 'Llegeix el Gràfic' },
+    emoji: '📉',
+    subject: 'matematicas',
+    route: '/juegos/lee-el-grafico',
+    coins: DEFAULT_COINS,
+  },
   'estadistico-expres': {
     label: { es: 'Estadístico Exprés', en: 'Quick Statistician', ca: 'Estadístic Exprés' },
     emoji: '📊',

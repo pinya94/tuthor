@@ -47,6 +47,7 @@ const NumPath            = lazy(() => import('./pages/NumPath'))
 const RepartePastel      = lazy(() => import('./pages/RepartePastel'))
 const SaltaRecta         = lazy(() => import('./pages/SaltaRecta'))
 const EstadisticoExpres  = lazy(() => import('./pages/EstadisticoExpres'))
+const LeeElGrafico       = lazy(() => import('./pages/LeeElGrafico'))
 const Trayectoria        = lazy(() => import('./pages/Trayectoria'))
 const TrayectoriaExamen  = lazy(() => import('./pages/TrayectoriaExamen'))
 const Portero            = lazy(() => import('./pages/Portero'))
@@ -227,6 +228,7 @@ function AppRoutes() {
       <Route path="juegos/numpath" element={<NumPath />} />
       <Route path="juegos/reparte-pastel" element={<RepartePastel />} />
       <Route path="juegos/salta-recta" element={<SaltaRecta />} />
+      <Route path="juegos/lee-el-grafico" element={<LeeElGrafico />} />
       <Route path="juegos/estadistico-expres" element={<EstadisticoExpres />} />
       <Route path="juegos/trayectoria" element={<Trayectoria />} />
       <Route path="juegos/portero" element={<Portero />} />
