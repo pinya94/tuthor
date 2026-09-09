@@ -10,7 +10,7 @@ import {
 import { EXAMS } from '../exams'
 import { GAMES } from '../games'
 import { diaDeTarea, tareaVencida } from '../assignments'
-import { diaISO, desdeDiaISO } from '../attendance'
+import { desdeDiaISO } from '../attendance'
 
 describe('rejilla del mes', () => {
   it('siempre son 42 casillas, empiece el mes en el día que empiece', () => {

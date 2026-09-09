@@ -6,7 +6,7 @@
 // reales que no se habrían visto jugando un rato: poblaciones negativas (2.154
 // de 21.000) y preguntas de variación con solo tres opciones (910).
 import { describe, it, expect } from 'vitest'
-import { RANGOS, CONTEXTOS, CONTEXTO_IDS, PARES, PAR_IDS, generarPregunta, generarDatos, formatear } from '../lecturaGraficos'
+import { RANGOS, CONTEXTOS, CONTEXTO_IDS, generarPregunta, generarDatos, formatear } from '../lecturaGraficos'
 
 const MUESTRA = 2000
 
@@ -662,6 +662,20 @@ describe('familia "tabla": leer una clasificación', () => {
       if (p.correcta !== p.filas[0].nombre) distinta++
     }
     expect(distinta / total, 'siempre gana el líder: se contesta sin mirar').toBeGreaterThan(0.3)
+  })
+
+  it('las preguntas de tabla llevan su artículo', () => {
+    // "¿Cuál es diferencia de puntos de 1º A?" — el artículo estaba dentro del
+    // nombre del marcador y se perdía al sustituirlo. Se vio abriendo el
+    // examen, no en los tests, así que aquí queda.
+    for (let i = 0; i < 6000; i++) {
+      const p = generarPregunta(RANGOS.dificil, 'es')
+      if (p.familia !== 'tabla') continue
+      // Solo las dos formas que de verdad se rompían; "la MEJOR diferencia" ya
+      // lleva el artículo antes del adjetivo y es correcta.
+      expect(p.pregunta, `"${p.pregunta}"`).not.toMatch(/(?:¿Cuál es|Desempata) diferencia/)
+      expect(p.pregunta).not.toMatch(/[{}]/)
+    }
   })
 
   it('no es solo de fútbol', () => {

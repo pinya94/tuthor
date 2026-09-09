@@ -119,6 +119,36 @@ export const EXAMS = {
     emoji: '🌐', subject: 'geografia',
     path: 'examen/coordenadas-test', page: () => import('../pages/CoordenadasExamen'),
   },
+  // ── Lee el Gráfico: un examen por tema ────────────────────────────────────
+  // El juego mezcla los cinco temas a contrarreloj; estos sirven para lo
+  // contrario, repasar uno sin prisa. Misma generación (lib/lecturaGraficos),
+  // así que una pregunta significa lo mismo en el juego y en el examen.
+  'lee-grafico-tendencia': {
+    label: { es: 'Tendencias y Extremos', en: 'Trends and Extremes', ca: 'Tendències i Extrems' },
+    emoji: '📈', subject: 'matematicas',
+    path: 'examen/lee-grafico-tendencia', page: () => import('../pages/GraficoTendenciaExamen'),
+  },
+  'lee-grafico-variacion': {
+    label: { es: 'Variaciones y Porcentajes', en: 'Changes and Percentages', ca: 'Variacions i Percentatges' },
+    emoji: '📊', subject: 'matematicas',
+    path: 'examen/lee-grafico-variacion', page: () => import('../pages/GraficoVariacionExamen'),
+  },
+  'lee-grafico-relacion': {
+    label: { es: 'Dos Series: Beneficio y Saldo', en: 'Two Series: Profit and Balance', ca: 'Dues Sèries: Benefici i Saldo' },
+    emoji: '💶', subject: 'matematicas',
+    path: 'examen/lee-grafico-relacion', page: () => import('../pages/GraficoRelacionExamen'),
+  },
+  'lee-grafico-medida': {
+    label: { es: 'Media y Mediana en Gráficos', en: 'Mean and Median from Charts', ca: 'Mitjana i Mediana en Gràfics' },
+    emoji: '🧮', subject: 'matematicas',
+    path: 'examen/lee-grafico-medida', page: () => import('../pages/GraficoMedidaExamen'),
+  },
+  'lee-grafico-tabla': {
+    label: { es: 'Clasificaciones y Desempates', en: 'Tables and Tiebreakers', ca: 'Classificacions i Desempats' },
+    emoji: '🏆', subject: 'matematicas',
+    path: 'examen/lee-grafico-tabla', page: () => import('../pages/GraficoTablaExamen'),
+  },
+
   'geografia-humana-test': {
     label: { es: 'Geografía Humana', en: 'Human Geography', ca: 'Geografia Humana' },
     emoji: '👥', subject: 'geografia',

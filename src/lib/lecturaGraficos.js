@@ -568,9 +568,11 @@ export const MEDIDA_IDS = Object.keys(SERIES_MEDIDA)
 // Generado al revés, como en Estadístico Exprés: se fija primero la media y
 // se reparten desviaciones que suman cero, para que la respuesta sea siempre
 // un entero exacto y nunca haya que discutir si tocaba redondear.
-function generarMedida() {
+function generarMedida(nPedido = 5) {
   const serie = SERIES_MEDIDA[pick(MEDIDA_IDS)]
-  const n = 5
+  // Impar siempre: con un número par de valores la mediana es el promedio de
+  // los dos centrales y puede salir con decimales.
+  const n = nPedido % 2 === 0 ? nPedido + 1 : nPedido
   const [lo, hi] = serie.rango
   for (let intento = 0; intento < 40; intento++) {
     const media = rng(lo + 1, hi - 1)
@@ -583,7 +585,7 @@ function generarMedida() {
     // no se promedia de cabeza, que es de lo que va esta familia.
     if (Math.max(...valores) - Math.min(...valores) > MAX_RECORRIDO) continue
     const orden = [...valores].sort((a, b) => a - b)
-    const mediana = orden[2]
+    const mediana = orden[Math.floor(n / 2)]
     // La media y la mediana tienen que ser DISTINTAS: si coinciden, las dos
     // preguntas tienen la misma respuesta y da igual haber entendido cuál
     // era cuál, que es justo lo que se quiere distinguir.
@@ -596,8 +598,12 @@ function generarMedida() {
   // La lista fija que había antes era [4,5,6,6,9]: media 6 y mediana 6, o sea
   // justo el caso que el bucle descarta.
   const media = lo + 3
-  const valores = [-2, -1, -1, 1, 3].map(d => media + d)
-  return { serie, valores, media, mediana: media - 1 }
+  // Se estira a la longitud pedida repitiendo la media, que no cambia ni la
+  // media ni la mediana pero sí el número de barras.
+  const desv = [-2, -1, -1, 1, 3, ...Array(Math.max(0, n - 5)).fill(0)]
+  const valores = desv.slice(0, n).map(d => media + d)
+  const orden = [...valores].sort((a, b) => a - b)
+  return { serie, valores, media, mediana: orden[Math.floor(n / 2)] }
 }
 
 const T_MEDIDA = {
@@ -613,7 +619,7 @@ const T_MEDIDA = {
 }
 
 function preguntaDeMedida(dif, lang) {
-  const { serie, valores, media, mediana } = generarMedida()
+  const { serie, valores, media, mediana } = generarMedida(dif.nMedida ?? 5)
   const etiquetas = serie.etiquetas(valores.length)
   const tipo = pick(dif.tiposMedida)
   const pregunta = tr3(T_MEDIDA[tipo], lang).replace('{sujeto}', tr3(serie.sujeto, lang))
@@ -849,16 +855,18 @@ export const COMPETICION_IDS = Object.keys(COMPETICIONES)
 // Cuatro filas, y las DOS PRIMERAS empatadas a puntos con diferencias
 // distintas: si no empatara nadie, el desempate sobraría y la pregunta se
 // contestaría mirando una sola columna. El empate es el ejercicio.
-function generarTabla() {
+function generarTabla(nFilas = 4) {
   const comp = COMPETICIONES[pick(COMPETICION_IDS)]
-  const nombres = shuffle(comp.nombres).slice(0, 4)
+  const n = Math.min(Math.max(3, nFilas), comp.nombres.length)
+  const nombres = shuffle(comp.nombres).slice(0, n)
   const puntosTope = rng(9, 16)
 
   for (let intento = 0; intento < 60; intento++) {
     // Dos arriba empatados, y los otros dos por debajo y sin empatar entre sí.
-    const puntos = [puntosTope, puntosTope, puntosTope - rng(1, 3), 0]
-    puntos[3] = puntos[2] - rng(1, 3)
-    if (puntos[3] < 0) continue
+    // Los dos primeros empatados y el resto bajando sin empatar entre sí.
+    const puntos = [puntosTope, puntosTope]
+    for (let k = 2; k < n; k++) puntos.push(puntos[k - 1] - rng(1, 3))
+    if (puntos.at(-1) < 0) continue
 
     const filas = nombres.map((nombre, i) => {
       const gf = rng(8, 26)
@@ -873,33 +881,33 @@ function generarTabla() {
     return { comp, filas }
   }
   const filas = nombres.map((nombre, i) => ({
-    nombre, gf: 20 - i, gc: 10 + i, puntos: [12, 12, 9, 7][i], dif: (20 - i) - (10 + i),
+    nombre, gf: 20 - i, gc: 10 + i, puntos: i === 0 ? 12 : 12 - Math.max(0, i - 1) * 3, dif: (20 - i) - (10 + i),
   }))
   return { comp, filas }
 }
 
 const T_TABLA = {
   'tabla-ganador': {
-    es: 'Dos van empatados a puntos. Desempata {la diferencia}: ¿quién va PRIMERO?',
-    en: 'Two are level on points. The tiebreaker is {la diferencia}: who is FIRST?',
-    ca: 'Dos van empatats a punts. Desempata {la diferencia}: qui va PRIMER?',
+    es: 'Dos van empatados a puntos. Desempata la {diferencia}: ¿quién va PRIMERO?',
+    en: 'Two are level on points. The tiebreaker is the {diferencia}: who is FIRST?',
+    ca: 'Dos van empatats a punts. Desempata la {diferencia}: qui va PRIMER?',
   },
   'tabla-diferencia': {
-    es: '¿Cuál es {la diferencia} de {quien}?',
-    en: 'What is {quien}\'s {la diferencia}?',
-    ca: 'Quina és {la diferencia} de {quien}?',
+    es: '¿Cuál es la {diferencia} de {quien}?',
+    en: 'What is {quien}\'s {diferencia}?',
+    ca: 'Quina és la {diferencia} de {quien}?',
   },
   'tabla-mejor-dif': {
     // Sin "aunque no vaya primero": a veces el de mejor diferencia SÍ es el
     // líder, y la coletilla sugería que la respuesta nunca era él.
-    es: '¿Quién tiene la MEJOR {la diferencia}?',
-    en: 'Who has the BEST {la diferencia}?',
-    ca: 'Qui té la MILLOR {la diferencia}?',
+    es: '¿Quién tiene la MEJOR {diferencia}?',
+    en: 'Who has the BEST {diferencia}?',
+    ca: 'Qui té la MILLOR {diferencia}?',
   },
 }
 
 function preguntaDeTabla(dif, lang) {
-  const { comp, filas } = generarTabla()
+  const { comp, filas } = generarTabla(dif.nFilas ?? 4)
   const tipo = pick(dif.tiposTabla)
   const nombres = filas.map(f => f.nombre)
   const base = {
@@ -908,7 +916,7 @@ function preguntaDeTabla(dif, lang) {
     leyenda: [tr3(comp.aFavor, lang), tr3(comp.enContra, lang)],
   }
   const q = extra => tr3(T_TABLA[tipo], lang)
-    .replace('{la diferencia}', tr3(comp.diferencia, lang))
+    .replace('{diferencia}', tr3(comp.diferencia, lang))
     .replace('{quien}', extra?.quien ?? '')
 
   if (tipo === 'tabla-ganador') {
@@ -1168,4 +1176,67 @@ export function generarPregunta(dif, lang = 'es', ctxId = null) {
   const otros = [pct + 10, pct - 10, -pct, pct + 25].map(etiqueta)
   return { ...base, pregunta: q({ a: etiquetas[a], b: etiquetas[b] }), marcar: [a, b], correcta: etiqueta(pct), bruto: pct,
     opciones: shuffle([etiqueta(pct), ...distractores(etiqueta(pct), otros)]) }
+}
+
+// ── Los temas, para los exámenes ────────────────────────────────────────────
+// El juego mezcla todo a contrarreloj; un examen sirve para lo contrario:
+// repasar UNA cosa sin prisa. Mismo motor, misma generación y las mismas
+// garantías —así "media" significa exactamente lo mismo en los dos sitios—,
+// pero cada examen se queda con su familia de preguntas.
+//
+// Los tres niveles de cada examen no cambian el tipo de pregunta, cambian el
+// TAMAÑO del problema: más puntos en la serie, más filas en la tabla, más
+// valores que promediar. Es la única forma honesta de graduar algo que ya
+// está acotado a un tema.
+export const TEMAS_EXAMEN = {
+  tendencia: {
+    label: { es: 'Tendencias y extremos', en: 'Trends and extremes', ca: 'Tendències i extrems' },
+    niveles: {
+      facil:   { n: 5, ruido: 0, ejeTruncado: false, tipos: ['tendencia', 'maximo', 'minimo', 'comparar-puntos'] },
+      medio:   { n: 6, ruido: 1, ejeTruncado: true,  tipos: ['tendencia', 'maximo', 'minimo', 'comparar-puntos'] },
+      dificil: { n: 8, ruido: 2, ejeTruncado: true,  tipos: ['tendencia', 'maximo', 'minimo', 'comparar-puntos'] },
+    },
+  },
+  variacion: {
+    label: { es: 'Variaciones y porcentajes', en: 'Changes and percentages', ca: 'Variacions i percentatges' },
+    niveles: {
+      facil:   { n: 5, ruido: 0, ejeTruncado: false, tipos: ['variacion'] },
+      medio:   { n: 6, ruido: 1, ejeTruncado: false, tipos: ['variacion', 'mayor-subida'] },
+      dificil: { n: 8, ruido: 2, ejeTruncado: false, tipos: ['variacion', 'mayor-subida', 'porcentaje'] },
+    },
+  },
+  relacion: {
+    label: { es: 'Dos series: beneficio y saldo', en: 'Two series: profit and balance', ca: 'Dues sèries: benefici i saldo' },
+    niveles: {
+      facil:   { n: 4, familias: ['relacion'], tipos: ['signo-año', 'derivada-tendencia'] },
+      medio:   { n: 5, familias: ['relacion'], tipos: ['signo-año', 'derivada-valor', 'derivada-tendencia', 'cambio-signo'] },
+      dificil: { n: 6, familias: ['relacion'], tipos: ['signo-año', 'derivada-valor', 'derivada-max', 'cambio-signo', 'derivada-tendencia'] },
+    },
+  },
+  medida: {
+    label: { es: 'Media y mediana en gráficos', en: 'Mean and median from charts', ca: 'Mitjana i mediana en gràfics' },
+    niveles: {
+      facil:   { familias: ['medida'], nMedida: 5, tiposMedida: ['media', 'sobre-media'] },
+      medio:   { familias: ['medida', 'grupos'], nMedida: 5, tiposMedida: ['media', 'mediana', 'sobre-media'], tiposGrupos: ['mejor-media', 'mas-regular'] },
+      dificil: { familias: ['medida', 'grupos'], nMedida: 7, tiposMedida: ['media', 'mediana', 'sobre-media'], tiposGrupos: ['mejor-media', 'mas-regular', 'media-de-uno'] },
+    },
+  },
+  tabla: {
+    label: { es: 'Clasificaciones y desempates', en: 'Tables and tiebreakers', ca: 'Classificacions i desempats' },
+    niveles: {
+      facil:   { familias: ['tabla'], nFilas: 3, tiposTabla: ['tabla-diferencia', 'tabla-mejor-dif'] },
+      medio:   { familias: ['tabla'], nFilas: 4, tiposTabla: ['tabla-ganador', 'tabla-diferencia', 'tabla-mejor-dif'] },
+      dificil: { familias: ['tabla'], nFilas: 5, tiposTabla: ['tabla-ganador', 'tabla-diferencia', 'tabla-mejor-dif'] },
+    },
+  },
+}
+
+export const TEMA_EXAMEN_IDS = Object.keys(TEMAS_EXAMEN)
+
+// Una ronda del examen del tema `temaId` en el nivel `nivel`. Es lo único que
+// necesitan las páginas de examen: el resto (opciones, garantías, idiomas) ya
+// lo da generarPregunta.
+export function rondaDeExamen(temaId, nivel, lang = 'es') {
+  const tema = TEMAS_EXAMEN[temaId]
+  return generarPregunta(tema.niveles[nivel] ?? tema.niveles.medio, lang)
 }
