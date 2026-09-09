@@ -119,6 +119,11 @@ export const EXAMS = {
     emoji: '🌐', subject: 'geografia',
     path: 'examen/coordenadas-test', page: () => import('../pages/CoordenadasExamen'),
   },
+  'geografia-humana-test': {
+    label: { es: 'Geografía Humana', en: 'Human Geography', ca: 'Geografia Humana' },
+    emoji: '👥', subject: 'geografia',
+    path: 'examen/geografia-humana-test', page: () => import('../pages/GeografiaHumanaExamen'),
+  },
   'geografia-fisica-test': {
     label: { es: 'Geografía Física', en: 'Physical Geography', ca: 'Geografia Física' },
     emoji: '⛰️', subject: 'geografia',

@@ -76,6 +76,7 @@ export const SUBJECT_DEFS = [
       espana:  { es: 'España',          en: 'Spain',         ca: 'Espanya' },
       eeuu:    { es: 'Estados Unidos',  en: 'United States', ca: 'Estats Units' },
       fisica:  { es: 'Geografía Física', en: 'Physical Geography', ca: 'Geografia Física' },
+      humana:  { es: 'Geografía Humana', en: 'Human Geography', ca: 'Geografia Humana' },
     },
   },
   {

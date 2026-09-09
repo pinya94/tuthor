@@ -16,6 +16,17 @@ const TEMAS = [
     examPath: '/examen/geografia-fisica-test',
   },
   {
+    // Igual que Geografía Física: conceptos, no localización, así que va
+    // directo al examen en vez de a un mapa que aquí no señalaría nada.
+    id: 'humana',
+    titulo: 'Geografía Humana', tituloEn: 'Human Geography', tituloCa: 'Geografia Humana',
+    subtitulo: 'Población, migraciones y sectores económicos', subtituloEn: 'Population, migration and economic sectors', subtituloCa: 'Població, migracions i sectors econòmics',
+    emoji: '👥', gradient: 'from-amber-600 to-orange-800',
+    tags: ['poblacion', 'densidad', 'piramide', 'natalidad', 'migracion', 'sectores', 'paro', 'pib'],
+    niveles: ['primaria', 'eso'],
+    examPath: '/examen/geografia-humana-test',
+  },
+  {
     id: 'espana',
     titulo: 'España', tituloEn: 'Spain', tituloCa: 'Espanya',
     subtitulo: 'Las 17 comunidades autónomas', subtituloEn: 'The 17 autonomous communities', subtituloCa: 'Les 17 comunitats autònomes',

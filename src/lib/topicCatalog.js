@@ -283,6 +283,7 @@ export const TOPIC_CATALOG = {
       // El único tema de geografía que no es una región: aquí no se señala
       // nada en el mapa, se pregunta por los conceptos (relieve, ríos, clima).
       fisica: examTema({ teoria: 'geografia-fisica-test' }),
+      humana: examTema({ teoria: 'geografia-humana-test' }),
     },
     formatos: {
       pistas: examFormato({ es: 'Adivina por pistas', en: 'Guess from clues', ca: 'Endevina per pistes' }, '🌍'),

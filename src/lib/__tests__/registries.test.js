@@ -293,13 +293,26 @@ describe('catálogo por tema (topicCatalog.js): materia → tema → formato →
     expect(ausentes, 'exámenes que el catálogo da por buenos y la página del tema no ofrece').toEqual([])
   })
 
-  it('los temas de geografía son las 7 regiones de /estudiar/geografia, más Geografía Física', () => {
-    // Las 7 regiones se examinan señalando en el mapa o por pistas, y por eso
-    // comparten los mismos formatos. `fisica` es el único tema que no es una
-    // región: pregunta por los conceptos (relieve, ríos, clima) con un examen
-    // propio y el formato `teoria`, que ninguna región usa.
+  it('los temas de geografía son las 7 regiones, más los dos de conceptos', () => {
+    // Geografía tiene dos clases de tema y conviene que se note aquí. Las 7
+    // REGIONES se examinan señalando en el mapa o por pistas, y por eso
+    // comparten formatos. `fisica` (relieve, ríos, clima) y `humana`
+    // (población, migraciones, sectores) no se señalan en ningún mapa: son
+    // conceptos, usan el formato `teoria` que ninguna región tiene y sus
+    // tarjetas del hub van directas al examen con `examPath`.
     const regiones = ['europa', 'america', 'asia', 'africa', 'oceania', 'espana', 'eeuu']
-    expect(topicIds('geografia').sort()).toEqual([...regiones, 'fisica'].sort())
+    const conceptos = ['fisica', 'humana']
+    expect(topicIds('geografia').sort()).toEqual([...regiones, ...conceptos].sort())
+
+    // Y la diferencia de formato es lo que los distingue de verdad, no el
+    // nombre: si algún día una región usara `teoria`, esta lista dejaría de
+    // significar lo que dice.
+    for (const c of conceptos) {
+      expect(topicFormats('geografia', c).map(f => f.id), `${c} debería examinarse con teoría`).toEqual(['teoria'])
+    }
+    for (const r of regiones) {
+      expect(topicFormats('geografia', r).map(f => f.id), `${r} no debería usar el formato teoria`).not.toContain('teoria')
+    }
   })
 
   it('las listas de disponibilidad coinciden con los datos reales', async () => {
