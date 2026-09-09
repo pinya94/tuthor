@@ -144,16 +144,18 @@ export const RANGOS = {
   //   relacion · dos series que se restan (ingresos y gastos → beneficio)
   //   medida   · una serie de la que hay que sacar la media o la mediana
   //   grupos   · dos personas con varias notas: ¿quién tiene mejor media?
+  //   tabla    · una clasificación con empate y criterio de desempate escrito
   //
   // Las tres piden lo mismo en el fondo —calcular sobre lo que se ve— pero
   // con datos y preguntas distintas, que es lo que evita que la partida se
   // haga previsible.
   dificil: {
     n: 5,
-    familias: ['relacion', 'medida', 'grupos'],
+    familias: ['relacion', 'medida', 'grupos', 'tabla'],
     tipos: ['signo-año', 'derivada-valor', 'derivada-max', 'cambio-signo', 'derivada-tendencia'],
     tiposMedida: ['media', 'mediana', 'sobre-media'],
     tiposGrupos: ['mejor-media', 'mas-regular', 'media-de-uno'],
+    tiposTabla: ['tabla-ganador', 'tabla-diferencia', 'tabla-mejor-dif'],
   },
 }
 
@@ -793,6 +795,143 @@ function preguntaDeGrupos(dif, lang) {
   return { ...base, pregunta: q({ quien: deA ? nombreA : nombreB }), correcta: con(media), bruto: media,
     marcar: [], opciones: shuffle([con(media), ...distractores(con(media), otros)]) }
 }
+
+// ── Familia "tabla": una clasificación con criterio de desempate ────────────
+// Idea del usuario, con una corrección importante: si el juego diera por
+// sabido que en una liga desempata la diferencia de goles, estaría examinando
+// de fútbol y no de lectura de datos — quien no sigue el fútbol perdería por
+// algo que no tiene nada que ver con la destreza. Así que LA REGLA VA SIEMPRE
+// ESCRITA EN EL ENUNCIADO. Con eso deja de ser cultura general y pasa a ser
+// lo que interesa: aplicar un criterio dado a una tabla.
+//
+// Y aporta tres cosas que no había:
+//   · se lee una TABLA, no un gráfico (destreza propia, y del currículo);
+//   · se comparan MÁS DE DOS entidades (hasta ahora el máximo eran dos);
+//   · el criterio tiene DOS PASOS: primero los puntos y, si empatan, la
+//     diferencia — que hay que calcular restando dos columnas.
+//
+// Por eso mismo no es solo de fútbol: un torneo de clase o un concurso de
+// ciencias funcionan igual y dejan claro que la mecánica no va de deporte.
+export const COMPETICIONES = {
+  liga: {
+    id: 'liga', emoji: '⚽',
+    materia: { es: 'Estadística', en: 'Statistics', ca: 'Estadística' },
+    sujeto: { es: 'la clasificación de la liga', en: 'the league table', ca: 'la classificació de la lliga' },
+    quien: { es: 'equipo', en: 'team', ca: 'equip' },
+    aFavor: { es: 'Goles a favor', en: 'Goals for', ca: 'Gols a favor' },
+    enContra: { es: 'Goles en contra', en: 'Goals against', ca: 'Gols en contra' },
+    diferencia: { es: 'diferencia de goles', en: 'goal difference', ca: 'diferència de gols' },
+    nombres: ['Los Lobos', 'Las Águilas', 'El Puerto', 'La Cantera', 'Río Alto'],
+  },
+  torneo: {
+    id: 'torneo', emoji: '🏫',
+    materia: { es: 'Estadística', en: 'Statistics', ca: 'Estadística' },
+    sujeto: { es: 'el torneo entre clases', en: 'the inter-class tournament', ca: 'el torneig entre classes' },
+    quien: { es: 'clase', en: 'class', ca: 'classe' },
+    aFavor: { es: 'Puntos a favor', en: 'Points for', ca: 'Punts a favor' },
+    enContra: { es: 'Puntos en contra', en: 'Points against', ca: 'Punts en contra' },
+    diferencia: { es: 'diferencia de puntos', en: 'points difference', ca: 'diferència de punts' },
+    nombres: ['1º A', '1º B', '2º A', '2º B', '3º A'],
+  },
+  ciencias: {
+    id: 'ciencias', emoji: '🔬',
+    materia: { es: 'Estadística', en: 'Statistics', ca: 'Estadística' },
+    sujeto: { es: 'el concurso de ciencias', en: 'the science contest', ca: 'el concurs de ciències' },
+    quien: { es: 'grupo', en: 'group', ca: 'grup' },
+    aFavor: { es: 'Aciertos', en: 'Correct', ca: 'Encerts' },
+    enContra: { es: 'Fallos', en: 'Wrong', ca: 'Errors' },
+    diferencia: { es: 'diferencia entre aciertos y fallos', en: 'difference between correct and wrong', ca: "diferència entre encerts i errors" },
+    nombres: ['Grupo Azul', 'Grupo Verde', 'Grupo Rojo', 'Grupo Amarillo', 'Grupo Naranja'],
+  },
+}
+export const COMPETICION_IDS = Object.keys(COMPETICIONES)
+
+// Cuatro filas, y las DOS PRIMERAS empatadas a puntos con diferencias
+// distintas: si no empatara nadie, el desempate sobraría y la pregunta se
+// contestaría mirando una sola columna. El empate es el ejercicio.
+function generarTabla() {
+  const comp = COMPETICIONES[pick(COMPETICION_IDS)]
+  const nombres = shuffle(comp.nombres).slice(0, 4)
+  const puntosTope = rng(9, 16)
+
+  for (let intento = 0; intento < 60; intento++) {
+    // Dos arriba empatados, y los otros dos por debajo y sin empatar entre sí.
+    const puntos = [puntosTope, puntosTope, puntosTope - rng(1, 3), 0]
+    puntos[3] = puntos[2] - rng(1, 3)
+    if (puntos[3] < 0) continue
+
+    const filas = nombres.map((nombre, i) => {
+      const gf = rng(8, 26)
+      const gc = rng(6, 24)
+      return { nombre, gf, gc, puntos: puntos[i], dif: gf - gc }
+    })
+    // Los dos empatados tienen que tener diferencias distintas, o el desempate
+    // tampoco resuelve nada. Y todas las diferencias distintas entre sí, para
+    // que "¿quién tiene la mejor diferencia?" también tenga una sola respuesta.
+    const difs = filas.map(f => f.dif)
+    if (new Set(difs).size !== difs.length) continue
+    return { comp, filas }
+  }
+  const filas = nombres.map((nombre, i) => ({
+    nombre, gf: 20 - i, gc: 10 + i, puntos: [12, 12, 9, 7][i], dif: (20 - i) - (10 + i),
+  }))
+  return { comp, filas }
+}
+
+const T_TABLA = {
+  'tabla-ganador': {
+    es: 'Dos van empatados a puntos. Desempata {la diferencia}: ¿quién va PRIMERO?',
+    en: 'Two are level on points. The tiebreaker is {la diferencia}: who is FIRST?',
+    ca: 'Dos van empatats a punts. Desempata {la diferencia}: qui va PRIMER?',
+  },
+  'tabla-diferencia': {
+    es: '¿Cuál es {la diferencia} de {quien}?',
+    en: 'What is {quien}\'s {la diferencia}?',
+    ca: 'Quina és {la diferencia} de {quien}?',
+  },
+  'tabla-mejor-dif': {
+    // Sin "aunque no vaya primero": a veces el de mejor diferencia SÍ es el
+    // líder, y la coletilla sugería que la respuesta nunca era él.
+    es: '¿Quién tiene la MEJOR {la diferencia}?',
+    en: 'Who has the BEST {la diferencia}?',
+    ca: 'Qui té la MILLOR {la diferencia}?',
+  },
+}
+
+function preguntaDeTabla(dif, lang) {
+  const { comp, filas } = generarTabla()
+  const tipo = pick(dif.tiposTabla)
+  const nombres = filas.map(f => f.nombre)
+  const base = {
+    contexto: comp, comp, filas, tipo, familia: 'tabla',
+    formato: 'tabla', etiquetas: nombres, valores: filas.map(f => f.gf), segunda: filas.map(f => f.gc),
+    leyenda: [tr3(comp.aFavor, lang), tr3(comp.enContra, lang)],
+  }
+  const q = extra => tr3(T_TABLA[tipo], lang)
+    .replace('{la diferencia}', tr3(comp.diferencia, lang))
+    .replace('{quien}', extra?.quien ?? '')
+
+  if (tipo === 'tabla-ganador') {
+    // Los dos primeros van empatados a puntos por construcción.
+    const [a, b] = filas
+    const correcta = a.dif > b.dif ? a.nombre : b.nombre
+    return { ...base, pregunta: q(), correcta, opciones: shuffle(nombres) }
+  }
+
+  if (tipo === 'tabla-mejor-dif') {
+    const mejor = filas.reduce((x, y) => (y.dif > x.dif ? y : x))
+    return { ...base, pregunta: q(), correcta: mejor.nombre, opciones: shuffle(nombres) }
+  }
+
+  // tabla-diferencia: restar dos columnas de una fila.
+  const fila = pick(filas)
+  const signo = d => (d === 0 ? '0' : d > 0 ? `+${d}` : `−${Math.abs(d)}`)
+  const otros = [fila.dif + 1, fila.dif - 1, -fila.dif, fila.dif + 2, fila.dif - 2,
+    fila.gf, fila.gc, fila.gf + fila.gc].map(signo)
+  return { ...base, pregunta: q({ quien: fila.nombre }), correcta: signo(fila.dif), bruto: fila.dif,
+    marcarFila: filas.indexOf(fila),
+    opciones: shuffle([signo(fila.dif), ...distractores(signo(fila.dif), otros)]) }
+}
 // Las preguntas de par. Todas van sobre la DERIVADA, que es lo que no está
 // dibujado: el alumno tiene que restar las dos barras de un año para saber si
 // hubo pérdidas, o comparar las restas de varios años para ver dónde fue
@@ -887,6 +1026,7 @@ export function generarPregunta(dif, lang = 'es', ctxId = null) {
     const familia = pick(dif.familias)
     if (familia === 'medida') return preguntaDeMedida(dif, lang)
     if (familia === 'grupos') return preguntaDeGrupos(dif, lang)
+    if (familia === 'tabla') return preguntaDeTabla(dif, lang)
     return preguntaDePar(dif, lang)
   }
   const ctx = CONTEXTOS[ctxId] ?? CONTEXTOS[pick(CONTEXTO_IDS)]

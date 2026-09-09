@@ -6,6 +6,7 @@ import { saveActivity } from '../lib/activity'
 import { computeCoins } from '../lib/games'
 import { RANGOS, generarPregunta } from '../lib/lecturaGraficos'
 import GraficoDatos from '../components/GraficoDatos'
+import TablaDatos from '../components/TablaDatos'
 import GameEndScreen from '../components/GameEndScreen'
 import SupportBlock from '../components/SupportBlock'
 import SEOHead from '../components/SEOHead'
@@ -268,6 +269,14 @@ export default function LeeElGrafico() {
                   : ctx.magnitud ? ` · ${tr(ctx.magnitud)}`
                     : ctx.corto ? ` · ${tr(ctx.corto)}` : ""}
               </p>
+              {/* Una clasificación no es un gráfico: se pinta como tabla. Es
+                  el otro formato en el que llegan los datos en clase, y
+                  leerlo es una destreza aparte. */}
+              {ronda.formato === 'tabla' ? (
+                <TablaDatos filas={ronda.filas} comp={ronda.comp} tr={tr}
+                  marcarFila={ronda.marcarFila ?? null}
+                  puntosLabel={tr({ es: 'Pts', en: 'Pts', ca: 'Pts' })} />
+              ) : (
               <GraficoDatos
                 valores={ronda.valores}
                 segunda={ronda.segunda}
@@ -280,6 +289,7 @@ export default function LeeElGrafico() {
                 formatEje={v => (ctx.escala >= 1000 ? `${v * ctx.escala / 1000}k` : String(v * ctx.escala))}
                 titulo={tr(ctx.sujeto)}
               />
+              )}
               {ronda.ejeTruncado && (
                 // Se avisa en texto además de con la marca del eje: el objetivo
                 // es que aprenda a desconfiar, no cazarle con una trampa muda.

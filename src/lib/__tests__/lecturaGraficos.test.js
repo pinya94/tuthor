@@ -609,3 +609,66 @@ describe('el castellano de las preguntas está bien escrito', () => {
     }
   })
 })
+
+// ── Familia "tabla": clasificaciones con desempate ───────────────────────────
+describe('familia "tabla": leer una clasificación', () => {
+  const cadaTabla = fn => {
+    for (let i = 0; i < 8000; i++) {
+      const p = generarPregunta(RANGOS.dificil, 'es')
+      if (p.familia === 'tabla') fn(p)
+    }
+  }
+
+  it('la regla de desempate va SIEMPRE escrita en el enunciado', () => {
+    // Es lo que separa esto de un examen de fútbol. Dar por sabido que
+    // desempata la diferencia de goles penalizaría a quien no siga el deporte
+    // por algo que no tiene que ver con leer datos.
+    cadaTabla(p => {
+      if (p.tipo !== 'tabla-ganador') return
+      expect(p.pregunta, `sin la regla: "${p.pregunta}"`).toMatch(/Desempata/)
+    })
+  })
+
+  it('los dos primeros empatan a puntos: sin empate, el desempate sobra', () => {
+    cadaTabla(p => {
+      expect(p.filas[0].puntos, 'los dos primeros no empatan').toBe(p.filas[1].puntos)
+      expect(p.filas[1].puntos, 'la tabla no está ordenada').toBeGreaterThan(p.filas[2].puntos)
+    })
+  })
+
+  it('todas las diferencias son distintas, y son a favor menos en contra', () => {
+    cadaTabla(p => {
+      for (const f of p.filas) expect(f.dif, `${f.nombre}`).toBe(f.gf - f.gc)
+      const difs = p.filas.map(f => f.dif)
+      expect(new Set(difs).size, 'dos equipos con la misma diferencia').toBe(difs.length)
+    })
+  })
+
+  it('el primero es el de mejor diferencia entre los dos empatados', () => {
+    cadaTabla(p => {
+      if (p.tipo !== 'tabla-ganador') return
+      const [a, b] = p.filas
+      expect(p.correcta).toBe(a.dif > b.dif ? a.nombre : b.nombre)
+    })
+  })
+
+  it('la mejor diferencia de la tabla no siempre es la del líder', () => {
+    // Si lo fuera, la pregunta se contestaría mirando la primera fila.
+    let distinta = 0, total = 0
+    for (let i = 0; i < 8000; i++) {
+      const p = generarPregunta(RANGOS.dificil, 'es')
+      if (p.tipo !== 'tabla-mejor-dif') continue
+      total++
+      if (p.correcta !== p.filas[0].nombre) distinta++
+    }
+    expect(distinta / total, 'siempre gana el líder: se contesta sin mirar').toBeGreaterThan(0.3)
+  })
+
+  it('no es solo de fútbol', () => {
+    // Un torneo de clase y un concurso de ciencias usan la misma mecánica, y
+    // eso deja claro que lo que se examina no es deporte.
+    const vistas = new Set()
+    cadaTabla(p => vistas.add(p.comp.id))
+    expect(vistas.size, `solo salen: ${[...vistas].join(', ')}`).toBeGreaterThanOrEqual(3)
+  })
+})
