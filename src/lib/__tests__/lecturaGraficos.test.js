@@ -35,7 +35,13 @@ describe('la pregunta siempre se puede contestar', () => {
     // Tendencia son tres (crece, decrece, estable) y las de dos salidas —¿mejora
     // o empeora?— son dos: inventar dos opciones más para llegar a cuatro
     // significaría inventar dos respuestas que no existen. El resto, cuatro.
-    const esperadas = { tendencia: 3, 'serie-mayor': 2, 'derivada-tendencia': 2 }
+    // Las de dos salidas —¿mejora o empeora?, ¿Marta o Iván?— son de dos:
+    // inventar dos opciones más sería inventar respuestas que no existen.
+    const esperadas = {
+      tendencia: 3,
+      'serie-mayor': 2, 'derivada-tendencia': 2,
+      'mejor-media': 2, 'mas-regular': 2,
+    }
     cada((p, nivel) => {
       expect(p.opciones.length, `${nivel}/${p.tipo}`).toBe(esperadas[p.tipo] ?? 4)
     })
@@ -58,17 +64,28 @@ describe('los datos son dibujables y tienen sentido', () => {
   })
 
   it('hay tantos valores como etiquetas del eje', () => {
-    cada((p, nivel, dif) => {
-      expect(p.valores).toHaveLength(dif.n)
-      expect(p.etiquetas).toHaveLength(dif.n)
-      if (p.segunda) expect(p.segunda).toHaveLength(dif.n)
+    // Ya no se compara con dif.n: cada familia de la dificultad difícil trae
+    // los puntos que necesita (cinco para una media, cuatro evaluaciones para
+    // un duelo). Lo que no puede fallar nunca es que sobren o falten
+    // etiquetas, porque entonces hay barras sin año debajo.
+    cada((p, nivel) => {
+      expect(p.etiquetas, `${nivel}/${p.tipo}`).toHaveLength(p.valores.length)
+      if (p.segunda) expect(p.segunda, `${nivel}/${p.tipo}`).toHaveLength(p.valores.length)
+      expect(p.valores.length, `${nivel}/${p.tipo}: muy pocos puntos`).toBeGreaterThanOrEqual(4)
     })
   })
 
-  it('la dificultad difícil trae siempre dos series y la fácil solo una', () => {
-    for (let i = 0; i < 300; i++) {
-      expect(generarPregunta(RANGOS.dificil, 'es').segunda).not.toBeNull()
-      expect(generarPregunta(RANGOS.facil, 'es').segunda).toBeNull()
+  it('la fácil es de una sola serie y la difícil reparte entre sus tres familias', () => {
+    for (let i = 0; i < 300; i++) expect(generarPregunta(RANGOS.facil, 'es').segunda).toBeNull()
+    const vistas = {}
+    for (let i = 0; i < 3000; i++) {
+      const f = generarPregunta(RANGOS.dificil, 'es').familia
+      vistas[f] = (vistas[f] ?? 0) + 1
+    }
+    // Que estén las tres y ninguna se coma la partida: difícil dejó de ser
+    // una sola mecánica repetida justamente por esto.
+    for (const f of ['relacion', 'medida', 'grupos']) {
+      expect(vistas[f] / 3000, `${f} sale el ${Math.round((vistas[f] ?? 0) / 30)} % de las veces`).toBeGreaterThan(0.2)
     }
   })
 })
@@ -241,7 +258,14 @@ describe('el reparto de preguntas no se hace monótono', () => {
 // —ingresos y gastos, nacimientos y defunciones— y se pregunta por lo que sale
 // de restarlas, que es lo que preguntaría un profesor.
 describe('pares de series con relación real', () => {
-  const cadaPar = fn => { for (let i = 0; i < 4000; i++) fn(generarPregunta(RANGOS.dificil, 'es')) }
+  // Solo la familia 'relacion': difícil también trae medias y duelos, que no
+  // tienen derivada ninguna.
+  const cadaPar = fn => {
+    for (let i = 0; i < 6000; i++) {
+      const p = generarPregunta(RANGOS.dificil, 'es')
+      if (p.familia === 'relacion') fn(p)
+    }
+  }
 
   it('la magnitud derivada es exactamente la resta de las dos series', () => {
     // Si el gráfico y la derivada se separaran, el juego preguntaría por un
@@ -329,6 +353,115 @@ describe('pares de series con relación real', () => {
     cadaPar(p => {
       expect(p.pregunta, `concordancia: "${p.pregunta}"`).not.toMatch(/\bel (variación|evolución|balanza)/)
       expect(p.pregunta, 'plantilla sin rellenar').not.toMatch(/[{}]/)
+    })
+  })
+})
+
+// ── Las otras dos familias de la dificultad difícil ──────────────────────────
+describe('familia "medida": sacar la media o la mediana de un gráfico', () => {
+  const cadaMedida = fn => {
+    for (let i = 0; i < 6000; i++) {
+      const p = generarPregunta(RANGOS.dificil, 'es')
+      if (p.familia === 'medida') fn(p)
+    }
+  }
+
+  it('la media que da por buena es la media de las barras dibujadas', () => {
+    cadaMedida(p => {
+      if (p.tipo !== 'media') return
+      const real = p.valores.reduce((a, b) => a + b, 0) / p.valores.length
+      expect(p.bruto, `media mal: ${p.valores.join(',')}`).toBe(real)
+    })
+  })
+
+  it('la media sale siempre entera: no hay que discutir si tocaba redondear', () => {
+    cadaMedida(p => {
+      const suma = p.valores.reduce((a, b) => a + b, 0)
+      expect(suma % p.valores.length, `${p.valores.join(',')} no promedia a un entero`).toBe(0)
+    })
+  })
+
+  it('la mediana es el valor central de verdad', () => {
+    cadaMedida(p => {
+      if (p.tipo !== 'mediana') return
+      const orden = [...p.valores].sort((a, b) => a - b)
+      expect(p.bruto).toBe(orden[Math.floor(orden.length / 2)])
+    })
+  })
+
+  it('media y mediana nunca coinciden, y la otra siempre está entre las opciones', () => {
+    // Si coincidieran, acertar no demostraría haber entendido cuál era cuál.
+    // Y como confundirlas es EL error del tema, la otra medida tiene que estar
+    // ahí para poder caer en él.
+    cadaMedida(p => {
+      if (p.tipo !== 'media' && p.tipo !== 'mediana') return
+      const orden = [...p.valores].sort((a, b) => a - b)
+      const media = p.valores.reduce((a, b) => a + b, 0) / p.valores.length
+      const mediana = orden[Math.floor(orden.length / 2)]
+      expect(media, 'media y mediana coinciden').not.toBe(mediana)
+      const otra = p.tipo === 'media' ? mediana : media
+      expect(p.opciones.some(o => o.startsWith(String(otra))), 'falta la otra medida como distractor').toBe(true)
+    })
+  })
+
+  it('el recuento de valores por encima de la media es el real', () => {
+    cadaMedida(p => {
+      if (p.tipo !== 'sobre-media') return
+      const media = p.valores.reduce((a, b) => a + b, 0) / p.valores.length
+      expect(p.bruto).toBe(p.valores.filter(v => v > media).length)
+    })
+  })
+})
+
+describe('familia "grupos": dos protagonistas y sus marcas', () => {
+  const cadaDuelo = fn => {
+    for (let i = 0; i < 6000; i++) {
+      const p = generarPregunta(RANGOS.dificil, 'es')
+      if (p.familia === 'grupos') fn(p)
+    }
+  }
+  const media = xs => xs.reduce((a, b) => a + b, 0) / xs.length
+  const rango = xs => Math.max(...xs) - Math.min(...xs)
+
+  it('las dos medias son enteras y distintas', () => {
+    // Empatadas, "¿quién tiene mejor media?" no tiene respuesta.
+    cadaDuelo(p => {
+      expect(media(p.valores) % 1, 'media con decimales').toBe(0)
+      expect(media(p.segunda) % 1, 'media con decimales').toBe(0)
+      expect(media(p.valores), 'las dos medias empatan').not.toBe(media(p.segunda))
+    })
+  })
+
+  it('quien gana en media es quien de verdad tiene la media más alta', () => {
+    cadaDuelo(p => {
+      if (p.tipo !== 'mejor-media') return
+      const gana = media(p.valores) > media(p.segunda) ? p.leyenda[0] : p.leyenda[1]
+      expect(p.correcta).toBe(gana)
+    })
+  })
+
+  it('el más regular es el de menor diferencia entre su mejor y su peor marca', () => {
+    cadaDuelo(p => {
+      if (p.tipo !== 'mas-regular') return
+      expect(rango(p.valores), 'los dos rangos empatan').not.toBe(rango(p.segunda))
+      const regular = rango(p.valores) < rango(p.segunda) ? p.leyenda[0] : p.leyenda[1]
+      expect(p.correcta).toBe(regular)
+    })
+  })
+
+  it('la media pedida es la del protagonista que nombra la pregunta', () => {
+    cadaDuelo(p => {
+      if (p.tipo !== 'media-de-uno') return
+      const deA = p.pregunta.includes(p.leyenda[0])
+      expect(p.bruto, `la media no es la de ${deA ? p.leyenda[0] : p.leyenda[1]}`)
+        .toBe(media(deA ? p.valores : p.segunda))
+    })
+  })
+
+  it('los dos protagonistas tienen nombre propio', () => {
+    cadaDuelo(p => {
+      expect(p.leyenda[0]).not.toBe(p.leyenda[1])
+      expect(p.leyenda[0].length).toBeGreaterThan(2)
     })
   })
 })

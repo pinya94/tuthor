@@ -40,10 +40,31 @@ const DIF_LABEL = {
   dificil: { es: 'Difícil', en: 'Hard', ca: 'Difícil' },
 }
 
+// Los tres niveles son tres cosas distintas, no el mismo ejercicio con más
+// puntos. Cada uno tiene su verbo, y por eso se dice en la tarjeta: leer el
+// dato → leer la forma → calcular sobre los datos.
+const DIF_QUE = {
+  facil:   { es: 'LEER un dato', en: 'READ a value', ca: 'LLEGIR una dada' },
+  medio:   { es: 'COMPARAR puntos', en: 'COMPARE points', ca: 'COMPARAR punts' },
+  dificil: { es: 'CALCULAR con los datos', en: 'WORK IT OUT from the data', ca: 'CALCULAR amb les dades' },
+}
+
 const DIF_DESC = {
-  facil:   { es: 'Una serie y 5 puntos. Tendencia, máximo y mínimo.', en: 'One series, 5 points. Trend, peak and low.', ca: 'Una sèrie i 5 punts. Tendència, màxim i mínim.' },
-  medio:   { es: 'Una serie con altibajos, y ejes que no siempre empiezan en cero.', en: 'One bumpy series, and axes that do not always start at zero.', ca: 'Una sèrie amb alts i baixos, i eixos que no sempre comencen a zero.' },
-  dificil: { es: 'Ingresos y gastos, nacimientos y defunciones… y preguntas por lo que sale de restarlos.', en: 'Revenue and costs, births and deaths… and questions about what you get by subtracting them.', ca: 'Ingressos i despeses, naixements i defuncions… i preguntes pel que surt de restar-los.' },
+  facil: {
+    es: 'Una sola serie. ¿Sube o baja? ¿Cuándo fue el máximo? La respuesta está en el dibujo.',
+    en: 'One series. Going up or down? When was the peak? The answer is in the picture.',
+    ca: 'Una sola sèrie. Puja o baixa? Quan va ser el màxim? La resposta és al dibuix.',
+  },
+  medio: {
+    es: 'Hay que comparar dos puntos: cuánto cambió, dónde subió más. Y cuidado con los ejes que no empiezan en cero.',
+    en: 'You compare two points: how much it changed, where it rose most. And watch for axes that skip zero.',
+    ca: "Cal comparar dos punts: quant va canviar, on va pujar més. I compte amb els eixos que no comencen a zero.",
+  },
+  dificil: {
+    es: 'La respuesta no está dibujada. Ingresos menos gastos, la media de unas notas, quién de los dos es mejor.',
+    en: 'The answer is not drawn. Revenue minus costs, the mean of some marks, which of the two is better.',
+    ca: 'La resposta no està dibuixada. Ingressos menys despeses, la mitjana d\'unes notes, qui dels dos és millor.',
+  },
 }
 
 export default function LeeElGrafico() {
@@ -149,20 +170,36 @@ export default function LeeElGrafico() {
           <h1 className="text-3xl font-black text-white mb-2">
             {tr({ es: 'Lee el Gráfico', en: 'Read the Chart', ca: 'Llegeix el Gràfic' })}
           </h1>
-          <p className="text-white/50 mb-7">
+          <p className="text-white/55 mb-4 leading-relaxed">
             {tr({
-              es: 'Mira los datos y responde. Población, ventas, clima… la gráfica lo dice todo si sabes mirarla.',
-              en: 'Look at the data and answer. Population, sales, climate… the chart says it all if you can read it.',
-              ca: 'Mira les dades i respon. Població, vendes, clima… el gràfic ho diu tot si el saps mirar.',
+              es: 'Sale una gráfica con datos y una pregunta sobre ella. Nada de fórmulas que memorizar: hay que mirar el dibujo y decidir.',
+              en: 'You get a chart with data and a question about it. No formulas to memorise: look at the picture and decide.',
+              ca: 'Surt un gràfic amb dades i una pregunta sobre ell. Res de fórmules per memoritzar: cal mirar el dibuix i decidir.',
             })}
           </p>
 
+          {/* Qué clase de datos va a ver. Es lo que convierte el juego en algo
+              reconocible: son los gráficos de clase, no gráficos abstractos. */}
+          <p className="text-white/35 text-[12.5px] mb-6 leading-relaxed">
+            {tr({
+              es: 'Población de un pueblo, ingresos y gastos de una empresa, notas de dos alumnos, temperaturas, días de lluvia, socios de un club…',
+              en: "A town's population, a company's revenue and costs, two students' marks, temperatures, rainy days, club members…",
+              ca: "Població d'un poble, ingressos i despeses d'una empresa, notes de dos alumnes, temperatures, dies de pluja, socis d'un club…",
+            })}
+          </p>
+
+          <p className="text-white/30 text-[11px] font-bold uppercase tracking-widest mb-2 text-left">
+            {tr({ es: 'Elige por dónde empezar', en: 'Pick where to start', ca: 'Tria per on començar' })}
+          </p>
           <div className="space-y-2 mb-6">
             {Object.keys(DIFS).map(id => (
               <button key={id} type="button" onClick={() => startGame(id)}
                 className="w-full text-left rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-teal-500/40 p-4 transition-all">
-                <p className="text-white font-bold text-[15px]">{tr(DIF_LABEL[id])}</p>
-                <p className="text-white/40 text-[12.5px] mt-0.5">{tr(DIF_DESC[id])}</p>
+                <div className="flex items-baseline justify-between gap-2 mb-0.5">
+                  <p className="text-white font-bold text-[15px]">{tr(DIF_LABEL[id])}</p>
+                  <p className="text-teal-300/70 text-[10.5px] font-bold uppercase tracking-wider shrink-0">{tr(DIF_QUE[id])}</p>
+                </div>
+                <p className="text-white/40 text-[12.5px] leading-snug">{tr(DIF_DESC[id])}</p>
               </button>
             ))}
           </div>
@@ -221,7 +258,15 @@ export default function LeeElGrafico() {
           <>
             <div className="rounded-2xl border border-white/10 p-3 mb-3" style={{ background: 'rgba(17,20,29,0.86)' }}>
               <p className="text-white/40 text-[10.5px] font-bold uppercase tracking-widest text-center mb-1">
-                {ctx.emoji} {tr(ctx.materia)}{ronda.leyenda ? ` · ${ronda.leyenda.join(" y ")}` : ` · ${tr(ctx.magnitud)}`}
+                {/* Cada familia tiene una cosa distinta que decir aquí: dos
+                    series se nombran las dos, una serie suelta dice su
+                    magnitud, y una serie de medida dice qué se mide. Sin
+                    esto, las de media salían con la cabecera colgando:
+                    "📕 Matemáticas ·" y nada detrás. */}
+                {ctx.emoji} {tr(ctx.materia)}
+                {ronda.leyenda ? ` · ${ronda.leyenda.join(" y ")}`
+                  : ctx.magnitud ? ` · ${tr(ctx.magnitud)}`
+                    : ctx.corto ? ` · ${tr(ctx.corto)}` : ""}
               </p>
               <GraficoDatos
                 valores={ronda.valores}

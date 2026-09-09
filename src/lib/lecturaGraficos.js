@@ -97,10 +97,24 @@ const MESES = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'O
 export const RANGOS = {
   facil:   { n: 5, series: 1, ruido: 0,  ejeTruncado: false, tipos: ['tendencia', 'maximo', 'minimo'] },
   medio:   { n: 6, series: 1, ruido: 1,  ejeTruncado: true, tipos: ['tendencia', 'maximo', 'minimo', 'variacion', 'mayor-subida'] },
-  // Difícil no es "lo mismo pero con más puntos": es otra cosa. Dos series
-  // que se RELACIONAN (ingresos y gastos, nacimientos y defunciones) y una
-  // pregunta sobre la magnitud que sale de relacionarlas. Ver PARES.
-  dificil: { n: 5, pares: true, tipos: ['signo-año', 'derivada-valor', 'derivada-max', 'cambio-signo', 'derivada-tendencia'] },
+  // Difícil no es "lo mismo pero con más puntos": la respuesta ya no está
+  // dibujada en ninguna parte y hay que sacarla. Tres familias, para que no
+  // se convierta en una sola mecánica repetida:
+  //
+  //   relacion · dos series que se restan (ingresos y gastos → beneficio)
+  //   medida   · una serie de la que hay que sacar la media o la mediana
+  //   grupos   · dos personas con varias notas: ¿quién tiene mejor media?
+  //
+  // Las tres piden lo mismo en el fondo —calcular sobre lo que se ve— pero
+  // con datos y preguntas distintas, que es lo que evita que la partida se
+  // haga previsible.
+  dificil: {
+    n: 5,
+    familias: ['relacion', 'medida', 'grupos'],
+    tipos: ['signo-año', 'derivada-valor', 'derivada-max', 'cambio-signo', 'derivada-tendencia'],
+    tiposMedida: ['media', 'mediana', 'sobre-media'],
+    tiposGrupos: ['mejor-media', 'mas-regular', 'media-de-uno'],
+  },
 }
 
 // ── Los datos ────────────────────────────────────────────────────────────────
@@ -370,6 +384,232 @@ function distractores(correcta, candidatos, n = 3) {
   return fuera
 }
 
+
+// ── Familia "medida": una serie y una medida estadística ────────────────────
+// No es Estadístico Exprés con otro nombre. Allí se da una lista de números
+// escrita y se pide la media contrarreloj; aquí los números hay que SACARLOS
+// de un gráfico primero, que es el paso que de verdad cuesta en un examen:
+// nadie te da la tabla, te dan el diagrama de barras.
+//
+// Cinco valores, impar a propósito: con un número par la mediana es el
+// promedio de los dos centrales y puede salir con decimales.
+export const SERIES_MEDIDA = {
+  notas: {
+    id: 'notas', emoji: '📕', escala: 1, unidad: { es: '', en: '', ca: '' },
+    materia: { es: 'Matemáticas', en: 'Maths', ca: 'Matemàtiques' },
+    sujeto: { es: 'las notas de Marta en los cinco exámenes del curso', en: "Marta's marks in the five tests of the year", ca: 'les notes de la Marta als cinc exàmens del curs' },
+    corto: { es: 'nota', en: 'mark', ca: 'nota' },
+    etiquetas: n => Array.from({ length: n }, (_, i) => `Ex. ${i + 1}`),
+    rango: [3, 9],
+  },
+  goles: {
+    id: 'goles', emoji: '⚽', escala: 1, unidad: { es: 'goles', en: 'goals', ca: 'gols' },
+    materia: { es: 'Estadística', en: 'Statistics', ca: 'Estadística' },
+    sujeto: { es: 'los goles de un equipo en cinco partidos', en: "a team's goals in five matches", ca: "els gols d'un equip en cinc partits" },
+    corto: { es: 'goles', en: 'goals', ca: 'gols' },
+    etiquetas: n => Array.from({ length: n }, (_, i) => `P${i + 1}`),
+    rango: [0, 6],
+  },
+  lluvia: {
+    id: 'lluvia', emoji: '🌧️', escala: 1, unidad: { es: 'días', en: 'days', ca: 'dies' },
+    materia: { es: 'Geografía', en: 'Geography', ca: 'Geografia' },
+    sujeto: { es: 'los días de lluvia de cada mes', en: 'the rainy days each month', ca: 'els dies de pluja de cada mes' },
+    corto: { es: 'días', en: 'days', ca: 'dies' },
+    etiquetas: n => MESES.slice(0, n),
+    rango: [2, 14],
+  },
+}
+export const MEDIDA_IDS = Object.keys(SERIES_MEDIDA)
+
+// Generado al revés, como en Estadístico Exprés: se fija primero la media y
+// se reparten desviaciones que suman cero, para que la respuesta sea siempre
+// un entero exacto y nunca haya que discutir si tocaba redondear.
+function generarMedida() {
+  const serie = SERIES_MEDIDA[pick(MEDIDA_IDS)]
+  const n = 5
+  const [lo, hi] = serie.rango
+  for (let intento = 0; intento < 40; intento++) {
+    const media = rng(lo + 1, hi - 1)
+    const desv = Array.from({ length: n - 1 }, () => rng(-2, 2))
+    const valores = [...desv, -desv.reduce((a, b) => a + b, 0)].map(d => media + d)
+    if (valores.some(v => v < lo || v > hi)) continue
+    const orden = [...valores].sort((a, b) => a - b)
+    const mediana = orden[2]
+    // La media y la mediana tienen que ser DISTINTAS: si coinciden, las dos
+    // preguntas tienen la misma respuesta y da igual haber entendido cuál
+    // era cuál, que es justo lo que se quiere distinguir.
+    if (mediana === media) continue
+    return { serie, valores, media, mediana }
+  }
+  // Red de seguridad CONSTRUIDA, no una lista fija: las desviaciones
+  // −2 −1 −1 +1 +3 suman cero (así la media es exacta) y dejan la mediana un
+  // punto por debajo de la media, que es la condición que hay que cumplir.
+  // La lista fija que había antes era [4,5,6,6,9]: media 6 y mediana 6, o sea
+  // justo el caso que el bucle descarta.
+  const media = lo + 3
+  const valores = [-2, -1, -1, 1, 3].map(d => media + d)
+  return { serie, valores, media, mediana: media - 1 }
+}
+
+const T_MEDIDA = {
+  media: {
+    es: '¿Cuál es la MEDIA de {sujeto}?', en: 'What is the MEAN of {sujeto}?', ca: 'Quina és la MITJANA de {sujeto}?',
+  },
+  mediana: {
+    es: '¿Cuál es la MEDIANA de {sujeto}?', en: 'What is the MEDIAN of {sujeto}?', ca: 'Quina és la MEDIANA de {sujeto}?',
+  },
+  'sobre-media': {
+    es: '¿Cuántas veces se quedó POR ENCIMA de la media?', en: 'How many times was it ABOVE the mean?', ca: 'Quantes vegades va quedar PER SOBRE de la mitjana?',
+  },
+}
+
+function preguntaDeMedida(dif, lang) {
+  const { serie, valores, media, mediana } = generarMedida()
+  const etiquetas = serie.etiquetas(valores.length)
+  const tipo = pick(dif.tiposMedida)
+  const pregunta = tr3(T_MEDIDA[tipo], lang).replace('{sujeto}', tr3(serie.sujeto, lang))
+  const base = {
+    contexto: serie, etiquetas, valores, segunda: null, tipo, familia: 'medida',
+    grafico: 'barras', ejeTruncado: false, etiquetarValores: true, leyenda: null,
+  }
+
+  if (tipo === 'sobre-media') {
+    const cuantas = valores.filter(v => v > media).length
+    // Con cinco valores hay pocos números posibles (0 a 5), así que el pool
+    // los recorre todos en vez de sortear y arriesgarse a quedarse corto.
+    const otros = [cuantas + 1, cuantas - 1, cuantas + 2, cuantas - 2, valores.length - cuantas,
+      ...Array.from({ length: valores.length + 1 }, (_, k) => k)]
+      .filter(v => v >= 0 && v <= valores.length).map(String)
+    return { ...base, pregunta, correcta: String(cuantas), bruto: cuantas,
+      opciones: shuffle([String(cuantas), ...distractores(String(cuantas), otros)]) }
+  }
+
+  // El distractor clave de "media" es la MEDIANA y al revés: confundirlas es
+  // el error del tema, así que la otra medida siempre está entre las opciones.
+  const correcta = tipo === 'media' ? media : mediana
+  const otra = tipo === 'media' ? mediana : media
+  const con = v => `${v}${tr3(serie.unidad, lang) ? ' ' + tr3(serie.unidad, lang) : ''}`
+  // Pool ancho a propósito: con pocos candidatos dos coinciden (la otra
+  // medida puede ser justo correcta+1) y la pregunta sale con tres opciones.
+  const otros = [otra, correcta + 1, correcta - 1, correcta + 2, correcta - 2,
+    Math.max(...valores), Math.min(...valores), correcta + 3]
+    .filter(v => v >= 0).map(con)
+  return { ...base, pregunta, correcta: con(correcta), bruto: correcta,
+    opciones: shuffle([con(correcta), ...distractores(con(correcta), otros)]) }
+}
+
+// ── Familia "grupos": dos protagonistas con varias marcas cada uno ──────────
+// Aquí las dos series no se restan: se comparan. Y la trampa es la de
+// siempre y la buena: quien saca la nota más alta de todas no suele ser quien
+// tiene mejor media, porque una nota altísima con tres bajas no compensa.
+export const DUELOS = {
+  clase: {
+    id: 'clase', emoji: '📕', unidad: { es: '', en: '', ca: '' },
+    materia: { es: 'Matemáticas', en: 'Maths', ca: 'Matemàtiques' },
+    sujeto: { es: 'las notas de dos alumnos', en: "two students' marks", ca: 'les notes de dos alumnes' },
+    a: { es: 'Marta', en: 'Marta', ca: 'Marta' },
+    b: { es: 'Iván', en: 'Ivan', ca: 'Ivan' },
+    que: { es: 'nota media', en: 'average mark', ca: 'nota mitjana' },
+    etiquetas: n => Array.from({ length: n }, (_, i) => `${i + 1}ª ev.`),
+    rango: [3, 10],
+  },
+  tienda: {
+    id: 'tienda', emoji: '🏪', unidad: { es: 'ventas', en: 'sales', ca: 'vendes' },
+    materia: { es: 'Economía', en: 'Economics', ca: 'Economia' },
+    sujeto: { es: 'las ventas de dos tiendas', en: "two shops' sales", ca: 'les vendes de dues botigues' },
+    a: { es: 'Tienda Norte', en: 'North Shop', ca: 'Botiga Nord' },
+    b: { es: 'Tienda Sur', en: 'South Shop', ca: 'Botiga Sud' },
+    que: { es: 'media de ventas', en: 'average sales', ca: 'mitjana de vendes' },
+    etiquetas: n => Array.from({ length: n }, (_, i) => `T${i + 1}`),
+    rango: [10, 60],
+  },
+  atletas: {
+    id: 'atletas', emoji: '🏃', unidad: { es: 'puntos', en: 'points', ca: 'punts' },
+    materia: { es: 'Estadística', en: 'Statistics', ca: 'Estadística' },
+    sujeto: { es: 'los puntos de dos atletas', en: "two athletes' points", ca: 'els punts de dos atletes' },
+    a: { es: 'Nadia', en: 'Nadia', ca: 'Nadia' },
+    b: { es: 'Bruno', en: 'Bruno', ca: 'Bruno' },
+    que: { es: 'media de puntos', en: 'average points', ca: 'mitjana de punts' },
+    etiquetas: n => Array.from({ length: n }, (_, i) => `Prueba ${i + 1}`),
+    rango: [5, 30],
+  },
+}
+export const DUELO_IDS = Object.keys(DUELOS)
+
+// Cuatro marcas por protagonista, con dos condiciones que hacen la pregunta
+// honesta: las medias tienen que ser enteras (para que la respuesta no dependa
+// de redondear) y DISTINTAS (si empatan no hay respuesta). La trampa —que el
+// dueño de la marca más alta no sea el de mejor media— se busca, y si el
+// sorteo no la da, se acepta igual: forzarla siempre la volvería predecible.
+function generarDuelo() {
+  const duelo = DUELOS[pick(DUELO_IDS)]
+  const n = 4
+  const [lo, hi] = duelo.rango
+  const cuatro = media => {
+    const d = [rng(-2, 2), rng(-2, 2), rng(-2, 2)]
+    return [...d, -d.reduce((x, y) => x + y, 0)].map(x => media + x * Math.max(1, Math.round((hi - lo) / 12)))
+  }
+  for (let intento = 0; intento < 60; intento++) {
+    const mediaA = rng(lo + 2, hi - 2)
+    const mediaB = rng(lo + 2, hi - 2)
+    if (mediaA === mediaB) continue
+    const a = cuatro(mediaA)
+    const b = cuatro(mediaB)
+    if ([...a, ...b].some(v => v < lo || v > hi)) continue
+    // Rangos distintos, o "¿quién es más regular?" no tiene respuesta.
+    const rangoA = Math.max(...a) - Math.min(...a)
+    const rangoB = Math.max(...b) - Math.min(...b)
+    if (rangoA === rangoB) continue
+    return { duelo, a, b, mediaA, mediaB, rangoA, rangoB, n }
+  }
+  const a = [5, 7, 5, 7], b = [6, 6, 6, 6]
+  return { duelo, a, b, mediaA: 6, mediaB: 6, rangoA: 2, rangoB: 0, n: 4 }
+}
+
+const T_GRUPOS = {
+  'mejor-media': {
+    es: '¿Quién tiene mejor {que}?', en: 'Who has the better {que}?', ca: 'Qui té millor {que}?',
+  },
+  'mas-regular': {
+    es: '¿Quién ha sido MÁS REGULAR (menos diferencia entre su mejor y su peor marca)?', en: 'Who has been the MOST CONSISTENT (smallest gap between best and worst)?', ca: 'Qui ha estat MÉS REGULAR (menys diferència entre la seva millor i la seva pitjor marca)?',
+  },
+  'media-de-uno': {
+    es: '¿Cuál es la {que} de {quien}?', en: "What is {quien}'s {que}?", ca: 'Quina és la {que} de {quien}?',
+  },
+}
+
+function preguntaDeGrupos(dif, lang) {
+  const { duelo, a, b, mediaA, mediaB, rangoA, rangoB, n } = generarDuelo()
+  const tipo = pick(dif.tiposGrupos)
+  const nombreA = tr3(duelo.a, lang)
+  const nombreB = tr3(duelo.b, lang)
+  const base = {
+    contexto: duelo, etiquetas: duelo.etiquetas(n), valores: a, segunda: b, tipo, familia: 'grupos',
+    grafico: 'barras', ejeTruncado: false, etiquetarValores: true, leyenda: [nombreA, nombreB],
+  }
+  const q = extra => tr3(T_GRUPOS[tipo], lang)
+    .replace('{que}', tr3(duelo.que, lang))
+    .replace('{quien}', extra?.quien ?? '')
+
+  if (tipo === 'mejor-media') {
+    return { ...base, pregunta: q(), correcta: mediaA > mediaB ? nombreA : nombreB,
+      opciones: shuffle([nombreA, nombreB]) }
+  }
+  if (tipo === 'mas-regular') {
+    return { ...base, pregunta: q(), correcta: rangoA < rangoB ? nombreA : nombreB,
+      opciones: shuffle([nombreA, nombreB]) }
+  }
+  // media-de-uno: hay que sumar las cuatro barras de uno y dividir entre 4.
+  const deA = Math.random() < 0.5
+  const media = deA ? mediaA : mediaB
+  const otra = deA ? mediaB : mediaA
+  const con = v => `${v}${tr3(duelo.unidad, lang) ? ' ' + tr3(duelo.unidad, lang) : ''}`
+  const serie = deA ? a : b
+  const otros = [otra, media + 1, media - 1, media + 2, media - 2,
+    Math.max(...serie), Math.min(...serie), media + 3].filter(v => v >= 0).map(con)
+  return { ...base, pregunta: q({ quien: deA ? nombreA : nombreB }), correcta: con(media), bruto: media,
+    marcar: [], opciones: shuffle([con(media), ...distractores(con(media), otros)]) }
+}
 // Las preguntas de par. Todas van sobre la DERIVADA, que es lo que no está
 // dibujado: el alumno tiene que restar las dos barras de un año para saber si
 // hubo pérdidas, o comparar las restas de varios años para ver dónde fue
@@ -394,7 +634,7 @@ function preguntaDePar(dif, lang) {
   const plantilla = tipo === 'cambio-signo' && forma === 'a-peor' ? 'cambio-signo-peor' : tipo
 
   const base = {
-    par, contexto: par, etiquetas, valores: a, segunda: b, derivada, tipo,
+    par, contexto: par, etiquetas, valores: a, segunda: b, derivada, tipo, familia: 'relacion',
     leyenda: [tr3(par.a, lang), tr3(par.b, lang)],
     grafico: 'barras', ejeTruncado: false, etiquetarValores: true,
   }
@@ -460,7 +700,12 @@ export function formatearPar(v, par, lang = 'es') {
   return `${(v * par.escala).toLocaleString(loc)} ${tr3(par.unidad, lang)}`.trim()
 }
 export function generarPregunta(dif, lang = 'es', ctxId = null) {
-  if (dif.pares) return preguntaDePar(dif, lang)
+  if (dif.familias) {
+    const familia = pick(dif.familias)
+    if (familia === 'medida') return preguntaDeMedida(dif, lang)
+    if (familia === 'grupos') return preguntaDeGrupos(dif, lang)
+    return preguntaDePar(dif, lang)
+  }
   const ctx = CONTEXTOS[ctxId] ?? CONTEXTOS[pick(CONTEXTO_IDS)]
   const { tendencia, valores, segunda } = generarDatos(dif)
   const n = valores.length

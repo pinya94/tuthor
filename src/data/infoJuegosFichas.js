@@ -9,10 +9,11 @@ export const FICHAS_ES = {
     beneficios: [
       { titulo: 'La Competencia que Cruza Cuatro Asignaturas', texto: 'Leer un gráfico aparece en matemáticas, en geografía, en economía y en ciencias, y se da por sabida en todas. Es de las pocas destrezas que se examinan en cuatro sitios y no se enseñan en ninguno.' },
       { titulo: 'La Trampa del Eje que no Empieza en Cero', texto: 'En dificultad media aparecen gráficos con el eje Y truncado: la barra parece dispararse y en realidad sube un 3 %. Es la manipulación más común en prensa y en presentaciones de empresa, y la única forma de aprender a verla es que te la hagan.' },
-      { titulo: 'En Difícil, Dos Series que Significan Algo Juntas', texto: 'Ingresos y gastos, nacimientos y defunciones, exportaciones e importaciones, altas y bajas de socios. La pregunta no va sobre las barras dibujadas sino sobre lo que sale de restarlas: en qué año hubo pérdidas, desde cuándo el pueblo pierde población, cuándo fue mayor el beneficio. La respuesta no está en el gráfico: hay que sacarla.' },
+      { titulo: 'Tres Niveles que son Tres Cosas Distintas', texto: 'No es el mismo ejercicio con más puntos. En fácil se LEE un dato del dibujo. En medio se COMPARAN dos puntos: cuánto cambió, dónde subió más. En difícil la respuesta no está dibujada y hay que CALCULARLA.' },
+      { titulo: 'En Difícil, Tres Familias de Análisis', texto: 'Dos series que se restan (ingresos y gastos → beneficio; nacimientos y defunciones → si el pueblo gana o pierde habitantes). Una serie de la que hay que sacar la media o la mediana, con la otra medida siempre entre las opciones porque confundirlas es EL error del tema. Y dos protagonistas con cuatro marcas cada uno: quién tiene mejor media y quién ha sido más regular.' },
       { titulo: 'Confundir el Valor Más Alto con la Mayor Subida', texto: 'Es el error clásico al mirar una gráfica, y hay un tipo de pregunta dedicado justo a eso: cuál es el tramo de mayor aumento, que casi nunca es el punto más alto.' },
     ],
-    ejemplo: 'En difícil se ven dos barras por año, ingresos y gastos. En 2019 la empresa ingresó 40.000 € y gastó 50.000: tuvo pérdidas de 10.000, aunque ese fuera uno de sus mejores años de ventas. El año de más ingresos casi nunca es el de más beneficio, y ahí está el ejercicio.',
+    ejemplo: 'Marta saca 9, 4, 5 y 6 en las cuatro evaluaciones; Iván saca 6, 7, 6 y 7. ¿Quién tiene mejor media? Iván, con un 6,5 frente al 6 de Marta, pese a que la mejor nota del curso —el 9— es de ella. Un pico alto con tres notas bajas no compensa, y esa es exactamente la idea que el gráfico enseña de un vistazo.',
     enPapel: {
       titulo: 'Un gráfico del periódico, cuatro preguntas',
       pasos: [
@@ -1041,10 +1042,11 @@ export const FICHAS_EN = {
     beneficios: [
       { titulo: 'The Skill that Crosses Four Subjects', texto: 'Reading a chart shows up in maths, geography, economics and science, and is taken for granted in all of them. It is one of the few skills examined in four places and taught in none.' },
       { titulo: 'The Axis that Skips Zero', texto: 'At medium level the Y axis is truncated: the bar looks like a rocket and the real rise is 3 %. It is the commonest manipulation in the press and in company slides, and the only way to learn to spot it is to have it done to you.' },
-      { titulo: 'At Hard Level, Two Series that Mean Something Together', texto: 'Revenue and costs, births and deaths, exports and imports, members joining and leaving. The question is not about the bars drawn but about what you get by subtracting them: which year made a loss, when the town started losing people, when profit was highest. The answer is not on the chart: you have to work it out.' },
+      { titulo: 'Three Levels that are Three Different Things', texto: 'Not the same exercise with more points. Easy: READ a value off the picture. Medium: COMPARE two points — how much it changed, where it rose most. Hard: the answer is not drawn and you have to WORK IT OUT.' },
+      { titulo: 'Three Families of Analysis at Hard Level', texto: 'Two series you subtract (revenue and costs → profit; births and deaths → whether the town grows or shrinks). One series you take the mean or the median of, with the other measure always among the options because mixing them up is THE mistake of the topic. And two people with four marks each: who has the better average and who has been more consistent.' },
       { titulo: 'Highest Value is not Biggest Rise', texto: 'It is the classic mistake when reading a chart, and one question type is dedicated to exactly that: which stretch rises the most, which is almost never the highest point.' },
     ],
-    ejemplo: 'At hard level you see two bars per year, revenue and costs. In 2019 the company earned €40,000 and spent €50,000: a €10,000 loss, even though that was one of its best sales years. The year with the most revenue is almost never the year with the most profit, and that is the exercise.',
+    ejemplo: 'Marta scores 9, 4, 5 and 6 across four terms; Ivan scores 6, 7, 6 and 7. Who has the better average? Ivan, 6.5 against 6, even though the best single mark of the year — the 9 — is hers. One high peak with three low marks does not make up for them, and that is exactly what the chart shows at a glance.',
     enPapel: {
       titulo: 'One newspaper chart, four questions',
       pasos: [
@@ -1896,10 +1898,11 @@ export const FICHAS_CA = {
     beneficios: [
       { titulo: 'La Competència que Creua Quatre Assignatures', texto: "Llegir un gràfic apareix a matemàtiques, a geografia, a economia i a ciències, i es dona per sabuda a totes. És de les poques destreses que s'examinen a quatre llocs i no s'ensenyen enlloc." },
       { titulo: "El Parany de l'Eix que no Comença a Zero", texto: "En dificultat mitjana apareixen gràfics amb l'eix Y truncat: la barra sembla disparar-se i en realitat puja un 3 %. És la manipulació més comuna a la premsa i a les presentacions d'empresa." },
-      { titulo: 'En Difícil, Dues Sèries que Signifiquen Alguna Cosa Juntes', texto: "Ingressos i despeses, naixements i defuncions, exportacions i importacions. La pregunta no va sobre les barres dibuixades sinó sobre el que surt de restar-les: en quin any hi va haver pèrdues, des de quan el poble perd població, quan va ser major el benefici." },
+      { titulo: 'Tres Nivells que són Tres Coses Diferents', texto: "No és el mateix exercici amb més punts. En fàcil es LLEGEIX una dada del dibuix. En mitjà es COMPAREN dos punts. En difícil la resposta no està dibuixada i cal CALCULAR-LA." },
+      { titulo: "En Difícil, Tres Famílies d'Anàlisi", texto: "Dues sèries que es resten (ingressos i despeses → benefici). Una sèrie de la qual cal treure la mitjana o la mediana, amb l'altra mesura sempre entre les opcions perquè confondre-les és EL error del tema. I dos protagonistes amb quatre marques cadascun: qui té millor mitjana i qui ha estat més regular." },
       { titulo: 'Confondre el Valor Més Alt amb la Major Pujada', texto: "És l'error clàssic en mirar un gràfic, i hi ha un tipus de pregunta dedicat just a això: quin és el tram de major augment, que gairebé mai és el punt més alt." },
     ],
-    ejemplo: "En difícil es veuen dues barres per any, ingressos i despeses. El 2019 l'empresa va ingressar 40.000 € i en va gastar 50.000: va tenir pèrdues de 10.000, encara que aquell fos un dels seus millors anys de vendes. L'any de més ingressos gairebé mai és el de més benefici.",
+    ejemplo: "La Marta treu 9, 4, 5 i 6 a les quatre avaluacions; l'Ivan treu 6, 7, 6 i 7. Qui té millor mitjana? L'Ivan, amb un 6,5 davant del 6 de la Marta, tot i que la millor nota del curs —el 9— és seva. Un pic alt amb tres notes baixes no compensa.",
     enPapel: {
       titulo: 'Un gràfic del diari, quatre preguntes',
       pasos: [
