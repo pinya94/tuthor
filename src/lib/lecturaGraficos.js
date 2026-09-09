@@ -17,10 +17,15 @@
 // sentido. Es a propósito: un gráfico sin saber de qué habla no se puede leer,
 // y es justo el error que se quiere corregir.
 //
-// LA TRAMPA DEL EJE. En dificultad alta aparecen gráficos con el eje Y sin
-// empezar en cero. Visualmente la barra se dispara; numéricamente sube un 3 %.
-// Es la manipulación más común de la prensa y de las presentaciones de
-// empresa, y la única forma de aprender a verla es que te la hagan.
+// LA TRAMPA DEL EJE (dificultad media). Gráficos con el eje Y sin empezar en
+// cero: visualmente la barra se dispara y numéricamente sube un 3 %. Es la
+// manipulación más común de la prensa y de las presentaciones de empresa, y
+// la única forma de aprender a verla es que te la hagan.
+//
+// LOS PARES (dificultad difícil). Ver PARES más abajo. Difícil no es lo mismo
+// con más puntos: son dos series que se relacionan —ingresos y gastos,
+// nacimientos y defunciones— y una pregunta sobre lo que sale de restarlas,
+// que no está dibujado en ninguna parte.
 
 export function rng(min, max) { return min + Math.floor(Math.random() * (max - min + 1)) }
 export function pick(arr) { return arr[Math.floor(Math.random() * arr.length)] }
@@ -91,8 +96,11 @@ const MESES = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'O
 
 export const RANGOS = {
   facil:   { n: 5, series: 1, ruido: 0,  ejeTruncado: false, tipos: ['tendencia', 'maximo', 'minimo'] },
-  medio:   { n: 6, series: 1, ruido: 1,  tipos: ['tendencia', 'maximo', 'minimo', 'variacion', 'mayor-subida'] },
-  dificil: { n: 7, series: 2, ruido: 2,  ejeTruncado: true, tipos: ['tendencia', 'variacion', 'mayor-subida', 'cruce', 'serie-mayor', 'porcentaje'] },
+  medio:   { n: 6, series: 1, ruido: 1,  ejeTruncado: true, tipos: ['tendencia', 'maximo', 'minimo', 'variacion', 'mayor-subida'] },
+  // Difícil no es "lo mismo pero con más puntos": es otra cosa. Dos series
+  // que se RELACIONAN (ingresos y gastos, nacimientos y defunciones) y una
+  // pregunta sobre la magnitud que sale de relacionarlas. Ver PARES.
+  dificil: { n: 5, pares: true, tipos: ['signo-año', 'derivada-valor', 'derivada-max', 'cambio-signo', 'derivada-tendencia'] },
 }
 
 // ── Los datos ────────────────────────────────────────────────────────────────
@@ -147,6 +155,140 @@ export function generarDatos(dif) {
   return { tendencia, valores, segunda }
 }
 
+
+// ── Pares de series con una relación real (dificultad difícil) ──────────────
+// La primera versión de la dificultad alta pintaba dos series llamadas A y B
+// y preguntaba cuándo se cruzaban. Era difícil de mirar y no significaba
+// nada: dos líneas sin relación entre ellas no producen ninguna pregunta que
+// un profesor haría. Aquí las dos series son las dos mitades de una misma
+// cuenta, y la pregunta va siempre sobre la magnitud DERIVADA:
+//
+//   ingresos y gastos        → beneficio (¿en qué año hubo pérdidas?)
+//   nacimientos y defunciones → crecimiento vegetativo (¿cuándo empieza a
+//                               perder población?)
+//
+// Eso es lo que hace difícil una lectura de gráfico de verdad: no que haya
+// más puntos, sino que la respuesta no esté dibujada y haya que sacarla
+// relacionando dos cosas. Y trae de propina la trampa buena: el año de más
+// ingresos casi nunca es el de más beneficio.
+export const PARES = {
+  empresa: {
+    id: 'empresa', emoji: '💶', escala: 1000, unidad: { es: '€', en: '€', ca: '€' },
+    materia: { es: 'Economía', en: 'Economics', ca: 'Economia' },
+    sujeto: { es: 'una empresa', en: 'a company', ca: 'una empresa' },
+    a: { es: 'Ingresos', en: 'Revenue', ca: 'Ingressos' },
+    b: { es: 'Gastos', en: 'Costs', ca: 'Despeses' },
+    derivada: { es: 'beneficio', en: 'profit', ca: 'benefici' },
+    genero: 'm',
+    positivo: { es: 'ganó dinero', en: 'made money', ca: 'va guanyar diners' },
+    negativo: { es: 'tuvo pérdidas', en: 'made a loss', ca: 'va tenir pèrdues' },
+    ejeX: 'año',
+  },
+  demografia: {
+    id: 'demografia', emoji: '👥', escala: 100, unidad: { es: 'pers.', en: 'people', ca: 'pers.' },
+    materia: { es: 'Demografía', en: 'Demography', ca: 'Demografia' },
+    sujeto: { es: 'un municipio', en: 'a town', ca: 'un municipi' },
+    a: { es: 'Nacimientos', en: 'Births', ca: 'Naixements' },
+    b: { es: 'Defunciones', en: 'Deaths', ca: 'Defuncions' },
+    derivada: { es: 'crecimiento vegetativo', en: 'natural growth', ca: 'creixement vegetatiu' },
+    genero: 'm',
+    positivo: { es: 'ganó población', en: 'gained people', ca: 'va guanyar població' },
+    negativo: { es: 'perdió población', en: 'lost people', ca: 'va perdre població' },
+    ejeX: 'año',
+  },
+  comercio: {
+    id: 'comercio', emoji: '🚢', escala: 1000, unidad: { es: 'M€', en: '€M', ca: 'M€' },
+    materia: { es: 'Economía', en: 'Economics', ca: 'Economia' },
+    sujeto: { es: 'un país', en: 'a country', ca: 'un país' },
+    a: { es: 'Exportaciones', en: 'Exports', ca: 'Exportacions' },
+    b: { es: 'Importaciones', en: 'Imports', ca: 'Importacions' },
+    derivada: { es: 'saldo comercial', en: 'trade balance', ca: 'saldo comercial' },
+    genero: 'm',
+    positivo: { es: 'vendió más de lo que compró', en: 'sold more than it bought', ca: 'va vendre més del que va comprar' },
+    negativo: { es: 'compró más de lo que vendió', en: 'bought more than it sold', ca: 'va comprar més del que va vendre' },
+    ejeX: 'año',
+  },
+  embalse: {
+    id: 'embalse', emoji: '💧', escala: 1, unidad: { es: 'hm³', en: 'hm³', ca: 'hm³' },
+    materia: { es: 'Medio ambiente', en: 'Environment', ca: 'Medi ambient' },
+    sujeto: { es: 'un embalse', en: 'a reservoir', ca: 'un embassament' },
+    a: { es: 'Agua que entra', en: 'Water in', ca: "Aigua que entra" },
+    b: { es: 'Agua consumida', en: 'Water used', ca: 'Aigua consumida' },
+    derivada: { es: 'balance de agua', en: 'water balance', ca: "balanç d'aigua" },
+    genero: 'm',
+    positivo: { es: 'el embalse subió', en: 'the reservoir rose', ca: "l'embassament va pujar" },
+    negativo: { es: 'el embalse bajó', en: 'the reservoir fell', ca: "l'embassament va baixar" },
+    ejeX: 'año',
+  },
+  club: {
+    id: 'club', emoji: '🎫', escala: 10, unidad: { es: 'socios', en: 'members', ca: 'socis' },
+    materia: { es: 'Estadística', en: 'Statistics', ca: 'Estadística' },
+    sujeto: { es: 'un club', en: 'a club', ca: 'un club' },
+    a: { es: 'Altas', en: 'Joined', ca: 'Altes' },
+    b: { es: 'Bajas', en: 'Left', ca: 'Baixes' },
+    derivada: { es: 'variación de socios', en: 'net change in members', ca: 'variació de socis' },
+    genero: 'f',
+    positivo: { es: 'ganó socios', en: 'gained members', ca: 'va guanyar socis' },
+    negativo: { es: 'perdió socios', en: 'lost members', ca: 'va perdre socis' },
+    ejeX: 'año',
+  },
+}
+
+export const PAR_IDS = Object.keys(PARES)
+
+// Se genera al revés, como el motor de Estadístico Exprés: primero la forma
+// que tiene que tener la DERIVADA —que es de lo que se pregunta— y luego se
+// reparte en las dos series. Así "hubo pérdidas en 2021" es exacto por
+// construcción y no algo que salga por casualidad del sorteo.
+//
+// Todo va en múltiplos de 5 para que las barras caigan en la cuadrícula y se
+// puedan leer; sin eso, "¿cuál fue el beneficio?" sería medir píxeles.
+const PASO = 5
+
+// Las tres historias que puede contar una serie de estas. Son las tres que se
+// cuentan de verdad, y las tres A LA MISMA FRECUENCIA a propósito: la primera
+// versión solo generaba "iba mal y empezó a ir bien", así que el 83 % de las
+// respuestas a "¿qué le pasa al beneficio?" eran "mejora" y se podía acertar
+// sin mirar el gráfico.
+//
+//   un-negativo · un año malo suelto en medio de años buenos
+//   a-mejor     · perdía y pasa a ganar (empresa que remonta)
+//   a-peor      · ganaba y pasa a perder (empresa en crisis, pueblo que
+//                 empieza a perder población — que es la historia demográfica
+//                 de media España)
+const FORMAS = ['un-negativo', 'a-mejor', 'a-peor']
+
+function generarPar(dif) {
+  const par = PARES[pick(PAR_IDS)]
+  const n = dif.n
+  const forma = pick(FORMAS)
+  const corte = rng(1, n - 2)      // último índice del tramo inicial
+  const negativoEn = rng(1, n - 2)
+
+  const derivada = Array.from({ length: n }, (_, i) => {
+    if (forma === 'un-negativo') return i === negativoEn ? -rng(1, 4) * PASO : rng(1, 6) * PASO
+    const enElPrimerTramo = i <= corte
+    const bueno = forma === 'a-mejor' ? !enElPrimerTramo : enElPrimerTramo
+    return bueno ? rng(1, 6) * PASO : -rng(1, 4) * PASO
+  })
+
+  // El máximo tiene que ser ÚNICO: "¿en qué año fue mayor el beneficio?" con
+  // dos años empatados tiene dos respuestas buenas y solo una puntúa (pasaba
+  // 405 veces de cada 8.000). Se sube el primero de los empatados hasta que
+  // destaque, que además deja una gráfica con un pico claro.
+  let tope = Math.max(...derivada)
+  while (derivada.filter(v => v === tope).length > 1) {
+    derivada[derivada.indexOf(tope)] = tope + PASO
+    tope = Math.max(...derivada)
+  }
+
+  // Los gastos (o las defunciones) son la base: van holgados por encima de la
+  // derivada negativa más grande para que los ingresos nunca salgan negativos.
+  const suelo = Math.max(0, -Math.min(...derivada))
+  const b = Array.from({ length: n }, () => (rng(6, 12) * PASO) + suelo)
+  const a = b.map((v, i) => v + derivada[i])
+  return { par, a, b, derivada, forma, corte, negativoEn }
+}
 // ── Las preguntas ────────────────────────────────────────────────────────────
 const T = {
   tendencia: {
@@ -175,6 +317,33 @@ const T = {
   },
 }
 
+const T_PAR = {
+  'signo-año': {
+    es: '¿En qué año {negativo}?', en: 'In which year did it {negativo}?', ca: 'En quin any {negativo}?',
+  },
+  'derivada-valor': {
+    es: '¿Cuál fue {el} {derivada} en {a}?', en: 'What was the {derivada} in {a}?', ca: 'Quin va ser {el} {derivada} el {a}?',
+  },
+  'derivada-max': {
+    es: '¿En qué año fue MAYOR {el} {derivada}?', en: 'In which year was the {derivada} HIGHEST?', ca: 'En quin any va ser MAJOR {el} {derivada}?',
+  },
+  // Dos plantillas y no una: la serie puede pasar de mal a bien o de bien a
+  // mal, y preguntar siempre "¿desde cuándo va bien?" delataría la forma.
+  'cambio-signo': {
+    es: '¿A partir de qué año {positivo}?', en: 'From which year on did it {positivo}?', ca: 'A partir de quin any {positivo}?',
+  },
+  'cambio-signo-peor': {
+    es: '¿A partir de qué año {negativo}?', en: 'From which year on did it {negativo}?', ca: 'A partir de quin any {negativo}?',
+  },
+  'derivada-tendencia': {
+    es: 'Mirando todo el periodo, ¿qué le pasa {al} {derivada}?', en: 'Over the whole period, what happens to the {derivada}?', ca: 'Mirant tot el període, què li passa {al} {derivada}?',
+  },
+}
+
+const RESP_DERIVADA = {
+  mejora:  { es: 'Mejora con los años', en: 'It improves over the years', ca: 'Millora amb els anys' },
+  empeora: { es: 'Empeora con los años', en: 'It gets worse over the years', ca: 'Empitjora amb els anys' },
+}
 const RESP_TENDENCIA = {
   sube:    { es: 'Creciendo', en: 'Growing', ca: 'Creixent' },
   baja:    { es: 'Decreciendo', en: 'Shrinking', ca: 'Decreixent' },
@@ -201,7 +370,97 @@ function distractores(correcta, candidatos, n = 3) {
   return fuera
 }
 
+// Las preguntas de par. Todas van sobre la DERIVADA, que es lo que no está
+// dibujado: el alumno tiene que restar las dos barras de un año para saber si
+// hubo pérdidas, o comparar las restas de varios años para ver dónde fue
+// mayor el beneficio. Ese es el salto de dificultad — no más puntos, más
+// razonamiento.
+function preguntaDePar(dif, lang) {
+  const { par, a, b, derivada, forma, corte, negativoEn } = generarPar(dif)
+  const n = a.length
+  const añoBase = rng(2016, 2020)
+  const etiquetas = Array.from({ length: n }, (_, i) => String(añoBase + i))
+
+  // No todas las formas admiten todas las preguntas: "¿a partir de qué año
+  // empezó a ganar dinero?" solo tiene respuesta si hay UN cambio de signo, y
+  // "¿en qué año tuvo pérdidas?" solo si hay un único año en negativo.
+  const permitidos = dif.tipos.filter(t =>
+    (t !== 'cambio-signo' || forma !== 'un-negativo')
+    && (t !== 'signo-año' || forma === 'un-negativo'))
+  const tipo = pick(permitidos)
+
+  // La misma pregunta con las dos redacciones según hacia dónde vaya la
+  // serie: "¿desde cuándo ganó dinero?" o "¿desde cuándo tuvo pérdidas?".
+  const plantilla = tipo === 'cambio-signo' && forma === 'a-peor' ? 'cambio-signo-peor' : tipo
+
+  const base = {
+    par, contexto: par, etiquetas, valores: a, segunda: b, derivada, tipo,
+    leyenda: [tr3(par.a, lang), tr3(par.b, lang)],
+    grafico: 'barras', ejeTruncado: false, etiquetarValores: true,
+  }
+  // El artículo se calcula, no se escribe en la plantilla: "el variación de
+  // socios" es lo que salía antes. En inglés los dos casos son "the".
+  const f = par.genero === 'f'
+  const EL = { es: f ? 'la' : 'el', ca: f ? 'la' : 'el', en: 'the' }
+  const AL = { es: f ? 'a la' : 'al', ca: f ? 'a la' : 'al', en: 'the' }
+  const rellena = (txt, extra = {}) => txt
+    .replace('{el}', EL[lang] ?? EL.es)
+    .replace('{al}', AL[lang] ?? AL.es)
+    .replace('{derivada}', tr3(par.derivada, lang))
+    .replace('{negativo}', tr3(par.negativo, lang))
+    .replace('{positivo}', tr3(par.positivo, lang))
+    .replace('{a}', extra.a ?? '')
+  const q = extra => rellena(tr3(T_PAR[plantilla], lang), extra)
+
+  if (tipo === 'signo-año') {
+    const correcta = etiquetas[negativoEn]
+    return { ...base, pregunta: q(), correcta,
+      opciones: shuffle([correcta, ...distractores(correcta, shuffle(etiquetas))]) }
+  }
+
+  if (tipo === 'derivada-valor') {
+    const i = rng(0, n - 1)
+    // El cero no lleva signo: "+0 M€" se lee como un error de formato, no
+    // como "ni ganó ni perdió".
+    const signo = d => (d === 0 ? '' : d > 0 ? '+' : '−') + formatearPar(Math.abs(d), par, lang)
+    const correcta = signo(derivada[i])
+    const otros = [derivada[i] + 5, derivada[i] - 5, -derivada[i], derivada[i] + 10, derivada[i] - 10, a[i]].map(signo)
+    return { ...base, pregunta: q({ a: etiquetas[i] }), marcar: [i], correcta, bruto: derivada[i],
+      opciones: shuffle([correcta, ...distractores(correcta, otros)]) }
+  }
+
+  if (tipo === 'derivada-max') {
+    // La trampa buena y la razón de ser de esta pregunta: el año de más
+    // ingresos casi nunca es el de más beneficio, y el distractor natural es
+    // justo el año de la barra más alta.
+    const mejor = derivada.indexOf(Math.max(...derivada))
+    const masAlto = a.indexOf(Math.max(...a))
+    const correcta = etiquetas[mejor]
+    const otros = [etiquetas[masAlto], ...shuffle(etiquetas)]
+    return { ...base, pregunta: q(), correcta,
+      opciones: shuffle([correcta, ...distractores(correcta, otros)]) }
+  }
+
+  if (tipo === 'cambio-signo') {
+    const correcta = etiquetas[corte + 1]
+    return { ...base, pregunta: q(), correcta,
+      opciones: shuffle([correcta, ...distractores(correcta, shuffle(etiquetas))]) }
+  }
+
+  // derivada-tendencia
+  const mejora = derivada.at(-1) > derivada[0]
+  return { ...base, pregunta: q(),
+    correcta: tr3(mejora ? RESP_DERIVADA.mejora : RESP_DERIVADA.empeora, lang),
+    opciones: shuffle([tr3(RESP_DERIVADA.mejora, lang), tr3(RESP_DERIVADA.empeora, lang)]) }
+}
+
+// Los pares no usan la escala de CONTEXTOS, tienen la suya.
+export function formatearPar(v, par, lang = 'es') {
+  const loc = lang === 'en' ? 'en-GB' : lang === 'ca' ? 'ca-ES' : 'es-ES'
+  return `${(v * par.escala).toLocaleString(loc)} ${tr3(par.unidad, lang)}`.trim()
+}
 export function generarPregunta(dif, lang = 'es', ctxId = null) {
+  if (dif.pares) return preguntaDePar(dif, lang)
   const ctx = CONTEXTOS[ctxId] ?? CONTEXTOS[pick(CONTEXTO_IDS)]
   const { tendencia, valores, segunda } = generarDatos(dif)
   const n = valores.length

@@ -42,8 +42,8 @@ const DIF_LABEL = {
 
 const DIF_DESC = {
   facil:   { es: 'Una serie y 5 puntos. Tendencia, máximo y mínimo.', en: 'One series, 5 points. Trend, peak and low.', ca: 'Una sèrie i 5 punts. Tendència, màxim i mínim.' },
-  medio:   { es: 'Una serie con altibajos. Variaciones y mayor subida.', en: 'One bumpy series. Changes and biggest rise.', ca: 'Una sèrie amb alts i baixos. Variacions i major pujada.' },
-  dificil: { es: 'Dos series, porcentajes y ejes que no empiezan en cero.', en: 'Two series, percentages and axes that skip zero.', ca: 'Dues sèries, percentatges i eixos que no comencen a zero.' },
+  medio:   { es: 'Una serie con altibajos, y ejes que no siempre empiezan en cero.', en: 'One bumpy series, and axes that do not always start at zero.', ca: 'Una sèrie amb alts i baixos, i eixos que no sempre comencen a zero.' },
+  dificil: { es: 'Ingresos y gastos, nacimientos y defunciones… y preguntas por lo que sale de restarlos.', en: 'Revenue and costs, births and deaths… and questions about what you get by subtracting them.', ca: 'Ingressos i despeses, naixements i defuncions… i preguntes pel que surt de restar-los.' },
 }
 
 export default function LeeElGrafico() {
@@ -221,15 +221,17 @@ export default function LeeElGrafico() {
           <>
             <div className="rounded-2xl border border-white/10 p-3 mb-3" style={{ background: 'rgba(17,20,29,0.86)' }}>
               <p className="text-white/40 text-[10.5px] font-bold uppercase tracking-widest text-center mb-1">
-                {ctx.emoji} {tr(ctx.materia)} · {tr(ctx.magnitud)}
+                {ctx.emoji} {tr(ctx.materia)}{ronda.leyenda ? ` · ${ronda.leyenda.join(" y ")}` : ` · ${tr(ctx.magnitud)}`}
               </p>
               <GraficoDatos
                 valores={ronda.valores}
                 segunda={ronda.segunda}
                 etiquetas={ronda.etiquetas}
-                tipo={ctx.grafico}
+                tipo={ronda.grafico ?? ctx.grafico}
                 ejeTruncado={ronda.ejeTruncado}
                 marcar={ronda.marcar ?? []}
+                leyenda={ronda.leyenda}
+                etiquetarValores={ronda.etiquetarValores}
                 formatEje={v => (ctx.escala >= 1000 ? `${v * ctx.escala / 1000}k` : String(v * ctx.escala))}
                 titulo={tr(ctx.sujeto)}
               />

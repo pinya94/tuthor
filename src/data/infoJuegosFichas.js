@@ -8,10 +8,11 @@ export const FICHAS_ES = {
     intro: "Se muestra una gráfica con datos y se pregunta por ella: ¿está creciendo o decreciendo? ¿cuándo alcanzó el máximo? ¿entre qué dos años subió más? La respuesta no se calcula, se LEE — es un juicio sobre la forma de los datos. Los contextos van rotando (población de un pueblo, ventas de una empresa, temperaturas, visitas a una web, residuos reciclados) porque un gráfico sin saber de qué habla no se puede interpretar.",
     beneficios: [
       { titulo: 'La Competencia que Cruza Cuatro Asignaturas', texto: 'Leer un gráfico aparece en matemáticas, en geografía, en economía y en ciencias, y se da por sabida en todas. Es de las pocas destrezas que se examinan en cuatro sitios y no se enseñan en ninguno.' },
-      { titulo: 'La Trampa del Eje que no Empieza en Cero', texto: 'En dificultad alta aparecen gráficos con el eje Y truncado: la barra parece dispararse y en realidad sube un 3 %. Es la manipulación más común en prensa y en presentaciones de empresa, y la única forma de aprender a verla es que te la hagan.' },
+      { titulo: 'La Trampa del Eje que no Empieza en Cero', texto: 'En dificultad media aparecen gráficos con el eje Y truncado: la barra parece dispararse y en realidad sube un 3 %. Es la manipulación más común en prensa y en presentaciones de empresa, y la única forma de aprender a verla es que te la hagan.' },
+      { titulo: 'En Difícil, Dos Series que Significan Algo Juntas', texto: 'Ingresos y gastos, nacimientos y defunciones, exportaciones e importaciones, altas y bajas de socios. La pregunta no va sobre las barras dibujadas sino sobre lo que sale de restarlas: en qué año hubo pérdidas, desde cuándo el pueblo pierde población, cuándo fue mayor el beneficio. La respuesta no está en el gráfico: hay que sacarla.' },
       { titulo: 'Confundir el Valor Más Alto con la Mayor Subida', texto: 'Es el error clásico al mirar una gráfica, y hay un tipo de pregunta dedicado justo a eso: cuál es el tramo de mayor aumento, que casi nunca es el punto más alto.' },
     ],
-    ejemplo: 'La población de un pueblo pasa de 34.000 a 31.000 habitantes en cinco años, con un repunte en el tercero. ¿Está creciendo o decreciendo? Decreciendo — el repunte no cambia la tendencia, y esa distinción entre el dato suelto y la tendencia es justo lo que se practica.',
+    ejemplo: 'En difícil se ven dos barras por año, ingresos y gastos. En 2019 la empresa ingresó 40.000 € y gastó 50.000: tuvo pérdidas de 10.000, aunque ese fuera uno de sus mejores años de ventas. El año de más ingresos casi nunca es el de más beneficio, y ahí está el ejercicio.',
     enPapel: {
       titulo: 'Un gráfico del periódico, cuatro preguntas',
       pasos: [
@@ -1039,10 +1040,11 @@ export const FICHAS_EN = {
     intro: "A chart of data is shown and the question is about it: is it growing or shrinking? when was the peak? between which two years did it rise most? The answer is not calculated, it is READ — a judgement about the shape of the data. Contexts rotate (a town's population, a company's sales, temperatures, website visits, recycled waste) because a chart you cannot place cannot be interpreted.",
     beneficios: [
       { titulo: 'The Skill that Crosses Four Subjects', texto: 'Reading a chart shows up in maths, geography, economics and science, and is taken for granted in all of them. It is one of the few skills examined in four places and taught in none.' },
-      { titulo: 'The Axis that Skips Zero', texto: 'At hard level the Y axis is truncated: the bar looks like a rocket and the real rise is 3 %. It is the commonest manipulation in the press and in company slides, and the only way to learn to spot it is to have it done to you.' },
+      { titulo: 'The Axis that Skips Zero', texto: 'At medium level the Y axis is truncated: the bar looks like a rocket and the real rise is 3 %. It is the commonest manipulation in the press and in company slides, and the only way to learn to spot it is to have it done to you.' },
+      { titulo: 'At Hard Level, Two Series that Mean Something Together', texto: 'Revenue and costs, births and deaths, exports and imports, members joining and leaving. The question is not about the bars drawn but about what you get by subtracting them: which year made a loss, when the town started losing people, when profit was highest. The answer is not on the chart: you have to work it out.' },
       { titulo: 'Highest Value is not Biggest Rise', texto: 'It is the classic mistake when reading a chart, and one question type is dedicated to exactly that: which stretch rises the most, which is almost never the highest point.' },
     ],
-    ejemplo: 'A town goes from 34,000 to 31,000 inhabitants in five years, with a bump in the third. Growing or shrinking? Shrinking — the bump does not change the trend, and telling a single data point from a trend is the whole point.',
+    ejemplo: 'At hard level you see two bars per year, revenue and costs. In 2019 the company earned €40,000 and spent €50,000: a €10,000 loss, even though that was one of its best sales years. The year with the most revenue is almost never the year with the most profit, and that is the exercise.',
     enPapel: {
       titulo: 'One newspaper chart, four questions',
       pasos: [
@@ -1893,10 +1895,11 @@ export const FICHAS_CA = {
     intro: "Es mostra un gràfic amb dades i es pregunta per ell: està creixent o decreixent? quan va assolir el màxim? entre quins dos anys va pujar més? La resposta no es calcula, es LLEGEIX — és un judici sobre la forma de les dades. Els contextos van rotant: població d'un poble, vendes d'una empresa, temperatures, visites a un web i residus reciclats.",
     beneficios: [
       { titulo: 'La Competència que Creua Quatre Assignatures', texto: "Llegir un gràfic apareix a matemàtiques, a geografia, a economia i a ciències, i es dona per sabuda a totes. És de les poques destreses que s'examinen a quatre llocs i no s'ensenyen enlloc." },
-      { titulo: "El Parany de l'Eix que no Comença a Zero", texto: "En dificultat alta apareixen gràfics amb l'eix Y truncat: la barra sembla disparar-se i en realitat puja un 3 %. És la manipulació més comuna a la premsa i a les presentacions d'empresa." },
+      { titulo: "El Parany de l'Eix que no Comença a Zero", texto: "En dificultat mitjana apareixen gràfics amb l'eix Y truncat: la barra sembla disparar-se i en realitat puja un 3 %. És la manipulació més comuna a la premsa i a les presentacions d'empresa." },
+      { titulo: 'En Difícil, Dues Sèries que Signifiquen Alguna Cosa Juntes', texto: "Ingressos i despeses, naixements i defuncions, exportacions i importacions. La pregunta no va sobre les barres dibuixades sinó sobre el que surt de restar-les: en quin any hi va haver pèrdues, des de quan el poble perd població, quan va ser major el benefici." },
       { titulo: 'Confondre el Valor Més Alt amb la Major Pujada', texto: "És l'error clàssic en mirar un gràfic, i hi ha un tipus de pregunta dedicat just a això: quin és el tram de major augment, que gairebé mai és el punt més alt." },
     ],
-    ejemplo: "La població d'un poble passa de 34.000 a 31.000 habitants en cinc anys, amb un repunt al tercer. Està creixent o decreixent? Decreixent — el repunt no canvia la tendència, i aquesta distinció entre la dada solta i la tendència és just el que es practica.",
+    ejemplo: "En difícil es veuen dues barres per any, ingressos i despeses. El 2019 l'empresa va ingressar 40.000 € i en va gastar 50.000: va tenir pèrdues de 10.000, encara que aquell fos un dels seus millors anys de vendes. L'any de més ingressos gairebé mai és el de més benefici.",
     enPapel: {
       titulo: 'Un gràfic del diari, quatre preguntes',
       pasos: [

@@ -6,7 +6,7 @@
 // reales que no se habrían visto jugando un rato: poblaciones negativas (2.154
 // de 21.000) y preguntas de variación con solo tres opciones (910).
 import { describe, it, expect } from 'vitest'
-import { RANGOS, CONTEXTOS, CONTEXTO_IDS, generarPregunta, generarDatos, formatear } from '../lecturaGraficos'
+import { RANGOS, CONTEXTOS, CONTEXTO_IDS, PARES, PAR_IDS, generarPregunta, generarDatos, formatear } from '../lecturaGraficos'
 
 const MUESTRA = 2000
 
@@ -32,9 +32,10 @@ describe('la pregunta siempre se puede contestar', () => {
   })
 
   it('cada tipo ofrece el número de opciones que le toca', () => {
-    // Tendencia son tres (crece, decrece, estable) y "qué serie es mayor" son
-    // dos (A o B). El resto, cuatro.
-    const esperadas = { tendencia: 3, 'serie-mayor': 2 }
+    // Tendencia son tres (crece, decrece, estable) y las de dos salidas —¿mejora
+    // o empeora?— son dos: inventar dos opciones más para llegar a cuatro
+    // significaría inventar dos respuestas que no existen. El resto, cuatro.
+    const esperadas = { tendencia: 3, 'serie-mayor': 2, 'derivada-tendencia': 2 }
     cada((p, nivel) => {
       expect(p.opciones.length, `${nivel}/${p.tipo}`).toBe(esperadas[p.tipo] ?? 4)
     })
@@ -231,5 +232,103 @@ describe('el reparto de preguntas no se hace monótono', () => {
     const tipos = new Set()
     for (let i = 0; i < 1500; i++) tipos.add(generarPregunta(RANGOS.medio, 'es').tipo)
     expect(tipos.size, `solo salen: ${[...tipos].join(', ')}`).toBeGreaterThanOrEqual(4)
+  })
+})
+
+// ── Dificultad difícil: pares de series con relación ─────────────────────────
+// La primera versión pintaba dos series llamadas A y B y preguntaba cuándo se
+// cruzaban. No significaba nada. Ahora son las dos mitades de una cuenta
+// —ingresos y gastos, nacimientos y defunciones— y se pregunta por lo que sale
+// de restarlas, que es lo que preguntaría un profesor.
+describe('pares de series con relación real', () => {
+  const cadaPar = fn => { for (let i = 0; i < 4000; i++) fn(generarPregunta(RANGOS.dificil, 'es')) }
+
+  it('la magnitud derivada es exactamente la resta de las dos series', () => {
+    // Si el gráfico y la derivada se separaran, el juego preguntaría por un
+    // beneficio que no se puede sacar de las barras dibujadas.
+    cadaPar(p => {
+      expect(p.valores.map((v, i) => v - p.segunda[i]), `${p.par.id}: la derivada no cuadra`).toEqual(p.derivada)
+    })
+  })
+
+  it('las dos series son positivas y caen en la cuadrícula', () => {
+    // Ni ingresos ni defunciones negativos, y todo en múltiplos de 5 para que
+    // "¿cuál fue el beneficio?" se pueda leer y no haya que medir píxeles.
+    cadaPar(p => {
+      for (const v of [...p.valores, ...p.segunda]) {
+        expect(v, `${p.par.id}: valor negativo`).toBeGreaterThanOrEqual(0)
+        expect(v % 5, `${p.par.id}: ${v} no cae en la cuadrícula`).toBe(0)
+      }
+    })
+  })
+
+  it('las series llevan nombre, no "A" y "B"', () => {
+    cadaPar(p => {
+      expect(p.leyenda).toHaveLength(2)
+      expect(p.leyenda[0], 'serie sin nombre').not.toBe('A')
+      expect(p.leyenda[0].length, 'nombre vacío').toBeGreaterThan(2)
+    })
+  })
+
+  it('el año de pérdidas es el único año de pérdidas', () => {
+    cadaPar(p => {
+      if (p.tipo !== 'signo-año') return
+      const i = p.etiquetas.indexOf(p.correcta)
+      expect(p.derivada[i], 'el año señalado no es negativo').toBeLessThan(0)
+      expect(p.derivada.filter(v => v < 0), 'hay más de un año en negativo').toHaveLength(1)
+    })
+  })
+
+  it('el año de mayor beneficio lo es de verdad, y solo uno', () => {
+    cadaPar(p => {
+      if (p.tipo !== 'derivada-max') return
+      const i = p.etiquetas.indexOf(p.correcta)
+      const tope = Math.max(...p.derivada)
+      expect(p.derivada[i], 'no es el máximo de la derivada').toBe(tope)
+      expect(p.derivada.filter(v => v === tope), 'dos años empatados en el máximo').toHaveLength(1)
+    })
+  })
+
+  it('el cambio de signo es único y está donde dice', () => {
+    // Vale en las dos direcciones: de pérdidas a beneficios y al revés.
+    cadaPar(p => {
+      if (p.tipo !== 'cambio-signo') return
+      const i = p.etiquetas.indexOf(p.correcta)
+      expect(i, 'el primer año no puede ser un cambio').toBeGreaterThan(0)
+      expect(Math.sign(p.derivada[i]), 'ahí no cambia el signo').not.toBe(Math.sign(p.derivada[i - 1]))
+      expect(p.derivada.slice(i).every(v => Math.sign(v) === Math.sign(p.derivada[i])), 'el signo vuelve a cambiar').toBe(true)
+      expect(p.derivada.slice(0, i).every(v => Math.sign(v) === Math.sign(p.derivada[0])), 'ya cambiaba antes').toBe(true)
+    })
+  })
+
+  it('el valor preguntado es la derivada de ese año', () => {
+    cadaPar(p => {
+      if (p.tipo !== 'derivada-valor') return
+      expect(p.bruto).toBe(p.derivada[p.marcar[0]])
+    })
+  })
+
+  it('mejorar y empeorar salen a partes parecidas', () => {
+    // La primera versión solo generaba series que iban a mejor: el 83 % de las
+    // respuestas eran "mejora" y se acertaba sin mirar el gráfico. Ahora las
+    // tres historias —un año malo, remontar y hundirse— salen por igual.
+    let mejora = 0, total = 0
+    for (let i = 0; i < 4000; i++) {
+      const p = generarPregunta(RANGOS.dificil, 'es')
+      if (p.tipo !== 'derivada-tendencia') continue
+      total++
+      if (/Mejora/.test(p.correcta)) mejora++
+    }
+    const ratio = mejora / total
+    expect(ratio, `${Math.round(ratio * 100)} % de "mejora": se acierta sin mirar`).toBeGreaterThan(0.3)
+    expect(ratio, `${Math.round(ratio * 100)} % de "mejora"`).toBeLessThan(0.7)
+  })
+
+  it('no queda ningún artículo mal concordado', () => {
+    // "el variación de socios" es lo que salía antes de calcular el género.
+    cadaPar(p => {
+      expect(p.pregunta, `concordancia: "${p.pregunta}"`).not.toMatch(/\bel (variación|evolución|balanza)/)
+      expect(p.pregunta, 'plantilla sin rellenar').not.toMatch(/[{}]/)
+    })
   })
 })

@@ -16,7 +16,8 @@ import { useId } from 'react'
 
 const W = 320
 const H = 190
-const M = { top: 12, right: 10, bottom: 26, left: 40 }
+// `top` deja aire para las cifras encima de las barras.
+const M = { top: 18, right: 10, bottom: 26, left: 40 }
 
 const COLOR_A = '#2dd4bf' // teal-400
 const COLOR_B = '#fbbf24' // amber-400
@@ -24,6 +25,14 @@ const COLOR_B = '#fbbf24' // amber-400
 export default function GraficoDatos({
   valores, segunda = null, etiquetas, tipo = 'linea',
   ejeTruncado = false, marcar = [], formatEje = v => v, titulo = null,
+  // Da NOMBRE a las dos series. Sin esto salían "A" y "B", y una pregunta
+  // sobre dos líneas anónimas no significa nada: la gracia de comparar
+  // ingresos con gastos es justamente que se llamen ingresos y gastos.
+  leyenda = null,
+  // Cada barra con su cifra encima. Se usa cuando la pregunta exige RESTAR
+  // dos barras: ahí el ejercicio es la relación entre ellas, no medir píxeles
+  // contra la cuadrícula.
+  etiquetarValores = false,
 }) {
   const id = useId()
   const todos = [...valores, ...(segunda ?? [])]
@@ -89,12 +98,24 @@ export default function GraficoDatos({
         {tipo === 'barras' ? (
           <>
             {valores.map((v, i) => (
-              <rect key={`a${i}`} x={xBanda(i) - (segunda ? anchoBarra + 1 : anchoBarra / 2)} y={y(v)}
-                width={anchoBarra} height={Math.max(1, H - M.bottom - y(v))} fill={COLOR_A} rx="2" />
+              <g key={`a${i}`}>
+                <rect x={xBanda(i) - (segunda ? anchoBarra + 1 : anchoBarra / 2)} y={y(v)}
+                  width={anchoBarra} height={Math.max(1, H - M.bottom - y(v))} fill={COLOR_A} rx="2" />
+                {etiquetarValores && (
+                  <text x={xBanda(i) - (segunda ? anchoBarra / 2 + 1 : 0)} y={y(v) - 3} textAnchor="middle"
+                    fontSize="7" fill={COLOR_A} fontWeight="700">{formatEje(v)}</text>
+                )}
+              </g>
             ))}
             {segunda?.map((v, i) => (
-              <rect key={`b${i}`} x={xBanda(i) + 1} y={y(v)}
-                width={anchoBarra} height={Math.max(1, H - M.bottom - y(v))} fill={COLOR_B} rx="2" />
+              <g key={`b${i}`}>
+                <rect x={xBanda(i) + 1} y={y(v)}
+                  width={anchoBarra} height={Math.max(1, H - M.bottom - y(v))} fill={COLOR_B} rx="2" />
+                {etiquetarValores && (
+                  <text x={xBanda(i) + anchoBarra / 2 + 1} y={y(v) - 3} textAnchor="middle"
+                    fontSize="7" fill={COLOR_B} fontWeight="700">{formatEje(v)}</text>
+                )}
+              </g>
             ))}
           </>
         ) : (
@@ -130,10 +151,10 @@ export default function GraficoDatos({
       {segunda && (
         <div className="flex items-center justify-center gap-4 mt-1">
           <span className="flex items-center gap-1.5 text-[11px] text-white/60">
-            <span className="w-3 h-[3px] rounded" style={{ background: COLOR_A }} /> A
+            <span className="w-3 h-[3px] rounded" style={{ background: COLOR_A }} /> {leyenda?.[0] ?? 'A'}
           </span>
           <span className="flex items-center gap-1.5 text-[11px] text-white/60">
-            <span className="w-3 h-[3px] rounded" style={{ background: COLOR_B }} /> B
+            <span className="w-3 h-[3px] rounded" style={{ background: COLOR_B }} /> {leyenda?.[1] ?? 'B'}
           </span>
         </div>
       )}
