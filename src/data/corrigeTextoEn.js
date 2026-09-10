@@ -1,0 +1,433 @@
+// ── Banco de INGLÉS de Corrige el Texto ─────────────────────────────────────
+//
+// No es la traducción del castellano y no podría serlo: en inglés no hay
+// tildes, ni b/v, ni g/j, ni ll/y. Sus faltas son otras, y son las que de
+// verdad se cometen escribiendo inglés —las que un profesor ve una y otra vez
+// en las redacciones—: los homófonos (their/there/they're), las consonantes
+// que se doblan al añadir una terminación, el famoso i-antes-de-e, las letras
+// que no suenan y los apóstrofos que faltan.
+//
+// Mismo motor, mismas reglas del juego, mismo formato de datos. Lo único
+// propio es qué se puede escribir mal.
+
+export const FAMILIAS = {
+  homofono: {
+    id: 'homofono', emoji: '🎭',
+    label: { es: 'Homófonos', en: 'Homophones', ca: 'Homòfons' },
+    regla: {
+      es: 'Suenan igual pero son palabras distintas: their, there y they’re. La letra no delata nada, solo la frase.',
+      en: 'They sound the same but are different words: their, there and they’re. Spelling gives nothing away — only the sentence does.',
+      ca: 'Sonen igual però són paraules diferents: their, there i they’re. Només la frase ho delata.',
+    },
+  },
+  apostrofo: {
+    id: 'apostrofo', emoji: '❜',
+    label: { es: 'Apóstrofos', en: 'Apostrophes', ca: 'Apòstrofs' },
+    regla: {
+      es: 'El apóstrofo marca lo que falta: don’t es do not. Sin él la palabra deja de existir.',
+      en: 'The apostrophe marks what is missing: don’t is do not. Without it the word does not exist.',
+      ca: "L'apòstrof marca el que falta: don’t és do not. Sense ell la paraula deixa d'existir.",
+    },
+  },
+  dobles: {
+    id: 'dobles', emoji: '🔁',
+    label: { es: 'Consonantes dobles', en: 'Double letters', ca: 'Consonants dobles' },
+    regla: {
+      es: 'Al añadir -ing o -ed, muchas consonantes se doblan: run → running. Y hay palabras que ya nacen dobles: necessary.',
+      en: 'Adding -ing or -ed often doubles the consonant: run → running. And some words are born double: necessary.',
+      ca: 'En afegir -ing o -ed, moltes consonants es dupliquen: run → running.',
+    },
+  },
+  ieei: {
+    id: 'ieei', emoji: '🔤',
+    label: { es: 'I antes de E', en: 'I before E', ca: 'I abans de E' },
+    regla: {
+      es: 'I antes de E, salvo detrás de C: believe, friend, pero receive. La regla falla a veces, pero acierta casi siempre.',
+      en: 'I before E except after C: believe, friend, but receive. The rule has exceptions but holds most of the time.',
+      ca: 'I abans de E, excepte darrere de C: believe, friend, però receive.',
+    },
+  },
+  muda: {
+    id: 'muda', emoji: '🔇',
+    label: { es: 'Letras mudas', en: 'Silent letters', ca: 'Lletres mudes' },
+    regla: {
+      es: 'Letras que se escriben y no se oyen: la k de knife, la w de write, la b de climb. No avisan.',
+      en: 'Letters you write but never hear: the k in knife, the w in write, the b in climb. They give no warning.',
+      ca: 'Lletres que s’escriuen i no se senten: la k de knife, la w de write, la b de climb.',
+    },
+  },
+  terminacion: {
+    id: 'terminacion', emoji: '🧩',
+    label: { es: 'Terminaciones', en: 'Endings', ca: 'Terminacions' },
+    regla: {
+      es: 'El final de la palabra es donde más se falla: definitely, separate, argument. Se escriben como no suenan.',
+      en: 'Word endings are where most mistakes happen: definitely, separate, argument. They are not spelled as they sound.',
+      ca: 'El final de la paraula és on més es falla: definitely, separate, argument.',
+    },
+  },
+}
+export const FAMILIA_IDS = Object.keys(FAMILIAS)
+
+// Veinte escenas corrientes, entre 65 y 100 palabras. Igual que en castellano,
+// el texto se guarda BIEN escrito y las trampas son una lista aparte: cada
+// partida estropea unas cuantas y deja el resto en paz.
+export const TEXTOS = [
+  {
+    id: 'school-trip', emoji: '🚌',
+    titulo: { es: 'La excursión', en: 'The school trip', ca: "L'excursió" },
+    texto: 'On Friday the whole class went to the science museum. The bus was late because the driver could not find the school, so we were standing outside for twenty minutes. When we finally arrived, our teacher said we had to stay together and write down three things we did not already know. I spent most of the time in the room about weather, watching a machine that made a small tornado. On the way back everybody was too tired to talk.',
+    trampas: [
+      ['whole', 'hole', 'homofono'],
+      ['because', 'becuase', 'terminacion'],
+      ['could', 'coud', 'muda'],
+      ['were', 'where', 'homofono'],
+      ['When', 'Wen', 'muda'],
+      ['finally', 'finaly', 'dobles'],
+      ['write', 'rite', 'muda'],
+      ['already', 'allready', 'dobles'],
+      ['weather', 'whether', 'homofono'],
+      ['everybody', 'everbody', 'terminacion'],
+      ['too', 'to', 'homofono'],
+    ],
+  },
+  {
+    id: 'football', emoji: '⚽',
+    titulo: { es: 'El partido', en: 'The match', ca: 'El partit' },
+    texto: 'We played the final against the team from the other side of town. They were winning at half time and their goalkeeper had not touched the ball once. Our coach told us to stop running so much and start passing. In the second half we scored twice, and the referee gave us a free kick right at the end. When it was over the crowd came onto the pitch and carried our captain all the way to the changing rooms.',
+    trampas: [
+      ['were', 'where', 'homofono'],
+      ['winning', 'wining', 'dobles'],
+      ['their', 'there', 'homofono'],
+      ['running', 'runing', 'dobles'],
+      ['passing', 'pasing', 'dobles'],
+      ['referee', 'referree', 'dobles'],
+      ['right', 'rite', 'muda'],
+      ['When', 'Wen', 'muda'],
+      ['carried', 'carryed', 'terminacion'],
+    ],
+  },
+  {
+    id: 'grandma', emoji: '🍲',
+    titulo: { es: 'La receta', en: "Grandma's recipe", ca: 'La recepta' },
+    texto: 'My grandmother makes a soup that nobody else can copy. She starts by cooking the onion very slowly until it turns almost clear, and only then adds the rest. She believes the secret is having no hurry at all. While the pot is on the stove she keeps taking the foam off with a wooden spoon. When it is ready she leaves it to rest for ten minutes before anyone is allowed to touch it.',
+    trampas: [
+      ['nobody', 'nobodey', 'terminacion'],
+      ['cooking', 'coocking', 'dobles'],
+      ['slowly', 'slowely', 'terminacion'],
+      ['until', 'untill', 'dobles'],
+      ['almost', 'allmost', 'dobles'],
+      ['then', 'than', 'homofono'],
+      ['believes', 'beleives', 'ieei'],
+      ['While', 'Wile', 'muda'],
+      ['wooden', 'woden', 'dobles'],
+      ['When', 'Wen', 'muda'],
+    ],
+  },
+  {
+    id: 'phone', emoji: '📱',
+    titulo: { es: 'El móvil nuevo', en: 'The new phone', ca: 'El mòbil nou' },
+    texto: 'My brother bought a new phone with the money he had been saving all year. He spent two weeks reading reviews and in the end he chose the cheapest of the three he liked. For the first day he could not put it down, not even to eat. Mum told him that if he carried on like that she would keep it in a drawer until the summer. He knew she was quite right, although he would never say so. Now he leaves it charging in the kitchen and goes upstairs to study without it.',
+    trampas: [
+      ['bought', 'bougth', 'muda'],
+      ['saving', 'saveing', 'terminacion'],
+      ['could', 'coud', 'muda'],
+      ['carried', 'carryed', 'terminacion'],
+      ['until', 'untill', 'dobles'],
+      ['knew', 'nue', 'muda'],
+      ['quite', 'quiet', 'homofono'],
+      ['right', 'rite', 'muda'],
+      ['although', 'althogh', 'muda'],
+    ],
+  },
+  {
+    id: 'library', emoji: '📚',
+    titulo: { es: 'La biblioteca', en: 'The library', ca: 'La biblioteca' },
+    texto: 'The library near our house opens in the afternoon and it is always busy. There is a small room at the back where nobody is allowed to speak, and a bigger one with long tables where people study in groups. The librarian knows everyone by name and can guess which book somebody will enjoy. Last year she started a reading club, and now you have to sign up in June because it fills within two days.',
+    trampas: [
+      ['always', 'allways', 'dobles'],
+      ['There', 'Their', 'homofono'],
+      ['nobody', 'nobodey', 'terminacion'],
+      ['bigger', 'biger', 'dobles'],
+      ['knows', 'nows', 'muda'],
+      ['which', 'wich', 'muda'],
+      ['because', 'becuase', 'terminacion'],
+      ['fills', 'fils', 'dobles'],
+    ],
+  },
+  {
+    id: 'garden', emoji: '🌱',
+    titulo: { es: 'El huerto', en: 'The school garden', ca: "L'hort" },
+    texto: 'Behind the playground there is a garden that we look after in turns. Each class has its own bed and a notebook where they write what they have planted and the day they watered it. This year we grew tomatoes, lettuce and beans, and only the tomatoes were lost, because the mould got there before we did. The caretaker showed us how to make a label for every plant, because otherwise we would not know which was which while they are still tiny. It is always the same: the ones we water carefully are the ones that grow.',
+    trampas: [
+      ['its', 'it’s', 'homofono'],
+      ['where', 'were', 'homofono'],
+      ['write', 'rite', 'muda'],
+      ['were', 'where', 'homofono'],
+      ['would', 'wold', 'muda'],
+      ['while', 'wile', 'muda'],
+      ['always', 'allways', 'dobles'],
+      ['carefully', 'carefuly', 'dobles'],
+    ],
+  },
+  {
+    id: 'train', emoji: '🚆',
+    titulo: { es: 'Un viaje en tren', en: 'A train journey', ca: 'Un viatge en tren' },
+    texto: 'We left the station at half past seven, when it was still dark outside. The carriage was half empty and we managed to sit next to the window. For the first hour you could see nothing at all, but at sunrise the sea appeared on the right and after that I did not look at my phone once. My sister fell asleep with her head against the glass and I did not wake her until the guard came round for the tickets.',
+    trampas: [
+      ['station', 'stashion', 'terminacion'],
+      ['past', 'passed', 'homofono'],
+      ['when', 'wen', 'muda'],
+      ['carriage', 'cariage', 'dobles'],
+      ['could', 'coud', 'muda'],
+      ['right', 'rite', 'muda'],
+      ['asleep', 'aslepp', 'dobles'],
+      ['until', 'untill', 'dobles'],
+      ['guard', 'gard', 'muda'],
+    ],
+  },
+  {
+    id: 'concert', emoji: '🎸',
+    titulo: { es: 'El concierto', en: 'The school concert', ca: 'El concert' },
+    texto: 'The school band played in the hall on Friday afternoon. They had been rehearsing for two months and even so the bass player got lost in the first song, although almost nobody noticed. The drums were far too loud and the music teacher had to turn the volume down from the desk. At the end the whole audience stood up, and the band came back to play one more. Now they want to record something before the summer.',
+    trampas: [
+      ['rehearsing', 'rehersing', 'muda'],
+      ['although', 'althogh', 'muda'],
+      ['almost', 'allmost', 'dobles'],
+      ['nobody', 'nobodey', 'terminacion'],
+      ['were', 'where', 'homofono'],
+      ['too', 'to', 'homofono'],
+      ['whole', 'hole', 'homofono'],
+      ['audience', 'audiance', 'terminacion'],
+    ],
+  },
+  {
+    id: 'storm', emoji: '⛈️',
+    titulo: { es: 'La tormenta', en: 'The storm', ca: 'La tempesta' },
+    texto: 'The storm started in the middle of the afternoon, when there were still people at the pool. First four fat drops fell and two minutes later the water was running down the street like a river. We took shelter in the doorway of a building and from there we watched a plastic chair fly across to the pavement opposite. When it stopped, the sky went a strange orange colour and everybody went out to take pictures of it.',
+    trampas: [
+      ['when', 'wen', 'muda'],
+      ['were', 'where', 'homofono'],
+      ['running', 'runing', 'dobles'],
+      ['building', 'bulding', 'terminacion'],
+      ['When', 'Wen', 'muda'],
+      ['stopped', 'stoped', 'dobles'],
+      ['everybody', 'everbody', 'terminacion'],
+    ],
+  },
+  {
+    id: 'dog', emoji: '🐕',
+    titulo: { es: 'El perro perdido', en: 'The lost dog', ca: 'El gos perdut' },
+    texto: 'He turned up one Sunday morning outside the front door, soaked and with no collar. We put water in a bowl and he drank the whole lot without lifting his head. Dad said we could not keep him, but he carried him up four floors in his arms because it was raining again. The next day we made posters for the neighbourhood and a week later a woman rang from the next village. She came to fetch him in tears and brought us an enormous cake.',
+    trampas: [
+      ['collar', 'colar', 'dobles'],
+      ['whole', 'hole', 'homofono'],
+      ['could', 'coud', 'muda'],
+      ['carried', 'carryed', 'terminacion'],
+      ['because', 'becuase', 'terminacion'],
+      ['neighbourhood', 'nieghbourhood', 'ieei'],
+      ['brought', 'brougth', 'muda'],
+    ],
+  },
+  {
+    id: 'village', emoji: '🏡',
+    titulo: { es: 'El pueblo', en: 'Summer in the village', ca: 'El poble' },
+    texto: 'In August we go to my mother’s village, which is up in the mountains and has eighty people in it. There is no cinema and no shopping centre, so we spend the day in the square or walking up to the castle along a path that smells of thyme. In the evening everybody sits outside in the cool air and the older ones tell the same stories as last year. I like it because nobody there is ever in a hurry.',
+    trampas: [
+      ['which', 'wich', 'muda'],
+      ['mountains', 'mountins', 'terminacion'],
+      ['There', 'Their', 'homofono'],
+      ['castle', 'casle', 'muda'],
+      ['smells', 'smels', 'dobles'],
+      ['everybody', 'everbody', 'terminacion'],
+      ['stories', 'storys', 'terminacion'],
+      ['because', 'becuase', 'terminacion'],
+      ['nobody', 'nobodey', 'terminacion'],
+      ['there', 'their', 'homofono'],
+    ],
+  },
+  {
+    id: 'exam', emoji: '✏️',
+    titulo: { es: 'El examen', en: 'The maths test', ca: "L'examen" },
+    texto: 'The maths test was on Thursday and I had spent two weeks saying that I already knew it all. The night before I opened my notebook and found there were five topics and not three, so I stayed up studying until two. The next day I passed by a whisker, and not because of what I read that night but because of the exercises I did in class all month. Now I start a week earlier, even if it is only half an hour a day.',
+    trampas: [
+      ['already', 'allready', 'dobles'],
+      ['knew', 'nue', 'muda'],
+      ['there', 'their', 'homofono'],
+      ['were', 'where', 'homofono'],
+      ['studying', 'studing', 'terminacion'],
+      ['until', 'untill', 'dobles'],
+      ['passed', 'past', 'homofono'],
+      ['earlier', 'earlyer', 'terminacion'],
+    ],
+  },
+  {
+    id: 'museum', emoji: '🏛️',
+    titulo: { es: 'El museo', en: 'The museum visit', ca: 'El museu' },
+    texto: 'We went to the museum on a Tuesday morning, when there was hardly anybody about. The guide took us first to the room with the mosaics and explained how they were made, stone by stone, with no drawing to follow. Then we went upstairs, where the armour that appears in every textbook is kept. It is much smaller than it looks in photographs. On the way out we picked up a leaflet and bought a postcard, and walked back to the bus stop.',
+    trampas: [
+      ['when', 'wen', 'muda'],
+      ['there', 'their', 'homofono'],
+      ['hardly', 'hardley', 'terminacion'],
+      ['guide', 'gide', 'muda'],
+      ['explained', 'explaned', 'terminacion'],
+      ['were', 'where', 'homofono'],
+      ['Then', 'Than', 'homofono'],
+      ['where', 'were', 'homofono'],
+      ['smaller', 'smaler', 'dobles'],
+      ['than', 'then', 'homofono'],
+      ['bought', 'bougth', 'muda'],
+    ],
+  },
+  {
+    id: 'play', emoji: '🎭',
+    titulo: { es: 'La obra de teatro', en: 'The school play', ca: "L'obra de teatre" },
+    texto: 'This year the drama group put on a play about a village that runs out of water. They rehearsed from November in the gym, because the hall was busy with the work on the roof. The lead actor fell ill two days before opening night and a girl from year seven took over, having learned the whole part from hearing it so often. It went beautifully, and when the curtain fell the audience clapped for a long time.',
+    trampas: [
+      ['rehearsed', 'rehersed', 'muda'],
+      ['because', 'becuase', 'terminacion'],
+      ['whole', 'hole', 'homofono'],
+      ['beautifully', 'beautifuly', 'dobles'],
+      ['when', 'wen', 'muda'],
+      ['audience', 'audiance', 'terminacion'],
+      ['clapped', 'claped', 'dobles'],
+    ],
+  },
+  {
+    id: 'robots', emoji: '🤖',
+    titulo: { es: 'El taller de robótica', en: 'The robotics club', ca: 'El taller de robòtica' },
+    texto: 'On Wednesday afternoons there is a robotics club in the technology room. We began by building a car that follows a black line on the floor, and on the first day nobody managed to get it round the whole circuit. The problem was not the motor but a sensor that sat too low and read the light from the ceiling. When we raised it two centimetres, the car did the course first time and we all started shouting.',
+    trampas: [
+      ['Wednesday', 'Wensday', 'muda'],
+      ['there', 'their', 'homofono'],
+      ['building', 'bulding', 'terminacion'],
+      ['follows', 'folows', 'dobles'],
+      ['nobody', 'nobodey', 'terminacion'],
+      ['whole', 'hole', 'homofono'],
+      ['too', 'to', 'homofono'],
+      ['ceiling', 'cieling', 'ieei'],
+      ['When', 'Wen', 'muda'],
+    ],
+  },
+  {
+    id: 'race', emoji: '🏃',
+    titulo: { es: 'La carrera', en: 'The fun run', ca: 'La cursa' },
+    texto: 'My father ran the local race and finished fortieth out of three hundred. He had been training for three months, going out at seven in the morning even on rainy days. The night before he slept badly with nerves and in the morning he hardly wanted any breakfast. At the seventh kilometre he was so tired that he nearly stopped, but he saw my sister on the pavement shouting his name and he held on to the end. There were people clapping the whole way, and he still believes that is why he finished. He could hardly walk on Wednesday, although he says he would do it again.',
+    trampas: [
+      ['breakfast', 'brekfast', 'terminacion'],
+      ['stopped', 'stoped', 'dobles'],
+      ['There', 'Their', 'homofono'],
+      ['were', 'where', 'homofono'],
+      ['whole', 'hole', 'homofono'],
+      ['believes', 'beleives', 'ieei'],
+      ['could', 'coud', 'muda'],
+      ['Wednesday', 'Wensday', 'muda'],
+      ['although', 'althogh', 'muda'],
+      ['would', 'wold', 'muda'],
+    ],
+  },
+  {
+    id: 'market', emoji: '🥕',
+    titulo: { es: 'El mercado', en: 'Saturday market', ca: 'El mercat' },
+    texto: 'On Saturday mornings the market fills with people and you have to go early if you want fish. My mother always buys from the same stall, where they have known her since before I was born. While she chooses, I walk down the fruit aisle, which smells of melon from the entrance. Then we carry the bags between the two of us to the car, and they always weigh more than they seemed to when we picked them up.',
+    trampas: [
+      ['fills', 'fils', 'dobles'],
+      ['where', 'were', 'homofono'],
+      ['known', 'nown', 'muda'],
+      ['While', 'Wile', 'muda'],
+      ['chooses', 'chuses', 'terminacion'],
+      ['which', 'wich', 'muda'],
+      ['smells', 'smels', 'dobles'],
+      ['Then', 'Than', 'homofono'],
+      ['weigh', 'wiegh', 'ieei'],
+      ['than', 'then', 'homofono'],
+      ['when', 'wen', 'muda'],
+    ],
+  },
+  {
+    id: 'beach', emoji: '🌊',
+    titulo: { es: 'La playa en invierno', en: 'The beach in winter', ca: 'La platja a l’hivern' },
+    texto: 'In winter the beach is another thing altogether. There are no umbrellas and no beach bars, only two or three people walking with their coats done up and the odd loose dog running after the gulls. The water is freezing and nobody goes in, but you can hear the waves much better because there is no one talking. We go down almost every Sunday and come back with cold hands and sand in our pockets.',
+    trampas: [
+      ['altogether', 'alltogether', 'dobles'],
+      ['There', 'Their', 'homofono'],
+      ['umbrellas', 'umbrelas', 'dobles'],
+      ['their', 'there', 'homofono'],
+      ['loose', 'lose', 'homofono'],
+      ['running', 'runing', 'dobles'],
+      ['nobody', 'nobodey', 'terminacion'],
+      ['because', 'becuase', 'terminacion'],
+      ['there', 'their', 'homofono'],
+      ['almost', 'allmost', 'dobles'],
+    ],
+  },
+  {
+    id: 'game', emoji: '🎮',
+    titulo: { es: 'El videojuego', en: 'The video game', ca: 'El videojoc' },
+    texto: 'They gave me a video game for my birthday and I finished it in four evenings, which says more about the game than about me. The story began wonderfully: a village under the ice and a character who never speaks. But halfway through it turned into shooting things and it stopped mattering what you did. The best part was the map, drawn by hand, with paths leading to places where there was nothing at all. That much was well thought out.',
+    trampas: [
+      ['which', 'wich', 'muda'],
+      ['than', 'then', 'homofono'],
+      ['wonderfully', 'wonderfuly', 'dobles'],
+      ['character', 'caracter', 'muda'],
+      ['stopped', 'stoped', 'dobles'],
+      ['mattering', 'matering', 'dobles'],
+      ['where', 'were', 'homofono'],
+      ['there', 'their', 'homofono'],
+      ['thought', 'thougth', 'muda'],
+    ],
+  },
+  {
+    id: 'moving', emoji: '📦',
+    titulo: { es: 'La mudanza', en: 'Moving house', ca: 'La mudança' },
+    texto: 'We moved in July, in forty degrees and with no lift. My father had worked out that everything would fit in two van loads and in the end it took five. The worst were the books: small boxes that weighed as much as if they were full of bricks. I carried mine up on my own and had to stop on every landing. When we finished we sat on the floor of the empty flat eating pizza, and from there the house already felt like ours.',
+    trampas: [
+      ['everything', 'everthing', 'terminacion'],
+      ['would', 'wold', 'muda'],
+      ['weighed', 'wieghed', 'ieei'],
+      ['carried', 'carryed', 'terminacion'],
+      ['When', 'Wen', 'muda'],
+      ['there', 'their', 'homofono'],
+      ['already', 'allready', 'dobles'],
+    ],
+  },
+]
+
+// Los niveles, con las familias propias del inglés. Fácil son las dos que se
+// oyen al leer en voz alta; medio añade las de escritura pura; difícil mete
+// los homófonos, que son palabras bien escritas puestas donde no van y que
+// solo la frase entera delata.
+export const NIVELES = {
+  facil: {
+    id: 'facil', emoji: '🟢',
+    label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
+    hint: {
+      es: '3 fallos · la palabra está mal escrita',
+      en: '3 mistakes · the word is simply misspelt',
+      ca: '3 errors · la paraula està mal escrita',
+    },
+    familias: ['dobles', 'terminacion', 'muda'],
+    errores: 3,
+  },
+  medio: {
+    id: 'medio', emoji: '🟡',
+    label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
+    hint: {
+      es: '4 fallos · + i antes de e y apóstrofos',
+      en: '4 mistakes · + i before e and apostrophes',
+      ca: '4 errors · + i abans de e i apòstrofs',
+    },
+    familias: ['dobles', 'terminacion', 'muda', 'ieei', 'apostrofo'],
+    errores: 4,
+  },
+  dificil: {
+    id: 'dificil', emoji: '🔴',
+    label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' },
+    hint: {
+      es: '5 fallos · + homófonos (their/there)',
+      en: '5 mistakes · + homophones (their/there)',
+      ca: '5 errors · + homòfons (their/there)',
+    },
+    familias: ['dobles', 'terminacion', 'muda', 'ieei', 'apostrofo', 'homofono'],
+    errores: 5,
+  },
+}

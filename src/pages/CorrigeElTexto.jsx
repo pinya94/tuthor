@@ -5,9 +5,10 @@ import { useAuth } from '../context/AuthContext'
 import { saveActivity } from '../lib/activity'
 import { computeCoins } from '../lib/games'
 import {
-  FAMILIAS, NIVELES, NIVEL_IDS, TEXTOS_POR_PARTIDA, PENALIZACION,
+  familiasDe, nivelesDe, nivelIdsDe, TEXTOS_POR_PARTIDA, PENALIZACION,
   generarPartida, tiempoFinal, puntosDe, formatoTiempo,
 } from '../lib/corrigeTexto'
+import SelectorIdioma from '../components/SelectorIdioma'
 import GameEndScreen from '../components/GameEndScreen'
 import SEOHead from '../components/SEOHead'
 import ComoSeJuega from '../components/ComoSeJuega'
@@ -56,6 +57,8 @@ const tr3 = (o, l) => o?.[l] ?? o?.es ?? ''
 
 function IntroScreen({ onStart, l }) {
   const [nivel, setNivel] = useState('medio')
+  const [idioma, setIdioma] = useState(l)
+  const NIVELES = nivelesDe(idioma)
   return (
     <div className="relative z-10 flex flex-col items-center min-h-[calc(100vh-4rem)] px-4 py-8">
       <div className="max-w-md w-full">
@@ -70,9 +73,12 @@ function IntroScreen({ onStart, l }) {
           <p>{T('q4', l)}</p>
         </ComoSeJuega>
 
+        <SelectorIdioma valor={idioma} onCambio={setIdioma} l={l}
+          etiqueta={{ es: 'Idioma del texto', en: 'Language of the text', ca: 'Idioma del text' }} />
+
         <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-2 px-1">{T('nivel', l)}</p>
         <div className="space-y-2 mb-4">
-          {NIVEL_IDS.map(id => (
+          {nivelIdsDe(idioma).map(id => (
             <button key={id} onClick={() => setNivel(id)}
               className={`w-full text-left px-4 py-3 rounded-2xl border transition-colors ${
                 nivel === id ? 'border-[#EDAE49] bg-[#EDAE49]/10' : 'border-white/10 bg-white/5 hover:bg-white/10'}`}>
@@ -82,7 +88,7 @@ function IntroScreen({ onStart, l }) {
           ))}
         </div>
 
-        <button onClick={() => onStart(nivel)}
+        <button onClick={() => onStart(nivel, idioma)}
           className="w-full py-3.5 rounded-2xl bg-[#EDAE49] text-black font-black text-lg hover:bg-amber-400 transition-colors">
           ▶ {tr3({ es: 'Empezar', en: 'Start', ca: 'Començar' }, l)}
         </button>
@@ -101,6 +107,9 @@ export default function CorrigeElTexto() {
 
   const [screen, setScreen] = useState('intro')
   const [nivel, setNivel] = useState('medio')
+  // El idioma del TEXTO, no el de la interfaz. Empieza en el de la interfaz
+  // pero es una elección: cada lengua tiene su banco y sus propias faltas.
+  const [idioma, setIdioma] = useState(l)
   const [rondas, setRondas] = useState([])
   const [idx, setIdx] = useState(0)
   // Índices de token marcados en el texto actual. Set nuevo en cada cambio
@@ -112,10 +121,11 @@ export default function CorrigeElTexto() {
   const timerRef = useRef(null)
   const vistosRef = useRef([])
 
-  const empezar = useCallback(niv => {
-    const p = generarPartida(niv, vistosRef.current)
+  const empezar = useCallback((niv, idi = 'es') => {
+    const p = generarPartida(niv, vistosRef.current, idi)
     vistosRef.current = p.map(r => r.id)
     setNivel(niv)
+    setIdioma(idi)
     setRondas(p)
     setIdx(0)
     setMarcadas(new Set())
@@ -228,7 +238,7 @@ export default function CorrigeElTexto() {
           { label: T('deMas', l), value: total.deMas, emoji: '❌' },
         ]}
         shareText={shareText} user={user} lang={l}
-        onPlayAgain={() => empezar(nivel)} secondaryActions={secondary} />
+        onPlayAgain={() => empezar(nivel, idioma)} secondaryActions={secondary} />
     )
   }
 
@@ -332,7 +342,7 @@ export default function CorrigeElTexto() {
                   {!marcadas.has(i) && <span className="text-white/30 text-xs"> 🙈</span>}
                 </p>
                 <p className="text-white/50 text-xs mt-0.5">
-                  {FAMILIAS[t.familia].emoji} <span className="text-white/70 font-semibold">{tr3(FAMILIAS[t.familia].label, l)}</span> · {tr3(FAMILIAS[t.familia].regla, l)}
+                  {familiasDe(ronda.idioma)[t.familia].emoji} <span className="text-white/70 font-semibold">{tr3(familiasDe(ronda.idioma)[t.familia].label, l)}</span> · {tr3(familiasDe(ronda.idioma)[t.familia].regla, l)}
                 </p>
               </div>
             ) : null))}
