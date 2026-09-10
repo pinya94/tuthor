@@ -6,7 +6,8 @@
 // reales que no se habrían visto jugando un rato: poblaciones negativas (2.154
 // de 21.000) y preguntas de variación con solo tres opciones (910).
 import { describe, it, expect } from 'vitest'
-import { RANGOS, CONTEXTOS, CONTEXTO_IDS, generarPregunta, generarDatos, formatear } from '../lecturaGraficos'
+import { RANGOS, CONTEXTOS, CONTEXTO_IDS, generarPregunta, generarDatos, formatear,
+  TEMAS_EXAMEN, SERIES_MEDIDA, rondaDeExamen } from '../lecturaGraficos'
 
 const MUESTRA = 2000
 
@@ -684,5 +685,153 @@ describe('familia "tabla": leer una clasificación', () => {
     const vistas = new Set()
     cadaTabla(p => vistas.add(p.comp.id))
     expect(vistas.size, `solo salen: ${[...vistas].join(', ')}`).toBeGreaterThanOrEqual(3)
+  })
+})
+
+
+// ── Los cinco exámenes por tema ─────────────────────────────────────────────
+// El juego y los exámenes comparten motor, pero los exámenes le piden tamaños
+// que el juego nunca pide (7 barras, 5 filas, 6 años), y ahí saltaron dos
+// fallos que solo se veían abriendo el examen difícil: enunciados que decían
+// "en cinco partidos" sobre un gráfico de siete barras, y una serie que
+// devolvía cinco etiquetas (Lun a Vie) para siete valores, así que las dos
+// últimas barras salían sin nombre debajo.
+
+const NIVELES = ['facil', 'medio', 'dificil']
+const MUESTRA_EXAMEN = 1200
+
+function cadaExamen(fn) {
+  for (const tema of Object.keys(TEMAS_EXAMEN)) {
+    for (const nivel of NIVELES) {
+      for (let i = 0; i < MUESTRA_EXAMEN; i++) fn(rondaDeExamen(tema, nivel), tema, nivel)
+    }
+  }
+}
+
+describe('los exámenes por tema aguantan los tamaños que el juego no usa', () => {
+  it('hay tantas etiquetas como valores, en las dos series', () => {
+    cadaExamen((r, tema, nivel) => {
+      if (r.familia === 'tabla') return
+      expect(r.etiquetas.length, tema + '/' + nivel + ': ' + r.pregunta).toBe(r.valores.length)
+      if (r.segunda) expect(r.segunda.length).toBe(r.valores.length)
+    })
+  })
+
+  it('cada serie sabe dar etiquetas para todos los tamaños que se piden', () => {
+    // Los tamaños NO se escriben aquí: se leen de los niveles, para que subir
+    // el difícil a 9 barras haga saltar este test en vez de dejar dos barras
+    // sin nombre. generarMedida fuerza impar, así que se comprueba lo mismo.
+    const tamaños = new Set()
+    for (const tema of Object.values(TEMAS_EXAMEN)) {
+      for (const nivel of Object.values(tema.niveles)) {
+        if (!nivel.nMedida) continue
+        tamaños.add(nivel.nMedida % 2 === 0 ? nivel.nMedida + 1 : nivel.nMedida)
+      }
+    }
+    expect(tamaños.size).toBeGreaterThan(0)
+    for (const [id, serie] of Object.entries(SERIES_MEDIDA)) {
+      for (const n of tamaños) expect(serie.etiquetas(n).length, id + ' con n=' + n).toBe(n)
+    }
+  })
+
+  it('ningún enunciado dice cuántos valores hay: eso lo decide el nivel', () => {
+    const cuentas = /\b(cinco|cuatro|seis|siete|five|four|six|seven|cinc|quatre|sis|set)\b/i
+    cadaExamen((r, tema, nivel) => {
+      expect(cuentas.test(r.pregunta), tema + '/' + nivel + ': ' + r.pregunta).toBe(false)
+    })
+  })
+
+  it('ninguna pregunta pide "su" valor sin decir de quién', () => {
+    // El sujeto estaba solo en el título del gráfico, y el enunciado decía
+    // "¿cuándo alcanzó SU valor más alto?" sin referente.
+    cadaExamen(r => {
+      if (r.tipo !== 'maximo' && r.tipo !== 'minimo') return
+      expect(r.pregunta).toMatch(/ (el|la|los|las) /)
+    })
+  })
+
+  it('la respuesta está entre las opciones y no hay opciones repetidas', () => {
+    cadaExamen((r, tema, nivel) => {
+      expect(r.opciones, tema + '/' + nivel + ': ' + r.pregunta).toContain(r.correcta)
+      expect(new Set(r.opciones).size).toBe(r.opciones.length)
+      expect(r.opciones.length).toBeGreaterThanOrEqual(2)
+    })
+  })
+
+  it('ningún nivel se aprueba contestando al azar', () => {
+    // ExamenMC aprueba con 5 de 10. Un nivel donde la nota esperada sorteando
+    // llegue a 5 no mide nada: pasaba en "beneficio y saldo" fácil, que era
+    // un 83 % de preguntas de dos opciones.
+    for (const tema of Object.keys(TEMAS_EXAMEN)) {
+      for (const nivel of NIVELES) {
+        let esperada = 0
+        for (let i = 0; i < MUESTRA_EXAMEN; i++) esperada += 10 / rondaDeExamen(tema, nivel).opciones.length
+        expect(esperada / MUESTRA_EXAMEN, tema + '/' + nivel).toBeLessThan(4.5)
+      }
+    }
+  })
+
+  it('ningún nivel repite siempre el mismo enunciado', () => {
+    // Un examen son 10 preguntas: con menos de 8 redacciones posibles se ve
+    // la misma frase cuatro o cinco veces seguidas.
+    for (const tema of Object.keys(TEMAS_EXAMEN)) {
+      for (const nivel of NIVELES) {
+        const vistas = new Set()
+        for (let i = 0; i < MUESTRA_EXAMEN; i++) vistas.add(rondaDeExamen(tema, nivel).pregunta)
+        expect(vistas.size, tema + '/' + nivel).toBeGreaterThanOrEqual(8)
+      }
+    }
+  })
+
+  it('cada tema pregunta solo lo suyo', () => {
+    // Un examen llamado "variaciones y porcentajes" no puede preguntar la
+    // tendencia: el tema es el contrato con el alumno.
+    const DE = {
+      tendencia: ['tendencia', 'maximo', 'minimo', 'comparar-puntos'],
+      variacion: ['variacion', 'mayor-subida', 'porcentaje', 'tendencia'],
+      relacion: ['signo-año', 'derivada-valor', 'derivada-max', 'cambio-signo', 'derivada-tendencia'],
+      medida: ['media', 'mediana', 'sobre-media', 'mejor-media', 'mas-regular', 'media-de-uno'],
+      tabla: ['tabla-ganador', 'tabla-diferencia', 'tabla-mejor-dif'],
+    }
+    cadaExamen((r, tema) => {
+      expect(DE[tema], tema + ': ' + r.tipo).toContain(r.tipo)
+    })
+  })
+
+  it('los niveles suben, no bajan: cada uno pregunta al menos lo que el anterior', () => {
+    // "Difícil" no puede ser un subconjunto raro de "medio". La excepción
+    // declarada es 'comparar-puntos', que sale de difícil a propósito por
+    // tener solo dos opciones.
+    const SALEN = { tendencia: ['comparar-puntos'] }
+    for (const tema of Object.keys(TEMAS_EXAMEN)) {
+      const vistos = {}
+      for (const nivel of NIVELES) {
+        const s = new Set()
+        for (let i = 0; i < MUESTRA_EXAMEN; i++) s.add(rondaDeExamen(tema, nivel).tipo)
+        vistos[nivel] = s
+      }
+      for (const [antes, luego] of [['facil', 'medio'], ['medio', 'dificil']]) {
+        for (const tipo of vistos[antes]) {
+          if ((SALEN[tema] ?? []).includes(tipo)) continue
+          expect(vistos[luego], tema + ' ' + luego + ' perdió ' + tipo).toContain(tipo)
+        }
+      }
+    }
+  })
+
+  it('la pregunta de dos series cae sobre una forma que la admite', () => {
+    // "¿Qué le pasa al beneficio?" sobre la forma 'un-negativo' es ruido con
+    // un bache: no mejora ni empeora, así que no se podía razonar, solo
+    // acertar. Y "¿en qué año perdió dinero?" solo tiene sentido ahí.
+    const ADMITE = {
+      'signo-año': ['un-negativo'],
+      'cambio-signo': ['a-mejor', 'a-peor'],
+      'derivada-tendencia': ['a-mejor', 'a-peor'],
+    }
+    cadaExamen(r => {
+      if (r.familia !== 'relacion') return
+      const formas = ADMITE[r.tipo]
+      if (formas) expect(formas, r.tipo + ' sobre ' + r.forma).toContain(r.forma)
+    })
   })
 })

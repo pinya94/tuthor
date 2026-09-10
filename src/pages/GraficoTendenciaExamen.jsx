@@ -10,7 +10,7 @@ import { rondaDeExamen } from '../lib/lecturaGraficos'
 const LEVELS = [
   { key: 'facil', emoji: '🟢', difficulty: 'facil', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' }, hint: {es: "5 puntos, eje desde cero",en: "5 points, axis from zero",ca: "5 punts, eix des de zero"} },
   { key: 'medio', emoji: '🟡', difficulty: 'medio', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' }, hint: {es: "6 puntos y ejes que engañan",en: "6 points and misleading axes",ca: "6 punts i eixos que enganyen"} },
-  { key: 'dificil', emoji: '🔴', difficulty: 'dificil', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' }, hint: {es: "8 puntos con altibajos",en: "8 bumpy points",ca: "8 punts amb alts i baixos"} },
+  { key: 'dificil', emoji: '🔴', difficulty: 'dificil', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' }, hint: {es: "8 puntos con altibajos, sin comparar dos",en: "8 bumpy points, no two-point compare",ca: "8 punts amb alts i baixos, sense comparar dos"} },
 ]
 
 function genRound(difficulty) { return rondaDeExamen('tendencia', difficulty) }

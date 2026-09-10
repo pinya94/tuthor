@@ -8,8 +8,8 @@ import { rondaDeExamen } from '../lib/lecturaGraficos'
 // y con nota, para repasar UNA cosa sin la prisa del arcade.
 
 const LEVELS = [
-  { key: 'facil', emoji: '🟢', difficulty: 'facil', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' }, hint: {es: "4 años, pérdidas y tendencia",en: "4 years, losses and trend",ca: "4 anys, pèrdues i tendència"} },
-  { key: 'medio', emoji: '🟡', difficulty: 'medio', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' }, hint: {es: "5 años, + cuánto y desde cuándo",en: "5 years, + how much and since when",ca: "5 anys, + quant i des de quan"} },
+  { key: 'facil', emoji: '🟢', difficulty: 'facil', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' }, hint: {es: "4 años: pérdidas, saldo y tendencia",en: "4 years: losses, balance and trend",ca: "4 anys: pèrdues, saldo i tendència"} },
+  { key: 'medio', emoji: '🟡', difficulty: 'medio', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' }, hint: {es: "5 años, + desde cuándo cambió",en: "5 years, + since when it changed",ca: "5 anys, + des de quan va canviar"} },
   { key: 'dificil', emoji: '🔴', difficulty: 'dificil', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' }, hint: {es: "6 años, + el año de más beneficio",en: "6 years, + the best year",ca: "6 anys, + l'any de més benefici"} },
 ]
 

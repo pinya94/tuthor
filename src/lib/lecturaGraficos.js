@@ -386,10 +386,26 @@ const PASO = 5
 //                 de media España)
 const FORMAS = ['un-negativo', 'a-mejor', 'a-peor']
 
-function generarPar(dif) {
+// Qué formas admite cada pregunta. Y aquí manda la PREGUNTA: se sortea el tipo
+// y después una forma que lo permita, igual que en la familia de una serie.
+// Al revés —forma primero y descartar preguntas después— pasaban dos cosas:
+// "¿en qué año perdió dinero?" solo cabe en 'un-negativo', así que salía un
+// tercio de las veces que le tocaba y el examen fácil se quedaba en un 83 % de
+// "¿mejora o empeora?", que tiene dos opciones y por tanto se aprobaba a cara
+// o cruz; y esa misma pregunta caía sobre 'un-negativo', donde la serie es
+// ruido con un bache y no una historia que mejore ni empeore: no había forma
+// de razonarla, solo de acertarla.
+const FORMAS_DE_PAR = {
+  'signo-año': ['un-negativo'],
+  'cambio-signo': ['a-mejor', 'a-peor'],
+  'derivada-tendencia': ['a-mejor', 'a-peor'],
+  'derivada-valor': FORMAS,
+  'derivada-max': FORMAS,
+}
+
+function generarPar(dif, forma) {
   const par = PARES[pick(PAR_IDS)]
   const n = dif.n
-  const forma = pick(FORMAS)
   const corte = rng(1, n - 2)      // último índice del tramo inicial
   const negativoEn = rng(1, n - 2)
 
@@ -428,11 +444,14 @@ const T = {
     // donde solo había tendencia, máximo y mínimo.
     es: '¿Cuándo hubo MÁS: en {a} o en {b}?', en: 'When was there MORE: in {a} or in {b}?', ca: 'Quan hi va haver MÉS: el {a} o el {b}?',
   },
+  // "¿Cuándo alcanzó SU valor más alto?" — ¿su, de quién? El sujeto solo
+  // estaba en el título del gráfico. Nombrarlo además deja de repetir tres
+  // enunciados idénticos en un examen de diez: ahora cambian con el contexto.
   maximo: {
-    es: '¿Cuándo alcanzó su valor MÁS ALTO?', en: 'When did it reach its HIGHEST value?', ca: 'Quan va assolir el seu valor MÉS ALT?',
+    es: '¿Cuándo alcanzó {sujeto} su valor MÁS ALTO?', en: 'When did {sujeto} reach its HIGHEST value?', ca: 'Quan va assolir {sujeto} el seu valor MÉS ALT?',
   },
   minimo: {
-    es: '¿Cuándo alcanzó su valor MÁS BAJO?', en: 'When did it reach its LOWEST value?', ca: 'Quan va assolir el seu valor MÉS BAIX?',
+    es: '¿Cuándo alcanzó {sujeto} su valor MÁS BAJO?', en: 'When did {sujeto} reach its LOWEST value?', ca: 'Quan va assolir {sujeto} el seu valor MÉS BAIX?',
   },
   variacion: {
     es: '¿Cuánto cambió entre {a} y {b}?', en: 'How much did it change between {a} and {b}?', ca: 'Quant va canviar entre {a} i {b}?',
@@ -521,11 +540,18 @@ function distractores(correcta, candidatos, n = 3) {
 // gráfico y pasa a ser una cuenta a mano, que ya tiene su propio juego.
 const MAX_RECORRIDO = 8
 
+const DIAS_SEMANA = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom']
+
+// Ningún sujeto puede decir CUÁNTOS valores hay ("en cinco partidos"): el
+// número de barras lo decide el nivel del examen —5 en fácil, 7 en difícil— y
+// el enunciado se quedaba contradiciendo al gráfico que tenía al lado. Por lo
+// mismo, etiquetas() tiene que saber dar tantas como se le pidan: la semana
+// laboral se quedaba en cinco y las dos últimas barras salían sin nombre.
 export const SERIES_MEDIDA = {
   notas: {
     id: 'notas', emoji: '📕', escala: 1, unidad: { es: '', en: '', ca: '' },
     materia: { es: 'Matemáticas', en: 'Maths', ca: 'Matemàtiques' },
-    sujeto: { es: 'las notas de Marta en los cinco exámenes del curso', en: "Marta's marks in the five tests of the year", ca: 'les notes de la Marta als cinc exàmens del curs' },
+    sujeto: { es: 'las notas de Marta en los exámenes del curso', en: "Marta's marks in the tests of the year", ca: 'les notes de la Marta als exàmens del curs' },
     corto: { es: 'nota', en: 'mark', ca: 'nota' },
     etiquetas: n => Array.from({ length: n }, (_, i) => `Ex. ${i + 1}`),
     rango: [3, 9],
@@ -533,7 +559,7 @@ export const SERIES_MEDIDA = {
   goles: {
     id: 'goles', emoji: '⚽', escala: 1, unidad: { es: 'goles', en: 'goals', ca: 'gols' },
     materia: { es: 'Estadística', en: 'Statistics', ca: 'Estadística' },
-    sujeto: { es: 'los goles de un equipo en cinco partidos', en: "a team's goals in five matches", ca: "els gols d'un equip en cinc partits" },
+    sujeto: { es: 'los goles de un equipo en cada partido', en: "a team's goals in each match", ca: "els gols d'un equip en cada partit" },
     corto: { es: 'goles', en: 'goals', ca: 'gols' },
     etiquetas: n => Array.from({ length: n }, (_, i) => `P${i + 1}`),
     rango: [0, 6],
@@ -543,7 +569,7 @@ export const SERIES_MEDIDA = {
     materia: { es: 'Estadística', en: 'Statistics', ca: 'Estadística' },
     sujeto: { es: 'las horas que estudió cada día de la semana', en: 'the hours studied each weekday', ca: 'les hores que va estudiar cada dia de la setmana' },
     corto: { es: 'horas', en: 'hours', ca: 'hores' },
-    etiquetas: n => ['Lun', 'Mar', 'Mié', 'Jue', 'Vie'].slice(0, n),
+    etiquetas: n => DIAS_SEMANA.slice(0, n),
     rango: [1, 7],
   },
   libros: {
@@ -553,6 +579,33 @@ export const SERIES_MEDIDA = {
     corto: { es: 'libros', en: 'books', ca: 'llibres' },
     etiquetas: n => MESES.slice(0, n),
     rango: [0, 7],
+  },
+  // Tres contextos más, con el eje x de tres clases distintas (días, semanas,
+  // años): con cinco series, un examen de diez preguntas repetía el mismo
+  // enunciado media docena de veces.
+  temperatura: {
+    id: 'temperatura', emoji: '🌡️', escala: 1, unidad: { es: '°C', en: '°C', ca: '°C' },
+    materia: { es: 'Ciencias', en: 'Science', ca: 'Ciències' },
+    sujeto: { es: 'la temperatura máxima de cada día', en: 'the highest temperature each day', ca: 'la temperatura màxima de cada dia' },
+    corto: { es: 'grados', en: 'degrees', ca: 'graus' },
+    etiquetas: n => DIAS_SEMANA.slice(0, n),
+    rango: [12, 30],
+  },
+  reciclaje: {
+    id: 'reciclaje', emoji: '♻️', escala: 1, unidad: { es: 'kg', en: 'kg', ca: 'kg' },
+    materia: { es: 'Ciencias', en: 'Science', ca: 'Ciències' },
+    sujeto: { es: 'los kilos de papel que recicló la clase cada semana', en: 'the kilos of paper the class recycled each week', ca: 'els quilos de paper que va reciclar la classe cada setmana' },
+    corto: { es: 'kilos', en: 'kilos', ca: 'quilos' },
+    etiquetas: n => Array.from({ length: n }, (_, i) => 'Sem. ' + (i + 1)),
+    rango: [4, 18],
+  },
+  arboles: {
+    id: 'arboles', emoji: '🌳', escala: 1, unidad: { es: 'árboles', en: 'trees', ca: 'arbres' },
+    materia: { es: 'Ciencias', en: 'Science', ca: 'Ciències' },
+    sujeto: { es: 'los árboles que plantó el pueblo cada año', en: 'the trees the town planted each year', ca: 'els arbres que va plantar el poble cada any' },
+    corto: { es: 'árboles', en: 'trees', ca: 'arbres' },
+    etiquetas: n => Array.from({ length: n }, (_, i) => String(2019 + i)),
+    rango: [2, 16],
   },
   lluvia: {
     id: 'lluvia', emoji: '🌧️', escala: 1, unidad: { es: 'días', en: 'days', ca: 'dies' },
@@ -614,7 +667,10 @@ const T_MEDIDA = {
     es: '¿Cuál es la MEDIANA de {sujeto}?', en: 'What is the MEDIAN of {sujeto}?', ca: 'Quina és la MEDIANA de {sujeto}?',
   },
   'sobre-media': {
-    es: '¿Cuántas veces se quedó POR ENCIMA de la media?', en: 'How many times was it ABOVE the mean?', ca: 'Quantes vegades va quedar PER SOBRE de la mitjana?',
+    // Sin sujeto —"¿cuántas veces se quedó…?"— el verbo colgaba y no quedaba
+    // claro qué se contaba: ¿meses, alumnos, partidos? Se cuentan BARRAS, que
+    // es literalmente lo que hay delante y no depende del contexto que salga.
+    es: '¿Cuántas barras quedan POR ENCIMA de la media?', en: 'How many bars are ABOVE the mean?', ca: 'Quantes barres queden PER SOBRE de la mitjana?',
   },
 }
 
@@ -946,25 +1002,18 @@ function preguntaDeTabla(dif, lang) {
 // mayor el beneficio. Ese es el salto de dificultad — no más puntos, más
 // razonamiento.
 function preguntaDePar(dif, lang) {
-  const { par, a, b, derivada, forma, corte, negativoEn } = generarPar(dif)
+  const tipo = pick(dif.tipos)
+  const { par, a, b, derivada, forma, corte, negativoEn } = generarPar(dif, pick(FORMAS_DE_PAR[tipo] ?? FORMAS))
   const n = a.length
   const añoBase = rng(2016, 2020)
   const etiquetas = Array.from({ length: n }, (_, i) => String(añoBase + i))
-
-  // No todas las formas admiten todas las preguntas: "¿a partir de qué año
-  // empezó a ganar dinero?" solo tiene respuesta si hay UN cambio de signo, y
-  // "¿en qué año tuvo pérdidas?" solo si hay un único año en negativo.
-  const permitidos = dif.tipos.filter(t =>
-    (t !== 'cambio-signo' || forma !== 'un-negativo')
-    && (t !== 'signo-año' || forma === 'un-negativo'))
-  const tipo = pick(permitidos)
 
   // La misma pregunta con las dos redacciones según hacia dónde vaya la
   // serie: "¿desde cuándo ganó dinero?" o "¿desde cuándo tuvo pérdidas?".
   const plantilla = tipo === 'cambio-signo' && forma === 'a-peor' ? 'cambio-signo-peor' : tipo
 
   const base = {
-    par, contexto: par, etiquetas, valores: a, segunda: b, derivada, tipo, familia: 'relacion',
+    par, contexto: par, etiquetas, valores: a, segunda: b, derivada, tipo, forma, familia: 'relacion',
     leyenda: [tr3(par.a, lang), tr3(par.b, lang)],
     grafico: 'barras', ejeTruncado: false, etiquetarValores: true,
   }
@@ -1194,7 +1243,11 @@ export const TEMAS_EXAMEN = {
     niveles: {
       facil:   { n: 5, ruido: 0, ejeTruncado: false, tipos: ['tendencia', 'maximo', 'minimo', 'comparar-puntos'] },
       medio:   { n: 6, ruido: 1, ejeTruncado: true,  tipos: ['tendencia', 'maximo', 'minimo', 'comparar-puntos'] },
-      dificil: { n: 8, ruido: 2, ejeTruncado: true,  tipos: ['tendencia', 'maximo', 'minimo', 'comparar-puntos'] },
+      // Difícil suelta 'comparar-puntos': es la lectura previa a todo lo demás
+      // (dos puntos, cuál es mayor) y solo tiene DOS opciones, así que en el
+      // nivel alto era una de cada cuatro preguntas que se aprobaba a cara o
+      // cruz. Lo que sube aquí no es solo el tamaño, es también el suelo.
+      dificil: { n: 8, ruido: 2, ejeTruncado: true,  tipos: ['tendencia', 'maximo', 'minimo'] },
     },
   },
   variacion: {
@@ -1208,7 +1261,11 @@ export const TEMAS_EXAMEN = {
   relacion: {
     label: { es: 'Dos series: beneficio y saldo', en: 'Two series: profit and balance', ca: 'Dues sèries: benefici i saldo' },
     niveles: {
-      facil:   { n: 4, familias: ['relacion'], tipos: ['signo-año', 'derivada-tendencia'] },
+      // Fácil incluye 'derivada-valor' —restar dos barras para sacar UN
+      // beneficio— porque es de lo que va el tema y los valores van escritos
+      // encima de las barras: es una resta leída, no una medida. Sin ella el
+      // nivel se quedaba en dos preguntas y una de las dos era de dos opciones.
+      facil:   { n: 4, familias: ['relacion'], tipos: ['signo-año', 'derivada-valor', 'derivada-tendencia'] },
       medio:   { n: 5, familias: ['relacion'], tipos: ['signo-año', 'derivada-valor', 'derivada-tendencia', 'cambio-signo'] },
       dificil: { n: 6, familias: ['relacion'], tipos: ['signo-año', 'derivada-valor', 'derivada-max', 'cambio-signo', 'derivada-tendencia'] },
     },
@@ -1216,15 +1273,24 @@ export const TEMAS_EXAMEN = {
   medida: {
     label: { es: 'Media y mediana en gráficos', en: 'Mean and median from charts', ca: 'Mitjana i mediana en gràfics' },
     niveles: {
-      facil:   { familias: ['medida'], nMedida: 5, tiposMedida: ['media', 'sobre-media'] },
-      medio:   { familias: ['medida', 'grupos'], nMedida: 5, tiposMedida: ['media', 'mediana', 'sobre-media'], tiposGrupos: ['mejor-media', 'mas-regular'] },
-      dificil: { familias: ['medida', 'grupos'], nMedida: 7, tiposMedida: ['media', 'mediana', 'sobre-media'], tiposGrupos: ['mejor-media', 'mas-regular', 'media-de-uno'] },
+      // Las listas van con repeticiones a propósito, como SORTEO_TENDENCIA: el
+      // sorteo es uniforme sobre el array, así que repetir una entrada le da
+      // más peso. Hacen falta dos pesos:
+      //   · 'medida' el doble que 'grupos', porque TODAS las de grupos son de
+      //     dos opciones (A o B) y sin esto la mitad del examen se aprobaba a
+      //     cara o cruz;
+      //   · 'media' el doble que 'sobre-media', porque "¿cuántas barras quedan
+      //     por encima?" es UNA frase fija y salía cinco veces literalmente
+      //     igual en un examen de diez.
+      facil:   { familias: ['medida'], nMedida: 5, tiposMedida: ['media', 'media', 'sobre-media'] },
+      medio:   { familias: ['medida', 'medida', 'grupos'], nMedida: 5, tiposMedida: ['media', 'mediana', 'sobre-media'], tiposGrupos: ['mejor-media', 'mas-regular'] },
+      dificil: { familias: ['medida', 'medida', 'grupos'], nMedida: 7, tiposMedida: ['media', 'mediana', 'sobre-media'], tiposGrupos: ['mejor-media', 'mas-regular', 'media-de-uno'] },
     },
   },
   tabla: {
     label: { es: 'Clasificaciones y desempates', en: 'Tables and tiebreakers', ca: 'Classificacions i desempats' },
     niveles: {
-      facil:   { familias: ['tabla'], nFilas: 3, tiposTabla: ['tabla-diferencia', 'tabla-mejor-dif'] },
+      facil:   { familias: ['tabla'], nFilas: 3, tiposTabla: ['tabla-diferencia', 'tabla-ganador'] },
       medio:   { familias: ['tabla'], nFilas: 4, tiposTabla: ['tabla-ganador', 'tabla-diferencia', 'tabla-mejor-dif'] },
       dificil: { familias: ['tabla'], nFilas: 5, tiposTabla: ['tabla-ganador', 'tabla-diferencia', 'tabla-mejor-dif'] },
     },
