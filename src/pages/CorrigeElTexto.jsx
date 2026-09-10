@@ -16,7 +16,10 @@ import SEOHead from '../components/SEOHead'
 // también cuesta segundos — ver la explicación larga en lib/corrigeTexto.js.
 
 const C = {
-  badge:   { es: 'Lengua · Ortografía', en: 'Spanish · Spelling', ca: 'Llengua · Ortografia' },
+  // El badge dice el IDIOMA de los textos, no solo la materia: en inglés y
+  // en catalán el jugador tiene que saber antes de empezar que lo que va a
+  // corregir está en castellano (los textos no cambian con la interfaz).
+  badge:   { es: 'Lengua · Ortografía', en: 'Spanish · Spelling', ca: 'Llengua castellana · Ortografia' },
   title:   { es: '🔍 Corrige el Texto', en: '🔍 Spot the Mistakes', ca: '🔍 Corregeix el Text' },
   sub:     { es: 'Tres textos, todos los fallos, el reloj corriendo', en: 'Three texts, every mistake, clock running', ca: 'Tres textos, tots els errors, el rellotge corrent' },
   queEs:   { es: '¿De qué va?', en: 'What is it about?', ca: 'De què va?' },

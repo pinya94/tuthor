@@ -15,7 +15,7 @@ const REVEAL_MS = 3200
 const MEMORIA = 8
 
 const C = {
-  badge:   { es: 'Lengua · Acentuación', en: 'Spanish · Accents', ca: 'Llengua · Accentuació' },
+  badge:   { es: 'Lengua · Acentuación', en: 'Spanish · Accents', ca: 'Llengua castellana · Accentuació' },
   title:   { es: '✏️ Pon la Tilde', en: '✏️ Spanish Accents', ca: '✏️ Posa l\'Accent' },
   sub:     { es: 'Encuentra el golpe de voz y decide si lleva tilde', en: 'Find the stress and decide if it takes an accent', ca: 'Troba el cop de veu i decideix si porta accent' },
   queEs:   { es: '¿De qué va?', en: 'What is it about?', ca: 'De què va?' },
