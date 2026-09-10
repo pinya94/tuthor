@@ -5,6 +5,8 @@ import { useAuth } from '../context/AuthContext'
 import { saveActivity } from '../lib/activity'
 import { computeCoins } from '../lib/games'
 import { genRound, sameSet, TASKS } from '../lib/analizaFrases'
+import SelectorIdioma from '../components/SelectorIdioma'
+import ComoSeJuega from '../components/ComoSeJuega'
 import GameEndScreen from '../components/GameEndScreen'
 import SupportBlock from '../components/SupportBlock'
 import SentenceBoard from '../components/SentenceBoard'
@@ -91,7 +93,7 @@ const DIFS = {
   bach:     { emoji: '🔴', label: { es: 'Bachillerato', en: 'Sixth Form', ca: 'Batxillerat' }, desc: { es: 'Frases largas, atributo y CD/CI/CC', en: 'Long sentences, attribute and objects', ca: 'Frases llargues, atribut i complements' } },
 }
 
-function DifficultyScreen({ onSelect, onFocus, l, localPath }) {
+function DifficultyScreen({ onSelect, onFocus, l, localPath, idioma, onIdioma }) {
   const [dif, setDif] = useState('primaria')
   return (
     <div className="relative z-10 flex flex-col items-center min-h-[calc(100vh-4rem)] px-4 py-8">
@@ -112,16 +114,15 @@ function DifficultyScreen({ onSelect, onFocus, l, localPath }) {
         </div>
         <p className="text-white/40 text-xs text-center mb-5">{DIFS[dif].desc[l] ?? DIFS[dif].desc.es}</p>
 
-        <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-4">
-          <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-3">{T('how', l)}</p>
-          <div className="space-y-2.5">
-            {[['📋', T('h1', l)], ['👆', T('h2', l)], ['✓', T('h3', l)]].map(([e, text]) => (
-              <div key={text} className="flex items-start gap-3 text-sm text-white/50">
-                <span className="text-base w-5 shrink-0 text-center">{e}</span><span>{text}</span>
-              </div>
-            ))}
-          </div>
-        </div>
+        <SelectorIdioma valor={idioma} onCambio={onIdioma} l={l} />
+
+        <ComoSeJuega label={T('how', l)}>
+          {[['📋', T('h1', l)], ['👆', T('h2', l)], ['✓', T('h3', l)]].map(([e, text]) => (
+            <div key={text} className="flex items-start gap-3 text-sm text-white/60">
+              <span className="text-base w-5 shrink-0 text-center">{e}</span><span>{text}</span>
+            </div>
+          ))}
+        </ComoSeJuega>
 
         <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-6 space-y-2.5 text-sm">
           {[['⏱️', T('time', l), T('timeVal', l)], ['⭐', T('pts', l), T('ptsVal', l)]].map(([e, k, v]) => (
@@ -207,6 +208,11 @@ export default function AnalizaFrases() {
   const [won, setWon] = useState(false)
   const [delta, setDelta] = useState(null)
   const [activeTopic, setActiveTopic] = useState(incomingTopic)
+  // El idioma de las FRASES, que no es el de la interfaz aunque empiece
+  // siéndolo: un alumno con Tuthor en castellano puede querer analizar
+  // sintaxis inglesa, y uno con la web en catalán necesita la de castellano,
+  // que es la que le preguntan en clase.
+  const [idioma, setIdioma] = useState(l)
 
   const timerRef = useRef(null)
   const scoreRef = useRef(0)
@@ -216,12 +222,16 @@ export default function AnalizaFrases() {
   useEffect(() => { scoreRef.current = score }, [score])
   useEffect(() => { timeRef.current = timeLeft }, [timeLeft])
 
+  // El idioma se lee de una ref y no del estado: `next` la llama el reloj y
+  // el botón de siguiente, y con el estado en las dependencias se quedaba
+  // atada a una versión vieja al cambiar de idioma a mitad de partida.
+  const idiomaRef = useRef(l)
   const next = useCallback((diff) => {
-    setRound(genRound({ lang: l, level: diff, filter: filterRef.current }))
+    setRound(genRound({ lang: idiomaRef.current, level: diff, filter: filterRef.current }))
     setPhase('choose')
     setSelected([])
     setDelta(null)
-  }, [l])
+  }, [])
 
   // topic = entrada de TOPICS cuando se practica algo concreto, null en el juego normal
   function startGame(diff, topic = null) {
@@ -298,7 +308,8 @@ export default function AnalizaFrases() {
 
   if (screen === 'difficulty') {
     return (<><SEOHead title={seo.title} description={seo.desc} path={seo.path} lang={l} />
-      <DifficultyScreen onSelect={startGame} onFocus={() => setScreen('topics')} l={l} localPath={localPath} /></>)
+      <DifficultyScreen onSelect={startGame} onFocus={() => setScreen('topics')} l={l} localPath={localPath}
+        idioma={idioma} onIdioma={id => { setIdioma(id); idiomaRef.current = id }} /></>)
   }
 
   if (screen === 'topics') {

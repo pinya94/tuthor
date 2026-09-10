@@ -8,6 +8,7 @@ import { TEMAS, MEZCLA, genRound, esCorrecta, solucionTexto } from '../lib/pieza
 import PiezasBoard from '../components/PiezasBoard'
 import GameEndScreen from '../components/GameEndScreen'
 import SEOHead from '../components/SEOHead'
+import ComoSeJuega from '../components/ComoSeJuega'
 
 // 45 segundos y +2 por acierto. El reloj SE PARA mientras se lee la regla (ver
 // el efecto del temporizador): así la dificultad está en resolver rápido, que
@@ -65,16 +66,13 @@ function IntroScreen({ onSelect, l }) {
         <h1 className="text-3xl font-black text-white text-center mb-1">{T('title', l)}</h1>
         <p className="text-white/40 text-sm text-center mb-6">{T('sub', l)}</p>
 
-        {/* Lo primero que lee un alumno que no ha jugado nunca: qué es esto.
-            "Todo mezclado" solo significa algo para quien ya lo conoce. */}
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-5 mb-3">
-          <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-3">{T('queEs', l)}</p>
-          <div className="space-y-2 text-white/70 text-sm">
-            <p>{T('q1', l)}</p>
-            <p>{T('q2', l)}</p>
-            <p>{T('q3', l)}</p>
-          </div>
-        </div>
+        {/* Plegado: lo que un alumno nuevo necesita leer sigue estando, pero
+            sin enterrar los botones bajo tres párrafos. */}
+        <ComoSeJuega label={T('queEs', l)}>
+          <p>{T('q1', l)}</p>
+          <p>{T('q2', l)}</p>
+          <p>{T('q3', l)}</p>
+        </ComoSeJuega>
 
         <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-4">
           <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-3">{T('how', l)}</p>

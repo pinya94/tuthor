@@ -6,6 +6,7 @@ import { saveActivity, saveDailyChallenge } from '../lib/activity'
 import { computeCoins } from '../lib/games'
 import GameEndScreen from '../components/GameEndScreen'
 import { getQuestionsForPool } from '../data/palabrasIntrusas'
+import SelectorIdioma from '../components/SelectorIdioma'
 import SEOHead from '../components/SEOHead'
 
 const NIVELES = [
@@ -92,6 +93,7 @@ export default function ElIntruso() {
   const [screen, setScreen]       = useState(dailyNivel ? 'playing' : 'select')
   const [nivel, setNivel]         = useState(dailyNivel ?? 'facil')
   const [selectedNivel, setSelectedNivel] = useState(dailyNivel ?? 'facil') // for select screen tab
+  const [idioma, setIdioma] = useState(lang)
   const [questions, setQuestions] = useState([])
   const [current, setCurrent]     = useState(0)
   const [score, setScore]         = useState(0)
@@ -164,9 +166,11 @@ export default function ElIntruso() {
 
   function startGame(nv) {
     const cfg = getNivelCfg(nv)
+    // El reto diario va siempre en el idioma de la interfaz: es el mismo para
+    // todo el mundo ese día y tiene que poder compararse.
     const pool = dailyNivel
       ? getQuestionsForPool(lang, nv, cfg.preguntas, dayOfYear())
-      : getQuestionsForPool(lang, nv, cfg.preguntas)
+      : getQuestionsForPool(idioma, nv, cfg.preguntas)
     scoreRef.current     = 0
     correctRef.current   = 0
     wrongRef.current     = 0
@@ -259,6 +263,9 @@ export default function ElIntruso() {
             <h1 className="text-4xl font-black text-white mb-2">{u.titulo}</h1>
             <p className="text-white/40">{u.desc}</p>
           </div>
+
+          <SelectorIdioma valor={idioma} onCambio={setIdioma} l={lang}
+            etiqueta={{ es: 'Idioma de las palabras', en: 'Language of the words', ca: 'Idioma de les paraules' }} />
 
           {/* Difficulty tabs */}
           <div className="flex gap-2 p-1 bg-white/5 border border-white/10 rounded-xl mb-6 w-fit mx-auto">

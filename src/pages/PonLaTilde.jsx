@@ -7,6 +7,7 @@ import { computeCoins } from '../lib/games'
 import { TIPOS, genRound, explicacion } from '../lib/ponLaTilde'
 import GameEndScreen from '../components/GameEndScreen'
 import SEOHead from '../components/SEOHead'
+import ComoSeJuega from '../components/ComoSeJuega'
 
 const GAME_TIME = 60
 const WRONG_TIME = 5
@@ -44,15 +45,12 @@ function IntroScreen({ onStart, l }) {
         <h1 className="text-3xl font-black text-white text-center mb-1">{T('title', l)}</h1>
         <p className="text-white/40 text-sm text-center mb-6">{T('sub', l)}</p>
 
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-5 mb-4">
-          <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-3">{T('queEs', l)}</p>
-          <div className="space-y-2 text-white/70 text-sm">
-            <p>{T('q1', l)}</p>
-            <p>{T('q2', l)}</p>
-            <p>{T('q3', l)}</p>
-            <p className="text-white/40 text-xs pt-1">⏱️ {GAME_TIME}s · {T('ptsVal', l)}</p>
-          </div>
-        </div>
+        <ComoSeJuega label={T('queEs', l)}>
+          <p>{T('q1', l)}</p>
+          <p>{T('q2', l)}</p>
+          <p>{T('q3', l)}</p>
+          <p className="text-white/40 text-xs pt-1">⏱️ {GAME_TIME}s · {T('ptsVal', l)}</p>
+        </ComoSeJuega>
 
         <button onClick={onStart}
           className="w-full py-3.5 rounded-2xl bg-[#EDAE49] text-black font-black text-lg hover:bg-amber-400 transition-colors">

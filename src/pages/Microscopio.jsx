@@ -5,11 +5,12 @@ import { useAuth } from '../context/AuthContext'
 import { saveActivity } from '../lib/activity'
 import { computeCoins } from '../lib/games'
 import { CELULAS } from '../data/organulos'
-import { MODOS, genRound, esCorrecta, enunciado } from '../lib/microscopio'
+import { genRound, esCorrecta, enunciado } from '../lib/microscopio'
 import { nuevaRonda } from '../lib/preparaciones'
 import CelulaSVG from '../components/CelulaSVG'
 import GameEndScreen from '../components/GameEndScreen'
 import SEOHead from '../components/SEOHead'
+import ComoSeJuega from '../components/ComoSeJuega'
 
 const GAME_TIME = 60
 const WRONG_TIME = 5
@@ -27,7 +28,6 @@ const C = {
   q3:      { es: 'Fíjate en qué célula te ha tocado: los cloroplastos y la pared solo están en la vegetal, y los centriolos solo en la animal.', en: 'Watch which cell you got: chloroplasts and the wall are only in the plant one, centrioles only in the animal one.', ca: 'Fixa\'t en quina cèl·lula t\'ha tocat: els cloroplasts i la paret només són a la vegetal.' },
   q4:      { es: 'O cambia a preparaciones reales: fotos de verdad al microscopio —un piojo, polen, diatomeas, el ojo de una mosca, un pelo tuyo, un copo de nieve— con una zona señalada que tienes que identificar.', en: 'Or switch to real slides: actual microscope photos —a louse, pollen, diatoms, a fly\'s eye, one of your hairs, a snowflake— with one area circled for you to identify.', ca: 'O canvia a preparacions reals: fotos de veritat al microscopi —un poll, pol·len, diatomees, l\'ull d\'una mosca, un pèl teu, un floc de neu— amb una zona marcada que has d\'identificar.' },
   how:     { es: 'Cómo funciona', en: 'How it works', ca: 'Com funciona' },
-  modo:    { es: '¿Cómo quieres que te pregunte?', en: 'How should it ask you?', ca: 'Com vols que et pregunti?' },
   ptsVal:  { es: 'Acierto +1 y +3s · Fallo −5s', en: 'Correct +1 and +3s · Wrong −5s', ca: 'Encert +1 i +3s · Error −5s' },
   start:   { es: '▶ Empezar', en: '▶ Start', ca: '▶ Començar' },
   fuente:  { es: '¿Qué quieres mirar?', en: 'What do you want to look at?', ca: 'Què vols mirar?' },
@@ -46,7 +46,6 @@ const C = {
 const T = (k, l) => C[k]?.[l] ?? C[k]?.es ?? k
 
 function IntroScreen({ onStart, l }) {
-  const [modo, setModo] = useState('mixto')
   // 'celula' = la célula dibujada de siempre (se PULSA el orgánulo, cada uno
   // es una forma del SVG). 'prep' = fotos reales con una zona ya señalada, y
   // se IDENTIFICA entre opciones: sobre una foto no hay formas que pulsar.
@@ -58,15 +57,12 @@ function IntroScreen({ onStart, l }) {
         <h1 className="text-3xl font-black text-white text-center mb-1">{T('title', l)}</h1>
         <p className="text-white/40 text-sm text-center mb-6">{T('sub', l)}</p>
 
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-5 mb-3">
-          <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-3">{T('queEs', l)}</p>
-          <div className="space-y-2 text-white/70 text-sm">
-            <p>{T('q1', l)}</p>
-            <p>{T('q2', l)}</p>
-            <p>{T('q3', l)}</p>
-            <p>{T('q4', l)}</p>
-          </div>
-        </div>
+        <ComoSeJuega label={T('queEs', l)}>
+          <p>{T('q1', l)}</p>
+          <p>{T('q2', l)}</p>
+          <p>{T('q3', l)}</p>
+          <p>{T('q4', l)}</p>
+        </ComoSeJuega>
 
         <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-2">{T('fuente', l)}</p>
         <div className="grid grid-cols-2 gap-1.5 mb-4">
@@ -79,26 +75,9 @@ function IntroScreen({ onStart, l }) {
           ))}
         </div>
 
-        {/* El modo de pregunta (nombre / función) solo aplica a la célula: en
-            las fotos siempre se pregunta lo mismo, qué es lo señalado. */}
-        {fuente === 'celula' && (
-          <>
-            <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-2">{T('modo', l)}</p>
-            <div className="grid grid-cols-3 gap-1.5 mb-4">
-              {Object.entries(MODOS).map(([id, m]) => (
-                <button key={id} onClick={() => setModo(id)}
-                  className={`px-2 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all border ${
-                    modo === id ? 'bg-white/15 border-white/20 text-white' : 'bg-white/5 border-white/10 text-white/40 hover:text-white/70'}`}>
-                  {m.label[l] ?? m.label.es}
-                </button>
-              ))}
-            </div>
-          </>
-        )}
-
         <p className="text-white/40 text-xs text-center mb-5">⏱️ {GAME_TIME}s · {T('ptsVal', l)}</p>
 
-        <button onClick={() => onStart(modo, fuente)}
+        <button onClick={() => onStart(fuente)}
           className="w-full py-3.5 rounded-2xl bg-[#EDAE49] text-black font-black text-lg hover:bg-amber-400 transition-colors">
           {T('start', l)}
         </button>
@@ -117,7 +96,11 @@ export default function Microscopio() {
   const backPath = location.state?.backPath
 
   const [screen, setScreen] = useState('intro')
-  const [modo, setModo] = useState('mixto')
+  // Siempre mezclado: preguntar unas veces por el nombre y otras por la
+  // función es lo que hace un examen, y elegirlo de antemano quitaba la mitad
+  // de la gracia. Antes era un selector de tres botones en la pantalla de
+  // inicio; sobraba.
+  const MODO = 'mixto'
   const [fuente, setFuente] = useState('celula')
   const [timeLeft, setTimeLeft] = useState(GAME_TIME)
   const [correctCount, setCorrectCount] = useState(0)
@@ -145,14 +128,13 @@ export default function Microscopio() {
     setPhase('choose')
   }, [l])
 
-  const startGame = useCallback((m, f = 'celula') => {
-    setModo(m)
+  const startGame = useCallback((f = 'celula') => {
     setFuente(f)
     setScreen('playing')
     setCorrectCount(0); setStreak(0)
     setTimeLeft(GAME_TIME)
     vistosRef.current = []
-    next(m, f)
+    next(MODO, f)
   }, [next])
 
   // Declarada antes del reloj que la llama, para que el intervalo no se quede
@@ -208,7 +190,7 @@ export default function Microscopio() {
       setStreak(0)
       setTimeLeft(t => Math.max(0, t - WRONG_TIME))
     }
-    nextRef.current = setTimeout(() => next(modo, fuente), REVEAL_MS)
+    nextRef.current = setTimeout(() => next(MODO, fuente), REVEAL_MS)
   }
 
   const seo = {
@@ -239,7 +221,7 @@ export default function Microscopio() {
       <GameEndScreen game="microscopio" emoji="🔬" title={T('end', l)} score={pts} message={msg}
         stats={[{ label: T('hits', l), value: correctCount, emoji: '✅' }]}
         shareText={shareText} user={user} lang={l}
-        onPlayAgain={() => startGame(modo, fuente)}
+        onPlayAgain={() => startGame(fuente)}
         secondaryActions={secondary} />
     )
   }
