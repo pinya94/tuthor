@@ -27,10 +27,11 @@
 // proporción de esa línea (mitad húmero / mitad antebrazo), no un punto que
 // se vea distinto en el dibujo. Pierna derecha cadera ~172→rodilla ~233→
 // tobillo ~295 (esta sí ya salía bien a ojo, centro estable en x≈93-96 todo
-// el trayecto). Brazo y pierna van siempre del lado derecho (x>74, el mismo
-// convenio que ya usaban estómago/hígado) — es simetría bilateral, el lado
-// es una elección arbitraria, no hace falta repetir cada hueso a los dos
-// lados. Cubren los 5 sistemas que ya trata el examen teórico de Cuerpo
+// el trayecto). Brazo y pierna van siempre del mismo lado del dibujo (x>74)
+// — es simetría bilateral, el lado es una elección arbitraria y no hace falta
+// repetir cada hueso a los dos lados. OJO: x>74 es la IZQUIERDA de la persona,
+// no su derecha (ver la nota de VISTA FRONTAL más abajo); para los huesos da
+// igual, para el hígado no. Cubren los 5 sistemas que ya trata el examen teórico de Cuerpo
 // Humano (src/data/cuerpoHumano.js) más el óseo/articular, que no tiene
 // examen propio todavía: nervioso, circulatorio, respiratorio, digestivo y
 // óseo.
@@ -44,6 +45,14 @@
 // cada pregunta solo mira el radio del órgano que toca esa ronda). Los
 // radios son deliberadamente generosos: el reto es saber la zona general,
 // no acertar un punto exacto al milímetro.
+//
+// LO QUE ESTE JUEGO NO PUEDE DISTINGUIR, y es a propósito: radio y cúbito
+// van juntos en el antebrazo, y tibia y peroné en la pierna. Sus cápsulas se
+// solapan casi del todo, así que un clic en mitad del antebrazo cuenta como
+// bueno se pregunte por el radio o por el cúbito. Apretar los radios para
+// separarlos sería pedir puntería de dos o tres píxeles en un móvil, que es
+// otra destreza y no la que se enseña aquí. Cuál es cuál se aprende leyendo
+// el dato que sale al acertar, no afinando el dedo.
 //
 // Para huesos largos (húmero, radio, cúbito, fémur, tibia, peroné) un
 // círculo centrado en un punto se queda corto — un clic en cualquier punto
@@ -63,6 +72,13 @@
 // viewBox nativo de public/img/cuerpo-humano.svg — única fuente de verdad,
 // la usan también SiluetaCuerpo.jsx (dibujo/clics) y lib/rayosX.js (para
 // reflejar los órganos `bilateral` al lado contrario).
+// VISTA FRONTAL: la silueta MIRA AL JUGADOR, así que el lado derecho de la
+// persona sale a la IZQUIERDA de la imagen (x pequeña). Por eso el hígado va
+// en x<74 y el corazón y el estómago en x>74, aunque al escribirlo parezca lo
+// contrario. Los tres estuvieron invertidos hasta 2026-09-10: un alumno que
+// aprendiera aquí "el hígado está a la derecha del dibujo" lo marcaría mal en
+// clase, porque cualquier lámina de anatomía es una vista frontal. Los huesos
+// no se ven afectados: son bilaterales y valen los dos lados.
 export const VB_W = 147.998, VB_H = 318.455
 
 function organo(id, sistema, x, y, radio, color, nombre, funcion, dato, bilateral) {
@@ -110,7 +126,7 @@ export const ORGANOS = [
     { es: 'Intercambian oxígeno y dióxido de carbono con la sangre al respirar.', en: 'Exchange oxygen and carbon dioxide with the blood when breathing.', ca: 'Intercanvien oxigen i diòxid de carboni amb la sang en respirar.' },
     { es: 'Si se estirara toda su superficie interna, cubriría casi una pista de tenis: unos 70 metros cuadrados.', en: 'If their whole inner surface were unfolded, it would cover almost a tennis court: about 70 square metres.', ca: 'Si s\'estirés tota la seva superfície interna, cobriria gairebé una pista de tennis: uns 70 metres quadrats.' }),
 
-  organo('corazon', 'circulatorio', 64, 80, 15, '#f87171',
+  organo('corazon', 'circulatorio', 84, 80, 15, '#f87171',
     { es: 'Corazón', en: 'Heart', ca: 'Cor' },
     { es: 'Bombea la sangre por todo el cuerpo a través de venas y arterias.', en: 'Pumps blood around the whole body through veins and arteries.', ca: 'Bombeja la sang per tot el cos a través de venes i artèries.' },
     { es: 'Late unas 100.000 veces al día, bombeando la sangre a través de casi 100.000 km de vasos sanguíneos.', en: 'It beats around 100,000 times a day, pumping blood through nearly 100,000 km of blood vessels.', ca: 'Batega unes 100.000 vegades al dia, bombejant la sang a través de gairebé 100.000 km de vasos sanguinis.' }),
@@ -120,12 +136,12 @@ export const ORGANOS = [
     { es: 'Músculo que se contrae y relaja para impulsar la respiración.', en: 'Muscle that contracts and relaxes to drive breathing.', ca: 'Múscul que es contrau i relaxa per impulsar la respiració.' },
     { es: 'Al contraerse baja y aplana su forma de cúpula, dejando más espacio a los pulmones para llenarse de aire.', en: 'When it contracts it flattens its dome shape, leaving more room for the lungs to fill with air.', ca: 'En contraure\'s baixa i aplana la seva forma de cúpula, deixant més espai als pulmons per omplir-se d\'aire.' }),
 
-  organo('estomago', 'digestivo', 62, 107, 18, '#fb923c',
+  organo('estomago', 'digestivo', 86, 107, 18, '#fb923c',
     { es: 'Estómago', en: 'Stomach', ca: 'Estómac' },
     { es: 'Descompone los alimentos con ácido y enzimas digestivas.', en: 'Breaks down food with acid and digestive enzymes.', ca: 'Descompon els aliments amb àcid i enzims digestius.' },
     { es: 'Su ácido gástrico tiene un pH tan bajo como 1,5 — capaz de disolver metal, aunque el propio estómago se protege con una capa de moco.', en: 'Its gastric acid can have a pH as low as 1.5 — strong enough to dissolve metal, though the stomach itself is protected by a layer of mucus.', ca: 'El seu àcid gàstric pot tenir un pH tan baix com 1,5 — capaç de dissoldre metall, tot i que el mateix estómac es protegeix amb una capa de moc.' }),
 
-  organo('higado', 'digestivo', 87, 107, 19, '#c2884d',
+  organo('higado', 'digestivo', 61, 107, 19, '#c2884d',
     { es: 'Hígado', en: 'Liver', ca: 'Fetge' },
     { es: 'Filtra la sangre y produce bilis para digerir las grasas.', en: 'Filters the blood and produces bile to digest fats.', ca: 'Filtra la sang i produeix bilis per digerir els greixos.' },
     { es: 'Es el único órgano interno capaz de regenerarse: puede recuperar su tamaño incluso perdiendo hasta un 75%.', en: 'It is the only internal organ that can regenerate: it can recover its size even after losing up to 75% of it.', ca: 'És l\'únic òrgan intern capaç de regenerar-se: pot recuperar la seva mida encara que en perdi fins a un 75%.' }),

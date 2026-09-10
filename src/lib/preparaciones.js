@@ -32,23 +32,33 @@ const nombreEn = (zona, lang) => zona.nombre[lang] ?? zona.nombre.es
 // del mismo bicho), y solo si no llegan a cuatro se completan con zonas de
 // otras. Preguntar por la antena de un piojo ofreciendo "cristal cúbico" no
 // es una pregunta: la respuesta se adivina sin saber nada.
-export function opcionesPara(preparacion, zona, lang = 'es') {
+//
+// Los de fuera van BARAJADOS, no en el orden del fichero. Antes se cogían los
+// tres primeros que aparecían, así que una zona salía siempre con los mismos
+// tres acompañantes: bastaba jugarla una vez para recordar cuál de esos
+// cuatro nombres era, sin volver a mirar la foto. Con doce preparaciones el
+// problema iba a peor, porque el pozo de nombres crecía y aun así se usaban
+// siempre los mismos. Se barajan los dos escalones por separado para no
+// perder la preferencia por la misma preparación.
+export function opcionesPara(preparacion, zona, lang = 'es', aleatorio = Math.random) {
   const correcta = nombreEn(zona, lang)
   const vistos = new Set([correcta])
-  const otras = []
+  const propias = []
+  const ajenas = []
 
   for (const z of preparacion.zonas) {
     const n = nombreEn(z, lang)
-    if (!vistos.has(n)) { vistos.add(n); otras.push(n) }
+    if (!vistos.has(n)) { vistos.add(n); propias.push(n) }
   }
   for (const p of PREPARACIONES) {
     if (p.id === preparacion.id) continue
     for (const z of p.zonas) {
       const n = nombreEn(z, lang)
-      if (!vistos.has(n)) { vistos.add(n); otras.push(n) }
+      if (!vistos.has(n)) { vistos.add(n); ajenas.push(n) }
     }
   }
 
+  const otras = [...barajar(propias, aleatorio), ...barajar(ajenas, aleatorio)]
   return [correcta, ...otras.slice(0, OPCIONES_POR_RONDA - 1)]
 }
 
@@ -62,7 +72,7 @@ export function nuevaRonda(grupoId = 'todas', lang = 'es', aleatorio = Math.rand
   const preparacion = pool[Math.floor(aleatorio() * pool.length)]
   const zona = preparacion.zonas[Math.floor(aleatorio() * preparacion.zonas.length)]
 
-  return { preparacion, zona, opciones: barajar(opcionesPara(preparacion, zona, lang), aleatorio) }
+  return { preparacion, zona, opciones: barajar(opcionesPara(preparacion, zona, lang, aleatorio), aleatorio) }
 }
 
 // Fisher-Yates. Sin esto la respuesta correcta sería siempre la primera

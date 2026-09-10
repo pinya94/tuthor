@@ -39,7 +39,7 @@ export const PREPARACIONES = [
     zonas: [
       {
         id: 'nucleo-mejilla',
-        marca: { cx: 50, cy: 44, r: 5 },
+        marca: { cx: 49, cy: 43, r: 3.5 },
         nombre: { es: 'Núcleo de la célula animal', en: 'Animal cell nucleus', ca: 'Nucli de la cèl·lula animal' },
         dato: {
           es: 'El punto oscuro del centro. Se tiñe más que el resto porque dentro está el ADN, y por eso es lo primero que se distingue al microscopio.',
@@ -49,7 +49,7 @@ export const PREPARACIONES = [
       },
       {
         id: 'citoplasma-mejilla',
-        marca: { cx: 54, cy: 55, r: 5 },
+        marca: { cx: 45, cy: 50, r: 3.5 },
         nombre: { es: 'Citoplasma de la célula animal', en: 'Animal cell cytoplasm', ca: 'Citoplasma de la cèl·lula animal' },
         dato: {
           es: 'Todo el interior azulado que rodea al núcleo. No está vacío: ahí flotan los orgánulos, demasiado pequeños para verse con este microscopio.',
@@ -209,7 +209,7 @@ export const PREPARACIONES = [
     zonas: [
       {
         id: 'globulo-rojo',
-        marca: { cx: 28, cy: 52, r: 6 },
+        marca: { cx: 82, cy: 74, r: 6 },
         nombre: { es: 'Glóbulo rojo', en: 'Red blood cell', ca: 'Glòbul vermell' },
         dato: {
           es: 'Se ve más claro en el centro porque tiene forma de donut sin agujero: hundido por las dos caras para llevar más oxígeno.',
@@ -255,6 +255,152 @@ export const PREPARACIONES = [
           es: 'El círculo iluminado es todo lo que se ve por el ocular. Fuera de él no hay nada que mirar: es el borde de la lente.',
           en: 'The lit circle is everything you can see through the eyepiece. Outside it there is nothing to look at: that is the edge of the lens.',
           ca: 'El cercle il·luminat és tot el que es veu per l\'ocular. Fora no hi ha res a mirar: és la vora de la lent.',
+        },
+      },
+    ],
+  },
+
+  // ── Añadidas 2026-09-10 ────────────────────────────────────────────────────
+  // Había siete preparaciones y cuatro de los cinco grupos se quedaban en una
+  // sola foto: elegir "Plantas" o "Cristales" daba siempre la misma imagen.
+  // Estas cinco reparten el reparto y, sobre todo, meten cosas que un alumno
+  // no ha visto nunca: polen de verdad, diatomeas, el ojo de una mosca por
+  // dentro, un pelo suyo de cerca y un copo de nieve fotografiado en 1902.
+  {
+    id: 'polen',
+    grupo: 'vegetal',
+    foto: '/microscopio/polen.jpg',
+    titulo: { es: 'Granos de polen', en: 'Pollen grains', ca: 'Grans de pol·len' },
+    credito: 'Dartmouth Electron Microscope Facility · dominio público',
+    zonas: [
+      {
+        id: 'polen-espinoso',
+        marca: { cx: 49, cy: 27, r: 10 },
+        nombre: { es: 'Grano de polen con espinas', en: 'Spiky pollen grain', ca: 'Gra de pol·len amb espines' },
+        dato: {
+          es: 'Las espinas se enganchan al pelo de los insectos. La planta no puede moverse, así que su polen viaja pegado a quien la visita.',
+          en: 'The spikes hook onto insect hairs. The plant cannot move, so its pollen travels stuck to whoever visits it.',
+          ca: "Les espines s'enganxen al pèl dels insectes. La planta no es pot moure, així que el seu pol·len viatja enganxat a qui la visita.",
+        },
+      },
+      {
+        id: 'polen-liso',
+        marca: { cx: 20, cy: 27, r: 6 },
+        nombre: { es: 'Grano de polen liso', en: 'Smooth pollen grain', ca: 'Gra de pol·len llis' },
+        dato: {
+          es: 'Cada especie de planta tiene su grano propio, con su forma y su superficie. Por eso se puede saber qué plantas había en un sitio analizando el polen que quedó.',
+          en: 'Every plant species has its own grain, with its own shape and surface. That is why the pollen left behind reveals which plants grew somewhere.',
+          ca: 'Cada espècie de planta té el seu gra propi, amb la seva forma i superfície. Per això el pol·len que queda revela quines plantes hi havia.',
+        },
+      },
+    ],
+  },
+
+  {
+    id: 'diatomeas',
+    grupo: 'celula',
+    foto: '/microscopio/diatomeas.jpg',
+    titulo: { es: 'Diatomeas del mar', en: 'Sea diatoms', ca: 'Diatomees del mar' },
+    credito: 'Gordon T. Taylor, Stony Brook University · dominio público',
+    zonas: [
+      {
+        id: 'diatomea-redonda',
+        marca: { cx: 60, cy: 29, r: 9 },
+        nombre: { es: 'Diatomea redonda', en: 'Round diatom', ca: 'Diatomea rodona' },
+        dato: {
+          es: 'Cada diatomea es UN solo ser vivo de una sola célula, metido en una caja de sílice: el mismo material del cristal de una ventana.',
+          en: 'Each diatom is ONE living thing made of a single cell, inside a silica box: the same material as window glass.',
+          ca: 'Cada diatomea és UN sol ésser viu d\'una sola cèl·lula, dins d\'una caixa de sílice: el mateix material del vidre.',
+        },
+      },
+      {
+        id: 'diatomea-estriada',
+        marca: { cx: 47, cy: 79, r: 9 },
+        nombre: { es: 'Diatomea con estrías', en: 'Striped diatom', ca: 'Diatomea amb estries' },
+        dato: {
+          es: 'Las rayas son filas de agujeros finísimos por donde la célula toma lo que necesita. El dibujo es distinto en cada especie y sirve para identificarlas.',
+          en: 'The stripes are rows of tiny holes the cell feeds through. The pattern differs in every species and is used to tell them apart.',
+          ca: 'Les ratlles són files de forats finíssims per on la cèl·lula pren el que necessita. El dibuix canvia en cada espècie i serveix per identificar-les.',
+        },
+      },
+    ],
+  },
+
+  {
+    id: 'ojo-mosca',
+    grupo: 'bichos',
+    foto: '/microscopio/ojo-mosca.jpg',
+    titulo: { es: 'Ojo de una mosca', en: "A fly's eye", ca: "Ull d'una mosca" },
+    credito: 'Dominio público (Wikimedia Commons)',
+    zonas: [
+      {
+        id: 'faceta-ojo-mosca',
+        marca: { cx: 30, cy: 88, r: 6 },
+        nombre: { es: 'Faceta del ojo de la mosca', en: "Facet of the fly's eye", ca: "Faceta de l'ull de la mosca" },
+        dato: {
+          es: 'Cada cúpula es un ojo diminuto con su propia lente, y hay cientos o miles en cada ojo. La mosca no ve una imagen nítida, pero detecta el movimiento antes que tú.',
+          en: 'Each dome is a tiny eye with its own lens, and there are hundreds or thousands per eye. The fly does not see a sharp image, but it spots movement before you do.',
+          ca: "Cada cúpula és un ull diminut amb la seva lent, i n'hi ha centenars o milers a cada ull. La mosca no veu una imatge nítida, però detecta el moviment abans que tu.",
+        },
+      },
+      {
+        id: 'pelos-ojo-mosca',
+        marca: { cx: 32, cy: 28, r: 6 },
+        nombre: { es: 'Pelos del ojo de la mosca', en: "Hairs on the fly's eye", ca: "Pèls de l'ull de la mosca" },
+        dato: {
+          es: 'Entre faceta y faceta salen pelos. Notan el aire y el polvo, así que el ojo de la mosca también toca, no solo mira.',
+          en: 'Hairs grow between the facets. They sense air and dust, so the fly\'s eye touches as well as looks.',
+          ca: "Entre faceta i faceta surten pèls. Noten l'aire i la pols, així que l'ull de la mosca també toca, no només mira.",
+        },
+      },
+    ],
+  },
+
+  {
+    id: 'cabello',
+    grupo: 'cuerpo',
+    foto: '/microscopio/cabello.jpg',
+    titulo: { es: 'Un pelo tuyo de cerca', en: 'One of your hairs, close up', ca: 'Un pèl teu de prop' },
+    credito: 'Arlo James Barnes · CC0',
+    zonas: [
+      {
+        id: 'escamas-cabello',
+        marca: { cx: 50, cy: 45, r: 13 },
+        nombre: { es: 'Escamas del cabello', en: 'Hair scales', ca: 'Escates del cabell' },
+        dato: {
+          es: 'El pelo está cubierto de escamas montadas como las tejas de un tejado, todas apuntando hacia la punta. Por eso se nota liso hacia abajo y áspero hacia arriba.',
+          en: 'Hair is covered in scales overlapping like roof tiles, all pointing towards the tip. That is why it feels smooth one way and rough the other.',
+          ca: 'El pèl està cobert d\'escates muntades com les teules d\'una teulada, totes apuntant cap a la punta. Per això es nota llis cap avall i aspre cap amunt.',
+        },
+      },
+    ],
+  },
+
+  {
+    id: 'nieve',
+    grupo: 'cristales',
+    foto: '/microscopio/nieve.jpg',
+    titulo: { es: 'Un copo de nieve', en: 'A snowflake', ca: 'Un floc de neu' },
+    credito: 'Wilson Bentley, 1902 · dominio público',
+    zonas: [
+      {
+        id: 'brazo-copo',
+        marca: { cx: 37, cy: 17, r: 10 },
+        nombre: { es: 'Brazo del copo de nieve', en: 'Arm of the snowflake', ca: 'Braç del floc de neu' },
+        dato: {
+          es: 'Los seis brazos crecen a la vez y atraviesan el mismo aire, por eso salen casi idénticos. La forma exacta la deciden la temperatura y la humedad de la nube.',
+          en: 'The six arms grow at the same time through the same air, which is why they come out nearly identical. The exact shape is decided by the cloud\'s temperature and humidity.',
+          ca: 'Els sis braços creixen alhora i travessen el mateix aire, per això surten gairebé idèntics. La forma exacta la decideixen la temperatura i la humitat del núvol.',
+        },
+      },
+      {
+        id: 'centro-copo',
+        marca: { cx: 49, cy: 42, r: 9 },
+        nombre: { es: 'Centro del copo de nieve', en: 'Centre of the snowflake', ca: 'Centre del floc de neu' },
+        dato: {
+          es: 'Todo copo empieza aquí, en un cristal minúsculo de seis lados: el agua al congelarse siempre forma hexágonos, y de ahí salen los seis brazos.',
+          en: 'Every flake starts here, in a tiny six-sided crystal: freezing water always forms hexagons, and the six arms grow out of it.',
+          ca: 'Tot floc comença aquí, en un cristall minúscul de sis costats: l\'aigua en congelar-se sempre forma hexàgons, i d\'allà surten els sis braços.',
         },
       },
     ],

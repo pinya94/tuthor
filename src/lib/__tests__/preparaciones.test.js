@@ -122,6 +122,19 @@ describe('opcionesPara', () => {
     expect(new Set(op).size).toBe(OPCIONES_POR_RONDA)
   })
 
+  it('los acompañantes de fuera cambian entre partidas', () => {
+    // Con los distractores en orden fijo, una zona salía SIEMPRE con los
+    // mismos tres nombres al lado: jugarla una vez bastaba para recordar cuál
+    // de los cuatro era, sin volver a mirar la foto. Las zonas de la propia
+    // preparación sí pueden repetirse — son pocas y deben salir todas.
+    const hoja = PREPARACIONES.find(p => p.id === 'hoja')
+    const combinaciones = new Set()
+    for (let i = 0; i < 60; i++) {
+      combinaciones.add([...opcionesPara(hoja, hoja.zonas[0])].sort().join('|'))
+    }
+    expect(combinaciones.size).toBeGreaterThan(1)
+  })
+
   it('funciona en inglés y catalán', () => {
     for (const lang of ['en', 'ca']) {
       const op = opcionesPara(piojo, piojo.zonas[0], lang)
@@ -180,5 +193,25 @@ describe('barajar', () => {
       ))
     }
     expect(posiciones.size).toBeGreaterThan(1)
+  })
+})
+
+describe('el reparto por grupos', () => {
+  it('ningún grupo se queda con una sola foto', () => {
+    // Elegir "Plantas" y ver siempre la misma imagen no es un filtro, es un
+    // atajo: con una sola preparación el alumno reconoce la foto antes de
+    // mirar la marca. Pasaba en cuatro de los cinco grupos.
+    for (const g of gruposDisponibles()) {
+      expect(preparacionesDe(g).length, `grupo ${g}`).toBeGreaterThanOrEqual(2)
+    }
+  })
+
+  it('todas las fotos declaradas existen en public/microscopio', async () => {
+    // Una ruta mal escrita deja la pregunta sin imagen y no lo caza nada más:
+    // la marca se dibuja igual, sobre un hueco.
+    const { existsSync } = await import('node:fs')
+    for (const p of PREPARACIONES) {
+      expect(existsSync('public' + p.foto), `${p.id}: falta ${p.foto}`).toBe(true)
+    }
   })
 })
