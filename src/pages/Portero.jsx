@@ -6,7 +6,7 @@ import { computeCoins } from '../lib/games'
 import GameEndScreen from '../components/GameEndScreen'
 import SupportBlock from '../components/SupportBlock'
 import SEOHead from '../components/SEOHead'
-import { POOLS } from '../data/porteroLevels'
+import { generarNivel } from '../lib/portero'
 import {
   VIEW, W, H, ANIM_DURATION,
   toSVG, GridLines, Ball, FnCurve,
@@ -201,7 +201,7 @@ function PorteroField({ question, phase, chosen, ballPos, trail }) {
 
 const DIFS = {
   easy:   { emoji: '🟢', label: { es: 'Fácil',   en: 'Easy',   ca: 'Fàcil'   },
-    desc: { es: 'Rectas simples · f(x) = (x+a)/k',          en: 'Simple lines · f(x) = (x+a)/k',        ca: 'Rectes simples · f(x) = (x+a)/k'        } },
+    desc: { es: 'Rectas de pendiente suave · f(x) = mx + b', en: 'Gentle slopes · f(x) = mx + b',        ca: 'Rectes de pendent suau · f(x) = mx + b' } },
   medium: { emoji: '🟡', label: { es: 'Medio',   en: 'Medium', ca: 'Mitjà'   },
     desc: { es: 'Rectas con pendiente y corte · f(x) = mx + b', en: 'Lines with slope & intercept',     ca: 'Rectes amb pendent i tall'               } },
   hard:   { emoji: '🔴', label: { es: 'Difícil', en: 'Hard',   ca: 'Difícil' },
@@ -400,6 +400,10 @@ function EndScreen({ score, l, onRestart, onChangeDiff }) {
 // ── Main game ─────────────────────────────────────────────────────────────────
 
 const GAME_TIME = 90
+// Cuántos tiros recientes no se repiten. Con el generador no hace falta llevar
+// la cuenta de todos: basta con que no salga dos veces seguidas la misma
+// fórmula.
+const MEMORIA = 8
 
 export default function Portero() {
   const { lang } = useLang()
@@ -439,12 +443,12 @@ export default function Portero() {
   useEffect(() => { timeRef.current = timeLeft }, [timeLeft])
 
   const nextQuestion = useCallback((diff, prevUsed) => {
-    const pool = POOLS[diff]
-    const available = pool.filter(q => !prevUsed.includes(q.id))
-    const src = available.length > 0 ? available : pool
-    const q = src[Math.floor(Math.random() * src.length)]
-    const newUsed = available.length > 0 ? [...prevUsed, q.id] : [q.id]
-    setUsedIds(newUsed)
+    // El tiro se genera; antes salía de una lista de 12 por dificultad y
+    // usedIds servía para recorrerla sin repetir. Ahora usedIds es solo una
+    // memoria corta: evita que la misma fórmula vuelva a salir de seguido,
+    // pero ya no hay nada que agotar.
+    const q = generarNivel(diff, { evitar: prevUsed })
+    setUsedIds([...prevUsed, q.id].slice(-MEMORIA))
 
     // twoZones: pick correct + 1 random wrong, reset flag
     if (twoZonesRef.current) {

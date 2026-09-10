@@ -7,7 +7,7 @@ import { skillsFor } from '../data/exerciseSkills'
 import { useAuth } from '../context/AuthContext'
 import { saveActivity } from '../lib/activity'
 import CoinsAnimation from '../components/CoinsAnimation'
-import { POOLS } from '../data/porteroLevels'
+import { generarTanda } from '../lib/portero'
 import {
   VIEW, W, H, ANIM_DURATION,
   toSVG, GridLines, Ball, FnCurve,
@@ -34,12 +34,19 @@ function getZone(y) {
 // ── Build exam: 3 easy, 3 medium, 4 hard ─────────────────────────────────────
 
 function buildExam() {
-  const pick = (pool, n) => [...pool].sort(() => Math.random() - 0.5).slice(0, n)
-  return [
-    ...pick(POOLS.easy,   3),
-    ...pick(POOLS.medium, 3),
-    ...pick(POOLS.hard,   4),
-  ]
+  // generarTanda reparte las cuatro zonas antes de repetir ninguna: sorteando
+  // diez preguntas a pelo, la misma zona salía tres veces más a menudo de lo
+  // que parece, y eso se contesta por costumbre en vez de por la cuenta.
+  // El evitar se comparte entre las tres tandas: una recta suave vale para
+  // fácil y para medio, así que sin esto la misma fórmula podía salir dos
+  // veces en el mismo examen de diez preguntas.
+  const evitar = []
+  const bloque = (dif, n) => {
+    const tanda = generarTanda(dif, n, { evitar })
+    evitar.push(...tanda.map(t => t.id))
+    return tanda
+  }
+  return [...bloque('facil', 3), ...bloque('medio', 3), ...bloque('dificil', 4)]
 }
 
 // ── Field SVG ─────────────────────────────────────────────────────────────────
