@@ -946,6 +946,35 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Química', niveles: 'Primaria, ESO, Bachillerato',
   },
+  'corrige-el-texto': {
+    titulo: 'Corrige el Texto',
+    subtitulo: 'Juego de ortografía: encuentra las faltas escondidas en un texto',
+    emoji: '🔍', gradient: 'from-amber-500 to-orange-700',
+    path: '/juegos/corrige-el-texto',
+    intro: 'Un juego de ortografía que no avisa. Sale un texto de unas ochenta palabras con varias faltas escondidas dentro, se dice cuántas hay y nada más: ni dónde están ni de qué tipo son. Hay que leerlo entero decidiendo palabra por palabra si esa está bien puesta, que es exactamente lo que hace alguien al repasar un examen antes de entregarlo. Son tres textos por partida y solo cuenta el tiempo, pero cada falta que se escapa suma diez segundos, y cada palabra correcta que se marca por si acaso, otros diez.',
+    beneficios: [
+      { titulo: 'Buscar la falta, no corregir la que te señalan', texto: 'En una ficha de ortografía normal el hueco ya está marcado y el alumno elige entre dos letras. Aquí la falta está escondida entre ochenta palabras que parecen todas normales, que es la situación real de cualquier texto propio.' },
+      { titulo: 'Marcar de más también cuesta', texto: 'Si señalar sin estar seguro saliera gratis, lo óptimo sería marcarlo todo y no leer nada. Cada palabra correcta marcada suma los mismos diez segundos que una falta sin ver, así que el alumno tiene que decidir de verdad, no cubrirse.' },
+      { titulo: 'Las faltas cambian de sitio cada partida', texto: 'Los veinte textos son fijos, pero las palabras que se estropean se sortean al empezar. El mismo texto nunca se corrige dos veces igual, así que repetirlo no es recordar dónde estaba el fallo: hay que volver a leerlo.' },
+      { titulo: 'Los homófonos, que es donde de verdad cuesta', texto: 'En el nivel difícil entran palabras bien escritas puestas donde no van: tuvo por tubo, hasta por asta, hay por ay. La letra no delata nada y solo la frase entera dice cuál toca. Es el salto de saber ortografía a entender lo que se lee.' },
+    ],
+    ejemplo: 'El texto dice que el conductor se havía equivocado de calle. La palabra suena bien y se lee sin tropezar, que es justo el problema: haber va con B, y el alumno que la deja pasar se lleva diez segundos de penalización y, al corregir, la regla al lado.',
+    enPapel: {
+      titulo: 'Corregir en papel',
+      pasos: [
+        'Coge un texto ya escrito, suyo o de un libro, y cópialo metiendo cinco faltas a mano.',
+        'Dile cuántas hay, pero no de qué tipo: el número quita la angustia, el tipo regala la respuesta.',
+        'Que las marque con lápiz sin borrar nada, para poder contar también las que marcó de más.',
+        'Repasad juntos solo las que se le escaparon, y preguntad por qué esa palabra lleva esa letra.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'El intercambio de exámenes', desc: 'Que dos alumnos se corrijan el mismo texto a ciegas y comparen. Discutir una palabra dudosa fija más que acertarla a la primera.' },
+      { nombre: 'Cazar faltas en la calle', desc: 'Carteles, cartas de restaurante, mensajes de grupo. Encontrar una falta real en el mundo enseña que la ortografía existe fuera de la ficha.' },
+      { nombre: 'Releer siempre del final al principio', desc: 'Leer un texto propio hacia atrás, frase a frase, rompe la lectura automática y hace saltar faltas que de corrido no se ven.' },
+    ],
+    asignatura: 'Lengua', niveles: 'Primaria, ESO, Bachillerato',
+  },
   'pon-la-tilde': {
     titulo: 'Pon la Tilde',
     subtitulo: 'Juego de acentuación: agudas, llanas, esdrújulas e hiatos',
@@ -1803,6 +1832,34 @@ export const FICHAS_EN = {
       { nombre: 'Hunt changes of state at home', desc: 'For one day, note every change of state you see: clothes drying, a fogged mirror, an ice cream melting. Naming them on the spot is what fixes the vocabulary.' },
     ],
     asignatura: 'Chemistry', niveles: 'Primary, Secondary, Sixth Form',
+  },
+  'corrige-el-texto': {
+    titulo: 'Spot the Mistakes',
+    subtitulo: 'Spanish spelling game: find the errors hidden in a text',
+    emoji: '🔍', gradient: 'from-amber-500 to-orange-700', path: '/juegos/corrige-el-texto',
+    intro: 'A spelling game that gives nothing away. An eighty-word Spanish text appears with several mistakes hidden inside it. You are told how many there are and nothing else: not where, not what kind. You have to read the whole thing deciding word by word whether each one is right, which is exactly what anyone does when checking their own work before handing it in. Three texts per game, and only time counts, but every mistake you miss adds ten seconds, and so does every correct word you mark just in case.',
+    beneficios: [
+      { titulo: 'Finding the mistake, not fixing a flagged one', texto: 'In an ordinary spelling worksheet the gap is already marked and the student picks one of two letters. Here the mistake hides among eighty words that all look normal, which is the real situation in any piece of writing.' },
+      { titulo: 'Over-marking costs too', texto: 'If flagging a word without being sure were free, the best strategy would be to mark everything and read nothing. Each correct word marked adds the same ten seconds as a mistake missed, so the student has to decide rather than hedge.' },
+      { titulo: 'The mistakes move every game', texto: 'The twenty texts are fixed, but the words that get corrupted are drawn at the start of each game. The same text is never proofread the same way twice, so replaying it is not remembering where the error was: you have to read it again.' },
+      { titulo: 'Homophones, where it really bites', texto: 'The hard level brings in correctly spelled words placed where they do not belong: tuvo for tubo, hasta for asta, hay for ay. The letters give nothing away and only the whole sentence says which one belongs. That is the jump from knowing spelling to understanding what you read.' },
+    ],
+    ejemplo: 'The text says the driver had taken the wrong street, spelling havía instead of había. It sounds fine and reads without a stumble, which is exactly the problem: haber takes a B. A student who lets it through picks up a ten-second penalty and, in the review, the rule alongside it.',
+    enPapel: {
+      titulo: 'Proofreading on paper',
+      pasos: [
+        'Take a piece of writing, theirs or from a book, and copy it out introducing five mistakes by hand.',
+        'Tell them how many there are, but not what kind: the number removes the anxiety, the kind gives away the answer.',
+        'Have them mark in pencil without erasing, so you can also count the ones they marked wrongly.',
+        'Go through only the ones they missed, and ask why that word takes that letter.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'Swap and check', desc: 'Have two students proofread the same text blind and compare. Arguing over one doubtful word sticks better than getting it right first time.' },
+      { nombre: 'Hunt mistakes in the wild', desc: 'Signs, menus, group chats. Finding a real mistake out in the world teaches that spelling exists outside the worksheet.' },
+      { nombre: 'Always reread backwards', desc: 'Reading your own text backwards, sentence by sentence, breaks automatic reading and surfaces errors you skate over otherwise.' },
+    ],
+    asignatura: 'Spanish', niveles: 'Primary, Secondary',
   },
   'pon-la-tilde': {
     titulo: 'Spanish Accents',
@@ -2737,6 +2794,34 @@ export const FICHAS_CA = {
       { nombre: 'Caça canvis d\'estat a casa', desc: 'Durant un dia, apunteu cada canvi d\'estat que veieu: la roba que s\'asseca, el mirall entelat, un gelat que es fon.' },
     ],
     asignatura: 'Química', niveles: 'Primària, ESO, Batxillerat',
+  },
+  'corrige-el-texto': {
+    titulo: 'Corregeix el Text',
+    subtitulo: "Joc d'ortografia: troba les faltes amagades en un text",
+    emoji: '🔍', gradient: 'from-amber-500 to-orange-700', path: '/juegos/corrige-el-texto',
+    intro: "Un joc d'ortografia castellana que no avisa. Surt un text d'unes vuitanta paraules amb diverses faltes amagades a dins, es diu quantes n'hi ha i res més: ni on són ni de quin tipus. Cal llegir-lo sencer decidint paraula per paraula si aquella està ben posada, que és exactament el que fa qualsevol repassant un examen abans de lliurar-lo. Són tres textos per partida i només compta el temps, però cada falta que s'escapa suma deu segons, i cada paraula correcta que es marca per si de cas, deu més.",
+    beneficios: [
+      { titulo: 'Buscar la falta, no corregir la que et marquen', texto: "En una fitxa d'ortografia normal el buit ja està marcat i només es pot omplir de dues maneres. Aquí la falta s'amaga entre vuitanta paraules que semblen totes normals, que és la situació real de qualsevol text propi." },
+      { titulo: 'Marcar de més també costa', texto: 'Si assenyalar sense estar segur sortís gratis, el millor seria marcar-ho tot i no llegir res. Cada paraula correcta marcada suma els mateixos deu segons que una falta no vista, així que cal decidir de debò.' },
+      { titulo: 'Les faltes canvien de lloc cada partida', texto: "Els vint textos són fixos, però les paraules que s'espatllen se sortegen en començar. El mateix text no es corregeix mai dues vegades igual, així que repetir-lo no és recordar on era l'error: cal tornar-lo a llegir." },
+      { titulo: 'Els homòfons, on de veritat costa', texto: "Al nivell difícil entren paraules ben escrites posades on no van: tuvo per tubo, hasta per asta. La lletra no delata res i només la frase sencera diu quina toca. És el salt de saber ortografia a entendre el que es llegeix." },
+    ],
+    ejemplo: "El text diu que el conductor se havía equivocado de calle. La paraula sona bé i es llegeix sense entrebancar-se, que és justament el problema: haber va amb B, i qui la deixa passar s'emporta deu segons de penalització i, en corregir, la regla al costat.",
+    enPapel: {
+      titulo: 'Corregir en paper',
+      pasos: [
+        "Agafa un text ja escrit i copia'l ficant-hi cinc faltes a mà.",
+        "Digues quantes n'hi ha, però no de quin tipus: el nombre treu l'angoixa, el tipus regala la resposta.",
+        'Que les marqui amb llapis sense esborrar res, per poder comptar també les que ha marcat de més.',
+        'Repasseu junts només les que se li han escapat, i pregunteu per què aquella paraula porta aquella lletra.',
+      ],
+    },
+    alternativas: [
+      { nombre: "L'intercanvi d'exàmens", desc: 'Que dos alumnes es corregeixin el mateix text a cegues i comparin. Discutir una paraula dubtosa fixa més que encertar-la a la primera.' },
+      { nombre: 'Caçar faltes al carrer', desc: "Cartells, cartes de restaurant, missatges de grup. Trobar una falta real al món ensenya que l'ortografia existeix fora de la fitxa." },
+      { nombre: 'Rellegir sempre del final al principi', desc: 'Llegir un text propi cap enrere, frase a frase, trenca la lectura automàtica i fa saltar faltes que de seguit no es veuen.' },
+    ],
+    asignatura: 'Llengua', niveles: 'Primària, ESO, Batxillerat',
   },
   'pon-la-tilde': {
     titulo: 'Posa l\'Accent',

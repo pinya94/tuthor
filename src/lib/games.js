@@ -299,6 +299,17 @@ export const GAMES = {
     // aciertos × 10 puntos → hasta 200 monedas
     coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
   },
+  'corrige-el-texto': {
+    label: { es: 'Corrige el Texto', en: 'Spot the Mistakes', ca: 'Corregeix el Text' },
+    emoji: '🔍',
+    subject: 'lengua',
+    route: '/juegos/corrige-el-texto',
+    // Aquí no hay aciertos que contar: la nota ES el tiempo, y los puntos ya
+    // vienen de restarlo (puntosDe en lib/corrigeTexto). Se aplica la misma
+    // conversión de siempre para que 250 puntos valgan lo mismo aquí que en
+    // cualquier otro juego.
+    coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
+  },
   'pon-la-tilde': {
     label: { es: 'Pon la Tilde', en: 'Spanish Accents', ca: 'Posa l\'Accent' },
     emoji: '✏️',

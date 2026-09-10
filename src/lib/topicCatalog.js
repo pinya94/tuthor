@@ -250,6 +250,9 @@ export const TOPIC_CATALOG = {
       gj: examTema({ test: 'espanol-ortografia-gj-test' }),
       puntuacion: examTema({ test: 'espanol-ortografia-puntuacion-test' }),
       literatura: examTema({ test: 'espanol-literatura-test' }),
+      // Tema sin examen propio: por ahora solo lo trabaja el juego, que ya
+      // cubre las seis familias de falta a la vez.
+      correccion: examTema({}),
     },
     formatos: {
       // El juego mezcla clases de palabra, género y número: su sitio es el tema
@@ -265,6 +268,14 @@ export const TOPIC_CATALOG = {
         usesLevel: false,
         tracksTopic: true,
         temas: ['acentuacion'],
+      },
+      corregir: {
+        label: { es: 'Corrige el Texto (juego)', en: 'Spot the Mistakes (game)', ca: 'Corregeix el Text (joc)' },
+        emoji: '🔍',
+        game: 'corrige-el-texto',
+        usesLevel: false,
+        tracksTopic: true,
+        temas: ['correccion'],
       },
       intruso: {
         label: { es: 'El Intruso (juego)', en: 'The Odd One Out (game)', ca: "L'Intrús (joc)" },

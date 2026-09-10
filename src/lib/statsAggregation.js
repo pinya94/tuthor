@@ -148,6 +148,7 @@ export const SUBJECT_DEFS = [
       gj:            { es: 'G y J',                  en: 'G and J',                     ca: 'G i J' },
       puntuacion:    { es: 'Puntuación',             en: 'Punctuation',                 ca: 'Puntuació' },
       literatura:    { es: 'Literatura',             en: 'Literature',                  ca: 'Literatura' },
+      correccion:    { es: 'Corregir un Texto',      en: 'Proofreading',                ca: 'Corregir un Text' },
     },
   },
   {

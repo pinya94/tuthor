@@ -8,6 +8,16 @@ const TEMAS = [
   { id: 'puntuacion', titulo: { es: 'Puntuación', en: 'Punctuation', ca: 'Puntuació' }, emoji: '❓', gradient: 'from-rose-500 to-pink-700', gameId: 'espanol-ortografia-puntuacion-test' },
 ]
 
+// Los dos juegos de ortografía que hay. Estaban solo en /juegos y en el
+// catálogo por tema, así que quien entraba a estudiar ortografía por aquí veía
+// cuatro exámenes y ni rastro de ellos. Llevan `path` porque no van a
+// /examen/<id> como los de arriba, y etiqueta propia para que se vea que son
+// otra cosa: se juegan, no se aprueban.
+const JUEGOS = [
+  { id: 'corregir', titulo: { es: 'Corrige el Texto', en: 'Spot the Mistakes', ca: 'Corregeix el Text' }, emoji: '🔍', gradient: 'from-amber-500 to-orange-700', path: '/juegos/corrige-el-texto' },
+  { id: 'tilde', titulo: { es: 'Pon la Tilde', en: 'Spanish Accents', ca: "Posa l'Accent" }, emoji: '✏️', gradient: 'from-rose-500 to-pink-700', path: '/juegos/pon-la-tilde' },
+]
+
 export default function EspanolOrtografiaIndex() {
   const navigate = useNavigate()
   const { lang } = useLang()
@@ -30,6 +40,22 @@ export default function EspanolOrtografiaIndex() {
           >
             <div className="text-4xl mb-3">{tema.emoji}</div>
             <div className="text-xl font-bold">{tema.titulo[lang]}</div>
+          </button>
+        ))}
+      </div>
+
+      <p className="text-white/40 text-xs font-semibold uppercase tracking-widest text-center mt-8 mb-3">
+        {{ es: 'O juega', en: 'Or play', ca: 'O juga' }[lang]}
+      </p>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl mx-auto w-full">
+        {JUEGOS.map(juego => (
+          <button
+            key={juego.id}
+            onClick={() => navigate(juego.path)}
+            className={`bg-gradient-to-br ${juego.gradient} text-white rounded-2xl p-6 text-left hover:scale-105 transition-transform shadow-md`}
+          >
+            <div className="text-4xl mb-3">{juego.emoji}</div>
+            <div className="text-xl font-bold">{juego.titulo[lang]}</div>
           </button>
         ))}
       </div>
