@@ -1,10 +1,16 @@
+import { opcionesDeExamen, correctaDeExamen, preguntaDeExamen } from './espanolMaterial'
+
 // Literatura — primaria + ESO
 //
 // El bloque que faltaba en lengua: había 24 exámenes y todos de gramática y
 // ortografía. Géneros y subgéneros, verso y prosa, métrica y rima, figuras
 // retóricas y las obras que se citan en cualquier temario de la ESO.
+// Las opciones pasan por opcionesDeExamen: cuando son palabras castellanas que
+// la pregunta analiza, se enseñan igual en los tres idiomas. Traducirlas
+// cambiaba de qué iba la pregunta y a veces la volvía falsa — la explicación
+// larga está en espanolMaterial.js.
 function q(id, nivel, pregunta, opciones, correcta, emoji, explicacion) {
-  return { id, nivel, pregunta, opciones, correcta, emoji, explicacion }
+  return { id, nivel, pregunta: preguntaDeExamen(pregunta), opciones: opcionesDeExamen(opciones), correcta: correctaDeExamen(opciones, correcta), emoji, explicacion }
 }
 
 export const PREGUNTAS = [

@@ -1,10 +1,16 @@
+import { opcionesDeExamen, correctaDeExamen, preguntaDeExamen } from './espanolMaterial'
+
 // Ortografía: Puntuación — primaria + ESO
 //
 // El cuarto tema del bloque. A diferencia de acentuación o g/j, aquí una coma
 // mal puesta no es una falta menor: cambia lo que dice la frase. Por eso casi
 // todas las preguntas parten de un ejemplo donde el significado se mueve.
+// Las opciones pasan por opcionesDeExamen: cuando son palabras castellanas que
+// la pregunta analiza, se enseñan igual en los tres idiomas. Traducirlas
+// cambiaba de qué iba la pregunta y a veces la volvía falsa — la explicación
+// larga está en espanolMaterial.js.
 function q(id, nivel, pregunta, opciones, correcta, emoji, explicacion) {
-  return { id, nivel, pregunta, opciones, correcta, emoji, explicacion }
+  return { id, nivel, pregunta: preguntaDeExamen(pregunta), opciones: opcionesDeExamen(opciones), correcta: correctaDeExamen(opciones, correcta), emoji, explicacion }
 }
 
 export const PREGUNTAS = [

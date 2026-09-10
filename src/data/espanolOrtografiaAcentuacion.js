@@ -1,5 +1,11 @@
+import { opcionesDeExamen, correctaDeExamen, preguntaDeExamen } from './espanolMaterial'
+
+// Las opciones pasan por opcionesDeExamen: cuando son palabras castellanas que
+// la pregunta analiza, se enseñan igual en los tres idiomas. Traducirlas
+// cambiaba de qué iba la pregunta y a veces la volvía falsa — la explicación
+// larga está en espanolMaterial.js.
 function q(id, nivel, pregunta, opciones, correcta, emoji, explicacion) {
-  return { id, nivel, pregunta, opciones, correcta, emoji, explicacion }
+  return { id, nivel, pregunta: preguntaDeExamen(pregunta), opciones: opcionesDeExamen(opciones), correcta: correctaDeExamen(opciones, correcta), emoji, explicacion }
 }
 
 const TODAS = [
@@ -13,7 +19,7 @@ const TODAS = [
     { es: '¿Cuál de estas palabras lleva tilde?', en: 'Which of these words takes an accent mark?', ca: 'Quina d\'aquestes paraules porta accent?' },
     { es: ['cafe', 'mesa', 'árbol', 'libro'], en: ['cafe', 'mesa', 'árbol', 'libro'], ca: ['cafe', 'taula', 'arbre', 'llibre'] },
     2, '´',
-    { es: '"Árbol" es esdrújula (ÁR-bol) → siempre lleva tilde. "Café" lleva tilde por ser aguda acabada en vocal.', en: '"Árbol" is esdrújula → always takes accent. "Mesa" and "libro" are llanas ending in vowel/s/n → no accent.', ca: '"Àrbre" en català porta accent. "Árbol" en castellà és esdrúixola → sempre porta tilde.' }),
+    { es: '"Árbol" es llana (ÁR-bol) pero acaba en -l: las llanas llevan tilde cuando NO acaban en vocal, -n o -s. "Mesa" y "libro" son llanas acabadas en vocal, así que no la llevan.', en: '"Árbol" is llana (ÁR-bol) but ends in -l: llanas take an accent when they do NOT end in a vowel, -n or -s. "Mesa" and "libro" are llanas ending in a vowel, so they take none.', ca: '"Árbol" en castellà és plana però acaba en -l: les planes porten accent quan NO acaben en vocal, -n o -s. "Mesa" i "libro" acaben en vocal i no en porten.' }),
 
   q('ac-03', 'primaria',
     { es: '¿Qué son las palabras agudas?', en: 'What are "palabras agudas"?', ca: 'Què són les paraules agudes?' },
@@ -31,7 +37,7 @@ const TODAS = [
     { es: '¿Llevan tilde todas las palabras esdrújulas?', en: 'Do all esdrújulas take an accent mark?', ca: 'Porten accent totes les paraules esdrúixoles?' },
     { es: ['Solo las que terminan en vocal', 'Solo las que terminan en consonante', 'Sí, siempre', 'No, nunca'], en: ['Only those ending in a vowel', 'Only those ending in a consonant', 'Yes, always', 'No, never'], ca: ['Només les que acaben en vocal', 'Només les que acaben en consonant', 'Sí, sempre', 'No, mai'] },
     2, '✅',
-    { es: 'Las palabras esdrújulas y sobreesdrújulas SIEMPRE llevan tilde, sin excepción: cámara, música, pájaro, médico, teléfono.', en: 'Esdrújulas and sobreesdrújulas ALWAYS take an accent, no exceptions: cámara, música, médico.', ca: 'Les esdrúixoles SEMPRE porten accent, sense excepcions: càmera, música, metge (metge no, però sí: mèdic).' }),
+    { es: 'Las palabras esdrújulas y sobreesdrújulas SIEMPRE llevan tilde, sin excepción: cámara, música, pájaro, médico, teléfono.', en: 'Esdrújulas and sobreesdrújulas ALWAYS take an accent, no exceptions: cámara, música, médico.', ca: 'Les esdrúixoles i sobreesdrúixoles SEMPRE porten accent, sense excepció. En castellà: cámara, música, pájaro, médico, teléfono.' }),
 
   q('ac-06', 'primaria',
     { es: '¿Cuál de estos monosílabos lleva tilde diacrítica?', en: 'Which of these monosyllables takes a diacritic accent?', ca: 'Quin d\'aquests monosíl·labs porta accent diacrític?' },
@@ -95,7 +101,7 @@ const TODAS = [
 
   q('ac-16', 'primaria',
     { es: "¿Dónde lleva el acento \"cámara\"?", en: "Where is the stress in \"cámara\"?", ca: "On porta l'accent \"cámara\"?" },
-    { es: ["En la última sílaba","En la penúltima","En la antepenúltima","No lleva"], en: ["En la última sílaba","En la penúltima","En la antepenúltima","No lleva"], ca: ["En la última sílaba","En la penúltima","En la antepenúltima","No lleva"] },
+    { es: ["En la última sílaba","En la penúltima","En la antepenúltima","No lleva"], en: ["On the last syllable","On the second-to-last","On the third-to-last","It takes none"], ca: ["A l'última síl·laba","A la penúltima","A l'antepenúltima","No en porta"] },
     2, '📷',
     { es: "CÁ-ma-ra: la fuerza va en la antepenúltima sílaba, así que es esdrújula. Y todas las esdrújulas llevan tilde.", en: "CÁ-ma-ra is stressed on the third-to-last syllable: all such words take an accent.", ca: "CÁ-ma-ra: la força va a l'antepenúltima síl·laba, és esdrúixola." }),
 
@@ -107,7 +113,7 @@ const TODAS = [
 
   q('ac-18', 'primaria',
     { es: "¿Cuándo lleva tilde una palabra llana?", en: "When does a word stressed on the second-to-last syllable take an accent?", ca: "Quan porta accent una paraula plana?" },
-    { es: ["Siempre","Cuando NO acaba en vocal, n o s","Nunca","Cuando acaba en vocal"], en: ["Siempre","Cuando NO acaba en vocal, n o s","Nunca","Cuando acaba en vocal"], ca: ["Siempre","Cuando NO acaba en vocal, n o s","Nunca","Cuando acaba en vocal"] },
+    { es: ["Siempre","Cuando NO acaba en vocal, n o s","Nunca","Cuando acaba en vocal"], en: ["Always","When it does NOT end in a vowel, n or s","Never","When it ends in a vowel"], ca: ["Sempre","Quan NO acaba en vocal, n o s","Mai","Quan acaba en vocal"] },
     1, '📏',
     { es: "Las llanas llevan tilde justo al revés que las agudas: cuando NO acaban en vocal, n o s. Por eso \"árbol\" y \"lápiz\" la llevan.", en: "Words stressed on the second-to-last syllable take an accent when they do NOT end in a vowel, n or s.", ca: "Les planes porten accent quan NO acaben en vocal, n o s." }),
 

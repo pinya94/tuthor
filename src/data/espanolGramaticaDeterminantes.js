@@ -1,5 +1,11 @@
+import { opcionesDeExamen, correctaDeExamen, preguntaDeExamen } from './espanolMaterial'
+
+// Las opciones pasan por opcionesDeExamen: cuando son palabras castellanas que
+// la pregunta analiza, se enseñan igual en los tres idiomas. Traducirlas
+// cambiaba de qué iba la pregunta y a veces la volvía falsa — la explicación
+// larga está en espanolMaterial.js.
 function q(id, nivel, pregunta, opciones, correcta, emoji, explicacion) {
-  return { id, nivel, pregunta, opciones, correcta, emoji, explicacion }
+  return { id, nivel, pregunta: preguntaDeExamen(pregunta), opciones: opcionesDeExamen(opciones), correcta: correctaDeExamen(opciones, correcta), emoji, explicacion }
 }
 
 const TODAS = [

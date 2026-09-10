@@ -1,10 +1,16 @@
+import { opcionesDeExamen, correctaDeExamen, preguntaDeExamen } from './espanolMaterial'
+
 // Ortografía: G y J — primaria + ESO
 //
 // El tercer tema del bloque, junto a acentuación y b/v. Aquí el problema no es
 // solo la regla: la g y la j solo suenan igual delante de e y de i, y la mitad
 // de las dudas se resuelven sabiendo exactamente cuándo hay que dudar.
+// Las opciones pasan por opcionesDeExamen: cuando son palabras castellanas que
+// la pregunta analiza, se enseñan igual en los tres idiomas. Traducirlas
+// cambiaba de qué iba la pregunta y a veces la volvía falsa — la explicación
+// larga está en espanolMaterial.js.
 function q(id, nivel, pregunta, opciones, correcta, emoji, explicacion) {
-  return { id, nivel, pregunta, opciones, correcta, emoji, explicacion }
+  return { id, nivel, pregunta: preguntaDeExamen(pregunta), opciones: opcionesDeExamen(opciones), correcta: correctaDeExamen(opciones, correcta), emoji, explicacion }
 }
 
 export const PREGUNTAS = [
