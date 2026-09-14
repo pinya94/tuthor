@@ -47,4 +47,18 @@ export const RECURSOS_INTERACTIVOS = [
       ca: "Enganxa les teves dades o la taula de freqüències de l'exercici: taula completa, mitjana, mediana, moda, rang i desviació típica, pas a pas i amb el diagrama de barres.",
     },
   },
+  {
+    id: 'sistema-solar',
+    // 🌌 y no el planeta con anillo (U+1FA90): está en U+1FA70–1FAFF y en Windows 10
+    // sale como un cuadrado (hay test que lo vigila).
+    emoji: '🌌',
+    path: '/recursos/sistema-solar',
+    materia: { es: 'Ciencias', en: 'Science', ca: 'Ciències' },
+    titulo: { es: 'El sistema solar en 3D', en: 'The solar system in 3D', ca: 'El sistema solar en 3D' },
+    desc: {
+      es: 'Gíralo, haz que pase el tiempo y mira dónde están de verdad los planetas en cualquier fecha, con la distancia a la Tierra y los datos de cada uno.',
+      en: 'Rotate it, let time pass and see where the planets really are on any date, with their distance to Earth and facts about each one.',
+      ca: 'Gira\'l, fes que passi el temps i mira on són de veritat els planetes en qualsevol data, amb la distància a la Terra i les dades de cadascun.',
+    },
+  },
 ]

@@ -159,6 +159,10 @@ export const STATIC_META = {
     es: { title: 'Calculadora de media, mediana y moda, paso a paso', desc: 'Escribe tus datos o tu tabla de frecuencias y calcula media, mediana, moda, rango y desviación típica paso a paso, con el diagrama de barras. Gratis y sin registro.' },
     en: { title: 'Mean, median and mode calculator, step by step', desc: 'Enter your data or frequency table and get the mean, median, mode, range and standard deviation step by step, with a bar chart. Free, no sign-up.' },
   },
+  '/recursos/sistema-solar': {
+    es: { title: 'Sistema solar en 3D: dónde están hoy los planetas', desc: 'Gira el sistema solar en 3D y mira dónde están los planetas en cualquier fecha, con distancias, tamaños y datos de cada uno. Posiciones reales, gratis y sin registro.' },
+    en: { title: 'Solar system in 3D: where the planets are today', desc: 'Rotate the solar system in 3D and see where the planets are on any date, with distances, sizes and facts for each one. Real positions, free, no sign-up.' },
+  },
   '/profesores': {
     es: { title: 'Herramientas gratis para profesores', desc: 'Pasa lista, pon notas, crea tus propios exámenes y gestiona toda la clase desde el móvil. Gratis durante la beta, sin tarjeta ni permanencia.' },
     en: { title: 'Free tools for teachers', desc: 'Take attendance, grade your students, build your own quizzes and run the whole classroom from your phone. Free during the beta, no card required.' },

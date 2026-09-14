@@ -198,6 +198,13 @@ const MODOS_POR_TEMA = {
       detalles: { es:['10 preguntas','Sin cronómetro','Acierto o fallo','Con el juego'], en:['10 questions','No timer','Right or wrong','With the game'], ca:['10 preguntes','Sense cronòmetre','Encert o error','Amb el joc'] },
       path: 'orbita-test',
     },
+    {
+      id: 'recurso-3d', emoji: '🌌', gradient: 'from-slate-700 to-indigo-950',
+      titulo: { es:'Sistema solar en 3D', en:'Solar system in 3D', ca:'Sistema solar en 3D' },
+      descripcion: { es:'No es un examen: gira el sistema solar y mira dónde están de verdad los planetas en cualquier fecha, con los datos de cada uno.', en:'Not an exam: rotate the solar system and see where the planets really are on any date, with facts about each one.', ca:'No és un examen: gira el sistema solar i mira on són de veritat els planetes en qualsevol data, amb les dades de cadascun.' },
+      detalles: { es:['Recurso','Posiciones reales','Gratis'], en:['Resource','Real positions','Free'], ca:['Recurs','Posicions reals','Gratis'] },
+      ruta: '/recursos/sistema-solar',
+    },
   ],
   'rocas-minerales': [
     {
@@ -493,7 +500,7 @@ export default function QuimicaTema() {
         {modos.map(modo => (
           <button
             key={modo.id}
-            onClick={() => navigate(localPath(`/examen/${modo.path}`), {
+            onClick={() => navigate(localPath(modo.ruta ?? `/examen/${modo.path}`), {
               state: { backPath: `${discPath}/${tema}` }
             })}
             className="w-full group relative rounded-2xl overflow-hidden text-left transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:shadow-black/40"
