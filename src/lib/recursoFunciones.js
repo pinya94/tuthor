@@ -111,8 +111,9 @@ export const tipoPorSlug = slug => TIPOS.find(t => t.slug === (slug ?? '')) ?? n
 export const clavesDe = tipo => tipo.campos.flatMap(c => (c.tipo === 'punto' ? [`${c.id}x`, `${c.id}y`] : [c.id]))
 
 // Lo que la página pinta: ecuaciones con su color, curvas, puntos, datos
-// sueltos (pendiente, eje de simetría…), secciones de pasos y el rango.
-function completar(r) {
+// sueltos (pendiente, eje de simetría…), secciones de pasos y el rango. Se
+// exporta porque el recurso de ecuaciones pinta con el mismo componente.
+export function completar(r) {
   const funciones = (r.funciones ?? []).map((fn, i) => ({ f: fn.f, color: COLORES[i] }))
   const verticales = (r.verticales ?? []).map((v, i) => ({ ...v, color: COLORES[i] }))
   const puntos = r.puntos ?? []
@@ -213,4 +214,5 @@ export const MENSAJE_ERROR = {
   division: () => ({ es: 'Hay una división entre cero', en: 'There is a division by zero', ca: 'Hi ha una divisió entre zero' }),
   grande: () => ({ es: 'Los números son demasiado grandes', en: 'The numbers are too large', ca: 'Els nombres són massa grans' }),
   numero: () => ({ es: 'Aquí va un número, sin x', en: 'A number goes here, without x', ca: 'Aquí va un nombre, sense x' }),
+  igual: () => ({ es: 'Una ecuación lleva un solo signo =', en: 'An equation has a single = sign', ca: 'Una equació porta un sol signe =' }),
 }

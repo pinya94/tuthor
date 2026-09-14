@@ -46,7 +46,7 @@ function raizSimplificada(k) {
 // Un número de la forma p + q·√r (r = 1 si es racional). Así salen exactas las
 // raíces de una parábola, y también la y de un corte con una recta.
 const mcm = (a, b) => (a * b) / (function g(x, y) { return y ? g(y, x % y) : x }(a, b))
-function surdTexto({ p, q, r }) {
+export function surdTexto({ p, q, r }) {
   if (r === 1 || esCero(q)) return fracTexto(r === 1 ? sumar(p, q) : p)
   const den = mcm(p.d, q.d)
   const P = (p.n * den) / p.d
@@ -55,7 +55,7 @@ function surdTexto({ p, q, r }) {
   const cuerpo = P === 0 ? `${q.n < 0 ? MENOS : ''}${raiz}` : `${P < 0 ? MENOS : ''}${Math.abs(P)} ${q.n < 0 ? MENOS : '+'} ${raiz}`
   return den === 1 ? cuerpo : `(${cuerpo})/${den}`
 }
-const surdValor = ({ p, q, r }) => valor(p) + valor(q) * Math.sqrt(r)
+export const surdValor = ({ p, q, r }) => valor(p) + valor(q) * Math.sqrt(r)
 
 // ── Leer funciones ──────────────────────────────────────────────────────────
 
@@ -75,7 +75,7 @@ export function prepararFuncion(texto) {
 
 // Raíces exactas de un polinomio de grado ≤ 2, con sus pasos. null si los
 // números se salen de lo que se puede llevar exacto (entonces, numérico).
-function raicesExactas(pol) {
+export function raicesExactas(pol) {
   try {
     const g = grado(pol)
     const pasos = []
@@ -90,8 +90,12 @@ function raicesExactas(pol) {
       pasos.push(
         tri(() => `${polinomioTexto(pol)} = 0`),
         tri(() => `${polinomioTexto([CERO, m])} = ${fracTexto(opuesto(b))}`),
-        tri(() => `x = ${fracTexto(opuesto(b))} / ${par(m)} = ${fracTexto(x)}`),
       )
+      // Con m = 1 la línea anterior ya es "x = …": dividir entre 1 sería un
+      // paso que no enseña nada y hace dudar de si falta algo.
+      if (!(m.n === 1 && m.d === 1)) {
+        pasos.push(tri(() => `x = ${fracTexto(opuesto(b))} / ${par(m)} = ${fracTexto(x)}`))
+      }
       return { raices: [{ p: x, q: CERO, r: 1 }], pasos }
     }
     if (g === 2) {

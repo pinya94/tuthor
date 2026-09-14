@@ -2,8 +2,8 @@ import { useMemo, useState } from 'react'
 import { Link, Navigate, useParams, useSearchParams } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import SEOEstatico from '../components/SEOEstatico'
-import PlanoFunciones from '../components/PlanoFunciones'
-import { TIPOS, BASE, COLOR_PUNTO, tipoPorSlug, rutaDe, clavesDe, resolver, MENSAJE_ERROR } from '../lib/recursoFunciones'
+import ResultadoRecurso from '../components/ResultadoRecurso'
+import { TIPOS, BASE, tipoPorSlug, rutaDe, clavesDe, resolver, MENSAJE_ERROR } from '../lib/recursoFunciones'
 
 // /recursos/funciones — el alumno escribe su ejercicio y se lo dibujamos
 // resuelto. Toda la matemática vive en lib/ (expresion, problemasFunciones,
@@ -24,16 +24,8 @@ const TX = {
     en: 'Understood: 2x + 3 · x^2 − 4x + 3 · x² · (x − 1)(x + 2) · 0.5x · 1/x · sqrt(x)',
     ca: "S'entén: 2x + 3 · x^2 − 4x + 3 · x² · (x − 1)(x + 2) · 0,5x · 1/x · sqrt(x)",
   },
-  aprox: {
-    es: 'Esta función no es una recta ni una parábola: se dibuja igual, pero los cortes se calculan de forma aproximada (≈).',
-    en: 'This function is neither a line nor a parabola: it is still drawn, but the crossings are approximate (≈).',
-    ca: "Aquesta funció no és una recta ni una paràbola: es dibuixa igual, però els talls es calculen de manera aproximada (≈).",
-  },
-  puntos: { es: 'Puntos', en: 'Points', ca: 'Punts' },
   copiar: { es: '🔗 Copiar enlace a este ejercicio', en: '🔗 Copy link to this exercise', ca: "🔗 Copiar l'enllaç a aquest exercici" },
   copiado: { es: '✓ Enlace copiado', en: '✓ Link copied', ca: '✓ Enllaç copiat' },
-  si: { es: '✓ Sí está en la gráfica', en: '✓ It is on the graph', ca: '✓ Sí que és a la gràfica' },
-  no: { es: '✗ No está en la gráfica', en: '✗ It is not on the graph', ca: '✗ No és a la gràfica' },
   practica: { es: 'Practica funciones', en: 'Practise functions', ca: 'Practica funcions' },
   juego: { es: '📈 Caza la Función', en: '📈 Function Hunt', ca: '📈 Caça la Funció' },
   examen: { es: '📝 Examen de funciones', en: '📝 Functions exam', ca: '📝 Examen de funcions' },
@@ -172,61 +164,7 @@ function Recurso({ slug }) {
 
       {r?.ok && (
         <>
-          <div className="flex flex-wrap gap-2 mb-3">
-            {r.ecuaciones.map(e => (
-              <span key={e.texto} className="text-lg font-black px-3 py-1 rounded-xl bg-black/30 border border-white/10" style={{ color: e.color }}>{e.texto}</span>
-            ))}
-            {r.pertenece !== undefined && (
-              <span className={`text-sm font-black px-3 py-2 rounded-xl ${r.pertenece ? 'bg-green-500/15 text-green-400' : 'bg-red-500/15 text-red-400'}`}>
-                {tr(r.pertenece ? TX.si : TX.no)}
-              </span>
-            )}
-          </div>
-
-          {!r.exacta && <p className="text-amber-300/80 text-xs mb-3">{tr(TX.aprox)}</p>}
-
-          <PlanoFunciones funciones={r.funciones} verticales={r.verticales} puntos={r.puntos} rango={r.rango} />
-
-          {r.puntos.length > 0 && (
-            <div className="mt-4 rounded-2xl border border-white/10 bg-white/5 p-4">
-              <p className="text-white/45 text-xs font-semibold uppercase tracking-widest mb-2">{tr(TX.puntos)}</p>
-              <ul className="space-y-1">
-                {r.puntos.map((p, i) => (
-                  <li key={i} className="flex items-center gap-2 text-sm">
-                    <span className="w-2.5 h-2.5 rounded-full shrink-0" style={{ background: COLOR_PUNTO[p.clase] }} />
-                    <span className="text-white/55">{tr(p.etiqueta)}:</span>
-                    <span className="text-white font-bold tabular-nums">{tr(p.texto)}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-
-          {r.datos.length > 0 && (
-            <div className="mt-3 grid grid-cols-2 sm:grid-cols-3 gap-2">
-              {r.datos.map((d, i) => (
-                <div key={i} className="rounded-xl border border-white/10 bg-white/5 px-3 py-2">
-                  <p className="text-white/40 text-[11px]">{tr(d.etiqueta)}</p>
-                  <p className="text-white font-black">{tr(d.valor)}</p>
-                </div>
-              ))}
-            </div>
-          )}
-
-          {/* Los pasos, que son para lo que se viene: la respuesta sola no
-              ayuda a hacer el siguiente ejercicio. */}
-          <div className="mt-5 space-y-3">
-            {r.secciones.map((s, i) => (
-              <section key={i} className="rounded-2xl border border-white/10 bg-white/5 p-4">
-                <h2 className="text-white font-black text-base mb-2">{tr(s.titulo)}</h2>
-                <ol className="space-y-1.5">
-                  {s.pasos.map((p, j) => (
-                    <li key={j} className="text-white/75 text-[14.5px] leading-relaxed tabular-nums">{tr(p)}</li>
-                  ))}
-                </ol>
-              </section>
-            ))}
-          </div>
+          <ResultadoRecurso r={r} />
 
           <button type="button" onClick={copiar}
             className="mt-5 text-sm font-bold px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white/15 text-white transition-colors">

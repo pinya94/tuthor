@@ -151,6 +151,10 @@ export const STATIC_META = {
     es: { title: '¿Está el punto en la gráfica de la función?', desc: 'Comprueba si un punto está en la gráfica de una función sustituyendo paso a paso, y mira en el dibujo dónde cae. Gratis y sin registro.' },
     en: { title: 'Is the point on the graph of the function?', desc: 'Check whether a point lies on the graph of a function by substituting step by step, and see where it falls on the graph. Free, no sign-up.' },
   },
+  '/recursos/ecuaciones': {
+    es: { title: 'Resolver ecuaciones paso a paso, con comprobación', desc: 'Escribe tu ecuación de primer o segundo grado y mira cómo se resuelve paso a paso, con la comprobación y la gráfica. Fracciones exactas, gratis y sin registro.' },
+    en: { title: 'Solve equations step by step, with the check', desc: 'Type a linear or quadratic equation and see it solved step by step, with the check and the graph. Exact fractions, free, no sign-up.' },
+  },
   '/profesores': {
     es: { title: 'Herramientas gratis para profesores', desc: 'Pasa lista, pon notas, crea tus propios exámenes y gestiona toda la clase desde el móvil. Gratis durante la beta, sin tarjeta ni permanencia.' },
     en: { title: 'Free tools for teachers', desc: 'Take attendance, grade your students, build your own quizzes and run the whole classroom from your phone. Free during the beta, no card required.' },

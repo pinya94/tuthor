@@ -9,6 +9,7 @@ import { EXAMS } from '../lib/exams'
 import { SUBJECTS } from '../lib/statsAggregation'
 import { catalogTaskLabel, catalogTaskRoute } from '../lib/topicCatalog'
 import { TAG_META, getMyObservations } from '../lib/observations'
+import RecursosInteractivos from '../components/RecursosInteractivos'
 
 function taskLabel(task, lang) {
   if (task.kind !== 'catalog') return task.title
@@ -281,6 +282,21 @@ export default function Clase() {
             </div>
           </>
         )}
+
+        {/* Recursos FUERA del ternario de arriba, a propósito: sirven para los
+            deberes de hoy tengas clase o no, y un alumno recién registrado que
+            aún no tiene código no debería encontrarse la página vacía. */}
+        <h2 className="font-black text-white text-[15px] tracking-tight mt-8 mb-1">
+          🧰 {tr({ es: 'Recursos', en: 'Resources', ca: 'Recursos' })}
+        </h2>
+        <p className="text-white/40 text-[12.5px] mb-3">
+          {tr({
+            es: 'Para tus deberes: escribe el ejercicio y te lo resolvemos paso a paso.',
+            en: 'For your homework: type the exercise and we solve it step by step.',
+            ca: "Per als teus deures: escriu l'exercici i te'l resolem pas a pas.",
+          })}
+        </p>
+        <RecursosInteractivos compacto />
       </div>
     </div>
   )

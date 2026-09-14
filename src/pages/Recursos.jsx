@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import SEOHead from '../components/SEOHead'
 import RecursosImprimibles from '../components/RecursosImprimibles'
+import RecursosInteractivos from '../components/RecursosInteractivos'
 
 // Página PÚBLICA de recursos: el mismo material que ve el profesor en su
 // panel, pero sin cuenta ni código de beta. Es a la vez captación y producto:
@@ -52,21 +53,11 @@ export default function Recursos() {
         })}
       </p>
 
-      {/* El recurso de funciones va arriba y aparte: no se imprime, se usa, y
-          quien llega buscando "fichas" tiene que verlo antes de la lista. */}
-      <Link to={localPath('/recursos/funciones')}
-        className="block mb-8 rounded-2xl border border-sky-500/25 bg-sky-500/[0.06] px-5 py-4 hover:bg-sky-500/10 transition-colors">
-        <p className="text-white font-black text-base mb-1">
-          📈 {tr({ es: 'Resolver problemas de funciones', en: 'Solve function problems', ca: 'Resoldre problemes de funcions' })}
-        </p>
-        <p className="text-white/50 text-[13.5px] leading-relaxed max-w-xl">
-          {tr({
-            es: 'Escribe la función o los datos del ejercicio y te la dibujamos con los cortes con los ejes, el vértice, el punto donde se cruzan dos rectas o la recta que pasa por dos puntos. Paso a paso y con fracciones exactas.',
-            en: 'Type the function or the data from the exercise and we draw it with the axis crossings, the vertex, where two lines cross or the line through two points. Step by step, in exact fractions.',
-            ca: "Escriu la funció o les dades de l'exercici i te la dibuixem amb els talls amb els eixos, el vèrtex, el punt on es creuen dues rectes o la recta que passa per dos punts. Pas a pas i amb fraccions exactes.",
-          })}
-        </p>
-      </Link>
+      {/* Los interactivos van arriba y aparte: no se imprimen, se usan, y quien
+          llega buscando "fichas" tiene que verlos antes de la lista. */}
+      <div className="mb-8">
+        <RecursosInteractivos />
+      </div>
 
       <RecursosImprimibles />
 

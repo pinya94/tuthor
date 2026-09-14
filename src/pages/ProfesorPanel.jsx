@@ -4,10 +4,11 @@ import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
 import { getTeacherProfile, getTeacherClasses, createClass, hasTeacherAccess } from '../lib/classes'
 import RecursosImprimibles from '../components/RecursosImprimibles'
+import RecursosInteractivos from '../components/RecursosInteractivos'
 
 const PESTANAS = [
   { id: 'clases', emoji: '🏫', label: { es: 'Mis clases', en: 'My classes', ca: 'Les meves classes' } },
-  { id: 'recursos', emoji: '🖨️', label: { es: 'Recursos', en: 'Resources', ca: 'Recursos' } },
+  { id: 'recursos', emoji: '🧰', label: { es: 'Recursos', en: 'Resources', ca: 'Recursos' } },
 ]
 
 export default function ProfesorPanel() {
@@ -128,13 +129,30 @@ export default function ProfesorPanel() {
             <p className="text-white/35 text-[11.5px] mt-0.5">
               {p.id === 'clases'
                 ? `${classes.length} ${tr({ es: 'clase(s)', en: 'class(es)', ca: 'classe(s)' })}`
-                : tr({ es: 'Imprimibles y actividades', en: 'Printables and activities', ca: 'Imprimibles i activitats' })}
+                : tr({ es: 'Herramientas, imprimibles y actividades', en: 'Tools, printables and activities', ca: 'Eines, imprimibles i activitats' })}
             </p>
           </button>
         ))}
       </div>
 
-      {tab === 'recursos' ? <RecursosImprimibles /> : (
+      {tab === 'recursos' ? (
+        <>
+          {/* Los interactivos primero: un profesor los proyecta en la pizarra
+              o se los manda a la clase, y no hace falta cuenta para usarlos. */}
+          <h2 className="text-white font-black text-lg mb-1">🧰 {tr({ es: 'Para usar en clase', en: 'To use in class', ca: 'Per fer servir a classe' })}</h2>
+          <p className="text-white/45 text-[13px] mb-3 max-w-xl">
+            {tr({
+              es: 'Se proyectan en la pizarra o se mandan a los alumnos: escriben el ejercicio y ven la solución paso a paso. No necesitan cuenta.',
+              en: 'Project them on the board or send them to your students: they type the exercise and see the solution step by step. No account needed.',
+              ca: "Es projecten a la pissarra o s'envien als alumnes: escriuen l'exercici i veuen la solució pas a pas. No cal compte.",
+            })}
+          </p>
+          <div className="mb-8">
+            <RecursosInteractivos />
+          </div>
+          <RecursosImprimibles />
+        </>
+      ) : (
       <div>
       <h1 className="text-2xl font-black text-white mb-1">{tr({ es: 'Mis clases', en: 'My classes', ca: 'Les meves classes' })}</h1>
       <p className="text-white/50 text-sm mb-6">
