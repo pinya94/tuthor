@@ -215,4 +215,7 @@ export const MENSAJE_ERROR = {
   grande: () => ({ es: 'Los números son demasiado grandes', en: 'The numbers are too large', ca: 'Els nombres són massa grans' }),
   numero: () => ({ es: 'Aquí va un número, sin x', en: 'A number goes here, without x', ca: 'Aquí va un nombre, sense x' }),
   igual: () => ({ es: 'Una ecuación lleva un solo signo =', en: 'An equation has a single = sign', ca: 'Una equació porta un sol signe =' }),
+  dato: d => ({ es: `No entiendo el dato «${d}»`, en: `I don't understand the value "${d}"`, ca: `No entenc la dada «${d}»` }),
+  frecuencia: d => ({ es: `La frecuencia tiene que ser un número entero, 0 o más${d ? ` (has escrito «${d}»)` : ''}`, en: `The frequency must be a whole number, 0 or more${d ? ` (you typed "${d}")` : ''}`, ca: `La freqüència ha de ser un nombre enter, 0 o més${d ? ` (has escrit «${d}»)` : ''}` }),
+  demasiados: d => ({ es: `Demasiados datos (el máximo es ${d})`, en: `Too many values (the maximum is ${d})`, ca: `Massa dades (el màxim és ${d})` }),
 }

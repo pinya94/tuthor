@@ -155,6 +155,10 @@ export const STATIC_META = {
     es: { title: 'Resolver ecuaciones paso a paso, con comprobación', desc: 'Escribe tu ecuación de primer o segundo grado y mira cómo se resuelve paso a paso, con la comprobación y la gráfica. Fracciones exactas, gratis y sin registro.' },
     en: { title: 'Solve equations step by step, with the check', desc: 'Type a linear or quadratic equation and see it solved step by step, with the check and the graph. Exact fractions, free, no sign-up.' },
   },
+  '/recursos/estadistica': {
+    es: { title: 'Calculadora de media, mediana y moda, paso a paso', desc: 'Escribe tus datos o tu tabla de frecuencias y calcula media, mediana, moda, rango y desviación típica paso a paso, con el diagrama de barras. Gratis y sin registro.' },
+    en: { title: 'Mean, median and mode calculator, step by step', desc: 'Enter your data or frequency table and get the mean, median, mode, range and standard deviation step by step, with a bar chart. Free, no sign-up.' },
+  },
   '/profesores': {
     es: { title: 'Herramientas gratis para profesores', desc: 'Pasa lista, pon notas, crea tus propios exámenes y gestiona toda la clase desde el móvil. Gratis durante la beta, sin tarjeta ni permanencia.' },
     en: { title: 'Free tools for teachers', desc: 'Take attendance, grade your students, build your own quizzes and run the whole classroom from your phone. Free during the beta, no card required.' },

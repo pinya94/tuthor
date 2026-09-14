@@ -35,4 +35,16 @@ export const RECURSOS_INTERACTIVOS = [
       ca: 'Equacions de primer i segon grau, amb x als dos costats, parèntesis o fraccions: pas a pas, amb la comprovació i la gràfica.',
     },
   },
+  {
+    id: 'estadistica',
+    emoji: '📊',
+    path: '/recursos/estadistica',
+    materia: { es: 'Matemáticas', en: 'Maths', ca: 'Matemàtiques' },
+    titulo: { es: 'Media, mediana y moda', en: 'Mean, median and mode', ca: 'Mitjana, mediana i moda' },
+    desc: {
+      es: 'Pega tus datos o la tabla de frecuencias del ejercicio: tabla completa, media, mediana, moda, rango y desviación típica, paso a paso y con el diagrama de barras.',
+      en: 'Paste your data or the frequency table from the exercise: full table, mean, median, mode, range and standard deviation, step by step with a bar chart.',
+      ca: "Enganxa les teves dades o la taula de freqüències de l'exercici: taula completa, mitjana, mediana, moda, rang i desviació típica, pas a pas i amb el diagrama de barres.",
+    },
+  },
 ]

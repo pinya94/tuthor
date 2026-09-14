@@ -6,7 +6,7 @@ import BreadcrumbSchema from '../components/BreadcrumbSchema'
 
 export default function EstadisticaTema() {
   const navigate = useNavigate()
-  const { lang, localPath } = useLang()
+  const { lang, localPath, tr } = useLang()
   const en = lang === 'en'
   const ca = lang === 'ca'
 
@@ -58,6 +58,26 @@ export default function EstadisticaTema() {
         ca ? 'Nota final' : en ? 'Final grade' : 'Nota final',
       ],
       action: () => navigate(localPath('/examen/estadistica')),
+    },
+    // No es un modo de práctica sino una herramienta: resuelve el ejercicio
+    // que el alumno ya tiene delante. Va la última para no quitar sitio a los
+    // que puntúan.
+    {
+      id: 'recurso',
+      titulo: tr({ es: 'Resolver mis ejercicios', en: 'Solve my exercises', ca: 'Resoldre els meus exercicis' }),
+      descripcion: tr({
+        es: 'Pega tus datos o tu tabla de frecuencias y te sacamos media, mediana, moda, rango y desviación típica, paso a paso.',
+        en: 'Paste your data or frequency table and we work out the mean, median, mode, range and standard deviation, step by step.',
+        ca: 'Enganxa les teves dades o la teva taula de freqüències i et traiem mitjana, mediana, moda, rang i desviació típica, pas a pas.',
+      }),
+      emoji: '🧮',
+      gradient: 'from-sky-500 to-blue-700',
+      detalles: [
+        tr({ es: 'Paso a paso', en: 'Step by step', ca: 'Pas a pas' }),
+        tr({ es: 'Tabla de frecuencias', en: 'Frequency table', ca: 'Taula de freqüències' }),
+        tr({ es: 'Gratis', en: 'Free', ca: 'Gratis' }),
+      ],
+      action: () => navigate(localPath('/recursos/estadistica')),
     },
   ]
 
