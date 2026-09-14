@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import TemarioGrid from '../components/TemarioGrid'
+import SEOEstatico from '../components/SEOEstatico'
 
 const TEMAS = [
   {
@@ -52,6 +53,7 @@ export default function HistoriaIndex() {
 
   return (
     <div className="relative z-10 flex flex-col min-h-[calc(100vh-4rem)] px-4 sm:px-8 py-6">
+      <SEOEstatico path="/estudiar/historia" />
       <div className="text-center mb-6">
         <p className="text-white/40 text-sm mb-1">{lang === 'ca' ? 'Estudiar · Història' : lang === 'en' ? 'Study · History' : 'Estudiar · Historia'}</p>
         <h1 className="text-2xl sm:text-3xl font-black text-white">{lang === 'ca' ? 'Tria un tema' : lang === 'en' ? 'Pick a topic' : 'Elige un tema'}</h1>

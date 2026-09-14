@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import AdSlot from '../components/AdSlot'
+import SEOEstatico from '../components/SEOEstatico'
 
 const DATA = {
   es: {
@@ -80,6 +81,7 @@ export default function InfoDiaria() {
 
   return (
     <div className="relative z-10">
+      <SEOEstatico path="/info/diaria" />
       <div className="px-4 sm:px-8 py-10 max-w-3xl mx-auto">
         <Link to={localPath('/')} className="text-white/30 hover:text-white/60 text-sm mb-8 inline-flex items-center gap-1 transition-colors">
           ← {lang === 'en' ? 'Home' : lang === 'ca' ? 'Inici' : 'Inicio'}

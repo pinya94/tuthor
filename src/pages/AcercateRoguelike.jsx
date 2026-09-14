@@ -6,6 +6,7 @@ import { useAuth } from '../context/AuthContext'
 import { saveActivity } from '../lib/activity'
 import { computeCoins } from '../lib/games'
 import GameEndScreen from '../components/GameEndScreen'
+import SEOHead from '../components/SEOHead'
 
 const ALL_OPS = ['+', '-', '×', '÷']
 
@@ -164,7 +165,7 @@ function Confetti() {
 
 export default function AcercateRoguelike() {
   const navigate = useNavigate()
-  const { lang, localPath } = useLang()
+  const { lang, localPath, tr } = useLang()
   const { user } = useAuth()
   const au = AUI[lang] || AUI.es
   const dl = d => lang === 'ca' ? (d.labelCa || d.label) : lang === 'en' ? (d.labelEn || d.label) : d.label
@@ -406,6 +407,19 @@ export default function AcercateRoguelike() {
     const dif = DIFS[difId]
     return (
       <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
+        <SEOHead
+          title={tr({
+            es: "Acércate al Número — juego de cálculo mental",
+            en: "Target Number — mental arithmetic game",
+            ca: "Acosta't al Número — joc de càlcul mental",
+          })}
+          description={tr({
+            es: "Combina los números con sumas, restas, multiplicaciones y divisiones hasta llegar al objetivo exacto. Partidas cortas por niveles, con mejoras entre ronda y ronda.",
+            en: "Combine the numbers with addition, subtraction, multiplication and division until you hit the exact target. Short levelled runs with upgrades between rounds.",
+            ca: "Combina els números amb sumes, restes, multiplicacions i divisions fins a arribar a l'objectiu exacte. Partides curtes per nivells, amb millores entre ronda i ronda.",
+          })}
+          path="/juegos/acercate"
+        />
         <div className="max-w-md w-full">
           <button onClick={() => navigate(localPath('/juegos'))}
             className="text-white/30 hover:text-white/60 text-sm mb-6 flex items-center gap-1 transition-colors">

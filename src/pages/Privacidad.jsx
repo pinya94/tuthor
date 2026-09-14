@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom'
+import SEOEstatico from '../components/SEOEstatico'
 
 const SECTIONS = [
   {
@@ -56,6 +57,7 @@ export default function Privacidad() {
 
   return (
     <div className="min-h-screen px-4 py-10 sm:px-8">
+      <SEOEstatico path="/privacidad" />
       <div className="max-w-2xl mx-auto">
         {/* Back */}
         <button

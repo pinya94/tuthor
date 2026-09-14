@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
+import SEOEstatico from '../components/SEOEstatico'
 
 const TEMAS = [
   { id: 'acentuacion', titulo: { es: 'Acentuación', en: 'Accentuation', ca: 'Accentuació' }, emoji: '´', gradient: 'from-yellow-500 to-orange-500', gameId: 'espanol-ortografia-acentuacion-test' },
@@ -24,6 +25,7 @@ export default function EspanolOrtografiaIndex() {
 
   return (
     <div className="relative z-10 flex flex-col min-h-[calc(100vh-4rem)] px-4 sm:px-8 py-6">
+      <SEOEstatico path="/estudiar/idiomas/espanol/ortografia" />
       <div className="text-center mb-8">
         <p className="text-white/40 text-sm mb-1">Estudiar · Español · {{ es: 'Ortografía', en: 'Spelling', ca: 'Ortografia' }[lang]}</p>
         <div className="text-5xl mb-2">✍️</div>

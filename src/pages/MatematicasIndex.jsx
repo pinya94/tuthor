@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import TemarioGrid from '../components/TemarioGrid'
 import { MODOS, MODO_IDS } from '../lib/mathEngine'
+import SEOEstatico from '../components/SEOEstatico'
 
 // Examenes que van directo al examen (no usan el motor aritmético)
 // Porcentajes tiene un solo formato, así que una página de tema intermedia
@@ -82,6 +83,7 @@ export default function MatematicasIndex() {
 
   return (
     <div className="relative z-10 flex flex-col min-h-[calc(100vh-4rem)] px-4 sm:px-8 py-6">
+      <SEOEstatico path="/estudiar/matematicas" />
       <div className="text-center mb-6">
         <p className="text-white/40 text-sm mb-1">{ca ? 'Estudiar · Matemàtiques' : en ? 'Study · Mathematics' : 'Estudiar · Matemáticas'}</p>
         <h1 className="text-2xl sm:text-3xl font-black text-white">{ca ? 'Tria què practicar' : en ? 'Pick what to practise' : 'Elige qué practicar'}</h1>

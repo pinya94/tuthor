@@ -6,6 +6,7 @@ import GameEndScreen from '../components/GameEndScreen'
 import { saveActivity } from '../lib/activity'
 import { computeCoins } from '../lib/games'
 import { EVENTOS_ROGUELIKE } from '../data/tuthorTimeEventos'
+import SEOHead from '../components/SEOHead'
 
 const VIDA_BIXO = 120
 
@@ -244,7 +245,7 @@ function AgentBar({ agente, activo, lang }) {
 
 export default function TuthorTimeRoguelike() {
   const navigate = useNavigate()
-  const { lang, localPath, lt } = useLang()
+  const { lang, localPath, tr, lt } = useLang()
   const { user } = useAuth()
   const tu = TUI[lang] || TUI.es
   const dl = d => lang === 'en' ? (d.labelEn || d.label) : lang === 'ca' ? (d.labelCa || d.label) : d.label
@@ -449,6 +450,19 @@ export default function TuthorTimeRoguelike() {
     const d = DIFS[difId]
     return (
       <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
+        <SEOHead
+          title={tr({
+            es: "Tuthor Time — juego de fechas y cronología",
+            en: "Tuthor Time — dates and chronology game",
+            ca: "Tuthor Time — joc de dates i cronologia",
+          })}
+          description={tr({
+            es: "Sitúa cada evento histórico en su año enviando allí a tus agentes temporales. Cuanto más cerca caes del año real, menos vida gastas: acercarse también puntúa.",
+            en: "Place each historical event in its year by sending your time agents there. The closer you land to the real year, the less health you lose: getting close counts too.",
+            ca: "Situa cada esdeveniment històric al seu any enviant-hi els teus agents temporals. Com més a prop caus de l'any real, menys vida gastes: acostar-s'hi també puntua.",
+          })}
+          path="/juegos/tuthor-time"
+        />
         <div className="max-w-md w-full">
           <button onClick={() => navigate(localPath('/juegos'))}
             className="text-white/30 hover:text-white/60 text-sm mb-6 flex items-center gap-1 transition-colors">

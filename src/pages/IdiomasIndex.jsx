@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
+import SEOEstatico from '../components/SEOEstatico'
 
 const IDIOMAS = [
   {
@@ -36,6 +37,7 @@ export default function IdiomasIndex() {
 
   return (
     <div className="relative z-10 flex flex-col min-h-[calc(100vh-4rem)] px-4 sm:px-8 py-6">
+      <SEOEstatico path="/estudiar/idiomas" />
       <div className="text-center mb-8">
         <p className="text-white/40 text-sm mb-1">
           {ca ? 'Estudiar · Idiomes' : en ? 'Study · Languages' : 'Estudiar · Idiomas'}
