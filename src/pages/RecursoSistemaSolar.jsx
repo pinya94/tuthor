@@ -4,7 +4,7 @@ import { useLang } from '../context/LangContext'
 import SEOEstatico from '../components/SEOEstatico'
 import SistemaSolar3D from '../components/SistemaSolar3D'
 import { PLANETAS } from '../data/planetas'
-import { IDS, FISICOS, KM_POR_UA, posicion, distanciaAlSol, distanciaEntre } from '../lib/orbitasPlanetas'
+import { IDS, FISICOS, KM_POR_UA, posicion, distanciaAlSol, distanciaEntre, apsides } from '../lib/orbitasPlanetas'
 
 // /recursos/sistema-solar — el sistema solar en 3D con los planetas donde
 // están de verdad en la fecha elegida (lib/orbitasPlanetas.js). Se gira, se
@@ -71,6 +71,12 @@ const TX = {
     en: 'Sizes to scale between the planets: 11 Earths would fit across Jupiter. The Sun is not to scale, because it would not fit.',
     ca: 'Mides a escala entre els planetes: a Júpiter hi cabrien 11 Terres en fila. El Sol no està a escala, perquè no hi cabria.',
   },
+  orbitas: {
+    es: 'Las órbitas son las reales: elipses, pero casi círculos. La de la Tierra se aparta de un círculo menos de un 0,02 %; los libros las dibujan muy estiradas para que se note la forma. Lo que sí se ve es que el Sol no está en el centro: en naranja, el perihelio (lo más cerca del Sol) y el afelio (lo más lejos) del planeta elegido. Prueba con Mercurio o Marte y acércate con el zoom.',
+    en: "The orbits are the real ones: ellipses, but almost circles. Earth's differs from a circle by less than 0.02%; textbooks draw them very stretched so the shape shows. What you can see is that the Sun is not at the centre: in orange, the perihelion (closest to the Sun) and aphelion (farthest) of the chosen planet. Try Mercury or Mars and zoom in.",
+    ca: "Les òrbites són les reals: el·lipses, però gairebé cercles. La de la Terra s'aparta d'un cercle menys d'un 0,02 %; els llibres les dibuixen molt estirades perquè es noti la forma. El que sí que es veu és que el Sol no és al centre: en taronja, el periheli (el punt més a prop del Sol) i l'afeli (el més lluny) del planeta triat. Prova amb Mercuri o Mart i apropa-t'hi amb el zoom.",
+  },
+  orbita: { es: 'Órbita', en: 'Orbit', ca: 'Òrbita' },
   alSol: { es: 'Distancia al Sol', en: 'Distance to the Sun', ca: 'Distància al Sol' },
   aTierra: { es: 'Distancia a la Tierra', en: 'Distance to Earth', ca: 'Distància a la Terra' },
   diametro: { es: 'Diámetro', en: 'Diameter', ca: 'Diàmetre' },
@@ -132,9 +138,15 @@ export default function RecursoSistemaSolar() {
   const rSol = distanciaAlSol(pos)
   const dTierra = id === 'tierra' ? null : distanciaEntre(pos, posicion('tierra', fecha))
   const mkm = ua => n((ua * KM_POR_UA) / 1e6)
+  const ap = apsides(id)
 
   const datos = [
     [TX.alSol, tr({ es: `${n(rSol, 2)} UA · ${mkm(rSol)} millones de km`, en: `${n(rSol, 2)} AU · ${mkm(rSol)} million km`, ca: `${n(rSol, 2)} UA · ${mkm(rSol)} milions de km` })],
+    [TX.orbita, tr({
+      es: `perihelio ${n(ap.q, 3)} UA · afelio ${n(ap.Q, 3)} UA · excentricidad ${n(ap.e, 3)} (0 sería un círculo)`,
+      en: `perihelion ${n(ap.q, 3)} AU · aphelion ${n(ap.Q, 3)} AU · eccentricity ${n(ap.e, 3)} (0 would be a circle)`,
+      ca: `periheli ${n(ap.q, 3)} UA · afeli ${n(ap.Q, 3)} UA · excentricitat ${n(ap.e, 3)} (0 seria un cercle)`,
+    })],
     ...(dTierra !== null ? [[TX.aTierra, tr({
       es: `${n(dTierra, 2)} UA · ${mkm(dTierra)} millones de km · la luz tarda ${n((dTierra * KM_POR_UA) / 299792.458 / 60)} min`,
       en: `${n(dTierra, 2)} AU · ${mkm(dTierra)} million km · light takes ${n((dTierra * KM_POR_UA) / 299792.458 / 60)} min`,
@@ -239,6 +251,7 @@ export default function RecursoSistemaSolar() {
         </section>
         <section className="rounded-2xl border border-white/10 bg-white/5 p-4 text-[13.5px] leading-relaxed text-white/60 space-y-2">
           <h2 className="text-white font-black text-base">{tr(TX.queVes)}</h2>
+          <p>{tr(TX.orbitas)}</p>
           <p>{tr(modoDistancia === 'real' ? TX.distReal : TX.distComprimida)}</p>
           <p>{tr(modoTamano === 'real' ? TX.tamReal : TX.tamExagerado)}</p>
           <p className="text-white/40 text-xs">{tr(TX.fuente)}</p>

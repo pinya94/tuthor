@@ -2,7 +2,7 @@ import { useMemo, useRef } from 'react'
 import { useLang } from '../context/LangContext'
 import { PLANETAS } from '../data/planetas'
 import {
-  IDS, FISICOS, posicion, puntosOrbita, proyectar, factorDistancia, radioPlaneta,
+  IDS, FISICOS, posicion, puntosOrbita, proyectar, factorDistancia, radioPlaneta, apsides,
 } from '../lib/orbitasPlanetas'
 
 // Vista 3D del sistema solar en SVG, sin librería 3D: las posiciones salen de
@@ -27,6 +27,10 @@ const ESTRELLAS = (() => {
 })()
 
 const NOMBRE = Object.fromEntries(PLANETAS.map(p => [p.id, p.nombre]))
+const APSIDES = {
+  perihelio: { es: 'Perihelio', en: 'Perihelion', ca: 'Periheli' },
+  afelio: { es: 'Afelio', en: 'Aphelion', ca: 'Afeli' },
+}
 
 export default function SistemaSolar3D({ fecha, camara, zoom, modoDistancia, modoTamano, seleccionado, onSeleccionar, onCamara }) {
   const { tr } = useLang()
@@ -106,6 +110,29 @@ export default function SistemaSolar3D({ fecha, camara, zoom, modoDistancia, mod
           stroke={id === seleccionado ? FISICOS[id].color : '#ffffff'} strokeOpacity={id === seleccionado ? 0.7 : 0.14}
           strokeWidth={id === seleccionado ? 1.6 : 1} />
       ))}
+
+      {/* Perihelio y afelio del planeta elegido, unidos por una línea que pasa
+          por el Sol. Los dos tramos no miden lo mismo: es lo que enseña que la
+          órbita es una elipse con el Sol fuera del centro, aunque a simple
+          vista parezca un círculo (y lo es casi). */}
+      {(() => {
+        const { perihelio, afelio } = apsides(seleccionado)
+        const f = factorDistancia(seleccionado, modoDistancia)
+        const P = pantalla({ x: perihelio.x * f, y: perihelio.y * f, z: perihelio.z * f })
+        const A = pantalla({ x: afelio.x * f, y: afelio.y * f, z: afelio.z * f })
+        return (
+          <g pointerEvents="none">
+            <line x1={P.x} y1={P.y} x2={A.x} y2={A.y} stroke="#fb923c" strokeOpacity={0.55} strokeWidth={1} strokeDasharray="4 4" />
+            {[[P, APSIDES.perihelio, true], [A, APSIDES.afelio, false]].map(([q, texto, lleno]) => (
+              <g key={texto.es}>
+                <circle cx={q.x} cy={q.y} r={4} fill={lleno ? '#fb923c' : '#05070d'} stroke="#fb923c" strokeWidth={1.5} />
+                <text x={q.x} y={q.y - 8} fontSize="10.5" fontWeight="700" textAnchor="middle" fill="#fb923c"
+                  stroke="#05070d" strokeWidth={3} paintOrder="stroke">{tr(texto)}</text>
+              </g>
+            ))}
+          </g>
+        )
+      })()}
 
       {cuerpos.map(c => {
         const r = Math.max(c.id === 'sol' ? 6 : 2.2, c.r * S * c.escala)

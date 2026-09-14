@@ -86,6 +86,28 @@ export function puntosOrbita(id, n = 160) {
   })
 }
 
+// Perihelio (punto más cercano al Sol) y afelio (el más lejano) de una órbita.
+// Son lo que deja VER que una órbita es una elipse: las órbitas reales son
+// casi círculos (la de la Tierra se aparta de uno menos de un 0,02 %), pero el
+// Sol no está en el centro, y la distancia al perihelio y al afelio no es la
+// misma. En el plano de la órbita, el perihelio está en x' = a(1 − e) y el
+// afelio en x' = −a(1 + e), los dos con y' = 0.
+export function apsides(id) {
+  const o = ORBITAS[id]
+  const w = (o.w - o.O) * RAD
+  const cw = Math.cos(w), sw = Math.sin(w)
+  const cO = Math.cos(o.O * RAD), sO = Math.sin(o.O * RAD)
+  const cI = Math.cos(o.I * RAD), sI = Math.sin(o.I * RAD)
+  const enEcliptica = xp => ({ x: (cw * cO - sw * sO * cI) * xp, y: (cw * sO + sw * cO * cI) * xp, z: sw * sI * xp })
+  return {
+    perihelio: enEcliptica(o.a * (1 - o.e)),
+    afelio: enEcliptica(-o.a * (1 + o.e)),
+    q: o.a * (1 - o.e),
+    Q: o.a * (1 + o.e),
+    e: o.e,
+  }
+}
+
 // ── Escalas ─────────────────────────────────────────────────────────────────
 //
 // A escala real no se puede enseñar todo a la vez: si Neptuno cabe en pantalla,

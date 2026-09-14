@@ -12,7 +12,7 @@
 // Tolerancia de 2°: las fechas son de un día y los elementos, aproximados.
 import { describe, it, expect } from 'vitest'
 import {
-  IDS, posicion, longitud, distanciaAlSol, resolverKepler, proyectar, factorDistancia,
+  IDS, posicion, longitud, distanciaAlSol, resolverKepler, proyectar, factorDistancia, apsides,
   ORBITAS, FISICOS,
 } from '../orbitasPlanetas'
 
@@ -67,6 +67,18 @@ describe('coherencia de los datos', () => {
       expect(r, id).toBeGreaterThanOrEqual(a * (1 - e) - 1e-9)
       expect(r, id).toBeLessThanOrEqual(a * (1 + e) + 1e-9)
     }
+  })
+
+  it('perihelio y afelio: a sus distancias, en lados opuestos, y la Tierra pasa por el suyo en enero', () => {
+    for (const id of IDS) {
+      const { perihelio, afelio, q, Q } = apsides(id)
+      expect(distanciaAlSol(perihelio), id).toBeCloseTo(q, 9)
+      expect(distanciaAlSol(afelio), id).toBeCloseTo(Q, 9)
+      expect(difAngulo(longitud(perihelio), longitud(afelio)), id).toBeCloseTo(180, 0)
+    }
+    // Perihelio de la Tierra: 4 de enero de 2025
+    const tierra = posicion('tierra', fecha('2025-01-04'))
+    expect(difAngulo(longitud(tierra), longitud(apsides('tierra').perihelio))).toBeLessThan(2)
   })
 
   it('están en orden desde el Sol, y hay datos de los ocho', () => {
