@@ -3,13 +3,19 @@ import { useLang } from '../context/LangContext'
 import { RECURSOS_INTERACTIVOS } from '../lib/recursosInteractivos'
 
 // Tarjetas de los recursos interactivos (lib/recursosInteractivos.js). La
-// misma pieza en /clase, en la pestaña Recursos del profesor y en /recursos.
-// `compacto` para la columna estrecha de /clase: una tarjeta por fila.
-export default function RecursosInteractivos({ compacto = false }) {
+// misma pieza en /clase, en la pestaña Recursos del profesor, en /recursos, en
+// Estudiar y en el hub de cada materia.
+//   · `compacto` — una tarjeta por fila, para columnas estrechas (/clase).
+//   · `materia`  — solo los recursos de esa materia (id de /estudiar/<id>). Si
+//     no hay ninguno no se pinta nada, así un hub sin recursos no enseña un
+//     hueco con título.
+export default function RecursosInteractivos({ compacto = false, materia = null }) {
   const { tr, localPath } = useLang()
+  const lista = materia ? RECURSOS_INTERACTIVOS.filter(r => r.materias?.includes(materia)) : RECURSOS_INTERACTIVOS
+  if (!lista.length) return null
   return (
     <div className={`grid gap-3 ${compacto ? 'grid-cols-1' : 'grid-cols-1 sm:grid-cols-2'}`}>
-      {RECURSOS_INTERACTIVOS.map(r => (
+      {lista.map(r => (
         <Link key={r.id} to={localPath(r.path)}
           className="group block rounded-2xl border border-sky-500/25 bg-sky-500/[0.06] px-4 py-4 hover:bg-sky-500/10 hover:border-sky-400/40 transition-colors">
           <p className="text-white/35 text-[10.5px] uppercase tracking-wider font-bold mb-1">{tr(r.materia)}</p>

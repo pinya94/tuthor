@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import SEOHead from '../components/SEOHead'
+import RecursosInteractivos from '../components/RecursosInteractivos'
 
 const MATERIAS = [
   { id: 'historia', titulo: 'Historia', tituloEn: 'History', tituloCa: 'Història', subtitulo: 'Eventos, épocas y personajes clave', subtituloEn: 'Key events, periods & figures', subtituloCa: 'Esdeveniments, èpoques i personatges clau', emoji: '🏛️', gradient: 'from-amber-500 to-orange-600', ready: true, path: '/estudiar/historia' },
@@ -19,7 +20,7 @@ const MATERIAS = [
 
 export default function Estudiar() {
   const navigate = useNavigate()
-  const { lang, localPath, t } = useLang()
+  const { lang, localPath, t, tr } = useLang()
 
   const seoData = {
     es: { title: 'Estudiar — Historia, Geografía, Matemáticas', desc: 'Temarios interactivos y tests por niveles: Primaria, ESO y Bachillerato. Historia, geografía, ciencias, matemáticas, inglés y lengua.', path: '/estudiar' },
@@ -56,6 +57,21 @@ export default function Estudiar() {
           </button>
         ))}
       </div>
+
+      {/* Los recursos también desde aquí: quien entra a estudiar muchas veces
+          tiene un ejercicio concreto delante. */}
+      <section className="max-w-3xl mx-auto w-full mt-10">
+        <div className="flex items-end justify-between gap-3 mb-3">
+          <div>
+            <h2 className="text-white font-black text-lg">🧰 {tr({ es: 'Recursos', en: 'Resources', ca: 'Recursos' })}</h2>
+            <p className="text-white/40 text-[13px]">{tr({ es: 'Resuelve tu ejercicio paso a paso o explora en 3D.', en: 'Solve your exercise step by step or explore in 3D.', ca: 'Resol el teu exercici pas a pas o explora en 3D.' })}</p>
+          </div>
+          <button onClick={() => navigate(localPath('/recursos'))} className="text-sky-300/80 hover:text-sky-300 text-sm font-bold shrink-0">
+            {tr({ es: 'Ver todos →', en: 'See all →', ca: 'Veure-ho tot →' })}
+          </button>
+        </div>
+        <RecursosInteractivos />
+      </section>
     </div>
   )
 }

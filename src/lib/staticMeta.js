@@ -125,8 +125,8 @@ export const STATIC_META = {
     en: { title: 'Privacy policy', desc: 'Tuthor privacy and data protection policy: what data we process, why, and what your rights are.' },
   },
   '/recursos': {
-    es: { title: 'Recursos imprimibles para profesores', desc: 'Tarjetas listas para recortar: eventos históricos por época, países y capitales, elementos químicos y titulares verdaderos y falsos. Gratis y sin registro.' },
-    en: { title: 'Printable classroom resources', desc: 'Cards ready to cut out: historical events by period, countries and capitals, chemical elements and real vs fake headlines. Free, no sign-up.' },
+    es: { title: 'Recursos gratis para estudiar y dar clase', desc: 'Ejercicios de funciones, ecuaciones y estadística resueltos paso a paso, el sistema solar y el globo terráqueo en 3D, y tarjetas para imprimir. Gratis y sin registro.' },
+    en: { title: 'Free resources for students and teachers', desc: 'Function, equation and statistics exercises solved step by step, the solar system and the globe in 3D, and printable cards. Free, no sign-up.' },
   },
   // Recurso de funciones: una URL por tipo de problema, porque cada una es
   // una búsqueda distinta ("recta que pasa por dos puntos" no es "punto de

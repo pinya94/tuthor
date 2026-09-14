@@ -99,6 +99,25 @@ describe('recursos interactivos', () => {
     }
   })
 
+  it('se llega a los recursos desde la barra, desde Estudiar y desde el hub de su materia', () => {
+    // Pidió el usuario tras no encontrarlos: estaban solo en Mi clase (con
+    // sesión) y en una página titulada "para profesores".
+    expect(readFileSync('src/components/Navbar.jsx', 'utf8')).toContain("localPath('/recursos')")
+    expect(readFileSync('src/pages/Estudiar.jsx', 'utf8')).toContain('<RecursosInteractivos')
+    const hubs = {
+      matematicas: 'src/pages/MatematicasIndex.jsx',
+      geografia: 'src/pages/GeografiaIndex.jsx',
+      geologia: 'src/pages/QuimicaIndex.jsx',
+    }
+    for (const r of RECURSOS_INTERACTIVOS) {
+      expect(r.materias?.length, `${r.id}: sin materia`).toBeGreaterThan(0)
+      for (const m of r.materias) {
+        expect(hubs[m], `${r.id}: la materia "${m}" no tiene hub que enseñe sus recursos`).toBeTruthy()
+        expect(readFileSync(hubs[m], 'utf8'), hubs[m]).toContain('<RecursosInteractivos')
+      }
+    }
+  })
+
   it('Mi clase, el panel del profesor y /recursos enseñan la lista', () => {
     // Lo pidió el usuario: los recursos tienen que estar dentro de "Clase",
     // tengas clase o no. Si alguien quita la sección de una de las tres

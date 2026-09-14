@@ -15,6 +15,7 @@ export const RECURSOS_INTERACTIVOS = [
     id: 'funciones',
     emoji: '📈',
     path: '/recursos/funciones',
+    materias: ['matematicas'],
     materia: { es: 'Matemáticas', en: 'Maths', ca: 'Matemàtiques' },
     titulo: { es: 'Problemas de funciones', en: 'Function problems', ca: 'Problemes de funcions' },
     desc: {
@@ -27,6 +28,7 @@ export const RECURSOS_INTERACTIVOS = [
     id: 'ecuaciones',
     emoji: '⚖️',
     path: '/recursos/ecuaciones',
+    materias: ['matematicas'],
     materia: { es: 'Matemáticas', en: 'Maths', ca: 'Matemàtiques' },
     titulo: { es: 'Resolver ecuaciones', en: 'Solve equations', ca: 'Resoldre equacions' },
     desc: {
@@ -39,6 +41,7 @@ export const RECURSOS_INTERACTIVOS = [
     id: 'estadistica',
     emoji: '📊',
     path: '/recursos/estadistica',
+    materias: ['matematicas'],
     materia: { es: 'Matemáticas', en: 'Maths', ca: 'Matemàtiques' },
     titulo: { es: 'Media, mediana y moda', en: 'Mean, median and mode', ca: 'Mitjana, mediana i moda' },
     desc: {
@@ -53,6 +56,7 @@ export const RECURSOS_INTERACTIVOS = [
     // sale como un cuadrado (hay test que lo vigila).
     emoji: '🌌',
     path: '/recursos/sistema-solar',
+    materias: ['geologia'],
     materia: { es: 'Ciencias', en: 'Science', ca: 'Ciències' },
     titulo: { es: 'El sistema solar en 3D', en: 'The solar system in 3D', ca: 'El sistema solar en 3D' },
     desc: {
@@ -65,6 +69,7 @@ export const RECURSOS_INTERACTIVOS = [
     id: 'globo',
     emoji: '🌍',
     path: '/recursos/globo-terraqueo',
+    materias: ['geografia'],
     materia: { es: 'Geografía', en: 'Geography', ca: 'Geografia' },
     titulo: { es: 'El globo terráqueo en 3D', en: 'The globe in 3D', ca: 'El globus terraqüi en 3D' },
     desc: {

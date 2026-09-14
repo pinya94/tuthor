@@ -3,6 +3,7 @@ import { useLang } from '../context/LangContext'
 import TemarioGrid from '../components/TemarioGrid'
 import { MODOS, MODO_IDS } from '../lib/mathEngine'
 import SEOEstatico from '../components/SEOEstatico'
+import RecursosInteractivos from '../components/RecursosInteractivos'
 
 // Examenes que van directo al examen (no usan el motor aritmético)
 // Porcentajes tiene un solo formato, así que una página de tema intermedia
@@ -52,7 +53,7 @@ const EXTRAS = [
 
 export default function MatematicasIndex() {
   const navigate = useNavigate()
-  const { lang, localPath } = useLang()
+  const { lang, localPath, tr } = useLang()
   const en = lang === 'en'
   const ca = lang === 'ca'
 
@@ -91,6 +92,14 @@ export default function MatematicasIndex() {
       </div>
 
       <TemarioGrid items={ITEMS} onSelect={handleSelect} placeholder={ca ? 'Cercar operació...' : en ? 'Search operation...' : 'Buscar operación...'} />
+
+      {/* Los recursos de esta materia, después del temario, que es a lo que se
+          viene a un hub: con varias tarjetas encima empujarían los temas fuera
+          de la pantalla. */}
+      <section className="max-w-3xl mx-auto w-full mt-10">
+        <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-3">🧰 {tr({ es: 'Resolver mis ejercicios', en: 'Solve my exercises', ca: 'Resoldre els meus exercicis' })}</p>
+        <RecursosInteractivos materia="matematicas" />
+      </section>
     </div>
   )
 }

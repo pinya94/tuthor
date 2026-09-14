@@ -3,6 +3,8 @@ import { useLang } from '../context/LangContext'
 import TemarioGrid from '../components/TemarioGrid'
 import SEOHead from '../components/SEOHead'
 import { getDisciplina } from '../data/ciencias'
+import RecursosInteractivos from '../components/RecursosInteractivos'
+import { RECURSOS_INTERACTIVOS } from '../lib/recursosInteractivos'
 
 const TEMAS = [
   {
@@ -220,6 +222,16 @@ export default function QuimicaIndex({ disciplina = 'quimica' }) {
         onSelect={item => navigate(localPath(`/estudiar/${disc.id}/${item.id}`))}
         placeholder={ca ? 'Cercar tema...' : en ? 'Search topic...' : 'Buscar tema...'}
       />
+      {/* Los recursos de esta disciplina, después del temario, que es a lo que
+          se viene a un hub. Solo en las disciplinas que tienen alguno (hoy,
+          Geología por el sistema solar): sin recursos, el título quedaría
+          encima de un hueco. */}
+      {RECURSOS_INTERACTIVOS.some(r => r.materias?.includes(disc.id)) && (
+        <section className="max-w-3xl mx-auto w-full mt-10">
+          <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-3">🧰 {tr({ es: 'Resolver mis ejercicios', en: 'Solve my exercises', ca: 'Resoldre els meus exercicis' })}</p>
+          <RecursosInteractivos materia={disc.id} />
+        </section>
+      )}
     </div>
   )
 }

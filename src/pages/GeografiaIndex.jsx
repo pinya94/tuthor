@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import TemarioGrid from '../components/TemarioGrid'
 import SEOEstatico from '../components/SEOEstatico'
+import RecursosInteractivos from '../components/RecursosInteractivos'
 
 const TEMAS = [
   {
@@ -87,7 +88,7 @@ const TEMAS = [
 
 export default function GeografiaIndex() {
   const navigate = useNavigate()
-  const { lang, localPath, lt } = useLang()
+  const { lang, localPath, lt, tr } = useLang()
   const ca = lang === 'ca', en = lang === 'en'
 
   const items = TEMAS.map(t => ({
@@ -118,6 +119,14 @@ export default function GeografiaIndex() {
         onSelect={item => navigate(localPath(item.examPath || `/estudiar/geografia/${item.id}`))}
         placeholder={ca ? 'Cercar regió, país...' : en ? 'Search region, country...' : 'Buscar región, país...'}
       />
+
+      {/* Los recursos de esta materia, después del temario, que es a lo que se
+          viene a un hub: con varias tarjetas encima empujarían los temas fuera
+          de la pantalla. */}
+      <section className="max-w-3xl mx-auto w-full mt-10">
+        <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-3">🧰 {tr({ es: 'Resolver mis ejercicios', en: 'Solve my exercises', ca: 'Resoldre els meus exercicis' })}</p>
+        <RecursosInteractivos materia="geografia" />
+      </section>
     </div>
   )
 }

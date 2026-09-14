@@ -147,6 +147,14 @@ export default function Navbar() {
                 </button>
               )
             })}
+            {/* Recursos va con Juegos y Estudiar y no dentro de Estudiar: allí
+                quedaba un nivel por debajo, que es justo por lo que no se
+                encontraba. Sin sesión también: se usan sin cuenta. */}
+            <button onClick={() => navigate(localPath('/recursos'))}
+              className={`px-4 py-2 rounded-full text-sm font-medium transition-all
+                ${location.pathname === localPath('/recursos') || location.pathname.startsWith(localPath('/recursos') + '/') ? 'bg-violet-600 text-white' : 'text-white/60 hover:text-white hover:bg-white/10'}`}>
+              {tr({ es: 'Recursos', en: 'Resources', ca: 'Recursos' })}
+            </button>
             {/* El mismo enlace sirve para los dos lados del aula: el profesor
                 va a su panel, el alumno a la suya (o a meter el código si aún
                 no está en ninguna). Lo que NO se enseña aquí es /profesores,
@@ -251,6 +259,11 @@ export default function Navbar() {
                 </button>
               )
             })}
+            <button onClick={() => { navigate(localPath('/recursos')); setMenuOpen(false) }}
+              className={`w-full text-left px-4 py-3 rounded-xl text-sm font-medium transition-all
+                ${location.pathname === localPath('/recursos') || location.pathname.startsWith(localPath('/recursos') + '/') ? 'bg-violet-600 text-white' : 'text-white/70 hover:text-white hover:bg-white/10'}`}>
+              {tr({ es: 'Recursos', en: 'Resources', ca: 'Recursos' })}
+            </button>
             {user && (
               <button onClick={goToClase}
                 className={`w-full text-left px-4 py-3 rounded-xl text-sm font-medium transition-all
