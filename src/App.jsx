@@ -71,6 +71,7 @@ const RecursoFunciones   = lazy(() => import('./pages/RecursoFunciones'))
 const RecursoEcuaciones  = lazy(() => import('./pages/RecursoEcuaciones'))
 const RecursoEstadistica = lazy(() => import('./pages/RecursoEstadistica'))
 const RecursoSistemaSolar = lazy(() => import('./pages/RecursoSistemaSolar'))
+const RecursoGlobo       = lazy(() => import('./pages/RecursoGlobo'))
 const ProfesorPanel      = lazy(() => import('./pages/ProfesorPanel'))
 const ProfesorClase      = lazy(() => import('./pages/ProfesorClase'))
 const Clase              = lazy(() => import('./pages/Clase'))
@@ -285,6 +286,7 @@ function AppRoutes() {
       <Route path="recursos/ecuaciones" element={<RecursoEcuaciones />} />
       <Route path="recursos/estadistica" element={<RecursoEstadistica />} />
       <Route path="recursos/sistema-solar" element={<RecursoSistemaSolar />} />
+      <Route path="recursos/globo-terraqueo" element={<RecursoGlobo />} />
       <Route path="profesor" element={<ProfesorPanel />} />
       <Route path="profesor/clase/:classId" element={<ProfesorClase />} />
       <Route path="clase" element={<Clase />} />

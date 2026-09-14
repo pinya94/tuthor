@@ -163,6 +163,10 @@ export const STATIC_META = {
     es: { title: 'Sistema solar en 3D: dónde están hoy los planetas', desc: 'Gira el sistema solar en 3D y mira dónde están los planetas en cualquier fecha, con distancias, tamaños y datos de cada uno. Posiciones reales, gratis y sin registro.' },
     en: { title: 'Solar system in 3D: where the planets are today', desc: 'Rotate the solar system in 3D and see where the planets are on any date, with distances, sizes and facts for each one. Real positions, free, no sign-up.' },
   },
+  '/recursos/globo-terraqueo': {
+    es: { title: 'Globo terráqueo en 3D: países, coordenadas y día y noche', desc: 'Gira la Tierra en 3D, toca un país para ver su capital y sus datos, lee la latitud y la longitud de cualquier punto y mira dónde es de día ahora. Gratis y sin registro.' },
+    en: { title: 'Globe in 3D: countries, coordinates, day and night', desc: 'Spin the Earth in 3D, tap a country to see its capital and facts, read the latitude and longitude of any point and see where it is daytime now. Free, no sign-up.' },
+  },
   '/profesores': {
     es: { title: 'Herramientas gratis para profesores', desc: 'Pasa lista, pon notas, crea tus propios exámenes y gestiona toda la clase desde el móvil. Gratis durante la beta, sin tarjeta ni permanencia.' },
     en: { title: 'Free tools for teachers', desc: 'Take attendance, grade your students, build your own quizzes and run the whole classroom from your phone. Free during the beta, no card required.' },

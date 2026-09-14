@@ -61,4 +61,16 @@ export const RECURSOS_INTERACTIVOS = [
       ca: 'Gira\'l, fes que passi el temps i mira on són de veritat els planetes en qualsevol data, amb la distància a la Terra i les dades de cadascun.',
     },
   },
+  {
+    id: 'globo',
+    emoji: '🌍',
+    path: '/recursos/globo-terraqueo',
+    materia: { es: 'Geografía', en: 'Geography', ca: 'Geografia' },
+    titulo: { es: 'El globo terráqueo en 3D', en: 'The globe in 3D', ca: 'El globus terraqüi en 3D' },
+    desc: {
+      es: 'Gira la Tierra, toca un país para ver su ficha, lee la latitud y la longitud de cualquier punto y mira dónde es de día y de noche ahora mismo.',
+      en: 'Spin the Earth, tap a country to see its facts, read the latitude and longitude of any point and see where it is day and night right now.',
+      ca: "Gira la Terra, toca un país per veure'n la fitxa, llegeix la latitud i la longitud de qualsevol punt i mira on és de dia i de nit ara mateix.",
+    },
+  },
 ]

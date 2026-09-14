@@ -591,6 +591,9 @@
   <url><loc>https://www.tuthor.es/recursos/sistema-solar</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/en/recursos/sistema-solar</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.tuthor.es/ca/recursos/sistema-solar</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/recursos/globo-terraqueo</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/en/recursos/globo-terraqueo</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/ca/recursos/globo-terraqueo</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
 
   <!-- PROFESORES -->
   <url><loc>https://www.tuthor.es/profesores</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
