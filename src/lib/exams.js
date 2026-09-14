@@ -588,6 +588,13 @@ export const EXAMS = {
     emoji: '❓', subject: 'lengua',
     path: 'examen/espanol-ortografia-puntuacion-test', page: () => import('../pages/EspanolOrtografiaPuntuacionExamen'),
   },
+  // Examen de Corrige el Texto con textos en castellano. La versión inglesa va
+  // en Inglés (corrige-el-texto-en-test): mismo juego, otra materia.
+  'corrige-el-texto-test': {
+    label: { es: 'Corrige el Texto (castellano)', en: 'Spot the Mistakes (Spanish)', ca: 'Corregeix el Text (castellà)' },
+    emoji: '🔍', subject: 'lengua',
+    path: 'examen/corrige-el-texto-test', page: () => import('../pages/CorrigeElTextoExamen'),
+  },
   'espanol-literatura-test': {
     label: { es: 'Literatura', en: 'Literature', ca: 'Literatura' },
     emoji: '🖋️', subject: 'lengua',
@@ -669,6 +676,11 @@ export const EXAMS = {
     label: { es: 'Ordena la Frase', en: 'Word Order', ca: 'Ordena la Frase' },
     emoji: '🔤', subject: 'ingles',
     path: 'examen/ordena-frase-test', page: () => import('../pages/OrdenaFraseExamen'),
+  },
+  'corrige-el-texto-en-test': {
+    label: { es: 'Corrige el Texto (inglés)', en: 'Spot the Mistakes (English)', ca: 'Corregeix el Text (anglès)' },
+    emoji: '🔍', subject: 'ingles',
+    path: 'examen/corrige-el-texto-en-test', page: () => import('../pages/CorrigeElTextoExamenEn'),
   },
   'ingles-pos-nouns-test': {
     label: { es: 'Nouns (spot them)', en: 'Nouns (spot them)', ca: 'Nouns (spot them)' },

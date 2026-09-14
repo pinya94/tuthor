@@ -250,9 +250,10 @@ export const TOPIC_CATALOG = {
       gj: examTema({ test: 'espanol-ortografia-gj-test' }),
       puntuacion: examTema({ test: 'espanol-ortografia-puntuacion-test' }),
       literatura: examTema({ test: 'espanol-literatura-test' }),
-      // Tema sin examen propio: por ahora solo lo trabaja el juego, que ya
-      // cubre las seis familias de falta a la vez.
-      correccion: examTema({}),
+      // Un tema, dos formatos: el juego (arcade, por tiempo) y su examen (sin
+      // reloj, con nota). Los dos sobre textos EN CASTELLANO: el inglés cuelga
+      // de Inglés → spelling, y el catalán no tiene tema porque no hay materia.
+      correccion: examTema({ corregirExamen: 'corrige-el-texto-test' }),
     },
     formatos: {
       // El juego mezcla clases de palabra, género y número: su sitio es el tema
@@ -269,6 +270,9 @@ export const TOPIC_CATALOG = {
         tracksTopic: true,
         temas: ['acentuacion'],
       },
+      // La página guarda category según el idioma del texto ('correccion' en
+      // castellano, ver CATEGORIA_POR_IDIOMA en lib/corrigeTexto.js), así que
+      // esta tarea no se completa jugando el texto en inglés o en catalán.
       corregir: {
         label: { es: 'Corrige el Texto (juego)', en: 'Spot the Mistakes (game)', ca: 'Corregeix el Text (joc)' },
         emoji: '🔍',
@@ -277,6 +281,7 @@ export const TOPIC_CATALOG = {
         tracksTopic: true,
         temas: ['correccion'],
       },
+      corregirExamen: examFormato({ es: 'Corregir el texto (examen)', en: 'Proofread the text (exam)', ca: 'Corregir el text (examen)' }, '🔍'),
       intruso: {
         label: { es: 'El Intruso (juego)', en: 'The Odd One Out (game)', ca: "L'Intrús (joc)" },
         emoji: '🔍',
@@ -430,6 +435,9 @@ export const TOPIC_CATALOG = {
       // propósito, así que colgarlo de "Adjectives" o "Present Simple" daría
       // al profesor un examen que no va de ese tema.
       'word-order': examTema({ ordenar: 'ordena-frase-test' }),
+      // Corrige el Texto con el banco inglés: sus faltas son las del inglés
+      // (dobles consonantes, letras mudas, their/there), no las del castellano.
+      spelling: examTema({ corregirExamen: 'corrige-el-texto-en-test' }),
     },
     formatos: {
       // Único formato por MECÁNICA de la materia: un solo juego para los cinco
@@ -452,6 +460,18 @@ export const TOPIC_CATALOG = {
       // nota. Es un formato aparte de `piezas` (el arcade) porque son dos
       // cosas distintas de asignar: una entrena, la otra evalúa.
       piezasExamen: examFormato({ es: 'Montar la frase (examen)', en: 'Build the sentence (exam)', ca: 'Muntar la frase (examen)' }, '🧩'),
+      // El mismo juego que en Lengua con otra category: la página guarda
+      // 'spelling' cuando el texto va en inglés, y abre en inglés al llegar
+      // con este tema.
+      corregir: {
+        label: { es: 'Corrige el Texto (juego)', en: 'Spot the Mistakes (game)', ca: 'Corregeix el Text (joc)' },
+        emoji: '🔍',
+        game: 'corrige-el-texto',
+        usesLevel: false,
+        tracksTopic: true,
+        temas: ['spelling'],
+      },
+      corregirExamen: examFormato({ es: 'Corregir el texto (examen)', en: 'Proofread the text (exam)', ca: 'Corregir el text (examen)' }, '🔍'),
     },
   },
 

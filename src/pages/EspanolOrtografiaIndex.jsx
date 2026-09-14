@@ -7,6 +7,7 @@ const TEMAS = [
   { id: 'bv', titulo: { es: 'B y V', en: 'B and V', ca: 'B i V' }, emoji: '🔤', gradient: 'from-teal-500 to-cyan-600', gameId: 'espanol-ortografia-bv-test' },
   { id: 'gj', titulo: { es: 'G y J', en: 'G and J', ca: 'G i J' }, emoji: '🔡', gradient: 'from-violet-500 to-purple-700', gameId: 'espanol-ortografia-gj-test' },
   { id: 'puntuacion', titulo: { es: 'Puntuación', en: 'Punctuation', ca: 'Puntuació' }, emoji: '❓', gradient: 'from-rose-500 to-pink-700', gameId: 'espanol-ortografia-puntuacion-test' },
+  { id: 'correccion', titulo: { es: 'Corregir un texto', en: 'Proofreading', ca: 'Corregir un text' }, emoji: '🔍', gradient: 'from-amber-500 to-orange-700', gameId: 'corrige-el-texto-test' },
 ]
 
 // Los dos juegos de ortografía que hay. Estaban solo en /juegos y en el
@@ -15,13 +16,15 @@ const TEMAS = [
 // /examen/<id> como los de arriba, y etiqueta propia para que se vea que son
 // otra cosa: se juegan, no se aprueban.
 const JUEGOS = [
-  { id: 'corregir', titulo: { es: 'Corrige el Texto', en: 'Spot the Mistakes', ca: 'Corregeix el Text' }, emoji: '🔍', gradient: 'from-amber-500 to-orange-700', path: '/juegos/corrige-el-texto' },
+  // Con tema: estando en Ortografía del español, el texto tiene que salir en
+  // castellano aunque la interfaz esté en inglés o en catalán.
+  { id: 'corregir', titulo: { es: 'Corrige el Texto', en: 'Spot the Mistakes', ca: 'Corregeix el Text' }, emoji: '🔍', gradient: 'from-amber-500 to-orange-700', path: '/juegos/corrige-el-texto', state: { tema: 'correccion' } },
   { id: 'tilde', titulo: { es: 'Pon la Tilde', en: 'Spanish Accents', ca: "Posa l'Accent" }, emoji: '✏️', gradient: 'from-rose-500 to-pink-700', path: '/juegos/pon-la-tilde' },
 ]
 
 export default function EspanolOrtografiaIndex() {
   const navigate = useNavigate()
-  const { lang } = useLang()
+  const { lang, localPath } = useLang()
 
   return (
     <div className="relative z-10 flex flex-col min-h-[calc(100vh-4rem)] px-4 sm:px-8 py-6">
@@ -37,7 +40,7 @@ export default function EspanolOrtografiaIndex() {
         {TEMAS.map(tema => (
           <button
             key={tema.id}
-            onClick={() => navigate(`/examen/${tema.gameId}`)}
+            onClick={() => navigate(localPath(`/examen/${tema.gameId}`))}
             className={`bg-gradient-to-br ${tema.gradient} text-white rounded-2xl p-6 text-left hover:scale-105 transition-transform shadow-md`}
           >
             <div className="text-4xl mb-3">{tema.emoji}</div>
@@ -53,7 +56,7 @@ export default function EspanolOrtografiaIndex() {
         {JUEGOS.map(juego => (
           <button
             key={juego.id}
-            onClick={() => navigate(juego.path)}
+            onClick={() => navigate(localPath(juego.path), { state: juego.state })}
             className={`bg-gradient-to-br ${juego.gradient} text-white rounded-2xl p-6 text-left hover:scale-105 transition-transform shadow-md`}
           >
             <div className="text-4xl mb-3">{juego.emoji}</div>
@@ -62,7 +65,7 @@ export default function EspanolOrtografiaIndex() {
         ))}
       </div>
 
-      <button onClick={() => navigate('/estudiar/idiomas/espanol')} className="mt-8 text-white/40 hover:text-white/70 text-sm text-center">
+      <button onClick={() => navigate(localPath('/estudiar/idiomas/espanol'))} className="mt-8 text-white/40 hover:text-white/70 text-sm text-center">
         ← Español
       </button>
     </div>

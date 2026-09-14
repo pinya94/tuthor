@@ -5,9 +5,11 @@ import { useAuth } from '../context/AuthContext'
 import { saveActivity } from '../lib/activity'
 import { computeCoins } from '../lib/games'
 import {
-  familiasDe, nivelesDe, nivelIdsDe, TEXTOS_POR_PARTIDA, PENALIZACION,
-  generarPartida, tiempoFinal, puntosDe, formatoTiempo,
+  nivelesDe, nivelIdsDe, TEXTOS_POR_PARTIDA, PENALIZACION,
+  generarPartida, corregirRonda, tiempoFinal, puntosDe, formatoTiempo,
+  categoriaDe, idiomaDeTema, EXAMEN_POR_IDIOMA,
 } from '../lib/corrigeTexto'
+import { TextoMarcable, ResumenRonda, RepasoFallos } from '../components/CorrigeTextoPiezas'
 import SelectorIdioma from '../components/SelectorIdioma'
 import GameEndScreen from '../components/GameEndScreen'
 import SEOHead from '../components/SEOHead'
@@ -18,10 +20,9 @@ import ComoSeJuega from '../components/ComoSeJuega'
 // también cuesta segundos — ver la explicación larga en lib/corrigeTexto.js.
 
 const C = {
-  // El badge dice el IDIOMA de los textos, no solo la materia: en inglés y
-  // en catalán el jugador tiene que saber antes de empezar que lo que va a
-  // corregir está en castellano (los textos no cambian con la interfaz).
-  badge:   { es: 'Lengua · Ortografía', en: 'Spanish · Spelling', ca: 'Llengua castellana · Ortografia' },
+  // Sin idioma en el badge: el texto puede ir en castellano, inglés o catalán,
+  // y eso lo dice el selector de la intro, que es donde se elige.
+  badge:   { es: 'Lengua · Ortografía', en: 'Languages · Spelling', ca: 'Llengua · Ortografia' },
   title:   { es: '🔍 Corrige el Texto', en: '🔍 Spot the Mistakes', ca: '🔍 Corregeix el Text' },
   sub:     { es: 'Tres textos, todos los fallos, el reloj corriendo', en: 'Three texts, every mistake, clock running', ca: 'Tres textos, tots els errors, el rellotge corrent' },
   queEs:   { es: '¿De qué va?', en: 'What is it about?', ca: 'De què va?' },
@@ -37,7 +38,6 @@ const C = {
   comprobar:{ es: 'Comprobar', en: 'Check', ca: 'Comprovar' },
   siguiente:{ es: 'Siguiente texto →', en: 'Next text →', ca: 'Text següent →' },
   verResultado:{ es: 'Ver resultado', en: 'See result', ca: 'Veure resultat' },
-  encontrados:{ es: 'Encontrados', en: 'Found', ca: 'Trobats' },
   escapados:{ es: 'Se te escaparon', en: 'Missed', ca: "Se t'han escapat" },
   deMas:   { es: 'Marcadas de más', en: 'Marked by mistake', ca: 'Marcades de més' },
   penal:   { es: 'de penalización', en: 'penalty', ca: 'de penalització' },
@@ -47,17 +47,14 @@ const C = {
   tFinal:  { es: 'Con penalización', en: 'With penalty', ca: 'Amb penalització' },
   aciertos:{ es: 'Fallos cazados', en: 'Mistakes caught', ca: 'Errors caçats' },
   back:    { es: '← Volver', en: '← Back', ca: '← Tornar' },
-  eraAsi:  { es: 'era', en: 'should be', ca: 'era' },
-  // 'esta estaba bien' no: en un juego de tildes, un demostrativo sin acento
-  // al lado de la palabra corregida invita a discutir justo lo que no toca.
-  estaBien:{ es: 'está bien escrita', en: 'this one is fine', ca: 'està ben escrita' },
+  examen:  { es: '📝 Hacer el examen', en: '📝 Take the exam', ca: "📝 Fer l'examen" },
 }
 const T = (k, l) => C[k]?.[l] ?? C[k]?.es ?? k
 const tr3 = (o, l) => o?.[l] ?? o?.es ?? ''
 
-function IntroScreen({ onStart, l }) {
+function IntroScreen({ onStart, l, idiomaInicial = l }) {
   const [nivel, setNivel] = useState('medio')
-  const [idioma, setIdioma] = useState(l)
+  const [idioma, setIdioma] = useState(idiomaInicial)
   const NIVELES = nivelesDe(idioma)
   return (
     <div className="relative z-10 flex flex-col items-center min-h-[calc(100vh-4rem)] px-4 py-8">
@@ -104,12 +101,15 @@ export default function CorrigeElTexto() {
   const navigate = useNavigate()
   const l = lang === 'en' ? 'en' : lang === 'ca' ? 'ca' : 'es'
   const backPath = location.state?.backPath
+  // Si se llega desde una tarea del catálogo, el tema dice en qué idioma va el
+  // texto (Lengua → castellano, Inglés → inglés). Sin tema, el de la interfaz.
+  const idiomaInicial = idiomaDeTema(location.state?.tema) ?? l
 
   const [screen, setScreen] = useState('intro')
   const [nivel, setNivel] = useState('medio')
-  // El idioma del TEXTO, no el de la interfaz. Empieza en el de la interfaz
-  // pero es una elección: cada lengua tiene su banco y sus propias faltas.
-  const [idioma, setIdioma] = useState(l)
+  // El idioma del TEXTO, no el de la interfaz. Es una elección: cada lengua
+  // tiene su banco y sus propias faltas.
+  const [idioma, setIdioma] = useState(idiomaInicial)
   const [rondas, setRondas] = useState([])
   const [idx, setIdx] = useState(0)
   // Índices de token marcados en el texto actual. Set nuevo en cada cambio
@@ -154,15 +154,8 @@ export default function CorrigeElTexto() {
   }
 
   function comprobar() {
-    const errores = ronda.tokens.map((t, i) => (t.error ? i : -1)).filter(i => i >= 0)
-    const encontrados = errores.filter(i => marcadas.has(i))
-    const deMas = [...marcadas].filter(i => !ronda.tokens[i].error)
-    setResultados(r => [...r, {
-      id: ronda.id,
-      encontrados: encontrados.length,
-      sinMarcar: errores.length - encontrados.length,
-      deMas: deMas.length,
-    }])
+    const { encontrados, sinMarcar, deMas } = corregirRonda(ronda, marcadas)
+    setResultados(r => [...r, { id: ronda.id, encontrados, sinMarcar, deMas }])
     setScreen('revision')
   }
 
@@ -188,7 +181,7 @@ export default function CorrigeElTexto() {
     const pts = puntosDe(final)
     if (user) {
       saveActivity(user.uid, {
-        type: 'juego', game: 'corrige-el-texto', category: 'correccion',
+        type: 'juego', game: 'corrige-el-texto', category: categoriaDe(idioma),
         score: pts, timeSpent: segundos,
         coinsEarned: computeCoins('corrige-el-texto', { score: pts }),
         userName: user.displayName, userPhoto: user.photoURL,
@@ -199,13 +192,13 @@ export default function CorrigeElTexto() {
   useEffect(() => () => clearInterval(timerRef.current), [])
 
   const seo = {
-    es: { title: 'Corrige el Texto — Juego de ortografía: encuentra las faltas', desc: 'Tres textos con faltas escondidas: tildes, b/v, g/j, h muda, ll/y y homófonos como tuvo y tubo. Marca todas las palabras mal escritas contrarreloj. Los fallos cambian en cada partida. Juego de lengua gratis.', path: '/juegos/corrige-el-texto' },
-    en: { title: 'Spot the Mistakes — Spanish spelling game', desc: 'Three short texts with hidden spelling mistakes: accents, b/v, g/j, silent h, ll/y and homophones. Mark every misspelled word against the clock. The mistakes move every game. Free Spanish game.', path: '/en/juegos/corrige-el-texto' },
-    ca: { title: 'Corregeix el Text — Joc d\'ortografia castellana', desc: 'Tres textos amb faltes amagades: accents, b/v, g/j, h muda, ll/y i homòfons. Marca totes les paraules mal escrites contrarellotge. Els errors canvien a cada partida. Joc de llengua gratis.', path: '/ca/juegos/corrige-el-texto' },
+    es: { title: 'Corrige el Texto — Juego de ortografía: encuentra las faltas', desc: 'Tres textos con faltas escondidas: tildes, b/v, g/j, h muda, ll/y y homófonos como tuvo y tubo. Marca todas las palabras mal escritas contrarreloj. Los fallos cambian en cada partida. También en inglés y en catalán.', path: '/juegos/corrige-el-texto' },
+    en: { title: 'Spot the Mistakes — spelling game', desc: 'Three short texts with hidden spelling mistakes, in English, Spanish or Catalan: double letters, silent letters, their and there, and more. Mark every misspelled word against the clock. The mistakes move every game.', path: '/en/juegos/corrige-el-texto' },
+    ca: { title: "Corregeix el Text — joc d'ortografia", desc: 'Tres textos amb faltes amagades, en català, castellà o anglès: accents, ela geminada, h muda, b/v i homòfons. Marca totes les paraules mal escrites contrarellotge. Els errors canvien a cada partida.', path: '/ca/juegos/corrige-el-texto' },
   }[l]
 
   if (screen === 'intro') {
-    return (<><SEOHead title={seo.title} description={seo.desc} path={seo.path} lang={l} /><IntroScreen onStart={empezar} l={l} /></>)
+    return (<><SEOHead title={seo.title} description={seo.desc} path={seo.path} lang={l} /><IntroScreen onStart={empezar} l={l} idiomaInicial={idiomaInicial} /></>)
   }
 
   if (screen === 'end') {
@@ -227,7 +220,13 @@ export default function CorrigeElTexto() {
       : l === 'ca'
         ? `He corregit tres textos en ${formatoTiempo(final)} a Corregeix el Text 🔍 — pots superar-me? https://tuthor.es/juegos/corrige-el-texto`
         : `He corregido tres textos en ${formatoTiempo(final)} en Corrige el Texto 🔍 — ¿puedes superarme? https://tuthor.es/juegos/corrige-el-texto`
-    const secondary = backPath ? [{ label: T('back', l), onClick: () => navigate(localPath(backPath)) }] : []
+    // El examen se ofrece al acabar, que es cuando uno sabe si está para nota.
+    // Solo en los idiomas que lo tienen (el catalán no: ver EXAMEN_POR_IDIOMA).
+    const examen = EXAMEN_POR_IDIOMA[idioma]
+    const secondary = [
+      ...(examen ? [{ label: T('examen', l), onClick: () => navigate(localPath(`/examen/${examen}`)) }] : []),
+      ...(backPath ? [{ label: T('back', l), onClick: () => navigate(localPath(backPath)) }] : []),
+    ]
     return (
       <GameEndScreen game="corrige-el-texto" emoji="🔍" title={`${T('end', l)} · ${formatoTiempo(final)}`}
         score={pts} message={msg}
@@ -247,21 +246,6 @@ export default function CorrigeElTexto() {
   const revisando = screen === 'revision'
   const res = revisando ? resultados[resultados.length - 1] : null
   const penal = res ? PENALIZACION * (res.sinMarcar + res.deMas) : 0
-
-  // Color de cada palabra. Mientras se marca solo hay dos estados; al corregir,
-  // se ve todo a la vez: lo cazado, lo que se escapó y lo marcado de más.
-  const clase = (t, i) => {
-    const marcada = marcadas.has(i)
-    if (!revisando) {
-      return marcada
-        ? 'bg-[#EDAE49] text-black rounded px-0.5'
-        : 'hover:bg-white/10 rounded px-0.5 cursor-pointer'
-    }
-    if (t.error && marcada) return 'bg-green-500/80 text-black rounded px-0.5 font-bold'
-    if (t.error) return 'bg-red-500/80 text-white rounded px-0.5 font-bold'
-    if (marcada) return 'bg-orange-500/70 text-black rounded px-0.5 line-through'
-    return ''
-  }
 
   return (
     <div className="relative z-10 flex flex-col items-center min-h-[calc(100vh-4rem)] px-3 sm:px-4 py-4">
@@ -291,14 +275,7 @@ export default function CorrigeElTexto() {
         </p>
       </div>
 
-      <div className="w-full max-w-[620px] rounded-2xl border border-white/10 bg-white/5 p-4 sm:p-5 mb-3">
-        <p className="text-white/85 text-[17px] sm:text-lg leading-[2]">
-          {ronda.tokens.map((t, i) => (t.palabra
-            ? <span key={i} onClick={() => alternar(i)} className={clase(t, i)}>{t.s}</span>
-            : <span key={i}>{t.s}</span>
-          ))}
-        </p>
-      </div>
+      <TextoMarcable ronda={ronda} marcadas={marcadas} revisando={revisando} onAlternar={alternar} />
 
       {!revisando && (
         <button onClick={comprobar}
@@ -309,20 +286,7 @@ export default function CorrigeElTexto() {
 
       {revisando && (
         <div className="w-full max-w-[620px] space-y-3">
-          <div className="grid grid-cols-3 gap-2 text-center">
-            <div className="rounded-xl bg-green-500/15 border border-green-500/30 py-2">
-              <p className="text-green-400 text-xl font-black">{res.encontrados}</p>
-              <p className="text-white/50 text-[11px]">{T('encontrados', l)}</p>
-            </div>
-            <div className="rounded-xl bg-red-500/15 border border-red-500/30 py-2">
-              <p className="text-red-400 text-xl font-black">{res.sinMarcar}</p>
-              <p className="text-white/50 text-[11px]">{T('escapados', l)}</p>
-            </div>
-            <div className="rounded-xl bg-orange-500/15 border border-orange-500/30 py-2">
-              <p className="text-orange-400 text-xl font-black">{res.deMas}</p>
-              <p className="text-white/50 text-[11px]">{T('deMas', l)}</p>
-            </div>
-          </div>
+          <ResumenRonda res={res} />
 
           <p className="text-center text-sm font-bold">
             {penal > 0
@@ -330,31 +294,7 @@ export default function CorrigeElTexto() {
               : <span className="text-green-400">✓ {T('sinPenal', l)}</span>}
           </p>
 
-          {/* Una línea por fallo del texto, con la palabra buena y la regla de
-              su familia: el repaso es donde se aprende, no el marcar. */}
-          <div className="space-y-1.5">
-            {ronda.tokens.map((t, i) => (t.error ? (
-              <div key={i} className="rounded-xl px-3 py-2 bg-white/5 border border-white/10">
-                <p className="text-sm">
-                  <span className="text-red-400 line-through">{t.s}</span>
-                  <span className="text-white/40"> · {T('eraAsi', l)} </span>
-                  <span className="text-green-400 font-bold">{t.correcta}</span>
-                  {!marcadas.has(i) && <span className="text-white/30 text-xs"> 🙈</span>}
-                </p>
-                <p className="text-white/50 text-xs mt-0.5">
-                  {familiasDe(ronda.idioma)[t.familia].emoji} <span className="text-white/70 font-semibold">{tr3(familiasDe(ronda.idioma)[t.familia].label, l)}</span> · {tr3(familiasDe(ronda.idioma)[t.familia].regla, l)}
-                </p>
-              </div>
-            ) : null))}
-            {[...marcadas].filter(i => !ronda.tokens[i].error).map(i => (
-              <div key={`x${i}`} className="rounded-xl px-3 py-2 bg-orange-500/10 border border-orange-500/20">
-                <p className="text-sm">
-                  <span className="text-orange-300 font-bold">{ronda.tokens[i].s}</span>
-                  <span className="text-white/40"> · {T('estaBien', l)}</span>
-                </p>
-              </div>
-            ))}
-          </div>
+          <RepasoFallos ronda={ronda} marcadas={marcadas} />
 
           <button onClick={siguiente}
             className="w-full py-3.5 rounded-2xl bg-[#EDAE49] text-black font-black text-lg hover:bg-amber-400 transition-colors">

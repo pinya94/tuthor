@@ -16,7 +16,11 @@ import {
   IDIOMA_IDS, familiasDe, nivelesDe, nivelIdsDe, textosDe, TEXTOS_POR_PARTIDA,
   PENALIZACION, TIEMPO_TOPE, tokenizar, trampasUsables,
   generarRonda, generarPartida, tiempoFinal, puntosDe,
+  TEXTOS_POR_EXAMEN, corregirRonda, notaExamen, preguntasSchema, fraseConHueco,
+  CATEGORIA_POR_IDIOMA, categoriaDe, idiomaDeTema, EXAMEN_POR_IDIOMA,
 } from '../corrigeTexto'
+import { findTopic, taskMatchesPlay } from '../topicCatalog'
+import { EXAMS } from '../exams'
 
 const MUESTRA = 120
 const palabrasDe = texto => tokenizar(texto).filter(p => p.palabra).map(p => p.s)
@@ -290,5 +294,116 @@ describe('la partida y su puntuación', () => {
   it('los puntos nunca son negativos y caben en el tope', () => {
     expect(puntosDe(TIEMPO_TOPE + 500)).toBe(0)
     expect(puntosDe(0)).toBe(TIEMPO_TOPE)
+  })
+})
+
+describe('el examen', () => {
+  // Marca en una ronda las posiciones que se piden: `faltas` de sus errores
+  // y `buenas` de sus palabras bien escritas.
+  const marcar = (ronda, faltas, buenas = 0) => {
+    const errores = ronda.tokens.map((t, i) => (t.error ? i : -1)).filter(i => i >= 0)
+    const correctas = ronda.tokens.map((t, i) => (t.palabra && !t.error ? i : -1)).filter(i => i >= 0)
+    return new Set([...errores.slice(0, faltas), ...correctas.slice(0, buenas)])
+  }
+
+  it('trae cuatro textos distintos', () => {
+    cadaBanco(idioma => {
+      const p = generarPartida('medio', [], idioma, TEXTOS_POR_EXAMEN)
+      expect(new Set(p.map(r => r.id)).size, idioma).toBe(TEXTOS_POR_EXAMEN)
+    })
+  })
+
+  it('corregirRonda cuenta lo mismo que se ha marcado', () => {
+    cadaBanco(idioma => {
+      const r = generarRonda(textosDe(idioma)[0].id, 'medio', idioma)
+      expect(corregirRonda(r, marcar(r, 2, 3)), idioma).toEqual({
+        encontrados: 2, sinMarcar: r.nErrores - 2, deMas: 3, total: r.nErrores,
+      })
+    })
+  })
+
+  it('un texto perfecto es un diez y uno sin tocar, un cero', () => {
+    cadaBanco(idioma => {
+      const r = generarRonda(textosDe(idioma)[1].id, 'medio', idioma)
+      expect(notaExamen(corregirRonda(r, marcar(r, r.nErrores))), idioma).toBe(10)
+      expect(notaExamen(corregirRonda(r, new Set())), idioma).toBe(0)
+    })
+  })
+
+  it('marcar el texto entero no aprueba', () => {
+    // Lo mismo que rompería el juego sin penalización, en versión examen:
+    // tocar todas las palabras encuentra todas las faltas a la fuerza.
+    cadaBanco(idioma => {
+      for (const r of generarPartida('dificil', [], idioma, TEXTOS_POR_EXAMEN)) {
+        const todas = new Set(r.tokens.map((t, i) => (t.palabra ? i : -1)).filter(i => i >= 0))
+        expect(notaExamen(corregirRonda(r, todas)), `${idioma}/${r.id}`).toBe(0)
+      }
+    })
+  })
+
+  it('cada palabra buena marcada anula una falta encontrada, sin bajar de cero', () => {
+    expect(notaExamen({ encontrados: 10, deMas: 0, total: 20 })).toBe(5)
+    expect(notaExamen({ encontrados: 10, deMas: 2, total: 20 })).toBe(4)
+    expect(notaExamen({ encontrados: 1, deMas: 9, total: 20 })).toBe(0)
+    expect(notaExamen({ total: 0 })).toBe(0)
+  })
+
+  it('cada falta da una pregunta con su frase, y la frase sale tal cual del texto bien escrito', () => {
+    // Sin la frase, «si» o «sí» no tiene respuesta: las dos formas existen.
+    // Por eso se comprueba que el contexto, con la palabra buena en el hueco,
+    // es literalmente un trozo del texto original: ni otra falta colada ni un
+    // corte a mitad de palabra.
+    cadaBanco(idioma => {
+      for (const r of generarPartida('dificil', [], idioma, TEXTOS_POR_EXAMEN)) {
+        const original = textosDe(idioma).find(t => t.id === r.id).texto
+        const qs = preguntasSchema(r, 'es')
+        expect(qs.length, `${idioma}/${r.id}`).toBe(r.nErrores)
+        r.tokens.forEach((t, i) => {
+          if (!t.error) return
+          const { antes, despues } = fraseConHueco(r, i)
+          expect(original, `${idioma}/${r.id}: ${t.correcta}`).toContain(antes + t.correcta + despues)
+        })
+        for (const q of qs) {
+          expect(q.question, `${idioma}/${r.id}`).toContain('___')
+          expect(q.correctAnswer, `${idioma}/${r.id}`).not.toBe(q.wrongAnswers[0])
+        }
+      }
+    })
+  })
+})
+
+describe('idioma del texto → tareas del catálogo', () => {
+  it('cada idioma guarda una categoría distinta, y la inversa la recupera', () => {
+    const cats = Object.values(CATEGORIA_POR_IDIOMA)
+    expect(new Set(cats).size).toBe(cats.length)
+    for (const idioma of IDIOMA_IDS) expect(idiomaDeTema(categoriaDe(idioma))).toBe(idioma)
+    expect(idiomaDeTema('otra-cosa')).toBeNull()
+  })
+
+  it('el castellano es un tema de Lengua, el inglés uno de Inglés y el catalán ninguno', () => {
+    const materia = idioma => findTopic({ gameId: 'corrige-el-texto', category: categoriaDe(idioma) })?.materia ?? null
+    expect(materia('es')).toBe('lengua')
+    expect(materia('en')).toBe('ingles')
+    expect(materia('ca')).toBeNull()
+  })
+
+  it('una tarea de Lengua no se completa jugando el texto en otro idioma', () => {
+    // El fallo que había: la categoría era siempre 'correccion'.
+    const tarea = { kind: 'catalog', gameId: 'corrige-el-texto', category: categoriaDe('es') }
+    expect(taskMatchesPlay(tarea, { gameId: 'corrige-el-texto', category: categoriaDe('es') })).toBe(true)
+    expect(taskMatchesPlay(tarea, { gameId: 'corrige-el-texto', category: categoriaDe('en') })).toBe(false)
+    expect(taskMatchesPlay(tarea, { gameId: 'corrige-el-texto', category: categoriaDe('ca') })).toBe(false)
+  })
+
+  it('cada examen está registrado en la materia del tema de su idioma', () => {
+    for (const [idioma, examId] of Object.entries(EXAMEN_POR_IDIOMA)) {
+      const exam = EXAMS[examId]
+      expect(exam?.path, examId).toBe(`examen/${examId}`)
+      const juego = findTopic({ gameId: 'corrige-el-texto', category: categoriaDe(idioma) })
+      const delExamen = findTopic({ gameId: examId, category: examId })
+      expect(delExamen?.materia, examId).toBe(juego.materia)
+      expect(delExamen?.tema, examId).toBe(juego.tema)
+      expect(exam.subject, examId).toBe(juego.materia)
+    }
   })
 })

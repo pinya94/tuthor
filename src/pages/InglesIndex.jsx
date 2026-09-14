@@ -6,6 +6,10 @@ const CATEGORIAS = [
   { id: 'grammar', titulo: { es: 'Grammar', en: 'Grammar', ca: 'Grammar' }, emoji: '📝', gradient: 'from-blue-500 to-indigo-600', path: '/estudiar/idiomas/ingles/grammar' },
   { id: 'word-order', titulo: { es: 'Word order', en: 'Word order', ca: 'Word order' }, emoji: '🔤', gradient: 'from-cyan-500 to-blue-700', path: '/juegos/ordena-frase',
     sub: { es: 'Ordena la frase jugando', en: 'Order the sentence by playing', ca: 'Ordena la frase jugant' } },
+  // Con tema: sin él, Corrige el Texto abre en el idioma de la interfaz, y
+  // desde Inglés lo que toca es el texto en inglés.
+  { id: 'spelling', titulo: { es: 'Spelling', en: 'Spelling', ca: 'Spelling' }, emoji: '🔍', gradient: 'from-amber-500 to-orange-700', path: '/juegos/corrige-el-texto', state: { tema: 'spelling' },
+    sub: { es: 'Encuentra las faltas de un texto en inglés', en: 'Find the mistakes in an English text', ca: "Troba les faltes d'un text en anglès" } },
 ]
 
 export default function InglesIndex() {
@@ -28,7 +32,7 @@ export default function InglesIndex() {
         {CATEGORIAS.map(cat => (
           <button
             key={cat.id}
-            onClick={() => navigate(localPath(cat.path))}
+            onClick={() => navigate(localPath(cat.path), { state: cat.state })}
             className={`bg-gradient-to-br ${cat.gradient} text-white rounded-2xl p-6 text-left hover:scale-105 transition-transform shadow-md`}
           >
             <div className="text-4xl mb-3">{cat.emoji}</div>

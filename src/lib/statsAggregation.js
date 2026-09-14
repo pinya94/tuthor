@@ -170,6 +170,7 @@ export const SUBJECT_DEFS = [
       articles:          { es: 'Articles',                 en: 'Articles',         ca: 'Articles' },
       passive:           { es: 'Passive Voice',            en: 'Passive Voice',    ca: 'Passive Voice' },
       'word-order':      { es: 'Word Order (orden de las palabras)', en: 'Word Order', ca: 'Word Order (ordre de les paraules)' },
+      spelling:          { es: 'Spelling (ortografía)',    en: 'Spelling',         ca: 'Spelling (ortografia)' },
     },
   },
   {
