@@ -567,6 +567,21 @@
   <url><loc>https://www.tuthor.es/recursos</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/en/recursos</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/ca/recursos</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/recursos/funciones</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/en/recursos/funciones</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/ca/recursos/funciones</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/recursos/funciones/punto-de-corte</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/en/recursos/funciones/punto-de-corte</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/ca/recursos/funciones/punto-de-corte</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/recursos/funciones/recta-dos-puntos</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/en/recursos/funciones/recta-dos-puntos</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/ca/recursos/funciones/recta-dos-puntos</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/recursos/funciones/recta-pendiente-punto</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/en/recursos/funciones/recta-pendiente-punto</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/ca/recursos/funciones/recta-pendiente-punto</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/recursos/funciones/punto-pertenece</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/en/recursos/funciones/punto-pertenece</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/ca/recursos/funciones/punto-pertenece</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
 
   <!-- PROFESORES -->
   <url><loc>https://www.tuthor.es/profesores</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>

@@ -67,6 +67,7 @@ const Contacto           = lazy(() => import('./pages/Contacto'))
 const Colaborar          = lazy(() => import('./pages/Colaborar'))
 const Profesores         = lazy(() => import('./pages/Profesores'))
 const Recursos           = lazy(() => import('./pages/Recursos'))
+const RecursoFunciones   = lazy(() => import('./pages/RecursoFunciones'))
 const ProfesorPanel      = lazy(() => import('./pages/ProfesorPanel'))
 const ProfesorClase      = lazy(() => import('./pages/ProfesorClase'))
 const Clase              = lazy(() => import('./pages/Clase'))
@@ -276,6 +277,8 @@ function AppRoutes() {
       <Route path="reportar-bug" element={<ReportarBug />} />
       <Route path="profesores" element={<Profesores />} />
       <Route path="recursos" element={<Recursos />} />
+      <Route path="recursos/funciones" element={<RecursoFunciones />} />
+      <Route path="recursos/funciones/:tipo" element={<RecursoFunciones />} />
       <Route path="profesor" element={<ProfesorPanel />} />
       <Route path="profesor/clase/:classId" element={<ProfesorClase />} />
       <Route path="clase" element={<Clase />} />

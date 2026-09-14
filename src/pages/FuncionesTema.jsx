@@ -6,7 +6,7 @@ import BreadcrumbSchema from '../components/BreadcrumbSchema'
 
 export default function FuncionesTema() {
   const navigate = useNavigate()
-  const { lang, localPath } = useLang()
+  const { lang, localPath, tr } = useLang()
   const en = lang === 'en'
   const ca = lang === 'ca'
 
@@ -85,6 +85,26 @@ export default function FuncionesTema() {
         ca ? 'Explicació inclosa' : en ? 'Explanation included' : 'Explicación incluida',
       ],
       action: () => navigate(localPath('/examen/funciones')),
+    },
+    // No es un modo de práctica sino una herramienta: resuelve el ejercicio
+    // que el alumno ya tiene delante. Va la última para no quitar sitio a
+    // los que puntúan.
+    {
+      id: 'recurso',
+      titulo: tr({ es: 'Resolver mis ejercicios', en: 'Solve my exercises', ca: 'Resoldre els meus exercicis' }),
+      descripcion: tr({
+        es: 'Escribe tu función o los datos del problema y te la dibujamos con los cortes, el vértice o la recta que pasa por dos puntos, paso a paso.',
+        en: 'Type your function or the problem data and we draw it with the crossings, the vertex or the line through two points, step by step.',
+        ca: 'Escriu la teva funció o les dades del problema i te la dibuixem amb els talls, el vèrtex o la recta que passa per dos punts, pas a pas.',
+      }),
+      emoji: '🧮',
+      gradient: 'from-sky-500 to-blue-700',
+      detalles: [
+        tr({ es: 'Paso a paso', en: 'Step by step', ca: 'Pas a pas' }),
+        tr({ es: 'Fracciones exactas', en: 'Exact fractions', ca: 'Fraccions exactes' }),
+        tr({ es: 'Gratis', en: 'Free', ca: 'Gratis' }),
+      ],
+      action: () => navigate(localPath('/recursos/funciones')),
     },
   ]
 

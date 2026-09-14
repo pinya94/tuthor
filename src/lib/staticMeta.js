@@ -128,6 +128,29 @@ export const STATIC_META = {
     es: { title: 'Recursos imprimibles para profesores', desc: 'Tarjetas listas para recortar: eventos históricos por época, países y capitales, elementos químicos y titulares verdaderos y falsos. Gratis y sin registro.' },
     en: { title: 'Printable classroom resources', desc: 'Cards ready to cut out: historical events by period, countries and capitals, chemical elements and real vs fake headlines. Free, no sign-up.' },
   },
+  // Recurso de funciones: una URL por tipo de problema, porque cada una es
+  // una búsqueda distinta ("recta que pasa por dos puntos" no es "punto de
+  // corte de dos rectas"). Ver src/lib/recursoFunciones.js.
+  '/recursos/funciones': {
+    es: { title: 'Calculadora de funciones: gráfica, cortes y vértice', desc: 'Escribe una función y mira su gráfica con los cortes con los ejes, el vértice y la pendiente, resueltos paso a paso con fracciones exactas. Gratis y sin registro.' },
+    en: { title: 'Function calculator: graph, intercepts and vertex', desc: 'Type a function and see its graph with the axis crossings, vertex and slope, solved step by step in exact fractions. Free, no sign-up.' },
+  },
+  '/recursos/funciones/punto-de-corte': {
+    es: { title: 'Punto de corte de dos funciones, paso a paso', desc: 'Calcula dónde se cortan dos rectas, o una recta y una parábola: igualamos, resolvemos y lo dibujamos. Con fracciones y raíces exactas, gratis y sin registro.' },
+    en: { title: 'Where two functions cross, step by step', desc: 'Find where two lines, or a line and a parabola, cross: set them equal, solve and see it on the graph. Exact fractions and roots, free, no sign-up.' },
+  },
+  '/recursos/funciones/recta-dos-puntos': {
+    es: { title: 'Recta que pasa por dos puntos, paso a paso', desc: 'Escribe dos puntos y obtén la ecuación de la recta: pendiente, ordenada en el origen y comprobación, con la gráfica y sus cortes. Gratis y sin registro.' },
+    en: { title: 'Line through two points, step by step', desc: 'Enter two points and get the equation of the line: slope, y-intercept and a check, with the graph and its axis crossings. Free, no sign-up.' },
+  },
+  '/recursos/funciones/recta-pendiente-punto': {
+    es: { title: 'Recta con pendiente y un punto, paso a paso', desc: 'Ecuación de la recta a partir de su pendiente y un punto con la forma punto-pendiente, más sus cortes con los ejes y la gráfica. Gratis y sin registro.' },
+    en: { title: 'Line from a slope and a point, step by step', desc: 'Equation of a line from its slope and one point using point-slope form, plus its axis crossings and the graph. Free, no sign-up.' },
+  },
+  '/recursos/funciones/punto-pertenece': {
+    es: { title: '¿Está el punto en la gráfica de la función?', desc: 'Comprueba si un punto está en la gráfica de una función sustituyendo paso a paso, y mira en el dibujo dónde cae. Gratis y sin registro.' },
+    en: { title: 'Is the point on the graph of the function?', desc: 'Check whether a point lies on the graph of a function by substituting step by step, and see where it falls on the graph. Free, no sign-up.' },
+  },
   '/profesores': {
     es: { title: 'Herramientas gratis para profesores', desc: 'Pasa lista, pon notas, crea tus propios exámenes y gestiona toda la clase desde el móvil. Gratis durante la beta, sin tarjeta ni permanencia.' },
     en: { title: 'Free tools for teachers', desc: 'Take attendance, grade your students, build your own quizzes and run the whole classroom from your phone. Free during the beta, no card required.' },
