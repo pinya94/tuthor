@@ -99,7 +99,15 @@ describe('recursos interactivos', () => {
       for (const l of ['es', 'en', 'ca']) {
         expect(r.titulo[l], `${r.id}/${l}`).toBeTruthy()
         expect(r.desc[l], `${r.id}/${l}`).toBeTruthy()
+        // La tarjeta grande de /recursos: sin estos se vería con el párrafo
+        // largo y un botón genérico.
+        expect(r.corto?.[l], `${r.id}/${l}: falta corto`).toBeTruthy()
+        expect(r.accion?.[l], `${r.id}/${l}: falta accion`).toBeTruthy()
+        for (const e of r.etiquetas ?? []) expect(e[l], `${r.id}/${l}: etiqueta`).toBeTruthy()
       }
+      // Cada recurso sale en uno de los dos bloques de /recursos; con otro
+      // valor no aparecería en ninguno.
+      expect(['resolver', 'explorar'], `${r.id}: tipo`).toContain(r.tipo)
     }
   })
 

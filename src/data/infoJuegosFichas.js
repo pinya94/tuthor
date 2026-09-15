@@ -14,6 +14,7 @@ export const FICHAS_ES = {
       { titulo: 'Confundir el Valor Más Alto con la Mayor Subida', texto: 'Es el error clásico al mirar una gráfica, y hay un tipo de pregunta dedicado justo a eso: cuál es el tramo de mayor aumento, que casi nunca es el punto más alto.' },
     ],
     ejemplo: 'Marta saca 9, 4, 5 y 6 en las cuatro evaluaciones; Iván saca 6, 7, 6 y 7. ¿Quién tiene mejor media? Iván, con un 6,5 frente al 6 de Marta, pese a que la mejor nota del curso —el 9— es de ella. Un pico alto con tres notas bajas no compensa, y esa es exactamente la idea que el gráfico enseña de un vistazo.',
+    asignatura: 'Matemáticas', niveles: 'ESO, Bachillerato',
     enPapel: {
       titulo: 'Un gráfico del periódico, cuatro preguntas',
       pasos: [
@@ -1076,6 +1077,7 @@ export const FICHAS_EN = {
       { titulo: 'Highest Value is not Biggest Rise', texto: 'It is the classic mistake when reading a chart, and one question type is dedicated to exactly that: which stretch rises the most, which is almost never the highest point.' },
     ],
     ejemplo: 'Marta scores 9, 4, 5 and 6 across four terms; Ivan scores 6, 7, 6 and 7. Who has the better average? Ivan, 6.5 against 6, even though the best single mark of the year — the 9 — is hers. One high peak with three low marks does not make up for them, and that is exactly what the chart shows at a glance.',
+    asignatura: 'Mathematics', niveles: 'Secondary, Sixth Form',
     enPapel: {
       titulo: 'One newspaper chart, four questions',
       pasos: [
@@ -1960,6 +1962,7 @@ export const FICHAS_CA = {
       { titulo: 'Confondre el Valor Més Alt amb la Major Pujada', texto: "És l'error clàssic en mirar un gràfic, i hi ha un tipus de pregunta dedicat just a això: quin és el tram de major augment, que gairebé mai és el punt més alt." },
     ],
     ejemplo: "La Marta treu 9, 4, 5 i 6 a les quatre avaluacions; l'Ivan treu 6, 7, 6 i 7. Qui té millor mitjana? L'Ivan, amb un 6,5 davant del 6 de la Marta, tot i que la millor nota del curs —el 9— és seva. Un pic alt amb tres notes baixes no compensa.",
+    asignatura: 'Matemàtiques', niveles: 'ESO, Batxillerat',
     enPapel: {
       titulo: 'Un gràfic del diari, quatre preguntes',
       pasos: [
