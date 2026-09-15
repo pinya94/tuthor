@@ -126,6 +126,8 @@ export default function RecursoEcuaciones() {
         <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-3">{tr(TX.practica)}</p>
         <div className="flex flex-wrap gap-2">
           <Link to={localPath('/juegos/balanza-algebraica')} className="text-sm font-bold px-4 py-2 rounded-xl bg-emerald-600/80 hover:bg-emerald-600 text-white">{tr(TX.balanza)}</Link>
+          <Link to={localPath('/examen/ecuaciones-segundo-grado-test')} className="text-sm font-bold px-4 py-2 rounded-xl bg-violet-600/80 hover:bg-violet-600 text-white">{tr({ es: '📝 Examen de 2º grado', en: '📝 Quadratics exam', ca: '📝 Examen de 2n grau' })}</Link>
+          <Link to={localPath('/examen/sistemas-ecuaciones-test')} className="text-sm font-bold px-4 py-2 rounded-xl bg-violet-600/80 hover:bg-violet-600 text-white">{tr({ es: '📝 Examen de sistemas', en: '📝 Systems exam', ca: '📝 Examen de sistemes' })}</Link>
           <Link to={localPath('/recursos/funciones')} className="text-sm font-bold px-4 py-2 rounded-xl bg-sky-600/80 hover:bg-sky-600 text-white">{tr(TX.funciones)}</Link>
           <Link to={localPath('/recursos')} className="text-sm font-bold px-4 py-2 rounded-xl bg-white/10 hover:bg-white/15 text-white">{tr(TX.mas)}</Link>
         </div>

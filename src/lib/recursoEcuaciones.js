@@ -40,10 +40,17 @@ function solucionExacta(A, B) {
   if (!ex) return null
 
   const g = grado(h)
-  const pasos = [
-    tri(l => T(l, 'Pasamos todo al lado izquierdo y agrupamos términos:', 'Move everything to the left and collect like terms:', "Passem tot al costat esquerre i agrupem termes:")),
-    ...ex.pasos,
-  ]
+  // Si el lado derecho ya es 0 no hay nada que pasar: el paso "pasamos todo al
+  // lado izquierdo" y la ecuación que abre los pasos de raicesExactas
+  // repetirían la misma línea que el alumno acaba de leer (se vio en el
+  // examen de segundo grado: "x² − 4x − 5 = 0" tres veces seguidas).
+  const derechaCero = B.pol.length === 1 && B.pol[0].n === 0
+  const pasos = derechaCero
+    ? ex.pasos.slice(1)
+    : [
+      tri(l => T(l, 'Pasamos todo al lado izquierdo y agrupamos términos:', 'Move everything to the left and collect like terms:', "Passem tot al costat esquerre i agrupem termes:")),
+      ...ex.pasos,
+    ]
   if (ex.todas) {
     pasos.push(tri(l => T(l,
       'Los dos lados son la misma expresión: la ecuación se cumple para cualquier x (es una identidad).',

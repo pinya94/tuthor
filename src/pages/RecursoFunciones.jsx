@@ -178,6 +178,7 @@ function Recurso({ slug }) {
         <div className="flex flex-wrap gap-2">
           <Link to={localPath('/juegos/funciones-grafica')} className="text-sm font-bold px-4 py-2 rounded-xl bg-pink-600/80 hover:bg-pink-600 text-white">{tr(TX.juego)}</Link>
           <Link to={localPath('/examen/funciones')} className="text-sm font-bold px-4 py-2 rounded-xl bg-violet-600/80 hover:bg-violet-600 text-white">{tr(TX.examen)}</Link>
+          <Link to={localPath('/examen/rectas-test')} className="text-sm font-bold px-4 py-2 rounded-xl bg-violet-600/80 hover:bg-violet-600 text-white">{tr({ es: '📝 Examen de rectas', en: '📝 Lines exam', ca: '📝 Examen de rectes' })}</Link>
           <Link to={localPath('/recursos')} className="text-sm font-bold px-4 py-2 rounded-xl bg-white/10 hover:bg-white/15 text-white">{tr(TX.imprimibles)}</Link>
         </div>
       </div>

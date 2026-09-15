@@ -36,6 +36,10 @@ describe('resolver ecuaciones', () => {
     expect(simple[0]).toBe('2x + 3 = x − 1')
     expect(simple[1]).toContain('Pasamos todo')
     expect(resolverEcuacion('x^2 = 4').secciones[0].pasos[1].es).toContain('Pasamos todo')
+    // Igualada ya a 0: ni "pasamos todo" ni la misma ecuación repetida.
+    const yaCero = resolverEcuacion('x² − 5x + 6 = 0').secciones[0].pasos.map(p => p.es)
+    expect(yaCero.some(p => p.includes('Pasamos todo'))).toBe(false)
+    expect(yaCero.filter(p => p === 'x² − 5x + 6 = 0')).toHaveLength(1)
   })
 
   it('segundo grado; sin = se entiende = 0', () => {

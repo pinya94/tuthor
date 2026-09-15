@@ -86,6 +86,19 @@ export default function FuncionesTema() {
       ],
       action: () => navigate(localPath('/examen/funciones')),
     },
+    {
+      id: 'rectas',
+      titulo: tr({"es":"Rectas: pendiente y puntos","en":"Lines: slope and points","ca":"Rectes: pendent i punts"}),
+      descripcion: tr({"es":"La recta que pasa por dos puntos, la de una pendiente y un punto, y dónde se cortan dos rectas. Cada examen es distinto y trae la resolución paso a paso.","en":"The line through two points, the one from a slope and a point, and where two lines cross. Every exam is different and comes with step-by-step solutions.","ca":"La recta que passa per dos punts, la d'un pendent i un punt, i on es tallen dues rectes. Cada examen és diferent i porta la resolució pas a pas."}),
+      emoji: '📏',
+      gradient: 'from-sky-500 to-indigo-700',
+      detalles: [
+        tr({ es: '3 niveles', en: '3 levels', ca: '3 nivells' }),
+        tr({ es: 'Distinto cada vez', en: 'Different every time', ca: 'Diferent cada vegada' }),
+        tr({ es: 'Paso a paso', en: 'Step by step', ca: 'Pas a pas' }),
+      ],
+      action: () => navigate(localPath('/examen/rectas-test')),
+    },
     // No es un modo de práctica sino una herramienta: resuelve el ejercicio
     // que el alumno ya tiene delante. Va la última para no quitar sitio a
     // los que puntúan.

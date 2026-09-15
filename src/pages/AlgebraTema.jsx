@@ -6,7 +6,7 @@ import BreadcrumbSchema from '../components/BreadcrumbSchema'
 
 export default function AlgebraTema() {
   const navigate = useNavigate()
-  const { lang, localPath } = useLang()
+  const { lang, localPath, tr } = useLang()
   const en = lang === 'en'
   const ca = lang === 'ca'
 
@@ -41,6 +41,32 @@ export default function AlgebraTema() {
         ca ? 'Amb el joc' : en ? 'With the game' : 'Con el juego',
       ],
       action: () => navigate(localPath('/examen/balanza-algebraica-test')),
+    },
+    {
+      id: 'segundo-grado',
+      titulo: tr({"es":"Ecuaciones de segundo grado","en":"Quadratic equations","ca":"Equacions de segon grau"}),
+      descripcion: tr({"es":"Resuelve ecuaciones de segundo grado completas, incompletas, con raíz doble o sin solución. Cada examen es distinto y trae la resolución paso a paso.","en":"Solve complete and incomplete quadratics, with double roots or no solution. Every exam is different and comes with step-by-step solutions.","ca":"Resol equacions de segon grau completes, incompletes, amb arrel doble o sense solució. Cada examen és diferent i porta la resolució pas a pas."}),
+      emoji: '🧮',
+      gradient: 'from-sky-500 to-blue-700',
+      detalles: [
+        tr({ es: '3 niveles', en: '3 levels', ca: '3 nivells' }),
+        tr({ es: 'Distinto cada vez', en: 'Different every time', ca: 'Diferent cada vegada' }),
+        tr({ es: 'Paso a paso', en: 'Step by step', ca: 'Pas a pas' }),
+      ],
+      action: () => navigate(localPath('/examen/ecuaciones-segundo-grado-test')),
+    },
+    {
+      id: 'sistemas',
+      titulo: tr({"es":"Sistemas de ecuaciones","en":"Simultaneous equations","ca":"Sistemes d'equacions"}),
+      descripcion: tr({"es":"Encuentra la x y la y de sistemas de dos ecuaciones. Cada examen es distinto, y al corregir ves la resolución por reducción con su comprobación.","en":"Find x and y in systems of two equations. Every exam is different, and the correction shows the elimination method with its check.","ca":"Troba la x i la y de sistemes de dues equacions. Cada examen és diferent, i en corregir veus la resolució per reducció amb la comprovació."}),
+      emoji: '🔗',
+      gradient: 'from-emerald-500 to-teal-700',
+      detalles: [
+        tr({ es: '3 niveles', en: '3 levels', ca: '3 nivells' }),
+        tr({ es: 'Distinto cada vez', en: 'Different every time', ca: 'Diferent cada vegada' }),
+        tr({ es: 'Paso a paso', en: 'Step by step', ca: 'Pas a pas' }),
+      ],
+      action: () => navigate(localPath('/examen/sistemas-ecuaciones-test')),
     },
     {
       id: 'examen',

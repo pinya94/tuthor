@@ -289,6 +289,23 @@ export const EXAMS = {
     emoji: '⚖️', subject: 'matematicas',
     path: 'examen/balanza-algebraica-test', page: () => import('../pages/BalanzaAlgebraicaExamen'),
   },
+  // Exámenes de álgebra GENERADOS (lib/examenesAlgebra.js): cada vez distintos,
+  // con las soluciones construidas antes que los enunciados.
+  'ecuaciones-segundo-grado-test': {
+    label: { es: 'Ecuaciones de 2º grado', en: 'Quadratic Equations', ca: 'Equacions de 2n grau' },
+    emoji: '🧮', subject: 'matematicas',
+    path: 'examen/ecuaciones-segundo-grado-test', page: () => import('../pages/EcuacionesSegundoGradoExamen'),
+  },
+  'sistemas-ecuaciones-test': {
+    label: { es: 'Sistemas de ecuaciones', en: 'Simultaneous Equations', ca: "Sistemes d'equacions" },
+    emoji: '🔗', subject: 'matematicas',
+    path: 'examen/sistemas-ecuaciones-test', page: () => import('../pages/SistemasEcuacionesExamen'),
+  },
+  'rectas-test': {
+    label: { es: 'Rectas: pendiente y puntos', en: 'Lines: Slope and Points', ca: 'Rectes: pendent i punts' },
+    emoji: '📏', subject: 'matematicas',
+    path: 'examen/rectas-test', page: () => import('../pages/RectasExamen'),
+  },
 
   // ── Ciencias ───────────────────────────────────────────────────────────────
   'acidos-bases': {
