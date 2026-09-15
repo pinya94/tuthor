@@ -39,6 +39,79 @@ const TEMAS = [
     emoji: '🦅', gradient: 'from-blue-600 to-indigo-800',
     tags: ['moderna', 'américas', 'democracia'], niveles: ['bachillerato'],
   },
+  // Faltaban aquí aunque tenían página, examen y ficha desde agosto: solo se
+  // llegaba a ellos desde fuera del hub. Van en orden cronológico.
+  {
+    id: 'prehistoria',
+    titulo: "Prehistoria", tituloEn: "Prehistory", tituloCa: "Prehistòria",
+    subtitulo: "Del Paleolítico al Neolítico", subtituloEn: "From the Palaeolithic to the Neolithic", subtituloCa: "Del Paleolític al Neolític",
+    emoji: '🦴', gradient: 'from-yellow-700 to-amber-900',
+    tags: ['prehistoria', 'fuego', 'neolítico'], niveles: ['primaria', 'eso', 'bachillerato'],
+  },
+
+  {
+    id: 'antigua',
+    titulo: "Edad Antigua", tituloEn: "Antiquity", tituloCa: "Edat Antiga",
+    subtitulo: "Mesopotamia, Egipto y Grecia", subtituloEn: "Mesopotamia, Egypt and Greece", subtituloCa: "Mesopotàmia, Egipte i Grècia",
+    emoji: '🏛️', gradient: 'from-orange-500 to-amber-700',
+    tags: ['antigua', 'egipto', 'grecia'], niveles: ['primaria', 'eso', 'bachillerato'],
+  },
+
+  {
+    id: 'edad-media',
+    titulo: "Edad Media", tituloEn: "The Middle Ages", tituloCa: "Edat Mitjana",
+    subtitulo: "Feudalismo, Al-Ándalus y Reconquista — 476–1492", subtituloEn: "Feudalism, Al-Andalus and the Reconquista — 476–1492", subtituloCa: "Feudalisme, Al-Àndalus i Reconquesta — 476–1492",
+    emoji: '🏰', gradient: 'from-stone-500 to-stone-800',
+    tags: ['medieval', 'europa', 'españa'], niveles: ['primaria', 'eso', 'bachillerato'],
+  },
+
+  {
+    id: 'edad-moderna',
+    titulo: "Edad Moderna", tituloEn: "The Early Modern Period", tituloCa: "Edat Moderna",
+    subtitulo: "De Colón a la Ilustración — 1492–1789", subtituloEn: "From Columbus to the Enlightenment — 1492–1789", subtituloCa: "De Colom a la Il·lustració — 1492–1789",
+    emoji: '⛵', gradient: 'from-blue-800 to-cyan-950',
+    tags: ['moderna', 'imperio', 'américas'], niveles: ['primaria', 'eso', 'bachillerato'],
+  },
+
+  {
+    id: 'revolucion-francesa',
+    titulo: "Revolución Francesa y Napoleón", tituloEn: "The French Revolution and Napoleon", tituloCa: "Revolució Francesa i Napoleó",
+    subtitulo: "De la Bastilla a Waterloo — 1789–1815", subtituloEn: "From the Bastille to Waterloo — 1789–1815", subtituloCa: "De la Bastilla a Waterloo — 1789–1815",
+    emoji: '⚜️', gradient: 'from-blue-700 to-red-800',
+    tags: ['contemporánea', 'europa', 'revolución'], niveles: ['eso', 'bachillerato'],
+  },
+
+  {
+    id: 'revolucion-industrial',
+    titulo: "Revolución Industrial", tituloEn: "The Industrial Revolution", tituloCa: "Revolució Industrial",
+    subtitulo: "Vapor, fábricas y obreros — siglos XVIII–XIX", subtituloEn: "Steam, factories and workers — 18th–19th centuries", subtituloCa: "Vapor, fàbriques i obrers — segles XVIII–XIX",
+    emoji: '🏭', gradient: 'from-stone-600 to-zinc-900',
+    tags: ['contemporánea', 'economía', 'sociedad'], niveles: ['eso', 'bachillerato'],
+  },
+
+  {
+    id: 'primera-guerra-mundial',
+    titulo: "Primera Guerra Mundial", tituloEn: "World War I", tituloCa: "Primera Guerra Mundial",
+    subtitulo: "La Gran Guerra — 1914–1918", subtituloEn: "The Great War — 1914–1918", subtituloCa: "La Gran Guerra — 1914–1918",
+    emoji: '🎖️', gradient: 'from-amber-800 to-stone-900',
+    tags: ['universal', 'siglo xx', 'conflicto'], niveles: ['eso', 'bachillerato'],
+  },
+
+  {
+    id: 'guerra-fria',
+    titulo: "Guerra Fría", tituloEn: "The Cold War", tituloCa: "Guerra Freda",
+    subtitulo: "Estados Unidos contra la URSS — 1947–1991", subtituloEn: "The United States versus the USSR — 1947–1991", subtituloCa: "Els Estats Units contra l'URSS — 1947–1991",
+    emoji: '🚀', gradient: 'from-sky-800 to-slate-900',
+    tags: ['universal', 'siglo xx', 'bloques'], niveles: ['eso', 'bachillerato'],
+  },
+
+  {
+    id: 'franquismo',
+    titulo: "Franquismo y Transición", tituloEn: "Francoism & Transition", tituloCa: "Franquisme i Transició",
+    subtitulo: "De la dictadura a la Constitución — 1939–1982", subtituloEn: "From dictatorship to the Constitution — 1939–1982", subtituloCa: "De la dictadura a la Constitució — 1939–1982",
+    emoji: '🕊️', gradient: 'from-red-800 to-yellow-800',
+    tags: ['españa', 'siglo xx', 'democracia'], niveles: ['eso', 'bachillerato'],
+  },
 ]
 
 export default function HistoriaIndex() {
@@ -61,10 +134,6 @@ export default function HistoriaIndex() {
       </div>
 
       <TemarioGrid items={temas} onSelect={handleSelect} placeholder={lang === 'ca' ? 'Cercar tema, època, país...' : lang === 'en' ? 'Search topic, era, country...' : 'Buscar tema, época, país...'} />
-
-      <div className="max-w-3xl mx-auto w-full mt-6">
-        <p className="text-white/20 text-xs text-center">{lang === 'ca' ? 'Més temes properament: Edat Mitjana, Revolució Francesa, Història d\'Espanya contemporània...' : lang === 'en' ? 'More topics coming soon: Middle Ages, French Revolution, Modern Spanish History...' : 'Más temas próximamente: Edad Media, Revolución Francesa, Historia de España contemporánea...'}</p>
-      </div>
     </div>
   )
 }

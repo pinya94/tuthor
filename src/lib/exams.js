@@ -94,6 +94,28 @@ export const EXAMS = {
     emoji: '⛵', subject: 'historia',
     path: 'examen/edad-moderna', page: () => import('../pages/HistoriaEdadModernaExamen'),
   },
+  // Edad Contemporánea: los cuatro temas que más pesan en 4º de ESO y
+  // Bachillerato y que hasta ahora solo salían sueltos en Grandes Hitos.
+  'revolucion-francesa': {
+    label: { es: 'Revolución Francesa y Napoleón (teoría)', en: 'French Revolution & Napoleon (theory)', ca: 'Revolució Francesa i Napoleó (teoria)' },
+    emoji: '⚜️', subject: 'historia',
+    path: 'examen/revolucion-francesa', page: () => import('../pages/HistoriaRevolucionFrancesaExamen'),
+  },
+  'revolucion-industrial': {
+    label: { es: 'Revolución Industrial (teoría)', en: 'Industrial Revolution (theory)', ca: 'Revolució Industrial (teoria)' },
+    emoji: '🏭', subject: 'historia',
+    path: 'examen/revolucion-industrial', page: () => import('../pages/HistoriaRevolucionIndustrialExamen'),
+  },
+  'primera-guerra-mundial': {
+    label: { es: 'Primera Guerra Mundial (teoría)', en: 'World War I (theory)', ca: 'Primera Guerra Mundial (teoria)' },
+    emoji: '🎖️', subject: 'historia',
+    path: 'examen/primera-guerra-mundial', page: () => import('../pages/HistoriaPrimeraGuerraMundialExamen'),
+  },
+  'guerra-fria': {
+    label: { es: 'Guerra Fría (teoría)', en: 'The Cold War (theory)', ca: 'Guerra Freda (teoria)' },
+    emoji: '🚀', subject: 'historia',
+    path: 'examen/guerra-fria', page: () => import('../pages/HistoriaGuerraFriaExamen'),
+  },
   'geografia-examen': {
     label: { es: 'GeoRush (examen)', en: 'GeoRush (exam)', ca: 'GeoRush (examen)' },
     emoji: '🌍', subject: 'geografia',

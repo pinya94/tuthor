@@ -84,6 +84,13 @@ export const TOPIC_CATALOG = {
       antigua: { niveles: ['primaria', 'eso', 'bachillerato'], formatos: { teoria: 'antigua' } },
       'edad-media': { niveles: ['primaria', 'eso', 'bachillerato'], formatos: { teoria: 'edad-media' } },
       'edad-moderna': { niveles: ['primaria', 'eso', 'bachillerato'], formatos: { teoria: 'edad-moderna' } },
+      // Edad Contemporánea, con eventos en historiaEvents.js solo de ESO y
+      // Bachillerato (no se dan en Primaria). Sin quien-es-quien ni portadas:
+      // no hay pool de personajes ni titulares propios de estos temas.
+      'revolucion-francesa': { niveles: ['eso', 'bachillerato'], formatos: { teoria: 'revolucion-francesa' } },
+      'revolucion-industrial': { niveles: ['eso', 'bachillerato'], formatos: { teoria: 'revolucion-industrial' } },
+      'primera-guerra-mundial': { niveles: ['eso', 'bachillerato'], formatos: { teoria: 'primera-guerra-mundial' } },
+      'guerra-fria': { niveles: ['eso', 'bachillerato'], formatos: { teoria: 'guerra-fria' } },
     },
     formatos: {
       teoria: examFormato({ es: 'Teoría (tipo test)', en: 'Theory (quiz)', ca: 'Teoria (tipus test)' }, '📝'),
@@ -93,7 +100,7 @@ export const TOPIC_CATALOG = {
         game: 'linea-temporal',
         usesLevel: true,
         tracksTopic: true,
-        temas: ['primaria', 'gce', 'wwii', 'roma', 'usa', 'antigua', 'franquismo', 'prehistoria', 'edad-media', 'edad-moderna'],
+        temas: ['primaria', 'gce', 'wwii', 'roma', 'usa', 'antigua', 'franquismo', 'prehistoria', 'edad-media', 'edad-moderna', 'revolucion-francesa', 'revolucion-industrial', 'primera-guerra-mundial', 'guerra-fria'],
       },
       'quien-es-quien': {
         label: { es: '¿Quién es quién?', en: 'Who is who?', ca: 'Qui és qui?' },
@@ -128,7 +135,7 @@ export const TOPIC_CATALOG = {
         game: 'juego-fechas',
         usesLevel: true,
         tracksTopic: true,
-        temas: ['primaria', 'gce', 'wwii', 'roma', 'usa', 'antigua', 'franquismo', 'prehistoria', 'edad-media', 'edad-moderna'],
+        temas: ['primaria', 'gce', 'wwii', 'roma', 'usa', 'antigua', 'franquismo', 'prehistoria', 'edad-media', 'edad-moderna', 'revolucion-francesa', 'revolucion-industrial', 'primera-guerra-mundial', 'guerra-fria'],
         // Escribir el año exacto es inviable en Primaria (rango demasiado amplio)
         niveles: {
           primaria: [],
@@ -141,6 +148,10 @@ export const TOPIC_CATALOG = {
           prehistoria: ['eso', 'bachillerato'],
           'edad-media': ['eso', 'bachillerato'],
           'edad-moderna': ['eso', 'bachillerato'],
+          'revolucion-francesa': ['eso', 'bachillerato'],
+          'revolucion-industrial': ['eso', 'bachillerato'],
+          'primera-guerra-mundial': ['eso', 'bachillerato'],
+          'guerra-fria': ['eso', 'bachillerato'],
         },
       },
     },

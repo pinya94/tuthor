@@ -142,6 +142,10 @@ export default function ExamenLineaTemporal() {
     prehistoria:  { label: 'Prehistory', emoji: '🦴', descripcion: 'From fire to writing: sort the first steps of humanity, from the Palaeolithic to the Neolithic.', lives: maxLives, winAt },
     'edad-media': { label: 'The Middle Ages', emoji: '🏰', descripcion: 'From the fall of Rome to the conquest of Granada. Sort the milestones of a thousand years of history.', lives: maxLives, winAt },
     'edad-moderna': { label: 'The Early Modern Period', emoji: '⛵', descripcion: 'From the discovery of America to the French Revolution. Sort the events that shaped the modern world.', lives: maxLives, winAt },
+    'revolucion-francesa': { label: 'The French Revolution and Napoleon', emoji: '⚜️', descripcion: 'From the storming of the Bastille to Waterloo. Sort the stages of the revolution and the empire.', lives: maxLives, winAt },
+    'revolucion-industrial': { label: 'The Industrial Revolution', emoji: '🏭', descripcion: 'From the steam engine to the assembly line. Sort the inventions and changes of two centuries.', lives: maxLives, winAt },
+    'primera-guerra-mundial': { label: 'World War I', emoji: '🎖️', descripcion: 'From the alliances and Sarajevo to Versailles. Sort the events of the Great War.', lives: maxLives, winAt },
+    'guerra-fria': { label: 'The Cold War', emoji: '🚀', descripcion: 'From the Iron Curtain to the end of the USSR. Sort forty years of tension between two blocs.', lives: maxLives, winAt },
   } : {
     primaria: { label: 'Grandes Hitos', emoji: '🌍', descripcion: 'Los momentos más importantes que cambiaron el mundo. Ideal para repasar los hitos clave de la historia universal.', lives: maxLives, winAt },
     wwii:     { label: 'Segunda Guerra Mundial', emoji: '⚔️', descripcion: 'Desde el inicio del conflicto hasta la rendición de Japón. Domina la cronología del mayor conflicto de la historia.', lives: maxLives, winAt },
@@ -153,6 +157,10 @@ export default function ExamenLineaTemporal() {
     prehistoria:  { label: 'Prehistoria', emoji: '🦴', descripcion: 'Del fuego a la escritura: ordena los primeros pasos de la humanidad, del Paleolítico al Neolítico.', lives: maxLives, winAt },
     'edad-media': { label: 'Edad Media', emoji: '🏰', descripcion: 'De la caída de Roma a la conquista de Granada. Ordena los hitos de mil años de historia.', lives: maxLives, winAt },
     'edad-moderna': { label: 'Edad Moderna', emoji: '⛵', descripcion: 'Del descubrimiento de América a la Revolución Francesa. Ordena los eventos que dieron forma al mundo moderno.', lives: maxLives, winAt },
+    'revolucion-francesa': { label: 'Revolución Francesa y Napoleón', emoji: '⚜️', descripcion: 'De la toma de la Bastilla a Waterloo. Ordena las etapas de la revolución y del imperio.', lives: maxLives, winAt },
+    'revolucion-industrial': { label: 'Revolución Industrial', emoji: '🏭', descripcion: 'De la máquina de vapor a la cadena de montaje. Ordena los inventos y cambios de dos siglos.', lives: maxLives, winAt },
+    'primera-guerra-mundial': { label: 'Primera Guerra Mundial', emoji: '🎖️', descripcion: 'De las alianzas y Sarajevo a Versalles. Ordena los hechos de la Gran Guerra.', lives: maxLives, winAt },
+    'guerra-fria': { label: 'Guerra Fría', emoji: '🚀', descripcion: 'Del telón de acero al fin de la URSS. Ordena cuarenta años de tensión entre dos bloques.', lives: maxLives, winAt },
   }
 
   const config = CONFIGS[categoria] || CONFIGS.primaria

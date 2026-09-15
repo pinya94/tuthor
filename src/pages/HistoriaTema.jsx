@@ -39,6 +39,10 @@ const TEMAS_META = {
     antigua:  { titulo: 'Edad Antigua', emoji: '🏛️', descripcion: 'Mesopotamia, Egipto y Grecia: escritura, faraones y democracia.' },
     'edad-media': { titulo: 'Edad Media', emoji: '🏰', descripcion: 'Feudalismo, Al-Ándalus y la Reconquista, 476–1492.' },
     'edad-moderna': { titulo: 'Edad Moderna', emoji: '⛵', descripcion: 'Reyes Católicos, Descubrimiento de América e Ilustración, 1492–1789.' },
+    'revolucion-francesa': { titulo: 'Revolución Francesa y Napoleón', emoji: '⚜️', descripcion: 'De la toma de la Bastilla al Imperio napoleónico, 1789–1815.' },
+    'revolucion-industrial': { titulo: 'Revolución Industrial', emoji: '🏭', descripcion: 'Máquina de vapor, fábricas y movimiento obrero, siglos XVIII–XIX.' },
+    'primera-guerra-mundial': { titulo: 'Primera Guerra Mundial', emoji: '🎖️', descripcion: 'La Gran Guerra, de Sarajevo al Tratado de Versalles, 1914–1919.' },
+    'guerra-fria': { titulo: 'Guerra Fría', emoji: '🚀', descripcion: 'Estados Unidos contra la URSS, del telón de acero al Muro, 1947–1991.' },
   },
   en: {
     primaria: { titulo: 'Great Milestones',        emoji: '🌍', descripcion: 'The most important moments that changed the world.' },
@@ -51,6 +55,10 @@ const TEMAS_META = {
     antigua:  { titulo: 'Antiquity', emoji: '🏛️', descripcion: 'Mesopotamia, Egypt and Greece: writing, pharaohs and democracy.' },
     'edad-media': { titulo: 'The Middle Ages', emoji: '🏰', descripcion: 'Feudalism, Al-Andalus and the Reconquista, 476–1492.' },
     'edad-moderna': { titulo: 'The Early Modern Period', emoji: '⛵', descripcion: 'The Catholic Monarchs, the discovery of America and the Enlightenment, 1492–1789.' },
+    'revolucion-francesa': { titulo: 'The French Revolution and Napoleon', emoji: '⚜️', descripcion: 'From the storming of the Bastille to the Napoleonic Empire, 1789–1815.' },
+    'revolucion-industrial': { titulo: 'The Industrial Revolution', emoji: '🏭', descripcion: 'Steam engines, factories and the labour movement, 18th–19th centuries.' },
+    'primera-guerra-mundial': { titulo: 'World War I', emoji: '🎖️', descripcion: 'The Great War, from Sarajevo to the Treaty of Versailles, 1914–1919.' },
+    'guerra-fria': { titulo: 'The Cold War', emoji: '🚀', descripcion: 'The United States versus the USSR, from the Iron Curtain to the Wall, 1947–1991.' },
   },
   ca: {
     primaria: { titulo: 'Grans Fites',              emoji: '🌍', descripcion: 'Els moments més importants que van canviar el món.' },
@@ -63,6 +71,10 @@ const TEMAS_META = {
     antigua:  { titulo: 'Edat Antiga', emoji: '🏛️', descripcion: 'Mesopotàmia, Egipte i Grècia: escriptura, faraons i democràcia.' },
     'edad-media': { titulo: 'Edat Mitjana', emoji: '🏰', descripcion: 'Feudalisme, Al-Àndalus i la Reconquesta, 476–1492.' },
     'edad-moderna': { titulo: 'Edat Moderna', emoji: '⛵', descripcion: 'Reis Catòlics, Descobriment d\'Amèrica i Il·lustració, 1492–1789.' },
+    'revolucion-francesa': { titulo: 'Revolució Francesa i Napoleó', emoji: '⚜️', descripcion: 'De la presa de la Bastilla a l\'Imperi napoleònic, 1789–1815.' },
+    'revolucion-industrial': { titulo: 'Revolució Industrial', emoji: '🏭', descripcion: 'Màquina de vapor, fàbriques i moviment obrer, segles XVIII–XIX.' },
+    'primera-guerra-mundial': { titulo: 'Primera Guerra Mundial', emoji: '🎖️', descripcion: 'La Gran Guerra, de Sarajevo al Tractat de Versalles, 1914–1919.' },
+    'guerra-fria': { titulo: 'Guerra Freda', emoji: '🚀', descripcion: 'Els Estats Units contra l\'URSS, del teló d\'acer al Mur, 1947–1991.' },
   },
 }
 

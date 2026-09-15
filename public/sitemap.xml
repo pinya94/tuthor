@@ -87,6 +87,10 @@
   <url><loc>https://www.tuthor.es/examen/antigua</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/examen/edad-media</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/examen/edad-moderna</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/examen/revolucion-francesa</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/examen/revolucion-industrial</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/examen/primera-guerra-mundial</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/examen/guerra-fria</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/examen/trayectoria</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/en/examen/trayectoria</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/examen/portero</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
@@ -413,6 +417,10 @@
   <url><loc>https://www.tuthor.es/info/estudiar/historia-antigua</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/info/estudiar/historia-edad-media</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/info/estudiar/historia-edad-moderna</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/info/estudiar/historia-revolucion-francesa</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/info/estudiar/historia-revolucion-industrial</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/info/estudiar/historia-primera-guerra-mundial</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/info/estudiar/historia-guerra-fria</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/en/info/estudiar/historia-guerra-civil</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/en/info/estudiar/historia-segunda-guerra-mundial</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/en/info/estudiar/historia-independencia-americana</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
@@ -423,6 +431,10 @@
   <url><loc>https://www.tuthor.es/en/info/estudiar/historia-antigua</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/en/info/estudiar/historia-edad-media</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/en/info/estudiar/historia-edad-moderna</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/en/info/estudiar/historia-revolucion-francesa</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/en/info/estudiar/historia-revolucion-industrial</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/en/info/estudiar/historia-primera-guerra-mundial</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/en/info/estudiar/historia-guerra-fria</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
 
   <!-- INFO ESTUDIAR — Fichas Geografía -->
   <url><loc>https://www.tuthor.es/info/estudiar/geografia-europa</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>

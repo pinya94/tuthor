@@ -39,6 +39,10 @@ import f54 from './fichasEstudiar/historia-franquismo.js'
 import f55 from './fichasEstudiar/historia-prehistoria.js'
 import f56 from './fichasEstudiar/historia-edad-media.js'
 import f57 from './fichasEstudiar/historia-edad-moderna.js'
+import fRevolucionFrancesa from './fichasEstudiar/historia-revolucion-francesa.js'
+import fRevolucionIndustrial from './fichasEstudiar/historia-revolucion-industrial.js'
+import fPrimeraGuerraMundial from './fichasEstudiar/historia-primera-guerra-mundial.js'
+import fGuerraFria from './fichasEstudiar/historia-guerra-fria.js'
 import f58 from './fichasEstudiar/historia-antigua.js'
 import f31 from './fichasEstudiar/historia-independencia-americana.js'
 import f32 from './fichasEstudiar/historia-segunda-guerra-mundial.js'
@@ -100,6 +104,10 @@ export const FICHAS = {
   'historia-prehistoria': f55,
   'historia-edad-media': f56,
   'historia-edad-moderna': f57,
+  'historia-revolucion-francesa': fRevolucionFrancesa,
+  'historia-revolucion-industrial': fRevolucionIndustrial,
+  'historia-primera-guerra-mundial': fPrimeraGuerraMundial,
+  'historia-guerra-fria': fGuerraFria,
   'historia-antigua': f58,
   'historia-independencia-americana': f31,
   'historia-segunda-guerra-mundial': f32,

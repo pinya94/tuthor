@@ -23,6 +23,7 @@ import PageMeta from './PageMeta'
 import QuizSchema from './QuizSchema'
 import { skillsFor } from '../data/exerciseSkills'
 import AuthModal from './AuthModal'
+import { ordenOpciones } from '../lib/ordenOpciones'
 
 const TOTAL      = 10
 const MAX_ERRORS = 2
@@ -127,7 +128,10 @@ export default function ExamenMC({ titulo, emoji, nivelInfo, backFallback, gameI
   const pool = useMemo(() => {
     if (!nivelSel) return []
     startRef.current = Date.now()
+    // Cada pregunta lleva además el orden en que se enseñan sus opciones (ver
+    // lib/ordenOpciones.js: los bancos suelen escribir la correcta la primera).
     return shuffle(nivelInfo[nivelSel].pool()).slice(0, TOTAL)
+      .map(q => ({ ...q, orden: ordenOpciones(get(q.opciones, 'es').length) }))
   }, [nivelSel])
 
   // Las preguntas del JSON-LD salen del temario COMPLETO, no de `pool`.
@@ -370,7 +374,7 @@ export default function ExamenMC({ titulo, emoji, nivelInfo, backFallback, gameI
   const q          = pool[idx]
   if (!q) return null
   const pregunta   = get(q.pregunta, lang)
-  const opciones   = get(q.opciones, lang)
+  const opciones   = q.orden.map(i => get(q.opciones, lang)[i])
   const correcta   = correctText(q, lang)
   const explicacion = get(q.explicacion, lang)
 
