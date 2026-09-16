@@ -36,6 +36,14 @@ export const STATIC_META = {
     es: { title: 'Juegos educativos por materia', desc: 'Catálogo de juegos educativos: cálculo mental, cronología histórica, geografía y vocabulario. Partidas de 5 minutos con ranking y monedas.' },
     en: { title: 'Educational games by subject', desc: 'Catalogue of educational games: mental maths, history timelines, geography and vocabulary. 5-minute rounds with rankings and coins.' },
   },
+  // El índice completo del producto. Sin cifras en la meta a propósito: la
+  // página las calcula de los registros (lib/temario.js) y aquí no hay forma
+  // de mantenerlas sincronizadas, que es exactamente cómo la landing acabó
+  // anunciando "34 juegos y 110 exámenes" cuando ya eran 38 y 137.
+  '/temario': {
+    es: { title: 'Temario completo: materias, temas y exámenes', desc: 'El índice completo de Tuthor: todas las materias, sus temas y las actividades de cada uno, de Primaria a Bachillerato. Juegos y exámenes tipo test, gratis y sin registro.' },
+    en: { title: 'Full syllabus: subjects, topics and quizzes', desc: 'The complete index of Tuthor: every subject, its topics and the activities in each one, from primary to sixth form. Games and quizzes, free and with no sign-up.' },
+  },
   '/estudiar/historia': {
     es: { title: 'Historia — temas y exámenes', desc: 'Repasa historia con juegos: Guerra Civil, Segunda Guerra Mundial, Roma, líneas temporales y personajes. Exámenes tipo test con nota.' },
     en: { title: 'History — topics and exams', desc: 'Revise history with games: Spanish Civil War, WWII, Ancient Rome, timelines and famous figures. Multiple-choice exams with grades.' },

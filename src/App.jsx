@@ -16,6 +16,7 @@ const Landing            = lazy(() => import('./pages/Landing'))
 const PagoGracias        = lazy(() => import('./pages/PagoGracias'))
 const Home               = lazy(() => import('./pages/Home'))
 const Estudiar           = lazy(() => import('./pages/Estudiar'))
+const Temario            = lazy(() => import('./pages/Temario'))
 const HistoriaIndex      = lazy(() => import('./pages/HistoriaIndex'))
 const HistoriaTema       = lazy(() => import('./pages/HistoriaTema'))
 const MatematicasIndex   = lazy(() => import('./pages/MatematicasIndex'))
@@ -146,6 +147,10 @@ function AppRoutes() {
 
       {/* ── ESTUDIAR ── */}
       <Route path="estudiar" element={<Estudiar />} />
+      {/* El mapa completo: materia → tema → actividad, derivado de los
+          registros (lib/temario.js). Es la página que contesta "¿qué hay
+          aquí?", que hasta ahora no tenía respuesta en ningún sitio. */}
+      <Route path="temario" element={<Temario />} />
       <Route path="estudiar/historia" element={<HistoriaIndex />} />
       <Route path="estudiar/historia/:categoria" element={<HistoriaTema />} />
       <Route path="estudiar/economia" element={<EconomiaIndex />} />

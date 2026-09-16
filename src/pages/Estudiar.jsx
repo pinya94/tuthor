@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import SEOHead from '../components/SEOHead'
 import RecursosInteractivos from '../components/RecursosInteractivos'
@@ -31,10 +31,35 @@ export default function Estudiar() {
   return (
     <div className="relative z-10 flex flex-col min-h-[calc(100vh-4rem)] px-4 sm:px-8 py-6">
       <SEOHead title={seoData.title} description={seoData.desc} path={seoData.path} lang={lang} />
-      <div className="text-center mb-8">
+      <div className="text-center mb-6">
         <h1 className="text-2xl sm:text-3xl font-black text-white">{t('estudiar.titulo', '¿Qué quieres estudiar?')}</h1>
         <p className="text-white/40 mt-1 text-sm">{t('estudiar.subtitulo', 'Elige una materia para empezar')}</p>
       </div>
+
+      {/* El atajo al mapa completo, ANTES de la rejilla de materias. Esta
+          página pide elegir una materia sin haber enseñado nunca qué hay
+          dentro de cada una; quien no sabe por dónde empezar necesita ver el
+          índice primero, no doce azulejos de colores. */}
+      <Link
+        to={localPath('/temario')}
+        className="group max-w-3xl mx-auto w-full mb-5 flex items-center gap-3 rounded-2xl border border-violet-400/25 bg-violet-600/10 hover:bg-violet-600/20 hover:border-violet-400/50 px-4 py-3.5 transition-colors"
+      >
+        <span className="text-2xl shrink-0" aria-hidden="true">🗺️</span>
+        <span className="min-w-0 flex-1">
+          <span className="block text-white font-bold text-sm">
+            {tr({ es: 'Ver todo el temario', en: 'See the full syllabus', ca: 'Veure tot el temari' })}
+          </span>
+          <span className="block text-white/50 text-xs mt-0.5">
+            {tr({
+              es: 'Todas las materias, temas y exámenes en una sola página',
+              en: 'Every subject, topic and quiz on a single page',
+              ca: 'Totes les matèries, temes i exàmens en una sola pàgina',
+            })}
+          </span>
+        </span>
+        <span className="shrink-0 text-violet-300 group-hover:translate-x-0.5 transition-transform" aria-hidden="true">→</span>
+      </Link>
+
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 max-w-3xl mx-auto w-full">
         {MATERIAS.map(m => (
           <button

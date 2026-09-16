@@ -863,6 +863,20 @@ export default function Landing() {
             <span className="text-violet-700">{tr({ es: 'Disponible para:', en: 'Available for:', ca: 'Disponible per a:' })}</span>{' '}
             {tr(SUBJECTS)}
           </p>
+
+          {/* Enumerar las materias contesta "¿está lo de mi hijo?" pero no
+              "¿qué hay dentro de cada una?". Ese es justo el sitio del mapa
+              del temario, así que va aquí y no en el pie: es la pregunta que
+              alguien se acaba de hacer al leer la lista de arriba. */}
+          <div className="mt-6">
+            <Link
+              to={localPath('/temario')}
+              className="inline-flex items-center gap-2 rounded-xl border border-slate-300 px-5 py-3 text-sm font-bold text-slate-700 transition-colors hover:border-violet-400 hover:bg-violet-50 hover:text-violet-700"
+            >
+              🗺️ {tr({ es: 'Ver el temario completo', en: 'See the full syllabus', ca: 'Veure el temari complet' })}
+              <span aria-hidden="true">→</span>
+            </Link>
+          </div>
         </div>
       </section>
 
