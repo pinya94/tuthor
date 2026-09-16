@@ -711,6 +711,36 @@ export const EXAMS = {
     emoji: '🔄', subject: 'ingles',
     path: 'examen/ingles-grammar-passive-test', page: () => import('../pages/InglesGrammarPassiveExamen'),
   },
+  'ingles-grammar-nouns-test': {
+    label: { es: 'Nouns', en: 'Nouns', ca: 'Nouns' },
+    emoji: '📚', subject: 'ingles',
+    path: 'examen/ingles-grammar-nouns-test', page: () => import('../pages/InglesGrammarNounsExamen'),
+  },
+  'ingles-grammar-verbs-test': {
+    label: { es: 'Verbs', en: 'Verbs', ca: 'Verbs' },
+    emoji: '🏃', subject: 'ingles',
+    path: 'examen/ingles-grammar-verbs-test', page: () => import('../pages/InglesGrammarVerbsExamen'),
+  },
+  'ingles-grammar-adjectives-test': {
+    label: { es: 'Adjectives', en: 'Adjectives', ca: 'Adjectives' },
+    emoji: '🎨', subject: 'ingles',
+    path: 'examen/ingles-grammar-adjectives-test', page: () => import('../pages/InglesGrammarAdjectivesExamen'),
+  },
+  'ingles-grammar-adverbs-test': {
+    label: { es: 'Adverbs', en: 'Adverbs', ca: 'Adverbs' },
+    emoji: '⏱️', subject: 'ingles',
+    path: 'examen/ingles-grammar-adverbs-test', page: () => import('../pages/InglesGrammarAdverbsExamen'),
+  },
+  'ingles-grammar-pronouns-test': {
+    label: { es: 'Pronouns', en: 'Pronouns', ca: 'Pronouns' },
+    emoji: '🙋', subject: 'ingles',
+    path: 'examen/ingles-grammar-pronouns-test', page: () => import('../pages/InglesGrammarPronounsExamen'),
+  },
+  'ingles-grammar-connectors-test': {
+    label: { es: 'Prepositions & Conjunctions', en: 'Prepositions & Conjunctions', ca: 'Prepositions & Conjunctions' },
+    emoji: '🔗', subject: 'ingles',
+    path: 'examen/ingles-grammar-connectors-test', page: () => import('../pages/InglesGrammarConnectorsExamen'),
+  },
   'ordena-frase-test': {
     label: { es: 'Ordena la Frase', en: 'Word Order', ca: 'Ordena la Frase' },
     emoji: '🔤', subject: 'ingles',

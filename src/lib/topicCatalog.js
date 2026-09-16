@@ -451,12 +451,12 @@ export const TOPIC_CATALOG = {
   // gramática (familia grammar-*) para los tiempos verbales y estructuras.
   ingles: {
     temas: {
-      nouns: examTema({ senalar: 'ingles-pos-nouns-test' }, { niveles: ['primaria', 'eso'] }),
-      verbs: examTema({ senalar: 'ingles-pos-verbs-test' }, { niveles: ['primaria', 'eso'] }),
-      adjectives: examTema({ senalar: 'ingles-pos-adjectives-test' }, { niveles: ['primaria', 'eso'] }),
-      adverbs: examTema({ senalar: 'ingles-pos-adverbs-test' }, { niveles: ['eso'] }),
-      pronouns: examTema({ senalar: 'ingles-pos-pronouns-test' }, { niveles: ['primaria', 'eso'] }),
-      connectors: examTema({ senalar: 'ingles-pos-connectors-test' }, { niveles: ['eso', 'bachillerato'] }),
+      nouns: examTema({ test: 'ingles-grammar-nouns-test', senalar: 'ingles-pos-nouns-test' }, { niveles: ['primaria', 'eso'] }),
+      verbs: examTema({ test: 'ingles-grammar-verbs-test', senalar: 'ingles-pos-verbs-test' }, { niveles: ['primaria', 'eso'] }),
+      adjectives: examTema({ test: 'ingles-grammar-adjectives-test', senalar: 'ingles-pos-adjectives-test' }, { niveles: ['primaria', 'eso'] }),
+      adverbs: examTema({ test: 'ingles-grammar-adverbs-test', senalar: 'ingles-pos-adverbs-test' }, { niveles: ['eso'] }),
+      pronouns: examTema({ test: 'ingles-grammar-pronouns-test', senalar: 'ingles-pos-pronouns-test' }, { niveles: ['primaria', 'eso'] }),
+      connectors: examTema({ test: 'ingles-grammar-connectors-test', senalar: 'ingles-pos-connectors-test' }, { niveles: ['eso', 'bachillerato'] }),
       'present-simple': examTema({ test: 'ingles-grammar-present-simple-test', piezasExamen: 'ingles-piezas-present-simple-test' }, { niveles: ['primaria', 'eso'] }),
       'past-simple': examTema({ test: 'ingles-grammar-past-simple-test', piezasExamen: 'ingles-piezas-past-simple-test' }, { niveles: ['eso'] }),
       'present-perfect': examTema({ test: 'ingles-grammar-present-perfect-test', piezasExamen: 'ingles-piezas-present-perfect-test' }, { niveles: ['eso', 'bachillerato'] }),

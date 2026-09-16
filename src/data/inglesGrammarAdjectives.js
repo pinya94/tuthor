@@ -1,0 +1,51 @@
+// Questions and options always in English (an English exam is not translated).
+const EN = s => ({ es: s, en: s, ca: s })
+const O = a => ({ es: a, en: a, ca: a })
+function q(id, nivel, pregunta, opciones, correcta, emoji, explicacion) {
+  return { id, nivel, pregunta, opciones, correcta, emoji, explicacion }
+}
+
+const TODAS = [
+  q('adj-01', 'primaria', EN('Which word is an adjective?'),
+    O(['quickly', 'happy', 'run', 'dog']), 1, '😊',
+    EN('An adjective describes a noun. "Happy" tells us how someone feels → adjective.')),
+
+  q('adj-02', 'primaria', EN('What is the comparative of "big"?'),
+    O(['biger', 'bigger', 'more big', 'biggest']), 1, '📏',
+    EN('Short adjectives add -er (and double the final consonant here): big→bigger. "Biggest" is the superlative.')),
+
+  q('adj-03', 'primaria', EN('What is the superlative of "good"?'),
+    O(['goodest', 'gooder', 'best', 'more good']), 2, '🏆',
+    EN('"Good" is irregular: good / better / best. "Best" is the superlative.')),
+
+  q('adj-04', 'primaria', EN('In "a red car drives fast", which word is the adjective?'),
+    O(['a', 'red', 'car', 'drives']), 1, '🚗',
+    EN('"Red" describes the noun "car" → adjective. "Car" is a noun and "drives" is a verb.')),
+
+  q('adj-05', 'primaria', EN('What is the comparative of "beautiful"?'),
+    O(['beautifuler', 'more beautiful', 'beautifulest', 'most beautiful']), 1, '🌸',
+    EN('Long adjectives (two or more syllables) use "more": more beautiful. The superlative is "most beautiful".')),
+
+  q('adj-06', 'primaria', EN('Which word order is correct?'),
+    O(['a red big ball', 'a big red ball', 'a ball big red', 'big a red ball']), 1, '⚽',
+    EN('In English, size comes before colour: a big red ball (opinion → size → colour → noun).')),
+
+  q('adj-07', 'eso', EN('What is the superlative of "happy"?'),
+    O(['happiest', 'happyest', 'most happy', 'happier']), 0, '😄',
+    EN('Adjectives ending in consonant + y change y→i and add -est: happy→happiest, easy→easiest.')),
+
+  q('adj-08', 'eso', EN('What is the comparative of "far"?'),
+    O(['farrer', 'further', 'more far', 'farest']), 1, '🛣️',
+    EN('"Far" is irregular: far / further (or farther) / furthest.')),
+
+  q('adj-09', 'eso', EN('Complete: "The film was very ___."'),
+    O(['bored', 'boring', 'bore', 'bores']), 1, '🎬',
+    EN('-ing adjectives describe what causes the feeling (the film is boring); -ed adjectives describe the feeling (I am bored).')),
+
+  q('adj-10', 'eso', EN('Which of these is a possessive adjective?'),
+    O(['mine', 'my', 'me', 'I']), 1, '🔑',
+    EN('A possessive adjective goes before a noun: my book, your dog. "Mine" is a possessive pronoun (it stands alone).')),
+]
+
+export const PREGUNTAS_PRIMARIA = TODAS.filter(x => x.nivel === 'primaria')
+export const PREGUNTAS_ESO = TODAS
