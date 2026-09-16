@@ -4,6 +4,7 @@ import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
 import { PLANS, MONETIZATION_ENABLED } from '../lib/access'
 import { NUM_JUEGOS, NUM_EXAMENES, masDe } from '../lib/cifras'
+import { CHILD_CODE_LOGIN_ENABLED } from '../lib/childCode'
 import { startCheckout } from '../lib/checkout'
 import AuthModal from '../components/AuthModal'
 import SEOHead from '../components/SEOHead'
@@ -256,14 +257,40 @@ const PAINS = [
   },
 ]
 
+// ── Qué se le promete al padre ───────────────────────────────────────────────
+// Dos de estas tres tarjetas dependen del código del hijo
+// (CHILD_CODE_LOGIN_ENABLED en lib/childCode.js), que hoy está apagado: al
+// caer el muro de pago el niño dejó de necesitar la cuenta del padre para
+// jugar. El mecanismo sigue entero (api/child-code.js, api/child-login.js y
+// las rules), solo está escondida la UI.
+//
+// La landing NO se enteró de ese apagado y siguió publicando "le pasas un
+// código corto, lo escribe y entra" y "el niño no puede acceder a los
+// ajustes" durante meses. Las dos eran falsas: sin sesión de hijo no hay
+// código que pasar ni modo restringido que aplicar.
+//
+// Así que el copy se ramifica con el flag, igual que ya se hacía con
+// MONETIZATION_ENABLED unas líneas más abajo. Si algún día se reactiva, la
+// promesa vuelve sola y correcta; mientras tanto se cuenta lo que de verdad
+// pasa en casa: la cuenta la crea el padre con su Google y el crío la usa ya
+// abierta. Eso mantiene lo que de verdad vendía la tarjeta —el niño no
+// necesita email ni contraseña— sin inventarse el mecanismo.
 const PANEL = [
-  {
+  CHILD_CODE_LOGIN_ENABLED ? {
     emoji: '🔑',
     title: { es: 'Sin cuenta ni email para el niño', en: 'No account or email for the child', ca: 'Sense compte ni email per al nen' },
     body: {
       es: 'Le pasas un código corto, lo escribe y entra. No tiene que recordar ni compartir contraseñas ni correos.',
       en: 'You give them a short code, they type it and they are in. Nothing to remember and no passwords or emails to share.',
       ca: 'Li passes un codi curt, l\'escriu i entra. No ha de recordar ni compartir contrasenyes ni correus.',
+    },
+  } : {
+    emoji: '🔑',
+    title: { es: 'Sin cuenta ni email para el niño', en: 'No account or email for the child', ca: 'Sense compte ni email per al nen' },
+    body: {
+      es: 'La cuenta la creas tú con tu Google, en el ordenador o la tablet de casa, y él la usa ya abierta. No tiene que recordar ni compartir ninguna contraseña. Y para jugar o hacer un examen suelto no hace falta ni eso.',
+      en: 'You create the account with your Google, on the computer or tablet at home, and they use it already signed in. Nothing to remember and no passwords to share. And to play or take a one-off exam they do not even need that.',
+      ca: 'El compte el crees tu amb el teu Google, a l\'ordinador o la tauleta de casa, i ell el fa servir ja obert. No ha de recordar ni compartir cap contrasenya. I per jugar o fer un examen solt no cal ni això.',
     },
   },
   {
@@ -275,7 +302,7 @@ const PANEL = [
       ca: 'Consulta quins temes ha treballat, quant temps hi ha dedicat i les notes que treu als seus exàmens.',
     },
   },
-  {
+  CHILD_CODE_LOGIN_ENABLED ? {
     emoji: '🔒',
     title: { es: 'Control absoluto', en: 'Full control', ca: 'Control absolut' },
     body: {
@@ -283,16 +310,32 @@ const PANEL = [
       en: 'The child cannot reach the settings, the data panel or the subscription. It is all locked down on the server.',
       ca: 'El nen no pot accedir als ajustos, al panell de dades ni a la subscripció. Tot queda bloquejat des del servidor.',
     },
+  } : {
+    // "Control absoluto" solo era cierto con la sesión de hijo, que es la que
+    // el servidor restringe (el claim childMode de api/child-login.js). Con la
+    // cuenta compartida el crío entra con la misma sesión que el padre, así
+    // que prometerlo sería mentir. En su sitio, algo que sí se puede afirmar.
+    emoji: '🖥️',
+    title: { es: 'Nada que instalar', en: 'Nothing to install', ca: 'Res per instal·lar' },
+    body: {
+      es: 'Funciona en el navegador del móvil, de la tablet o del ordenador de casa. Sin tienda de aplicaciones, sin actualizaciones y sin permisos que revisar.',
+      en: 'It runs in the browser on a phone, a tablet or the computer at home. No app store, no updates and no permissions to review.',
+      ca: 'Funciona al navegador del mòbil, de la tauleta o de l\'ordinador de casa. Sense botiga d\'aplicacions, sense actualitzacions i sense permisos per revisar.',
+    },
   },
 ]
 
 const FAQ = [
   {
     q: { es: '¿Mi hijo necesita un email o una contraseña?', en: 'Does my child need an email or a password?', ca: 'El meu fill necessita un email o una contrasenya?' },
-    a: {
+    a: CHILD_CODE_LOGIN_ENABLED ? {
       es: 'No. Tú creas la cuenta con tu Google y a él solo le das un código de acceso único.',
       en: 'No. You create the account with your Google and all they get is a single access code.',
       ca: 'No. Tu crees el compte amb el teu Google i a ell només li dones un codi d\'accés únic.',
+    } : {
+      es: 'No. Ni siquiera hace falta cuenta para jugar o hacer un examen. Si queréis guardar el progreso, la creas tú con tu Google y él usa esa misma sesión, ya abierta.',
+      en: 'No. You do not even need an account to play or take an exam. If you want to save progress, you create it with your Google and they use that same session, already signed in.',
+      ca: 'No. Ni tan sols cal compte per jugar o fer un examen. Si voleu desar el progrés, el crees tu amb el teu Google i ell fa servir aquesta mateixa sessió, ja oberta.',
     },
   },
   {
@@ -305,10 +348,15 @@ const FAQ = [
   },
   {
     q: { es: '¿Vale para varios hermanos?', en: 'Does it work for several siblings?', ca: 'Serveix per a diversos germans?' },
+    // No hay vínculo padre-hijo en los datos: el único enlace entre cuentas es
+    // el de profesor y alumno. Así que varios hermanos o comparten una cuenta
+    // (y sus estadísticas se suman) o tienen una cada uno (y se miran por
+    // separado). Decirlo es mejor que insinuar un panel multi-hijo que no
+    // existe — que es lo que hacía la respuesta anterior.
     a: {
-      es: 'Puedes gestionar su progreso desde tu mismo panel de control.',
-      en: 'You can follow their progress from your own control panel.',
-      ca: 'Pots gestionar el seu progrés des del teu mateix panell de control.',
+      es: 'Sí, de dos formas. Compartiendo una cuenta es lo más cómodo, pero el progreso de los dos se suma en la misma. Si quieres verlos por separado, crea una cuenta para cada uno con su propio Google.',
+      en: 'Yes, in two ways. Sharing one account is the easiest, but both children\'s progress adds up in it. If you want to follow them separately, create an account each with their own Google.',
+      ca: 'Sí, de dues maneres. Compartir un compte és el més còmode, però el progrés de tots dos se suma al mateix. Si vols veure\'ls per separat, crea un compte per a cadascun amb el seu propi Google.',
     },
   },
   {
