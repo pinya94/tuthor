@@ -1,22 +1,26 @@
 import { useState } from 'react'
 import { useLang } from '../context/LangContext'
+import NivelPicker from './NivelPicker'
+import { useNivel, coincideNivel } from '../lib/nivel'
 
-const NIVELES_FILTRO = [
-  { id: 'todas',        label: { es: 'Todas',        en: 'All',        ca: 'Totes' },       emoji: '📚' },
-  { id: 'primaria',     label: { es: 'Primaria',     en: 'Primary',    ca: 'Primària' },    emoji: '🎒' },
-  { id: 'eso',          label: { es: 'ESO',          en: 'Secondary',  ca: 'ESO' },         emoji: '📖' },
-  { id: 'bachillerato', label: { es: 'Bachillerato', en: 'Sixth Form', ca: 'Batxillerat' }, emoji: '🎓' },
-]
+// El filtro por nivel ya NO es estado local de esta rejilla. Antes cada hub
+// tenía el suyo, arrancaba en "Todas" y se olvidaba al navegar: el alumno
+// volvía a ver los tres niveles mezclados en cada materia y en cada visita.
+// Ahora sale del curso del alumno (src/lib/nivel.js), que se pregunta una
+// vez y vale para todo el sitio.
+//
+// Lo que NO cambia: un tema de otro curso se sigue viendo, en gris. Esconderlo
+// dejaría a alguien sin saber que existe, y el objetivo es justo el contrario
+// — que se vea todo lo que hay, con lo suyo destacado.
 
 export default function TemarioGrid({ items, onSelect, placeholder = 'Buscar...', groups = null }) {
   const { tr } = useLang()
-  const [query, setQuery]       = useState('')
-  const [nivelFiltro, setNivel] = useState('todas')
+  const [query, setQuery] = useState('')
+  const nivel = useNivel()
 
   function disponible(item) {
     if (item.ready === false) return false
-    if (nivelFiltro === 'todas' || !item.niveles) return true
-    return item.niveles.includes(nivelFiltro)
+    return coincideNivel(item, nivel)
   }
 
   const filtrados = items.filter(item => {
@@ -28,22 +32,37 @@ export default function TemarioGrid({ items, onSelect, placeholder = 'Buscar...'
   })
 
   function renderCard(item) {
-    const disp = disponible(item)
+    // Dos estados distintos que antes se pintaban igual y decían lo mismo
+    // ("No disponible"):
+    //
+    //   · sinHacer  — el tema no existe todavía. No se puede abrir.
+    //   · otroCurso — el tema existe, pero no es del curso elegido. SÍ se
+    //     puede abrir: el curso ordena, no prohíbe. Un alumno de ESO que
+    //     quiere repasar algo de Primaria, o mirar por encima algo de
+    //     Bachillerato, tiene todo el derecho — y "No disponible" le decía
+    //     que estaba roto.
+    const sinHacer = item.ready === false
+    const otroCurso = !sinHacer && !disponible(item)
+    const apagado = sinHacer || otroCurso
     return (
       <button
         key={item.id}
-        disabled={!disp}
-        onClick={() => disp && onSelect(item, nivelFiltro)}
+        disabled={sinHacer}
+        onClick={() => !sinHacer && onSelect(item, nivel)}
         className={`group relative rounded-2xl overflow-hidden text-left transition-all duration-300 ${
-          disp ? 'hover:scale-[1.03] hover:shadow-xl hover:shadow-black/40 cursor-pointer' : 'opacity-40 cursor-not-allowed'
+          sinHacer
+            ? 'opacity-40 cursor-not-allowed'
+            : otroCurso
+              ? 'opacity-45 hover:opacity-90 hover:scale-[1.03] cursor-pointer'
+              : 'hover:scale-[1.03] hover:shadow-xl hover:shadow-black/40 cursor-pointer'
         }`}
       >
         <div className={`bg-gradient-to-br ${item.gradient} p-5 aspect-square flex flex-col justify-between`}>
-          {!disp && (
+          {apagado && (
             <span className="absolute top-2 right-2 bg-black/40 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
-              {item.ready === false
+              {sinHacer
                 ? tr({ es: 'Pronto', en: 'Soon', ca: 'Aviat' })
-                : tr({ es: 'No disponible', en: 'Not available', ca: 'No disponible' })}
+                : tr({ es: 'Otro curso', en: 'Another year', ca: 'Un altre curs' })}
             </span>
           )}
           <span className="text-4xl">{item.emoji}</span>
@@ -67,20 +86,7 @@ export default function TemarioGrid({ items, onSelect, placeholder = 'Buscar...'
   return (
     <>
       <div className="max-w-3xl mx-auto w-full mb-5">
-        <div className="flex gap-2 p-1 bg-white/5 border border-white/10 rounded-xl w-fit">
-          {NIVELES_FILTRO.map(n => (
-            <button
-              key={n.id}
-              onClick={() => setNivel(n.id)}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-semibold transition-all ${
-                nivelFiltro === n.id ? 'bg-white/15 text-white shadow-sm' : 'text-white/40 hover:text-white/70'
-              }`}
-            >
-              <span className="text-base">{n.emoji}</span>
-              <span className="hidden sm:inline">{tr(n.label)}</span>
-            </button>
-          ))}
-        </div>
+        <NivelPicker variant="inline" />
       </div>
 
       <div className="max-w-3xl mx-auto w-full mb-6">

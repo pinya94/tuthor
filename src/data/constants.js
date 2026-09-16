@@ -1,9 +1,16 @@
 // El reto diario va PRIMERO a propósito. Es la única entrada del sitio que no
-// obliga a elegir nada: hay 34 juegos y 110 exámenes, y para quien acaba de
-// llegar ese catálogo es parálisis, no libertad. El reto de hoy es uno solo,
-// dura un minuto y al acabar ya propone seguir con un juego relacionado.
-// Ponerlo el tercero lo escondía justo detrás de las dos pantallas que sí
-// exigen decidir.
+// obliga a elegir nada: el catálogo entero (decenas de juegos, más de cien
+// exámenes) para quien acaba de llegar es parálisis, no libertad. El reto de
+// hoy es uno solo, dura un minuto y al acabar ya propone seguir con un juego
+// relacionado. Ponerlo el tercero lo escondía justo detrás de las dos
+// pantallas que sí exigen decidir.
+//
+// Sin cifras exactas en el comentario a propósito: se quedaban obsoletas a
+// cada juego nuevo. Los números de verdad salen de games.js y exams.js.
+//
+// Este GAMES es el CATÁLOGO VISUAL (las tarjetas de /juegos), no el registro
+// de stats — ese es el GAMES de src/lib/games.js. Un test de invariantes
+// comprueba que ninguno de los dos tenga una entrada que al otro le falte.
 export const MAIN_CARDS = [
   {
     id: 'diaria',
@@ -31,21 +38,6 @@ export const MAIN_CARDS = [
   },
 ]
 
-export const LEVELS = [
-  { title: 'Primaria', titleEn: 'Primary', titleCa: 'Primària', subtitle: '6 - 12 años', subtitleEn: '6 - 12 years', subtitleCa: '6 - 12 anys', emoji: '🎒', gradient: 'from-green-500 to-emerald-600', path: '/estudiar/primaria' },
-  { title: 'ESO', titleEn: 'Secondary', titleCa: 'ESO', subtitle: '12 - 16 años', subtitleEn: '12 - 16 years', subtitleCa: '12 - 16 anys', emoji: '📖', gradient: 'from-blue-500 to-indigo-600', path: '/estudiar/eso' },
-  { title: 'Bachillerato', titleEn: 'Sixth Form', titleCa: 'Batxillerat', subtitle: '16 - 18 años', subtitleEn: '16 - 18 years', subtitleCa: '16 - 18 anys', emoji: '🎓', gradient: 'from-purple-600 to-violet-700', path: '/estudiar/bachillerato' },
-]
-
-export const SUBJECTS = [
-  { title: 'Historia', titleEn: 'History', titleCa: 'Història', subtitle: 'Eventos y épocas clave', subtitleEn: 'Key events & periods', subtitleCa: 'Esdeveniments i èpoques clau', emoji: '🏛️', gradient: 'from-amber-500 to-orange-600', ready: true },
-  { title: 'Geografía', titleEn: 'Geography', titleCa: 'Geografia', subtitle: 'Países, continentes y regiones', subtitleEn: 'Countries, continents & regions', subtitleCa: 'Països, continents i regions', emoji: '🌍', gradient: 'from-teal-500 to-cyan-600', ready: true },
-  { title: 'Ciencias', titleEn: 'Science', titleCa: 'Ciències', subtitle: 'Biología, física y química', subtitleEn: 'Biology, physics & chemistry', subtitleCa: 'Biologia, física i química', emoji: '🔬', gradient: 'from-green-500 to-emerald-600', ready: false },
-  { title: 'Matemáticas', titleEn: 'Mathematics', titleCa: 'Matemàtiques', subtitle: 'Cálculo mental: sumas, restas y más', subtitleEn: 'Mental maths: add, subtract & more', subtitleCa: 'Càlcul mental: sumes, restes i més', emoji: '📐', gradient: 'from-blue-500 to-indigo-600', ready: true },
-  { title: 'Inglés', titleEn: 'English', titleCa: 'Anglès', subtitle: 'Vocabulario y gramática', subtitleEn: 'Vocabulary & grammar', subtitleCa: 'Vocabulari i gramàtica', emoji: '💬', gradient: 'from-rose-500 to-pink-600', ready: false },
-  { title: 'Lengua', titleEn: 'Spanish', titleCa: 'Llengua', subtitle: 'Literatura y ortografía', subtitleEn: 'Literature & spelling', subtitleCa: 'Literatura i ortografia', emoji: '✍️', gradient: 'from-violet-500 to-purple-600', ready: false },
-]
-
 export const GAMES = [
   { title: 'Tuthor Time', subtitle: 'Viajero del tiempo', subtitleEn: 'Time traveller', subtitleCa: 'Viatger del temps', emoji: '🕰️', gradient: 'from-amber-500 to-orange-600', ready: true, path: '/juegos/tuthor-time' },
   { title: 'Línea Temporal', titleEn: 'Timeline', titleCa: 'Línia Temporal', subtitle: 'Ordena la historia', subtitleEn: 'Sort history', subtitleCa: 'Ordena la història', emoji: '📜', gradient: 'from-emerald-500 to-teal-700', ready: true, path: '/juegos/linea-temporal' },
@@ -54,7 +46,6 @@ export const GAMES = [
   { title: '¿Qué Época Es?', titleEn: 'What Era Is This?', titleCa: 'Quina Època És?', subtitle: 'Adivina la época en fotos reales', subtitleEn: 'Guess the era in real photos', subtitleCa: 'Endevina l\'època en fotos reals', emoji: '🏺', gradient: 'from-amber-700 to-stone-800', ready: true, path: '/juegos/epocas-historicas' },
   { title: 'GeoRush', subtitle: 'Adivina el país', subtitleEn: 'Guess the country', subtitleCa: 'Endevina el país', emoji: '🌍', gradient: 'from-teal-400 to-cyan-600', ready: true, path: '/juegos/georush' },
   { title: 'Acércate', titleEn: 'Target Number', titleCa: 'Acosta\'t', subtitle: 'Llega al número objetivo', subtitleEn: 'Reach the target number', subtitleCa: 'Arriba al número objectiu', emoji: '🎯', gradient: 'from-pink-500 to-rose-600', ready: true, path: '/juegos/acercate' },
-  { title: 'WordBattle', subtitle: 'Vocabulario en inglés', subtitleEn: 'English vocabulary', subtitleCa: 'Vocabulari en anglès', emoji: '🔤', gradient: 'from-blue-500 to-indigo-600', ready: false },
   { title: 'Genética', titleEn: 'Genetics', titleCa: 'Genètica', subtitle: 'Predice la descendencia con el cuadro de Punnett', subtitleEn: 'Predict the offspring with the Punnett square', subtitleCa: 'Prediu la descendència amb el quadre de Punnett', emoji: '🧬', gradient: 'from-green-500 to-emerald-700', ready: true, path: '/juegos/genetica' },
   { title: 'GeoMapa', titleEn: 'GeoMap', titleCa: 'GeoMapa', subtitle: 'Identifica el país en el mapa', subtitleEn: 'Identify the country on the map', subtitleCa: 'Identifica el país al mapa', emoji: '🗺️', gradient: 'from-purple-500 to-violet-600', ready: true, path: '/juegos/geomapa' },
   { title: 'NumPath', subtitle: 'Navega y calcula', subtitleEn: 'Navigate & calculate', subtitleCa: 'Navega i calcula', emoji: '🧮', gradient: 'from-yellow-500 to-orange-500', ready: true, path: '/juegos/numpath' },
@@ -86,8 +77,4 @@ export const GAMES = [
   { title: 'Pon la Tilde', titleEn: 'Spanish Accents', titleCa: 'Posa l\'Accent (castellà)', subtitle: 'Busca el golpe de voz y decide si lleva tilde', subtitleEn: 'Find the stress and decide on the Spanish accent', subtitleCa: 'Busca el cop de veu i decideix si porta accent, en castellà', emoji: '✏️', gradient: 'from-rose-500 to-pink-700', ready: true, path: '/juegos/pon-la-tilde' },
   { title: 'Corrige el Texto', titleEn: 'Spot the Mistakes', titleCa: 'Corregeix el Text', subtitle: 'Caza todas las faltas del texto antes de que corra el reloj', subtitleEn: 'Catch every mistake in the text before the clock runs out: in English, Spanish or Catalan', subtitleCa: "Caça totes les faltes del text abans que corri el rellotge: en català, castellà o anglès", emoji: '🔍', gradient: 'from-amber-500 to-orange-700', ready: true, path: '/juegos/corrige-el-texto' },
   { title: 'Cambio de Estado', titleEn: 'Change of State', titleCa: 'Canvi d\'Estat', subtitle: 'Sólido, líquido o gas según la temperatura', subtitleEn: 'Solid, liquid or gas by temperature', subtitleCa: 'Sòlid, líquid o gas segons la temperatura', emoji: '🌡️', gradient: 'from-sky-600 to-blue-800', ready: true, path: '/juegos/cambio-estado' },
-  { title: 'AtomQuest', subtitle: 'Química elemental', subtitleEn: 'Basic chemistry', subtitleCa: 'Química elemental', emoji: '⚛️', gradient: 'from-rose-500 to-red-600', ready: false },
-  { title: 'EcoWorld', subtitle: 'Medio ambiente', subtitleEn: 'Environment', subtitleCa: 'Medi ambient', emoji: '🌱', gradient: 'from-emerald-500 to-green-700', ready: false },
-  { title: 'ArtMaster', subtitle: 'Historia del arte', subtitleEn: 'Art history', subtitleCa: 'Història de l\'art', emoji: '🎨', gradient: 'from-fuchsia-500 to-pink-600', ready: false },
-  { title: 'PhysicsX', subtitle: 'Física aplicada', subtitleEn: 'Applied physics', subtitleCa: 'Física aplicada', emoji: '🚀', gradient: 'from-slate-500 to-slate-700', ready: false },
 ]

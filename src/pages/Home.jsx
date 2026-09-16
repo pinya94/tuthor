@@ -14,6 +14,8 @@ import AuthModal from '../components/AuthModal'
 import AdSlot from '../components/AdSlot'
 import ProUpsell from '../components/ProUpsell'
 import ReferralCard from '../components/ReferralCard'
+import NivelPicker from '../components/NivelPicker'
+import { useDebePreguntarNivel, sincronizarNivel } from '../lib/nivel'
 
 const PREVIEW_FRAMES = ['silver', 'gold', 'rainbow', 'galaxy', 'fire', 'neon']
 
@@ -247,8 +249,8 @@ export default function Home() {
   const navigate = useNavigate()
   const { t, localPath, lang, tr } = useLang()
   const en = lang === 'en'
-  const ca = lang === 'ca'
   const { user } = useAuth()
+  const debePreguntarNivel = useDebePreguntarNivel()
   const [stats, setStats] = useState(null)
   const [classes, setClasses] = useState(null) // null = aún sin comprobar
   const [pendingTasks, setPendingTasks] = useState(0)
@@ -276,6 +278,15 @@ export default function Home() {
   // `stats` en ese estado.
   useEffect(() => {
     if (user) getStats(user.uid).then(setStats)
+  }, [user])
+
+  // El curso vive en localStorage para que las rejillas ya salgan filtradas
+  // en el primer pintado, pero la cuenta es la verdad entre dispositivos: al
+  // haber sesión se reconcilian (ver sincronizarNivel en lib/nivel.js). Si el
+  // doc no lo tiene y este navegador sí, se sube — así quien eligió curso sin
+  // cuenta y luego se registra no pierde la respuesta.
+  useEffect(() => {
+    if (user) sincronizarNivel(user.uid)
   }, [user])
 
   // Mismo patrón que Navbar.jsx para el aviso de tareas pendientes: se cuenta
@@ -350,8 +361,16 @@ export default function Home() {
           ))}
         </div>
 
+        {/* EL CURSO — la única pregunta que hace Tuthor, y una sola vez.
+            Va justo debajo de las tres puertas porque es lo que decide qué
+            se ve al cruzarlas: sin curso, Estudiar enseña los 91 temas del
+            catálogo por sus tres niveles. No es un modal y no bloquea nada —
+            se puede ignorar y seguir, y quien la cierra no la vuelve a ver
+            (marcarPreguntado en lib/nivel.js). */}
+        {debePreguntarNivel && <NivelPicker variant="card" className="mt-6" />}
+
         {/* PROGRESO — o la invitación a tener uno, si no hay cuenta */}
-        <div className="mb-8">
+        <div className="mt-6 mb-8">
           {!user ? (
             <SignupPrompt onSignup={() => setShowAuth(true)} />
           ) : stats ? (

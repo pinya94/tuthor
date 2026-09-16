@@ -13,10 +13,16 @@ export const MODOS = {
 
 export const MODO_IDS = Object.keys(MODOS)
 
+// `labelCa` y `edades` no los usa el motor de cálculo: los lee el selector de
+// curso (src/lib/nivel.js), que deriva de aquí los tres niveles para no tener
+// una segunda lista que se desincronice. labelCa además arregla de paso
+// topicCatalog.js, que ya lo leía con `|| label` y hasta ahora caía al
+// castellano en catalán. `edades` es el tramo de edad, que es lo que de
+// verdad ayuda a un padre a elegir entre ESO y Bachillerato.
 export const GRADOS = {
-  primaria:     { id: 'primaria',     label: 'Primaria',     labelEn: 'Primary',    emoji: '🎒', objMin: 5,  objMax: 30,  count: 5, tiempo: 90, numMax: 10 },
-  eso:          { id: 'eso',          label: 'ESO',          labelEn: 'Secondary',  emoji: '📖', objMin: 10, objMax: 99,  count: 5, tiempo: 75, numMax: 12 },
-  bachillerato: { id: 'bachillerato', label: 'Bachillerato', labelEn: 'Sixth Form', emoji: '🎓', objMin: 20, objMax: 300, count: 4, tiempo: 60, numMax: 20 },
+  primaria:     { id: 'primaria',     label: 'Primaria',     labelEn: 'Primary',    labelCa: 'Primària',    edades: '6-12',  emoji: '🎒', objMin: 5,  objMax: 30,  count: 5, tiempo: 90, numMax: 10 },
+  eso:          { id: 'eso',          label: 'ESO',          labelEn: 'Secondary',  labelCa: 'ESO',         edades: '12-16', emoji: '📖', objMin: 10, objMax: 99,  count: 5, tiempo: 75, numMax: 12 },
+  bachillerato: { id: 'bachillerato', label: 'Bachillerato', labelEn: 'Sixth Form', labelCa: 'Batxillerat', edades: '16-18', emoji: '🎓', objMin: 20, objMax: 300, count: 4, tiempo: 60, numMax: 20 },
 }
 
 export const GRADO_IDS = Object.keys(GRADOS)

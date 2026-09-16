@@ -130,7 +130,12 @@ export const SUBJECT_DEFS = [
   },
   {
     id: 'lengua', emoji: '📖',
-    label: { es: 'Lengua', en: 'Language', ca: 'Llengua' },
+    // El id y las rutas siguen siendo 'lengua' (las stats guardadas en
+    // Firestore dependen de él), pero de cara al alumno la materia se llama
+    // SIEMPRE "Español": es como se anuncia en /estudiar, y en inglés y
+    // catalán "Language"/"Llengua" se confundía con la clase de lengua de
+    // ese idioma. Un solo nombre visible por materia, en todas las pantallas.
+    label: { es: 'Español', en: 'Spanish', ca: 'Castellà' },
     gameIds: [],
     catIds: [],
     // Temas del catálogo (topicCatalog.js): cada uno se examina señalando
