@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
 import { PLANS, MONETIZATION_ENABLED } from '../lib/access'
+import { NUM_JUEGOS, NUM_EXAMENES, masDe } from '../lib/cifras'
 import { startCheckout } from '../lib/checkout'
 import AuthModal from '../components/AuthModal'
 import SEOHead from '../components/SEOHead'
@@ -13,9 +14,20 @@ import PreguntaDiaria from './PreguntaDiaria'
 // (clara, editorial) para que se lea como lo que es: la página que explica el
 // producto, no el producto.
 //
-// Sin cifras de catálogo a propósito ("23 juegos" envejece mal en los dos
-// sentidos) y sin decir "tres" enfoques: el número de puertas a un concepto no
-// está cerrado, y fijarlo en el copy obliga a mantenerlo a mano.
+// LA ENTRADA VA PRIMERO. El botón grande del héroe mete a la persona dentro
+// (/app) y no pide nada. Durante un tiempo el principal fue "Juega el reto de
+// hoy" y la única otra puerta de la página era registrarse: quien quería ver
+// el producto tenía que bajar media página hasta el segundo CTA. El reto
+// sigue estando, de segundo botón, que es lo que es — una prueba de un minuto
+// para quien no quiera ni entrar.
+//
+// Cifras de catálogo: DERIVADAS, nunca a mano. La regla antigua era no dar
+// ninguna (un "23 juegos" envejece mal en los dos sentidos), pero acabaron
+// colándose igual y quedándose obsoletas: la página anunció "34 juegos y 110
+// exámenes" cuando ya eran 38 y 137. Ahora salen de src/lib/cifras.js, que
+// las cuenta de los registros, y un test impide volver a escribirlas a mano.
+// Lo que sí se mantiene es no decir "tres" enfoques: el número de puertas a
+// un concepto no está cerrado.
 //
 // El texto en español lo escribió el usuario; en/ca son traducción fiel. Al
 // tocarlo, respetar el registro: la sección de metodología usa vocabulario
@@ -614,27 +626,29 @@ export default function Landing() {
     runCheckout(planId)
   }
 
-  // El producto es gratis: la mayoría de los CTA de la landing ya no tienen
-  // que llevar a #apoyar, tienen que meter a la persona en la app cuanto
-  // antes. Y "cuanto antes" ahora es de verdad antes: sin pedir registro
-  // aquí — se juega sin sesión y el registro se pide donde tiene sentido
-  // pedirlo, al querer guardar la puntuación (ver GameResultFooter.jsx),
-  // no como peaje de entrada. /juegos no requiere sesión (paidRoutes.js).
-  // Al RETO DIARIO, no a un catálogo. Es la única pantalla del sitio que no
-  // exige elegir nada: hay 34 juegos y 110 exámenes, y pedirle a alguien que
-  // acaba de llegar que elija entre ellos —y encima la dificultad, en 21 de
-  // los 32 juegos— es parálisis, no libertad. El reto de hoy es uno, es corto
-  // y se juega en un clic; al terminarlo, el propio reto ofrece seguir con un
-  // juego relacionado y guardar la racha (ver PreguntaDiaria.jsx).
-  function startFree() {
-    navigate(localPath('/diaria'))
-  }
+  // El producto es gratis: los CTA de la landing no tienen que llevar a
+  // #apoyar, tienen que meter a la persona DENTRO cuanto antes. Sin pedir
+  // registro aquí — se juega sin sesión y la cuenta se pide donde tiene
+  // sentido pedirla, al querer guardar la puntuación (ver
+  // GameResultFooter.jsx), no como peaje de entrada. Nada de /app ni de
+  // /juegos requiere sesión (ver paidRoutes.js).
 
-  // Para los CTA que van DESPUÉS del reto ya jugado (el de media página, que
-  // vive justo debajo del reto incrustado): mandarlos otra vez al reto solo
-  // les enseñaría "ya lo hiciste hoy". Ahí toca abrir el resto del sitio.
+  // La entrada principal, y la de los CTA de media página. Lleva al panel de
+  // la app, que es "dentro": desde ahí se va libremente a Estudiar, a Juegos
+  // o al reto, y ahora además es donde se pregunta el curso una sola vez
+  // (ver NivelPicker en Home.jsx).
   function explore() {
     navigate(localPath('/app'))
+  }
+
+  // La alternativa corta, para quien no quiere ni entrar todavía: una sola
+  // pregunta, un minuto. Fue el CTA principal durante un tiempo y era un
+  // error — contestar una pregunta suelta no enseña qué es Tuthor, y desde
+  // ahí no se ve el catálogo. Como segundo botón sí tiene sentido: es la
+  // única pantalla del sitio que no exige elegir nada, y al terminarla el
+  // propio reto ofrece seguir con un juego relacionado (PreguntaDiaria.jsx).
+  function startFree() {
+    navigate(localPath('/diaria'))
   }
 
   // Qué hacer justo después de entrar, según por qué se abrió el login: si
@@ -665,9 +679,9 @@ export default function Landing() {
           en: `Free educational platform for primary and secondary school. A team of teachers frames each concept from different points of view. Pro (no ads, full tracking panel) from €${PRO_PRICE} a month.`,
           ca: `Plataforma educativa gratuïta per a Primària, ESO i Batxillerat. Un equip de professors planteja cada concepte des de diferents punts de vista. Pro (sense publicitat i panell de seguiment complet) des de ${PRO_PRICE} € al mes.`,
         }) : tr({
-          es: 'Plataforma educativa gratuita para Primaria, ESO y Bachillerato: 34 juegos y 110 exámenes, sin cuenta y sin plan de pago. Un equipo de profesores plantea cada concepto desde distintos puntos de vista.',
-          en: 'Free educational platform for primary and secondary school: 34 games and 110 quizzes, no account and no paid plan. A team of teachers frames each concept from different points of view.',
-          ca: 'Plataforma educativa gratuïta per a Primària, ESO i Batxillerat: 34 jocs i 110 exàmens, sense compte i sense pla de pagament. Un equip de professors planteja cada concepte des de diferents punts de vista.',
+          es: `Plataforma educativa gratuita para Primaria, ESO y Bachillerato: ${NUM_JUEGOS} juegos y ${NUM_EXAMENES} exámenes, sin cuenta y sin plan de pago. Un equipo de profesores plantea cada concepto desde distintos puntos de vista.`,
+          en: `Free educational platform for primary and secondary school: ${NUM_JUEGOS} games and ${NUM_EXAMENES} quizzes, no account and no paid plan. A team of teachers frames each concept from different points of view.`,
+          ca: `Plataforma educativa gratuïta per a Primària, ESO i Batxillerat: ${NUM_JUEGOS} jocs i ${NUM_EXAMENES} exàmens, sense compte i sense pla de pagament. Un equip de professors planteja cada concepte des de diferents punts de vista.`,
         })}
       />
 
@@ -687,19 +701,16 @@ export default function Landing() {
           })}
         </h1>
 
+        {/* Una frase, no tres párrafos. Lo que había antes explicaba MUY bien
+            la tesis del producto, pero por encima del botón: quien llega de un
+            enlace tenía que leerse dos párrafos de prosa antes de poder entrar
+            a nada. El argumento largo no se ha perdido — es la sección "Cómo
+            funciona" entera, justo debajo, y ahora se lee por elección. */}
         <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-slate-600">
           {tr({
-            es: 'En una clase con treinta alumnos hay un temario que terminar y un solo ritmo. No hay tiempo para buscar distintas formas de explicar lo mismo. En Tuthor sí.',
-            en: 'A class of thirty pupils has a syllabus to finish and a single pace. There is no time to look for different ways of explaining the same thing. Here there is.',
-            ca: 'En una classe amb trenta alumnes hi ha un temari per acabar i un sol ritme. No hi ha temps per buscar diferents formes d\'explicar el mateix. A Tuthor sí.',
-          })}
-        </p>
-
-        <p className="mx-auto mt-4 max-w-2xl text-lg leading-relaxed text-slate-600">
-          {tr({
-            es: 'Un equipo de profesores plantea cada concepto desde distintos puntos de vista. Si a tu hijo no le entra por la deducción, le entra por la práctica o por la imagen. No paramos hasta dar con la puerta que le encaja.',
-            en: 'A team of teachers frames each concept from different points of view. If deduction is not your child\'s way in, practice or imagery will be. We do not stop until we find the door that fits.',
-            ca: 'Un equip de professors planteja cada concepte des de diferents punts de vista. Si al teu fill no li entra per la deducció, li entra per la pràctica o per la imatge. No parem fins a trobar la porta que li encaixa.',
+            es: `${NUM_JUEGOS} juegos y más de ${masDe(NUM_EXAMENES)} exámenes escritos por profesores, todos gratis. Cuando un concepto no entra por un lado, se explica por otro.`,
+            en: `${NUM_JUEGOS} games and over ${masDe(NUM_EXAMENES)} quizzes written by teachers, all free. When a concept does not go in one way, it is explained another.`,
+            ca: `${NUM_JUEGOS} jocs i més de ${masDe(NUM_EXAMENES)} exàmens escrits per professors, tots gratis. Quan un concepte no entra per un costat, s'explica per un altre.`,
           })}
         </p>
 
@@ -707,26 +718,39 @@ export default function Landing() {
           <LaunchBadge tr={tr} />
         </div>
 
-        {/* El botón más grande de la landing, y a mucha distancia del resto.
-            El objetivo declarado es que la gente ENTRE Y JUEGUE, así que "sin
-            registro" va dentro del propio botón: es la objeción que frena a
-            un padre que solo viene a mirar, y ponerla en letra pequeña debajo
-            no la resuelve. "Ver cómo funciona" pasa a ser un enlace discreto
-            para no competir con él. */}
-        <div className="mt-6">
+        {/* El botón más grande de la landing lleva DENTRO, no a una demo.
+            Antes el principal era "Juega el reto de hoy": una sola pregunta y
+            un callejón sin salida, y la única otra puerta de la página era
+            registrarse. Quien quería ver el producto tenía que bajar media
+            página hasta el segundo CTA para encontrar la entrada de verdad.
+            Ahora la entrada es lo primero y no pide nada.
+
+            "Sin registro" va DENTRO del botón, no en letra pequeña debajo: es
+            la objeción que frena a un padre que solo viene a mirar.
+
+            El reto de hoy no desaparece — baja a segundo botón, que es lo que
+            es: una prueba de un minuto para quien no quiera ni entrar. */}
+        <div className="mt-6 flex flex-col items-center gap-4">
           <button
-            onClick={startFree}
+            onClick={explore}
             className="w-full rounded-2xl bg-violet-600 px-8 py-6 font-black text-white shadow-2xl shadow-violet-300/70 transition-all hover:scale-[1.02] hover:bg-violet-500 sm:w-auto sm:px-16 sm:py-8"
           >
             <span className="block text-2xl leading-tight sm:text-4xl">
-              {tr({ es: 'Juega el reto de hoy', en: "Play today's challenge", ca: 'Juga el repte d\'avui' })}
+              {tr({ es: 'Entrar sin registro', en: 'Go in, no sign-up', ca: 'Entrar sense registre' })}
             </span>
             <span className="mt-1 block text-sm font-bold text-violet-200 sm:text-base">
-              {tr({ es: 'Gratis · Sin registro · Un minuto', en: 'Free · No sign-up · One minute', ca: 'Gratis · Sense registre · Un minut' })}
+              {tr({ es: 'Gratis · Sin cuenta · Sin tarjeta', en: 'Free · No account · No card', ca: 'Gratis · Sense compte · Sense targeta' })}
             </span>
           </button>
 
-          <p className="mt-5 text-sm text-slate-500">
+          <button
+            onClick={startFree}
+            className="rounded-xl border border-slate-300 px-6 py-3 text-sm font-bold text-slate-700 transition-colors hover:border-slate-400 hover:bg-slate-50"
+          >
+            {tr({ es: '⚡ O juega el reto de hoy · 1 min', en: '⚡ Or play today’s challenge · 1 min', ca: "⚡ O juga el repte d'avui · 1 min" })}
+          </button>
+
+          <p className="text-sm text-slate-500">
             <a href="#como-funciona" className="font-semibold text-slate-600 underline decoration-slate-300 underline-offset-4 transition-colors hover:text-slate-900">
               {tr({ es: 'Ver cómo funciona', en: 'See how it works', ca: 'Veure com funciona' })}
             </a>
@@ -945,9 +969,9 @@ export default function Landing() {
           </button>
           <p className="mt-4 text-sm text-slate-400">
             {tr({
-              es: '34 juegos y 110 exámenes, todos gratis.',
-              en: '34 games and 110 quizzes, all free.',
-              ca: '34 jocs i 110 exàmens, tots gratis.',
+              es: `${NUM_JUEGOS} juegos y ${NUM_EXAMENES} exámenes, todos gratis.`,
+              en: `${NUM_JUEGOS} games and ${NUM_EXAMENES} quizzes, all free.`,
+              ca: `${NUM_JUEGOS} jocs i ${NUM_EXAMENES} exàmens, tots gratis.`,
             })}
           </p>
 
