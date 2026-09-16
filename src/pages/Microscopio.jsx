@@ -12,7 +12,7 @@ import GameEndScreen from '../components/GameEndScreen'
 import SEOHead from '../components/SEOHead'
 import ComoSeJuega from '../components/ComoSeJuega'
 
-const GAME_TIME = 60
+const GAME_TIME = 20
 const WRONG_TIME = 5
 const CORRECT_TIME = 3
 const REVEAL_MS = 3000
