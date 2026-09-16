@@ -38,6 +38,47 @@ export const MAIN_CARDS = [
   },
 ]
 
+// ── Las puertas de /app ──────────────────────────────────────────────────────
+// Separadas de MAIN_CARDS (que se quedó para las pestañas de la navbar) porque
+// hacen dos trabajos distintos: la navbar necesita ETIQUETAS DE SITIO —el
+// usuario ya sabe adónde va—, y la portada necesita NOMBRES DE NECESIDAD.
+//
+// Las tres puertas se llamaban "Reto de hoy", "Juegos" y "Estudiar": nombres
+// de formato, que describen lo que hay detrás pero no para qué sirve. Tres
+// cuadrados iguales que no ayudan a elegir. Ahora cada una dice el motivo por
+// el que alguien abriría el sitio, y el subtítulo dice qué se encuentra.
+//
+// La tercera además cambia de destino: antes iba a /estudiar (doce azulejos de
+// materia, sin decir qué hay dentro de ninguno) y ahora va al mapa del temario,
+// que enseña el temario entero ya filtrado por el curso del alumno. /estudiar
+// sigue en la navbar y el mapa enlaza a cada materia.
+export const PUERTAS = [
+  {
+    id: 'diaria',
+    title: 'Tengo 5 minutos', titleEn: "I've got 5 minutes", titleCa: 'Tinc 5 minuts',
+    subtitle: 'El reto de hoy. Mantienes la racha.', subtitleEn: "Today's challenge. Keep your streak.", subtitleCa: "El repte d'avui. Mantens la ratxa.",
+    image: '/racha.webp',
+    path: '/diaria',
+    accent: 'from-orange-500/80 to-rose-900/60',
+  },
+  {
+    id: 'juegos',
+    title: 'Quiero jugar', titleEn: 'I want to play', titleCa: 'Vull jugar',
+    subtitle: 'Aprende sin darte cuenta', subtitleEn: 'Learn without noticing', subtitleCa: 'Aprèn sense adonar-te',
+    image: '/juegos.webp',
+    path: '/juegos',
+    accent: 'from-violet-600/80 to-purple-900/60',
+  },
+  {
+    id: 'temario',
+    title: 'Tengo examen', titleEn: "I've got an exam", titleCa: 'Tinc examen',
+    subtitle: 'Todo el temario de tu curso, tema a tema', subtitleEn: 'Your whole syllabus, topic by topic', subtitleCa: 'Tot el temari del teu curs, tema a tema',
+    image: '/estudio.webp',
+    path: '/temario',
+    accent: 'from-blue-600/80 to-indigo-900/60',
+  },
+]
+
 export const GAMES = [
   { title: 'Tuthor Time', subtitle: 'Viajero del tiempo', subtitleEn: 'Time traveller', subtitleCa: 'Viatger del temps', emoji: '🕰️', gradient: 'from-amber-500 to-orange-600', ready: true, path: '/juegos/tuthor-time' },
   { title: 'Línea Temporal', titleEn: 'Timeline', titleCa: 'Línia Temporal', subtitle: 'Ordena la historia', subtitleEn: 'Sort history', subtitleCa: 'Ordena la història', emoji: '📜', gradient: 'from-emerald-500 to-teal-700', ready: true, path: '/juegos/linea-temporal' },

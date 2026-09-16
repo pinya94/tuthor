@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import HeroCard from '../components/HeroCard'
-import { MAIN_CARDS } from '../data/constants'
+import { PUERTAS } from '../data/constants'
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
 import { getStats, formatTime } from '../lib/activity'
@@ -352,7 +352,7 @@ export default function Home() {
             /juegos, /diaria), no a una ficha informativa — no hace falta
             convencer a nadie de entrar, ya está pagando. */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          {MAIN_CARDS.map(card => (
+          {PUERTAS.map(card => (
             <div key={card.id} className="aspect-square sm:aspect-[4/5]">
               {/* priority en la primera tarjeta, que ahora es el reto diario:
                   es la imagen que entra en pantalla antes que ninguna. */}

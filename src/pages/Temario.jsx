@@ -30,6 +30,15 @@ import SEOHead from '../components/SEOHead'
 
 const PANEL = 'rounded-2xl border border-white/10 bg-[#0b1120]/95'
 
+// La ruta del hub coincide con el id de la materia salvo estas dos, que
+// cuelgan de /estudiar/idiomas/* (ver App.jsx). Mismo mapa que en Home.jsx —
+// duplicado a propósito y no compartido: son dos páginas que no dependen una
+// de otra, y un módulo nuevo para dos entradas no se paga.
+const HUB_DE_MATERIA = {
+  lengua: '/estudiar/idiomas/espanol',
+  ingles: '/estudiar/idiomas/ingles',
+}
+
 function Cifra({ n, label }) {
   return (
     <div className="text-center">
@@ -120,6 +129,18 @@ function Materia({ materia, abierta, onToggle, tocados, localPath, tr }) {
               tr={tr}
             />
           ))}
+          {/* La salida del mapa hacia la materia. Sin esto el recorrido era de
+              ida y vuelta al mismo sitio: desde /temario se podía entrar a una
+              actividad concreta, pero no al hub de la materia —con su buscador,
+              sus recursos y sus fichas—, que es a donde quiere ir quien está
+              mirando el tema por encima en vez de examinarse ya. */}
+          <Link
+            to={localPath(HUB_DE_MATERIA[materia.id] || `/estudiar/${materia.id}`)}
+            className="mt-3 inline-flex items-center gap-1.5 text-violet-300/80 hover:text-violet-300 text-[13px] font-bold transition-colors"
+          >
+            {tr({ es: 'Ver la materia', en: 'Open the subject', ca: 'Veure la matèria' })}
+            <span aria-hidden="true">→</span>
+          </Link>
         </div>
       )}
     </section>
