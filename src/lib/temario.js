@@ -86,17 +86,14 @@ export function construirTemario(lang = 'es') {
 // Misma regla de oro que en lib/nivel.js: sin curso elegido no se esconde
 // nada, y un tema que no declara curso vale para todos.
 //
-// NO ESTÁ ENCHUFADO EN /temario TODAVÍA, a propósito. Solo 21 de los 98 temas
-// declaran su curso en topicCatalog.js, así que hoy este filtro afectaría a
-// historia y a los modos de cálculo y dejaría las otras diez materias
-// intactas. Un selector de curso que calla y no filtra casi nada engaña más
-// que no ponerlo, así que la página enseña el mapa entero.
+// Aquí el filtro SÍ oculta, a diferencia de TemarioGrid, que atenúa: el mapa
+// se lee de arriba abajo y una lista de 223 filas medio en gris no se lee. La
+// pastilla "Todas" está siempre a la vista para volver al índice entero.
 //
-// Para encenderlo hace falta un paso previo: llevar los `niveles` que hoy
-// viven en el `const TEMAS` de cada página de materia (QuimicaIndex.jsx,
-// GeografiaIndex.jsx, InglesGrammarIndex.jsx…) a topicCatalog.js, que es
-// quien dice ser la fuente única. Esta función ya está probada y lista para
-// ese día.
+// Los 98 temas declaran curso desde septiembre de 2026 (antes eran 21, y el
+// resto lo llevaba el `const TEMAS` privado de cada página de materia). Un
+// test de invariantes impide que entre un tema nuevo sin declararlo, porque
+// ese tema aparecería en los tres cursos sin que nadie se enterase.
 export function filtrarPorNivel(temario, nivel) {
   if (!nivel) return temario
   return temario

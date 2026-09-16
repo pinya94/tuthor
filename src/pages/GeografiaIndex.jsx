@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom'
+import { nivelesDeTema } from '../lib/topicCatalog'
 import { useLang } from '../context/LangContext'
 import TemarioGrid from '../components/TemarioGrid'
 import SEOEstatico from '../components/SEOEstatico'
@@ -14,7 +15,7 @@ const TEMAS = [
     subtitulo: 'Relieve, ríos y clima', subtituloEn: 'Relief, rivers and climate', subtituloCa: 'Relleu, rius i clima',
     emoji: '⛰️', gradient: 'from-emerald-600 to-green-800',
     tags: ['relieve', 'rios', 'clima', 'meseta', 'peninsula', 'oceano'],
-    niveles: ['primaria', 'eso'],
+    niveles: nivelesDeTema('geografia', 'fisica'),
     examPath: '/examen/geografia-fisica-test',
   },
   {
@@ -25,7 +26,7 @@ const TEMAS = [
     subtitulo: 'Población, migraciones y sectores económicos', subtituloEn: 'Population, migration and economic sectors', subtituloCa: 'Població, migracions i sectors econòmics',
     emoji: '👥', gradient: 'from-amber-600 to-orange-800',
     tags: ['poblacion', 'densidad', 'piramide', 'natalidad', 'migracion', 'sectores', 'paro', 'pib'],
-    niveles: ['primaria', 'eso'],
+    niveles: nivelesDeTema('geografia', 'humana'),
     examPath: '/examen/geografia-humana-test',
   },
   {
@@ -34,7 +35,7 @@ const TEMAS = [
     subtitulo: 'Las 17 comunidades autónomas', subtituloEn: 'The 17 autonomous communities', subtituloCa: 'Les 17 comunitats autònomes',
     emoji: '🗺️', gradient: 'from-red-600 to-rose-800',
     tags: ['españa', 'comunidades', 'peninsula', 'spain', 'espanya'],
-    niveles: ['primaria'],
+    niveles: nivelesDeTema('geografia', 'espana'),
   },
   {
     id: 'eeuu',
@@ -42,7 +43,7 @@ const TEMAS = [
     subtitulo: 'Los 50 estados americanos', subtituloEn: 'All 50 US states', subtituloCa: 'Els 50 estats americans',
     emoji: '🗽', gradient: 'from-blue-600 to-indigo-800',
     tags: ['estados unidos', 'usa', 'estados', 'north america', 'estats units'],
-    niveles: ['primaria', 'eso'],
+    niveles: nivelesDeTema('geografia', 'eeuu'),
   },
   {
     id: 'europa',
@@ -50,7 +51,7 @@ const TEMAS = [
     subtitulo: 'De Islandia a Chipre', subtituloEn: 'From Iceland to Cyprus', subtituloCa: "D'Islàndia a Xipre",
     emoji: '🌍', gradient: 'from-teal-500 to-cyan-700',
     tags: ['europa', 'europe', 'países europeos', 'balcanes', 'escandinavia'],
-    niveles: ['eso'],
+    niveles: nivelesDeTema('geografia', 'europa'),
   },
   {
     id: 'america',
@@ -58,7 +59,7 @@ const TEMAS = [
     subtitulo: 'Del Canadá a la Patagonia', subtituloEn: 'From Canada to Patagonia', subtituloCa: 'Del Canadà a la Patagònia',
     emoji: '🌎', gradient: 'from-emerald-500 to-teal-700',
     tags: ['america', 'americas', 'latinoamerica', 'sudamerica', 'norte', 'sur'],
-    niveles: ['eso'],
+    niveles: nivelesDeTema('geografia', 'america'),
   },
   {
     id: 'asia',
@@ -66,7 +67,7 @@ const TEMAS = [
     subtitulo: 'De Japón a Turquía', subtituloEn: 'From Japan to Turkey', subtituloCa: 'Del Japó a Turquia',
     emoji: '🌏', gradient: 'from-orange-500 to-amber-700',
     tags: ['asia', 'japon', 'china', 'india', 'oriente', 'japan', 'turkey'],
-    niveles: ['eso', 'bachillerato'],
+    niveles: nivelesDeTema('geografia', 'asia'),
   },
   {
     id: 'africa',
@@ -74,7 +75,7 @@ const TEMAS = [
     subtitulo: 'De Marruecos a Sudáfrica', subtituloEn: 'From Morocco to South Africa', subtituloCa: 'Del Marroc a Sud-àfrica',
     emoji: '🌍', gradient: 'from-yellow-500 to-orange-700',
     tags: ['africa', 'marruecos', 'nigeria', 'egipto', 'sahara', 'morocco'],
-    niveles: ['bachillerato'],
+    niveles: nivelesDeTema('geografia', 'africa'),
   },
   {
     id: 'oceania',
@@ -82,7 +83,7 @@ const TEMAS = [
     subtitulo: 'Australia y el Pacífico', subtituloEn: 'Australia and the Pacific', subtituloCa: "Austràlia i el Pacífic",
     emoji: '🏝️', gradient: 'from-cyan-500 to-sky-700',
     tags: ['oceania', 'australia', 'pacifico', 'nueva zelanda', 'pacific', 'new zealand'],
-    niveles: ['bachillerato'],
+    niveles: nivelesDeTema('geografia', 'oceania'),
   },
 ]
 

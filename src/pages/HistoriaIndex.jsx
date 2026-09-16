@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom'
+import { nivelesDeTema } from '../lib/topicCatalog'
 import { useLang } from '../context/LangContext'
 import TemarioGrid from '../components/TemarioGrid'
 import SEOEstatico from '../components/SEOEstatico'
@@ -9,35 +10,35 @@ const TEMAS = [
     titulo: 'Grandes Hitos de la Historia', tituloEn: 'Great Milestones of History', tituloCa: 'Grans Fites de la Història',
     subtitulo: 'Los momentos que cambiaron el mundo', subtituloEn: 'The moments that changed the world', subtituloCa: 'Els moments que van canviar el món',
     emoji: '🌍', gradient: 'from-emerald-500 to-teal-700',
-    tags: ['universal', 'básico', 'fácil'], niveles: ['primaria'],
+    tags: ['universal', 'básico', 'fácil'], niveles: nivelesDeTema('historia', 'primaria'),
   },
   {
     id: 'gce',
     titulo: 'Guerra Civil Española', tituloEn: 'Spanish Civil War', tituloCa: 'Guerra Civil Espanyola',
     subtitulo: 'De la República al franquismo — 1931–1978', subtituloEn: 'From the Republic to Franco — 1931–1978', subtituloCa: 'De la República al franquisme — 1931–1978',
     emoji: '⚔️', gradient: 'from-red-600 to-rose-800',
-    tags: ['españa', 'siglo xx', 'conflicto'], niveles: ['eso', 'bachillerato'],
+    tags: ['españa', 'siglo xx', 'conflicto'], niveles: nivelesDeTema('historia', 'gce'),
   },
   {
     id: 'wwii',
     titulo: 'Segunda Guerra Mundial', tituloEn: 'World War II', tituloCa: 'Segona Guerra Mundial',
     subtitulo: 'El conflicto que cambió el mundo — 1939–1945', subtituloEn: 'The conflict that changed the world — 1939–1945', subtituloCa: 'El conflicte que va canviar el món — 1939–1945',
     emoji: '⚔️', gradient: 'from-slate-600 to-zinc-800',
-    tags: ['universal', 'siglo xx', 'conflicto'], niveles: ['eso', 'bachillerato'],
+    tags: ['universal', 'siglo xx', 'conflicto'], niveles: nivelesDeTema('historia', 'wwii'),
   },
   {
     id: 'roma',
     titulo: 'Antigua Roma', tituloEn: 'Ancient Rome', tituloCa: 'Antiga Roma',
     subtitulo: 'De Rómulo a la caída del Imperio — 753 a.C.–476 d.C.', subtituloEn: 'From Romulus to the fall of the Empire — 753 BC–476 AD', subtituloCa: 'De Ròmul a la caiguda de l\'Imperi — 753 aC–476 dC',
     emoji: '🏛️', gradient: 'from-amber-600 to-orange-800',
-    tags: ['antigua', 'europa', 'imperio'], niveles: ['eso', 'bachillerato'],
+    tags: ['antigua', 'europa', 'imperio'], niveles: nivelesDeTema('historia', 'roma'),
   },
   {
     id: 'usa',
     titulo: 'Independencia Americana', tituloEn: 'American Independence', tituloCa: 'Independència Americana',
     subtitulo: 'De las colonias a los Estados Unidos — 1773–1789', subtituloEn: 'From the colonies to the United States — 1773–1789', subtituloCa: 'De les colònies als Estats Units — 1773–1789',
     emoji: '🦅', gradient: 'from-blue-600 to-indigo-800',
-    tags: ['moderna', 'américas', 'democracia'], niveles: ['bachillerato'],
+    tags: ['moderna', 'américas', 'democracia'], niveles: nivelesDeTema('historia', 'usa'),
   },
   // Faltaban aquí aunque tenían página, examen y ficha desde agosto: solo se
   // llegaba a ellos desde fuera del hub. Van en orden cronológico.
@@ -46,7 +47,7 @@ const TEMAS = [
     titulo: "Prehistoria", tituloEn: "Prehistory", tituloCa: "Prehistòria",
     subtitulo: "Del Paleolítico al Neolítico", subtituloEn: "From the Palaeolithic to the Neolithic", subtituloCa: "Del Paleolític al Neolític",
     emoji: '🦴', gradient: 'from-yellow-700 to-amber-900',
-    tags: ['prehistoria', 'fuego', 'neolítico'], niveles: ['primaria', 'eso', 'bachillerato'],
+    tags: ['prehistoria', 'fuego', 'neolítico'], niveles: nivelesDeTema('historia', 'prehistoria'),
   },
 
   {
@@ -54,7 +55,7 @@ const TEMAS = [
     titulo: "Edad Antigua", tituloEn: "Antiquity", tituloCa: "Edat Antiga",
     subtitulo: "Mesopotamia, Egipto y Grecia", subtituloEn: "Mesopotamia, Egypt and Greece", subtituloCa: "Mesopotàmia, Egipte i Grècia",
     emoji: '🏛️', gradient: 'from-orange-500 to-amber-700',
-    tags: ['antigua', 'egipto', 'grecia'], niveles: ['primaria', 'eso', 'bachillerato'],
+    tags: ['antigua', 'egipto', 'grecia'], niveles: nivelesDeTema('historia', 'antigua'),
   },
 
   {
@@ -62,7 +63,7 @@ const TEMAS = [
     titulo: "Edad Media", tituloEn: "The Middle Ages", tituloCa: "Edat Mitjana",
     subtitulo: "Feudalismo, Al-Ándalus y Reconquista — 476–1492", subtituloEn: "Feudalism, Al-Andalus and the Reconquista — 476–1492", subtituloCa: "Feudalisme, Al-Àndalus i Reconquesta — 476–1492",
     emoji: '🏰', gradient: 'from-stone-500 to-stone-800',
-    tags: ['medieval', 'europa', 'españa'], niveles: ['primaria', 'eso', 'bachillerato'],
+    tags: ['medieval', 'europa', 'españa'], niveles: nivelesDeTema('historia', 'edad-media'),
   },
 
   {
@@ -70,7 +71,7 @@ const TEMAS = [
     titulo: "Edad Moderna", tituloEn: "The Early Modern Period", tituloCa: "Edat Moderna",
     subtitulo: "De Colón a la Ilustración — 1492–1789", subtituloEn: "From Columbus to the Enlightenment — 1492–1789", subtituloCa: "De Colom a la Il·lustració — 1492–1789",
     emoji: '⛵', gradient: 'from-blue-800 to-cyan-950',
-    tags: ['moderna', 'imperio', 'américas'], niveles: ['primaria', 'eso', 'bachillerato'],
+    tags: ['moderna', 'imperio', 'américas'], niveles: nivelesDeTema('historia', 'edad-moderna'),
   },
 
   {
@@ -78,7 +79,7 @@ const TEMAS = [
     titulo: "Revolución Francesa y Napoleón", tituloEn: "The French Revolution and Napoleon", tituloCa: "Revolució Francesa i Napoleó",
     subtitulo: "De la Bastilla a Waterloo — 1789–1815", subtituloEn: "From the Bastille to Waterloo — 1789–1815", subtituloCa: "De la Bastilla a Waterloo — 1789–1815",
     emoji: '⚜️', gradient: 'from-blue-700 to-red-800',
-    tags: ['contemporánea', 'europa', 'revolución'], niveles: ['eso', 'bachillerato'],
+    tags: ['contemporánea', 'europa', 'revolución'], niveles: nivelesDeTema('historia', 'revolucion-francesa'),
   },
 
   {
@@ -86,7 +87,7 @@ const TEMAS = [
     titulo: "Revolución Industrial", tituloEn: "The Industrial Revolution", tituloCa: "Revolució Industrial",
     subtitulo: "Vapor, fábricas y obreros — siglos XVIII–XIX", subtituloEn: "Steam, factories and workers — 18th–19th centuries", subtituloCa: "Vapor, fàbriques i obrers — segles XVIII–XIX",
     emoji: '🏭', gradient: 'from-stone-600 to-zinc-900',
-    tags: ['contemporánea', 'economía', 'sociedad'], niveles: ['eso', 'bachillerato'],
+    tags: ['contemporánea', 'economía', 'sociedad'], niveles: nivelesDeTema('historia', 'revolucion-industrial'),
   },
 
   {
@@ -94,7 +95,7 @@ const TEMAS = [
     titulo: "Primera Guerra Mundial", tituloEn: "World War I", tituloCa: "Primera Guerra Mundial",
     subtitulo: "La Gran Guerra — 1914–1918", subtituloEn: "The Great War — 1914–1918", subtituloCa: "La Gran Guerra — 1914–1918",
     emoji: '🎖️', gradient: 'from-amber-800 to-stone-900',
-    tags: ['universal', 'siglo xx', 'conflicto'], niveles: ['eso', 'bachillerato'],
+    tags: ['universal', 'siglo xx', 'conflicto'], niveles: nivelesDeTema('historia', 'primera-guerra-mundial'),
   },
 
   {
@@ -102,7 +103,7 @@ const TEMAS = [
     titulo: "Guerra Fría", tituloEn: "The Cold War", tituloCa: "Guerra Freda",
     subtitulo: "Estados Unidos contra la URSS — 1947–1991", subtituloEn: "The United States versus the USSR — 1947–1991", subtituloCa: "Els Estats Units contra l'URSS — 1947–1991",
     emoji: '🚀', gradient: 'from-sky-800 to-slate-900',
-    tags: ['universal', 'siglo xx', 'bloques'], niveles: ['eso', 'bachillerato'],
+    tags: ['universal', 'siglo xx', 'bloques'], niveles: nivelesDeTema('historia', 'guerra-fria'),
   },
 
   {
@@ -110,7 +111,7 @@ const TEMAS = [
     titulo: "Franquismo y Transición", tituloEn: "Francoism & Transition", tituloCa: "Franquisme i Transició",
     subtitulo: "De la dictadura a la Constitución — 1939–1982", subtituloEn: "From dictatorship to the Constitution — 1939–1982", subtituloCa: "De la dictadura a la Constitució — 1939–1982",
     emoji: '🕊️', gradient: 'from-red-800 to-yellow-800',
-    tags: ['españa', 'siglo xx', 'democracia'], niveles: ['eso', 'bachillerato'],
+    tags: ['españa', 'siglo xx', 'democracia'], niveles: nivelesDeTema('historia', 'franquismo'),
   },
 ]
 

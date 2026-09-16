@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom'
+import { nivelesDeTema } from '../lib/topicCatalog'
 import { useLang } from '../context/LangContext'
 import TemarioGrid from '../components/TemarioGrid'
 import SEOHead from '../components/SEOHead'
@@ -13,7 +14,7 @@ const TEMAS = [
     subtitulo: 'Símbolos, nombres y grupos de los elementos', subtituloEn: 'Symbols, names and groups of elements', subtituloCa: 'Símbols, noms i grups dels elements',
     emoji: '⚗️', gradient: 'from-violet-500 to-purple-700',
     tags: ['elementos', 'simbolos', 'quimica', 'tabla', 'periodic table', 'elements'],
-    niveles: ['primaria', 'eso', 'bachillerato'],
+    niveles: nivelesDeTema('quimica', 'tabla-periodica'),
   },
   {
     id: 'estados-materia', disciplina: 'quimica',
@@ -21,7 +22,7 @@ const TEMAS = [
     subtitulo: 'Sólido, líquido, gas y cambios de estado', subtituloEn: 'Solid, liquid, gas and changes of state', subtituloCa: 'Sòlid, líquid, gas i canvis d\'estat',
     emoji: '🧪', gradient: 'from-teal-500 to-cyan-700',
     tags: ['estados', 'solido', 'liquido', 'gas', 'fusion', 'evaporacion', 'materia', 'states', 'matter', 'ciclo del agua', 'water cycle', 'condensacion'],
-    niveles: ['primaria', 'eso'],
+    niveles: nivelesDeTema('quimica', 'estados-materia'),
   },
   {
     id: 'mezclas-separacion', disciplina: 'quimica',
@@ -29,7 +30,7 @@ const TEMAS = [
     subtitulo: 'Homogéneas, heterogéneas y métodos de separación', subtituloEn: 'Homogeneous, heterogeneous and separation methods', subtituloCa: 'Homogènies, heterogènies i mètodes de separació',
     emoji: '🔀', gradient: 'from-orange-500 to-amber-600',
     tags: ['mezclas', 'separacion', 'filtracion', 'destilacion', 'decantacion', 'mixtures', 'separation'],
-    niveles: ['primaria', 'eso'],
+    niveles: nivelesDeTema('quimica', 'mezclas-separacion'),
   },
   {
     id: 'disoluciones', disciplina: 'quimica',
@@ -37,7 +38,7 @@ const TEMAS = [
     subtitulo: 'Soluto y disolvente, solubilidad, saturación y concentración', subtituloEn: 'Solute and solvent, solubility, saturation and concentration', subtituloCa: 'Solut i dissolvent, solubilitat, saturació i concentració',
     emoji: '🧪', gradient: 'from-cyan-500 to-blue-600',
     tags: ['disolucion', 'soluto', 'disolvente', 'concentracion', 'solubilidad', 'saturada', 'molaridad', 'diluir', 'solution', 'solute', 'concentration', 'solubility'],
-    niveles: ['primaria', 'eso'],
+    niveles: nivelesDeTema('quimica', 'disoluciones'),
   },
   {
     id: 'formulacion', disciplina: 'quimica',
@@ -45,7 +46,7 @@ const TEMAS = [
     subtitulo: 'Valencias, símbolos, óxidos, hidruros, sales y cómo se nombran', subtituloEn: 'Valencies, symbols, oxides, hydrides, salts and how they are named', subtituloCa: "Valències, símbols, òxids, hidrurs, sals i com s'anomenen",
     emoji: '🔤', gradient: 'from-emerald-500 to-teal-600',
     tags: ['formulacion', 'nomenclatura', 'valencia', 'oxido', 'hidruro', 'sal', 'stock', 'iupac', 'formula', 'naming', 'valency', 'oxide'],
-    niveles: ['primaria', 'eso'],
+    niveles: nivelesDeTema('quimica', 'formulacion'),
   },
   {
     id: 'acidos-bases', disciplina: 'quimica',
@@ -53,7 +54,7 @@ const TEMAS = [
     subtitulo: 'pH, indicadores y neutralización', subtituloEn: 'pH, indicators and neutralisation', subtituloCa: 'pH, indicadors i neutralització',
     emoji: '🧴', gradient: 'from-green-500 to-emerald-700',
     tags: ['acidos', 'bases', 'ph', 'neutralizacion', 'indicadores', 'acids', 'bases', 'neutralisation'],
-    niveles: ['eso'],
+    niveles: nivelesDeTema('quimica', 'acidos-bases'),
   },
   {
     id: 'atomos-moleculas', disciplina: 'quimica',
@@ -61,7 +62,7 @@ const TEMAS = [
     subtitulo: 'Estructura atómica, elementos y compuestos', subtituloEn: 'Atomic structure, elements and compounds', subtituloCa: 'Estructura atòmica, elements i compostos',
     emoji: '⚛️', gradient: 'from-blue-500 to-indigo-700',
     tags: ['atomos', 'moleculas', 'protones', 'neutrones', 'electrones', 'atoms', 'molecules', 'electrons'],
-    niveles: ['primaria', 'eso'],
+    niveles: nivelesDeTema('quimica', 'atomos-moleculas'),
   },
   {
     id: 'rocas-minerales', disciplina: 'geologia',
@@ -69,7 +70,7 @@ const TEMAS = [
     subtitulo: 'Tipos de rocas, minerales y cómo se forman', subtituloEn: 'Rock types, minerals and how they form', subtituloCa: 'Tipus de roques, minerals i com es formen',
     emoji: '⛰️', gradient: 'from-stone-500 to-neutral-700',
     tags: ['rocas', 'minerales', 'granito', 'marmol', 'cuarzo', 'igneas', 'sedimentarias', 'metamorficas', 'geologia', 'ciclo de las rocas', 'rock cycle', 'erosion', 'rocks', 'minerals', 'geology'],
-    niveles: ['primaria', 'eso'],
+    niveles: nivelesDeTema('geologia', 'rocas-minerales'),
   },
   {
     id: 'sistema-solar', disciplina: 'geologia',
@@ -77,7 +78,7 @@ const TEMAS = [
     subtitulo: 'Planetas, astros, movimientos y características', subtituloEn: 'Planets, celestial bodies, movements and features', subtituloCa: 'Planetes, astres, moviments i característiques',
     emoji: '🌍', gradient: 'from-indigo-500 to-purple-700',
     tags: ['planetas', 'sol', 'luna', 'orbita', 'rotacion', 'traslacion', 'sistema solar', 'planets', 'solar system'],
-    niveles: ['primaria', 'eso'],
+    niveles: nivelesDeTema('geologia', 'sistema-solar'),
   },
   {
     id: 'celula', disciplina: 'biologia',
@@ -85,7 +86,7 @@ const TEMAS = [
     subtitulo: 'Tipos, orgánulos y funciones celulares', subtituloEn: 'Types, organelles and cell functions', subtituloCa: 'Tipus, orgànuls i funcions cel·lulars',
     emoji: '🔬', gradient: 'from-green-500 to-teal-700',
     tags: ['celula', 'nucleo', 'mitocondria', 'cloroplasto', 'procariota', 'eucariota', 'cell', 'organelle', 'ciclo de krebs', 'ciclo de calvin', 'ciclo celular', 'mitosis', 'krebs cycle', 'calvin cycle', 'respiracion celular', 'fotosintesis'],
-    niveles: ['eso', 'bachillerato'],
+    niveles: nivelesDeTema('biologia', 'celula'),
   },
   {
     id: 'cuerpo-humano', disciplina: 'biologia',
@@ -93,7 +94,7 @@ const TEMAS = [
     subtitulo: 'Sistemas digestivo, circulatorio, respiratorio y nervioso', subtituloEn: 'Digestive, circulatory, respiratory and nervous systems', subtituloCa: 'Sistemes digestiu, circulatori, respiratori i nerviós',
     emoji: '❤️', gradient: 'from-red-500 to-rose-700',
     tags: ['cuerpo humano', 'digestion', 'corazon', 'pulmones', 'nervioso', 'human body', 'heart', 'lungs'],
-    niveles: ['primaria', 'eso'],
+    niveles: nivelesDeTema('biologia', 'cuerpo-humano'),
   },
   {
     id: 'seres-vivos', disciplina: 'biologia',
@@ -101,7 +102,7 @@ const TEMAS = [
     subtitulo: 'Reinos, clasificación, vertebrados e invertebrados', subtituloEn: 'Kingdoms, classification, vertebrates and invertebrates', subtituloCa: 'Regnes, classificació, vertebrats i invertebrats',
     emoji: '🌱', gradient: 'from-emerald-500 to-green-700',
     tags: ['seres vivos', 'reinos', 'vertebrados', 'plantas', 'animales', 'hongos', 'living things', 'kingdoms', 'metamorfosis', 'ciclo de vida', 'rana', 'renacuajo', 'frog metamorphosis'],
-    niveles: ['primaria', 'eso'],
+    niveles: nivelesDeTema('biologia', 'seres-vivos'),
   },
   {
     id: 'ecosistemas', disciplina: 'biologia',
@@ -109,7 +110,7 @@ const TEMAS = [
     subtitulo: 'Cadenas tróficas, biomas y adaptaciones', subtituloEn: 'Food chains, biomes and adaptations', subtituloCa: 'Cadenes tròfiques, biomes i adaptacions',
     emoji: '🌍', gradient: 'from-teal-500 to-emerald-700',
     tags: ['ecosistema', 'cadena trofica', 'bioma', 'biodiversidad', 'habitat', 'ecosystems', 'food chain', 'biome', 'ciclo del nitrogeno', 'nitrogen cycle', 'bacterias', 'fijacion del nitrogeno'],
-    niveles: ['primaria', 'eso', 'bachillerato'],
+    niveles: nivelesDeTema('biologia', 'ecosistemas'),
   },
   {
     id: 'genetica', disciplina: 'biologia',
@@ -117,7 +118,7 @@ const TEMAS = [
     subtitulo: 'ADN, genes, herencia y mutaciones', subtituloEn: 'DNA, genes, heredity and mutations', subtituloCa: 'ADN, gens, herència i mutacions',
     emoji: '🧬', gradient: 'from-purple-500 to-violet-700',
     tags: ['genetica', 'adn', 'cromosomas', 'genes', 'herencia', 'mendel', 'genetics', 'dna', 'chromosomes'],
-    niveles: ['eso'],
+    niveles: nivelesDeTema('biologia', 'genetica'),
   },
   {
     id: 'nutricion', disciplina: 'biologia',
@@ -125,7 +126,7 @@ const TEMAS = [
     subtitulo: 'Macronutrientes, vitaminas y dieta saludable', subtituloEn: 'Macronutrients, vitamins and healthy diet', subtituloCa: 'Macronutrients, vitamines i dieta saludable',
     emoji: '🥗', gradient: 'from-lime-500 to-green-600',
     tags: ['nutricion', 'vitaminas', 'proteinas', 'carbohidratos', 'dieta', 'alimentacion', 'nutrition', 'vitamins', 'diet'],
-    niveles: ['primaria', 'eso'],
+    niveles: nivelesDeTema('biologia', 'nutricion'),
   },
   {
     id: 'fuerzas', disciplina: 'fisica',
@@ -133,7 +134,7 @@ const TEMAS = [
     subtitulo: 'Leyes de Newton, velocidad, gravedad y presión', subtituloEn: 'Newton\'s laws, speed, gravity and pressure', subtituloCa: 'Lleis de Newton, velocitat, gravetat i pressió',
     emoji: '⚡', gradient: 'from-yellow-500 to-orange-600',
     tags: ['newton', 'fuerza', 'velocidad', 'gravedad', 'inercia', 'rozamiento', 'pressure', 'forces', 'motion', 'gravity'],
-    niveles: ['primaria', 'eso'],
+    niveles: nivelesDeTema('fisica', 'fuerzas'),
   },
   {
     id: 'energia', disciplina: 'fisica',
@@ -141,7 +142,7 @@ const TEMAS = [
     subtitulo: 'Tipos, transformaciones y fuentes de energía renovable', subtituloEn: 'Types, transformations and renewable energy sources', subtituloCa: 'Tipus, transformacions i fonts d\'energia renovable',
     emoji: '🔋', gradient: 'from-green-500 to-teal-600',
     tags: ['energia', 'cinetica', 'potencial', 'renovable', 'solar', 'nuclear', 'rendimiento', 'energy', 'renewable'],
-    niveles: ['primaria', 'eso'],
+    niveles: nivelesDeTema('fisica', 'energia'),
   },
   {
     id: 'electricidad', disciplina: 'fisica',
@@ -149,7 +150,7 @@ const TEMAS = [
     subtitulo: 'Circuitos, corriente, tensión, resistencia y magnetismo', subtituloEn: 'Circuits, current, voltage, resistance and magnetism', subtituloCa: 'Circuits, corrent, tensió, resistència i magnetisme',
     emoji: '💡', gradient: 'from-amber-500 to-yellow-600',
     tags: ['electricidad', 'circuito', 'corriente', 'voltaje', 'resistencia', 'ohm', 'iman', 'electricity', 'circuit', 'ohm law'],
-    niveles: ['primaria', 'eso'],
+    niveles: nivelesDeTema('fisica', 'electricidad'),
   },
   {
     id: 'calor-temperatura', disciplina: 'fisica',
@@ -157,7 +158,7 @@ const TEMAS = [
     subtitulo: 'Calor frente a temperatura, escalas, dilatación, transmisión y calor específico', subtituloEn: 'Heat versus temperature, scales, expansion, transfer and specific heat', subtituloCa: 'Calor enfront de temperatura, escales, dilatació, transmissió i calor específica',
     emoji: '🌡️', gradient: 'from-orange-500 to-red-600',
     tags: ['calor', 'temperatura', 'kelvin', 'celsius', 'dilatacion', 'conduccion', 'conveccion', 'radiacion', 'equilibrio', 'heat', 'temperature', 'expansion'],
-    niveles: ['primaria', 'eso'],
+    niveles: nivelesDeTema('fisica', 'calor-temperatura'),
   },
   {
     id: 'presion-fluidos', disciplina: 'fisica',
@@ -165,7 +166,7 @@ const TEMAS = [
     subtitulo: 'Presión, hidrostática, Arquímedes, Pascal y presión atmosférica', subtituloEn: 'Pressure, hydrostatics, Archimedes, Pascal and atmospheric pressure', subtituloCa: 'Pressió, hidrostàtica, Arquimedes, Pascal i pressió atmosfèrica',
     emoji: '🎈', gradient: 'from-sky-500 to-indigo-600',
     tags: ['presion', 'pascal', 'arquimedes', 'empuje', 'flotacion', 'hidrostatica', 'atmosferica', 'fluidos', 'pressure', 'buoyancy', 'archimedes', 'floating'],
-    niveles: ['primaria', 'eso'],
+    niveles: nivelesDeTema('fisica', 'presion-fluidos'),
   },
   {
     id: 'ondas-luz', disciplina: 'fisica',
@@ -173,7 +174,7 @@ const TEMAS = [
     subtitulo: 'Sonido, espectro electromagnético, reflexión y refracción', subtituloEn: 'Sound, electromagnetic spectrum, reflection and refraction', subtituloCa: 'So, espectre electromagnètic, reflexió i refracció',
     emoji: '🌊', gradient: 'from-blue-500 to-cyan-600',
     tags: ['ondas', 'luz', 'sonido', 'reflexion', 'refraccion', 'espectro', 'ultrasonidos', 'waves', 'light', 'sound', 'spectrum'],
-    niveles: ['primaria', 'eso'],
+    niveles: nivelesDeTema('fisica', 'ondas-luz'),
   },
 ]
 

@@ -47,6 +47,18 @@ export const LEVELS = Object.fromEntries(
 // Se declaran con el mapa `formatos: { <formato>: <examId> }` dentro del tema,
 // que además permite ids irregulares (ortografía no sigue el patrón de
 // gramática). El formato solo aporta la etiqueta; el examen sale del tema.
+//
+// `extra.niveles` es el CURSO en el que se da el tema (Primaria / ESO /
+// Bachillerato), y no tiene nada que ver con la dificultad de un formato: un
+// examen tipo test no tiene dificultad (`usesLevel: false`) y aun así su tema
+// se da en un curso concreto. Confundir los dos ejes es un error real que ya
+// se cometió una vez — ver el test de regresión en temario.test.js.
+//
+// Hasta septiembre de 2026 este dato vivía en el `const TEMAS` privado de
+// cada página de materia (QuimicaIndex.jsx, GeografiaIndex.jsx…), duplicado y
+// fuera del alcance de quien dice ser la fuente única. Ahora vive aquí y esas
+// páginas lo leen con nivelesDeTema(). Un tema SIN niveles declarados vale
+// para cualquier curso: si no consta, no se esconde.
 const examTema = (formatos, extra = {}) => ({ niveles: [], formatos, ...extra })
 const examFormato = (label, emoji) => ({ label, emoji, usesLevel: false, tracksTopic: true })
 // Examen COMPARTIDO por varios temas (p.ej. el mismo examen de GeoMapa sirve
@@ -170,31 +182,31 @@ export const TOPIC_CATALOG = {
         trayectoria: 'trayectoria-examen',
         portero: 'portero-examen',
         rectas: 'rectas-test',
-      }),
+      }, { niveles: ['eso', 'bachillerato'] }),
       algebra: examTema({
         teoria: 'algebra',
         'balanza-algebraica': 'balanza-algebraica-test',
         'segundo-grado': 'ecuaciones-segundo-grado-test',
         sistemas: 'sistemas-ecuaciones-test',
-      }),
-      geometria: examTema({ teoria: 'geometria', 'figuras-compuestas': 'figuras-compuestas' }),
-      fracciones: examTema({ teoria: 'fracciones', 'reparte-pastel': 'reparte-pastel-test' }),
-      porcentajes: examTema({ teoria: 'porcentajes' }),
+      }, { niveles: ['eso', 'bachillerato'] }),
+      geometria: examTema({ teoria: 'geometria', 'figuras-compuestas': 'figuras-compuestas' }, { niveles: ['primaria', 'eso', 'bachillerato'] }),
+      fracciones: examTema({ teoria: 'fracciones', 'reparte-pastel': 'reparte-pastel-test' }, { niveles: ['primaria', 'eso'] }),
+      porcentajes: examTema({ teoria: 'porcentajes' }, { niveles: ['primaria', 'eso'] }),
       estadistica: examTema({
         teoria: 'estadistica',
         'estadistico-media': 'estadistico-media-test',
         'estadistico-mediana': 'estadistico-mediana-test',
         'estadistico-moda': 'estadistico-moda-test',
         'estadistico-rango': 'estadistico-rango-test',
-      }),
+      }, { niveles: ['primaria', 'eso', 'bachillerato'] }),
       graficos: examTema({
         'grafico-tendencia': 'lee-grafico-tendencia',
         'grafico-variacion': 'lee-grafico-variacion',
         'grafico-relacion': 'lee-grafico-relacion',
         'grafico-medida': 'lee-grafico-medida',
         'grafico-tabla': 'lee-grafico-tabla',
-      }),
-      'enteros-racionales': examTema({ teoria: 'enteros-racionales', 'salta-recta': 'salta-recta-test' }),
+      }, { niveles: ['primaria', 'eso', 'bachillerato'] }),
+      'enteros-racionales': examTema({ teoria: 'enteros-racionales', 'salta-recta': 'salta-recta-test' }, { niveles: ['eso'] }),
     },
     formatos: {
       // Formatos por examen (temas con página propia)
@@ -254,26 +266,26 @@ export const TOPIC_CATALOG = {
   // idénticos ("Sustantivos" salía dos veces).
   lengua: {
     temas: {
-      sustantivos: examTema({ senalar: 'frases-sustantivos-test', test: 'espanol-gramatica-sustantivos-test' }),
-      verbos: examTema({ senalar: 'frases-verbos-test', test: 'espanol-gramatica-verbos-test' }),
-      adjetivos: examTema({ senalar: 'frases-adjetivos-test', test: 'espanol-gramatica-adjetivos-test' }),
-      determinantes: examTema({ senalar: 'frases-determinantes-test', test: 'espanol-gramatica-determinantes-test' }),
-      pronombres: examTema({ senalar: 'frases-pronombres-test', test: 'espanol-gramatica-pronombres-test' }),
-      adverbios: examTema({ senalar: 'frases-adverbios-test', test: 'espanol-gramatica-adverbios-test' }),
-      nexos: examTema({ senalar: 'frases-nexos-test', test: 'espanol-gramatica-nexos-test' }),
-      morfologia: examTema({ senalar: 'frases-morfologia-test', test: 'espanol-gramatica-morfologia-test' }),
-      sintaxis: examTema({ senalar: 'frases-sintaxis-test', test: 'espanol-gramatica-sintaxis-test' }),
-      complementos: examTema({ senalar: 'frases-complementos-test' }),
-      clases: examTema({ senalar: 'frases-clases-test' }),
-      acentuacion: examTema({ test: 'espanol-ortografia-acentuacion-test' }),
-      bv: examTema({ test: 'espanol-ortografia-bv-test' }),
-      gj: examTema({ test: 'espanol-ortografia-gj-test' }),
-      puntuacion: examTema({ test: 'espanol-ortografia-puntuacion-test' }),
-      literatura: examTema({ test: 'espanol-literatura-test' }),
+      sustantivos: examTema({ senalar: 'frases-sustantivos-test', test: 'espanol-gramatica-sustantivos-test' }, { niveles: ['primaria', 'eso'] }),
+      verbos: examTema({ senalar: 'frases-verbos-test', test: 'espanol-gramatica-verbos-test' }, { niveles: ['primaria', 'eso'] }),
+      adjetivos: examTema({ senalar: 'frases-adjetivos-test', test: 'espanol-gramatica-adjetivos-test' }, { niveles: ['primaria', 'eso'] }),
+      determinantes: examTema({ senalar: 'frases-determinantes-test', test: 'espanol-gramatica-determinantes-test' }, { niveles: ['primaria', 'eso'] }),
+      pronombres: examTema({ senalar: 'frases-pronombres-test', test: 'espanol-gramatica-pronombres-test' }, { niveles: ['primaria', 'eso'] }),
+      adverbios: examTema({ senalar: 'frases-adverbios-test', test: 'espanol-gramatica-adverbios-test' }, { niveles: ['primaria', 'eso'] }),
+      nexos: examTema({ senalar: 'frases-nexos-test', test: 'espanol-gramatica-nexos-test' }, { niveles: ['primaria', 'eso'] }),
+      morfologia: examTema({ senalar: 'frases-morfologia-test', test: 'espanol-gramatica-morfologia-test' }, { niveles: ['primaria', 'eso'] }),
+      sintaxis: examTema({ senalar: 'frases-sintaxis-test', test: 'espanol-gramatica-sintaxis-test' }, { niveles: ['eso', 'bachillerato'] }),
+      complementos: examTema({ senalar: 'frases-complementos-test' }, { niveles: ['eso', 'bachillerato'] }),
+      clases: examTema({ senalar: 'frases-clases-test' }, { niveles: ['primaria', 'eso'] }),
+      acentuacion: examTema({ test: 'espanol-ortografia-acentuacion-test' }, { niveles: ['primaria', 'eso'] }),
+      bv: examTema({ test: 'espanol-ortografia-bv-test' }, { niveles: ['primaria', 'eso'] }),
+      gj: examTema({ test: 'espanol-ortografia-gj-test' }, { niveles: ['primaria', 'eso'] }),
+      puntuacion: examTema({ test: 'espanol-ortografia-puntuacion-test' }, { niveles: ['primaria', 'eso'] }),
+      literatura: examTema({ test: 'espanol-literatura-test' }, { niveles: ['eso', 'bachillerato'] }),
       // Un tema, dos formatos: el juego (arcade, por tiempo) y su examen (sin
       // reloj, con nota). Los dos sobre textos EN CASTELLANO: el inglés cuelga
       // de Inglés → spelling, y el catalán no tiene tema porque no hay materia.
-      correccion: examTema({ corregirExamen: 'corrige-el-texto-test' }),
+      correccion: examTema({ corregirExamen: 'corrige-el-texto-test' }, { niveles: ['primaria', 'eso', 'bachillerato'] }),
     },
     formatos: {
       // El juego mezcla clases de palabra, género y número: su sitio es el tema
@@ -321,17 +333,17 @@ export const TOPIC_CATALOG = {
   geografia: {
     stateKey: 'region', // qué clave de location.state espera el examen
     temas: {
-      europa: examTema({ pistas: compartido('geografia-examen'), mapa: compartido('geomapa-examen'), coordenadas: compartido('coordenadas-test') }),
-      america: examTema({ pistas: compartido('geografia-examen'), mapa: compartido('geomapa-examen'), coordenadas: compartido('coordenadas-test') }),
-      asia: examTema({ pistas: compartido('geografia-examen'), mapa: compartido('geomapa-examen'), coordenadas: compartido('coordenadas-test') }),
-      africa: examTema({ pistas: compartido('geografia-examen'), mapa: compartido('geomapa-examen'), coordenadas: compartido('coordenadas-test') }),
-      oceania: examTema({ pistas: compartido('geografia-examen'), mapa: compartido('geomapa-examen'), coordenadas: compartido('coordenadas-test') }),
-      espana: examTema({ mapa: 'geomapa-espana-examen' }),
-      eeuu: examTema({ mapa: 'geomapa-eeuu-examen' }),
+      europa: examTema({ pistas: compartido('geografia-examen'), mapa: compartido('geomapa-examen'), coordenadas: compartido('coordenadas-test') }, { niveles: ['eso'] }),
+      america: examTema({ pistas: compartido('geografia-examen'), mapa: compartido('geomapa-examen'), coordenadas: compartido('coordenadas-test') }, { niveles: ['eso'] }),
+      asia: examTema({ pistas: compartido('geografia-examen'), mapa: compartido('geomapa-examen'), coordenadas: compartido('coordenadas-test') }, { niveles: ['eso', 'bachillerato'] }),
+      africa: examTema({ pistas: compartido('geografia-examen'), mapa: compartido('geomapa-examen'), coordenadas: compartido('coordenadas-test') }, { niveles: ['bachillerato'] }),
+      oceania: examTema({ pistas: compartido('geografia-examen'), mapa: compartido('geomapa-examen'), coordenadas: compartido('coordenadas-test') }, { niveles: ['bachillerato'] }),
+      espana: examTema({ mapa: 'geomapa-espana-examen' }, { niveles: ['primaria'] }),
+      eeuu: examTema({ mapa: 'geomapa-eeuu-examen' }, { niveles: ['primaria', 'eso'] }),
       // El único tema de geografía que no es una región: aquí no se señala
       // nada en el mapa, se pregunta por los conceptos (relieve, ríos, clima).
-      fisica: examTema({ teoria: 'geografia-fisica-test' }),
-      humana: examTema({ teoria: 'geografia-humana-test' }),
+      fisica: examTema({ teoria: 'geografia-fisica-test' }, { niveles: ['primaria', 'eso'] }),
+      humana: examTema({ teoria: 'geografia-humana-test' }, { niveles: ['primaria', 'eso'] }),
     },
     formatos: {
       pistas: examFormato({ es: 'Adivina por pistas', en: 'Guess from clues', ca: 'Endevina per pistes' }, '🌍'),
@@ -350,12 +362,12 @@ export const TOPIC_CATALOG = {
   // el examen teórico y, en los temas que tienen juego, su examen.
   fisica: {
     temas: {
-      fuerzas: examTema({ teoria: 'fuerzas', 'fuerza-neta': 'fuerza-neta-test', balanza: 'balanza-test' }),
-      energia: examTema({ teoria: 'energia' }),
-      electricidad: examTema({ teoria: 'electricidad', circuito: 'circuito-cerrado-test' }),
-      'ondas-luz': examTema({ teoria: 'ondas-luz' }),
-      'presion-fluidos': examTema({ teoria: 'presion-fluidos' }),
-      'calor-temperatura': examTema({ teoria: 'calor-temperatura' }),
+      fuerzas: examTema({ teoria: 'fuerzas', 'fuerza-neta': 'fuerza-neta-test', balanza: 'balanza-test' }, { niveles: ['primaria', 'eso'] }),
+      energia: examTema({ teoria: 'energia' }, { niveles: ['primaria', 'eso'] }),
+      electricidad: examTema({ teoria: 'electricidad', circuito: 'circuito-cerrado-test' }, { niveles: ['primaria', 'eso'] }),
+      'ondas-luz': examTema({ teoria: 'ondas-luz' }, { niveles: ['primaria', 'eso'] }),
+      'presion-fluidos': examTema({ teoria: 'presion-fluidos' }, { niveles: ['primaria', 'eso'] }),
+      'calor-temperatura': examTema({ teoria: 'calor-temperatura' }, { niveles: ['primaria', 'eso'] }),
     },
     formatos: {
       teoria: examFormato({ es: 'Teoría (tipo test)', en: 'Theory (quiz)', ca: 'Teoria (tipus test)' }, '📝'),
@@ -367,13 +379,13 @@ export const TOPIC_CATALOG = {
 
   quimica: {
     temas: {
-      'atomos-moleculas': examTema({ teoria: 'atomos-moleculas', 'balanza-ecuaciones': 'balanza-ecuaciones-test' }),
-      'tabla-periodica': examTema({ teoria: 'tabla-periodica', 'encuentra-elemento': 'encuentra-elemento-test' }),
-      'estados-materia': examTema({ teoria: 'estados-materia', 'estado-test': 'cambio-estado-test', 'nombres-cambio': 'nombres-cambio-test' }),
-      'mezclas-separacion': examTema({ teoria: 'mezclas-separacion' }),
-      'acidos-bases': examTema({ teoria: 'acidos-bases' }),
-      formulacion: examTema({ teoria: 'formulacion' }),
-      disoluciones: examTema({ teoria: 'disoluciones' }),
+      'atomos-moleculas': examTema({ teoria: 'atomos-moleculas', 'balanza-ecuaciones': 'balanza-ecuaciones-test' }, { niveles: ['primaria', 'eso'] }),
+      'tabla-periodica': examTema({ teoria: 'tabla-periodica', 'encuentra-elemento': 'encuentra-elemento-test' }, { niveles: ['primaria', 'eso', 'bachillerato'] }),
+      'estados-materia': examTema({ teoria: 'estados-materia', 'estado-test': 'cambio-estado-test', 'nombres-cambio': 'nombres-cambio-test' }, { niveles: ['primaria', 'eso'] }),
+      'mezclas-separacion': examTema({ teoria: 'mezclas-separacion' }, { niveles: ['primaria', 'eso'] }),
+      'acidos-bases': examTema({ teoria: 'acidos-bases' }, { niveles: ['eso'] }),
+      formulacion: examTema({ teoria: 'formulacion' }, { niveles: ['primaria', 'eso'] }),
+      disoluciones: examTema({ teoria: 'disoluciones' }, { niveles: ['primaria', 'eso'] }),
     },
     formatos: {
       teoria: examFormato({ es: 'Teoría (tipo test)', en: 'Theory (quiz)', ca: 'Teoria (tipus test)' }, '📝'),
@@ -396,13 +408,13 @@ export const TOPIC_CATALOG = {
 
   biologia: {
     temas: {
-      celula: examTema({ teoria: 'celula', microscopioTest: 'microscopio-test' }),
-      'cuerpo-humano': examTema({ teoria: 'cuerpo-humano', rayosX: 'rayos-x-test' }),
-      'seres-vivos': examTema({ teoria: 'seres-vivos' }),
-      ecosistemas: examTema({ teoria: 'ecosistemas', cadena: 'cadena-alimentaria-test' }),
-      genetica: examTema({ teoria: 'genetica', 'punnett': 'genetica-test' }),
-      nutricion: examTema({ teoria: 'nutricion' }),
-      evolucion: examTema({ teoria: 'evolucion' }),
+      celula: examTema({ teoria: 'celula', microscopioTest: 'microscopio-test' }, { niveles: ['eso', 'bachillerato'] }),
+      'cuerpo-humano': examTema({ teoria: 'cuerpo-humano', rayosX: 'rayos-x-test' }, { niveles: ['primaria', 'eso'] }),
+      'seres-vivos': examTema({ teoria: 'seres-vivos' }, { niveles: ['primaria', 'eso'] }),
+      ecosistemas: examTema({ teoria: 'ecosistemas', cadena: 'cadena-alimentaria-test' }, { niveles: ['primaria', 'eso', 'bachillerato'] }),
+      genetica: examTema({ teoria: 'genetica', 'punnett': 'genetica-test' }, { niveles: ['eso'] }),
+      nutricion: examTema({ teoria: 'nutricion' }, { niveles: ['primaria', 'eso'] }),
+      evolucion: examTema({ teoria: 'evolucion' }, { niveles: ['eso', 'bachillerato'] }),
     },
     formatos: {
       teoria: examFormato({ es: 'Teoría (tipo test)', en: 'Theory (quiz)', ca: 'Teoria (tipus test)' }, '📝'),
@@ -425,9 +437,9 @@ export const TOPIC_CATALOG = {
 
   geologia: {
     temas: {
-      'sistema-solar': examTema({ teoria: 'sistema-solar', orbita: 'orbita-test' }),
-      'rocas-minerales': examTema({ teoria: 'rocas-minerales' }),
-      'placas-tectonicas': examTema({ teoria: 'placas-tectonicas' }),
+      'sistema-solar': examTema({ teoria: 'sistema-solar', orbita: 'orbita-test' }, { niveles: ['primaria', 'eso'] }),
+      'rocas-minerales': examTema({ teoria: 'rocas-minerales' }, { niveles: ['primaria', 'eso'] }),
+      'placas-tectonicas': examTema({ teoria: 'placas-tectonicas' }, { niveles: ['eso', 'bachillerato'] }),
     },
     formatos: {
       teoria: examFormato({ es: 'Teoría (tipo test)', en: 'Theory (quiz)', ca: 'Teoria (tipus test)' }, '📝'),
@@ -439,25 +451,25 @@ export const TOPIC_CATALOG = {
   // gramática (familia grammar-*) para los tiempos verbales y estructuras.
   ingles: {
     temas: {
-      nouns: examTema({ senalar: 'ingles-pos-nouns-test' }),
-      verbs: examTema({ senalar: 'ingles-pos-verbs-test' }),
-      adjectives: examTema({ senalar: 'ingles-pos-adjectives-test' }),
-      adverbs: examTema({ senalar: 'ingles-pos-adverbs-test' }),
-      pronouns: examTema({ senalar: 'ingles-pos-pronouns-test' }),
-      connectors: examTema({ senalar: 'ingles-pos-connectors-test' }),
-      'present-simple': examTema({ test: 'ingles-grammar-present-simple-test', piezasExamen: 'ingles-piezas-present-simple-test' }),
-      'past-simple': examTema({ test: 'ingles-grammar-past-simple-test', piezasExamen: 'ingles-piezas-past-simple-test' }),
-      'present-perfect': examTema({ test: 'ingles-grammar-present-perfect-test', piezasExamen: 'ingles-piezas-present-perfect-test' }),
-      articles: examTema({ test: 'ingles-grammar-articles-test', piezasExamen: 'ingles-piezas-articles-test' }),
-      passive: examTema({ test: 'ingles-grammar-passive-test', piezasExamen: 'ingles-piezas-passive-test' }),
+      nouns: examTema({ senalar: 'ingles-pos-nouns-test' }, { niveles: ['primaria', 'eso'] }),
+      verbs: examTema({ senalar: 'ingles-pos-verbs-test' }, { niveles: ['primaria', 'eso'] }),
+      adjectives: examTema({ senalar: 'ingles-pos-adjectives-test' }, { niveles: ['primaria', 'eso'] }),
+      adverbs: examTema({ senalar: 'ingles-pos-adverbs-test' }, { niveles: ['eso'] }),
+      pronouns: examTema({ senalar: 'ingles-pos-pronouns-test' }, { niveles: ['primaria', 'eso'] }),
+      connectors: examTema({ senalar: 'ingles-pos-connectors-test' }, { niveles: ['eso', 'bachillerato'] }),
+      'present-simple': examTema({ test: 'ingles-grammar-present-simple-test', piezasExamen: 'ingles-piezas-present-simple-test' }, { niveles: ['primaria', 'eso'] }),
+      'past-simple': examTema({ test: 'ingles-grammar-past-simple-test', piezasExamen: 'ingles-piezas-past-simple-test' }, { niveles: ['eso'] }),
+      'present-perfect': examTema({ test: 'ingles-grammar-present-perfect-test', piezasExamen: 'ingles-piezas-present-perfect-test' }, { niveles: ['eso', 'bachillerato'] }),
+      articles: examTema({ test: 'ingles-grammar-articles-test', piezasExamen: 'ingles-piezas-articles-test' }, { niveles: ['primaria', 'eso'] }),
+      passive: examTema({ test: 'ingles-grammar-passive-test', piezasExamen: 'ingles-piezas-passive-test' }, { niveles: ['eso', 'bachillerato'] }),
       // El orden de las palabras es un tema propio del temario, no un formato
       // de los demás: su examen mezcla adjetivos, adverbios y preguntas a
       // propósito, así que colgarlo de "Adjectives" o "Present Simple" daría
       // al profesor un examen que no va de ese tema.
-      'word-order': examTema({ ordenar: 'ordena-frase-test' }),
+      'word-order': examTema({ ordenar: 'ordena-frase-test' }, { niveles: ['primaria', 'eso'] }),
       // Corrige el Texto con el banco inglés: sus faltas son las del inglés
       // (dobles consonantes, letras mudas, their/there), no las del castellano.
-      spelling: examTema({ corregirExamen: 'corrige-el-texto-en-test' }),
+      spelling: examTema({ corregirExamen: 'corrige-el-texto-en-test' }, { niveles: ['primaria', 'eso'] }),
     },
     formatos: {
       // Único formato por MECÁNICA de la materia: un solo juego para los cinco
@@ -499,8 +511,8 @@ export const TOPIC_CATALOG = {
   // estructura ya exista cuando se añadan más formatos o temas.
   economia: {
     temas: {
-      'finanzas-personales': examTema({ examen: 'finanzas-personales' }),
-      'punto-equilibrio': examTema({ examen: 'punto-equilibrio' }),
+      'finanzas-personales': examTema({ examen: 'finanzas-personales' }, { niveles: ['eso', 'bachillerato'] }),
+      'punto-equilibrio': examTema({ examen: 'punto-equilibrio' }, { niveles: ['bachillerato'] }),
     },
     formatos: {
       // Spicy no lleva `temas`: con dos temas en la materia saldría también en
@@ -516,8 +528,8 @@ export const TOPIC_CATALOG = {
 
   musica: {
     temas: {
-      musica: examTema({ examen: 'musica' }),
-      ritmo: examTema({ examen: 'musica-ritmo-test' }),
+      musica: examTema({ examen: 'musica' }, { niveles: ['primaria', 'eso'] }),
+      ritmo: examTema({ examen: 'musica-ritmo-test' }, { niveles: ['primaria', 'eso'] }),
     },
     formatos: {
       pentagrama: {
@@ -530,9 +542,9 @@ export const TOPIC_CATALOG = {
 
   'vida-practica': {
     temas: {
-      'primeros-auxilios': examTema({ examen: 'primeros-auxilios' }),
-      'seguridad-vial': examTema({ examen: 'seguridad-vial' }),
-      'internet-seguro': examTema({ examen: 'internet-seguro' }),
+      'primeros-auxilios': examTema({ examen: 'primeros-auxilios' }, { niveles: ['primaria', 'eso', 'bachillerato'] }),
+      'seguridad-vial': examTema({ examen: 'seguridad-vial' }, { niveles: ['primaria', 'eso'] }),
+      'internet-seguro': examTema({ examen: 'internet-seguro' }, { niveles: ['primaria', 'eso', 'bachillerato'] }),
     },
     formatos: {
       reaccion: {
@@ -554,6 +566,17 @@ export function hasTopics(materia) {
 
 export function topicIds(materia) {
   return Object.keys(TOPIC_CATALOG[materia]?.temas ?? {})
+}
+
+// El CURSO en el que se da un tema (no la dificultad de un formato — ver el
+// comentario de examTema). [] significa "no consta", y por la regla de oro un
+// tema sin curso declarado vale para todos.
+//
+// Lo usan las páginas de materia para no volver a escribir esta lista a mano:
+// pasan `niveles: nivelesDeTema('quimica', 'disoluciones')` a su TEMAS y
+// TemarioGrid filtra igual que siempre, pero con un solo sitio que mantener.
+export function nivelesDeTema(materia, tema) {
+  return TOPIC_CATALOG[materia]?.temas?.[tema]?.niveles ?? []
 }
 
 // Niveles en los que ese formato se puede jugar para ese tema. [] si el

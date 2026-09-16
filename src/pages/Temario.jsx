@@ -3,7 +3,9 @@ import { Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
 import { getStats } from '../lib/activity'
-import { construirTemario, contarTemario, temasTocados } from '../lib/temario'
+import { useNivel } from '../lib/nivel'
+import { construirTemario, filtrarPorNivel, contarTemario, temasTocados } from '../lib/temario'
+import NivelPicker from '../components/NivelPicker'
 import SEOHead from '../components/SEOHead'
 
 // ── /temario: la página que enseña TODO ──────────────────────────────────────
@@ -127,6 +129,7 @@ function Materia({ materia, abierta, onToggle, tocados, localPath, tr }) {
 export default function Temario() {
   const { lang, tr, localPath } = useLang()
   const { user } = useAuth()
+  const nivel = useNivel()
   const [abiertas, setAbiertas] = useState(() => new Set())
   const [stats, setStats] = useState(null)
 
@@ -136,11 +139,8 @@ export default function Temario() {
 
   // Reconstruir el mapa entero son ~223 combinaciones: barato, pero no hace
   // falta repetirlo en cada render por cambiar un desplegable.
-  // Sin filtrar por curso, y es deliberado: solo 21 de los 98 temas declaran
-  // curso en el catálogo, así que un selector aquí dejaría diez materias
-  // intactas sin decirlo. Ver filtrarPorNivel() en lib/temario.js para qué
-  // falta para encenderlo. Esta página promete el mapa COMPLETO; que lo sea.
-  const temario = useMemo(() => construirTemario(lang), [lang])
+  const completo = useMemo(() => construirTemario(lang), [lang])
+  const temario = useMemo(() => filtrarPorNivel(completo, nivel), [completo, nivel])
   const cifras = useMemo(() => contarTemario(temario), [temario])
   const tocados = useMemo(() => temasTocados(stats), [stats])
 
@@ -178,11 +178,17 @@ export default function Temario() {
           {tr({ es: 'Todo lo que hay en Tuthor', en: 'Everything in Tuthor', ca: 'Tot el que hi ha a Tuthor' })}
         </h1>
         <p className="text-white/45 text-sm mt-1.5">
-          {tr({
-            es: 'El índice completo, de Primaria a Bachillerato. Toca una materia para desplegarla.',
-            en: 'The complete index, from primary to sixth form. Tap a subject to open it.',
-            ca: "L'índex complet, de Primària a Batxillerat. Toca una matèria per desplegar-la.",
-          })}
+          {nivel
+            ? tr({
+                es: 'Lo que toca en tu curso. Toca una materia para desplegarla.',
+                en: 'What your year covers. Tap a subject to open it.',
+                ca: 'El que toca al teu curs. Toca una matèria per desplegar-la.',
+              })
+            : tr({
+                es: 'El índice completo, de Primaria a Bachillerato. Toca una materia para desplegarla.',
+                en: 'The complete index, from primary to sixth form. Tap a subject to open it.',
+                ca: "L'índex complet, de Primària a Batxillerat. Toca una matèria per desplegar-la.",
+              })}
         </p>
       </header>
 
@@ -195,7 +201,8 @@ export default function Temario() {
         <Cifra n={cifras.actividades} label={tr({ es: 'actividades', en: 'activities', ca: 'activitats' })} />
       </div>
 
-      <div className="flex flex-wrap items-center gap-3 justify-end mb-4">
+      <div className="flex flex-wrap items-center gap-3 justify-between mb-4">
+        <NivelPicker variant="inline" />
         <button
           onClick={() => setAbiertas(todasAbiertas ? new Set() : new Set(temario.map(m => m.id)))}
           className="text-violet-300/80 hover:text-violet-300 text-sm font-bold transition-colors"

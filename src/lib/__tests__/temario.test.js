@@ -5,10 +5,11 @@
 // crudo— así que lo que más se vigila es la cobertura: que no se pierda nada
 // por el camino y que nada llegue a pantalla sin traducir.
 import { describe, it, expect } from 'vitest'
+import { readFileSync } from 'node:fs'
 import {
   construirTemario, filtrarPorNivel, contarTemario, temasTocados,
 } from '../temario.js'
-import { TOPIC_SUBJECT_IDS, topicIds, topicFormats } from '../topicCatalog.js'
+import { TOPIC_SUBJECT_IDS, topicIds, topicFormats, nivelesDeTema } from '../topicCatalog.js'
 import { NIVEL_IDS } from '../nivel.js'
 
 const TEMARIO_ES = construirTemario('es')
@@ -75,6 +76,59 @@ describe('cada actividad lleva a algún sitio', () => {
       }
     }
   })
+})
+
+describe('todo tema declara su curso', () => {
+  it('ninguno de los 98 se queda sin niveles', () => {
+    // Un tema sin curso declarado sale en los tres cursos y nadie se entera:
+    // el filtro no falla, simplemente deja de filtrar ese tema. Por eso se
+    // exige explícitamente en vez de dejarlo al criterio de quien lo añada.
+    const sinCurso = []
+    for (const m of TOPIC_SUBJECT_IDS) {
+      for (const t of topicIds(m)) {
+        if (nivelesDeTema(m, t).length === 0) sinCurso.push(`${m}/${t}`)
+      }
+    }
+    expect(
+      sinCurso,
+      `Temas sin curso: ${sinCurso.join(', ')}. Añade { niveles: [...] } en topicCatalog.js — ` +
+      'sin él, el tema aparece en Primaria, ESO y Bachillerato a la vez.',
+    ).toEqual([])
+  })
+
+  it('los niveles declarados son ids válidos, no inventados', () => {
+    for (const m of TOPIC_SUBJECT_IDS) {
+      for (const t of topicIds(m)) {
+        for (const n of nivelesDeTema(m, t)) {
+          expect(NIVEL_IDS, `${m}/${t} declara un curso inexistente: ${n}`).toContain(n)
+        }
+      }
+    }
+  })
+})
+
+describe('el curso de un tema vive SOLO en el catálogo', () => {
+  // Hasta septiembre de 2026 cada página de materia llevaba su propia lista de
+  // `niveles` escrita a mano, fuera del alcance del catálogo que dice ser la
+  // fuente única. Eran dos verdades para el mismo dato, y solo una la veía
+  // /temario. Este test impide que vuelva a aparecer una tercera.
+  const HUBS = [
+    'QuimicaIndex', 'GeografiaIndex', 'HistoriaIndex',
+    'EspanolGramaticaIndex', 'EspanolOrtografiaIndex', 'InglesGrammarIndex', 'MusicaIndex',
+  ]
+
+  for (const hub of HUBS) {
+    it(`${hub} no escribe niveles a mano`, () => {
+      const src = readFileSync(new URL(`../../pages/${hub}.jsx`, import.meta.url), 'utf8')
+      const aMano = src.match(/niveles:\s*\[\s*'[^\]]*\]/g) ?? []
+      expect(
+        aMano,
+        `${hub} declara el curso a mano: ${aMano.join(' | ')}. ` +
+        "Usa nivelesDeTema('<materia>', '<tema>') de lib/topicCatalog.js — " +
+        'si el curso vive en dos sitios, /temario y la rejilla acaban diciendo cosas distintas.',
+      ).toEqual([])
+    })
+  }
 })
 
 describe('los niveles del tema salen del catálogo, no de sus formatos', () => {
