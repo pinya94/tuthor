@@ -642,6 +642,15 @@
   <url><loc>https://www.tuthor.es/recursos/estadistica/tabla-de-frecuencias</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/en/recursos/estadistica/tabla-de-frecuencias</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.tuthor.es/ca/recursos/estadistica/tabla-de-frecuencias</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/recursos/mcm-mcd</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/en/recursos/mcm-mcd</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/ca/recursos/mcm-mcd</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/recursos/mcm-mcd/minimo-comun-multiplo</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/en/recursos/mcm-mcd/minimo-comun-multiplo</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/ca/recursos/mcm-mcd/minimo-comun-multiplo</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/recursos/mcm-mcd/maximo-comun-divisor</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/en/recursos/mcm-mcd/maximo-comun-divisor</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/ca/recursos/mcm-mcd/maximo-comun-divisor</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.tuthor.es/recursos/sistema-solar</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/en/recursos/sistema-solar</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.tuthor.es/ca/recursos/sistema-solar</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>

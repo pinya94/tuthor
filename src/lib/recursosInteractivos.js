@@ -76,6 +76,25 @@ export const RECURSOS_INTERACTIVOS = [
     accion: T('Calcular con mis datos', 'Calculate with my data', 'Calcular amb les meves dades'),
   },
   {
+    id: 'mcm-mcd',
+    tipo: 'resolver',
+    emoji: '🔢',
+    path: '/recursos/mcm-mcd',
+    materias: ['matematicas'],
+    materia: T('Matemáticas', 'Maths', 'Matemàtiques'),
+    titulo: T('m.c.m. y m.c.d.', 'LCM and GCD', 'm.c.m. i m.c.d.'),
+    desc: T(
+      'Escribe tus números y obtén la factorización en primos de cada uno, el mínimo común múltiplo y el máximo común divisor, paso a paso y exactos.',
+      'Type your numbers and get the prime factorisation of each, the lowest common multiple and the greatest common divisor, step by step and exact.',
+      'Escriu els teus números i obtén la factorització en primers de cadascun, el mínim comú múltiple i el màxim comú divisor, pas a pas i exactes.'),
+    corto: T(
+      'Escribe tus números y sale la factorización, el m.c.m. y el m.c.d.',
+      'Type your numbers and get the factorisation, the LCM and the GCD.',
+      'Escriu els teus números i surt la factorització, el m.c.m. i el m.c.d.'),
+    etiquetas: [T('Factorización', 'Factorisation', 'Factorització'), T('Paso a paso', 'Step by step', 'Pas a pas')],
+    accion: T('Calcular con mis números', 'Calculate with my numbers', 'Calcular amb els meus números'),
+  },
+  {
     id: 'sistema-solar',
     tipo: 'explorar',
     // 🌌 y no el planeta con anillo (U+1FA90): está en U+1FA70–1FAFF y en Windows 10

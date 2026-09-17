@@ -70,6 +70,7 @@ const Recursos           = lazy(() => import('./pages/Recursos'))
 const RecursoFunciones   = lazy(() => import('./pages/RecursoFunciones'))
 const RecursoEcuaciones  = lazy(() => import('./pages/RecursoEcuaciones'))
 const RecursoEstadistica = lazy(() => import('./pages/RecursoEstadistica'))
+const RecursoMcm         = lazy(() => import('./pages/RecursoMcm'))
 const RecursoSistemaSolar = lazy(() => import('./pages/RecursoSistemaSolar'))
 const RecursoGlobo       = lazy(() => import('./pages/RecursoGlobo'))
 const ProfesorPanel      = lazy(() => import('./pages/ProfesorPanel'))
@@ -290,6 +291,8 @@ function AppRoutes() {
       <Route path="recursos/ecuaciones/:tipo" element={<RecursoEcuaciones />} />
       <Route path="recursos/estadistica" element={<RecursoEstadistica />} />
       <Route path="recursos/estadistica/:tipo" element={<RecursoEstadistica />} />
+      <Route path="recursos/mcm-mcd" element={<RecursoMcm />} />
+      <Route path="recursos/mcm-mcd/:tipo" element={<RecursoMcm />} />
       <Route path="recursos/sistema-solar" element={<RecursoSistemaSolar />} />
       <Route path="recursos/globo-terraqueo" element={<RecursoGlobo />} />
       <Route path="profesor" element={<ProfesorPanel />} />

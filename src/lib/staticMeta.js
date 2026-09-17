@@ -191,6 +191,18 @@ export const STATIC_META = {
     es: { title: 'Estadística con tabla de frecuencias, paso a paso', desc: 'Escribe tu tabla de frecuencias (valor y fᵢ) y calcula media, mediana, moda, rango y desviación típica con la frecuencia acumulada, paso a paso. Gratis y sin registro.' },
     en: { title: 'Statistics from a frequency table, step by step', desc: 'Enter your frequency table (value and fᵢ) and get the mean, median, mode, range and standard deviation from the cumulative frequency, step by step. Free, no sign-up.' },
   },
+  '/recursos/mcm-mcd': {
+    es: { title: 'Calcular el m.c.m. y el m.c.d. paso a paso', desc: 'Escribe tus números y obtén la factorización en primos, el mínimo común múltiplo y el máximo común divisor, paso a paso y exactos. Gratis y sin registro.' },
+    en: { title: 'LCM and GCD calculator, step by step', desc: 'Type your numbers and get the prime factorisation, the lowest common multiple and the greatest common divisor, step by step and exact. Free, no sign-up.' },
+  },
+  '/recursos/mcm-mcd/minimo-comun-multiplo': {
+    es: { title: 'Calcular el mínimo común múltiplo (m.c.m.) paso a paso', desc: 'Escribe tus números y calcula el mínimo común múltiplo: factorización en primos y cada factor al mayor exponente, paso a paso. Con el m.c.d. Gratis y sin registro.' },
+    en: { title: 'Lowest common multiple (LCM) calculator, step by step', desc: 'Type your numbers and get the lowest common multiple: prime factorisation with every factor to its highest power, step by step. Plus the GCD. Free, no sign-up.' },
+  },
+  '/recursos/mcm-mcd/maximo-comun-divisor': {
+    es: { title: 'Calcular el máximo común divisor (m.c.d.) paso a paso', desc: 'Escribe tus números y calcula el máximo común divisor: factorización en primos y los factores comunes al menor exponente, paso a paso. Con el m.c.m. Gratis y sin registro.' },
+    en: { title: 'Greatest common divisor (GCD) calculator, step by step', desc: 'Type your numbers and get the greatest common divisor: prime factorisation with the common factors to their lowest power, step by step. Plus the LCM. Free, no sign-up.' },
+  },
   '/recursos/sistema-solar': {
     es: { title: 'Sistema solar en 3D: dónde están hoy los planetas', desc: 'Gira el sistema solar en 3D y mira dónde están los planetas en cualquier fecha, con distancias, tamaños y datos de cada uno. Posiciones reales, gratis y sin registro.' },
     en: { title: 'Solar system in 3D: where the planets are today', desc: 'Rotate the solar system in 3D and see where the planets are on any date, with distances, sizes and facts for each one. Real positions, free, no sign-up.' },
