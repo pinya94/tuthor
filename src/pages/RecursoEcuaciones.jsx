@@ -1,9 +1,9 @@
 import { useMemo, useState } from 'react'
-import { Link, useSearchParams } from 'react-router-dom'
+import { Link, useParams, useSearchParams } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import SEOEstatico from '../components/SEOEstatico'
 import ResultadoRecurso from '../components/ResultadoRecurso'
-import { RUTA, EJEMPLOS, resolverEcuacion } from '../lib/recursoEcuaciones'
+import { TIPOS, tipoPorSlug, rutaDe, resolverEcuacion } from '../lib/recursoEcuaciones'
 import { MENSAJE_ERROR } from '../lib/recursoFunciones'
 
 // /recursos/ecuaciones — el alumno escribe su ecuación y la ve resuelta, con
@@ -11,15 +11,13 @@ import { MENSAJE_ERROR } from '../lib/recursoFunciones'
 // lib/recursoEcuaciones.js; el resultado se pinta con el mismo componente que
 // el recurso de funciones. Como allí, la ecuación va a la URL (?e=…) para
 // poder mandar el enlace de un ejercicio concreto.
+//
+// Una URL por TIPO de ecuación (segundo grado, primer grado, con fracciones,
+// con paréntesis): el solver es el mismo, cambian el título y los ejemplos para
+// posicionar por lo que se busca. Ver TIPOS en lib/recursoEcuaciones.js.
 
 const TX = {
   recursos: { es: 'Recursos', en: 'Resources', ca: 'Recursos' },
-  titulo: { es: 'Resolver ecuaciones paso a paso', en: 'Solve equations step by step', ca: 'Resoldre equacions pas a pas' },
-  intro: {
-    es: 'Primer y segundo grado, con x a los dos lados, paréntesis o fracciones. Verás cada paso, la comprobación y, en la gráfica, por qué la solución es esa.',
-    en: 'Linear and quadratic, with x on both sides, brackets or fractions. You will see every step, the check and, on the graph, why that is the solution.',
-    ca: 'Primer i segon grau, amb x als dos costats, parèntesis o fraccions. Veuràs cada pas, la comprovació i, a la gràfica, per què la solució és aquesta.',
-  },
   ecuacion: { es: 'Ecuación', en: 'Equation', ca: 'Equació' },
   ayuda: {
     es: 'Escríbela con un signo =. Sin =, se entiende que es igual a 0. Vale x², x^2, 0,5x, 3(x − 2) y fracciones como x/2.',
@@ -32,16 +30,24 @@ const TX = {
   infinitas: { es: 'Cualquier x es solución', en: 'Every x is a solution', ca: 'Qualsevol x és solució' },
   copiar: { es: '🔗 Copiar enlace a este ejercicio', en: '🔗 Copy link to this exercise', ca: "🔗 Copiar l'enllaç a aquest exercici" },
   copiado: { es: '✓ Enlace copiado', en: '✓ Link copied', ca: '✓ Enllaç copiat' },
+  otrosTipos: { es: 'Otros tipos de ecuaciones', en: 'Other kinds of equations', ca: 'Altres tipus d\'equacions' },
   practica: { es: 'Practica', en: 'Practise', ca: 'Practica' },
   balanza: { es: '⚖️ Balanza Algebraica', en: '⚖️ Algebra Balance', ca: '⚖️ Balança Algebraica' },
   funciones: { es: '📈 Problemas de funciones', en: '📈 Function problems', ca: '📈 Problemes de funcions' },
   mas: { es: '🧰 Más recursos', en: '🧰 More resources', ca: '🧰 Més recursos' },
 }
 
+// Cada tipo tiene sus propios ejemplos: al cambiar de tipo se monta de nuevo.
 export default function RecursoEcuaciones() {
+  const { tipo } = useParams()
+  return <Recurso key={tipo ?? ''} slug={tipo} />
+}
+
+function Recurso({ slug }) {
   const { tr, localPath } = useLang()
+  const tipo = tipoPorSlug(slug) ?? TIPOS[0]
   const [params, setParams] = useSearchParams()
-  const [ecuacion, setEcuacion] = useState(() => params.get('e') ?? EJEMPLOS[0])
+  const [ecuacion, setEcuacion] = useState(() => params.get('e') ?? tipo.ejemplos[0])
   const [copiado, setCopiado] = useState(false)
 
   const r = useMemo(() => {
@@ -67,16 +73,17 @@ export default function RecursoEcuaciones() {
   }
 
   const infinitas = r.ok && r.datos.some(d => d.valor.es === 'Infinitas')
+  const otros = TIPOS.filter(t => t.slug !== tipo.slug)
 
   return (
     <div className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 py-8">
-      <SEOEstatico path={RUTA} />
+      <SEOEstatico path={rutaDe(tipo)} />
 
       <p className="text-white/35 text-xs mb-3">
         <Link to={localPath('/recursos')} className="hover:text-white/60">{tr(TX.recursos)}</Link>
       </p>
-      <h1 className="text-3xl sm:text-4xl font-black text-white leading-tight mb-2">⚖️ {tr(TX.titulo)}</h1>
-      <p className="text-white/55 text-[15px] leading-relaxed mb-5">{tr(TX.intro)}</p>
+      <h1 className="text-3xl sm:text-4xl font-black text-white leading-tight mb-2">{tipo.emoji} {tr(tipo.titulo)}</h1>
+      <p className="text-white/55 text-[15px] leading-relaxed mb-5">{tr(tipo.intro)}</p>
 
       <section className="rounded-2xl border border-white/10 bg-white/5 p-4 sm:p-5 mb-5 space-y-3">
         <p className="text-white/45 text-xs font-semibold uppercase tracking-widest">{tr(TX.ecuacion)}</p>
@@ -87,7 +94,7 @@ export default function RecursoEcuaciones() {
         <p className="text-white/30 text-xs leading-relaxed">{tr(TX.ayuda)}</p>
         <div className="flex flex-wrap items-center gap-1.5">
           <span className="text-white/35 text-xs mr-1">{tr(TX.ejemplos)}:</span>
-          {EJEMPLOS.map(ej => (
+          {tipo.ejemplos.map(ej => (
             <button key={ej} type="button" onClick={() => cambiar(ej)}
               className="text-xs font-semibold px-2.5 py-1 rounded-lg bg-white/5 border border-white/10 text-white/60 hover:text-white hover:bg-white/10 transition-colors">
               {ej}
@@ -122,7 +129,20 @@ export default function RecursoEcuaciones() {
         </>
       )}
 
-      <div className="mt-10 pt-6 border-t border-white/10">
+      {/* Enlazado interno entre las variantes: cada tipo lleva a los demás. */}
+      <nav className="mt-10 pt-6 border-t border-white/10">
+        <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-3">{tr(TX.otrosTipos)}</p>
+        <div className="flex flex-wrap gap-2">
+          {otros.map(t => (
+            <Link key={t.slug || 'base'} to={localPath(rutaDe(t))}
+              className="text-sm font-semibold px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-white/70 hover:text-white hover:bg-white/10 transition-colors">
+              {t.emoji} {tr(t.titulo)}
+            </Link>
+          ))}
+        </div>
+      </nav>
+
+      <div className="mt-8 pt-6 border-t border-white/10">
         <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-3">{tr(TX.practica)}</p>
         <div className="flex flex-wrap gap-2">
           <Link to={localPath('/juegos/balanza-algebraica')} className="text-sm font-bold px-4 py-2 rounded-xl bg-emerald-600/80 hover:bg-emerald-600 text-white">{tr(TX.balanza)}</Link>

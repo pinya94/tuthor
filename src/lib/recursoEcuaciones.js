@@ -20,6 +20,68 @@ export const RUTA = '/recursos/ecuaciones'
 
 export const EJEMPLOS = ['2x + 3 = x − 1', '3(x − 2) = x + 4', 'x/2 + 1/3 = 1', 'x² − 5x + 6 = 0', 'x² = 2x + 1']
 
+// Variantes con URL propia por TIPO de ecuación. El solver es el mismo para
+// todas (resolverEcuacion); cada tipo solo cambia el título, la introducción y
+// los ejemplos, para posicionar por lo que de verdad se busca ("resolver
+// ecuaciones de segundo grado paso a paso") y aterrizar al alumno ya con
+// ejemplos de SU caso. La base (slug '') es el resolutor general. Igual que en
+// recursoFunciones.js.
+export const TIPOS = [
+  {
+    slug: '', emoji: '⚖️',
+    titulo: { es: 'Resolver ecuaciones paso a paso', en: 'Solve equations step by step', ca: 'Resoldre equacions pas a pas' },
+    intro: {
+      es: 'Primer y segundo grado, con x a los dos lados, paréntesis o fracciones. Verás cada paso, la comprobación y, en la gráfica, por qué la solución es esa.',
+      en: 'Linear and quadratic, with x on both sides, brackets or fractions. You will see every step, the check and, on the graph, why that is the solution.',
+      ca: 'Primer i segon grau, amb x als dos costats, parèntesis o fraccions. Veuràs cada pas, la comprovació i, a la gràfica, per què la solució és aquesta.',
+    },
+    ejemplos: EJEMPLOS,
+  },
+  {
+    slug: 'segundo-grado', emoji: '📐',
+    titulo: { es: 'Resolver ecuaciones de segundo grado', en: 'Solve quadratic equations', ca: 'Resoldre equacions de segon grau' },
+    intro: {
+      es: 'Ecuaciones con x² (ax² + bx + c = 0): la fórmula general, las incompletas y cuándo no tienen solución real. Cada paso, la comprobación y la gráfica de la parábola.',
+      en: 'Equations with x² (ax² + bx + c = 0): the quadratic formula, incomplete ones and when there is no real solution. Every step, the check and the parabola graph.',
+      ca: 'Equacions amb x² (ax² + bx + c = 0): la fórmula general, les incompletes i quan no tenen solució real. Cada pas, la comprovació i la gràfica de la paràbola.',
+    },
+    ejemplos: ['x² − 5x + 6 = 0', 'x² = 2x + 1', '2x² − 8 = 0', 'x² + 4x + 4 = 0', 'x² + 1 = 0'],
+  },
+  {
+    slug: 'primer-grado', emoji: '➗',
+    titulo: { es: 'Resolver ecuaciones de primer grado', en: 'Solve linear equations', ca: 'Resoldre equacions de primer grau' },
+    intro: {
+      es: 'Ecuaciones de primer grado, con la x a los dos lados o con paréntesis: despejamos la x paso a paso y comprobamos que la solución encaja.',
+      en: 'Linear equations, with x on both sides or with brackets: we isolate x step by step and check the solution fits.',
+      ca: 'Equacions de primer grau, amb la x als dos costats o amb parèntesis: aïllem la x pas a pas i comprovem que la solució encaixa.',
+    },
+    ejemplos: ['2x + 3 = x − 1', '5x − 2 = 8', '3(x − 2) = x + 4', 'x − 7 = 2x + 1'],
+  },
+  {
+    slug: 'con-fracciones', emoji: '🍰',
+    titulo: { es: 'Ecuaciones con fracciones', en: 'Equations with fractions', ca: 'Equacions amb fraccions' },
+    intro: {
+      es: 'Ecuaciones con denominadores: quitamos las fracciones con el mínimo común múltiplo y resolvemos, con fracciones exactas y comprobación.',
+      en: 'Equations with denominators: we clear the fractions using the lowest common multiple and solve, with exact fractions and a check.',
+      ca: 'Equacions amb denominadors: llevem les fraccions amb el mínim comú múltiple i resolem, amb fraccions exactes i comprovació.',
+    },
+    ejemplos: ['x/2 + 1/3 = 1', 'x/3 − 1 = x/6', '(x + 1)/2 = 3', 'x/4 + x/2 = 3'],
+  },
+  {
+    slug: 'con-parentesis', emoji: '🔣',
+    titulo: { es: 'Ecuaciones con paréntesis', en: 'Equations with brackets', ca: 'Equacions amb parèntesis' },
+    intro: {
+      es: 'Ecuaciones con paréntesis: aplicamos la propiedad distributiva para quitarlos y luego despejamos la x, paso a paso y con comprobación.',
+      en: 'Equations with brackets: we use the distributive property to remove them, then isolate x, step by step and with a check.',
+      ca: 'Equacions amb parèntesis: apliquem la propietat distributiva per treure\'ls i després aïllem la x, pas a pas i amb comprovació.',
+    },
+    ejemplos: ['3(x − 2) = x + 4', '2(x + 1) = 3(x − 1)', '5 − (x − 3) = 2x', '4(x − 1) = 2(x + 3)'],
+  },
+]
+
+export const rutaDe = tipo => (tipo.slug ? `${RUTA}/${tipo.slug}` : RUTA)
+export const tipoPorSlug = slug => TIPOS.find(t => t.slug === (slug ?? '')) ?? null
+
 // "2x + 3 = x − 1" → [lado izquierdo, lado derecho]. Sin "=", se entiende
 // "= 0", que es como se escriben casi todas las de segundo grado.
 export function leerEcuacion(texto) {

@@ -621,6 +621,18 @@
   <url><loc>https://www.tuthor.es/recursos/ecuaciones</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/en/recursos/ecuaciones</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.tuthor.es/ca/recursos/ecuaciones</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/recursos/ecuaciones/segundo-grado</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/en/recursos/ecuaciones/segundo-grado</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/ca/recursos/ecuaciones/segundo-grado</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/recursos/ecuaciones/primer-grado</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/en/recursos/ecuaciones/primer-grado</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/ca/recursos/ecuaciones/primer-grado</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/recursos/ecuaciones/con-fracciones</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/en/recursos/ecuaciones/con-fracciones</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/ca/recursos/ecuaciones/con-fracciones</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/recursos/ecuaciones/con-parentesis</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/en/recursos/ecuaciones/con-parentesis</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/ca/recursos/ecuaciones/con-parentesis</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.tuthor.es/recursos/estadistica</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/en/recursos/estadistica</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.tuthor.es/ca/recursos/estadistica</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>

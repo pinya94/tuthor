@@ -287,6 +287,7 @@ function AppRoutes() {
       <Route path="recursos/funciones" element={<RecursoFunciones />} />
       <Route path="recursos/funciones/:tipo" element={<RecursoFunciones />} />
       <Route path="recursos/ecuaciones" element={<RecursoEcuaciones />} />
+      <Route path="recursos/ecuaciones/:tipo" element={<RecursoEcuaciones />} />
       <Route path="recursos/estadistica" element={<RecursoEstadistica />} />
       <Route path="recursos/sistema-solar" element={<RecursoSistemaSolar />} />
       <Route path="recursos/globo-terraqueo" element={<RecursoGlobo />} />

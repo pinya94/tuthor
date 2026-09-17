@@ -163,6 +163,22 @@ export const STATIC_META = {
     es: { title: 'Resolver ecuaciones paso a paso, con comprobación', desc: 'Escribe tu ecuación de primer o segundo grado y mira cómo se resuelve paso a paso, con la comprobación y la gráfica. Fracciones exactas, gratis y sin registro.' },
     en: { title: 'Solve equations step by step, with the check', desc: 'Type a linear or quadratic equation and see it solved step by step, with the check and the graph. Exact fractions, free, no sign-up.' },
   },
+  '/recursos/ecuaciones/segundo-grado': {
+    es: { title: 'Resolver ecuaciones de segundo grado paso a paso', desc: 'Escribe tu ecuación de segundo grado (ax² + bx + c = 0) y resuélvela con la fórmula general paso a paso, con la comprobación y la gráfica. Gratis y sin registro.' },
+    en: { title: 'Solve quadratic equations step by step', desc: 'Type your quadratic equation (ax² + bx + c = 0) and solve it with the quadratic formula step by step, with the check and the graph. Free, no sign-up.' },
+  },
+  '/recursos/ecuaciones/primer-grado': {
+    es: { title: 'Resolver ecuaciones de primer grado paso a paso', desc: 'Escribe tu ecuación de primer grado, con x a los dos lados o con paréntesis, y despeja la x paso a paso, con la comprobación. Gratis y sin registro.' },
+    en: { title: 'Solve linear equations step by step', desc: 'Type your linear equation, with x on both sides or with brackets, and isolate x step by step, with the check. Free, no sign-up.' },
+  },
+  '/recursos/ecuaciones/con-fracciones': {
+    es: { title: 'Ecuaciones con fracciones, resueltas paso a paso', desc: 'Escribe tu ecuación con fracciones: se quitan los denominadores con el mínimo común múltiplo y se resuelve paso a paso, con fracciones exactas. Gratis y sin registro.' },
+    en: { title: 'Equations with fractions, solved step by step', desc: 'Type your equation with fractions: clear the denominators with the lowest common multiple and solve step by step, with exact fractions. Free, no sign-up.' },
+  },
+  '/recursos/ecuaciones/con-parentesis': {
+    es: { title: 'Ecuaciones con paréntesis, paso a paso', desc: 'Escribe tu ecuación con paréntesis: se aplica la propiedad distributiva para quitarlos y se despeja la x paso a paso, con la comprobación. Gratis y sin registro.' },
+    en: { title: 'Equations with brackets, step by step', desc: 'Type your equation with brackets: apply the distributive property to remove them and isolate x step by step, with the check. Free, no sign-up.' },
+  },
   '/recursos/estadistica': {
     es: { title: 'Calculadora de media, mediana y moda, paso a paso', desc: 'Escribe tus datos o tu tabla de frecuencias y calcula media, mediana, moda, rango y desviación típica paso a paso, con el diagrama de barras. Gratis y sin registro.' },
     en: { title: 'Mean, median and mode calculator, step by step', desc: 'Enter your data or frequency table and get the mean, median, mode, range and standard deviation step by step, with a bar chart. Free, no sign-up.' },
