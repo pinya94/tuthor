@@ -384,8 +384,8 @@ export const TOPIC_CATALOG = {
       'estados-materia': examTema({ teoria: 'estados-materia', 'estado-test': 'cambio-estado-test', 'nombres-cambio': 'nombres-cambio-test' }, { niveles: ['primaria', 'eso'] }),
       'mezclas-separacion': examTema({ teoria: 'mezclas-separacion' }, { niveles: ['primaria', 'eso'] }),
       'acidos-bases': examTema({ teoria: 'acidos-bases' }, { niveles: ['eso'] }),
-      formulacion: examTema({ teoria: 'formulacion' }, { niveles: ['primaria', 'eso'] }),
-      disoluciones: examTema({ teoria: 'disoluciones' }, { niveles: ['primaria', 'eso'] }),
+      formulacion: examTema({ teoria: 'formulacion' }, { niveles: ['eso'] }),
+      disoluciones: examTema({ teoria: 'disoluciones' }, { niveles: ['eso'] }),
     },
     formatos: {
       teoria: examFormato({ es: 'Teoría (tipo test)', en: 'Theory (quiz)', ca: 'Teoria (tipus test)' }, '📝'),
