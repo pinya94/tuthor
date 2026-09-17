@@ -68,6 +68,25 @@ const TODAS = [
   q('adj-16', 'eso', EN('Which word order is correct?'),
     O(['a round small table', 'a small round table', 'a table small round', 'small a round table']), 1, '🍴',
     EN('Size comes before shape: a small round table (opinion → size → shape → noun).')),
+  q('adj-17', 'primaria', EN('Which word is an adjective?'),
+    O(['run', 'small', 'dog', 'quickly']), 1, '🐘',
+    EN('An adjective describes a noun. "Small" tells us the size → adjective.')),
+
+  q('adj-18', 'primaria', EN('Which word is a colour (an adjective)?'),
+    O(['table', 'blue', 'run', 'sing']), 1, '🔵',
+    EN('Colours describe nouns, so they are adjectives: blue, red, green, yellow.')),
+
+  q('adj-19', 'primaria', EN('Which word can fill the gap: "a ___ cat"?'),
+    O(['big', 'run', 'sing', 'and']), 0, '🐱',
+    EN('An adjective goes before the noun to describe it: a big cat, a black cat.')),
+
+  q('adj-20', 'primaria', EN('What is the opposite of "hot"?'),
+    O(['hotter', 'cold', 'hottest', 'warm']), 1, '❄️',
+    EN('The opposite of "hot" is "cold". Both are adjectives that describe temperature.')),
+
+  q('adj-21', 'primaria', EN('What is the comparative of "small"?'),
+    O(['smaller', 'more small', 'smallest', 'small']), 0, '🐭',
+    EN('Short adjectives add -er for the comparative: small→smaller, tall→taller.')),
 ]
 
 export const PREGUNTAS_PRIMARIA = TODAS.filter(x => x.nivel === 'primaria')

@@ -68,6 +68,25 @@ const TODAS = [
   q('adv-16', 'eso', EN('Which sentence places "never" correctly?'),
     O(['I never eat meat', 'I eat never meat', 'Never I eat meat', 'I eat meat never']), 0, '🍖',
     EN('Adverbs of frequency go before the main verb: I never eat meat, She always helps.')),
+  q('adv-17', 'primaria', EN('Which word is an adverb?'),
+    O(['happy', 'slowly', 'dog', 'red']), 1, '🐢',
+    EN('An adverb tells how something happens. "Slowly" describes how → adverb.')),
+
+  q('adv-18', 'primaria', EN('Complete: "He runs ___." (how)'),
+    O(['fast', 'dog', 'table', 'red']), 0, '🏃',
+    EN('"Fast" tells us how he runs → adverb. (Here "fast" is both adjective and adverb.)')),
+
+  q('adv-19', 'primaria', EN('Which is an adverb of place?'),
+    O(['here', 'happy', 'run', 'blue']), 0, '📍',
+    EN('Adverbs of place say where: here, there, outside, up, down.')),
+
+  q('adv-20', 'primaria', EN('What is the adverb from "quiet"?'),
+    O(['quiet', 'quietly', 'quieter', 'quietness']), 1, '😶',
+    EN('Add -ly to make the adverb: quiet→quietly, loud→loudly, soft→softly.')),
+
+  q('adv-21', 'primaria', EN('Complete: "She sings ___." (how)'),
+    O(['song', 'well', 'singer', 'music']), 1, '🎤',
+    EN('"Well" tells us how she sings → adverb. It is the adverb of "good".')),
 ]
 
 export const PREGUNTAS_PRIMARIA = TODAS.filter(x => x.nivel === 'primaria')

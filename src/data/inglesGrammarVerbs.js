@@ -68,6 +68,25 @@ const TODAS = [
   q('v-16', 'eso', EN('In "Do you like it?", which word is the auxiliary verb?'),
     O(['Do', 'you', 'like', 'it']), 0, '❓',
     EN('"Do" is the auxiliary (helper) verb that forms the question. "Like" is the main verb.')),
+  q('v-17', 'primaria', EN('Which word is a verb?'),
+    O(['red', 'swim', 'cat', 'slow']), 1, '🏊',
+    EN('A verb is an action or state. "Swim" is an action → verb.')),
+
+  q('v-18', 'primaria', EN('Which word is an action?'),
+    O(['happy', 'table', 'eat', 'blue']), 2, '🍽️',
+    EN('"Eat" is something you do → an action verb.')),
+
+  q('v-19', 'primaria', EN('What is the past simple of "walk"?'),
+    O(['walk', 'walked', 'walks', 'walking']), 1, '🚶',
+    EN('Regular verbs add -ed in the past: walk→walked, jump→jumped, look→looked.')),
+
+  q('v-20', 'primaria', EN('What is the -ing form of "play"?'),
+    O(['playing', 'playng', 'plaing', 'plays']), 0, '⚽',
+    EN('Add -ing to make the continuous form: play→playing, read→reading, go→going.')),
+
+  q('v-21', 'primaria', EN('Complete: "He ___ to school." (go)'),
+    O(['go', 'gos', 'goes', 'going']), 2, '➡️',
+    EN('With he/she/it, "go" becomes "goes": He goes to school.')),
 ]
 
 export const PREGUNTAS_PRIMARIA = TODAS.filter(x => x.nivel === 'primaria')

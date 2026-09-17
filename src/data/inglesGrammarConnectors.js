@@ -68,6 +68,25 @@ const TODAS = [
   q('con-16', 'eso', EN('Complete: "The class starts ___ 9 o\'clock."'),
     O(['on', 'in', 'at', 'of']), 2, '🕘',
     EN('Use "at" with clock times: at 9 o\'clock, at midnight. Use "on" for days and "in" for months.')),
+  q('con-17', 'primaria', EN('Which word is a preposition?'),
+    O(['and', 'under', 'run', 'red']), 1, '⬇️',
+    EN('Prepositions show position: under, on, in, over, behind. "The cat is under the table."')),
+
+  q('con-18', 'primaria', EN('Which word joins two words together?'),
+    O(['and', 'cat', 'run', 'blue']), 0, '➕',
+    EN('"And" is a conjunction: it joins words. "Salt and pepper."')),
+
+  q('con-19', 'primaria', EN('Complete: "The book is ___ the shelf." (on top of it)'),
+    O(['on', 'and', 'but', 'so']), 0, '📖',
+    EN('"On" is a preposition of place meaning the surface: on the shelf, on the floor.')),
+
+  q('con-20', 'primaria', EN('Complete: "bread ___ butter"'),
+    O(['and', 'but', 'on', 'so']), 0, '🍞',
+    EN('"And" joins two things that go together: bread and butter, salt and pepper.')),
+
+  q('con-21', 'primaria', EN('Complete: "I like dogs ___ cats." (both)'),
+    O(['and', 'but', 'or', 'so']), 0, '🐶',
+    EN('"And" adds two things you both like: I like dogs and cats.')),
 ]
 
 export const PREGUNTAS_PRIMARIA = TODAS.filter(x => x.nivel === 'primaria')

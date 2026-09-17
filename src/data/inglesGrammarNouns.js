@@ -68,6 +68,25 @@ const TODAS = [
   q('n-16', 'eso', EN('Which is the correct compound noun for a brush for your teeth?'),
     O(['tooth brush', 'toothbrush', 'tooths brush', 'brush tooth']), 1, '🚿',
     EN('A compound noun joins two words into one meaning: toothbrush, football, bedroom, sunflower.')),
+  q('n-17', 'primaria', EN('Which word is a noun?'),
+    O(['happy', 'sing', 'cat', 'red']), 2, '🐱',
+    EN('A noun names a person, animal, place or thing. "Cat" is an animal → noun.')),
+
+  q('n-18', 'primaria', EN('Which word names a place?'),
+    O(['run', 'school', 'blue', 'jump']), 1, '🏫',
+    EN('Places are nouns: school, park, city, house.')),
+
+  q('n-19', 'primaria', EN('What is the plural of "book"?'),
+    O(['book', 'books', 'bookes', 'booken']), 1, '📚',
+    EN('Most nouns just add -s for the plural: book→books, cat→cats, tree→trees.')),
+
+  q('n-20', 'primaria', EN('What is the plural of "bus"?'),
+    O(['buss', 'buses', 'busses', 'bus']), 1, '🚌',
+    EN('Nouns ending in -s add -es: bus→buses, glass→glasses, dress→dresses.')),
+
+  q('n-21', 'primaria', EN('Which word is a noun for a person?'),
+    O(['table', 'doctor', 'green', 'run']), 1, '🏥',
+    EN('People are nouns: doctor, teacher, friend, sister.')),
 ]
 
 export const PREGUNTAS_PRIMARIA = TODAS.filter(x => x.nivel === 'primaria')

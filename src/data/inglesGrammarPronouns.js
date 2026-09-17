@@ -68,6 +68,25 @@ const TODAS = [
   q('pro-16', 'eso', EN('Complete: "The people ___ live here are kind."'),
     O(['which', 'who', 'whose', 'where']), 1, '🏘️',
     EN('Use "who" for people and "which/that" for things: the people who live here.')),
+  q('pro-17', 'primaria', EN('Which word is a pronoun?'),
+    O(['table', 'it', 'run', 'red']), 1, '👉',
+    EN('A pronoun replaces a noun. "It" can stand for a thing → pronoun.')),
+
+  q('pro-18', 'primaria', EN('Replace "the dog": "___ barks."'),
+    O(['It', 'He', 'She', 'They']), 0, '🐕',
+    EN('For an animal or thing we usually use "it": The dog barks → It barks.')),
+
+  q('pro-19', 'primaria', EN('Replace "Anna": "___ is happy."'),
+    O(['He', 'She', 'It', 'They']), 1, '👧',
+    EN('"She" is the subject pronoun for a girl or woman: Anna is happy → She is happy.')),
+
+  q('pro-20', 'primaria', EN('Replace "the boys": "___ play football."'),
+    O(['He', 'She', 'It', 'They']), 3, '👦',
+    EN('"They" replaces a plural noun (two or more): The boys play → They play.')),
+
+  q('pro-21', 'primaria', EN('Which word is a pronoun?'),
+    O(['you', 'cat', 'blue', 'run']), 0, '🙋',
+    EN('"You" is a personal pronoun: I, you, he, she, it, we, they.')),
 ]
 
 export const PREGUNTAS_PRIMARIA = TODAS.filter(x => x.nivel === 'primaria')
