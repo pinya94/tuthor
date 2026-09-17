@@ -45,6 +45,29 @@ const TODAS = [
   q('con-10', 'eso', EN('Complete: "I wake up early ___ the morning."'),
     O(['on', 'in', 'at', 'of']), 1, '🌅',
     EN('Use "in" for parts of the day: in the morning, in the afternoon. But "at night".')),
+  q('con-11', 'primaria', EN('Complete: "The toy is ___ the box." (it is inside)'),
+    O(['in', 'and', 'but', 'so']), 0, '📦',
+    EN('"In" shows something is inside: in the box, in the room. It is a preposition of place.')),
+
+  q('con-12', 'primaria', EN('Complete: "I was tired, ___ I went to bed." (result)'),
+    O(['so', 'but', 'or', 'because']), 0, '😴',
+    EN('"So" introduces a result or consequence: I was tired, so I went to bed.')),
+
+  q('con-13', 'eso', EN('Complete: "___ you study, you will pass." (condition)'),
+    O(['If', 'But', 'And', 'So']), 0, '🤔',
+    EN('"If" introduces a condition: If you study, you will pass. It is a subordinating conjunction.')),
+
+  q('con-14', 'eso', EN('Complete: "She is afraid ___ spiders."'),
+    O(['of', 'on', 'at', 'in']), 0, '🕷️',
+    EN('Some adjectives take a fixed preposition: afraid of, good at, interested in, proud of.')),
+
+  q('con-15', 'eso', EN('Complete: "I like neither tea ___ coffee."'),
+    O(['or', 'nor', 'and', 'but']), 1, '☕',
+    EN('The pair is "neither … nor …": I like neither tea nor coffee. ("Either … or …" is the positive pair.)')),
+
+  q('con-16', 'eso', EN('Complete: "The class starts ___ 9 o\'clock."'),
+    O(['on', 'in', 'at', 'of']), 2, '🕘',
+    EN('Use "at" with clock times: at 9 o\'clock, at midnight. Use "on" for days and "in" for months.')),
 ]
 
 export const PREGUNTAS_PRIMARIA = TODAS.filter(x => x.nivel === 'primaria')

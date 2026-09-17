@@ -45,6 +45,29 @@ const TODAS = [
   q('adj-10', 'eso', EN('Which of these is a possessive adjective?'),
     O(['mine', 'my', 'me', 'I']), 1, '🔑',
     EN('A possessive adjective goes before a noun: my book, your dog. "Mine" is a possessive pronoun (it stands alone).')),
+  q('adj-11', 'primaria', EN('What is the opposite of "big"?'),
+    O(['small', 'bigger', 'biggest', 'tall']), 0, '🐜',
+    EN('The opposite (antonym) of "big" is "small". "Bigger" and "biggest" are just degrees of big.')),
+
+  q('adj-12', 'primaria', EN('In "a tall green tree", how many adjectives are there?'),
+    O(['None', 'One', 'Two', 'Three']), 2, '🌳',
+    EN('Two adjectives describe the tree: "tall" (size) and "green" (colour).')),
+
+  q('adj-13', 'eso', EN('What is the comparative of "good"?'),
+    O(['gooder', 'better', 'more good', 'best']), 1, '👍',
+    EN('"Good" is irregular: good / better / best. "Better" is the comparative, "best" the superlative.')),
+
+  q('adj-14', 'eso', EN('Complete: "I was ___ by the film." (interest)'),
+    O(['interesting', 'interested', 'interest', 'interests']), 1, '🎬',
+    EN('-ed adjectives describe how a person feels: I was interested. -ing describes the thing: the film was interesting.')),
+
+  q('adj-15', 'eso', EN('What is the superlative of "expensive"?'),
+    O(['expensivest', 'the most expensive', 'more expensive', 'expensiver']), 1, '💰',
+    EN('Long adjectives use most for the superlative: the most expensive. "More expensive" is the comparative.')),
+
+  q('adj-16', 'eso', EN('Which word order is correct?'),
+    O(['a round small table', 'a small round table', 'a table small round', 'small a round table']), 1, '🍴',
+    EN('Size comes before shape: a small round table (opinion → size → shape → noun).')),
 ]
 
 export const PREGUNTAS_PRIMARIA = TODAS.filter(x => x.nivel === 'primaria')

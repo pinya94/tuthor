@@ -45,6 +45,29 @@ const TODAS = [
   q('v-10', 'eso', EN('Which of these is a modal verb?'),
     O(['run', 'can', 'book', 'happy']), 1, '🔑',
     EN('Modal verbs express ability, permission or obligation: can, could, must, should, may, will.')),
+  q('v-11', 'primaria', EN('What is the past simple of "have"?'),
+    O(['haved', 'had', 'has', 'having']), 1, '📦',
+    EN('"Have" is irregular: have / had / had. "Has" is the present for he/she/it.')),
+
+  q('v-12', 'primaria', EN('Make it negative: "She likes tea."'),
+    O(["She don't like tea", "She doesn't likes tea", "She doesn't like tea", "She not like tea"]), 2, '🍵',
+    EN('Use "doesn\'t" with he/she/it, and the verb goes back to its base form: She doesn\'t like tea.')),
+
+  q('v-13', 'eso', EN('What is the past simple of "buy"?'),
+    O(['buyed', 'bought', 'brought', 'buy']), 1, '🛒',
+    EN('"Buy" is irregular: buy / bought / bought. Careful: "brought" is the past of "bring".')),
+
+  q('v-14', 'eso', EN('Complete: "Look! I ___ (read) now."'),
+    O(['read', 'reads', 'am reading', 'reading']), 2, '📖',
+    EN('For an action happening now, use the present continuous: am/is/are + verb-ing. I am reading.')),
+
+  q('v-15', 'eso', EN('What is the past participle of "write"?'),
+    O(['writed', 'wrote', 'written', 'writing']), 2, '✍️',
+    EN('"Write" is irregular: write / wrote / written. The past participle "written" is used with have: I have written.')),
+
+  q('v-16', 'eso', EN('In "Do you like it?", which word is the auxiliary verb?'),
+    O(['Do', 'you', 'like', 'it']), 0, '❓',
+    EN('"Do" is the auxiliary (helper) verb that forms the question. "Like" is the main verb.')),
 ]
 
 export const PREGUNTAS_PRIMARIA = TODAS.filter(x => x.nivel === 'primaria')

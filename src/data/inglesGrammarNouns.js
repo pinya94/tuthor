@@ -45,6 +45,29 @@ const TODAS = [
   q('n-10', 'eso', EN('Choose the correct possessive: the tail of one dog.'),
     O(["the dogs tail", "the dog's tail", "the dogs' tail", "the dog tail"]), 1, '🐕',
     EN("A singular owner takes apostrophe + s: the dog's tail. Several dogs would be: the dogs' tails.")),
+  q('n-11', 'primaria', EN('What is the plural of "baby"?'),
+    O(['babys', 'babies', 'babyes', 'baby']), 1, '👶',
+    EN('Nouns ending in consonant + y change y→ies: baby→babies, city→cities, party→parties.')),
+
+  q('n-12', 'primaria', EN('Which of these is a common noun?'),
+    O(['Paris', 'Monday', 'teacher', 'Tom']), 2, '🏫',
+    EN('A common noun names any member of a group (teacher, city) and is not capitalised. Paris, Monday and Tom are proper nouns.')),
+
+  q('n-13', 'eso', EN('What is the plural of "man"?'),
+    O(['mans', 'men', 'mens', 'manes']), 1, '👨',
+    EN('"Man" has an irregular plural: men. Also woman→women, person→people.')),
+
+  q('n-14', 'eso', EN('Which phrase is correct with an uncountable noun?'),
+    O(['much water', 'much apples', 'many water', 'a water']), 0, '💧',
+    EN('Uncountable nouns take "much" and no plural: much water, much money. Countable nouns take "many": many apples.')),
+
+  q('n-15', 'eso', EN('What is the plural of "tomato"?'),
+    O(['tomatos', 'tomatoes', 'tomato', 'tomaties']), 1, '🍅',
+    EN('Most nouns ending in consonant + o add -es: tomato→tomatoes, potato→potatoes, hero→heroes.')),
+
+  q('n-16', 'eso', EN('Which is the correct compound noun for a brush for your teeth?'),
+    O(['tooth brush', 'toothbrush', 'tooths brush', 'brush tooth']), 1, '🚿',
+    EN('A compound noun joins two words into one meaning: toothbrush, football, bedroom, sunflower.')),
 ]
 
 export const PREGUNTAS_PRIMARIA = TODAS.filter(x => x.nivel === 'primaria')
