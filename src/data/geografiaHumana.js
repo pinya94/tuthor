@@ -252,6 +252,56 @@ export const PREGUNTAS = [
     '♻️',
     { es: 'Es la definición del Informe Brundtland de 1987 y la que piden los exámenes. No dice "no crecer": dice crecer sin gastarse el capital natural que necesitarán los que vengan detrás.', en: 'It is the 1987 Brundtland Report definition. It does not say "do not grow": it says grow without spending the natural capital those after us will need.', ca: 'És la definició de l\'Informe Brundtland de 1987. No diu "no créixer".' }),
 
+  // ── PRIMARIA: nociones básicas (población, campo/ciudad, oficios) ────────
+  q('gh-p1', 'primaria',
+    { es: '¿Dónde vive hoy la mayoría de la gente en España?', en: 'Where do most people in Spain live today?', ca: 'On viu avui la majoria de la gent a Espanya?' },
+    { es: ['En las ciudades', 'En el campo', 'En la montaña', 'En el mar'], en: ['In cities', 'In the countryside', 'In the mountains', 'At sea'], ca: ['A les ciutats', 'Al camp', 'A la muntanya', 'Al mar'] },
+    { es: 'En las ciudades', en: 'In cities', ca: 'A les ciutats' },
+    '🏙️',
+    { es: 'Cada vez más gente vive en ciudades y menos en pueblos. A ese movimiento del campo a la ciudad se le llama éxodo rural.', en: 'More and more people live in cities and fewer in villages. That move from country to city is called rural exodus.', ca: 'Cada cop més gent viu a ciutats i menys als pobles. Aquest moviment del camp a la ciutat és l\'èxode rural.' }),
+
+  q('gh-p2', 'primaria',
+    { es: 'Un lugar con muchos habitantes, edificios altos y mucho tráfico es…', en: 'A place with many people, tall buildings and heavy traffic is…', ca: 'Un lloc amb molts habitants, edificis alts i molt trànsit és…' },
+    { es: ['una ciudad', 'un pueblo', 'una granja', 'un bosque'], en: ['a city', 'a village', 'a farm', 'a forest'], ca: ['una ciutat', 'un poble', 'una granja', 'un bosc'] },
+    { es: 'una ciudad', en: 'a city', ca: 'una ciutat' },
+    '🌆',
+    { es: 'La ciudad concentra mucha población y servicios. Un pueblo tiene menos habitantes y suele estar rodeado de campo.', en: 'A city concentrates a lot of population and services. A village has fewer people and is usually surrounded by countryside.', ca: 'La ciutat concentra molta població i serveis. Un poble té menys habitants.' }),
+
+  q('gh-p3', 'primaria',
+    { es: '¿A qué se dedica un agricultor?', en: 'What does a farmer do?', ca: 'A què es dedica un agricultor?' },
+    { es: ['A cultivar la tierra', 'A fabricar coches', 'A vender ropa', 'A dar clases'], en: ['Growing crops on the land', 'Making cars', 'Selling clothes', 'Teaching'], ca: ['A conrear la terra', 'A fabricar cotxes', 'A vendre roba', 'A fer classes'] },
+    { es: 'A cultivar la tierra', en: 'Growing crops on the land', ca: 'A conrear la terra' },
+    '🌾',
+    { es: 'La agricultura saca alimentos de la tierra. Junto con la ganadería y la pesca forma el sector primario, el que obtiene productos de la naturaleza.', en: 'Farming takes food from the land. With livestock and fishing it makes up the primary sector, which gets products from nature.', ca: 'L\'agricultura treu aliments de la terra. Amb la ramaderia i la pesca forma el sector primari.' }),
+
+  q('gh-p4', 'primaria',
+    { es: '¿Qué se hace en una fábrica?', en: 'What is done in a factory?', ca: 'Què es fa en una fàbrica?' },
+    { es: ['Fabricar objetos', 'Cultivar trigo', 'Pescar', 'Curar enfermos'], en: ['Making objects', 'Growing wheat', 'Fishing', 'Healing the sick'], ca: ['Fabricar objectes', 'Conrear blat', 'Pescar', 'Curar malalts'] },
+    { es: 'Fabricar objetos', en: 'Making objects', ca: 'Fabricar objectes' },
+    '🏭',
+    { es: 'En las fábricas se transforman materias primas en productos: la industria es el sector secundario.', en: 'Factories turn raw materials into products: industry is the secondary sector.', ca: 'A les fàbriques es transformen matèries primeres en productes: la indústria és el sector secundari.' }),
+
+  q('gh-p5', 'primaria',
+    { es: 'Trabajar en una tienda, un hospital o un colegio es un trabajo de…', en: 'Working in a shop, a hospital or a school is a job in…', ca: 'Treballar en una botiga, un hospital o una escola és una feina de…' },
+    { es: ['servicios', 'agricultura', 'pesca', 'minería'], en: ['services', 'farming', 'fishing', 'mining'], ca: ['serveis', 'agricultura', 'pesca', 'mineria'] },
+    { es: 'servicios', en: 'services', ca: 'serveis' },
+    '🏪',
+    { es: 'Los servicios (comercio, sanidad, educación, transporte) no fabrican cosas: ayudan a la gente. Son el sector terciario, el que más empleo da hoy.', en: 'Services (shops, healthcare, education, transport) do not make things: they help people. They are the tertiary sector, which employs the most people today.', ca: 'Els serveis no fabriquen coses: ajuden la gent. Són el sector terciari.' }),
+
+  q('gh-p6', 'primaria',
+    { es: '¿Cómo se llama dejar tu país para ir a vivir a otro?', en: 'What is it called to leave your country to live in another?', ca: 'Com es diu deixar el teu país per anar a viure a un altre?' },
+    { es: ['emigrar', 'ir de excursión', 'ir al colegio', 'dar un paseo'], en: ['to emigrate', 'to go on a trip', 'to go to school', 'to take a walk'], ca: ['emigrar', 'anar d\'excursió', 'anar a l\'escola', 'fer un tomb'] },
+    { es: 'emigrar', en: 'to emigrate', ca: 'emigrar' },
+    '🧳',
+    { es: 'Emigrar es marcharse a vivir a otro lugar. La misma persona es emigrante para el país que deja e inmigrante para el que llega.', en: 'To emigrate is to move away to live elsewhere. The same person is an emigrant for the country they leave and an immigrant for the one they reach.', ca: 'Emigrar és anar-se\'n a viure a un altre lloc.' }),
+
+  q('gh-p7', 'primaria',
+    { es: 'La población de un lugar es…', en: 'The population of a place is…', ca: 'La població d\'un lloc és…' },
+    { es: ['el conjunto de personas que viven allí', 'los edificios que tiene', 'los ríos y montañas', 'el dinero que gana'], en: ['all the people who live there', 'the buildings it has', 'its rivers and mountains', 'the money it earns'], ca: ['el conjunt de persones que hi viuen', 'els edificis que té', 'els rius i muntanyes', 'els diners que guanya'] },
+    { es: 'el conjunto de personas que viven allí', en: 'all the people who live there', ca: 'el conjunt de persones que hi viuen' },
+    '👥',
+    { es: 'La población son las personas. Cuántas hay, qué edad tienen o si nacen y mueren muchas es lo que estudia la demografía.', en: 'The population is the people. How many there are, their age, and how many are born or die is what demography studies.', ca: 'La població són les persones. Quantes n\'hi ha i quina edat tenen és el que estudia la demografia.' }),
+
 ]
 
 export const PREGUNTAS_PRIMARIA = PREGUNTAS.filter(p => p.nivel === 'primaria')
