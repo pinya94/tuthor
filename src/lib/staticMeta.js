@@ -203,6 +203,22 @@ export const STATIC_META = {
     es: { title: 'Calcular el máximo común divisor (m.c.d.) paso a paso', desc: 'Escribe tus números y calcula el máximo común divisor: factorización en primos y los factores comunes al menor exponente, paso a paso. Con el m.c.m. Gratis y sin registro.' },
     en: { title: 'Greatest common divisor (GCD) calculator, step by step', desc: 'Type your numbers and get the greatest common divisor: prime factorisation with the common factors to their lowest power, step by step. Plus the LCM. Free, no sign-up.' },
   },
+  '/recursos/porcentajes': {
+    es: { title: 'Calculadora de porcentajes y regla de tres, paso a paso', desc: 'Calcula el X % de una cantidad, qué porcentaje es un número de otro, la regla de tres y aumentos o descuentos, paso a paso y exacto. Gratis y sin registro.' },
+    en: { title: 'Percentage and rule of three calculator, step by step', desc: 'Work out X% of an amount, what percentage one number is of another, the rule of three and increases or discounts, step by step and exact. Free, no sign-up.' },
+  },
+  '/recursos/porcentajes/regla-de-tres': {
+    es: { title: 'Regla de tres online, paso a paso', desc: 'Resuelve una regla de tres directa: si una cantidad corresponde a otra, calcula cuánto le toca a una tercera, paso a paso y exacto. Gratis y sin registro.' },
+    en: { title: 'Rule of three calculator online, step by step', desc: 'Solve a direct rule of three: if one amount matches another, work out the value for a third, step by step and exact. Free, no sign-up.' },
+  },
+  '/recursos/porcentajes/aumento-y-descuento': {
+    es: { title: 'Calcular aumentos y descuentos porcentuales', desc: 'Sube o baja una cantidad un porcentaje: el precio con el descuento, el sueldo con la subida, el IVA. Verás las dos, paso a paso. Gratis y sin registro.' },
+    en: { title: 'Percentage increase and discount calculator', desc: 'Raise or lower an amount by a percentage: the price with the discount, the salary with the rise, the VAT. You get both, step by step. Free, no sign-up.' },
+  },
+  '/recursos/porcentajes/que-porcentaje-es': {
+    es: { title: '¿Qué porcentaje es un número de otro?', desc: 'Averigua qué porcentaje representa una parte sobre un total: tu nota sobre el máximo, qué parte del total es una cantidad, paso a paso y exacto. Gratis y sin registro.' },
+    en: { title: 'What percentage is one number of another?', desc: 'Find out what percentage a part is of a total: your score out of the maximum, what share of the total an amount is, step by step. Free, no sign-up.' },
+  },
   '/recursos/sistema-solar': {
     es: { title: 'Sistema solar en 3D: dónde están hoy los planetas', desc: 'Gira el sistema solar en 3D y mira dónde están los planetas en cualquier fecha, con distancias, tamaños y datos de cada uno. Posiciones reales, gratis y sin registro.' },
     en: { title: 'Solar system in 3D: where the planets are today', desc: 'Rotate the solar system in 3D and see where the planets are on any date, with distances, sizes and facts for each one. Real positions, free, no sign-up.' },

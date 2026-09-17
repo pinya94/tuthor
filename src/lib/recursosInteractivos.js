@@ -95,6 +95,25 @@ export const RECURSOS_INTERACTIVOS = [
     accion: T('Calcular con mis números', 'Calculate with my numbers', 'Calcular amb els meus números'),
   },
   {
+    id: 'porcentajes',
+    tipo: 'resolver',
+    emoji: '💯',
+    path: '/recursos/porcentajes',
+    materias: ['matematicas'],
+    materia: T('Matemáticas', 'Maths', 'Matemàtiques'),
+    titulo: T('Porcentajes y regla de tres', 'Percentages and rule of three', 'Percentatges i regla de tres'),
+    desc: T(
+      'El X % de una cantidad, qué porcentaje es un número de otro, la regla de tres y aumentos o descuentos: escribe tus datos y sale resuelto paso a paso.',
+      'X% of an amount, what percentage one number is of another, the rule of three and increases or discounts: type your data and it comes out solved step by step.',
+      'El X % d\'una quantitat, quin percentatge és un número d\'un altre, la regla de tres i augments o descomptes: escriu les teves dades i surt resolt pas a pas.'),
+    corto: T(
+      'Porcentajes, regla de tres y descuentos, paso a paso.',
+      'Percentages, rule of three and discounts, step by step.',
+      'Percentatges, regla de tres i descomptes, pas a pas.'),
+    etiquetas: [T('Regla de tres', 'Rule of three', 'Regla de tres'), T('Descuentos', 'Discounts', 'Descomptes')],
+    accion: T('Calcular mi porcentaje', 'Calculate my percentage', 'Calcular el meu percentatge'),
+  },
+  {
     id: 'sistema-solar',
     tipo: 'explorar',
     // 🌌 y no el planeta con anillo (U+1FA90): está en U+1FA70–1FAFF y en Windows 10
