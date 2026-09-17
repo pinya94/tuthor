@@ -114,6 +114,25 @@ export const RECURSOS_INTERACTIVOS = [
     accion: T('Calcular mi porcentaje', 'Calculate my percentage', 'Calcular el meu percentatge'),
   },
   {
+    id: 'fracciones',
+    tipo: 'resolver',
+    emoji: '🍕',
+    path: '/recursos/fracciones',
+    materias: ['matematicas'],
+    materia: T('Matemáticas', 'Maths', 'Matemàtiques'),
+    titulo: T('Operar con fracciones', 'Fraction operations', 'Operar amb fraccions'),
+    desc: T(
+      'Suma, resta, multiplica, divide y simplifica fracciones paso a paso: el denominador común, dividir por el inverso y la forma irreducible, con el decimal.',
+      'Add, subtract, multiply, divide and simplify fractions step by step: the common denominator, dividing by the reciprocal and the lowest terms, with the decimal.',
+      'Suma, resta, multiplica, divideix i simplifica fraccions pas a pas: el denominador comú, dividir per l\'invers i la forma irreductible, amb el decimal.'),
+    corto: T(
+      'Sumar, multiplicar y simplificar fracciones, paso a paso.',
+      'Add, multiply and simplify fractions, step by step.',
+      'Sumar, multiplicar i simplificar fraccions, pas a pas.'),
+    etiquetas: [T('Denominador común', 'Common denominator', 'Denominador comú'), T('Simplificar', 'Simplify', 'Simplificar')],
+    accion: T('Operar con mis fracciones', 'Work out my fractions', 'Operar amb les meves fraccions'),
+  },
+  {
     id: 'sistema-solar',
     tipo: 'explorar',
     // 🌌 y no el planeta con anillo (U+1FA90): está en U+1FA70–1FAFF y en Windows 10

@@ -8,6 +8,7 @@ Tuthor cubre matemáticas, lengua, inglés, ciencias (física, química, biolog�
 
 - [Porcentajes y regla de tres](https://www.tuthor.es/recursos/porcentajes): el X % de una cantidad, qué porcentaje es un número de otro, la regla de tres directa y aumentos o descuentos, con fracciones exactas.
 - [Regla de tres online](https://www.tuthor.es/recursos/porcentajes/regla-de-tres): resuelve una regla de tres directa paso a paso.
+- [Operar con fracciones](https://www.tuthor.es/recursos/fracciones): sumar, restar, multiplicar, dividir y simplificar fracciones paso a paso, con el denominador común y la forma irreducible.
 - [m.c.m. y m.c.d.](https://www.tuthor.es/recursos/mcm-mcd): factorización en primos, mínimo común múltiplo y máximo común divisor, exactos.
 - [Resolver ecuaciones](https://www.tuthor.es/recursos/ecuaciones): primer y segundo grado, con x a los dos lados, paréntesis o fracciones, con comprobación y gráfica.
 - [Ecuaciones de segundo grado](https://www.tuthor.es/recursos/ecuaciones/segundo-grado): fórmula general paso a paso y gráfica de la parábola.

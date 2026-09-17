@@ -219,6 +219,18 @@ export const STATIC_META = {
     es: { title: '¿Qué porcentaje es un número de otro?', desc: 'Averigua qué porcentaje representa una parte sobre un total: tu nota sobre el máximo, qué parte del total es una cantidad, paso a paso y exacto. Gratis y sin registro.' },
     en: { title: 'What percentage is one number of another?', desc: 'Find out what percentage a part is of a total: your score out of the maximum, what share of the total an amount is, step by step. Free, no sign-up.' },
   },
+  '/recursos/fracciones': {
+    es: { title: 'Operar con fracciones paso a paso: sumar, restar…', desc: 'Suma, resta, multiplica, divide y simplifica fracciones paso a paso, con el denominador común y la forma irreducible. Exacto, gratis y sin registro.' },
+    en: { title: 'Fraction calculator step by step: add, subtract…', desc: 'Add, subtract, multiply, divide and simplify fractions step by step, with the common denominator and lowest terms. Exact, free, no sign-up.' },
+  },
+  '/recursos/fracciones/multiplicar-y-dividir': {
+    es: { title: 'Multiplicar y dividir fracciones paso a paso', desc: 'Escribe dos fracciones y multiplícalas o divídelas: multiplicar en línea, dividir por el inverso y simplificar, paso a paso. Gratis y sin registro.' },
+    en: { title: 'Multiply and divide fractions, step by step', desc: 'Type two fractions and multiply or divide them: multiply straight across, divide by the reciprocal and simplify, step by step. Free, no sign-up.' },
+  },
+  '/recursos/fracciones/simplificar': {
+    es: { title: 'Simplificar fracciones paso a paso', desc: 'Escribe una fracción y obtén su forma irreducible dividiendo entre el máximo común divisor, paso a paso y con el decimal. Gratis y sin registro.' },
+    en: { title: 'Simplify fractions to lowest terms, step by step', desc: 'Type a fraction and get its lowest terms by dividing by the greatest common divisor, step by step and with the decimal. Free, no sign-up.' },
+  },
   '/recursos/sistema-solar': {
     es: { title: 'Sistema solar en 3D: dónde están hoy los planetas', desc: 'Gira el sistema solar en 3D y mira dónde están los planetas en cualquier fecha, con distancias, tamaños y datos de cada uno. Posiciones reales, gratis y sin registro.' },
     en: { title: 'Solar system in 3D: where the planets are today', desc: 'Rotate the solar system in 3D and see where the planets are on any date, with distances, sizes and facts for each one. Real positions, free, no sign-up.' },

@@ -72,6 +72,7 @@ const RecursoEcuaciones  = lazy(() => import('./pages/RecursoEcuaciones'))
 const RecursoEstadistica = lazy(() => import('./pages/RecursoEstadistica'))
 const RecursoMcm         = lazy(() => import('./pages/RecursoMcm'))
 const RecursoPorcentajes = lazy(() => import('./pages/RecursoPorcentajes'))
+const RecursoFracciones  = lazy(() => import('./pages/RecursoFracciones'))
 const RecursoSistemaSolar = lazy(() => import('./pages/RecursoSistemaSolar'))
 const RecursoGlobo       = lazy(() => import('./pages/RecursoGlobo'))
 const ProfesorPanel      = lazy(() => import('./pages/ProfesorPanel'))
@@ -296,6 +297,8 @@ function AppRoutes() {
       <Route path="recursos/mcm-mcd/:tipo" element={<RecursoMcm />} />
       <Route path="recursos/porcentajes" element={<RecursoPorcentajes />} />
       <Route path="recursos/porcentajes/:tipo" element={<RecursoPorcentajes />} />
+      <Route path="recursos/fracciones" element={<RecursoFracciones />} />
+      <Route path="recursos/fracciones/:tipo" element={<RecursoFracciones />} />
       <Route path="recursos/sistema-solar" element={<RecursoSistemaSolar />} />
       <Route path="recursos/globo-terraqueo" element={<RecursoGlobo />} />
       <Route path="profesor" element={<ProfesorPanel />} />
