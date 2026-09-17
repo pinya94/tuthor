@@ -1,0 +1,41 @@
+# Tuthor
+
+> Plataforma educativa gratuita en español (también inglés y catalán) para Primaria, ESO y Bachillerato: juegos para aprender, exámenes tipo test con nota, y recursos que resuelven ejercicios paso a paso. Gratis y sin registro para usar los recursos y jugar.
+
+Tuthor cubre matemáticas, lengua, inglés, ciencias (física, química, biología, geología), historia, geografía, economía y música. Todo el contenido de estas páginas es estático e indexable (no depende de JavaScript).
+
+## Recursos que resuelven ejercicios paso a paso (gratis, sin registro)
+
+- [Porcentajes y regla de tres](https://www.tuthor.es/recursos/porcentajes): el X % de una cantidad, qué porcentaje es un número de otro, la regla de tres directa y aumentos o descuentos, con fracciones exactas.
+- [Regla de tres online](https://www.tuthor.es/recursos/porcentajes/regla-de-tres): resuelve una regla de tres directa paso a paso.
+- [m.c.m. y m.c.d.](https://www.tuthor.es/recursos/mcm-mcd): factorización en primos, mínimo común múltiplo y máximo común divisor, exactos.
+- [Resolver ecuaciones](https://www.tuthor.es/recursos/ecuaciones): primer y segundo grado, con x a los dos lados, paréntesis o fracciones, con comprobación y gráfica.
+- [Ecuaciones de segundo grado](https://www.tuthor.es/recursos/ecuaciones/segundo-grado): fórmula general paso a paso y gráfica de la parábola.
+- [Calculadora de funciones](https://www.tuthor.es/recursos/funciones): dibuja una función con sus cortes con los ejes, vértice y pendiente; punto de corte de dos funciones; recta por dos puntos.
+- [Media, mediana y moda](https://www.tuthor.es/recursos/estadistica): estadística de una lista de datos o de una tabla de frecuencias, con media, mediana, moda, rango y desviación típica.
+- [Desviación típica y varianza](https://www.tuthor.es/recursos/estadistica/desviacion-tipica): calculadora paso a paso.
+- [Sistema solar en 3D](https://www.tuthor.es/recursos/sistema-solar): posiciones reales de los planetas en cualquier fecha.
+- [Globo terráqueo en 3D](https://www.tuthor.es/recursos/globo-terraqueo): países, coordenadas y dónde es de día ahora.
+- [Todos los recursos](https://www.tuthor.es/recursos): índice, incluye tarjetas imprimibles para clase.
+
+## Estudiar por materias (exámenes tipo test con explicación)
+
+- [Estudiar](https://www.tuthor.es/estudiar): índice de todas las materias y temas.
+- [Matemáticas](https://www.tuthor.es/estudiar/matematicas)
+- [Lengua (Gramática española)](https://www.tuthor.es/estudiar/idiomas/espanol/gramatica): sustantivos, adjetivos, verbos, pronombres, sintaxis, género y número.
+- [Inglés (Grammar)](https://www.tuthor.es/estudiar/idiomas/ingles/grammar)
+- [Historia](https://www.tuthor.es/estudiar/historia)
+- [Geografía](https://www.tuthor.es/estudiar/geografia)
+
+## Juegos para aprender
+
+- [Juegos](https://www.tuthor.es/juegos): índice de juegos por materia (física, química, matemáticas, lengua, historia, geografía, música…).
+- [Analiza la Frase](https://www.tuthor.es/juegos/analiza-frases): señala el sujeto, el predicado, los adjetivos o las palabras en femenino sobre frases reales.
+
+## Para profesores
+
+- [Tuthor para profesores](https://www.tuthor.es/profesores): pasar lista, notas por trimestre, exámenes propios y material imprimible.
+
+## Sitemap
+
+- [Sitemap XML](https://www.tuthor.es/sitemap.xml)
