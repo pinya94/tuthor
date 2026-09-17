@@ -38,6 +38,46 @@ export const EJEMPLOS_TABLA = [
   { valores: ['5', '6', '7', '8', '9', '10'], frecuencias: ['2', '5', '9', '7', '4', '3'] },
 ]
 
+// Variantes con URL propia. La calculadora es la misma (siempre saca todos los
+// parámetros); cada tipo cambia el título, la introducción, el modo de entrada
+// por defecto y los ejemplos, para posicionar por lo que se busca de verdad
+// ("calcular la desviación típica paso a paso", "estadística con tabla de
+// frecuencias"). La base (slug '') es la calculadora general. Como en
+// recursoEcuaciones.js y recursoFunciones.js.
+export const TIPOS = [
+  {
+    slug: '', emoji: '📊', modo: 'lista',
+    titulo: { es: 'Media, mediana y moda paso a paso', en: 'Mean, median and mode step by step', ca: 'Mitjana, mediana i moda pas a pas' },
+    intro: {
+      es: 'Escribe tus datos o la tabla de frecuencias del ejercicio. Verás la tabla completa, cada parámetro con sus pasos y el diagrama de barras.',
+      en: 'Type your data or the frequency table from the exercise. You will see the full table, every measure with its steps and the bar chart.',
+      ca: "Escriu les teves dades o la taula de freqüències de l'exercici. Veuràs la taula completa, cada paràmetre amb els seus passos i el diagrama de barres.",
+    },
+  },
+  {
+    slug: 'desviacion-tipica', emoji: '📈', modo: 'lista',
+    titulo: { es: 'Calcular la desviación típica y la varianza', en: 'Calculate the standard deviation and variance', ca: 'Calcular la desviació típica i la variància' },
+    intro: {
+      es: 'Escribe tus datos y calcula la varianza y la desviación típica paso a paso: la media, las diferencias al cuadrado y la raíz final. Con la media, mediana y moda de propina.',
+      en: 'Type your data and get the variance and standard deviation step by step: the mean, the squared differences and the final root. Plus the mean, median and mode.',
+      ca: 'Escriu les teves dades i calcula la variància i la desviació típica pas a pas: la mitjana, les diferències al quadrat i l\'arrel final. Amb la mitjana, mediana i moda de propina.',
+    },
+    ejemplos: ['3, 5, 7, 7, 9', '2 4 4 4 6 8 8 8', '10 12 14 16 18 20', '4, 8, 6, 2, 5'],
+  },
+  {
+    slug: 'tabla-de-frecuencias', emoji: '📋', modo: 'tabla',
+    titulo: { es: 'Estadística con tabla de frecuencias', en: 'Statistics from a frequency table', ca: 'Estadística amb taula de freqüències' },
+    intro: {
+      es: 'Escribe tu tabla de frecuencias (valor y fᵢ) y obtén la media, la mediana, la moda, el rango y la desviación típica leídas con la frecuencia acumulada, paso a paso.',
+      en: 'Type your frequency table (value and fᵢ) and get the mean, median, mode, range and standard deviation read from the cumulative frequency, step by step.',
+      ca: 'Escriu la teva taula de freqüències (valor i fᵢ) i obtén la mitjana, la mediana, la moda, el rang i la desviació típica llegides amb la freqüència acumulada, pas a pas.',
+    },
+  },
+]
+
+export const rutaDe = tipo => (tipo.slug ? `${RUTA}/${tipo.slug}` : RUTA)
+export const tipoPorSlug = slug => TIPOS.find(t => t.slug === (slug ?? '')) ?? null
+
 // ── Números como los escribe un alumno ──────────────────────────────────────
 
 // ¿Tiene la fracción una expresión decimal finita? Solo si el denominador no

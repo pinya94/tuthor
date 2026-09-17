@@ -183,6 +183,14 @@ export const STATIC_META = {
     es: { title: 'Calculadora de media, mediana y moda, paso a paso', desc: 'Escribe tus datos o tu tabla de frecuencias y calcula media, mediana, moda, rango y desviación típica paso a paso, con el diagrama de barras. Gratis y sin registro.' },
     en: { title: 'Mean, median and mode calculator, step by step', desc: 'Enter your data or frequency table and get the mean, median, mode, range and standard deviation step by step, with a bar chart. Free, no sign-up.' },
   },
+  '/recursos/estadistica/desviacion-tipica': {
+    es: { title: 'Calcular la desviación típica y la varianza paso a paso', desc: 'Escribe tus datos y calcula la varianza y la desviación típica paso a paso: la media, las diferencias al cuadrado y la raíz. Con media, mediana y moda. Gratis y sin registro.' },
+    en: { title: 'Standard deviation and variance calculator, step by step', desc: 'Enter your data and get the variance and standard deviation step by step: the mean, the squared differences and the root. Plus mean, median and mode. Free, no sign-up.' },
+  },
+  '/recursos/estadistica/tabla-de-frecuencias': {
+    es: { title: 'Estadística con tabla de frecuencias, paso a paso', desc: 'Escribe tu tabla de frecuencias (valor y fᵢ) y calcula media, mediana, moda, rango y desviación típica con la frecuencia acumulada, paso a paso. Gratis y sin registro.' },
+    en: { title: 'Statistics from a frequency table, step by step', desc: 'Enter your frequency table (value and fᵢ) and get the mean, median, mode, range and standard deviation from the cumulative frequency, step by step. Free, no sign-up.' },
+  },
   '/recursos/sistema-solar': {
     es: { title: 'Sistema solar en 3D: dónde están hoy los planetas', desc: 'Gira el sistema solar en 3D y mira dónde están los planetas en cualquier fecha, con distancias, tamaños y datos de cada uno. Posiciones reales, gratis y sin registro.' },
     en: { title: 'Solar system in 3D: where the planets are today', desc: 'Rotate the solar system in 3D and see where the planets are on any date, with distances, sizes and facts for each one. Real positions, free, no sign-up.' },

@@ -1,9 +1,9 @@
 import { useMemo, useState } from 'react'
-import { Link, useSearchParams } from 'react-router-dom'
+import { Link, useParams, useSearchParams } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import SEOEstatico from '../components/SEOEstatico'
 import DiagramaFrecuencias from '../components/DiagramaFrecuencias'
-import { RUTA, EJEMPLOS_LISTA, EJEMPLOS_TABLA, resolverEstadistica, numTexto } from '../lib/recursoEstadistica'
+import { TIPOS, tipoPorSlug, rutaDe, EJEMPLOS_LISTA, EJEMPLOS_TABLA, resolverEstadistica, numTexto } from '../lib/recursoEstadistica'
 import { MENSAJE_ERROR } from '../lib/recursoFunciones'
 
 // /recursos/estadistica — el alumno pega sus datos o su tabla de frecuencias y
@@ -36,6 +36,7 @@ const TX = {
   tablaTitulo: { es: 'Tabla de frecuencias', en: 'Frequency table', ca: 'Taula de freqüències' },
   copiar: { es: '🔗 Copiar enlace a este ejercicio', en: '🔗 Copy link to this exercise', ca: "🔗 Copiar l'enllaç a aquest exercici" },
   copiado: { es: '✓ Enlace copiado', en: '✓ Link copied', ca: '✓ Enllaç copiat' },
+  otrosTipos: { es: 'Otras calculadoras de estadística', en: 'Other statistics calculators', ca: "Altres calculadores d'estadística" },
   practica: { es: 'Practica', en: 'Practise', ca: 'Practica' },
   juego: { es: '📊 Estadístico Exprés', en: '📊 Quick Statistician', ca: '📊 Estadístic Exprés' },
   examen: { es: '📝 Examen de estadística', en: '📝 Statistics exam', ca: "📝 Examen d'estadística" },
@@ -44,12 +45,19 @@ const TX = {
 
 const aFilas = ({ valores, frecuencias }) => valores.map((v, i) => ({ valor: v, frecuencia: frecuencias[i] ?? '' }))
 
+// Cada tipo (desviación típica, tabla de frecuencias…) monta de nuevo la página.
 export default function RecursoEstadistica() {
+  const { tipo } = useParams()
+  return <Recurso key={tipo ?? ''} slug={tipo} />
+}
+
+function Recurso({ slug }) {
+  const tipo = tipoPorSlug(slug) ?? TIPOS[0]
   const { lang, tr, localPath } = useLang()
   const [params, setParams] = useSearchParams()
 
-  const [modo, setModo] = useState(() => (params.get('modo') === 'tabla' ? 'tabla' : 'lista'))
-  const [lista, setLista] = useState(() => params.get('d') ?? EJEMPLOS_LISTA[0])
+  const [modo, setModo] = useState(() => (params.get('modo') === 'tabla' ? 'tabla' : params.get('modo') === 'lista' ? 'lista' : tipo.modo))
+  const [lista, setLista] = useState(() => params.get('d') ?? (tipo.ejemplos?.[0] ?? EJEMPLOS_LISTA[0]))
   const [filas, setFilas] = useState(() => {
     const v = params.get('v'), f = params.get('f')
     return v !== null ? aFilas({ valores: v.split(';'), frecuencias: (f ?? '').split(';') }) : aFilas(EJEMPLOS_TABLA[0])
@@ -88,13 +96,13 @@ export default function RecursoEstadistica() {
 
   return (
     <div className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 py-8">
-      <SEOEstatico path={RUTA} />
+      <SEOEstatico path={rutaDe(tipo)} />
 
       <p className="text-white/35 text-xs mb-3">
         <Link to={localPath('/recursos')} className="hover:text-white/60">{tr(TX.recursos)}</Link>
       </p>
-      <h1 className="text-3xl sm:text-4xl font-black text-white leading-tight mb-2">📊 {tr(TX.titulo)}</h1>
-      <p className="text-white/55 text-[15px] leading-relaxed mb-5">{tr(TX.intro)}</p>
+      <h1 className="text-3xl sm:text-4xl font-black text-white leading-tight mb-2">{tipo.emoji} {tr(tipo.titulo)}</h1>
+      <p className="text-white/55 text-[15px] leading-relaxed mb-5">{tr(tipo.intro)}</p>
 
       <div className="inline-flex gap-1 p-1 bg-black/25 border border-white/10 rounded-xl mb-4">
         {['lista', 'tabla'].map(m => (
@@ -115,7 +123,7 @@ export default function RecursoEstadistica() {
             <p className="text-white/30 text-xs leading-relaxed">{tr(TX.ayudaLista)}</p>
             <div className="flex flex-wrap items-center gap-1.5">
               <span className="text-white/35 text-xs mr-1">{tr(TX.ejemplos)}:</span>
-              {EJEMPLOS_LISTA.map(ej => (
+              {(tipo.ejemplos ?? EJEMPLOS_LISTA).map(ej => (
                 <button key={ej} type="button" onClick={() => cambiarLista(ej)}
                   className="text-xs font-semibold px-2.5 py-1 rounded-lg bg-white/5 border border-white/10 text-white/60 hover:text-white hover:bg-white/10 transition-colors">{ej}</button>
               ))}
@@ -233,7 +241,20 @@ export default function RecursoEstadistica() {
         </>
       )}
 
-      <div className="mt-10 pt-6 border-t border-white/10">
+      {/* Enlazado interno entre las variantes: cada tipo lleva a los demás. */}
+      <nav className="mt-10 pt-6 border-t border-white/10">
+        <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-3">{tr(TX.otrosTipos)}</p>
+        <div className="flex flex-wrap gap-2">
+          {TIPOS.filter(t => t.slug !== tipo.slug).map(t => (
+            <Link key={t.slug || 'base'} to={localPath(rutaDe(t))}
+              className="text-sm font-semibold px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-white/70 hover:text-white hover:bg-white/10 transition-colors">
+              {t.emoji} {tr(t.titulo)}
+            </Link>
+          ))}
+        </div>
+      </nav>
+
+      <div className="mt-8 pt-6 border-t border-white/10">
         <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-3">{tr(TX.practica)}</p>
         <div className="flex flex-wrap gap-2">
           <Link to={localPath('/juegos/estadistico-expres')} className="text-sm font-bold px-4 py-2 rounded-xl bg-sky-600/80 hover:bg-sky-600 text-white">{tr(TX.juego)}</Link>
