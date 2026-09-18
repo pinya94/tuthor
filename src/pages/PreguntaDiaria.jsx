@@ -66,7 +66,7 @@ function GeoInput({ value, onChange, onSubmit, disabled, useEnglish }) {
         className="w-full bg-white/10 border-2 border-white/20 focus:border-[#EDAE49] rounded-xl px-4 py-2.5 text-white placeholder:text-white/25 outline-none transition-colors disabled:opacity-40"
         autoComplete="off" />
       {focused && filtered.length > 0 && (
-        <div className="absolute z-50 w-full mt-1 bg-[#1a1a2e] border border-white/20 rounded-xl overflow-hidden shadow-2xl max-h-40 overflow-y-auto">
+        <div className="absolute z-50 w-full bottom-full mb-1 bg-[#1a1a2e] border border-white/20 rounded-xl overflow-hidden shadow-2xl max-h-40 overflow-y-auto">
           {filtered.map((name, i) => (
             <button key={name} onMouseDown={() => select(name)}
               className={`w-full text-left px-4 py-2 text-sm transition-colors ${

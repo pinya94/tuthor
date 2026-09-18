@@ -23,13 +23,15 @@ const UI = {
     desc: 'Mueve la latitud y la longitud hasta donde creas que está el país pedido y confirma. Cuanto más cerca en el mapa real, más puntos.',
     volver: '← Volver', empezar: '¡Empezar! →',
     comoFunciona: 'Cómo funciona',
-    paso1: 'Se pide un país: mueve los dos sliders (latitud y longitud) para marcarlo en el mapa',
+    paso1: 'Se pide un país: toca el mapa donde creas que está (o afina con los sliders)',
     paso2: 'Sin prisa ni reloj — decide con calma y confirma cuando estés seguro',
     paso3: 'Cuanto más cerca esté tu marca de la real, más puntos. Muy lejos, pierdes una vida',
     paso4: `Tienes ${VIDAS_INICIALES} vidas — la partida acaba si se agotan o tras ${MAX_RONDAS} países`,
     salir: '← Salir',
     confirmar: '📍 Confirmar posición',
     objetivo: 'Marca en el mapa:',
+    tocaMapa: '👆 Toca el mapa para colocar tu marca',
+    ajuste: 'Ajuste fino',
     latitud: 'Latitud', longitud: 'Longitud',
     norte: 'N', sur: 'S', este: 'E', oeste: 'O',
     perfecto: '¡En el sitio exacto!', cerca: 'Cerca — buena zona', fallo: 'Lejos de ahí',
@@ -43,13 +45,15 @@ const UI = {
     desc: 'Move latitude and longitude to where you think the requested country is and confirm. The closer on the real map, the more points.',
     volver: '← Back', empezar: 'Start! →',
     comoFunciona: 'How it works',
-    paso1: 'A country is requested: move the two sliders (latitude and longitude) to mark it on the map',
+    paso1: 'A country is requested: tap the map where you think it is (or fine-tune with the sliders)',
     paso2: 'No rush, no clock — decide calmly and confirm once you are sure',
     paso3: 'The closer your mark is to the real spot, the more points. Too far, you lose a life',
     paso4: `You have ${VIDAS_INICIALES} lives — the game ends when they run out or after ${MAX_RONDAS} countries`,
     salir: '← Exit',
     confirmar: '📍 Confirm position',
     objetivo: 'Mark on the map:',
+    tocaMapa: '👆 Tap the map to place your mark',
+    ajuste: 'Fine-tune',
     latitud: 'Latitude', longitud: 'Longitude',
     norte: 'N', sur: 'S', este: 'E', oeste: 'W',
     perfecto: 'Right on the spot!', cerca: 'Close — good region', fallo: 'Way off',
@@ -63,13 +67,15 @@ const UI = {
     desc: 'Mou la latitud i la longitud fins on creguis que és el país demanat i confirma. Com més a prop al mapa real, més punts.',
     volver: '← Enrere', empezar: 'Comença! →',
     comoFunciona: 'Com funciona',
-    paso1: 'Es demana un país: mou els dos sliders (latitud i longitud) per marcar-lo al mapa',
+    paso1: 'Es demana un país: toca el mapa on creguis que és (o afina amb els sliders)',
     paso2: 'Sense presses ni rellotge — decideix amb calma i confirma quan estiguis segur',
     paso3: 'Com més a prop estigui la teva marca de la real, més punts. Molt lluny, perds una vida',
     paso4: `Tens ${VIDAS_INICIALES} vides — la partida acaba si s'acaben o després de ${MAX_RONDAS} països`,
     salir: '← Sortir',
     confirmar: '📍 Confirma la posició',
     objetivo: 'Marca al mapa:',
+    tocaMapa: '👆 Toca el mapa per col·locar la teva marca',
+    ajuste: 'Ajust fi',
     latitud: 'Latitud', longitud: 'Longitud',
     norte: 'N', sur: 'S', este: 'E', oeste: 'O',
     perfecto: 'Just al lloc exacte!', cerca: 'A prop — bona zona', fallo: 'Lluny d\'aquí',
@@ -172,7 +178,7 @@ export default function Coordenadas() {
   // ── INTRO ──────────────────────────────────────────────────────────────────
   if (fase === 'intro') {
     return (
-      <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
+      <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100dvh-4rem)] px-4 py-8">
         <SEOHead title={seo.title} description={seo.desc} path={seo.path} lang={l} />
         <div className="max-w-xl w-full flex flex-col items-center">
           <button onClick={() => navigate(localPath('/juegos'))}
@@ -217,7 +223,7 @@ export default function Coordenadas() {
   // ── JUGANDO ────────────────────────────────────────────────────────────────
   if (fase === 'jugando' && pais) {
     return (
-      <div className="relative z-10 flex flex-col min-h-[calc(100vh-4rem)] px-4 md:px-8 py-5 max-w-2xl mx-auto w-full">
+      <div className="relative z-10 flex flex-col min-h-[calc(100dvh-4rem)] px-4 md:px-8 py-5 max-w-2xl mx-auto w-full">
         <SEOHead title={seo.title} description={seo.desc} path={seo.path} lang={l} />
         <div className="flex items-center justify-between mb-4">
           <button onClick={() => setFase('intro')} className="text-white/40 hover:text-white/70 text-sm transition-colors">
@@ -239,9 +245,13 @@ export default function Coordenadas() {
           <FlagImg bandera={pais.bandera} /> {l === 'en' && pais.nombreEn ? pais.nombreEn : pais.nombre}
         </p>
 
-        <MapaCoordenadas guessLat={latVal} guessLon={lonVal} real={null} revelado={false} />
+        <MapaCoordenadas guessLat={latVal} guessLon={lonVal} real={null} revelado={false}
+          onPick={(lat, lon) => { setLatVal(Math.round(lat)); setLonVal(Math.round(lon)) }} />
 
-        <div className="mt-4">
+        <p className="text-center text-white/40 text-xs mt-2">{t.tocaMapa}</p>
+
+        <p className="text-white/30 text-[11px] uppercase tracking-widest mt-3 mb-1">{t.ajuste}</p>
+        <div>
           <div className="flex justify-between text-xs text-white/50 mb-1">
             <span>{t.latitud}</span>
             <span className="font-mono text-white">{fmtCoord(latVal, t.norte, t.sur)}</span>
@@ -274,7 +284,7 @@ export default function Coordenadas() {
     const { resultado, pts, vidasRestantes, pais: p, km, guessLat, guessLon } = feedback
     const color = resultado === 'perfecto' ? 'text-green-400' : resultado === 'cerca' ? 'text-yellow-400' : 'text-red-400'
     return (
-      <div className="relative z-10 flex flex-col min-h-[calc(100vh-4rem)] px-4 md:px-8 py-5 max-w-2xl mx-auto w-full">
+      <div className="relative z-10 flex flex-col min-h-[calc(100dvh-4rem)] px-4 md:px-8 py-5 max-w-2xl mx-auto w-full">
         <div className="flex items-center justify-between mb-4 text-sm text-white/50">
           <span className="text-white font-bold tabular-nums">{puntos.toLocaleString()} pts</span>
           <span className="flex gap-0.5">

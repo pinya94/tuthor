@@ -131,6 +131,12 @@ function AutocompleteInput({ value, onChange, onSubmit, paises, disabled, focusK
     if (!disabled) inputRef.current?.focus()
   }, [focusKey, disabled])
 
+  // Al enfocar en móvil, sube el input a la vista: el teclado no debe taparlo
+  function traerAVista() {
+    setFocused(true)
+    setTimeout(() => inputRef.current?.scrollIntoView({ block: 'center', behavior: 'smooth' }), 100)
+  }
+
   const filtered = useMemo(() => {
     if (!value || value.length < 1) return []
     const norm = normalize(value)
@@ -162,7 +168,7 @@ function AutocompleteInput({ value, onChange, onSubmit, paises, disabled, focusK
         type="text"
         value={value}
         onChange={e => { onChange(e.target.value); setHighlightIdx(-1) }}
-        onFocus={() => setFocused(true)}
+        onFocus={traerAVista}
         onBlur={() => setTimeout(() => setFocused(false), 150)}
         onKeyDown={handleKey}
         disabled={disabled}
@@ -171,7 +177,7 @@ function AutocompleteInput({ value, onChange, onSubmit, paises, disabled, focusK
         autoComplete="off"
       />
       {focused && filtered.length > 0 && (
-        <div className="absolute z-50 w-full mt-1 bg-[#1a1a2e] border border-white/20 rounded-xl overflow-hidden shadow-2xl max-h-48 overflow-y-auto">
+        <div className="absolute z-50 w-full bottom-full mb-1 bg-[#1a1a2e] border border-white/20 rounded-xl overflow-hidden shadow-2xl max-h-48 overflow-y-auto">
           {filtered.map((name, i) => (
             <button key={name} onMouseDown={() => select(name)}
               className={`w-full text-left px-4 py-2.5 text-sm transition-colors ${
@@ -456,7 +462,7 @@ export default function GeoRush() {
   if (fase === 'intro') {
     const d = DIFS[difId]
     return (
-      <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
+      <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100dvh-4rem)] px-4 py-8">
         <SEOHead title={lang==='en'?'GeoRush — Guess the Country':'GeoRush — Adivina el País'} description={lang==='en'?'Guess the mystery country from geographical, demographic and historical clues. Beat the clock in this free geography game.':lang==='ca'?'Endevina el país misteriós a partir de pistes geogràfiques, demogràfiques i històriques.':'Descubre el país misterioso a partir de pistas geográficas, demográficas e históricas. Contra el reloj.'} path={lang==='en'?'/en/juegos/georush':lang==='ca'?'/ca/juegos/georush':'/juegos/georush'} lang={lang} />
         <div className="max-w-xl w-full">
           <button onClick={() => navigate(localPath('/juegos'))}
@@ -589,7 +595,7 @@ export default function GeoRush() {
   const pistaActual = pistas[pistaIdx]
 
   return (
-    <div className="relative z-10 flex flex-col min-h-[calc(100vh-4rem)] px-4 md:px-8 py-5 max-w-3xl mx-auto w-full">
+    <div className="relative z-10 flex flex-col min-h-[calc(100dvh-4rem)] px-4 md:px-8 py-5 max-w-3xl mx-auto w-full">
 
       {/* Header */}
       <div className="flex items-center justify-between mb-4">

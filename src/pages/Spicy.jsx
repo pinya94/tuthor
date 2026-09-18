@@ -163,7 +163,7 @@ export default function Spicy() {
   // ── INTRO ──────────────────────────────────────────────────────────────────
   if (fase === 'intro') {
     return (
-      <div className="relative z-10 flex items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
+      <div className="relative z-10 flex items-center justify-center min-h-[calc(100dvh-4rem)] px-4 py-8">
         <SEOHead
           title={tr({ es: 'Spicy — juego de educación financiera', en: 'Spicy — financial education game', ca: 'Spicy — joc d\'educació financera' })}
           description={tr({ es: 'Vive una vida entera tomando decisiones con dinero: ahorro, inflación, inversión, vivienda y timos. Aprende a leer las señales de riesgo jugando.', en: 'Live a whole life making money decisions: saving, inflation, investing, housing and scams. Learn to read risk signals by playing.', ca: 'Viu una vida sencera prenent decisions amb diners: estalvi, inflació, inversió, habitatge i estafes. Aprèn a llegir els senyals de risc jugant.' })}
@@ -390,55 +390,55 @@ export default function Spicy() {
       <div className="flex flex-wrap gap-1.5 mb-3">
         {p.flags.includes('sabe-invertir') && (
           <button onClick={() => { setAccion(accion === 'invertir' ? null : 'invertir'); setAccionNota(null) }}
-            className={`text-xs font-bold px-3 py-1.5 rounded-lg border transition-colors ${accion === 'invertir' ? 'bg-amber-500/25 border-amber-500/50 text-amber-300' : 'bg-white/5 border-white/10 text-white/60 hover:text-white'}`}>
+            className={`text-xs font-bold px-3 py-2 rounded-lg border transition-colors ${accion === 'invertir' ? 'bg-amber-500/25 border-amber-500/50 text-amber-300' : 'bg-white/5 border-white/10 text-white/60 hover:text-white'}`}>
             📈 {tr({ es: 'Invertir', en: 'Invest', ca: 'Invertir' })}
           </button>
         )}
         {p.flags.includes('sabe-invertir') && vendibles.length > 0 && (
           <button onClick={() => { setAccion(accion === 'vender' ? null : 'vender'); setAccionNota(null) }}
-            className={`text-xs font-bold px-3 py-1.5 rounded-lg border transition-colors ${accion === 'vender' ? 'bg-amber-500/25 border-amber-500/50 text-amber-300' : 'bg-white/5 border-white/10 text-white/60 hover:text-white'}`}>
+            className={`text-xs font-bold px-3 py-2 rounded-lg border transition-colors ${accion === 'vender' ? 'bg-amber-500/25 border-amber-500/50 text-amber-300' : 'bg-white/5 border-white/10 text-white/60 hover:text-white'}`}>
             💸 {tr({ es: 'Vender', en: 'Sell', ca: 'Vendre' })}
           </button>
         )}
         {p.flags.includes('sabe-invertir') && (
           <button onClick={() => { setAccion(accion === 'dca' ? null : 'dca'); setAccionNota(null) }}
-            className={`text-xs font-bold px-3 py-1.5 rounded-lg border transition-colors ${accion === 'dca' ? 'bg-amber-500/25 border-amber-500/50 text-amber-300' : 'bg-white/5 border-white/10 text-white/60 hover:text-white'}`}>
+            className={`text-xs font-bold px-3 py-2 rounded-lg border transition-colors ${accion === 'dca' ? 'bg-amber-500/25 border-amber-500/50 text-amber-300' : 'bg-white/5 border-white/10 text-white/60 hover:text-white'}`}>
             🔁 {p.dca ? tr({ es: `DCA: ${Math.round(p.dca.pct * 100)}% → ${CLASES_INVERSION[p.dca.clase].label.es}`, en: `DCA: ${Math.round(p.dca.pct * 100)}% → ${CLASES_INVERSION[p.dca.clase].label.en}`, ca: `DCA: ${Math.round(p.dca.pct * 100)}% → ${CLASES_INVERSION[p.dca.clase].label.ca}` }) : tr({ es: 'Aportación automática', en: 'Automatic contribution', ca: 'Aportació automàtica' })}
           </button>
         )}
         {p.edad >= 18 && (
           <button onClick={() => { setAccion(accion === 'vida' ? null : 'vida'); setAccionNota(null) }}
-            className={`text-xs font-bold px-3 py-1.5 rounded-lg border transition-colors ${accion === 'vida' ? 'bg-amber-500/25 border-amber-500/50 text-amber-300' : 'bg-white/5 border-white/10 text-white/60 hover:text-white'}`}>
+            className={`text-xs font-bold px-3 py-2 rounded-lg border transition-colors ${accion === 'vida' ? 'bg-amber-500/25 border-amber-500/50 text-amber-300' : 'bg-white/5 border-white/10 text-white/60 hover:text-white'}`}>
             {MODOS_VIDA[p.modoVida].emoji} {tr({ es: 'Nivel de gasto', en: 'Spending level', ca: 'Nivell de despesa' })}: {tr(MODOS_VIDA[p.modoVida].label)}
           </button>
         )}
         {p.edad >= 16 && p.ingresos > 0 && !p.estudios && !p.flags.includes('jubilado') && !p.flags.includes('prejubilado') && (
           <button onClick={() => ejecutarAccion(pp => buscarEmpleo(pp))}
-            className="text-xs font-bold px-3 py-1.5 rounded-lg border bg-white/5 border-white/10 text-white/60 hover:text-white transition-colors">
+            className="text-xs font-bold px-3 py-2 rounded-lg border bg-white/5 border-white/10 text-white/60 hover:text-white transition-colors">
             💼 {tr({ es: 'Buscar otro empleo', en: 'Look for another job', ca: 'Buscar una altra feina' })}
           </button>
         )}
         {p.edad >= 18 && p.ingresos > 0 && !p.estudios && !p.flags.includes('jubilado') && !p.flags.includes('prejubilado') && (
           <button onClick={() => ejecutarAccion(pp => pedirAumento(pp))}
-            className="text-xs font-bold px-3 py-1.5 rounded-lg border bg-white/5 border-white/10 text-white/60 hover:text-white transition-colors">
+            className="text-xs font-bold px-3 py-2 rounded-lg border bg-white/5 border-white/10 text-white/60 hover:text-white transition-colors">
             🙋 {tr({ es: 'Pedir un aumento', en: 'Ask for a raise', ca: 'Demanar un augment' })}
           </button>
         )}
         {p.edad >= 18 && (
           <button onClick={() => { setAccion(accion === 'vivienda' ? null : 'vivienda'); setAccionNota(null) }}
-            className={`text-xs font-bold px-3 py-1.5 rounded-lg border transition-colors ${accion === 'vivienda' ? 'bg-amber-500/25 border-amber-500/50 text-amber-300' : 'bg-white/5 border-white/10 text-white/60 hover:text-white'}`}>
+            className={`text-xs font-bold px-3 py-2 rounded-lg border transition-colors ${accion === 'vivienda' ? 'bg-amber-500/25 border-amber-500/50 text-amber-300' : 'bg-white/5 border-white/10 text-white/60 hover:text-white'}`}>
             🏠 {p.vivienda === 'propia' ? tr({ es: 'Tu vivienda', en: 'Your home', ca: 'La teva vivenda' }) : tr({ es: 'Comprar vivienda', en: 'Buy a home', ca: 'Comprar vivenda' })}
           </button>
         )}
         {p.edad >= 25 && (
           <button onClick={() => { setAccion(accion === 'segunda' ? null : 'segunda'); setAccionNota(null) }}
-            className={`text-xs font-bold px-3 py-1.5 rounded-lg border transition-colors ${accion === 'segunda' ? 'bg-amber-500/25 border-amber-500/50 text-amber-300' : 'bg-white/5 border-white/10 text-white/60 hover:text-white'}`}>
+            className={`text-xs font-bold px-3 py-2 rounded-lg border transition-colors ${accion === 'segunda' ? 'bg-amber-500/25 border-amber-500/50 text-amber-300' : 'bg-white/5 border-white/10 text-white/60 hover:text-white'}`}>
             🏡 {tr({ es: 'Segunda vivienda', en: 'Second home', ca: 'Segona vivenda' })}
           </button>
         )}
         {p.vivienda === 'alquiler' && (
           <button onClick={() => { setAccion(accion === 'piso' ? null : 'piso'); setAccionNota(null) }}
-            className={`text-xs font-bold px-3 py-1.5 rounded-lg border transition-colors ${accion === 'piso' ? 'bg-amber-500/25 border-amber-500/50 text-amber-300' : 'bg-white/5 border-white/10 text-white/60 hover:text-white'}`}>
+            className={`text-xs font-bold px-3 py-2 rounded-lg border transition-colors ${accion === 'piso' ? 'bg-amber-500/25 border-amber-500/50 text-amber-300' : 'bg-white/5 border-white/10 text-white/60 hover:text-white'}`}>
             {VIVIENDA_TIERS[p.viviendaTier].emoji} {tr({ es: 'Cambiar de piso', en: 'Change flat', ca: 'Canviar de pis' })}: {tr(VIVIENDA_TIERS[p.viviendaTier].label)}
           </button>
         )}
@@ -457,7 +457,7 @@ export default function Spicy() {
                 return (
                   <button key={f} disabled={importe < 50}
                     onClick={() => ejecutarAccion(pp => invertir(pp, clase, importe))}
-                    className="text-[11px] font-bold px-2 py-1 rounded bg-white/10 hover:bg-amber-500/25 border border-white/10 text-white/70 disabled:opacity-25 transition-colors">
+                    className="text-xs font-bold px-3 py-2 rounded bg-white/10 hover:bg-amber-500/25 border border-white/10 text-white/70 disabled:opacity-25 transition-colors">
                     {Math.round(f * 100)}% ({fmt(importe)})
                   </button>
                 )
@@ -479,7 +479,7 @@ export default function Spicy() {
                 <div className="flex flex-wrap gap-1.5">
                   {[0.25, 0.5, 1].map(f => (
                     <button key={f} onClick={() => ejecutarAccion(pp => venderActivo(pp, a.id, f))}
-                      className="text-[11px] font-bold px-2 py-1 rounded bg-white/10 hover:bg-amber-500/25 border border-white/10 text-white/70 transition-colors">
+                      className="text-xs font-bold px-3 py-2 rounded bg-white/10 hover:bg-amber-500/25 border border-white/10 text-white/70 transition-colors">
                       {f === 1 ? tr({ es: 'Todo', en: 'All', ca: 'Tot' }) : `${Math.round(f * 100)}%`} ({fmt(Math.round(a.valor * f * haircut))})
                     </button>
                   ))}
@@ -506,7 +506,7 @@ export default function Spicy() {
                 <div className="flex flex-wrap gap-1.5">
                   {Object.entries(CLASES_INVERSION).map(([clase, def]) => (
                     <button key={clase} onClick={() => setDcaClase(clase)}
-                      className={`text-[11px] font-bold px-2 py-1 rounded border transition-colors ${dcaClase === clase ? 'bg-amber-500/25 border-amber-500/50 text-amber-300' : 'bg-white/10 border-white/10 text-white/70 hover:text-white'}`}>
+                      className={`text-xs font-bold px-3 py-2 rounded border transition-colors ${dcaClase === clase ? 'bg-amber-500/25 border-amber-500/50 text-amber-300' : 'bg-white/10 border-white/10 text-white/70 hover:text-white'}`}>
                       {def.emoji} {tr(def.label)}
                     </button>
                   ))}
@@ -514,7 +514,7 @@ export default function Spicy() {
                 <div className="flex flex-wrap gap-1.5">
                   {[0.1, 0.25, 0.5].map(pct => (
                     <button key={pct} onClick={() => ejecutarAccion(pp => configurarDCA(pp, dcaClase, pct))}
-                      className="text-[11px] font-bold px-2 py-1 rounded bg-white/10 hover:bg-amber-500/25 border border-white/10 text-white/70 transition-colors">
+                      className="text-xs font-bold px-3 py-2 rounded bg-white/10 hover:bg-amber-500/25 border border-white/10 text-white/70 transition-colors">
                       {Math.round(pct * 100)}%
                     </button>
                   ))}
@@ -620,23 +620,23 @@ export default function Spicy() {
                   <div className="flex flex-wrap gap-1.5">
                     {casa2.uso !== 'vive' && (
                       <button onClick={() => ejecutarAccion(pp => usarSegundaVivienda(pp, 'vive'))}
-                        className="text-[11px] font-bold px-2 py-1 rounded bg-white/10 hover:bg-amber-500/25 border border-white/10 text-white/70 transition-colors">
+                        className="text-xs font-bold px-3 py-2 rounded bg-white/10 hover:bg-amber-500/25 border border-white/10 text-white/70 transition-colors">
                         {tr({ es: 'Usarla vosotros', en: 'Use it yourselves', ca: 'Usar-la vosaltres' })}
                       </button>
                     )}
                     {casa2.uso !== 'alquiler' && (
                       <button onClick={() => ejecutarAccion(pp => usarSegundaVivienda(pp, 'alquiler'))}
-                        className="text-[11px] font-bold px-2 py-1 rounded bg-white/10 hover:bg-amber-500/25 border border-white/10 text-white/70 transition-colors">
+                        className="text-xs font-bold px-3 py-2 rounded bg-white/10 hover:bg-amber-500/25 border border-white/10 text-white/70 transition-colors">
                         {tr({ es: 'Alquilarla', en: 'Rent it out', ca: 'Llogar-la' })}
                       </button>
                     )}
                     <button onClick={() => ejecutarAccion(pp => venderSegundaVivienda(pp))}
-                      className="text-[11px] font-bold px-2 py-1 rounded bg-white/10 hover:bg-red-500/25 border border-white/10 text-white/70 transition-colors">
+                      className="text-xs font-bold px-3 py-2 rounded bg-white/10 hover:bg-red-500/25 border border-white/10 text-white/70 transition-colors">
                       {tr({ es: 'Venderla', en: 'Sell it', ca: 'Vendre-la' })}
                     </button>
                     {(p.hijos ?? []).length > 0 && (
                       <button onClick={() => ejecutarAccion(pp => donarSegundaVivienda(pp))}
-                        className="text-[11px] font-bold px-2 py-1 rounded bg-white/10 hover:bg-emerald-500/25 border border-white/10 text-white/70 transition-colors">
+                        className="text-xs font-bold px-3 py-2 rounded bg-white/10 hover:bg-emerald-500/25 border border-white/10 text-white/70 transition-colors">
                         {tr({ es: 'Donarla a tus hijos', en: 'Give it to your kids', ca: 'Donar-la als teus fills' })}
                       </button>
                     )}

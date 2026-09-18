@@ -45,7 +45,8 @@ function Question({ round, phase, onAnswer, l }) {
       </p>
 
       <MapaCoordenadas guessLat={lat} guessLon={lon}
-        real={reveal ? { ...pais, resultado: ok ? 'perfecto' : 'fallo' } : null} revelado={reveal} />
+        real={reveal ? { ...pais, resultado: ok ? 'perfecto' : 'fallo' } : null} revelado={reveal}
+        onPick={reveal ? undefined : (la, lo) => { setLat(Math.round(la)); setLon(Math.round(lo)) }} />
 
       <div className="mt-3">
         <div className="flex justify-between text-xs text-white/50 mb-1">

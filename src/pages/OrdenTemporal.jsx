@@ -188,7 +188,7 @@ export default function OrdenTemporal() {
   const progress = Math.round((timeline.length / (timeline.length + pending.length + 1)) * 100)
 
   return (
-    <div className="relative z-10 flex flex-col" style={{ height: 'calc(100vh - 4rem)' }}>
+    <div className="relative z-10 flex flex-col" style={{ height: 'calc(100dvh - 4rem)' }}>
 
       {/* ── HEADER ── */}
       <div className="flex items-center justify-between px-4 sm:px-8 py-2 shrink-0 border-b border-white/10 bg-black/20">
@@ -210,19 +210,19 @@ export default function OrdenTemporal() {
       </div>
 
       {/* ── CARTA ACTUAL ── */}
-      <div className="flex-1 flex flex-col items-center justify-center px-4 sm:px-8 py-4 min-h-0">
-        <p className="text-white/40 text-xs uppercase tracking-widest mb-4 text-center font-semibold">
+      <div className="flex-1 flex flex-col items-center justify-center px-4 sm:px-8 py-3 sm:py-4 min-h-0">
+        <p className="text-white/40 text-xs uppercase tracking-widest mb-2 sm:mb-4 text-center font-semibold">
           {phase === 'placing' ? (lang === 'ca' ? 'On va aquesta carta?' : lang === 'en' ? 'Where does this card go?' : '¿Dónde va esta carta?') : wasCorrect ? (lang === 'ca' ? '✓ Correcte!' : lang === 'en' ? '✓ Correct!' : '✓ ¡Correcto!') : (lang === 'ca' ? '✗ Incorrecte' : lang === 'en' ? '✗ Incorrect' : '✗ Incorrecto')}
         </p>
 
         {current && (
-          <div className={`w-full max-w-2xl rounded-2xl border-2 p-6 sm:p-8 transition-all duration-300 ${
+          <div className={`w-full max-w-2xl rounded-2xl border-2 p-4 sm:p-8 transition-all duration-300 ${
             phase === 'revealing'
               ? wasCorrect ? 'border-green-500/70 bg-green-500/10' : 'border-red-500/70 bg-red-500/10'
               : 'border-white/20 bg-white/5 backdrop-blur-sm'
           }`}>
-            <h2 className="text-3xl sm:text-4xl font-black text-white leading-tight mb-3">{lt(current, 'nombre')}</h2>
-            <p className="text-white/60 text-base sm:text-lg leading-relaxed mb-6">{lt(current, 'descripcion')}</p>
+            <h2 className="text-2xl sm:text-4xl font-black text-white leading-tight mb-2 sm:mb-3">{lt(current, 'nombre')}</h2>
+            <p className="text-white/60 text-sm sm:text-lg leading-relaxed mb-4 sm:mb-6 line-clamp-3 sm:line-clamp-none">{lt(current, 'descripcion')}</p>
             <div className="flex items-center justify-between">
               <span className={`text-sm font-bold px-4 py-1.5 rounded-full border ${dif[current.dificultad]}`}>{current.dificultad}</span>
               <span className={`text-4xl sm:text-5xl font-black tabular-nums transition-all duration-500 ${phase === 'revealing' ? 'text-amber-400' : 'text-white/15'}`}>
@@ -246,7 +246,7 @@ export default function OrdenTemporal() {
         <div
           ref={tlRef}
           className="overflow-x-auto pb-3"
-          style={{ scrollbarWidth: 'none', cursor: 'grab' }}
+          style={{ scrollbarWidth: 'none', cursor: 'grab', touchAction: 'pan-x', WebkitOverflowScrolling: 'touch', overscrollBehaviorX: 'contain' }}
           onMouseDown={onMouseDown}
           onMouseUp={onMouseUp}
           onMouseLeave={onMouseUp}
@@ -293,7 +293,7 @@ function SlotBtn({ index, phase, chosen, correct, onPlace }) {
       onClick={() => isActive && onPlace(index)}
       disabled={!isActive}
       className={`flex-shrink-0 flex flex-col items-center justify-center border-2 rounded-xl transition-all duration-150 mx-0.5 self-stretch ${isActive ? 'cursor-pointer active:scale-95' : 'cursor-default'} ${cls}`}
-      style={{ width: 48 }}
+      style={{ width: 56, touchAction: 'manipulation' }}
     >
       <span className="text-2xl font-black leading-none">
         {isChosen && isCorrect ? '✓' : isChosen ? '✗' : isCorrect ? '↑' : '+'}
