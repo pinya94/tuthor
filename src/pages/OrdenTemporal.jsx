@@ -1,18 +1,15 @@
-import { useState, useRef, useCallback, useEffect } from 'react'
+import { useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { getEventosLineaTemporal, getCorrectPos, sortEventos } from '../data/historiaEvents'
+import { getEventosLineaTemporal, getCorrectPos } from '../data/historiaEvents'
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
 import { saveActivity } from '../lib/activity'
 import { computeCoins } from '../lib/games'
 import GameEndScreen from '../components/GameEndScreen'
 import SEOHead from '../components/SEOHead'
+import TimelineBoard from '../components/TimelineBoard'
 
 const MAX_LIVES = 3
-
-function formatYear(y) {
-  return y < 0 ? `${Math.abs(y)} a.C.` : `${y}`
-}
 
 // ── INTRO ──────────────────────────────────────────────────────────────────────
 function Intro({ onStart, lang }) {
@@ -99,41 +96,7 @@ export default function OrdenTemporal() {
   const [chosenSlot, setChosenSlot] = useState(null)
   const [correctSlot, setCorrectSlot] = useState(null)
   const [wasCorrect, setWasCorrect] = useState(null)
-  const tlRef      = useRef(null)
   const startRef   = useRef(null)
-  const dragRef    = useRef({ active: false, startX: 0, scrollLeft: 0 })
-
-  const onMouseDown = useCallback(e => {
-    const el = tlRef.current; if (!el) return
-    dragRef.current = { active: true, startX: e.pageX - el.offsetLeft, scrollLeft: el.scrollLeft }
-    el.style.cursor = 'grabbing'
-  }, [])
-  const onMouseUp = useCallback(() => {
-    dragRef.current.active = false
-    if (tlRef.current) tlRef.current.style.cursor = 'grab'
-  }, [])
-  const onMouseMove = useCallback(e => {
-    if (!dragRef.current.active || !tlRef.current) return
-    e.preventDefault()
-    const x = e.pageX - tlRef.current.offsetLeft
-    tlRef.current.scrollLeft = dragRef.current.scrollLeft - (x - dragRef.current.startX)
-  }, [])
-  // wheel nativo con {passive:false} para poder hacer preventDefault
-  useEffect(() => {
-    const el = tlRef.current; if (!el) return
-    const handler = e => { e.preventDefault(); el.scrollLeft += e.deltaY + e.deltaX }
-    el.addEventListener('wheel', handler, { passive: false })
-    return () => el.removeEventListener('wheel', handler)
-  })
-
-  // Scroll al slot correcto cuando el usuario se equivoca (especialmente en móvil)
-  useEffect(() => {
-    if (phase !== 'revealing' || wasCorrect !== false || correctSlot === null) return
-    const el = tlRef.current; if (!el) return
-    const CELL = 210 // aprox card + slot + margen
-    const target = correctSlot * CELL - el.clientWidth / 2 + 24
-    el.scrollTo({ left: Math.max(0, target), behavior: 'smooth' })
-  }, [phase, wasCorrect, correctSlot])
 
   function startGame() {
     const all = getEventosLineaTemporal()
@@ -144,10 +107,6 @@ export default function OrdenTemporal() {
     setFase('jugando'); setPhase('placing')
     setChosenSlot(null); setCorrectSlot(null); setWasCorrect(null)
     startRef.current = Date.now()
-    setTimeout(() => {
-      const el = tlRef.current
-      if (el) el.scrollTo({ left: (el.scrollWidth - el.clientWidth) / 2 })
-    }, 50)
   }
 
   function placeCard(slot) {
@@ -174,17 +133,12 @@ export default function OrdenTemporal() {
       }
       setCurrent(pending[0]); setPending(p => p.slice(1))
       setPhase('placing'); setChosenSlot(null); setCorrectSlot(null); setWasCorrect(null)
-      setTimeout(() => {
-        const el = tlRef.current
-        if (el) el.scrollTo({ left: (el.scrollWidth - el.clientWidth) / 2, behavior: 'smooth' })
-      }, 100)
     }, 2000)
   }
 
   if (fase === 'intro')    return <div className="relative z-10"><SEOHead title={lang==='en'?'Timeline — Sort Historical Events':lang==='ca'?'Línia Temporal — Ordena Esdeveniments Històrics':'Línea Temporal — Ordena Eventos Históricos'} description={lang==='en'?'Place historical events in chronological order without dates. Test your historical knowledge in this free educational game.':lang==='ca'?'Col·loca esdeveniments històrics en ordre cronològic sense veure les dates. Posa a prova el teu coneixement.':'Coloca eventos históricos en orden cronológico sin ver las fechas. Pon a prueba tu conocimiento histórico.'} path={lang==='en'?'/en/juegos/linea-temporal':lang==='ca'?'/ca/juegos/linea-temporal':'/juegos/linea-temporal'} lang={lang} /><Intro onStart={startGame} lang={lang} /></div>
   if (fase === 'gameover') return <div className="relative z-10"><GameOver score={score} placed={timeline.length} onRepetir={startGame} onSalir={() => navigate(localPath('/juegos'))} lang={lang} user={user} /></div>
 
-  const dif = { fácil: 'text-green-400 bg-green-500/10 border-green-500/30', medio: 'text-amber-400 bg-amber-500/10 border-amber-500/30', difícil: 'text-red-400 bg-red-500/10 border-red-500/30' }
   const progress = Math.round((timeline.length / (timeline.length + pending.length + 1)) * 100)
 
   return (
@@ -209,96 +163,11 @@ export default function OrdenTemporal() {
         </div>
       </div>
 
-      {/* ── CARTA ACTUAL ── */}
-      <div className="flex-1 flex flex-col items-center justify-center px-4 sm:px-8 py-3 sm:py-4 min-h-0">
-        <p className="text-white/40 text-xs uppercase tracking-widest mb-2 sm:mb-4 text-center font-semibold">
-          {phase === 'placing' ? (lang === 'ca' ? 'On va aquesta carta?' : lang === 'en' ? 'Where does this card go?' : '¿Dónde va esta carta?') : wasCorrect ? (lang === 'ca' ? '✓ Correcte!' : lang === 'en' ? '✓ Correct!' : '✓ ¡Correcto!') : (lang === 'ca' ? '✗ Incorrecte' : lang === 'en' ? '✗ Incorrect' : '✗ Incorrecto')}
-        </p>
-
-        {current && (
-          <div className={`w-full max-w-2xl rounded-2xl border-2 p-4 sm:p-8 transition-all duration-300 ${
-            phase === 'revealing'
-              ? wasCorrect ? 'border-green-500/70 bg-green-500/10' : 'border-red-500/70 bg-red-500/10'
-              : 'border-white/20 bg-white/5 backdrop-blur-sm'
-          }`}>
-            <h2 className="text-2xl sm:text-4xl font-black text-white leading-tight mb-2 sm:mb-3">{lt(current, 'nombre')}</h2>
-            <p className="text-white/60 text-sm sm:text-lg leading-relaxed mb-4 sm:mb-6 line-clamp-3 sm:line-clamp-none">{lt(current, 'descripcion')}</p>
-            <div className="flex items-center justify-between">
-              <span className={`text-sm font-bold px-4 py-1.5 rounded-full border ${dif[current.dificultad]}`}>{current.dificultad}</span>
-              <span className={`text-4xl sm:text-5xl font-black tabular-nums transition-all duration-500 ${phase === 'revealing' ? 'text-amber-400' : 'text-white/15'}`}>
-                {phase === 'revealing' ? formatYear(current.año) : '????'}
-              </span>
-            </div>
-          </div>
-        )}
-      </div>
-
-      {/* ── LÍNEA DEL TIEMPO ── */}
-      <div className="shrink-0 border-t border-white/10 bg-black/30 backdrop-blur-sm" style={{ minHeight: '11rem' }}>
-        <div className="flex items-center justify-between px-4 pt-2 pb-1">
-          <p className="text-white/40 text-xs uppercase tracking-widest font-semibold">{lang === 'ca' ? 'La teva línia del temps' : lang === 'en' ? 'Your timeline' : 'Tu línea del tiempo'}</p>
-          {phase === 'revealing' && !wasCorrect
-            ? <p className="text-green-400 text-xs font-semibold animate-pulse">{lang === 'ca' ? '↑ posició correcta en verd' : lang === 'en' ? '↑ correct position in green' : '↑ posición correcta en verde'}</p>
-            : timeline.length > 2 && <p className="text-white/20 text-xs">{lang === 'ca' ? '← llisca →' : lang === 'en' ? '← scroll →' : '← desliza →'}</p>
-          }
-        </div>
-
-        <div
-          ref={tlRef}
-          className="overflow-x-auto pb-3"
-          style={{ scrollbarWidth: 'none', cursor: 'grab', touchAction: 'pan-x', WebkitOverflowScrolling: 'touch', overscrollBehaviorX: 'contain' }}
-          onMouseDown={onMouseDown}
-          onMouseUp={onMouseUp}
-          onMouseLeave={onMouseUp}
-          onMouseMove={onMouseMove}
-        >
-          <div
-            className="flex items-stretch px-3 gap-0"
-            style={{ minWidth: 'max-content', minHeight: '7.5rem' }}
-          >
-            <SlotBtn index={0} phase={phase} chosen={chosenSlot} correct={correctSlot} onPlace={placeCard} />
-
-            {timeline.map((ev, i) => {
-              const big = timeline.length <= 4
-              return (
-                <div key={ev.id} className="flex items-stretch gap-0">
-                  <div className={`flex flex-col justify-between bg-white/10 border border-white/20 rounded-xl mx-1 p-3 transition-all duration-300 ${big ? 'min-w-[150px] max-w-[170px]' : 'min-w-[110px] max-w-[130px]'}`}>
-                    <p className={`text-white font-bold leading-snug line-clamp-3 ${big ? 'text-sm' : 'text-xs'}`}>{lt(ev, 'nombre')}</p>
-                    <p className={`text-amber-400 font-black mt-1 ${big ? 'text-lg' : 'text-sm'}`}>{formatYear(ev.año)}</p>
-                  </div>
-                  <SlotBtn index={i + 1} phase={phase} chosen={chosenSlot} correct={correctSlot} onPlace={placeCard} />
-                </div>
-              )
-            })}
-          </div>
-        </div>
-      </div>
+      <TimelineBoard
+        current={current} timeline={timeline} phase={phase} wasCorrect={wasCorrect}
+        chosenSlot={chosenSlot} correctSlot={correctSlot} onPlace={placeCard}
+        lt={lt} lang={lang} accent="amber"
+      />
     </div>
-  )
-}
-
-// ── SLOT BUTTON ────────────────────────────────────────────────────────────────
-function SlotBtn({ index, phase, chosen, correct, onPlace }) {
-  const isChosen  = phase === 'revealing' && chosen === index
-  const isCorrect = phase === 'revealing' && correct === index
-  const isActive  = phase === 'placing'
-
-  let cls = 'border-white/20 bg-white/5 text-white/40 hover:border-amber-400 hover:bg-amber-500/20 hover:text-amber-300 hover:scale-105'
-  if (isChosen && isCorrect) cls = 'border-green-400 bg-green-500/25 text-green-300'
-  else if (isChosen)         cls = 'border-red-400 bg-red-500/25 text-red-300'
-  else if (isCorrect)        cls = 'border-green-400/60 bg-green-500/15 text-green-400 animate-pulse'
-
-  return (
-    <button
-      onClick={() => isActive && onPlace(index)}
-      disabled={!isActive}
-      className={`flex-shrink-0 flex flex-col items-center justify-center border-2 rounded-xl transition-all duration-150 mx-0.5 self-stretch ${isActive ? 'cursor-pointer active:scale-95' : 'cursor-default'} ${cls}`}
-      style={{ width: 56, touchAction: 'manipulation' }}
-    >
-      <span className="text-2xl font-black leading-none">
-        {isChosen && isCorrect ? '✓' : isChosen ? '✗' : isCorrect ? '↑' : '+'}
-      </span>
-      {isActive && <span className="text-[9px] font-bold uppercase tracking-wide opacity-40 mt-0.5">aquí</span>}
-    </button>
   )
 }
