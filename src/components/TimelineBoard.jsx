@@ -18,18 +18,25 @@
 // llama a `onPlace(slot)`.
 import { useState, useRef, useEffect, useCallback } from 'react'
 
+// Usamos la línea vertical (huecos a todo el ancho, scroll con el dedo) en
+// cualquier dispositivo TÁCTIL —móvil y también tablet (iPad, etc.)— y en
+// ventanas estrechas. En escritorio con ratón, la horizontal de siempre.
+// Decidir por "puntero grueso" y no solo por ancho es lo que arregla el tablet:
+// un iPad en horizontal es ancho pero se juega con el dedo.
+const TOUCH_LAYOUT_QUERY = '(pointer: coarse), (max-width: 639px)'
+
 function useIsNarrow() {
   const [narrow, setNarrow] = useState(
     () => typeof window !== 'undefined' && typeof window.matchMedia === 'function'
-      && window.matchMedia('(max-width: 639px)').matches
+      && window.matchMedia(TOUCH_LAYOUT_QUERY).matches
   )
   useEffect(() => {
     if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') return
-    const mq = window.matchMedia('(max-width: 639px)')
+    const mq = window.matchMedia(TOUCH_LAYOUT_QUERY)
     const onChange = e => setNarrow(e.matches)
     mq.addEventListener('change', onChange)
-    // Sincroniza por si el ancho cambió entre el primer render y el efecto
-    // (hidratación, cambio de pestaña…). Es intencionado.
+    // Sincroniza por si cambió entre el primer render y el efecto
+    // (hidratación, rotar la tablet…). Es intencionado.
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setNarrow(mq.matches)
     return () => mq.removeEventListener('change', onChange)
