@@ -32,6 +32,7 @@ Tuthor cubre matemáticas, lengua, inglés, ciencias (física, química, biolog�
 
 - [Juegos](https://www.tuthor.es/juegos): índice de juegos por materia (física, química, matemáticas, lengua, historia, geografía, música…).
 - [Analiza la Frase](https://www.tuthor.es/juegos/analiza-frases): señala el sujeto, el predicado, los adjetivos o las palabras en femenino sobre frases reales.
+- [De Menor a Mayor](https://www.tuthor.es/juegos/menor-a-mayor): ordena de menor a mayor fracciones, decimales, porcentajes y negativos mezclados; al colocarlos revela su valor decimal.
 
 ## Para profesores
 

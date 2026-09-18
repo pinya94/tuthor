@@ -524,6 +524,33 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Matemáticas', niveles: 'Primaria, ESO, Bachillerato',
   },
+  'menor-a-mayor': {
+    titulo: 'De Menor a Mayor',
+    subtitulo: 'Juego de Ordenar Fracciones, Decimales y Porcentajes',
+    emoji: '📶', gradient: 'from-sky-500 to-blue-700', path: '/juegos/menor-a-mayor',
+    intro: 'Un juego de matemáticas para dominar algo que se evalúa constantemente y que casi nadie tiene por la mano: comparar números escritos de formas distintas. Aparece una carta —una fracción, un decimal, un porcentaje o un entero— y hay que colocarla en su sitio en una recta que crece, de menor a mayor. Al soltarla se revela su valor decimal, así que cada acierto (y cada fallo) enseña que 3/4, 0,75 y 75 % son el mismo punto de la recta.',
+    beneficios: [
+      { titulo: 'Comparar entre representaciones, no dentro de una', texto: 'Un cuaderno suele pedir ordenar solo fracciones, o solo decimales. La dificultad real de un examen es la mezcla: ¿es mayor 2/3 o 0,7? ¿Y 3/5 o 55 %? Aquí se practica justo eso, que es donde el alumno se cae.' },
+      { titulo: 'La equivalencia se ve, no se recita', texto: 'Como el valor decimal se revela al colocar cada carta, el alumno comprueba una y otra vez que 1/2 = 0,5 = 50 %. Deja de ser una regla memorizada y pasa a ser algo evidente sobre la recta numérica.' },
+      { titulo: 'La recta numérica como columna vertebral', texto: 'Ordenar de menor a mayor obliga a colocar cada número en un continuo, no en casillas sueltas. Esa imagen de la recta —con el cero, los negativos a la izquierda y las fracciones entre los enteros— es la base para entender después la escala, la medida y las coordenadas.' },
+    ],
+    ejemplo: 'La recta lleva 1/4, 1/2 y 95 %. Sale la carta "0,7". El jugador razona: 1/4 es 0,25, 1/2 es 0,5, 95 % es 0,95; 0,7 va entre 1/2 y 95 %. Coloca ahí y acierta — y al soltarla se confirma "0,7", reforzando de paso que 1/2 valía 0,5 y 95 % valía 0,95.',
+    enPapel: {
+      titulo: 'Ordenar números en papel',
+      pasos: [
+        'Escribe en tarjetitas 8 o 10 números mezclando fracciones, decimales y porcentajes (3/4, 0,6, 2/5, 70 %…).',
+        'Dibuja una recta larga con el 0 y el 1 marcados (y algún negativo si quieres subir el nivel).',
+        'Coloca cada tarjeta en su sitio en la recta, de menor a mayor.',
+        'Comprueba pasando todas a decimal: si el orden coincide, están bien; si no, busca dónde falló la comparación.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'Reparte el Pastel', desc: 'El otro juego de fracciones de Tuthor: construye una fracción tocando porciones y descubre las equivalencias de forma visual, antes de pasar a compararlas como números.' },
+      { nombre: 'El examen de Fracciones y Decimales', desc: 'Repasa en formato test las equivalencias, las operaciones y el paso de fracción a decimal y a porcentaje.' },
+      { nombre: 'La recta del salón', desc: 'Una cuerda con el 0 en un extremo y el 1 en el otro: cada alumno recibe un número (en fracción, decimal o %) y se coloca físicamente donde cree que va. Ordenar con el cuerpo se recuerda mejor.' },
+    ],
+    asignatura: 'Matemáticas', niveles: 'Primaria, ESO',
+  },
   'reparte-pastel': {
     titulo: 'Reparte el Pastel',
     subtitulo: 'Juego Visual de Fracciones con Porciones',
@@ -1430,6 +1457,33 @@ export const FICHAS_EN = {
       { nombre: "The broken calculator", desc: "Name a target number and ban some keys: you must reach it with what is left. Same muscle — finding a path with limited resources — and it needs no paper." },
     ],
     asignatura: 'Mathematics', niveles: 'Primary, Secondary, Sixth Form',
+  },
+  'menor-a-mayor': {
+    titulo: 'Least to Greatest',
+    subtitulo: 'Game to Order Fractions, Decimals and Percentages',
+    emoji: '📶', gradient: 'from-sky-500 to-blue-700', path: '/juegos/menor-a-mayor',
+    intro: 'A maths game to master something exams test constantly and few students really own: comparing numbers written in different ways. A card appears —a fraction, a decimal, a percentage or an integer— and you place it in order on a growing line, least to greatest. Dropping it reveals its decimal value, so every hit (and every miss) shows that 3/4, 0.75 and 75% are the same point on the line.',
+    beneficios: [
+      { titulo: 'Comparing across representations, not within one', texto: 'A worksheet usually asks you to order only fractions, or only decimals. The real exam difficulty is the mix: is 2/3 or 0.7 bigger? 3/5 or 55%? This drills exactly that — where students slip.' },
+      { titulo: 'Equivalence you see, not recite', texto: 'Because the decimal value is revealed as you place each card, students check again and again that 1/2 = 0.5 = 50%. It stops being a memorised rule and becomes obvious on the number line.' },
+      { titulo: 'The number line as backbone', texto: 'Ordering least to greatest forces each number onto a continuum, not into separate boxes. That image of the line —with zero, negatives on the left and fractions between the integers— underpins scale, measurement and coordinates later on.' },
+    ],
+    ejemplo: 'The line holds 1/4, 1/2 and 95%. The card "0.7" appears. The player reasons: 1/4 is 0.25, 1/2 is 0.5, 95% is 0.95; 0.7 goes between 1/2 and 95%. They place it there and get it right — and dropping it confirms "0.7", reinforcing that 1/2 was 0.5 and 95% was 0.95.',
+    enPapel: {
+      titulo: 'Ordering numbers on paper',
+      pasos: [
+        'Write 8–10 numbers on small cards, mixing fractions, decimals and percentages (3/4, 0.6, 2/5, 70%…).',
+        'Draw a long line with 0 and 1 marked (add a negative to raise the level).',
+        'Place each card in order on the line, least to greatest.',
+        'Check by turning them all into decimals: if the order matches they are right; if not, find where the comparison failed.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'Slice the Cake', desc: 'Tuthor\'s other fractions game: build a fraction by tapping slices and discover equivalences visually, before moving on to comparing them as numbers.' },
+      { nombre: 'The Fractions and Decimals exam', desc: 'Revise equivalences, operations and converting fractions to decimals and percentages in test format.' },
+      { nombre: 'The classroom number line', desc: 'A rope with 0 at one end and 1 at the other: each student gets a number (as a fraction, decimal or %) and physically stands where they think it goes. Ordering with your body sticks better.' },
+    ],
+    asignatura: 'Mathematics', niveles: 'Primary, Secondary',
   },
   'reparte-pastel': {
     titulo: 'Slice the Cake',
@@ -2393,6 +2447,33 @@ export const FICHAS_CA = {
       { nombre: "La calculadora trencada", desc: "Digues un número objectiu i prohibeix algunes tecles: cal arribar-hi amb les que queden. El mateix múscul i no necessita ni paper." },
     ],
     asignatura: 'Matemàtiques', niveles: 'Primària, ESO, Batxillerat',
+  },
+  'menor-a-mayor': {
+    titulo: 'De Menor a Major',
+    subtitulo: 'Joc d\'Ordenar Fraccions, Decimals i Percentatges',
+    emoji: '📶', gradient: 'from-sky-500 to-blue-700', path: '/juegos/menor-a-mayor',
+    intro: 'Un joc de matemàtiques per dominar una cosa que s\'avalua constantment i que gairebé ningú té per la mà: comparar nombres escrits de maneres diferents. Apareix una carta —una fracció, un decimal, un percentatge o un enter— i cal col·locar-la al seu lloc en una recta que creix, de menor a major. En deixar-la anar es revela el seu valor decimal, així que cada encert (i cada error) ensenya que 3/4, 0,75 i 75 % són el mateix punt de la recta.',
+    beneficios: [
+      { titulo: 'Comparar entre representacions, no dins d\'una', texto: 'Un quadern sol demanar ordenar només fraccions, o només decimals. La dificultat real d\'un examen és la barreja: què és més gran, 2/3 o 0,7? I 3/5 o 55 %? Aquí es practica justament això, que és on l\'alumne rellisca.' },
+      { titulo: 'L\'equivalència es veu, no es recita', texto: 'Com que el valor decimal es revela en col·locar cada carta, l\'alumne comprova una vegada i una altra que 1/2 = 0,5 = 50 %. Deixa de ser una regla memoritzada i passa a ser una cosa evident sobre la recta numèrica.' },
+      { titulo: 'La recta numèrica com a columna vertebral', texto: 'Ordenar de menor a major obliga a col·locar cada nombre en un continu, no en caselles soltes. Aquesta imatge de la recta —amb el zero, els negatius a l\'esquerra i les fraccions entre els enters— és la base per entendre després l\'escala, la mesura i les coordenades.' },
+    ],
+    ejemplo: 'La recta porta 1/4, 1/2 i 95 %. Surt la carta "0,7". El jugador raona: 1/4 és 0,25, 1/2 és 0,5, 95 % és 0,95; 0,7 va entre 1/2 i 95 %. Ho col·loca allà i encerta — i en deixar-la anar es confirma "0,7", reforçant de passada que 1/2 valia 0,5 i 95 % valia 0,95.',
+    enPapel: {
+      titulo: 'Ordenar nombres en paper',
+      pasos: [
+        'Escriu en targetes 8 o 10 nombres barrejant fraccions, decimals i percentatges (3/4, 0,6, 2/5, 70 %…).',
+        'Dibuixa una recta llarga amb el 0 i l\'1 marcats (i algun negatiu si vols pujar el nivell).',
+        'Col·loca cada targeta al seu lloc a la recta, de menor a major.',
+        'Comprova passant-les totes a decimal: si l\'ordre coincideix, estan bé; si no, busca on va fallar la comparació.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'Reparteix el Pastís', desc: 'L\'altre joc de fraccions de Tuthor: construeix una fracció tocant porcions i descobreix les equivalències de forma visual, abans de passar a comparar-les com a nombres.' },
+      { nombre: 'L\'examen de Fraccions i Decimals', desc: 'Repassa en format test les equivalències, les operacions i el pas de fracció a decimal i a percentatge.' },
+      { nombre: 'La recta de la classe', desc: 'Una corda amb el 0 en un extrem i l\'1 a l\'altre: cada alumne rep un nombre (en fracció, decimal o %) i es col·loca físicament on creu que va. Ordenar amb el cos es recorda millor.' },
+    ],
+    asignatura: 'Matemàtiques', niveles: 'Primària, ESO',
   },
   'reparte-pastel': {
     titulo: 'Reparteix el Pastís',

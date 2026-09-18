@@ -30,6 +30,7 @@ const TuthorTime         = lazy(() => import('./pages/TuthorTime'))
 const TuthorTimeRoguelike= lazy(() => import('./pages/TuthorTimeRoguelike'))
 const OrdenTemporal      = lazy(() => import('./pages/OrdenTemporal'))
 const ExamenLineaTemporal= lazy(() => import('./pages/ExamenLineaTemporal'))
+const MenorAMayor        = lazy(() => import('./pages/MenorAMayor'))
 const ExamenTema         = lazy(() => import('./pages/ExamenTema'))
 const CicloOrdenExamen   = lazy(() => import('./pages/CicloOrdenExamen'))
 const Perfil             = lazy(() => import('./pages/Perfil'))
@@ -201,6 +202,7 @@ function AppRoutes() {
       <Route path="juegos/tuthor-time" element={<TuthorTimeRoguelike />} />
       <Route path="juegos/tuthor-time/clasico" element={<TuthorTime />} />
       <Route path="juegos/linea-temporal" element={<OrdenTemporal />} />
+      <Route path="juegos/menor-a-mayor" element={<MenorAMayor />} />
       <Route path="juegos/quien-es-quien" element={<QuienEsQuien />} />
       <Route path="juegos/acercate" element={<AcercateRoguelike />} />
       <Route path="juegos/acercate/clasico" element={<Acercate />} />

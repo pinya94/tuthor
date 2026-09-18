@@ -95,6 +95,14 @@ export const GAMES = {
     route: '/juegos/numpath',
     coins: DEFAULT_COINS,
   },
+  'menor-a-mayor': {
+    label: { es: 'De Menor a Mayor', en: 'Least to Greatest', ca: 'De Menor a Major' },
+    emoji: '📶',
+    subject: 'matematicas',
+    route: '/juegos/menor-a-mayor',
+    // aciertos × puntos → hasta 200 monedas
+    coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
+  },
   'reparte-pastel': {
     label: { es: 'Reparte el Pastel', en: 'Slice the Cake', ca: 'Reparteix el Pastís' },
     emoji: '🍰',

@@ -59,11 +59,13 @@ const DIF_LABEL = {
   ca: { fácil: 'fàcil', medio: 'mitjà', difícil: 'difícil' },
 }
 
-// Acentos por juego: ámbar (Línea del Tiempo), violeta (examen), esmeralda (ciclo).
+// Acentos por juego: ámbar (Línea del Tiempo), violeta (examen), esmeralda
+// (ciclo), azul (ordenar números).
 const ACCENTS = {
   amber:   { slotH: 'hover:border-amber-400 hover:bg-amber-500/20 hover:text-amber-300 hover:scale-105',     slotV: 'active:bg-amber-500/25 active:border-amber-400',     value: 'text-amber-400' },
   violet:  { slotH: 'hover:border-violet-400 hover:bg-violet-500/20 hover:text-violet-300 hover:scale-105',   slotV: 'active:bg-violet-500/25 active:border-violet-400',   value: 'text-amber-400' },
   emerald: { slotH: 'hover:border-emerald-400 hover:bg-emerald-500/20 hover:text-emerald-300 hover:scale-105', slotV: 'active:bg-emerald-500/25 active:border-emerald-400', value: 'text-emerald-400' },
+  sky:     { slotH: 'hover:border-sky-400 hover:bg-sky-500/20 hover:text-sky-300 hover:scale-105',           slotV: 'active:bg-sky-500/25 active:border-sky-400',         value: 'text-sky-400' },
 }
 
 const T = {
@@ -231,7 +233,7 @@ function CurrentCard({ current, phase, wasCorrect, ac, compact }) {
   return (
     <div className={`w-full max-w-2xl mx-auto rounded-2xl border-2 transition-all duration-300 ${state} ${compact ? 'p-4' : 'p-6 sm:p-8'}`}>
       <h2 className={`font-black text-white leading-tight ${compact ? 'text-xl mb-1.5' : 'text-3xl sm:text-4xl mb-3'}`}>{ac.name(current)}</h2>
-      <p className={`text-white/60 leading-relaxed ${compact ? 'text-sm mb-3 line-clamp-2' : 'text-base sm:text-lg mb-6'}`}>{ac.desc(current)}</p>
+      {ac.desc(current) && <p className={`text-white/60 leading-relaxed ${compact ? 'text-sm mb-3 line-clamp-2' : 'text-base sm:text-lg mb-6'}`}>{ac.desc(current)}</p>}
       <div className="flex items-center justify-between">
         <span className={`font-bold rounded-full border ${compact ? 'text-xs px-3 py-1' : 'text-sm px-4 py-1.5'} ${b.cls}`}>{b.text}</span>
         <span className={`font-black tabular-nums transition-all duration-500 ${phase === 'revealing' ? ac.value : 'text-white/15'} ${compact ? 'text-2xl' : 'text-3xl sm:text-4xl'}`}>
