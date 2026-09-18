@@ -43,6 +43,7 @@ export default function Spicy() {
   const [corriendo, setCorriendo] = useState(false)  // el reloj de la vida avanza
   const [sliderVal, setSliderVal] = useState(0.5)    // deslizador del evento activo
   const [dcaClase, setDcaClase] = useState('fondo')  // clase elegida en el panel de aportación automática
+  const [gestionAbierta, setGestionAbierta] = useState(false) // en móvil, la barra de gestión va plegada
   const logsRef = useRef([])                         // feed acumulado (no re-render por sí solo)
   const savedRef = useRef(false)
   const feedRef = useRef(null)                       // contenedor del feed: siempre visible lo último
@@ -287,6 +288,10 @@ export default function Spicy() {
   const mesLabel = (MESES[lang] ?? MESES.es)[p.mes]
   const ev = vista?.evento
   const respondido = feedback !== null
+  // ¿Hay alguna acción de gestión disponible? (misma condición que los chips)
+  const trabajando = p.ingresos > 0 && !p.estudios && !p.flags.includes('jubilado') && !p.flags.includes('prejubilado')
+  const puedeGestionar = p.flags.includes('sabe-invertir') || p.edad >= 18 ||
+    (p.edad >= 16 && trabajando) || p.vivienda === 'alquiler'
 
   return (
     <div className="relative z-10 px-4 py-6 max-w-2xl mx-auto">
@@ -386,8 +391,17 @@ export default function Spicy() {
         </div>
       )}
 
-      {/* Barra de acciones libres — se desbloquean cuando la vida te las presenta */}
-      <div className="flex flex-wrap gap-1.5 mb-3">
+      {/* Barra de acciones libres — se desbloquean cuando la vida te las presenta.
+          En móvil van plegadas tras un botón para que la vida y las decisiones
+          (lo que de verdad se juega) sean lo primero; en escritorio, en línea. */}
+      {puedeGestionar && (
+      <div className="mb-3">
+        <button type="button" onClick={() => setGestionAbierta(g => !g)}
+          className="sm:hidden w-full flex items-center justify-between px-3 py-2.5 rounded-lg border border-white/10 bg-white/5 text-white/70 text-sm font-bold">
+          <span>🎛️ {tr({ es: 'Gestionar mi dinero', en: 'Manage my money', ca: 'Gestionar els meus diners' })}</span>
+          <span className="text-white/40 text-xs">{gestionAbierta ? '▲' : '▼'}</span>
+        </button>
+        <div className={`${gestionAbierta ? 'flex' : 'hidden'} sm:flex flex-wrap gap-1.5 mt-1.5 sm:mt-0`}>
         {p.flags.includes('sabe-invertir') && (
           <button onClick={() => { setAccion(accion === 'invertir' ? null : 'invertir'); setAccionNota(null) }}
             className={`text-xs font-bold px-3 py-2 rounded-lg border transition-colors ${accion === 'invertir' ? 'bg-amber-500/25 border-amber-500/50 text-amber-300' : 'bg-white/5 border-white/10 text-white/60 hover:text-white'}`}>
@@ -442,7 +456,9 @@ export default function Spicy() {
             {VIVIENDA_TIERS[p.viviendaTier].emoji} {tr({ es: 'Cambiar de piso', en: 'Change flat', ca: 'Canviar de pis' })}: {tr(VIVIENDA_TIERS[p.viviendaTier].label)}
           </button>
         )}
+        </div>
       </div>
+      )}
 
       {/* Panel de acción abierta */}
       {accion === 'invertir' && (
