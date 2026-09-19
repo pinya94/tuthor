@@ -286,6 +286,11 @@ export const EXAMS = {
     emoji: '🍰', subject: 'matematicas',
     path: 'examen/reparte-pastel-test', page: () => import('../pages/RepartePastelExamen'),
   },
+  'menor-a-mayor-test': {
+    label: { es: 'Ordenar de Menor a Mayor', en: 'Ordering Least to Greatest', ca: 'Ordenar de Menor a Major' },
+    emoji: '📶', subject: 'matematicas',
+    path: 'examen/menor-a-mayor-test', page: () => import('../pages/MenorAMayorExamen'),
+  },
   'funciones': {
     label: { es: 'Funciones', en: 'Functions', ca: 'Funcions' },
     emoji: '📈', subject: 'matematicas',

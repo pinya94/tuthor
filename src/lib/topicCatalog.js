@@ -190,7 +190,7 @@ export const TOPIC_CATALOG = {
         sistemas: 'sistemas-ecuaciones-test',
       }, { niveles: ['eso', 'bachillerato'] }),
       geometria: examTema({ teoria: 'geometria', 'figuras-compuestas': 'figuras-compuestas' }, { niveles: ['primaria', 'eso', 'bachillerato'] }),
-      fracciones: examTema({ teoria: 'fracciones', 'reparte-pastel': 'reparte-pastel-test' }, { niveles: ['primaria', 'eso'] }),
+      fracciones: examTema({ teoria: 'fracciones', 'reparte-pastel': 'reparte-pastel-test', 'menor-a-mayor': 'menor-a-mayor-test' }, { niveles: ['primaria', 'eso'] }),
       porcentajes: examTema({ teoria: 'porcentajes' }, { niveles: ['primaria', 'eso'] }),
       estadistica: examTema({
         teoria: 'estadistica',
@@ -219,6 +219,7 @@ export const TOPIC_CATALOG = {
       sistemas: examFormato({ es: 'Sistemas de ecuaciones', en: 'Simultaneous equations', ca: "Sistemes d'equacions" }, '🔗'),
       rectas: examFormato({ es: 'Rectas: pendiente y puntos', en: 'Lines: slope and points', ca: 'Rectes: pendent i punts' }, '📏'),
       'reparte-pastel': examFormato({ es: 'Reparte el Pastel (con el juego)', en: 'Slice the Cake (with the game)', ca: 'Reparteix el Pastís (amb el joc)' }, '🍰'),
+      'menor-a-mayor': examFormato({ es: 'De Menor a Mayor (con el juego)', en: 'Least to Greatest (with the game)', ca: 'De Menor a Major (amb el joc)' }, '📶'),
       'figuras-compuestas': examFormato({ es: 'Figuras Compuestas', en: 'Composite Shapes', ca: 'Figures Compostes' }, '📐'),
       'grafico-tendencia': examFormato({ es: 'Tendencias y extremos', en: 'Trends and extremes', ca: 'Tendències i extrems' }, '📈'),
       'grafico-variacion': examFormato({ es: 'Variaciones y porcentajes', en: 'Changes and percentages', ca: 'Variacions i percentatges' }, '📊'),

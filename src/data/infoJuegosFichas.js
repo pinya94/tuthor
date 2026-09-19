@@ -528,6 +528,7 @@ export const FICHAS_ES = {
     titulo: 'De Menor a Mayor',
     subtitulo: 'Juego de Ordenar Fracciones, Decimales y Porcentajes',
     emoji: '📶', gradient: 'from-sky-500 to-blue-700', path: '/juegos/menor-a-mayor',
+    examPath: '/examen/menor-a-mayor-test',
     intro: 'Un juego de matemáticas para dominar algo que se evalúa constantemente y que casi nadie tiene por la mano: comparar números escritos de formas distintas. Aparece una carta —una fracción, un decimal, un porcentaje o un entero— y hay que colocarla en su sitio en una recta que crece, de menor a mayor. Al soltarla se revela su valor decimal, así que cada acierto (y cada fallo) enseña que 3/4, 0,75 y 75 % son el mismo punto de la recta.',
     beneficios: [
       { titulo: 'Comparar entre representaciones, no dentro de una', texto: 'Un cuaderno suele pedir ordenar solo fracciones, o solo decimales. La dificultad real de un examen es la mezcla: ¿es mayor 2/3 o 0,7? ¿Y 3/5 o 55 %? Aquí se practica justo eso, que es donde el alumno se cae.' },
@@ -1462,6 +1463,7 @@ export const FICHAS_EN = {
     titulo: 'Least to Greatest',
     subtitulo: 'Game to Order Fractions, Decimals and Percentages',
     emoji: '📶', gradient: 'from-sky-500 to-blue-700', path: '/juegos/menor-a-mayor',
+    examPath: '/examen/menor-a-mayor-test',
     intro: 'A maths game to master something exams test constantly and few students really own: comparing numbers written in different ways. A card appears —a fraction, a decimal, a percentage or an integer— and you place it in order on a growing line, least to greatest. Dropping it reveals its decimal value, so every hit (and every miss) shows that 3/4, 0.75 and 75% are the same point on the line.',
     beneficios: [
       { titulo: 'Comparing across representations, not within one', texto: 'A worksheet usually asks you to order only fractions, or only decimals. The real exam difficulty is the mix: is 2/3 or 0.7 bigger? 3/5 or 55%? This drills exactly that — where students slip.' },
@@ -2452,6 +2454,7 @@ export const FICHAS_CA = {
     titulo: 'De Menor a Major',
     subtitulo: 'Joc d\'Ordenar Fraccions, Decimals i Percentatges',
     emoji: '📶', gradient: 'from-sky-500 to-blue-700', path: '/juegos/menor-a-mayor',
+    examPath: '/examen/menor-a-mayor-test',
     intro: 'Un joc de matemàtiques per dominar una cosa que s\'avalua constantment i que gairebé ningú té per la mà: comparar nombres escrits de maneres diferents. Apareix una carta —una fracció, un decimal, un percentatge o un enter— i cal col·locar-la al seu lloc en una recta que creix, de menor a major. En deixar-la anar es revela el seu valor decimal, així que cada encert (i cada error) ensenya que 3/4, 0,75 i 75 % són el mateix punt de la recta.',
     beneficios: [
       { titulo: 'Comparar entre representacions, no dins d\'una', texto: 'Un quadern sol demanar ordenar només fraccions, o només decimals. La dificultat real d\'un examen és la barreja: què és més gran, 2/3 o 0,7? I 3/5 o 55 %? Aquí es practica justament això, que és on l\'alumne rellisca.' },
