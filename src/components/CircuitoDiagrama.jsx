@@ -65,6 +65,26 @@ function Interruptor({ x, y, cerrado, orientacion = 'h' }) {
   )
 }
 
+// Rayos alrededor de la bombilla: hacen VISIBLE la potencia, no solo el color.
+// A tope → ráfaga de 8 rayos largos; tenue → 4 rayos cortos; apagada → ninguno.
+function Rayos({ x, y, estado, scale = 1 }) {
+  const cfg = estado === 'brillante' ? { n: 8, r0: 20, r1: 27, w: 2, op: 0.95, off: 0 }
+    : estado === 'tenue' ? { n: 4, r0: 19, r1: 23, w: 1.6, op: 0.55, off: Math.PI / 4 }
+    : null
+  if (!cfg) return null
+  const color = ESTILO_BOMBILLA[estado].stroke
+  return (
+    <g style={{ pointerEvents: 'none' }}>
+      {Array.from({ length: cfg.n }).map((_, i) => {
+        const a = cfg.off + (i * 2 * Math.PI) / cfg.n
+        const c = Math.cos(a), s = Math.sin(a)
+        return <line key={i} x1={x + c * cfg.r0 * scale} y1={y + s * cfg.r0 * scale} x2={x + c * cfg.r1 * scale} y2={y + s * cfg.r1 * scale}
+          stroke={color} strokeWidth={cfg.w} strokeOpacity={cfg.op} strokeLinecap="round" />
+      })}
+    </g>
+  )
+}
+
 function Bombilla({ x, y, b, prediccion, revelado, onToggle }) {
   const predicho = prediccion.get(b.id) ?? 'apagada'
   const mostrado = revelado ? b.estado : predicho
@@ -78,6 +98,7 @@ function Bombilla({ x, y, b, prediccion, revelado, onToggle }) {
       style={{ cursor: revelado ? 'default' : 'pointer' }}
     >
       <rect x={x - 22} y={y - 22} width={44} height={44} fill="#0d1117" />
+      <Rayos x={x} y={y} estado={mostrado} />
       <circle cx={x} cy={y} r={16} fill={fill} stroke={stroke} strokeWidth={revelado ? 3 : 2} style={{ filter: glow, transition: 'fill 0.15s' }} />
       <line x1={x - 8} y1={y - 8} x2={x + 8} y2={y + 8} stroke={cross} strokeWidth={1.8} />
       <line x1={x - 8} y1={y + 8} x2={x + 8} y2={y - 8} stroke={cross} strokeWidth={1.8} />
@@ -85,6 +106,28 @@ function Bombilla({ x, y, b, prediccion, revelado, onToggle }) {
         <circle cx={x} cy={y} r={22} fill="none" stroke="#ffffff" strokeOpacity={0.06} strokeWidth={1} />
       )}
     </g>
+  )
+}
+
+// Leyenda de los tres estados: qué es apagada / tenue / a tope, para que el
+// jugador sepa qué está eligiendo y aprenda a leer la potencia de un vistazo.
+export function Leyenda({ labels }) {
+  const items = [['apagada', labels.apagada], ['tenue', labels.tenue], ['brillante', labels.brillante]]
+  return (
+    <div className="flex items-center justify-center gap-4 flex-wrap">
+      {items.map(([estado, txt]) => {
+        const st = ESTILO_BOMBILLA[estado]
+        return (
+          <span key={estado} className="flex items-center gap-1.5 text-xs text-white/60">
+            <svg width="20" height="20" viewBox="-14 -14 28 28" style={{ overflow: 'visible' }}>
+              <Rayos x={0} y={0} estado={estado} scale={0.45} />
+              <circle cx="0" cy="0" r="7" fill={st.fill} stroke={st.stroke} strokeWidth="1.5" style={{ filter: st.glow }} />
+            </svg>
+            {txt}
+          </span>
+        )
+      })}
+    </div>
   )
 }
 
@@ -156,7 +199,73 @@ function layoutMixto() {
   }
 }
 
-const LAYOUTS = { simple: layoutSimple, serie: layoutSerie, paralelo: layoutParalelo, mixto: layoutMixto }
+// Dos interruptores en serie con una bombilla: mismo lazo que el simple, con
+// los dos interruptores seguidos sobre el carril superior.
+function layoutDosInterruptores() {
+  const RX = 350
+  return {
+    wires: [
+      { x1: BAT_X, y1: TOP_Y, x2: BAT_X, y2: BOTTOM_Y },
+      { x1: BAT_X, y1: TOP_Y, x2: RX, y2: TOP_Y },
+      { x1: RX, y1: TOP_Y, x2: RX, y2: BOTTOM_Y },
+      { x1: RX, y1: BOTTOM_Y, x2: BAT_X, y2: BOTTOM_Y },
+    ],
+    interruptores: [
+      { id: 'i1', x: 175, y: TOP_Y, orientacion: 'h' },
+      { id: 'i2', x: 265, y: TOP_Y, orientacion: 'h' },
+    ],
+    bombillas: [{ id: 'b1', x: RX, y: BAT_Y }],
+  }
+}
+
+// Paralelo con un interruptor por rama: dos ramas independientes, cada una con
+// su interruptor (vertical) encima de su bombilla. Sin interruptor en el tronco.
+function layoutParaleloRamas() {
+  const B1X = 260, B2X = 360
+  return {
+    wires: [
+      { x1: BAT_X, y1: TOP_Y, x2: BAT_X, y2: BOTTOM_Y },
+      { x1: BAT_X, y1: TOP_Y, x2: B2X, y2: TOP_Y },
+      { x1: B1X, y1: TOP_Y, x2: B1X, y2: BOTTOM_Y },
+      { x1: B2X, y1: TOP_Y, x2: B2X, y2: BOTTOM_Y },
+      { x1: B2X, y1: BOTTOM_Y, x2: BAT_X, y2: BOTTOM_Y },
+    ],
+    interruptores: [
+      { id: 'i1', x: B1X, y: 100, orientacion: 'v' },
+      { id: 'i2', x: B2X, y: 100, orientacion: 'v' },
+    ],
+    bombillas: [{ id: 'b1', x: B1X, y: 178 }, { id: 'b2', x: B2X, y: 178 }],
+  }
+}
+
+// Serie y paralelo a la vez: rama izquierda con DOS bombillas en serie (misma
+// vertical), rama derecha con UNA sola; cada rama con su interruptor arriba.
+function layoutSerieMixta() {
+  const B1X = 275, B2X = 375
+  return {
+    wires: [
+      { x1: BAT_X, y1: TOP_Y, x2: BAT_X, y2: BOTTOM_Y },
+      { x1: BAT_X, y1: TOP_Y, x2: B2X, y2: TOP_Y },
+      { x1: B1X, y1: TOP_Y, x2: B1X, y2: BOTTOM_Y },
+      { x1: B2X, y1: TOP_Y, x2: B2X, y2: BOTTOM_Y },
+      { x1: B2X, y1: BOTTOM_Y, x2: BAT_X, y2: BOTTOM_Y },
+    ],
+    interruptores: [
+      { id: 'i1', x: B1X, y: 92, orientacion: 'v' },
+      { id: 'i2', x: B2X, y: 92, orientacion: 'v' },
+    ],
+    bombillas: [
+      { id: 'b1', x: B1X, y: 150 },
+      { id: 'b2', x: B1X, y: 195 },
+      { id: 'b3', x: B2X, y: 150 },
+    ],
+  }
+}
+
+const LAYOUTS = {
+  simple: layoutSimple, serie: layoutSerie, paralelo: layoutParalelo, mixto: layoutMixto,
+  'dos-interruptores': layoutDosInterruptores, 'paralelo-ramas': layoutParaleloRamas, 'serie-mixta': layoutSerieMixta,
+}
 
 export default function CircuitoDiagrama({ round, prediccion, onToggle, revelado }) {
   const layout = LAYOUTS[round.tipo]()

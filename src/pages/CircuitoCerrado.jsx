@@ -4,9 +4,9 @@ import { useLang } from '../context/LangContext'
 import { useAuth } from '../context/AuthContext'
 import { saveActivity } from '../lib/activity'
 import { computeCoins } from '../lib/games'
-import { genRound, isCorrect } from '../lib/circuito'
+import { genRound, isCorrect, motivoRonda, MOTIVOS, ESTADO_LABELS } from '../lib/circuito'
 import GameEndScreen from '../components/GameEndScreen'
-import CircuitoDiagrama, { siguienteEstado } from '../components/CircuitoDiagrama'
+import CircuitoDiagrama, { siguienteEstado, Leyenda } from '../components/CircuitoDiagrama'
 import SupportBlock from '../components/SupportBlock'
 import SEOHead from '../components/SEOHead'
 
@@ -44,11 +44,12 @@ const C = {
   exam:   { es: 'Modo examen (tipo test) →', en: 'Exam mode (quiz) →', ca: 'Mode examen (tipus test) →' },
 }
 function T(k, l) { return C[k]?.[l] ?? C[k]?.es ?? k }
+const est = (estado, l) => ESTADO_LABELS[estado]?.[l] ?? ESTADO_LABELS[estado]?.es
 
 const DIFS = {
-  facil:   { emoji: '🟢', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' }, desc: { es: 'Una bombilla, un interruptor', en: 'One bulb, one switch', ca: 'Una bombeta, un interruptor' } },
-  medio:   { emoji: '🟡', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' }, desc: { es: 'Dos bombillas, en serie o en paralelo', en: 'Two bulbs, in series or parallel', ca: 'Dues bombetes, en sèrie o en paral·lel' } },
-  dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' }, desc: { es: 'Tres bombillas y dos interruptores', en: 'Three bulbs and two switches', ca: 'Tres bombetes i dos interruptors' } },
+  facil:   { emoji: '🟢', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' }, desc: { es: 'Una bombilla con uno o dos interruptores', en: 'One bulb with one or two switches', ca: 'Una bombeta amb un o dos interruptors' } },
+  medio:   { emoji: '🟡', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' }, desc: { es: 'Dos bombillas: serie, paralelo o un interruptor por rama', en: 'Two bulbs: series, parallel or a switch per branch', ca: 'Dues bombetes: sèrie, paral·lel o un interruptor per branca' } },
+  dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' }, desc: { es: 'Serie y paralelo a la vez, con dos interruptores', en: 'Series and parallel at once, with two switches', ca: 'Sèrie i paral·lel alhora, amb dos interruptors' } },
 }
 
 function DifficultyScreen({ onSelect, l }) {
@@ -257,19 +258,28 @@ export default function CircuitoCerrado() {
         </div>
       </div>
 
-      <p className="text-white/70 text-sm mb-1 text-center px-2">{T('prompt', l)}</p>
+      <p className="text-white/70 text-sm mb-2 text-center px-2">{T('prompt', l)}</p>
+
+      {/* Leyenda de los tres estados — para leer la potencia de un vistazo */}
+      <div className="w-full max-w-[520px] mb-2">
+        <Leyenda labels={{ apagada: est('apagada', l), tenue: est('tenue', l), brillante: est('brillante', l) }} />
+      </div>
 
       {/* Circuito */}
       <div className="relative w-full max-w-[520px] rounded-xl overflow-hidden border border-white/10 bg-[#0d1117] mb-3">
         <CircuitoDiagrama round={round} prediccion={prediccion} onToggle={toggle} revelado={isResult} />
 
         {isResult && (
-          <div className="absolute inset-x-0 bottom-0 bg-black/70 backdrop-blur-sm p-3 text-center">
+          <div className="absolute inset-x-0 bottom-0 bg-black/75 backdrop-blur-sm p-3 text-center">
             <p className={`font-black text-lg ${won ? 'text-green-400' : 'text-red-400'}`}>
               {won ? `✅ ${T('allRight', l)}` : `❌ ${T('wrong', l)}`}
             </p>
+            {/* El porqué: la potencia explicada, aciertes o falles */}
+            <p className="text-white/70 text-xs mt-1 leading-snug max-w-[440px] mx-auto">
+              {MOTIVOS[motivoRonda(round)]?.[l] ?? MOTIVOS[motivoRonda(round)]?.es}
+            </p>
             {delta && (
-              <p className="text-xs font-bold mt-0.5">
+              <p className="text-xs font-bold mt-1">
                 {delta.won
                   ? <span className="text-green-400">+{delta.gain} · +{CORRECT_TIME}s ⏱️{delta.streak >= 2 ? ` · 🔥 ${delta.streak}` : ''}</span>
                   : <span className="text-red-400">−1 · −{WRONG_TIME}s ⏱️</span>}

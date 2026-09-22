@@ -40,9 +40,9 @@
 //              (Bachillerato)
 
 const TYPE_POOLS = {
-  facil:   ['simple'],
-  medio:   ['serie', 'paralelo'],
-  dificil: ['mixto'],
+  facil:   ['simple', 'dos-interruptores'],
+  medio:   ['serie', 'paralelo', 'paralelo-ramas'],
+  dificil: ['mixto', 'serie-mixta'],
 }
 
 const rnd = (a, b, rand) => a + Math.floor(rand() * (b - a + 1))
@@ -112,7 +112,59 @@ function genMixto(rand) {
   }
 }
 
-const GENERADORES = { simple: genSimple, serie: genSerie, paralelo: genParalelo, mixto: genMixto }
+// Dos interruptores EN SERIE con una sola bombilla (lógica Y): la bombilla
+// solo enciende si LOS DOS están cerrados. Sola en su lazo → a tope o nada,
+// nunca tenue. Añade variedad al nivel fácil sin salirse de Primaria.
+function genDosInterruptores(rand) {
+  const c1 = cerrado(rand)
+  const c2 = cerrado(rand)
+  const on = c1 && c2
+  return {
+    tipo: 'dos-interruptores',
+    bombillas: [{ id: 'b1', estado: on ? 'brillante' : 'apagada' }],
+    interruptores: [{ id: 'i1', cerrado: c1 }, { id: 'i2', cerrado: c2 }],
+  }
+}
+
+// Paralelo con UN INTERRUPTOR POR RAMA: cada bombilla es independiente —
+// puede quedar una encendida y la otra apagada. Cada rama recibe la pila
+// entera, así que la que enciende va siempre a tope. Es la variante que de
+// verdad enseña que en paralelo las ramas no dependen entre sí.
+function genParaleloRamas(rand) {
+  const c1 = cerrado(rand)
+  const c2 = cerrado(rand)
+  return {
+    tipo: 'paralelo-ramas',
+    bombillas: [
+      { id: 'b1', estado: c1 ? 'brillante' : 'apagada' },
+      { id: 'b2', estado: c2 ? 'brillante' : 'apagada' },
+    ],
+    interruptores: [{ id: 'i1', cerrado: c1 }, { id: 'i2', cerrado: c2 }],
+  }
+}
+
+// Serie y paralelo A LA VEZ, uno al lado del otro: una rama con DOS bombillas
+// en serie (comparten pila → las dos tenues) en paralelo con otra rama de UNA
+// sola (recibe la pila entera → a tope). Cada rama con su interruptor. El
+// contraste tenue/a-tope queda en el mismo circuito.
+function genSerieMixta(rand) {
+  const c1 = cerrado(rand) // rama en serie (dos bombillas)
+  const c2 = cerrado(rand) // rama sola
+  return {
+    tipo: 'serie-mixta',
+    bombillas: [
+      { id: 'b1', estado: c1 ? 'tenue' : 'apagada' },
+      { id: 'b2', estado: c1 ? 'tenue' : 'apagada' },
+      { id: 'b3', estado: c2 ? 'brillante' : 'apagada' },
+    ],
+    interruptores: [{ id: 'i1', cerrado: c1 }, { id: 'i2', cerrado: c2 }],
+  }
+}
+
+const GENERADORES = {
+  simple: genSimple, serie: genSerie, paralelo: genParalelo, mixto: genMixto,
+  'dos-interruptores': genDosInterruptores, 'paralelo-ramas': genParaleloRamas, 'serie-mixta': genSerieMixta,
+}
 
 // `uiDiff`: 'facil' | 'medio' | 'dificil' (el juego elige esto directamente;
 // el examen lo obtiene de LEVELS[].difficulty — ver CircuitoCerradoExamen.jsx,
@@ -129,4 +181,34 @@ export function genRound(uiDiff, rand = Math.random) {
 // circuito o no? — no "cuánto" de él.
 export function isCorrect(round, prediccion) {
   return round.bombillas.every(b => (prediccion.get(b.id) ?? 'apagada') === b.estado)
+}
+
+// Por qué las bombillas brillan como brillan: una clave estable que la página
+// traduce (MOTIVOS en CircuitoCerrado.jsx). Es lo que convierte un fallo en
+// una lección — el concepto de la potencia, no solo "acierto/error".
+export function motivoRonda(round) {
+  const hayTenue = round.bombillas.some(b => b.estado === 'tenue')
+  const hayBrillante = round.bombillas.some(b => b.estado === 'brillante')
+  if (!hayTenue && !hayBrillante) return 'apagado'   // ningún camino cerrado
+  if (hayTenue && hayBrillante) return 'mixto'       // serie y paralelo a la vez
+  if (hayTenue) return 'serie'                       // comparten la pila
+  // Solo hay bombillas a tope: una sola en su lazo, o cada una en su rama.
+  if (round.tipo === 'simple' || round.tipo === 'dos-interruptores') return 'sola'
+  return 'paralelo'                                  // cada rama recibe la pila entera
+}
+
+// Textos compartidos por el juego y el examen (son datos, no lógica de React):
+// viven aquí, junto a la física que describen, para no duplicarlos.
+export const MOTIVOS = {
+  apagado:  { es: 'El circuito está abierto: no llega corriente y todas quedan apagadas.', en: 'The circuit is open: no current flows, so all stay off.', ca: 'El circuit està obert: no arriba corrent i totes queden apagades.' },
+  sola:     { es: 'Sola en su lazo: recibe toda la pila, así que brilla a tope.', en: 'Alone in its loop: it gets the whole battery, so it shines at full brightness.', ca: 'Sola al seu llaç: rep tota la pila, així que brilla a tota potència.' },
+  serie:    { es: 'En serie comparten la misma pila entre las dos → brillan tenues.', en: 'In series they share the same battery between them → they shine dim.', ca: 'En sèrie comparteixen la mateixa pila entre les dues → brillen tènues.' },
+  paralelo: { es: 'En paralelo cada rama recibe la pila entera → cada una a tope.', en: 'In parallel each branch gets the whole battery → each at full brightness.', ca: 'En paral·lel cada branca rep la pila sencera → cadascuna a tota potència.' },
+  mixto:    { es: 'La rama en serie reparte la pila (tenues); la rama de una sola la recibe entera (a tope).', en: 'The series branch shares the battery (dim); the single branch gets it whole (full).', ca: 'La branca en sèrie reparteix la pila (tènues); la branca d\'una sola la rep sencera (a tope).' },
+}
+
+export const ESTADO_LABELS = {
+  apagada:   { es: 'apagada', en: 'off', ca: 'apagada' },
+  tenue:     { es: 'tenue', en: 'dim', ca: 'tènue' },
+  brillante: { es: 'a tope', en: 'full', ca: 'a tope' },
 }

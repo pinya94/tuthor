@@ -1,7 +1,9 @@
 import { useState } from 'react'
 import MechanicExam from '../components/MechanicExam'
-import CircuitoDiagrama, { siguienteEstado } from '../components/CircuitoDiagrama'
-import { genRound, isCorrect } from '../lib/circuito'
+import CircuitoDiagrama, { siguienteEstado, Leyenda } from '../components/CircuitoDiagrama'
+import { genRound, isCorrect, motivoRonda, MOTIVOS, ESTADO_LABELS } from '../lib/circuito'
+
+const est = (estado, l) => ESTADO_LABELS[estado]?.[l] ?? ESTADO_LABELS[estado]?.es
 
 // Examen con la mecánica del juego: mismo circuito, misma pregunta ("¿qué
 // bombillas encienden?"), sin reloj de ronda. Niveles realistas para esta
@@ -14,10 +16,10 @@ const LEVELS = [
     hint: { es: 'Una bombilla, un interruptor', en: 'One bulb, one switch', ca: 'Una bombeta, un interruptor' } },
   { key: 'eso', emoji: '🟡', difficulty: 'medio',
     label: { es: 'Secundaria (ESO)', en: 'Secondary (ESO)', ca: 'Secundària (ESO)' },
-    hint: { es: 'Dos bombillas, en serie o en paralelo', en: 'Two bulbs, in series or parallel', ca: 'Dues bombetes, en sèrie o en paral·lel' } },
+    hint: { es: 'Dos bombillas: serie, paralelo o un interruptor por rama', en: 'Two bulbs: series, parallel or a switch per branch', ca: 'Dues bombetes: sèrie, paral·lel o un interruptor per branca' } },
   { key: 'bachillerato', emoji: '🔴', difficulty: 'dificil',
     label: { es: 'Bachillerato', en: 'Sixth Form', ca: 'Batxillerat' },
-    hint: { es: 'Tres bombillas y dos interruptores', en: 'Three bulbs and two switches', ca: 'Tres bombetes i dos interruptors' } },
+    hint: { es: 'Serie y paralelo a la vez, con dos interruptores', en: 'Series and parallel at once, with two switches', ca: 'Sèrie i paral·lel alhora, amb dos interruptors' } },
 ]
 
 // Componente propio (no una función plana como en FuerzaNetaExamen): aquí la
@@ -46,12 +48,18 @@ function CircuitoPregunta({ round, phase, onAnswer, l }) {
       <p className="text-white/60 text-sm text-center mb-2">
         {l === 'en' ? 'How will each bulb shine?' : l === 'ca' ? 'Com brillarà cada bombeta?' : '¿Cómo va a brillar cada bombilla?'}
       </p>
+      <div className="mb-2">
+        <Leyenda labels={{ apagada: est('apagada', l), tenue: est('tenue', l), brillante: est('brillante', l) }} />
+      </div>
       <div className="relative rounded-xl overflow-hidden border border-white/10 bg-[#0d1117] mb-3">
         <CircuitoDiagrama round={round} prediccion={prediccion} onToggle={toggle} revelado={revelado} />
         {revelado && (
-          <div className="absolute inset-x-0 bottom-0 bg-black/70 backdrop-blur-sm p-2 text-center">
+          <div className="absolute inset-x-0 bottom-0 bg-black/75 backdrop-blur-sm p-2 text-center">
             <p className={`font-black ${acierto ? 'text-green-400' : 'text-red-400'}`}>
               {acierto ? '🎉 ¡Correcto!' : '❌ No del todo'}
+            </p>
+            <p className="text-white/70 text-xs mt-0.5 leading-snug max-w-[440px] mx-auto">
+              {MOTIVOS[motivoRonda(round)]?.[l] ?? MOTIVOS[motivoRonda(round)]?.es}
             </p>
           </div>
         )}
