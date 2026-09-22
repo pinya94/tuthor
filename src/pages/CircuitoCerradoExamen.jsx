@@ -13,13 +13,13 @@ const est = (estado, l) => ESTADO_LABELS[estado]?.[l] ?? ESTADO_LABELS[estado]?.
 const LEVELS = [
   { key: 'primaria', emoji: '🟢', difficulty: 'facil',
     label: { es: 'Primaria', en: 'Primary', ca: 'Primària' },
-    hint: { es: 'Una bombilla, un interruptor', en: 'One bulb, one switch', ca: 'Una bombeta, un interruptor' } },
+    hint: { es: 'Una bombilla e interruptores en serie o en paralelo', en: 'One bulb and switches in series or parallel', ca: 'Una bombeta i interruptors en sèrie o en paral·lel' } },
   { key: 'eso', emoji: '🟡', difficulty: 'medio',
     label: { es: 'Secundaria (ESO)', en: 'Secondary (ESO)', ca: 'Secundària (ESO)' },
     hint: { es: 'Dos bombillas: serie, paralelo o un interruptor por rama', en: 'Two bulbs: series, parallel or a switch per branch', ca: 'Dues bombetes: sèrie, paral·lel o un interruptor per branca' } },
   { key: 'bachillerato', emoji: '🔴', difficulty: 'dificil',
     label: { es: 'Bachillerato', en: 'Sixth Form', ca: 'Batxillerat' },
-    hint: { es: 'Serie y paralelo a la vez, con dos interruptores', en: 'Series and parallel at once, with two switches', ca: 'Sèrie i paral·lel alhora, amb dos interruptors' } },
+    hint: { es: 'Recorridos con atajos que cortocircuitan bombillas', en: 'Paths with shortcuts that short-circuit bulbs', ca: 'Recorreguts amb dreceres que curtcircuiten bombetes' } },
 ]
 
 // Componente propio (no una función plana como en FuerzaNetaExamen): aquí la
@@ -46,10 +46,10 @@ function CircuitoPregunta({ round, phase, onAnswer, l }) {
   return (
     <>
       <p className="text-white/60 text-sm text-center mb-2">
-        {l === 'en' ? 'How will each bulb shine?' : l === 'ca' ? 'Com brillarà cada bombeta?' : '¿Cómo va a brillar cada bombilla?'}
+        {l === 'en' ? 'Which bulbs light up?' : l === 'ca' ? 'Quines bombetes s\'encenen?' : '¿Qué bombillas se encienden?'}
       </p>
       <div className="mb-2">
-        <Leyenda labels={{ apagada: est('apagada', l), tenue: est('tenue', l), brillante: est('brillante', l) }} />
+        <Leyenda labels={{ apagada: est('apagada', l), encendida: est('encendida', l) }} />
       </div>
       <div className="relative rounded-xl overflow-hidden border border-white/10 bg-[#0d1117] mb-3">
         <CircuitoDiagrama round={round} prediccion={prediccion} onToggle={toggle} revelado={revelado} />
@@ -87,7 +87,7 @@ export default function CircuitoCerradoExamen() {
       title={{ es: '💡 Examen Circuito Cerrado', en: '💡 Circuit Complete Exam', ca: '💡 Examen Circuit Complet' }}
       sub={{ es: 'Predice cómo brilla cada bombilla en cada circuito', en: 'Predict how each bulb shines in each circuit', ca: 'Prediu com brilla cada bombeta a cada circuit' }}
       metaTitle={{ es: 'Examen de Circuito Cerrado — Física', en: 'Circuit Complete Exam — Physics', ca: 'Examen de Circuit Complet — Física' }}
-      metaDesc={{ es: 'Examen de electricidad con la mecánica del juego: predice si cada bombilla brilla apagada, tenue o a tope según interruptores, serie y paralelo. 10 preguntas, sin tiempo.', en: 'Electricity exam using the game mechanic: predict whether each bulb is off, dim or at full brightness given switches, series and parallel wiring. 10 questions, no timer.', ca: 'Examen d\'electricitat amb la mecànica del joc: prediu si cada bombeta brilla apagada, tènue o a tota potència segons interruptors, sèrie i paral·lel. 10 preguntes, sense temps.' }}
+      metaDesc={{ es: 'Examen de electricidad con la mecánica del juego: predice qué bombillas se encienden según los interruptores, en serie y en paralelo, con circuitos abiertos y cortocircuitos. 10 preguntas, sin tiempo.', en: 'Electricity exam using the game mechanic: predict which bulbs light up given the switches, in series and parallel, with open circuits and short-circuits. 10 questions, no timer.', ca: 'Examen d\'electricitat amb la mecànica del joc: prediu quines bombetes s\'encenen segons els interruptors, en sèrie i en paral·lel, amb circuits oberts i curtcircuits. 10 preguntes, sense temps.' }}
       metaPath="/examen/circuito-cerrado-test"
       subjectSchema="Física"
       backGamePath="/juegos/circuito-cerrado"

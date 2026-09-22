@@ -21,17 +21,17 @@ const CORRECT_TIME = 3
 const C = {
   badge:  { es: 'Física · Electricidad', en: 'Physics · Electricity', ca: 'Física · Electricitat' },
   title:  { es: '💡 Circuito Cerrado', en: '💡 Circuit Complete', ca: '💡 Circuit Complet' },
-  sub:    { es: 'Predice cómo va a brillar cada bombilla', en: 'Predict how each bulb will shine', ca: 'Prediu com brillarà cada bombeta' },
+  sub:    { es: 'Predice qué bombillas se encienden', en: 'Predict which bulbs light up', ca: 'Prediu quines bombetes s\'encenen' },
   how:    { es: 'Cómo funciona', en: 'How it works', ca: 'Com funciona' },
-  p1:     { es: 'Toca cada bombilla para recorrer sus 3 estados: apagada, tenue o a tope.', en: 'Tap each bulb to cycle its 3 states: off, dim or full brightness.', ca: 'Toca cada bombeta per recórrer els seus 3 estats: apagada, tènue o a tota potència.' },
-  p2:     { es: 'Un interruptor abierto (🔓) corta la corriente; cerrado (🔒), la deja pasar.', en: 'An open switch (🔓) cuts the current; closed (🔒), it flows.', ca: 'Un interruptor obert (🔓) talla el corrent; tancat (🔒), el deixa passar.' },
-  p3:     { es: 'En serie, las bombillas se reparten la pila y brillan tenues. En paralelo, cada una brilla a tope.', en: 'In series, bulbs share the battery and shine dim. In parallel, each one shines at full brightness.', ca: 'En sèrie, les bombetes es reparteixen la pila i brillen tènues. En paral·lel, cadascuna brilla a tota potència.' },
+  p1:     { es: 'Toca cada bombilla para marcar si crees que se enciende o se queda apagada.', en: 'Tap each bulb to mark whether you think it lights up or stays off.', ca: 'Toca cada bombeta per marcar si creus que s\'encén o es queda apagada.' },
+  p2:     { es: 'Un interruptor abierto (🔓) corta la corriente; cerrado (🔒), la deja pasar. Sigue el camino desde la pila.', en: 'An open switch (🔓) cuts the current; closed (🔒), it flows. Follow the path from the battery.', ca: 'Un interruptor obert (🔓) talla el corrent; tancat (🔒), el deixa passar. Segueix el camí des de la pila.' },
+  p3:     { es: 'En serie, un interruptor controla todas; en paralelo, cada rama va por su cuenta. Ojo: un atajo cerrado puede esquivar una bombilla.', en: 'In series one switch controls all; in parallel each branch is independent. Watch out: a closed shortcut can bypass a bulb.', ca: 'En sèrie, un interruptor les controla totes; en paral·lel cada branca va pel seu compte. Ull: una drecera tancada pot esquivar una bombeta.' },
   time:   { es: 'Tiempo', en: 'Time', ca: 'Temps' },
   timeVal:{ es: '40 segundos', en: '40 seconds', ca: '40 segons' },
   pts:    { es: 'Puntos', en: 'Points', ca: 'Punts' },
   ptsVal: { es: 'Acierto +1 y +3s · Fallo −1 y −3s', en: 'Correct +1 and +3s · Wrong −1 and −3s', ca: 'Encert +1 i +3s · Errada −1 i −3s' },
   start:  { es: '▶ Empezar', en: '▶ Start', ca: '▶ Començar' },
-  prompt: { es: '¿Cómo va a brillar cada bombilla?', en: 'How will each bulb shine?', ca: 'Com brillarà cada bombeta?' },
+  prompt: { es: '¿Qué bombillas se encienden?', en: 'Which bulbs light up?', ca: 'Quines bombetes s\'encenen?' },
   confirm:{ es: 'Confirmar →', en: 'Confirm →', ca: 'Confirmar →' },
   allRight:{ es: '¡Correcto!', en: 'Correct!', ca: 'Correcte!' },
   wrong:  { es: 'No del todo', en: 'Not quite', ca: 'No del tot' },
@@ -47,9 +47,9 @@ function T(k, l) { return C[k]?.[l] ?? C[k]?.es ?? k }
 const est = (estado, l) => ESTADO_LABELS[estado]?.[l] ?? ESTADO_LABELS[estado]?.es
 
 const DIFS = {
-  facil:   { emoji: '🟢', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' }, desc: { es: 'Una bombilla con uno o dos interruptores', en: 'One bulb with one or two switches', ca: 'Una bombeta amb un o dos interruptors' } },
-  medio:   { emoji: '🟡', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' }, desc: { es: 'Dos bombillas: serie, paralelo o un interruptor por rama', en: 'Two bulbs: series, parallel or a switch per branch', ca: 'Dues bombetes: sèrie, paral·lel o un interruptor per branca' } },
-  dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' }, desc: { es: 'Serie y paralelo a la vez, con dos interruptores', en: 'Series and parallel at once, with two switches', ca: 'Sèrie i paral·lel alhora, amb dos interruptors' } },
+  facil:   { emoji: '🟢', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' }, desc: { es: 'Una bombilla: un interruptor, dos en serie (Y) o dos caminos (O)', en: 'One bulb: one switch, two in series (AND) or two paths (OR)', ca: 'Una bombeta: un interruptor, dos en sèrie (I) o dos camins (O)' } },
+  medio:   { emoji: '🟡', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' }, desc: { es: 'Dos bombillas: en serie, en paralelo o cada una con su interruptor', en: 'Two bulbs: in series, in parallel or each with its own switch', ca: 'Dues bombetes: en sèrie, en paral·lel o cadascuna amb el seu interruptor' } },
+  dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' }, desc: { es: 'Recorridos con trampa: atajos que cortocircuitan bombillas', en: 'Tricky paths: shortcuts that short-circuit bulbs', ca: 'Recorreguts amb trampa: dreceres que curtcircuiten bombetes' } },
 }
 
 function DifficultyScreen({ onSelect, l }) {
@@ -199,9 +199,9 @@ export default function CircuitoCerrado() {
   }
 
   const seo = {
-    es: { title: 'Circuito Cerrado — Aprende electricidad jugando', desc: 'Predice si cada bombilla brilla apagada, tenue o a tope: interruptores, serie y paralelo. Aprende electricidad básica prediciendo circuitos, sin reloj de reflejos por ronda. Juego de física.', path: '/juegos/circuito-cerrado' },
-    en: { title: 'Circuit Complete — Learn electricity by playing', desc: 'Predict whether each bulb is off, dim or at full brightness: switches, series and parallel. Learn basic electricity by reading circuits, no per-round reflex clock. Physics game.', path: '/en/juegos/circuito-cerrado' },
-    ca: { title: 'Circuit Complet — Aprèn electricitat jugant', desc: 'Prediu si cada bombeta brilla apagada, tènue o a tota potència: interruptors, sèrie i paral·lel. Aprèn electricitat bàsica llegint circuits, sense rellotge de reflexos per ronda. Joc de física.', path: '/ca/juegos/circuito-cerrado' },
+    es: { title: 'Circuito Cerrado — Aprende electricidad jugando', desc: 'Predice qué bombillas se encienden siguiendo el camino de la corriente: interruptores en serie y paralelo, circuitos abiertos y cortocircuitos. Aprende electricidad básica leyendo circuitos. Juego de física gratis.', path: '/juegos/circuito-cerrado' },
+    en: { title: 'Circuit Complete — Learn electricity by playing', desc: 'Predict which bulbs light up by following the current: switches in series and parallel, open circuits and short-circuits. Learn basic electricity by reading circuits. Free physics game.', path: '/en/juegos/circuito-cerrado' },
+    ca: { title: 'Circuit Complet — Aprèn electricitat jugant', desc: 'Prediu quines bombetes s\'encenen seguint el camí del corrent: interruptors en sèrie i paral·lel, circuits oberts i curtcircuits. Aprèn electricitat bàsica llegint circuits. Joc de física gratis.', path: '/ca/juegos/circuito-cerrado' },
   }[l]
 
   if (screen === 'difficulty') {
@@ -262,7 +262,7 @@ export default function CircuitoCerrado() {
 
       {/* Leyenda de los tres estados — para leer la potencia de un vistazo */}
       <div className="w-full max-w-[520px] mb-2">
-        <Leyenda labels={{ apagada: est('apagada', l), tenue: est('tenue', l), brillante: est('brillante', l) }} />
+        <Leyenda labels={{ apagada: est('apagada', l), encendida: est('encendida', l) }} />
       </div>
 
       {/* Circuito */}

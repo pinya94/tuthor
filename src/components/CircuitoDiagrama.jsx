@@ -1,29 +1,26 @@
 // Diagrama de circuito de Circuito Cerrado (SVG puro) — lo comparten el
-// juego y el examen. Cuatro trazados fijos, uno por `round.tipo` (ver
-// lib/circuito.js): las coordenadas están escritas a mano por esquema, no
-// generadas, porque son solo 4 y así el cableado se lee como un esquema de
-// libro de texto (routing Manhattan, sin diagonales).
+// juego y el examen. Un trazado fijo por `round.tipo` (ver lib/circuito.js):
+// las coordenadas están escritas a mano por esquema, no generadas, así el
+// cableado se lee como un esquema de libro de texto (routing Manhattan, sin
+// diagonales).
 //
-// Las bombillas son lo único clicable: un clic RECORRE las tres respuestas
-// posibles (apagada → tenue → brillante → apagada) — la predicción del
-// jugador antes de revelar. El interruptor es un dato del circuito, visible
-// desde el principio — igual que en la vida real se ve a simple vista si
-// está bajado o subido; lo que NO se sabe hasta probar es CÓMO va a brillar
-// cada bombilla.
+// Las bombillas son lo único clicable: un clic ALTERNA entre apagada y
+// encendida — la predicción del jugador antes de revelar. El interruptor es un
+// dato del circuito, visible desde el principio — igual que en la vida real se
+// ve a simple vista si está bajado o subido; lo que NO se sabe hasta seguir el
+// camino de la corriente es QUÉ bombillas se encienden.
 const VB = { W: 430, H: 280 }
 const TOP_Y = 55, BOTTOM_Y = 225, BAT_X = 70, BAT_Y = 140
 
-// apagada → tenue → brillante → apagada — el orden en que un clic recorre
-// los tres estados posibles de una bombilla.
-const CICLO_ESTADOS = ['apagada', 'tenue', 'brillante']
+// apagada → encendida → apagada — un clic alterna los dos estados posibles.
+const CICLO_ESTADOS = ['apagada', 'encendida']
 export function siguienteEstado(estado) {
   return CICLO_ESTADOS[(CICLO_ESTADOS.indexOf(estado) + 1) % CICLO_ESTADOS.length]
 }
 
 const ESTILO_BOMBILLA = {
   apagada:   { fill: '#1e293b', stroke: '#64748b', glow: 'none' },
-  tenue:     { fill: '#b45309', stroke: '#d97706', glow: 'drop-shadow(0 0 3px rgba(217,119,6,0.6))' },
-  brillante: { fill: '#f59e0b', stroke: '#fbbf24', glow: 'drop-shadow(0 0 7px rgba(245,158,11,0.9))' },
+  encendida: { fill: '#f59e0b', stroke: '#fbbf24', glow: 'drop-shadow(0 0 7px rgba(245,158,11,0.9))' },
 }
 
 const WIRE = '#475569' // slate-600, neutro — el cable no indica corriente
@@ -65,12 +62,10 @@ function Interruptor({ x, y, cerrado, orientacion = 'h' }) {
   )
 }
 
-// Rayos alrededor de la bombilla: hacen VISIBLE la potencia, no solo el color.
-// A tope → ráfaga de 8 rayos largos; tenue → 4 rayos cortos; apagada → ninguno.
+// Rayos alrededor de la bombilla: hacen VISIBLE que está encendida.
+// Encendida → ráfaga de 8 rayos; apagada → ninguno.
 function Rayos({ x, y, estado, scale = 1 }) {
-  const cfg = estado === 'brillante' ? { n: 8, r0: 20, r1: 27, w: 2, op: 0.95, off: 0 }
-    : estado === 'tenue' ? { n: 4, r0: 19, r1: 23, w: 1.6, op: 0.55, off: Math.PI / 4 }
-    : null
+  const cfg = estado === 'encendida' ? { n: 8, r0: 20, r1: 27, w: 2, op: 0.95, off: 0 } : null
   if (!cfg) return null
   const color = ESTILO_BOMBILLA[estado].stroke
   return (
@@ -109,10 +104,10 @@ function Bombilla({ x, y, b, prediccion, revelado, onToggle }) {
   )
 }
 
-// Leyenda de los tres estados: qué es apagada / tenue / a tope, para que el
-// jugador sepa qué está eligiendo y aprenda a leer la potencia de un vistazo.
+// Leyenda de los dos estados: qué es apagada / encendida, para que el jugador
+// sepa qué está eligiendo de un vistazo.
 export function Leyenda({ labels }) {
-  const items = [['apagada', labels.apagada], ['tenue', labels.tenue], ['brillante', labels.brillante]]
+  const items = [['apagada', labels.apagada], ['encendida', labels.encendida]]
   return (
     <div className="flex items-center justify-center gap-4 flex-wrap">
       {items.map(([estado, txt]) => {
@@ -238,33 +233,87 @@ function layoutParaleloRamas() {
   }
 }
 
-// Serie y paralelo a la vez: rama izquierda con DOS bombillas en serie (misma
-// vertical), rama derecha con UNA sola; cada rama con su interruptor arriba.
-function layoutSerieMixta() {
-  const B1X = 275, B2X = 375
+// Dos interruptores en PARALELO (dos caminos) hacia una bombilla: carriles
+// superior e inferior, cada uno con su interruptor, que se reúnen antes de la
+// bombilla. Basta un camino cerrado.
+function layoutParaleloOr() {
+  const LX = 150, RX = 300, BX = 370
   return {
     wires: [
       { x1: BAT_X, y1: TOP_Y, x2: BAT_X, y2: BOTTOM_Y },
-      { x1: BAT_X, y1: TOP_Y, x2: B2X, y2: TOP_Y },
-      { x1: B1X, y1: TOP_Y, x2: B1X, y2: BOTTOM_Y },
-      { x1: B2X, y1: TOP_Y, x2: B2X, y2: BOTTOM_Y },
-      { x1: B2X, y1: BOTTOM_Y, x2: BAT_X, y2: BOTTOM_Y },
+      { x1: BAT_X, y1: TOP_Y, x2: LX, y2: TOP_Y },
+      { x1: LX, y1: TOP_Y, x2: LX, y2: 95 },
+      { x1: LX, y1: TOP_Y, x2: RX, y2: TOP_Y },   // camino de arriba (i1)
+      { x1: LX, y1: 95, x2: RX, y2: 95 },          // camino de abajo (i2)
+      { x1: RX, y1: 95, x2: RX, y2: TOP_Y },
+      { x1: RX, y1: TOP_Y, x2: BX, y2: TOP_Y },
+      { x1: BX, y1: TOP_Y, x2: BX, y2: BOTTOM_Y },
+      { x1: BX, y1: BOTTOM_Y, x2: BAT_X, y2: BOTTOM_Y },
     ],
     interruptores: [
-      { id: 'i1', x: B1X, y: 92, orientacion: 'v' },
-      { id: 'i2', x: B2X, y: 92, orientacion: 'v' },
+      { id: 'i1', x: 225, y: TOP_Y, orientacion: 'h' },
+      { id: 'i2', x: 225, y: 95, orientacion: 'h' },
     ],
-    bombillas: [
-      { id: 'b1', x: B1X, y: 150 },
-      { id: 'b2', x: B1X, y: 195 },
-      { id: 'b3', x: B2X, y: 150 },
+    bombillas: [{ id: 'b1', x: BX, y: BAT_Y }],
+  }
+}
+
+// Bypass: un interruptor en PARALELO con la bombilla, por un atajo que la rodea.
+// Si el atajo se cierra, la corriente lo toma y esquiva la bombilla.
+function layoutBypass() {
+  const MX = 330, DX = 395
+  return {
+    wires: [
+      { x1: BAT_X, y1: TOP_Y, x2: BAT_X, y2: BOTTOM_Y },
+      { x1: BAT_X, y1: TOP_Y, x2: MX, y2: TOP_Y },
+      { x1: MX, y1: TOP_Y, x2: MX, y2: BOTTOM_Y },   // b1 en esta vertical
+      { x1: MX, y1: BOTTOM_Y, x2: BAT_X, y2: BOTTOM_Y },
+      // atajo que rodea b1 (de encima a debajo de la bombilla)
+      { x1: MX, y1: 95, x2: DX, y2: 95 },
+      { x1: DX, y1: 95, x2: DX, y2: 185 },
+      { x1: DX, y1: 185, x2: MX, y2: 185 },
     ],
+    interruptores: [
+      { id: 'i1', x: 200, y: TOP_Y, orientacion: 'h' },
+      { id: 'i2', x: DX, y: BAT_Y, orientacion: 'v' },
+    ],
+    bombillas: [{ id: 'b1', x: MX, y: BAT_Y }],
+  }
+}
+
+// Serie con bypass: dos bombillas en serie, y un atajo que rodea SOLO a la
+// segunda. Cerrar el atajo esquiva b2 (se apaga); b1 sigue en el camino.
+function layoutSerieBypass() {
+  const MX = 330, DX = 395
+  return {
+    wires: [
+      { x1: BAT_X, y1: TOP_Y, x2: BAT_X, y2: BOTTOM_Y },
+      { x1: BAT_X, y1: TOP_Y, x2: MX, y2: TOP_Y },
+      { x1: MX, y1: TOP_Y, x2: MX, y2: BOTTOM_Y },   // b1 (arriba) y b2 (abajo)
+      { x1: MX, y1: BOTTOM_Y, x2: BAT_X, y2: BOTTOM_Y },
+      // atajo alrededor de b2 solamente
+      { x1: MX, y1: 150, x2: DX, y2: 150 },
+      { x1: DX, y1: 150, x2: DX, y2: 210 },
+      { x1: DX, y1: 210, x2: MX, y2: 210 },
+    ],
+    interruptores: [
+      { id: 'i1', x: 200, y: TOP_Y, orientacion: 'h' },
+      { id: 'i2', x: DX, y: 180, orientacion: 'v' },
+    ],
+    bombillas: [{ id: 'b1', x: MX, y: 110 }, { id: 'b2', x: MX, y: 180 }],
   }
 }
 
 const LAYOUTS = {
-  simple: layoutSimple, serie: layoutSerie, paralelo: layoutParalelo, mixto: layoutMixto,
-  'dos-interruptores': layoutDosInterruptores, 'paralelo-ramas': layoutParaleloRamas, 'serie-mixta': layoutSerieMixta,
+  simple: layoutSimple,
+  'serie-and': layoutDosInterruptores,
+  'paralelo-or': layoutParaleloOr,
+  'serie-dos': layoutSerie,
+  'paralelo-tronco': layoutParalelo,
+  'paralelo-ramas': layoutParaleloRamas,
+  bypass: layoutBypass,
+  'serie-bypass': layoutSerieBypass,
+  mixto: layoutMixto,
 }
 
 export default function CircuitoDiagrama({ round, prediccion, onToggle, revelado }) {
