@@ -31,6 +31,7 @@ const MATH_CAT_LABELS = {
   // con un examen homónimo. "graficos" agrupa los cinco exámenes de Lee el
   // Gráfico y no es ninguno de ellos, así que necesita su etiqueta a mano.
   graficos: { es: 'Lectura de Gráficos', en: 'Reading Charts', ca: 'Lectura de Gràfics' },
+  'medida-tiempo': { es: 'El Reloj y la Hora', en: 'The Clock and Time', ca: 'El Rellotge i l\'Hora' },
 }
 
 // ── Juegos reales, derivados del registro central (src/lib/games.js) ──────

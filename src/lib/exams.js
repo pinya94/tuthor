@@ -291,6 +291,11 @@ export const EXAMS = {
     emoji: '📶', subject: 'matematicas',
     path: 'examen/menor-a-mayor-test', page: () => import('../pages/MenorAMayorExamen'),
   },
+  'reloj-horas-test': {
+    label: { es: 'El Reloj (leer la hora)', en: 'The Clock (telling time)', ca: 'El Rellotge (llegir l\'hora)' },
+    emoji: '🕐', subject: 'matematicas',
+    path: 'examen/reloj-horas-test', page: () => import('../pages/RelojHorasExamen'),
+  },
   'funciones': {
     label: { es: 'Funciones', en: 'Functions', ca: 'Funcions' },
     emoji: '📈', subject: 'matematicas',

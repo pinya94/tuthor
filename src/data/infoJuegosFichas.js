@@ -552,6 +552,34 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Matemáticas', niveles: 'Primaria, ESO',
   },
+  'reloj-horas': {
+    titulo: '¿Qué hora es?',
+    subtitulo: 'Juego de Leer y Poner la Hora en el Reloj Analógico',
+    emoji: '🕐', gradient: 'from-sky-500 to-indigo-700', path: '/juegos/reloj-horas',
+    examPath: '/examen/reloj-horas-test',
+    intro: 'Un juego de matemáticas para dominar algo que cada vez se practica menos pero sigue cayendo en clase: leer y poner la hora en un reloj de agujas. Se pide una hora —en digital y en palabras— y hay que colocar las dos manecillas arrastrándolas: la larga para los minutos, la corta para las horas. Al fallar, el reloj enseña en verde dónde iban de verdad, así que cada error es una lección.',
+    beneficios: [
+      { titulo: 'Las dos manecillas, no solo el número', texto: 'Poner la hora obliga a entender que la aguja corta marca la hora y la larga los minutos, y que a y media la corta ya no apunta al número justo. Es lo que separa "leer un reloj" de "adivinarlo".' },
+      { titulo: 'El vocabulario de la hora', texto: 'Cada hora se dice también en palabras: "y cuarto", "y media", "menos cuarto", "las nueve menos diez". Ver el digital y la expresión a la vez conecta las dos formas con que se dice la hora todos los días.' },
+      { titulo: 'La hora como medida', texto: 'El reloj es una recta circular: 60 minutos que dan la vuelta, la mitad es media hora, un cuarto son 15 minutos. Manipularlo asienta las fracciones del tiempo mejor que memorizarlas.' },
+    ],
+    ejemplo: 'Pide "las cuatro y media" (4:30). El alumno arrastra la manecilla larga hasta el 6 (30 minutos) y la corta entre el 4 y el 5 —ahí está el detalle: a y media la aguja de la hora ya ha avanzado—. Confirma y acierta; si la deja en el 4 justo, el reloj le muestra en verde la posición correcta.',
+    enPapel: {
+      titulo: 'El reloj en papel',
+      pasos: [
+        'Dibuja un círculo con los números del 1 al 12 y dos flechas de cartulina sujetas con un encuadernador en el centro.',
+        'Di una hora en voz alta (en punto, y media, y cuarto…) y que el alumno coloque las flechas.',
+        'Cambia de dirección: pon tú las flechas y que él diga la hora, en digital y en palabras.',
+        'Sube el nivel con minutos de cinco en cinco y con las expresiones "menos cuarto" y "menos diez".',
+      ],
+    },
+    alternativas: [
+      { nombre: 'El reloj de la cocina', desc: 'Cualquier reloj de agujas de casa sirve: pregunta la hora a ratos del día y compárala con el móvil para comprobar.' },
+      { nombre: 'Horarios reales', desc: 'Un horario de trenes o de la tele obliga a leer y comparar horas con un objetivo de verdad: "¿cuánto falta para las seis y cuarto?".' },
+      { nombre: 'El examen del reloj', desc: 'La misma mecánica sin reloj de partida y con nota final, para repasar con calma leer y poner la hora.' },
+    ],
+    asignatura: 'Matemáticas', niveles: 'Primaria',
+  },
   'reparte-pastel': {
     titulo: 'Reparte el Pastel',
     subtitulo: 'Juego Visual de Fracciones con Porciones',
@@ -1486,6 +1514,34 @@ export const FICHAS_EN = {
       { nombre: 'The classroom number line', desc: 'A rope with 0 at one end and 1 at the other: each student gets a number (as a fraction, decimal or %) and physically stands where they think it goes. Ordering with your body sticks better.' },
     ],
     asignatura: 'Mathematics', niveles: 'Primary, Secondary',
+  },
+  'reloj-horas': {
+    titulo: 'What time is it?',
+    subtitulo: 'Game to Read and Set the Time on an Analog Clock',
+    emoji: '🕐', gradient: 'from-sky-500 to-indigo-700', path: '/juegos/reloj-horas',
+    examPath: '/examen/reloj-horas-test',
+    intro: 'A maths game to master something that is practised less and less but still comes up in class: reading and setting the time on a clock with hands. A time is asked —in digital and in words— and you place the two hands by dragging them: the long one for the minutes, the short one for the hours. On a miss, the clock shows in green where they really went, so every mistake is a lesson.',
+    beneficios: [
+      { titulo: 'Both hands, not just the number', texto: 'Setting the time forces you to understand that the short hand shows the hour and the long one the minutes, and that at half past the short hand no longer points exactly at the number. That is what separates "reading a clock" from "guessing it".' },
+      { titulo: 'The vocabulary of time', texto: 'Each time is also said in words: "quarter past", "half past", "quarter to", "ten to nine". Seeing the digital and the expression together links the two ways time is said every day.' },
+      { titulo: 'Time as a measure', texto: 'The clock is a circular line: 60 minutes going round, half of it is half an hour, a quarter is 15 minutes. Handling it settles the fractions of time better than memorising them.' },
+    ],
+    ejemplo: 'It asks for "half past four" (4:30). The student drags the long hand to the 6 (30 minutes) and the short one between 4 and 5 —there is the detail: at half past, the hour hand has already moved on—. They confirm and get it right; if they leave it exactly on the 4, the clock shows the correct position in green.',
+    enPapel: {
+      titulo: 'The clock on paper',
+      pasos: [
+        'Draw a circle with the numbers 1 to 12 and two cardboard arrows pinned at the centre with a split pin.',
+        'Say a time out loud (o\'clock, half past, quarter past…) and have the student set the arrows.',
+        'Switch direction: you set the arrows and they say the time, in digital and in words.',
+        'Raise the level with minutes in steps of five and the expressions "quarter to" and "ten to".',
+      ],
+    },
+    alternativas: [
+      { nombre: 'The kitchen clock', desc: 'Any clock with hands at home works: ask the time at moments of the day and check it against a phone.' },
+      { nombre: 'Real timetables', desc: 'A train or TV timetable forces you to read and compare times with a real goal: "how long until quarter past six?".' },
+      { nombre: 'The clock exam', desc: 'The same mechanic without the game clock and with a final grade, to revise reading and setting the time calmly.' },
+    ],
+    asignatura: 'Mathematics', niveles: 'Primary',
   },
   'reparte-pastel': {
     titulo: 'Slice the Cake',
@@ -2477,6 +2533,34 @@ export const FICHAS_CA = {
       { nombre: 'La recta de la classe', desc: 'Una corda amb el 0 en un extrem i l\'1 a l\'altre: cada alumne rep un nombre (en fracció, decimal o %) i es col·loca físicament on creu que va. Ordenar amb el cos es recorda millor.' },
     ],
     asignatura: 'Matemàtiques', niveles: 'Primària, ESO',
+  },
+  'reloj-horas': {
+    titulo: 'Quina hora és?',
+    subtitulo: 'Joc de Llegir i Posar l\'Hora al Rellotge Analògic',
+    emoji: '🕐', gradient: 'from-sky-500 to-indigo-700', path: '/juegos/reloj-horas',
+    examPath: '/examen/reloj-horas-test',
+    intro: 'Un joc de matemàtiques per dominar una cosa que cada cop es practica menys però encara cau a classe: llegir i posar l\'hora en un rellotge d\'agulles. Es demana una hora —en digital i en paraules— i cal col·locar les dues manetes arrossegant-les: la llarga per als minuts, la curta per a les hores. En fallar, el rellotge ensenya en verd on anaven de veritat, així que cada error és una lliçó.',
+    beneficios: [
+      { titulo: 'Les dues manetes, no només el número', texto: 'Posar l\'hora obliga a entendre que l\'agulla curta marca l\'hora i la llarga els minuts, i que a i mitja la curta ja no apunta al número just. És el que separa "llegir un rellotge" d\'"endevinar-lo".' },
+      { titulo: 'El vocabulari de l\'hora', texto: 'Cada hora es diu també en paraules: "i quart", "i mitja", "menys quart", "les nou menys deu". Veure el digital i l\'expressió alhora connecta les dues maneres de dir l\'hora cada dia.' },
+      { titulo: 'L\'hora com a mesura', texto: 'El rellotge és una recta circular: 60 minuts que fan la volta, la meitat és mitja hora, un quart són 15 minuts. Manipular-lo assenta les fraccions del temps millor que memoritzar-les.' },
+    ],
+    ejemplo: 'Demana "les quatre i mitja" (4:30). L\'alumne arrossega la maneta llarga fins al 6 (30 minuts) i la curta entre el 4 i el 5 —aquí hi ha el detall: a i mitja l\'agulla de l\'hora ja ha avançat—. Confirma i encerta; si la deixa al 4 just, el rellotge li mostra en verd la posició correcta.',
+    enPapel: {
+      titulo: 'El rellotge en paper',
+      pasos: [
+        'Dibuixa un cercle amb els números de l\'1 al 12 i dues fletxes de cartolina subjectes amb un enquadernador al centre.',
+        'Digues una hora en veu alta (en punt, i mitja, i quart…) i que l\'alumne col·loqui les fletxes.',
+        'Canvia de direcció: posa tu les fletxes i que ell digui l\'hora, en digital i en paraules.',
+        'Puja el nivell amb minuts de cinc en cinc i amb les expressions "menys quart" i "menys deu".',
+      ],
+    },
+    alternativas: [
+      { nombre: 'El rellotge de la cuina', desc: 'Qualsevol rellotge d\'agulles de casa serveix: pregunta l\'hora a estones del dia i compara-la amb el mòbil per comprovar.' },
+      { nombre: 'Horaris reals', desc: 'Un horari de trens o de la tele obliga a llegir i comparar hores amb un objectiu de veritat: "quant falta per a les sis i quart?".' },
+      { nombre: 'L\'examen del rellotge', desc: 'La mateixa mecànica sense rellotge de partida i amb nota final, per repassar amb calma llegir i posar l\'hora.' },
+    ],
+    asignatura: 'Matemàtiques', niveles: 'Primària',
   },
   'reparte-pastel': {
     titulo: 'Reparteix el Pastís',

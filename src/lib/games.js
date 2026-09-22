@@ -103,6 +103,13 @@ export const GAMES = {
     // aciertos × puntos → hasta 200 monedas
     coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
   },
+  'reloj-horas': {
+    label: { es: '¿Qué hora es?', en: 'What time is it?', ca: 'Quina hora és?' },
+    emoji: '🕐',
+    subject: 'matematicas',
+    route: '/juegos/reloj-horas',
+    coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
+  },
   'reparte-pastel': {
     label: { es: 'Reparte el Pastel', en: 'Slice the Cake', ca: 'Reparteix el Pastís' },
     emoji: '🍰',
