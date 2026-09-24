@@ -68,15 +68,23 @@ export function enPalabras(hora, minuto, lang = 'es') {
   return `${Hsig} menos ${resto}`
 }
 
-// ¿La hora puesta coincide con la pedida? La hora del reloj es 1..12; el 0 del
-// slot horario equivale a las 12.
-export function esCorrecta(objetivo, puesta) {
-  return objetivo.hora === puesta.hora && objetivo.minuto === puesta.minuto
+// Tolerancia (en grados) de la aguja de la HORA: hay que ponerla cerca de su
+// sitio realista, pero no clavada al grado. 10° ≈ 20 minutos de arco.
+export const MARGEN_HORA = 10
+
+// Ángulo (desde las 12) de la aguja de la HORA para una hora, REALISTA: avanza
+// medio grado por minuto, así que a y media queda entre las dos horas. Es lo
+// que hay que clavar (con margen): para las 11:20 no vale apuntar al 11 justo.
+export function anguloHora({ hora, minuto }) {
+  return (((hora % 12) + minuto / 60) * 30 + 360) % 360
 }
 
-// Paso de minutos permitido al arrastrar, según la dificultad: en fácil y medio
-// se ajusta de 5 en 5 (más fácil de clavar); en difícil, de 5 en 5 también,
-// porque las horas objetivo son múltiplos de 5.
-export function pasoMinuto() {
-  return 5
+// ¿La hora puesta coincide con la pedida? El minuto tiene que ser exacto (se
+// ajusta de 5 en 5); la aguja de la hora, dentro del margen de su sitio real.
+// `puesta` = { minuto, horaAng }.
+export function esCorrecta(objetivo, puesta) {
+  if (puesta.minuto !== objetivo.minuto) return false
+  let d = Math.abs(puesta.horaAng - anguloHora(objetivo)) % 360
+  if (d > 180) d = 360 - d
+  return d < MARGEN_HORA
 }

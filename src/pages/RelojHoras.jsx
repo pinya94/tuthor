@@ -33,7 +33,7 @@ export default function RelojHoras() {
   const [correct, setCorrect] = useState(0)
   const [streak, setStreak] = useState(0)
   const [objetivo, setObjetivo] = useState(null)
-  const [puesta, setPuesta] = useState({ hora: 12, minuto: 0 })
+  const [puesta, setPuesta] = useState({ minuto: 0, horaAng: 0 })
   const [phase, setPhase] = useState('choose') // choose | result
   const [delta, setDelta] = useState(null)
 
@@ -45,7 +45,7 @@ export default function RelojHoras() {
 
   function siguiente(d) {
     setObjetivo(nuevaHora(d))
-    setPuesta({ hora: 12, minuto: 0 })
+    setPuesta({ minuto: 0, horaAng: 0 })
     setPhase('choose')
     setDelta(null)
   }
@@ -128,7 +128,7 @@ export default function RelojHoras() {
             <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-6 space-y-2.5">
               {[
                 ['👆', tr({ es: 'Arrastra la agarradera de cada aguja —o usa los botones + / −— para poner la hora.', en: 'Drag each hand\'s knob —or use the + / − buttons— to set the time.', ca: 'Arrossega l\'agafador de cada maneta —o fes servir els botons + / −— per posar l\'hora.' }, l)],
-                ['⏱️', tr({ es: '40 segundos. Acierto +3s, fallo −3s.', en: '40 seconds. Correct +3s, wrong −3s.', ca: '40 segons. Encert +3s, errada −3s.' }, l)],
+                ['🕑', tr({ es: 'Ojo a la aguja de la hora: va un poco adelantada según los minutos (a y media, entre dos números). Hay un poco de margen.', en: 'Watch the hour hand: it moves a bit ahead with the minutes (at half past, between two numbers). There is a little margin.', ca: 'Ull a l\'agulla de l\'hora: va una mica avançada segons els minuts (a i mitja, entre dos números). Hi ha una mica de marge.' }, l)],
                 ['🎯', tr({ es: 'Al fallar se ve la hora correcta en verde para aprender.', en: 'On a miss the correct time shows in green so you learn.', ca: 'En fallar es veu l\'hora correcta en verd per aprendre.' }, l)],
               ].map(([e, t]) => (
                 <div key={t} className="flex items-start gap-3 text-sm text-white/50"><span className="text-base w-5 shrink-0 text-center">{e}</span><span>{t}</span></div>

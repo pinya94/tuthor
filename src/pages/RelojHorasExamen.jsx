@@ -21,7 +21,7 @@ const LEVELS = [
 // Componente propio: la pregunta necesita su estado (qué hora ha puesto el
 // alumno). key={qIndex} lo reinicia en cada ronda.
 function RelojPregunta({ round, phase, onAnswer, l }) {
-  const [puesta, setPuesta] = useState({ hora: 12, minuto: 0 })
+  const [puesta, setPuesta] = useState({ minuto: 0, horaAng: 0 })
   const revelado = phase === 'result'
   const won = revelado && esCorrecta(round, puesta)
 

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { nuevaHora, formatoDigital, enPalabras, esCorrecta } from '../reloj'
+import { nuevaHora, formatoDigital, enPalabras, esCorrecta, anguloHora } from '../reloj'
 
 describe('reloj', () => {
   it('formatoDigital rellena los minutos a dos cifras', () => {
@@ -38,10 +38,23 @@ describe('reloj', () => {
     expect(enPalabras(1, 0, 'ca')).toBe('la una en punt')
   })
 
-  it('esCorrecta compara hora y minuto', () => {
-    expect(esCorrecta({ hora: 4, minuto: 30 }, { hora: 4, minuto: 30 })).toBe(true)
-    expect(esCorrecta({ hora: 4, minuto: 30 }, { hora: 4, minuto: 15 })).toBe(false)
-    expect(esCorrecta({ hora: 4, minuto: 30 }, { hora: 5, minuto: 30 })).toBe(false)
+  it('anguloHora avanza medio grado por minuto (aguja realista)', () => {
+    expect(anguloHora({ hora: 3, minuto: 0 })).toBe(90)     // en el 3
+    expect(anguloHora({ hora: 3, minuto: 30 })).toBe(105)   // entre el 3 y el 4
+    expect(anguloHora({ hora: 12, minuto: 0 })).toBe(0)     // 12 → 0
+    expect(anguloHora({ hora: 11, minuto: 20 })).toBeCloseTo(340, 5) // adelantada del 11
+  })
+
+  it('esCorrecta: minuto exacto y la aguja de la hora ADELANTADA dentro del margen', () => {
+    const obj = { hora: 11, minuto: 20 }
+    const bien = anguloHora(obj) // ~340, adelantada del 11 (330)
+    expect(esCorrecta(obj, { minuto: 20, horaAng: bien })).toBe(true)
+    expect(esCorrecta(obj, { minuto: 20, horaAng: bien + 6 })).toBe(true)  // dentro del margen
+    expect(esCorrecta(obj, { minuto: 20, horaAng: 330 })).toBe(false)       // clavada en el 11 → mal
+    expect(esCorrecta(obj, { minuto: 15, horaAng: bien })).toBe(false)      // minuto mal
+    // en punto: la aguja va en el número justo
+    expect(esCorrecta({ hora: 4, minuto: 0 }, { minuto: 0, horaAng: 120 })).toBe(true)
+    expect(esCorrecta({ hora: 4, minuto: 0 }, { minuto: 0, horaAng: 150 })).toBe(false)
   })
 
   it('nuevaHora respeta el rango y la granularidad de la dificultad', () => {

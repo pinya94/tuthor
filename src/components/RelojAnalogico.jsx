@@ -1,21 +1,23 @@
 // Reloj analógico en SVG. Lo usan el juego (RelojHoras.jsx) y su examen.
 //
-// Dos formas de poner la hora, las dos siempre activas:
-//   · Arrastrar la AGARRADERA (el círculo grande) de cada aguja alrededor del
-//     reloj. Se agarra la aguja cuya agarradera esté más cerca del dedo.
-//   · Los botones + / − de hora y de minutos (de 5 en 5) — infalibles.
+// El valor es { minuto, horaAng }: los minutos (aguja larga, de 5 en 5) y el
+// ÁNGULO de la aguja de la hora (continuo, en grados desde las 12). Las dos
+// agujas son INDEPENDIENTES: mover una no mueve la otra.
 //
-// Las dos agujas son INDEPENDIENTES: mover los minutos no mueve la aguja de la
-// hora (eso, aunque sea lo realista, despistaba al colocar). La aguja de la
-// hora apunta al número de la hora.
+// La aguja de la hora se coloca donde el jugador quiere, de forma REALISTA:
+// para las 11:20 no va clavada en el 11, sino un poco adelantada (la puntuación
+// la acepta con un margen, ver esCorrecta en lib/reloj.js).
+//
+// Dos formas de ponerla, las dos activas:
+//   · Arrastrar la AGARRADERA (el círculo grande) de cada aguja.
+//   · Botones + / − : la hora salta de hora en hora; los minutos, de 5 en 5.
 import { useRef, useCallback } from 'react'
 
 const CX = 100, CY = 100
 const R = 92
 const LEN_MIN = 74
 const LEN_HORA = 52
-const KNOB_MIN = 11
-const KNOB_HORA = 11
+const KNOB = 11
 
 function punta(len, grados) {
   const rad = (grados * Math.PI) / 180
@@ -24,6 +26,10 @@ function punta(len, grados) {
 function anguloDesdeArriba(x, y) {
   const a = (Math.atan2(x - CX, -(y - CY)) * 180) / Math.PI
   return (a + 360) % 360
+}
+// Ángulo realista de la aguja de la hora para la hora correcta (para el fantasma).
+function angHoraReal({ hora, minuto }) {
+  return (((hora % 12) + minuto / 60) * 30 + 360) % 360
 }
 
 const COLORES = {
@@ -38,9 +44,8 @@ export default function RelojAnalogico({ value, onChange, interactive = false, e
   const valueRef = useRef(value)
   valueRef.current = value
 
-  const hourSlot = value.hora % 12
   const angMin = value.minuto * 6
-  const angHora = hourSlot * 30
+  const angHora = value.horaAng
   const [mx, my] = punta(LEN_MIN, angMin)
   const [hx, hy] = punta(LEN_HORA, angHora)
   const col = COLORES[estado] ?? COLORES.idle
@@ -58,8 +63,7 @@ export default function RelojAnalogico({ value, onChange, interactive = false, e
       const m = (Math.round(Math.round(ang / 6) / 5) * 5) % 60
       next = { ...v, minuto: m }
     } else {
-      const slot = Math.round(ang / 30) % 12
-      next = { ...v, hora: slot === 0 ? 12 : slot }
+      next = { ...v, horaAng: (Math.round(ang / 2) * 2 + 360) % 360 } // continuo, paso fino de 2°
     }
     valueRef.current = next
     onChange(next)
@@ -68,10 +72,13 @@ export default function RelojAnalogico({ value, onChange, interactive = false, e
   const onDown = useCallback(e => {
     if (!interactive) return
     const [x, y] = puntoSVG(e)
-    // agarra la aguja cuya AGARRADERA esté más cerca del dedo
     const dMin = Math.hypot(x - mx, y - my)
     const dHora = Math.hypot(x - hx, y - hy)
-    activaRef.current = dMin <= dHora ? 'min' : 'hora'
+    // Si el dedo cae sobre una agarradera, esa; si no (toque suelto en el reloj,
+    // p. ej. con las dos agujas juntas en las 12), decide el radio: fuera la
+    // larga (minutos), dentro la corta (hora).
+    if (Math.min(dMin, dHora) < 22) activaRef.current = dMin <= dHora ? 'min' : 'hora'
+    else activaRef.current = Math.hypot(x - CX, y - CY) >= 60 ? 'min' : 'hora'
     e.currentTarget.setPointerCapture?.(e.pointerId)
     rotar(x, y)
   }, [interactive, puntoSVG, mx, my, hx, hy, rotar])
@@ -84,15 +91,28 @@ export default function RelojAnalogico({ value, onChange, interactive = false, e
 
   const onUp = useCallback(() => { activaRef.current = null }, [])
 
-  // Botones + / −
-  const setHora = h => onChange({ ...value, hora: ((h - 1 + 12) % 12) + 1 })
-  const setMin = m => onChange({ ...value, minuto: (m + 60) % 60 })
+  // Hora entera que representa la aguja ahora mismo (quitando el avance por
+  // los minutos), 0..11.
+  const horaEntera = ((Math.round((value.horaAng - value.minuto * 0.5) / 30) % 12) + 12) % 12
+  // El botón de la hora coloca la aguja en su sitio REALISTA para los minutos
+  // actuales (así, con botones, sale bien): a las 3:50 apunta casi al 4.
+  const btnHora = d => {
+    const nh = horaEntera + d
+    onChange({ ...value, horaAng: ((nh * 30 + value.minuto * 0.5) % 360 + 360) % 360 })
+  }
+  // Al cambiar los minutos con los botones, la aguja de la hora se mantiene en
+  // su sitio realista (misma hora entera, nuevo avance) — así, con botones, sale
+  // bien en cualquier orden. (Arrastrando, cada aguja va por su cuenta.)
+  const btnMin = d => {
+    const nm = (value.minuto + d + 60) % 60
+    onChange({ minuto: nm, horaAng: ((horaEntera * 30 + nm * 0.5) % 360 + 360) % 360 })
+  }
+  const horaNum = horaEntera === 0 ? 12 : horaEntera
 
-  // Fantasma de la hora correcta al fallar
   let ghost = null
   if (objetivo && estado === 'incorrecto') {
     const [gmx, gmy] = punta(LEN_MIN, objetivo.minuto * 6)
-    const [ghx, ghy] = punta(LEN_HORA, (objetivo.hora % 12) * 30)
+    const [ghx, ghy] = punta(LEN_HORA, angHoraReal(objetivo))
     ghost = { gmx, gmy, ghx, ghy }
   }
 
@@ -118,25 +138,19 @@ export default function RelojAnalogico({ value, onChange, interactive = false, e
           <line x1={CX} y1={CY} x2={ghost.gmx} y2={ghost.gmy} stroke="#4ade80" strokeOpacity="0.35" strokeWidth="4" strokeLinecap="round" />
         </>}
 
-        {/* Aguja de la hora + agarradera */}
         <line x1={CX} y1={CY} x2={hx} y2={hy} stroke={col.hora} strokeWidth="7" strokeLinecap="round" style={{ pointerEvents: 'none' }} />
-        {interactive && <circle cx={hx} cy={hy} r={KNOB_HORA} fill={col.hora} stroke="#0d1117" strokeWidth="2.5" style={{ pointerEvents: 'none' }} />}
-        {/* Aguja de los minutos + agarradera */}
+        {interactive && <circle cx={hx} cy={hy} r={KNOB} fill={col.hora} stroke="#0d1117" strokeWidth="2.5" style={{ pointerEvents: 'none' }} />}
         <line x1={CX} y1={CY} x2={mx} y2={my} stroke={col.min} strokeWidth="5" strokeLinecap="round" style={{ pointerEvents: 'none' }} />
-        {interactive && <circle cx={mx} cy={my} r={KNOB_MIN} fill={col.min} stroke="#0d1117" strokeWidth="2.5" style={{ pointerEvents: 'none' }} />}
+        {interactive && <circle cx={mx} cy={my} r={KNOB} fill={col.min} stroke="#0d1117" strokeWidth="2.5" style={{ pointerEvents: 'none' }} />}
         <circle cx={CX} cy={CY} r="5" fill={col.min} style={{ pointerEvents: 'none' }} />
       </svg>
 
       {interactive && (
         <div className="flex justify-center gap-3 mt-3">
-          <Stepper colorClass="text-sky-300"
-            texto={lang === 'en' ? 'Hour' : 'Hora'}
-            value={value.hora}
-            onDec={() => setHora(value.hora - 1)} onInc={() => setHora(value.hora + 1)} />
-          <Stepper colorClass="text-white"
-            texto="Min"
-            value={String(value.minuto).padStart(2, '0')}
-            onDec={() => setMin(value.minuto - 5)} onInc={() => setMin(value.minuto + 5)} />
+          <Stepper colorClass="text-white" texto={lang === 'en' ? 'Hour' : 'Hora'}
+            value={horaNum} onDec={() => btnHora(-30)} onInc={() => btnHora(30)} />
+          <Stepper colorClass="text-sky-300" texto="Min"
+            value={String(value.minuto).padStart(2, '0')} onDec={() => btnMin(-5)} onInc={() => btnMin(5)} />
         </div>
       )}
     </div>
