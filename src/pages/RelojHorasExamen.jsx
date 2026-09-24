@@ -36,7 +36,7 @@ function RelojPregunta({ round, phase, onAnswer, l }) {
       </div>
       <div className="w-full max-w-[300px] mx-auto mb-3">
         <RelojAnalogico value={puesta} onChange={setPuesta} interactive={!revelado}
-          estado={revelado ? (won ? 'correcto' : 'incorrecto') : 'idle'} objetivo={round} />
+          estado={revelado ? (won ? 'correcto' : 'incorrecto') : 'idle'} objetivo={round} lang={l} />
       </div>
       {revelado && (
         <p className={`text-center font-black mb-3 ${won ? 'text-green-400' : 'text-red-400'}`}>

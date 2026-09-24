@@ -127,7 +127,7 @@ export default function RelojHoras() {
 
             <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-6 space-y-2.5">
               {[
-                ['👆', tr({ es: 'Arrastra la manecilla larga (minutos) y la corta (horas) hasta la hora pedida.', en: 'Drag the long hand (minutes) and the short one (hours) to the time asked.', ca: 'Arrossega la maneta llarga (minuts) i la curta (hores) fins a l\'hora demanada.' }, l)],
+                ['👆', tr({ es: 'Arrastra la agarradera de cada aguja —o usa los botones + / −— para poner la hora.', en: 'Drag each hand\'s knob —or use the + / − buttons— to set the time.', ca: 'Arrossega l\'agafador de cada maneta —o fes servir els botons + / −— per posar l\'hora.' }, l)],
                 ['⏱️', tr({ es: '40 segundos. Acierto +3s, fallo −3s.', en: '40 seconds. Correct +3s, wrong −3s.', ca: '40 segons. Encert +3s, errada −3s.' }, l)],
                 ['🎯', tr({ es: 'Al fallar se ve la hora correcta en verde para aprender.', en: 'On a miss the correct time shows in green so you learn.', ca: 'En fallar es veu l\'hora correcta en verd per aprendre.' }, l)],
               ].map(([e, t]) => (
@@ -212,7 +212,7 @@ export default function RelojHoras() {
       <div className="w-full max-w-[340px] mb-3">
         <RelojAnalogico value={puesta} onChange={setPuesta} interactive={!isResult}
           estado={isResult ? (won ? 'correcto' : 'incorrecto') : 'idle'}
-          objetivo={objetivo} />
+          objetivo={objetivo} lang={l} />
       </div>
 
       {isResult && (
