@@ -296,6 +296,11 @@ export const EXAMS = {
     emoji: '🕐', subject: 'matematicas',
     path: 'examen/reloj-horas-test', page: () => import('../pages/RelojHorasExamen'),
   },
+  'el-cambio-test': {
+    label: { es: 'El Cambio (el dinero)', en: 'The Change (money)', ca: 'El Canvi (els diners)' },
+    emoji: '💶', subject: 'matematicas',
+    path: 'examen/el-cambio-test', page: () => import('../pages/ElCambioExamen'),
+  },
   'funciones': {
     label: { es: 'Funciones', en: 'Functions', ca: 'Funcions' },
     emoji: '📈', subject: 'matematicas',

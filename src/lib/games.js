@@ -110,6 +110,13 @@ export const GAMES = {
     route: '/juegos/reloj-horas',
     coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
   },
+  'el-cambio': {
+    label: { es: 'El Cambio', en: 'The Change', ca: 'El Canvi' },
+    emoji: '💶',
+    subject: 'matematicas',
+    route: '/juegos/el-cambio',
+    coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
+  },
   'reparte-pastel': {
     label: { es: 'Reparte el Pastel', en: 'Slice the Cake', ca: 'Reparteix el Pastís' },
     emoji: '🍰',

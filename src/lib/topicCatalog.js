@@ -208,6 +208,7 @@ export const TOPIC_CATALOG = {
       }, { niveles: ['primaria', 'eso', 'bachillerato'] }),
       'enteros-racionales': examTema({ teoria: 'enteros-racionales', 'salta-recta': 'salta-recta-test' }, { niveles: ['eso'] }),
       'medida-tiempo': examTema({ reloj: 'reloj-horas-test' }, { niveles: ['primaria'] }),
+      'el-dinero': examTema({ dinero: 'el-cambio-test' }, { niveles: ['primaria'] }),
     },
     formatos: {
       // Formatos por examen (temas con página propia)
@@ -229,6 +230,7 @@ export const TOPIC_CATALOG = {
       'grafico-tabla': examFormato({ es: 'Clasificaciones y desempates', en: 'Tables and tiebreakers', ca: 'Classificacions i desempats' }, '🏆'),
       'salta-recta': examFormato({ es: 'Salta la Recta (con el juego)', en: 'Jump the Number Line (with the game)', ca: 'Salta la Recta (amb el joc)' }, '🐸'),
       reloj: examFormato({ es: 'El Reloj (con el juego)', en: 'The Clock (with the game)', ca: 'El Rellotge (amb el joc)' }, '🕐'),
+      dinero: examFormato({ es: 'El Cambio (con el juego)', en: 'The Change (with the game)', ca: 'El Canvi (amb el joc)' }, '💶'),
       'estadistico-media': examFormato({ es: 'Solo Media', en: 'Mean Only', ca: 'Només Mitjana' }, '📊'),
       'estadistico-mediana': examFormato({ es: 'Solo Mediana', en: 'Median Only', ca: 'Només Mediana' }, '📊'),
       'estadistico-moda': examFormato({ es: 'Solo Moda', en: 'Mode Only', ca: 'Només Moda' }, '📊'),

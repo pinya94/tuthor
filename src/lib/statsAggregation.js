@@ -32,6 +32,7 @@ const MATH_CAT_LABELS = {
   // Gráfico y no es ninguno de ellos, así que necesita su etiqueta a mano.
   graficos: { es: 'Lectura de Gráficos', en: 'Reading Charts', ca: 'Lectura de Gràfics' },
   'medida-tiempo': { es: 'El Reloj y la Hora', en: 'The Clock and Time', ca: 'El Rellotge i l\'Hora' },
+  'el-dinero': { es: 'El Dinero (euros)', en: 'Money (euros)', ca: 'Els Diners (euros)' },
 }
 
 // ── Juegos reales, derivados del registro central (src/lib/games.js) ──────
