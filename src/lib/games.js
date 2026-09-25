@@ -117,6 +117,13 @@ export const GAMES = {
     route: '/juegos/el-cambio',
     coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
   },
+  'numeros-romanos': {
+    label: { es: 'Números Romanos', en: 'Roman Numerals', ca: 'Números Romans' },
+    emoji: '🏛️',
+    subject: 'matematicas',
+    route: '/juegos/numeros-romanos',
+    coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
+  },
   'reparte-pastel': {
     label: { es: 'Reparte el Pastel', en: 'Slice the Cake', ca: 'Reparteix el Pastís' },
     emoji: '🍰',

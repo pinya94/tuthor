@@ -301,6 +301,11 @@ export const EXAMS = {
     emoji: '💶', subject: 'matematicas',
     path: 'examen/el-cambio-test', page: () => import('../pages/ElCambioExamen'),
   },
+  'numeros-romanos-test': {
+    label: { es: 'Números Romanos', en: 'Roman Numerals', ca: 'Números Romans' },
+    emoji: '🏛️', subject: 'matematicas',
+    path: 'examen/numeros-romanos-test', page: () => import('../pages/NumerosRomanosExamen'),
+  },
   'funciones': {
     label: { es: 'Funciones', en: 'Functions', ca: 'Funcions' },
     emoji: '📈', subject: 'matematicas',

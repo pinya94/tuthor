@@ -608,6 +608,34 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Matemáticas', niveles: 'Primaria',
   },
+  'numeros-romanos': {
+    titulo: 'Números Romanos',
+    subtitulo: 'Juego de Escribir y Convertir Números Romanos',
+    emoji: '🏛️', gradient: 'from-stone-500 to-amber-800', path: '/juegos/numeros-romanos',
+    examPath: '/examen/numeros-romanos-test',
+    intro: 'Un juego de matemáticas para dominar los números romanos escribiéndolos, no solo mirándolos: se pide un número y hay que construir su forma romana tocando los símbolos I, V, X, L, C, D y M. La clave es la regla de la resta —el 4 es IV y no IIII, el 9 es IX—, y el juego solo da por buena la forma correcta. Al fallar se ve cómo se escribía de verdad, así que cada intento enseña.',
+    beneficios: [
+      { titulo: 'Se aprende escribiendo, no reconociendo', texto: 'Leer que XIV es 14 es fácil; escribir 14 y tener que decidir entre XIIII y XIV es donde de verdad se entiende el sistema. Construir el número obliga a aplicar las reglas, no a adivinar.' },
+      { titulo: 'La regla de la resta, en su sitio', texto: 'Poner un símbolo menor delante de uno mayor para restar (IV, IX, XL, XC, CD, CM) es lo que más cuesta. Aquí se practica una y otra vez, y la forma incorrecta se marca al momento.' },
+      { titulo: 'Un sistema de numeración distinto', texto: 'Comparar el romano con nuestro sistema de posiciones ayuda a ver por qué el cero y el valor posicional fueron un avance. Y aparece en relojes, capítulos, monumentos y siglos: se lee toda la vida.' },
+    ],
+    ejemplo: 'Pide escribir 49. La trampa: no es XXXXVIIII ni IL. Es XL (40) + IX (9) = XLIX. El alumno toca X, L, I, X y confirma; si prueba con IL, el juego lo corrige y muestra XLIX.',
+    enPapel: {
+      titulo: 'Los romanos en papel',
+      pasos: [
+        'Escribe los siete símbolos con su valor: I=1, V=5, X=10, L=50, C=100, D=500, M=1000.',
+        'Convierte números del 1 al 39 y comprueba las restas: 4=IV, 9=IX, 14=XIV, 19=XIX…',
+        'Sube a las decenas y centenas: 40=XL, 90=XC, 400=CD, 900=CM.',
+        'Busca romanos por casa (relojes, capítulos de un libro, un monumento) y tradúcelos.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'El reloj de números romanos', desc: 'Muchos relojes de pared llevan las horas en romano: leerlas a diario es la práctica más natural (ojo al IIII de las cuatro, que ahí sí se usa por tradición).' },
+      { nombre: 'El examen de números romanos', desc: 'La misma mecánica sin reloj de partida y con nota final, para repasar con calma la conversión.' },
+      { nombre: 'Siglos y capítulos', desc: 'Escribir el siglo en que pasó algo (el XXI, el XV…) o numerar capítulos en romano convierte el ejercicio en algo con uso real.' },
+    ],
+    asignatura: 'Matemáticas', niveles: 'Primaria, ESO',
+  },
   'reparte-pastel': {
     titulo: 'Reparte el Pastel',
     subtitulo: 'Juego Visual de Fracciones con Porciones',
@@ -1598,6 +1626,34 @@ export const FICHAS_EN = {
       { nombre: 'The piggy bank', desc: 'Counting what is in the piggy bank now and then —grouping equal coins and adding— is money practice with a real reward.' },
     ],
     asignatura: 'Mathematics', niveles: 'Primary',
+  },
+  'numeros-romanos': {
+    titulo: 'Roman Numerals',
+    subtitulo: 'A Game to Write and Convert Roman Numerals',
+    emoji: '🏛️', gradient: 'from-stone-500 to-amber-800', path: '/juegos/numeros-romanos',
+    examPath: '/examen/numeros-romanos-test',
+    intro: 'A maths game to master Roman numerals by writing them, not just reading them: you are given a number and must build its Roman form by tapping the symbols I, V, X, L, C, D and M. The key is the subtraction rule —4 is IV, not IIII; 9 is IX— and the game only accepts the correct form. When you get it wrong it shows how it is really written, so every try teaches something.',
+    beneficios: [
+      { titulo: 'Learn by writing, not by recognising', texto: 'Reading that XIV is 14 is easy; writing 14 and having to choose between XIIII and XIV is where the system really clicks. Building the number forces you to apply the rules rather than guess.' },
+      { titulo: 'The subtraction rule, in its place', texto: 'Putting a smaller symbol before a larger one to subtract (IV, IX, XL, XC, CD, CM) is the hardest part. Here you practise it over and over, and the wrong form is flagged straight away.' },
+      { titulo: 'A different number system', texto: 'Comparing Roman with our place-value system helps show why zero and positional value were a leap forward. And it turns up on clocks, chapters, monuments and centuries: you read it for life.' },
+    ],
+    ejemplo: 'It asks you to write 49. The trap: it is not XXXXVIIII nor IL. It is XL (40) + IX (9) = XLIX. The pupil taps X, L, I, X and confirms; if they try IL, the game corrects them and shows XLIX.',
+    enPapel: {
+      titulo: 'Roman numerals on paper',
+      pasos: [
+        'Write the seven symbols with their value: I=1, V=5, X=10, L=50, C=100, D=500, M=1000.',
+        'Convert numbers from 1 to 39 and check the subtractions: 4=IV, 9=IX, 14=XIV, 19=XIX…',
+        'Move up to tens and hundreds: 40=XL, 90=XC, 400=CD, 900=CM.',
+        'Hunt for Roman numerals around the house (clocks, book chapters, a monument) and translate them.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'The Roman-numeral clock', desc: 'Many wall clocks show the hours in Roman: reading them daily is the most natural practice (watch out for the IIII at four o’clock, which is used there by tradition).' },
+      { nombre: 'The Roman-numerals exam', desc: 'The same mechanic with no game clock and a final mark, to review the conversion calmly.' },
+      { nombre: 'Centuries and chapters', desc: 'Writing the century something happened in (the 21st, the 15th…) or numbering chapters in Roman turns the exercise into something with real use.' },
+    ],
+    asignatura: 'Mathematics', niveles: 'Primary, Secondary',
   },
   'reparte-pastel': {
     titulo: 'Slice the Cake',
@@ -2645,6 +2701,34 @@ export const FICHAS_CA = {
       { nombre: 'La guardiola', desc: 'Comptar de tant en tant el que hi ha a la guardiola —agrupant monedes iguals i sumant— és pràctica de diners amb recompensa real.' },
     ],
     asignatura: 'Matemàtiques', niveles: 'Primària',
+  },
+  'numeros-romanos': {
+    titulo: 'Nombres Romans',
+    subtitulo: 'Joc d\'Escriure i Convertir Nombres Romans',
+    emoji: '🏛️', gradient: 'from-stone-500 to-amber-800', path: '/juegos/numeros-romanos',
+    examPath: '/examen/numeros-romanos-test',
+    intro: 'Un joc de matemàtiques per dominar els nombres romans escrivint-los, no només mirant-los: es demana un nombre i cal construir-ne la forma romana tocant els símbols I, V, X, L, C, D i M. La clau és la regla de la resta —el 4 és IV i no IIII, el 9 és IX— i el joc només dona per bona la forma correcta. En fallar es veu com s\'escrivia de debò, així que cada intent ensenya.',
+    beneficios: [
+      { titulo: 'S\'aprèn escrivint, no reconeixent', texto: 'Llegir que XIV és 14 és fàcil; escriure 14 i haver de decidir entre XIIII i XIV és on de debò s\'entén el sistema. Construir el nombre obliga a aplicar les regles, no a endevinar.' },
+      { titulo: 'La regla de la resta, al seu lloc', texto: 'Posar un símbol menor davant d\'un de major per restar (IV, IX, XL, XC, CD, CM) és el que més costa. Aquí es practica una vegada i una altra, i la forma incorrecta es marca a l\'instant.' },
+      { titulo: 'Un sistema de numeració diferent', texto: 'Comparar el romà amb el nostre sistema de posicions ajuda a veure per què el zero i el valor posicional van ser un avenç. I apareix en rellotges, capítols, monuments i segles: es llegeix tota la vida.' },
+    ],
+    ejemplo: 'Demana escriure 49. La trampa: no és XXXXVIIII ni IL. És XL (40) + IX (9) = XLIX. L\'alumne toca X, L, I, X i confirma; si prova amb IL, el joc el corregeix i mostra XLIX.',
+    enPapel: {
+      titulo: 'Els romans en paper',
+      pasos: [
+        'Escriu els set símbols amb el seu valor: I=1, V=5, X=10, L=50, C=100, D=500, M=1000.',
+        'Converteix nombres de l\'1 al 39 i comprova les restes: 4=IV, 9=IX, 14=XIV, 19=XIX…',
+        'Puja a les desenes i centenes: 40=XL, 90=XC, 400=CD, 900=CM.',
+        'Busca romans per casa (rellotges, capítols d\'un llibre, un monument) i tradueix-los.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'El rellotge de nombres romans', desc: 'Molts rellotges de paret porten les hores en romà: llegir-les cada dia és la pràctica més natural (ull amb el IIII de les quatre, que allà sí que s\'usa per tradició).' },
+      { nombre: 'L\'examen de nombres romans', desc: 'La mateixa mecànica sense rellotge de partida i amb nota final, per repassar amb calma la conversió.' },
+      { nombre: 'Segles i capítols', desc: 'Escriure el segle en què va passar alguna cosa (el XXI, el XV…) o numerar capítols en romà converteix l\'exercici en alguna cosa amb ús real.' },
+    ],
+    asignatura: 'Matemàtiques', niveles: 'Primària, ESO',
   },
   'reparte-pastel': {
     titulo: 'Reparteix el Pastís',
