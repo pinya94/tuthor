@@ -124,6 +124,13 @@ export const GAMES = {
     route: '/juegos/numeros-romanos',
     coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
   },
+  'escalera-unidades': {
+    label: { es: 'La Escalera de Unidades', en: 'The Unit Staircase', ca: 'L\'Escala d\'Unitats' },
+    emoji: '🔟',
+    subject: 'matematicas',
+    route: '/juegos/escalera-unidades',
+    coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
+  },
   'reparte-pastel': {
     label: { es: 'Reparte el Pastel', en: 'Slice the Cake', ca: 'Reparteix el Pastís' },
     emoji: '🍰',

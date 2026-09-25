@@ -306,6 +306,11 @@ export const EXAMS = {
     emoji: '🏛️', subject: 'matematicas',
     path: 'examen/numeros-romanos-test', page: () => import('../pages/NumerosRomanosExamen'),
   },
+  'escalera-unidades-test': {
+    label: { es: 'La Escalera de Unidades', en: 'The Unit Staircase', ca: 'L\'Escala d\'Unitats' },
+    emoji: '🔟', subject: 'matematicas',
+    path: 'examen/escalera-unidades-test', page: () => import('../pages/EscaleraUnidadesExamen'),
+  },
   'funciones': {
     label: { es: 'Funciones', en: 'Functions', ca: 'Funcions' },
     emoji: '📈', subject: 'matematicas',
