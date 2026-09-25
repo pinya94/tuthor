@@ -131,6 +131,13 @@ export const GAMES = {
     route: '/juegos/escalera-unidades',
     coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
   },
+  'redondeo': {
+    label: { es: 'Redondeo', en: 'Rounding', ca: 'Arrodoniment' },
+    emoji: '📍',
+    subject: 'matematicas',
+    route: '/juegos/redondeo',
+    coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
+  },
   'reparte-pastel': {
     label: { es: 'Reparte el Pastel', en: 'Slice the Cake', ca: 'Reparteix el Pastís' },
     emoji: '🍰',

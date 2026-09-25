@@ -35,6 +35,7 @@ const MATH_CAT_LABELS = {
   'el-dinero': { es: 'El Dinero (euros)', en: 'Money (euros)', ca: 'Els Diners (euros)' },
   'numeros-romanos': { es: 'Números Romanos', en: 'Roman Numerals', ca: 'Números Romans' },
   'conversion-unidades': { es: 'Conversión de Unidades', en: 'Unit Conversion', ca: 'Conversió d\'Unitats' },
+  'redondeo': { es: 'Redondeo', en: 'Rounding', ca: 'Arrodoniment' },
 }
 
 // ── Juegos reales, derivados del registro central (src/lib/games.js) ──────

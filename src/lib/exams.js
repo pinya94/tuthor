@@ -311,6 +311,11 @@ export const EXAMS = {
     emoji: '🔟', subject: 'matematicas',
     path: 'examen/escalera-unidades-test', page: () => import('../pages/EscaleraUnidadesExamen'),
   },
+  'redondeo-test': {
+    label: { es: 'Redondeo', en: 'Rounding', ca: 'Arrodoniment' },
+    emoji: '📍', subject: 'matematicas',
+    path: 'examen/redondeo-test', page: () => import('../pages/RedondeoExamen'),
+  },
   'funciones': {
     label: { es: 'Funciones', en: 'Functions', ca: 'Funcions' },
     emoji: '📈', subject: 'matematicas',
