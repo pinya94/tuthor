@@ -357,3 +357,25 @@ describe('sitemap ↔ meta SEO (prerender)', () => {
     }
   })
 })
+
+describe('hub de fichas (/info/juegos) ↔ registro de fichas', () => {
+  it('toda ficha queda enlazada desde el hub (ninguna huérfana)', async () => {
+    const { FICHAS_ES, FICHAS_EN, FICHAS_CA } = await import('../../data/infoJuegosFichas.js')
+    const { agrupaFichas, SUBJECT_OF } = await import('../../pages/InfoJuegosHub.jsx')
+    for (const [lbl, fichas] of [['es', FICHAS_ES], ['en', FICHAS_EN], ['ca', FICHAS_CA]]) {
+      const enlazados = new Set(agrupaFichas(fichas).flatMap(g => g.juegos.map(j => j.slug)))
+      const huerfanas = Object.keys(fichas).filter(slug => !enlazados.has(slug))
+      expect(huerfanas, `[${lbl}] fichas no enlazadas desde el hub: ${huerfanas.join(', ')}`).toEqual([])
+      // y ninguna materia sin mapear (caería en la categoría de reserva)
+      const sinMapear = [...new Set(Object.values(fichas).map(f => f.asignatura).filter(a => !SUBJECT_OF[a]))]
+      expect(sinMapear, `[${lbl}] asignaturas sin mapear en SUBJECT_OF: ${sinMapear.join(', ')}`).toEqual([])
+    }
+  })
+
+  it('toda ficha tiene su URL /info/juegos/<slug> en el sitemap', async () => {
+    const { FICHAS_ES } = await import('../../data/infoJuegosFichas.js')
+    for (const slug of Object.keys(FICHAS_ES)) {
+      expect(neutralPaths.has(`/info/juegos/${slug}`), `falta /info/juegos/${slug} en public/sitemap.xml`).toBe(true)
+    }
+  })
+})
