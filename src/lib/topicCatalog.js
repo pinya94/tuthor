@@ -212,6 +212,7 @@ export const TOPIC_CATALOG = {
       'numeros-romanos': examTema({ romanos: 'numeros-romanos-test' }, { niveles: ['primaria', 'eso'] }),
       'conversion-unidades': examTema({ escalera: 'escalera-unidades-test' }, { niveles: ['primaria', 'eso'] }),
       'redondeo': examTema({ redondeo: 'redondeo-test' }, { niveles: ['primaria', 'eso'] }),
+      'tablas-multiplicar': examTema({ tablas: 'tablas-multiplicar-test' }, { niveles: ['primaria'] }),
     },
     formatos: {
       // Formatos por examen (temas con página propia)
@@ -237,6 +238,7 @@ export const TOPIC_CATALOG = {
       romanos: examFormato({ es: 'Números Romanos (con el juego)', en: 'Roman Numerals (with the game)', ca: 'Números Romans (amb el joc)' }, '🏛️'),
       escalera: examFormato({ es: 'La Escalera de Unidades (con el juego)', en: 'The Unit Staircase (with the game)', ca: 'L\'Escala d\'Unitats (amb el joc)' }, '🔟'),
       redondeo: examFormato({ es: 'Redondeo (con el juego)', en: 'Rounding (with the game)', ca: 'Arrodoniment (amb el joc)' }, '📍'),
+      tablas: examFormato({ es: 'Tablas de Multiplicar (con el juego)', en: 'Times Tables (with the game)', ca: 'Taules de Multiplicar (amb el joc)' }, '✖️'),
       'estadistico-media': examFormato({ es: 'Solo Media', en: 'Mean Only', ca: 'Només Mitjana' }, '📊'),
       'estadistico-mediana': examFormato({ es: 'Solo Mediana', en: 'Median Only', ca: 'Només Mediana' }, '📊'),
       'estadistico-moda': examFormato({ es: 'Solo Moda', en: 'Mode Only', ca: 'Només Moda' }, '📊'),

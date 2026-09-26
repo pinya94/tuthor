@@ -316,6 +316,11 @@ export const EXAMS = {
     emoji: '📍', subject: 'matematicas',
     path: 'examen/redondeo-test', page: () => import('../pages/RedondeoExamen'),
   },
+  'tablas-multiplicar-test': {
+    label: { es: 'Tablas de Multiplicar', en: 'Times Tables', ca: 'Taules de Multiplicar' },
+    emoji: '✖️', subject: 'matematicas',
+    path: 'examen/tablas-multiplicar-test', page: () => import('../pages/TablasMultiplicarExamen'),
+  },
   'funciones': {
     label: { es: 'Funciones', en: 'Functions', ca: 'Funcions' },
     emoji: '📈', subject: 'matematicas',

@@ -138,6 +138,13 @@ export const GAMES = {
     route: '/juegos/redondeo',
     coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
   },
+  'tablas-multiplicar': {
+    label: { es: 'Tablas de Multiplicar', en: 'Times Tables', ca: 'Taules de Multiplicar' },
+    emoji: '✖️',
+    subject: 'matematicas',
+    route: '/juegos/tablas-multiplicar',
+    coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
+  },
   'reparte-pastel': {
     label: { es: 'Reparte el Pastel', en: 'Slice the Cake', ca: 'Reparteix el Pastís' },
     emoji: '🍰',

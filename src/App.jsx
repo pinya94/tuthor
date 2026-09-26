@@ -36,6 +36,7 @@ const ElCambio           = lazy(() => import('./pages/ElCambio'))
 const NumerosRomanos     = lazy(() => import('./pages/NumerosRomanos'))
 const EscaleraUnidades   = lazy(() => import('./pages/EscaleraUnidades'))
 const Redondeo           = lazy(() => import('./pages/Redondeo'))
+const TablasMultiplicar  = lazy(() => import('./pages/TablasMultiplicar'))
 const ExamenTema         = lazy(() => import('./pages/ExamenTema'))
 const CicloOrdenExamen   = lazy(() => import('./pages/CicloOrdenExamen'))
 const Perfil             = lazy(() => import('./pages/Perfil'))
@@ -213,6 +214,7 @@ function AppRoutes() {
       <Route path="juegos/numeros-romanos" element={<NumerosRomanos />} />
       <Route path="juegos/escalera-unidades" element={<EscaleraUnidades />} />
       <Route path="juegos/redondeo" element={<Redondeo />} />
+      <Route path="juegos/tablas-multiplicar" element={<TablasMultiplicar />} />
       <Route path="juegos/quien-es-quien" element={<QuienEsQuien />} />
       <Route path="juegos/acercate" element={<AcercateRoguelike />} />
       <Route path="juegos/acercate/clasico" element={<Acercate />} />

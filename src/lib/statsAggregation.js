@@ -36,6 +36,7 @@ const MATH_CAT_LABELS = {
   'numeros-romanos': { es: 'Números Romanos', en: 'Roman Numerals', ca: 'Números Romans' },
   'conversion-unidades': { es: 'Conversión de Unidades', en: 'Unit Conversion', ca: 'Conversió d\'Unitats' },
   'redondeo': { es: 'Redondeo', en: 'Rounding', ca: 'Arrodoniment' },
+  'tablas-multiplicar': { es: 'Tablas de Multiplicar', en: 'Times Tables', ca: 'Taules de Multiplicar' },
 }
 
 // ── Juegos reales, derivados del registro central (src/lib/games.js) ──────

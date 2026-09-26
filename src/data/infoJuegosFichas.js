@@ -692,6 +692,34 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Matemáticas', niveles: 'Primaria, ESO',
   },
+  'tablas-multiplicar': {
+    titulo: 'Tablas de Multiplicar',
+    subtitulo: 'Juego para Practicar las Tablas del 1 al 10 a Contrarreloj',
+    emoji: '✖️', gradient: 'from-red-500 to-orange-700', path: '/juegos/tablas-multiplicar',
+    examPath: '/examen/tablas-multiplicar-test',
+    intro: 'Un juego de matemáticas para dominar las tablas de multiplicar por donde de verdad se aprenden: la práctica rápida y repetida. Aparece una multiplicación (7 × 8) y hay que tocar el resultado correcto entre cuatro, antes de que baje el tiempo. Las opciones equivocadas no son al azar: son los errores típicos —la fila de al lado, un factor de más o de menos—, así que acertar significa saberla, no descartar. En el nivel difícil entran también las divisiones, para practicar la tabla en los dos sentidos.',
+    beneficios: [
+      { titulo: 'Fluidez, que es lo que falta', texto: 'Las tablas no se entienden, se automatizan: hay que recuperarlas al instante. El contrarreloj y las rachas premian precisamente la velocidad de respuesta, que es la habilidad que hace falta para el cálculo posterior.' },
+      { titulo: 'Los fallos que de verdad se cometen', texto: 'Entre las cuatro opciones está el resultado de la fila contigua (7×8 frente a 7×9) o el de sumar en vez de multiplicar. Enfrentarse a esas confusiones concretas es lo que las corrige.' },
+      { titulo: 'La tabla en los dos sentidos', texto: 'Saber que 7×8=56 es la mitad; la otra mitad es reconocer que 56÷7=8. El nivel difícil mete divisiones para que multiplicación y división se apoyen la una en la otra.' },
+    ],
+    ejemplo: 'Aparece 7 × 8. Las opciones: 56, 54, 63, 49. El 63 es 7×9 (la fila de al lado) y el 49 es 7×7: quien duda cae ahí. El alumno toca 56 y suma racha; si falla, ve 7 × 8 = 56 al momento.',
+    enPapel: {
+      titulo: 'Las tablas en papel',
+      pasos: [
+        'Empieza por las fáciles: la del 2, la del 5 y la del 10.',
+        'Aprende una tabla nueva por semana y repásala salteada, no en orden.',
+        'Aprovecha los trucos: ×9 con los dedos, ×4 es doble del doble.',
+        'Practica también al revés: si 6×7=42, entonces 42÷6=7.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'La tabla pitagórica', desc: 'Rellenar la cuadrícula de 10×10 de una tabla pitagórica ayuda a ver los patrones (los cuadrados en la diagonal, la simetría) en lugar de memorizar filas sueltas.' },
+      { nombre: 'El examen de las tablas', desc: 'La misma mecánica sin reloj de partida y con nota final, para repasar con calma y detectar qué tabla falla.' },
+      { nombre: 'Multiplicar en la vida diaria', desc: 'Contar de 2 en 2, de 5 en 5 o calcular cuántas ruedas hay en 6 coches convierte la tabla en algo con uso inmediato.' },
+    ],
+    asignatura: 'Matemáticas', niveles: 'Primaria',
+  },
   'reparte-pastel': {
     titulo: 'Reparte el Pastel',
     subtitulo: 'Juego Visual de Fracciones con Porciones',
@@ -1766,6 +1794,34 @@ export const FICHAS_EN = {
       { nombre: 'The number line', desc: 'Placing numbers on a drawn line and marking which tens or hundreds they fall between reinforces the idea of nearness behind rounding.' },
     ],
     asignatura: 'Mathematics', niveles: 'Primary, Secondary',
+  },
+  'tablas-multiplicar': {
+    titulo: 'Times Tables',
+    subtitulo: 'A Game to Practise the Tables from 1 to 10 Against the Clock',
+    emoji: '✖️', gradient: 'from-red-500 to-orange-700', path: '/juegos/tablas-multiplicar',
+    examPath: '/examen/tablas-multiplicar-test',
+    intro: 'A maths game to master the times tables where they are really learned: fast, repeated practice. A multiplication appears (7 × 8) and you tap the correct answer among four, before the clock runs down. The wrong options are not random: they are the typical mistakes —the next row, one factor too many or too few— so getting it right means knowing it, not guessing by elimination. On hard, divisions come in too, to practise the table both ways.',
+    beneficios: [
+      { titulo: 'Fluency, which is what is missing', texto: 'Tables are not understood, they are automated: you must recall them instantly. The clock and the streaks reward exactly the speed of response, the skill that later calculation depends on.' },
+      { titulo: 'The mistakes actually made', texto: 'Among the four options is the answer from the neighbouring row (7×8 versus 7×9) or from adding instead of multiplying. Facing those specific confusions is what corrects them.' },
+      { titulo: 'The table both ways', texto: 'Knowing that 7×8=56 is half of it; the other half is recognising that 56÷7=8. Hard level adds divisions so multiplication and division support each other.' },
+    ],
+    ejemplo: 'You see 7 × 8. The options: 56, 54, 63, 49. 63 is 7×9 (the next row) and 49 is 7×7: whoever hesitates lands there. The pupil taps 56 and builds a streak; if they miss, they see 7 × 8 = 56 at once.',
+    enPapel: {
+      titulo: 'Times tables on paper',
+      pasos: [
+        'Start with the easy ones: the 2, the 5 and the 10 times tables.',
+        'Learn one new table a week and review it shuffled, not in order.',
+        'Use the tricks: ×9 on your fingers, ×4 is double the double.',
+        'Practise them backwards too: if 6×7=42, then 42÷6=7.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'The multiplication grid', desc: 'Filling in the 10×10 multiplication grid helps you see the patterns (the squares on the diagonal, the symmetry) instead of memorising isolated rows.' },
+      { nombre: 'The times tables exam', desc: 'The same mechanic with no game clock and a final mark, to review calmly and spot which table lets you down.' },
+      { nombre: 'Multiplying in daily life', desc: 'Counting in 2s, in 5s, or working out how many wheels are on 6 cars turns the table into something with immediate use.' },
+    ],
+    asignatura: 'Mathematics', niveles: 'Primary',
   },
   'reparte-pastel': {
     titulo: 'Slice the Cake',
@@ -2897,6 +2953,34 @@ export const FICHAS_CA = {
       { nombre: 'La recta numèrica', desc: 'Col·locar nombres sobre una recta dibuixada i marcar entre quines desenes o centenes cauen reforça la idea de proximitat que hi ha darrere de l\'arrodoniment.' },
     ],
     asignatura: 'Matemàtiques', niveles: 'Primària, ESO',
+  },
+  'tablas-multiplicar': {
+    titulo: 'Taules de Multiplicar',
+    subtitulo: 'Joc per Practicar les Taules de l\'1 al 10 a Contrarellotge',
+    emoji: '✖️', gradient: 'from-red-500 to-orange-700', path: '/juegos/tablas-multiplicar',
+    examPath: '/examen/tablas-multiplicar-test',
+    intro: 'Un joc de matemàtiques per dominar les taules de multiplicar per on de debò s\'aprenen: la pràctica ràpida i repetida. Apareix una multiplicació (7 × 8) i cal tocar el resultat correcte entre quatre, abans que baixi el temps. Les opcions equivocades no són a l\'atzar: són els errors típics —la fila del costat, un factor de més o de menys—, així que encertar significa saber-la, no descartar. Al nivell difícil entren també les divisions, per practicar la taula en els dos sentits.',
+    beneficios: [
+      { titulo: 'Fluïdesa, que és el que falta', texto: 'Les taules no s\'entenen, s\'automatitzen: cal recuperar-les a l\'instant. El contrarellotge i les ratxes premien precisament la velocitat de resposta, que és l\'habilitat que fa falta per al càlcul posterior.' },
+      { titulo: 'Els errors que de debò es cometen', texto: 'Entre les quatre opcions hi ha el resultat de la fila contigua (7×8 davant de 7×9) o el de sumar en lloc de multiplicar. Enfrontar-se a aquestes confusions concretes és el que les corregeix.' },
+      { titulo: 'La taula en els dos sentits', texto: 'Saber que 7×8=56 és la meitat; l\'altra meitat és reconèixer que 56÷7=8. El nivell difícil fica divisions perquè multiplicació i divisió es recolzin l\'una en l\'altra.' },
+    ],
+    ejemplo: 'Apareix 7 × 8. Les opcions: 56, 54, 63, 49. El 63 és 7×9 (la fila del costat) i el 49 és 7×7: qui dubta hi cau. L\'alumne toca 56 i suma ratxa; si falla, veu 7 × 8 = 56 a l\'instant.',
+    enPapel: {
+      titulo: 'Les taules en paper',
+      pasos: [
+        'Comença per les fàcils: la del 2, la del 5 i la del 10.',
+        'Aprèn una taula nova per setmana i repassa-la saltejada, no en ordre.',
+        'Aprofita els trucs: ×9 amb els dits, ×4 és el doble del doble.',
+        'Practica també a l\'inrevés: si 6×7=42, aleshores 42÷6=7.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'La taula pitagòrica', desc: 'Omplir la quadrícula de 10×10 d\'una taula pitagòrica ajuda a veure els patrons (els quadrats a la diagonal, la simetria) en lloc de memoritzar files soltes.' },
+      { nombre: 'L\'examen de les taules', desc: 'La mateixa mecànica sense rellotge de partida i amb nota final, per repassar amb calma i detectar quina taula falla.' },
+      { nombre: 'Multiplicar a la vida diària', desc: 'Comptar de 2 en 2, de 5 en 5 o calcular quantes rodes hi ha en 6 cotxes converteix la taula en alguna cosa amb ús immediat.' },
+    ],
+    asignatura: 'Matemàtiques', niveles: 'Primària',
   },
   'reparte-pastel': {
     titulo: 'Reparteix el Pastís',
