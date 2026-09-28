@@ -2137,4 +2137,508 @@ export const CONTENIDO_TEMA = {
       ],
     },
   },
+
+  'sustantivos': {
+    metaTitle: {
+      es: 'Los Sustantivos: qué son y sus clases — resumen para estudiar',
+      en: 'Spanish Nouns: what they are and their types — a study summary',
+      ca: 'Els Substantius: què són i les seves classes — resum per estudiar',
+    },
+    metaDesc: {
+      es: 'Qué es un sustantivo, su género y número y sus clases: comunes y propios, concretos y abstractos, individuales y colectivos, contables e incontables. Resumen y test.',
+      en: 'What a Spanish noun is, its gender and number and its types: common and proper, concrete and abstract, individual and collective, countable and uncountable. Summary and test.',
+      ca: 'Què és un substantiu, el seu gènere i nombre i les seves classes: comuns i propis, concrets i abstractes, individuals i col·lectius, comptables i incomptables. Resum i test.',
+    },
+    resumen: {
+      es: [
+        'Los sustantivos, también llamados nombres, son las palabras que usamos para nombrar personas, animales, cosas, lugares, sentimientos o ideas: niño, perro, mesa, Madrid, alegría. Son una de las clases de palabras más importantes, porque casi siempre son el núcleo del sujeto de la oración.',
+        'Los sustantivos tienen género (masculino o femenino) y número (singular o plural), y suelen ir acompañados de determinantes y adjetivos. Se clasifican de varias formas: comunes (perro) o propios (Madrid, que se escriben con mayúscula); concretos (silla) o abstractos (amor); individuales (abeja) o colectivos (enjambre); y contables (libro) o incontables (agua).',
+      ],
+      en: [
+        'Nouns, in Spanish "sustantivos" or "nombres", are the words we use to name people, animals, things, places, feelings or ideas: niño, perro, mesa, Madrid, alegría. They are one of the most important word classes, because they are almost always the core of the sentence\'s subject.',
+        'Spanish nouns have gender (masculine or feminine) and number (singular or plural), and usually come with determiners and adjectives. They are classified in several ways: common (perro) or proper (Madrid, written with a capital); concrete (silla) or abstract (amor); individual (abeja) or collective (enjambre); and countable (libro) or uncountable (agua).',
+      ],
+      ca: [
+        'Els substantius, també anomenats noms, són les paraules que fem servir per anomenar persones, animals, coses, llocs, sentiments o idees: niño, perro, mesa, Madrid, alegría. Són una de les classes de paraules més importants, perquè gairebé sempre són el nucli del subjecte de l\'oració.',
+        'Els substantius tenen gènere (masculí o femení) i nombre (singular o plural), i solen anar acompanyats de determinants i adjectius. Es classifiquen de diverses maneres: comuns (perro) o propis (Madrid, que s\'escriuen amb majúscula); concrets (silla) o abstractes (amor); individuals (abeja) o col·lectius (enjambre); i comptables (libro) o incomptables (agua).',
+      ],
+    },
+    puntosClave: {
+      es: [
+        'El sustantivo nombra personas, animales, cosas, lugares, ideas o sentimientos.',
+        'Suele ser el núcleo del sujeto de la oración.',
+        'Tiene género (masculino/femenino) y número (singular/plural).',
+        'Comunes (perro) frente a propios (Madrid, con mayúscula).',
+        'Concretos (mesa) frente a abstractos (libertad).',
+        'Individuales (oveja) frente a colectivos (rebaño).',
+        'Contables (manzana) frente a incontables (arroz).',
+      ],
+      en: [
+        'The noun names people, animals, things, places, ideas or feelings.',
+        'It is usually the core of the sentence\'s subject.',
+        'It has gender (masculine/feminine) and number (singular/plural).',
+        'Common (perro) versus proper (Madrid, capitalised).',
+        'Concrete (mesa) versus abstract (libertad).',
+        'Individual (oveja) versus collective (rebaño).',
+        'Countable (manzana) versus uncountable (arroz).',
+      ],
+      ca: [
+        'El substantiu anomena persones, animals, coses, llocs, idees o sentiments.',
+        'Sol ser el nucli del subjecte de l\'oració.',
+        'Té gènere (masculí/femení) i nombre (singular/plural).',
+        'Comuns (perro) davant de propis (Madrid, amb majúscula).',
+        'Concrets (mesa) davant d\'abstractes (libertad).',
+        'Individuals (oveja) davant de col·lectius (rebaño).',
+        'Comptables (manzana) davant d\'incomptables (arroz).',
+      ],
+    },
+  },
+
+  'verbos': {
+    metaTitle: {
+      es: 'Los Verbos: la conjugación en español — resumen para estudiar',
+      en: 'Spanish Verbs: conjugation explained — a study summary',
+      ca: 'Els Verbs: la conjugació en espanyol — resum per estudiar',
+    },
+    metaDesc: {
+      es: 'Qué es el verbo, la conjugación (persona, número, tiempo, modo), las tres conjugaciones (-ar, -er, -ir) y las formas no personales. Resumen y test.',
+      en: 'What the Spanish verb is, conjugation (person, number, tense, mood), the three conjugations (-ar, -er, -ir) and non-finite forms. Summary and test.',
+      ca: 'Què és el verb, la conjugació (persona, nombre, temps, mode), les tres conjugacions (-ar, -er, -ir) i les formes no personals. Resum i test.',
+    },
+    resumen: {
+      es: [
+        'El verbo es la palabra que expresa una acción (correr), un estado (ser) o un proceso (crecer). Es el núcleo del predicado y la pieza clave de la oración: casi ninguna oración funciona sin un verbo. Es también la palabra que más cambia de forma, porque se conjuga.',
+        'Al conjugarse, el verbo indica la persona y el número (quién realiza la acción), el tiempo (pasado, presente o futuro) y el modo (indicativo, subjuntivo o imperativo). Los verbos se agrupan en tres conjugaciones según su terminación: -ar (amar), -er (temer) e -ir (partir). Sus formas no personales son el infinitivo, el gerundio y el participio.',
+      ],
+      en: [
+        'The verb is the word that expresses an action (correr), a state (ser) or a process (crecer). It is the core of the predicate and the key piece of the sentence: almost no sentence works without a verb. It is also the word that changes form the most, because it is conjugated.',
+        'When conjugated, the verb shows person and number (who performs the action), tense (past, present or future) and mood (indicative, subjunctive or imperative). Spanish verbs fall into three conjugations by their ending: -ar (amar), -er (temer) and -ir (partir). Its non-finite forms are the infinitive, the gerund and the participle.',
+      ],
+      ca: [
+        'El verb és la paraula que expressa una acció (correr), un estat (ser) o un procés (crecer). És el nucli del predicat i la peça clau de l\'oració: gairebé cap oració funciona sense un verb. És també la paraula que més canvia de forma, perquè es conjuga.',
+        'En conjugar-se, el verb indica la persona i el nombre (qui fa l\'acció), el temps (passat, present o futur) i el mode (indicatiu, subjuntiu o imperatiu). Els verbs s\'agrupen en tres conjugacions segons la terminació: -ar (amar), -er (temer) i -ir (partir). Les seves formes no personals són l\'infinitiu, el gerundi i el participi.',
+      ],
+    },
+    puntosClave: {
+      es: [
+        'El verbo expresa acción, estado o proceso.',
+        'Es el núcleo del predicado; casi ninguna oración funciona sin él.',
+        'Se conjuga: cambia según persona, número, tiempo y modo.',
+        'Tres conjugaciones: -ar, -er e -ir.',
+        'Tiempos: pasado, presente y futuro.',
+        'Modos: indicativo, subjuntivo e imperativo.',
+        'Formas no personales: infinitivo, gerundio y participio.',
+      ],
+      en: [
+        'The verb expresses action, state or process.',
+        'It is the core of the predicate; almost no sentence works without it.',
+        'It is conjugated: it changes by person, number, tense and mood.',
+        'Three conjugations: -ar, -er and -ir.',
+        'Tenses: past, present and future.',
+        'Moods: indicative, subjunctive and imperative.',
+        'Non-finite forms: infinitive, gerund and participle.',
+      ],
+      ca: [
+        'El verb expressa acció, estat o procés.',
+        'És el nucli del predicat; gairebé cap oració funciona sense ell.',
+        'Es conjuga: canvia segons persona, nombre, temps i mode.',
+        'Tres conjugacions: -ar, -er i -ir.',
+        'Temps: passat, present i futur.',
+        'Modes: indicatiu, subjuntiu i imperatiu.',
+        'Formes no personals: infinitiu, gerundi i participi.',
+      ],
+    },
+  },
+
+  'adjetivos': {
+    metaTitle: {
+      es: 'Los Adjetivos: cualidades y grados — resumen para estudiar',
+      en: 'Spanish Adjectives: qualities and degrees — a study summary',
+      ca: 'Els Adjectius: qualitats i graus — resum per estudiar',
+    },
+    metaDesc: {
+      es: 'Qué es un adjetivo, la concordancia con el sustantivo y los grados (positivo, comparativo y superlativo). Sin confundirlo con el determinante. Resumen y test.',
+      en: 'What a Spanish adjective is, agreement with the noun and the degrees (positive, comparative and superlative), without confusing it with the determiner. Summary and test.',
+      ca: 'Què és un adjectiu, la concordança amb el substantiu i els graus (positiu, comparatiu i superlatiu), sense confondre\'l amb el determinant. Resum i test.',
+    },
+    resumen: {
+      es: [
+        'El adjetivo es la palabra que acompaña al sustantivo para decir cómo es o cómo está: casa grande, cielo azul, niño cansado. Los adjetivos calificativos expresan una cualidad y concuerdan en género y número con el sustantivo al que acompañan: niña alta, niños altos.',
+        'Los adjetivos pueden expresar distintos grados: el positivo (alto), el comparativo (más alto que, tan alto como) y el superlativo (altísimo, el más alto). No hay que confundir los adjetivos calificativos con los determinantes (mi, este, dos), que también acompañan al sustantivo pero no expresan cualidades.',
+      ],
+      en: [
+        'The adjective is the word that goes with the noun to say what it is like or how it is: casa grande, cielo azul, niño cansado. Descriptive adjectives express a quality and agree in gender and number with the noun they accompany: niña alta, niños altos.',
+        'Adjectives can express different degrees: the positive (alto), the comparative (más alto que, tan alto como) and the superlative (altísimo, el más alto). Descriptive adjectives should not be confused with determiners (mi, este, dos), which also go with the noun but do not express qualities.',
+      ],
+      ca: [
+        'L\'adjectiu és la paraula que acompanya el substantiu per dir com és o com està: casa grande, cielo azul, niño cansado. Els adjectius qualificatius expressen una qualitat i concorden en gènere i nombre amb el substantiu que acompanyen: niña alta, niños altos.',
+        'Els adjectius poden expressar diferents graus: el positiu (alto), el comparatiu (más alto que, tan alto como) i el superlatiu (altísimo, el más alto). No s\'han de confondre els adjectius qualificatius amb els determinants (mi, este, dos), que també acompanyen el substantiu però no expressen qualitats.',
+      ],
+    },
+    puntosClave: {
+      es: [
+        'El adjetivo dice cómo es o cómo está el sustantivo.',
+        'Concuerda en género y número con el sustantivo (mesa blanca, mesas blancas).',
+        'Los calificativos expresan una cualidad (rápido, feliz).',
+        'Grado positivo (alto), comparativo (más alto) y superlativo (altísimo).',
+        'Va antes o después del sustantivo (un gran día, un día soleado).',
+        'No confundir con los determinantes (mi, este, dos).',
+        'Enriquecen la descripción y precisan el significado.',
+      ],
+      en: [
+        'The adjective says what the noun is like or how it is.',
+        'It agrees in gender and number with the noun (mesa blanca, mesas blancas).',
+        'Descriptive ones express a quality (rápido, feliz).',
+        'Positive (alto), comparative (más alto) and superlative (altísimo) degrees.',
+        'It goes before or after the noun (un gran día, un día soleado).',
+        'Do not confuse it with determiners (mi, este, dos).',
+        'They enrich description and refine meaning.',
+      ],
+      ca: [
+        'L\'adjectiu diu com és o com està el substantiu.',
+        'Concorda en gènere i nombre amb el substantiu (mesa blanca, mesas blancas).',
+        'Els qualificatius expressen una qualitat (rápido, feliz).',
+        'Grau positiu (alto), comparatiu (más alto) i superlatiu (altísimo).',
+        'Va abans o després del substantiu (un gran día, un día soleado).',
+        'No confondre amb els determinants (mi, este, dos).',
+        'Enriqueixen la descripció i precisen el significat.',
+      ],
+    },
+  },
+
+  'determinantes': {
+    metaTitle: {
+      es: 'Los Determinantes: artículos, demostrativos y más — resumen',
+      en: 'Spanish Determiners: articles, demonstratives and more — summary',
+      ca: 'Els Determinants: articles, demostratius i més — resum',
+    },
+    metaDesc: {
+      es: 'Qué es un determinante y sus clases: artículos, demostrativos, posesivos, numerales e indefinidos. Cómo acompaña al sustantivo. Resumen y test.',
+      en: 'What a Spanish determiner is and its types: articles, demonstratives, possessives, numerals and indefinites. How it goes with the noun. Summary and test.',
+      ca: 'Què és un determinant i les seves classes: articles, demostratius, possessius, numerals i indefinits. Com acompanya el substantiu. Resum i test.',
+    },
+    resumen: {
+      es: [
+        'Los determinantes son las palabras que acompañan al sustantivo para presentarlo o concretarlo: el, un, este, mi, dos. Van delante del sustantivo y concuerdan con él en género y número (el niño, las niñas). Sin ellos, muchas veces la oración suena incompleta.',
+        'Hay varias clases. Los artículos (el, la, un, una) presentan al sustantivo. Los demostrativos (este, ese, aquel) indican distancia. Los posesivos (mi, tu, su) indican de quién es algo. Los numerales (dos, primero) indican cantidad u orden. Y los indefinidos (algún, varios, muchos) lo indican de forma imprecisa.',
+      ],
+      en: [
+        'Determiners are the words that go with the noun to present or specify it: el, un, este, mi, dos. They come before the noun and agree with it in gender and number (el niño, las niñas). Without them, the sentence often sounds incomplete.',
+        'There are several types. Articles (el, la, un, una) present the noun. Demonstratives (este, ese, aquel) indicate distance. Possessives (mi, tu, su) show whose something is. Numerals (dos, primero) show quantity or order. And indefinites (algún, varios, muchos) show it vaguely.',
+      ],
+      ca: [
+        'Els determinants són les paraules que acompanyen el substantiu per presentar-lo o concretar-lo: el, un, este, mi, dos. Van davant del substantiu i hi concorden en gènere i nombre (el niño, las niñas). Sense ells, sovint l\'oració sona incompleta.',
+        'Hi ha diverses classes. Els articles (el, la, un, una) presenten el substantiu. Els demostratius (este, ese, aquel) indiquen distància. Els possessius (mi, tu, su) indiquen de qui és una cosa. Els numerals (dos, primero) indiquen quantitat o ordre. I els indefinits (algún, varios, muchos) ho indiquen de manera imprecisa.',
+      ],
+    },
+    puntosClave: {
+      es: [
+        'El determinante acompaña al sustantivo para presentarlo o concretarlo.',
+        'Va delante del sustantivo y concuerda en género y número.',
+        'Artículos: el, la, los, un, una…',
+        'Demostrativos: este, ese, aquel (indican distancia).',
+        'Posesivos: mi, tu, su (indican posesión).',
+        'Numerales: dos, primero (cantidad u orden).',
+        'Indefinidos: algún, varios, muchos (cantidad imprecisa).',
+      ],
+      en: [
+        'The determiner goes with the noun to present or specify it.',
+        'It comes before the noun and agrees in gender and number.',
+        'Articles: el, la, los, un, una…',
+        'Demonstratives: este, ese, aquel (they indicate distance).',
+        'Possessives: mi, tu, su (they show possession).',
+        'Numerals: dos, primero (quantity or order).',
+        'Indefinites: algún, varios, muchos (vague quantity).',
+      ],
+      ca: [
+        'El determinant acompanya el substantiu per presentar-lo o concretar-lo.',
+        'Va davant del substantiu i concorda en gènere i nombre.',
+        'Articles: el, la, los, un, una…',
+        'Demostratius: este, ese, aquel (indiquen distància).',
+        'Possessius: mi, tu, su (indiquen possessió).',
+        'Numerals: dos, primero (quantitat o ordre).',
+        'Indefinits: algún, varios, muchos (quantitat imprecisa).',
+      ],
+    },
+  },
+
+  'pronombres': {
+    metaTitle: {
+      es: 'Los Pronombres: qué son y sus clases — resumen para estudiar',
+      en: 'Spanish Pronouns: what they are and their types — a summary',
+      ca: 'Els Pronoms: què són i les seves classes — resum per estudiar',
+    },
+    metaDesc: {
+      es: 'Qué es un pronombre, cómo sustituye al sustantivo y sus clases: personales, demostrativos, posesivos, relativos, interrogativos e indefinidos. Resumen y test.',
+      en: 'What a Spanish pronoun is, how it replaces the noun and its types: personal, demonstrative, possessive, relative, interrogative and indefinite. Summary and test.',
+      ca: 'Què és un pronom, com substitueix el substantiu i les seves classes: personals, demostratius, possessius, relatius, interrogatius i indefinits. Resum i test.',
+    },
+    resumen: {
+      es: [
+        'El pronombre es la palabra que sustituye a un sustantivo para no repetirlo: en "Ana vino y ella trajo el pan", ella es un pronombre que se refiere a Ana. Gracias a los pronombres, el texto no repite todo el rato las mismas palabras.',
+        'Hay varias clases de pronombres. Los personales (yo, tú, él, nosotros, me, te, se) señalan a las personas del discurso. Los demostrativos (este, ese), los posesivos (mío, tuyo), los numerales (dos) y los indefinidos (alguien, nada) funcionan como los determinantes, pero sin acompañar a un sustantivo, porque lo sustituyen. También están los relativos (que, quien) y los interrogativos (qué, quién).',
+      ],
+      en: [
+        'The pronoun is the word that replaces a noun so as not to repeat it: in "Ana vino y ella trajo el pan", ella is a pronoun referring to Ana. Thanks to pronouns, a text does not keep repeating the same words.',
+        'There are several types of pronoun. Personal ones (yo, tú, él, nosotros, me, te, se) point to the people of the discourse. Demonstratives (este, ese), possessives (mío, tuyo), numerals (dos) and indefinites (alguien, nada) work like determiners, but without accompanying a noun, because they replace it. There are also relatives (que, quien) and interrogatives (qué, quién).',
+      ],
+      ca: [
+        'El pronom és la paraula que substitueix un substantiu per no repetir-lo: a "Ana vino y ella trajo el pan", ella és un pronom que es refereix a Ana. Gràcies als pronoms, el text no repeteix tota l\'estona les mateixes paraules.',
+        'Hi ha diverses classes de pronoms. Els personals (yo, tú, él, nosotros, me, te, se) assenyalen les persones del discurs. Els demostratius (este, ese), els possessius (mío, tuyo), els numerals (dos) i els indefinits (alguien, nada) funcionen com els determinants, però sense acompanyar un substantiu, perquè el substitueixen. També hi ha els relatius (que, quien) i els interrogatius (qué, quién).',
+      ],
+    },
+    puntosClave: {
+      es: [
+        'El pronombre sustituye a un sustantivo para no repetirlo.',
+        'Personales: yo, tú, él, nosotros, me, te, se…',
+        'Demostrativos (este), posesivos (mío), numerales (dos), indefinidos (alguien).',
+        'A diferencia del determinante, no acompaña al sustantivo: lo sustituye.',
+        'Relativos: que, quien, cual (unen oraciones).',
+        'Interrogativos y exclamativos: qué, quién, cuánto.',
+        'Evitan repeticiones y dan cohesión al texto.',
+      ],
+      en: [
+        'The pronoun replaces a noun so as not to repeat it.',
+        'Personal: yo, tú, él, nosotros, me, te, se…',
+        'Demonstrative (este), possessive (mío), numeral (dos), indefinite (alguien).',
+        'Unlike the determiner, it does not accompany the noun: it replaces it.',
+        'Relative: que, quien, cual (they join clauses).',
+        'Interrogative and exclamative: qué, quién, cuánto.',
+        'They avoid repetition and give the text cohesion.',
+      ],
+      ca: [
+        'El pronom substitueix un substantiu per no repetir-lo.',
+        'Personals: yo, tú, él, nosotros, me, te, se…',
+        'Demostratius (este), possessius (mío), numerals (dos), indefinits (alguien).',
+        'A diferència del determinant, no acompanya el substantiu: el substitueix.',
+        'Relatius: que, quien, cual (uneixen oracions).',
+        'Interrogatius i exclamatius: qué, quién, cuánto.',
+        'Eviten repeticions i donen cohesió al text.',
+      ],
+    },
+  },
+
+  'adverbios': {
+    metaTitle: {
+      es: 'Los Adverbios: qué son y sus clases — resumen para estudiar',
+      en: 'Spanish Adverbs: what they are and their types — a summary',
+      ca: 'Els Adverbis: què són i les seves classes — resum per estudiar',
+    },
+    metaDesc: {
+      es: 'Qué es un adverbio, por qué es invariable, a qué palabras modifica y sus clases (lugar, tiempo, modo, cantidad, afirmación, negación, duda). Resumen y test.',
+      en: 'What a Spanish adverb is, why it is invariable, what it modifies and its types (place, time, manner, quantity, affirmation, negation, doubt). Summary and test.',
+      ca: 'Què és un adverbi, per què és invariable, quines paraules modifica i les seves classes (lloc, temps, manera, quantitat, afirmació, negació, dubte). Resum i test.',
+    },
+    resumen: {
+      es: [
+        'El adverbio es una palabra invariable (no cambia de género ni de número) que modifica a un verbo, a un adjetivo o a otro adverbio, para expresar circunstancias: llegó tarde, muy alto, bastante bien. Responde a preguntas como cómo, cuándo, dónde o cuánto.',
+        'Se clasifican según lo que expresan: de lugar (aquí, cerca), de tiempo (ayer, siempre), de modo (bien, deprisa), de cantidad (mucho, poco), de afirmación (sí, también), de negación (no, nunca) y de duda (quizás). Muchos adverbios de modo se forman añadiendo -mente a un adjetivo: rápida → rápidamente.',
+      ],
+      en: [
+        'The adverb is an invariable word (it does not change gender or number) that modifies a verb, an adjective or another adverb, to express circumstances: llegó tarde, muy alto, bastante bien. It answers questions like how, when, where or how much.',
+        'They are classified by what they express: place (aquí, cerca), time (ayer, siempre), manner (bien, deprisa), quantity (mucho, poco), affirmation (sí, también), negation (no, nunca) and doubt (quizás). Many manner adverbs are formed by adding -mente to an adjective: rápida → rápidamente.',
+      ],
+      ca: [
+        'L\'adverbi és una paraula invariable (no canvia de gènere ni de nombre) que modifica un verb, un adjectiu o un altre adverbi, per expressar circumstàncies: llegó tarde, muy alto, bastante bien. Respon a preguntes com ara com, quan, on o quant.',
+        'Es classifiquen segons el que expressen: de lloc (aquí, cerca), de temps (ayer, siempre), de manera (bien, deprisa), de quantitat (mucho, poco), d\'afirmació (sí, también), de negació (no, nunca) i de dubte (quizás). Molts adverbis de manera es formen afegint -mente a un adjectiu: rápida → rápidamente.',
+      ],
+    },
+    puntosClave: {
+      es: [
+        'El adverbio es invariable: no tiene género ni número.',
+        'Modifica a un verbo, un adjetivo u otro adverbio.',
+        'Responde a cómo, cuándo, dónde y cuánto.',
+        'De lugar (aquí), de tiempo (ayer), de modo (bien).',
+        'De cantidad (mucho), de afirmación (sí), de negación (no), de duda (quizás).',
+        'Muchos de modo se forman con -mente (lentamente).',
+        'Aportan circunstancias a la acción.',
+      ],
+      en: [
+        'The adverb is invariable: it has no gender or number.',
+        'It modifies a verb, an adjective or another adverb.',
+        'It answers how, when, where and how much.',
+        'Place (aquí), time (ayer), manner (bien).',
+        'Quantity (mucho), affirmation (sí), negation (no), doubt (quizás).',
+        'Many manner ones are formed with -mente (lentamente).',
+        'They add circumstances to the action.',
+      ],
+      ca: [
+        'L\'adverbi és invariable: no té gènere ni nombre.',
+        'Modifica un verb, un adjectiu o un altre adverbi.',
+        'Respon a com, quan, on i quant.',
+        'De lloc (aquí), de temps (ayer), de manera (bien).',
+        'De quantitat (mucho), d\'afirmació (sí), de negació (no), de dubte (quizás).',
+        'Molts de manera es formen amb -mente (lentamente).',
+        'Aporten circumstàncies a l\'acció.',
+      ],
+    },
+  },
+
+  'nexos': {
+    metaTitle: {
+      es: 'Los Nexos: conjunciones y preposiciones — resumen para estudiar',
+      en: 'Spanish Connectors: conjunctions and prepositions — a summary',
+      ca: 'Els Nexos: conjuncions i preposicions — resum per estudiar',
+    },
+    metaDesc: {
+      es: 'Qué son los nexos, las conjunciones (coordinantes y subordinantes) y las preposiciones, y cómo enlazan las palabras y las oraciones. Resumen y test.',
+      en: 'What Spanish connectors are, conjunctions (coordinating and subordinating) and prepositions, and how they link words and clauses. Summary and test.',
+      ca: 'Què són els nexos, les conjuncions (coordinants i subordinants) i les preposicions, i com enllacen les paraules i les oracions. Resum i test.',
+    },
+    resumen: {
+      es: [
+        'Los nexos son las palabras que sirven para unir: enlazan palabras dentro de una oración u oraciones entre sí. Los principales son las conjunciones (y, o, pero, porque) y las preposiciones (a, de, con, para), que también son palabras invariables.',
+        'Las conjunciones pueden ser coordinantes, que unen elementos del mismo nivel (pan y queso; corre pero se cansa), o subordinantes, que hacen depender una oración de otra (vino porque llovía). Las preposiciones introducen complementos (el libro de Ana). Elegir bien los nexos es lo que hace que un texto quede bien enlazado y se entienda.',
+      ],
+      en: [
+        'Connectors ("nexos") are the words used to join: they link words within a sentence or clauses to each other. The main ones are conjunctions (y, o, pero, porque) and prepositions (a, de, con, para), which are also invariable words.',
+        'Conjunctions can be coordinating, joining elements of the same level (pan y queso; corre pero se cansa), or subordinating, making one clause depend on another (vino porque llovía). Prepositions introduce complements (el libro de Ana). Choosing connectors well is what makes a text well linked and understandable.',
+      ],
+      ca: [
+        'Els nexos són les paraules que serveixen per unir: enllacen paraules dins d\'una oració o oracions entre si. Els principals són les conjuncions (y, o, pero, porque) i les preposicions (a, de, con, para), que també són paraules invariables.',
+        'Les conjuncions poden ser coordinants, que uneixen elements del mateix nivell (pan y queso; corre pero se cansa), o subordinants, que fan dependre una oració d\'una altra (vino porque llovía). Les preposicions introdueixen complements (el libro de Ana). Triar bé els nexos és el que fa que un text quedi ben enllaçat i s\'entengui.',
+      ],
+    },
+    puntosClave: {
+      es: [
+        'Los nexos unen palabras u oraciones.',
+        'Son palabras invariables.',
+        'Conjunciones: y, o, pero, porque, aunque…',
+        'Preposiciones: a, de, con, en, por, para…',
+        'Coordinantes unen elementos del mismo nivel (y, o, pero).',
+        'Subordinantes hacen que una oración dependa de otra (porque, que).',
+        'Bien usados, dan cohesión y claridad al texto.',
+      ],
+      en: [
+        'Connectors join words or clauses.',
+        'They are invariable words.',
+        'Conjunctions: y, o, pero, porque, aunque…',
+        'Prepositions: a, de, con, en, por, para…',
+        'Coordinating ones join elements of the same level (y, o, pero).',
+        'Subordinating ones make one clause depend on another (porque, que).',
+        'Well used, they give the text cohesion and clarity.',
+      ],
+      ca: [
+        'Els nexos uneixen paraules o oracions.',
+        'Són paraules invariables.',
+        'Conjuncions: y, o, pero, porque, aunque…',
+        'Preposicions: a, de, con, en, por, para…',
+        'Coordinants uneixen elements del mateix nivell (y, o, pero).',
+        'Subordinants fan que una oració depengui d\'una altra (porque, que).',
+        'Ben usats, donen cohesió i claredat al text.',
+      ],
+    },
+  },
+
+  'sintaxis': {
+    metaTitle: {
+      es: 'La Sintaxis: sujeto, predicado y complementos — resumen',
+      en: 'Spanish Syntax: subject, predicate and complements — a summary',
+      ca: 'La Sintaxi: subjecte, predicat i complements — resum',
+    },
+    metaDesc: {
+      es: 'Qué es la sintaxis y cómo analizar una oración: el sujeto, el predicado y los complementos (directo, indirecto, circunstanciales, atributo). Resumen y test.',
+      en: 'What Spanish syntax is and how to analyse a sentence: the subject, the predicate and the complements (direct, indirect, adverbial, attribute). Summary and test.',
+      ca: 'Què és la sintaxi i com analitzar una oració: el subjecte, el predicat i els complements (directe, indirecte, circumstancials, atribut). Resum i test.',
+    },
+    resumen: {
+      es: [
+        'La sintaxis es la parte de la gramática que estudia cómo se combinan las palabras para formar oraciones y qué función cumple cada una. Analizar sintácticamente una oración es identificar sus partes: sobre todo el sujeto (de quién se dice algo) y el predicado (lo que se dice de él).',
+        'El núcleo del sujeto suele ser un sustantivo o un pronombre, y el del predicado es siempre el verbo. Dentro del predicado hay complementos que completan el significado del verbo: el complemento directo (compró pan), el indirecto (a su hermano), los circunstanciales (por la mañana) y el atributo (con los verbos ser, estar y parecer).',
+      ],
+      en: [
+        'Syntax is the part of grammar that studies how words combine to form sentences and what function each one has. To analyse a sentence syntactically is to identify its parts: above all the subject (whom something is said about) and the predicate (what is said about it).',
+        'The core of the subject is usually a noun or a pronoun, and the core of the predicate is always the verb. Within the predicate there are complements that complete the verb\'s meaning: the direct object (compró pan), the indirect object (a su hermano), the adverbials (por la mañana) and the attribute (with the verbs ser, estar and parecer).',
+      ],
+      ca: [
+        'La sintaxi és la part de la gramàtica que estudia com es combinen les paraules per formar oracions i quina funció fa cadascuna. Analitzar sintàcticament una oració és identificar-ne les parts: sobretot el subjecte (de qui es diu una cosa) i el predicat (el que se\'n diu).',
+        'El nucli del subjecte sol ser un substantiu o un pronom, i el del predicat és sempre el verb. Dins del predicat hi ha complements que completen el significat del verb: el complement directe (compró pan), l\'indirecte (a su hermano), els circumstancials (por la mañana) i l\'atribut (amb els verbs ser, estar i parecer).',
+      ],
+    },
+    puntosClave: {
+      es: [
+        'La sintaxis estudia cómo se combinan las palabras en la oración.',
+        'Analizar es identificar la función de cada parte.',
+        'Sujeto: de quién se dice algo (núcleo: sustantivo o pronombre).',
+        'Predicado: lo que se dice del sujeto (núcleo: el verbo).',
+        'Complemento directo (compró pan) e indirecto (a su hermano).',
+        'Complementos circunstanciales: de tiempo, lugar, modo…',
+        'El atributo aparece con ser, estar y parecer.',
+      ],
+      en: [
+        'Syntax studies how words combine in the sentence.',
+        'To analyse is to identify the function of each part.',
+        'Subject: whom something is said about (core: noun or pronoun).',
+        'Predicate: what is said about the subject (core: the verb).',
+        'Direct object (compró pan) and indirect object (a su hermano).',
+        'Adverbial complements: of time, place, manner…',
+        'The attribute appears with ser, estar and parecer.',
+      ],
+      ca: [
+        'La sintaxi estudia com es combinen les paraules a l\'oració.',
+        'Analitzar és identificar la funció de cada part.',
+        'Subjecte: de qui es diu una cosa (nucli: substantiu o pronom).',
+        'Predicat: el que es diu del subjecte (nucli: el verb).',
+        'Complement directe (compró pan) i indirecte (a su hermano).',
+        'Complements circumstancials: de temps, lloc, manera…',
+        'L\'atribut apareix amb ser, estar i parecer.',
+      ],
+    },
+  },
+
+  'morfologia': {
+    metaTitle: {
+      es: 'La Morfología: clases de palabras y sus partes — resumen',
+      en: 'Spanish Morphology: word classes and their parts — a summary',
+      ca: 'La Morfologia: classes de paraules i les seves parts — resum',
+    },
+    metaDesc: {
+      es: 'Qué es la morfología y cómo analizar una palabra: su clase, sus rasgos y sus partes (raíz o lexema, morfemas, prefijos y sufijos). Resumen y test.',
+      en: 'What Spanish morphology is and how to analyse a word: its class, its features and its parts (root or lexeme, morphemes, prefixes and suffixes). Summary and test.',
+      ca: 'Què és la morfologia i com analitzar una paraula: la seva classe, els seus trets i les seves parts (arrel o lexema, morfemes, prefixos i sufixos). Resum i test.',
+    },
+    resumen: {
+      es: [
+        'La morfología es la parte de la gramática que estudia la forma de las palabras: de qué partes están hechas y a qué clase pertenecen. Analizar morfológicamente una palabra es decir qué clase es (sustantivo, verbo, adjetivo…) y sus rasgos: género, número, tiempo, persona…',
+        'Las palabras se forman con distintas piezas: la raíz o lexema, que lleva el significado principal (niñ- en niño, niña, niñez), y los morfemas, que añaden información o forman palabras nuevas. Los prefijos van delante (des-hacer) y los sufijos detrás (niñ-ez). Distinguir las clases de palabras y sus partes es la base para entender la gramática.',
+      ],
+      en: [
+        'Morphology is the part of grammar that studies the form of words: what parts they are made of and which class they belong to. To analyse a word morphologically is to state its class (noun, verb, adjective…) and its features: gender, number, tense, person…',
+        'Words are made of different pieces: the root or lexeme, which carries the main meaning (niñ- in niño, niña, niñez), and the morphemes, which add information or form new words. Prefixes go in front (des-hacer) and suffixes behind (niñ-ez). Telling apart the word classes and their parts is the basis for understanding grammar.',
+      ],
+      ca: [
+        'La morfologia és la part de la gramàtica que estudia la forma de les paraules: de quines parts estan fetes i a quina classe pertanyen. Analitzar morfològicament una paraula és dir quina classe és (substantiu, verb, adjectiu…) i els seus trets: gènere, nombre, temps, persona…',
+        'Les paraules es formen amb diferents peces: l\'arrel o lexema, que porta el significat principal (niñ- a niño, niña, niñez), i els morfemes, que afegeixen informació o formen paraules noves. Els prefixos van davant (des-hacer) i els sufixos darrere (niñ-ez). Distingir les classes de paraules i les seves parts és la base per entendre la gramàtica.',
+      ],
+    },
+    puntosClave: {
+      es: [
+        'La morfología estudia la forma y las partes de las palabras.',
+        'Analizar es decir la clase de palabra y sus rasgos.',
+        'Clases: sustantivo, verbo, adjetivo, determinante, pronombre, adverbio…',
+        'La raíz o lexema lleva el significado principal (sol- en soleado).',
+        'Los morfemas añaden información (género, número…) o crean palabras.',
+        'Prefijos delante (des-hacer) y sufijos detrás (cas-ita).',
+        'Es la base para el análisis gramatical.',
+      ],
+      en: [
+        'Morphology studies the form and the parts of words.',
+        'To analyse is to state the word class and its features.',
+        'Classes: noun, verb, adjective, determiner, pronoun, adverb…',
+        'The root or lexeme carries the main meaning (sol- in soleado).',
+        'Morphemes add information (gender, number…) or create words.',
+        'Prefixes in front (des-hacer) and suffixes behind (cas-ita).',
+        'It is the basis for grammatical analysis.',
+      ],
+      ca: [
+        'La morfologia estudia la forma i les parts de les paraules.',
+        'Analitzar és dir la classe de paraula i els seus trets.',
+        'Classes: substantiu, verb, adjectiu, determinant, pronom, adverbi…',
+        'L\'arrel o lexema porta el significat principal (sol- a soleado).',
+        'Els morfemes afegeixen informació (gènere, nombre…) o creen paraules.',
+        'Prefixos davant (des-hacer) i sufixos darrere (cas-ita).',
+        'És la base per a l\'anàlisi gramatical.',
+      ],
+    },
+  },
 }

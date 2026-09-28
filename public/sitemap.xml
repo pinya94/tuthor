@@ -176,6 +176,33 @@
   <url><loc>https://www.tuthor.es/estudiar/historia/primaria</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/en/estudiar/historia/primaria</loc><changefreq>weekly</changefreq><priority>0.75</priority></url>
   <url><loc>https://www.tuthor.es/ca/estudiar/historia/primaria</loc><changefreq>weekly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://www.tuthor.es/estudiar/idiomas/espanol/gramatica/sustantivos</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/en/estudiar/idiomas/espanol/gramatica/sustantivos</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/ca/estudiar/idiomas/espanol/gramatica/sustantivos</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/estudiar/idiomas/espanol/gramatica/verbos</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/en/estudiar/idiomas/espanol/gramatica/verbos</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/ca/estudiar/idiomas/espanol/gramatica/verbos</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/estudiar/idiomas/espanol/gramatica/adjetivos</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/en/estudiar/idiomas/espanol/gramatica/adjetivos</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/ca/estudiar/idiomas/espanol/gramatica/adjetivos</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/estudiar/idiomas/espanol/gramatica/determinantes</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/en/estudiar/idiomas/espanol/gramatica/determinantes</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/ca/estudiar/idiomas/espanol/gramatica/determinantes</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/estudiar/idiomas/espanol/gramatica/pronombres</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/en/estudiar/idiomas/espanol/gramatica/pronombres</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/ca/estudiar/idiomas/espanol/gramatica/pronombres</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/estudiar/idiomas/espanol/gramatica/adverbios</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/en/estudiar/idiomas/espanol/gramatica/adverbios</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/ca/estudiar/idiomas/espanol/gramatica/adverbios</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/estudiar/idiomas/espanol/gramatica/nexos</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/en/estudiar/idiomas/espanol/gramatica/nexos</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/ca/estudiar/idiomas/espanol/gramatica/nexos</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/estudiar/idiomas/espanol/gramatica/sintaxis</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/en/estudiar/idiomas/espanol/gramatica/sintaxis</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/ca/estudiar/idiomas/espanol/gramatica/sintaxis</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/estudiar/idiomas/espanol/gramatica/morfologia</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/en/estudiar/idiomas/espanol/gramatica/morfologia</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/ca/estudiar/idiomas/espanol/gramatica/morfologia</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.tuthor.es/estudiar/geografia</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/estudiar/economia</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/estudiar/musica</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>

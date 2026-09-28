@@ -131,8 +131,10 @@ export function resolveMeta(path, lang) {
     }
   }
 
-  // Temas de estudio (ciencias, geografía, historia) con contenido propio.
+  // Temas de estudio con contenido propio: ciencias, geografía, historia y la
+  // gramática española (ruta más profunda). Todos leen del mismo CONTENIDO_TEMA.
   m = path.match(/^\/estudiar\/(?:quimica|fisica|biologia|geologia|geografia|historia)\/([\w-]+)$/)
+    || path.match(/^\/estudiar\/idiomas\/espanol\/gramatica\/([\w-]+)$/)
   if (m && CONTENIDO_TEMA[m[1]]) {
     const c = CONTENIDO_TEMA[m[1]]
     return { title: c.metaTitle[l] || c.metaTitle.es, desc: c.metaDesc[l] || c.metaDesc.es }
