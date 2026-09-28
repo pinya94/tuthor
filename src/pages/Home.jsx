@@ -307,9 +307,9 @@ export default function Home() {
   // el JS en un navegador real). Si divergen, Helmet pisa la meta correcta
   // del prerender con esta en cuanto hidrata — ya pasó una vez.
   const seo = {
-    es: { title: 'Tu panel de estudio', desc: 'Tu progreso, tus rachas y tus monedas. Elige materia y sigue repasando con juegos y exámenes tipo test.' },
-    en: { title: 'Your study dashboard', desc: 'Your progress, streaks and coins. Pick a subject and keep revising with games and quizzes.' },
-    ca: { title: 'El teu tauler d\'estudi', desc: 'El teu progrés, les teves ratxes i les teves monedes. Tria matèria i segueix repassant amb jocs i exàmens tipus test.' },
+    es: { title: 'Aprende jugando: el mismo concepto desde varios ángulos', desc: 'Plataforma educativa para Primaria, ESO y Bachillerato. Juegos y exámenes en 11 materias, gratis y sin registro. Cada concepto, explicado de varias formas distintas.' },
+    en: { title: 'Learn by playing: one concept, several angles', desc: 'Educational platform for primary and secondary school. Games and exams across 11 subjects, free and with no sign-up. Every concept, explained in several different ways.' },
+    ca: { title: 'Aprèn jugant: el mateix concepte des de diversos angles', desc: 'Plataforma educativa per a Primària, ESO i Batxillerat. Jocs i exàmens en 11 matèries, gratis i sense registre. Cada concepte, explicat de diverses maneres.' },
   }[lang] || {}
 
   // Solo undefined (la sesión aún se resuelve) espera. `null` ya NO: sin
@@ -321,10 +321,9 @@ export default function Home() {
 
   return (
     <div className="relative z-10 px-4 sm:px-8">
-      {/* /app ya no está en el sitemap (era panel privado disfrazado de página
-          de marketing); esta meta sigue aquí solo por si algún cliente viejo
-          o un compartido directo cae en la URL con JS ya cargado. */}
-      <SEOHead title={seo.title} description={seo.desc} path="/app" lang={lang} noindex />
+      {/* La raíz del sitio: el producto. Indexable (la meta del prerender vive
+          en staticMeta['/']). */}
+      <SEOHead title={seo.title} description={seo.desc} path="/" lang={lang} />
 
       {/* Un único contenedor de ancho fijo para TODO, tarjetas incluidas: antes
           las tarjetas vivían fuera de max-w-4xl y se estiraban a lo ancho de
@@ -408,6 +407,28 @@ export default function Home() {
         {/* COMUNIDAD */}
         <section className="mb-8">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+            {/* Para familias y profes: la home es el producto; quien quiere
+                entender qué es Tuthor, qué es gratis y cómo seguir a su hijo va
+                a la página de familias (antes era la raíz). */}
+            <Link to={localPath('/para-familias')}
+              className="group rounded-2xl border border-white/10 hover:border-amber-400/50 p-6 flex flex-col gap-3 transition-all" style={{ background: SURF }}>
+              <div className="w-10 h-10 rounded-xl bg-amber-500/15 flex items-center justify-center text-xl">👪</div>
+              <div className="flex-1">
+                <h3 className="text-white font-bold text-sm">
+                  {lang === 'en' ? 'For families & teachers' : lang === 'ca' ? 'Per a famílies i profes' : 'Para familias y profes'}
+                </h3>
+                <p className="text-white/50 text-xs mt-1 leading-relaxed">
+                  {lang === 'en' ? 'What Tuthor is, what is free and how to follow your child. We explain it.'
+                    : lang === 'ca' ? 'Què és Tuthor, què és gratis i com seguir el teu fill. T\'ho expliquem.'
+                    : 'Qué es Tuthor, qué es gratis y cómo seguir a tu hijo. Te lo contamos.'}
+                </p>
+              </div>
+              <span className="text-xs font-bold text-amber-400 group-hover:text-amber-300 flex items-center gap-1">
+                {lang === 'en' ? 'How it works' : lang === 'ca' ? 'Com funciona' : 'Cómo funciona'}
+                <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+              </span>
+            </Link>
 
             {/* Bug report */}
             <Link to={localPath('/reportar-bug')}

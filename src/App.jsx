@@ -1,5 +1,5 @@
 import { useState, useEffect, lazy, Suspense } from 'react'
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, useLocation, Navigate } from 'react-router-dom'
 import { Analytics } from '@vercel/analytics/react'
 import Particles from './components/Particles'
 import Navbar from './components/Navbar'
@@ -149,10 +149,12 @@ function PageLoader() {
 function AppRoutes() {
   return (
     <>
-      {/* La raíz es la landing de venta; la home de la app se movió a /app.
-          Ambas se sirven con chrome distinto — ver CHROMELESS_PATHS. */}
-      <Route index element={<Landing />} />
-      <Route path="app" element={<Home />} />
+      {/* La raíz ES el producto (Home). La landing de venta a familias vive en
+          /para-familias. /app se conserva como redirección para enlaces y
+          marcadores antiguos. Chrome distinto por ruta — ver CHROMELESS_PATHS. */}
+      <Route index element={<Home />} />
+      <Route path="para-familias" element={<Landing />} />
+      <Route path="app" element={<Navigate to=".." relative="path" replace />} />
       <Route path="pago/gracias" element={<PagoGracias />} />
 
       {/* ── ESTUDIAR ── */}
@@ -345,7 +347,7 @@ function NotFound() {
 // venta y la vuelta del pago. Se les quita el chrome de la app (navbar, bosque
 // de fondo, partículas) para que se lean como lo que son — páginas de producto,
 // no producto. El path llega sin prefijo de idioma.
-const CHROMELESS_PATHS = new Set(['/', '/pago/gracias'])
+const CHROMELESS_PATHS = new Set(['/para-familias', '/pago/gracias'])
 
 function useIsChromeless() {
   const { pathname } = useLocation()

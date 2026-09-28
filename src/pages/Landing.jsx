@@ -455,7 +455,7 @@ function Header({ onLogin, user, tr, localPath, lang, switchLang }) {
               crear cuenta — "Entrar" a secas parece solo para quien ya la
               tiene. */}
           {user ? (
-            <Link to={localPath('/app')} className="rounded-xl bg-slate-900 px-4 py-2 text-sm font-bold text-white transition-colors hover:bg-slate-700">
+            <Link to={localPath('/')} className="rounded-xl bg-slate-900 px-4 py-2 text-sm font-bold text-white transition-colors hover:bg-slate-700">
               {tr({ es: 'Entrar', en: 'Open', ca: 'Entrar' })}
             </Link>
           ) : (
@@ -686,7 +686,7 @@ export default function Landing() {
   // o al reto, y ahora además es donde se pregunta el curso una sola vez
   // (ver NivelPicker en Home.jsx).
   function explore() {
-    navigate(localPath('/app'))
+    navigate(localPath('/'))
   }
 
   // La alternativa corta, para quien no quiere ni entrar todavía: una sola
@@ -709,14 +709,14 @@ export default function Landing() {
       setPendingPlan(null)
       runCheckout(plan)
     } else {
-      navigate(localPath('/app'))
+      navigate(localPath('/'))
     }
   }
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-violet-50 via-white to-white text-slate-900">
       <SEOHead
-        path="/"
+        path="/para-familias"
         title={tr({
           es: 'La misma clase, explicada de todas las formas que hacen falta',
           en: 'The same class, explained every way it takes',

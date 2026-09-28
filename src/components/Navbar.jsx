@@ -123,11 +123,11 @@ export default function Navbar() {
       <nav className="relative z-50 bg-black/30 border-b border-white/10 backdrop-blur-md">
         <div className="h-16 flex items-center justify-between px-4 sm:px-8">
 
-          {/* Logo → SIEMPRE /app, con sesión o sin ella. La landing es solo
+          {/* Logo → SIEMPRE la home del producto (/), con sesión o sin ella. La landing es solo
               para quien no nos conoce todavía: quien ya está navegando por
               dentro y pulsa el logo quiere volver a la home del producto, no
               que le vuelvan a vender el producto que está usando. */}
-          <button onClick={() => { navigate(localPath('/app')); setMenuOpen(false) }} className="hover:opacity-80 transition-opacity">
+          <button onClick={() => { navigate(localPath('/')); setMenuOpen(false) }} className="hover:opacity-80 transition-opacity">
             <img src="/logo.svg" alt="Tuthor" className="h-7 w-auto" />
           </button>
 

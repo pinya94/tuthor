@@ -11,6 +11,9 @@
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
+  <url><loc>https://www.tuthor.es/para-familias</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/en/para-familias</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.tuthor.es/ca/para-familias</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url>
     <loc>https://www.tuthor.es/en/</loc>
     <xhtml:link rel="alternate" hreflang="es" href="https://www.tuthor.es/" />

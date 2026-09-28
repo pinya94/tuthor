@@ -12,18 +12,19 @@
 // URLs, entre ellas todos los hubs de materia.
 
 export const STATIC_META = {
-  // La raíz es la landing de venta desde el pivot a suscripción. Mantener en
-  // sintonía con el <SEOHead> de Landing.jsx: el prerender genera el HTML que
-  // ven crawlers y scrapers, que no ejecutan JS.
+  // La raíz ES el producto (Home). Entrar sin registro lleva directo a los
+  // juegos y al temario. El prerender genera el HTML que ven crawlers y
+  // scrapers (sin JS), así que la meta vive aquí.
   //
-  // /app NO tiene entrada aquí, y NO está en el sitemap: es el panel privado
-  // de quien ya tiene cuenta, no una página de marketing. Sin sesión
-  // redirige a "/" — y esa redirección se dispara también durante el
-  // prerender (nunca hay sesión ahí), así que indexarla arriesgaba a que el
-  // prerender se quedara esperando algo que no llega nunca.
+  // /app ya no es una página: redirige a "/". La venta a familias (con precios)
+  // vive en /para-familias.
   '/': {
-    es: { title: 'Aprende jugando: el mismo concepto desde varios ángulos', desc: 'Plataforma educativa para Primaria, ESO y Bachillerato. Juegos y exámenes en 11 materias, con panel de seguimiento para padres. Cada concepto, explicado de varias formas distintas.' },
-    en: { title: 'Learn by playing: one concept, several angles', desc: 'Educational platform for primary and secondary school. Games and exams across 11 subjects, with a tracking panel for parents. Every concept, explained in several different ways.' },
+    es: { title: 'Aprende jugando: el mismo concepto desde varios ángulos', desc: 'Plataforma educativa para Primaria, ESO y Bachillerato. Juegos y exámenes en 11 materias, gratis y sin registro. Cada concepto, explicado de varias formas distintas.' },
+    en: { title: 'Learn by playing: one concept, several angles', desc: 'Educational platform for primary and secondary school. Games and exams across 11 subjects, free and with no sign-up. Every concept, explained in several different ways.' },
+  },
+  '/para-familias': {
+    es: { title: 'Tuthor para familias: cómo funciona y planes', desc: 'Cómo Tuthor ayuda a tu hijo cuando en clase van rápido o se aburre: la misma clase explicada de varias formas, con juegos y exámenes. Qué es gratis y qué incluye el plan.' },
+    en: { title: 'Tuthor for families: how it works and plans', desc: 'How Tuthor helps your child when class goes too fast or gets boring: the same lesson explained in several ways, with games and exams. What is free and what the plan includes.' },
   },
   // Sin "gratis" desde el muro de pago: los temarios y las fichas siguen
   // abiertos, pero jugar y examinarse va con la suscripción, y estas dos
