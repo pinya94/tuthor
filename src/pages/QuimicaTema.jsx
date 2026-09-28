@@ -7,6 +7,7 @@ import RecursosDelTema from '../components/RecursosDelTema'
 import PageMeta from '../components/PageMeta'
 import CourseSchema from '../components/CourseSchema'
 import BreadcrumbSchema from '../components/BreadcrumbSchema'
+import { CONTENIDO_TEMA } from '../data/estudioTemaContenido'
 
 const NIVEL_LABEL = {
   primaria:     { es: 'Primaria',     en: 'Primary',   ca: 'Primària' },
@@ -455,8 +456,14 @@ export default function QuimicaTema() {
     })),
   ]
   const discLabel = disc.label[lang] ?? disc.label.es
-  const pageMeta = <PageMeta title={meta.titulo} description={meta.descripcion} path={`${discPath}/${tema}`} lang={lang} />
-  const courseSchema = <CourseSchema name={meta.titulo} description={meta.descripcion} path={`${discPath}/${tema}`} lang={lang} subject={discLabel} />
+  // Contenido propio del tema (resumen + puntos clave), si lo tiene. Da a la
+  // página una landing con texto único y una meta más específica.
+  const contenido = CONTENIDO_TEMA[tema]
+  const pick = obj => (obj ? obj[lang] ?? obj.es : undefined)
+  const metaTitle = pick(contenido?.metaTitle) || meta.titulo
+  const metaDesc = pick(contenido?.metaDesc) || meta.descripcion
+  const pageMeta = <PageMeta title={metaTitle} description={metaDesc} path={`${discPath}/${tema}`} lang={lang} />
+  const courseSchema = <CourseSchema name={meta.titulo} description={metaDesc} path={`${discPath}/${tema}`} lang={lang} subject={discLabel} />
   const breadcrumb = <BreadcrumbSchema lang={lang} items={[
     { name: en ? 'Study' : ca ? 'Estudiar' : 'Estudiar', path: '/estudiar' },
     { name: discLabel, path: discPath },
@@ -491,6 +498,30 @@ export default function QuimicaTema() {
           </div>
         </div>
       </div>
+
+      {contenido && (
+        <article className="max-w-2xl mx-auto w-full mb-8 rounded-2xl border border-white/10 bg-black/20 p-5 sm:p-7">
+          <h2 className="text-white font-black text-lg sm:text-xl mb-3">
+            {ca ? 'Resum' : en ? 'Summary' : 'Resumen'}
+          </h2>
+          <div className="space-y-3">
+            {pick(contenido.resumen).map((p, i) => (
+              <p key={i} className="text-white/70 text-[15px] leading-relaxed">{p}</p>
+            ))}
+          </div>
+          <h2 className="text-white font-black text-lg sm:text-xl mt-6 mb-3">
+            {ca ? 'Punts clau' : en ? 'Key points' : 'Puntos clave'}
+          </h2>
+          <ul className="space-y-2">
+            {pick(contenido.puntosClave).map((punto, i) => (
+              <li key={i} className="flex items-start gap-2.5 text-white/70 text-[15px] leading-relaxed">
+                <span className="text-amber-400 shrink-0 mt-0.5" aria-hidden="true">▸</span>
+                <span>{punto}</span>
+              </li>
+            ))}
+          </ul>
+        </article>
+      )}
 
       <div className="max-w-2xl mx-auto w-full space-y-4">
         <p className="text-white/30 text-xs uppercase tracking-widest font-semibold">

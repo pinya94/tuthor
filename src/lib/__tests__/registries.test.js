@@ -379,3 +379,33 @@ describe('hub de fichas (/info/juegos) ↔ registro de fichas', () => {
     }
   })
 })
+
+describe('estudio de ciencias con contenido propio ↔ sitemap y meta', () => {
+  it('todo tema enriquecido está en el sitemap (es/en/ca) y resuelve meta', async () => {
+    const { CONTENIDO_TEMA } = await import('../../data/estudioTemaContenido.js')
+    const { disciplinaDeTema } = await import('../../data/ciencias.js')
+    for (const tema of Object.keys(CONTENIDO_TEMA)) {
+      const disc = disciplinaDeTema(tema)
+      expect(disc, `el tema ${tema} no tiene disciplina en ciencias.js`).toBeTruthy()
+      const ruta = `/estudiar/${disc}/${tema}`
+      expect(neutralPaths.has(ruta), `falta ${ruta} en public/sitemap.xml`).toBe(true)
+      // prerender: debe resolver meta específica en cada idioma
+      for (const lang of ['es', 'en']) {
+        const meta = resolveMeta(ruta, lang)
+        expect(meta, `${ruta} (${lang}) no resuelve meta en seoMeta`).toBeTruthy()
+      }
+    }
+  })
+
+  it('el contenido de cada tema está completo en los tres idiomas', async () => {
+    const { CONTENIDO_TEMA } = await import('../../data/estudioTemaContenido.js')
+    for (const [tema, c] of Object.entries(CONTENIDO_TEMA)) {
+      for (const lang of ['es', 'en', 'ca']) {
+        expect(c.metaTitle?.[lang], `${tema}: falta metaTitle.${lang}`).toBeTruthy()
+        expect(c.metaDesc?.[lang], `${tema}: falta metaDesc.${lang}`).toBeTruthy()
+        expect(c.resumen?.[lang]?.length, `${tema}: falta resumen.${lang}`).toBeGreaterThan(0)
+        expect(c.puntosClave?.[lang]?.length, `${tema}: faltan puntosClave.${lang}`).toBeGreaterThan(0)
+      }
+    }
+  })
+})

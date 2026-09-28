@@ -26,6 +26,7 @@ import {
 // tests de invariantes la importan desde aquí desde siempre.
 export { STATIC_META } from '../src/lib/staticMeta.js'
 import { STATIC_META } from '../src/lib/staticMeta.js'
+import { CONTENIDO_TEMA } from '../src/data/estudioTemaContenido.js'
 
 export const BASE_URL = 'https://www.tuthor.es'
 // Idiomas publicados en hreflang — mantener en sintonía con SEOHead.jsx
@@ -128,6 +129,13 @@ export function resolveMeta(path, lang) {
         ? { title: `${name} — theory, examples and exam`, desc: `Learn ${name} with short theory, worked examples and an interactive exam with explained answers. Free for primary and secondary school.` }
         : { title: `${name} — teoría, ejemplos y examen`, desc: `Aprende ${name} con teoría breve, ejemplos resueltos y un examen interactivo con explicaciones. Gratis, para Primaria, ESO y Bachillerato.` }
     }
+  }
+
+  // Temas de estudio de ciencias con contenido propio (resumen + puntos clave).
+  m = path.match(/^\/estudiar\/(?:quimica|fisica|biologia|geologia)\/([\w-]+)$/)
+  if (m && CONTENIDO_TEMA[m[1]]) {
+    const c = CONTENIDO_TEMA[m[1]]
+    return { title: c.metaTitle[l] || c.metaTitle.es, desc: c.metaDesc[l] || c.metaDesc.es }
   }
 
   return null
