@@ -905,4 +905,396 @@ export const CONTENIDO_TEMA = {
       ],
     },
   },
+
+  'mezclas-separacion': {
+    metaTitle: {
+      es: 'Mezclas y Métodos de Separación — resumen para estudiar',
+      en: 'Mixtures and Separation Methods — a study summary',
+      ca: 'Mescles i Mètodes de Separació — resum per estudiar',
+    },
+    metaDesc: {
+      es: 'Mezclas homogéneas y heterogéneas y cómo separarlas: filtración, decantación, evaporación y destilación. Resumen para estudiar y test con explicación.',
+      en: 'Homogeneous and heterogeneous mixtures and how to separate them: filtration, decanting, evaporation and distillation. Study summary and explained test.',
+      ca: 'Mescles homogènies i heterogènies i com separar-les: filtració, decantació, evaporació i destil·lació. Resum per estudiar i test amb explicació.',
+    },
+    resumen: {
+      es: [
+        'No toda la materia es pura. Muchas cosas son mezclas: dos o más sustancias juntas que no reaccionan y que conservan sus propiedades, como el agua con sal o el aire. En una mezcla homogénea no se distinguen los componentes a simple vista (el agua con azúcar, el acero); en una heterogénea sí se ven (el agua con aceite, una ensalada).',
+        'Como los componentes de una mezcla no están unidos químicamente, se pueden separar por métodos físicos, eligiendo el que aproveche una diferencia entre ellos. La filtración separa un sólido de un líquido (colar el café); la decantación separa dos líquidos que no se mezclan o un sólido que se posa; la evaporación deja el sólido disuelto cuando se va el líquido (la sal del agua de mar); y la destilación separa líquidos según su temperatura de ebullición.',
+      ],
+      en: [
+        'Not all matter is pure. Many things are mixtures: two or more substances together that do not react and keep their properties, like salt water or air. In a homogeneous mixture the components cannot be told apart by eye (sugar water, steel); in a heterogeneous one they can (oil and water, a salad).',
+        'Because the components of a mixture are not chemically joined, they can be separated by physical methods, choosing the one that uses a difference between them. Filtration separates a solid from a liquid (straining coffee); decanting separates two liquids that do not mix or a solid that settles; evaporation leaves the dissolved solid behind when the liquid goes (salt from seawater); and distillation separates liquids by their boiling point.',
+      ],
+      ca: [
+        'No tota la matèria és pura. Moltes coses són mescles: dues o més substàncies juntes que no reaccionen i que conserven les seves propietats, com l\'aigua amb sal o l\'aire. En una mescla homogènia no es distingeixen els components a simple vista (l\'aigua amb sucre, l\'acer); en una heterogènia sí que es veuen (l\'aigua amb oli, una amanida).',
+        'Com que els components d\'una mescla no estan units químicament, es poden separar per mètodes físics, triant el que aprofiti una diferència entre ells. La filtració separa un sòlid d\'un líquid (colar el cafè); la decantació separa dos líquids que no es mesclen o un sòlid que es diposita; l\'evaporació deixa el sòlid dissolt quan se\'n va el líquid (la sal de l\'aigua de mar); i la destil·lació separa líquids segons la seva temperatura d\'ebullició.',
+      ],
+    },
+    puntosClave: {
+      es: [
+        'Una mezcla son dos o más sustancias juntas que conservan sus propiedades.',
+        'Homogénea: no se ven los componentes (agua con azúcar). Heterogénea: sí (agua con aceite).',
+        'Los componentes de una mezcla se separan por métodos físicos.',
+        'Filtración: separa un sólido de un líquido (colar).',
+        'Decantación: separa líquidos que no se mezclan o un sólido que se posa.',
+        'Evaporación: el líquido se va y queda el sólido disuelto (la sal).',
+        'Destilación: separa líquidos por su temperatura de ebullición.',
+      ],
+      en: [
+        'A mixture is two or more substances together that keep their properties.',
+        'Homogeneous: components not visible (sugar water). Heterogeneous: visible (oil and water).',
+        'The components of a mixture are separated by physical methods.',
+        'Filtration: separates a solid from a liquid (straining).',
+        'Decanting: separates liquids that do not mix or a solid that settles.',
+        'Evaporation: the liquid leaves and the dissolved solid remains (salt).',
+        'Distillation: separates liquids by their boiling point.',
+      ],
+      ca: [
+        'Una mescla són dues o més substàncies juntes que conserven les seves propietats.',
+        'Homogènia: no es veuen els components (aigua amb sucre). Heterogènia: sí (aigua amb oli).',
+        'Els components d\'una mescla es separen per mètodes físics.',
+        'Filtració: separa un sòlid d\'un líquid (colar).',
+        'Decantació: separa líquids que no es mesclen o un sòlid que es diposita.',
+        'Evaporació: el líquid se\'n va i queda el sòlid dissolt (la sal).',
+        'Destil·lació: separa líquids per la seva temperatura d\'ebullició.',
+      ],
+    },
+  },
+
+  'formulacion': {
+    metaTitle: {
+      es: 'Formulación Química: valencias y nomenclatura — resumen',
+      en: 'Chemical Formulas: valencies and naming — a study summary',
+      ca: 'Formulació Química: valències i nomenclatura — resum',
+    },
+    metaDesc: {
+      es: 'Qué es formular y nombrar compuestos, las valencias, los subíndices y las familias (óxidos, hidruros, hidróxidos y sales) con la nomenclatura IUPAC. Resumen y test.',
+      en: 'What formulating and naming compounds means, valencies, subscripts and the families (oxides, hydrides, hydroxides and salts) with IUPAC naming. Summary and test.',
+      ca: 'Què és formular i anomenar compostos, les valències, els subíndexs i les famílies (òxids, hidrurs, hidròxids i sals) amb la nomenclatura IUPAC. Resum i test.',
+    },
+    resumen: {
+      es: [
+        'Formular es escribir con símbolos y números la composición de un compuesto químico, y nombrarlo es ponerle su nombre. Cada elemento aporta su valencia, el número de enlaces que puede hacer; combinando las valencias de los elementos se obtiene la fórmula, con subíndices que indican cuántos átomos de cada uno hay.',
+        'Los compuestos se agrupan por familias. Los óxidos son un elemento con oxígeno (como el óxido de hierro); los hidruros, un elemento con hidrógeno; los hidróxidos llevan el grupo OH y son las bases; y las sales se forman al combinar un metal con un no metal. Hay unas reglas de nomenclatura, las de la IUPAC, que dicen cómo nombrar cada compuesto para que todo el mundo lo entienda igual.',
+      ],
+      en: [
+        'Formulating is writing the composition of a chemical compound with symbols and numbers, and naming it is giving it its name. Each element brings its valency, the number of bonds it can make; by combining the elements\' valencies you get the formula, with subscripts showing how many atoms of each there are.',
+        'Compounds are grouped into families. Oxides are an element with oxygen (like iron oxide); hydrides, an element with hydrogen; hydroxides carry the OH group and are the bases; and salts form when a metal combines with a non-metal. There are naming rules, the IUPAC ones, that state how to name each compound so everyone understands it the same way.',
+      ],
+      ca: [
+        'Formular és escriure amb símbols i nombres la composició d\'un compost químic, i anomenar-lo és posar-li el nom. Cada element aporta la seva valència, el nombre d\'enllaços que pot fer; combinant les valències dels elements s\'obté la fórmula, amb subíndexs que indiquen quants àtoms de cadascun hi ha.',
+        'Els compostos s\'agrupen per famílies. Els òxids són un element amb oxigen (com l\'òxid de ferro); els hidrurs, un element amb hidrogen; els hidròxids porten el grup OH i són les bases; i les sals es formen en combinar un metall amb un no metall. Hi ha unes regles de nomenclatura, les de la IUPAC, que diuen com anomenar cada compost perquè tothom l\'entengui igual.',
+      ],
+    },
+    puntosClave: {
+      es: [
+        'Formular es escribir la fórmula de un compuesto; nombrarlo, darle nombre.',
+        'La valencia es el número de enlaces que puede hacer un elemento.',
+        'Los subíndices indican cuántos átomos de cada elemento hay (H₂O).',
+        'Óxidos: elemento + oxígeno. Hidruros: elemento + hidrógeno.',
+        'Hidróxidos: llevan el grupo OH; son las bases.',
+        'Las sales se forman al combinar un metal con un no metal.',
+        'La nomenclatura IUPAC fija cómo nombrar cada compuesto.',
+      ],
+      en: [
+        'Formulating is writing a compound\'s formula; naming is giving it a name.',
+        'Valency is the number of bonds an element can make.',
+        'Subscripts show how many atoms of each element there are (H₂O).',
+        'Oxides: element + oxygen. Hydrides: element + hydrogen.',
+        'Hydroxides: carry the OH group; they are the bases.',
+        'Salts form when a metal combines with a non-metal.',
+        'IUPAC naming sets how to name each compound.',
+      ],
+      ca: [
+        'Formular és escriure la fórmula d\'un compost; anomenar-lo, donar-li nom.',
+        'La valència és el nombre d\'enllaços que pot fer un element.',
+        'Els subíndexs indiquen quants àtoms de cada element hi ha (H₂O).',
+        'Òxids: element + oxigen. Hidrurs: element + hidrogen.',
+        'Hidròxids: porten el grup OH; són les bases.',
+        'Les sals es formen en combinar un metall amb un no metall.',
+        'La nomenclatura IUPAC fixa com anomenar cada compost.',
+      ],
+    },
+  },
+
+  'disoluciones': {
+    metaTitle: {
+      es: 'Las Disoluciones: soluto, disolvente y concentración — resumen',
+      en: 'Solutions: solute, solvent and concentration — a summary',
+      ca: 'Les Dissolucions: solut, dissolvent i concentració — resum',
+    },
+    metaDesc: {
+      es: 'Qué es una disolución, la diferencia entre soluto y disolvente, las disoluciones saturadas y la concentración (g/L, % y molaridad). Resumen y test.',
+      en: 'What a solution is, the difference between solute and solvent, saturated solutions and concentration (g/L, % and molarity). Summary and test.',
+      ca: 'Què és una dissolució, la diferència entre solut i dissolvent, les dissolucions saturades i la concentració (g/L, % i molaritat). Resum i test.',
+    },
+    resumen: {
+      es: [
+        'Una disolución es una mezcla homogénea de dos sustancias: el soluto, que está en menor cantidad y se disuelve, y el disolvente, que está en mayor cantidad y lo disuelve. El agua con sal es una disolución: la sal es el soluto y el agua, el disolvente. El disolvente más habitual es el agua.',
+        'Hay un límite para lo que se puede disolver: cuando el disolvente ya no admite más soluto, la disolución está saturada. La cantidad de soluto que hay en una disolución es la concentración, y se puede expresar de varias formas: en gramos por litro (g/L), en porcentaje o con la molaridad. La temperatura influye: en caliente, casi siempre se disuelve más soluto.',
+      ],
+      en: [
+        'A solution is a homogeneous mixture of two substances: the solute, which is in the smaller amount and dissolves, and the solvent, which is in the larger amount and dissolves it. Salt water is a solution: salt is the solute and water the solvent. The most common solvent is water.',
+        'There is a limit to what can be dissolved: when the solvent takes no more solute, the solution is saturated. The amount of solute in a solution is the concentration, and it can be expressed in several ways: in grams per litre (g/L), as a percentage or with molarity. Temperature matters: when hot, more solute usually dissolves.',
+      ],
+      ca: [
+        'Una dissolució és una mescla homogènia de dues substàncies: el solut, que està en menor quantitat i es dissol, i el dissolvent, que està en major quantitat i el dissol. L\'aigua amb sal és una dissolució: la sal és el solut i l\'aigua, el dissolvent. El dissolvent més habitual és l\'aigua.',
+        'Hi ha un límit per al que es pot dissoldre: quan el dissolvent ja no admet més solut, la dissolució està saturada. La quantitat de solut que hi ha en una dissolució és la concentració, i es pot expressar de diverses maneres: en grams per litre (g/L), en percentatge o amb la molaritat. La temperatura influeix: en calent, gairebé sempre es dissol més solut.',
+      ],
+    },
+    puntosClave: {
+      es: [
+        'Una disolución es una mezcla homogénea de soluto y disolvente.',
+        'Soluto: el que se disuelve (menor cantidad). Disolvente: el que disuelve (mayor).',
+        'El disolvente más común es el agua.',
+        'Una disolución saturada no admite más soluto.',
+        'La concentración mide cuánto soluto hay: g/L, % o molaridad.',
+        'La temperatura influye: en caliente suele disolverse más.',
+        'Una disolución no se separa filtrando (el soluto está disuelto); hay que evaporar.',
+      ],
+      en: [
+        'A solution is a homogeneous mixture of solute and solvent.',
+        'Solute: what dissolves (smaller amount). Solvent: what dissolves it (larger).',
+        'The most common solvent is water.',
+        'A saturated solution takes no more solute.',
+        'Concentration measures how much solute there is: g/L, % or molarity.',
+        'Temperature matters: when hot, more usually dissolves.',
+        'A solution is not separated by filtering (the solute is dissolved); you must evaporate.',
+      ],
+      ca: [
+        'Una dissolució és una mescla homogènia de solut i dissolvent.',
+        'Solut: el que es dissol (menor quantitat). Dissolvent: el que dissol (major).',
+        'El dissolvent més comú és l\'aigua.',
+        'Una dissolució saturada no admet més solut.',
+        'La concentració mesura quant solut hi ha: g/L, % o molaritat.',
+        'La temperatura influeix: en calent sol dissoldre\'s més.',
+        'Una dissolució no se separa filtrant (el solut està dissolt); cal evaporar.',
+      ],
+    },
+  },
+
+  'energia': {
+    metaTitle: {
+      es: 'La Energía: formas, transformaciones y fuentes — resumen',
+      en: 'Energy: forms, transformations and sources — a study summary',
+      ca: 'L\'Energia: formes, transformacions i fonts — resum',
+    },
+    metaDesc: {
+      es: 'Qué es la energía, sus formas (cinética, potencial, térmica…), la conservación de la energía y las fuentes renovables y no renovables. Resumen y test.',
+      en: 'What energy is, its forms (kinetic, potential, thermal…), the conservation of energy and renewable and non-renewable sources. Summary and test.',
+      ca: 'Què és l\'energia, les seves formes (cinètica, potencial, tèrmica…), la conservació de l\'energia i les fonts renovables i no renovables. Resum i test.',
+    },
+    resumen: {
+      es: [
+        'La energía es la capacidad de producir cambios: mover algo, calentarlo, encender una luz. Hay muchas formas de energía —cinética (la del movimiento), potencial (la almacenada por la posición o la altura), térmica, eléctrica, química, luminosa— y todas se miden en julios (J).',
+        'La energía ni se crea ni se destruye, solo se transforma de una forma en otra: es el principio de conservación de la energía. Una bombilla convierte energía eléctrica en luz (y algo de calor); una persona, la energía química de los alimentos en movimiento. Las fuentes de energía pueden ser renovables, que no se agotan (el Sol, el viento, el agua), o no renovables, que sí (el petróleo, el carbón, el gas).',
+      ],
+      en: [
+        'Energy is the ability to produce changes: to move something, heat it, light a lamp. There are many forms of energy —kinetic (that of motion), potential (stored by position or height), thermal, electrical, chemical, light— and all are measured in joules (J).',
+        'Energy is neither created nor destroyed, it only changes from one form into another: this is the principle of conservation of energy. A bulb turns electrical energy into light (and some heat); a person turns the chemical energy of food into movement. Energy sources can be renewable, which do not run out (the Sun, wind, water), or non-renewable, which do (oil, coal, gas).',
+      ],
+      ca: [
+        'L\'energia és la capacitat de produir canvis: moure alguna cosa, escalfar-la, encendre un llum. Hi ha moltes formes d\'energia —cinètica (la del moviment), potencial (l\'emmagatzemada per la posició o l\'alçada), tèrmica, elèctrica, química, lluminosa— i totes es mesuren en joules (J).',
+        'L\'energia ni es crea ni es destrueix, només es transforma d\'una forma en una altra: és el principi de conservació de l\'energia. Una bombeta converteix energia elèctrica en llum (i una mica de calor); una persona, l\'energia química dels aliments en moviment. Les fonts d\'energia poden ser renovables, que no s\'esgoten (el Sol, el vent, l\'aigua), o no renovables, que sí (el petroli, el carbó, el gas).',
+      ],
+    },
+    puntosClave: {
+      es: [
+        'La energía es la capacidad de producir cambios; se mide en julios (J).',
+        'Formas: cinética, potencial, térmica, eléctrica, química, luminosa…',
+        'Energía cinética: la del movimiento. Potencial: la almacenada (altura, posición).',
+        'La energía ni se crea ni se destruye: se transforma (conservación).',
+        'Los aparatos transforman una forma de energía en otra.',
+        'Fuentes renovables (Sol, viento, agua) frente a no renovables (petróleo, carbón).',
+        'El rendimiento mide cuánta energía se aprovecha y cuánta se pierde (calor).',
+      ],
+      en: [
+        'Energy is the ability to produce changes; it is measured in joules (J).',
+        'Forms: kinetic, potential, thermal, electrical, chemical, light…',
+        'Kinetic energy: that of motion. Potential: stored (height, position).',
+        'Energy is neither created nor destroyed: it transforms (conservation).',
+        'Devices transform one form of energy into another.',
+        'Renewable sources (Sun, wind, water) versus non-renewable (oil, coal).',
+        'Efficiency measures how much energy is used and how much is lost (heat).',
+      ],
+      ca: [
+        'L\'energia és la capacitat de produir canvis; es mesura en joules (J).',
+        'Formes: cinètica, potencial, tèrmica, elèctrica, química, lluminosa…',
+        'Energia cinètica: la del moviment. Potencial: l\'emmagatzemada (alçada, posició).',
+        'L\'energia ni es crea ni es destrueix: es transforma (conservació).',
+        'Els aparells transformen una forma d\'energia en una altra.',
+        'Fonts renovables (Sol, vent, aigua) davant de no renovables (petroli, carbó).',
+        'El rendiment mesura quanta energia s\'aprofita i quanta es perd (calor).',
+      ],
+    },
+  },
+
+  'ondas-luz': {
+    metaTitle: {
+      es: 'Ondas, Sonido y Luz: reflexión y refracción — resumen',
+      en: 'Waves, Sound and Light: reflection and refraction — a summary',
+      ca: 'Ones, So i Llum: reflexió i refracció — resum',
+    },
+    metaDesc: {
+      es: 'Qué es una onda, la diferencia entre el sonido (onda mecánica) y la luz (onda electromagnética), y la reflexión y la refracción de la luz. Resumen y test.',
+      en: 'What a wave is, the difference between sound (a mechanical wave) and light (an electromagnetic wave), and the reflection and refraction of light. Summary and test.',
+      ca: 'Què és una ona, la diferència entre el so (ona mecànica) i la llum (ona electromagnètica), i la reflexió i la refracció de la llum. Resum i test.',
+    },
+    resumen: {
+      es: [
+        'Una onda es una perturbación que se propaga y transporta energía, pero no materia, de un sitio a otro. El sonido y la luz son ondas. Las ondas tienen amplitud, relacionada con la intensidad, y frecuencia, relacionada con el tono en el sonido y con el color en la luz.',
+        'El sonido es una onda mecánica: necesita un medio (aire, agua) para viajar, por eso en el vacío no se oye nada. La luz es una onda electromagnética y sí viaja por el vacío, por eso nos llega la del Sol. La luz puede reflejarse, rebotar como en un espejo, o refractarse, cambiar de dirección al pasar de un medio a otro, como el lápiz que parece roto dentro del agua. La luz blanca está formada por todos los colores, como se ve en el arcoíris.',
+      ],
+      en: [
+        'A wave is a disturbance that spreads and carries energy, but not matter, from one place to another. Sound and light are waves. Waves have amplitude, related to intensity, and frequency, related to pitch in sound and to colour in light.',
+        'Sound is a mechanical wave: it needs a medium (air, water) to travel, which is why nothing is heard in a vacuum. Light is an electromagnetic wave and does travel through a vacuum, which is why the Sun\'s light reaches us. Light can be reflected, bouncing like in a mirror, or refracted, changing direction when passing from one medium to another, like the pencil that looks broken in water. White light is made of all the colours, as seen in the rainbow.',
+      ],
+      ca: [
+        'Una ona és una pertorbació que es propaga i transporta energia, però no matèria, d\'un lloc a un altre. El so i la llum són ones. Les ones tenen amplitud, relacionada amb la intensitat, i freqüència, relacionada amb el to en el so i amb el color en la llum.',
+        'El so és una ona mecànica: necessita un medi (aire, aigua) per viatjar, per això en el buit no se sent res. La llum és una ona electromagnètica i sí que viatja pel buit, per això ens arriba la del Sol. La llum es pot reflectir, rebotar com en un mirall, o refractar, canviar de direcció en passar d\'un medi a un altre, com el llapis que sembla trencat dins l\'aigua. La llum blanca està formada per tots els colors, com es veu a l\'arc de Sant Martí.',
+      ],
+    },
+    puntosClave: {
+      es: [
+        'Una onda transporta energía, no materia.',
+        'El sonido y la luz son ondas.',
+        'Amplitud (intensidad) y frecuencia (tono en el sonido, color en la luz).',
+        'El sonido es una onda mecánica: necesita un medio (no viaja en el vacío).',
+        'La luz es una onda electromagnética: sí viaja en el vacío.',
+        'La luz se refleja (rebota) y se refracta (se desvía al cambiar de medio).',
+        'La luz blanca contiene todos los colores (el arcoíris).',
+      ],
+      en: [
+        'A wave carries energy, not matter.',
+        'Sound and light are waves.',
+        'Amplitude (intensity) and frequency (pitch in sound, colour in light).',
+        'Sound is a mechanical wave: it needs a medium (it does not travel in a vacuum).',
+        'Light is an electromagnetic wave: it does travel in a vacuum.',
+        'Light reflects (bounces) and refracts (bends when changing medium).',
+        'White light contains all the colours (the rainbow).',
+      ],
+      ca: [
+        'Una ona transporta energia, no matèria.',
+        'El so i la llum són ones.',
+        'Amplitud (intensitat) i freqüència (to en el so, color en la llum).',
+        'El so és una ona mecànica: necessita un medi (no viatja en el buit).',
+        'La llum és una ona electromagnètica: sí que viatja en el buit.',
+        'La llum es reflecteix (rebota) i es refracta (es desvia en canviar de medi).',
+        'La llum blanca conté tots els colors (l\'arc de Sant Martí).',
+      ],
+    },
+  },
+
+  'presion-fluidos': {
+    metaTitle: {
+      es: 'La Presión y los Fluidos: Pascal y Arquímedes — resumen',
+      en: 'Pressure and Fluids: Pascal and Archimedes — a summary',
+      ca: 'La Pressió i els Fluids: Pascal i Arquimedes — resum',
+    },
+    metaDesc: {
+      es: 'Qué es la presión, cómo depende de la superficie, la presión en líquidos y la atmosférica, y los principios de Pascal y de Arquímedes. Resumen y test.',
+      en: 'What pressure is, how it depends on area, pressure in liquids and atmospheric pressure, and the principles of Pascal and Archimedes. Summary and test.',
+      ca: 'Què és la pressió, com depèn de la superfície, la pressió en líquids i l\'atmosfèrica, i els principis de Pascal i d\'Arquimedes. Resum i test.',
+    },
+    resumen: {
+      es: [
+        'La presión es la fuerza que se reparte sobre una superficie: la misma fuerza hace más presión cuanto menor es la superficie, por eso un cuchillo afilado corta mejor. Se mide en pascales (Pa). Los líquidos y los gases, es decir, los fluidos, ejercen presión sobre todo lo que tocan.',
+        'Dentro de un líquido, la presión aumenta con la profundidad: por eso duelen los oídos al bucear. El aire también pesa y ejerce la presión atmosférica sobre nosotros. Hay dos principios importantes: el de Pascal, que explica cómo se transmite la presión dentro de un líquido (los frenos del coche), y el de Arquímedes, que explica por qué flotan los objetos: un cuerpo sumergido recibe un empuje hacia arriba igual al peso del líquido que desaloja.',
+      ],
+      en: [
+        'Pressure is the force spread over an area: the same force makes more pressure the smaller the area, which is why a sharp knife cuts better. It is measured in pascals (Pa). Liquids and gases, that is, fluids, exert pressure on everything they touch.',
+        'Inside a liquid, pressure increases with depth: that is why your ears hurt when diving. Air also has weight and exerts atmospheric pressure on us. There are two important principles: Pascal\'s, which explains how pressure is transmitted inside a liquid (a car\'s brakes), and Archimedes\', which explains why objects float: a submerged body receives an upward push equal to the weight of the liquid it displaces.',
+      ],
+      ca: [
+        'La pressió és la força que es reparteix sobre una superfície: la mateixa força fa més pressió com més petita és la superfície, per això un ganivet esmolat talla millor. Es mesura en pascals (Pa). Els líquids i els gasos, és a dir, els fluids, exerceixen pressió sobre tot el que toquen.',
+        'Dins d\'un líquid, la pressió augmenta amb la profunditat: per això fan mal les orelles en bussejar. L\'aire també pesa i exerceix la pressió atmosfèrica sobre nosaltres. Hi ha dos principis importants: el de Pascal, que explica com es transmet la pressió dins d\'un líquid (els frens del cotxe), i el d\'Arquimedes, que explica per què suren els objectes: un cos submergit rep una empenta cap amunt igual al pes del líquid que desallotja.',
+      ],
+    },
+    puntosClave: {
+      es: [
+        'La presión es la fuerza repartida sobre una superficie; se mide en pascales (Pa).',
+        'A menor superficie, más presión con la misma fuerza.',
+        'Los fluidos (líquidos y gases) ejercen presión sobre lo que tocan.',
+        'En un líquido, la presión aumenta con la profundidad.',
+        'La presión atmosférica es la que ejerce el aire sobre nosotros.',
+        'Principio de Pascal: la presión se transmite en un líquido (frenos hidráulicos).',
+        'Principio de Arquímedes: un cuerpo sumergido recibe un empuje hacia arriba (flotación).',
+      ],
+      en: [
+        'Pressure is force spread over an area; it is measured in pascals (Pa).',
+        'The smaller the area, the more pressure with the same force.',
+        'Fluids (liquids and gases) exert pressure on what they touch.',
+        'In a liquid, pressure increases with depth.',
+        'Atmospheric pressure is the pressure the air exerts on us.',
+        'Pascal\'s principle: pressure is transmitted in a liquid (hydraulic brakes).',
+        'Archimedes\' principle: a submerged body gets an upward push (floating).',
+      ],
+      ca: [
+        'La pressió és la força repartida sobre una superfície; es mesura en pascals (Pa).',
+        'A menor superfície, més pressió amb la mateixa força.',
+        'Els fluids (líquids i gasos) exerceixen pressió sobre el que toquen.',
+        'En un líquid, la pressió augmenta amb la profunditat.',
+        'La pressió atmosfèrica és la que exerceix l\'aire sobre nosaltres.',
+        'Principi de Pascal: la pressió es transmet en un líquid (frens hidràulics).',
+        'Principi d\'Arquimedes: un cos submergit rep una empenta cap amunt (flotació).',
+      ],
+    },
+  },
+
+  'calor-temperatura': {
+    metaTitle: {
+      es: 'Calor y Temperatura: en qué se diferencian — resumen',
+      en: 'Heat and Temperature: how they differ — a study summary',
+      ca: 'Calor i Temperatura: en què es diferencien — resum',
+    },
+    metaDesc: {
+      es: 'La diferencia entre calor y temperatura, las escalas Celsius y Kelvin, el equilibrio térmico y las tres formas de transmitir el calor. Resumen y test.',
+      en: 'The difference between heat and temperature, the Celsius and Kelvin scales, thermal equilibrium and the three ways heat travels. Summary and test.',
+      ca: 'La diferència entre calor i temperatura, les escales Celsius i Kelvin, l\'equilibri tèrmic i les tres formes de transmetre la calor. Resum i test.',
+    },
+    resumen: {
+      es: [
+        'El calor y la temperatura no son lo mismo. La temperatura mide lo caliente o frío que está un cuerpo, es decir, cómo de rápido se mueven sus partículas; se mide con el termómetro, en grados Celsius (°C) o en kelvin (K). El calor es la energía que pasa de un cuerpo más caliente a otro más frío.',
+        'Cuando dos cuerpos a distinta temperatura se ponen en contacto, el calor pasa del caliente al frío hasta que los dos igualan su temperatura: es el equilibrio térmico. El calor se transmite de tres formas: por conducción (a través de un sólido, como la cuchara en la sopa), por convección (en líquidos y gases, que suben al calentarse) y por radiación (sin contacto, como el calor del Sol). Al calentarse, casi todos los cuerpos se dilatan.',
+      ],
+      en: [
+        'Heat and temperature are not the same. Temperature measures how hot or cold a body is, that is, how fast its particles move; it is measured with a thermometer, in degrees Celsius (°C) or in kelvin (K). Heat is the energy that passes from a hotter body to a colder one.',
+        'When two bodies at different temperatures come into contact, heat passes from the hot one to the cold one until both reach the same temperature: this is thermal equilibrium. Heat travels in three ways: by conduction (through a solid, like the spoon in the soup), by convection (in liquids and gases, which rise when heated) and by radiation (without contact, like the Sun\'s heat). When heated, almost all bodies expand.',
+      ],
+      ca: [
+        'La calor i la temperatura no són el mateix. La temperatura mesura com de calent o fred està un cos, és a dir, com de ràpid es mouen les seves partícules; es mesura amb el termòmetre, en graus Celsius (°C) o en kelvin (K). La calor és l\'energia que passa d\'un cos més calent a un altre més fred.',
+        'Quan dos cossos a diferent temperatura es posen en contacte, la calor passa del calent al fred fins que tots dos igualen la seva temperatura: és l\'equilibri tèrmic. La calor es transmet de tres formes: per conducció (a través d\'un sòlid, com la cullera a la sopa), per convecció (en líquids i gasos, que pugen en escalfar-se) i per radiació (sense contacte, com la calor del Sol). En escalfar-se, gairebé tots els cossos es dilaten.',
+      ],
+    },
+    puntosClave: {
+      es: [
+        'La temperatura mide lo caliente o frío que está un cuerpo (termómetro).',
+        'El calor es la energía que pasa de un cuerpo caliente a otro más frío.',
+        'La temperatura se mide en grados Celsius (°C) o en kelvin (K).',
+        'En contacto, el calor pasa del caliente al frío hasta el equilibrio térmico.',
+        'Conducción (por un sólido), convección (líquidos y gases) y radiación (sin contacto).',
+        'El calor del Sol nos llega por radiación, a través del vacío.',
+        'Al calentarse, los cuerpos se dilatan (aumentan de tamaño).',
+      ],
+      en: [
+        'Temperature measures how hot or cold a body is (thermometer).',
+        'Heat is the energy that passes from a hot body to a colder one.',
+        'Temperature is measured in degrees Celsius (°C) or in kelvin (K).',
+        'In contact, heat passes from hot to cold until thermal equilibrium.',
+        'Conduction (through a solid), convection (liquids and gases) and radiation (no contact).',
+        'The Sun\'s heat reaches us by radiation, through the vacuum.',
+        'When heated, bodies expand (grow in size).',
+      ],
+      ca: [
+        'La temperatura mesura com de calent o fred està un cos (termòmetre).',
+        'La calor és l\'energia que passa d\'un cos calent a un altre més fred.',
+        'La temperatura es mesura en graus Celsius (°C) o en kelvin (K).',
+        'En contacte, la calor passa del calent al fred fins a l\'equilibri tèrmic.',
+        'Conducció (per un sòlid), convecció (líquids i gasos) i radiació (sense contacte).',
+        'La calor del Sol ens arriba per radiació, a través del buit.',
+        'En escalfar-se, els cossos es dilaten (augmenten de mida).',
+      ],
+    },
+  },
 }
