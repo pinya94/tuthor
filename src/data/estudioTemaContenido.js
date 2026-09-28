@@ -569,4 +569,340 @@ export const CONTENIDO_TEMA = {
       ],
     },
   },
+
+  'atomos-moleculas': {
+    metaTitle: {
+      es: 'Átomos y Moléculas: protones, electrones y enlaces — resumen',
+      en: 'Atoms and Molecules: protons, electrons and bonds — summary',
+      ca: 'Àtoms i Molècules: protons, electrons i enllaços — resum',
+    },
+    metaDesc: {
+      es: 'Qué es un átomo, sus partículas (protones, neutrones y electrones), el número atómico y cómo se unen los átomos para formar moléculas. Resumen y test.',
+      en: 'What an atom is, its particles (protons, neutrons and electrons), the atomic number and how atoms join to form molecules. Study summary and test.',
+      ca: 'Què és un àtom, les seves partícules (protons, neutrons i electrons), el nombre atòmic i com s\'uneixen els àtoms per formar molècules. Resum i test.',
+    },
+    resumen: {
+      es: [
+        'Toda la materia está hecha de átomos, las piezas más pequeñas de cada elemento químico. Un átomo tiene un núcleo, con protones (carga positiva) y neutrones (sin carga), y a su alrededor giran los electrones (carga negativa). El número de protones, llamado número atómico, es lo que decide de qué elemento se trata: 1 protón es hidrógeno, 6 es carbono y 8 es oxígeno.',
+        'Los átomos casi nunca están solos: se unen entre sí formando moléculas. Una molécula puede ser de un solo elemento, como el oxígeno que respiramos (O₂, dos átomos de oxígeno), o de varios, como el agua (H₂O, dos de hidrógeno y uno de oxígeno). Cuando muchos átomos o moléculas iguales se juntan forman una sustancia pura; si se mezclan de distintos tipos, una mezcla.',
+      ],
+      en: [
+        'All matter is made of atoms, the smallest pieces of each chemical element. An atom has a nucleus, with protons (positive charge) and neutrons (no charge), and electrons (negative charge) around it. The number of protons, called the atomic number, is what decides which element it is: 1 proton is hydrogen, 6 is carbon and 8 is oxygen.',
+        'Atoms are almost never alone: they join together forming molecules. A molecule can be of a single element, like the oxygen we breathe (O₂, two oxygen atoms), or of several, like water (H₂O, two hydrogen and one oxygen). When many identical atoms or molecules gather they form a pure substance; if different types mix, a mixture.',
+      ],
+      ca: [
+        'Tota la matèria està feta d\'àtoms, les peces més petites de cada element químic. Un àtom té un nucli, amb protons (càrrega positiva) i neutrons (sense càrrega), i al seu voltant giren els electrons (càrrega negativa). El nombre de protons, anomenat nombre atòmic, és el que decideix de quin element es tracta: 1 protó és hidrogen, 6 és carboni i 8 és oxigen.',
+        'Els àtoms gairebé mai estan sols: s\'uneixen entre si formant molècules. Una molècula pot ser d\'un sol element, com l\'oxigen que respirem (O₂, dos àtoms d\'oxigen), o de diversos, com l\'aigua (H₂O, dos d\'hidrogen i un d\'oxigen). Quan molts àtoms o molècules iguals s\'ajunten formen una substància pura; si es barregen de tipus diferents, una mescla.',
+      ],
+    },
+    puntosClave: {
+      es: [
+        'Los átomos son las piezas más pequeñas de cada elemento.',
+        'El átomo tiene núcleo (protones + neutrones) y electrones girando alrededor.',
+        'Protones (+), electrones (−) y neutrones (sin carga).',
+        'El número atómico (número de protones) determina el elemento.',
+        'Los átomos se unen formando moléculas.',
+        'Ejemplos: O₂ (oxígeno), H₂O (agua), CO₂ (dióxido de carbono).',
+        'Un elemento tiene un solo tipo de átomo; un compuesto, varios unidos.',
+      ],
+      en: [
+        'Atoms are the smallest pieces of each element.',
+        'The atom has a nucleus (protons + neutrons) and electrons orbiting around it.',
+        'Protons (+), electrons (−) and neutrons (no charge).',
+        'The atomic number (number of protons) determines the element.',
+        'Atoms join together forming molecules.',
+        'Examples: O₂ (oxygen), H₂O (water), CO₂ (carbon dioxide).',
+        'An element has one kind of atom; a compound, several joined.',
+      ],
+      ca: [
+        'Els àtoms són les peces més petites de cada element.',
+        'L\'àtom té nucli (protons + neutrons) i electrons girant al voltant.',
+        'Protons (+), electrons (−) i neutrons (sense càrrega).',
+        'El nombre atòmic (nombre de protons) determina l\'element.',
+        'Els àtoms s\'uneixen formant molècules.',
+        'Exemples: O₂ (oxigen), H₂O (aigua), CO₂ (diòxid de carboni).',
+        'Un element té un sol tipus d\'àtom; un compost, diversos units.',
+      ],
+    },
+  },
+
+  'acidos-bases': {
+    metaTitle: {
+      es: 'Ácidos y Bases: la escala de pH y la neutralización — resumen',
+      en: 'Acids and Bases: the pH scale and neutralisation — summary',
+      ca: 'Àcids i Bases: l\'escala de pH i la neutralització — resum',
+    },
+    metaDesc: {
+      es: 'Qué son los ácidos y las bases, la escala de pH del 0 al 14, los indicadores como el papel de tornasol y la neutralización. Resumen para estudiar y test.',
+      en: 'What acids and bases are, the pH scale from 0 to 14, indicators like litmus paper and neutralisation. Study summary and test.',
+      ca: 'Què són els àcids i les bases, l\'escala de pH del 0 al 14, els indicadors com el paper de tornassol i la neutralització. Resum per estudiar i test.',
+    },
+    resumen: {
+      es: [
+        'Muchas sustancias que usamos a diario son ácidos o bases. Los ácidos, como el zumo de limón o el vinagre, tienen sabor agrio. Las bases, como el jabón o el bicarbonato, son resbaladizas y de sabor amargo. Para saber cómo de ácida o básica es una sustancia se usa la escala de pH, que va del 0 al 14.',
+        'En la escala de pH, el 7 es neutro (el agua pura). Por debajo de 7 la sustancia es ácida, y cuanto más baja, más fuerte; por encima de 7 es básica. Para medir el pH se usan indicadores, que cambian de color, como el papel de tornasol. Cuando se mezcla un ácido con una base en la cantidad justa, se neutralizan: el resultado es agua y una sal, y deja de ser corrosivo.',
+      ],
+      en: [
+        'Many substances we use every day are acids or bases. Acids, like lemon juice or vinegar, taste sour. Bases, like soap or baking soda, feel slippery and taste bitter. To tell how acidic or basic a substance is, we use the pH scale, which runs from 0 to 14.',
+        'On the pH scale, 7 is neutral (pure water). Below 7 the substance is acidic, and the lower it is, the stronger; above 7 it is basic. To measure pH we use indicators, which change colour, like litmus paper. When an acid is mixed with a base in the right amount, they neutralise: the result is water and a salt, and it stops being corrosive.',
+      ],
+      ca: [
+        'Moltes substàncies que fem servir cada dia són àcids o bases. Els àcids, com el suc de llimona o el vinagre, tenen gust agre. Les bases, com el sabó o el bicarbonat, són relliscoses i de gust amarg. Per saber com d\'àcida o bàsica és una substància es fa servir l\'escala de pH, que va del 0 al 14.',
+        'A l\'escala de pH, el 7 és neutre (l\'aigua pura). Per sota de 7 la substància és àcida, i com més baixa, més forta; per sobre de 7 és bàsica. Per mesurar el pH es fan servir indicadors, que canvien de color, com el paper de tornassol. Quan es barreja un àcid amb una base en la quantitat justa, es neutralitzen: el resultat és aigua i una sal, i deixa de ser corrosiu.',
+      ],
+    },
+    puntosClave: {
+      es: [
+        'Los ácidos tienen sabor agrio (limón, vinagre); las bases, amargo y son resbaladizas (jabón).',
+        'La escala de pH mide la acidez, del 0 al 14.',
+        'pH 7 = neutro (agua); menos de 7 = ácido; más de 7 = básico.',
+        'Cuanto más lejos del 7, más fuerte es el ácido o la base.',
+        'Los indicadores (papel de tornasol) cambian de color según el pH.',
+        'Un ácido y una base se neutralizan y forman agua y una sal.',
+        'Ácidos y bases fuertes son corrosivos: hay que manejarlos con cuidado.',
+      ],
+      en: [
+        'Acids taste sour (lemon, vinegar); bases taste bitter and feel slippery (soap).',
+        'The pH scale measures acidity, from 0 to 14.',
+        'pH 7 = neutral (water); below 7 = acid; above 7 = base.',
+        'The further from 7, the stronger the acid or base.',
+        'Indicators (litmus paper) change colour depending on the pH.',
+        'An acid and a base neutralise and form water and a salt.',
+        'Strong acids and bases are corrosive: handle them with care.',
+      ],
+      ca: [
+        'Els àcids tenen gust agre (llimona, vinagre); les bases, amarg i són relliscoses (sabó).',
+        'L\'escala de pH mesura l\'acidesa, del 0 al 14.',
+        'pH 7 = neutre (aigua); menys de 7 = àcid; més de 7 = bàsic.',
+        'Com més lluny del 7, més forta és l\'àcid o la base.',
+        'Els indicadors (paper de tornassol) canvien de color segons el pH.',
+        'Un àcid i una base es neutralitzen i formen aigua i una sal.',
+        'Àcids i bases forts són corrosius: cal manejar-los amb cura.',
+      ],
+    },
+  },
+
+  'nutricion': {
+    metaTitle: {
+      es: 'La Nutrición: nutrientes y aparatos que intervienen — resumen',
+      en: 'Nutrition: nutrients and the systems involved — a summary',
+      ca: 'La Nutrició: nutrients i aparells que hi intervenen — resum',
+    },
+    metaDesc: {
+      es: 'Qué es la nutrición, los nutrientes (hidratos, grasas, proteínas, vitaminas), los aparatos que intervienen y qué es una dieta sana. Resumen y test.',
+      en: 'What nutrition is, the nutrients (carbohydrates, fats, proteins, vitamins), the systems involved and what a healthy diet is. Summary and test.',
+      ca: 'Què és la nutrició, els nutrients (hidrats, greixos, proteïnes, vitamines), els aparells que hi intervenen i què és una dieta sana. Resum i test.',
+    },
+    resumen: {
+      es: [
+        'La nutrición es el conjunto de procesos por los que el cuerpo obtiene de los alimentos la energía y los materiales que necesita para vivir. Los alimentos aportan nutrientes: los hidratos de carbono y las grasas dan energía; las proteínas construyen y reparan el cuerpo; y las vitaminas y los minerales, en pequeñas cantidades, hacen que todo funcione. El agua y la fibra también son imprescindibles.',
+        'En la nutrición humana trabajan juntos varios aparatos. El digestivo transforma la comida en nutrientes y los absorbe; el respiratorio aporta el oxígeno; el circulatorio los reparte por la sangre a todas las células; y el excretor elimina los desechos. Una dieta sana es variada y equilibrada, como la dieta mediterránea, con más fruta, verdura y legumbres que dulces y grasas.',
+      ],
+      en: [
+        'Nutrition is the set of processes by which the body gets from food the energy and materials it needs to live. Food provides nutrients: carbohydrates and fats give energy; proteins build and repair the body; and vitamins and minerals, in small amounts, keep everything working. Water and fibre are essential too.',
+        'In human nutrition several systems work together. The digestive system turns food into nutrients and absorbs them; the respiratory system supplies oxygen; the circulatory system delivers them through the blood to every cell; and the excretory system removes waste. A healthy diet is varied and balanced, like the Mediterranean diet, with more fruit, vegetables and pulses than sweets and fats.',
+      ],
+      ca: [
+        'La nutrició és el conjunt de processos pels quals el cos obté dels aliments l\'energia i els materials que necessita per viure. Els aliments aporten nutrients: els hidrats de carboni i els greixos donen energia; les proteïnes construeixen i reparen el cos; i les vitamines i els minerals, en petites quantitats, fan que tot funcioni. L\'aigua i la fibra també són imprescindibles.',
+        'En la nutrició humana treballen junts diversos aparells. El digestiu transforma el menjar en nutrients i els absorbeix; el respiratori aporta l\'oxigen; el circulatori els reparteix per la sang a totes les cèl·lules; i l\'excretor elimina els residus. Una dieta sana és variada i equilibrada, com la dieta mediterrània, amb més fruita, verdura i llegums que dolços i greixos.',
+      ],
+    },
+    puntosClave: {
+      es: [
+        'La nutrición aporta energía y materiales a partir de los alimentos.',
+        'Hidratos de carbono y grasas: energía. Proteínas: construir y reparar.',
+        'Vitaminas y minerales: en poca cantidad, pero imprescindibles.',
+        'El agua y la fibra también son necesarias.',
+        'Colaboran los aparatos digestivo, respiratorio, circulatorio y excretor.',
+        'El digestivo transforma y absorbe; el circulatorio reparte.',
+        'Una dieta sana es variada y equilibrada (dieta mediterránea).',
+      ],
+      en: [
+        'Nutrition provides energy and materials from food.',
+        'Carbohydrates and fats: energy. Proteins: build and repair.',
+        'Vitamins and minerals: in small amounts, but essential.',
+        'Water and fibre are needed too.',
+        'The digestive, respiratory, circulatory and excretory systems work together.',
+        'The digestive system transforms and absorbs; the circulatory delivers.',
+        'A healthy diet is varied and balanced (the Mediterranean diet).',
+      ],
+      ca: [
+        'La nutrició aporta energia i materials a partir dels aliments.',
+        'Hidrats de carboni i greixos: energia. Proteïnes: construir i reparar.',
+        'Vitamines i minerals: en poca quantitat, però imprescindibles.',
+        'L\'aigua i la fibra també són necessàries.',
+        'Col·laboren els aparells digestiu, respiratori, circulatori i excretor.',
+        'El digestiu transforma i absorbeix; el circulatori reparteix.',
+        'Una dieta sana és variada i equilibrada (dieta mediterrània).',
+      ],
+    },
+  },
+
+  'evolucion': {
+    metaTitle: {
+      es: 'La Evolución: Darwin y la selección natural — resumen',
+      en: 'Evolution: Darwin and natural selection — a study summary',
+      ca: 'L\'Evolució: Darwin i la selecció natural — resum',
+    },
+    metaDesc: {
+      es: 'Qué es la evolución, los antepasados comunes, la selección natural de Darwin, los pinzones de Galápagos, Lamarck y las pruebas fósiles. Resumen y test.',
+      en: 'What evolution is, common ancestors, Darwin\'s natural selection, the Galápagos finches, Lamarck and fossil evidence. Study summary and test.',
+      ca: 'Què és l\'evolució, els avantpassats comuns, la selecció natural de Darwin, els pinsans de Galápagos, Lamarck i les proves fòssils. Resum i test.',
+    },
+    resumen: {
+      es: [
+        'La evolución explica cómo los seres vivos han ido cambiando a lo largo de millones de años y por qué hay tanta variedad de especies. Todas descienden de antepasados comunes: los seres vivos de hoy no aparecieron tal cual, sino que proceden de otros más antiguos que se fueron transformando poco a poco.',
+        'Charles Darwin propuso el mecanismo: la selección natural. Dentro de una especie los individuos son algo distintos entre sí; los que tienen características que les ayudan a sobrevivir en su ambiente viven más y dejan más descendencia, y esas características se van haciendo comunes. El ejemplo clásico son los pinzones de las Galápagos, con picos distintos según lo que comen. Antes, Lamarck había dado una explicación diferente que resultó incorrecta. Las pruebas de la evolución son los fósiles y los parecidos entre especies.',
+      ],
+      en: [
+        'Evolution explains how living things have changed over millions of years and why there is such a variety of species. They all descend from common ancestors: today\'s living things did not appear as they are now, but come from older ones that gradually transformed.',
+        'Charles Darwin proposed the mechanism: natural selection. Within a species individuals are slightly different from each other; those with features that help them survive in their environment live longer and leave more offspring, and those features become common. The classic example is the Galápagos finches, with different beaks depending on what they eat. Earlier, Lamarck had given a different explanation that turned out to be wrong. The evidence for evolution is fossils and the similarities between species.',
+      ],
+      ca: [
+        'L\'evolució explica com els éssers vius han anat canviant al llarg de milions d\'anys i per què hi ha tanta varietat d\'espècies. Totes descendeixen d\'avantpassats comuns: els éssers vius d\'avui no van aparèixer tal com són, sinó que procedeixen d\'altres més antics que es van anar transformant a poc a poc.',
+        'Charles Darwin va proposar el mecanisme: la selecció natural. Dins d\'una espècie els individus són una mica diferents entre si; els que tenen característiques que els ajuden a sobreviure en el seu ambient viuen més i deixen més descendència, i aquestes característiques es van fent comunes. L\'exemple clàssic són els pinsans de les Galápagos, amb becs diferents segons el que mengen. Abans, Lamarck havia donat una explicació diferent que va resultar incorrecta. Les proves de l\'evolució són els fòssils i les semblances entre espècies.',
+      ],
+    },
+    puntosClave: {
+      es: [
+        'La evolución es el cambio de los seres vivos a lo largo de millones de años.',
+        'Todas las especies descienden de antepasados comunes.',
+        'Darwin propuso la selección natural como mecanismo.',
+        'Sobreviven y se reproducen más los mejor adaptados a su ambiente.',
+        'Los pinzones de las Galápagos son el ejemplo clásico.',
+        'Lamarck dio antes una explicación distinta, que resultó incorrecta.',
+        'Los fósiles son una de las pruebas de la evolución.',
+      ],
+      en: [
+        'Evolution is the change in living things over millions of years.',
+        'All species descend from common ancestors.',
+        'Darwin proposed natural selection as the mechanism.',
+        'Those best adapted to their environment survive and reproduce more.',
+        'The Galápagos finches are the classic example.',
+        'Lamarck earlier gave a different explanation, which proved wrong.',
+        'Fossils are one of the pieces of evidence for evolution.',
+      ],
+      ca: [
+        'L\'evolució és el canvi dels éssers vius al llarg de milions d\'anys.',
+        'Totes les espècies descendeixen d\'avantpassats comuns.',
+        'Darwin va proposar la selecció natural com a mecanisme.',
+        'Sobreviuen i es reprodueixen més els més ben adaptats al seu ambient.',
+        'Els pinsans de les Galápagos són l\'exemple clàssic.',
+        'Lamarck va donar abans una explicació diferent, que va resultar incorrecta.',
+        'Els fòssils són una de les proves de l\'evolució.',
+      ],
+    },
+  },
+
+  'rocas-minerales': {
+    metaTitle: {
+      es: 'Rocas y Minerales: los tres tipos de rocas — resumen',
+      en: 'Rocks and Minerals: the three types of rock — a summary',
+      ca: 'Roques i Minerals: els tres tipus de roques — resum',
+    },
+    metaDesc: {
+      es: 'La diferencia entre roca y mineral y los tres tipos de rocas —ígneas, sedimentarias y metamórficas— y cómo se forman. Resumen para estudiar y test.',
+      en: 'The difference between a rock and a mineral and the three types of rock —igneous, sedimentary and metamorphic— and how they form. Summary and test.',
+      ca: 'La diferència entre roca i mineral i els tres tipus de roques —ígnies, sedimentàries i metamòrfiques— i com es formen. Resum per estudiar i test.',
+    },
+    resumen: {
+      es: [
+        'La parte sólida de la Tierra está hecha de rocas, y las rocas están formadas por minerales. Un mineral es una sustancia natural, sólida y con una composición fija, como el cuarzo, el yeso o la sal; una roca es una mezcla de uno o varios minerales, como el granito o la caliza.',
+        'Según cómo se han formado, hay tres grandes tipos de rocas. Las magmáticas o ígneas se forman al enfriarse el magma (el granito, el basalto). Las sedimentarias se forman por acumulación de restos que se compactan a lo largo del tiempo (la arenisca, la caliza). Y las metamórficas se forman cuando otra roca cambia por el calor y la presión en el interior de la Tierra (el mármol, la pizarra). Con el tiempo, unas rocas se transforman en otras: es el ciclo de las rocas.',
+      ],
+      en: [
+        'The solid part of the Earth is made of rocks, and rocks are made of minerals. A mineral is a natural, solid substance with a fixed composition, like quartz, gypsum or salt; a rock is a mixture of one or several minerals, like granite or limestone.',
+        'By how they form, there are three main types of rock. Igneous rocks form when magma cools (granite, basalt). Sedimentary rocks form by the build-up of debris that compacts over time (sandstone, limestone). And metamorphic rocks form when another rock changes through heat and pressure inside the Earth (marble, slate). Over time, some rocks turn into others: this is the rock cycle.',
+      ],
+      ca: [
+        'La part sòlida de la Terra està feta de roques, i les roques estan formades per minerals. Un mineral és una substància natural, sòlida i amb una composició fixa, com el quars, el guix o la sal; una roca és una mescla d\'un o diversos minerals, com el granit o la calcària.',
+        'Segons com s\'han format, hi ha tres grans tipus de roques. Les magmàtiques o ígnies es formen en refredar-se el magma (el granit, el basalt). Les sedimentàries es formen per acumulació de restes que es compacten al llarg del temps (el gres, la calcària). I les metamòrfiques es formen quan una altra roca canvia pel calor i la pressió a l\'interior de la Terra (el marbre, la pissarra). Amb el temps, unes roques es transformen en altres: és el cicle de les roques.',
+      ],
+    },
+    puntosClave: {
+      es: [
+        'Las rocas forman la parte sólida de la Tierra; están hechas de minerales.',
+        'Un mineral es natural, sólido y de composición fija (cuarzo, sal, yeso).',
+        'Una roca es una mezcla de uno o varios minerales (granito, caliza).',
+        'Ígneas o magmáticas: al enfriarse el magma (granito, basalto).',
+        'Sedimentarias: por acumulación y compactación de restos (arenisca, caliza).',
+        'Metamórficas: por calor y presión (mármol, pizarra).',
+        'Las rocas se transforman unas en otras: el ciclo de las rocas.',
+      ],
+      en: [
+        'Rocks form the solid part of the Earth; they are made of minerals.',
+        'A mineral is natural, solid and of fixed composition (quartz, salt, gypsum).',
+        'A rock is a mixture of one or several minerals (granite, limestone).',
+        'Igneous: form when magma cools (granite, basalt).',
+        'Sedimentary: by build-up and compaction of debris (sandstone, limestone).',
+        'Metamorphic: through heat and pressure (marble, slate).',
+        'Rocks turn into one another: the rock cycle.',
+      ],
+      ca: [
+        'Les roques formen la part sòlida de la Terra; estan fetes de minerals.',
+        'Un mineral és natural, sòlid i de composició fixa (quars, sal, guix).',
+        'Una roca és una mescla d\'un o diversos minerals (granit, calcària).',
+        'Ígnies o magmàtiques: en refredar-se el magma (granit, basalt).',
+        'Sedimentàries: per acumulació i compactació de restes (gres, calcària).',
+        'Metamòrfiques: per calor i pressió (marbre, pissarra).',
+        'Les roques es transformen unes en altres: el cicle de les roques.',
+      ],
+    },
+  },
+
+  'placas-tectonicas': {
+    metaTitle: {
+      es: 'Las Placas Tectónicas: capas de la Tierra y terremotos — resumen',
+      en: 'Plate Tectonics: Earth\'s layers and earthquakes — a summary',
+      ca: 'Les Plaques Tectòniques: capes de la Terra i terratrèmols — resum',
+    },
+    metaDesc: {
+      es: 'Las capas de la Tierra, las placas tectónicas y su movimiento, y por qué en sus bordes hay montañas, volcanes y terremotos. Resumen y test.',
+      en: 'The layers of the Earth, the tectonic plates and their movement, and why their edges have mountains, volcanoes and earthquakes. Summary and test.',
+      ca: 'Les capes de la Terra, les plaques tectòniques i el seu moviment, i per què als seus límits hi ha muntanyes, volcans i terratrèmols. Resum i test.',
+    },
+    resumen: {
+      es: [
+        'La Tierra tiene tres capas principales: la corteza, la fina capa sólida de fuera; el manto, mucho más grueso y en parte fundido; y el núcleo, en el centro, muy caliente y de metal. La corteza no es una pieza entera: está partida en grandes trozos llamados placas tectónicas, que encajan como un puzle.',
+        'Esas placas se mueven muy despacio, unos centímetros al año, sobre el manto. En sus bordes es donde pasa casi todo: cuando dos placas chocan se levantan montañas, cuando se separan sale magma y se crea suelo nuevo, y cuando rozan se producen terremotos. Los volcanes y los terremotos se concentran, por eso, en los bordes de las placas. Hace millones de años los continentes estaban unidos en uno solo, Pangea, y se han ido separando: es la deriva continental.',
+      ],
+      en: [
+        'The Earth has three main layers: the crust, the thin solid layer on the outside; the mantle, much thicker and partly molten; and the core, at the centre, very hot and metallic. The crust is not a single piece: it is broken into large pieces called tectonic plates, which fit together like a jigsaw.',
+        'These plates move very slowly, a few centimetres a year, over the mantle. Their edges are where almost everything happens: when two plates collide, mountains rise; when they pull apart, magma comes out and new ground is created; and when they rub past each other, earthquakes occur. Volcanoes and earthquakes therefore cluster at plate edges. Millions of years ago the continents were joined in a single one, Pangaea, and have been drifting apart: this is continental drift.',
+      ],
+      ca: [
+        'La Terra té tres capes principals: l\'escorça, la fina capa sòlida de fora; el mantell, molt més gruixut i en part fos; i el nucli, al centre, molt calent i de metall. L\'escorça no és una peça sencera: està partida en grans trossos anomenats plaques tectòniques, que encaixen com un trencaclosques.',
+        'Aquestes plaques es mouen molt a poc a poc, uns centímetres l\'any, sobre el mantell. Als seus límits és on passa gairebé tot: quan dues plaques xoquen s\'aixequen muntanyes, quan se separen surt magma i es crea sòl nou, i quan freguen es produeixen terratrèmols. Els volcans i els terratrèmols es concentren, per això, als límits de les plaques. Fa milions d\'anys els continents estaven units en un de sol, Pangea, i s\'han anat separant: és la deriva continental.',
+      ],
+    },
+    puntosClave: {
+      es: [
+        'La Tierra tiene tres capas: corteza, manto y núcleo.',
+        'La corteza está partida en placas tectónicas que encajan como un puzle.',
+        'Las placas se mueven unos centímetros al año sobre el manto.',
+        'Al chocar dos placas se forman montañas.',
+        'Al separarse sale magma y se crea corteza nueva.',
+        'Los terremotos y volcanes se concentran en los bordes de las placas.',
+        'Los continentes estuvieron unidos (Pangea): deriva continental.',
+      ],
+      en: [
+        'The Earth has three layers: crust, mantle and core.',
+        'The crust is broken into tectonic plates that fit like a jigsaw.',
+        'The plates move a few centimetres a year over the mantle.',
+        'When two plates collide, mountains form.',
+        'When they pull apart, magma comes out and new crust is created.',
+        'Earthquakes and volcanoes cluster at the edges of the plates.',
+        'The continents were once joined (Pangaea): continental drift.',
+      ],
+      ca: [
+        'La Terra té tres capes: escorça, mantell i nucli.',
+        'L\'escorça està partida en plaques tectòniques que encaixen com un trencaclosques.',
+        'Les plaques es mouen uns centímetres l\'any sobre el mantell.',
+        'En xocar dues plaques es formen muntanyes.',
+        'En separar-se surt magma i es crea escorça nova.',
+        'Els terratrèmols i volcans es concentren als límits de les plaques.',
+        'Els continents van estar units (Pangea): deriva continental.',
+      ],
+    },
+  },
 }

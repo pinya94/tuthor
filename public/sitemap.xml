@@ -92,6 +92,24 @@
   <url><loc>https://www.tuthor.es/estudiar/biologia/genetica</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/en/estudiar/biologia/genetica</loc><changefreq>weekly</changefreq><priority>0.75</priority></url>
   <url><loc>https://www.tuthor.es/ca/estudiar/biologia/genetica</loc><changefreq>weekly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://www.tuthor.es/estudiar/quimica/atomos-moleculas</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/en/estudiar/quimica/atomos-moleculas</loc><changefreq>weekly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://www.tuthor.es/ca/estudiar/quimica/atomos-moleculas</loc><changefreq>weekly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://www.tuthor.es/estudiar/quimica/acidos-bases</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/en/estudiar/quimica/acidos-bases</loc><changefreq>weekly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://www.tuthor.es/ca/estudiar/quimica/acidos-bases</loc><changefreq>weekly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://www.tuthor.es/estudiar/biologia/nutricion</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/en/estudiar/biologia/nutricion</loc><changefreq>weekly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://www.tuthor.es/ca/estudiar/biologia/nutricion</loc><changefreq>weekly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://www.tuthor.es/estudiar/biologia/evolucion</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/en/estudiar/biologia/evolucion</loc><changefreq>weekly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://www.tuthor.es/ca/estudiar/biologia/evolucion</loc><changefreq>weekly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://www.tuthor.es/estudiar/geologia/rocas-minerales</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/en/estudiar/geologia/rocas-minerales</loc><changefreq>weekly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://www.tuthor.es/ca/estudiar/geologia/rocas-minerales</loc><changefreq>weekly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://www.tuthor.es/estudiar/geologia/placas-tectonicas</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/en/estudiar/geologia/placas-tectonicas</loc><changefreq>weekly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://www.tuthor.es/ca/estudiar/geologia/placas-tectonicas</loc><changefreq>weekly</changefreq><priority>0.75</priority></url>
   <url><loc>https://www.tuthor.es/estudiar/geografia</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/estudiar/economia</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/estudiar/musica</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
