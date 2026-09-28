@@ -1689,4 +1689,452 @@ export const CONTENIDO_TEMA = {
       ],
     },
   },
+
+  'prehistoria': {
+    metaTitle: {
+      es: 'La Prehistoria: Paleolítico y Neolítico — resumen para estudiar',
+      en: 'Prehistory: Palaeolithic and Neolithic — a study summary',
+      ca: 'La Prehistòria: Paleolític i Neolític — resum per estudiar',
+    },
+    metaDesc: {
+      es: 'Qué es la Prehistoria, sus dos etapas (Paleolítico y Neolítico), el paso de nómada a sedentario y el descubrimiento de la agricultura. Resumen y test.',
+      en: 'What Prehistory is, its two stages (Palaeolithic and Neolithic), the shift from nomadic to settled life and the discovery of farming. Summary and test.',
+      ca: 'Què és la Prehistòria, les seves dues etapes (Paleolític i Neolític), el pas de nòmada a sedentari i el descobriment de l\'agricultura. Resum i test.',
+    },
+    resumen: {
+      es: [
+        'La Prehistoria es el largo periodo que va desde la aparición de los primeros seres humanos hasta la invención de la escritura, hace unos 5000 años. Se llama así, "antes de la historia", precisamente porque no hay documentos escritos: lo que sabemos viene de los restos que dejaron, como huesos, herramientas y pinturas.',
+        'Se divide en dos grandes etapas. En el Paleolítico, la "edad de la piedra antigua", los humanos eran nómadas: se movían siguiendo la caza y la recolección, vivían en cuevas y dominaron el fuego. En el Neolítico, la "edad de la piedra nueva", descubrieron la agricultura y la ganadería, y eso lo cambió todo: se volvieron sedentarios, formaron los primeros poblados y aprendieron a fabricar cerámica y tejidos.',
+      ],
+      en: [
+        'Prehistory is the long period from the appearance of the first human beings to the invention of writing, about 5,000 years ago. It is called so, "before history", precisely because there are no written documents: what we know comes from the remains they left, such as bones, tools and paintings.',
+        'It is divided into two great stages. In the Palaeolithic, the "old stone age", humans were nomads: they moved following hunting and gathering, lived in caves and mastered fire. In the Neolithic, the "new stone age", they discovered farming and herding, and that changed everything: they became settled, formed the first villages and learned to make pottery and textiles.',
+      ],
+      ca: [
+        'La Prehistòria és el llarg període que va des de l\'aparició dels primers éssers humans fins a la invenció de l\'escriptura, fa uns 5000 anys. S\'anomena així, "abans de la història", precisament perquè no hi ha documents escrits: el que sabem ve de les restes que van deixar, com ossos, eines i pintures.',
+        'Es divideix en dues grans etapes. En el Paleolític, l\'"edat de la pedra antiga", els humans eren nòmades: es movien seguint la caça i la recol·lecció, vivien en coves i van dominar el foc. En el Neolític, l\'"edat de la pedra nova", van descobrir l\'agricultura i la ramaderia, i això ho va canviar tot: es van tornar sedentaris, van formar els primers poblats i van aprendre a fabricar ceràmica i teixits.',
+      ],
+    },
+    puntosClave: {
+      es: [
+        'La Prehistoria va desde los primeros humanos hasta la invención de la escritura.',
+        'Se llama así porque no hay documentos escritos; se estudia por los restos.',
+        'Se divide en Paleolítico y Neolítico.',
+        'Paleolítico: nómadas, caza y recolección, cuevas y dominio del fuego.',
+        'Neolítico: agricultura y ganadería, vida sedentaria y primeros poblados.',
+        'En el Neolítico aparecen la cerámica y los tejidos.',
+        'La escritura marca el final de la Prehistoria y el inicio de la Historia.',
+      ],
+      en: [
+        'Prehistory runs from the first humans to the invention of writing.',
+        'It is called so because there are no written documents; it is studied from remains.',
+        'It is divided into the Palaeolithic and the Neolithic.',
+        'Palaeolithic: nomads, hunting and gathering, caves and mastery of fire.',
+        'Neolithic: farming and herding, settled life and the first villages.',
+        'In the Neolithic, pottery and textiles appear.',
+        'Writing marks the end of Prehistory and the start of History.',
+      ],
+      ca: [
+        'La Prehistòria va des dels primers humans fins a la invenció de l\'escriptura.',
+        'S\'anomena així perquè no hi ha documents escrits; s\'estudia per les restes.',
+        'Es divideix en Paleolític i Neolític.',
+        'Paleolític: nòmades, caça i recol·lecció, coves i domini del foc.',
+        'Neolític: agricultura i ramaderia, vida sedentària i primers poblats.',
+        'En el Neolític apareixen la ceràmica i els teixits.',
+        'L\'escriptura marca el final de la Prehistòria i l\'inici de la Història.',
+      ],
+    },
+  },
+
+  'antigua': {
+    metaTitle: {
+      es: 'La Edad Antigua: primeras civilizaciones — resumen para estudiar',
+      en: 'The Ancient Age: the first civilisations — a study summary',
+      ca: 'L\'Edat Antiga: primeres civilitzacions — resum per estudiar',
+    },
+    metaDesc: {
+      es: 'Qué es la Edad Antigua, las primeras civilizaciones junto a los ríos (Mesopotamia, Egipto), y Grecia y Roma. De la escritura al año 476. Resumen y test.',
+      en: 'What the Ancient Age is, the first civilisations by the rivers (Mesopotamia, Egypt), and Greece and Rome. From writing to the year 476. Summary and test.',
+      ca: 'Què és l\'Edat Antiga, les primeres civilitzacions vora els rius (Mesopotàmia, Egipte), i Grècia i Roma. De l\'escriptura a l\'any 476. Resum i test.',
+    },
+    resumen: {
+      es: [
+        'La Edad Antigua empieza con la invención de la escritura, hace unos 5000 años, y termina con la caída del Imperio romano de Occidente, en el año 476. Es la época de las primeras civilizaciones, que surgieron junto a grandes ríos: Mesopotamia, entre el Tigris y el Éufrates, y Egipto, junto al Nilo.',
+        'En estas sociedades aparecieron las ciudades, los reyes, los ejércitos, la religión organizada y la escritura. Más tarde destacaron dos grandes civilizaciones del Mediterráneo: Grecia, cuna de la democracia, la filosofía y los Juegos Olímpicos, y Roma, que llegó a dominar un imperio inmenso alrededor de todo el Mediterráneo.',
+      ],
+      en: [
+        'The Ancient Age begins with the invention of writing, about 5,000 years ago, and ends with the fall of the Western Roman Empire in the year 476. It is the age of the first civilisations, which arose by great rivers: Mesopotamia, between the Tigris and the Euphrates, and Egypt, by the Nile.',
+        'In these societies cities, kings, armies, organised religion and writing appeared. Later, two great Mediterranean civilisations stood out: Greece, the cradle of democracy, philosophy and the Olympic Games, and Rome, which came to rule a vast empire around the whole Mediterranean.',
+      ],
+      ca: [
+        'L\'Edat Antiga comença amb la invenció de l\'escriptura, fa uns 5000 anys, i acaba amb la caiguda de l\'Imperi romà d\'Occident, l\'any 476. És l\'època de les primeres civilitzacions, que van sorgir vora grans rius: Mesopotàmia, entre el Tigris i l\'Eufrates, i Egipte, vora el Nil.',
+        'En aquestes societats van aparèixer les ciutats, els reis, els exèrcits, la religió organitzada i l\'escriptura. Més tard van destacar dues grans civilitzacions del Mediterrani: Grècia, bressol de la democràcia, la filosofia i els Jocs Olímpics, i Roma, que va arribar a dominar un imperi immens al voltant de tot el Mediterrani.',
+      ],
+    },
+    puntosClave: {
+      es: [
+        'La Edad Antigua va de la invención de la escritura (~3000 a. C.) al año 476.',
+        'Termina con la caída del Imperio romano de Occidente.',
+        'Las primeras civilizaciones surgieron junto a ríos: Mesopotamia y Egipto.',
+        'Aparecen las ciudades, los reyes, los ejércitos y la escritura.',
+        'Grecia: cuna de la democracia, la filosofía y los Juegos Olímpicos.',
+        'Roma dominó un imperio alrededor de todo el Mediterráneo.',
+        'La escritura permite, por fin, tener documentos escritos.',
+      ],
+      en: [
+        'The Ancient Age runs from the invention of writing (~3000 BC) to the year 476.',
+        'It ends with the fall of the Western Roman Empire.',
+        'The first civilisations arose by rivers: Mesopotamia and Egypt.',
+        'Cities, kings, armies and writing appear.',
+        'Greece: cradle of democracy, philosophy and the Olympic Games.',
+        'Rome ruled an empire around the whole Mediterranean.',
+        'Writing finally allows for written documents.',
+      ],
+      ca: [
+        'L\'Edat Antiga va de la invenció de l\'escriptura (~3000 aC) a l\'any 476.',
+        'Acaba amb la caiguda de l\'Imperi romà d\'Occident.',
+        'Les primeres civilitzacions van sorgir vora rius: Mesopotàmia i Egipte.',
+        'Apareixen les ciutats, els reis, els exèrcits i l\'escriptura.',
+        'Grècia: bressol de la democràcia, la filosofia i els Jocs Olímpics.',
+        'Roma va dominar un imperi al voltant de tot el Mediterrani.',
+        'L\'escriptura permet, per fi, tenir documents escrits.',
+      ],
+    },
+  },
+
+  'roma': {
+    metaTitle: {
+      es: 'La Antigua Roma: de la República al Imperio — resumen',
+      en: 'Ancient Rome: from the Republic to the Empire — a summary',
+      ca: 'L\'Antiga Roma: de la República a l\'Imperi — resum',
+    },
+    metaDesc: {
+      es: 'Las etapas de Roma (Monarquía, República e Imperio), sus obras de ingeniería, el latín y su derecho, y la caída del Imperio en el 476. Resumen y test.',
+      en: 'The stages of Rome (Monarchy, Republic and Empire), its engineering, Latin and its law, and the fall of the Empire in 476. Summary and test.',
+      ca: 'Les etapes de Roma (Monarquia, República i Imperi), les seves obres d\'enginyeria, el llatí i el seu dret, i la caiguda de l\'Imperi el 476. Resum i test.',
+    },
+    resumen: {
+      es: [
+        'Roma nació como una pequeña ciudad en Italia y llegó a construir uno de los mayores imperios de la historia, que rodeaba todo el Mediterráneo. Pasó por tres etapas de gobierno: primero fue una Monarquía, luego una República —gobernada por el Senado y unos cónsules elegidos— y por último un Imperio, con un emperador al frente, desde Augusto.',
+        'Los romanos fueron grandes ingenieros: construyeron calzadas, acueductos, puentes, teatros y anfiteatros como el Coliseo, muchos aún en pie. Nos dejaron su lengua, el latín, del que derivan el español, el catalán, el francés o el italiano, y su derecho, base de muchas leyes actuales. El Imperio de Occidente cayó en el año 476, y con él terminó la Edad Antigua.',
+      ],
+      en: [
+        'Rome began as a small city in Italy and came to build one of the greatest empires in history, surrounding the whole Mediterranean. It went through three forms of government: first a Monarchy, then a Republic —governed by the Senate and elected consuls— and finally an Empire, led by an emperor, from Augustus onwards.',
+        'The Romans were great engineers: they built roads, aqueducts, bridges, theatres and amphitheatres like the Colosseum, many still standing. They left us their language, Latin, from which Spanish, Catalan, French and Italian derive, and their law, the basis of many present-day laws. The Western Empire fell in the year 476, and with it the Ancient Age ended.',
+      ],
+      ca: [
+        'Roma va néixer com una petita ciutat a Itàlia i va arribar a construir un dels majors imperis de la història, que envoltava tot el Mediterrani. Va passar per tres etapes de govern: primer va ser una Monarquia, després una República —governada pel Senat i uns cònsols elegits— i finalment un Imperi, amb un emperador al capdavant, des d\'August.',
+        'Els romans van ser grans enginyers: van construir calçades, aqüeductes, ponts, teatres i amfiteatres com el Colosseu, molts encara drets. Ens van deixar la seva llengua, el llatí, del qual deriven l\'espanyol, el català, el francès o l\'italià, i el seu dret, base de moltes lleis actuals. L\'Imperi d\'Occident va caure l\'any 476, i amb ell va acabar l\'Edat Antiga.',
+      ],
+    },
+    puntosClave: {
+      es: [
+        'Roma pasó de ser una ciudad a dominar todo el Mediterráneo.',
+        'Tres etapas: Monarquía, República e Imperio.',
+        'En la República gobernaban el Senado y los cónsules.',
+        'El Imperio empezó con Augusto, el primer emperador.',
+        'Grandes ingenieros: calzadas, acueductos y el Coliseo.',
+        'El latín es el origen del español, el catalán, el francés y el italiano.',
+        'El Imperio de Occidente cayó en el 476 (fin de la Edad Antigua).',
+      ],
+      en: [
+        'Rome went from being a city to ruling the whole Mediterranean.',
+        'Three stages: Monarchy, Republic and Empire.',
+        'In the Republic the Senate and the consuls governed.',
+        'The Empire began with Augustus, the first emperor.',
+        'Great engineers: roads, aqueducts and the Colosseum.',
+        'Latin is the origin of Spanish, Catalan, French and Italian.',
+        'The Western Empire fell in 476 (the end of the Ancient Age).',
+      ],
+      ca: [
+        'Roma va passar de ser una ciutat a dominar tot el Mediterrani.',
+        'Tres etapes: Monarquia, República i Imperi.',
+        'A la República governaven el Senat i els cònsols.',
+        'L\'Imperi va començar amb August, el primer emperador.',
+        'Grans enginyers: calçades, aqüeductes i el Colosseu.',
+        'El llatí és l\'origen de l\'espanyol, el català, el francès i l\'italià.',
+        'L\'Imperi d\'Occident va caure el 476 (fi de l\'Edat Antiga).',
+      ],
+    },
+  },
+
+  'gce': {
+    metaTitle: {
+      es: 'La Guerra Civil Española (1936–1939) — resumen para estudiar',
+      en: 'The Spanish Civil War (1936–1939) — a study summary',
+      ca: 'La Guerra Civil Espanyola (1936–1939) — resum per estudiar',
+    },
+    metaDesc: {
+      es: 'Por qué empezó la Guerra Civil Española, los dos bandos, la intervención extranjera y el resultado: la dictadura de Franco. Resumen y test con explicación.',
+      en: 'Why the Spanish Civil War began, the two sides, foreign intervention and the outcome: Franco\'s dictatorship. Summary and explained test.',
+      ca: 'Per què va començar la Guerra Civil Espanyola, els dos bàndols, la intervenció estrangera i el resultat: la dictadura de Franco. Resum i test amb explicació.',
+    },
+    resumen: {
+      es: [
+        'La Guerra Civil Española (1936–1939) fue el conflicto que enfrentó a dos bandos de españoles. Empezó con un golpe de Estado militar contra el gobierno de la Segunda República. El país quedó partido en dos: el bando republicano, fiel al gobierno, y el bando sublevado o nacional, liderado por el general Francisco Franco.',
+        'Fue una guerra muy dura, con episodios como el bombardeo de Guernica, y en ella intervinieron potencias extranjeras: la Alemania nazi y la Italia fascista ayudaron a los sublevados. Terminó en 1939 con la victoria de Franco, que impuso una dictadura que duró casi 40 años, hasta su muerte en 1975.',
+      ],
+      en: [
+        'The Spanish Civil War (1936–1939) was the conflict that pitted two sides of Spaniards against each other. It began with a military coup against the government of the Second Republic. The country was split in two: the Republican side, loyal to the government, and the rebel or Nationalist side, led by General Francisco Franco.',
+        'It was a very harsh war, with episodes like the bombing of Guernica, and foreign powers intervened: Nazi Germany and Fascist Italy helped the rebels. It ended in 1939 with Franco\'s victory, who imposed a dictatorship that lasted almost 40 years, until his death in 1975.',
+      ],
+      ca: [
+        'La Guerra Civil Espanyola (1936–1939) va ser el conflicte que va enfrontar dos bàndols d\'espanyols. Va començar amb un cop d\'Estat militar contra el govern de la Segona República. El país va quedar partit en dos: el bàndol republicà, fidel al govern, i el bàndol revoltat o nacional, liderat pel general Francisco Franco.',
+        'Va ser una guerra molt dura, amb episodis com el bombardeig de Guernica, i hi van intervenir potències estrangeres: l\'Alemanya nazi i la Itàlia feixista van ajudar els revoltats. Va acabar el 1939 amb la victòria de Franco, que va imposar una dictadura que va durar gairebé 40 anys, fins a la seva mort el 1975.',
+      ],
+    },
+    puntosClave: {
+      es: [
+        'La Guerra Civil Española duró de 1936 a 1939.',
+        'Empezó con un golpe de Estado contra la Segunda República.',
+        'Dos bandos: el republicano y el sublevado (nacional), de Franco.',
+        'El bombardeo de Guernica es uno de sus episodios más conocidos.',
+        'Intervinieron la Alemania nazi y la Italia fascista.',
+        'Terminó en 1939 con la victoria de Franco.',
+        'Dio paso a una dictadura de casi 40 años.',
+      ],
+      en: [
+        'The Spanish Civil War lasted from 1936 to 1939.',
+        'It began with a coup against the Second Republic.',
+        'Two sides: the Republican and the rebel (Nationalist), Franco\'s.',
+        'The bombing of Guernica is one of its best-known episodes.',
+        'Nazi Germany and Fascist Italy intervened.',
+        'It ended in 1939 with Franco\'s victory.',
+        'It gave way to a dictatorship of almost 40 years.',
+      ],
+      ca: [
+        'La Guerra Civil Espanyola va durar de 1936 a 1939.',
+        'Va començar amb un cop d\'Estat contra la Segona República.',
+        'Dos bàndols: el republicà i el revoltat (nacional), de Franco.',
+        'El bombardeig de Guernica és un dels seus episodis més coneguts.',
+        'Hi van intervenir l\'Alemanya nazi i la Itàlia feixista.',
+        'Va acabar el 1939 amb la victòria de Franco.',
+        'Va donar pas a una dictadura de gairebé 40 anys.',
+      ],
+    },
+  },
+
+  'franquismo': {
+    metaTitle: {
+      es: 'El Franquismo y la Transición — resumen para estudiar',
+      en: 'The Franco Era and the Transition — a study summary',
+      ca: 'El Franquisme i la Transició — resum per estudiar',
+    },
+    metaDesc: {
+      es: 'La dictadura de Franco (1939–1975) y la Transición a la democracia: elecciones libres, partidos y la Constitución de 1978. Resumen y test con explicación.',
+      en: 'Franco\'s dictatorship (1939–1975) and the Transition to democracy: free elections, parties and the 1978 Constitution. Summary and explained test.',
+      ca: 'La dictadura de Franco (1939–1975) i la Transició a la democràcia: eleccions lliures, partits i la Constitució de 1978. Resum i test amb explicació.',
+    },
+    resumen: {
+      es: [
+        'El franquismo fue la dictadura que gobernó España desde el final de la Guerra Civil, en 1939, hasta la muerte de Francisco Franco, en 1975. Fue un régimen sin democracia: no había elecciones libres ni partidos políticos, y se perseguía a la oposición y a las lenguas y culturas distintas de la castellana.',
+        'Tras la muerte de Franco llegó la Transición, el proceso por el que España pasó de la dictadura a la democracia de forma pacífica. Se legalizaron los partidos, se convocaron elecciones libres y, en 1978, se aprobó la Constitución, que sigue vigente y que organiza España como una monarquía parlamentaria.',
+      ],
+      en: [
+        'The Franco era was the dictatorship that ruled Spain from the end of the Civil War, in 1939, until the death of Francisco Franco, in 1975. It was a regime without democracy: there were no free elections or political parties, and the opposition and any languages and cultures other than Castilian were persecuted.',
+        'After Franco\'s death came the Transition, the process by which Spain moved from dictatorship to democracy peacefully. Parties were legalised, free elections were called and, in 1978, the Constitution was passed, which is still in force and organises Spain as a parliamentary monarchy.',
+      ],
+      ca: [
+        'El franquisme va ser la dictadura que va governar Espanya des del final de la Guerra Civil, el 1939, fins a la mort de Francisco Franco, el 1975. Va ser un règim sense democràcia: no hi havia eleccions lliures ni partits polítics, i es perseguia l\'oposició i les llengües i cultures diferents de la castellana.',
+        'Després de la mort de Franco va arribar la Transició, el procés pel qual Espanya va passar de la dictadura a la democràcia de manera pacífica. Es van legalitzar els partits, es van convocar eleccions lliures i, el 1978, es va aprovar la Constitució, que segueix vigent i que organitza Espanya com una monarquia parlamentària.',
+      ],
+    },
+    puntosClave: {
+      es: [
+        'El franquismo fue la dictadura de Franco, de 1939 a 1975.',
+        'No había elecciones libres ni partidos políticos.',
+        'Se perseguía a la oposición y a las lenguas y culturas no castellanas.',
+        'La Transición llevó de la dictadura a la democracia de forma pacífica.',
+        'Se legalizaron los partidos y se convocaron elecciones libres.',
+        'En 1978 se aprobó la Constitución, que sigue vigente.',
+        'España quedó organizada como una monarquía parlamentaria.',
+      ],
+      en: [
+        'The Franco era was Franco\'s dictatorship, from 1939 to 1975.',
+        'There were no free elections or political parties.',
+        'The opposition and non-Castilian languages and cultures were persecuted.',
+        'The Transition led from dictatorship to democracy peacefully.',
+        'Parties were legalised and free elections were called.',
+        'In 1978 the Constitution was passed, still in force today.',
+        'Spain was organised as a parliamentary monarchy.',
+      ],
+      ca: [
+        'El franquisme va ser la dictadura de Franco, de 1939 a 1975.',
+        'No hi havia eleccions lliures ni partits polítics.',
+        'Es perseguia l\'oposició i les llengües i cultures no castellanes.',
+        'La Transició va portar de la dictadura a la democràcia de manera pacífica.',
+        'Es van legalitzar els partits i es van convocar eleccions lliures.',
+        'El 1978 es va aprovar la Constitució, que segueix vigent.',
+        'Espanya va quedar organitzada com una monarquia parlamentària.',
+      ],
+    },
+  },
+
+  'wwii': {
+    metaTitle: {
+      es: 'La Segunda Guerra Mundial (1939–1945) — resumen para estudiar',
+      en: 'World War II (1939–1945) — a study summary',
+      ca: 'La Segona Guerra Mundial (1939–1945) — resum per estudiar',
+    },
+    metaDesc: {
+      es: 'Los bandos de la Segunda Guerra Mundial (Eje y Aliados), cómo empezó, el Holocausto, las bombas atómicas y la creación de la ONU. Resumen y test.',
+      en: 'The sides of World War II (Axis and Allies), how it began, the Holocaust, the atomic bombs and the creation of the UN. Summary and test.',
+      ca: 'Els bàndols de la Segona Guerra Mundial (Eix i Aliats), com va començar, l\'Holocaust, les bombes atòmiques i la creació de l\'ONU. Resum i test.',
+    },
+    resumen: {
+      es: [
+        'La Segunda Guerra Mundial (1939–1945) fue el conflicto más grande y mortífero de la historia. Enfrentó a dos bloques: las potencias del Eje —la Alemania nazi de Hitler, Italia y Japón— y los Aliados —Reino Unido, Francia, la Unión Soviética y Estados Unidos—. Empezó cuando Alemania invadió Polonia.',
+        'Fue una guerra global, con frentes en Europa, África, Asia y el Pacífico. Dejó episodios terribles como el Holocausto, el asesinato de millones de judíos por los nazis, y terminó en 1945: primero con la rendición de Alemania y después con la de Japón, tras el lanzamiento de dos bombas atómicas sobre Hiroshima y Nagasaki. De ella nació la ONU, para intentar evitar otra guerra así.',
+      ],
+      en: [
+        'World War II (1939–1945) was the largest and deadliest conflict in history. It pitted two blocs against each other: the Axis powers —Hitler\'s Nazi Germany, Italy and Japan— and the Allies —the United Kingdom, France, the Soviet Union and the United States—. It began when Germany invaded Poland.',
+        'It was a global war, with fronts in Europe, Africa, Asia and the Pacific. It left terrible episodes such as the Holocaust, the murder of millions of Jews by the Nazis, and ended in 1945: first with Germany\'s surrender and then Japan\'s, after two atomic bombs were dropped on Hiroshima and Nagasaki. Out of it the UN was born, to try to prevent another war like it.',
+      ],
+      ca: [
+        'La Segona Guerra Mundial (1939–1945) va ser el conflicte més gran i mortífer de la història. Va enfrontar dos blocs: les potències de l\'Eix —l\'Alemanya nazi de Hitler, Itàlia i el Japó— i els Aliats —el Regne Unit, França, la Unió Soviètica i els Estats Units—. Va començar quan Alemanya va envair Polònia.',
+        'Va ser una guerra global, amb fronts a Europa, Àfrica, Àsia i el Pacífic. Va deixar episodis terribles com l\'Holocaust, l\'assassinat de milions de jueus pels nazis, i va acabar el 1945: primer amb la rendició d\'Alemanya i després la del Japó, després del llançament de dues bombes atòmiques sobre Hiroshima i Nagasaki. D\'ella va néixer l\'ONU, per intentar evitar una altra guerra així.',
+      ],
+    },
+    puntosClave: {
+      es: [
+        'La Segunda Guerra Mundial duró de 1939 a 1945.',
+        'Dos bloques: el Eje (Alemania, Italia, Japón) y los Aliados.',
+        'Empezó con la invasión alemana de Polonia.',
+        'El Holocausto: el asesinato de millones de judíos por los nazis.',
+        'Fue una guerra global, con frentes en varios continentes.',
+        'Terminó con las bombas atómicas sobre Hiroshima y Nagasaki (1945).',
+        'Tras la guerra se creó la ONU.',
+      ],
+      en: [
+        'World War II lasted from 1939 to 1945.',
+        'Two blocs: the Axis (Germany, Italy, Japan) and the Allies.',
+        'It began with the German invasion of Poland.',
+        'The Holocaust: the murder of millions of Jews by the Nazis.',
+        'It was a global war, with fronts on several continents.',
+        'It ended with the atomic bombs on Hiroshima and Nagasaki (1945).',
+        'After the war the UN was created.',
+      ],
+      ca: [
+        'La Segona Guerra Mundial va durar de 1939 a 1945.',
+        'Dos blocs: l\'Eix (Alemanya, Itàlia, Japó) i els Aliats.',
+        'Va començar amb la invasió alemanya de Polònia.',
+        'L\'Holocaust: l\'assassinat de milions de jueus pels nazis.',
+        'Va ser una guerra global, amb fronts a diversos continents.',
+        'Va acabar amb les bombes atòmiques sobre Hiroshima i Nagasaki (1945).',
+        'Després de la guerra es va crear l\'ONU.',
+      ],
+    },
+  },
+
+  'usa': {
+    metaTitle: {
+      es: 'La Independencia de Estados Unidos (1776) — resumen',
+      en: 'The Independence of the United States (1776) — a summary',
+      ca: 'La Independència dels Estats Units (1776) — resum',
+    },
+    metaDesc: {
+      es: 'Por qué las trece colonias se independizaron de Gran Bretaña, la Declaración de 1776, la guerra y la primera constitución moderna. Resumen y test.',
+      en: 'Why the thirteen colonies became independent from Great Britain, the 1776 Declaration, the war and the first modern constitution. Summary and test.',
+      ca: 'Per què les tretze colònies es van independitzar de Gran Bretanya, la Declaració de 1776, la guerra i la primera constitució moderna. Resum i test.',
+    },
+    resumen: {
+      es: [
+        'La Independencia de los Estados Unidos fue el proceso por el que trece colonias británicas de Norteamérica se separaron de Gran Bretaña y formaron un país nuevo. Los colonos estaban descontentos porque debían pagar impuestos a Gran Bretaña sin tener representación en su Parlamento: "no hay impuestos sin representación".',
+        'En 1776 firmaron la Declaración de Independencia, que proclamaba que todos los hombres nacen iguales y con derechos. Siguió una guerra contra Gran Bretaña, que ganaron con ayuda de Francia. En 1787 aprobaron su Constitución, la primera constitución escrita moderna, con la separación de poderes. George Washington fue su primer presidente.',
+      ],
+      en: [
+        'The Independence of the United States was the process by which thirteen British colonies in North America broke away from Great Britain and formed a new country. The colonists were unhappy because they had to pay taxes to Great Britain without having representation in its Parliament: "no taxation without representation".',
+        'In 1776 they signed the Declaration of Independence, which proclaimed that all men are born equal and with rights. A war against Great Britain followed, which they won with France\'s help. In 1787 they passed their Constitution, the first modern written constitution, with the separation of powers. George Washington was their first president.',
+      ],
+      ca: [
+        'La Independència dels Estats Units va ser el procés pel qual tretze colònies britàniques de Nord-amèrica es van separar de Gran Bretanya i van formar un país nou. Els colons estaven descontents perquè havien de pagar impostos a Gran Bretanya sense tenir representació al seu Parlament: "no hi ha impostos sense representació".',
+        'El 1776 van signar la Declaració d\'Independència, que proclamava que tots els homes neixen iguals i amb drets. Va seguir una guerra contra Gran Bretanya, que van guanyar amb l\'ajuda de França. El 1787 van aprovar la seva Constitució, la primera constitució escrita moderna, amb la separació de poders. George Washington va ser el seu primer president.',
+      ],
+    },
+    puntosClave: {
+      es: [
+        'Trece colonias británicas se independizaron de Gran Bretaña.',
+        'El motivo: pagar impuestos sin tener representación en el Parlamento.',
+        'En 1776 firmaron la Declaración de Independencia.',
+        'Ganaron la guerra contra Gran Bretaña con ayuda de Francia.',
+        'En 1787 aprobaron su Constitución, con separación de poderes.',
+        'George Washington fue el primer presidente.',
+        'Fue un modelo para otras revoluciones posteriores.',
+      ],
+      en: [
+        'Thirteen British colonies became independent from Great Britain.',
+        'The reason: paying taxes without representation in Parliament.',
+        'In 1776 they signed the Declaration of Independence.',
+        'They won the war against Great Britain with France\'s help.',
+        'In 1787 they passed their Constitution, with the separation of powers.',
+        'George Washington was the first president.',
+        'It was a model for later revolutions.',
+      ],
+      ca: [
+        'Tretze colònies britàniques es van independitzar de Gran Bretanya.',
+        'El motiu: pagar impostos sense tenir representació al Parlament.',
+        'El 1776 van signar la Declaració d\'Independència.',
+        'Van guanyar la guerra contra Gran Bretanya amb l\'ajuda de França.',
+        'El 1787 van aprovar la seva Constitució, amb separació de poders.',
+        'George Washington va ser el primer president.',
+        'Va ser un model per a altres revolucions posteriors.',
+      ],
+    },
+  },
+
+  'primaria': {
+    metaTitle: {
+      es: 'Grandes Hitos de la Historia: las edades — resumen',
+      en: 'Great Milestones of History: the ages — a study summary',
+      ca: 'Grans Fites de la Història: les edats — resum',
+    },
+    metaDesc: {
+      es: 'Las grandes edades de la historia (Prehistoria, Antigua, Media, Moderna y Contemporánea) y los hitos que las separan. Resumen para estudiar y test.',
+      en: 'The great ages of history (Prehistory, Ancient, Medieval, Modern and Contemporary) and the milestones that separate them. Study summary and test.',
+      ca: 'Les grans edats de la història (Prehistòria, Antiga, Mitjana, Moderna i Contemporània) i les fites que les separen. Resum per estudiar i test.',
+    },
+    resumen: {
+      es: [
+        'A lo largo de la historia ha habido momentos que lo cambiaron todo: los grandes hitos. Para ordenarlos, los historiadores dividen el tiempo en grandes edades: la Prehistoria, la Edad Antigua, la Edad Media, la Edad Moderna y la Edad Contemporánea, en la que vivimos.',
+        'Cada edad empieza o termina con un acontecimiento importante: la invención de la escritura, la caída del Imperio romano en el 476, el descubrimiento de América en 1492, la Revolución Francesa en 1789… Conocer estos hitos y en qué orden ocurrieron ayuda a entender cómo hemos llegado hasta hoy.',
+      ],
+      en: [
+        'Throughout history there have been moments that changed everything: the great milestones. To order them, historians divide time into great ages: Prehistory, the Ancient Age, the Middle Ages, the Modern Age and the Contemporary Age, in which we live.',
+        'Each age begins or ends with an important event: the invention of writing, the fall of the Roman Empire in 476, the discovery of America in 1492, the French Revolution in 1789… Knowing these milestones and the order in which they happened helps to understand how we got to today.',
+      ],
+      ca: [
+        'Al llarg de la història hi ha hagut moments que ho van canviar tot: les grans fites. Per ordenar-les, els historiadors divideixen el temps en grans edats: la Prehistòria, l\'Edat Antiga, l\'Edat Mitjana, l\'Edat Moderna i l\'Edat Contemporània, en la qual vivim.',
+        'Cada edat comença o acaba amb un esdeveniment important: la invenció de l\'escriptura, la caiguda de l\'Imperi romà el 476, el descobriment d\'Amèrica el 1492, la Revolució Francesa el 1789… Conèixer aquestes fites i en quin ordre van passar ajuda a entendre com hem arribat fins avui.',
+      ],
+    },
+    puntosClave: {
+      es: [
+        'La historia se divide en grandes edades para ordenar el tiempo.',
+        'Las edades: Prehistoria, Antigua, Media, Moderna y Contemporánea.',
+        'La escritura marca el paso de la Prehistoria a la Historia.',
+        'La caída de Roma (476) separa la Edad Antigua de la Media.',
+        'El descubrimiento de América (1492) abre la Edad Moderna.',
+        'La Revolución Francesa (1789) abre la Edad Contemporánea.',
+        'Ordenar los hitos ayuda a entender cómo hemos llegado a hoy.',
+      ],
+      en: [
+        'History is divided into great ages to order time.',
+        'The ages: Prehistory, Ancient, Medieval, Modern and Contemporary.',
+        'Writing marks the shift from Prehistory to History.',
+        'The fall of Rome (476) separates the Ancient Age from the Medieval.',
+        'The discovery of America (1492) opens the Modern Age.',
+        'The French Revolution (1789) opens the Contemporary Age.',
+        'Ordering the milestones helps to understand how we got to today.',
+      ],
+      ca: [
+        'La història es divideix en grans edats per ordenar el temps.',
+        'Les edats: Prehistòria, Antiga, Mitjana, Moderna i Contemporània.',
+        'L\'escriptura marca el pas de la Prehistòria a la Història.',
+        'La caiguda de Roma (476) separa l\'Edat Antiga de la Mitjana.',
+        'El descobriment d\'Amèrica (1492) obre l\'Edat Moderna.',
+        'La Revolució Francesa (1789) obre l\'Edat Contemporània.',
+        'Ordenar les fites ajuda a entendre com hem arribat a avui.',
+      ],
+    },
+  },
 }

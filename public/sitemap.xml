@@ -152,6 +152,30 @@
   <url><loc>https://www.tuthor.es/estudiar/geografia/eeuu</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/en/estudiar/geografia/eeuu</loc><changefreq>weekly</changefreq><priority>0.75</priority></url>
   <url><loc>https://www.tuthor.es/ca/estudiar/geografia/eeuu</loc><changefreq>weekly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://www.tuthor.es/estudiar/historia/prehistoria</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/en/estudiar/historia/prehistoria</loc><changefreq>weekly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://www.tuthor.es/ca/estudiar/historia/prehistoria</loc><changefreq>weekly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://www.tuthor.es/estudiar/historia/antigua</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/en/estudiar/historia/antigua</loc><changefreq>weekly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://www.tuthor.es/ca/estudiar/historia/antigua</loc><changefreq>weekly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://www.tuthor.es/estudiar/historia/roma</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/en/estudiar/historia/roma</loc><changefreq>weekly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://www.tuthor.es/ca/estudiar/historia/roma</loc><changefreq>weekly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://www.tuthor.es/estudiar/historia/gce</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/en/estudiar/historia/gce</loc><changefreq>weekly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://www.tuthor.es/ca/estudiar/historia/gce</loc><changefreq>weekly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://www.tuthor.es/estudiar/historia/franquismo</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/en/estudiar/historia/franquismo</loc><changefreq>weekly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://www.tuthor.es/ca/estudiar/historia/franquismo</loc><changefreq>weekly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://www.tuthor.es/estudiar/historia/wwii</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/en/estudiar/historia/wwii</loc><changefreq>weekly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://www.tuthor.es/ca/estudiar/historia/wwii</loc><changefreq>weekly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://www.tuthor.es/estudiar/historia/usa</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/en/estudiar/historia/usa</loc><changefreq>weekly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://www.tuthor.es/ca/estudiar/historia/usa</loc><changefreq>weekly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://www.tuthor.es/estudiar/historia/primaria</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/en/estudiar/historia/primaria</loc><changefreq>weekly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://www.tuthor.es/ca/estudiar/historia/primaria</loc><changefreq>weekly</changefreq><priority>0.75</priority></url>
   <url><loc>https://www.tuthor.es/estudiar/geografia</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/estudiar/economia</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/estudiar/musica</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
