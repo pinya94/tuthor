@@ -131,8 +131,8 @@ export function resolveMeta(path, lang) {
     }
   }
 
-  // Temas de estudio de ciencias con contenido propio (resumen + puntos clave).
-  m = path.match(/^\/estudiar\/(?:quimica|fisica|biologia|geologia)\/([\w-]+)$/)
+  // Temas de estudio (ciencias, geografía, historia) con contenido propio.
+  m = path.match(/^\/estudiar\/(?:quimica|fisica|biologia|geologia|geografia|historia)\/([\w-]+)$/)
   if (m && CONTENIDO_TEMA[m[1]]) {
     const c = CONTENIDO_TEMA[m[1]]
     return { title: c.metaTitle[l] || c.metaTitle.es, desc: c.metaDesc[l] || c.metaDesc.es }

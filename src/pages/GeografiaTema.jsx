@@ -5,6 +5,7 @@ import { paisesDeRegion } from '../lib/coordenadas'
 import PageMeta from '../components/PageMeta'
 import CourseSchema from '../components/CourseSchema'
 import BreadcrumbSchema from '../components/BreadcrumbSchema'
+import ContenidoTema, { contenidoMeta } from '../components/ContenidoTema'
 
 const REGION_FILTER = {
   europa:  p => p.continente === 'Europa' || p.continente === 'Europa/Asia',
@@ -57,8 +58,10 @@ export default function GeografiaTema() {
 
   if (!meta) { navigate(localPath('/estudiar/geografia')); return null }
 
-  const pageMeta = <PageMeta title={meta.titulo} description={meta.descripcion} path={`/estudiar/geografia/${region}`} lang={lang} />
-  const courseSchema = <CourseSchema name={meta.titulo} description={meta.descripcion} path={`/estudiar/geografia/${region}`} lang={lang} subject={en ? 'Geography' : ca ? 'Geografia' : 'Geografía'} />
+  const cMeta = contenidoMeta(region, lang)
+  const metaDesc = cMeta?.desc || meta.descripcion
+  const pageMeta = <PageMeta title={cMeta?.title || meta.titulo} description={metaDesc} path={`/estudiar/geografia/${region}`} lang={lang} />
+  const courseSchema = <CourseSchema name={meta.titulo} description={metaDesc} path={`/estudiar/geografia/${region}`} lang={lang} subject={en ? 'Geography' : ca ? 'Geografia' : 'Geografía'} />
   const breadcrumb = <BreadcrumbSchema lang={lang} items={[
     { name: en ? 'Study' : ca ? 'Estudiar' : 'Estudiar', path: '/estudiar' },
     { name: en ? 'Geography' : ca ? 'Geografia' : 'Geografía', path: '/estudiar/geografia' },
@@ -175,6 +178,8 @@ export default function GeografiaTema() {
           </div>
         </div>
       </div>
+
+      <ContenidoTema tema={region} lang={lang} />
 
       <div className="max-w-2xl mx-auto w-full space-y-4">
         <p className="text-white/30 text-xs uppercase tracking-widest font-semibold">

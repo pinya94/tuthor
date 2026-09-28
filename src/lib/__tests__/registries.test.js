@@ -381,14 +381,12 @@ describe('hub de fichas (/info/juegos) ↔ registro de fichas', () => {
 })
 
 describe('estudio de ciencias con contenido propio ↔ sitemap y meta', () => {
-  it('todo tema enriquecido está en el sitemap (es/en/ca) y resuelve meta', async () => {
+  it('todo tema enriquecido está en el sitemap (con su materia) y resuelve meta', async () => {
     const { CONTENIDO_TEMA } = await import('../../data/estudioTemaContenido.js')
-    const { disciplinaDeTema } = await import('../../data/ciencias.js')
     for (const tema of Object.keys(CONTENIDO_TEMA)) {
-      const disc = disciplinaDeTema(tema)
-      expect(disc, `el tema ${tema} no tiene disciplina en ciencias.js`).toBeTruthy()
-      const ruta = `/estudiar/${disc}/${tema}`
-      expect(neutralPaths.has(ruta), `falta ${ruta} en public/sitemap.xml`).toBe(true)
+      // su URL /estudiar/<materia>/<tema> vive en el sitemap; se localiza sola
+      const ruta = [...neutralPaths].find(p => new RegExp(`^/estudiar/[a-z-]+/${tema}$`).test(p))
+      expect(ruta, `el tema con contenido "${tema}" no tiene URL /estudiar/<materia>/${tema} en el sitemap`).toBeTruthy()
       // prerender: debe resolver meta específica en cada idioma
       for (const lang of ['es', 'en']) {
         const meta = resolveMeta(ruta, lang)

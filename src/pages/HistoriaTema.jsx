@@ -8,6 +8,7 @@ import PageMeta from '../components/PageMeta'
 import CourseSchema from '../components/CourseSchema'
 import BreadcrumbSchema from '../components/BreadcrumbSchema'
 import RecursosDelTema from '../components/RecursosDelTema'
+import ContenidoTema, { contenidoMeta } from '../components/ContenidoTema'
 
 const NIVELES = {
   es: [
@@ -97,8 +98,10 @@ export default function HistoriaTema() {
 
   if (!meta) { navigate(localPath('/estudiar/historia')); return null }
 
-  const pageMeta = <PageMeta title={meta.titulo} description={meta.descripcion} path={`/estudiar/historia/${categoria}`} lang={lang} />
-  const courseSchema = <CourseSchema name={meta.titulo} description={meta.descripcion} path={`/estudiar/historia/${categoria}`} lang={lang} subject={en ? 'History' : ca ? 'Història' : 'Historia'} />
+  const cMeta = contenidoMeta(categoria, lang)
+  const metaDesc = cMeta?.desc || meta.descripcion
+  const pageMeta = <PageMeta title={cMeta?.title || meta.titulo} description={metaDesc} path={`/estudiar/historia/${categoria}`} lang={lang} />
+  const courseSchema = <CourseSchema name={meta.titulo} description={metaDesc} path={`/estudiar/historia/${categoria}`} lang={lang} subject={en ? 'History' : ca ? 'Història' : 'Historia'} />
   const breadcrumb = <BreadcrumbSchema lang={lang} items={[
     { name: en ? 'Study' : ca ? 'Estudiar' : 'Estudiar', path: '/estudiar' },
     { name: en ? 'History' : ca ? 'Història' : 'Historia', path: '/estudiar/historia' },
@@ -233,6 +236,8 @@ export default function HistoriaTema() {
           </div>
         </div>
       </div>
+
+      <ContenidoTema tema={categoria} lang={lang} />
 
       {/* Modos de juego */}
       <div className="max-w-2xl mx-auto w-full space-y-4">

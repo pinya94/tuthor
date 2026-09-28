@@ -1297,4 +1297,396 @@ export const CONTENIDO_TEMA = {
       ],
     },
   },
+
+  'europa': {
+    metaTitle: {
+      es: 'Europa: países, relieve y ríos — resumen para estudiar',
+      en: 'Europe: countries, relief and rivers — a study summary',
+      ca: 'Europa: països, relleu i rius — resum per estudiar',
+    },
+    metaDesc: {
+      es: 'Dónde está Europa, sus casi 50 países, la Unión Europea, sus penínsulas, montañas (Alpes, Pirineos) y ríos (Volga, Danubio). Resumen y test de mapa.',
+      en: 'Where Europe is, its almost 50 countries, the European Union, its peninsulas, mountains (Alps, Pyrenees) and rivers (Volga, Danube). Summary and map test.',
+      ca: 'On és Europa, els seus gairebé 50 països, la Unió Europea, les seves penínsules, muntanyes (Alps, Pirineus) i rius (Volga, Danubi). Resum i test de mapa.',
+    },
+    resumen: {
+      es: [
+        'Europa es un continente pequeño en superficie pero muy poblado y con muchos países: unos 50. Se sitúa en el hemisferio norte y limita con el océano Atlántico al oeste, el Ártico al norte y Asia al este, de la que la separan los montes Urales. Está muy fragmentada en penínsulas —la ibérica, la itálica, la balcánica, la escandinava— y en islas.',
+        'Políticamente, muchos de sus países forman la Unión Europea, y bastantes comparten una moneda, el euro. Entre sus accidentes destacan los Alpes y los Pirineos, y ríos como el Volga (el más largo), el Danubio y el Rin. Grandes ciudades europeas son París, Londres, Roma, Berlín y Madrid.',
+      ],
+      en: [
+        'Europe is a continent small in area but densely populated and with many countries: around 50. It lies in the northern hemisphere and borders the Atlantic Ocean to the west, the Arctic to the north and Asia to the east, from which the Ural Mountains separate it. It is very fragmented into peninsulas —the Iberian, the Italian, the Balkan, the Scandinavian— and islands.',
+        'Politically, many of its countries form the European Union, and several share a currency, the euro. Notable features include the Alps and the Pyrenees, and rivers such as the Volga (the longest), the Danube and the Rhine. Major European cities are Paris, London, Rome, Berlin and Madrid.',
+      ],
+      ca: [
+        'Europa és un continent petit en superfície però molt poblat i amb molts països: uns 50. Se situa a l\'hemisferi nord i limita amb l\'oceà Atlàntic a l\'oest, l\'Àrtic al nord i Àsia a l\'est, de la qual la separen els monts Urals. Està molt fragmentada en penínsules —la ibèrica, la itàlica, la balcànica, l\'escandinava— i en illes.',
+        'Políticament, molts dels seus països formen la Unió Europea, i uns quants comparteixen una moneda, l\'euro. Entre els seus accidents destaquen els Alps i els Pirineus, i rius com el Volga (el més llarg), el Danubi i el Rin. Grans ciutats europees són París, Londres, Roma, Berlín i Madrid.',
+      ],
+    },
+    puntosClave: {
+      es: [
+        'Europa está en el hemisferio norte; limita con Asia por los montes Urales.',
+        'Es pequeña en superficie pero tiene unos 50 países.',
+        'Muy fragmentada: penínsulas (ibérica, itálica, balcánica, escandinava) e islas.',
+        'Muchos países forman la Unión Europea; varios usan el euro.',
+        'Montañas destacadas: los Alpes y los Pirineos.',
+        'Ríos importantes: el Volga (el más largo), el Danubio y el Rin.',
+        'Grandes ciudades: París, Londres, Roma, Berlín y Madrid.',
+      ],
+      en: [
+        'Europe is in the northern hemisphere; it borders Asia at the Ural Mountains.',
+        'It is small in area but has around 50 countries.',
+        'Very fragmented: peninsulas (Iberian, Italian, Balkan, Scandinavian) and islands.',
+        'Many countries form the European Union; several use the euro.',
+        'Notable mountains: the Alps and the Pyrenees.',
+        'Important rivers: the Volga (the longest), the Danube and the Rhine.',
+        'Major cities: Paris, London, Rome, Berlin and Madrid.',
+      ],
+      ca: [
+        'Europa és a l\'hemisferi nord; limita amb Àsia pels monts Urals.',
+        'És petita en superfície però té uns 50 països.',
+        'Molt fragmentada: penínsules (ibèrica, itàlica, balcànica, escandinava) i illes.',
+        'Molts països formen la Unió Europea; uns quants fan servir l\'euro.',
+        'Muntanyes destacades: els Alps i els Pirineus.',
+        'Rius importants: el Volga (el més llarg), el Danubi i el Rin.',
+        'Grans ciutats: París, Londres, Roma, Berlín i Madrid.',
+      ],
+    },
+  },
+
+  'america': {
+    metaTitle: {
+      es: 'América: del Norte, Central y del Sur — resumen para estudiar',
+      en: 'The Americas: North, Central and South — a study summary',
+      ca: 'Amèrica: del Nord, Central i del Sud — resum per estudiar',
+    },
+    metaDesc: {
+      es: 'Las tres partes de América, los Andes, el Amazonas, los países más extensos y las lenguas que se hablan. Resumen para estudiar y test de mapa.',
+      en: 'The three parts of the Americas, the Andes, the Amazon, the largest countries and the languages spoken. Study summary and map test.',
+      ca: 'Les tres parts d\'Amèrica, els Andes, l\'Amazones, els països més extensos i les llengües que s\'hi parlen. Resum per estudiar i test de mapa.',
+    },
+    resumen: {
+      es: [
+        'América es el segundo continente más grande y se extiende de norte a sur por todo un hemisferio, desde el Ártico hasta cerca de la Antártida. Se divide en tres partes: América del Norte (Canadá, Estados Unidos y México), América Central (el istmo y las islas del Caribe) y América del Sur.',
+        'Es un continente de contrastes enormes: la cordillera de los Andes recorre todo el oeste de Sudamérica, y en ese continente está el río Amazonas, el más caudaloso del mundo, con su gran selva. Se hablan sobre todo español, inglés y portugués (en Brasil). Entre sus países más extensos están Canadá, Estados Unidos y Brasil.',
+      ],
+      en: [
+        'The Americas make up the second-largest continent and stretch from north to south across a whole hemisphere, from the Arctic to near Antarctica. They divide into three parts: North America (Canada, the United States and Mexico), Central America (the isthmus and the Caribbean islands) and South America.',
+        'It is a continent of huge contrasts: the Andes run all along the west of South America, and there flows the Amazon, the world\'s largest river by volume, with its vast rainforest. The main languages are Spanish, English and Portuguese (in Brazil). Among its largest countries are Canada, the United States and Brazil.',
+      ],
+      ca: [
+        'Amèrica és el segon continent més gran i s\'estén de nord a sud per tot un hemisferi, des de l\'Àrtic fins a prop de l\'Antàrtida. Es divideix en tres parts: Amèrica del Nord (Canadà, Estats Units i Mèxic), Amèrica Central (l\'istme i les illes del Carib) i Amèrica del Sud.',
+        'És un continent de contrastos enormes: la serralada dels Andes recorre tot l\'oest de Sud-amèrica, i en aquest continent hi ha el riu Amazones, el més cabalós del món, amb la seva gran selva. S\'hi parlen sobretot espanyol, anglès i portuguès (al Brasil). Entre els seus països més extensos hi ha el Canadà, els Estats Units i el Brasil.',
+      ],
+    },
+    puntosClave: {
+      es: [
+        'América se divide en América del Norte, Central y del Sur.',
+        'América del Norte: Canadá, Estados Unidos y México.',
+        'Es el segundo continente más grande; va del Ártico al extremo sur.',
+        'La cordillera de los Andes recorre todo el oeste de Sudamérica.',
+        'El Amazonas es el río más caudaloso del mundo.',
+        'Se hablan sobre todo español, inglés y portugués (Brasil).',
+        'Países muy extensos: Canadá, Estados Unidos y Brasil.',
+      ],
+      en: [
+        'The Americas divide into North, Central and South America.',
+        'North America: Canada, the United States and Mexico.',
+        'It is the second-largest continent; it goes from the Arctic to the far south.',
+        'The Andes run all along the west of South America.',
+        'The Amazon is the world\'s largest river by volume.',
+        'The main languages are Spanish, English and Portuguese (Brazil).',
+        'Very large countries: Canada, the United States and Brazil.',
+      ],
+      ca: [
+        'Amèrica es divideix en Amèrica del Nord, Central i del Sud.',
+        'Amèrica del Nord: Canadà, Estats Units i Mèxic.',
+        'És el segon continent més gran; va de l\'Àrtic a l\'extrem sud.',
+        'La serralada dels Andes recorre tot l\'oest de Sud-amèrica.',
+        'L\'Amazones és el riu més cabalós del món.',
+        'S\'hi parlen sobretot espanyol, anglès i portuguès (Brasil).',
+        'Països molt extensos: Canadà, Estats Units i Brasil.',
+      ],
+    },
+  },
+
+  'asia': {
+    metaTitle: {
+      es: 'Asia: el continente más grande y poblado — resumen',
+      en: 'Asia: the largest and most populated continent — summary',
+      ca: 'Àsia: el continent més gran i poblat — resum',
+    },
+    metaDesc: {
+      es: 'Dónde está Asia, por qué es el continente más grande y poblado, el Himalaya y el Everest, sus grandes ríos y su diversidad. Resumen y test de mapa.',
+      en: 'Where Asia is, why it is the largest and most populated continent, the Himalayas and Everest, its great rivers and its diversity. Summary and map test.',
+      ca: 'On és Àsia, per què és el continent més gran i poblat, l\'Himàlaia i l\'Everest, els seus grans rius i la seva diversitat. Resum i test de mapa.',
+    },
+    resumen: {
+      es: [
+        'Asia es el continente más grande y más poblado del planeta: en él vive más de la mitad de la humanidad, con países como China y la India, los más poblados del mundo. Ocupa gran parte del hemisferio norte y limita con Europa (de la que la separan los montes Urales), con África por el istmo de Suez y con los océanos Pacífico, Índico y Ártico.',
+        'Tiene los mayores relieves de la Tierra: la cordillera del Himalaya, con el Everest, la montaña más alta del mundo. También están el desierto de Arabia, la enorme llanura de Siberia y ríos como el Yangtsé y el Ganges. Es una región de gran diversidad de culturas, religiones e idiomas.',
+      ],
+      en: [
+        'Asia is the largest and most populated continent on the planet: more than half of humanity lives there, with countries like China and India, the most populous in the world. It occupies much of the northern hemisphere and borders Europe (from which the Urals separate it), Africa at the Isthmus of Suez, and the Pacific, Indian and Arctic oceans.',
+        'It has the greatest reliefs on Earth: the Himalayas, with Everest, the highest mountain in the world. There are also the Arabian Desert, the huge Siberian plain and rivers such as the Yangtze and the Ganges. It is a region of great diversity of cultures, religions and languages.',
+      ],
+      ca: [
+        'Àsia és el continent més gran i més poblat del planeta: hi viu més de la meitat de la humanitat, amb països com la Xina i l\'Índia, els més poblats del món. Ocupa gran part de l\'hemisferi nord i limita amb Europa (de la qual la separen els monts Urals), amb Àfrica per l\'istme de Suez i amb els oceans Pacífic, Índic i Àrtic.',
+        'Té els majors relleus de la Terra: la serralada de l\'Himàlaia, amb l\'Everest, la muntanya més alta del món. També hi ha el desert d\'Aràbia, l\'enorme plana de Sibèria i rius com el Iangtsé i el Ganges. És una regió de gran diversitat de cultures, religions i idiomes.',
+      ],
+    },
+    puntosClave: {
+      es: [
+        'Asia es el continente más grande y el más poblado.',
+        'En él están China y la India, los países más poblados del mundo.',
+        'Limita con Europa por los montes Urales y con África por el istmo de Suez.',
+        'El Himalaya es la cordillera más alta; el Everest, la mayor montaña del mundo.',
+        'Grandes ríos: el Yangtsé y el Ganges.',
+        'Enorme diversidad de culturas, religiones e idiomas.',
+        'Incluye regiones muy distintas: Siberia, Arabia, el Sudeste asiático…',
+      ],
+      en: [
+        'Asia is the largest continent and the most populated.',
+        'It contains China and India, the most populous countries in the world.',
+        'It borders Europe at the Urals and Africa at the Isthmus of Suez.',
+        'The Himalayas are the highest range; Everest, the world\'s tallest mountain.',
+        'Great rivers: the Yangtze and the Ganges.',
+        'Huge diversity of cultures, religions and languages.',
+        'It includes very different regions: Siberia, Arabia, Southeast Asia…',
+      ],
+      ca: [
+        'Àsia és el continent més gran i el més poblat.',
+        'Hi ha la Xina i l\'Índia, els països més poblats del món.',
+        'Limita amb Europa pels monts Urals i amb Àfrica per l\'istme de Suez.',
+        'L\'Himàlaia és la serralada més alta; l\'Everest, la muntanya més gran del món.',
+        'Grans rius: el Iangtsé i el Ganges.',
+        'Enorme diversitat de cultures, religions i idiomes.',
+        'Inclou regions molt diferents: Sibèria, Aràbia, el Sud-est asiàtic…',
+      ],
+    },
+  },
+
+  'africa': {
+    metaTitle: {
+      es: 'África: el Sáhara, el Nilo y sus países — resumen',
+      en: 'Africa: the Sahara, the Nile and its countries — summary',
+      ca: 'Àfrica: el Sàhara, el Nil i els seus països — resum',
+    },
+    metaDesc: {
+      es: 'Dónde está África, el Sáhara, las sabanas y selvas, el Nilo, el Kilimanjaro y por qué se la llama la cuna de la humanidad. Resumen y test de mapa.',
+      en: 'Where Africa is, the Sahara, the savannahs and rainforests, the Nile, Kilimanjaro and why it is called the cradle of humanity. Summary and map test.',
+      ca: 'On és Àfrica, el Sàhara, les sabanes i selves, el Nil, el Kilimanjaro i per què se l\'anomena el bressol de la humanitat. Resum i test de mapa.',
+    },
+    resumen: {
+      es: [
+        'África es el segundo continente más grande y está atravesado por el ecuador, así que tiene un clima mayoritariamente cálido. En el norte se extiende el Sáhara, el mayor desierto cálido del mundo; hacia el centro y el sur hay sabanas y selvas tropicales. Lo separan de Europa el mar Mediterráneo y el estrecho de Gibraltar.',
+        'Es un continente de más de 50 países y una enorme variedad de pueblos e idiomas. Por él discurre el Nilo, uno de los ríos más largos del mundo, y en él está el Kilimanjaro, su montaña más alta. Se considera la cuna de la humanidad, porque allí aparecieron los primeros seres humanos.',
+      ],
+      en: [
+        'Africa is the second-largest continent and is crossed by the equator, so its climate is mostly warm. In the north lies the Sahara, the largest hot desert in the world; towards the centre and south there are savannahs and tropical rainforests. The Mediterranean Sea and the Strait of Gibraltar separate it from Europe.',
+        'It is a continent of more than 50 countries and a huge variety of peoples and languages. The Nile, one of the longest rivers in the world, runs through it, and there stands Kilimanjaro, its highest mountain. It is regarded as the cradle of humanity, because the first human beings appeared there.',
+      ],
+      ca: [
+        'Àfrica és el segon continent més gran i està travessat per l\'equador, així que té un clima majoritàriament càlid. Al nord s\'estén el Sàhara, el desert càlid més gran del món; cap al centre i el sud hi ha sabanes i selves tropicals. El separen d\'Europa el mar Mediterrani i l\'estret de Gibraltar.',
+        'És un continent de més de 50 països i una enorme varietat de pobles i idiomes. Hi discorre el Nil, un dels rius més llargs del món, i hi ha el Kilimanjaro, la seva muntanya més alta. Es considera el bressol de la humanitat, perquè allà van aparèixer els primers éssers humans.',
+      ],
+    },
+    puntosClave: {
+      es: [
+        'África es el segundo continente más grande; el ecuador lo atraviesa.',
+        'El Sáhara, en el norte, es el mayor desierto cálido del mundo.',
+        'Hacia el centro y el sur: sabanas y selvas tropicales.',
+        'El Nilo es uno de los ríos más largos del mundo.',
+        'El Kilimanjaro es su montaña más alta.',
+        'Tiene más de 50 países y muchísimos pueblos e idiomas.',
+        'Se considera la cuna de la humanidad.',
+      ],
+      en: [
+        'Africa is the second-largest continent; the equator crosses it.',
+        'The Sahara, in the north, is the largest hot desert in the world.',
+        'Towards the centre and south: savannahs and tropical rainforests.',
+        'The Nile is one of the longest rivers in the world.',
+        'Kilimanjaro is its highest mountain.',
+        'It has more than 50 countries and a great many peoples and languages.',
+        'It is regarded as the cradle of humanity.',
+      ],
+      ca: [
+        'Àfrica és el segon continent més gran; l\'equador el travessa.',
+        'El Sàhara, al nord, és el desert càlid més gran del món.',
+        'Cap al centre i el sud: sabanes i selves tropicals.',
+        'El Nil és un dels rius més llargs del món.',
+        'El Kilimanjaro és la seva muntanya més alta.',
+        'Té més de 50 països i moltíssims pobles i idiomes.',
+        'Es considera el bressol de la humanitat.',
+      ],
+    },
+  },
+
+  'oceania': {
+    metaTitle: {
+      es: 'Oceanía: Australia y las islas del Pacífico — resumen',
+      en: 'Oceania: Australia and the Pacific islands — a summary',
+      ca: 'Oceania: Austràlia i les illes del Pacífic — resum',
+    },
+    metaDesc: {
+      es: 'El continente más pequeño: Australia, Nueva Zelanda y las islas del Pacífico (Melanesia, Micronesia, Polinesia), sus animales y la Gran Barrera de Coral. Resumen y test.',
+      en: 'The smallest continent: Australia, New Zealand and the Pacific islands (Melanesia, Micronesia, Polynesia), its animals and the Great Barrier Reef. Summary and test.',
+      ca: 'El continent més petit: Austràlia, Nova Zelanda i les illes del Pacífic (Melanèsia, Micronèsia, Polinèsia), els seus animals i la Gran Barrera de Corall. Resum i test.',
+    },
+    resumen: {
+      es: [
+        'Oceanía es el continente más pequeño y el que menos población tiene. Está formado por Australia —que ocupa casi todo el territorio—, Nueva Zelanda y miles de islas repartidas por el océano Pacífico, agrupadas en tres regiones: Melanesia, Micronesia y Polinesia.',
+        'Está casi entero en el hemisferio sur, muy alejado del resto de continentes. Australia es en gran parte un desierto, el llamado outback, y alberga animales únicos como el canguro y el koala. En su costa está la Gran Barrera de Coral, el mayor arrecife del mundo. Su ciudad más grande es Sídney, aunque la capital es Canberra.',
+      ],
+      en: [
+        'Oceania is the smallest continent and the least populated. It is made up of Australia —which takes up almost all the land—, New Zealand and thousands of islands scattered across the Pacific Ocean, grouped into three regions: Melanesia, Micronesia and Polynesia.',
+        'It is almost entirely in the southern hemisphere, far from the other continents. Australia is largely a desert, the so-called outback, and is home to unique animals like the kangaroo and the koala. Off its coast lies the Great Barrier Reef, the largest reef in the world. Its biggest city is Sydney, although the capital is Canberra.',
+      ],
+      ca: [
+        'Oceania és el continent més petit i el que menys població té. Està format per Austràlia —que ocupa gairebé tot el territori—, Nova Zelanda i milers d\'illes repartides per l\'oceà Pacífic, agrupades en tres regions: Melanèsia, Micronèsia i Polinèsia.',
+        'Està gairebé sencer a l\'hemisferi sud, molt allunyat de la resta de continents. Austràlia és en gran part un desert, l\'anomenat outback, i acull animals únics com el cangur i el coala. A la seva costa hi ha la Gran Barrera de Corall, l\'escull més gran del món. La seva ciutat més gran és Sydney, encara que la capital és Canberra.',
+      ],
+    },
+    puntosClave: {
+      es: [
+        'Oceanía es el continente más pequeño y menos poblado.',
+        'Lo forman Australia, Nueva Zelanda y miles de islas del Pacífico.',
+        'Las islas se agrupan en Melanesia, Micronesia y Polinesia.',
+        'Está casi entero en el hemisferio sur.',
+        'Australia tiene un gran desierto interior, el outback.',
+        'Alberga animales únicos: el canguro y el koala.',
+        'La Gran Barrera de Coral es el mayor arrecife del mundo.',
+      ],
+      en: [
+        'Oceania is the smallest continent and the least populated.',
+        'It is made up of Australia, New Zealand and thousands of Pacific islands.',
+        'The islands are grouped into Melanesia, Micronesia and Polynesia.',
+        'It is almost entirely in the southern hemisphere.',
+        'Australia has a large inland desert, the outback.',
+        'It is home to unique animals: the kangaroo and the koala.',
+        'The Great Barrier Reef is the largest reef in the world.',
+      ],
+      ca: [
+        'Oceania és el continent més petit i menys poblat.',
+        'El formen Austràlia, Nova Zelanda i milers d\'illes del Pacífic.',
+        'Les illes s\'agrupen en Melanèsia, Micronèsia i Polinèsia.',
+        'Està gairebé sencer a l\'hemisferi sud.',
+        'Austràlia té un gran desert interior, l\'outback.',
+        'Acull animals únics: el cangur i el coala.',
+        'La Gran Barrera de Corall és l\'escull més gran del món.',
+      ],
+    },
+  },
+
+  'espana': {
+    metaTitle: {
+      es: 'España: las 17 comunidades autónomas — resumen para estudiar',
+      en: 'Spain: the 17 autonomous communities — a study summary',
+      ca: 'Espanya: les 17 comunitats autònomes — resum per estudiar',
+    },
+    metaDesc: {
+      es: 'La organización de España en 17 comunidades autónomas, su situación en la península ibérica, las islas, la capital y su relieve. Resumen y test de mapa.',
+      en: 'How Spain is organised into 17 autonomous communities, its place on the Iberian Peninsula, the islands, the capital and its relief. Summary and map test.',
+      ca: 'L\'organització d\'Espanya en 17 comunitats autònomes, la seva situació a la península ibèrica, les illes, la capital i el relleu. Resum i test de mapa.',
+    },
+    resumen: {
+      es: [
+        'España se organiza en 17 comunidades autónomas y 2 ciudades autónomas, Ceuta y Melilla. Se sitúa en el suroeste de Europa, en la península ibérica, que comparte con Portugal, e incluye además las islas Baleares (en el Mediterráneo), las islas Canarias (en el Atlántico, frente a África) y las dos ciudades del norte de África.',
+        'Su capital es Madrid, en el centro del país. El relieve es muy montañoso, con una gran meseta central rodeada de cordilleras, como los Pirineos, que la separan de Francia. Cada comunidad autónoma tiene su propio gobierno y sus competencias, y algunas tienen lengua propia, como el catalán, el gallego o el euskera.',
+      ],
+      en: [
+        'Spain is organised into 17 autonomous communities and 2 autonomous cities, Ceuta and Melilla. It lies in south-western Europe, on the Iberian Peninsula, which it shares with Portugal, and it also includes the Balearic Islands (in the Mediterranean), the Canary Islands (in the Atlantic, off Africa) and the two cities in North Africa.',
+        'Its capital is Madrid, in the centre of the country. The relief is very mountainous, with a large central plateau surrounded by mountain ranges, such as the Pyrenees, which separate it from France. Each autonomous community has its own government and powers, and some have their own language, such as Catalan, Galician or Basque.',
+      ],
+      ca: [
+        'Espanya s\'organitza en 17 comunitats autònomes i 2 ciutats autònomes, Ceuta i Melilla. Se situa al sud-oest d\'Europa, a la península ibèrica, que comparteix amb Portugal, i inclou a més les illes Balears (al Mediterrani), les illes Canàries (a l\'Atlàntic, davant d\'Àfrica) i les dues ciutats del nord d\'Àfrica.',
+        'La seva capital és Madrid, al centre del país. El relleu és molt muntanyós, amb una gran meseta central envoltada de serralades, com els Pirineus, que la separen de França. Cada comunitat autònoma té el seu propi govern i les seves competències, i algunes tenen llengua pròpia, com el català, el gallec o l\'èuscar.',
+      ],
+    },
+    puntosClave: {
+      es: [
+        'España tiene 17 comunidades autónomas y 2 ciudades autónomas (Ceuta y Melilla).',
+        'Está en la península ibérica, que comparte con Portugal.',
+        'Incluye Baleares, Canarias y las ciudades del norte de África.',
+        'Su capital es Madrid, en el centro.',
+        'Los Pirineos la separan de Francia.',
+        'El interior es una gran meseta rodeada de montañas.',
+        'Hay lenguas propias: el catalán, el gallego y el euskera.',
+      ],
+      en: [
+        'Spain has 17 autonomous communities and 2 autonomous cities (Ceuta and Melilla).',
+        'It is on the Iberian Peninsula, which it shares with Portugal.',
+        'It includes the Balearics, the Canaries and the cities in North Africa.',
+        'Its capital is Madrid, in the centre.',
+        'The Pyrenees separate it from France.',
+        'The interior is a large plateau surrounded by mountains.',
+        'It has its own languages: Catalan, Galician and Basque.',
+      ],
+      ca: [
+        'Espanya té 17 comunitats autònomes i 2 ciutats autònomes (Ceuta i Melilla).',
+        'És a la península ibèrica, que comparteix amb Portugal.',
+        'Inclou les Balears, les Canàries i les ciutats del nord d\'Àfrica.',
+        'La seva capital és Madrid, al centre.',
+        'Els Pirineus la separen de França.',
+        'L\'interior és una gran meseta envoltada de muntanyes.',
+        'Hi ha llengües pròpies: el català, el gallec i l\'èuscar.',
+      ],
+    },
+  },
+
+  'eeuu': {
+    metaTitle: {
+      es: 'Estados Unidos: los 50 estados — resumen para estudiar',
+      en: 'The United States: the 50 states — a study summary',
+      ca: 'Estats Units: els 50 estats — resum per estudiar',
+    },
+    metaDesc: {
+      es: 'Cómo se organiza Estados Unidos en 50 estados, su capital, Alaska y Hawái, su relieve y su sistema federal. Resumen para estudiar y test de mapa.',
+      en: 'How the United States is organised into 50 states, its capital, Alaska and Hawaii, its relief and its federal system. Study summary and map test.',
+      ca: 'Com s\'organitzen els Estats Units en 50 estats, la seva capital, Alaska i Hawaii, el relleu i el sistema federal. Resum per estudiar i test de mapa.',
+    },
+    resumen: {
+      es: [
+        'Estados Unidos es un país de América del Norte formado por 50 estados, además de la capital federal, Washington D. C. Cuarenta y ocho estados están juntos entre Canadá y México; los otros dos están aparte: Alaska, al noroeste, y Hawái, un archipiélago en el océano Pacífico.',
+        'Es uno de los países más grandes y poblados del mundo. Su territorio es muy variado: la cadena de las Montañas Rocosas al oeste, las grandes llanuras en el centro, los Grandes Lagos al norte y ríos como el Misisipi. Cada estado tiene su propio gobierno y sus leyes, dentro de un sistema federal.',
+      ],
+      en: [
+        'The United States is a country in North America made up of 50 states, plus the federal capital, Washington D.C. Forty-eight states are together between Canada and Mexico; the other two are apart: Alaska, in the north-west, and Hawaii, an archipelago in the Pacific Ocean.',
+        'It is one of the largest and most populated countries in the world. Its territory is very varied: the Rocky Mountains to the west, the great plains in the centre, the Great Lakes to the north and rivers such as the Mississippi. Each state has its own government and laws, within a federal system.',
+      ],
+      ca: [
+        'Els Estats Units són un país d\'Amèrica del Nord format per 50 estats, a més de la capital federal, Washington D. C. Quaranta-vuit estats estan junts entre el Canadà i Mèxic; els altres dos estan a part: Alaska, al nord-oest, i Hawaii, un arxipèlag a l\'oceà Pacífic.',
+        'És un dels països més grans i poblats del món. El seu territori és molt variat: la serralada de les Muntanyes Rocoses a l\'oest, les grans planes al centre, els Grans Llacs al nord i rius com el Mississipí. Cada estat té el seu propi govern i les seves lleis, dins d\'un sistema federal.',
+      ],
+    },
+    puntosClave: {
+      es: [
+        'Estados Unidos tiene 50 estados; su capital es Washington D. C.',
+        '48 estados están juntos, entre Canadá y México.',
+        'Alaska (noroeste) y Hawái (Pacífico) están separados del resto.',
+        'Es uno de los países más grandes y poblados del mundo.',
+        'Relieve variado: Montañas Rocosas, grandes llanuras y Grandes Lagos.',
+        'El Misisipi es uno de sus grandes ríos.',
+        'Es un país federal: cada estado tiene su gobierno y sus leyes.',
+      ],
+      en: [
+        'The United States has 50 states; its capital is Washington D.C.',
+        '48 states are together, between Canada and Mexico.',
+        'Alaska (north-west) and Hawaii (Pacific) are separate from the rest.',
+        'It is one of the largest and most populated countries in the world.',
+        'Varied relief: the Rocky Mountains, the great plains and the Great Lakes.',
+        'The Mississippi is one of its great rivers.',
+        'It is a federal country: each state has its own government and laws.',
+      ],
+      ca: [
+        'Els Estats Units tenen 50 estats; la seva capital és Washington D. C.',
+        '48 estats estan junts, entre el Canadà i Mèxic.',
+        'Alaska (nord-oest) i Hawaii (Pacífic) estan separats de la resta.',
+        'És un dels països més grans i poblats del món.',
+        'Relleu variat: Muntanyes Rocoses, grans planes i Grans Llacs.',
+        'El Mississipí és un dels seus grans rius.',
+        'És un país federal: cada estat té el seu govern i les seves lleis.',
+      ],
+    },
+  },
 }
