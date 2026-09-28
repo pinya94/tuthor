@@ -12,6 +12,7 @@ import { TOPIC_SUBJECT_IDS } from '../topicCatalog.js'
 
 const APP = readFileSync(new URL('../../App.jsx', import.meta.url), 'utf8')
 const TEMARIO_PAGE = readFileSync(new URL('../../pages/Temario.jsx', import.meta.url), 'utf8')
+const HEROCARD = readFileSync(new URL('../../components/HeroCard.jsx', import.meta.url), 'utf8')
 
 // `path` es absoluto ('/diaria'); en App.jsx las rutas van sin barra inicial
 // porque cuelgan del <Route path="/"> de cada idioma.
@@ -36,14 +37,14 @@ describe('las puertas de /app', () => {
     }
   })
 
-  it('cada una trae su imagen y la variante -sm que pide HeroCard', () => {
-    // HeroCard construye el srcSet sustituyendo .webp por -sm.webp sin
-    // comprobar nada: si falta, el navegador se queda sin la fuente pequeña.
+  it('cada una trae icono y degradado, y HeroCard conoce ese icono', () => {
+    // Las puertas ya no usan foto: HeroCard pinta un degradado (bg) + un glifo
+    // (icon) del mapa ICONS. Si el icono no está en ese mapa, la tarjeta cae al
+    // modo imagen y peta (no hay p.image), así que se comprueba aquí.
     for (const p of PUERTAS) {
-      expect(p.image, `${p.id} sin imagen`).toMatch(/\.webp$/)
-      expect(rutaPublica(p.image), `falta public${p.image}`).toBe(true)
-      const sm = p.image.replace('.webp', '-sm.webp')
-      expect(rutaPublica(sm), `falta public${sm} (la usa el srcSet de HeroCard)`).toBe(true)
+      expect(p.icon, `${p.id} sin icon`).toBeTruthy()
+      expect(p.bg, `${p.id} sin degradado bg`).toMatch(/from-.+to-/)
+      expect(HEROCARD.includes(`${p.icon}:`), `HeroCard no tiene el icono "${p.icon}" en su mapa ICONS`).toBe(true)
     }
   })
 
