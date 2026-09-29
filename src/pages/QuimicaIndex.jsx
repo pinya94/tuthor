@@ -81,6 +81,16 @@ const TEMAS = [
     tags: ['planetas', 'sol', 'luna', 'orbita', 'rotacion', 'traslacion', 'sistema solar', 'planets', 'solar system'],
     niveles: nivelesDeTema('geologia', 'sistema-solar'),
   },
+  // Placas Tectónicas y Evolución tenían página, examen y ficha pero no
+  // tarjeta aquí: solo se llegaba a ellas desde fuera del hub.
+  {
+    id: 'placas-tectonicas', disciplina: 'geologia',
+    titulo: 'Placas Tectónicas', tituloEn: 'Tectonic Plates', tituloCa: 'Plaques Tectòniques',
+    subtitulo: 'Capas de la Tierra, terremotos, volcanes y deriva continental', subtituloEn: 'Earth\'s layers, earthquakes, volcanoes and continental drift', subtituloCa: 'Capes de la Terra, terratrèmols, volcans i deriva continental',
+    emoji: '🌋', gradient: 'from-orange-600 to-red-800',
+    tags: ['placas', 'tectonica', 'terremoto', 'volcan', 'sismo', 'corteza', 'manto', 'nucleo', 'deriva continental', 'pangea', 'plates', 'earthquake', 'volcano', 'continental drift'],
+    niveles: nivelesDeTema('geologia', 'placas-tectonicas'),
+  },
   {
     id: 'celula', disciplina: 'biologia',
     titulo: 'La Célula', tituloEn: 'The Cell', tituloCa: 'La Cèl·lula',
@@ -128,6 +138,14 @@ const TEMAS = [
     emoji: '🥗', gradient: 'from-lime-500 to-green-600',
     tags: ['nutricion', 'vitaminas', 'proteinas', 'carbohidratos', 'dieta', 'alimentacion', 'nutrition', 'vitamins', 'diet'],
     niveles: nivelesDeTema('biologia', 'nutricion'),
+  },
+  {
+    id: 'evolucion', disciplina: 'biologia',
+    titulo: 'Evolución', tituloEn: 'Evolution', tituloCa: 'Evolució',
+    subtitulo: 'Darwin, selección natural, adaptación y especiación', subtituloEn: 'Darwin, natural selection, adaptation and speciation', subtituloCa: 'Darwin, selecció natural, adaptació i especiació',
+    emoji: '🦕', gradient: 'from-lime-600 to-emerald-800',
+    tags: ['evolucion', 'darwin', 'seleccion natural', 'adaptacion', 'especie', 'lamarck', 'fosil', 'galapagos', 'evolution', 'natural selection', 'fossil'],
+    niveles: nivelesDeTema('biologia', 'evolucion'),
   },
   {
     id: 'fuerzas', disciplina: 'fisica',
@@ -192,6 +210,7 @@ export default function QuimicaIndex({ disciplina = 'quimica' }) {
     ...t,
     titulo:    lt(t, 'titulo'),
     subtitulo: lt(t, 'subtitulo'),
+    arte:      `${t.disciplina}/${t.id}`,
   }))
 
   return (

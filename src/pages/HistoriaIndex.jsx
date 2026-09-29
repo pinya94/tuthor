@@ -120,7 +120,7 @@ export default function HistoriaIndex() {
   const navigate = useNavigate()
   const { lang, localPath, lt } = useLang()
 
-  const temas = TEMAS.map(t => ({ ...t, titulo: lt(t, 'titulo'), subtitulo: lt(t, 'subtitulo') }))
+  const temas = TEMAS.map(t => ({ ...t, titulo: lt(t, 'titulo'), subtitulo: lt(t, 'subtitulo'), arte: `historia/${t.id}` }))
 
   function handleSelect(tema) {
     navigate(localPath(`/estudiar/historia/${tema.id}`))

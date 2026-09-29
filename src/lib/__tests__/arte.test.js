@@ -9,6 +9,9 @@ import { ARTE_JUEGOS, slugDeRuta } from '../../components/arte/index.jsx'
 import { ARTE_CURSOS, GLIFOS_CURSO } from '../../components/arte/cursos.jsx'
 import { ARTE_MATERIAS } from '../../components/arte/materias.jsx'
 import { MATERIAS_ESTUDIO } from '../../data/materiasEstudio.js'
+import { ARTE_TEMAS } from '../../components/arte/temas.jsx'
+import { topicIds } from '../topicCatalog.js'
+import { TEMA_DISCIPLINA } from '../../data/ciencias.js'
 
 describe('arte de los juegos', () => {
   it('todo juego del catálogo tiene su ilustración', () => {
@@ -52,6 +55,24 @@ describe('arte de las materias', () => {
     expect(ids.filter(id => !ARTE_MATERIAS[id]), 'materias sin ilustración').toEqual([])
     expect(Object.keys(ARTE_MATERIAS).filter(id => !ids.includes(id)), 'arte sin materia').toEqual([])
     for (const [id, Arte] of Object.entries(ARTE_MATERIAS)) expect(() => Arte({}), id).not.toThrow()
+  })
+})
+
+describe('arte de los temas', () => {
+  // Los temas con tarjeta propia: historia (topicCatalog) y ciencias
+  // (data/ciencias.js). Un tema nuevo en esos hubs sin dibujo rompe esto.
+  const esperadas = [
+    ...topicIds('historia').map(id => `historia/${id}`),
+    ...Object.entries(TEMA_DISCIPLINA).map(([id, disc]) => `${disc}/${id}`),
+  ]
+
+  it('cada tema de historia y ciencias tiene su ilustración', () => {
+    expect(esperadas.filter(k => !ARTE_TEMAS[k]), 'temas sin ilustración').toEqual([])
+  })
+
+  it('no sobra arte de temas que no existen, y todo se pinta', () => {
+    expect(Object.keys(ARTE_TEMAS).filter(k => !esperadas.includes(k)), 'arte sin tema').toEqual([])
+    for (const [k, Arte] of Object.entries(ARTE_TEMAS)) expect(() => Arte({}), k).not.toThrow()
   })
 })
 
