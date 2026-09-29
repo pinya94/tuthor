@@ -61,7 +61,7 @@ export default function InglesGrammarIndex() {
         {TEMAS.map(tema => (
           <TarjetaArte key={tema.id} titulo={tema.titulo}
             Arte={ARTE_TEMAS[CONCEPTO_INGLES[tema.id] ? `gramatica/${CONCEPTO_INGLES[tema.id]}` : `ingles/${tema.id}`]}
-            onClick={() => navigate(localPath(`/examen/${tema.gameId}`))} />
+            to={localPath(`/examen/${tema.gameId}`)} />
         ))}
       </div>
 

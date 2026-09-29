@@ -1,4 +1,3 @@
-import { useNavigate } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import SEOEstatico from '../components/SEOEstatico'
 import { ArteMateria } from '../components/arte/materias'
@@ -14,7 +13,6 @@ const CATEGORIAS = [
 ]
 
 export default function EspanolIndex() {
-  const navigate = useNavigate()
   const { lang, localPath } = useLang()
 
   return (
@@ -32,7 +30,7 @@ export default function EspanolIndex() {
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 max-w-3xl mx-auto w-full">
         {CATEGORIAS.map(cat => (
           <TarjetaArte key={cat.id} Arte={ARTE_TEMAS[cat.arte]} titulo={cat.titulo[lang] || cat.titulo.es}
-            onClick={() => navigate(localPath(cat.path))} />
+            to={localPath(cat.path)} />
         ))}
       </div>
     </div>

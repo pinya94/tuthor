@@ -1,4 +1,3 @@
-import { useNavigate } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import SEOEstatico from '../components/SEOEstatico'
 import { ArteMateria } from '../components/arte/materias'
@@ -16,9 +15,7 @@ const CATEGORIAS = [
     sub: { es: 'Encuentra las faltas de un texto en inglés', en: 'Find the mistakes in an English text', ca: "Troba les faltes d'un text en anglès" } },
 ]
 
-export default function InglesIndex() {
-  const navigate = useNavigate()
-  const { lang, localPath } = useLang()
+export default function InglesIndex() {  const { lang, localPath } = useLang()
 
   return (
     <div className="relative z-10 flex flex-col min-h-[calc(100vh-4rem)] px-4 sm:px-8 py-6">
@@ -36,7 +33,7 @@ export default function InglesIndex() {
         {CATEGORIAS.map(cat => (
           <TarjetaArte key={cat.id} titulo={cat.titulo[lang] || cat.titulo.es} sub={cat.sub && (cat.sub[lang] ?? cat.sub.es)}
             Arte={cat.id === 'grammar' ? ARTE_TEMAS['lengua/gramatica'] : ARTE_JUEGOS[slugDeRuta(cat.path)]}
-            onClick={() => navigate(localPath(cat.path), { state: cat.state })} />
+            to={localPath(cat.path)} state={cat.state} />
         ))}
       </div>
     </div>

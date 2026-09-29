@@ -241,6 +241,7 @@ export default function QuimicaIndex({ disciplina = 'quimica' }) {
       <TemarioGrid
         items={items}
         onSelect={item => navigate(localPath(`/estudiar/${disc.id}/${item.id}`))}
+        hrefDe={item => localPath(`/estudiar/${disc.id}/${item.id}`)}
         placeholder={ca ? 'Cercar tema...' : en ? 'Search topic...' : 'Buscar tema...'}
       />
       {/* Los recursos de esta disciplina, después del temario, que es a lo que

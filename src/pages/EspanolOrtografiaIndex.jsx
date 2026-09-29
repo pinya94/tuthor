@@ -42,7 +42,7 @@ export default function EspanolOrtografiaIndex() {
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 max-w-3xl mx-auto w-full">
         {TEMAS.map(tema => (
           <TarjetaArte key={tema.id} Arte={ARTE_TEMAS[`ortografia/${tema.id}`]} titulo={tema.titulo[lang] || tema.titulo.es}
-            onClick={() => navigate(localPath(`/examen/${tema.gameId}`))} />
+            to={localPath(`/examen/${tema.gameId}`)} />
         ))}
       </div>
 
@@ -52,7 +52,7 @@ export default function EspanolOrtografiaIndex() {
       <div className="grid grid-cols-2 gap-3 sm:gap-4 max-w-2xl mx-auto w-full">
         {JUEGOS.map(juego => (
           <TarjetaArte key={juego.id} Arte={ARTE_JUEGOS[slugDeRuta(juego.path)]} titulo={juego.titulo[lang] || juego.titulo.es}
-            onClick={() => navigate(localPath(juego.path), { state: juego.state })} />
+            to={localPath(juego.path)} state={juego.state} />
         ))}
       </div>
 

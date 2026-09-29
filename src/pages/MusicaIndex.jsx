@@ -1,4 +1,3 @@
-import { useNavigate } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import SEOHead from '../components/SEOHead'
 import { ArteMateria } from '../components/arte/materias'
@@ -29,7 +28,6 @@ const TEMAS = [
 ]
 
 export default function MusicaIndex() {
-  const navigate = useNavigate()
   const { lang, localPath, tr } = useLang()
 
   const seoData = {
@@ -57,7 +55,7 @@ export default function MusicaIndex() {
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 max-w-3xl mx-auto w-full">
         {TEMAS.filter(t => t.ready).map(t => (
           <TarjetaArte key={t.id} Arte={ARTE_TEMAS[`musica/${t.id}`]} titulo={tr(t.titulo)} sub={tr(t.subtitulo)}
-            onClick={() => navigate(localPath(t.path))} />
+            to={localPath(t.path)} />
         ))}
       </div>
     </div>

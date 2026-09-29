@@ -136,7 +136,7 @@ export default function HistoriaIndex() {
         <p className="text-white/40 mt-1 text-sm">{lang === 'ca' ? 'Selecciona quin període vols repassar' : lang === 'en' ? 'Select the period you want to revise' : 'Selecciona qué período quieres repasar'}</p>
       </div>
 
-      <TemarioGrid items={temas} onSelect={handleSelect} placeholder={lang === 'ca' ? 'Cercar tema, època, país...' : lang === 'en' ? 'Search topic, era, country...' : 'Buscar tema, época, país...'} />
+      <TemarioGrid items={temas} onSelect={handleSelect} hrefDe={t => localPath(`/estudiar/historia/${t.id}`)} placeholder={lang === 'ca' ? 'Cercar tema, època, país...' : lang === 'en' ? 'Search topic, era, country...' : 'Buscar tema, época, país...'} />
     </div>
   )
 }

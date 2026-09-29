@@ -59,7 +59,7 @@ export default function MatematicasIndex() {
         <p className="text-white/40 mt-1 text-sm">{ca ? 'Selecciona quina operació vols repassar' : en ? 'Select the operation you want to revise' : 'Selecciona qué operación quieres repasar'}</p>
       </div>
 
-      <TemarioGrid items={ITEMS} onSelect={handleSelect} placeholder={ca ? 'Cercar operació...' : en ? 'Search operation...' : 'Buscar operación...'} />
+      <TemarioGrid items={ITEMS} onSelect={handleSelect} hrefDe={item => localPath(EXAM_DIRECTO[item.id] || `/estudiar/matematicas/${item.id}`)} placeholder={ca ? 'Cercar operació...' : en ? 'Search operation...' : 'Buscar operación...'} />
 
       {/* Los recursos de esta materia, después del temario, que es a lo que se
           viene a un hub: con varias tarjetas encima empujarían los temas fuera

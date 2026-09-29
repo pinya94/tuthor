@@ -59,6 +59,7 @@ export default function Juegos() {
               gradient={game.gradient}
               slug={slugDeRuta(game.path)}
               comingSoon={!game.ready}
+              to={game.ready && game.path ? localPath(game.path) : undefined}
               onClick={() => handleClick(game)}
             />
           ))}

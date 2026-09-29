@@ -1,13 +1,10 @@
-import { useNavigate } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import SEOEstatico from '../components/SEOEstatico'
 import { ArteMateria } from '../components/arte/materias'
 import TarjetaArte from '../components/TarjetaArte'
 import { ARTE_TEMAS } from '../components/arte/temas'
 
-export default function EconomiaIndex() {
-  const navigate = useNavigate()
-  const { lang, localPath, tr } = useLang()
+export default function EconomiaIndex() {  const { lang, localPath, tr } = useLang()
   const ca = lang === 'ca', en = lang === 'en'
 
   return (
@@ -30,11 +27,11 @@ export default function EconomiaIndex() {
         <TarjetaArte Arte={ARTE_TEMAS['economia/finanzas-personales']}
           titulo={tr({ es: 'Finanzas Personales', en: 'Personal Finance', ca: 'Finances Personals' })}
           sub={tr({ es: 'Inflación, interés compuesto, deuda y señales de estafa', en: 'Inflation, compound interest, debt and scam signals', ca: 'Inflació, interès compost, deute i senyals d\'estafa' })}
-          onClick={() => navigate(localPath('/info/estudiar/finanzas-personales'))} />
+          to={localPath('/info/estudiar/finanzas-personales')} />
         <TarjetaArte Arte={ARTE_TEMAS['economia/punto-equilibrio']}
           titulo={tr({ es: 'Punto de Equilibrio', en: 'Break-Even Point', ca: 'Punt d\'Equilibri' })}
           sub={tr({ es: 'Calcula el umbral de rentabilidad: costes fijos, precio y coste variable', en: 'Work out the break-even threshold: fixed costs, price and variable cost', ca: 'Calcula el llindar de rendibilitat: CF, preu i cost variable' })}
-          onClick={() => navigate(localPath('/examen/punto-equilibrio'))} />
+          to={localPath('/examen/punto-equilibrio')} />
       </div>
     </div>
   )

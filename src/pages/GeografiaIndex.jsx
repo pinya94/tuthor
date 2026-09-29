@@ -121,6 +121,7 @@ export default function GeografiaIndex() {
       <TemarioGrid
         items={items}
         onSelect={item => navigate(localPath(item.examPath || `/estudiar/geografia/${item.id}`))}
+        hrefDe={item => localPath(item.examPath || `/estudiar/geografia/${item.id}`)}
         placeholder={ca ? 'Cercar regió, país...' : en ? 'Search region, country...' : 'Buscar región, país...'}
       />
 

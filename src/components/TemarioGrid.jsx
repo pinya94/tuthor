@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import NivelPicker from './NivelPicker'
 import { useNivel, coincideNivel } from '../lib/nivel'
@@ -14,7 +15,7 @@ import { ARTE_TEMAS } from './arte/temas'
 // dejaría a alguien sin saber que existe, y el objetivo es justo el contrario
 // — que se vea todo lo que hay, con lo suyo destacado.
 
-export default function TemarioGrid({ items, onSelect, placeholder = 'Buscar...', groups = null }) {
+export default function TemarioGrid({ items, onSelect, hrefDe = null, placeholder = 'Buscar...', groups = null }) {
   const { tr } = useLang()
   const [query, setQuery] = useState('')
   const nivel = useNivel()
@@ -45,6 +46,10 @@ export default function TemarioGrid({ items, onSelect, placeholder = 'Buscar...'
     const sinHacer = item.ready === false
     const otroCurso = !sinHacer && !disponible(item)
     const apagado = sinHacer || otroCurso
+    // Enlace de verdad si la página da la ruta (el buscador sigue <a>, no botones).
+    const ruta = !sinHacer && hrefDe ? hrefDe(item) : null
+    const Tarjeta = ruta ? Link : 'button'
+    const propsTarjeta = ruta ? { to: ruta } : { type: 'button', disabled: sinHacer, onClick: () => !sinHacer && onSelect(item, nivel) }
     const etiqueta = apagado && (
       <span className="absolute top-2 right-2 z-10 bg-black/50 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
         {sinHacer
@@ -58,10 +63,9 @@ export default function TemarioGrid({ items, onSelect, placeholder = 'Buscar...'
     const Arte = item.arte ? ARTE_TEMAS[item.arte] : null
     if (Arte) {
       return (
-        <button
+        <Tarjeta
           key={item.id}
-          disabled={sinHacer}
-          onClick={() => !sinHacer && onSelect(item, nivel)}
+          {...propsTarjeta}
           className={`group relative rounded-2xl overflow-hidden text-left bg-[#141b2e] border border-white/[0.08] transition-all duration-300 ${
             sinHacer
               ? 'opacity-40 cursor-not-allowed'
@@ -78,15 +82,14 @@ export default function TemarioGrid({ items, onSelect, placeholder = 'Buscar...'
             <h3 className="font-black text-white text-sm sm:text-base leading-tight">{item.titulo}</h3>
             {item.subtitulo && <p className="text-white/50 text-xs mt-1 leading-snug line-clamp-2">{item.subtitulo}</p>}
           </div>
-        </button>
+        </Tarjeta>
       )
     }
 
     return (
-      <button
+      <Tarjeta
         key={item.id}
-        disabled={sinHacer}
-        onClick={() => !sinHacer && onSelect(item, nivel)}
+        {...propsTarjeta}
         className={`group relative rounded-2xl overflow-hidden text-left transition-all duration-300 ${
           sinHacer
             ? 'opacity-40 cursor-not-allowed'
@@ -103,7 +106,7 @@ export default function TemarioGrid({ items, onSelect, placeholder = 'Buscar...'
             {item.subtitulo && <p className="text-white/65 text-xs mt-1 leading-relaxed line-clamp-2">{item.subtitulo}</p>}
           </div>
         </div>
-      </button>
+      </Tarjeta>
     )
   }
 
