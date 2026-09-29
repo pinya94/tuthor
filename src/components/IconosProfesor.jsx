@@ -184,6 +184,16 @@ export function Candado(p) {
   )
 }
 
+export function Tijeras(p) {
+  return (
+    <svg {...base} {...p}>
+      <path d="M8.5 8.5L20 19M8.5 15.5L20 5" stroke="#CBD5E1" strokeWidth="2" strokeLinecap="round" />
+      <circle cx="6" cy="6.5" r="3" stroke="#F43F5E" strokeWidth="2.2" />
+      <circle cx="6" cy="17.5" r="3" stroke="#F43F5E" strokeWidth="2.2" />
+    </svg>
+  )
+}
+
 // Balanza de pesos (ponderar notas).
 export function Pesas(p) {
   return <svg {...trazo} {...p}><path d="M12 3v18M7 21h10M4 7h16M4 7l-2.5 6a3 3 0 0 0 5 0L4 7ZM20 7l-2.5 6a3 3 0 0 0 5 0L20 7Z" /></svg>

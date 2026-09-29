@@ -6,6 +6,9 @@ import SEOHead from '../components/SEOHead'
 import TeacherAppSchema from '../components/TeacherAppSchema'
 import AuthModal from '../components/AuthModal'
 import { activateTeacherProfile, getTeacherProfile, hasTeacherAccess } from '../lib/classes'
+import { ArteJuego } from '../components/arte'
+import { Acierto, Bombilla, Diana, Libro, Lista, Pizarra, Racha } from '../components/Iconos'
+import { Boletin, Chincheta, Cuaderno, Dado, Impresora, Libreta, Matraz, PasarLista, Pupitre, Tijeras } from '../components/IconosProfesor'
 
 // BETA GRATUITA (sept. 2026): mientras dure, no se pide pago — pero SÍ se pide
 // la palabra de la beta (ver TEACHER_BETA_CODE en classes.js), que no se
@@ -106,8 +109,8 @@ function MockSeating() {
   return (
     <BrowserFrame>
       <div className="flex items-center justify-between mb-3">
-        <p className="text-white font-black text-sm">💺 Aula · 3º ESO A</p>
-        <span className="text-[10px] font-bold px-2 py-1 rounded-lg bg-teal-600 text-white">🎲 Sale a la pizarra</span>
+        <p className="flex items-center gap-1.5 text-white font-black text-sm"><Pupitre className="w-4 h-4" />Aula · 3º ESO A</p>
+        <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-1 rounded-lg bg-teal-600 text-white"><Dado className="w-3 h-3" />Sale a la pizarra</span>
       </div>
       <div className="rounded-lg bg-white/[0.07] py-1.5 text-center mb-2">
         <span className="text-white/35 text-[9px] uppercase tracking-[0.3em] font-bold">Pizarra</span>
@@ -127,9 +130,9 @@ function MockSeating() {
 
 function MockTasks() {
   const rows = [
-    { label: '🕵️ Guerra Civil — ¿Quién es quién?', done: 3, total: 4 },
-    { label: '⚡ Fuerza Neta', done: 1, total: 4 },
-    { label: '📌 Traer el libro de texto', done: 4, total: 4 },
+    { label: 'Guerra Civil — ¿Quién es quién?', arte: 'quien-es-quien', done: 3, total: 4 },
+    { label: 'Fuerza Neta', arte: 'fuerza-neta', done: 1, total: 4 },
+    { label: 'Traer el libro de texto', done: 4, total: 4 },
   ]
   return (
     <BrowserFrame>
@@ -140,6 +143,9 @@ function MockTasks() {
       <div className="space-y-2">
         {rows.map(r => (
           <div key={r.label} className="flex items-center gap-3 bg-white/[0.04] border border-white/10 rounded-xl px-3.5 py-2.5">
+            {r.arte
+              ? <ArteJuego slug={r.arte} className="shrink-0 w-11 aspect-video rounded-md bg-white/[0.05]" />
+              : <span className="shrink-0 w-11 h-[25px] rounded-md bg-white/[0.05] grid place-items-center"><Chincheta className="w-4 h-4" /></span>}
             <span className="flex-1 text-white text-[12.5px] font-semibold truncate">{r.label}</span>
             <div className="flex-1 max-w-[70px] bg-white/5 rounded-full h-1.5">
               <div className="h-1.5 rounded-full bg-teal-500" style={{ width: `${(r.done / r.total) * 100}%` }} />
@@ -164,7 +170,7 @@ function MockStudentDetail() {
       <div className="space-y-2">
         <div className="rounded-xl border border-violet-400/30 bg-violet-500/[0.09] px-3.5 py-3">
           <div className="flex items-center justify-between mb-2.5">
-            <p className="text-white text-[13px] font-bold">👤 Nora</p>
+            <p className="text-white text-[13px] font-bold">Nora</p>
             <span className="text-violet-300 text-[10px] font-bold">Ficha ▾</span>
           </div>
           <div className="grid grid-cols-3 gap-2 mb-2.5">
@@ -177,11 +183,11 @@ function MockStudentDetail() {
               <p className="text-white/40 text-[9px] mt-1">aprobados</p>
             </div>
             <div className="bg-black/25 rounded-lg py-2 text-center">
-              <p className="text-white font-black text-sm leading-none">🔥 5</p>
+              <p className="flex items-center justify-center gap-1 text-white font-black text-sm leading-none"><Racha className="w-3.5 h-3.5" />5</p>
               <p className="text-white/40 text-[9px] mt-1">racha</p>
             </div>
           </div>
-          <p className="text-white/40 text-[10.5px]">Última actividad: hoy · ⚡ Fuerza Neta — 92 pts</p>
+          <p className="text-white/40 text-[10.5px]">Última actividad: hoy · Fuerza Neta — 92 pts</p>
         </div>
         {['Iker', 'Bruno'].map(n => (
           <div key={n} className="flex items-center justify-between bg-white/[0.04] border border-white/10 rounded-xl px-3.5 py-2.5">
@@ -197,7 +203,7 @@ function MockStudentDetail() {
 function MockStudentView() {
   return (
     <BrowserFrame>
-      <p className="text-white font-black text-sm mb-3">🏫 Mi clase</p>
+      <p className="flex items-center gap-1.5 text-white font-black text-sm mb-3"><Pizarra className="w-4 h-4" />Mi clase</p>
       <div className="space-y-2">
         <div className="border border-red-500/30 rounded-xl px-3.5 py-2.5 bg-white/[0.04]">
           <p className="text-white text-[12.5px] font-bold">Traer el libro de texto</p>
@@ -205,14 +211,14 @@ function MockStudentView() {
         </div>
         <div className="border border-white/10 rounded-xl px-3.5 py-2.5 bg-white/[0.04] flex items-center justify-between gap-3">
           <div>
-            <p className="text-white text-[12.5px] font-bold">⚡ Fuerza Neta</p>
+            <p className="text-white text-[12.5px] font-bold">Fuerza Neta</p>
             <p className="text-white/40 text-[11px] mt-0.5">3º ESO A · vence 7 ago</p>
           </div>
           <span className="text-white/30 text-[11px] shrink-0">Pendiente</span>
         </div>
         <div className="border border-white/10 rounded-xl px-3.5 py-2.5 bg-white/[0.04] flex items-center justify-between gap-3">
-          <p className="text-white text-[12.5px] font-bold truncate">🕵️ Guerra Civil — ¿Quién es quién?</p>
-          <span className="text-green-400 text-[11px] font-bold shrink-0">✅ Hecha <span className="text-white/40">92 pts</span></span>
+          <p className="text-white text-[12.5px] font-bold truncate">Guerra Civil — ¿Quién es quién?</p>
+          <span className="inline-flex items-center gap-1 text-green-400 text-[11px] font-bold shrink-0"><Acierto className="w-3 h-3" />Hecha <span className="text-white/40">92 pts</span></span>
         </div>
       </div>
     </BrowserFrame>
@@ -242,7 +248,7 @@ function MockGrades() {
   return (
     <BrowserFrame>
       <div className="flex items-center justify-between mb-3">
-        <p className="text-white font-black text-sm">🔢 Notas · 3º ESO A</p>
+        <p className="flex items-center gap-1.5 text-white font-black text-sm"><Cuaderno className="w-4 h-4" />Notas · 3º ESO A</p>
         <span className="text-[10px] font-bold px-2 py-1 rounded-lg border border-teal-500/40 text-teal-300">↓ Traer tarea</span>
       </div>
       <div className="flex gap-1.5 mb-2.5">
@@ -383,7 +389,7 @@ export default function Profesores() {
                 {tr({ es: 'Herramientas para profesores', en: 'Tools for teachers', ca: 'Eines per a professors' })}
               </span>
               <span className="inline-block text-[11px] font-bold uppercase tracking-widest text-amber-300 bg-amber-500/10 border border-amber-500/20 rounded-full px-3 py-1.5">
-                🧪 {tr({ es: 'Beta gratuita', en: 'Free beta', ca: 'Beta gratuïta' })}
+                <Matraz className="inline w-3.5 h-3.5 -mt-0.5 mr-1" />{tr({ es: 'Beta gratuita', en: 'Free beta', ca: 'Beta gratuïta' })}
               </span>
             </div>
             <h1 className="text-4xl sm:text-5xl font-black text-white leading-[1.05] mb-5">
@@ -424,7 +430,7 @@ export default function Profesores() {
           <div className="grid lg:grid-cols-2 gap-10 items-center">
             <div className="order-2 lg:order-1"><MockClassList /></div>
             <div className="order-1 lg:order-2">
-              <span className="text-3xl block mb-3">🔑</span>
+              <span className="w-12 h-12 rounded-xl bg-teal-500/12 grid place-items-center mb-3"><Pizarra className="w-7 h-7" /></span>
               <h2 className="text-2xl sm:text-3xl font-black text-white mb-3">
                 {tr({ es: 'Crea una clase en segundos', en: 'Create a class in seconds', ca: 'Crea una classe en segons' })}
               </h2>
@@ -440,7 +446,7 @@ export default function Profesores() {
 
           <div className="grid lg:grid-cols-2 gap-10 items-center">
             <div>
-              <span className="text-3xl block mb-3">💺</span>
+              <span className="w-12 h-12 rounded-xl bg-amber-500/12 grid place-items-center mb-3"><Pupitre className="w-7 h-7" /></span>
               <h2 className="text-2xl sm:text-3xl font-black text-white mb-3">
                 {tr({ es: 'El plano de la clase, en el móvil', en: 'The classroom plan, on your phone', ca: 'El plànol de la classe, al mòbil' })}
               </h2>
@@ -457,7 +463,7 @@ export default function Profesores() {
 
           <div className="grid lg:grid-cols-2 gap-10 items-center">
             <div>
-              <span className="text-3xl block mb-3">📝</span>
+              <span className="w-12 h-12 rounded-xl bg-blue-500/12 grid place-items-center mb-3"><Libro className="w-7 h-7" /></span>
               <h2 className="text-2xl sm:text-3xl font-black text-white mb-3">
                 {tr({ es: 'Asigna tareas, ellos juegan', en: 'Assign tasks, they play', ca: 'Assigna tasques, ells juguen' })}
               </h2>
@@ -475,7 +481,7 @@ export default function Profesores() {
           <div className="grid lg:grid-cols-2 gap-10 items-center">
             <div className="order-2 lg:order-1"><MockStudentView /></div>
             <div className="order-1 lg:order-2">
-              <span className="text-3xl block mb-3">🎒</span>
+              <span className="w-12 h-12 rounded-xl bg-violet-500/12 grid place-items-center mb-3"><Lista className="w-7 h-7" /></span>
               <h2 className="text-2xl sm:text-3xl font-black text-white mb-3">
                 {tr({ es: 'Tus alumnos ven todo claro', en: 'Your students see everything clearly', ca: 'Els teus alumnes ho veuen tot clar' })}
               </h2>
@@ -491,7 +497,7 @@ export default function Profesores() {
 
           <div className="grid lg:grid-cols-2 gap-10 items-center">
             <div>
-              <span className="text-3xl block mb-3">🔢</span>
+              <span className="w-12 h-12 rounded-xl bg-red-500/12 grid place-items-center mb-3"><Cuaderno className="w-7 h-7" /></span>
               <h2 className="text-2xl sm:text-3xl font-black text-white mb-3">
                 {tr({ es: 'El cuaderno de notas, con TUS porcentajes', en: 'A gradebook with YOUR weightings', ca: 'El quadern de notes, amb ELS TEUS percentatges' })}
               </h2>
@@ -526,25 +532,25 @@ export default function Profesores() {
             </div>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {[
-                { icon: '🙋', title: tr({ es: 'Pasar lista', en: 'Take attendance', ca: 'Passar llista' }),
+                { Icono: PasarLista, title: tr({ es: 'Pasar lista', en: 'Take attendance', ca: 'Passar llista' }),
                   desc: tr({ es: 'Marca faltas en segundos, para hoy o cualquier día pasado.', en: 'Mark absences in seconds, for today or any past day.', ca: 'Marca faltes en segons, per avui o qualsevol dia passat.' }) },
-                { icon: '❓', title: tr({ es: 'Crea tus propios exámenes', en: 'Build your own quizzes', ca: 'Crea els teus propis examens' }),
+                { Icono: Bombilla, title: tr({ es: 'Crea tus propios exámenes', en: 'Build your own quizzes', ca: 'Crea els teus propis examens' }),
                   desc: tr({ es: 'Preguntas de tipo test, tuyas, que se envían como tarea y se corrigen solas.', en: 'Your own multiple-choice questions, sent as a task and self-graded.', ca: 'Preguntes tipus test, teves, que s\'envien com a tasca i es corregeixen soles.' }) },
-                { icon: '💬', title: tr({ es: 'Observaciones', en: 'Notes on students', ca: 'Observacions' }),
+                { Icono: Libreta, title: tr({ es: 'Observaciones', en: 'Notes on students', ca: 'Observacions' }),
                   desc: tr({ es: 'Anota algo puntual sobre un alumno, con fecha, para no fiarlo todo a la memoria.', en: 'Jot down something about a student, dated, instead of relying on memory.', ca: 'Anota algo puntual sobre un alumne, amb data, per no fiar-ho tot a la memòria.' }) },
-                { icon: '📄', title: tr({ es: 'Boletín para familias', en: 'Report for families', ca: 'Butlletí per a famílies' }),
+                { Icono: Boletin, title: tr({ es: 'Boletín para familias', en: 'Report for families', ca: 'Butlletí per a famílies' }),
                   desc: tr({ es: 'Un resumen con notas, asistencia y observaciones, listo para compartir.', en: 'A summary of grades, attendance and notes, ready to share.', ca: 'Un resum amb notes, assistència i observacions, llest per compartir.' }) },
-                { icon: '📊', title: tr({ es: 'Cómo va cada alumno', en: 'How each student is doing', ca: 'Com va cada alumne' }),
+                { Icono: Diana, title: tr({ es: 'Cómo va cada alumno', en: 'How each student is doing', ca: 'Com va cada alumne' }),
                   desc: tr({ es: 'Abre a uno y ves su desglose materia a materia: qué domina, qué le cuesta y cuánto ha practicado.', en: 'Open a student and see a subject-by-subject breakdown: what they have nailed, what they struggle with and how much they have practised.', ca: 'Obre un alumne i veus el desglossament matèria a matèria: què domina, què li costa i quant ha practicat.' }) },
-                { icon: '🖨️', title: tr({ es: 'Todo, también en papel', en: 'All of it on paper too', ca: 'Tot, també en paper' }),
+                { Icono: Impresora, title: tr({ es: 'Todo, también en papel', en: 'All of it on paper too', ca: 'Tot, també en paper' }),
                   desc: tr({ es: 'Notas y asistencia listas para imprimir o guardar en PDF: por mes, por trimestre o el curso entero.', en: 'Grades and attendance ready to print or save as PDF: by month, by term or the whole year.', ca: 'Notes i assistència a punt per imprimir o desar en PDF: per mes, per trimestre o el curs sencer.' }) },
-                { icon: '✂️', title: tr({ es: 'Material para recortar', en: 'Material to cut out', ca: 'Material per retallar' }),
+                { Icono: Tijeras, title: tr({ es: 'Material para recortar', en: 'Material to cut out', ca: 'Material per retallar' }),
                   desc: tr({ es: 'Tarjetas ya escritas de historia, geografía, ciencias e inglés, y las preguntas de cada tema en fichas de repaso.', en: 'Ready-made cards for history, geography, science and English, plus each topic\'s questions as revision cards.', ca: 'Targetes ja escrites d\'història, geografia, ciències i anglès, i les preguntes de cada tema en fitxes de repàs.' }) },
-                { icon: '🎲', title: tr({ es: 'Modo puntos y pizarra', en: 'Points mode & the board', ca: 'Mode punts i pissarra' }),
+                { Icono: Dado, title: tr({ es: 'Modo puntos y pizarra', en: 'Points mode & the board', ca: 'Mode punts i pissarra' }),
                   desc: tr({ es: 'Suma puntos por mesa desde el plano y sortea quién sale a la pizarra.', en: 'Award points per desk from the seating plan and pick who goes to the board.', ca: 'Suma punts per taula des del plànol i sorteja qui surt a la pissarra.' }) },
               ].map(m => (
-                <div key={m.title} className="rounded-2xl border border-white/10 bg-white/[0.03] px-5 py-5">
-                  <span className="text-2xl block mb-2.5">{m.icon}</span>
+                <div key={m.title} className="rounded-2xl border border-white/[0.08] bg-[#141b2e] px-5 py-5">
+                  <span className="w-11 h-11 rounded-xl bg-white/[0.05] grid place-items-center mb-3 text-teal-300"><m.Icono className="w-6 h-6" /></span>
                   <p className="text-white font-bold text-[14px] mb-1">{m.title}</p>
                   <p className="text-white/45 text-[12.5px] leading-relaxed">{m.desc}</p>
                 </div>
@@ -570,8 +576,8 @@ export default function Profesores() {
             {comparisonRows.map((row, i) => (
               <div key={row.label} className={`grid grid-cols-[1fr_auto_auto] gap-3 px-5 py-3.5 items-center ${i > 0 ? 'border-t border-white/5' : ''}`}>
                 <span className="text-white/70 text-[13.5px]">{row.label}</span>
-                <span className="w-16 text-center">{row.free ? '✅' : <span className="text-white/20">—</span>}</span>
-                <span className="w-20 text-center">{row.teacher ? '✅' : <span className="text-white/20">—</span>}</span>
+                <span className="w-16 text-center">{row.free ? <Acierto className="w-5 h-5 mx-auto" /> : <span className="text-white/20">—</span>}</span>
+                <span className="w-20 text-center">{row.teacher ? <Acierto className="w-5 h-5 mx-auto" /> : <span className="text-white/20">—</span>}</span>
               </div>
             ))}
           </div>
@@ -584,7 +590,7 @@ export default function Profesores() {
             vuelve a mirar el resto. */}
         <section className="pb-16 sm:pb-20">
           <div className="rounded-3xl border border-white/10 bg-white/[0.03] px-6 py-8 sm:px-10 sm:py-10 text-center">
-            <span className="text-4xl block mb-3">🖨️</span>
+            <span className="mx-auto w-14 h-14 rounded-2xl bg-teal-500/12 grid place-items-center mb-3 text-teal-300"><Impresora className="w-7 h-7" /></span>
             <h2 className="text-2xl sm:text-3xl font-black text-white mb-3">
               {tr({
                 es: 'Pruébalo sin registrarte: material para imprimir',
@@ -610,7 +616,7 @@ export default function Profesores() {
         <section id="empezar" className="py-16 sm:py-20 scroll-mt-8">
           <div className="max-w-md mx-auto">
             <div className="flex items-start gap-3 mb-6 border border-amber-500/25 rounded-2xl px-5 py-4 bg-amber-500/[0.06]">
-              <span className="text-2xl shrink-0">🧪</span>
+              <Matraz className="w-7 h-7 shrink-0" />
               <div>
                 <p className="text-white font-black text-base leading-tight">
                   {tr({ es: 'Acceso gratuito por invitación', en: 'Free access by invitation', ca: 'Accés gratuït per invitació' })}
