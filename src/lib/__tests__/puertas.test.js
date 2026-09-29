@@ -5,24 +5,19 @@
 // 404 justo al que acaba de llegar, y una imagen que no existe deja un hueco
 // negro donde está la puerta principal del producto.
 import { describe, it, expect } from 'vitest'
-import { existsSync } from 'node:fs'
 import { readFileSync } from 'node:fs'
 import { PUERTAS, MAIN_CARDS } from '../../data/constants.js'
 import { TOPIC_SUBJECT_IDS } from '../topicCatalog.js'
+import { ILUSTRACIONES, TONOS } from '../../components/PuertaIlustracion.jsx'
 
 const APP = readFileSync(new URL('../../App.jsx', import.meta.url), 'utf8')
 const TEMARIO_PAGE = readFileSync(new URL('../../pages/Temario.jsx', import.meta.url), 'utf8')
-const HEROCARD = readFileSync(new URL('../../components/HeroCard.jsx', import.meta.url), 'utf8')
 
 // `path` es absoluto ('/diaria'); en App.jsx las rutas van sin barra inicial
 // porque cuelgan del <Route path="/"> de cada idioma.
 function esRutaDeclarada(path) {
   const sinBarra = path.replace(/^\//, '')
   return APP.includes(`path="${sinBarra}"`)
-}
-
-function rutaPublica(path) {
-  return existsSync(new URL(`../../../public${path}`, import.meta.url))
 }
 
 describe('las puertas de /app', () => {
@@ -37,14 +32,13 @@ describe('las puertas de /app', () => {
     }
   })
 
-  it('cada una trae icono y degradado, y HeroCard conoce ese icono', () => {
-    // Las puertas ya no usan foto: HeroCard pinta un degradado (bg) + un glifo
-    // (icon) del mapa ICONS. Si el icono no está en ese mapa, la tarjeta cae al
-    // modo imagen y peta (no hay p.image), así que se comprueba aquí.
+  it('cada una trae una ilustración y un tono que existen', () => {
+    // Las puertas ya no usan foto: HeroCard pinta la ilustración SVG propia
+    // (PuertaIlustracion) sobre un plano neutro. Si la clave no está en
+    // ILUSTRACIONES, HeroCard cae al modo foto y peta (no hay p.image).
     for (const p of PUERTAS) {
-      expect(p.icon, `${p.id} sin icon`).toBeTruthy()
-      expect(p.bg, `${p.id} sin degradado bg`).toMatch(/from-.+to-/)
-      expect(HEROCARD.includes(`${p.icon}:`), `HeroCard no tiene el icono "${p.icon}" en su mapa ICONS`).toBe(true)
+      expect(ILUSTRACIONES[p.ilustracion], `${p.id}: ilustración "${p.ilustracion}" desconocida`).toBeTruthy()
+      expect(TONOS[p.tono], `${p.id}: tono "${p.tono}" desconocido`).toBeTruthy()
     }
   })
 

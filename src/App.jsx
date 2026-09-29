@@ -2,6 +2,7 @@ import { useState, useEffect, lazy, Suspense } from 'react'
 import { BrowserRouter, Routes, Route, useLocation, Navigate } from 'react-router-dom'
 import { Analytics } from '@vercel/analytics/react'
 import Particles from './components/Particles'
+import { useFondo } from './lib/fondo'
 import Navbar from './components/Navbar'
 import SideRails from './components/SideRails'
 import AccessGate from './components/AccessGate'
@@ -358,6 +359,7 @@ function useIsChromeless() {
 
 function Layout({ onConsent }) {
   const chromeless = useIsChromeless()
+  const fondo = useFondo()
 
   // El muro envuelve TODAS las rutas y decide mirando la ruta actual
   // (requiresAccess en lib/paidRoutes.js). Envolver ruta por ruta obligaría a
@@ -398,16 +400,24 @@ function Layout({ onConsent }) {
         <div className="min-h-screen font-sans">{routes}</div>
       ) : (
         <div className="min-h-screen font-sans" style={{ position: 'relative' }}>
-          <div
-            className="fixed inset-0 z-0"
-            style={{
-              backgroundImage: 'url(/fondo.webp)',
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-              filter: 'brightness(0.5)',
-            }}
-          />
-          <Particles />
+          {/* Fondo elegible (lib/fondo.js): liso y plano por defecto; el
+              bosque pixel-art con luciérnagas, a un clic desde la navbar. */}
+          {fondo === 'bosque' ? (
+            <>
+              <div
+                className="fixed inset-0 z-0"
+                style={{
+                  backgroundImage: 'url(/fondo.webp)',
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                  filter: 'brightness(0.5)',
+                }}
+              />
+              <Particles />
+            </>
+          ) : (
+            <div className="fixed inset-0 z-0" style={{ background: 'linear-gradient(180deg, #0d1324 0%, #0a0f1d 100%)' }} />
+          )}
           <div className="relative z-10">
             <Navbar />
             {routes}

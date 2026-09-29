@@ -5,7 +5,36 @@ import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
 import { getTeacherProfile, hasTeacherAccess } from '../lib/classes'
 import { getStudentAssignments } from '../lib/assignments'
+import { useFondo, setFondo } from '../lib/fondo'
 import AuthModal from './AuthModal'
+
+// Cambia el fondo de la app entre liso (por defecto) y el bosque. El icono
+// enseña a qué se cambia: un árbol si ahora es liso, un plano si es bosque.
+function FondoToggle({ conTexto = false, onPick }) {
+  const fondo = useFondo()
+  const { tr } = useLang()
+  const aBosque = fondo === 'liso'
+  const etiqueta = aBosque
+    ? tr({ es: 'Fondo de bosque', en: 'Forest background', ca: 'Fons de bosc' })
+    : tr({ es: 'Fondo liso', en: 'Plain background', ca: 'Fons llis' })
+  const icono = aBosque
+    ? <svg viewBox="0 0 24 24" className="w-4 h-4" fill="currentColor" aria-hidden="true"><path d="M12 2.5 6.5 10h3L5 16.5h6V21h2v-4.5h6L14.5 10h3z" /></svg>
+    : <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="4" /></svg>
+  return (
+    <button
+      type="button"
+      onClick={() => { setFondo(aBosque ? 'bosque' : 'liso'); onPick?.() }}
+      title={etiqueta}
+      aria-label={etiqueta}
+      className={conTexto
+        ? 'w-full text-left px-4 py-3 rounded-xl text-sm font-medium text-white/70 hover:text-white hover:bg-white/10 transition-all flex items-center gap-2.5'
+        : 'flex items-center justify-center w-8 h-8 rounded-lg text-white/60 hover:text-white hover:bg-white/10 transition-all'}
+    >
+      {icono}
+      {conTexto && <span>{etiqueta}</span>}
+    </button>
+  )
+}
 
 const LANGS = [
   { code: 'es', flag: 'es', label: 'Español' },
@@ -175,6 +204,7 @@ export default function Navbar() {
 
           {/* Auth escritorio + idioma */}
           <div className="hidden sm:flex items-center gap-2">
+            <FondoToggle />
             <LangSelector lang={lang} switchLang={switchLang} />
             {!authLoading && !user && (
               <button
@@ -275,6 +305,7 @@ export default function Navbar() {
             )}
             <div className="border-t border-white/10 pt-2 mt-1">
               <LangSelector lang={lang} switchLang={switchLang} onPick={() => setMenuOpen(false)} />
+              <FondoToggle conTexto onPick={() => setMenuOpen(false)} />
               {!authLoading && !user && (
                 <button onClick={() => { setShowAuth(true); setMenuOpen(false) }} className="w-full text-left px-4 py-3 rounded-xl text-sm font-medium text-white/70 hover:text-white hover:bg-white/10 transition-all">
                   🔑 {t('nav.entrar')}
