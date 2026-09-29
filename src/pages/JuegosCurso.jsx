@@ -116,6 +116,25 @@ function PaginaMateria({ curso, landing }) {
         </section>
       )}
 
+      {/* La misma materia en los otros cursos (o su portada si allí no está):
+          quien busca "primaria" y tiene un hijo en 1º de ESO pasa de una a otra. */}
+      {Object.keys(CURSOS_LANDING).length > 1 && (
+        <section className="mb-8">
+          <h2 className="text-white/70 font-black text-base mb-3">{tr({ es: 'En otros cursos', en: 'In other years', ca: 'En altres cursos' })}</h2>
+          <div className="flex flex-wrap gap-2">
+            {Object.entries(CURSOS_LANDING).filter(([otro]) => otro !== curso).map(([otro, oc]) => {
+              const misma = landingDe(otro, landing.materia)
+              return (
+                <Link key={otro} to={localPath(misma ? `/juegos/${otro}/${landing.materia}` : `/juegos/${otro}`)}
+                  className="px-3.5 py-2 rounded-full bg-[#141b2e] border border-white/[0.08] hover:border-white/25 text-white/75 hover:text-white text-sm font-semibold transition-colors">
+                  {misma ? tr(misma.titulo) : tr(oc.titulo)} →
+                </Link>
+              )
+            })}
+          </div>
+        </section>
+      )}
+
       {hermanas.length > 0 && (
         <section>
           <h2 className="text-white/70 font-black text-base mb-3">{tr({ es: `Más juegos de ${tr(c.nombre)}`, en: `More ${tr(c.nombre).toLowerCase()} games`, ca: `Més jocs de ${tr(c.nombre)}` })}</h2>
