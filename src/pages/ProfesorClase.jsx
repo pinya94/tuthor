@@ -22,7 +22,12 @@ import BoletinFamilias from '../components/BoletinFamilias'
 import QuizBuilder from '../components/QuizBuilder'
 import { preguntaVacia, quizValido, limpiarQuiz } from '../lib/quiz'
 import { EXAMS, examGroupLabel } from '../lib/exams'
-import { hasTopics, topicIds, topicFormats, formatLevels, topicTask, catalogTaskLabel, examsCoveredByTopics, LEVELS } from '../lib/topicCatalog'
+import { Acierto, Fallo, Mando, Bombilla, Libro, Moneda, Racha, Reloj, Lista, Pizarra } from '../components/Iconos'
+import { IconoModulo, Ajustes, Chincheta, Grupo } from '../components/IconosProfesor'
+import { hasTopics, topicIds, topicFormats, formatLevels, topicTask, catalogTaskLabel, catalogTaskRoute, examsCoveredByTopics, LEVELS } from '../lib/topicCatalog'
+import { ARTE_JUEGOS, ArteJuego, slugDeRuta } from '../components/arte'
+
+const sinEmojis = s => String(s || '').replace(/(?:\p{Extended_Pictographic}|\u{FE0F})+\s?/gu, '').trim()
 
 function catalogLabel(task, lang) {
   return catalogTaskLabel(task, lang, { games: GAMES, exams: EXAMS, subjects: SUBJECTS })
@@ -36,12 +41,21 @@ function tituloDeTarea(task, lang) {
 }
 
 
-function StatTile({ label, value, sub }) {
+// Cifra del resumen: icono sobre pastilla de color, como el progreso del
+// alumno en la home.
+function StatTile({ label, value, sub, Icono, fondo }) {
   return (
-    <div className="bg-white/5 border border-white/10 rounded-xl p-3.5">
-      <p className="text-white/35 text-[10.5px] uppercase tracking-wider font-bold mb-1">{label}</p>
-      <p className="text-white font-black text-xl leading-none tabular-nums">{value}</p>
-      {sub && <p className="text-white/30 text-[11px] mt-1">{sub}</p>}
+    <div className="flex items-center gap-3 rounded-xl bg-white/[0.03] border border-white/[0.07] px-3 py-3">
+      {Icono && (
+        <span className={`shrink-0 w-10 h-10 rounded-xl ${fondo} grid place-items-center`}>
+          <Icono className="w-6 h-6" />
+        </span>
+      )}
+      <div className="min-w-0">
+        <p className="text-white font-black text-xl leading-none tabular-nums">{value}</p>
+        <p className="text-white/45 text-[11.5px] mt-1 truncate">{label}</p>
+        {sub && <p className="text-white/30 text-[10.5px] mt-0.5 truncate">{sub}</p>}
+      </div>
     </div>
   )
 }
@@ -81,7 +95,10 @@ async function loadStudent(uid, lang) {
 // alumnos que nunca la hicieron se queda "pendiente" para siempre.
 function TaskCard({ task, studentsByUid, lang, tr, onToggleManual, onToggleFalta, onMarkFaltaBulk }) {
   const [open, setOpen] = useState(false)
-  const label = task.kind === 'catalog' ? catalogLabel(task, lang) : task.title
+  // Las etiquetas del catálogo llevan emojis dentro ("🧭 Fuerza Neta"): aquí
+  // el dibujo lo pone la miniatura del juego, así que se quitan.
+  const label = task.kind === 'catalog' ? sinEmojis(catalogLabel(task, lang)) : task.title
+  const slugArte = task.kind === 'catalog' ? slugDeRuta(catalogTaskRoute(task, { games: GAMES, exams: EXAMS })) : null
   const completions = task.completions || {}
   const total = task.studentIds.length
   const pendientes = task.studentIds.filter(uid => !completions[uid]?.done && !completions[uid]?.falta)
@@ -93,10 +110,16 @@ function TaskCard({ task, studentsByUid, lang, tr, onToggleManual, onToggleFalta
   const vencida = tareaVencida(task.dueDate)
 
   return (
-    <div className="border border-white/10 rounded-xl overflow-hidden bg-white/[0.04]">
+    <div className="border border-white/[0.08] rounded-xl overflow-hidden bg-white/[0.03]">
       <button type="button" onClick={() => setOpen(o => !o)}
         className="w-full flex items-center gap-3 px-4 py-2.5 text-left hover:bg-white/5 transition-colors">
-        <span className="shrink-0 text-base w-5 text-center">{task.kind === 'catalog' ? '🎮' : task.kind === 'quiz' ? '❓' : '📌'}</span>
+        {slugArte && ARTE_JUEGOS[slugArte] ? (
+          <ArteJuego slug={slugArte} className="shrink-0 w-14 aspect-video rounded-md bg-white/[0.05]" />
+        ) : (
+          <span className="shrink-0 w-8 h-8 rounded-lg bg-white/[0.05] grid place-items-center">
+            {task.kind === 'catalog' ? <Mando className="w-5 h-5" /> : task.kind === 'quiz' ? <Bombilla className="w-5 h-5" /> : <Chincheta className="w-5 h-5" />}
+          </span>
+        )}
         <div className="flex-1 min-w-[100px]">
           <p className="text-white font-semibold text-[13.5px] truncate">{label}</p>
           {task.dueDate && (
@@ -140,20 +163,20 @@ function TaskCard({ task, studentsByUid, lang, tr, onToggleManual, onToggleFalta
                     <span className="text-[12px] font-semibold">
                       {task.kind === 'catalog' || task.kind === 'quiz' ? (
                         <>
-                          <span className="text-green-400">✅ {c.passed === true ? tr({ es: 'Aprobado', en: 'Passed', ca: 'Aprovat' }) : c.passed === false ? tr({ es: 'Suspenso', en: 'Failed', ca: 'Suspès' }) : ''}</span>
+                          <span className="inline-flex items-center gap-1 text-green-400"><Acierto className="w-3.5 h-3.5" />{c.passed === true ? tr({ es: 'Aprobado', en: 'Passed', ca: 'Aprovat' }) : c.passed === false ? tr({ es: 'Suspenso', en: 'Failed', ca: 'Suspès' }) : ''}</span>
                           {c.score != null && <span className="text-white/40 ml-1.5">{c.score} pts</span>}
                         </>
                       ) : (
                         <button type="button" onClick={() => onToggleManual(task.id, uid, false)}
-                          className="text-[11.5px] font-bold px-2 py-1 rounded-lg border text-green-400 border-green-500/30 bg-green-500/10 hover:bg-green-500/20 transition-colors">
-                          {tr({ es: '✅ Hecha', en: '✅ Done', ca: '✅ Feta' })}
+                          className="inline-flex items-center gap-1 text-[11.5px] font-bold px-2 py-1 rounded-lg border text-green-400 border-green-500/30 bg-green-500/10 hover:bg-green-500/20 transition-colors">
+                          <Acierto className="w-3.5 h-3.5" />{tr({ es: 'Hecha', en: 'Done', ca: 'Feta' })}
                         </button>
                       )}
                     </span>
                   ) : c?.falta ? (
                     <button type="button" onClick={() => onToggleFalta(task.id, uid, false)}
-                      className="text-[11.5px] font-bold px-2 py-1 rounded-lg border text-red-400 border-red-500/30 bg-red-500/10 hover:bg-red-500/20 transition-colors">
-                      {tr({ es: '❌ Falta', en: '❌ Missed', ca: '❌ Falta' })}
+                      className="inline-flex items-center gap-1 text-[11.5px] font-bold px-2 py-1 rounded-lg border text-red-400 border-red-500/30 bg-red-500/10 hover:bg-red-500/20 transition-colors">
+                      <Fallo className="w-3.5 h-3.5" />{tr({ es: 'Falta', en: 'Missed', ca: 'Falta' })}
                     </button>
                   ) : (
                     <div className="flex items-center gap-1.5">
@@ -197,27 +220,32 @@ function BarraModulos({ ids, tab, onTab, lang }) {
           encendidos a la vez, una fila que se desplaza escondía las últimas
           pestañas hasta que alguien pensaba en deslizar. Envolviendo en la
           fila que haga falta, todas quedan a la vista siempre. */}
-      <div className="flex flex-wrap items-center gap-x-1 gap-y-1.5 border-b border-white/10 flex-1 min-w-0 pb-0.5">
+      <div className="flex flex-wrap items-center gap-1.5 flex-1 min-w-0">
         {ids.map(id => {
           const m = TEACHER_MODULES[id]
           const activo = tab === id
           return (
             <button key={id} type="button" onClick={() => onTab(id)}
-              className={`shrink-0 px-3 sm:px-4 py-2.5 text-[13px] font-bold border-b-2 -mb-px transition-colors ${
-                activo ? 'border-teal-500 text-white' : 'border-transparent text-white/40 hover:text-white/70'
+              className={`shrink-0 flex items-center gap-2 pl-2 pr-3.5 py-1.5 rounded-xl border text-[13px] font-bold transition-colors ${
+                activo
+                  ? 'bg-teal-500/15 border-teal-400/50 text-white'
+                  : 'bg-white/[0.03] border-white/[0.07] text-white/55 hover:text-white hover:border-white/20'
               }`}>
-              {m.emoji} {m.label[lang] || m.label.es}
+              <span className={`w-7 h-7 rounded-lg grid place-items-center ${activo ? 'bg-white/10' : 'bg-white/[0.04]'}`}>
+                <IconoModulo id={id} className="w-[18px] h-[18px]" />
+              </span>
+              {m.label[lang] || m.label.es}
             </button>
           )
         })}
       </div>
       <button type="button" onClick={() => onTab('ajustes')}
-        className={`shrink-0 flex items-center gap-1.5 px-3 py-2 rounded-xl text-[12.5px] font-bold transition-colors ${
+        className={`shrink-0 flex items-center gap-1.5 px-3 py-2.5 rounded-xl text-[12.5px] font-bold transition-colors ${
           tab === 'ajustes'
             ? 'bg-[#EDAE49] text-black'
             : 'bg-[#EDAE49]/15 text-[#EDAE49] border border-[#EDAE49]/40 hover:bg-[#EDAE49]/25'
         }`}>
-        ⚙️ {MAS_MODULOS[lang] || MAS_MODULOS.es}
+        <Ajustes className="w-4 h-4" />{MAS_MODULOS[lang] || MAS_MODULOS.es}
       </button>
     </div>
   )
@@ -267,7 +295,9 @@ function AjustesModulos({ clase, onSave, lang, tr }) {
                   ? 'border-teal-500/40 bg-teal-500/[0.07] hover:bg-teal-500/10'
                   : 'border-white/10 bg-white/[0.02] hover:bg-white/5'
               }`}>
-              <span className="text-xl shrink-0 mt-0.5">{m.emoji}</span>
+              <span className="shrink-0 w-10 h-10 rounded-xl bg-white/[0.05] grid place-items-center">
+                <IconoModulo id={id} className="w-6 h-6" />
+              </span>
               <div className="flex-1 min-w-0">
                 <p className="text-white font-bold text-[13.5px]">
                   {m.label[lang] || m.label.es}
@@ -547,10 +577,15 @@ export default function ProfesorClase() {
 
       {/* Panel sólido: sobre el fondo animado del sitio, esta página necesita
           leerse como un dashboard de datos, no fundirse con la escena. */}
-      <div className="rounded-3xl border border-white/10 p-5 sm:p-7" style={{ background: 'rgba(13,15,22,.94)' }}>
+      <div className="rounded-3xl bg-[#141b2e] border border-white/[0.08] shadow-xl shadow-black/30 p-5 sm:p-7">
 
-      <div className="flex items-center justify-between gap-4 flex-wrap mb-4">
-        <h1 className="text-2xl font-black text-white">{clase.name}</h1>
+      <div className="flex items-center justify-between gap-4 flex-wrap mb-5">
+        <div className="flex items-center gap-3 min-w-0">
+          <span className="shrink-0 w-12 h-12 rounded-2xl bg-teal-500/12 grid place-items-center">
+            <Pizarra className="w-7 h-7" />
+          </span>
+          <h1 className="text-2xl font-black text-white truncate">{clase.name}</h1>
+        </div>
         <span className="font-mono text-sm bg-black/30 border border-white/10 rounded-lg px-3 py-1.5 text-teal-300">
           {clase.code}
         </span>
@@ -562,7 +597,7 @@ export default function ProfesorClase() {
             ficha sin cuenta ocupa un pupitre, se le pasa lista y se le ponen
             notas, así que cuenta como alumno. El desglose va debajo porque el
             profesor sí necesita saber a cuántos les falta vincular la cuenta. */}
-        <StatTile label={tr({ es: 'Alumnos', en: 'Students', ca: 'Alumnes' })}
+        <StatTile Icono={Grupo} fondo="bg-sky-500/12" label={tr({ es: 'Alumnos', en: 'Students', ca: 'Alumnes' })}
           value={alumnosYFichas.length}
           sub={fichas.length > 0
             ? tr({
@@ -571,9 +606,9 @@ export default function ProfesorClase() {
               ca: `${students.length} amb compte · ${fichas.length} sense compte`,
             })
             : null} />
-        <StatTile label={tr({ es: 'Tareas', en: 'Tasks', ca: 'Tasques' })} value={totalTasks} />
-        <StatTile label={tr({ es: 'Completado medio', en: 'Avg. completion', ca: 'Completat mitjà' })} value={avgCompletion == null ? '—' : `${avgCompletion}%`} />
-        <StatTile label={tr({ es: 'Monedas totales', en: 'Total coins', ca: 'Monedes totals' })} value={totalCoins.toLocaleString()} />
+        <StatTile Icono={Libro} fondo="bg-blue-500/12" label={tr({ es: 'Tareas', en: 'Tasks', ca: 'Tasques' })} value={totalTasks} />
+        <StatTile Icono={Acierto} fondo="bg-green-500/12" label={tr({ es: 'Completado medio', en: 'Avg. completion', ca: 'Completat mitjà' })} value={avgCompletion == null ? '—' : `${avgCompletion}%`} />
+        <StatTile Icono={Moneda} fondo="bg-amber-500/12" label={tr({ es: 'Monedas totales', en: 'Total coins', ca: 'Monedes totals' })} value={totalCoins.toLocaleString()} />
       </div>
 
       <BarraModulos ids={enabledModuleIds(clase)} tab={tab} onTab={setTab} lang={lang} />
@@ -812,13 +847,13 @@ export default function ProfesorClase() {
             })}
           </p>
         ) : (
-          <div className="border border-white/10 rounded-xl overflow-hidden bg-white/[0.04]">
-            <div className="hidden sm:grid grid-cols-[1.6fr_1fr_1fr_1fr_1fr] gap-3 px-4 py-2 bg-white/5 text-[10.5px] uppercase tracking-wider font-bold text-white/35">
+          <div className="border border-white/[0.08] rounded-xl overflow-hidden bg-white/[0.03]">
+            <div className="hidden sm:grid grid-cols-[1.6fr_1fr_1fr_1fr_1fr] gap-3 px-4 py-2 bg-white/[0.04] text-[10.5px] uppercase tracking-wider font-bold text-white/35 items-center">
               <span>{tr({ es: 'Alumno', en: 'Student', ca: 'Alumne' })}</span>
-              <span className="text-right">💰</span>
-              <span className="text-right">🔥</span>
-              <span className="text-right">⏱</span>
-              <span className="text-right">📝</span>
+              <span className="flex justify-end" title={tr({ es: 'Monedas', en: 'Coins', ca: 'Monedes' })}><Moneda className="w-4 h-4" /></span>
+              <span className="flex justify-end" title={tr({ es: 'Racha', en: 'Streak', ca: 'Ratxa' })}><Racha className="w-4 h-4" /></span>
+              <span className="flex justify-end" title={tr({ es: 'Tiempo', en: 'Time', ca: 'Temps' })}><Reloj className="w-4 h-4" /></span>
+              <span className="flex justify-end" title={tr({ es: 'Exámenes', en: 'Exams', ca: 'Exàmens' })}><Lista className="w-4 h-4" /></span>
             </div>
             {students.map((s, i) => {
               const isOpen = expandedStudent === s.uid
@@ -827,8 +862,8 @@ export default function ProfesorClase() {
                   <button type="button" onClick={() => setExpandedStudent(isOpen ? null : s.uid)}
                     className="w-full grid grid-cols-[1.6fr_1fr_1fr] sm:grid-cols-[1.6fr_1fr_1fr_1fr_1fr] gap-2 sm:gap-3 px-4 py-3 items-center text-left hover:bg-white/5 transition-colors">
                     <span className="text-white font-semibold text-[13.5px] truncate">{s.name}</span>
-                    <span className="text-white/60 text-[13px] tabular-nums text-right">💰 {s.coins}</span>
-                    <span className="text-white/60 text-[13px] tabular-nums text-right sm:text-right">🔥 {s.streak}</span>
+                    <span className="flex items-center justify-end gap-1 text-white/60 text-[13px] tabular-nums"><Moneda className="w-3.5 h-3.5 sm:hidden" />{s.coins}</span>
+                    <span className="flex items-center justify-end gap-1 text-white/60 text-[13px] tabular-nums"><Racha className="w-3.5 h-3.5 sm:hidden" />{s.streak}</span>
                     <span className="text-white/60 text-[13px] tabular-nums text-right hidden sm:block">{formatTime(s.totalTime)}</span>
                     <span className="text-white/60 text-[13px] tabular-nums text-right hidden sm:block">{s.examsTaken || 0}</span>
                   </button>
@@ -906,3 +941,4 @@ export default function ProfesorClase() {
     </div>
   )
 }
+

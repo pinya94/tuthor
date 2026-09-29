@@ -3,6 +3,7 @@ import { useLang } from '../context/LangContext'
 import { FICHAS_ES, FICHAS_EN, FICHAS_CA } from '../data/infoJuegosFichas'
 import { IMPRIMIBLES, IMPRIMIBLE_IDS, tarjetasDe, variantesDe } from '../lib/materialImprimible'
 import { HojaActividad, HojaTarjetas, VisorHoja } from './HojasImprimibles'
+import { Impresora } from './IconosProfesor'
 
 // Recursos del profesor, en dos apartados que NO son lo mismo:
 //
@@ -38,8 +39,8 @@ export default function RecursosImprimibles() {
   const visibles = conPapel.filter(([, f]) => filtro === 'todas' || f.asignatura === filtro)
 
   const SECCIONES = [
-    { id: 'imprimibles', label: tr({ es: '🖨️ Imprimibles', en: '🖨️ Printables', ca: '🖨️ Imprimibles' }) },
-    { id: 'actividades', label: tr({ es: '📋 Actividades', en: '📋 Activities', ca: '📋 Activitats' }) },
+    { id: 'imprimibles', label: tr({ es: 'Imprimibles', en: 'Printables', ca: 'Imprimibles' }) },
+    { id: 'actividades', label: tr({ es: 'Actividades', en: 'Activities', ca: 'Activitats' }) },
   ]
 
   return (
@@ -117,7 +118,7 @@ export default function RecursosImprimibles() {
                     <span className="block text-white text-[13.5px] font-bold truncate">{f.titulo}</span>
                     <span className="block text-white/55 text-[12px] truncate">{f.enPapel.titulo}</span>
                   </span>
-                  <span className="text-white/40 text-[12px] shrink-0">📋</span>
+                  <Impresora className="w-4 h-4 text-white/35 shrink-0" />
                 </button>
               ))}
             </div>

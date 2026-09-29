@@ -1,5 +1,10 @@
 import { useState } from 'react'
 import { formatTime } from '../lib/activity'
+import { Acierto, Fallo } from './Iconos'
+import { ARTE_MATERIAS } from './arte/materias'
+
+// statsAggregation llama `lengua` a lo que en /estudiar es Español.
+const ARTE_DE_MATERIA = { lengua: 'espanol' }
 
 // Desglose por materia de un alumno: activo/expandido para ver examen a
 // examen (aprobados/suspensos), igual que en el propio Perfil.jsx.
@@ -16,6 +21,7 @@ export default function StudentSubjects({ subjectEntries, lang, tr }) {
         const subjLabel = subj.label[lang] || subj.label.es
         const isOpen = expanded === subj.id
         const failed = subj.totalExamPlays - subj.totalPassed
+        const Arte = ARTE_MATERIAS[ARTE_DE_MATERIA[subj.id] || subj.id]
         return (
           <div key={subj.id} className={i < subjectEntries.length - 1 ? 'border-b border-white/10' : ''}>
             <button
@@ -23,13 +29,15 @@ export default function StudentSubjects({ subjectEntries, lang, tr }) {
               onClick={() => setExpanded(isOpen ? null : subj.id)}
               className="w-full flex items-center gap-2.5 px-3 py-2.5 text-left hover:bg-white/5 transition-colors"
             >
-              <span className="text-lg w-6 text-center shrink-0">{subj.emoji}</span>
+              {Arte
+                ? <Arte className="w-14 aspect-video shrink-0 rounded-md bg-white/[0.04]" />
+                : <span className="text-lg w-6 text-center shrink-0">{subj.emoji}</span>}
               <div className="flex-1 min-w-0">
                 <p className="text-white text-[13.5px] font-bold">{subjLabel}</p>
                 <p className="text-white/45 text-[11.5px] mt-0.5 flex gap-2 flex-wrap items-center">
                   <span>{subj.totalPlays} {tr({ es: 'actividades', en: 'activities', ca: 'activitats' })}</span>
-                  {subj.totalExamPlays > 0 && <span className="text-green-400 font-bold">{subj.totalPassed} ✅</span>}
-                  {failed > 0 && <span className="text-red-400 font-bold">{failed} ❌</span>}
+                  {subj.totalExamPlays > 0 && <span className="inline-flex items-center gap-1 text-green-300 font-bold"><Acierto className="w-3.5 h-3.5" />{subj.totalPassed}</span>}
+                  {failed > 0 && <span className="inline-flex items-center gap-1 text-rose-300 font-bold"><Fallo className="w-3.5 h-3.5" />{failed}</span>}
                 </p>
               </div>
               {(subj.timeSpent || 0) > 0 && (
@@ -38,22 +46,22 @@ export default function StudentSubjects({ subjectEntries, lang, tr }) {
               <span className={`text-white/45 text-xs ml-1 transition-transform ${isOpen ? 'rotate-180' : ''}`}>▾</span>
             </button>
             {isOpen && subj.examRows.length > 0 && (
-              <div className="px-3 pb-2.5 pl-[42px]">
+              <div className="px-3 pb-2.5 pl-[78px]">
                 {subj.examRows.map(row => {
                   const rowFailed = row.plays - row.passed
                   return (
                     <div key={row.id} className="flex items-center gap-2 py-1 border-b border-white/5 last:border-0">
                       <span className="flex-1 text-white/60 text-[12px]">{row.label}</span>
                       <span className="text-white/45 text-[11.5px] font-semibold">{row.plays}×</span>
-                      <span className="text-green-400 text-[11.5px] font-extrabold">{row.passed} ✅</span>
-                      {rowFailed > 0 && <span className="text-red-400 text-[11.5px] font-extrabold">{rowFailed} ❌</span>}
+                      <span className="inline-flex items-center gap-1 text-green-300 text-[11.5px] font-extrabold"><Acierto className="w-3 h-3" />{row.passed}</span>
+                      {rowFailed > 0 && <span className="inline-flex items-center gap-1 text-rose-300 text-[11.5px] font-extrabold"><Fallo className="w-3 h-3" />{rowFailed}</span>}
                     </div>
                   )
                 })}
               </div>
             )}
             {isOpen && subj.examRows.length === 0 && subj.gameStats.plays > 0 && (
-              <p className="px-3 pb-2.5 pl-[42px] text-white/45 text-[12px]">
+              <p className="px-3 pb-2.5 pl-[78px] text-white/45 text-[12px]">
                 {tr({ es: 'Sin exámenes realizados', en: 'No exams taken', ca: 'Sense exàmens fets' })}
               </p>
             )}

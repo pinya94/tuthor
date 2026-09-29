@@ -6,6 +6,7 @@ import {
   normalizar, mesas, sinSitio, sentar, levantar, vaciar, sortear, redimensionar, alAzar,
 } from '../lib/seating'
 import { getClassObservations, addObservation, puntosDe } from '../lib/observations'
+import { Dado, Barajar, Papelera, Punteria, DatosAlumno } from './IconosProfesor'
 
 // El plano del aula. Está pensado para dos usos distintos a la vez:
 //
@@ -45,7 +46,7 @@ function Boton({ children, onClick, disabled, tono = 'suave' }) {
   }
   return (
     <button type="button" onClick={onClick} disabled={disabled}
-      className={`text-[12px] font-bold px-3 py-1.5 rounded-lg border transition-colors disabled:opacity-30 disabled:cursor-not-allowed ${tonos[tono]}`}>
+      className={`inline-flex items-center gap-1.5 text-[12px] font-bold px-3 py-1.5 rounded-lg border transition-colors disabled:opacity-30 disabled:cursor-not-allowed ${tonos[tono]}`}>
       {children}
     </button>
   )
@@ -151,17 +152,17 @@ export default function AulaPupitres({ clase, students, onSave, lang, tr }) {
       {/* ── Barra de herramientas ── */}
       <div className="flex flex-wrap items-center gap-2 mb-4">
         <Boton onClick={sacarAlAzar} disabled={students.length === 0} tono="fuerte">
-          🎲 {tr({ es: 'Sale a la pizarra', en: 'To the board', ca: 'Surt a la pissarra' })}
+          <Dado className="w-4 h-4" />{tr({ es: 'Sale a la pizarra', en: 'To the board', ca: 'Surt a la pissarra' })}
         </Boton>
         <Boton onClick={() => { setElegido(null); guardar(sortear(plano, studentIds)) }} disabled={students.length === 0}>
-          🔀 {tr({ es: 'Sortear sitios', en: 'Shuffle seats', ca: 'Sortejar llocs' })}
+          <Barajar className="w-3.5 h-3.5" />{tr({ es: 'Sortear sitios', en: 'Shuffle seats', ca: 'Sortejar llocs' })}
         </Boton>
         <Boton onClick={() => { setElegido(null); setAbierto(null); guardar(vaciar(plano)) }}
           disabled={Object.keys(plano.spots).length === 0}>
-          🗑️ {tr({ es: 'Vaciar', en: 'Clear', ca: 'Buidar' })}
+          <Papelera className="w-3.5 h-3.5" />{tr({ es: 'Vaciar', en: 'Clear', ca: 'Buidar' })}
         </Boton>
         <Boton onClick={alternarModoPuntos} disabled={students.length === 0} tono={modoPuntos ? 'fuerte' : 'suave'}>
-          🎯 {tr({ es: 'Modo puntos', en: 'Points mode', ca: 'Mode punts' })}
+          <Punteria className="w-3.5 h-3.5" />{tr({ es: 'Modo puntos', en: 'Points mode', ca: 'Mode punts' })}
         </Boton>
         <div className="flex items-center gap-3 ml-auto">
           <Stepper label={tr({ es: 'Filas', en: 'Rows', ca: 'Files' })} value={plano.rows} min={1} max={MAX_FILAS}
@@ -256,7 +257,7 @@ export default function AulaPupitres({ clase, students, onSave, lang, tr }) {
 
       <p className="text-white/25 text-[11.5px] mb-4">
         {elegido
-          ? tr({ es: '👆 Ahora toca la mesa donde quieres sentarlo.', en: '👆 Now tap the desk where they sit.', ca: '👆 Ara toca la taula on vols asseure\'l.' })
+          ? tr({ es: 'Ahora toca la mesa donde quieres sentarlo.', en: 'Now tap the desk where they sit.', ca: 'Ara toca la taula on vols asseure\'l.' })
           : modoPuntos
             ? tr({
               es: 'Modo puntos activo: toca una mesa ocupada para sumar o restar un punto de comportamiento.',
@@ -308,9 +309,9 @@ export default function AulaPupitres({ clase, students, onSave, lang, tr }) {
           <div className="flex items-start justify-between gap-3 mb-3">
             <div>
               <p className="text-white font-black text-lg">{alumnoAbierto.name}</p>
-              <p className="text-white/45 text-[12.5px] mt-0.5">
-                💰 {alumnoAbierto.coins} · 🔥 {alumnoAbierto.streak} · ⏱ {formatTime(alumnoAbierto.totalTime)} · 📝 {alumnoAbierto.examsTaken || 0}
-              </p>
+              <DatosAlumno coins={alumnoAbierto.coins} streak={alumnoAbierto.streak}
+                tiempo={formatTime(alumnoAbierto.totalTime)} examenes={alumnoAbierto.examsTaken || 0}
+                className="text-white/55 text-[12.5px] mt-1" />
             </div>
             <div className="flex items-center gap-2 shrink-0">
               <Boton onClick={() => { guardar(levantar(plano, alumnoAbierto.uid)); setAbierto(null) }}>

@@ -5,10 +5,12 @@ import { useLang } from '../context/LangContext'
 import { getTeacherProfile, getTeacherClasses, createClass, hasTeacherAccess } from '../lib/classes'
 import RecursosImprimibles from '../components/RecursosImprimibles'
 import RecursosInteractivos from '../components/RecursosInteractivos'
+import { Pizarra } from '../components/Iconos'
+import { Herramientas, Matraz } from '../components/IconosProfesor'
 
 const PESTANAS = [
-  { id: 'clases', emoji: '🏫', label: { es: 'Mis clases', en: 'My classes', ca: 'Les meves classes' } },
-  { id: 'recursos', emoji: '🧰', label: { es: 'Recursos', en: 'Resources', ca: 'Recursos' } },
+  { id: 'clases', Icono: Pizarra, fondo: 'bg-teal-500/12', label: { es: 'Mis clases', en: 'My classes', ca: 'Les meves classes' } },
+  { id: 'recursos', Icono: Herramientas, fondo: 'bg-red-500/12', label: { es: 'Recursos', en: 'Resources', ca: 'Recursos' } },
 ]
 
 export default function ProfesorPanel() {
@@ -101,7 +103,7 @@ export default function ProfesorPanel() {
           entra a diario a esto sigue metiendo datos reales de sus alumnos, y
           merece seguir sabiendo en qué está mientras dure la prueba. */}
       <div className="flex items-center gap-2.5 mb-5 rounded-xl border border-amber-500/25 bg-amber-500/[0.06] px-3.5 py-2.5">
-        <span className="text-lg shrink-0">🧪</span>
+        <Matraz className="w-5 h-5 shrink-0" />
         <p className="text-amber-300/80 text-[12.5px]">
           {tr({
             es: 'Estás en la beta gratuita: algunas cosas pueden cambiar. Gracias por probarlo.',
@@ -118,19 +120,24 @@ export default function ProfesorPanel() {
       <div className="grid grid-cols-2 gap-2 mb-6">
         {PESTANAS.map(p => (
           <button key={p.id} type="button" onClick={() => setTab(p.id)}
-            className={`rounded-2xl border px-4 py-3 text-left transition-colors ${
+            className={`flex items-center gap-3 rounded-2xl border px-4 py-3 text-left transition-colors ${
               tab === p.id
-                ? 'border-teal-500/50 bg-teal-500/10'
-                : 'border-white/10 bg-white/[0.03] hover:border-white/25'
+                ? 'border-teal-500/50 bg-[#141b2e] shadow-lg shadow-black/20'
+                : 'border-white/[0.08] bg-[#141b2e]/60 hover:border-white/25'
             }`}>
-            <p className={`font-black text-[15px] ${tab === p.id ? 'text-white' : 'text-white/60'}`}>
-              {p.emoji} {tr(p.label)}
-            </p>
-            <p className="text-white/35 text-[11.5px] mt-0.5">
-              {p.id === 'clases'
-                ? `${classes.length} ${tr({ es: 'clase(s)', en: 'class(es)', ca: 'classe(s)' })}`
-                : tr({ es: 'Herramientas, imprimibles y actividades', en: 'Tools, printables and activities', ca: 'Eines, imprimibles i activitats' })}
-            </p>
+            <span className={`shrink-0 w-11 h-11 rounded-xl ${p.fondo} grid place-items-center`}>
+              <p.Icono className="w-6 h-6" />
+            </span>
+            <span className="min-w-0">
+              <span className={`block font-black text-[15px] ${tab === p.id ? 'text-white' : 'text-white/60'}`}>
+                {tr(p.label)}
+              </span>
+              <span className="block text-white/35 text-[11.5px] mt-0.5 truncate">
+                {p.id === 'clases'
+                  ? `${classes.length} ${tr({ es: 'clase(s)', en: 'class(es)', ca: 'classe(s)' })}`
+                  : tr({ es: 'Herramientas, imprimibles y actividades', en: 'Tools, printables and activities', ca: 'Eines, imprimibles i activitats' })}
+              </span>
+            </span>
           </button>
         ))}
       </div>
@@ -139,7 +146,7 @@ export default function ProfesorPanel() {
         <>
           {/* Los interactivos primero: un profesor los proyecta en la pizarra
               o se los manda a la clase, y no hace falta cuenta para usarlos. */}
-          <h2 className="text-white font-black text-lg mb-1">🧰 {tr({ es: 'Para usar en clase', en: 'To use in class', ca: 'Per fer servir a classe' })}</h2>
+          <h2 className="text-white font-black text-lg mb-1">{tr({ es: 'Para usar en clase', en: 'To use in class', ca: 'Per fer servir a classe' })}</h2>
           <p className="text-white/45 text-[13px] mb-3 max-w-xl">
             {tr({
               es: 'Se proyectan en la pizarra o se mandan a los alumnos: escriben el ejercicio y ven la solución paso a paso. No necesitan cuenta.',
@@ -189,7 +196,7 @@ export default function ProfesorPanel() {
                 onClick={() => navigate(localPath(`/profesor/clase/${c.id}`))}
                 title={c.name}
                 className="group relative w-full max-w-[190px] min-h-[250px] flex flex-col rounded-t-[40px] border-2 border-b-0 border-amber-900/60 pt-12 pb-7 px-3.5 overflow-hidden transition-all hover:-translate-y-0.5 hover:border-amber-700/80"
-                style={{ background: 'linear-gradient(180deg, rgba(122,74,34,.85) 0%, rgba(92,54,22,.82) 55%, rgba(64,36,15,.88) 100%)' }}
+                style={{ background: '#7A4A22' }}
               >
                 {/* Placa con el nombre, como el cartel de un aula */}
                 <span className="absolute top-3 left-1/2 -translate-x-1/2 max-w-[85%] rounded-md border border-amber-200/25 bg-black/45 px-2.5 py-1">

@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { TAGS, TAG_META, TEXTO_MAX, textoValido, porAlumno, masRecientes, getClassObservations, addObservation, deleteObservation, setObservationVisibility } from '../lib/observations'
+import { Ojo, Candado } from './IconosProfesor'
 
 // El cuaderno de observaciones. Dos vistas sobre los mismos datos:
 //   · "Recientes" — lo último de toda la clase, para abrir el módulo y ver de
@@ -36,14 +37,14 @@ function Nota({ o, nombre, lang, tr, onBorrar, onToggleVisible }) {
         {/* Interruptor nota a nota: por defecto privada (ver observations.js).
             Se puede cambiar de idea después de escribirla, sin borrarla. */}
         <button type="button" onClick={() => onToggleVisible(o.id, !o.visibleParaAlumno)}
-          className={`shrink-0 text-[10.5px] font-bold px-2 py-0.5 rounded-full border transition-colors ${
+          className={`shrink-0 inline-flex items-center gap-1 text-[10.5px] font-bold px-2 py-0.5 rounded-full border transition-colors ${
             o.visibleParaAlumno
               ? 'border-current opacity-90'
               : 'border-current/30 opacity-40 hover:opacity-70'
           }`}>
           {o.visibleParaAlumno
-            ? `👁 ${tr({ es: 'Visible para el alumno', en: 'Visible to student', ca: 'Visible per a l\'alumne' })}`
-            : `🔒 ${tr({ es: 'Compartir', en: 'Share', ca: 'Compartir' })}`}
+            ? <><Ojo className="w-3 h-3" />{tr({ es: 'Visible para el alumno', en: 'Visible to student', ca: 'Visible per a l\'alumne' })}</>
+            : <><Candado className="w-3 h-3" />{tr({ es: 'Compartir', en: 'Share', ca: 'Compartir' })}</>}
         </button>
       </div>
     </div>

@@ -10,6 +10,7 @@ import { getClassAssignments } from '../lib/assignments'
 import { catalogTaskLabel } from '../lib/topicCatalog'
 import { GAMES } from '../lib/games'
 import { EXAMS } from '../lib/exams'
+import { Pesas, Impresora } from './IconosProfesor'
 import { SUBJECTS } from '../lib/statsAggregation'
 import { VisorHoja } from './HojasImprimibles'
 import { HojaNotas } from './HojasDeClase'
@@ -361,18 +362,18 @@ export default function Notas({ classId, students, claseName, lang, tr }) {
               en: 'Give each column a different weight in the average',
               ca: 'Donar un pes diferent a cada columna a la mitjana',
             })}
-            className={`ml-auto text-[12px] font-bold px-2.5 py-1.5 rounded-lg border transition-colors ${
+            className={`ml-auto inline-flex items-center gap-1.5 text-[12px] font-bold px-2.5 py-1.5 rounded-lg border transition-colors ${
               quitarPesosConfirm
                 ? 'border-red-400/40 text-red-300 bg-red-500/10'
                 : ponderando ? 'bg-white/15 border-white/25 text-white' : 'border-white/10 text-white/40 hover:text-white/70'
             }`}>
-            ⚖️ {quitarPesosConfirm
+            <Pesas className="w-3.5 h-3.5" />{quitarPesosConfirm
               ? tr({ es: '¿Quitar pesos?', en: 'Remove weights?', ca: 'Treure pesos?' })
               : tr({ es: 'Ponderar', en: 'Weighting', ca: 'Ponderar' })}
           </button>
           <button type="button" onClick={() => setEnPapel(true)}
-            className="text-[12px] font-bold px-2.5 py-1.5 rounded-lg border border-teal-500/30 text-teal-300 hover:bg-teal-500/10 transition-colors">
-            🖨️ {tr({ es: 'En papel', en: 'On paper', ca: 'En paper' })}
+            className="inline-flex items-center gap-1.5 text-[12px] font-bold px-2.5 py-1.5 rounded-lg border border-teal-500/30 text-teal-300 hover:bg-teal-500/10 transition-colors">
+            <Impresora className="w-3.5 h-3.5" />{tr({ es: 'En papel', en: 'On paper', ca: 'En paper' })}
           </button>
         </div>
       )}

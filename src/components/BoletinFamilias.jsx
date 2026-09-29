@@ -4,6 +4,7 @@ import { getGradeColumns } from '../lib/grades'
 import { getAttendanceRange } from '../lib/attendance'
 import { getClassObservations } from '../lib/observations'
 import { trimestresDelCurso, generarBoletin } from '../lib/report'
+import { Impresora } from './IconosProfesor'
 
 // El boletín para familias: notas + asistencia + observaciones de UN alumno
 // en UN periodo, en una sola página pensada para imprimir o guardar en PDF.
@@ -205,8 +206,8 @@ export default function BoletinFamilias({ classId, claseName, students, lang, tr
       {alumnoUid && boletin && (
         <>
           <button type="button" onClick={() => window.print()}
-            className="no-imprimir mb-4 text-[12.5px] font-bold px-3.5 py-2 rounded-lg bg-teal-600 hover:bg-teal-500 text-white transition-colors">
-            🖨️ {tr({ es: 'Imprimir / Guardar PDF', en: 'Print / Save as PDF', ca: 'Imprimir / Desar PDF' })}
+            className="no-imprimir mb-4 inline-flex items-center gap-2 text-[12.5px] font-bold px-3.5 py-2 rounded-lg bg-teal-600 hover:bg-teal-500 text-white transition-colors">
+            <Impresora className="w-4 h-4" />{tr({ es: 'Imprimir / Guardar PDF', en: 'Print / Save as PDF', ca: 'Imprimir / Desar PDF' })}
           </button>
           <Papel boletin={boletin} alumno={students.find(s => s.uid === alumnoUid)?.name || alumnoUid} claseName={claseName} lang={lang} tr={tr} />
         </>

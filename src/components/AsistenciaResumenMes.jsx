@@ -4,6 +4,7 @@ import { getAttendanceRange } from '../lib/attendance'
 import { trimestresDelCurso } from '../lib/report'
 import { VisorHoja } from './HojasImprimibles'
 import { HojaAsistencia, HojaAsistenciaResumen } from './HojasDeClase'
+import { Impresora } from './IconosProfesor'
 
 // El resumen del mes: alumnos en filas, días en columnas, una casilla de color
 // por cada uno. Es la vista que responde "¿quién falta mucho?" de un vistazo,
@@ -103,8 +104,8 @@ export default function AsistenciaResumenMes({ classId, students, claseName, lan
         <button type="button" onClick={() => irAMes(1)} disabled={esMesActual(mesVisto)}
           className="w-7 h-7 rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 disabled:opacity-25 disabled:cursor-not-allowed text-white/60 transition-colors">›</button>
         <button type="button" onClick={() => setEnPapel(true)} disabled={dias === null}
-          className="ml-auto text-[12px] font-bold px-2.5 py-1.5 rounded-lg border border-teal-500/30 text-teal-300 hover:bg-teal-500/10 disabled:opacity-30 transition-colors">
-          🖨️ {tr({ es: 'En papel', en: 'On paper', ca: 'En paper' })}
+          className="ml-auto inline-flex items-center gap-1.5 text-[12px] font-bold px-2.5 py-1.5 rounded-lg border border-teal-500/30 text-teal-300 hover:bg-teal-500/10 disabled:opacity-30 transition-colors">
+          <Impresora className="w-3.5 h-3.5" />{tr({ es: 'En papel', en: 'On paper', ca: 'En paper' })}
         </button>
       </div>
 
