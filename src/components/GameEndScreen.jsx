@@ -6,7 +6,6 @@ import { computeCoins, GAMES as REGISTRO } from '../lib/games'
 import { consumeCompletedAssignments } from '../lib/activity'
 import AdSlot from './AdSlot'
 import ReferralCard from './ReferralCard'
-import ProUpsell from './ProUpsell'
 import { ARTE_JUEGOS, ArteJuego, slugDeRuta } from './arte'
 import { Acierto, IconoDeEmoji } from './Iconos'
 
@@ -130,14 +129,12 @@ export default function GameEndScreen({
           ))}
         </div>
 
-        {/* Justo después de jugar es cuando más dispuesto está el usuario a
-            hacer algo: aquí van las tres vías, de menos a más compromiso —
-            invitar (gratis y le da Pro), el anuncio, y hacerse Pro.
-            ReferralCard se pinta solo si hay sesión; AdSlot cae a iGraal
-            mientras AdSense no tenga bloque para este hueco. */}
+        {/* Tras la partida: invitar (gratis y da Pro) y el anuncio. El banner
+            de "Hazte Pro" se quitó de aquí a propósito: cortaba el final de
+            cada partida con una venta. ReferralCard se pinta solo si hay
+            sesión; AdSlot cae a iGraal mientras AdSense no tenga bloque. */}
         <ReferralCard variant="compact" className="mt-5" />
         <AdSlot placement="gameEnd" className="mt-3" />
-        <ProUpsell variant="inline" className="mt-3" />
 
       </div>
 

@@ -84,6 +84,80 @@ export function Mando(p) {
   )
 }
 
+export function Tienda(p) {
+  return (
+    <svg {...base} {...p}>
+      <path d="M9 8V6.5a3 3 0 0 1 6 0V8" stroke="#C4B5FD" strokeWidth="1.8" strokeLinecap="round" />
+      <path d="M4.8 8h14.4l-1.1 11.6A2 2 0 0 1 16.1 21.4H7.9a2 2 0 0 1-2-1.8Z" fill="#8B5CF6" />
+      <path d="M9 12.5a3 3 0 0 0 6 0" stroke="#EDE9FE" strokeWidth="1.6" strokeLinecap="round" />
+    </svg>
+  )
+}
+
+export function Regalo(p) {
+  return (
+    <svg {...base} {...p}>
+      <rect x="4" y="10" width="16" height="11" rx="1.5" fill="#8B5CF6" />
+      <rect x="3" y="7" width="18" height="4.5" rx="1.2" fill="#A78BFA" />
+      <path d="M12 7v14" stroke="#FBBF24" strokeWidth="2.4" />
+      <path d="M12 7C10 3.5 6.5 4 7.5 6.2 8.2 7.4 12 7 12 7Zm0 0c2-3.5 5.5-3 4.5-.8C15.8 7.4 12 7 12 7Z" fill="#FBBF24" />
+    </svg>
+  )
+}
+
+export function Pizarra(p) {
+  return (
+    <svg {...base} {...p}>
+      <path d="M8 16.5l-2 5M16 16.5l2 5" stroke="#A16207" strokeWidth="1.8" strokeLinecap="round" />
+      <rect x="2.5" y="3.5" width="19" height="13" rx="1.6" fill="#065F46" stroke="#CA8A04" strokeWidth="1.6" />
+      <path d="M6 9.5l1.5-2 1.5 4 1.5-3M13 8.5h4M13 11.5h3" stroke="#ECFDF5" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  )
+}
+
+export function Familia(p) {
+  return (
+    <svg {...base} {...p}>
+      <circle cx="9" cy="7" r="3.2" fill="#F59E0B" />
+      <path d="M3.5 21a5.5 5.5 0 0 1 11 0Z" fill="#F59E0B" />
+      <circle cx="17" cy="11" r="2.5" fill="#FB7185" />
+      <path d="M13 21a4 4 0 0 1 8 0Z" fill="#FB7185" />
+    </svg>
+  )
+}
+
+export function Bicho(p) {
+  return (
+    <svg {...base} {...p}>
+      <path d="M7 11l-3-1.5M7 15H3.5M7.5 18.5l-3 1.5M17 11l3-1.5M17 15h3.5M16.5 18.5l3 1.5M10.5 5L9 2.8M13.5 5L15 2.8" stroke="#C4B5FD" strokeWidth="1.6" strokeLinecap="round" />
+      <ellipse cx="12" cy="14.5" rx="5.2" ry="6.5" fill="#8B5CF6" />
+      <circle cx="12" cy="7" r="3" fill="#6D28D9" />
+      <path d="M12 9v11.5" stroke="#4C1D95" strokeWidth="1.4" />
+      <circle cx="9.8" cy="13" r="1.1" fill="#EDE9FE" />
+      <circle cx="14.2" cy="16.5" r="1.1" fill="#EDE9FE" />
+    </svg>
+  )
+}
+
+export function Megafono(p) {
+  return (
+    <svg {...base} {...p}>
+      <path d="M3 9.5h3.5l8.5-5v15l-8.5-5H3Z" fill="#10B981" />
+      <path d="M6.5 14.5l1.5 5h2.5l-1.3-5" fill="#047857" />
+      <path d="M18 9a4 4 0 0 1 0 6M20.5 6.5a7.5 7.5 0 0 1 0 11" stroke="#6EE7B7" strokeWidth="1.8" strokeLinecap="round" />
+    </svg>
+  )
+}
+
+export function Sobre(p) {
+  return (
+    <svg {...base} {...p}>
+      <rect x="2.5" y="5.5" width="19" height="13.5" rx="2" fill="#F8FAFC" />
+      <path d="M3.5 7l8.5 6.5L20.5 7" stroke="#8B5CF6" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  )
+}
+
 export function Reloj(p) {
   return (
     <svg {...base} {...p}>

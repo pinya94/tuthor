@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
 import { getReferralLink } from '../lib/referral'
+import { Regalo } from './Iconos'
 
 // Enlace de invitación: por cada amigo que se registra con él, quien invita
 // gana un mes de Pro (ver api/apply-referral.js). Mismo hueco que ocupaba
@@ -34,9 +35,9 @@ export default function ReferralCard({ variant = 'full', className = '' }) {
     return (
       <button
         onClick={handleCopy}
-        className={`w-full flex items-center gap-3 rounded-2xl border border-violet-400/25 bg-gradient-to-r from-violet-500/[0.12] to-violet-500/[0.04] p-3.5 text-left hover:border-violet-400/45 transition-colors ${className}`}
+        className={`w-full flex items-center gap-3 rounded-2xl bg-[#141b2e] border border-white/[0.08] p-3.5 text-left hover:border-violet-400/45 transition-colors ${className}`}
       >
-        <span className="grid place-items-center w-9 h-9 shrink-0 rounded-xl bg-violet-400/15 text-lg" aria-hidden="true">🎁</span>
+        <span className="grid place-items-center w-11 h-11 shrink-0 rounded-xl bg-violet-500/12"><Regalo className="w-6 h-6" /></span>
         <span className="flex-1 min-w-0">
           <span className="block text-white font-black text-sm leading-tight">
             {tr({ es: 'Un mes de Pro gratis', en: 'A free month of Pro', ca: 'Un mes de Pro gratis' })}
@@ -60,8 +61,8 @@ export default function ReferralCard({ variant = 'full', className = '' }) {
 
   return (
     <section className="rounded-2xl border border-violet-500/25 bg-violet-500/5 p-5">
-      <h3 className="text-white font-black text-base mb-1">
-        🎁 {tr({ es: 'Invita y gana un mes de Pro', en: 'Invite and get a month of Pro', ca: 'Convida i guanya un mes de Pro' })}
+      <h3 className="flex items-center gap-2 text-white font-black text-base mb-1">
+        <Regalo className="w-5 h-5" />{tr({ es: 'Invita y gana un mes de Pro', en: 'Invite and get a month of Pro', ca: 'Convida i guanya un mes de Pro' })}
       </h3>
       <p className="text-white/50 text-sm mb-4">
         {tr({

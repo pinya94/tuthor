@@ -17,35 +17,35 @@ import ReferralCard from '../components/ReferralCard'
 import NivelPicker from '../components/NivelPicker'
 import { useDebePreguntarNivel, sincronizarNivel } from '../lib/nivel'
 import { ARTE_MATERIAS } from '../components/arte/materias'
-import { Racha, Reloj, Acierto, Fallo, Mando, Moneda, Estrella } from '../components/Iconos'
+import { Racha, Reloj, Acierto, Fallo, Mando, Moneda, Estrella, Tienda, Pizarra, Familia, Bicho, Megafono, Sobre } from '../components/Iconos'
 
 const PREVIEW_FRAMES = ['silver', 'gold', 'rainbow', 'galaxy', 'fire', 'neon']
 
-// Superficie oscura casi opaca: legibilidad sobre el fondo del bosque
-const SURF = 'rgba(17,20,29,0.86)'
 
-function RewardsSection({ lang, navigate }) {
-  const en = lang === 'en', ca = lang === 'ca'
+function RewardsSection({ navigate, localPath }) {
+  const { tr } = useLang()
   const previewFrames = FRAMES.filter(f => PREVIEW_FRAMES.includes(f.id)).slice(0, 4)
 
   return (
     <section className="mb-8">
-      <div className="rounded-2xl border border-violet-500/25 overflow-hidden"
-        style={{ background: 'linear-gradient(135deg, rgba(139,92,246,.2), rgba(237,174,73,.08)), ' + SURF }}>
-        <div className="px-5 sm:px-6 py-4 flex items-center gap-4">
-          <div className="flex-1">
-            <p className="text-violet-300 text-xs font-bold uppercase tracking-widest mb-0.5">
-              {ca ? 'Recompenses' : en ? 'Rewards' : 'Recompensas'}
+      <div className={`${TARJETA} overflow-hidden`}>
+        <div className="px-5 py-4 flex items-center gap-4">
+          <span className="shrink-0 w-12 h-12 rounded-xl bg-amber-500/12 grid place-items-center">
+            <Moneda className="w-7 h-7" />
+          </span>
+          <div className="flex-1 min-w-0">
+            <p className="text-amber-300/80 text-[11px] font-bold uppercase tracking-widest mb-0.5">
+              {tr({ es: 'Recompensas', en: 'Rewards', ca: 'Recompenses' })}
             </p>
             <p className="text-white font-black text-base leading-tight">
-              {ca ? 'Juga i guanya monedes 💰' : en ? 'Play and earn coins 💰' : 'Juega y gana monedas 💰'}
+              {tr({ es: 'Juega y gana monedas', en: 'Play and earn coins', ca: 'Juga i guanya monedes' })}
             </p>
             <p className="text-white/50 text-xs mt-0.5">
-              {ca ? 'Marcs · Banners · Avatars' : en ? 'Frames · Banners · Avatars' : 'Marcos · Banners · Avatares'}
+              {tr({ es: 'Marcos · Banners · Avatares', en: 'Frames · Banners · Avatars', ca: 'Marcs · Banners · Avatars' })}
             </p>
           </div>
-          {/* Preview frames inline */}
-          <div className="flex gap-1.5 shrink-0">
+          {/* Los marcos son cosméticos del usuario: se enseñan tal cual. */}
+          <div className="hidden sm:flex gap-1.5 shrink-0">
             {previewFrames.map(frame => (
               <div key={frame.id} className={frame.animated ? 'frame-animated' : ''} style={{ ...frame.style, padding: 2, borderRadius: '50%', width: 36, height: 36 }}>
                 <div style={{ width: 32, height: 32, borderRadius: '50%', background: '#1e1b4b', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16 }}>
@@ -57,9 +57,11 @@ function RewardsSection({ lang, navigate }) {
           </div>
         </div>
 
-        <div className="px-5 sm:px-6 pb-4">
-          <button onClick={() => navigate('/tienda')} className="w-full py-2.5 bg-violet-600 hover:bg-violet-500 text-white font-black rounded-xl transition-all text-sm">
-            🛍 {ca ? 'Anar a la botiga' : en ? 'Go to shop' : 'Ir a la tienda'}
+        <div className="px-5 pb-4">
+          <button onClick={() => navigate(localPath('/tienda'))}
+            className="w-full flex items-center justify-center gap-2 py-2.5 bg-violet-600 hover:bg-violet-500 text-white font-black rounded-xl transition-all text-sm">
+            <Tienda className="w-4 h-4" />
+            {tr({ es: 'Ir a la tienda', en: 'Go to shop', ca: 'Anar a la botiga' })}
           </button>
         </div>
       </div>
@@ -144,9 +146,11 @@ function MisClasesCard({ classes, pendingTasks, navigate, localPath, lang }) {
   return (
     <section className="mb-8">
       <button onClick={() => navigate(localPath('/clase'))}
-        className="w-full text-left rounded-2xl border border-white/10 hover:border-teal-400/40 p-5 flex items-center justify-between gap-4 transition-all" style={{ background: SURF }}>
+        className={`w-full text-left ${TARJETA} hover:border-teal-400/40 p-5 flex items-center justify-between gap-4 transition-all`}>
         <div className="flex items-center gap-3">
-          <span className="text-2xl">🏫</span>
+          <span className="shrink-0 w-11 h-11 rounded-xl bg-teal-500/12 grid place-items-center">
+            <Pizarra className="w-6 h-6" />
+          </span>
           <div>
             <p className="text-white font-bold text-sm">
               {classes.length > 1
@@ -433,7 +437,7 @@ export default function Home() {
         )}
 
         {/* RECOMPENSAS */}
-        <RewardsSection lang={lang} navigate={navigate} />
+        <RewardsSection navigate={navigate} localPath={localPath} />
 
         {/* iGraal y la invitación, ya avanzada la página: quien ha bajado
             hasta aquí está navegando, no de paso. */}
@@ -442,14 +446,14 @@ export default function Home() {
 
         {/* COMUNIDAD */}
         <section className="mb-8">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
 
             {/* Para familias y profes: la home es el producto; quien quiere
                 entender qué es Tuthor, qué es gratis y cómo seguir a su hijo va
                 a la página de familias (antes era la raíz). */}
             <Link to={localPath('/para-familias')}
-              className="group rounded-2xl border border-white/10 hover:border-amber-400/50 p-6 flex flex-col gap-3 transition-all" style={{ background: SURF }}>
-              <div className="w-10 h-10 rounded-xl bg-amber-500/15 flex items-center justify-center text-xl">👪</div>
+              className={`group ${TARJETA} hover:border-amber-400/50 p-6 flex flex-col gap-3 transition-all`}>
+              <div className="w-11 h-11 rounded-xl bg-amber-500/12 grid place-items-center"><Familia className="w-6 h-6" /></div>
               <div className="flex-1">
                 <h3 className="text-white font-bold text-sm">
                   {lang === 'en' ? 'For families & teachers' : lang === 'ca' ? 'Per a famílies i profes' : 'Para familias y profes'}
@@ -468,8 +472,8 @@ export default function Home() {
 
             {/* Bug report */}
             <Link to={localPath('/reportar-bug')}
-              className="group rounded-2xl border border-white/10 hover:border-violet-400/50 p-6 flex flex-col gap-3 transition-all" style={{ background: SURF }}>
-              <div className="w-10 h-10 rounded-xl bg-violet-500/15 flex items-center justify-center text-xl">🐛</div>
+              className={`group ${TARJETA} hover:border-violet-400/50 p-6 flex flex-col gap-3 transition-all`}>
+              <div className="w-11 h-11 rounded-xl bg-violet-500/12 grid place-items-center"><Bicho className="w-6 h-6" /></div>
               <div className="flex-1">
                 <h3 className="text-white font-bold text-sm">
                   {lang === 'en' ? 'Report a bug' : lang === 'ca' ? 'Reportar un error' : 'Reportar un bug'}
@@ -488,8 +492,8 @@ export default function Home() {
 
             {/* Colaborar */}
             <Link to={localPath('/colaborar')}
-              className="group rounded-2xl border border-white/10 hover:border-emerald-400/50 p-6 flex flex-col gap-3 transition-all" style={{ background: SURF }}>
-              <div className="w-10 h-10 rounded-xl bg-emerald-500/15 flex items-center justify-center text-xl">📣</div>
+              className={`group ${TARJETA} hover:border-emerald-400/50 p-6 flex flex-col gap-3 transition-all`}>
+              <div className="w-11 h-11 rounded-xl bg-emerald-500/12 grid place-items-center"><Megafono className="w-6 h-6" /></div>
               <div className="flex-1">
                 <h3 className="text-white font-bold text-sm">
                   {lang === 'en' ? 'Collaborate or advertise' : lang === 'ca' ? "Col·laborar o anunciar-se" : 'Colaborar o anunciarse'}
@@ -510,12 +514,15 @@ export default function Home() {
         </section>
 
         {/* CONTACTO */}
-        <section className="rounded-2xl border border-white/10 p-6 sm:p-8 text-center" style={{ background: SURF }}>
+        <section className={`${TARJETA} p-6 sm:p-8 text-center`}>
+          <span className="mx-auto mb-3 w-12 h-12 rounded-xl bg-violet-500/12 grid place-items-center">
+            <Sobre className="w-7 h-7" />
+          </span>
           <h2 className="text-2xl font-black text-white mb-2">{t('home.seo.contacto.titulo')}</h2>
           <p className="text-white/55 mb-5 max-w-md mx-auto">{t('home.seo.contacto.texto')}</p>
           <Link to={localPath('/contacto')}
             className="inline-flex items-center gap-2 px-6 py-3 bg-violet-600 hover:bg-violet-500 text-white font-bold text-sm rounded-xl transition-all hover:scale-[1.02]">
-            📧 {lang === 'ca' ? 'Escriu-nos' : lang === 'en' ? 'Write to us' : 'Escríbenos'}
+            {tr({ es: 'Escríbenos', en: 'Write to us', ca: 'Escriu-nos' })}
           </Link>
         </section>
       </div>
