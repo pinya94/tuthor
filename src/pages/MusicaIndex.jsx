@@ -2,6 +2,8 @@ import { useNavigate } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import SEOHead from '../components/SEOHead'
 import { ArteMateria } from '../components/arte/materias'
+import TarjetaArte from '../components/TarjetaArte'
+import { ARTE_TEMAS } from '../components/arte/temas'
 
 const TEMAS = [
   {
@@ -52,28 +54,10 @@ export default function MusicaIndex() {
         </p>
       </div>
 
-      <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 max-w-3xl mx-auto w-full">
-        {TEMAS.map(t => (
-          <button
-            key={t.id}
-            onClick={() => t.ready && navigate(localPath(t.path))}
-            className={`group relative rounded-2xl overflow-hidden text-left transition-all duration-300 ${
-              t.ready ? 'hover:scale-[1.03] hover:shadow-xl hover:shadow-black/40 cursor-pointer' : 'opacity-50 cursor-default'
-            }`}
-          >
-            <div className={`bg-gradient-to-br ${t.gradient} p-5 aspect-square flex flex-col justify-between`}>
-              {!t.ready && (
-                <span className="absolute top-2 right-2 bg-black/40 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
-                  {tr({ es: 'Pronto', en: 'Soon', ca: 'Aviat' })}
-                </span>
-              )}
-              <span className="text-4xl">{t.emoji}</span>
-              <div>
-                <h3 className="font-black text-white text-base leading-tight">{tr(t.titulo)}</h3>
-                <p className="text-white/65 text-xs mt-1 leading-relaxed line-clamp-2">{tr(t.subtitulo)}</p>
-              </div>
-            </div>
-          </button>
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 max-w-3xl mx-auto w-full">
+        {TEMAS.filter(t => t.ready).map(t => (
+          <TarjetaArte key={t.id} Arte={ARTE_TEMAS[`musica/${t.id}`]} titulo={tr(t.titulo)} sub={tr(t.subtitulo)}
+            onClick={() => navigate(localPath(t.path))} />
         ))}
       </div>
     </div>

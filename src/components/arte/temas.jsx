@@ -6,6 +6,7 @@ import { ARTE_TEMAS_CIENCIAS } from './temasCiencias'
 import { ARTE_TEMAS_MATEMATICAS } from './temasMatematicas'
 import { ARTE_TEMAS_GEOGRAFIA } from './temasGeografia'
 import { ARTE_TEMAS_LENGUA } from './temasLengua'
+import { ARTE_TEMAS_VARIOS } from './temasVarios'
 
 export const ARTE_TEMAS = {
   ...ARTE_TEMAS_HISTORIA,
@@ -13,6 +14,7 @@ export const ARTE_TEMAS = {
   ...ARTE_TEMAS_MATEMATICAS,
   ...ARTE_TEMAS_GEOGRAFIA,
   ...ARTE_TEMAS_LENGUA,
+  ...ARTE_TEMAS_VARIOS,
 }
 
 // Un dibujo suelto por su clave (cabeceras de las rejillas).

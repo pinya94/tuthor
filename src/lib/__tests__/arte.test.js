@@ -74,6 +74,8 @@ describe('arte de los temas', () => {
     ...['present-simple', 'past-simple', 'present-perfect', 'articles', 'passive'].map(id => `ingles/${id}`),
     ...['acentuacion', 'bv', 'gj', 'puntuacion', 'correccion'].map(id => `ortografia/${id}`),
     'lengua/gramatica', 'lengua/literatura',
+    // Música y Economía (MusicaIndex, EconomiaIndex).
+    'musica/notas', 'musica/ritmo', 'economia/finanzas-personales', 'economia/punto-equilibrio',
   ]
 
   it('cada tema de historia y ciencias tiene su ilustración', () => {
