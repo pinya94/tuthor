@@ -1,18 +1,22 @@
 import { useState, useEffect } from 'react'
+import { useLang } from '../context/LangContext'
+import { Moneda } from './Iconos'
 
 // Badge persistente para la pantalla de resultado: la animación dura 2,6s,
 // esto deja constancia fija de las monedas ganadas en la partida.
 export function CoinsEarnedBadge({ coins, lang = 'es' }) {
   if (!coins || coins <= 0) return null
-  const label = lang === 'en' ? 'coins earned' : lang === 'ca' ? 'monedes guanyades' : 'monedas ganadas'
+  const label = { es: 'monedas ganadas', en: 'coins earned', ca: 'monedes guanyades' }
   return (
-    <p className="text-amber-400/80 text-sm font-bold mt-1">
-      💰 +{coins.toLocaleString()} <span className="text-amber-400/50 font-semibold">{label}</span>
+    <p className="inline-flex items-center gap-1.5 mt-3 px-3 py-1 rounded-full bg-amber-400/10 border border-amber-400/20 text-amber-300 text-sm font-bold">
+      <Moneda className="w-4 h-4" />
+      +{coins.toLocaleString()} <span className="text-amber-300/60 font-semibold">{label[lang] ?? label.es}</span>
     </p>
   )
 }
 
 export default function CoinsAnimation({ points, coins: explicitCoins, onDone }) {
+  const { tr } = useLang()
   const coins = explicitCoins !== undefined
     ? Math.max(0, Math.round(explicitCoins))
     : Math.min(Math.floor((points || 0) / 10), 200)
@@ -34,9 +38,9 @@ export default function CoinsAnimation({ points, coins: explicitCoins, onDone })
       onClick={() => { setPhase('out'); setTimeout(() => { setPhase('gone'); onDone?.() }, 500) }}
     >
       <div className="text-center select-none">
-        <div className="text-7xl mb-4" style={{ animation: 'bounce 0.5s infinite alternate' }}>💰</div>
-        <p className="text-amber-400 font-black" style={{ fontSize: 64, lineHeight: 1 }}>+{coins.toLocaleString()}</p>
-        <p className="text-amber-400/60 text-lg mt-2 font-semibold">monedas</p>
+        <Moneda className="w-24 h-24 mx-auto mb-4" style={{ animation: 'bounce 0.5s infinite alternate' }} />
+        <p className="text-amber-400 font-black tabular-nums" style={{ fontSize: 64, lineHeight: 1 }}>+{coins.toLocaleString()}</p>
+        <p className="text-amber-400/60 text-lg mt-2 font-semibold">{tr({ es: 'monedas', en: 'coins', ca: 'monedes' })}</p>
       </div>
     </div>
   )

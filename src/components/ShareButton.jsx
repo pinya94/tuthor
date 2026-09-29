@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Enlace } from './Iconos'
 
 export default function ShareButton({ text, lang }) {
   const [open, setOpen] = useState(false)
@@ -11,7 +12,7 @@ export default function ShareButton({ text, lang }) {
     setTimeout(() => setCopied(false), 2000)
   }
 
-  const btnLabel = lang === 'en' ? '🔗 Share result' : lang === 'ca' ? '🔗 Compartir resultat' : '🔗 Compartir resultado'
+  const btnLabel = { es: 'Compartir resultado', en: 'Share result', ca: 'Compartir resultat' }[lang] ?? 'Compartir resultado'
   const copyLabel = copied
     ? (lang === 'en' ? '✓ Copied!' : lang === 'ca' ? '✓ Copiat!' : '✓ ¡Copiado!')
     : (lang === 'en' ? 'Copy' : 'Copiar')
@@ -20,8 +21,9 @@ export default function ShareButton({ text, lang }) {
     <div className="w-full">
       <button
         onClick={() => setOpen(o => !o)}
-        className="w-full bg-white/8 hover:bg-white/15 border border-white/15 text-white/70 hover:text-white font-semibold py-3 rounded-xl transition-all text-sm"
+        className="w-full flex items-center justify-center gap-2 bg-white/[0.06] hover:bg-white/[0.12] border border-white/[0.12] text-white/70 hover:text-white font-semibold py-3 rounded-xl transition-all text-sm"
       >
+        <Enlace className="w-4 h-4" />
         {btnLabel}
       </button>
       {open && (

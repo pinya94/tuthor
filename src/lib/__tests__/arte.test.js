@@ -4,6 +4,7 @@
 import { describe, it, expect } from 'vitest'
 import { GAMES } from '../../data/constants.js'
 import { GRADO_IDS } from '../mathEngine.js'
+import { GAMES as REGISTRO } from '../games.js'
 import { ARTE_JUEGOS, slugDeRuta } from '../../components/arte/index.jsx'
 import { ARTE_CURSOS, GLIFOS_CURSO } from '../../components/arte/cursos.jsx'
 
@@ -25,6 +26,15 @@ describe('arte de los juegos', () => {
     for (const [slug, Arte] of Object.entries(ARTE_JUEGOS)) {
       expect(() => Arte({}), slug).not.toThrow()
     }
+  })
+
+  it('la pantalla final encuentra el arte de cada juego del registro', () => {
+    // GameEndScreen busca el dibujo por la ruta del juego en src/lib/games.js.
+    const sinArte = Object.entries(REGISTRO)
+      .filter(([, g]) => slugDeRuta(g.route))
+      .filter(([, g]) => !ARTE_JUEGOS[slugDeRuta(g.route)])
+      .map(([id, g]) => `${id} (${g.route})`)
+    expect(sinArte, `juegos del registro sin arte: ${sinArte.join(', ')}`).toEqual([])
   })
 
   it('slugDeRuta saca el slug con o sin idioma', () => {

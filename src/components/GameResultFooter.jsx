@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import MiniLeaderboard from './MiniLeaderboard'
 import AuthModal from './AuthModal'
 import { getStatsAndCosmetics } from '../lib/activity'
+import { Moneda } from './Iconos'
 
 export default function GameResultFooter({ game, score, user, lang }) {
   const [showAuth, setShowAuth] = useState(false)
@@ -25,9 +26,10 @@ export default function GameResultFooter({ game, score, user, lang }) {
   return (
     <>
       {!user && (
-        <div className="bg-violet-500/10 border border-violet-500/30 rounded-2xl p-4 mt-4 text-center">
-          <p className="text-violet-300 font-bold text-sm">
-            💰 {lang === 'en' ? 'Save your coins!' : lang === 'ca' ? 'Guarda les teves monedes!' : '¡Guarda tus monedas!'}
+        <div className="bg-violet-500/10 border border-violet-500/25 rounded-2xl p-4 mt-5 text-center">
+          <p className="flex items-center justify-center gap-1.5 text-violet-200 font-bold text-sm mb-0.5">
+            <Moneda className="w-4 h-4" />
+            {lang === 'en' ? 'Save your coins!' : lang === 'ca' ? 'Guarda les teves monedes!' : '¡Guarda tus monedas!'}
           </p>
           <p className="text-white/40 text-xs mb-3">
             {lang === 'en' ? 'Sign up to save your score and spend coins on avatar frames.'
@@ -38,7 +40,7 @@ export default function GameResultFooter({ game, score, user, lang }) {
             onClick={() => setShowAuth(true)}
             className="bg-violet-600 hover:bg-violet-500 text-white font-bold py-2 px-5 rounded-xl text-sm transition"
           >
-            ✨ {lang === 'en' ? "Sign up — it's free" : lang === 'ca' ? "Registra't — és gratis" : 'Regístrate — es gratis'}
+            {lang === 'en' ? "Sign up — it's free" : lang === 'ca' ? "Registra't — és gratis" : 'Regístrate — es gratis'}
           </button>
         </div>
       )}

@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react'
 import { getLeaderboard } from '../lib/activity'
 import { BANNER_BY_ID, FRAME_BY_ID, DEFAULT_AVATAR_EMOJI } from '../data/cosmetics'
-
-const MEDAL = ['🥇', '🥈', '🥉']
+import { Medalla, Trofeo, Estrella } from './Iconos'
 
 const _cache = {}
 async function getCachedLeaderboard(game) {
@@ -27,8 +26,8 @@ function LeaderboardRow({ entry, i, currentUid, youLabel }) {
         animation: banner?.animated ? 'frameRotate 3s ease infinite' : undefined,
       }}
     >
-      <span className="w-5 text-center shrink-0 text-base leading-none">
-        {i < 3 ? MEDAL[i] : <span className="text-white/30 font-bold text-xs">{i + 1}</span>}
+      <span className="w-5 flex justify-center shrink-0 leading-none">
+        {i < 3 ? <Medalla puesto={i + 1} className="w-5 h-5" /> : <span className="text-white/30 font-bold text-xs">{i + 1}</span>}
       </span>
       {(() => {
         const frameColor = entry.frameId ? (FRAME_BY_ID[entry.frameId]?.color ?? '#7c3aed') : null
@@ -81,8 +80,10 @@ export default function MiniLeaderboard({ game, currentScore, currentUid, curren
 
   return (
     <>
-      <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mt-4">
-        <p className="text-white/30 text-xs uppercase tracking-widest mb-3">🏆 {label}</p>
+      <div className="bg-white/[0.03] border border-white/[0.08] rounded-2xl p-4 mt-5 text-left">
+        <p className="flex items-center gap-1.5 text-white/40 text-xs uppercase tracking-widest font-semibold mb-3">
+          <Trofeo className="w-4 h-4" />{label}
+        </p>
 
         {displayTop.length === 0 ? (
           <p className="text-white/40 text-sm text-center py-2">
@@ -107,8 +108,9 @@ export default function MiniLeaderboard({ game, currentScore, currentUid, curren
         )}
 
         {isNewRecord && (
-          <p className="text-amber-400 text-xs text-center mt-3 font-bold">
-            {lang === 'en' ? '✨ New record!' : lang === 'ca' ? '✨ Nou rècord!' : '✨ ¡Nuevo récord!'}
+          <p className="flex items-center justify-center gap-1.5 text-amber-400 text-xs mt-3 font-bold">
+            <Estrella className="w-4 h-4" />
+            {lang === 'en' ? 'New record!' : lang === 'ca' ? 'Nou rècord!' : '¡Nuevo récord!'}
           </p>
         )}
       </div>
@@ -117,7 +119,7 @@ export default function MiniLeaderboard({ game, currentScore, currentUid, curren
         <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4" onClick={() => setShowAll(false)}>
           <div className="bg-gray-900 border border-white/10 rounded-2xl p-6 w-full max-w-sm max-h-[80vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
             <div className="flex items-center justify-between mb-4">
-              <p className="text-white font-black text-lg">🏆 {label}</p>
+              <p className="flex items-center gap-2 text-white font-black text-lg"><Trofeo className="w-5 h-5" />{label}</p>
               <button onClick={() => setShowAll(false)} className="text-white/40 hover:text-white transition-colors text-sm">{close}</button>
             </div>
             <div className="space-y-1.5">

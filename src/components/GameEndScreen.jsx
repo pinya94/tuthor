@@ -2,11 +2,20 @@ import { useEffect, useState } from 'react'
 import CoinsAnimation, { CoinsEarnedBadge } from './CoinsAnimation'
 import GameResultFooter from './GameResultFooter'
 import ShareButton from './ShareButton'
-import { computeCoins } from '../lib/games'
+import { computeCoins, GAMES as REGISTRO } from '../lib/games'
 import { consumeCompletedAssignments } from '../lib/activity'
 import AdSlot from './AdSlot'
 import ReferralCard from './ReferralCard'
 import ProUpsell from './ProUpsell'
+import { ARTE_JUEGOS, ArteJuego, slugDeRuta } from './arte'
+import { Acierto, IconoDeEmoji } from './Iconos'
+
+// Slug del arte del juego: por su ruta en el registro, o el propio id.
+function slugDeArte(game) {
+  const porRuta = slugDeRuta(REGISTRO[game]?.route)
+  if (porRuta && ARTE_JUEGOS[porRuta]) return porRuta
+  return ARTE_JUEGOS[game] ? game : null
+}
 
 const L = {
   ptsLabel:  { es: 'puntos', en: 'points', ca: 'punts' },
@@ -58,39 +67,51 @@ export default function GameEndScreen({
     return () => window.removeEventListener('tuthor:assignments-completed', onCompleted)
   }, [])
 
+  const arte = slugDeArte(game)
+
   return (
     <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-6">
       <div className="max-w-lg w-full">
 
-        <div className="bg-white/5 border border-white/10 rounded-2xl p-8 text-center mb-5">
-          <div className="text-6xl mb-3">{emoji}</div>
-          {title && <p className="text-white/40 text-sm mb-1">{title}</p>}
-          <p className="text-5xl font-black text-white mb-1">{(score ?? 0).toLocaleString()}</p>
-          <p className="text-white/60 text-lg">{sLabel}</p>
-          <CoinsEarnedBadge coins={coins} lang={lang} />
-          {completedTasks?.map((t, i) => (
-            <p key={i} className="text-green-400 font-bold text-sm mt-3">
-              ✅ {L.taskDone[lang] ?? L.taskDone.es} {t.className} {L.taskDoneEnd[lang] ?? L.taskDoneEnd.es}
-            </p>
-          ))}
-          {message && <p className="text-[#EDAE49] font-bold mt-3">{message}</p>}
-
-          {stats?.length > 0 && (
-            <div className={`grid gap-3 mt-5 ${stats.length === 1 ? 'grid-cols-1' : 'grid-cols-2'}`}>
-              {stats.map(s => (
-                <div key={s.label} className="bg-white/5 border border-white/10 rounded-xl p-3">
-                  <p className="text-white/30 text-[10px] uppercase tracking-widest font-semibold mb-0.5">
-                    {s.emoji ? `${s.emoji} ` : ''}{s.label}
-                  </p>
-                  <p className="text-white font-black text-2xl">{s.value}</p>
-                </div>
-              ))}
+        <div className="rounded-2xl bg-[#141b2e] border border-white/[0.08] overflow-hidden mb-5">
+          {arte && (
+            <div className="border-b border-white/[0.06] px-6 pt-4 pb-2">
+              <ArteJuego slug={arte} className="w-full max-w-[250px] mx-auto aspect-video block" />
             </div>
           )}
 
-          {children}
+          <div className="px-6 sm:px-8 py-6 text-center">
+            {!arte && emoji && <div className="text-6xl mb-3">{emoji}</div>}
+            {title && <p className="text-white/40 text-sm mb-1">{title}</p>}
+            <p className="text-6xl font-black text-white tabular-nums tracking-tight leading-none">{(score ?? 0).toLocaleString()}</p>
+            <p className="text-white/50 text-base mt-1.5">{sLabel}</p>
+            <CoinsEarnedBadge coins={coins} lang={lang} />
+            {completedTasks?.map((t, i) => (
+              <p key={i} className="flex items-center justify-center gap-1.5 text-green-400 font-bold text-sm mt-3">
+                <Acierto className="w-4 h-4" />
+                {L.taskDone[lang] ?? L.taskDone.es} {t.className} {L.taskDoneEnd[lang] ?? L.taskDoneEnd.es}
+              </p>
+            ))}
+            {message && <p className="text-[#EDAE49] font-bold mt-3">{message}</p>}
 
-          <GameResultFooter game={game} score={score} user={user} lang={lang} />
+            {stats?.length > 0 && (
+              <div className={`grid gap-2.5 mt-5 ${stats.length === 1 ? 'grid-cols-1' : 'grid-cols-2'}`}>
+                {stats.map(s => (
+                  <div key={s.label} className="bg-white/[0.04] border border-white/[0.08] rounded-xl px-3 py-2.5 flex items-center gap-3 text-left">
+                    <IconoDeEmoji emoji={s.emoji} className="w-8 h-8 shrink-0" />
+                    <div className="min-w-0">
+                      <p className="text-white/40 text-[10px] uppercase tracking-widest font-semibold truncate">{s.label}</p>
+                      <p className="text-white font-black text-xl tabular-nums leading-tight">{s.value}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {children}
+
+            <GameResultFooter game={game} score={score} user={user} lang={lang} />
+          </div>
         </div>
 
         <div className="space-y-3">

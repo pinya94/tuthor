@@ -25,6 +25,9 @@ import SupportBlock from './SupportBlock'
 import PageMeta from './PageMeta'
 import QuizSchema from './QuizSchema'
 import { skillsFor } from '../data/exerciseSkills'
+import { ArteJuego, ARTE_JUEGOS, slugDeRuta } from './arte'
+import { Lista, Bombilla, Trofeo, BarrasNivel, AnilloNota } from './Iconos'
+import { nivelDeClave, esClaveDeNivel } from '../lib/niveles'
 
 const TOTAL = 10
 // Rondas de ejemplo por nivel que se publican en el JSON-LD. Con 3 niveles
@@ -32,6 +35,9 @@ const TOTAL = 10
 const SCHEMA_SAMPLES_PER_LEVEL = 6
 
 function tr(obj, l) { return obj?.[l] ?? obj?.es ?? '' }
+// Los títulos de los exámenes llegan con emoji delante ('📍 Examen: …'); en
+// su lugar se pinta el arte del juego.
+const sinEmoji = s => String(s || '').replace(/^(?:\p{Extended_Pictographic}|\u{FE0F}|\u{200D}|\u{20E3}|\s)+/u, '')
 
 const L = {
   q:      { es: 'Pregunta', en: 'Question', ca: 'Pregunta' },
@@ -52,23 +58,29 @@ const L = {
   retry:  { es: '▶ Repetir examen', en: '▶ Retry exam', ca: '▶ Repetir examen' },
 }
 
-function Intro({ badge, title, sub, levels, onSelect, backGamePath, backLabel, l }) {
+function Intro({ badge, title, sub, levels, onSelect, backGamePath, backLabel, arte, l }) {
   // Un solo nivel = la mecánica no tiene un eje de dificultad real que
   // ofrecer (p.ej. Órbita: acierto/fallo binario, no hay "más o menos
   // preciso" con sentido). En ese caso no tiene sentido la pantalla de
   // "elige tu nivel" con una sola opción: se salta directa a un botón único.
   const single = levels.length === 1 ? levels[0] : null
+  // Barras de dificultad solo si TODOS los niveles son dificultades; si son
+  // modos (por nombre / por función…) se quedan sin icono.
+  const conBarras = levels.every(lv => esClaveDeNivel(lv.difficulty ?? lv.key))
   return (
     <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
       <div className="max-w-md w-full">
+        {arte && <ArteJuego slug={arte} className="w-full max-w-[220px] mx-auto aspect-video block mb-4" />}
         <p className="text-white/40 text-xs uppercase tracking-widest text-center mb-2">{tr(badge, l)}</p>
-        <h1 className="text-3xl font-black text-white text-center mb-1">{tr(title, l)}</h1>
+        <h1 className="text-3xl font-black text-white text-center mb-1">{sinEmoji(tr(title, l))}</h1>
         <p className="text-white/40 text-sm text-center mb-6">{tr(sub, l)}</p>
         <SupportBlock variant="top" className="mb-5" />
-        <div className="bg-white/5 border border-white/10 rounded-2xl p-6 mb-6 space-y-5">
-          {[['📋', L.r1t, L.r1d], ['💡', L.r2t, L.r2d], ['🏆', L.r3t, L.r3d]].map(([e, tk, dk]) => (
-            <div key={tr(tk, l)} className="flex items-start gap-4">
-              <span className="text-2xl mt-0.5">{e}</span>
+        <div className="bg-[#141b2e] border border-white/[0.08] rounded-2xl p-5 mb-6 space-y-4">
+          {[[Lista, L.r1t, L.r1d], [Bombilla, L.r2t, L.r2d], [Trofeo, L.r3t, L.r3d]].map(([Icono, tk, dk]) => (
+            <div key={tr(tk, l)} className="flex items-start gap-3.5">
+              <span className="shrink-0 w-10 h-10 rounded-xl bg-white/[0.05] flex items-center justify-center">
+                <Icono className="w-6 h-6" />
+              </span>
               <div>
                 <p className="font-bold text-white text-sm">{tr(tk, l)}</p>
                 <p className="text-white/50 text-xs mt-0.5">{tr(dk, l)}</p>
@@ -85,11 +97,12 @@ function Intro({ badge, title, sub, levels, onSelect, backGamePath, backLabel, l
           <>
             <p className="text-white/40 text-xs uppercase tracking-widest text-center mb-3">{tr(L.chooseLevel, l)}</p>
             <div className="flex flex-col gap-3 mb-4">
-              {levels.map(lv => (
+              {levels.map((lv, i) => (
                 <button key={lv.key} onClick={() => onSelect(lv.difficulty)}
-                  className="w-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#EDAE49]/50 rounded-2xl px-5 py-4 text-left transition-all flex items-center justify-between group">
-                  <div>
-                    <p className="text-white font-bold">{lv.emoji} {tr(lv.label, l)}</p>
+                  className="w-full bg-[#141b2e] hover:bg-[#1a2238] border border-white/[0.08] hover:border-[#EDAE49]/50 rounded-2xl px-5 py-4 text-left transition-all flex items-center gap-4 group">
+                  {conBarras && <BarrasNivel n={nivelDeClave(lv.difficulty ?? lv.key, i)} className="w-6 h-6 shrink-0" />}
+                  <div className="flex-1 min-w-0">
+                    <p className="text-white font-bold">{tr(lv.label, l)}</p>
                     <p className="text-white/40 text-xs mt-0.5">{tr(lv.hint, l)}</p>
                   </div>
                   <span className="text-white/30 group-hover:text-[#EDAE49] font-black text-lg transition-colors">→</span>
@@ -106,9 +119,8 @@ function Intro({ badge, title, sub, levels, onSelect, backGamePath, backLabel, l
   )
 }
 
-function ExamEnd({ score, results, onRetry, backGamePath, playLabel, emoji, l }) {
+function ExamEnd({ score, results, onRetry, backGamePath, playLabel, title, arte, l }) {
   const pct = score / TOTAL
-  const grade = pct === 1 ? '🏆' : pct >= 0.8 ? '⭐' : pct >= 0.6 ? '✅' : pct >= 0.4 ? '📚' : '💪'
   const msg = {
     es: score === TOTAL ? '¡Perfecto! Dominas el tema.' : pct >= 0.8 ? 'Muy bien. Repasa los fallos y lo clavas.' : pct >= 0.6 ? 'Bien encaminado. Sigue practicando.' : pct >= 0.4 ? 'Hay margen de mejora. ¡Repasa!' : 'Practica un poco más. ¡Tú puedes!',
     en: score === TOTAL ? 'Perfect! You’ve mastered it.' : pct >= 0.8 ? 'Very good. Review your misses and nail it.' : pct >= 0.6 ? 'On the right track. Keep practising.' : pct >= 0.4 ? 'Room to improve. Revise!' : 'Practise a bit more. You’ve got this!',
@@ -117,28 +129,34 @@ function ExamEnd({ score, results, onRetry, backGamePath, playLabel, emoji, l })
   return (
     <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
       <div className="max-w-md w-full">
-        <p className="text-6xl text-center mb-3">{grade}</p>
-        <p className="text-white/40 text-sm text-center mb-1">{tr(L.done, l)}</p>
-        <p className="text-5xl font-black text-white text-center mb-1">{score}</p>
-        <p className="text-white/60 text-lg text-center mb-2">{tr(L.hits, l)}</p>
-        <p className="text-[#EDAE49] font-bold text-center mb-8">{msg}</p>
+        <div className="rounded-2xl bg-[#141b2e] border border-white/[0.08] overflow-hidden mb-5">
+          {arte && (
+            <div className="border-b border-white/[0.06] px-6 pt-4 pb-2">
+              <ArteJuego slug={arte} className="w-full max-w-[220px] mx-auto aspect-video block" />
+            </div>
+          )}
+          <div className="px-6 py-6 text-center">
+            <p className="text-white/40 text-sm mb-3">{sinEmoji(tr(title, l)) || tr(L.done, l)}</p>
+            <AnilloNota valor={score} total={TOTAL} className="w-32 h-32 mx-auto" />
+            <p className="text-white/50 text-sm mt-2">{tr(L.hits, l)}</p>
+            <p className="text-[#EDAE49] font-bold mt-3">{msg}</p>
 
-        <div className="bg-white/5 border border-white/10 rounded-2xl p-4 mb-6">
-          <div className="flex gap-2 flex-wrap justify-center">
-            {results.map((ok, i) => (
-              <div key={i} className={`flex items-center justify-center w-8 h-8 rounded-full border-2 text-xs font-bold ${ok ? 'bg-green-400/20 border-green-400 text-green-400' : 'bg-red-400/20 border-red-400 text-red-400'}`}>
-                {i + 1}
-              </div>
-            ))}
+            <div className="flex gap-1.5 flex-wrap justify-center mt-5">
+              {results.map((ok, i) => (
+                <div key={i} className={`flex items-center justify-center w-8 h-8 rounded-lg text-xs font-bold tabular-nums ${ok ? 'bg-green-400/15 text-green-300 ring-1 ring-green-400/40' : 'bg-red-400/15 text-red-300 ring-1 ring-red-400/40'}`}>
+                  {i + 1}
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 
         <div className="flex flex-col gap-3">
-          <button onClick={onRetry} className="px-6 py-3 rounded-full bg-[#EDAE49] text-black font-bold hover:bg-[#f5c16c] transition-colors">
+          <button onClick={onRetry} className="w-full py-4 rounded-xl bg-[#EDAE49] text-black font-black text-lg hover:bg-amber-400 transition-colors">
             {tr(L.retry, l)}
           </button>
-          <Link to={backGamePath} className="px-6 py-3 rounded-full bg-white/10 text-white font-bold hover:bg-white/20 transition-colors text-center">
-            {tr(playLabel, l)} {emoji}
+          <Link to={backGamePath} className="w-full py-3 rounded-xl bg-white/[0.06] border border-white/[0.12] text-white/80 font-bold hover:bg-white/[0.12] hover:text-white transition-colors text-center">
+            {tr(playLabel, l)}
           </Link>
         </div>
       </div>
@@ -147,7 +165,7 @@ function ExamEnd({ score, results, onRetry, backGamePath, playLabel, emoji, l })
 }
 
 export default function MechanicExam({
-  gameId, emoji, badge, title, sub, metaTitle, metaDesc, metaPath, subjectSchema,
+  gameId, badge, title, sub, metaTitle, metaDesc, metaPath, subjectSchema,
   backGamePath, backLabel, playLabel, levels, genRound, isCorrect, renderQuestion,
   schemaQuestion,
 }) {
@@ -247,10 +265,14 @@ export default function MechanicExam({
 
   const quizSchema = <QuizSchema name={tr(metaTitle, l)} description={tr(metaDesc, l)} path={metaPath} lang={lang} subject={subjectSchema} level="secondary" questions={schemaQuestions} teaches={teaches} />
 
-  if (screen === 'intro') return <>{pageMeta}{quizSchema}<Intro badge={badge} title={title} sub={sub} levels={levels} onSelect={startExam} backGamePath={backGamePath} backLabel={backLabel} l={l} /></>
+  // Arte del juego del que sale el examen (los que vuelven a /estudiar no tienen).
+  const slug = slugDeRuta(backGamePath)
+  const arte = slug && ARTE_JUEGOS[slug] ? slug : null
+
+  if (screen === 'intro') return <>{pageMeta}{quizSchema}<Intro badge={badge} title={title} sub={sub} levels={levels} onSelect={startExam} backGamePath={backGamePath} backLabel={backLabel} arte={arte} l={l} /></>
   if (screen === 'end') return (
     <>{pageMeta}{quizSchema}
-      <ExamEnd score={score} results={results} onRetry={() => startExam(diffRef.current)} backGamePath={backGamePath} playLabel={playLabel} emoji={emoji} l={l} />
+      <ExamEnd score={score} results={results} onRetry={() => startExam(diffRef.current)} backGamePath={backGamePath} playLabel={playLabel} title={title} arte={arte} l={l} />
       {score > 0 && <CoinsAnimation coins={Math.round((score / TOTAL) * 200)} />}
     </>
   )
@@ -265,7 +287,7 @@ export default function MechanicExam({
       {/* Header */}
       <div className="w-full max-w-[520px] flex items-center justify-between mb-3 px-1">
         <div>
-          <p className="text-white/40 text-xs uppercase tracking-widest">{emoji} {tr(badge, l)}</p>
+          <p className="text-white/40 text-xs uppercase tracking-widest">{tr(badge, l)}</p>
           <p className="text-white font-bold text-lg">{score} · {tr(L.q, l)} {idx + 1} {tr(L.of, l)} {TOTAL}</p>
         </div>
         <div className="flex gap-1 flex-wrap justify-end max-w-[160px]">
