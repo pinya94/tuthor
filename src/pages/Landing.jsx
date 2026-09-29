@@ -10,6 +10,19 @@ import AuthModal from '../components/AuthModal'
 import SEOHead from '../components/SEOHead'
 import { IgraalBanner } from '../components/PromoBanner'
 import PreguntaDiaria from './PreguntaDiaria'
+import { CURSOS_LANDING, landingsDe } from '../data/landingsCurso'
+import { MATERIAS_ESTUDIO } from '../data/materiasEstudio'
+import { ARTE_MATERIAS } from '../components/arte/materias'
+import { ARTE_CURSOS } from '../components/arte/cursos'
+import { Reloj, Mando, Diana, Moneda } from '../components/Iconos'
+import { Candado, Boletin, Ojo } from '../components/IconosProfesor'
+
+// Los emojis de las tarjetas de dolores y del panel, en icono propio.
+const ICONO_LANDING = { '⏱️': Reloj, '😑': Mando, '📉': Diana, '💸': Moneda, '🔑': Candado, '📊': Boletin, '🔒': Ojo }
+function IconoLanding({ emoji, className }) {
+  const Icono = ICONO_LANDING[emoji]
+  return Icono ? <Icono className={className} /> : <span className="text-2xl">{emoji}</span>
+}
 
 // Landing de venta. Estilo deliberadamente distinto al de dentro de la app
 // (clara, editorial) para que se lea como lo que es: la página que explica el
@@ -207,12 +220,6 @@ const ANGLES = [
     ],
   },
 ]
-
-const SUBJECTS = {
-  es: 'Matemáticas, Lengua, Historia, Geografía, Física, Química, Biología, Geología, Inglés, Música, Economía y Vida Práctica.',
-  en: 'Maths, Language, History, Geography, Physics, Chemistry, Biology, Geology, English, Music, Economics and Life Skills.',
-  ca: 'Matemàtiques, Llengua, Història, Geografia, Física, Química, Biologia, Geologia, Anglès, Música, Economia i Vida Pràctica.',
-}
 
 const PAINS = [
   {
@@ -884,13 +891,14 @@ export default function Landing() {
             ))}
           </div>
 
-          <MidPageCTA tr={tr} text={{ es: 'Ver los planes →', en: 'See the plans →', ca: 'Veure els plans →' }} />
+          <MidPageCTA tr={tr} onClick={MONETIZATION_ENABLED ? undefined : explore}
+            text={MONETIZATION_ENABLED ? { es: 'Ver los planes →', en: 'See the plans →', ca: 'Veure els plans →' } : { es: 'Ver todos los juegos →', en: 'See all the games →', ca: 'Veure tots els jocs →' }} />
         </div>
       </section>
 
       {/* ── TODAS LAS MATERIAS ── */}
       <section className="border-y border-slate-200 bg-white py-20">
-        <div className="mx-auto max-w-3xl px-5 text-center">
+        <div className="mx-auto max-w-4xl px-5 text-center">
           <h2 className="text-3xl font-black tracking-tight sm:text-4xl">
             {tr({
               es: 'Todas las materias que necesita en un solo lugar',
@@ -907,10 +915,41 @@ export default function Landing() {
             })}
           </p>
 
-          <p className="mx-auto mt-7 max-w-2xl rounded-2xl border border-violet-200 bg-violet-50/70 px-6 py-4 text-sm font-semibold text-slate-700">
-            <span className="text-violet-700">{tr({ es: 'Disponible para:', en: 'Available for:', ca: 'Disponible per a:' })}</span>{' '}
-            {tr(SUBJECTS)}
-          </p>
+          {/* Por curso: las páginas de juegos de Primaria y de la ESO,
+              agrupados por asignatura (data/landingsCurso.js). */}
+          <div className="mt-10 grid gap-3 sm:grid-cols-2 text-left">
+            {Object.entries(CURSOS_LANDING).map(([curso, c]) => {
+              const ArteCurso = ARTE_CURSOS[curso]
+              return (
+                <Link key={curso} to={localPath(`/juegos/${curso}`)}
+                  className="group flex items-center gap-4 rounded-2xl bg-[#141b2e] p-3 pr-5 shadow-lg shadow-slate-900/10 transition-transform hover:-translate-y-0.5">
+                  {ArteCurso && <ArteCurso className="w-20 shrink-0" />}
+                  <span className="min-w-0">
+                    <span className="block font-black text-white">{tr(c.titulo)}</span>
+                    <span className="mt-0.5 block text-xs text-white/55">
+                      {c.edades} {tr({ es: 'años', en: 'years', ca: 'anys' })} · {landingsDe(curso).length} {tr({ es: 'asignaturas', en: 'subjects', ca: 'assignatures' })} →
+                    </span>
+                  </span>
+                </Link>
+              )
+            })}
+          </div>
+
+          {/* Las materias, con su dibujo: se ve qué hay antes de leer la lista. */}
+          <div className="mt-4 grid grid-cols-3 gap-2.5 sm:grid-cols-4 text-left">
+            {MATERIAS_ESTUDIO.map(m => {
+              const Arte = ARTE_MATERIAS[m.id]
+              return (
+                <Link key={m.id} to={localPath(m.path)} title={tr(m.subtitulo)}
+                  className="group overflow-hidden rounded-xl bg-[#141b2e] transition-transform hover:-translate-y-0.5">
+                  <span className="relative block aspect-video">
+                    {Arte && <Arte className="absolute inset-0 h-full w-full p-1.5" />}
+                  </span>
+                  <span className="block truncate border-t border-white/[0.06] px-2.5 py-2 text-xs font-bold text-white">{tr(m.titulo)}</span>
+                </Link>
+              )
+            })}
+          </div>
 
           {/* Enumerar las materias contesta "¿está lo de mi hijo?" pero no
               "¿qué hay dentro de cada una?". Ese es justo el sitio del mapa
@@ -942,7 +981,7 @@ export default function Landing() {
           <div className="mt-10 grid gap-5 sm:grid-cols-2">
             {PAINS.map(p => (
               <div key={p.title.es} className="rounded-2xl border border-slate-200 bg-white p-6">
-                <p className="text-2xl">{p.emoji}</p>
+                <span className="grid h-11 w-11 place-items-center rounded-xl bg-violet-50 text-violet-600"><IconoLanding emoji={p.emoji} className="h-6 w-6" /></span>
                 <p className="mt-3 font-black text-slate-900">{tr(p.title)}</p>
                 <p className="mt-2 text-sm leading-relaxed text-slate-600">{tr(p.body)}</p>
               </div>
@@ -972,7 +1011,7 @@ export default function Landing() {
           <div className="mt-10 grid gap-4 sm:grid-cols-3">
             {PANEL.map(c => (
               <div key={c.title.es} className="rounded-2xl border border-white/10 bg-white/5 p-5">
-                <p className="text-2xl">{c.emoji}</p>
+                <span className="grid h-11 w-11 place-items-center rounded-xl bg-white/10 text-violet-200"><IconoLanding emoji={c.emoji} className="h-6 w-6" /></span>
                 <p className="mt-3 font-black">{tr(c.title)}</p>
                 <p className="mt-1.5 text-sm leading-relaxed text-slate-400">{tr(c.body)}</p>
               </div>
