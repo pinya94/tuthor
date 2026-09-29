@@ -97,6 +97,7 @@ export default function GeografiaIndex() {
     ...t,
     titulo:    lt(t, 'titulo'),
     subtitulo: lt(t, 'subtitulo'),
+    arte:      `geografia/${t.id}`,
   }))
 
   return (
@@ -127,7 +128,7 @@ export default function GeografiaIndex() {
           viene a un hub: con varias tarjetas encima empujarían los temas fuera
           de la pantalla. */}
       <section className="max-w-3xl mx-auto w-full mt-10">
-        <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-3">🧰 {tr({ es: 'Resolver mis ejercicios', en: 'Solve my exercises', ca: 'Resoldre els meus exercicis' })}</p>
+        <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-3">{tr({ es: 'Resolver mis ejercicios', en: 'Solve my exercises', ca: 'Resoldre els meus exercicis' })}</p>
         <RecursosInteractivos materia="geografia" />
       </section>
     </div>

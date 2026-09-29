@@ -3,7 +3,8 @@
 // que no traiga su dibujo rompe este test.
 import { describe, it, expect } from 'vitest'
 import { GAMES } from '../../data/constants.js'
-import { GRADO_IDS } from '../mathEngine.js'
+import { GRADO_IDS, MODO_IDS } from '../mathEngine.js'
+import { TEMAS_MATEMATICAS_EXTRA } from '../../data/temasMatematicas.js'
 import { GAMES as REGISTRO } from '../games.js'
 import { ARTE_JUEGOS, slugDeRuta } from '../../components/arte/index.jsx'
 import { ARTE_CURSOS, GLIFOS_CURSO } from '../../components/arte/cursos.jsx'
@@ -64,6 +65,8 @@ describe('arte de los temas', () => {
   const esperadas = [
     ...topicIds('historia').map(id => `historia/${id}`),
     ...Object.entries(TEMA_DISCIPLINA).map(([id, disc]) => `${disc}/${id}`),
+    ...topicIds('geografia').map(id => `geografia/${id}`),
+    ...[...MODO_IDS, ...TEMAS_MATEMATICAS_EXTRA.map(t => t.id)].map(id => `matematicas/${id}`),
   ]
 
   it('cada tema de historia y ciencias tiene su ilustración', () => {

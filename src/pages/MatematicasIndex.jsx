@@ -5,6 +5,7 @@ import { MODOS, MODO_IDS } from '../lib/mathEngine'
 import SEOEstatico from '../components/SEOEstatico'
 import RecursosInteractivos from '../components/RecursosInteractivos'
 import { ArteMateria } from '../components/arte/materias'
+import { TEMAS_MATEMATICAS_EXTRA } from '../data/temasMatematicas'
 
 // Examenes que van directo al examen (no usan el motor aritmético)
 // Porcentajes tiene un solo formato, así que una página de tema intermedia
@@ -13,44 +14,7 @@ const EXAM_DIRECTO = {
   porcentajes: '/examen/porcentajes',
 }
 
-const EXTRAS = [
-  {
-    id: 'geometria',
-    titulo: 'Geometría', tituloEn: 'Geometry', tituloCa: 'Geometria',
-    emoji: '📐', gradient: 'from-pink-500 to-rose-700',
-    tags: ['area', 'perimetro', 'pitagoras', 'angulos', 'volumen', 'triangulo'],
-  },
-  {
-    id: 'fracciones',
-    titulo: 'Fracciones y Decimales', tituloEn: 'Fractions and Decimals', tituloCa: 'Fraccions i Decimals',
-    emoji: '🍕', gradient: 'from-blue-500 to-indigo-600',
-    tags: ['fraccion', 'decimal', 'porcentaje', 'equivalente', 'simplificar'],
-  },
-  {
-    id: 'porcentajes',
-    titulo: 'Proporcionalidad y Porcentajes', tituloEn: 'Proportion and Percentages', tituloCa: 'Proporcionalitat i Percentatges',
-    emoji: '💯', gradient: 'from-emerald-500 to-teal-700',
-    tags: ['porcentaje', 'proporcion', 'regla de tres', 'descuento', 'escala', 'iva'],
-  },
-  {
-    id: 'estadistica',
-    titulo: 'Estadística y Probabilidad', tituloEn: 'Statistics and Probability', tituloCa: 'Estadística i Probabilitat',
-    emoji: '📊', gradient: 'from-purple-500 to-violet-600',
-    tags: ['media', 'mediana', 'moda', 'probabilidad', 'grafico', 'datos'],
-  },
-  {
-    id: 'enteros-racionales',
-    titulo: 'Números Enteros y Racionales', tituloEn: 'Integers and Rationals', tituloCa: 'Nombres Enters i Racionals',
-    emoji: '🔢', gradient: 'from-slate-500 to-gray-700',
-    tags: ['entero', 'negativo', 'valor absoluto', 'racional', 'signos'],
-  },
-  {
-    id: 'algebra',
-    titulo: 'Álgebra', tituloEn: 'Algebra', tituloCa: 'Àlgebra',
-    emoji: '🔣', gradient: 'from-red-500 to-rose-700',
-    tags: ['ecuacion', 'variable', 'monomio', 'sistema', 'cuadratica'],
-  },
-]
+const EXTRAS = TEMAS_MATEMATICAS_EXTRA
 
 export default function MatematicasIndex() {
   const navigate = useNavigate()
@@ -65,6 +29,7 @@ export default function MatematicasIndex() {
       emoji: MODOS[id].emoji,
       gradient: MODOS[id].gradient,
       tags: MODOS[id].ops,
+      arte: `matematicas/${id}`,
     })),
     ...EXTRAS.map(e => ({
       id: e.id,
@@ -72,6 +37,7 @@ export default function MatematicasIndex() {
       emoji: e.emoji,
       gradient: e.gradient,
       tags: e.tags,
+      arte: `matematicas/${e.id}`,
     })),
   ]
 
@@ -99,7 +65,7 @@ export default function MatematicasIndex() {
           viene a un hub: con varias tarjetas encima empujarían los temas fuera
           de la pantalla. */}
       <section className="max-w-3xl mx-auto w-full mt-10">
-        <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-3">🧰 {tr({ es: 'Resolver mis ejercicios', en: 'Solve my exercises', ca: 'Resoldre els meus exercicis' })}</p>
+        <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-3">{tr({ es: 'Resolver mis ejercicios', en: 'Solve my exercises', ca: 'Resoldre els meus exercicis' })}</p>
         <RecursosInteractivos materia="matematicas" />
       </section>
     </div>
