@@ -9,7 +9,7 @@ import { EscaleraSVG, Teclado } from '../components/EscaleraUnidades'
 import GameEndScreen from '../components/GameEndScreen'
 import SupportBlock from '../components/SupportBlock'
 import SEOHead from '../components/SEOHead'
-import { CabeceraJuego, IconoIntro, NivelBarras } from '../components/IntroJuego'
+import { CabeceraJuego, IconoIntro, NivelBarras, ComoSeJuega } from '../components/IntroJuego'
 
 const GAME_TIME = 50
 const STEP = 3
@@ -115,7 +115,6 @@ export default function EscaleraUnidades() {
         <SEOHead title={seo.title} description={seo.desc} path={seo.path} lang={l} />
         <div className="relative z-10 flex flex-col items-center min-h-[calc(100dvh-4rem)] px-4 py-8">
           <div className="max-w-md w-full">
-            <SupportBlock variant="top" className="mb-5" />
             <CabeceraJuego slug="escalera-unidades" badge={tr({ es: 'Matemáticas · Medida', en: 'Maths · Measurement', ca: 'Matemàtiques · Mesura' }, l)} titulo={tr({ es: 'La Escalera de Unidades', en: 'The Unit Staircase', ca: 'L\'Escala d\'Unitats' }, l)} sub={tr({ es: 'Convierte entre km, m, cm, kg, g, L…', en: 'Convert between km, m, cm, kg, g, L…', ca: 'Converteix entre km, m, cm, kg, g, L…' }, l)} />
 
             <div className="flex gap-2 p-1 bg-white/5 border border-white/10 rounded-xl mb-3">
@@ -128,15 +127,6 @@ export default function EscaleraUnidades() {
             </div>
             <p className="text-white/40 text-sm text-center mb-6">{tr(DIFS[dif].desc, l)}</p>
 
-            <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-6 space-y-2.5">
-              {[
-                ['🔟', tr({ es: 'Cada escalón hacia abajo multiplica por 10; hacia arriba divide por 10.', en: 'Each step down multiplies by 10; each step up divides by 10.', ca: 'Cada esglaó cap avall multiplica per 10; cap amunt divideix per 10.' }, l)],
-                ['🔢', tr({ es: 'Escribe el resultado con el teclado. La coma es para los decimales.', en: 'Type the result with the keypad. The dot is for decimals.', ca: 'Escriu el resultat amb el teclat. La coma és per als decimals.' }, l)],
-                ['⏱️', tr({ es: '50 segundos. Acierto +3s, fallo −3s.', en: '50 seconds. Correct +3s, wrong −3s.', ca: '50 segons. Encert +3s, errada −3s.' }, l)],
-              ].map(([e, t]) => (
-                <div key={t} className="flex items-start gap-3 text-sm text-white/50"><IconoIntro emoji={e} /><span>{t}</span></div>
-              ))}
-            </div>
 
             <button onClick={() => empezar(dif)}
               className="w-full py-4 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-lg rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-amber-500/20 mb-3">
@@ -145,6 +135,18 @@ export default function EscaleraUnidades() {
             <Link to="/examen/escalera-unidades-test" className="block text-center text-white/30 hover:text-white/60 text-sm transition-colors">
               {tr({ es: 'Modo examen (con nota) →', en: 'Exam mode (graded) →', ca: 'Mode examen (amb nota) →' }, l)}
             </Link>
+            <SupportBlock variant="top" className="mt-4" />
+            <ComoSeJuega>
+              <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-6 space-y-2.5">
+              {[
+                ['🔟', tr({ es: 'Cada escalón hacia abajo multiplica por 10; hacia arriba divide por 10.', en: 'Each step down multiplies by 10; each step up divides by 10.', ca: 'Cada esglaó cap avall multiplica per 10; cap amunt divideix per 10.' }, l)],
+                ['🔢', tr({ es: 'Escribe el resultado con el teclado. La coma es para los decimales.', en: 'Type the result with the keypad. The dot is for decimals.', ca: 'Escriu el resultat amb el teclat. La coma és per als decimals.' }, l)],
+                ['⏱️', tr({ es: '50 segundos. Acierto +3s, fallo −3s.', en: '50 seconds. Correct +3s, wrong −3s.', ca: '50 segons. Encert +3s, errada −3s.' }, l)],
+              ].map(([e, t]) => (
+                <div key={t} className="flex items-start gap-3 text-sm text-white/50"><IconoIntro emoji={e} /><span>{t}</span></div>
+              ))}
+            </div>
+            </ComoSeJuega>
           </div>
         </div>
       </>

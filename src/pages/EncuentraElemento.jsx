@@ -9,7 +9,7 @@ import GameEndScreen from '../components/GameEndScreen'
 import SupportBlock from '../components/SupportBlock'
 import TablaPeriodicaGrid from '../components/TablaPeriodicaGrid'
 import SEOHead from '../components/SEOHead'
-import { CabeceraJuego, IconoIntro, NivelBarras } from '../components/IntroJuego'
+import { CabeceraJuego, IconoIntro, NivelBarras, ComoSeJuega } from '../components/IntroJuego'
 
 // Mismo esqueleto que Balanza.jsx/CircuitoCerrado.jsx (40s + racha, sin
 // vidas): contrarreloj de partida entera, no de ronda — fallar resta
@@ -83,7 +83,6 @@ function DifficultyScreen({ onSelect, t, l }) {
         </button>
         <CabeceraJuego slug="encuentra-elemento" badge={t.badge} titulo={t.titulo} sub={t.sub} />
 
-        <SupportBlock variant="top" className="mb-5" />
 
         <div className="flex flex-wrap justify-center gap-1.5 p-1 bg-white/5 border border-white/10 rounded-xl mb-3 mx-auto">
           {Object.entries(DIFS).map(([id, d], i) => (
@@ -95,25 +94,7 @@ function DifficultyScreen({ onSelect, t, l }) {
         </div>
         <p className="text-white/40 text-xs text-center mb-5">{DIFS[dif].desc[l] ?? DIFS[dif].desc.es}</p>
 
-        <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-4 w-full">
-          <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-3">{t.how}</p>
-          <div className="space-y-2">
-            {[['🧪', t.p1], ['🔎', t.p2]].map(([e, text]) => (
-              <div key={text} className="flex items-start gap-3 text-sm text-white/50">
-                <IconoIntro emoji={e} /><span>{text}</span>
-              </div>
-            ))}
-          </div>
-        </div>
 
-        <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-6 w-full space-y-2.5 text-sm">
-          {[['⏱️', t.time, t.timeVal], ['⭐', t.pts, t.ptsVal]].map(([e, k, v]) => (
-            <div key={k} className="flex items-start justify-between gap-4">
-              <span className="text-white/40 shrink-0 inline-flex items-center gap-1.5"><IconoIntro emoji={e} />{k}</span>
-              <span className="text-white font-semibold text-right">{v}</span>
-            </div>
-          ))}
-        </div>
 
         <button onClick={() => onSelect(dif)}
           className="w-full py-4 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-xl rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-amber-500/30 mb-3">
@@ -301,6 +282,27 @@ export default function EncuentraElemento() {
             className="w-full py-4 rounded-2xl bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-lg transition-all hover:scale-[1.02] active:scale-[0.97] shadow-lg shadow-amber-500/20 disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:scale-100">
             {t.marcar}
           </button>
+          <SupportBlock variant="top" className="mt-4" />
+          <ComoSeJuega>
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-4 w-full">
+          <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-3">{t.how}</p>
+          <div className="space-y-2">
+            {[['🧪', t.p1], ['🔎', t.p2]].map(([e, text]) => (
+              <div key={text} className="flex items-start gap-3 text-sm text-white/50">
+                <IconoIntro emoji={e} /><span>{text}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-6 w-full space-y-2.5 text-sm">
+          {[['⏱️', t.time, t.timeVal], ['⭐', t.pts, t.ptsVal]].map(([e, k, v]) => (
+            <div key={k} className="flex items-start justify-between gap-4">
+              <span className="text-white/40 shrink-0 inline-flex items-center gap-1.5"><IconoIntro emoji={e} />{k}</span>
+              <span className="text-white font-semibold text-right">{v}</span>
+            </div>
+          ))}
+        </div>
+          </ComoSeJuega>
         </div>
       )}
       {isResult && (

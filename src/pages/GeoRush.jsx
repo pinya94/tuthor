@@ -8,7 +8,7 @@ import SupportBlock from '../components/SupportBlock'
 import { saveActivity } from '../lib/activity'
 import { computeCoins } from '../lib/games'
 import SEOHead from '../components/SEOHead'
-import { IconoIntro, NivelBarras } from '../components/IntroJuego'
+import { IconoIntro, NivelBarras, ComoSeJuega } from '../components/IntroJuego'
 import { ArteJuego } from '../components/arte'
 
 const DIFS = {
@@ -477,7 +477,6 @@ export default function GeoRush() {
             <p className="text-white/40">{u.desc}</p>
           </div>
 
-          <SupportBlock variant="top" className="mb-5 w-full" />
 
           <div className="flex gap-2 p-1 bg-white/5 border border-white/10 rounded-xl mb-6 w-fit mx-auto">
             {Object.entries(DIFS).map(([id, dd], i) => (
@@ -490,7 +489,13 @@ export default function GeoRush() {
             ))}
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+
+          <button onClick={() => iniciar(difId)}
+            className="w-full py-4 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-xl rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-amber-500/30">
+            {u.empezar}
+          </button>
+          <SupportBlock variant="top" className="mt-4" />
+          <ComoSeJuega>
             <div className="bg-white/5 border border-white/10 rounded-2xl p-5 space-y-3 text-sm">
               <p className="text-white/40 text-xs font-semibold uppercase tracking-widest">{u.reglas}</p>
               {[
@@ -518,9 +523,7 @@ export default function GeoRush() {
                 </div>
               ))}
             </div>
-          </div>
-
-          <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-7">
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-7">
             <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-3">{u.comoFunciona}</p>
             <div className="grid grid-cols-2 gap-2">
               {[
@@ -536,11 +539,7 @@ export default function GeoRush() {
               ))}
             </div>
           </div>
-
-          <button onClick={() => iniciar(difId)}
-            className="w-full py-4 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-xl rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-amber-500/30">
-            {u.empezar}
-          </button>
+          </ComoSeJuega>
         </div>
       </div>
     )

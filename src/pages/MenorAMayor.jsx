@@ -9,7 +9,7 @@ import GameEndScreen from '../components/GameEndScreen'
 import SupportBlock from '../components/SupportBlock'
 import SEOHead from '../components/SEOHead'
 import TimelineBoard from '../components/TimelineBoard'
-import { IconoIntro, NivelBarras } from '../components/IntroJuego'
+import { IconoIntro, NivelBarras, ComoSeJuega } from '../components/IntroJuego'
 import { ArteJuego } from '../components/arte'
 
 const MAX_VIDAS = 3
@@ -114,7 +114,6 @@ export default function MenorAMayor() {
             {tr({ es: '← Volver', en: '← Back', ca: '← Tornar' })}
           </button>
 
-          <SupportBlock variant="top" className="mb-5 w-full" />
 
           <div className="text-center mb-7">
             <ArteJuego slug="menor-a-mayor" className="w-full max-w-[240px] mx-auto aspect-video block mb-3" />
@@ -134,7 +133,14 @@ export default function MenorAMayor() {
           </div>
           <p className="text-white/40 text-sm text-center mb-6">{tr(DIFS.find(d => d.id === difId).que)}</p>
 
-          <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-6 w-full">
+
+          <button onClick={() => empezar(difId)}
+            className="w-full py-4 bg-sky-500 hover:bg-sky-400 text-black font-black text-xl rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-sky-500/30">
+            {tr({ es: '¡Empezar! →', en: 'Start! →', ca: 'Començar! →' })}
+          </button>
+          <SupportBlock variant="top" className="mt-4" />
+          <ComoSeJuega>
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-6 w-full">
             <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-3">{tr({ es: 'Cómo funciona', en: 'How it works', ca: 'Com funciona' })}</p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               {[
@@ -150,11 +156,7 @@ export default function MenorAMayor() {
               ))}
             </div>
           </div>
-
-          <button onClick={() => empezar(difId)}
-            className="w-full py-4 bg-sky-500 hover:bg-sky-400 text-black font-black text-xl rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-sky-500/30">
-            {tr({ es: '¡Empezar! →', en: 'Start! →', ca: 'Començar! →' })}
-          </button>
+          </ComoSeJuega>
         </div>
       </div>
     )

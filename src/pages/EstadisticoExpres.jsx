@@ -5,7 +5,8 @@ import { useAuth } from '../context/AuthContext'
 import { saveActivity } from '../lib/activity'
 import { computeCoins } from '../lib/games'
 import { RANGOS, generarRonda, explicacion } from '../lib/estadisticoEngine'
-import GameEndScreen from '../components/GameEndScreen'
+import GameEndScreen from '../components/GameEndScreen'
+import { ComoSeJuega } from '../components/IntroJuego'
 import SupportBlock from '../components/SupportBlock'
 import SEOHead from '../components/SEOHead'
 import BarChart from '../components/BarChart'
@@ -181,7 +182,6 @@ export default function EstadisticoExpres() {
             <p className="text-white/40">{tr({ es: 'Calcula media, mediana, moda y rango a partir de datos reales', en: 'Calculate mean, median, mode and range from real data', ca: 'Calcula mitjana, mediana, moda i rang a partir de dades reals' })}</p>
           </div>
 
-          <SupportBlock variant="top" className="mb-5" />
 
           <div className="flex gap-2 p-1 bg-white/5 border border-white/10 rounded-xl mb-5 w-fit mx-auto">
             {Object.keys(DIFS).map(id => (
@@ -194,7 +194,15 @@ export default function EstadisticoExpres() {
             ))}
           </div>
 
-          <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-5 space-y-2.5 text-sm">
+
+
+          <button onClick={() => startGame(difId)}
+            className="w-full py-4 bg-sky-500 hover:bg-sky-400 text-black font-black text-xl rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-sky-500/30">
+            {tr({ es: '¡Empezar! →', en: 'Start! →', ca: 'Comença! →' })}
+          </button>
+          <SupportBlock variant="top" className="mt-4" />
+          <ComoSeJuega>
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-5 space-y-2.5 text-sm">
             <p className="text-white/40 text-xs font-semibold uppercase tracking-widest">{tr({ es: 'Reglas', en: 'Rules', ca: 'Regles' })}</p>
             {[
               ['⏱️', tr({ es: 'Tiempo inicial', en: 'Starting time', ca: 'Temps inicial' }), `${d.time}s`],
@@ -207,8 +215,7 @@ export default function EstadisticoExpres() {
               </div>
             ))}
           </div>
-
-          <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-7">
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-7">
             <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-3">{tr({ es: 'Qué se pide', en: 'What gets asked', ca: 'Què es demana' })}</p>
             <div className="space-y-2">
               {[
@@ -224,11 +231,7 @@ export default function EstadisticoExpres() {
               ))}
             </div>
           </div>
-
-          <button onClick={() => startGame(difId)}
-            className="w-full py-4 bg-sky-500 hover:bg-sky-400 text-black font-black text-xl rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-sky-500/30">
-            {tr({ es: '¡Empezar! →', en: 'Start! →', ca: 'Comença! →' })}
-          </button>
+          </ComoSeJuega>
         </div>
       </div>
     )

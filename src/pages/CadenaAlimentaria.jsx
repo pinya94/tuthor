@@ -8,7 +8,7 @@ import { genCadena, isNextEslabon } from '../lib/cadenaAlimentaria'
 import { ROLES } from '../data/cadenaTrofica'
 import GameEndScreen from '../components/GameEndScreen'
 import SEOHead from '../components/SEOHead'
-import { CabeceraJuego, IconoIntro, NivelBarras } from '../components/IntroJuego'
+import { CabeceraJuego, IconoIntro, NivelBarras, ComoSeJuega } from '../components/IntroJuego'
 
 // Mecánica: "construye la cadena". Se sortea una cadena real (p. ej. hierba →
 // conejo → zorro → águila), se baraja, y hay que ir tocando el SIGUIENTE
@@ -115,7 +115,14 @@ function DifficultyScreen({ onSelect, t, l }) {
         </div>
         <p className="text-white/40 text-xs text-center mb-5">{DIFS[dif].desc[l] ?? DIFS[dif].desc.es}</p>
 
-        <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-4 w-full">
+
+
+        <button onClick={() => onSelect(dif)}
+          className="w-full py-4 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-xl rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-amber-500/30 mb-3">
+          {t.empezar}
+        </button>
+        <ComoSeJuega>
+          <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-4 w-full">
           <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-3">{t.how}</p>
           <div className="space-y-2">
             {[['🔀', t.p1], ['👆', t.p2]].map(([e, text]) => (
@@ -125,8 +132,7 @@ function DifficultyScreen({ onSelect, t, l }) {
             ))}
           </div>
         </div>
-
-        <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-6 w-full space-y-2.5 text-sm">
+          <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-6 w-full space-y-2.5 text-sm">
           {[['⏱️', t.time, t.timeVal], ['⭐', t.pts, t.ptsVal]].map(([e, k, v]) => (
             <div key={k} className="flex items-start justify-between gap-4">
               <span className="text-white/40 shrink-0 inline-flex items-center gap-1.5"><IconoIntro emoji={e} />{k}</span>
@@ -134,11 +140,7 @@ function DifficultyScreen({ onSelect, t, l }) {
             </div>
           ))}
         </div>
-
-        <button onClick={() => onSelect(dif)}
-          className="w-full py-4 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-xl rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-amber-500/30 mb-3">
-          {t.empezar}
-        </button>
+        </ComoSeJuega>
         <button onClick={() => navigate(localPath('/examen/cadena-alimentaria-test'))}
           className="text-white/30 hover:text-white/60 text-sm transition-colors">
           {t.examen}

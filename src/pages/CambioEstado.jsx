@@ -9,8 +9,7 @@ import { ESTADO_IDS, DIFICULTADES, genRound, esCorrecta } from '../lib/cambioEst
 import ParticulasSVG from '../components/ParticulasSVG'
 import GameEndScreen from '../components/GameEndScreen'
 import SEOHead from '../components/SEOHead'
-import ComoSeJuega from '../components/ComoSeJuega'
-import { CabeceraJuego, NivelBarras } from '../components/IntroJuego'
+import { CabeceraJuego, NivelBarras, ComoSeJuega } from '../components/IntroJuego'
 
 const GAME_TIME = 60
 const WRONG_TIME = 5
@@ -69,13 +68,6 @@ function IntroScreen({ onStart, l }) {
       <div className="max-w-md w-full">
         <CabeceraJuego slug="cambio-estado" badge={T('badge', l)} titulo={T('title', l)} sub={T('sub', l)} />
 
-        <ComoSeJuega label={T('queEs', l)}>
-          <p>{T('q1', l)}</p>
-          <p>{T('q2', l)}</p>
-          <p>{T('q3', l)}</p>
-          <p>{T('q4', l)}</p>
-          <p className="text-white/40 text-xs pt-1">⏱️ {GAME_TIME}s · {T('ptsVal', l)}</p>
-        </ComoSeJuega>
 
         <p className="text-white/40 text-xs uppercase tracking-widest text-center mb-2">{T('nivel', l)}</p>
         <div className="flex flex-wrap justify-center gap-1.5 p-1 bg-white/5 border border-white/10 rounded-xl mb-2">
@@ -92,6 +84,13 @@ function IntroScreen({ onStart, l }) {
           className="w-full py-3.5 rounded-2xl bg-[#EDAE49] text-black font-black text-lg hover:bg-amber-400 transition-colors">
           {T('start', l)}
         </button>
+        <ComoSeJuega>
+          <div className="space-y-2 text-white/70 text-sm"><p>{T('q1', l)}</p>
+          <p>{T('q2', l)}</p>
+          <p>{T('q3', l)}</p>
+          <p>{T('q4', l)}</p>
+          <p className="text-white/40 text-xs pt-1">⏱️ {GAME_TIME}s · {T('ptsVal', l)}</p></div>
+        </ComoSeJuega>
       </div>
     </div>
   )

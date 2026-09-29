@@ -7,7 +7,7 @@ import { saveActivity } from '../lib/activity'
 import { computeCoins } from '../lib/games'
 import { EVENTOS_ROGUELIKE } from '../data/tuthorTimeEventos'
 import SEOHead from '../components/SEOHead'
-import { IconoIntro, NivelBarras } from '../components/IntroJuego'
+import { IconoIntro, NivelBarras, ComoSeJuega } from '../components/IntroJuego'
 import { ArteJuego } from '../components/arte'
 
 const VIDA_BIXO = 120
@@ -489,7 +489,15 @@ export default function TuthorTimeRoguelike() {
           </div>
 
           {/* Stats de la dificultad */}
-          <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-5 space-y-2.5 text-sm">
+
+          {/* Cómo funciona */}
+
+          <button onClick={() => iniciarPartida(difId)}
+            className="w-full py-4 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-lg rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-amber-500/30">
+            {tu.empezar}
+          </button>
+          <ComoSeJuega>
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-5 space-y-2.5 text-sm">
             {(lang === 'ca' ? [
               ['🕵️', 'Agents',   `${d.agentes} agent${d.agentes > 1 ? 's' : ''} · ${d.puedeRecuperar ? `recuperable${d.agentes > 1 ? 's' : ''} amb millora` : `no recuperable${d.agentes > 1 ? 's' : ''}`}`],
               ['⏱️', 'Temps',    `${d.tiempoBase}s per missió (−1s per nivell, mín. 5s)`],
@@ -515,9 +523,7 @@ export default function TuthorTimeRoguelike() {
               </div>
             ))}
           </div>
-
-          {/* Cómo funciona */}
-          <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-6">
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-6">
             <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-3">{tu.comoFunciona}</p>
             <div className="space-y-2">
               {(lang === 'ca' ? [
@@ -543,11 +549,7 @@ export default function TuthorTimeRoguelike() {
               ))}
             </div>
           </div>
-
-          <button onClick={() => iniciarPartida(difId)}
-            className="w-full py-4 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-lg rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-amber-500/30">
-            {tu.empezar}
-          </button>
+          </ComoSeJuega>
           <button onClick={() => navigate(localPath('/juegos/tuthor-time/clasico'))}
             className="w-full py-3 mt-3 text-white/30 hover:text-white/60 text-sm transition-colors">
             {tu.clasico}

@@ -9,6 +9,7 @@ import GameEndScreen from '../components/GameEndScreen'
 import SEOHead from '../components/SEOHead'
 import TimelineBoard from '../components/TimelineBoard'
 import { ArteJuego } from '../components/arte'
+import { ComoSeJuega, IconoIntro } from '../components/IntroJuego'
 
 const MAX_LIVES = 3
 
@@ -23,6 +24,10 @@ function Intro({ onStart, lang }) {
           <h1 className="text-3xl font-black text-white mb-2">{lang === 'ca' ? 'Línia Temporal' : lang === 'en' ? 'Timeline' : 'Línea Temporal'}</h1>
           <p className="text-white/50 text-sm">{lang === 'ca' ? 'Ordena la història del món' : lang === 'en' ? 'Sort the history of the world' : 'Ordena la historia del mundo'}</p>
         </div>
+        <button onClick={onStart} className="w-full py-4 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-lg rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-amber-500/20">
+          {lang === 'ca' ? 'Començar →' : en ? 'Start →' : 'Empezar →'}
+        </button>
+        <ComoSeJuega>
         <div className="bg-white/5 border border-white/10 rounded-2xl p-6 mb-6 space-y-4">
           {(lang === 'ca' ? [
             { icon: '🃏', title: 'Col·loca la carta al seu lloc', desc: 'Apareix un esdeveniment amb l\'any ocult. Prem el forat correcte a la teva línia del temps.' },
@@ -38,7 +43,7 @@ function Intro({ onStart, lang }) {
             { icon: '📈', title: 'La línea crece con cada acierto', desc: 'Cuantas más cartas coloques bien, más difícil. ¡Hay 70+ eventos!' },
           ]).map(r => (
             <div key={r.title} className="flex items-start gap-4">
-              <span className="text-2xl">{r.icon}</span>
+              <IconoIntro emoji={r.icon} />
               <div>
                 <p className="font-bold text-white text-sm">{r.title}</p>
                 <p className="text-white/50 text-xs mt-0.5">{r.desc}</p>
@@ -46,9 +51,7 @@ function Intro({ onStart, lang }) {
             </div>
           ))}
         </div>
-        <button onClick={onStart} className="w-full bg-amber-500 hover:bg-amber-600 text-white font-bold py-4 rounded-xl transition-colors text-lg">
-          {lang === 'ca' ? 'Començar →' : en ? 'Start →' : 'Empezar →'}
-        </button>
+        </ComoSeJuega>
       </div>
     </div>
   )

@@ -7,7 +7,7 @@ import GameEndScreen from '../components/GameEndScreen'
 import SupportBlock from '../components/SupportBlock'
 import SEOHead from '../components/SEOHead'
 import { generarNivel } from '../lib/portero'
-import { CabeceraJuego, IconoIntro, NivelBarras } from '../components/IntroJuego'
+import { CabeceraJuego, IconoIntro, NivelBarras, ComoSeJuega } from '../components/IntroJuego'
 import {
   VIEW, W, H, ANIM_DURATION,
   toSVG, GridLines, Ball, FnCurve,
@@ -269,7 +269,6 @@ function DifficultyScreen({ onSelect, l }) {
   return (
     <div className="relative z-10 flex flex-col items-center min-h-[calc(100vh-4rem)] px-4 py-8">
       <div className="max-w-md w-full">
-        <SupportBlock variant="top" className="mb-5" />
 
         <CabeceraJuego slug="portero" badge={T('badge', l)} titulo={T('title', l)} sub={T('sub', l)} />
 
@@ -287,7 +286,20 @@ function DifficultyScreen({ onSelect, l }) {
         <p className="text-white/40 text-xs text-center mb-5 font-mono">{DIFS[dif].desc[l] ?? DIFS[dif].desc.es}</p>
 
         {/* Stats */}
-        <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-4 space-y-2.5 text-sm">
+
+        {/* How it works */}
+
+        {/* Zone guide */}
+
+        {/* Power-ups */}
+
+        <button onClick={() => onSelect(dif)}
+          className="w-full py-4 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-lg rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-amber-500/20">
+          {T('start', l)}
+        </button>
+        <SupportBlock variant="top" className="mt-4" />
+        <ComoSeJuega>
+          <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-4 space-y-2.5 text-sm">
           {[['⏱️', T('time', l), T('timeVal', l)], ['⭐', T('pts', l), T('ptsVal', l)], ['🥅', T('zones', l), T('zonesVal', l)]].map(([e, k, v]) => (
             <div key={k} className="flex items-start justify-between gap-4">
               <span className="text-white/40 shrink-0 inline-flex items-center gap-1.5"><IconoIntro emoji={e} />{k}</span>
@@ -295,9 +307,7 @@ function DifficultyScreen({ onSelect, l }) {
             </div>
           ))}
         </div>
-
-        {/* How it works */}
-        <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-4">
+          <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-4">
           <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-3">{T('how', l)}</p>
           <div className="space-y-2">
             {[['📐', T('p1', l)], ['🧮', T('p2', l)], ['🥅', T('p3', l)], ['🎬', T('p4', l)]].map(([e, text]) => (
@@ -308,9 +318,7 @@ function DifficultyScreen({ onSelect, l }) {
             ))}
           </div>
         </div>
-
-        {/* Zone guide */}
-        <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-4">
+          <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-4">
           <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-3">
             {l === 'en' ? 'Zone guide' : l === 'ca' ? 'Guia de zones' : 'Guía de zonas'}
           </p>
@@ -325,9 +333,7 @@ function DifficultyScreen({ onSelect, l }) {
             ))}
           </div>
         </div>
-
-        {/* Power-ups */}
-        <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-6">
+          <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-6">
           <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-3">{T('pwup', l)}</p>
           <div className="space-y-3">
             {pwups.map(([e, label, desc]) => (
@@ -341,11 +347,7 @@ function DifficultyScreen({ onSelect, l }) {
             ))}
           </div>
         </div>
-
-        <button onClick={() => onSelect(dif)}
-          className="w-full py-4 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-lg rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-amber-500/20">
-          {T('start', l)}
-        </button>
+        </ComoSeJuega>
       </div>
     </div>
   )

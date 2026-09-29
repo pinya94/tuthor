@@ -6,12 +6,11 @@ import { saveActivity } from '../lib/activity'
 import { computeCoins } from '../lib/games'
 import { genRound, sameSet, TASKS } from '../lib/analizaFrases'
 import SelectorIdioma from '../components/SelectorIdioma'
-import ComoSeJuega from '../components/ComoSeJuega'
 import GameEndScreen from '../components/GameEndScreen'
 import SupportBlock from '../components/SupportBlock'
 import SentenceBoard from '../components/SentenceBoard'
 import SEOHead from '../components/SEOHead'
-import { CabeceraJuego, IconoIntro, NivelBarras } from '../components/IntroJuego'
+import { CabeceraJuego, IconoIntro, NivelBarras, ComoSeJuega } from '../components/IntroJuego'
 
 const GAME_TIME = 40
 const WRONG_TIME = 3
@@ -101,7 +100,6 @@ function DifficultyScreen({ onSelect, onFocus, l, localPath, idioma, onIdioma })
       <div className="max-w-md w-full">
         <CabeceraJuego slug="analiza-frases" badge={T('badge', l)} titulo={T('title', l)} sub={T('sub', l)} />
 
-        <SupportBlock variant="top" className="mb-5" />
 
         <div className="flex flex-wrap justify-center gap-1.5 p-1 bg-white/5 border border-white/10 rounded-xl mb-3 mx-auto">
           {Object.entries(DIFS).map(([id, d], i) => (
@@ -115,15 +113,20 @@ function DifficultyScreen({ onSelect, onFocus, l, localPath, idioma, onIdioma })
 
         <SelectorIdioma valor={idioma} onCambio={onIdioma} l={l} />
 
-        <ComoSeJuega label={T('how', l)}>
-          {[['📋', T('h1', l)], ['👆', T('h2', l)], ['✓', T('h3', l)]].map(([e, text]) => (
+
+
+        <button onClick={() => onSelect(dif)}
+          className="w-full py-4 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-lg rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-amber-500/20 mb-3">
+          {T('start', l)}
+        </button>
+        <SupportBlock variant="top" className="mt-4" />
+        <ComoSeJuega>
+          <div className="space-y-2 text-white/70 text-sm">{[['📋', T('h1', l)], ['👆', T('h2', l)], ['✓', T('h3', l)]].map(([e, text]) => (
             <div key={text} className="flex items-start gap-3 text-sm text-white/60">
               <IconoIntro emoji={e} /><span>{text}</span>
             </div>
-          ))}
-        </ComoSeJuega>
-
-        <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-6 space-y-2.5 text-sm">
+          ))}</div>
+          <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-6 space-y-2.5 text-sm">
           {[['⏱️', T('time', l), T('timeVal', l)], ['⭐', T('pts', l), T('ptsVal', l)]].map(([e, k, v]) => (
             <div key={k} className="flex items-start justify-between gap-4">
               <span className="text-white/40 shrink-0 inline-flex items-center gap-1.5"><IconoIntro emoji={e} />{k}</span>
@@ -131,11 +134,7 @@ function DifficultyScreen({ onSelect, onFocus, l, localPath, idioma, onIdioma })
             </div>
           ))}
         </div>
-
-        <button onClick={() => onSelect(dif)}
-          className="w-full py-4 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-lg rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-amber-500/20 mb-3">
-          {T('start', l)}
-        </button>
+        </ComoSeJuega>
         <button onClick={onFocus}
           className="w-full py-3 bg-white/5 hover:bg-white/10 border border-white/10 text-white font-bold text-sm rounded-2xl transition-all hover:scale-[1.01] active:scale-[0.98] mb-3">
           {T('focusBtn', l)}

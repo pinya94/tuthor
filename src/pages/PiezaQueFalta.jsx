@@ -8,8 +8,7 @@ import { TEMAS, MEZCLA, genRound, esCorrecta, solucionTexto } from '../lib/pieza
 import PiezasBoard from '../components/PiezasBoard'
 import GameEndScreen from '../components/GameEndScreen'
 import SEOHead from '../components/SEOHead'
-import ComoSeJuega from '../components/ComoSeJuega'
-import { CabeceraJuego } from '../components/IntroJuego'
+import { CabeceraJuego, ComoSeJuega } from '../components/IntroJuego'
 
 // 45 segundos y +2 por acierto. El reloj SE PARA mientras se lee la regla (ver
 // el efecto del temporizador): así la dificultad está en resolver rápido, que
@@ -67,13 +66,17 @@ function IntroScreen({ onSelect, l }) {
 
         {/* Plegado: lo que un alumno nuevo necesita leer sigue estando, pero
             sin enterrar los botones bajo tres párrafos. */}
-        <ComoSeJuega label={T('queEs', l)}>
-          <p>{T('q1', l)}</p>
-          <p>{T('q2', l)}</p>
-          <p>{T('q3', l)}</p>
-        </ComoSeJuega>
 
-        <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-4">
+
+        <button onClick={onSelect}
+          className="w-full py-3.5 rounded-2xl bg-[#EDAE49] text-black font-black text-lg hover:bg-amber-400 transition-colors">
+          {T('start', l)}
+        </button>
+        <ComoSeJuega>
+          <div className="space-y-2 text-white/70 text-sm"><p>{T('q1', l)}</p>
+          <p>{T('q2', l)}</p>
+          <p>{T('q3', l)}</p></div>
+          <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-4">
           <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-3">{T('how', l)}</p>
           <div className="space-y-2 text-white/60 text-sm">
             <p>{T('p1', l)}</p>
@@ -82,11 +85,7 @@ function IntroScreen({ onSelect, l }) {
             <p className="text-white/40 text-xs pt-1">⏱️ {GAME_TIME}s · {T('ptsVal', l)}</p>
           </div>
         </div>
-
-        <button onClick={onSelect}
-          className="w-full py-3.5 rounded-2xl bg-[#EDAE49] text-black font-black text-lg hover:bg-amber-400 transition-colors">
-          {T('start', l)}
-        </button>
+        </ComoSeJuega>
       </div>
     </div>
   )

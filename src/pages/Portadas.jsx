@@ -8,7 +8,7 @@ import SupportBlock from '../components/SupportBlock'
 import { saveActivity } from '../lib/activity'
 import { computeCoins } from '../lib/games'
 import SEOHead from '../components/SEOHead'
-import { IconoIntro, NivelBarras } from '../components/IntroJuego'
+import { IconoIntro, NivelBarras, ComoSeJuega } from '../components/IntroJuego'
 import { ArteJuego } from '../components/arte'
 
 const DIFS = {
@@ -253,7 +253,6 @@ export default function Portadas() {
             <p className="text-white/40">{pu.desc}</p>
           </div>
 
-          <SupportBlock variant="top" className="mb-5 w-full" />
 
           <div className="flex gap-2 p-1 bg-white/5 border border-white/10 rounded-xl mb-6 w-fit mx-auto">
             {Object.entries(DIFS).map(([id, d], i) => (
@@ -267,50 +266,8 @@ export default function Portadas() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
-            <div className="bg-white/5 border border-white/10 rounded-2xl p-5 space-y-3 text-sm">
-              <p className="text-white/40 text-xs font-semibold uppercase tracking-widest">{pu.reglas}</p>
-              {[
-                ['⏱️', pu.tiempoInicial, `${d.tiempoInicio}s`],
-                ['✅', pu.alAcertar,     `+${d.suma}s`],
-                ['❌', pu.alFallar,      `−${d.resta}s`],
-              ].map(([e, k, v]) => (
-                <div key={k} className="flex items-start justify-between gap-2">
-                  <span className="text-white/40 shrink-0">{e} {k}</span>
-                  <span className="text-white font-semibold">{v}</span>
-                </div>
-              ))}
-            </div>
-            <div className="bg-white/5 border border-white/10 rounded-2xl p-5 space-y-3 text-sm">
-              <p className="text-white/40 text-xs font-semibold uppercase tracking-widest">{pu.puntos}</p>
-              {[
-                ['🎯', pu.base, `${d.basePts} pts`],
-                ['🔥', pu.racha2,  `+25% pts`],
-                ['🏆', pu.racha3,  `+50% pts`],
-              ].map(([e, k, v]) => (
-                <div key={k} className="flex items-start justify-between gap-2">
-                  <span className="text-white/40 shrink-0">{e} {k}</span>
-                  <span className="text-white font-semibold">{v}</span>
-                </div>
-              ))}
-            </div>
           </div>
 
-          <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-7">
-            <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-3">{pu.comoFunciona}</p>
-            <div className="grid grid-cols-2 gap-2">
-              {[
-                ['📰', pu.paso1],
-                ['🤔', pu.paso2],
-                ['⏱️', pu.paso3],
-                ['💡', pu.paso4],
-              ].map(([e, t]) => (
-                <div key={t} className="flex items-start gap-2 text-sm text-white/50">
-                  <IconoIntro emoji={e} />
-                  <span>{t}</span>
-                </div>
-              ))}
-            </div>
-          </div>
 
           <button onClick={() => iniciar(difId)}
             className="w-full py-4 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-xl rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-amber-500/30">
@@ -428,14 +385,6 @@ export default function Portadas() {
             )}
           </div>
 
-          <div className="bg-white/5 border border-white/10 rounded-2xl p-5">
-            <p className="text-white/30 text-xs uppercase tracking-widest mb-2">{pu.titularEra}</p>
-            <div className={`flex items-center gap-2 font-black text-lg mb-3 ${p.veracidad ? 'text-green-400' : 'text-red-400'}`}>
-              <span>{p.veracidad ? '✓' : '✗'}</span>
-              <span>{p.veracidad ? (lang === 'ca' ? 'VERITAT' : lang === 'en' ? 'TRUE' : 'VERDAD') : (lang === 'ca' ? 'MENTIDA' : lang === 'en' ? 'FALSE' : 'MENTIRA')}</span>
-            </div>
-            <p className="text-white/60 leading-relaxed">{lt(p, 'explicacion')}</p>
-          </div>
 
           <button
             onClick={continuar}
@@ -443,6 +392,59 @@ export default function Portadas() {
           >
             {acabaAqui ? pu.verResultado : pu.continuar}
           </button>
+          <SupportBlock variant="top" className="mt-4" />
+          <ComoSeJuega>
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-5 space-y-3 text-sm">
+              <p className="text-white/40 text-xs font-semibold uppercase tracking-widest">{pu.reglas}</p>
+              {[
+                ['⏱️', pu.tiempoInicial, `${d.tiempoInicio}s`],
+                ['✅', pu.alAcertar,     `+${d.suma}s`],
+                ['❌', pu.alFallar,      `−${d.resta}s`],
+              ].map(([e, k, v]) => (
+                <div key={k} className="flex items-start justify-between gap-2">
+                  <span className="text-white/40 shrink-0">{e} {k}</span>
+                  <span className="text-white font-semibold">{v}</span>
+                </div>
+              ))}
+            </div>
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-5 space-y-3 text-sm">
+              <p className="text-white/40 text-xs font-semibold uppercase tracking-widest">{pu.puntos}</p>
+              {[
+                ['🎯', pu.base, `${d.basePts} pts`],
+                ['🔥', pu.racha2,  `+25% pts`],
+                ['🏆', pu.racha3,  `+50% pts`],
+              ].map(([e, k, v]) => (
+                <div key={k} className="flex items-start justify-between gap-2">
+                  <span className="text-white/40 shrink-0">{e} {k}</span>
+                  <span className="text-white font-semibold">{v}</span>
+                </div>
+              ))}
+            </div>
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-7">
+            <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-3">{pu.comoFunciona}</p>
+            <div className="grid grid-cols-2 gap-2">
+              {[
+                ['📰', pu.paso1],
+                ['🤔', pu.paso2],
+                ['⏱️', pu.paso3],
+                ['💡', pu.paso4],
+              ].map(([e, t]) => (
+                <div key={t} className="flex items-start gap-2 text-sm text-white/50">
+                  <IconoIntro emoji={e} />
+                  <span>{t}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-5">
+            <p className="text-white/30 text-xs uppercase tracking-widest mb-2">{pu.titularEra}</p>
+            <div className={`flex items-center gap-2 font-black text-lg mb-3 ${p.veracidad ? 'text-green-400' : 'text-red-400'}`}>
+              <span>{p.veracidad ? '✓' : '✗'}</span>
+              <span>{p.veracidad ? (lang === 'ca' ? 'VERITAT' : lang === 'en' ? 'TRUE' : 'VERDAD') : (lang === 'ca' ? 'MENTIDA' : lang === 'en' ? 'FALSE' : 'MENTIRA')}</span>
+            </div>
+            <p className="text-white/60 leading-relaxed">{lt(p, 'explicacion')}</p>
+          </div>
+          </ComoSeJuega>
         </div>
       </div>
     )

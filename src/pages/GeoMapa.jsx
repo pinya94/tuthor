@@ -9,7 +9,7 @@ import GameEndScreen from '../components/GameEndScreen'
 import SupportBlock from '../components/SupportBlock'
 import WorldMap from '../components/WorldMap'
 import SEOHead from '../components/SEOHead'
-import { IconoIntro } from '../components/IntroJuego'
+import { IconoIntro, ComoSeJuega } from '../components/IntroJuego'
 import { ArteJuego } from '../components/arte'
 
 function flagToCode(emoji) {
@@ -311,9 +311,15 @@ export default function GeoMapa() {
             <p className="text-white/40">{u.desc}</p>
           </div>
 
-          <SupportBlock variant="top" className="mb-5 w-full" />
 
-          <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-6">
+
+          <button onClick={iniciar}
+            className="w-full py-4 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-xl rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-amber-500/30">
+            {u.empezar}
+          </button>
+          <SupportBlock variant="top" className="mt-4" />
+          <ComoSeJuega>
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-6">
             <WorldMap highlight="" className="rounded-xl overflow-hidden mb-4" />
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
               <div className="space-y-2">
@@ -344,11 +350,7 @@ export default function GeoMapa() {
               </div>
             </div>
           </div>
-
-          <button onClick={iniciar}
-            className="w-full py-4 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-xl rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-amber-500/30">
-            {u.empezar}
-          </button>
+          </ComoSeJuega>
         </div>
       </div>
     )

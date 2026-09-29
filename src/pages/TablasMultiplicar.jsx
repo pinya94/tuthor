@@ -8,7 +8,7 @@ import { nuevaPregunta, esCorrecta } from '../lib/tablas'
 import GameEndScreen from '../components/GameEndScreen'
 import SupportBlock from '../components/SupportBlock'
 import SEOHead from '../components/SEOHead'
-import { CabeceraJuego, IconoIntro, NivelBarras } from '../components/IntroJuego'
+import { CabeceraJuego, IconoIntro, NivelBarras, ComoSeJuega } from '../components/IntroJuego'
 
 const GAME_TIME = 50
 const STEP = 2
@@ -110,7 +110,6 @@ export default function TablasMultiplicar() {
         <SEOHead title={seo.title} description={seo.desc} path={seo.path} lang={l} />
         <div className="relative z-10 flex flex-col items-center min-h-[calc(100dvh-4rem)] px-4 py-8">
           <div className="max-w-md w-full">
-            <SupportBlock variant="top" className="mb-5" />
             <CabeceraJuego slug="tablas-multiplicar" badge={tr({ es: 'Matemáticas · Cálculo', en: 'Maths · Arithmetic', ca: 'Matemàtiques · Càlcul' }, l)} titulo={tr({ es: 'Tablas de Multiplicar', en: 'Times Tables', ca: 'Taules de Multiplicar' }, l)} sub={tr({ es: 'Elige el resultado antes de que baje el tiempo', en: 'Pick the answer before time runs out', ca: 'Tria el resultat abans que baixi el temps' }, l)} />
 
             <div className="flex gap-2 p-1 bg-white/5 border border-white/10 rounded-xl mb-3">
@@ -123,15 +122,6 @@ export default function TablasMultiplicar() {
             </div>
             <p className="text-white/40 text-sm text-center mb-6">{tr(DIFS[dif].desc, l)}</p>
 
-            <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-6 space-y-2.5">
-              {[
-                ['👆', tr({ es: 'Aparece una multiplicación y tocas el resultado correcto entre cuatro.', en: 'A multiplication appears and you tap the correct answer among four.', ca: 'Apareix una multiplicació i toques el resultat correcte entre quatre.' }, l)],
-                ['🔥', tr({ es: 'Encadena aciertos: la racha te da más puntos por respuesta.', en: 'Chain correct answers: a streak gives you more points each time.', ca: 'Encadena encerts: la ratxa et dona més punts per resposta.' }, l)],
-                ['⏱️', tr({ es: '50 segundos. Acierto +2s, fallo −2s.', en: '50 seconds. Correct +2s, wrong −2s.', ca: '50 segons. Encert +2s, errada −2s.' }, l)],
-              ].map(([e, t]) => (
-                <div key={t} className="flex items-start gap-3 text-sm text-white/50"><IconoIntro emoji={e} /><span>{t}</span></div>
-              ))}
-            </div>
 
             <button onClick={() => empezar(dif)}
               className="w-full py-4 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-lg rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-amber-500/20 mb-3">
@@ -140,6 +130,18 @@ export default function TablasMultiplicar() {
             <Link to="/examen/tablas-multiplicar-test" className="block text-center text-white/30 hover:text-white/60 text-sm transition-colors">
               {tr({ es: 'Modo examen (con nota) →', en: 'Exam mode (graded) →', ca: 'Mode examen (amb nota) →' }, l)}
             </Link>
+            <SupportBlock variant="top" className="mt-4" />
+            <ComoSeJuega>
+              <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-6 space-y-2.5">
+              {[
+                ['👆', tr({ es: 'Aparece una multiplicación y tocas el resultado correcto entre cuatro.', en: 'A multiplication appears and you tap the correct answer among four.', ca: 'Apareix una multiplicació i toques el resultat correcte entre quatre.' }, l)],
+                ['🔥', tr({ es: 'Encadena aciertos: la racha te da más puntos por respuesta.', en: 'Chain correct answers: a streak gives you more points each time.', ca: 'Encadena encerts: la ratxa et dona més punts per resposta.' }, l)],
+                ['⏱️', tr({ es: '50 segundos. Acierto +2s, fallo −2s.', en: '50 seconds. Correct +2s, wrong −2s.', ca: '50 segons. Encert +2s, errada −2s.' }, l)],
+              ].map(([e, t]) => (
+                <div key={t} className="flex items-start gap-3 text-sm text-white/50"><IconoIntro emoji={e} /><span>{t}</span></div>
+              ))}
+            </div>
+            </ComoSeJuega>
           </div>
         </div>
       </>

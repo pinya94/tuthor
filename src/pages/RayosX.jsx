@@ -9,7 +9,7 @@ import { ORGANOS } from '../data/organos'
 import GameEndScreen from '../components/GameEndScreen'
 import SEOHead from '../components/SEOHead'
 import SiluetaCuerpo from '../components/SiluetaCuerpo'
-import { IconoIntro } from '../components/IntroJuego'
+import { IconoIntro, ComoSeJuega } from '../components/IntroJuego'
 import { ArteJuego } from '../components/arte'
 
 // Roguelike corto y cerrado: 7 rondas como máximo (un diagnóstico por
@@ -178,22 +178,6 @@ export default function RayosX() {
             <p className="text-white/40">{t.desc}</p>
           </div>
 
-          <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-5 w-full">
-            <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-3">{t.comoFunciona}</p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-              {[
-                ['👆', t.paso1],
-                ['🤔', t.paso2],
-                ['🎯', t.paso3],
-                ['❤️', t.paso4],
-              ].map(([e, txt]) => (
-                <div key={txt} className="flex items-start gap-2 text-sm text-white/50">
-                  <IconoIntro emoji={e} />
-                  <span>{txt}</span>
-                </div>
-              ))}
-            </div>
-          </div>
 
           <button onClick={iniciar}
             className="w-full py-4 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-xl rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-amber-500/30 mb-3">
@@ -267,15 +251,33 @@ export default function RayosX() {
 
         <SiluetaCuerpo guess={guessMarcado} onPick={null} revelado resultado={resultado} compact objetivo={o} l={l} />
 
-        <div className="bg-white/5 border border-white/10 rounded-2xl p-4 mt-4 text-sm text-white/60 leading-relaxed">
-          <p className="text-white/80 font-semibold mb-1">{o.funcion[l] ?? o.funcion.es}</p>
-          {o.dato[l] ?? o.dato.es}
-        </div>
 
         <button onClick={siguiente}
           className="w-full mt-5 py-4 rounded-2xl bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-lg transition-all hover:scale-[1.02]">
           {vidasRestantes <= 0 || cola.length === 0 ? t.verResultado : t.siguiente}
         </button>
+        <ComoSeJuega>
+          <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-5 w-full">
+            <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-3">{t.comoFunciona}</p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              {[
+                ['👆', t.paso1],
+                ['🤔', t.paso2],
+                ['🎯', t.paso3],
+                ['❤️', t.paso4],
+              ].map(([e, txt]) => (
+                <div key={txt} className="flex items-start gap-2 text-sm text-white/50">
+                  <IconoIntro emoji={e} />
+                  <span>{txt}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="bg-white/5 border border-white/10 rounded-2xl p-4 mt-4 text-sm text-white/60 leading-relaxed">
+          <p className="text-white/80 font-semibold mb-1">{o.funcion[l] ?? o.funcion.es}</p>
+          {o.dato[l] ?? o.dato.es}
+        </div>
+        </ComoSeJuega>
       </div>
     )
   }

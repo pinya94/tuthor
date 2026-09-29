@@ -8,7 +8,7 @@ import { nuevaRonda, denomsDe, formatoEuro, esCorrecta } from '../lib/dinero'
 import GameEndScreen from '../components/GameEndScreen'
 import SupportBlock from '../components/SupportBlock'
 import SEOHead from '../components/SEOHead'
-import { CabeceraJuego, IconoIntro, NivelBarras } from '../components/IntroJuego'
+import { CabeceraJuego, IconoIntro, NivelBarras, ComoSeJuega } from '../components/IntroJuego'
 
 const GAME_TIME = 50
 const STEP = 3
@@ -133,7 +133,6 @@ export default function ElCambio() {
         <SEOHead title={seo.title} description={seo.desc} path={seo.path} lang={l} />
         <div className="relative z-10 flex flex-col items-center min-h-[calc(100dvh-4rem)] px-4 py-8">
           <div className="max-w-md w-full">
-            <SupportBlock variant="top" className="mb-5" />
             <CabeceraJuego slug="el-cambio" badge={tr({ es: 'Matemáticas · El dinero', en: 'Maths · Money', ca: 'Matemàtiques · Els diners' }, l)} titulo={tr({ es: 'El Cambio', en: 'The Change', ca: 'El Canvi' }, l)} sub={tr({ es: 'Forma cantidades con monedas y billetes de euro', en: 'Make amounts with euro coins and notes', ca: 'Forma quantitats amb monedes i bitllets d\'euro' }, l)} />
 
             <div className="flex gap-2 p-1 bg-white/5 border border-white/10 rounded-xl mb-3">
@@ -146,15 +145,6 @@ export default function ElCambio() {
             </div>
             <p className="text-white/40 text-sm text-center mb-6">{tr(DIFS[dif].desc, l)}</p>
 
-            <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-6 space-y-2.5">
-              {[
-                ['👆', tr({ es: 'Toca las monedas y billetes para ir sumando en la bandeja.', en: 'Tap coins and notes to add them to the tray.', ca: 'Toca les monedes i bitllets per anar sumant a la safata.' }, l)],
-                ['🎯', tr({ es: 'Llega a la cantidad exacta. Toca una ficha de la bandeja para quitarla.', en: 'Reach the exact amount. Tap a piece in the tray to remove it.', ca: 'Arriba a la quantitat exacta. Toca una fitxa de la safata per treure-la.' }, l)],
-                ['⏱️', tr({ es: '50 segundos. Acierto +3s, fallo −3s.', en: '50 seconds. Correct +3s, wrong −3s.', ca: '50 segons. Encert +3s, errada −3s.' }, l)],
-              ].map(([e, t]) => (
-                <div key={t} className="flex items-start gap-3 text-sm text-white/50"><IconoIntro emoji={e} /><span>{t}</span></div>
-              ))}
-            </div>
 
             <button onClick={() => empezar(dif)}
               className="w-full py-4 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-lg rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-amber-500/20 mb-3">
@@ -163,6 +153,18 @@ export default function ElCambio() {
             <Link to="/examen/el-cambio-test" className="block text-center text-white/30 hover:text-white/60 text-sm transition-colors">
               {tr({ es: 'Modo examen (con nota) →', en: 'Exam mode (graded) →', ca: 'Mode examen (amb nota) →' }, l)}
             </Link>
+            <SupportBlock variant="top" className="mt-4" />
+            <ComoSeJuega>
+              <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-6 space-y-2.5">
+              {[
+                ['👆', tr({ es: 'Toca las monedas y billetes para ir sumando en la bandeja.', en: 'Tap coins and notes to add them to the tray.', ca: 'Toca les monedes i bitllets per anar sumant a la safata.' }, l)],
+                ['🎯', tr({ es: 'Llega a la cantidad exacta. Toca una ficha de la bandeja para quitarla.', en: 'Reach the exact amount. Tap a piece in the tray to remove it.', ca: 'Arriba a la quantitat exacta. Toca una fitxa de la safata per treure-la.' }, l)],
+                ['⏱️', tr({ es: '50 segundos. Acierto +3s, fallo −3s.', en: '50 seconds. Correct +3s, wrong −3s.', ca: '50 segons. Encert +3s, errada −3s.' }, l)],
+              ].map(([e, t]) => (
+                <div key={t} className="flex items-start gap-3 text-sm text-white/50"><IconoIntro emoji={e} /><span>{t}</span></div>
+              ))}
+            </div>
+            </ComoSeJuega>
           </div>
         </div>
       </>

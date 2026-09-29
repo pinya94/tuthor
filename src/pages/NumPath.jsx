@@ -7,7 +7,7 @@ import { computeCoins } from '../lib/games'
 import GameEndScreen from '../components/GameEndScreen'
 import SupportBlock from '../components/SupportBlock'
 import SEOHead from '../components/SEOHead'
-import { IconoIntro, NivelBarras } from '../components/IntroJuego'
+import { IconoIntro, NivelBarras, ComoSeJuega } from '../components/IntroJuego'
 import { ArteJuego } from '../components/arte'
 
 const DIFS = {
@@ -350,7 +350,6 @@ export default function NumPath() {
             <p className="text-white/40">{u.desc}</p>
           </div>
 
-          <SupportBlock variant="top" className="mb-5 w-full" />
 
           <div className="flex gap-2 p-1 bg-white/5 border border-white/10 rounded-xl mb-5 w-fit mx-auto">
             {Object.entries(DIFS).map(([id, dd], i) => (
@@ -363,7 +362,15 @@ export default function NumPath() {
             ))}
           </div>
 
-          <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-5 space-y-2.5 text-sm">
+
+
+          <button onClick={() => startGame(difId)}
+            className="w-full py-4 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-xl rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-amber-500/30">
+            {u.empezar}
+          </button>
+          <SupportBlock variant="top" className="mt-4" />
+          <ComoSeJuega>
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-5 space-y-2.5 text-sm">
             <p className="text-white/40 text-xs font-semibold uppercase tracking-widest">{u.reglas}</p>
             {[
               ['⏱️', u.tiempoInicial, `${d.time}s`],
@@ -378,8 +385,7 @@ export default function NumPath() {
               </div>
             ))}
           </div>
-
-          <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-7">
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-7">
             <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-3">{u.comoFunciona}</p>
             <div className="space-y-2">
               {[['🎮', u.paso1], ['🔢', u.paso2], ['🎯', u.paso3], ['♻️', u.paso4]].map(([e, t]) => (
@@ -390,11 +396,7 @@ export default function NumPath() {
               ))}
             </div>
           </div>
-
-          <button onClick={() => startGame(difId)}
-            className="w-full py-4 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-xl rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-amber-500/30">
-            {u.empezar}
-          </button>
+          </ComoSeJuega>
         </div>
       </div>
     )

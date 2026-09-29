@@ -7,7 +7,7 @@ import { computeCoins } from '../lib/games'
 import GameEndScreen from '../components/GameEndScreen'
 import SEOHead from '../components/SEOHead'
 import { POOLS } from '../data/trayectoriaLevels'
-import { CabeceraJuego, IconoIntro, NivelBarras } from '../components/IntroJuego'
+import { CabeceraJuego, IconoIntro, NivelBarras, ComoSeJuega } from '../components/IntroJuego'
 import {
   VIEW, W, H, ANIM_DURATION,
   toSVG, GridLines, Goal, Barrier, Ball, FnCurve,
@@ -172,7 +172,21 @@ function DifficultyScreen({ onSelect, l }) {
         <p className="text-white/40 text-xs text-center mb-5">{DIFS[dif].desc[l] ?? DIFS[dif].desc.es}</p>
 
         {/* Stats */}
-        <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-4 space-y-2.5 text-sm">
+
+        {/* How it works */}
+
+        {/* Power-ups */}
+
+        <button onClick={() => onSelect(dif)}
+          className="w-full py-4 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-lg rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-amber-500/20 mb-3">
+          {t('start')}
+        </button>
+        <Link to="/examen/trayectoria"
+          className="block text-center text-white/30 hover:text-white/60 text-sm transition-colors">
+          {t('exam')}
+        </Link>
+        <ComoSeJuega>
+          <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-4 space-y-2.5 text-sm">
           {[
             ['⏱️', t('time'),  t('timeVal')],
             ['⭐', t('pts'),   t('ptsVal')],
@@ -184,9 +198,7 @@ function DifficultyScreen({ onSelect, l }) {
             </div>
           ))}
         </div>
-
-        {/* How it works */}
-        <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-4">
+          <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-4">
           <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-3">{t('how')}</p>
           <div className="space-y-2">
             {[['⚽', t('p1')], ['🎁', t('p2')], ['🧍', t('p3')], ['⏰', t('p4')]].map(([e, text]) => (
@@ -197,9 +209,7 @@ function DifficultyScreen({ onSelect, l }) {
             ))}
           </div>
         </div>
-
-        {/* Power-ups */}
-        <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-6">
+          <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-6">
           <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-3">{t('pwup')}</p>
           <div className="space-y-3">
             {pwups.map(([e, label, desc]) => (
@@ -213,15 +223,7 @@ function DifficultyScreen({ onSelect, l }) {
             ))}
           </div>
         </div>
-
-        <button onClick={() => onSelect(dif)}
-          className="w-full py-4 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-lg rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-amber-500/20 mb-3">
-          {t('start')}
-        </button>
-        <Link to="/examen/trayectoria"
-          className="block text-center text-white/30 hover:text-white/60 text-sm transition-colors">
-          {t('exam')}
-        </Link>
+        </ComoSeJuega>
       </div>
     </div>
   )

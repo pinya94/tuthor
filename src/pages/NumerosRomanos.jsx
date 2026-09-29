@@ -8,7 +8,7 @@ import { nuevoNumero, simbolosDe, aRomano, valorRomano, esCorrecto } from '../li
 import GameEndScreen from '../components/GameEndScreen'
 import SupportBlock from '../components/SupportBlock'
 import SEOHead from '../components/SEOHead'
-import { CabeceraJuego, IconoIntro, NivelBarras } from '../components/IntroJuego'
+import { CabeceraJuego, IconoIntro, NivelBarras, ComoSeJuega } from '../components/IntroJuego'
 
 const GAME_TIME = 50
 const STEP = 3
@@ -112,7 +112,6 @@ export default function NumerosRomanos() {
         <SEOHead title={seo.title} description={seo.desc} path={seo.path} lang={l} />
         <div className="relative z-10 flex flex-col items-center min-h-[calc(100dvh-4rem)] px-4 py-8">
           <div className="max-w-md w-full">
-            <SupportBlock variant="top" className="mb-5" />
             <CabeceraJuego slug="numeros-romanos" badge={tr({ es: 'Matemáticas · Números romanos', en: 'Maths · Roman numerals', ca: 'Matemàtiques · Números romans' }, l)} titulo={tr({ es: 'Números Romanos', en: 'Roman Numerals', ca: 'Números Romans' }, l)} sub={tr({ es: 'Escribe el número en romano tocando los símbolos', en: 'Write the number in Roman by tapping the symbols', ca: 'Escriu el nombre en romà tocant els símbols' }, l)} />
 
             <div className="flex gap-2 p-1 bg-white/5 border border-white/10 rounded-xl mb-3">
@@ -125,15 +124,6 @@ export default function NumerosRomanos() {
             </div>
             <p className="text-white/40 text-sm text-center mb-6">{tr(DIFS[dif].desc, l)}</p>
 
-            <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-6 space-y-2.5">
-              {[
-                ['👆', tr({ es: 'Toca los símbolos (I, V, X, L, C, D, M) para escribir el número romano.', en: 'Tap the symbols (I, V, X, L, C, D, M) to write the Roman numeral.', ca: 'Toca els símbols (I, V, X, L, C, D, M) per escriure el número romà.' }, l)],
-                ['🔟', tr({ es: 'Recuerda: 4 es IV (no IIII) y 9 es IX. El menor delante del mayor, se resta.', en: 'Remember: 4 is IV (not IIII) and 9 is IX. A smaller before a larger is subtracted.', ca: 'Recorda: 4 és IV (no IIII) i 9 és IX. El menor davant del major, es resta.' }, l)],
-                ['⏱️', tr({ es: '50 segundos. Acierto +3s, fallo −3s.', en: '50 seconds. Correct +3s, wrong −3s.', ca: '50 segons. Encert +3s, errada −3s.' }, l)],
-              ].map(([e, t]) => (
-                <div key={t} className="flex items-start gap-3 text-sm text-white/50"><IconoIntro emoji={e} /><span>{t}</span></div>
-              ))}
-            </div>
 
             <button onClick={() => empezar(dif)}
               className="w-full py-4 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-lg rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-amber-500/20 mb-3">
@@ -142,6 +132,18 @@ export default function NumerosRomanos() {
             <Link to="/examen/numeros-romanos-test" className="block text-center text-white/30 hover:text-white/60 text-sm transition-colors">
               {tr({ es: 'Modo examen (con nota) →', en: 'Exam mode (graded) →', ca: 'Mode examen (amb nota) →' }, l)}
             </Link>
+            <SupportBlock variant="top" className="mt-4" />
+            <ComoSeJuega>
+              <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-6 space-y-2.5">
+              {[
+                ['👆', tr({ es: 'Toca los símbolos (I, V, X, L, C, D, M) para escribir el número romano.', en: 'Tap the symbols (I, V, X, L, C, D, M) to write the Roman numeral.', ca: 'Toca els símbols (I, V, X, L, C, D, M) per escriure el número romà.' }, l)],
+                ['🔟', tr({ es: 'Recuerda: 4 es IV (no IIII) y 9 es IX. El menor delante del mayor, se resta.', en: 'Remember: 4 is IV (not IIII) and 9 is IX. A smaller before a larger is subtracted.', ca: 'Recorda: 4 és IV (no IIII) i 9 és IX. El menor davant del major, es resta.' }, l)],
+                ['⏱️', tr({ es: '50 segundos. Acierto +3s, fallo −3s.', en: '50 seconds. Correct +3s, wrong −3s.', ca: '50 segons. Encert +3s, errada −3s.' }, l)],
+              ].map(([e, t]) => (
+                <div key={t} className="flex items-start gap-3 text-sm text-white/50"><IconoIntro emoji={e} /><span>{t}</span></div>
+              ))}
+            </div>
+            </ComoSeJuega>
           </div>
         </div>
       </>

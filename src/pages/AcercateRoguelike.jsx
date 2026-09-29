@@ -7,7 +7,7 @@ import { saveActivity } from '../lib/activity'
 import { computeCoins } from '../lib/games'
 import GameEndScreen from '../components/GameEndScreen'
 import SEOHead from '../components/SEOHead'
-import { IconoIntro, NivelBarras } from '../components/IntroJuego'
+import { IconoIntro, NivelBarras, ComoSeJuega } from '../components/IntroJuego'
 import { ArteJuego } from '../components/arte'
 
 const ALL_OPS = ['+', '-', '×', '÷']
@@ -442,7 +442,12 @@ export default function AcercateRoguelike() {
               </button>
             ))}
           </div>
-          <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-5 space-y-2.5 text-sm">
+          <button onClick={startRun}
+            className="w-full py-4 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-lg rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-amber-500/30">
+            {au.empezar}
+          </button>
+          <ComoSeJuega>
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-5 space-y-2.5 text-sm">
             {[
               ['❤️', au.vidas,      dif.vidasIni > 0 ? `${dif.vidasIni} ${au.vidasP}` : au.sinVidas],
               ['⏱️', au.tiempo,     `${dif.tiempoBase}s (−2s/${au.nivel.toLowerCase()})`],
@@ -458,7 +463,7 @@ export default function AcercateRoguelike() {
               </div>
             ))}
           </div>
-          <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-6">
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-6">
             <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-3">{au.comoFunciona}</p>
             <div className="space-y-2">
               {[
@@ -474,10 +479,7 @@ export default function AcercateRoguelike() {
               ))}
             </div>
           </div>
-          <button onClick={startRun}
-            className="w-full py-4 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-lg rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-amber-500/30">
-            {au.empezar}
-          </button>
+          </ComoSeJuega>
           <button onClick={() => navigate(localPath('/juegos/acercate/clasico'))}
             className="w-full py-3 mt-3 text-white/30 hover:text-white/60 text-sm transition-colors">
             {au.clasico}

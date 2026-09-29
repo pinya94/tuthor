@@ -13,8 +13,7 @@ import { TextoMarcable, ResumenRonda, RepasoFallos } from '../components/Corrige
 import SelectorIdioma from '../components/SelectorIdioma'
 import GameEndScreen from '../components/GameEndScreen'
 import SEOHead from '../components/SEOHead'
-import ComoSeJuega from '../components/ComoSeJuega'
-import { CabeceraJuego } from '../components/IntroJuego'
+import { CabeceraJuego, ComoSeJuega } from '../components/IntroJuego'
 
 // Corrige el Texto: tres textos, todos los fallos marcados y el reloj como
 // única nota. Lo que hace que se pueda puntuar solo por tiempo es que fallar
@@ -62,12 +61,6 @@ function IntroScreen({ onStart, l, idiomaInicial = l }) {
       <div className="max-w-md w-full">
         <CabeceraJuego slug="corrige-el-texto" badge={T('badge', l)} titulo={T('title', l)} sub={T('sub', l)} />
 
-        <ComoSeJuega label={T('queEs', l)}>
-          <p>{T('q1', l)}</p>
-          <p>{T('q2', l)}</p>
-          <p>{T('q3', l)}</p>
-          <p>{T('q4', l)}</p>
-        </ComoSeJuega>
 
         <SelectorIdioma valor={idioma} onCambio={setIdioma} l={l}
           etiqueta={{ es: 'Idioma del texto', en: 'Language of the text', ca: 'Idioma del text' }} />
@@ -88,6 +81,12 @@ function IntroScreen({ onStart, l, idiomaInicial = l }) {
           className="w-full py-3.5 rounded-2xl bg-[#EDAE49] text-black font-black text-lg hover:bg-amber-400 transition-colors">
           ▶ {tr3({ es: 'Empezar', en: 'Start', ca: 'Començar' }, l)}
         </button>
+        <ComoSeJuega>
+          <div className="space-y-2 text-white/70 text-sm"><p>{T('q1', l)}</p>
+          <p>{T('q2', l)}</p>
+          <p>{T('q3', l)}</p>
+          <p>{T('q4', l)}</p></div>
+        </ComoSeJuega>
       </div>
     </div>
   )

@@ -8,7 +8,7 @@ import SupportBlock from '../components/SupportBlock'
 import { saveActivity } from '../lib/activity'
 import { computeCoins } from '../lib/games'
 import SEOHead from '../components/SEOHead'
-import { IconoIntro } from '../components/IntroJuego'
+import { IconoIntro, ComoSeJuega } from '../components/IntroJuego'
 import { ArteJuego } from '../components/arte'
 
 const VIDAS_INICIALES = 2 // margen pequeño: un fallo no acaba la partida, dos sí
@@ -230,24 +230,7 @@ export default function EpocasHistoricas() {
             <p className="text-white/40">{t.desc}</p>
           </div>
 
-          <SupportBlock variant="top" className="mb-5 w-full" />
 
-          <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-5">
-            <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-3">{t.comoFunciona}</p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-              {[
-                ['🖼️', t.paso1],
-                ['🤔', t.paso2],
-                ['✅', t.paso3],
-                ['❤️', t.paso4],
-              ].map(([e, txt]) => (
-                <div key={txt} className="flex items-start gap-2 text-sm text-white/50">
-                  <IconoIntro emoji={e} />
-                  <span>{txt}</span>
-                </div>
-              ))}
-            </div>
-          </div>
 
           <div className="bg-amber-500/10 border border-amber-500/30 rounded-2xl p-4 mb-7 text-sm text-amber-200/90 leading-relaxed">
             ⚠️ {t.aviso}
@@ -328,6 +311,25 @@ export default function EpocasHistoricas() {
         >
           {t.confirmar}
         </button>
+        <SupportBlock variant="top" className="mt-4" />
+        <ComoSeJuega>
+          <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-5">
+            <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-3">{t.comoFunciona}</p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              {[
+                ['🖼️', t.paso1],
+                ['🤔', t.paso2],
+                ['✅', t.paso3],
+                ['❤️', t.paso4],
+              ].map(([e, txt]) => (
+                <div key={txt} className="flex items-start gap-2 text-sm text-white/50">
+                  <IconoIntro emoji={e} />
+                  <span>{txt}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </ComoSeJuega>
       </div>
     )
   }

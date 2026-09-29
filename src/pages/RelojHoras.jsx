@@ -9,7 +9,7 @@ import RelojAnalogico from '../components/RelojAnalogico'
 import GameEndScreen from '../components/GameEndScreen'
 import SupportBlock from '../components/SupportBlock'
 import SEOHead from '../components/SEOHead'
-import { CabeceraJuego, IconoIntro, NivelBarras } from '../components/IntroJuego'
+import { CabeceraJuego, IconoIntro, NivelBarras, ComoSeJuega } from '../components/IntroJuego'
 
 const GAME_TIME = 40
 const STEP = 3
@@ -111,7 +111,6 @@ export default function RelojHoras() {
         <SEOHead title={seo.title} description={seo.desc} path={seo.path} lang={l} />
         <div className="relative z-10 flex flex-col items-center min-h-[calc(100dvh-4rem)] px-4 py-8">
           <div className="max-w-md w-full">
-            <SupportBlock variant="top" className="mb-5" />
             <CabeceraJuego slug="reloj-horas" badge={tr({ es: 'Matemáticas · Medida del tiempo', en: 'Maths · Telling the time', ca: 'Matemàtiques · Mesura del temps' }, l)} titulo={tr({ es: '¿Qué hora es?', en: 'What time is it?', ca: 'Quina hora és?' }, l)} sub={tr({ es: 'Pon la hora en el reloj arrastrando las manecillas', en: 'Set the time by dragging the hands', ca: 'Posa l\'hora arrossegant les manetes' }, l)} />
 
             <div className="flex gap-2 p-1 bg-white/5 border border-white/10 rounded-xl mb-3">
@@ -124,15 +123,6 @@ export default function RelojHoras() {
             </div>
             <p className="text-white/40 text-sm text-center mb-6">{tr(DIFS[dif].desc, l)}</p>
 
-            <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-6 space-y-2.5">
-              {[
-                ['👆', tr({ es: 'Arrastra la agarradera de cada aguja —o usa los botones + / −— para poner la hora.', en: 'Drag each hand\'s knob —or use the + / − buttons— to set the time.', ca: 'Arrossega l\'agafador de cada maneta —o fes servir els botons + / −— per posar l\'hora.' }, l)],
-                ['🕑', tr({ es: 'Ojo a la aguja de la hora: va un poco adelantada según los minutos (a y media, entre dos números). Hay un poco de margen.', en: 'Watch the hour hand: it moves a bit ahead with the minutes (at half past, between two numbers). There is a little margin.', ca: 'Ull a l\'agulla de l\'hora: va una mica avançada segons els minuts (a i mitja, entre dos números). Hi ha una mica de marge.' }, l)],
-                ['🎯', tr({ es: 'Al fallar se ve la hora correcta en verde para aprender.', en: 'On a miss the correct time shows in green so you learn.', ca: 'En fallar es veu l\'hora correcta en verd per aprendre.' }, l)],
-              ].map(([e, t]) => (
-                <div key={t} className="flex items-start gap-3 text-sm text-white/50"><IconoIntro emoji={e} /><span>{t}</span></div>
-              ))}
-            </div>
 
             <button onClick={() => empezar(dif)}
               className="w-full py-4 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-lg rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-amber-500/20 mb-3">
@@ -141,6 +131,18 @@ export default function RelojHoras() {
             <Link to="/examen/reloj-horas-test" className="block text-center text-white/30 hover:text-white/60 text-sm transition-colors">
               {tr({ es: 'Modo examen (con nota) →', en: 'Exam mode (graded) →', ca: 'Mode examen (amb nota) →' }, l)}
             </Link>
+            <SupportBlock variant="top" className="mt-4" />
+            <ComoSeJuega>
+              <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-6 space-y-2.5">
+              {[
+                ['👆', tr({ es: 'Arrastra la agarradera de cada aguja —o usa los botones + / −— para poner la hora.', en: 'Drag each hand\'s knob —or use the + / − buttons— to set the time.', ca: 'Arrossega l\'agafador de cada maneta —o fes servir els botons + / −— per posar l\'hora.' }, l)],
+                ['🕑', tr({ es: 'Ojo a la aguja de la hora: va un poco adelantada según los minutos (a y media, entre dos números). Hay un poco de margen.', en: 'Watch the hour hand: it moves a bit ahead with the minutes (at half past, between two numbers). There is a little margin.', ca: 'Ull a l\'agulla de l\'hora: va una mica avançada segons els minuts (a i mitja, entre dos números). Hi ha una mica de marge.' }, l)],
+                ['🎯', tr({ es: 'Al fallar se ve la hora correcta en verde para aprender.', en: 'On a miss the correct time shows in green so you learn.', ca: 'En fallar es veu l\'hora correcta en verd per aprendre.' }, l)],
+              ].map(([e, t]) => (
+                <div key={t} className="flex items-start gap-3 text-sm text-white/50"><IconoIntro emoji={e} /><span>{t}</span></div>
+              ))}
+            </div>
+            </ComoSeJuega>
           </div>
         </div>
       </>

@@ -5,7 +5,8 @@ import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
 import { saveActivity } from '../lib/activity'
 import { computeCoins } from '../lib/games'
-import GameEndScreen from '../components/GameEndScreen'
+import GameEndScreen from '../components/GameEndScreen'
+import { ComoSeJuega } from '../components/IntroJuego'
 import SupportBlock from '../components/SupportBlock'
 import SEOHead from '../components/SEOHead'
 import { ArteJuego } from '../components/arte'
@@ -133,9 +134,16 @@ function Intro({ pool, onStart, lang }) {
           </p>
         </div>
 
-        <SupportBlock variant="top" className="mb-5" />
 
-        <div className="bg-white/5 border border-white/10 rounded-2xl p-6 mb-6 space-y-4">
+        <button
+          onClick={onStart}
+          className="w-full bg-violet-600 hover:bg-violet-500 text-white font-black text-lg py-4 rounded-2xl transition-all"
+        >
+          {lang === 'ca' ? 'Començar partida →' : en ? 'Start game →' : 'Empezar partida →'}
+        </button>
+        <SupportBlock variant="top" className="mt-4" />
+        <ComoSeJuega>
+          <div className="bg-white/5 border border-white/10 rounded-2xl p-6 mb-6 space-y-4">
           {(lang === 'ca' ? [
             { icon: '🎴', title: 'Tauler de 12 personatges', desc: 'Cada partida, 12 figures diferents seleccionades a l\'atzar.' },
             { icon: '✂️', title: 'Ratlla els que descartis', desc: 'Toca un personatge per ratllar-lo. Toca\'l de nou per restaurar-lo. Descarta fins a quedar-te amb el correcte.' },
@@ -158,12 +166,7 @@ function Intro({ pool, onStart, lang }) {
             </div>
           ))}
         </div>
-        <button
-          onClick={onStart}
-          className="w-full bg-violet-600 hover:bg-violet-500 text-white font-black text-lg py-4 rounded-2xl transition-all"
-        >
-          {lang === 'ca' ? 'Començar partida →' : en ? 'Start game →' : 'Empezar partida →'}
-        </button>
+        </ComoSeJuega>
       </div>
     </div>
   )

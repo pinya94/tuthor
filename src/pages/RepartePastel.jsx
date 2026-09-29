@@ -8,7 +8,7 @@ import GameEndScreen from '../components/GameEndScreen'
 import SupportBlock from '../components/SupportBlock'
 import SEOHead from '../components/SEOHead'
 import Pastel from '../components/Pastel'
-import { IconoIntro } from '../components/IntroJuego'
+import { IconoIntro, ComoSeJuega } from '../components/IntroJuego'
 import { ArteJuego } from '../components/arte'
 
 // ── Reparte el Pastel ─────────────────────────────────────────────────────
@@ -214,7 +214,6 @@ export default function RepartePastel() {
             <p className="text-white/40">{tr({ es: 'Lee y construye fracciones tocando las porciones', en: 'Read and build fractions by tapping the slices', ca: 'Llegeix i construeix fraccions tocant les porcions' })}</p>
           </div>
 
-          <SupportBlock variant="top" className="mb-5" />
 
           <div className="flex gap-2 p-1 bg-white/5 border border-white/10 rounded-xl mb-5 w-fit mx-auto">
             {Object.entries(DIFS).map(([id]) => (
@@ -227,7 +226,15 @@ export default function RepartePastel() {
             ))}
           </div>
 
-          <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-5 space-y-2.5 text-sm">
+
+
+          <button onClick={() => startGame(difId)}
+            className="w-full py-4 bg-pink-500 hover:bg-pink-400 text-black font-black text-xl rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-pink-500/30">
+            {tr({ es: '¡Empezar! →', en: 'Start! →', ca: 'Comença! →' })}
+          </button>
+          <SupportBlock variant="top" className="mt-4" />
+          <ComoSeJuega>
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-5 space-y-2.5 text-sm">
             <p className="text-white/40 text-xs font-semibold uppercase tracking-widest">{tr({ es: 'Reglas', en: 'Rules', ca: 'Regles' })}</p>
             {[
               ['⏱️', tr({ es: 'Tiempo inicial', en: 'Starting time', ca: 'Temps inicial' }), `${d.time}s`],
@@ -240,8 +247,7 @@ export default function RepartePastel() {
               </div>
             ))}
           </div>
-
-          <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-7">
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-7">
             <div className="space-y-2">
               {[
                 ['👀', tr({ es: 'Identifica: acierta qué fracción está sombreada', en: 'Identify: guess which fraction is shaded', ca: 'Identifica: encerta quina fracció està ombrejada' })],
@@ -254,11 +260,7 @@ export default function RepartePastel() {
               ))}
             </div>
           </div>
-
-          <button onClick={() => startGame(difId)}
-            className="w-full py-4 bg-pink-500 hover:bg-pink-400 text-black font-black text-xl rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-pink-500/30">
-            {tr({ es: '¡Empezar! →', en: 'Start! →', ca: 'Comença! →' })}
-          </button>
+          </ComoSeJuega>
         </div>
       </div>
     )

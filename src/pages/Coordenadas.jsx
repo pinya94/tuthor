@@ -9,7 +9,7 @@ import GameEndScreen from '../components/GameEndScreen'
 import SupportBlock from '../components/SupportBlock'
 import SEOHead from '../components/SEOHead'
 import MapaCoordenadas, { FlagImg, fmtCoord } from '../components/MapaCoordenadas'
-import { IconoIntro } from '../components/IntroJuego'
+import { IconoIntro, ComoSeJuega } from '../components/IntroJuego'
 import { ArteJuego } from '../components/arte'
 
 // Roguelike corto: 10 rondas como máximo (el pool tiene 40 países, no hace
@@ -188,7 +188,6 @@ export default function Coordenadas() {
             {t.volver}
           </button>
 
-          <SupportBlock variant="top" className="mb-5 w-full" />
 
           <div className="text-center mb-7">
             <ArteJuego slug="coordenadas" className="w-full max-w-[240px] mx-auto aspect-video block mb-3" />
@@ -196,22 +195,6 @@ export default function Coordenadas() {
             <p className="text-white/40">{t.desc}</p>
           </div>
 
-          <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-5 w-full">
-            <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-3">{t.comoFunciona}</p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-              {[
-                ['🧭', t.paso1],
-                ['🤔', t.paso2],
-                ['🎯', t.paso3],
-                ['❤️', t.paso4],
-              ].map(([e, txt]) => (
-                <div key={txt} className="flex items-start gap-2 text-sm text-white/50">
-                  <IconoIntro emoji={e} />
-                  <span>{txt}</span>
-                </div>
-              ))}
-            </div>
-          </div>
 
           <button onClick={iniciar}
             className="w-full py-4 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-xl rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-amber-500/30">
@@ -308,15 +291,34 @@ export default function Coordenadas() {
 
         <MapaCoordenadas guessLat={guessLat} guessLon={guessLon} real={{ ...p, resultado }} revelado={true} />
 
-        <div className="bg-white/5 border border-white/10 rounded-2xl p-4 mt-4 text-sm text-white/60 leading-relaxed">
-          <span className="font-semibold text-white/80">{t.capitalLbl}:</span> {p.capital}
-          {p.famoso && <span> · {p.famoso}</span>}
-        </div>
 
         <button onClick={siguiente}
           className="w-full mt-5 py-4 rounded-2xl bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-lg transition-all hover:scale-[1.02]">
           {vidasRestantes <= 0 || rondas >= MAX_RONDAS || cola.length === 0 ? t.verResultado : t.siguiente}
         </button>
+        <SupportBlock variant="top" className="mt-4" />
+        <ComoSeJuega>
+          <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-5 w-full">
+            <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-3">{t.comoFunciona}</p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              {[
+                ['🧭', t.paso1],
+                ['🤔', t.paso2],
+                ['🎯', t.paso3],
+                ['❤️', t.paso4],
+              ].map(([e, txt]) => (
+                <div key={txt} className="flex items-start gap-2 text-sm text-white/50">
+                  <IconoIntro emoji={e} />
+                  <span>{txt}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="bg-white/5 border border-white/10 rounded-2xl p-4 mt-4 text-sm text-white/60 leading-relaxed">
+          <span className="font-semibold text-white/80">{t.capitalLbl}:</span> {p.capital}
+          {p.famoso && <span> · {p.famoso}</span>}
+        </div>
+        </ComoSeJuega>
       </div>
     )
   }

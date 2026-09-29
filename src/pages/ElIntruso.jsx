@@ -5,6 +5,7 @@ import { useLang } from '../context/LangContext'
 import { saveActivity, saveDailyChallenge } from '../lib/activity'
 import { computeCoins } from '../lib/games'
 import GameEndScreen from '../components/GameEndScreen'
+import { ComoSeJuega, NivelBarras } from '../components/IntroJuego'
 import { getQuestionsForPool } from '../data/palabrasIntrusas'
 import SelectorIdioma from '../components/SelectorIdioma'
 import SEOHead from '../components/SEOHead'
@@ -270,18 +271,21 @@ export default function ElIntruso() {
 
           {/* Difficulty tabs */}
           <div className="flex gap-2 p-1 bg-white/5 border border-white/10 rounded-xl mb-6 w-fit mx-auto">
-            {NIVELES.map(nv => (
+            {NIVELES.map((nv, i) => (
               <button key={nv.id} onClick={() => setSelectedNivel(nv.id)}
                 className={`flex items-center gap-1.5 px-5 py-2.5 rounded-lg text-sm font-semibold transition-all ${
                   selectedNivel === nv.id ? 'bg-white/15 text-white shadow-sm' : 'text-white/40 hover:text-white/70'
                 }`}>
-                {nv.emoji} {dl(nv)}
+                <NivelBarras clave={nv.id} i={i} />{dl(nv)}
               </button>
             ))}
           </div>
 
-          {/* Info panels */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+          <button onClick={() => startGame(selectedNivel)}
+            className="w-full py-4 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-xl rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-amber-500/30">
+            {u.empezar}
+          </button>
+          <ComoSeJuega>
             <div className="bg-white/5 border border-white/10 rounded-2xl p-5 space-y-3 text-sm">
               <p className="text-white/40 text-xs font-semibold uppercase tracking-widest">{u.reglas}</p>
               {[
@@ -296,7 +300,6 @@ export default function ElIntruso() {
                 </div>
               ))}
             </div>
-
             <div className="bg-white/5 border border-white/10 rounded-2xl p-5 space-y-3">
               <p className="text-white/40 text-xs font-semibold uppercase tracking-widest">{u.comoFunciona}</p>
               {[u.paso1, u.paso2, u.paso3, u.paso4].map((paso, i) => (
@@ -306,12 +309,7 @@ export default function ElIntruso() {
                 </div>
               ))}
             </div>
-          </div>
-
-          <button onClick={() => startGame(selectedNivel)}
-            className="w-full py-4 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-xl rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-amber-500/30">
-            {u.empezar}
-          </button>
+          </ComoSeJuega>
         </div>
       </div>
     )

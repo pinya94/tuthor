@@ -32,7 +32,7 @@ import { ensureAudio, playNote, playClick } from '../lib/pentagramaAudio'
 import { COUNT_IN_BEATS } from '../data/pentagramaMelodies'
 import { FAILS_LIMIT, LOOKAHEAD_BEATS, stageFor, siguienteEvento } from '../lib/pentagramaSurvivor'
 import { useMidiPiano, transponer } from '../lib/midiInput'
-import { IconoIntro } from '../components/IntroJuego'
+import { IconoIntro, ComoSeJuega } from '../components/IntroJuego'
 import { ArteJuego } from '../components/arte'
 
 const LS_SURVIVOR_BEST = 'pentagrama-path-survivor-best'
@@ -428,7 +428,6 @@ export default function PentagramaPath() {
             )}
           </div>
 
-          <SupportBlock variant="top" className="mb-4" />
 
           <button onClick={startSurvivor}
             className="w-full py-4 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-xl rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-amber-500/30 mb-3">
@@ -451,40 +450,7 @@ export default function PentagramaPath() {
             </div>
           </button>
 
-          <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-5">
-            <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-3">
-              {tr({ es: 'Colores del resultado', en: 'Result colours', ca: 'Colors del resultat' })}
-            </p>
-            <div className="space-y-2 text-sm">
-              {['perfecto', 'amarillo', 'naranja', 'rojo'].map(k => (
-                <div key={k} className="flex items-center gap-3 text-white/60">
-                  <span className={`w-3.5 h-3.5 rounded-full shrink-0 ${RESULT_UI[k].color}`} />
-                  <span>{tr(RESULT_UI[k].label)}</span>
-                </div>
-              ))}
-            </div>
-          </div>
 
-          <div className="bg-white/5 border border-white/10 rounded-2xl p-5">
-            <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-3">
-              {tr({ es: 'Cómo se juega', en: 'How to play', ca: 'Com es juga' })}
-            </p>
-            <div className="space-y-2 text-sm text-white/50">
-              {[
-                ['🎹', tr({ es: 'Toca con el ratón o con el teclado: A-K (blancas), W E T Y U (negras)', en: 'Play with the mouse or keyboard: A-K (white keys), W E T Y U (black keys)', ca: 'Toca amb el ratolí o amb el teclat: A-K (blanques), W E T Y U (negres)' })],
-                ['⏱️', tr({ es: 'El playhead avanza solo — toca cada nota en su momento', en: 'The playhead moves on its own — hit each note on time', ca: 'El playhead avança sol — toca cada nota al seu moment' })],
-                ['💔', tr({ es: `Solo "perfecto" no cuesta vida: ${FAILS_LIMIT} fallos y se acaba`, en: `Only "perfect" costs no life: ${FAILS_LIMIT} misses and it's over`, ca: `Només "perfecte" no costa vida: ${FAILS_LIMIT} errades i s'acaba` })],
-                ['📈', tr({ es: 'El tempo y la dificultad suben solos cuanto más aguantas', en: 'Tempo and difficulty rise on their own the longer you survive', ca: 'El tempo i la dificultat pugen sols com més aguantes' })],
-                ['🎁', tr({ es: 'Cada cierto tiempo eliges un bono (vidas, tempo, puntería, puntos) — cada vez cuesta más conseguirlo', en: 'Every so often you pick a bonus (lives, tempo, aim, points) — each one takes longer to earn', ca: 'Cada cert temps tries un bo (vides, tempo, punteria, punts) — cada vegada costa més aconseguir-lo' })],
-                ['⏸️', tr({ es: 'Puedes pausar en cualquier momento — útil si el piano MIDI se desconecta a media partida', en: 'You can pause any time — handy if the MIDI piano disconnects mid-run', ca: 'Pots pausar en qualsevol moment — útil si el piano MIDI es desconnecta a mitja partida' })],
-              ].map(([e, t]) => (
-                <div key={t} className="flex items-start gap-3">
-                  <IconoIntro emoji={e} />
-                  <span>{t}</span>
-                </div>
-              ))}
-            </div>
-          </div>
         </div>
       </div>
     )
@@ -546,6 +512,42 @@ export default function PentagramaPath() {
               className="w-full py-4 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-lg rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-amber-500/30 mb-3">
               ▶ {tr({ es: 'Reanudar', en: 'Resume', ca: 'Reprendre' })}
             </button>
+            <SupportBlock variant="top" className="mt-4" />
+            <ComoSeJuega>
+              <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-5">
+            <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-3">
+              {tr({ es: 'Colores del resultado', en: 'Result colours', ca: 'Colors del resultat' })}
+            </p>
+            <div className="space-y-2 text-sm">
+              {['perfecto', 'amarillo', 'naranja', 'rojo'].map(k => (
+                <div key={k} className="flex items-center gap-3 text-white/60">
+                  <span className={`w-3.5 h-3.5 rounded-full shrink-0 ${RESULT_UI[k].color}`} />
+                  <span>{tr(RESULT_UI[k].label)}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+              <div className="bg-white/5 border border-white/10 rounded-2xl p-5">
+            <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-3">
+              {tr({ es: 'Cómo se juega', en: 'How to play', ca: 'Com es juga' })}
+            </p>
+            <div className="space-y-2 text-sm text-white/50">
+              {[
+                ['🎹', tr({ es: 'Toca con el ratón o con el teclado: A-K (blancas), W E T Y U (negras)', en: 'Play with the mouse or keyboard: A-K (white keys), W E T Y U (black keys)', ca: 'Toca amb el ratolí o amb el teclat: A-K (blanques), W E T Y U (negres)' })],
+                ['⏱️', tr({ es: 'El playhead avanza solo — toca cada nota en su momento', en: 'The playhead moves on its own — hit each note on time', ca: 'El playhead avança sol — toca cada nota al seu moment' })],
+                ['💔', tr({ es: `Solo "perfecto" no cuesta vida: ${FAILS_LIMIT} fallos y se acaba`, en: `Only "perfect" costs no life: ${FAILS_LIMIT} misses and it's over`, ca: `Només "perfecte" no costa vida: ${FAILS_LIMIT} errades i s'acaba` })],
+                ['📈', tr({ es: 'El tempo y la dificultad suben solos cuanto más aguantas', en: 'Tempo and difficulty rise on their own the longer you survive', ca: 'El tempo i la dificultat pugen sols com més aguantes' })],
+                ['🎁', tr({ es: 'Cada cierto tiempo eliges un bono (vidas, tempo, puntería, puntos) — cada vez cuesta más conseguirlo', en: 'Every so often you pick a bonus (lives, tempo, aim, points) — each one takes longer to earn', ca: 'Cada cert temps tries un bo (vides, tempo, punteria, punts) — cada vegada costa més aconseguir-lo' })],
+                ['⏸️', tr({ es: 'Puedes pausar en cualquier momento — útil si el piano MIDI se desconecta a media partida', en: 'You can pause any time — handy if the MIDI piano disconnects mid-run', ca: 'Pots pausar en qualsevol moment — útil si el piano MIDI es desconnecta a mitja partida' })],
+              ].map(([e, t]) => (
+                <div key={t} className="flex items-start gap-3">
+                  <IconoIntro emoji={e} />
+                  <span>{t}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+            </ComoSeJuega>
             <MidiConnectButton midi={midi} className="mb-3" />
             <button onClick={salir} className="w-full text-white/40 hover:text-white/70 text-sm py-2 transition-colors">
               {tr({ es: '🚪 Abandonar partida', en: '🚪 Abandon run', ca: '🚪 Abandonar partida' })}
