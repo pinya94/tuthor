@@ -1,6 +1,7 @@
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
 import { NIVELES, setNivel, marcarPreguntado, useNivel } from '../lib/nivel'
+import { ARTE_CURSOS, GLIFOS_CURSO } from './arte/cursos'
 
 // El selector de curso. Dos variantes de la MISMA pieza, para que no haya dos
 // ideas distintas de qué cursos existen ni dos sitios donde cambiarlo:
@@ -17,8 +18,6 @@ import { NIVELES, setNivel, marcarPreguntado, useNivel } from '../lib/nivel'
 // "Todas" sigue existiendo siempre y a la vista: el curso es una ayuda, no un
 // candado, y un alumno de ESO que quiere repasar algo de Primaria tiene que
 // poder hacerlo sin ir a buscar un ajuste.
-
-const SURF = 'rgba(17,20,29,0.86)'
 
 export default function NivelPicker({ variant = 'card', onDone, className = '' }) {
   const { user } = useAuth()
@@ -42,7 +41,7 @@ export default function NivelPicker({ variant = 'card', onDone, className = '' }
         <Pastilla
           activa={!nivel}
           onClick={() => { setNivel(null, uid); marcarPreguntado() }}
-          emoji="📚"
+          icono={GLIFOS_CURSO.todas}
           label={tr({ es: 'Todas', en: 'All', ca: 'Totes' })}
         />
         {NIVELES.map(n => (
@@ -50,7 +49,7 @@ export default function NivelPicker({ variant = 'card', onDone, className = '' }
             key={n.id}
             activa={nivel === n.id}
             onClick={() => elegir(n.id)}
-            emoji={n.emoji}
+            icono={GLIFOS_CURSO[n.id]}
             label={tr(n.label)}
           />
         ))}
@@ -59,10 +58,7 @@ export default function NivelPicker({ variant = 'card', onDone, className = '' }
   }
 
   return (
-    <section
-      className={`rounded-2xl border border-amber-400/25 p-5 ${className}`}
-      style={{ background: 'linear-gradient(135deg, rgba(237,174,73,.14), rgba(139,92,246,.06)), ' + SURF }}
-    >
+    <section className={`rounded-2xl border border-white/[0.08] bg-[#141b2e] p-5 ${className}`}>
       <p className="text-white font-black text-lg leading-tight mb-1">
         {tr({ es: '¿En qué curso estás?', en: 'What year are you in?', ca: 'A quin curs ets?' })}
       </p>
@@ -75,21 +71,23 @@ export default function NivelPicker({ variant = 'card', onDone, className = '' }
       </p>
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 mb-4">
-        {NIVELES.map(n => (
+        {NIVELES.map(n => {
+          const Arte = ARTE_CURSOS[n.id]
+          return (
           <button
             key={n.id}
             onClick={() => elegir(n.id)}
             // El nombre accesible se declara a mano: el contenido del botón es
-            // un emoji aria-hidden y dos spans anidados, y algunos lectores no
-            // lo componen en una etiqueta útil.
+            // una ilustración aria-hidden y dos spans anidados, y algunos
+            // lectores no lo componen en una etiqueta útil.
             aria-label={tr({
               es: `Estoy en ${n.label.es}`,
               en: `I am in ${n.label.en}`,
               ca: `Sóc a ${n.label.ca}`,
             })}
-            className="group flex items-center gap-3 sm:flex-col sm:items-start rounded-xl border border-white/10 hover:border-amber-400/50 bg-white/[0.04] hover:bg-white/[0.08] px-4 py-3 text-left transition-all"
+            className="group flex items-center gap-3 sm:flex-col sm:items-start rounded-xl border border-white/[0.08] hover:border-white/25 bg-white/[0.03] hover:bg-white/[0.06] px-4 py-3 text-left transition-all"
           >
-            <span className="text-2xl" aria-hidden="true">{n.emoji}</span>
+            {Arte && <Arte className="w-16 h-11 shrink-0 sm:w-full sm:h-16 transition-transform duration-300 group-hover:scale-[1.04]" />}
             <span className="sm:mt-1">
               <span className="block text-white font-bold text-sm">{tr(n.label)}</span>
               <span className="block text-white/40 text-xs">
@@ -97,7 +95,8 @@ export default function NivelPicker({ variant = 'card', onDone, className = '' }
               </span>
             </span>
           </button>
-        ))}
+          )
+        })}
       </div>
 
       <button
@@ -110,17 +109,17 @@ export default function NivelPicker({ variant = 'card', onDone, className = '' }
   )
 }
 
-function Pastilla({ activa, onClick, emoji, label }) {
+function Pastilla({ activa, onClick, icono, label }) {
   return (
     <button
       onClick={onClick}
-      className={`px-3.5 py-1.5 rounded-full text-sm font-bold transition-all border ${
+      className={`inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-sm font-bold transition-all border ${
         activa
           ? 'bg-violet-600 text-white border-transparent'
           : 'bg-white/5 text-white/60 border-white/10 hover:text-white hover:bg-white/10'
       }`}
     >
-      {emoji} {label}
+      {icono}{label}
     </button>
   )
 }

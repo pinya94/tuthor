@@ -3,6 +3,7 @@ import { useLang } from '../context/LangContext'
 import SEOHead from '../components/SEOHead'
 import { FICHAS_ES, FICHAS_EN, FICHAS_CA } from '../data/infoJuegosFichas'
 import AdSlot from '../components/AdSlot'
+import { ARTE_JUEGOS, ArteJuego, slugDeRuta } from '../components/arte'
 
 // Superficie oscura casi opaca: legibilidad sobre el fondo del bosque
 const SURF = 'rgba(17,20,29,0.86)'
@@ -33,6 +34,8 @@ export default function InfoJuegoFicha() {
 
   const seoPath = lang==='en' ? `/en/info/juegos/${slug}` : lang==='ca' ? `/ca/info/juegos/${slug}` : `/info/juegos/${slug}`
   const seoDesc = `${ficha.intro.slice(0, 150)}...`
+  // Ilustración propia del juego (arte/), si la tiene; si no, el emoji.
+  const arteSlug = ARTE_JUEGOS[slugDeRuta(ficha.path)] ? slugDeRuta(ficha.path) : null
 
   return (
     <div className="relative z-10">
@@ -44,7 +47,9 @@ export default function InfoJuegoFicha() {
         </Link>
         <header className="mb-4">
           <div className="flex items-center gap-3 sm:gap-4 mb-4">
-            <span className="text-5xl sm:text-6xl shrink-0">{ficha.emoji}</span>
+            {arteSlug
+              ? <ArteJuego slug={arteSlug} className="w-24 sm:w-32 aspect-video shrink-0 rounded-xl bg-[#141b2e] border border-white/[0.08] p-1" />
+              : <span className="text-5xl sm:text-6xl shrink-0">{ficha.emoji}</span>}
             <div className="min-w-0">
               <h1 className="text-2xl sm:text-4xl font-black text-white leading-tight">{ficha.titulo}</h1>
               <p className="text-white/40 text-sm sm:text-lg">{ficha.subtitulo}</p>
@@ -67,13 +72,20 @@ export default function InfoJuegoFicha() {
 
           <p className="text-white/60 leading-relaxed text-lg mb-8">{ficha.intro}</p>
 
-          <div className={`bg-gradient-to-br ${ficha.gradient} rounded-2xl h-48 sm:h-64 flex items-center justify-center mb-10 relative overflow-hidden`}>
-            <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '24px 24px' }} />
-            <div className="relative text-center">
-              <span className="text-8xl sm:text-9xl drop-shadow-2xl">{ficha.emoji}</span>
-              <p className="text-white/70 text-sm font-bold mt-2">{ficha.asignatura} · {ficha.niveles}</p>
+          {arteSlug ? (
+            <div className="rounded-2xl bg-[#141b2e] border border-white/[0.08] mb-10 overflow-hidden">
+              <ArteJuego slug={arteSlug} className="w-full h-48 sm:h-64 p-3 sm:p-5" />
+              <p className="text-white/55 text-sm font-bold text-center pb-4">{ficha.asignatura} · {ficha.niveles}</p>
             </div>
-          </div>
+          ) : (
+            <div className={`bg-gradient-to-br ${ficha.gradient} rounded-2xl h-48 sm:h-64 flex items-center justify-center mb-10 relative overflow-hidden`}>
+              <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '24px 24px' }} />
+              <div className="relative text-center">
+                <span className="text-8xl sm:text-9xl drop-shadow-2xl">{ficha.emoji}</span>
+                <p className="text-white/70 text-sm font-bold mt-2">{ficha.asignatura} · {ficha.niveles}</p>
+              </div>
+            </div>
+          )}
 
           {/* CTA 1 */}
           <div className={`text-center mb-10 ${ficha.examPath ? 'flex flex-col sm:flex-row gap-3 justify-center' : ''}`}>

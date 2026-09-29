@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import Thumbnail from '../components/Thumbnail'
+import { slugDeRuta } from '../components/arte'
 import { GAMES } from '../data/constants'
 import { useLang } from '../context/LangContext'
 import SEOHead from '../components/SEOHead'
@@ -36,6 +37,7 @@ export default function Juegos() {
               subtitle={lt(game, 'subtitle')}
               emoji={game.emoji}
               gradient={game.gradient}
+              slug={slugDeRuta(game.path)}
               comingSoon={!game.ready}
               onClick={() => handleClick(game)}
             />

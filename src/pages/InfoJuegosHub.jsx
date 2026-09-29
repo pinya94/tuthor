@@ -3,6 +3,7 @@ import { useLang } from '../context/LangContext'
 import SEOHead from '../components/SEOHead'
 import AdSlot from '../components/AdSlot'
 import { FICHAS_ES, FICHAS_EN, FICHAS_CA } from '../data/infoJuegosFichas'
+import { ARTE_JUEGOS, ArteJuego, slugDeRuta } from '../components/arte'
 
 // Superficie oscura casi opaca: legibilidad sobre el fondo del bosque
 const SURF = 'rgba(17,20,29,0.86)'
@@ -121,7 +122,7 @@ export function agrupaFichas(fichas) {
   const porCat = {}
   for (const [slug, f] of Object.entries(fichas)) {
     const key = subjectKeyDe(f.asignatura)
-    ;(porCat[key] ||= []).push({ slug, titulo: f.titulo, desc: f.subtitulo, emoji: f.emoji, gradient: f.gradient, tag: f.asignatura })
+    ;(porCat[key] ||= []).push({ slug, arte: slugDeRuta(f.path), titulo: f.titulo, desc: f.subtitulo, emoji: f.emoji, gradient: f.gradient, tag: f.asignatura })
   }
   for (const key in porCat) porCat[key].sort((a, b) => a.titulo.localeCompare(b.titulo))
   return CATS.map(c => ({ cat: c, juegos: porCat[c.key] || [] })).filter(g => g.juegos.length)
@@ -175,9 +176,13 @@ export default function InfoJuegosHub() {
                     <Link key={j.slug} to={localPath(`/info/juegos/${j.slug}`)}
                       className="group rounded-2xl border border-white/10 hover:border-white/25 overflow-hidden transition-all hover:scale-[1.01]"
                       style={{ background: SURF }}>
-                      <div className={`bg-gradient-to-br ${j.gradient} h-28 flex items-center justify-center relative overflow-hidden`}>
-                        <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '20px 20px' }} />
-                        <span className="text-5xl relative drop-shadow-lg group-hover:scale-110 transition-transform">{j.emoji}</span>
+                      <div className={`${ARTE_JUEGOS[j.arte] ? 'bg-[#141b2e] border-b border-white/[0.06]' : `bg-gradient-to-br ${j.gradient}`} h-28 flex items-center justify-center relative overflow-hidden`}>
+                        {ARTE_JUEGOS[j.arte]
+                          ? <ArteJuego slug={j.arte} className="h-full w-auto py-1.5 transition-transform duration-500 group-hover:scale-105" />
+                          : <>
+                              <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '20px 20px' }} />
+                              <span className="text-5xl relative drop-shadow-lg group-hover:scale-110 transition-transform">{j.emoji}</span>
+                            </>}
                         <div className="absolute bottom-2 right-3 flex gap-1.5">
                           <span className="text-[10px] font-bold bg-black/40 text-white/90 px-2 py-0.5 rounded-full">{j.tag}</span>
                         </div>
