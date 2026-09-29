@@ -2,13 +2,15 @@ import { useNavigate } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import SEOEstatico from '../components/SEOEstatico'
 import { ArteMateria } from '../components/arte/materias'
+import TarjetaArte from '../components/TarjetaArte'
+import { ARTE_TEMAS } from '../components/arte/temas'
 
 const CATEGORIAS = [
-  { id: 'gramatica', titulo: { es: 'Gramática', en: 'Grammar', ca: 'Gramàtica' }, emoji: '📚', gradient: 'from-red-500 to-orange-500', path: '/estudiar/idiomas/espanol/gramatica' },
-  { id: 'ortografia', titulo: { es: 'Ortografía', en: 'Spelling', ca: 'Ortografia' }, emoji: '✍️', gradient: 'from-yellow-500 to-amber-600', path: '/estudiar/idiomas/espanol/ortografia' },
+  { id: 'gramatica', arte: 'lengua/gramatica', titulo: { es: 'Gramática', en: 'Grammar', ca: 'Gramàtica' }, emoji: '📚', gradient: 'from-red-500 to-orange-500', path: '/estudiar/idiomas/espanol/gramatica' },
+  { id: 'ortografia', arte: 'ortografia/acentuacion', titulo: { es: 'Ortografía', en: 'Spelling', ca: 'Ortografia' }, emoji: '✍️', gradient: 'from-yellow-500 to-amber-600', path: '/estudiar/idiomas/espanol/ortografia' },
   // Literatura tiene un solo examen, así que no necesita índice propio: la
   // tarjeta lleva directa a la prueba, como hace Matemáticas con Porcentajes.
-  { id: 'literatura', titulo: { es: 'Literatura', en: 'Literature', ca: 'Literatura' }, emoji: '🖋️', gradient: 'from-indigo-500 to-blue-700', path: '/examen/espanol-literatura-test' },
+  { id: 'literatura', arte: 'lengua/literatura', titulo: { es: 'Literatura', en: 'Literature', ca: 'Literatura' }, emoji: '🖋️', gradient: 'from-indigo-500 to-blue-700', path: '/examen/espanol-literatura-test' },
 ]
 
 export default function EspanolIndex() {
@@ -27,16 +29,10 @@ export default function EspanolIndex() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl mx-auto w-full">
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 max-w-3xl mx-auto w-full">
         {CATEGORIAS.map(cat => (
-          <button
-            key={cat.id}
-            onClick={() => navigate(localPath(cat.path))}
-            className={`bg-gradient-to-br ${cat.gradient} text-white rounded-2xl p-6 text-left hover:scale-105 transition-transform shadow-md`}
-          >
-            <div className="text-4xl mb-3">{cat.emoji}</div>
-            <div className="text-xl font-bold">{cat.titulo[lang]}</div>
-          </button>
+          <TarjetaArte key={cat.id} Arte={ARTE_TEMAS[cat.arte]} titulo={cat.titulo[lang] || cat.titulo.es}
+            onClick={() => navigate(localPath(cat.path))} />
         ))}
       </div>
     </div>

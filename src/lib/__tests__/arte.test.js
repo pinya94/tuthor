@@ -67,6 +67,13 @@ describe('arte de los temas', () => {
     ...Object.entries(TEMA_DISCIPLINA).map(([id, disc]) => `${disc}/${id}`),
     ...topicIds('geografia').map(id => `geografia/${id}`),
     ...[...MODO_IDS, ...TEMAS_MATEMATICAS_EXTRA.map(t => t.id)].map(id => `matematicas/${id}`),
+    // Lengua: las rejillas de EspanolGramaticaIndex, InglesGrammarIndex y
+    // EspanolOrtografiaIndex (+ portadas). La gramática inglesa reutiliza los
+    // conceptos de la castellana (CONCEPTO_INGLES).
+    ...['sustantivos', 'adjetivos', 'determinantes', 'pronombres', 'verbos', 'adverbios', 'nexos', 'sintaxis', 'morfologia'].map(id => `gramatica/${id}`),
+    ...['present-simple', 'past-simple', 'present-perfect', 'articles', 'passive'].map(id => `ingles/${id}`),
+    ...['acentuacion', 'bv', 'gj', 'puntuacion', 'correccion'].map(id => `ortografia/${id}`),
+    'lengua/gramatica', 'lengua/literatura',
   ]
 
   it('cada tema de historia y ciencias tiene su ilustración', () => {

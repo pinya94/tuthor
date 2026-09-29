@@ -1,6 +1,10 @@
 import { useNavigate } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import SEOEstatico from '../components/SEOEstatico'
+import TarjetaArte from '../components/TarjetaArte'
+import { ARTE_TEMAS, ArteTema } from '../components/arte/temas'
+import { CONCEPTO_INGLES } from '../components/arte/temasLengua'
+import { ArteJuego } from '../components/arte'
 
 const TEMAS = [
   { id: 'present-simple', titulo: 'Present Simple', emoji: '✅', gradient: 'from-green-500 to-emerald-600', gameId: 'ingles-grammar-present-simple-test' },
@@ -32,8 +36,8 @@ export default function InglesGrammarIndex() {
     <div className="relative z-10 flex flex-col min-h-[calc(100vh-4rem)] px-4 sm:px-8 py-6">
       <SEOEstatico path="/estudiar/idiomas/ingles/grammar" />
       <div className="text-center mb-8">
+        <ArteTema id="lengua/gramatica" className="w-full max-w-[200px] mx-auto aspect-video block mb-2" />
         <p className="text-white/40 text-sm mb-1">Estudiar · English · Grammar</p>
-        <div className="text-5xl mb-2">📝</div>
         <h1 className="text-2xl sm:text-3xl font-black text-white">Grammar</h1>
         <p className="text-white/40 mt-1 text-sm">{t('elige')}</p>
       </div>
@@ -44,25 +48,20 @@ export default function InglesGrammarIndex() {
           el reloj corriendo. */}
       <button
         onClick={() => navigate(localPath('/juegos/pieza-que-falta'))}
-        className="max-w-2xl mx-auto w-full mb-4 flex items-center gap-4 rounded-2xl border border-white/10 bg-white/5 p-5 text-left transition-colors hover:bg-white/10"
+        className="max-w-3xl mx-auto w-full mb-4 flex items-center gap-4 rounded-2xl border border-white/[0.08] bg-[#141b2e] p-3 pr-5 text-left transition-colors hover:border-white/20"
       >
-        <div className="text-4xl">🧩</div>
+        <ArteJuego slug="pieza-que-falta" className="shrink-0 w-28 sm:w-36 aspect-video rounded-lg bg-white/[0.03]" />
         <div>
           <div className="text-white font-bold">La Pieza que Falta</div>
           <div className="text-white/40 text-sm">{t('mezcla')}</div>
         </div>
       </button>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl mx-auto w-full">
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 max-w-3xl mx-auto w-full">
         {TEMAS.map(tema => (
-          <button
-            key={tema.id}
-            onClick={() => navigate(localPath(`/examen/${tema.gameId}`))}
-            className={`bg-gradient-to-br ${tema.gradient} text-white rounded-2xl p-6 text-left hover:scale-105 transition-transform shadow-md`}
-          >
-            <div className="text-4xl mb-3">{tema.emoji}</div>
-            <div className="text-xl font-bold">{tema.titulo}</div>
-          </button>
+          <TarjetaArte key={tema.id} titulo={tema.titulo}
+            Arte={ARTE_TEMAS[CONCEPTO_INGLES[tema.id] ? `gramatica/${CONCEPTO_INGLES[tema.id]}` : `ingles/${tema.id}`]}
+            onClick={() => navigate(localPath(`/examen/${tema.gameId}`))} />
         ))}
       </div>
 

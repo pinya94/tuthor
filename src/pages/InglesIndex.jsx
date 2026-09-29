@@ -2,6 +2,9 @@ import { useNavigate } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import SEOEstatico from '../components/SEOEstatico'
 import { ArteMateria } from '../components/arte/materias'
+import TarjetaArte from '../components/TarjetaArte'
+import { ARTE_TEMAS } from '../components/arte/temas'
+import { ARTE_JUEGOS, slugDeRuta } from '../components/arte'
 
 const CATEGORIAS = [
   { id: 'grammar', titulo: { es: 'Grammar', en: 'Grammar', ca: 'Grammar' }, emoji: '📝', gradient: 'from-blue-500 to-indigo-600', path: '/estudiar/idiomas/ingles/grammar' },
@@ -29,17 +32,11 @@ export default function InglesIndex() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl mx-auto w-full">
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 max-w-3xl mx-auto w-full">
         {CATEGORIAS.map(cat => (
-          <button
-            key={cat.id}
-            onClick={() => navigate(localPath(cat.path), { state: cat.state })}
-            className={`bg-gradient-to-br ${cat.gradient} text-white rounded-2xl p-6 text-left hover:scale-105 transition-transform shadow-md`}
-          >
-            <div className="text-4xl mb-3">{cat.emoji}</div>
-            <div className="text-xl font-bold">{cat.titulo[lang]}</div>
-            {cat.sub && <div className="text-white/70 text-sm mt-1">{cat.sub[lang] ?? cat.sub.es}</div>}
-          </button>
+          <TarjetaArte key={cat.id} titulo={cat.titulo[lang] || cat.titulo.es} sub={cat.sub && (cat.sub[lang] ?? cat.sub.es)}
+            Arte={cat.id === 'grammar' ? ARTE_TEMAS['lengua/gramatica'] : ARTE_JUEGOS[slugDeRuta(cat.path)]}
+            onClick={() => navigate(localPath(cat.path), { state: cat.state })} />
         ))}
       </div>
     </div>
