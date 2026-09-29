@@ -9,6 +9,8 @@ import { ORGANOS } from '../data/organos'
 import GameEndScreen from '../components/GameEndScreen'
 import SEOHead from '../components/SEOHead'
 import SiluetaCuerpo from '../components/SiluetaCuerpo'
+import { IconoIntro } from '../components/IntroJuego'
+import { ArteJuego } from '../components/arte'
 
 // Roguelike corto y cerrado: 7 rondas como máximo (un diagnóstico por
 // órgano, sin repetir). Sin reloj: el jugador toca la silueta a su ritmo y
@@ -171,7 +173,7 @@ export default function RayosX() {
             {t.volver}
           </button>
           <div className="text-center mb-7">
-            <span className="text-7xl block mb-4">🧠</span>
+            <ArteJuego slug="rayos-x" className="w-full max-w-[240px] mx-auto aspect-video block mb-3" />
             <h1 className="text-4xl font-black text-white mb-2">{t.titulo}</h1>
             <p className="text-white/40">{t.desc}</p>
           </div>
@@ -186,7 +188,7 @@ export default function RayosX() {
                 ['❤️', t.paso4],
               ].map(([e, txt]) => (
                 <div key={txt} className="flex items-start gap-2 text-sm text-white/50">
-                  <span className="text-base w-5 shrink-0 text-center">{e}</span>
+                  <IconoIntro emoji={e} />
                   <span>{txt}</span>
                 </div>
               ))}

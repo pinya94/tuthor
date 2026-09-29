@@ -9,6 +9,7 @@ import GameEndScreen from '../components/GameEndScreen'
 import SupportBlock from '../components/SupportBlock'
 import SEOHead from '../components/SEOHead'
 import BarChart from '../components/BarChart'
+import { ArteJuego } from '../components/arte'
 
 // ── Estadístico Exprés ───────────────────────────────────────────────────
 // Deliberadamente NO es una ruleta ni nada con pinta de azar/apuesta: se
@@ -175,7 +176,7 @@ export default function EstadisticoExpres() {
             {tr({ es: '← Volver', en: '← Back', ca: '← Tornar' })}
           </button>
           <div className="text-center mb-7">
-            <span className="text-7xl block mb-4">📊</span>
+            <ArteJuego slug="estadistico-expres" className="w-full max-w-[240px] mx-auto aspect-video block mb-3" />
             <h1 className="text-4xl font-black text-white mb-2">{tr({ es: 'Estadístico Exprés', en: 'Quick Statistician', ca: 'Estadístic Exprés' })}</h1>
             <p className="text-white/40">{tr({ es: 'Calcula media, mediana, moda y rango a partir de datos reales', en: 'Calculate mean, median, mode and range from real data', ca: 'Calcula mitjana, mediana, moda i rang a partir de dades reals' })}</p>
           </div>

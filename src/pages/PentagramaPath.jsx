@@ -32,6 +32,8 @@ import { ensureAudio, playNote, playClick } from '../lib/pentagramaAudio'
 import { COUNT_IN_BEATS } from '../data/pentagramaMelodies'
 import { FAILS_LIMIT, LOOKAHEAD_BEATS, stageFor, siguienteEvento } from '../lib/pentagramaSurvivor'
 import { useMidiPiano, transponer } from '../lib/midiInput'
+import { IconoIntro } from '../components/IntroJuego'
+import { ArteJuego } from '../components/arte'
 
 const LS_SURVIVOR_BEST = 'pentagrama-path-survivor-best'
 
@@ -416,7 +418,7 @@ export default function PentagramaPath() {
             {tr({ es: '← Volver', en: '← Back', ca: '← Tornar' })}
           </button>
           <div className="text-center mb-7">
-            <span className="text-7xl block mb-4">🎼</span>
+            <ArteJuego slug="pentagrama-path" className="w-full max-w-[240px] mx-auto aspect-video block mb-3" />
             <h1 className="text-4xl font-black text-white mb-2">Pentagrama Path</h1>
             <p className="text-white/40">
               {tr({ es: 'Partitura infinita — lee y toca antes de que se acabe el tiempo', en: 'Endless score — read and play before time runs out', ca: 'Partitura infinita — llegeix i toca abans que s\'acabi el temps' })}
@@ -477,7 +479,7 @@ export default function PentagramaPath() {
                 ['⏸️', tr({ es: 'Puedes pausar en cualquier momento — útil si el piano MIDI se desconecta a media partida', en: 'You can pause any time — handy if the MIDI piano disconnects mid-run', ca: 'Pots pausar en qualsevol moment — útil si el piano MIDI es desconnecta a mitja partida' })],
               ].map(([e, t]) => (
                 <div key={t} className="flex items-start gap-3">
-                  <span className="text-base w-5 shrink-0 text-center">{e}</span>
+                  <IconoIntro emoji={e} />
                   <span>{t}</span>
                 </div>
               ))}

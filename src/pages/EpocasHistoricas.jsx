@@ -8,6 +8,8 @@ import SupportBlock from '../components/SupportBlock'
 import { saveActivity } from '../lib/activity'
 import { computeCoins } from '../lib/games'
 import SEOHead from '../components/SEOHead'
+import { IconoIntro } from '../components/IntroJuego'
+import { ArteJuego } from '../components/arte'
 
 const VIDAS_INICIALES = 2 // margen pequeño: un fallo no acaba la partida, dos sí
 const BASE_PTS = 100
@@ -223,7 +225,7 @@ export default function EpocasHistoricas() {
             {t.volver}
           </button>
           <div className="text-center mb-7">
-            <span className="text-7xl block mb-4">🏺</span>
+            <ArteJuego slug="epocas-historicas" className="w-full max-w-[240px] mx-auto aspect-video block mb-3" />
             <h1 className="text-4xl font-black text-white mb-2">{t.titulo}</h1>
             <p className="text-white/40">{t.desc}</p>
           </div>
@@ -240,7 +242,7 @@ export default function EpocasHistoricas() {
                 ['❤️', t.paso4],
               ].map(([e, txt]) => (
                 <div key={txt} className="flex items-start gap-2 text-sm text-white/50">
-                  <span className="text-base w-5 shrink-0 text-center">{e}</span>
+                  <IconoIntro emoji={e} />
                   <span>{txt}</span>
                 </div>
               ))}

@@ -10,6 +10,7 @@ import TablaDatos from '../components/TablaDatos'
 import GameEndScreen from '../components/GameEndScreen'
 import SupportBlock from '../components/SupportBlock'
 import SEOHead from '../components/SEOHead'
+import { ArteJuego } from '../components/arte'
 
 // ── Lee el Gráfico ───────────────────────────────────────────────────────────
 // Se enseña una gráfica con datos y se pregunta POR ELLA: si crece o decrece,
@@ -167,7 +168,7 @@ export default function LeeElGrafico() {
       <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
         <SEOHead title={seoTitle} description={seoDesc} path="/juegos/lee-el-grafico" lang={lang} />
         <div className="w-full max-w-md text-center">
-          <span className="text-6xl block mb-4">📉</span>
+          <ArteJuego slug="lee-el-grafico" className="w-full max-w-[240px] mx-auto aspect-video block mb-3" />
           <h1 className="text-3xl font-black text-white mb-2">
             {tr({ es: 'Lee el Gráfico', en: 'Read the Chart', ca: 'Llegeix el Gràfic' })}
           </h1>

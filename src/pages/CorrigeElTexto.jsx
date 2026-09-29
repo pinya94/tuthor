@@ -14,6 +14,7 @@ import SelectorIdioma from '../components/SelectorIdioma'
 import GameEndScreen from '../components/GameEndScreen'
 import SEOHead from '../components/SEOHead'
 import ComoSeJuega from '../components/ComoSeJuega'
+import { CabeceraJuego } from '../components/IntroJuego'
 
 // Corrige el Texto: tres textos, todos los fallos marcados y el reloj como
 // única nota. Lo que hace que se pueda puntuar solo por tiempo es que fallar
@@ -59,9 +60,7 @@ function IntroScreen({ onStart, l, idiomaInicial = l }) {
   return (
     <div className="relative z-10 flex flex-col items-center min-h-[calc(100vh-4rem)] px-4 py-8">
       <div className="max-w-md w-full">
-        <p className="text-white/40 text-xs uppercase tracking-widest text-center mb-2">{T('badge', l)}</p>
-        <h1 className="text-3xl font-black text-white text-center mb-1">{T('title', l)}</h1>
-        <p className="text-white/40 text-sm text-center mb-6">{T('sub', l)}</p>
+        <CabeceraJuego slug="corrige-el-texto" badge={T('badge', l)} titulo={T('title', l)} sub={T('sub', l)} />
 
         <ComoSeJuega label={T('queEs', l)}>
           <p>{T('q1', l)}</p>

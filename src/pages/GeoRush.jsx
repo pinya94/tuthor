@@ -8,6 +8,8 @@ import SupportBlock from '../components/SupportBlock'
 import { saveActivity } from '../lib/activity'
 import { computeCoins } from '../lib/games'
 import SEOHead from '../components/SEOHead'
+import { IconoIntro, NivelBarras } from '../components/IntroJuego'
+import { ArteJuego } from '../components/arte'
 
 const DIFS = {
   facil:   { label: 'Fácil', labelEn: 'Easy', labelCa: 'Fàcil',   emoji: '🟢', tiempoInicio: 120, obligatorio: false },
@@ -470,7 +472,7 @@ export default function GeoRush() {
             {u.volver}
           </button>
           <div className="text-center mb-7">
-            <span className="text-7xl block mb-4">🌍</span>
+            <ArteJuego slug="georush" className="w-full max-w-[240px] mx-auto aspect-video block mb-3" />
             <h1 className="text-4xl font-black text-white mb-2">{u.titulo}</h1>
             <p className="text-white/40">{u.desc}</p>
           </div>
@@ -478,12 +480,12 @@ export default function GeoRush() {
           <SupportBlock variant="top" className="mb-5 w-full" />
 
           <div className="flex gap-2 p-1 bg-white/5 border border-white/10 rounded-xl mb-6 w-fit mx-auto">
-            {Object.entries(DIFS).map(([id, dd]) => (
+            {Object.entries(DIFS).map(([id, dd], i) => (
               <button key={id} onClick={() => setDifId(id)}
                 className={`flex items-center gap-1.5 px-5 py-2.5 rounded-lg text-sm font-semibold transition-all ${
                   difId === id ? 'bg-white/15 text-white shadow-sm' : 'text-white/40 hover:text-white/70'
                 }`}>
-                {dd.emoji} {difLabel(dd)}
+                <NivelBarras clave={id} i={i} />{difLabel(dd)}
               </button>
             ))}
           </div>
@@ -511,7 +513,7 @@ export default function GeoRush() {
                 : [['⏱️', u.tiempoExtra], ['💡', u.pistaExtra], ['⏭️', u.saltarGratis]]
               ).map(([e, t]) => (
                 <div key={t} className="flex items-start gap-2 text-sm text-white/50">
-                  <span className="text-base w-5 shrink-0 text-center">{e}</span>
+                  <IconoIntro emoji={e} />
                   <span>{t}</span>
                 </div>
               ))}
@@ -528,7 +530,7 @@ export default function GeoRush() {
                 ['🏆', u.paso4],
               ].map(([e, t]) => (
                 <div key={t} className="flex items-start gap-2 text-sm text-white/50">
-                  <span className="text-base w-5 shrink-0 text-center">{e}</span>
+                  <IconoIntro emoji={e} />
                   <span>{t}</span>
                 </div>
               ))}
@@ -552,7 +554,7 @@ export default function GeoRush() {
       <GameEndScreen
         game="georush"
         emoji="🌍"
-        title={`${u.tiempoAgotado} · ${dif.emoji} ${difLabel(dif)}`}
+        title={`${u.tiempoAgotado} · ${difLabel(dif)}`}
         score={puntos}
         stats={[
           { label: u.paises, value: paisesAcertados },

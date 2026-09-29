@@ -7,6 +7,8 @@ import { saveActivity } from '../lib/activity'
 import { computeCoins } from '../lib/games'
 import GameEndScreen from '../components/GameEndScreen'
 import SEOHead from '../components/SEOHead'
+import { IconoIntro, NivelBarras } from '../components/IntroJuego'
+import { ArteJuego } from '../components/arte'
 
 const ALL_OPS = ['+', '-', '×', '÷']
 
@@ -426,17 +428,17 @@ export default function AcercateRoguelike() {
             {au.volver}
           </button>
           <div className="text-center mb-6">
-            <span className="text-6xl block mb-3">⚔️</span>
+            <ArteJuego slug="acercate" className="w-full max-w-[240px] mx-auto aspect-video block mb-3" />
             <h1 className="text-3xl font-black text-white mb-1">{au.titulo}</h1>
             <p className="text-white/40 text-sm">{au.desc}</p>
           </div>
           <div className="flex gap-2 p-1 bg-white/5 border border-white/10 rounded-xl mb-5 w-fit mx-auto">
-            {Object.entries(DIFS).map(([id, d]) => (
+            {Object.entries(DIFS).map(([id, d], i) => (
               <button key={id} onClick={() => setDifId(id)}
                 className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
                   difId === id ? 'bg-white/15 text-white shadow-sm' : 'text-white/40 hover:text-white/70'
                 }`}>
-                {d.emoji} {dl(d)}
+                <NivelBarras clave={id} i={i} />{dl(d)}
               </button>
             ))}
           </div>
@@ -451,7 +453,7 @@ export default function AcercateRoguelike() {
               ['🎁', au.mejoras,    au.mejorasDesc],
             ].map(([e, k, v]) => (
               <div key={k} className="flex items-start justify-between gap-4">
-                <span className="text-white/40 shrink-0 pt-0.5">{e} {k}</span>
+                <span className="text-white/40 shrink-0 inline-flex items-center gap-1.5"><IconoIntro emoji={e} />{k}</span>
                 <span className="text-white font-semibold text-right">{v}</span>
               </div>
             ))}
@@ -466,7 +468,7 @@ export default function AcercateRoguelike() {
                 ['💥', au.paso4],
               ].map(([e, t]) => (
                 <div key={t} className="flex items-start gap-3 text-sm text-white/50">
-                  <span className="text-base w-5 shrink-0 text-center">{e}</span>
+                  <IconoIntro emoji={e} />
                   <span>{t}</span>
                 </div>
               ))}
@@ -542,7 +544,7 @@ export default function AcercateRoguelike() {
       <GameEndScreen
         game="acercate-roguelike"
         emoji="🏁"
-        title={`${au.fin} · ${difLabel.emoji} ${difLabel.label}`}
+        title={`${au.fin} · ${difLabel.label}`}
         score={score}
         stats={[{ label: au.nivel, value: nivelAlcanzado, emoji: '🎲' }]}
         shareText={getShareTexto()}

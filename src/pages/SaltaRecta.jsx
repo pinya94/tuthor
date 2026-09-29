@@ -9,6 +9,8 @@ import GameEndScreen from '../components/GameEndScreen'
 import SupportBlock from '../components/SupportBlock'
 import SEOHead from '../components/SEOHead'
 import NumberLine from '../components/NumberLine'
+import { IconoIntro } from '../components/IntroJuego'
+import { ArteJuego } from '../components/arte'
 
 // ── Salta la Recta ───────────────────────────────────────────────────────
 // Enteros y su regla de signos (ESO), con una recta numérica y una rana que
@@ -173,7 +175,7 @@ export default function SaltaRecta() {
           <SupportBlock variant="top" className="mb-5" />
 
           <div className="text-center mb-7">
-            <span className="text-7xl block mb-4">🐸</span>
+            <ArteJuego slug="salta-recta" className="w-full max-w-[240px] mx-auto aspect-video block mb-3" />
             <h1 className="text-4xl font-black text-white mb-2">{tr({ es: 'Salta la Recta', en: 'Jump the Number Line', ca: 'Salta la Recta' })}</h1>
             <p className="text-white/40">{tr({ es: 'Enteros y negativos, saltando por la recta numérica', en: 'Integers and negatives, jumping the number line', ca: 'Enters i negatius, saltant per la recta numèrica' })}</p>
           </div>
@@ -210,7 +212,7 @@ export default function SaltaRecta() {
                 ['🤔', tr({ es: 'Adivina: ves salida y llegada — acierta la operación', en: 'Guess: see start and landing — guess the operation', ca: 'Endevina: veus sortida i arribada — encerta l\'operació' })],
               ].map(([e, t]) => (
                 <div key={t} className="flex items-start gap-3 text-sm text-white/50">
-                  <span className="text-base w-5 shrink-0 text-center">{e}</span>
+                  <IconoIntro emoji={e} />
                   <span>{t}</span>
                 </div>
               ))}

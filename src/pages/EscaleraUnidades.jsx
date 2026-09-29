@@ -9,6 +9,7 @@ import { EscaleraSVG, Teclado } from '../components/EscaleraUnidades'
 import GameEndScreen from '../components/GameEndScreen'
 import SupportBlock from '../components/SupportBlock'
 import SEOHead from '../components/SEOHead'
+import { CabeceraJuego, IconoIntro, NivelBarras } from '../components/IntroJuego'
 
 const GAME_TIME = 50
 const STEP = 3
@@ -115,15 +116,13 @@ export default function EscaleraUnidades() {
         <div className="relative z-10 flex flex-col items-center min-h-[calc(100dvh-4rem)] px-4 py-8">
           <div className="max-w-md w-full">
             <SupportBlock variant="top" className="mb-5" />
-            <p className="text-white/40 text-xs uppercase tracking-widest text-center mb-2">{tr({ es: 'Matemáticas · Medida', en: 'Maths · Measurement', ca: 'Matemàtiques · Mesura' }, l)}</p>
-            <h1 className="text-3xl font-black text-white text-center mb-1">🔟 {tr({ es: 'La Escalera de Unidades', en: 'The Unit Staircase', ca: 'L\'Escala d\'Unitats' }, l)}</h1>
-            <p className="text-white/40 text-sm text-center mb-6">{tr({ es: 'Convierte entre km, m, cm, kg, g, L…', en: 'Convert between km, m, cm, kg, g, L…', ca: 'Converteix entre km, m, cm, kg, g, L…' }, l)}</p>
+            <CabeceraJuego slug="escalera-unidades" badge={tr({ es: 'Matemáticas · Medida', en: 'Maths · Measurement', ca: 'Matemàtiques · Mesura' }, l)} titulo={tr({ es: 'La Escalera de Unidades', en: 'The Unit Staircase', ca: 'L\'Escala d\'Unitats' }, l)} sub={tr({ es: 'Convierte entre km, m, cm, kg, g, L…', en: 'Convert between km, m, cm, kg, g, L…', ca: 'Converteix entre km, m, cm, kg, g, L…' }, l)} />
 
             <div className="flex gap-2 p-1 bg-white/5 border border-white/10 rounded-xl mb-3">
-              {Object.entries(DIFS).map(([id, d]) => (
+              {Object.entries(DIFS).map(([id, d], i) => (
                 <button key={id} onClick={() => setDif(id)}
                   className={`flex-1 flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-lg text-sm font-semibold transition-all ${dif === id ? 'bg-white/15 text-white shadow-sm' : 'text-white/40 hover:text-white/70'}`}>
-                  {d.emoji} {tr(d.label, l)}
+                  <NivelBarras clave={id} i={i} />{tr(d.label, l)}
                 </button>
               ))}
             </div>
@@ -135,7 +134,7 @@ export default function EscaleraUnidades() {
                 ['🔢', tr({ es: 'Escribe el resultado con el teclado. La coma es para los decimales.', en: 'Type the result with the keypad. The dot is for decimals.', ca: 'Escriu el resultat amb el teclat. La coma és per als decimals.' }, l)],
                 ['⏱️', tr({ es: '50 segundos. Acierto +3s, fallo −3s.', en: '50 seconds. Correct +3s, wrong −3s.', ca: '50 segons. Encert +3s, errada −3s.' }, l)],
               ].map(([e, t]) => (
-                <div key={t} className="flex items-start gap-3 text-sm text-white/50"><span className="text-base w-5 shrink-0 text-center">{e}</span><span>{t}</span></div>
+                <div key={t} className="flex items-start gap-3 text-sm text-white/50"><IconoIntro emoji={e} /><span>{t}</span></div>
               ))}
             </div>
 

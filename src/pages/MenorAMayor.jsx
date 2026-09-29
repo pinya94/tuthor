@@ -9,6 +9,8 @@ import GameEndScreen from '../components/GameEndScreen'
 import SupportBlock from '../components/SupportBlock'
 import SEOHead from '../components/SEOHead'
 import TimelineBoard from '../components/TimelineBoard'
+import { IconoIntro, NivelBarras } from '../components/IntroJuego'
+import { ArteJuego } from '../components/arte'
 
 const MAX_VIDAS = 3
 const CARTAS = 12
@@ -115,18 +117,18 @@ export default function MenorAMayor() {
           <SupportBlock variant="top" className="mb-5 w-full" />
 
           <div className="text-center mb-7">
-            <span className="text-7xl block mb-4">📶</span>
+            <ArteJuego slug="menor-a-mayor" className="w-full max-w-[240px] mx-auto aspect-video block mb-3" />
             <h1 className="text-4xl font-black text-white mb-2">{tr({ es: 'De Menor a Mayor', en: 'Least to Greatest', ca: 'De Menor a Major' })}</h1>
             <p className="text-white/40">{tr({ es: 'Ordena números escritos de formas distintas', en: 'Order numbers written in different ways', ca: 'Ordena nombres escrits de maneres diferents' })}</p>
           </div>
 
           <div className="flex gap-2 p-1 bg-white/5 border border-white/10 rounded-xl mb-3 w-full sm:w-fit sm:mx-auto">
-            {DIFS.map(d => (
+            {DIFS.map((d, i) => (
               <button key={d.id} onClick={() => setDifId(d.id)}
                 className={`flex-1 flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-lg text-sm font-semibold transition-all ${
                   difId === d.id ? 'bg-white/15 text-white shadow-sm' : 'text-white/40 hover:text-white/70'
                 }`}>
-                {d.emoji} {tr(d.label)}
+                <NivelBarras clave={d.id} i={i} />{tr(d.label)}
               </button>
             ))}
           </div>
@@ -142,7 +144,7 @@ export default function MenorAMayor() {
                 ['🏆', tr({ es: 'Coloca todas las que puedas antes de quedarte sin vidas.', en: 'Place as many as you can before you run out of lives.', ca: 'Col·loca\'n tantes com puguis abans de quedar-te sense vides.' })],
               ].map(([e, txt]) => (
                 <div key={txt} className="flex items-start gap-2 text-sm text-white/50">
-                  <span className="text-base w-5 shrink-0 text-center">{e}</span>
+                  <IconoIntro emoji={e} />
                   <span>{txt}</span>
                 </div>
               ))}
@@ -170,7 +172,7 @@ export default function MenorAMayor() {
       <GameEndScreen
         game="menor-a-mayor"
         emoji="📶"
-        title={`${tr({ es: 'Partida terminada', en: 'Game over', ca: 'Partida acabada' })} · ${dif.emoji} ${tr(dif.label)}`}
+        title={`${tr({ es: 'Partida terminada', en: 'Game over', ca: 'Partida acabada' })} · ${tr(dif.label)}`}
         score={score}
         stats={[{ label: tr({ es: 'Ordenadas', en: 'Ordered', ca: 'Ordenades' }), value: colocadas, emoji: '✅' }]}
         shareText={shareText}

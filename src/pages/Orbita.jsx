@@ -10,6 +10,8 @@ import GameEndScreen from '../components/GameEndScreen'
 import SupportBlock from '../components/SupportBlock'
 import SEOHead from '../components/SEOHead'
 import BarraOrbita from '../components/BarraOrbita'
+import { IconoIntro } from '../components/IntroJuego'
+import { ArteJuego } from '../components/arte'
 
 // Roguelike corto y cerrado: 8 rondas como máximo (un lanzamiento por
 // planeta, sin repetir). Sin reloj ni sonda animada: el jugador arrastra el
@@ -206,7 +208,7 @@ export default function Orbita() {
           <SupportBlock variant="top" className="mb-5 w-full" />
 
           <div className="text-center mb-7">
-            <span className="text-7xl block mb-4">🛰️</span>
+            <ArteJuego slug="orbita" className="w-full max-w-[240px] mx-auto aspect-video block mb-3" />
             <h1 className="text-4xl font-black text-white mb-2">{t.titulo}</h1>
             <p className="text-white/40">{t.desc}</p>
           </div>
@@ -221,7 +223,7 @@ export default function Orbita() {
                 ['❤️', t.paso4],
               ].map(([e, txt]) => (
                 <div key={txt} className="flex items-start gap-2 text-sm text-white/50">
-                  <span className="text-base w-5 shrink-0 text-center">{e}</span>
+                  <IconoIntro emoji={e} />
                   <span>{txt}</span>
                 </div>
               ))}

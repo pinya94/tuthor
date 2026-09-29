@@ -9,6 +9,8 @@ import GameEndScreen from '../components/GameEndScreen'
 import SupportBlock from '../components/SupportBlock'
 import SEOHead from '../components/SEOHead'
 import MapaCoordenadas, { FlagImg, fmtCoord } from '../components/MapaCoordenadas'
+import { IconoIntro } from '../components/IntroJuego'
+import { ArteJuego } from '../components/arte'
 
 // Roguelike corto: 10 rondas como máximo (el pool tiene 40 países, no hace
 // falta cubrirlo entero en una partida) o hasta que se acaben las vidas. Sin
@@ -189,7 +191,7 @@ export default function Coordenadas() {
           <SupportBlock variant="top" className="mb-5 w-full" />
 
           <div className="text-center mb-7">
-            <span className="text-7xl block mb-4">🌐</span>
+            <ArteJuego slug="coordenadas" className="w-full max-w-[240px] mx-auto aspect-video block mb-3" />
             <h1 className="text-4xl font-black text-white mb-2">{t.titulo}</h1>
             <p className="text-white/40">{t.desc}</p>
           </div>
@@ -204,7 +206,7 @@ export default function Coordenadas() {
                 ['❤️', t.paso4],
               ].map(([e, txt]) => (
                 <div key={txt} className="flex items-start gap-2 text-sm text-white/50">
-                  <span className="text-base w-5 shrink-0 text-center">{e}</span>
+                  <IconoIntro emoji={e} />
                   <span>{txt}</span>
                 </div>
               ))}

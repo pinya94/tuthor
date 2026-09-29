@@ -8,6 +8,7 @@ import { computeCoins } from '../lib/games'
 import GameEndScreen from '../components/GameEndScreen'
 import SupportBlock from '../components/SupportBlock'
 import SEOHead from '../components/SEOHead'
+import { ArteJuego } from '../components/arte'
 
 const BOARD_SIZE = 12
 const MAX_FALLOS = 2
@@ -125,7 +126,7 @@ function Intro({ pool, onStart, lang }) {
     <div className="flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
       <div className="max-w-md w-full">
         <div className="text-center mb-8">
-          <span className="text-6xl mb-4 block">🕵️</span>
+          <ArteJuego slug="quien-es-quien" className="w-full max-w-[240px] mx-auto aspect-video block mb-3" />
           <h1 className="text-3xl font-black text-white mb-2">{q.titulo}</h1>
           <p className="text-white/50 text-sm">
             {(POOL_LABEL[lang] || POOL_LABEL.es)[pool] ?? pool}

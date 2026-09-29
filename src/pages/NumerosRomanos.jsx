@@ -8,6 +8,7 @@ import { nuevoNumero, simbolosDe, aRomano, valorRomano, esCorrecto } from '../li
 import GameEndScreen from '../components/GameEndScreen'
 import SupportBlock from '../components/SupportBlock'
 import SEOHead from '../components/SEOHead'
+import { CabeceraJuego, IconoIntro, NivelBarras } from '../components/IntroJuego'
 
 const GAME_TIME = 50
 const STEP = 3
@@ -112,15 +113,13 @@ export default function NumerosRomanos() {
         <div className="relative z-10 flex flex-col items-center min-h-[calc(100dvh-4rem)] px-4 py-8">
           <div className="max-w-md w-full">
             <SupportBlock variant="top" className="mb-5" />
-            <p className="text-white/40 text-xs uppercase tracking-widest text-center mb-2">{tr({ es: 'Matemáticas · Números romanos', en: 'Maths · Roman numerals', ca: 'Matemàtiques · Números romans' }, l)}</p>
-            <h1 className="text-3xl font-black text-white text-center mb-1">🏛️ {tr({ es: 'Números Romanos', en: 'Roman Numerals', ca: 'Números Romans' }, l)}</h1>
-            <p className="text-white/40 text-sm text-center mb-6">{tr({ es: 'Escribe el número en romano tocando los símbolos', en: 'Write the number in Roman by tapping the symbols', ca: 'Escriu el nombre en romà tocant els símbols' }, l)}</p>
+            <CabeceraJuego slug="numeros-romanos" badge={tr({ es: 'Matemáticas · Números romanos', en: 'Maths · Roman numerals', ca: 'Matemàtiques · Números romans' }, l)} titulo={tr({ es: 'Números Romanos', en: 'Roman Numerals', ca: 'Números Romans' }, l)} sub={tr({ es: 'Escribe el número en romano tocando los símbolos', en: 'Write the number in Roman by tapping the symbols', ca: 'Escriu el nombre en romà tocant els símbols' }, l)} />
 
             <div className="flex gap-2 p-1 bg-white/5 border border-white/10 rounded-xl mb-3">
-              {Object.entries(DIFS).map(([id, d]) => (
+              {Object.entries(DIFS).map(([id, d], i) => (
                 <button key={id} onClick={() => setDif(id)}
                   className={`flex-1 flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-lg text-sm font-semibold transition-all ${dif === id ? 'bg-white/15 text-white shadow-sm' : 'text-white/40 hover:text-white/70'}`}>
-                  {d.emoji} {tr(d.label, l)}
+                  <NivelBarras clave={id} i={i} />{tr(d.label, l)}
                 </button>
               ))}
             </div>
@@ -132,7 +131,7 @@ export default function NumerosRomanos() {
                 ['🔟', tr({ es: 'Recuerda: 4 es IV (no IIII) y 9 es IX. El menor delante del mayor, se resta.', en: 'Remember: 4 is IV (not IIII) and 9 is IX. A smaller before a larger is subtracted.', ca: 'Recorda: 4 és IV (no IIII) i 9 és IX. El menor davant del major, es resta.' }, l)],
                 ['⏱️', tr({ es: '50 segundos. Acierto +3s, fallo −3s.', en: '50 seconds. Correct +3s, wrong −3s.', ca: '50 segons. Encert +3s, errada −3s.' }, l)],
               ].map(([e, t]) => (
-                <div key={t} className="flex items-start gap-3 text-sm text-white/50"><span className="text-base w-5 shrink-0 text-center">{e}</span><span>{t}</span></div>
+                <div key={t} className="flex items-start gap-3 text-sm text-white/50"><IconoIntro emoji={e} /><span>{t}</span></div>
               ))}
             </div>
 

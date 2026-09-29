@@ -9,6 +9,7 @@ import GameEndScreen from '../components/GameEndScreen'
 import SupportBlock from '../components/SupportBlock'
 import ForceDiagram from '../components/ForceDiagram'
 import SEOHead from '../components/SEOHead'
+import { CabeceraJuego, IconoIntro, NivelBarras } from '../components/IntroJuego'
 
 // ── Copys ────────────────────────────────────────────────────────────────────
 const C = {
@@ -59,17 +60,15 @@ function DifficultyScreen({ onSelect, l }) {
   return (
     <div className="relative z-10 flex flex-col items-center min-h-[calc(100vh-4rem)] px-4 py-8">
       <div className="max-w-md w-full">
-        <p className="text-white/40 text-xs uppercase tracking-widest text-center mb-2">{T('badge', l)}</p>
-        <h1 className="text-3xl font-black text-white text-center mb-1">{T('title', l)}</h1>
-        <p className="text-white/40 text-sm text-center mb-6">{T('sub', l)}</p>
+        <CabeceraJuego slug="fuerza-neta" badge={T('badge', l)} titulo={T('title', l)} sub={T('sub', l)} />
 
         <SupportBlock variant="top" className="mb-5" />
 
         <div className="flex flex-wrap justify-center gap-1.5 p-1 bg-white/5 border border-white/10 rounded-xl mb-3 mx-auto">
-          {Object.entries(DIFS).map(([id, d]) => (
+          {Object.entries(DIFS).map(([id, d], i) => (
             <button key={id} onClick={() => setDif(id)}
               className={`flex items-center gap-1 px-3 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all ${dif === id ? 'bg-white/15 text-white shadow-sm' : 'text-white/40 hover:text-white/70'}`}>
-              {d.emoji} {d.label[l] ?? d.label.es}
+              <NivelBarras clave={id} i={i} />{d.label[l] ?? d.label.es}
             </button>
           ))}
         </div>
@@ -80,7 +79,7 @@ function DifficultyScreen({ onSelect, l }) {
           <div className="space-y-2">
             {[['🏹', T('p1', l)], ['➕', T('p2', l)], ['↗', T('diag', l)], ['🧭', T('p3', l)], ['⚖️', T('eq', l)], ['🔥', T('streak', l)]].map(([e, text]) => (
               <div key={text} className="flex items-start gap-3 text-sm text-white/50">
-                <span className="text-base w-5 shrink-0 text-center">{e}</span><span>{text}</span>
+                <IconoIntro emoji={e} /><span>{text}</span>
               </div>
             ))}
           </div>
@@ -89,7 +88,7 @@ function DifficultyScreen({ onSelect, l }) {
         <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-6 space-y-2.5 text-sm">
           {[['⏱️', T('time', l), T('timeVal', l)], ['⭐', T('pts', l), T('ptsVal', l)]].map(([e, k, v]) => (
             <div key={k} className="flex items-start justify-between gap-4">
-              <span className="text-white/40 shrink-0 pt-0.5">{e} {k}</span>
+              <span className="text-white/40 shrink-0 inline-flex items-center gap-1.5"><IconoIntro emoji={e} />{k}</span>
               <span className="text-white font-semibold text-right">{v}</span>
             </div>
           ))}

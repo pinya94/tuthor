@@ -11,6 +11,7 @@ import CelulaSVG from '../components/CelulaSVG'
 import GameEndScreen from '../components/GameEndScreen'
 import SEOHead from '../components/SEOHead'
 import ComoSeJuega from '../components/ComoSeJuega'
+import { CabeceraJuego } from '../components/IntroJuego'
 
 const GAME_TIME = 20
 const WRONG_TIME = 5
@@ -53,9 +54,7 @@ function IntroScreen({ onStart, l }) {
   return (
     <div className="relative z-10 flex flex-col items-center min-h-[calc(100vh-4rem)] px-4 py-8">
       <div className="max-w-md w-full">
-        <p className="text-white/40 text-xs uppercase tracking-widest text-center mb-2">{T('badge', l)}</p>
-        <h1 className="text-3xl font-black text-white text-center mb-1">{T('title', l)}</h1>
-        <p className="text-white/40 text-sm text-center mb-6">{T('sub', l)}</p>
+        <CabeceraJuego slug="microscopio" badge={T('badge', l)} titulo={T('title', l)} sub={T('sub', l)} />
 
         <ComoSeJuega label={T('queEs', l)}>
           <p>{T('q1', l)}</p>

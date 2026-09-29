@@ -8,6 +8,8 @@ import SupportBlock from '../components/SupportBlock'
 import { saveActivity } from '../lib/activity'
 import { computeCoins } from '../lib/games'
 import SEOHead from '../components/SEOHead'
+import { IconoIntro, NivelBarras } from '../components/IntroJuego'
+import { ArteJuego } from '../components/arte'
 
 const DIFS = {
   facil:   { label: 'Fácil', labelEn: 'Easy', labelCa: 'Fàcil',     emoji: '🟢', tiempoInicio: 60, suma: 10, resta: 10, basePts: 100 },
@@ -246,7 +248,7 @@ export default function Portadas() {
             {pu.volver}
           </button>
           <div className="text-center mb-7">
-            <span className="text-7xl block mb-4">📰</span>
+            <ArteJuego slug="portadas" className="w-full max-w-[240px] mx-auto aspect-video block mb-3" />
             <h1 className="text-4xl font-black text-white mb-2">{pu.titulo}</h1>
             <p className="text-white/40">{pu.desc}</p>
           </div>
@@ -254,12 +256,12 @@ export default function Portadas() {
           <SupportBlock variant="top" className="mb-5 w-full" />
 
           <div className="flex gap-2 p-1 bg-white/5 border border-white/10 rounded-xl mb-6 w-fit mx-auto">
-            {Object.entries(DIFS).map(([id, d]) => (
+            {Object.entries(DIFS).map(([id, d], i) => (
               <button key={id} onClick={() => setDifId(id)}
                 className={`flex items-center gap-1.5 px-5 py-2.5 rounded-lg text-sm font-semibold transition-all ${
                   difId === id ? 'bg-white/15 text-white shadow-sm' : 'text-white/40 hover:text-white/70'
                 }`}>
-                {d.emoji} {dl(d)}
+                <NivelBarras clave={id} i={i} />{dl(d)}
               </button>
             ))}
           </div>
@@ -303,7 +305,7 @@ export default function Portadas() {
                 ['💡', pu.paso4],
               ].map(([e, t]) => (
                 <div key={t} className="flex items-start gap-2 text-sm text-white/50">
-                  <span className="text-base w-5 shrink-0 text-center">{e}</span>
+                  <IconoIntro emoji={e} />
                   <span>{t}</span>
                 </div>
               ))}
@@ -455,7 +457,7 @@ export default function Portadas() {
       <GameEndScreen
         game="portadas"
         emoji={emoji}
-        title={`${pu.tiempoAgotadoFin} · ${dif.emoji} ${dl(dif)}`}
+        title={`${pu.tiempoAgotadoFin} · ${dl(dif)}`}
         score={puntos}
         stats={[
           { label: pu.aciertos, value: `${aciertos}/${total}` },

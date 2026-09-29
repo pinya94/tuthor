@@ -9,6 +9,8 @@ import GameEndScreen from '../components/GameEndScreen'
 import SupportBlock from '../components/SupportBlock'
 import WorldMap from '../components/WorldMap'
 import SEOHead from '../components/SEOHead'
+import { IconoIntro } from '../components/IntroJuego'
+import { ArteJuego } from '../components/arte'
 
 function flagToCode(emoji) {
   return [...emoji].map(c => String.fromCharCode(c.codePointAt(0) - 0x1F1E6 + 65)).join('').toLowerCase()
@@ -304,7 +306,7 @@ export default function GeoMapa() {
             {u.volver}
           </button>
           <div className="text-center mb-7">
-            <span className="text-7xl block mb-4">🗺️</span>
+            <ArteJuego slug="geomapa" className="w-full max-w-[240px] mx-auto aspect-video block mb-3" />
             <h1 className="text-4xl font-black text-white mb-2">{u.titulo}</h1>
             <p className="text-white/40">{u.desc}</p>
           </div>
@@ -323,7 +325,7 @@ export default function GeoMapa() {
                   ['⏱️', u.paso4],
                 ].map(([e, t]) => (
                   <div key={t} className="flex items-start gap-2 text-white/50">
-                    <span className="text-base w-5 shrink-0 text-center">{e}</span>
+                    <IconoIntro emoji={e} />
                     <span className="text-xs">{t}</span>
                   </div>
                 ))}

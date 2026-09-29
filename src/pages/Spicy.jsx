@@ -6,6 +6,7 @@ import { saveActivity } from '../lib/activity'
 import { computeCoins } from '../lib/games'
 import GameEndScreen from '../components/GameEndScreen'
 import SEOHead from '../components/SEOHead'
+import { ArteJuego } from '../components/arte'
 import {
   crearPartida, avanzarMes, elegirOpcion, interpolar,
   patrimonio, patrimonioReal, notaFinanciera, fmt, escala, SENALES,
@@ -176,7 +177,7 @@ export default function Spicy() {
             {tr({ es: '← Volver a juegos', en: '← Back to games', ca: '← Tornar a jocs' })}
           </button>
           <div className="text-center mb-8">
-            <span className="text-6xl block mb-3">🌶️</span>
+            <ArteJuego slug="spicy" className="w-full max-w-[240px] mx-auto aspect-video block mb-3" />
             <h1 className="text-3xl font-black text-white mb-2">Spicy</h1>
             <p className="text-white/40 text-sm mb-3">{tr({ es: 'Decisiones que pican', en: 'Decisions with a kick', ca: 'Decisions que piquen' })}</p>
             <p className="text-white/50 text-sm leading-relaxed">

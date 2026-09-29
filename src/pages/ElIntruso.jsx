@@ -8,6 +8,7 @@ import GameEndScreen from '../components/GameEndScreen'
 import { getQuestionsForPool } from '../data/palabrasIntrusas'
 import SelectorIdioma from '../components/SelectorIdioma'
 import SEOHead from '../components/SEOHead'
+import { ArteJuego } from '../components/arte'
 
 const NIVELES = [
   { id: 'facil',   label: 'Fácil',   labelEn: 'Easy',   labelCa: 'Fàcil',   emoji: '🟢', tiempo: 60, preguntas: 15 },
@@ -259,7 +260,7 @@ export default function ElIntruso() {
           </button>
 
           <div className="text-center mb-7">
-            <span className="text-7xl block mb-4">🔍</span>
+            <ArteJuego slug="intruso" className="w-full max-w-[240px] mx-auto aspect-video block mb-3" />
             <h1 className="text-4xl font-black text-white mb-2">{u.titulo}</h1>
             <p className="text-white/40">{u.desc}</p>
           </div>

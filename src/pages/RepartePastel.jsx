@@ -8,6 +8,8 @@ import GameEndScreen from '../components/GameEndScreen'
 import SupportBlock from '../components/SupportBlock'
 import SEOHead from '../components/SEOHead'
 import Pastel from '../components/Pastel'
+import { IconoIntro } from '../components/IntroJuego'
+import { ArteJuego } from '../components/arte'
 
 // ── Reparte el Pastel ─────────────────────────────────────────────────────
 // Lectura visual e intuitiva de fracciones (Primaria/ESO): un pastel circular
@@ -207,7 +209,7 @@ export default function RepartePastel() {
             {tr({ es: '← Volver', en: '← Back', ca: '← Tornar' })}
           </button>
           <div className="text-center mb-7">
-            <span className="text-7xl block mb-4">🍰</span>
+            <ArteJuego slug="reparte-pastel" className="w-full max-w-[240px] mx-auto aspect-video block mb-3" />
             <h1 className="text-4xl font-black text-white mb-2">{tr({ es: 'Reparte el Pastel', en: 'Slice the Cake', ca: 'Reparteix el Pastís' })}</h1>
             <p className="text-white/40">{tr({ es: 'Lee y construye fracciones tocando las porciones', en: 'Read and build fractions by tapping the slices', ca: 'Llegeix i construeix fraccions tocant les porcions' })}</p>
           </div>
@@ -246,7 +248,7 @@ export default function RepartePastel() {
                 ['👆', tr({ es: 'Construye: toca las porciones hasta formar la fracción pedida', en: 'Build: tap slices until you form the fraction asked for', ca: 'Construeix: toca les porcions fins a formar la fracció demanada' })],
               ].map(([e, t]) => (
                 <div key={t} className="flex items-start gap-3 text-sm text-white/50">
-                  <span className="text-base w-5 shrink-0 text-center">{e}</span>
+                  <IconoIntro emoji={e} />
                   <span>{t}</span>
                 </div>
               ))}

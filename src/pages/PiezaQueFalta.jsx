@@ -9,6 +9,7 @@ import PiezasBoard from '../components/PiezasBoard'
 import GameEndScreen from '../components/GameEndScreen'
 import SEOHead from '../components/SEOHead'
 import ComoSeJuega from '../components/ComoSeJuega'
+import { CabeceraJuego } from '../components/IntroJuego'
 
 // 45 segundos y +2 por acierto. El reloj SE PARA mientras se lee la regla (ver
 // el efecto del temporizador): así la dificultad está en resolver rápido, que
@@ -62,9 +63,7 @@ function IntroScreen({ onSelect, l }) {
   return (
     <div className="relative z-10 flex flex-col items-center min-h-[calc(100vh-4rem)] px-4 py-8">
       <div className="max-w-md w-full">
-        <p className="text-white/40 text-xs uppercase tracking-widest text-center mb-2">{T('badge', l)}</p>
-        <h1 className="text-3xl font-black text-white text-center mb-1">{T('title', l)}</h1>
-        <p className="text-white/40 text-sm text-center mb-6">{T('sub', l)}</p>
+        <CabeceraJuego slug="pieza-que-falta" badge={T('badge', l)} titulo={T('title', l)} sub={T('sub', l)} />
 
         {/* Plegado: lo que un alumno nuevo necesita leer sigue estando, pero
             sin enterrar los botones bajo tres párrafos. */}

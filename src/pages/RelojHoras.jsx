@@ -9,6 +9,7 @@ import RelojAnalogico from '../components/RelojAnalogico'
 import GameEndScreen from '../components/GameEndScreen'
 import SupportBlock from '../components/SupportBlock'
 import SEOHead from '../components/SEOHead'
+import { CabeceraJuego, IconoIntro, NivelBarras } from '../components/IntroJuego'
 
 const GAME_TIME = 40
 const STEP = 3
@@ -111,15 +112,13 @@ export default function RelojHoras() {
         <div className="relative z-10 flex flex-col items-center min-h-[calc(100dvh-4rem)] px-4 py-8">
           <div className="max-w-md w-full">
             <SupportBlock variant="top" className="mb-5" />
-            <p className="text-white/40 text-xs uppercase tracking-widest text-center mb-2">{tr({ es: 'Matemáticas · Medida del tiempo', en: 'Maths · Telling the time', ca: 'Matemàtiques · Mesura del temps' }, l)}</p>
-            <h1 className="text-3xl font-black text-white text-center mb-1">🕐 {tr({ es: '¿Qué hora es?', en: 'What time is it?', ca: 'Quina hora és?' }, l)}</h1>
-            <p className="text-white/40 text-sm text-center mb-6">{tr({ es: 'Pon la hora en el reloj arrastrando las manecillas', en: 'Set the time by dragging the hands', ca: 'Posa l\'hora arrossegant les manetes' }, l)}</p>
+            <CabeceraJuego slug="reloj-horas" badge={tr({ es: 'Matemáticas · Medida del tiempo', en: 'Maths · Telling the time', ca: 'Matemàtiques · Mesura del temps' }, l)} titulo={tr({ es: '¿Qué hora es?', en: 'What time is it?', ca: 'Quina hora és?' }, l)} sub={tr({ es: 'Pon la hora en el reloj arrastrando las manecillas', en: 'Set the time by dragging the hands', ca: 'Posa l\'hora arrossegant les manetes' }, l)} />
 
             <div className="flex gap-2 p-1 bg-white/5 border border-white/10 rounded-xl mb-3">
-              {Object.entries(DIFS).map(([id, d]) => (
+              {Object.entries(DIFS).map(([id, d], i) => (
                 <button key={id} onClick={() => setDif(id)}
                   className={`flex-1 flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-lg text-sm font-semibold transition-all ${dif === id ? 'bg-white/15 text-white shadow-sm' : 'text-white/40 hover:text-white/70'}`}>
-                  {d.emoji} {tr(d.label, l)}
+                  <NivelBarras clave={id} i={i} />{tr(d.label, l)}
                 </button>
               ))}
             </div>
@@ -131,7 +130,7 @@ export default function RelojHoras() {
                 ['🕑', tr({ es: 'Ojo a la aguja de la hora: va un poco adelantada según los minutos (a y media, entre dos números). Hay un poco de margen.', en: 'Watch the hour hand: it moves a bit ahead with the minutes (at half past, between two numbers). There is a little margin.', ca: 'Ull a l\'agulla de l\'hora: va una mica avançada segons els minuts (a i mitja, entre dos números). Hi ha una mica de marge.' }, l)],
                 ['🎯', tr({ es: 'Al fallar se ve la hora correcta en verde para aprender.', en: 'On a miss the correct time shows in green so you learn.', ca: 'En fallar es veu l\'hora correcta en verd per aprendre.' }, l)],
               ].map(([e, t]) => (
-                <div key={t} className="flex items-start gap-3 text-sm text-white/50"><span className="text-base w-5 shrink-0 text-center">{e}</span><span>{t}</span></div>
+                <div key={t} className="flex items-start gap-3 text-sm text-white/50"><IconoIntro emoji={e} /><span>{t}</span></div>
               ))}
             </div>
 
