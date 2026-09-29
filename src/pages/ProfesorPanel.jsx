@@ -7,6 +7,7 @@ import RecursosImprimibles from '../components/RecursosImprimibles'
 import RecursosInteractivos from '../components/RecursosInteractivos'
 import { Pizarra } from '../components/Iconos'
 import { Herramientas, Matraz } from '../components/IconosProfesor'
+import { ArteAula } from '../components/arte/aula'
 
 const PESTANAS = [
   { id: 'clases', Icono: Pizarra, fondo: 'bg-teal-500/12', label: { es: 'Mis clases', en: 'My classes', ca: 'Les meves classes' } },
@@ -184,48 +185,36 @@ export default function ProfesorPanel() {
       {classes.length === 0 ? (
         <p className="text-white/30 text-sm">{tr({ es: 'Todavía no tienes ninguna clase.', en: 'You don\'t have any classes yet.', ca: 'Encara no tens cap classe.' })}</p>
       ) : (
-        // Cada clase es una PUERTA de aula, no una fila de lista: la placa
-        // con el nombre encima, el cristal con cuántos alumnos hay dentro y
-        // el pomo. Entrar en una clase se parece más a abrir su puerta que a
-        // pulsar el renglón de una tabla, y un pasillo de puertas se lee de
-        // un vistazo cuando tienes varias.
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 sm:gap-5">
-          {classes.map(c => (
-            <div key={c.id} className="flex flex-col items-center">
-              <button
-                onClick={() => navigate(localPath(`/profesor/clase/${c.id}`))}
-                title={c.name}
-                className="group relative w-full max-w-[190px] min-h-[250px] flex flex-col rounded-t-[40px] border-2 border-b-0 border-amber-900/60 pt-12 pb-7 px-3.5 overflow-hidden transition-all hover:-translate-y-0.5 hover:border-amber-700/80"
-                style={{ background: '#7A4A22' }}
-              >
-                {/* Placa con el nombre, como el cartel de un aula */}
-                <span className="absolute top-3 left-1/2 -translate-x-1/2 max-w-[85%] rounded-md border border-amber-200/25 bg-black/45 px-2.5 py-1">
-                  <span className="block text-white font-black text-[12.5px] leading-tight truncate">{c.name}</span>
-                </span>
-
-                {/* El cristal: lo que se ve "dentro" del aula */}
-                <span className="block rounded-xl border-2 border-amber-900/50 bg-teal-950/70 py-6 mb-4">
-                  <span className="block text-white font-black text-2xl leading-none tabular-nums">
-                    {c.studentIds?.length || 0}
-                  </span>
-                  <span className="block text-white/45 text-[10.5px] font-semibold mt-1">
-                    {tr({ es: 'alumnos', en: 'students', ca: 'alumnes' })}
-                  </span>
-                </span>
-
-                {/* Panel bajo + pomo */}
-                <span className="block flex-1 min-h-[36px] rounded-md border border-amber-900/45 bg-black/15" />
-                <span className="absolute right-3.5 top-1/2 mt-3 w-2.5 h-2.5 rounded-full bg-[#EDAE49] shadow-[0_0_0_2px_rgba(0,0,0,.25)] group-hover:bg-amber-300 transition-colors" />
-              </button>
-
-              {/* El código va fuera de la puerta: es para compartir, no para
-                  entrar, y dentro del botón sería un botón anidado. */}
-              <button onClick={() => copyCode(c.code)}
-                className="-mt-px w-full max-w-[190px] font-mono text-[12px] bg-black/40 border-2 border-amber-900/50 rounded-b-lg px-2 py-1.5 text-teal-300 hover:text-teal-200 hover:border-amber-700/70 transition-colors">
-                {copiedCode === c.code ? tr({ es: '¡Copiado!', en: 'Copied!', ca: 'Copiat!' }) : c.code}
-              </button>
-            </div>
-          ))}
+        // Cada clase es su aula vista desde arriba (arte/aula.jsx): la
+        // pizarra y tantos pupitres ocupados como alumnos tiene. La misma
+        // tarjeta plana que materias y temas.
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {classes.map(c => {
+            const n = c.studentIds?.length || 0
+            return (
+              <div key={c.id} className="rounded-2xl bg-[#141b2e] border border-white/[0.08] hover:border-white/20 overflow-hidden transition-colors">
+                <button onClick={() => navigate(localPath(`/profesor/clase/${c.id}`))} title={c.name}
+                  className="group block w-full text-left">
+                  <div className="relative w-full aspect-video border-b border-white/[0.06]">
+                    <ArteAula alumnos={n} className="absolute inset-0 w-full h-full p-2 transition-transform duration-500 ease-out group-hover:scale-[1.04]" />
+                  </div>
+                  <div className="px-4 pt-3">
+                    <p className="text-white font-black text-base leading-tight truncate">{c.name}</p>
+                    <p className="text-white/45 text-xs mt-0.5">{n} {tr(n === 1 ? { es: 'alumno', en: 'student', ca: 'alumne' } : { es: 'alumnos', en: 'students', ca: 'alumnes' })}</p>
+                  </div>
+                </button>
+                {/* El código aparte: es para compartir, no para entrar, y
+                    dentro del botón de la clase sería un botón anidado. */}
+                <div className="px-4 pb-3 pt-2.5 flex items-center justify-between gap-2">
+                  <span className="text-white/35 text-[11px] font-semibold uppercase tracking-wider">{tr({ es: 'Código', en: 'Code', ca: 'Codi' })}</span>
+                  <button onClick={() => copyCode(c.code)}
+                    className="font-mono text-[12.5px] font-bold bg-black/30 border border-white/10 hover:border-teal-400/50 rounded-lg px-2.5 py-1 text-teal-300 transition-colors">
+                    {copiedCode === c.code ? tr({ es: '¡Copiado!', en: 'Copied!', ca: 'Copiat!' }) : c.code}
+                  </button>
+                </div>
+              </div>
+            )
+          })}
         </div>
       )}
       </div>
