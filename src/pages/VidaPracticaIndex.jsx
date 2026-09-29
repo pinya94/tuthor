@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import SEOHead from '../components/SEOHead'
 import { SCENARIOS } from '../data/primerosAuxiliosEscenarios'
+import { ArteMateria } from '../components/arte/materias'
 
 // Seguridad Vial e Internet Seguro no tienen escenarios: van directas a su
 // examen. Primeros Auxilios sí los tiene, y su lista completa va más abajo.
@@ -48,7 +49,7 @@ export default function VidaPracticaIndex() {
         </button>
 
         <div className="text-center mb-7">
-          <span className="text-6xl block mb-4">🚑</span>
+          <ArteMateria id="vida-practica" className="w-full max-w-[220px] mx-auto aspect-video block mb-3" />
           <h1 className="text-3xl font-black text-white mb-2">
             {tr({ es: 'Vida Práctica', en: 'Life Skills', ca: 'Vida Pràctica' })}
           </h1>

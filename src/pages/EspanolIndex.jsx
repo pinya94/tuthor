@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import SEOEstatico from '../components/SEOEstatico'
+import { ArteMateria } from '../components/arte/materias'
 
 const CATEGORIAS = [
   { id: 'gramatica', titulo: { es: 'Gramática', en: 'Grammar', ca: 'Gramàtica' }, emoji: '📚', gradient: 'from-red-500 to-orange-500', path: '/estudiar/idiomas/espanol/gramatica' },
@@ -12,14 +13,14 @@ const CATEGORIAS = [
 
 export default function EspanolIndex() {
   const navigate = useNavigate()
-  const { lang } = useLang()
+  const { lang, localPath } = useLang()
 
   return (
     <div className="relative z-10 flex flex-col min-h-[calc(100vh-4rem)] px-4 sm:px-8 py-6">
       <SEOEstatico path="/estudiar/idiomas/espanol" />
       <div className="text-center mb-8">
         <p className="text-white/40 text-sm mb-1">Estudiar · Español</p>
-        <div className="text-5xl mb-2">✏️</div>
+        <ArteMateria id="espanol" />
         <h1 className="text-2xl sm:text-3xl font-black text-white">Español</h1>
         <p className="text-white/40 mt-1 text-sm">
           {{ es: 'Selecciona una categoría', en: 'Select a category', ca: 'Selecciona una categoria' }[lang]}
@@ -30,7 +31,7 @@ export default function EspanolIndex() {
         {CATEGORIAS.map(cat => (
           <button
             key={cat.id}
-            onClick={() => navigate(cat.path)}
+            onClick={() => navigate(localPath(cat.path))}
             className={`bg-gradient-to-br ${cat.gradient} text-white rounded-2xl p-6 text-left hover:scale-105 transition-transform shadow-md`}
           >
             <div className="text-4xl mb-3">{cat.emoji}</div>

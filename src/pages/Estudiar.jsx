@@ -2,21 +2,10 @@ import { useNavigate, Link } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import SEOHead from '../components/SEOHead'
 import RecursosInteractivos from '../components/RecursosInteractivos'
+import { MATERIAS_ESTUDIO } from '../data/materiasEstudio'
+import { ARTE_MATERIAS } from '../components/arte/materias'
+import { Lista } from '../components/Iconos'
 
-const MATERIAS = [
-  { id: 'historia', titulo: 'Historia', tituloEn: 'History', tituloCa: 'Història', subtitulo: 'Eventos, épocas y personajes clave', subtituloEn: 'Key events, periods & figures', subtituloCa: 'Esdeveniments, èpoques i personatges clau', emoji: '🏛️', gradient: 'from-amber-500 to-orange-600', ready: true, path: '/estudiar/historia' },
-  { id: 'geografia', titulo: 'Geografía', tituloEn: 'Geography', tituloCa: 'Geografia', subtitulo: 'Países, continentes y regiones', subtituloEn: 'Countries, continents & regions', subtituloCa: 'Països, continents i regions', emoji: '🌍', gradient: 'from-teal-500 to-cyan-600', ready: true, path: '/estudiar/geografia' },
-  { id: 'quimica', titulo: 'Química', tituloEn: 'Chemistry', tituloCa: 'Química', subtitulo: 'Tabla periódica, materia, mezclas y átomos', subtituloEn: 'Periodic table, matter, mixtures and atoms', subtituloCa: 'Taula periòdica, matèria, mescles i àtoms', emoji: '⚗️', gradient: 'from-violet-500 to-purple-700', ready: true, path: '/estudiar/quimica' },
-  { id: 'fisica', titulo: 'Física', tituloEn: 'Physics', tituloCa: 'Física', subtitulo: 'Fuerzas, energía, electricidad, ondas y luz', subtituloEn: 'Forces, energy, electricity, waves and light', subtituloCa: 'Forces, energia, electricitat, ones i llum', emoji: '⚡', gradient: 'from-yellow-500 to-orange-600', ready: true, path: '/estudiar/fisica' },
-  { id: 'biologia', titulo: 'Biología', tituloEn: 'Biology', tituloCa: 'Biologia', subtitulo: 'Célula, cuerpo humano, seres vivos y genética', subtituloEn: 'Cell, human body, living things and genetics', subtituloCa: 'Cèl·lula, cos humà, éssers vius i genètica', emoji: '🧬', gradient: 'from-green-500 to-emerald-600', ready: true, path: '/estudiar/biologia' },
-  { id: 'geologia', titulo: 'Geología y el Universo', tituloEn: 'Geology & the Universe', tituloCa: "Geologia i l'Univers", subtitulo: 'Rocas, minerales y el sistema solar', subtituloEn: 'Rocks, minerals and the solar system', subtituloCa: 'Roques, minerals i el sistema solar', emoji: '🌌', gradient: 'from-stone-500 to-neutral-700', ready: true, path: '/estudiar/geologia' },
-  { id: 'matematicas', titulo: 'Matemáticas', tituloEn: 'Mathematics', tituloCa: 'Matemàtiques', subtitulo: 'Cálculo mental: sumas, restas, multiplicaciones y más', subtituloEn: 'Mental maths: add, subtract & more', subtituloCa: 'Càlcul mental: sumes, restes i més', emoji: '📐', gradient: 'from-blue-500 to-indigo-600', ready: true, path: '/estudiar/matematicas' },
-  { id: 'espanol', titulo: 'Español', tituloEn: 'Spanish', tituloCa: 'Castellà', subtitulo: 'Gramática y ortografía del español', subtituloEn: 'Spanish grammar and spelling', subtituloCa: 'Gramàtica i ortografia del castellà', emoji: '✏️', gradient: 'from-red-500 to-yellow-500', ready: true, path: '/estudiar/idiomas/espanol' },
-  { id: 'ingles', titulo: 'English', tituloEn: 'English', tituloCa: 'Anglès', subtitulo: 'Grammar: tenses, articles, passive...', subtituloEn: 'Grammar: tenses, articles, passive...', subtituloCa: 'Gramàtica: temps, articles, passiva...', emoji: '💬', gradient: 'from-blue-700 to-red-600', ready: true, path: '/estudiar/idiomas/ingles' },
-  { id: 'economia', titulo: 'Economía', tituloEn: 'Economics', tituloCa: 'Economia', subtitulo: 'Finanzas personales: inflación, deuda, inversión', subtituloEn: 'Personal finance: inflation, debt, investing', subtituloCa: 'Finances personals: inflació, deute, inversió', emoji: '💰', gradient: 'from-amber-500 to-red-700', ready: true, path: '/estudiar/economia' },
-  { id: 'musica', titulo: 'Música', tituloEn: 'Music', tituloCa: 'Música', subtitulo: 'Lectura de partituras y ritmo', subtituloEn: 'Sheet music reading and rhythm', subtituloCa: 'Lectura de partitures i ritme', emoji: '🎼', gradient: 'from-indigo-500 to-fuchsia-700', ready: true, path: '/estudiar/musica' },
-  { id: 'vida-practica', titulo: 'Primeros Auxilios', tituloEn: 'First Aid', tituloCa: 'Primers Auxilis', subtitulo: 'Atragantamiento, quemaduras, desmayo y más', subtituloEn: 'Choking, burns, fainting and more', subtituloCa: 'Ennuegament, cremades, desmai i més', emoji: '🚑', gradient: 'from-red-500 to-rose-700', ready: true, path: '/estudiar/vida-practica' },
-]
 
 export default function Estudiar() {
   const navigate = useNavigate()
@@ -44,7 +33,7 @@ export default function Estudiar() {
         to={localPath('/temario')}
         className="group max-w-3xl mx-auto w-full mb-5 flex items-center gap-3 rounded-2xl border border-violet-400/25 bg-violet-600/10 hover:bg-violet-600/20 hover:border-violet-400/50 px-4 py-3.5 transition-colors"
       >
-        <span className="text-2xl shrink-0" aria-hidden="true">🗺️</span>
+        <Lista className="w-7 h-7 shrink-0" />
         <span className="min-w-0 flex-1">
           <span className="block text-white font-bold text-sm">
             {tr({ es: 'Ver todo el temario', en: 'See the full syllabus', ca: 'Veure tot el temari' })}
@@ -61,26 +50,24 @@ export default function Estudiar() {
       </Link>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 max-w-3xl mx-auto w-full">
-        {MATERIAS.map(m => (
-          <button
-            key={m.id}
-            onClick={() => m.ready && navigate(localPath(m.path))}
-            className={`group relative rounded-2xl overflow-hidden text-left transition-all duration-300 ${
-              m.ready ? 'hover:scale-[1.03] hover:shadow-xl hover:shadow-black/40 cursor-pointer' : 'opacity-50 cursor-default'
-            }`}
-          >
-            <div className={`bg-gradient-to-br ${m.gradient} p-5 h-full`}>
-              {!m.ready && (
-                <span className="absolute top-2 right-2 bg-black/40 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
-                  {lang === 'ca' ? 'Aviat' : lang === 'en' ? 'Soon' : 'Pronto'}
-                </span>
-              )}
-              <span className="text-4xl block mb-2">{m.emoji}</span>
-              <h3 className="font-black text-white text-base leading-tight">{lang === 'ca' ? m.tituloCa : lang === 'en' ? m.tituloEn : m.titulo}</h3>
-              <p className="text-white/65 text-xs mt-1 leading-relaxed line-clamp-2">{lang === 'ca' ? m.subtituloCa : lang === 'en' ? m.subtituloEn : m.subtitulo}</p>
-            </div>
-          </button>
-        ))}
+        {MATERIAS_ESTUDIO.map(m => {
+          const Arte = ARTE_MATERIAS[m.id]
+          return (
+            <Link
+              key={m.id}
+              to={localPath(m.path)}
+              className="group rounded-2xl overflow-hidden bg-[#141b2e] border border-white/[0.08] hover:border-white/20 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-black/40"
+            >
+              <div className="relative w-full aspect-video">
+                <Arte className="absolute inset-0 w-full h-full p-2 transition-transform duration-500 ease-out group-hover:scale-[1.05]" />
+              </div>
+              <div className="px-3.5 py-3 border-t border-white/[0.06]">
+                <h3 className="font-black text-white text-sm sm:text-base leading-tight">{tr(m.titulo)}</h3>
+                <p className="text-white/50 text-xs mt-1 leading-snug line-clamp-2">{tr(m.subtitulo)}</p>
+              </div>
+            </Link>
+          )
+        })}
       </div>
 
       {/* Los recursos también desde aquí: quien entra a estudiar muchas veces
@@ -88,7 +75,7 @@ export default function Estudiar() {
       <section className="max-w-3xl mx-auto w-full mt-10">
         <div className="flex items-end justify-between gap-3 mb-3">
           <div>
-            <h2 className="text-white font-black text-lg">🧰 {tr({ es: 'Recursos', en: 'Resources', ca: 'Recursos' })}</h2>
+            <h2 className="text-white font-black text-lg">{tr({ es: 'Recursos', en: 'Resources', ca: 'Recursos' })}</h2>
             <p className="text-white/40 text-[13px]">{tr({ es: 'Resuelve tu ejercicio paso a paso o explora en 3D.', en: 'Solve your exercise step by step or explore in 3D.', ca: 'Resol el teu exercici pas a pas o explora en 3D.' })}</p>
           </div>
           <button onClick={() => navigate(localPath('/recursos'))} className="text-sky-300/80 hover:text-sky-300 text-sm font-bold shrink-0">

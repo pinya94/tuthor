@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import SEOEstatico from '../components/SEOEstatico'
+import { ArteMateria } from '../components/arte/materias'
 
 export default function EconomiaIndex() {
   const navigate = useNavigate()
@@ -11,6 +12,7 @@ export default function EconomiaIndex() {
     <div className="relative z-10 flex flex-col min-h-[calc(100vh-4rem)] px-4 sm:px-8 py-6">
       <SEOEstatico path="/estudiar/economia" />
       <div className="text-center mb-6">
+        <ArteMateria id="economia" />
         <p className="text-white/40 text-sm mb-1">
           {ca ? 'Estudiar · Economia' : en ? 'Study · Economics' : 'Estudiar · Economía'}
         </p>

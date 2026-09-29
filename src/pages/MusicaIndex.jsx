@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import SEOHead from '../components/SEOHead'
+import { ArteMateria } from '../components/arte/materias'
 
 const TEMAS = [
   {
@@ -39,6 +40,7 @@ export default function MusicaIndex() {
     <div className="relative z-10 flex flex-col min-h-[calc(100vh-4rem)] px-4 sm:px-8 py-6">
       <SEOHead title={seoData.title} description={seoData.desc} path={seoData.path} lang={lang} />
       <div className="text-center mb-6">
+        <ArteMateria id="musica" />
         <p className="text-white/40 text-sm mb-1">
           {tr({ es: 'Estudiar · Música', en: 'Study · Music', ca: 'Estudiar · Música' })}
         </p>

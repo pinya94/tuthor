@@ -6,6 +6,7 @@ import SEOHead from '../components/SEOHead'
 import { getDisciplina } from '../data/ciencias'
 import RecursosInteractivos from '../components/RecursosInteractivos'
 import { RECURSOS_INTERACTIVOS } from '../lib/recursosInteractivos'
+import { ArteMateria } from '../components/arte/materias'
 
 const TEMAS = [
   {
@@ -210,7 +211,7 @@ export default function QuimicaIndex({ disciplina = 'quimica' }) {
           <span className="text-white/50">{tr(disc.label)}</span>
         </p>
         <div className="flex items-center gap-4">
-          <span className="text-5xl">{disc.emoji}</span>
+          <ArteMateria id={disc.id} className="w-28 sm:w-36 aspect-video shrink-0" />
           <div>
             <h1 className="text-2xl sm:text-3xl font-black text-white leading-tight">{tr(disc.label)}</h1>
             <p className="text-white/40 text-sm mt-0.5">{tr(disc.subtitulo)}</p>

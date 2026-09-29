@@ -4,6 +4,7 @@ import { useLang } from '../context/LangContext'
 import TemarioGrid from '../components/TemarioGrid'
 import SEOEstatico from '../components/SEOEstatico'
 import RecursosInteractivos from '../components/RecursosInteractivos'
+import { ArteMateria } from '../components/arte/materias'
 
 const TEMAS = [
   {
@@ -102,6 +103,7 @@ export default function GeografiaIndex() {
     <div className="relative z-10 flex flex-col min-h-[calc(100vh-4rem)] px-4 sm:px-8 py-6">
       <SEOEstatico path="/estudiar/geografia" />
       <div className="text-center mb-6">
+        <ArteMateria id="geografia" />
         <p className="text-white/40 text-sm mb-1">
           {ca ? 'Estudiar · Geografia' : en ? 'Study · Geography' : 'Estudiar · Geografía'}
         </p>

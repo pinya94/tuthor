@@ -4,6 +4,7 @@ import TemarioGrid from '../components/TemarioGrid'
 import { MODOS, MODO_IDS } from '../lib/mathEngine'
 import SEOEstatico from '../components/SEOEstatico'
 import RecursosInteractivos from '../components/RecursosInteractivos'
+import { ArteMateria } from '../components/arte/materias'
 
 // Examenes que van directo al examen (no usan el motor aritmético)
 // Porcentajes tiene un solo formato, así que una página de tema intermedia
@@ -86,6 +87,7 @@ export default function MatematicasIndex() {
     <div className="relative z-10 flex flex-col min-h-[calc(100vh-4rem)] px-4 sm:px-8 py-6">
       <SEOEstatico path="/estudiar/matematicas" />
       <div className="text-center mb-6">
+        <ArteMateria id="matematicas" />
         <p className="text-white/40 text-sm mb-1">{ca ? 'Estudiar · Matemàtiques' : en ? 'Study · Mathematics' : 'Estudiar · Matemáticas'}</p>
         <h1 className="text-2xl sm:text-3xl font-black text-white">{ca ? 'Tria què practicar' : en ? 'Pick what to practise' : 'Elige qué practicar'}</h1>
         <p className="text-white/40 mt-1 text-sm">{ca ? 'Selecciona quina operació vols repassar' : en ? 'Select the operation you want to revise' : 'Selecciona qué operación quieres repasar'}</p>

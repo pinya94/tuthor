@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import SEOEstatico from '../components/SEOEstatico'
+import { ArteMateria } from '../components/arte/materias'
 
 const CATEGORIAS = [
   { id: 'grammar', titulo: { es: 'Grammar', en: 'Grammar', ca: 'Grammar' }, emoji: '📝', gradient: 'from-blue-500 to-indigo-600', path: '/estudiar/idiomas/ingles/grammar' },
@@ -21,7 +22,7 @@ export default function InglesIndex() {
       <SEOEstatico path="/estudiar/idiomas/ingles" />
       <div className="text-center mb-8">
         <p className="text-white/40 text-sm mb-1">Estudiar · English</p>
-        <div className="text-5xl mb-2">💬</div>
+        <ArteMateria id="ingles" />
         <h1 className="text-2xl sm:text-3xl font-black text-white">English</h1>
         <p className="text-white/40 mt-1 text-sm">
           {{ es: 'Selecciona una categoría', en: 'Select a category', ca: 'Selecciona una categoria' }[lang]}
