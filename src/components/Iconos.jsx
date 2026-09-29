@@ -64,6 +64,26 @@ export function Acierto(p) {
   )
 }
 
+export function Fallo(p) {
+  return (
+    <svg {...base} {...p}>
+      <circle cx="12" cy="12" r="10" fill="#F43F5E" />
+      <path d="M8.5 8.5l7 7M15.5 8.5l-7 7" stroke="#FFFFFF" strokeWidth="2.4" strokeLinecap="round" />
+    </svg>
+  )
+}
+
+export function Mando(p) {
+  return (
+    <svg {...base} {...p}>
+      <path d="M7 7h10a5 5 0 0 1 4.9 6l-.8 4a2.6 2.6 0 0 1-4.5 1.2L14.8 16H9.2l-1.8 2.2A2.6 2.6 0 0 1 2.9 17l-.8-4A5 5 0 0 1 7 7Z" fill="#8B5CF6" />
+      <path d="M7.5 10v4M5.5 12h4" stroke="#EDE9FE" strokeWidth="1.8" strokeLinecap="round" />
+      <circle cx="16" cy="10.8" r="1.3" fill="#FBBF24" />
+      <circle cx="18" cy="13.2" r="1.3" fill="#34D399" />
+    </svg>
+  )
+}
+
 export function Reloj(p) {
   return (
     <svg {...base} {...p}>

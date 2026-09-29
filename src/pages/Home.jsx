@@ -16,6 +16,8 @@ import ProUpsell from '../components/ProUpsell'
 import ReferralCard from '../components/ReferralCard'
 import NivelPicker from '../components/NivelPicker'
 import { useDebePreguntarNivel, sincronizarNivel } from '../lib/nivel'
+import { ARTE_MATERIAS } from '../components/arte/materias'
+import { Racha, Reloj, Acierto, Fallo, Mando, Moneda, Estrella } from '../components/Iconos'
 
 const PREVIEW_FRAMES = ['silver', 'gold', 'rainbow', 'galaxy', 'fire', 'neon']
 
@@ -72,32 +74,58 @@ const SUBJECT_HUB_PATH = { lengua: '/estudiar/idiomas/espanol', ingles: '/estudi
 // Solo se muestra si hay alguna materia con actividad — mismo dato que ya
 // calcula Perfil.jsx (aggregateStudentStats), aquí en versión compacta y
 // sin acordeón: cada tarjeta lleva directo al hub de la materia.
+// En "Por materia" la lengua se llama `lengua` (statsAggregation) y su dibujo
+// es el de Español en /estudiar.
+const ARTE_DE_MATERIA = { lengua: 'espanol' }
+
+// Misma superficie plana que las puertas de arriba (HeroCard): #141b2e.
+const TARJETA = 'rounded-2xl bg-[#141b2e] border border-white/[0.08]'
+
 function SubjectsGrid({ subjectEntries, navigate, localPath, lang }) {
-  const en = lang === 'en', ca = lang === 'ca'
+  const { tr } = useLang()
   return (
     <section className="mb-8">
       <div className="flex items-baseline gap-2 mb-3 px-0.5">
-        <h2 className="text-white font-black text-[15px]">📚 {ca ? 'Per matèria' : en ? 'By subject' : 'Por materia'}</h2>
+        <h2 className="text-white font-black text-lg">{tr({ es: 'Por materia', en: 'By subject', ca: 'Per matèria' })}</h2>
         <span className="text-white/40 text-xs font-semibold ml-auto">
-          {subjectEntries.length} {ca ? 'matèries' : en ? 'subjects' : 'materias'}
+          {subjectEntries.length} {tr({ es: 'materias', en: 'subjects', ca: 'matèries' })}
         </span>
       </div>
-      <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
         {subjectEntries.map(subj => {
           const label = subj.label[lang] || subj.label.es
           const failed = subj.totalExamPlays - subj.totalPassed
           const path = SUBJECT_HUB_PATH[subj.id] || `/estudiar/${subj.id}`
+          const Arte = ARTE_MATERIAS[ARTE_DE_MATERIA[subj.id] || subj.id]
+          const acierto = subj.totalExamPlays > 0 ? subj.totalPassed / subj.totalExamPlays : null
           return (
             <button key={subj.id} onClick={() => navigate(localPath(path))}
-              className="text-left rounded-xl border border-white/10 hover:border-violet-400/40 p-3.5 transition-all" style={{ background: SURF }}>
-              <div className="flex items-center gap-2 mb-2">
-                <span className="text-xl">{subj.emoji}</span>
-                <span className="text-white font-bold text-[13.5px] truncate">{label}</span>
+              className={`group text-left overflow-hidden ${TARJETA} hover:border-white/20 hover:-translate-y-0.5 transition-all duration-300`}>
+              <div className="relative aspect-[16/7] border-b border-white/[0.06] overflow-hidden">
+                {Arte
+                  ? <Arte className="absolute inset-0 w-full h-full p-1.5 transition-transform duration-500 ease-out group-hover:scale-[1.05]" />
+                  : <span className="absolute inset-0 grid place-items-center text-3xl">{subj.emoji}</span>}
               </div>
-              <div className="flex items-center gap-2 text-xs flex-wrap">
-                <span className="text-white/45">{subj.totalPlays} {ca ? 'activitats' : en ? 'activities' : 'actividades'}</span>
-                {subj.totalExamPlays > 0 && <span className="text-green-400 font-bold">{subj.totalPassed} ✅</span>}
-                {failed > 0 && <span className="text-red-400 font-bold">{failed} ❌</span>}
+              <div className="px-3.5 pt-2.5 pb-3">
+                <p className="text-white font-black text-sm truncate">{label}</p>
+                <div className="flex items-center flex-wrap gap-x-2.5 gap-y-1 text-xs mt-1">
+                  <span className="text-white/45 tabular-nums whitespace-nowrap">
+                    {subj.totalPlays} {tr({ es: 'actividades', en: 'activities', ca: 'activitats' })}
+                  </span>
+                  {subj.totalExamPlays > 0 && (
+                    <span className="flex items-center gap-1 text-green-300 font-bold tabular-nums"><Acierto className="w-3.5 h-3.5" />{subj.totalPassed}</span>
+                  )}
+                  {failed > 0 && (
+                    <span className="flex items-center gap-1 text-rose-300 font-bold tabular-nums"><Fallo className="w-3.5 h-3.5" />{failed}</span>
+                  )}
+                </div>
+                {/* Cuánto de lo examinado está aprobado: se ve de un vistazo
+                    dónde flojea, sin tener que restar. */}
+                {acierto !== null && (
+                  <div className="mt-2.5 h-1.5 rounded-full bg-rose-400/25 overflow-hidden">
+                    <div className="h-full rounded-full bg-green-400" style={{ width: `${Math.round(acierto * 100)}%` }} />
+                  </div>
+                )}
               </div>
             </button>
           )
@@ -140,59 +168,63 @@ function MisClasesCard({ classes, pendingTasks, navigate, localPath, lang }) {
   )
 }
 
-function StatsWidget({ stats, name, onVerMas, en, lang }) {
-  const ca = lang === 'ca'
+// Las cuatro cifras del progreso, cada una con su icono (Iconos.jsx) sobre
+// una pastilla de su color — el mismo lenguaje que las puertas de arriba.
+function StatsWidget({ stats, name, onVerMas }) {
+  const { tr } = useLang()
   const streak = stats.streak || 0
   const items = [
-    { emoji: '🔥', value: `${streak} ${ca ? (streak === 1 ? 'dia' : 'dies') : en ? (streak === 1 ? 'day' : 'days') : (streak !== 1 ? 'días' : 'día')}`, label: ca ? 'Ratxa' : en ? 'Streak' : 'Racha' },
-    { emoji: '⏱️', value: formatTime(stats.totalTime), label: ca ? 'Temps total' : en ? 'Total time' : 'Tiempo total' },
-    { emoji: '✅', value: stats.examsPassed ?? 0, label: ca ? 'Aprovats' : en ? 'Passed' : 'Aprobados' },
-    { emoji: '🎮', value: stats.gamesPlayed ?? 0, label: ca ? 'Activitats' : en ? 'Activities' : 'Actividades' },
+    { Icono: Racha, fondo: 'bg-orange-500/12', value: streak, unidad: tr(streak === 1 ? { es: 'día', en: 'day', ca: 'dia' } : { es: 'días', en: 'days', ca: 'dies' }), label: tr({ es: 'Racha', en: 'Streak', ca: 'Ratxa' }) },
+    { Icono: Reloj, fondo: 'bg-sky-500/12', value: formatTime(stats.totalTime), label: tr({ es: 'Tiempo total', en: 'Total time', ca: 'Temps total' }) },
+    { Icono: Acierto, fondo: 'bg-green-500/12', value: stats.examsPassed ?? 0, label: tr({ es: 'Aprobados', en: 'Passed', ca: 'Aprovats' }) },
+    { Icono: Mando, fondo: 'bg-violet-500/12', value: stats.gamesPlayed ?? 0, label: tr({ es: 'Actividades', en: 'Activities', ca: 'Activitats' }) },
   ]
   return (
-    <div className="rounded-xl border border-violet-500/30 bg-violet-600/10 backdrop-blur-sm">
-      <div className="flex items-center justify-between px-5 py-3 border-b border-white/5">
-        <div>
-          <p className="font-bold text-white text-sm">{ca ? `El teu progrés, ${name}` : en ? `Your progress, ${name}` : `Tu progreso, ${name}`}</p>
-          <p className="text-white/40 text-xs">{ca ? 'Continua així 💪' : en ? 'Keep it up 💪' : 'Sigue así 💪'}</p>
-        </div>
-        <button
-          onClick={onVerMas}
-          className="text-xs font-semibold text-violet-400 hover:text-violet-300 transition-colors"
-        >
-          {ca ? 'Veure més →' : en ? 'See more →' : 'Ver más →'}
+    <section className={`${TARJETA} shadow-xl shadow-black/30`}>
+      <div className="flex items-center justify-between gap-3 px-5 pt-4 pb-3">
+        <h2 className="text-white font-black text-lg leading-tight">
+          {tr({ es: `Tu progreso, ${name}`, en: `Your progress, ${name}`, ca: `El teu progrés, ${name}` })}
+        </h2>
+        <button onClick={onVerMas}
+          className="shrink-0 text-xs font-bold text-violet-300 hover:text-violet-200 bg-violet-500/10 hover:bg-violet-500/20 px-3 py-1.5 rounded-full transition-colors">
+          {tr({ es: 'Ver más →', en: 'See more →', ca: 'Veure més →' })}
         </button>
       </div>
-      <div className="grid grid-cols-4 divide-x divide-white/5 px-0">
-        {items.map(item => (
-          <div key={item.label} className="flex flex-col items-center py-3 px-2">
-            <span className="text-lg mb-0.5">{item.emoji}</span>
-            <span className="text-white font-black text-sm">{item.value}</span>
-            <span className="text-white/30 text-xs">{item.label}</span>
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 px-4 pb-4">
+        {items.map(({ Icono, fondo, value, unidad, label }) => (
+          <div key={label} className="flex items-center gap-2.5 sm:gap-3 rounded-xl bg-white/[0.03] border border-white/[0.06] px-2.5 sm:px-3 py-3">
+            <span className={`shrink-0 w-9 h-9 sm:w-11 sm:h-11 rounded-xl ${fondo} grid place-items-center`}>
+              <Icono className="w-5 h-5 sm:w-6 sm:h-6" />
+            </span>
+            <div className="min-w-0">
+              <p className="text-white font-black text-base sm:text-xl leading-none tabular-nums whitespace-nowrap">
+                {value}{unidad && <span className="text-white/50 text-xs font-bold ml-1">{unidad}</span>}
+              </p>
+              <p className="text-white/45 text-xs mt-1 truncate">{label}</p>
+            </div>
           </div>
         ))}
       </div>
-    </div>
+    </section>
   )
 }
 
-function EmptyStatsWidget({ onVerMas, en, lang }) {
-  const ca = lang === 'ca'
+function EmptyStatsWidget({ onVerMas }) {
+  const { tr } = useLang()
   return (
-    <div className="rounded-xl border border-white/10 bg-white/5 backdrop-blur-sm">
-      <div className="flex items-center justify-between px-5 py-2.5">
-        <div className="flex items-center gap-3">
-          <span className="text-lg">📊</span>
-          <div>
-            <p className="font-bold text-white text-sm">{ca ? 'El teu progrés' : en ? 'Your progress' : 'Tu progreso'}</p>
-            <p className="text-white/40 text-xs">{ca ? 'Completa la teva primera activitat per veure estadístiques' : en ? 'Complete your first activity to see stats' : 'Completa tu primera actividad para ver stats'}</p>
-          </div>
-        </div>
-        <button onClick={onVerMas} className="text-xs font-semibold text-violet-400 hover:text-violet-300 transition-colors">
-          {ca ? 'Veure perfil →' : en ? 'See profile →' : 'Ver perfil →'}
-        </button>
+    <section className={`${TARJETA} flex items-center gap-4 px-5 py-4`}>
+      <span className="shrink-0 w-11 h-11 rounded-xl bg-violet-500/12 grid place-items-center">
+        <Mando className="w-6 h-6" />
+      </span>
+      <div className="flex-1 min-w-0">
+        <p className="font-black text-white">{tr({ es: 'Tu progreso', en: 'Your progress', ca: 'El teu progrés' })}</p>
+        <p className="text-white/45 text-xs mt-0.5">{tr({ es: 'Completa tu primera actividad y aquí verás tu racha, tu tiempo y tus aprobados.', en: 'Finish your first activity and your streak, time and passes will show up here.', ca: 'Completa la teva primera activitat i aquí veuràs la ratxa, el temps i els aprovats.' })}</p>
       </div>
-    </div>
+      <button onClick={onVerMas}
+        className="shrink-0 text-xs font-bold text-violet-300 hover:text-violet-200 bg-violet-500/10 hover:bg-violet-500/20 px-3 py-1.5 rounded-full transition-colors">
+        {tr({ es: 'Ver perfil →', en: 'See profile →', ca: 'Veure perfil →' })}
+      </button>
+    </section>
   )
 }
 
@@ -209,6 +241,9 @@ function Loader() {
 // Ocupa el sitio del panel de progreso cuando no hay cuenta. Va aquí y no en
 // una pantalla de bloqueo porque el usuario acaba de llegar de la landing a
 // mirar: se le enseña qué se lleva si se registra, no se le corta el paso.
+// Un icono por ventaja de la cuenta: progreso y rachas, monedas, Pro gratis.
+const PERK_ICONOS = [[Racha, 'bg-orange-500/12'], [Moneda, 'bg-amber-500/12'], [Estrella, 'bg-violet-500/12']]
+
 function SignupPrompt({ onSignup }) {
   const { tr } = useLang()
   const perks = tr({
@@ -218,7 +253,7 @@ function SignupPrompt({ onSignup }) {
   })
 
   return (
-    <section className="rounded-2xl border border-violet-400/25 bg-gradient-to-br from-violet-500/[0.16] via-violet-500/[0.05] to-transparent p-5">
+    <section className={`${TARJETA} shadow-xl shadow-black/30 p-5`}>
       <p className="text-white font-black text-lg leading-tight mb-1.5">
         {tr({ es: 'Puedes jugar sin cuenta, pero no se guarda nada', en: 'You can play without an account, but nothing is saved', ca: 'Pots jugar sense compte, però no es desa res' })}
       </p>
@@ -230,9 +265,11 @@ function SignupPrompt({ onSignup }) {
         })}
       </p>
       <ul className="flex flex-col gap-2 mb-5">
-        {perks.map(p => (
-          <li key={p} className="flex items-center gap-2.5 text-white/75 text-sm">
-            <span className="grid place-items-center w-5 h-5 shrink-0 rounded-full bg-violet-500/20 text-violet-300 text-[11px] font-black" aria-hidden="true">✓</span>
+        {perks.map((p, i) => (
+          <li key={p} className="flex items-center gap-3 text-white/75 text-sm">
+            <span className={`shrink-0 w-9 h-9 rounded-xl ${PERK_ICONOS[i][1]} grid place-items-center`}>
+              {(() => { const Icono = PERK_ICONOS[i][0]; return <Icono className="w-5 h-5" /> })()}
+            </span>
             {p}
           </li>
         ))}
@@ -248,7 +285,6 @@ function SignupPrompt({ onSignup }) {
 export default function Home() {
   const navigate = useNavigate()
   const { t, localPath, lang, tr } = useLang()
-  const en = lang === 'en'
   const { user } = useAuth()
   const debePreguntarNivel = useDebePreguntarNivel()
   const [stats, setStats] = useState(null)
@@ -373,9 +409,9 @@ export default function Home() {
           {!user ? (
             <SignupPrompt onSignup={() => setShowAuth(true)} />
           ) : stats ? (
-            <StatsWidget stats={stats} name={user.displayName?.split(' ')[0]} onVerMas={() => navigate(localPath('/perfil'))} en={en} lang={lang} />
+            <StatsWidget stats={stats} name={user.displayName?.split(' ')[0]} onVerMas={() => navigate(localPath('/perfil'))} />
           ) : (
-            <EmptyStatsWidget onVerMas={() => navigate(localPath('/perfil'))} en={en} lang={lang} />
+            <EmptyStatsWidget onVerMas={() => navigate(localPath('/perfil'))} />
           )}
         </div>
 
