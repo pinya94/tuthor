@@ -3,30 +3,11 @@ import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
 import { joinClassByCode, getStudentClasses, getTeacherProfile, hasTeacherAccess } from '../lib/classes'
-import { getStudentAssignments, tareaVencida, fechaCortaDeTarea } from '../lib/assignments'
-import { GAMES } from '../lib/games'
-import { EXAMS } from '../lib/exams'
-import { SUBJECTS } from '../lib/statsAggregation'
-import { catalogTaskLabel, catalogTaskRoute } from '../lib/topicCatalog'
-import { TAG_META, getMyObservations } from '../lib/observations'
+import { getStudentAssignments } from '../lib/assignments'
+import { getMyObservations } from '../lib/observations'
 import RecursosInteractivos from '../components/RecursosInteractivos'
-
-function taskLabel(task, lang) {
-  if (task.kind !== 'catalog') return task.title
-  return catalogTaskLabel(task, lang, { games: GAMES, exams: EXAMS, subjects: SUBJECTS })
-}
-
-function taskRoute(task) {
-  if (task.kind === 'quiz') return `/clase/examen/${task.id}`
-  return catalogTaskRoute(task, { games: GAMES, exams: EXAMS })
-}
-
-
-function fechaLegible(createdAt, lang) {
-  const d = createdAt?.toDate ? createdAt.toDate() : createdAt instanceof Date ? createdAt : null
-  if (!d) return ''
-  return d.toLocaleDateString(lang === 'en' ? 'en-GB' : lang === 'ca' ? 'ca-ES' : 'es-ES', { day: 'numeric', month: 'short' })
-}
+import ClaseAlumno from '../components/ClaseAlumno'
+import { Pizarra } from '../components/Iconos'
 
 export default function Clase() {
   const { user } = useAuth()
@@ -96,17 +77,6 @@ export default function Clase() {
     )
   }
 
-  const surf = 'rgba(17,20,29,.86)'
-  const sortedTasks = [...tasks].sort((a, b) => {
-    const aDone = !!a.completions?.[user.uid]?.done
-    const bDone = !!b.completions?.[user.uid]?.done
-    if (aDone !== bDone) return aDone ? 1 : -1
-    const aDue = a.dueDate?.toMillis?.() ?? Infinity
-    const bDue = b.dueDate?.toMillis?.() ?? Infinity
-    return aDue - bDue
-  })
-  const sortedObservaciones = [...observaciones].sort((a, b) => (b.createdAt?.toMillis?.() ?? 0) - (a.createdAt?.toMillis?.() ?? 0))
-
   const joinForm = (
     <form onSubmit={handleJoinClass} className="flex items-center gap-2">
       <input
@@ -141,163 +111,50 @@ export default function Clase() {
     </>
   )
 
-  return (
-    <div className="relative z-10 min-h-[calc(100vh-4rem)] flex items-start justify-center px-4 py-10">
-      <div className="w-full max-w-md">
-        <span className="text-4xl block mb-3">🏫</span>
-        <h1 className="text-3xl font-black text-white mb-2">{tr({ es: 'Mi clase', en: 'My class', ca: 'La meva classe' })}</h1>
+  const unirse = showJoinForm || classes.length === 0 ? (
+    <>
+      <p className="text-white/45 text-[11px] uppercase tracking-wider font-bold mb-3">
+        {tr({ es: 'Código de clase', en: 'Class code', ca: 'Codi de classe' })}
+      </p>
+      {joinForm}
+      {joinFeedback}
+    </>
+  ) : (
+    <button onClick={() => setShowJoinForm(true)} className="text-white/55 hover:text-white text-sm font-semibold transition-colors">
+      + {tr({ es: 'Unirme a otra clase', en: 'Join another class', ca: 'Unir-me a una altra classe' })}
+    </button>
+  )
 
-        {classes.length === 0 ? (
-          <>
-            <p className="text-white/50 text-sm mb-8">
-              {tr({
-                es: 'Pide a tu profesor el código de tu clase y únete para ver aquí las tareas que te asigne.',
-                en: 'Ask your teacher for your class code and join to see the tasks they assign here.',
-                ca: 'Demana al teu professor el codi de la teva classe i uneix-t\'hi per veure aquí les tasques que t\'assigni.',
-              })}
-            </p>
-            <div className="border border-teal-500/30 rounded-2xl px-5 py-5 bg-teal-500/[0.06]">
-              <p className="text-white/35 text-[11px] uppercase tracking-wider font-bold mb-3">
-                {tr({ es: 'Código de clase', en: 'Class code', ca: 'Codi de classe' })}
-              </p>
-              {joinForm}
-              {joinFeedback}
-            </div>
-          </>
-        ) : (
-          <>
-            <div className="flex flex-wrap gap-2 mb-6">
-              {classes.map(c => (
-                <span key={c.id} className="text-xs font-bold text-white/70 border border-white/10 rounded-full px-3 py-1.5" style={{ background: surf }}>
-                  🏫 {c.name}
-                </span>
-              ))}
-            </div>
-
-            <h2 className="font-black text-white text-[15px] tracking-tight mb-3">
-              📝 {tr({ es: 'Mis tareas', en: 'My tasks', ca: 'Les meves tasques' })}
-            </h2>
-            {sortedTasks.length === 0 ? (
-              <p className="text-white/30 text-sm mb-6">{tr({ es: 'No tienes tareas pendientes por ahora.', en: 'No tasks for now.', ca: 'No tens tasques per ara.' })}</p>
-            ) : (
-              <div className="space-y-2 mb-6">
-                {sortedTasks.map(task => {
-                  const c = task.completions?.[user.uid]
-                  const overdue = !c?.done && tareaVencida(task.dueDate)
-                  // Una tarea pendiente de catálogo lleva directa al juego/examen
-                  const route = !c?.done ? taskRoute(task) : null
-                  const inner = (
-                    <>
-                      <div className="min-w-0 text-left">
-                        <p className="text-white text-[13.5px] font-bold truncate">{taskLabel(task, lang)}</p>
-                        <p className="text-white/45 text-[11.5px] mt-0.5">
-                          {task.className}
-                          {task.dueDate && (
-                            <span className={overdue ? 'text-red-400 font-semibold' : ''}>
-                              {' · '}{tr({ es: 'vence', en: 'due', ca: 'venç' })} {fechaCortaDeTarea(task.dueDate, lang)}
-                            </span>
-                          )}
-                        </p>
-                      </div>
-                      {c?.done ? (
-                        // Con pass/fail (exámenes y tests propios) se enseña
-                        // aprobado/no aprobado en vez del genérico "Hecha" —
-                        // eso es justo el "resultado" que un examen tiene y un
-                        // juego normal no. c.passed es null en los juegos sin
-                        // nota de corte, así que ahí se queda el texto de
-                        // siempre.
-                        <span className={`text-[12.5px] font-bold shrink-0 text-right ${c.passed === false ? 'text-red-400' : 'text-green-400'}`}>
-                          {c.passed === false
-                            ? `❌ ${tr({ es: 'No aprobado', en: 'Not passed', ca: 'No aprovat' })}`
-                            : c.passed === true
-                            ? `✅ ${tr({ es: 'Aprobado', en: 'Passed', ca: 'Aprovat' })}`
-                            : `✅ ${tr({ es: 'Hecha', en: 'Done', ca: 'Feta' })}`}
-                          {c.score != null && <span className="text-white/40 ml-1.5">{c.score} pts</span>}
-                        </span>
-                      ) : route ? (
-                        <span className="text-teal-300 text-[12.5px] font-bold shrink-0">
-                          {tr({ es: 'Jugar', en: 'Play', ca: 'Jugar' })} →
-                        </span>
-                      ) : (
-                        <span className={`text-[12.5px] shrink-0 ${overdue ? 'text-red-400 font-bold' : 'text-white/30'}`}>
-                          {overdue ? tr({ es: 'Vencida', en: 'Overdue', ca: 'Vençuda' }) : tr({ es: 'Pendiente', en: 'Pending', ca: 'Pendent' })}
-                        </span>
-                      )}
-                    </>
-                  )
-                  const cardClass = `w-full border rounded-2xl px-4 py-3 flex items-center justify-between gap-3 ${overdue ? 'border-red-500/30' : 'border-white/10'}`
-                  return route ? (
-                    <button key={task.id} type="button" onClick={() => navigate(localPath(route))}
-                      className={`${cardClass} hover:border-teal-500/50 transition-colors`} style={{ background: surf }}>
-                      {inner}
-                    </button>
-                  ) : (
-                    <div key={task.id} className={cardClass} style={{ background: surf }}>
-                      {inner}
-                    </div>
-                  )
-                })}
-              </div>
-            )}
-
-            {/* Solo las notas que el profesor haya marcado para compartir
-                (ver setObservationVisibility en Observaciones.jsx) — la
-                mayoría del cuaderno del profesor sigue sin verse aquí a
-                propósito. Sin sección si no hay ninguna: un "Observaciones"
-                vacío no aporta nada y sugiere que debería haber algo. */}
-            {sortedObservaciones.length > 0 && (
-              <>
-                <h2 className="font-black text-white text-[15px] tracking-tight mb-3">
-                  💬 {tr({ es: 'Observaciones de tu profesor', en: "Notes from your teacher", ca: 'Observacions del teu professor' })}
-                </h2>
-                <div className="space-y-2 mb-6">
-                  {sortedObservaciones.map(o => {
-                    const m = TAG_META[o.tag] ?? TAG_META.neutra
-                    return (
-                      <div key={o.id} className={`rounded-2xl border px-4 py-3 ${m.color}`}>
-                        <p className="text-[13.5px] leading-snug whitespace-pre-wrap break-words">
-                          <span className="mr-1">{m.emoji}</span>{o.text}
-                        </p>
-                        <p className="text-[11px] opacity-50 mt-1">
-                          {classes.length > 1 ? `${o.className} · ` : ''}{fechaLegible(o.createdAt, lang)}
-                        </p>
-                      </div>
-                    )
-                  })}
-                </div>
-              </>
-            )}
-
-            <div className="border border-white/10 rounded-2xl px-4 py-3" style={{ background: surf }}>
-              {showJoinForm ? (
-                <>
-                  {joinForm}
-                  {joinFeedback}
-                </>
-              ) : (
-                <button onClick={() => setShowJoinForm(true)} className="text-white/50 hover:text-white/80 text-xs font-semibold transition-colors">
-                  + {tr({ es: 'Unirme a otra clase', en: 'Join another class', ca: 'Unir-me a una altra classe' })}
-                </button>
-              )}
-            </div>
-          </>
-        )}
-
-        {/* Recursos FUERA del ternario de arriba, a propósito: sirven para los
-            deberes de hoy tengas clase o no, y un alumno recién registrado que
-            aún no tiene código no debería encontrarse la página vacía. */}
-        <h2 className="font-black text-white text-[15px] tracking-tight mt-8 mb-1">
-          🧰 {tr({ es: 'Recursos', en: 'Resources', ca: 'Recursos' })}
-        </h2>
-        <p className="text-white/40 text-[12.5px] mb-3">
-          {tr({
-            es: 'Para tus deberes: escribe el ejercicio y te lo resolvemos paso a paso.',
-            en: 'For your homework: type the exercise and we solve it step by step.',
-            ca: "Per als teus deures: escriu l'exercici i te'l resolem pas a pas.",
-          })}
+  // Sin clase todavía: solo pedir el código, y los recursos debajo (sirven
+  // para los deberes tengas clase o no).
+  if (classes.length === 0) {
+    return (
+      <div className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 py-10">
+        <section className="rounded-2xl bg-[#141b2e] border border-white/[0.08] shadow-xl shadow-black/30 p-6 sm:p-8 text-center mb-10">
+          <span className="mx-auto mb-4 w-16 h-16 rounded-2xl bg-teal-500/12 grid place-items-center">
+            <Pizarra className="w-9 h-9" />
+          </span>
+          <h1 className="text-3xl font-black text-white mb-2">{tr({ es: 'Mi clase', en: 'My class', ca: 'La meva classe' })}</h1>
+          <p className="text-white/55 text-sm mb-6 max-w-sm mx-auto">
+            {tr({
+              es: 'Pide a tu profesor el código de tu clase y únete para ver aquí las tareas que te asigne.',
+              en: 'Ask your teacher for your class code and join to see the tasks they assign here.',
+              ca: 'Demana al teu professor el codi de la teva classe i uneix-t\'hi per veure aquí les tasques que t\'assigni.',
+            })}
+          </p>
+          <div className="max-w-sm mx-auto text-left">{unirse}</div>
+        </section>
+        <h2 className="text-white font-black text-lg mb-1">{tr({ es: 'Recursos para tus deberes', en: 'Help with your homework', ca: 'Recursos per als deures' })}</h2>
+        <p className="text-white/40 text-[13px] mb-3">
+          {tr({ es: 'Escribe el ejercicio y te lo resolvemos paso a paso.', en: 'Type the exercise and we solve it step by step.', ca: "Escriu l'exercici i te'l resolem pas a pas." })}
         </p>
-        <RecursosInteractivos compacto />
+        <RecursosInteractivos />
       </div>
-    </div>
+    )
+  }
+
+  return (
+    <ClaseAlumno clases={classes} tareas={tasks} observaciones={observaciones} uid={user.uid}
+      lang={lang} tr={tr} onAbrir={ruta => navigate(localPath(ruta))} unirse={unirse} />
   )
 }
