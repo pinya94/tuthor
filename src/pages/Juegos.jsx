@@ -1,13 +1,15 @@
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import Thumbnail from '../components/Thumbnail'
 import { slugDeRuta } from '../components/arte'
 import { GAMES } from '../data/constants'
 import { useLang } from '../context/LangContext'
 import SEOHead from '../components/SEOHead'
+import { CURSOS_LANDING } from '../data/landingsCurso'
+import { ARTE_CURSOS } from '../components/arte/cursos'
 
 export default function Juegos() {
   const navigate = useNavigate()
-  const { lt, localPath, t, lang } = useLang()
+  const { lt, localPath, t, lang, tr } = useLang()
 
   function handleClick(game) {
     if (!game.ready) return
@@ -27,6 +29,24 @@ export default function Juegos() {
       <div className="text-center mb-6">
         <h1 className="text-2xl sm:text-3xl font-black text-white">{t('juegos.titulo', 'Aprende sin darte cuenta')}</h1>
         <p className="text-white/40 mt-1 text-sm">{t('juegos.subtitulo', 'Juegos educativos para repasar mientras te diviertes')}</p>
+      </div>
+
+      {/* Por curso: enlaces reales a las páginas de entrada (data/landingsCurso.js),
+          que agrupan los juegos por asignatura de ese curso. */}
+      <div className="max-w-5xl mx-auto w-full mb-6 flex flex-wrap gap-3">
+        {Object.entries(CURSOS_LANDING).map(([curso, c]) => {
+          const ArteCurso = ARTE_CURSOS[curso]
+          return (
+            <Link key={curso} to={localPath(`/juegos/${curso}`)}
+              className="group flex items-center gap-3 rounded-2xl bg-[#141b2e] border border-white/[0.08] hover:border-white/20 pl-2 pr-5 py-2 transition-colors">
+              {ArteCurso && <ArteCurso className="w-16 shrink-0" />}
+              <span>
+                <span className="block text-white font-black text-sm">{tr(c.titulo)}</span>
+                <span className="block text-white/45 text-xs">{c.edades} {tr({ es: 'años', en: 'years', ca: 'anys' })} · {tr({ es: 'por asignatura', en: 'by subject', ca: 'per assignatura' })} →</span>
+              </span>
+            </Link>
+          )
+        })}
       </div>
       <div className="flex-1 overflow-y-auto">
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-5xl mx-auto w-full pb-4">

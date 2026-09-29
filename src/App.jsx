@@ -11,6 +11,7 @@ import ErrorBoundary from './components/ErrorBoundary'
 import { LangProvider, useLang } from './context/LangContext'
 import { applyConsent } from './lib/consent'
 import { routableExams } from './lib/exams'
+import { CURSOS_LANDING } from './data/landingsCurso'
 
 // Lazy-loaded pages — only downloaded when the user navigates to them
 const Landing            = lazy(() => import('./pages/Landing'))
@@ -25,6 +26,7 @@ const MatematicasTema    = lazy(() => import('./pages/MatematicasTema'))
 const MatematicasPractica= lazy(() => import('./pages/MatematicasPractica'))
 const ExamenMatematicas  = lazy(() => import('./pages/ExamenMatematicas'))
 const Juegos             = lazy(() => import('./pages/Juegos'))
+const JuegosCurso        = lazy(() => import('./pages/JuegosCurso'))
 const PreguntaDiaria     = lazy(() => import('./pages/PreguntaDiaria'))
 const ExamenJuego        = lazy(() => import('./pages/ExamenJuego'))
 const TuthorTime         = lazy(() => import('./pages/TuthorTime'))
@@ -208,6 +210,11 @@ function AppRoutes() {
 
       {/* ── JUEGOS ── */}
       <Route path="juegos" element={<Juegos />} />
+      {/* Páginas de entrada por curso (data/landingsCurso.js) */}
+      {Object.keys(CURSOS_LANDING).flatMap(curso => [
+        <Route key={curso} path={`juegos/${curso}`} element={<JuegosCurso curso={curso} />} />,
+        <Route key={`${curso}-m`} path={`juegos/${curso}/:materia`} element={<JuegosCurso curso={curso} />} />,
+      ])}
       <Route path="juegos/tuthor-time" element={<TuthorTimeRoguelike />} />
       <Route path="juegos/tuthor-time/clasico" element={<TuthorTime />} />
       <Route path="juegos/linea-temporal" element={<OrdenTemporal />} />

@@ -27,6 +27,7 @@ import {
 export { STATIC_META } from '../src/lib/staticMeta.js'
 import { STATIC_META } from '../src/lib/staticMeta.js'
 import { CONTENIDO_TEMA } from '../src/data/estudioTemaContenido.js'
+import { CURSOS_LANDING, landingDe } from '../src/data/landingsCurso.js'
 
 export const BASE_URL = 'https://www.tuthor.es'
 // Idiomas publicados en hreflang — mantener en sintonía con SEOHead.jsx
@@ -104,6 +105,14 @@ export function resolveMeta(path, lang) {
         ? { title: `${name} Diagnosis — revise by elimination`, desc: `Revise ${name} by ruling out candidates with progressive science clues until you find the right one. Free interactive practice.` }
         : { title: `Diagnóstico de ${name} — repasa por descarte`, desc: `Repasa ${name} descartando candidatos con pistas científicas progresivas hasta dar con el correcto. Práctica interactiva gratis.` }
     }
+  }
+
+  // Páginas de entrada por curso (data/landingsCurso.js). Antes que la regla
+  // de /juegos/<slug>: '/juegos/primaria' también encaja en ella.
+  m = path.match(/^\/juegos\/([\w-]+)(?:\/([\w-]+))?$/)
+  if (m && CURSOS_LANDING[m[1]]) {
+    const pagina = m[2] ? landingDe(m[1], m[2]) : CURSOS_LANDING[m[1]]
+    if (pagina) return { title: pagina.titulo[l] ?? pagina.titulo.es, desc: pagina.metaDesc[l] ?? pagina.metaDesc.es }
   }
 
   m = path.match(/^\/juegos\/([\w-]+)$/)
