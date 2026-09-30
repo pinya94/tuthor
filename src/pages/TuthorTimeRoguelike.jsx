@@ -9,6 +9,7 @@ import { EVENTOS_ROGUELIKE } from '../data/tuthorTimeEventos'
 import SEOHead from '../components/SEOHead'
 import { IconoIntro, NivelBarras, ComoSeJuega } from '../components/IntroJuego'
 import { ArteJuego } from '../components/arte'
+import { SelectorAño, LineaEras, Agente } from '../components/tuthorTime/TuthorTimeUI'
 
 const VIDA_BIXO = 120
 
@@ -231,7 +232,7 @@ function AgentBar({ agente, activo, lang }) {
   const barColor = pct > 60 ? 'bg-green-400' : pct > 30 ? 'bg-yellow-400' : 'bg-red-400'
   return (
     <div className={`flex items-center gap-2 transition-opacity ${activo ? 'opacity-100' : 'opacity-40'}`}>
-      <span className="text-sm w-5 text-center">{agente.muerto ? '💀' : '🕵️'}</span>
+      <Agente muerto={agente.muerto} className="w-6 h-6 shrink-0" />
       <div className="flex-1 h-2 bg-white/10 rounded-full overflow-hidden">
         <div
           className={`h-full rounded-full transition-all duration-500 ${barColor}`}
@@ -261,7 +262,9 @@ export default function TuthorTimeRoguelike() {
   const agenteActivo = agentes.findIndex(a => !a.muerto)
   const [eventos, setEventos] = useState([])
   const [eventoIdx, setEventoIdx] = useState(0)
-  const [guess, setGuess] = useState('')
+  // El año se escribe con el teclado propio: cifras + si es antes de Cristo.
+  const [digitos, setDigitos] = useState('')
+  const [ac, setAc] = useState(false)
   const [timeLeft, setTimeLeft] = useState(30)
   const [feedback, setFeedback] = useState(null)
   const [scoreTotal, setScoreTotal] = useState(0)
@@ -274,7 +277,6 @@ export default function TuthorTimeRoguelike() {
 
   const timerRef = useRef(null)
   const tiempoRef = useRef(null)
-  const inputRef = useRef(null)
 
   const dif = DIFS[difId]
   const evento = eventos[eventoIdx]
@@ -296,7 +298,7 @@ export default function TuthorTimeRoguelike() {
     setScoreMult(1)
     setMultRestantes(0)
     setFeedback(null)
-    setGuess('')
+    setDigitos(''); setAc(false)
     setSaved(false)
     startRef.current = Date.now()
     setFase('jugando')
@@ -321,10 +323,6 @@ export default function TuthorTimeRoguelike() {
     return () => clearInterval(timerRef.current)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [levelKey])
-
-  useEffect(() => {
-    if (fase === 'jugando' && inputRef.current) inputRef.current.focus()
-  }, [fase, levelKey])
 
   useEffect(() => {
     if (fase !== 'resultado' || scoreTotal <= 0 || saved || !user) return
@@ -391,7 +389,7 @@ export default function TuthorTimeRoguelike() {
   }
 
   function handleGuess() {
-    const year = parseInt(guess, 10)
+    const year = digitos ? (ac ? -1 : 1) * parseInt(digitos, 10) : NaN
     if (isNaN(year)) return
     registrarRespuesta(year)
   }
@@ -401,7 +399,7 @@ export default function TuthorTimeRoguelike() {
     setNivel(newNivel)
     setEventoIdx(i => i + 1)
     setFeedback(null)
-    setGuess('')
+    setDigitos(''); setAc(false)
 
     if (multRestantes > 0) {
       const nm = multRestantes - 1
@@ -560,91 +558,59 @@ export default function TuthorTimeRoguelike() {
   }
 
   // ── JUGANDO ────────────────────────────────────────────────────────────────
+  // Pensado para el móvil: arriba lo justo (agentes, tiempo), la misión en una
+  // tarjeta y debajo el selector de año con su teclado, que no tapa nada.
   if (fase === 'jugando' && evento) {
     const timerPct = (timeLeft / tiempoNivel) * 100
     const timerColor = timerPct > 50 ? 'bg-green-400' : timerPct > 25 ? 'bg-yellow-400' : 'bg-red-500'
     const pistaInfo = pistasRestantes > 0 ? pista(evento.año) : null
+    const añoEscrito = digitos ? (ac ? -1 : 1) * parseInt(digitos, 10) : null
 
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center px-4 py-6">
+      <div className="relative z-10 flex flex-col items-center px-4 pt-4 pb-6">
         <div className="w-full max-w-md flex flex-col gap-3">
 
-          {/* Header */}
+          {/* Cabecera: salir, misión, puntos */}
           <div className="flex items-center justify-between">
-            <button onClick={() => navigate(localPath('/juegos'))} className="text-white/40 hover:text-white text-sm">{lang === 'ca' ? '← Sortir' : lang === 'en' ? '← Exit' : '← Salir'}</button>
-            <span className="text-white/50 text-sm">{lang === 'ca' ? `Missió ${nivel}` : lang === 'en' ? `Mission ${nivel}` : `Misión ${nivel}`}</span>
-            <span className="text-white font-bold tabular-nums">{scoreTotal.toLocaleString()} pts</span>
+            <button onClick={() => navigate(localPath('/juegos'))} className="text-white/40 hover:text-white text-sm">{tr({ es: '← Salir', en: '← Exit', ca: '← Sortir' })}</button>
+            <span className="text-white/60 text-sm font-bold">{tr({ es: `Misión ${nivel}`, en: `Mission ${nivel}`, ca: `Missió ${nivel}` })}</span>
+            <span className="text-white font-black tabular-nums">{scoreTotal.toLocaleString()} <span className="text-white/40 text-xs font-bold">pts</span></span>
           </div>
 
-          {/* Agentes */}
-          <div className="bg-black/40 backdrop-blur rounded-xl p-3 border border-white/10 space-y-2">
+          {/* Agentes y tiempo */}
+          <div className="rounded-2xl bg-[#141b2e] border border-white/[0.08] p-3 space-y-2">
             {agentes.map((ag, i) => (
               <AgentBar key={i} agente={ag} activo={i === agenteActivo && !ag.muerto} lang={lang} />
             ))}
-          </div>
-
-          {/* Timer */}
-          <div>
-            <div className="flex justify-between text-xs text-white/40 mb-1">
-              <span>{tu.tiempo}</span><span>{timeLeft}s</span>
-            </div>
-            <div className="h-1.5 bg-white/10 rounded-full overflow-hidden">
-              <div
-                className={`h-full rounded-full transition-all duration-1000 ${timerColor}`}
-                style={{ width: `${timerPct}%` }}
-              />
+            <div className="flex items-center gap-2 pt-1">
+              <div className="flex-1 h-2 bg-white/10 rounded-full overflow-hidden">
+                <div className={`h-full rounded-full transition-all duration-1000 ${timerColor}`} style={{ width: `${timerPct}%` }} />
+              </div>
+              <span className="text-white/60 text-xs font-bold tabular-nums w-8 text-right">{timeLeft}s</span>
             </div>
           </div>
 
-          {/* Bonuses activos */}
           {(multRestantes > 0 || pistasRestantes > 0) && (
             <div className="flex gap-2 flex-wrap">
-              {multRestantes > 0 && (
-                <span className="text-xs bg-yellow-500/20 text-yellow-300 px-2 py-1 rounded-full">⭐ ×1.5 pts ({multRestantes})</span>
-              )}
-              {pistasRestantes > 0 && (
-                <span className="text-xs bg-blue-500/20 text-blue-300 px-2 py-1 rounded-full">🗓️ {lang === 'en' ? 'Hint' : 'Pista'} ({pistasRestantes})</span>
-
-              )}
+              {multRestantes > 0 && <span className="text-xs font-bold bg-yellow-500/15 text-yellow-300 px-2.5 py-1 rounded-full">×1.5 pts · {multRestantes}</span>}
+              {pistasRestantes > 0 && <span className="text-xs font-bold bg-sky-500/15 text-sky-300 px-2.5 py-1 rounded-full">{tr({ es: 'Pista', en: 'Hint', ca: 'Pista' })} · {pistasRestantes}</span>}
             </div>
           )}
 
-          {/* Evento */}
-          <div className="bg-black/40 backdrop-blur rounded-2xl p-5 border border-white/10">
-            <div className="text-white/40 text-xs uppercase tracking-wider mb-1">{dif.emoji} {dl(dif)}</div>
-            <h2 className="text-xl font-bold text-white mb-2">{lt(evento, 'nombre')}</h2>
-            <p className="text-white/60 text-sm leading-relaxed mb-4">{lt(evento, 'descripcion')}</p>
-
+          {/* La misión */}
+          <div className="rounded-2xl bg-[#141b2e] border border-white/[0.08] p-4">
+            <h2 className="text-lg sm:text-xl font-black text-white leading-snug mb-1">{lt(evento, 'nombre')}</h2>
+            <p className="text-white/55 text-sm leading-relaxed">{lt(evento, 'descripcion')}</p>
             {pistaInfo && (
-              <div className="text-blue-300 text-xs bg-blue-900/30 rounded-lg px-3 py-2 mb-4">
-                🗓️ {lang === 'ca' ? <>L'agent hauria de partir entre <strong>{formatAño(pistaInfo.desde)}</strong> i <strong>{formatAño(pistaInfo.hasta)}</strong> (aproximat)</> : lang === 'en' ? <>The agent should depart between <strong>{formatAño(pistaInfo.desde)}</strong> and <strong>{formatAño(pistaInfo.hasta)}</strong> (approximate)</> : <>El agente debería partir entre <strong>{formatAño(pistaInfo.desde)}</strong> y <strong>{formatAño(pistaInfo.hasta)}</strong> (aproximado)</>}
-              </div>
+              <p className="mt-3 text-sky-200 text-xs bg-sky-500/10 rounded-lg px-3 py-2">
+                {tr({ es: 'Entre', en: 'Between', ca: 'Entre' })} <strong>{formatAño(pistaInfo.desde)}</strong> {tr({ es: 'y', en: 'and', ca: 'i' })} <strong>{formatAño(pistaInfo.hasta)}</strong>
+              </p>
             )}
-
-            <p className="text-white/40 text-xs mb-3">
-              {lang === 'ca' ? 'Envia l\'agent a l\'any en què va passar. Arribarà abans i esperarà — com més esperi, més vida perd.' : lang === 'en' ? 'Send the agent to the year it happened. It arrives early and waits — the longer it waits, the more health it loses.' : 'Envía al agente al año en que ocurrió. Llegará antes y esperará — cuanto más espere, más vida pierde.'}
-            </p>
-
-            <div className="space-y-3">
-              <input
-                ref={inputRef}
-                type="number"
-                value={guess}
-                onChange={e => setGuess(e.target.value)}
-                onKeyDown={e => e.key === 'Enter' && handleGuess()}
-                placeholder={lang === 'ca' ? 'Any de destí  (negatiu = a.C.)' : lang === 'en' ? 'Destination year  (negative = BC)' : 'Año de destino  (negativo = a.C.)'}
-                className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white text-center text-lg font-bold placeholder:text-white/20 focus:outline-none focus:border-white/50"
-              />
-              <button
-                onClick={handleGuess}
-                disabled={!guess.trim()}
-                className="w-full bg-white text-black font-bold py-3 rounded-xl disabled:opacity-30 hover:bg-white/90 transition"
-              >
-                {tu.enviarAgente}
-              </button>
-            </div>
+            {/* Dónde cae el año que estás escribiendo */}
+            <LineaEras año={añoEscrito} etiquetaAño={añoEscrito != null ? formatAño(añoEscrito) : ''} tr={tr} />
           </div>
 
+          <SelectorAño digitos={digitos} ac={ac} onDigitos={setDigitos} onAc={setAc} onEnviar={handleGuess} tr={tr} />
         </div>
       </div>
     )
@@ -665,9 +631,9 @@ export default function TuthorTimeRoguelike() {
     const badge = badgeMap[resultado] || badgeMap['ÉXITO']
 
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center px-4 py-6">
+      <div className="relative z-10 flex flex-col items-center px-4 pt-6 pb-8">
         <div className="w-full max-w-md">
-          <div className="bg-black/50 backdrop-blur rounded-2xl p-6 border border-white/10 text-center">
+          <div className="bg-[#141b2e] rounded-2xl p-5 sm:p-6 border border-white/[0.08] text-center">
 
             <div className={`text-2xl font-bold mb-1 ${badge.color}`}>{badge.text}</div>
             <h3 className="text-white/80 text-base font-semibold mb-2">{lt(ev, 'nombre')}</h3>
@@ -680,6 +646,10 @@ export default function TuthorTimeRoguelike() {
               esTiempo={esTiempo}
               lang={lang}
             />
+
+            {/* Tu año y el real, sobre las eras: se ve de un vistazo cuánto te has ido */}
+            <LineaEras año={esTiempo ? null : añoEnviado} real={ev.año}
+              etiquetaAño={tr({ es: 'Tú', en: 'You', ca: 'Tu' })} etiquetaReal={formatAño(ev.año)} tr={tr} />
 
             <div className="grid grid-cols-3 gap-2 mb-5">
               <div className="bg-white/5 rounded-xl p-3">
@@ -734,9 +704,9 @@ export default function TuthorTimeRoguelike() {
   // ── MEJORA ─────────────────────────────────────────────────────────────────
   if (fase === 'mejora') {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center px-4 py-6">
+      <div className="relative z-10 flex flex-col items-center px-4 pt-6 pb-8">
         <div className="w-full max-w-md">
-          <div className="bg-black/50 backdrop-blur rounded-2xl p-6 border border-white/10">
+          <div className="bg-[#141b2e] rounded-2xl p-5 sm:p-6 border border-white/[0.08]">
             <div className="text-center mb-6">
               <div className="text-4xl mb-2">🎁</div>
               <h2 className="text-2xl font-bold text-white">{lang === 'ca' ? `Missió ${nivel - 1} superada!` : lang === 'en' ? `Mission ${nivel - 1} cleared!` : `¡Misión ${nivel - 1} superada!`}</h2>
