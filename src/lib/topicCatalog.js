@@ -378,7 +378,7 @@ export const TOPIC_CATALOG = {
       fuerzas: examTema({ teoria: 'fuerzas', 'fuerza-neta': 'fuerza-neta-test', balanza: 'balanza-test' }, { niveles: ['primaria', 'eso'] }),
       energia: examTema({ teoria: 'energia' }, { niveles: ['primaria', 'eso'] }),
       electricidad: examTema({ teoria: 'electricidad', circuito: 'circuito-cerrado-test' }, { niveles: ['primaria', 'eso'] }),
-      'ondas-luz': examTema({ teoria: 'ondas-luz' }, { niveles: ['primaria', 'eso'] }),
+      'ondas-luz': examTema({ teoria: 'ondas-luz', 'rayo-de-luz': 'rayo-de-luz-test' }, { niveles: ['primaria', 'eso'] }),
       'presion-fluidos': examTema({ teoria: 'presion-fluidos' }, { niveles: ['primaria', 'eso'] }),
       'calor-temperatura': examTema({ teoria: 'calor-temperatura' }, { niveles: ['primaria', 'eso'] }),
     },
@@ -387,6 +387,7 @@ export const TOPIC_CATALOG = {
       'fuerza-neta': examFormato({ es: 'Fuerza Neta (con el juego)', en: 'Net Force (with the game)', ca: 'Força Neta (amb el joc)' }, '🧭'),
       balanza: examFormato({ es: 'Balanza (con el juego)', en: 'Balance (with the game)', ca: 'Balança (amb el joc)' }, '⚖️'),
       circuito: examFormato({ es: 'Circuito Cerrado (con el juego)', en: 'Circuit Complete (with the game)', ca: 'Circuit Complet (amb el joc)' }, '💡'),
+      'rayo-de-luz': examFormato({ es: 'Rayo de Luz (con el juego)', en: 'Light Beam (with the game)', ca: 'Raig de Llum (amb el joc)' }, '🔦'),
     },
   },
 

@@ -455,6 +455,11 @@ export const EXAMS = {
     emoji: '💡', subject: 'fisica',
     path: 'examen/circuito-cerrado-test', page: () => import('../pages/CircuitoCerradoExamen'),
   },
+  'rayo-de-luz-test': {
+    label: { es: 'Rayo de Luz', en: 'Light Beam', ca: 'Raig de Llum' },
+    emoji: '🔦', subject: 'fisica',
+    path: 'examen/rayo-de-luz-test', page: () => import('../pages/RayoDeLuzExamen'),
+  },
   'encuentra-elemento-test': {
     label: { es: 'Encuentra el Elemento', en: 'Find the Element', ca: 'Troba l\'Element' },
     emoji: '🔬', subject: 'quimica',

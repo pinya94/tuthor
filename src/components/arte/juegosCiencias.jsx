@@ -191,6 +191,33 @@ function CircuitoCerrado(p) {
   )
 }
 
+// Rayo de Luz: el láser rebota en dos espejos a 45° hasta el sensor, con la
+// normal y los dos ángulos iguales en el primer rebote.
+function RayoDeLuz(p) {
+  return (
+    <Lienzo {...p}>
+      {/* láser */}
+      <rect x="18" y="30" width="30" height="20" rx="4" fill="#334155" stroke="#64748B" strokeWidth="1.5" />
+      <rect x="46" y="35" width="8" height="10" rx="2" fill="#475569" />
+      {/* rayo */}
+      <path d="M56 40H128V98H198" stroke="#F43F5E" strokeWidth="9" strokeOpacity=".3" strokeLinejoin="round" />
+      <path d="M56 40H128V98H198" stroke="#F43F5E" strokeWidth="3.5" strokeLinejoin="round" />
+      <path d="M56 40H128V98H198" stroke="#FFF1F2" strokeWidth="1.2" strokeLinejoin="round" />
+      {/* espejos */}
+      <path d="M116 28L140 52" stroke="#E2E8F0" strokeWidth="6" strokeLinecap="round" />
+      <path d="M116 110L140 86" stroke="#E2E8F0" strokeWidth="6" strokeLinecap="round" />
+      {/* normal y ángulos iguales */}
+      <path d="M128 40L114 54" stroke="#FDE68A" strokeWidth="1.5" strokeDasharray="3 3" />
+      <path d="M118 40A10 10 0 0 0 121 47M121 47A10 10 0 0 0 128 50" stroke="#FBBF24" strokeWidth="2" />
+      {/* sensor encendido */}
+      <circle cx="206" cy="98" r="15" fill="#4ADE80" fillOpacity=".2" />
+      <circle cx="206" cy="98" r="10" fill="#0F172A" stroke="#4ADE80" strokeWidth="3" />
+      <circle cx="206" cy="98" r="4.5" fill="#4ADE80" />
+      <path d="M206 76v-5M224 80l4-4M228 98h5M224 116l4 4" stroke="#4ADE80" strokeWidth="2.5" strokeLinecap="round" />
+    </Lienzo>
+  )
+}
+
 // ── QUÍMICA ────────────────────────────────────────────────────────────────
 
 function Atomo({ cx, cy, r, f }) {
@@ -269,6 +296,7 @@ export const ARTE_CIENCIAS = {
   balanza: Balanza,
   orbita: Orbita,
   'circuito-cerrado': CircuitoCerrado,
+  'rayo-de-luz': RayoDeLuz,
   'balanza-ecuaciones': BalanzaEcuaciones,
   'encuentra-elemento': EncuentraElemento,
   'cambio-estado': CambioEstado,

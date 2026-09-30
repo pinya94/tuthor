@@ -372,6 +372,13 @@ const MODOS_POR_TEMA = {
       detalles: { es:['2 niveles','10 preguntas','Opción múltiple','Explicación tras cada respuesta'], en:['2 levels','10 questions','Multiple choice','Explanation after each answer'], ca:['2 nivells','10 preguntes','Opció múltiple','Explicació després de cada resposta'] },
       path: 'ondas-luz',
     },
+    {
+      id: 'rayo-de-luz-test', emoji: '🔦', gradient: 'from-rose-500 to-fuchsia-700',
+      titulo: { es:'Rayo de Luz', en:'Light Beam', ca:'Raig de Llum' },
+      descripcion: { es:'Con la mecánica del juego: sigue un rayo láser por espejos a 45° y di por qué salida sale. Es la ley de la reflexión: el rayo sale con el mismo ángulo con el que llega.', en:'Using the game mechanic: follow a laser beam through 45° mirrors and say which exit it leaves by. It’s the law of reflection: the beam leaves at the same angle it arrives.', ca:'Amb la mecànica del joc: segueix un raig làser per miralls a 45° i digues per quina sortida surt. És la llei de la reflexió: el raig surt amb el mateix angle amb què arriba.' },
+      detalles: { es:['3 niveles','10 preguntas','Sin cronómetro','Con el juego'], en:['3 levels','10 questions','No timer','With the game'], ca:['3 nivells','10 preguntes','Sense cronòmetre','Amb el joc'] },
+      path: 'rayo-de-luz-test',
+    },
   ],
   'presion-fluidos': [
     {

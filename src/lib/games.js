@@ -243,6 +243,14 @@ export const GAMES = {
     // aciertos × 10 puntos → hasta 200 monedas
     coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
   },
+  'rayo-de-luz': {
+    label: { es: 'Rayo de Luz', en: 'Light Beam', ca: 'Raig de Llum' },
+    emoji: '🔦',
+    subject: 'fisica',
+    route: '/juegos/rayo-de-luz',
+    // 10-25 puntos por tablero → hasta 200 monedas
+    coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
+  },
   'analiza-frases': {
     label: { es: 'Analiza la Frase', en: 'Sentence Detective', ca: 'Analitza la Frase' },
     emoji: '🧐',
