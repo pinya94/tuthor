@@ -3,11 +3,15 @@ import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
 import { getReferralLink } from '../lib/referral'
 import { Regalo } from './Iconos'
+import { MONETIZATION_ENABLED } from '../lib/access'
 
 // Enlace de invitación: por cada amigo que se registra con él, quien invita
 // gana un mes de Pro (ver api/apply-referral.js). Mismo hueco que ocupaba
 // ChildCodeCard en Perfil.jsx — reemplaza esa tarjeta escondida, no convive
 // con ella.
+//
+// Mientras no se cobra nada (MONETIZATION_ENABLED = false) el mes de Pro no
+// significa nada: la tarjeta queda como invitación, sin premio.
 //
 // No se monta en sesión de hijo: invitar es cosa del padre, igual que el
 // resto de tarjetas de cuenta.
@@ -40,14 +44,22 @@ export default function ReferralCard({ variant = 'full', className = '' }) {
         <span className="grid place-items-center w-11 h-11 shrink-0 rounded-xl bg-violet-500/12"><Regalo className="w-6 h-6" /></span>
         <span className="flex-1 min-w-0">
           <span className="block text-white font-black text-sm leading-tight">
-            {tr({ es: 'Un mes de Pro gratis', en: 'A free month of Pro', ca: 'Un mes de Pro gratis' })}
+            {MONETIZATION_ENABLED
+              ? tr({ es: 'Un mes de Pro gratis', en: 'A free month of Pro', ca: 'Un mes de Pro gratis' })
+              : tr({ es: 'Invita a tus amigos', en: 'Invite your friends', ca: 'Convida els teus amics' })}
           </span>
           <span className="block text-white/50 text-xs leading-snug">
-            {tr({
-              es: 'Por cada amigo que se registre con tu enlace.',
-              en: 'For every friend who signs up with your link.',
-              ca: 'Per cada amic que es registri amb el teu enllaç.',
-            })}
+            {MONETIZATION_ENABLED
+              ? tr({
+                  es: 'Por cada amigo que se registre con tu enlace.',
+                  en: 'For every friend who signs up with your link.',
+                  ca: 'Per cada amic que es registri amb el teu enllaç.',
+                })
+              : tr({
+                  es: 'Comparte tu enlace y competid en los mismos rankings.',
+                  en: 'Share your link and compete on the same leaderboards.',
+                  ca: 'Comparteix el teu enllaç i competiu als mateixos rànquings.',
+                })}
           </span>
         </span>
         <span className="shrink-0 rounded-lg bg-violet-600 px-3 py-2 text-white text-xs font-bold">
@@ -62,13 +74,19 @@ export default function ReferralCard({ variant = 'full', className = '' }) {
   return (
     <section className="rounded-2xl border border-violet-500/25 bg-violet-500/5 p-5">
       <h3 className="flex items-center gap-2 text-white font-black text-base mb-1">
-        <Regalo className="w-5 h-5" />{tr({ es: 'Invita y gana un mes de Pro', en: 'Invite and get a month of Pro', ca: 'Convida i guanya un mes de Pro' })}
+        <Regalo className="w-5 h-5" />{MONETIZATION_ENABLED
+          ? tr({ es: 'Invita y gana un mes de Pro', en: 'Invite and get a month of Pro', ca: 'Convida i guanya un mes de Pro' })
+          : tr({ es: 'Invita a tus amigos', en: 'Invite your friends', ca: 'Convida els teus amics' })}
       </h3>
       <p className="text-white/50 text-sm mb-4">
-        {tr({
+        {MONETIZATION_ENABLED ? tr({
           es: 'Por cada persona que se registre con tu enlace, te llevas un mes de Pro gratis (sin publicidad y panel completo).',
           en: "For every person who signs up with your link, you get a free month of Pro (no ads, full panel).",
           ca: 'Per cada persona que es registri amb el teu enllaç, t\'emportes un mes de Pro gratis (sense publicitat i panell complet).',
+        }) : tr({
+          es: 'Comparte tu enlace: tus amigos entran directos y podéis competir en los mismos rankings.',
+          en: 'Share your link: your friends jump straight in and you can compete on the same leaderboards.',
+          ca: 'Comparteix el teu enllaç: els teus amics entren directes i podeu competir als mateixos rànquings.',
         })}
       </p>
 
