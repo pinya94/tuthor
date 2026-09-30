@@ -225,7 +225,10 @@ export const BANNERS = [
 
 export const BANNER_BY_ID = Object.fromEntries(BANNERS.map(b => [b.id, b]))
 
-// ── Avatares (emoji en vez de inicial) ────────────────────────────────────────
+// ── Avatares ──────────────────────────────────────────────────────────────────
+// Se guarda el emoji (equippedAvatar / avatarEmoji en los rankings) y se pinta
+// su dibujo de components/avatares/AvatarDibujo.jsx: avatar nuevo = entrada
+// aquí + dibujo allí (un test lo exige).
 // Visibles en rankings y perfil para usuarios sin foto de Google
 export const DEFAULT_AVATAR_EMOJI = '🦉'
 
@@ -238,10 +241,16 @@ export const AVATARS = [
   { id: 'av_panda',   emoji: '🐼', name: { es: 'Panda',     en: 'Panda',    ca: 'Panda'    }, price: 3000 },
   { id: 'av_lion',    emoji: '🦁', name: { es: 'León',      en: 'Lion',     ca: 'Lleó'     }, price: 3000 },
   { id: 'av_frog',    emoji: '🐸', name: { es: 'Rana',      en: 'Frog',     ca: 'Granota'  }, price: 3000 },
+  { id: 'av_turtle',  emoji: '🐢', name: { es: 'Tortuga',   en: 'Turtle',   ca: 'Tortuga'  }, price: 3000 },
+  { id: 'av_bee',     emoji: '🐝', name: { es: 'Abeja',     en: 'Bee',      ca: 'Abella'   }, price: 3000 },
+  { id: 'av_koala',   emoji: '🐨', name: { es: 'Koala',     en: 'Koala',    ca: 'Coala'    }, price: 3000 },
   { id: 'av_penguin', emoji: '🐧', name: { es: 'Pingüino',  en: 'Penguin',  ca: 'Pingüí'   }, price: 7500 },
   { id: 'av_dragon',  emoji: '🐲', name: { es: 'Dragón',    en: 'Dragon',   ca: 'Drac'     }, price: 7500 },
   { id: 'av_uni',     emoji: '🦄', name: { es: 'Unicornio', en: 'Unicorn',  ca: 'Unicorn'  }, price: 7500 },
   { id: 'av_shark',   emoji: '🦈', name: { es: 'Tiburón',   en: 'Shark',    ca: 'Tauró'    }, price: 7500 },
+  { id: 'av_tiger',   emoji: '🐯', name: { es: 'Tigre',     en: 'Tiger',    ca: 'Tigre'    }, price: 7500 },
+  { id: 'av_octopus', emoji: '🐙', name: { es: 'Pulpo',     en: 'Octopus',  ca: 'Pop'      }, price: 7500 },
+  { id: 'av_parrot',  emoji: '🦜', name: { es: 'Loro',      en: 'Parrot',   ca: 'Lloro'    }, price: 7500 },
   { id: 'av_robot',   emoji: '🤖', name: { es: 'Robot',     en: 'Robot',    ca: 'Robot'    }, price: 35000 },
   { id: 'av_ghost',   emoji: '👻', name: { es: 'Fantasma',  en: 'Ghost',    ca: 'Fantasma' }, price: 35000 },
   { id: 'av_alien',   emoji: '👽', name: { es: 'Alien',     en: 'Alien',    ca: 'Alien'    }, price: 35000 },
@@ -250,6 +259,8 @@ export const AVATARS = [
   { id: 'av_fire',    emoji: '🔥', name: { es: 'Fuego',     en: 'Fire',     ca: 'Foc'      }, price: 35000 },
   { id: 'av_star',    emoji: '⭐', name: { es: 'Estrella',  en: 'Star',     ca: 'Estrella' }, price: 35000 },
   { id: 'av_diamond', emoji: '💎', name: { es: 'Diamante',  en: 'Diamond',  ca: 'Diamant'  }, price: 35000 },
+  { id: 'av_trex',    emoji: '🦖', name: { es: 'T-Rex',     en: 'T-Rex',    ca: 'T-Rex'    }, price: 35000 },
+  { id: 'av_astro',   emoji: '🚀', name: { es: 'Astronauta', en: 'Astronaut', ca: 'Astronauta' }, price: 35000 },
 ]
 
 export const AVATAR_BY_ID = Object.fromEntries(AVATARS.map(a => [a.id, a]))

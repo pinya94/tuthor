@@ -1,4 +1,5 @@
 import { FRAME_BY_ID, DEFAULT_AVATAR_EMOJI } from '../data/cosmetics'
+import AvatarDibujo from './avatares/AvatarDibujo'
 
 /**
  * Avatar circular con el marco equipado.
@@ -23,9 +24,9 @@ export default function AvatarFrame({ user, frameId = 'default', avatarEmoji = n
             style={{ width: inner, height: inner, borderRadius: '50%', display: 'block', objectFit: 'cover' }}
           />
         : <div
-            style={{ width: inner, height: inner, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#7c3aed', color: 'white', fontWeight: 900, fontSize: avatarEmoji ? inner / 1.8 : inner / 2.5 }}
+            style={{ width: inner, height: inner, borderRadius: '50%', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#7c3aed' }}
           >
-            {avatarEmoji ?? DEFAULT_AVATAR_EMOJI}
+            <AvatarDibujo emoji={avatarEmoji ?? DEFAULT_AVATAR_EMOJI} fallbackSize={inner / 1.8} />
           </div>
       }
     </div>

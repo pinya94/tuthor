@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { getLeaderboard } from '../lib/activity'
 import { BANNER_BY_ID, FRAME_BY_ID, DEFAULT_AVATAR_EMOJI } from '../data/cosmetics'
+import AvatarDibujo from './avatares/AvatarDibujo'
 import { Medalla, Trofeo, Estrella } from './Iconos'
 
 const _cache = {}
@@ -34,8 +35,8 @@ function LeaderboardRow({ entry, i, currentUid, youLabel }) {
         const ring = frameColor ? { outline: `2px solid ${frameColor}`, outlineOffset: 1 } : {}
         return entry.photoURL
           ? <img src={entry.photoURL} alt="" className="w-6 h-6 rounded-full object-cover shrink-0" style={ring} />
-          : <div className="w-6 h-6 rounded-full bg-violet-600 shrink-0 flex items-center justify-center font-bold text-white" style={{ fontSize: 14, ...ring }}>
-              {entry.avatarEmoji ?? DEFAULT_AVATAR_EMOJI}
+          : <div className="w-6 h-6 rounded-full bg-violet-600 shrink-0 flex items-center justify-center font-bold text-white overflow-hidden" style={{ fontSize: 14, ...ring }}>
+              <AvatarDibujo emoji={entry.avatarEmoji ?? DEFAULT_AVATAR_EMOJI} />
             </div>
       })()}
       <span className={`flex-1 truncate font-medium ${isMe ? 'text-violet-200' : 'text-white/70'}`}>

@@ -18,9 +18,12 @@ import NivelPicker from '../components/NivelPicker'
 import EresProfesor from '../components/EresProfesor'
 import { useDebePreguntarNivel, sincronizarNivel } from '../lib/nivel'
 import { ARTE_MATERIAS } from '../components/arte/materias'
+import AvatarDibujo from '../components/avatares/AvatarDibujo'
 import { Racha, Reloj, Acierto, Fallo, Mando, Moneda, Tienda, Pizarra, Familia, Bicho, Megafono, Sobre } from '../components/Iconos'
 
-const PREVIEW_FRAMES = ['silver', 'gold', 'rainbow', 'galaxy', 'fire', 'neon']
+// Marco + avatar de muestra para el escaparate de recompensas.
+const PREVIEW_FRAMES = ['gold', 'rainbow', 'galaxy', 'fire']
+const PREVIEW_AVATARS = ['🦊', '🐲', '🦖', '🚀']
 
 
 function RewardsSection({ navigate, localPath }) {
@@ -47,10 +50,10 @@ function RewardsSection({ navigate, localPath }) {
           </div>
           {/* Los marcos son cosméticos del usuario: se enseñan tal cual. */}
           <div className="hidden sm:flex gap-1.5 shrink-0">
-            {previewFrames.map(frame => (
+            {previewFrames.map((frame, i) => (
               <div key={frame.id} className={frame.animated ? 'frame-animated' : ''} style={{ ...frame.style, padding: 2, borderRadius: '50%', width: 36, height: 36 }}>
-                <div style={{ width: 32, height: 32, borderRadius: '50%', background: '#1e1b4b', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16 }}>
-                  {frame.emoji}
+                <div style={{ width: 32, height: 32, borderRadius: '50%', overflow: 'hidden' }}>
+                  <AvatarDibujo emoji={PREVIEW_AVATARS[i]} />
                 </div>
               </div>
             ))}
