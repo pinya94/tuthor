@@ -62,7 +62,7 @@ export default function MapaCoordenadas({ guessLat, guessLon, real, revelado, on
   return (
     <div
       ref={wrapRef}
-      className={`relative w-full aspect-[2/1] rounded-2xl overflow-hidden border border-white/10 bg-[#0b1030] ${interactivo ? 'cursor-crosshair' : ''}`}
+      className={`relative w-full aspect-[2/1] rounded-2xl overflow-hidden border border-white/10 bg-[#0a1733] ${interactivo ? 'cursor-crosshair' : ''}`}
       style={interactivo ? { touchAction: 'none' } : undefined}
       onPointerDown={interactivo ? e => { dragRef.current = true; e.currentTarget.setPointerCapture?.(e.pointerId); colocar(e) } : undefined}
       onPointerMove={interactivo ? e => { if (dragRef.current) colocar(e) } : undefined}
@@ -70,22 +70,28 @@ export default function MapaCoordenadas({ guessLat, guessLon, real, revelado, on
       onPointerCancel={interactivo ? () => { dragRef.current = false } : undefined}
     >
       <ComposableMap projectionConfig={{ scale: MAP_SCALE }} width={MAP_W} height={MAP_H} style={{ width: '100%', height: '100%' }}>
-        <Graticule stroke="#ffffff12" step={[30, 30]} />
+        <Graticule stroke="#ffffff14" step={[30, 30]} />
         <Geographies geography={GEO_URL}>
           {({ geographies }) => geographies.map(geo => (
             <Geography key={geo.rsmKey} geography={geo}
-              fill="#1b2447" stroke="#ffffff1f" strokeWidth={0.5}
+              fill="#2b3a6b" stroke="#ffffff30" strokeWidth={0.5}
               style={{ default: { outline: 'none', pointerEvents: 'none' }, hover: { outline: 'none' }, pressed: { outline: 'none' } }} />
           ))}
         </Geographies>
+
+        {/* Ecuador y Greenwich: las dos líneas desde las que se miden la
+            latitud y la longitud. Con ellas a la vista el 0° deja de ser
+            abstracto. */}
+        <Line coordinates={[[-179.9, 0], [-90, 0], [0, 0], [90, 0], [179.9, 0]]} stroke="#fbbf24" strokeWidth={1.4} strokeOpacity={0.9} strokeDasharray="4 3" />
+        <Line coordinates={[[0, -85], [0, 0], [0, 85]]} stroke="#38bdf8" strokeWidth={1.4} strokeOpacity={0.9} strokeDasharray="4 3" />
 
         {revelado && (
           <Line from={[guessLon, guessLat]} to={[real.lon, real.lat]} stroke={color} strokeWidth={1} strokeDasharray="3 3" />
         )}
 
         <Marker coordinates={[guessLon, guessLat]}>
-          <circle r={6} fill={color} stroke="#000" strokeWidth={1.5} style={{ pointerEvents: 'none' }} />
-          {interactivo && <circle r={12} fill="none" stroke={color} strokeWidth={1} opacity={0.4} style={{ pointerEvents: 'none' }} />}
+          <circle r={7} fill={color} stroke="#fff" strokeWidth={2} style={{ pointerEvents: 'none' }} />
+          {interactivo && <circle r={14} fill="none" stroke={color} strokeWidth={1.5} opacity={0.5} style={{ pointerEvents: 'none' }} />}
         </Marker>
 
         {revelado && (

@@ -51,7 +51,7 @@ function CircuitoPregunta({ round, phase, onAnswer, l }) {
       <div className="mb-2">
         <Leyenda labels={{ apagada: est('apagada', l), encendida: est('encendida', l) }} />
       </div>
-      <div className="relative rounded-xl overflow-hidden border border-white/10 bg-[#0d1117] mb-3">
+      <div className="relative rounded-2xl overflow-hidden border border-white/[0.08] bg-[#141b2e] mb-3">
         <CircuitoDiagrama round={round} prediccion={prediccion} onToggle={toggle} revelado={revelado} />
         {revelado && (
           <div className="absolute inset-x-0 bottom-0 bg-black/75 backdrop-blur-sm p-2 text-center">

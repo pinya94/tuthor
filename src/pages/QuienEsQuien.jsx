@@ -10,6 +10,7 @@ import { ComoSeJuega } from '../components/IntroJuego'
 import SupportBlock from '../components/SupportBlock'
 import SEOHead from '../components/SEOHead'
 import { ArteJuego } from '../components/arte'
+import { Corazon } from '../components/Iconos'
 
 const BOARD_SIZE = 12
 const MAX_FALLOS = 2
@@ -496,7 +497,7 @@ export default function QuienEsQuien() {
         <span className="text-white/40 text-xs">{activosCount} {lang === 'ca' ? 'sense ratllar' : en ? 'remaining' : 'sin tachar'}</span>
         <div className="flex gap-1">
           {Array.from({ length: MAX_FALLOS }).map((_, i) => (
-            <span key={i} className={`text-lg transition-opacity ${i < fallos ? 'opacity-20' : ''}`}>❤️</span>
+            <Corazon key={i} className={`w-5 h-5 transition-opacity ${i < fallos ? 'opacity-20 grayscale' : ''}`} />
           ))}
         </div>
       </div>

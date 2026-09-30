@@ -10,6 +10,53 @@ import ParticulasSVG from '../components/ParticulasSVG'
 import GameEndScreen from '../components/GameEndScreen'
 import SEOHead from '../components/SEOHead'
 import { CabeceraJuego, NivelBarras, ComoSeJuega } from '../components/IntroJuego'
+import { Racha } from '../components/Iconos'
+
+// Termómetro en horizontal: la temperatura de la ronda y, si el nivel los
+// enseña, las marcas de fusión y ebullición. Las tres zonas NO se colorean
+// hasta corregir: pintadas antes, bastaría mirar sobre qué color cae la
+// aguja sin razonar nada. Al corregir se colorean y se ve por qué.
+const ZONA = { solido: '#60a5fa', liquido: '#22d3ee', gas: '#a78bfa' }
+function Termometro({ temp, fusion, ebullicion, ocultar, revelado, textos }) {
+  const conPuntos = !ocultar || revelado
+  const lo = Math.min(temp, conPuntos ? fusion : temp)
+  const hi = Math.max(temp, conPuntos ? ebullicion : temp)
+  const pad = Math.max((hi - lo) * 0.22, 40)
+  const min = lo - pad, max = hi + pad
+  const pos = v => ((v - min) / (max - min)) * 100
+  return (
+    <div className="w-full max-w-[460px] px-4 mb-5">
+      <div className="relative h-5">
+        <div className="absolute inset-0 rounded-full overflow-hidden flex bg-white/[0.07] border border-white/10">
+          {revelado && (
+            <>
+              <div style={{ width: `${pos(fusion)}%`, background: `${ZONA.solido}55` }} />
+              <div style={{ width: `${pos(ebullicion) - pos(fusion)}%`, background: `${ZONA.liquido}55` }} />
+              <div className="flex-1" style={{ background: `${ZONA.gas}55` }} />
+            </>
+          )}
+        </div>
+        {conPuntos && [fusion, ebullicion].map(v => (
+          <span key={v} className="absolute -top-1 -bottom-1 w-0.5 bg-white/50 -translate-x-1/2" style={{ left: `${pos(v)}%` }} />
+        ))}
+        <span className="absolute -top-2 -bottom-2 w-1.5 rounded-full bg-[#EDAE49] shadow-[0_0_10px_#EDAE49] -translate-x-1/2 transition-[left] duration-300"
+          style={{ left: `${pos(temp)}%` }} />
+      </div>
+      {conPuntos ? (
+        <div className="relative h-9 mt-1.5 text-[11px] leading-tight">
+          <span className="absolute -translate-x-full pr-1 text-right text-white/60" style={{ left: `${pos(fusion)}%` }}>
+            {textos.funde}<br /><b className="text-white">{fusion} °C</b>
+          </span>
+          <span className="absolute pl-1 text-white/60" style={{ left: `${pos(ebullicion)}%` }}>
+            {textos.hierve}<br /><b className="text-white">{ebullicion} °C</b>
+          </span>
+        </div>
+      ) : (
+        <p className="text-white/35 text-xs text-center mt-2">{textos.oculto}</p>
+      )}
+    </div>
+  )
+}
 
 const GAME_TIME = 60
 const WRONG_TIME = 5
@@ -235,7 +282,7 @@ export default function CambioEstado() {
           <p className="text-white/40 text-xs uppercase tracking-widest">{DIFS[difficulty].emoji} {tr(DIFS[difficulty].label, l)}</p>
           <p className="text-white font-bold text-lg flex items-center gap-2">
             {correctCount} {T('scoreLbl', l)}
-            {streak >= 2 && <span className="text-orange-400 text-sm font-black">🔥 {streak}</span>}
+            {streak >= 2 && <span className="flex items-center gap-0.5 text-orange-400 text-sm font-black"><Racha className="w-4 h-4" />{streak}</span>}
           </p>
         </div>
         <div className="relative w-14 h-14">
@@ -254,27 +301,23 @@ export default function CambioEstado() {
       <p className="text-white/50 text-xs uppercase tracking-widest mb-2">{T('aQue', l)}</p>
 
       <p className="text-white text-2xl font-black mb-1">{tr(round.sustancia.nombre, l)}</p>
-      <p className="text-[#EDAE49] text-3xl font-black mb-2">{round.temp} °C</p>
+      <p className="text-[#EDAE49] text-4xl font-black mb-4">{round.temp} °C</p>
       {/* En fácil y medio los puntos están a la vista: ahí el juego no es
           memorizarlos, es saber dónde cae la temperatura respecto a ellos. En
           difícil se tapan y salen al corregir, para que se aprendan igual. */}
-      <p className="text-white/40 text-xs mb-4 text-center px-4">
-        {round.ocultar && !isResult
-          ? <span className="text-white/30">🔒 {T('oculto', l)}</span>
-          : <>{T('funde', l)} {round.sustancia.fusion} °C · {T('hierve', l)} {round.sustancia.ebullicion} °C</>}
-      </p>
+      <Termometro temp={round.temp} fusion={round.sustancia.fusion} ebullicion={round.sustancia.ebullicion}
+        ocultar={round.ocultar} revelado={isResult}
+        textos={{ funde: T('funde', l), hierve: T('hierve', l), oculto: T('oculto', l) }} />
 
-      {isResult && (
-        <div className="w-full max-w-[280px] mb-3">
-          <ParticulasSVG estado={round.respuesta} />
-        </div>
-      )}
-
+      {/* Cada botón enseña cómo están las partículas en ese estado: la
+          diferencia entre los tres no es "frío/templado/caliente", es cómo
+          de juntas y ordenadas están. */}
       <div className="w-full max-w-[460px] grid grid-cols-3 gap-2 px-1">
         {ESTADO_IDS.map(id => (
           <button key={id} onClick={() => responder(id)} disabled={isResult}
-            className={`py-3.5 rounded-2xl border font-black transition-all ${claseBoton(id)}`}>
-            {ESTADOS[id].emoji} {tr(ESTADOS[id].label, l)}
+            className={`pt-2 pb-3 px-2 rounded-2xl border font-black transition-all flex flex-col items-center gap-1.5 ${claseBoton(id)}`}>
+            <ParticulasSVG estado={id} className="max-w-[92px]" />
+            {tr(ESTADOS[id].label, l)}
           </button>
         ))}
       </div>

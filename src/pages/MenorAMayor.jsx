@@ -11,6 +11,7 @@ import SEOHead from '../components/SEOHead'
 import TimelineBoard from '../components/TimelineBoard'
 import { IconoIntro, NivelBarras, ComoSeJuega } from '../components/IntroJuego'
 import { ArteJuego } from '../components/arte'
+import { Corazon } from '../components/Iconos'
 
 const MAX_VIDAS = 3
 const CARTAS = 12
@@ -198,7 +199,7 @@ export default function MenorAMayor() {
       <div className="flex items-center justify-between px-4 sm:px-8 py-2 shrink-0 border-b border-white/10 bg-black/20">
         <div className="flex items-center gap-1.5">
           {Array.from({ length: MAX_VIDAS }).map((_, i) => (
-            <span key={i} className={`text-xl sm:text-2xl transition-all ${i < vidas ? '' : 'opacity-20 grayscale'}`}>❤️</span>
+            <Corazon key={i} className={`w-6 h-6 transition-all ${i < vidas ? '' : 'opacity-20 grayscale'}`} />
           ))}
         </div>
         <div className="text-center">

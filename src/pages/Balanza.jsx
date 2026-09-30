@@ -255,12 +255,14 @@ export default function Balanza() {
       </p>
 
       {/* Balanza */}
-      <div className="relative w-full max-w-[520px] rounded-xl overflow-hidden border border-white/10 bg-[#0d1117] mb-3">
+      <div className="relative w-full max-w-[520px] rounded-2xl overflow-hidden border border-white/[0.08] bg-[#141b2e] px-1 pt-3 mb-3">
         <BalanceBeam round={round} placed={placed} onPick={isResult ? undefined : pick} />
+      </div>
 
-        {/* overlay resultado */}
-        {isResult && (
-          <div className="absolute inset-x-0 bottom-0 bg-black/70 backdrop-blur-sm p-3 text-center">
+      {/* Resultado DEBAJO de la balanza, no encima: tapaba justo la
+          inclinación, que es lo que cuenta si ha equilibrado o no. */}
+      {isResult && (
+          <div className="w-full max-w-[520px] rounded-2xl bg-[#141b2e] border border-white/[0.08] p-3 mb-3 text-center">
             <p className={`font-black text-lg ${won ? 'text-green-400' : 'text-red-400'}`}>
               {won ? `⚖️ ${T('balanced', l)}` : T('tips', l)}
               {!won && <span className="text-white/60 text-sm font-normal"> · {T('wasNotch', l)} {round.answer}</span>}
@@ -277,7 +279,6 @@ export default function Balanza() {
             </p>
           </div>
         )}
-      </div>
 
       {isResult && (
         <div className="w-full max-w-[520px] px-1">

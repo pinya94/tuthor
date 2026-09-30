@@ -11,6 +11,7 @@ import SEOHead from '../components/SEOHead'
 import MapaCoordenadas, { FlagImg, fmtCoord } from '../components/MapaCoordenadas'
 import { IconoIntro, ComoSeJuega } from '../components/IntroJuego'
 import { ArteJuego } from '../components/arte'
+import { Corazon } from '../components/Iconos'
 
 // Roguelike corto: 10 rondas como máximo (el pool tiene 40 países, no hace
 // falta cubrirlo entero en una partida) o hasta que se acaben las vidas. Sin
@@ -219,7 +220,7 @@ export default function Coordenadas() {
             <span className="text-white font-bold tabular-nums">{puntos.toLocaleString()} pts</span>
             <span className="flex gap-0.5">
               {Array.from({ length: VIDAS_INICIALES }).map((_, i) => (
-                <span key={i} className={i < vidas ? '' : 'opacity-20'}>❤️</span>
+                <Corazon key={i} className={`w-5 h-5 ${i < vidas ? '' : 'opacity-20 grayscale'}`} />
               ))}
             </span>
           </div>
@@ -274,7 +275,7 @@ export default function Coordenadas() {
           <span className="text-white font-bold tabular-nums">{puntos.toLocaleString()} pts</span>
           <span className="flex gap-0.5">
             {Array.from({ length: VIDAS_INICIALES }).map((_, i) => (
-              <span key={i} className={i < vidas ? '' : 'opacity-20'}>❤️</span>
+              <Corazon key={i} className={`w-5 h-5 ${i < vidas ? '' : 'opacity-20 grayscale'}`} />
             ))}
           </span>
         </div>

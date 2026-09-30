@@ -6,6 +6,7 @@ import { useAuth } from '../context/AuthContext'
 import { saveActivity } from '../lib/activity'
 import { computeCoins } from '../lib/games'
 import GameEndScreen from '../components/GameEndScreen'
+import { Corazon } from '../components/Iconos'
 import SEOHead from '../components/SEOHead'
 import { IconoIntro, NivelBarras, ComoSeJuega } from '../components/IntroJuego'
 import { ArteJuego } from '../components/arte'
@@ -627,7 +628,7 @@ export default function AcercateRoguelike() {
               {rd?.escudo
                 ? <span className="text-lg">🛡️</span>
                 : Array.from({ length: dif.vidasIni }).map((_, i) => (
-                    <span key={i} className={`text-sm ${i < (rd?.vidas || 0) ? '' : 'opacity-20'}`}>❤️</span>
+                    <Corazon key={i} className={`w-4 h-4 ${i < (rd?.vidas || 0) ? '' : 'opacity-20 grayscale'}`} />
                   ))
               }
             </div>
@@ -638,7 +639,7 @@ export default function AcercateRoguelike() {
       {/* Puntos */}
       <div className="flex items-center justify-between mb-2 px-1">
         <span className="text-white/25 text-xs font-semibold">
-          ⭐ {score.toLocaleString()} pts
+          {score.toLocaleString()} pts
           {rd?.multiplicador > 1 && (
             <span className="text-violet-400 ml-1.5">×{rd.multiplicador.toFixed(1)}</span>
           )}
@@ -671,13 +672,13 @@ export default function AcercateRoguelike() {
       {/* Números */}
       <div className="mb-3">
         <p className="text-white/25 text-[10px] uppercase tracking-widest mb-2 font-semibold text-center">{au.disponibles}</p>
-        <div className="flex flex-wrap gap-3 justify-center">
+        <div className="flex gap-2 justify-center">
           {numeros.map(n => {
             const isSelected = sel1?.id === n.id
             const isFlash = flashId === n.id
             return (
               <button key={n.id} onClick={() => clickNumero(n)}
-                className={`w-16 h-16 rounded-2xl font-black text-xl border-2 transition-all duration-150 ${
+                className={`flex-1 max-w-[4.5rem] aspect-square rounded-2xl font-black text-2xl border-2 transition-all duration-150 ${
                   isFlash    ? 'bg-[#EDAE49] border-amber-300 text-black scale-125 shadow-xl shadow-amber-500/50 z-10'
                   : isSelected ? 'bg-violet-600 border-violet-400 text-white scale-110 shadow-lg shadow-violet-500/40'
                   :               'bg-white/10 border-white/20 text-white hover:bg-white/20 hover:scale-105 active:scale-95'
@@ -695,7 +696,7 @@ export default function AcercateRoguelike() {
       {/* Operadores */}
       <div className="mb-3">
         <p className="text-white/25 text-[10px] uppercase tracking-widest mb-2 font-semibold text-center">{au.operacion}</p>
-        <div className="grid grid-cols-4 gap-2">
+        <div className="grid gap-2" style={{ gridTemplateColumns: `repeat(${DIFS[rd?.difId || difId].ops.length}, minmax(0, 1fr))` }}>
           {(DIFS[rd?.difId || difId].ops).map(op => {
             const style = OP_STYLE[op]
             const active = opSel === op

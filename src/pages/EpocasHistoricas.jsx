@@ -10,6 +10,7 @@ import { computeCoins } from '../lib/games'
 import SEOHead from '../components/SEOHead'
 import { IconoIntro, ComoSeJuega } from '../components/IntroJuego'
 import { ArteJuego } from '../components/arte'
+import { Corazon } from '../components/Iconos'
 
 const VIDAS_INICIALES = 2 // margen pequeño: un fallo no acaba la partida, dos sí
 const BASE_PTS = 100
@@ -258,7 +259,7 @@ export default function EpocasHistoricas() {
             <span className="text-white font-bold tabular-nums">{puntos.toLocaleString()} pts</span>
             <span className="flex gap-0.5">
               {Array.from({ length: VIDAS_INICIALES }).map((_, i) => (
-                <span key={i} className={i < vidas ? '' : 'opacity-20'}>❤️</span>
+                <Corazon key={i} className={`w-5 h-5 ${i < vidas ? '' : 'opacity-20 grayscale'}`} />
               ))}
             </span>
             <span className="text-white/30 hidden sm:inline">{t.ronda} {rondas + 1}</span>

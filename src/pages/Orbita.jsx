@@ -12,6 +12,7 @@ import SEOHead from '../components/SEOHead'
 import BarraOrbita from '../components/BarraOrbita'
 import { IconoIntro, ComoSeJuega } from '../components/IntroJuego'
 import { ArteJuego } from '../components/arte'
+import { Corazon } from '../components/Iconos'
 
 // Roguelike corto y cerrado: 8 rondas como máximo (un lanzamiento por
 // planeta, sin repetir). Sin reloj ni sonda animada: el jugador arrastra el
@@ -240,7 +241,7 @@ export default function Orbita() {
             <span className="text-white font-bold tabular-nums">{puntos.toLocaleString()} pts</span>
             <span className="flex gap-0.5">
               {Array.from({ length: VIDAS_INICIALES }).map((_, i) => (
-                <span key={i} className={i < vidas ? '' : 'opacity-20'}>❤️</span>
+                <Corazon key={i} className={`w-5 h-5 ${i < vidas ? '' : 'opacity-20 grayscale'}`} />
               ))}
             </span>
           </div>
@@ -281,7 +282,7 @@ export default function Orbita() {
           <span className="text-white font-bold tabular-nums">{puntos.toLocaleString()} pts</span>
           <span className="flex gap-0.5">
             {Array.from({ length: VIDAS_INICIALES }).map((_, i) => (
-              <span key={i} className={i < vidas ? '' : 'opacity-20'}>❤️</span>
+              <Corazon key={i} className={`w-5 h-5 ${i < vidas ? '' : 'opacity-20 grayscale'}`} />
             ))}
           </span>
         </div>

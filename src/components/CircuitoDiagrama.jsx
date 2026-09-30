@@ -23,41 +23,48 @@ const ESTILO_BOMBILLA = {
   encendida: { fill: '#f59e0b', stroke: '#fbbf24', glow: 'drop-shadow(0 0 7px rgba(245,158,11,0.9))' },
 }
 
-const WIRE = '#475569' // slate-600, neutro — el cable no indica corriente
+const WIRE = '#64748b' // slate-500, neutro — el cable no indica corriente
+// Fondo del recuadro donde va el diagrama: los componentes tapan el cable
+// que pasa por debajo con un rectángulo de este color.
+const FONDO_CIRCUITO = '#141b2e'
 
 function Wire({ x1, y1, x2, y2 }) {
-  return <line x1={x1} y1={y1} x2={x2} y2={y2} stroke={WIRE} strokeWidth={2.5} />
+  return <line x1={x1} y1={y1} x2={x2} y2={y2} stroke={WIRE} strokeWidth={4} strokeLinecap="round" />
 }
 
+// Una pila de verdad (no solo el símbolo): se reconoce al instante en un
+// móvil, con su polo + arriba.
 function Bateria({ x, y }) {
   return (
     <g>
-      <rect x={x - 15} y={y - 15} width={30} height={30} fill="#0d1117" />
-      <line x1={x - 13} y1={y - 6} x2={x + 13} y2={y - 6} stroke="#e2e8f0" strokeWidth={2.5} />
-      <line x1={x - 6} y1={y + 6} x2={x + 6} y2={y + 6} stroke="#e2e8f0" strokeWidth={6} />
+      <rect x={x - 18} y={y - 34} width={36} height={68} fill={FONDO_CIRCUITO} />
+      <rect x={x - 6} y={y - 33} width={12} height={6} rx={2} fill="#cbd5e1" />
+      <rect x={x - 14} y={y - 28} width={28} height={58} rx={6} fill="#1e293b" stroke="#94a3b8" strokeWidth={2} />
+      <rect x={x - 12} y={y - 26} width={24} height={20} rx={4} fill="#f59e0b" />
+      <text x={x} y={y - 11} textAnchor="middle" fontSize="16" fontWeight="900" fill="#1c1917" style={{ userSelect: 'none' }}>+</text>
+      <text x={x} y={y + 22} textAnchor="middle" fontSize="18" fontWeight="900" fill="#94a3b8" style={{ userSelect: 'none' }}>−</text>
     </g>
   )
 }
 
 // orientacion 'h' → sobre un cable horizontal; 'v' → sobre uno vertical.
 function Interruptor({ x, y, cerrado, orientacion = 'h' }) {
-  const gap = 11
+  const gap = 14
   const p1 = orientacion === 'h' ? { x: x - gap, y } : { x, y: y - gap }
   const p2 = orientacion === 'h' ? { x: x + gap, y } : { x, y: y + gap }
   // Abierto: el brazo se levanta hacia el lado "libre" del esquema (arriba si
   // es horizontal, hacia la derecha si es vertical) para que la separación
   // se lea de un vistazo.
-  const open = orientacion === 'h' ? { x: x + gap * 0.6, y: y - 12 } : { x: x + 12, y: y + gap * 0.6 }
+  const open = orientacion === 'h' ? { x: x + gap * 0.5, y: y - 17 } : { x: x + 17, y: y + gap * 0.5 }
+  // Sin candados: el brazo levantado o bajado ya es el dato, y el candado
+  // se leía al revés ("cerrado" con candado = ¿no pasa?).
   return (
     <g>
-      <rect x={x - 18} y={y - 18} width={36} height={36} fill="#0d1117" />
-      <circle cx={p1.x} cy={p1.y} r={2.5} fill="#e2e8f0" />
-      <circle cx={p2.x} cy={p2.y} r={2.5} fill="#e2e8f0" />
+      <rect x={x - 20} y={y - 22} width={40} height={42} fill={FONDO_CIRCUITO} />
       <line x1={p1.x} y1={p1.y} x2={cerrado ? p2.x : open.x} y2={cerrado ? p2.y : open.y}
-        stroke="#e2e8f0" strokeWidth={2.5} strokeLinecap="round" />
-      <text x={x} y={y - 24} textAnchor="middle" fontSize="13" style={{ userSelect: 'none' }}>
-        {cerrado ? '🔒' : '🔓'}
-      </text>
+        stroke={cerrado ? '#e2e8f0' : '#f87171'} strokeWidth={4} strokeLinecap="round" />
+      <circle cx={p1.x} cy={p1.y} r={4} fill="#e2e8f0" />
+      <circle cx={p2.x} cy={p2.y} r={4} fill={FONDO_CIRCUITO} stroke="#e2e8f0" strokeWidth={2.5} />
     </g>
   )
 }
@@ -86,19 +93,21 @@ function Bombilla({ x, y, b, prediccion, revelado, onToggle }) {
   const acierto = revelado && predicho === b.estado
   const { fill, stroke: estiloStroke, glow } = ESTILO_BOMBILLA[mostrado]
   const stroke = revelado ? (acierto ? '#4ade80' : '#f87171') : estiloStroke
-  const cross = mostrado === 'apagada' ? '#94a3b8' : '#78350f'
+  const cross = mostrado === 'apagada' ? '#94a3b8' : '#92400e'
   return (
     <g
       onClick={revelado ? undefined : () => onToggle(b.id)}
       style={{ cursor: revelado ? 'default' : 'pointer' }}
     >
-      <rect x={x - 22} y={y - 22} width={44} height={44} fill="#0d1117" />
-      <Rayos x={x} y={y} estado={mostrado} />
-      <circle cx={x} cy={y} r={16} fill={fill} stroke={stroke} strokeWidth={revelado ? 3 : 2} style={{ filter: glow, transition: 'fill 0.15s' }} />
-      <line x1={x - 8} y1={y - 8} x2={x + 8} y2={y + 8} stroke={cross} strokeWidth={1.8} />
-      <line x1={x - 8} y1={y + 8} x2={x + 8} y2={y - 8} stroke={cross} strokeWidth={1.8} />
+      <rect x={x - 26} y={y - 26} width={52} height={52} fill={FONDO_CIRCUITO} />
+      <Rayos x={x} y={y} estado={mostrado} scale={1.15} />
+      {/* Bombilla dibujada: cristal con su filamento (el círculo con aspa del
+          esquema de libro no se entendía en un móvil) */}
+      <circle cx={x} cy={y} r={19} fill={fill} stroke={stroke} strokeWidth={revelado ? 3.5 : 2.5} style={{ filter: glow, transition: 'fill 0.15s' }} />
+      <path d={`M${x - 7} ${y + 9} L${x - 4} ${y - 3} Q${x - 2} ${y - 9} ${x} ${y - 3} Q${x + 2} ${y - 9} ${x + 4} ${y - 3} L${x + 7} ${y + 9}`}
+        stroke={cross} strokeWidth={2} fill="none" strokeLinejoin="round" />
       {!revelado && (
-        <circle cx={x} cy={y} r={22} fill="none" stroke="#ffffff" strokeOpacity={0.06} strokeWidth={1} />
+        <circle cx={x} cy={y} r={25} fill="none" stroke="#ffffff" strokeOpacity={0.12} strokeWidth={1.5} strokeDasharray="3 4" />
       )}
     </g>
   )

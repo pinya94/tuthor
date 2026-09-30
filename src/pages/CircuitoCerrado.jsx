@@ -33,6 +33,7 @@ const C = {
   ptsVal: { es: 'Acierto +1 y +3s · Fallo −1 y −3s', en: 'Correct +1 and +3s · Wrong −1 and −3s', ca: 'Encert +1 i +3s · Errada −1 i −3s' },
   start:  { es: '▶ Empezar', en: '▶ Start', ca: '▶ Començar' },
   prompt: { es: '¿Qué bombillas se encienden?', en: 'Which bulbs light up?', ca: 'Quines bombetes s\'encenen?' },
+  tocaBombilla: { es: 'Toca una bombilla para encenderla o apagarla', en: 'Tap a bulb to switch it on or off', ca: 'Toca una bombeta per encendre-la o apagar-la' },
   confirm:{ es: 'Confirmar →', en: 'Confirm →', ca: 'Confirmar →' },
   allRight:{ es: '¡Correcto!', en: 'Correct!', ca: 'Correcte!' },
   wrong:  { es: 'No del todo', en: 'Not quite', ca: 'No del tot' },
@@ -259,7 +260,8 @@ export default function CircuitoCerrado() {
         </div>
       </div>
 
-      <p className="text-white/70 text-sm mb-2 text-center px-2">{T('prompt', l)}</p>
+      <p className="text-white font-bold text-base text-center px-2">{T('prompt', l)}</p>
+      <p className="text-white/45 text-xs mb-2 text-center px-2">{T('tocaBombilla', l)}</p>
 
       {/* Leyenda de los tres estados — para leer la potencia de un vistazo */}
       <div className="w-full max-w-[520px] mb-2">
@@ -267,7 +269,7 @@ export default function CircuitoCerrado() {
       </div>
 
       {/* Circuito */}
-      <div className="relative w-full max-w-[520px] rounded-xl overflow-hidden border border-white/10 bg-[#0d1117] mb-3">
+      <div className="relative w-full max-w-[520px] rounded-2xl overflow-hidden border border-white/[0.08] bg-[#141b2e] mb-3">
         <CircuitoDiagrama round={round} prediccion={prediccion} onToggle={toggle} revelado={isResult} />
 
         {isResult && (
