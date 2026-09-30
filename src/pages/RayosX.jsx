@@ -1,310 +1,257 @@
-import { useState, useRef, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useState, useRef, useEffect, useCallback } from 'react'
+import { Link } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import { useAuth } from '../context/AuthContext'
 import { saveActivity } from '../lib/activity'
 import { computeCoins } from '../lib/games'
-import { nuevoMazo, evaluarClick } from '../lib/rayosX'
-import { ORGANOS, SISTEMAS } from '../data/organos'
+import { genRonda, esCorrecta, enunciado } from '../lib/rayosX'
+import { SISTEMAS } from '../data/organos'
+import CuerpoSVG, { ALTO } from '../components/rayosX/CuerpoSVG'
 import GameEndScreen from '../components/GameEndScreen'
 import SEOHead from '../components/SEOHead'
-import SiluetaCuerpo from '../components/SiluetaCuerpo'
-import { IconoIntro, ComoSeJuega } from '../components/IntroJuego'
-import { ArteJuego } from '../components/arte'
-import { Corazon, Racha } from '../components/Iconos'
+import { CabeceraJuego, NivelBarras, ComoSeJuega, IconoIntro } from '../components/IntroJuego'
+import { Racha } from '../components/Iconos'
 
-// Roguelike corto y cerrado: 7 rondas como máximo (un diagnóstico por
-// órgano, sin repetir). Sin reloj: el jugador toca la silueta a su ritmo y
-// confirma cuando esté seguro — el reto es SABER dónde está el órgano, no
-// ser rápido de dedos (mismo espíritu que Órbita/Coordenadas, mecánica de
-// clic en vez de slider). Las posiciones no se enseñan hasta confirmar.
-const VIDAS_INICIALES = 3
+// Rayos X (biología · cuerpo humano). Contra reloj, como el resto de juegos:
+// se pide un órgano o un hueso y se toca en el cuerpo dibujado. Si es un
+// hueso se ve el esqueleto; si no, los órganos (components/rayosX/CuerpoSVG).
+// Acertar suma tiempo, fallar lo resta; el reloj se para mientras se lee la
+// explicación de cada respuesta.
+const GAME_TIME = 40
+const CORRECT_TIME = 3
+const WRONG_TIME = 5
+const REVEAL_MS = 2600
+const MEMORIA = 6
 
-const UI = {
-  es: {
-    titulo: 'Rayos X',
-    desc: 'Te decimos un órgano o un hueso: tócalo en la radiografía.',
-    volver: '← Volver', empezar: '¡Empezar diagnóstico!',
-    comoFunciona: 'Cómo funciona',
-    paso1: 'Toca la silueta en el punto donde crees que está el órgano pedido',
-    paso2: 'Sin prisa ni reloj — puedes tocar varias veces para ajustar antes de confirmar',
-    paso3: 'Cuanto más cerca del centro real, más puntos. Si aciertas otro órgano, pierdes una vida',
-    paso4: `Tienes ${VIDAS_INICIALES} vidas — el diagnóstico acaba si se agotan o al preguntar los ${ORGANOS.length} órganos`,
-    salir: '← Salir',
-    marcar: '¡Marcar aquí!', tocaCuerpo: 'Toca el cuerpo',
-    objetivo: 'Localiza:',
-    perfecto: '¡Diagnóstico exacto!', organo: 'Órgano correcto', fallo: 'Órgano equivocado',
-    siguiente: 'Siguiente órgano →', verResultado: 'Ver resultado →',
-    finPartida: 'Diagnóstico terminado', reintentar: '🔬 Nuevo diagnóstico', volverMenu: '← Volver al menú',
-    organosLbl: 'Órganos', rachaLbl: 'Mejor racha',
-    examen: 'Examen con la mecánica del juego →',
-  },
-  en: {
-    titulo: 'X-Ray',
-    desc: 'We name an organ or a bone: tap it on the X-ray.',
-    volver: '← Back', empezar: 'Start diagnosis!',
-    comoFunciona: 'How it works',
-    paso1: 'Tap the silhouette at the point where you think the requested organ is',
-    paso2: 'No rush, no clock — you can tap several times to adjust before confirming',
-    paso3: 'The closer to the real centre, the more points. Land on another organ, lose a life',
-    paso4: `You have ${VIDAS_INICIALES} lives — the diagnosis ends when they run out, or once you've been asked all ${ORGANOS.length} organs`,
-    salir: '← Exit',
-    marcar: 'Mark here!', tocaCuerpo: 'Tap the body',
-    objetivo: 'Locate:',
-    perfecto: 'Spot on!', organo: 'Right organ', fallo: 'Wrong organ',
-    siguiente: 'Next organ →', verResultado: 'See result →',
-    finPartida: 'Diagnosis over', reintentar: '🔬 New diagnosis', volverMenu: '← Back to menu',
-    organosLbl: 'Organs', rachaLbl: 'Best streak',
-    examen: 'Exam using the game mechanic →',
-  },
-  ca: {
-    titulo: 'Raigs X',
-    desc: 'Et diem un òrgan o un os: toca’l a la radiografia.',
-    volver: '← Enrere', empezar: 'Comença el diagnòstic!',
-    comoFunciona: 'Com funciona',
-    paso1: 'Toca la silueta al punt on creus que és l\'òrgan demanat',
-    paso2: 'Sense presses ni rellotge — pots tocar diverses vegades per ajustar abans de confirmar',
-    paso3: 'Com més a prop del centre real, més punts. Si encertes un altre òrgan, perds una vida',
-    paso4: `Tens ${VIDAS_INICIALES} vides — el diagnòstic acaba si s'acaben o en preguntar els ${ORGANOS.length} òrgans`,
-    salir: '← Sortir',
-    marcar: 'Marca aquí!', tocaCuerpo: 'Toca el cos',
-    objetivo: 'Localitza:',
-    perfecto: 'Diagnòstic exacte!', organo: 'Òrgan correcte', fallo: 'Òrgan equivocat',
-    siguiente: 'Òrgan següent →', verResultado: 'Veure resultat →',
-    finPartida: 'Diagnòstic acabat', reintentar: '🔬 Nou diagnòstic', volverMenu: '← Torna al menú',
-    organosLbl: 'Òrgans', rachaLbl: 'Millor ratxa',
-    examen: 'Examen amb la mecànica del joc →',
-  },
+const NIVELES = {
+  facil:   { label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' }, desc: { es: 'Los órganos y huesos más conocidos, por su nombre', en: 'The best-known organs and bones, by name', ca: 'Els òrgans i ossos més coneguts, pel nom' } },
+  medio:   { label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' }, desc: { es: 'Todos: también radio, cúbito, peroné, riñones…', en: 'All of them: radius, ulna, fibula, kidneys too…', ca: 'Tots: també radi, cúbit, peroné, ronyons…' } },
+  dificil: { label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' }, desc: { es: 'Te dicen lo que hace, no cómo se llama', en: 'You get what it does, not its name', ca: 'Et diuen què fa, no com es diu' } },
 }
 
 export default function RayosX() {
-  const navigate = useNavigate()
-  const { lang, localPath } = useLang()
+  const { lang, tr, localPath } = useLang()
   const { user } = useAuth()
   const l = lang === 'en' ? 'en' : lang === 'ca' ? 'ca' : 'es'
-  const t = UI[l]
 
-  const [fase, setFase]     = useState('intro') // intro | jugando | resultado | fin
-  const [cola, setCola]     = useState([])
-  const [organo, setOrgano] = useState(null)
-  const [vidas, setVidas]   = useState(VIDAS_INICIALES)
-  const [puntos, setPuntos] = useState(0)
-  const [racha, setRacha]   = useState(0)
+  const [screen, setScreen] = useState('intro') // intro | playing | end
+  const [nivel, setNivel] = useState('facil')
+  const [timeLeft, setTimeLeft] = useState(GAME_TIME)
+  const [aciertos, setAciertos] = useState(0)
+  const [racha, setRacha] = useState(0)
   const [mejorRacha, setMejorRacha] = useState(0)
-  const [rondas, setRondas] = useState(0)
-  const [guess, setGuess]   = useState(null)
-  const [feedback, setFeedback] = useState(null)
-  const [saved, setSaved]   = useState(false)
+  const [ronda, setRonda] = useState(null)
+  const [elegido, setElegido] = useState(null)
+  const [phase, setPhase] = useState('choose') // choose | result
 
-  const gameStartRef = useRef(null)
+  const timerRef = useRef(null)
+  const nextRef = useRef(null)
+  const vistosRef = useRef([])
+  const aciertosRef = useRef(0)
+  useEffect(() => { aciertosRef.current = aciertos }, [aciertos])
 
-  function iniciar() {
-    const mazo = nuevoMazo()
-    setOrgano(mazo[0])
-    setCola(mazo.slice(1))
-    setVidas(VIDAS_INICIALES)
-    setPuntos(0)
-    setRacha(0)
-    setMejorRacha(0)
-    setRondas(0)
-    setFeedback(null)
-    setSaved(false)
-    setGuess(null)
-    setFase('jugando')
-    gameStartRef.current = Date.now()
+  const siguiente = useCallback(niv => {
+    const r = genRonda(niv, { evitar: vistosRef.current })
+    vistosRef.current = [r.parte.id, ...vistosRef.current].slice(0, MEMORIA)
+    setRonda(r)
+    setElegido(null)
+    setPhase('choose')
+  }, [])
+
+  function empezar(niv) {
+    setNivel(niv)
+    setAciertos(0); setRacha(0); setMejorRacha(0)
+    setTimeLeft(GAME_TIME)
+    vistosRef.current = []
+    setScreen('playing')
+    siguiente(niv)
   }
 
-  // Guardar actividad al terminar el diagnóstico.
+  function terminar() {
+    clearTimeout(nextRef.current)
+    setScreen('end')
+    const pts = aciertosRef.current * 10
+    if (user) {
+      saveActivity(user.uid, {
+        type: 'juego', game: 'rayos-x', category: 'cuerpo-humano',
+        score: pts, passed: aciertosRef.current >= 5, timeSpent: GAME_TIME,
+        coinsEarned: computeCoins('rayos-x', { score: pts }),
+        userName: user.displayName, userPhoto: user.photoURL,
+      }).catch(() => {})
+    }
+  }
+
+  // Reloj: parado mientras se enseña la respuesta
   useEffect(() => {
-    if (fase !== 'fin' || saved || !user) return
-    setSaved(true)
-    const timeSpent = gameStartRef.current ? Math.round((Date.now() - gameStartRef.current) / 1000) : 0
-    saveActivity(user.uid, {
-      type: 'juego', game: 'rayos-x', category: 'biologia',
-      score: puntos, passed: rondas >= 4, timeSpent,
-      coinsEarned: computeCoins('rayos-x', { score: puntos }),
-      userName: user.displayName, userPhoto: user.photoURL,
-    }).catch(() => {})
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [fase])
+    if (screen !== 'playing' || phase === 'result') return
+    timerRef.current = setInterval(() => {
+      setTimeLeft(t => {
+        if (t <= 1) { clearInterval(timerRef.current); terminar(); return 0 }
+        return t - 1
+      })
+    }, 1000)
+    return () => clearInterval(timerRef.current)
+  }, [screen, phase]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  function marcar() {
-    if (fase !== 'jugando' || !organo || !guess) return
-    const resultado = evaluarClick(guess, organo)
-    const gano = resultado !== 'fallo'
-    const base = resultado === 'perfecto' ? 100 : resultado === 'organo' ? 50 : 0
-    const bonus = resultado === 'perfecto' ? Math.min(racha * 10, 50) : 0
-    const pts = base + bonus
-    const nuevaRacha = resultado === 'perfecto' ? racha + 1 : 0
-    const vidasRestantes = gano ? vidas : vidas - 1
+  useEffect(() => () => clearTimeout(nextRef.current), [])
 
-    if (gano) setPuntos(p => p + pts)
-    setRondas(r => r + 1)
-    setRacha(nuevaRacha)
-    setMejorRacha(m => Math.max(m, nuevaRacha))
-    setVidas(vidasRestantes)
-    setFeedback({ resultado, pts, vidasRestantes, organo, guessMarcado: guess })
-    setFase('resultado')
-  }
-
-  function siguiente() {
-    if (feedback && feedback.vidasRestantes <= 0) { setFase('fin'); return }
-    if (cola.length === 0) { setFase('fin'); return } // los órganos ya preguntados
-    setOrgano(cola[0])
-    setCola(cola.slice(1))
-    setFeedback(null)
-    setGuess(null)
-    setFase('jugando')
+  function tocar(id) {
+    if (phase !== 'choose' || !ronda) return
+    setElegido(id)
+    setPhase('result')
+    if (esCorrecta(ronda, id)) {
+      const nueva = racha + 1
+      setAciertos(a => a + 1)
+      setRacha(nueva)
+      setMejorRacha(m => Math.max(m, nueva))
+      setTimeLeft(t => t + CORRECT_TIME)
+    } else {
+      setRacha(0)
+      setTimeLeft(t => Math.max(0, t - WRONG_TIME))
+    }
+    nextRef.current = setTimeout(() => siguiente(nivel), REVEAL_MS)
   }
 
   const seo = {
-    es: { title: 'Rayos X — Localiza el órgano correcto', desc: 'Toca la silueta del cuerpo donde crees que está cada órgano y confirma tu diagnóstico. Aprende dónde está y para qué sirve cada órgano jugando, sin reloj. Juego de biología gratis.', path: '/juegos/rayos-x' },
-    en: { title: 'X-Ray — Locate the right organ', desc: 'Tap the body silhouette where you think each organ is and confirm your diagnosis. Learn where each organ is and what it does by playing, no clock. Free biology game.', path: '/en/juegos/rayos-x' },
-    ca: { title: 'Raigs X — Localitza l\'òrgan correcte', desc: 'Toca la silueta del cos on creus que és cada òrgan i confirma el teu diagnòstic. Aprèn on és i per a què serveix cada òrgan jugant, sense rellotge. Joc de biologia gratis.', path: '/ca/juegos/rayos-x' },
-  }[l]
-
-  // Cabecera común de juego y resultado: salir, racha, puntos y vidas.
-  const cabecera = (
-    <div className="flex items-center justify-between mb-3">
-      <button onClick={() => setFase('intro')} className="text-white/40 hover:text-white/70 text-sm transition-colors">
-        {t.salir}
-      </button>
-      <div className="flex items-center gap-3 text-sm">
-        {racha >= 2 && <span className="flex items-center gap-0.5 text-amber-400 font-black"><Racha className="w-4 h-4" />×{racha}</span>}
-        <span className="text-white font-black tabular-nums">{puntos.toLocaleString()} pts</span>
-        <span className="flex gap-0.5">
-          {Array.from({ length: VIDAS_INICIALES }).map((_, i) => (
-            <Corazon key={i} className={`w-5 h-5 ${i < vidas ? '' : 'opacity-20 grayscale'}`} />
-          ))}
-        </span>
-      </div>
-    </div>
-  )
+    title: tr({ es: 'Rayos X — Órganos y huesos del cuerpo humano', en: 'X-Ray — Organs and bones of the human body', ca: 'Raigs X — Òrgans i ossos del cos humà' }),
+    desc: tr({
+      es: 'Toca cada órgano o hueso en un cuerpo dibujado: corazón, pulmones, riñones, fémur, radio, cúbito… Contra reloj y con tres niveles. Juego de biología gratis.',
+      en: 'Tap each organ or bone on a drawn body: heart, lungs, kidneys, femur, radius, ulna… Against the clock, three levels. Free biology game.',
+      ca: 'Toca cada òrgan o os en un cos dibuixat: cor, pulmons, ronyons, fèmur, radi, cúbit… Contra rellotge i amb tres nivells. Joc de biologia gratis.',
+    }),
+  }
 
   // ── INTRO ──────────────────────────────────────────────────────────────────
-  if (fase === 'intro') {
+  if (screen === 'intro') {
     return (
-      <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
-        <SEOHead title={seo.title} description={seo.desc} path={seo.path} lang={l} />
-        <div className="max-w-md w-full flex flex-col items-center">
-          <button onClick={() => navigate(localPath('/juegos'))}
-            className="text-white/30 hover:text-white/60 text-sm mb-6 flex items-center gap-1 transition-colors">
-            {t.volver}
-          </button>
-          <div className="text-center mb-7">
-            <ArteJuego slug="rayos-x" className="w-full max-w-[240px] mx-auto aspect-video block mb-3" />
-            <h1 className="text-4xl font-black text-white mb-2">{t.titulo}</h1>
-            <p className="text-white/50">{t.desc}</p>
-          </div>
+      <div className="relative z-10 flex flex-col items-center min-h-[calc(100vh-4rem)] px-4 py-8">
+        <SEOHead title={seo.title} description={seo.desc} path="/juegos/rayos-x" />
+        <div className="max-w-md w-full">
+          <CabeceraJuego slug="rayos-x"
+            badge={tr({ es: 'Biología · Cuerpo humano', en: 'Biology · Human body', ca: 'Biologia · Cos humà' })}
+            titulo={tr({ es: 'Rayos X', en: 'X-Ray', ca: 'Raigs X' })}
+            sub={tr({ es: 'Toca el órgano o el hueso que se te pide.', en: 'Tap the organ or bone you are asked for.', ca: "Toca l'òrgan o l'os que se't demana." })} />
 
-          <button onClick={iniciar}
+          <div className="flex justify-center gap-1.5 p-1 bg-white/5 border border-white/10 rounded-xl mb-3 mx-auto w-fit">
+            {Object.entries(NIVELES).map(([id, n], i) => (
+              <button key={id} onClick={() => setNivel(id)}
+                className={`flex items-center gap-1 px-3 py-2 rounded-lg text-sm font-semibold transition-all ${nivel === id ? 'bg-white/15 text-white shadow-sm' : 'text-white/40 hover:text-white/70'}`}>
+                <NivelBarras clave={id} i={i} />{tr(n.label)}
+              </button>
+            ))}
+          </div>
+          <p className="text-white/45 text-xs text-center mb-5">{tr(NIVELES[nivel].desc)}</p>
+
+          <button onClick={() => empezar(nivel)}
             className="w-full py-4 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-xl rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-amber-500/30 mb-3">
-            {t.empezar}
+            {tr({ es: '¡Empezar diagnóstico!', en: 'Start diagnosis!', ca: 'Comença el diagnòstic!' })}
           </button>
           <ComoSeJuega>
-            <div className="bg-[#141b2e] border border-white/[0.08] rounded-2xl p-4 space-y-2.5">
-              {[['👆', t.paso1], ['🤔', t.paso2], ['🎯', t.paso3], ['❤️', t.paso4]].map(([e, txt]) => (
-                <div key={txt} className="flex items-start gap-3 text-sm text-white/60">
-                  <IconoIntro emoji={e} />
-                  <span>{txt}</span>
-                </div>
+            <div className="bg-[#141b2e] border border-white/[0.08] rounded-2xl p-4 space-y-2.5 text-sm text-white/60">
+              {[
+                ['👆', tr({ es: 'Te piden un órgano o un hueso: tócalo en el cuerpo.', en: 'You are asked for an organ or a bone: tap it on the body.', ca: "Et demanen un òrgan o un os: toca'l al cos." })],
+                ['🦴', tr({ es: 'Si es un hueso, verás el esqueleto; si es un órgano, verás los órganos.', en: 'If it is a bone you will see the skeleton; if it is an organ, the organs.', ca: "Si és un os, veuràs l'esquelet; si és un òrgan, veuràs els òrgans." })],
+                ['⏱️', tr({ es: `${GAME_TIME} segundos. Acierto +${CORRECT_TIME} s, fallo −${WRONG_TIME} s.`, en: `${GAME_TIME} seconds. Right +${CORRECT_TIME}s, wrong −${WRONG_TIME}s.`, ca: `${GAME_TIME} segons. Encert +${CORRECT_TIME} s, error −${WRONG_TIME} s.` })],
+              ].map(([e, t]) => (
+                <div key={e} className="flex items-start gap-3"><IconoIntro emoji={e} /><span>{t}</span></div>
               ))}
             </div>
           </ComoSeJuega>
-          <button onClick={() => navigate(localPath('/examen/rayos-x-test'))}
-            className="mt-3 text-white/30 hover:text-white/60 text-sm transition-colors">
-            {t.examen}
-          </button>
+          <Link to={localPath('/examen/rayos-x-test')} className="block text-center mt-3 text-white/30 hover:text-white/60 text-sm transition-colors">
+            {tr({ es: 'Examen con la mecánica del juego →', en: 'Exam using the game mechanic →', ca: 'Examen amb la mecànica del joc →' })}
+          </Link>
         </div>
-      </div>
-    )
-  }
-
-  // ── JUGANDO ────────────────────────────────────────────────────────────────
-  if (fase === 'jugando' && organo) {
-    return (
-      <div className="relative z-10 flex flex-col min-h-[calc(100dvh-4rem)] px-4 md:px-8 pt-4 pb-5 max-w-md mx-auto w-full">
-        <SEOHead title={seo.title} description={seo.desc} path={seo.path} lang={l} />
-        {cabecera}
-
-        <div className="text-center mb-3">
-          <p className="text-sky-300/60 text-[11px] font-bold uppercase tracking-widest">{t.objetivo}</p>
-          <p className="text-2xl font-black text-white leading-tight">{organo.nombre[l] ?? organo.nombre.es}</p>
-        </div>
-
-        <SiluetaCuerpo guess={guess} onPick={setGuess} revelado={false} resultado={null} />
-
-        <button onClick={marcar} disabled={!guess}
-          className="w-full mt-4 py-4 rounded-2xl bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-xl transition-all active:scale-[0.97] shadow-lg shadow-amber-500/20 disabled:bg-white/[0.06] disabled:text-white/40 disabled:shadow-none disabled:cursor-not-allowed">
-          {guess ? t.marcar : t.tocaCuerpo}
-        </button>
-      </div>
-    )
-  }
-
-  // ── RESULTADO ──────────────────────────────────────────────────────────────
-  // El cuerpo a la izquierda con el órgano dibujado, y a la derecha qué es y
-  // para qué sirve: en un móvil cabe todo sin bajar.
-  if (fase === 'resultado' && feedback) {
-    const { resultado, pts, vidasRestantes, organo: o } = feedback
-    const estilo = resultado === 'perfecto'
-      ? 'bg-green-500/15 text-green-300 border-green-400/30'
-      : resultado === 'organo' ? 'bg-yellow-500/15 text-yellow-300 border-yellow-400/30'
-      : 'bg-red-500/15 text-red-300 border-red-400/30'
-    const sistema = SISTEMAS[o.sistema]
-    return (
-      <div className="relative z-10 flex flex-col min-h-[calc(100dvh-4rem)] px-4 md:px-8 pt-4 pb-5 max-w-md mx-auto w-full">
-        {cabecera}
-
-        <div className={`self-center mb-3 px-3 py-1.5 rounded-full border text-sm font-black ${estilo}`}>
-          {t[resultado]}{resultado !== 'fallo' && pts > 0 && ` · +${pts}`}
-        </div>
-
-        <div className="flex gap-3 items-start">
-          <SiluetaCuerpo guess={feedback.guessMarcado} onPick={null} revelado resultado={resultado} compact objetivo={o} />
-          <div className="flex-1 min-w-0 pt-1">
-            <span className="inline-block w-3 h-3 rounded-full mb-1.5" style={{ background: o.color, boxShadow: `0 0 8px ${o.color}` }} />
-            <p className="text-white font-black text-xl leading-tight">{o.nombre[l] ?? o.nombre.es}</p>
-            {sistema && <p className="text-white/40 text-[11px] font-bold uppercase tracking-wide mt-0.5 mb-2">{sistema[l] ?? sistema.es}</p>}
-            <p className="text-white/80 text-sm leading-snug mb-2">{o.funcion[l] ?? o.funcion.es}</p>
-            <p className="text-white/50 text-xs leading-snug">{o.dato[l] ?? o.dato.es}</p>
-          </div>
-        </div>
-
-        <button onClick={siguiente}
-          className="w-full mt-auto pt-4 py-4 rounded-2xl bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-lg transition-all active:scale-[0.97]">
-          {vidasRestantes <= 0 || cola.length === 0 ? t.verResultado : t.siguiente}
-        </button>
       </div>
     )
   }
 
   // ── FIN ────────────────────────────────────────────────────────────────────
-  if (fase === 'fin') {
-    const emoji = rondas >= ORGANOS.length ? '🏆' : rondas >= 4 ? '🧠' : rondas >= 2 ? '🔬' : '🤒'
-    const shareText = l === 'en'
-      ? `I diagnosed ${rondas} organs and scored ${puntos.toLocaleString()} pts in X-Ray 🧠 — can you beat me? https://tuthor.es/juegos/rayos-x`
-      : l === 'ca'
-      ? `He diagnosticat ${rondas} òrgans i he fet ${puntos.toLocaleString()} pts a Raigs X 🧠 — pots superar-me? https://tuthor.es/juegos/rayos-x`
-      : `He diagnosticado ${rondas} órganos y conseguido ${puntos.toLocaleString()} pts en Rayos X 🧠 — ¿puedes superarme? https://tuthor.es/juegos/rayos-x`
+  if (screen === 'end') {
+    const pts = aciertos * 10
+    const msg = aciertos === 0 ? tr({ es: '¡Sigue practicando!', en: 'Keep practising!', ca: 'Segueix practicant!' })
+      : aciertos < 5 ? tr({ es: 'Buen comienzo', en: 'Good start', ca: 'Bon començament' })
+      : aciertos < 12 ? tr({ es: '¡Bien hecho!', en: 'Well done!', ca: 'Ben fet!' })
+      : tr({ es: '¡Ojo clínico!', en: 'A true diagnostician!', ca: 'Ull clínic!' })
     return (
-      <GameEndScreen
-        game="rayos-x"
-        emoji={emoji}
-        title={t.finPartida}
-        score={puntos}
+      <GameEndScreen game="rayos-x" emoji="🧠" title={tr({ es: 'Diagnóstico terminado', en: 'Diagnosis over', ca: 'Diagnòstic acabat' })}
+        score={pts} message={msg}
         stats={[
-          { label: t.organosLbl, value: `${rondas}/${ORGANOS.length}`, emoji: '🧠' },
-          { label: t.rachaLbl, value: `×${mejorRacha}`, emoji: '🔥' },
+          { label: tr({ es: 'Aciertos', en: 'Correct', ca: 'Encerts' }), value: aciertos, emoji: '✅' },
+          { label: tr({ es: 'Mejor racha', en: 'Best streak', ca: 'Millor ratxa' }), value: `×${mejorRacha}`, emoji: '🔥' },
         ]}
-        shareText={shareText}
-        onPlayAgain={iniciar}
-        playAgainLabel={t.reintentar}
-        secondaryActions={[{ label: t.volverMenu, onClick: () => setFase('intro') }]}
-        user={user} lang={l}
-      />
+        shareText={tr({
+          es: `He acertado ${aciertos} órganos y huesos en Rayos X — ¿puedes superarme? https://tuthor.es/juegos/rayos-x`,
+          en: `I got ${aciertos} organs and bones right in X-Ray — can you beat me? https://tuthor.es/juegos/rayos-x`,
+          ca: `He encertat ${aciertos} òrgans i ossos a Raigs X — em pots superar? https://tuthor.es/juegos/rayos-x`,
+        })}
+        onPlayAgain={() => empezar(nivel)}
+        playAgainLabel={tr({ es: 'Nuevo diagnóstico', en: 'New diagnosis', ca: 'Nou diagnòstic' })}
+        secondaryActions={[{ label: tr({ es: 'Cambiar de nivel', en: 'Change level', ca: 'Canviar de nivell' }), onClick: () => setScreen('intro') }]}
+        user={user} lang={lang} />
     )
   }
 
-  return null
+  if (!ronda) return null
+
+  const timerColor = timeLeft > GAME_TIME * 0.66 ? '#22c55e' : timeLeft > GAME_TIME * 0.28 ? '#f59e0b' : '#ef4444'
+  const timerPct = Math.min(1, timeLeft / GAME_TIME)
+  const isResult = phase === 'result'
+  const acerto = isResult && esCorrecta(ronda, elegido)
+  const { parte } = ronda
+  const sistema = SISTEMAS[parte.sistema]
+
+  // ── JUGANDO ────────────────────────────────────────────────────────────────
+  return (
+    <div className="relative z-10 flex flex-col items-center min-h-[calc(100dvh-4rem)] px-3 sm:px-4 pt-4 pb-6">
+      <SEOHead title={seo.title} description={seo.desc} path="/juegos/rayos-x" />
+
+      <div className="w-full max-w-[460px] flex items-center justify-between mb-2 px-1">
+        <div>
+          <p className="text-white/40 text-xs uppercase tracking-widest">
+            {ronda.capa === 'huesos' ? tr({ es: 'Esqueleto', en: 'Skeleton', ca: 'Esquelet' }) : tr({ es: 'Órganos', en: 'Organs', ca: 'Òrgans' })}
+          </p>
+          <p className="text-white font-bold text-lg flex items-center gap-2 tabular-nums">
+            {aciertos} {aciertos === 1 ? tr({ es: 'acierto', en: 'correct', ca: 'encert' }) : tr({ es: 'aciertos', en: 'correct', ca: 'encerts' })}
+            {racha >= 2 && <span className="flex items-center gap-0.5 text-orange-400 text-sm font-black"><Racha className="w-4 h-4" />{racha}</span>}
+          </p>
+        </div>
+        <div className="relative w-14 h-14">
+          <svg className="absolute inset-0" viewBox="0 0 56 56">
+            <circle cx="28" cy="28" r="24" fill="none" stroke="#ffffff15" strokeWidth="4" />
+            <circle cx="28" cy="28" r="24" fill="none" stroke={timerColor} strokeWidth="4"
+              strokeDasharray={`${2 * Math.PI * 24}`} strokeDashoffset={`${2 * Math.PI * 24 * (1 - timerPct)}`}
+              strokeLinecap="round" style={{ transform: 'rotate(-90deg)', transformOrigin: 'center', transition: 'stroke-dashoffset 1s linear' }} />
+          </svg>
+          <div className="absolute inset-0 flex items-center justify-center">
+            <span className="font-black text-sm" style={{ color: timerColor }}>{timeLeft}</span>
+          </div>
+        </div>
+      </div>
+
+      <p className="text-white/50 text-xs uppercase tracking-widest">
+        {ronda.preguntaPor === 'funcion' ? tr({ es: 'Toca el que…', en: 'Tap the one that…', ca: 'Toca el que…' }) : tr({ es: 'Toca', en: 'Tap', ca: 'Toca' })}
+      </p>
+      <p className="text-white text-xl font-black text-center px-2 leading-snug mb-3">{enunciado(ronda, l)}</p>
+
+      {/* El ancho sale del alto libre (el cuerpo es alto y estrecho): así
+          cabe entero con la explicación debajo sin tener que bajar. */}
+      <div className="w-full rounded-2xl overflow-hidden border border-white/[0.08]"
+        style={{ maxWidth: `min(${ronda.capa === 'organos' ? 380 : 320}px, calc((100dvh - 20rem) * ${200 / ALTO[ronda.capa]}))` }}>
+        <CuerpoSVG capa={ronda.capa} onPick={isResult ? null : tocar}
+          elegido={elegido} correcto={isResult ? parte.id : null} revelado={isResult} />
+      </div>
+
+      {isResult && (
+        <div className="w-full max-w-[460px] mt-3 space-y-1.5 px-1">
+          <p className={`text-center font-black ${acerto ? 'text-green-400' : 'text-red-400'}`}>
+            {acerto ? '✓' : '✗'} {tr({ es: 'Era', en: 'It was', ca: 'Era' })}: {parte.nombre[l] ?? parte.nombre.es}
+            {sistema && <span className="text-white/40 font-semibold text-xs"> · {sistema[l] ?? sistema.es}</span>}
+          </p>
+          <div className="rounded-xl px-3 py-2 bg-[#141b2e] border border-white/[0.08]">
+            <p className="text-white/70 text-sm">{ronda.preguntaPor === 'funcion' ? (parte.dato[l] ?? parte.dato.es) : (parte.funcion[l] ?? parte.funcion.es)}</p>
+          </div>
+        </div>
+      )}
+    </div>
+  )
 }

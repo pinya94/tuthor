@@ -1030,17 +1030,17 @@ export const FICHAS_ES = {
   },
   'rayos-x': {
     titulo: 'Rayos X',
-    subtitulo: 'Juego de Anatomía y Localización de Órganos',
+    subtitulo: "Juego de Anatomía: órganos y huesos",
     emoji: '🧠', gradient: 'from-indigo-700 to-slate-900',
     path: '/juegos/rayos-x',
     examPath: '/examen/rayos-x-test',
-    intro: 'Un juego de biología para aprender dónde está cada órgano de verdad: tocas la silueta del cuerpo en el punto donde crees que está el órgano pedido y confirmas cuando estés seguro. Sin reloj ni reflejos — el reto es razonar la anatomía, no ser rápido. Cuanto más cerca del centro real, más puntos, y cada intento, acierte o no, enseña su función y un dato real.',
+    intro: "Un juego de biología para aprender los órganos y los huesos sobre un cuerpo dibujado: te piden una parte y la tocas. Si es un órgano ves los órganos por dentro; si es un hueso, el esqueleto entero. Va contra reloj: acertar suma tiempo, fallar lo resta, y cada respuesta enseña para qué sirve esa parte.",
     beneficios: [
-      { titulo: 'Localización real, no una lista de nombres', texto: 'La mayoría de repasos de anatomía piden memorizar una lista de órganos y su sistema. Aquí hay que situarlos de verdad sobre el cuerpo, con la altura y el lado correctos.' },
+      { titulo: "Cada parte en su sitio y con su forma", texto: "Los pulmones, el corazón, el hígado o los riñones están dibujados con su forma y en su sitio, y en el esqueleto se distinguen el radio del cúbito o la tibia del peroné. Tocar la forma exacta obliga a saber cuál es cuál, no solo la zona." },
       { titulo: 'Función y dato en cada intento', texto: 'Acierte o falle, cada ronda enseña para qué sirve el órgano y un hecho concreto: el hígado se regenera, el intestino delgado mide 6-7 metros, el estómago tiene un pH capaz de disolver metal. Datos verificables, no curiosidades sueltas.' },
-      { titulo: '21 partes, 5 sistemas', texto: 'Cerebro y ojos (nervioso), corazón (circulatorio), tráquea y pulmones (respiratorio), boca, estómago, hígado e intestinos (digestivo) — los mismos sistemas que trata el examen teórico, pero situados sobre el cuerpo — más huesos y articulaciones (clavícula, húmero, codo, radio, cúbito, muñeca, fémur, rótula, tibia, peroné, tobillo).' },
+      { titulo: "28 partes, 6 sistemas y tres niveles", texto: "Doce órganos (nervioso, circulatorio, respiratorio, digestivo y excretor) y dieciséis huesos y articulaciones. El nivel fácil pregunta por las partes más conocidas; el medio, por todas; el difícil no da el nombre, sino lo que hace esa parte." },
     ],
-    ejemplo: 'Toca localizar el hígado. El jugador sabe que está en el sistema digestivo, en la parte alta del abdomen: toca la zona superior derecha del vientre y confirma. La silueta revela el punto exacto — "Órgano correcto" y suma puntos, con su función (filtra la sangre y produce bilis) y el dato de que es el único órgano capaz de regenerarse.',
+    ejemplo: "Te piden el hígado y ves la capa de órganos. El jugador recuerda que está arriba a la derecha del abdomen, bajo el diafragma — que en el dibujo es la izquierda, porque lo miras de frente — y lo toca. Se ilumina en verde, suma tres segundos y aparece para qué sirve.",
     enPapel: {
       titulo: 'Localizar órganos en papel',
       pasos: [
@@ -2144,17 +2144,17 @@ export const FICHAS_EN = {
   },
   'rayos-x': {
     titulo: 'X-Ray',
-    subtitulo: 'Anatomy & Organ Location Game',
+    subtitulo: "Anatomy Game: organs and bones",
     emoji: '🧠', gradient: 'from-indigo-700 to-slate-900',
     path: '/juegos/rayos-x',
     examPath: '/examen/rayos-x-test',
-    intro: "A biology game to really learn where each organ is: you tap the body silhouette at the point where you think the requested organ is, and confirm once you're sure. No clock, no reflexes — the challenge is reasoning about anatomy, not being fast. The closer to the real centre, the more points, and every attempt, right or wrong, reveals the organ's function and a real fact.",
+    intro: "A biology game to learn organs and bones on a drawn body: you are asked for a part and you tap it. If it is an organ you see the organs inside; if it is a bone, the whole skeleton. It is against the clock: a right answer adds time, a wrong one takes it away, and every answer teaches what that part does.",
     beneficios: [
-      { titulo: 'Real location, not a list of names', texto: 'Most anatomy revision asks you to memorise a list of organs and their system. Here you actually have to place them on the body, at the right height and side.' },
+      { titulo: "Every part in its place, with its shape", texto: "The lungs, heart, liver or kidneys are drawn with their shape and in their place, and on the skeleton you can tell the radius from the ulna or the tibia from the fibula. Tapping the exact shape means knowing which is which, not just the area." },
       { titulo: 'Function and fact on every attempt', texto: 'Right or wrong, every round teaches what the organ does and a concrete fact: the liver regenerates, the small intestine is 6-7 metres long, the stomach\'s acid is strong enough to dissolve metal. Verifiable facts, not loose trivia.' },
-      { titulo: '21 parts, 5 systems', texto: 'Brain and eyes (nervous), heart (circulatory), trachea and lungs (respiratory), mouth, stomach, liver and intestines (digestive) — the same systems covered by the theory exam, but placed on the body — plus bones and joints (collarbone, humerus, elbow, radius, ulna, wrist, femur, kneecap, tibia, fibula, ankle).' },
+      { titulo: "28 parts, 6 systems and three levels", texto: "Twelve organs (nervous, circulatory, respiratory, digestive and excretory) and sixteen bones and joints. Easy asks for the best-known parts; medium, for all of them; hard does not give the name but what the part does." },
     ],
-    ejemplo: "It's time to locate the liver. The player knows it's part of the digestive system, in the upper abdomen: they tap the upper-right area of the belly and confirm. The silhouette reveals the exact spot — \"Right organ\" and points are scored, along with its function (filters the blood and produces bile) and the fact that it's the only organ able to regenerate.",
+    ejemplo: "You are asked for the liver and see the organ layer. The player remembers it sits in the upper right of the abdomen, under the diaphragm — which is the left of the drawing, because you are facing the body — and taps it. It lights up green, three seconds are added and what it does appears.",
     enPapel: {
       titulo: 'Locating organs on paper',
       pasos: [
@@ -3332,17 +3332,17 @@ export const FICHAS_CA = {
   },
   'rayos-x': {
     titulo: 'Raigs X',
-    subtitulo: 'Joc d\'Anatomia i Localització d\'Òrgans',
+    subtitulo: "Joc d'Anatomia: òrgans i ossos",
     emoji: '🧠', gradient: 'from-indigo-700 to-slate-900',
     path: '/juegos/rayos-x',
     examPath: '/examen/rayos-x-test',
-    intro: 'Un joc de biologia per aprendre on és cada òrgan de veritat: toques la silueta del cos al punt on creus que és l\'òrgan demanat i confirmes quan estiguis segur. Sense rellotge ni reflexos — el repte és raonar l\'anatomia, no ser ràpid. Com més a prop del centre real, més punts, i cada intent, encertis o no, ensenya la seva funció i una dada real.',
+    intro: "Un joc de biologia per aprendre els òrgans i els ossos sobre un cos dibuixat: et demanen una part i la toques. Si és un òrgan veus els òrgans per dins; si és un os, l'esquelet sencer. Va contra rellotge: encertar suma temps, fallar en resta, i cada resposta ensenya per a què serveix aquella part.",
     beneficios: [
-      { titulo: 'Localització real, no una llista de noms', texto: 'La majoria de repassos d\'anatomia demanen memoritzar una llista d\'òrgans i el seu sistema. Aquí cal situar-los de veritat sobre el cos, amb l\'alçada i el costat correctes.' },
+      { titulo: "Cada part al seu lloc i amb la seva forma", texto: "Els pulmons, el cor, el fetge o els ronyons estan dibuixats amb la seva forma i al seu lloc, i a l'esquelet es distingeixen el radi del cúbit o la tíbia del peroné. Tocar la forma exacta obliga a saber quin és quin, no només la zona." },
       { titulo: 'Funció i dada en cada intent', texto: 'Encertis o no, cada ronda ensenya per a què serveix l\'òrgan i un fet concret: el fetge es regenera, l\'intestí prim fa 6-7 metres, l\'estómac té un pH capaç de dissoldre metall. Dades verificables, no curiositats soltes.' },
-      { titulo: '21 parts, 5 sistemes', texto: 'Cervell i ulls (nerviós), cor (circulatori), tràquea i pulmons (respiratori), boca, estómac, fetge i intestins (digestiu) — els mateixos sistemes que tracta l\'examen teòric, però situats sobre el cos — més ossos i articulacions (clavícula, húmer, colze, radi, cúbit, canell, fèmur, ròtula, tíbia, peroné, turmell).' },
+      { titulo: "28 parts, 6 sistemes i tres nivells", texto: "Dotze òrgans (nerviós, circulatori, respiratori, digestiu i excretor) i setze ossos i articulacions. El nivell fàcil pregunta per les parts més conegudes; el mitjà, per totes; el difícil no dona el nom, sinó el que fa aquella part." },
     ],
-    ejemplo: 'Toca localitzar el fetge. El jugador sap que és al sistema digestiu, a la part alta de l\'abdomen: toca la zona superior dreta del ventre i confirma. La silueta revela el punt exacte — "Òrgan correcte" i suma punts, amb la seva funció (filtra la sang i produeix bilis) i la dada que és l\'únic òrgan capaç de regenerar-se.',
+    ejemplo: "Et demanen el fetge i veus la capa d'òrgans. El jugador recorda que és a dalt a la dreta de l'abdomen, sota el diafragma — que al dibuix és l'esquerra, perquè el mires de cara — i el toca. S'il·lumina en verd, suma tres segons i apareix per a què serveix.",
     enPapel: {
       titulo: 'Localitzar òrgans en paper',
       pasos: [
