@@ -5,12 +5,13 @@ import { useAuth } from '../context/AuthContext'
 import { saveActivity } from '../lib/activity'
 import { computeCoins } from '../lib/games'
 import { nuevoMazo, evaluarClick } from '../lib/rayosX'
-import { ORGANOS } from '../data/organos'
+import { ORGANOS, SISTEMAS } from '../data/organos'
 import GameEndScreen from '../components/GameEndScreen'
 import SEOHead from '../components/SEOHead'
 import SiluetaCuerpo from '../components/SiluetaCuerpo'
 import { IconoIntro, ComoSeJuega } from '../components/IntroJuego'
 import { ArteJuego } from '../components/arte'
+import { Corazon, Racha } from '../components/Iconos'
 
 // Roguelike corto y cerrado: 7 rondas como máximo (un diagnóstico por
 // órgano, sin repetir). Sin reloj: el jugador toca la silueta a su ritmo y
@@ -22,15 +23,15 @@ const VIDAS_INICIALES = 3
 const UI = {
   es: {
     titulo: 'Rayos X',
-    desc: 'Toca la silueta donde crees que está el órgano pedido. Cuanto más preciso, más puntos. Si señalas la zona de otro órgano, pierdes una vida.',
-    volver: '← Volver', empezar: '🔬 ¡Empezar diagnóstico!',
+    desc: 'Te decimos un órgano o un hueso: tócalo en la radiografía.',
+    volver: '← Volver', empezar: '¡Empezar diagnóstico!',
     comoFunciona: 'Cómo funciona',
     paso1: 'Toca la silueta en el punto donde crees que está el órgano pedido',
     paso2: 'Sin prisa ni reloj — puedes tocar varias veces para ajustar antes de confirmar',
     paso3: 'Cuanto más cerca del centro real, más puntos. Si aciertas otro órgano, pierdes una vida',
     paso4: `Tienes ${VIDAS_INICIALES} vidas — el diagnóstico acaba si se agotan o al preguntar los ${ORGANOS.length} órganos`,
     salir: '← Salir',
-    marcar: '📍 ¡Marcar aquí!',
+    marcar: '¡Marcar aquí!', tocaCuerpo: 'Toca el cuerpo',
     objetivo: 'Localiza:',
     perfecto: '¡Diagnóstico exacto!', organo: 'Órgano correcto', fallo: 'Órgano equivocado',
     siguiente: 'Siguiente órgano →', verResultado: 'Ver resultado →',
@@ -40,15 +41,15 @@ const UI = {
   },
   en: {
     titulo: 'X-Ray',
-    desc: 'Tap the silhouette where you think the requested organ is. The more precise, the more points. Land on another organ\'s zone and you lose a life.',
-    volver: '← Back', empezar: '🔬 Start diagnosis!',
+    desc: 'We name an organ or a bone: tap it on the X-ray.',
+    volver: '← Back', empezar: 'Start diagnosis!',
     comoFunciona: 'How it works',
     paso1: 'Tap the silhouette at the point where you think the requested organ is',
     paso2: 'No rush, no clock — you can tap several times to adjust before confirming',
     paso3: 'The closer to the real centre, the more points. Land on another organ, lose a life',
     paso4: `You have ${VIDAS_INICIALES} lives — the diagnosis ends when they run out, or once you've been asked all ${ORGANOS.length} organs`,
     salir: '← Exit',
-    marcar: '📍 Mark here!',
+    marcar: 'Mark here!', tocaCuerpo: 'Tap the body',
     objetivo: 'Locate:',
     perfecto: 'Spot on!', organo: 'Right organ', fallo: 'Wrong organ',
     siguiente: 'Next organ →', verResultado: 'See result →',
@@ -58,15 +59,15 @@ const UI = {
   },
   ca: {
     titulo: 'Raigs X',
-    desc: 'Toca la silueta on creus que és l\'òrgan demanat. Com més precís, més punts. Si assenyales la zona d\'un altre òrgan, perds una vida.',
-    volver: '← Enrere', empezar: '🔬 Comença el diagnòstic!',
+    desc: 'Et diem un òrgan o un os: toca’l a la radiografia.',
+    volver: '← Enrere', empezar: 'Comença el diagnòstic!',
     comoFunciona: 'Com funciona',
     paso1: 'Toca la silueta al punt on creus que és l\'òrgan demanat',
     paso2: 'Sense presses ni rellotge — pots tocar diverses vegades per ajustar abans de confirmar',
     paso3: 'Com més a prop del centre real, més punts. Si encertes un altre òrgan, perds una vida',
     paso4: `Tens ${VIDAS_INICIALES} vides — el diagnòstic acaba si s'acaben o en preguntar els ${ORGANOS.length} òrgans`,
     salir: '← Sortir',
-    marcar: '📍 Marca aquí!',
+    marcar: 'Marca aquí!', tocaCuerpo: 'Toca el cos',
     objetivo: 'Localitza:',
     perfecto: 'Diagnòstic exacte!', organo: 'Òrgan correcte', fallo: 'Òrgan equivocat',
     siguiente: 'Òrgan següent →', verResultado: 'Veure resultat →',
@@ -162,12 +163,30 @@ export default function RayosX() {
     ca: { title: 'Raigs X — Localitza l\'òrgan correcte', desc: 'Toca la silueta del cos on creus que és cada òrgan i confirma el teu diagnòstic. Aprèn on és i per a què serveix cada òrgan jugant, sense rellotge. Joc de biologia gratis.', path: '/ca/juegos/rayos-x' },
   }[l]
 
+  // Cabecera común de juego y resultado: salir, racha, puntos y vidas.
+  const cabecera = (
+    <div className="flex items-center justify-between mb-3">
+      <button onClick={() => setFase('intro')} className="text-white/40 hover:text-white/70 text-sm transition-colors">
+        {t.salir}
+      </button>
+      <div className="flex items-center gap-3 text-sm">
+        {racha >= 2 && <span className="flex items-center gap-0.5 text-amber-400 font-black"><Racha className="w-4 h-4" />×{racha}</span>}
+        <span className="text-white font-black tabular-nums">{puntos.toLocaleString()} pts</span>
+        <span className="flex gap-0.5">
+          {Array.from({ length: VIDAS_INICIALES }).map((_, i) => (
+            <Corazon key={i} className={`w-5 h-5 ${i < vidas ? '' : 'opacity-20 grayscale'}`} />
+          ))}
+        </span>
+      </div>
+    </div>
+  )
+
   // ── INTRO ──────────────────────────────────────────────────────────────────
   if (fase === 'intro') {
     return (
       <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
         <SEOHead title={seo.title} description={seo.desc} path={seo.path} lang={l} />
-        <div className="max-w-xl w-full flex flex-col items-center">
+        <div className="max-w-md w-full flex flex-col items-center">
           <button onClick={() => navigate(localPath('/juegos'))}
             className="text-white/30 hover:text-white/60 text-sm mb-6 flex items-center gap-1 transition-colors">
             {t.volver}
@@ -175,16 +194,25 @@ export default function RayosX() {
           <div className="text-center mb-7">
             <ArteJuego slug="rayos-x" className="w-full max-w-[240px] mx-auto aspect-video block mb-3" />
             <h1 className="text-4xl font-black text-white mb-2">{t.titulo}</h1>
-            <p className="text-white/40">{t.desc}</p>
+            <p className="text-white/50">{t.desc}</p>
           </div>
-
 
           <button onClick={iniciar}
             className="w-full py-4 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-xl rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-amber-500/30 mb-3">
             {t.empezar}
           </button>
+          <ComoSeJuega>
+            <div className="bg-[#141b2e] border border-white/[0.08] rounded-2xl p-4 space-y-2.5">
+              {[['👆', t.paso1], ['🤔', t.paso2], ['🎯', t.paso3], ['❤️', t.paso4]].map(([e, txt]) => (
+                <div key={txt} className="flex items-start gap-3 text-sm text-white/60">
+                  <IconoIntro emoji={e} />
+                  <span>{txt}</span>
+                </div>
+              ))}
+            </div>
+          </ComoSeJuega>
           <button onClick={() => navigate(localPath('/examen/rayos-x-test'))}
-            className="text-white/30 hover:text-white/60 text-sm transition-colors">
+            className="mt-3 text-white/30 hover:text-white/60 text-sm transition-colors">
             {t.examen}
           </button>
         </div>
@@ -195,89 +223,58 @@ export default function RayosX() {
   // ── JUGANDO ────────────────────────────────────────────────────────────────
   if (fase === 'jugando' && organo) {
     return (
-      <div className="relative z-10 flex flex-col min-h-[calc(100vh-4rem)] px-4 md:px-8 py-5 max-w-md mx-auto w-full">
+      <div className="relative z-10 flex flex-col min-h-[calc(100dvh-4rem)] px-4 md:px-8 pt-4 pb-5 max-w-md mx-auto w-full">
         <SEOHead title={seo.title} description={seo.desc} path={seo.path} lang={l} />
-        <div className="flex items-center justify-between mb-4">
-          <button onClick={() => setFase('intro')} className="text-white/40 hover:text-white/70 text-sm transition-colors">
-            {t.salir}
-          </button>
-          <div className="flex items-center gap-3 text-sm text-white/50">
-            {racha >= 2 && <span className="text-amber-400 font-bold">🔥 ×{racha}</span>}
-            <span className="text-white font-bold tabular-nums">{puntos.toLocaleString()} pts</span>
-            <span className="flex gap-0.5">
-              {Array.from({ length: VIDAS_INICIALES }).map((_, i) => (
-                <span key={i} className={i < vidas ? '' : 'opacity-20'}>❤️</span>
-              ))}
-            </span>
-          </div>
-        </div>
+        {cabecera}
 
-        <p className="text-white/40 text-xs uppercase tracking-widest text-center mb-1">{t.objetivo}</p>
-        <p className="text-center text-2xl font-black text-white mb-4">
-          {organo.nombre[l] ?? organo.nombre.es}
-        </p>
+        <div className="text-center mb-3">
+          <p className="text-sky-300/60 text-[11px] font-bold uppercase tracking-widest">{t.objetivo}</p>
+          <p className="text-2xl font-black text-white leading-tight">{organo.nombre[l] ?? organo.nombre.es}</p>
+        </div>
 
         <SiluetaCuerpo guess={guess} onPick={setGuess} revelado={false} resultado={null} />
 
         <button onClick={marcar} disabled={!guess}
-          className="w-full mt-4 py-5 rounded-2xl bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-xl transition-all hover:scale-[1.02] active:scale-[0.97] shadow-lg shadow-amber-500/20 disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:scale-100">
-          {t.marcar}
+          className="w-full mt-4 py-4 rounded-2xl bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-xl transition-all active:scale-[0.97] shadow-lg shadow-amber-500/20 disabled:bg-white/[0.06] disabled:text-white/40 disabled:shadow-none disabled:cursor-not-allowed">
+          {guess ? t.marcar : t.tocaCuerpo}
         </button>
       </div>
     )
   }
 
   // ── RESULTADO ──────────────────────────────────────────────────────────────
+  // El cuerpo a la izquierda con el órgano dibujado, y a la derecha qué es y
+  // para qué sirve: en un móvil cabe todo sin bajar.
   if (fase === 'resultado' && feedback) {
-    const { resultado, pts, vidasRestantes, organo: o, guessMarcado } = feedback
-    const color = resultado === 'perfecto' ? 'text-green-400' : resultado === 'organo' ? 'text-yellow-400' : 'text-red-400'
+    const { resultado, pts, vidasRestantes, organo: o } = feedback
+    const estilo = resultado === 'perfecto'
+      ? 'bg-green-500/15 text-green-300 border-green-400/30'
+      : resultado === 'organo' ? 'bg-yellow-500/15 text-yellow-300 border-yellow-400/30'
+      : 'bg-red-500/15 text-red-300 border-red-400/30'
+    const sistema = SISTEMAS[o.sistema]
     return (
-      <div className="relative z-10 flex flex-col min-h-[calc(100vh-4rem)] px-4 md:px-8 py-5 max-w-md mx-auto w-full">
-        <div className="flex items-center justify-between mb-4 text-sm text-white/50">
-          <span className="text-white font-bold tabular-nums">{puntos.toLocaleString()} pts</span>
-          <span className="flex gap-0.5">
-            {Array.from({ length: VIDAS_INICIALES }).map((_, i) => (
-              <span key={i} className={i < vidas ? '' : 'opacity-20'}>❤️</span>
-            ))}
-          </span>
+      <div className="relative z-10 flex flex-col min-h-[calc(100dvh-4rem)] px-4 md:px-8 pt-4 pb-5 max-w-md mx-auto w-full">
+        {cabecera}
+
+        <div className={`self-center mb-3 px-3 py-1.5 rounded-full border text-sm font-black ${estilo}`}>
+          {t[resultado]}{resultado !== 'fallo' && pts > 0 && ` · +${pts}`}
         </div>
 
-        <p className={`text-center text-2xl font-black mb-1 ${color}`}>
-          {t[resultado]} {resultado !== 'fallo' && pts > 0 && `· +${pts}`}
-        </p>
-        <p className="text-center text-white/40 text-sm mb-4">
-          {t.objetivo} {o.nombre[l] ?? o.nombre.es}
-        </p>
-
-        <SiluetaCuerpo guess={guessMarcado} onPick={null} revelado resultado={resultado} compact objetivo={o} l={l} />
-
+        <div className="flex gap-3 items-start">
+          <SiluetaCuerpo guess={feedback.guessMarcado} onPick={null} revelado resultado={resultado} compact objetivo={o} />
+          <div className="flex-1 min-w-0 pt-1">
+            <span className="inline-block w-3 h-3 rounded-full mb-1.5" style={{ background: o.color, boxShadow: `0 0 8px ${o.color}` }} />
+            <p className="text-white font-black text-xl leading-tight">{o.nombre[l] ?? o.nombre.es}</p>
+            {sistema && <p className="text-white/40 text-[11px] font-bold uppercase tracking-wide mt-0.5 mb-2">{sistema[l] ?? sistema.es}</p>}
+            <p className="text-white/80 text-sm leading-snug mb-2">{o.funcion[l] ?? o.funcion.es}</p>
+            <p className="text-white/50 text-xs leading-snug">{o.dato[l] ?? o.dato.es}</p>
+          </div>
+        </div>
 
         <button onClick={siguiente}
-          className="w-full mt-5 py-4 rounded-2xl bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-lg transition-all hover:scale-[1.02]">
+          className="w-full mt-auto pt-4 py-4 rounded-2xl bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-lg transition-all active:scale-[0.97]">
           {vidasRestantes <= 0 || cola.length === 0 ? t.verResultado : t.siguiente}
         </button>
-        <ComoSeJuega>
-          <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-5 w-full">
-            <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-3">{t.comoFunciona}</p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-              {[
-                ['👆', t.paso1],
-                ['🤔', t.paso2],
-                ['🎯', t.paso3],
-                ['❤️', t.paso4],
-              ].map(([e, txt]) => (
-                <div key={txt} className="flex items-start gap-2 text-sm text-white/50">
-                  <IconoIntro emoji={e} />
-                  <span>{txt}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="bg-white/5 border border-white/10 rounded-2xl p-4 mt-4 text-sm text-white/60 leading-relaxed">
-          <p className="text-white/80 font-semibold mb-1">{o.funcion[l] ?? o.funcion.es}</p>
-          {o.dato[l] ?? o.dato.es}
-        </div>
-        </ComoSeJuega>
       </div>
     )
   }

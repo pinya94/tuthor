@@ -11,6 +11,7 @@ import CelulaSVG from '../components/CelulaSVG'
 import GameEndScreen from '../components/GameEndScreen'
 import SEOHead from '../components/SEOHead'
 import { CabeceraJuego, ComoSeJuega } from '../components/IntroJuego'
+import { Racha } from '../components/Iconos'
 
 const GAME_TIME = 20
 const WRONG_TIME = 5
@@ -38,7 +39,8 @@ const C = {
   elQue:   { es: 'Toca el que…', en: 'Tap the one that…', ca: 'Toca el que…' },
   end:     { es: 'Tiempo', en: "Time's up", ca: 'Temps' },
   hits:    { es: 'aciertos', en: 'correct', ca: 'encerts' },
-  scoreLbl:{ es: 'puntos', en: 'points', ca: 'punts' },
+  hit:     { es: 'acierto', en: 'correct', ca: 'encert' },
+  realLbl: { es: 'Preparación real', en: 'Real slide', ca: 'Preparació real' },
   era:     { es: 'Era', en: 'It was', ca: 'Era' },
   back:    { es: '← Volver', en: '← Back', ca: '← Tornar' },
   otroModo:{ es: 'Cambiar de modo', en: 'Change mode', ca: 'Canviar de mode' },
@@ -244,13 +246,11 @@ export default function Microscopio() {
               "piojo humano" aquí resolvería la pregunta sin mirar la marca,
               porque bastaría descartar las opciones de los otros bichos. */}
           <p className="text-white/40 text-xs uppercase tracking-widest">
-            {esPrep
-              ? `📷 ${T('fPrep', l)}`
-              : `${celula.emoji} ${celula.label[l] ?? celula.label.es}`}
+            {esPrep ? T('realLbl', l) : (celula.label[l] ?? celula.label.es)}
           </p>
           <p className="text-white font-bold text-lg flex items-center gap-2">
-            {correctCount} {T('scoreLbl', l)}
-            {streak >= 2 && <span className="text-orange-400 text-sm font-black">🔥 {streak}</span>}
+            {correctCount} {T(correctCount === 1 ? 'hit' : 'hits', l)}
+            {streak >= 2 && <span className="flex items-center gap-0.5 text-orange-400 text-sm font-black"><Racha className="w-4 h-4" />{streak}</span>}
           </p>
         </div>
         <div className="relative w-14 h-14">
@@ -266,10 +266,12 @@ export default function Microscopio() {
         </div>
       </div>
 
-      <p className="text-white/50 text-xs uppercase tracking-widest mb-1">
-        {esPrep ? T('quEs', l) : round.preguntaPor === 'nombre' ? T('buscar', l) : T('elQue', l)}
-      </p>
-      <p className="text-white text-lg sm:text-xl font-bold mb-3 text-center px-2 min-h-[56px]">
+      {!esPrep && (
+        <p className="text-white/50 text-xs uppercase tracking-widest mb-1">
+          {round.preguntaPor === 'nombre' ? T('buscar', l) : T('elQue', l)}
+        </p>
+      )}
+      <p className="text-white text-lg sm:text-xl font-bold mb-3 text-center px-2 leading-snug">
         {esPrep ? T('quEs', l) : enunciado(round, l)}
       </p>
 
@@ -321,7 +323,10 @@ export default function Microscopio() {
           </div>
         </>
       ) : (
-        <div className="w-full max-w-[520px] rounded-2xl border border-white/10 bg-white/5 p-3 mb-3">
+        <div className="w-full rounded-2xl border border-white/[0.08] bg-[#141b2e] p-2 mb-3"
+          style={{ maxWidth: 'min(420px, calc((100dvh - 24rem) / 1.125))' }}>
+          {/* El ancho sale también del alto libre: así la explicación de
+              debajo cabe en la pantalla del móvil sin tener que bajar. */}
           <CelulaSVG tipo={round.tipo} onPick={isResult ? null : pick}
             elegido={elegido} correcto={isResult ? round.organulo.id : null} revelado={isResult} />
         </div>

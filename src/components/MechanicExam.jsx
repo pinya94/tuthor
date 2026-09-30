@@ -285,15 +285,17 @@ export default function MechanicExam({
     <div className="relative z-10 flex flex-col items-center min-h-[calc(100vh-4rem)] px-2 sm:px-4 py-5">
       {pageMeta}{quizSchema}
       {/* Header */}
-      <div className="w-full max-w-[520px] flex items-center justify-between mb-3 px-1">
-        <div>
-          <p className="text-white/40 text-xs uppercase tracking-widest">{tr(badge, l)}</p>
-          <p className="text-white font-bold text-lg">{score} · {tr(L.q, l)} {idx + 1} {tr(L.of, l)} {TOTAL}</p>
+      {/* Progreso como barra segmentada a todo el ancho: los puntos a la
+          derecha del título saltaban de línea en un móvil. */}
+      <div className="w-full max-w-[520px] mb-3 px-1">
+        <div className="flex items-baseline justify-between gap-3 mb-2">
+          <p className="text-white/40 text-xs uppercase tracking-widest truncate">{tr(badge, l)}</p>
+          <p className="text-white font-bold text-sm tabular-nums shrink-0">{idx + 1}/{TOTAL} · {score}</p>
         </div>
-        <div className="flex gap-1 flex-wrap justify-end max-w-[160px]">
+        <div className="flex gap-1">
           {Array.from({ length: TOTAL }).map((_, i) => {
             const bg = results[i] === undefined ? (i === idx ? 'bg-white/60' : 'bg-white/15') : results[i] ? 'bg-green-500' : 'bg-red-500'
-            return <div key={i} className={`w-3 h-3 rounded-full ${bg} transition-colors`} />
+            return <div key={i} className={`flex-1 h-1.5 rounded-full ${bg} transition-colors`} />
           })}
         </div>
       </div>
