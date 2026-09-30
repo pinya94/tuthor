@@ -17,6 +17,7 @@
 // solo le pasa el estado de la partida, cómo leer cada carta (accessors) y
 // llama a `onPlace(slot)`.
 import { useState, useRef, useEffect, useCallback } from 'react'
+import { eraDe } from '../lib/eras'
 
 // Usamos la línea vertical (huecos a todo el ancho, scroll con el dedo) en
 // cualquier dispositivo TÁCTIL —móvil y también tablet (iPad, etc.)— y en
@@ -68,6 +69,10 @@ const ACCENTS = {
   sky:     { slotH: 'hover:border-sky-400 hover:bg-sky-500/20 hover:text-sky-300 hover:scale-105',           slotV: 'active:bg-sky-500/25 active:border-sky-400',         value: 'text-sky-400' },
 }
 
+// Color del punto de cada carta en el raíl: si es un evento con año, el de
+// su era (lib/eras.js); si no (pasos de un ciclo, números), el del acento.
+const HEX = { amber: '#FBBF24', violet: '#A78BFA', emerald: '#34D399', sky: '#38BDF8' }
+
 const T = {
   donde: { es: '¿Dónde va esta carta?', en: 'Where does this card go?', ca: 'On va aquesta carta?' },
   ok:    { es: '✓ ¡Correcto!', en: '✓ Correct!', ca: '✓ Correcte!' },
@@ -86,7 +91,7 @@ export default function TimelineBoard({
   current, timeline, phase, wasCorrect, chosenSlot, correctSlot, onPlace,
   lt, lang = 'es', accent = 'amber',
   // Accessors opcionales: por defecto se comportan como la Línea del Tiempo.
-  getName, getDesc, getReveal, getBadge, getMarker, tuLineaLabel,
+  getName, getDesc, getReveal, getBadge, getMarker, getColor, tuLineaLabel,
 }) {
   const narrow = useIsNarrow()
   const scrollRef = useRef(null)
@@ -100,7 +105,8 @@ export default function TimelineBoard({
   const reveal = getReveal ?? (it => formatYear(it.año))
   const badge  = getBadge  ?? (it => ({ text: (DIF_LABEL[lang] ?? DIF_LABEL.es)[it.dificultad] ?? it.dificultad, cls: DIF_CLS[it.dificultad] }))
   const marker = getMarker ?? (() => null)
-  const acitem = { name, desc, reveal, badge, marker, value: acc.value }
+  const color  = getColor ?? (it => (typeof it.año === 'number' ? eraDe(it.año)?.color : null) ?? HEX[accent] ?? HEX.amber)
+  const acitem = { name, desc, reveal, badge, marker, color, value: acc.value }
 
   // Escritorio: la rueda del ratón desplaza la línea horizontal.
   useEffect(() => {
@@ -161,6 +167,9 @@ export default function TimelineBoard({
 
         <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 pb-6 min-h-0"
           style={{ scrollbarWidth: 'none', overscrollBehaviorY: 'contain', WebkitOverflowScrolling: 'touch' }}>
+          {/* El raíl: una línea vertical de verdad, con un punto por carta */}
+          <div className="relative">
+          <span aria-hidden="true" className="absolute left-[19px] top-3 bottom-3 w-0.5 rounded-full bg-white/15" />
           <SlotRow index={0} phase={phase} chosen={chosenSlot} correct={correctSlot} onPlace={onPlace} lang={lang} acc={acc} />
           {timeline.map((ev, i) => (
             <div key={ev.id}>
@@ -168,6 +177,7 @@ export default function TimelineBoard({
               <SlotRow index={i + 1} phase={phase} chosen={chosenSlot} correct={correctSlot} onPlace={onPlace} lang={lang} acc={acc} />
             </div>
           ))}
+          </div>
         </div>
       </div>
     )
@@ -228,7 +238,7 @@ function CurrentCard({ current, phase, wasCorrect, ac, compact }) {
   if (!current) return null
   const state = phase === 'revealing'
     ? (wasCorrect ? 'border-green-500/70 bg-green-500/10' : 'border-red-500/70 bg-red-500/10')
-    : 'border-white/20 bg-white/5 backdrop-blur-sm'
+    : 'border-white/[0.1] bg-[#141b2e]'
   const b = ac.badge(current)
   return (
     <div className={`w-full max-w-2xl mx-auto rounded-2xl border-2 transition-all duration-300 ${state} ${compact ? 'p-4' : 'p-6 sm:p-8'}`}>
@@ -244,42 +254,53 @@ function CurrentCard({ current, phase, wasCorrect, ac, compact }) {
   )
 }
 
-// Hueco a todo el ancho (móvil, vertical)
+// Hueco (móvil, vertical): un nodo "+" sobre el raíl y la fila entera
+// pulsable, para acertar con el dedo sin apuntar.
 function SlotRow({ index, phase, chosen, correct, onPlace, lang, acc }) {
   const isChosen  = phase === 'revealing' && chosen === index
   const isCorrect = phase === 'revealing' && correct === index
   const isActive  = phase === 'placing'
 
-  let cls = `border-white/15 text-white/45 ${acc.slotV}`
-  if (isChosen && isCorrect) cls = 'border-green-400 bg-green-500/25 text-green-300'
-  else if (isChosen)         cls = 'border-red-400 bg-red-500/25 text-red-300'
-  else if (isCorrect)        cls = 'border-green-400 bg-green-500/20 text-green-300 animate-pulse'
+  let nodo = 'border-white/30 text-white/60 bg-[#0d1324]'
+  let texto = 'text-white/35'
+  if (isChosen && isCorrect) { nodo = 'border-green-400 bg-green-500 text-black'; texto = 'text-green-300' }
+  else if (isChosen)         { nodo = 'border-red-400 bg-red-500 text-white'; texto = 'text-red-300' }
+  else if (isCorrect)        { nodo = 'border-green-400 bg-green-500/30 text-green-200 animate-pulse'; texto = 'text-green-300' }
 
-  const label = isChosen && isCorrect ? '✓' : isChosen ? '✗' : isCorrect ? tr(T.aquiIba, lang) : tr(T.colocarAqui, lang)
+  const label = isChosen && isCorrect ? '✓' : isChosen ? '✗' : isCorrect ? tr(T.aquiIba, lang) : tr(T.colocarAqui, lang).replace('＋ ', '')
 
   return (
     <button
       {...(isCorrect ? { 'data-correct-slot': true } : {})}
       onClick={() => isActive && onPlace(index)}
       disabled={!isActive}
-      className={`w-full my-1.5 py-3 rounded-xl border-2 border-dashed text-sm font-bold uppercase tracking-wide transition-all duration-150 ${isActive ? 'cursor-pointer active:scale-[0.98]' : 'cursor-default'} ${cls}`}
+      className={`group relative w-full h-11 flex items-center pl-12 pr-2 rounded-xl text-left transition-colors ${isActive ? `cursor-pointer ${acc.slotV}` : 'cursor-default'}`}
       style={{ touchAction: 'manipulation' }}
     >
-      {label}
+      <span className={`absolute left-[9px] w-[22px] h-[22px] rounded-full border-2 border-dashed grid place-items-center text-sm font-black leading-none ${nodo}`}>
+        {isChosen && isCorrect ? '✓' : isChosen ? '✗' : '+'}
+      </span>
+      <span className={`text-[11px] font-bold uppercase tracking-wide ${texto}`}>{label}</span>
     </button>
   )
 }
 
-// Carta ya colocada (móvil, vertical)
+// Carta ya colocada (móvil, vertical): el punto del color de su época sobre
+// el raíl y la tarjeta con el año bien visible.
 function MiniRow({ ev, ac }) {
   const mk = ac.marker(ev)
+  const color = ac.color(ev)
   return (
-    <div className={`flex items-center gap-3 bg-white/10 border border-white/15 rounded-xl px-3 py-2.5 ${mk?.ring ?? ''}`}>
-      <div className="flex-1 min-w-0">
-        {mk && <p className={`text-[9px] font-bold uppercase tracking-wide ${mk.cls}`}>{mk.text}</p>}
-        <p className="text-white font-semibold text-sm leading-snug line-clamp-2">{ac.name(ev)}</p>
+    <div className="relative flex items-center pl-12 py-1">
+      <span aria-hidden="true" className="absolute left-[13px] w-3.5 h-3.5 rounded-full ring-4 ring-[#0d1324]" style={{ background: color }} />
+      <div className={`flex-1 min-w-0 flex items-center gap-3 rounded-xl bg-[#141b2e] border border-white/[0.08] px-3 py-2.5 ${mk?.ring ?? ''}`}
+        style={{ borderLeft: `3px solid ${color}` }}>
+        <div className="flex-1 min-w-0">
+          {mk && <p className={`text-[9px] font-bold uppercase tracking-wide ${mk.cls}`}>{mk.text}</p>}
+          <p className="text-white font-semibold text-sm leading-snug line-clamp-2">{ac.name(ev)}</p>
+        </div>
+        <span className="font-black tabular-nums shrink-0" style={{ color }}>{ac.reveal(ev)}</span>
       </div>
-      <span className={`font-black tabular-nums shrink-0 ${ac.value}`}>{ac.reveal(ev)}</span>
     </div>
   )
 }

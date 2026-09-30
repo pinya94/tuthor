@@ -9,7 +9,7 @@ import { EVENTOS_ROGUELIKE } from '../data/tuthorTimeEventos'
 import SEOHead from '../components/SEOHead'
 import { IconoIntro, NivelBarras, ComoSeJuega } from '../components/IntroJuego'
 import { ArteJuego } from '../components/arte'
-import { SelectorAño, LineaEras, Agente } from '../components/tuthorTime/TuthorTimeUI'
+import { SelectorAnio, LineaEras, Agente } from '../components/tuthorTime/TuthorTimeUI'
 
 const VIDA_BIXO = 120
 
@@ -610,7 +610,7 @@ export default function TuthorTimeRoguelike() {
             <LineaEras año={añoEscrito} etiquetaAño={añoEscrito != null ? formatAño(añoEscrito) : ''} tr={tr} />
           </div>
 
-          <SelectorAño digitos={digitos} ac={ac} onDigitos={setDigitos} onAc={setAc} onEnviar={handleGuess} tr={tr} />
+          <SelectorAnio digitos={digitos} ac={ac} onDigitos={setDigitos} onAc={setAc} onEnviar={handleGuess} tr={tr} />
         </div>
       </div>
     )

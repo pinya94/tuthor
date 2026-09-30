@@ -10,6 +10,7 @@ import SEOHead from '../components/SEOHead'
 import TimelineBoard from '../components/TimelineBoard'
 import { ArteJuego } from '../components/arte'
 import { ComoSeJuega, IconoIntro } from '../components/IntroJuego'
+import { Corazon } from '../components/Iconos'
 
 const MAX_LIVES = 3
 
@@ -149,10 +150,10 @@ export default function OrdenTemporal() {
     <div className="relative z-10 flex flex-col" style={{ height: 'calc(100dvh - 4rem)' }}>
 
       {/* ── HEADER ── */}
-      <div className="flex items-center justify-between px-4 sm:px-8 py-2 shrink-0 border-b border-white/10 bg-black/20">
+      <div className="flex items-center justify-between px-4 sm:px-8 py-2.5 shrink-0 border-b border-white/[0.08] bg-[#141b2e]/80">
         <div className="flex items-center gap-1.5">
           {Array.from({ length: MAX_LIVES }).map((_, i) => (
-            <span key={i} className={`text-xl sm:text-2xl transition-all ${i < lives ? '' : 'opacity-20 grayscale'}`}>❤️</span>
+            <Corazon key={i} className={`w-6 h-6 transition-all ${i < lives ? '' : 'opacity-20 grayscale'}`} />
           ))}
         </div>
         <div className="text-center">
