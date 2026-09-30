@@ -9,6 +9,7 @@ import GameEndScreen from '../components/GameEndScreen'
 import SupportBlock from '../components/SupportBlock'
 import SEOHead from '../components/SEOHead'
 import { CabeceraJuego, IconoIntro, NivelBarras, ComoSeJuega } from '../components/IntroJuego'
+import { MonedaEuro, BilleteEuro } from '../components/dinero/Euro'
 
 const GAME_TIME = 50
 const STEP = 3
@@ -22,20 +23,12 @@ const DIFS = {
 const tr = (o, l) => o?.[l] ?? o?.es
 
 function Ficha({ d, onClick }) {
-  if (d.tipo === 'moneda') {
-    return (
-      <button onClick={onClick}
-        className="w-14 h-14 rounded-full flex items-center justify-center font-black text-sm text-white shadow active:scale-90 transition"
-        style={{ background: d.color, border: '2px solid rgba(255,255,255,0.35)' }}>
-        {d.label}
-      </button>
-    )
-  }
   return (
-    <button onClick={onClick}
-      className="h-10 px-4 rounded-md flex items-center justify-center font-black text-sm text-white shadow active:scale-90 transition"
-      style={{ background: d.color, border: '2px solid rgba(255,255,255,0.35)' }}>
-      {d.label}
+    <button onClick={onClick} aria-label={d.label}
+      className="flex items-center justify-center rounded-full active:scale-90 transition drop-shadow-[0_3px_4px_rgba(0,0,0,0.45)]">
+      {d.tipo === 'moneda'
+        ? <MonedaEuro v={d.v} label={d.label} />
+        : <BilleteEuro label={d.label} color={d.color} alto={46} />}
     </button>
   )
 }
@@ -243,7 +236,7 @@ export default function ElCambio() {
       </div>
 
       {/* Bandeja + total */}
-      <div className="w-full max-w-[440px] rounded-xl border border-white/10 bg-black/20 p-3 mb-3 min-h-[64px]">
+      <div className="w-full max-w-[440px] rounded-2xl border border-white/[0.08] bg-[#141b2e] p-3 mb-3 min-h-[64px]">
         <div className="flex items-center justify-between mb-2">
           <span className="text-white/40 text-xs uppercase tracking-widest">{tr({ es: 'Llevas', en: 'You have', ca: 'Portes' }, l)}</span>
           <span className={`font-black text-xl tabular-nums ${totalOk ? 'text-green-400' : 'text-white'}`}>{formatoEuro(total)}</span>
@@ -253,10 +246,12 @@ export default function ElCambio() {
           {bandeja.map((v, i) => {
             const d = denoms.find(x => x.v === v)
             return (
-              <button key={i} onClick={() => quitar(i)} disabled={isResult}
-                className="text-xs font-bold px-2 py-1 rounded-md text-white/90"
-                style={{ background: d?.color ?? '#555', opacity: isResult ? 0.6 : 1 }}>
-                {d?.label} ✕
+              <button key={i} onClick={() => quitar(i)} disabled={isResult} aria-label={d?.label}
+                className="relative" style={{ opacity: isResult ? 0.6 : 1 }}>
+                {d?.tipo === 'billete'
+                  ? <BilleteEuro label={d.label} color={d.color} alto={30} />
+                  : <MonedaEuro v={v} label={d?.label ?? ''} size={32} />}
+                {!isResult && <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-black/80 text-white text-[9px] leading-4 text-center">✕</span>}
               </button>
             )
           })}
@@ -279,8 +274,15 @@ export default function ElCambio() {
 
       {/* Paleta de monedas y billetes */}
       {!isResult && (
-        <div className="w-full max-w-[440px] flex flex-wrap justify-center gap-2 mb-3">
-          {denoms.map(d => <Ficha key={d.v} d={d} onClick={() => anadir(d.v)} />)}
+        <div className="w-full max-w-[440px] mb-3 space-y-2">
+          <div className="flex flex-wrap justify-center items-center gap-2">
+            {denoms.filter(d => d.tipo === 'moneda').map(d => <Ficha key={d.v} d={d} onClick={() => anadir(d.v)} />)}
+          </div>
+          {denoms.some(d => d.tipo === 'billete') && (
+            <div className="flex flex-wrap justify-center items-center gap-2">
+              {denoms.filter(d => d.tipo === 'billete').map(d => <Ficha key={d.v} d={d} onClick={() => anadir(d.v)} />)}
+            </div>
+          )}
         </div>
       )}
 

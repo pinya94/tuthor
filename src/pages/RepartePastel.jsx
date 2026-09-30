@@ -59,12 +59,18 @@ function generarRonda(dif) {
   return { tipo, a, b, n, m }
 }
 
+// Tres distractores DISTINTOS y distintos de la respuesta. Antes, con 1/2 la
+// lista de candidatos se quedaba en uno y el relleno aleatorio (1..n-1)/n solo
+// podía dar 1/2: salían "2/1, 1/2, 1/2", con la correcta repetida.
 function opcionesIdentifica(m, n) {
-  const candidatos = new Set([`${n - m}/${n}`, `${n}/${m}`, `${Math.min(m + 1, n - 1)}/${n}`, `${Math.max(1, m - 1)}/${n}`])
-  candidatos.delete(`${m}/${n}`)
-  const distractores = [...candidatos].slice(0, 3)
-  while (distractores.length < 3) distractores.push(`${rng(1, n - 1)}/${n}`)
-  return shuffle([`${m}/${n}`, ...new Set(distractores)].slice(0, 4))
+  const correcta = `${m}/${n}`
+  const pool = [
+    `${n - m}/${n}`, `${n}/${m}`, `${Math.min(m + 1, n - 1)}/${n}`, `${Math.max(1, m - 1)}/${n}`,
+    `${m}/${n + 1}`, `${m + 1}/${n + 1}`, `${m}/${n + 2}`, `${n - m + 1}/${n + 1}`,
+  ]
+  const distractores = []
+  for (const c of pool) if (c !== correcta && !distractores.includes(c) && distractores.length < 3) distractores.push(c)
+  return shuffle([correcta, ...distractores])
 }
 
 export default function RepartePastel() {

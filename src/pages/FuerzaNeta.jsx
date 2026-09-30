@@ -260,12 +260,13 @@ export default function FuerzaNeta() {
       <p className="text-white/60 text-sm mb-1">{T('q', l)}</p>
 
       {/* Diagrama */}
-      <div className="relative w-full max-w-[520px] rounded-xl overflow-hidden border border-white/10 bg-[#0d1117] mb-3">
+      <div className="relative w-full max-w-[520px] rounded-2xl overflow-hidden border border-white/[0.08] bg-[#141b2e] mb-3">
         <ForceDiagram round={round} reveal={isResult} />
+      </div>
 
-        {/* overlay resultado */}
-        {isResult && (
-          <div className="absolute inset-x-0 bottom-0 bg-black/70 backdrop-blur-sm p-3 text-center">
+      {/* Resultado debajo del diagrama: encima tapaba la caja moviéndose */}
+      {isResult && (
+          <div className="w-full max-w-[520px] rounded-2xl bg-[#141b2e] border border-white/[0.08] p-3 mb-3 text-center">
             <p className={`font-black text-lg ${won ? 'text-green-400' : 'text-red-400'}`}>
               {won ? T('correct', l) : T('wrong', l)} · {DIRS[answer].arrow} {DIRS[answer].label[l] ?? DIRS[answer].label.es}
             </p>
@@ -281,7 +282,6 @@ export default function FuerzaNeta() {
             </p>
           </div>
         )}
-      </div>
 
       {/* opciones */}
       <div className="w-full max-w-[520px] px-1">
@@ -295,7 +295,7 @@ export default function FuerzaNeta() {
             else if (isResult) cls = 'bg-white/5 border-white/10 opacity-40'
             return (
               <button key={opt} onClick={() => pick(opt)} disabled={isResult}
-                className={`px-3 py-3 rounded-xl border font-semibold text-sm text-white transition-all flex items-center gap-2 ${cls}`}>
+                className={`[&:last-child:nth-child(odd)]:col-span-2 px-3 py-3 rounded-xl border font-semibold text-sm text-white transition-all flex items-center gap-2 ${cls}`}>
                 <span className="text-lg">{DIRS[opt].arrow}</span>
                 <span className="text-left text-xs">{DIRS[opt].label[l] ?? DIRS[opt].label.es}</span>
                 {isCorrect && <span className="ml-auto">✓</span>}
