@@ -8,6 +8,7 @@ import { genRound, isCorrectGuess, pistaTexto } from '../lib/encuentraElemento'
 import GameEndScreen from '../components/GameEndScreen'
 import SupportBlock from '../components/SupportBlock'
 import TablaPeriodicaGrid from '../components/TablaPeriodicaGrid'
+import { TIPOS } from '../data/tablaperiodica'
 import SEOHead from '../components/SEOHead'
 import { CabeceraJuego, IconoIntro, NivelBarras, ComoSeJuega } from '../components/IntroJuego'
 
@@ -35,7 +36,7 @@ const UI = {
     p1: 'Cada celda ya enseña su número atómico y su símbolo, como una tabla periódica real.',
     p2: 'La pista puede ser el nombre, el número atómico, o su categoría + grupo + periodo.',
     time: 'Tiempo', timeVal: '40 segundos', pts: 'Puntos', ptsVal: 'Acierto +1 y +3s · Fallo −1 y −3s',
-    volver: '← Volver', empezar: '🔬 ¡Empezar!', salir: '← Salir', marcar: '📍 ¡Marcar aquí!',
+    volver: '← Volver', empezar: '🔬 ¡Empezar!', salir: '← Salir', marcar: '¡Marcar aquí!',
     objetivo: 'Busca:', correcto: '¡Elemento correcto!', fallo: 'No era ese',
     siguiente: 'Siguiente →',
     finPartida: 'Partida terminada', reintentar: '🔬 Nueva partida', cambiarDif: 'Cambiar dificultad',
@@ -48,7 +49,7 @@ const UI = {
     p1: 'Every cell already shows its atomic number and symbol, like a real periodic table.',
     p2: 'The clue can be the name, the atomic number, or its category + group + period.',
     time: 'Time', timeVal: '40 seconds', pts: 'Points', ptsVal: 'Correct +1 and +3s · Wrong −1 and −3s',
-    volver: '← Back', empezar: '🔬 Start!', salir: '← Exit', marcar: '📍 Mark here!',
+    volver: '← Back', empezar: '🔬 Start!', salir: '← Exit', marcar: 'Mark here!',
     objetivo: 'Find:', correcto: 'Right element!', fallo: 'Not that one',
     siguiente: 'Next →',
     finPartida: 'Game over', reintentar: '🔬 New game', cambiarDif: 'Change difficulty',
@@ -61,7 +62,7 @@ const UI = {
     p1: 'Cada cel·la ja ensenya el seu número atòmic i el seu símbol, com una taula periòdica real.',
     p2: 'La pista pot ser el nom, el número atòmic, o la seva categoria + grup + període.',
     time: 'Temps', timeVal: '40 segons', pts: 'Punts', ptsVal: 'Encert +1 i +3s · Errada −1 i −3s',
-    volver: '← Enrere', empezar: '🔬 Comença!', salir: '← Sortir', marcar: '📍 Marca aquí!',
+    volver: '← Enrere', empezar: '🔬 Comença!', salir: '← Sortir', marcar: 'Marca aquí!',
     objetivo: 'Busca:', correcto: 'Element correcte!', fallo: 'No era aquest',
     siguiente: 'Següent →',
     finPartida: 'Partida acabada', reintentar: '🔬 Nova partida', cambiarDif: 'Canvia dificultat',
@@ -100,6 +101,26 @@ function DifficultyScreen({ onSelect, t, l }) {
           className="w-full py-4 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-xl rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-amber-500/30 mb-3">
           {t.empezar}
         </button>
+        <ComoSeJuega>
+          <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-4 w-full">
+        <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-3">{t.how}</p>
+        <div className="space-y-2">
+          {[['🧪', t.p1], ['🔎', t.p2]].map(([e, text]) => (
+            <div key={text} className="flex items-start gap-3 text-sm text-white/50">
+              <IconoIntro emoji={e} /><span>{text}</span>
+            </div>
+          ))}
+        </div>
+        </div>
+          <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-6 w-full space-y-2.5 text-sm">
+        {[['⏱️', t.time, t.timeVal], ['⭐', t.pts, t.ptsVal]].map(([e, k, v]) => (
+          <div key={k} className="flex items-start justify-between gap-4">
+            <span className="text-white/40 shrink-0 inline-flex items-center gap-1.5"><IconoIntro emoji={e} />{k}</span>
+            <span className="text-white font-semibold text-right">{v}</span>
+          </div>
+        ))}
+        </div>
+        </ComoSeJuega>
         <button onClick={() => navigate(localPath('/examen/encuentra-elemento-test'))}
           className="text-white/30 hover:text-white/60 text-sm transition-colors">
           {t.examen}
@@ -277,32 +298,27 @@ export default function EncuentraElemento() {
       )}
 
       {!isResult && (
-        <div className="w-full max-w-2xl px-1 mt-4">
+        <div className="w-full max-w-2xl px-1 mt-3">
+          {/* La casilla elegida en grande: en un móvil las de la tabla son
+              pequeñas y así se comprueba antes de confirmar. */}
+          <div className="h-16 mb-3 flex items-center justify-center gap-3">
+            {guess ? (
+              <>
+                <span className={`w-12 h-14 rounded-lg bg-gradient-to-br ${TIPOS[guess.tipo].color} border-2 border-[#EDAE49] flex flex-col items-center justify-center text-white`}>
+                  <span className="text-[10px] opacity-70 leading-none">{guess.z}</span>
+                  <span className="text-xl font-black leading-tight">{guess.symbol}</span>
+                </span>
+                <span className="text-white/50 text-sm">{{ es: 'Tu casilla', en: 'Your cell', ca: 'La teva casella' }[l]}</span>
+              </>
+            ) : (
+              <span className="text-white/35 text-sm">{{ es: 'Toca una casilla de la tabla', en: 'Tap a cell on the table', ca: 'Toca una casella de la taula' }[l]}</span>
+            )}
+          </div>
           <button onClick={marcar} disabled={!guess}
             className="w-full py-4 rounded-2xl bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-lg transition-all hover:scale-[1.02] active:scale-[0.97] shadow-lg shadow-amber-500/20 disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:scale-100">
             {t.marcar}
           </button>
           <SupportBlock variant="top" className="mt-4" />
-          <ComoSeJuega>
-            <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-4 w-full">
-          <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-3">{t.how}</p>
-          <div className="space-y-2">
-            {[['🧪', t.p1], ['🔎', t.p2]].map(([e, text]) => (
-              <div key={text} className="flex items-start gap-3 text-sm text-white/50">
-                <IconoIntro emoji={e} /><span>{text}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-            <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-6 w-full space-y-2.5 text-sm">
-          {[['⏱️', t.time, t.timeVal], ['⭐', t.pts, t.ptsVal]].map(([e, k, v]) => (
-            <div key={k} className="flex items-start justify-between gap-4">
-              <span className="text-white/40 shrink-0 inline-flex items-center gap-1.5"><IconoIntro emoji={e} />{k}</span>
-              <span className="text-white font-semibold text-right">{v}</span>
-            </div>
-          ))}
-        </div>
-          </ComoSeJuega>
         </div>
       )}
       {isResult && (

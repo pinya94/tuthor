@@ -241,6 +241,24 @@ export default function EpocasHistoricas() {
             className="w-full py-4 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-xl rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-amber-500/30">
             {t.empezar}
           </button>
+          <ComoSeJuega>
+        <div className="bg-white/5 border border-white/10 rounded-2xl p-5">
+          <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-3">{t.comoFunciona}</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            {[
+              ['🖼️', t.paso1],
+              ['🤔', t.paso2],
+              ['✅', t.paso3],
+              ['❤️', t.paso4],
+            ].map(([e, txt]) => (
+              <div key={txt} className="flex items-start gap-2 text-sm text-white/50">
+                <IconoIntro emoji={e} />
+                <span>{txt}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+          </ComoSeJuega>
         </div>
       </div>
     )
@@ -313,24 +331,6 @@ export default function EpocasHistoricas() {
           {t.confirmar}
         </button>
         <SupportBlock variant="top" className="mt-4" />
-        <ComoSeJuega>
-          <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-5">
-            <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-3">{t.comoFunciona}</p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-              {[
-                ['🖼️', t.paso1],
-                ['🤔', t.paso2],
-                ['✅', t.paso3],
-                ['❤️', t.paso4],
-              ].map(([e, txt]) => (
-                <div key={txt} className="flex items-start gap-2 text-sm text-white/50">
-                  <IconoIntro emoji={e} />
-                  <span>{txt}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </ComoSeJuega>
       </div>
     )
   }

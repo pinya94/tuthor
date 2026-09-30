@@ -42,7 +42,7 @@ function Celda({ periodo, grupo, guess, onPick, revelado, objetivo }) {
     return (
       <div style={{ gridColumn: grupo, gridRow: periodo }}
         className="m-[1px] rounded-[3px] border border-white/10 flex items-center justify-center">
-        <span className="text-[6px] text-white/30 select-none leading-none">57–71</span>
+        <span className="hidden sm:inline text-[6px] text-white/30 select-none leading-none">57–71</span>
       </div>
     )
   }
@@ -71,10 +71,10 @@ function Celda({ periodo, grupo, guess, onPick, revelado, objetivo }) {
       onClick={onPick ? () => onPick(elemento) : undefined}
       disabled={!onPick}
       style={{ gridColumn: grupo, gridRow: periodo }}
-      className={`relative m-[1px] rounded-[3px] border bg-gradient-to-br ${tipo.color} ${ring} flex flex-col items-center justify-center text-white overflow-hidden transition-transform ${onPick ? 'cursor-pointer hover:scale-[1.08] hover:z-20' : ''}`}
+      className={`relative m-[0.5px] sm:m-[1px] aspect-[4/5] rounded-[3px] border bg-gradient-to-br ${tipo.color} ${ring} flex flex-col items-center justify-center text-white overflow-hidden transition-transform ${onPick ? 'cursor-pointer hover:scale-[1.08] hover:z-20' : ''}`}
     >
-      <span className="absolute top-0.5 left-[3px] text-[6px] leading-none opacity-70 select-none">{elemento.z}</span>
-      <span className="text-[10px] font-black leading-none select-none">{elemento.symbol}</span>
+      <span className="hidden sm:block absolute top-0.5 left-[3px] text-[6px] leading-none opacity-70 select-none">{elemento.z}</span>
+      <span className="text-[9px] sm:text-[11px] font-black leading-none select-none">{elemento.symbol}</span>
     </button>
   )
 }
@@ -89,18 +89,13 @@ export default function TablaPeriodicaGrid({ guess, onPick, revelado, objetivo }
       )
     }
   }
-  // max-w-2xl y mx-auto en el propio componente (no solo en la página que lo
-  // llama): la tabla son ~540px de contenido real (18 × 30px), así que sin
-  // un tope se estira a lo ancho de lo que le deje el contenedor — en
-  // EncuentraElemento.jsx eso era casi el viewport entero, mucho más ancho
-  // que el resto de la página (cabecera, pista, botón, todos con max-w-2xl),
-  // y quedaba una caja enorme casi vacía con la tabla perdida dentro.
+  // Columnas fluidas: los 18 grupos caben SIEMPRE en el ancho, también en
+  // un móvil (antes eran 30px fijos y la tabla se cortaba a la derecha, sin
+  // gases nobles a la vista). En pantallas pequeñas la casilla es chica, así
+  // que la página enseña en grande la que está elegida antes de confirmar.
   return (
-    <div className="w-full max-w-2xl mx-auto overflow-x-auto rounded-2xl border border-white/10 bg-gradient-to-b from-[#0b1030] to-[#050714] p-2">
-      <div
-        style={{ display: 'grid', gridTemplateColumns: `repeat(${GRUPOS}, 30px)`, gridTemplateRows: `repeat(${PERIODOS}, 30px)` }}
-        className="mx-auto"
-      >
+    <div className="w-full max-w-2xl mx-auto rounded-2xl border border-white/10 bg-gradient-to-b from-[#0b1030] to-[#050714] p-1.5 sm:p-2">
+      <div style={{ display: 'grid', gridTemplateColumns: `repeat(${GRUPOS}, minmax(0, 1fr))` }}>
         {celdas}
       </div>
     </div>

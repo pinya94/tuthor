@@ -2,6 +2,7 @@ import { useState } from 'react'
 import MechanicExam from '../components/MechanicExam'
 import BarraOrbita from '../components/BarraOrbita'
 import { genRound, isCorrectGuess } from '../lib/orbita'
+import PlanetaDibujo from '../components/orbita/PlanetaDibujo'
 
 // Examen con la mecánica del juego Órbita: arrastras la sonda a lo largo de
 // la barra hasta la distancia al Sol donde crees que está el planeta pedido.
@@ -36,7 +37,7 @@ function Question({ round, phase, onAnswer, l }) {
     <>
       <p className="text-white/40 text-xs uppercase tracking-widest text-center mb-1">{T.objetivo[l] ?? T.objetivo.es}</p>
       <p className="text-center text-lg font-black text-white mb-3">
-        {planeta.emoji} {planeta.nombre[l] ?? planeta.nombre.es}
+        <PlanetaDibujo id={planeta.id} className="inline-block w-8 h-8 align-[-6px] mr-1" />{planeta.nombre[l] ?? planeta.nombre.es}
       </p>
 
       <BarraOrbita pos={pos} objetivoIdx={reveal ? round.idx : null} resultado={reveal ? (ok ? 'perfecto' : 'fallo') : null} />

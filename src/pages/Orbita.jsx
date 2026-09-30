@@ -13,6 +13,7 @@ import BarraOrbita from '../components/BarraOrbita'
 import { IconoIntro, ComoSeJuega } from '../components/IntroJuego'
 import { ArteJuego } from '../components/arte'
 import { Corazon } from '../components/Iconos'
+import PlanetaDibujo from '../components/orbita/PlanetaDibujo'
 
 // Roguelike corto y cerrado: 8 rondas como máximo (un lanzamiento por
 // planeta, sin repetir). Sin reloj ni sonda animada: el jugador arrastra el
@@ -35,7 +36,7 @@ const UI = {
     paso3: 'Cuanto más cerca del centro real, más puntos. Fuera de su zona, pierdes una vida',
     paso4: `Tienes ${VIDAS_INICIALES} vidas — la misión acaba si se agotan o al lanzar a los 8 planetas`,
     salir: '← Salir',
-    lanzar: '🚀 ¡Lanzar aquí!',
+    lanzar: '¡Lanzar aquí!',
     objetivo: 'Envía la sonda a:',
     perfecto: '¡Órbita perfecta!', orbita: 'En órbita', fallo: 'Fuera de órbita',
     siguiente: 'Siguiente planeta →', verResultado: 'Ver resultado →',
@@ -54,7 +55,7 @@ const UI = {
     paso3: 'The closer to the real centre, the more points. Outside its zone, you lose a life',
     paso4: `You have ${VIDAS_INICIALES} lives — the mission ends when they run out, or once you have launched to all 8 planets`,
     salir: '← Exit',
-    lanzar: '🚀 Launch here!',
+    lanzar: 'Launch here!',
     objetivo: 'Send the probe to:',
     perfecto: 'Perfect orbit!', orbita: 'In orbit', fallo: 'Off course',
     siguiente: 'Next planet →', verResultado: 'See result →',
@@ -73,7 +74,7 @@ const UI = {
     paso3: 'Com més a prop del centre real, més punts. Fora de la seva zona, perds una vida',
     paso4: `Tens ${VIDAS_INICIALES} vides — la missió acaba si s'acaben o en llançar als 8 planetes`,
     salir: '← Sortir',
-    lanzar: '🚀 Llança aquí!',
+    lanzar: 'Llança aquí!',
     objetivo: 'Envia la sonda a:',
     perfecto: 'Òrbita perfecta!', orbita: 'En òrbita', fallo: 'Fora d\'òrbita',
     siguiente: 'Planeta següent →', verResultado: 'Veure resultat →',
@@ -96,7 +97,7 @@ function FilaPlanetas({ objetivoId, l }) {
               activo ? 'bg-[#EDAE49]/15 border-[#EDAE49]/50 scale-105' : 'bg-white/5 border-white/10 opacity-50'
             }`}>
             <span className={`text-[8px] sm:text-[9px] font-bold ${activo ? 'text-[#EDAE49]' : 'text-white/25'}`}>{i + 1}</span>
-            <span className="text-base sm:text-lg leading-none">{p.emoji}</span>
+            <PlanetaDibujo id={p.id} className="w-6 h-6" />
             <span className={`text-[9px] sm:text-[10px] mt-0.5 font-semibold ${activo ? 'text-[#EDAE49]' : 'text-white/40'}`}>
               {(p.nombre[l] ?? p.nombre.es).slice(0, 4)}
             </span>
@@ -218,6 +219,24 @@ export default function Orbita() {
             className="w-full py-4 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-xl rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-amber-500/30 mb-3">
             {t.empezar}
           </button>
+          <ComoSeJuega>
+        <div className="bg-white/5 border border-white/10 rounded-2xl p-5 w-full">
+          <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-3">{t.comoFunciona}</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            {[
+              ['↔️', t.paso1],
+              ['🤔', t.paso2],
+              ['🎯', t.paso3],
+              ['❤️', t.paso4],
+            ].map(([e, txt]) => (
+              <div key={txt} className="flex items-start gap-2 text-sm text-white/50">
+                <IconoIntro emoji={e} />
+                <span>{txt}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+          </ComoSeJuega>
           <button onClick={() => navigate(localPath('/examen/orbita-test'))}
             className="text-white/30 hover:text-white/60 text-sm transition-colors">
             {t.examen}
@@ -249,7 +268,7 @@ export default function Orbita() {
 
         <p className="text-white/40 text-xs uppercase tracking-widest text-center mb-1">{t.objetivo}</p>
         <p className="text-center text-2xl font-black text-white mb-5">
-          {planeta.emoji} {planeta.nombre[l] ?? planeta.nombre.es}
+          <PlanetaDibujo id={planeta.id} className="inline-block w-8 h-8 align-[-6px] mr-1" />{planeta.nombre[l] ?? planeta.nombre.es}
         </p>
 
         <BarraOrbita pos={pos} objetivoIdx={null} resultado={null} />
@@ -291,39 +310,21 @@ export default function Orbita() {
           {t[resultado]} {resultado !== 'fallo' && pts > 0 && `· +${pts}`}
         </p>
         <p className="text-center text-white/40 text-sm mb-4">
-          {t.objetivo} {p.emoji} {p.nombre[l] ?? p.nombre.es}
+          {t.objetivo} {p.nombre[l] ?? p.nombre.es}
         </p>
 
         <FilaPlanetas objetivoId={p.id} l={l} />
         <BarraOrbita pos={posLanzada} objetivoIdx={objetivoIdx} resultado={resultado} />
 
 
+        <div className="bg-[#141b2e] border border-white/[0.08] rounded-2xl p-4 mt-3 text-sm text-white/60 leading-relaxed">
+        {p.dato[l] ?? p.dato.es}
+        </div>
         <button onClick={siguiente}
           className="w-full mt-5 py-4 rounded-2xl bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-lg transition-all hover:scale-[1.02]">
           {vidasRestantes <= 0 || cola.length === 0 ? t.verResultado : t.siguiente}
         </button>
         <SupportBlock variant="top" className="mt-4" />
-        <ComoSeJuega>
-          <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-5 w-full">
-            <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-3">{t.comoFunciona}</p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-              {[
-                ['↔️', t.paso1],
-                ['🤔', t.paso2],
-                ['🎯', t.paso3],
-                ['❤️', t.paso4],
-              ].map(([e, txt]) => (
-                <div key={txt} className="flex items-start gap-2 text-sm text-white/50">
-                  <IconoIntro emoji={e} />
-                  <span>{txt}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="bg-white/5 border border-white/10 rounded-2xl p-4 mt-4 text-sm text-white/60 leading-relaxed">
-          {p.dato[l] ?? p.dato.es}
-        </div>
-        </ComoSeJuega>
       </div>
     )
   }

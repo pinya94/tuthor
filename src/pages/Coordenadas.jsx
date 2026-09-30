@@ -201,6 +201,24 @@ export default function Coordenadas() {
             className="w-full py-4 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-xl rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-amber-500/30">
             {t.empezar}
           </button>
+          <ComoSeJuega>
+        <div className="bg-white/5 border border-white/10 rounded-2xl p-5 w-full">
+          <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-3">{t.comoFunciona}</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            {[
+              ['🧭', t.paso1],
+              ['🤔', t.paso2],
+              ['🎯', t.paso3],
+              ['❤️', t.paso4],
+            ].map(([e, txt]) => (
+              <div key={txt} className="flex items-start gap-2 text-sm text-white/50">
+                <IconoIntro emoji={e} />
+                <span>{txt}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+          </ComoSeJuega>
         </div>
       </div>
     )
@@ -293,33 +311,15 @@ export default function Coordenadas() {
         <MapaCoordenadas guessLat={guessLat} guessLon={guessLon} real={{ ...p, resultado }} revelado={true} />
 
 
+        <div className="bg-[#141b2e] border border-white/[0.08] rounded-2xl p-4 mt-3 text-sm text-white/60 leading-relaxed">
+        <span className="font-semibold text-white/80">{t.capitalLbl}:</span> {p.capital}
+        {p.famoso && <span> · {p.famoso}</span>}
+        </div>
         <button onClick={siguiente}
           className="w-full mt-5 py-4 rounded-2xl bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-lg transition-all hover:scale-[1.02]">
           {vidasRestantes <= 0 || rondas >= MAX_RONDAS || cola.length === 0 ? t.verResultado : t.siguiente}
         </button>
         <SupportBlock variant="top" className="mt-4" />
-        <ComoSeJuega>
-          <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-5 w-full">
-            <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-3">{t.comoFunciona}</p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-              {[
-                ['🧭', t.paso1],
-                ['🤔', t.paso2],
-                ['🎯', t.paso3],
-                ['❤️', t.paso4],
-              ].map(([e, txt]) => (
-                <div key={txt} className="flex items-start gap-2 text-sm text-white/50">
-                  <IconoIntro emoji={e} />
-                  <span>{txt}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="bg-white/5 border border-white/10 rounded-2xl p-4 mt-4 text-sm text-white/60 leading-relaxed">
-          <span className="font-semibold text-white/80">{t.capitalLbl}:</span> {p.capital}
-          {p.famoso && <span> · {p.famoso}</span>}
-        </div>
-        </ComoSeJuega>
       </div>
     )
   }
