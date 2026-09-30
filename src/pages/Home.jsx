@@ -15,9 +15,10 @@ import AdSlot from '../components/AdSlot'
 import ProUpsell from '../components/ProUpsell'
 import ReferralCard from '../components/ReferralCard'
 import NivelPicker from '../components/NivelPicker'
+import EresProfesor from '../components/EresProfesor'
 import { useDebePreguntarNivel, sincronizarNivel } from '../lib/nivel'
 import { ARTE_MATERIAS } from '../components/arte/materias'
-import { Racha, Reloj, Acierto, Fallo, Mando, Moneda, Estrella, Tienda, Pizarra, Familia, Bicho, Megafono, Sobre } from '../components/Iconos'
+import { Racha, Reloj, Acierto, Fallo, Mando, Moneda, Tienda, Pizarra, Familia, Bicho, Megafono, Sobre } from '../components/Iconos'
 
 const PREVIEW_FRAMES = ['silver', 'gold', 'rainbow', 'galaxy', 'fire', 'neon']
 
@@ -245,15 +246,15 @@ function Loader() {
 // Ocupa el sitio del panel de progreso cuando no hay cuenta. Va aquí y no en
 // una pantalla de bloqueo porque el usuario acaba de llegar de la landing a
 // mirar: se le enseña qué se lleva si se registra, no se le corta el paso.
-// Un icono por ventaja de la cuenta: progreso y rachas, monedas, Pro gratis.
-const PERK_ICONOS = [[Racha, 'bg-orange-500/12'], [Moneda, 'bg-amber-500/12'], [Estrella, 'bg-violet-500/12']]
+// Un icono por ventaja de la cuenta: progreso y rachas, monedas, clase.
+const PERK_ICONOS = [[Racha, 'bg-orange-500/12'], [Moneda, 'bg-amber-500/12'], [Pizarra, 'bg-teal-500/12']]
 
 function SignupPrompt({ onSignup }) {
   const { tr } = useLang()
   const perks = tr({
-    es: ['Guarda tu progreso y tus rachas', 'Gana monedas y compite en el ranking', 'Un mes de Pro gratis por cada amigo que invites'],
-    en: ['Save your progress and streaks', 'Earn coins and climb the leaderboard', 'A free month of Pro for every friend you invite'],
-    ca: ['Desa el teu progrés i les teves ratxes', 'Guanya monedes i competeix al rànquing', 'Un mes de Pro gratis per cada amic que convidis'],
+    es: ['Guarda tu progreso y tus rachas', 'Gana monedas y compite en el ranking', 'Tu profesor puede mandarte tareas y ver cómo vas'],
+    en: ['Save your progress and streaks', 'Earn coins and climb the leaderboard', 'Your teacher can set you tasks and see how you are doing'],
+    ca: ['Desa el teu progrés i les teves ratxes', 'Guanya monedes i competeix al rànquing', 'El teu professor et pot enviar tasques i veure com vas'],
   })
 
   return (
@@ -411,7 +412,10 @@ export default function Home() {
         {/* PROGRESO — o la invitación a tener uno, si no hay cuenta */}
         <div className="mt-6 mb-8">
           {!user ? (
-            <SignupPrompt onSignup={() => setShowAuth(true)} />
+            <>
+              <SignupPrompt onSignup={() => setShowAuth(true)} />
+              <EresProfesor className="mt-6" />
+            </>
           ) : stats ? (
             <StatsWidget stats={stats} name={user.displayName?.split(' ')[0]} onVerMas={() => navigate(localPath('/perfil'))} />
           ) : (
