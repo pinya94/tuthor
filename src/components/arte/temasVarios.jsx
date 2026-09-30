@@ -97,9 +97,28 @@ function PuntoEquilibrio(p) {
 }
 
 // Clave = `musica/<tema>` y `economia/<tema>` (MusicaIndex, EconomiaIndex).
+// El mercado: la curva de demanda (baja) y la de oferta (sube) se cruzan en
+// el precio de equilibrio.
+function Mercado(p) {
+  return (
+    <Lienzo {...p}>
+      <path d="M40 16V114H216" stroke="#94A3B8" strokeWidth="2.5" />
+      <T x={30} y={24} s={11} c="#94A3B8">P</T>
+      <T x={214} y={128} s={11} c="#94A3B8">Q</T>
+      <path d="M58 26Q110 70 196 104" stroke="#38BDF8" strokeWidth="4" fill="none" strokeLinecap="round" />
+      <path d="M58 104Q120 74 196 24" stroke="#F97316" strokeWidth="4" fill="none" strokeLinecap="round" />
+      <path d="M40 66H122M122 66V114" stroke="#FDE68A" strokeWidth="1.5" strokeDasharray="4 4" />
+      <circle cx="122" cy="66" r="7" fill="#FBBF24" stroke="#141B2E" strokeWidth="2" />
+      <T x={202} y={100} s={11} c="#38BDF8">D</T>
+      <T x={202} y={30} s={11} c="#F97316">O</T>
+    </Lienzo>
+  )
+}
+
 export const ARTE_TEMAS_VARIOS = {
   'musica/notas': Notas,
   'musica/ritmo': Ritmo,
   'economia/finanzas-personales': Finanzas,
   'economia/punto-equilibrio': PuntoEquilibrio,
+  'economia/mercado': Mercado,
 }

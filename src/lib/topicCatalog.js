@@ -103,6 +103,7 @@ export const TOPIC_CATALOG = {
       'revolucion-industrial': { niveles: ['eso', 'bachillerato'], formatos: { teoria: 'revolucion-industrial' } },
       'primera-guerra-mundial': { niveles: ['eso', 'bachillerato'], formatos: { teoria: 'primera-guerra-mundial' } },
       'guerra-fria': { niveles: ['eso', 'bachillerato'], formatos: { teoria: 'guerra-fria' } },
+      entreguerras: { niveles: ['eso', 'bachillerato'], formatos: { teoria: 'entreguerras' } },
     },
     formatos: {
       teoria: examFormato({ es: 'Teoría (tipo test)', en: 'Theory (quiz)', ca: 'Teoria (tipus test)' }, '📝'),
@@ -112,7 +113,7 @@ export const TOPIC_CATALOG = {
         game: 'linea-temporal',
         usesLevel: true,
         tracksTopic: true,
-        temas: ['primaria', 'gce', 'wwii', 'roma', 'usa', 'antigua', 'franquismo', 'prehistoria', 'edad-media', 'edad-moderna', 'revolucion-francesa', 'revolucion-industrial', 'primera-guerra-mundial', 'guerra-fria'],
+        temas: ['primaria', 'gce', 'wwii', 'roma', 'usa', 'antigua', 'franquismo', 'prehistoria', 'edad-media', 'edad-moderna', 'revolucion-francesa', 'revolucion-industrial', 'primera-guerra-mundial', 'guerra-fria', 'entreguerras'],
       },
       'quien-es-quien': {
         label: { es: '¿Quién es quién?', en: 'Who is who?', ca: 'Qui és qui?' },
@@ -147,7 +148,7 @@ export const TOPIC_CATALOG = {
         game: 'juego-fechas',
         usesLevel: true,
         tracksTopic: true,
-        temas: ['primaria', 'gce', 'wwii', 'roma', 'usa', 'antigua', 'franquismo', 'prehistoria', 'edad-media', 'edad-moderna', 'revolucion-francesa', 'revolucion-industrial', 'primera-guerra-mundial', 'guerra-fria'],
+        temas: ['primaria', 'gce', 'wwii', 'roma', 'usa', 'antigua', 'franquismo', 'prehistoria', 'edad-media', 'edad-moderna', 'revolucion-francesa', 'revolucion-industrial', 'primera-guerra-mundial', 'guerra-fria', 'entreguerras'],
         // Escribir el año exacto es inviable en Primaria (rango demasiado amplio)
         niveles: {
           primaria: [],
@@ -164,6 +165,7 @@ export const TOPIC_CATALOG = {
           'revolucion-industrial': ['eso', 'bachillerato'],
           'primera-guerra-mundial': ['eso', 'bachillerato'],
           'guerra-fria': ['eso', 'bachillerato'],
+          entreguerras: ['eso', 'bachillerato'],
         },
       },
     },
@@ -295,6 +297,7 @@ export const TOPIC_CATALOG = {
       gj: examTema({ test: 'espanol-ortografia-gj-test' }, { niveles: ['primaria', 'eso'] }),
       puntuacion: examTema({ test: 'espanol-ortografia-puntuacion-test' }, { niveles: ['primaria', 'eso'] }),
       literatura: examTema({ test: 'espanol-literatura-test' }, { niveles: ['eso', 'bachillerato'] }),
+      textos: examTema({ test: 'espanol-textos-test' }, { niveles: ['primaria', 'eso'] }),
       // Un tema, dos formatos: el juego (arcade, por tiempo) y su examen (sin
       // reloj, con nota). Los dos sobre textos EN CASTELLANO: el inglés cuelga
       // de Inglés → spelling, y el catalán no tiene tema porque no hay materia.
@@ -429,6 +432,7 @@ export const TOPIC_CATALOG = {
       genetica: examTema({ teoria: 'genetica', 'punnett': 'genetica-test' }, { niveles: ['eso'] }),
       nutricion: examTema({ teoria: 'nutricion' }, { niveles: ['primaria', 'eso'] }),
       evolucion: examTema({ teoria: 'evolucion' }, { niveles: ['eso', 'bachillerato'] }),
+      'salud-enfermedad': examTema({ teoria: 'salud-enfermedad' }, { niveles: ['eso', 'bachillerato'] }),
     },
     formatos: {
       teoria: examFormato({ es: 'Teoría (tipo test)', en: 'Theory (quiz)', ca: 'Teoria (tipus test)' }, '📝'),
@@ -454,6 +458,7 @@ export const TOPIC_CATALOG = {
       'sistema-solar': examTema({ teoria: 'sistema-solar', orbita: 'orbita-test' }, { niveles: ['primaria', 'eso'] }),
       'rocas-minerales': examTema({ teoria: 'rocas-minerales' }, { niveles: ['primaria', 'eso'] }),
       'placas-tectonicas': examTema({ teoria: 'placas-tectonicas' }, { niveles: ['eso', 'bachillerato'] }),
+      'atmosfera-clima': examTema({ teoria: 'atmosfera-clima' }, { niveles: ['eso', 'bachillerato'] }),
     },
     formatos: {
       teoria: examFormato({ es: 'Teoría (tipo test)', en: 'Theory (quiz)', ca: 'Teoria (tipus test)' }, '📝'),
@@ -527,6 +532,7 @@ export const TOPIC_CATALOG = {
     temas: {
       'finanzas-personales': examTema({ examen: 'finanzas-personales' }, { niveles: ['eso', 'bachillerato'] }),
       'punto-equilibrio': examTema({ examen: 'punto-equilibrio' }, { niveles: ['bachillerato'] }),
+      mercado: examTema({ examen: 'mercado' }, { niveles: ['eso', 'bachillerato'] }),
     },
     formatos: {
       // Spicy no lleva `temas`: con dos temas en la materia saldría también en

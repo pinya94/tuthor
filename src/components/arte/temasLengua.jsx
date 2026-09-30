@@ -339,6 +339,30 @@ function Literatura(p) {
 
 // Clave: `gramatica/<concepto>` (compartido castellano/inglés),
 // `ingles/<tema>`, `ortografia/<tema>` y `lengua/<portada>`.
+// Los textos: un emisor, su mensaje y el receptor, con tres clases de texto
+// (diálogo, narración, instrucciones) como hojas.
+function Textos(p) {
+  return (
+    <Lienzo {...p}>
+      {/* emisor y receptor */}
+      <circle cx="30" cy="54" r="12" fill="#FCD7B4" /><path d="M14 90Q30 70 46 90Z" fill="#14B8A6" />
+      <circle cx="210" cy="54" r="12" fill="#FCD7B4" /><path d="M194 90Q210 70 226 90Z" fill="#F59E0B" />
+      <Flecha x1={50} y1={60} x2={190} y2={60} c="#94A3B8" w={2} />
+      {/* bocadillo: diálogo */}
+      <path d="M62 22h40a6 6 0 0 1 6 6v16a6 6 0 0 1-6 6H78l-8 8v-8h-8a6 6 0 0 1-6-6V28a6 6 0 0 1 6-6Z" fill="#F8FAFC" />
+      <path d="M66 32h32M66 40h22" stroke="#94A3B8" strokeWidth="3" strokeLinecap="round" />
+      {/* hoja: narración */}
+      <rect x="84" y="72" width="36" height="46" rx="4" fill="#E2E8F0" />
+      <path d="M90 82h24M90 90h24M90 98h24M90 106h14" stroke="#64748B" strokeWidth="2.5" strokeLinecap="round" />
+      {/* hoja: instrucciones numeradas */}
+      <rect x="130" y="72" width="36" height="46" rx="4" fill="#CCFBF1" />
+      <T x={138} y={87} s={9} c="#0F766E">1</T><T x={138} y={100} s={9} c="#0F766E">2</T><T x={138} y={113} s={9} c="#0F766E">3</T>
+      <path d="M144 84h16M144 97h16M144 110h12" stroke="#0F766E" strokeWidth="2.5" strokeLinecap="round" />
+      <path d="M130 30h30M130 38h40" stroke="#5EEAD4" strokeWidth="3" strokeLinecap="round" strokeOpacity=".7" />
+    </Lienzo>
+  )
+}
+
 export const ARTE_TEMAS_LENGUA = {
   'gramatica/sustantivos': Sustantivos,
   'gramatica/adjetivos': Adjetivos,
@@ -361,6 +385,7 @@ export const ARTE_TEMAS_LENGUA = {
   'ortografia/correccion': Correccion,
   'lengua/gramatica': Gramatica,
   'lengua/literatura': Literatura,
+  'lengua/textos': Textos,
 }
 
 // La gramática inglesa usa los mismos conceptos con otro id.

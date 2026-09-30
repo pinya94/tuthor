@@ -546,6 +546,62 @@ function OndasLuz(p) {
   )
 }
 
+// Salud y enfermedad: un virus, el anticuerpo que lo reconoce y una vacuna.
+function SaludEnfermedad(p) {
+  return (
+    <Lienzo {...p}>
+      {/* virus */}
+      {Array.from({ length: 10 }, (_, i) => {
+        const a = (i / 10) * Math.PI * 2
+        return <g key={i}>
+          <path d={`M${62 + Math.cos(a) * 26} ${66 + Math.sin(a) * 26}L${62 + Math.cos(a) * 36} ${66 + Math.sin(a) * 36}`} stroke="#F43F5E" strokeWidth="3" />
+          <circle cx={62 + Math.cos(a) * 38} cy={66 + Math.sin(a) * 38} r="4" fill="#FB7185" />
+        </g>
+      })}
+      <circle cx="62" cy="66" r="27" fill="#E11D48" />
+      <circle cx="54" cy="58" r="5" fill="#FDA4AF" fillOpacity=".6" /><circle cx="70" cy="74" r="4" fill="#FDA4AF" fillOpacity=".6" />
+      {/* anticuerpo en Y */}
+      <path d="M128 100V74M128 74L112 54M128 74L144 54" stroke="#38BDF8" strokeWidth="7" strokeLinecap="round" />
+      <path d="M108 50l8 8M148 50l-8 8" stroke="#BAE6FD" strokeWidth="4" strokeLinecap="round" />
+      {/* jeringa */}
+      <g transform="rotate(-35 196 70)">
+        <rect x="170" y="62" width="44" height="16" rx="3" fill="#E2E8F0" />
+        <rect x="174" y="65" width="26" height="10" rx="2" fill="#86EFAC" />
+        <path d="M214 70h14" stroke="#94A3B8" strokeWidth="2.5" strokeLinecap="round" />
+        <path d="M160 70h10M158 62v16" stroke="#94A3B8" strokeWidth="4" strokeLinecap="round" />
+      </g>
+    </Lienzo>
+  )
+}
+
+// Atmósfera y clima: las capas del aire sobre la Tierra, el Sol y el calor
+// que los gases de efecto invernadero devuelven hacia el suelo.
+function AtmosferaClima(p) {
+  return (
+    <Lienzo {...p}>
+      <path d="M-10 135Q120 40 250 135Z" fill="#7DD3FC" fillOpacity=".12" />
+      <path d="M8 135Q120 62 232 135Z" fill="#7DD3FC" fillOpacity=".18" />
+      <path d="M26 135Q120 84 214 135Z" fill="#38BDF8" fillOpacity=".25" />
+      <path d="M44 135Q120 106 196 135Z" fill="#16A34A" />
+      <path d="M44 135Q120 106 196 135" stroke="#4ADE80" strokeWidth="2" />
+      {/* Sol */}
+      <circle cx="36" cy="30" r="16" fill="#FBBF24" />
+      {[0, 1, 2, 3, 4, 5, 6, 7].map(i => {
+        const a = (i / 8) * Math.PI * 2
+        return <path key={i} d={`M${36 + Math.cos(a) * 21} ${30 + Math.sin(a) * 21}L${36 + Math.cos(a) * 27} ${30 + Math.sin(a) * 27}`} stroke="#FBBF24" strokeWidth="2.5" strokeLinecap="round" />
+      })}
+      {/* luz que entra y calor que rebota */}
+      <Flecha x1={56} y1={44} x2={108} y2={104} c="#FDE68A" w={3} />
+      <path d="M114 106Q128 80 142 70Q150 66 146 78Q140 94 160 104" stroke="#F97316" strokeWidth="3" fill="none" strokeLinecap="round" strokeDasharray="5 4" />
+      {/* termómetro */}
+      <rect x="198" y="24" width="12" height="58" rx="6" fill="#F8FAFC" />
+      <rect x="201" y="44" width="6" height="36" rx="3" fill="#EF4444" />
+      <circle cx="204" cy="86" r="9" fill="#EF4444" />
+      <Flecha x1={222} y1={70} x2={222} y2={36} c="#EF4444" w={2.5} />
+    </Lienzo>
+  )
+}
+
 // Clave = `<disciplina>/<id del tema>` (QuimicaIndex, data/ciencias.js).
 export const ARTE_TEMAS_CIENCIAS = {
   'quimica/tabla-periodica': TablaPeriodica,
@@ -571,4 +627,6 @@ export const ARTE_TEMAS_CIENCIAS = {
   'fisica/calor-temperatura': CalorTemperatura,
   'fisica/presion-fluidos': PresionFluidos,
   'fisica/ondas-luz': OndasLuz,
+  'biologia/salud-enfermedad': SaludEnfermedad,
+  'geologia/atmosfera-clima': AtmosferaClima,
 }

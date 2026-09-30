@@ -92,6 +92,22 @@ const TEMAS = [
     niveles: nivelesDeTema('geologia', 'placas-tectonicas'),
   },
   {
+    id: 'atmosfera-clima', disciplina: 'geologia',
+    titulo: 'Atmósfera y Clima', tituloEn: 'Atmosphere and Climate', tituloCa: 'Atmosfera i Clima',
+    subtitulo: 'Capas del aire, efecto invernadero y cambio climático', subtituloEn: 'Layers of the air, the greenhouse effect and climate change', subtituloCa: "Capes de l'aire, efecte hivernacle i canvi climàtic",
+    emoji: '🌡️', gradient: 'from-sky-500 to-emerald-600',
+    tags: ['atmosfera', 'clima', 'tiempo', 'efecto invernadero', 'cambio climatico', 'ozono', 'co2', 'calentamiento global', 'atmosphere', 'climate change', 'greenhouse effect'],
+    niveles: nivelesDeTema('geologia', 'atmosfera-clima'),
+  },
+  {
+    id: 'salud-enfermedad', disciplina: 'biologia',
+    titulo: 'Salud y Enfermedad', tituloEn: 'Health and Disease', tituloCa: 'Salut i Malaltia',
+    subtitulo: 'Microbios, defensas, vacunas y antibióticos', subtituloEn: 'Germs, defences, vaccines and antibiotics', subtituloCa: 'Microbis, defenses, vacunes i antibiòtics',
+    emoji: '🦠', gradient: 'from-rose-500 to-red-700',
+    tags: ['salud', 'enfermedad', 'virus', 'bacteria', 'vacuna', 'antibiotico', 'sistema inmunitario', 'anticuerpo', 'contagio', 'health', 'disease', 'vaccine', 'immune system'],
+    niveles: nivelesDeTema('biologia', 'salud-enfermedad'),
+  },
+  {
     id: 'celula', disciplina: 'biologia',
     titulo: 'La Célula', tituloEn: 'The Cell', tituloCa: 'La Cèl·lula',
     subtitulo: 'Tipos, orgánulos y funciones celulares', subtituloEn: 'Types, organelles and cell functions', subtituloCa: 'Tipus, orgànuls i funcions cel·lulars',

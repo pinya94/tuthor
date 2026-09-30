@@ -116,6 +116,11 @@ export const EXAMS = {
     emoji: '🚀', subject: 'historia',
     path: 'examen/guerra-fria', page: () => import('../pages/HistoriaGuerraFriaExamen'),
   },
+  'entreguerras': {
+    label: { es: 'Entreguerras (teoría)', en: 'Between the Wars (theory)', ca: 'Entreguerres (teoria)' },
+    emoji: '📉', subject: 'historia',
+    path: 'examen/entreguerras', page: () => import('../pages/HistoriaEntreguerrasExamen'),
+  },
   'geografia-examen': {
     label: { es: 'GeoRush (examen)', en: 'GeoRush (exam)', ca: 'GeoRush (examen)' },
     emoji: '🌍', subject: 'geografia',
@@ -228,6 +233,11 @@ export const EXAMS = {
     label: { es: 'Punto de Equilibrio', en: 'Break-Even Point', ca: 'Punt d\'Equilibri' },
     emoji: '🏭', subject: 'economia',
     path: 'examen/punto-equilibrio', page: () => import('../pages/PuntoEquilibrioExamen'),
+  },
+  'mercado': {
+    label: { es: 'El Mercado', en: 'The Market', ca: 'El Mercat' },
+    emoji: '⚖️', subject: 'economia',
+    path: 'examen/mercado', page: () => import('../pages/MercadoExamen'),
   },
 
   // ── Matemáticas ────────────────────────────────────────────────────────────
@@ -480,6 +490,11 @@ export const EXAMS = {
     emoji: '🧬', subject: 'biologia',
     path: 'examen/evolucion', page: () => import('../pages/EvolucionExamen'),
   },
+  'salud-enfermedad': {
+    label: { es: 'Salud y Enfermedad', en: 'Health and Disease', ca: 'Salut i Malaltia' },
+    emoji: '🦠', subject: 'biologia',
+    path: 'examen/salud-enfermedad', page: () => import('../pages/SaludEnfermedadExamen'),
+  },
   'disoluciones': {
     label: { es: 'Disoluciones', en: 'Solutions', ca: 'Dissolucions' },
     emoji: '🧪', subject: 'quimica',
@@ -529,6 +544,11 @@ export const EXAMS = {
     label: { es: 'Placas Tectónicas', en: 'Tectonic Plates', ca: 'Plaques Tectòniques' },
     emoji: '🌋', subject: 'geologia',
     path: 'examen/placas-tectonicas', page: () => import('../pages/PlacasTectonicasExamen'),
+  },
+  'atmosfera-clima': {
+    label: { es: 'Atmósfera y Cambio Climático', en: 'Atmosphere and Climate Change', ca: 'Atmosfera i Canvi Climàtic' },
+    emoji: '🌡️', subject: 'geologia',
+    path: 'examen/atmosfera-clima', page: () => import('../pages/AtmosferaClimaExamen'),
   },
   'tabla-periodica': {
     label: { es: 'Tabla Periódica', en: 'Periodic Table', ca: 'Taula Periòdica' },
@@ -678,6 +698,11 @@ export const EXAMS = {
     label: { es: 'Literatura', en: 'Literature', ca: 'Literatura' },
     emoji: '🖋️', subject: 'lengua',
     path: 'examen/espanol-literatura-test', page: () => import('../pages/EspanolLiteraturaExamen'),
+  },
+  'espanol-textos-test': {
+    label: { es: 'Los Textos', en: 'Types of Text', ca: 'Els Textos' },
+    emoji: '📝', subject: 'lengua',
+    path: 'examen/espanol-textos-test', page: () => import('../pages/EspanolTextosExamen'),
   },
 
   // ── Inglés ─────────────────────────────────────────────────────────────────

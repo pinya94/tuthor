@@ -44,6 +44,7 @@ const TEMAS_META = {
     'revolucion-industrial': { titulo: 'Revolución Industrial', emoji: '🏭', descripcion: 'Máquina de vapor, fábricas y movimiento obrero, siglos XVIII–XIX.' },
     'primera-guerra-mundial': { titulo: 'Primera Guerra Mundial', emoji: '🎖️', descripcion: 'La Gran Guerra, de Sarajevo al Tratado de Versalles, 1914–1919.' },
     'guerra-fria': { titulo: 'Guerra Fría', emoji: '🚀', descripcion: 'Estados Unidos contra la URSS, del telón de acero al Muro, 1947–1991.' },
+    entreguerras: { titulo: 'Entreguerras', emoji: '📉', descripcion: 'De Versalles a Polonia: el crac del 29, la Gran Depresión y los totalitarismos, 1919–1939.' },
   },
   en: {
     primaria: { titulo: 'Great Milestones',        emoji: '🌍', descripcion: 'The most important moments that changed the world.' },
@@ -60,6 +61,7 @@ const TEMAS_META = {
     'revolucion-industrial': { titulo: 'The Industrial Revolution', emoji: '🏭', descripcion: 'Steam engines, factories and the labour movement, 18th–19th centuries.' },
     'primera-guerra-mundial': { titulo: 'World War I', emoji: '🎖️', descripcion: 'The Great War, from Sarajevo to the Treaty of Versailles, 1914–1919.' },
     'guerra-fria': { titulo: 'The Cold War', emoji: '🚀', descripcion: 'The United States versus the USSR, from the Iron Curtain to the Wall, 1947–1991.' },
+    entreguerras: { titulo: 'Between the Wars', emoji: '📉', descripcion: 'From Versailles to Poland: the 1929 crash, the Great Depression and totalitarianism, 1919–1939.' },
   },
   ca: {
     primaria: { titulo: 'Grans Fites',              emoji: '🌍', descripcion: 'Els moments més importants que van canviar el món.' },
@@ -76,6 +78,7 @@ const TEMAS_META = {
     'revolucion-industrial': { titulo: 'Revolució Industrial', emoji: '🏭', descripcion: 'Màquina de vapor, fàbriques i moviment obrer, segles XVIII–XIX.' },
     'primera-guerra-mundial': { titulo: 'Primera Guerra Mundial', emoji: '🎖️', descripcion: 'La Gran Guerra, de Sarajevo al Tractat de Versalles, 1914–1919.' },
     'guerra-fria': { titulo: 'Guerra Freda', emoji: '🚀', descripcion: 'Els Estats Units contra l\'URSS, del teló d\'acer al Mur, 1947–1991.' },
+    entreguerras: { titulo: 'Entreguerres', emoji: '📉', descripcion: 'De Versalles a Polònia: el crac del 29, la Gran Depressió i els totalitarismes, 1919–1939.' },
   },
 }
 

@@ -19,7 +19,7 @@ export default function EconomiaIndex() {  const { lang, localPath, tr } = useL
           {ca ? 'Tria un tema' : en ? 'Pick a topic' : 'Elige un tema'}
         </h1>
         <p className="text-white/40 mt-1 text-sm">
-          {ca ? 'Finances personals per a tots els nivells' : en ? 'Personal finance for all levels' : 'Finanzas personales para todos los niveles'}
+          {ca ? 'Finances personals, el mercat i l\'empresa' : en ? 'Personal finance, markets and business' : 'Finanzas personales, el mercado y la empresa'}
         </p>
       </div>
 
@@ -32,6 +32,10 @@ export default function EconomiaIndex() {  const { lang, localPath, tr } = useL
           titulo={tr({ es: 'Punto de Equilibrio', en: 'Break-Even Point', ca: 'Punt d\'Equilibri' })}
           sub={tr({ es: 'Calcula el umbral de rentabilidad: costes fijos, precio y coste variable', en: 'Work out the break-even threshold: fixed costs, price and variable cost', ca: 'Calcula el llindar de rendibilitat: CF, preu i cost variable' })}
           to={localPath('/examen/punto-equilibrio')} />
+        <TarjetaArte Arte={ARTE_TEMAS['economia/mercado']}
+          titulo={tr({ es: 'El Mercado', en: 'The Market', ca: 'El Mercat' })}
+          sub={tr({ es: 'Oferta, demanda y precio: por qué suben y bajan las cosas', en: 'Supply, demand and price: why things get dearer or cheaper', ca: 'Oferta, demanda i preu: per què les coses pugen i baixen' })}
+          to={localPath('/examen/mercado')} />
       </div>
     </div>
   )

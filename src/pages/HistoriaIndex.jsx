@@ -108,6 +108,14 @@ const TEMAS = [
   },
 
   {
+    id: 'entreguerras',
+    titulo: "Entreguerras", tituloEn: "Between the Wars", tituloCa: "Entreguerres",
+    subtitulo: "Crac del 29 y totalitarismos — 1919–1939", subtituloEn: "The 1929 crash and totalitarianism — 1919–1939", subtituloCa: "Crac del 29 i totalitarismes — 1919–1939",
+    emoji: '📉', gradient: 'from-stone-700 to-zinc-900',
+    tags: ['universal', 'siglo xx', 'crisis', 'fascismo', 'nazismo'], niveles: nivelesDeTema('historia', 'entreguerras'),
+  },
+
+  {
     id: 'franquismo',
     titulo: "Franquismo y Transición", tituloEn: "Francoism & Transition", tituloCa: "Franquisme i Transició",
     subtitulo: "De la dictadura a la Constitución — 1939–1982", subtituloEn: "From dictatorship to the Constitution — 1939–1982", subtituloCa: "De la dictadura a la Constitució — 1939–1982",

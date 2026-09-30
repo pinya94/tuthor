@@ -309,6 +309,22 @@ function Franquismo(p) {
 }
 
 // Clave = `historia/<id del tema>` (HistoriaIndex, topicCatalog).
+// Entreguerras: la gráfica de la Bolsa que sube en los años veinte y se
+// desploma en 1929.
+function Entreguerras(p) {
+  return (
+    <Lienzo {...p}>
+      <path d="M30 20V112H214" stroke="#94A3B8" strokeWidth="2.5" />
+      <path d="M30 88H214M30 64H214M30 40H214" stroke="#334155" strokeWidth="1" strokeDasharray="3 4" />
+      <path d="M34 98L60 90L84 78L106 70L124 52L140 38L150 34" stroke="#4ADE80" strokeWidth="4" fill="none" strokeLinejoin="round" strokeLinecap="round" />
+      <path d="M150 34L162 70L174 64L190 100L208 106" stroke="#EF4444" strokeWidth="4" fill="none" strokeLinejoin="round" strokeLinecap="round" />
+      <Flecha x1={184} y1={36} x2={196} y2={80} c="#F87171" w={3} />
+      <rect x="130" y="112" width="42" height="18" rx="4" fill="#EF4444" />
+      <T x={151} y={125} s={12}>1929</T>
+    </Lienzo>
+  )
+}
+
 export const ARTE_TEMAS_HISTORIA = {
   'historia/primaria': GrandesHitos,
   'historia/gce': GuerraCivil,
@@ -324,4 +340,5 @@ export const ARTE_TEMAS_HISTORIA = {
   'historia/primera-guerra-mundial': PrimeraGuerra,
   'historia/guerra-fria': GuerraFria,
   'historia/franquismo': Franquismo,
+  'historia/entreguerras': Entreguerras,
 }

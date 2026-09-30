@@ -113,6 +113,15 @@
   <url><loc>https://www.tuthor.es/estudiar/geologia/placas-tectonicas</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/en/estudiar/geologia/placas-tectonicas</loc><changefreq>weekly</changefreq><priority>0.75</priority></url>
   <url><loc>https://www.tuthor.es/ca/estudiar/geologia/placas-tectonicas</loc><changefreq>weekly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://www.tuthor.es/estudiar/biologia/salud-enfermedad</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/en/estudiar/biologia/salud-enfermedad</loc><changefreq>weekly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://www.tuthor.es/ca/estudiar/biologia/salud-enfermedad</loc><changefreq>weekly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://www.tuthor.es/estudiar/geologia/atmosfera-clima</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/en/estudiar/geologia/atmosfera-clima</loc><changefreq>weekly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://www.tuthor.es/ca/estudiar/geologia/atmosfera-clima</loc><changefreq>weekly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://www.tuthor.es/estudiar/historia/entreguerras</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/en/estudiar/historia/entreguerras</loc><changefreq>weekly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://www.tuthor.es/ca/estudiar/historia/entreguerras</loc><changefreq>weekly</changefreq><priority>0.75</priority></url>
   <url><loc>https://www.tuthor.es/estudiar/quimica/mezclas-separacion</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/en/estudiar/quimica/mezclas-separacion</loc><changefreq>weekly</changefreq><priority>0.75</priority></url>
   <url><loc>https://www.tuthor.es/ca/estudiar/quimica/mezclas-separacion</loc><changefreq>weekly</changefreq><priority>0.75</priority></url>
@@ -265,6 +274,11 @@
   <url><loc>https://www.tuthor.es/examen/orbita-test</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/examen/rocas-minerales</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/examen/placas-tectonicas</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/examen/atmosfera-clima</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/examen/salud-enfermedad</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/examen/entreguerras</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/examen/espanol-textos-test</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/examen/mercado</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/examen/celula</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/examen/cuerpo-humano</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/examen/diagnostico</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>

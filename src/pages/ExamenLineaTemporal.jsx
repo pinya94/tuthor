@@ -143,6 +143,7 @@ export default function ExamenLineaTemporal() {
     'revolucion-industrial': { label: 'The Industrial Revolution', emoji: '🏭', descripcion: 'From the steam engine to the assembly line. Sort the inventions and changes of two centuries.', lives: maxLives, winAt },
     'primera-guerra-mundial': { label: 'World War I', emoji: '🎖️', descripcion: 'From the alliances and Sarajevo to Versailles. Sort the events of the Great War.', lives: maxLives, winAt },
     'guerra-fria': { label: 'The Cold War', emoji: '🚀', descripcion: 'From the Iron Curtain to the end of the USSR. Sort forty years of tension between two blocs.', lives: maxLives, winAt },
+    entreguerras: { label: 'Between the Wars', emoji: '📉', descripcion: 'From Versailles to the invasion of Poland. Put the crash, the dictatorships and the road to war in order.', lives: maxLives, winAt },
   } : {
     primaria: { label: 'Grandes Hitos', emoji: '🌍', descripcion: 'Los momentos más importantes que cambiaron el mundo. Ideal para repasar los hitos clave de la historia universal.', lives: maxLives, winAt },
     wwii:     { label: 'Segunda Guerra Mundial', emoji: '⚔️', descripcion: 'Desde el inicio del conflicto hasta la rendición de Japón. Domina la cronología del mayor conflicto de la historia.', lives: maxLives, winAt },
@@ -158,6 +159,7 @@ export default function ExamenLineaTemporal() {
     'revolucion-industrial': { label: 'Revolución Industrial', emoji: '🏭', descripcion: 'De la máquina de vapor a la cadena de montaje. Ordena los inventos y cambios de dos siglos.', lives: maxLives, winAt },
     'primera-guerra-mundial': { label: 'Primera Guerra Mundial', emoji: '🎖️', descripcion: 'De las alianzas y Sarajevo a Versalles. Ordena los hechos de la Gran Guerra.', lives: maxLives, winAt },
     'guerra-fria': { label: 'Guerra Fría', emoji: '🚀', descripcion: 'Del telón de acero al fin de la URSS. Ordena cuarenta años de tensión entre dos bloques.', lives: maxLives, winAt },
+    entreguerras: { label: 'Entreguerras', emoji: '📉', descripcion: 'De Versalles a la invasión de Polonia. Ordena el crac, las dictaduras y el camino a la guerra.', lives: maxLives, winAt },
   }
 
   const config = CONFIGS[categoria] || CONFIGS.primaria

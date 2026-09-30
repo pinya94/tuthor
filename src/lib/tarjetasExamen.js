@@ -114,6 +114,16 @@ const BANCOS = {
     cargar: () => import('../data/placasTectonicas'),
     nombre: { es: 'Placas Tectónicas', en: 'Tectonic Plates', ca: 'Plaques Tectòniques' },
   },
+  'geologia/atmosfera-clima': {
+    emoji: '🌡️', clave: 'PREGUNTAS',
+    cargar: () => import('../data/atmosferaClima'),
+    nombre: { es: 'Atmósfera y Clima', en: 'Atmosphere and Climate', ca: 'Atmosfera i Clima' },
+  },
+  'biologia/salud-enfermedad': {
+    emoji: '🦠', clave: 'PREGUNTAS',
+    cargar: () => import('../data/saludEnfermedad'),
+    nombre: { es: 'Salud y Enfermedad', en: 'Health and Disease', ca: 'Salut i Malaltia' },
+  },
 }
 
 const ASIGNATURAS = {

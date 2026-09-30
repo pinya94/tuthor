@@ -1298,6 +1298,183 @@ export const CONTENIDO_TEMA = {
     },
   },
 
+  "salud-enfermedad": {
+    metaTitle: {
+      es: "Salud y enfermedad: microbios, defensas y vacunas — resumen",
+      en: "Health and disease: germs, defences and vaccines — a summary",
+      ca: "Salut i malaltia: microbis, defenses i vacunes — resum",
+    },
+    metaDesc: {
+      es: "Qué causa las enfermedades infecciosas, cómo se contagian, cómo nos defiende el sistema inmunitario y para qué sirven las vacunas y los antibióticos. Resumen y test.",
+      en: "What causes infectious diseases, how they spread, how the immune system defends us and what vaccines and antibiotics are for. Summary and test.",
+      ca: "Què causa les malalties infeccioses, com es contagien, com ens defensa el sistema immunitari i per a què serveixen les vacunes i els antibiòtics. Resum i test.",
+    },
+    resumen: {
+      es: [
+        "Las enfermedades infecciosas las causan microorganismos (bacterias, hongos, protozoos) o virus que entran en el cuerpo. Se contagian por el aire al toser, por contacto, por agua o alimentos contaminados o a través de animales como los mosquitos. Otras enfermedades, como la diabetes de tipo 2 o las del corazón, no son infecciosas: no se contagian y dependen de la herencia y del estilo de vida.",
+        "El cuerpo se defiende en varias líneas. La piel y las mucosas frenan la entrada de microbios; si pasan, los glóbulos blancos los atacan: unos se los comen y otros fabrican anticuerpos que reconocen a cada microbio y dejan memoria. Las vacunas aprovechan esa memoria para prepararnos antes de la infección, y los antibióticos matan bacterias, pero no sirven contra los virus.",
+      ],
+      en: [
+        "Infectious diseases are caused by microorganisms (bacteria, fungi, protozoa) or viruses that get into the body. They spread through the air when people cough, by contact, through contaminated water or food, or via animals such as mosquitoes. Other diseases, such as type 2 diabetes or heart disease, are not infectious: they are not catching and depend on genes and lifestyle.",
+        "The body defends itself in several lines. Skin and mucous membranes keep germs out; if they get through, white blood cells attack them: some eat them and others make antibodies that recognise each germ and leave a memory. Vaccines use that memory to prepare us before infection, and antibiotics kill bacteria but are useless against viruses.",
+      ],
+      ca: [
+        "Les malalties infeccioses les causen microorganismes (bacteris, fongs, protozous) o virus que entren al cos. Es contagien per l'aire en tossir, per contacte, per aigua o aliments contaminats o a través d'animals com els mosquits. Altres malalties, com la diabetis de tipus 2 o les del cor, no són infeccioses: no es contagien i depenen de l'herència i de l'estil de vida.",
+        "El cos es defensa en diverses línies. La pell i les mucoses frenen l'entrada de microbis; si passen, els glòbuls blancs els ataquen: uns se'ls mengen i d'altres fabriquen anticossos que reconeixen cada microbi i deixen memòria. Les vacunes aprofiten aquesta memòria per preparar-nos abans de la infecció, i els antibiòtics maten bacteris, però no serveixen contra els virus.",
+      ],
+    },
+    puntosClave: {
+      es: [
+        "Las enfermedades infecciosas las causan bacterias, virus, hongos o protozoos.",
+        "Un virus no es una célula: solo se multiplica dentro de otras células.",
+        "La piel y las mucosas son la primera barrera.",
+        "Los glóbulos blancos atacan a los microbios; los linfocitos fabrican anticuerpos.",
+        "Las vacunas enseñan al cuerpo a reconocer un microbio y dejan memoria.",
+        "Los antibióticos sirven contra bacterias, no contra virus.",
+        "Usarlos mal crea bacterias resistentes.",
+        "Las enfermedades no infecciosas dependen de la herencia y del estilo de vida.",
+      ],
+      en: [
+        "Infectious diseases are caused by bacteria, viruses, fungi or protozoa.",
+        "A virus is not a cell: it can only multiply inside other cells.",
+        "Skin and mucous membranes are the first barrier.",
+        "White blood cells attack germs; lymphocytes make antibodies.",
+        "Vaccines teach the body to recognise a germ and leave a memory.",
+        "Antibiotics work against bacteria, not viruses.",
+        "Misusing them creates resistant bacteria.",
+        "Non-infectious diseases depend on genes and lifestyle.",
+      ],
+      ca: [
+        "Les malalties infeccioses les causen bacteris, virus, fongs o protozous.",
+        "Un virus no és una cèl·lula: només es multiplica dins d'altres cèl·lules.",
+        "La pell i les mucoses són la primera barrera.",
+        "Els glòbuls blancs ataquen els microbis; els limfòcits fabriquen anticossos.",
+        "Les vacunes ensenyen el cos a reconèixer un microbi i deixen memòria.",
+        "Els antibiòtics serveixen contra bacteris, no contra virus.",
+        "Fer-ne mal ús crea bacteris resistents.",
+        "Les malalties no infeccioses depenen de l'herència i de l'estil de vida.",
+      ],
+    },
+  },
+
+  "atmosfera-clima": {
+    metaTitle: {
+      es: "La atmósfera y el cambio climático — resumen",
+      en: "The atmosphere and climate change — a summary",
+      ca: "L'atmosfera i el canvi climàtic — resum",
+    },
+    metaDesc: {
+      es: "De qué está hecho el aire y sus capas, la diferencia entre tiempo y clima, el efecto invernadero y por qué el planeta se está calentando. Resumen y test.",
+      en: "What air is made of and its layers, the difference between weather and climate, the greenhouse effect and why the planet is warming. Summary and test.",
+      ca: "De què està fet l'aire i les seves capes, la diferència entre temps i clima, l'efecte hivernacle i per què el planeta s'està escalfant. Resum i test.",
+    },
+    resumen: {
+      es: [
+        "La atmósfera es la capa de gases que rodea la Tierra: sobre todo nitrógeno (78 %) y oxígeno (21 %). En la capa más baja, la troposfera, se forman las nubes, la lluvia y el viento; más arriba, en la estratosfera, la capa de ozono filtra los rayos ultravioleta. El tiempo es el estado de la atmósfera en un momento; el clima, lo habitual en un lugar durante unos treinta años.",
+        "Algunos gases, como el dióxido de carbono, el metano y el vapor de agua, retienen parte del calor que emite la Tierra: es el efecto invernadero, sin el que el planeta estaría helado. Al quemar carbón, petróleo y gas y al talar bosques hemos aumentado mucho esos gases, y el planeta se calienta más deprisa que nunca: sube el nivel del mar, hay más olas de calor y sequías. Para frenarlo hay que reducir emisiones (mitigar) y prepararse para lo que ya no se puede evitar (adaptarse).",
+      ],
+      en: [
+        "The atmosphere is the layer of gases around the Earth: mostly nitrogen (78%) and oxygen (21%). In the lowest layer, the troposphere, clouds, rain and wind form; higher up, in the stratosphere, the ozone layer filters out ultraviolet rays. Weather is the state of the atmosphere at one moment; climate is what is usual in a place over about thirty years.",
+        "Some gases, such as carbon dioxide, methane and water vapour, hold back part of the heat the Earth gives off: this is the greenhouse effect, without which the planet would be frozen. By burning coal, oil and gas and cutting down forests we have greatly increased those gases, and the planet is warming faster than ever: sea level is rising and there are more heatwaves and droughts. Curbing it means cutting emissions (mitigation) and preparing for what can no longer be avoided (adaptation).",
+      ],
+      ca: [
+        "L'atmosfera és la capa de gasos que envolta la Terra: sobretot nitrogen (78 %) i oxigen (21 %). A la capa més baixa, la troposfera, es formen els núvols, la pluja i el vent; més amunt, a l'estratosfera, la capa d'ozó filtra els raigs ultraviolats. El temps és l'estat de l'atmosfera en un moment; el clima, el que és habitual en un lloc durant uns trenta anys.",
+        "Alguns gasos, com el diòxid de carboni, el metà i el vapor d'aigua, retenen part de la calor que emet la Terra: és l'efecte hivernacle, sense el qual el planeta estaria glaçat. En cremar carbó, petroli i gas i talar boscos hem augmentat molt aquests gasos, i el planeta s'escalfa més de pressa que mai: puja el nivell del mar i hi ha més onades de calor i sequeres. Per frenar-ho cal reduir emissions (mitigar) i preparar-se per al que ja no es pot evitar (adaptar-se).",
+      ],
+    },
+    puntosClave: {
+      es: [
+        "El aire es sobre todo nitrógeno (78 %) y oxígeno (21 %).",
+        "En la troposfera ocurre el tiempo atmosférico.",
+        "La capa de ozono filtra los rayos ultravioleta.",
+        "Tiempo: un momento. Clima: la media de muchos años.",
+        "El efecto invernadero natural mantiene la Tierra templada.",
+        "Quemar combustibles fósiles aumenta el CO2 y calienta el planeta.",
+        "Consecuencias: sube el mar, más olas de calor y sequías.",
+        "Mitigar es reducir emisiones; adaptarse, prepararse para los efectos.",
+      ],
+      en: [
+        "Air is mostly nitrogen (78%) and oxygen (21%).",
+        "Weather happens in the troposphere.",
+        "The ozone layer filters out ultraviolet rays.",
+        "Weather: one moment. Climate: the average over many years.",
+        "The natural greenhouse effect keeps the Earth mild.",
+        "Burning fossil fuels increases CO2 and warms the planet.",
+        "Consequences: rising seas, more heatwaves and droughts.",
+        "Mitigation is cutting emissions; adaptation is preparing for the effects.",
+      ],
+      ca: [
+        "L'aire és sobretot nitrogen (78 %) i oxigen (21 %).",
+        "A la troposfera hi ha el temps atmosfèric.",
+        "La capa d'ozó filtra els raigs ultraviolats.",
+        "Temps: un moment. Clima: la mitjana de molts anys.",
+        "L'efecte hivernacle natural manté la Terra temperada.",
+        "Cremar combustibles fòssils augmenta el CO2 i escalfa el planeta.",
+        "Conseqüències: puja el mar, més onades de calor i sequeres.",
+        "Mitigar és reduir emissions; adaptar-se, preparar-se per als efectes.",
+      ],
+    },
+  },
+
+  "entreguerras": {
+    metaTitle: {
+      es: "El periodo de entreguerras (1919-1939): crac del 29 y totalitarismos — resumen",
+      en: "Between the wars (1919-1939): the 1929 crash and totalitarianism — a summary",
+      ca: "El període d'entreguerres (1919-1939): crac del 29 i totalitarismes — resum",
+    },
+    metaDesc: {
+      es: "De Versalles a la invasión de Polonia: los felices años veinte, el crac del 29, la Gran Depresión, fascismo, nazismo, estalinismo y el camino a la guerra. Resumen y test.",
+      en: "From Versailles to the invasion of Poland: the Roaring Twenties, the 1929 crash, the Great Depression, fascism, Nazism, Stalinism and the road to war. Summary and test.",
+      ca: "Del Tractat de Versalles a la invasió de Polònia: els feliços anys vint, el crac del 29, la Gran Depressió, el feixisme, el nazisme, l'estalinisme i el camí a la guerra. Resum i test.",
+    },
+    resumen: {
+      es: [
+        "Tras la Primera Guerra Mundial, el Tratado de Versalles (1919) culpó a Alemania, le quitó territorios y le impuso enormes reparaciones. Los años veinte fueron de prosperidad en Estados Unidos, pero apoyada en créditos y especulación: en octubre de 1929 la Bolsa de Nueva York se hundió y comenzó la Gran Depresión, con bancos quebrados y millones de parados en todo el mundo. Roosevelt respondió con el New Deal, que puso al Estado a crear empleo.",
+        "La crisis y el miedo a la revolución ayudaron a que en varios países cayera la democracia. Mussolini instauró el fascismo en Italia (1922), Hitler llegó al poder en Alemania (1933) y en la URSS Stalin impuso su dictadura. Estos regímenes totalitarios tenían partido único, culto al líder, propaganda y represión. Hitler rompió Versalles paso a paso —Renania, Austria, los Sudetes— ante la pasividad de Reino Unido y Francia, y la invasión de Polonia en septiembre de 1939 abrió la Segunda Guerra Mundial.",
+      ],
+      en: [
+        "After the First World War, the Treaty of Versailles (1919) blamed Germany, took away territory and imposed huge reparations. The 1920s were prosperous in the United States, but that rested on credit and speculation: in October 1929 the New York Stock Exchange crashed and the Great Depression began, with failed banks and millions unemployed around the world. Roosevelt responded with the New Deal, which set the state to creating jobs.",
+        "The crisis and fear of revolution helped democracy fall in several countries. Mussolini set up fascism in Italy (1922), Hitler came to power in Germany (1933) and in the USSR Stalin imposed his dictatorship. These totalitarian regimes had a single party, a cult of the leader, propaganda and repression. Hitler broke Versailles step by step — the Rhineland, Austria, the Sudetenland — while Britain and France stood by, and the invasion of Poland in September 1939 started the Second World War.",
+      ],
+      ca: [
+        "Després de la Primera Guerra Mundial, el Tractat de Versalles (1919) va culpar Alemanya, li va treure territoris i li va imposar reparacions enormes. Els anys vint van ser de prosperitat als Estats Units, però recolzada en crèdits i especulació: l'octubre del 1929 la Borsa de Nova York es va enfonsar i va començar la Gran Depressió, amb bancs en fallida i milions d'aturats a tot el món. Roosevelt va respondre amb el New Deal, que va posar l'Estat a crear ocupació.",
+        "La crisi i la por a la revolució van ajudar que en diversos països caigués la democràcia. Mussolini va instaurar el feixisme a Itàlia (1922), Hitler va arribar al poder a Alemanya (1933) i a la URSS Stalin va imposar la seva dictadura. Aquests règims totalitaris tenien partit únic, culte al líder, propaganda i repressió. Hitler va trencar Versalles pas a pas —Renània, Àustria, els Sudets— davant la passivitat del Regne Unit i França, i la invasió de Polònia el setembre del 1939 va obrir la Segona Guerra Mundial.",
+      ],
+    },
+    puntosClave: {
+      es: [
+        "1919: el Tratado de Versalles castiga duramente a Alemania.",
+        "Años veinte: prosperidad en EE. UU. basada en créditos y especulación.",
+        "1929: el crac de la Bolsa de Nueva York abre la Gran Depresión.",
+        "El New Deal de Roosevelt pone al Estado a crear empleo.",
+        "1922: Mussolini lleva el fascismo al poder en Italia.",
+        "1933: Hitler, canciller de Alemania; poco después, dictadura nazi.",
+        "Totalitarismo: partido único, culto al líder, propaganda y represión.",
+        "1939: la invasión de Polonia inicia la Segunda Guerra Mundial.",
+      ],
+      en: [
+        "1919: the Treaty of Versailles punishes Germany harshly.",
+        "1920s: US prosperity built on credit and speculation.",
+        "1929: the Wall Street Crash opens the Great Depression.",
+        "Roosevelt's New Deal sets the state to creating jobs.",
+        "1922: Mussolini brings fascism to power in Italy.",
+        "1933: Hitler becomes Chancellor; a Nazi dictatorship soon follows.",
+        "Totalitarianism: one party, a cult of the leader, propaganda and repression.",
+        "1939: the invasion of Poland starts the Second World War.",
+      ],
+      ca: [
+        "1919: el Tractat de Versalles castiga durament Alemanya.",
+        "Anys vint: prosperitat als EUA basada en crèdits i especulació.",
+        "1929: el crac de la Borsa de Nova York obre la Gran Depressió.",
+        "El New Deal de Roosevelt posa l'Estat a crear ocupació.",
+        "1922: Mussolini porta el feixisme al poder a Itàlia.",
+        "1933: Hitler, canceller d'Alemanya; poc després, dictadura nazi.",
+        "Totalitarisme: partit únic, culte al líder, propaganda i repressió.",
+        "1939: la invasió de Polònia inicia la Segona Guerra Mundial.",
+      ],
+    },
+  },
+
   'europa': {
     metaTitle: {
       es: 'Europa: países, relieve y ríos — resumen para estudiar',

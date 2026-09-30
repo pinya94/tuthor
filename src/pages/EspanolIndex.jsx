@@ -10,6 +10,9 @@ const CATEGORIAS = [
   // Literatura tiene un solo examen, así que no necesita índice propio: la
   // tarjeta lleva directa a la prueba, como hace Matemáticas con Porcentajes.
   { id: 'literatura', arte: 'lengua/literatura', titulo: { es: 'Literatura', en: 'Literature', ca: 'Literatura' }, emoji: '🖋️', gradient: 'from-indigo-500 to-blue-700', path: '/examen/espanol-literatura-test' },
+  // Los textos (tipologías, funciones del lenguaje, propiedades): un solo examen,
+  // la tarjeta va directa a él como Literatura.
+  { id: 'textos', arte: 'lengua/textos', titulo: { es: 'Los Textos', en: 'Types of Text', ca: 'Els Textos' }, emoji: '📝', gradient: 'from-teal-500 to-cyan-700', path: '/examen/espanol-textos-test' },
 ]
 
 export default function EspanolIndex() {
