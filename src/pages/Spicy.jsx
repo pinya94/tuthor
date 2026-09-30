@@ -6,7 +6,7 @@ import { saveActivity } from '../lib/activity'
 import { computeCoins } from '../lib/games'
 import GameEndScreen from '../components/GameEndScreen'
 import SEOHead from '../components/SEOHead'
-import { ArteJuego } from '../components/arte'
+import { CabeceraJuego, ComoSeJuega } from '../components/IntroJuego'
 import {
   crearPartida, avanzarMes, elegirOpcion, interpolar,
   patrimonio, patrimonioReal, notaFinanciera, fmt, escala, SENALES,
@@ -176,28 +176,27 @@ export default function Spicy() {
             className="text-white/30 hover:text-white/60 text-sm mb-6 flex items-center gap-1 transition-colors">
             {tr({ es: '← Volver a juegos', en: '← Back to games', ca: '← Tornar a jocs' })}
           </button>
-          <div className="text-center mb-8">
-            <ArteJuego slug="spicy" className="w-full max-w-[240px] mx-auto aspect-video block mb-3" />
-            <h1 className="text-3xl font-black text-white mb-2">Spicy</h1>
-            <p className="text-white/40 text-sm mb-3">{tr({ es: 'Decisiones que pican', en: 'Decisions with a kick', ca: 'Decisions que piquen' })}</p>
-            <p className="text-white/50 text-sm leading-relaxed">
-              {tr({
+          <CabeceraJuego slug="spicy"
+            badge={tr({ es: 'Economía · Educación financiera', en: 'Economics · Financial education', ca: 'Economia · Educació financera' })}
+            titulo="Spicy"
+            sub={tr({ es: 'Vive una vida entera decidiendo qué hacer con tu dinero.', en: 'Live a whole life deciding what to do with your money.', ca: 'Viu una vida sencera decidint què fer amb els teus diners.' })} />
+          <button onClick={empezar}
+            className="w-full bg-[#EDAE49] hover:bg-amber-400 text-black font-black py-4 text-xl rounded-2xl transition-all hover:scale-[1.02] shadow-lg shadow-amber-500/30 mb-3">
+            {tr({ es: 'Nacer', en: 'Be born', ca: 'Néixer' })}
+          </button>
+          <ComoSeJuega>
+            <div className="rounded-2xl border border-white/[0.08] p-4 text-sm text-white/55 space-y-2" style={{ background: SURF }}>
+              <p className="text-white/70">{tr({
                 es: 'Empiezas con 5 años y los meses corren solos. Cuando la vida te planta una decisión, el tiempo se para: ahorrar o gastar, estudiar o trabajar, comprar o alquilar, invertir o esperar. Y mientras el reloj corre, puedes mover tus ahorros cuando quieras. La inflación no descansa — y nadie te dirá los riesgos con números: aprende a leer las señales.',
                 en: 'You start at 5 and the months run on their own. When life drops a decision, time stops: save or spend, study or work, buy or rent, invest or wait. And while the clock ticks, you can move your savings whenever you want. Inflation never rests — and nobody tells you the risks in numbers: learn to read the signals.',
                 ca: 'Comences amb 5 anys i els mesos corren sols. Quan la vida et planta una decisió, el temps es para: estalviar o gastar, estudiar o treballar, comprar o llogar, invertir o esperar. I mentre el rellotge corre, pots moure els teus estalvis quan vulguis. La inflació no descansa — i ningú et dirà els riscos amb números: aprèn a llegir els senyals.',
-              })}
-            </p>
-          </div>
-          <div className="rounded-2xl border border-white/10 p-4 mb-6 text-sm text-white/50 space-y-2" style={{ background: SURF }}>
-            <p>🎯 {tr({ es: 'Objetivo: acabar con el máximo patrimonio. Ojo: los precios suben toda la vida — lo que cuenta es lo que puedas comprar.', en: 'Goal: end with the most wealth. Careful: prices rise your whole life — what counts is what you can buy.', ca: 'Objectiu: acabar amb el màxim patrimoni. Ull: els preus pugen tota la vida — el que compta és el que puguis comprar.' })}</p>
+              })}</p>
+              <p>🎯 {tr({ es: 'Objetivo: acabar con el máximo patrimonio. Ojo: los precios suben toda la vida — lo que cuenta es lo que puedas comprar.', en: 'Goal: end with the most wealth. Careful: prices rise your whole life — what counts is what you can buy.', ca: 'Objectiu: acabar amb el màxim patrimoni. Ull: els preus pugen tota la vida — el que compta és el que puguis comprar.' })}</p>
             <p>🧐 {tr({ es: 'Fíjate en las señales: "garantizado", prisas, sin regular… o entidad seria y diversificada.', en: 'Watch the signals: "guaranteed", urgency, unregulated… or serious and diversified institutions.', ca: 'Fixa\'t en els senyals: "garantit", presses, sense regular… o entitat seriosa i diversificada.' })}</p>
             <p>🌟 {tr({ es: 'Gastar no siempre es perder: hay experiencias que abren caminos que el dinero quieto nunca abrirá.', en: 'Spending isn\'t always losing: some experiences open paths that idle money never will.', ca: 'Gastar no sempre és perdre: hi ha experiències que obren camins que els diners aturats mai obriran.' })}</p>
             <p>🔁 {tr({ es: 'Cada vida es distinta: crisis, burbujas y golpes de suerte cambian en cada partida.', en: 'Every life is different: crises, bubbles and strokes of luck change every run.', ca: 'Cada vida és diferent: crisis, bombolles i cops de sort canvien a cada partida.' })}</p>
-          </div>
-          <button onClick={empezar}
-            className="w-full bg-[#EDAE49] hover:bg-amber-400 text-black font-black py-4 text-lg rounded-2xl transition-all hover:scale-[1.02] shadow-lg shadow-amber-500/30">
-            {tr({ es: 'Nacer 👶', en: 'Be born 👶', ca: 'Néixer 👶' })}
-          </button>
+            </div>
+          </ComoSeJuega>
         </div>
       </div>
     )

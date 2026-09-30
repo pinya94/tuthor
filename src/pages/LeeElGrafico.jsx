@@ -10,7 +10,7 @@ import TablaDatos from '../components/TablaDatos'
 import GameEndScreen from '../components/GameEndScreen'
 import SupportBlock from '../components/SupportBlock'
 import SEOHead from '../components/SEOHead'
-import { ArteJuego } from '../components/arte'
+import { CabeceraJuego, NivelBarras, ComoSeJuega } from '../components/IntroJuego'
 
 // ── Lee el Gráfico ───────────────────────────────────────────────────────────
 // Se enseña una gráfica con datos y se pregunta POR ELLA: si crece o decrece,
@@ -167,50 +167,48 @@ export default function LeeElGrafico() {
     return (
       <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
         <SEOHead title={seoTitle} description={seoDesc} path="/juegos/lee-el-grafico" lang={lang} />
-        <div className="w-full max-w-md text-center">
-          <ArteJuego slug="lee-el-grafico" className="w-full max-w-[240px] mx-auto aspect-video block mb-3" />
-          <h1 className="text-3xl font-black text-white mb-2">
-            {tr({ es: 'Lee el Gráfico', en: 'Read the Chart', ca: 'Llegeix el Gràfic' })}
-          </h1>
-          <p className="text-white/55 mb-4 leading-relaxed">
-            {tr({
-              es: 'Sale una gráfica con datos y una pregunta sobre ella. Nada de fórmulas que memorizar: hay que mirar el dibujo y decidir.',
-              en: 'You get a chart with data and a question about it. No formulas to memorise: look at the picture and decide.',
-              ca: 'Surt un gràfic amb dades i una pregunta sobre ell. Res de fórmules per memoritzar: cal mirar el dibuix i decidir.',
-            })}
-          </p>
+        {/* Entrada con el formato común: dibujo, nivel, una frase, jugar; lo
+            demás plegado en "¿Cómo se juega?". */}
+        <div className="w-full max-w-md">
+          <button type="button" onClick={() => navigate(localPath('/juegos'))}
+            className="text-white/30 hover:text-white/60 text-sm mb-6 transition-colors">
+            {tr({ es: '← Volver', en: '← Back', ca: '← Tornar' })}
+          </button>
+          <CabeceraJuego slug="lee-el-grafico"
+            badge={tr({ es: 'Matemáticas · Estadística', en: 'Maths · Statistics', ca: 'Matemàtiques · Estadística' })}
+            titulo={tr({ es: 'Lee el Gráfico', en: 'Read the Chart', ca: 'Llegeix el Gràfic' })}
+            sub={tr({ es: 'Mira la gráfica y responde.', en: 'Look at the chart and answer.', ca: 'Mira el gràfic i respon.' })} />
 
-          {/* Qué clase de datos va a ver. Es lo que convierte el juego en algo
-              reconocible: son los gráficos de clase, no gráficos abstractos. */}
-          <p className="text-white/35 text-[12.5px] mb-6 leading-relaxed">
-            {tr({
-              es: 'Población de un pueblo, ingresos y gastos de una empresa, notas de dos alumnos, temperaturas, días de lluvia, socios de un club…',
-              en: "A town's population, a company's revenue and costs, two students' marks, temperatures, rainy days, club members…",
-              ca: "Població d'un poble, ingressos i despeses d'una empresa, notes de dos alumnes, temperatures, dies de pluja, socis d'un club…",
-            })}
-          </p>
-
-          <p className="text-white/30 text-[11px] font-bold uppercase tracking-widest mb-2 text-left">
-            {tr({ es: 'Elige por dónde empezar', en: 'Pick where to start', ca: 'Tria per on començar' })}
-          </p>
-          <div className="space-y-2 mb-6">
-            {Object.keys(DIFS).map(id => (
-              <button key={id} type="button" onClick={() => startGame(id)}
-                className="w-full text-left rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-teal-500/40 p-4 transition-all">
-                <div className="flex items-baseline justify-between gap-2 mb-0.5">
-                  <p className="text-white font-bold text-[15px]">{tr(DIF_LABEL[id])}</p>
-                  <p className="text-teal-300/70 text-[10.5px] font-bold uppercase tracking-wider shrink-0">{tr(DIF_QUE[id])}</p>
-                </div>
-                <p className="text-white/40 text-[12.5px] leading-snug">{tr(DIF_DESC[id])}</p>
+          <div className="flex justify-center gap-1.5 p-1 bg-white/5 border border-white/10 rounded-xl mb-3 mx-auto w-fit">
+            {Object.keys(DIFS).map((id, i) => (
+              <button key={id} type="button" onClick={() => setDifId(id)}
+                className={`flex items-center gap-1 px-3 py-2 rounded-lg text-sm font-semibold transition-all ${difId === id ? 'bg-white/15 text-white shadow-sm' : 'text-white/40 hover:text-white/70'}`}>
+                <NivelBarras clave={id} i={i} />{tr(DIF_LABEL[id])}
               </button>
             ))}
           </div>
+          <p className="text-teal-300/70 text-[10.5px] font-bold uppercase tracking-wider text-center mb-0.5">{tr(DIF_QUE[difId])}</p>
+          <p className="text-white/45 text-xs text-center mb-5">{tr(DIF_DESC[difId])}</p>
 
-          <SupportBlock className="mb-5" />
-          <button type="button" onClick={() => navigate(localPath('/juegos'))}
-            className="text-white/30 hover:text-white/60 text-sm transition-colors">
-            {tr({ es: '← Volver a los juegos', en: '← Back to games', ca: '← Tornar als jocs' })}
+          <button type="button" onClick={() => startGame(difId)}
+            className="w-full py-4 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-xl rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-amber-500/30 mb-3">
+            {tr({ es: 'Jugar', en: 'Play', ca: 'Jugar' })}
           </button>
+          <ComoSeJuega>
+            <div className="bg-[#141b2e] border border-white/[0.08] rounded-2xl p-4 space-y-2 text-sm text-white/60">
+              <p>{tr({
+                es: 'Sale una gráfica con datos y una pregunta sobre ella. Nada de fórmulas que memorizar: hay que mirar el dibujo y decidir.',
+                en: 'You get a chart with data and a question about it. No formulas to memorise: look at the picture and decide.',
+                ca: 'Surt un gràfic amb dades i una pregunta sobre ell. Res de fórmules per memoritzar: cal mirar el dibuix i decidir.',
+              })}</p>
+              <p className="text-white/40">{tr({
+                es: 'Población de un pueblo, ingresos y gastos de una empresa, notas de dos alumnos, temperaturas, días de lluvia, socios de un club…',
+                en: "A town's population, a company's revenue and costs, two students' marks, temperatures, rainy days, club members…",
+                ca: "Població d'un poble, ingressos i despeses d'una empresa, notes de dos alumnes, temperatures, dies de pluja, socis d'un club…",
+              })}</p>
+            </div>
+          </ComoSeJuega>
+          <SupportBlock className="mt-4" />
         </div>
       </div>
     )
