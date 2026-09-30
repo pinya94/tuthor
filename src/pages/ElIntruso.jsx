@@ -318,7 +318,7 @@ export default function ElIntruso() {
   /* ── PLAYING ──────────────────────────────────────────────── */
   if (screen === 'playing' && q) {
     return (
-      <div className="relative z-10 flex items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-6">
+      <div className="relative z-10 flex justify-center min-h-[calc(100vh-4rem)] px-4 pt-5 pb-6 sm:items-center">
         <div className="max-w-sm w-full">
 
           {/* Header */}

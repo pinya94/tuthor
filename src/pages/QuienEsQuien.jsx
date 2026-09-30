@@ -5,7 +5,7 @@ import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
 import { saveActivity } from '../lib/activity'
 import { computeCoins } from '../lib/games'
-import GameEndScreen from '../components/GameEndScreen'
+import GameEndScreen from '../components/GameEndScreen'
 import { ComoSeJuega } from '../components/IntroJuego'
 import SupportBlock from '../components/SupportBlock'
 import SEOHead from '../components/SEOHead'
@@ -103,14 +103,14 @@ function Avatar({ p, tachado, modoAdivinar, esSecreto, resultado, onClick }) {
   return (
     <div
       className={`relative rounded-xl shadow transition-all duration-200 select-none ${cursor} ${opacidad} ${escala} ${anillo}`}
-      style={{ backgroundColor: p.color, width: '100%', paddingBottom: '100%' }}
+      style={{ backgroundColor: p.color, width: '100%', paddingBottom: '112%' }}
       onClick={onClick}
     >
-      <div style={{ position: 'absolute', inset: 0 }} className="flex flex-col items-center justify-center p-2 sm:p-3 overflow-hidden">
+      <div style={{ position: "absolute", inset: 0 }} className="flex flex-col items-center justify-center p-1 sm:p-3 overflow-hidden">
         {resultado === 'correcto' && <span className="text-2xl">✓</span>}
         {resultado === 'revelado' && <span className="text-2xl">★</span>}
         {resultado !== 'correcto' && resultado !== 'revelado' && (
-          <p className="text-white font-bold text-center leading-tight" style={{ fontSize: 'clamp(7px, 1.1vw, 13px)', wordBreak: 'break-word' }}>
+          <p className="text-white font-bold text-center leading-tight" style={{ fontSize: 'clamp(10.5px, 2.9vw, 13px)', wordBreak: 'break-word', hyphens: 'auto' }}>
             {p.nombre}
           </p>
         )}

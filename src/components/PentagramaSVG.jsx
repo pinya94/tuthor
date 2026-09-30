@@ -29,6 +29,10 @@ const HALF = GAP / 2  // un paso diatónico
 const X0 = 78         // inicio tras la clave
 const BEAT_W = 58     // px por pulso
 const NOTE_OFFSET = 14
+// Zoom del dibujo: el lienzo se pinta en estas unidades y se muestra un 40 %
+// más grande (en un móvil el pentagrama ocupaba una franja fina con media
+// pantalla vacía debajo). El scroll trabaja en píxeles, así que se escala.
+const ZOOM = 1.4
 
 const RESULT_COLORS = {
   verde:    '#4ade80',
@@ -134,10 +138,14 @@ export default function PentagramaSVG({ clave = 'sol', notas, resultados = [], c
     if (activeX == null) return
 
     const margin = el.clientWidth * 0.28
-    const maxScroll = Math.max(0, width - el.clientWidth)
+    const maxScroll = Math.max(0, width * ZOOM - el.clientWidth)
+    const ax = activeX * ZOOM
     let target = el.scrollLeft
-    if (activeX < el.scrollLeft + margin) target = activeX - margin
-    else if (activeX > el.scrollLeft + el.clientWidth - margin) target = activeX - margin
+    if (ax < el.scrollLeft + margin) target = ax - margin
+    else if (ax > el.scrollLeft + el.clientWidth - margin) target = ax - margin
+    // Mientras lo activo quepa en la primera pantalla, no se mueve: así al
+    // empezar se ve la clave y el principio del compás.
+    if (ax < el.clientWidth - margin) target = 0
     target = Math.min(Math.max(0, target), maxScroll)
 
     el.scrollLeft = target
@@ -145,7 +153,7 @@ export default function PentagramaSVG({ clave = 'sol', notas, resultados = [], c
 
   return (
     <div ref={scrollRef} className="overflow-x-auto">
-      <svg viewBox={`0 0 ${width} 150`} width={width} height="150" className="block" style={{ minWidth: '100%' }}>
+      <svg viewBox={`0 0 ${width} 150`} width={width * ZOOM} height={150 * ZOOM} className="block" style={{ minWidth: '100%' }}>
         {[0, 1, 2, 3, 4].map(i => (
           <line key={i} x1="12" x2={width - 12}
             y1={Y_BOTTOM - i * GAP} y2={Y_BOTTOM - i * GAP}

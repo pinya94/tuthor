@@ -236,23 +236,25 @@ export default function PonLaTilde() {
 
       {/* La palabra, sílaba a sílaba y SIN tilde: verla acentuada regalaría las
           dos respuestas de golpe. */}
-      <div className="flex flex-wrap justify-center items-center gap-1.5 mb-5">
-        {round.silabas.map((s, i) => (
-          <button key={i} onClick={() => elegirSilaba(i)} disabled={phase !== 'silaba'}
-            className={`px-3.5 py-2.5 rounded-xl text-2xl sm:text-3xl font-black transition-all ${claseSilaba(i)}`}>
-            {s}
-          </button>
-        ))}
+      <div className="w-full max-w-[460px] rounded-2xl bg-[#141b2e] border border-white/[0.08] px-3 py-6 mb-4">
+        <div className="flex flex-wrap justify-center items-center gap-2">
+          {round.silabas.map((s, i) => (
+            <button key={i} onClick={() => elegirSilaba(i)} disabled={phase !== 'silaba'}
+              className={`min-w-[3.5rem] px-4 py-4 rounded-2xl text-3xl sm:text-4xl font-black transition-all active:scale-95 ${claseSilaba(i)}`}>
+              {s}
+            </button>
+          ))}
+        </div>
       </div>
 
       {phase === 'tilde' && (
         <div className="w-full max-w-[420px] flex gap-2 px-1">
           <button onClick={() => responderTilde(true)}
-            className="flex-1 py-3.5 rounded-2xl bg-white/10 border border-white/15 text-white font-black hover:bg-white/20 transition">
+            className="flex-1 py-4 text-lg rounded-2xl bg-white/10 border border-white/15 text-white font-black hover:bg-white/20 transition">
             {T('si', l)}
           </button>
           <button onClick={() => responderTilde(false)}
-            className="flex-1 py-3.5 rounded-2xl bg-white/10 border border-white/15 text-white font-black hover:bg-white/20 transition">
+            className="flex-1 py-4 text-lg rounded-2xl bg-white/10 border border-white/15 text-white font-black hover:bg-white/20 transition">
             {T('no', l)}
           </button>
         </div>
