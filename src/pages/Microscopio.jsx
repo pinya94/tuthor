@@ -7,10 +7,10 @@ import { computeCoins } from '../lib/games'
 import { CELULAS } from '../data/organulos'
 import { genRound, esCorrecta, enunciado } from '../lib/microscopio'
 import { nuevaRonda } from '../lib/preparaciones'
-import CelulaSVG from '../components/CelulaSVG'
+import CelulaSVG, { OrganuloIcono } from '../components/CelulaSVG'
 import GameEndScreen from '../components/GameEndScreen'
 import SEOHead from '../components/SEOHead'
-import { CabeceraJuego, ComoSeJuega } from '../components/IntroJuego'
+import { CabeceraJuego, ComoSeJuega, NivelBarras } from '../components/IntroJuego'
 import { Racha } from '../components/Iconos'
 
 const GAME_TIME = 20
@@ -47,11 +47,23 @@ const C = {
 }
 const T = (k, l) => C[k]?.[l] ?? C[k]?.es ?? k
 
+// Niveles de la célula dibujada (las preparaciones reales no tienen). Una
+// sola mecánica; cambia la ayuda del enunciado:
+//   facil   → el nombre y, al lado, el dibujo del orgánulo («así se ve»)
+//   medio   → solo el nombre
+//   dificil → mezclado: unas veces el nombre y otras solo lo que hace
+const NIVELES = {
+  facil:   { modo: 'nombre', icono: true,  label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' }, desc: { es: 'Te enseñamos cómo es cada orgánulo', en: 'We show you what each organelle looks like', ca: 'T’ensenyem com és cada orgànul' } },
+  medio:   { modo: 'nombre', icono: false, label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' }, desc: { es: 'Solo el nombre: tienes que reconocerlo', en: 'Just the name: you have to recognise it', ca: 'Només el nom: l’has de reconèixer' } },
+  dificil: { modo: 'mixto',  icono: false, label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' }, desc: { es: 'Unas veces el nombre, otras lo que hace', en: 'Sometimes the name, sometimes what it does', ca: 'De vegades el nom, d’altres el que fa' } },
+}
+
 function IntroScreen({ onStart, l }) {
   // 'celula' = la célula dibujada de siempre (se PULSA el orgánulo, cada uno
   // es una forma del SVG). 'prep' = fotos reales con una zona ya señalada, y
   // se IDENTIFICA entre opciones: sobre una foto no hay formas que pulsar.
   const [fuente, setFuente] = useState('celula')
+  const [nivel, setNivel] = useState('facil')
   return (
     <div className="relative z-10 flex flex-col items-center min-h-[calc(100vh-4rem)] px-4 py-8">
       <div className="max-w-md w-full">
@@ -69,9 +81,22 @@ function IntroScreen({ onStart, l }) {
           ))}
         </div>
 
+        {fuente === 'celula' && (
+          <>
+            <div className="flex justify-center gap-1.5 p-1 bg-white/5 border border-white/10 rounded-xl mb-2 mx-auto w-fit">
+              {Object.entries(NIVELES).map(([id, n], i) => (
+                <button key={id} onClick={() => setNivel(id)}
+                  className={`flex items-center gap-1 px-3 py-2 rounded-lg text-sm font-semibold transition-all ${nivel === id ? 'bg-white/15 text-white shadow-sm' : 'text-white/40 hover:text-white/70'}`}>
+                  <NivelBarras clave={id} i={i} />{n.label[l] ?? n.label.es}
+                </button>
+              ))}
+            </div>
+            <p className="text-white/45 text-xs text-center mb-2">{NIVELES[nivel].desc[l] ?? NIVELES[nivel].desc.es}</p>
+          </>
+        )}
         <p className="text-white/40 text-xs text-center mb-5">⏱️ {GAME_TIME}s · {T('ptsVal', l)}</p>
 
-        <button onClick={() => onStart(fuente)}
+        <button onClick={() => onStart(fuente, nivel)}
           className="w-full py-3.5 rounded-2xl bg-[#EDAE49] text-black font-black text-lg hover:bg-amber-400 transition-colors">
           {T('start', l)}
         </button>
@@ -100,7 +125,8 @@ export default function Microscopio() {
   // función es lo que hace un examen, y elegirlo de antemano quitaba la mitad
   // de la gracia. Antes era un selector de tres botones en la pantalla de
   // inicio; sobraba.
-  const MODO = 'mixto'
+  const [nivel, setNivel] = useState('facil')
+  const MODO = NIVELES[nivel].modo
   const [fuente, setFuente] = useState('celula')
   const [timeLeft, setTimeLeft] = useState(GAME_TIME)
   const [correctCount, setCorrectCount] = useState(0)
@@ -128,13 +154,14 @@ export default function Microscopio() {
     setPhase('choose')
   }, [l])
 
-  const startGame = useCallback((f = 'celula') => {
+  const startGame = useCallback((f = 'celula', niv = 'facil') => {
     setFuente(f)
+    setNivel(niv)
     setScreen('playing')
     setCorrectCount(0); setStreak(0)
     setTimeLeft(GAME_TIME)
     vistosRef.current = []
-    next(MODO, f)
+    next(NIVELES[niv].modo, f)
   }, [next])
 
   // Declarada antes del reloj que la llama, para que el intervalo no se quede
@@ -221,7 +248,7 @@ export default function Microscopio() {
       <GameEndScreen game="microscopio" emoji="🔬" title={T('end', l)} score={pts} message={msg}
         stats={[{ label: T('hits', l), value: correctCount, emoji: '✅' }]}
         shareText={shareText} user={user} lang={l}
-        onPlayAgain={() => startGame(fuente)}
+        onPlayAgain={() => startGame(fuente, nivel)}
         secondaryActions={secondary} />
     )
   }
@@ -271,9 +298,17 @@ export default function Microscopio() {
           {round.preguntaPor === 'nombre' ? T('buscar', l) : T('elQue', l)}
         </p>
       )}
-      <p className="text-white text-lg sm:text-xl font-bold mb-3 text-center px-2 leading-snug">
-        {esPrep ? T('quEs', l) : enunciado(round, l)}
-      </p>
+      <div className="flex items-center justify-center gap-3 mb-3 px-2">
+        {/* Nivel fácil: el dibujo del orgánulo al lado del nombre */}
+        {!esPrep && NIVELES[nivel].icono && round.preguntaPor === 'nombre' && (
+          <span className="shrink-0 rounded-xl bg-[#141b2e] border border-white/10 p-1">
+            <OrganuloIcono id={round.organulo.id} className="w-11 h-11" />
+          </span>
+        )}
+        <p className="text-white text-lg sm:text-xl font-bold text-center leading-snug">
+          {esPrep ? T('quEs', l) : enunciado(round, l)}
+        </p>
+      </div>
 
       {esPrep ? (
         <>

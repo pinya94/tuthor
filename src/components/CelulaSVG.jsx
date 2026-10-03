@@ -110,17 +110,65 @@ function Reticulo({ cx, cy, radios, desde, hasta }) {
   )
 }
 
+// Ribosomas: no un punto suelto (se confundía con cualquier otra bolita),
+// sino un grupito de tres en fila sobre su hebra, cada uno con sus dos
+// subunidades —la grande y la pequeña—, que es como salen en el libro.
 function Ribosomas({ puntos }) {
   return (
     <g>
       {puntos.map(([x, y]) => (
-        <g key={`${x}-${y}`}>
+        <g key={`${x}-${y}`} transform={`translate(${x} ${y}) scale(1.3) translate(${-x} ${-y})`}>
           <circle cx={x} cy={y} r="12" fill="transparent" />
-          <circle cx={x} cy={y} r="5" fill="#38bdf8" />
-          <circle cx={x - 1.5} cy={y - 1.5} r="1.6" fill="#e0f2fe" />
+          <path d={`M${x - 12} ${y + 3}Q${x} ${y - 3} ${x + 12} ${y + 3}`} stroke="#a5b4fc" strokeWidth="1.2" fill="none" />
+          {[-7, 0, 7].map(dx => (
+            <g key={dx}>
+              <ellipse cx={x + dx} cy={y + 1.5} rx="3.6" ry="3" fill="#4f46e5" />
+              <ellipse cx={x + dx} cy={y - 2.2} rx="2.5" ry="1.8" fill="#c7d2fe" />
+            </g>
+          ))}
         </g>
       ))}
     </g>
+  )
+}
+
+// Lisosoma: una bolsa (doble membrana) llena de enzimas.
+function Lisosoma({ x, y, r }) {
+  return (
+    <g>
+      <circle cx={x} cy={y} r={r} fill="#15803d" />
+      <circle cx={x} cy={y} r={r - 2.5} fill="#86efac" />
+      {[[-0.35, -0.2], [0.3, -0.35], [0.05, 0.35], [-0.3, 0.3], [0.38, 0.15]].map(([a, b], i) => (
+        <path key={i} d={`M${x + a * r - 2} ${y + b * r}a2 2 0 1 1 4 0`} fill="#166534" />
+      ))}
+    </g>
+  )
+}
+
+// El dibujo de UN orgánulo, suelto, para enseñar "así se ve" en el nivel
+// fácil. Usa las mismas piezas que la célula, así que es idéntico a lo que
+// hay que tocar.
+const ICONOS = {
+  membrana: <><circle cx="30" cy="30" r="22" fill="#334155" opacity="0.35" /><circle cx="30" cy="30" r="22" fill="none" stroke="#f59e0b" strokeWidth="6" /></>,
+  citoplasma: <><circle cx="30" cy="30" r="22" fill="#475569" /><circle cx="30" cy="30" r="22" fill="none" stroke="#f59e0b" strokeWidth="2" opacity="0.4" /></>,
+  pared: <><rect x="6" y="6" width="48" height="48" rx="7" fill="#4d7c0f" /><rect x="12" y="12" width="36" height="36" rx="4" fill="#334155" opacity="0.5" /></>,
+  nucleo: <Nucleo x={30} y={30} r={24} />,
+  nucleolo: <><g opacity="0.3"><Nucleo x={30} y={30} r={24} /></g><Nucleolo x={30} y={30} r={11} /></>,
+  mitocondria: <Mitocondria x={30} y={30} rot={-20} rx={26} ry={12} />,
+  ribosoma: <g transform="translate(30 30) scale(1.6) translate(-30 -30)"><Ribosomas puntos={[[30, 30]]} /></g>,
+  reticulo: <Reticulo cx={14} cy={36} radios={[16, 26, 36]} desde={-75} hasta={20} />,
+  golgi: <g transform="translate(30 24) scale(0.62) translate(-30 -24)"><Golgi x={30} y={24} /></g>,
+  lisosoma: <Lisosoma x={30} y={30} r={20} />,
+  centriolo: <><rect x="8" y="30" width="28" height="12" rx="3" fill="#c026d3" /><path d="M14 30v12M20 30v12M26 30v12M32 30v12" stroke="#f5d0fe" strokeWidth="1.6" /><rect x="40" y="12" width="12" height="30" rx="3" fill="#c026d3" /><path d="M40 18h12M40 24h12M40 30h12M40 36h12" stroke="#f5d0fe" strokeWidth="1.6" /></>,
+  cloroplasto: <g transform="translate(30 30) scale(1.1) translate(-30 -30)"><Cloroplasto x={30} y={30} rot={-15} /></g>,
+  vacuola: <><rect x="10" y="8" width="40" height="44" rx="14" fill="#0369a1" /><rect x="14" y="12" width="32" height="36" rx="11" fill="#0ea5e9" /></>,
+}
+
+export function OrganuloIcono({ id, className = 'w-12 h-12' }) {
+  return (
+    <svg viewBox="0 0 60 60" className={className} aria-hidden="true">
+      {ICONOS[id] ?? null}
+    </svg>
   )
 }
 
@@ -198,15 +246,8 @@ export default function CelulaSVG({ tipo, onPick, elegido, correcto, revelado })
           </g>
 
           <g {...org('lisosoma')}>
-            {[[198, 300, 14], [252, 280, 10]].map(([x, y, r]) => (
-              <g key={x}>
-                <circle cx={x} cy={y} r={r} fill="#65a30d" />
-                <circle cx={x} cy={y} r={r - 3} fill="#a3e635" />
-                <circle cx={x - r * 0.3} cy={y} r="1.6" fill="#365314" />
-                <circle cx={x + r * 0.25} cy={y - r * 0.3} r="1.6" fill="#365314" />
-                <circle cx={x + r * 0.1} cy={y + r * 0.35} r="1.6" fill="#365314" />
-              </g>
-            ))}
+            <Lisosoma x={198} y={300} r={16} />
+            <Lisosoma x={252} y={282} r={12} />
           </g>
 
           {/* Centriolos: dos cilindros en ángulo recto, con sus túbulos */}
