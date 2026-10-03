@@ -18,7 +18,8 @@ const SECTIONS = [
     title: '3. Finalidad y base jurídica',
     content: `Tratamos tus datos para:
 • Prestar el servicio educativo y personalizar tu experiencia (base: ejecución de contrato / interés legítimo).
-• Mejorar la aplicación mediante analítica agregada, solo con tu consentimiento previo (base: consentimiento, art. 6.1.a RGPD).`,
+• Mejorar la aplicación mediante analítica agregada, solo con tu consentimiento previo (base: consentimiento, art. 6.1.a RGPD).
+• Enviarte por correo electrónico novedades de Tuthor y, de vez en cuando, pedirte tu opinión, solo si lo activas en tu perfil («Recibir novedades de Tuthor por correo») (base: consentimiento, art. 6.1.a RGPD y art. 21 LSSI). Puedes darte de baja en cualquier momento desactivando esa opción o respondiendo a cualquiera de esos correos; tu correo no se cede a terceros.`,
   },
   {
     title: '4. Cookies y tecnologías similares',

@@ -5,6 +5,7 @@ import { doc, getDoc, collection, getDocs, query, orderBy, limit, updateDoc, set
 import { useAuth } from '../context/AuthContext'
 import { formatTime } from '../lib/activity'
 import { FRAMES, BANNERS, AVATARS, DEFAULT_AVATAR_EMOJI } from '../data/cosmetics'
+import { listarSuscritos, aCsv } from '../lib/novedades'
 
 const ADMIN_EMAILS = [
   'pinya1994@gmail.com',
@@ -23,6 +24,58 @@ const GAME_LABELS = {
   'pregunta-diaria':   '🧠 Pregunta Diaria',
   'quien-es-quien':    '🕵️ ¿Quién es quién?',
   'juego-fechas':      '📅 Juego de Fechas',
+}
+
+// Lista de correo de novedades: solo quien lo activó en su perfil. Se genera
+// al pulsar, desde Firestore, y se descarga como CSV: no queda copia en
+// ningún sitio más que en el ordenador de quien la descarga.
+function ListaNovedades() {
+  const [filas, setFilas] = useState(null)
+  const [cargando, setCargando] = useState(false)
+  const [error, setError] = useState(null)
+
+  async function cargar() {
+    setCargando(true); setError(null)
+    try { setFilas(await listarSuscritos()) } catch (e) { setError(e.message) }
+    setCargando(false)
+  }
+
+  function descargar() {
+    const blob = new Blob([aCsv(filas)], { type: 'text/csv;charset=utf-8' })
+    const a = document.createElement('a')
+    a.href = URL.createObjectURL(blob)
+    a.download = `tuthor-novedades-${new Date().toISOString().slice(0, 10)}.csv`
+    a.click()
+    URL.revokeObjectURL(a.href)
+  }
+
+  function copiar() {
+    navigator.clipboard?.writeText(filas.map(f => f.email).join(', '))
+  }
+
+  return (
+    <div className="bg-white/5 border border-white/10 rounded-2xl p-5">
+      <h2 className="text-white font-bold mb-1">📬 Lista de novedades</h2>
+      <p className="text-white/40 text-xs mb-4">
+        Usuarios que han aceptado recibir correos en su perfil. Usa CCO (copia oculta) al enviar, y respeta las bajas: quien desactiva el interruptor desaparece de aquí.
+      </p>
+      {filas === null ? (
+        <button onClick={cargar} disabled={cargando}
+          className="px-4 py-2 rounded-xl bg-violet-600 hover:bg-violet-500 text-white text-sm font-bold disabled:opacity-50">
+          {cargando ? 'Cargando…' : 'Cargar lista'}
+        </button>
+      ) : (
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="text-white font-bold text-sm mr-2">{filas.length} suscritos</span>
+          <button onClick={descargar} disabled={!filas.length}
+            className="px-4 py-2 rounded-xl bg-violet-600 hover:bg-violet-500 text-white text-sm font-bold disabled:opacity-40">Descargar CSV</button>
+          <button onClick={copiar} disabled={!filas.length}
+            className="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white text-sm font-bold disabled:opacity-40">Copiar correos</button>
+        </div>
+      )}
+      {error && <p className="text-red-400 text-xs mt-2">{error}</p>}
+    </div>
+  )
 }
 
 function StatCard({ label, value, sub }) {
@@ -222,6 +275,8 @@ export default function Admin() {
             ↻ Actualizar
           </button>
         </div>
+
+        <ListaNovedades />
 
         {/* KPIs */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">

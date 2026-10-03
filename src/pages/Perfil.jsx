@@ -14,6 +14,7 @@ import ChildCodeCard from '../components/ChildCodeCard'
 import ReferralCard from '../components/ReferralCard'
 import SupportBlock from '../components/SupportBlock'
 import ProUpsell from '../components/ProUpsell'
+import { getNovedades, setNovedades } from '../lib/novedades'
 
 // Qué parte del panel es de pago desde que el muro de juegos/exámenes está
 // apagado (ver paidRoutes.js): el resumen de arriba (monedas, puntos,
@@ -109,6 +110,7 @@ export default function Perfil() {
   const [equippedBanner, setEquippedBanner] = useState('banner_default')
   const [equippedAvatar, setEquippedAvatar] = useState(null)
   const [hidePhoto, setHidePhotoState] = useState(false)
+  const [novedades, setNovedadesState] = useState(false)
   const [rankings, setRankings] = useState({})
   const [coinsHistory, setCoinsHistory] = useState([])
   const [showAllCoins, setShowAllCoins] = useState(false)
@@ -133,10 +135,17 @@ export default function Perfil() {
       })).then(results => setRankings(Object.fromEntries(results.filter(([, v]) => v))))
     })
     getCoinsHistory(user.uid).then(setCoinsHistory)
+    getNovedades(user.uid).then(setNovedadesState).catch(() => {})
     getStudentAssignments(user.uid)
       .then(list => setPendingTasks(list.filter(t => !t.completions?.[user.uid]?.done).length))
       .catch(() => {})
   }, [user])
+
+  async function toggleNovedades() {
+    const next = !novedades
+    setNovedadesState(next)
+    await setNovedades(user.uid, next)
+  }
 
   async function toggleHidePhoto() {
     const next = !hidePhoto
@@ -488,6 +497,27 @@ export default function Perfil() {
                 </span>
                 <span className={`w-10 h-6 rounded-full transition-colors flex items-center px-1 ${hidePhoto ? 'bg-violet-600' : 'bg-white/20'}`}>
                   <span className={`w-4 h-4 rounded-full bg-white transition-transform ${hidePhoto ? 'translate-x-4' : 'translate-x-0'}`} />
+                </span>
+              </button>
+            )}
+
+            {/* ── Correo de novedades: solo con consentimiento (lib/novedades.js) ── */}
+            {user.email && (
+              <button
+                onClick={toggleNovedades}
+                className="w-full mb-4 flex items-center justify-between gap-3 border border-white/10 rounded-2xl px-4 py-3 hover:bg-white/8 transition-colors text-left"
+                style={{ background: surf }}
+              >
+                <span>
+                  <span className={`block ${t2} text-[13.5px]`}>
+                    {ca ? 'Rebre novetats de Tuthor per correu' : en ? 'Get Tuthor news by email' : 'Recibir novedades de Tuthor por correo'}
+                  </span>
+                  <span className="block text-white/35 text-[11.5px] mt-0.5">
+                    {ca ? 'Juegos nous i alguna petició d’opinió. Pots donar-te de baixa quan vulguis.' : en ? 'New games and the odd request for feedback. Unsubscribe any time.' : 'Juegos nuevos y alguna petición de opinión. Puedes darte de baja cuando quieras.'}
+                  </span>
+                </span>
+                <span className={`shrink-0 w-10 h-6 rounded-full transition-colors flex items-center px-1 ${novedades ? 'bg-violet-600' : 'bg-white/20'}`}>
+                  <span className={`w-4 h-4 rounded-full bg-white transition-transform ${novedades ? 'translate-x-4' : 'translate-x-0'}`} />
                 </span>
               </button>
             )}
