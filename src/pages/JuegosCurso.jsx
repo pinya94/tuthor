@@ -7,7 +7,7 @@ import { Helmet } from 'react-helmet-async'
 import { useLang } from '../context/LangContext'
 import SEOHead from '../components/SEOHead'
 import TarjetaArte from '../components/TarjetaArte'
-import { CURSOS_LANDING, landingDe, landingsDe } from '../data/landingsCurso'
+import { CURSOS_LANDING, landingDe, landingsDe, landingEquivalente } from '../data/landingsCurso'
 import { GAMES as CATALOGO } from '../data/constants'
 import { ARTE_JUEGOS, slugDeRuta } from '../components/arte'
 import { ARTE_TEMAS } from '../components/arte/temas'
@@ -123,9 +123,9 @@ function PaginaMateria({ curso, landing }) {
           <h2 className="text-white/70 font-black text-base mb-3">{tr({ es: 'En otros cursos', en: 'In other years', ca: 'En altres cursos' })}</h2>
           <div className="flex flex-wrap gap-2">
             {Object.entries(CURSOS_LANDING).filter(([otro]) => otro !== curso).map(([otro, oc]) => {
-              const misma = landingDe(otro, landing.materia)
+              const misma = landingEquivalente(otro, landing.materia)
               return (
-                <Link key={otro} to={localPath(misma ? `/juegos/${otro}/${landing.materia}` : `/juegos/${otro}`)}
+                <Link key={otro} to={localPath(misma ? `/juegos/${otro}/${misma.materia}` : `/juegos/${otro}`)}
                   className="px-3.5 py-2 rounded-full bg-[#141b2e] border border-white/[0.08] hover:border-white/25 text-white/75 hover:text-white text-sm font-semibold transition-colors">
                   {misma ? tr(misma.titulo) : tr(oc.titulo)} →
                 </Link>

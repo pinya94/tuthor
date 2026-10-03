@@ -63,6 +63,34 @@ export const CURSOS_LANDING = {
       ],
     },
   },
+  // ── Bachillerato ─────────────────────────────────────────────────────────
+  // Solo las materias con contenido propio de ese nivel en el catálogo
+  // (topicCatalog: niveles incluye 'bachillerato'). Física y Química e Inglés
+  // se quedan fuera hasta que tengan más que uno o dos temas.
+  bachillerato: {
+    nombre: { es: 'Bachillerato', en: 'Sixth form', ca: 'Batxillerat' },
+    edades: '16-18',
+    titulo: { es: 'Juegos y exámenes para Bachillerato', en: 'Games and quizzes for sixth form', ca: 'Jocs i exàmens per a Batxillerat' },
+    metaDesc: {
+      es: 'Repaso para Bachillerato y la PAU: funciones y álgebra, sintaxis y figuras literarias, Historia contemporánea y de España, biología y economía, con explicación en cada respuesta.',
+      en: 'Revision for sixth form and university entrance exams: functions and algebra, syntax, modern history, biology and economics, with an explanation for every answer.',
+      ca: 'Repàs per a Batxillerat i la PAU: funcions i àlgebra, sintaxi i figures literàries, Història contemporània i d’Espanya, biologia i economia, amb explicació a cada resposta.',
+    },
+    intro: {
+      es: [
+        'En Bachillerato el problema ya no es practicar poco, sino tener demasiado temario en muy poco tiempo y una prueba al final, la PAU, que lo pregunta todo junto. Lo que más sirve en ese momento no es releer apuntes, sino comprobarse: hacer preguntas, fallar y ver por qué, tema a tema, hasta saber qué está sabido y qué no.',
+        'Por eso aquí pesan más los exámenes que los juegos. Cada tema tiene preguntas con su explicación y una nota al final, y se puede repetir cuantas veces haga falta. Los juegos que quedan son los que entrenan una destreza concreta que en Bachillerato sigue costando: leer una gráfica, situar un hecho en el tiempo, analizar una oración.',
+      ],
+      en: [
+        'At sixth-form level the problem is no longer too little practice, but too much syllabus in too little time and a final exam that asks about all of it at once. What helps most then is not rereading notes but testing yourself: answering questions, getting them wrong and seeing why, topic by topic, until you know what you know and what you do not.',
+        'That is why exams matter more than games here. Every topic has questions with explanations and a grade at the end, and you can repeat it as often as you need. The games that remain are the ones that train a specific skill that is still hard at this level: reading a graph, placing an event in time, analysing a sentence.',
+      ],
+      ca: [
+        'Al Batxillerat el problema ja no és practicar poc, sinó tenir massa temari en molt poc temps i una prova al final, la PAU, que ho pregunta tot junt. El que més serveix en aquell moment no és rellegir apunts, sinó comprovar-se: fer preguntes, fallar i veure per què, tema a tema, fins a saber què està sabut i què no.',
+        'Per això aquí pesen més els exàmens que els jocs. Cada tema té preguntes amb la seva explicació i una nota al final, i es pot repetir tantes vegades com calgui. Els jocs que queden són els que entrenen una destresa concreta que al Batxillerat continua costant: llegir una gràfica, situar un fet en el temps, analitzar una oració.',
+      ],
+    },
+  },
 }
 
 const T = (es, en, ca) => ({ es, en, ca })
@@ -638,6 +666,204 @@ export const LANDINGS = [
       { arte: 'economia/finanzas-personales', ruta: '/info/estudiar/finanzas-personales', titulo: T('Finanzas personales', 'Personal finance', 'Finances personals') },
     ],
   },
+  // ── Bachillerato ─────────────────────────────────────────────────────────
+  {
+    curso: 'bachillerato',
+    materia: 'matematicas',
+    arteMateria: 'matematicas',
+    nombre: T('Matemáticas', 'Maths', 'Matemàtiques'),
+    titulo: T('Matemáticas de Bachillerato: funciones, álgebra y estadística', 'Sixth-form maths: functions, algebra and statistics', 'Matemàtiques de Batxillerat: funcions, àlgebra i estadística'),
+    metaDesc: T(
+      'Funciones y sus gráficas, sistemas y ecuaciones de segundo grado, geometría y estadística para Bachillerato, con ejercicios que se corrigen y explican al momento.',
+      'Functions and their graphs, simultaneous and quadratic equations, geometry and statistics for sixth form, with exercises marked and explained instantly.',
+      'Funcions i les seves gràfiques, sistemes i equacions de segon grau, geometria i estadística per a Batxillerat, amb exercicis que es corregeixen i expliquen al moment.',
+    ),
+    intro: {
+      es: [
+        'En Bachillerato casi todo pasa por las funciones: el análisis, los límites y las derivadas se apoyan en saber ver de un vistazo qué hace una función y cómo es su gráfica. Quien llega con eso flojo pierde puntos en ejercicios que en realidad entiende, porque se equivoca al leer la gráfica o al plantear.',
+        'Los juegos de esta página entrenan exactamente esa lectura. En Caza la Función se ajustan los coeficientes hasta que la recta o la parábola encajan; en Trayectoria y en El Portero hay que decidir, a partir de la fórmula, por dónde pasa el balón. Y los exámenes de sistemas, ecuaciones de segundo grado y estadística sirven para comprobar lo de siempre antes de un control.',
+      ],
+      en: [
+        'At sixth-form level almost everything goes through functions: analysis, limits and derivatives rely on seeing at a glance what a function does and what its graph looks like. Students who arrive weak on this lose marks on exercises they actually understand, because they misread the graph or set the problem up wrong.',
+        'The games on this page train exactly that reading. In Caza la Función you adjust the coefficients until the line or parabola fits; in Trayectoria and El Portero you decide from the formula where the ball goes. And the exams on simultaneous equations, quadratics and statistics check the basics before a test.',
+      ],
+      ca: [
+        'Al Batxillerat gairebé tot passa per les funcions: l’anàlisi, els límits i les derivades es recolzen a saber veure d’una ullada què fa una funció i com és la seva gràfica. Qui hi arriba fluix perd punts en exercicis que en realitat entén, perquè s’equivoca en llegir la gràfica o en plantejar.',
+        'Els jocs d’aquesta pàgina entrenen exactament aquesta lectura. A Caza la Función s’ajusten els coeficients fins que la recta o la paràbola encaixen; a Trayectoria i a El Portero cal decidir, a partir de la fórmula, per on passa la pilota. I els exàmens de sistemes, equacions de segon grau i estadística serveixen per comprovar el de sempre abans d’un control.',
+      ],
+    },
+    practica: {
+      es: ['Funciones lineales, cuadráticas y a trozos', 'Sistemas de ecuaciones', 'Ecuaciones de segundo grado', 'Geometría y trigonometría básica', 'Estadística y lectura de gráficos'],
+      en: ['Linear, quadratic and piecewise functions', 'Simultaneous equations', 'Quadratic equations', 'Geometry and basic trigonometry', 'Statistics and reading charts'],
+      ca: ['Funcions lineals, quadràtiques i a trossos', 'Sistemes d’equacions', 'Equacions de segon grau', 'Geometria i trigonometria bàsica', 'Estadística i lectura de gràfics'],
+    },
+    juegos: ['funciones-grafica', 'trayectoria', 'portero', 'balanza-algebraica', 'lee-el-grafico', 'estadistico-expres'],
+    temas: [
+      { arte: 'matematicas/funciones', ruta: '/estudiar/matematicas/funciones', titulo: T('Funciones', 'Functions', 'Funcions') },
+      { arte: 'matematicas/algebra', ruta: '/estudiar/matematicas/algebra', titulo: T('Álgebra', 'Algebra', 'Àlgebra') },
+      { arte: 'matematicas/geometria', ruta: '/estudiar/matematicas/geometria', titulo: T('Geometría', 'Geometry', 'Geometria') },
+      { arte: 'matematicas/estadistica', ruta: '/estudiar/matematicas/estadistica', titulo: T('Estadística y probabilidad', 'Statistics and probability', 'Estadística i probabilitat') },
+    ],
+  },
+  {
+    curso: 'bachillerato',
+    materia: 'lengua',
+    arteMateria: 'espanol',
+    nombre: T('Lengua', 'Spanish', 'Llengua castellana'),
+    titulo: T('Lengua castellana de Bachillerato: sintaxis, literatura y comentario', 'Sixth-form Spanish: syntax, literature and commentary', 'Llengua castellana de Batxillerat: sintaxi, literatura i comentari'),
+    metaDesc: T(
+      'Sintaxis de la oración, complementos, figuras literarias, literatura, tipos de texto y corrección para Bachillerato y la PAU de Lengua, con explicación en cada respuesta.',
+      'Sentence syntax, complements, figures of speech, literature, text types and proofreading for sixth-form Spanish, with an explanation for every answer.',
+      'Sintaxi de l’oració, complements, figures literàries, literatura, tipus de text i correcció per a Batxillerat i la PAU de Llengua, amb explicació a cada resposta.',
+    ),
+    intro: {
+      es: [
+        'El examen de Lengua de la PAU tiene dos partes que se preparan de forma muy distinta: el análisis sintáctico, que es técnica y se mejora repitiendo, y el comentario de texto, en el que hay que reconocer el tipo de texto, su estructura y los recursos literarios y explicar para qué sirven. Las dos se pierden por lo mismo: identificar mal lo que se tiene delante.',
+        'Aquí se practica justo esa identificación. En Analiza la Frase se señala el sujeto, el predicado y los complementos sobre oraciones nuevas cada vez; el examen de figuras literarias pide reconocerlas en versos de Garcilaso, Góngora o Bécquer; y el de los textos repasa tipologías, funciones del lenguaje, coherencia y cohesión, que son el vocabulario del comentario.',
+      ],
+      en: [
+        'The Spanish exam in university entrance has two parts that are prepared very differently: syntactic analysis, which is technique and improves with repetition, and text commentary, where you identify the text type, its structure and literary devices and explain what they do. Both are lost for the same reason: misidentifying what is in front of you.',
+        'This page practises exactly that identification. In Analiza la Frase you mark subject, predicate and complements on new sentences every time; the figures of speech exam asks you to spot them in lines by Garcilaso, Góngora or Bécquer; and the text types exam revises genres, language functions, coherence and cohesion, which are the vocabulary of a commentary.',
+      ],
+      ca: [
+        'L’examen de Llengua de la PAU té dues parts que es preparen de manera molt diferent: l’anàlisi sintàctica, que és tècnica i es millora repetint, i el comentari de text, en què cal reconèixer el tipus de text, la seva estructura i els recursos literaris i explicar per a què serveixen. Totes dues es perden pel mateix: identificar malament el que es té al davant.',
+        'Aquí es practica just aquesta identificació. A Analiza la Frase s’assenyala el subjecte, el predicat i els complements sobre oracions noves cada vegada; l’examen de figures literàries demana reconèixer-les en versos de Garcilaso, Góngora o Bécquer; i el dels textos repassa tipologies, funcions del llenguatge, coherència i cohesió, que són el vocabulari del comentari.',
+      ],
+    },
+    practica: {
+      es: ['Sintaxis de la oración simple y compuesta', 'Complementos del verbo', 'Figuras literarias', 'Literatura española', 'Tipos de texto y propiedades textuales'],
+      en: ['Simple and complex sentence syntax', 'Verb complements', 'Figures of speech', 'Spanish literature', 'Text types and textual properties'],
+      ca: ['Sintaxi de l’oració simple i composta', 'Complements del verb', 'Figures literàries', 'Literatura castellana', 'Tipus de text i propietats textuals'],
+    },
+    juegos: ['analiza-frases', 'corrige-el-texto'],
+    temas: [
+      { arte: 'gramatica/sintaxis', ruta: '/estudiar/idiomas/espanol/gramatica/sintaxis', titulo: T('Sintaxis', 'Syntax', 'Sintaxi') },
+      { arte: 'lengua/figuras', ruta: '/examen/espanol-figuras-test', titulo: T('Figuras literarias', 'Figures of speech', 'Figures literàries') },
+      { arte: 'lengua/literatura', ruta: '/examen/espanol-literatura-test', titulo: T('Literatura', 'Literature', 'Literatura') },
+      { arte: 'lengua/textos', ruta: '/examen/espanol-textos-test', titulo: T('Los textos', 'Text types', 'Els textos') },
+      { arte: 'ortografia/correccion', ruta: '/examen/corrige-el-texto-test', titulo: T('Corregir un texto', 'Proofreading', 'Corregir un text') },
+    ],
+  },
+  {
+    curso: 'bachillerato',
+    materia: 'historia',
+    arteMateria: 'historia',
+    nombre: T('Historia', 'History', 'Història'),
+    titulo: T('Historia para Bachillerato: Contemporánea y de España', 'Sixth-form history: the modern world and Spain', 'Història per a Batxillerat: Contemporània i d’Espanya'),
+    metaDesc: T(
+      'Historia del Mundo Contemporáneo y de España para Bachillerato: de la Revolución Francesa a la Guerra Fría, la Guerra Civil y la Transición, con líneas del tiempo y exámenes.',
+      'Modern world history and the history of Spain for sixth form: from the French Revolution to the Cold War, the Spanish Civil War and the Transition, with timelines and quizzes.',
+      'Història del Món Contemporani i d’Espanya per a Batxillerat: de la Revolució Francesa a la Guerra Freda, la Guerra Civil i la Transició, amb línies del temps i exàmens.',
+    ),
+    intro: {
+      es: [
+        'Historia de España es la asignatura de la PAU que más memoria exige, y la que peor sale cuando se estudia como una lista de fechas sueltas. Lo que de verdad se pregunta son procesos: por qué cayó la Segunda República, cómo se pasó de la dictadura a la democracia, qué tuvieron en común las crisis del periodo de entreguerras. Para explicarlos hay que tener claro el orden.',
+        'Por eso aquí la cronología va primero. En la Línea del Tiempo se colocan los acontecimientos antes o después de los que ya están, sin ver el año; en ¿Qué Época Es? hay que reconocer el periodo de fotos reales; y cada tema, de la Revolución Francesa a la Transición, tiene su página de estudio y su examen con explicación en cada respuesta.',
+      ],
+      en: [
+        'History of Spain is the university entrance subject that demands the most memory, and the one that goes worst when studied as a list of isolated dates. What is really asked about are processes: why the Second Republic fell, how Spain went from dictatorship to democracy, what the interwar crises had in common. To explain them you need the order clear.',
+        'That is why chronology comes first here. In the Timeline game you place events before or after those already there, without seeing the year; in ¿Qué Época Es? you recognise the period of real photos; and every topic, from the French Revolution to the Transition, has its study page and its exam with an explanation for each answer.',
+      ],
+      ca: [
+        'Història d’Espanya és l’assignatura de la PAU que més memòria exigeix, i la que pitjor surt quan s’estudia com una llista de dates soltes. El que de debò es pregunta són processos: per què va caure la Segona República, com es va passar de la dictadura a la democràcia, què van tenir en comú les crisis del període d’entreguerres. Per explicar-los cal tenir clar l’ordre.',
+        'Per això aquí la cronologia va primer. A la Línia del Temps es col·loquen els fets abans o després dels que ja hi són, sense veure l’any; a ¿Qué Época Es? cal reconèixer el període de fotos reals; i cada tema, de la Revolució Francesa a la Transició, té la seva pàgina d’estudi i el seu examen amb explicació a cada resposta.',
+      ],
+    },
+    practica: {
+      es: ['Revoluciones liberales e industrial', 'Primera Guerra Mundial y entreguerras', 'Segunda Guerra Mundial y Guerra Fría', 'Guerra Civil Española', 'Franquismo y Transición'],
+      en: ['Liberal and industrial revolutions', 'World War I and the interwar years', 'World War II and the Cold War', 'Spanish Civil War', 'Francoism and the Transition'],
+      ca: ['Revolucions liberals i industrial', 'Primera Guerra Mundial i entreguerres', 'Segona Guerra Mundial i Guerra Freda', 'Guerra Civil Espanyola', 'Franquisme i Transició'],
+    },
+    juegos: ['linea-temporal', 'epocas-historicas', 'tuthor-time', 'portadas'],
+    temas: [
+      { arte: 'historia/revolucion-francesa', ruta: '/estudiar/historia/revolucion-francesa', titulo: T('Revolución Francesa', 'French Revolution', 'Revolució Francesa') },
+      { arte: 'historia/revolucion-industrial', ruta: '/estudiar/historia/revolucion-industrial', titulo: T('Revolución Industrial', 'Industrial Revolution', 'Revolució Industrial') },
+      { arte: 'historia/primera-guerra-mundial', ruta: '/estudiar/historia/primera-guerra-mundial', titulo: T('Primera Guerra Mundial', 'World War I', 'Primera Guerra Mundial') },
+      { arte: 'historia/entreguerras', ruta: '/estudiar/historia/entreguerras', titulo: T('Entreguerras', 'Between the wars', 'Entreguerres') },
+      { arte: 'historia/wwii', ruta: '/estudiar/historia/wwii', titulo: T('Segunda Guerra Mundial', 'World War II', 'Segona Guerra Mundial') },
+      { arte: 'historia/guerra-fria', ruta: '/estudiar/historia/guerra-fria', titulo: T('Guerra Fría', 'The Cold War', 'Guerra Freda') },
+      { arte: 'historia/gce', ruta: '/estudiar/historia/gce', titulo: T('Guerra Civil Española', 'Spanish Civil War', 'Guerra Civil Espanyola') },
+      { arte: 'historia/franquismo', ruta: '/estudiar/historia/franquismo', titulo: T('Franquismo y Transición', 'Francoism and Transition', 'Franquisme i Transició') },
+    ],
+  },
+  {
+    curso: 'bachillerato',
+    materia: 'biologia-geologia',
+    arteMateria: 'biologia',
+    nombre: T('Biología y Geología', 'Biology and Geology', 'Biologia i Geologia'),
+    titulo: T('Biología y Geología de Bachillerato', 'Sixth-form biology and geology', 'Biologia i Geologia de Batxillerat'),
+    metaDesc: T(
+      'La célula, la genética, la evolución, el sistema inmunitario, los ecosistemas, la tectónica de placas y el cambio climático para Bachillerato, con juegos y exámenes explicados.',
+      'The cell, genetics, evolution, the immune system, ecosystems, plate tectonics and climate change for sixth form, with games and explained quizzes.',
+      'La cèl·lula, la genètica, l’evolució, el sistema immunitari, els ecosistemes, la tectònica de plaques i el canvi climàtic per a Batxillerat, amb jocs i exàmens explicats.',
+    ),
+    intro: {
+      es: [
+        'La Biología de Bachillerato da un salto de escala: de los órganos se pasa a la célula y a las moléculas, y casi todo lo que se pregunta —la herencia, la evolución, cómo responde el sistema inmunitario a una vacuna— se entiende solo si se tiene clara la célula por dentro. En Geología pasa algo parecido con la tectónica de placas, que explica a la vez los volcanes, los terremotos y el relieve.',
+        'Bajo el Microscopio enseña los orgánulos dibujados y en fotos reales de microscopio; Genética entrena los cruces de Mendel con el cuadro de Punnett; y Cadena Alimentaria, los niveles tróficos de un ecosistema. Cada tema tiene además su página de estudio con resumen y un examen con explicación, incluidos los de salud y sistema inmunitario y de atmósfera y cambio climático.',
+      ],
+      en: [
+        'Sixth-form biology changes scale: from organs to the cell and its molecules, and nearly everything asked — heredity, evolution, how the immune system responds to a vaccine — only makes sense if you know the inside of the cell well. Geology is similar with plate tectonics, which explains volcanoes, earthquakes and landforms all at once.',
+        'Bajo el Microscopio shows the organelles as drawings and in real microscope photos; Genética trains Mendel’s crosses with the Punnett square; and Cadena Alimentaria, the trophic levels of an ecosystem. Each topic also has a study page with a summary and an explained exam, including health and the immune system, and the atmosphere and climate change.',
+      ],
+      ca: [
+        'La Biologia de Batxillerat fa un salt d’escala: dels òrgans es passa a la cèl·lula i a les molècules, i gairebé tot el que es pregunta —l’herència, l’evolució, com respon el sistema immunitari a una vacuna— només s’entén si es té clara la cèl·lula per dins. En Geologia passa una cosa semblant amb la tectònica de plaques, que explica alhora els volcans, els terratrèmols i el relleu.',
+        'Bajo el Microscopio mostra els orgànuls dibuixats i en fotos reals de microscopi; Genética entrena els encreuaments de Mendel amb el quadre de Punnett; i Cadena Alimentaria, els nivells tròfics d’un ecosistema. Cada tema té a més la seva pàgina d’estudi amb resum i un examen amb explicació, inclosos els de salut i sistema immunitari i d’atmosfera i canvi climàtic.',
+      ],
+    },
+    practica: {
+      es: ['La célula y sus orgánulos', 'Genética mendeliana', 'Evolución y selección natural', 'Sistema inmunitario y vacunas', 'Tectónica de placas y cambio climático'],
+      en: ['The cell and its organelles', 'Mendelian genetics', 'Evolution and natural selection', 'The immune system and vaccines', 'Plate tectonics and climate change'],
+      ca: ['La cèl·lula i els seus orgànuls', 'Genètica mendeliana', 'Evolució i selecció natural', 'Sistema immunitari i vacunes', 'Tectònica de plaques i canvi climàtic'],
+    },
+    juegos: ['microscopio', 'genetica', 'cadena-alimentaria'],
+    temas: [
+      { arte: 'biologia/celula', ruta: '/estudiar/biologia/celula', titulo: T('La célula', 'The cell', 'La cèl·lula') },
+      { arte: 'biologia/genetica', ruta: '/estudiar/biologia/genetica', titulo: T('Genética', 'Genetics', 'Genètica') },
+      { arte: 'biologia/evolucion', ruta: '/estudiar/biologia/evolucion', titulo: T('Evolución', 'Evolution', 'Evolució') },
+      { arte: 'biologia/salud-enfermedad', ruta: '/estudiar/biologia/salud-enfermedad', titulo: T('Salud y enfermedad', 'Health and disease', 'Salut i malaltia') },
+      { arte: 'biologia/ecosistemas', ruta: '/estudiar/biologia/ecosistemas', titulo: T('Ecosistemas', 'Ecosystems', 'Ecosistemes') },
+      { arte: 'geologia/placas-tectonicas', ruta: '/estudiar/geologia/placas-tectonicas', titulo: T('Placas tectónicas', 'Plate tectonics', 'Plaques tectòniques') },
+      { arte: 'geologia/atmosfera-clima', ruta: '/estudiar/geologia/atmosfera-clima', titulo: T('Atmósfera y clima', 'Atmosphere and climate', 'Atmosfera i clima') },
+    ],
+  },
+  {
+    curso: 'bachillerato',
+    materia: 'economia',
+    arteMateria: 'economia',
+    nombre: T('Economía', 'Economics', 'Economia'),
+    titulo: T('Economía de Bachillerato: el mercado, la empresa y tu dinero', 'Sixth-form economics: markets, firms and your money', 'Economia de Batxillerat: el mercat, l’empresa i els teus diners'),
+    metaDesc: T(
+      'Oferta y demanda, equilibrio del mercado, punto de equilibrio de la empresa y finanzas personales para Bachillerato, con ejercicios de cálculo corregidos y explicados.',
+      'Supply and demand, market equilibrium, a firm’s break-even point and personal finance for sixth form, with calculation exercises marked and explained.',
+      'Oferta i demanda, equilibri del mercat, punt d’equilibri de l’empresa i finances personals per a Batxillerat, amb exercicis de càlcul corregits i explicats.',
+    ),
+    intro: {
+      es: [
+        'Economía en 1.º y Economía de la Empresa en 2.º comparten una dificultad: mezclan conceptos que se entienden con sentido común (si sube el precio, se compra menos) con cálculos que hay que saber plantear, como el punto de equilibrio o el desplazamiento de una curva. Los fallos de examen casi siempre están en el planteamiento, no en la cuenta.',
+        'El examen del mercado repasa oferta, demanda, equilibrio, elasticidad y fallos del mercado; el del punto de equilibrio pide calcularlo y escribir el número, como en la PAU de Economía de la Empresa, con datos que dan siempre un resultado exacto. Y Spicy y el tema de finanzas personales llevan lo mismo a la vida real: inflación, interés compuesto y deudas.',
+      ],
+      en: [
+        'Economics in the first year and Business Economics in the second share one difficulty: they mix ideas you understand with common sense (if the price goes up, people buy less) with calculations you have to know how to set up, such as the break-even point or a shift in a curve. Exam mistakes are nearly always in the setting up, not the arithmetic.',
+        'The market exam revises supply, demand, equilibrium, elasticity and market failures; the break-even exam asks you to calculate it and type the number, as in the real exam, with figures that always give an exact result. And Spicy and the personal finance topic take the same ideas into real life: inflation, compound interest and debt.',
+      ],
+      ca: [
+        'Economia a 1r i Economia de l’Empresa a 2n comparteixen una dificultat: barregen conceptes que s’entenen amb sentit comú (si puja el preu, es compra menys) amb càlculs que cal saber plantejar, com el punt d’equilibri o el desplaçament d’una corba. Els errors d’examen gairebé sempre són al plantejament, no al compte.',
+        'L’examen del mercat repassa oferta, demanda, equilibri, elasticitat i fallades del mercat; el del punt d’equilibri demana calcular-lo i escriure el número, com a la PAU d’Economia de l’Empresa, amb dades que donen sempre un resultat exacte. I Spicy i el tema de finances personals porten el mateix a la vida real: inflació, interès compost i deutes.',
+      ],
+    },
+    practica: {
+      es: ['Oferta, demanda y precio de equilibrio', 'Elasticidad y tipos de mercado', 'Punto de equilibrio (umbral de rentabilidad)', 'Inflación e interés compuesto'],
+      en: ['Supply, demand and equilibrium price', 'Elasticity and market types', 'Break-even point', 'Inflation and compound interest'],
+      ca: ['Oferta, demanda i preu d’equilibri', 'Elasticitat i tipus de mercat', 'Punt d’equilibri (llindar de rendibilitat)', 'Inflació i interès compost'],
+    },
+    juegos: ['spicy'],
+    temas: [
+      { arte: 'economia/mercado', ruta: '/examen/mercado', titulo: T('El mercado', 'The market', 'El mercat') },
+      { arte: 'economia/punto-equilibrio', ruta: '/examen/punto-equilibrio', titulo: T('Punto de equilibrio', 'Break-even point', 'Punt d’equilibri') },
+      { arte: 'economia/finanzas-personales', ruta: '/info/estudiar/finanzas-personales', titulo: T('Finanzas personales', 'Personal finance', 'Finances personals') },
+    ],
+  },
 ]
 
 export function landingDe(curso, materia) {
@@ -646,4 +872,24 @@ export function landingDe(curso, materia) {
 
 export function landingsDe(curso) {
   return LANDINGS.filter(l => l.curso === curso)
+}
+
+// La «misma» materia cambia de nombre según el curso (Ciencias Sociales en
+// Primaria, Geografía e Historia en ESO, Historia en Bachillerato): para el
+// enlace «En otros cursos», la primera equivalente que exista en ese curso.
+const EQUIVALENTES = {
+  'ciencias-sociales': ['geografia-historia', 'historia'],
+  'geografia-historia': ['historia', 'ciencias-sociales'],
+  historia: ['geografia-historia', 'ciencias-sociales'],
+  'ciencias-naturales': ['biologia-geologia', 'fisica-quimica'],
+  'biologia-geologia': ['ciencias-naturales'],
+  'fisica-quimica': ['ciencias-naturales'],
+}
+
+export function landingEquivalente(curso, materia) {
+  for (const m of [materia, ...(EQUIVALENTES[materia] ?? [])]) {
+    const l = landingDe(curso, m)
+    if (l) return l
+  }
+  return null
 }
