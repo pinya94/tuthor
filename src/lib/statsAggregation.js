@@ -92,6 +92,7 @@ export const SUBJECT_DEFS = [
       eeuu:    { es: 'Estados Unidos',  en: 'United States', ca: 'Estats Units' },
       fisica:  { es: 'Geografía Física', en: 'Physical Geography', ca: 'Geografia Física' },
       humana:  { es: 'Geografía Humana', en: 'Human Geography', ca: 'Geografia Humana' },
+      'union-europea': { es: 'La Unión Europea', en: 'The European Union', ca: 'La Unió Europea' },
     },
   },
   {
@@ -165,6 +166,7 @@ export const SUBJECT_DEFS = [
       puntuacion:    { es: 'Puntuación',             en: 'Punctuation',                 ca: 'Puntuació' },
       literatura:    { es: 'Literatura',             en: 'Literature',                  ca: 'Literatura' },
       textos:        { es: 'Los Textos',             en: 'Types of Text',               ca: 'Els Textos' },
+      figuras:       { es: 'Figuras Literarias',     en: 'Figures of Speech',           ca: 'Figures Literàries' },
       correccion:    { es: 'Corregir un Texto',      en: 'Proofreading',                ca: 'Corregir un Text' },
     },
   },
@@ -205,6 +207,7 @@ export const SUBJECT_DEFS = [
     catLabels: {
       musica: { es: 'Lectura de Partituras', en: 'Sheet Music Reading', ca: 'Lectura de Partitures' },
       ritmo:  { es: 'Ritmo',                 en: 'Rhythm',              ca: 'Ritme' },
+      instrumentos: { es: 'Los Instrumentos', en: 'Musical Instruments', ca: 'Els Instruments' },
     },
   },
   {

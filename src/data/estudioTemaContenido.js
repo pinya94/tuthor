@@ -1242,6 +1242,64 @@ export const CONTENIDO_TEMA = {
     },
   },
 
+  maquinas: {
+    metaTitle: {
+      es: "Máquinas simples y mecanismos: palanca, poleas y engranajes — resumen",
+      en: "Simple machines and mechanisms: levers, pulleys and gears — a summary",
+      ca: "Màquines simples i mecanismes: palanca, politges i engranatges — resum",
+    },
+    metaDesc: {
+      es: "Los tres grados de palanca y su ley, el plano inclinado, poleas y polipastos, engranajes y correas, y los mecanismos que transforman el movimiento. Resumen y test.",
+      en: "The three classes of lever and their law, the inclined plane, pulleys, gears and belts, and the mechanisms that transform motion. Summary and test.",
+      ca: "Els tres graus de palanca i la seva llei, el pla inclinat, politges i polispastos, engranatges i corretges, i els mecanismes que transformen el moviment. Resum i test.",
+    },
+    resumen: {
+      es: [
+        "Una máquina simple cambia el tamaño o la dirección de una fuerza: la palanca, el plano inclinado (y sus variantes, la cuña y el tornillo), la rueda con eje y la polea. Ninguna ahorra trabajo: lo que se gana en fuerza se paga en distancia. La palanca cumple F · dF = R · dR, y según lo que quede en medio es de primer grado (el apoyo, como el balancín), de segundo (la resistencia, como la carretilla) o de tercero (la potencia, como las pinzas).",
+        "Los mecanismos transmiten o transforman el movimiento. Los engranajes y las poleas con correa lo transmiten entre ejes y cambian la velocidad: una rueda pequeña que mueve una grande hace un reductor, más lento y con más fuerza. La biela-manivela, el piñón-cremallera y la leva convierten un giro en un movimiento en línea recta o de vaivén.",
+      ],
+      en: [
+        "A simple machine changes the size or direction of a force: the lever, the inclined plane (and its variants, the wedge and the screw), the wheel and axle and the pulley. None of them saves work: what is gained in force is paid for in distance. A lever obeys F · dF = R · dR, and depending on what sits in the middle it is first class (the fulcrum, like a seesaw), second class (the load, like a wheelbarrow) or third class (the effort, like tongs).",
+        "Mechanisms transmit or transform motion. Gears and belt-driven pulleys pass it between shafts and change the speed: a small wheel driving a big one is a reduction system, slower and stronger. The crank and connecting rod, the rack and pinion and the cam turn rotation into straight-line or back-and-forth motion.",
+      ],
+      ca: [
+        "Una màquina simple canvia la mida o la direcció d’una força: la palanca, el pla inclinat (i les seves variants, la falca i el cargol), la roda amb eix i la politja. Cap no estalvia treball: el que es guanya en força es paga en distància. La palanca compleix F · dF = R · dR, i segons el que quedi al mig és de primer grau (el suport, com el balancí), de segon (la resistència, com la carretilla) o de tercer (la potència, com les pinces).",
+        "Els mecanismes transmeten o transformen el moviment. Els engranatges i les politges amb corretja el transmeten entre eixos i en canvien la velocitat: una roda petita que en mou una de gran fa un reductor, més lent i amb més força. La biela-manovella, el pinyó-cremallera i la lleva converteixen un gir en un moviment en línia recta o de vaivé.",
+      ],
+    },
+    puntosClave: {
+      es: [
+        "Las máquinas simples son la palanca, el plano inclinado, la cuña, el tornillo, la rueda y la polea.",
+        "Una máquina no ahorra trabajo: menos fuerza, más distancia.",
+        "Ley de la palanca: F · dF = R · dR.",
+        "El grado de la palanca lo decide lo que queda en medio.",
+        "La polea fija cambia la dirección; la móvil divide la fuerza entre dos.",
+        "Rueda pequeña que mueve una grande: reductor (más lento, más fuerza).",
+        "Engranajes: n1 · z1 = n2 · z2; poleas con correa: n1 · d1 = n2 · d2.",
+        "Biela-manivela, piñón-cremallera y leva transforman el giro en línea recta.",
+      ],
+      en: [
+        "The simple machines are the lever, inclined plane, wedge, screw, wheel and pulley.",
+        "A machine does not save work: less force, more distance.",
+        "Law of the lever: F · dF = R · dR.",
+        "The class of lever depends on what sits in the middle.",
+        "A fixed pulley changes direction; a movable one halves the force.",
+        "A small wheel driving a big one: reduction (slower, stronger).",
+        "Gears: n1 · z1 = n2 · z2; belt pulleys: n1 · d1 = n2 · d2.",
+        "Crank and rod, rack and pinion and cams turn rotation into straight-line motion.",
+      ],
+      ca: [
+        "Les màquines simples són la palanca, el pla inclinat, la falca, el cargol, la roda i la politja.",
+        "Una màquina no estalvia treball: menys força, més distància.",
+        "Llei de la palanca: F · dF = R · dR.",
+        "El grau de la palanca el decideix el que queda al mig.",
+        "La politja fixa canvia la direcció; la mòbil divideix la força entre dos.",
+        "Roda petita que en mou una de gran: reductor (més lent, més força).",
+        "Engranatges: n1 · z1 = n2 · z2; politges amb corretja: n1 · d1 = n2 · d2.",
+        "Biela-manovella, pinyó-cremallera i lleva transformen el gir en línia recta.",
+      ],
+    },
+  },
   'calor-temperatura': {
     metaTitle: {
       es: 'Calor y Temperatura: en qué se diferencian — resumen',

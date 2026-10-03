@@ -115,9 +115,36 @@ function Mercado(p) {
   )
 }
 
+// Instrumentos: un violín (cuerda), una trompeta (metal) y un xilófono (percusión).
+function Instrumentos(p) {
+  const laminas = ['#F87171', '#FB923C', '#FACC15', '#4ADE80', '#38BDF8', '#A78BFA']
+  return (
+    <Lienzo {...p}>
+      {/* violín */}
+      <g transform="rotate(-25 52 72)">
+        <ellipse cx="52" cy="88" rx="20" ry="17" fill="#B45309" />
+        <ellipse cx="52" cy="62" rx="15" ry="13" fill="#B45309" />
+        <rect x="47" y="72" width="10" height="8" fill="#B45309" />
+        <rect x="49" y="16" width="6" height="46" rx="2" fill="#1C1917" />
+        <path d="M50 30V100M54 30V100" stroke="#FDE68A" strokeWidth=".8" />
+        <path d="M44 80q2 4 0 8M60 80q-2 4 0 8" stroke="#1C1917" strokeWidth="1.6" />
+      </g>
+      {/* trompeta */}
+      <path d="M96 40H150" stroke="#FBBF24" strokeWidth="5" strokeLinecap="round" />
+      <path d="M150 40L172 28V52Z" fill="#FBBF24" />
+      <path d="M106 40v10h30v-10" stroke="#FBBF24" strokeWidth="3" />
+      <path d="M116 34v-6M124 34v-6M132 34v-6" stroke="#FDE68A" strokeWidth="3" strokeLinecap="round" />
+      {/* xilófono */}
+      {laminas.map((c, i) => <rect key={c} x={104 + i * 20} y={78 + i * 2} width="15" height={38 - i * 4} rx="3" fill={c} />)}
+      <path d="M100 92L230 102M100 108L230 112" stroke="#57534E" strokeWidth="2" />
+    </Lienzo>
+  )
+}
+
 export const ARTE_TEMAS_VARIOS = {
   'musica/notas': Notas,
   'musica/ritmo': Ritmo,
+  'musica/instrumentos': Instrumentos,
   'economia/finanzas-personales': Finanzas,
   'economia/punto-equilibrio': PuntoEquilibrio,
   'economia/mercado': Mercado,

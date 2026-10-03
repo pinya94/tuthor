@@ -48,6 +48,7 @@ const TEMAS_META = {
     'ondas-luz':         { titulo: 'Ondas y Luz',          emoji: '🌊', descripcion: 'Ondas mecánicas, sonido, luz, reflexión, refracción y espectro electromagnético.' },
     'presion-fluidos':   { titulo: 'Presión y Fluidos',    emoji: '🎈', descripcion: 'Presión, presión hidrostática, principios de Pascal y Arquímedes, flotación y presión atmosférica.' },
     'calor-temperatura': { titulo: 'Calor y Temperatura',  emoji: '🌡️', descripcion: 'Calor frente a temperatura, escalas, dilatación, conducción, convección, radiación y calor específico.' },
+    'maquinas':          { titulo: 'Máquinas y Mecanismos', emoji: '⚙️', descripcion: 'Palancas, planos inclinados, poleas, engranajes y los mecanismos que transforman el movimiento.' },
   },
   en: {
     'tabla-periodica':   { titulo: 'Periodic Table',       emoji: '⚗️', descripcion: 'Symbols, names, atomic numbers, groups and types of chemical elements.' },
@@ -75,6 +76,7 @@ const TEMAS_META = {
     'ondas-luz':         { titulo: 'Waves and Light',      emoji: '🌊', descripcion: 'Mechanical waves, sound, light, reflection, refraction and the electromagnetic spectrum.' },
     'presion-fluidos':   { titulo: 'Pressure and Fluids',  emoji: '🎈', descripcion: 'Pressure, hydrostatic pressure, Pascal and Archimedes, floating and atmospheric pressure.' },
     'calor-temperatura': { titulo: 'Heat and Temperature', emoji: '🌡️', descripcion: 'Heat versus temperature, scales, expansion, conduction, convection, radiation and specific heat.' },
+    'maquinas':          { titulo: 'Machines and Mechanisms', emoji: '⚙️', descripcion: 'Levers, inclined planes, pulleys, gears and the mechanisms that transform motion.' },
   },
   ca: {
     'tabla-periodica':   { titulo: 'Taula Periòdica',      emoji: '⚗️', descripcion: 'Símbols, noms, números atòmics, grups i tipus dels elements químics.' },
@@ -102,6 +104,7 @@ const TEMAS_META = {
     'ondas-luz':         { titulo: 'Ones i Llum',          emoji: '🌊', descripcion: 'Ones mecàniques, so, llum, reflexió, refracció i espectre electromagnètic.' },
     'presion-fluidos':   { titulo: 'Pressió i Fluids',     emoji: '🎈', descripcion: 'Pressió, pressió hidrostàtica, principis de Pascal i Arquimedes, flotació i pressió atmosfèrica.' },
     'calor-temperatura': { titulo: 'Calor i Temperatura',  emoji: '🌡️', descripcion: 'Calor enfront de temperatura, escales, dilatació, conducció, convecció, radiació i calor específica.' },
+    'maquinas':          { titulo: 'Màquines i Mecanismes', emoji: '⚙️', descripcion: 'Palanques, plans inclinats, politges, engranatges i els mecanismes que transformen el moviment.' },
   },
 }
 
@@ -427,6 +430,15 @@ const MODOS_POR_TEMA = {
       descripcion: { es:'Qué distingue el calor de la temperatura, escalas Celsius y Kelvin, dilatación, las tres formas de transmisión, equilibrio térmico y calor específico.', en:'What tells heat from temperature, Celsius and Kelvin scales, expansion, the three transfer routes, thermal equilibrium and specific heat.', ca:'Què distingeix la calor de la temperatura, escales Celsius i Kelvin, dilatació, les tres formes de transmissió, equilibri tèrmic i calor específica.' },
       detalles: { es:['2 niveles','10 preguntas','Opción múltiple','Explicación tras cada respuesta'], en:['2 levels','10 questions','Multiple choice','Explanation after each answer'], ca:['2 nivells','10 preguntes','Opció múltiple','Explicació després de cada resposta'] },
       path: 'calor-temperatura',
+    },
+  ],
+  maquinas: [
+    {
+      id: 'examen', emoji: '📝', gradient: 'from-slate-500 to-amber-600',
+      titulo: { es:'Examen', en:'Exam', ca:'Examen' },
+      descripcion: { es:'Las máquinas simples y sus tres grados de palanca, poleas y polipastos, engranajes y correas, y los mecanismos que transforman el movimiento.', en:'Simple machines and the three classes of lever, pulleys and block and tackle, gears and belts, and the mechanisms that transform motion.', ca:'Les màquines simples i els tres graus de palanca, politges i polispastos, engranatges i corretges, i els mecanismes que transformen el moviment.' },
+      detalles: { es:['2 niveles','10 preguntas','Opción múltiple','Explicación tras cada respuesta'], en:['2 levels','10 questions','Multiple choice','Explanation after each answer'], ca:['2 nivells','10 preguntes','Opció múltiple','Explicació després de cada resposta'] },
+      path: 'maquinas',
     },
   ],
   formulacion: [

@@ -12,6 +12,7 @@ import { TEMAS_MATEMATICAS_EXTRA } from '../data/temasMatematicas'
 // solo enseñaría una tarjeta: la ficha del temario lleva directa al examen.
 const EXAM_DIRECTO = {
   porcentajes: '/examen/porcentajes',
+  divisibilidad: '/examen/divisibilidad',
 }
 
 const EXTRAS = TEMAS_MATEMATICAS_EXTRA

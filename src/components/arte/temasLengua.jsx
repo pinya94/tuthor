@@ -363,6 +363,23 @@ function Textos(p) {
   )
 }
 
+// Figuras literarias: un libro abierto del que sale la metáfora (ojos = luceros).
+function Figuras(p) {
+  return (
+    <Lienzo {...p}>
+      <path d="M120 106Q90 94 44 100V48Q90 42 120 54Z" fill="#F5F3FF" />
+      <path d="M120 106Q150 94 196 100V48Q150 42 120 54Z" fill="#EDE9FE" />
+      <path d="M120 54V106" stroke="#A78BFA" strokeWidth="2" />
+      <path d="M54 62h50M54 72h44M54 82h50M136 62h50M140 72h46M136 82h40" stroke="#C4B5FD" strokeWidth="2.5" strokeLinecap="round" />
+      {/* ojo = estrella */}
+      <path d="M70 26Q84 14 98 26Q84 38 70 26Z" fill="#F8FAFC" />
+      <circle cx="84" cy="26" r="5" fill="#7C3AED" />
+      <T x={120} y={31} s={16} c="#E9D5FF">=</T>
+      <path d="M156 12L160 22L170 22L162 28L165 38L156 32L147 38L150 28L142 22L152 22Z" fill="#FACC15" />
+    </Lienzo>
+  )
+}
+
 export const ARTE_TEMAS_LENGUA = {
   'gramatica/sustantivos': Sustantivos,
   'gramatica/adjetivos': Adjetivos,
@@ -386,6 +403,7 @@ export const ARTE_TEMAS_LENGUA = {
   'lengua/gramatica': Gramatica,
   'lengua/literatura': Literatura,
   'lengua/textos': Textos,
+  'lengua/figuras': Figuras,
 }
 
 // La gramática inglesa usa los mismos conceptos con otro id.

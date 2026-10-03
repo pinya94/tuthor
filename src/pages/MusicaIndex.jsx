@@ -25,6 +25,16 @@ const TEMAS = [
       ca: 'Compassos, figures i silencis',
     },
   },
+  {
+    id: 'instrumentos', emoji: '🎻', gradient: 'from-rose-500 to-amber-700', ready: true,
+    path: '/examen/musica-instrumentos-test',
+    titulo: { es: 'Instrumentos', en: 'Instruments', ca: 'Instruments' },
+    subtitulo: {
+      es: 'Las familias de la orquesta y cómo suena cada una',
+      en: 'The orchestra’s families and how each one sounds',
+      ca: 'Les famílies de l’orquestra i com sona cadascuna',
+    },
+  },
 ]
 
 export default function MusicaIndex() {

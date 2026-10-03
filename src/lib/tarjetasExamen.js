@@ -69,6 +69,11 @@ const BANCOS = {
     cargar: () => import('../data/ondasLuz'),
     nombre: { es: 'Ondas y Luz', en: 'Waves and Light', ca: 'Ones i Llum' },
   },
+  'fisica/maquinas': {
+    emoji: '⚙️', clave: 'PREGUNTAS',
+    cargar: () => import('../data/maquinas'),
+    nombre: { es: 'Máquinas y Mecanismos', en: 'Machines and Mechanisms', ca: 'Màquines i Mecanismes' },
+  },
   'biologia/celula': {
     emoji: '🔬', clave: 'PREGUNTAS',
     cargar: () => import('../data/celula'),

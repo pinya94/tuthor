@@ -196,6 +196,14 @@ const TEMAS = [
     niveles: nivelesDeTema('fisica', 'calor-temperatura'),
   },
   {
+    id: 'maquinas', disciplina: 'fisica',
+    titulo: 'Máquinas y Mecanismos', tituloEn: 'Machines and Mechanisms', tituloCa: 'Màquines i Mecanismes',
+    subtitulo: 'Palancas, poleas, engranajes y mecanismos', subtituloEn: 'Levers, pulleys, gears and mechanisms', subtituloCa: 'Palanques, politges, engranatges i mecanismes',
+    emoji: '⚙️', gradient: 'from-slate-500 to-amber-600',
+    tags: ['maquinas', 'palanca', 'polea', 'engranaje', 'plano inclinado', 'tornillo', 'biela', 'manivela', 'leva', 'tecnologia', 'mecanismos', 'lever', 'pulley', 'gear', 'machines'],
+    niveles: nivelesDeTema('fisica', 'maquinas'),
+  },
+  {
     id: 'presion-fluidos', disciplina: 'fisica',
     titulo: 'Presión y Fluidos', tituloEn: 'Pressure and Fluids', tituloCa: 'Pressió i Fluids',
     subtitulo: 'Presión, hidrostática, Arquímedes, Pascal y presión atmosférica', subtituloEn: 'Pressure, hydrostatics, Archimedes, Pascal and atmospheric pressure', subtituloCa: 'Pressió, hidrostàtica, Arquimedes, Pascal i pressió atmosfèrica',

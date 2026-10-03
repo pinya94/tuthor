@@ -704,6 +704,31 @@ export const EXAMS = {
     emoji: '🖋️', subject: 'lengua',
     path: 'examen/espanol-literatura-test', page: () => import('../pages/EspanolLiteraturaExamen'),
   },
+  'espanol-figuras-test': {
+    label: { es: 'Figuras Literarias', en: 'Figures of Speech', ca: 'Figures Literàries' },
+    emoji: '🎭', subject: 'lengua',
+    path: 'examen/espanol-figuras-test', page: () => import('../pages/EspanolFigurasExamen'),
+  },
+  'divisibilidad': {
+    label: { es: 'Divisibilidad', en: 'Divisibility', ca: 'Divisibilitat' },
+    emoji: '🌳', subject: 'matematicas',
+    path: 'examen/divisibilidad', page: () => import('../pages/DivisibilidadExamen'),
+  },
+  'maquinas': {
+    label: { es: 'Máquinas y Mecanismos', en: 'Machines and Mechanisms', ca: 'Màquines i Mecanismes' },
+    emoji: '⚙️', subject: 'fisica',
+    path: 'examen/maquinas', page: () => import('../pages/MaquinasExamen'),
+  },
+  'geografia-ue-test': {
+    label: { es: 'La Unión Europea', en: 'The European Union', ca: 'La Unió Europea' },
+    emoji: '⭐', subject: 'geografia',
+    path: 'examen/geografia-ue-test', page: () => import('../pages/UnionEuropeaExamen'),
+  },
+  'musica-instrumentos-test': {
+    label: { es: 'Los Instrumentos', en: 'Musical Instruments', ca: 'Els Instruments' },
+    emoji: '🎻', subject: 'musica',
+    path: 'examen/musica-instrumentos-test', page: () => import('../pages/MusicaInstrumentosExamen'),
+  },
   'espanol-textos-test': {
     label: { es: 'Los Textos', en: 'Types of Text', ca: 'Els Textos' },
     emoji: '📝', subject: 'lengua',

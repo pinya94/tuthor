@@ -259,6 +259,26 @@ function Algebra(p) {
 
 // Clave = `matematicas/<id>`: los modos del motor de cálculo (mathEngine) y
 // los temas extra del hub (data/temasMatematicas.js).
+// Divisibilidad: el árbol de factores del 60.
+function Divisibilidad(p) {
+  const nodo = (x, y, n, primo) => (
+    <g key={x + '-' + y}>
+      <circle cx={x} cy={y} r="13" fill={primo ? '#84CC16' : '#334155'} stroke={primo ? '#D9F99D' : '#64748B'} strokeWidth="2" />
+      <T x={x} y={y + 4.5} s={12} c={primo ? '#1A2E05' : '#F8FAFC'}>{n}</T>
+    </g>
+  )
+  return (
+    <Lienzo {...p}>
+      <path d="M120 26L92 52M120 26L148 52M148 52L124 80M148 52L172 80M172 80L150 108M172 80L196 108" stroke="#94A3B8" strokeWidth="2" />
+      {nodo(120, 22, 60)}
+      {nodo(92, 54, 2, true)}{nodo(148, 54, 30)}
+      {nodo(124, 82, 2, true)}{nodo(172, 82, 15)}
+      {nodo(150, 110, 3, true)}{nodo(196, 110, 5, true)}
+      <T x={44} y={96} s={13} c="#D9F99D">2²·3·5</T>
+    </Lienzo>
+  )
+}
+
 export const ARTE_TEMAS_MATEMATICAS = {
   'matematicas/sumas': Sumas,
   'matematicas/restas': Restas,
@@ -271,6 +291,7 @@ export const ARTE_TEMAS_MATEMATICAS = {
   'matematicas/geometria': Geometria,
   'matematicas/fracciones': Fracciones,
   'matematicas/porcentajes': Porcentajes,
+  'matematicas/divisibilidad': Divisibilidad,
   'matematicas/estadistica': Estadistica,
   'matematicas/enteros-racionales': Enteros,
   'matematicas/algebra': Algebra,

@@ -21,6 +21,12 @@ export const TEMAS_MATEMATICAS_EXTRA = [
     tags: ['porcentaje', 'proporcion', 'regla de tres', 'descuento', 'escala', 'iva'],
   },
   {
+    id: 'divisibilidad',
+    titulo: 'Divisibilidad', tituloEn: 'Divisibility', tituloCa: 'Divisibilitat',
+    emoji: '🌳', gradient: 'from-lime-500 to-green-700',
+    tags: ['multiplo', 'divisor', 'primo', 'mcm', 'mcd', 'factores', 'criterios'],
+  },
+  {
     id: 'estadistica',
     titulo: 'Estadística y Probabilidad', tituloEn: 'Statistics and Probability', tituloCa: 'Estadística i Probabilitat',
     emoji: '📊', gradient: 'from-purple-500 to-violet-600',

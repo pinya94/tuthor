@@ -73,9 +73,9 @@ describe('arte de los temas', () => {
     ...['sustantivos', 'adjetivos', 'determinantes', 'pronombres', 'verbos', 'adverbios', 'nexos', 'sintaxis', 'morfologia'].map(id => `gramatica/${id}`),
     ...['present-simple', 'past-simple', 'present-perfect', 'articles', 'passive'].map(id => `ingles/${id}`),
     ...['acentuacion', 'bv', 'gj', 'puntuacion', 'correccion'].map(id => `ortografia/${id}`),
-    'lengua/gramatica', 'lengua/literatura', 'lengua/textos',
+    'lengua/gramatica', 'lengua/literatura', 'lengua/textos', 'lengua/figuras',
     // Música y Economía (MusicaIndex, EconomiaIndex).
-    'musica/notas', 'musica/ritmo', 'economia/finanzas-personales', 'economia/punto-equilibrio', 'economia/mercado',
+    'musica/notas', 'musica/ritmo', 'musica/instrumentos', 'economia/finanzas-personales', 'economia/punto-equilibrio', 'economia/mercado',
   ]
 
   it('cada tema de historia y ciencias tiene su ilustración', () => {

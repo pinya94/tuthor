@@ -31,6 +31,16 @@ const TEMAS = [
     examPath: '/examen/geografia-humana-test',
   },
   {
+    // Conceptos e instituciones, no un mapa que señalar: directo al examen.
+    id: 'union-europea',
+    titulo: 'La Unión Europea', tituloEn: 'The European Union', tituloCa: 'La Unió Europea',
+    subtitulo: 'Historia, euro, Schengen e instituciones', subtituloEn: 'History, the euro, Schengen and institutions', subtituloCa: 'Història, euro, Schengen i institucions',
+    emoji: '⭐', gradient: 'from-blue-600 to-indigo-800',
+    tags: ['ue', 'union europea', 'euro', 'schengen', 'parlamento', 'comision', 'bruselas', 'eu', 'european union'],
+    niveles: nivelesDeTema('geografia', 'union-europea'),
+    examPath: '/examen/geografia-ue-test',
+  },
+  {
     id: 'espana',
     titulo: 'España', tituloEn: 'Spain', tituloCa: 'Espanya',
     subtitulo: 'Las 17 comunidades autónomas', subtituloEn: 'The 17 autonomous communities', subtituloCa: 'Les 17 comunitats autònomes',

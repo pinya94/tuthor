@@ -603,6 +603,31 @@ function AtmosferaClima(p) {
 }
 
 // Clave = `<disciplina>/<id del tema>` (QuimicaIndex, data/ciencias.js).
+// Máquinas: una palanca con su apoyo y dos engranajes encajados.
+function Maquinas(p) {
+  const dientes = (cx, cy, r, n, c) => Array.from({ length: n }, (_, i) => {
+    const a = (i / n) * Math.PI * 2
+    return <rect key={i} x={cx - 3} y={cy - r - 5} width="6" height="8" rx="1.5" fill={c} transform={'rotate(' + (a * 180 / Math.PI) + ' ' + cx + ' ' + cy + ')'} />
+  })
+  return (
+    <Lienzo {...p}>
+      {/* palanca */}
+      <path d="M14 70L126 52" stroke="#E2E8F0" strokeWidth="5" strokeLinecap="round" />
+      <path d="M92 58L82 80H102Z" fill="#F59E0B" />
+      <rect x="104" y="30" width="22" height="22" rx="3" fill="#64748B" transform="rotate(-9 115 41)" />
+      <Flecha x1={22} y1={40} x2={22} y2={62} c="#38BDF8" w={3} />
+      <path d="M8 96H132" stroke="#475569" strokeWidth="2" strokeLinecap="round" />
+      {/* engranajes */}
+      {dientes(176, 50, 22, 10, '#94A3B8')}
+      <circle cx="176" cy="50" r="22" fill="#94A3B8" />
+      <circle cx="176" cy="50" r="7" fill="#141b2e" />
+      {dientes(197, 84, 14, 7, '#FBBF24')}
+      <circle cx="197" cy="84" r="14" fill="#FBBF24" />
+      <circle cx="197" cy="84" r="4.5" fill="#141b2e" />
+    </Lienzo>
+  )
+}
+
 export const ARTE_TEMAS_CIENCIAS = {
   'quimica/tabla-periodica': TablaPeriodica,
   'quimica/estados-materia': EstadosMateria,
@@ -627,6 +652,7 @@ export const ARTE_TEMAS_CIENCIAS = {
   'fisica/calor-temperatura': CalorTemperatura,
   'fisica/presion-fluidos': PresionFluidos,
   'fisica/ondas-luz': OndasLuz,
+  'fisica/maquinas': Maquinas,
   'biologia/salud-enfermedad': SaludEnfermedad,
   'geologia/atmosfera-clima': AtmosferaClima,
 }

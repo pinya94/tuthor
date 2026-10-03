@@ -208,9 +208,34 @@ function Oceania(p) {
 }
 
 // Clave = `geografia/<id>` (topicCatalog: topicIds('geografia')).
+// La UE: el círculo de doce estrellas sobre azul y una moneda de euro.
+function UnionEuropea(p) {
+  const estrella = (cx, cy, r) => {
+    const pts = Array.from({ length: 10 }, (_, i) => {
+      const a = -Math.PI / 2 + (i * Math.PI) / 5
+      const rr = i % 2 ? r * 0.45 : r
+      return (cx + rr * Math.cos(a)).toFixed(1) + ',' + (cy + rr * Math.sin(a)).toFixed(1)
+    })
+    return <polygon key={cx + '-' + cy} points={pts.join(' ')} fill="#FACC15" />
+  }
+  return (
+    <Lienzo {...p}>
+      <rect x="22" y="16" width="140" height="96" rx="6" fill="#1D4ED8" />
+      {Array.from({ length: 12 }, (_, i) => {
+        const a = (i / 12) * Math.PI * 2
+        return estrella(92 + 32 * Math.cos(a), 64 + 32 * Math.sin(a), 6)
+      })}
+      <circle cx="194" cy="88" r="24" fill="#CBD5E1" />
+      <circle cx="194" cy="88" r="17" fill="#FBBF24" />
+      <T x={194} y={96} s={22} c="#78350F">€</T>
+    </Lienzo>
+  )
+}
+
 export const ARTE_TEMAS_GEOGRAFIA = {
   'geografia/fisica': Fisica,
   'geografia/humana': Humana,
+  'geografia/union-europea': UnionEuropea,
   'geografia/espana': Espana,
   'geografia/eeuu': Eeuu,
   'geografia/europa': Europa,

@@ -194,6 +194,7 @@ export const TOPIC_CATALOG = {
       geometria: examTema({ teoria: 'geometria', 'figuras-compuestas': 'figuras-compuestas' }, { niveles: ['primaria', 'eso', 'bachillerato'] }),
       fracciones: examTema({ teoria: 'fracciones', 'reparte-pastel': 'reparte-pastel-test', 'menor-a-mayor': 'menor-a-mayor-test' }, { niveles: ['primaria', 'eso'] }),
       porcentajes: examTema({ teoria: 'porcentajes' }, { niveles: ['primaria', 'eso'] }),
+      divisibilidad: examTema({ teoria: 'divisibilidad' }, { niveles: ['primaria', 'eso'] }),
       estadistica: examTema({
         teoria: 'estadistica',
         'estadistico-media': 'estadistico-media-test',
@@ -298,6 +299,7 @@ export const TOPIC_CATALOG = {
       puntuacion: examTema({ test: 'espanol-ortografia-puntuacion-test' }, { niveles: ['primaria', 'eso'] }),
       literatura: examTema({ test: 'espanol-literatura-test' }, { niveles: ['eso', 'bachillerato'] }),
       textos: examTema({ test: 'espanol-textos-test' }, { niveles: ['primaria', 'eso'] }),
+      figuras: examTema({ test: 'espanol-figuras-test' }, { niveles: ['eso', 'bachillerato'] }),
       // Un tema, dos formatos: el juego (arcade, por tiempo) y su examen (sin
       // reloj, con nota). Los dos sobre textos EN CASTELLANO: el inglés cuelga
       // de Inglés → spelling, y el catalán no tiene tema porque no hay materia.
@@ -360,6 +362,7 @@ export const TOPIC_CATALOG = {
       // nada en el mapa, se pregunta por los conceptos (relieve, ríos, clima).
       fisica: examTema({ teoria: 'geografia-fisica-test' }, { niveles: ['primaria', 'eso'] }),
       humana: examTema({ teoria: 'geografia-humana-test' }, { niveles: ['primaria', 'eso'] }),
+      'union-europea': examTema({ teoria: 'geografia-ue-test' }, { niveles: ['eso', 'bachillerato'] }),
     },
     formatos: {
       pistas: examFormato({ es: 'Adivina por pistas', en: 'Guess from clues', ca: 'Endevina per pistes' }, '🌍'),
@@ -384,6 +387,7 @@ export const TOPIC_CATALOG = {
       'ondas-luz': examTema({ teoria: 'ondas-luz', 'rayo-de-luz': 'rayo-de-luz-test' }, { niveles: ['primaria', 'eso'] }),
       'presion-fluidos': examTema({ teoria: 'presion-fluidos' }, { niveles: ['primaria', 'eso'] }),
       'calor-temperatura': examTema({ teoria: 'calor-temperatura' }, { niveles: ['primaria', 'eso'] }),
+      maquinas: examTema({ teoria: 'maquinas' }, { niveles: ['primaria', 'eso'] }),
     },
     formatos: {
       teoria: examFormato({ es: 'Teoría (tipo test)', en: 'Theory (quiz)', ca: 'Teoria (tipus test)' }, '📝'),
@@ -551,6 +555,7 @@ export const TOPIC_CATALOG = {
     temas: {
       musica: examTema({ examen: 'musica' }, { niveles: ['primaria', 'eso'] }),
       ritmo: examTema({ examen: 'musica-ritmo-test' }, { niveles: ['primaria', 'eso'] }),
+      instrumentos: examTema({ examen: 'musica-instrumentos-test' }, { niveles: ['primaria', 'eso'] }),
     },
     formatos: {
       pentagrama: {
