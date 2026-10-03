@@ -240,6 +240,13 @@ const MODOS_POR_TEMA = {
       detalles: { es:['2 niveles','10 preguntas','Opción múltiple','Explicación tras cada respuesta'], en:['2 levels','10 questions','Multiple choice','Explanation after each answer'], ca:['2 nivells','10 preguntes','Opció múltiple','Explicació després de cada resposta'] },
       path: 'atmosfera-clima',
     },
+    {
+      id: 'el-tiempo-test', emoji: '🌦️', gradient: 'from-sky-500 to-indigo-700',
+      titulo: { es:'El Tiempo (con el juego)', en:'The Weather (with the game)', ca:'El Temps (amb el joc)' },
+      descripcion: { es:'Con la mecánica del juego: lee una previsión —tarjeta de app, gráfica por horas o radar de lluvia— y decide qué ropa llevar y si hace falta paraguas.', en:'Using the game mechanic: read a forecast — app card, hourly chart or rain radar — and decide what to wear and whether you need an umbrella.', ca:'Amb la mecànica del joc: llegeix una previsió —targeta d’app, gràfica per hores o radar de pluja— i decideix quina roba portar i si cal paraigua.' },
+      detalles: { es:['3 niveles','10 preguntas','Sin cronómetro','Con el juego'], en:['3 levels','10 questions','No timer','With the game'], ca:['3 nivells','10 preguntes','Sense cronòmetre','Amb el joc'] },
+      path: 'el-tiempo-test',
+    },
   ],
   'salud-enfermedad': [
     {

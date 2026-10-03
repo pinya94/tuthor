@@ -317,6 +317,26 @@ function MedidorPh(p) {
   )
 }
 
+function ElTiempo(p) {
+  return (
+    <Lienzo {...p}>
+      {/* tarjeta de previsión */}
+      <rect x="16" y="20" width="96" height="78" rx="12" fill="#1E3A8A" />
+      <circle cx="46" cy="48" r="11" fill="#FBBF24" />
+      <path d="M40 66h34a9 9 0 0 0 0-18 12 12 0 0 0-23-2 8 8 0 0 0-11 20Z" fill="#E2E8F0" />
+      <path d="M52 72l-3 7M62 72l-3 7M72 72l-3 7" stroke="#38BDF8" strokeWidth="3" strokeLinecap="round" />
+      <T x={96} y={50} s={17} c="#FFFFFF">8°</T>
+      <T x={92} y={90} s={11} c="#BAE6FD">70%</T>
+      <Flecha x1={118} y1={60} x2={138} y2={60} c="#94A3B8" w={2.5} />
+      {/* abrigo y paraguas */}
+      <path d="M160 34l-10 6 1 30h6v6h22v-6h6l1-30-10-6-8 7Z" fill="#A16207" />
+      <path d="M168 41v35" stroke="#422006" strokeWidth="2" />
+      <path d="M194 66a22 22 0 0 1 40 0c-3-3-6-3-10 0-3-3-7-3-10 0-3-3-7-3-10 0-4-3-7-3-10 0Z" fill="#A78BFA" />
+      <path d="M214 66v24a4 4 0 0 1-8 0" fill="none" stroke="#E2E8F0" strokeWidth="2.6" strokeLinecap="round" />
+    </Lienzo>
+  )
+}
+
 export const ARTE_CIENCIAS = {
   genetica: Genetica,
   'rayos-x': RayosX,
@@ -325,6 +345,7 @@ export const ARTE_CIENCIAS = {
   'fuerza-neta': FuerzaNeta,
   balanza: Balanza,
   orbita: Orbita,
+  'el-tiempo': ElTiempo,
   'circuito-cerrado': CircuitoCerrado,
   'rayo-de-luz': RayoDeLuz,
   'balanza-ecuaciones': BalanzaEcuaciones,

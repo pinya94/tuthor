@@ -259,6 +259,14 @@ export const GAMES = {
     // 10-15 puntos por acierto → hasta 200 monedas
     coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
   },
+  'el-tiempo': {
+    label: { es: 'El Tiempo', en: 'The Weather', ca: 'El Temps' },
+    emoji: '🌦️',
+    subject: 'geologia',
+    route: '/juegos/el-tiempo',
+    // aciertos × 10 puntos → hasta 200 monedas
+    coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
+  },
   'analiza-frases': {
     label: { es: 'Analiza la Frase', en: 'Sentence Detective', ca: 'Analitza la Frase' },
     emoji: '🧐',

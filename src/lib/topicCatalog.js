@@ -463,11 +463,12 @@ export const TOPIC_CATALOG = {
       'sistema-solar': examTema({ teoria: 'sistema-solar', orbita: 'orbita-test' }, { niveles: ['primaria', 'eso'] }),
       'rocas-minerales': examTema({ teoria: 'rocas-minerales' }, { niveles: ['primaria', 'eso'] }),
       'placas-tectonicas': examTema({ teoria: 'placas-tectonicas' }, { niveles: ['eso', 'bachillerato'] }),
-      'atmosfera-clima': examTema({ teoria: 'atmosfera-clima' }, { niveles: ['eso', 'bachillerato'] }),
+      'atmosfera-clima': examTema({ teoria: 'atmosfera-clima', 'el-tiempo': 'el-tiempo-test' }, { niveles: ['eso', 'bachillerato'] }),
     },
     formatos: {
       teoria: examFormato({ es: 'Teoría (tipo test)', en: 'Theory (quiz)', ca: 'Teoria (tipus test)' }, '📝'),
       orbita: examFormato({ es: 'Órbita (con el juego)', en: 'Orbit (with the game)', ca: 'Òrbita (amb el joc)' }, '🛰️'),
+      'el-tiempo': examFormato({ es: 'El Tiempo (con el juego)', en: 'The Weather (with the game)', ca: 'El Temps (amb el joc)' }, '🌦️'),
     },
   },
 

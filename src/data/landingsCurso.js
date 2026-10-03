@@ -292,7 +292,7 @@ export const LANDINGS = [
       en: ['Putting events in order on a timeline', 'The ages of history', 'Spain’s autonomous communities', 'Countries and capitals on the map', 'Relief, rivers and population'],
       ca: ['Ordenar fets a la línia del temps', 'Les etapes de la història', "Les comunitats autònomes d'Espanya", 'Països i capitals al mapa', 'Relleu, rius i població'],
     },
-    juegos: ['linea-temporal', 'epocas-historicas', 'geomapa', 'georush', 'coordenadas'],
+    juegos: ['el-tiempo', 'linea-temporal', 'epocas-historicas', 'geomapa', 'georush', 'coordenadas'],
     temas: [
       { arte: 'historia/primaria', ruta: '/estudiar/historia/primaria', titulo: T('Grandes hitos de la historia', 'Great milestones of history', 'Grans fites de la història') },
       { arte: 'historia/prehistoria', ruta: '/estudiar/historia/prehistoria', titulo: T('Prehistoria', 'Prehistory', 'Prehistòria') },
@@ -537,7 +537,7 @@ export const LANDINGS = [
       en: ['The cell and its organelles', 'Genetics: heredity and Punnett squares', 'Human body anatomy', 'Ecosystems and food chains', 'The solar system and plate tectonics'],
       ca: ['La cèl·lula i els seus orgànuls', 'Genètica: herència i quadre de Punnett', 'Anatomia del cos humà', 'Ecosistemes i cadenes tròfiques', 'El sistema solar i les plaques tectòniques'],
     },
-    juegos: ['microscopio', 'genetica', 'rayos-x', 'cadena-alimentaria', 'orbita'],
+    juegos: ['microscopio', 'genetica', 'rayos-x', 'cadena-alimentaria', 'el-tiempo', 'orbita'],
     temas: [
       { arte: 'biologia/celula', ruta: '/estudiar/biologia/celula', titulo: T('La célula', 'The cell', 'La cèl·lula') },
       { arte: 'biologia/genetica', ruta: '/estudiar/biologia/genetica', titulo: T('Genética', 'Genetics', 'Genètica') },
@@ -816,7 +816,7 @@ export const LANDINGS = [
       en: ['The cell and its organelles', 'Mendelian genetics', 'Evolution and natural selection', 'The immune system and vaccines', 'Plate tectonics and climate change'],
       ca: ['La cèl·lula i els seus orgànuls', 'Genètica mendeliana', 'Evolució i selecció natural', 'Sistema immunitari i vacunes', 'Tectònica de plaques i canvi climàtic'],
     },
-    juegos: ['microscopio', 'genetica', 'cadena-alimentaria'],
+    juegos: ['microscopio', 'genetica', 'cadena-alimentaria', 'el-tiempo'],
     temas: [
       { arte: 'biologia/celula', ruta: '/estudiar/biologia/celula', titulo: T('La célula', 'The cell', 'La cèl·lula') },
       { arte: 'biologia/genetica', ruta: '/estudiar/biologia/genetica', titulo: T('Genética', 'Genetics', 'Genètica') },

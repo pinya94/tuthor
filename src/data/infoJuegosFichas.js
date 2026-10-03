@@ -1143,6 +1143,34 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Química', niveles: 'Primaria, ESO',
   },
+  'el-tiempo': {
+    titulo: 'El Tiempo',
+    subtitulo: 'Juego de leer la previsión meteorológica: qué ropa ponerse y si llevar paraguas',
+    emoji: '🌦️', gradient: 'from-sky-500 to-indigo-700',
+    path: '/juegos/el-tiempo',
+    intro: 'Un juego para aprender a leer la previsión del tiempo de verdad, no a reconocer dibujitos de sol y nubes. Sale una situación —vas al colegio, tienes partido, sales a pasear al perro— y la previsión para ese momento, y hay que decidir qué te llevas: abrigo, chaqueta o camiseta y, si hace falta, paraguas. En el nivel fácil la previsión es la tarjeta de una app con la temperatura y la probabilidad de lluvia. En los niveles medio y difícil cambia de forma: a veces es una gráfica por horas, en la que solo cuentan las horas en que estás fuera, y a veces un radar de lluvia que se mueve, y hay que calcular si llegará a tu ciudad. Las reglas están a la vista y al corregir se explica la cuenta con los números de esa previsión.',
+    beneficios: [
+      { titulo: 'La probabilidad de lluvia, por fin entendida', texto: 'Un 40 % de lluvia no significa que vaya a llover un poco, sino que es menos probable que llueva que que no llueva. El juego usa una regla clara (paraguas a partir del 50 %) y la repite decenas de veces con valores distintos, que es como se aprende a leer un porcentaje sin pensarlo.' },
+      { titulo: 'Leer una gráfica para tomar una decisión', texto: 'En la previsión por horas puede llover toda la mañana y no caer ni una gota en las tres horas en que tú sales. Hay que localizar tu franja en la gráfica y leer solo esa parte: la misma destreza que pide cualquier gráfica de matemáticas o de ciencias, pero con una consecuencia que se entiende.' },
+      { titulo: 'El radar: velocidad, distancia y tiempo', texto: 'La lluvia avanza a 20 km/h y cada cuadro del mapa son 10 km: en una hora se mueve dos cuadros. Mover la mancha mentalmente y ver qué color cae sobre tu ciudad es un problema de movimiento uniforme disfrazado, y además es exactamente lo que hacen los meteorólogos con el radar real.' },
+    ],
+    ejemplo: 'Sale «Tienes partido de 17:00 a 20:00» con una gráfica en la que por la mañana hay barras de lluvia del 80 %. Muchos eligen paraguas por instinto. Pero en la franja de las 17 a las 20 la lluvia no pasa del 10 %, y la temperatura más baja en ese rato es de 12 °C: lo que toca es chaqueta y sin paraguas. Al corregir, la explicación señala justo eso: solo cuentan las horas en que estás fuera.',
+    enPapel: {
+      titulo: 'El tiempo en casa',
+      pasos: [
+        'Abrid la previsión del día en el móvil o en la tele y leedla juntos antes de salir de casa.',
+        'Que decida qué ropa ponerse y si hace falta paraguas, y que diga en voz alta qué dato ha mirado.',
+        'Por la tarde, comprobad si acertó la previsión y si acertó con la ropa.',
+        'Una semana entera: apuntad cada día la temperatura prevista y la real y ved cuánto se equivoca la previsión.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'El examen de Atmósfera y Clima', desc: 'Para la parte de teoría: las capas de la atmósfera, la diferencia entre tiempo y clima, el efecto invernadero y el cambio climático, con explicación en cada respuesta.' },
+      { nombre: 'Una estación meteorológica casera', desc: 'Un termómetro en la ventana y un vaso graduado como pluviómetro. Medir uno mismo la temperatura y la lluvia da sentido a los números de la previsión.' },
+      { nombre: 'El radar de AEMET', desc: 'El radar real se puede ver en la web de la Agencia Estatal de Meteorología. Mirar cómo se mueven los colores un día de tormenta es la mejor continuación del juego.' },
+    ],
+    asignatura: 'Geografía', niveles: 'Primaria, ESO, Bachillerato',
+  },
   'encuentra-elemento': {
     titulo: 'Encuentra el Elemento',
     subtitulo: 'Juego de la Tabla Periódica',
@@ -2283,6 +2311,33 @@ export const FICHAS_EN = {
       { nombre: 'Read the labels', desc: 'Shampoos, shower gels and creams often say "neutral pH" or "pH 5.5". Finding one in the bathroom and placing it on the strip takes the scale out of the exercise book.' },
     ],
     asignatura: 'Chemistry', niveles: 'Primary, Secondary',
+  },
+  'el-tiempo': {
+    titulo: 'The Weather',
+    subtitulo: 'Weather forecast reading game: what to wear and whether to take an umbrella',
+    emoji: '🌦️', gradient: 'from-sky-500 to-indigo-700', path: '/juegos/el-tiempo',
+    intro: 'A game to learn to really read a weather forecast, not just recognise little drawings of suns and clouds. A situation appears — going to school, a match, walking the dog — with the forecast for that time, and you decide what to take: a coat, a jacket or a T-shirt and, if needed, an umbrella. On easy the forecast is an app card with the temperature and chance of rain. On medium and hard it changes format: sometimes an hourly chart, where only the hours you are out count, and sometimes a moving rain radar, where you work out whether the rain will reach your city. The rules are on screen and each answer is explained with that forecast’s numbers.',
+    beneficios: [
+      { titulo: 'The chance of rain, finally understood', texto: 'A 40% chance of rain does not mean it will rain a little; it means rain is less likely than no rain. The game uses a clear rule (umbrella from 50%) and repeats it dozens of times with different values, which is how you learn to read a percentage without thinking.' },
+      { titulo: 'Reading a chart to make a decision', texto: 'In the hourly forecast it can rain all morning and not a drop during the three hours you are out. You find your slot on the chart and read only that part: the same skill any maths or science chart requires, but with a consequence that makes sense.' },
+      { titulo: 'The radar: speed, distance and time', texto: 'The rain moves at 20 km/h and each map square is 10 km: in an hour it moves two squares. Shifting the patch in your head and seeing which colour lands on your city is a uniform motion problem in disguise, and it is exactly what forecasters do with a real radar.' },
+    ],
+    ejemplo: 'Up comes «You have a match from 17:00 to 20:00» with a chart showing 80% rain bars in the morning. Many pick the umbrella on instinct. But between 17:00 and 20:00 the chance of rain never goes above 10%, and the lowest temperature then is 12 °C: the answer is a jacket and no umbrella. The explanation points out exactly that: only the hours you are out count.',
+    enPapel: {
+      titulo: 'The weather at home',
+      pasos: [
+        'Open today’s forecast on a phone or the TV and read it together before leaving home.',
+        'Let them decide what to wear and whether to take an umbrella, and say out loud which figure they looked at.',
+        'In the evening, check whether the forecast was right and whether the clothes were.',
+        'For a whole week, note the forecast and the real temperature each day and see how far off the forecast is.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'The Atmosphere and Climate exam', desc: 'For the theory side: the layers of the atmosphere, weather versus climate, the greenhouse effect and climate change, with an explanation for every answer.' },
+      { nombre: 'A home weather station', desc: 'A thermometer on the window and a measuring jug as a rain gauge. Measuring temperature and rainfall yourself gives meaning to the forecast’s numbers.' },
+      { nombre: 'A real rain radar', desc: 'National weather services publish their radar online. Watching the colours move on a stormy day is the best follow-up to the game.' },
+    ],
+    asignatura: 'Geography', niveles: 'Primary, Secondary, Sixth Form',
   },
   'encuentra-elemento': {
     titulo: 'Find the Element',
@@ -3498,6 +3553,33 @@ export const FICHAS_CA = {
       { nombre: 'Llegir etiquetes', desc: 'Xampús, gels i cremes solen indicar «pH neutre» o «pH 5,5». Buscar-ho al bany i situar-ho a la tira porta l’escala fora del quadern.' },
     ],
     asignatura: 'Química', niveles: 'Primària, ESO',
+  },
+  'el-tiempo': {
+    titulo: 'El Temps',
+    subtitulo: 'Joc de llegir la previsió meteorològica: quina roba posar-se i si cal paraigua',
+    emoji: '🌦️', gradient: 'from-sky-500 to-indigo-700', path: '/juegos/el-tiempo',
+    intro: 'Un joc per aprendre a llegir la previsió del temps de debò, no a reconèixer dibuixets de sol i núvols. Surt una situació —vas a l’escola, tens partit, surts a passejar el gos— i la previsió per a aquell moment, i cal decidir què t’emportes: abric, jaqueta o samarreta i, si cal, paraigua. Al nivell fàcil la previsió és la targeta d’una app amb la temperatura i la probabilitat de pluja. Als nivells mitjà i difícil canvia de forma: de vegades és una gràfica per hores, en què només compten les hores que ets fora, i de vegades un radar de pluja que es mou, i cal calcular si arribarà a la teva ciutat. Les regles estan a la vista i en corregir s’explica el compte amb els números d’aquella previsió.',
+    beneficios: [
+      { titulo: 'La probabilitat de pluja, per fi entesa', texto: 'Un 40 % de pluja no vol dir que plourà una mica, sinó que és menys probable que plogui que no que no plogui. El joc fa servir una regla clara (paraigua a partir del 50 %) i la repeteix desenes de vegades amb valors diferents, que és com s’aprèn a llegir un percentatge sense pensar-hi.' },
+      { titulo: 'Llegir una gràfica per prendre una decisió', texto: 'A la previsió per hores pot ploure tot el matí i no caure ni una gota en les tres hores que surts. Cal localitzar la teva franja a la gràfica i llegir només aquella part: la mateixa destresa que demana qualsevol gràfica de matemàtiques o de ciències, però amb una conseqüència que s’entén.' },
+      { titulo: 'El radar: velocitat, distància i temps', texto: 'La pluja avança a 20 km/h i cada quadre del mapa són 10 km: en una hora es mou dos quadres. Moure la taca mentalment i veure quin color cau sobre la teva ciutat és un problema de moviment uniforme disfressat, i a més és exactament el que fan els meteoròlegs amb el radar real.' },
+    ],
+    ejemplo: 'Surt «Tens partit de 17:00 a 20:00» amb una gràfica en què al matí hi ha barres de pluja del 80 %. Molts trien paraigua per instint. Però a la franja de les 17 a les 20 la pluja no passa del 10 %, i la temperatura més baixa en aquella estona és de 12 °C: el que toca és jaqueta i sense paraigua. En corregir, l’explicació assenyala just això: només compten les hores que ets fora.',
+    enPapel: {
+      titulo: 'El temps a casa',
+      pasos: [
+        'Obriu la previsió del dia al mòbil o a la tele i llegiu-la junts abans de sortir de casa.',
+        'Que decideixi quina roba es posa i si cal paraigua, i que digui en veu alta quina dada ha mirat.',
+        'A la tarda, comproveu si la previsió va encertar i si va encertar amb la roba.',
+        'Una setmana sencera: apunteu cada dia la temperatura prevista i la real i mireu quant s’equivoca la previsió.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'L’examen d’Atmosfera i Clima', desc: 'Per a la part de teoria: les capes de l’atmosfera, la diferència entre temps i clima, l’efecte hivernacle i el canvi climàtic, amb explicació a cada resposta.' },
+      { nombre: 'Una estació meteorològica casolana', desc: 'Un termòmetre a la finestra i un got graduat com a pluviòmetre. Mesurar un mateix la temperatura i la pluja dona sentit als números de la previsió.' },
+      { nombre: 'El radar de l’AEMET o del Meteocat', desc: 'El radar real es pot veure a les webs dels serveis meteorològics. Mirar com es mouen els colors un dia de tempesta és la millor continuació del joc.' },
+    ],
+    asignatura: 'Geografia', niveles: 'Primària, ESO, Batxillerat',
   },
   'encuentra-elemento': {
     titulo: 'Troba l\'Element',
