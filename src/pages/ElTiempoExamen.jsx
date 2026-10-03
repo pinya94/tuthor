@@ -7,13 +7,13 @@ import { genRonda, esCorrecta, schemaQuestion } from '../lib/elTiempo'
 const LEVELS = [
   { key: 'primaria', emoji: '🟢', difficulty: 'facil',
     label: { es: 'Primaria', en: 'Primary', ca: 'Primària' },
-    hint: { es: 'Temperatura y lluvia: qué ropa y si hace falta paraguas', en: 'Temperature and rain: what to wear and whether you need an umbrella', ca: 'Temperatura i pluja: quina roba i si cal paraigua' } },
+    hint: { es: 'Temperatura, lluvia y mapa del tiempo con símbolos', en: 'Temperature, rain and weather map symbols', ca: 'Temperatura, pluja i mapa del temps amb símbols' } },
   { key: 'eso', emoji: '🟡', difficulty: 'medio',
     label: { es: 'Secundaria (ESO)', en: 'Secondary (ESO)', ca: 'Secundària (ESO)' },
-    hint: { es: 'Viento, previsión por horas y radar de lluvia', en: 'Wind, hourly forecast and rain radar', ca: 'Vent, previsió per hores i radar de pluja' } },
+    hint: { es: 'Viento, previsión por horas, radar y mapa del tiempo', en: 'Wind, hourly forecast, radar and weather map', ca: 'Vent, previsió per hores, radar i mapa del temps' } },
   { key: 'bachillerato', emoji: '🔴', difficulty: 'dificil',
     label: { es: 'Avanzado', en: 'Advanced', ca: 'Avançat' },
-    hint: { es: 'Además índice UV y radar a dos horas vista', en: 'Plus UV index and radar two hours ahead', ca: 'A més índex UV i radar a dues hores vista' } },
+    hint: { es: 'Además UV, isobaras y radar a dos horas vista', en: 'Plus UV, isobars and radar two hours ahead', ca: 'A més UV, isòbares i radar a dues hores vista' } },
 ]
 
 // Formatos alternos dentro del examen, para que no salgan diez radares.
@@ -41,7 +41,7 @@ export default function ElTiempoExamen() {
       title={{ es: 'Examen de El Tiempo', en: 'The Weather Exam', ca: 'Examen de El Temps' }}
       sub={{ es: 'Lee cada previsión y decide qué llevar', en: 'Read each forecast and decide what to take', ca: 'Llegeix cada previsió i decideix què t’emportes' }}
       metaTitle={{ es: 'Examen: leer la previsión del tiempo', en: 'Exam: reading the weather forecast', ca: 'Examen: llegir la previsió del temps' }}
-      metaDesc={{ es: 'Examen de leer la previsión meteorológica: temperatura, probabilidad de lluvia, viento, UV, gráfica por horas y radar. 10 preguntas, tres niveles, sin reloj.', en: 'Weather forecast reading exam: temperature, chance of rain, wind, UV, hourly chart and radar. 10 questions, three levels, no timer.', ca: 'Examen de llegir la previsió meteorològica: temperatura, probabilitat de pluja, vent, UV, gràfica per hores i radar. 10 preguntes, tres nivells, sense rellotge.' }}
+      metaDesc={{ es: 'Examen de leer la previsión del tiempo: temperatura, lluvia, viento, UV, gráfica por horas, radar, mapa del tiempo e isobaras. 10 preguntas, tres niveles.', en: 'Weather forecast reading exam: temperature, rain, wind, UV, hourly chart, radar, weather map and isobars. 10 questions, three levels.', ca: 'Examen de llegir la previsió del temps: temperatura, pluja, vent, UV, gràfica per hores, radar, mapa del temps i isòbares. 10 preguntes, tres nivells.' }}
       metaPath="/examen/el-tiempo-test"
       subjectSchema="Ciencias"
       backGamePath="/juegos/el-tiempo"

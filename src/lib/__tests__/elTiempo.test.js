@@ -3,6 +3,7 @@ import {
   NIVELES, genRonda, esCorrecta, prendaPara, sensacion, claveTraje, intensidadEn,
   KM_CASILLA, INTENSIDADES, LLUVIA_PARAGUAS, UV_SOL, explicacion, schemaQuestion, HORAS,
 } from '../elTiempo'
+import { CIUDADES_MAPA, MOJA } from '../elTiempoMapas'
 
 // Generador con semilla: el test no depende de la suerte.
 function semilla(s) { return () => ((s = (s * 16807) % 2147483647) - 1) / 2147483646 }
@@ -20,10 +21,10 @@ describe('El Tiempo · reglas', () => {
 
 describe('El Tiempo · rondas generadas', () => {
   for (const nivel of Object.keys(NIVELES)) {
-    it(`${nivel}: 600 rondas coherentes`, () => {
+    it(`${nivel}: 800 rondas coherentes`, () => {
       const rand = semilla(nivel.length * 7919)
       const tipos = {}, respuestas = {}
-      for (let n = 0; n < 600; n++) {
+      for (let n = 0; n < 800; n++) {
         const r = genRonda(nivel, { rand })
         tipos[r.tipo] = (tipos[r.tipo] ?? 0) + 1
         expect(NIVELES[nivel].tipos).toContain(r.tipo)
@@ -34,6 +35,28 @@ describe('El Tiempo · rondas generadas', () => {
           expect(INTENSIDADES[intensidadEn(luego, ciudad.x, ciudad.y)]).toBe(r.bueno)
           expect((kmh / KM_CASILLA) * horas % 1).toBe(0)
           respuestas[r.bueno] = (respuestas[r.bueno] ?? 0) + 1
+        } else if (r.tipo === 'mapa') {
+          expect(r.opciones).toHaveLength(4)
+          expect(new Set(r.opciones).size).toBe(4)
+          expect(r.opciones).toContain(r.bueno)
+          const t = r.datos.tiempo
+          const ops = r.opciones.map(id => t[id])
+          const p = r.datos.pregunta
+          if (p === 'paraguas') expect(r.opciones.filter(id => MOJA.has(t[id].cielo))).toEqual([r.bueno])
+          if (p === 'nieve') expect(r.opciones.filter(id => t[id].cielo === 'nieve')).toEqual([r.bueno])
+          if (p === 'playa') expect(r.opciones.filter(id => CIUDADES_MAPA.find(c => c.id === id).costa && t[id].cielo === 'sol' && t[id].temp >= 24)).toEqual([r.bueno])
+          if (p === 'frio') expect(Math.min(...ops.map(o => o.temp))).toBe(t[r.bueno].temp)
+          if (p === 'calor') expect(Math.max(...ops.map(o => o.temp))).toBe(t[r.bueno].temp)
+          if (p === 'frio' || p === 'calor') expect(ops.filter(o => o.temp === t[r.bueno].temp)).toHaveLength(1)
+          // una sola estación por mapa: no nieva el mismo día que se va a la playa
+          const cielos = Object.values(t).map(x => x.cielo)
+          if (cielos.includes('nieve')) expect(r.datos.estacion).toBe('invierno')
+          if (cielos.includes('tormenta')) expect(r.datos.estacion).toBe('verano')
+          respuestas['mapa:' + r.bueno] = 1
+        } else if (r.tipo === 'isobaras') {
+          expect(r.opciones).toContain(r.bueno)
+          expect(new Set(r.opciones).size).toBe(r.opciones.length)
+          respuestas['iso:' + r.bueno] = 1
         } else {
           // la buena está entre 4 opciones distintas, y solo ella es correcta
           expect(r.opciones).toHaveLength(4)
@@ -43,6 +66,7 @@ describe('El Tiempo · rondas generadas', () => {
           expect(lluvia).not.toBe(LLUVIA_PARAGUAS)
           if (NIVELES[nivel].uv && r.tipo === 'simple') expect(uv).not.toBe(UV_SOL)
           expect([10, 18]).not.toContain(temp)
+          if (r.tipo === 'simple') expect(temp <= 2 && lluvia >= 30).toBe(false)
           if (r.tipo === 'simple' && lluvia >= 60) expect(r.datos.cielo).toBe('lluvia')
           respuestas[claveTraje(r.bueno)] = (respuestas[claveTraje(r.bueno)] ?? 0) + 1
         }
@@ -51,7 +75,7 @@ describe('El Tiempo · rondas generadas', () => {
           expect(r.datos.fin).toBeGreaterThan(r.datos.inicio)
         }
         for (const l of ['es', 'en', 'ca']) expect(explicacion(r, l).length).toBeGreaterThan(20)
-        if (r.tipo === 'simple') expect(schemaQuestion(r, 'es').wrongAnswers).toHaveLength(3)
+        if (r.tipo === 'simple' || r.tipo === 'mapa') expect(schemaQuestion(r, 'es').wrongAnswers).toHaveLength(3)
       }
       // todos los formatos del nivel salen, y las respuestas no se repiten siempre
       expect(Object.keys(tipos).sort()).toEqual([...NIVELES[nivel].tipos].sort())
@@ -77,5 +101,29 @@ describe('El Tiempo · rondas generadas', () => {
     expect(con).toBeGreaterThan(60)
     expect(sin).toBeGreaterThan(60)
     expect(lluviaFuera).toBeGreaterThan(30) // llueve ese día, pero no mientras estás fuera
+  })
+})
+
+describe('El Tiempo · mapa e isobaras', () => {
+  it('el mapa pregunta de todo, y las isobaras sus tres cosas', () => {
+    const rand = semilla(99)
+    const preg = new Set(), iso = new Set()
+    for (let n = 0; n < 400; n++) {
+      preg.add(genRonda('medio', { rand, tipo: 'mapa' }).datos.pregunta)
+      const r = genRonda('dificil', { rand, tipo: 'isobaras' })
+      iso.add(r.datos.pregunta + ':' + (r.datos.pregunta === 'viento' ? 'x' : r.bueno))
+    }
+    expect([...preg].sort()).toEqual(['calor', 'frio', 'nieve', 'paraguas', 'playa'])
+    expect([...iso].sort()).toEqual(['concepto:A', 'concepto:B', 'tiempo:anticiclon', 'tiempo:borrasca', 'viento:x'])
+  })
+  it('en isobaras, la ciudad del viento fuerte es la más cercana a la borrasca', () => {
+    const rand = semilla(5)
+    for (let n = 0; n < 200; n++) {
+      const r = genRonda('dificil', { rand, tipo: 'isobaras' })
+      if (r.datos.pregunta !== 'viento') continue
+      const d = (id, P) => { const c = CIUDADES_MAPA.find(x => x.id === id); return Math.hypot(c.xy[0] - P[0], c.xy[1] - P[1]) }
+      const otra = r.datos.marcadas.find(id => id !== r.bueno)
+      expect(d(r.bueno, r.datos.B)).toBeLessThan(d(otra, r.datos.B))
+    }
   })
 })

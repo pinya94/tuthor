@@ -1,6 +1,7 @@
 // Dibujos del juego El Tiempo: iconos del cielo y de la ropa, la tarjeta de
 // previsión de una app, la gráfica por horas y el radar de lluvia.
 import { HORAS, RADAR_W, RADAR_H, KM_CASILLA, NOMBRE_DIR } from '../../lib/elTiempo'
+import { MAPA_W, MAPA_H, PATH_PENINSULA, PATH_PORTUGAL, BALEARES, CIUDADES_MAPA, VIEWBOX_ISOBARAS, ANILLOS_B, ANILLOS_A } from '../../lib/elTiempoMapas'
 
 // ── Cielo ────────────────────────────────────────────────────────────────
 function Sol({ cx = 32, cy = 32, r = 11 }) {
@@ -17,9 +18,9 @@ function Sol({ cx = 32, cy = 32, r = 11 }) {
 function Nube({ x = 0, y = 0, c = '#E2E8F0' }) {
   return <path transform={`translate(${x} ${y})`} d="M14 46h34a11 11 0 0 0 0-22 15 15 0 0 0-28-3 10 10 0 0 0-6 25Z" fill={c} />
 }
-export function IconoCielo({ cielo, className = 'w-16 h-16' }) {
+function ContenidoCielo({ cielo }) {
   return (
-    <svg viewBox="0 0 64 64" className={className} aria-hidden="true">
+    <>
       {cielo === 'sol' && <Sol />}
       {cielo === 'solNube' && <><Sol cx={24} cy={24} r={9} /><Nube x={4} y={6} /></>}
       {cielo === 'nube' && <><Nube x={-4} y={-6} c="#94A3B8" /><Nube x={4} y={2} /></>}
@@ -29,8 +30,31 @@ export function IconoCielo({ cielo, className = 'w-16 h-16' }) {
           {[18, 30, 42].map((x, i) => <path key={x} d={`M${x} ${48 + (i % 2) * 3}l-4 9`} stroke="#38BDF8" strokeWidth="3.5" strokeLinecap="round" />)}
         </>
       )}
-    </svg>
+      {cielo === 'tormenta' && (
+        <>
+          <Nube x={0} y={-6} c="#64748B" />
+          <path d="M34 40l-8 12h7l-5 10 13-15h-7l5-7Z" fill="#FACC15" />
+        </>
+      )}
+      {cielo === 'nieve' && (
+        <>
+          <Nube x={0} y={-8} c="#CBD5E1" />
+          {[[18, 50], [32, 55], [46, 50]].map(([x, y]) => (
+            <g key={x} stroke="#F8FAFC" strokeWidth="2.4" strokeLinecap="round">
+              <path d={`M${x - 5} ${y}h10M${x} ${y - 5}v10M${x - 3.5} ${y - 3.5}l7 7M${x + 3.5} ${y - 3.5}l-7 7`} />
+            </g>
+          ))}
+        </>
+      )}
+    </>
   )
+}
+export function IconoCielo({ cielo, className = 'w-16 h-16' }) {
+  return <svg viewBox="0 0 64 64" className={className} aria-hidden="true"><ContenidoCielo cielo={cielo} /></svg>
+}
+// El mismo icono colocado dentro de otro SVG (el mapa del tiempo).
+function CieloEn({ cielo, x, y, size }) {
+  return <svg x={x - size / 2} y={y - size / 2} width={size} height={size} viewBox="0 0 64 64" aria-hidden="true"><ContenidoCielo cielo={cielo} /></svg>
 }
 
 // ── Ropa ─────────────────────────────────────────────────────────────────
@@ -196,6 +220,76 @@ export function Radar({ datos, revelado, t, l }) {
       <div className="flex gap-3 px-1 pb-1 text-[11px] font-bold">
         {[1, 2, 3].map(i => <span key={i} className="flex items-center gap-1 text-white/70"><span className="w-3 h-3 rounded-sm" style={{ background: COLOR_LLUVIA[i] }} />{t.intensidad[i]}</span>)}
       </div>
+    </div>
+  )
+}
+
+// ── Mapa del tiempo de España ──────────────────────────────────────────
+function Peninsula({ fill = '#1F3A2E' }) {
+  return (
+    <g>
+      <path d={PATH_PENINSULA} fill={fill} stroke="#4ADE8055" strokeWidth="1.5" strokeLinejoin="round" />
+      <path d={PATH_PORTUGAL} fill="none" stroke="#ffffff30" strokeWidth="1.2" strokeDasharray="4 3" />
+      {BALEARES.map((b, i) => <ellipse key={i} cx={b.c[0]} cy={b.c[1]} rx={b.rx} ry={b.ry} fill={fill} stroke="#4ADE8055" strokeWidth="1.2" />)}
+    </g>
+  )
+}
+
+// Cada ciudad: su símbolo encima, el nombre y la temperatura debajo. Las
+// opciones de la pregunta se resaltan; al corregir, la buena en verde.
+export function MapaTiempo({ datos, opciones, bueno, revelado, t }) {
+  return (
+    <div className="rounded-2xl bg-[#0b1d33] border border-white/[0.08] p-1.5">
+      <svg viewBox={`-6 -8 ${MAPA_W + 12} ${MAPA_H + 16}`} className="w-full h-auto" role="img" aria-label={t.ariaMapa}>
+        <Peninsula />
+        {CIUDADES_MAPA.map(c => {
+          const w = datos.tiempo[c.id]
+          const [x, y] = c.xy
+          const op = opciones.includes(c.id)
+          const marca = revelado && c.id === bueno
+          return (
+            <g key={c.id} opacity={op ? 1 : 0.55}>
+              {marca && <circle cx={x} cy={y - 6} r="27" fill="#22C55E" fillOpacity=".25" stroke="#22C55E" strokeWidth="2.5" />}
+              <CieloEn cielo={w.cielo} x={x} y={y - 12} size={36} />
+              <text x={x} y={y + 14} fontSize="11" fill="#fff" textAnchor="middle" fontWeight="800" stroke="#0b1d33" strokeWidth="3" paintOrder="stroke">{c.nombre}</text>
+              <text x={x} y={y + 27} fontSize="12" fill={w.temp <= 5 ? '#93C5FD' : w.temp >= 28 ? '#FCA5A5' : '#FDE68A'} textAnchor="middle" fontWeight="900" stroke="#0b1d33" strokeWidth="3" paintOrder="stroke">{w.temp}°</text>
+            </g>
+          )
+        })}
+      </svg>
+    </div>
+  )
+}
+
+// ── Isobaras ───────────────────────────────────────────────────────────
+// Anillos alrededor de cada centro, algo achatados como en un mapa real, con
+// la presión rotulada. Las ciudades de la pregunta se marcan.
+export function MapaIsobaras({ datos, t }) {
+  const { B, A, marcadas, letra, pregunta } = datos
+  const anillos = (C, lista, color) => lista.map(([p, r], i) => (
+    <g key={p}>
+      <ellipse cx={C[0]} cy={C[1]} rx={r * 1.25} ry={r} fill="none" stroke={color} strokeWidth="1.6" strokeOpacity={0.9 - i * 0.12} />
+      <text x={C[0] + r * 1.25 * 0.7} y={C[1] - r * 0.72} fontSize="9.5" fill={color} fontWeight="700" stroke="#0b1d33" strokeWidth="3" paintOrder="stroke">{p}</text>
+    </g>
+  ))
+  const resalta = pregunta === 'concepto' ? letra : null
+  return (
+    <div className="rounded-2xl bg-[#0b1d33] border border-white/[0.08] p-1.5">
+      <svg viewBox={VIEWBOX_ISOBARAS} className="w-full h-auto" role="img" aria-label={t.ariaIsobaras}>
+        <Peninsula fill="#1E3A2F" />
+        {anillos(B, ANILLOS_B, '#93C5FD')}
+        {anillos(A, ANILLOS_A, '#FCA5A5')}
+        {[['B', B, '#60A5FA'], ['A', A, '#F87171']].map(([L, C, col]) => (
+          <text key={L} x={C[0]} y={C[1] + 10} fontSize={resalta === L ? 36 : 30} fontWeight="900" fill={resalta === L ? '#FDE68A' : col} textAnchor="middle" stroke="#0b1d33" strokeWidth="4" paintOrder="stroke">{L}</text>
+        ))}
+        {CIUDADES_MAPA.filter(c => marcadas.includes(c.id)).map(c => (
+          <g key={c.id}>
+            <circle cx={c.xy[0]} cy={c.xy[1]} r="6" fill="#fff" stroke="#0b1d33" strokeWidth="2.5" />
+            <text x={c.xy[0]} y={c.xy[1] + 20} fontSize="13" fill="#fff" textAnchor="middle" fontWeight="800" stroke="#0b1d33" strokeWidth="3.5" paintOrder="stroke">{c.nombre}</text>
+          </g>
+        ))}
+      </svg>
+      <p className="text-white/50 text-[11px] text-center pb-1">{t.leyendaIsobaras}</p>
     </div>
   )
 }

@@ -1,8 +1,9 @@
 // Una ronda de El Tiempo: la situación, la previsión en su formato y las
 // opciones. La usan el juego (contra reloj) y el examen (MechanicExam).
 import { useLang } from '../../context/LangContext'
-import { NIVELES, NOMBRE_INTENSIDAD, claveTraje, textoTraje, explicacion, INTENSIDADES } from '../../lib/elTiempo'
-import { TarjetaPrevision, GraficaHoras, Radar, DibujoTraje, COLOR_LLUVIA, IconoCielo } from './Vistas'
+import { NIVELES, NOMBRE_INTENSIDAD, claveTraje, textoTraje, explicacion, INTENSIDADES, textoOpcion } from '../../lib/elTiempo'
+import { PREGUNTAS_MAPA, nombreCiudad } from '../../lib/elTiempoMapas'
+import { TarjetaPrevision, GraficaHoras, Radar, DibujoTraje, COLOR_LLUVIA, IconoCielo, MapaTiempo, MapaIsobaras } from './Vistas'
 
 const pad = h => `${h}:00`
 
@@ -19,10 +20,22 @@ export default function PreguntaTiempo({ ronda, revelado, elegida, onResponder }
     haciaDir: tr({ es: 'Se mueve hacia', en: 'Moving towards', ca: 'Es mou cap a' }),
     intensidad: { 1: tr({ es: 'Débil', en: 'Light', ca: 'Feble' }), 2: tr({ es: 'Moderada', en: 'Moderate', ca: 'Moderada' }), 3: tr({ es: 'Fuerte', en: 'Heavy', ca: 'Forta' }) },
     aria: tr({ es: 'Previsión del tiempo', en: 'Weather forecast', ca: 'Previsió del temps' }),
+    ariaMapa: tr({ es: 'Mapa del tiempo de España', en: 'Weather map of Spain', ca: 'Mapa del temps d’Espanya' }),
+    ariaIsobaras: tr({ es: 'Mapa de isobaras', en: 'Isobar map', ca: 'Mapa d’isòbares' }),
+    leyendaIsobaras: tr({ es: 'Las líneas unen puntos con la misma presión (hPa)', en: 'Lines join points with the same pressure (hPa)', ca: 'Les línies uneixen punts amb la mateixa pressió (hPa)' }),
   }
 
   let pregunta
-  if (ronda.tipo === 'radar') {
+  if (ronda.tipo === 'mapa') {
+    pregunta = tr(PREGUNTAS_MAPA[ronda.datos.pregunta])
+  } else if (ronda.tipo === 'isobaras') {
+    const d = ronda.datos
+    pregunta = d.pregunta === 'tiempo'
+      ? tr({ es: `¿Qué tiempo es más probable en ${nombreCiudad(d.ciudad)}?`, en: `What weather is most likely in ${nombreCiudad(d.ciudad)}?`, ca: `Quin temps és més probable a ${nombreCiudad(d.ciudad)}?` })
+      : d.pregunta === 'viento'
+      ? tr({ es: '¿Dónde soplará más viento?', en: 'Where will it be windier?', ca: 'On bufarà més vent?' })
+      : tr({ es: `¿Qué indica la ${d.letra} marcada en amarillo?`, en: `What does the ${d.letra} marked in yellow show?`, ca: `Què indica la ${d.letra} marcada en groc?` })
+  } else if (ronda.tipo === 'radar') {
     const { ciudad, horas } = ronda.datos
     pregunta = tr({
       es: `¿Lloverá en ${ciudad.nombre} dentro de ${horas} hora${horas > 1 ? 's' : ''}?`,
@@ -49,9 +62,20 @@ export default function PreguntaTiempo({ ronda, revelado, elegida, onResponder }
         {ronda.tipo === 'simple' && <TarjetaPrevision datos={ronda.datos} cfg={cfg} t={t} />}
         {ronda.tipo === 'horas' && <GraficaHoras datos={ronda.datos} cfg={cfg} t={t} />}
         {ronda.tipo === 'radar' && <Radar datos={ronda.datos} revelado={revelado} t={t} l={l} />}
+        {ronda.tipo === 'mapa' && <MapaTiempo datos={ronda.datos} opciones={ronda.opciones} bueno={ronda.bueno} revelado={revelado} t={t} />}
+        {ronda.tipo === 'isobaras' && <MapaIsobaras datos={ronda.datos} t={t} />}
       </div>
 
-      {ronda.tipo === 'radar' ? (
+      {(ronda.tipo === 'mapa' || ronda.tipo === 'isobaras') ? (
+        <div className={`grid gap-2 ${ronda.opciones.length === 3 ? 'grid-cols-1' : 'grid-cols-2'}`}>
+          {ronda.opciones.map(o => (
+            <button key={o} disabled={revelado} onClick={() => onResponder(o)}
+              className={`py-3 px-2 rounded-xl border text-white text-sm font-bold transition-all ${claseOpcion(o === ronda.bueno, o === elegida)}`}>
+              {textoOpcion(ronda, o, l)}
+            </button>
+          ))}
+        </div>
+      ) : ronda.tipo === 'radar' ? (
         <div className="grid grid-cols-2 gap-2">
           {INTENSIDADES.map((k, i) => (
             <button key={k} disabled={revelado} onClick={() => onResponder(k)}

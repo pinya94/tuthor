@@ -11,10 +11,15 @@
 // Los generadores evitan los valores justo en el límite (10, 18, 50 %, UV 6):
 // ahí la regla decide, pero el alumno sentiría que es una trampa.
 //
-// Tres formatos de ronda:
-//   simple → la tarjeta de una app: cielo, temperatura, % de lluvia (viento, UV)
-//   horas  → gráfica de 8:00 a 22:00 y una salida concreta («de 17 a 20 h»)
-//   radar  → mapa con lluvia que se mueve: ¿lloverá en tu ciudad dentro de N h?
+// Formatos de ronda:
+//   simple   → la tarjeta de una app: cielo, temperatura, % de lluvia (viento, UV)
+//   horas    → gráfica de 8:00 a 22:00 y una salida concreta («de 17 a 20 h»)
+//   radar    → mapa con lluvia que se mueve: ¿lloverá en tu ciudad dentro de N h?
+//   mapa     → el mapa del tiempo de España con símbolos (lib/elTiempoMapas.js)
+//   isobaras → borrasca y anticiclón: qué tiempo hará, dónde sopla más viento
+// Con 2 °C o menos no se genera lluvia: sería nieve, y la nieve tiene su
+// propio símbolo en el mapa.
+import { genMapa, genIsobaras, PREGUNTAS_MAPA, nombreCiudad, RESP_TIEMPO, RESP_CONCEPTO } from './elTiempoMapas'
 
 export const PRENDAS = ['abrigo', 'chaqueta', 'camiseta']
 export const VIENTO_FUERTE = 30
@@ -25,9 +30,9 @@ export const KM_CASILLA = 10
 export const INTENSIDADES = ['nada', 'debil', 'moderada', 'fuerte']
 
 export const NIVELES = {
-  facil:   { tipos: ['simple'], viento: false, uv: false, radarHoras: [1] },
-  medio:   { tipos: ['simple', 'horas', 'radar'], viento: true, uv: false, radarHoras: [1] },
-  dificil: { tipos: ['simple', 'horas', 'radar'], viento: true, uv: true, radarHoras: [1, 2] },
+  facil:   { tipos: ['simple', 'mapa'], viento: false, uv: false, radarHoras: [1] },
+  medio:   { tipos: ['simple', 'horas', 'radar', 'mapa'], viento: true, uv: false, radarHoras: [1] },
+  dificil: { tipos: ['simple', 'horas', 'radar', 'mapa', 'isobaras'], viento: true, uv: true, radarHoras: [1, 2] },
 }
 
 export const prendaPara = t => (t < 10 ? 'abrigo' : t <= 18 ? 'chaqueta' : 'camiseta')
@@ -84,6 +89,7 @@ function genSimple(cfg, rand) {
     const uv = lluvia >= 30 ? entre(rand, 1, 3) : temp >= 20 ? entre(rand, 3, 10) : entre(rand, 1, 5)
     const sens = cfg.viento ? sensacion(temp, viento) : temp
     if (LIMITE_T.has(temp) || LIMITE_T.has(sens) || uv === UV_SOL) continue
+    if (temp <= 2 && lluvia >= 30) continue
     const datos = { temp, viento, lluvia, uv, cielo: cieloDe(lluvia) }
     const bueno = trajeCorrecto(datos, cfg)
     return { tipo: 'simple', datos, situacion: elige(rand, SITUACIONES.simple), bueno, opciones: opcionesTraje(bueno, cfg, rand) }
@@ -122,6 +128,7 @@ function genHoras(cfg, rand) {
     const lSalida = Math.max(...enSalida.map(i => lluvias[i]))
     const sens = cfg.viento ? sensacion(tSalida, viento) : tSalida
     if (LIMITE_T.has(tSalida) || LIMITE_T.has(sens) || lSalida === LLUVIA_PARAGUAS) continue
+    if (temps.some((t, i) => t <= 2 && lluvias[i] >= 30)) continue
     const datos = { temps, lluvias, viento, inicio, fin, temp: tSalida, lluvia: lSalida, uv: 0 }
     const bueno = trajeCorrecto(datos, { ...cfg, uv: false })
     return { tipo: 'horas', datos, situacion: elige(rand, SITUACIONES.horas), bueno, opciones: opcionesTraje(bueno, { ...cfg, uv: false }, rand) }
@@ -184,13 +191,14 @@ function genRadar(cfg, rand) {
 export function genRonda(nivel = 'facil', { rand = Math.random, tipo } = {}) {
   const cfg = NIVELES[nivel] ?? NIVELES.facil
   const t = tipo ?? elige(rand, cfg.tipos)
-  const ronda = t === 'radar' ? genRadar(cfg, rand) : t === 'horas' ? genHoras(cfg, rand) : genSimple(cfg, rand)
+  const ronda = t === 'radar' ? genRadar(cfg, rand) : t === 'horas' ? genHoras(cfg, rand)
+    : t === 'mapa' ? genMapa(rand) : t === 'isobaras' ? genIsobaras(rand) : genSimple(cfg, rand)
   return { ...ronda, nivel }
 }
 
 export function esCorrecta(ronda, respuesta) {
   if (respuesta == null) return false
-  if (ronda.tipo === 'radar') return respuesta === ronda.bueno
+  if (ronda.tipo !== 'simple' && ronda.tipo !== 'horas') return respuesta === ronda.bueno
   return claveTraje(respuesta) === claveTraje(ronda.bueno)
 }
 
@@ -225,8 +233,55 @@ export function textoTraje(t, l) {
 }
 
 // Por qué es ese traje, con los números de la previsión.
+export const NOMBRE_CIELO = {
+  sol: { es: 'sol', en: 'sunny', ca: 'sol' },
+  solNube: { es: 'sol y nubes', en: 'sun and clouds', ca: 'sol i núvols' },
+  nube: { es: 'nubes', en: 'cloudy', ca: 'núvols' },
+  lluvia: { es: 'lluvia', en: 'rain', ca: 'pluja' },
+  tormenta: { es: 'tormenta', en: 'storm', ca: 'tempesta' },
+  nieve: { es: 'nieve', en: 'snow', ca: 'neu' },
+}
+const tCielo = (c, l) => NOMBRE_CIELO[c][l] ?? NOMBRE_CIELO[c].es
+
+// Texto de una opción del mapa o de las isobaras.
+export function textoOpcion(ronda, o, l) {
+  if (ronda.tipo === 'mapa') return nombreCiudad(o)
+  if (ronda.tipo === 'isobaras') {
+    const p = ronda.datos.pregunta
+    if (p === 'tiempo') return RESP_TIEMPO[o][l] ?? RESP_TIEMPO[o].es
+    if (p === 'concepto') return RESP_CONCEPTO[o][l] ?? RESP_CONCEPTO[o].es
+    return o === 'igual' ? ({ es: 'Igual en las dos', en: 'The same in both', ca: 'Igual a les dues' }[l]) : nombreCiudad(o)
+  }
+  return o
+}
+
 export function explicacion(ronda, l) {
   const tx = (es, en, ca) => ({ es, en, ca })[l] ?? es
+  if (ronda.tipo === 'mapa') {
+    const { tiempo, pregunta } = ronda.datos
+    const regla = {
+      playa: tx('Para un día de playa hace falta costa, sol y calor: 24 °C o más.', 'A beach day needs a coast, sun and warmth: 24 °C or more.', 'Per a un dia de platja cal costa, sol i calor: 24 °C o més.'),
+      paraguas: tx('Solo mojan la lluvia y la tormenta: una nube no significa que vaya a llover.', 'Only rain and storms get you wet: a cloud does not mean it will rain.', 'Només mullen la pluja i la tempesta: un núvol no vol dir que plourà.'),
+      nieve: tx('La nieve es el símbolo del copo, y solo cae con frío: 1 °C o menos.', 'Snow is the snowflake symbol, and only falls when it is cold: 1 °C or less.', 'La neu és el símbol del floc, i només cau amb fred: 1 °C o menys.'),
+      frio: tx('Hay que comparar los números, no fiarse de la zona.', 'Compare the numbers rather than going by the region.', 'Cal comparar els números, no refiar-se de la zona.'),
+      calor: tx('Hay que comparar los números, no fiarse de la zona.', 'Compare the numbers rather than going by the region.', 'Cal comparar els números, no refiar-se de la zona.'),
+    }[pregunta]
+    const lista = ronda.opciones.map(id => `${nombreCiudad(id)}: ${tCielo(tiempo[id].cielo, l)}, ${tiempo[id].temp} °C`).join(' · ')
+    return `${regla} ${lista}.`
+  }
+  if (ronda.tipo === 'isobaras') {
+    const { pregunta, ciudad, letra } = ronda.datos
+    if (pregunta === 'tiempo') {
+      const c = nombreCiudad(ciudad)
+      return ronda.bueno === 'borrasca'
+        ? tx(`${c} está junto a la B, una borrasca: la presión es baja, el aire sube, se enfría y forma nubes y lluvia. Las isobaras juntas traen viento.`, `${c} is next to the L, a depression: pressure is low, the air rises, cools and forms clouds and rain. Close isobars bring wind.`, `${c} és al costat de la B, una borrasca: la pressió és baixa, l’aire puja, es refreda i forma núvols i pluja. Les isòbares juntes porten vent.`)
+        : tx(`${c} está bajo la A, un anticiclón: la presión es alta y el aire baja, así que el cielo se despeja. Las isobaras separadas significan poco viento.`, `${c} is under the H, an anticyclone: pressure is high and the air sinks, so skies clear. Widely spaced isobars mean little wind.`, `${c} és sota la A, un anticicló: la pressió és alta i l’aire baixa, així que el cel s’aclareix. Les isòbares separades volen dir poc vent.`)
+    }
+    if (pregunta === 'viento') return tx(`Cuanto más juntas están las isobaras, más fuerte sopla el viento. Alrededor de la borrasca van cada pocos kilómetros; en el anticiclón están muy separadas. Por eso sopla más en ${nombreCiudad(ronda.bueno)}.`, `The closer the isobars, the stronger the wind. Around the depression they are tightly packed; in the anticyclone they are far apart. That is why it is windier in ${nombreCiudad(ronda.bueno)}.`, `Com més juntes són les isòbares, més fort bufa el vent. Al voltant de la borrasca van molt juntes; a l’anticicló estan molt separades. Per això bufa més a ${nombreCiudad(ronda.bueno)}.`)
+    return letra === 'B'
+      ? tx('B es una borrasca: la presión baja hacia el centro (996 hPa), y trae nubes, lluvia y viento.', 'L marks a depression (in Spanish maps, B for «borrasca»): pressure drops towards the centre (996 hPa), bringing clouds, rain and wind.', 'B és una borrasca: la pressió baixa cap al centre (996 hPa), i porta núvols, pluja i vent.')
+      : tx('A es un anticiclón: la presión sube hacia el centro (1028 hPa), y trae cielo despejado y estabilidad.', 'H marks an anticyclone (in Spanish maps, A for «anticiclón»): pressure rises towards the centre (1028 hPa), bringing clear skies and settled weather.', 'A és un anticicló: la pressió puja cap al centre (1028 hPa), i porta cel serè i estabilitat.')
+  }
   if (ronda.tipo === 'radar') {
     const { kmh, horas, dir } = ronda.datos
     const casillas = (kmh / KM_CASILLA) * horas
@@ -257,6 +312,15 @@ export function explicacion(ronda, l) {
 // Texto para el JSON-LD y «Cómo es este examen»: solo la previsión simple se
 // entiende sin su dibujo.
 export function schemaQuestion(ronda, l) {
+  if (ronda.tipo === 'mapa') {
+    const { tiempo, pregunta } = ronda.datos
+    const prev = ronda.opciones.map(id => `${nombreCiudad(id)} ${tCielo(tiempo[id].cielo, l)} ${tiempo[id].temp} °C`).join('; ')
+    return {
+      question: `${PREGUNTAS_MAPA[pregunta][l] ?? PREGUNTAS_MAPA[pregunta].es} (${prev})`,
+      correctAnswer: nombreCiudad(ronda.bueno),
+      wrongAnswers: ronda.opciones.filter(o => o !== ronda.bueno).map(nombreCiudad),
+    }
+  }
   if (ronda.tipo !== 'simple') return null
   const { temp, viento, lluvia, uv } = ronda.datos
   const cfg = NIVELES[ronda.nivel]
