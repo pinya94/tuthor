@@ -287,6 +287,36 @@ function CambioEstado(p) {
   )
 }
 
+function MedidorPh(p) {
+  const cols = ['#E11D48', '#F97316', '#F59E0B', '#FACC15', '#A3E635', '#22C55E', '#14B8A6', '#06B6D4', '#3B82F6', '#6366F1', '#7C3AED', '#9333EA']
+  return (
+    <Lienzo {...p}>
+      {/* tira de pH con el indicador universal */}
+      {cols.map((c, i) => <rect key={c} x={20 + i * 16.5} y="92" width="16.5" height="20" fill={c} />)}
+      <rect x="20" y="92" width="198" height="20" rx="3" stroke="#0F172A" strokeOpacity=".4" strokeWidth="1.5" />
+      <T x={22} y={124} s={10} c="#94A3B8" a="start">0</T>
+      <T x={119} y={124} s={10} c="#94A3B8">7</T>
+      <T x={216} y={124} s={10} c="#94A3B8" a="end">14</T>
+      {/* marca colocada en el ácido */}
+      <rect x="51" y="86" width="10" height="32" rx="3" fill="#F97316" stroke="#FFFFFF" strokeWidth="2.5" />
+      {/* tubo con zumo de limón, teñido */}
+      <path d="M44 14h24" stroke="#CBD5E1" strokeWidth="3" strokeLinecap="round" />
+      <path d="M47 16v52a9 9 0 0 0 18 0V16" fill="#FFFFFF" fillOpacity=".08" stroke="#CBD5E1" strokeWidth="2.5" />
+      <path d="M49 38v30a7 7 0 0 0 14 0V38Z" fill="#F97316" />
+      <path d="M53 44v20" stroke="#FFFFFF" strokeOpacity=".5" strokeWidth="2" strokeLinecap="round" />
+      {/* limón */}
+      <ellipse cx="102" cy="52" rx="22" ry="16" fill="#FACC15" />
+      <path d="M80 52l-6-2M124 52l6-2" stroke="#EAB308" strokeWidth="4" strokeLinecap="round" />
+      <path d="M92 46q6-4 12 0" stroke="#FEF9C3" strokeWidth="2" strokeLinecap="round" />
+      {/* frasco de lejía, al otro extremo */}
+      <rect x="166" y="34" width="34" height="44" rx="7" fill="#E0E7FF" />
+      <rect x="176" y="24" width="14" height="12" rx="3" fill="#7C3AED" />
+      <rect x="171" y="48" width="24" height="16" rx="3" fill="#7C3AED" fillOpacity=".7" />
+      <Flecha x1={102} y1={72} x2={60} y2={86} c="#FDE68A" w={2.5} />
+    </Lienzo>
+  )
+}
+
 export const ARTE_CIENCIAS = {
   genetica: Genetica,
   'rayos-x': RayosX,
@@ -300,4 +330,5 @@ export const ARTE_CIENCIAS = {
   'balanza-ecuaciones': BalanzaEcuaciones,
   'encuentra-elemento': EncuentraElemento,
   'cambio-estado': CambioEstado,
+  'medidor-ph': MedidorPh,
 }

@@ -124,6 +124,7 @@ const Microscopio            = lazy(() => import('./pages/Microscopio'))
 const PonLaTilde             = lazy(() => import('./pages/PonLaTilde'))
 const CorrigeElTexto         = lazy(() => import('./pages/CorrigeElTexto'))
 const CambioEstado           = lazy(() => import('./pages/CambioEstado'))
+const MedidorPh              = lazy(() => import('./pages/MedidorPh'))
 const Diagnostico            = lazy(() => import('./pages/Diagnostico'))
 const FraccionesTema         = lazy(() => import('./pages/FraccionesTema'))
 const EstadisticaTema        = lazy(() => import('./pages/EstadisticaTema'))
@@ -203,6 +204,7 @@ function AppRoutes() {
       <Route path="juegos/pon-la-tilde" element={<PonLaTilde />} />
       <Route path="juegos/corrige-el-texto" element={<CorrigeElTexto />} />
       <Route path="juegos/cambio-estado" element={<CambioEstado />} />
+      <Route path="juegos/medidor-ph" element={<MedidorPh />} />
       <Route path="juegos/pieza-que-falta" element={<PiezaQueFalta />} />
       <Route path="examen/ingles/:tema/:formato" element={<ExamenTema materia="ingles" />} />
       <Route path="examen/economia/:tema/:formato" element={<ExamenTema materia="economia" />} />

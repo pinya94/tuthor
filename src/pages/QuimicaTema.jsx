@@ -173,6 +173,13 @@ const MODOS_POR_TEMA = {
       detalles: { es:['1 nivel (ESO)','10 preguntas','Opción múltiple','Explicación tras cada respuesta'], en:['1 level (Secondary)','10 questions','Multiple choice','Explanation after each answer'], ca:['1 nivell (ESO)','10 preguntes','Opció múltiple','Explicació després de cada resposta'] },
       path: 'acidos-bases',
     },
+    {
+      id: 'medidor-ph-test', emoji: '🧪', gradient: 'from-lime-500 to-purple-700',
+      titulo: { es:'Medidor de pH (con el juego)', en:'pH Meter (with the game)', ca:'Mesurador de pH (amb el joc)' },
+      descripcion: { es:'Con la mecánica del juego: sitúa limón, lejía, leche o agua de mar en la escala de pH. En el nivel difícil la tira no tiene colores.', en:'Using the game mechanic: place lemon, bleach, milk or seawater on the pH scale. On the hard level the strip has no colours.', ca:'Amb la mecànica del joc: situa llimona, lleixiu, llet o aigua de mar a l’escala de pH. Al nivell difícil la tira no té colors.' },
+      detalles: { es:['3 niveles','10 preguntas','Sin cronómetro','Con el juego'], en:['3 levels','10 questions','No timer','With the game'], ca:['3 nivells','10 preguntes','Sense cronòmetre','Amb el joc'] },
+      path: 'medidor-ph-test',
+    },
   ],
   'atomos-moleculas': [
     {

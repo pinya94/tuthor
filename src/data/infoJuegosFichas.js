@@ -1115,6 +1115,34 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Física', niveles: 'Primaria, ESO, Bachillerato',
   },
+  'medidor-ph': {
+    titulo: 'Medidor de pH',
+    subtitulo: 'Juego de ácidos y bases: la escala de pH con lo que hay en casa',
+    emoji: '🧪', gradient: 'from-lime-500 to-purple-700',
+    path: '/juegos/medidor-ph',
+    intro: 'Un juego de química para que la escala de pH deje de ser una lista de números y pase a ser la cocina y el armario de la limpieza. Sale una sustancia de casa —zumo de limón, refresco de cola, leche, agua de mar, lejía— y hay que tocar o arrastrar la marca hasta su sitio en una tira del 0 al 14, pintada con los colores del indicador universal. En el nivel fácil basta con acertar si es ácida, neutra o básica; en el medio hay que quedarse a 1,5 de su pH real, y en el difícil a 1 y con la tira en gris, porque el color solo aparece al corregir. Son 26 sustancias, del ácido de batería a la sosa cáustica, y cada una deja un dato concreto al responder.',
+    beneficios: [
+      { titulo: 'La escala con objetos reales', texto: 'Saber que por debajo de 7 es ácido no sirve de mucho si no se sabe dónde cae el vinagre o la pasta de dientes. Colocar treinta veces cosas que el alumno ha tocado convierte la escala en un mapa con puntos de referencia: limón en el 2, agua en el 7, lejía en el 12.' },
+      { titulo: 'El color como pista y luego sin ella', texto: 'En los dos primeros niveles la tira tiene los colores del indicador universal, igual que el papel del laboratorio, y el tubo de ensayo se tiñe al mover la marca. En el difícil se quitan: hay que saberse el pH, y el color aparece al corregir para fijarlo.' },
+      { titulo: 'Corrige las ideas de siempre', texto: 'Casi todo el mundo cree que el refresco de cola es suave y que el agua de lluvia es neutra. El juego los coloca donde están —la cola casi como el limón, la lluvia en 5,6 por el CO₂ del aire— y explica por qué en una frase.' },
+    ],
+    ejemplo: 'Sale «Agua de mar». Muchos la ponen en el 7 porque es agua. Al corregir aparece en el 8,1, ligeramente básica, con la explicación: absorbe CO₂ de la atmósfera y su pH está bajando, que es lo que se llama acidificación de los océanos. Un dato de química que es también un dato de cambio climático.',
+    enPapel: {
+      titulo: 'El pH en papel (y en la cocina)',
+      pasos: [
+        'Dibuja una tira del 0 al 14 y colorea las tres zonas: rojo, verde y morado.',
+        'Escribe diez cosas de casa en papelitos y que se coloquen en la tira antes de mirar nada.',
+        'Comprobad con una lista de pH reales y moved los papelitos que estaban mal.',
+        'Si hay lombarda en casa, hervidla: su caldo morado es un indicador que cambia de color con el vinagre y con el bicarbonato.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'El indicador de lombarda', desc: 'El agua de cocer lombarda se vuelve roja con el vinagre y verde con el bicarbonato. Es el mismo principio que la tira del juego, hecho con algo de la nevera.' },
+      { nombre: 'El examen de teoría de ácidos y bases', desc: 'Después de jugar, el examen tipo test repasa la definición de pH, los indicadores y la neutralización con explicación en cada respuesta.' },
+      { nombre: 'Leer etiquetas', desc: 'Champús, geles y cremas suelen indicar «pH neutro» o «pH 5,5». Buscarlo en el baño y situarlo en la tira lleva la escala fuera del cuaderno.' },
+    ],
+    asignatura: 'Química', niveles: 'Primaria, ESO',
+  },
   'encuentra-elemento': {
     titulo: 'Encuentra el Elemento',
     subtitulo: 'Juego de la Tabla Periódica',
@@ -2228,6 +2256,33 @@ export const FICHAS_EN = {
       { nombre: 'The cardboard periscope', desc: 'Two mirrors at 45° inside a cardboard tube make a periscope: the same double bounce as in the game, to look over a fence.' },
     ],
     asignatura: 'Physics', niveles: 'Primary, Secondary, Sixth Form',
+  },
+  'medidor-ph': {
+    titulo: 'pH Meter',
+    subtitulo: 'Acids and bases game: the pH scale with things from home',
+    emoji: '🧪', gradient: 'from-lime-500 to-purple-700', path: '/juegos/medidor-ph',
+    intro: 'A chemistry game that turns the pH scale from a list of numbers into the kitchen and the cleaning cupboard. A household substance appears — lemon juice, cola, milk, seawater, bleach — and you tap or drag the marker to its place on a 0 to 14 strip, painted in universal indicator colours. On easy you only need to say whether it is acidic, neutral or basic; on medium you must land within 1.5 of its real pH, and on hard within 1 with a grey strip, because the colour only appears when corrected. There are 26 substances, from battery acid to caustic soda, and each one leaves a concrete fact when you answer.',
+    beneficios: [
+      { titulo: 'The scale with real objects', texto: 'Knowing that below 7 is acidic is not much use without knowing where vinegar or toothpaste falls. Placing things the student has actually handled turns the scale into a map with landmarks: lemon at 2, water at 7, bleach at 12.' },
+      { titulo: 'Colour as a clue, then without it', texto: 'On the first two levels the strip has universal indicator colours, like the lab paper, and the test tube changes colour as the marker moves. On hard they are removed: you have to know the pH, and the colour appears on correction to make it stick.' },
+      { titulo: 'It fixes the usual misconceptions', texto: 'Almost everyone thinks cola is mild and rainwater is neutral. The game puts them where they belong — cola nearly as acidic as lemon, rain at 5.6 because of CO₂ in the air — and explains why in one sentence.' },
+    ],
+    ejemplo: 'Up comes "Seawater". Many put it at 7 because it is water. On correction it shows at 8.1, slightly basic, with the explanation: it absorbs CO₂ from the atmosphere and its pH is falling, which is what ocean acidification means. A chemistry fact that is also a climate change fact.',
+    enPapel: {
+      titulo: 'pH on paper (and in the kitchen)',
+      pasos: [
+        'Draw a strip from 0 to 14 and colour the three zones: red, green and purple.',
+        'Write ten household things on slips of paper and place them on the strip before checking anything.',
+        'Check against a list of real pH values and move the slips that were wrong.',
+        'If you have red cabbage, boil it: its purple water is an indicator that changes colour with vinegar and baking soda.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'Red cabbage indicator', desc: 'The water from boiling red cabbage turns red with vinegar and green with baking soda. Same principle as the strip in the game, made with something from the fridge.' },
+      { nombre: 'The acids and bases theory exam', desc: 'After playing, the multiple-choice exam revises the definition of pH, indicators and neutralisation, with an explanation for every answer.' },
+      { nombre: 'Read the labels', desc: 'Shampoos, shower gels and creams often say "neutral pH" or "pH 5.5". Finding one in the bathroom and placing it on the strip takes the scale out of the exercise book.' },
+    ],
+    asignatura: 'Chemistry', niveles: 'Primary, Secondary',
   },
   'encuentra-elemento': {
     titulo: 'Find the Element',
@@ -3416,6 +3471,33 @@ export const FICHAS_CA = {
       { nombre: 'El periscopi de cartró', desc: "Dos miralls inclinats 45° dins d'un tub de cartró formen un periscopi: el mateix doble rebot del joc, per mirar per sobre d'una tanca." },
     ],
     asignatura: 'Física', niveles: 'Primària, ESO, Batxillerat',
+  },
+  'medidor-ph': {
+    titulo: 'Mesurador de pH',
+    subtitulo: 'Joc d’àcids i bases: l’escala de pH amb el que hi ha a casa',
+    emoji: '🧪', gradient: 'from-lime-500 to-purple-700', path: '/juegos/medidor-ph',
+    intro: 'Un joc de química perquè l’escala de pH deixi de ser una llista de números i passi a ser la cuina i l’armari de la neteja. Surt una substància de casa —suc de llimona, refresc de cola, llet, aigua de mar, lleixiu— i cal tocar o arrossegar la marca fins al seu lloc en una tira del 0 al 14, pintada amb els colors de l’indicador universal. En el nivell fàcil n’hi ha prou amb encertar si és àcida, neutra o bàsica; en el mitjà cal quedar-se a 1,5 del seu pH real, i en el difícil a 1 i amb la tira en gris, perquè el color només apareix en corregir. Són 26 substàncies, de l’àcid de bateria a la sosa càustica, i cadascuna deixa una dada concreta en respondre.',
+    beneficios: [
+      { titulo: 'L’escala amb objectes reals', texto: 'Saber que per sota de 7 és àcid no serveix de gaire si no se sap on cau el vinagre o la pasta de dents. Col·locar coses que l’alumne ha tocat converteix l’escala en un mapa amb punts de referència: llimona al 2, aigua al 7, lleixiu al 12.' },
+      { titulo: 'El color com a pista i després sense', texto: 'En els dos primers nivells la tira té els colors de l’indicador universal, com el paper del laboratori, i el tub d’assaig es tenyeix en moure la marca. En el difícil es treuen: cal saber-se el pH, i el color apareix en corregir per fixar-lo.' },
+      { titulo: 'Corregeix les idees de sempre', texto: 'Gairebé tothom creu que el refresc de cola és suau i que l’aigua de pluja és neutra. El joc els col·loca on són —la cola gairebé com la llimona, la pluja a 5,6 pel CO₂ de l’aire— i explica per què en una frase.' },
+    ],
+    ejemplo: 'Surt «Aigua de mar». Molts la posen al 7 perquè és aigua. En corregir apareix al 8,1, lleugerament bàsica, amb l’explicació: absorbeix CO₂ de l’atmosfera i el seu pH està baixant, que és el que s’anomena acidificació dels oceans. Una dada de química que també és una dada de canvi climàtic.',
+    enPapel: {
+      titulo: 'El pH en paper (i a la cuina)',
+      pasos: [
+        'Dibuixa una tira del 0 al 14 i pinta les tres zones: vermell, verd i morat.',
+        'Escriu deu coses de casa en paperets i que es col·loquin a la tira abans de mirar res.',
+        'Comproveu-ho amb una llista de pH reals i moveu els paperets que estaven malament.',
+        'Si teniu col llombarda, bulliu-la: el seu brou morat és un indicador que canvia de color amb el vinagre i amb el bicarbonat.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'L’indicador de col llombarda', desc: 'L’aigua de bullir col llombarda es torna vermella amb el vinagre i verda amb el bicarbonat. És el mateix principi que la tira del joc, fet amb una cosa de la nevera.' },
+      { nombre: 'L’examen de teoria d’àcids i bases', desc: 'Després de jugar, l’examen tipus test repassa la definició de pH, els indicadors i la neutralització amb explicació a cada resposta.' },
+      { nombre: 'Llegir etiquetes', desc: 'Xampús, gels i cremes solen indicar «pH neutre» o «pH 5,5». Buscar-ho al bany i situar-ho a la tira porta l’escala fora del quadern.' },
+    ],
+    asignatura: 'Química', niveles: 'Primària, ESO',
   },
   'encuentra-elemento': {
     titulo: 'Troba l\'Element',
