@@ -24,6 +24,7 @@ import QuizSchema from './QuizSchema'
 import { skillsFor } from '../data/exerciseSkills'
 import AuthModal from './AuthModal'
 import { ordenOpciones } from '../lib/ordenOpciones'
+import EjemplosExamen from './EjemplosExamen'
 
 const TOTAL      = 10
 const MAX_ERRORS = 2
@@ -165,6 +166,18 @@ export default function ExamenMC({ titulo, emoji, nivelInfo, backFallback, gameI
     })
   }, [nivelInfo, lang])
 
+  // El banco entero sin repetidas (el nivel alto suele ser el banco completo,
+  // que incluye el bajo) y cuántas tiene cada nivel: para «Cómo es este examen».
+  const banco = useMemo(() => {
+    const vistas = new Set()
+    return Object.values(nivelInfo).flatMap(n => n.pool()).filter(q => {
+      const k = q.id ?? get(q.pregunta, 'es')
+      if (vistas.has(k)) return false
+      vistas.add(k); return true
+    })
+  }, [nivelInfo])
+  const nivelesResumen = Object.values(nivelInfo).map(n => ({ label: get(n.label, lang), total: n.pool().length }))
+
   // Qué se practica (schema.org `teaches`). El id de examen suele coincidir
   // con el del juego; cuando lleva el sufijo "-test" se prueba también sin él
   // ("analiza-frases-test" → "analiza-frases"). Si no hay ficha, no se
@@ -290,6 +303,7 @@ export default function ExamenMC({ titulo, emoji, nivelInfo, backFallback, gameI
             {en ? '← Back' : '← Volver'}
           </button>
         </div>
+        <EjemplosExamen niveles={nivelesResumen} preguntas={banco} titulo={tituloStr} />
       </div>
     )
   }

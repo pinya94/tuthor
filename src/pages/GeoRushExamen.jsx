@@ -5,6 +5,8 @@ import { useAuth } from '../context/AuthContext'
 import { saveActivity } from '../lib/activity'
 import { PAISES, NOMBRES_PAISES } from '../data/paises'
 import PageMeta from '../components/PageMeta'
+import { SelectorExamen } from '../components/SobreExamen'
+import SEOHead from '../components/SEOHead'
 
 const REGION_FILTER = {
   europa:  p => p.continente === 'Europa' || p.continente === 'Europa/Asia',
@@ -15,6 +17,14 @@ const REGION_FILTER = {
 }
 
 const TOTAL = 10
+
+const REGIONES = [
+  { id: 'europa',  label: { es: 'Europa',  en: 'Europe',  ca: 'Europa' } },
+  { id: 'america', label: { es: 'América', en: 'America', ca: 'Amèrica' } },
+  { id: 'asia',    label: { es: 'Asia',    en: 'Asia',    ca: 'Àsia' } },
+  { id: 'africa',  label: { es: 'África',  en: 'Africa',  ca: 'Àfrica' } },
+  { id: 'oceania', label: { es: 'Oceanía', en: 'Oceania', ca: 'Oceania' } },
+]
 
 function shuffle(arr) {
   const a = [...arr]
@@ -125,7 +135,37 @@ function AutocompleteInput({ value, onChange, onSubmit, disabled, focusKey }) {
   )
 }
 
+// Sin región (entrada directa o desde el buscador): se explica el examen y se
+// elige una. El key reinicia el examen entero al cambiar de región.
 export default function GeoRushExamen() {
+  const location = useLocation()
+  const navigate = useNavigate()
+  const { tr } = useLang()
+  const region = location.state?.region
+  if (REGION_FILTER[region]) return <GeoRushPartida key={region} />
+  return (
+    <>
+      <SEOHead title={tr({ es: 'Examen de países por pistas — GeoRush', en: 'Guess the country from clues — GeoRush exam', ca: 'Examen de països per pistes — GeoRush' })}
+        description={tr({ es: 'Adivina el país con pistas: hemisferio, superficie, población, guerras mundiales, y después un río, una montaña o su idioma. Elige continente: 10 países.', en: 'Guess the country from clues: hemisphere, area, population, world wars, then a river, a mountain or its language. Pick a continent: 10 countries.', ca: 'Endevina el país amb pistes: hemisferi, superfície, població, guerres mundials, i després un riu, una muntanya o el seu idioma. Tria continent: 10 països.' })}
+        path="/examen/geografia" />
+      <SelectorExamen emoji="🌍"
+        titulo={{ es: 'Adivina el país por pistas', en: 'Guess the country from clues', ca: 'Endevina el país per pistes' }}
+        intro={{ es: 'Elige un continente para empezar', en: 'Choose a continent to start', ca: 'Tria un continent per començar' }}
+        opciones={REGIONES.filter(r => PAISES.filter(REGION_FILTER[r.id]).length >= TOTAL).map(r => ({ ...r, sub: { es: PAISES.filter(REGION_FILTER[r.id]).length + ' países', en: PAISES.filter(REGION_FILTER[r.id]).length + ' countries', ca: PAISES.filter(REGION_FILTER[r.id]).length + ' països' } }))}
+        onElegir={r => navigate(location.pathname, { state: { ...location.state, region: r.id, titulo: tr(r.label) } })}
+        parrafos={[
+          { es: 'Cada pregunta es un país escondido. Primero salen pistas de razonar —en qué hemisferio está, si tiene más o menos habitantes o kilómetros cuadrados que una cifra de referencia, si participó en las guerras mundiales— y, si no lo sabes, se destapan otras más concretas: una montaña, un río, su idioma o algo por lo que es famoso. Cuantas menos pistas necesites, mejor.',
+            en: 'Each question is a hidden country. First come clues to reason with — which hemisphere it is in, whether it has more or fewer inhabitants or square kilometres than a reference figure, whether it fought in the world wars — and if you do not know, more specific ones are revealed: a mountain, a river, its language or something it is famous for. The fewer clues you need, the better.',
+            ca: 'Cada pregunta és un país amagat. Primer surten pistes de raonar —en quin hemisferi és, si té més o menys habitants o quilòmetres quadrats que una xifra de referència, si va participar en les guerres mundials— i, si no el saps, se’n destapen d’altres més concretes: una muntanya, un riu, el seu idioma o alguna cosa per la qual és famós. Com menys pistes necessitis, millor.' },
+          { es: 'Es una forma de repasar geografía razonando, no solo memorizando: las pistas obligan a pensar en tamaños, poblaciones y posiciones relativas. Se responde escribiendo el nombre del país.',
+            en: 'It is a way to revise geography by reasoning, not just memorising: the clues make you think about sizes, populations and relative positions. You answer by typing the country’s name.',
+            ca: 'És una manera de repassar geografia raonant, no només memoritzant: les pistes obliguen a pensar en mides, poblacions i posicions relatives. Es respon escrivint el nom del país.' },
+        ]} />
+    </>
+  )
+}
+
+function GeoRushPartida() {
   const navigate = useNavigate()
   const { lang, localPath } = useLang()
   const { user } = useAuth()

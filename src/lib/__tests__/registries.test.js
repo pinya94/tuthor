@@ -372,6 +372,12 @@ describe('hub de fichas (/info/juegos) ↔ registro de fichas', () => {
     }
   })
 
+  it('la lista ligera de slugs con ficha coincide con el registro', async () => {
+    const { FICHAS_ES } = await import('../../data/infoJuegosFichas.js')
+    const { FICHAS_JUEGO_SLUGS } = await import('../../data/fichasJuegoSlugs.js')
+    expect([...FICHAS_JUEGO_SLUGS].sort()).toEqual(Object.keys(FICHAS_ES).sort())
+  })
+
   it('toda ficha tiene su URL /info/juegos/<slug> en el sitemap', async () => {
     const { FICHAS_ES } = await import('../../data/infoJuegosFichas.js')
     for (const slug of Object.keys(FICHAS_ES)) {

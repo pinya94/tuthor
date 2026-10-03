@@ -1,4 +1,5 @@
 import { useState, useEffect, lazy, Suspense } from 'react'
+import SobreExamenAuto from './components/SobreExamenAuto'
 import { BrowserRouter, Routes, Route, useLocation, Navigate } from 'react-router-dom'
 import { Analytics } from '@vercel/analytics/react'
 import Particles from './components/Particles'
@@ -388,6 +389,7 @@ function Layout({ onConsent }) {
         <Route path="/ca">{AppRoutes()}</Route>
         <Route path="*" element={<NotFound />} />
       </Routes>
+      <SobreExamenAuto />
     </Suspense>
     </AccessGate>
   )

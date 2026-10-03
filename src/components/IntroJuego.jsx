@@ -21,7 +21,10 @@ export function ComoSeJuega({ children }) {
         {abierto ? tr({ es: 'Ocultar', en: 'Hide', ca: 'Amagar' }) : tr({ es: '¿Cómo se juega?', en: 'How to play', ca: 'Com es juga?' })}
         <svg viewBox="0 0 24 24" className={`w-4 h-4 transition-transform ${abierto ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 9l6 6 6-6" /></svg>
       </button>
-      {abierto && <div className="mt-2 space-y-4 text-left">{children}</div>}
+      {/* Siempre en el HTML, solo oculto: con «abierto &&» el texto no existía
+          hasta pulsar, y el buscador veía cada juego como un título y un botón
+          (~200 caracteres; memoria «adsense-contenido-poco-valor»). */}
+      <div hidden={!abierto} className="mt-2 space-y-4 text-left">{children}</div>
     </div>
   )
 }

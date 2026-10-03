@@ -1,0 +1,16 @@
+// Slugs con ficha en /info/juegos/<slug>, sin cargar infoJuegosFichas.js (400 KB):
+// lo usan los exámenes para enlazar a la guía del juego. Un test comprueba que
+// coincide con las claves de FICHAS_ES; si falla, añade aquí el slug nuevo.
+export const FICHAS_JUEGO_SLUGS = new Set([
+  'acercate', 'analiza-frases', 'balanza', 'balanza-algebraica',
+  'balanza-ecuaciones', 'cadena-alimentaria', 'cambio-estado',
+  'circuito-cerrado', 'coordenadas', 'corrige-el-texto', 'el-cambio',
+  'encuentra-elemento', 'epocas-historicas', 'escalera-unidades',
+  'estadistico-expres', 'fuerza-neta', 'funciones-grafica', 'genetica',
+  'geomapa', 'georush', 'intruso', 'lee-el-grafico', 'linea-temporal',
+  'medidor-ph', 'menor-a-mayor', 'microscopio', 'numeros-romanos', 'numpath',
+  'orbita', 'ordena-frase', 'pentagrama-path', 'pieza-que-falta',
+  'pon-la-tilde', 'portadas', 'portero', 'quien-es-quien', 'rayo-de-luz',
+  'rayos-x', 'reaccion', 'redondeo', 'reloj-horas', 'reparte-pastel',
+  'salta-recta', 'spicy', 'tablas-multiplicar', 'trayectoria', 'tuthor-time',
+])

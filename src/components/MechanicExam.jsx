@@ -28,6 +28,7 @@ import { skillsFor } from '../data/exerciseSkills'
 import { ArteJuego, ARTE_JUEGOS, slugDeRuta } from './arte'
 import { Lista, Bombilla, Trofeo, BarrasNivel, AnilloNota } from './Iconos'
 import { nivelDeClave, esClaveDeNivel } from '../lib/niveles'
+import { FICHAS_JUEGO_SLUGS } from '../data/fichasJuegoSlugs'
 
 const TOTAL = 10
 // Rondas de ejemplo por nivel que se publican en el JSON-LD. Con 3 niveles
@@ -58,7 +59,57 @@ const L = {
   retry:  { es: '▶ Repetir examen', en: '▶ Retry exam', ca: '▶ Repetir examen' },
 }
 
-function Intro({ badge, title, sub, levels, onSelect, backGamePath, backLabel, arte, l }) {
+// «Cómo es este examen», debajo de los niveles. Antes, lo único que veía el
+// buscador en estas páginas eran ~500 caracteres de plantilla (los tres
+// rótulos fijos y los niveles): ver EjemplosExamen.jsx y la memoria
+// «adsense-contenido-poco-valor». Aquí va la descripción propia del examen,
+// los niveles en prosa, las rondas de ejemplo en texto cuando el examen sabe
+// describirlas (schemaQuestion) y el enlace a la guía del juego.
+function ComoEsExamen({ desc, levels, ejemplos, slug, titulo, l }) {
+  const { localPath } = useLang()
+  const t = o => tr(o, l)
+  const ficha = slug && FICHAS_JUEGO_SLUGS.has(slug)
+  return (
+    <section className="max-w-md w-full mt-10 text-left">
+      <h2 className="text-white font-bold text-lg mb-2">{t({ es: 'Cómo es este examen', en: 'What this exam is like', ca: 'Com és aquest examen' })}</h2>
+      <p className="text-white/55 text-sm leading-relaxed mb-3">{desc}</p>
+      {levels.length > 1 && (
+        <ul className="text-white/55 text-sm leading-relaxed mb-5 list-disc pl-5 space-y-1">
+          {levels.map(lv => <li key={lv.key}><b className="text-white/80">{t(lv.label)}:</b> {t(lv.hint)}</li>)}
+        </ul>
+      )}
+      {ejemplos.length > 0 && (
+        <>
+          <h3 className="text-white/40 text-xs uppercase tracking-widest mb-3">{t({ es: 'Preguntas de ejemplo', en: 'Sample questions', ca: 'Preguntes d’exemple' })}</h3>
+          <ol className="space-y-3 mb-5">
+            {ejemplos.map((q, i) => {
+              const opciones = q.wrongAnswers?.length ? [q.correctAnswer, ...q.wrongAnswers].sort((a, b) => String(a).localeCompare(String(b), l)) : []
+              return (
+                <li key={i} className="rounded-2xl bg-[#141b2e] border border-white/[0.08] p-4">
+                  <p className="text-white font-semibold text-sm mb-2">{i + 1}. {q.question}</p>
+                  {opciones.length > 0 && (
+                    <ul className="text-white/60 text-sm space-y-1 mb-2 list-disc pl-5">{opciones.map(o => <li key={o}>{o}</li>)}</ul>
+                  )}
+                  <details className="text-sm">
+                    <summary className="cursor-pointer text-[#EDAE49] font-semibold select-none">{t({ es: 'Ver la respuesta', en: 'Show the answer', ca: 'Veure la resposta' })}</summary>
+                    <p className="text-green-400 font-semibold mt-2">✅ {q.correctAnswer}</p>
+                  </details>
+                </li>
+              )
+            })}
+          </ol>
+        </>
+      )}
+      {ficha && (
+        <Link to={localPath('/info/juegos/' + slug)} className="text-[#EDAE49] text-sm font-semibold hover:underline">
+          {t({ es: 'Guía de ' + titulo + ': cómo se juega y qué se aprende →', en: titulo + ' guide: how to play and what you learn →', ca: 'Guia de ' + titulo + ': com es juga i què s’aprèn →' })}
+        </Link>
+      )}
+    </section>
+  )
+}
+
+function Intro({ badge, title, sub, levels, onSelect, backGamePath, backLabel, arte, l, desc, ejemplos, slug }) {
   // Un solo nivel = la mecánica no tiene un eje de dificultad real que
   // ofrecer (p.ej. Órbita: acierto/fallo binario, no hay "más o menos
   // preciso" con sentido). En ese caso no tiene sentido la pantalla de
@@ -115,6 +166,7 @@ function Intro({ badge, title, sub, levels, onSelect, backGamePath, backLabel, a
           {backLabel ? tr(backLabel, l) : tr(L.back, l)}
         </Link>
       </div>
+      <ComoEsExamen desc={desc} levels={levels} ejemplos={ejemplos} slug={slug} titulo={sinEmoji(tr(title, l)).replace(/^(Examen|Exam)s*(de |d’|:)?s*/i, '')} l={l} />
     </div>
   )
 }
@@ -269,7 +321,13 @@ export default function MechanicExam({
   const slug = slugDeRuta(backGamePath)
   const arte = slug && ARTE_JUEGOS[slug] ? slug : null
 
-  if (screen === 'intro') return <>{pageMeta}{quizSchema}<Intro badge={badge} title={title} sub={sub} levels={levels} onSelect={startExam} backGamePath={backGamePath} backLabel={backLabel} arte={arte} l={l} /></>
+  // Una ronda de ejemplo por nivel (hasta 3), de las que ya se generan para el schema.
+  const ejemplos = (() => {
+    if (!schemaQuestions) return []
+    const por = Math.max(1, Math.floor(schemaQuestions.length / Math.max(1, levels.length)))
+    return levels.map((_, i) => schemaQuestions[i * por]).filter(Boolean).slice(0, 3)
+  })()
+  if (screen === 'intro') return <>{pageMeta}{quizSchema}<Intro badge={badge} title={title} sub={sub} levels={levels} onSelect={startExam} backGamePath={backGamePath} backLabel={backLabel} arte={arte} l={l} desc={tr(metaDesc, l)} ejemplos={ejemplos} slug={slugDeRuta(backGamePath)} /></>
   if (screen === 'end') return (
     <>{pageMeta}{quizSchema}
       <ExamEnd score={score} results={results} onRetry={() => startExam(diffRef.current)} backGamePath={backGamePath} playLabel={playLabel} title={title} arte={arte} l={l} />

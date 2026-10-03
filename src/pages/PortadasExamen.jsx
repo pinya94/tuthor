@@ -5,6 +5,8 @@ import { useAuth } from '../context/AuthContext'
 import { saveActivity } from '../lib/activity'
 import { PORTADAS } from '../data/portadas'
 import PageMeta from '../components/PageMeta'
+import { SelectorExamen } from '../components/SobreExamen'
+import SEOHead from '../components/SEOHead'
 
 const CAT_STYLE = {
   política:   'bg-blue-500/20 text-blue-300 border-blue-500/30',
@@ -74,7 +76,47 @@ function PortadaCard({ p, lang, lt }) {
 
 const TOTAL = 10
 
+// Temas con portadas suficientes para un examen de 10.
+const TEMAS_PORTADAS = [
+  { id: 'primaria',     label: { es: 'Grandes hitos de la historia', en: 'Great milestones of history', ca: 'Grans fites de la història' } },
+  { id: 'gce',          label: { es: 'Guerra Civil Española', en: 'Spanish Civil War', ca: 'Guerra Civil Espanyola' } },
+  { id: 'wwii',         label: { es: 'Segunda Guerra Mundial', en: 'World War II', ca: 'Segona Guerra Mundial' } },
+  { id: 'franquismo',   label: { es: 'Franquismo y Transición', en: 'Francoism & Transition', ca: 'Franquisme i Transició' } },
+  { id: 'usa',          label: { es: 'Independencia de EE. UU.', en: 'American Independence', ca: 'Independència dels EUA' } },
+  { id: 'edad-moderna', label: { es: 'Edad Moderna', en: 'The Early Modern Period', ca: 'Edat Moderna' } },
+]
+
+// Sin tema (entrada directa o desde el buscador): se explica y se elige.
 export default function PortadasExamen() {
+  const location = useLocation()
+  const navigate = useNavigate()
+  const { tr } = useLang()
+  const categoria = location.state?.categoria
+  const n = id => PORTADAS.filter(p => p.temas?.includes(id)).length
+  if (categoria && n(categoria) >= TOTAL) return <PortadasPartida key={categoria} />
+  return (
+    <>
+      <SEOHead title={tr({ es: 'Examen de portadas históricas: ¿real o inventada?', en: 'Historical front pages exam: real or fake?', ca: 'Examen de portades històriques: real o inventada?' })}
+        description={tr({ es: 'Titulares de periódico de momentos históricos: decide si la portada es real o si tiene un dato cambiado. Por temas: Guerra Civil, Segunda Guerra Mundial, Transición…', en: 'Newspaper headlines from historic moments: decide whether the front page is real or has a detail changed. By topic: Spanish Civil War, WWII, Transition…', ca: 'Titulars de diari de moments històrics: decideix si la portada és real o si té una dada canviada. Per temes: Guerra Civil, Segona Guerra Mundial, Transició…' })}
+        path="/examen/portadas" />
+      <SelectorExamen emoji="📰"
+        titulo={{ es: 'Portadas históricas: ¿real o inventada?', en: 'Historical front pages: real or fake?', ca: 'Portades històriques: real o inventada?' }}
+        intro={{ es: 'Elige un tema para empezar', en: 'Choose a topic to start', ca: 'Tria un tema per començar' }}
+        opciones={TEMAS_PORTADAS.filter(t => n(t.id) >= TOTAL).map(t => ({ ...t, sub: { es: n(t.id) + ' portadas', en: n(t.id) + ' front pages', ca: n(t.id) + ' portades' } }))}
+        onElegir={t => navigate(location.pathname, { state: { ...location.state, categoria: t.id } })}
+        parrafos={[
+          { es: 'Cada pregunta es la portada de un periódico del día de un acontecimiento histórico: el fin de una guerra, una proclamación, unas elecciones. Algunas son tal cual se publicaron y otras tienen un dato cambiado —la fecha, el lugar, el protagonista—. Hay que decidir si es real o falsa, y después se explica qué pasó de verdad.',
+            en: 'Each question is the front page of a newspaper on the day of a historic event: the end of a war, a proclamation, an election. Some are exactly as published and others have one detail changed — the date, the place, the person. You decide whether it is real or fake, and then what really happened is explained.',
+            ca: 'Cada pregunta és la portada d’un diari del dia d’un fet històric: la fi d’una guerra, una proclamació, unes eleccions. Algunes són tal com es van publicar i d’altres tenen una dada canviada —la data, el lloc, el protagonista—. Cal decidir si és real o falsa, i després s’explica què va passar de debò.' },
+          { es: 'Obliga a leer con atención y a contrastar con lo que se sabe, que es justo lo que pide el trabajo con fuentes en Historia: no basta con recordar el hecho, hay que saber detectar cuándo un dato no encaja con su época.',
+            en: 'It makes you read carefully and check against what you know, which is exactly what working with sources in History requires: remembering the event is not enough, you have to spot when a detail does not fit its time.',
+            ca: 'Obliga a llegir amb atenció i a contrastar amb el que se sap, que és just el que demana el treball amb fonts a Història: no n’hi ha prou de recordar el fet, cal saber detectar quan una dada no encaixa amb la seva època.' },
+        ]} />
+    </>
+  )
+}
+
+function PortadasPartida() {
   const navigate   = useNavigate()
   const { lang, localPath, lt } = useLang()
   const { user } = useAuth()

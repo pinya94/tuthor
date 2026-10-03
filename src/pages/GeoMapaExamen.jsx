@@ -6,6 +6,8 @@ import { saveActivity } from '../lib/activity'
 import { PAISES, NOMBRES_PAISES, NOMBRES_PAISES_EN } from '../data/paises'
 import WorldMap from '../components/WorldMap'
 import PageMeta from '../components/PageMeta'
+import { SelectorExamen } from '../components/SobreExamen'
+import SEOHead from '../components/SEOHead'
 
 const REGION_FILTER = {
   europa:  p => p.continente === 'Europa' || p.continente === 'Europa/Asia',
@@ -14,6 +16,14 @@ const REGION_FILTER = {
   africa:  p => p.continente === 'África',
   oceania: p => p.continente === 'Oceanía',
 }
+
+const REGIONES = [
+  { id: 'europa',  label: { es: 'Europa',  en: 'Europe',  ca: 'Europa' } },
+  { id: 'america', label: { es: 'América', en: 'America', ca: 'Amèrica' } },
+  { id: 'asia',    label: { es: 'Asia',    en: 'Asia',    ca: 'Àsia' } },
+  { id: 'africa',  label: { es: 'África',  en: 'Africa',  ca: 'Àfrica' } },
+  { id: 'oceania', label: { es: 'Oceanía', en: 'Oceania', ca: 'Oceania' } },
+]
 
 const TOTAL = 10
 const MIN_AREA = 30000
@@ -102,7 +112,36 @@ function AutocompleteInput({ value, onChange, onSubmit, disabled, focusKey, lang
   )
 }
 
+// Sin región (entrada directa o desde el buscador): se explica y se elige.
 export default function GeoMapaExamen() {
+  const location = useLocation()
+  const navigate = useNavigate()
+  const { tr } = useLang()
+  const region = location.state?.region
+  if (REGION_FILTER[region]) return <GeoMapaPartida key={region} />
+  return (
+    <>
+      <SEOHead title={tr({ es: 'Examen de mapa: países del mundo', en: 'Map exam: countries of the world', ca: 'Examen de mapa: països del món' })}
+        description={tr({ es: 'Se ilumina un país en el mapa y hay que escribir cuál es. Elige continente: 10 países, tres intentos por país y la capital como ayuda.', en: 'A country lights up on the map and you type which one it is. Pick a continent: 10 countries, three tries each and the capital as a hint.', ca: 'S’il·lumina un país al mapa i cal escriure quin és. Tria continent: 10 països, tres intents per país i la capital com a ajuda.' })}
+        path="/examen/geomapa" />
+      <SelectorExamen emoji="🗺️"
+        titulo={{ es: 'Examen de mapa: ¿qué país es?', en: 'Map exam: which country is it?', ca: 'Examen de mapa: quin país és?' }}
+        intro={{ es: 'Elige un continente para empezar', en: 'Choose a continent to start', ca: 'Tria un continent per començar' }}
+        opciones={REGIONES.filter(r => PAISES.filter(p => REGION_FILTER[r.id](p) && p.area >= MIN_AREA).length >= TOTAL)}
+        onElegir={r => navigate(location.pathname, { state: { ...location.state, region: r.id, titulo: tr(r.label) } })}
+        parrafos={[
+          { es: 'En el mapa del continente se marca un país y hay que escribir su nombre. Tienes tres intentos; si fallas, puedes ver su capital como pista. Solo entran países de un tamaño que se distinga bien en el mapa, para que el examen pruebe si sabes situarlos y no tu vista.',
+            en: 'A country is highlighted on the continent map and you type its name. You get three tries; if you miss, you can see its capital as a hint. Only countries big enough to see clearly on the map are included, so the exam tests whether you can place them, not your eyesight.',
+            ca: 'Al mapa del continent es marca un país i cal escriure’n el nom. Tens tres intents; si falles, pots veure’n la capital com a pista. Només hi entren països d’una mida que es distingeixi bé al mapa, perquè l’examen provi si els saps situar i no la teva vista.' },
+          { es: 'Situar un país es lo que más cuesta de la geografía política: muchos alumnos saben nombres y capitales pero no dónde está cada uno. Repetir el examen con el mismo continente fija el mapa mental mucho mejor que mirarlo.',
+            en: 'Placing a country is the hardest part of political geography: many students know names and capitals but not where each one is. Repeating the exam with the same continent fixes the mental map far better than just looking at it.',
+            ca: 'Situar un país és el que més costa de la geografia política: molts alumnes saben noms i capitals però no on és cadascun. Repetir l’examen amb el mateix continent fixa el mapa mental molt millor que mirar-lo.' },
+        ]} />
+    </>
+  )
+}
+
+function GeoMapaPartida() {
   const navigate = useNavigate()
   const { lang, localPath, lt } = useLang()
   const { user } = useAuth()
