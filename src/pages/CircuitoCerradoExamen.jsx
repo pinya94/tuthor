@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import MechanicExam from '../components/MechanicExam'
 import CircuitoDiagrama, { siguienteEstado, Leyenda } from '../components/CircuitoDiagrama'
-import { genRound, isCorrect, motivoRonda, MOTIVOS, ESTADO_LABELS } from '../lib/circuito'
+import { genRound, isCorrect, explicacion, ESTADO_LABELS } from '../lib/circuito'
 
 const est = (estado, l) => ESTADO_LABELS[estado]?.[l] ?? ESTADO_LABELS[estado]?.es
 
@@ -49,21 +49,21 @@ function CircuitoPregunta({ round, phase, onAnswer, l }) {
         {l === 'en' ? 'Which bulbs light up?' : l === 'ca' ? 'Quines bombetes s\'encenen?' : '¿Qué bombillas se encienden?'}
       </p>
       <div className="mb-2">
-        <Leyenda labels={{ apagada: est('apagada', l), encendida: est('encendida', l) }} />
+        <Leyenda labels={{ apagada: est('apagada', l), encendida: est('encendida', l), fundida: round.fundidas?.length ? ({ es: 'fundida', en: 'blown', ca: 'fosa' }[l] ?? 'fundida') : null }} />
       </div>
       <div className="relative rounded-2xl overflow-hidden border border-white/[0.08] bg-[#141b2e] mb-3">
         <CircuitoDiagrama round={round} prediccion={prediccion} onToggle={toggle} revelado={revelado} />
-        {revelado && (
-          <div className="absolute inset-x-0 bottom-0 bg-black/75 backdrop-blur-sm p-2 text-center">
-            <p className={`font-black ${acierto ? 'text-green-400' : 'text-red-400'}`}>
-              {acierto ? '🎉 ¡Correcto!' : '❌ No del todo'}
-            </p>
-            <p className="text-white/70 text-xs mt-0.5 leading-snug max-w-[440px] mx-auto">
-              {MOTIVOS[motivoRonda(round)]?.[l] ?? MOTIVOS[motivoRonda(round)]?.es}
-            </p>
-          </div>
-        )}
       </div>
+      {revelado && (
+        <div className="rounded-xl bg-white/5 border border-white/10 p-3 mb-3">
+          <p className={`font-black text-center ${acierto ? 'text-green-400' : 'text-red-400'}`}>
+            {acierto ? ({ es: '🎉 ¡Correcto!', en: '🎉 Correct!', ca: '🎉 Correcte!' }[l] ?? '🎉 ¡Correcto!') : ({ es: '❌ No del todo', en: '❌ Not quite', ca: '❌ No del tot' }[l] ?? '❌ No del todo')}
+          </p>
+          <ul className="text-white/70 text-xs mt-1.5 leading-snug space-y-0.5">
+            {explicacion(round, l).map(linea => <li key={linea}>💡 {linea}</li>)}
+          </ul>
+        </div>
+      )}
       {!revelado && (
         <button onClick={() => onAnswer(prediccion)}
           className="w-full py-3 rounded-xl bg-[#EDAE49] text-black font-black hover:bg-amber-400 transition">

@@ -4,7 +4,7 @@ import { useLang } from '../context/LangContext'
 import { useAuth } from '../context/AuthContext'
 import { saveActivity } from '../lib/activity'
 import { computeCoins } from '../lib/games'
-import { genRound, isCorrect, motivoRonda, MOTIVOS, ESTADO_LABELS } from '../lib/circuito'
+import { genRound, isCorrect, explicacion, ESTADO_LABELS } from '../lib/circuito'
 import GameEndScreen from '../components/GameEndScreen'
 import CircuitoDiagrama, { siguienteEstado, Leyenda } from '../components/CircuitoDiagrama'
 import SupportBlock from '../components/SupportBlock'
@@ -37,6 +37,7 @@ const C = {
   confirm:{ es: 'Confirmar →', en: 'Confirm →', ca: 'Confirmar →' },
   allRight:{ es: '¡Correcto!', en: 'Correct!', ca: 'Correcte!' },
   wrong:  { es: 'No del todo', en: 'Not quite', ca: 'No del tot' },
+  fundida:{ es: 'fundida', en: 'blown', ca: 'fosa' },
   next:   { es: 'Siguiente →', en: 'Next →', ca: 'Següent →' },
   end:    { es: 'Tiempo', en: "Time's up", ca: 'Temps' },
   hits:   { es: 'aciertos', en: 'correct', ca: 'encerts' },
@@ -49,9 +50,9 @@ function T(k, l) { return C[k]?.[l] ?? C[k]?.es ?? k }
 const est = (estado, l) => ESTADO_LABELS[estado]?.[l] ?? ESTADO_LABELS[estado]?.es
 
 const DIFS = {
-  facil:   { emoji: '🟢', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' }, desc: { es: 'Una bombilla: un interruptor, dos en serie (Y) o dos caminos (O)', en: 'One bulb: one switch, two in series (AND) or two paths (OR)', ca: 'Una bombeta: un interruptor, dos en sèrie (I) o dos camins (O)' } },
-  medio:   { emoji: '🟡', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' }, desc: { es: 'Dos bombillas: en serie, en paralelo o cada una con su interruptor', en: 'Two bulbs: in series, in parallel or each with its own switch', ca: 'Dues bombetes: en sèrie, en paral·lel o cadascuna amb el seu interruptor' } },
-  dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' }, desc: { es: 'Recorridos con trampa: atajos que cortocircuitan bombillas', en: 'Tricky paths: shortcuts that short-circuit bulbs', ca: 'Recorreguts amb trampa: dreceres que curtcircuiten bombetes' } },
+  facil:   { emoji: '🟢', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' }, desc: { es: 'Un solo camino: uno o dos interruptores en serie (Y) o en paralelo (O)', en: 'A single path: one or two switches in series (AND) or in parallel (OR)', ca: 'Un sol camí: un o dos interruptors en sèrie (I) o en paral·lel (O)' } },
+  medio:   { emoji: '🟡', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' }, desc: { es: 'Ramas en paralelo, troncos comunes y hasta cuatro bombillas', en: 'Parallel branches, shared trunks and up to four bulbs', ca: 'Branques en paral·lel, troncs comuns i fins a quatre bombetes' } },
+  dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' }, desc: { es: 'Atajos que cortocircuitan, bombillas fundidas y caminos anidados', en: 'Short-circuiting shortcuts, blown bulbs and nested paths', ca: 'Dreceres que curtcircuiten, bombetes foses i camins niats' } },
 }
 
 function DifficultyScreen({ onSelect, l }) {
@@ -265,22 +266,23 @@ export default function CircuitoCerrado() {
 
       {/* Leyenda de los tres estados — para leer la potencia de un vistazo */}
       <div className="w-full max-w-[520px] mb-2">
-        <Leyenda labels={{ apagada: est('apagada', l), encendida: est('encendida', l) }} />
+        <Leyenda labels={{ apagada: est('apagada', l), encendida: est('encendida', l), fundida: round.fundidas?.length ? T('fundida', l) : null }} />
       </div>
 
       {/* Circuito */}
       <div className="relative w-full max-w-[520px] rounded-2xl overflow-hidden border border-white/[0.08] bg-[#141b2e] mb-3">
         <CircuitoDiagrama round={round} prediccion={prediccion} onToggle={toggle} revelado={isResult} />
 
+      </div>
         {isResult && (
-          <div className="absolute inset-x-0 bottom-0 bg-black/75 backdrop-blur-sm p-3 text-center">
-            <p className={`font-black text-lg ${won ? 'text-green-400' : 'text-red-400'}`}>
+          <div className="w-full max-w-[520px] rounded-xl bg-white/5 border border-white/10 p-3 mb-3">
+            <p className={`font-black text-lg text-center ${won ? 'text-green-400' : 'text-red-400'}`}>
               {won ? `✅ ${T('allRight', l)}` : `❌ ${T('wrong', l)}`}
             </p>
-            {/* El porqué: la potencia explicada, aciertes o falles */}
-            <p className="text-white/70 text-xs mt-1 leading-snug max-w-[440px] mx-auto">
-              {MOTIVOS[motivoRonda(round)]?.[l] ?? MOTIVOS[motivoRonda(round)]?.es}
-            </p>
+            {/* El porqué, bombilla a bombilla, con el número del dibujo */}
+            <ul className="text-white/70 text-xs mt-1.5 leading-snug space-y-0.5">
+              {explicacion(round, l).map(linea => <li key={linea}>💡 {linea}</li>)}
+            </ul>
             {delta && (
               <p className="text-xs font-bold mt-1">
                 {delta.won
@@ -290,7 +292,6 @@ export default function CircuitoCerrado() {
             )}
           </div>
         )}
-      </div>
 
       {!isResult && (
         <div className="w-full max-w-[520px] px-1">

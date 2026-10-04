@@ -1,16 +1,16 @@
 // Diagrama de circuito de Circuito Cerrado (SVG puro) — lo comparten el
-// juego y el examen. Un trazado fijo por `round.tipo` (ver lib/circuito.js):
-// las coordenadas están escritas a mano por esquema, no generadas, así el
-// cableado se lee como un esquema de libro de texto (routing Manhattan, sin
-// diagonales).
+// juego y el examen. Dibuja cualquier árbol serie/paralelo (lib/circuito.js)
+// como un esquema de libro de texto: la pila a la izquierda, el circuito por
+// el carril de arriba y la vuelta por abajo; los tramos en serie uno detrás
+// de otro y las ramas en paralelo apiladas entre dos carriles verticales
+// (routing Manhattan, sin diagonales).
 //
 // Las bombillas son lo único clicable: un clic ALTERNA entre apagada y
 // encendida — la predicción del jugador antes de revelar. El interruptor es un
 // dato del circuito, visible desde el principio — igual que en la vida real se
 // ve a simple vista si está bajado o subido; lo que NO se sabe hasta seguir el
 // camino de la corriente es QUÉ bombillas se encienden.
-const VB = { W: 430, H: 280 }
-const TOP_Y = 55, BOTTOM_Y = 225, BAT_X = 70, BAT_Y = 140
+const BAT_X = 52
 
 // apagada → encendida → apagada — un clic alterna los dos estados posibles.
 const CICLO_ESTADOS = ['apagada', 'encendida']
@@ -131,223 +131,120 @@ export function Leyenda({ labels }) {
           </span>
         )
       })}
+      {labels.fundida && (
+        <span className="flex items-center gap-1.5 text-xs text-white/60">
+          <svg width="20" height="20" viewBox="-14 -14 28 28">
+            <circle cx="0" cy="0" r="7" fill="#334155" stroke="#94a3b8" strokeWidth="1.5" />
+            <circle cx="6" cy="6" r="4" fill="#ef4444" />
+            <path d="M4.3 4.3l3.4 3.4M7.7 4.3l-3.4 3.4" stroke="#fff" strokeWidth="1.1" />
+          </svg>
+          {labels.fundida}
+        </span>
+      )}
     </div>
   )
 }
 
-// ── Trazados por esquema (Manhattan, coordenadas fijas) ─────────────────────
-function layoutSimple() {
-  const RX = 350
-  return {
-    wires: [
-      { x1: BAT_X, y1: TOP_Y, x2: BAT_X, y2: BOTTOM_Y },
-      { x1: BAT_X, y1: TOP_Y, x2: RX, y2: TOP_Y },
-      { x1: RX, y1: TOP_Y, x2: RX, y2: BOTTOM_Y },
-      { x1: RX, y1: BOTTOM_Y, x2: BAT_X, y2: BOTTOM_Y },
-    ],
-    interruptores: [{ id: 'i1', x: 210, y: TOP_Y, orientacion: 'h' }],
-    bombillas: [{ id: 'b1', x: RX, y: BAT_Y }],
+// ── Trazado automático ────────────────────────────────────────────────────
+const U = 74       // ancho de una casilla (bombilla o interruptor)
+const ROW = 74     // separación entre ramas en paralelo
+const RAIL = 26    // hueco a cada lado de un grupo en paralelo
+const X0 = 118     // donde empieza el circuito, a la derecha de la pila
+const TOP = 46
+
+function medida(n) {
+  if (n.t === 'ser') {
+    const ms = n.hijos.map(medida)
+    return { w: ms.reduce((s, m) => s + m.w, 0), h: Math.max(...ms.map(m => m.h)) }
   }
+  if (n.t === 'par') {
+    const ms = n.hijos.map(medida)
+    return { w: Math.max(...ms.map(m => m.w)) + 2 * RAIL, h: ms.reduce((s, m) => s + m.h, 0) }
+  }
+  return { w: U, h: 1 }
 }
 
-function layoutSerie() {
-  const RX = 350
-  return {
-    wires: [
-      { x1: BAT_X, y1: TOP_Y, x2: BAT_X, y2: BOTTOM_Y },
-      { x1: BAT_X, y1: TOP_Y, x2: RX, y2: TOP_Y },
-      { x1: RX, y1: TOP_Y, x2: RX, y2: BOTTOM_Y },
-      { x1: RX, y1: BOTTOM_Y, x2: BAT_X, y2: BOTTOM_Y },
-    ],
-    interruptores: [{ id: 'i1', x: 210, y: TOP_Y, orientacion: 'h' }],
-    bombillas: [{ id: 'b1', x: RX, y: 105 }, { id: 'b2', x: RX, y: 175 }],
+// Recorre el árbol y apunta cables, interruptores y bombillas con su posición.
+function traza(n, x, y, w, out) {
+  if (n.t === 'ser') {
+    const ms = n.hijos.map(medida)
+    const extra = (w - ms.reduce((s, m) => s + m.w, 0)) / n.hijos.length
+    let cx = x
+    n.hijos.forEach((h, i) => { const wi = ms[i].w + extra; traza(h, cx, y, wi, out); cx += wi })
+    return
   }
+  if (n.t === 'par') {
+    const ms = n.hijos.map(medida)
+    const xl = x + RAIL / 2, xr = x + w - RAIL / 2
+    out.wires.push({ x1: x, y1: y, x2: xl, y2: y }, { x1: xr, y1: y, x2: x + w, y2: y })
+    let fila = 0, ultimaY = y
+    n.hijos.forEach((h, i) => {
+      const yi = y + fila * ROW
+      traza(h, xl, yi, xr - xl, out)
+      ultimaY = yi
+      fila += ms[i].h
+    })
+    out.wires.push({ x1: xl, y1: y, x2: xl, y2: ultimaY }, { x1: xr, y1: y, x2: xr, y2: ultimaY })
+    return
+  }
+  out.wires.push({ x1: x, y1: y, x2: x + w, y2: y })
+  const pos = { id: n.id, x: x + w / 2, y }
+  if (n.t === 's') out.interruptores.push(pos)
+  else if (n.t === 'b') out.bombillas.push(pos)
+  else out.fundidas.push(pos)
 }
 
-function layoutParalelo() {
-  const B1X = 270, B2X = 350
-  return {
-    wires: [
-      { x1: BAT_X, y1: TOP_Y, x2: BAT_X, y2: BOTTOM_Y },
-      { x1: BAT_X, y1: TOP_Y, x2: B2X, y2: TOP_Y },
-      { x1: B1X, y1: TOP_Y, x2: B1X, y2: BOTTOM_Y },
-      { x1: B2X, y1: TOP_Y, x2: B2X, y2: BOTTOM_Y },
-      { x1: B2X, y1: BOTTOM_Y, x2: BAT_X, y2: BOTTOM_Y },
-    ],
-    interruptores: [{ id: 'i1', x: 170, y: TOP_Y, orientacion: 'h' }],
-    bombillas: [{ id: 'b1', x: B1X, y: BAT_Y }, { id: 'b2', x: B2X, y: BAT_Y }],
-  }
+export function trazado(arbol) {
+  const m = medida(arbol)
+  const out = { wires: [], interruptores: [], bombillas: [], fundidas: [] }
+  traza(arbol, X0, TOP, m.w, out)
+  const xFin = X0 + m.w + 26
+  const bottom = TOP + (m.h - 1) * ROW + Math.max(70, ROW)
+  const batY = (TOP + bottom) / 2
+  out.wires.push(
+    { x1: X0 + m.w, y1: TOP, x2: xFin, y2: TOP },
+    { x1: xFin, y1: TOP, x2: xFin, y2: bottom },
+    { x1: xFin, y1: bottom, x2: BAT_X, y2: bottom },
+    { x1: BAT_X, y1: bottom, x2: BAT_X, y2: TOP },
+    { x1: BAT_X, y1: TOP, x2: X0, y2: TOP },
+  )
+  return { ...out, W: xFin + 30, H: bottom + 26, batY }
 }
 
-function layoutMixto() {
-  const B1X = 310, B2X = 390
-  return {
-    wires: [
-      { x1: BAT_X, y1: TOP_Y, x2: BAT_X, y2: BOTTOM_Y },
-      { x1: BAT_X, y1: TOP_Y, x2: B2X, y2: TOP_Y },
-      { x1: B1X, y1: TOP_Y, x2: B1X, y2: BOTTOM_Y },
-      { x1: B2X, y1: TOP_Y, x2: B2X, y2: BOTTOM_Y },
-      { x1: B2X, y1: BOTTOM_Y, x2: BAT_X, y2: BOTTOM_Y },
-    ],
-    interruptores: [
-      { id: 'i1', x: 140, y: TOP_Y, orientacion: 'h' },
-      { id: 'i2', x: B1X, y: 110, orientacion: 'v' },
-    ],
-    // b1 (tronco) va SOBRE el carril superior, entre el interruptor i1 y el
-    // reparto en ramas — por eso su x cae en la horizontal, no en una rama.
-    bombillas: [
-      { id: 'b1', x: 230, y: TOP_Y },
-      { id: 'b2', x: B1X, y: 180 },
-      { id: 'b3', x: B2X, y: BAT_Y },
-    ],
-  }
-}
-
-// Dos interruptores en serie con una bombilla: mismo lazo que el simple, con
-// los dos interruptores seguidos sobre el carril superior.
-function layoutDosInterruptores() {
-  const RX = 350
-  return {
-    wires: [
-      { x1: BAT_X, y1: TOP_Y, x2: BAT_X, y2: BOTTOM_Y },
-      { x1: BAT_X, y1: TOP_Y, x2: RX, y2: TOP_Y },
-      { x1: RX, y1: TOP_Y, x2: RX, y2: BOTTOM_Y },
-      { x1: RX, y1: BOTTOM_Y, x2: BAT_X, y2: BOTTOM_Y },
-    ],
-    interruptores: [
-      { id: 'i1', x: 175, y: TOP_Y, orientacion: 'h' },
-      { id: 'i2', x: 265, y: TOP_Y, orientacion: 'h' },
-    ],
-    bombillas: [{ id: 'b1', x: RX, y: BAT_Y }],
-  }
-}
-
-// Paralelo con un interruptor por rama: dos ramas independientes, cada una con
-// su interruptor (vertical) encima de su bombilla. Sin interruptor en el tronco.
-function layoutParaleloRamas() {
-  const B1X = 260, B2X = 360
-  return {
-    wires: [
-      { x1: BAT_X, y1: TOP_Y, x2: BAT_X, y2: BOTTOM_Y },
-      { x1: BAT_X, y1: TOP_Y, x2: B2X, y2: TOP_Y },
-      { x1: B1X, y1: TOP_Y, x2: B1X, y2: BOTTOM_Y },
-      { x1: B2X, y1: TOP_Y, x2: B2X, y2: BOTTOM_Y },
-      { x1: B2X, y1: BOTTOM_Y, x2: BAT_X, y2: BOTTOM_Y },
-    ],
-    interruptores: [
-      { id: 'i1', x: B1X, y: 100, orientacion: 'v' },
-      { id: 'i2', x: B2X, y: 100, orientacion: 'v' },
-    ],
-    bombillas: [{ id: 'b1', x: B1X, y: 178 }, { id: 'b2', x: B2X, y: 178 }],
-  }
-}
-
-// Dos interruptores en PARALELO (dos caminos) hacia una bombilla: carriles
-// superior e inferior, cada uno con su interruptor, que se reúnen antes de la
-// bombilla. Basta un camino cerrado.
-function layoutParaleloOr() {
-  const LX = 150, RX = 300, BX = 370
-  return {
-    wires: [
-      { x1: BAT_X, y1: TOP_Y, x2: BAT_X, y2: BOTTOM_Y },
-      { x1: BAT_X, y1: TOP_Y, x2: LX, y2: TOP_Y },
-      { x1: LX, y1: TOP_Y, x2: LX, y2: 95 },
-      { x1: LX, y1: TOP_Y, x2: RX, y2: TOP_Y },   // camino de arriba (i1)
-      { x1: LX, y1: 95, x2: RX, y2: 95 },          // camino de abajo (i2)
-      { x1: RX, y1: 95, x2: RX, y2: TOP_Y },
-      { x1: RX, y1: TOP_Y, x2: BX, y2: TOP_Y },
-      { x1: BX, y1: TOP_Y, x2: BX, y2: BOTTOM_Y },
-      { x1: BX, y1: BOTTOM_Y, x2: BAT_X, y2: BOTTOM_Y },
-    ],
-    interruptores: [
-      { id: 'i1', x: 225, y: TOP_Y, orientacion: 'h' },
-      { id: 'i2', x: 225, y: 95, orientacion: 'h' },
-    ],
-    bombillas: [{ id: 'b1', x: BX, y: BAT_Y }],
-  }
-}
-
-// Bypass: un interruptor en PARALELO con la bombilla, por un atajo que la rodea.
-// Si el atajo se cierra, la corriente lo toma y esquiva la bombilla.
-function layoutBypass() {
-  const MX = 330, DX = 395
-  return {
-    wires: [
-      { x1: BAT_X, y1: TOP_Y, x2: BAT_X, y2: BOTTOM_Y },
-      { x1: BAT_X, y1: TOP_Y, x2: MX, y2: TOP_Y },
-      { x1: MX, y1: TOP_Y, x2: MX, y2: BOTTOM_Y },   // b1 en esta vertical
-      { x1: MX, y1: BOTTOM_Y, x2: BAT_X, y2: BOTTOM_Y },
-      // atajo que rodea b1 (de encima a debajo de la bombilla)
-      { x1: MX, y1: 95, x2: DX, y2: 95 },
-      { x1: DX, y1: 95, x2: DX, y2: 185 },
-      { x1: DX, y1: 185, x2: MX, y2: 185 },
-    ],
-    interruptores: [
-      { id: 'i1', x: 200, y: TOP_Y, orientacion: 'h' },
-      { id: 'i2', x: DX, y: BAT_Y, orientacion: 'v' },
-    ],
-    bombillas: [{ id: 'b1', x: MX, y: BAT_Y }],
-  }
-}
-
-// Serie con bypass: dos bombillas en serie, y un atajo que rodea SOLO a la
-// segunda. Cerrar el atajo esquiva b2 (se apaga); b1 sigue en el camino.
-function layoutSerieBypass() {
-  const MX = 330, DX = 395
-  return {
-    wires: [
-      { x1: BAT_X, y1: TOP_Y, x2: BAT_X, y2: BOTTOM_Y },
-      { x1: BAT_X, y1: TOP_Y, x2: MX, y2: TOP_Y },
-      { x1: MX, y1: TOP_Y, x2: MX, y2: BOTTOM_Y },   // b1 (arriba) y b2 (abajo)
-      { x1: MX, y1: BOTTOM_Y, x2: BAT_X, y2: BOTTOM_Y },
-      // atajo alrededor de b2 solamente
-      { x1: MX, y1: 150, x2: DX, y2: 150 },
-      { x1: DX, y1: 150, x2: DX, y2: 210 },
-      { x1: DX, y1: 210, x2: MX, y2: 210 },
-    ],
-    interruptores: [
-      { id: 'i1', x: 200, y: TOP_Y, orientacion: 'h' },
-      { id: 'i2', x: DX, y: 180, orientacion: 'v' },
-    ],
-    bombillas: [{ id: 'b1', x: MX, y: 110 }, { id: 'b2', x: MX, y: 180 }],
-  }
-}
-
-const LAYOUTS = {
-  simple: layoutSimple,
-  'serie-and': layoutDosInterruptores,
-  'paralelo-or': layoutParaleloOr,
-  'serie-dos': layoutSerie,
-  'paralelo-tronco': layoutParalelo,
-  'paralelo-ramas': layoutParaleloRamas,
-  bypass: layoutBypass,
-  'serie-bypass': layoutSerieBypass,
-  mixto: layoutMixto,
+// Bombilla fundida: cristal gris con el filamento roto. Es un dato del
+// circuito (como el interruptor), no se predice.
+function Fundida({ x, y }) {
+  return (
+    <g>
+      <rect x={x - 26} y={y - 26} width={52} height={52} fill={FONDO_CIRCUITO} />
+      <circle cx={x} cy={y} r={19} fill="#334155" stroke="#94a3b8" strokeWidth={2.5} />
+      {/* grieta en el cristal */}
+      <path d={`M${x + 6} ${y - 18} l-4 7 l5 3 l-5 6`} stroke="#cbd5e1" strokeWidth={1.6} fill="none" strokeLinejoin="round" />
+      {/* filamento partido en dos, con el hueco a la vista */}
+      <path d={`M${x - 8} ${y + 10} L${x - 5} ${y - 1} Q${x - 4} ${y - 6} ${x - 2} ${y - 3}`} stroke="#0f172a" strokeWidth={2.4} fill="none" />
+      <path d={`M${x + 3} ${y - 1} Q${x + 4} ${y - 6} ${x + 5} ${y - 1} L${x + 8} ${y + 10}`} stroke="#0f172a" strokeWidth={2.4} fill="none" />
+      <circle cx={x + 14} cy={y + 14} r={7} fill="#ef4444" stroke={FONDO_CIRCUITO} strokeWidth={2} />
+      <path d={`M${x + 11} ${y + 11}l6 6M${x + 17} ${y + 11}l-6 6`} stroke="#fff" strokeWidth={1.8} strokeLinecap="round" />
+    </g>
+  )
 }
 
 export default function CircuitoDiagrama({ round, prediccion, onToggle, revelado }) {
-  const layout = LAYOUTS[round.tipo]()
-  const bombillaPos = Object.fromEntries(layout.bombillas.map(b => [b.id, b]))
-  const interruptorPos = Object.fromEntries(layout.interruptores.map(i => [i.id, i]))
-
+  const t = trazado(round.arbol)
+  const estado = Object.fromEntries(round.bombillas.map(b => [b.id, b]))
+  const sw = Object.fromEntries(round.interruptores.map(i => [i.id, i]))
   return (
-    <svg viewBox={`0 0 ${VB.W} ${VB.H}`} width="100%" style={{ display: 'block' }}>
-      {layout.wires.map((w, i) => <Wire key={i} {...w} />)}
-
-      <Bateria x={BAT_X} y={BAT_Y} />
-
-      {round.interruptores.map(i => {
-        const pos = interruptorPos[i.id]
-        return <Interruptor key={i.id} x={pos.x} y={pos.y} orientacion={pos.orientacion} cerrado={i.cerrado} />
-      })}
-
-      {round.bombillas.map(b => {
-        const pos = bombillaPos[b.id]
-        return (
-          <Bombilla key={b.id} x={pos.x} y={pos.y} b={b}
-            prediccion={prediccion} revelado={revelado} onToggle={onToggle} />
-        )
-      })}
+    <svg viewBox={`0 0 ${t.W} ${t.H}`} width="100%" style={{ display: 'block', maxHeight: '52vh' }}>
+      {t.wires.map((w, i) => <Wire key={i} {...w} />)}
+      <Bateria x={BAT_X} y={t.batY} />
+      {t.interruptores.map(p => <Interruptor key={p.id} x={p.x} y={p.y} orientacion="h" cerrado={sw[p.id].cerrado} />)}
+      {t.fundidas.map(p => <Fundida key={p.id} x={p.x} y={p.y} />)}
+      {t.bombillas.map(p => (
+        <g key={p.id}>
+          <Bombilla x={p.x} y={p.y} b={estado[p.id]} prediccion={prediccion} revelado={revelado} onToggle={onToggle} />
+          <text x={p.x + 22} y={p.y - 17} fontSize="12" fontWeight="900" fill="#cbd5e1" style={{ userSelect: 'none', pointerEvents: 'none' }}>{p.id.slice(1)}</text>
+        </g>
+      ))}
     </svg>
   )
 }
