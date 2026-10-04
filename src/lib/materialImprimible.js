@@ -400,13 +400,15 @@ export const IMPRIMIBLES = {
       const sueltos = Object.entries(SISTEMAS)
         .map(([id, label]) => ({ id, label: tr3(label, lang), n: ORGANOS.filter(o => o.sistema === id).length }))
       return [
-        { id: 'todos', label: tr3({ es: 'Todos los sistemas', en: 'All systems', ca: 'Tots els sistemes' }, lang), n: ORGANOS.length, completo: true },
+        // Los músculos (16) van en su propio reparto: con ellos el total pasaría
+        // del tope de MAX_TARJETAS y se cortarían sin avisar.
+        { id: 'todos', label: tr3({ es: 'Órganos y huesos', en: 'Organs and bones', ca: 'Òrgans i ossos' }, lang), n: ORGANOS.filter(o => o.sistema !== 'muscular').length, completo: true },
         ...sueltos,
       ]
     },
     tarjetas(varianteId, lang) {
       return ORGANOS
-        .filter(o => varianteId === 'todos' || o.sistema === varianteId)
+        .filter(o => (varianteId === 'todos' ? o.sistema !== 'muscular' : o.sistema === varianteId))
         .map(o => ({
           frente: tr3(o.nombre, lang),
           pista: tr3(SISTEMAS[o.sistema], lang),
