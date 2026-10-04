@@ -23,6 +23,7 @@ export const SISTEMAS = {
   digestivo:    { es: 'Sistema Digestivo',    en: 'Digestive System',   ca: 'Sistema Digestiu' },
   excretor:     { es: 'Sistema Excretor',     en: 'Excretory System',   ca: 'Sistema Excretor' },
   oseo:         { es: 'Sistema Óseo y Articular', en: 'Skeletal & Joint System', ca: 'Sistema Ossi i Articular' },
+  muscular:     { es: 'Sistema Muscular', en: 'Muscular System', ca: 'Sistema Muscular' },
 }
 
 // Orden de arriba abajo del cuerpo (cabeza → pecho → abdomen), como los
@@ -168,7 +169,92 @@ export const ORGANOS = [
     { es: 'Tobillo', en: 'Ankle', ca: 'Turmell' },
     { es: 'Articulación entre la pierna (tibia y peroné) y el pie, formada por el hueso astrágalo.', en: 'The joint between the leg (tibia and fibula) and the foot, formed by the talus bone.', ca: 'Articulació entre la cama (tíbia i peroné) i el peu, formada per l\'os astràgal.' },
     { es: 'Es una de las articulaciones que más se lesiona por esguinces — soporta hasta 1,5 veces el peso corporal al caminar.', en: 'It is one of the joints most often injured by sprains — it bears up to 1.5 times body weight when walking.', ca: 'És una de les articulacions que més es lesiona per esquinços — suporta fins a 1,5 vegades el pes corporal en caminar.' }, true),
+  // ── Músculos (desde 2026-10-04) ─────────────────────────────────────────
+  // Capa propia en dos vistas: de frente y de espalda (ESPALDA, abajo). El
+  // dibujo es el mismo cuerpo; el músculo que se pide decide la vista.
+  parte('deltoides', 'muscular', '#f87171',
+    { es: 'Deltoides', en: 'Deltoid', ca: 'Deltoide' },
+    { es: 'Levanta el brazo hacia los lados, hacia delante y hacia atrás.', en: 'Lifts the arm out to the side, forwards and backwards.', ca: 'Aixeca el braç cap als costats, cap endavant i cap enrere.' },
+    { es: 'Es donde se ponen muchas vacunas: es grande, está a mano y no tiene cerca nervios ni vasos importantes.', en: 'It is where many vaccines are given: it is large, easy to reach and has no major nerves or vessels nearby.', ca: 'És on es posen moltes vacunes: és gran, està a mà i no té a prop nervis ni vasos importants.' }),
+
+  parte('pectoral', 'muscular', '#fb7185',
+    { es: 'Pectoral', en: 'Pectoral', ca: 'Pectoral' },
+    { es: 'Acerca el brazo al cuerpo y lo lleva hacia delante, como al empujar o al abrazar.', en: 'Pulls the arm towards the body and forwards, as when pushing or hugging.', ca: 'Acosta el braç al cos i el porta cap endavant, com en empènyer o abraçar.' },
+    { es: 'Es el músculo que más trabaja al hacer flexiones.', en: 'It is the muscle that works hardest when doing press-ups.', ca: 'És el múscul que més treballa en fer flexions.' }),
+
+  parte('biceps', 'muscular', '#ef4444',
+    { es: 'Bíceps', en: 'Biceps', ca: 'Bíceps' },
+    { es: 'Dobla el codo y gira el antebrazo para poner la palma hacia arriba.', en: 'Bends the elbow and turns the forearm so the palm faces up.', ca: 'Doblega el colze i gira l’avantbraç per posar el palmell cap amunt.' },
+    { es: 'Su nombre significa «dos cabezas»: se une al hombro por dos tendones distintos.', en: 'Its name means «two heads»: it attaches to the shoulder by two separate tendons.', ca: 'El seu nom vol dir «dos caps»: s’uneix a l’espatlla per dos tendons diferents.' }),
+
+  parte('antebrazo', 'muscular', '#f97316',
+    { es: 'Músculos del antebrazo', en: 'Forearm muscles', ca: 'Músculs de l’avantbraç' },
+    { es: 'Doblan la muñeca y los dedos para agarrar y apretar.', en: 'Bend the wrist and fingers to grip and squeeze.', ca: 'Dobleguen el canell i els dits per agafar i estrènyer.' },
+    { es: 'En los dedos no hay músculos: se mueven con tendones que vienen del antebrazo y de la palma, como hilos de marioneta.', en: 'There are no muscles in the fingers: they move with tendons coming from the forearm and palm, like puppet strings.', ca: 'Als dits no hi ha músculs: es mouen amb tendons que vénen de l’avantbraç i del palmell, com fils de titella.' }),
+
+  parte('abdominales', 'muscular', '#fb923c',
+    { es: 'Abdominales (recto abdominal)', en: 'Abdominals (rectus abdominis)', ca: 'Abdominals (recte abdominal)' },
+    { es: 'Doblan el tronco hacia delante y sujetan y protegen los órganos del abdomen.', en: 'Bend the trunk forwards and hold in and protect the abdominal organs.', ca: 'Dobleguen el tronc cap endavant i subjecten i protegeixen els òrgans de l’abdomen.' },
+    { es: 'Las «tabletas» se deben a unas tiras de tendón que cruzan el músculo de lado a lado.', en: 'The «six-pack» comes from strips of tendon that cross the muscle from side to side.', ca: 'Les «rajoles» es deuen a unes tires de tendó que creuen el múscul de banda a banda.' }),
+
+  parte('oblicuos', 'muscular', '#fdba74',
+    { es: 'Oblicuos', en: 'Obliques', ca: 'Oblics' },
+    { es: 'Giran el tronco y lo inclinan hacia los lados.', en: 'Twist the trunk and bend it to the sides.', ca: 'Giren el tronc i l’inclinen cap als costats.' },
+    { es: 'Trabajan al girarte para mirar atrás o al lanzar una pelota, y también al toser o soplar con fuerza.', en: 'They work when you turn to look behind you or throw a ball, and also when you cough or blow hard.', ca: 'Treballen quan et gires per mirar enrere o llances una pilota, i també en tossir o bufar amb força.' }),
+
+  parte('esternocleidomastoideo', 'muscular', '#fca5a5',
+    { es: 'Esternocleidomastoideo', en: 'Sternocleidomastoid', ca: 'Esternoclidomastoidal' },
+    { es: 'Gira la cabeza hacia los lados y la inclina hacia delante.', en: 'Turns the head to the sides and tilts it forwards.', ca: 'Gira el cap cap als costats i l’inclina cap endavant.' },
+    { es: 'Su largo nombre dice dónde se une: al esternón, a la clavícula («cleido») y a la mastoides, el hueso de detrás de la oreja.', en: 'Its long name says where it attaches: the sternum, the clavicle («cleido») and the mastoid, the bone behind the ear.', ca: 'El seu nom llarg diu on s’uneix: a l’estèrnum, a la clavícula («cleido») i a la mastoide, l’os de darrere l’orella.' }),
+
+  parte('cuadriceps', 'muscular', '#dc2626',
+    { es: 'Cuádriceps', en: 'Quadriceps', ca: 'Quàdriceps' },
+    { es: 'Estira la rodilla: sirve para andar, correr, saltar y levantarse de la silla.', en: 'Straightens the knee: used to walk, run, jump and stand up from a chair.', ca: 'Estira el genoll: serveix per caminar, córrer, saltar i aixecar-se de la cadira.' },
+    { es: 'Son cuatro músculos que acaban en un solo tendón, el que pasa por la rótula.', en: 'It is four muscles ending in a single tendon, the one that runs over the kneecap.', ca: 'Són quatre músculs que acaben en un sol tendó, el que passa per la ròtula.' }),
+
+  parte('aductores', 'muscular', '#f472b6',
+    { es: 'Aductores', en: 'Adductors', ca: 'Adductors' },
+    { es: 'Juntan las piernas, llevándolas hacia dentro.', en: 'Bring the legs together, pulling them inwards.', ca: 'Ajunten les cames, portant-les cap a dins.' },
+    { es: 'Trabajan mucho al montar a caballo, al nadar a braza o al dar un pase con el interior del pie.', en: 'They work hard when riding a horse, swimming breaststroke or passing a ball with the inside of the foot.', ca: 'Treballen molt en muntar a cavall, nedar a braça o fer una passada amb l’interior del peu.' }),
+
+  parte('tibial', 'muscular', '#f59e0b',
+    { es: 'Tibial anterior', en: 'Tibialis anterior', ca: 'Tibial anterior' },
+    { es: 'Levanta la punta del pie al andar, para no tropezar con el suelo.', en: 'Lifts the front of the foot when walking, so it does not catch on the ground.', ca: 'Aixeca la punta del peu en caminar, per no ensopegar amb el terra.' },
+    { es: 'Se nota duro junto a la espinilla al levantar los dedos de los pies.', en: 'You can feel it go hard next to the shin when you lift your toes.', ca: 'Es nota dur al costat de la canyella en aixecar els dits dels peus.' }),
+
+  parte('trapecio', 'muscular', '#e11d48',
+    { es: 'Trapecio', en: 'Trapezius', ca: 'Trapezi' },
+    { es: 'Sube y echa hacia atrás los hombros y ayuda a sostener la cabeza.', en: 'Raises and pulls back the shoulders and helps hold up the head.', ca: 'Puja i tira enrere les espatlles i ajuda a sostenir el cap.' },
+    { es: 'Con el de los dos lados juntos forma un rombo, como una figura de trapecio: de ahí su nombre.', en: 'Together with the one on the other side it forms a diamond, like a trapezium shape: hence its name.', ca: 'Amb el dels dos costats junts forma un rombe, com una figura de trapezi: d’aquí el nom.' }),
+
+  parte('dorsal', 'muscular', '#be123c',
+    { es: 'Dorsal ancho', en: 'Latissimus dorsi', ca: 'Dorsal ample' },
+    { es: 'Baja el brazo y lo lleva hacia atrás, como al trepar o al nadar.', en: 'Pulls the arm down and back, as when climbing or swimming.', ca: 'Abaixa el braç i el porta cap enrere, com en enfilar-se o nedar.' },
+    { es: 'Es el músculo más ancho del cuerpo: su nombre en latín, latissimus, significa precisamente «el más ancho».', en: 'It is the widest muscle in the body: its Latin name, latissimus, means exactly «the widest».', ca: 'És el múscul més ample del cos: el seu nom en llatí, latissimus, vol dir precisament «el més ample».' }),
+
+  parte('triceps', 'muscular', '#f43f5e',
+    { es: 'Tríceps', en: 'Triceps', ca: 'Tríceps' },
+    { es: 'Estira el codo: hace lo contrario que el bíceps.', en: 'Straightens the elbow: it does the opposite of the biceps.', ca: 'Estira el colze: fa el contrari que el bíceps.' },
+    { es: 'Tiene tres cabezas, de ahí el nombre, y ocupa la parte de atrás del brazo.', en: 'It has three heads, hence the name, and fills the back of the upper arm.', ca: 'Té tres caps, d’aquí el nom, i ocupa la part de darrere del braç.' }),
+
+  parte('gluteos', 'muscular', '#c026d3',
+    { es: 'Glúteos', en: 'Glutes', ca: 'Glutis' },
+    { es: 'Estiran la cadera: sirven para subir escaleras, correr y ponerse de pie.', en: 'Extend the hip: used to climb stairs, run and stand up.', ca: 'Estiren el maluc: serveixen per pujar escales, córrer i posar-se dret.' },
+    { es: 'El glúteo mayor es el músculo más grande del cuerpo humano.', en: 'The gluteus maximus is the largest muscle in the human body.', ca: 'El gluti major és el múscul més gran del cos humà.' }),
+
+  parte('isquiotibiales', 'muscular', '#a21caf',
+    { es: 'Isquiotibiales', en: 'Hamstrings', ca: 'Isquiotibials' },
+    { es: 'Doblan la rodilla y llevan la pierna hacia atrás.', en: 'Bend the knee and pull the leg backwards.', ca: 'Dobleguen el genoll i porten la cama cap enrere.' },
+    { es: 'Son de los músculos que más se lesionan en el deporte, sobre todo al esprintar.', en: 'They are among the most injured muscles in sport, especially when sprinting.', ca: 'Són dels músculs que més es lesionen a l’esport, sobretot en esprintar.' }),
+
+  parte('gemelos', 'muscular', '#db2777',
+    { es: 'Gemelos', en: 'Calf muscles', ca: 'Bessons' },
+    { es: 'Ponen el pie de puntillas: imprescindibles para andar, correr y saltar.', en: 'Point the foot and lift the heel: essential for walking, running and jumping.', ca: 'Posen el peu de puntetes: imprescindibles per caminar, córrer i saltar.' },
+    { es: 'Se unen al talón por el tendón de Aquiles, el más fuerte del cuerpo.', en: 'They attach to the heel through the Achilles tendon, the strongest in the body.', ca: 'S’uneixen al taló pel tendó d’Aquil·les, el més fort del cos.' }),
 ]
+
+// Músculos que se ven de espalda (el resto, de frente).
+export const ESPALDA = ['trapecio', 'dorsal', 'triceps', 'gluteos', 'isquiotibiales', 'gemelos']
 
 export function getOrgano(id) {
   return ORGANOS.find(o => o.id === id)

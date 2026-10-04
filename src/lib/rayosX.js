@@ -1,7 +1,8 @@
 // Rayos X — lógica del juego y del examen.
 //
 // Una ronda pide una parte del cuerpo (data/organos.js). Si es un hueso se
-// enseña la capa del esqueleto; si no, la de los órganos
+// enseña la capa del esqueleto; si es un músculo, la de músculos de frente o
+// de espalda (según dónde se ve); si no, la de los órganos
 // (components/rayosX/CuerpoSVG.jsx). El jugador toca la forma: acierta si es
 // esa parte. Sin distancias ni tolerancias — la forma tocada es la respuesta.
 //
@@ -9,9 +10,10 @@
 //   facil   → las partes más conocidas, por su nombre
 //   medio   → todas, por su nombre
 //   dificil → todas, por lo que hacen (la función), como en un examen
-import { ORGANOS } from '../data/organos'
+import { ORGANOS, ESPALDA } from '../data/organos'
 
-export const BASICAS = ['cerebro', 'ojos', 'boca', 'pulmones', 'corazon', 'estomago', 'higado', 'intestinos', 'craneo', 'costillas', 'columna', 'femur', 'pelvis']
+export const BASICAS = ['cerebro', 'ojos', 'boca', 'pulmones', 'corazon', 'estomago', 'higado', 'intestinos', 'craneo', 'costillas', 'columna', 'femur', 'pelvis',
+  'biceps', 'abdominales', 'cuadriceps', 'gemelos', 'gluteos', 'pectoral']
 
 export const NIVELES = {
   facil:   { partes: ORGANOS.filter(o => BASICAS.includes(o.id)), preguntaPor: 'nombre' },
@@ -19,7 +21,9 @@ export const NIVELES = {
   dificil: { partes: ORGANOS, preguntaPor: 'funcion' },
 }
 
-export const capaDe = parte => (parte.sistema === 'oseo' ? 'huesos' : 'organos')
+export const capaDe = parte => (parte.sistema === 'oseo' ? 'huesos'
+  : parte.sistema === 'muscular' ? (ESPALDA.includes(parte.id) ? 'espalda' : 'musculos')
+  : 'organos')
 
 // `evitar`: ids vistos hace poco, para no repetir la misma parte seguida.
 export function genRonda(nivel = 'facil', { evitar = [], rand = Math.random } = {}) {

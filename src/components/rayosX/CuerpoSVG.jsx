@@ -16,7 +16,7 @@
  * (hígado a la izquierda, corazón y estómago a la derecha).
  *
  * Props:
- *   capa      'organos' | 'huesos'
+ *   capa      'organos' | 'huesos' | 'musculos' (de frente) | 'espalda' (músculos de espalda)
  *   onPick    (id) => void — null para bloquear
  *   elegido   id tocado por el jugador
  *   correcto  id que había que tocar (solo al revelar)
@@ -35,6 +35,10 @@ const brillo = c => `drop-shadow(0 0 2px ${c}) drop-shadow(0 0 2px ${c}) drop-sh
 export const PIEZAS_ORGANOS = ['cerebro', 'ojos', 'boca', 'traquea', 'pulmones', 'corazon', 'diafragma', 'higado', 'estomago', 'rinones', 'intestinos', 'vejiga']
 // eslint-disable-next-line react-refresh/only-export-components
 export const PIEZAS_HUESOS = ['craneo', 'columna', 'costillas', 'esternon', 'clavicula', 'pelvis', 'humero', 'codo', 'radio', 'cubito', 'muneca', 'femur', 'rotula', 'tibia', 'perone', 'tobillo']
+// eslint-disable-next-line react-refresh/only-export-components
+export const PIEZAS_MUSCULOS = ['deltoides', 'pectoral', 'biceps', 'antebrazo', 'abdominales', 'oblicuos', 'esternocleidomastoideo', 'cuadriceps', 'aductores', 'tibial']
+// eslint-disable-next-line react-refresh/only-export-components
+export const PIEZAS_ESPALDA = ['trapecio', 'dorsal', 'triceps', 'gluteos', 'isquiotibiales', 'gemelos']
 
 // ── Silueta ──────────────────────────────────────────────────────────────────
 // Las piezas van sólidas dentro de un grupo con opacidad: así las zonas donde
@@ -81,7 +85,106 @@ const DosLados = ({ children }) => <>{children}<Espejo>{children}</Espejo></>
 // La capa de órganos se recorta de la cabeza a la pelvis (las piernas no
 // tienen nada que tocar): el dibujo sale más grande en el mismo alto.
 // eslint-disable-next-line react-refresh/only-export-components
-export const ALTO = { organos: 290, huesos: 440 }
+export const ALTO = { organos: 290, huesos: 440, musculos: 440, espalda: 440 }
+
+// ── Músculos ─────────────────────────────────────────────────────────────────
+// Rojos con sus fibras dibujadas (líneas claras en la dirección en que tiran),
+// para que se lean como músculo y no como órgano. Los de las extremidades se
+// dibujan a los dos lados con el mismo id, como los huesos.
+const Fibras = ({ d }) => <path d={d} stroke="#fecaca" strokeWidth="1" fill="none" opacity="0.55" strokeLinecap="round" />
+const Huso = ({ cx, cy, rx, ry, rot = 0, fill }) => (
+  <g transform={`rotate(${rot} ${cx} ${cy})`}>
+    <ellipse cx={cx} cy={cy} rx={rx} ry={ry} fill={fill} />
+    <Fibras d={`M${cx - rx * 0.4} ${cy - ry * 0.75}L${cx - rx * 0.4} ${cy + ry * 0.75}M${cx + rx * 0.35} ${cy - ry * 0.7}L${cx + rx * 0.35} ${cy + ry * 0.7}`} />
+  </g>
+)
+
+function MusculosFrente({ pieza }) {
+  return (
+    <>
+      <g {...pieza('esternocleidomastoideo')}>
+        <DosLados>
+          <Toque x1={91} y1={73} x2={97} y2={104} w={9} />
+          <line x1={91} y1={73} x2={97} y2={104} stroke="#fca5a5" strokeWidth="5" strokeLinecap="round" />
+        </DosLados>
+      </g>
+      <g {...pieza('pectoral')}>
+        <DosLados>
+          <path d="M98 108L98 141Q84 147 71 137Q64 125 67 112Q81 104 98 108Z" fill="#fb7185" />
+          <Fibras d="M97 114L72 116M97 122L70 126M97 131L73 134" />
+        </DosLados>
+      </g>
+      <g {...pieza('deltoides')}>
+        <DosLados>
+          <path d="M58 102Q71 99 73 112Q69 128 59 136Q50 124 52 111Q53 104 58 102Z" fill="#f87171" />
+          <Fibras d="M62 104L58 132M67 107L62 130" />
+        </DosLados>
+      </g>
+      <g {...pieza('biceps')}>
+        <DosLados><Huso cx={55} cy={156} rx={6.5} ry={20} rot={10.6} fill="#ef4444" /></DosLados>
+      </g>
+      <g {...pieza('antebrazo')}>
+        <DosLados><Huso cx={44} cy={222} rx={6} ry={23} rot={5.5} fill="#f97316" /></DosLados>
+      </g>
+      <g {...pieza('abdominales')}>
+        <rect x="89" y="147" width="22" height="86" rx="7" fill="#fb923c" />
+        <path d="M100 149V231M90 168H110M90 188H110M90 208H110" stroke="#7c2d12" strokeWidth="1.6" />
+      </g>
+      <g {...pieza('oblicuos')}>
+        <DosLados>
+          <path d="M71 158Q66 200 71 233L87 236L87 150Q78 150 71 158Z" fill="#fdba74" />
+          <Fibras d="M73 170L86 158M72 190L86 176M73 210L86 196M75 228L86 216" />
+        </DosLados>
+      </g>
+      <g {...pieza('cuadriceps')}>
+        <DosLados><Huso cx={81} cy={298} rx={10} ry={36} rot={1.5} fill="#dc2626" /></DosLados>
+      </g>
+      <g {...pieza('aductores')}>
+        <DosLados>
+          <path d="M97 266Q99 288 93 314Q89 296 91 270Z" fill="#f472b6" />
+        </DosLados>
+      </g>
+      <g {...pieza('tibial')}>
+        <DosLados>
+          <Toque x1={80} y1={358} x2={79} y2={402} w={10} />
+          <Huso cx={79.5} cy={380} rx={3.8} ry={22} fill="#f59e0b" />
+        </DosLados>
+      </g>
+    </>
+  )
+}
+
+function MusculosEspalda({ pieza }) {
+  return (
+    <>
+      <g {...pieza('trapecio')}>
+        <path d="M100 74L125 101L112 128L100 150L88 128L75 101Z" fill="#e11d48" />
+        <Fibras d="M100 80V146M86 104L100 92L114 104M90 124L100 112L110 124" />
+      </g>
+      <g {...pieza('dorsal')}>
+        <DosLados>
+          <path d="M98 156L98 212Q84 218 72 202Q62 166 68 128Q78 147 92 152Z" fill="#be123c" />
+          <Fibras d="M95 162L72 140M95 180L69 164M95 198L71 188" />
+        </DosLados>
+      </g>
+      <g {...pieza('triceps')}>
+        <DosLados><Huso cx={56} cy={152} rx={7} ry={23} rot={10.6} fill="#f43f5e" /></DosLados>
+      </g>
+      <g {...pieza('gluteos')}>
+        <DosLados>
+          <ellipse cx="86" cy="257" rx="15" ry="14" fill="#c026d3" />
+          <Fibras d="M76 250Q86 258 96 266M78 260Q86 266 94 272" />
+        </DosLados>
+      </g>
+      <g {...pieza('isquiotibiales')}>
+        <DosLados><Huso cx={83} cy={306} rx={10.5} ry={30} rot={1.5} fill="#a21caf" /></DosLados>
+      </g>
+      <g {...pieza('gemelos')}>
+        <DosLados><Huso cx={82} cy={370} rx={9} ry={19} fill="#db2777" /></DosLados>
+      </g>
+    </>
+  )
+}
 
 export default function CuerpoSVG({ capa, onPick, elegido, correcto, revelado }) {
   const H = ALTO[capa] ?? 440
@@ -107,9 +210,9 @@ export default function CuerpoSVG({ capa, onPick, elegido, correcto, revelado })
         </radialGradient>
       </defs>
       <rect width="200" height={H} fill="url(#rx-fondo)" />
-      <Silueta tenue={capa === 'huesos'} />
+      <Silueta tenue={capa !== 'organos'} />
 
-      {capa === 'organos' ? (
+      {capa === 'musculos' ? <MusculosFrente pieza={pieza} /> : capa === 'espalda' ? <MusculosEspalda pieza={pieza} /> : capa === 'organos' ? (
         <>
           <g {...pieza('pulmones')}>
             <path d="M95 118Q76 111 69 132Q63 158 67 185Q82 191 96 182Z" fill="#3b82f6" />

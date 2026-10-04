@@ -24,7 +24,7 @@ const REVEAL_MS = 2600
 const MEMORIA = 6
 
 const NIVELES = {
-  facil:   { label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' }, desc: { es: 'Los órganos y huesos más conocidos, por su nombre', en: 'The best-known organs and bones, by name', ca: 'Els òrgans i ossos més coneguts, pel nom' } },
+  facil:   { label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' }, desc: { es: 'Los órganos, huesos y músculos más conocidos, por su nombre', en: 'The best-known organs, bones and muscles, by name', ca: 'Els òrgans, ossos i músculs més coneguts, pel nom' } },
   medio:   { label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' }, desc: { es: 'Todos: también radio, cúbito, peroné, riñones…', en: 'All of them: radius, ulna, fibula, kidneys too…', ca: 'Tots: també radi, cúbit, peroné, ronyons…' } },
   dificil: { label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' }, desc: { es: 'Te dicen lo que hace, no cómo se llama', en: 'You get what it does, not its name', ca: 'Et diuen què fa, no com es diu' } },
 }
@@ -113,7 +113,7 @@ export default function RayosX() {
   }
 
   const seo = {
-    title: tr({ es: 'Rayos X — Órganos y huesos del cuerpo humano', en: 'X-Ray — Organs and bones of the human body', ca: 'Raigs X — Òrgans i ossos del cos humà' }),
+    title: tr({ es: 'Rayos X — Órganos, huesos y músculos del cuerpo humano', en: 'X-Ray — Organs, bones and muscles of the human body', ca: 'Raigs X — Òrgans, ossos i músculs del cos humà' }),
     desc: tr({
       es: 'Toca cada órgano o hueso en un cuerpo dibujado: corazón, pulmones, riñones, fémur, radio, cúbito… Contra reloj y con tres niveles. Juego de biología gratis.',
       en: 'Tap each organ or bone on a drawn body: heart, lungs, kidneys, femur, radius, ulna… Against the clock, three levels. Free biology game.',
@@ -180,9 +180,9 @@ export default function RayosX() {
           { label: tr({ es: 'Mejor racha', en: 'Best streak', ca: 'Millor ratxa' }), value: `×${mejorRacha}`, emoji: '🔥' },
         ]}
         shareText={tr({
-          es: `He acertado ${aciertos} órganos y huesos en Rayos X — ¿puedes superarme? https://tuthor.es/juegos/rayos-x`,
-          en: `I got ${aciertos} organs and bones right in X-Ray — can you beat me? https://tuthor.es/juegos/rayos-x`,
-          ca: `He encertat ${aciertos} òrgans i ossos a Raigs X — em pots superar? https://tuthor.es/juegos/rayos-x`,
+          es: `He acertado ${aciertos} partes del cuerpo en Rayos X — ¿puedes superarme? https://tuthor.es/juegos/rayos-x`,
+          en: `I got ${aciertos} body parts right in X-Ray — can you beat me? https://tuthor.es/juegos/rayos-x`,
+          ca: `He encertat ${aciertos} parts del cos a Raigs X — em pots superar? https://tuthor.es/juegos/rayos-x`,
         })}
         onPlayAgain={() => empezar(nivel)}
         playAgainLabel={tr({ es: 'Nuevo diagnóstico', en: 'New diagnosis', ca: 'Nou diagnòstic' })}
@@ -208,7 +208,10 @@ export default function RayosX() {
       <div className="w-full max-w-[460px] flex items-center justify-between mb-2 px-1">
         <div>
           <p className="text-white/40 text-xs uppercase tracking-widest">
-            {ronda.capa === 'huesos' ? tr({ es: 'Esqueleto', en: 'Skeleton', ca: 'Esquelet' }) : tr({ es: 'Órganos', en: 'Organs', ca: 'Òrgans' })}
+            {ronda.capa === 'huesos' ? tr({ es: 'Esqueleto', en: 'Skeleton', ca: 'Esquelet' })
+              : ronda.capa === 'musculos' ? tr({ es: 'Músculos · de frente', en: 'Muscles · front', ca: 'Músculs · de cara' })
+              : ronda.capa === 'espalda' ? tr({ es: 'Músculos · de espalda', en: 'Muscles · back', ca: 'Músculs · d’esquena' })
+              : tr({ es: 'Órganos', en: 'Organs', ca: 'Òrgans' })}
           </p>
           <p className="text-white font-bold text-lg flex items-center gap-2 tabular-nums">
             {aciertos} {aciertos === 1 ? tr({ es: 'acierto', en: 'correct', ca: 'encert' }) : tr({ es: 'aciertos', en: 'correct', ca: 'encerts' })}

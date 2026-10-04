@@ -8,10 +8,10 @@ import { genRound, isCorrect, enunciado } from '../lib/rayosX'
 const LEVELS = [
   { key: 'primaria', difficulty: 'facil',
     label: { es: 'Primaria', en: 'Primary', ca: 'Primària' },
-    hint: { es: 'Los órganos y huesos más conocidos, por su nombre', en: 'The best-known organs and bones, by name', ca: 'Els òrgans i ossos més coneguts, pel nom' } },
+    hint: { es: 'Los órganos, huesos y músculos más conocidos, por su nombre', en: 'The best-known organs, bones and muscles, by name', ca: 'Els òrgans, ossos i músculs més coneguts, pel nom' } },
   { key: 'eso', difficulty: 'medio',
     label: { es: 'Secundaria (ESO)', en: 'Secondary (ESO)', ca: 'Secundària (ESO)' },
-    hint: { es: 'Todos los órganos y huesos, por su nombre', en: 'Every organ and bone, by name', ca: 'Tots els òrgans i ossos, pel nom' } },
+    hint: { es: 'Todos los órganos, huesos y músculos, por su nombre', en: 'Every organ, bone and muscle, by name', ca: 'Tots els òrgans, ossos i músculs, pel nom' } },
   { key: 'bachillerato', difficulty: 'dificil',
     label: { es: 'Bachillerato', en: 'Sixth Form', ca: 'Batxillerat' },
     hint: { es: 'Por lo que hacen: te dan la función, no el nombre', en: 'By what they do: you get the function, not the name', ca: 'Pel que fan: et donen la funció, no el nom' } },
@@ -34,6 +34,9 @@ function renderQuestion({ round, phase, onAnswer, answer, l }) {
         {round.preguntaPor === 'funcion' ? t('elQue', l) : t('busca', l)}
       </p>
       <p className="text-center text-lg font-black text-white mb-3 leading-snug px-2">{enunciado(round, l)}</p>
+      {round.capa === 'espalda' && (
+        <p className="text-center text-xs font-bold text-white/50 -mt-2 mb-2">{{ es: 'Vista de espalda', en: 'Back view', ca: 'Vista d’esquena' }[l] ?? 'Vista de espalda'}</p>
+      )}
       <div className="mx-auto rounded-2xl overflow-hidden border border-white/[0.08]"
         style={{ maxWidth: `min(${round.capa === 'organos' ? 360 : 300}px, calc((100dvh - 20rem) * ${200 / ALTO[round.capa]}))` }}>
         <CuerpoSVG capa={round.capa} onPick={revelado ? null : onAnswer}
@@ -59,7 +62,7 @@ export default function RayosXExamen() {
       badge={{ es: 'Examen · Cuerpo Humano', en: 'Exam · Human Body', ca: 'Examen · Cos Humà' }}
       title={{ es: 'Examen Rayos X', en: 'X-Ray Exam', ca: 'Examen Raigs X' }}
       sub={{ es: 'Toca cada órgano o hueso en el cuerpo dibujado', en: 'Tap each organ or bone on the drawn body', ca: 'Toca cada òrgan o os al cos dibuixat' }}
-      metaTitle={{ es: 'Examen de Rayos X — Órganos y huesos', en: 'X-Ray Exam — Organs and bones', ca: 'Examen de Raigs X — Òrgans i ossos' }}
+      metaTitle={{ es: 'Examen de Rayos X — Órganos, huesos y músculos', en: 'X-Ray Exam — Organs, bones and muscles', ca: 'Examen de Raigs X — Òrgans, ossos i músculs' }}
       metaDesc={{ es: 'Examen del cuerpo humano con la mecánica del juego Rayos X: toca cada órgano o hueso en el cuerpo dibujado. Tres niveles, 10 preguntas, sin tiempo.', en: 'Human body exam using the X-Ray game mechanic: tap each organ or bone on the drawn body. Three levels, 10 questions, no timer.', ca: 'Examen del cos humà amb la mecànica del joc Raigs X: toca cada òrgan o os al cos dibuixat. Tres nivells, 10 preguntes, sense temps.' }}
       metaPath="/examen/rayos-x-test"
       subjectSchema="Biología"
