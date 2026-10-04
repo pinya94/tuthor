@@ -19,8 +19,9 @@ import { desdeDiaISO } from '../lib/attendance'
 import Notas from '../components/Notas'
 import Observaciones from '../components/Observaciones'
 import BoletinFamilias from '../components/BoletinFamilias'
-import QuizBuilder from '../components/QuizBuilder'
-import { preguntaVacia, quizValido, limpiarQuiz } from '../lib/quiz'
+import CorregirExamen from '../components/examenes/CorregirExamen'
+import { listarExamenes, asignarExamen } from '../lib/examenesProfesor'
+import { puntosTotales } from '../lib/examenModelo'
 import { EXAMS, examGroupLabel } from '../lib/exams'
 import { Acierto, Fallo, Mando, Bombilla, Libro, Moneda, Racha, Reloj, Lista, Pizarra } from '../components/Iconos'
 import { IconoModulo, Ajustes, Chincheta, Grupo } from '../components/IconosProfesor'
@@ -93,8 +94,10 @@ async function loadStudent(uid, lang) {
 // para las dos clases de tarea (una de catálogo no se puede "marcar hecha"
 // sin jugarla, pero sí cerrarse como falta). Sin esto, una tarea vencida con
 // alumnos que nunca la hicieron se queda "pendiente" para siempre.
-function TaskCard({ task, studentsByUid, lang, tr, onToggleManual, onToggleFalta, onMarkFaltaBulk }) {
+function TaskCard({ task, studentsByUid, lang, tr, onToggleManual, onToggleFalta, onMarkFaltaBulk, onCorregir }) {
   const [open, setOpen] = useState(false)
+  const esV2 = task.kind === 'quiz' && task.quizV === 2
+  const porCorregir = esV2 ? task.studentIds.filter(uid => task.completions?.[uid]?.done && task.completions[uid].pendientes > 0).length : 0
   // Las etiquetas del catálogo llevan emojis dentro ("🧭 Fuerza Neta"): aquí
   // el dibujo lo pone la miniatura del juego, así que se quitan.
   const label = task.kind === 'catalog' ? sinEmojis(catalogLabel(task, lang)) : task.title
@@ -122,6 +125,9 @@ function TaskCard({ task, studentsByUid, lang, tr, onToggleManual, onToggleFalta
         )}
         <div className="flex-1 min-w-[100px]">
           <p className="text-white font-semibold text-[13.5px] truncate">{label}</p>
+          {porCorregir > 0 && (
+            <p className="text-amber-300 text-[10.5px] font-bold mt-0.5">✎ {tr({ es: `${porCorregir} por corregir`, en: `${porCorregir} to mark`, ca: `${porCorregir} per corregir` })}</p>
+          )}
           {task.dueDate && (
             <p className={`text-[10.5px] mt-0.5 ${vencida && pendientes.length > 0 ? 'text-amber-400/70 font-semibold' : 'text-white/35'}`}>
               {tr({ es: 'Vence', en: 'Due', ca: 'Venç' })} {fechaCortaDeTarea(task.dueDate, lang)}
@@ -161,7 +167,15 @@ function TaskCard({ task, studentsByUid, lang, tr, onToggleManual, onToggleFalta
                       siguen el mismo criterio: mirar los cuatro juntos al tocar esto. */}
                   {c?.done ? (
                     <span className="text-[12px] font-semibold">
-                      {task.kind === 'catalog' || task.kind === 'quiz' ? (
+                      {esV2 ? (
+                        <span className="inline-flex items-center gap-2">
+                          <span className={c.revisado ? 'text-white/70' : 'text-amber-300'}>{String(c.nota ?? '').replace('.', ',')}/10{c.revisado ? '' : '*'}</span>
+                          <button type="button" onClick={() => onCorregir(task, uid)}
+                            className={`text-[11.5px] font-bold px-2 py-1 rounded-lg border transition-colors ${c.pendientes > 0 ? 'border-amber-500/50 text-amber-300 bg-amber-500/10 hover:bg-amber-500/20' : 'border-white/15 text-white/60 hover:bg-white/5'}`}>
+                            {c.pendientes > 0 ? tr({ es: 'Corregir', en: 'Mark', ca: 'Corregir' }) : tr({ es: 'Revisar', en: 'Review', ca: 'Revisar' })}
+                          </button>
+                        </span>
+                      ) : task.kind === 'catalog' || task.kind === 'quiz' ? (
                         <>
                           <span className="inline-flex items-center gap-1 text-green-400"><Acierto className="w-3.5 h-3.5" />{c.passed === true ? tr({ es: 'Aprobado', en: 'Passed', ca: 'Aprovat' }) : c.passed === false ? tr({ es: 'Suspenso', en: 'Failed', ca: 'Suspès' }) : ''}</span>
                           {c.score != null && <span className="text-white/40 ml-1.5">{c.score} pts</span>}
@@ -342,7 +356,9 @@ export default function ProfesorClase() {
   const [taskFormato, setTaskFormato] = useState('') // kind 'exam': formato/mecánica (con tema) o examId plano (sin tema)
   const [taskNivel, setTaskNivel] = useState('') // kind 'exam': nivel, si el formato lo usa
   const [taskTitle, setTaskTitle] = useState('')
-  const [taskQuiz, setTaskQuiz] = useState(() => [preguntaVacia()]) // kind 'quiz': preguntas del examen propio
+  const [taskExamenId, setTaskExamenId] = useState('') // kind 'quiz': examen de la biblioteca
+  const [biblioteca, setBiblioteca] = useState(null) // exámenes del profesor (se cargan al elegir «Examen propio»)
+  const [corrigiendo, setCorrigiendo] = useState(null) // { taskId, uid }
   const [taskTarget, setTaskTarget] = useState('all')
   const [taskStudentIds, setTaskStudentIds] = useState([])
   const [taskDueDate, setTaskDueDate] = useState('')
@@ -472,27 +488,28 @@ export default function ProfesorClase() {
     if (isCatalog && !gameId) return
     // Si el formato usa nivel, hay que elegirlo antes de asignar
     if (nivelesDisponibles.length > 0 && !taskNivel) return
-    if ((taskKind === 'text' || isQuiz) && !taskTitle.trim()) return
-    const quizLimpio = isQuiz ? limpiarQuiz(taskQuiz) : null
-    if (isQuiz && !quizValido(quizLimpio)) return
+    if (taskKind === 'text' && !taskTitle.trim()) return
+    const examenElegido = isQuiz ? (biblioteca ?? []).find(e => e.id === taskExamenId) : null
+    if (isQuiz && !examenElegido) return
     const targetIds = taskTarget === 'all' ? clase.studentIds : taskStudentIds
     if (!targetIds || targetIds.length === 0) return
     setCreatingTask(true)
     setTaskError('')
     try {
-      await createAssignment(user.uid, classId, clase.name, {
-        kind: isCatalog ? 'catalog' : isQuiz ? 'quiz' : 'text',
+      if (isQuiz) {
+        await asignarExamen(user.uid, { classId, className: clase.name }, examenElegido, { studentIds: targetIds, dueDate: taskDueDate ? desdeDiaISO(taskDueDate) : null })
+      } else await createAssignment(user.uid, classId, clase.name, {
+        kind: isCatalog ? 'catalog' : 'text',
         gameId,
         category,
         level,
         title: taskTitle.trim(),
-        quiz: quizLimpio,
         studentIds: targetIds,
         dueDate: taskDueDate ? desdeDiaISO(taskDueDate) : null,
       })
       setShowForm(false)
       setTaskKind('game'); setTaskGameId(''); setTaskExamSubject(''); setTaskTema(''); setTaskFormato(''); setTaskNivel('')
-      setTaskTitle(''); setTaskQuiz([preguntaVacia()]); setTaskTarget('all'); setTaskStudentIds([]); setTaskDueDate('')
+      setTaskTitle(''); setTaskExamenId(''); setTaskTarget('all'); setTaskStudentIds([]); setTaskDueDate('')
       await loadAssignments()
     } catch {
       setTaskError(tr({ es: 'No se pudo crear la tarea. Inténtalo de nuevo.', en: 'Could not create the task. Please try again.', ca: 'No s\'ha pogut crear la tasca. Torna-ho a intentar.' }))
@@ -668,7 +685,7 @@ export default function ProfesorClase() {
                 className={`flex-1 text-xs font-bold py-2 rounded-lg border transition-colors ${taskKind === 'text' ? 'bg-teal-600 border-teal-600 text-white' : 'border-white/10 text-white/50'}`}>
                 {tr({ es: 'Texto libre', en: 'Text task', ca: 'Text lliure' })}
               </button>
-              <button type="button" onClick={() => setTaskKind('quiz')}
+              <button type="button" onClick={() => { setTaskKind('quiz'); if (biblioteca === null) listarExamenes(user.uid).then(setBiblioteca).catch(() => setBiblioteca([])) }}
                 className={`flex-1 text-xs font-bold py-2 rounded-lg border transition-colors ${taskKind === 'quiz' ? 'bg-teal-600 border-teal-600 text-white' : 'border-white/10 text-white/50'}`}>
                 {tr({ es: 'Examen propio', en: 'Your own exam', ca: 'Examen propi' })}
               </button>
@@ -776,11 +793,20 @@ export default function ProfesorClase() {
             )}
 
             {taskKind === 'quiz' && (
-              <div className="space-y-3">
-                <input type="text" value={taskTitle} onChange={e => setTaskTitle(e.target.value)}
-                  placeholder={tr({ es: 'Nombre del examen (ej. Examen sorpresa tema 4)', en: 'Exam name (e.g. Pop quiz unit 4)', ca: "Nom de l'examen (ex. Examen sorpresa tema 4)" })}
-                  className="w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2.5 text-sm text-white placeholder-white/30 outline-none focus:border-teal-500 transition-colors" />
-                <QuizBuilder preguntas={taskQuiz} onChange={setTaskQuiz} tr={tr} />
+              <div className="space-y-2">
+                <select value={taskExamenId} onChange={e => setTaskExamenId(e.target.value)}
+                  className="w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2.5 text-sm text-white outline-none focus:border-teal-500 transition-colors">
+                  <option value="" className="bg-[#0d0d1a]">{biblioteca === null ? '…' : tr({ es: '-- Elige un examen de tu biblioteca --', en: '-- Pick an exam from your library --', ca: '-- Tria un examen de la teva biblioteca --' })}</option>
+                  {(biblioteca ?? []).map(e => (
+                    <option key={e.id} value={e.id} className="bg-[#0d0d1a]">{e.titulo}{e.cursoEscolar ? ` · ${e.cursoEscolar}` : ''} · {e.preguntas.length} {tr({ es: 'preg.', en: 'q.', ca: 'preg.' })} · {puntosTotales(e.preguntas)} pt</option>
+                  ))}
+                </select>
+                <p className="text-white/40 text-[12px]">
+                  {tr({ es: 'Los exámenes se crean y se guardan en ', en: 'Exams are created and kept in ', ca: 'Els exàmens es creen i es desen a ' })}
+                  <Link to={localPath('/profesor?tab=examenes')} className="text-teal-400 font-bold hover:underline">{tr({ es: 'Mis exámenes', en: 'My exams', ca: 'Els meus exàmens' })}</Link>
+                  {tr({ es: ': test, numéricas, desarrollo, con imágenes y dibujos.', en: ': multiple choice, numeric, open questions, with images and drawings.', ca: ': test, numèriques, desenvolupament, amb imatges i dibuixos.' })}
+                  {' '}<Link to={localPath('/profesor/examenes/nuevo')} className="text-teal-400 font-bold hover:underline">+ {tr({ es: 'Crear uno nuevo', en: 'Create a new one', ca: 'Crear-ne un de nou' })}</Link>
+                </p>
               </div>
             )}
 
@@ -826,10 +852,22 @@ export default function ProfesorClase() {
           <div className="space-y-2">
             {assignments.map(task => (
               <TaskCard key={task.id} task={task} studentsByUid={studentsByUid} lang={lang} tr={tr}
-                onToggleManual={handleToggleManual} onToggleFalta={handleToggleFalta} onMarkFaltaBulk={handleMarkFaltaBulk} />
+                onToggleManual={handleToggleManual} onToggleFalta={handleToggleFalta} onMarkFaltaBulk={handleMarkFaltaBulk}
+                onCorregir={(t, uid) => setCorrigiendo({ taskId: t.id, uid })} />
             ))}
           </div>
         )}
+        {corrigiendo && (() => {
+          const t = assignments.find(a => a.id === corrigiendo.taskId)
+          if (!t) return null
+          const entregados = t.studentIds.filter(uid => t.completions?.[uid]?.done)
+          return (
+            <CorregirExamen task={t} alumnos={entregados} inicial={corrigiendo.uid}
+              nombreDe={uid => studentsByUid[uid]?.name || uid}
+              onCerrar={() => setCorrigiendo(null)}
+              onGuardado={(uid, entrada) => setAssignments(as => as.map(a => (a.id === t.id ? { ...a, completions: { ...a.completions, [uid]: entrada } } : a)))} />
+          )
+        })()}
       </section>
       )}
 

@@ -380,17 +380,20 @@ service cloud.firestore {
 
       // 'quiz': examen propio del profesor, con las preguntas dentro de la
       // propia tarea (ver src/lib/quiz.js — por qué no se esconde la
-      // respuesta correcta). Aquí solo se acota la forma general (una lista
-      // de 1 a 10 preguntas); el contenido de cada pregunta se valida en el
-      // cliente al crearla, mismo patrón que seating/roster/modules.
+      // respuesta correcta). v1 (sin quizV): 1-10 preguntas tipo test. v2
+      // (quizV == 2, src/lib/examenesProfesor.js): copia de un examen de la
+      // biblioteca, 1-50 preguntas de seis tipos, con instrucciones y el id
+      // del examen de origen. Aquí solo se acota la forma general; el
+      // contenido de cada pregunta se valida en el cliente.
       allow create: if isTeacher(request.auth.uid)
         && request.resource.data.teacherId == request.auth.uid
         && classOwnedByCaller(request.resource.data.classId)
-        && request.resource.data.keys().hasOnly(['teacherId', 'classId', 'className', 'kind', 'gameId', 'category', 'level', 'title', 'quiz', 'studentIds', 'dueDate', 'createdAt', 'completions'])
+        && request.resource.data.keys().hasOnly(['teacherId', 'classId', 'className', 'kind', 'gameId', 'category', 'level', 'title', 'quiz', 'quizV', 'instrucciones', 'examenId', 'studentIds', 'dueDate', 'createdAt', 'completions'])
         && request.resource.data.kind in ['catalog', 'text', 'quiz']
         && (request.resource.data.kind != 'quiz'
             || (request.resource.data.quiz is list
-                && request.resource.data.quiz.size() >= 1 && request.resource.data.quiz.size() <= 10))
+                && request.resource.data.quiz.size() >= 1
+                && request.resource.data.quiz.size() <= (request.resource.data.get('quizV', 1) == 2 ? 50 : 10)))
         && request.resource.data.studentIds is list && request.resource.data.studentIds.size() > 0
         && request.resource.data.completions == {}
         && request.resource.data.createdAt == request.time;
@@ -406,9 +409,41 @@ service cloud.firestore {
             && request.resource.data.createdAt == resource.data.createdAt)
         || (request.auth != null && request.auth.uid in resource.data.studentIds
             && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['completions'])
-            && request.resource.data.completions.diff(resource.data.completions).affectedKeys().hasOnly([request.auth.uid]));
+            && request.resource.data.completions.diff(resource.data.completions).affectedKeys().hasOnly([request.auth.uid])
+            && (!(request.auth.uid in resource.data.completions)
+                || resource.data.completions[request.auth.uid].get('done', false) != true));
 
       allow delete: if false;
+    }
+
+    // ── Biblioteca de exámenes del profesor (src/lib/examenesProfesor.js) ──
+    // Solo su profesor la lee y la toca. Sobrevive a las clases: es lo que se
+    // reutiliza de un curso a otro.
+    match /examenesProfesor/{examId} {
+      allow read: if request.auth != null && request.auth.uid == resource.data.teacherId;
+      allow create: if isTeacher(request.auth.uid)
+        && request.resource.data.teacherId == request.auth.uid
+        && request.resource.data.preguntas is list
+        && request.resource.data.preguntas.size() >= 1 && request.resource.data.preguntas.size() <= 50
+        && request.resource.data.titulo is string && request.resource.data.titulo.size() <= 120;
+      allow update: if request.auth != null && request.auth.uid == resource.data.teacherId
+        && request.resource.data.teacherId == resource.data.teacherId
+        && request.resource.data.preguntas is list
+        && request.resource.data.preguntas.size() >= 1 && request.resource.data.preguntas.size() <= 50;
+      allow delete: if request.auth != null && request.auth.uid == resource.data.teacherId;
+    }
+
+    // ── Imágenes de los exámenes (fotos y dibujos, comprimidas) ──
+    // Id aleatorio. La lee cualquiera con sesión: la necesitan los alumnos de
+    // la tarea, y no lleva datos personales (es material del examen).
+    match /imagenesExamen/{imgId} {
+      allow read: if request.auth != null;
+      allow create: if isTeacher(request.auth.uid)
+        && request.resource.data.ownerId == request.auth.uid
+        && request.resource.data.data is string
+        && request.resource.data.data.size() < 900000;
+      allow update: if false;
+      allow delete: if request.auth != null && request.auth.uid == resource.data.ownerId;
     }
 
     // ── Contador global (solo admins leen, usuarios autenticados incrementan) ──

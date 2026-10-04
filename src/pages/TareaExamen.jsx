@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
 import { getAssignment, submitQuiz } from '../lib/assignments'
+import TareaExamenV2 from '../components/examenes/TareaExamenV2'
 
 // El alumno respondiendo un examen propio del profesor (assignments/{id}.kind
 // === 'quiz'). Una sola vez: si ya está hecho, esta pantalla enseña el
@@ -35,7 +36,7 @@ export default function TareaExamen() {
       // "no encontrada" — no hay nada más específico que decirle al alumno.
       if (!t || t.kind !== 'quiz' || !t.studentIds?.includes(user.uid)) { setTask(null); return }
       setTask(t)
-      setRespuestas(Array(t.quiz.length).fill(null))
+      if (t.quizV !== 2) setRespuestas(Array(t.quiz.length).fill(null))
     }).catch(() => setTask(null))
   }, [taskId, user]) // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -71,6 +72,10 @@ export default function TareaExamen() {
       </div>
     )
   }
+
+  // Exámenes de la biblioteca del profesor (v2): seis tipos de pregunta,
+  // imágenes y corrección del profesor. Tienen su propia pantalla.
+  if (task.quizV === 2) return <TareaExamenV2 task={task} uid={user.uid} />
 
   const c = task.completions?.[user.uid]
   const mostrarResultado = resultado || (yaHecho && c)
