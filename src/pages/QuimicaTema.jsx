@@ -347,6 +347,13 @@ const MODOS_POR_TEMA = {
       detalles: { es:['2 niveles','10 preguntas','Opción múltiple','Explicación tras cada respuesta'], en:['2 levels','10 questions','Multiple choice','Explanation after each answer'], ca:['2 nivells','10 preguntes','Opció múltiple','Explicació després de cada resposta'] },
       path: 'nutricion',
     },
+    {
+      id: 'lee-la-etiqueta-test', emoji: '🏷️', gradient: 'from-lime-500 to-emerald-700',
+      titulo: { es:'Lee la Etiqueta (con el juego)', en:'Read the Label (with the game)', ca:'Llegeix l’Etiqueta (amb el joc)' },
+      descripcion: { es:'Con la mecánica del juego: etiquetas nutricionales reales del súper; azúcar y sal por 100 g y por ración, terrones y semáforo nutricional.', en:'Using the game mechanic: real supermarket nutrition labels; sugar and salt per 100 g and per serving, sugar cubes and traffic-light labels.', ca:'Amb la mecànica del joc: etiquetes nutricionals reals del súper; sucre i sal per 100 g i per ració, terrossos i semàfor nutricional.' },
+      detalles: { es:['3 niveles','10 preguntas','Sin cronómetro','Con el juego'], en:['3 levels','10 questions','No timer','With the game'], ca:['3 nivells','10 preguntes','Sense cronòmetre','Amb el joc'] },
+      path: 'lee-la-etiqueta-test',
+    },
   ],
   'evolucion': [
     {

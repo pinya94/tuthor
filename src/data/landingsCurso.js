@@ -250,7 +250,7 @@ export const LANDINGS = [
       en: ['Organs of the human body', 'Food chains: producers and consumers', 'Solid, liquid and gas', 'Simple electric circuits', 'Forces, levers and the solar system'],
       ca: ['Els òrgans del cos humà', 'Cadenes alimentàries: productors i consumidors', 'Sòlid, líquid i gas', 'Circuits elèctrics senzills', 'Forces, palanques i el sistema solar'],
     },
-    juegos: ['rayos-x', 'cadena-alimentaria', 'cambio-estado', 'circuito-cerrado', 'balanza', 'fuerza-neta', 'orbita'],
+    juegos: ['rayos-x', 'lee-la-etiqueta', 'cadena-alimentaria', 'cambio-estado', 'circuito-cerrado', 'balanza', 'fuerza-neta', 'orbita'],
     temas: [
       { arte: 'biologia/cuerpo-humano', ruta: '/estudiar/biologia/cuerpo-humano', titulo: T('Cuerpo humano', 'Human body', 'Cos humà') },
       { arte: 'biologia/seres-vivos', ruta: '/estudiar/biologia/seres-vivos', titulo: T('Seres vivos', 'Living things', 'Éssers vius') },
@@ -537,7 +537,7 @@ export const LANDINGS = [
       en: ['The cell and its organelles', 'Genetics: heredity and Punnett squares', 'Human body anatomy', 'Ecosystems and food chains', 'The solar system and plate tectonics'],
       ca: ['La cèl·lula i els seus orgànuls', 'Genètica: herència i quadre de Punnett', 'Anatomia del cos humà', 'Ecosistemes i cadenes tròfiques', 'El sistema solar i les plaques tectòniques'],
     },
-    juegos: ['microscopio', 'genetica', 'rayos-x', 'cadena-alimentaria', 'el-tiempo', 'orbita'],
+    juegos: ['microscopio', 'genetica', 'rayos-x', 'lee-la-etiqueta', 'cadena-alimentaria', 'el-tiempo', 'orbita'],
     temas: [
       { arte: 'biologia/celula', ruta: '/estudiar/biologia/celula', titulo: T('La célula', 'The cell', 'La cèl·lula') },
       { arte: 'biologia/genetica', ruta: '/estudiar/biologia/genetica', titulo: T('Genética', 'Genetics', 'Genètica') },

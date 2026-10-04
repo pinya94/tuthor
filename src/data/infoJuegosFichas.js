@@ -1199,6 +1199,34 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Física', niveles: 'Primaria, ESO, Bachillerato',
   },
+  'lee-la-etiqueta': {
+    titulo: 'Lee la Etiqueta',
+    subtitulo: 'Juego de etiquetas nutricionales: azúcar, sal y grasas de lo que comes',
+    emoji: '🏷️', gradient: 'from-lime-500 to-emerald-700',
+    path: '/juegos/lee-la-etiqueta',
+    intro: 'Un juego para aprender a leer la tabla nutricional de los envases, que casi nadie mira y casi nadie entiende. Salen etiquetas dibujadas como las del súper, de 24 productos genéricos —refresco de cola, cereales, galletas, yogures, patatas fritas, garbanzos, queso— con sus valores típicos, y una pregunta: cuál tiene más azúcar, cuántos terrones de azúcar hay en una lata, cuántos gramos de sal lleva una ración o si un producto es alto, medio o bajo en grasas según el semáforo nutricional. En el nivel difícil aparece la trampa más común: lo que tiene más azúcar por 100 gramos no es siempre lo que más azúcar te aporta, porque depende de cuánto te comes.',
+    beneficios: [
+      { titulo: 'Por 100 gramos no es lo que te comes', texto: 'La tabla da los valores por 100 g o 100 ml, pero una lata tiene 330 ml y una cucharada de crema de cacao 15 g. Pasar de una cosa a otra —valor por ración = valor × gramos / 100— es la cuenta que convierte la etiqueta en información útil, y el juego la repite hasta que sale sola.' },
+      { titulo: 'El azúcar, en terrones', texto: 'Treinta y cinco gramos de azúcar no le dicen nada a nadie; nueve terrones, sí. Traducir los gramos a terrones de 4 g es la forma más rápida de que un niño entienda lo que lleva una lata de refresco o un yogur azucarado.' },
+      { titulo: 'Un criterio para decidir', texto: 'El semáforo nutricional da umbrales claros por 100 g para azúcar, grasas, saturadas y sal, con la mitad para las bebidas. Con él, comparar dos productos deja de ser una impresión y pasa a ser una lectura: alto, medio o bajo.' },
+    ],
+    ejemplo: 'Sale la pregunta: ¿qué te aporta más azúcar, una cucharada de crema de cacao o un vaso de zumo de naranja envasado? La crema tiene 56 g de azúcar por 100 g y el zumo solo 9, así que casi todo el mundo elige la crema. Pero la cucharada son 15 g, unos 8 g de azúcar, y el vaso son 200 ml, 18 g. Gana el zumo, y la explicación enseña las dos cuentas.',
+    enPapel: {
+      titulo: 'Las etiquetas de tu cocina',
+      pasos: [
+        'Reunid cinco envases de casa: un refresco, unos cereales, un yogur, unas galletas y algo salado.',
+        'Que ordenen los cinco de más a menos azúcar por 100 g, solo mirando la tabla.',
+        'Después, que calculen el azúcar de una ración de cada uno y vuelvan a ordenar: el orden suele cambiar.',
+        'Por último, poned en un plato los terrones de azúcar de la ración de cada producto.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'El examen de Nutrición', desc: 'Para la teoría: macronutrientes, vitaminas, la dieta mediterránea y la alimentación saludable, con explicación en cada respuesta.' },
+      { nombre: 'La lista de la compra', desc: 'Antes de ir al súper, elegid entre dos productos parecidos mirando la etiqueta: dos cereales, dos panes de molde o dos yogures.' },
+      { nombre: 'El Nutri-Score', desc: 'Muchos envases llevan además la letra de la A a la E. Comparar la letra con lo que dice la tabla es un buen ejercicio de lectura crítica.' },
+    ],
+    asignatura: 'Biología', niveles: 'Primaria, ESO',
+  },
   'encuentra-elemento': {
     titulo: 'Encuentra el Elemento',
     subtitulo: 'Juego de la Tabla Periódica',
@@ -2393,6 +2421,33 @@ export const FICHAS_EN = {
       { nombre: 'Cardboard gears', desc: 'Cut out cardboard gears with different numbers of teeth, pin them to a corkboard and build your own train.' },
     ],
     asignatura: 'Physics', niveles: 'Primary, Secondary, Sixth Form',
+  },
+  'lee-la-etiqueta': {
+    titulo: 'Read the Label',
+    subtitulo: 'Nutrition label game: the sugar, salt and fat in what you eat',
+    emoji: '🏷️', gradient: 'from-lime-500 to-emerald-700', path: '/juegos/lee-la-etiqueta',
+    intro: 'A game for learning to read the nutrition table on packaging, which almost nobody looks at and almost nobody understands. Labels drawn like the ones in the supermarket appear, from 24 generic products — cola, cereal, biscuits, yoghurts, crisps, chickpeas, cheese — with typical values, and a question: which has more sugar, how many sugar cubes are in a can, how many grams of salt are in a serving, or whether a product is high, medium or low in fat by traffic-light labelling. On hard comes the most common trap: whatever has the most sugar per 100 grams is not always what gives you the most sugar, because it depends on how much you eat.',
+    beneficios: [
+      { titulo: 'Per 100 grams is not what you eat', texto: 'The table gives values per 100 g or 100 ml, but a can holds 330 ml and a spoonful of chocolate spread is 15 g. Converting one to the other — value per serving = value × grams / 100 — is the calculation that turns the label into useful information, and the game repeats it until it becomes automatic.' },
+      { titulo: 'Sugar, in cubes', texto: 'Thirty-five grams of sugar means nothing to anyone; nine sugar cubes does. Turning grams into 4 g cubes is the fastest way for a child to grasp what is in a can of fizzy drink or a sweetened yoghurt.' },
+      { titulo: 'A rule for deciding', texto: 'Traffic-light labelling gives clear per-100 g thresholds for sugar, fat, saturates and salt, halved for drinks. With it, comparing two products stops being a hunch and becomes a reading: high, medium or low.' },
+    ],
+    ejemplo: 'The question: which gives you more sugar, a spoonful of chocolate spread or a glass of packaged orange juice? The spread has 56 g of sugar per 100 g and the juice only 9, so almost everyone picks the spread. But the spoonful is 15 g, about 8 g of sugar, and the glass is 200 ml, 18 g. The juice wins, and the explanation shows both calculations.',
+    enPapel: {
+      titulo: 'The labels in your kitchen',
+      pasos: [
+        'Gather five packs from home: a fizzy drink, a cereal, a yoghurt, some biscuits and something savoury.',
+        'Have them order the five from most to least sugar per 100 g, just by reading the table.',
+        'Then work out the sugar in one serving of each and order them again: the order often changes.',
+        'Finally, put the sugar cubes for each serving on a plate.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'The Nutrition exam', desc: 'For the theory: macronutrients, vitamins, the Mediterranean diet and healthy eating, with an explanation for every answer.' },
+      { nombre: 'The shopping list', desc: 'Before going to the supermarket, choose between two similar products by reading the label: two cereals, two breads or two yoghurts.' },
+      { nombre: 'Front-of-pack scores', desc: 'Many packs also carry a summary score or colour code. Comparing it with what the table says is a good critical reading exercise.' },
+    ],
+    asignatura: 'Biology', niveles: 'Primary, Secondary',
   },
   'encuentra-elemento': {
     titulo: 'Find the Element',
@@ -3662,6 +3717,33 @@ export const FICHAS_CA = {
       { nombre: 'Engranatges de cartró', desc: 'Retalleu rodes dentades de cartró amb diferent nombre de dents, claveu-les amb xinxetes en un suro i munteu el vostre propi tren.' },
     ],
     asignatura: 'Física', niveles: 'Primària, ESO, Batxillerat',
+  },
+  'lee-la-etiqueta': {
+    titulo: 'Llegeix l’Etiqueta',
+    subtitulo: 'Joc d’etiquetes nutricionals: el sucre, la sal i els greixos del que menges',
+    emoji: '🏷️', gradient: 'from-lime-500 to-emerald-700', path: '/juegos/lee-la-etiqueta',
+    intro: 'Un joc per aprendre a llegir la taula nutricional dels envasos, que gairebé ningú mira i gairebé ningú entén. Surten etiquetes dibuixades com les del súper, de 24 productes genèrics —refresc de cola, cereals, galetes, iogurts, patates fregides, cigrons, formatge— amb els seus valors típics, i una pregunta: quin té més sucre, quants terrossos de sucre hi ha en una llauna, quants grams de sal porta una ració o si un producte és alt, mitjà o baix en greixos segons el semàfor nutricional. Al nivell difícil apareix la trampa més habitual: el que té més sucre per 100 grams no és sempre el que més sucre t’aporta, perquè depèn de quant te’n menges.',
+    beneficios: [
+      { titulo: 'Per 100 grams no és el que et menges', texto: 'La taula dona els valors per 100 g o 100 ml, però una llauna té 330 ml i una cullerada de crema de cacau 15 g. Passar d’una cosa a l’altra —valor per ració = valor × grams / 100— és el compte que converteix l’etiqueta en informació útil, i el joc el repeteix fins que surt sol.' },
+      { titulo: 'El sucre, en terrossos', texto: 'Trenta-cinc grams de sucre no diuen res a ningú; nou terrossos, sí. Traduir els grams a terrossos de 4 g és la manera més ràpida que un nen entengui el que porta una llauna de refresc o un iogurt ensucrat.' },
+      { titulo: 'Un criteri per decidir', texto: 'El semàfor nutricional dona llindars clars per 100 g per al sucre, els greixos, els saturats i la sal, amb la meitat per a les begudes. Amb ell, comparar dos productes deixa de ser una impressió i passa a ser una lectura: alt, mitjà o baix.' },
+    ],
+    ejemplo: 'Surt la pregunta: què t’aporta més sucre, una cullerada de crema de cacau o un got de suc de taronja envasat? La crema té 56 g de sucre per 100 g i el suc només 9, així que gairebé tothom tria la crema. Però la cullerada són 15 g, uns 8 g de sucre, i el got són 200 ml, 18 g. Guanya el suc, i l’explicació ensenya els dos comptes.',
+    enPapel: {
+      titulo: 'Les etiquetes de la teva cuina',
+      pasos: [
+        'Reuniu cinc envasos de casa: un refresc, uns cereals, un iogurt, unes galetes i alguna cosa salada.',
+        'Que ordenin els cinc de més a menys sucre per 100 g, només mirant la taula.',
+        'Després, que calculin el sucre d’una ració de cadascun i tornin a ordenar: l’ordre sol canviar.',
+        'Per acabar, poseu en un plat els terrossos de sucre de la ració de cada producte.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'L’examen de Nutrició', desc: 'Per a la teoria: macronutrients, vitamines, la dieta mediterrània i l’alimentació saludable, amb explicació a cada resposta.' },
+      { nombre: 'La llista de la compra', desc: 'Abans d’anar al súper, trieu entre dos productes semblants mirant l’etiqueta: dos cereals, dos pans de motlle o dos iogurts.' },
+      { nombre: 'El Nutri-Score', desc: 'Molts envasos porten a més la lletra de l’A a l’E. Comparar la lletra amb el que diu la taula és un bon exercici de lectura crítica.' },
+    ],
+    asignatura: 'Biologia', niveles: 'Primària, ESO',
   },
   'encuentra-elemento': {
     titulo: 'Troba l\'Element',

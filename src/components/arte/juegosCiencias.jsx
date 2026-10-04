@@ -358,6 +358,30 @@ function Engranajes(p) {
   )
 }
 
+function LeeLaEtiqueta(p) {
+  return (
+    <Lienzo {...p}>
+      {/* envase */}
+      <rect x="22" y="22" width="62" height="92" rx="10" fill="#EF4444" />
+      <rect x="22" y="22" width="62" height="18" rx="9" fill="#B91C1C" />
+      <circle cx="53" cy="70" r="16" fill="#FEF2F2" fillOpacity=".9" />
+      {/* etiqueta */}
+      <rect x="104" y="16" width="112" height="104" rx="6" fill="#F8FAFC" />
+      <rect x="112" y="26" width="64" height="6" rx="2" fill="#0F172A" />
+      <path d="M112 38H208" stroke="#0F172A" strokeWidth="2.5" />
+      {[48, 60, 72, 84, 96, 108].map((y, i) => (
+        <g key={y}>
+          {i === 2 && <rect x="108" y={y - 7} width="104" height="11" rx="2" fill="#FDE047" />}
+          <rect x="112" y={y - 3} width={i % 2 ? 44 : 58} height="4" rx="2" fill="#475569" />
+          <rect x={186} y={y - 3} width="22" height="4" rx="2" fill="#0F172A" />
+        </g>
+      ))}
+      {/* terrones */}
+      {[[36, 120], [50, 120], [64, 120]].map(([x, y]) => <rect key={x} x={x} y={y - 6} width="11" height="11" rx="2" fill="#F8FAFC" stroke="#CBD5E1" />)}
+    </Lienzo>
+  )
+}
+
 export const ARTE_CIENCIAS = {
   genetica: Genetica,
   'rayos-x': RayosX,
@@ -368,6 +392,7 @@ export const ARTE_CIENCIAS = {
   orbita: Orbita,
   'el-tiempo': ElTiempo,
   engranajes: Engranajes,
+  'lee-la-etiqueta': LeeLaEtiqueta,
   'circuito-cerrado': CircuitoCerrado,
   'rayo-de-luz': RayoDeLuz,
   'balanza-ecuaciones': BalanzaEcuaciones,

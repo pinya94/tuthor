@@ -436,7 +436,7 @@ export const TOPIC_CATALOG = {
       'seres-vivos': examTema({ teoria: 'seres-vivos' }, { niveles: ['primaria', 'eso'] }),
       ecosistemas: examTema({ teoria: 'ecosistemas', cadena: 'cadena-alimentaria-test' }, { niveles: ['primaria', 'eso', 'bachillerato'] }),
       genetica: examTema({ teoria: 'genetica', 'punnett': 'genetica-test' }, { niveles: ['eso'] }),
-      nutricion: examTema({ teoria: 'nutricion' }, { niveles: ['primaria', 'eso'] }),
+      nutricion: examTema({ teoria: 'nutricion', etiqueta: 'lee-la-etiqueta-test' }, { niveles: ['primaria', 'eso'] }),
       evolucion: examTema({ teoria: 'evolucion' }, { niveles: ['eso', 'bachillerato'] }),
       'salud-enfermedad': examTema({ teoria: 'salud-enfermedad' }, { niveles: ['eso', 'bachillerato'] }),
     },
@@ -446,6 +446,7 @@ export const TOPIC_CATALOG = {
       rayosX: examFormato({ es: 'Rayos X (con el juego)', en: 'X-Ray (with the game)', ca: 'Raigs X (amb el joc)' }, '🧠'),
       cadena: examFormato({ es: 'Cadena Alimentaria (con el juego)', en: 'Food Chain (with the game)', ca: 'Cadena Alimentària (amb el joc)' }, '🌿'),
       microscopioTest: examFormato({ es: 'La célula (con el juego)', en: 'The cell (with the game)', ca: 'La cèl·lula (amb el joc)' }, '🔬'),
+      etiqueta: examFormato({ es: 'Lee la Etiqueta (con el juego)', en: 'Read the Label (with the game)', ca: 'Llegeix l’Etiqueta (amb el joc)' }, '🏷️'),
       // Formato por MECÁNICA (el juego arcade, no un examen): la página
       // guarda category = 'celula', así que la tarea se completa sola.
       microscopio: {

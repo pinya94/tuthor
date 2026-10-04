@@ -480,6 +480,11 @@ export const EXAMS = {
     emoji: '⚙️', subject: 'fisica',
     path: 'examen/engranajes-test', page: () => import('../pages/EngranajesExamen'),
   },
+  'lee-la-etiqueta-test': {
+    label: { es: 'Lee la Etiqueta (con el juego)', en: 'Read the Label (with the game)', ca: 'Llegeix l’Etiqueta (amb el joc)' },
+    emoji: '🏷️', subject: 'biologia',
+    path: 'examen/lee-la-etiqueta-test', page: () => import('../pages/LeeLaEtiquetaExamen'),
+  },
   'medidor-ph-test': {
     label: { es: 'Medidor de pH', en: 'pH Meter', ca: 'Mesurador de pH' },
     emoji: '🧪', subject: 'quimica',
