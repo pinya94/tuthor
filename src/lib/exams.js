@@ -475,6 +475,11 @@ export const EXAMS = {
     emoji: '🌦️', subject: 'geologia',
     path: 'examen/el-tiempo-test', page: () => import('../pages/ElTiempoExamen'),
   },
+  'engranajes-test': {
+    label: { es: 'Engranajes (con el juego)', en: 'Gears (with the game)', ca: 'Engranatges (amb el joc)' },
+    emoji: '⚙️', subject: 'fisica',
+    path: 'examen/engranajes-test', page: () => import('../pages/EngranajesExamen'),
+  },
   'medidor-ph-test': {
     label: { es: 'Medidor de pH', en: 'pH Meter', ca: 'Mesurador de pH' },
     emoji: '🧪', subject: 'quimica',

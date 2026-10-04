@@ -1171,6 +1171,34 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Geografía', niveles: 'Primaria, ESO, Bachillerato',
   },
+  'engranajes': {
+    titulo: 'Engranajes',
+    subtitulo: 'Juego de trenes de engranajes: sentido de giro, velocidad y rpm',
+    emoji: '⚙️', gradient: 'from-slate-500 to-amber-600',
+    path: '/juegos/engranajes',
+    intro: 'Un juego de física y tecnología para entender cómo funcionan las ruedas dentadas de una bici, un reloj o una batidora. Sale una cadena de engranajes generada al azar, con cada rueda dibujada con sus dientes reales y de un tamaño proporcional a ellos. La primera es la motriz y se ve girar, con su sentido y sus vueltas por minuto. Hay que decir qué hace la última: hacia dónde gira, si va más rápida o más lenta y, en los niveles altos, a cuántas rpm exactas. En el difícil aparece una rueda doble, dos piñones en el mismo eje, que es como se consiguen las grandes reducciones. Al responder, todas las ruedas se ponen a girar a su velocidad real.',
+    beneficios: [
+      { titulo: 'Dos reglas que explican cualquier tren', texto: 'Cada vez que dos ruedas engranan, el giro se invierte; y se conserva velocidad por dientes. Con eso se resuelve cualquier cadena, y el juego obliga a aplicarlas en vez de memorizar casos: los trenes se generan al azar y nunca son los mismos.' },
+      { titulo: 'Las ruedas locas, la gran sorpresa', texto: 'Casi todo el mundo cree que cada rueda de en medio cambia la velocidad. No es así: solo cambian el sentido, y la velocidad final depende solo de la primera y de la última. Descubrirlo jugando, y verlo girar al corregir, se queda mucho más que leerlo en el libro de Tecnología.' },
+      { titulo: 'La relación de transmisión, con números', texto: 'En el nivel medio hay que calcular las rpm con n₁·z₁ = n₂·z₂, la fórmula de la relación de transmisión de 2.º y 3.º de ESO. Los números están elegidos para que salgan exactos, así que el esfuerzo va al razonamiento y no a la calculadora.' },
+    ],
+    ejemplo: 'Sale un tren de cuatro ruedas: la primera, de 12 dientes, gira a 60 rpm en sentido horario; después vienen una de 40, una de 15 y la última, de 36. Muchos se ponen a multiplicar rueda por rueda. Basta con la primera y la última: 60 × 12 = n × 36, así que la última gira a 20 rpm. Y como hay tres engranes, número impar, gira al revés que la primera: en sentido antihorario.',
+    enPapel: {
+      titulo: 'Engranajes de verdad',
+      pasos: [
+        'Busca en casa algo con engranajes: una batidora manual, un sacacorchos de alas, un reloj viejo o una bici.',
+        'Cuenta los dientes de dos ruedas que engranen y marca un diente de cada una con rotulador.',
+        'Gira la grande una vuelta completa y cuenta cuántas vueltas da la pequeña.',
+        'Comprueba que vueltas × dientes da lo mismo en las dos ruedas.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'El examen de Máquinas y Mecanismos', desc: 'Repasa la palanca y sus tres grados, las poleas, la biela-manivela, la leva y el piñón-cremallera, con explicación en cada respuesta.' },
+      { nombre: 'Los cambios de la bici', desc: 'Con la bici del revés, gira los pedales una vuelta con el plato grande y el piñón pequeño, y luego al revés. Contar las vueltas de la rueda es la relación de transmisión en directo.' },
+      { nombre: 'Engranajes de cartón', desc: 'Recortad ruedas dentadas de cartón con distinto número de dientes, clavadlas con chinchetas en un corcho y montad vuestro propio tren.' },
+    ],
+    asignatura: 'Física', niveles: 'Primaria, ESO, Bachillerato',
+  },
   'encuentra-elemento': {
     titulo: 'Encuentra el Elemento',
     subtitulo: 'Juego de la Tabla Periódica',
@@ -2338,6 +2366,33 @@ export const FICHAS_EN = {
       { nombre: 'A real rain radar', desc: 'National weather services publish their radar online. Watching the colours move on a stormy day is the best follow-up to the game.' },
     ],
     asignatura: 'Geography', niveles: 'Primary, Secondary, Sixth Form',
+  },
+  'engranajes': {
+    titulo: 'Gears',
+    subtitulo: 'Gear train game: direction of rotation, speed and rpm',
+    emoji: '⚙️', gradient: 'from-slate-500 to-amber-600', path: '/juegos/engranajes',
+    intro: 'A physics and technology game for understanding how the toothed wheels in a bike, a clock or a hand whisk work. A randomly generated chain of gears appears, each drawn with its real number of teeth and a size in proportion. The first is the driver and you can see it turning, with its direction and revolutions per minute. You say what the last one does: which way it turns, whether it is faster or slower and, at higher levels, exactly how many rpm. On hard there is a compound gear, two gears on one shaft, which is how big reductions are achieved. When you answer, every gear starts turning at its real speed.',
+    beneficios: [
+      { titulo: 'Two rules that explain any train', texto: 'Every time two gears mesh, the rotation reverses; and speed times teeth is conserved. That solves any chain, and the game makes you apply the rules instead of memorising cases: trains are generated at random and are never the same.' },
+      { titulo: 'Idler gears, the big surprise', texto: 'Almost everyone thinks each gear in the middle changes the speed. It does not: they only change the direction, and the final speed depends only on the first and last gear. Discovering it while playing, and watching it turn, sticks far better than reading it.' },
+      { titulo: 'Gear ratio, with numbers', texto: 'On medium you work out the rpm with n₁·z₁ = n₂·z₂, the gear ratio formula from lower secondary technology. The numbers are chosen to come out exact, so the effort goes into reasoning, not the calculator.' },
+    ],
+    ejemplo: 'A four-gear train appears: the first, with 12 teeth, turns at 60 rpm clockwise; then come gears of 40, 15 and finally 36 teeth. Many start multiplying gear by gear. The first and last are enough: 60 × 12 = n × 36, so the last turns at 20 rpm. And with three meshes, an odd number, it turns the opposite way to the first: anticlockwise.',
+    enPapel: {
+      titulo: 'Real gears',
+      pasos: [
+        'Find something with gears at home: a hand whisk, a winged corkscrew, an old clock or a bike.',
+        'Count the teeth on two meshing gears and mark one tooth on each with a pen.',
+        'Turn the big one a full revolution and count how many times the small one turns.',
+        'Check that revolutions × teeth gives the same number for both gears.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'The Machines and Mechanisms exam', desc: 'Revise levers and their three classes, pulleys, the crank and connecting rod, the cam and the rack and pinion, with an explanation for every answer.' },
+      { nombre: 'Bike gears', desc: 'With the bike upside down, turn the pedals once with the big chainring and small sprocket, then the other way round. Counting the wheel turns is the gear ratio live.' },
+      { nombre: 'Cardboard gears', desc: 'Cut out cardboard gears with different numbers of teeth, pin them to a corkboard and build your own train.' },
+    ],
+    asignatura: 'Physics', niveles: 'Primary, Secondary, Sixth Form',
   },
   'encuentra-elemento': {
     titulo: 'Find the Element',
@@ -3580,6 +3635,33 @@ export const FICHAS_CA = {
       { nombre: 'El radar de l’AEMET o del Meteocat', desc: 'El radar real es pot veure a les webs dels serveis meteorològics. Mirar com es mouen els colors un dia de tempesta és la millor continuació del joc.' },
     ],
     asignatura: 'Geografia', niveles: 'Primària, ESO, Batxillerat',
+  },
+  'engranajes': {
+    titulo: 'Engranatges',
+    subtitulo: 'Joc de trens d’engranatges: sentit de gir, velocitat i rpm',
+    emoji: '⚙️', gradient: 'from-slate-500 to-amber-600', path: '/juegos/engranajes',
+    intro: 'Un joc de física i tecnologia per entendre com funcionen les rodes dentades d’una bici, un rellotge o una batedora. Surt una cadena d’engranatges generada a l’atzar, amb cada roda dibuixada amb les seves dents reals i d’una mida proporcional. La primera és la motriu i es veu girar, amb el seu sentit i les seves voltes per minut. Cal dir què fa l’última: cap a on gira, si va més ràpida o més lenta i, als nivells alts, a quantes rpm exactes. Al difícil apareix una roda doble, dos pinyons al mateix eix, que és com s’aconsegueixen les grans reduccions. En respondre, totes les rodes es posen a girar a la seva velocitat real.',
+    beneficios: [
+      { titulo: 'Dues regles que expliquen qualsevol tren', texto: 'Cada vegada que dues rodes engranen, el gir s’inverteix; i es conserva velocitat per dents. Amb això es resol qualsevol cadena, i el joc obliga a aplicar-les en lloc de memoritzar casos: els trens es generen a l’atzar i mai no són els mateixos.' },
+      { titulo: 'Les rodes boges, la gran sorpresa', texto: 'Gairebé tothom creu que cada roda del mig canvia la velocitat. No és així: només canvien el sentit, i la velocitat final depèn només de la primera i de l’última. Descobrir-ho jugant, i veure-ho girar en corregir, queda molt més que llegir-ho.' },
+      { titulo: 'La relació de transmissió, amb números', texto: 'Al nivell mitjà cal calcular les rpm amb n₁·z₁ = n₂·z₂, la fórmula de la relació de transmissió de 2n i 3r d’ESO. Els números estan triats perquè surtin exactes, així que l’esforç va al raonament i no a la calculadora.' },
+    ],
+    ejemplo: 'Surt un tren de quatre rodes: la primera, de 12 dents, gira a 60 rpm en sentit horari; després vénen una de 40, una de 15 i l’última, de 36. Molts es posen a multiplicar roda per roda. N’hi ha prou amb la primera i l’última: 60 × 12 = n × 36, així que l’última gira a 20 rpm. I com que hi ha tres engranatges, nombre senar, gira al revés que la primera: en sentit antihorari.',
+    enPapel: {
+      titulo: 'Engranatges de debò',
+      pasos: [
+        'Busca a casa alguna cosa amb engranatges: una batedora manual, un llevataps d’ales, un rellotge vell o una bici.',
+        'Compta les dents de dues rodes que engranin i marca una dent de cadascuna amb retolador.',
+        'Gira la gran una volta sencera i compta quantes voltes fa la petita.',
+        'Comprova que voltes × dents dona el mateix a les dues rodes.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'L’examen de Màquines i Mecanismes', desc: 'Repassa la palanca i els seus tres graus, les politges, la biela-manovella, la lleva i el pinyó-cremallera, amb explicació a cada resposta.' },
+      { nombre: 'Els canvis de la bici', desc: 'Amb la bici del revés, gira els pedals una volta amb el plat gran i el pinyó petit, i després al revés. Comptar les voltes de la roda és la relació de transmissió en directe.' },
+      { nombre: 'Engranatges de cartró', desc: 'Retalleu rodes dentades de cartró amb diferent nombre de dents, claveu-les amb xinxetes en un suro i munteu el vostre propi tren.' },
+    ],
+    asignatura: 'Física', niveles: 'Primària, ESO, Batxillerat',
   },
   'encuentra-elemento': {
     titulo: 'Troba l\'Element',

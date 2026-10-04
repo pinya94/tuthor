@@ -337,6 +337,27 @@ function ElTiempo(p) {
   )
 }
 
+function Engranajes(p) {
+  const rueda = (cx, cy, r, z, c) => {
+    let d = ''
+    for (let i = 0; i < z; i++) {
+      const a = (i * 2 * Math.PI) / z, st = (2 * Math.PI) / z
+      for (const [rr, aa] of [[r - 4, a], [r + 4, a + st * 0.18], [r + 4, a + st * 0.48], [r - 4, a + st * 0.66]]) d += (d ? 'L' : 'M') + (cx + rr * Math.cos(aa)).toFixed(1) + ' ' + (cy + rr * Math.sin(aa)).toFixed(1)
+    }
+    return <g><path d={d + 'Z'} fill={c} fillOpacity=".3" stroke={c} strokeWidth="2.5" strokeLinejoin="round" /><circle cx={cx} cy={cy} r="5" fill="#0F172A" stroke={c} strokeWidth="2" /></g>
+  }
+  return (
+    <Lienzo {...p}>
+      {rueda(62, 70, 34, 16, '#94A3B8')}
+      {rueda(122, 46, 22, 10, '#60A5FA')}
+      {rueda(177, 74, 36, 16, '#FACC15')}
+      <path d="M40 30A34 34 0 0 1 84 30" stroke="#F8FAFC" strokeWidth="2.5" fill="none" />
+      <path d="M84 30l-7 -1l3 6Z" fill="#F8FAFC" />
+      <T x={177} y={28} s={14} c="#FACC15">?</T>
+    </Lienzo>
+  )
+}
+
 export const ARTE_CIENCIAS = {
   genetica: Genetica,
   'rayos-x': RayosX,
@@ -346,6 +367,7 @@ export const ARTE_CIENCIAS = {
   balanza: Balanza,
   orbita: Orbita,
   'el-tiempo': ElTiempo,
+  engranajes: Engranajes,
   'circuito-cerrado': CircuitoCerrado,
   'rayo-de-luz': RayoDeLuz,
   'balanza-ecuaciones': BalanzaEcuaciones,

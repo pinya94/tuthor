@@ -447,6 +447,13 @@ const MODOS_POR_TEMA = {
       detalles: { es:['2 niveles','10 preguntas','Opción múltiple','Explicación tras cada respuesta'], en:['2 levels','10 questions','Multiple choice','Explanation after each answer'], ca:['2 nivells','10 preguntes','Opció múltiple','Explicació després de cada resposta'] },
       path: 'maquinas',
     },
+    {
+      id: 'engranajes-test', emoji: '⚙️', gradient: 'from-slate-500 to-amber-600',
+      titulo: { es:'Engranajes (con el juego)', en:'Gears (with the game)', ca:'Engranatges (amb el joc)' },
+      descripcion: { es:'Con la mecánica del juego: trenes de engranajes generados; hacia dónde gira la última rueda, si va más rápida y a cuántas rpm.', en:'Using the game mechanic: generated gear trains; which way the last gear turns, whether it is faster and at how many rpm.', ca:'Amb la mecànica del joc: trens d’engranatges generats; cap a on gira l’última roda, si va més ràpida i a quantes rpm.' },
+      detalles: { es:['3 niveles','10 preguntas','Sin cronómetro','Con el juego'], en:['3 levels','10 questions','No timer','With the game'], ca:['3 nivells','10 preguntes','Sense cronòmetre','Amb el joc'] },
+      path: 'engranajes-test',
+    },
   ],
   formulacion: [
     {

@@ -267,6 +267,14 @@ export const GAMES = {
     // aciertos × 10 puntos → hasta 200 monedas
     coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
   },
+  'engranajes': {
+    label: { es: 'Engranajes', en: 'Gears', ca: 'Engranatges' },
+    emoji: '⚙️',
+    subject: 'fisica',
+    route: '/juegos/engranajes',
+    // aciertos × 10 puntos → hasta 200 monedas
+    coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
+  },
   'analiza-frases': {
     label: { es: 'Analiza la Frase', en: 'Sentence Detective', ca: 'Analitza la Frase' },
     emoji: '🧐',

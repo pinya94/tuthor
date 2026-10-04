@@ -387,7 +387,7 @@ export const TOPIC_CATALOG = {
       'ondas-luz': examTema({ teoria: 'ondas-luz', 'rayo-de-luz': 'rayo-de-luz-test' }, { niveles: ['primaria', 'eso'] }),
       'presion-fluidos': examTema({ teoria: 'presion-fluidos' }, { niveles: ['primaria', 'eso'] }),
       'calor-temperatura': examTema({ teoria: 'calor-temperatura' }, { niveles: ['primaria', 'eso'] }),
-      maquinas: examTema({ teoria: 'maquinas' }, { niveles: ['primaria', 'eso'] }),
+      maquinas: examTema({ teoria: 'maquinas', engranajes: 'engranajes-test' }, { niveles: ['primaria', 'eso'] }),
     },
     formatos: {
       teoria: examFormato({ es: 'Teoría (tipo test)', en: 'Theory (quiz)', ca: 'Teoria (tipus test)' }, '📝'),
@@ -395,6 +395,7 @@ export const TOPIC_CATALOG = {
       balanza: examFormato({ es: 'Balanza (con el juego)', en: 'Balance (with the game)', ca: 'Balança (amb el joc)' }, '⚖️'),
       circuito: examFormato({ es: 'Circuito Cerrado (con el juego)', en: 'Circuit Complete (with the game)', ca: 'Circuit Complet (amb el joc)' }, '💡'),
       'rayo-de-luz': examFormato({ es: 'Rayo de Luz (con el juego)', en: 'Light Beam (with the game)', ca: 'Raig de Llum (amb el joc)' }, '🔦'),
+      engranajes: examFormato({ es: 'Engranajes (con el juego)', en: 'Gears (with the game)', ca: 'Engranatges (amb el joc)' }, '⚙️'),
     },
   },
 
