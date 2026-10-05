@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest'
 import {
   TIPOS, preguntaNueva, cambiarTipo, problemas, examenValido, examenNuevo, limpiarExamen,
   puntosAuto, corregirExamen, normalizar, leerNumero, cursoEscolarActual, cursoSiguiente, textoSolucion,
+  CAMPOS_SOLUCION, separarSoluciones, unirSoluciones, conSolucion, calificar, sinCalificar,
 } from '../examenModelo'
 
 const tr = o => o.es
@@ -96,5 +97,60 @@ describe('examenModelo · utilidades', () => {
     expect(l.preguntas[0].tolerancia).toBe(0.2)
     expect(examenValido(l)).toBe(true)
     expect(textoSolucion(l.preguntas[0], tr)).toBe('9.8 (± 0.2)')
+  })
+})
+
+describe('examenModelo · soluciones aparte', () => {
+  const examen = [
+    { id: 'a', tipo: 'test', enunciado: 'x', imagen: null, puntos: 1, opciones: ['s', 'n'], correctas: [0] },
+    { id: 'b', tipo: 'multiple', enunciado: 'x', imagen: null, puntos: 2, opciones: ['1', '2', '3'], correctas: [0, 2] },
+    { id: 'c', tipo: 'vf', enunciado: 'x', imagen: null, puntos: 1, correcta: false },
+    { id: 'd', tipo: 'numerica', enunciado: 'x', imagen: null, puntos: 2, valor: 75, tolerancia: 0.5, unidad: 'km/h' },
+    { id: 'e', tipo: 'corta', enunciado: 'x', imagen: null, puntos: 1, aceptadas: ['fotosíntesis'] },
+    { id: 'f', tipo: 'desarrollo', enunciado: 'x', imagen: null, puntos: 3, criterios: '1 pt por fase', lineas: 6 },
+  ]
+
+  it('cubre todos los tipos', () => {
+    expect(Object.keys(CAMPOS_SOLUCION).sort()).toEqual([...TIPOS].sort())
+  })
+
+  it('lo que va a la tarea no lleva ninguna solución, pero sí lo necesario para contestar', () => {
+    const { publicas } = separarSoluciones(examen)
+    for (const p of publicas) {
+      for (const k of CAMPOS_SOLUCION[p.tipo]) expect(p, `${p.tipo}.${k}`).not.toHaveProperty(k)
+      expect(conSolucion(p)).toBe(false)
+    }
+    expect(publicas[0].opciones).toEqual(['s', 'n'])
+    expect(publicas[3].unidad).toBe('km/h')
+    expect(publicas[5].lineas).toBe(6)
+    // Ni rastro en el JSON (lo que de verdad viaja al navegador del alumno)
+    const json = JSON.stringify(publicas)
+    expect(json).not.toMatch(/fotos|1 pt por fase|correcta|valor|tolerancia/)
+  })
+
+  it('separar y unir devuelve el examen original y corrige igual', () => {
+    const { publicas, soluciones } = separarSoluciones(examen)
+    const unido = unirSoluciones(publicas, soluciones)
+    expect(unido).toEqual(examen)
+    const resp = { a: 0, b: [0, 2], c: false, d: '75,3', e: 'Fotosintesis', f: 'bla' }
+    expect(corregirExamen(unido, resp)).toEqual(corregirExamen(examen, resp))
+  })
+
+  it('sin soluciones aparte (tareas antiguas) las preguntas quedan como están', () => {
+    expect(unirSoluciones(examen, null)).toBe(examen)
+  })
+
+  it('calificar da los campos que se guardan en la entrega', () => {
+    const resp = { a: 0, b: [0, 2], c: false, d: '75', e: 'fotosintesis' }
+    const sinDesarrollo = calificar(examen, resp)
+    expect(sinDesarrollo).toMatchObject({ escala: 100, obtenidos: 7, max: 10, nota: 7, pendientes: 1, revisado: false, passed: true })
+    expect(calificar(examen, resp, { f: 3 })).toMatchObject({ obtenidos: 10, nota: 10, pendientes: 0, revisado: true })
+  })
+
+  it('sinCalificar: entregada por el alumno (solo respuestas) y aún sin nota', () => {
+    expect(sinCalificar({ done: true, respuestas: {} })).toBe(true)
+    expect(sinCalificar({ done: true, respuestas: {}, nota: 0 })).toBe(false)
+    expect(sinCalificar({ done: false })).toBe(false)
+    expect(sinCalificar(undefined)).toBe(false)
   })
 })

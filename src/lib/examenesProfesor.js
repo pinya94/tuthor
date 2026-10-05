@@ -15,12 +15,19 @@
 //                          dueño.
 //   assignments/{id}       la tarea: lleva una COPIA del examen (quizV: 2), para
 //                          que retocar el examen el curso que viene no cambie
-//                          las preguntas que ya se hicieron.
+//                          las preguntas que ya se hicieron. Sin soluciones.
+//   assignments/{id}/privado/soluciones
+//                          las soluciones de esa copia. El profesor la lee
+//                          siempre; el alumno, solo cuando ya ha entregado.
+//
+// El alumno escribe solo { done, respuestas, completedAt } (lo exigen las
+// reglas). La nota la calcula y la guarda el panel del profesor: al abrir la
+// clase (autocorregir) y al corregir a mano (guardarCorreccion).
 import { db } from './firebase'
 import {
-  doc, getDoc, getDocs, addDoc, updateDoc, deleteDoc, collection, query, where, serverTimestamp,
+  doc, getDoc, getDocs, addDoc, updateDoc, deleteDoc, collection, query, where, serverTimestamp, writeBatch,
 } from 'firebase/firestore'
-import { limpiarExamen, corregirExamen, cursoSiguiente } from './examenModelo'
+import { limpiarExamen, cursoSiguiente, separarSoluciones, unirSoluciones, calificar, sinCalificar } from './examenModelo'
 
 // ── Biblioteca ─────────────────────────────────────────────────────────────
 export async function listarExamenes(uid) {
@@ -79,47 +86,75 @@ export async function getImagen(id) {
 // ── Asignar a una clase ────────────────────────────────────────────────────
 export async function asignarExamen(uid, { classId, className }, examen, { studentIds, dueDate }) {
   const ex = limpiarExamen(examen)
-  const ref = await addDoc(collection(db, 'assignments'), {
+  const { publicas, soluciones } = separarSoluciones(ex.preguntas)
+  // Tarea y soluciones en un solo lote: o se crean las dos o ninguna.
+  const ref = doc(collection(db, 'assignments'))
+  const lote = writeBatch(db)
+  lote.set(ref, {
     teacherId: uid, classId, className,
     kind: 'quiz', quizV: 2,
     gameId: null, category: null, level: null,
     title: ex.titulo,
     instrucciones: ex.instrucciones,
-    quiz: ex.preguntas,
+    quiz: publicas,
     examenId: examen.id ?? null,
     studentIds,
     dueDate: dueDate || null,
     createdAt: serverTimestamp(),
     completions: {},
   })
+  lote.set(doc(db, 'assignments', ref.id, 'privado', 'soluciones'), { teacherId: uid, soluciones })
+  await lote.commit()
   return ref.id
 }
 
+// Las soluciones de una tarea (null si no hay: tareas que se asignaron con
+// las soluciones dentro, antes de separarlas). Al alumno que aún no ha
+// entregado las reglas se las niegan.
+export async function getSoluciones(taskId) {
+  const snap = await getDoc(doc(db, 'assignments', taskId, 'privado', 'soluciones'))
+  return snap.exists() ? snap.data().soluciones ?? null : null
+}
+
+// Las preguntas completas (con soluciones) de una tarea.
+export async function preguntasCompletas(task) {
+  return unirSoluciones(task.quiz, await getSoluciones(task.id))
+}
+
 // ── Entrega del alumno ─────────────────────────────────────────────────────
-// Corrige lo automático al momento. Si hay preguntas de desarrollo, la nota
-// queda provisional (pendientes > 0) hasta que el profesor las puntúe.
-export async function entregarExamen(taskId, uid, preguntas, respuestas) {
-  const c = corregirExamen(preguntas, respuestas)
-  const entrada = {
-    done: true, escala: 100, respuestas,
-    score: c.score, passed: c.aprobado, nota: c.nota, obtenidos: c.obtenidos, max: c.max,
-    pendientes: c.pendientes, revisado: c.pendientes === 0,
-    completedAt: serverTimestamp(),
-  }
+// Solo las respuestas: la nota no la escribe el alumno (las reglas no le
+// dejan). Su pantalla de resultado la calcula leyendo las soluciones, que ya
+// puede ver porque ha entregado.
+export async function entregarExamen(taskId, uid, respuestas) {
+  const entrada = { done: true, respuestas, completedAt: serverTimestamp() }
   await updateDoc(doc(db, 'assignments', taskId), { [`completions.${uid}`]: entrada })
   return entrada
+}
+
+// ── Nota automática, desde el panel del profesor ──────────────────────────
+// Pone nota a las entregas que aún no la tienen. Se llama al abrir la clase:
+// lo automático queda calificado y el desarrollo, marcado como pendiente.
+// Devuelve las entradas nuevas por uid ({} si no había nada que hacer).
+export async function autocorregir(task, preguntas) {
+  const nuevas = {}
+  for (const [uid, c] of Object.entries(task.completions ?? {})) {
+    if (sinCalificar(c)) nuevas[uid] = { ...c, ...calificar(preguntas, c.respuestas ?? {}, c.manual ?? {}) }
+  }
+  if (!Object.keys(nuevas).length) return nuevas
+  await updateDoc(doc(db, 'assignments', task.id),
+    Object.fromEntries(Object.entries(nuevas).map(([uid, e]) => [`completions.${uid}`, e])))
+  return nuevas
 }
 
 // ── Corrección del profesor ────────────────────────────────────────────────
 // `manual`: puntos que pone el profesor por pregunta (desarrollo, o ajustes
 // de una automática); `comentarios`: una nota por pregunta para el alumno.
+// `preguntas`: las completas, con soluciones.
 export async function guardarCorreccion(taskId, uid, preguntas, completion, { manual, comentarios, comentarioGeneral }) {
-  const c = corregirExamen(preguntas, completion.respuestas ?? {}, manual)
   const entrada = {
     ...completion,
     manual, comentarios, comentarioGeneral: comentarioGeneral ?? '',
-    score: c.score, passed: c.aprobado, nota: c.nota, obtenidos: c.obtenidos, max: c.max,
-    pendientes: c.pendientes, revisado: c.pendientes === 0,
+    ...calificar(preguntas, completion.respuestas ?? {}, manual),
     revisadoAt: serverTimestamp(),
   }
   await updateDoc(doc(db, 'assignments', taskId), { [`completions.${uid}`]: entrada })

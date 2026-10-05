@@ -58,8 +58,11 @@ export function parseNota(texto) {
 // pone a mano. Poner un 10 donde había un 1 sería mucho peor que no poner nada.
 export const ESCALA_PORCENTAJE = 100
 
+// Un examen del profesor con desarrollo sin corregir lleva `revisado: false`:
+// su nota es provisional (el desarrollo cuenta 0) y tampoco se trae.
 export function notaDeCompletion(completion) {
   if (!completion?.done) return null
+  if (completion.revisado === false) return null
   if (completion.escala !== ESCALA_PORCENTAJE) return null
   const score = completion.score
   if (typeof score !== 'number' || !Number.isFinite(score)) return null

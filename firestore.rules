@@ -383,8 +383,9 @@ service cloud.firestore {
       // respuesta correcta). v1 (sin quizV): 1-10 preguntas tipo test. v2
       // (quizV == 2, src/lib/examenesProfesor.js): copia de un examen de la
       // biblioteca, 1-50 preguntas de seis tipos, con instrucciones y el id
-      // del examen de origen. Aquí solo se acota la forma general; el
-      // contenido de cada pregunta se valida en el cliente.
+      // del examen de origen; sus soluciones van aparte, en privado/ (abajo).
+      // Aquí solo se acota la forma general; el contenido de cada pregunta se
+      // valida en el cliente.
       allow create: if isTeacher(request.auth.uid)
         && request.resource.data.teacherId == request.auth.uid
         && classOwnedByCaller(request.resource.data.classId)
@@ -411,9 +412,34 @@ service cloud.firestore {
             && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['completions'])
             && request.resource.data.completions.diff(resource.data.completions).affectedKeys().hasOnly([request.auth.uid])
             && (!(request.auth.uid in resource.data.completions)
-                || resource.data.completions[request.auth.uid].get('done', false) != true));
+                || resource.data.completions[request.auth.uid].get('done', false) != true)
+            // Exámenes v2: el alumno entrega SOLO sus respuestas. La nota la
+            // pone el panel del profesor; si no, cualquiera se escribía un 10.
+            && (resource.data.get('quizV', 1) != 2
+                || request.resource.data.completions[request.auth.uid].keys().hasOnly(['done', 'respuestas', 'completedAt'])));
 
       allow delete: if false;
+
+      // Soluciones de un examen v2, fuera de la tarea para que el alumno no
+      // las vea mientras lo hace. El profesor, siempre; el alumno, solo
+      // después de entregar (para ver en qué falló). Se crean en el mismo
+      // lote que la tarea (por eso getAfter) y no se tocan después.
+      match /privado/{docId} {
+        function tarea() {
+          return get(/databases/$(database)/documents/assignments/$(taskId)).data;
+        }
+        allow read: if request.auth != null
+          && (isAdmin()
+              || tarea().teacherId == request.auth.uid
+              || (request.auth.uid in tarea().studentIds
+                  && tarea().completions.get(request.auth.uid, {}).get('done', false) == true));
+        allow create: if request.auth != null
+          && getAfter(/databases/$(database)/documents/assignments/$(taskId)).data.teacherId == request.auth.uid
+          && request.resource.data.teacherId == request.auth.uid
+          && request.resource.data.keys().hasOnly(['teacherId', 'soluciones'])
+          && request.resource.data.soluciones is map;
+        allow update, delete: if false;
+      }
     }
 
     // ── Biblioteca de exámenes del profesor (src/lib/examenesProfesor.js) ──
@@ -428,6 +454,7 @@ service cloud.firestore {
         && request.resource.data.titulo is string && request.resource.data.titulo.size() <= 120;
       allow update: if request.auth != null && request.auth.uid == resource.data.teacherId
         && request.resource.data.teacherId == resource.data.teacherId
+        && request.resource.data.titulo is string && request.resource.data.titulo.size() <= 120
         && request.resource.data.preguntas is list
         && request.resource.data.preguntas.size() >= 1 && request.resource.data.preguntas.size() <= 50;
       allow delete: if request.auth != null && request.auth.uid == resource.data.teacherId;

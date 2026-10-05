@@ -188,6 +188,12 @@ describe('notaDeCompletion', () => {
     expect(notaDeCompletion(hecha({ score: 55 }))).toBe(5.5)
   })
 
+  it('un examen con desarrollo sin corregir (revisado: false) no da nota todavía', () => {
+    // Su nota es provisional: el desarrollo cuenta 0 hasta que lo puntúa el profesor.
+    expect(notaDeCompletion(hecha({ revisado: false }))).toBe(null)
+    expect(notaDeCompletion(hecha({ revisado: true }))).toBe(8)
+  })
+
   it('una finalización SIN marca de escala no se convierte', () => {
     // Son las de antes de unificar la escala. Un "score: 800" de ExamenMC podía
     // ser un 8 o un 800, y adivinar sería poner un 10 donde había un 1.

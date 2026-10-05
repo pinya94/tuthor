@@ -2,6 +2,7 @@
 // respuesta con la solución o los criterios, pone los puntos del desarrollo
 // (o ajusta una automática), comenta, y pasa al siguiente alumno. La nota
 // sobre 10 se recalcula al momento con la misma corrección que usa el alumno.
+// `preguntas`: las de la tarea CON soluciones (preguntasCompletas).
 import { createPortal } from 'react-dom'
 import { useMemo, useState } from 'react'
 import { useLang } from '../../context/LangContext'
@@ -9,7 +10,7 @@ import { corregirExamen, esManual } from '../../lib/examenModelo'
 import { guardarCorreccion } from '../../lib/examenesProfesor'
 import PreguntaAlumno from './PreguntaAlumno'
 
-export default function CorregirExamen({ task, alumnos, inicial, nombreDe, onCerrar, onGuardado }) {
+export default function CorregirExamen({ task, preguntas, alumnos, inicial, nombreDe, onCerrar, onGuardado }) {
   const { tr } = useLang()
   const [uid, setUid] = useState(inicial)
   const completion = task.completions?.[uid] ?? {}
@@ -19,7 +20,7 @@ export default function CorregirExamen({ task, alumnos, inicial, nombreDe, onCer
   const [guardando, setGuardando] = useState(false)
   const [error, setError] = useState('')
 
-  const c = useMemo(() => corregirExamen(task.quiz, completion.respuestas ?? {}, manual), [task.quiz, completion, manual])
+  const c = useMemo(() => corregirExamen(preguntas, completion.respuestas ?? {}, manual), [preguntas, completion, manual])
   const idx = alumnos.indexOf(uid)
 
   function irA(nuevo) {
@@ -32,7 +33,7 @@ export default function CorregirExamen({ task, alumnos, inicial, nombreDe, onCer
     try {
       // Fuera los ajustes vacíos: «sin ajuste» es que manda la corrección automática.
       const limpio = Object.fromEntries(Object.entries(manual).filter(([, v]) => v !== '' && v !== null && v !== undefined).map(([k, v]) => [k, Number(v)]))
-      const entrada = await guardarCorreccion(task.id, uid, task.quiz, completion, { manual: limpio, comentarios, comentarioGeneral: general })
+      const entrada = await guardarCorreccion(task.id, uid, preguntas, completion, { manual: limpio, comentarios, comentarioGeneral: general })
       onGuardado(uid, entrada)
       if (siguiente && idx < alumnos.length - 1) irA(alumnos[idx + 1])
     } catch {
@@ -61,7 +62,7 @@ export default function CorregirExamen({ task, alumnos, inicial, nombreDe, onCer
         </div>
 
         <div className="p-4 space-y-4">
-          {task.quiz.map((p, i) => {
+          {preguntas.map((p, i) => {
             const d = c.detalle[p.id]
             const manualP = esManual(p)
             return (

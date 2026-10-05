@@ -17,8 +17,12 @@
 //              (sin mayúsculas, tildes ni espacios de más)
 //   desarrollo respuesta larga que corrige el profesor (con criterios)
 //
-// Las respuestas correctas viajan al navegador del alumno, igual que en los
-// exámenes de v1 (ver quiz.js para el porqué).
+// Las soluciones NO viajan con la tarea: al asignar se separan
+// (separarSoluciones) y van a assignments/{id}/privado/soluciones, que el
+// alumno solo puede leer después de entregar. El alumno escribe únicamente sus
+// respuestas; la nota la calcula y la guarda el panel del profesor
+// (examenesProfesor.js → autocorregir). Así no se ven las respuestas con las
+// herramientas del navegador ni uno se puede poner un 10.
 
 export const TIPOS = ['test', 'multiple', 'vf', 'numerica', 'corta', 'desarrollo']
 export const MAX_PREGUNTAS = 50
@@ -213,3 +217,50 @@ export function textoSolucion(p, tr) {
     default: return p.criterios || '—'
   }
 }
+
+// ── Soluciones aparte ──────────────────────────────────────────────────────
+// Qué campos de cada tipo delatan la respuesta. Lo demás (enunciado, opciones,
+// unidad, líneas) es lo que el alumno necesita para contestar.
+export const CAMPOS_SOLUCION = {
+  test: ['correctas'],
+  multiple: ['correctas'],
+  vf: ['correcta'],
+  numerica: ['valor', 'tolerancia'],
+  corta: ['aceptadas'],
+  desarrollo: ['criterios'],
+}
+
+export function separarSoluciones(preguntas) {
+  const publicas = [], soluciones = {}
+  for (const p of preguntas) {
+    const campos = CAMPOS_SOLUCION[p.tipo] ?? []
+    const pub = { ...p }, sol = {}
+    for (const k of campos) { if (k in pub) sol[k] = pub[k]; delete pub[k] }
+    publicas.push(pub)
+    soluciones[p.id] = sol
+  }
+  return { publicas, soluciones }
+}
+
+// La inversa. Sin soluciones (null) devuelve las preguntas tal cual: así
+// siguen funcionando las tareas que se asignaron con las soluciones dentro.
+export function unirSoluciones(publicas, soluciones) {
+  if (!soluciones) return publicas
+  return publicas.map(p => ({ ...p, ...(soluciones[p.id] ?? {}) }))
+}
+
+// ¿Lleva la pregunta su solución? (si no, no se puede corregir sola)
+export const conSolucion = p => (CAMPOS_SOLUCION[p.tipo] ?? []).every(k => k in p)
+
+// Los campos de nota de una entrega, a partir de sus respuestas y de los
+// puntos que haya puesto el profesor. Es lo que se guarda en completions.
+export function calificar(preguntas, respuestas = {}, manual = {}) {
+  const c = corregirExamen(preguntas, respuestas, manual)
+  return {
+    escala: 100, score: c.score, passed: c.aprobado, nota: c.nota,
+    obtenidos: c.obtenidos, max: c.max, pendientes: c.pendientes, revisado: c.pendientes === 0,
+  }
+}
+
+// Entregada pero aún sin nota guardada (el alumno ya no escribe la nota).
+export const sinCalificar = c => !!c?.done && typeof c.nota !== 'number'

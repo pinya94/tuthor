@@ -28,7 +28,7 @@ export default function PreguntaAlumno({ p, n, valor, onChange, soloLectura = fa
           {p.opciones.map((o, j) => {
             const elegida = p.tipo === 'test' ? valor === j : (valor ?? []).includes(j)
             return (
-              <label key={j} className={`flex items-center gap-2.5 px-3 py-2.5 rounded-xl border transition-colors ${soloLectura ? '' : 'cursor-pointer'} ${elegida ? 'bg-teal-500/15 border-teal-500/50' : 'border-white/10 hover:bg-white/5'} ${marca(p.correctas.includes(j))}`}>
+              <label key={j} className={`flex items-center gap-2.5 px-3 py-2.5 rounded-xl border transition-colors ${soloLectura ? '' : 'cursor-pointer'} ${elegida ? 'bg-teal-500/15 border-teal-500/50' : 'border-white/10 hover:bg-white/5'} ${marca(p.correctas?.includes(j))}`}>
                 <input type={p.tipo === 'test' ? 'radio' : 'checkbox'} checked={elegida} disabled={soloLectura}
                   onChange={() => set(p.tipo === 'test' ? j : (elegida ? (valor ?? []).filter(x => x !== j) : [...(valor ?? []), j]))}
                   className="shrink-0 accent-teal-500" />

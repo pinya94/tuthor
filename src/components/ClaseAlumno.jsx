@@ -48,7 +48,8 @@ function Tarea({ task, uid, lang, tr, onAbrir }) {
   const c = task.completions?.[uid]
   const hecha = !!c?.done
   const vencida = !hecha && tareaVencida(task.dueDate)
-  const ruta = !hecha ? rutaTarea(task) : null
+  // Un examen del profesor se puede reabrir ya hecho: ahí están la nota y sus comentarios.
+  const ruta = !hecha || task.quizV === 2 ? rutaTarea(task) : null
 
   const estado = hecha ? (
     <span className={`shrink-0 inline-flex items-center gap-1.5 text-[12.5px] font-bold px-2.5 py-1 rounded-full ${c.passed === false ? 'bg-rose-500/12 text-rose-300' : 'bg-green-500/12 text-green-300'}`}>
@@ -56,7 +57,11 @@ function Tarea({ task, uid, lang, tr, onAbrir }) {
       {c.passed === false
         ? tr({ es: 'No aprobado', en: 'Not passed', ca: 'No aprovat' })
         : c.passed === true ? tr({ es: 'Aprobado', en: 'Passed', ca: 'Aprovat' }) : tr({ es: 'Hecha', en: 'Done', ca: 'Feta' })}
-      {c.score != null && <span className="text-white/45 font-semibold tabular-nums">· {c.score} pts</span>}
+      {task.quizV === 2
+        ? <span className="text-white/45 font-semibold tabular-nums">· {typeof c.nota === 'number' && c.revisado
+            ? `${String(c.nota).replace('.', ',')}/10`
+            : tr({ es: 'pendiente de nota', en: 'awaiting mark', ca: 'pendent de nota' })}</span>
+        : c.score != null && <span className="text-white/45 font-semibold tabular-nums">· {c.score} pts</span>}
     </span>
   ) : ruta ? (
     <span className="shrink-0 px-3.5 py-2 rounded-xl bg-[#EDAE49] group-hover:bg-amber-400 text-black text-[13px] font-black transition-colors">

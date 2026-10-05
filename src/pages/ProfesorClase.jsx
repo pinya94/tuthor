@@ -20,8 +20,8 @@ import Notas from '../components/Notas'
 import Observaciones from '../components/Observaciones'
 import BoletinFamilias from '../components/BoletinFamilias'
 import CorregirExamen from '../components/examenes/CorregirExamen'
-import { listarExamenes, asignarExamen } from '../lib/examenesProfesor'
-import { puntosTotales } from '../lib/examenModelo'
+import { listarExamenes, asignarExamen, autocorregir, preguntasCompletas } from '../lib/examenesProfesor'
+import { puntosTotales, sinCalificar } from '../lib/examenModelo'
 import { EXAMS, examGroupLabel } from '../lib/exams'
 import { Acierto, Fallo, Mando, Bombilla, Libro, Moneda, Racha, Reloj, Lista, Pizarra } from '../components/Iconos'
 import { IconoModulo, Ajustes, Chincheta, Grupo } from '../components/IconosProfesor'
@@ -169,7 +169,7 @@ function TaskCard({ task, studentsByUid, lang, tr, onToggleManual, onToggleFalta
                     <span className="text-[12px] font-semibold">
                       {esV2 ? (
                         <span className="inline-flex items-center gap-2">
-                          <span className={c.revisado ? 'text-white/70' : 'text-amber-300'}>{String(c.nota ?? '').replace('.', ',')}/10{c.revisado ? '' : '*'}</span>
+                          <span className={c.revisado ? 'text-white/70' : 'text-amber-300'}>{typeof c.nota === 'number' ? `${String(c.nota).replace('.', ',')}/10${c.revisado ? '' : '*'}` : '—'}</span>
                           <button type="button" onClick={() => onCorregir(task, uid)}
                             className={`text-[11.5px] font-bold px-2 py-1 rounded-lg border transition-colors ${c.pendientes > 0 ? 'border-amber-500/50 text-amber-300 bg-amber-500/10 hover:bg-amber-500/20' : 'border-white/15 text-white/60 hover:bg-white/5'}`}>
                             {c.pendientes > 0 ? tr({ es: 'Corregir', en: 'Mark', ca: 'Corregir' }) : tr({ es: 'Revisar', en: 'Review', ca: 'Revisar' })}
@@ -359,6 +359,7 @@ export default function ProfesorClase() {
   const [taskExamenId, setTaskExamenId] = useState('') // kind 'quiz': examen de la biblioteca
   const [biblioteca, setBiblioteca] = useState(null) // exámenes del profesor (se cargan al elegir «Examen propio»)
   const [corrigiendo, setCorrigiendo] = useState(null) // { taskId, uid }
+  const [completas, setCompletas] = useState({}) // taskId → preguntas con soluciones (exámenes v2)
   const [taskTarget, setTaskTarget] = useState('all')
   const [taskStudentIds, setTaskStudentIds] = useState([])
   const [taskDueDate, setTaskDueDate] = useState('')
@@ -460,9 +461,36 @@ export default function ProfesorClase() {
   }
 
   async function loadAssignments() {
+    let lista
     try {
-      setAssignments(await getClassAssignments(classId))
-    } catch { /* no crítico: si falla, simplemente no se muestran tareas */ }
+      lista = await getClassAssignments(classId)
+      setAssignments(lista)
+    } catch { return /* no crítico: si falla, simplemente no se muestran tareas */ }
+    // Exámenes v2: el alumno solo entrega respuestas, y la nota la pone este
+    // panel. Las entregas que aún no la tienen se califican ahora.
+    for (const t of lista.filter(t => t.kind === 'quiz' && t.quizV === 2 && Object.values(t.completions ?? {}).some(sinCalificar))) {
+      try {
+        const preguntas = await cargarCompletas(t)
+        const nuevas = await autocorregir(t, preguntas)
+        if (Object.keys(nuevas).length) {
+          setAssignments(as => as.map(a => (a.id === t.id ? { ...a, completions: { ...a.completions, ...nuevas } } : a)))
+        }
+      } catch { /* se reintenta la próxima vez que se abra la clase */ }
+    }
+  }
+
+  async function cargarCompletas(t) {
+    if (completas[t.id]) return completas[t.id]
+    const preguntas = await preguntasCompletas(t)
+    setCompletas(m => ({ ...m, [t.id]: preguntas }))
+    return preguntas
+  }
+
+  async function abrirCorreccion(t, uid) {
+    try {
+      await cargarCompletas(t)
+      setCorrigiendo({ taskId: t.id, uid })
+    } catch { /* sin soluciones no se puede corregir; el botón sigue ahí */ }
   }
 
   // Niveles disponibles para la combinación elegida ([] si el formato no usa
@@ -853,16 +881,16 @@ export default function ProfesorClase() {
             {assignments.map(task => (
               <TaskCard key={task.id} task={task} studentsByUid={studentsByUid} lang={lang} tr={tr}
                 onToggleManual={handleToggleManual} onToggleFalta={handleToggleFalta} onMarkFaltaBulk={handleMarkFaltaBulk}
-                onCorregir={(t, uid) => setCorrigiendo({ taskId: t.id, uid })} />
+                onCorregir={abrirCorreccion} />
             ))}
           </div>
         )}
         {corrigiendo && (() => {
           const t = assignments.find(a => a.id === corrigiendo.taskId)
-          if (!t) return null
+          if (!t || !completas[t.id]) return null
           const entregados = t.studentIds.filter(uid => t.completions?.[uid]?.done)
           return (
-            <CorregirExamen task={t} alumnos={entregados} inicial={corrigiendo.uid}
+            <CorregirExamen task={t} preguntas={completas[t.id]} alumnos={entregados} inicial={corrigiendo.uid}
               nombreDe={uid => studentsByUid[uid]?.name || uid}
               onCerrar={() => setCorrigiendo(null)}
               onGuardado={(uid, entrada) => setAssignments(as => as.map(a => (a.id === t.id ? { ...a, completions: { ...a.completions, [uid]: entrada } } : a)))} />

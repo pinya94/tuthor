@@ -1,12 +1,14 @@
 // El alumno haciendo un examen del profesor (tarea con quizV: 2). Las
 // respuestas se guardan como borrador en el dispositivo mientras escribe (un
-// examen largo no se pierde por cerrar la pestaña). Al entregar se corrige lo
-// automático; lo de desarrollo queda pendiente del profesor.
+// examen largo no se pierde por cerrar la pestaña). Al entregar solo se
+// guardan las respuestas; el resultado se calcula aquí leyendo las soluciones
+// (las reglas las dejan ver una vez entregado). La nota que cuenta es la que
+// guarda el panel del profesor; lo de desarrollo queda pendiente de él.
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useLang } from '../../context/LangContext'
-import { entregarExamen } from '../../lib/examenesProfesor'
-import { contestada, puntosTotales, corregirExamen } from '../../lib/examenModelo'
+import { entregarExamen, getSoluciones } from '../../lib/examenesProfesor'
+import { contestada, puntosTotales, corregirExamen, unirSoluciones, conSolucion } from '../../lib/examenModelo'
 import PreguntaAlumno from './PreguntaAlumno'
 
 const claveBorrador = (taskId, uid) => `tuthor_examen_${taskId}_${uid}`
@@ -21,6 +23,13 @@ export default function TareaExamenV2({ task, uid }) {
   const [enviando, setEnviando] = useState(false)
   const [error, setError] = useState('')
   const [entrega, setEntrega] = useState(task.completions?.[uid]?.done ? task.completions[uid] : null)
+  // Soluciones: undefined = cargando, null = la tarea no las tiene aparte.
+  const [soluciones, setSoluciones] = useState(undefined)
+
+  useEffect(() => {
+    if (!entrega) return
+    getSoluciones(task.id).then(setSoluciones).catch(() => setSoluciones(null))
+  }, [entrega, task.id])
 
   useEffect(() => {
     if (entrega) return
@@ -37,7 +46,7 @@ export default function TareaExamenV2({ task, uid }) {
     }))) return
     setEnviando(true); setError('')
     try {
-      const e = await entregarExamen(task.id, uid, preguntas, respuestas)
+      const e = await entregarExamen(task.id, uid, respuestas)
       try { localStorage.removeItem(claveBorrador(task.id, uid)) } catch { /* nada */ }
       setEntrega(e)
       window.scrollTo(0, 0)
@@ -49,19 +58,35 @@ export default function TareaExamenV2({ task, uid }) {
 
   // ── Resultado ──
   if (entrega) {
-    const c = corregirExamen(preguntas, entrega.respuestas ?? {}, entrega.manual ?? {})
-    const revisado = entrega.revisado
+    if (soluciones === undefined) {
+      return <div className="min-h-[60vh] grid place-items-center text-white/30 text-sm">{tr({ es: 'Cargando…', en: 'Loading…', ca: 'Carregant…' })}</div>
+    }
+    const completas = unirSoluciones(preguntas, soluciones)
+    // Si no se pudieron leer las soluciones, no se inventa una nota: solo la
+    // que haya guardado el profesor.
+    const calculable = completas.every(conSolucion)
+    const c = calculable ? corregirExamen(completas, entrega.respuestas ?? {}, entrega.manual ?? {}) : null
+    const guardada = typeof entrega.nota === 'number'
+    const nota = guardada ? entrega.nota : c ? c.nota : null
+    const pendientes = guardada ? entrega.pendientes : c ? c.pendientes : 0
+    const revisado = guardada ? entrega.revisado : !!c && c.pendientes === 0
     return (
       <div className="min-h-[calc(100vh-4rem)] px-4 py-8 flex justify-center">
         <div className="w-full max-w-xl space-y-4">
           <div className="rounded-3xl border border-white/10 p-6 text-center" style={{ background: 'rgba(17,20,29,.9)' }}>
             <h1 className="text-white font-black text-xl mb-1">{task.title}</h1>
             <p className="text-white/45 text-sm mb-4">{task.className}</p>
-            <p className="text-white text-5xl font-black mb-1">{String(entrega.nota ?? c.nota).replace('.', ',')}<span className="text-white/40 text-2xl">/10</span></p>
-            <p className="text-white/50 text-sm">{entrega.obtenidos ?? c.obtenidos} / {entrega.max ?? c.max} {tr({ es: 'puntos', en: 'points', ca: 'punts' })}</p>
-            {!revisado && (
+            {nota === null ? (
+              <p className="text-white/70 text-[15px] font-bold my-3">{tr({ es: 'Entregado. Tu profesor te pondrá la nota.', en: 'Submitted. Your teacher will mark it.', ca: 'Lliurat. El teu professor et posarà la nota.' })}</p>
+            ) : (
+              <>
+                <p className="text-white text-5xl font-black mb-1">{String(nota).replace('.', ',')}<span className="text-white/40 text-2xl">/10</span></p>
+                <p className="text-white/50 text-sm">{guardada ? entrega.obtenidos : c.obtenidos} / {guardada ? entrega.max : c.max} {tr({ es: 'puntos', en: 'points', ca: 'punts' })}</p>
+              </>
+            )}
+            {nota !== null && !revisado && pendientes > 0 && (
               <p className="mt-3 text-amber-300/90 text-[13px]">
-                {tr({ es: `Nota provisional: falta que tu profesor corrija ${entrega.pendientes} pregunta(s) de desarrollo.`, en: `Provisional mark: your teacher still has to mark ${entrega.pendientes} open question(s).`, ca: `Nota provisional: falta que el teu professor corregeixi ${entrega.pendientes} pregunta(es) de desenvolupament.` })}
+                {tr({ es: `Nota provisional: falta que tu profesor corrija ${pendientes} pregunta(s) de desarrollo.`, en: `Provisional mark: your teacher still has to mark ${pendientes} open question(s).`, ca: `Nota provisional: falta que el teu professor corregeixi ${pendientes} pregunta(es) de desenvolupament.` })}
               </p>
             )}
             {revisado && entrega.comentarioGeneral && <p className="mt-3 text-white/75 text-[13.5px] italic">«{entrega.comentarioGeneral}»</p>}
@@ -71,7 +96,8 @@ export default function TareaExamenV2({ task, uid }) {
           </div>
           {preguntas.map((p, i) => (
             <div key={p.id}>
-              <PreguntaAlumno p={p} n={i + 1} valor={(entrega.respuestas ?? {})[p.id]} soloLectura resultado={c.detalle[p.id].auto === null && !revisado ? { puntos: '?' } : c.detalle[p.id]} />
+              <PreguntaAlumno p={completas[i]} n={i + 1} valor={(entrega.respuestas ?? {})[p.id]} soloLectura
+                resultado={!c || (c.detalle[p.id].auto === null && !revisado) ? { puntos: '?' } : c.detalle[p.id]} />
               {entrega.comentarios?.[p.id] && <p className="mt-1 ml-3 text-[12.5px] text-teal-300/90">💬 {entrega.comentarios[p.id]}</p>}
             </div>
           ))}
