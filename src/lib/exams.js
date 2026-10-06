@@ -480,6 +480,11 @@ export const EXAMS = {
     emoji: '⚙️', subject: 'fisica',
     path: 'examen/engranajes-test', page: () => import('../pages/EngranajesExamen'),
   },
+  'flota-o-se-hunde-test': {
+    label: { es: '¿Flota o se hunde? (con el juego)', en: 'Float or Sink? (with the game)', ca: 'Sura o s’enfonsa? (amb el joc)' },
+    emoji: '🚢', subject: 'fisica',
+    path: 'examen/flota-o-se-hunde-test', page: () => import('../pages/FlotaHundeExamen'),
+  },
   'lee-la-etiqueta-test': {
     label: { es: 'Lee la Etiqueta (con el juego)', en: 'Read the Label (with the game)', ca: 'Llegeix l’Etiqueta (amb el joc)' },
     emoji: '🏷️', subject: 'biologia',

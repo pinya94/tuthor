@@ -382,6 +382,23 @@ function LeeLaEtiqueta(p) {
   )
 }
 
+function FlotaHunde(p) {
+  return (
+    <Lienzo {...p}>
+      <rect x="62" y="64" width="116" height="62" fill="#3B82F6" fillOpacity=".4" />
+      <rect x="84" y="46" width="34" height="26" rx="3" fill="#C08A55" />
+      <circle cx="148" cy="108" r="12" fill="#94A3B8" />
+      <rect x="62" y="64" width="116" height="62" fill="#3B82F6" fillOpacity=".25" />
+      <path d="M62 64H178" stroke="#60A5FA" strokeWidth="2.5" />
+      <path d="M60 30V124Q60 130 66 130H174Q180 130 180 124V30" stroke="#CBD5E1" strokeWidth="3" fill="none" strokeLinejoin="round" />
+      <path d="M148 24V70" stroke="#F8FAFC" strokeWidth="2" strokeDasharray="3 3" />
+      <path d="M148 78l-5 -8h10Z" fill="#F8FAFC" />
+      <T x={204} y={52} s={13} c="#86EFAC">↑</T>
+      <T x={204} y={112} s={13} c="#FCA5A5">↓</T>
+    </Lienzo>
+  )
+}
+
 export const ARTE_CIENCIAS = {
   genetica: Genetica,
   'rayos-x': RayosX,
@@ -392,6 +409,7 @@ export const ARTE_CIENCIAS = {
   orbita: Orbita,
   'el-tiempo': ElTiempo,
   engranajes: Engranajes,
+  'flota-o-se-hunde': FlotaHunde,
   'lee-la-etiqueta': LeeLaEtiqueta,
   'circuito-cerrado': CircuitoCerrado,
   'rayo-de-luz': RayoDeLuz,

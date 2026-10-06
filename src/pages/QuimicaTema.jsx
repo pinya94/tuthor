@@ -436,6 +436,13 @@ const MODOS_POR_TEMA = {
       detalles: { es:['2 niveles','10 preguntas','Opción múltiple','Explicación tras cada respuesta'], en:['2 levels','10 questions','Multiple choice','Explanation after each answer'], ca:['2 nivells','10 preguntes','Opció múltiple','Explicació després de cada resposta'] },
       path: 'presion-fluidos',
     },
+    {
+      id: 'flota-o-se-hunde-test', emoji: '🚢', gradient: 'from-sky-500 to-blue-700',
+      titulo: { es:'¿Flota o se hunde? (con el juego)', en:'Float or Sink? (with the game)', ca:'Sura o s’enfonsa? (amb el joc)' },
+      descripcion: { es:'Con la mecánica del juego: objetos reales en ocho líquidos; predice si flotan, calcula su densidad y qué parte queda sumergida.', en:'Using the game mechanic: real objects in eight liquids; predict whether they float, work out their density and how much is submerged.', ca:'Amb la mecànica del joc: objectes reals en vuit líquids; prediu si suren, calcula’n la densitat i quina part queda submergida.' },
+      detalles: { es:['3 niveles','10 preguntas','Sin cronómetro','Con el juego'], en:['3 levels','10 questions','No timer','With the game'], ca:['3 nivells','10 preguntes','Sense cronòmetre','Amb el joc'] },
+      path: 'flota-o-se-hunde-test',
+    },
   ],
   'calor-temperatura': [
     {

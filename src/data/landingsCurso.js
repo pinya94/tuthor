@@ -250,7 +250,7 @@ export const LANDINGS = [
       en: ['Organs of the human body', 'Food chains: producers and consumers', 'Solid, liquid and gas', 'Simple electric circuits', 'Forces, levers and the solar system'],
       ca: ['Els òrgans del cos humà', 'Cadenes alimentàries: productors i consumidors', 'Sòlid, líquid i gas', 'Circuits elèctrics senzills', 'Forces, palanques i el sistema solar'],
     },
-    juegos: ['rayos-x', 'lee-la-etiqueta', 'cadena-alimentaria', 'cambio-estado', 'circuito-cerrado', 'balanza', 'fuerza-neta', 'orbita'],
+    juegos: ['rayos-x', 'lee-la-etiqueta', 'cadena-alimentaria', 'flota-o-se-hunde', 'cambio-estado', 'circuito-cerrado', 'balanza', 'fuerza-neta', 'orbita'],
     temas: [
       { arte: 'biologia/cuerpo-humano', ruta: '/estudiar/biologia/cuerpo-humano', titulo: T('Cuerpo humano', 'Human body', 'Cos humà') },
       { arte: 'biologia/seres-vivos', ruta: '/estudiar/biologia/seres-vivos', titulo: T('Seres vivos', 'Living things', 'Éssers vius') },
@@ -495,7 +495,7 @@ export const LANDINGS = [
       en: ['Net forces and Newton’s laws', 'Levers and moments', 'Series and parallel circuits', 'Changes of state of matter', 'Acids, bases and the pH scale', 'The periodic table and balancing equations'],
       ca: ['Forces resultants i lleis de Newton', 'Palanques i moments', 'Circuits en sèrie i en paral·lel', "Canvis d'estat de la matèria", 'Àcids, bases i l’escala de pH', 'Taula periòdica i ajust de reaccions'],
     },
-    juegos: ['fuerza-neta', 'balanza', 'engranajes', 'circuito-cerrado', 'cambio-estado', 'medidor-ph', 'encuentra-elemento', 'balanza-ecuaciones'],
+    juegos: ['fuerza-neta', 'balanza', 'flota-o-se-hunde', 'engranajes', 'circuito-cerrado', 'cambio-estado', 'medidor-ph', 'encuentra-elemento', 'balanza-ecuaciones'],
     temas: [
       { arte: 'fisica/fuerzas', ruta: '/estudiar/fisica/fuerzas', titulo: T('Fuerzas y movimiento', 'Forces and motion', 'Forces i moviment') },
       { arte: 'fisica/energia', ruta: '/estudiar/fisica/energia', titulo: T('Energía', 'Energy', 'Energia') },

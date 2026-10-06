@@ -275,6 +275,14 @@ export const GAMES = {
     // aciertos × 10 puntos → hasta 200 monedas
     coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
   },
+  'flota-o-se-hunde': {
+    label: { es: '¿Flota o se hunde?', en: 'Float or Sink?', ca: 'Sura o s’enfonsa?' },
+    emoji: '🚢',
+    subject: 'fisica',
+    route: '/juegos/flota-o-se-hunde',
+    // aciertos × 10 puntos → hasta 200 monedas
+    coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
+  },
   'lee-la-etiqueta': {
     label: { es: 'Lee la Etiqueta', en: 'Read the Label', ca: 'Llegeix l’Etiqueta' },
     emoji: '🏷️',

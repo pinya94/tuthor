@@ -1227,6 +1227,34 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Biología', niveles: 'Primaria, ESO',
   },
+  'flota-o-se-hunde': {
+    titulo: '¿Flota o se hunde?',
+    subtitulo: 'Juego de densidad y flotación: predice, suéltalo y míralo caer',
+    emoji: '🚢', gradient: 'from-sky-500 to-blue-700',
+    path: '/juegos/flota-o-se-hunde',
+    intro: 'Un juego de física para entender la flotación de verdad, no de memoria. Sale un objeto real (corcho, hielo, una manzana, un huevo, una canica, una moneda, un trozo de oro) sujeto encima de un vaso con un líquido, que puede ser agua, agua de mar, aceite de oliva, alcohol, glicerina, miel, el agua del mar Muerto o mercurio. Hay que predecir qué pasará al soltarlo. Al responder, el objeto cae y se queda exactamente donde lo dice la física: flotando con la parte justa bajo la superficie o en el fondo del vaso. En el nivel fácil se ve la densidad de cada objeto; en el medio solo su masa y su volumen, y la densidad hay que calcularla; en el difícil se pregunta qué parte queda sumergida.',
+    beneficios: [
+      { titulo: 'Una sola regla, y no es el peso', texto: 'Casi todos los niños creen que lo pesado se hunde y lo ligero flota. Un tronco enorme flota y una canica diminuta se hunde: lo que cuenta es la densidad, la masa que cabe en cada centímetro cúbico. El juego lo pone a prueba una y otra vez con objetos de todos los tamaños hasta que la idea sustituye a la intuición.' },
+      { titulo: 'El mismo objeto, distinto líquido', texto: 'Un huevo se hunde en agua del grifo y flota en el mar Muerto; el hielo flota en agua y se hunde en alcohol; hasta el plomo flota en mercurio. Cambiar el líquido obliga a comparar dos densidades en vez de clasificar objetos en «flotan» y «no flotan», que es el error de fondo.' },
+      { titulo: 'Arquímedes, con números exactos', texto: 'En el nivel difícil la parte sumergida es la densidad del objeto dividida entre la del líquido: un bloque de 0,6 g/cm³ en agua flota con el 60 % bajo la superficie. Las cuentas están elegidas para salir exactas, y el dibujo las enseña: la parte teñida por el líquido es justo esa fracción.' },
+    ],
+    ejemplo: 'Sale un bloque de 300 g y 500 cm³ sobre un vaso de agua. La densidad es 300 ÷ 500 = 0,6 g/cm³, menor que la del agua (1 g/cm³): flota. ¿Cuánto queda sumergido? 0,6 ÷ 1 = 60 %. Muchos contestan 40 %, que es lo que asoma por encima: el juego incluye esa opción a propósito. Al soltarlo, el bloque cae y se queda con tres quintas partes bajo el agua.',
+    enPapel: {
+      titulo: 'El experimento del huevo',
+      pasos: [
+        'Llena un vaso de agua del grifo y mete con cuidado un huevo crudo: se va al fondo.',
+        'Sácalo y disuelve sal en el agua, cucharada a cucharada, removiendo bien.',
+        'Vuelve a meter el huevo después de cada cucharada y apunta cuántas hacen falta para que flote.',
+        'Explica por qué: la sal aumenta la densidad del agua hasta superar la del huevo.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'El examen de Presión y Fluidos', desc: 'Repasa la presión y la superficie, la presión hidrostática, los principios de Pascal y Arquímedes y la presión atmosférica, con explicación en cada respuesta.' },
+      { nombre: 'La columna de densidades', desc: 'En un vaso alto, vierte despacio miel, agua con colorante y aceite: quedan en capas. Echa luego objetos pequeños y mira en qué capa se para cada uno.' },
+      { nombre: 'El barco de plastilina', desc: 'Una bola de plastilina se hunde; la misma plastilina en forma de barca flota. Es la misma masa con más volumen: la densidad media baja.' },
+    ],
+    asignatura: 'Física', niveles: 'Primaria, ESO',
+  },
   'encuentra-elemento': {
     titulo: 'Encuentra el Elemento',
     subtitulo: 'Juego de la Tabla Periódica',
@@ -2448,6 +2476,33 @@ export const FICHAS_EN = {
       { nombre: 'Front-of-pack scores', desc: 'Many packs also carry a summary score or colour code. Comparing it with what the table says is a good critical reading exercise.' },
     ],
     asignatura: 'Biology', niveles: 'Primary, Secondary',
+  },
+  'flota-o-se-hunde': {
+    titulo: 'Float or Sink?',
+    subtitulo: 'Density and buoyancy game: predict, drop it and watch it fall',
+    emoji: '🚢', gradient: 'from-sky-500 to-blue-700', path: '/juegos/flota-o-se-hunde',
+    intro: 'A physics game for really understanding floating, not memorising it. A real object (cork, ice, an apple, an egg, a marble, a coin, a piece of gold) is held above a glass of liquid, which may be water, seawater, olive oil, alcohol, glycerine, honey, Dead Sea water or mercury. You predict what will happen when it is dropped. When you answer, the object falls and stays exactly where physics says: floating with just the right part under the surface, or on the bottom of the glass. On easy you see each object’s density; on medium only its mass and volume, so you work the density out; on hard you are asked how much stays under the surface.',
+    beneficios: [
+      { titulo: 'One rule, and it is not weight', texto: 'Most children believe heavy things sink and light things float. A huge log floats and a tiny marble sinks: what counts is density, the mass packed into each cubic centimetre. The game tests it again and again with objects of every size until the idea replaces the intuition.' },
+      { titulo: 'Same object, different liquid', texto: 'An egg sinks in tap water and floats in the Dead Sea; ice floats in water and sinks in alcohol; even lead floats on mercury. Changing the liquid forces you to compare two densities instead of sorting objects into “floaters” and “sinkers”, which is the underlying mistake.' },
+      { titulo: 'Archimedes, with exact numbers', texto: 'On hard, the submerged part is the object’s density divided by the liquid’s: a 0.6 g/cm³ block in water floats with 60% under the surface. The numbers are chosen to come out exact, and the drawing shows them: the part tinted by the liquid is exactly that fraction.' },
+    ],
+    ejemplo: 'A 300 g, 500 cm³ block appears above a glass of water. Its density is 300 ÷ 500 = 0.6 g/cm³, less than water (1 g/cm³): it floats. How much is under the surface? 0.6 ÷ 1 = 60%. Many answer 40%, which is the part sticking out: the game includes that option on purpose. When dropped, the block falls and settles with three fifths under the water.',
+    enPapel: {
+      titulo: 'The egg experiment',
+      pasos: [
+        'Fill a glass with tap water and gently lower a raw egg into it: it goes to the bottom.',
+        'Take it out and dissolve salt in the water, spoonful by spoonful, stirring well.',
+        'Put the egg back after each spoonful and note how many it takes for it to float.',
+        'Explain why: the salt raises the density of the water until it is higher than the egg’s.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'The Pressure and Fluids exam', desc: 'Covers pressure and area, hydrostatic pressure, Pascal’s and Archimedes’ principles and atmospheric pressure, with an explanation after each answer.' },
+      { nombre: 'A density column', desc: 'In a tall glass, slowly pour honey, coloured water and oil: they form layers. Then drop in small objects and see which layer each one stops at.' },
+      { nombre: 'The modelling-clay boat', desc: 'A ball of modelling clay sinks; the same clay shaped into a boat floats. Same mass, more volume: the average density drops.' },
+    ],
+    asignatura: 'Physics', niveles: 'Primary, Secondary',
   },
   'encuentra-elemento': {
     titulo: 'Find the Element',
@@ -3744,6 +3799,33 @@ export const FICHAS_CA = {
       { nombre: 'El Nutri-Score', desc: 'Molts envasos porten a més la lletra de l’A a l’E. Comparar la lletra amb el que diu la taula és un bon exercici de lectura crítica.' },
     ],
     asignatura: 'Biologia', niveles: 'Primària, ESO',
+  },
+  'flota-o-se-hunde': {
+    titulo: 'Sura o s’enfonsa?',
+    subtitulo: 'Joc de densitat i flotació: prediu, deixa’l anar i mira’l caure',
+    emoji: '🚢', gradient: 'from-sky-500 to-blue-700', path: '/juegos/flota-o-se-hunde',
+    intro: 'Un joc de física per entendre la flotació de debò, no de memòria. Surt un objecte real (suro, gel, una poma, un ou, una bala de vidre, una moneda, un tros d’or) subjectat damunt d’un got amb un líquid, que pot ser aigua, aigua de mar, oli d’oliva, alcohol, glicerina, mel, l’aigua del mar Mort o mercuri. Cal predir què passarà quan es deixi anar. En respondre, l’objecte cau i es queda exactament on diu la física: surant amb la part justa sota la superfície o al fons del got. Al nivell fàcil es veu la densitat de cada objecte; al mitjà només la massa i el volum, i la densitat s’ha de calcular; al difícil es pregunta quina part queda submergida.',
+    beneficios: [
+      { titulo: 'Una sola regla, i no és el pes', texto: 'Gairebé tots els nens creuen que el que pesa s’enfonsa i el que és lleuger sura. Un tronc enorme sura i una bala de vidre petitíssima s’enfonsa: el que compta és la densitat, la massa que hi cap a cada centímetre cúbic. El joc ho posa a prova una vegada i una altra amb objectes de totes les mides fins que la idea substitueix la intuïció.' },
+      { titulo: 'El mateix objecte, un altre líquid', texto: 'Un ou s’enfonsa en aigua de l’aixeta i sura al mar Mort; el gel sura en aigua i s’enfonsa en alcohol; fins i tot el plom sura en mercuri. Canviar el líquid obliga a comparar dues densitats en lloc de classificar objectes en «suren» i «no suren», que és l’error de fons.' },
+      { titulo: 'Arquimedes, amb nombres exactes', texto: 'Al nivell difícil la part submergida és la densitat de l’objecte dividida per la del líquid: un bloc de 0,6 g/cm³ en aigua sura amb el 60 % sota la superfície. Els comptes estan triats perquè surtin exactes, i el dibuix els ensenya: la part tenyida pel líquid és justament aquesta fracció.' },
+    ],
+    ejemplo: 'Surt un bloc de 300 g i 500 cm³ damunt d’un got d’aigua. La densitat és 300 ÷ 500 = 0,6 g/cm³, menor que la de l’aigua (1 g/cm³): sura. Quant queda submergit? 0,6 ÷ 1 = 60 %. Molts contesten 40 %, que és el que treu el cap per sobre: el joc inclou aquesta opció a posta. En deixar-lo anar, el bloc cau i es queda amb tres cinquenes parts sota l’aigua.',
+    enPapel: {
+      titulo: 'L’experiment de l’ou',
+      pasos: [
+        'Omple un got d’aigua de l’aixeta i fica-hi amb compte un ou cru: se’n va al fons.',
+        'Treu-lo i dissol sal a l’aigua, cullerada a cullerada, remenant bé.',
+        'Torna a ficar l’ou després de cada cullerada i apunta quantes en calen perquè suri.',
+        'Explica per què: la sal augmenta la densitat de l’aigua fins a superar la de l’ou.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'L’examen de Pressió i Fluids', desc: 'Repassa la pressió i la superfície, la pressió hidrostàtica, els principis de Pascal i Arquimedes i la pressió atmosfèrica, amb explicació a cada resposta.' },
+      { nombre: 'La columna de densitats', desc: 'En un got alt, aboca a poc a poc mel, aigua amb colorant i oli: queden en capes. Després hi tires objectes petits i mires a quina capa s’atura cadascun.' },
+      { nombre: 'La barca de plastilina', desc: 'Una bola de plastilina s’enfonsa; la mateixa plastilina en forma de barca sura. És la mateixa massa amb més volum: la densitat mitjana baixa.' },
+    ],
+    asignatura: 'Física', niveles: 'Primària, ESO',
   },
   'encuentra-elemento': {
     titulo: 'Troba l\'Element',
