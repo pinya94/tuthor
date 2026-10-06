@@ -315,6 +315,14 @@ export const GAMES = {
     // aciertos × 10 puntos → hasta 200 monedas
     coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
   },
+  'lee-el-movimiento': {
+    label: { es: 'Lee el movimiento', en: 'Read the Motion', ca: 'Llegeix el moviment' },
+    emoji: '🏁',
+    subject: 'fisica',
+    route: '/juegos/lee-el-movimiento',
+    // aciertos × 10 puntos → hasta 200 monedas
+    coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
+  },
   'engranajes': {
     label: { es: 'Engranajes', en: 'Gears', ca: 'Engranatges' },
     emoji: '⚙️',

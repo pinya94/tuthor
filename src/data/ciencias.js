@@ -47,6 +47,7 @@ export const TEMA_DISCIPLINA = {
   'presion-fluidos':    'fisica',
   'calor-temperatura':  'fisica',
   'maquinas':           'fisica',
+  'movimiento':         'fisica',
   formulacion:          'quimica',
   disoluciones:         'quimica',
   'celula':             'biologia',

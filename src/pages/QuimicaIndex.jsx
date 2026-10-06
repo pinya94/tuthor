@@ -196,6 +196,14 @@ const TEMAS = [
     niveles: nivelesDeTema('fisica', 'calor-temperatura'),
   },
   {
+    id: 'movimiento', disciplina: 'fisica',
+    titulo: 'El Movimiento', tituloEn: 'Motion', tituloCa: 'El Moviment',
+    subtitulo: 'Velocidad, aceleración y gráficas x-t y v-t', subtituloEn: 'Velocity, acceleration and x-t and v-t graphs', subtituloCa: 'Velocitat, acceleració i gràfiques x-t i v-t',
+    emoji: '🏎️', gradient: 'from-sky-500 to-blue-700',
+    tags: ['movimiento', 'cinematica', 'velocidad', 'aceleracion', 'mru', 'mrua', 'caida libre', 'grafica', 'trayectoria', 'desplazamiento', 'motion', 'velocity', 'acceleration', 'kinematics'],
+    niveles: nivelesDeTema('fisica', 'movimiento'),
+  },
+  {
     id: 'maquinas', disciplina: 'fisica',
     titulo: 'Máquinas y Mecanismos', tituloEn: 'Machines and Mechanisms', tituloCa: 'Màquines i Mecanismes',
     subtitulo: 'Palancas, poleas, engranajes y mecanismos', subtituloEn: 'Levers, pulleys, gears and mechanisms', subtituloCa: 'Palanques, politges, engranatges i mecanismes',

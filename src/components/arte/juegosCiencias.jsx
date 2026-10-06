@@ -495,6 +495,22 @@ function NombraCompuesto(p) {
   )
 }
 
+function LeeElMovimiento(p) {
+  // Una gráfica x-t de tres tramos: sube, plano, baja.
+  return (
+    <Lienzo {...p}>
+      <path d="M30 116V16M30 116H214" stroke="#94A3B8" strokeWidth="2.5" fill="none" />
+      <path d="M30 104L86 44" stroke="#60A5FA" strokeWidth="4.5" strokeLinecap="round" />
+      <path d="M86 44H142" stroke="#F472B6" strokeWidth="4.5" strokeLinecap="round" />
+      <path d="M142 44L206 92" stroke="#FBBF24" strokeWidth="4.5" strokeLinecap="round" />
+      <path d="M30 104H86V44" stroke="#4ADE80" strokeWidth="2" strokeDasharray="4 3" fill="none" />
+      <T x={58} y={30} s={13} c="#60A5FA">A</T>
+      <T x={114} y={34} s={13} c="#F472B6">B</T>
+      <T x={182} y={56} s={13} c="#FBBF24">C</T>
+    </Lienzo>
+  )
+}
+
 export const ARTE_CIENCIAS = {
   genetica: Genetica,
   'rayos-x': RayosX,
@@ -506,6 +522,7 @@ export const ARTE_CIENCIAS = {
   'el-tiempo': ElTiempo,
   'ciclo-rocas': CicloRocas,
   engranajes: Engranajes,
+  'lee-el-movimiento': LeeElMovimiento,
   'cadena-energia': CadenaEnergia,
   'flota-o-se-hunde': FlotaHunde,
   'lee-la-etiqueta': LeeLaEtiqueta,

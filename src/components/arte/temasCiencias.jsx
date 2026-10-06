@@ -604,6 +604,22 @@ function AtmosferaClima(p) {
 
 // Clave = `<disciplina>/<id del tema>` (QuimicaIndex, data/ciencias.js).
 // Máquinas: una palanca con su apoyo y dos engranajes encajados.
+function Movimiento(p) {
+  // Un coche con estelas de velocidad y su gráfica v-t: tramo que sube y tramo plano.
+  return (
+    <Lienzo {...p}>
+      <path d="M14 112V20M14 112H120" stroke="#94A3B8" strokeWidth="2.5" fill="none" />
+      <path d="M14 100L60 52H116" stroke="#F472B6" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+      <path d="M14 100L60 52V112H14Z" fill="#F472B6" fillOpacity=".2" />
+      <rect x="150" y="66" width="70" height="22" rx="8" fill="#38BDF8" />
+      <path d="M164 66L176 50H200L212 66Z" fill="#38BDF8" />
+      <circle cx="166" cy="90" r="9" fill="#0F172A" stroke="#CBD5E1" strokeWidth="3" />
+      <circle cx="206" cy="90" r="9" fill="#0F172A" stroke="#CBD5E1" strokeWidth="3" />
+      <path d="M128 62H142M124 74H142M130 86H142" stroke="#E2E8F0" strokeWidth="3" strokeLinecap="round" />
+    </Lienzo>
+  )
+}
+
 function Maquinas(p) {
   const dientes = (cx, cy, r, n, c) => Array.from({ length: n }, (_, i) => {
     const a = (i / n) * Math.PI * 2
@@ -653,6 +669,7 @@ export const ARTE_TEMAS_CIENCIAS = {
   'fisica/presion-fluidos': PresionFluidos,
   'fisica/ondas-luz': OndasLuz,
   'fisica/maquinas': Maquinas,
+  'fisica/movimiento': Movimiento,
   'biologia/salud-enfermedad': SaludEnfermedad,
   'geologia/atmosfera-clima': AtmosferaClima,
 }

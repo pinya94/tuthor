@@ -500,6 +500,11 @@ export const EXAMS = {
     emoji: '🔆', subject: 'fisica',
     path: 'examen/cadena-energia-test', page: () => import('../pages/CadenaEnergiaExamen'),
   },
+  'lee-el-movimiento-test': {
+    label: { es: 'Lee el movimiento (con el juego)', en: 'Read the Motion (with the game)', ca: 'Llegeix el moviment (amb el joc)' },
+    emoji: '🏁', subject: 'fisica',
+    path: 'examen/lee-el-movimiento-test', page: () => import('../pages/LeeElMovimientoExamen'),
+  },
   'engranajes-test': {
     label: { es: 'Engranajes (con el juego)', en: 'Gears (with the game)', ca: 'Engranatges (amb el joc)' },
     emoji: '⚙️', subject: 'fisica',
@@ -773,6 +778,11 @@ export const EXAMS = {
     label: { es: 'Divisibilidad', en: 'Divisibility', ca: 'Divisibilitat' },
     emoji: '🌳', subject: 'matematicas',
     path: 'examen/divisibilidad', page: () => import('../pages/DivisibilidadExamen'),
+  },
+  'movimiento': {
+    label: { es: 'El Movimiento', en: 'Motion', ca: 'El Moviment' },
+    emoji: '🏎️', subject: 'fisica',
+    path: 'examen/movimiento', page: () => import('../pages/MovimientoExamen'),
   },
   'maquinas': {
     label: { es: 'Máquinas y Mecanismos', en: 'Machines and Mechanisms', ca: 'Màquines i Mecanismes' },

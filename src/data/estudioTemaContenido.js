@@ -1242,6 +1242,64 @@ export const CONTENIDO_TEMA = {
     },
   },
 
+  movimiento: {
+    metaTitle: {
+      es: 'El movimiento: MRU, MRUA, caída libre y gráficas x-t y v-t — resumen',
+      en: 'Motion: uniform and accelerated motion, free fall and x-t and v-t graphs — a summary',
+      ca: 'El moviment: MRU, MRUA, caiguda lliure i gràfiques x-t i v-t — resum',
+    },
+    metaDesc: {
+      es: 'Trayectoria, distancia y desplazamiento, velocidad y aceleración, el MRU y el MRUA con sus ecuaciones, la caída libre y cómo leer las gráficas. Resumen y test.',
+      en: 'Path, distance and displacement, velocity and acceleration, uniform and accelerated motion with their equations, free fall and reading graphs. Summary and test.',
+      ca: 'Trajectòria, distància i desplaçament, velocitat i acceleració, el MRU i el MRUA amb les seves equacions, la caiguda lliure i com llegir les gràfiques. Resum i test.',
+    },
+    resumen: {
+      es: [
+        'Un cuerpo se mueve cuando cambia su posición respecto a un sistema de referencia, así que el movimiento es relativo: vas en reposo respecto al tren y en movimiento respecto a la vía. La trayectoria es la línea que dibuja; la distancia recorrida suma todo el camino, y el desplazamiento solo mira de dónde salió y dónde acaba. La velocidad media es la distancia entre el tiempo, y la aceleración, lo que cambia la velocidad cada segundo (m/s²).',
+        'En el movimiento rectilíneo uniforme (MRU) la velocidad no cambia: x = x₀ + v · t. En el uniformemente acelerado (MRUA) la velocidad cambia siempre lo mismo: v = v₀ + a · t y x = x₀ + v₀ · t + ½ · a · t². La caída libre es un MRUA con a = g ≈ 9,8 m/s², igual para todos los cuerpos si no hay aire. En las gráficas, la pendiente de la x-t es la velocidad y la de la v-t es la aceleración; el área bajo la v-t es la distancia recorrida.',
+      ],
+      en: [
+        'A body moves when its position changes relative to a frame of reference, so motion is relative: you are at rest relative to the train and moving relative to the track. The path is the line it traces; the distance travelled adds up the whole route, and the displacement only looks at where it started and where it ends. Average speed is distance over time, and acceleration is how much the velocity changes each second (m/s²).',
+        'In uniform linear motion the velocity does not change: x = x₀ + v · t. In uniformly accelerated motion the velocity always changes by the same amount: v = v₀ + a · t and x = x₀ + v₀ · t + ½ · a · t². Free fall is uniformly accelerated motion with a = g ≈ 9.8 m/s², the same for every body if there is no air. On graphs, the slope of the x-t graph is the velocity and the slope of the v-t graph is the acceleration; the area under the v-t graph is the distance travelled.',
+      ],
+      ca: [
+        'Un cos es mou quan canvia la seva posició respecte d’un sistema de referència, així que el moviment és relatiu: vas en repòs respecte del tren i en moviment respecte de la via. La trajectòria és la línia que dibuixa; la distància recorreguda suma tot el camí, i el desplaçament només mira d’on va sortir i on acaba. La velocitat mitjana és la distància entre el temps, i l’acceleració, el que canvia la velocitat cada segon (m/s²).',
+        'En el moviment rectilini uniforme (MRU) la velocitat no canvia: x = x₀ + v · t. En l’uniformement accelerat (MRUA) la velocitat canvia sempre el mateix: v = v₀ + a · t i x = x₀ + v₀ · t + ½ · a · t². La caiguda lliure és un MRUA amb a = g ≈ 9,8 m/s², igual per a tots els cossos si no hi ha aire. A les gràfiques, el pendent de la x-t és la velocitat i el de la v-t és l’acceleració; l’àrea sota la v-t és la distància recorreguda.',
+      ],
+    },
+    puntosClave: {
+      es: [
+        'El movimiento es relativo: depende del sistema de referencia.',
+        'Distancia recorrida ≠ desplazamiento si el móvil vuelve atrás.',
+        'Velocidad media = distancia ÷ tiempo; de km/h a m/s se divide entre 3,6.',
+        'MRU: velocidad constante, x = x₀ + v · t.',
+        'MRUA: v = v₀ + a · t y x = x₀ + v₀ · t + ½ · a · t².',
+        'Caída libre: a = g ≈ 9,8 m/s², igual para todos sin aire.',
+        'Pendiente de la x-t = velocidad; pendiente de la v-t = aceleración.',
+        'Área bajo la v-t = distancia recorrida.',
+      ],
+      en: [
+        'Motion is relative: it depends on the frame of reference.',
+        'Distance travelled ≠ displacement if the object comes back.',
+        'Average speed = distance ÷ time; from km/h to m/s divide by 3.6.',
+        'Uniform motion: constant velocity, x = x₀ + v · t.',
+        'Uniform acceleration: v = v₀ + a · t and x = x₀ + v₀ · t + ½ · a · t².',
+        'Free fall: a = g ≈ 9.8 m/s², the same for all without air.',
+        'Slope of x-t = velocity; slope of v-t = acceleration.',
+        'Area under v-t = distance travelled.',
+      ],
+      ca: [
+        'El moviment és relatiu: depèn del sistema de referència.',
+        'Distància recorreguda ≠ desplaçament si el mòbil torna enrere.',
+        'Velocitat mitjana = distància ÷ temps; de km/h a m/s es divideix entre 3,6.',
+        'MRU: velocitat constant, x = x₀ + v · t.',
+        'MRUA: v = v₀ + a · t i x = x₀ + v₀ · t + ½ · a · t².',
+        'Caiguda lliure: a = g ≈ 9,8 m/s², igual per a tots sense aire.',
+        'Pendent de la x-t = velocitat; pendent de la v-t = acceleració.',
+        'Àrea sota la v-t = distància recorreguda.',
+      ],
+    },
+  },
   maquinas: {
     metaTitle: {
       es: "Máquinas simples y mecanismos: palanca, poleas y engranajes — resumen",

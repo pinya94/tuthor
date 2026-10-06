@@ -1479,6 +1479,34 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Química', niveles: 'ESO, Bachillerato',
   },
+  'lee-el-movimiento': {
+    titulo: 'Lee el movimiento',
+    subtitulo: 'Juego de cinemática: gráficas posición-tiempo y velocidad-tiempo',
+    emoji: '🏁', gradient: 'from-sky-500 to-pink-600',
+    path: '/juegos/lee-el-movimiento',
+    intro: 'Un juego de física para aprender a leer las gráficas del movimiento, uno de los puntos que más cuesta de la cinemática de ESO y Bachillerato. Cada ronda trae una gráfica nueva de tres tramos, posición-tiempo (x-t) o velocidad-tiempo (v-t), dibujada con su cuadrícula y sus escalas. En el nivel fácil hay que decir qué hace el móvil en un tramo: si está parado, avanza, vuelve atrás, acelera o frena. En el medio se calcula la velocidad o la aceleración con la pendiente y se busca el tramo más rápido. En el difícil, la distancia recorrida como área bajo la gráfica v-t y la diferencia entre distancia recorrida y desplazamiento.',
+    beneficios: [
+      { titulo: 'Dos gráficas que se parecen y no dicen lo mismo', texto: 'Una línea horizontal significa estar parado en la gráfica x-t y moverse a velocidad constante en la v-t. Es el error más frecuente de la cinemática, y el juego mezcla las dos gráficas a propósito para que haya que mirar siempre qué se representa en el eje vertical.' },
+      { titulo: 'La cuenta, dibujada', texto: 'Al corregir aparece el triángulo de la pendiente con su Δx (o Δv) y su Δt, o el área sombreada bajo la gráfica. Así se ve de dónde sale cada número, y la fórmula v = Δx ÷ Δt o el área como distancia dejan de ser algo que memorizar.' },
+      { titulo: 'Las trampas de los exámenes', texto: 'El tramo que llega más alto no es el más rápido: lo es el más inclinado. Si el móvil vuelve atrás, la distancia recorrida suma todos los tramos y el desplazamiento no. Las opciones equivocadas son justo esos errores, además de olvidar el ½ del triángulo o dividir al revés.' },
+    ],
+    ejemplo: 'Sale una gráfica velocidad-tiempo. En el tramo C la velocidad baja de 7 m/s a 1 m/s en 3 segundos. ¿Qué distancia recorre? Es el área del trapecio bajo la línea: (7 + 1) ÷ 2 × 3 = 12 m. Muchos multiplican la velocidad final por el tiempo (3 m) o la inicial (21 m); el área es la velocidad media del tramo por su duración.',
+    enPapel: {
+      titulo: 'Tu propia gráfica',
+      pasos: [
+        'Mide un pasillo y marca en el suelo cada metro con cinta.',
+        'Un compañero camina, se para y vuelve, mientras otro apunta cada 2 segundos en qué marca está.',
+        'Dibujad la gráfica posición-tiempo con esos datos.',
+        'Señalad en la gráfica cuándo estaba parado, cuándo iba más rápido y cuándo volvía.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'El examen de El Movimiento', desc: 'Tipo test sobre trayectoria, distancia y desplazamiento, MRU, MRUA, caída libre y movimiento circular, con explicación en cada respuesta.' },
+      { nombre: 'Fuerza Neta', desc: 'Otro juego de física: suma las fuerzas que actúan sobre un cuerpo y decide hacia dónde se acelera.' },
+      { nombre: 'Lee el Gráfico', desc: 'Para practicar la lectura de gráficos de barras, de líneas y de sectores en matemáticas.' },
+    ],
+    asignatura: 'Física', niveles: 'ESO, Bachillerato',
+  },
   'encuentra-elemento': {
     titulo: 'Encuentra el Elemento',
     subtitulo: 'Juego de la Tabla Periódica',
@@ -2943,6 +2971,33 @@ export const FICHAS_EN = {
       { nombre: 'Find the Element', desc: 'For revising where each element is in the periodic table, which gives clues to its valencies.' },
     ],
     asignatura: 'Chemistry', niveles: 'Secondary, Sixth Form',
+  },
+  'lee-el-movimiento': {
+    titulo: 'Read the Motion',
+    subtitulo: 'Kinematics game: position-time and velocity-time graphs',
+    emoji: '🏁', gradient: 'from-sky-500 to-pink-600', path: '/juegos/lee-el-movimiento',
+    intro: 'A physics game for learning to read motion graphs, one of the hardest parts of secondary kinematics. Every round brings a new three-stretch graph, position-time (x-t) or velocity-time (v-t), drawn with its grid and scales. On easy you say what the object does in a stretch: at rest, moving forward, coming back, speeding up or slowing down. On medium you work out the velocity or acceleration from the slope and find the fastest stretch. On hard, the distance travelled as the area under the v-t graph and the difference between distance travelled and displacement.',
+    beneficios: [
+      { titulo: 'Two graphs that look alike but say different things', texto: 'A horizontal line means being at rest on an x-t graph and moving at constant velocity on a v-t graph. It is the most common kinematics mistake, and the game mixes both graphs on purpose so you always have to check what the vertical axis shows.' },
+      { titulo: 'The working, drawn', texto: 'When you answer, the slope triangle appears with its Δx (or Δv) and Δt, or the shaded area under the graph. You can see where each number comes from, and v = Δx ÷ Δt or area as distance stop being something to memorise.' },
+      { titulo: 'The exam traps', texto: 'The stretch that reaches highest is not the fastest: the steepest one is. If the object comes back, the distance travelled adds up all the stretches and the displacement does not. The wrong options are exactly those mistakes, plus forgetting the ½ of the triangle or dividing the wrong way round.' },
+    ],
+    ejemplo: 'A velocity-time graph appears. In stretch C the velocity drops from 7 m/s to 1 m/s in 3 seconds. How far does it go? It is the area of the trapezium under the line: (7 + 1) ÷ 2 × 3 = 12 m. Many multiply the final velocity by the time (3 m) or the initial one (21 m); the area is the stretch’s average velocity times its duration.',
+    enPapel: {
+      titulo: 'Your own graph',
+      pasos: [
+        'Measure a corridor and mark every metre on the floor with tape.',
+        'One student walks, stops and comes back while another notes every 2 seconds which mark they are at.',
+        'Draw the position-time graph from those data.',
+        'Mark on the graph when they were at rest, when they were fastest and when they were coming back.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'The Motion exam', desc: 'Multiple choice on path, distance and displacement, uniform and accelerated motion, free fall and circular motion, with an explanation for each answer.' },
+      { nombre: 'Net Force', desc: 'Another physics game: add up the forces on a body and decide which way it accelerates.' },
+      { nombre: 'Read the Chart', desc: 'For practising reading bar, line and pie charts in maths.' },
+    ],
+    asignatura: 'Physics', niveles: 'Secondary, Sixth Form',
   },
   'encuentra-elemento': {
     titulo: 'Find the Element',
@@ -4482,6 +4537,33 @@ export const FICHAS_CA = {
       { nombre: 'Troba l’Element', desc: 'Per repassar on és cada element a la taula periòdica, que és el que dona pistes sobre les seves valències.' },
     ],
     asignatura: 'Química', niveles: 'ESO, Batxillerat',
+  },
+  'lee-el-movimiento': {
+    titulo: 'Llegeix el moviment',
+    subtitulo: 'Joc de cinemàtica: gràfiques posició-temps i velocitat-temps',
+    emoji: '🏁', gradient: 'from-sky-500 to-pink-600', path: '/juegos/lee-el-movimiento',
+    intro: 'Un joc de física per aprendre a llegir les gràfiques del moviment, un dels punts que més costen de la cinemàtica d’ESO i Batxillerat. Cada ronda porta una gràfica nova de tres trams, posició-temps (x-t) o velocitat-temps (v-t), dibuixada amb la seva quadrícula i les seves escales. Al nivell fàcil cal dir què fa el mòbil en un tram: si està aturat, avança, torna enrere, accelera o frena. Al mitjà es calcula la velocitat o l’acceleració amb el pendent i es busca el tram més ràpid. Al difícil, la distància recorreguda com a àrea sota la gràfica v-t i la diferència entre distància recorreguda i desplaçament.',
+    beneficios: [
+      { titulo: 'Dues gràfiques que s’assemblen i no diuen el mateix', texto: 'Una línia horitzontal vol dir estar aturat a la gràfica x-t i moure’s a velocitat constant a la v-t. És l’error més freqüent de la cinemàtica, i el joc barreja les dues gràfiques a posta perquè calgui mirar sempre què es representa a l’eix vertical.' },
+      { titulo: 'El compte, dibuixat', texto: 'En corregir apareix el triangle del pendent amb el seu Δx (o Δv) i el seu Δt, o l’àrea ombrejada sota la gràfica. Així es veu d’on surt cada nombre, i la fórmula v = Δx ÷ Δt o l’àrea com a distància deixen de ser una cosa per memoritzar.' },
+      { titulo: 'Els paranys dels exàmens', texto: 'El tram que arriba més amunt no és el més ràpid: ho és el més inclinat. Si el mòbil torna enrere, la distància recorreguda suma tots els trams i el desplaçament no. Les opcions equivocades són justament aquests errors, a més d’oblidar el ½ del triangle o dividir al revés.' },
+    ],
+    ejemplo: 'Surt una gràfica velocitat-temps. Al tram C la velocitat baixa de 7 m/s a 1 m/s en 3 segons. Quina distància recorre? És l’àrea del trapezi sota la línia: (7 + 1) ÷ 2 × 3 = 12 m. Molts multipliquen la velocitat final pel temps (3 m) o la inicial (21 m); l’àrea és la velocitat mitjana del tram per la seva durada.',
+    enPapel: {
+      titulo: 'La teva pròpia gràfica',
+      pasos: [
+        'Mesura un passadís i marca a terra cada metre amb cinta.',
+        'Un company camina, s’atura i torna, mentre un altre apunta cada 2 segons a quina marca és.',
+        'Dibuixeu la gràfica posició-temps amb aquestes dades.',
+        'Assenyaleu a la gràfica quan estava aturat, quan anava més ràpid i quan tornava.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'L’examen d’El Moviment', desc: 'Tipus test sobre trajectòria, distància i desplaçament, MRU, MRUA, caiguda lliure i moviment circular, amb explicació a cada resposta.' },
+      { nombre: 'Força Neta', desc: 'Un altre joc de física: suma les forces que actuen sobre un cos i decideix cap a on s’accelera.' },
+      { nombre: 'Llegeix el Gràfic', desc: 'Per practicar la lectura de gràfics de barres, de línies i de sectors a matemàtiques.' },
+    ],
+    asignatura: 'Física', niveles: 'ESO, Batxillerat',
   },
   'encuentra-elemento': {
     titulo: 'Troba l\'Element',

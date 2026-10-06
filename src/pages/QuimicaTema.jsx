@@ -48,6 +48,7 @@ const TEMAS_META = {
     'ondas-luz':         { titulo: 'Ondas y Luz',          emoji: '🌊', descripcion: 'Ondas mecánicas, sonido, luz, reflexión, refracción y espectro electromagnético.' },
     'presion-fluidos':   { titulo: 'Presión y Fluidos',    emoji: '🎈', descripcion: 'Presión, presión hidrostática, principios de Pascal y Arquímedes, flotación y presión atmosférica.' },
     'calor-temperatura': { titulo: 'Calor y Temperatura',  emoji: '🌡️', descripcion: 'Calor frente a temperatura, escalas, dilatación, conducción, convección, radiación y calor específico.' },
+    'movimiento':        { titulo: 'El Movimiento', emoji: '🏎️', descripcion: 'Trayectoria, velocidad y aceleración: el MRU, el MRUA, la caída libre y cómo leer las gráficas posición-tiempo y velocidad-tiempo.' },
     'maquinas':          { titulo: 'Máquinas y Mecanismos', emoji: '⚙️', descripcion: 'Palancas, planos inclinados, poleas, engranajes y los mecanismos que transforman el movimiento.' },
   },
   en: {
@@ -76,6 +77,7 @@ const TEMAS_META = {
     'ondas-luz':         { titulo: 'Waves and Light',      emoji: '🌊', descripcion: 'Mechanical waves, sound, light, reflection, refraction and the electromagnetic spectrum.' },
     'presion-fluidos':   { titulo: 'Pressure and Fluids',  emoji: '🎈', descripcion: 'Pressure, hydrostatic pressure, Pascal and Archimedes, floating and atmospheric pressure.' },
     'calor-temperatura': { titulo: 'Heat and Temperature', emoji: '🌡️', descripcion: 'Heat versus temperature, scales, expansion, conduction, convection, radiation and specific heat.' },
+    'movimiento':        { titulo: 'Motion', emoji: '🏎️', descripcion: 'Path, velocity and acceleration: uniform and uniformly accelerated motion, free fall and how to read position-time and velocity-time graphs.' },
     'maquinas':          { titulo: 'Machines and Mechanisms', emoji: '⚙️', descripcion: 'Levers, inclined planes, pulleys, gears and the mechanisms that transform motion.' },
   },
   ca: {
@@ -104,6 +106,7 @@ const TEMAS_META = {
     'ondas-luz':         { titulo: 'Ones i Llum',          emoji: '🌊', descripcion: 'Ones mecàniques, so, llum, reflexió, refracció i espectre electromagnètic.' },
     'presion-fluidos':   { titulo: 'Pressió i Fluids',     emoji: '🎈', descripcion: 'Pressió, pressió hidrostàtica, principis de Pascal i Arquimedes, flotació i pressió atmosfèrica.' },
     'calor-temperatura': { titulo: 'Calor i Temperatura',  emoji: '🌡️', descripcion: 'Calor enfront de temperatura, escales, dilatació, conducció, convecció, radiació i calor específica.' },
+    'movimiento':        { titulo: 'El Moviment', emoji: '🏎️', descripcion: 'Trajectòria, velocitat i acceleració: el MRU, el MRUA, la caiguda lliure i com llegir les gràfiques posició-temps i velocitat-temps.' },
     'maquinas':          { titulo: 'Màquines i Mecanismes', emoji: '⚙️', descripcion: 'Palanques, plans inclinats, politges, engranatges i els mecanismes que transformen el moviment.' },
   },
 }
@@ -479,6 +482,22 @@ const MODOS_POR_TEMA = {
       descripcion: { es:'Qué distingue el calor de la temperatura, escalas Celsius y Kelvin, dilatación, las tres formas de transmisión, equilibrio térmico y calor específico.', en:'What tells heat from temperature, Celsius and Kelvin scales, expansion, the three transfer routes, thermal equilibrium and specific heat.', ca:'Què distingeix la calor de la temperatura, escales Celsius i Kelvin, dilatació, les tres formes de transmissió, equilibri tèrmic i calor específica.' },
       detalles: { es:['2 niveles','10 preguntas','Opción múltiple','Explicación tras cada respuesta'], en:['2 levels','10 questions','Multiple choice','Explanation after each answer'], ca:['2 nivells','10 preguntes','Opció múltiple','Explicació després de cada resposta'] },
       path: 'calor-temperatura',
+    },
+  ],
+  movimiento: [
+    {
+      id: 'examen', emoji: '📝', gradient: 'from-sky-500 to-blue-700',
+      titulo: { es:'Examen', en:'Exam', ca:'Examen' },
+      descripcion: { es:'Trayectoria, distancia y desplazamiento, velocidad media, MRU y MRUA con sus ecuaciones y gráficas, caída libre y movimiento circular.', en:'Path, distance and displacement, average speed, uniform and accelerated motion with equations and graphs, free fall and circular motion.', ca:'Trajectòria, distància i desplaçament, velocitat mitjana, MRU i MRUA amb les seves equacions i gràfiques, caiguda lliure i moviment circular.' },
+      detalles: { es:['2 niveles','10 preguntas','Opción múltiple','Explicación tras cada respuesta'], en:['2 levels','10 questions','Multiple choice','Explanation after each answer'], ca:['2 nivells','10 preguntes','Opció múltiple','Explicació després de cada resposta'] },
+      path: 'movimiento',
+    },
+    {
+      id: 'lee-el-movimiento-test', emoji: '🏁', gradient: 'from-sky-500 to-pink-600',
+      titulo: { es:'Lee el movimiento (con el juego)', en:'Read the Motion (with the game)', ca:'Llegeix el moviment (amb el joc)' },
+      descripcion: { es:'Con la mecánica del juego: gráficas x-t y v-t generadas; qué hace el móvil, velocidad y aceleración con la pendiente y distancia con el área.', en:'Using the game mechanic: generated x-t and v-t graphs; what the object does, velocity and acceleration from the slope and distance from the area.', ca:'Amb la mecànica del joc: gràfiques x-t i v-t generades; què fa el mòbil, velocitat i acceleració amb el pendent i distància amb l’àrea.' },
+      detalles: { es:['3 niveles','10 preguntas','Sin cronómetro','Con el juego'], en:['3 levels','10 questions','No timer','With the game'], ca:['3 nivells','10 preguntes','Sense cronòmetre','Amb el joc'] },
+      path: 'lee-el-movimiento-test',
     },
   ],
   maquinas: [

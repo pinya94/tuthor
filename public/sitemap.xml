@@ -117,6 +117,9 @@
   <url><loc>https://www.tuthor.es/estudiar/fisica/maquinas</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/en/estudiar/fisica/maquinas</loc><changefreq>weekly</changefreq><priority>0.75</priority></url>
   <url><loc>https://www.tuthor.es/ca/estudiar/fisica/maquinas</loc><changefreq>weekly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://www.tuthor.es/estudiar/fisica/movimiento</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/en/estudiar/fisica/movimiento</loc><changefreq>weekly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://www.tuthor.es/ca/estudiar/fisica/movimiento</loc><changefreq>weekly</changefreq><priority>0.75</priority></url>
   <url><loc>https://www.tuthor.es/estudiar/biologia/salud-enfermedad</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/en/estudiar/biologia/salud-enfermedad</loc><changefreq>weekly</changefreq><priority>0.75</priority></url>
   <url><loc>https://www.tuthor.es/ca/estudiar/biologia/salud-enfermedad</loc><changefreq>weekly</changefreq><priority>0.75</priority></url>
@@ -284,6 +287,8 @@
   <url><loc>https://www.tuthor.es/examen/espanol-textos-test</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/examen/divisibilidad</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/examen/maquinas</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/examen/movimiento</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/examen/lee-el-movimiento-test</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/examen/geografia-ue-test</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/examen/musica-instrumentos-test</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/examen/espanol-figuras-test</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
@@ -572,6 +577,7 @@
   <url><loc>https://www.tuthor.es/juegos/lee-la-etiqueta</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/juegos/clave-dicotomica</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/juegos/engranajes</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/juegos/lee-el-movimiento</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/juegos/cadena-energia</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/juegos/flota-o-se-hunde</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/juegos/el-tiempo</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
@@ -796,6 +802,7 @@
   <url><loc>https://www.tuthor.es/info/juegos/lee-la-etiqueta</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/info/juegos/clave-dicotomica</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/info/juegos/engranajes</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/info/juegos/lee-el-movimiento</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/info/juegos/cadena-energia</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/info/juegos/flota-o-se-hunde</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/info/juegos/el-tiempo</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
@@ -897,6 +904,7 @@
   <url><loc>https://www.tuthor.es/ca/info/juegos/lee-la-etiqueta</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.tuthor.es/ca/info/juegos/clave-dicotomica</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.tuthor.es/ca/info/juegos/engranajes</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/ca/info/juegos/lee-el-movimiento</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.tuthor.es/ca/info/juegos/cadena-energia</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.tuthor.es/ca/info/juegos/flota-o-se-hunde</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.tuthor.es/ca/info/juegos/el-tiempo</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
@@ -910,6 +918,7 @@
   <url><loc>https://www.tuthor.es/en/info/juegos/lee-la-etiqueta</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
   <url><loc>https://www.tuthor.es/en/info/juegos/clave-dicotomica</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
   <url><loc>https://www.tuthor.es/en/info/juegos/engranajes</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://www.tuthor.es/en/info/juegos/lee-el-movimiento</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
   <url><loc>https://www.tuthor.es/en/info/juegos/cadena-energia</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
   <url><loc>https://www.tuthor.es/en/info/juegos/flota-o-se-hunde</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
   <url><loc>https://www.tuthor.es/en/info/juegos/el-tiempo</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
