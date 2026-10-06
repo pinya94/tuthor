@@ -81,6 +81,10 @@ export const STATIC_META = {
     es: { title: 'Música — teoría y exámenes', desc: 'Lectura de partituras y ritmo. Teoría breve y exámenes interactivos con piano virtual, para Primaria, ESO y Bachillerato.' },
     en: { title: 'Music — theory and exams', desc: 'Sheet music reading and rhythm. Short theory and interactive exams with a virtual piano, for primary and secondary school.' },
   },
+  '/estudiar/arte': {
+    es: { title: 'Historia del Arte — arquitectura y pintura', desc: 'Los estilos de la arquitectura, de Grecia a Gaudí, y los grandes pintores, de Giotto a Picasso. Exámenes explicados y un juego con edificios dibujados.' },
+    en: { title: 'Art History — architecture and painting', desc: 'Architectural styles from Greece to Gaudí and the great painters from Giotto to Picasso. Explained quizzes and a game with drawn buildings.' },
+  },
   '/estudiar/vida-practica': {
     es: { title: 'Primeros Auxilios — teoría y práctica', desc: 'Practica primeros auxilios tema a tema: atragantamiento, quemaduras, desmayo, cortes y picaduras. Ordena los pasos y toma las decisiones correctas.' },
     en: { title: 'First Aid — theory and practice', desc: 'Practice first aid topic by topic: choking, burns, fainting, cuts and stings. Order the steps and make the right calls.' },

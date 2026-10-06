@@ -64,6 +64,17 @@ export const SOBRE_PAGINA = {
         'Tres temes de l’assignatura de Música. Notes: llegir el pentagrama i tocar cada nota en un piano a la pantalla, o en un de real connectat per MIDI. Ritme: figures i silencis, compassos simples i compostos, punt, lligadura i síncopa. Instruments: les famílies de l’orquestra, com produeix el so cadascuna i la classificació de Hornbostel-Sachs.'),
     ],
   },
+  '/estudiar/arte': {
+    titulo: T('Historia del Arte', 'Art History', 'Història de l’Art'),
+    parrafos: [
+      T('Dos temas de Historia del Arte, tal como se ven en Geografía e Historia de la ESO y en Historia del Arte de 2.º de Bachillerato. Arquitectura: los órdenes griegos, el arco y la cúpula romanos, el arco de herradura de al-Ándalus, el románico del Camino de Santiago, las catedrales góticas, el Renacimiento florentino, el Barroco, el Neoclásico y la arquitectura del hierro hasta Gaudí y Le Corbusier. Pintura: de Giotto y Leonardo a Velázquez y Goya, y del impresionismo a Picasso, Dalí y la abstracción.',
+        'Two Art History topics, as studied in secondary Geography and History and in sixth-form Art History. Architecture: the Greek orders, the Roman arch and dome, the horseshoe arch of al-Andalus, the Romanesque of the Way of St James, Gothic cathedrals, the Florentine Renaissance, the Baroque, Neoclassicism and iron architecture up to Gaudí and Le Corbusier. Painting: from Giotto and Leonardo to Velázquez and Goya, and from Impressionism to Picasso, Dalí and abstraction.',
+        'Dos temes d’Història de l’Art, tal com es veuen a Geografia i Història de l’ESO i a Història de l’Art de 2n de Batxillerat. Arquitectura: els ordres grecs, l’arc i la cúpula romans, l’arc de ferradura d’al-Àndalus, el romànic del Camí de Sant Jaume, les catedrals gòtiques, el Renaixement florentí, el Barroc, el Neoclàssic i l’arquitectura del ferro fins a Gaudí i Le Corbusier. Pintura: de Giotto i Leonardo a Velázquez i Goya, i de l’impressionisme a Picasso, Dalí i l’abstracció.'),
+      T('Cada tema tiene un examen tipo test con explicación en cada respuesta, en dos niveles. Y la arquitectura se puede practicar con ¿Qué estilo es?, un juego con edificios dibujados a partir de los rasgos de cada estilo, para aprender a reconocerlos por el arco, las columnas o el rosetón y no por haber visto la foto.',
+        'Each topic has a multiple-choice exam with an explanation for every answer, at two levels. Architecture can also be practised with What Style Is It?, a game with buildings drawn from each style’s features, to learn to recognise them by the arch, the columns or the rose window rather than from having seen the photo.',
+        'Cada tema té un examen tipus test amb explicació a cada resposta, en dos nivells. I l’arquitectura es pot practicar amb Quin estil és?, un joc amb edificis dibuixats a partir dels trets de cada estil, per aprendre a reconèixer-los per l’arc, les columnes o la rosassa i no per haver vist la foto.'),
+    ],
+  },
   '/estudiar/economia': {
     titulo: T('Economía para la vida y para el instituto', 'Economics for life and for school', 'Economia per a la vida i per a l’institut'),
     parrafos: [

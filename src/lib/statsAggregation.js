@@ -211,6 +211,16 @@ export const SUBJECT_DEFS = [
     },
   },
   {
+    id: 'arte', emoji: '🎨',
+    label: { es: 'Historia del Arte', en: 'Art History', ca: 'Història de l’Art' },
+    gameIds: [],
+    catIds: [],
+    catLabels: {
+      arquitectura: { es: 'Arquitectura', en: 'Architecture', ca: 'Arquitectura' },
+      pintura: { es: 'Pintura', en: 'Painting', ca: 'Pintura' },
+    },
+  },
+  {
     id: 'vida-practica', emoji: '🚑',
     label: { es: 'Vida Práctica', en: 'Life Skills', ca: 'Vida Pràctica' },
     gameIds: [],

@@ -231,6 +231,7 @@
   <url><loc>https://www.tuthor.es/estudiar/geografia</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/estudiar/economia</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/estudiar/musica</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/estudiar/arte</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
 
   <url><loc>https://www.tuthor.es/estudiar/vida-practica</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/en/estudiar/vida-practica</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
@@ -299,6 +300,9 @@
   <url><loc>https://www.tuthor.es/examen/lee-el-movimiento-test</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/examen/geografia-ue-test</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/examen/musica-instrumentos-test</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/examen/que-estilo-test</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/examen/arte-arquitectura</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/examen/arte-pintura</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/examen/espanol-figuras-test</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/examen/mercado</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/examen/oferta-demanda-test</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
@@ -583,6 +587,7 @@
   <url><loc>https://www.tuthor.es/juegos/coordenadas</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/juegos/piramide-poblacion</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/juegos/climograma</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/juegos/que-estilo</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/juegos/rayos-x</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/juegos/circuito-cerrado</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/juegos/rayo-de-luz</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
@@ -809,6 +814,7 @@
   <url><loc>https://www.tuthor.es/info/juegos/coordenadas</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/info/juegos/piramide-poblacion</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/info/juegos/climograma</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/info/juegos/que-estilo</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/info/juegos/rayos-x</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/info/juegos/circuito-cerrado</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/info/juegos/rayo-de-luz</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
@@ -906,9 +912,11 @@
   <url><loc>https://www.tuthor.es/ca/info/juegos/coordenadas</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.tuthor.es/ca/info/juegos/piramide-poblacion</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.tuthor.es/ca/info/juegos/climograma</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/ca/info/juegos/que-estilo</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.tuthor.es/en/info/juegos/coordenadas</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
   <url><loc>https://www.tuthor.es/en/info/juegos/piramide-poblacion</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
   <url><loc>https://www.tuthor.es/en/info/juegos/climograma</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://www.tuthor.es/en/info/juegos/que-estilo</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
   <url><loc>https://www.tuthor.es/ca/info/juegos/rayos-x</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.tuthor.es/en/info/juegos/rayos-x</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
   <url><loc>https://www.tuthor.es/ca/info/juegos/circuito-cerrado</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>

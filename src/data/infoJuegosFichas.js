@@ -1535,6 +1535,34 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Geografía', niveles: 'Primaria (5.º y 6.º), ESO, Bachillerato',
   },
+  'que-estilo': {
+    titulo: '¿Qué estilo es?',
+    subtitulo: 'Juego de Historia del Arte: reconoce los estilos arquitectónicos',
+    emoji: '⛪', gradient: 'from-amber-600 to-stone-700',
+    path: '/juegos/que-estilo',
+    intro: 'Un juego de Historia del Arte para aprender a reconocer los estilos de la arquitectura, de Grecia al Neoclásico. Cada ronda trae un edificio dibujado —un templo dórico, un acueducto, la arquería de una mezquita, una iglesia románica, una catedral gótica, un palacio renacentista, una fachada barroca o un museo neoclásico— y hay que decir de qué estilo es. Otras rondas enseñan un arco o una columna sueltos para nombrarlos, o preguntan en qué siglos se construía así. En el nivel difícil las opciones son siempre los estilos que más se parecen: románico o gótico, griego o neoclásico, Renacimiento o Barroco.',
+    beneficios: [
+      { titulo: 'Dibujos que enseñan los rasgos', texto: 'Los edificios no son fotos de monumentos famosos, que se reconocen de memoria sin entender nada, sino dibujos hechos con los rasgos de libro de cada estilo. Para acertar hay que mirar lo mismo que en un comentario de arte: el tipo de arco, el orden de las columnas, el rosetón, los arbotantes o las curvas de la fachada.' },
+      { titulo: 'Los vecinos que se confunden', texto: 'Cada estilo tiene un rasgo que lo separa de su vecino más parecido, y la explicación lo dice al corregir. El templo griego está exento y sin ventanas, y el pórtico neoclásico es la entrada de un edificio con filas de ventanas; el románico tiene muros gruesos y arcos de medio punto, y el gótico arcos apuntados y vidrieras.' },
+      { titulo: 'Arcos y columnas con nombre', texto: 'Medio punto, apuntado, herradura y lobulado; dórica, jónica, corintia y salomónica. Son el vocabulario básico de cualquier comentario de arquitectura, y aquí se aprenden mirando la forma, con una frase que explica qué estilo los usa.' },
+    ],
+    ejemplo: 'Sale una fachada con dos torres terminadas en aguja, un gran rosetón en el centro y una portada de arcos apuntados que se van estrechando. ¿Qué estilo es? Gótico: el arco apuntado y el rosetón lo delatan. Si los arcos de la portada fueran de medio punto, la fachada fuera baja y las ventanas pequeñas, sería románico.',
+    enPapel: {
+      titulo: 'Paseo de estilos',
+      pasos: [
+        'Elegid los edificios antiguos de vuestro pueblo o barrio: la iglesia, el ayuntamiento, algún palacio.',
+        'Fotografiad o dibujad en cada uno el arco de la puerta y, si las hay, las columnas.',
+        'Con los rasgos del juego, decidid de qué estilo es cada edificio.',
+        'Comprobadlo después en la web del ayuntamiento o en un libro de historia local.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'El examen de Arquitectura', desc: 'Tipo test sobre los órdenes griegos, el arco romano, la Mezquita de Córdoba, el románico del Camino, las catedrales góticas, Brunelleschi, Gaudí y Le Corbusier.' },
+      { nombre: 'El examen de Pintura', desc: 'De Giotto y Leonardo a Velázquez, Goya, el impresionismo y las vanguardias, con los cuadros del Prado.' },
+      { nombre: 'Épocas Históricas', desc: 'Otro juego de historia: coloca objetos e inventos en la época a la que pertenecen.' },
+    ],
+    asignatura: 'Historia del Arte', niveles: 'ESO, Bachillerato',
+  },
   'encuentra-elemento': {
     titulo: 'Encuentra el Elemento',
     subtitulo: 'Juego de la Tabla Periódica',
@@ -3053,6 +3081,33 @@ export const FICHAS_EN = {
       { nombre: 'Population Pyramid', desc: 'Another geography game about reading charts: young and ageing pyramids, gaps and baby booms.' },
     ],
     asignatura: 'Geography', niveles: 'Upper primary, Secondary, Sixth Form',
+  },
+  'que-estilo': {
+    titulo: 'What Style Is It?',
+    subtitulo: 'Art history game: recognise architectural styles',
+    emoji: '⛪', gradient: 'from-amber-600 to-stone-700', path: '/juegos/que-estilo',
+    intro: 'An art history game for learning to recognise architectural styles, from Greece to Neoclassicism. Each round brings a drawn building — a Doric temple, an aqueduct, the arcade of a mosque, a Romanesque church, a Gothic cathedral, a Renaissance palace, a Baroque façade or a Neoclassical museum — and you say which style it is. Other rounds show an arch or a column on its own for you to name, or ask in which centuries this style was built. On hard, the options are always the styles that look most alike: Romanesque or Gothic, Greek or Neoclassical, Renaissance or Baroque.',
+    beneficios: [
+      { titulo: 'Drawings that show the features', texto: 'The buildings are not photos of famous monuments, which you can recognise from memory without understanding anything, but drawings made from each style’s textbook features. To get them right you look at the same things as in an art commentary: the type of arch, the column order, the rose window, the flying buttresses or the curves of the façade.' },
+      { titulo: 'The look-alikes', texto: 'Each style has a feature that separates it from its closest neighbour, and the explanation says so when the answer is shown. The Greek temple stands alone without windows, while the Neoclassical portico is the entrance to a building with rows of windows; Romanesque has thick walls and round arches, Gothic pointed arches and stained glass.' },
+      { titulo: 'Arches and columns by name', texto: 'Round, pointed, horseshoe and lobed; Doric, Ionic, Corinthian and Solomonic. They are the basic vocabulary of any architectural commentary, and here they are learnt by looking at the shape, with a sentence explaining which style uses them.' },
+    ],
+    ejemplo: 'A façade appears with two towers topped by spires, a large rose window in the centre and a doorway of pointed arches stepping inwards. Which style is it? Gothic: the pointed arch and the rose window give it away. If the doorway arches were round, the façade low and the windows small, it would be Romanesque.',
+    enPapel: {
+      titulo: 'A style walk',
+      pasos: [
+        'Choose the old buildings in your town or neighbourhood: the church, the town hall, a mansion.',
+        'Photograph or sketch the arch of each doorway and, if there are any, the columns.',
+        'Using the features from the game, decide which style each building is.',
+        'Check afterwards on the council’s website or in a local history book.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'The Architecture exam', desc: 'Multiple choice on the Greek orders, the Roman arch, the Mosque of Córdoba, Romanesque, Gothic cathedrals, Brunelleschi, Gaudí and Le Corbusier.' },
+      { nombre: 'The Painting exam', desc: 'From Giotto and Leonardo to Velázquez, Goya, Impressionism and the avant-garde, with the Prado’s paintings.' },
+      { nombre: 'Historical Eras', desc: 'Another history game: place objects and inventions in the era they belong to.' },
+    ],
+    asignatura: 'Art History', niveles: 'Secondary, Sixth Form',
   },
   'encuentra-elemento': {
     titulo: 'Find the Element',
@@ -4646,6 +4701,33 @@ export const FICHAS_CA = {
       { nombre: 'Piràmide de població', desc: 'Un altre joc de geografia per llegir gràfics: piràmides joves i envellides, buits i baby booms.' },
     ],
     asignatura: 'Geografia', niveles: 'Primària (5è i 6è), ESO, Batxillerat',
+  },
+  'que-estilo': {
+    titulo: 'Quin estil és?',
+    subtitulo: 'Joc d’Història de l’Art: reconeix els estils arquitectònics',
+    emoji: '⛪', gradient: 'from-amber-600 to-stone-700', path: '/juegos/que-estilo',
+    intro: 'Un joc d’Història de l’Art per aprendre a reconèixer els estils de l’arquitectura, de Grècia al Neoclàssic. Cada ronda porta un edifici dibuixat —un temple dòric, un aqüeducte, l’arqueria d’una mesquita, una església romànica, una catedral gòtica, un palau renaixentista, una façana barroca o un museu neoclàssic— i cal dir de quin estil és. Altres rondes ensenyen un arc o una columna sols per anomenar-los, o pregunten en quins segles es construïa així. Al nivell difícil les opcions són sempre els estils que més s’assemblen: romànic o gòtic, grec o neoclàssic, Renaixement o Barroc.',
+    beneficios: [
+      { titulo: 'Dibuixos que ensenyen els trets', texto: 'Els edificis no són fotos de monuments famosos, que es reconeixen de memòria sense entendre res, sinó dibuixos fets amb els trets de llibre de cada estil. Per encertar cal mirar el mateix que en un comentari d’art: el tipus d’arc, l’ordre de les columnes, la rosassa, els arcbotants o les corbes de la façana.' },
+      { titulo: 'Els veïns que es confonen', texto: 'Cada estil té un tret que el separa del veí més semblant, i l’explicació ho diu en corregir. El temple grec és exempt i sense finestres, i el pòrtic neoclàssic és l’entrada d’un edifici amb fileres de finestres; el romànic té murs gruixuts i arcs de mig punt, i el gòtic arcs apuntats i vitralls.' },
+      { titulo: 'Arcs i columnes amb nom', texto: 'Mig punt, apuntat, ferradura i lobulat; dòrica, jònica, coríntia i salomònica. Són el vocabulari bàsic de qualsevol comentari d’arquitectura, i aquí s’aprenen mirant la forma, amb una frase que explica quin estil els fa servir.' },
+    ],
+    ejemplo: 'Surt una façana amb dues torres acabades en agulla, una gran rosassa al centre i una portada d’arcs apuntats que es van estrenyent. Quin estil és? Gòtic: l’arc apuntat i la rosassa el delaten. Si els arcs de la portada fossin de mig punt, la façana baixa i les finestres petites, seria romànic.',
+    enPapel: {
+      titulo: 'Passeig d’estils',
+      pasos: [
+        'Trieu els edificis antics del vostre poble o barri: l’església, l’ajuntament, algun palau.',
+        'Fotografieu o dibuixeu a cadascun l’arc de la porta i, si n’hi ha, les columnes.',
+        'Amb els trets del joc, decidiu de quin estil és cada edifici.',
+        'Comproveu-ho després al web de l’ajuntament o en un llibre d’història local.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'L’examen d’Arquitectura', desc: 'Tipus test sobre els ordres grecs, l’arc romà, la Mesquita de Còrdova, el romànic, les catedrals gòtiques, Brunelleschi, Gaudí i Le Corbusier.' },
+      { nombre: 'L’examen de Pintura', desc: 'De Giotto i Leonardo a Velázquez, Goya, l’impressionisme i les avantguardes, amb els quadres del Prado.' },
+      { nombre: 'Èpoques Històriques', desc: 'Un altre joc d’història: col·loca objectes i invents a l’època a la qual pertanyen.' },
+    ],
+    asignatura: 'Història de l’Art', niveles: 'ESO, Batxillerat',
   },
   'encuentra-elemento': {
     titulo: 'Troba l\'Element',

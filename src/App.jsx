@@ -131,6 +131,8 @@ const ClaveDicotomica        = lazy(() => import('./pages/ClaveDicotomica'))
 const Coordenadas            = lazy(() => import('./pages/Coordenadas'))
 const PiramidePoblacion      = lazy(() => import('./pages/PiramidePoblacion'))
 const Climograma             = lazy(() => import('./pages/Climograma'))
+const QueEstilo              = lazy(() => import('./pages/QueEstilo'))
+const ArteIndex              = lazy(() => import('./pages/ArteIndex'))
 const RayosX                 = lazy(() => import('./pages/RayosX'))
 const CircuitoCerrado        = lazy(() => import('./pages/CircuitoCerrado'))
 const RayoDeLuz              = lazy(() => import('./pages/RayoDeLuz'))
@@ -190,6 +192,7 @@ function AppRoutes() {
       <Route path="estudiar/historia/:categoria" element={<HistoriaTema />} />
       <Route path="estudiar/economia" element={<EconomiaIndex />} />
       <Route path="estudiar/musica" element={<MusicaIndex />} />
+      <Route path="estudiar/arte" element={<ArteIndex />} />
       <Route path="estudiar/vida-practica" element={<VidaPracticaIndex />} />
       <Route path="estudiar/vida-practica/:tema" element={<PrimerosAuxiliosEscenario />} />
       <Route path="estudiar/matematicas" element={<MatematicasIndex />} />
@@ -230,6 +233,7 @@ function AppRoutes() {
       <Route path="examen/ingles/:tema/:formato" element={<ExamenTema materia="ingles" />} />
       <Route path="examen/economia/:tema/:formato" element={<ExamenTema materia="economia" />} />
       <Route path="examen/musica/:tema/:formato" element={<ExamenTema materia="musica" />} />
+      <Route path="examen/arte/:tema/:formato" element={<ExamenTema materia="arte" />} />
       <Route path="examen/vida-practica/:tema/:formato" element={<ExamenTema materia="vida-practica" />} />
 
       {/* ── JUEGOS ── */}
@@ -320,6 +324,7 @@ function AppRoutes() {
       <Route path="juegos/coordenadas" element={<Coordenadas />} />
       <Route path="juegos/piramide-poblacion" element={<PiramidePoblacion />} />
       <Route path="juegos/climograma" element={<Climograma />} />
+      <Route path="juegos/que-estilo" element={<QueEstilo />} />
       <Route path="juegos/rayos-x" element={<RayosX />} />
       <Route path="juegos/circuito-cerrado" element={<CircuitoCerrado />} />
       <Route path="juegos/rayo-de-luz" element={<RayoDeLuz />} />

@@ -238,6 +238,18 @@ function Climograma(p) {
   )
 }
 
+function QueEstilo(p) {
+  // Tres arcos en fila: medio punto, herradura y apuntado.
+  return (
+    <Lienzo {...p}>
+      <rect x="18" y="26" width="204" height="94" fill="#D6C4A0" />
+      <path d="M34 118V78A22 22 0 0 1 78 78V118Z" fill="#1E293B" stroke="#9C8460" strokeWidth="4" />
+      <path d="M98 118V80A26 26 0 1 1 142 80V118Z" fill="#1E293B" stroke="#B91C1C" strokeWidth="4" />
+      <path d="M162 118V84A44 44 0 0 1 184 46A44 44 0 0 1 206 84V118Z" fill="#1E293B" stroke="#9C8460" strokeWidth="4" />
+    </Lienzo>
+  )
+}
+
 export const ARTE_HISTORIA_GEO = {
   'tuthor-time': TuthorTime,
   'linea-temporal': LineaTemporal,
@@ -249,4 +261,5 @@ export const ARTE_HISTORIA_GEO = {
   coordenadas: Coordenadas,
   'piramide-poblacion': PiramidePoblacion,
   climograma: Climograma,
+  'que-estilo': QueEstilo,
 }

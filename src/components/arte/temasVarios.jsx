@@ -141,7 +141,42 @@ function Instrumentos(p) {
   )
 }
 
+// Arquitectura: un arco apuntado con su rosetón y un templo al lado.
+function Arquitectura(p) {
+  return (
+    <Lienzo {...p}>
+      <path d="M20 120V60L60 30L100 60V120Z" fill="#CBBFA8" />
+      <circle cx="60" cy="62" r="13" fill="#1E3A8A" stroke="#6B6457" strokeWidth="3" />
+      <path d="M47 62H73M60 49V75M51 53L69 71M69 53L51 71" stroke="#CBBFA8" strokeWidth="1.5" />
+      <path d="M44 120V100A28 28 0 0 1 60 84A28 28 0 0 1 76 100V120Z" fill="#1E293B" />
+      <path d="M126 50L176 26L226 50Z" fill="#E7DCC4" />
+      <rect x="128" y="50" width="96" height="8" fill="#D6C4A0" />
+      {[136, 156, 176, 196, 216].map(x => <rect key={x} x={x - 4} y="58" width="8" height="54" fill="#E7DCC4" />)}
+      <rect x="122" y="112" width="108" height="8" fill="#D6C4A0" />
+    </Lienzo>
+  )
+}
+
+// Pintura: paleta y pincel junto a un cuadro con su marco.
+function Pintura(p) {
+  return (
+    <Lienzo {...p}>
+      <rect x="22" y="18" width="104" height="82" rx="3" fill="#B45309" />
+      <rect x="30" y="26" width="88" height="66" fill="#1E3A8A" />
+      <circle cx="96" cy="44" r="9" fill="#FDE047" />
+      <path d="M30 92L58 58L80 78L96 64L118 92Z" fill="#16A34A" />
+      <path d="M150 110Q140 80 166 66Q196 52 218 70Q232 84 220 96Q206 100 206 110Q204 124 182 124Q156 124 150 110Z" fill="#E7C9A0" />
+      <circle cx="192" cy="104" r="7" fill="#1E293B" />
+      {[['#EF4444', 168, 78], ['#3B82F6', 188, 70], ['#FACC15', 208, 78], ['#22C55E', 164, 96]].map(([c, x, y]) => <circle key={c} cx={x} cy={y} r="6" fill={c} />)}
+      <path d="M232 28L176 96" stroke="#92400E" strokeWidth="5" strokeLinecap="round" />
+      <path d="M180 92L172 104L184 98Z" fill="#EF4444" />
+    </Lienzo>
+  )
+}
+
 export const ARTE_TEMAS_VARIOS = {
+  'arte/arquitectura': Arquitectura,
+  'arte/pintura': Pintura,
   'musica/notas': Notas,
   'musica/ritmo': Ritmo,
   'musica/instrumentos': Instrumentos,

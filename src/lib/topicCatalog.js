@@ -584,6 +584,19 @@ export const TOPIC_CATALOG = {
     },
   },
 
+  // Historia del Arte: la arquitectura tiene juego (¿Qué estilo es?) y
+  // examen de teoría; la pintura, examen de teoría.
+  arte: {
+    temas: {
+      arquitectura: examTema({ examen: 'arte-arquitectura', estilos: 'que-estilo-test' }, { niveles: ['eso', 'bachillerato'] }),
+      pintura: examTema({ examen: 'arte-pintura' }, { niveles: ['eso', 'bachillerato'] }),
+    },
+    formatos: {
+      examen: examFormato({ es: 'Examen', en: 'Exam', ca: 'Examen' }, '📝'),
+      estilos: examFormato({ es: '¿Qué estilo es? (con el juego)', en: 'What Style Is It? (with the game)', ca: 'Quin estil és? (amb el joc)' }, '⛪'),
+    },
+  },
+
   'vida-practica': {
     temas: {
       'primeros-auxilios': examTema({ examen: 'primeros-auxilios' }, { niveles: ['primaria', 'eso', 'bachillerato'] }),

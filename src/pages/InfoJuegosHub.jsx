@@ -78,6 +78,10 @@ const CATS = [
     es: { t: 'Música', e: '🎼', x: 'Leer un pentagrama se aprende leyendo, no memorizando. Nuestro juego pone las notas en el piano de pantalla y el alumno las toca a contrarreloj, convirtiendo la lectura musical en un reflejo.' },
     en: { t: 'Music', e: '🎼', x: 'Reading a musical staff is learned by reading, not memorising. Our game puts the notes on the on-screen piano and the student plays them against the clock, turning music reading into a reflex.' },
     ca: { t: 'Música', e: '🎼', x: 'Llegir un pentagrama s\'aprèn llegint, no memoritzant. El nostre joc posa les notes al piano de pantalla i l\'alumne les toca a contrarellotge, convertint la lectura musical en un reflex.' } },
+  { key: 'arte',
+    es: { t: 'Historia del Arte', e: '🎨', x: 'Reconocer un estilo es aprender a mirar: el arco, las columnas, la luz. Nuestros juegos dibujan los edificios con los rasgos de cada estilo para que el alumno los distinga razonando, no memorizando fotos.' },
+    en: { t: 'Art History', e: '🎨', x: 'Recognising a style means learning to look: the arch, the columns, the light. Our games draw buildings with each style’s features so students tell them apart by reasoning, not by memorising photos.' },
+    ca: { t: 'Història de l’Art', e: '🎨', x: 'Reconèixer un estil és aprendre a mirar: l’arc, les columnes, la llum. Els nostres jocs dibuixen els edificis amb els trets de cada estil perquè l’alumne els distingeixi raonant, no memoritzant fotos.' } },
   { key: 'vida',
     es: { t: 'Vida Práctica', e: '🚑', x: 'Algunas cosas hay que tenerlas por reflejo. Nuestros juegos de vida práctica ponen al alumno ante emergencias reales a contrarreloj para que los primeros auxilios se conviertan en decisiones automáticas.' },
     en: { t: 'Life Skills', e: '🚑', x: 'Some things you need as a reflex. Our life-skills games put the student in front of real emergencies against the clock so first aid becomes an automatic decision.' },
@@ -109,6 +113,8 @@ export const SUBJECT_OF = {
   'Economía': 'economia', 'Economics': 'economia', 'Economia': 'economia',
   // Música
   'Música': 'musica', 'Music': 'musica',
+  // Historia del Arte
+  'Historia del Arte': 'arte', 'Art History': 'arte', 'Història de l’Art': 'arte',
   // Vida práctica
   'Vida Práctica': 'vida', 'Life Skills': 'vida', 'Vida Pràctica': 'vida',
 }

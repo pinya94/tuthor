@@ -580,7 +580,7 @@ export const LANDINGS = [
       en: ['Chronology: ordering events and eras', 'From the Middle Ages to the Cold War', 'Spanish Civil War, Franco and the Transition', 'Historical figures', 'Maps: countries, capitals and coordinates'],
       ca: ['Cronologia: ordenar fets i èpoques', "De l'Edat Mitjana a la Guerra Freda", 'Guerra Civil, franquisme i Transició', 'Personatges històrics', 'Mapes: països, capitals i coordenades'],
     },
-    juegos: ['linea-temporal', 'tuthor-time', 'quien-es-quien', 'epocas-historicas', 'portadas', 'geomapa', 'georush', 'coordenadas', 'climograma', 'piramide-poblacion'],
+    juegos: ['linea-temporal', 'tuthor-time', 'quien-es-quien', 'epocas-historicas', 'portadas', 'que-estilo', 'geomapa', 'georush', 'coordenadas', 'climograma', 'piramide-poblacion'],
     temas: [
       { arte: 'historia/edad-media', ruta: '/estudiar/historia/edad-media', titulo: T('Edad Media', 'The Middle Ages', 'Edat Mitjana') },
       { arte: 'historia/edad-moderna', ruta: '/estudiar/historia/edad-moderna', titulo: T('Edad Moderna', 'The Early Modern Period', 'Edat Moderna') },
@@ -775,7 +775,7 @@ export const LANDINGS = [
       en: ['Liberal and industrial revolutions', 'World War I and the interwar years', 'World War II and the Cold War', 'Spanish Civil War', 'Francoism and the Transition'],
       ca: ['Revolucions liberals i industrial', 'Primera Guerra Mundial i entreguerres', 'Segona Guerra Mundial i Guerra Freda', 'Guerra Civil Espanyola', 'Franquisme i Transició'],
     },
-    juegos: ['linea-temporal', 'epocas-historicas', 'tuthor-time', 'portadas'],
+    juegos: ['linea-temporal', 'epocas-historicas', 'tuthor-time', 'portadas', 'que-estilo'],
     temas: [
       { arte: 'historia/revolucion-francesa', ruta: '/estudiar/historia/revolucion-francesa', titulo: T('Revolución Francesa', 'French Revolution', 'Revolució Francesa') },
       { arte: 'historia/revolucion-industrial', ruta: '/estudiar/historia/revolucion-industrial', titulo: T('Revolución Industrial', 'Industrial Revolution', 'Revolució Industrial') },

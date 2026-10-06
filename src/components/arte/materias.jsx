@@ -275,6 +275,23 @@ function Musica(p) {
   )
 }
 
+function Arte(p) {
+  // Un caballete con un cuadro y, detrás, la fachada de un templo.
+  return (
+    <Lienzo {...p}>
+      <path d="M120 36L176 14L232 36Z" fill="#E7DCC4" />
+      <rect x="124" y="36" width="104" height="6" fill="#D6C4A0" />
+      {[132, 152, 172, 192, 212].map(x => <rect key={x} x={x} y="44" width="8" height="58" fill="#E7DCC4" />)}
+      <rect x="118" y="102" width="116" height="8" fill="#D6C4A0" />
+      <path d="M40 120L62 34M100 120L78 34M70 34V128" stroke="#92400E" strokeWidth="4" strokeLinecap="round" />
+      <rect x="36" y="38" width="68" height="54" rx="2" fill="#F8FAFC" stroke="#B45309" strokeWidth="3" />
+      <circle cx="56" cy="56" r="8" fill="#FBBF24" />
+      <path d="M40 88L60 66L74 78L86 64L100 88Z" fill="#38BDF8" />
+      <path d="M38 92H102" stroke="#92400E" strokeWidth="4" />
+    </Lienzo>
+  )
+}
+
 function PrimerosAuxilios(p) {
   return (
     <Lienzo {...p}>
@@ -311,5 +328,6 @@ export const ARTE_MATERIAS = {
   ingles: Ingles,
   economia: Economia,
   musica: Musica,
+  arte: Arte,
   'vida-practica': PrimerosAuxilios,
 }

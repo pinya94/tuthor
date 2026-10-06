@@ -809,6 +809,21 @@ export const EXAMS = {
     emoji: '⭐', subject: 'geografia',
     path: 'examen/geografia-ue-test', page: () => import('../pages/UnionEuropeaExamen'),
   },
+  'que-estilo-test': {
+    label: { es: '¿Qué estilo es? (con el juego)', en: 'What Style Is It? (with the game)', ca: 'Quin estil és? (amb el joc)' },
+    emoji: '⛪', subject: 'arte',
+    path: 'examen/que-estilo-test', page: () => import('../pages/QueEstiloExamen'),
+  },
+  'arte-arquitectura': {
+    label: { es: 'Historia del Arte: Arquitectura', en: 'Art History: Architecture', ca: 'Història de l’Art: Arquitectura' },
+    emoji: '🏰', subject: 'arte',
+    path: 'examen/arte-arquitectura', page: () => import('../pages/ArteArquitecturaExamen'),
+  },
+  'arte-pintura': {
+    label: { es: 'Historia del Arte: Pintura', en: 'Art History: Painting', ca: 'Història de l’Art: Pintura' },
+    emoji: '🖼️', subject: 'arte',
+    path: 'examen/arte-pintura', page: () => import('../pages/ArtePinturaExamen'),
+  },
   'musica-instrumentos-test': {
     label: { es: 'Los Instrumentos', en: 'Musical Instruments', ca: 'Els Instruments' },
     emoji: '🎻', subject: 'musica',
