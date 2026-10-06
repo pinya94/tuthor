@@ -11,6 +11,6 @@ export const FICHAS_JUEGO_SLUGS = new Set([
   'medidor-ph', 'menor-a-mayor', 'microscopio', 'numeros-romanos', 'numpath',
   'orbita', 'ordena-frase', 'pentagrama-path', 'pieza-que-falta',
   'pon-la-tilde', 'portadas', 'portero', 'quien-es-quien', 'rayo-de-luz',
-  'rayos-x', 'reaccion', 'redondeo', 'reloj-horas', 'reparte-pastel',
+  'rayos-x', 'reaccion', 'rebajas', 'redondeo', 'reloj-horas', 'reparte-pastel',
   'salta-recta', 'spicy', 'tablas-multiplicar', 'trayectoria', 'tuthor-time',
 ])

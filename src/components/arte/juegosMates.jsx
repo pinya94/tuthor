@@ -351,6 +351,21 @@ function BalanzaAlgebraica(p) {
   )
 }
 
+function Rebajas(p) {
+  return (
+    <Lienzo {...p}>
+      <path d="M58 30H150L176 68L150 106H58Q50 106 50 98V38Q50 30 58 30Z" fill="#FDE68A" stroke="#F59E0B" strokeWidth="2.5" strokeLinejoin="round" />
+      <circle cx="160" cy="68" r="5" fill="#0F172A" />
+      <T x={98} y={58} s={15} c="#64748B">40 €</T>
+      <path d="M76 53H120" stroke="#EF4444" strokeWidth="2.5" />
+      <T x={98} y={88} s={20} c="#0F172A">30 €</T>
+      <rect x="168" y="18" width="52" height="26" rx="13" fill="#EF4444" />
+      <T x={194} y={36} s={13} c="#FFFFFF">−25%</T>
+      <T x={204} y={98} s={22} c="#F472B6">?</T>
+    </Lienzo>
+  )
+}
+
 export const ARTE_MATES = {
   acercate: Acercate,
   numpath: NumPath,
@@ -362,6 +377,7 @@ export const ARTE_MATES = {
   redondeo: Redondeo,
   'tablas-multiplicar': TablasMultiplicar,
   'reparte-pastel': RepartePastel,
+  rebajas: Rebajas,
   'salta-recta': SaltaRecta,
   'lee-el-grafico': LeeElGrafico,
   'estadistico-expres': EstadisticoExpres,

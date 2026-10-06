@@ -145,6 +145,14 @@ export const GAMES = {
     route: '/juegos/tablas-multiplicar',
     coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
   },
+  'rebajas': {
+    label: { es: 'Rebajas', en: 'Sale!', ca: 'Rebaixes' },
+    emoji: '🛍️',
+    subject: 'matematicas',
+    route: '/juegos/rebajas',
+    // aciertos × 10 puntos → hasta 200 monedas
+    coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
+  },
   'reparte-pastel': {
     label: { es: 'Reparte el Pastel', en: 'Slice the Cake', ca: 'Reparteix el Pastís' },
     emoji: '🍰',

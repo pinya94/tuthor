@@ -35,7 +35,7 @@ export const HREFLANG_LANGS = ['es', 'en']
 
 
 // Temas de matemáticas con página propia (/estudiar/matematicas/:tema)
-const MATH_TEMAS = ['algebra', 'enteros-racionales', 'estadistica', 'fracciones', 'funciones', 'geometria']
+const MATH_TEMAS = ['algebra', 'enteros-racionales', 'estadistica', 'fracciones', 'funciones', 'geometria', 'porcentajes']
 
 // /examen/<sufijo> cuya entrada en EXAMS usa otro id
 const EXAM_PATH_ALIASES = {

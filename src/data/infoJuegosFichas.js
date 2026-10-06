@@ -1255,6 +1255,34 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Física', niveles: 'Primaria, ESO',
   },
+  'rebajas': {
+    titulo: 'Rebajas',
+    subtitulo: 'Juego de porcentajes: descuentos, IVA y ofertas de tienda',
+    emoji: '🛍️', gradient: 'from-rose-500 to-orange-600',
+    path: '/juegos/rebajas',
+    intro: 'Un juego de matemáticas para usar los porcentajes donde de verdad se usan: en una tienda. Sale la etiqueta de un producto con el recorrido de su precio (el precio, el porcentaje y el precio final) y una de las tres cosas es una incógnita. Hay que calcular cuánto se paga con un descuento, cuánto se ahorra, qué porcentaje de rebaja es, cuánto cuesta con el IVA o sin él, cuál era el precio antes de las rebajas o qué tienda sale más barata con ofertas como el 3×2 o la segunda unidad a mitad de precio. Al responder, el «?» se rellena y aparece la cuenta entera. Las opciones incorrectas no son al azar: son los errores típicos con porcentajes.',
+    beneficios: [
+      { titulo: 'Un método para todos los casos', texto: 'Casi todos los errores con porcentajes vienen de sumar o restar el porcentaje como si fueran euros. El juego explica cada respuesta con el multiplicador: un 25 % de descuento es × 0,75 y el IVA es × 1,21. Con esa única idea salen los descuentos, los aumentos, el precio de antes y los cambios encadenados.' },
+      { titulo: 'Las trampas, a propósito', texto: 'Subir un 20 % y bajar un 20 % no deja el precio igual; un 20 % de descuento más un 10 % extra no es un 30 %; restar el 21 % a un precio con IVA no da el precio sin IVA. Esas respuestas equivocadas están entre las opciones, y caer en ellas una vez (y ver por qué) es la mejor vacuna.' },
+      { titulo: 'Matemáticas de la vida real', texto: 'Comparar un 3×2 con un −30 % o saber si una rebaja es tan buena como parece es algo que se hace a diario. Los productos y los precios son realistas, de una camiseta de 12 € a un portátil de 900 €, y los números salen exactos al céntimo.' },
+    ],
+    ejemplo: 'Unas zapatillas cuestan 50 €. En enero suben un 20 % y en rebajas bajan un 20 %. ¿Cuánto cuestan ahora? Casi todo el mundo contesta 50 €, y esa opción está. La cuenta es 50 × 1,2 = 60 € y luego 60 × 0,8 = 48 €: el 20 % de bajada se calcula sobre 60 €, que es más que 50 €, así que se resta más de lo que se había sumado.',
+    enPapel: {
+      titulo: 'Cazadores de ofertas',
+      pasos: [
+        'Recorta de folletos o de la web de una tienda cinco productos con su precio y su descuento.',
+        'Para cada uno, calcula el precio final con el multiplicador y comprueba que coincide con el que anuncian.',
+        'Busca una oferta tipo 3×2 o «2.ª unidad a mitad de precio» y calcula a qué porcentaje de descuento equivale.',
+        'Decide cuál de todas es la mejor oferta de verdad y explica por qué.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'El examen de Proporcionalidad y Porcentajes', desc: 'Tipo test sobre porcentajes, regla de tres, proporcionalidad directa e inversa y escalas, con explicación en cada respuesta.' },
+      { nombre: 'La calculadora de porcentajes paso a paso', desc: 'Escribe tu propio ejercicio (un descuento, un aumento, qué % es) y lo resuelve enseñando cada paso.' },
+      { nombre: 'El ticket de la compra', desc: 'Con un ticket real del supermercado, buscad qué productos llevaban descuento y calculad cuánto se ahorró en total y qué porcentaje del ticket supone.' },
+    ],
+    asignatura: 'Matemáticas', niveles: 'Primaria, ESO',
+  },
   'encuentra-elemento': {
     titulo: 'Encuentra el Elemento',
     subtitulo: 'Juego de la Tabla Periódica',
@@ -2503,6 +2531,33 @@ export const FICHAS_EN = {
       { nombre: 'The modelling-clay boat', desc: 'A ball of modelling clay sinks; the same clay shaped into a boat floats. Same mass, more volume: the average density drops.' },
     ],
     asignatura: 'Physics', niveles: 'Primary, Secondary',
+  },
+  'rebajas': {
+    titulo: 'Sale!',
+    subtitulo: 'Percentages game: discounts, VAT and shop deals',
+    emoji: '🛍️', gradient: 'from-rose-500 to-orange-600', path: '/juegos/rebajas',
+    intro: 'A maths game for using percentages where they are really used: in a shop. A product tag appears showing the journey of its price (the price, the percentage and the final price), and one of the three is unknown. You work out how much you pay with a discount, how much you save, what percentage the reduction is, how much it costs with or without VAT, what the price was before the sale, or which shop is cheaper with deals like 3 for 2 or the second one half price. When you answer, the «?» fills in and the full working appears. The wrong options are not random: they are the typical percentage mistakes.',
+    beneficios: [
+      { titulo: 'One method for every case', texto: 'Almost every percentage mistake comes from adding or subtracting the percentage as if it were euros. The game explains each answer with the multiplier: 25% off is × 0.75 and VAT is × 1.21. That single idea handles discounts, increases, the old price and chained changes.' },
+      { titulo: 'The traps, on purpose', texto: 'Going up 20% and down 20% does not leave the price unchanged; 20% off plus an extra 10% is not 30%; taking 21% off a price with VAT does not give the price without it. Those wrong answers are among the options, and falling for one once (and seeing why) is the best vaccine.' },
+      { titulo: 'Real-life maths', texto: 'Comparing 3 for 2 with 30% off, or knowing whether a sale is as good as it looks, is something people do every day. The products and prices are realistic, from a €12 T-shirt to a €900 laptop, and the numbers come out exact to the cent.' },
+    ],
+    ejemplo: 'A pair of trainers costs €50. In January the price goes up 20% and in the sales it comes down 20%. What does it cost now? Almost everyone says €50, and that option is there. The working is 50 × 1.2 = €60 and then 60 × 0.8 = €48: the 20% reduction is worked out on €60, which is more than €50, so more is taken off than was added.',
+    enPapel: {
+      titulo: 'Deal hunters',
+      pasos: [
+        'Cut out five products with their price and discount from leaflets or a shop’s website.',
+        'For each one, work out the final price with the multiplier and check it matches the advertised one.',
+        'Find a 3-for-2 or “second one half price” deal and work out what percentage discount it is equivalent to.',
+        'Decide which is really the best deal of all and explain why.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'The Proportion and Percentages exam', desc: 'Multiple choice on percentages, the rule of three, direct and inverse proportion and scales, with an explanation for each answer.' },
+      { nombre: 'The step-by-step percentage calculator', desc: 'Type in your own exercise (a discount, an increase, what % it is) and it solves it showing every step.' },
+      { nombre: 'The shopping receipt', desc: 'With a real supermarket receipt, find which products were discounted, then work out the total saved and what percentage of the receipt it is.' },
+    ],
+    asignatura: 'Mathematics', niveles: 'Primary, Secondary',
   },
   'encuentra-elemento': {
     titulo: 'Find the Element',
@@ -3826,6 +3881,33 @@ export const FICHAS_CA = {
       { nombre: 'La barca de plastilina', desc: 'Una bola de plastilina s’enfonsa; la mateixa plastilina en forma de barca sura. És la mateixa massa amb més volum: la densitat mitjana baixa.' },
     ],
     asignatura: 'Física', niveles: 'Primària, ESO',
+  },
+  'rebajas': {
+    titulo: 'Rebaixes',
+    subtitulo: 'Joc de percentatges: descomptes, IVA i ofertes de botiga',
+    emoji: '🛍️', gradient: 'from-rose-500 to-orange-600', path: '/juegos/rebajas',
+    intro: 'Un joc de matemàtiques per fer servir els percentatges on de debò es fan servir: en una botiga. Surt l’etiqueta d’un producte amb el recorregut del seu preu (el preu, el percentatge i el preu final) i una de les tres coses és una incògnita. Cal calcular quant es paga amb un descompte, quant s’estalvia, quin percentatge de rebaixa és, quant costa amb l’IVA o sense, quin era el preu abans de les rebaixes o quina botiga surt més barata amb ofertes com el 3×2 o la segona unitat a meitat de preu. En respondre, el «?» s’omple i apareix el compte sencer. Les opcions incorrectes no són a l’atzar: són els errors típics amb percentatges.',
+    beneficios: [
+      { titulo: 'Un mètode per a tots els casos', texto: 'Gairebé tots els errors amb percentatges vénen de sumar o restar el percentatge com si fossin euros. El joc explica cada resposta amb el multiplicador: un 25 % de descompte és × 0,75 i l’IVA és × 1,21. Amb aquesta única idea surten els descomptes, els augments, el preu d’abans i els canvis encadenats.' },
+      { titulo: 'Els paranys, a posta', texto: 'Pujar un 20 % i baixar un 20 % no deixa el preu igual; un 20 % de descompte més un 10 % extra no és un 30 %; restar el 21 % a un preu amb IVA no dona el preu sense IVA. Aquestes respostes equivocades són entre les opcions, i caure-hi una vegada (i veure per què) és la millor vacuna.' },
+      { titulo: 'Matemàtiques de la vida real', texto: 'Comparar un 3×2 amb un −30 % o saber si una rebaixa és tan bona com sembla és una cosa que es fa cada dia. Els productes i els preus són realistes, d’una samarreta de 12 € a un portàtil de 900 €, i els nombres surten exactes al cèntim.' },
+    ],
+    ejemplo: 'Unes sabatilles costen 50 €. Al gener pugen un 20 % i a les rebaixes baixen un 20 %. Quant costen ara? Gairebé tothom contesta 50 €, i aquesta opció hi és. El compte és 50 × 1,2 = 60 € i després 60 × 0,8 = 48 €: el 20 % de baixada es calcula sobre 60 €, que és més que 50 €, així que es resta més del que s’havia sumat.',
+    enPapel: {
+      titulo: 'Caçadors d’ofertes',
+      pasos: [
+        'Retalla de fullets o de la web d’una botiga cinc productes amb el seu preu i el seu descompte.',
+        'Per a cadascun, calcula el preu final amb el multiplicador i comprova que coincideix amb l’anunciat.',
+        'Busca una oferta tipus 3×2 o «2a unitat a meitat de preu» i calcula a quin percentatge de descompte equival.',
+        'Decideix quina de totes és la millor oferta de debò i explica per què.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'L’examen de Proporcionalitat i Percentatges', desc: 'Tipus test sobre percentatges, regla de tres, proporcionalitat directa i inversa i escales, amb explicació a cada resposta.' },
+      { nombre: 'La calculadora de percentatges pas a pas', desc: 'Escriu el teu propi exercici (un descompte, un augment, quin % és) i el resol ensenyant cada pas.' },
+      { nombre: 'El tiquet de la compra', desc: 'Amb un tiquet real del supermercat, busqueu quins productes tenien descompte i calculeu quant es va estalviar en total i quin percentatge del tiquet suposa.' },
+    ],
+    asignatura: 'Matemàtiques', niveles: 'Primària, ESO',
   },
   'encuentra-elemento': {
     titulo: 'Troba l\'Element',

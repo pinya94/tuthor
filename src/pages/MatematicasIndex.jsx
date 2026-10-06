@@ -8,10 +8,10 @@ import { ArteMateria } from '../components/arte/materias'
 import { TEMAS_MATEMATICAS_EXTRA } from '../data/temasMatematicas'
 
 // Examenes que van directo al examen (no usan el motor aritmético)
-// Porcentajes tiene un solo formato, así que una página de tema intermedia
-// solo enseñaría una tarjeta: la ficha del temario lleva directa al examen.
+// Un tema con un solo formato no necesita página intermedia (solo enseñaría
+// una tarjeta): la ficha del temario lleva directa al examen. Porcentajes tuvo
+// esto hasta que llegó el juego Rebajas; ahora tiene /estudiar/.../porcentajes.
 const EXAM_DIRECTO = {
-  porcentajes: '/examen/porcentajes',
   divisibilidad: '/examen/divisibilidad',
 }
 

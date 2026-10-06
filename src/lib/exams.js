@@ -291,6 +291,11 @@ export const EXAMS = {
     emoji: '💯', subject: 'matematicas',
     path: 'examen/porcentajes', page: () => import('../pages/PorcentajesExamen'),
   },
+  'rebajas-test': {
+    label: { es: 'Rebajas (con el juego)', en: 'Sale! (with the game)', ca: 'Rebaixes (amb el joc)' },
+    emoji: '🛍️', subject: 'matematicas',
+    path: 'examen/rebajas-test', page: () => import('../pages/RebajasExamen'),
+  },
   'reparte-pastel-test': {
     label: { es: 'Reparte el Pastel', en: 'Slice the Cake', ca: 'Reparteix el Pastís' },
     emoji: '🍰', subject: 'matematicas',
