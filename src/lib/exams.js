@@ -490,6 +490,11 @@ export const EXAMS = {
     emoji: '🚢', subject: 'fisica',
     path: 'examen/flota-o-se-hunde-test', page: () => import('../pages/FlotaHundeExamen'),
   },
+  'clave-dicotomica-test': {
+    label: { es: 'Clave dicotómica (con el juego)', en: 'Dichotomous Key (with the game)', ca: 'Clau dicotòmica (amb el joc)' },
+    emoji: '🔎', subject: 'biologia',
+    path: 'examen/clave-dicotomica-test', page: () => import('../pages/ClaveDicotomicaExamen'),
+  },
   'lee-la-etiqueta-test': {
     label: { es: 'Lee la Etiqueta (con el juego)', en: 'Read the Label (with the game)', ca: 'Llegeix l’Etiqueta (amb el joc)' },
     emoji: '🏷️', subject: 'biologia',

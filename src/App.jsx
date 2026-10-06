@@ -123,6 +123,7 @@ const ElTiempo               = lazy(() => import('./pages/ElTiempo'))
 const Engranajes             = lazy(() => import('./pages/Engranajes'))
 const FlotaHunde             = lazy(() => import('./pages/FlotaHunde'))
 const LeeLaEtiqueta          = lazy(() => import('./pages/LeeLaEtiqueta'))
+const ClaveDicotomica        = lazy(() => import('./pages/ClaveDicotomica'))
 const Coordenadas            = lazy(() => import('./pages/Coordenadas'))
 const RayosX                 = lazy(() => import('./pages/RayosX'))
 const CircuitoCerrado        = lazy(() => import('./pages/CircuitoCerrado'))
@@ -301,6 +302,7 @@ function AppRoutes() {
       <Route path="juegos/engranajes" element={<Engranajes />} />
       <Route path="juegos/flota-o-se-hunde" element={<FlotaHunde />} />
       <Route path="juegos/lee-la-etiqueta" element={<LeeLaEtiqueta />} />
+      <Route path="juegos/clave-dicotomica" element={<ClaveDicotomica />} />
       <Route path="juegos/coordenadas" element={<Coordenadas />} />
       <Route path="juegos/rayos-x" element={<RayosX />} />
       <Route path="juegos/circuito-cerrado" element={<CircuitoCerrado />} />

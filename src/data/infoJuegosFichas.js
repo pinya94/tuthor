@@ -1283,6 +1283,34 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Matemáticas', niveles: 'Primaria, ESO',
   },
+  'clave-dicotomica': {
+    titulo: 'Clave dicotómica',
+    subtitulo: 'Juego para clasificar seres vivos con una clave de sí o no',
+    emoji: '🔎', gradient: 'from-green-500 to-emerald-700',
+    path: '/juegos/clave-dicotomica',
+    intro: 'Un juego de biología que enseña a clasificar los seres vivos como lo hacen los científicos: con una clave dicotómica. Sale un animal o una planta con la descripción de sus rasgos (cómo es su piel, cuántas patas tiene, cómo respira, cómo nacen sus crías) y la clave va haciendo preguntas de sí o no, una detrás de otra. Cada respuesta abre un camino distinto hasta llegar a su grupo. En el nivel fácil se distinguen los cinco grupos de vertebrados; en el medio entran también los invertebrados (insectos, arácnidos, crustáceos, miriápodos, moluscos, anélidos, equinodermos, cnidarios y esponjas); en el difícil, además, las plantas: musgos, helechos, gimnospermas y angiospermas.',
+    beneficios: [
+      { titulo: 'Clasificar por rasgos, no por apariencia', texto: 'El murciélago vuela pero es un mamífero; el delfín tiene aletas pero respira aire; la araña no es un insecto porque tiene ocho patas; el coral y la esponja parecen plantas y son animales. La clave obliga a mirar el rasgo que de verdad define el grupo, y esos casos con trampa salen a propósito, cada uno con su explicación.' },
+      { titulo: 'La herramienta real de los biólogos', texto: 'Las claves dicotómicas son lo que se usa en el campo y en las guías para identificar especies. Aprender a seguir una, leyendo con atención y respondiendo solo con lo que se observa, es una destreza que aparece en Ciencias de la Naturaleza de Primaria y en Biología de la ESO.' },
+      { titulo: 'El camino queda a la vista', texto: 'Cada pregunta respondida se queda escrita con su respuesta, de modo que se ve el recorrido por la clave. Si se falla una, la ronda se para y aparece el camino correcto entero: así se entiende en qué rasgo estaba el error y no solo que estaba mal.' },
+    ],
+    ejemplo: 'Sale la cochinilla de la humedad: «Se hace una bola; vive bajo piedras húmedas; 14 patas articuladas». ¿Tiene columna vertebral? No. ¿Tiene patas articuladas y exoesqueleto? Sí. ¿Tiene 6 patas? No, así que no es un insecto aunque lo parezca. ¿Tiene 8? Tampoco. ¿Tiene muchísimas, más de 20? No. Es un crustáceo, pariente de las gambas, que vive en tierra.',
+    enPapel: {
+      titulo: 'Tu propia clave',
+      pasos: [
+        'Elegid ocho animales o plantas del patio o del parque y anotad cómo es cada uno.',
+        'Buscad una pregunta de sí o no que los separe en dos grupos.',
+        'Repetid con cada grupo hasta que cada ser vivo quede solo al final de un camino.',
+        'Intercambiad las claves con otro equipo y comprobad si llegan a los mismos resultados.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'El examen de Seres Vivos', desc: 'Repasa los cinco reinos, la clasificación de animales y plantas, vertebrados e invertebrados, con explicación en cada respuesta.' },
+      { nombre: 'Cadena Alimentaria', desc: 'Otro juego de biología: coloca a productores, consumidores y descomponedores en su lugar de la red trófica.' },
+      { nombre: 'Guía de campo', desc: 'Con una guía de bichos o de árboles de la zona, salid a buscar tres especies e identificadlas con su clave.' },
+    ],
+    asignatura: 'Biología', niveles: 'Primaria, ESO',
+  },
   'encuentra-elemento': {
     titulo: 'Encuentra el Elemento',
     subtitulo: 'Juego de la Tabla Periódica',
@@ -2558,6 +2586,33 @@ export const FICHAS_EN = {
       { nombre: 'The shopping receipt', desc: 'With a real supermarket receipt, find which products were discounted, then work out the total saved and what percentage of the receipt it is.' },
     ],
     asignatura: 'Mathematics', niveles: 'Primary, Secondary',
+  },
+  'clave-dicotomica': {
+    titulo: 'Dichotomous Key',
+    subtitulo: 'Game for classifying living things with a yes-or-no key',
+    emoji: '🔎', gradient: 'from-green-500 to-emerald-700', path: '/juegos/clave-dicotomica',
+    intro: 'A biology game that teaches how to classify living things the way scientists do: with a dichotomous key. An animal or a plant appears with a description of its features (what its skin is like, how many legs it has, how it breathes, how its young are born) and the key asks yes-or-no questions, one after another. Each answer opens a different path until you reach its group. On easy you tell apart the five vertebrate groups; on medium the invertebrates come in too (insects, arachnids, crustaceans, myriapods, molluscs, annelids, echinoderms, cnidarians and sponges); on hard, plants as well: mosses, ferns, gymnosperms and angiosperms.',
+    beneficios: [
+      { titulo: 'Classify by features, not looks', texto: 'The bat flies but is a mammal; the dolphin has fins but breathes air; the spider is not an insect because it has eight legs; coral and sponges look like plants but are animals. The key makes you look at the feature that really defines the group, and those tricky cases come up on purpose, each with its explanation.' },
+      { titulo: 'The real tool of biologists', texto: 'Dichotomous keys are what is used in the field and in guides to identify species. Learning to follow one, reading carefully and answering only from what you observe, is a skill that appears in primary science and secondary biology.' },
+      { titulo: 'The path stays in view', texto: 'Each answered question stays on screen with its answer, so you can see the route through the key. If you get one wrong, the round stops and the whole correct path appears: that way you understand which feature the mistake was about, not just that it was wrong.' },
+    ],
+    ejemplo: 'A woodlouse appears: «Rolls into a ball; lives under damp stones; 14 jointed legs». Does it have a backbone? No. Jointed legs and an exoskeleton? Yes. Six legs? No, so it is not an insect even though it looks like one. Eight? No. Lots, more than 20? No. It is a crustacean, a land-living relative of prawns.',
+    enPapel: {
+      titulo: 'Your own key',
+      pasos: [
+        'Choose eight animals or plants from the playground or a park and note down what each is like.',
+        'Find a yes-or-no question that splits them into two groups.',
+        'Repeat with each group until every living thing ends up alone at the end of a path.',
+        'Swap keys with another team and check whether they reach the same results.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'The Living Things exam', desc: 'Covers the five kingdoms, classification of animals and plants, vertebrates and invertebrates, with an explanation for each answer.' },
+      { nombre: 'Food Chain', desc: 'Another biology game: place producers, consumers and decomposers in their spot in the food web.' },
+      { nombre: 'Field guide', desc: 'With a guide to local minibeasts or trees, go out to find three species and identify them with its key.' },
+    ],
+    asignatura: 'Biology', niveles: 'Primary, Secondary',
   },
   'encuentra-elemento': {
     titulo: 'Find the Element',
@@ -3908,6 +3963,33 @@ export const FICHAS_CA = {
       { nombre: 'El tiquet de la compra', desc: 'Amb un tiquet real del supermercat, busqueu quins productes tenien descompte i calculeu quant es va estalviar en total i quin percentatge del tiquet suposa.' },
     ],
     asignatura: 'Matemàtiques', niveles: 'Primària, ESO',
+  },
+  'clave-dicotomica': {
+    titulo: 'Clau dicotòmica',
+    subtitulo: 'Joc per classificar éssers vius amb una clau de sí o no',
+    emoji: '🔎', gradient: 'from-green-500 to-emerald-700', path: '/juegos/clave-dicotomica',
+    intro: 'Un joc de biologia que ensenya a classificar els éssers vius com ho fan els científics: amb una clau dicotòmica. Surt un animal o una planta amb la descripció dels seus trets (com és la pell, quantes potes té, com respira, com neixen les cries) i la clau va fent preguntes de sí o no, l’una darrere l’altra. Cada resposta obre un camí diferent fins a arribar al seu grup. Al nivell fàcil es distingeixen els cinc grups de vertebrats; al mitjà hi entren també els invertebrats (insectes, aràcnids, crustacis, miriàpodes, mol·luscs, anèl·lids, equinoderms, cnidaris i esponges); al difícil, a més, les plantes: molses, falgueres, gimnospermes i angiospermes.',
+    beneficios: [
+      { titulo: 'Classificar per trets, no per aparença', texto: 'El ratpenat vola però és un mamífer; el dofí té aletes però respira aire; l’aranya no és un insecte perquè té vuit potes; el corall i l’esponja semblen plantes i són animals. La clau obliga a mirar el tret que de debò defineix el grup, i aquests casos amb parany surten a posta, cadascun amb la seva explicació.' },
+      { titulo: 'L’eina real dels biòlegs', texto: 'Les claus dicotòmiques són el que es fa servir al camp i a les guies per identificar espècies. Aprendre a seguir-ne una, llegint amb atenció i responent només amb el que s’observa, és una destresa que apareix a Ciències de la Natura de Primària i a Biologia de l’ESO.' },
+      { titulo: 'El camí queda a la vista', texto: 'Cada pregunta resposta queda escrita amb la seva resposta, de manera que es veu el recorregut per la clau. Si se’n falla una, la ronda s’atura i apareix el camí correcte sencer: així s’entén en quin tret era l’error i no només que estava malament.' },
+    ],
+    ejemplo: 'Surt el porquet de Sant Antoni: «Es fa una bola; viu sota pedres humides; 14 potes articulades». Té columna vertebral? No. Té potes articulades i exoesquelet? Sí. Té 6 potes? No, així que no és un insecte encara que ho sembli. En té 8? Tampoc. En té moltíssimes, més de 20? No. És un crustaci, parent de les gambes, que viu a terra.',
+    enPapel: {
+      titulo: 'La teva pròpia clau',
+      pasos: [
+        'Trieu vuit animals o plantes del pati o del parc i apunteu com és cadascun.',
+        'Busqueu una pregunta de sí o no que els separi en dos grups.',
+        'Repetiu-ho amb cada grup fins que cada ésser viu quedi sol al final d’un camí.',
+        'Intercanvieu les claus amb un altre equip i comproveu si arriben als mateixos resultats.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'L’examen d’Éssers Vius', desc: 'Repassa els cinc regnes, la classificació d’animals i plantes, vertebrats i invertebrats, amb explicació a cada resposta.' },
+      { nombre: 'Cadena Alimentària', desc: 'Un altre joc de biologia: col·loca productors, consumidors i descomponedors al seu lloc de la xarxa tròfica.' },
+      { nombre: 'Guia de camp', desc: 'Amb una guia de bestioles o d’arbres de la zona, sortiu a buscar tres espècies i identifiqueu-les amb la seva clau.' },
+    ],
+    asignatura: 'Biologia', niveles: 'Primària, ESO',
   },
   'encuentra-elemento': {
     titulo: 'Troba l\'Element',

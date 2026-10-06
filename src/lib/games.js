@@ -291,6 +291,14 @@ export const GAMES = {
     // aciertos × 10 puntos → hasta 200 monedas
     coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
   },
+  'clave-dicotomica': {
+    label: { es: 'Clave dicotómica', en: 'Dichotomous Key', ca: 'Clau dicotòmica' },
+    emoji: '🔎',
+    subject: 'biologia',
+    route: '/juegos/clave-dicotomica',
+    // aciertos × 10 puntos → hasta 200 monedas
+    coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
+  },
   'lee-la-etiqueta': {
     label: { es: 'Lee la Etiqueta', en: 'Read the Label', ca: 'Llegeix l’Etiqueta' },
     emoji: '🏷️',

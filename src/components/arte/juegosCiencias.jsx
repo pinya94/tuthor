@@ -399,6 +399,26 @@ function FlotaHunde(p) {
   )
 }
 
+function ClaveDicotomica(p) {
+  // La clave como árbol: una pregunta que se abre en dos, y otra debajo.
+  return (
+    <Lienzo {...p}>
+      <rect x="92" y="10" width="56" height="24" rx="8" fill="#22C55E" />
+      <T x={120} y={27} s={13} c="#052E16">?</T>
+      <path d="M120 34V44M120 44H70V58M120 44H170V58" stroke="#86EFAC" strokeWidth="2.5" fill="none" />
+      <rect x="44" y="58" width="52" height="24" rx="8" fill="#14532D" stroke="#86EFAC" strokeWidth="2" />
+      <T x={70} y={75} s={12} c="#BBF7D0">?</T>
+      <rect x="144" y="58" width="52" height="24" rx="12" fill="#FACC15" />
+      <T x={170} y={75} s={11} c="#422006">✓</T>
+      <path d="M70 82V92M70 92H38V104M70 92H102V104" stroke="#86EFAC" strokeWidth="2.5" fill="none" />
+      <rect x="16" y="104" width="44" height="22" rx="11" fill="#38BDF8" />
+      <rect x="80" y="104" width="44" height="22" rx="11" fill="#F472B6" />
+      <circle cx="214" cy="104" r="16" fill="none" stroke="#F8FAFC" strokeWidth="3" />
+      <path d="M226 116L236 126" stroke="#F8FAFC" strokeWidth="4" strokeLinecap="round" />
+    </Lienzo>
+  )
+}
+
 export const ARTE_CIENCIAS = {
   genetica: Genetica,
   'rayos-x': RayosX,
@@ -411,6 +431,7 @@ export const ARTE_CIENCIAS = {
   engranajes: Engranajes,
   'flota-o-se-hunde': FlotaHunde,
   'lee-la-etiqueta': LeeLaEtiqueta,
+  'clave-dicotomica': ClaveDicotomica,
   'circuito-cerrado': CircuitoCerrado,
   'rayo-de-luz': RayoDeLuz,
   'balanza-ecuaciones': BalanzaEcuaciones,

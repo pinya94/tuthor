@@ -306,6 +306,13 @@ const MODOS_POR_TEMA = {
       detalles: { es:['2 niveles','10 preguntas','Opción múltiple','Explicación tras cada respuesta'], en:['2 levels','10 questions','Multiple choice','Explanation after each answer'], ca:['2 nivells','10 preguntes','Opció múltiple','Explicació després de cada resposta'] },
       path: 'seres-vivos',
     },
+    {
+      id: 'clave-dicotomica-test', emoji: '🔎', gradient: 'from-green-500 to-emerald-700',
+      titulo: { es:'Clave dicotómica (con el juego)', en:'Dichotomous Key (with the game)', ca:'Clau dicotòmica (amb el joc)' },
+      descripcion: { es:'Con la mecánica del juego: clasifica animales y plantas siguiendo la clave pregunta a pregunta, leyendo sus rasgos.', en:'Using the game mechanic: classify animals and plants by following the key question by question, reading their features.', ca:'Amb la mecànica del joc: classifica animals i plantes seguint la clau pregunta a pregunta, llegint-ne els trets.' },
+      detalles: { es:['3 niveles','10 preguntas','Sin cronómetro','Con el juego'], en:['3 levels','10 questions','No timer','With the game'], ca:['3 nivells','10 preguntes','Sense cronòmetre','Amb el joc'] },
+      path: 'clave-dicotomica-test',
+    },
   ],
   'ecosistemas': [
     {
