@@ -283,6 +283,14 @@ export const GAMES = {
     // 10-15 puntos por acierto → hasta 200 monedas
     coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
   },
+  'ciclo-rocas': {
+    label: { es: 'Ciclo de las rocas', en: 'The Rock Cycle', ca: 'Cicle de les roques' },
+    emoji: '⛰️',
+    subject: 'geologia',
+    route: '/juegos/ciclo-rocas',
+    // aciertos × 10 puntos → hasta 200 monedas
+    coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
+  },
   'el-tiempo': {
     label: { es: 'El Tiempo', en: 'The Weather', ca: 'El Temps' },
     emoji: '🌦️',

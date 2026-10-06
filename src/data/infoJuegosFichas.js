@@ -1395,6 +1395,34 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Economía', niveles: 'ESO, Bachillerato',
   },
+  'ciclo-rocas': {
+    titulo: 'Ciclo de las rocas',
+    subtitulo: 'Juego de geología: rocas ígneas, sedimentarias y metamórficas',
+    emoji: '⛰️', gradient: 'from-stone-500 to-neutral-700',
+    path: '/juegos/ciclo-rocas',
+    intro: 'Un juego de geología para entender que las rocas no son eternas: cambian de una clase a otra en un ciclo que dura millones de años. Unas preguntas usan el diagrama del ciclo, con una flecha señalada, y hay que decir qué proceso es: enfriamiento, meteorización y erosión, compactación, metamorfismo o fusión. Otras enseñan una muestra dibujada de una roca real (granito, basalto, piedra pómez, obsidiana, caliza, arenisca, conglomerado, carbón, yeso, mármol, pizarra, cuarcita o gneis) con lo que se ve en ella, y hay que decir de qué tipo es, de qué roca viene si es metamórfica o, en el nivel difícil, si es plutónica o volcánica y por qué procesos pasa una roca para convertirse en otra.',
+    beneficios: [
+      { titulo: 'El ciclo entero, no tres listas sueltas', texto: 'Los libros suelen presentar las rocas ígneas, sedimentarias y metamórficas como tres listas que memorizar. Aquí se ven como estaciones de un mismo ciclo, unidas por procesos, y las preguntas de ruta obligan a recorrerlo: para que un granito acabe siendo arenisca, primero hay que romperlo y luego compactar sus granos.' },
+      { titulo: 'Identificar por lo que se ve', texto: 'Cada muestra se describe como se haría en el laboratorio: los cristales grandes del granito delatan un enfriamiento lento bajo tierra; la obsidiana, sin cristales, se enfrió de golpe; la pómez flota por sus burbujas; la caliza y el mármol burbujean con vinagre. Así se aprende a razonar el tipo de roca, no solo a recordarlo.' },
+      { titulo: 'Respuestas sin trampa', texto: 'Cada flecha del ciclo lleva un solo proceso y las rutas equivocadas son imposibles de verdad. La caliza no sale al preguntar si una sedimentaria es química u orgánica, porque los libros la clasifican de las dos maneras y no habría una sola respuesta buena.' },
+    ],
+    ejemplo: 'Sale una muestra con bandas claras y oscuras alternadas, como un granito aplastado: es gneis. ¿Qué tipo de roca es? Metamórfica, porque es otra roca transformada por la presión y la temperatura sin fundirse. ¿De qué roca viene? Del granito. Y si se fundiera y el magma se enfriara despacio bajo tierra, volvería a ser granito.',
+    enPapel: {
+      titulo: 'Colección de rocas',
+      pasos: [
+        'Recoged cinco o seis piedras distintas en un paseo, en la playa o en el río.',
+        'Miradlas con lupa: ¿tienen cristales, granos de arena, capas, bandas o agujeros?',
+        'Echad una gota de vinagre: si burbujea, puede ser caliza o mármol.',
+        'Clasificadlas en ígneas, sedimentarias o metamórficas y explicad en qué os habéis fijado.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'El examen de Rocas y Minerales', desc: 'Tipo test sobre los tipos de rocas, cómo se forman, los minerales y sus propiedades, con explicación en cada respuesta.' },
+      { nombre: 'El Tiempo', desc: 'Otro juego de geología y ciencias de la Tierra: leer previsiones, radares y mapas de isobaras.' },
+      { nombre: 'El ciclo con chocolate', desc: 'Ralla chocolate (sedimentos), apriétalo en papel de aluminio (sedimentaria), presiónalo con calor de las manos (metamórfica) y fúndelo (magma) para volver a empezar.' },
+    ],
+    asignatura: 'Geología', niveles: 'Primaria, ESO',
+  },
   'encuentra-elemento': {
     titulo: 'Encuentra el Elemento',
     subtitulo: 'Juego de la Tabla Periódica',
@@ -2778,6 +2806,33 @@ export const FICHAS_EN = {
       { nombre: 'The class market', desc: 'Hand out “buyer” cards with the most they would pay and “seller” cards with the least they would accept, and trade: the price ends up near equilibrium.' },
     ],
     asignatura: 'Economics', niveles: 'Secondary, Sixth Form',
+  },
+  'ciclo-rocas': {
+    titulo: 'The Rock Cycle',
+    subtitulo: 'Geology game: igneous, sedimentary and metamorphic rocks',
+    emoji: '⛰️', gradient: 'from-stone-500 to-neutral-700', path: '/juegos/ciclo-rocas',
+    intro: 'A geology game for understanding that rocks are not eternal: they change from one kind to another in a cycle lasting millions of years. Some questions use the cycle diagram, with an arrow marked, and you say which process it is: cooling, weathering and erosion, compaction, metamorphism or melting. Others show a drawn sample of a real rock (granite, basalt, pumice, obsidian, limestone, sandstone, conglomerate, coal, gypsum, marble, slate, quartzite or gneiss) with what can be seen in it, and you say what type it is, which rock it comes from if it is metamorphic or, on hard, whether it is plutonic or volcanic and which processes turn one rock into another.',
+    beneficios: [
+      { titulo: 'The whole cycle, not three separate lists', texto: 'Textbooks often present igneous, sedimentary and metamorphic rocks as three lists to memorise. Here they are stations on one cycle, linked by processes, and the route questions make you travel round it: for granite to end up as sandstone, it first has to be broken down and then its grains compacted.' },
+      { titulo: 'Identify by what you see', texto: 'Each sample is described as it would be in the lab: granite’s large crystals reveal slow cooling underground; obsidian, with no crystals, cooled all at once; pumice floats because of its bubbles; limestone and marble fizz with vinegar. That way you learn to reason out the rock type, not just remember it.' },
+      { titulo: 'Answers without traps', texto: 'Each arrow in the cycle carries a single process and the wrong routes are genuinely impossible. Limestone never appears when asking whether a sedimentary rock is chemical or organic, because textbooks classify it both ways and there would be no single right answer.' },
+    ],
+    ejemplo: 'A sample appears with alternating light and dark bands, like a squashed granite: it is gneiss. What type of rock is it? Metamorphic, because it is another rock transformed by pressure and temperature without melting. Which rock does it come from? Granite. And if it melted and the magma cooled slowly underground, it would become granite again.',
+    enPapel: {
+      titulo: 'A rock collection',
+      pasos: [
+        'Collect five or six different stones on a walk, on the beach or by a river.',
+        'Look at them with a magnifying glass: do they have crystals, sand grains, layers, bands or holes?',
+        'Put a drop of vinegar on them: if it fizzes, it may be limestone or marble.',
+        'Sort them into igneous, sedimentary or metamorphic and explain what you looked at.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'The Rocks and Minerals exam', desc: 'Multiple choice on rock types, how they form, minerals and their properties, with an explanation for each answer.' },
+      { nombre: 'The Weather', desc: 'Another Earth science game: reading forecasts, radar and isobar maps.' },
+      { nombre: 'The chocolate rock cycle', desc: 'Grate chocolate (sediments), squeeze it in foil (sedimentary), press it with the warmth of your hands (metamorphic) and melt it (magma) to start again.' },
+    ],
+    asignatura: 'Geology', niveles: 'Primary, Secondary',
   },
   'encuentra-elemento': {
     titulo: 'Find the Element',
@@ -4236,6 +4291,33 @@ export const FICHAS_CA = {
       { nombre: 'El mercadet de classe', desc: 'Repartiu cartes de «comprador» amb el preu màxim que pagarien i de «venedor» amb el mínim a què vendrien, i negocieu: el preu acaba a prop de l’equilibri.' },
     ],
     asignatura: 'Economia', niveles: 'ESO, Batxillerat',
+  },
+  'ciclo-rocas': {
+    titulo: 'Cicle de les roques',
+    subtitulo: 'Joc de geologia: roques ígnies, sedimentàries i metamòrfiques',
+    emoji: '⛰️', gradient: 'from-stone-500 to-neutral-700', path: '/juegos/ciclo-rocas',
+    intro: 'Un joc de geologia per entendre que les roques no són eternes: canvien d’una mena a una altra en un cicle que dura milions d’anys. Unes preguntes fan servir el diagrama del cicle, amb una fletxa assenyalada, i cal dir quin procés és: refredament, meteorització i erosió, compactació, metamorfisme o fusió. D’altres ensenyen una mostra dibuixada d’una roca real (granit, basalt, pedra tosca, obsidiana, calcària, gres, conglomerat, carbó, guix, marbre, pissarra, quarsita o gneis) amb el que s’hi veu, i cal dir de quin tipus és, de quina roca ve si és metamòrfica o, al nivell difícil, si és plutònica o volcànica i per quins processos passa una roca per convertir-se en una altra.',
+    beneficios: [
+      { titulo: 'El cicle sencer, no tres llistes soltes', texto: 'Els llibres solen presentar les roques ígnies, sedimentàries i metamòrfiques com tres llistes per memoritzar. Aquí es veuen com estacions d’un mateix cicle, unides per processos, i les preguntes de ruta obliguen a recórrer-lo: perquè un granit acabi sent gres, primer cal trencar-lo i després compactar-ne els grans.' },
+      { titulo: 'Identificar pel que es veu', texto: 'Cada mostra es descriu com es faria al laboratori: els cristalls grans del granit delaten un refredament lent sota terra; l’obsidiana, sense cristalls, es va refredar de cop; la pedra tosca sura per les bombolles; la calcària i el marbre fan bombolles amb vinagre. Així s’aprèn a raonar el tipus de roca, no només a recordar-lo.' },
+      { titulo: 'Respostes sense parany', texto: 'Cada fletxa del cicle porta un sol procés i les rutes equivocades són impossibles de debò. La calcària no surt quan es pregunta si una sedimentària és química o orgànica, perquè els llibres la classifiquen de les dues maneres i no hi hauria una sola resposta bona.' },
+    ],
+    ejemplo: 'Surt una mostra amb bandes clares i fosques alternades, com un granit aixafat: és gneis. Quin tipus de roca és? Metamòrfica, perquè és una altra roca transformada per la pressió i la temperatura sense fondre’s. De quina roca ve? Del granit. I si es fongués i el magma es refredés a poc a poc sota terra, tornaria a ser granit.',
+    enPapel: {
+      titulo: 'Col·lecció de roques',
+      pasos: [
+        'Recolliu cinc o sis pedres diferents en una passejada, a la platja o al riu.',
+        'Mireu-les amb lupa: tenen cristalls, grans de sorra, capes, bandes o forats?',
+        'Tireu-hi una gota de vinagre: si fa bombolles, pot ser calcària o marbre.',
+        'Classifiqueu-les en ígnies, sedimentàries o metamòrfiques i expliqueu en què us heu fixat.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'L’examen de Roques i Minerals', desc: 'Tipus test sobre els tipus de roques, com es formen, els minerals i les seves propietats, amb explicació a cada resposta.' },
+      { nombre: 'El Temps', desc: 'Un altre joc de ciències de la Terra: llegir previsions, radars i mapes d’isòbares.' },
+      { nombre: 'El cicle amb xocolata', desc: 'Ratlla xocolata (sediments), estreny-la en paper d’alumini (sedimentària), pressiona-la amb la calor de les mans (metamòrfica) i fon-la (magma) per tornar a començar.' },
+    ],
+    asignatura: 'Geologia', niveles: 'Primària, ESO',
   },
   'encuentra-elemento': {
     titulo: 'Troba l\'Element',

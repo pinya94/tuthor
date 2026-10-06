@@ -485,6 +485,11 @@ export const EXAMS = {
     emoji: '🔦', subject: 'fisica',
     path: 'examen/rayo-de-luz-test', page: () => import('../pages/RayoDeLuzExamen'),
   },
+  'ciclo-rocas-test': {
+    label: { es: 'Ciclo de las rocas (con el juego)', en: 'The Rock Cycle (with the game)', ca: 'Cicle de les roques (amb el joc)' },
+    emoji: '⛰️', subject: 'geologia',
+    path: 'examen/ciclo-rocas-test', page: () => import('../pages/CicloRocasExamen'),
+  },
   'el-tiempo-test': {
     label: { es: 'El Tiempo (con el juego)', en: 'The Weather (with the game)', ca: 'El Temps (amb el joc)' },
     emoji: '🌦️', subject: 'geologia',

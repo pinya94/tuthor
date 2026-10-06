@@ -437,6 +437,25 @@ function ElLaboratorio(p) {
   )
 }
 
+function CicloRocas(p) {
+  // Las tres rocas en círculo con flechas: el ciclo.
+  const nodos = [[120, 26, '#F97316'], [190, 92, '#EAB308'], [50, 92, '#A78BFA']]
+  return (
+    <Lienzo {...p}>
+      <path d="M140 30 Q182 44 188 72" stroke="#94A3B8" strokeWidth="3" fill="none" />
+      <path d="M184 66l5 9l4 -10Z" fill="#94A3B8" />
+      <path d="M170 104 Q120 128 70 104" stroke="#94A3B8" strokeWidth="3" fill="none" />
+      <path d="M76 98l-9 5l9 6Z" fill="#94A3B8" />
+      <path d="M52 72 Q58 42 100 28" stroke="#94A3B8" strokeWidth="3" fill="none" />
+      <path d="M94 23l9 4l-8 6Z" fill="#94A3B8" />
+      {nodos.map(([x, y, c]) => (
+        <path key={x} d={`M${x - 22} ${y + 6}L${x - 14} ${y - 10}L${x + 4} ${y - 14}L${x + 20} ${y - 4}L${x + 22} ${y + 10}L${x - 6} ${y + 14}Z`} fill={c} stroke="#0F172A" strokeOpacity=".5" strokeWidth="2" />
+      ))}
+      <ellipse cx="120" cy="92" rx="18" ry="8" fill="#EF4444" fillOpacity=".7" />
+    </Lienzo>
+  )
+}
+
 export const ARTE_CIENCIAS = {
   genetica: Genetica,
   'rayos-x': RayosX,
@@ -446,6 +465,7 @@ export const ARTE_CIENCIAS = {
   balanza: Balanza,
   orbita: Orbita,
   'el-tiempo': ElTiempo,
+  'ciclo-rocas': CicloRocas,
   engranajes: Engranajes,
   'flota-o-se-hunde': FlotaHunde,
   'lee-la-etiqueta': LeeLaEtiqueta,

@@ -238,6 +238,13 @@ const MODOS_POR_TEMA = {
       detalles: { es:['2 niveles','10 preguntas','Opción múltiple','Explicación tras cada respuesta'], en:['2 levels','10 questions','Multiple choice','Explanation after each answer'], ca:['2 nivells','10 preguntes','Opció múltiple','Explicació després de cada resposta'] },
       path: 'rocas-minerales',
     },
+    {
+      id: 'ciclo-rocas-test', emoji: '⛰️', gradient: 'from-stone-500 to-neutral-700',
+      titulo: { es:'Ciclo de las rocas (con el juego)', en:'The Rock Cycle (with the game)', ca:'Cicle de les roques (amb el joc)' },
+      descripcion: { es:'Con la mecánica del juego: el diagrama del ciclo y muestras de rocas reales; procesos, tipos de roca y de dónde viene cada metamórfica.', en:'Using the game mechanic: the cycle diagram and samples of real rocks; processes, rock types and where each metamorphic rock comes from.', ca:'Amb la mecànica del joc: el diagrama del cicle i mostres de roques reals; processos, tipus de roca i d’on ve cada metamòrfica.' },
+      detalles: { es:['3 niveles','10 preguntas','Sin cronómetro','Con el juego'], en:['3 levels','10 questions','No timer','With the game'], ca:['3 nivells','10 preguntes','Sense cronòmetre','Amb el joc'] },
+      path: 'ciclo-rocas-test',
+    },
   ],
   'atmosfera-clima': [
     {
