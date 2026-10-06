@@ -141,6 +141,11 @@ export const EXAMS = {
     emoji: '🇺🇸', subject: 'geografia',
     route: '/examen/geomapa-eeuu',
   },
+  'climograma-test': {
+    label: { es: 'Climograma (con el juego)', en: 'Climate Graph (with the game)', ca: 'Climograma (amb el joc)' },
+    emoji: '🌧️', subject: 'geografia',
+    path: 'examen/climograma-test', page: () => import('../pages/ClimogramaExamen'),
+  },
   'piramide-poblacion-test': {
     label: { es: 'Pirámide de población (con el juego)', en: 'Population Pyramid (with the game)', ca: 'Piràmide de població (amb el joc)' },
     emoji: '👥', subject: 'geografia',

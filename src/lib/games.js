@@ -437,6 +437,14 @@ export const GAMES = {
     // aciertos × 10 puntos → hasta 200 monedas
     coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
   },
+  'climograma': {
+    label: { es: 'Climograma', en: 'Climate Graph', ca: 'Climograma' },
+    emoji: '🌧️',
+    subject: 'geografia',
+    route: '/juegos/climograma',
+    // aciertos × 10 puntos → hasta 200 monedas
+    coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
+  },
   'piramide-poblacion': {
     label: { es: 'Pirámide de población', en: 'Population Pyramid', ca: 'Piràmide de població' },
     emoji: '👥',

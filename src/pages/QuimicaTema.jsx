@@ -264,6 +264,13 @@ const MODOS_POR_TEMA = {
       path: 'atmosfera-clima',
     },
     {
+      id: 'climograma-test', emoji: '🌧️', gradient: 'from-blue-600 to-red-700',
+      titulo: { es:'Climograma (con el juego)', en:'Climate Graph (with the game)', ca:'Climograma (amb el joc)' },
+      descripcion: { es:'Con la mecánica del juego: climogramas generados de los siete climas; reconoce el clima, la amplitud térmica, los meses secos y el hemisferio.', en:'Using the game mechanic: generated climate graphs for seven climates; recognise the climate, temperature range, dry months and hemisphere.', ca:'Amb la mecànica del joc: climogrames generats dels set climes; reconeix el clima, l’amplitud tèrmica, els mesos secs i l’hemisferi.' },
+      detalles: { es:['3 niveles','10 preguntas','Sin cronómetro','Con el juego'], en:['3 levels','10 questions','No timer','With the game'], ca:['3 nivells','10 preguntes','Sense cronòmetre','Amb el joc'] },
+      path: 'climograma-test',
+    },
+    {
       id: 'el-tiempo-test', emoji: '🌦️', gradient: 'from-sky-500 to-indigo-700',
       titulo: { es:'El Tiempo (con el juego)', en:'The Weather (with the game)', ca:'El Temps (amb el joc)' },
       descripcion: { es:'Con la mecánica del juego: lee una previsión —tarjeta de app, gráfica por horas o radar de lluvia— y decide qué ropa llevar y si hace falta paraguas.', en:'Using the game mechanic: read a forecast — app card, hourly chart or rain radar — and decide what to wear and whether you need an umbrella.', ca:'Amb la mecànica del joc: llegeix una previsió —targeta d’app, gràfica per hores o radar de pluja— i decideix quina roba portar i si cal paraigua.' },

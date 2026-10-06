@@ -361,7 +361,7 @@ export const TOPIC_CATALOG = {
       eeuu: examTema({ mapa: 'geomapa-eeuu-examen' }, { niveles: ['primaria', 'eso'] }),
       // El único tema de geografía que no es una región: aquí no se señala
       // nada en el mapa, se pregunta por los conceptos (relieve, ríos, clima).
-      fisica: examTema({ teoria: 'geografia-fisica-test' }, { niveles: ['primaria', 'eso'] }),
+      fisica: examTema({ teoria: 'geografia-fisica-test', climograma: 'climograma-test' }, { niveles: ['primaria', 'eso'] }),
       humana: examTema({ teoria: 'geografia-humana-test', piramide: 'piramide-poblacion-test' }, { niveles: ['primaria', 'eso'] }),
       'union-europea': examTema({ teoria: 'geografia-ue-test' }, { niveles: ['eso', 'bachillerato'] }),
     },
@@ -374,6 +374,7 @@ export const TOPIC_CATALOG = {
       // existen (lat/lon de cada comunidad/estado).
       coordenadas: examFormato({ es: 'Latitud y longitud (con el juego)', en: 'Latitude & longitude (with the game)', ca: 'Latitud i longitud (amb el joc)' }, '🌐'),
       teoria: examFormato({ es: 'Teoría (tipo test)', en: 'Theory (quiz)', ca: 'Teoria (tipus test)' }, '📝'),
+      climograma: examFormato({ es: 'Climograma (con el juego)', en: 'Climate Graph (with the game)', ca: 'Climograma (amb el joc)' }, '🌧️'),
       piramide: examFormato({ es: 'Pirámide de población (con el juego)', en: 'Population Pyramid (with the game)', ca: 'Piràmide de població (amb el joc)' }, '👥'),
     },
   },
@@ -476,13 +477,14 @@ export const TOPIC_CATALOG = {
       'sistema-solar': examTema({ teoria: 'sistema-solar', orbita: 'orbita-test' }, { niveles: ['primaria', 'eso'] }),
       'rocas-minerales': examTema({ teoria: 'rocas-minerales', ciclo: 'ciclo-rocas-test' }, { niveles: ['primaria', 'eso'] }),
       'placas-tectonicas': examTema({ teoria: 'placas-tectonicas' }, { niveles: ['eso', 'bachillerato'] }),
-      'atmosfera-clima': examTema({ teoria: 'atmosfera-clima', 'el-tiempo': 'el-tiempo-test' }, { niveles: ['eso', 'bachillerato'] }),
+      'atmosfera-clima': examTema({ teoria: 'atmosfera-clima', 'el-tiempo': 'el-tiempo-test', climograma: compartido('climograma-test') }, { niveles: ['eso', 'bachillerato'] }),
     },
     formatos: {
       teoria: examFormato({ es: 'Teoría (tipo test)', en: 'Theory (quiz)', ca: 'Teoria (tipus test)' }, '📝'),
       orbita: examFormato({ es: 'Órbita (con el juego)', en: 'Orbit (with the game)', ca: 'Òrbita (amb el joc)' }, '🛰️'),
       ciclo: examFormato({ es: 'Ciclo de las rocas (con el juego)', en: 'The Rock Cycle (with the game)', ca: 'Cicle de les roques (amb el joc)' }, '⛰️'),
       'el-tiempo': examFormato({ es: 'El Tiempo (con el juego)', en: 'The Weather (with the game)', ca: 'El Temps (amb el joc)' }, '🌦️'),
+      climograma: examFormato({ es: 'Climograma (con el juego)', en: 'Climate Graph (with the game)', ca: 'Climograma (amb el joc)' }, '🌧️'),
     },
   },
 

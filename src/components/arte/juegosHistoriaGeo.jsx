@@ -221,6 +221,23 @@ function PiramidePoblacion(p) {
   )
 }
 
+function Climograma(p) {
+  // Un climograma mediterráneo: barras de lluvia que se hunden en verano bajo
+  // la línea de temperatura (los meses secos, en naranja).
+  const lluvia = [62, 50, 44, 40, 30, 14, 5, 9, 38, 70, 74, 66]
+  const temp = [10, 11, 13, 15, 19, 23, 26, 26, 23, 19, 14, 11]
+  const X = m => 56 + m * 11.5, Y = u => 118 - u * 1.9
+  return (
+    <Lienzo {...p}>
+      <path d="M50 18V118H196" stroke="#94A3B8" strokeWidth="2" />
+      {lluvia.map((v, m) => <rect key={m} x={X(m) - 4} y={Y(v / 2)} width="8" height={118 - Y(v / 2)} rx="1.5" fill={v < 2 * temp[m] ? '#FB923C' : '#3B82F6'} />)}
+      <path d={temp.map((t, m) => `${m ? 'L' : 'M'}${X(m)} ${Y(t)}`).join('')} stroke="#EF4444" strokeWidth="3" strokeLinejoin="round" />
+      <T x={30} y={30} s={12} c="#FCA5A5">°C</T>
+      <T x={214} y={30} s={12} c="#93C5FD">mm</T>
+    </Lienzo>
+  )
+}
+
 export const ARTE_HISTORIA_GEO = {
   'tuthor-time': TuthorTime,
   'linea-temporal': LineaTemporal,
@@ -231,4 +248,5 @@ export const ARTE_HISTORIA_GEO = {
   geomapa: GeoMapa,
   coordenadas: Coordenadas,
   'piramide-poblacion': PiramidePoblacion,
+  climograma: Climograma,
 }

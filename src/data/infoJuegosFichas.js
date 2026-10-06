@@ -1507,6 +1507,34 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Física', niveles: 'ESO, Bachillerato',
   },
+  'climograma': {
+    titulo: 'Climograma',
+    subtitulo: 'Juego para leer climogramas y reconocer los tipos de clima',
+    emoji: '🌧️', gradient: 'from-blue-600 to-red-700',
+    path: '/juegos/climograma',
+    intro: 'Un juego de geografía para aprender a leer climogramas, el gráfico que reúne en un solo dibujo la temperatura media y la lluvia de cada mes de un lugar. Cada ronda trae un climograma nuevo, generado a partir de uno de los siete climas que se estudian en Primaria, ESO y Bachillerato: ecuatorial, tropical, desértico, mediterráneo, oceánico, continental y polar. En el nivel fácil se busca el mes más cálido o el más lluvioso; en el medio hay que reconocer el clima, calcular la amplitud térmica y contar los meses secos; en el difícil aparecen climogramas del hemisferio sur, donde el verano cae en enero.',
+    beneficios: [
+      { titulo: 'Leer el gráfico, no memorizar ciudades', texto: 'Los climogramas se generan con las reglas de cada clima en vez de copiar los de unas pocas ciudades, así que no se pueden aprender de memoria. Para acertar hay que mirar lo que de verdad distingue a cada clima: si hay meses bajo cero, si el verano es seco, si llueve todo el año o si la temperatura apenas cambia.' },
+      { titulo: 'Meses secos a simple vista', texto: 'El climograma usa la escala de Gaussen, la de los libros de texto: la lluvia va a doble escala que la temperatura, de modo que un mes es seco cuando su barra no llega a la línea. Al corregir, los meses secos se pintan de naranja, y la regla P < 2T se ve en vez de memorizarse.' },
+      { titulo: 'Las trampas de siempre', texto: 'La amplitud térmica con mínimas bajo cero (25 − (−8) son 33 grados, no 17), confundir el clima oceánico con el mediterráneo porque los dos son suaves, o no darse cuenta de que un climograma con calor en enero es del hemisferio sur. Las opciones equivocadas son justo esos errores.' },
+    ],
+    ejemplo: 'Sale un climograma con temperaturas entre 10 °C en enero y 26 °C en julio. Las barras de lluvia son altas en otoño e invierno y casi desaparecen en junio, julio y agosto, por debajo de la línea roja. ¿Qué clima es? Inviernos suaves y verano seco y caluroso: mediterráneo. Si las barras fueran altas también en verano y las temperaturas no pasaran de 19 °C, sería oceánico.',
+    enPapel: {
+      titulo: 'El climograma de tu ciudad',
+      pasos: [
+        'Buscad en la web de la Agencia Estatal de Meteorología los valores climatológicos de vuestra ciudad: temperatura media y precipitación de cada mes.',
+        'En papel milimetrado, dibujad las barras de lluvia con 20 mm por cada 10 °C de la escala de temperatura.',
+        'Encima, la línea de temperatura. Pintad los meses en que la barra queda por debajo de la línea.',
+        'Calculad la amplitud térmica y la precipitación total y decidid qué clima es.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'El Tiempo', desc: 'Para no confundir tiempo y clima: aquí se lee la previsión de un día concreto y se decide qué ropa llevar.' },
+      { nombre: 'El examen de Atmósfera y clima', desc: 'Tipo test sobre las capas de la atmósfera, el efecto invernadero y el cambio climático.' },
+      { nombre: 'Pirámide de población', desc: 'Otro juego de geografía para leer gráficos: pirámides jóvenes y envejecidas, huecos y baby booms.' },
+    ],
+    asignatura: 'Geografía', niveles: 'Primaria (5.º y 6.º), ESO, Bachillerato',
+  },
   'encuentra-elemento': {
     titulo: 'Encuentra el Elemento',
     subtitulo: 'Juego de la Tabla Periódica',
@@ -2998,6 +3026,33 @@ export const FICHAS_EN = {
       { nombre: 'Read the Chart', desc: 'For practising reading bar, line and pie charts in maths.' },
     ],
     asignatura: 'Physics', niveles: 'Secondary, Sixth Form',
+  },
+  'climograma': {
+    titulo: 'Climate Graph',
+    subtitulo: 'Game for reading climate graphs and recognising climate types',
+    emoji: '🌧️', gradient: 'from-blue-600 to-red-700', path: '/juegos/climograma',
+    intro: 'A geography game for learning to read climate graphs, the chart that combines a place’s average temperature and rainfall for every month in a single drawing. Every round brings a new graph, generated from one of the seven climates studied at school: equatorial, tropical, desert, Mediterranean, oceanic, continental and polar. On easy you find the warmest or wettest month; on medium you recognise the climate, work out the temperature range and count the dry months; on hard, southern-hemisphere graphs appear, where summer falls in January.',
+    beneficios: [
+      { titulo: 'Reading the graph, not memorising cities', texto: 'The graphs are generated from each climate’s rules instead of copying a few cities, so they cannot be learnt by heart. To get them right you have to look at what really sets each climate apart: whether there are months below freezing, whether summer is dry, whether it rains all year or whether the temperature barely changes.' },
+      { titulo: 'Dry months at a glance', texto: 'The graph uses the Gaussen scale found in textbooks: rainfall is on double the temperature scale, so a month is dry when its bar does not reach the line. When the answer is shown, the dry months turn orange, and the P < 2T rule is seen rather than memorised.' },
+      { titulo: 'The usual traps', texto: 'The temperature range with minimums below zero (25 − (−8) is 33 degrees, not 17), mixing up oceanic and Mediterranean because both are mild, or not noticing that a graph with heat in January is from the southern hemisphere. The wrong options are exactly those mistakes.' },
+    ],
+    ejemplo: 'A graph appears with temperatures between 10 °C in January and 26 °C in July. The rain bars are tall in autumn and winter and almost vanish in June, July and August, below the red line. Which climate is it? Mild winters and a dry, hot summer: Mediterranean. If the bars were tall in summer too and temperatures stayed below 19 °C, it would be oceanic.',
+    enPapel: {
+      titulo: 'Your town’s climate graph',
+      pasos: [
+        'Look up your town’s climate averages on the national weather service website: average temperature and rainfall for each month.',
+        'On graph paper, draw the rain bars with 20 mm for every 10 °C on the temperature scale.',
+        'On top, draw the temperature line. Colour the months whose bar is below the line.',
+        'Work out the temperature range and total rainfall and decide which climate it is.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'The Weather', desc: 'So as not to confuse weather and climate: here you read a single day’s forecast and decide what to wear.' },
+      { nombre: 'The Atmosphere and climate exam', desc: 'Multiple choice on the layers of the atmosphere, the greenhouse effect and climate change.' },
+      { nombre: 'Population Pyramid', desc: 'Another geography game about reading charts: young and ageing pyramids, gaps and baby booms.' },
+    ],
+    asignatura: 'Geography', niveles: 'Upper primary, Secondary, Sixth Form',
   },
   'encuentra-elemento': {
     titulo: 'Find the Element',
@@ -4564,6 +4619,33 @@ export const FICHAS_CA = {
       { nombre: 'Llegeix el Gràfic', desc: 'Per practicar la lectura de gràfics de barres, de línies i de sectors a matemàtiques.' },
     ],
     asignatura: 'Física', niveles: 'ESO, Batxillerat',
+  },
+  'climograma': {
+    titulo: 'Climograma',
+    subtitulo: 'Joc per llegir climogrames i reconèixer els tipus de clima',
+    emoji: '🌧️', gradient: 'from-blue-600 to-red-700', path: '/juegos/climograma',
+    intro: 'Un joc de geografia per aprendre a llegir climogrames, el gràfic que reuneix en un sol dibuix la temperatura mitjana i la pluja de cada mes d’un lloc. Cada ronda porta un climograma nou, generat a partir d’un dels set climes que s’estudien a Primària, ESO i Batxillerat: equatorial, tropical, desèrtic, mediterrani, oceànic, continental i polar. Al nivell fàcil es busca el mes més càlid o el més plujós; al mitjà cal reconèixer el clima, calcular l’amplitud tèrmica i comptar els mesos secs; al difícil apareixen climogrames de l’hemisferi sud, on l’estiu cau al gener.',
+    beneficios: [
+      { titulo: 'Llegir el gràfic, no memoritzar ciutats', texto: 'Els climogrames es generen amb les regles de cada clima en lloc de copiar els d’unes quantes ciutats, així que no es poden aprendre de memòria. Per encertar cal mirar el que de debò distingeix cada clima: si hi ha mesos sota zero, si l’estiu és sec, si plou tot l’any o si la temperatura gairebé no canvia.' },
+      { titulo: 'Mesos secs a simple vista', texto: 'El climograma fa servir l’escala de Gaussen, la dels llibres de text: la pluja va a doble escala que la temperatura, de manera que un mes és sec quan la seva barra no arriba a la línia. En corregir, els mesos secs es pinten de taronja, i la regla P < 2T es veu en lloc de memoritzar-se.' },
+      { titulo: 'Els paranys de sempre', texto: 'L’amplitud tèrmica amb mínimes sota zero (25 − (−8) són 33 graus, no 17), confondre el clima oceànic amb el mediterrani perquè tots dos són suaus, o no adonar-se que un climograma amb calor al gener és de l’hemisferi sud. Les opcions equivocades són justament aquests errors.' },
+    ],
+    ejemplo: 'Surt un climograma amb temperatures entre 10 °C al gener i 26 °C al juliol. Les barres de pluja són altes a la tardor i a l’hivern i gairebé desapareixen al juny, juliol i agost, per sota de la línia vermella. Quin clima és? Hiverns suaus i estiu sec i calorós: mediterrani. Si les barres fossin altes també a l’estiu i les temperatures no passessin de 19 °C, seria oceànic.',
+    enPapel: {
+      titulo: 'El climograma de la teva ciutat',
+      pasos: [
+        'Busqueu al web de l’Agència Estatal de Meteorologia o del Servei Meteorològic de Catalunya els valors climatològics de la vostra ciutat: temperatura mitjana i precipitació de cada mes.',
+        'En paper mil·limetrat, dibuixeu les barres de pluja amb 20 mm per cada 10 °C de l’escala de temperatura.',
+        'A sobre, la línia de temperatura. Pinteu els mesos en què la barra queda per sota de la línia.',
+        'Calculeu l’amplitud tèrmica i la precipitació total i decidiu quin clima és.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'El Temps', desc: 'Per no confondre temps i clima: aquí es llegeix la previsió d’un dia concret i es decideix quina roba portar.' },
+      { nombre: 'L’examen d’Atmosfera i clima', desc: 'Tipus test sobre les capes de l’atmosfera, l’efecte hivernacle i el canvi climàtic.' },
+      { nombre: 'Piràmide de població', desc: 'Un altre joc de geografia per llegir gràfics: piràmides joves i envellides, buits i baby booms.' },
+    ],
+    asignatura: 'Geografia', niveles: 'Primària (5è i 6è), ESO, Batxillerat',
   },
   'encuentra-elemento': {
     titulo: 'Troba l\'Element',

@@ -293,7 +293,7 @@ export const LANDINGS = [
       en: ['Putting events in order on a timeline', 'The ages of history', 'Spain’s autonomous communities', 'Countries and capitals on the map', 'Relief, rivers and population'],
       ca: ['Ordenar fets a la línia del temps', 'Les etapes de la història', "Les comunitats autònomes d'Espanya", 'Països i capitals al mapa', 'Relleu, rius i població'],
     },
-    juegos: ['el-tiempo', 'linea-temporal', 'epocas-historicas', 'geomapa', 'georush', 'coordenadas', 'piramide-poblacion'],
+    juegos: ['el-tiempo', 'climograma', 'linea-temporal', 'epocas-historicas', 'geomapa', 'georush', 'coordenadas', 'piramide-poblacion'],
     temas: [
       { arte: 'historia/primaria', ruta: '/estudiar/historia/primaria', titulo: T('Grandes hitos de la historia', 'Great milestones of history', 'Grans fites de la història') },
       { arte: 'historia/prehistoria', ruta: '/estudiar/historia/prehistoria', titulo: T('Prehistoria', 'Prehistory', 'Prehistòria') },
@@ -580,7 +580,7 @@ export const LANDINGS = [
       en: ['Chronology: ordering events and eras', 'From the Middle Ages to the Cold War', 'Spanish Civil War, Franco and the Transition', 'Historical figures', 'Maps: countries, capitals and coordinates'],
       ca: ['Cronologia: ordenar fets i èpoques', "De l'Edat Mitjana a la Guerra Freda", 'Guerra Civil, franquisme i Transició', 'Personatges històrics', 'Mapes: països, capitals i coordenades'],
     },
-    juegos: ['linea-temporal', 'tuthor-time', 'quien-es-quien', 'epocas-historicas', 'portadas', 'geomapa', 'georush', 'coordenadas', 'piramide-poblacion'],
+    juegos: ['linea-temporal', 'tuthor-time', 'quien-es-quien', 'epocas-historicas', 'portadas', 'geomapa', 'georush', 'coordenadas', 'climograma', 'piramide-poblacion'],
     temas: [
       { arte: 'historia/edad-media', ruta: '/estudiar/historia/edad-media', titulo: T('Edad Media', 'The Middle Ages', 'Edat Mitjana') },
       { arte: 'historia/edad-moderna', ruta: '/estudiar/historia/edad-moderna', titulo: T('Edad Moderna', 'The Early Modern Period', 'Edat Moderna') },
@@ -857,7 +857,7 @@ export const LANDINGS = [
       en: ['The cell and its organelles', 'Mendelian genetics', 'Evolution and natural selection', 'The immune system and vaccines', 'Plate tectonics and climate change'],
       ca: ['La cèl·lula i els seus orgànuls', 'Genètica mendeliana', 'Evolució i selecció natural', 'Sistema immunitari i vacunes', 'Tectònica de plaques i canvi climàtic'],
     },
-    juegos: ['microscopio', 'genetica', 'cadena-alimentaria', 'el-tiempo'],
+    juegos: ['microscopio', 'genetica', 'cadena-alimentaria', 'el-tiempo', 'climograma'],
     temas: [
       { arte: 'biologia/celula', ruta: '/estudiar/biologia/celula', titulo: T('La célula', 'The cell', 'La cèl·lula') },
       { arte: 'biologia/genetica', ruta: '/estudiar/biologia/genetica', titulo: T('Genética', 'Genetics', 'Genètica') },
