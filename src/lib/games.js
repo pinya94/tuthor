@@ -397,6 +397,14 @@ export const GAMES = {
     // aciertos × 10 puntos → hasta 200 monedas
     coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
   },
+  'piramide-poblacion': {
+    label: { es: 'Pirámide de población', en: 'Population Pyramid', ca: 'Piràmide de població' },
+    emoji: '👥',
+    subject: 'geografia',
+    route: '/juegos/piramide-poblacion',
+    // aciertos × 10 puntos → hasta 200 monedas
+    coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
+  },
   'coordenadas': {
     label: { es: 'Coordenadas', en: 'Coordinates', ca: 'Coordenades' },
     emoji: '🌐',

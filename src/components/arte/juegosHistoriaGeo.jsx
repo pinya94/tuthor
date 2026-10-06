@@ -201,6 +201,26 @@ function Coordenadas(p) {
   )
 }
 
+function PiramidePoblacion(p) {
+  // Una pirámide regresiva con un hueco señalado.
+  const filas = [26, 34, 42, 50, 54, 56, 54, 50, 44, 36, 26]
+  return (
+    <Lienzo {...p}>
+      {filas.map((w, i) => {
+        const y = 118 - i * 9.5, ancho = i === 4 ? w * 0.6 : w
+        return (
+          <g key={i}>
+            <rect x={116 - ancho} y={y} width={ancho} height="7.5" rx="1.5" fill="#60A5FA" />
+            <rect x={124} y={y} width={ancho * (i > 8 ? 1.15 : 1)} height="7.5" rx="1.5" fill="#F472B6" />
+          </g>
+        )
+      })}
+      <rect x="56" y="78" width="128" height="12" rx="3" fill="none" stroke="#FBBF24" strokeWidth="2" strokeDasharray="4 3" />
+      <T x={204} y={89} s={14} c="#FBBF24">◀</T>
+    </Lienzo>
+  )
+}
+
 export const ARTE_HISTORIA_GEO = {
   'tuthor-time': TuthorTime,
   'linea-temporal': LineaTemporal,
@@ -210,4 +230,5 @@ export const ARTE_HISTORIA_GEO = {
   georush: GeoRush,
   geomapa: GeoMapa,
   coordenadas: Coordenadas,
+  'piramide-poblacion': PiramidePoblacion,
 }

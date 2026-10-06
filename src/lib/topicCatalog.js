@@ -362,7 +362,7 @@ export const TOPIC_CATALOG = {
       // El único tema de geografía que no es una región: aquí no se señala
       // nada en el mapa, se pregunta por los conceptos (relieve, ríos, clima).
       fisica: examTema({ teoria: 'geografia-fisica-test' }, { niveles: ['primaria', 'eso'] }),
-      humana: examTema({ teoria: 'geografia-humana-test' }, { niveles: ['primaria', 'eso'] }),
+      humana: examTema({ teoria: 'geografia-humana-test', piramide: 'piramide-poblacion-test' }, { niveles: ['primaria', 'eso'] }),
       'union-europea': examTema({ teoria: 'geografia-ue-test' }, { niveles: ['eso', 'bachillerato'] }),
     },
     formatos: {
@@ -374,6 +374,7 @@ export const TOPIC_CATALOG = {
       // existen (lat/lon de cada comunidad/estado).
       coordenadas: examFormato({ es: 'Latitud y longitud (con el juego)', en: 'Latitude & longitude (with the game)', ca: 'Latitud i longitud (amb el joc)' }, '🌐'),
       teoria: examFormato({ es: 'Teoría (tipo test)', en: 'Theory (quiz)', ca: 'Teoria (tipus test)' }, '📝'),
+      piramide: examFormato({ es: 'Pirámide de población (con el juego)', en: 'Population Pyramid (with the game)', ca: 'Piràmide de població (amb el joc)' }, '👥'),
     },
   },
 

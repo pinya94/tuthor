@@ -1339,6 +1339,34 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Química', niveles: 'Primaria, ESO',
   },
+  'piramide-poblacion': {
+    titulo: 'Pirámide de población',
+    subtitulo: 'Juego para leer e interpretar pirámides de población',
+    emoji: '👥', gradient: 'from-amber-600 to-orange-800',
+    path: '/juegos/piramide-poblacion',
+    intro: 'Un juego de geografía para aprender a leer pirámides de población, uno de los gráficos que más salen en Ciencias Sociales y Geografía. Cada pirámide se genera al momento a partir de las formas de los libros: hombres a la izquierda, mujeres a la derecha, grupos de cinco años de los bebés a los mayores. En el nivel fácil hay que decir si es progresiva, estacionaria o regresiva y qué grupo de edad tiene más gente; en el medio, también si en una franja hay más hombres o más mujeres; en el difícil se señala una parte de la pirámide (un hueco, un abultamiento, hombres de más en edad de trabajar o la cima) y hay que explicar qué pasó, o calcular en qué años nació ese grupo.',
+    beneficios: [
+      { titulo: 'La forma cuenta la historia', texto: 'Una base ancha es una población joven, con muchos nacimientos; una base estrecha es una población envejecida, como la española. El juego entrena a mirar la forma completa y a relacionarla con la natalidad, la mortalidad y la esperanza de vida, que es lo que piden los exámenes.' },
+      { titulo: 'Los rasgos que delatan hechos', texto: 'Un entrante en una generación son niños que no nacieron por una guerra o una crisis; un abultamiento es un baby boom; una barra de hombres que sobresale en edad de trabajar es inmigración. Identificarlos en pirámides siempre distintas hace que el alumno sepa leer cualquier pirámide real que le pongan.' },
+      { titulo: 'Geografía con cálculo', texto: 'En el difícil hay que restar: en una pirámide de 2020, el grupo de 70 a 74 años nació entre 1946 y 1950. Las opciones incluyen los errores típicos (un grupo de más o de menos y contar el intervalo hacia delante), así que hay que hacer la cuenta, no adivinarla.' },
+    ],
+    ejemplo: 'Sale una pirámide con la base más estrecha que el centro y un entrante señalado en el grupo de 80 a 84 años. La forma es regresiva: población envejecida. El entrante es una generación más pequeña: nacieron menos niños entonces. Si la pirámide es de 2020, ese grupo nació entre 1936 y 1940, los años de la Guerra Civil española.',
+    enPapel: {
+      titulo: 'La pirámide de tu clase',
+      pasos: [
+        'Apuntad en la pizarra la edad de cada persona de vuestra familia (padres, abuelos, hermanos, tíos).',
+        'Agrupad las edades de diez en diez y contad cuántos hombres y cuántas mujeres hay en cada grupo.',
+        'Dibujad la pirámide en papel cuadriculado: hombres a la izquierda, mujeres a la derecha.',
+        'Comparad su forma con las de los libros: ¿se parece más a una progresiva o a una regresiva?',
+      ],
+    },
+    alternativas: [
+      { nombre: 'El examen de Geografía Humana', desc: 'Tipo test sobre población, densidad, natalidad y mortalidad, migraciones y sectores económicos, con explicación en cada respuesta.' },
+      { nombre: 'Lee el Gráfico', desc: 'Otro juego para leer gráficos de barras, líneas y sectores, con preguntas de tendencias, máximos y porcentajes.' },
+      { nombre: 'Datos del INE', desc: 'En la web del Instituto Nacional de Estadística se puede ver la pirámide de España de cada año: buscad el baby boom y el hueco de la Guerra Civil.' },
+    ],
+    asignatura: 'Geografía', niveles: 'Primaria, ESO',
+  },
   'encuentra-elemento': {
     titulo: 'Encuentra el Elemento',
     subtitulo: 'Juego de la Tabla Periódica',
@@ -2668,6 +2696,33 @@ export const FICHAS_EN = {
       { nombre: 'Felt-tip chromatography', desc: 'Draw a dot with a black felt-tip on a strip of kitchen paper, dip the end in water and watch the colours separate.' },
     ],
     asignatura: 'Chemistry', niveles: 'Primary, Secondary',
+  },
+  'piramide-poblacion': {
+    titulo: 'Population Pyramid',
+    subtitulo: 'Game for reading and interpreting population pyramids',
+    emoji: '👥', gradient: 'from-amber-600 to-orange-800', path: '/juegos/piramide-poblacion',
+    intro: 'A geography game for learning to read population pyramids, one of the charts that comes up most in social studies and geography. Each pyramid is generated on the spot from the textbook shapes: men on the left, women on the right, five-year groups from babies to the elderly. On easy you say whether it is expanding, stationary or contracting and which age group is largest; on medium, also whether a band has more men or more women; on hard a part of the pyramid is marked (a gap, a bulge, extra men of working age or the top) and you explain what happened, or work out when that group was born.',
+    beneficios: [
+      { titulo: 'The shape tells the story', texto: 'A wide base is a young population with many births; a narrow base is an ageing population, like Spain’s. The game trains you to look at the whole shape and link it to birth rate, death rate and life expectancy, which is what exams ask for.' },
+      { titulo: 'Features that reveal events', texto: 'A dent in one generation is babies not born because of a war or a crisis; a bulge is a baby boom; a men’s bar sticking out at working age is immigration. Spotting them in ever-different pyramids means students can read any real pyramid put in front of them.' },
+      { titulo: 'Geography with arithmetic', texto: 'On hard you subtract: in a 2020 pyramid, the 70 to 74 group was born between 1946 and 1950. The options include the typical mistakes (one group too many or too few, and counting the range forwards), so you have to do the sum, not guess it.' },
+    ],
+    ejemplo: 'A pyramid appears with a base narrower than the middle and a dent marked in the 80 to 84 group. The shape is contracting: an ageing population. The dent is a smaller generation: fewer babies were born then. If the pyramid is for 2020, that group was born between 1936 and 1940, the years of the Spanish Civil War.',
+    enPapel: {
+      titulo: 'Your class’s pyramid',
+      pasos: [
+        'Write on the board the age of each person in your families (parents, grandparents, siblings, aunts and uncles).',
+        'Group the ages in tens and count how many men and how many women there are in each group.',
+        'Draw the pyramid on squared paper: men on the left, women on the right.',
+        'Compare its shape with the textbook ones: is it more like an expanding or a contracting pyramid?',
+      ],
+    },
+    alternativas: [
+      { nombre: 'The Human Geography exam', desc: 'Multiple choice on population, density, birth and death rates, migration and economic sectors, with an explanation for each answer.' },
+      { nombre: 'Read the Chart', desc: 'Another game for reading bar, line and pie charts, with questions on trends, maximums and percentages.' },
+      { nombre: 'Official statistics', desc: 'National statistics offices publish the population pyramid for each year: look for the baby boom and the gaps left by wars.' },
+    ],
+    asignatura: 'Geography', niveles: 'Primary, Secondary',
   },
   'encuentra-elemento': {
     titulo: 'Find the Element',
@@ -4072,6 +4127,33 @@ export const FICHAS_CA = {
       { nombre: 'Cromatografia amb retoladors', desc: 'Pinta un punt amb retolador negre en una tira de paper de cuina, posa’n la punta a l’aigua i mira com se separen els colors.' },
     ],
     asignatura: 'Química', niveles: 'Primària, ESO',
+  },
+  'piramide-poblacion': {
+    titulo: 'Piràmide de població',
+    subtitulo: 'Joc per llegir i interpretar piràmides de població',
+    emoji: '👥', gradient: 'from-amber-600 to-orange-800', path: '/juegos/piramide-poblacion',
+    intro: 'Un joc de geografia per aprendre a llegir piràmides de població, un dels gràfics que més surten a Ciències Socials i Geografia. Cada piràmide es genera al moment a partir de les formes dels llibres: homes a l’esquerra, dones a la dreta, grups de cinc anys dels nadons a la gent gran. Al nivell fàcil cal dir si és progressiva, estacionària o regressiva i quin grup d’edat té més gent; al mitjà, també si en una franja hi ha més homes o més dones; al difícil s’assenyala una part de la piràmide (un buit, un abombament, homes de més en edat de treballar o el cim) i cal explicar què va passar, o calcular en quins anys va néixer aquell grup.',
+    beneficios: [
+      { titulo: 'La forma explica la història', texto: 'Una base ampla és una població jove, amb molts naixements; una base estreta és una població envellida, com l’espanyola. El joc entrena a mirar la forma sencera i a relacionar-la amb la natalitat, la mortalitat i l’esperança de vida, que és el que demanen els exàmens.' },
+      { titulo: 'Els trets que delaten fets', texto: 'Un entrant en una generació són nens que no van néixer per una guerra o una crisi; un abombament és un baby boom; una barra d’homes que sobresurt en edat de treballar és immigració. Identificar-los en piràmides sempre diferents fa que l’alumne sàpiga llegir qualsevol piràmide real que li posin.' },
+      { titulo: 'Geografia amb càlcul', texto: 'Al difícil cal restar: en una piràmide del 2020, el grup de 70 a 74 anys va néixer entre el 1946 i el 1950. Les opcions inclouen els errors típics (un grup de més o de menys i comptar l’interval cap endavant), així que cal fer el compte, no endevinar-lo.' },
+    ],
+    ejemplo: 'Surt una piràmide amb la base més estreta que el centre i un entrant assenyalat al grup de 80 a 84 anys. La forma és regressiva: població envellida. L’entrant és una generació més petita: van néixer menys nens llavors. Si la piràmide és del 2020, aquell grup va néixer entre el 1936 i el 1940, els anys de la Guerra Civil espanyola.',
+    enPapel: {
+      titulo: 'La piràmide de la vostra classe',
+      pasos: [
+        'Apunteu a la pissarra l’edat de cada persona de les vostres famílies (pares, avis, germans, oncles).',
+        'Agrupeu les edats de deu en deu i compteu quants homes i quantes dones hi ha a cada grup.',
+        'Dibuixeu la piràmide en paper quadriculat: homes a l’esquerra, dones a la dreta.',
+        'Compareu-ne la forma amb les dels llibres: s’assembla més a una progressiva o a una regressiva?',
+      ],
+    },
+    alternativas: [
+      { nombre: 'L’examen de Geografia Humana', desc: 'Tipus test sobre població, densitat, natalitat i mortalitat, migracions i sectors econòmics, amb explicació a cada resposta.' },
+      { nombre: 'Llegeix el Gràfic', desc: 'Un altre joc per llegir gràfics de barres, de línies i de sectors, amb preguntes de tendències, màxims i percentatges.' },
+      { nombre: 'Dades de l’Idescat i l’INE', desc: 'A les webs d’estadística es pot veure la piràmide de cada any: busqueu el baby boom i el buit de la Guerra Civil.' },
+    ],
+    asignatura: 'Geografia', niveles: 'Primària, ESO',
   },
   'encuentra-elemento': {
     titulo: 'Troba l\'Element',

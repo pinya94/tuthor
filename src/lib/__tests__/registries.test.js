@@ -308,7 +308,8 @@ describe('catálogo por tema (topicCatalog.js): materia → tema → formato →
     // nombre: si algún día una región usara `teoria`, esta lista dejaría de
     // significar lo que dice.
     for (const c of conceptos) {
-      expect(topicFormats('geografia', c).map(f => f.id), `${c} debería examinarse con teoría`).toEqual(['teoria'])
+      // (pueden tener además un juego propio: humana tiene la Pirámide de población)
+      expect(topicFormats('geografia', c).map(f => f.id), `${c} debería examinarse con teoría`).toContain('teoria')
     }
     for (const r of regiones) {
       expect(topicFormats('geografia', r).map(f => f.id), `${r} no debería usar el formato teoria`).not.toContain('teoria')

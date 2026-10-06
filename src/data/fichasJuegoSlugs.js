@@ -9,7 +9,7 @@ export const FICHAS_JUEGO_SLUGS = new Set([
   'estadistico-expres', 'fuerza-neta', 'funciones-grafica', 'genetica',
   'geomapa', 'georush', 'intruso', 'lee-el-grafico', 'linea-temporal',
   'medidor-ph', 'menor-a-mayor', 'microscopio', 'numeros-romanos', 'numpath',
-  'orbita', 'ordena-frase', 'pentagrama-path', 'pieza-que-falta',
+  'orbita', 'ordena-frase', 'pentagrama-path', 'pieza-que-falta', 'piramide-poblacion',
   'pon-la-tilde', 'portadas', 'portero', 'quien-es-quien', 'rayo-de-luz',
   'rayos-x', 'reaccion', 'rebajas', 'redondeo', 'reloj-horas', 'reparte-pastel',
   'salta-recta', 'spicy', 'tablas-multiplicar', 'trayectoria', 'tuthor-time',

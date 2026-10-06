@@ -292,7 +292,7 @@ export const LANDINGS = [
       en: ['Putting events in order on a timeline', 'The ages of history', 'Spain’s autonomous communities', 'Countries and capitals on the map', 'Relief, rivers and population'],
       ca: ['Ordenar fets a la línia del temps', 'Les etapes de la història', "Les comunitats autònomes d'Espanya", 'Països i capitals al mapa', 'Relleu, rius i població'],
     },
-    juegos: ['el-tiempo', 'linea-temporal', 'epocas-historicas', 'geomapa', 'georush', 'coordenadas'],
+    juegos: ['el-tiempo', 'linea-temporal', 'epocas-historicas', 'geomapa', 'georush', 'coordenadas', 'piramide-poblacion'],
     temas: [
       { arte: 'historia/primaria', ruta: '/estudiar/historia/primaria', titulo: T('Grandes hitos de la historia', 'Great milestones of history', 'Grans fites de la història') },
       { arte: 'historia/prehistoria', ruta: '/estudiar/historia/prehistoria', titulo: T('Prehistoria', 'Prehistory', 'Prehistòria') },
@@ -579,7 +579,7 @@ export const LANDINGS = [
       en: ['Chronology: ordering events and eras', 'From the Middle Ages to the Cold War', 'Spanish Civil War, Franco and the Transition', 'Historical figures', 'Maps: countries, capitals and coordinates'],
       ca: ['Cronologia: ordenar fets i èpoques', "De l'Edat Mitjana a la Guerra Freda", 'Guerra Civil, franquisme i Transició', 'Personatges històrics', 'Mapes: països, capitals i coordenades'],
     },
-    juegos: ['linea-temporal', 'tuthor-time', 'quien-es-quien', 'epocas-historicas', 'portadas', 'geomapa', 'georush', 'coordenadas'],
+    juegos: ['linea-temporal', 'tuthor-time', 'quien-es-quien', 'epocas-historicas', 'portadas', 'geomapa', 'georush', 'coordenadas', 'piramide-poblacion'],
     temas: [
       { arte: 'historia/edad-media', ruta: '/estudiar/historia/edad-media', titulo: T('Edad Media', 'The Middle Ages', 'Edat Mitjana') },
       { arte: 'historia/edad-moderna', ruta: '/estudiar/historia/edad-moderna', titulo: T('Edad Moderna', 'The Early Modern Period', 'Edat Moderna') },

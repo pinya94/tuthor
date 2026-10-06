@@ -141,6 +141,11 @@ export const EXAMS = {
     emoji: '🇺🇸', subject: 'geografia',
     route: '/examen/geomapa-eeuu',
   },
+  'piramide-poblacion-test': {
+    label: { es: 'Pirámide de población (con el juego)', en: 'Population Pyramid (with the game)', ca: 'Piràmide de població (amb el joc)' },
+    emoji: '👥', subject: 'geografia',
+    path: 'examen/piramide-poblacion-test', page: () => import('../pages/PiramidePoblacionExamen'),
+  },
   'coordenadas-test': {
     label: { es: 'Coordenadas (con el juego)', en: 'Coordinates (with the game)', ca: 'Coordenades (amb el joc)' },
     emoji: '🌐', subject: 'geografia',

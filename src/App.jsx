@@ -125,6 +125,7 @@ const FlotaHunde             = lazy(() => import('./pages/FlotaHunde'))
 const LeeLaEtiqueta          = lazy(() => import('./pages/LeeLaEtiqueta'))
 const ClaveDicotomica        = lazy(() => import('./pages/ClaveDicotomica'))
 const Coordenadas            = lazy(() => import('./pages/Coordenadas'))
+const PiramidePoblacion      = lazy(() => import('./pages/PiramidePoblacion'))
 const RayosX                 = lazy(() => import('./pages/RayosX'))
 const CircuitoCerrado        = lazy(() => import('./pages/CircuitoCerrado'))
 const RayoDeLuz              = lazy(() => import('./pages/RayoDeLuz'))
@@ -306,6 +307,7 @@ function AppRoutes() {
       <Route path="juegos/lee-la-etiqueta" element={<LeeLaEtiqueta />} />
       <Route path="juegos/clave-dicotomica" element={<ClaveDicotomica />} />
       <Route path="juegos/coordenadas" element={<Coordenadas />} />
+      <Route path="juegos/piramide-poblacion" element={<PiramidePoblacion />} />
       <Route path="juegos/rayos-x" element={<RayosX />} />
       <Route path="juegos/circuito-cerrado" element={<CircuitoCerrado />} />
       <Route path="juegos/rayo-de-luz" element={<RayoDeLuz />} />
