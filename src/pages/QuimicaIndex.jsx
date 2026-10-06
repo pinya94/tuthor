@@ -34,6 +34,14 @@ const TEMAS = [
     niveles: nivelesDeTema('quimica', 'mezclas-separacion'),
   },
   {
+    id: 'estequiometria', disciplina: 'quimica',
+    titulo: 'El Mol y la Estequiometría', tituloEn: 'The Mole and Stoichiometry', tituloCa: 'El Mol i l’Estequiometria',
+    subtitulo: 'Mol, gases ideales y cálculos con reacciones', subtituloEn: 'Moles, ideal gases and reaction calculations', subtituloCa: 'Mol, gasos ideals i càlculs amb reaccions',
+    emoji: '🧮', gradient: 'from-emerald-500 to-teal-700',
+    tags: ['mol', 'moles', 'estequiometria', 'avogadro', 'masa molar', 'reactivo limitante', 'rendimiento', 'gases ideales', 'pv=nrt', 'formula empirica', 'molaridad', 'mole', 'stoichiometry', 'limiting reactant', 'ideal gas'],
+    niveles: nivelesDeTema('quimica', 'estequiometria'),
+  },
+  {
     id: 'disoluciones', disciplina: 'quimica',
     titulo: 'Disoluciones', tituloEn: 'Solutions', tituloCa: 'Dissolucions',
     subtitulo: 'Soluto y disolvente, solubilidad, saturación y concentración', subtituloEn: 'Solute and solvent, solubility, saturation and concentration', subtituloCa: 'Solut i dissolvent, solubilitat, saturació i concentració',
@@ -194,6 +202,14 @@ const TEMAS = [
     emoji: '🌡️', gradient: 'from-orange-500 to-red-600',
     tags: ['calor', 'temperatura', 'kelvin', 'celsius', 'dilatacion', 'conduccion', 'conveccion', 'radiacion', 'equilibrio', 'heat', 'temperature', 'expansion'],
     niveles: nivelesDeTema('fisica', 'calor-temperatura'),
+  },
+  {
+    id: 'dinamica', disciplina: 'fisica',
+    titulo: 'Dinámica', tituloEn: 'Dynamics', tituloCa: 'Dinàmica',
+    subtitulo: 'Leyes de Newton, rozamiento, plano inclinado y gravitación', subtituloEn: 'Newton’s laws, friction, inclined planes and gravitation', subtituloCa: 'Lleis de Newton, fregament, pla inclinat i gravitació',
+    emoji: '🛷', gradient: 'from-orange-500 to-red-700',
+    tags: ['dinamica', 'newton', 'leyes de newton', 'fuerza', 'rozamiento', 'plano inclinado', 'momento lineal', 'impulso', 'centripeta', 'gravitacion', 'tension', 'dynamics', 'friction', 'momentum', 'gravitation'],
+    niveles: nivelesDeTema('fisica', 'dinamica'),
   },
   {
     id: 'movimiento', disciplina: 'fisica',

@@ -65,16 +65,17 @@ export const CURSOS_LANDING = {
   },
   // ── Bachillerato ─────────────────────────────────────────────────────────
   // Solo las materias con contenido propio de ese nivel en el catálogo
-  // (topicCatalog: niveles incluye 'bachillerato'). Física y Química e Inglés
-  // se quedan fuera hasta que tengan más que uno o dos temas.
+  // (topicCatalog: niveles incluye 'bachillerato'). Física y Química entró
+  // con Movimiento, Dinámica y Estequiometría; Inglés sigue fuera hasta que
+  // tenga más que tres temas de este nivel.
   bachillerato: {
     nombre: { es: 'Bachillerato', en: 'Sixth form', ca: 'Batxillerat' },
     edades: '16-18',
     titulo: { es: 'Juegos y exámenes para Bachillerato', en: 'Games and quizzes for sixth form', ca: 'Jocs i exàmens per a Batxillerat' },
     metaDesc: {
-      es: 'Repaso para Bachillerato y la PAU: funciones y álgebra, sintaxis y figuras literarias, Historia contemporánea y de España, biología y economía, con explicación en cada respuesta.',
-      en: 'Revision for sixth form and university entrance exams: functions and algebra, syntax, modern history, biology and economics, with an explanation for every answer.',
-      ca: 'Repàs per a Batxillerat i la PAU: funcions i àlgebra, sintaxi i figures literàries, Història contemporània i d’Espanya, biologia i economia, amb explicació a cada resposta.',
+      es: 'Repaso para Bachillerato y la PAU: funciones y álgebra, sintaxis, Historia contemporánea y de España, física y química, biología y economía, con explicación en cada respuesta.',
+      en: 'Revision for sixth form and university entrance exams: algebra, syntax, modern history, physics and chemistry, biology and economics, with an explanation for every answer.',
+      ca: 'Repàs per a Batxillerat i la PAU: funcions i àlgebra, sintaxi, Història contemporània i d’Espanya, física i química, biologia i economia, amb explicació a cada resposta.',
     },
     intro: {
       es: [
@@ -784,6 +785,46 @@ export const LANDINGS = [
       { arte: 'historia/guerra-fria', ruta: '/estudiar/historia/guerra-fria', titulo: T('Guerra Fría', 'The Cold War', 'Guerra Freda') },
       { arte: 'historia/gce', ruta: '/estudiar/historia/gce', titulo: T('Guerra Civil Española', 'Spanish Civil War', 'Guerra Civil Espanyola') },
       { arte: 'historia/franquismo', ruta: '/estudiar/historia/franquismo', titulo: T('Franquismo y Transición', 'Francoism and Transition', 'Franquisme i Transició') },
+    ],
+  },
+  {
+    curso: 'bachillerato',
+    materia: 'fisica-quimica',
+    arteMateria: 'fisica',
+    nombre: T('Física y Química', 'Physics and chemistry', 'Física i Química'),
+    titulo: T('Física y Química de 1.º de Bachillerato', 'Sixth-form physics and chemistry', 'Física i Química de 1r de Batxillerat'),
+    metaDesc: T(
+      'Cinemática y gráficas x-t y v-t, dinámica y leyes de Newton, el mol y la estequiometría, gases ideales y formulación para 1.º de Bachillerato, con exámenes explicados.',
+      'Kinematics and x-t and v-t graphs, dynamics and Newton’s laws, the mole and stoichiometry, ideal gases and chemical formulas for sixth form, with explained quizzes.',
+      'Cinemàtica i gràfiques x-t i v-t, dinàmica i lleis de Newton, el mol i l’estequiometria, gasos ideals i formulació per a 1r de Batxillerat, amb exàmens explicats.',
+    ),
+    intro: {
+      es: [
+        'La Física y Química de 1.º de Bachillerato es la asignatura donde la ESO deja de bastar. Los temas suenan a conocidos —el movimiento, las fuerzas, las reacciones— pero ahora todo se calcula: hay que leer una gráfica velocidad-tiempo y sacar de ella la aceleración y la distancia, descomponer el peso en un plano inclinado o saber cuántos gramos de producto salen de una reacción con un reactivo que se acaba antes que el otro.',
+        'Casi todos los fallos de examen son de planteamiento, no de cuentas: usar el seno en vez del coseno, poner la temperatura en grados Celsius en PV = nRT, confundir el reactivo limitante con el que tiene menos moles o la distancia recorrida con el desplazamiento. Las preguntas de esta página están hechas con esos errores como opciones, y cada explicación dice de dónde sale el número bueno y de dónde los malos.',
+      ],
+      en: [
+        'First-year sixth-form physics and chemistry is where secondary-school knowledge stops being enough. The topics sound familiar — motion, forces, reactions — but now everything is calculated: you read a velocity-time graph and get the acceleration and distance from it, split weight into components on an incline, or work out how many grams of product a reaction gives when one reactant runs out before the other.',
+        'Nearly all exam mistakes are in the setting up, not the arithmetic: using sine instead of cosine, putting the temperature in degrees Celsius into PV = nRT, confusing the limiting reactant with the one with fewer moles, or distance travelled with displacement. The questions on this page use exactly those mistakes as options, and every explanation says where the right number comes from and where the wrong ones do.',
+      ],
+      ca: [
+        'La Física i Química de 1r de Batxillerat és l’assignatura on l’ESO deixa de ser suficient. Els temes sonen coneguts —el moviment, les forces, les reaccions— però ara tot es calcula: cal llegir una gràfica velocitat-temps i treure’n l’acceleració i la distància, descompondre el pes en un pla inclinat o saber quants grams de producte surten d’una reacció amb un reactiu que s’acaba abans que l’altre.',
+        'Gairebé tots els errors d’examen són de plantejament, no de comptes: fer servir el sinus en lloc del cosinus, posar la temperatura en graus Celsius a PV = nRT, confondre el reactiu limitant amb el que té menys mols o la distància recorreguda amb el desplaçament. Les preguntes d’aquesta pàgina estan fetes amb aquests errors com a opcions, i cada explicació diu d’on surt el nombre bo i d’on surten els dolents.',
+      ],
+    },
+    practica: {
+      es: ['Gráficas x-t y v-t: pendiente y área', 'MRU, MRUA y caída libre', 'Leyes de Newton, rozamiento y plano inclinado', 'Momento lineal y gravitación', 'El mol, gases ideales y estequiometría', 'Formulación inorgánica'],
+      en: ['x-t and v-t graphs: slope and area', 'Uniform and accelerated motion, free fall', 'Newton’s laws, friction and inclined planes', 'Momentum and gravitation', 'The mole, ideal gases and stoichiometry', 'Inorganic chemical formulas'],
+      ca: ['Gràfiques x-t i v-t: pendent i àrea', 'MRU, MRUA i caiguda lliure', 'Lleis de Newton, fregament i pla inclinat', 'Moment lineal i gravitació', 'El mol, gasos ideals i estequiometria', 'Formulació inorgànica'],
+    },
+    juegos: ['lee-el-movimiento', 'fuerza-neta', 'nombra-compuesto', 'balanza-ecuaciones', 'encuentra-elemento', 'medidor-ph'],
+    temas: [
+      { arte: 'fisica/movimiento', ruta: '/estudiar/fisica/movimiento', titulo: T('El movimiento', 'Motion', 'El moviment') },
+      { arte: 'fisica/dinamica', ruta: '/estudiar/fisica/dinamica', titulo: T('Dinámica', 'Dynamics', 'Dinàmica') },
+      { arte: 'quimica/estequiometria', ruta: '/estudiar/quimica/estequiometria', titulo: T('El mol y la estequiometría', 'The mole and stoichiometry', 'El mol i l’estequiometria') },
+      { arte: 'quimica/formulacion', ruta: '/estudiar/quimica/formulacion', titulo: T('Formulación química', 'Chemical formulas', 'Formulació química') },
+      { arte: 'quimica/disoluciones', ruta: '/estudiar/quimica/disoluciones', titulo: T('Disoluciones', 'Solutions', 'Dissolucions') },
+      { arte: 'quimica/tabla-periodica', ruta: '/estudiar/quimica/tabla-periodica', titulo: T('Tabla periódica', 'Periodic table', 'Taula periòdica') },
     ],
   },
   {

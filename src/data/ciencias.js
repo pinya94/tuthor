@@ -48,6 +48,8 @@ export const TEMA_DISCIPLINA = {
   'calor-temperatura':  'fisica',
   'maquinas':           'fisica',
   'movimiento':         'fisica',
+  'dinamica':           'fisica',
+  'estequiometria':     'quimica',
   formulacion:          'quimica',
   disoluciones:         'quimica',
   'celula':             'biologia',

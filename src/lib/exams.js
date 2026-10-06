@@ -565,6 +565,16 @@ export const EXAMS = {
     emoji: '🦠', subject: 'biologia',
     path: 'examen/salud-enfermedad', page: () => import('../pages/SaludEnfermedadExamen'),
   },
+  'estequiometria': {
+    label: { es: 'El Mol y la Estequiometría', en: 'The Mole and Stoichiometry', ca: 'El Mol i l’Estequiometria' },
+    emoji: '🧮', subject: 'quimica',
+    path: 'examen/estequiometria', page: () => import('../pages/EstequiometriaExamen'),
+  },
+  'dinamica': {
+    label: { es: 'Dinámica', en: 'Dynamics', ca: 'Dinàmica' },
+    emoji: '🛷', subject: 'fisica',
+    path: 'examen/dinamica', page: () => import('../pages/DinamicaExamen'),
+  },
   'disoluciones': {
     label: { es: 'Disoluciones', en: 'Solutions', ca: 'Dissolucions' },
     emoji: '🧪', subject: 'quimica',

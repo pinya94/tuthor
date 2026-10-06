@@ -391,6 +391,7 @@ export const TOPIC_CATALOG = {
       'calor-temperatura': examTema({ teoria: 'calor-temperatura' }, { niveles: ['primaria', 'eso'] }),
       maquinas: examTema({ teoria: 'maquinas', engranajes: 'engranajes-test' }, { niveles: ['primaria', 'eso'] }),
       movimiento: examTema({ teoria: 'movimiento', graficas: 'lee-el-movimiento-test' }, { niveles: ['eso', 'bachillerato'] }),
+      dinamica: examTema({ teoria: 'dinamica' }, { niveles: ['eso', 'bachillerato'] }),
     },
     formatos: {
       teoria: examFormato({ es: 'Teoría (tipo test)', en: 'Theory (quiz)', ca: 'Teoria (tipus test)' }, '📝'),
@@ -414,6 +415,7 @@ export const TOPIC_CATALOG = {
       'acidos-bases': examTema({ teoria: 'acidos-bases', 'medidor-ph': 'medidor-ph-test' }, { niveles: ['eso'] }),
       formulacion: examTema({ teoria: 'formulacion', nombra: 'nombra-compuesto-test' }, { niveles: ['eso'] }),
       disoluciones: examTema({ teoria: 'disoluciones' }, { niveles: ['eso'] }),
+      estequiometria: examTema({ teoria: 'estequiometria' }, { niveles: ['eso', 'bachillerato'] }),
     },
     formatos: {
       teoria: examFormato({ es: 'Teoría (tipo test)', en: 'Theory (quiz)', ca: 'Teoria (tipus test)' }, '📝'),

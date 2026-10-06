@@ -1018,6 +1018,122 @@ export const CONTENIDO_TEMA = {
     },
   },
 
+  estequiometria: {
+    metaTitle: {
+      es: 'El mol y la estequiometría: masa molar, gases y reactivo limitante — resumen',
+      en: 'The mole and stoichiometry: molar mass, gases and limiting reactant — a summary',
+      ca: 'El mol i l’estequiometria: massa molar, gasos i reactiu limitant — resum',
+    },
+    metaDesc: {
+      es: 'El mol y el número de Avogadro, la masa molar, las leyes ponderales, los gases ideales y los cálculos con reacciones: reactivo limitante, pureza y rendimiento. Resumen y test.',
+      en: 'The mole and Avogadro’s number, molar mass, the mass laws, ideal gases and reaction calculations: limiting reactant, purity and yield. Summary and test.',
+      ca: 'El mol i el nombre d’Avogadro, la massa molar, les lleis ponderals, els gasos ideals i els càlculs amb reaccions: reactiu limitant, puresa i rendiment. Resum i test.',
+    },
+    resumen: {
+      es: [
+        'Los átomos son demasiado pequeños para contarlos uno a uno, así que la química los cuenta por moles: un mol son 6,022 · 10²³ partículas (el número de Avogadro). La masa molar dice cuánto pesa un mol y se obtiene sumando las masas atómicas de la fórmula: el agua, H₂O, tiene 2 · 1 + 16 = 18 g/mol. Con ella se pasa de gramos a moles (n = m ÷ M) y de moles a gramos.',
+        'Una ecuación ajustada se lee en moles: 2 H₂ + O₂ → 2 H₂O significa que 2 mol de hidrógeno reaccionan con 1 de oxígeno. Para calcular, se pasa el dato a moles, se aplica la proporción de los coeficientes y se vuelve a la unidad pedida. El reactivo que se acaba antes es el limitante y decide cuánto producto sale; en la práctica sale menos (rendimiento) y las muestras no son puras (riqueza). En los gases, PV = nRT con la temperatura siempre en kelvin, y 1 mol ocupa 22,4 L a 0 °C y 1 atm.',
+      ],
+      en: [
+        'Atoms are far too small to count one by one, so chemistry counts them in moles: one mole is 6.022 · 10²³ particles (Avogadro’s number). The molar mass says how much a mole weighs and is found by adding the atomic masses in the formula: water, H₂O, has 2 · 1 + 16 = 18 g/mol. With it you convert grams to moles (n = m ÷ M) and moles to grams.',
+        'A balanced equation is read in moles: 2 H₂ + O₂ → 2 H₂O means 2 mol of hydrogen react with 1 of oxygen. To calculate, convert the data to moles, apply the ratio of the coefficients and convert back to the unit asked for. The reactant that runs out first is the limiting one and decides how much product forms; in practice less forms (yield) and samples are not pure (purity). For gases, PV = nRT with temperature always in kelvin, and 1 mol takes up 22.4 L at 0 °C and 1 atm.',
+      ],
+      ca: [
+        'Els àtoms són massa petits per comptar-los un per un, així que la química els compta per mols: un mol són 6,022 · 10²³ partícules (el nombre d’Avogadro). La massa molar diu quant pesa un mol i s’obté sumant les masses atòmiques de la fórmula: l’aigua, H₂O, té 2 · 1 + 16 = 18 g/mol. Amb ella es passa de grams a mols (n = m ÷ M) i de mols a grams.',
+        'Una equació ajustada es llegeix en mols: 2 H₂ + O₂ → 2 H₂O vol dir que 2 mol d’hidrogen reaccionen amb 1 d’oxigen. Per calcular, es passa la dada a mols, s’aplica la proporció dels coeficients i es torna a la unitat demanada. El reactiu que s’acaba abans és el limitant i decideix quant producte surt; a la pràctica en surt menys (rendiment) i les mostres no són pures (riquesa). En els gasos, PV = nRT amb la temperatura sempre en kelvin, i 1 mol ocupa 22,4 L a 0 °C i 1 atm.',
+      ],
+    },
+    puntosClave: {
+      es: [
+        '1 mol = 6,022 · 10²³ partículas (número de Avogadro).',
+        'Masa molar: suma de las masas atómicas de la fórmula, en g/mol.',
+        'n = m ÷ M: de gramos a moles; m = n · M: de moles a gramos.',
+        'Lavoisier: la masa se conserva. Proust: cada compuesto tiene una proporción fija en masa.',
+        'Los coeficientes de una ecuación ajustada son proporciones en moles, no en gramos.',
+        'El reactivo limitante es el que se acaba antes, no el que tiene menos moles.',
+        'Rendimiento = obtenido ÷ teórico · 100; nunca pasa del 100 %.',
+        'Gases: PV = nRT, con T en kelvin; 1 mol ocupa 22,4 L a 0 °C y 1 atm.',
+      ],
+      en: [
+        '1 mol = 6.022 · 10²³ particles (Avogadro’s number).',
+        'Molar mass: the sum of the atomic masses in the formula, in g/mol.',
+        'n = m ÷ M: grams to moles; m = n · M: moles to grams.',
+        'Lavoisier: mass is conserved. Proust: each compound has a fixed mass ratio.',
+        'The coefficients of a balanced equation are mole ratios, not gram ratios.',
+        'The limiting reactant is the one that runs out first, not the one with fewer moles.',
+        'Yield = obtained ÷ theoretical · 100; it never exceeds 100 %.',
+        'Gases: PV = nRT, with T in kelvin; 1 mol takes up 22.4 L at 0 °C and 1 atm.',
+      ],
+      ca: [
+        '1 mol = 6,022 · 10²³ partícules (nombre d’Avogadro).',
+        'Massa molar: suma de les masses atòmiques de la fórmula, en g/mol.',
+        'n = m ÷ M: de grams a mols; m = n · M: de mols a grams.',
+        'Lavoisier: la massa es conserva. Proust: cada compost té una proporció fixa en massa.',
+        'Els coeficients d’una equació ajustada són proporcions en mols, no en grams.',
+        'El reactiu limitant és el que s’acaba abans, no el que té menys mols.',
+        'Rendiment = obtingut ÷ teòric · 100; mai no passa del 100 %.',
+        'Gasos: PV = nRT, amb T en kelvin; 1 mol ocupa 22,4 L a 0 °C i 1 atm.',
+      ],
+    },
+  },
+  dinamica: {
+    metaTitle: {
+      es: 'Dinámica: leyes de Newton, rozamiento, plano inclinado y gravitación — resumen',
+      en: 'Dynamics: Newton’s laws, friction, inclined planes and gravitation — a summary',
+      ca: 'Dinàmica: lleis de Newton, fregament, pla inclinat i gravitació — resum',
+    },
+    metaDesc: {
+      es: 'Las tres leyes de Newton, peso y masa, rozamiento, plano inclinado, tensiones, momento lineal e impulso, fuerza centrípeta y gravitación universal. Resumen y test.',
+      en: 'Newton’s three laws, weight and mass, friction, inclined planes, tension, momentum and impulse, centripetal force and universal gravitation. Summary and test.',
+      ca: 'Les tres lleis de Newton, pes i massa, fregament, pla inclinat, tensions, moment lineal i impuls, força centrípeta i gravitació universal. Resum i test.',
+    },
+    resumen: {
+      es: [
+        'La dinámica estudia por qué se mueven los cuerpos. Las tres leyes de Newton lo resumen: sin fuerza neta, un cuerpo sigue en reposo o en línea recta a velocidad constante (inercia); la fuerza neta produce una aceleración, F = m · a; y si A empuja a B, B empuja a A con la misma fuerza en sentido contrario. El peso es una fuerza, P = m · g, mientras que la masa no cambia de un planeta a otro.',
+        'Para resolver un problema se dibujan todas las fuerzas sobre el cuerpo y se suman como vectores: el peso, la normal, el rozamiento (F = μ · N) y las tensiones. En un plano inclinado el peso se descompone en m · g · sen α, que lo hace bajar, y m · g · cos α, que equilibra la normal. El momento lineal, p = m · v, se conserva cuando no hay fuerzas externas; para girar hace falta una fuerza centrípeta, m · v² ÷ r; y dos masas se atraen con F = G · m₁ · m₂ ÷ d².',
+      ],
+      en: [
+        'Dynamics studies why bodies move. Newton’s three laws sum it up: with no net force a body stays at rest or moves in a straight line at constant speed (inertia); a net force produces an acceleration, F = m · a; and if A pushes B, B pushes A with the same force in the opposite direction. Weight is a force, W = m · g, while mass does not change from one planet to another.',
+        'To solve a problem, draw every force on the body and add them as vectors: weight, the normal force, friction (F = μ · N) and tension. On an incline, weight splits into m · g · sin α, which pulls it down, and m · g · cos α, which the normal force balances. Momentum, p = m · v, is conserved when there are no external forces; turning needs a centripetal force, m · v² ÷ r; and two masses attract with F = G · m₁ · m₂ ÷ d².',
+      ],
+      ca: [
+        'La dinàmica estudia per què es mouen els cossos. Les tres lleis de Newton ho resumeixen: sense força neta, un cos continua en repòs o en línia recta a velocitat constant (inèrcia); la força neta produeix una acceleració, F = m · a; i si A empeny B, B empeny A amb la mateixa força en sentit contrari. El pes és una força, P = m · g, mentre que la massa no canvia d’un planeta a un altre.',
+        'Per resoldre un problema es dibuixen totes les forces sobre el cos i se sumen com a vectors: el pes, la normal, el fregament (F = μ · N) i les tensions. En un pla inclinat el pes es descompon en m · g · sin α, que el fa baixar, i m · g · cos α, que equilibra la normal. El moment lineal, p = m · v, es conserva quan no hi ha forces externes; per girar cal una força centrípeta, m · v² ÷ r; i dues masses s’atrauen amb F = G · m₁ · m₂ ÷ d².',
+      ],
+    },
+    puntosClave: {
+      es: [
+        '1.ª ley: sin fuerza neta, reposo o velocidad constante.',
+        '2.ª ley: F = m · a (1 N = 1 kg · 1 m/s²).',
+        '3.ª ley: acción y reacción, iguales y sobre cuerpos distintos.',
+        'Peso P = m · g (newtons); la masa (kg) no cambia de un lugar a otro.',
+        'Rozamiento: F = μ · N, siempre en contra del movimiento.',
+        'Plano inclinado: m · g · sen α hacia abajo; N = m · g · cos α.',
+        'Momento lineal p = m · v; se conserva sin fuerzas externas.',
+        'Fuerza centrípeta m · v² ÷ r; gravitación F = G · m₁ · m₂ ÷ d².',
+      ],
+      en: [
+        '1st law: no net force, rest or constant velocity.',
+        '2nd law: F = m · a (1 N = 1 kg · 1 m/s²).',
+        '3rd law: action and reaction, equal and on different bodies.',
+        'Weight W = m · g (newtons); mass (kg) does not change from place to place.',
+        'Friction: F = μ · N, always opposing motion.',
+        'Incline: m · g · sin α down the slope; N = m · g · cos α.',
+        'Momentum p = m · v; conserved without external forces.',
+        'Centripetal force m · v² ÷ r; gravitation F = G · m₁ · m₂ ÷ d².',
+      ],
+      ca: [
+        '1a llei: sense força neta, repòs o velocitat constant.',
+        '2a llei: F = m · a (1 N = 1 kg · 1 m/s²).',
+        '3a llei: acció i reacció, iguals i sobre cossos diferents.',
+        'Pes P = m · g (newtons); la massa (kg) no canvia d’un lloc a un altre.',
+        'Fregament: F = μ · N, sempre en contra del moviment.',
+        'Pla inclinat: m · g · sin α cap avall; N = m · g · cos α.',
+        'Moment lineal p = m · v; es conserva sense forces externes.',
+        'Força centrípeta m · v² ÷ r; gravitació F = G · m₁ · m₂ ÷ d².',
+      ],
+    },
+  },
   'disoluciones': {
     metaTitle: {
       es: 'Las Disoluciones: soluto, disolvente y concentración — resumen',

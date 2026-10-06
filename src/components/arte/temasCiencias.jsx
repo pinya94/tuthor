@@ -604,6 +604,44 @@ function AtmosferaClima(p) {
 
 // Clave = `<disciplina>/<id del tema>` (QuimicaIndex, data/ciencias.js).
 // Máquinas: una palanca con su apoyo y dos engranajes encajados.
+function Dinamica(p) {
+  // Un bloque apoyado en un plano inclinado (21,8°): el peso hacia abajo, la
+  // normal perpendicular al plano y la componente del peso que lo hace bajar.
+  return (
+    <Lienzo {...p}>
+      <path d="M20 120H220L20 40Z" fill="#334155" stroke="#94A3B8" strokeWidth="2" strokeLinejoin="round" />
+      <g transform="rotate(21.8 96 70.4)">
+        <rect x="78" y="48.4" width="36" height="22" rx="3" fill="#F97316" />
+      </g>
+      <path d="M100 62V108" stroke="#F8FAFC" strokeWidth="3" strokeLinecap="round" />
+      <path d="M95 104L100 113L105 104" fill="#F8FAFC" />
+      <path d="M100 62L110 37" stroke="#4ADE80" strokeWidth="3" strokeLinecap="round" />
+      <path d="M104.5 39.5L112 31L114 42.5Z" fill="#4ADE80" />
+      <path d="M100 62L136 76.4" stroke="#FBBF24" strokeWidth="3" strokeLinecap="round" strokeDasharray="5 3" />
+      <T x={112} y={124} s={12} c="#F8FAFC">P</T>
+      <T x={124} y={36} s={12} c="#4ADE80">N</T>
+    </Lienzo>
+  )
+}
+
+function Estequiometria(p) {
+  // Un matraz con moléculas contadas y el número de Avogadro.
+  return (
+    <Lienzo {...p}>
+      <path d="M84 20H112V54L140 112Q142 120 134 120H62Q54 120 56 112L84 54Z" fill="#10B981" fillOpacity=".2" stroke="#6EE7B7" strokeWidth="3" strokeLinejoin="round" />
+      {[[80, 104], [98, 98], [116, 106], [90, 86], [108, 82]].map(([x, y]) => (
+        <g key={`${x}${y}`}>
+          <circle cx={x} cy={y} r="6" fill="#F87171" />
+          <circle cx={x + 7} cy={y - 4} r="3.5" fill="#F8FAFC" />
+          <circle cx={x - 7} cy={y - 4} r="3.5" fill="#F8FAFC" />
+        </g>
+      ))}
+      <T x={188} y={58} s={22} c="#6EE7B7">1 mol</T>
+      <T x={188} y={86} s={13} c="#CBD5E1">6,022·10²³</T>
+    </Lienzo>
+  )
+}
+
 function Movimiento(p) {
   // Un coche con estelas de velocidad y su gráfica v-t: tramo que sube y tramo plano.
   return (
@@ -670,6 +708,8 @@ export const ARTE_TEMAS_CIENCIAS = {
   'fisica/ondas-luz': OndasLuz,
   'fisica/maquinas': Maquinas,
   'fisica/movimiento': Movimiento,
+  'fisica/dinamica': Dinamica,
+  'quimica/estequiometria': Estequiometria,
   'biologia/salud-enfermedad': SaludEnfermedad,
   'geologia/atmosfera-clima': AtmosferaClima,
 }
