@@ -505,6 +505,13 @@ const MODOS_POR_TEMA = {
       detalles: { es:['2 niveles','10 preguntas','Opción múltiple','Explicación tras cada respuesta'], en:['2 levels','10 questions','Multiple choice','Explanation after each answer'], ca:['2 nivells','10 preguntes','Opció múltiple','Explicació després de cada resposta'] },
       path: 'formulacion',
     },
+    {
+      id: 'nombra-compuesto-test', emoji: '🔣', gradient: 'from-emerald-500 to-teal-700',
+      titulo: { es:'Nombra el compuesto (con el juego)', en:'Name the Compound (with the game)', ca:'Anomena el compost (amb el joc)' },
+      descripcion: { es:'Con la mecánica del juego: de nombre a fórmula y de fórmula a nombre en óxidos, hidruros, sales, hidróxidos y oxoácidos, con el cruce de valencias.', en:'Using the game mechanic: from name to formula and back for oxides, hydrides, salts, hydroxides and oxoacids, with the valency swap.', ca:'Amb la mecànica del joc: de nom a fórmula i de fórmula a nom en òxids, hidrurs, sals, hidròxids i oxoàcids, amb l’encreuament de valències.' },
+      detalles: { es:['3 niveles','10 preguntas','Sin cronómetro','Con el juego'], en:['3 levels','10 questions','No timer','With the game'], ca:['3 nivells','10 preguntes','Sense cronòmetre','Amb el joc'] },
+      path: 'nombra-compuesto-test',
+    },
   ],
   disoluciones: [
     {

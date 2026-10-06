@@ -1451,6 +1451,34 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Física', niveles: 'Primaria, ESO',
   },
+  'nombra-compuesto': {
+    titulo: 'Nombra el compuesto',
+    subtitulo: 'Juego de formulación inorgánica: Stock, prefijos y oxoácidos',
+    emoji: '🔣', gradient: 'from-emerald-500 to-teal-700',
+    path: '/juegos/nombra-compuesto',
+    intro: 'Un juego de química para practicar la formulación inorgánica de 3.º y 4.º de ESO sin hojas de ejercicios interminables. Sale el nombre de un compuesto y hay que elegir su fórmula, o sale la fórmula y hay que elegir su nombre. En el nivel fácil entran óxidos, hidruros metálicos y sales binarias, y también se pregunta de qué tipo es cada compuesto; en el medio se suman los hidróxidos y la nomenclatura de Stock (óxido de hierro(III)); en el difícil, los nombres por prefijos (trióxido de dihierro, pentaóxido de dinitrógeno) y los oxoácidos más comunes con su nombre tradicional. Al corregir aparece el cruce de valencias que explica la fórmula.',
+    beneficios: [
+      { titulo: 'El cruce de valencias, a la vista', texto: 'Escribir Fe₂O₃ a partir de «óxido de hierro(III)» es intercambiar las valencias: el 3 del hierro baja al oxígeno y el 2 del oxígeno baja al hierro. Cada corrección dibuja ese cruce, y cuando hay que simplificar (CaO y no Ca₂O₂) lo explica.' },
+      { titulo: 'Los errores de verdad, como opciones', texto: 'Las fórmulas equivocadas son las que escriben los alumnos: la otra valencia del metal, los subíndices al revés, sin simplificar o el hidróxido sin paréntesis (FeOH₃). En los nombres, el número romano que sobra en un metal de una sola valencia o el subíndice leído como valencia.' },
+      { titulo: 'Sin respuestas discutibles', texto: 'De fórmula a nombre siempre se dice qué nomenclatura se pide, y por prefijos solo salen compuestos en los que no hay discusión: nada de «monóxido de calcio» frente a «óxido de calcio» ni de óxidos de cloro, que desde 2005 se nombran de dos maneras según el libro.' },
+    ],
+    ejemplo: 'Sale «sulfuro de hierro(III)». El hierro actúa con valencia 3 y el azufre, en los sulfuros, con 2. Se cruzan: Fe₂S₃. No se puede simplificar, así que esa es la fórmula. Entre las opciones equivocadas pueden salir FeS (la valencia 2 del hierro), Fe₃S₂ (los números al revés) o Fe₃S₃.',
+    enPapel: {
+      titulo: 'Dominó de formulación',
+      pasos: [
+        'Escribid en tarjetas fórmulas de un lado y nombres de otro, mezclados: Fe₂O₃ | cloruro de sodio, NaCl | hidróxido de calcio…',
+        'Repartid las fichas y colocadlas uniendo cada nombre con su fórmula.',
+        'Quien no pueda colocar, roba; gana quien se queda sin fichas.',
+        'Al final, revisad juntos las que costaron más y por qué.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'El examen de Formulación', desc: 'Tipo test sobre cómo leer una fórmula, valencias y números de oxidación, con explicación en cada respuesta.' },
+      { nombre: 'Átomos en Equilibrio', desc: 'Otro juego de química: ajusta reacciones químicas con los coeficientes y comprueba en la balanza que no sobra ni falta ningún átomo.' },
+      { nombre: 'Encuentra el Elemento', desc: 'Para repasar dónde está cada elemento en la tabla periódica, que es lo que da pistas sobre sus valencias.' },
+    ],
+    asignatura: 'Química', niveles: 'ESO, Bachillerato',
+  },
   'encuentra-elemento': {
     titulo: 'Encuentra el Elemento',
     subtitulo: 'Juego de la Tabla Periódica',
@@ -2888,6 +2916,33 @@ export const FICHAS_EN = {
       { nombre: 'The bouncing ball', desc: 'Drop a ball from one metre and measure how high it bounces. It never gets back to the same height: where has that energy gone?' },
     ],
     asignatura: 'Physics', niveles: 'Primary, Secondary',
+  },
+  'nombra-compuesto': {
+    titulo: 'Name the Compound',
+    subtitulo: 'Inorganic nomenclature game: Stock, prefixes and oxoacids',
+    emoji: '🔣', gradient: 'from-emerald-500 to-teal-700', path: '/juegos/nombra-compuesto',
+    intro: 'A chemistry game for practising inorganic nomenclature without endless worksheets. A compound’s name appears and you pick its formula, or the formula appears and you pick its name. On easy there are oxides, metal hydrides and binary salts, and you are also asked what type each compound is; on medium hydroxides and Stock nomenclature come in (iron(III) oxide); on hard, prefix names (diiron trioxide, dinitrogen pentaoxide) and the most common oxoacids with their traditional names. When you answer, the valency swap that explains the formula appears.',
+    beneficios: [
+      { titulo: 'The valency swap, on show', texto: 'Writing Fe₂O₃ from “iron(III) oxide” means swapping the valencies: iron’s 3 drops to the oxygen and oxygen’s 2 drops to the iron. Every correction draws that swap, and when you need to simplify (CaO, not Ca₂O₂) it explains it.' },
+      { titulo: 'Real mistakes as options', texto: 'The wrong formulas are the ones students actually write: the metal’s other valency, the subscripts swapped, unsimplified or a hydroxide without brackets (FeOH₃). In names, the unnecessary Roman numeral on a single-valency metal or the subscript read as a valency.' },
+      { titulo: 'No debatable answers', texto: 'From formula to name it always says which nomenclature is wanted, and prefix questions only use compounds where there is no debate: no “calcium monoxide” versus “calcium oxide” and no chlorine oxides, which since 2005 are named two ways depending on the textbook.' },
+    ],
+    ejemplo: 'Out comes “iron(III) sulfide”. Iron has valency 3 and sulfur, in sulfides, has 2. Swap them: Fe₂S₃. It cannot be simplified, so that is the formula. The wrong options can include FeS (iron’s valency 2), Fe₃S₂ (the numbers swapped) or Fe₃S₃.',
+    enPapel: {
+      titulo: 'Nomenclature dominoes',
+      pasos: [
+        'Write formulas on one half of some cards and names on the other, mixed up: Fe₂O₃ | sodium chloride, NaCl | calcium hydroxide…',
+        'Deal the cards and lay them down matching each name to its formula.',
+        'If you cannot play, draw a card; whoever runs out first wins.',
+        'At the end, go over together the ones that were hardest and why.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'The Nomenclature exam', desc: 'Multiple choice on reading a formula, valencies and oxidation numbers, with an explanation for each answer.' },
+      { nombre: 'Atoms in Balance', desc: 'Another chemistry game: balance chemical equations with coefficients and check on the scales that no atom is missing or left over.' },
+      { nombre: 'Find the Element', desc: 'For revising where each element is in the periodic table, which gives clues to its valencies.' },
+    ],
+    asignatura: 'Chemistry', niveles: 'Secondary, Sixth Form',
   },
   'encuentra-elemento': {
     titulo: 'Find the Element',
@@ -4400,6 +4455,33 @@ export const FICHAS_CA = {
       { nombre: 'La pilota que rebota', desc: 'Deixa caure una pilota des d’un metre i mesura fins on puja. Mai no torna a la mateixa altura: on ha anat aquella energia?' },
     ],
     asignatura: 'Física', niveles: 'Primària, ESO',
+  },
+  'nombra-compuesto': {
+    titulo: 'Anomena el compost',
+    subtitulo: 'Joc de formulació inorgànica: Stock, prefixos i oxoàcids',
+    emoji: '🔣', gradient: 'from-emerald-500 to-teal-700', path: '/juegos/nombra-compuesto',
+    intro: 'Un joc de química per practicar la formulació inorgànica de 3r i 4t d’ESO sense fulls d’exercicis interminables. Surt el nom d’un compost i cal triar-ne la fórmula, o surt la fórmula i cal triar-ne el nom. Al nivell fàcil hi entren òxids, hidrurs metàl·lics i sals binàries, i també es pregunta de quin tipus és cada compost; al mitjà s’hi sumen els hidròxids i la nomenclatura de Stock (òxid de ferro(III)); al difícil, els noms amb prefixos (triòxid de diferro, pentaòxid de dinitrogen) i els oxoàcids més comuns amb el nom tradicional. En corregir apareix l’encreuament de valències que explica la fórmula.',
+    beneficios: [
+      { titulo: 'L’encreuament de valències, a la vista', texto: 'Escriure Fe₂O₃ a partir d’«òxid de ferro(III)» és intercanviar les valències: el 3 del ferro baixa a l’oxigen i el 2 de l’oxigen baixa al ferro. Cada correcció dibuixa aquest encreuament, i quan cal simplificar (CaO i no Ca₂O₂) ho explica.' },
+      { titulo: 'Els errors de debò, com a opcions', texto: 'Les fórmules equivocades són les que escriuen els alumnes: l’altra valència del metall, els subíndexs al revés, sense simplificar o l’hidròxid sense parèntesis (FeOH₃). En els noms, el nombre romà que sobra en un metall d’una sola valència o el subíndex llegit com a valència.' },
+      { titulo: 'Sense respostes discutibles', texto: 'De fórmula a nom sempre es diu quina nomenclatura es demana, i amb prefixos només surten compostos en què no hi ha discussió: res de «monòxid de calci» davant d’«òxid de calci» ni d’òxids de clor, que des del 2005 s’anomenen de dues maneres segons el llibre.' },
+    ],
+    ejemplo: 'Surt «sulfur de ferro(III)». El ferro actua amb valència 3 i el sofre, en els sulfurs, amb 2. S’encreuen: Fe₂S₃. No es pot simplificar, així que aquesta és la fórmula. Entre les opcions equivocades hi pot haver FeS (la valència 2 del ferro), Fe₃S₂ (els nombres al revés) o Fe₃S₃.',
+    enPapel: {
+      titulo: 'Dòmino de formulació',
+      pasos: [
+        'Escriviu en targetes fórmules en una meitat i noms a l’altra, barrejats: Fe₂O₃ | clorur de sodi, NaCl | hidròxid de calci…',
+        'Repartiu les fitxes i col·loqueu-les unint cada nom amb la seva fórmula.',
+        'Qui no pugui col·locar, roba; guanya qui es queda sense fitxes.',
+        'Al final, reviseu junts les que han costat més i per què.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'L’examen de Formulació', desc: 'Tipus test sobre com llegir una fórmula, valències i nombres d’oxidació, amb explicació a cada resposta.' },
+      { nombre: 'Àtoms en Equilibri', desc: 'Un altre joc de química: ajusta reaccions químiques amb els coeficients i comprova a la balança que no sobra ni falta cap àtom.' },
+      { nombre: 'Troba l’Element', desc: 'Per repassar on és cada element a la taula periòdica, que és el que dona pistes sobre les seves valències.' },
+    ],
+    asignatura: 'Química', niveles: 'ESO, Batxillerat',
   },
   'encuentra-elemento': {
     titulo: 'Troba l\'Element',

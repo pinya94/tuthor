@@ -139,6 +139,7 @@ const PonLaTilde             = lazy(() => import('./pages/PonLaTilde'))
 const CorrigeElTexto         = lazy(() => import('./pages/CorrigeElTexto'))
 const CambioEstado           = lazy(() => import('./pages/CambioEstado'))
 const MedidorPh              = lazy(() => import('./pages/MedidorPh'))
+const NombraCompuesto        = lazy(() => import('./pages/NombraCompuesto'))
 const ElLaboratorio          = lazy(() => import('./pages/ElLaboratorio'))
 const Diagnostico            = lazy(() => import('./pages/Diagnostico'))
 const FraccionesTema         = lazy(() => import('./pages/FraccionesTema'))
@@ -221,6 +222,7 @@ function AppRoutes() {
       <Route path="juegos/corrige-el-texto" element={<CorrigeElTexto />} />
       <Route path="juegos/cambio-estado" element={<CambioEstado />} />
       <Route path="juegos/medidor-ph" element={<MedidorPh />} />
+      <Route path="juegos/nombra-compuesto" element={<NombraCompuesto />} />
       <Route path="juegos/el-laboratorio" element={<ElLaboratorio />} />
       <Route path="juegos/pieza-que-falta" element={<PiezaQueFalta />} />
       <Route path="examen/ingles/:tema/:formato" element={<ExamenTema materia="ingles" />} />

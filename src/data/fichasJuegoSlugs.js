@@ -8,7 +8,7 @@ export const FICHAS_JUEGO_SLUGS = new Set([
   'encuentra-elemento', 'epocas-historicas', 'escalera-unidades',
   'estadistico-expres', 'fuerza-neta', 'funciones-grafica', 'genetica',
   'geomapa', 'georush', 'intruso', 'lee-el-grafico', 'linea-temporal',
-  'medidor-ph', 'menor-a-mayor', 'microscopio', 'numeros-romanos', 'numpath', 'oferta-demanda',
+  'medidor-ph', 'menor-a-mayor', 'microscopio', 'nombra-compuesto', 'numeros-romanos', 'numpath', 'oferta-demanda',
   'orbita', 'ordena-frase', 'pentagrama-path', 'pieza-que-falta', 'piramide-poblacion',
   'pon-la-tilde', 'portadas', 'portero', 'quien-es-quien', 'rayo-de-luz',
   'rayos-x', 'reaccion', 'rebajas', 'redondeo', 'reloj-horas', 'reparte-pastel',

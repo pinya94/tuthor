@@ -275,6 +275,14 @@ export const GAMES = {
     // aciertos × 10 puntos → hasta 200 monedas
     coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
   },
+  'nombra-compuesto': {
+    label: { es: 'Nombra el compuesto', en: 'Name the Compound', ca: 'Anomena el compost' },
+    emoji: '🔣',
+    subject: 'quimica',
+    route: '/juegos/nombra-compuesto',
+    // aciertos × 10 puntos → hasta 200 monedas
+    coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
+  },
   'medidor-ph': {
     label: { es: 'Medidor de pH', en: 'pH Meter', ca: 'Mesurador de pH' },
     emoji: '🧪',

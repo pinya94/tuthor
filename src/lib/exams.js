@@ -525,6 +525,11 @@ export const EXAMS = {
     emoji: '🥼', subject: 'quimica',
     path: 'examen/el-laboratorio-test', page: () => import('../pages/ElLaboratorioExamen'),
   },
+  'nombra-compuesto-test': {
+    label: { es: 'Nombra el compuesto (con el juego)', en: 'Name the Compound (with the game)', ca: 'Anomena el compost (amb el joc)' },
+    emoji: '🔣', subject: 'quimica',
+    path: 'examen/nombra-compuesto-test', page: () => import('../pages/NombraCompuestoExamen'),
+  },
   'medidor-ph-test': {
     label: { es: 'Medidor de pH', en: 'pH Meter', ca: 'Mesurador de pH' },
     emoji: '🧪', subject: 'quimica',

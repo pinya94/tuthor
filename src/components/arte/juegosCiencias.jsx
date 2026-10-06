@@ -478,6 +478,23 @@ function CadenaEnergia(p) {
   )
 }
 
+function NombraCompuesto(p) {
+  // El cruce de valencias: Fe³⁺ y O²⁻ se intercambian los números.
+  return (
+    <Lienzo {...p}>
+      <T x={62} y={46} s={26} c="#7DD3FC">Fe</T>
+      <T x={84} y={30} s={13} c="#7DD3FC">3+</T>
+      <T x={158} y={46} s={26} c="#F9A8D4">O</T>
+      <T x={176} y={30} s={13} c="#F9A8D4">2−</T>
+      <path d="M90 36L150 84M150 36L90 84" stroke="#FBBF24" strokeWidth="3" strokeLinecap="round" />
+      <T x={84} y={116} s={30} c="#4ADE80">Fe</T>
+      <T x={112} y={124} s={15} c="#4ADE80">2</T>
+      <T x={136} y={116} s={30} c="#4ADE80">O</T>
+      <T x={158} y={124} s={15} c="#4ADE80">3</T>
+    </Lienzo>
+  )
+}
+
 export const ARTE_CIENCIAS = {
   genetica: Genetica,
   'rayos-x': RayosX,
@@ -499,5 +516,6 @@ export const ARTE_CIENCIAS = {
   'encuentra-elemento': EncuentraElemento,
   'cambio-estado': CambioEstado,
   'medidor-ph': MedidorPh,
+  'nombra-compuesto': NombraCompuesto,
   'el-laboratorio': ElLaboratorio,
 }

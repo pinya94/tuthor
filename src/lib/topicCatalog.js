@@ -410,7 +410,7 @@ export const TOPIC_CATALOG = {
       'estados-materia': examTema({ teoria: 'estados-materia', 'estado-test': 'cambio-estado-test', 'nombres-cambio': 'nombres-cambio-test' }, { niveles: ['primaria', 'eso'] }),
       'mezclas-separacion': examTema({ teoria: 'mezclas-separacion', laboratorio: 'el-laboratorio-test' }, { niveles: ['primaria', 'eso'] }),
       'acidos-bases': examTema({ teoria: 'acidos-bases', 'medidor-ph': 'medidor-ph-test' }, { niveles: ['eso'] }),
-      formulacion: examTema({ teoria: 'formulacion' }, { niveles: ['eso'] }),
+      formulacion: examTema({ teoria: 'formulacion', nombra: 'nombra-compuesto-test' }, { niveles: ['eso'] }),
       disoluciones: examTema({ teoria: 'disoluciones' }, { niveles: ['eso'] }),
     },
     formatos: {
@@ -421,6 +421,7 @@ export const TOPIC_CATALOG = {
       // así que la tarea del profesor se completa sola al jugarla.
       'estado-test': examFormato({ es: 'Estados de la materia (examen)', en: 'States of matter (exam)', ca: 'Estats de la matèria (examen)' }, '🌡️'),
       laboratorio: examFormato({ es: 'El Laboratorio (con el juego)', en: 'The Lab (with the game)', ca: 'El Laboratori (amb el joc)' }, '🥼'),
+      nombra: examFormato({ es: 'Nombra el compuesto (con el juego)', en: 'Name the Compound (with the game)', ca: 'Anomena el compost (amb el joc)' }, '🔣'),
       'medidor-ph': examFormato({ es: 'Medidor de pH (con el juego)', en: 'pH Meter (with the game)', ca: 'Mesurador de pH (amb el joc)' }, '🧪'),
       'nombres-cambio': examFormato({ es: 'Nombres de los cambios (examen)', en: 'Naming the changes (exam)', ca: 'Noms dels canvis (examen)' }, '💨'),
       'cambio-estado': {

@@ -495,7 +495,7 @@ export const LANDINGS = [
       en: ['Net forces and Newton’s laws', 'Levers and moments', 'Series and parallel circuits', 'Changes of state of matter', 'Acids, bases and the pH scale', 'The periodic table and balancing equations'],
       ca: ['Forces resultants i lleis de Newton', 'Palanques i moments', 'Circuits en sèrie i en paral·lel', "Canvis d'estat de la matèria", 'Àcids, bases i l’escala de pH', 'Taula periòdica i ajust de reaccions'],
     },
-    juegos: ['fuerza-neta', 'balanza', 'flota-o-se-hunde', 'cadena-energia', 'engranajes', 'circuito-cerrado', 'cambio-estado', 'el-laboratorio', 'medidor-ph', 'encuentra-elemento', 'balanza-ecuaciones'],
+    juegos: ['fuerza-neta', 'balanza', 'flota-o-se-hunde', 'cadena-energia', 'engranajes', 'circuito-cerrado', 'cambio-estado', 'el-laboratorio', 'nombra-compuesto', 'medidor-ph', 'encuentra-elemento', 'balanza-ecuaciones'],
     temas: [
       { arte: 'fisica/fuerzas', ruta: '/estudiar/fisica/fuerzas', titulo: T('Fuerzas y movimiento', 'Forces and motion', 'Forces i moviment') },
       { arte: 'fisica/energia', ruta: '/estudiar/fisica/energia', titulo: T('Energía', 'Energy', 'Energia') },
