@@ -384,7 +384,7 @@ export const TOPIC_CATALOG = {
   fisica: {
     temas: {
       fuerzas: examTema({ teoria: 'fuerzas', 'fuerza-neta': 'fuerza-neta-test', balanza: 'balanza-test' }, { niveles: ['primaria', 'eso'] }),
-      energia: examTema({ teoria: 'energia' }, { niveles: ['primaria', 'eso'] }),
+      energia: examTema({ teoria: 'energia', cadena: 'cadena-energia-test' }, { niveles: ['primaria', 'eso'] }),
       electricidad: examTema({ teoria: 'electricidad', circuito: 'circuito-cerrado-test' }, { niveles: ['primaria', 'eso'] }),
       'ondas-luz': examTema({ teoria: 'ondas-luz', 'rayo-de-luz': 'rayo-de-luz-test' }, { niveles: ['primaria', 'eso'] }),
       'presion-fluidos': examTema({ teoria: 'presion-fluidos', flota: 'flota-o-se-hunde-test' }, { niveles: ['primaria', 'eso'] }),
@@ -397,6 +397,7 @@ export const TOPIC_CATALOG = {
       balanza: examFormato({ es: 'Balanza (con el juego)', en: 'Balance (with the game)', ca: 'Balança (amb el joc)' }, '⚖️'),
       circuito: examFormato({ es: 'Circuito Cerrado (con el juego)', en: 'Circuit Complete (with the game)', ca: 'Circuit Complet (amb el joc)' }, '💡'),
       'rayo-de-luz': examFormato({ es: 'Rayo de Luz (con el juego)', en: 'Light Beam (with the game)', ca: 'Raig de Llum (amb el joc)' }, '🔦'),
+      cadena: examFormato({ es: 'Cadena de energía (con el juego)', en: 'Energy Chain (with the game)', ca: 'Cadena d’energia (amb el joc)' }, '🔆'),
       engranajes: examFormato({ es: 'Engranajes (con el juego)', en: 'Gears (with the game)', ca: 'Engranatges (amb el joc)' }, '⚙️'),
       flota: examFormato({ es: '¿Flota o se hunde? (con el juego)', en: 'Float or Sink? (with the game)', ca: 'Sura o s’enfonsa? (amb el joc)' }, '🚢'),
     },

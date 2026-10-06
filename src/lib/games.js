@@ -299,6 +299,14 @@ export const GAMES = {
     // aciertos × 10 puntos → hasta 200 monedas
     coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
   },
+  'cadena-energia': {
+    label: { es: 'Cadena de energía', en: 'Energy Chain', ca: 'Cadena d’energia' },
+    emoji: '🔆',
+    subject: 'fisica',
+    route: '/juegos/cadena-energia',
+    // aciertos × 10 puntos → hasta 200 monedas
+    coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
+  },
   'engranajes': {
     label: { es: 'Engranajes', en: 'Gears', ca: 'Engranatges' },
     emoji: '⚙️',

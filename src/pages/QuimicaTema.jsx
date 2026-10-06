@@ -416,6 +416,13 @@ const MODOS_POR_TEMA = {
       detalles: { es:['2 niveles','10 preguntas','Opción múltiple','Explicación tras cada respuesta'], en:['2 levels','10 questions','Multiple choice','Explanation after each answer'], ca:['2 nivells','10 preguntes','Opció múltiple','Explicació després de cada resposta'] },
       path: 'energia',
     },
+    {
+      id: 'cadena-energia-test', emoji: '🔆', gradient: 'from-green-500 to-yellow-600',
+      titulo: { es:'Cadena de energía (con el juego)', en:'Energy Chain (with the game)', ca:'Cadena d’energia (amb el joc)' },
+      descripcion: { es:'Con la mecánica del juego: formas de energía, qué transforma cada aparato, cadenas de transformaciones, rendimiento y Ep = m·g·h.', en:'Using the game mechanic: forms of energy, what each device transforms, chains of transformations, efficiency and Ep = m·g·h.', ca:'Amb la mecànica del joc: formes d’energia, què transforma cada aparell, cadenes de transformacions, rendiment i Ep = m·g·h.' },
+      detalles: { es:['3 niveles','10 preguntas','Sin cronómetro','Con el juego'], en:['3 levels','10 questions','No timer','With the game'], ca:['3 nivells','10 preguntes','Sense cronòmetre','Amb el joc'] },
+      path: 'cadena-energia-test',
+    },
   ],
   'electricidad': [
     {

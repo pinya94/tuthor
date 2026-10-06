@@ -3,7 +3,7 @@
 // coincide con las claves de FICHAS_ES; si falla, añade aquí el slug nuevo.
 export const FICHAS_JUEGO_SLUGS = new Set([
   'acercate', 'analiza-frases', 'balanza', 'balanza-algebraica',
-  'balanza-ecuaciones', 'cadena-alimentaria', 'cambio-estado',
+  'balanza-ecuaciones', 'cadena-alimentaria', 'cadena-energia', 'cambio-estado',
   'circuito-cerrado', 'ciclo-rocas', 'clave-dicotomica', 'coordenadas', 'corrige-el-texto', 'el-cambio', 'el-laboratorio', 'el-tiempo', 'engranajes', 'flota-o-se-hunde', 'lee-la-etiqueta',
   'encuentra-elemento', 'epocas-historicas', 'escalera-unidades',
   'estadistico-expres', 'fuerza-neta', 'funciones-grafica', 'genetica',

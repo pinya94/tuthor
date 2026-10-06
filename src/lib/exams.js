@@ -495,6 +495,11 @@ export const EXAMS = {
     emoji: '🌦️', subject: 'geologia',
     path: 'examen/el-tiempo-test', page: () => import('../pages/ElTiempoExamen'),
   },
+  'cadena-energia-test': {
+    label: { es: 'Cadena de energía (con el juego)', en: 'Energy Chain (with the game)', ca: 'Cadena d’energia (amb el joc)' },
+    emoji: '🔆', subject: 'fisica',
+    path: 'examen/cadena-energia-test', page: () => import('../pages/CadenaEnergiaExamen'),
+  },
   'engranajes-test': {
     label: { es: 'Engranajes (con el juego)', en: 'Gears (with the game)', ca: 'Engranatges (amb el joc)' },
     emoji: '⚙️', subject: 'fisica',

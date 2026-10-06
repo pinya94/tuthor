@@ -1423,6 +1423,34 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Geología', niveles: 'Primaria, ESO',
   },
+  'cadena-energia': {
+    titulo: 'Cadena de energía',
+    subtitulo: 'Juego de física: formas de energía, transformaciones y rendimiento',
+    emoji: '🔆', gradient: 'from-green-500 to-yellow-600',
+    path: '/juegos/cadena-energia',
+    intro: 'Un juego de física para seguir la pista a la energía. En el nivel fácil hay que decir qué forma de energía tiene o guarda algo (una pila, un arco tensado, el agua de una presa, una taza caliente) y en qué la transforma un aparato: una bombilla, un ventilador, una placa solar, una dinamo, unos frenos. En el medio aparecen cadenas de varios pasos con un eslabón en blanco, como la de una central hidroeléctrica (potencial → cinética → eléctrica) o la de una bici con dinamo y faro. En el difícil se calcula: el rendimiento de un aparato, la energía que se pierde en calor y la energía potencial Ep = m·g·h de algo en lo alto, que al caer se convierte en cinética.',
+    beneficios: [
+      { titulo: 'Todas las formas, con ejemplos de casa', texto: 'Cinética, potencial, elástica, química, eléctrica, térmica, luminosa, sonora y nuclear, siempre con objetos y aparatos cotidianos. La explicación de cada respuesta dice por qué esa situación tiene esa forma de energía, que es lo que piden los exámenes de Ciencias y de Física y Química.' },
+      { titulo: 'Sin respuestas «medio verdad»', texto: 'Una bombilla da luz, pero también calor; un coche en marcha también lleva química en el depósito. Esas formas que también serían en parte verdad nunca salen como opción equivocada, así que siempre hay una sola respuesta buena y nadie pierde un punto por pensar de más.' },
+      { titulo: 'La conservación, con números', texto: 'Lo que entra es igual a lo útil más lo perdido, y el rendimiento es útil ÷ total × 100. Con la piedra en lo alto se comprueba que la energía potencial se convierte en cinética al caer. Las opciones equivocadas son los errores típicos: olvidar la gravedad o el ×100.' },
+    ],
+    ejemplo: 'Sale la cadena de una central hidroeléctrica: potencial → ? → eléctrica. El agua de la presa está en lo alto (potencial); al caer por las tuberías se mueve y hace girar las turbinas (cinética), y el generador lo convierte en electricidad. El eslabón que falta es la energía cinética. Por el camino, parte se pierde en calor por el rozamiento.',
+    enPapel: {
+      titulo: 'Cazadores de energía',
+      pasos: [
+        'Recorre tu casa y apunta diez aparatos que funcionen con electricidad o con pilas.',
+        'Para cada uno escribe qué energía recibe y en cuál la transforma.',
+        'Toca con cuidado los que llevan un rato encendidos: ¿cuáles se calientan? Esa es la energía que se pierde.',
+        'Ordénalos del que más energía desperdicia al que menos.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'El examen de La Energía', desc: 'Tipo test sobre las formas de energía, sus transformaciones, las fuentes renovables y no renovables y el ahorro energético, con explicación en cada respuesta.' },
+      { nombre: 'Circuito Cerrado', desc: 'Otro juego de física: predice qué bombillas se encienden en circuitos en serie, en paralelo y mixtos.' },
+      { nombre: 'La pelota que rebota', desc: 'Deja caer una pelota desde un metro y mide hasta dónde sube. Nunca vuelve a la misma altura: ¿adónde se ha ido esa energía?' },
+    ],
+    asignatura: 'Física', niveles: 'Primaria, ESO',
+  },
   'encuentra-elemento': {
     titulo: 'Encuentra el Elemento',
     subtitulo: 'Juego de la Tabla Periódica',
@@ -2833,6 +2861,33 @@ export const FICHAS_EN = {
       { nombre: 'The chocolate rock cycle', desc: 'Grate chocolate (sediments), squeeze it in foil (sedimentary), press it with the warmth of your hands (metamorphic) and melt it (magma) to start again.' },
     ],
     asignatura: 'Geology', niveles: 'Primary, Secondary',
+  },
+  'cadena-energia': {
+    titulo: 'Energy Chain',
+    subtitulo: 'Physics game: forms of energy, transformations and efficiency',
+    emoji: '🔆', gradient: 'from-green-500 to-yellow-600', path: '/juegos/cadena-energia',
+    intro: 'A physics game for following energy around. On easy you say what form of energy something has or stores (a battery, a drawn bow, water behind a dam, a hot cup) and what a device turns it into: a light bulb, a fan, a solar panel, a dynamo, a set of brakes. On medium there are chains of several steps with a missing link, like a hydroelectric power station’s (potential → kinetic → electrical) or a bike with a dynamo and lamp. On hard you calculate: a device’s efficiency, the energy lost as heat and the potential energy Ep = m·g·h of something up high, which turns into kinetic energy as it falls.',
+    beneficios: [
+      { titulo: 'Every form, with everyday examples', texto: 'Kinetic, potential, elastic, chemical, electrical, thermal, light, sound and nuclear, always with everyday objects and devices. The explanation for each answer says why that situation has that form of energy, which is what science exams ask for.' },
+      { titulo: 'No “half-true” answers', texto: 'A bulb gives light but also heat; a moving car also carries chemical energy in its tank. Those forms that would also be partly true never appear as wrong options, so there is always a single right answer and nobody loses a point for overthinking.' },
+      { titulo: 'Conservation, with numbers', texto: 'What goes in equals what is useful plus what is lost, and efficiency is useful ÷ total × 100. With the stone up high you check that potential energy becomes kinetic as it falls. The wrong options are the typical slips: forgetting gravity or the ×100.' },
+    ],
+    ejemplo: 'A hydroelectric power station’s chain appears: potential → ? → electrical. The water in the dam is up high (potential); as it falls through the pipes it moves and turns the turbines (kinetic), and the generator turns that into electricity. The missing link is kinetic energy. Along the way, some is lost as heat through friction.',
+    enPapel: {
+      titulo: 'Energy hunters',
+      pasos: [
+        'Go round your home and note ten devices that run on electricity or batteries.',
+        'For each one, write which energy it takes in and which it turns it into.',
+        'Carefully touch the ones that have been on for a while: which get warm? That is the energy being lost.',
+        'Rank them from the one that wastes most energy to the one that wastes least.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'The Energy exam', desc: 'Multiple choice on forms of energy, their transformations, renewable and non-renewable sources and saving energy, with an explanation for each answer.' },
+      { nombre: 'Circuit Complete', desc: 'Another physics game: predict which bulbs light up in series, parallel and mixed circuits.' },
+      { nombre: 'The bouncing ball', desc: 'Drop a ball from one metre and measure how high it bounces. It never gets back to the same height: where has that energy gone?' },
+    ],
+    asignatura: 'Physics', niveles: 'Primary, Secondary',
   },
   'encuentra-elemento': {
     titulo: 'Find the Element',
@@ -4318,6 +4373,33 @@ export const FICHAS_CA = {
       { nombre: 'El cicle amb xocolata', desc: 'Ratlla xocolata (sediments), estreny-la en paper d’alumini (sedimentària), pressiona-la amb la calor de les mans (metamòrfica) i fon-la (magma) per tornar a començar.' },
     ],
     asignatura: 'Geologia', niveles: 'Primària, ESO',
+  },
+  'cadena-energia': {
+    titulo: 'Cadena d’energia',
+    subtitulo: 'Joc de física: formes d’energia, transformacions i rendiment',
+    emoji: '🔆', gradient: 'from-green-500 to-yellow-600', path: '/juegos/cadena-energia',
+    intro: 'Un joc de física per seguir la pista a l’energia. Al nivell fàcil cal dir quina forma d’energia té o guarda una cosa (una pila, un arc tensat, l’aigua d’una presa, una tassa calenta) i en què la transforma un aparell: una bombeta, un ventilador, una placa solar, una dinamo, uns frens. Al mitjà apareixen cadenes de diversos passos amb una baula en blanc, com la d’una central hidroelèctrica (potencial → cinètica → elèctrica) o la d’una bici amb dinamo i far. Al difícil es calcula: el rendiment d’un aparell, l’energia que es perd en calor i l’energia potencial Ep = m·g·h d’una cosa a dalt, que en caure es converteix en cinètica.',
+    beneficios: [
+      { titulo: 'Totes les formes, amb exemples de casa', texto: 'Cinètica, potencial, elàstica, química, elèctrica, tèrmica, lluminosa, sonora i nuclear, sempre amb objectes i aparells quotidians. L’explicació de cada resposta diu per què aquella situació té aquella forma d’energia, que és el que demanen els exàmens de Ciències i de Física i Química.' },
+      { titulo: 'Sense respostes «mig veritat»', texto: 'Una bombeta fa llum, però també calor; un cotxe en marxa també porta química al dipòsit. Aquestes formes que també serien en part veritat mai no surten com a opció equivocada, així que sempre hi ha una sola resposta bona i ningú no perd un punt per pensar de més.' },
+      { titulo: 'La conservació, amb nombres', texto: 'El que entra és igual a l’útil més el que es perd, i el rendiment és útil ÷ total × 100. Amb la pedra a dalt es comprova que l’energia potencial es converteix en cinètica en caure. Les opcions equivocades són els errors típics: oblidar la gravetat o el ×100.' },
+    ],
+    ejemplo: 'Surt la cadena d’una central hidroelèctrica: potencial → ? → elèctrica. L’aigua de la presa és a dalt (potencial); en caure per les canonades es mou i fa girar les turbines (cinètica), i el generador ho converteix en electricitat. La baula que falta és l’energia cinètica. Pel camí, una part es perd en calor pel fregament.',
+    enPapel: {
+      titulo: 'Caçadors d’energia',
+      pasos: [
+        'Recorre casa teva i apunta deu aparells que funcionin amb electricitat o amb piles.',
+        'Per a cadascun escriu quina energia rep i en quina la transforma.',
+        'Toca amb compte els que fa una estona que estan encesos: quins s’escalfen? Aquesta és l’energia que es perd.',
+        'Ordena’ls del que més energia malbarata al que menys.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'L’examen de L’Energia', desc: 'Tipus test sobre les formes d’energia, les seves transformacions, les fonts renovables i no renovables i l’estalvi energètic, amb explicació a cada resposta.' },
+      { nombre: 'Circuit Complet', desc: 'Un altre joc de física: prediu quines bombetes s’encenen en circuits en sèrie, en paral·lel i mixtos.' },
+      { nombre: 'La pilota que rebota', desc: 'Deixa caure una pilota des d’un metre i mesura fins on puja. Mai no torna a la mateixa altura: on ha anat aquella energia?' },
+    ],
+    asignatura: 'Física', niveles: 'Primària, ESO',
   },
   'encuentra-elemento': {
     titulo: 'Troba l\'Element',

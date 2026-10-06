@@ -456,6 +456,28 @@ function CicloRocas(p) {
   )
 }
 
+function CadenaEnergia(p) {
+  // Tres formas de energía encadenadas: química → eléctrica → luminosa.
+  const fichas = [[44, '#4ADE80'], [120, '#FACC15'], [196, '#FDE68A']]
+  return (
+    <Lienzo {...p}>
+      {fichas.map(([x, c], i) => (
+        <g key={x}>
+          <rect x={x - 28} y="44" width="56" height="48" rx="12" fill={c} fillOpacity=".22" stroke={c} strokeWidth="2.5" />
+          {i < 2 && <path d={`M${x + 32} 68h12`} stroke="#94A3B8" strokeWidth="3" />}
+          {i < 2 && <path d={`M${x + 44} 62l8 6l-8 6Z`} fill="#94A3B8" />}
+        </g>
+      ))}
+      <rect x="28" y="58" width="32" height="20" rx="3" fill="#4ADE80" />
+      <rect x="60" y="63" width="4" height="10" fill="#4ADE80" />
+      <path d="M124 52l-12 18h10l-6 16l14 -20h-10Z" fill="#FACC15" />
+      <circle cx="196" cy="64" r="11" fill="#FDE68A" />
+      <rect x="191" y="75" width="10" height="8" rx="2" fill="#94A3B8" />
+      <path d="M182 104q14 10 28 0" stroke="#F97316" strokeWidth="2.5" fill="none" strokeDasharray="3 3" />
+    </Lienzo>
+  )
+}
+
 export const ARTE_CIENCIAS = {
   genetica: Genetica,
   'rayos-x': RayosX,
@@ -467,6 +489,7 @@ export const ARTE_CIENCIAS = {
   'el-tiempo': ElTiempo,
   'ciclo-rocas': CicloRocas,
   engranajes: Engranajes,
+  'cadena-energia': CadenaEnergia,
   'flota-o-se-hunde': FlotaHunde,
   'lee-la-etiqueta': LeeLaEtiqueta,
   'clave-dicotomica': ClaveDicotomica,
