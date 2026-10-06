@@ -3,6 +3,7 @@ import SEOEstatico from '../components/SEOEstatico'
 import { ArteMateria } from '../components/arte/materias'
 import TarjetaArte from '../components/TarjetaArte'
 import { ARTE_TEMAS } from '../components/arte/temas'
+import { ARTE_JUEGOS } from '../components/arte'
 
 export default function EconomiaIndex() {  const { lang, localPath, tr } = useLang()
   const ca = lang === 'ca', en = lang === 'en'
@@ -36,6 +37,10 @@ export default function EconomiaIndex() {  const { lang, localPath, tr } = useL
           titulo={tr({ es: 'El Mercado', en: 'The Market', ca: 'El Mercat' })}
           sub={tr({ es: 'Oferta, demanda y precio: por qué suben y bajan las cosas', en: 'Supply, demand and price: why things get dearer or cheaper', ca: 'Oferta, demanda i preu: per què les coses pugen i baixen' })}
           to={localPath('/examen/mercado')} />
+        <TarjetaArte Arte={ARTE_JUEGOS['oferta-demanda']}
+          titulo={tr({ es: 'Oferta y Demanda (juego)', en: 'Supply and Demand (game)', ca: 'Oferta i Demanda (joc)' })}
+          sub={tr({ es: 'Lee la noticia, mueve la curva y calcula el equilibrio', en: 'Read the news, shift the curve and work out equilibrium', ca: 'Llegeix la notícia, mou la corba i calcula l’equilibri' })}
+          to={localPath('/juegos/oferta-demanda')} />
       </div>
     </div>
   )

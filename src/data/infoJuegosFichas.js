@@ -1367,6 +1367,34 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Geografía', niveles: 'Primaria, ESO',
   },
+  'oferta-demanda': {
+    titulo: 'Oferta y demanda',
+    subtitulo: 'Juego de economía: desplazamientos de las curvas y equilibrio del mercado',
+    emoji: '🛒', gradient: 'from-teal-500 to-cyan-700',
+    path: '/juegos/oferta-demanda',
+    intro: 'Un juego de economía para entender cómo se forman los precios. Sale una noticia (una helada que arruina la cosecha de naranjas, una moda, un impuesto, una máquina que abarata la fabricación) y el gráfico de oferta y demanda con su equilibrio. Hay que decidir qué curva se desplaza y hacia dónde, y qué pasa con el precio y la cantidad. Al responder, la curva se mueve en el gráfico y aparece el nuevo equilibrio, con flechas en los ejes. En el nivel difícil las curvas vienen con sus ecuaciones y hay que calcular el precio y la cantidad de equilibrio, o la escasez o el excedente que aparece si el precio se fija por debajo o por encima.',
+    beneficios: [
+      { titulo: 'Pensar a quién afecta cada noticia', texto: 'Si cambian los gustos, la renta o el precio de un sustitutivo o un complementario, se mueve la demanda; si cambian los costes, la tecnología, los impuestos o el número de vendedores, se mueve la oferta. Cada noticia lleva su porqué al corregir, que es exactamente lo que se pide explicar en Economía de 4.º de ESO y de Bachillerato.' },
+      { titulo: 'La trampa del movimiento a lo largo', texto: 'El error más repetido es pensar que si sube el precio de las fresas se desplaza su demanda. No: es un movimiento a lo largo de las curvas. Desde el nivel medio aparecen esas noticias a propósito, con la opción «ninguna se desplaza».' },
+      { titulo: 'Del dibujo a las ecuaciones', texto: 'Con Qd = a − bP y Qo = c + dP se calcula el equilibrio igualando ambas, y a un precio máximo o mínimo se calcula la escasez o el excedente. Los números salen exactos y las opciones equivocadas son los fallos típicos, como sumar las constantes en lugar de restarlas.' },
+    ],
+    ejemplo: 'Noticia: «Una helada destruye parte de la cosecha de naranjas». Hay menos naranjas para vender a cualquier precio, así que la oferta se desplaza a la izquierda. El nuevo equilibrio queda más arriba y más a la izquierda: el precio de las naranjas sube y la cantidad que se vende baja. En el gráfico, la curva O se mueve y las flechas lo enseñan en los ejes.',
+    enPapel: {
+      titulo: 'El periódico económico',
+      pasos: [
+        'Buscad en un periódico o una web tres noticias que afecten al precio de algo (alimentos, energía, vivienda).',
+        'Para cada una, decidid si afecta a la oferta o a la demanda y hacia dónde la mueve.',
+        'Dibujad el gráfico con la curva desplazada y marcad el nuevo equilibrio.',
+        'Comprobad si el precio real ha subido o bajado como predice vuestro gráfico.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'El examen de El Mercado', desc: 'Tipo test sobre oferta, demanda, equilibrio, tipos de mercado y formación de precios, con explicación en cada respuesta.' },
+      { nombre: 'Spicy', desc: 'Otro juego de economía: decisiones con dinero, intereses, inflación y estafas, para aprender finanzas personales.' },
+      { nombre: 'El mercadillo de clase', desc: 'Repartid cartas de «comprador» con el precio máximo que pagarían y de «vendedor» con el mínimo al que venderían, y negociad: el precio acaba cerca del equilibrio.' },
+    ],
+    asignatura: 'Economía', niveles: 'ESO, Bachillerato',
+  },
   'encuentra-elemento': {
     titulo: 'Encuentra el Elemento',
     subtitulo: 'Juego de la Tabla Periódica',
@@ -2723,6 +2751,33 @@ export const FICHAS_EN = {
       { nombre: 'Official statistics', desc: 'National statistics offices publish the population pyramid for each year: look for the baby boom and the gaps left by wars.' },
     ],
     asignatura: 'Geography', niveles: 'Primary, Secondary',
+  },
+  'oferta-demanda': {
+    titulo: 'Supply and Demand',
+    subtitulo: 'Economics game: curve shifts and market equilibrium',
+    emoji: '🛒', gradient: 'from-teal-500 to-cyan-700', path: '/juegos/oferta-demanda',
+    intro: 'An economics game for understanding how prices are formed. A news item appears (a frost that ruins the orange harvest, a trend, a tax, a machine that makes production cheaper) along with the supply and demand graph and its equilibrium. You decide which curve shifts and which way, and what happens to price and quantity. When you answer, the curve moves on the graph and the new equilibrium appears, with arrows on the axes. On hard the curves come with their equations and you work out the equilibrium price and quantity, or the shortage or surplus that appears if the price is set below or above it.',
+    beneficios: [
+      { titulo: 'Thinking about who each news item affects', texto: 'If tastes, income or the price of a substitute or complement change, demand shifts; if costs, technology, taxes or the number of sellers change, supply shifts. Each news item comes with its reason when you answer, which is exactly what economics exams ask you to explain.' },
+      { titulo: 'The movement-along trap', texto: 'The most common mistake is thinking that if the price of strawberries rises, their demand shifts. It does not: it is a movement along the curves. From medium level those news items appear on purpose, with the option “neither shifts”.' },
+      { titulo: 'From the drawing to the equations', texto: 'With Qd = a − bP and Qs = c + dP you find equilibrium by setting them equal, and at a price ceiling or floor you work out the shortage or surplus. The numbers come out exact and the wrong options are the typical slips, like adding the constants instead of subtracting them.' },
+    ],
+    ejemplo: 'News: “A frost destroys part of the orange harvest”. There are fewer oranges to sell at any price, so supply shifts to the left. The new equilibrium is higher up and further left: the price of oranges rises and the quantity sold falls. On the graph, the S curve moves and the arrows show it on the axes.',
+    enPapel: {
+      titulo: 'The economics newspaper',
+      pasos: [
+        'Find three news items in a newspaper or website that affect the price of something (food, energy, housing).',
+        'For each, decide whether it affects supply or demand and which way it shifts it.',
+        'Draw the graph with the shifted curve and mark the new equilibrium.',
+        'Check whether the real price has risen or fallen as your graph predicts.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'The Market exam', desc: 'Multiple choice on supply, demand, equilibrium, market types and price formation, with an explanation for each answer.' },
+      { nombre: 'Spicy', desc: 'Another economics game: money decisions, interest, inflation and scams, for learning personal finance.' },
+      { nombre: 'The class market', desc: 'Hand out “buyer” cards with the most they would pay and “seller” cards with the least they would accept, and trade: the price ends up near equilibrium.' },
+    ],
+    asignatura: 'Economics', niveles: 'Secondary, Sixth Form',
   },
   'encuentra-elemento': {
     titulo: 'Find the Element',
@@ -4154,6 +4209,33 @@ export const FICHAS_CA = {
       { nombre: 'Dades de l’Idescat i l’INE', desc: 'A les webs d’estadística es pot veure la piràmide de cada any: busqueu el baby boom i el buit de la Guerra Civil.' },
     ],
     asignatura: 'Geografia', niveles: 'Primària, ESO',
+  },
+  'oferta-demanda': {
+    titulo: 'Oferta i demanda',
+    subtitulo: 'Joc d’economia: desplaçaments de les corbes i equilibri del mercat',
+    emoji: '🛒', gradient: 'from-teal-500 to-cyan-700', path: '/juegos/oferta-demanda',
+    intro: 'Un joc d’economia per entendre com es formen els preus. Surt una notícia (una gelada que arruïna la collita de taronges, una moda, un impost, una màquina que abarateix la fabricació) i el gràfic d’oferta i demanda amb el seu equilibri. Cal decidir quina corba es desplaça i cap a on, i què passa amb el preu i la quantitat. En respondre, la corba es mou al gràfic i apareix el nou equilibri, amb fletxes als eixos. Al nivell difícil les corbes vénen amb les seves equacions i cal calcular el preu i la quantitat d’equilibri, o l’escassetat o l’excedent que apareix si el preu es fixa per sota o per sobre.',
+    beneficios: [
+      { titulo: 'Pensar a qui afecta cada notícia', texto: 'Si canvien els gustos, la renda o el preu d’un substitutiu o d’un complementari, es mou la demanda; si canvien els costos, la tecnologia, els impostos o el nombre de venedors, es mou l’oferta. Cada notícia porta el seu perquè en corregir, que és exactament el que es demana explicar a Economia de 4t d’ESO i de Batxillerat.' },
+      { titulo: 'El parany del moviment al llarg', texto: 'L’error més repetit és pensar que si puja el preu de les maduixes es desplaça la seva demanda. No: és un moviment al llarg de les corbes. Des del nivell mitjà apareixen aquestes notícies a posta, amb l’opció «cap no es desplaça».' },
+      { titulo: 'Del dibuix a les equacions', texto: 'Amb Qd = a − bP i Qo = c + dP es calcula l’equilibri igualant-les, i a un preu màxim o mínim es calcula l’escassetat o l’excedent. Els nombres surten exactes i les opcions equivocades són les errades típiques, com sumar les constants en lloc de restar-les.' },
+    ],
+    ejemplo: 'Notícia: «Una gelada destrueix part de la collita de taronges». Hi ha menys taronges per vendre a qualsevol preu, així que l’oferta es desplaça a l’esquerra. El nou equilibri queda més amunt i més a l’esquerra: el preu de les taronges puja i la quantitat que es ven baixa. Al gràfic, la corba O es mou i les fletxes ho ensenyen als eixos.',
+    enPapel: {
+      titulo: 'El diari econòmic',
+      pasos: [
+        'Busqueu en un diari o una web tres notícies que afectin el preu d’alguna cosa (aliments, energia, habitatge).',
+        'Per a cadascuna, decidiu si afecta l’oferta o la demanda i cap a on la mou.',
+        'Dibuixeu el gràfic amb la corba desplaçada i marqueu el nou equilibri.',
+        'Comproveu si el preu real ha pujat o baixat com prediu el vostre gràfic.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'L’examen d’El Mercat', desc: 'Tipus test sobre oferta, demanda, equilibri, tipus de mercat i formació de preus, amb explicació a cada resposta.' },
+      { nombre: 'Spicy', desc: 'Un altre joc d’economia: decisions amb diners, interessos, inflació i estafes, per aprendre finances personals.' },
+      { nombre: 'El mercadet de classe', desc: 'Repartiu cartes de «comprador» amb el preu màxim que pagarien i de «venedor» amb el mínim a què vendrien, i negocieu: el preu acaba a prop de l’equilibri.' },
+    ],
+    asignatura: 'Economia', niveles: 'ESO, Batxillerat',
   },
   'encuentra-elemento': {
     titulo: 'Troba l\'Element',

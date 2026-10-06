@@ -211,6 +211,14 @@ export const GAMES = {
     // puntos por nota leída (100 máx/nota, con multiplicador de racha) → hasta 200 monedas
     coins: DEFAULT_COINS,
   },
+  'oferta-demanda': {
+    label: { es: 'Oferta y demanda', en: 'Supply and Demand', ca: 'Oferta i demanda' },
+    emoji: '🛒',
+    subject: 'economia',
+    route: '/juegos/oferta-demanda',
+    // aciertos × 10 puntos → hasta 200 monedas
+    coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
+  },
   'spicy': {
     label: { es: 'Spicy', en: 'Spicy', ca: 'Spicy' },
     emoji: '🌶️',

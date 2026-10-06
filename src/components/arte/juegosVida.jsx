@@ -59,8 +59,25 @@ function Reaccion(p) {
   )
 }
 
+function OfertaDemanda(p) {
+  // Las dos curvas, el equilibrio y la demanda desplazada a la derecha.
+  return (
+    <Lienzo {...p}>
+      <path d="M40 16V120H210" stroke="#94A3B8" strokeWidth="2.5" fill="none" />
+      <path d="M60 30L180 112" stroke="#60A5FA" strokeWidth="4" strokeLinecap="round" />
+      <path d="M90 30L210 112" stroke="#60A5FA" strokeWidth="4" strokeDasharray="8 6" strokeLinecap="round" />
+      <path d="M60 112L190 26" stroke="#F472B6" strokeWidth="4" strokeLinecap="round" />
+      <circle cx="117.6" cy="69.4" r="6" fill="#F8FAFC" />
+      <circle cx="137" cy="56.6" r="6" fill="#FBBF24" />
+      <path d="M150 40l18 0" stroke="#FBBF24" strokeWidth="3" />
+      <path d="M168 34l8 6l-8 6Z" fill="#FBBF24" />
+    </Lienzo>
+  )
+}
+
 export const ARTE_VIDA = {
   spicy: Spicy,
+  'oferta-demanda': OfertaDemanda,
   'pentagrama-path': PentagramaPath,
   reaccion: Reaccion,
 }

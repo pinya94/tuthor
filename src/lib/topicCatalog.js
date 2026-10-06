@@ -545,7 +545,7 @@ export const TOPIC_CATALOG = {
     temas: {
       'finanzas-personales': examTema({ examen: 'finanzas-personales' }, { niveles: ['eso', 'bachillerato'] }),
       'punto-equilibrio': examTema({ examen: 'punto-equilibrio' }, { niveles: ['bachillerato'] }),
-      mercado: examTema({ examen: 'mercado' }, { niveles: ['eso', 'bachillerato'] }),
+      mercado: examTema({ examen: 'mercado', oferta: 'oferta-demanda-test' }, { niveles: ['eso', 'bachillerato'] }),
     },
     formatos: {
       // Spicy no lleva `temas`: con dos temas en la materia saldría también en
@@ -556,6 +556,7 @@ export const TOPIC_CATALOG = {
         temas: ['finanzas-personales'],
       },
       examen: examFormato({ es: 'Examen', en: 'Exam', ca: 'Examen' }, '📝'),
+      oferta: examFormato({ es: 'Oferta y demanda (con el juego)', en: 'Supply and Demand (with the game)', ca: 'Oferta i demanda (amb el joc)' }, '🛒'),
     },
   },
 

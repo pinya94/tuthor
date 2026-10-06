@@ -239,6 +239,11 @@ export const EXAMS = {
     emoji: '🏭', subject: 'economia',
     path: 'examen/punto-equilibrio', page: () => import('../pages/PuntoEquilibrioExamen'),
   },
+  'oferta-demanda-test': {
+    label: { es: 'Oferta y demanda (con el juego)', en: 'Supply and Demand (with the game)', ca: 'Oferta i demanda (amb el joc)' },
+    emoji: '🛒', subject: 'economia',
+    path: 'examen/oferta-demanda-test', page: () => import('../pages/OfertaDemandaExamen'),
+  },
   'mercado': {
     label: { es: 'El Mercado', en: 'The Market', ca: 'El Mercat' },
     emoji: '⚖️', subject: 'economia',
