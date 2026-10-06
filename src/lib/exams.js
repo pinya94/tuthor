@@ -500,6 +500,11 @@ export const EXAMS = {
     emoji: '🏷️', subject: 'biologia',
     path: 'examen/lee-la-etiqueta-test', page: () => import('../pages/LeeLaEtiquetaExamen'),
   },
+  'el-laboratorio-test': {
+    label: { es: 'El Laboratorio (con el juego)', en: 'The Lab (with the game)', ca: 'El Laboratori (amb el joc)' },
+    emoji: '🥼', subject: 'quimica',
+    path: 'examen/el-laboratorio-test', page: () => import('../pages/ElLaboratorioExamen'),
+  },
   'medidor-ph-test': {
     label: { es: 'Medidor de pH', en: 'pH Meter', ca: 'Mesurador de pH' },
     emoji: '🧪', subject: 'quimica',

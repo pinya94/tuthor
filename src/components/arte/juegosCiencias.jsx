@@ -419,6 +419,24 @@ function ClaveDicotomica(p) {
   )
 }
 
+function ElLaboratorio(p) {
+  // Un embudo con papel de filtro: el agua pasa, la arena se queda.
+  return (
+    <Lienzo {...p}>
+      <path d="M70 22H150L118 66V74H102V66Z" fill="#F8FAFC" fillOpacity=".12" stroke="#CBD5E1" strokeWidth="2.5" strokeLinejoin="round" />
+      <path d="M80 30H140L114 60H106Z" fill="#3B82F6" fillOpacity=".55" />
+      {[[92, 52], [100, 56], [108, 55], [116, 50], [104, 48], [96, 47]].map(([x, y]) => <circle key={x + '' + y} cx={x} cy={y} r="2.6" fill="#D6B47A" />)}
+      <path d="M110 74V96" stroke="#60A5FA" strokeWidth="2.5" strokeDasharray="3 4" />
+      <path d="M84 96V122Q84 128 90 128H130Q136 128 136 122V96" stroke="#CBD5E1" strokeWidth="2.5" fill="none" />
+      <rect x="86" y="108" width="48" height="18" fill="#3B82F6" fillOpacity=".55" />
+      <circle cx="186" cy="58" r="16" fill="#F8FAFC" fillOpacity=".08" stroke="#CBD5E1" strokeWidth="2.5" />
+      <path d="M180 28H192M183 28V44M189 28V44" stroke="#CBD5E1" strokeWidth="2.5" />
+      <rect x="174" y="58" width="24" height="14" rx="3" fill="#A78BFA" fillOpacity=".6" />
+      <T x={186} y={104} s={12} c="#FDBA74">🔥</T>
+    </Lienzo>
+  )
+}
+
 export const ARTE_CIENCIAS = {
   genetica: Genetica,
   'rayos-x': RayosX,
@@ -438,4 +456,5 @@ export const ARTE_CIENCIAS = {
   'encuentra-elemento': EncuentraElemento,
   'cambio-estado': CambioEstado,
   'medidor-ph': MedidorPh,
+  'el-laboratorio': ElLaboratorio,
 }

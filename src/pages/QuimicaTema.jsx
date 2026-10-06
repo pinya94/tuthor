@@ -167,6 +167,13 @@ const MODOS_POR_TEMA = {
       detalles: { es:['2 niveles','10 preguntas','Opción múltiple','Explicación tras cada respuesta'], en:['2 levels','10 questions','Multiple choice','Explanation after each answer'], ca:['2 nivells','10 preguntes','Opció múltiple','Explicació després de cada resposta'] },
       path: 'mezclas-separacion',
     },
+    {
+      id: 'el-laboratorio-test', emoji: '🥼', gradient: 'from-orange-500 to-amber-600',
+      titulo: { es:'El Laboratorio (con el juego)', en:'The Lab (with the game)', ca:'El Laboratori (amb el joc)' },
+      descripcion: { es:'Con la mecánica del juego: mezclas dibujadas en su vaso; el método para separarlas, en qué propiedad se basa y el orden de los pasos.', en:'Using the game mechanic: mixtures drawn in their beaker; the method to separate them, the property it relies on and the order of steps.', ca:'Amb la mecànica del joc: mescles dibuixades al seu got; el mètode per separar-les, en quina propietat es basa i l’ordre dels passos.' },
+      detalles: { es:['3 niveles','10 preguntas','Sin cronómetro','Con el juego'], en:['3 levels','10 questions','No timer','With the game'], ca:['3 nivells','10 preguntes','Sense cronòmetre','Amb el joc'] },
+      path: 'el-laboratorio-test',
+    },
   ],
   'acidos-bases': [
     {

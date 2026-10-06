@@ -259,6 +259,14 @@ export const GAMES = {
     // 10-25 puntos por tablero → hasta 200 monedas
     coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
   },
+  'el-laboratorio': {
+    label: { es: 'El Laboratorio', en: 'The Lab', ca: 'El Laboratori' },
+    emoji: '🥼',
+    subject: 'quimica',
+    route: '/juegos/el-laboratorio',
+    // aciertos × 10 puntos → hasta 200 monedas
+    coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
+  },
   'medidor-ph': {
     label: { es: 'Medidor de pH', en: 'pH Meter', ca: 'Mesurador de pH' },
     emoji: '🧪',

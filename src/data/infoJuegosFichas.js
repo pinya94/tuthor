@@ -1311,6 +1311,34 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Biología', niveles: 'Primaria, ESO',
   },
+  'el-laboratorio': {
+    titulo: 'El Laboratorio',
+    subtitulo: 'Juego de separación de mezclas: filtrar, decantar, destilar…',
+    emoji: '🥼', gradient: 'from-orange-500 to-amber-600',
+    path: '/juegos/el-laboratorio',
+    intro: 'Un juego de química para aprender los métodos de separación de mezclas pensando como en un laboratorio. Sale una mezcla dibujada en un vaso, tal como se vería: arena posada en el fondo, aceite flotando sobre el agua, limaduras de hierro entre el azufre o una disolución de un solo color en la que no se distingue nada. Hay que elegir cómo separarla: filtrar, tamizar, usar un imán, decantar, evaporar, destilar o hacer una cromatografía. En el nivel medio también se pregunta en qué propiedad se basa cada método y si la mezcla es homogénea o heterogénea; en el difícil hay que elegir qué pasos seguir y en qué orden.',
+    beneficios: [
+      { titulo: 'Cada método, por su propiedad', texto: 'El imán funciona porque el hierro es magnético; el filtro, porque la arena no se disuelve; la decantación, porque el aceite es menos denso que el agua y no se mezcla con ella; la destilación, porque el alcohol hierve antes que el agua. El juego explica en cada respuesta cómo se hace y en qué se basa, que es lo que piden los exámenes de Física y Química.' },
+      { titulo: 'Ver la mezcla ayuda a clasificarla', texto: 'El dibujo enseña la diferencia entre una mezcla heterogénea, en la que se ven los granos o las capas, y una homogénea, en la que lo disuelto solo tiñe el líquido. Así se entiende por qué el agua con sal no se puede filtrar y hay que evaporarla.' },
+      { titulo: 'El orden importa', texto: 'Separar arena, sal y limaduras de hierro exige pensar un plan: primero el imán, luego disolver en agua, filtrar y evaporar. Las opciones equivocadas son errores reales, como intentar filtrar dos sólidos secos o evaporar antes de filtrar, y nunca se marca como mala una secuencia que también funcionaría.' },
+    ],
+    ejemplo: 'Sale un vaso con arena y sal, secas. ¿Cómo las separas? Si filtras directamente no pasa nada: no hay líquido. Primero hay que disolver en agua: la sal se disuelve y la arena no. Luego se filtra, y la arena se queda en el papel. Por último se evapora el agua y la sal queda en forma de cristales, como en las salinas.',
+    enPapel: {
+      titulo: 'Separa una mezcla en casa',
+      pasos: [
+        'Mezcla en un vaso una cucharada de arena (o tierra) y una de sal.',
+        'Añade agua, remueve bien y fíltralo con un filtro de café o papel de cocina.',
+        'Deja el líquido filtrado en un plato al sol o junto a un radiador unos días.',
+        'Observa los cristales de sal que quedan y anota qué método has usado en cada paso.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'El examen de Mezclas y Separación', desc: 'Tipo test sobre mezclas homogéneas y heterogéneas, disoluciones y métodos de separación, con explicación en cada respuesta.' },
+      { nombre: 'Cambio de Estado', desc: 'Otro juego de química: fusión, evaporación, condensación y solidificación, que están detrás de la destilación y de las salinas.' },
+      { nombre: 'Cromatografía con rotuladores', desc: 'Pinta un punto con rotulador negro en una tira de papel de cocina, mete la punta en agua y mira cómo se separan los colores.' },
+    ],
+    asignatura: 'Química', niveles: 'Primaria, ESO',
+  },
   'encuentra-elemento': {
     titulo: 'Encuentra el Elemento',
     subtitulo: 'Juego de la Tabla Periódica',
@@ -2613,6 +2641,33 @@ export const FICHAS_EN = {
       { nombre: 'Field guide', desc: 'With a guide to local minibeasts or trees, go out to find three species and identify them with its key.' },
     ],
     asignatura: 'Biology', niveles: 'Primary, Secondary',
+  },
+  'el-laboratorio': {
+    titulo: 'The Lab',
+    subtitulo: 'Separating mixtures game: filter, decant, distil…',
+    emoji: '🥼', gradient: 'from-orange-500 to-amber-600', path: '/juegos/el-laboratorio',
+    intro: 'A chemistry game for learning how to separate mixtures by thinking like in a lab. A mixture appears drawn in a beaker, just as it would look: sand settled at the bottom, oil floating on water, iron filings among sulphur, or a one-colour solution where nothing can be told apart. You choose how to separate it: filter, sieve, use a magnet, decant, evaporate, distil or run a chromatography. On medium you are also asked which property each method relies on and whether the mixture is homogeneous or heterogeneous; on hard you choose which steps to follow and in what order.',
+    beneficios: [
+      { titulo: 'Each method, by its property', texto: 'The magnet works because iron is magnetic; the filter, because sand does not dissolve; decanting, because oil is less dense than water and does not mix with it; distilling, because alcohol boils before water. The game explains with each answer how it is done and what it relies on, which is what science exams ask for.' },
+      { titulo: 'Seeing the mixture helps classify it', texto: 'The drawing shows the difference between a heterogeneous mixture, where you can see the grains or layers, and a homogeneous one, where what is dissolved only tints the liquid. That makes it clear why salty water cannot be filtered and has to be evaporated.' },
+      { titulo: 'Order matters', texto: 'Separating sand, salt and iron filings needs a plan: magnet first, then dissolve in water, filter and evaporate. The wrong options are real mistakes, like trying to filter two dry solids or evaporating before filtering, and a sequence that would also work is never marked as wrong.' },
+    ],
+    ejemplo: 'A beaker of dry sand and salt appears. How do you separate them? Filtering straight away does nothing: there is no liquid. First dissolve in water: the salt dissolves and the sand does not. Then filter, and the sand stays on the paper. Finally evaporate the water and the salt is left as crystals, as in salt pans.',
+    enPapel: {
+      titulo: 'Separate a mixture at home',
+      pasos: [
+        'In a glass, mix a spoonful of sand (or soil) and one of salt.',
+        'Add water, stir well and filter it through a coffee filter or kitchen paper.',
+        'Leave the filtered liquid on a plate in the sun or by a radiator for a few days.',
+        'Look at the salt crystals left behind and note which method you used at each step.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'The Mixtures and Separation exam', desc: 'Multiple choice on homogeneous and heterogeneous mixtures, solutions and separation methods, with an explanation for each answer.' },
+      { nombre: 'Change of State', desc: 'Another chemistry game: melting, evaporation, condensation and freezing, which are behind distillation and salt pans.' },
+      { nombre: 'Felt-tip chromatography', desc: 'Draw a dot with a black felt-tip on a strip of kitchen paper, dip the end in water and watch the colours separate.' },
+    ],
+    asignatura: 'Chemistry', niveles: 'Primary, Secondary',
   },
   'encuentra-elemento': {
     titulo: 'Find the Element',
@@ -3990,6 +4045,33 @@ export const FICHAS_CA = {
       { nombre: 'Guia de camp', desc: 'Amb una guia de bestioles o d’arbres de la zona, sortiu a buscar tres espècies i identifiqueu-les amb la seva clau.' },
     ],
     asignatura: 'Biologia', niveles: 'Primària, ESO',
+  },
+  'el-laboratorio': {
+    titulo: 'El Laboratori',
+    subtitulo: 'Joc de separació de mescles: filtrar, decantar, destil·lar…',
+    emoji: '🥼', gradient: 'from-orange-500 to-amber-600', path: '/juegos/el-laboratorio',
+    intro: 'Un joc de química per aprendre els mètodes de separació de mescles pensant com en un laboratori. Surt una mescla dibuixada en un got, tal com es veuria: sorra posada al fons, oli surant sobre l’aigua, llimadures de ferro entre el sofre o una dissolució d’un sol color en què no es distingeix res. Cal triar com separar-la: filtrar, tamisar, fer servir un imant, decantar, evaporar, destil·lar o fer una cromatografia. Al nivell mitjà també es pregunta en quina propietat es basa cada mètode i si la mescla és homogènia o heterogènia; al difícil cal triar quins passos seguir i en quin ordre.',
+    beneficios: [
+      { titulo: 'Cada mètode, per la seva propietat', texto: 'L’imant funciona perquè el ferro és magnètic; el filtre, perquè la sorra no es dissol; la decantació, perquè l’oli és menys dens que l’aigua i no s’hi barreja; la destil·lació, perquè l’alcohol bull abans que l’aigua. El joc explica a cada resposta com es fa i en què es basa, que és el que demanen els exàmens de Física i Química.' },
+      { titulo: 'Veure la mescla ajuda a classificar-la', texto: 'El dibuix ensenya la diferència entre una mescla heterogènia, en què es veuen els grans o les capes, i una d’homogènia, en què el que és dissolt només tenyeix el líquid. Així s’entén per què l’aigua amb sal no es pot filtrar i cal evaporar-la.' },
+      { titulo: 'L’ordre importa', texto: 'Separar sorra, sal i llimadures de ferro exigeix pensar un pla: primer l’imant, després dissoldre en aigua, filtrar i evaporar. Les opcions equivocades són errors reals, com intentar filtrar dos sòlids secs o evaporar abans de filtrar, i mai no es marca com a dolenta una seqüència que també funcionaria.' },
+    ],
+    ejemplo: 'Surt un got amb sorra i sal, seques. Com les separes? Si filtres directament no passa res: no hi ha líquid. Primer cal dissoldre en aigua: la sal es dissol i la sorra no. Després es filtra, i la sorra es queda al paper. Finalment s’evapora l’aigua i la sal queda en forma de cristalls, com a les salines.',
+    enPapel: {
+      titulo: 'Separa una mescla a casa',
+      pasos: [
+        'Barreja en un got una cullerada de sorra (o terra) i una de sal.',
+        'Afegeix-hi aigua, remena bé i filtra-ho amb un filtre de cafè o paper de cuina.',
+        'Deixa el líquid filtrat en un plat al sol o al costat d’un radiador uns dies.',
+        'Observa els cristalls de sal que queden i apunta quin mètode has fet servir a cada pas.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'L’examen de Mescles i Separació', desc: 'Tipus test sobre mescles homogènies i heterogènies, dissolucions i mètodes de separació, amb explicació a cada resposta.' },
+      { nombre: 'Canvi d’Estat', desc: 'Un altre joc de química: fusió, evaporació, condensació i solidificació, que són darrere de la destil·lació i de les salines.' },
+      { nombre: 'Cromatografia amb retoladors', desc: 'Pinta un punt amb retolador negre en una tira de paper de cuina, posa’n la punta a l’aigua i mira com se separen els colors.' },
+    ],
+    asignatura: 'Química', niveles: 'Primària, ESO',
   },
   'encuentra-elemento': {
     titulo: 'Troba l\'Element',
