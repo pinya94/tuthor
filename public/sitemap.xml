@@ -532,6 +532,9 @@
   <url><loc>https://www.tuthor.es/juegos/bachillerato/fisica-quimica</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/en/juegos/bachillerato/fisica-quimica</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/ca/juegos/bachillerato/fisica-quimica</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/juegos/bachillerato/ingles</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/en/juegos/bachillerato/ingles</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/ca/juegos/bachillerato/ingles</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/juegos/eso</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
   <url><loc>https://www.tuthor.es/en/juegos/eso</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
   <url><loc>https://www.tuthor.es/ca/juegos/eso</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>

@@ -66,8 +66,8 @@ export const CURSOS_LANDING = {
   // ── Bachillerato ─────────────────────────────────────────────────────────
   // Solo las materias con contenido propio de ese nivel en el catálogo
   // (topicCatalog: niveles incluye 'bachillerato'). Física y Química entró
-  // con Movimiento, Dinámica y Estequiometría; Inglés sigue fuera hasta que
-  // tenga más que tres temas de este nivel.
+  // con Movimiento, Dinámica y Estequiometría; Inglés, con Conditionals (antes
+  // solo tenía tres temas de este nivel).
   bachillerato: {
     nombre: { es: 'Bachillerato', en: 'Sixth form', ca: 'Batxillerat' },
     edades: '16-18',
@@ -464,6 +464,8 @@ export const LANDINGS = [
       { arte: 'gramatica/nexos', ruta: '/examen/ingles-grammar-connectors-test', titulo: T('Prepositions & Conjunctions', 'Prepositions & Conjunctions', 'Prepositions & Conjunctions') },
       { arte: 'gramatica/adverbios', ruta: '/examen/ingles-grammar-adverbs-test', titulo: T('Adverbs', 'Adverbs', 'Adverbs') },
       { arte: 'ingles/articles', ruta: '/examen/ingles-grammar-articles-test', titulo: T('Articles', 'Articles', 'Articles') },
+      { arte: 'ingles/modals', ruta: '/examen/ingles-grammar-modals-test', titulo: T('Modal Verbs', 'Modal Verbs', 'Modal Verbs') },
+      { arte: 'ingles/conditionals', ruta: '/examen/ingles-grammar-conditionals-test', titulo: T('Conditionals', 'Conditionals', 'Conditionals') },
     ],
   },
   {
@@ -826,6 +828,44 @@ export const LANDINGS = [
       { arte: 'quimica/formulacion', ruta: '/estudiar/quimica/formulacion', titulo: T('Formulación química', 'Chemical formulas', 'Formulació química') },
       { arte: 'quimica/disoluciones', ruta: '/estudiar/quimica/disoluciones', titulo: T('Disoluciones', 'Solutions', 'Dissolucions') },
       { arte: 'quimica/tabla-periodica', ruta: '/estudiar/quimica/tabla-periodica', titulo: T('Tabla periódica', 'Periodic table', 'Taula periòdica') },
+    ],
+  },
+  {
+    curso: 'bachillerato',
+    materia: 'ingles',
+    arteMateria: 'ingles',
+    nombre: T('Inglés', 'English', 'Anglès'),
+    titulo: T('Inglés de Bachillerato: gramática para la PAU', 'Sixth-form English: grammar for the final exams', 'Anglès de Batxillerat: gramàtica per a la PAU'),
+    metaDesc: T(
+      'Gramática inglesa para Bachillerato y la PAU: conditionals y wishes, voz pasiva, present perfect, conectores y orden de la frase, con exámenes explicados y juegos.',
+      'English grammar for sixth form and final exams: conditionals and wishes, the passive, present perfect, connectors and word order, with explained quizzes and games.',
+      'Gramàtica anglesa per a Batxillerat i la PAU: conditionals i wishes, veu passiva, present perfect, connectors i ordre de la frase, amb exàmens explicats i jocs.',
+    ),
+    intro: {
+      es: [
+        'En la PAU de inglés la gramática casi nunca se pregunta sola: aparece al reescribir una frase («Rewrite the sentence…»), al elegir el conector de un texto o al redactar. Por eso lo que más cuenta en Bachillerato es dominar las estructuras que permiten decir lo mismo de otra manera: pasar de activa a pasiva, de una condición a un «wish», de «if» a una inversión como «Had I known…».',
+        'Los exámenes de esta página están hechos con esas transformaciones y con los errores que más se repiten: «will» dentro de la oración con «if», «would» en las dos partes, el «been» que falta en la pasiva de un present perfect, «although» confundido con «despite». Cada respuesta explica la regla en inglés, y La Pieza que Falta y Ordena la Frase sirven para practicar sin reloj de examen.',
+      ],
+      en: [
+        'In the English final exam, grammar is rarely tested on its own: it appears when rewriting a sentence ("Rewrite the sentence…"), choosing the connector in a text or writing. That is why what matters most at this level is mastering the structures that let you say the same thing another way: active to passive, a condition to a wish, "if" to an inversion like "Had I known…".',
+        'The quizzes on this page are built on those transformations and on the most common mistakes: "will" in the if-clause, "would" in both halves, the missing "been" in a present perfect passive, "although" mixed up with "despite". Every answer explains the rule, and La Pieza que Falta and Ordena la Frase are there to practise without exam pressure.',
+      ],
+      ca: [
+        'A la PAU d’anglès la gramàtica gairebé mai no es pregunta sola: apareix en reescriure una frase («Rewrite the sentence…»), en triar el connector d’un text o en redactar. Per això el que més compta al Batxillerat és dominar les estructures que permeten dir el mateix d’una altra manera: passar d’activa a passiva, d’una condició a un «wish», d’«if» a una inversió com «Had I known…».',
+        'Els exàmens d’aquesta pàgina estan fets amb aquestes transformacions i amb els errors que més es repeteixen: «will» dins l’oració amb «if», «would» a les dues parts, el «been» que falta a la passiva d’un present perfect, «although» confós amb «despite». Cada resposta explica la regla en anglès, i La Pieza que Falta i Ordena la Frase serveixen per practicar sense rellotge d’examen.',
+      ],
+    },
+    practica: {
+      es: ['Conditionals, wishes e inversión', 'Voz pasiva en todos los tiempos', 'Present perfect frente a past simple', 'Conectores y preposiciones', 'Orden de la frase y corrección de textos'],
+      en: ['Conditionals, wishes and inversion', 'The passive in every tense', 'Present perfect versus past simple', 'Connectors and prepositions', 'Word order and proofreading'],
+      ca: ['Conditionals, wishes i inversió', 'Veu passiva en tots els temps', 'Present perfect davant de past simple', 'Connectors i preposicions', 'Ordre de la frase i correcció de textos'],
+    },
+    juegos: ['pieza-que-falta', 'ordena-frase', 'corrige-el-texto'],
+    temas: [
+      { arte: 'ingles/conditionals', ruta: '/examen/ingles-grammar-conditionals-test', titulo: T('Conditionals & Wishes', 'Conditionals & Wishes', 'Conditionals & Wishes') },
+      { arte: 'ingles/passive', ruta: '/examen/ingles-grammar-passive-test', titulo: T('Passive Voice', 'Passive Voice', 'Passive Voice') },
+      { arte: 'ingles/present-perfect', ruta: '/examen/ingles-grammar-present-perfect-test', titulo: T('Present Perfect', 'Present Perfect', 'Present Perfect') },
+      { arte: 'gramatica/nexos', ruta: '/examen/ingles-grammar-connectors-test', titulo: T('Prepositions & Conjunctions', 'Prepositions & Conjunctions', 'Prepositions & Conjunctions') },
     ],
   },
   {
