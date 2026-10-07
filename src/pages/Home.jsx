@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import HeroCard from '../components/HeroCard'
+import BuscadorTuthor from '../components/BuscadorTuthor'
+import { MATERIAS_ESTUDIO } from '../data/materiasEstudio'
+import { cifrasTuthor } from '../lib/descubre'
 import { PUERTAS } from '../data/constants'
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
@@ -20,6 +23,9 @@ import { useDebePreguntarNivel, sincronizarNivel } from '../lib/nivel'
 import { ARTE_MATERIAS } from '../components/arte/materias'
 import AvatarDibujo from '../components/avatares/AvatarDibujo'
 import { Racha, Reloj, Acierto, Fallo, Mando, Moneda, Tienda, Pizarra, Familia, Bicho, Megafono, Sobre } from '../components/Iconos'
+
+// Las cifras de la promesa de la home, de los registros.
+const cifras = cifrasTuthor()
 
 // Marco + avatar de muestra para el escaparate de recompensas.
 const PREVIEW_FRAMES = ['gold', 'rainbow', 'galaxy', 'fire']
@@ -379,24 +385,47 @@ export default function Home() {
           envoltorio de cada tarjeta les da una proporción fija en vez de una
           altura arbitraria en píxeles. */}
       <div className="max-w-4xl mx-auto pb-16">
-        <div className="pt-6 pb-4 text-center">
-          <p className="text-white/40 text-sm">
-            {user
-              ? tr({
-                  es: `Hola, ${user.displayName?.split(' ')[0] || ''}`,
-                  en: `Hi, ${user.displayName?.split(' ')[0] || ''}`,
-                  ca: `Hola, ${user.displayName?.split(' ')[0] || ''}`,
-                })
-              : tr({ es: 'Elige por dónde empezar', en: 'Pick where to start', ca: 'Tria per on començar' })}
+        {/* LA PROMESA — qué es Tuthor en una frase, con las cifras reales (de
+            los registros, no escritas a mano) y el buscador: quien entra por
+            primera vez, sobre todo desde el móvil, entiende de un vistazo que
+            aquí está todo lo que tiene que estudiar. */}
+        <div className="pt-6 sm:pt-10 pb-6 text-center">
+          {user && (
+            <p className="text-white/40 text-sm mb-2">
+              {tr({ es: `Hola, ${user.displayName?.split(' ')[0] || ''}`, en: `Hi, ${user.displayName?.split(' ')[0] || ''}`, ca: `Hola, ${user.displayName?.split(' ')[0] || ''}` })}
+            </p>
+          )}
+          <h1 className="text-[30px] leading-[1.08] sm:text-5xl font-black text-white tracking-tight">
+            {tr({ es: 'Todo lo que tienes que estudiar,', en: 'Everything you need to study,', ca: 'Tot el que has d’estudiar,' })}{' '}
+            <span className="text-[#EDAE49]">{tr({ es: 'en un solo sitio', en: 'in one place', ca: 'en un sol lloc' })}</span>
+          </h1>
+          <p className="text-white/60 text-[15px] sm:text-lg mt-3 max-w-xl mx-auto leading-snug">
+            {tr({
+              es: `De Primaria a Bachillerato: ${cifras.juegos} juegos y ${cifras.examenes} exámenes con explicación en ${cifras.materias} materias.`,
+              en: `From primary to sixth form: ${cifras.juegos} games and ${cifras.examenes} explained quizzes across ${cifras.materias} subjects.`,
+              ca: `De Primària a Batxillerat: ${cifras.juegos} jocs i ${cifras.examenes} exàmens amb explicació en ${cifras.materias} matèries.`,
+            })}
           </p>
+          <div className="flex flex-wrap justify-center gap-2 mt-3">
+            {[
+              { es: '✓ Gratis', en: '✓ Free', ca: '✓ Gratis' },
+              { es: '✓ Sin registrarte', en: '✓ No sign-up', ca: '✓ Sense registrar-te' },
+              { es: '✓ En el móvil o el ordenador', en: '✓ On phone or computer', ca: '✓ Al mòbil o a l’ordinador' },
+            ].map(c => <span key={c.es} className="text-[12px] font-semibold text-emerald-300/90 bg-emerald-400/10 rounded-full px-2.5 py-1">{tr(c)}</span>)}
+          </div>
+          <BuscadorTuthor className="mt-5 max-w-xl mx-auto" />
         </div>
+
+        <p className="text-white/40 text-xs font-bold uppercase tracking-widest text-center mb-3">
+          {tr({ es: 'O elige por dónde empezar', en: 'Or pick where to start', ca: 'O tria per on començar' })}
+        </p>
 
         {/* Cards principales: van directas a la página real (/estudiar,
             /juegos, /diaria), no a una ficha informativa — no hace falta
             convencer a nadie de entrar, ya está pagando. */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
           {PUERTAS.map(card => (
-            <div key={card.id} className="aspect-square sm:aspect-[4/5]">
+            <div key={card.id} className="sm:aspect-[4/5]">
               {/* priority en la primera tarjeta, que ahora es el reto diario:
                   es la imagen que entra en pantalla antes que ninguna. */}
               <HeroCard card={card} onClick={() => navigate(localPath(card.path))} priority={card.id === 'diaria'} />
@@ -410,6 +439,26 @@ export default function Home() {
             catálogo por sus tres niveles. No es un modal y no bloquea nada —
             se puede ignorar y seguir, y quien la cierra no la vuelve a ver
             (marcarPreguntado en lib/nivel.js). */}
+        {/* TODAS LAS MATERIAS — para quien ya sabe qué asignatura busca: una
+            fila deslizable en el móvil, una rejilla en el ordenador. */}
+        <section className="mt-6">
+          <p className="text-white/40 text-xs font-bold uppercase tracking-widest text-center mb-3">
+            {tr({ es: 'O ve directo a tu materia', en: 'Or go straight to your subject', ca: 'O ves directe a la teva matèria' })}
+          </p>
+          <div className="flex sm:grid sm:grid-cols-4 lg:grid-cols-7 gap-2.5 overflow-x-auto sm:overflow-visible snap-x pb-2 -mx-4 px-4 sm:mx-0 sm:px-0">
+            {MATERIAS_ESTUDIO.map(m => {
+              const Arte = ARTE_MATERIAS[m.id]
+              return (
+                <Link key={m.id} to={localPath(m.path)}
+                  className={`snap-start shrink-0 w-[30%] sm:w-auto ${TARJETA} hover:border-white/25 overflow-hidden transition-colors`}>
+                  <span className="block aspect-[16/10] border-b border-white/[0.06]">{Arte && <Arte className="w-full h-full p-1" />}</span>
+                  <span className="px-2 py-1.5 text-white text-[12px] font-bold leading-tight text-center min-h-[2.6em] flex items-center justify-center">{tr(m.titulo)}</span>
+                </Link>
+              )
+            })}
+          </div>
+        </section>
+
         {debePreguntarNivel && <NivelPicker variant="card" className="mt-6" />}
 
         {/* PROGRESO — o la invitación a tener uno, si no hay cuenta */}

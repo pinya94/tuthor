@@ -40,6 +40,9 @@ function construirTema(materia, temaId, subj, lang) {
     // Sin nivel en la URL: la página del formato elige el suyo por defecto.
     // Fijar uno aquí obligaría a decidir cuál, y el mapa no es quien decide.
     ruta: topicRoute(materia, temaId, f.id),
+    // El examen o juego al que apunta (lib/descubre.js lo usa para saber de
+    // qué tema es una página y qué más ofrecer de ese tema).
+    game: f.game,
   }))
   // OJO con de dónde salen los niveles. NO se derivan de los formatos: un
   // formato con `niveles: []` es uno que no tiene DIFICULTAD (los tipo test,

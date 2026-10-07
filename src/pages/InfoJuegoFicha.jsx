@@ -4,6 +4,7 @@ import SEOHead from '../components/SEOHead'
 import { FICHAS_ES, FICHAS_EN, FICHAS_CA } from '../data/infoJuegosFichas'
 import AdSlot from '../components/AdSlot'
 import { ARTE_JUEGOS, ArteJuego, slugDeRuta } from '../components/arte'
+import DescubreTuthor from '../components/DescubreTuthor'
 
 // Superficie oscura casi opaca: legibilidad sobre el fondo del bosque
 const SURF = 'rgba(17,20,29,0.86)'
@@ -185,6 +186,7 @@ export default function InfoJuegoFicha() {
               {ui.jugar} {ficha.titulo} →
             </Link>
           </footer>
+          <DescubreTuthor id={slug} className="mt-10" />
         </div>
       </div>
     </div>

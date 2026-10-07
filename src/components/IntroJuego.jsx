@@ -7,6 +7,7 @@ import { ArteJuego } from './arte'
 import { BarrasNivel, IconoDeEmoji, Bombilla } from './Iconos'
 import { nivelDeClave } from '../lib/niveles'
 import { useLang } from '../context/LangContext'
+import DescubreTuthor from './DescubreTuthor'
 
 // "¿Cómo se juega?": las reglas y los detalles, plegados. La entrada de un
 // juego es dificultad + una línea + Jugar; quien quiera saber más, lo abre.
@@ -25,6 +26,10 @@ export function ComoSeJuega({ children }) {
           hasta pulsar, y el buscador veía cada juego como un título y un botón
           (~200 caracteres; memoria «adsense-contenido-poco-valor»). */}
       <div hidden={!abierto} className="mt-2 space-y-4 text-left">{children}</div>
+      {/* Al pie de la pantalla de inicio de cada juego: lo que hay del mismo
+          tema y, para quien llega de fuera, qué es Tuthor. Saca el juego de la
+          URL, así que vale para los 60 juegos sin tocar ninguno. */}
+      <DescubreTuthor className="mt-6" />
     </div>
   )
 }

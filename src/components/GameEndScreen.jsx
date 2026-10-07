@@ -8,6 +8,7 @@ import AdSlot from './AdSlot'
 import ReferralCard from './ReferralCard'
 import { ARTE_JUEGOS, ArteJuego, slugDeRuta } from './arte'
 import { Acierto, IconoDeEmoji } from './Iconos'
+import DescubreTuthor from './DescubreTuthor'
 
 // Slug del arte del juego: por su ruta en el registro, o el propio id.
 function slugDeArte(game) {
@@ -133,6 +134,8 @@ export default function GameEndScreen({
             de "Hazte Pro" se quitó de aquí a propósito: cortaba el final de
             cada partida con una venta. ReferralCard se pinta solo si hay
             sesión; AdSlot cae a iGraal mientras AdSense no tenga bloque. */}
+        {/* Qué más hay del mismo tema (y qué es Tuthor, para quien entra por primera vez). */}
+        <DescubreTuthor id={game} className="mt-5" />
         <ReferralCard variant="compact" className="mt-5" />
         <AdSlot placement="gameEnd" className="mt-3" />
 

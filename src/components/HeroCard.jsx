@@ -17,19 +17,22 @@ export default function HeroCard({ card, onClick, priority = false }) {
     return (
       <button
         onClick={onClick}
-        className={`group relative w-full h-full rounded-2xl overflow-hidden flex flex-col bg-[#141b2e] border border-white/[0.08] ${tono.borde} shadow-xl shadow-black/30 transition-all duration-300 hover:-translate-y-1 cursor-pointer`}
+        className={`group relative w-full h-full rounded-2xl overflow-hidden flex flex-row items-center sm:flex-col sm:items-stretch bg-[#141b2e] border border-white/[0.08] ${tono.borde} shadow-xl shadow-black/30 transition-all duration-300 hover:-translate-y-1 cursor-pointer`}
       >
-        <div className="px-5 pt-5 text-center shrink-0">
-          <h3 className="font-black text-white text-3xl sm:text-2xl lg:text-4xl leading-tight tracking-tight">{lt(card)}</h3>
-          <p className="text-white/55 text-sm mt-1.5 font-medium">{lt(card, 'subtitle')}</p>
+        {/* En móvil, fila compacta (dibujo a la izquierda, texto a la derecha):
+            las tres puertas caben en la primera pantalla. Desde sm, la tarjeta
+            alta de siempre. */}
+        <div className="order-2 sm:order-none flex-1 sm:flex-none min-w-0 pl-1 pr-12 py-3 sm:px-5 sm:pt-5 sm:pb-0 text-left sm:text-center shrink-0">
+          <h3 className="font-black text-white text-xl sm:text-2xl lg:text-4xl leading-tight tracking-tight">{lt(card)}</h3>
+          <p className="text-white/55 text-[13px] sm:text-sm mt-1 sm:mt-1.5 font-medium">{lt(card, 'subtitle')}</p>
         </div>
 
-        <div className="relative flex-1 min-h-0 flex items-center justify-center px-4 pb-4 pt-1">
+        <div className="order-1 sm:order-none relative w-28 h-24 shrink-0 sm:w-auto sm:h-auto sm:flex-1 min-h-0 flex items-center justify-center p-2 sm:px-4 sm:pb-4 sm:pt-1">
           <Ilustracion className="h-full w-full max-w-[320px] transition-transform duration-500 ease-out group-hover:scale-[1.04]" />
         </div>
 
         <span
-          className={`absolute bottom-3 right-3 w-8 h-8 rounded-full bg-white/[0.06] flex items-center justify-center ${tono.flecha} opacity-60 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0.5`}
+          className={`absolute top-1/2 -translate-y-1/2 sm:top-auto sm:translate-y-0 sm:bottom-3 right-3 w-8 h-8 rounded-full bg-white/[0.06] flex items-center justify-center ${tono.flecha} opacity-60 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0.5`}
           aria-hidden="true"
         >
           <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>

@@ -29,6 +29,7 @@ import { ArteJuego, ARTE_JUEGOS, slugDeRuta } from './arte'
 import { Lista, Bombilla, Trofeo, BarrasNivel, AnilloNota } from './Iconos'
 import { nivelDeClave, esClaveDeNivel } from '../lib/niveles'
 import { FICHAS_JUEGO_SLUGS } from '../data/fichasJuegoSlugs'
+import DescubreTuthor from './DescubreTuthor'
 
 const TOTAL = 10
 // Rondas de ejemplo por nivel que se publican en el JSON-LD. Con 3 niveles
@@ -165,6 +166,7 @@ function Intro({ badge, title, sub, levels, onSelect, backGamePath, backLabel, a
         <Link to={backGamePath} className="block text-center text-white/40 hover:text-white/70 text-sm transition-colors">
           {backLabel ? tr(backLabel, l) : tr(L.back, l)}
         </Link>
+        <DescubreTuthor className="mt-6" />
       </div>
       <ComoEsExamen desc={desc} levels={levels} ejemplos={ejemplos} slug={slug} titulo={sinEmoji(tr(title, l)).replace(/^(Examen|Exam)s*(de |d’|:)?s*/i, '')} l={l} />
     </div>
@@ -211,6 +213,7 @@ function ExamEnd({ score, results, onRetry, backGamePath, playLabel, title, arte
             {tr(playLabel, l)}
           </Link>
         </div>
+        <DescubreTuthor className="mt-5" />
       </div>
     </div>
   )

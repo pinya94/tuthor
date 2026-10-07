@@ -25,6 +25,7 @@ import { skillsFor } from '../data/exerciseSkills'
 import AuthModal from './AuthModal'
 import { ordenOpciones } from '../lib/ordenOpciones'
 import EjemplosExamen from './EjemplosExamen'
+import DescubreTuthor from './DescubreTuthor'
 
 const TOTAL      = 10
 const MAX_ERRORS = 2
@@ -302,6 +303,7 @@ export default function ExamenMC({ titulo, emoji, nivelInfo, backFallback, gameI
           <button onClick={() => navigate(backTo)} className="mt-6 text-white/30 hover:text-white/60 text-sm transition-colors">
             {en ? '← Back' : '← Volver'}
           </button>
+          <DescubreTuthor id={gameId} className="mt-6" />
         </div>
         <EjemplosExamen niveles={nivelesResumen} preguntas={banco} titulo={tituloStr} />
       </div>
@@ -379,6 +381,7 @@ export default function ExamenMC({ titulo, emoji, nivelInfo, backFallback, gameI
           <button onClick={() => navigate(backTo)} className="w-full py-3 text-white/40 hover:text-white/70 text-sm transition-colors">
             {en ? '← Back' : '← Volver'}
           </button>
+          <DescubreTuthor id={gameId} className="mt-4" />
         </div>
       </div>
     )
