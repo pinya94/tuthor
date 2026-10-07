@@ -126,11 +126,26 @@ function CorrigeElTexto(p) {
   )
 }
 
+function MideElVerso(p) {
+  // Un pergamino con versos y la pluma contando sílabas.
+  return (
+    <Lienzo {...p}>
+      <rect x="40" y="16" width="130" height="104" rx="6" fill="#FDF6E3" />
+      {[34, 50, 66, 82, 98].map((y, i) => <path key={y} d={`M54 ${y}H${i % 2 ? 140 : 154}`} stroke="#A8A29E" strokeWidth="3" strokeLinecap="round" />)}
+      {[0, 1, 2, 3, 4, 5, 6, 7].map(i => <circle key={i} cx={58 + i * 12} cy="50" r="3.5" fill="#F59E0B" />)}
+      <path d="M216 14L176 92L170 106L182 96L222 18Z" fill="#E7E5E4" stroke="#78716C" strokeWidth="2" />
+      <path d="M170 106L164 118" stroke="#1C1917" strokeWidth="2.5" strokeLinecap="round" />
+      <text x="198" y="122" textAnchor="middle" fontSize="20" fontWeight="800" fill="#FBBF24">8</text>
+    </Lienzo>
+  )
+}
+
 export const ARTE_LENGUA = {
   intruso: Intruso,
   'analiza-frases': AnalizaFrases,
   'ordena-frase': OrdenaFrase,
   'pieza-que-falta': PiezaQueFalta,
   'pon-la-tilde': PonLaTilde,
+  'mide-el-verso': MideElVerso,
   'corrige-el-texto': CorrigeElTexto,
 }

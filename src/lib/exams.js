@@ -784,6 +784,11 @@ export const EXAMS = {
     emoji: '🖋️', subject: 'lengua',
     path: 'examen/espanol-literatura-test', page: () => import('../pages/EspanolLiteraturaExamen'),
   },
+  'mide-el-verso-test': {
+    label: { es: 'Mide el verso (con el juego)', en: 'Measure the Verse (with the game)', ca: 'Mesura el vers (amb el joc)' },
+    emoji: '✒️', subject: 'lengua',
+    path: 'examen/mide-el-verso-test', page: () => import('../pages/MideElVersoExamen'),
+  },
   'espanol-figuras-test': {
     label: { es: 'Figuras Literarias', en: 'Figures of Speech', ca: 'Figures Literàries' },
     emoji: '🎭', subject: 'lengua',

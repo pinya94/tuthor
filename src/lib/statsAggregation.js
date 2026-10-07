@@ -167,6 +167,7 @@ export const SUBJECT_DEFS = [
       literatura:    { es: 'Literatura',             en: 'Literature',                  ca: 'Literatura' },
       textos:        { es: 'Los Textos',             en: 'Types of Text',               ca: 'Els Textos' },
       figuras:       { es: 'Figuras Literarias',     en: 'Figures of Speech',           ca: 'Figures Literàries' },
+      metrica:       { es: 'Métrica',                en: 'Metre',                       ca: 'Mètrica' },
       correccion:    { es: 'Corregir un Texto',      en: 'Proofreading',                ca: 'Corregir un Text' },
     },
   },

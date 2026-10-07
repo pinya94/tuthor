@@ -1563,6 +1563,34 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Historia del Arte', niveles: 'ESO, Bachillerato',
   },
+  'mide-el-verso': {
+    titulo: 'Mide el verso',
+    subtitulo: 'Juego de métrica: sílabas, sinalefa, rima y estrofas',
+    emoji: '✒️', gradient: 'from-rose-600 to-amber-700',
+    path: '/juegos/mide-el-verso',
+    intro: 'Un juego de Lengua para aprender a medir versos con poemas de verdad: Garcilaso, Góngora, Quevedo, Lope de Vega, Sor Juana, Espronceda, Zorrilla, Bécquer, Rubén Darío, Antonio Machado y Lorca, todos de dominio público. Cada ronda enseña un fragmento con uno o varios versos señalados. En el nivel fácil, octosílabos: contar las sílabas métricas, ver si la última palabra es aguda, llana o esdrújula y decir si dos versos riman en consonante o en asonante. En el medio aparecen heptasílabos, eneasílabos y endecasílabos y hay que nombrarlos. En el difícil, alejandrinos con cesura y estrofas: redondilla, cuarteta, cuarteto y romance.',
+    beneficios: [
+      { titulo: 'La cuenta, sílaba a sílaba', texto: 'Al corregir aparece el verso partido en sílabas, con las sinalefas unidas (da‿ha) y el ajuste final: «un-ve-le-ro-ber-gan-tín → 7 + 1 (aguda) = 8». El error casi nunca está en no saber la regla, sino en aplicarla mal en una sílaba concreta, y así se ve en cuál.' },
+      { titulo: 'Medido por las reglas, no a mano', texto: 'Las respuestas las calcula el propio juego con las reglas de los libros: diptongos e hiatos, sinalefa, ley del acento final y cesura. Antes de entrar, cada verso se comprueba contra el metro conocido del poema; los que necesitan una licencia rara (una dialefa, por ejemplo) se quedan fuera, para que el juego nunca contradiga al libro de texto.' },
+      { titulo: 'De la regla al poema', texto: 'Los fragmentos son conocidos: «Verde que te quiero verde», «Volverán las oscuras golondrinas», «Caminante, no hay camino». Medir lo que ya suena familiar ayuda a oír el ritmo del octosílabo o del endecasílabo, que es lo que de verdad se busca.' },
+    ],
+    ejemplo: 'Sale «Un soneto me manda hacer Violante». Separando: un-so-ne-to-me-man-da-ha-cer-Vio-lan-te, doce sílabas. Pero «manda» acaba en vocal y «hacer» empieza por vocal (la h no suena): sinalefa, da‿ha, y quedan once. «Violante» es llana, así que no se suma ni se resta: endecasílabo, como todo el soneto.',
+    enPapel: {
+      titulo: 'Mide una canción',
+      pasos: [
+        'Elegid la letra de una canción o un refrán que os sepáis de memoria.',
+        'Escribid cada verso y separadlo en sílabas con guiones.',
+        'Marcad las sinalefas con un arco y mirad la última palabra de cada verso.',
+        'Contad y comprobad si todos los versos miden lo mismo: muchas canciones populares van en octosílabos.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'El examen de Figuras Literarias', desc: 'Para reconocer metáforas, anáforas o hipérbatos en versos y frases.' },
+      { nombre: 'Pon la Tilde', desc: 'Para afianzar agudas, llanas y esdrújulas, que son la base de la ley del acento final.' },
+      { nombre: 'El examen de Literatura', desc: 'Tipo test sobre géneros, épocas y autores de la literatura española.' },
+    ],
+    asignatura: 'Lengua', niveles: 'Primaria (5.º y 6.º), ESO, Bachillerato',
+  },
   'encuentra-elemento': {
     titulo: 'Encuentra el Elemento',
     subtitulo: 'Juego de la Tabla Periódica',
@@ -3108,6 +3136,33 @@ export const FICHAS_EN = {
       { nombre: 'Historical Eras', desc: 'Another history game: place objects and inventions in the era they belong to.' },
     ],
     asignatura: 'Art History', niveles: 'Secondary, Sixth Form',
+  },
+  'mide-el-verso': {
+    titulo: 'Measure the Verse',
+    subtitulo: 'Spanish metre game: syllables, synalepha, rhyme and stanzas',
+    emoji: '✒️', gradient: 'from-rose-600 to-amber-700', path: '/juegos/mide-el-verso',
+    intro: 'A Spanish-language game for learning to measure verse with real poems: Garcilaso, Góngora, Quevedo, Lope de Vega, Sor Juana, Espronceda, Zorrilla, Bécquer, Rubén Darío, Antonio Machado and Lorca, all in the public domain. Each round shows an excerpt with one or more lines marked. On easy, eight-syllable lines: count the metrical syllables, see whether the last word is stressed on the last, second-to-last or third-to-last syllable, and say whether two lines have full rhyme or assonance. On medium, seven-, nine- and eleven-syllable lines appear and you name them. On hard, alexandrines with a caesura and stanzas: redondilla, cuarteta, cuarteto and romance.',
+    beneficios: [
+      { titulo: 'The count, syllable by syllable', texto: 'When the answer is shown, the line appears split into syllables, with synalephas joined (da‿ha) and the final adjustment: "un-ve-le-ro-ber-gan-tín → 7 + 1 (stressed last) = 8". The mistake is rarely not knowing the rule but applying it wrongly in a particular syllable, and this shows which one.' },
+      { titulo: 'Measured by the rules, not by hand', texto: 'The game works out the answers itself with the textbook rules: diphthongs and hiatus, synalepha, the final-stress rule and the caesura. Before a line goes in, it is checked against the known metre of its poem; lines that need an unusual licence are left out, so the game never contradicts the textbook.' },
+      { titulo: 'From rule to poem', texto: 'The excerpts are well known: "Verde que te quiero verde", "Volverán las oscuras golondrinas", "Caminante, no hay camino". Measuring something that already sounds familiar helps students hear the rhythm of the octosyllable or the hendecasyllable, which is the real goal.' },
+    ],
+    ejemplo: '"Un soneto me manda hacer Violante" appears. Split up: un-so-ne-to-me-man-da-ha-cer-Vio-lan-te, twelve syllables. But "manda" ends in a vowel and "hacer" starts with one (the h is silent): synalepha, da‿ha, leaving eleven. "Violante" is stressed on the second-to-last syllable, so nothing is added or taken away: a hendecasyllable, like the whole sonnet.',
+    enPapel: {
+      titulo: 'Measure a song',
+      pasos: [
+        'Choose the lyrics of a Spanish song or a saying you know by heart.',
+        'Write each line and split it into syllables with hyphens.',
+        'Mark the synalephas with an arc and look at the last word of each line.',
+        'Count and check whether all the lines have the same length: many folk songs are in eight-syllable lines.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'The Figures of Speech exam', desc: 'For recognising metaphors, anaphora or hyperbaton in lines and sentences.' },
+      { nombre: 'Spanish Accents', desc: 'To reinforce stress patterns (aguda, llana, esdrújula), the basis of the final-stress rule.' },
+      { nombre: 'The Literature exam', desc: 'Multiple choice on genres, periods and authors of Spanish literature.' },
+    ],
+    asignatura: 'Language', niveles: 'Upper primary, Secondary, Sixth Form',
   },
   'encuentra-elemento': {
     titulo: 'Find the Element',
@@ -4728,6 +4783,33 @@ export const FICHAS_CA = {
       { nombre: 'Èpoques Històriques', desc: 'Un altre joc d’història: col·loca objectes i invents a l’època a la qual pertanyen.' },
     ],
     asignatura: 'Història de l’Art', niveles: 'ESO, Batxillerat',
+  },
+  'mide-el-verso': {
+    titulo: 'Mesura el vers',
+    subtitulo: 'Joc de mètrica castellana: síl·labes, sinalefa, rima i estrofes',
+    emoji: '✒️', gradient: 'from-rose-600 to-amber-700', path: '/juegos/mide-el-verso',
+    intro: 'Un joc de Llengua castellana per aprendre a mesurar versos amb poemes de debò: Garcilaso, Góngora, Quevedo, Lope de Vega, Sor Juana, Espronceda, Zorrilla, Bécquer, Rubén Darío, Antonio Machado i Lorca, tots de domini públic. Cada ronda ensenya un fragment amb un o diversos versos assenyalats. Al nivell fàcil, octosíl·labs: comptar les síl·labes mètriques, veure si l’última paraula és aguda, plana o esdrúixola i dir si dos versos rimen en consonant o en assonant. Al mitjà apareixen heptasíl·labs, eneasíl·labs i endecasíl·labs i cal anomenar-los. Al difícil, alexandrins amb cesura i estrofes: redondilla, quarteta, quartet i romanç.',
+    beneficios: [
+      { titulo: 'El compte, síl·laba a síl·laba', texto: 'En corregir apareix el vers partit en síl·labes, amb les sinalefes unides (da‿ha) i l’ajust final: «un-ve-le-ro-ber-gan-tín → 7 + 1 (aguda) = 8». L’error gairebé mai no és no saber la regla, sinó aplicar-la malament en una síl·laba concreta, i així es veu en quina.' },
+      { titulo: 'Mesurat per les regles, no a mà', texto: 'Les respostes les calcula el mateix joc amb les regles dels llibres: diftongs i hiats, sinalefa, llei de l’accent final i cesura. Abans d’entrar, cada vers es comprova amb el metre conegut del poema; els que necessiten una llicència rara es queden fora, perquè el joc mai no contradigui el llibre de text.' },
+      { titulo: 'De la regla al poema', texto: 'Els fragments són coneguts: «Verde que te quiero verde», «Volverán las oscuras golondrinas», «Caminante, no hay camino». Mesurar el que ja sona familiar ajuda a sentir el ritme de l’octosíl·lab o de l’endecasíl·lab, que és el que de debò es busca.' },
+    ],
+    ejemplo: 'Surt «Un soneto me manda hacer Violante». Separant: un-so-ne-to-me-man-da-ha-cer-Vio-lan-te, dotze síl·labes. Però «manda» acaba en vocal i «hacer» comença per vocal (la h no sona): sinalefa, da‿ha, i en queden onze. «Violante» és plana, així que no se suma ni es resta: endecasíl·lab, com tot el sonet.',
+    enPapel: {
+      titulo: 'Mesura una cançó',
+      pasos: [
+        'Trieu la lletra d’una cançó en castellà o una dita que us sapigueu de memòria.',
+        'Escriviu cada vers i separeu-lo en síl·labes amb guions.',
+        'Marqueu les sinalefes amb un arc i mireu l’última paraula de cada vers.',
+        'Compteu i comproveu si tots els versos mesuren el mateix: moltes cançons populars van en octosíl·labs.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'L’examen de Figures Literàries', desc: 'Per reconèixer metàfores, anàfores o hipèrbatons en versos i frases.' },
+      { nombre: 'Posa l’Accent', desc: 'Per afermar agudes, planes i esdrúixoles, que són la base de la llei de l’accent final.' },
+      { nombre: 'L’examen de Literatura', desc: 'Tipus test sobre gèneres, èpoques i autors de la literatura castellana.' },
+    ],
+    asignatura: 'Llengua', niveles: 'Primària (5è i 6è), ESO, Batxillerat',
   },
   'encuentra-elemento': {
     titulo: 'Troba l\'Element',

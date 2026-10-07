@@ -371,7 +371,9 @@ describe('hub de fichas (/info/juegos) ↔ registro de fichas', () => {
       const sinMapear = [...new Set(Object.values(fichas).map(f => f.asignatura).filter(a => !SUBJECT_OF[a]))]
       expect(sinMapear, `[${lbl}] asignaturas sin mapear en SUBJECT_OF: ${sinMapear.join(', ')}`).toEqual([])
     }
-  })
+  // Importa la página entera del hub (y sus dependencias): con la suite en
+  // paralelo superaba a veces los 5 s por defecto y fallaba sin motivo.
+  }, 20000)
 
   it('la lista ligera de slugs con ficha coincide con el registro', async () => {
     const { FICHAS_ES } = await import('../../data/infoJuegosFichas.js')

@@ -132,6 +132,7 @@ const Coordenadas            = lazy(() => import('./pages/Coordenadas'))
 const PiramidePoblacion      = lazy(() => import('./pages/PiramidePoblacion'))
 const Climograma             = lazy(() => import('./pages/Climograma'))
 const QueEstilo              = lazy(() => import('./pages/QueEstilo'))
+const MideElVerso            = lazy(() => import('./pages/MideElVerso'))
 const ArteIndex              = lazy(() => import('./pages/ArteIndex'))
 const RayosX                 = lazy(() => import('./pages/RayosX'))
 const CircuitoCerrado        = lazy(() => import('./pages/CircuitoCerrado'))
@@ -325,6 +326,7 @@ function AppRoutes() {
       <Route path="juegos/piramide-poblacion" element={<PiramidePoblacion />} />
       <Route path="juegos/climograma" element={<Climograma />} />
       <Route path="juegos/que-estilo" element={<QueEstilo />} />
+      <Route path="juegos/mide-el-verso" element={<MideElVerso />} />
       <Route path="juegos/rayos-x" element={<RayosX />} />
       <Route path="juegos/circuito-cerrado" element={<CircuitoCerrado />} />
       <Route path="juegos/rayo-de-luz" element={<RayoDeLuz />} />

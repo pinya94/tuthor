@@ -437,6 +437,14 @@ export const GAMES = {
     // aciertos × 10 puntos → hasta 200 monedas
     coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
   },
+  'mide-el-verso': {
+    label: { es: 'Mide el verso', en: 'Measure the Verse', ca: 'Mesura el vers' },
+    emoji: '✒️',
+    subject: 'lengua',
+    route: '/juegos/mide-el-verso',
+    // aciertos × 10 puntos → hasta 200 monedas
+    coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
+  },
   'que-estilo': {
     label: { es: '¿Qué estilo es?', en: 'What Style Is It?', ca: 'Quin estil és?' },
     emoji: '⛪',

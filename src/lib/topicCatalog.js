@@ -301,6 +301,7 @@ export const TOPIC_CATALOG = {
       literatura: examTema({ test: 'espanol-literatura-test' }, { niveles: ['eso', 'bachillerato'] }),
       textos: examTema({ test: 'espanol-textos-test' }, { niveles: ['primaria', 'eso'] }),
       figuras: examTema({ test: 'espanol-figuras-test' }, { niveles: ['eso', 'bachillerato'] }),
+      metrica: examTema({ medir: 'mide-el-verso-test' }, { niveles: ['primaria', 'eso', 'bachillerato'] }),
       // Un tema, dos formatos: el juego (arcade, por tiempo) y su examen (sin
       // reloj, con nota). Los dos sobre textos EN CASTELLANO: el inglés cuelga
       // de Inglés → spelling, y el catalán no tiene tema porque no hay materia.
@@ -332,6 +333,7 @@ export const TOPIC_CATALOG = {
         tracksTopic: true,
         temas: ['correccion'],
       },
+      medir: examFormato({ es: 'Mide el verso (con el juego)', en: 'Measure the Verse (with the game)', ca: 'Mesura el vers (amb el joc)' }, '✒️'),
       corregirExamen: examFormato({ es: 'Corregir el texto (examen)', en: 'Proofread the text (exam)', ca: 'Corregir el text (examen)' }, '🔍'),
       intruso: {
         label: { es: 'El Intruso (juego)', en: 'The Odd One Out (game)', ca: "L'Intrús (joc)" },

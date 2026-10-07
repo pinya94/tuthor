@@ -364,6 +364,25 @@ function Textos(p) {
 }
 
 // Figuras literarias: un libro abierto del que sale la metáfora (ojos = luceros).
+function Metrica(p) {
+  // Un verso partido en sílabas con su sinalefa y la cuenta.
+  const sil = ['Ver', 'de', 'que', 'te', 'quie', 'ro', 'ver', 'de']
+  return (
+    <Lienzo {...p}>
+      <rect x="14" y="22" width="212" height="54" rx="6" fill="#FDF6E3" />
+      {sil.map((s, i) => (
+        <g key={i}>
+          <rect x={20 + i * 25.5} y="34" width="22" height="28" rx="4" fill={i % 2 ? '#FDE68A' : '#FCD34D'} />
+          <T x={31 + i * 25.5} y={53} s={11} c="#44403C">{s}</T>
+        </g>
+      ))}
+      <T x={120} y={104} s={22} c="#FBBF24">8</T>
+      <T x={160} y={104} s={12} c="#E7E5E4" a="start">sílabas</T>
+      <path d="M40 92Q80 108 118 96" stroke="#F472B6" strokeWidth="2.5" fill="none" strokeDasharray="4 3" />
+    </Lienzo>
+  )
+}
+
 function Figuras(p) {
   return (
     <Lienzo {...p}>
@@ -404,6 +423,7 @@ export const ARTE_TEMAS_LENGUA = {
   'lengua/literatura': Literatura,
   'lengua/textos': Textos,
   'lengua/figuras': Figuras,
+  'lengua/metrica': Metrica,
 }
 
 // La gramática inglesa usa los mismos conceptos con otro id.

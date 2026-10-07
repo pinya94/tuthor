@@ -14,6 +14,8 @@ const CATEGORIAS = [
   // la tarjeta va directa a él como Literatura.
   { id: 'textos', arte: 'lengua/textos', titulo: { es: 'Los Textos', en: 'Types of Text', ca: 'Els Textos' }, emoji: '📝', gradient: 'from-teal-500 to-cyan-700', path: '/examen/espanol-textos-test' },
   // Figuras literarias: reconocerlas en versos y frases; un solo examen.
+  // Métrica: el juego Mide el verso (y su examen, enlazado desde el juego).
+  { id: 'metrica', arte: 'lengua/metrica', titulo: { es: 'Métrica', en: 'Metre', ca: 'Mètrica' }, emoji: '✒️', gradient: 'from-rose-600 to-amber-700', path: '/juegos/mide-el-verso' },
   { id: 'figuras', arte: 'lengua/figuras', titulo: { es: 'Figuras Literarias', en: 'Figures of Speech', ca: 'Figures Literàries' }, emoji: '🎭', gradient: 'from-fuchsia-500 to-purple-700', path: '/examen/espanol-figuras-test' },
 ]
 

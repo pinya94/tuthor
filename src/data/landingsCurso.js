@@ -168,7 +168,7 @@ export const LANDINGS = [
       en: ['Accents: stress rules', 'Spelling: b/v, g/j and proofreading', 'Punctuation marks', 'Parts of speech: noun, adjective, verb…', 'Subject and predicate'],
       ca: ['Accents: agudes, planes i esdrúixoles', 'Ortografia: b/v, g/j i corregir textos', 'Signes de puntuació', 'Classes de paraules: substantiu, adjectiu, verb…', 'Subjecte i predicat'],
     },
-    juegos: ['pon-la-tilde', 'corrige-el-texto', 'analiza-frases', 'intruso'],
+    juegos: ['pon-la-tilde', 'corrige-el-texto', 'analiza-frases', 'mide-el-verso', 'intruso'],
     temas: [
       { arte: 'gramatica/sustantivos', ruta: '/estudiar/idiomas/espanol/gramatica/sustantivos', titulo: T('Sustantivos', 'Nouns', 'Substantius') },
       { arte: 'gramatica/adjetivos', ruta: '/estudiar/idiomas/espanol/gramatica/adjetivos', titulo: T('Adjetivos', 'Adjectives', 'Adjectius') },
@@ -414,7 +414,7 @@ export const LANDINGS = [
       en: ['Subject and predicate', 'Objects: direct, indirect and adverbial', 'Parts of speech in context', 'Accents and punctuation', 'Proofreading and literature'],
       ca: ['Subjecte i predicat', 'Complements: CD, CI i circumstancials', 'Classes de paraules en context', 'Accentuació i puntuació', 'Correcció de textos i literatura'],
     },
-    juegos: ['analiza-frases', 'pon-la-tilde', 'corrige-el-texto', 'intruso'],
+    juegos: ['analiza-frases', 'mide-el-verso', 'pon-la-tilde', 'corrige-el-texto', 'intruso'],
     temas: [
       { arte: 'gramatica/sintaxis', ruta: '/estudiar/idiomas/espanol/gramatica/sintaxis', titulo: T('Sintaxis', 'Syntax', 'Sintaxi') },
       { arte: 'gramatica/verbos', ruta: '/estudiar/idiomas/espanol/gramatica/verbos', titulo: T('Verbos', 'Verbs', 'Verbs') },
@@ -736,7 +736,7 @@ export const LANDINGS = [
       en: ['Simple and complex sentence syntax', 'Verb complements', 'Figures of speech', 'Spanish literature', 'Text types and textual properties'],
       ca: ['Sintaxi de l’oració simple i composta', 'Complements del verb', 'Figures literàries', 'Literatura castellana', 'Tipus de text i propietats textuals'],
     },
-    juegos: ['analiza-frases', 'corrige-el-texto'],
+    juegos: ['analiza-frases', 'mide-el-verso', 'corrige-el-texto'],
     temas: [
       { arte: 'gramatica/sintaxis', ruta: '/estudiar/idiomas/espanol/gramatica/sintaxis', titulo: T('Sintaxis', 'Syntax', 'Sintaxi') },
       { arte: 'lengua/figuras', ruta: '/examen/espanol-figuras-test', titulo: T('Figuras literarias', 'Figures of speech', 'Figures literàries') },

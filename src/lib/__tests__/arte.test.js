@@ -73,7 +73,7 @@ describe('arte de los temas', () => {
     ...['sustantivos', 'adjetivos', 'determinantes', 'pronombres', 'verbos', 'adverbios', 'nexos', 'sintaxis', 'morfologia'].map(id => `gramatica/${id}`),
     ...['present-simple', 'past-simple', 'present-perfect', 'articles', 'passive'].map(id => `ingles/${id}`),
     ...['acentuacion', 'bv', 'gj', 'puntuacion', 'correccion'].map(id => `ortografia/${id}`),
-    'lengua/gramatica', 'lengua/literatura', 'lengua/textos', 'lengua/figuras',
+    'lengua/gramatica', 'lengua/literatura', 'lengua/textos', 'lengua/figuras', 'lengua/metrica',
     // Música y Economía (MusicaIndex, EconomiaIndex).
     'musica/notas', 'musica/ritmo', 'musica/instrumentos', 'economia/finanzas-personales', 'economia/punto-equilibrio', 'economia/mercado',
     // Historia del Arte (ArteIndex).
