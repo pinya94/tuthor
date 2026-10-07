@@ -196,6 +196,8 @@ export const TOPIC_CATALOG = {
       porcentajes: examTema({ teoria: 'porcentajes', rebajas: 'rebajas-test' }, { niveles: ['primaria', 'eso'] }),
       divisibilidad: examTema({ teoria: 'divisibilidad' }, { niveles: ['primaria', 'eso'] }),
       trigonometria: examTema({ teoria: 'trigonometria' }, { niveles: ['eso', 'bachillerato'] }),
+      potencias: examTema({ teoria: 'potencias' }, { niveles: ['primaria', 'eso'] }),
+      sucesiones: examTema({ teoria: 'sucesiones' }, { niveles: ['eso', 'bachillerato'] }),
       estadistica: examTema({
         teoria: 'estadistica',
         'estadistico-media': 'estadistico-media-test',

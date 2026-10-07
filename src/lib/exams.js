@@ -794,6 +794,16 @@ export const EXAMS = {
     emoji: '🎭', subject: 'lengua',
     path: 'examen/espanol-figuras-test', page: () => import('../pages/EspanolFigurasExamen'),
   },
+  'potencias': {
+    label: { es: 'Potencias y Notación Científica', en: 'Powers and Scientific Notation', ca: 'Potències i Notació Científica' },
+    emoji: '🚀', subject: 'matematicas',
+    path: 'examen/potencias', page: () => import('../pages/PotenciasExamen'),
+  },
+  'sucesiones': {
+    label: { es: 'Sucesiones y Progresiones', en: 'Sequences and Progressions', ca: 'Successions i Progressions' },
+    emoji: '🔢', subject: 'matematicas',
+    path: 'examen/sucesiones', page: () => import('../pages/SucesionesExamen'),
+  },
   'trigonometria': {
     label: { es: 'Trigonometría', en: 'Trigonometry', ca: 'Trigonometria' },
     emoji: '📐', subject: 'matematicas',

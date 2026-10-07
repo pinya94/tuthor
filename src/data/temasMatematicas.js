@@ -27,6 +27,18 @@ export const TEMAS_MATEMATICAS_EXTRA = [
     tags: ['multiplo', 'divisor', 'primo', 'mcm', 'mcd', 'factores', 'criterios'],
   },
   {
+    id: 'potencias',
+    titulo: 'Potencias y Notación Científica', tituloEn: 'Powers and Scientific Notation', tituloCa: 'Potències i Notació Científica',
+    emoji: '🚀', gradient: 'from-orange-500 to-red-600',
+    tags: ['potencia', 'exponente', 'raiz', 'cuadrado', 'cubo', 'notacion cientifica', 'powers', 'scientific notation'],
+  },
+  {
+    id: 'sucesiones',
+    titulo: 'Sucesiones y Progresiones', tituloEn: 'Sequences and Progressions', tituloCa: 'Successions i Progressions',
+    emoji: '🔢', gradient: 'from-teal-500 to-emerald-700',
+    tags: ['sucesion', 'progresion', 'aritmetica', 'geometrica', 'termino general', 'fibonacci', 'sequence', 'progression'],
+  },
+  {
     id: 'trigonometria',
     titulo: 'Trigonometría', tituloEn: 'Trigonometry', tituloCa: 'Trigonometria',
     emoji: '📐', gradient: 'from-cyan-500 to-blue-700',

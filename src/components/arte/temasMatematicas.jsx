@@ -262,6 +262,36 @@ function Algebra(p) {
 // Divisibilidad: el árbol de factores del 60.
 // Trigonometría: el triángulo rectángulo dentro de la circunferencia
 // goniométrica, con el seno y el coseno marcados.
+// Potencias: una torre de cubos que crece (2, 4, 8) y un 10 con exponente.
+function Potencias(p) {
+  return (
+    <Lienzo {...p}>
+      {[[30, 1], [62, 2], [104, 3]].map(([x, n]) => Array.from({ length: 2 ** n }, (_, i) => (
+        <rect key={`${n}-${i}`} x={x + (i % 2) * 15} y={112 - Math.floor(i / 2) * 15} width="13" height="13" rx="2" fill={['#FB923C', '#F97316', '#EA580C'][n - 1]} />
+      )))}
+      <T x={192} y={76} s={34} c="#F8FAFC">10</T>
+      <T x={222} y={52} s={18} c="#FBBF24">7</T>
+    </Lienzo>
+  )
+}
+
+// Sucesiones: puntos que crecen como una progresión, con las flechas del salto.
+function Sucesiones(p) {
+  const xs = [34, 82, 130, 178]
+  return (
+    <Lienzo {...p}>
+      {xs.map((x, i) => (
+        <g key={x}>
+          {Array.from({ length: i + 1 }, (_, k) => <circle key={k} cx={x} cy={110 - k * 18} r="7" fill="#2DD4BF" />)}
+          {i < 3 && <path d={`M${x + 12} 40Q${x + 24} 28 ${x + 36} 40`} stroke="#FBBF24" strokeWidth="2.5" fill="none" />}
+          {i < 3 && <T x={x + 24} y={26} s={11} c="#FBBF24">+1</T>}
+        </g>
+      ))}
+      <T x={220} y={86} s={22} c="#F8FAFC">…</T>
+    </Lienzo>
+  )
+}
+
 function Trigonometria(p) {
   return (
     <Lienzo {...p}>
@@ -312,6 +342,8 @@ export const ARTE_TEMAS_MATEMATICAS = {
   'matematicas/porcentajes': Porcentajes,
   'matematicas/divisibilidad': Divisibilidad,
   'matematicas/trigonometria': Trigonometria,
+  'matematicas/potencias': Potencias,
+  'matematicas/sucesiones': Sucesiones,
   'matematicas/estadistica': Estadistica,
   'matematicas/enteros-racionales': Enteros,
   'matematicas/algebra': Algebra,

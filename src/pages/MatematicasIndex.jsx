@@ -14,6 +14,8 @@ import { TEMAS_MATEMATICAS_EXTRA } from '../data/temasMatematicas'
 const EXAM_DIRECTO = {
   divisibilidad: '/examen/divisibilidad',
   trigonometria: '/examen/trigonometria',
+  potencias: '/examen/potencias',
+  sucesiones: '/examen/sucesiones',
 }
 
 const EXTRAS = TEMAS_MATEMATICAS_EXTRA
