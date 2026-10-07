@@ -248,6 +248,39 @@ function Passive(p) {
   )
 }
 
+// Condicionales: una bifurcación «if…» que lleva a dos resultados.
+function Conditionals(p) {
+  return (
+    <Lienzo {...p}>
+      <rect x="18" y="52" width="58" height="30" rx="8" fill={CIELO} />
+      <T x={47} y={72} s={14} c="#0F172A">if…</T>
+      <path d="M76 67H104Q118 67 124 50L132 34M104 67Q118 67 124 84L132 100" stroke="#94A3B8" strokeWidth="3" fill="none" />
+      <rect x="136" y="20" width="86" height="28" rx="8" fill={AMBAR} />
+      <T x={179} y={39} s={12} c="#0F172A">will…</T>
+      <rect x="136" y="86" width="86" height="28" rx="8" fill={ROSA} />
+      <T x={179} y={105} s={12} c="#0F172A">would…</T>
+    </Lienzo>
+  )
+}
+
+// Modales: los cuatro más usados como fichas junto a un verbo base.
+function Modals(p) {
+  const fichas = [['can', CIELO], ['must', ROSA], ['should', AMBAR], ['might', '#A78BFA']]
+  return (
+    <Lienzo {...p}>
+      {fichas.map(([t, c], i) => (
+        <g key={t}>
+          <rect x={18 + (i % 2) * 74} y={22 + Math.floor(i / 2) * 46} width="66" height="34" rx="8" fill={c} />
+          <T x={51 + (i % 2) * 74} y={44 + Math.floor(i / 2) * 46} s={13} c="#0F172A">{t}</T>
+        </g>
+      ))}
+      <T x={182} y={74} s={20} c="#94A3B8">+</T>
+      <rect x="196" y="56" width="36" height="28" rx="8" fill="#E2E8F0" />
+      <T x={214} y={75} s={11} c="#0F172A">go</T>
+    </Lienzo>
+  )
+}
+
 // ── ORTOGRAFÍA ─────────────────────────────────────────────────────────────
 
 function Acentuacion(p) {
@@ -414,6 +447,8 @@ export const ARTE_TEMAS_LENGUA = {
   'ingles/present-perfect': PresentPerfect,
   'ingles/articles': Articles,
   'ingles/passive': Passive,
+  'ingles/conditionals': Conditionals,
+  'ingles/modals': Modals,
   'ortografia/acentuacion': Acentuacion,
   'ortografia/bv': BV,
   'ortografia/gj': GJ,

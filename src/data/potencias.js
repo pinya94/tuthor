@@ -40,7 +40,7 @@ export const PREGUNTAS = [
     T('¿Cuál es el cuadrado de 9?', 'What is 9 squared?', 'Quin és el quadrat de 9?'),
     N('81', '18', '3', '99'),
     T('El cuadrado de 9 es 9² = 9 · 9 = 81. El 18 sería 9 · 2 y el 3 es su raíz cuadrada.', '9 squared is 9² = 9 · 9 = 81. 18 would be 9 · 2 and 3 is its square root.', 'El quadrat de 9 és 9² = 9 · 9 = 81. El 18 seria 9 · 2 i el 3 és la seva arrel quadrada.')),
-  q('po-06', 'primaria', '🧊',
+  q('po-06', 'primaria', '🎲',
     T('¿Cuál es el cubo de 3?', 'What is 3 cubed?', 'Quin és el cub de 3?'),
     N('27', '9', '6', '81'),
     T('3³ = 3 · 3 · 3 = 27, que es el número de cubitos de un cubo de 3 de lado. El 9 es el cuadrado y el 81, 3⁴.', '3³ = 3 · 3 · 3 = 27, the number of small cubes in a cube 3 units across. 9 is the square and 81 is 3⁴.', '3³ = 3 · 3 · 3 = 27, que és el nombre de cubets d’un cub de 3 de costat. El 9 és el quadrat i el 81, 3⁴.')),

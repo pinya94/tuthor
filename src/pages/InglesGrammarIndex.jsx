@@ -12,6 +12,8 @@ const TEMAS = [
   { id: 'present-perfect', titulo: 'Present Perfect', emoji: '🔗', gradient: 'from-purple-500 to-violet-600', gameId: 'ingles-grammar-present-perfect-test' },
   { id: 'articles', titulo: 'Articles', emoji: '📖', gradient: 'from-blue-500 to-cyan-600', gameId: 'ingles-grammar-articles-test' },
   { id: 'passive', titulo: 'Passive Voice', emoji: '🔄', gradient: 'from-red-500 to-rose-600', gameId: 'ingles-grammar-passive-test' },
+  { id: 'conditionals', titulo: 'Conditionals & Wishes', emoji: '🔀', gradient: 'from-indigo-500 to-violet-600', gameId: 'ingles-grammar-conditionals-test' },
+  { id: 'modals', titulo: 'Modal Verbs', emoji: '🔑', gradient: 'from-amber-500 to-yellow-600', gameId: 'ingles-grammar-modals-test' },
   // Parts of speech — examen tipo test; desde él se salta a la mecánica "Analyse
   // the Sentence" (otroExamen → ingles-pos-*-test).
   { id: 'nouns', titulo: 'Nouns', emoji: '📚', gradient: 'from-red-500 to-rose-600', gameId: 'ingles-grammar-nouns-test' },

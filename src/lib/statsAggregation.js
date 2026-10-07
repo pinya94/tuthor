@@ -190,6 +190,8 @@ export const SUBJECT_DEFS = [
       'present-perfect': { es: 'Present Perfect',          en: 'Present Perfect',  ca: 'Present Perfect' },
       articles:          { es: 'Articles',                 en: 'Articles',         ca: 'Articles' },
       passive:           { es: 'Passive Voice',            en: 'Passive Voice',    ca: 'Passive Voice' },
+      conditionals:      { es: 'Conditionals (condicionales)', en: 'Conditionals', ca: 'Conditionals (condicionals)' },
+      modals:            { es: 'Modal Verbs (modales)',    en: 'Modal Verbs',      ca: 'Modal Verbs (modals)' },
       'word-order':      { es: 'Word Order (orden de las palabras)', en: 'Word Order', ca: 'Word Order (ordre de les paraules)' },
       spelling:          { es: 'Spelling (ortografía)',    en: 'Spelling',         ca: 'Spelling (ortografia)' },
     },

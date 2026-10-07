@@ -926,6 +926,16 @@ export const EXAMS = {
     emoji: '📖', subject: 'ingles',
     path: 'examen/ingles-grammar-articles-test', page: () => import('../pages/InglesGrammarArticlesExamen'),
   },
+  'ingles-grammar-conditionals-test': {
+    label: { es: 'Conditionals & Wishes', en: 'Conditionals & Wishes', ca: 'Conditionals & Wishes' },
+    emoji: '🔀', subject: 'ingles',
+    path: 'examen/ingles-grammar-conditionals-test', page: () => import('../pages/InglesGrammarConditionalsExamen'),
+  },
+  'ingles-grammar-modals-test': {
+    label: { es: 'Modal Verbs', en: 'Modal Verbs', ca: 'Modal Verbs' },
+    emoji: '🔑', subject: 'ingles',
+    path: 'examen/ingles-grammar-modals-test', page: () => import('../pages/InglesGrammarModalsExamen'),
+  },
   'ingles-grammar-passive-test': {
     label: { es: 'Passive Voice', en: 'Passive Voice', ca: 'Passive Voice' },
     emoji: '🔄', subject: 'ingles',
