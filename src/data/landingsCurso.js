@@ -826,6 +826,8 @@ export const LANDINGS = [
       { arte: 'fisica/movimiento', ruta: '/estudiar/fisica/movimiento', titulo: T('El movimiento', 'Motion', 'El moviment') },
       { arte: 'fisica/dinamica', ruta: '/estudiar/fisica/dinamica', titulo: T('Dinámica', 'Dynamics', 'Dinàmica') },
       { arte: 'quimica/estequiometria', ruta: '/estudiar/quimica/estequiometria', titulo: T('El mol y la estequiometría', 'The mole and stoichiometry', 'El mol i l’estequiometria') },
+      { arte: 'quimica/enlace-quimico', ruta: '/estudiar/quimica/enlace-quimico', titulo: T('El enlace químico', 'Chemical bonding', 'L’enllaç químic') },
+      { arte: 'quimica/quimica-organica', ruta: '/estudiar/quimica/quimica-organica', titulo: T('Química orgánica', 'Organic chemistry', 'Química orgànica') },
       { arte: 'quimica/formulacion', ruta: '/estudiar/quimica/formulacion', titulo: T('Formulación química', 'Chemical formulas', 'Formulació química') },
       { arte: 'quimica/disoluciones', ruta: '/estudiar/quimica/disoluciones', titulo: T('Disoluciones', 'Solutions', 'Dissolucions') },
       { arte: 'quimica/tabla-periodica', ruta: '/estudiar/quimica/tabla-periodica', titulo: T('Tabla periódica', 'Periodic table', 'Taula periòdica') },

@@ -50,6 +50,8 @@ export const TEMA_DISCIPLINA = {
   'movimiento':         'fisica',
   'dinamica':           'fisica',
   'estequiometria':     'quimica',
+  'enlace-quimico':     'quimica',
+  'quimica-organica':   'quimica',
   formulacion:          'quimica',
   disoluciones:         'quimica',
   'celula':             'biologia',

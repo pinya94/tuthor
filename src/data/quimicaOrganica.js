@@ -1,0 +1,121 @@
+// Química orgánica — Física y Química de 4.º de ESO y 1.º-2.º de
+// Bachillerato. El carbono y sus cadenas, hidrocarburos (alcanos, alquenos,
+// alquinos, benceno), nomenclatura IUPAC básica, grupos funcionales
+// (alcoholes, aldehídos, cetonas, ácidos, ésteres, aminas), isomería y
+// reacciones (combustión, adición, esterificación, polimerización).
+//
+// Nombres según las recomendaciones IUPAC actuales (but-2-eno, propan-1-ol),
+// con el localizador delante de la terminación.
+// La respuesta buena va siempre la PRIMERA; ExamenMC baraja.
+function q(id, nivel, emoji, pregunta, opciones, explicacion) {
+  const correcta = { es: opciones.es[0], en: opciones.en[0], ca: opciones.ca[0] }
+  return { id, nivel, emoji, pregunta, opciones, correcta, explicacion }
+}
+const T = (es, en, ca) => ({ es, en, ca })
+const O = (es, en, ca) => ({ es, en, ca })
+const N = (...xs) => ({ es: xs, en: xs, ca: xs })
+
+export const PREGUNTAS = [
+  // ── ESO ─────────────────────────────────────────────────────────────────
+  q('or-01', 'eso', '🧪',
+    T('¿Qué estudia la química orgánica?', 'What does organic chemistry study?', 'Què estudia la química orgànica?'),
+    O(['Los compuestos del carbono', 'Solo las sustancias de los seres vivos', 'Los metales y sus aleaciones', 'Los gases nobles'], ['Carbon compounds', 'Only substances from living things', 'Metals and their alloys', 'The noble gases'], ['Els compostos del carboni', 'Només les substàncies dels éssers vius', 'Els metalls i els seus aliatges', 'Els gasos nobles']),
+    T('Se llamó «orgánica» porque se creía que esas sustancias solo las fabricaban los seres vivos, hasta que Wöhler sintetizó la urea en 1828. Hoy incluye plásticos, medicinas y combustibles.', 'It was called "organic" because these substances were thought to be made only by living things, until Wöhler synthesised urea in 1828. Today it includes plastics, medicines and fuels.', 'Es va dir «orgànica» perquè es creia que aquestes substàncies només les fabricaven els éssers vius, fins que Wöhler va sintetitzar la urea el 1828. Avui inclou plàstics, medicaments i combustibles.')),
+  q('or-02', 'eso', '✋',
+    T('¿Cuántos enlaces forma normalmente un átomo de carbono?', 'How many bonds does a carbon atom normally form?', 'Quants enllaços forma normalment un àtom de carboni?'),
+    N('4', '2', '3', '6'),
+    T('El carbono tiene 4 electrones de valencia y forma 4 enlaces covalentes (es tetravalente). Por eso puede formar cadenas largas, ramificadas, anillos y enlaces dobles y triples.', 'Carbon has 4 valence electrons and forms 4 covalent bonds (it is tetravalent). That is why it can form long chains, branches, rings and double and triple bonds.', 'El carboni té 4 electrons de valència i forma 4 enllaços covalents (és tetravalent). Per això pot formar cadenes llargues, ramificades, anells i enllaços dobles i triples.')),
+  q('or-03', 'eso', '⛽',
+    T('¿Qué son los hidrocarburos?', 'What are hydrocarbons?', 'Què són els hidrocarburs?'),
+    O(['Compuestos formados solo por carbono e hidrógeno', 'Compuestos de carbono, hidrógeno y oxígeno', 'Mezclas de agua y carbono', 'Compuestos de hidrógeno y nitrógeno'], ['Compounds made only of carbon and hydrogen', 'Compounds of carbon, hydrogen and oxygen', 'Mixtures of water and carbon', 'Compounds of hydrogen and nitrogen'], ['Compostos formats només per carboni i hidrogen', 'Compostos de carboni, hidrogen i oxigen', 'Barreges d’aigua i carboni', 'Compostos d’hidrogen i nitrogen']),
+    T('El petróleo y el gas natural son mezclas de hidrocarburos: metano, propano, butano, octano… Si llevan oxígeno ya son otra familia, como los alcoholes.', 'Oil and natural gas are mixtures of hydrocarbons: methane, propane, butane, octane… If they contain oxygen they belong to another family, such as alcohols.', 'El petroli i el gas natural són barreges d’hidrocarburs: metà, propà, butà, octà… Si porten oxigen ja són una altra família, com els alcohols.')),
+  q('or-04', 'eso', '🏷️',
+    T('¿Qué terminación tienen los nombres de los alcanos?', 'What ending do alkane names have?', 'Quina terminació tenen els noms dels alcans?'),
+    O(['-ano', '-eno', '-ino', '-ol'], ['-ane', '-ene', '-yne', '-ol'], ['-à', '-è', '-í', '-ol']),
+    T('Alcanos (solo enlaces simples): -ano, como metano o butano. Los alquenos (doble enlace) acaban en -eno, los alquinos (triple) en -ino y los alcoholes en -ol.', 'Alkanes (single bonds only): -ane, like methane or butane. Alkenes (double bond) end in -ene, alkynes (triple) in -yne and alcohols in -ol.', 'Alcans (només enllaços simples): -à, com metà o butà. Els alquens (doble enllaç) acaben en -è, els alquins (triple) en -í i els alcohols en -ol.')),
+  q('or-05', 'eso', '🔥',
+    T('¿Cómo se llama el CH₄, el principal componente del gas natural?', 'What is CH₄, the main component of natural gas, called?', 'Com es diu el CH₄, el principal component del gas natural?'),
+    O(['Metano', 'Etano', 'Metanol', 'Butano'], ['Methane', 'Ethane', 'Methanol', 'Butane'], ['Metà', 'Età', 'Metanol', 'Butà']),
+    T('Un carbono (prefijo met-) y solo enlaces simples (-ano). El etano tiene dos carbonos (C₂H₆) y el metanol lleva un grupo -OH (CH₃OH).', 'One carbon (prefix meth-) and only single bonds (-ane). Ethane has two carbons (C₂H₆) and methanol carries an -OH group (CH₃OH).', 'Un carboni (prefix met-) i només enllaços simples (-à). L’età té dos carbonis (C₂H₆) i el metanol porta un grup -OH (CH₃OH).')),
+  q('or-06', 'eso', '🍳',
+    T('¿Cómo se llama el hidrocarburo C₃H₈, el gas de muchas bombonas?', 'What is the hydrocarbon C₃H₈, the gas in many gas bottles, called?', 'Com es diu l’hidrocarbur C₃H₈, el gas de moltes bombones?'),
+    O(['Propano', 'Butano', 'Propeno', 'Etano'], ['Propane', 'Butane', 'Propene', 'Ethane'], ['Propà', 'Butà', 'Propè', 'Età']),
+    T('Tres carbonos (prop-) y fórmula de alcano, CₙH₂ₙ₊₂: C₃H₈. El butano es C₄H₁₀ y el propeno, con un doble enlace, C₃H₆.', 'Three carbons (prop-) and the alkane formula CₙH₂ₙ₊₂: C₃H₈. Butane is C₄H₁₀ and propene, with a double bond, C₃H₆.', 'Tres carbonis (prop-) i fórmula d’alcà, CₙH₂ₙ₊₂: C₃H₈. El butà és C₄H₁₀ i el propè, amb un doble enllaç, C₃H₆.')),
+  q('or-07', 'eso', '=',
+    T('¿Qué tienen los alquenos que no tienen los alcanos?', 'What do alkenes have that alkanes do not?', 'Què tenen els alquens que no tenen els alcans?'),
+    O(['Al menos un enlace doble entre carbonos', 'Átomos de oxígeno', 'Un enlace triple', 'Átomos de nitrógeno'], ['At least one carbon–carbon double bond', 'Oxygen atoms', 'A triple bond', 'Nitrogen atoms'], ['Almenys un enllaç doble entre carbonis', 'Àtoms d’oxigen', 'Un enllaç triple', 'Àtoms de nitrogen']),
+    T('C=C, como en el eteno (CH₂=CH₂), del que se fabrica el polietileno. El triple enlace es propio de los alquinos, como el etino (acetileno).', 'C=C, as in ethene (CH₂=CH₂), from which polythene is made. The triple bond belongs to alkynes, such as ethyne (acetylene).', 'C=C, com en l’etè (CH₂=CH₂), del qual es fabrica el polietilè. El triple enllaç és propi dels alquins, com l’etí (acetilè).')),
+  q('or-08', 'eso', '🍷',
+    T('¿Qué grupo funcional caracteriza a los alcoholes?', 'Which functional group characterises alcohols?', 'Quin grup funcional caracteritza els alcohols?'),
+    O(['–OH (hidroxilo)', '–COOH (carboxilo)', '–CHO (aldehído)', '–NH₂ (amino)'], ['–OH (hydroxyl)', '–COOH (carboxyl)', '–CHO (aldehyde)', '–NH₂ (amino)'], ['–OH (hidroxil)', '–COOH (carboxil)', '–CHO (aldehid)', '–NH₂ (amino)']),
+    T('Un –OH unido a un carbono de cadena: metanol, etanol, propanol… –COOH es de los ácidos carboxílicos y –NH₂ de las aminas.', 'An –OH attached to a chain carbon: methanol, ethanol, propanol… –COOH belongs to carboxylic acids and –NH₂ to amines.', 'Un –OH unit a un carboni de cadena: metanol, etanol, propanol… –COOH és dels àcids carboxílics i –NH₂ de les amines.')),
+  q('or-09', 'eso', '🍺',
+    T('¿Cuál es la fórmula del etanol, el alcohol de las bebidas?', 'What is the formula of ethanol, the alcohol in drinks?', 'Quina és la fórmula de l’etanol, l’alcohol de les begudes?'),
+    N('CH₃–CH₂OH', 'CH₃OH', 'CH₃–COOH', 'CH₃–CH₃'),
+    T('Dos carbonos (et-) con un –OH: CH₃–CH₂OH. CH₃OH es metanol (tóxico), CH₃–COOH el ácido acético del vinagre y CH₃–CH₃ el etano.', 'Two carbons (eth-) with an –OH: CH₃–CH₂OH. CH₃OH is methanol (toxic), CH₃–COOH the acetic acid in vinegar and CH₃–CH₃ ethane.', 'Dos carbonis (et-) amb un –OH: CH₃–CH₂OH. CH₃OH és metanol (tòxic), CH₃–COOH l’àcid acètic del vinagre i CH₃–CH₃ l’età.')),
+  q('or-10', 'eso', '🥗',
+    T('El vinagre contiene ácido acético. ¿Qué grupo funcional tiene?', 'Vinegar contains acetic acid. Which functional group does it have?', 'El vinagre conté àcid acètic. Quin grup funcional té?'),
+    O(['Carboxilo, –COOH', 'Hidroxilo, –OH', 'Amino, –NH₂', 'Ninguno: es un hidrocarburo'], ['Carboxyl, –COOH', 'Hydroxyl, –OH', 'Amino, –NH₂', 'None: it is a hydrocarbon'], ['Carboxil, –COOH', 'Hidroxil, –OH', 'Amino, –NH₂', 'Cap: és un hidrocarbur']),
+    T('Los ácidos carboxílicos llevan –COOH, que puede soltar un H⁺: por eso son ácidos. El acético, CH₃–COOH, se llama ácido etanoico según la IUPAC.', 'Carboxylic acids carry –COOH, which can release an H⁺: that is why they are acids. Acetic acid, CH₃–COOH, is ethanoic acid in IUPAC naming.', 'Els àcids carboxílics porten –COOH, que pot alliberar un H⁺: per això són àcids. L’acètic, CH₃–COOH, es diu àcid etanoic segons la IUPAC.')),
+  q('or-11', 'eso', '4️⃣',
+    T('¿Qué prefijo indica una cadena de cuatro carbonos?', 'Which prefix indicates a four-carbon chain?', 'Quin prefix indica una cadena de quatre carbonis?'),
+    O(['But-', 'Prop-', 'Pent-', 'Tetr-'], ['But-', 'Prop-', 'Pent-', 'Tetr-'], ['But-', 'Prop-', 'Pent-', 'Tetr-']),
+    T('Met- (1), et- (2), prop- (3), but- (4); a partir de 5 se usan los numerales griegos: pent-, hex-, hept-, oct-…', 'Meth- (1), eth- (2), prop- (3), but- (4); from 5 onwards the Greek numerals are used: pent-, hex-, hept-, oct-…', 'Met- (1), et- (2), prop- (3), but- (4); a partir de 5 es fan servir els numerals grecs: pent-, hex-, hept-, oct-…')),
+  q('or-12', 'eso', '♨️',
+    T('¿Qué se forma en la combustión completa de un hidrocarburo?', 'What forms in the complete combustion of a hydrocarbon?', 'Què es forma en la combustió completa d’un hidrocarbur?'),
+    O(['Dióxido de carbono y agua', 'Hidrógeno y carbón', 'Oxígeno y metano', 'Solo agua'], ['Carbon dioxide and water', 'Hydrogen and coal', 'Oxygen and methane', 'Only water'], ['Diòxid de carboni i aigua', 'Hidrogen i carbó', 'Oxigen i metà', 'Només aigua']),
+    T('Por ejemplo, CH₄ + 2 O₂ → CO₂ + 2 H₂O, y se desprende mucha energía. Por eso quemar combustibles fósiles aumenta el CO₂ de la atmósfera.', 'For example, CH₄ + 2 O₂ → CO₂ + 2 H₂O, releasing a lot of energy. That is why burning fossil fuels increases atmospheric CO₂.', 'Per exemple, CH₄ + 2 O₂ → CO₂ + 2 H₂O, i es desprèn molta energia. Per això cremar combustibles fòssils augmenta el CO₂ de l’atmosfera.')),
+
+  // ── Bachillerato ────────────────────────────────────────────────────────
+  q('or-13', 'bachillerato', '📏',
+    T('¿Cuál es la fórmula general de los alcanos de cadena abierta?', 'What is the general formula of open-chain alkanes?', 'Quina és la fórmula general dels alcans de cadena oberta?'),
+    N('CₙH₂ₙ₊₂', 'CₙH₂ₙ', 'CₙH₂ₙ₋₂', 'CₙHₙ'),
+    T('Cada carbono lleva dos H más los dos de los extremos: metano CH₄ (n = 1), etano C₂H₆, propano C₃H₈. CₙH₂ₙ es la de los alquenos (y cicloalcanos) y CₙH₂ₙ₋₂ la de los alquinos.', 'Each carbon carries two H plus the two at the ends: methane CH₄ (n = 1), ethane C₂H₆, propane C₃H₈. CₙH₂ₙ is the formula of alkenes (and cycloalkanes) and CₙH₂ₙ₋₂ of alkynes.', 'Cada carboni porta dos H més els dos dels extrems: metà CH₄ (n = 1), età C₂H₆, propà C₃H₈. CₙH₂ₙ és la dels alquens (i cicloalcans) i CₙH₂ₙ₋₂ la dels alquins.')),
+  q('or-14', 'bachillerato', '🏷️',
+    T('¿Cómo se nombra CH₃–CH=CH–CH₃?', 'What is the name of CH₃–CH=CH–CH₃?', 'Com s’anomena CH₃–CH=CH–CH₃?'),
+    N('but-2-eno', 'but-1-eno', 'butano', 'but-2-ino'),
+    T('Cuatro carbonos (but-), un doble enlace (-eno) que empieza en el carbono 2, contando desde el extremo que da el número más bajo. Sería but-1-eno si el doble enlace estuviera al principio: CH₂=CH–CH₂–CH₃.', 'Four carbons (but-), a double bond (-ene) starting at carbon 2, counting from the end that gives the lowest number. It would be but-1-ene if the double bond were at the start: CH₂=CH–CH₂–CH₃.', 'Quatre carbonis (but-), un doble enllaç (-è) que comença al carboni 2, comptant des de l’extrem que dona el número més baix. Seria but-1-è si el doble enllaç fos al principi: CH₂=CH–CH₂–CH₃.')),
+  q('or-15', 'bachillerato', '🔀',
+    T('El butano y el metilpropano tienen la misma fórmula, C₄H₁₀. ¿Qué son entre sí?', 'Butane and methylpropane have the same formula, C₄H₁₀. What are they to each other?', 'El butà i el metilpropà tenen la mateixa fórmula, C₄H₁₀. Què són entre si?'),
+    O(['Isómeros de cadena', 'La misma sustancia', 'Isótopos', 'Alótropos'], ['Chain isomers', 'The same substance', 'Isotopes', 'Allotropes'], ['Isòmers de cadena', 'La mateixa substància', 'Isòtops', 'Al·lòtrops']),
+    T('Misma fórmula molecular pero distinta estructura: uno es una cadena recta y el otro está ramificado, y tienen propiedades distintas (hierven a −0,5 °C y −12 °C). Los isótopos son átomos con distinto número de neutrones.', 'Same molecular formula but different structure: one is a straight chain and the other is branched, and they have different properties (they boil at −0.5 °C and −12 °C). Isotopes are atoms with different numbers of neutrons.', 'Mateixa fórmula molecular però estructura diferent: un és una cadena recta i l’altre és ramificat, i tenen propietats diferents (bullen a −0,5 °C i −12 °C). Els isòtops són àtoms amb diferent nombre de neutrons.')),
+  q('or-16', 'bachillerato', '🌸',
+    T('El propanal, CH₃–CH₂–CHO, es…', 'Propanal, CH₃–CH₂–CHO, is…', 'El propanal, CH₃–CH₂–CHO, és…'),
+    O(['Un aldehído', 'Una cetona', 'Un alcohol', 'Un ácido carboxílico'], ['An aldehyde', 'A ketone', 'An alcohol', 'A carboxylic acid'], ['Un aldehid', 'Una cetona', 'Un alcohol', 'Un àcid carboxílic']),
+    T('Terminación -al y grupo –CHO al final de la cadena: aldehído. En las cetonas el C=O está en medio de la cadena y acaban en -ona, como la propanona.', 'Ending -al and a –CHO group at the end of the chain: aldehyde. In ketones the C=O is in the middle of the chain and the name ends in -one, like propanone.', 'Terminació -al i grup –CHO al final de la cadena: aldehid. En les cetones el C=O és al mig de la cadena i acaben en -ona, com la propanona.')),
+  q('or-17', 'bachillerato', '💅',
+    T('La acetona de los quitaesmaltes es la propanona, CH₃–CO–CH₃. ¿A qué familia pertenece?', 'The acetone in nail-polish remover is propanone, CH₃–CO–CH₃. Which family does it belong to?', 'L’acetona dels llevaesmalts és la propanona, CH₃–CO–CH₃. A quina família pertany?'),
+    O(['Cetonas', 'Aldehídos', 'Ésteres', 'Éteres'], ['Ketones', 'Aldehydes', 'Esters', 'Ethers'], ['Cetones', 'Aldehids', 'Èsters', 'Èters']),
+    T('Grupo carbonilo (C=O) unido a dos carbonos, en medio de la cadena: cetona, terminación -ona. Si el C=O estuviera en el extremo, sería un aldehído.', 'A carbonyl group (C=O) bonded to two carbons, in the middle of the chain: ketone, ending -one. If the C=O were at the end, it would be an aldehyde.', 'Grup carbonil (C=O) unit a dos carbonis, al mig de la cadena: cetona, terminació -ona. Si el C=O fos a l’extrem, seria un aldehid.')),
+  q('or-18', 'bachillerato', '🍐',
+    T('¿Qué se obtiene al hacer reaccionar un ácido carboxílico con un alcohol?', 'What is obtained when a carboxylic acid reacts with an alcohol?', 'Què s’obté en fer reaccionar un àcid carboxílic amb un alcohol?'),
+    O(['Un éster y agua (esterificación)', 'Una amina y oxígeno', 'Un alcano y dióxido de carbono', 'Un aldehído y hidrógeno'], ['An ester and water (esterification)', 'An amine and oxygen', 'An alkane and carbon dioxide', 'An aldehyde and hydrogen'], ['Un èster i aigua (esterificació)', 'Una amina i oxigen', 'Un alcà i diòxid de carboni', 'Un aldehid i hidrogen']),
+    T('Ácido + alcohol ⇄ éster + agua. Muchos ésteres huelen a fruta: el acetato de isoamilo huele a plátano. Las grasas son ésteres de la glicerina.', 'Acid + alcohol ⇄ ester + water. Many esters smell of fruit: isoamyl acetate smells of banana. Fats are esters of glycerol.', 'Àcid + alcohol ⇄ èster + aigua. Molts èsters fan olor de fruita: l’acetat d’isoamil fa olor de plàtan. Els greixos són èsters de la glicerina.')),
+  q('or-19', 'bachillerato', '🐟',
+    T('La metilamina, CH₃–NH₂, es…', 'Methylamine, CH₃–NH₂, is…', 'La metilamina, CH₃–NH₂, és…'),
+    O(['Una amina', 'Una amida', 'Un nitrilo', 'Un alcohol'], ['An amine', 'An amide', 'A nitrile', 'An alcohol'], ['Una amina', 'Una amida', 'Un nitril', 'Un alcohol']),
+    T('Las aminas derivan del amoniaco (NH₃) cambiando hidrógenos por cadenas de carbono; muchas tienen olor a pescado. Las amidas llevan además un C=O junto al nitrógeno (–CONH₂).', 'Amines come from ammonia (NH₃) by replacing hydrogens with carbon chains; many smell fishy. Amides also have a C=O next to the nitrogen (–CONH₂).', 'Les amines deriven de l’amoníac (NH₃) canviant hidrògens per cadenes de carboni; moltes fan olor de peix. Les amides porten a més un C=O al costat del nitrogen (–CONH₂).')),
+  q('or-20', 'bachillerato', '⬡',
+    T('¿Qué tiene de especial el benceno, C₆H₆?', 'What is special about benzene, C₆H₆?', 'Què té d’especial el benzè, C₆H₆?'),
+    O(['Es un anillo aromático con los electrones de los dobles enlaces deslocalizados', 'Es un alcano de cadena abierta', 'Tiene seis enlaces triples', 'No contiene hidrógeno'], ['It is an aromatic ring with the electrons of the double bonds delocalised', 'It is an open-chain alkane', 'It has six triple bonds', 'It contains no hydrogen'], ['És un anell aromàtic amb els electrons dels dobles enllaços deslocalitzats', 'És un alcà de cadena oberta', 'Té sis enllaços triples', 'No conté hidrogen']),
+    T('Seis carbonos en hexágono; los tres dobles enlaces no están fijos, sino repartidos por todo el anillo (resonancia), y eso lo hace muy estable. Es la base de los compuestos aromáticos.', 'Six carbons in a hexagon; the three double bonds are not fixed but spread over the whole ring (resonance), which makes it very stable. It is the basis of aromatic compounds.', 'Sis carbonis en hexàgon; els tres dobles enllaços no són fixos, sinó repartits per tot l’anell (ressonància), i això el fa molt estable. És la base dels compostos aromàtics.')),
+  q('or-21', 'bachillerato', '➕',
+    T('¿Qué reacción típica dan los alquenos al romperse su doble enlace, como eteno + H₂ → etano?', 'What typical reaction do alkenes undergo when their double bond breaks, as in ethene + H₂ → ethane?', 'Quina reacció típica fan els alquens en trencar-se el doble enllaç, com etè + H₂ → età?'),
+    O(['Adición', 'Sustitución', 'Eliminación', 'Esterificación'], ['Addition', 'Substitution', 'Elimination', 'Esterification'], ['Addició', 'Substitució', 'Eliminació', 'Esterificació']),
+    T('El doble enlace se abre y cada carbono recibe un átomo nuevo. Los alcanos, sin dobles enlaces, dan sustitución (cambian un H por otro átomo); la eliminación es la reacción inversa a la adición.', 'The double bond opens and each carbon gains a new atom. Alkanes, without double bonds, undergo substitution (swapping an H for another atom); elimination is the reverse of addition.', 'El doble enllaç s’obre i cada carboni rep un àtom nou. Els alcans, sense dobles enllaços, fan substitució (canvien un H per un altre àtom); l’eliminació és la reacció inversa a l’addició.')),
+  q('or-22', 'bachillerato', '🛍️',
+    T('¿De qué molécula se obtiene el polietileno de las bolsas de plástico?', 'Which molecule is polythene for plastic bags made from?', 'De quina molècula s’obté el polietilè de les bosses de plàstic?'),
+    O(['Del eteno (etileno), uniendo miles de moléculas por adición', 'Del metano, por combustión', 'Del benceno, por oxidación', 'Del etanol, por esterificación'], ['From ethene (ethylene), joining thousands of molecules by addition', 'From methane, by combustion', 'From benzene, by oxidation', 'From ethanol, by esterification'], ['De l’etè (etilè), unint milers de molècules per addició', 'Del metà, per combustió', 'Del benzè, per oxidació', 'De l’etanol, per esterificació']),
+    T('Cada eteno abre su doble enlace y se engancha al siguiente: n CH₂=CH₂ → (–CH₂–CH₂–)ₙ. Es una polimerización por adición; el monómero es el eteno y el polímero, el polietileno.', 'Each ethene opens its double bond and links to the next: n CH₂=CH₂ → (–CH₂–CH₂–)ₙ. It is addition polymerisation; the monomer is ethene and the polymer, polythene.', 'Cada etè obre el doble enllaç i s’enganxa al següent: n CH₂=CH₂ → (–CH₂–CH₂–)ₙ. És una polimerització per addició; el monòmer és l’etè i el polímer, el polietilè.')),
+  q('or-23', 'bachillerato', '🔄',
+    T('¿Cuál de estos compuestos puede presentar isomería cis-trans?', 'Which of these compounds can show cis-trans isomerism?', 'Quin d’aquests compostos pot presentar isomeria cis-trans?'),
+    N('but-2-eno', 'but-1-eno', 'butano', 'propeno'),
+    T('Hace falta un doble enlace (que impide girar) y que cada carbono del doble enlace tenga dos sustituyentes distintos. En el but-2-eno los dos CH₃ pueden quedar del mismo lado (cis) o en lados opuestos (trans). En el but-1-eno y el propeno, un carbono del doble enlace tiene dos H.', 'You need a double bond (which prevents rotation) and each carbon of the double bond must have two different substituents. In but-2-ene the two CH₃ can be on the same side (cis) or opposite sides (trans). In but-1-ene and propene, one carbon of the double bond has two H.', 'Cal un doble enllaç (que impedeix girar) i que cada carboni del doble enllaç tingui dos substituents diferents. En el but-2-è els dos CH₃ poden quedar al mateix costat (cis) o a costats oposats (trans). En el but-1-è i el propè, un carboni del doble enllaç té dos H.')),
+  q('or-24', 'bachillerato', '🏷️',
+    T('¿Cómo se nombra CH₃–CH₂–CH₂OH?', 'What is the name of CH₃–CH₂–CH₂OH?', 'Com s’anomena CH₃–CH₂–CH₂OH?'),
+    N('propan-1-ol', 'propan-2-ol', 'propanal', 'propanona'),
+    T('Tres carbonos y un –OH en el carbono 1: propan-1-ol. Si el –OH estuviera en el carbono del medio, sería propan-2-ol; el propanal es un aldehído y la propanona, una cetona.', 'Three carbons and an –OH on carbon 1: propan-1-ol. If the –OH were on the middle carbon, it would be propan-2-ol; propanal is an aldehyde and propanone a ketone.', 'Tres carbonis i un –OH al carboni 1: propan-1-ol. Si el –OH fos al carboni del mig, seria propan-2-ol; el propanal és un aldehid i la propanona, una cetona.')),
+]
+
+export const PREGUNTAS_ESO = PREGUNTAS.filter(p => p.nivel === 'eso')
+export const PREGUNTAS_BACH = PREGUNTAS

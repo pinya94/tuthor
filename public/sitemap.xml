@@ -147,6 +147,12 @@
   <url><loc>https://www.tuthor.es/estudiar/quimica/estequiometria</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/en/estudiar/quimica/estequiometria</loc><changefreq>weekly</changefreq><priority>0.75</priority></url>
   <url><loc>https://www.tuthor.es/ca/estudiar/quimica/estequiometria</loc><changefreq>weekly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://www.tuthor.es/estudiar/quimica/enlace-quimico</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/en/estudiar/quimica/enlace-quimico</loc><changefreq>weekly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://www.tuthor.es/ca/estudiar/quimica/enlace-quimico</loc><changefreq>weekly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://www.tuthor.es/estudiar/quimica/quimica-organica</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/en/estudiar/quimica/quimica-organica</loc><changefreq>weekly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://www.tuthor.es/ca/estudiar/quimica/quimica-organica</loc><changefreq>weekly</changefreq><priority>0.75</priority></url>
   <url><loc>https://www.tuthor.es/estudiar/fisica/energia</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/en/estudiar/fisica/energia</loc><changefreq>weekly</changefreq><priority>0.75</priority></url>
   <url><loc>https://www.tuthor.es/ca/estudiar/fisica/energia</loc><changefreq>weekly</changefreq><priority>0.75</priority></url>
@@ -305,6 +311,8 @@
   <url><loc>https://www.tuthor.es/examen/movimiento</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/examen/dinamica</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/examen/estequiometria</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/examen/enlace-quimico</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/examen/quimica-organica</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/examen/lee-el-movimiento-test</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/examen/geografia-ue-test</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/examen/geografia-constitucion-test</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>

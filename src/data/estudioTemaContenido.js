@@ -1018,6 +1018,68 @@ export const CONTENIDO_TEMA = {
     },
   },
 
+  'enlace-quimico': {
+    metaTitle: {
+      es: 'El enlace químico: iónico, covalente, metálico y fuerzas intermoleculares — resumen',
+      en: 'Chemical bonding: ionic, covalent, metallic and intermolecular forces — a summary',
+      ca: 'L’enllaç químic: iònic, covalent, metàl·lic i forces intermoleculars — resum',
+    },
+    metaDesc: {
+      es: 'Regla del octeto, enlaces iónico, covalente y metálico, propiedades de cada sustancia, electronegatividad, polaridad, geometría y puentes de hidrógeno. Resumen y test.',
+      en: 'The octet rule, ionic, covalent and metallic bonds, properties of each substance, electronegativity, polarity, molecular shape and hydrogen bonds. Summary and test.',
+      ca: 'Regla de l’octet, enllaços iònic, covalent i metàl·lic, propietats de cada substància, electronegativitat, polaritat, geometria i ponts d’hidrogen. Resum i test.',
+    },
+    resumen: {
+      es: [
+        'Los átomos se unen para ser más estables, en general completando ocho electrones en su última capa (regla del octeto). Entre un metal y un no metal, el metal cede electrones y se forman iones que se atraen: enlace iónico, con redes cristalinas duras, de alto punto de fusión, que conducen la electricidad fundidas o disueltas. Entre no metales se comparten pares de electrones: enlace covalente, que forma moléculas (agua, CO₂) o redes como el diamante. En los metales, los cationes están rodeados por una nube de electrones libres que explica que conduzcan y sean dúctiles.',
+        'Cuando dos átomos con distinta electronegatividad comparten electrones, el enlace es polar. La forma de la molécula, que se predice con la teoría RPECV, decide si los polos se anulan (CO₂, lineal y apolar) o no (agua, angular y polar). Entre moléculas actúan fuerzas más débiles —puentes de hidrógeno y fuerzas de Van der Waals— que explican los puntos de ebullición y la solubilidad.',
+      ],
+      en: [
+        'Atoms bond to become more stable, usually by completing eight electrons in their outer shell (the octet rule). Between a metal and a non-metal, the metal gives up electrons and ions form that attract each other: an ionic bond, with hard crystal lattices of high melting point that conduct electricity when molten or dissolved. Between non-metals, pairs of electrons are shared: a covalent bond, forming molecules (water, CO₂) or networks like diamond. In metals, the cations are surrounded by a sea of free electrons, which explains why they conduct and are ductile.',
+        'When two atoms with different electronegativities share electrons, the bond is polar. The shape of the molecule, predicted by VSEPR theory, decides whether the poles cancel (CO₂, linear and non-polar) or not (water, bent and polar). Between molecules, weaker forces act — hydrogen bonds and van der Waals forces — which explain boiling points and solubility.',
+      ],
+      ca: [
+        'Els àtoms s’uneixen per ser més estables, en general completant vuit electrons a l’última capa (regla de l’octet). Entre un metall i un no-metall, el metall cedeix electrons i es formen ions que s’atrauen: enllaç iònic, amb xarxes cristal·lines dures, d’alt punt de fusió, que condueixen l’electricitat foses o dissoltes. Entre no-metalls es comparteixen parells d’electrons: enllaç covalent, que forma molècules (aigua, CO₂) o xarxes com el diamant. En els metalls, els cations estan envoltats per un núvol d’electrons lliures que explica que condueixin i siguin dúctils.',
+        'Quan dos àtoms amb diferent electronegativitat comparteixen electrons, l’enllaç és polar. La forma de la molècula, que es prediu amb la teoria RPECV, decideix si els pols s’anul·len (CO₂, lineal i apolar) o no (aigua, angular i polar). Entre molècules actuen forces més febles —ponts d’hidrogen i forces de Van der Waals— que expliquen els punts d’ebullició i la solubilitat.',
+      ],
+    },
+    puntosClave: {
+      es: ['Regla del octeto: 8 electrones en la última capa.', 'Iónico: metal + no metal, cesión de electrones.', 'Covalente: no metales, electrones compartidos.', 'Metálico: cationes y nube de electrones libres.', 'Los iónicos conducen fundidos o disueltos, no sólidos.', 'Electronegatividad: máxima en el flúor.', 'La geometría (RPECV) decide si una molécula es polar.', 'Puentes de hidrógeno: el agua hierve a 100 °C.'],
+      en: ['Octet rule: 8 electrons in the outer shell.', 'Ionic: metal + non-metal, electron transfer.', 'Covalent: non-metals, shared electrons.', 'Metallic: cations and a sea of free electrons.', 'Ionic compounds conduct molten or dissolved, not solid.', 'Electronegativity: highest in fluorine.', 'Shape (VSEPR) decides whether a molecule is polar.', 'Hydrogen bonds: water boils at 100 °C.'],
+      ca: ['Regla de l’octet: 8 electrons a l’última capa.', 'Iònic: metall + no-metall, cessió d’electrons.', 'Covalent: no-metalls, electrons compartits.', 'Metàl·lic: cations i núvol d’electrons lliures.', 'Els iònics condueixen fosos o dissolts, no sòlids.', 'Electronegativitat: màxima en el fluor.', 'La geometria (RPECV) decideix si una molècula és polar.', 'Ponts d’hidrogen: l’aigua bull a 100 °C.'],
+    },
+  },
+  'quimica-organica': {
+    metaTitle: {
+      es: 'Química orgánica: hidrocarburos, grupos funcionales y nomenclatura — resumen',
+      en: 'Organic chemistry: hydrocarbons, functional groups and naming — a summary',
+      ca: 'Química orgànica: hidrocarburs, grups funcionals i nomenclatura — resum',
+    },
+    metaDesc: {
+      es: 'El carbono y sus cadenas: alcanos, alquenos, alquinos y benceno, alcoholes, aldehídos, cetonas, ácidos, ésteres y aminas, isomería y reacciones. Resumen y test.',
+      en: 'Carbon and its chains: alkanes, alkenes, alkynes and benzene, alcohols, aldehydes, ketones, acids, esters and amines, isomerism and reactions. Summary and test.',
+      ca: 'El carboni i les seves cadenes: alcans, alquens, alquins i benzè, alcohols, aldehids, cetones, àcids, èsters i amines, isomeria i reaccions. Resum i test.',
+    },
+    resumen: {
+      es: [
+        'La química orgánica estudia los compuestos del carbono. El carbono forma cuatro enlaces y puede unirse consigo mismo en cadenas largas, ramificadas o en anillos, con enlaces simples, dobles o triples. Los hidrocarburos solo tienen C e H: alcanos (-ano, enlaces simples, CₙH₂ₙ₊₂), alquenos (-eno, un doble enlace), alquinos (-ino, triple) y aromáticos como el benceno. Los nombres se forman con un prefijo según el número de carbonos (met-, et-, prop-, but-, pent-…) y una terminación según la familia.',
+        'Los grupos funcionales dan a cada familia sus propiedades: alcoholes (–OH, -ol), aldehídos (–CHO, -al), cetonas (C=O en medio, -ona), ácidos carboxílicos (–COOH), ésteres (que huelen a fruta) y aminas (–NH₂). Compuestos con la misma fórmula y distinta estructura son isómeros. Las reacciones típicas son la combustión (CO₂ + H₂O), la adición a los dobles enlaces, la esterificación y la polimerización, que da plásticos como el polietileno.',
+      ],
+      en: [
+        'Organic chemistry studies carbon compounds. Carbon forms four bonds and can join to itself in long chains, branches or rings, with single, double or triple bonds. Hydrocarbons contain only C and H: alkanes (-ane, single bonds, CₙH₂ₙ₊₂), alkenes (-ene, one double bond), alkynes (-yne, triple) and aromatics such as benzene. Names are built from a prefix for the number of carbons (meth-, eth-, prop-, but-, pent-…) and an ending for the family.',
+        'Functional groups give each family its properties: alcohols (–OH, -ol), aldehydes (–CHO, -al), ketones (C=O in the middle, -one), carboxylic acids (–COOH), esters (which smell fruity) and amines (–NH₂). Compounds with the same formula and different structure are isomers. The typical reactions are combustion (CO₂ + H₂O), addition to double bonds, esterification and polymerisation, which gives plastics such as polythene.',
+      ],
+      ca: [
+        'La química orgànica estudia els compostos del carboni. El carboni forma quatre enllaços i pot unir-se amb si mateix en cadenes llargues, ramificades o en anells, amb enllaços simples, dobles o triples. Els hidrocarburs només tenen C i H: alcans (-à, enllaços simples, CₙH₂ₙ₊₂), alquens (-è, un doble enllaç), alquins (-í, triple) i aromàtics com el benzè. Els noms es formen amb un prefix segons el nombre de carbonis (met-, et-, prop-, but-, pent-…) i una terminació segons la família.',
+        'Els grups funcionals donen a cada família les seves propietats: alcohols (–OH, -ol), aldehids (–CHO, -al), cetones (C=O al mig, -ona), àcids carboxílics (–COOH), èsters (que fan olor de fruita) i amines (–NH₂). Compostos amb la mateixa fórmula i estructura diferent són isòmers. Les reaccions típiques són la combustió (CO₂ + H₂O), l’addició als dobles enllaços, l’esterificació i la polimerització, que dona plàstics com el polietilè.',
+      ],
+    },
+    puntosClave: {
+      es: ['El carbono forma 4 enlaces y cadenas.', 'Hidrocarburos: solo C e H.', 'Alcanos -ano, alquenos -eno, alquinos -ino.', 'Prefijos: met-, et-, prop-, but-, pent-…', 'Alcohol –OH, aldehído –CHO, cetona C=O, ácido –COOH.', 'Ácido + alcohol → éster + agua.', 'Isómeros: misma fórmula, distinta estructura.', 'Combustión: CO₂ + H₂O; adición en los dobles enlaces.'],
+      en: ['Carbon forms 4 bonds and chains.', 'Hydrocarbons: only C and H.', 'Alkanes -ane, alkenes -ene, alkynes -yne.', 'Prefixes: meth-, eth-, prop-, but-, pent-…', 'Alcohol –OH, aldehyde –CHO, ketone C=O, acid –COOH.', 'Acid + alcohol → ester + water.', 'Isomers: same formula, different structure.', 'Combustion: CO₂ + H₂O; addition at double bonds.'],
+      ca: ['El carboni forma 4 enllaços i cadenes.', 'Hidrocarburs: només C i H.', 'Alcans -à, alquens -è, alquins -í.', 'Prefixos: met-, et-, prop-, but-, pent-…', 'Alcohol –OH, aldehid –CHO, cetona C=O, àcid –COOH.', 'Àcid + alcohol → èster + aigua.', 'Isòmers: mateixa fórmula, estructura diferent.', 'Combustió: CO₂ + H₂O; addició als dobles enllaços.'],
+    },
+  },
   estequiometria: {
     metaTitle: {
       es: 'El mol y la estequiometría: masa molar, gases y reactivo limitante — resumen',

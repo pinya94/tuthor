@@ -575,6 +575,16 @@ export const EXAMS = {
     emoji: '🦠', subject: 'biologia',
     path: 'examen/salud-enfermedad', page: () => import('../pages/SaludEnfermedadExamen'),
   },
+  'enlace-quimico': {
+    label: { es: 'El Enlace Químico', en: 'Chemical Bonding', ca: 'L’Enllaç Químic' },
+    emoji: '🔗', subject: 'quimica',
+    path: 'examen/enlace-quimico', page: () => import('../pages/EnlaceQuimicoExamen'),
+  },
+  'quimica-organica': {
+    label: { es: 'Química Orgánica', en: 'Organic Chemistry', ca: 'Química Orgànica' },
+    emoji: '⛽', subject: 'quimica',
+    path: 'examen/quimica-organica', page: () => import('../pages/QuimicaOrganicaExamen'),
+  },
   'estequiometria': {
     label: { es: 'El Mol y la Estequiometría', en: 'The Mole and Stoichiometry', ca: 'El Mol i l’Estequiometria' },
     emoji: '🧮', subject: 'quimica',

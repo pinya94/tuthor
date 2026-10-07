@@ -34,6 +34,22 @@ const TEMAS = [
     niveles: nivelesDeTema('quimica', 'mezclas-separacion'),
   },
   {
+    id: 'enlace-quimico', disciplina: 'quimica',
+    titulo: 'El Enlace Químico', tituloEn: 'Chemical Bonding', tituloCa: 'L’Enllaç Químic',
+    subtitulo: 'Iónico, covalente, metálico y fuerzas entre moléculas', subtituloEn: 'Ionic, covalent, metallic and intermolecular forces', subtituloCa: 'Iònic, covalent, metàl·lic i forces entre molècules',
+    emoji: '🔗', gradient: 'from-violet-500 to-indigo-700',
+    tags: ['enlace', 'ionico', 'covalente', 'metalico', 'octeto', 'electronegatividad', 'polaridad', 'geometria', 'puente de hidrogeno', 'bonding', 'ionic', 'covalent'],
+    niveles: nivelesDeTema('quimica', 'enlace-quimico'),
+  },
+  {
+    id: 'quimica-organica', disciplina: 'quimica',
+    titulo: 'Química Orgánica', tituloEn: 'Organic Chemistry', tituloCa: 'Química Orgànica',
+    subtitulo: 'Hidrocarburos, grupos funcionales y nomenclatura', subtituloEn: 'Hydrocarbons, functional groups and naming', subtituloCa: 'Hidrocarburs, grups funcionals i nomenclatura',
+    emoji: '⛽', gradient: 'from-amber-600 to-orange-800',
+    tags: ['organica', 'carbono', 'hidrocarburo', 'alcano', 'alqueno', 'alcohol', 'aldehido', 'cetona', 'ester', 'amina', 'isomeria', 'organic', 'hydrocarbon'],
+    niveles: nivelesDeTema('quimica', 'quimica-organica'),
+  },
+  {
     id: 'estequiometria', disciplina: 'quimica',
     titulo: 'El Mol y la Estequiometría', tituloEn: 'The Mole and Stoichiometry', tituloCa: 'El Mol i l’Estequiometria',
     subtitulo: 'Mol, gases ideales y cálculos con reacciones', subtituloEn: 'Moles, ideal gases and reaction calculations', subtituloCa: 'Mol, gasos ideals i càlculs amb reaccions',

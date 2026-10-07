@@ -426,6 +426,8 @@ export const TOPIC_CATALOG = {
       formulacion: examTema({ teoria: 'formulacion', nombra: 'nombra-compuesto-test' }, { niveles: ['eso'] }),
       disoluciones: examTema({ teoria: 'disoluciones' }, { niveles: ['eso'] }),
       estequiometria: examTema({ teoria: 'estequiometria' }, { niveles: ['eso', 'bachillerato'] }),
+      'enlace-quimico': examTema({ teoria: 'enlace-quimico' }, { niveles: ['eso', 'bachillerato'] }),
+      'quimica-organica': examTema({ teoria: 'quimica-organica' }, { niveles: ['eso', 'bachillerato'] }),
     },
     formatos: {
       teoria: examFormato({ es: 'Teoría (tipo test)', en: 'Theory (quiz)', ca: 'Teoria (tipus test)' }, '📝'),

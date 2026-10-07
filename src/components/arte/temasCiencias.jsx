@@ -624,6 +624,39 @@ function Dinamica(p) {
   )
 }
 
+function EnlaceQuimico(p) {
+  // Na⁺ y Cl⁻ en red a la izquierda; una molécula de agua compartiendo electrones a la derecha.
+  return (
+    <Lienzo {...p}>
+      {[0, 1, 2].map(f => [0, 1, 2].map(c => {
+        const na = (f + c) % 2 === 0
+        return <circle key={`${f}${c}`} cx={34 + c * 28} cy={38 + f * 28} r={na ? 8 : 12} fill={na ? '#A78BFA' : '#4ADE80'} />
+      }))}
+      <path d="M160 60L184 82L208 60" stroke="#E2E8F0" strokeWidth="4" fill="none" />
+      <circle cx="184" cy="84" r="16" fill="#F87171" />
+      <circle cx="156" cy="56" r="10" fill="#F8FAFC" />
+      <circle cx="212" cy="56" r="10" fill="#F8FAFC" />
+      {[[168, 68], [172, 72], [196, 72], [200, 68]].map(([x, y]) => <circle key={x} cx={x} cy={y} r="2.5" fill="#FBBF24" />)}
+      <T x={63} y={124} s={11} c="#CBD5E1">Na⁺ Cl⁻</T>
+      <T x={184} y={124} s={11} c="#CBD5E1">H₂O</T>
+    </Lienzo>
+  )
+}
+
+function QuimicaOrganica(p) {
+  // Una cadena de carbonos en zigzag con su grupo -OH y un anillo de benceno.
+  return (
+    <Lienzo {...p}>
+      <path d="M20 84L44 64L68 84L92 64L116 84" stroke="#E2E8F0" strokeWidth="4" fill="none" strokeLinejoin="round" />
+      {[[20, 84], [44, 64], [68, 84], [92, 64], [116, 84]].map(([x, y]) => <circle key={x} cx={x} cy={y} r="6" fill="#334155" stroke="#94A3B8" strokeWidth="2" />)}
+      <path d="M116 84L132 70" stroke="#E2E8F0" strokeWidth="4" />
+      <T x={146} y={70} s={14} c="#F87171">OH</T>
+      <path d="M188 40L210 53V79L188 92L166 79V53Z" stroke="#FBBF24" strokeWidth="4" fill="none" strokeLinejoin="round" />
+      <circle cx="188" cy="66" r="12" stroke="#FBBF24" strokeWidth="2.5" fill="none" />
+    </Lienzo>
+  )
+}
+
 function Estequiometria(p) {
   // Un matraz con moléculas contadas y el número de Avogadro.
   return (
@@ -710,6 +743,8 @@ export const ARTE_TEMAS_CIENCIAS = {
   'fisica/movimiento': Movimiento,
   'fisica/dinamica': Dinamica,
   'quimica/estequiometria': Estequiometria,
+  'quimica/enlace-quimico': EnlaceQuimico,
+  'quimica/quimica-organica': QuimicaOrganica,
   'biologia/salud-enfermedad': SaludEnfermedad,
   'geologia/atmosfera-clima': AtmosferaClima,
 }
