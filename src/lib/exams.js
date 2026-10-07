@@ -844,6 +844,16 @@ export const EXAMS = {
     emoji: '⛪', subject: 'arte',
     path: 'examen/que-estilo-test', page: () => import('../pages/QueEstiloExamen'),
   },
+  'filosofia-antigua': {
+    label: { es: 'Filosofía antigua y medieval', en: 'Ancient and Medieval Philosophy', ca: 'Filosofia antiga i medieval' },
+    emoji: '🏛️', subject: 'filosofia',
+    path: 'examen/filosofia-antigua', page: () => import('../pages/FilosofiaAntiguaExamen'),
+  },
+  'filosofia-moderna': {
+    label: { es: 'Filosofía moderna y contemporánea', en: 'Modern and Contemporary Philosophy', ca: 'Filosofia moderna i contemporània' },
+    emoji: '💭', subject: 'filosofia',
+    path: 'examen/filosofia-moderna', page: () => import('../pages/FilosofiaModernaExamen'),
+  },
   'arte-arquitectura': {
     label: { es: 'Historia del Arte: Arquitectura', en: 'Art History: Architecture', ca: 'Història de l’Art: Arquitectura' },
     emoji: '🏰', subject: 'arte',

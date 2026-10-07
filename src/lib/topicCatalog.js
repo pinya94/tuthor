@@ -606,6 +606,17 @@ export const TOPIC_CATALOG = {
     },
   },
 
+  // Filosofía: dos épocas, cada una con su examen tipo test.
+  filosofia: {
+    temas: {
+      'antigua-medieval': examTema({ examen: 'filosofia-antigua' }, { niveles: ['eso', 'bachillerato'] }),
+      'moderna-contemporanea': examTema({ examen: 'filosofia-moderna' }, { niveles: ['eso', 'bachillerato'] }),
+    },
+    formatos: {
+      examen: examFormato({ es: 'Examen', en: 'Exam', ca: 'Examen' }, '📝'),
+    },
+  },
+
   'vida-practica': {
     temas: {
       'primeros-auxilios': examTema({ examen: 'primeros-auxilios' }, { niveles: ['primaria', 'eso', 'bachillerato'] }),

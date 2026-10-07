@@ -64,6 +64,17 @@ export const SOBRE_PAGINA = {
         'Tres temes de l’assignatura de Música. Notes: llegir el pentagrama i tocar cada nota en un piano a la pantalla, o en un de real connectat per MIDI. Ritme: figures i silencis, compassos simples i compostos, punt, lligadura i síncopa. Instruments: les famílies de l’orquestra, com produeix el so cadascuna i la classificació de Hornbostel-Sachs.'),
     ],
   },
+  '/estudiar/filosofia': {
+    titulo: T('Historia de la Filosofía', 'History of philosophy', 'Història de la Filosofia'),
+    parrafos: [
+      T('Los autores y las tesis que entran en Filosofía de 4.º de ESO y 1.º de Bachillerato y en Historia de la Filosofía de 2.º, la de la PAU. Filosofía antigua y medieval: los presocráticos y el arché, los sofistas, Sócrates y la mayéutica, Platón y la teoría de las Ideas, Aristóteles con el hilemorfismo y la ética del término medio, el helenismo, Agustín de Hipona, Tomás de Aquino y la navaja de Ockham. Filosofía moderna y contemporánea: el cogito de Descartes, el empirismo de Locke y Hume, el contrato social de Hobbes y Rousseau, Kant y el imperativo categórico, Mill, Marx, Nietzsche, Ortega, Sartre y Arendt.',
+        'The authors and theses covered in secondary-school philosophy and in sixth-form History of Philosophy. Ancient and medieval: the Presocratics and the arché, the sophists, Socrates and maieutics, Plato and the theory of Ideas, Aristotle with hylomorphism and the ethics of the mean, Hellenism, Augustine, Aquinas and Ockham’s razor. Modern and contemporary: Descartes’ cogito, Locke’s and Hume’s empiricism, Hobbes’ and Rousseau’s social contract, Kant and the categorical imperative, Mill, Marx, Nietzsche, Ortega, Sartre and Arendt.',
+        'Els autors i les tesis que entren a Filosofia de 4t d’ESO i 1r de Batxillerat i a Història de la Filosofia de 2n, la de la PAU. Filosofia antiga i medieval: els presocràtics i l’arkhé, els sofistes, Sòcrates i la maièutica, Plató i la teoria de les Idees, Aristòtil amb l’hilemorfisme i l’ètica del terme mitjà, l’hel·lenisme, Agustí d’Hipona, Tomàs d’Aquino i la navalla d’Ockham. Filosofia moderna i contemporània: el cogito de Descartes, l’empirisme de Locke i Hume, el contracte social de Hobbes i Rousseau, Kant i l’imperatiu categòric, Mill, Marx, Nietzsche, Ortega, Sartre i Arendt.'),
+      T('Cada pregunta atribuye una idea a un autor y las opciones equivocadas son ideas de otros: es justo lo que pide un examen, situar cada tesis en su filósofo y su época. Cada respuesta trae su explicación, y en Bachillerato el examen usa el banco entero.',
+        'Each question attributes an idea to an author and the wrong options are other authors’ ideas: exactly what an exam asks, placing each thesis with its philosopher and period. Every answer comes with an explanation, and at sixth-form level the exam uses the whole bank.',
+        'Cada pregunta atribueix una idea a un autor i les opcions equivocades són idees d’altres: és just el que demana un examen, situar cada tesi en el seu filòsof i la seva època. Cada resposta porta la seva explicació, i a Batxillerat l’examen fa servir el banc sencer.'),
+    ],
+  },
   '/estudiar/arte': {
     titulo: T('Historia del Arte', 'Art History', 'Història de l’Art'),
     parrafos: [

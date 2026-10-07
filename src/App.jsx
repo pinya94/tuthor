@@ -134,6 +134,7 @@ const Climograma             = lazy(() => import('./pages/Climograma'))
 const QueEstilo              = lazy(() => import('./pages/QueEstilo'))
 const MideElVerso            = lazy(() => import('./pages/MideElVerso'))
 const ArteIndex              = lazy(() => import('./pages/ArteIndex'))
+const FilosofiaIndex         = lazy(() => import('./pages/FilosofiaIndex'))
 const RayosX                 = lazy(() => import('./pages/RayosX'))
 const CircuitoCerrado        = lazy(() => import('./pages/CircuitoCerrado'))
 const RayoDeLuz              = lazy(() => import('./pages/RayoDeLuz'))
@@ -194,6 +195,7 @@ function AppRoutes() {
       <Route path="estudiar/economia" element={<EconomiaIndex />} />
       <Route path="estudiar/musica" element={<MusicaIndex />} />
       <Route path="estudiar/arte" element={<ArteIndex />} />
+      <Route path="estudiar/filosofia" element={<FilosofiaIndex />} />
       <Route path="estudiar/vida-practica" element={<VidaPracticaIndex />} />
       <Route path="estudiar/vida-practica/:tema" element={<PrimerosAuxiliosEscenario />} />
       <Route path="estudiar/matematicas" element={<MatematicasIndex />} />
@@ -235,6 +237,7 @@ function AppRoutes() {
       <Route path="examen/economia/:tema/:formato" element={<ExamenTema materia="economia" />} />
       <Route path="examen/musica/:tema/:formato" element={<ExamenTema materia="musica" />} />
       <Route path="examen/arte/:tema/:formato" element={<ExamenTema materia="arte" />} />
+      <Route path="examen/filosofia/:tema/:formato" element={<ExamenTema materia="filosofia" />} />
       <Route path="examen/vida-practica/:tema/:formato" element={<ExamenTema materia="vida-practica" />} />
 
       {/* ── JUEGOS ── */}

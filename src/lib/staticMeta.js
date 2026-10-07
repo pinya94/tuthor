@@ -81,6 +81,10 @@ export const STATIC_META = {
     es: { title: 'Música — teoría y exámenes', desc: 'Lectura de partituras y ritmo. Teoría breve y exámenes interactivos con piano virtual, para Primaria, ESO y Bachillerato.' },
     en: { title: 'Music — theory and exams', desc: 'Sheet music reading and rhythm. Short theory and interactive exams with a virtual piano, for primary and secondary school.' },
   },
+  '/estudiar/filosofia': {
+    es: { title: 'Filosofía — historia de la filosofía para la PAU', desc: 'De los presocráticos a Platón y Aristóteles, y de Descartes a Kant, Marx, Nietzsche y Ortega. Exámenes tipo test explicados para ESO y Bachillerato.' },
+    en: { title: 'Philosophy — history of philosophy revision', desc: 'From the Presocratics to Plato and Aristotle, and from Descartes to Kant, Marx, Nietzsche and Ortega. Explained quizzes for secondary school.' },
+  },
   '/estudiar/arte': {
     es: { title: 'Historia del Arte — arquitectura y pintura', desc: 'Los estilos de la arquitectura, de Grecia a Gaudí, y los grandes pintores, de Giotto a Picasso. Exámenes explicados y un juego con edificios dibujados.' },
     en: { title: 'Art History — architecture and painting', desc: 'Architectural styles from Greece to Gaudí and the great painters from Giotto to Picasso. Explained quizzes and a game with drawn buildings.' },

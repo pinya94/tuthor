@@ -275,6 +275,24 @@ function Musica(p) {
   )
 }
 
+function Filosofia(p) {
+  // Un busto clásico pensativo y un bocadillo con una interrogación.
+  return (
+    <Lienzo {...p}>
+      <rect x="62" y="104" width="64" height="12" rx="3" fill="#CBD5E1" />
+      <path d="M72 104Q70 86 82 80H106Q118 86 116 104Z" fill="#E2E8F0" />
+      <circle cx="94" cy="56" r="22" fill="#E2E8F0" />
+      <path d="M72 50Q74 30 94 30Q114 30 116 48Q108 40 94 40Q80 40 72 50Z" fill="#94A3B8" />
+      <path d="M84 52H90M98 52H104" stroke="#64748B" strokeWidth="2.5" strokeLinecap="round" />
+      <path d="M88 64Q94 67 100 64" stroke="#64748B" strokeWidth="2" strokeLinecap="round" fill="none" />
+      <path d="M76 66Q80 84 94 86Q108 84 112 66Q106 76 94 77Q82 76 76 66Z" fill="#94A3B8" />
+      <ellipse cx="182" cy="44" rx="40" ry="28" fill="#FDE68A" />
+      <path d="M158 64L144 82L170 70Z" fill="#FDE68A" />
+      <T x={182} y={56} s={32} c="#92400E">?</T>
+    </Lienzo>
+  )
+}
+
 function Arte(p) {
   // Un caballete con un cuadro y, detrás, la fachada de un templo.
   return (
@@ -329,5 +347,6 @@ export const ARTE_MATERIAS = {
   economia: Economia,
   musica: Musica,
   arte: Arte,
+  filosofia: Filosofia,
   'vida-practica': PrimerosAuxilios,
 }

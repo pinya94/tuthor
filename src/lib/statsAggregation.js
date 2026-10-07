@@ -226,6 +226,16 @@ export const SUBJECT_DEFS = [
     },
   },
   {
+    id: 'filosofia', emoji: '🦉',
+    label: { es: 'Filosofía', en: 'Philosophy', ca: 'Filosofia' },
+    gameIds: [],
+    catIds: [],
+    catLabels: {
+      'antigua-medieval': { es: 'Filosofía antigua y medieval', en: 'Ancient and medieval philosophy', ca: 'Filosofia antiga i medieval' },
+      'moderna-contemporanea': { es: 'Filosofía moderna y contemporánea', en: 'Modern and contemporary philosophy', ca: 'Filosofia moderna i contemporània' },
+    },
+  },
+  {
     id: 'vida-practica', emoji: '🚑',
     label: { es: 'Vida Práctica', en: 'Life Skills', ca: 'Vida Pràctica' },
     gameIds: [],

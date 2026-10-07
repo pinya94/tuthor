@@ -174,7 +174,38 @@ function Pintura(p) {
   )
 }
 
+// Filosofía antigua: el frontón de un templo y un pergamino.
+function FilosofiaAntigua(p) {
+  return (
+    <Lienzo {...p}>
+      <path d="M24 46L80 22L136 46Z" fill="#E7DCC4" />
+      <rect x="26" y="46" width="108" height="7" fill="#D6C4A0" />
+      {[36, 58, 80, 102, 124].map(x => <rect key={x} x={x - 4} y="53" width="8" height="52" fill="#E7DCC4" />)}
+      <rect x="20" y="105" width="120" height="8" fill="#D6C4A0" />
+      <rect x="158" y="34" width="62" height="72" rx="4" fill="#FDF6E3" />
+      {[50, 62, 74, 86].map(y => <path key={y} d={`M168 ${y}H210`} stroke="#A8A29E" strokeWidth="2.5" strokeLinecap="round" />)}
+      <circle cx="158" cy="34" r="6" fill="#D6C4A0" /><circle cx="158" cy="106" r="6" fill="#D6C4A0" />
+    </Lienzo>
+  )
+}
+
+// Filosofía moderna: una cabeza de perfil con engranajes de ideas.
+function FilosofiaModerna(p) {
+  return (
+    <Lienzo {...p}>
+      <path d="M70 116V96Q46 92 46 66Q46 30 86 26Q124 24 130 58L138 72L128 76V90Q128 98 116 98H104V116Z" fill="#334155" />
+      <circle cx="92" cy="58" r="16" fill="none" stroke="#FBBF24" strokeWidth="5" strokeDasharray="5 4" />
+      <circle cx="92" cy="58" r="6" fill="#FBBF24" />
+      <circle cx="114" cy="44" r="9" fill="none" stroke="#38BDF8" strokeWidth="4" strokeDasharray="3 3" />
+      <path d="M150 40H214M150 60H200M150 80H208" stroke="#94A3B8" strokeWidth="3" strokeLinecap="round" />
+      <T x={182} y={108} s={14} c="#FBBF24">cogito</T>
+    </Lienzo>
+  )
+}
+
 export const ARTE_TEMAS_VARIOS = {
+  'filosofia/antigua-medieval': FilosofiaAntigua,
+  'filosofia/moderna-contemporanea': FilosofiaModerna,
   'arte/arquitectura': Arquitectura,
   'arte/pintura': Pintura,
   'musica/notas': Notas,

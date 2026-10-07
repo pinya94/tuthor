@@ -232,6 +232,7 @@
   <url><loc>https://www.tuthor.es/estudiar/economia</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/estudiar/musica</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/estudiar/arte</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/estudiar/filosofia</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
 
   <url><loc>https://www.tuthor.es/estudiar/vida-practica</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/en/estudiar/vida-practica</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
@@ -307,6 +308,8 @@
   <url><loc>https://www.tuthor.es/examen/que-estilo-test</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/examen/arte-arquitectura</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/examen/arte-pintura</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/examen/filosofia-antigua</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/examen/filosofia-moderna</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/examen/espanol-figuras-test</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/examen/mide-el-verso-test</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/examen/mercado</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>

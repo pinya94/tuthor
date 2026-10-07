@@ -76,8 +76,8 @@ describe('arte de los temas', () => {
     'lengua/gramatica', 'lengua/literatura', 'lengua/textos', 'lengua/figuras', 'lengua/metrica',
     // Música y Economía (MusicaIndex, EconomiaIndex).
     'musica/notas', 'musica/ritmo', 'musica/instrumentos', 'economia/finanzas-personales', 'economia/punto-equilibrio', 'economia/mercado',
-    // Historia del Arte (ArteIndex).
-    'arte/arquitectura', 'arte/pintura',
+    // Historia del Arte (ArteIndex) y Filosofía (FilosofiaIndex).
+    'arte/arquitectura', 'arte/pintura', 'filosofia/antigua-medieval', 'filosofia/moderna-contemporanea',
   ]
 
   it('cada tema de historia y ciencias tiene su ilustración', () => {
