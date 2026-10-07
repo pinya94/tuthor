@@ -41,6 +41,16 @@ const TEMAS = [
     examPath: '/examen/geografia-ue-test',
   },
   {
+    // La organización del Estado: tampoco hay mapa que señalar.
+    id: 'constitucion',
+    titulo: 'La Constitución y el Estado', tituloEn: 'The Constitution and the State', tituloCa: 'La Constitució i l’Estat',
+    subtitulo: 'Poderes, Cortes, Gobierno y autonomías', subtituloEn: 'Powers, Parliament, government and regions', subtituloCa: 'Poders, Corts, Govern i autonomies',
+    emoji: '📜', gradient: 'from-red-600 to-amber-600',
+    tags: ['constitucion', 'estado', 'cortes', 'congreso', 'senado', 'gobierno', 'rey', 'monarquia parlamentaria', 'autonomias', 'poderes', 'constitution', 'parliament'],
+    niveles: nivelesDeTema('geografia', 'constitucion'),
+    examPath: '/examen/geografia-constitucion-test',
+  },
+  {
     id: 'espana',
     titulo: 'España', tituloEn: 'Spain', tituloCa: 'Espanya',
     subtitulo: 'Las 17 comunidades autónomas', subtituloEn: 'The 17 autonomous communities', subtituloCa: 'Les 17 comunitats autònomes',

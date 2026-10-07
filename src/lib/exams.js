@@ -809,6 +809,11 @@ export const EXAMS = {
     emoji: '⚙️', subject: 'fisica',
     path: 'examen/maquinas', page: () => import('../pages/MaquinasExamen'),
   },
+  'geografia-constitucion-test': {
+    label: { es: 'La Constitución y el Estado', en: 'The Constitution and the State', ca: 'La Constitució i l’Estat' },
+    emoji: '📜', subject: 'geografia',
+    path: 'examen/geografia-constitucion-test', page: () => import('../pages/ConstitucionExamen'),
+  },
   'geografia-ue-test': {
     label: { es: 'La Unión Europea', en: 'The European Union', ca: 'La Unió Europea' },
     emoji: '⭐', subject: 'geografia',

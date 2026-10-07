@@ -232,10 +232,26 @@ function UnionEuropea(p) {
   )
 }
 
+// La Constitución: el libro abierto y los tres poderes como columnas.
+function Constitucion(p) {
+  return (
+    <Lienzo {...p}>
+      <path d="M24 30Q60 20 96 30V112Q60 102 24 112Z" fill="#FDF6E3" stroke="#B91C1C" strokeWidth="3" />
+      <path d="M96 30Q132 20 168 30V112Q132 102 96 112Z" fill="#FDF6E3" stroke="#B91C1C" strokeWidth="3" />
+      {[46, 58, 70, 82].map(y => <path key={y} d={`M36 ${y}H84M108 ${y}H156`} stroke="#A8A29E" strokeWidth="2.5" strokeLinecap="round" />)}
+      <T x={60} y={100} s={14} c="#B91C1C">1978</T>
+      <path d="M180 46L204 32L228 46Z" fill="#FBBF24" />
+      {[186, 204, 222].map(x => <rect key={x} x={x - 4} y="48" width="8" height="54" fill="#E7E5E4" />)}
+      <rect x="178" y="102" width="52" height="8" fill="#FBBF24" />
+    </Lienzo>
+  )
+}
+
 export const ARTE_TEMAS_GEOGRAFIA = {
   'geografia/fisica': Fisica,
   'geografia/humana': Humana,
   'geografia/union-europea': UnionEuropea,
+  'geografia/constitucion': Constitucion,
   'geografia/espana': Espana,
   'geografia/eeuu': Eeuu,
   'geografia/europa': Europa,

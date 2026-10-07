@@ -301,7 +301,7 @@ describe('catálogo por tema (topicCatalog.js): materia → tema → formato →
     // conceptos, usan el formato `teoria` que ninguna región tiene y sus
     // tarjetas del hub van directas al examen con `examPath`.
     const regiones = ['europa', 'america', 'asia', 'africa', 'oceania', 'espana', 'eeuu']
-    const conceptos = ['fisica', 'humana', 'union-europea']
+    const conceptos = ['fisica', 'humana', 'union-europea', 'constitucion']
     expect(topicIds('geografia').sort()).toEqual([...regiones, ...conceptos].sort())
 
     // Y la diferencia de formato es lo que los distingue de verdad, no el

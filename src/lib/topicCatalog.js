@@ -366,6 +366,7 @@ export const TOPIC_CATALOG = {
       fisica: examTema({ teoria: 'geografia-fisica-test', climograma: 'climograma-test' }, { niveles: ['primaria', 'eso'] }),
       humana: examTema({ teoria: 'geografia-humana-test', piramide: 'piramide-poblacion-test' }, { niveles: ['primaria', 'eso'] }),
       'union-europea': examTema({ teoria: 'geografia-ue-test' }, { niveles: ['eso', 'bachillerato'] }),
+      constitucion: examTema({ teoria: 'geografia-constitucion-test' }, { niveles: ['eso', 'bachillerato'] }),
     },
     formatos: {
       pistas: examFormato({ es: 'Adivina por pistas', en: 'Guess from clues', ca: 'Endevina per pistes' }, '🌍'),
