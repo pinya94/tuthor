@@ -1,4 +1,7 @@
 // Cuerpo Humano — sistemas digestivo, circulatorio, nervioso, respiratorio
+// (+ excretor, locomotor, endocrino, reproductor y sentidos en cuerpoHumanoAparatos.js)
+import { PREGUNTAS_APARATOS } from './cuerpoHumanoAparatos'
+
 function q(id, nivel, pregunta, opciones, correcta, emoji, explicacion) {
   return { id, nivel, pregunta, opciones, correcta, emoji, explicacion }
 }
@@ -232,6 +235,8 @@ const PREGUNTAS = [
     { es: 'Un músculo solo sabe tirar, nunca empujar, así que trabajan por parejas opuestas: el bíceps dobla el brazo y el tríceps lo estira. Se unen a los huesos mediante tendones, y los huesos entre sí mediante ligamentos.', en: 'A muscle can only pull, never push, so they work in opposing pairs: the biceps bends the arm and the triceps straightens it. They join bones through tendons, and bones join each other through ligaments.', ca: 'Un múscul només sap estirar, mai empènyer, així que treballen per parelles oposades: bíceps i tríceps.' }),
 
 ]
+
+PREGUNTAS.push(...PREGUNTAS_APARATOS)
 
 export const PREGUNTAS_PRIMARIA = PREGUNTAS.filter(p => p.nivel === 'primaria')
 export const PREGUNTAS_ESO      = PREGUNTAS
