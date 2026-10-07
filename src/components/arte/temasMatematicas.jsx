@@ -260,6 +260,25 @@ function Algebra(p) {
 // Clave = `matematicas/<id>`: los modos del motor de cálculo (mathEngine) y
 // los temas extra del hub (data/temasMatematicas.js).
 // Divisibilidad: el árbol de factores del 60.
+// Trigonometría: el triángulo rectángulo dentro de la circunferencia
+// goniométrica, con el seno y el coseno marcados.
+function Trigonometria(p) {
+  return (
+    <Lienzo {...p}>
+      <path d="M40 112H200M120 18V122" stroke="#475569" strokeWidth="1.5" />
+      <circle cx="120" cy="70" r="52" fill="none" stroke="#38BDF8" strokeWidth="2.5" />
+      <path d="M120 70L162 40V70Z" fill="#38BDF8" fillOpacity=".18" />
+      <path d="M120 70L162 40" stroke="#F8FAFC" strokeWidth="3" strokeLinecap="round" />
+      <path d="M162 40V70" stroke="#F472B6" strokeWidth="3.5" />
+      <path d="M120 70H162" stroke="#FBBF24" strokeWidth="3.5" />
+      <path d="M136 70A16 16 0 0 0 133 61" stroke="#F8FAFC" strokeWidth="2" fill="none" />
+      <T x={182} y={58} s={11} c="#F472B6">sen</T>
+      <T x={141} y={86} s={11} c="#FBBF24">cos</T>
+      <T x={142} y={66} s={10} c="#F8FAFC">α</T>
+    </Lienzo>
+  )
+}
+
 function Divisibilidad(p) {
   const nodo = (x, y, n, primo) => (
     <g key={x + '-' + y}>
@@ -292,6 +311,7 @@ export const ARTE_TEMAS_MATEMATICAS = {
   'matematicas/fracciones': Fracciones,
   'matematicas/porcentajes': Porcentajes,
   'matematicas/divisibilidad': Divisibilidad,
+  'matematicas/trigonometria': Trigonometria,
   'matematicas/estadistica': Estadistica,
   'matematicas/enteros-racionales': Enteros,
   'matematicas/algebra': Algebra,

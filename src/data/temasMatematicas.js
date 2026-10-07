@@ -27,6 +27,12 @@ export const TEMAS_MATEMATICAS_EXTRA = [
     tags: ['multiplo', 'divisor', 'primo', 'mcm', 'mcd', 'factores', 'criterios'],
   },
   {
+    id: 'trigonometria',
+    titulo: 'Trigonometría', tituloEn: 'Trigonometry', tituloCa: 'Trigonometria',
+    emoji: '📐', gradient: 'from-cyan-500 to-blue-700',
+    tags: ['seno', 'coseno', 'tangente', 'radianes', 'angulo', 'teorema del seno', 'teorema del coseno', 'sine', 'cosine'],
+  },
+  {
     id: 'estadistica',
     titulo: 'Estadística y Probabilidad', tituloEn: 'Statistics and Probability', tituloCa: 'Estadística i Probabilitat',
     emoji: '📊', gradient: 'from-purple-500 to-violet-600',

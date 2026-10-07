@@ -704,6 +704,7 @@ export const LANDINGS = [
       { arte: 'matematicas/algebra', ruta: '/estudiar/matematicas/algebra', titulo: T('Álgebra', 'Algebra', 'Àlgebra') },
       { arte: 'matematicas/geometria', ruta: '/estudiar/matematicas/geometria', titulo: T('Geometría', 'Geometry', 'Geometria') },
       { arte: 'matematicas/estadistica', ruta: '/estudiar/matematicas/estadistica', titulo: T('Estadística y probabilidad', 'Statistics and probability', 'Estadística i probabilitat') },
+      { arte: 'matematicas/trigonometria', ruta: '/examen/trigonometria', titulo: T('Trigonometría', 'Trigonometry', 'Trigonometria') },
     ],
   },
   {

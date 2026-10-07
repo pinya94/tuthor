@@ -195,6 +195,7 @@ export const TOPIC_CATALOG = {
       fracciones: examTema({ teoria: 'fracciones', 'reparte-pastel': 'reparte-pastel-test', 'menor-a-mayor': 'menor-a-mayor-test' }, { niveles: ['primaria', 'eso'] }),
       porcentajes: examTema({ teoria: 'porcentajes', rebajas: 'rebajas-test' }, { niveles: ['primaria', 'eso'] }),
       divisibilidad: examTema({ teoria: 'divisibilidad' }, { niveles: ['primaria', 'eso'] }),
+      trigonometria: examTema({ teoria: 'trigonometria' }, { niveles: ['eso', 'bachillerato'] }),
       estadistica: examTema({
         teoria: 'estadistica',
         'estadistico-media': 'estadistico-media-test',

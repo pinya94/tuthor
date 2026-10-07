@@ -794,6 +794,11 @@ export const EXAMS = {
     emoji: '🎭', subject: 'lengua',
     path: 'examen/espanol-figuras-test', page: () => import('../pages/EspanolFigurasExamen'),
   },
+  'trigonometria': {
+    label: { es: 'Trigonometría', en: 'Trigonometry', ca: 'Trigonometria' },
+    emoji: '📐', subject: 'matematicas',
+    path: 'examen/trigonometria', page: () => import('../pages/TrigonometriaExamen'),
+  },
   'divisibilidad': {
     label: { es: 'Divisibilidad', en: 'Divisibility', ca: 'Divisibilitat' },
     emoji: '🌳', subject: 'matematicas',

@@ -13,6 +13,7 @@ import { TEMAS_MATEMATICAS_EXTRA } from '../data/temasMatematicas'
 // esto hasta que llegó el juego Rebajas; ahora tiene /estudiar/.../porcentajes.
 const EXAM_DIRECTO = {
   divisibilidad: '/examen/divisibilidad',
+  trigonometria: '/examen/trigonometria',
 }
 
 const EXTRAS = TEMAS_MATEMATICAS_EXTRA
