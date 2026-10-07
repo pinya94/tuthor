@@ -56,7 +56,7 @@ export const SUBJECT_DEFS = [
     id: 'historia', emoji: '⚔️',
     label: { es: 'Historia', en: 'History', ca: 'Història' },
     gameIds: ['juego-fechas', 'linea-temporal'],
-    catIds: ['gce', 'wwii', 'roma', 'usa', 'primaria', 'franquismo', 'prehistoria', 'antigua', 'edad-media', 'edad-moderna', 'revolucion-francesa', 'revolucion-industrial', 'primera-guerra-mundial', 'guerra-fria', 'entreguerras', 'global'],
+    catIds: ['gce', 'wwii', 'roma', 'usa', 'primaria', 'franquismo', 'prehistoria', 'antigua', 'edad-media', 'edad-moderna', 'revolucion-francesa', 'revolucion-industrial', 'primera-guerra-mundial', 'guerra-fria', 'entreguerras', 'espana-xix', 'global'],
     catLabels: {
       'gce':     { es: 'Guerra Civil Española',    en: 'Spanish Civil War',     ca: 'Guerra Civil Espanyola'  },
       'wwii':    { es: 'Segunda Guerra Mundial',   en: 'World War II',          ca: 'Segona Guerra Mundial'   },
@@ -73,6 +73,7 @@ export const SUBJECT_DEFS = [
       'primera-guerra-mundial': { es: 'Primera Guerra Mundial', en: 'World War I', ca: 'Primera Guerra Mundial' },
       'guerra-fria': { es: 'Guerra Fría', en: 'The Cold War', ca: 'Guerra Freda' },
       entreguerras: { es: 'Entreguerras', en: 'Between the Wars', ca: 'Entreguerres' },
+      'espana-xix': { es: 'España en el siglo XIX', en: 'Spain in the 19th Century', ca: 'Espanya al segle XIX' },
       'global':  { es: 'Historia Global',          en: 'World History',         ca: 'Història Global'         },
     },
   },

@@ -116,6 +116,11 @@ export const EXAMS = {
     emoji: '🚀', subject: 'historia',
     path: 'examen/guerra-fria', page: () => import('../pages/HistoriaGuerraFriaExamen'),
   },
+  'espana-xix': {
+    label: { es: 'España en el siglo XIX', en: 'Spain in the 19th Century', ca: 'Espanya al segle XIX' },
+    emoji: '🎩', subject: 'historia',
+    path: 'examen/espana-xix', page: () => import('../pages/HistoriaEspanaXIXExamen'),
+  },
   'entreguerras': {
     label: { es: 'Entreguerras (teoría)', en: 'Between the Wars (theory)', ca: 'Entreguerres (teoria)' },
     emoji: '📉', subject: 'historia',

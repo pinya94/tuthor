@@ -45,6 +45,7 @@ const TEMAS_META = {
     'primera-guerra-mundial': { titulo: 'Primera Guerra Mundial', emoji: '🎖️', descripcion: 'La Gran Guerra, de Sarajevo al Tratado de Versalles, 1914–1919.' },
     'guerra-fria': { titulo: 'Guerra Fría', emoji: '🚀', descripcion: 'Estados Unidos contra la URSS, del telón de acero al Muro, 1947–1991.' },
     entreguerras: { titulo: 'Entreguerras', emoji: '📉', descripcion: 'De Versalles a Polonia: el crac del 29, la Gran Depresión y los totalitarismos, 1919–1939.' },
+    'espana-xix': { titulo: 'España en el siglo XIX', emoji: '🎩', descripcion: 'De la Guerra de la Independencia al 98: Cádiz, carlismo, Isabel II, el Sexenio y la Restauración, 1808–1898.' },
   },
   en: {
     primaria: { titulo: 'Great Milestones',        emoji: '🌍', descripcion: 'The most important moments that changed the world.' },
@@ -62,6 +63,7 @@ const TEMAS_META = {
     'primera-guerra-mundial': { titulo: 'World War I', emoji: '🎖️', descripcion: 'The Great War, from Sarajevo to the Treaty of Versailles, 1914–1919.' },
     'guerra-fria': { titulo: 'The Cold War', emoji: '🚀', descripcion: 'The United States versus the USSR, from the Iron Curtain to the Wall, 1947–1991.' },
     entreguerras: { titulo: 'Between the Wars', emoji: '📉', descripcion: 'From Versailles to Poland: the 1929 crash, the Great Depression and totalitarianism, 1919–1939.' },
+    'espana-xix': { titulo: 'Spain in the 19th Century', emoji: '🎩', descripcion: 'From the Peninsular War to 1898: Cádiz, Carlism, Isabella II, the Sexennium and the Restoration, 1808–1898.' },
   },
   ca: {
     primaria: { titulo: 'Grans Fites',              emoji: '🌍', descripcion: 'Els moments més importants que van canviar el món.' },
@@ -79,6 +81,7 @@ const TEMAS_META = {
     'primera-guerra-mundial': { titulo: 'Primera Guerra Mundial', emoji: '🎖️', descripcion: 'La Gran Guerra, de Sarajevo al Tractat de Versalles, 1914–1919.' },
     'guerra-fria': { titulo: 'Guerra Freda', emoji: '🚀', descripcion: 'Els Estats Units contra l\'URSS, del teló d\'acer al Mur, 1947–1991.' },
     entreguerras: { titulo: 'Entreguerres', emoji: '📉', descripcion: 'De Versalles a Polònia: el crac del 29, la Gran Depressió i els totalitarismes, 1919–1939.' },
+    'espana-xix': { titulo: 'Espanya al segle XIX', emoji: '🎩', descripcion: 'De la Guerra del Francès al 98: Cadis, carlisme, Isabel II, el Sexenni i la Restauració, 1808–1898.' },
   },
 }
 

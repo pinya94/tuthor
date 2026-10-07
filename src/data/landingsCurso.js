@@ -783,6 +783,7 @@ export const LANDINGS = [
       { arte: 'historia/revolucion-francesa', ruta: '/estudiar/historia/revolucion-francesa', titulo: T('Revolución Francesa', 'French Revolution', 'Revolució Francesa') },
       { arte: 'historia/revolucion-industrial', ruta: '/estudiar/historia/revolucion-industrial', titulo: T('Revolución Industrial', 'Industrial Revolution', 'Revolució Industrial') },
       { arte: 'historia/primera-guerra-mundial', ruta: '/estudiar/historia/primera-guerra-mundial', titulo: T('Primera Guerra Mundial', 'World War I', 'Primera Guerra Mundial') },
+      { arte: 'historia/espana-xix', ruta: '/estudiar/historia/espana-xix', titulo: T('España en el siglo XIX', 'Spain in the 19th century', 'Espanya al segle XIX') },
       { arte: 'historia/entreguerras', ruta: '/estudiar/historia/entreguerras', titulo: T('Entreguerras', 'Between the wars', 'Entreguerres') },
       { arte: 'historia/wwii', ruta: '/estudiar/historia/wwii', titulo: T('Segunda Guerra Mundial', 'World War II', 'Segona Guerra Mundial') },
       { arte: 'historia/guerra-fria', ruta: '/estudiar/historia/guerra-fria', titulo: T('Guerra Fría', 'The Cold War', 'Guerra Freda') },

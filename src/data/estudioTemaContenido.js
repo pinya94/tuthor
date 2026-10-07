@@ -1648,6 +1648,64 @@ export const CONTENIDO_TEMA = {
     },
   },
 
+  "espana-xix": {
+    metaTitle: {
+      es: "España en el siglo XIX (1808-1898): de Cádiz a la Restauración — resumen",
+      en: "Spain in the 19th century (1808-1898): from Cádiz to the Restoration — a summary",
+      ca: "Espanya al segle XIX (1808-1898): de Cadis a la Restauració — resum",
+    },
+    metaDesc: {
+      es: "Guerra de la Independencia, Cortes de Cádiz, Fernando VII, carlismo, Isabel II, desamortizaciones, Sexenio, Primera República, Restauración y el 98. Resumen y test.",
+      en: "Peninsular War, Cortes of Cádiz, Ferdinand VII, Carlism, Isabella II, disentailment, the Sexennium, First Republic, Restoration and 1898. Summary and test.",
+      ca: "Guerra del Francès, Corts de Cadis, Ferran VII, carlisme, Isabel II, desamortitzacions, Sexenni, Primera República, Restauració i el 98. Resum i test.",
+    },
+    resumen: {
+      es: [
+        "El siglo XIX español es la larga lucha entre el absolutismo y el liberalismo. Empieza con la invasión napoleónica (1808): mientras se combatía a los franceses, las Cortes de Cádiz aprobaron la Constitución de 1812, la primera liberal. Fernando VII la anuló dos veces (1814 y 1823) y, a su muerte (1833), la disputa sucesoria entre su hija Isabel y su hermano Carlos desató las guerras carlistas. Mientras, América continental se independizó.",
+        "Con Isabel II se construyó el Estado liberal: desamortizaciones de Mendizábal y Madoz, constituciones de 1837 y 1845, ferrocarril y una industria concentrada en Cataluña. La Gloriosa (1868) abrió el Sexenio Democrático: Constitución de 1869 con sufragio universal masculino, el rey Amadeo I y la Primera República (1873). La Restauración (1874) devolvió a los Borbones con Alfonso XII; el sistema de Cánovas, con turno pacífico y caciquismo, dio estabilidad hasta que el Desastre del 98 hizo perder las últimas colonias y abrió el regeneracionismo.",
+      ],
+      en: [
+        "Spain’s 19th century was a long struggle between absolutism and liberalism. It began with Napoleon’s invasion (1808): while the French were being fought, the Cortes of Cádiz approved the 1812 Constitution, the first liberal one. Ferdinand VII annulled it twice (1814 and 1823) and, on his death (1833), the succession dispute between his daughter Isabella and his brother Carlos sparked the Carlist Wars. Meanwhile, mainland America became independent.",
+        "Under Isabella II the liberal State was built: the disentailments of Mendizábal and Madoz, the constitutions of 1837 and 1845, the railway and an industry concentrated in Catalonia. The Glorious Revolution (1868) opened the Democratic Sexennium: the 1869 Constitution with universal male suffrage, King Amadeo I and the First Republic (1873). The Restoration (1874) brought back the Bourbons with Alfonso XII; Cánovas’ system, with its turno pacífico and caciquismo, gave stability until the Disaster of 1898 lost the last colonies and opened the way to regenerationism.",
+      ],
+      ca: [
+        "El segle XIX espanyol és la llarga lluita entre l’absolutisme i el liberalisme. Comença amb la invasió napoleònica (1808): mentre es combatia els francesos, les Corts de Cadis van aprovar la Constitució de 1812, la primera liberal. Ferran VII la va anul·lar dues vegades (1814 i 1823) i, a la seva mort (1833), la disputa successòria entre la seva filla Isabel i el seu germà Carles va desfermar les guerres carlines. Mentrestant, l’Amèrica continental es va independitzar.",
+        "Amb Isabel II es va construir l’Estat liberal: desamortitzacions de Mendizábal i Madoz, constitucions de 1837 i 1845, ferrocarril i una indústria concentrada a Catalunya. La Gloriosa (1868) va obrir el Sexenni Democràtic: Constitució de 1869 amb sufragi universal masculí, el rei Amadeu I i la Primera República (1873). La Restauració (1874) va retornar els Borbons amb Alfons XII; el sistema de Cánovas, amb torn pacífic i caciquisme, va donar estabilitat fins que el Desastre del 98 va fer perdre les últimes colònies i va obrir el regeneracionisme.",
+      ],
+    },
+    puntosClave: {
+      es: [
+        "1808: 2 de mayo y Guerra de la Independencia contra Napoleón.",
+        "1812: Constitución de Cádiz, soberanía nacional y división de poderes.",
+        "Fernando VII: absolutismo (1814), Trienio Liberal (1820-1823) y Década Ominosa.",
+        "1833: guerras carlistas entre isabelinos (liberales) y carlistas (absolutistas).",
+        "1836: desamortización de Mendizábal; 1855, la de Madoz.",
+        "1868: la Gloriosa; 1869: sufragio universal masculino; 1873: Primera República.",
+        "1874: Restauración con Alfonso XII; Constitución de 1876 y turno pacífico.",
+        "1898: pérdida de Cuba, Puerto Rico y Filipinas; regeneracionismo.",
+      ],
+      en: [
+        "1808: 2 May uprising and the Peninsular War against Napoleon.",
+        "1812: Constitution of Cádiz, national sovereignty and separation of powers.",
+        "Ferdinand VII: absolutism (1814), the Liberal Triennium (1820-1823) and the Ominous Decade.",
+        "1833: Carlist Wars between Isabelline liberals and absolutist Carlists.",
+        "1836: Mendizábal’s disentailment; 1855, Madoz’s.",
+        "1868: the Glorious Revolution; 1869: universal male suffrage; 1873: First Republic.",
+        "1874: Restoration with Alfonso XII; the 1876 Constitution and the turno pacífico.",
+        "1898: loss of Cuba, Puerto Rico and the Philippines; regenerationism.",
+      ],
+      ca: [
+        "1808: 2 de maig i Guerra del Francès contra Napoleó.",
+        "1812: Constitució de Cadis, sobirania nacional i divisió de poders.",
+        "Ferran VII: absolutisme (1814), Trienni Liberal (1820-1823) i Dècada Ominosa.",
+        "1833: guerres carlines entre isabelins (liberals) i carlins (absolutistes).",
+        "1836: desamortització de Mendizábal; 1855, la de Madoz.",
+        "1868: la Gloriosa; 1869: sufragi universal masculí; 1873: Primera República.",
+        "1874: Restauració amb Alfons XII; Constitució de 1876 i torn pacífic.",
+        "1898: pèrdua de Cuba, Puerto Rico i les Filipines; regeneracionisme.",
+      ],
+    },
+  },
   "entreguerras": {
     metaTitle: {
       es: "El periodo de entreguerras (1919-1939): crac del 29 y totalitarismos — resumen",

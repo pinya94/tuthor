@@ -325,6 +325,23 @@ function Entreguerras(p) {
   )
 }
 
+// España en el siglo XIX: la Constitución de 1812 y la corona que va y viene.
+function EspanaXIX(p) {
+  return (
+    <Lienzo {...p}>
+      <rect x="26" y="24" width="74" height="92" rx="4" fill="#FDF6E3" />
+      <rect x="26" y="24" width="74" height="16" rx="4" fill="#B91C1C" />
+      <T x={63} y={36} s={10} c="#FDF6E3">1812</T>
+      {[52, 62, 72, 82, 92, 102].map(y => <path key={y} d={`M36 ${y}H90`} stroke="#A8A29E" strokeWidth="2.2" strokeLinecap="round" />)}
+      <path d="M128 66L136 46L148 60L160 40L172 60L184 46L192 66Z" fill="#FBBF24" />
+      <rect x="128" y="66" width="64" height="9" rx="2" fill="#F59E0B" />
+      <Flecha x1={150} y1={92} x2={196} y2={92} c="#94A3B8" w={2.5} />
+      <Flecha x1={180} y1={108} x2={134} y2={108} c="#94A3B8" w={2.5} />
+      <T x={210} y={112} s={11} c="#CBD5E1">98</T>
+    </Lienzo>
+  )
+}
+
 export const ARTE_TEMAS_HISTORIA = {
   'historia/primaria': GrandesHitos,
   'historia/gce': GuerraCivil,
@@ -341,4 +358,5 @@ export const ARTE_TEMAS_HISTORIA = {
   'historia/guerra-fria': GuerraFria,
   'historia/franquismo': Franquismo,
   'historia/entreguerras': Entreguerras,
+  'historia/espana-xix': EspanaXIX,
 }

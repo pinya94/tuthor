@@ -116,6 +116,14 @@ const TEMAS = [
   },
 
   {
+    id: 'espana-xix',
+    titulo: "España en el siglo XIX", tituloEn: "Spain in the 19th Century", tituloCa: "Espanya al segle XIX",
+    subtitulo: "De Cádiz al Desastre del 98 — 1808–1898", subtituloEn: "From Cádiz to the Disaster of 1898 — 1808–1898", subtituloCa: "De Cadis al Desastre del 98 — 1808–1898",
+    emoji: '🎩', gradient: 'from-red-700 to-amber-800',
+    tags: ['españa', 'siglo xix', 'liberalismo', 'carlismo', 'restauracion', 'pau'], niveles: nivelesDeTema('historia', 'espana-xix'),
+  },
+
+  {
     id: 'franquismo',
     titulo: "Franquismo y Transición", tituloEn: "Francoism & Transition", tituloCa: "Franquisme i Transició",
     subtitulo: "De la dictadura a la Constitución — 1939–1982", subtituloEn: "From dictatorship to the Constitution — 1939–1982", subtituloCa: "De la dictadura a la Constitució — 1939–1982",

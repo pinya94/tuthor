@@ -144,6 +144,7 @@ export default function ExamenLineaTemporal() {
     'primera-guerra-mundial': { label: 'World War I', emoji: '🎖️', descripcion: 'From the alliances and Sarajevo to Versailles. Sort the events of the Great War.', lives: maxLives, winAt },
     'guerra-fria': { label: 'The Cold War', emoji: '🚀', descripcion: 'From the Iron Curtain to the end of the USSR. Sort forty years of tension between two blocs.', lives: maxLives, winAt },
     entreguerras: { label: 'Between the Wars', emoji: '📉', descripcion: 'From Versailles to the invasion of Poland. Put the crash, the dictatorships and the road to war in order.', lives: maxLives, winAt },
+    'espana-xix': { label: 'Spain in the 19th Century', emoji: '🎩', descripcion: 'From the 2 May uprising to the Disaster of 1898. Put constitutions, wars and kings in order.', lives: maxLives, winAt },
   } : {
     primaria: { label: 'Grandes Hitos', emoji: '🌍', descripcion: 'Los momentos más importantes que cambiaron el mundo. Ideal para repasar los hitos clave de la historia universal.', lives: maxLives, winAt },
     wwii:     { label: 'Segunda Guerra Mundial', emoji: '⚔️', descripcion: 'Desde el inicio del conflicto hasta la rendición de Japón. Domina la cronología del mayor conflicto de la historia.', lives: maxLives, winAt },
@@ -160,6 +161,7 @@ export default function ExamenLineaTemporal() {
     'primera-guerra-mundial': { label: 'Primera Guerra Mundial', emoji: '🎖️', descripcion: 'De las alianzas y Sarajevo a Versalles. Ordena los hechos de la Gran Guerra.', lives: maxLives, winAt },
     'guerra-fria': { label: 'Guerra Fría', emoji: '🚀', descripcion: 'Del telón de acero al fin de la URSS. Ordena cuarenta años de tensión entre dos bloques.', lives: maxLives, winAt },
     entreguerras: { label: 'Entreguerras', emoji: '📉', descripcion: 'De Versalles a la invasión de Polonia. Ordena el crac, las dictaduras y el camino a la guerra.', lives: maxLives, winAt },
+    'espana-xix': { label: 'España en el siglo XIX', emoji: '🎩', descripcion: 'Del 2 de mayo al Desastre del 98. Ordena constituciones, guerras y reyes.', lives: maxLives, winAt },
   }
 
   const config = CONFIGS[categoria] || CONFIGS.primaria

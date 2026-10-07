@@ -104,6 +104,7 @@ export const TOPIC_CATALOG = {
       'primera-guerra-mundial': { niveles: ['eso', 'bachillerato'], formatos: { teoria: 'primera-guerra-mundial' } },
       'guerra-fria': { niveles: ['eso', 'bachillerato'], formatos: { teoria: 'guerra-fria' } },
       entreguerras: { niveles: ['eso', 'bachillerato'], formatos: { teoria: 'entreguerras' } },
+      'espana-xix': { niveles: ['eso', 'bachillerato'], formatos: { teoria: 'espana-xix' } },
     },
     formatos: {
       teoria: examFormato({ es: 'Teoría (tipo test)', en: 'Theory (quiz)', ca: 'Teoria (tipus test)' }, '📝'),
@@ -113,7 +114,7 @@ export const TOPIC_CATALOG = {
         game: 'linea-temporal',
         usesLevel: true,
         tracksTopic: true,
-        temas: ['primaria', 'gce', 'wwii', 'roma', 'usa', 'antigua', 'franquismo', 'prehistoria', 'edad-media', 'edad-moderna', 'revolucion-francesa', 'revolucion-industrial', 'primera-guerra-mundial', 'guerra-fria', 'entreguerras'],
+        temas: ['primaria', 'gce', 'wwii', 'roma', 'usa', 'antigua', 'franquismo', 'prehistoria', 'edad-media', 'edad-moderna', 'revolucion-francesa', 'revolucion-industrial', 'primera-guerra-mundial', 'guerra-fria', 'entreguerras', 'espana-xix'],
       },
       'quien-es-quien': {
         label: { es: '¿Quién es quién?', en: 'Who is who?', ca: 'Qui és qui?' },
@@ -148,7 +149,7 @@ export const TOPIC_CATALOG = {
         game: 'juego-fechas',
         usesLevel: true,
         tracksTopic: true,
-        temas: ['primaria', 'gce', 'wwii', 'roma', 'usa', 'antigua', 'franquismo', 'prehistoria', 'edad-media', 'edad-moderna', 'revolucion-francesa', 'revolucion-industrial', 'primera-guerra-mundial', 'guerra-fria', 'entreguerras'],
+        temas: ['primaria', 'gce', 'wwii', 'roma', 'usa', 'antigua', 'franquismo', 'prehistoria', 'edad-media', 'edad-moderna', 'revolucion-francesa', 'revolucion-industrial', 'primera-guerra-mundial', 'guerra-fria', 'entreguerras', 'espana-xix'],
         // Escribir el año exacto es inviable en Primaria (rango demasiado amplio)
         niveles: {
           primaria: [],
@@ -166,6 +167,7 @@ export const TOPIC_CATALOG = {
           'primera-guerra-mundial': ['eso', 'bachillerato'],
           'guerra-fria': ['eso', 'bachillerato'],
           entreguerras: ['eso', 'bachillerato'],
+          'espana-xix': ['eso', 'bachillerato'],
         },
       },
     },
