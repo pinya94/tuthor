@@ -9,6 +9,7 @@ const TEMAS = [
   { id: 'acentuacion', titulo: { es: 'Acentuación', en: 'Accentuation', ca: 'Accentuació' }, emoji: '´', gradient: 'from-yellow-500 to-orange-500', gameId: 'espanol-ortografia-acentuacion-test' },
   { id: 'bv', titulo: { es: 'B y V', en: 'B and V', ca: 'B i V' }, emoji: '🔤', gradient: 'from-teal-500 to-cyan-600', gameId: 'espanol-ortografia-bv-test' },
   { id: 'gj', titulo: { es: 'G y J', en: 'G and J', ca: 'G i J' }, emoji: '🔡', gradient: 'from-violet-500 to-purple-700', gameId: 'espanol-ortografia-gj-test' },
+  { id: 'letras', titulo: { es: 'H, LL/Y y C/Z', en: 'H, LL/Y and C/Z', ca: 'H, LL/Y i C/Z' }, emoji: '✍️', gradient: 'from-sky-500 to-indigo-700', gameId: 'espanol-ortografia-letras-test' },
   { id: 'puntuacion', titulo: { es: 'Puntuación', en: 'Punctuation', ca: 'Puntuació' }, emoji: '❓', gradient: 'from-rose-500 to-pink-700', gameId: 'espanol-ortografia-puntuacion-test' },
   { id: 'correccion', titulo: { es: 'Corregir un texto', en: 'Proofreading', ca: 'Corregir un text' }, emoji: '🔍', gradient: 'from-amber-500 to-orange-700', gameId: 'corrige-el-texto-test' },
 ]

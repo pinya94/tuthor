@@ -283,6 +283,22 @@ function Modals(p) {
 
 // ── ORTOGRAFÍA ─────────────────────────────────────────────────────────────
 
+// H, LL/Y, C/Z: tres fichas de letras con la palabra que las lleva.
+function Letras(p) {
+  const fichas = [['h', 'hielo', CIELO], ['ll', 'calló', ROSA], ['y', 'cayó', AMBAR], ['z', 'lápiz', '#A78BFA']]
+  return (
+    <Lienzo {...p}>
+      {fichas.map(([l, w, c], i) => (
+        <g key={l}>
+          <rect x={14 + i * 56} y="26" width="46" height="46" rx="10" fill={c} />
+          <T x={37 + i * 56} y={58} s={24} c="#0F172A">{l}</T>
+          <T x={37 + i * 56} y={98} s={11} c="#CBD5E1">{w}</T>
+        </g>
+      ))}
+    </Lienzo>
+  )
+}
+
 function Acentuacion(p) {
   return (
     <Lienzo {...p}>
@@ -452,6 +468,7 @@ export const ARTE_TEMAS_LENGUA = {
   'ortografia/acentuacion': Acentuacion,
   'ortografia/bv': BV,
   'ortografia/gj': GJ,
+  'ortografia/letras': Letras,
   'ortografia/puntuacion': Puntuacion,
   'ortografia/correccion': Correccion,
   'lengua/gramatica': Gramatica,

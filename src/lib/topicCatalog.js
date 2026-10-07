@@ -300,6 +300,7 @@ export const TOPIC_CATALOG = {
       acentuacion: examTema({ test: 'espanol-ortografia-acentuacion-test' }, { niveles: ['primaria', 'eso'] }),
       bv: examTema({ test: 'espanol-ortografia-bv-test' }, { niveles: ['primaria', 'eso'] }),
       gj: examTema({ test: 'espanol-ortografia-gj-test' }, { niveles: ['primaria', 'eso'] }),
+      letras: examTema({ test: 'espanol-ortografia-letras-test' }, { niveles: ['primaria', 'eso'] }),
       puntuacion: examTema({ test: 'espanol-ortografia-puntuacion-test' }, { niveles: ['primaria', 'eso'] }),
       literatura: examTema({ test: 'espanol-literatura-test' }, { niveles: ['eso', 'bachillerato'] }),
       textos: examTema({ test: 'espanol-textos-test' }, { niveles: ['primaria', 'eso'] }),

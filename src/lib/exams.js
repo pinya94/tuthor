@@ -762,6 +762,11 @@ export const EXAMS = {
     emoji: '🔤', subject: 'lengua',
     path: 'examen/espanol-ortografia-bv-test', page: () => import('../pages/EspanolOrtografiaBVExamen'),
   },
+  'espanol-ortografia-letras-test': {
+    label: { es: 'H, LL/Y y C/Z', en: 'H, LL/Y and C/Z', ca: 'H, LL/Y i C/Z' },
+    emoji: '✍️', subject: 'lengua',
+    path: 'examen/espanol-ortografia-letras-test', page: () => import('../pages/EspanolOrtografiaLetrasExamen'),
+  },
   'espanol-ortografia-gj-test': {
     label: { es: 'G y J', en: 'G and J', ca: 'G i J' },
     emoji: '🔡', subject: 'lengua',

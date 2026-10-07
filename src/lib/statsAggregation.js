@@ -164,6 +164,7 @@ export const SUBJECT_DEFS = [
       acentuacion:   { es: 'Acentuación',            en: 'Accentuation',                ca: 'Accentuació' },
       bv:            { es: 'B y V',                  en: 'B and V',                     ca: 'B i V' },
       gj:            { es: 'G y J',                  en: 'G and J',                     ca: 'G i J' },
+      letras:        { es: 'H, LL/Y y C/Z',          en: 'H, LL/Y and C/Z',             ca: 'H, LL/Y i C/Z' },
       puntuacion:    { es: 'Puntuación',             en: 'Punctuation',                 ca: 'Puntuació' },
       literatura:    { es: 'Literatura',             en: 'Literature',                  ca: 'Literatura' },
       textos:        { es: 'Los Textos',             en: 'Types of Text',               ca: 'Els Textos' },
