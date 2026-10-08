@@ -5,6 +5,7 @@ import { FICHAS_ES, FICHAS_EN, FICHAS_CA } from '../data/infoJuegosFichas'
 import AdSlot from '../components/AdSlot'
 import { ARTE_JUEGOS, ArteJuego, slugDeRuta } from '../components/arte'
 import DescubreTuthor from '../components/DescubreTuthor'
+import { rutaDeAlternativa } from '../lib/descubre'
 
 // Superficie oscura casi opaca: legibilidad sobre el fondo del bosque
 const SURF = 'rgba(17,20,29,0.86)'
@@ -166,12 +167,29 @@ export default function InfoJuegoFicha() {
             <h2 className="text-2xl font-black text-white mb-2">{ui.altH2}</h2>
             <p className="text-white/55 mb-5">{ui.altPre} {ficha.titulo}{ui.altPost}</p>
             <div className="grid gap-3 sm:grid-cols-2">
-              {ficha.alternativas.map(a => (
-                <div key={a.nombre} className="rounded-2xl border border-white/10 p-5" style={{ background: SURF }}>
-                  <h3 className="font-bold text-white mb-1">{a.nombre}</h3>
-                  <p className="text-white/55 text-sm leading-relaxed">{a.desc}</p>
-                </div>
-              ))}
+              {ficha.alternativas.map(a => {
+                // Si nombra un juego o un examen de Tuthor, la tarjeta lleva a él;
+                // las actividades en papel se quedan como texto.
+                const ruta = rutaDeAlternativa(a.nombre, lang)
+                const cuerpo = (
+                  <>
+                    <h3 className="font-bold text-white mb-1 flex items-start justify-between gap-3">
+                      <span>{a.nombre}</span>
+                      {ruta && <span className="text-[#EDAE49] shrink-0 transition-transform group-hover:translate-x-0.5" aria-hidden="true">→</span>}
+                    </h3>
+                    <p className="text-white/55 text-sm leading-relaxed">{a.desc}</p>
+                  </>
+                )
+                return ruta ? (
+                  <Link key={a.nombre} to={localPath(ruta)} className="group block rounded-2xl border border-white/10 hover:border-[#EDAE49]/50 p-5 transition-colors" style={{ background: SURF }}>
+                    {cuerpo}
+                  </Link>
+                ) : (
+                  <div key={a.nombre} className="rounded-2xl border border-white/10 p-5" style={{ background: SURF }}>
+                    {cuerpo}
+                  </div>
+                )
+              })}
             </div>
           </section>
 

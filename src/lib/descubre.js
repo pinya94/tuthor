@@ -106,7 +106,10 @@ function indice(lang) {
     out.push({ tipo: 'materia', label: m.label, sub: tx({ es: 'Materia', en: 'Subject', ca: 'Matèria' }, lang), emoji: m.emoji, ruta: hubDeMateria(m.id) })
     for (const t of m.temas) {
       const ruta = paginaDelTema(m.id, t.id) || (t.formatos[0] && rutaDirecta(t.formatos[0]))
-      if (ruta) out.push({ tipo: 'tema', label: t.label, sub: m.label, emoji: m.emoji, ruta })
+      // Su examen, para quien busca «el examen de <tema>».
+      const conExamen = t.formatos.find(f => f.game && EXAMS[f.game])
+      const examen = conExamen ? rutaDirecta(conExamen) : null
+      if (ruta) out.push({ tipo: 'tema', label: t.label, sub: m.label, emoji: m.emoji, ruta, examen })
     }
   }
   for (const g of Object.values(GAMES)) {
@@ -129,4 +132,20 @@ export function buscarEnTuthor(q, lang = 'es', max = 8) {
     .map(x => x.e)
     .filter(e => !vistos.has(e.ruta) && vistos.add(e.ruta))
     .slice(0, max)
+}
+
+// Las «alternativas» de las fichas son texto libre: muchas son actividades en
+// papel, pero otras nombran un juego («Estadístico Exprés») o un examen («El
+// examen de Electricidad»). Devuelve la ruta solo cuando el nombre es
+// inequívoco: el nombre exacto de un juego, o «el examen de <tema>» con su
+// tema encontrado. Si no, null y la tarjeta se queda sin enlace.
+const PREFIJO_EXAMEN = /^(?:el |the |l')?(?:examen|exam|quiz)\s+(?:de la |de los |de las |del |de |of the |of |d'|dels? )?/i
+export function rutaDeAlternativa(nombre, lang = 'es') {
+  const limpio = normaliza(nombre).replace(/[¿?¡!«»"]/g, '').trim()
+  const juego = indice(lang).find(e => e.tipo === 'juego' && normaliza(e.label) === limpio)
+  if (juego) return juego.ruta
+  if (!PREFIJO_EXAMEN.test(nombre)) return null
+  const tema = nombre.replace(PREFIJO_EXAMEN, '')
+  const r = buscarEnTuthor(tema, lang, 1)[0]
+  return r ? (r.examen || r.ruta) : null
 }
