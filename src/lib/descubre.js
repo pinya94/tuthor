@@ -19,6 +19,8 @@ import { EXAMS, examRoute } from './exams'
 import { TEMA_DISCIPLINA } from '../data/ciencias'
 
 const CIENCIAS = new Set(['fisica', 'quimica', 'biologia', 'geologia'])
+// Las regiones con página de estudio (GeografiaTema).
+const GEO_TEMAS = new Set(['europa', 'america', 'asia', 'africa', 'oceania', 'espana', 'eeuu'])
 
 const cache = {}
 function temario(lang) {
@@ -30,6 +32,7 @@ const tx = (o, lang) => (o && (o[lang] ?? o.es)) || ''
 // La página de estudio del tema (resumen y puntos clave), si la tiene.
 export function paginaDelTema(materia, tema) {
   if (materia === 'historia') return `/estudiar/historia/${tema}`
+  if (materia === 'geografia' && GEO_TEMAS.has(tema)) return `/estudiar/geografia/${tema}`
   if (CIENCIAS.has(materia) && TEMA_DISCIPLINA[tema] === materia) return `/estudiar/${materia}/${tema}`
   return null
 }
