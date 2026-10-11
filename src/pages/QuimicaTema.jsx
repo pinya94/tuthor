@@ -301,6 +301,13 @@ const MODOS_POR_TEMA = {
       detalles: { es:['2 niveles','10 preguntas','Opción múltiple','Explicación tras cada respuesta'], en:['2 levels','10 questions','Multiple choice','Explanation after each answer'], ca:['2 nivells','10 preguntes','Opció múltiple','Explicació després de cada resposta'] },
       path: 'placas-tectonicas',
     },
+    {
+      id: 'placas-movimiento-test', emoji: '🌋', gradient: 'from-red-600 to-orange-800',
+      titulo: { es:'Placas en Movimiento (con el juego)', en:'Moving Plates (with the game)', ca:'Plaques en Moviment (amb el joc)' },
+      descripcion: { es:'Con la mecánica del juego: un corte de la Tierra con las placas y sus flechas; tipos de borde, relieve, subducción y ejemplos reales.', en:'Using the game mechanic: a cross-section of the Earth with the plates and their arrows; boundary types, landforms, subduction and real examples.', ca:'Amb la mecànica del joc: un tall de la Terra amb les plaques i les seves fletxes; tipus de vora, relleu, subducció i exemples reals.' },
+      detalles: { es:['3 niveles','10 preguntas','Sin cronómetro','Con el juego'], en:['3 levels','10 questions','No timer','With the game'], ca:['3 nivells','10 preguntes','Sense cronòmetre','Amb el joc'] },
+      path: 'placas-movimiento-test',
+    },
   ],
   'celula': [
     {

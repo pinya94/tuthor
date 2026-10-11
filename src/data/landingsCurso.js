@@ -540,7 +540,7 @@ export const LANDINGS = [
       en: ['The cell and its organelles', 'Genetics: heredity and Punnett squares', 'Human body anatomy', 'Ecosystems and food chains', 'The solar system and plate tectonics'],
       ca: ['La cèl·lula i els seus orgànuls', 'Genètica: herència i quadre de Punnett', 'Anatomia del cos humà', 'Ecosistemes i cadenes tròfiques', 'El sistema solar i les plaques tectòniques'],
     },
-    juegos: ['microscopio', 'genetica', 'clave-dicotomica', 'ciclo-rocas', 'rayos-x', 'lee-la-etiqueta', 'cadena-alimentaria', 'el-tiempo', 'orbita'],
+    juegos: ['microscopio', 'genetica', 'clave-dicotomica', 'ciclo-rocas', 'placas-movimiento', 'rayos-x', 'lee-la-etiqueta', 'cadena-alimentaria', 'el-tiempo', 'orbita'],
     temas: [
       { arte: 'biologia/celula', ruta: '/estudiar/biologia/celula', titulo: T('La célula', 'The cell', 'La cèl·lula') },
       { arte: 'biologia/genetica', ruta: '/estudiar/biologia/genetica', titulo: T('Genética', 'Genetics', 'Genètica') },

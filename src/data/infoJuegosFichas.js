@@ -1311,6 +1311,34 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Matemáticas', niveles: 'Primaria (5.º y 6.º), ESO',
   },
+  'placas-movimiento': {
+    titulo: 'Placas en Movimiento',
+    subtitulo: 'Juego de placas tectónicas: bordes de placa, volcanes y terremotos',
+    emoji: '🌋', gradient: 'from-orange-600 to-red-800',
+    path: '/juegos/placas-movimiento',
+    intro: 'Un juego de geología para entender por qué hay volcanes en los Andes pero no en el Himalaya, o por qué Islandia se está partiendo en dos. Sale un corte de la Tierra con el manto abajo y dos placas encima, oceánica o continental, y unas flechas que dicen hacia dónde se mueve cada una. Hay que decidir qué tipo de borde es (convergente, divergente o transformante), qué relieve se forma, si la corteza se crea o se destruye, qué placa se hunde y qué lugar real es así. Al responder se dibuja lo que pasa de verdad: la dorsal, el valle de rift, la fosa y la cordillera con volcanes, el arco de islas, las montañas plegadas o la falla que parte una carretera. En el nivel difícil ya no hay dibujo: se parte de un lugar o de unos síntomas y hay que deducir el borde.',
+    beneficios: [
+      { titulo: 'Seis escenarios, una regla', texto: 'El temario de la ESO se reduce a seis casos: dos placas oceánicas que se separan, un continente que se rompe, una oceánica que se hunde bajo una continental o bajo otra oceánica, dos continentales que chocan y dos placas que se deslizan de lado. Cada uno tiene su relieve y su ejemplo real, y el juego los repite hasta que se reconocen de un vistazo.' },
+      { titulo: 'El porqué, no solo el nombre', texto: 'La placa oceánica se hunde porque es más densa; al hundirse se funde y por eso aparecen volcanes. Dos continentales no se hunden, así que se pliegan y levantan las montañas más altas, casi sin volcanes. Cada respuesta lo explica, que es justo lo que piden las preguntas de razonar en los exámenes de Biología y Geología.' },
+      { titulo: 'Del dibujo al mapa', texto: 'Los ejemplos son los de los libros: la dorsal atlántica e Islandia, el Rift de África oriental, los Andes, Japón y la fosa de las Marianas, el Himalaya y la falla de San Andrés, más el punto caliente de Hawái. El nivel difícil hace el camino al revés: desde el lugar o desde sus síntomas hasta el borde que los explica.' },
+    ],
+    ejemplo: 'Sale una placa oceánica a la izquierda y una continental a la derecha, con las flechas apuntando una hacia la otra. ¿Qué se forma? Al chocar, la oceánica, más densa, se hunde bajo la continental: es una subducción. Junto a la costa queda una fosa profunda y, tierra adentro, la placa que se hunde se funde y el magma sube formando una cordillera llena de volcanes. Es lo que pasa en los Andes, donde la placa de Nazca se mete bajo Sudamérica.',
+    enPapel: {
+      titulo: 'Placas de galleta',
+      pasos: [
+        'Pon dos galletas planas sobre una capa de nata o de crema en un plato: son las placas sobre el manto.',
+        'Sepáralas despacio y mira cómo la crema sube por el hueco: así nace una dorsal.',
+        'Empuja una contra la otra después de mojar el borde de una de ellas: la blanda se dobla y se mete por debajo, como en una subducción.',
+        'Desliza las dos de lado y fíjate en que se enganchan y saltan a tirones: eso es un terremoto en una falla transformante.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'El examen de Placas Tectónicas', desc: 'Tipo test sobre las capas de la Tierra, los tipos de borde, los terremotos, los volcanes y la deriva continental de Wegener, con explicación en cada respuesta.' },
+      { nombre: 'Ciclo de las rocas', desc: 'Otro juego de geología: el magma que sale en los volcanes se convierte en rocas ígneas, y el ciclo sigue con las sedimentarias y las metamórficas.' },
+      { nombre: 'El mapa de terremotos', desc: 'En la web del Instituto Geográfico Nacional o del USGS se ven los terremotos de la última semana: comprueba que casi todos caen sobre los bordes de placa.' },
+    ],
+    asignatura: 'Geología', niveles: 'ESO, Bachillerato',
+  },
   'clave-dicotomica': {
     titulo: 'Clave dicotómica',
     subtitulo: 'Juego para clasificar seres vivos con una clave de sí o no',
@@ -2921,6 +2949,33 @@ export const FICHAS_EN = {
       { nombre: 'Times Tables', desc: 'Knowing the multiplication tables well is what makes factorising quick: if you know 7 × 8 = 56, you know 56 is divisible by 7.' },
     ],
     asignatura: 'Mathematics', niveles: 'Primary (Years 5-6), Secondary',
+  },
+  'placas-movimiento': {
+    titulo: 'Moving Plates',
+    subtitulo: 'Plate tectonics game: plate boundaries, volcanoes and earthquakes',
+    emoji: '🌋', gradient: 'from-orange-600 to-red-800', path: '/juegos/placas-movimiento',
+    intro: 'A geology game for understanding why there are volcanoes in the Andes but not in the Himalayas, or why Iceland is splitting in two. You see a cross-section of the Earth with the mantle below and two plates on top, oceanic or continental, and arrows showing which way each one moves. You decide what type of boundary it is (convergent, divergent or transform), what landform appears, whether crust is created or destroyed, which plate sinks and which real place looks like this. When you answer, what really happens is drawn: the ridge, the rift valley, the trench and the volcanic mountain range, the island arc, the folded mountains or the fault that splits a road. On the hard level there is no drawing: you start from a place or from some clues and work out the boundary.',
+    beneficios: [
+      { titulo: 'Six scenarios, one rule', texto: 'The secondary syllabus boils down to six cases: two oceanic plates moving apart, a continent splitting, an oceanic plate sinking under a continental one or under another oceanic one, two continental plates colliding and two plates sliding past each other. Each has its landform and its real example, and the game repeats them until you recognise them at a glance.' },
+      { titulo: 'The why, not just the name', texto: 'Oceanic crust sinks because it is denser; as it sinks it melts, and that is why volcanoes appear. Two continental plates do not sink, so they crumple up and build the highest mountains, with almost no volcanoes. Every answer explains it, which is exactly what reasoning questions in science exams ask for.' },
+      { titulo: 'From the drawing to the map', texto: 'The examples are the textbook ones: the Mid-Atlantic Ridge and Iceland, the East African Rift, the Andes, Japan and the Mariana Trench, the Himalayas and the San Andreas Fault, plus the Hawaii hotspot. The hard level works backwards: from the place or its clues to the boundary that explains them.' },
+    ],
+    ejemplo: 'An oceanic plate is on the left and a continental one on the right, with the arrows pointing towards each other. What forms? When they collide, the denser oceanic plate sinks under the continental one: subduction. A deep trench forms along the coast and, inland, the sinking plate melts and the magma rises to build a mountain range full of volcanoes. That is what happens in the Andes, where the Nazca Plate dives under South America.',
+    enPapel: {
+      titulo: 'Biscuit plates',
+      pasos: [
+        'Put two flat biscuits on a layer of cream or custard on a plate: they are the plates on the mantle.',
+        'Pull them apart slowly and watch the cream rise through the gap: that is how a ridge is born.',
+        'Push them together after wetting the edge of one: the soft one bends and slides underneath, as in subduction.',
+        'Slide them past each other and notice how they catch and jerk: that is an earthquake on a transform fault.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'The Rock Cycle', desc: 'Another geology game: the magma that erupts from volcanoes turns into igneous rock, and the cycle goes on through sedimentary and metamorphic rock.' },
+      { nombre: 'The earthquake map', desc: 'The USGS website shows the earthquakes of the last week: check that almost all of them fall on plate boundaries.' },
+      { nombre: 'Find the Element', desc: 'A chemistry game on the periodic table: the elements that make up the crust and the mantle, such as oxygen, silicon and iron.' },
+    ],
+    asignatura: 'Geology', niveles: 'Secondary, Sixth form',
   },
   'clave-dicotomica': {
     titulo: 'Dichotomous Key',
@@ -4595,6 +4650,33 @@ export const FICHAS_CA = {
       { nombre: 'El garbell d’Eratòstenes', desc: 'Escriu els nombres de l’1 al 100 en una quadrícula i ratlla els múltiples de 2, de 3, de 5 i de 7: els que queden sense ratllar (llevat de l’1) són els primers.' },
     ],
     asignatura: 'Matemàtiques', niveles: 'Primària (5è i 6è), ESO',
+  },
+  'placas-movimiento': {
+    titulo: 'Plaques en Moviment',
+    subtitulo: 'Joc de plaques tectòniques: vores de placa, volcans i terratrèmols',
+    emoji: '🌋', gradient: 'from-orange-600 to-red-800', path: '/juegos/placas-movimiento',
+    intro: 'Un joc de geologia per entendre per què hi ha volcans als Andes però no a l’Himàlaia, o per què Islàndia s’està partint en dos. Surt un tall de la Terra amb el mantell a baix i dues plaques a sobre, oceànica o continental, i unes fletxes que diuen cap on es mou cadascuna. Cal decidir quin tipus de vora és (convergent, divergent o transformant), quin relleu es forma, si l’escorça es crea o es destrueix, quina placa s’enfonsa i quin lloc real és així. En respondre es dibuixa el que passa de debò: la dorsal, la vall de rift, la fossa i la serralada amb volcans, l’arc d’illes, les muntanyes plegades o la falla que parteix una carretera. Al nivell difícil ja no hi ha dibuix: es parteix d’un lloc o d’uns símptomes i cal deduir la vora.',
+    beneficios: [
+      { titulo: 'Sis escenaris, una regla', texto: 'El temari de l’ESO es redueix a sis casos: dues plaques oceàniques que se separen, un continent que es trenca, una oceànica que s’enfonsa sota una de continental o sota una altra d’oceànica, dues continentals que xoquen i dues plaques que llisquen de costat. Cadascun té el seu relleu i el seu exemple real, i el joc els repeteix fins que es reconeixen d’un cop d’ull.' },
+      { titulo: 'El perquè, no només el nom', texto: 'La placa oceànica s’enfonsa perquè és més densa; en enfonsar-se es fon i per això apareixen volcans. Dues continentals no s’enfonsen, així que es pleguen i aixequen les muntanyes més altes, gairebé sense volcans. Cada resposta ho explica, que és just el que demanen les preguntes de raonar als exàmens de Biologia i Geologia.' },
+      { titulo: 'Del dibuix al mapa', texto: 'Els exemples són els dels llibres: la dorsal atlàntica i Islàndia, el Rift de l’Àfrica oriental, els Andes, el Japó i la fossa de les Marianes, l’Himàlaia i la falla de Sant Andreu, més el punt calent de Hawaii. El nivell difícil fa el camí al revés: des del lloc o des dels seus símptomes fins a la vora que els explica.' },
+    ],
+    ejemplo: 'Surt una placa oceànica a l’esquerra i una de continental a la dreta, amb les fletxes apuntant l’una cap a l’altra. Què es forma? En xocar, l’oceànica, més densa, s’enfonsa sota la continental: és una subducció. Al costat de la costa queda una fossa profunda i, terra endins, la placa que s’enfonsa es fon i el magma puja formant una serralada plena de volcans. És el que passa als Andes, on la placa de Nazca es fica sota Sud-amèrica.',
+    enPapel: {
+      titulo: 'Plaques de galeta',
+      pasos: [
+        'Posa dues galetes planes sobre una capa de nata o de crema en un plat: són les plaques sobre el mantell.',
+        'Separa-les a poc a poc i mira com la crema puja pel forat: així neix una dorsal.',
+        'Empeny-les l’una contra l’altra després de mullar la vora d’una: la tova es doblega i es fica per sota, com en una subducció.',
+        'Fes-les lliscar de costat i fixa’t que s’enganxen i salten a estrebades: això és un terratrèmol en una falla transformant.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'L’examen de Plaques Tectòniques', desc: 'Tipus test sobre les capes de la Terra, els tipus de vora, els terratrèmols, els volcans i la deriva continental de Wegener, amb explicació a cada resposta.' },
+      { nombre: 'Cicle de les roques', desc: 'Un altre joc de geologia: el magma que surt dels volcans es converteix en roques ígnies, i el cicle continua amb les sedimentàries i les metamòrfiques.' },
+      { nombre: 'El mapa de terratrèmols', desc: 'Al web de l’Institut Cartogràfic i Geològic de Catalunya o de l’USGS es veuen els terratrèmols de l’última setmana: comprova que gairebé tots cauen sobre les vores de placa.' },
+    ],
+    asignatura: 'Geologia', niveles: 'ESO, Batxillerat',
   },
   'clave-dicotomica': {
     titulo: 'Clau dicotòmica',

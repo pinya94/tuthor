@@ -299,6 +299,14 @@ export const GAMES = {
     // 10-15 puntos por acierto → hasta 200 monedas
     coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
   },
+  'placas-movimiento': {
+    label: { es: 'Placas en Movimiento', en: 'Moving Plates', ca: 'Plaques en Moviment' },
+    emoji: '🌋',
+    subject: 'geologia',
+    route: '/juegos/placas-movimiento',
+    // aciertos × 10 puntos → hasta 200 monedas
+    coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
+  },
   'ciclo-rocas': {
     label: { es: 'Ciclo de las rocas', en: 'The Rock Cycle', ca: 'Cicle de les roques' },
     emoji: '⛰️',

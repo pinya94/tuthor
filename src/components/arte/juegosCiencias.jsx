@@ -437,6 +437,24 @@ function ElLaboratorio(p) {
   )
 }
 
+function PlacasMovimiento(p) {
+  // Corte de un borde de subducción: la oceánica se hunde bajo la continental
+  // y sale un volcán; las flechas, hacia el choque.
+  return (
+    <Lienzo {...p}>
+      <rect x="10" y="98" width="220" height="30" rx="4" fill="#9A3412" />
+      <path d="M14 40H112L104 64H14Z" fill="#1D4ED8" fillOpacity=".45" />
+      <path d="M14 64H104Q130 70 168 122L152 128Q120 86 96 80H14Z" fill="#475569" stroke="#94A3B8" strokeWidth="1.5" />
+      <path d="M108 50L122 30H226V92H170Q140 74 108 62Z" fill="#A16207" stroke="#FCD34D" strokeWidth="1.5" />
+      <path d="M150 30L168 12H180L198 30Z" fill="#78716C" />
+      <path d="M169 13L174 5L179 13Z" fill="#EF4444" />
+      <path d="M154 112Q166 70 174 32" stroke="#F97316" strokeWidth="4" strokeDasharray="2 5" strokeLinecap="round" fill="none" />
+      <Flecha x1={30} y1={24} x2={74} y2={24} c="#FFFFFF" />
+      <Flecha x1={228} y1={18} x2={204} y2={18} c="#FFFFFF" />
+    </Lienzo>
+  )
+}
+
 function CicloRocas(p) {
   // Las tres rocas en círculo con flechas: el ciclo.
   const nodos = [[120, 26, '#F97316'], [190, 92, '#EAB308'], [50, 92, '#A78BFA']]
@@ -521,6 +539,7 @@ export const ARTE_CIENCIAS = {
   orbita: Orbita,
   'el-tiempo': ElTiempo,
   'ciclo-rocas': CicloRocas,
+  'placas-movimiento': PlacasMovimiento,
   engranajes: Engranajes,
   'lee-el-movimiento': LeeElMovimiento,
   'cadena-energia': CadenaEnergia,

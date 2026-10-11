@@ -500,6 +500,11 @@ export const EXAMS = {
     emoji: '🔦', subject: 'fisica',
     path: 'examen/rayo-de-luz-test', page: () => import('../pages/RayoDeLuzExamen'),
   },
+  'placas-movimiento-test': {
+    label: { es: 'Placas en Movimiento (con el juego)', en: 'Moving Plates (with the game)', ca: 'Plaques en Moviment (amb el joc)' },
+    emoji: '🌋', subject: 'geologia',
+    path: 'examen/placas-movimiento-test', page: () => import('../pages/PlacasMovimientoExamen'),
+  },
   'ciclo-rocas-test': {
     label: { es: 'Ciclo de las rocas (con el juego)', en: 'The Rock Cycle (with the game)', ca: 'Cicle de les roques (amb el joc)' },
     emoji: '⛰️', subject: 'geologia',
