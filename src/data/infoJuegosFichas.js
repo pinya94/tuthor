@@ -1367,6 +1367,34 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Física', niveles: 'Primaria (6.º), ESO',
   },
+  'prepara-disolucion': {
+    titulo: 'Prepara la Disolución',
+    subtitulo: 'Juego de disoluciones: concentración en g/L, % en masa y solubilidad',
+    emoji: '💧', gradient: 'from-violet-500 to-fuchsia-700',
+    path: '/juegos/prepara-disolucion',
+    intro: 'Un juego de química para dominar las disoluciones con vasos de precipitados dibujados. Cada vaso lleva los gramos de soluto arriba y el volumen abajo, y su color se vuelve más intenso cuanto más concentrada está la disolución, pero solo al corregir: antes todos tienen el mismo tono, para que no dé la respuesta. Hay que distinguir el soluto del disolvente en mezclas cotidianas (el agua del mar, el aire, el bronce, el vinagre), calcular la concentración en g/L, decidir qué vaso está más concentrado, sacar el porcentaje en masa, saber cuánto queda sin disolver en una disolución saturada y, en el nivel difícil, diluir con c₁·V₁ = c₂·V₂ y calcular la molaridad.',
+    beneficios: [
+      { titulo: 'Las cuentas que más se fallan', texto: 'La concentración en g/L se divide entre litros, no entre mililitros; el porcentaje en masa se calcula sobre el total (soluto más disolvente), no solo sobre el agua; y al añadir agua la cantidad de soluto no cambia. Esos tres errores están entre las opciones, y la explicación hace la cuenta bien paso a paso.' },
+      { titulo: 'Concentrado no es «con más soluto»', texto: 'En la pregunta de los tres vasos, el que tiene más gramos nunca es el más concentrado: tiene también mucha más agua. Obliga a dividir en lugar de fijarse en un solo número, que es justo lo que se entiende mal de la concentración.' },
+      { titulo: 'Disoluciones que no son solo agua', texto: 'El aire es una disolución de gases y el bronce o el acero, de sólidos. Preguntar cuál es el soluto y cuál el disolvente en ellas deja claro el criterio: el disolvente es el componente que está en mayor cantidad, sea líquido, gas o sólido.' },
+    ],
+    ejemplo: 'Tres vasos: A tiene 40 g de sal en 1000 mL, B tiene 20 g en 250 mL y C tiene 10 g en 200 mL. ¿Cuál está más concentrado? A tiene más sal, pero hay que dividir: A = 40 ÷ 1 = 40 g/L; B = 20 ÷ 0,25 = 80 g/L; C = 10 ÷ 0,2 = 50 g/L. El más concentrado es B, y al corregir se ve: su vaso queda del violeta más oscuro.',
+    enPapel: {
+      titulo: 'Disoluciones de colores',
+      pasos: [
+        'Prepara tres vasos iguales con 100, 200 y 300 mL de agua y añade a cada uno una cucharadita de colorante alimentario o de cacao soluble.',
+        'Ordénalos de más claro a más oscuro antes de remover y comprueba después si acertaste.',
+        'Calcula la concentración de cada uno contando las cucharaditas por litro: el de menos agua es el más concentrado.',
+        'Añade agua al más oscuro hasta que tenga el mismo color que otro y anota cuánta ha hecho falta: eso es diluir.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'El examen de Disoluciones', desc: 'Tipo test sobre soluto y disolvente, solubilidad, disoluciones saturadas y concentración en g/L, en % y molaridad, con explicación en cada respuesta.' },
+      { nombre: 'El Laboratorio', desc: 'Otro juego de química: cómo separar mezclas, incluido evaporar el agua de una disolución para recuperar la sal.' },
+      { nombre: 'Medidor de pH', desc: 'Otro juego de química con disoluciones: ácidas, neutras y básicas en la escala de pH.' },
+    ],
+    asignatura: 'Química', niveles: 'ESO, Bachillerato',
+  },
   'clave-dicotomica': {
     titulo: 'Clave dicotómica',
     subtitulo: 'Juego para clasificar seres vivos con una clave de sí o no',
@@ -3031,6 +3059,33 @@ export const FICHAS_EN = {
       { nombre: 'The insulated cup test', desc: 'Pour hot water into a mug, a paper cup and a cup wrapped in a scarf, and measure each one every five minutes to see which insulates best.' },
     ],
     asignatura: 'Physics', niveles: 'Primary (Year 6), Secondary',
+  },
+  'prepara-disolucion': {
+    titulo: 'Make the Solution',
+    subtitulo: 'Solutions game: concentration in g/L, % by mass and solubility',
+    emoji: '💧', gradient: 'from-violet-500 to-fuchsia-700', path: '/juegos/prepara-disolucion',
+    intro: 'A chemistry game for mastering solutions with drawn beakers. Each beaker shows the grams of solute on top and the volume below, and its colour gets stronger the more concentrated the solution is, but only when you answer: before that they all share the same shade, so it does not give the answer away. You tell solute from solvent in everyday mixtures (seawater, air, bronze, vinegar), work out concentration in g/L, decide which beaker is most concentrated, find the percentage by mass, work out how much stays undissolved in a saturated solution and, on the hard level, dilute with c₁·V₁ = c₂·V₂ and calculate molarity.',
+    beneficios: [
+      { titulo: 'The sums people get wrong most', texto: 'Concentration in g/L divides by litres, not millilitres; percentage by mass is worked out on the total (solute plus solvent), not just the water; and adding water does not change the amount of solute. Those three mistakes are among the options, and the explanation does the sum properly step by step.' },
+      { titulo: 'Concentrated does not mean “more solute”', texto: 'In the three-beaker question, the one with the most grams is never the most concentrated: it also has much more water. It forces you to divide instead of looking at a single number, which is exactly what people misunderstand about concentration.' },
+      { titulo: 'Solutions that are not just water', texto: 'Air is a solution of gases, and bronze or steel are solid ones. Asking which is the solute and which the solvent makes the rule clear: the solvent is the component present in the larger amount, whether liquid, gas or solid.' },
+    ],
+    ejemplo: 'Three beakers: A has 40 g of salt in 1000 mL, B has 20 g in 250 mL and C has 10 g in 200 mL. Which is most concentrated? A has more salt, but you have to divide: A = 40 ÷ 1 = 40 g/L; B = 20 ÷ 0.25 = 80 g/L; C = 10 ÷ 0.2 = 50 g/L. B is the most concentrated, and when you answer you can see it: its beaker turns the darkest violet.',
+    enPapel: {
+      titulo: 'Coloured solutions',
+      pasos: [
+        'Fill three identical glasses with 100, 200 and 300 mL of water and add a teaspoon of food colouring or drinking chocolate to each.',
+        'Put them in order from lightest to darkest before stirring, then check whether you were right.',
+        'Work out each concentration in teaspoons per litre: the one with the least water is the most concentrated.',
+        'Add water to the darkest until it matches another one and note how much it took: that is diluting.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'The Laboratory', desc: 'Another chemistry game: how to separate mixtures, including evaporating the water from a solution to get the salt back.' },
+      { nombre: 'pH Meter', desc: 'Another chemistry game about solutions: acidic, neutral and basic on the pH scale.' },
+      { nombre: 'Change of State', desc: 'A science game on melting, boiling and condensing, which is what happens when you evaporate a solution.' },
+    ],
+    asignatura: 'Chemistry', niveles: 'Secondary, Sixth form',
   },
   'clave-dicotomica': {
     titulo: 'Dichotomous Key',
@@ -4759,6 +4814,33 @@ export const FICHAS_CA = {
       { nombre: 'Cadena d’energia', desc: 'Un altre joc de física: les formes d’energia i com es transformen, amb l’energia tèrmica que es perd a cada pas.' },
     ],
     asignatura: 'Física', niveles: 'Primària (6è), ESO',
+  },
+  'prepara-disolucion': {
+    titulo: 'Prepara la Dissolució',
+    subtitulo: 'Joc de dissolucions: concentració en g/L, % en massa i solubilitat',
+    emoji: '💧', gradient: 'from-violet-500 to-fuchsia-700', path: '/juegos/prepara-disolucion',
+    intro: 'Un joc de química per dominar les dissolucions amb gots de precipitats dibuixats. Cada got porta els grams de solut a dalt i el volum a baix, i el seu color es fa més intens com més concentrada és la dissolució, però només en corregir: abans tots tenen el mateix to, perquè no doni la resposta. Cal distingir el solut del dissolvent en barreges quotidianes (l’aigua del mar, l’aire, el bronze, el vinagre), calcular la concentració en g/L, decidir quin got és més concentrat, treure el percentatge en massa, saber quant en queda sense dissoldre en una dissolució saturada i, al nivell difícil, diluir amb c₁·V₁ = c₂·V₂ i calcular la molaritat.',
+    beneficios: [
+      { titulo: 'Els comptes que més es fallen', texto: 'La concentració en g/L es divideix entre litres, no entre mil·lilitres; el percentatge en massa es calcula sobre el total (solut més dissolvent), no només sobre l’aigua; i en afegir aigua la quantitat de solut no canvia. Aquests tres errors són entre les opcions, i l’explicació fa el compte bé pas a pas.' },
+      { titulo: 'Concentrat no vol dir «amb més solut»', texto: 'A la pregunta dels tres gots, el que té més grams no és mai el més concentrat: també té molta més aigua. Obliga a dividir en lloc de fixar-se en un sol nombre, que és just el que s’entén malament de la concentració.' },
+      { titulo: 'Dissolucions que no són només aigua', texto: 'L’aire és una dissolució de gasos i el bronze o l’acer, de sòlids. Preguntar quin és el solut i quin el dissolvent deixa clar el criteri: el dissolvent és el component que hi ha en més quantitat, sigui líquid, gas o sòlid.' },
+    ],
+    ejemplo: 'Tres gots: A té 40 g de sal en 1000 mL, B té 20 g en 250 mL i C té 10 g en 200 mL. Quin és més concentrat? A té més sal, però cal dividir: A = 40 ÷ 1 = 40 g/L; B = 20 ÷ 0,25 = 80 g/L; C = 10 ÷ 0,2 = 50 g/L. El més concentrat és B, i en corregir es veu: el seu got queda del lila més fosc.',
+    enPapel: {
+      titulo: 'Dissolucions de colors',
+      pasos: [
+        'Prepara tres gots iguals amb 100, 200 i 300 mL d’aigua i afegeix a cadascun una culleradeta de colorant alimentari o de cacau soluble.',
+        'Ordena’ls de més clar a més fosc abans de remenar i comprova després si l’has encertat.',
+        'Calcula la concentració de cadascun comptant les culleradetes per litre: el que té menys aigua és el més concentrat.',
+        'Afegeix aigua al més fosc fins que tingui el mateix color que un altre i apunta quanta n’ha calgut: això és diluir.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'L’examen de Dissolucions', desc: 'Tipus test sobre solut i dissolvent, solubilitat, dissolucions saturades i concentració en g/L, en % i molaritat, amb explicació a cada resposta.' },
+      { nombre: 'El Laboratori', desc: 'Un altre joc de química: com separar barreges, incloent-hi evaporar l’aigua d’una dissolució per recuperar la sal.' },
+      { nombre: 'Mesurador de pH', desc: 'Un altre joc de química amb dissolucions: àcides, neutres i bàsiques a l’escala de pH.' },
+    ],
+    asignatura: 'Química', niveles: 'ESO, Batxillerat',
   },
   'clave-dicotomica': {
     titulo: 'Clau dicotòmica',

@@ -287,6 +287,23 @@ function CambioEstado(p) {
   )
 }
 
+function PreparaDisolucion(p) {
+  // Tres vasos con distinto volumen y tono: el más oscuro es el más concentrado.
+  const vasos = [[30, 70, 0.3], [96, 44, 0.85], [162, 84, 0.5]]
+  return (
+    <Lienzo {...p}>
+      {vasos.map(([x, alto, a]) => (
+        <g key={x}>
+          <rect x={x + 3} y={118 - alto} width="44" height={alto} fill="#9333EA" fillOpacity={a} />
+          <path d={`M${x} 22V116Q${x} 121 ${x + 5} 121H${x + 45}Q${x + 50} 121 ${x + 50} 116V22`} stroke="#CBD5E1" strokeWidth="2.5" fill="none" />
+          <path d={`M${x + 38} 60H${x + 50}M${x + 38} 90H${x + 50}`} stroke="#64748B" strokeWidth="1.5" />
+        </g>
+      ))}
+      <T x={121} y={16} s={13} c="#FDE68A">g/L</T>
+    </Lienzo>
+  )
+}
+
 function MedidorPh(p) {
   const cols = ['#E11D48', '#F97316', '#F59E0B', '#FACC15', '#A3E635', '#22C55E', '#14B8A6', '#06B6D4', '#3B82F6', '#6366F1', '#7C3AED', '#9333EA']
   return (
@@ -573,6 +590,7 @@ export const ARTE_CIENCIAS = {
   'encuentra-elemento': EncuentraElemento,
   'cambio-estado': CambioEstado,
   'medidor-ph': MedidorPh,
+  'prepara-disolucion': PreparaDisolucion,
   'nombra-compuesto': NombraCompuesto,
   'el-laboratorio': ElLaboratorio,
 }

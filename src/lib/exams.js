@@ -560,6 +560,11 @@ export const EXAMS = {
     emoji: '🔣', subject: 'quimica',
     path: 'examen/nombra-compuesto-test', page: () => import('../pages/NombraCompuestoExamen'),
   },
+  'prepara-disolucion-test': {
+    label: { es: 'Prepara la Disolución (con el juego)', en: 'Make the Solution (with the game)', ca: 'Prepara la Dissolució (amb el joc)' },
+    emoji: '💧', subject: 'quimica',
+    path: 'examen/prepara-disolucion-test', page: () => import('../pages/PreparaDisolucionExamen'),
+  },
   'medidor-ph-test': {
     label: { es: 'Medidor de pH', en: 'pH Meter', ca: 'Mesurador de pH' },
     emoji: '🧪', subject: 'quimica',

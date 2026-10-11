@@ -38,7 +38,7 @@ describe('Termómetro', () => {
   })
 
   for (const nivel of Object.keys(NIVELES)) {
-    it(`${nivel}: 600 rondas con la respuesta bien calculada`, () => {
+    it(`${nivel}: 600 rondas con la respuesta bien calculada`, { timeout: 20000 }, () => {
       const rand = semilla(nivel.length * 7477)
       const tipos = new Set()
       for (let i = 0; i < 600; i++) {

@@ -291,6 +291,14 @@ export const GAMES = {
     // aciertos × 10 puntos → hasta 200 monedas
     coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
   },
+  'prepara-disolucion': {
+    label: { es: 'Prepara la Disolución', en: 'Make the Solution', ca: 'Prepara la Dissolució' },
+    emoji: '💧',
+    subject: 'quimica',
+    route: '/juegos/prepara-disolucion',
+    // aciertos × 10 puntos → hasta 200 monedas
+    coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
+  },
   'medidor-ph': {
     label: { es: 'Medidor de pH', en: 'pH Meter', ca: 'Mesurador de pH' },
     emoji: '🧪',

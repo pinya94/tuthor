@@ -609,6 +609,13 @@ const MODOS_POR_TEMA = {
       detalles: { es:['2 niveles','10 preguntas','Opción múltiple','Explicación tras cada respuesta'], en:['2 levels','10 questions','Multiple choice','Explanation after each answer'], ca:['2 nivells','10 preguntes','Opció múltiple','Explicació després de cada resposta'] },
       path: 'disoluciones',
     },
+    {
+      id: 'prepara-disolucion-test', emoji: '💧', gradient: 'from-violet-500 to-fuchsia-700',
+      titulo: { es:'Prepara la Disolución (con el juego)', en:'Make the Solution (with the game)', ca:'Prepara la Dissolució (amb el joc)' },
+      descripcion: { es:'Con la mecánica del juego: vasos de precipitados dibujados; g/L, % en masa, solubilidad, diluir y molaridad.', en:'Using the game mechanic: drawn beakers; g/L, % by mass, solubility, dilution and molarity.', ca:'Amb la mecànica del joc: gots de precipitats dibuixats; g/L, % en massa, solubilitat, diluir i molaritat.' },
+      detalles: { es:['3 niveles','10 preguntas','Sin cronómetro','Con el juego'], en:['3 levels','10 questions','No timer','With the game'], ca:['3 nivells','10 preguntes','Sense cronòmetre','Amb el joc'] },
+      path: 'prepara-disolucion-test',
+    },
   ],
 }
 

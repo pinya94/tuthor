@@ -10,7 +10,7 @@ export const FICHAS_JUEGO_SLUGS = new Set([
   'geomapa', 'georush', 'intruso', 'lee-el-grafico', 'lee-el-movimiento', 'linea-temporal',
   'medidor-ph', 'menor-a-mayor', 'microscopio', 'nombra-compuesto', 'numeros-romanos', 'numpath', 'oferta-demanda',
   'orbita', 'ordena-frase', 'pentagrama-path', 'pieza-que-falta', 'placas-movimiento', 'piramide-poblacion', 'climograma', 'que-estilo', 'mide-el-verso',
-  'pon-la-tilde', 'portadas', 'portero', 'quien-es-quien', 'rayo-de-luz',
+  'pon-la-tilde', 'prepara-disolucion', 'portadas', 'portero', 'quien-es-quien', 'rayo-de-luz',
   'bloques-primos', 'rayos-x', 'reaccion', 'rebajas', 'redondeo', 'reloj-horas', 'reparte-pastel',
   'salta-recta', 'spicy', 'tablas-multiplicar', 'termometro', 'trayectoria', 'tuthor-time',
 ])
