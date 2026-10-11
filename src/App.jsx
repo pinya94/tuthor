@@ -58,6 +58,8 @@ const NumPath            = lazy(() => import('./pages/NumPath'))
 const RepartePastel      = lazy(() => import('./pages/RepartePastel'))
 const Rebajas            = lazy(() => import('./pages/Rebajas'))
 const PorcentajesTema    = lazy(() => import('./pages/PorcentajesTema'))
+const BloquesPrimos      = lazy(() => import('./pages/BloquesPrimos'))
+const DivisibilidadTema  = lazy(() => import('./pages/DivisibilidadTema'))
 const SaltaRecta         = lazy(() => import('./pages/SaltaRecta'))
 const EstadisticoExpres  = lazy(() => import('./pages/EstadisticoExpres'))
 const LeeElGrafico       = lazy(() => import('./pages/LeeElGrafico'))
@@ -206,6 +208,7 @@ function AppRoutes() {
       <Route path="estudiar/matematicas/enteros-racionales" element={<EnterosRacionalesTema />} />
       <Route path="estudiar/matematicas/algebra" element={<AlgebraTema />} />
       <Route path="estudiar/matematicas/porcentajes" element={<PorcentajesTema />} />
+      <Route path="estudiar/matematicas/divisibilidad" element={<DivisibilidadTema />} />
       <Route path="estudiar/matematicas/:modo" element={<MatematicasTema />} />
       <Route path="estudiar/matematicas/:modo/jugar" element={<MatematicasPractica />} />
       <Route path="estudiar/matematicas/:modo/examen" element={<ExamenMatematicas />} />
@@ -298,6 +301,7 @@ function AppRoutes() {
       <Route path="juegos/numpath" element={<NumPath />} />
       <Route path="juegos/reparte-pastel" element={<RepartePastel />} />
       <Route path="juegos/rebajas" element={<Rebajas />} />
+      <Route path="juegos/bloques-primos" element={<BloquesPrimos />} />
       <Route path="juegos/salta-recta" element={<SaltaRecta />} />
       <Route path="juegos/lee-el-grafico" element={<LeeElGrafico />} />
       <Route path="juegos/estadistico-expres" element={<EstadisticoExpres />} />

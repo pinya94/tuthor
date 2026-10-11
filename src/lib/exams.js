@@ -316,6 +316,11 @@ export const EXAMS = {
     emoji: '🛍️', subject: 'matematicas',
     path: 'examen/rebajas-test', page: () => import('../pages/RebajasExamen'),
   },
+  'bloques-primos-test': {
+    label: { es: 'Bloques Primos (con el juego)', en: 'Prime Blocks (with the game)', ca: 'Blocs Primers (amb el joc)' },
+    emoji: '🧱', subject: 'matematicas',
+    path: 'examen/bloques-primos-test', page: () => import('../pages/BloquesPrimosExamen'),
+  },
   'reparte-pastel-test': {
     label: { es: 'Reparte el Pastel', en: 'Slice the Cake', ca: 'Reparteix el Pastís' },
     emoji: '🍰', subject: 'matematicas',

@@ -1283,6 +1283,34 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Matemáticas', niveles: 'Primaria, ESO',
   },
+  'bloques-primos': {
+    titulo: 'Bloques Primos',
+    subtitulo: 'Juego de mcm, mcd, números primos y divisibilidad',
+    emoji: '🧱', gradient: 'from-blue-500 to-emerald-600',
+    path: '/juegos/bloques-primos',
+    intro: 'Un juego de matemáticas para entender de verdad el máximo común divisor y el mínimo común múltiplo, en lugar de memorizar una receta. Cada número aparece como una fila de bloques de colores, uno por cada factor primo: el 2 es azul, el 3 verde, el 5 naranja y el 7 morado, así que 12 son dos bloques azules y uno verde. Las filas de dos números se colocan alineadas por colores, y al responder se iluminan los bloques que cuentan: para el mcd, los que tienen los dos números; para el mcm, de cada color, la fila más larga. Además hay criterios de divisibilidad, números que parecen primos sin serlo, descomposiciones con trampa y problemas de la vida real en los que hay que decidir si se busca un mcm o un mcd.',
+    beneficios: [
+      { titulo: 'La regla se ve, no se memoriza', texto: '«Factores comunes con el menor exponente» y «comunes y no comunes con el mayor exponente» son frases que se olvidan y se confunden. Con los bloques alineados se ve por qué: el mcd tiene que caber en los dos números, así que solo puede usar los bloques que tienen ambos; el mcm tiene que contener a los dos, así que necesita todos.' },
+      { titulo: 'Los errores típicos, entre las opciones', texto: 'Las respuestas equivocadas no son al azar: dar el mcm cuando se pide el mcd, multiplicar los dos números, escribir un 4 o un 9 dentro de una descomposición (el valor cuadra, pero no son primos), creer que todo múltiplo de 3 lo es de 9 o que acabar en 5 basta para dividir entre 10. Cada fallo trae su explicación.' },
+      { titulo: '¿mcm o mcd? Problemas con contexto', texto: 'Autobuses que vuelven a salir juntos, faros que se encienden a la vez, cuerdas que se cortan en trozos iguales o un suelo que se cubre con baldosas cuadradas. Distinguir qué se pide es la parte que más cuesta en los exámenes de 1.º y 2.º de ESO, y la explicación lo dice siempre: si algo vuelve a coincidir es un múltiplo; si hay que partir en trozos iguales lo más grandes posible, un divisor.' },
+    ],
+    ejemplo: 'Un autobús sale cada 12 minutos y otro cada 18. Acaban de salir juntos: ¿cuándo vuelven a coincidir? Se busca un múltiplo de los dos, el más pequeño: un mcm. 12 = 2² · 3 y 18 = 2 · 3². En bloques, 12 tiene dos azules y uno verde, y 18 uno azul y dos verdes. El mcm coge, de cada color, la fila más larga: dos azules y dos verdes, 2² · 3² = 36. Vuelven a salir juntos dentro de 36 minutos. Si se multiplicara 12 · 18 = 216 también coincidirían, pero no sería la primera vez.',
+    enPapel: {
+      titulo: 'Bloques de colores de verdad',
+      pasos: [
+        'Recorta cuadrados de cartulina de cuatro colores y escribe un 2 en los azules, un 3 en los verdes, un 5 en los naranjas y un 7 en los morados.',
+        'Descompón un número (por ejemplo, 60) dividiendo entre primos y coloca un bloque por cada factor: 2, 2, 3, 5.',
+        'Haz lo mismo con otro número debajo, alineando los colores, y aparta los bloques que tienen los dos: ese es el mcd.',
+        'Junta todos los bloques sin repetir los comunes y multiplica: ese es el mcm. Comprueba que mcd × mcm = el producto de los dos números.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'El examen de Divisibilidad', desc: 'Tipo test sobre múltiplos y divisores, criterios de divisibilidad, números primos, mcd y mcm, con explicación en cada respuesta.' },
+      { nombre: 'Reparte el Pastel', desc: 'Otro juego de matemáticas: fracciones equivalentes y simplificar, que es justo donde el mcd sirve en la práctica.' },
+      { nombre: 'La criba de Eratóstenes', desc: 'Escribe los números del 1 al 100 en una cuadrícula y tacha los múltiplos de 2, de 3, de 5 y de 7: los que quedan sin tachar (salvo el 1) son los primos.' },
+    ],
+    asignatura: 'Matemáticas', niveles: 'Primaria (5.º y 6.º), ESO',
+  },
   'clave-dicotomica': {
     titulo: 'Clave dicotómica',
     subtitulo: 'Juego para clasificar seres vivos con una clave de sí o no',
@@ -2866,6 +2894,33 @@ export const FICHAS_EN = {
       { nombre: 'The shopping receipt', desc: 'With a real supermarket receipt, find which products were discounted, then work out the total saved and what percentage of the receipt it is.' },
     ],
     asignatura: 'Mathematics', niveles: 'Primary, Secondary',
+  },
+  'bloques-primos': {
+    titulo: 'Prime Blocks',
+    subtitulo: 'HCF, LCM, prime numbers and divisibility game',
+    emoji: '🧱', gradient: 'from-blue-500 to-emerald-600', path: '/juegos/bloques-primos',
+    intro: 'A maths game for really understanding the highest common factor and the lowest common multiple, instead of memorising a recipe. Each number appears as a row of coloured blocks, one per prime factor: 2 is blue, 3 green, 5 orange and 7 purple, so 12 is two blue blocks and one green. The rows of two numbers are lined up by colour, and when you answer the blocks that count light up: for the HCF, the ones both numbers have; for the LCM, for each colour, the longest row. There are also divisibility rules, numbers that look prime but are not, factorisations with a trap and real-life word problems where you have to decide whether you need an LCM or an HCF.',
+    beneficios: [
+      { titulo: 'You see the rule instead of memorising it', texto: '“Common factors with the lowest power” and “all factors with the highest power” are phrases that get forgotten and mixed up. With the blocks lined up you see why: the HCF has to fit into both numbers, so it can only use the blocks both of them have; the LCM has to contain both, so it needs all of them.' },
+      { titulo: 'The usual mistakes, among the options', texto: 'Wrong answers are not random: giving the LCM when the HCF is asked, multiplying the two numbers, writing a 4 or a 9 inside a factorisation (the value matches, but they are not prime), thinking every multiple of 3 is a multiple of 9, or that ending in 5 is enough to divide by 10. Each mistake comes with its explanation.' },
+      { titulo: 'LCM or HCF? Problems in context', texto: 'Buses that leave together again, lighthouses that flash at the same time, ropes cut into equal pieces or a floor covered with square tiles. Working out what is being asked is the hardest part in exams, and the explanation always says it: if things coincide again it is a multiple; if you cut into equal pieces as big as possible, a factor.' },
+    ],
+    ejemplo: 'One bus leaves every 12 minutes and another every 18. They have just left together: when will they coincide again? We need a multiple of both, the smallest one: an LCM. 12 = 2² · 3 and 18 = 2 · 3². In blocks, 12 has two blue and one green, and 18 one blue and two green. The LCM takes, for each colour, the longest row: two blue and two green, 2² · 3² = 36. They leave together again in 36 minutes. Multiplying 12 · 18 = 216 would also be a time they coincide, but not the first one.',
+    enPapel: {
+      titulo: 'Real coloured blocks',
+      pasos: [
+        'Cut out card squares in four colours and write 2 on the blue ones, 3 on the green, 5 on the orange and 7 on the purple.',
+        'Factorise a number (for example, 60) by dividing by primes and lay down one block per factor: 2, 2, 3, 5.',
+        'Do the same with another number underneath, lining up the colours, and set aside the blocks both have: that is the HCF.',
+        'Put all the blocks together without repeating the shared ones and multiply: that is the LCM. Check that HCF × LCM = the product of the two numbers.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'Slice the Cake', desc: 'Another maths game: equivalent fractions and simplifying, which is exactly where the HCF is used in practice.' },
+      { nombre: 'The sieve of Eratosthenes', desc: 'Write the numbers from 1 to 100 in a grid and cross out the multiples of 2, 3, 5 and 7: the ones left (apart from 1) are the primes.' },
+      { nombre: 'Times Tables', desc: 'Knowing the multiplication tables well is what makes factorising quick: if you know 7 × 8 = 56, you know 56 is divisible by 7.' },
+    ],
+    asignatura: 'Mathematics', niveles: 'Primary (Years 5-6), Secondary',
   },
   'clave-dicotomica': {
     titulo: 'Dichotomous Key',
@@ -4513,6 +4568,33 @@ export const FICHAS_CA = {
       { nombre: 'El tiquet de la compra', desc: 'Amb un tiquet real del supermercat, busqueu quins productes tenien descompte i calculeu quant es va estalviar en total i quin percentatge del tiquet suposa.' },
     ],
     asignatura: 'Matemàtiques', niveles: 'Primària, ESO',
+  },
+  'bloques-primos': {
+    titulo: 'Blocs Primers',
+    subtitulo: 'Joc de mcm, mcd, nombres primers i divisibilitat',
+    emoji: '🧱', gradient: 'from-blue-500 to-emerald-600', path: '/juegos/bloques-primos',
+    intro: 'Un joc de matemàtiques per entendre de debò el màxim comú divisor i el mínim comú múltiple, en lloc de memoritzar una recepta. Cada nombre apareix com una fila de blocs de colors, un per cada factor primer: el 2 és blau, el 3 verd, el 5 taronja i el 7 lila, així que 12 són dos blocs blaus i un de verd. Les files de dos nombres es col·loquen alineades per colors, i en respondre s’il·luminen els blocs que compten: per al mcd, els que tenen tots dos nombres; per al mcm, de cada color, la fila més llarga. A més hi ha criteris de divisibilitat, nombres que semblen primers sense ser-ho, descomposicions amb parany i problemes de la vida real en què cal decidir si es busca un mcm o un mcd.',
+    beneficios: [
+      { titulo: 'La regla es veu, no es memoritza', texto: '«Factors comuns amb l’exponent més petit» i «comuns i no comuns amb l’exponent més gran» són frases que s’obliden i es confonen. Amb els blocs alineats es veu per què: el mcd ha de cabre en tots dos nombres, així que només pot fer servir els blocs que tenen tots dos; el mcm ha de contenir-los tots dos, així que els necessita tots.' },
+      { titulo: 'Els errors típics, entre les opcions', texto: 'Les respostes equivocades no són a l’atzar: donar el mcm quan es demana el mcd, multiplicar els dos nombres, escriure un 4 o un 9 dins d’una descomposició (el valor quadra, però no són primers), creure que tot múltiple de 3 ho és de 9 o que acabar en 5 basta per dividir entre 10. Cada errada porta la seva explicació.' },
+      { titulo: 'mcm o mcd? Problemes amb context', texto: 'Autobusos que tornen a sortir junts, fars que s’encenen alhora, cordes que es tallen en trossos iguals o un terra que es cobreix amb rajoles quadrades. Distingir què es demana és la part que més costa als exàmens de 1r i 2n d’ESO, i l’explicació ho diu sempre: si una cosa torna a coincidir és un múltiple; si cal partir en trossos iguals tan grans com es pugui, un divisor.' },
+    ],
+    ejemplo: 'Un autobús surt cada 12 minuts i un altre cada 18. Acaben de sortir junts: quan tornaran a coincidir? Es busca un múltiple de tots dos, el més petit: un mcm. 12 = 2² · 3 i 18 = 2 · 3². En blocs, 12 té dos blaus i un verd, i 18 un blau i dos verds. El mcm agafa, de cada color, la fila més llarga: dos blaus i dos verds, 2² · 3² = 36. Tornen a sortir junts d’aquí a 36 minuts. Si es multipliqués 12 · 18 = 216 també coincidirien, però no seria la primera vegada.',
+    enPapel: {
+      titulo: 'Blocs de colors de debò',
+      pasos: [
+        'Retalla quadrats de cartolina de quatre colors i escriu un 2 als blaus, un 3 als verds, un 5 als taronges i un 7 als lila.',
+        'Descompon un nombre (per exemple, 60) dividint entre primers i col·loca un bloc per cada factor: 2, 2, 3, 5.',
+        'Fes el mateix amb un altre nombre a sota, alineant els colors, i aparta els blocs que tenen tots dos: aquest és el mcd.',
+        'Ajunta tots els blocs sense repetir els comuns i multiplica: aquest és el mcm. Comprova que mcd × mcm = el producte dels dos nombres.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'L’examen de Divisibilitat', desc: 'Tipus test sobre múltiples i divisors, criteris de divisibilitat, nombres primers, mcd i mcm, amb explicació a cada resposta.' },
+      { nombre: 'Reparteix el Pastís', desc: 'Un altre joc de matemàtiques: fraccions equivalents i simplificar, que és just on el mcd serveix a la pràctica.' },
+      { nombre: 'El garbell d’Eratòstenes', desc: 'Escriu els nombres de l’1 al 100 en una quadrícula i ratlla els múltiples de 2, de 3, de 5 i de 7: els que queden sense ratllar (llevat de l’1) són els primers.' },
+    ],
+    asignatura: 'Matemàtiques', niveles: 'Primària (5è i 6è), ESO',
   },
   'clave-dicotomica': {
     titulo: 'Clau dicotòmica',

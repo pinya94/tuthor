@@ -366,7 +366,37 @@ function Rebajas(p) {
   )
 }
 
+function BloquesPrimos(p) {
+  // 12 = 2·2·3 y 18 = 2·3·3, alineados por color; el mcd (2·3) va marcado.
+  const B = { 2: '#3B82F6', 3: '#22C55E' }
+  const filas = [[[2, 2], [3, 0]], [[2, 0], [3, 3]]]
+  const xs = [76, 106, 146, 176]
+  return (
+    <Lienzo {...p}>
+      {filas.map((fila, r) => {
+        const y = 26 + r * 46
+        const huecos = fila.flat()
+        return (
+          <g key={r}>
+            <T x={40} y={y + 19} s={17} c="#F8FAFC">{r ? '18' : '12'}</T>
+            {huecos.map((v, i) => (v
+              ? <g key={i}>
+                  <rect x={xs[i]} y={y} width="26" height="26" rx="6" fill={B[v]} stroke={i === 0 || i === 2 ? '#FFFFFF' : 'none'} strokeWidth="2.5" />
+                  <T x={xs[i] + 13} y={y + 18} s={13} c="#FFFFFF">{v}</T>
+                </g>
+              : <rect key={i} x={xs[i]} y={y} width="26" height="26" rx="6" fill="none" stroke="#475569" strokeWidth="1.5" strokeDasharray="4 3" />))}
+          </g>
+        )
+      })}
+      <rect x="208" y="44" width="26" height="40" rx="8" fill="#FBBF24" />
+      <T x={221} y={60} s={9} c="#422006">mcd</T>
+      <T x={221} y={77} s={15} c="#422006">6</T>
+    </Lienzo>
+  )
+}
+
 export const ARTE_MATES = {
+  'bloques-primos': BloquesPrimos,
   acercate: Acercate,
   numpath: NumPath,
   'menor-a-mayor': MenorAMayor,

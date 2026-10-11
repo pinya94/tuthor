@@ -127,7 +127,7 @@ export const LANDINGS = [
       en: ['Times tables and mental arithmetic', 'Telling the time and money', 'Fractions, decimals and the number line', 'Rounding, Roman numerals and units of measurement', 'Reading tables and charts'],
       ca: ['Taules de multiplicar i càlcul mental', "L'hora al rellotge d'agulles i els diners", 'Fraccions, decimals i la recta numèrica', 'Arrodoniment, nombres romans i unitats de mesura', 'Llegir taules i gràfics'],
     },
-    juegos: ['tablas-multiplicar', 'reloj-horas', 'el-cambio', 'rebajas', 'reparte-pastel', 'redondeo', 'numeros-romanos', 'escalera-unidades', 'menor-a-mayor', 'salta-recta', 'acercate', 'numpath', 'lee-el-grafico', 'estadistico-expres'],
+    juegos: ['tablas-multiplicar', 'reloj-horas', 'el-cambio', 'rebajas', 'bloques-primos', 'reparte-pastel', 'redondeo', 'numeros-romanos', 'escalera-unidades', 'menor-a-mayor', 'salta-recta', 'acercate', 'numpath', 'lee-el-grafico', 'estadistico-expres'],
     temas: [
       { arte: 'matematicas/sumas', ruta: '/estudiar/matematicas/sumas', titulo: T('Sumas', 'Addition', 'Sumes') },
       { arte: 'matematicas/restas', ruta: '/estudiar/matematicas/restas', titulo: T('Restas', 'Subtraction', 'Restes') },
@@ -373,7 +373,7 @@ export const LANDINGS = [
       en: ['Linear equations', 'Linear and quadratic functions', 'Integers and rational numbers', 'Fractions and percentages', 'Statistics: mean, median and mode'],
       ca: ['Equacions de primer grau', 'Funcions lineals i quadràtiques', 'Nombres enters i racionals', 'Fraccions i percentatges', 'Estadística: mitjana, mediana i moda'],
     },
-    juegos: ['balanza-algebraica', 'funciones-grafica', 'rebajas', 'trayectoria', 'portero', 'salta-recta', 'reparte-pastel', 'estadistico-expres', 'lee-el-grafico', 'acercate', 'numpath'],
+    juegos: ['balanza-algebraica', 'funciones-grafica', 'rebajas', 'bloques-primos', 'trayectoria', 'portero', 'salta-recta', 'reparte-pastel', 'estadistico-expres', 'lee-el-grafico', 'acercate', 'numpath'],
     temas: [
       { arte: 'matematicas/algebra', ruta: '/estudiar/matematicas/algebra', titulo: T('Álgebra', 'Algebra', 'Àlgebra') },
       { arte: 'matematicas/funciones', ruta: '/estudiar/matematicas/funciones', titulo: T('Funciones', 'Functions', 'Funcions') },

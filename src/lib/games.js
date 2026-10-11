@@ -153,6 +153,14 @@ export const GAMES = {
     // aciertos × 10 puntos → hasta 200 monedas
     coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
   },
+  'bloques-primos': {
+    label: { es: 'Bloques Primos', en: 'Prime Blocks', ca: 'Blocs Primers' },
+    emoji: '🧱',
+    subject: 'matematicas',
+    route: '/juegos/bloques-primos',
+    // aciertos × 10 puntos → hasta 200 monedas
+    coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
+  },
   'reparte-pastel': {
     label: { es: 'Reparte el Pastel', en: 'Slice the Cake', ca: 'Reparteix el Pastís' },
     emoji: '🍰',
