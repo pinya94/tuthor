@@ -530,6 +530,11 @@ export const EXAMS = {
     emoji: '🌦️', subject: 'geologia',
     path: 'examen/el-tiempo-test', page: () => import('../pages/ElTiempoExamen'),
   },
+  'newton-accion-test': {
+    label: { es: 'Newton en Acción (con el juego)', en: 'Newton in Action (with the game)', ca: 'Newton en Acció (amb el joc)' },
+    emoji: '🍎', subject: 'fisica',
+    path: 'examen/newton-accion-test', page: () => import('../pages/NewtonAccionExamen'),
+  },
   'termometro-test': {
     label: { es: 'Termómetro (con el juego)', en: 'Thermometer (with the game)', ca: 'Termòmetre (amb el joc)' },
     emoji: '🌡️', subject: 'fisica',

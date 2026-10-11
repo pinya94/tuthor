@@ -135,6 +135,7 @@ const Engranajes             = lazy(() => import('./pages/Engranajes'))
 const LeeElMovimiento        = lazy(() => import('./pages/LeeElMovimiento'))
 const CadenaEnergia          = lazy(() => import('./pages/CadenaEnergia'))
 const Termometro             = lazy(() => import('./pages/Termometro'))
+const NewtonAccion           = lazy(() => import('./pages/NewtonAccion'))
 const FlotaHunde             = lazy(() => import('./pages/FlotaHunde'))
 const LeeLaEtiqueta          = lazy(() => import('./pages/LeeLaEtiqueta'))
 const ClaveDicotomica        = lazy(() => import('./pages/ClaveDicotomica'))
@@ -346,6 +347,7 @@ function AppRoutes() {
       <Route path="juegos/lee-el-movimiento" element={<LeeElMovimiento />} />
       <Route path="juegos/cadena-energia" element={<CadenaEnergia />} />
       <Route path="juegos/termometro" element={<Termometro />} />
+      <Route path="juegos/newton-accion" element={<NewtonAccion />} />
       <Route path="juegos/flota-o-se-hunde" element={<FlotaHunde />} />
       <Route path="juegos/lee-la-etiqueta" element={<LeeLaEtiqueta />} />
       <Route path="juegos/clave-dicotomica" element={<ClaveDicotomica />} />

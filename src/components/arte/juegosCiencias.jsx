@@ -512,6 +512,25 @@ function CicloRocas(p) {
   )
 }
 
+function NewtonAccion(p) {
+  // La caja sobre un plano inclinado con el peso y la normal.
+  return (
+    <Lienzo {...p}>
+      <polygon points="30,120 210,120 210,30" fill="#1E293B" stroke="#64748B" strokeWidth="2" />
+      <g transform="rotate(-26.6 120 70)">
+        <rect x="100" y="52" width="40" height="34" rx="4" fill="#334155" stroke="#94A3B8" strokeWidth="2" />
+      </g>
+      <Flecha x1={120} y1={70} x2={120} y2={118} c="#A78BFA" />
+      <Flecha x1={120} y1={70} x2={100} y2={30} c="#38BDF8" />
+      <Flecha x1={120} y1={70} x2={84} y2={88} c="#4ADE80" />
+      <path d="M62 120A32 32 0 0 0 59 106" stroke="#A78BFA" strokeWidth="2.5" fill="none" />
+      <T x={78} y={114} s={11} c="#C4B5FD">α</T>
+      <T x={128} y={128} s={11} c="#C4B5FD">P</T>
+      <T x={92} y={26} s={11} c="#7DD3FC">N</T>
+    </Lienzo>
+  )
+}
+
 function Termometro(p) {
   // El termómetro de dos escalas (°C y K) y un vaso frío y otro caliente.
   return (
@@ -602,6 +621,7 @@ export const ARTE_CIENCIAS = {
   'lee-el-movimiento': LeeElMovimiento,
   'cadena-energia': CadenaEnergia,
   termometro: Termometro,
+  'newton-accion': NewtonAccion,
   'flota-o-se-hunde': FlotaHunde,
   'lee-la-etiqueta': LeeLaEtiqueta,
   'clave-dicotomica': ClaveDicotomica,

@@ -525,6 +525,13 @@ const MODOS_POR_TEMA = {
       detalles: { es:['2 niveles','10 preguntas','Opción múltiple','Explicación tras cada respuesta'], en:['2 levels','10 questions','Multiple choice','Explanation after each answer'], ca:['2 nivells','10 preguntes','Opció múltiple','Explicació després de cada resposta'] },
       path: 'dinamica',
     },
+    {
+      id: 'newton-accion-test', emoji: '🍎', gradient: 'from-red-500 to-amber-700',
+      titulo: { es:'Newton en Acción (con el juego)', en:'Newton in Action (with the game)', ca:'Newton en Acció (amb el joc)' },
+      descripcion: { es:'Con la mecánica del juego: la caja con sus fuerzas dibujadas; segunda ley, rozamiento, plano inclinado y ascensor.', en:'Using the game mechanic: the box with its forces drawn; second law, friction, inclined planes and lifts.', ca:'Amb la mecànica del joc: la caixa amb les seves forces dibuixades; segona llei, fregament, pla inclinat i ascensor.' },
+      detalles: { es:['3 niveles','10 preguntas','Sin cronómetro','Con el juego'], en:['3 levels','10 questions','No timer','With the game'], ca:['3 nivells','10 preguntes','Sense cronòmetre','Amb el joc'] },
+      path: 'newton-accion-test',
+    },
   ],
   'enlace-quimico': [
     {

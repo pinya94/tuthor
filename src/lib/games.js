@@ -363,6 +363,14 @@ export const GAMES = {
     // aciertos × 10 puntos → hasta 200 monedas
     coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
   },
+  'newton-accion': {
+    label: { es: 'Newton en Acción', en: 'Newton in Action', ca: 'Newton en Acció' },
+    emoji: '🍎',
+    subject: 'fisica',
+    route: '/juegos/newton-accion',
+    // aciertos × 10 puntos → hasta 200 monedas
+    coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
+  },
   'termometro': {
     label: { es: 'Termómetro', en: 'Thermometer', ca: 'Termòmetre' },
     emoji: '🌡️',

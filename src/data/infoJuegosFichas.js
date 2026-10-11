@@ -1507,6 +1507,34 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Química', niveles: 'ESO, Bachillerato',
   },
+  'newton-accion': {
+    titulo: 'Newton en Acción',
+    subtitulo: 'Juego de dinámica: leyes de Newton, rozamiento y plano inclinado',
+    emoji: '🍎', gradient: 'from-red-500 to-amber-600',
+    path: '/juegos/newton-accion',
+    intro: 'Un juego de física para aplicar las leyes de Newton con las fuerzas a la vista. Sale una caja dibujada con sus fuerzas como flechas: el empuje, el rozamiento, el peso y la normal. Hay que calcular la aceleración, la fuerza o la masa con F = m · a, el peso en la Tierra y en la Luna, la aceleración de una caja que se empuja contra el rozamiento (o descubrir que no se mueve), la aceleración y la normal en un plano inclinado y lo que marca una báscula en un ascensor que acelera. También hay preguntas de concepto sobre la inercia y la acción-reacción. Al responder, el resultado aparece en el dibujo y, en el plano inclinado, el peso se descompone en sus dos partes.',
+    beneficios: [
+      { titulo: 'Las fuerzas, dibujadas', texto: 'La mitad de un problema de dinámica es saber qué fuerzas actúan y hacia dónde. Ver la caja con el empuje, el rozamiento, el peso y la normal como flechas, y en el plano inclinado las componentes del peso, es el diagrama de fuerzas que piden los exámenes de 4.º de ESO y de Bachillerato.' },
+      { titulo: 'Las trampas clásicas', texto: 'Creer que la masa cambia en la Luna, olvidar el rozamiento, dar por hecho que la caja se mueve aunque se empuje poco, poner que la normal es el peso en una rampa o equivocar el signo en el ascensor. Esas respuestas están entre las opciones y cada una trae su explicación.' },
+      { titulo: 'Las tres leyes con ejemplos de verdad', texto: 'Por qué te vas hacia delante cuando el autobús frena, por qué el mosquito sale peor parado si la fuerza es la misma o por qué una nave sigue en línea recta con los motores apagados. Las preguntas de concepto unen cada ley con algo que todo el mundo ha vivido.' },
+    ],
+    ejemplo: 'Empujas una caja de 10 kg con 30 N y el coeficiente de rozamiento es 0,2. El rozamiento vale μ · m · g = 0,2 · 10 · 10 = 20 N, en sentido contrario al empuje. La fuerza neta es 30 − 20 = 10 N y la aceleración, 10 ÷ 10 = 1 m/s². Quien olvida el rozamiento responde 3 m/s². Y si empujaras solo con 15 N, la caja no se movería: el rozamiento iguala tu fuerza.',
+    enPapel: {
+      titulo: 'Mide el rozamiento con una goma',
+      pasos: [
+        'Ata una goma elástica a un estuche y tira de él sobre la mesa, poco a poco, hasta que empiece a moverse.',
+        'Mide cuánto se estira la goma justo antes de que se mueva: esa es la fuerza de rozamiento máxima.',
+        'Repite sobre otra superficie (una toalla, un folio) y con un libro encima del estuche.',
+        'Compara: ¿qué superficie roza más? ¿Qué pasa con el rozamiento al aumentar el peso?',
+      ],
+    },
+    alternativas: [
+      { nombre: 'El examen de Dinámica', desc: 'Tipo test sobre las tres leyes de Newton, peso y masa, rozamiento, plano inclinado, momento lineal y gravitación, con explicación en cada respuesta.' },
+      { nombre: 'Fuerza Neta', desc: 'Otro juego de física: suma las fuerzas que actúan sobre un cuerpo y decide hacia dónde se mueve.' },
+      { nombre: 'Lee el movimiento', desc: 'Gráficas de posición y velocidad: lo que pasa con el movimiento cuando hay aceleración.' },
+    ],
+    asignatura: 'Física', niveles: 'ESO (4.º), Bachillerato',
+  },
   'clave-dicotomica': {
     titulo: 'Clave dicotómica',
     subtitulo: 'Juego para clasificar seres vivos con una clave de sí o no',
@@ -3306,6 +3334,33 @@ export const FICHAS_EN = {
       { nombre: 'Make the Solution', desc: 'A chemistry game on solutions, where ionic substances dissolve and conduct.' },
     ],
     asignatura: 'Chemistry', niveles: 'Secondary, Sixth form',
+  },
+  'newton-accion': {
+    titulo: 'Newton in Action',
+    subtitulo: 'Dynamics game: Newton’s laws, friction and inclined planes',
+    emoji: '🍎', gradient: 'from-red-500 to-amber-600', path: '/juegos/newton-accion',
+    intro: 'A physics game for applying Newton’s laws with the forces in view. A box appears with its forces drawn as arrows: the push, friction, weight and the normal force. You work out the acceleration, force or mass with F = m × a, the weight on Earth and on the Moon, the acceleration of a box pushed against friction (or discover it does not move), the acceleration and normal force on a slope and what a scale reads in an accelerating lift. There are also concept questions on inertia and action-reaction. When you answer, the result appears on the drawing and, on the slope, the weight splits into its two parts.',
+    beneficios: [
+      { titulo: 'The forces, drawn', texto: 'Half of a dynamics problem is knowing which forces act and which way. Seeing the box with the push, friction, weight and normal force as arrows, and on a slope the components of the weight, is exactly the free-body diagram exams ask for.' },
+      { titulo: 'The classic traps', texto: 'Thinking mass changes on the Moon, forgetting friction, assuming the box moves even with a small push, saying the normal force equals the weight on a ramp, or getting the sign wrong in the lift. Those answers are among the options, each with its explanation.' },
+      { titulo: 'The three laws with real examples', texto: 'Why you lurch forwards when the bus brakes, why the mosquito comes off worse if the force is the same, or why a spacecraft keeps going straight with its engines off. The concept questions link each law with something everyone has experienced.' },
+    ],
+    ejemplo: 'You push a 10 kg box with 30 N and the coefficient of friction is 0.2. Friction is μ × m × g = 0.2 × 10 × 10 = 20 N, opposing the push. The net force is 30 − 20 = 10 N and the acceleration 10 ÷ 10 = 1 m/s². Anyone who forgets friction answers 3 m/s². And if you pushed with only 15 N, the box would not move: friction matches your push.',
+    enPapel: {
+      titulo: 'Measure friction with a rubber band',
+      pasos: [
+        'Tie a rubber band to a pencil case and pull it across the table, gently, until it starts to move.',
+        'Measure how far the band stretches just before it moves: that is the maximum friction force.',
+        'Repeat on another surface (a towel, a sheet of paper) and with a book on top of the case.',
+        'Compare: which surface has more friction? What happens to friction as the weight increases?',
+      ],
+    },
+    alternativas: [
+      { nombre: 'Net Force', desc: 'Another physics game: add the forces on a body and decide which way it moves.' },
+      { nombre: 'Read the Motion', desc: 'Position and velocity graphs: what happens to motion when there is acceleration.' },
+      { nombre: 'The lift experiment', desc: 'Stand on bathroom scales in a lift and watch the reading as it starts going up and as it stops.' },
+    ],
+    asignatura: 'Physics', niveles: 'Upper secondary, Sixth form',
   },
   'clave-dicotomica': {
     titulo: 'Dichotomous Key',
@@ -5169,6 +5224,33 @@ export const FICHAS_CA = {
       { nombre: 'Anomena el compost', desc: 'Formulació inorgànica: els compostos iònics d’aquest joc, amb el seu nom.' },
     ],
     asignatura: 'Química', niveles: 'ESO, Batxillerat',
+  },
+  'newton-accion': {
+    titulo: 'Newton en Acció',
+    subtitulo: 'Joc de dinàmica: lleis de Newton, fregament i pla inclinat',
+    emoji: '🍎', gradient: 'from-red-500 to-amber-600', path: '/juegos/newton-accion',
+    intro: 'Un joc de física per aplicar les lleis de Newton amb les forces a la vista. Surt una caixa dibuixada amb les seves forces com a fletxes: l’empenta, el fregament, el pes i la normal. Cal calcular l’acceleració, la força o la massa amb F = m · a, el pes a la Terra i a la Lluna, l’acceleració d’una caixa que s’empeny contra el fregament (o descobrir que no es mou), l’acceleració i la normal en un pla inclinat i el que marca una bàscula en un ascensor que accelera. També hi ha preguntes de concepte sobre la inèrcia i l’acció-reacció. En respondre, el resultat apareix al dibuix i, al pla inclinat, el pes es descompon en les seves dues parts.',
+    beneficios: [
+      { titulo: 'Les forces, dibuixades', texto: 'La meitat d’un problema de dinàmica és saber quines forces hi actuen i cap a on. Veure la caixa amb l’empenta, el fregament, el pes i la normal com a fletxes, i al pla inclinat les components del pes, és el diagrama de forces que demanen els exàmens de 4t d’ESO i de Batxillerat.' },
+      { titulo: 'Els paranys clàssics', texto: 'Creure que la massa canvia a la Lluna, oblidar el fregament, donar per fet que la caixa es mou encara que s’empenyi poc, posar que la normal és el pes en una rampa o equivocar el signe a l’ascensor. Aquestes respostes són entre les opcions i cadascuna porta la seva explicació.' },
+      { titulo: 'Les tres lleis amb exemples de debò', texto: 'Per què te’n vas cap endavant quan l’autobús frena, per què el mosquit en surt pitjor si la força és la mateixa o per què una nau continua en línia recta amb els motors apagats. Les preguntes de concepte uneixen cada llei amb una cosa que tothom ha viscut.' },
+    ],
+    ejemplo: 'Empenys una caixa de 10 kg amb 30 N i el coeficient de fregament és 0,2. El fregament val μ · m · g = 0,2 · 10 · 10 = 20 N, en sentit contrari a l’empenta. La força neta és 30 − 20 = 10 N i l’acceleració, 10 ÷ 10 = 1 m/s². Qui oblida el fregament respon 3 m/s². I si empenyessis només amb 15 N, la caixa no es mouria: el fregament iguala la teva força.',
+    enPapel: {
+      titulo: 'Mesura el fregament amb una goma',
+      pasos: [
+        'Lliga una goma elàstica a un estoig i estira’l sobre la taula, a poc a poc, fins que comenci a moure’s.',
+        'Mesura quant s’estira la goma just abans que es mogui: aquesta és la força de fregament màxima.',
+        'Repeteix-ho sobre una altra superfície (una tovallola, un full) i amb un llibre damunt de l’estoig.',
+        'Compara: quina superfície frega més? Què passa amb el fregament quan augmenta el pes?',
+      ],
+    },
+    alternativas: [
+      { nombre: 'L’examen de Dinàmica', desc: 'Tipus test sobre les tres lleis de Newton, pes i massa, fregament, pla inclinat, moment lineal i gravitació, amb explicació a cada resposta.' },
+      { nombre: 'Força Neta', desc: 'Un altre joc de física: suma les forces que actuen sobre un cos i decideix cap a on es mou.' },
+      { nombre: 'Llegeix el moviment', desc: 'Gràfiques de posició i velocitat: el que passa amb el moviment quan hi ha acceleració.' },
+    ],
+    asignatura: 'Física', niveles: 'ESO (4t), Batxillerat',
   },
   'clave-dicotomica': {
     titulo: 'Clau dicotòmica',
