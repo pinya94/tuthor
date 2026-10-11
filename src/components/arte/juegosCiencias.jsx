@@ -287,6 +287,27 @@ function CambioEstado(p) {
   )
 }
 
+function QueEnlace(p) {
+  // Un trozo de tabla periódica: Na (metal, azul) y Cl (no metal, verde)
+  // marcados, y el electrón que pasa de uno a otro.
+  const celdas = [[44, 'Na', '#2563EB'], [74, 'Mg', '#2563EB'], [134, 'S', '#16A34A'], [164, 'Cl', '#16A34A'], [194, 'Ar', '#9333EA']]
+  return (
+    <Lienzo {...p}>
+      {celdas.map(([x, sim, c]) => (
+        <g key={sim}>
+          <rect x={x - 13} y="62" width="26" height="26" rx="4" fill={c} stroke={sim === 'Na' || sim === 'Cl' ? '#FCD34D' : 'none'} strokeWidth="3" />
+          <T x={x} y={80} s={11} c="#FFFFFF">{sim}</T>
+        </g>
+      ))}
+      <path d="M48 56Q104 14 160 56" stroke="#FCD34D" strokeWidth="2.5" fill="none" strokeDasharray="4 4" />
+      <circle cx="104" cy="35" r="6" fill="#FCD34D" />
+      <T x={104} y={38.5} s={9} c="#422006">e⁻</T>
+      <T x={44} y={110} s={12} c="#93C5FD">Na⁺</T>
+      <T x={164} y={110} s={12} c="#86EFAC">Cl⁻</T>
+    </Lienzo>
+  )
+}
+
 function PreparaDisolucion(p) {
   // Tres vasos con distinto volumen y tono: el más oscuro es el más concentrado.
   const vasos = [[30, 70, 0.3], [96, 44, 0.85], [162, 84, 0.5]]
@@ -591,6 +612,7 @@ export const ARTE_CIENCIAS = {
   'cambio-estado': CambioEstado,
   'medidor-ph': MedidorPh,
   'prepara-disolucion': PreparaDisolucion,
+  'que-enlace': QueEnlace,
   'nombra-compuesto': NombraCompuesto,
   'el-laboratorio': ElLaboratorio,
 }

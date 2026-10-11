@@ -1479,6 +1479,34 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Matemáticas', niveles: 'ESO, Bachillerato',
   },
+  'que-enlace': {
+    titulo: '¿Qué Enlace?',
+    subtitulo: 'Juego de enlace químico: iónico, covalente y metálico',
+    emoji: '🔗', gradient: 'from-blue-600 to-emerald-600',
+    path: '/juegos/que-enlace',
+    intro: 'Un juego de química para dominar el enlace químico con la tabla periódica delante. Sale una tabla periódica en miniatura con los elementos de la pregunta marcados y hay que decidir qué tipo de enlace forman (iónico, covalente o metálico), clasificar sustancias reales (la sal, el agua, el diamante, el cuarzo, el cobre) como iónicas, covalentes moleculares, redes covalentes o metálicas, deducir el tipo de sustancia a partir de sus propiedades, saber qué ion forma cada elemento para completar el octeto, escribir la fórmula de un compuesto iónico y contar cuántos enlaces covalentes forma un átomo. Al corregir, la tabla se colorea: metales en azul, no metales en verde, semimetales en gris y gases nobles en morado.',
+    beneficios: [
+      { titulo: 'Todo empieza en la tabla', texto: 'Saber si un elemento es metal o no metal decide el enlace: metal con no metal, iónico; no metal con no metal, covalente; metal con metal, metálico. Colorear la tabla al corregir fija la «escalera» que los separa, y el hidrógeno aparece en verde aunque esté en el grupo 1: es un no metal.' },
+      { titulo: 'Del enlace a las propiedades', texto: 'Por qué la sal conduce disuelta y no en sólido, por qué el diamante es durísimo aunque sea covalente o por qué el cobre conduce: cada explicación une las propiedades con lo que pasa con los electrones. Es justo la pregunta de razonar que más cae en los exámenes de Física y Química.' },
+      { titulo: 'Iones y fórmulas sin memorizar', texto: 'El magnesio pierde dos electrones y queda Mg²⁺; el cloro gana uno y queda Cl⁻; para que el compuesto sea neutro hacen falta dos cloros: MgCl₂. Las opciones equivocadas son los errores típicos, como olvidar los subíndices o poner la carga con el signo cambiado.' },
+    ],
+    ejemplo: 'Salen marcados el calcio y el oxígeno. ¿Qué enlace forman? El calcio es un metal del grupo 2 y el oxígeno, un no metal del grupo 16: metal con no metal, enlace iónico. El calcio pierde dos electrones (Ca²⁺), el oxígeno gana dos (O²⁻) y se forma CaO, la cal viva: un sólido blanco, duro y con un punto de fusión altísimo.',
+    enPapel: {
+      titulo: '¿Conduce o no conduce?',
+      pasos: [
+        'Con una pila, una bombilla pequeña y dos cables, monta un circuito con un hueco entre dos cables.',
+        'Toca con los cables un clip (metal), un poco de sal seca y un poco de azúcar seco, y anota si la bombilla se enciende.',
+        'Disuelve la sal en agua y prueba otra vez; haz lo mismo con el azúcar.',
+        'Explica los resultados con el tipo de enlace de cada sustancia: metálico, iónico o covalente.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'El examen de El Enlace Químico', desc: 'Tipo test sobre la regla del octeto, los enlaces iónico, covalente y metálico, polaridad y fuerzas intermoleculares, con explicación en cada respuesta.' },
+      { nombre: 'Encuentra el Elemento', desc: 'Otro juego de química: localiza cada elemento en la tabla periódica a partir de una pista.' },
+      { nombre: 'Nombra el compuesto', desc: 'Formulación inorgánica: los compuestos iónicos de este juego, con su nombre.' },
+    ],
+    asignatura: 'Química', niveles: 'ESO, Bachillerato',
+  },
   'clave-dicotomica': {
     titulo: 'Clave dicotómica',
     subtitulo: 'Juego para clasificar seres vivos con una clave de sí o no',
@@ -3251,6 +3279,33 @@ export const FICHAS_EN = {
       { nombre: 'Fibonacci in nature', desc: 'Count the spirals on a pine cone or a sunflower head: they are almost always Fibonacci numbers, a famous sequence that is neither arithmetic nor geometric.' },
     ],
     asignatura: 'Mathematics', niveles: 'Secondary, Sixth form',
+  },
+  'que-enlace': {
+    titulo: 'Which Bond?',
+    subtitulo: 'Chemical bonding game: ionic, covalent and metallic',
+    emoji: '🔗', gradient: 'from-blue-600 to-emerald-600', path: '/juegos/que-enlace',
+    intro: 'A chemistry game for mastering chemical bonding with the periodic table in front of you. A mini periodic table appears with the elements in the question marked, and you decide what type of bond they form (ionic, covalent or metallic), classify real substances (salt, water, diamond, quartz, copper) as ionic, molecular covalent, giant covalent or metallic, work out the kind of substance from its properties, know which ion each element forms to complete its octet, write the formula of an ionic compound and count how many covalent bonds an atom forms. When you answer, the table is coloured: metals in blue, non-metals in green, metalloids in grey and noble gases in purple.',
+    beneficios: [
+      { titulo: 'It all starts with the table', texto: 'Whether an element is a metal or a non-metal decides the bond: metal with non-metal, ionic; non-metal with non-metal, covalent; metal with metal, metallic. Colouring the table when you answer fixes the “staircase” that separates them, and hydrogen shows up green even though it is in group 1: it is a non-metal.' },
+      { titulo: 'From bonds to properties', texto: 'Why salt conducts when dissolved but not as a solid, why diamond is extremely hard even though it is covalent, or why copper conducts: each explanation links the properties with what the electrons are doing. That is exactly the reasoning question that comes up most in science exams.' },
+      { titulo: 'Ions and formulas without memorising', texto: 'Magnesium loses two electrons and becomes Mg²⁺; chlorine gains one and becomes Cl⁻; to make the compound neutral you need two chlorines: MgCl₂. The wrong options are the typical mistakes, like forgetting the subscripts or giving the charge the wrong sign.' },
+    ],
+    ejemplo: 'Calcium and oxygen are marked. What bond do they form? Calcium is a group 2 metal and oxygen a group 16 non-metal: metal with non-metal, ionic bond. Calcium loses two electrons (Ca²⁺), oxygen gains two (O²⁻) and they form CaO, quicklime: a white, hard solid with a very high melting point.',
+    enPapel: {
+      titulo: 'Does it conduct?',
+      pasos: [
+        'With a battery, a small bulb and two wires, build a circuit with a gap between two wire ends.',
+        'Touch the wire ends to a paper clip (metal), some dry salt and some dry sugar, and note whether the bulb lights up.',
+        'Dissolve the salt in water and test again; do the same with the sugar.',
+        'Explain the results using the bond type of each substance: metallic, ionic or covalent.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'Find the Element', desc: 'Another chemistry game: locate each element on the periodic table from a clue.' },
+      { nombre: 'Name the Compound', desc: 'Inorganic nomenclature: the ionic compounds from this game, with their names.' },
+      { nombre: 'Make the Solution', desc: 'A chemistry game on solutions, where ionic substances dissolve and conduct.' },
+    ],
+    asignatura: 'Chemistry', niveles: 'Secondary, Sixth form',
   },
   'clave-dicotomica': {
     titulo: 'Dichotomous Key',
@@ -5087,6 +5142,33 @@ export const FICHAS_CA = {
       { nombre: 'Balança Algebraica', desc: 'Resol equacions de primer grau, que és el que cal per saber quin terme d’una progressió val un nombre donat.' },
     ],
     asignatura: 'Matemàtiques', niveles: 'ESO, Batxillerat',
+  },
+  'que-enlace': {
+    titulo: 'Quin Enllaç?',
+    subtitulo: 'Joc d’enllaç químic: iònic, covalent i metàl·lic',
+    emoji: '🔗', gradient: 'from-blue-600 to-emerald-600', path: '/juegos/que-enlace',
+    intro: 'Un joc de química per dominar l’enllaç químic amb la taula periòdica al davant. Surt una taula periòdica en miniatura amb els elements de la pregunta marcats i cal decidir quin tipus d’enllaç formen (iònic, covalent o metàl·lic), classificar substàncies reals (la sal, l’aigua, el diamant, el quars, el coure) com a iòniques, covalents moleculars, xarxes covalents o metàl·liques, deduir el tipus de substància a partir de les seves propietats, saber quin ió forma cada element per completar l’octet, escriure la fórmula d’un compost iònic i comptar quants enllaços covalents forma un àtom. En corregir, la taula es pinta: metalls en blau, no metalls en verd, semimetalls en gris i gasos nobles en lila.',
+    beneficios: [
+      { titulo: 'Tot comença a la taula', texto: 'Saber si un element és metall o no metall decideix l’enllaç: metall amb no metall, iònic; no metall amb no metall, covalent; metall amb metall, metàl·lic. Pintar la taula en corregir fixa l’«escala» que els separa, i l’hidrogen surt en verd encara que sigui al grup 1: és un no metall.' },
+      { titulo: 'De l’enllaç a les propietats', texto: 'Per què la sal condueix dissolta i no en sòlid, per què el diamant és duríssim encara que sigui covalent o per què el coure condueix: cada explicació uneix les propietats amb el que passa amb els electrons. És just la pregunta de raonar que més surt als exàmens de Física i Química.' },
+      { titulo: 'Ions i fórmules sense memoritzar', texto: 'El magnesi perd dos electrons i queda Mg²⁺; el clor en guanya un i queda Cl⁻; perquè el compost sigui neutre calen dos clors: MgCl₂. Les opcions equivocades són els errors típics, com oblidar els subíndexs o posar la càrrega amb el signe canviat.' },
+    ],
+    ejemplo: 'Surten marcats el calci i l’oxigen. Quin enllaç formen? El calci és un metall del grup 2 i l’oxigen, un no metall del grup 16: metall amb no metall, enllaç iònic. El calci perd dos electrons (Ca²⁺), l’oxigen en guanya dos (O²⁻) i es forma CaO, la calç viva: un sòlid blanc, dur i amb un punt de fusió altíssim.',
+    enPapel: {
+      titulo: 'Condueix o no condueix?',
+      pasos: [
+        'Amb una pila, una bombeta petita i dos cables, munta un circuit amb un forat entre dos cables.',
+        'Toca amb els cables un clip (metall), una mica de sal seca i una mica de sucre sec, i apunta si la bombeta s’encén.',
+        'Dissol la sal en aigua i prova-ho una altra vegada; fes el mateix amb el sucre.',
+        'Explica els resultats amb el tipus d’enllaç de cada substància: metàl·lic, iònic o covalent.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'L’examen de L’Enllaç Químic', desc: 'Tipus test sobre la regla de l’octet, els enllaços iònic, covalent i metàl·lic, polaritat i forces intermoleculars, amb explicació a cada resposta.' },
+      { nombre: 'Troba l’Element', desc: 'Un altre joc de química: localitza cada element a la taula periòdica a partir d’una pista.' },
+      { nombre: 'Anomena el compost', desc: 'Formulació inorgànica: els compostos iònics d’aquest joc, amb el seu nom.' },
+    ],
+    asignatura: 'Química', niveles: 'ESO, Batxillerat',
   },
   'clave-dicotomica': {
     titulo: 'Clau dicotòmica',

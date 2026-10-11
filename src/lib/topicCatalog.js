@@ -431,7 +431,7 @@ export const TOPIC_CATALOG = {
       formulacion: examTema({ teoria: 'formulacion', nombra: 'nombra-compuesto-test' }, { niveles: ['eso'] }),
       disoluciones: examTema({ teoria: 'disoluciones', disolucion: 'prepara-disolucion-test' }, { niveles: ['eso'] }),
       estequiometria: examTema({ teoria: 'estequiometria' }, { niveles: ['eso', 'bachillerato'] }),
-      'enlace-quimico': examTema({ teoria: 'enlace-quimico' }, { niveles: ['eso', 'bachillerato'] }),
+      'enlace-quimico': examTema({ teoria: 'enlace-quimico', enlace: 'que-enlace-test' }, { niveles: ['eso', 'bachillerato'] }),
       'quimica-organica': examTema({ teoria: 'quimica-organica' }, { niveles: ['eso', 'bachillerato'] }),
     },
     formatos: {
@@ -439,6 +439,7 @@ export const TOPIC_CATALOG = {
       'balanza-ecuaciones': examFormato({ es: 'Átomos en Equilibrio (con el juego)', en: 'Atoms in Balance (with the game)', ca: "Àtoms en Equilibri (amb el joc)" }, '⚗️'),
       'encuentra-elemento': examFormato({ es: 'Encuentra el Elemento (con el juego)', en: 'Find the Element (with the game)', ca: "Troba l'Element (amb el joc)" }, '🔬'),
       disolucion: examFormato({ es: 'Prepara la Disolución (con el juego)', en: 'Make the Solution (with the game)', ca: 'Prepara la Dissolució (amb el joc)' }, '💧'),
+      enlace: examFormato({ es: '¿Qué Enlace? (con el juego)', en: 'Which Bond? (with the game)', ca: 'Quin Enllaç? (amb el joc)' }, '🔗'),
       // Formato por MECÁNICA: la página guarda category = 'estados-materia',
       // así que la tarea del profesor se completa sola al jugarla.
       'estado-test': examFormato({ es: 'Estados de la materia (examen)', en: 'States of matter (exam)', ca: 'Estats de la matèria (examen)' }, '🌡️'),

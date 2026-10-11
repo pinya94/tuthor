@@ -575,6 +575,11 @@ export const EXAMS = {
     emoji: '🔣', subject: 'quimica',
     path: 'examen/nombra-compuesto-test', page: () => import('../pages/NombraCompuestoExamen'),
   },
+  'que-enlace-test': {
+    label: { es: '¿Qué Enlace? (con el juego)', en: 'Which Bond? (with the game)', ca: 'Quin Enllaç? (amb el joc)' },
+    emoji: '🔗', subject: 'quimica',
+    path: 'examen/que-enlace-test', page: () => import('../pages/QueEnlaceExamen'),
+  },
   'prepara-disolucion-test': {
     label: { es: 'Prepara la Disolución (con el juego)', en: 'Make the Solution (with the game)', ca: 'Prepara la Dissolució (amb el joc)' },
     emoji: '💧', subject: 'quimica',

@@ -534,6 +534,13 @@ const MODOS_POR_TEMA = {
       detalles: { es:['2 niveles','10 preguntas','Opción múltiple','Explicación tras cada respuesta'], en:['2 levels','10 questions','Multiple choice','Explanation after each answer'], ca:['2 nivells','10 preguntes','Opció múltiple','Explicació després de cada resposta'] },
       path: 'enlace-quimico',
     },
+    {
+      id: 'que-enlace-test', emoji: '🔗', gradient: 'from-blue-600 to-emerald-700',
+      titulo: { es:'¿Qué Enlace? (con el juego)', en:'Which Bond? (with the game)', ca:'Quin Enllaç? (amb el joc)' },
+      descripcion: { es:'Con la mecánica del juego: la tabla periódica con los elementos marcados; tipo de enlace, sustancias, propiedades, iones y fórmulas.', en:'Using the game mechanic: the periodic table with the elements marked; bond type, substances, properties, ions and formulas.', ca:'Amb la mecànica del joc: la taula periòdica amb els elements marcats; tipus d’enllaç, substàncies, propietats, ions i fórmules.' },
+      detalles: { es:['3 niveles','10 preguntas','Sin cronómetro','Con el juego'], en:['3 levels','10 questions','No timer','With the game'], ca:['3 nivells','10 preguntes','Sense cronòmetre','Amb el joc'] },
+      path: 'que-enlace-test',
+    },
   ],
   'quimica-organica': [
     {

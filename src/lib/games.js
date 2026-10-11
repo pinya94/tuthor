@@ -315,6 +315,14 @@ export const GAMES = {
     // aciertos × 10 puntos → hasta 200 monedas
     coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
   },
+  'que-enlace': {
+    label: { es: '¿Qué Enlace?', en: 'Which Bond?', ca: 'Quin Enllaç?' },
+    emoji: '🔗',
+    subject: 'quimica',
+    route: '/juegos/que-enlace',
+    // aciertos × 10 puntos → hasta 200 monedas
+    coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
+  },
   'prepara-disolucion': {
     label: { es: 'Prepara la Disolución', en: 'Make the Solution', ca: 'Prepara la Dissolució' },
     emoji: '💧',
