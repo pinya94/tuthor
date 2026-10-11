@@ -366,6 +366,26 @@ function Rebajas(p) {
   )
 }
 
+function EscalaUniverso(p) {
+  // La regla de potencias de 10 con tres objetos: átomo, persona y galaxia.
+  const X = e => 24 + ((e + 10) / 31) * 192
+  return (
+    <Lienzo {...p}>
+      <line x1="24" y1="92" x2="216" y2="92" stroke="#94A3B8" strokeWidth="3" />
+      {[-10, -5, 0, 5, 10, 15, 20].map(e => <line key={e} x1={X(e)} x2={X(e)} y1="84" y2="100" stroke={e === 0 ? '#FBBF24' : '#94A3B8'} strokeWidth="2.5" />)}
+      <circle cx={X(-10)} cy="58" r="10" fill="none" stroke="#38BDF8" strokeWidth="2.5" />
+      <circle cx={X(-10)} cy="58" r="3" fill="#38BDF8" />
+      <circle cx={X(0)} cy="50" r="7" fill="#FBBF24" />
+      <path d={`M${X(0) - 8} 76Q${X(0)} 54 ${X(0) + 8} 76Z`} fill="#FBBF24" />
+      <ellipse cx={X(20)} cy="58" rx="20" ry="8" fill="#A78BFA" opacity=".8" />
+      <circle cx={X(20)} cy="58" r="4" fill="#F5F3FF" />
+      <T x={X(0)} y={120} s={12} c="#FDE68A">10⁰</T>
+      <T x={X(-10)} y={120} s={12} c="#CBD5E1">10⁻¹⁰</T>
+      <T x={X(20)} y={120} s={12} c="#CBD5E1">10²⁰</T>
+    </Lienzo>
+  )
+}
+
 function AnguloRecto(p) {
   // Un triángulo 3-4-5 con α abajo y los lados coloreados como al corregir.
   return (
@@ -416,6 +436,7 @@ function BloquesPrimos(p) {
 export const ARTE_MATES = {
   'bloques-primos': BloquesPrimos,
   'angulo-recto': AnguloRecto,
+  'escala-universo': EscalaUniverso,
   acercate: Acercate,
   numpath: NumPath,
   'menor-a-mayor': MenorAMayor,

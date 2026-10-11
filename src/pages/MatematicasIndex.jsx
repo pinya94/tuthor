@@ -12,7 +12,6 @@ import { TEMAS_MATEMATICAS_EXTRA } from '../data/temasMatematicas'
 // una tarjeta): la ficha del temario lleva directa al examen. Porcentajes tuvo
 // esto hasta que llegó el juego Rebajas; ahora tiene /estudiar/.../porcentajes.
 const EXAM_DIRECTO = {
-  potencias: '/examen/potencias',
   sucesiones: '/examen/sucesiones',
 }
 

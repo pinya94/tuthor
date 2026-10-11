@@ -4,7 +4,7 @@
 export const FICHAS_JUEGO_SLUGS = new Set([
   'acercate', 'analiza-frases', 'angulo-recto', 'balanza', 'balanza-algebraica',
   'balanza-ecuaciones', 'cadena-alimentaria', 'cadena-energia', 'cambio-estado',
-  'circuito-cerrado', 'ciclo-rocas', 'clave-dicotomica', 'coordenadas', 'corrige-el-texto', 'el-cambio', 'el-laboratorio', 'el-tiempo', 'engranajes', 'flota-o-se-hunde', 'lee-la-etiqueta',
+  'circuito-cerrado', 'ciclo-rocas', 'clave-dicotomica', 'coordenadas', 'corrige-el-texto', 'el-cambio', 'el-laboratorio', 'escala-universo', 'el-tiempo', 'engranajes', 'flota-o-se-hunde', 'lee-la-etiqueta',
   'encuentra-elemento', 'epocas-historicas', 'escalera-unidades',
   'estadistico-expres', 'fuerza-neta', 'funciones-grafica', 'genetica',
   'geomapa', 'georush', 'intruso', 'lee-el-grafico', 'lee-el-movimiento', 'linea-temporal',

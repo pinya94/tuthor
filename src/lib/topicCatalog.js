@@ -198,7 +198,7 @@ export const TOPIC_CATALOG = {
       porcentajes: examTema({ teoria: 'porcentajes', rebajas: 'rebajas-test' }, { niveles: ['primaria', 'eso'] }),
       divisibilidad: examTema({ teoria: 'divisibilidad', 'bloques-primos': 'bloques-primos-test' }, { niveles: ['primaria', 'eso'] }),
       trigonometria: examTema({ teoria: 'trigonometria', 'angulo-recto': 'angulo-recto-test' }, { niveles: ['eso', 'bachillerato'] }),
-      potencias: examTema({ teoria: 'potencias' }, { niveles: ['primaria', 'eso'] }),
+      potencias: examTema({ teoria: 'potencias', escala: 'escala-universo-test' }, { niveles: ['primaria', 'eso'] }),
       sucesiones: examTema({ teoria: 'sucesiones' }, { niveles: ['eso', 'bachillerato'] }),
       estadistica: examTema({
         teoria: 'estadistica',
@@ -236,6 +236,7 @@ export const TOPIC_CATALOG = {
       rebajas: examFormato({ es: 'Rebajas (con el juego)', en: 'Sale! (with the game)', ca: 'Rebaixes (amb el joc)' }, '🛍️'),
       'bloques-primos': examFormato({ es: 'Bloques Primos (con el juego)', en: 'Prime Blocks (with the game)', ca: 'Blocs Primers (amb el joc)' }, '🧱'),
       'angulo-recto': examFormato({ es: 'Ángulo Recto (con el juego)', en: 'Right Angle (with the game)', ca: 'Angle Recte (amb el joc)' }, '📐'),
+      escala: examFormato({ es: 'Escala del Universo (con el juego)', en: 'Universe Scale (with the game)', ca: 'Escala de l’Univers (amb el joc)' }, '🔭'),
       'menor-a-mayor': examFormato({ es: 'De Menor a Mayor (con el juego)', en: 'Least to Greatest (with the game)', ca: 'De Menor a Major (amb el joc)' }, '📶'),
       'figuras-compuestas': examFormato({ es: 'Figuras Compuestas', en: 'Composite Shapes', ca: 'Figures Compostes' }, '📐'),
       'grafico-tendencia': examFormato({ es: 'Tendencias y extremos', en: 'Trends and extremes', ca: 'Tendències i extrems' }, '📈'),

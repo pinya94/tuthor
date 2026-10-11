@@ -1423,6 +1423,34 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Matemáticas', niveles: 'ESO (4.º), Bachillerato',
   },
+  'escala-universo': {
+    titulo: 'Escala del Universo',
+    subtitulo: 'Juego de potencias y notación científica con tamaños reales',
+    emoji: '🔭', gradient: 'from-indigo-500 to-violet-700',
+    path: '/juegos/escala-universo',
+    intro: 'Un juego de matemáticas para entender la notación científica con cosas de verdad. Sale una regla de potencias de 10 que va de un átomo de hidrógeno (10⁻¹⁰ m) al diámetro de la Vía Láctea (10²¹ m), con objetos reales colocados en su sitio: un virus, un glóbulo rojo, un grano de arena, una hormiga, el Everest, la Tierra, el Sol. Hay que escribir sus tamaños en notación científica y al revés, decidir cuál es mayor y cuántas veces, aplicar las propiedades de las potencias (producto, cociente y potencia de una potencia), saber cuánto valen el exponente cero y los negativos y, en el nivel difícil, multiplicar y dividir en notación científica. El objeto de la pregunta se oculta en la regla hasta responder, porque su posición daría el exponente.',
+    beneficios: [
+      { titulo: 'Los exponentes cobran sentido', texto: 'Ver que entre un átomo y una persona hay diez saltos de «diez veces más grande», y que entre la Tierra y el Sol hay dos, convierte el exponente en una distancia que se entiende. Por eso los números pequeños llevan exponente negativo y los grandes, positivo: están a un lado o al otro del metro.' },
+      { titulo: 'Las trampas típicas, a propósito', texto: '«12,7 · 10⁶» vale lo mismo que 1,27 · 10⁷ pero no está en notación científica; 5⁻² no es −25 sino 1/25; 2⁵ · 2³ no es 2¹⁵ ni 4⁸; y para comparar se mira primero el exponente, aunque la otra mantisa sea mayor. Esas respuestas equivocadas están entre las opciones, y cada una trae su explicación.' },
+      { titulo: 'Del libro de mates al de ciencias', texto: 'La notación científica es la forma de escribir que se usa en Física, Química y Biología: el tamaño de una célula, la distancia a la Luna o la velocidad de la luz. Practicarla con esos mismos datos hace que el salto de una asignatura a otra no cueste.' },
+    ],
+    ejemplo: 'Un glóbulo rojo mide 0,000008 m. ¿Cómo se escribe en notación científica? La coma tiene que quedar detrás del 8, así que se mueve seis lugares a la derecha: 8 · 10⁻⁶ m. El exponente es negativo porque el número es menor que 1. Al responder, el glóbulo aparece en la regla, entre la bacteria y el grosor de un pelo, seis marcas a la izquierda del metro.',
+    enPapel: {
+      titulo: 'La regla del universo en la pared',
+      pasos: [
+        'Dibuja en una tira de papel larga una recta con marcas iguales del 10⁻¹⁰ al 10²¹ y señala el 10⁰ = 1 m.',
+        'Busca el tamaño de diez cosas (de una bacteria a una galaxia), escríbelo en notación científica y pega un dibujo de cada una en su marca.',
+        'Comprueba con la regla cuántas veces mayor es una cosa que otra: cuenta las marcas que las separan.',
+        'Añade una más que te sorprenda y explica a la clase dónde va y por qué.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'El examen de Potencias', desc: 'Tipo test sobre potencias, sus propiedades, raíces y notación científica, con explicación en cada respuesta.' },
+      { nombre: 'Bloques Primos', desc: 'Otro juego de matemáticas: la descomposición en factores primos se escribe con potencias, y el mcd y el mcm salen de sus exponentes.' },
+      { nombre: 'Órbita', desc: 'Un juego del sistema solar, donde las distancias y los tamaños solo caben en notación científica.' },
+    ],
+    asignatura: 'Matemáticas', niveles: 'ESO',
+  },
   'clave-dicotomica': {
     titulo: 'Clave dicotómica',
     subtitulo: 'Juego para clasificar seres vivos con una clave de sí o no',
@@ -3141,6 +3169,33 @@ export const FICHAS_EN = {
       { nombre: 'The clinometer challenge', desc: 'Measure three tall things near you with a home-made clinometer and the tangent, then check one of them with a tape measure.' },
     ],
     asignatura: 'Mathematics', niveles: 'Upper secondary, Sixth form',
+  },
+  'escala-universo': {
+    titulo: 'Universe Scale',
+    subtitulo: 'Powers and scientific notation game with real sizes',
+    emoji: '🔭', gradient: 'from-indigo-500 to-violet-700', path: '/juegos/escala-universo',
+    intro: 'A maths game for understanding scientific notation with real things. A powers-of-10 ruler runs from a hydrogen atom (10⁻¹⁰ m) to the diameter of the Milky Way (10²¹ m), with real objects in place: a virus, a red blood cell, a grain of sand, an ant, Everest, the Earth, the Sun. You write their sizes in scientific notation and back again, decide which is bigger and by how many times, use the laws of indices (product, quotient and power of a power), know what zero and negative exponents are worth and, on the hard level, multiply and divide in scientific notation. The object in the question is hidden on the ruler until you answer, because its position would give away the exponent.',
+    beneficios: [
+      { titulo: 'Exponents start to make sense', texto: 'Seeing that between an atom and a person there are ten jumps of “ten times bigger”, and between the Earth and the Sun there are two, turns the exponent into a distance you can understand. That is why small numbers have negative exponents and large ones positive: they sit on either side of the metre.' },
+      { titulo: 'The usual traps, on purpose', texto: '“12.7 × 10⁶” is worth the same as 1.27 × 10⁷ but it is not scientific notation; 5⁻² is not −25 but 1/25; 2⁵ × 2³ is neither 2¹⁵ nor 4⁸; and to compare, look at the exponent first even if the other leading number is bigger. Those wrong answers are among the options, each with its explanation.' },
+      { titulo: 'From the maths book to the science book', texto: 'Scientific notation is how Physics, Chemistry and Biology write numbers: the size of a cell, the distance to the Moon or the speed of light. Practising with those same figures makes the jump between subjects painless.' },
+    ],
+    ejemplo: 'A red blood cell measures 0.000008 m. How is that written in scientific notation? The point has to end up after the 8, so it moves six places to the right: 8 × 10⁻⁶ m. The exponent is negative because the number is less than 1. When you answer, the cell appears on the ruler, between the bacterium and the width of a hair, six marks to the left of one metre.',
+    enPapel: {
+      titulo: 'The universe ruler on the wall',
+      pasos: [
+        'On a long strip of paper, draw a line with equal marks from 10⁻¹⁰ to 10²¹ and highlight 10⁰ = 1 m.',
+        'Look up the size of ten things (from a bacterium to a galaxy), write it in scientific notation and stick a drawing of each at its mark.',
+        'Use the ruler to check how many times bigger one thing is than another: count the marks between them.',
+        'Add one more that surprises you and explain to the class where it goes and why.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'Prime Blocks', desc: 'Another maths game: prime factorisation is written with powers, and the HCF and LCM come from their exponents.' },
+      { nombre: 'Orbit', desc: 'A solar system game, where distances and sizes only fit in scientific notation.' },
+      { nombre: 'Powers of Ten', desc: 'Watch the classic short film that zooms out from a picnic to the edge of the universe and back into an atom, one power of 10 at a time.' },
+    ],
+    asignatura: 'Mathematics', niveles: 'Secondary',
   },
   'clave-dicotomica': {
     titulo: 'Dichotomous Key',
@@ -4923,6 +4978,33 @@ export const FICHAS_CA = {
       { nombre: 'Figures Compostes', desc: 'Àrees i perímetres de figures formades per diverses peces, on sovint cal Pitàgores.' },
     ],
     asignatura: 'Matemàtiques', niveles: 'ESO (4t), Batxillerat',
+  },
+  'escala-universo': {
+    titulo: 'Escala de l’Univers',
+    subtitulo: 'Joc de potències i notació científica amb mides reals',
+    emoji: '🔭', gradient: 'from-indigo-500 to-violet-700', path: '/juegos/escala-universo',
+    intro: 'Un joc de matemàtiques per entendre la notació científica amb coses de debò. Surt un regle de potències de 10 que va d’un àtom d’hidrogen (10⁻¹⁰ m) al diàmetre de la Via Làctia (10²¹ m), amb objectes reals col·locats al seu lloc: un virus, un glòbul vermell, un gra de sorra, una formiga, l’Everest, la Terra, el Sol. Cal escriure’n les mides en notació científica i a l’inrevés, decidir quina és més gran i quantes vegades, aplicar les propietats de les potències (producte, quocient i potència d’una potència), saber quant valen l’exponent zero i els negatius i, al nivell difícil, multiplicar i dividir en notació científica. L’objecte de la pregunta s’amaga al regle fins que respons, perquè la seva posició donaria l’exponent.',
+    beneficios: [
+      { titulo: 'Els exponents prenen sentit', texto: 'Veure que entre un àtom i una persona hi ha deu salts de «deu vegades més gran», i que entre la Terra i el Sol n’hi ha dos, converteix l’exponent en una distància que s’entén. Per això els nombres petits porten exponent negatiu i els grans, positiu: són a un costat o a l’altre del metre.' },
+      { titulo: 'Els paranys típics, expressament', texto: '«12,7 · 10⁶» val el mateix que 1,27 · 10⁷ però no és notació científica; 5⁻² no és −25 sinó 1/25; 2⁵ · 2³ no és 2¹⁵ ni 4⁸; i per comparar es mira primer l’exponent, encara que l’altra mantissa sigui més gran. Aquestes respostes equivocades són entre les opcions, i cadascuna porta la seva explicació.' },
+      { titulo: 'Del llibre de mates al de ciències', texto: 'La notació científica és la manera d’escriure que es fa servir a Física, Química i Biologia: la mida d’una cèl·lula, la distància a la Lluna o la velocitat de la llum. Practicar-la amb aquestes mateixes dades fa que el salt d’una assignatura a l’altra no costi.' },
+    ],
+    ejemplo: 'Un glòbul vermell fa 0,000008 m. Com s’escriu en notació científica? La coma ha de quedar darrere del 8, així que es mou sis llocs a la dreta: 8 · 10⁻⁶ m. L’exponent és negatiu perquè el nombre és menor que 1. En respondre, el glòbul apareix al regle, entre el bacteri i el gruix d’un cabell, sis marques a l’esquerra del metre.',
+    enPapel: {
+      titulo: 'El regle de l’univers a la paret',
+      pasos: [
+        'Dibuixa en una tira de paper llarga una recta amb marques iguals del 10⁻¹⁰ al 10²¹ i assenyala el 10⁰ = 1 m.',
+        'Busca la mida de deu coses (d’un bacteri a una galàxia), escriu-la en notació científica i enganxa un dibuix de cadascuna a la seva marca.',
+        'Comprova amb el regle quantes vegades més gran és una cosa que una altra: compta les marques que les separen.',
+        'Afegeix-ne una més que et sorprengui i explica a la classe on va i per què.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'L’examen de Potències', desc: 'Tipus test sobre potències, les seves propietats, arrels i notació científica, amb explicació a cada resposta.' },
+      { nombre: 'Blocs Primers', desc: 'Un altre joc de matemàtiques: la descomposició en factors primers s’escriu amb potències, i el mcd i el mcm surten dels seus exponents.' },
+      { nombre: 'Òrbita', desc: 'Un joc del sistema solar, on les distàncies i les mides només caben en notació científica.' },
+    ],
+    asignatura: 'Matemàtiques', niveles: 'ESO',
   },
   'clave-dicotomica': {
     titulo: 'Clau dicotòmica',
