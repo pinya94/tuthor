@@ -316,6 +316,11 @@ export const EXAMS = {
     emoji: '🛍️', subject: 'matematicas',
     path: 'examen/rebajas-test', page: () => import('../pages/RebajasExamen'),
   },
+  'angulo-recto-test': {
+    label: { es: 'Ángulo Recto (con el juego)', en: 'Right Angle (with the game)', ca: 'Angle Recte (amb el joc)' },
+    emoji: '📐', subject: 'matematicas',
+    path: 'examen/angulo-recto-test', page: () => import('../pages/AnguloRectoExamen'),
+  },
   'bloques-primos-test': {
     label: { es: 'Bloques Primos (con el juego)', en: 'Prime Blocks (with the game)', ca: 'Blocs Primers (amb el joc)' },
     emoji: '🧱', subject: 'matematicas',

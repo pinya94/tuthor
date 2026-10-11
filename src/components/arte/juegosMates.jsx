@@ -366,6 +366,24 @@ function Rebajas(p) {
   )
 }
 
+function AnguloRecto(p) {
+  // Un triángulo 3-4-5 con α abajo y los lados coloreados como al corregir.
+  return (
+    <Lienzo {...p}>
+      <polygon points="40,112 200,112 200,22" fill="#1E293B" />
+      <line x1="40" y1="112" x2="200" y2="112" stroke="#38BDF8" strokeWidth="5" strokeLinecap="round" />
+      <line x1="200" y1="112" x2="200" y2="22" stroke="#FB7185" strokeWidth="5" strokeLinecap="round" />
+      <line x1="40" y1="112" x2="200" y2="22" stroke="#FBBF24" strokeWidth="5" strokeLinecap="round" />
+      <path d="M186 112V98H200" stroke="#94A3B8" strokeWidth="2" fill="none" />
+      <path d="M70 112A30 30 0 0 0 66 97" stroke="#A78BFA" strokeWidth="3" fill="none" />
+      <T x={86} y={104} s={14} c="#C4B5FD">α</T>
+      <T x={120} y={130} s={13} c="#38BDF8">4</T>
+      <T x={214} y={72} s={13} c="#FB7185">3</T>
+      <T x={108} y={58} s={13} c="#FBBF24">5</T>
+    </Lienzo>
+  )
+}
+
 function BloquesPrimos(p) {
   // 12 = 2·2·3 y 18 = 2·3·3, alineados por color; el mcd (2·3) va marcado.
   const B = { 2: '#3B82F6', 3: '#22C55E' }
@@ -397,6 +415,7 @@ function BloquesPrimos(p) {
 
 export const ARTE_MATES = {
   'bloques-primos': BloquesPrimos,
+  'angulo-recto': AnguloRecto,
   acercate: Acercate,
   numpath: NumPath,
   'menor-a-mayor': MenorAMayor,

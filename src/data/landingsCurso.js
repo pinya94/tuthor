@@ -373,7 +373,7 @@ export const LANDINGS = [
       en: ['Linear equations', 'Linear and quadratic functions', 'Integers and rational numbers', 'Fractions and percentages', 'Statistics: mean, median and mode'],
       ca: ['Equacions de primer grau', 'Funcions lineals i quadràtiques', 'Nombres enters i racionals', 'Fraccions i percentatges', 'Estadística: mitjana, mediana i moda'],
     },
-    juegos: ['balanza-algebraica', 'funciones-grafica', 'rebajas', 'bloques-primos', 'trayectoria', 'portero', 'salta-recta', 'reparte-pastel', 'estadistico-expres', 'lee-el-grafico', 'acercate', 'numpath'],
+    juegos: ['balanza-algebraica', 'funciones-grafica', 'rebajas', 'bloques-primos', 'angulo-recto', 'trayectoria', 'portero', 'salta-recta', 'reparte-pastel', 'estadistico-expres', 'lee-el-grafico', 'acercate', 'numpath'],
     temas: [
       { arte: 'matematicas/algebra', ruta: '/estudiar/matematicas/algebra', titulo: T('Álgebra', 'Algebra', 'Àlgebra') },
       { arte: 'matematicas/funciones', ruta: '/estudiar/matematicas/funciones', titulo: T('Funciones', 'Functions', 'Funcions') },
@@ -706,7 +706,7 @@ export const LANDINGS = [
       { arte: 'matematicas/algebra', ruta: '/estudiar/matematicas/algebra', titulo: T('Álgebra', 'Algebra', 'Àlgebra') },
       { arte: 'matematicas/geometria', ruta: '/estudiar/matematicas/geometria', titulo: T('Geometría', 'Geometry', 'Geometria') },
       { arte: 'matematicas/estadistica', ruta: '/estudiar/matematicas/estadistica', titulo: T('Estadística y probabilidad', 'Statistics and probability', 'Estadística i probabilitat') },
-      { arte: 'matematicas/trigonometria', ruta: '/examen/trigonometria', titulo: T('Trigonometría', 'Trigonometry', 'Trigonometria') },
+      { arte: 'matematicas/trigonometria', ruta: '/estudiar/matematicas/trigonometria', titulo: T('Trigonometría', 'Trigonometry', 'Trigonometria') },
     ],
   },
   {

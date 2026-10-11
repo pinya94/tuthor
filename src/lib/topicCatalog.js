@@ -197,7 +197,7 @@ export const TOPIC_CATALOG = {
       fracciones: examTema({ teoria: 'fracciones', 'reparte-pastel': 'reparte-pastel-test', 'menor-a-mayor': 'menor-a-mayor-test' }, { niveles: ['primaria', 'eso'] }),
       porcentajes: examTema({ teoria: 'porcentajes', rebajas: 'rebajas-test' }, { niveles: ['primaria', 'eso'] }),
       divisibilidad: examTema({ teoria: 'divisibilidad', 'bloques-primos': 'bloques-primos-test' }, { niveles: ['primaria', 'eso'] }),
-      trigonometria: examTema({ teoria: 'trigonometria' }, { niveles: ['eso', 'bachillerato'] }),
+      trigonometria: examTema({ teoria: 'trigonometria', 'angulo-recto': 'angulo-recto-test' }, { niveles: ['eso', 'bachillerato'] }),
       potencias: examTema({ teoria: 'potencias' }, { niveles: ['primaria', 'eso'] }),
       sucesiones: examTema({ teoria: 'sucesiones' }, { niveles: ['eso', 'bachillerato'] }),
       estadistica: examTema({
@@ -235,6 +235,7 @@ export const TOPIC_CATALOG = {
       'reparte-pastel': examFormato({ es: 'Reparte el Pastel (con el juego)', en: 'Slice the Cake (with the game)', ca: 'Reparteix el Pastís (amb el joc)' }, '🍰'),
       rebajas: examFormato({ es: 'Rebajas (con el juego)', en: 'Sale! (with the game)', ca: 'Rebaixes (amb el joc)' }, '🛍️'),
       'bloques-primos': examFormato({ es: 'Bloques Primos (con el juego)', en: 'Prime Blocks (with the game)', ca: 'Blocs Primers (amb el joc)' }, '🧱'),
+      'angulo-recto': examFormato({ es: 'Ángulo Recto (con el juego)', en: 'Right Angle (with the game)', ca: 'Angle Recte (amb el joc)' }, '📐'),
       'menor-a-mayor': examFormato({ es: 'De Menor a Mayor (con el juego)', en: 'Least to Greatest (with the game)', ca: 'De Menor a Major (amb el joc)' }, '📶'),
       'figuras-compuestas': examFormato({ es: 'Figuras Compuestas', en: 'Composite Shapes', ca: 'Figures Compostes' }, '📐'),
       'grafico-tendencia': examFormato({ es: 'Tendencias y extremos', en: 'Trends and extremes', ca: 'Tendències i extrems' }, '📈'),

@@ -153,6 +153,14 @@ export const GAMES = {
     // aciertos × 10 puntos → hasta 200 monedas
     coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
   },
+  'angulo-recto': {
+    label: { es: 'Ángulo Recto', en: 'Right Angle', ca: 'Angle Recte' },
+    emoji: '📐',
+    subject: 'matematicas',
+    route: '/juegos/angulo-recto',
+    // aciertos × 10 puntos → hasta 200 monedas
+    coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
+  },
   'bloques-primos': {
     label: { es: 'Bloques Primos', en: 'Prime Blocks', ca: 'Blocs Primers' },
     emoji: '🧱',

@@ -1395,6 +1395,34 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Química', niveles: 'ESO, Bachillerato',
   },
+  'angulo-recto': {
+    titulo: 'Ángulo Recto',
+    subtitulo: 'Juego de trigonometría: seno, coseno, tangente y triángulos rectángulos',
+    emoji: '📐', gradient: 'from-amber-500 to-rose-600',
+    path: '/juegos/angulo-recto',
+    intro: 'Un juego de matemáticas para aprender trigonometría sin liarse con los catetos. Sale un triángulo rectángulo dibujado a escala, con el ángulo α marcado unas veces en el vértice de abajo y otras en el de arriba, y las medidas de los lados que hacen falta. Hay que decir cuánto vale el seno, el coseno o la tangente como fracción de lados, qué razón relaciona el lado que se conoce con el que se busca, cuánto mide un lado por Pitágoras, los valores de los ángulos de 30°, 45° y 60°, calcular un lado o un ángulo con la calculadora y resolver problemas: una escalera apoyada en la pared, la sombra de un árbol, una cometa o una rampa. Al responder, cada lado se colorea con su nombre respecto de α.',
+    beneficios: [
+      { titulo: 'El opuesto no siempre es el vertical', texto: 'El error más común en trigonometría es aprenderse el cateto opuesto como «el de la derecha» o «el vertical». Como el ángulo cambia de vértice de una ronda a otra, hay que mirar cada vez qué lado está enfrente de α. Al corregir, la hipotenusa sale en amarillo, el opuesto en rosa y el contiguo en azul.' },
+      { titulo: 'Las trampas típicas, entre las opciones', texto: 'Las respuestas equivocadas son las que salen al usar la razón que no toca, al multiplicar cuando hay que dividir (y al revés), al sumar los catetos en Pitágoras o al dar el ángulo complementario. Cada fallo viene con la cuenta correcta y la razón que había que usar.' },
+      { titulo: 'Del enunciado al dibujo', texto: 'En los problemas el triángulo no aparece hasta corregir: traducir «una escalera de 6 m forma 65° con el suelo» a hipotenusa, ángulo y cateto opuesto es la parte que más cuesta en los exámenes de 4.º de ESO y de Bachillerato, y aquí se practica una y otra vez.' },
+    ],
+    ejemplo: 'Sale un triángulo con catetos 8 y 15 e hipotenusa 17, con α en el vértice de arriba. ¿Cuánto vale cos α? Casi todo el mundo mira el lado horizontal, 8, y responde 8/17. Pero con α arriba, el lado que está enfrente de α es el horizontal (8, el opuesto) y el que lo toca es el vertical (15, el contiguo). Así que cos α = contiguo ÷ hipotenusa = 15/17. Al corregir, el 15 se pinta de azul con la palabra «contiguo».',
+    enPapel: {
+      titulo: 'Mide la altura del colegio',
+      pasos: [
+        'Haz un transportador con una pajita, un hilo y una piedra (un clinómetro casero) o usa una app de nivel del móvil.',
+        'Colócate a una distancia conocida de un edificio o un árbol y mide el ángulo con el que ves la parte de arriba.',
+        'Calcula la altura con la tangente: altura = distancia · tan(ángulo) + la altura de tus ojos.',
+        'Repite desde otra distancia y compara: si las dos alturas se parecen, has medido bien.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'El examen de Trigonometría', desc: 'Tipo test sobre razones trigonométricas, relaciones entre ellas, ángulos notables y resolución de triángulos, con explicación en cada respuesta.' },
+      { nombre: 'Caza la Función', desc: 'Otro juego de matemáticas: lee la gráfica y ajusta la función hasta que encaje.' },
+      { nombre: 'Figuras Compuestas', desc: 'Áreas y perímetros de figuras formadas por varias piezas, donde a menudo hace falta Pitágoras.' },
+    ],
+    asignatura: 'Matemáticas', niveles: 'ESO (4.º), Bachillerato',
+  },
   'clave-dicotomica': {
     titulo: 'Clave dicotómica',
     subtitulo: 'Juego para clasificar seres vivos con una clave de sí o no',
@@ -3086,6 +3114,33 @@ export const FICHAS_EN = {
       { nombre: 'Change of State', desc: 'A science game on melting, boiling and condensing, which is what happens when you evaporate a solution.' },
     ],
     asignatura: 'Chemistry', niveles: 'Secondary, Sixth form',
+  },
+  'angulo-recto': {
+    titulo: 'Right Angle',
+    subtitulo: 'Trigonometry game: sine, cosine, tangent and right-angled triangles',
+    emoji: '📐', gradient: 'from-amber-500 to-rose-600', path: '/juegos/angulo-recto',
+    intro: 'A maths game for learning trigonometry without mixing up the sides. A right-angled triangle drawn to scale appears, with angle α marked sometimes at the bottom corner and sometimes at the top, and the side lengths you need. You give the sine, cosine or tangent as a fraction of sides, pick the ratio linking the side you know with the one you want, find a side with Pythagoras, recall the values for 30°, 45° and 60°, work out a side or an angle with a calculator and solve word problems: a ladder against a wall, a tree’s shadow, a kite or a ramp. When you answer, each side is coloured with its name relative to α.',
+    beneficios: [
+      { titulo: 'The opposite side is not always the vertical one', texto: 'The most common trigonometry mistake is learning the opposite side as “the one on the right” or “the vertical one”. Because the angle moves corner from round to round, you have to check each time which side faces α. When you answer, the hypotenuse turns yellow, the opposite side pink and the adjacent side blue.' },
+      { titulo: 'The usual traps, among the options', texto: 'The wrong answers are the ones you get by using the wrong ratio, multiplying when you should divide (and vice versa), adding the legs in Pythagoras or giving the complementary angle. Each mistake comes with the correct working and the ratio you needed.' },
+      { titulo: 'From the words to the drawing', texto: 'In the word problems the triangle does not appear until you answer: turning “a 6 m ladder makes 65° with the ground” into hypotenuse, angle and opposite side is the hardest part in exams, and here you practise it again and again.' },
+    ],
+    ejemplo: 'A triangle has legs 8 and 15 and hypotenuse 17, with α at the top corner. What is cos α? Most people look at the horizontal side, 8, and answer 8/17. But with α at the top, the side facing α is the horizontal one (8, the opposite side) and the side touching it is the vertical one (15, the adjacent side). So cos α = adjacent ÷ hypotenuse = 15/17. When you answer, the 15 turns blue with the word “adjacent”.',
+    enPapel: {
+      titulo: 'Measure the height of your school',
+      pasos: [
+        'Make a clinometer with a protractor, a straw, a thread and a small weight, or use a spirit-level app on a phone.',
+        'Stand a known distance from a building or tree and measure the angle up to the top.',
+        'Work out the height with the tangent: height = distance · tan(angle) + the height of your eyes.',
+        'Repeat from another distance and compare: if the two heights are close, you measured well.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'Function Hunt', desc: 'Another maths game: read the graph and adjust the function until it fits.' },
+      { nombre: 'Algebra Balance', desc: 'Solve first-degree equations with the balance method, the same rearranging you need to find a side.' },
+      { nombre: 'The clinometer challenge', desc: 'Measure three tall things near you with a home-made clinometer and the tangent, then check one of them with a tape measure.' },
+    ],
+    asignatura: 'Mathematics', niveles: 'Upper secondary, Sixth form',
   },
   'clave-dicotomica': {
     titulo: 'Dichotomous Key',
@@ -4841,6 +4896,33 @@ export const FICHAS_CA = {
       { nombre: 'Mesurador de pH', desc: 'Un altre joc de química amb dissolucions: àcides, neutres i bàsiques a l’escala de pH.' },
     ],
     asignatura: 'Química', niveles: 'ESO, Batxillerat',
+  },
+  'angulo-recto': {
+    titulo: 'Angle Recte',
+    subtitulo: 'Joc de trigonometria: sinus, cosinus, tangent i triangles rectangles',
+    emoji: '📐', gradient: 'from-amber-500 to-rose-600', path: '/juegos/angulo-recto',
+    intro: 'Un joc de matemàtiques per aprendre trigonometria sense embolicar-se amb els catets. Surt un triangle rectangle dibuixat a escala, amb l’angle α marcat unes vegades al vèrtex de baix i d’altres al de dalt, i les mesures dels costats que calen. Cal dir quant val el sinus, el cosinus o la tangent com a fracció de costats, quina raó relaciona el costat que es coneix amb el que es busca, quant fa un costat per Pitàgores, els valors dels angles de 30°, 45° i 60°, calcular un costat o un angle amb la calculadora i resoldre problemes: una escala recolzada a la paret, l’ombra d’un arbre, un estel o una rampa. En respondre, cada costat es pinta amb el seu nom respecte d’α.',
+    beneficios: [
+      { titulo: 'L’oposat no sempre és el vertical', texto: 'L’error més comú en trigonometria és aprendre’s el catet oposat com «el de la dreta» o «el vertical». Com que l’angle canvia de vèrtex d’una ronda a l’altra, cal mirar cada vegada quin costat hi ha davant d’α. En corregir, la hipotenusa surt en groc, l’oposat en rosa i el contigu en blau.' },
+      { titulo: 'Els paranys típics, entre les opcions', texto: 'Les respostes equivocades són les que surten en fer servir la raó que no toca, en multiplicar quan cal dividir (i a l’inrevés), en sumar els catets a Pitàgores o en donar l’angle complementari. Cada errada ve amb el compte correcte i la raó que calia fer servir.' },
+      { titulo: 'De l’enunciat al dibuix', texto: 'Als problemes el triangle no apareix fins a corregir: traduir «una escala de 6 m forma 65° amb el terra» a hipotenusa, angle i catet oposat és la part que més costa als exàmens de 4t d’ESO i de Batxillerat, i aquí es practica una vegada i una altra.' },
+    ],
+    ejemplo: 'Surt un triangle amb catets 8 i 15 i hipotenusa 17, amb α al vèrtex de dalt. Quant val cos α? Gairebé tothom mira el costat horitzontal, 8, i respon 8/17. Però amb α a dalt, el costat que hi ha davant d’α és l’horitzontal (8, l’oposat) i el que el toca és el vertical (15, el contigu). Així que cos α = contigu ÷ hipotenusa = 15/17. En corregir, el 15 es pinta de blau amb la paraula «contigu».',
+    enPapel: {
+      titulo: 'Mesura l’alçada de l’escola',
+      pasos: [
+        'Fes un clinòmetre amb un transportador, una palleta, un fil i una pedra, o fes servir una app de nivell del mòbil.',
+        'Col·loca’t a una distància coneguda d’un edifici o d’un arbre i mesura l’angle amb què en veus la part de dalt.',
+        'Calcula l’alçada amb la tangent: alçada = distància · tg(angle) + l’alçada dels teus ulls.',
+        'Repeteix-ho des d’una altra distància i compara: si les dues alçades s’assemblen, has mesurat bé.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'L’examen de Trigonometria', desc: 'Tipus test sobre raons trigonomètriques, relacions entre elles, angles notables i resolució de triangles, amb explicació a cada resposta.' },
+      { nombre: 'Caça la Funció', desc: 'Un altre joc de matemàtiques: llegeix la gràfica i ajusta la funció fins que encaixi.' },
+      { nombre: 'Figures Compostes', desc: 'Àrees i perímetres de figures formades per diverses peces, on sovint cal Pitàgores.' },
+    ],
+    asignatura: 'Matemàtiques', niveles: 'ESO (4t), Batxillerat',
   },
   'clave-dicotomica': {
     titulo: 'Clau dicotòmica',
