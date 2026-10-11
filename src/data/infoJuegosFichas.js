@@ -1339,6 +1339,34 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Geología', niveles: 'ESO, Bachillerato',
   },
+  'termometro': {
+    titulo: 'Termómetro',
+    subtitulo: 'Juego de calor y temperatura: escalas, mezclas y transmisión del calor',
+    emoji: '🌡️', gradient: 'from-orange-500 to-red-600',
+    path: '/juegos/termometro',
+    intro: 'Un juego de física para dejar de confundir calor y temperatura. Tiene cinco tipos de pregunta. En las de escalas sale un termómetro con dos escalas a la vez, grados Celsius a un lado y kelvin o Fahrenheit al otro, con sus puntos de referencia marcados: hay que leer una y calcular la otra. En las de mezclas salen dos vasos de agua dibujados, cada uno con su cantidad y su temperatura, y hay que decir a qué temperatura queda la mezcla; al responder, el vaso se colorea. También hay escenas cotidianas para decidir si el calor viaja por conducción, convección o radiación, materiales conductores y aislantes, y preguntas de concepto: por qué el hierro de un banco parece más frío que la madera o por qué las vías del tren tienen juntas. En el nivel difícil entra el cálculo del calor con Q = m · c · ΔT.',
+    beneficios: [
+      { titulo: 'Calor y temperatura, por fin separados', texto: 'La temperatura mide lo agitadas que están las partículas; el calor es la energía que pasa de un cuerpo caliente a uno frío. Las preguntas están pensadas para romper las ideas equivocadas más comunes: que el «frío» se mueve, que una taza a 80 °C tiene más energía que una bañera a 40 °C o que los cuerpos «tienen» calor.' },
+      { titulo: 'Las cuentas, con sus trampas', texto: 'Las opciones incorrectas son los errores reales: olvidar el + 273 al pasar a kelvin, multiplicar por 1,8 sin sumar 32, sumar las temperaturas de dos vasos, hacer la media simple cuando las cantidades de agua son distintas o usar la temperatura final en vez del incremento en Q = m · c · ΔT. Cada fallo trae la cuenta bien hecha.' },
+      { titulo: 'Se ve en el dibujo', texto: 'El termómetro de dos escalas enseña que 0 °C son 273 K y 32 °F, y que 100 °C son 373 K y 212 °F. En las mezclas, la altura del agua dice cuánta hay y el color, lo caliente que está: se ve por qué la mezcla queda más cerca del vaso con más agua.' },
+    ],
+    ejemplo: 'Mezclas 200 g de agua a 5 °C con 300 g de agua a 60 °C. La media simple daría 32,5 °C, pero hay más agua caliente, así que la mezcla queda más cerca de 60 °C. El calor que pierde la caliente lo gana la fría: (200 · 5 + 300 · 60) ÷ (200 + 300) = 19.000 ÷ 500 = 38 °C. En el dibujo, el vaso de la mezcla aparece con un color entre el azul y el rojo, más cerca del rojo.',
+    enPapel: {
+      titulo: 'Mezclas en la cocina',
+      pasos: [
+        'Con un termómetro de cocina, mide la temperatura de un vaso de agua fría del grifo y de otro de agua caliente (con cuidado).',
+        'Calcula a qué temperatura debería quedar la mezcla si juntas los dos vasos llenos por igual.',
+        'Mézclalos en un recipiente más grande y mide: la diferencia con tu cálculo es el calor que se escapa al aire y al recipiente.',
+        'Repite con el doble de agua fría que de caliente y comprueba que la mezcla queda más cerca de la temperatura fría.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'El examen de Calor y Temperatura', desc: 'Tipo test sobre la diferencia entre calor y temperatura, las escalas, la dilatación, las tres formas de transmitir el calor y el calor específico, con explicación en cada respuesta.' },
+      { nombre: 'Cambio de Estado', desc: 'Otro juego de ciencias: qué pasa con la temperatura mientras el hielo se funde o el agua hierve, y por qué se queda quieta.' },
+      { nombre: 'Cadena de energía', desc: 'Otro juego de física: las formas de energía y cómo se transforman, con la energía térmica que se pierde en cada paso.' },
+    ],
+    asignatura: 'Física', niveles: 'Primaria (6.º), ESO',
+  },
   'clave-dicotomica': {
     titulo: 'Clave dicotómica',
     subtitulo: 'Juego para clasificar seres vivos con una clave de sí o no',
@@ -2976,6 +3004,33 @@ export const FICHAS_EN = {
       { nombre: 'Find the Element', desc: 'A chemistry game on the periodic table: the elements that make up the crust and the mantle, such as oxygen, silicon and iron.' },
     ],
     asignatura: 'Geology', niveles: 'Secondary, Sixth form',
+  },
+  'termometro': {
+    titulo: 'Thermometer',
+    subtitulo: 'Heat and temperature game: scales, mixes and heat transfer',
+    emoji: '🌡️', gradient: 'from-orange-500 to-red-600', path: '/juegos/termometro',
+    intro: 'A physics game for never again mixing up heat and temperature. It has five kinds of question. In the scale questions a thermometer shows two scales at once, degrees Celsius on one side and kelvin or Fahrenheit on the other, with their reference points marked: read one and work out the other. In the mix questions two drawn glasses of water appear, each with its amount and temperature, and you say what temperature the mixture ends up at; when you answer, the glass changes colour. There are also everyday scenes where you decide whether heat travels by conduction, convection or radiation, conducting and insulating materials, and concept questions: why the iron of a bench feels colder than the wood, or why railway tracks have gaps. On the hard level you calculate heat with Q = m · c · ΔT.',
+    beneficios: [
+      { titulo: 'Heat and temperature, finally apart', texto: 'Temperature measures how agitated the particles are; heat is the energy that flows from a hot body to a cold one. The questions are built to break the most common misconceptions: that “cold” moves, that a cup at 80 °C has more energy than a bath at 40 °C, or that bodies “contain” heat.' },
+      { titulo: 'The sums, with their traps', texto: 'The wrong options are real mistakes: forgetting the + 273 for kelvin, multiplying by 1.8 without adding 32, adding the temperatures of two glasses, taking a plain average when the amounts of water differ, or using the final temperature instead of the change in Q = m · c · ΔT. Each mistake comes with the sum done properly.' },
+      { titulo: 'You can see it in the drawing', texto: 'The two-scale thermometer shows that 0 °C is 273 K and 32 °F, and 100 °C is 373 K and 212 °F. In the mixes, the height of the water shows how much there is and the colour how hot it is: you can see why the mix ends up closer to the glass with more water.' },
+    ],
+    ejemplo: 'You mix 200 g of water at 5 °C with 300 g of water at 60 °C. A plain average would give 32.5 °C, but there is more hot water, so the mix ends up closer to 60 °C. The heat lost by the hot water is gained by the cold: (200 · 5 + 300 · 60) ÷ (200 + 300) = 19,000 ÷ 500 = 38 °C. In the drawing, the mixed glass turns a colour between blue and red, closer to red.',
+    enPapel: {
+      titulo: 'Kitchen mixes',
+      pasos: [
+        'With a kitchen thermometer, measure a glass of cold tap water and a glass of hot water (carefully).',
+        'Work out what temperature the mix should reach if you pour two equally full glasses together.',
+        'Mix them in a bigger container and measure: the difference from your answer is the heat lost to the air and the container.',
+        'Repeat with twice as much cold water as hot and check that the mix ends up closer to the cold temperature.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'Change of State', desc: 'Another science game: what happens to the temperature while ice melts or water boils, and why it stays still.' },
+      { nombre: 'Energy Chain', desc: 'Another physics game: forms of energy and how they change, with the thermal energy lost at each step.' },
+      { nombre: 'The insulated cup test', desc: 'Pour hot water into a mug, a paper cup and a cup wrapped in a scarf, and measure each one every five minutes to see which insulates best.' },
+    ],
+    asignatura: 'Physics', niveles: 'Primary (Year 6), Secondary',
   },
   'clave-dicotomica': {
     titulo: 'Dichotomous Key',
@@ -4677,6 +4732,33 @@ export const FICHAS_CA = {
       { nombre: 'El mapa de terratrèmols', desc: 'Al web de l’Institut Cartogràfic i Geològic de Catalunya o de l’USGS es veuen els terratrèmols de l’última setmana: comprova que gairebé tots cauen sobre les vores de placa.' },
     ],
     asignatura: 'Geologia', niveles: 'ESO, Batxillerat',
+  },
+  'termometro': {
+    titulo: 'Termòmetre',
+    subtitulo: 'Joc de calor i temperatura: escales, barreges i transmissió de la calor',
+    emoji: '🌡️', gradient: 'from-orange-500 to-red-600', path: '/juegos/termometro',
+    intro: 'Un joc de física per deixar de confondre calor i temperatura. Té cinc tipus de pregunta. A les d’escales surt un termòmetre amb dues escales alhora, graus Celsius a un costat i kelvin o Fahrenheit a l’altre, amb els punts de referència marcats: cal llegir-ne una i calcular l’altra. A les de barreges surten dos gots d’aigua dibuixats, cadascun amb la seva quantitat i la seva temperatura, i cal dir a quina temperatura queda la barreja; en respondre, el got es pinta. També hi ha escenes quotidianes per decidir si la calor viatja per conducció, convecció o radiació, materials conductors i aïllants, i preguntes de concepte: per què el ferro d’un banc sembla més fred que la fusta o per què les vies del tren tenen juntes. Al nivell difícil hi entra el càlcul de la calor amb Q = m · c · ΔT.',
+    beneficios: [
+      { titulo: 'Calor i temperatura, per fi separades', texto: 'La temperatura mesura com d’agitades estan les partícules; la calor és l’energia que passa d’un cos calent a un de fred. Les preguntes estan pensades per trencar les idees equivocades més habituals: que el «fred» es mou, que una tassa a 80 °C té més energia que una banyera a 40 °C o que els cossos «tenen» calor.' },
+      { titulo: 'Els comptes, amb els seus paranys', texto: 'Les opcions incorrectes són els errors reals: oblidar el + 273 en passar a kelvin, multiplicar per 1,8 sense sumar 32, sumar les temperatures de dos gots, fer la mitjana simple quan les quantitats d’aigua són diferents o fer servir la temperatura final en lloc de l’increment a Q = m · c · ΔT. Cada errada porta el compte ben fet.' },
+      { titulo: 'Es veu al dibuix', texto: 'El termòmetre de dues escales ensenya que 0 °C són 273 K i 32 °F, i que 100 °C són 373 K i 212 °F. A les barreges, l’alçada de l’aigua diu quanta n’hi ha i el color, com de calenta és: es veu per què la barreja queda més a prop del got amb més aigua.' },
+    ],
+    ejemplo: 'Barreges 200 g d’aigua a 5 °C amb 300 g d’aigua a 60 °C. La mitjana simple donaria 32,5 °C, però hi ha més aigua calenta, així que la barreja queda més a prop de 60 °C. La calor que perd la calenta la guanya la freda: (200 · 5 + 300 · 60) ÷ (200 + 300) = 19.000 ÷ 500 = 38 °C. Al dibuix, el got de la barreja surt d’un color entre el blau i el vermell, més a prop del vermell.',
+    enPapel: {
+      titulo: 'Barreges a la cuina',
+      pasos: [
+        'Amb un termòmetre de cuina, mesura la temperatura d’un got d’aigua freda de l’aixeta i d’un altre d’aigua calenta (amb compte).',
+        'Calcula a quina temperatura hauria de quedar la barreja si ajuntes els dos gots plens per igual.',
+        'Barreja’ls en un recipient més gran i mesura: la diferència amb el teu càlcul és la calor que s’escapa a l’aire i al recipient.',
+        'Repeteix-ho amb el doble d’aigua freda que de calenta i comprova que la barreja queda més a prop de la temperatura freda.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'L’examen de Calor i Temperatura', desc: 'Tipus test sobre la diferència entre calor i temperatura, les escales, la dilatació, les tres formes de transmetre la calor i la calor específica, amb explicació a cada resposta.' },
+      { nombre: 'Canvi d’Estat', desc: 'Un altre joc de ciències: què passa amb la temperatura mentre el gel es fon o l’aigua bull, i per què es queda quieta.' },
+      { nombre: 'Cadena d’energia', desc: 'Un altre joc de física: les formes d’energia i com es transformen, amb l’energia tèrmica que es perd a cada pas.' },
+    ],
+    asignatura: 'Física', niveles: 'Primària (6è), ESO',
   },
   'clave-dicotomica': {
     titulo: 'Clau dicotòmica',

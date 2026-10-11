@@ -474,6 +474,26 @@ function CicloRocas(p) {
   )
 }
 
+function Termometro(p) {
+  // El termómetro de dos escalas (°C y K) y un vaso frío y otro caliente.
+  return (
+    <Lienzo {...p}>
+      <rect x="104" y="12" width="20" height="96" rx="10" fill="#1E293B" stroke="#64748B" strokeWidth="2" />
+      <rect x="109" y="52" width="10" height="58" fill="#EF4444" />
+      <circle cx="114" cy="114" r="14" fill="#EF4444" stroke="#64748B" strokeWidth="2" />
+      <path d="M86 30H100M86 78H100M128 30H142M128 78H142" stroke="#94A3B8" strokeWidth="2" />
+      <T x={72} y={34} s={11} c="#CBD5E1">100°</T>
+      <T x={72} y={82} s={11} c="#CBD5E1">0°</T>
+      <T x={160} y={34} s={11} c="#CBD5E1">373 K</T>
+      <T x={160} y={82} s={11} c="#CBD5E1">273 K</T>
+      <path d="M20 80V118Q20 122 24 122H52Q56 122 56 118V80" stroke="#CBD5E1" strokeWidth="2.5" fill="none" />
+      <rect x="23" y="96" width="30" height="24" fill="#3B82F6" opacity=".85" />
+      <path d="M184 80V118Q184 122 188 122H216Q220 122 220 118V80" stroke="#CBD5E1" strokeWidth="2.5" fill="none" />
+      <rect x="187" y="92" width="30" height="28" fill="#EF4444" opacity=".85" />
+    </Lienzo>
+  )
+}
+
 function CadenaEnergia(p) {
   // Tres formas de energía encadenadas: química → eléctrica → luminosa.
   const fichas = [[44, '#4ADE80'], [120, '#FACC15'], [196, '#FDE68A']]
@@ -543,6 +563,7 @@ export const ARTE_CIENCIAS = {
   engranajes: Engranajes,
   'lee-el-movimiento': LeeElMovimiento,
   'cadena-energia': CadenaEnergia,
+  termometro: Termometro,
   'flota-o-se-hunde': FlotaHunde,
   'lee-la-etiqueta': LeeLaEtiqueta,
   'clave-dicotomica': ClaveDicotomica,

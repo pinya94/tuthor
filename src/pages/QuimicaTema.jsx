@@ -509,6 +509,13 @@ const MODOS_POR_TEMA = {
       detalles: { es:['2 niveles','10 preguntas','Opción múltiple','Explicación tras cada respuesta'], en:['2 levels','10 questions','Multiple choice','Explanation after each answer'], ca:['2 nivells','10 preguntes','Opció múltiple','Explicació després de cada resposta'] },
       path: 'calor-temperatura',
     },
+    {
+      id: 'termometro-test', emoji: '🌡️', gradient: 'from-rose-500 to-orange-700',
+      titulo: { es:'Termómetro (con el juego)', en:'Thermometer (with the game)', ca:'Termòmetre (amb el joc)' },
+      descripcion: { es:'Con la mecánica del juego: el termómetro de dos escalas, mezclas de agua dibujadas, Q = m · c · ΔT y transmisión del calor.', en:'Using the game mechanic: the two-scale thermometer, drawn water mixes, Q = m · c · ΔT and heat transfer.', ca:'Amb la mecànica del joc: el termòmetre de dues escales, barreges d’aigua dibuixades, Q = m · c · ΔT i transmissió de la calor.' },
+      detalles: { es:['3 niveles','10 preguntas','Sin cronómetro','Con el juego'], en:['3 levels','10 questions','No timer','With the game'], ca:['3 nivells','10 preguntes','Sense cronòmetre','Amb el joc'] },
+      path: 'termometro-test',
+    },
   ],
   dinamica: [
     {

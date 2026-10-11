@@ -323,6 +323,14 @@ export const GAMES = {
     // aciertos × 10 puntos → hasta 200 monedas
     coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
   },
+  'termometro': {
+    label: { es: 'Termómetro', en: 'Thermometer', ca: 'Termòmetre' },
+    emoji: '🌡️',
+    subject: 'fisica',
+    route: '/juegos/termometro',
+    // aciertos × 10 puntos → hasta 200 monedas
+    coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
+  },
   'cadena-energia': {
     label: { es: 'Cadena de energía', en: 'Energy Chain', ca: 'Cadena d’energia' },
     emoji: '🔆',

@@ -12,5 +12,5 @@ export const FICHAS_JUEGO_SLUGS = new Set([
   'orbita', 'ordena-frase', 'pentagrama-path', 'pieza-que-falta', 'placas-movimiento', 'piramide-poblacion', 'climograma', 'que-estilo', 'mide-el-verso',
   'pon-la-tilde', 'portadas', 'portero', 'quien-es-quien', 'rayo-de-luz',
   'bloques-primos', 'rayos-x', 'reaccion', 'rebajas', 'redondeo', 'reloj-horas', 'reparte-pastel',
-  'salta-recta', 'spicy', 'tablas-multiplicar', 'trayectoria', 'tuthor-time',
+  'salta-recta', 'spicy', 'tablas-multiplicar', 'termometro', 'trayectoria', 'tuthor-time',
 ])

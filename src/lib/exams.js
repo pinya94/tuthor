@@ -515,6 +515,11 @@ export const EXAMS = {
     emoji: '🌦️', subject: 'geologia',
     path: 'examen/el-tiempo-test', page: () => import('../pages/ElTiempoExamen'),
   },
+  'termometro-test': {
+    label: { es: 'Termómetro (con el juego)', en: 'Thermometer (with the game)', ca: 'Termòmetre (amb el joc)' },
+    emoji: '🌡️', subject: 'fisica',
+    path: 'examen/termometro-test', page: () => import('../pages/TermometroExamen'),
+  },
   'cadena-energia-test': {
     label: { es: 'Cadena de energía (con el juego)', en: 'Energy Chain (with the game)', ca: 'Cadena d’energia (amb el joc)' },
     emoji: '🔆', subject: 'fisica',
