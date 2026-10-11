@@ -94,7 +94,7 @@ function Ascensor({ r, revelado, tr }) {
       <rect x="90" y="14" width="120" height="146" rx="6" fill="#1E293B" stroke="#64748B" strokeWidth="2.5" />
       <line x1="150" y1="0" x2="150" y2="14" stroke="#64748B" strokeWidth="3" />
       <rect x="120" y="140" width="60" height="8" rx="2" fill="#94A3B8" />
-      <text x="150" y="128" textAnchor="middle" fontSize="40">🧍</text>
+      <text x="150" y="128" textAnchor="middle" fontSize="40">🧑</text>
       <text x="150" y="157" textAnchor="middle" fontSize="9" fontWeight="800" fill="#0F172A">{r.m} kg</text>
       <Flecha x1={150} y1={140} x2={150} y2={revelado ? 40 : 60} c={COL.N} texto={revelado ? `N = ${r.bueno} N` : 'N = ?'} tx={0} ty={-8} />
       <text x="240" y="30" fontSize="20" fill="#CBD5E1">{sube ? '⬆' : '⬇'}</text>

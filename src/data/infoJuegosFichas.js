@@ -1535,6 +1535,34 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Física', niveles: 'ESO (4.º), Bachillerato',
   },
+  'arbol-vida': {
+    titulo: 'Árbol de la Vida',
+    subtitulo: 'Juego de evolución: árboles evolutivos, Darwin y Lamarck',
+    emoji: '🦒', gradient: 'from-lime-500 to-emerald-700',
+    path: '/juegos/arbol-vida',
+    intro: 'Un juego de biología para entender la evolución leyendo árboles evolutivos de verdad. Sale un árbol con cuatro especies arriba y las ramas bajando hasta sus antepasados, y hay que decir cuál es el pariente más cercano de una de ellas: ¿la ballena es más pariente del atún o del ser humano? ¿El cocodrilo, del lagarto o del pájaro? Al responder se marca el antepasado común. También hay que distinguir la explicación de Darwin de la de Lamarck (la jirafa, la polilla del abedul, las bacterias resistentes), clasificar órganos homólogos, análogos y vestigiales, reconocer las pruebas de la evolución y ordenar la historia de la vida, de las primeras bacterias a Homo sapiens.',
+    beneficios: [
+      { titulo: 'Leer un árbol, no adivinar por el parecido', texto: 'El parentesco lo da el antepasado común más reciente, no lo mucho que se parezcan dos animales. Por eso la ballena es pariente nuestra y no del atún, y el cocodrilo lo es de las aves. Son justo las preguntas con trampa de los árboles filogenéticos en Biología de 4.º de ESO y de Bachillerato.' },
+      { titulo: 'Darwin frente a Lamarck', texto: 'Las opciones incluyen siempre la explicación de Lamarck (estiraban el cuello y lo heredaron), la de Darwin (había variación y sobrevivían más las de cuello largo) y otras ideas equivocadas habituales. Ver los dos razonamientos uno al lado del otro es la mejor forma de no confundirlos.' },
+      { titulo: 'Las pruebas, con ejemplos', texto: 'Fósiles como el Archaeopteryx, los mismos huesos en un brazo, una aleta y un ala, embriones que se parecen, el ADN compartido con el chimpancé o los pinzones de las Galápagos: cada prueba de la evolución aparece con un caso concreto que se recuerda.' },
+    ],
+    ejemplo: 'Sale un árbol con la ballena, el ser humano, la gallina y el atún. ¿Cuál es el pariente más cercano de la ballena? Por la forma, muchos dicen el atún. Pero en el árbol, la rama de la ballena se junta primero con la del ser humano: los dos son mamíferos y comparten un antepasado mucho más reciente que el que comparten con cualquier pez. Al corregir, ese antepasado común se marca en verde.',
+    enPapel: {
+      titulo: 'El árbol de la clase',
+      pasos: [
+        'Elige seis animales (por ejemplo: perro, gato, ballena, gallina, rana y sardina) y escribe para cada uno sus rasgos: pelo, plumas, cuatro patas, pulmones, columna vertebral…',
+        'Junta primero los que comparten más rasgos exclusivos (pelo y leche: mamíferos).',
+        'Dibuja el árbol uniendo grupos cada vez más grandes hasta llegar a un antepasado común de todos.',
+        'Compara tu árbol con el de un libro o una web de biología y busca en qué te has equivocado.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'El examen de Evolución', desc: 'Tipo test sobre Darwin, la selección natural, la adaptación, las pruebas de la evolución y la especiación, con explicación en cada respuesta.' },
+      { nombre: 'Clave dicotómica', desc: 'Otro juego de biología: clasifica seres vivos con una clave de preguntas de sí o no.' },
+      { nombre: 'Cuadro de Punnett', desc: 'Genética: cómo se heredan los caracteres, que es la base de la selección natural.' },
+    ],
+    asignatura: 'Biología', niveles: 'ESO, Bachillerato',
+  },
   'clave-dicotomica': {
     titulo: 'Clave dicotómica',
     subtitulo: 'Juego para clasificar seres vivos con una clave de sí o no',
@@ -3361,6 +3389,33 @@ export const FICHAS_EN = {
       { nombre: 'The lift experiment', desc: 'Stand on bathroom scales in a lift and watch the reading as it starts going up and as it stops.' },
     ],
     asignatura: 'Physics', niveles: 'Upper secondary, Sixth form',
+  },
+  'arbol-vida': {
+    titulo: 'Tree of Life',
+    subtitulo: 'Evolution game: evolutionary trees, Darwin and Lamarck',
+    emoji: '🦒', gradient: 'from-lime-500 to-emerald-700', path: '/juegos/arbol-vida',
+    intro: 'A biology game for understanding evolution by reading real evolutionary trees. A tree appears with four species at the top and branches running down to their ancestors, and you say which is the closest relative of one of them: is the whale closer to the tuna or to humans? The crocodile, to the lizard or to the bird? When you answer, the common ancestor is marked. You also tell Darwin’s explanation from Lamarck’s (the giraffe, the peppered moth, resistant bacteria), classify homologous, analogous and vestigial organs, recognise the evidence for evolution and put the history of life in order, from the first bacteria to Homo sapiens.',
+    beneficios: [
+      { titulo: 'Read the tree, don’t guess from looks', texto: 'Relatedness comes from the most recent common ancestor, not from how alike two animals look. That is why the whale is related to us and not to the tuna, and the crocodile to birds. These are exactly the trick questions on phylogenetic trees in biology exams.' },
+      { titulo: 'Darwin versus Lamarck', texto: 'The options always include Lamarck’s explanation (they stretched their necks and passed it on), Darwin’s (there was variation and long-necked ones survived more) and other common misconceptions. Seeing both lines of reasoning side by side is the best way not to mix them up.' },
+      { titulo: 'The evidence, with examples', texto: 'Fossils like Archaeopteryx, the same bones in an arm, a flipper and a wing, embryos that look alike, the DNA we share with chimpanzees or the Galápagos finches: each kind of evidence comes with a concrete case you remember.' },
+    ],
+    ejemplo: 'A tree shows the whale, humans, the chicken and the tuna. Which is the whale’s closest relative? From its shape, many people say the tuna. But on the tree, the whale’s branch joins the human branch first: both are mammals and share a much more recent ancestor than either does with any fish. When you answer, that common ancestor is marked in green.',
+    enPapel: {
+      titulo: 'The class tree',
+      pasos: [
+        'Pick six animals (for example: dog, cat, whale, chicken, frog and sardine) and list their features: fur, feathers, four limbs, lungs, backbone…',
+        'Group first the ones that share the most exclusive features (fur and milk: mammals).',
+        'Draw the tree, joining ever larger groups until you reach a common ancestor of them all.',
+        'Compare your tree with one from a book or a biology website and find where you went wrong.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'Dichotomous Key', desc: 'Another biology game: classify living things with a key of yes-or-no questions.' },
+      { nombre: 'Punnett Square', desc: 'Genetics: how traits are inherited, the basis of natural selection.' },
+      { nombre: 'Under the Microscope', desc: 'A biology game about the cell, the unit shared by every living thing on the tree of life.' },
+    ],
+    asignatura: 'Biology', niveles: 'Secondary, Sixth form',
   },
   'clave-dicotomica': {
     titulo: 'Dichotomous Key',
@@ -5251,6 +5306,33 @@ export const FICHAS_CA = {
       { nombre: 'Llegeix el moviment', desc: 'Gràfiques de posició i velocitat: el que passa amb el moviment quan hi ha acceleració.' },
     ],
     asignatura: 'Física', niveles: 'ESO (4t), Batxillerat',
+  },
+  'arbol-vida': {
+    titulo: 'Arbre de la Vida',
+    subtitulo: 'Joc d’evolució: arbres evolutius, Darwin i Lamarck',
+    emoji: '🦒', gradient: 'from-lime-500 to-emerald-700', path: '/juegos/arbol-vida',
+    intro: 'Un joc de biologia per entendre l’evolució llegint arbres evolutius de debò. Surt un arbre amb quatre espècies a dalt i les branques baixant fins als avantpassats, i cal dir quin és el parent més proper d’una d’elles: la balena és més parenta de la tonyina o de l’ésser humà? El cocodril, del llangardaix o de l’ocell? En respondre es marca l’avantpassat comú. També cal distingir l’explicació de Darwin de la de Lamarck (la girafa, l’arna del bedoll, els bacteris resistents), classificar òrgans homòlegs, anàlegs i vestigials, reconèixer les proves de l’evolució i ordenar la història de la vida, dels primers bacteris a Homo sapiens.',
+    beneficios: [
+      { titulo: 'Llegir un arbre, no endevinar per la semblança', texto: 'El parentiu el dona l’avantpassat comú més recent, no com s’assemblin dos animals. Per això la balena és parenta nostra i no de la tonyina, i el cocodril ho és dels ocells. Són just les preguntes amb parany dels arbres filogenètics a Biologia de 4t d’ESO i de Batxillerat.' },
+      { titulo: 'Darwin davant Lamarck', texto: 'Les opcions inclouen sempre l’explicació de Lamarck (estiraven el coll i ho van heretar), la de Darwin (hi havia variació i sobrevivien més les de coll llarg) i altres idees equivocades habituals. Veure els dos raonaments l’un al costat de l’altre és la millor manera de no confondre’ls.' },
+      { titulo: 'Les proves, amb exemples', texto: 'Fòssils com l’Archaeopteryx, els mateixos ossos en un braç, una aleta i una ala, embrions que s’assemblen, l’ADN compartit amb el ximpanzé o els pinsans de les Galápagos: cada prova de l’evolució apareix amb un cas concret que es recorda.' },
+    ],
+    ejemplo: 'Surt un arbre amb la balena, l’ésser humà, la gallina i la tonyina. Quin és el parent més proper de la balena? Per la forma, molts diuen la tonyina. Però a l’arbre, la branca de la balena s’ajunta primer amb la de l’ésser humà: tots dos són mamífers i comparteixen un avantpassat molt més recent que el que comparteixen amb qualsevol peix. En corregir, aquest avantpassat comú es marca en verd.',
+    enPapel: {
+      titulo: 'L’arbre de la classe',
+      pasos: [
+        'Tria sis animals (per exemple: gos, gat, balena, gallina, granota i sardina) i escriu els trets de cadascun: pèl, plomes, quatre potes, pulmons, columna vertebral…',
+        'Ajunta primer els que comparteixen més trets exclusius (pèl i llet: mamífers).',
+        'Dibuixa l’arbre unint grups cada vegada més grans fins a arribar a un avantpassat comú de tots.',
+        'Compara el teu arbre amb el d’un llibre o un web de biologia i busca on t’has equivocat.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'L’examen d’Evolució', desc: 'Tipus test sobre Darwin, la selecció natural, l’adaptació, les proves de l’evolució i l’especiació, amb explicació a cada resposta.' },
+      { nombre: 'Clau dicotòmica', desc: 'Un altre joc de biologia: classifica éssers vius amb una clau de preguntes de sí o no.' },
+      { nombre: 'Quadre de Punnett', desc: 'Genètica: com s’hereten els caràcters, que és la base de la selecció natural.' },
+    ],
+    asignatura: 'Biologia', niveles: 'ESO, Batxillerat',
   },
   'clave-dicotomica': {
     titulo: 'Clau dicotòmica',

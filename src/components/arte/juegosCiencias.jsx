@@ -493,6 +493,19 @@ function PlacasMovimiento(p) {
   )
 }
 
+function ArbolVida(p) {
+  // Un árbol evolutivo de cuatro especies con el antepasado común marcado.
+  const X = [48, 96, 144, 192]
+  return (
+    <Lienzo {...p}>
+      <path d="M72 70L48 40M72 70L96 40" stroke="#4ADE80" strokeWidth="4" strokeLinecap="round" />
+      <path d="M96 92L72 70M96 92L144 40M120 112L96 92M120 112L192 40M120 112V126" stroke="#94A3B8" strokeWidth="3" strokeLinecap="round" fill="none" />
+      <circle cx="72" cy="70" r="6" fill="#4ADE80" />
+      {X.map((x, i) => <circle key={x} cx={x} cy="30" r="11" fill={['#38BDF8', '#FBBF24', '#F472B6', '#A78BFA'][i]} />)}
+    </Lienzo>
+  )
+}
+
 function CicloRocas(p) {
   // Las tres rocas en círculo con flechas: el ciclo.
   const nodos = [[120, 26, '#F97316'], [190, 92, '#EAB308'], [50, 92, '#A78BFA']]
@@ -616,6 +629,7 @@ export const ARTE_CIENCIAS = {
   orbita: Orbita,
   'el-tiempo': ElTiempo,
   'ciclo-rocas': CicloRocas,
+  'arbol-vida': ArbolVida,
   'placas-movimiento': PlacasMovimiento,
   engranajes: Engranajes,
   'lee-el-movimiento': LeeElMovimiento,

@@ -413,6 +413,13 @@ const MODOS_POR_TEMA = {
       detalles: { es:['2 niveles','10 preguntas','Opción múltiple','Explicación tras cada respuesta'], en:['2 levels','10 questions','Multiple choice','Explanation after each answer'], ca:['2 nivells','10 preguntes','Opció múltiple','Explicació després de cada resposta'] },
       path: 'evolucion',
     },
+    {
+      id: 'arbol-vida-test', emoji: '🦒', gradient: 'from-lime-500 to-emerald-700',
+      titulo: { es:'Árbol de la Vida (con el juego)', en:'Tree of Life (with the game)', ca:'Arbre de la Vida (amb el joc)' },
+      descripcion: { es:'Con la mecánica del juego: árboles evolutivos dibujados, Darwin frente a Lamarck, órganos y la historia de la vida.', en:'Using the game mechanic: drawn evolutionary trees, Darwin versus Lamarck, organs and the history of life.', ca:'Amb la mecànica del joc: arbres evolutius dibuixats, Darwin davant Lamarck, òrgans i la història de la vida.' },
+      detalles: { es:['3 niveles','10 preguntas','Sin cronómetro','Con el juego'], en:['3 levels','10 questions','No timer','With the game'], ca:['3 nivells','10 preguntes','Sense cronòmetre','Amb el joc'] },
+      path: 'arbol-vida-test',
+    },
   ],
   'fuerzas': [
     {

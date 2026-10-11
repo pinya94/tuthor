@@ -347,6 +347,14 @@ export const GAMES = {
     // aciertos × 10 puntos → hasta 200 monedas
     coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
   },
+  'arbol-vida': {
+    label: { es: 'Árbol de la Vida', en: 'Tree of Life', ca: 'Arbre de la Vida' },
+    emoji: '🦒',
+    subject: 'biologia',
+    route: '/juegos/arbol-vida',
+    // aciertos × 10 puntos → hasta 200 monedas
+    coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
+  },
   'ciclo-rocas': {
     label: { es: 'Ciclo de las rocas', en: 'The Rock Cycle', ca: 'Cicle de les roques' },
     emoji: '⛰️',

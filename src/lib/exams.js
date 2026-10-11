@@ -520,6 +520,11 @@ export const EXAMS = {
     emoji: '🌋', subject: 'geologia',
     path: 'examen/placas-movimiento-test', page: () => import('../pages/PlacasMovimientoExamen'),
   },
+  'arbol-vida-test': {
+    label: { es: 'Árbol de la Vida (con el juego)', en: 'Tree of Life (with the game)', ca: 'Arbre de la Vida (amb el joc)' },
+    emoji: '🦒', subject: 'biologia',
+    path: 'examen/arbol-vida-test', page: () => import('../pages/ArbolVidaExamen'),
+  },
   'ciclo-rocas-test': {
     label: { es: 'Ciclo de las rocas (con el juego)', en: 'The Rock Cycle (with the game)', ca: 'Cicle de les roques (amb el joc)' },
     emoji: '⛰️', subject: 'geologia',
