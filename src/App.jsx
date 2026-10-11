@@ -64,6 +64,8 @@ const AnguloRecto        = lazy(() => import('./pages/AnguloRecto'))
 const TrigonometriaTema  = lazy(() => import('./pages/TrigonometriaTema'))
 const EscalaUniverso     = lazy(() => import('./pages/EscalaUniverso'))
 const PotenciasTema      = lazy(() => import('./pages/PotenciasTema'))
+const SigueSerie         = lazy(() => import('./pages/SigueSerie'))
+const SucesionesTema     = lazy(() => import('./pages/SucesionesTema'))
 const SaltaRecta         = lazy(() => import('./pages/SaltaRecta'))
 const EstadisticoExpres  = lazy(() => import('./pages/EstadisticoExpres'))
 const LeeElGrafico       = lazy(() => import('./pages/LeeElGrafico'))
@@ -218,6 +220,7 @@ function AppRoutes() {
       <Route path="estudiar/matematicas/divisibilidad" element={<DivisibilidadTema />} />
       <Route path="estudiar/matematicas/trigonometria" element={<TrigonometriaTema />} />
       <Route path="estudiar/matematicas/potencias" element={<PotenciasTema />} />
+      <Route path="estudiar/matematicas/sucesiones" element={<SucesionesTema />} />
       <Route path="estudiar/matematicas/:modo" element={<MatematicasTema />} />
       <Route path="estudiar/matematicas/:modo/jugar" element={<MatematicasPractica />} />
       <Route path="estudiar/matematicas/:modo/examen" element={<ExamenMatematicas />} />
@@ -314,6 +317,7 @@ function AppRoutes() {
       <Route path="juegos/bloques-primos" element={<BloquesPrimos />} />
       <Route path="juegos/angulo-recto" element={<AnguloRecto />} />
       <Route path="juegos/escala-universo" element={<EscalaUniverso />} />
+      <Route path="juegos/sigue-serie" element={<SigueSerie />} />
       <Route path="juegos/salta-recta" element={<SaltaRecta />} />
       <Route path="juegos/lee-el-grafico" element={<LeeElGrafico />} />
       <Route path="juegos/estadistico-expres" element={<EstadisticoExpres />} />

@@ -366,6 +366,27 @@ function Rebajas(p) {
   )
 }
 
+function SigueSerie(p) {
+  // Tres figuras de puntos que crecen: 3 fijos (gris) y 2 más por figura (rosa).
+  const fig = (x0, k) => {
+    const out = []
+    for (let i = 0; i < 3; i++) out.push(<circle key={`f${i}`} cx={x0} cy={64 + i * 14} r="5" fill="#64748B" />)
+    for (let c = 1; c <= k; c++) for (let i = 0; i < 2; i++) out.push(<circle key={`${c}${i}`} cx={x0 + c * 14} cy={71 + i * 14} r="5" fill="#F472B6" />)
+    return out
+  }
+  return (
+    <Lienzo {...p}>
+      {fig(26, 1)}
+      {fig(84, 2)}
+      {fig(156, 3)}
+      <T x={40} y={118} s={12} c="#CBD5E1">5</T>
+      <T x={105} y={118} s={12} c="#CBD5E1">7</T>
+      <T x={184} y={118} s={12} c="#CBD5E1">9</T>
+      <T x={120} y={30} s={14} c="#FDE68A">2n + 3</T>
+    </Lienzo>
+  )
+}
+
 function EscalaUniverso(p) {
   // La regla de potencias de 10 con tres objetos: átomo, persona y galaxia.
   const X = e => 24 + ((e + 10) / 31) * 192
@@ -437,6 +458,7 @@ export const ARTE_MATES = {
   'bloques-primos': BloquesPrimos,
   'angulo-recto': AnguloRecto,
   'escala-universo': EscalaUniverso,
+  'sigue-serie': SigueSerie,
   acercate: Acercate,
   numpath: NumPath,
   'menor-a-mayor': MenorAMayor,

@@ -153,6 +153,14 @@ export const GAMES = {
     // aciertos × 10 puntos → hasta 200 monedas
     coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
   },
+  'sigue-serie': {
+    label: { es: 'Sigue la Serie', en: 'Next in Line', ca: 'Segueix la Sèrie' },
+    emoji: '🐚',
+    subject: 'matematicas',
+    route: '/juegos/sigue-serie',
+    // aciertos × 10 puntos → hasta 200 monedas
+    coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
+  },
   'escala-universo': {
     label: { es: 'Escala del Universo', en: 'Universe Scale', ca: 'Escala de l’Univers' },
     emoji: '🔭',

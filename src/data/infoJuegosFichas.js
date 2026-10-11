@@ -1451,6 +1451,34 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Matemáticas', niveles: 'ESO',
   },
+  'sigue-serie': {
+    titulo: 'Sigue la Serie',
+    subtitulo: 'Juego de sucesiones: progresiones aritméticas y geométricas',
+    emoji: '🐚', gradient: 'from-pink-500 to-rose-700',
+    path: '/juegos/sigue-serie',
+    intro: 'Un juego de matemáticas para encontrar la regla de una sucesión y llegar lejos sin contar uno a uno. Salen los primeros términos en fichas y hay que decir qué número sigue, si la sucesión es aritmética, geométrica o ninguna de las dos, cuánto vale el término 50 o el 100, cuál es el término general o cuánto suman los primeros términos. También hay figuras hechas de puntos que crecen de una a otra: hay que averiguar cuántos puntos tendrá la figura 10 o la 100. Al responder, las flechas entre fichas dicen «+3» o «×2», y en las figuras se ven en gris los puntos que no cambian y en color los que se añaden.',
+    beneficios: [
+      { titulo: 'La trampa del n − 1', texto: 'Del primer término al término 100 hay 99 saltos, no 100. Ese despiste está en casi todos los exámenes, y aquí sale como opción una y otra vez hasta que se interioriza: aₙ = a₁ + (n − 1)·d y aₙ = a₁ · rⁿ⁻¹.' },
+      { titulo: 'Las figuras explican la fórmula', texto: 'En una figura de puntos que crece de 3 en 3 con 2 puntos fijos, el término general 3n + 2 no es una fórmula sacada de la nada: son los 2 que no cambian más 3 por cada figura. Colorearlos al corregir convierte el álgebra en algo que se ve.' },
+      { titulo: 'Sumar o multiplicar', texto: 'Distinguir una progresión aritmética de una geométrica es el primer paso de todo ejercicio. Las opciones equivocadas incluyen sumar la razón en lugar de multiplicar o seguir sumando la última diferencia, y también aparecen sucesiones que no son de ningún tipo, como los cuadrados o Fibonacci.' },
+    ],
+    ejemplo: 'Salen 5, 8, 11, 14… y la pregunta: ¿cuánto vale el término 100? Es aritmética, porque se suma 3 cada vez. Del primer término al centésimo hay 99 saltos de 3: 5 + 99 · 3 = 302. Quien hace 5 + 100 · 3 = 305 cuenta un salto de más, y 305 está entre las opciones. El término general es aₙ = 3n + 2: con n = 100 sale 302.',
+    enPapel: {
+      titulo: 'Figuras con palillos',
+      pasos: [
+        'Con palillos o cerillas, forma una fila de cuadrados pegados: uno, dos y tres cuadrados.',
+        'Cuenta los palillos de cada figura (4, 7, 10…) y escribe la sucesión.',
+        'Busca qué parte no cambia y qué se añade con cada cuadrado, y escribe el término general.',
+        'Usa tu fórmula para predecir cuántos palillos hacen falta para 50 cuadrados y compruébalo con la figura 4 y la 5.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'El examen de Sucesiones', desc: 'Tipo test sobre sucesiones, progresiones aritméticas y geométricas, término general y sumas, con explicación en cada respuesta.' },
+      { nombre: 'Escala del Universo', desc: 'Otro juego de matemáticas: las potencias de 10 son una progresión geométrica de razón 10.' },
+      { nombre: 'Balanza Algebraica', desc: 'Resuelve ecuaciones de primer grado, lo que hace falta para saber qué término de una progresión vale un número dado.' },
+    ],
+    asignatura: 'Matemáticas', niveles: 'ESO, Bachillerato',
+  },
   'clave-dicotomica': {
     titulo: 'Clave dicotómica',
     subtitulo: 'Juego para clasificar seres vivos con una clave de sí o no',
@@ -3196,6 +3224,33 @@ export const FICHAS_EN = {
       { nombre: 'Powers of Ten', desc: 'Watch the classic short film that zooms out from a picnic to the edge of the universe and back into an atom, one power of 10 at a time.' },
     ],
     asignatura: 'Mathematics', niveles: 'Secondary',
+  },
+  'sigue-serie': {
+    titulo: 'Next in Line',
+    subtitulo: 'Sequences game: arithmetic and geometric progressions',
+    emoji: '🐚', gradient: 'from-pink-500 to-rose-700', path: '/juegos/sigue-serie',
+    intro: 'A maths game for finding the rule of a sequence and going a long way without counting one by one. The first terms appear on tiles and you say what comes next, whether the sequence is arithmetic, geometric or neither, what term 50 or 100 is, what the general term is or what the first terms add up to. There are also patterns made of dots that grow from one figure to the next: you work out how many dots figure 10 or 100 will have. When you answer, the arrows between tiles say “+3” or “×2”, and in the patterns the dots that never change turn grey and the ones added each time turn pink.',
+    beneficios: [
+      { titulo: 'The n − 1 trap', texto: 'From the first term to the hundredth there are 99 steps, not 100. That slip is in almost every exam, and here it comes up as an option again and again until it sticks: aₙ = a₁ + (n − 1)d and aₙ = a₁ × rⁿ⁻¹.' },
+      { titulo: 'The patterns explain the formula', texto: 'In a dot pattern that grows by 3 with 2 fixed dots, the general term 3n + 2 is not a formula out of nowhere: it is the 2 that never change plus 3 for each figure. Colouring them when you answer turns the algebra into something you can see.' },
+      { titulo: 'Add or multiply', texto: 'Telling arithmetic from geometric is the first step in every exercise. The wrong options include adding the ratio instead of multiplying or carrying on adding the last difference, and there are also sequences that are neither, like the squares or Fibonacci.' },
+    ],
+    ejemplo: 'You see 5, 8, 11, 14… and the question: what is term 100? It is arithmetic, because you add 3 each time. From the first term to the hundredth there are 99 steps of 3: 5 + 99 × 3 = 302. Anyone who does 5 + 100 × 3 = 305 counts one step too many, and 305 is among the options. The general term is aₙ = 3n + 2: with n = 100 it gives 302.',
+    enPapel: {
+      titulo: 'Matchstick patterns',
+      pasos: [
+        'With matchsticks or toothpicks, make a row of joined squares: one, two and three squares.',
+        'Count the sticks in each figure (4, 7, 10…) and write down the sequence.',
+        'Find what stays the same and what is added with each square, and write the general term.',
+        'Use your formula to predict how many sticks 50 squares need, and check it with figures 4 and 5.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'Universe Scale', desc: 'Another maths game: the powers of 10 are a geometric sequence with ratio 10.' },
+      { nombre: 'Algebra Balance', desc: 'Solve first-degree equations, which is what you need to find which term of a sequence equals a given number.' },
+      { nombre: 'Fibonacci in nature', desc: 'Count the spirals on a pine cone or a sunflower head: they are almost always Fibonacci numbers, a famous sequence that is neither arithmetic nor geometric.' },
+    ],
+    asignatura: 'Mathematics', niveles: 'Secondary, Sixth form',
   },
   'clave-dicotomica': {
     titulo: 'Dichotomous Key',
@@ -5005,6 +5060,33 @@ export const FICHAS_CA = {
       { nombre: 'Òrbita', desc: 'Un joc del sistema solar, on les distàncies i les mides només caben en notació científica.' },
     ],
     asignatura: 'Matemàtiques', niveles: 'ESO',
+  },
+  'sigue-serie': {
+    titulo: 'Segueix la Sèrie',
+    subtitulo: 'Joc de successions: progressions aritmètiques i geomètriques',
+    emoji: '🐚', gradient: 'from-pink-500 to-rose-700', path: '/juegos/sigue-serie',
+    intro: 'Un joc de matemàtiques per trobar la regla d’una successió i arribar lluny sense comptar un a un. Surten els primers termes en fitxes i cal dir quin nombre segueix, si la successió és aritmètica, geomètrica o cap de les dues, quant val el terme 50 o el 100, quin és el terme general o quant sumen els primers termes. També hi ha figures fetes de punts que creixen d’una a l’altra: cal esbrinar quants punts tindrà la figura 10 o la 100. En respondre, les fletxes entre fitxes diuen «+3» o «×2», i a les figures es veuen en gris els punts que no canvien i en color els que s’afegeixen.',
+    beneficios: [
+      { titulo: 'El parany del n − 1', texto: 'Del primer terme al terme 100 hi ha 99 salts, no 100. Aquesta distracció és a gairebé tots els exàmens, i aquí surt com a opció una vegada i una altra fins que s’interioritza: aₙ = a₁ + (n − 1)·d i aₙ = a₁ · rⁿ⁻¹.' },
+      { titulo: 'Les figures expliquen la fórmula', texto: 'En una figura de punts que creix de 3 en 3 amb 2 punts fixos, el terme general 3n + 2 no és una fórmula sortida del no-res: són els 2 que no canvien més 3 per cada figura. Pintar-los en corregir converteix l’àlgebra en una cosa que es veu.' },
+      { titulo: 'Sumar o multiplicar', texto: 'Distingir una progressió aritmètica d’una geomètrica és el primer pas de tot exercici. Les opcions equivocades inclouen sumar la raó en lloc de multiplicar o continuar sumant l’última diferència, i també apareixen successions que no són de cap tipus, com els quadrats o Fibonacci.' },
+    ],
+    ejemplo: 'Surten 5, 8, 11, 14… i la pregunta: quant val el terme 100? És aritmètica, perquè se suma 3 cada vegada. Del primer terme al centèsim hi ha 99 salts de 3: 5 + 99 · 3 = 302. Qui fa 5 + 100 · 3 = 305 compta un salt de més, i 305 és entre les opcions. El terme general és aₙ = 3n + 2: amb n = 100 surt 302.',
+    enPapel: {
+      titulo: 'Figures amb escuradents',
+      pasos: [
+        'Amb escuradents o llumins, forma una filera de quadrats enganxats: un, dos i tres quadrats.',
+        'Compta els escuradents de cada figura (4, 7, 10…) i escriu la successió.',
+        'Busca quina part no canvia i què s’afegeix amb cada quadrat, i escriu el terme general.',
+        'Fes servir la teva fórmula per predir quants escuradents calen per a 50 quadrats i comprova-ho amb la figura 4 i la 5.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'L’examen de Successions', desc: 'Tipus test sobre successions, progressions aritmètiques i geomètriques, terme general i sumes, amb explicació a cada resposta.' },
+      { nombre: 'Escala de l’Univers', desc: 'Un altre joc de matemàtiques: les potències de 10 són una progressió geomètrica de raó 10.' },
+      { nombre: 'Balança Algebraica', desc: 'Resol equacions de primer grau, que és el que cal per saber quin terme d’una progressió val un nombre donat.' },
+    ],
+    asignatura: 'Matemàtiques', niveles: 'ESO, Batxillerat',
   },
   'clave-dicotomica': {
     titulo: 'Clau dicotòmica',

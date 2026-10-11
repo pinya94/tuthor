@@ -58,6 +58,7 @@
   <url><loc>https://www.tuthor.es/estudiar/matematicas/divisibilidad</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/estudiar/matematicas/trigonometria</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/estudiar/matematicas/potencias</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/estudiar/matematicas/sucesiones</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/estudiar/matematicas/estadistica</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/estudiar/matematicas/enteros-racionales</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/estudiar/matematicas/algebra</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
@@ -358,6 +359,7 @@
   <url><loc>https://www.tuthor.es/examen/bloques-primos-test</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/examen/angulo-recto-test</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/examen/escala-universo-test</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/examen/sigue-serie-test</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/examen/menor-a-mayor-test</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/examen/reloj-horas-test</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/examen/el-cambio-test</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
@@ -607,6 +609,7 @@
   <url><loc>https://www.tuthor.es/juegos/bloques-primos</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/juegos/angulo-recto</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/juegos/escala-universo</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/juegos/sigue-serie</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/juegos/salta-recta</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/juegos/lee-el-grafico</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/juegos/estadistico-expres</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
@@ -841,6 +844,7 @@
   <url><loc>https://www.tuthor.es/info/juegos/bloques-primos</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/info/juegos/angulo-recto</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/info/juegos/escala-universo</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/info/juegos/sigue-serie</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/info/juegos/salta-recta</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/info/juegos/lee-el-grafico</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.tuthor.es/info/juegos/estadistico-expres</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
@@ -926,11 +930,13 @@
   <url><loc>https://www.tuthor.es/ca/info/juegos/bloques-primos</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.tuthor.es/ca/info/juegos/angulo-recto</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.tuthor.es/ca/info/juegos/escala-universo</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/ca/info/juegos/sigue-serie</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.tuthor.es/en/info/juegos/reparte-pastel</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
   <url><loc>https://www.tuthor.es/en/info/juegos/rebajas</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
   <url><loc>https://www.tuthor.es/en/info/juegos/bloques-primos</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
   <url><loc>https://www.tuthor.es/en/info/juegos/angulo-recto</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
   <url><loc>https://www.tuthor.es/en/info/juegos/escala-universo</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://www.tuthor.es/en/info/juegos/sigue-serie</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
   <url><loc>https://www.tuthor.es/ca/info/juegos/salta-recta</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.tuthor.es/en/info/juegos/salta-recta</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
   <url><loc>https://www.tuthor.es/ca/info/juegos/lee-el-grafico</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>

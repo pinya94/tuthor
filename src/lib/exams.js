@@ -316,6 +316,11 @@ export const EXAMS = {
     emoji: '🛍️', subject: 'matematicas',
     path: 'examen/rebajas-test', page: () => import('../pages/RebajasExamen'),
   },
+  'sigue-serie-test': {
+    label: { es: 'Sigue la Serie (con el juego)', en: 'Next in Line (with the game)', ca: 'Segueix la Sèrie (amb el joc)' },
+    emoji: '🐚', subject: 'matematicas',
+    path: 'examen/sigue-serie-test', page: () => import('../pages/SigueSerieExamen'),
+  },
   'escala-universo-test': {
     label: { es: 'Escala del Universo (con el juego)', en: 'Universe Scale (with the game)', ca: 'Escala de l’Univers (amb el joc)' },
     emoji: '🔭', subject: 'matematicas',
