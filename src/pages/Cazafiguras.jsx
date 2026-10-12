@@ -17,9 +17,9 @@ const CORRECT_TIME = 4
 const REVEAL_MS = 4800 // da tiempo a ver la figura resaltada y la definición
 
 const DIFS = {
-  facil:   { emoji: '🟢', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
+  facil:   { emoji: '💚', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
              desc: { es: 'Metáfora, comparación, personificación, hipérbole y onomatopeya', en: 'Metaphor, simile, personification, hyperbole and onomatopoeia', ca: 'Metàfora, comparació, personificació, hipèrbole i onomatopeia' } },
-  medio:   { emoji: '🟡', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
+  medio:   { emoji: '💛', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
              desc: { es: 'Y además anáfora, aliteración, epíteto, hipérbaton, antítesis…', en: 'Plus anaphora, alliteration, epithet, hyperbaton, antithesis…', ca: 'I a més anàfora, al·literació, epítet, hipèrbaton, antítesi…' } },
   dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' },
              desc: { es: 'Paradoja, oxímoron, sinestesia, metonimia, polisíndeton y asíndeton', en: 'Paradox, oxymoron, synaesthesia, metonymy, polysyndeton and asyndeton', ca: 'Paradoxa, oxímoron, sinestèsia, metonímia, polisíndeton i asíndeton' } },

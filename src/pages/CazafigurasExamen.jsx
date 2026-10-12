@@ -5,10 +5,10 @@ import { genRound, esCorrecta, schemaQuestion } from '../lib/cazafiguras'
 
 // Examen con la mecánica de Cazafiguras: los mismos versos, sin reloj.
 const LEVELS = [
-  { key: 'primaria', emoji: '🟢', difficulty: 'facil',
+  { key: 'primaria', emoji: '💚', difficulty: 'facil',
     label: { es: 'Básico', en: 'Basic', ca: 'Bàsic' },
     hint: { es: 'Metáfora, comparación, hipérbole…', en: 'Metaphor, simile, hyperbole…', ca: 'Metàfora, comparació, hipèrbole…' } },
-  { key: 'eso', emoji: '🟡', difficulty: 'medio',
+  { key: 'eso', emoji: '💛', difficulty: 'medio',
     label: { es: 'Secundaria (ESO)', en: 'Secondary (ESO)', ca: 'Secundària (ESO)' },
     hint: { es: 'Anáfora, epíteto, hipérbaton, antítesis…', en: 'Anaphora, epithet, hyperbaton, antithesis…', ca: 'Anàfora, epítet, hipèrbaton, antítesi…' } },
   { key: 'bachillerato', emoji: '🔴', difficulty: 'dificil',
