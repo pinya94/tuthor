@@ -307,7 +307,7 @@ export const TOPIC_CATALOG = {
       bv: examTema({ test: 'espanol-ortografia-bv-test', letra: 'que-letra-test' }, { niveles: ['primaria', 'eso'] }),
       gj: examTema({ test: 'espanol-ortografia-gj-test', letra: 'que-letra-test' }, { niveles: ['primaria', 'eso'] }),
       letras: examTema({ test: 'espanol-ortografia-letras-test', letra: 'que-letra-test' }, { niveles: ['primaria', 'eso'] }),
-      puntuacion: examTema({ test: 'espanol-ortografia-puntuacion-test' }, { niveles: ['primaria', 'eso'] }),
+      puntuacion: examTema({ test: 'espanol-ortografia-puntuacion-test', coma: 'coma-a-coma-test' }, { niveles: ['primaria', 'eso'] }),
       literatura: examTema({ test: 'espanol-literatura-test' }, { niveles: ['eso', 'bachillerato'] }),
       textos: examTema({ test: 'espanol-textos-test' }, { niveles: ['primaria', 'eso'] }),
       figuras: examTema({ test: 'espanol-figuras-test' }, { niveles: ['eso', 'bachillerato'] }),
@@ -344,6 +344,7 @@ export const TOPIC_CATALOG = {
         temas: ['correccion'],
       },
       medir: examFormato({ es: 'Mide el verso (con el juego)', en: 'Measure the Verse (with the game)', ca: 'Mesura el vers (amb el joc)' }, '✒️'),
+      coma: examFormato({ es: 'Coma a Coma (con el juego)', en: 'Coma a Coma (with the game)', ca: 'Coma a Coma (amb el joc)' }, '🖋️'),
       corregirExamen: examFormato({ es: 'Corregir el texto (examen)', en: 'Proofread the text (exam)', ca: 'Corregir el text (examen)' }, '🔍'),
       intruso: {
         label: { es: 'El Intruso (juego)', en: 'The Odd One Out (game)', ca: "L'Intrús (joc)" },

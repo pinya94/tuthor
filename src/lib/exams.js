@@ -879,6 +879,11 @@ export const EXAMS = {
     emoji: '🖋️', subject: 'lengua',
     path: 'examen/espanol-literatura-test', page: () => import('../pages/EspanolLiteraturaExamen'),
   },
+  'coma-a-coma-test': {
+    label: { es: 'Coma a Coma (con el juego)', en: 'Coma a Coma (with the game)', ca: 'Coma a Coma (amb el joc)' },
+    emoji: '🖋️', subject: 'lengua',
+    path: 'examen/coma-a-coma-test', page: () => import('../pages/ComaAComaExamen'),
+  },
   'que-letra-test': {
     label: { es: '¿Qué Letra Va? (con el juego)', en: 'Which Letter? (with the game)', ca: 'Quina Lletra Va? (amb el joc)' },
     emoji: '🔠', subject: 'lengua',

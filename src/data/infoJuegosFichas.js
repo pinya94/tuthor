@@ -1647,6 +1647,34 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Biología', niveles: 'ESO, Bachillerato',
   },
+  'coma-a-coma': {
+    titulo: 'Coma a Coma',
+    subtitulo: 'Juego de puntuación: coma, punto y coma, dos puntos y signos de interrogación',
+    emoji: '🖋️', gradient: 'from-slate-600 to-sky-700',
+    path: '/juegos/coma-a-coma',
+    intro: 'Un juego de lengua para aprender a puntuar en castellano. Sale una frase con un hueco y hay que elegir el signo que va en él: coma, punto y coma, dos puntos, punto… o ninguno, porque a veces lo correcto es no poner nada. En las preguntas y exclamaciones hay que elegir a la vez el signo de apertura y el de cierre, que en español son obligatorios. Las frases cubren las reglas que se estudian en Primaria y ESO: el vocativo, la enumeración, los incisos y las aposiciones, los conectores, la coma delante de pero y sino, los dos puntos, el punto y coma y la coma del verbo omitido. Al corregir aparece la frase bien puntuada y la regla, y en los niveles altos también hay que decir por qué va ahí cada signo.',
+    beneficios: [
+      { titulo: 'La coma que sobra', texto: 'La falta de puntuación más común no es olvidar una coma, sino poner una donde no va: entre el sujeto y el verbo cuando el sujeto es largo («Los alumnos que aprobaron el examen, recibieron…») o delante de la y de una enumeración. El juego incluye esos huecos en los que la respuesta correcta es «nada».' },
+      { titulo: 'Reglas, no intuición', texto: 'Cada frase está pensada para que solo un signo sea correcto según la RAE, y la explicación dice qué regla se aplica. Así se aprende a puntuar con criterio y no «donde se respira», que es la idea que más errores provoca.' },
+      { titulo: 'Los signos que solo tiene el español', texto: 'Los signos de apertura ¿ y ¡ se olvidan mucho al escribir en el móvil. Elegir la pareja completa, y colocarla donde empieza de verdad la pregunta («Juan, ¿sabes…?»), fija la costumbre de escribirlos.' },
+    ],
+    ejemplo: 'Sale «Juan estudia Medicina; Ana▢ Derecho». ¿Qué signo va en el hueco? Una coma: es la coma del verbo omitido. «Ana, Derecho» quiere decir «Ana estudia Derecho»: el verbo no se repite y su lugar lo ocupa la coma. Por eso las dos oraciones se separan con punto y coma y no con coma, que ya hay una dentro.',
+    enPapel: {
+      titulo: 'La coma que cambia el sentido',
+      pasos: [
+        'Copia estas dos frases: «No, quiero ir» y «No quiero ir». Explica qué significa cada una.',
+        'Haz lo mismo con «Los coches, que estaban mal aparcados, fueron multados» y sin las comas.',
+        'Inventa tú otra pareja de frases en la que una coma cambie el significado.',
+        'Comprueba en el juego las reglas de los casos que te hayan hecho dudar.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'El examen de ortografía y puntuación', desc: 'Tipo test sobre las reglas de puntuación y otras normas de ortografía, con explicación en cada respuesta.' },
+      { nombre: 'Corrige el Texto', desc: 'Busca y corrige las faltas de un texto, contra reloj.' },
+      { nombre: '¿Qué Letra Va?', desc: 'Otro juego de ortografía: b o v, g o j, h, ll o y, c o z.' },
+    ],
+    asignatura: 'Lengua', niveles: 'Primaria, ESO',
+  },
   'que-letra': {
     titulo: '¿Qué Letra Va?',
     subtitulo: 'Juego de ortografía: b/v, g/j, h, ll/y y c/z con sus reglas',

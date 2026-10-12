@@ -92,6 +92,24 @@ function PiezaQueFalta(p) {
   )
 }
 
+function ComaAComa(p) {
+  // Una frase con su hueco y, al lado, los signos que se pueden poner.
+  return (
+    <Lienzo {...p}>
+      <rect x="20" y="30" width="200" height="40" rx="10" fill="#1E293B" stroke="#475569" strokeWidth="2" />
+      <T x={78} y={56} s={15} c="#F8FAFC">Ven aquí</T>
+      <rect x="122" y="40" width="14" height="22" rx="3" fill="none" stroke="#FCD34D" strokeWidth="2" strokeDasharray="3 2" />
+      <T x={170} y={56} s={15} c="#F8FAFC">Juan.</T>
+      {[[52, ','], [92, ';'], [132, ':'], [172, '¿?']].map(([x, t]) => (
+        <g key={t}>
+          <rect x={x - 16} y="84" width="32" height="28" rx="7" fill={t === ',' ? '#22C55E' : '#334155'} />
+          <T x={x} y={104} s={16} c="#F8FAFC">{t}</T>
+        </g>
+      ))}
+    </Lienzo>
+  )
+}
+
 function QueLetra(p) {
   // La palabra «escri_ir» con el hueco y las dos letras para elegir.
   return (
@@ -163,6 +181,7 @@ export const ARTE_LENGUA = {
   'pieza-que-falta': PiezaQueFalta,
   'pon-la-tilde': PonLaTilde,
   'que-letra': QueLetra,
+  'coma-a-coma': ComaAComa,
   'mide-el-verso': MideElVerso,
   'corrige-el-texto': CorrigeElTexto,
 }

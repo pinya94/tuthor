@@ -625,6 +625,15 @@ export const GAMES = {
     // cualquier otro juego.
     coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
   },
+  'coma-a-coma': {
+    label: { es: 'Coma a Coma', en: 'Coma a Coma', ca: 'Coma a Coma' },
+    emoji: '🖋️',
+    subject: 'lengua',
+    route: '/juegos/coma-a-coma',
+    idiomas: ['es'], // puntuación castellana (¿ ¡ incluidos): ver disponibleEn
+    // aciertos × 10 puntos → hasta 200 monedas
+    coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
+  },
   'que-letra': {
     label: { es: '¿Qué Letra Va?', en: 'Which Letter?', ca: 'Quina Lletra Va?' },
     emoji: '🔠',
