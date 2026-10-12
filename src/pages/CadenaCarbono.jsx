@@ -1,0 +1,222 @@
+import { useState, useRef, useEffect, useCallback } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
+import { useLang } from '../context/LangContext'
+import { useAuth } from '../context/AuthContext'
+import { saveActivity } from '../lib/activity'
+import { computeCoins } from '../lib/games'
+import { NIVELES, genRonda, esCorrecta } from '../lib/cadenaCarbono'
+import PreguntaCadena from '../components/cadenaCarbono/PreguntaCadena'
+import GameEndScreen from '../components/GameEndScreen'
+import SEOHead from '../components/SEOHead'
+import { CabeceraJuego, NivelBarras, ComoSeJuega } from '../components/IntroJuego'
+import { Racha } from '../components/Iconos'
+
+const GAME_TIME = 60
+const WRONG_TIME = 5
+const CORRECT_TIME = 4
+const REVEAL_MS = 4800 // da tiempo a ver la cadena numerada y la explicación
+
+const DIFS = {
+  facil:   { emoji: '🟢', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
+             desc: { es: 'Familias, nombres sin localizador y fórmulas moleculares', en: 'Families, names without locants and molecular formulas', ca: 'Famílies, noms sense localitzador i fórmules moleculars' } },
+  medio:   { emoji: '🟡', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
+             desc: { es: 'Nombres con localizador y del nombre a la fórmula', en: 'Names with locants and from name to formula', ca: 'Noms amb localitzador i del nom a la fórmula' } },
+  dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' },
+             desc: { es: 'Ramificaciones, numeración e isómeros', en: 'Branches, numbering and isomers', ca: 'Ramificacions, numeració i isòmers' } },
+}
+if (import.meta.env.DEV && Object.keys(DIFS).join() !== Object.keys(NIVELES).join()) {
+  console.warn('[cadena-carbono] los niveles de la pantalla no coinciden con NIVELES')
+}
+
+export default function CadenaCarbono() {
+  const { lang, localPath, tr } = useLang()
+  const { user } = useAuth()
+  const location = useLocation()
+  const navigate = useNavigate()
+  const l = lang === 'en' ? 'en' : lang === 'ca' ? 'ca' : 'es'
+  const backPath = location.state?.backPath
+
+  const [screen, setScreen] = useState('intro')
+  const [nivel, setNivel] = useState('facil')
+  const [timeLeft, setTimeLeft] = useState(GAME_TIME)
+  const [aciertos, setAciertos] = useState(0)
+  const [streak, setStreak] = useState(0)
+  const [ronda, setRonda] = useState(null)
+  const [elegida, setElegida] = useState(null)
+  const [phase, setPhase] = useState('choose')
+
+  const timerRef = useRef(null)
+  const nextRef = useRef(null)
+  const aciertosRef = useRef(0)
+  useEffect(() => { aciertosRef.current = aciertos }, [aciertos])
+
+  const next = useCallback(niv => {
+    setRonda(genRonda(niv))
+    setElegida(null)
+    setPhase('choose')
+  }, [])
+
+  const startGame = useCallback((niv = 'facil') => {
+    setNivel(niv); setScreen('playing')
+    setAciertos(0); setStreak(0)
+    setTimeLeft(GAME_TIME)
+    next(niv)
+  }, [next])
+
+  function finish() {
+    clearTimeout(nextRef.current)
+    setScreen('end')
+    const pts = aciertosRef.current * 10
+    if (user) {
+      saveActivity(user.uid, {
+        type: 'juego', game: 'cadena-carbono', category: 'quimica-organica',
+        score: pts, timeSpent: GAME_TIME,
+        coinsEarned: computeCoins('cadena-carbono', { score: pts }),
+        userName: user.displayName, userPhoto: user.photoURL,
+      }).catch(() => {})
+    }
+  }
+
+  useEffect(() => {
+    if (screen !== 'playing' || phase === 'result') return
+    timerRef.current = setInterval(() => {
+      setTimeLeft(t => {
+        if (t <= 1) { clearInterval(timerRef.current); finish(); return 0 }
+        return t - 1
+      })
+    }, 1000)
+    return () => clearInterval(timerRef.current)
+  }, [screen, phase]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => () => clearTimeout(nextRef.current), [])
+
+  function responder(r) {
+    if (phase !== 'choose') return
+    setElegida(r); setPhase('result')
+    if (esCorrecta(ronda, r)) {
+      setAciertos(a => a + 1)
+      setStreak(s => s + 1)
+      setTimeLeft(t => t + CORRECT_TIME)
+    } else {
+      setStreak(0)
+      setTimeLeft(t => Math.max(0, t - WRONG_TIME))
+    }
+    nextRef.current = setTimeout(() => next(nivel), REVEAL_MS)
+  }
+
+  const seo = {
+    title: tr({ es: 'Cadena de Carbono — Juego de química orgánica: nombra y formula moléculas', en: 'Carbon Chain — Organic chemistry game: name molecules and write their formulas', ca: 'Cadena de Carboni — Joc de química orgànica: anomena i formula molècules' }),
+    desc: tr({
+      es: 'Moléculas orgánicas dibujadas en fórmula semidesarrollada: reconoce su familia (alcanos, alquenos, alcoholes, cetonas, ácidos…), nómbralas con la IUPAC, cuenta sus hidrógenos y encuentra sus isómeros. Juego de química gratis.',
+      en: 'Organic molecules drawn as condensed structural formulas: recognise their family (alkanes, alkenes, alcohols, ketones, acids…), name them with IUPAC rules, count their hydrogens and find their isomers. Free chemistry game.',
+      ca: 'Molècules orgàniques dibuixades en fórmula semidesenvolupada: reconeix-ne la família (alcans, alquens, alcohols, cetones, àcids…), anomena-les amb la IUPAC, compta’n els hidrògens i troba’n els isòmers. Joc de química gratis.',
+    }),
+    path: '/juegos/cadena-carbono',
+  }
+  const head = <SEOHead title={seo.title} description={seo.desc} path={seo.path} />
+
+  if (screen === 'intro') {
+    return (
+      <div className="relative z-10 flex flex-col items-center min-h-[calc(100vh-4rem)] px-4 py-8">
+        {head}
+        <div className="max-w-md w-full">
+          <CabeceraJuego slug="cadena-carbono"
+            badge={tr({ es: 'Química · Química orgánica', en: 'Chemistry · Organic chemistry', ca: 'Química · Química orgànica' })}
+            titulo={tr({ es: '⛓️ Cadena de Carbono', en: '⛓️ Carbon Chain', ca: '⛓️ Cadena de Carboni' })}
+            sub={tr({ es: 'Mira la molécula, cuenta sus carbonos y ponle nombre', en: 'Look at the molecule, count its carbons and name it', ca: 'Mira la molècula, compta’n els carbonis i posa-li nom' })} />
+
+          <p className="text-white/40 text-xs uppercase tracking-widest text-center mb-2">{tr({ es: 'Elige nivel', en: 'Choose a level', ca: 'Tria nivell' })}</p>
+          <div className="flex flex-wrap justify-center gap-1.5 p-1 bg-white/5 border border-white/10 rounded-xl mb-2">
+            {Object.entries(DIFS).map(([id, d], i) => (
+              <button key={id} onClick={() => setNivel(id)}
+                className={`flex items-center gap-1 px-3 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all ${nivel === id ? 'bg-white/15 text-white shadow-sm' : 'text-white/40 hover:text-white/70'}`}>
+                <NivelBarras clave={id} i={i} />{tr(d.label)}
+              </button>
+            ))}
+          </div>
+          <p className="text-white/40 text-xs text-center mb-5">{tr(DIFS[nivel].desc)}</p>
+
+          <button onClick={() => startGame(nivel)}
+            className="w-full py-3.5 rounded-2xl bg-[#EDAE49] text-black font-black text-lg hover:bg-amber-400 transition-colors">
+            {tr({ es: '▶ Empezar', en: '▶ Start', ca: '▶ Començar' })}
+          </button>
+          <ComoSeJuega>
+            <div className="space-y-2 text-white/70 text-sm">
+              <p>{tr({ es: 'Sale una molécula orgánica en fórmula semidesarrollada: la cadena de carbonos en fila, el grupo funcional arriba (el oxígeno en rojo, el nitrógeno en azul), las ramas abajo y los enlaces dobles y triples en ámbar.', en: 'An organic molecule appears as a condensed structural formula: the carbon chain in a row, the functional group above (oxygen in red, nitrogen in blue), branches below and double and triple bonds in amber.', ca: 'Surt una molècula orgànica en fórmula semidesenvolupada: la cadena de carbonis en fila, el grup funcional a dalt (l’oxigen en vermell, el nitrogen en blau), les branques a baix i els enllaços dobles i triples en ambre.' })}</p>
+              <p>{tr({ es: 'Para nombrarla: cuenta los carbonos de la cadena (met-, et-, prop-, but-, pent-, hex-), mira la familia para la terminación (-ano, -eno, -ino, -ol, -al, -ona, ácido …-oico, -amina) y numera desde el extremo más cercano al grupo, al enlace múltiple o a la rama.', en: 'To name it: count the carbons in the chain (meth-, eth-, prop-, but-, pent-, hex-), use the family for the ending (-ane, -ene, -yne, -ol, -al, -one, …-oic acid, -amine) and number from the end nearest the group, the multiple bond or the branch.', ca: 'Per anomenar-la: compta els carbonis de la cadena (met-, et-, prop-, but-, pent-, hex-), mira la família per a la terminació (-à, -è, -í, -ol, -al, -ona, àcid …-oic, -amina) i numera des de l’extrem més proper al grup, a l’enllaç múltiple o a la branca.' })}</p>
+              <p>{tr({ es: 'Ojo: la molécula puede salir dibujada al revés, así que el carbono 1 no siempre está a la izquierda. Al corregir se numera la cadena.', en: 'Careful: the molecule may be drawn the other way round, so carbon 1 is not always on the left. The chain is numbered when you answer.', ca: 'Compte: la molècula pot sortir dibuixada al revés, així que el carboni 1 no sempre és a l’esquerra. En corregir es numera la cadena.' })}</p>
+              <p className="text-white/40 text-xs pt-1">⏱️ {GAME_TIME}s · {tr({ es: `Acierto +10 y +${CORRECT_TIME}s · Fallo −${WRONG_TIME}s`, en: `Correct +10 and +${CORRECT_TIME}s · Wrong −${WRONG_TIME}s`, ca: `Encert +10 i +${CORRECT_TIME}s · Error −${WRONG_TIME}s` })}</p>
+            </div>
+          </ComoSeJuega>
+        </div>
+      </div>
+    )
+  }
+
+  if (screen === 'end') {
+    const pts = aciertos * 10
+    const msg = tr({
+      es: aciertos === 0 ? '¡Sigue practicando!' : aciertos < 5 ? 'Buen comienzo' : aciertos < 10 ? '¡Ya lees moléculas!' : '¡Maestro del carbono! ⛓️',
+      en: aciertos === 0 ? 'Keep practising!' : aciertos < 5 ? 'Good start' : aciertos < 10 ? 'You can read molecules!' : 'Carbon master! ⛓️',
+      ca: aciertos === 0 ? 'Segueix practicant!' : aciertos < 5 ? 'Bon començament' : aciertos < 10 ? 'Ja llegeixes molècules!' : 'Mestre del carboni! ⛓️',
+    })
+    const shareText = tr({
+      es: `He nombrado ${aciertos} moléculas en Cadena de Carbono de Tuthor ⛓️ — ¿puedes superarme? https://tuthor.es/juegos/cadena-carbono`,
+      en: `I named ${aciertos} molecules in Carbon Chain on Tuthor ⛓️ — can you beat me? https://tuthor.es/juegos/cadena-carbono`,
+      ca: `He anomenat ${aciertos} molècules a Cadena de Carboni de Tuthor ⛓️ — em pots superar? https://tuthor.es/juegos/cadena-carbono`,
+    })
+    const secondary = [
+      { label: tr({ es: 'Cambiar nivel', en: 'Change level', ca: 'Canviar nivell' }), onClick: () => setScreen('intro') },
+      ...(backPath ? [{ label: tr({ es: '← Volver', en: '← Back', ca: '← Tornar' }), onClick: () => navigate(localPath(backPath)) }] : []),
+    ]
+    return (
+      <GameEndScreen game="cadena-carbono" emoji="⛓️" title={tr({ es: 'Tiempo', en: "Time's up", ca: 'Temps' })} score={pts} message={msg}
+        stats={[{ label: tr({ es: 'aciertos', en: 'correct', ca: 'encerts' }), value: aciertos, emoji: '✅' }]}
+        shareText={shareText} user={user} lang={l}
+        onPlayAgain={() => startGame(nivel)} secondaryActions={secondary} />
+    )
+  }
+
+  if (!ronda) return null
+  const timerColor = timeLeft > GAME_TIME * 0.66 ? '#22c55e' : timeLeft > GAME_TIME * 0.28 ? '#f59e0b' : '#ef4444'
+  const timerPct = Math.min(1, timeLeft / GAME_TIME)
+  const isResult = phase === 'result'
+  const acierto = isResult && esCorrecta(ronda, elegida)
+
+  return (
+    <div className="relative z-10 flex flex-col items-center min-h-[calc(100vh-4rem)] px-3 sm:px-4 py-4">
+      {head}
+      <div className="w-full max-w-[480px] flex items-center justify-between mb-3 px-1">
+        <div>
+          <p className="text-white/40 text-xs uppercase tracking-widest">{DIFS[nivel].emoji} {tr(DIFS[nivel].label)}</p>
+          <p className="text-white font-bold text-lg flex items-center gap-2">
+            {aciertos * 10} {tr({ es: 'puntos', en: 'points', ca: 'punts' })}
+            {streak >= 2 && <span className="flex items-center gap-0.5 text-orange-400 text-sm font-black"><Racha className="w-4 h-4" />{streak}</span>}
+          </p>
+        </div>
+        <div className="relative w-14 h-14">
+          <svg className="absolute inset-0" viewBox="0 0 56 56">
+            <circle cx="28" cy="28" r="24" fill="none" stroke="#ffffff15" strokeWidth="4" />
+            <circle cx="28" cy="28" r="24" fill="none" stroke={timerColor} strokeWidth="4"
+              strokeDasharray={`${2 * Math.PI * 24}`} strokeDashoffset={`${2 * Math.PI * 24 * (1 - timerPct)}`}
+              strokeLinecap="round" style={{ transform: 'rotate(-90deg)', transformOrigin: 'center', transition: 'stroke-dashoffset 1s linear' }} />
+          </svg>
+          <div className="absolute inset-0 flex items-center justify-center">
+            <span className="font-black text-sm" style={{ color: timerColor }}>{timeLeft}</span>
+          </div>
+        </div>
+      </div>
+
+      <div className="w-full max-w-[480px]">
+        <PreguntaCadena key={ronda.id} ronda={ronda} revelado={isResult} elegida={elegida} onResponder={responder} />
+        {isResult && (
+          <p className="text-center text-xs font-bold mt-2">
+            {acierto
+              ? <span className="text-green-400">+10 · +{CORRECT_TIME}s ⏱️{streak >= 2 ? ` · 🔥 ${streak}` : ''}</span>
+              : <span className="text-red-400">−{WRONG_TIME}s ⏱️</span>}
+          </p>
+        )}
+      </div>
+    </div>
+  )
+}

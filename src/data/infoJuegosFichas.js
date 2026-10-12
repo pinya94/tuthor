@@ -1479,6 +1479,34 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Matemáticas', niveles: 'ESO, Bachillerato',
   },
+  'cadena-carbono': {
+    titulo: 'Cadena de Carbono',
+    subtitulo: 'Juego de química orgánica: nombres IUPAC, fórmulas e isómeros',
+    emoji: '⛓️', gradient: 'from-zinc-600 to-emerald-700',
+    path: '/juegos/cadena-carbono',
+    intro: 'Un juego de química orgánica para aprender a nombrar y formular compuestos del carbono. Sale una molécula dibujada en fórmula semidesarrollada, con la cadena de carbonos en fila, el grupo funcional arriba, las ramas abajo y los enlaces dobles y triples en color. Hay que reconocer a qué familia pertenece (alcanos, alquenos, alquinos, alcoholes, aldehídos, cetonas, ácidos carboxílicos y aminas), elegir su nombre IUPAC con los localizadores bien puestos, escribir su fórmula molecular contando los hidrógenos, pasar del nombre a la fórmula semidesarrollada y, en el nivel difícil, encontrar sus isómeros. Al corregir se numera la cadena desde el extremo correcto y se explica cómo se construye el nombre.',
+    beneficios: [
+      { titulo: 'El nombre, pieza a pieza', texto: 'Un nombre orgánico se arma con tres piezas: el prefijo según el número de carbonos (met-, et-, prop-, but-…), la terminación según la familia (-ano, -eno, -ol, -ona…) y el localizador que dice dónde está el grupo. Cada explicación separa las tres, que es justo como se enseña en 4.º de ESO y 1.º de Bachillerato.' },
+      { titulo: 'Numerar desde el extremo bueno', texto: 'La molécula puede salir dibujada al revés, así que el carbono 1 no siempre está a la izquierda. Entre las opciones está el nombre numerado desde el otro extremo (but-3-eno, propan-3-ol), el error más típico de formulación, y al corregir aparecen los números sobre cada carbono.' },
+      { titulo: 'Hidrógenos que no se olvidan', texto: 'Para la fórmula molecular hay que recordar que cada carbono forma cuatro enlaces: cada doble enlace quita dos hidrógenos y el grupo funcional trae los suyos. Contar sobre el dibujo fija las fórmulas generales CₙH₂ₙ₊₂, CₙH₂ₙ y CₙH₂ₙ₋₂ sin tener que memorizarlas.' },
+    ],
+    ejemplo: 'Sale CH₃–CH(OH)–CH₂–CH₃ dibujado con el –OH arriba del segundo carbono. ¿Cómo se llama? La cadena tiene cuatro carbonos: prefijo but-. Tiene un –OH: es un alcohol y acaba en -ol. Se numera desde el extremo más cercano al –OH, así que queda en el carbono 2: butan-2-ol. Quien numera desde la derecha pone butan-3-ol, que no es un nombre válido. Y su isómero de posición es el butan-1-ol, con la misma fórmula, C₄H₁₀O.',
+    enPapel: {
+      titulo: 'Moléculas con plastilina',
+      pasos: [
+        'Haz bolitas negras para los carbonos, blancas para los hidrógenos y rojas para el oxígeno, y usa palillos como enlaces.',
+        'Monta el butano: cuatro carbonos en fila y comprueba que cada uno lleva cuatro palillos.',
+        'Cambia un hidrógeno del segundo carbono por un –OH y nombra la molécula; luego pásalo al primer carbono.',
+        'Con las mismas bolitas del butano, monta una cadena ramificada: es el 2-metilpropano, su isómero.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'El examen de Química Orgánica', desc: 'Tipo test sobre hidrocarburos, grupos funcionales, nomenclatura, isomería y reacciones orgánicas, con explicación en cada respuesta.' },
+      { nombre: 'Nombra el compuesto', desc: 'La formulación inorgánica: óxidos, hidruros, sales y ácidos con su nombre.' },
+      { nombre: 'La Receta Química', desc: 'Otro juego de química: moles, masa molar y reactivo limitante con la reacción como receta.' },
+    ],
+    asignatura: 'Química', niveles: 'ESO, Bachillerato',
+  },
   'receta-quimica': {
     titulo: 'La Receta Química',
     subtitulo: 'Juego de estequiometría: moles, masa molar y reactivo limitante',
@@ -3392,6 +3420,33 @@ export const FICHAS_EN = {
     ],
     asignatura: 'Mathematics', niveles: 'Secondary, Sixth form',
   },
+  'cadena-carbono': {
+    titulo: 'Carbon Chain',
+    subtitulo: 'Organic chemistry game: IUPAC names, formulas and isomers',
+    emoji: '⛓️', gradient: 'from-zinc-600 to-emerald-700', path: '/juegos/cadena-carbono',
+    intro: 'An organic chemistry game for learning to name carbon compounds and write their formulas. A molecule appears drawn as a condensed structural formula, with the carbon chain in a row, the functional group above, branches below and double and triple bonds in colour. You recognise its family (alkanes, alkenes, alkynes, alcohols, aldehydes, ketones, carboxylic acids and amines), choose its IUPAC name with the locants in the right place, write its molecular formula by counting hydrogens, go from the name to the condensed formula and, on the hard level, find its isomers. When you answer, the chain is numbered from the correct end and the game explains how the name is built.',
+    beneficios: [
+      { titulo: 'The name, piece by piece', texto: 'An organic name has three pieces: the prefix for the number of carbons (meth-, eth-, prop-, but-…), the ending for the family (-ane, -ene, -ol, -one…) and the locant that says where the group is. Every explanation separates the three, which is exactly how it is taught in secondary school.' },
+      { titulo: 'Number from the right end', texto: 'The molecule may be drawn the other way round, so carbon 1 is not always on the left. The options include the name numbered from the wrong end (but-3-ene, propan-3-ol), the most common naming mistake, and the numbers appear over each carbon when you answer.' },
+      { titulo: 'Hydrogens you will not forget', texto: 'For the molecular formula you need to remember that every carbon forms four bonds: each double bond removes two hydrogens and the functional group brings its own. Counting on the drawing fixes the general formulas CₙH₂ₙ₊₂, CₙH₂ₙ and CₙH₂ₙ₋₂ without having to memorise them.' },
+    ],
+    ejemplo: 'CH₃–CH(OH)–CH₂–CH₃ appears with the –OH above the second carbon. What is it called? The chain has four carbons: prefix but-. It has an –OH: it is an alcohol and ends in -ol. Number from the end nearest the –OH, so it is on carbon 2: butan-2-ol. Anyone who numbers from the right writes butan-3-ol, which is not a valid name. Its position isomer is butan-1-ol, with the same formula, C₄H₁₀O.',
+    enPapel: {
+      titulo: 'Modelling-clay molecules',
+      pasos: [
+        'Make black balls for carbon, white for hydrogen and red for oxygen, and use cocktail sticks as bonds.',
+        'Build butane: four carbons in a row, and check each one has four sticks.',
+        'Swap a hydrogen on the second carbon for an –OH and name the molecule; then move it to the first carbon.',
+        'With the same balls as butane, build a branched chain: it is 2-methylpropane, its isomer.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'Name the Compound', desc: 'Inorganic nomenclature: oxides, hydrides, salts and acids with their names.' },
+      { nombre: 'The Chemical Recipe', desc: 'Another chemistry game: moles, molar mass and the limiting reactant with the reaction as a recipe.' },
+      { nombre: 'Which Bond?', desc: 'A chemistry game on ionic, covalent and metallic bonding.' },
+    ],
+    asignatura: 'Chemistry', niveles: 'Secondary, Sixth form',
+  },
   'receta-quimica': {
     titulo: 'The Chemical Recipe',
     subtitulo: 'Stoichiometry game: moles, molar mass and limiting reactant',
@@ -5281,6 +5336,33 @@ export const FICHAS_CA = {
       { nombre: 'Balança Algebraica', desc: 'Resol equacions de primer grau, que és el que cal per saber quin terme d’una progressió val un nombre donat.' },
     ],
     asignatura: 'Matemàtiques', niveles: 'ESO, Batxillerat',
+  },
+  'cadena-carbono': {
+    titulo: 'Cadena de Carboni',
+    subtitulo: 'Joc de química orgànica: noms IUPAC, fórmules i isòmers',
+    emoji: '⛓️', gradient: 'from-zinc-600 to-emerald-700', path: '/juegos/cadena-carbono',
+    intro: 'Un joc de química orgànica per aprendre a anomenar i formular compostos del carboni. Surt una molècula dibuixada en fórmula semidesenvolupada, amb la cadena de carbonis en fila, el grup funcional a dalt, les branques a baix i els enllaços dobles i triples en color. Cal reconèixer a quina família pertany (alcans, alquens, alquins, alcohols, aldehids, cetones, àcids carboxílics i amines), triar-ne el nom IUPAC amb els localitzadors ben posats, escriure’n la fórmula molecular comptant els hidrògens, passar del nom a la fórmula semidesenvolupada i, al nivell difícil, trobar-ne els isòmers. En corregir es numera la cadena des de l’extrem correcte i s’explica com es construeix el nom.',
+    beneficios: [
+      { titulo: 'El nom, peça a peça', texto: 'Un nom orgànic es munta amb tres peces: el prefix segons el nombre de carbonis (met-, et-, prop-, but-…), la terminació segons la família (-à, -è, -ol, -ona…) i el localitzador que diu on és el grup. Cada explicació separa les tres, que és just com s’ensenya a 4t d’ESO i 1r de Batxillerat.' },
+      { titulo: 'Numerar des de l’extrem bo', texto: 'La molècula pot sortir dibuixada al revés, així que el carboni 1 no sempre és a l’esquerra. Entre les opcions hi ha el nom numerat des de l’altre extrem (but-3-è, propan-3-ol), l’error més típic de formulació, i en corregir apareixen els números sobre cada carboni.' },
+      { titulo: 'Hidrògens que no s’obliden', texto: 'Per a la fórmula molecular cal recordar que cada carboni forma quatre enllaços: cada enllaç doble treu dos hidrògens i el grup funcional porta els seus. Comptar sobre el dibuix fixa les fórmules generals CₙH₂ₙ₊₂, CₙH₂ₙ i CₙH₂ₙ₋₂ sense haver-les de memoritzar.' },
+    ],
+    ejemplo: 'Surt CH₃–CH(OH)–CH₂–CH₃ dibuixat amb l’–OH a dalt del segon carboni. Com es diu? La cadena té quatre carbonis: prefix but-. Té un –OH: és un alcohol i acaba en -ol. Es numera des de l’extrem més proper a l’–OH, així que queda al carboni 2: butan-2-ol. Qui numera des de la dreta posa butan-3-ol, que no és un nom vàlid. I el seu isòmer de posició és el butan-1-ol, amb la mateixa fórmula, C₄H₁₀O.',
+    enPapel: {
+      titulo: 'Molècules amb plastilina',
+      pasos: [
+        'Fes boletes negres per als carbonis, blanques per als hidrògens i vermelles per a l’oxigen, i fes servir escuradents com a enllaços.',
+        'Munta el butà: quatre carbonis en fila, i comprova que cadascun porta quatre escuradents.',
+        'Canvia un hidrogen del segon carboni per un –OH i anomena la molècula; després passa’l al primer carboni.',
+        'Amb les mateixes boletes del butà, munta una cadena ramificada: és el 2-metilpropà, el seu isòmer.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'L’examen de Química Orgànica', desc: 'Tipus test sobre hidrocarburs, grups funcionals, nomenclatura, isomeria i reaccions orgàniques, amb explicació a cada resposta.' },
+      { nombre: 'Anomena el compost', desc: 'La formulació inorgànica: òxids, hidrurs, sals i àcids amb el seu nom.' },
+      { nombre: 'La Recepta Química', desc: 'Un altre joc de química: mols, massa molar i reactiu limitant amb la reacció com a recepta.' },
+    ],
+    asignatura: 'Química', niveles: 'ESO, Batxillerat',
   },
   'receta-quimica': {
     titulo: 'La Recepta Química',

@@ -315,6 +315,14 @@ export const GAMES = {
     // aciertos × 10 puntos → hasta 200 monedas
     coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
   },
+  'cadena-carbono': {
+    label: { es: 'Cadena de Carbono', en: 'Carbon Chain', ca: 'Cadena de Carboni' },
+    emoji: '⛓️',
+    subject: 'quimica',
+    route: '/juegos/cadena-carbono',
+    // aciertos × 10 puntos → hasta 200 monedas
+    coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
+  },
   'receta-quimica': {
     label: { es: 'La Receta Química', en: 'The Chemical Recipe', ca: 'La Recepta Química' },
     emoji: '🥣',

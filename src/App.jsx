@@ -161,6 +161,7 @@ const MedidorPh              = lazy(() => import('./pages/MedidorPh'))
 const PreparaDisolucion      = lazy(() => import('./pages/PreparaDisolucion'))
 const QueEnlace              = lazy(() => import('./pages/QueEnlace'))
 const RecetaQuimica          = lazy(() => import('./pages/RecetaQuimica'))
+const CadenaCarbono          = lazy(() => import('./pages/CadenaCarbono'))
 const NombraCompuesto        = lazy(() => import('./pages/NombraCompuesto'))
 const ElLaboratorio          = lazy(() => import('./pages/ElLaboratorio'))
 const Diagnostico            = lazy(() => import('./pages/Diagnostico'))
@@ -254,6 +255,7 @@ function AppRoutes() {
       <Route path="juegos/prepara-disolucion" element={<PreparaDisolucion />} />
       <Route path="juegos/que-enlace" element={<QueEnlace />} />
       <Route path="juegos/receta-quimica" element={<RecetaQuimica />} />
+      <Route path="juegos/cadena-carbono" element={<CadenaCarbono />} />
       <Route path="juegos/nombra-compuesto" element={<NombraCompuesto />} />
       <Route path="juegos/el-laboratorio" element={<ElLaboratorio />} />
       <Route path="juegos/pieza-que-falta" element={<PiezaQueFalta />} />

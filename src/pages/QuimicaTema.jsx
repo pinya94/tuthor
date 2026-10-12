@@ -564,6 +564,13 @@ const MODOS_POR_TEMA = {
       detalles: { es:['2 niveles','10 preguntas','Opción múltiple','Explicación tras cada respuesta'], en:['2 levels','10 questions','Multiple choice','Explanation after each answer'], ca:['2 nivells','10 preguntes','Opció múltiple','Explicació després de cada resposta'] },
       path: 'quimica-organica',
     },
+    {
+      id: 'cadena-carbono-test', emoji: '⛓️', gradient: 'from-zinc-600 to-emerald-700',
+      titulo: { es:'Cadena de Carbono (con el juego)', en:'Carbon Chain (with the game)', ca:'Cadena de Carboni (amb el joc)' },
+      descripcion: { es:'Con la mecánica del juego: moléculas dibujadas para reconocer su familia, nombrarlas, escribir su fórmula y encontrar isómeros.', en:'Using the game mechanic: drawn molecules to recognise their family, name them, write their formula and find isomers.', ca:'Amb la mecànica del joc: molècules dibuixades per reconèixer-ne la família, anomenar-les, escriure’n la fórmula i trobar isòmers.' },
+      detalles: { es:['3 niveles','10 preguntas','Sin cronómetro','Con el juego'], en:['3 levels','10 questions','No timer','With the game'], ca:['3 nivells','10 preguntes','Sense cronòmetre','Amb el joc'] },
+      path: 'cadena-carbono-test',
+    },
   ],
   estequiometria: [
     {

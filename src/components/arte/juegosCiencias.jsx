@@ -287,6 +287,23 @@ function CambioEstado(p) {
   )
 }
 
+function CadenaCarbono(p) {
+  // Propan-2-ol: tres carbonos en fila y el –OH arriba, con el O en rojo.
+  const cs = [[56, 'CH₃'], [120, 'CH'], [184, 'CH₃']]
+  return (
+    <Lienzo {...p}>
+      <line x1="76" y1="83" x2="104" y2="83" stroke="#94A3B8" strokeWidth="3" strokeLinecap="round" />
+      <line x1="136" y1="83" x2="164" y2="83" stroke="#94A3B8" strokeWidth="3" strokeLinecap="round" />
+      <line x1="120" y1="68" x2="120" y2="48" stroke="#94A3B8" strokeWidth="3" strokeLinecap="round" />
+      {cs.map(([x, t]) => <T key={x} x={x} y={90} s={20}>{t}</T>)}
+      <T x={120} y={40} s={20}><tspan fill="#F87171">O</tspan>H</T>
+      <circle cx="96" cy="58" r="9" fill="#FBBF24" />
+      <T x={96} y={62} s={11} c="#1E1B4B" w={900}>2</T>
+      <T x={120} y={120} s={12} c="#CBD5E1">propan-2-ol</T>
+    </Lienzo>
+  )
+}
+
 function RecetaQuimica(p) {
   // La ecuación 2 H₂ + O₂ → 2 H₂O en fichas, con los coeficientes en ámbar.
   const fichas = [[42, '2', 'H₂', 62], [116, '', 'O₂', 46], [196, '2', 'H₂O', 68]]
@@ -667,6 +684,7 @@ export const ARTE_CIENCIAS = {
   'prepara-disolucion': PreparaDisolucion,
   'que-enlace': QueEnlace,
   'receta-quimica': RecetaQuimica,
+  'cadena-carbono': CadenaCarbono,
   'nombra-compuesto': NombraCompuesto,
   'el-laboratorio': ElLaboratorio,
 }

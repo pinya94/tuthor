@@ -585,6 +585,11 @@ export const EXAMS = {
     emoji: '🔣', subject: 'quimica',
     path: 'examen/nombra-compuesto-test', page: () => import('../pages/NombraCompuestoExamen'),
   },
+  'cadena-carbono-test': {
+    label: { es: 'Cadena de Carbono (con el juego)', en: 'Carbon Chain (with the game)', ca: 'Cadena de Carboni (amb el joc)' },
+    emoji: '⛓️', subject: 'quimica',
+    path: 'examen/cadena-carbono-test', page: () => import('../pages/CadenaCarbonoExamen'),
+  },
   'receta-quimica-test': {
     label: { es: 'La Receta Química (con el juego)', en: 'The Chemical Recipe (with the game)', ca: 'La Recepta Química (amb el joc)' },
     emoji: '🥣', subject: 'quimica',

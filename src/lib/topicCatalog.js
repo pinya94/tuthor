@@ -433,7 +433,7 @@ export const TOPIC_CATALOG = {
       disoluciones: examTema({ teoria: 'disoluciones', disolucion: 'prepara-disolucion-test' }, { niveles: ['eso'] }),
       estequiometria: examTema({ teoria: 'estequiometria', receta: 'receta-quimica-test' }, { niveles: ['eso', 'bachillerato'] }),
       'enlace-quimico': examTema({ teoria: 'enlace-quimico', enlace: 'que-enlace-test' }, { niveles: ['eso', 'bachillerato'] }),
-      'quimica-organica': examTema({ teoria: 'quimica-organica' }, { niveles: ['eso', 'bachillerato'] }),
+      'quimica-organica': examTema({ teoria: 'quimica-organica', cadena: 'cadena-carbono-test' }, { niveles: ['eso', 'bachillerato'] }),
     },
     formatos: {
       teoria: examFormato({ es: 'Teoría (tipo test)', en: 'Theory (quiz)', ca: 'Teoria (tipus test)' }, '📝'),
@@ -442,6 +442,7 @@ export const TOPIC_CATALOG = {
       disolucion: examFormato({ es: 'Prepara la Disolución (con el juego)', en: 'Make the Solution (with the game)', ca: 'Prepara la Dissolució (amb el joc)' }, '💧'),
       enlace: examFormato({ es: '¿Qué Enlace? (con el juego)', en: 'Which Bond? (with the game)', ca: 'Quin Enllaç? (amb el joc)' }, '🔗'),
       receta: examFormato({ es: 'La Receta Química (con el juego)', en: 'The Chemical Recipe (with the game)', ca: 'La Recepta Química (amb el joc)' }, '🥣'),
+      cadena: examFormato({ es: 'Cadena de Carbono (con el juego)', en: 'Carbon Chain (with the game)', ca: 'Cadena de Carboni (amb el joc)' }, '⛓️'),
       // Formato por MECÁNICA: la página guarda category = 'estados-materia',
       // así que la tarea del profesor se completa sola al jugarla.
       'estado-test': examFormato({ es: 'Estados de la materia (examen)', en: 'States of matter (exam)', ca: 'Estats de la matèria (examen)' }, '🌡️'),
