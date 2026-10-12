@@ -3445,33 +3445,6 @@ export const FICHAS_EN = {
     ],
     asignatura: 'Biology', niveles: 'Secondary, Sixth form',
   },
-  'que-letra': {
-    titulo: 'Which Letter?',
-    subtitulo: 'Spanish spelling game: b/v, g/j, h, ll/y and c/z with their rules',
-    emoji: '🔠', gradient: 'from-sky-500 to-indigo-700', path: '/juegos/que-letra',
-    intro: 'A Spanish spelling game against the clock for mastering the letters that cause the most doubts. A Spanish word appears with a gap and you choose how it is spelt: b or v, g or j, with or without h, ll or y, c or z. When you answer, the gap fills in with the right letter and the rule behind it appears (verbs ending in -bir, b after m, words ending in -aje, the plural of words ending in z…), or a note that it is an exception, like vivir, hervir, tejer or movilidad. The easy level covers the basic rules; the medium one, more rules; and the hard one, the exceptions, the diaeresis, the silent h in the middle of words and tricky verbs.',
-    beneficios: [
-      { titulo: 'Every word with its rule', texto: 'It is not about memorising single words: each answer comes with a rule that works for many more. Knowing that every verb ending in -bir takes b except hervir, servir and vivir clears up dozens of doubts at once, and the game repeats it with different examples until it sticks.' },
-      { titulo: 'Only one possible answer', texto: 'The words are chosen so only one spelling is correct. Pairs like vaca and baca, tubo and tuvo or echo and hecho, where both exist and depend on meaning, never come up: those are practised separately, with the sentence in front of you.' },
-      { titulo: 'Fast and pressure-free', texto: 'Each word takes a couple of seconds, so a one-minute game reviews twenty or thirty rules. The exam with the same mechanic, untimed and marked, is a good way to check what you have learnt before a test.' },
-    ],
-    ejemplo: '«escri_ir» appears with two options: escribir and escrivir. The rule says verbs ending in -bir are spelt with b, so it is escribir, just like recibir, subir or prohibir. But if «vi_ir» appears, the answer is vivir: it is one of the three exceptions, with hervir and servir, and the game points it out when you answer.',
-    enPapel: {
-      titulo: 'The rule hunter',
-      pasos: [
-        'Pick a Spanish spelling rule (for example, «words ending in -aje are spelt with j») and write it at the top of a sheet.',
-        'Find ten words in a Spanish book or newspaper that follow it and write them down.',
-        'Try to find an exception: if you do, write it in red.',
-        'Swap lists with a classmate and dictate the words to each other.',
-      ],
-    },
-    alternativas: [
-      { nombre: 'Spanish Accents', desc: 'Another Spanish spelling game: find the stressed syllable and decide whether the word takes an accent.' },
-      { nombre: 'Spot the Mistakes', desc: 'Find the spelling mistakes hidden in a whole text.' },
-      { nombre: 'Spell It Out', desc: 'Read a text in Spanish aloud and note every word with b, v, g, j or h: then check which rule each one follows.' },
-    ],
-    asignatura: 'Spanish language', niveles: 'Primary, Secondary',
-  },
   'clave-dicotomica': {
     titulo: 'Dichotomous Key',
     subtitulo: 'Game for classifying living things with a yes-or-no key',
@@ -3742,33 +3715,6 @@ export const FICHAS_EN = {
     ],
     asignatura: 'Art History', niveles: 'Secondary, Sixth Form',
   },
-  'mide-el-verso': {
-    titulo: 'Measure the Verse',
-    subtitulo: 'Spanish metre game: syllables, synalepha, rhyme and stanzas',
-    emoji: '✒️', gradient: 'from-rose-600 to-amber-700', path: '/juegos/mide-el-verso',
-    intro: 'A Spanish-language game for learning to measure verse with real poems: Garcilaso, Góngora, Quevedo, Lope de Vega, Sor Juana, Espronceda, Zorrilla, Bécquer, Rubén Darío, Antonio Machado and Lorca, all in the public domain. Each round shows an excerpt with one or more lines marked. On easy, eight-syllable lines: count the metrical syllables, see whether the last word is stressed on the last, second-to-last or third-to-last syllable, and say whether two lines have full rhyme or assonance. On medium, seven-, nine- and eleven-syllable lines appear and you name them. On hard, alexandrines with a caesura and stanzas: redondilla, cuarteta, cuarteto and romance.',
-    beneficios: [
-      { titulo: 'The count, syllable by syllable', texto: 'When the answer is shown, the line appears split into syllables, with synalephas joined (da‿ha) and the final adjustment: "un-ve-le-ro-ber-gan-tín → 7 + 1 (stressed last) = 8". The mistake is rarely not knowing the rule but applying it wrongly in a particular syllable, and this shows which one.' },
-      { titulo: 'Measured by the rules, not by hand', texto: 'The game works out the answers itself with the textbook rules: diphthongs and hiatus, synalepha, the final-stress rule and the caesura. Before a line goes in, it is checked against the known metre of its poem; lines that need an unusual licence are left out, so the game never contradicts the textbook.' },
-      { titulo: 'From rule to poem', texto: 'The excerpts are well known: "Verde que te quiero verde", "Volverán las oscuras golondrinas", "Caminante, no hay camino". Measuring something that already sounds familiar helps students hear the rhythm of the octosyllable or the hendecasyllable, which is the real goal.' },
-    ],
-    ejemplo: '"Un soneto me manda hacer Violante" appears. Split up: un-so-ne-to-me-man-da-ha-cer-Vio-lan-te, twelve syllables. But "manda" ends in a vowel and "hacer" starts with one (the h is silent): synalepha, da‿ha, leaving eleven. "Violante" is stressed on the second-to-last syllable, so nothing is added or taken away: a hendecasyllable, like the whole sonnet.',
-    enPapel: {
-      titulo: 'Measure a song',
-      pasos: [
-        'Choose the lyrics of a Spanish song or a saying you know by heart.',
-        'Write each line and split it into syllables with hyphens.',
-        'Mark the synalephas with an arc and look at the last word of each line.',
-        'Count and check whether all the lines have the same length: many folk songs are in eight-syllable lines.',
-      ],
-    },
-    alternativas: [
-      { nombre: 'The Figures of Speech exam', desc: 'For recognising metaphors, anaphora or hyperbaton in lines and sentences.' },
-      { nombre: 'Spanish Accents', desc: 'To reinforce stress patterns (aguda, llana, esdrújula), the basis of the final-stress rule.' },
-      { nombre: 'The Literature exam', desc: 'Multiple choice on genres, periods and authors of Spanish literature.' },
-    ],
-    asignatura: 'Language', niveles: 'Upper primary, Secondary, Sixth Form',
-  },
   'encuentra-elemento': {
     titulo: 'Find the Element',
     subtitulo: 'Periodic Table Game',
@@ -3852,33 +3798,6 @@ export const FICHAS_EN = {
       { nombre: 'Always reread backwards', desc: 'Reading your own text backwards, sentence by sentence, breaks automatic reading and surfaces errors you skate over otherwise.' },
     ],
     asignatura: 'Languages', niveles: 'Primary, Secondary',
-  },
-  'pon-la-tilde': {
-    titulo: 'Spanish Accents',
-    subtitulo: 'Accentuation game: agudas, llanas, esdrújulas and hiatus',
-    emoji: '✏️', gradient: 'from-rose-500 to-pink-700', path: '/juegos/pon-la-tilde',
-    intro: 'A language game to stop placing Spanish accents by ear: a word appears WITHOUT its accent, split into syllables, and you do two things in a row. First tap the syllable where the stress falls, then decide whether that means it takes an accent. The order is not arbitrary: the accent rule cannot be applied without first knowing where the stress falls, and that is exactly the step almost everyone skips.',
-    beneficios: [
-      { titulo: 'It separates the two decisions', texto: 'An exercise like "does árbol take an accent?" can be answered by ear with no rule at all. Here you must point at the stressed syllable first, so a student cannot hide that they are unable to locate it — which is where they actually get stuck.' },
-      { titulo: 'The rule, not the list', texto: 'Every word comes with its explanation: why it is aguda, llana or esdrújula, and what the rule says for that case. With repetition, students stop recalling individual words and start applying the same reasoning to any new one.' },
-      { titulo: 'Hiatus, flagged as such', texto: 'Words like día, país or baúl take an accent because they break a diphthong, not because of the aguda/llana rule. They come up mixed in and the explanation says so, instead of leaving the student thinking the rule is broken.' },
-    ],
-    ejemplo: 'Up comes "murcielago", split into mur · cie · la · go. The student taps "cie", where the stress falls, and answers that yes, it takes an accent. Both right — and they read that with the stress on the third-to-last syllable it is esdrújula, and every esdrújula takes an accent without exception: murciélago.',
-    enPapel: {
-      titulo: 'Accents on paper',
-      pasos: [
-        'Take any text and copy out twenty long words with their accents removed.',
-        'Split each one into syllables with dashes and mark the stress with an arrow.',
-        'Write beside it whether it is aguda, llana or esdrújula, and only then decide the accent.',
-        'Check against the original: mistakes are almost always in the arrow, not in the rule.',
-      ],
-    },
-    alternativas: [
-      { nombre: 'The reverse dictation', desc: 'Instead of dictating, hand over a text with no accents and have them added. Correct by asking "where does the stress fall?" before "does it take an accent?".' },
-      { nombre: 'Clap the syllables', desc: 'Clap once per syllable and harder on the stressed one. It sounds like a children\'s game, but it is the fastest way to locate the stress without hesitating.' },
-      { nombre: 'Accent hunting on the phone', desc: 'Look for wrongly placed accents in messages, signs or headlines. Finding real mistakes fixes the rule far better than applying it on a worksheet.' },
-    ],
-    asignatura: 'Spanish language', niveles: 'Primary, Secondary, Sixth Form',
   },
   'microscopio': {
     titulo: 'Under the Microscope',
@@ -5389,33 +5308,6 @@ export const FICHAS_CA = {
     ],
     asignatura: 'Biologia', niveles: 'ESO, Batxillerat',
   },
-  'que-letra': {
-    titulo: 'Quina Lletra Va?',
-    subtitulo: 'Joc d’ortografia castellana: b/v, g/j, h, ll/y i c/z amb les regles',
-    emoji: '🔠', gradient: 'from-sky-500 to-indigo-700', path: '/juegos/que-letra',
-    intro: 'Un joc d’ortografia castellana contra rellotge per dominar les lletres que fan dubtar més. Surt una paraula en castellà amb un forat i cal triar com s’escriu: amb b o amb v, amb g o amb j, amb h o sense, amb ll o amb y, amb c o amb z. En respondre, el forat s’omple amb la lletra correcta i apareix la regla que ho explica (els verbs en -bir, la b després de m, les paraules en -aje, el plural de les acabades en z…) o l’avís que és una excepció, com vivir, hervir, tejer o movilidad. Al nivell fàcil surten les regles bàsiques; al mitjà, més regles; i al difícil, les excepcions, la dièresi, la h intercalada i els verbs amb parany.',
-    beneficios: [
-      { titulo: 'Cada paraula amb la seva regla', texto: 'No es tracta de memoritzar paraules soltes: cada resposta porta la regla que serveix per a moltes més. Saber que tots els verbs en -bir porten b llevat de hervir, servir i vivir resol de cop desenes de dubtes, i el joc ho repeteix amb exemples diferents fins que queda.' },
-      { titulo: 'Només una resposta possible', texto: 'Les paraules estan triades perquè només una forma sigui correcta. No surten parelles com vaca i baca, tubo i tuvo o echo i hecho, en què existeixen totes dues i depenen del significat: aquestes es treballen a part, amb la frase al davant.' },
-      { titulo: 'Ràpid i sense pressió', texto: 'Cada paraula es resol en un parell de segons, així que en una partida d’un minut es repassen vint o trenta regles. L’examen amb la mateixa mecànica, sense rellotge i amb nota, serveix per comprovar el que s’ha après abans d’un control.' },
-    ],
-    ejemplo: 'Surt «escri_ir» amb dues opcions: escribir i escrivir. La regla diu que els verbs acabats en -bir s’escriuen amb b, així que és escribir, igual que recibir, subir o prohibir. Però si surt «vi_ir», la resposta és vivir: és una de les tres excepcions, amb hervir i servir, i el joc ho avisa en corregir.',
-    enPapel: {
-      titulo: 'El caçador de regles',
-      pasos: [
-        'Tria una regla d’ortografia castellana (per exemple, «les paraules acabades en -aje s’escriuen amb j») i escriu-la a dalt d’un full.',
-        'Busca en un llibre o un diari en castellà deu paraules que la compleixin i apunta-les.',
-        'Intenta trobar alguna excepció: si la trobes, apunta-la en vermell.',
-        'Intercanvia la llista amb un company i dicteu-vos les paraules l’un a l’altre.',
-      ],
-    },
-    alternativas: [
-      { nombre: 'Posa l’Accent (castellà)', desc: 'Un altre joc d’ortografia: busca la síl·laba tònica i decideix si la paraula porta accent.' },
-      { nombre: 'Corregeix el Text', desc: 'Troba les faltes d’ortografia amagades en un text sencer.' },
-      { nombre: 'Dictat de regles', desc: 'Llegeix en veu alta un text en castellà i apunta cada paraula amb b, v, g, j o h: després comprova quina regla segueix cadascuna.' },
-    ],
-    asignatura: 'Llengua', niveles: 'Primària, ESO',
-  },
   'clave-dicotomica': {
     titulo: 'Clau dicotòmica',
     subtitulo: 'Joc per classificar éssers vius amb una clau de sí o no',
@@ -5686,33 +5578,6 @@ export const FICHAS_CA = {
     ],
     asignatura: 'Història de l’Art', niveles: 'ESO, Batxillerat',
   },
-  'mide-el-verso': {
-    titulo: 'Mesura el vers',
-    subtitulo: 'Joc de mètrica castellana: síl·labes, sinalefa, rima i estrofes',
-    emoji: '✒️', gradient: 'from-rose-600 to-amber-700', path: '/juegos/mide-el-verso',
-    intro: 'Un joc de Llengua castellana per aprendre a mesurar versos amb poemes de debò: Garcilaso, Góngora, Quevedo, Lope de Vega, Sor Juana, Espronceda, Zorrilla, Bécquer, Rubén Darío, Antonio Machado i Lorca, tots de domini públic. Cada ronda ensenya un fragment amb un o diversos versos assenyalats. Al nivell fàcil, octosíl·labs: comptar les síl·labes mètriques, veure si l’última paraula és aguda, plana o esdrúixola i dir si dos versos rimen en consonant o en assonant. Al mitjà apareixen heptasíl·labs, eneasíl·labs i endecasíl·labs i cal anomenar-los. Al difícil, alexandrins amb cesura i estrofes: redondilla, quarteta, quartet i romanç.',
-    beneficios: [
-      { titulo: 'El compte, síl·laba a síl·laba', texto: 'En corregir apareix el vers partit en síl·labes, amb les sinalefes unides (da‿ha) i l’ajust final: «un-ve-le-ro-ber-gan-tín → 7 + 1 (aguda) = 8». L’error gairebé mai no és no saber la regla, sinó aplicar-la malament en una síl·laba concreta, i així es veu en quina.' },
-      { titulo: 'Mesurat per les regles, no a mà', texto: 'Les respostes les calcula el mateix joc amb les regles dels llibres: diftongs i hiats, sinalefa, llei de l’accent final i cesura. Abans d’entrar, cada vers es comprova amb el metre conegut del poema; els que necessiten una llicència rara es queden fora, perquè el joc mai no contradigui el llibre de text.' },
-      { titulo: 'De la regla al poema', texto: 'Els fragments són coneguts: «Verde que te quiero verde», «Volverán las oscuras golondrinas», «Caminante, no hay camino». Mesurar el que ja sona familiar ajuda a sentir el ritme de l’octosíl·lab o de l’endecasíl·lab, que és el que de debò es busca.' },
-    ],
-    ejemplo: 'Surt «Un soneto me manda hacer Violante». Separant: un-so-ne-to-me-man-da-ha-cer-Vio-lan-te, dotze síl·labes. Però «manda» acaba en vocal i «hacer» comença per vocal (la h no sona): sinalefa, da‿ha, i en queden onze. «Violante» és plana, així que no se suma ni es resta: endecasíl·lab, com tot el sonet.',
-    enPapel: {
-      titulo: 'Mesura una cançó',
-      pasos: [
-        'Trieu la lletra d’una cançó en castellà o una dita que us sapigueu de memòria.',
-        'Escriviu cada vers i separeu-lo en síl·labes amb guions.',
-        'Marqueu les sinalefes amb un arc i mireu l’última paraula de cada vers.',
-        'Compteu i comproveu si tots els versos mesuren el mateix: moltes cançons populars van en octosíl·labs.',
-      ],
-    },
-    alternativas: [
-      { nombre: 'L’examen de Figures Literàries', desc: 'Per reconèixer metàfores, anàfores o hipèrbatons en versos i frases.' },
-      { nombre: 'Posa l’Accent', desc: 'Per afermar agudes, planes i esdrúixoles, que són la base de la llei de l’accent final.' },
-      { nombre: 'L’examen de Literatura', desc: 'Tipus test sobre gèneres, èpoques i autors de la literatura castellana.' },
-    ],
-    asignatura: 'Llengua', niveles: 'Primària (5è i 6è), ESO, Batxillerat',
-  },
   'encuentra-elemento': {
     titulo: 'Troba l\'Element',
     subtitulo: 'Joc de la Taula Periòdica',
@@ -5794,33 +5659,6 @@ export const FICHAS_CA = {
       { nombre: "L'intercanvi d'exàmens", desc: 'Que dos alumnes es corregeixin el mateix text a cegues i comparin. Discutir una paraula dubtosa fixa més que encertar-la a la primera.' },
       { nombre: 'Caçar faltes al carrer', desc: "Cartells, cartes de restaurant, missatges de grup. Trobar una falta real al món ensenya que l'ortografia existeix fora de la fitxa." },
       { nombre: 'Rellegir sempre del final al principi', desc: 'Llegir un text propi cap enrere, frase a frase, trenca la lectura automàtica i fa saltar faltes que de seguit no es veuen.' },
-    ],
-    asignatura: 'Llengua', niveles: 'Primària, ESO, Batxillerat',
-  },
-  'pon-la-tilde': {
-    titulo: 'Posa l\'Accent',
-    subtitulo: 'Joc d\'accentuació castellana: agudes, planes, esdrúixoles i hiats',
-    emoji: '✏️', gradient: 'from-rose-500 to-pink-700', path: '/juegos/pon-la-tilde',
-    intro: 'Un joc de llengua per deixar de posar accents d\'oïda: apareix una paraula SENSE accentuar i partida en síl·labes, i cal fer dues coses seguides. Primer tocar la síl·laba on cau el cop de veu, i després decidir si per això porta accent. Aquest ordre no és un caprici: la regla de l\'accent no es pot aplicar sense saber abans on cau, i aquest és el pas que gairebé tothom es salta.',
-    beneficios: [
-      { titulo: 'Separa les dues decisions', texto: 'Un exercici del tipus "porta accent árbol?" s\'encerta d\'oïda sense saber cap regla. Aquí cal assenyalar la síl·laba tònica abans de respondre, així que l\'alumne no pot amagar que no la sap localitzar.' },
-      { titulo: 'La regla, no la llista', texto: 'Cada paraula surt amb la seva explicació: per què és aguda, plana o esdrúixola, i què diu la regla per a aquest cas. En repetir, l\'alumne deixa de recordar paraules soltes i comença a aplicar el mateix raonament.' },
-      { titulo: 'Els hiats, avisats', texto: 'Paraules com día, país o baúl porten accent per trencar un diftong, no per la regla d\'agudes i planes. Surten barrejades i l\'explicació ho avisa, en comptes de deixar l\'alumne pensant que la regla falla.' },
-    ],
-    ejemplo: 'Surt "murcielago", partida en mur · cie · la · go. L\'alumne toca "cie", que és on cau el cop, i respon que sí que porta accent. Encerta les dues, i llegeix que en caure la força a l\'antepenúltima síl·laba és esdrúixola, i que totes porten accent: murciélago.',
-    enPapel: {
-      titulo: 'Els accents en paper',
-      pasos: [
-        'Agafa un text qualsevol i copia vint paraules llargues traient-los els accents.',
-        'Parteix cadascuna en síl·labes amb ratlles i marca amb una fletxa on cau la força.',
-        'Escriu al costat si és aguda, plana o esdrúixola, i només llavors decideix l\'accent.',
-        'Comprova amb el text original: els errors gairebé sempre són a la fletxa, no a la regla.',
-      ],
-    },
-    alternativas: [
-      { nombre: 'El dictat a l\'inrevés', desc: 'En comptes de dictar, dona-li un text sense accents i que els hi posi. Corregeix preguntant "on cau la força?" abans que "porta accent?".' },
-      { nombre: 'Picar de mans per síl·laba', desc: 'Piqueu de mans un cop per síl·laba i més fort a la tònica. Sona a joc de nens, però és la manera més ràpida de localitzar l\'accent sense dubtar.' },
-      { nombre: 'Caçar accents al mòbil', desc: 'Busqueu accents mal posats en missatges, cartells o titulars. Trobar errors reals fixa la regla molt millor que aplicar-la en una fitxa.' },
     ],
     asignatura: 'Llengua', niveles: 'Primària, ESO, Batxillerat',
   },

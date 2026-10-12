@@ -9,6 +9,7 @@ import SEOHead from '../components/SEOHead'
 import TarjetaArte from '../components/TarjetaArte'
 import { CURSOS_LANDING, landingDe, landingsDe, landingEquivalente } from '../data/landingsCurso'
 import { GAMES as CATALOGO } from '../data/constants'
+import { disponibleEn } from '../lib/games'
 import { ARTE_JUEGOS, slugDeRuta } from '../components/arte'
 import { ARTE_TEMAS } from '../components/arte/temas'
 import { ARTE_MATERIAS, ArteMateria } from '../components/arte/materias'
@@ -63,7 +64,7 @@ function EsquemaLista({ nombre, urls }) {
 function PaginaMateria({ curso, landing }) {
   const { lang, tr, localPath } = useLang()
   const c = CURSOS_LANDING[curso]
-  const juegos = landing.juegos.map(juegoDe).filter(Boolean)
+  const juegos = landing.juegos.filter(slug => disponibleEn(slug, lang)).map(juegoDe).filter(Boolean)
   const hermanas = landingsDe(curso).filter(l => l.materia !== landing.materia)
   const path = `/juegos/${curso}/${landing.materia}`
 
@@ -176,7 +177,7 @@ function PaginaCurso({ curso }) {
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
         {materias.map(l => (
           <TarjetaArte key={l.materia} Arte={ARTE_MATERIAS[l.arteMateria]} titulo={tr(l.nombre)}
-            sub={`${l.juegos.length} ${tr(l.juegos.length === 1 ? { es: 'juego', en: 'game', ca: 'joc' } : { es: 'juegos', en: 'games', ca: 'jocs' })} · ${l.temas.length} ${tr({ es: 'temas', en: 'topics', ca: 'temes' })}`}
+            sub={`${l.juegos.filter(s => disponibleEn(s, lang)).length} ${tr(l.juegos.filter(s => disponibleEn(s, lang)).length === 1 ? { es: 'juego', en: 'game', ca: 'joc' } : { es: 'juegos', en: 'games', ca: 'jocs' })} · ${l.temas.length} ${tr({ es: 'temas', en: 'topics', ca: 'temes' })}`}
             to={localPath(`/juegos/${curso}/${l.materia}`)} />
         ))}
       </div>

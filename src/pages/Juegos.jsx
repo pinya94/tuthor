@@ -2,6 +2,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import Thumbnail from '../components/Thumbnail'
 import { slugDeRuta } from '../components/arte'
 import { GAMES } from '../data/constants'
+import { disponibleEn } from '../lib/games'
 import { useLang } from '../context/LangContext'
 import SEOHead from '../components/SEOHead'
 import { CURSOS_LANDING } from '../data/landingsCurso'
@@ -50,7 +51,7 @@ export default function Juegos() {
       </div>
       <div className="flex-1 overflow-y-auto">
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-5xl mx-auto w-full pb-4">
-          {[...GAMES].sort((a, b) => (b.ready ? 1 : 0) - (a.ready ? 1 : 0)).map(game => (
+          {[...GAMES].filter(g => disponibleEn(slugDeRuta(g.path), lang)).sort((a, b) => (b.ready ? 1 : 0) - (a.ready ? 1 : 0)).map(game => (
             <Thumbnail
               key={game.title}
               title={lt(game)}

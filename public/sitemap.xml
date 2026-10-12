@@ -989,12 +989,10 @@
   <url><loc>https://www.tuthor.es/ca/info/juegos/piramide-poblacion</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.tuthor.es/ca/info/juegos/climograma</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.tuthor.es/ca/info/juegos/que-estilo</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.tuthor.es/ca/info/juegos/mide-el-verso</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.tuthor.es/en/info/juegos/coordenadas</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
   <url><loc>https://www.tuthor.es/en/info/juegos/piramide-poblacion</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
   <url><loc>https://www.tuthor.es/en/info/juegos/climograma</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
   <url><loc>https://www.tuthor.es/en/info/juegos/que-estilo</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
-  <url><loc>https://www.tuthor.es/en/info/juegos/mide-el-verso</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
   <url><loc>https://www.tuthor.es/ca/info/juegos/rayos-x</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.tuthor.es/en/info/juegos/rayos-x</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
   <url><loc>https://www.tuthor.es/ca/info/juegos/circuito-cerrado</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
@@ -1021,8 +1019,6 @@
   <url><loc>https://www.tuthor.es/ca/info/juegos/nombra-compuesto</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.tuthor.es/ca/info/juegos/el-laboratorio</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.tuthor.es/ca/info/juegos/cambio-estado</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.tuthor.es/ca/info/juegos/pon-la-tilde</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.tuthor.es/ca/info/juegos/que-letra</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.tuthor.es/ca/info/juegos/corrige-el-texto</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.tuthor.es/en/info/juegos/lee-la-etiqueta</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
   <url><loc>https://www.tuthor.es/en/info/juegos/clave-dicotomica</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
@@ -1042,8 +1038,6 @@
   <url><loc>https://www.tuthor.es/en/info/juegos/nombra-compuesto</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
   <url><loc>https://www.tuthor.es/en/info/juegos/el-laboratorio</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
   <url><loc>https://www.tuthor.es/en/info/juegos/cambio-estado</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
-  <url><loc>https://www.tuthor.es/en/info/juegos/pon-la-tilde</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
-  <url><loc>https://www.tuthor.es/en/info/juegos/que-letra</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
   <url><loc>https://www.tuthor.es/en/info/juegos/corrige-el-texto</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
   <url><loc>https://www.tuthor.es/ca/info/juegos/microscopio</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.tuthor.es/en/info/juegos/microscopio</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>

@@ -14,7 +14,7 @@
 // de un tema si alguno de sus formatos apunta a ella. Un juego se reconoce
 // también por su examen «<slug>-test».
 import { construirTemario } from './temario'
-import { GAMES } from './games'
+import { GAMES, disponibleEn } from './games'
 import { EXAMS, examRoute } from './exams'
 import { TEMA_DISCIPLINA } from '../data/ciencias'
 
@@ -67,11 +67,11 @@ export function relacionados(id, lang = 'es') {
   const pagina = paginaDelTema(m.id, t.id)
   if (pagina) items.push({ emoji: '📖', label: tx({ es: 'Resumen del tema', en: 'Topic summary', ca: 'Resum del tema' }, lang), ruta: pagina })
   // Desde un examen «con el juego», el juego mismo.
-  if (id !== base && GAMES[base]?.route) {
+  if (id !== base && GAMES[base]?.route && disponibleEn(base, lang)) {
     items.push({ emoji: GAMES[base].emoji, label: tx(GAMES[base].label, lang), ruta: GAMES[base].route })
   }
   for (const f of t.formatos) {
-    if (f.game === id) continue
+    if (f.game === id || (f.game && !disponibleEn(f.game, lang))) continue
     // Desde el juego, su propio examen se presenta como tal, no con el nombre del juego otra vez.
     const label = f.game === `${id}-test` ? tx({ es: 'Examen de este juego (sin reloj)', en: 'This game as a quiz (no timer)', ca: 'Examen d’aquest joc (sense rellotge)' }, lang) : f.label
     items.push({ emoji: f.emoji, label, ruta: rutaDirecta(f) })
@@ -116,7 +116,7 @@ function indice(lang) {
     }
   }
   for (const g of Object.values(GAMES)) {
-    if (!g.route) continue
+    if (!g.route || (g.idiomas && !g.idiomas.includes(lang))) continue
     out.push({ tipo: 'juego', label: tx(g.label, lang), sub: tx({ es: 'Juego', en: 'Game', ca: 'Joc' }, lang), emoji: g.emoji, ruta: g.route })
   }
   for (const e of out) e.clave = normaliza(`${e.label} ${e.sub}`)

@@ -1,4 +1,4 @@
-import { useParams, Link } from 'react-router-dom'
+import { useParams, Link, Navigate } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import SEOHead from '../components/SEOHead'
 import { FICHAS_ES, FICHAS_EN, FICHAS_CA } from '../data/infoJuegosFichas'
@@ -22,6 +22,10 @@ export default function InfoJuegoFicha() {
   const fichas = lang === 'ca' ? FICHAS_CA : lang === 'en' ? FICHAS_EN : FICHAS_ES
   const ui = UI[lang] || UI.es
   const ficha = fichas[slug]
+
+  // Juegos que solo funcionan en castellano (games.js → idiomas): no tienen
+  // ficha en inglés ni en catalán; un enlace antiguo va a la castellana.
+  if (!ficha && FICHAS_ES[slug]) return <Navigate to={`/info/juegos/${slug}`} replace />
 
   if (!ficha) {
     return (

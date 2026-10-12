@@ -522,6 +522,7 @@ export const GAMES = {
     emoji: '✒️',
     subject: 'lengua',
     route: '/juegos/mide-el-verso',
+    idiomas: ['es'], // métrica castellana: ver disponibleEn
     // aciertos × 10 puntos → hasta 200 monedas
     coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
   },
@@ -589,6 +590,7 @@ export const GAMES = {
     emoji: '🔠',
     subject: 'lengua',
     route: '/juegos/que-letra',
+    idiomas: ['es'], // ortografía castellana: ver disponibleEn
     // aciertos × 10 puntos → hasta 200 monedas
     coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
   },
@@ -597,6 +599,7 @@ export const GAMES = {
     emoji: '✏️',
     subject: 'lengua',
     route: '/juegos/pon-la-tilde',
+    idiomas: ['es'], // acentuación castellana: ver disponibleEn
     // aciertos × 10 puntos → hasta 200 monedas
     coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
   },
@@ -619,6 +622,16 @@ export const GAMES = {
 }
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
+
+// ¿Se ofrece este juego en ese idioma? Los que llevan `idiomas` solo funcionan
+// en esos (los de ortografía, acentuación o métrica castellanas): en el resto
+// no salen en el catálogo de juegos, las páginas por curso, el buscador, el
+// índice de fichas ni el bloque «Más para practicar». Acepta también el id de
+// su examen «<juego>-test».
+export function disponibleEn(id, lang = 'es') {
+  const g = GAMES[id] ?? GAMES[String(id).replace(/-test$/, '')]
+  return !g?.idiomas || g.idiomas.includes(lang)
+}
 
 export function isKnownGame(id) {
   return Boolean(GAMES[id])
