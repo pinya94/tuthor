@@ -151,6 +151,11 @@ export const EXAMS = {
     emoji: '🌧️', subject: 'geografia',
     path: 'examen/climograma-test', page: () => import('../pages/ClimogramaExamen'),
   },
+  'europa-27-test': {
+    label: { es: 'Europa a 27 (con el juego)', en: 'Europe of 27 (with the game)', ca: 'Europa a 27 (amb el joc)' },
+    emoji: '⭐', subject: 'geografia',
+    path: 'examen/europa-27-test', page: () => import('../pages/Europa27Examen'),
+  },
   'piramide-poblacion-test': {
     label: { es: 'Pirámide de población (con el juego)', en: 'Population Pyramid (with the game)', ca: 'Piràmide de població (amb el joc)' },
     emoji: '👥', subject: 'geografia',

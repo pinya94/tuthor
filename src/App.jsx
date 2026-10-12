@@ -143,6 +143,7 @@ const LeeLaEtiqueta          = lazy(() => import('./pages/LeeLaEtiqueta'))
 const ClaveDicotomica        = lazy(() => import('./pages/ClaveDicotomica'))
 const Coordenadas            = lazy(() => import('./pages/Coordenadas'))
 const PiramidePoblacion      = lazy(() => import('./pages/PiramidePoblacion'))
+const Europa27               = lazy(() => import('./pages/Europa27'))
 const Climograma             = lazy(() => import('./pages/Climograma'))
 const QueEstilo              = lazy(() => import('./pages/QueEstilo'))
 const MideElVerso            = lazy(() => import('./pages/MideElVerso'))
@@ -363,6 +364,7 @@ function AppRoutes() {
       <Route path="juegos/clave-dicotomica" element={<ClaveDicotomica />} />
       <Route path="juegos/coordenadas" element={<Coordenadas />} />
       <Route path="juegos/piramide-poblacion" element={<PiramidePoblacion />} />
+      <Route path="juegos/europa-27" element={<Europa27 />} />
       <Route path="juegos/climograma" element={<Climograma />} />
       <Route path="juegos/que-estilo" element={<QueEstilo />} />
       <Route path="juegos/mide-el-verso" element={<MideElVerso />} />

@@ -1731,6 +1731,34 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Química', niveles: 'Primaria, ESO',
   },
+  'europa-27': {
+    titulo: 'Europa a 27',
+    subtitulo: 'Juego de la Unión Europea: mapa, euro, Schengen e instituciones',
+    emoji: '⭐', gradient: 'from-blue-600 to-indigo-800',
+    path: '/juegos/europa-27',
+    intro: 'Un juego de geografía para conocer la Unión Europea con el mapa de Europa delante. Salen uno o varios países marcados y hay que decir cuál es, cuál es su capital o cuál de ellos no es miembro de la UE, no usa el euro o no está en el espacio Schengen. En los niveles altos se pregunta el año en que entró cada país, de los seis fundadores de 1957 a Croacia en 2013, y qué hace cada institución (el Parlamento, el Consejo, la Comisión, el Consejo Europeo, el Tribunal de Justicia y el Banco Central Europeo) y dónde tiene su sede. Al corregir, el mapa pinta en azul a los 27 miembros.',
+    beneficios: [
+      { titulo: 'UE, euro y Schengen no son lo mismo', texto: 'Noruega y Suiza están en Schengen pero no en la UE; Dinamarca y Suecia están en la UE pero no usan el euro; Irlanda tiene euro pero no Schengen. Las preguntas de «cuál de estos no…» obligan a separar los tres círculos, que es justo lo que se confunde en los exámenes.' },
+      { titulo: 'Las ampliaciones con fechas', texto: 'Los seis fundadores de 1957, la primera ampliación de 1973, España y Portugal en 1986, la gran ampliación al este de 2004 y la salida del Reino Unido en 2020. Cada explicación recuerda con quién entró cada país, así que las fechas se aprenden por grupos y no sueltas.' },
+      { titulo: 'Quién propone y quién aprueba', texto: 'La Comisión propone las leyes y el Parlamento y el Consejo de la UE las aprueban; el Consejo Europeo reúne a los jefes de Gobierno y no hay que confundirlo con el Consejo de la UE. Las sedes (Bruselas, Estrasburgo, Luxemburgo y Fráncfort) cierran el tema de las instituciones.' },
+    ],
+    ejemplo: 'Salen marcados en el mapa Noruega, Suecia, Finlandia y Dinamarca. ¿Cuál no es miembro de la UE? Noruega: votó dos veces que no a entrar (en 1972 y 1994), aunque está en Schengen y en el Espacio Económico Europeo. Suecia y Finlandia entraron en 1995 y Dinamarca en 1973. Al corregir, el mapa pinta de azul a los tres miembros y deja a Noruega en verde, como respuesta.',
+    enPapel: {
+      titulo: 'Tres círculos que se cruzan',
+      pasos: [
+        'Dibuja tres círculos que se crucen y llámalos «UE», «euro» y «Schengen».',
+        'Coloca dentro a Alemania, Dinamarca, Irlanda, Noruega, Suiza, Polonia, Croacia y Chipre.',
+        'Busca un país que esté en Schengen pero no en la UE, y uno de la UE que no esté en ninguno de los otros dos.',
+        'Compara con el juego: al corregir, el mapa te dice quién es miembro.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'El examen de la Unión Europea', desc: 'Tipo test sobre la historia de la UE, el euro, Schengen, las instituciones y lo que hace la Unión, con explicación en cada respuesta.' },
+      { nombre: 'GeoMapa', desc: 'Señala países del mundo en el mapa, con Europa como una de las regiones.' },
+      { nombre: 'Coordenadas', desc: 'Sitúa capitales del mundo por su latitud y longitud.' },
+    ],
+    asignatura: 'Geografía', niveles: 'ESO, Bachillerato',
+  },
   'piramide-poblacion': {
     titulo: 'Pirámide de población',
     subtitulo: 'Juego para leer e interpretar pirámides de población',
@@ -3663,6 +3691,33 @@ export const FICHAS_EN = {
       { nombre: 'Felt-tip chromatography', desc: 'Draw a dot with a black felt-tip on a strip of kitchen paper, dip the end in water and watch the colours separate.' },
     ],
     asignatura: 'Chemistry', niveles: 'Primary, Secondary',
+  },
+  'europa-27': {
+    titulo: 'Europe of 27',
+    subtitulo: 'European Union game: map, euro, Schengen and institutions',
+    emoji: '⭐', gradient: 'from-blue-600 to-indigo-800', path: '/juegos/europa-27',
+    intro: 'A geography game for getting to know the European Union with the map of Europe in front of you. One or more countries are marked and you say which one it is, what its capital is, or which of them is not an EU member, does not use the euro or is not in the Schengen area. On the higher levels you are asked the year each country joined, from the six founders of 1957 to Croatia in 2013, and what each institution does (the Parliament, the Council, the Commission, the European Council, the Court of Justice and the European Central Bank) and where it is based. When you answer, the map colours the 27 members in blue.',
+    beneficios: [
+      { titulo: 'EU, euro and Schengen are not the same', texto: 'Norway and Switzerland are in Schengen but not in the EU; Denmark and Sweden are in the EU but do not use the euro; Ireland has the euro but not Schengen. The «which of these is not…» questions make you separate the three circles, which is exactly what gets mixed up in exams.' },
+      { titulo: 'Enlargements with dates', texto: 'The six founders of 1957, the first enlargement in 1973, Spain and Portugal in 1986, the big eastward enlargement of 2004 and the United Kingdom leaving in 2020. Every explanation recalls who joined with whom, so the dates are learnt in groups rather than one by one.' },
+      { titulo: 'Who proposes and who decides', texto: 'The Commission proposes laws, and Parliament and the Council of the EU pass them; the European Council brings together heads of government and must not be confused with the Council of the EU. The seats (Brussels, Strasbourg, Luxembourg and Frankfurt) round off the institutions.' },
+    ],
+    ejemplo: 'Norway, Sweden, Finland and Denmark are marked on the map. Which one is not an EU member? Norway: it voted no to joining twice (in 1972 and 1994), although it is in Schengen and the European Economic Area. Sweden and Finland joined in 1995 and Denmark in 1973. When you answer, the map colours the three members blue and leaves Norway in green, as the answer.',
+    enPapel: {
+      titulo: 'Three overlapping circles',
+      pasos: [
+        'Draw three overlapping circles and label them «EU», «euro» and «Schengen».',
+        'Place Germany, Denmark, Ireland, Norway, Switzerland, Poland, Croatia and Cyprus inside them.',
+        'Find a country that is in Schengen but not in the EU, and an EU country that is in neither of the other two.',
+        'Check with the game: when you answer, the map shows who is a member.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'GeoMap', desc: 'Point to countries around the world on the map, with Europe as one of the regions.' },
+      { nombre: 'Coordinates', desc: 'Place world capitals by their latitude and longitude.' },
+      { nombre: 'Population Pyramid', desc: 'A geography game on reading population pyramids.' },
+    ],
+    asignatura: 'Geography', niveles: 'Secondary, Sixth form',
   },
   'piramide-poblacion': {
     titulo: 'Population Pyramid',
@@ -5607,6 +5662,33 @@ export const FICHAS_CA = {
       { nombre: 'Cromatografia amb retoladors', desc: 'Pinta un punt amb retolador negre en una tira de paper de cuina, posa’n la punta a l’aigua i mira com se separen els colors.' },
     ],
     asignatura: 'Química', niveles: 'Primària, ESO',
+  },
+  'europa-27': {
+    titulo: 'Europa a 27',
+    subtitulo: 'Joc de la Unió Europea: mapa, euro, Schengen i institucions',
+    emoji: '⭐', gradient: 'from-blue-600 to-indigo-800', path: '/juegos/europa-27',
+    intro: 'Un joc de geografia per conèixer la Unió Europea amb el mapa d’Europa al davant. Surten un o diversos països marcats i cal dir quin és, quina és la seva capital o quin d’ells no és membre de la UE, no fa servir l’euro o no és a l’espai Schengen. Als nivells alts es pregunta l’any en què va entrar cada país, dels sis fundadors del 1957 a Croàcia el 2013, i què fa cada institució (el Parlament, el Consell, la Comissió, el Consell Europeu, el Tribunal de Justícia i el Banc Central Europeu) i on té la seu. En corregir, el mapa pinta de blau els 27 membres.',
+    beneficios: [
+      { titulo: 'UE, euro i Schengen no són el mateix', texto: 'Noruega i Suïssa són a Schengen però no a la UE; Dinamarca i Suècia són a la UE però no fan servir l’euro; Irlanda té euro però no Schengen. Les preguntes de «quin d’aquests no…» obliguen a separar els tres cercles, que és just el que es confon als exàmens.' },
+      { titulo: 'Les ampliacions amb dates', texto: 'Els sis fundadors del 1957, la primera ampliació del 1973, Espanya i Portugal el 1986, la gran ampliació a l’est del 2004 i la sortida del Regne Unit el 2020. Cada explicació recorda amb qui va entrar cada país, així que les dates s’aprenen per grups i no soltes.' },
+      { titulo: 'Qui proposa i qui aprova', texto: 'La Comissió proposa les lleis i el Parlament i el Consell de la UE les aproven; el Consell Europeu reuneix els caps de Govern i no s’ha de confondre amb el Consell de la UE. Les seus (Brussel·les, Estrasburg, Luxemburg i Frankfurt) tanquen el tema de les institucions.' },
+    ],
+    ejemplo: 'Surten marcats al mapa Noruega, Suècia, Finlàndia i Dinamarca. Quin no és membre de la UE? Noruega: va votar dues vegades que no a entrar-hi (el 1972 i el 1994), tot i que és a Schengen i a l’Espai Econòmic Europeu. Suècia i Finlàndia hi van entrar el 1995 i Dinamarca el 1973. En corregir, el mapa pinta de blau els tres membres i deixa Noruega en verd, com a resposta.',
+    enPapel: {
+      titulo: 'Tres cercles que es creuen',
+      pasos: [
+        'Dibuixa tres cercles que es creuin i anomena’ls «UE», «euro» i «Schengen».',
+        'Col·loca-hi Alemanya, Dinamarca, Irlanda, Noruega, Suïssa, Polònia, Croàcia i Xipre.',
+        'Busca un país que sigui a Schengen però no a la UE, i un de la UE que no sigui a cap dels altres dos.',
+        'Compara amb el joc: en corregir, el mapa et diu qui n’és membre.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'L’examen de la Unió Europea', desc: 'Tipus test sobre la història de la UE, l’euro, Schengen, les institucions i el que fa la Unió, amb explicació a cada resposta.' },
+      { nombre: 'GeoMapa', desc: 'Assenyala països del món al mapa, amb Europa com una de les regions.' },
+      { nombre: 'Coordenades', desc: 'Situa capitals del món per la latitud i la longitud.' },
+    ],
+    asignatura: 'Geografia', niveles: 'ESO, Batxillerat',
   },
   'piramide-poblacion': {
     titulo: 'Piràmide de població',

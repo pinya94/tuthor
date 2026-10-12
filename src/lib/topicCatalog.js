@@ -375,7 +375,7 @@ export const TOPIC_CATALOG = {
       // nada en el mapa, se pregunta por los conceptos (relieve, ríos, clima).
       fisica: examTema({ teoria: 'geografia-fisica-test', climograma: 'climograma-test' }, { niveles: ['primaria', 'eso'] }),
       humana: examTema({ teoria: 'geografia-humana-test', piramide: 'piramide-poblacion-test' }, { niveles: ['primaria', 'eso'] }),
-      'union-europea': examTema({ teoria: 'geografia-ue-test' }, { niveles: ['eso', 'bachillerato'] }),
+      'union-europea': examTema({ teoria: 'geografia-ue-test', europa27: 'europa-27-test' }, { niveles: ['eso', 'bachillerato'] }),
       constitucion: examTema({ teoria: 'geografia-constitucion-test' }, { niveles: ['eso', 'bachillerato'] }),
     },
     formatos: {
@@ -389,6 +389,7 @@ export const TOPIC_CATALOG = {
       teoria: examFormato({ es: 'Teoría (tipo test)', en: 'Theory (quiz)', ca: 'Teoria (tipus test)' }, '📝'),
       climograma: examFormato({ es: 'Climograma (con el juego)', en: 'Climate Graph (with the game)', ca: 'Climograma (amb el joc)' }, '🌧️'),
       piramide: examFormato({ es: 'Pirámide de población (con el juego)', en: 'Population Pyramid (with the game)', ca: 'Piràmide de població (amb el joc)' }, '👥'),
+      europa27: examFormato({ es: 'Europa a 27 (con el juego)', en: 'Europe of 27 (with the game)', ca: 'Europa a 27 (amb el joc)' }, '⭐'),
     },
   },
 

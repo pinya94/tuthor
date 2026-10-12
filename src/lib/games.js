@@ -566,6 +566,14 @@ export const GAMES = {
     // aciertos × 10 puntos → hasta 200 monedas
     coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
   },
+  'europa-27': {
+    label: { es: 'Europa a 27', en: 'Europe of 27', ca: 'Europa a 27' },
+    emoji: '⭐',
+    subject: 'geografia',
+    route: '/juegos/europa-27',
+    // aciertos × 10 puntos → hasta 200 monedas
+    coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
+  },
   'piramide-poblacion': {
     label: { es: 'Pirámide de población', en: 'Population Pyramid', ca: 'Piràmide de població' },
     emoji: '👥',

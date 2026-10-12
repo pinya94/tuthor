@@ -201,6 +201,24 @@ function Coordenadas(p) {
   )
 }
 
+function Europa27(p) {
+  // El círculo de doce estrellas de la bandera europea sobre azul.
+  const estrella = (cx, cy, r) => Array.from({ length: 10 }, (_, i) => {
+    const a = -Math.PI / 2 + (i * Math.PI) / 5, rr = i % 2 ? r * 0.42 : r
+    return `${(cx + rr * Math.cos(a)).toFixed(1)},${(cy + rr * Math.sin(a)).toFixed(1)}`
+  }).join(' ')
+  return (
+    <Lienzo {...p}>
+      <rect x="62" y="14" width="116" height="80" rx="8" fill="#1D4ED8" />
+      {Array.from({ length: 12 }, (_, i) => {
+        const a = (i / 12) * Math.PI * 2
+        return <polygon key={i} points={estrella(120 + 28 * Math.cos(a), 54 + 28 * Math.sin(a), 6)} fill="#FACC15" />
+      })}
+      <T x={120} y={118} s={13} c="#CBD5E1">27</T>
+    </Lienzo>
+  )
+}
+
 function PiramidePoblacion(p) {
   // Una pirámide regresiva con un hueco señalado.
   const filas = [26, 34, 42, 50, 54, 56, 54, 50, 44, 36, 26]
@@ -260,6 +278,7 @@ export const ARTE_HISTORIA_GEO = {
   geomapa: GeoMapa,
   coordenadas: Coordenadas,
   'piramide-poblacion': PiramidePoblacion,
+  'europa-27': Europa27,
   climograma: Climograma,
   'que-estilo': QueEstilo,
 }
