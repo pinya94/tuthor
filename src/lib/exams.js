@@ -879,6 +879,11 @@ export const EXAMS = {
     emoji: '🖋️', subject: 'lengua',
     path: 'examen/espanol-literatura-test', page: () => import('../pages/EspanolLiteraturaExamen'),
   },
+  'cazafiguras-test': {
+    label: { es: 'Cazafiguras (con el juego)', en: 'Cazafiguras (with the game)', ca: 'Cazafiguras (amb el joc)' },
+    emoji: '🎭', subject: 'lengua',
+    path: 'examen/cazafiguras-test', page: () => import('../pages/CazafigurasExamen'),
+  },
   'coma-a-coma-test': {
     label: { es: 'Coma a Coma (con el juego)', en: 'Coma a Coma (with the game)', ca: 'Coma a Coma (amb el joc)' },
     emoji: '🖋️', subject: 'lengua',

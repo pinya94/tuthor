@@ -159,6 +159,7 @@ const Microscopio            = lazy(() => import('./pages/Microscopio'))
 const PonLaTilde             = lazy(() => import('./pages/PonLaTilde'))
 const QueLetra               = lazy(() => import('./pages/QueLetra'))
 const ComaAComa              = lazy(() => import('./pages/ComaAComa'))
+const Cazafiguras            = lazy(() => import('./pages/Cazafiguras'))
 const CorrigeElTexto         = lazy(() => import('./pages/CorrigeElTexto'))
 const CambioEstado           = lazy(() => import('./pages/CambioEstado'))
 const MedidorPh              = lazy(() => import('./pages/MedidorPh'))
@@ -254,6 +255,7 @@ function AppRoutes() {
       <Route path="juegos/pon-la-tilde" element={<PonLaTilde />} />
       <Route path="juegos/que-letra" element={<QueLetra />} />
       <Route path="juegos/coma-a-coma" element={<ComaAComa />} />
+      <Route path="juegos/cazafiguras" element={<Cazafiguras />} />
       <Route path="juegos/corrige-el-texto" element={<CorrigeElTexto />} />
       <Route path="juegos/cambio-estado" element={<CambioEstado />} />
       <Route path="juegos/medidor-ph" element={<MedidorPh />} />

@@ -414,7 +414,7 @@ export const LANDINGS = [
       en: ['Subject and predicate', 'Objects: direct, indirect and adverbial', 'Parts of speech in context', 'Accents and punctuation', 'Proofreading and literature'],
       ca: ['Subjecte i predicat', 'Complements: CD, CI i circumstancials', 'Classes de paraules en context', 'Accentuació i puntuació', 'Correcció de textos i literatura'],
     },
-    juegos: ['analiza-frases', 'mide-el-verso', 'pon-la-tilde', 'que-letra', 'coma-a-coma', 'corrige-el-texto', 'intruso'],
+    juegos: ['analiza-frases', 'mide-el-verso', 'cazafiguras', 'pon-la-tilde', 'que-letra', 'coma-a-coma', 'corrige-el-texto', 'intruso'],
     temas: [
       { arte: 'gramatica/sintaxis', ruta: '/estudiar/idiomas/espanol/gramatica/sintaxis', titulo: T('Sintaxis', 'Syntax', 'Sintaxi') },
       { arte: 'gramatica/verbos', ruta: '/estudiar/idiomas/espanol/gramatica/verbos', titulo: T('Verbos', 'Verbs', 'Verbs') },
@@ -739,7 +739,7 @@ export const LANDINGS = [
       en: ['Simple and complex sentence syntax', 'Verb complements', 'Figures of speech', 'Spanish literature', 'Text types and textual properties'],
       ca: ['Sintaxi de l’oració simple i composta', 'Complements del verb', 'Figures literàries', 'Literatura castellana', 'Tipus de text i propietats textuals'],
     },
-    juegos: ['analiza-frases', 'mide-el-verso', 'corrige-el-texto'],
+    juegos: ['analiza-frases', 'mide-el-verso', 'cazafiguras', 'corrige-el-texto'],
     temas: [
       { arte: 'gramatica/sintaxis', ruta: '/estudiar/idiomas/espanol/gramatica/sintaxis', titulo: T('Sintaxis', 'Syntax', 'Sintaxi') },
       { arte: 'lengua/figuras', ruta: '/examen/espanol-figuras-test', titulo: T('Figuras literarias', 'Figures of speech', 'Figures literàries') },

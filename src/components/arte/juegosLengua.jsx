@@ -92,6 +92,21 @@ function PiezaQueFalta(p) {
   )
 }
 
+function Cazafiguras(p) {
+  // Un verso con una palabra resaltada y una lupa encima.
+  return (
+    <Lienzo {...p}>
+      <rect x="18" y="36" width="204" height="52" rx="10" fill="#1E293B" stroke="#475569" strokeWidth="2" />
+      <T x={58} y={68} s={15} c="#CBD5E1" w={600}>Tus ojos</T>
+      <rect x="98" y="51" width="104" height="24" rx="5" fill="#F59E0B" opacity="0.35" />
+      <T x={150} y={68} s={15} c="#FDE68A">son luceros</T>
+      <circle cx="176" cy="44" r="20" fill="none" stroke="#E879F9" strokeWidth="5" />
+      <line x1="190" y1="58" x2="210" y2="80" stroke="#E879F9" strokeWidth="7" strokeLinecap="round" />
+      <T x={120} y={114} s={12} c="#E879F9">Metáfora</T>
+    </Lienzo>
+  )
+}
+
 function ComaAComa(p) {
   // Una frase con su hueco y, al lado, los signos que se pueden poner.
   return (
@@ -182,6 +197,7 @@ export const ARTE_LENGUA = {
   'pon-la-tilde': PonLaTilde,
   'que-letra': QueLetra,
   'coma-a-coma': ComaAComa,
+  cazafiguras: Cazafiguras,
   'mide-el-verso': MideElVerso,
   'corrige-el-texto': CorrigeElTexto,
 }

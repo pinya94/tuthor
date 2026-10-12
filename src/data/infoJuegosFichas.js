@@ -1647,6 +1647,34 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Biología', niveles: 'ESO, Bachillerato',
   },
+  cazafiguras: {
+    titulo: 'Cazafiguras',
+    subtitulo: 'Juego de figuras literarias: metáfora, hipérbole, anáfora, paradoja y más',
+    emoji: '🎭', gradient: 'from-fuchsia-600 to-purple-800',
+    path: '/juegos/cazafiguras',
+    intro: 'Un juego de lengua y literatura para reconocer las figuras literarias como se piden en los exámenes: en un verso o en una frase. Salen versos de clásicos en dominio público (Jorge Manrique, Garcilaso, Fray Luis de León, Santa Teresa, Góngora, Quevedo, Bécquer, Zorrilla o Lorca) y frases de ejemplo, y hay que elegir la figura: metáfora, comparación, personificación, hipérbole, onomatopeya, anáfora, aliteración, epíteto, hipérbaton, antítesis, interrogación retórica y, en el nivel difícil, paradoja, oxímoron, sinestesia, metonimia, polisíndeton y asíndeton. Al corregir se resaltan las palabras que forman la figura y aparece su definición.',
+    beneficios: [
+      { titulo: 'Una sola respuesta, aunque haya varias figuras', texto: 'Un verso de verdad suele tener varias figuras a la vez: en «Verde que te quiero verde» hay anáfora, pero también epíteto y sinestesia. El juego conoce las que también aparecen y no las ofrece como falsas, así que nunca se marca mal algo que un profesor daría por bueno.' },
+      { titulo: 'Las parejas que se confunden', texto: 'Metáfora o comparación, antítesis o paradoja, paradoja u oxímoron, polisíndeton o asíndeton, epíteto o sinestesia: las opciones falsas son justo la figura vecina, que es donde se falla en los exámenes. La definición al corregir marca la diferencia.' },
+      { titulo: 'Ver dónde está la figura', texto: 'No basta con decir «hay una metáfora»: hay que saber señalarla. Resaltar las palabras exactas («son los ríos», «hielo abrasador», «Llegué, vi, vencí») entrena a localizar la figura en el texto, que es lo que pide un comentario.' },
+    ],
+    ejemplo: 'Sale «Es hielo abrasador, es fuego helado», de Quevedo. ¿Qué figura es? Un oxímoron: junta dos palabras de significado opuesto que se aplican a lo mismo (hielo y abrasador, fuego y helado). También hay metáfora, antítesis y anáfora, así que esas no salen como opciones falsas; la trampa es la paradoja, que contradice una idea entera y no dos palabras juntas.',
+    enPapel: {
+      titulo: 'Fábrica de figuras',
+      pasos: [
+        'Elige un tema sencillo: el mar, tu calle, un examen.',
+        'Escribe una frase sobre él con cada figura: una metáfora, una comparación, una personificación y una hipérbole.',
+        'Intercambia las frases con un compañero y que adivine qué figura es cada una.',
+        'Comprueba en el juego las figuras en las que hayáis dudado.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'El examen de figuras literarias', desc: 'Tipo test con más versos y frases, incluidos paralelismo, sinécdoque, retruécano y elipsis, con explicación en cada respuesta.' },
+      { nombre: 'Mide el verso', desc: 'Cuenta las sílabas de un verso, encuentra la rima y nombra la estrofa.' },
+      { nombre: 'Analiza la Frase', desc: 'Sintaxis y gramática: señala el sujeto, el verbo y los complementos.' },
+    ],
+    asignatura: 'Lengua', niveles: 'ESO, Bachillerato',
+  },
   'coma-a-coma': {
     titulo: 'Coma a Coma',
     subtitulo: 'Juego de puntuación: coma, punto y coma, dos puntos y signos de interrogación',
