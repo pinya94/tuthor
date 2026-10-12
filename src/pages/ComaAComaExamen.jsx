@@ -5,10 +5,10 @@ import { genRound, esCorrecta, schemaQuestion } from '../lib/comaAComa'
 
 // Examen con la mecánica de Coma a Coma: las mismas frases con hueco, sin reloj.
 const LEVELS = [
-  { key: 'primaria', emoji: '🟢', difficulty: 'facil',
+  { key: 'primaria', emoji: '💚', difficulty: 'facil',
     label: { es: 'Primaria', en: 'Primary', ca: 'Primària' },
     hint: { es: 'Vocativos, enumeraciones, ¿? y ¡!', en: 'Vocatives, lists, ¿? and ¡!', ca: 'Vocatius, enumeracions, ¿? i ¡!' } },
-  { key: 'eso', emoji: '🟡', difficulty: 'medio',
+  { key: 'eso', emoji: '💛', difficulty: 'medio',
     label: { es: 'Secundaria (ESO)', en: 'Secondary (ESO)', ca: 'Secundària (ESO)' },
     hint: { es: 'Incisos, conectores y dos puntos', en: 'Asides, connectors and colons', ca: 'Incisos, connectors i dos punts' } },
   { key: 'bachillerato', emoji: '🔴', difficulty: 'dificil',

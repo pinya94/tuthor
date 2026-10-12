@@ -17,9 +17,9 @@ const CORRECT_TIME = 4
 const REVEAL_MS = 4500 // da tiempo a ver la frase puntuada y la regla
 
 const DIFS = {
-  facil:   { emoji: '🟢', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
+  facil:   { emoji: '💚', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
              desc: { es: 'Vocativos, enumeraciones, ¿preguntas? y ¡exclamaciones!', en: 'Vocatives, lists, questions and exclamations', ca: 'Vocatius, enumeracions, preguntes i exclamacions' } },
-  medio:   { emoji: '🟡', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
+  medio:   { emoji: '💛', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
              desc: { es: 'Incisos, conectores, dos puntos y la coma que sobra', en: 'Asides, connectors, colons and the comma that should not be there', ca: 'Incisos, connectors, dos punts i la coma que sobra' } },
   dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' },
              desc: { es: 'Punto y coma, verbo omitido y el porqué de cada signo', en: 'Semicolons, omitted verbs and the reason for each mark', ca: 'Punt i coma, verb omès i el perquè de cada signe' } },

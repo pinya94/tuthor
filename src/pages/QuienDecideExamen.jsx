@@ -5,10 +5,10 @@ import { genRound, esCorrecta, schemaQuestion } from '../lib/quienDecide'
 
 // Examen con la mecánica de ¿Quién Decide?: el mismo organigrama y los mismos casos, sin reloj.
 const LEVELS = [
-  { key: 'primaria', emoji: '🟢', difficulty: 'facil',
+  { key: 'primaria', emoji: '💚', difficulty: 'facil',
     label: { es: 'Básico', en: 'Basic', ca: 'Bàsic' },
     hint: { es: 'Poderes, órganos y números', en: 'Powers, bodies and numbers', ca: 'Poders, òrgans i números' } },
-  { key: 'eso', emoji: '🟡', difficulty: 'medio',
+  { key: 'eso', emoji: '💛', difficulty: 'medio',
     label: { es: 'Secundaria (ESO)', en: 'Secondary (ESO)', ca: 'Secundària (ESO)' },
     hint: { es: 'Derechos, deberes y competencias', en: 'Rights, duties and powers', ca: 'Drets, deures i competències' } },
   { key: 'bachillerato', emoji: '🔴', difficulty: 'dificil',

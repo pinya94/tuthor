@@ -17,9 +17,9 @@ const CORRECT_TIME = 4
 const REVEAL_MS = 4800 // da tiempo a ver el mapa coloreado y la explicación
 
 const DIFS = {
-  facil:   { emoji: '🟢', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
+  facil:   { emoji: '💚', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
              desc: { es: 'Países de la UE en el mapa, capitales y quién es miembro', en: 'EU countries on the map, capitals and who is a member', ca: 'Països de la UE al mapa, capitals i qui n’és membre' } },
-  medio:   { emoji: '🟡', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
+  medio:   { emoji: '💛', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
              desc: { es: 'El euro, las ampliaciones y las instituciones', en: 'The euro, enlargements and institutions', ca: 'L’euro, les ampliacions i les institucions' } },
   dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' },
              desc: { es: 'Schengen, años de entrada y sedes', en: 'Schengen, joining years and seats', ca: 'Schengen, anys d’entrada i seus' } },

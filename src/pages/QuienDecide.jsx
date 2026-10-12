@@ -17,9 +17,9 @@ const CORRECT_TIME = 4
 const REVEAL_MS = 4800 // da tiempo a ver el organigrama iluminado y la explicación
 
 const DIFS = {
-  facil:   { emoji: '🟢', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
+  facil:   { emoji: '💚', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
              desc: { es: 'Los tres poderes, los órganos del Estado y sus números', en: 'The three powers, the bodies of the State and their numbers', ca: 'Els tres poders, els òrgans de l’Estat i els seus números' } },
-  medio:   { emoji: '🟡', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
+  medio:   { emoji: '💛', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
              desc: { es: 'Derechos y deberes, y competencias del Estado y las autonomías', en: 'Rights and duties, and State and regional powers', ca: 'Drets i deures, i competències de l’Estat i les autonomies' } },
   dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' },
              desc: { es: 'El camino de una ley, paso a paso', en: 'How a law is made, step by step', ca: 'El camí d’una llei, pas a pas' } },

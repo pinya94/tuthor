@@ -5,10 +5,10 @@ import { genRound, esCorrecta, schemaQuestion } from '../lib/cadenaCarbono'
 
 // Examen con la mecánica de Cadena de Carbono: las mismas moléculas, sin reloj.
 const LEVELS = [
-  { key: 'primaria', emoji: '🟢', difficulty: 'facil',
+  { key: 'primaria', emoji: '💚', difficulty: 'facil',
     label: { es: 'Básico', en: 'Basic', ca: 'Bàsic' },
     hint: { es: 'Familias, nombres y fórmulas', en: 'Families, names and formulas', ca: 'Famílies, noms i fórmules' } },
-  { key: 'eso', emoji: '🟡', difficulty: 'medio',
+  { key: 'eso', emoji: '💛', difficulty: 'medio',
     label: { es: 'Secundaria (ESO)', en: 'Secondary (ESO)', ca: 'Secundària (ESO)' },
     hint: { es: 'Localizadores y del nombre a la fórmula', en: 'Locants and from name to formula', ca: 'Localitzadors i del nom a la fórmula' } },
   { key: 'bachillerato', emoji: '🔴', difficulty: 'dificil',

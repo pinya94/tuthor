@@ -5,10 +5,10 @@ import { genRound, esCorrecta, schemaQuestion } from '../lib/recetaQuimica'
 
 // Examen con la mecánica de La Receta Química: las mismas ecuaciones, sin reloj.
 const LEVELS = [
-  { key: 'primaria', emoji: '🟢', difficulty: 'facil',
+  { key: 'primaria', emoji: '💚', difficulty: 'facil',
     label: { es: 'Básico', en: 'Basic', ca: 'Bàsic' },
     hint: { es: 'Masa molar, moles y proporciones', en: 'Molar mass, moles and ratios', ca: 'Massa molar, mols i proporcions' } },
-  { key: 'eso', emoji: '🟡', difficulty: 'medio',
+  { key: 'eso', emoji: '💛', difficulty: 'medio',
     label: { es: 'Secundaria (ESO)', en: 'Secondary (ESO)', ca: 'Secundària (ESO)' },
     hint: { es: 'Coeficientes, Avogadro y gramos', en: 'Coefficients, Avogadro and grams', ca: 'Coeficients, Avogadro i grams' } },
   { key: 'bachillerato', emoji: '🔴', difficulty: 'dificil',

@@ -17,9 +17,9 @@ const CORRECT_TIME = 4
 const REVEAL_MS = 4800 // da tiempo a leer la explicación
 
 const DIFS = {
-  facil:   { emoji: '🟢', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
+  facil:   { emoji: '💚', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
              desc: { es: 'Microbios, quién causa cada enfermedad y cómo se contagia', en: 'Microbes, what causes each disease and how it spreads', ca: 'Microbis, qui causa cada malaltia i com s’encomana' } },
-  medio:   { emoji: '🟡', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
+  medio:   { emoji: '💛', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
              desc: { es: 'Células o no, antibióticos, defensas del cuerpo y contagios', en: 'Cells or not, antibiotics, the body’s defences and infections', ca: 'Cèl·lules o no, antibiòtics, defenses del cos i contagis' } },
   dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' },
              desc: { es: 'Tipos de inmunidad, crecimiento de un brote e inmunidad de grupo', en: 'Types of immunity, outbreak growth and herd immunity', ca: 'Tipus d’immunitat, creixement d’un brot i immunitat de grup' } },

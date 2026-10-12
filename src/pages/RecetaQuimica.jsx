@@ -17,9 +17,9 @@ const CORRECT_TIME = 4
 const REVEAL_MS = 5000 // da tiempo a ver la ecuación resuelta y la cuenta
 
 const DIFS = {
-  facil:   { emoji: '🟢', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
+  facil:   { emoji: '💚', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
              desc: { es: 'Masa molar, gramos a moles y proporciones sencillas', en: 'Molar mass, grams to moles and simple ratios', ca: 'Massa molar, grams a mols i proporcions senzilles' } },
-  medio:   { emoji: '🟡', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
+  medio:   { emoji: '💛', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
              desc: { es: 'Proporciones con los coeficientes, Avogadro y de gramos a gramos', en: 'Ratios with coefficients, Avogadro and grams to grams', ca: 'Proporcions amb els coeficients, Avogadro i de grams a grams' } },
   dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' },
              desc: { es: 'De gramos a gramos y el reactivo limitante', en: 'Grams to grams and the limiting reactant', ca: 'De grams a grams i el reactiu limitant' } },

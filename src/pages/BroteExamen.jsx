@@ -5,10 +5,10 @@ import { genRound, esCorrecta, schemaQuestion } from '../lib/brote'
 
 // Examen con la mecánica de ¡Brote!: los mismos microbios y casos, sin reloj.
 const LEVELS = [
-  { key: 'primaria', emoji: '🟢', difficulty: 'facil',
+  { key: 'primaria', emoji: '💚', difficulty: 'facil',
     label: { es: 'Básico', en: 'Basic', ca: 'Bàsic' },
     hint: { es: 'Microbios, causas y contagio', en: 'Microbes, causes and spread', ca: 'Microbis, causes i contagi' } },
-  { key: 'eso', emoji: '🟡', difficulty: 'medio',
+  { key: 'eso', emoji: '💛', difficulty: 'medio',
     label: { es: 'Secundaria (ESO)', en: 'Secondary (ESO)', ca: 'Secundària (ESO)' },
     hint: { es: 'Antibióticos, defensas y contagios', en: 'Antibiotics, defences and infections', ca: 'Antibiòtics, defenses i contagis' } },
   { key: 'bachillerato', emoji: '🔴', difficulty: 'dificil',

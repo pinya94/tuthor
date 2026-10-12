@@ -17,9 +17,9 @@ const CORRECT_TIME = 4
 const REVEAL_MS = 4800 // da tiempo a ver la cadena numerada y la explicación
 
 const DIFS = {
-  facil:   { emoji: '🟢', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
+  facil:   { emoji: '💚', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
              desc: { es: 'Familias, nombres sin localizador y fórmulas moleculares', en: 'Families, names without locants and molecular formulas', ca: 'Famílies, noms sense localitzador i fórmules moleculars' } },
-  medio:   { emoji: '🟡', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
+  medio:   { emoji: '💛', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
              desc: { es: 'Nombres con localizador y del nombre a la fórmula', en: 'Names with locants and from name to formula', ca: 'Noms amb localitzador i del nom a la fórmula' } },
   dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' },
              desc: { es: 'Ramificaciones, numeración e isómeros', en: 'Branches, numbering and isomers', ca: 'Ramificacions, numeració i isòmers' } },

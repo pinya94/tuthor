@@ -5,10 +5,10 @@ import { genRound, esCorrecta, schemaQuestion } from '../lib/europa27'
 
 // Examen con la mecánica de Europa a 27: el mismo mapa y las mismas preguntas, sin reloj.
 const LEVELS = [
-  { key: 'primaria', emoji: '🟢', difficulty: 'facil',
+  { key: 'primaria', emoji: '💚', difficulty: 'facil',
     label: { es: 'Básico', en: 'Basic', ca: 'Bàsic' },
     hint: { es: 'Mapa, capitales y miembros', en: 'Map, capitals and members', ca: 'Mapa, capitals i membres' } },
-  { key: 'eso', emoji: '🟡', difficulty: 'medio',
+  { key: 'eso', emoji: '💛', difficulty: 'medio',
     label: { es: 'Secundaria (ESO)', en: 'Secondary (ESO)', ca: 'Secundària (ESO)' },
     hint: { es: 'Euro, ampliaciones e instituciones', en: 'Euro, enlargements and institutions', ca: 'Euro, ampliacions i institucions' } },
   { key: 'bachillerato', emoji: '🔴', difficulty: 'dificil',
