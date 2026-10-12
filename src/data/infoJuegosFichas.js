@@ -1479,6 +1479,34 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Matemáticas', niveles: 'ESO, Bachillerato',
   },
+  'receta-quimica': {
+    titulo: 'La Receta Química',
+    subtitulo: 'Juego de estequiometría: moles, masa molar y reactivo limitante',
+    emoji: '🥣', gradient: 'from-amber-500 to-orange-700',
+    path: '/juegos/receta-quimica',
+    intro: 'Un juego de química para aprender estequiometría tratando la reacción ajustada como una receta. Sale la ecuación en fichas, con los coeficientes en grande, el dato debajo de una sustancia y un «?» bajo la que se busca. Hay que calcular masas molares a partir de las masas atómicas, pasar de gramos a moles, usar los coeficientes para saber cuántos moles se forman o hacen falta, pasar de gramos de una sustancia a gramos de otra, contar partículas con el número de Avogadro y, en el nivel difícil, encontrar el reactivo limitante. Las reacciones son las de los libros: la formación del agua, la combustión del metano y del propano, la síntesis del amoniaco o la descomposición de la caliza. Al corregir se rellena el hueco y se explica la cuenta paso a paso.',
+    beneficios: [
+      { titulo: 'Los coeficientes hablan de moles', texto: 'El error más repetido en estequiometría es leer 2 H₂ + O₂ → 2 H₂O como si fueran gramos. El juego obliga a pasar siempre por los moles: de gramos a moles con la masa molar, de una sustancia a otra con los coeficientes y de vuelta a gramos. Las opciones equivocadas son justo las de quien se salta un paso.' },
+      { titulo: 'El limitante no es el que menos hay', texto: 'Con 3 mol de hidrógeno y 2 de oxígeno, el que se acaba es el hidrógeno, aunque haya más: la receta pide el doble. Al corregir se marca qué reactivo se acaba y cuál sobra, que es lo que piden los problemas de 4.º de ESO y de Bachillerato.' },
+      { titulo: 'Masas molares sin calculadora', texto: 'Las masas atómicas son las redondeadas de clase (H = 1, C = 12, O = 16…) y al corregir la masa molar se ve el desglose por átomos. Así se practica el razonamiento y no la calculadora, y las cuentas salen exactas.' },
+    ],
+    ejemplo: 'Sale 2 H₂ + O₂ → 2 H₂O con «8 g» debajo del hidrógeno y un «?» bajo el agua: ¿cuántos gramos de agua se forman? La masa molar del H₂ es 2 g/mol, así que 8 g son 4 mol. La receta dice que 2 mol de H₂ dan 2 mol de agua, de modo que se forman 4 mol de agua. Como el agua pesa 18 g/mol, son 4 · 18 = 72 g. Quien multiplica 8 por los coeficientes sin pasar por moles da con una de las opciones trampa.',
+    enPapel: {
+      titulo: 'Bocadillos y reactivo limitante',
+      pasos: [
+        'Escribe la «receta» de un bocadillo: 2 rebanadas de pan + 1 loncha de queso → 1 bocadillo.',
+        'Imagina que tienes 10 rebanadas y 7 lonchas. ¿Cuántos bocadillos salen y qué sobra?',
+        'Haz lo mismo con 2 H₂ + O₂ → 2 H₂O y 6 mol de H₂ con 5 mol de O₂.',
+        'Comprueba que el reactivo limitante no siempre es el que hay en menor cantidad.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'El examen de Estequiometría', desc: 'Tipo test sobre el mol, la masa molar, las proporciones de una reacción y el reactivo limitante, con explicación en cada respuesta.' },
+      { nombre: 'Átomos en Equilibrio', desc: 'El paso anterior: ajustar la reacción antes de usarla como receta.' },
+      { nombre: 'Prepara la Disolución', desc: 'Otro juego de química con moles: concentración, gramos por litro y diluciones.' },
+    ],
+    asignatura: 'Química', niveles: 'ESO, Bachillerato',
+  },
   'que-enlace': {
     titulo: '¿Qué Enlace?',
     subtitulo: 'Juego de enlace químico: iónico, covalente y metálico',
@@ -3364,6 +3392,33 @@ export const FICHAS_EN = {
     ],
     asignatura: 'Mathematics', niveles: 'Secondary, Sixth form',
   },
+  'receta-quimica': {
+    titulo: 'The Chemical Recipe',
+    subtitulo: 'Stoichiometry game: moles, molar mass and limiting reactant',
+    emoji: '🥣', gradient: 'from-amber-500 to-orange-700', path: '/juegos/receta-quimica',
+    intro: 'A chemistry game for learning stoichiometry by treating the balanced reaction as a recipe. The equation appears as tiles, with the coefficients in large type, the data under one substance and a «?» under the one you want. You calculate molar masses from atomic masses, convert grams to moles, use the coefficients to work out how many moles form or are needed, go from grams of one substance to grams of another, count particles with Avogadro’s number and, on the hard level, find the limiting reactant. The reactions are the textbook ones: forming water, burning methane and propane, making ammonia or decomposing limestone. When you answer, the gap fills in and the working is explained step by step.',
+    beneficios: [
+      { titulo: 'Coefficients are about moles', texto: 'The most common stoichiometry mistake is reading 2 H₂ + O₂ → 2 H₂O as if it were grams. The game always makes you go through moles: grams to moles with the molar mass, one substance to another with the coefficients, and back to grams. The wrong options are exactly those of someone who skips a step.' },
+      { titulo: 'The limiting reactant is not the smallest amount', texto: 'With 3 mol of hydrogen and 2 of oxygen, hydrogen runs out first even though there is more of it: the recipe needs twice as much. When you answer, the game marks which reactant runs out and which is left over, which is what exam problems ask for.' },
+      { titulo: 'Molar masses without a calculator', texto: 'Atomic masses are the rounded classroom values (H = 1, C = 12, O = 16…) and the molar mass answer shows the breakdown by atoms. You practise the reasoning, not the calculator, and the numbers come out exact.' },
+    ],
+    ejemplo: '2 H₂ + O₂ → 2 H₂O appears with «8 g» under hydrogen and a «?» under water: how many grams of water form? The molar mass of H₂ is 2 g/mol, so 8 g is 4 mol. The recipe says 2 mol of H₂ give 2 mol of water, so 4 mol of water form. Water is 18 g/mol, so that is 4 · 18 = 72 g. Anyone who multiplies 8 by the coefficients without going through moles lands on one of the trap options.',
+    enPapel: {
+      titulo: 'Sandwiches and the limiting reactant',
+      pasos: [
+        'Write the «recipe» for a sandwich: 2 slices of bread + 1 slice of cheese → 1 sandwich.',
+        'Imagine you have 10 slices of bread and 7 of cheese. How many sandwiches can you make, and what is left over?',
+        'Do the same with 2 H₂ + O₂ → 2 H₂O and 6 mol of H₂ with 5 mol of O₂.',
+        'Check that the limiting reactant is not always the one there is least of.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'Atoms in Balance', desc: 'The step before: balance the reaction before using it as a recipe.' },
+      { nombre: 'Make the Solution', desc: 'Another chemistry game with moles: concentration, grams per litre and dilutions.' },
+      { nombre: 'Which Bond?', desc: 'A chemistry game on ionic, covalent and metallic bonding.' },
+    ],
+    asignatura: 'Chemistry', niveles: 'Secondary, Sixth form',
+  },
   'que-enlace': {
     titulo: 'Which Bond?',
     subtitulo: 'Chemical bonding game: ionic, covalent and metallic',
@@ -5226,6 +5281,33 @@ export const FICHAS_CA = {
       { nombre: 'Balança Algebraica', desc: 'Resol equacions de primer grau, que és el que cal per saber quin terme d’una progressió val un nombre donat.' },
     ],
     asignatura: 'Matemàtiques', niveles: 'ESO, Batxillerat',
+  },
+  'receta-quimica': {
+    titulo: 'La Recepta Química',
+    subtitulo: 'Joc d’estequiometria: mols, massa molar i reactiu limitant',
+    emoji: '🥣', gradient: 'from-amber-500 to-orange-700', path: '/juegos/receta-quimica',
+    intro: 'Un joc de química per aprendre estequiometria tractant la reacció ajustada com una recepta. Surt l’equació en fitxes, amb els coeficients en gran, la dada sota una substància i un «?» sota la que es busca. Cal calcular masses molars a partir de les masses atòmiques, passar de grams a mols, fer servir els coeficients per saber quants mols es formen o calen, passar de grams d’una substància a grams d’una altra, comptar partícules amb el nombre d’Avogadro i, al nivell difícil, trobar el reactiu limitant. Les reaccions són les dels llibres: la formació de l’aigua, la combustió del metà i del propà, la síntesi de l’amoníac o la descomposició de la calcària. En corregir s’omple el buit i s’explica el compte pas a pas.',
+    beneficios: [
+      { titulo: 'Els coeficients parlen de mols', texto: 'L’error més repetit en estequiometria és llegir 2 H₂ + O₂ → 2 H₂O com si fossin grams. El joc obliga a passar sempre pels mols: de grams a mols amb la massa molar, d’una substància a una altra amb els coeficients i de tornada a grams. Les opcions equivocades són justament les de qui se salta un pas.' },
+      { titulo: 'El limitant no és el que n’hi ha menys', texto: 'Amb 3 mol d’hidrogen i 2 d’oxigen, el que s’acaba és l’hidrogen, encara que n’hi hagi més: la recepta en demana el doble. En corregir es marca quin reactiu s’acaba i quin sobra, que és el que demanen els problemes de 4t d’ESO i de Batxillerat.' },
+      { titulo: 'Masses molars sense calculadora', texto: 'Les masses atòmiques són les arrodonides de classe (H = 1, C = 12, O = 16…) i en corregir la massa molar es veu el desglossament per àtoms. Així es practica el raonament i no la calculadora, i els comptes surten exactes.' },
+    ],
+    ejemplo: 'Surt 2 H₂ + O₂ → 2 H₂O amb «8 g» sota l’hidrogen i un «?» sota l’aigua: quants grams d’aigua es formen? La massa molar de l’H₂ és 2 g/mol, així que 8 g són 4 mol. La recepta diu que 2 mol d’H₂ donen 2 mol d’aigua, de manera que es formen 4 mol d’aigua. Com que l’aigua pesa 18 g/mol, són 4 · 18 = 72 g. Qui multiplica 8 pels coeficients sense passar per mols arriba a una de les opcions trampa.',
+    enPapel: {
+      titulo: 'Entrepans i reactiu limitant',
+      pasos: [
+        'Escriu la «recepta» d’un entrepà: 2 llesques de pa + 1 llesca de formatge → 1 entrepà.',
+        'Imagina que tens 10 llesques de pa i 7 de formatge. Quants entrepans en surten i què sobra?',
+        'Fes el mateix amb 2 H₂ + O₂ → 2 H₂O i 6 mol d’H₂ amb 5 mol d’O₂.',
+        'Comprova que el reactiu limitant no sempre és el que n’hi ha en menys quantitat.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'L’examen d’Estequiometria', desc: 'Tipus test sobre el mol, la massa molar, les proporcions d’una reacció i el reactiu limitant, amb explicació a cada resposta.' },
+      { nombre: 'Àtoms en Equilibri', desc: 'El pas anterior: ajustar la reacció abans de fer-la servir com a recepta.' },
+      { nombre: 'Prepara la Dissolució', desc: 'Un altre joc de química amb mols: concentració, grams per litre i dilucions.' },
+    ],
+    asignatura: 'Química', niveles: 'ESO, Batxillerat',
   },
   'que-enlace': {
     titulo: 'Quin Enllaç?',

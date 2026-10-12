@@ -573,6 +573,13 @@ const MODOS_POR_TEMA = {
       detalles: { es:['2 niveles','10 preguntas','Opción múltiple','Explicación tras cada respuesta'], en:['2 levels','10 questions','Multiple choice','Explanation after each answer'], ca:['2 nivells','10 preguntes','Opció múltiple','Explicació després de cada resposta'] },
       path: 'estequiometria',
     },
+    {
+      id: 'receta-quimica-test', emoji: '🥣', gradient: 'from-amber-500 to-orange-700',
+      titulo: { es:'La Receta Química (con el juego)', en:'The Chemical Recipe (with the game)', ca:'La Recepta Química (amb el joc)' },
+      descripcion: { es:'Con la mecánica del juego: la ecuación ajustada en fichas; masa molar, moles, proporciones, gramos y reactivo limitante.', en:'Using the game mechanic: the balanced equation as tiles; molar mass, moles, ratios, grams and limiting reactant.', ca:'Amb la mecànica del joc: l’equació ajustada en fitxes; massa molar, mols, proporcions, grams i reactiu limitant.' },
+      detalles: { es:['3 niveles','10 preguntas','Sin cronómetro','Con el juego'], en:['3 levels','10 questions','No timer','With the game'], ca:['3 nivells','10 preguntes','Sense cronòmetre','Amb el joc'] },
+      path: 'receta-quimica-test',
+    },
   ],
   movimiento: [
     {

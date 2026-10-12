@@ -287,6 +287,25 @@ function CambioEstado(p) {
   )
 }
 
+function RecetaQuimica(p) {
+  // La ecuación 2 H₂ + O₂ → 2 H₂O en fichas, con los coeficientes en ámbar.
+  const fichas = [[42, '2', 'H₂', 62], [116, '', 'O₂', 46], [196, '2', 'H₂O', 68]]
+  return (
+    <Lienzo {...p}>
+      {fichas.map(([cx, c, f, w]) => (
+        <g key={f}>
+          <rect x={cx - w / 2} y="44" width={w} height="40" rx="9" fill="#1E293B" stroke="#94A3B8" strokeWidth="2" />
+          <T x={cx} y={70} s={17}>{c && <tspan fill="#FBBF24">{c} </tspan>}{f}</T>
+        </g>
+      ))}
+      <T x={83} y={70} s={18} c="#94A3B8">+</T>
+      <T x={151} y={70} s={16} c="#94A3B8">→</T>
+      <T x={196} y={106} s={14} c="#FBBF24">?</T>
+      <T x={42} y={106} s={11} c="#CBD5E1">4 mol</T>
+    </Lienzo>
+  )
+}
+
 function QueEnlace(p) {
   // Un trozo de tabla periódica: Na (metal, azul) y Cl (no metal, verde)
   // marcados, y el electrón que pasa de uno a otro.
@@ -647,6 +666,7 @@ export const ARTE_CIENCIAS = {
   'medidor-ph': MedidorPh,
   'prepara-disolucion': PreparaDisolucion,
   'que-enlace': QueEnlace,
+  'receta-quimica': RecetaQuimica,
   'nombra-compuesto': NombraCompuesto,
   'el-laboratorio': ElLaboratorio,
 }

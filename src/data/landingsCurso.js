@@ -821,7 +821,7 @@ export const LANDINGS = [
       en: ['x-t and v-t graphs: slope and area', 'Uniform and accelerated motion, free fall', 'Newton’s laws, friction and inclined planes', 'Momentum and gravitation', 'The mole, ideal gases and stoichiometry', 'Inorganic chemical formulas'],
       ca: ['Gràfiques x-t i v-t: pendent i àrea', 'MRU, MRUA i caiguda lliure', 'Lleis de Newton, fregament i pla inclinat', 'Moment lineal i gravitació', 'El mol, gasos ideals i estequiometria', 'Formulació inorgànica'],
     },
-    juegos: ['lee-el-movimiento', 'fuerza-neta', 'newton-accion', 'nombra-compuesto', 'balanza-ecuaciones', 'encuentra-elemento', 'medidor-ph', 'prepara-disolucion', 'que-enlace'],
+    juegos: ['lee-el-movimiento', 'fuerza-neta', 'newton-accion', 'nombra-compuesto', 'balanza-ecuaciones', 'encuentra-elemento', 'medidor-ph', 'prepara-disolucion', 'que-enlace', 'receta-quimica'],
     temas: [
       { arte: 'fisica/movimiento', ruta: '/estudiar/fisica/movimiento', titulo: T('El movimiento', 'Motion', 'El moviment') },
       { arte: 'fisica/dinamica', ruta: '/estudiar/fisica/dinamica', titulo: T('Dinámica', 'Dynamics', 'Dinàmica') },

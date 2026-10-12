@@ -437,6 +437,7 @@
   <url><loc>https://www.tuthor.es/examen/medidor-ph-test</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/examen/prepara-disolucion-test</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/examen/que-enlace-test</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/examen/receta-quimica-test</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/examen/nombra-compuesto-test</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/examen/el-laboratorio-test</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/examen/cambio-estado-test</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
@@ -656,6 +657,7 @@
   <url><loc>https://www.tuthor.es/juegos/medidor-ph</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/juegos/prepara-disolucion</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/juegos/que-enlace</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/juegos/receta-quimica</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/juegos/nombra-compuesto</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/juegos/el-laboratorio</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/juegos/cambio-estado</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
@@ -895,6 +897,7 @@
   <url><loc>https://www.tuthor.es/info/juegos/medidor-ph</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/info/juegos/prepara-disolucion</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/info/juegos/que-enlace</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/info/juegos/receta-quimica</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/info/juegos/nombra-compuesto</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/info/juegos/el-laboratorio</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/info/juegos/cambio-estado</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
@@ -1016,6 +1019,7 @@
   <url><loc>https://www.tuthor.es/ca/info/juegos/medidor-ph</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.tuthor.es/ca/info/juegos/prepara-disolucion</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.tuthor.es/ca/info/juegos/que-enlace</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/ca/info/juegos/receta-quimica</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.tuthor.es/ca/info/juegos/nombra-compuesto</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.tuthor.es/ca/info/juegos/el-laboratorio</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.tuthor.es/ca/info/juegos/cambio-estado</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
@@ -1035,6 +1039,7 @@
   <url><loc>https://www.tuthor.es/en/info/juegos/medidor-ph</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
   <url><loc>https://www.tuthor.es/en/info/juegos/prepara-disolucion</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
   <url><loc>https://www.tuthor.es/en/info/juegos/que-enlace</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://www.tuthor.es/en/info/juegos/receta-quimica</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
   <url><loc>https://www.tuthor.es/en/info/juegos/nombra-compuesto</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
   <url><loc>https://www.tuthor.es/en/info/juegos/el-laboratorio</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
   <url><loc>https://www.tuthor.es/en/info/juegos/cambio-estado</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
