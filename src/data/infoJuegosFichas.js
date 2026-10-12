@@ -1591,6 +1591,34 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Física', niveles: 'ESO (4.º), Bachillerato',
   },
+  brote: {
+    titulo: '¡Brote!',
+    subtitulo: 'Juego de salud y enfermedad: microbios, contagio, defensas y vacunas',
+    emoji: '🦠', gradient: 'from-rose-500 to-red-700',
+    path: '/juegos/brote',
+    intro: 'Un juego de biología para entender las enfermedades infecciosas y cómo se defiende el cuerpo. Salen microbios dibujados (virus, bacteriófagos, bacilos, cocos, espirilos, levaduras, mohos, amebas y paramecios) para reconocer qué son y si son células; enfermedades de libro, de la gripe a la malaria, para decir qué microbio las causa, cómo se contagian y si los antibióticos sirven contra él; casos para distinguir las tres líneas de defensa y los tipos de inmunidad; y, en los niveles altos, cómo crece un brote cuando cada enfermo contagia a varios y qué parte de la población hay que vacunar para frenarlo. Cada respuesta trae su explicación.',
+    beneficios: [
+      { titulo: 'Antibióticos solo contra bacterias', texto: 'El error más extendido sobre salud es pensar que un antibiótico cura la gripe. Cada vez que sale una enfermedad se pregunta si los antibióticos pueden atacar a su microbio, y la explicación recuerda por qué tomarlos sin necesidad crea bacterias resistentes.' },
+      { titulo: 'Las defensas, en orden', texto: 'La piel y el moco son barreras; la inflamación, la fiebre y los fagocitos, la defensa inespecífica; los linfocitos y los anticuerpos, la específica, la que tiene memoria. Los casos cotidianos (una herida que se hincha, no volver a pasar la varicela) obligan a ponerle nombre a cada una.' },
+      { titulo: 'Las matemáticas de una epidemia', texto: 'Si cada enfermo contagia a tres, los casos van 1, 3, 9, 27…: se multiplican, no se suman. Y para frenar una enfermedad con R₀ = 4 hay que vacunar al menos al 75 % (1 − 1/R₀). Es la idea de la inmunidad de grupo, contada con un dibujo.' },
+    ],
+    ejemplo: 'Sale «Tuberculosis» y la pregunta: ¿pueden los antibióticos atacar al microbio que la causa? Sí: la tuberculosis la causa una bacteria, y los antibióticos actúan contra bacterias (eso sí, como diga el médico y hasta el final). En cambio, si sale «Gripe», la respuesta es no: la causa un virus, y contra los virus los antibióticos no hacen nada.',
+    enPapel: {
+      titulo: 'El brote de la purpurina',
+      pasos: [
+        'Una persona de la clase se pone un poco de purpurina en la mano: es el «enfermo».',
+        'Da la mano a dos compañeros, y cada uno de ellos a otros dos. Contad cuántos tienen purpurina tras cada ronda.',
+        'Repetid el juego, pero ahora la mitad de la clase lleva guantes («vacunados») y no se contagia ni contagia.',
+        'Comparad: ¿cuánto crece el brote con y sin vacunados? Lavaos bien las manos al terminar.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'El examen de Salud y Enfermedad', desc: 'Tipo test sobre bacterias y virus, contagio, defensas del cuerpo, vacunas, antibióticos y enfermedades no infecciosas, con explicación en cada respuesta.' },
+      { nombre: 'Bajo el Microscopio', desc: 'La célula y sus orgánulos, dibujados y en fotos reales de microscopio.' },
+      { nombre: 'Lee la Etiqueta', desc: 'Otro juego de salud: leer las etiquetas de los alimentos, el azúcar y las raciones.' },
+    ],
+    asignatura: 'Biología', niveles: 'ESO, Bachillerato',
+  },
   'arbol-vida': {
     titulo: 'Árbol de la Vida',
     subtitulo: 'Juego de evolución: árboles evolutivos, Darwin y Lamarck',
@@ -3528,6 +3556,33 @@ export const FICHAS_EN = {
     ],
     asignatura: 'Physics', niveles: 'Upper secondary, Sixth form',
   },
+  brote: {
+    titulo: 'Outbreak!',
+    subtitulo: 'Health and disease game: microbes, infection, defences and vaccines',
+    emoji: '🦠', gradient: 'from-rose-500 to-red-700', path: '/juegos/brote',
+    intro: 'A biology game for understanding infectious diseases and how the body defends itself. Drawn microbes appear (viruses, bacteriophages, bacilli, cocci, spirilla, yeasts, moulds, amoebas and paramecia) for you to identify and say whether they are cells; textbook diseases, from flu to malaria, to say which microbe causes them, how they spread and whether antibiotics work against it; cases to tell apart the three lines of defence and the types of immunity; and, on the higher levels, how an outbreak grows when each sick person infects several others and what share of the population must be vaccinated to stop it. Every answer comes with an explanation.',
+    beneficios: [
+      { titulo: 'Antibiotics only work on bacteria', texto: 'The most widespread health myth is that antibiotics cure flu. Every time a disease appears the game asks whether antibiotics can attack its microbe, and the explanation recalls why taking them needlessly breeds resistant bacteria.' },
+      { titulo: 'The defences, in order', texto: 'Skin and mucus are barriers; inflammation, fever and phagocytes are the non-specific defence; lymphocytes and antibodies are the specific one, the one with memory. Everyday cases (a wound that swells, never catching chickenpox again) make you name each one.' },
+      { titulo: 'The maths of an epidemic', texto: 'If each sick person infects three, cases go 1, 3, 9, 27…: they multiply, they do not add. And to stop a disease with R₀ = 4 you must vaccinate at least 75 % (1 − 1/R₀). That is the idea of herd immunity, shown with a drawing.' },
+    ],
+    ejemplo: '«Tuberculosis» appears with the question: can antibiotics attack the microbe that causes it? Yes: tuberculosis is caused by a bacterium, and antibiotics act against bacteria (taken as the doctor says, to the end). But if «Flu» appears, the answer is no: it is caused by a virus, and antibiotics do nothing against viruses.',
+    enPapel: {
+      titulo: 'The glitter outbreak',
+      pasos: [
+        'One person in the class puts a little glitter on their hand: they are the «sick» one.',
+        'They shake hands with two classmates, and each of them with two more. Count how many have glitter after each round.',
+        'Play again, but this time half the class wears gloves («vaccinated») and neither catches nor passes it on.',
+        'Compare: how much does the outbreak grow with and without vaccinated people? Wash your hands well afterwards.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'Under the Microscope', desc: 'The cell and its organelles, drawn and in real microscope photos.' },
+      { nombre: 'Read the Label', desc: 'Another health game: reading food labels, sugar and portions.' },
+      { nombre: 'Tree of Life', desc: 'A biology game on evolution: family trees, Darwin and the history of life.' },
+    ],
+    asignatura: 'Biology', niveles: 'Secondary, Sixth form',
+  },
   'arbol-vida': {
     titulo: 'Tree of Life',
     subtitulo: 'Evolution game: evolutionary trees, Darwin and Lamarck',
@@ -5444,6 +5499,33 @@ export const FICHAS_CA = {
       { nombre: 'Llegeix el moviment', desc: 'Gràfiques de posició i velocitat: el que passa amb el moviment quan hi ha acceleració.' },
     ],
     asignatura: 'Física', niveles: 'ESO (4t), Batxillerat',
+  },
+  brote: {
+    titulo: 'Brot!',
+    subtitulo: 'Joc de salut i malaltia: microbis, contagi, defenses i vacunes',
+    emoji: '🦠', gradient: 'from-rose-500 to-red-700', path: '/juegos/brote',
+    intro: 'Un joc de biologia per entendre les malalties infeccioses i com es defensa el cos. Surten microbis dibuixats (virus, bacteriòfags, bacils, cocs, espirils, llevats, floridures, amebes i paramecis) per reconèixer què són i si són cèl·lules; malalties de llibre, de la grip a la malària, per dir quin microbi les causa, com s’encomanen i si els antibiòtics hi serveixen; casos per distingir les tres línies de defensa i els tipus d’immunitat; i, als nivells alts, com creix un brot quan cada malalt n’encomana uns quants i quina part de la població cal vacunar per frenar-lo. Cada resposta porta la seva explicació.',
+    beneficios: [
+      { titulo: 'Antibiòtics només contra bacteris', texto: 'L’error més estès sobre salut és pensar que un antibiòtic cura la grip. Cada vegada que surt una malaltia es pregunta si els antibiòtics poden atacar el seu microbi, i l’explicació recorda per què prendre’ls sense necessitat crea bacteris resistents.' },
+      { titulo: 'Les defenses, en ordre', texto: 'La pell i el moc són barreres; la inflamació, la febre i els fagòcits, la defensa inespecífica; els limfòcits i els anticossos, l’específica, la que té memòria. Els casos quotidians (una ferida que s’infla, no tornar a passar la varicel·la) obliguen a posar nom a cadascuna.' },
+      { titulo: 'Les matemàtiques d’una epidèmia', texto: 'Si cada malalt n’encomana tres, els casos van 1, 3, 9, 27…: es multipliquen, no se sumen. I per frenar una malaltia amb R₀ = 4 cal vacunar almenys el 75 % (1 − 1/R₀). És la idea de la immunitat de grup, explicada amb un dibuix.' },
+    ],
+    ejemplo: 'Surt «Tuberculosi» i la pregunta: poden els antibiòtics atacar el microbi que la causa? Sí: la tuberculosi la causa un bacteri, i els antibiòtics actuen contra bacteris (això sí, com digui el metge i fins al final). En canvi, si surt «Grip», la resposta és no: la causa un virus, i contra els virus els antibiòtics no fan res.',
+    enPapel: {
+      titulo: 'El brot de la purpurina',
+      pasos: [
+        'Una persona de la classe es posa una mica de purpurina a la mà: és el «malalt».',
+        'Dona la mà a dos companys, i cadascun d’ells a dos més. Compteu quants tenen purpurina després de cada ronda.',
+        'Repetiu el joc, però ara la meitat de la classe porta guants («vacunats») i no s’encomana ni encomana.',
+        'Compareu: quant creix el brot amb vacunats i sense? Renteu-vos bé les mans en acabar.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'L’examen de Salut i Malaltia', desc: 'Tipus test sobre bacteris i virus, contagi, defenses del cos, vacunes, antibiòtics i malalties no infeccioses, amb explicació a cada resposta.' },
+      { nombre: 'Sota el Microscopi', desc: 'La cèl·lula i els seus orgànuls, dibuixats i en fotos reals de microscopi.' },
+      { nombre: 'Llegeix l’Etiqueta', desc: 'Un altre joc de salut: llegir les etiquetes dels aliments, el sucre i les racions.' },
+    ],
+    asignatura: 'Biologia', niveles: 'ESO, Batxillerat',
   },
   'arbol-vida': {
     titulo: 'Arbre de la Vida',

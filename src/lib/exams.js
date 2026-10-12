@@ -520,6 +520,11 @@ export const EXAMS = {
     emoji: '🌋', subject: 'geologia',
     path: 'examen/placas-movimiento-test', page: () => import('../pages/PlacasMovimientoExamen'),
   },
+  'brote-test': {
+    label: { es: '¡Brote! (con el juego)', en: 'Outbreak! (with the game)', ca: 'Brot! (amb el joc)' },
+    emoji: '🦠', subject: 'biologia',
+    path: 'examen/brote-test', page: () => import('../pages/BroteExamen'),
+  },
   'arbol-vida-test': {
     label: { es: 'Árbol de la Vida (con el juego)', en: 'Tree of Life (with the game)', ca: 'Arbre de la Vida (amb el joc)' },
     emoji: '🦒', subject: 'biologia',

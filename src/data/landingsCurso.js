@@ -540,7 +540,7 @@ export const LANDINGS = [
       en: ['The cell and its organelles', 'Genetics: heredity and Punnett squares', 'Human body anatomy', 'Ecosystems and food chains', 'The solar system and plate tectonics'],
       ca: ['La cèl·lula i els seus orgànuls', 'Genètica: herència i quadre de Punnett', 'Anatomia del cos humà', 'Ecosistemes i cadenes tròfiques', 'El sistema solar i les plaques tectòniques'],
     },
-    juegos: ['microscopio', 'genetica', 'arbol-vida', 'clave-dicotomica', 'ciclo-rocas', 'placas-movimiento', 'rayos-x', 'lee-la-etiqueta', 'cadena-alimentaria', 'el-tiempo', 'orbita'],
+    juegos: ['microscopio', 'genetica', 'arbol-vida', 'brote', 'clave-dicotomica', 'ciclo-rocas', 'placas-movimiento', 'rayos-x', 'lee-la-etiqueta', 'cadena-alimentaria', 'el-tiempo', 'orbita'],
     temas: [
       { arte: 'biologia/celula', ruta: '/estudiar/biologia/celula', titulo: T('La célula', 'The cell', 'La cèl·lula') },
       { arte: 'biologia/genetica', ruta: '/estudiar/biologia/genetica', titulo: T('Genética', 'Genetics', 'Genètica') },
@@ -901,7 +901,7 @@ export const LANDINGS = [
       en: ['The cell and its organelles', 'Mendelian genetics', 'Evolution and natural selection', 'The immune system and vaccines', 'Plate tectonics and climate change'],
       ca: ['La cèl·lula i els seus orgànuls', 'Genètica mendeliana', 'Evolució i selecció natural', 'Sistema immunitari i vacunes', 'Tectònica de plaques i canvi climàtic'],
     },
-    juegos: ['microscopio', 'genetica', 'cadena-alimentaria', 'el-tiempo', 'climograma'],
+    juegos: ['microscopio', 'genetica', 'brote', 'cadena-alimentaria', 'el-tiempo', 'climograma'],
     temas: [
       { arte: 'biologia/celula', ruta: '/estudiar/biologia/celula', titulo: T('La célula', 'The cell', 'La cèl·lula') },
       { arte: 'biologia/genetica', ruta: '/estudiar/biologia/genetica', titulo: T('Genética', 'Genetics', 'Genètica') },

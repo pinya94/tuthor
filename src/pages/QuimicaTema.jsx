@@ -292,6 +292,13 @@ const MODOS_POR_TEMA = {
       detalles: { es:['2 niveles','10 preguntas','Opción múltiple','Explicación tras cada respuesta'], en:['2 levels','10 questions','Multiple choice','Explanation after each answer'], ca:['2 nivells','10 preguntes','Opció múltiple','Explicació després de cada resposta'] },
       path: 'salud-enfermedad',
     },
+    {
+      id: 'brote-test', emoji: '🦠', gradient: 'from-rose-500 to-red-700',
+      titulo: { es:'¡Brote! (con el juego)', en:'Outbreak! (with the game)', ca:'Brot! (amb el joc)' },
+      descripcion: { es:'Con la mecánica del juego: microbios dibujados, qué causa cada enfermedad y cómo se contagia, antibióticos, defensas, inmunidad y brotes.', en:'Using the game mechanic: drawn microbes, what causes each disease and how it spreads, antibiotics, defences, immunity and outbreaks.', ca:'Amb la mecànica del joc: microbis dibuixats, què causa cada malaltia i com s’encomana, antibiòtics, defenses, immunitat i brots.' },
+      detalles: { es:['3 niveles','10 preguntas','Sin cronómetro','Con el juego'], en:['3 levels','10 questions','No timer','With the game'], ca:['3 nivells','10 preguntes','Sense cronòmetre','Amb el joc'] },
+      path: 'brote-test',
+    },
   ],
   'placas-tectonicas': [
     {

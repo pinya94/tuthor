@@ -529,6 +529,22 @@ function PlacasMovimiento(p) {
   )
 }
 
+function Brote(p) {
+  // Un virus con espículas, un bacilo con flagelo y un anticuerpo en Y.
+  const espigas = Array.from({ length: 12 }, (_, i) => (i / 12) * Math.PI * 2)
+  return (
+    <Lienzo {...p}>
+      {espigas.map(a => <circle key={a} cx={62 + 30 * Math.cos(a)} cy={66 + 30 * Math.sin(a)} r="5" fill="#F472B6" />)}
+      <circle cx="62" cy="66" r="24" fill="#C084FC" stroke="#0F172A" strokeWidth="2" />
+      <path d="M50 64 q6 -10 12 0 t12 0" stroke="#FDE68A" strokeWidth="3" fill="none" />
+      <path d="M178 62 q8 -10 16 0 t16 0" stroke="#86EFAC" strokeWidth="3" fill="none" />
+      <rect x="114" y="48" width="66" height="28" rx="14" fill="#4ADE80" stroke="#0F172A" strokeWidth="2" />
+      <path d="M150 122 L150 100 M150 100 L136 86 M150 100 L164 86" stroke="#FBBF24" strokeWidth="6" strokeLinecap="round" />
+      <T x={120} y={118} s={11} c="#CBD5E1">R₀</T>
+    </Lienzo>
+  )
+}
+
 function ArbolVida(p) {
   // Un árbol evolutivo de cuatro especies con el antepasado común marcado.
   const X = [48, 96, 144, 192]
@@ -666,6 +682,7 @@ export const ARTE_CIENCIAS = {
   'el-tiempo': ElTiempo,
   'ciclo-rocas': CicloRocas,
   'arbol-vida': ArbolVida,
+  brote: Brote,
   'placas-movimiento': PlacasMovimiento,
   engranajes: Engranajes,
   'lee-el-movimiento': LeeElMovimiento,

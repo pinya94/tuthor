@@ -470,7 +470,7 @@ export const TOPIC_CATALOG = {
       genetica: examTema({ teoria: 'genetica', 'punnett': 'genetica-test' }, { niveles: ['eso'] }),
       nutricion: examTema({ teoria: 'nutricion', etiqueta: 'lee-la-etiqueta-test' }, { niveles: ['primaria', 'eso'] }),
       evolucion: examTema({ teoria: 'evolucion', arbol: 'arbol-vida-test' }, { niveles: ['eso', 'bachillerato'] }),
-      'salud-enfermedad': examTema({ teoria: 'salud-enfermedad' }, { niveles: ['eso', 'bachillerato'] }),
+      'salud-enfermedad': examTema({ teoria: 'salud-enfermedad', brote: 'brote-test' }, { niveles: ['eso', 'bachillerato'] }),
     },
     formatos: {
       teoria: examFormato({ es: 'Teoría (tipo test)', en: 'Theory (quiz)', ca: 'Teoria (tipus test)' }, '📝'),
@@ -478,6 +478,7 @@ export const TOPIC_CATALOG = {
       rayosX: examFormato({ es: 'Rayos X (con el juego)', en: 'X-Ray (with the game)', ca: 'Raigs X (amb el joc)' }, '🧠'),
       cadena: examFormato({ es: 'Cadena Alimentaria (con el juego)', en: 'Food Chain (with the game)', ca: 'Cadena Alimentària (amb el joc)' }, '🌿'),
       arbol: examFormato({ es: 'Árbol de la Vida (con el juego)', en: 'Tree of Life (with the game)', ca: 'Arbre de la Vida (amb el joc)' }, '🦒'),
+      brote: examFormato({ es: '¡Brote! (con el juego)', en: 'Outbreak! (with the game)', ca: 'Brot! (amb el joc)' }, '🦠'),
       microscopioTest: examFormato({ es: 'La célula (con el juego)', en: 'The cell (with the game)', ca: 'La cèl·lula (amb el joc)' }, '🔬'),
       clave: examFormato({ es: 'Clave dicotómica (con el juego)', en: 'Dichotomous Key (with the game)', ca: 'Clau dicotòmica (amb el joc)' }, '🔎'),
       etiqueta: examFormato({ es: 'Lee la Etiqueta (con el juego)', en: 'Read the Label (with the game)', ca: 'Llegeix l’Etiqueta (amb el joc)' }, '🏷️'),

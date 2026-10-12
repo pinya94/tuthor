@@ -363,6 +363,14 @@ export const GAMES = {
     // aciertos × 10 puntos → hasta 200 monedas
     coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
   },
+  brote: {
+    label: { es: '¡Brote!', en: 'Outbreak!', ca: 'Brot!' },
+    emoji: '🦠',
+    subject: 'biologia',
+    route: '/juegos/brote',
+    // aciertos × 10 puntos → hasta 200 monedas
+    coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
+  },
   'arbol-vida': {
     label: { es: 'Árbol de la Vida', en: 'Tree of Life', ca: 'Arbre de la Vida' },
     emoji: '🦒',
