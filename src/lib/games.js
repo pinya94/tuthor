@@ -584,6 +584,14 @@ export const GAMES = {
     // cualquier otro juego.
     coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
   },
+  'que-letra': {
+    label: { es: '¿Qué Letra Va?', en: 'Which Letter?', ca: 'Quina Lletra Va?' },
+    emoji: '🔠',
+    subject: 'lengua',
+    route: '/juegos/que-letra',
+    // aciertos × 10 puntos → hasta 200 monedas
+    coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
+  },
   'pon-la-tilde': {
     label: { es: 'Pon la Tilde', en: 'Spanish Accents', ca: 'Posa l\'Accent' },
     emoji: '✏️',

@@ -92,6 +92,22 @@ function PiezaQueFalta(p) {
   )
 }
 
+function QueLetra(p) {
+  // La palabra «escri_ir» con el hueco y las dos letras para elegir.
+  return (
+    <Lienzo {...p}>
+      <T x={78} y={62} s={24} c="#F8FAFC">escri</T>
+      <rect x="118" y="38" width="28" height="32" rx="6" fill="none" stroke="#FCD34D" strokeWidth="3" strokeDasharray="5 4" />
+      <T x={132} y={62} s={22} c="#FCD34D">?</T>
+      <T x={170} y={62} s={24} c="#F8FAFC">ir</T>
+      <rect x="72" y="86" width="40" height="34" rx="8" fill="#16A34A" />
+      <T x={92} y={110} s={22} c="#FFFFFF">b</T>
+      <rect x="128" y="86" width="40" height="34" rx="8" fill="#334155" />
+      <T x={148} y={110} s={22} c="#CBD5E1">v</T>
+    </Lienzo>
+  )
+}
+
 function PonLaTilde(p) {
   return (
     <Lienzo {...p}>
@@ -146,6 +162,7 @@ export const ARTE_LENGUA = {
   'ordena-frase': OrdenaFrase,
   'pieza-que-falta': PiezaQueFalta,
   'pon-la-tilde': PonLaTilde,
+  'que-letra': QueLetra,
   'mide-el-verso': MideElVerso,
   'corrige-el-texto': CorrigeElTexto,
 }

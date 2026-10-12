@@ -1563,6 +1563,34 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Biología', niveles: 'ESO, Bachillerato',
   },
+  'que-letra': {
+    titulo: '¿Qué Letra Va?',
+    subtitulo: 'Juego de ortografía: b/v, g/j, h, ll/y y c/z con sus reglas',
+    emoji: '🔠', gradient: 'from-sky-500 to-indigo-700',
+    path: '/juegos/que-letra',
+    intro: 'Un juego de ortografía contra reloj para dominar las letras que más dudas dan en castellano. Sale una palabra con un hueco y hay que elegir cómo se escribe: con b o con v, con g o con j, con h o sin ella, con ll o con y, con c o con z. Al responder, el hueco se rellena con la letra correcta y aparece la regla que lo explica (los verbos en -bir, la b después de m, las palabras en -aje, el plural de las que acaban en z…) o el aviso de que es una excepción, como vivir, hervir, tejer o movilidad. En el nivel fácil salen las reglas básicas; en el medio, más reglas; y en el difícil, las excepciones, la diéresis, la h intercalada y los verbos con trampa.',
+    beneficios: [
+      { titulo: 'Cada palabra con su regla', texto: 'No se trata de memorizar palabras sueltas: cada respuesta trae la regla que sirve para muchas más. Saber que todos los verbos en -bir llevan b salvo hervir, servir y vivir resuelve de golpe decenas de dudas, y el juego lo repite con ejemplos distintos hasta que se queda.' },
+      { titulo: 'Solo una respuesta posible', texto: 'Las palabras están elegidas para que solo una forma sea correcta. No salen parejas como vaca y baca, tubo y tuvo o echo y hecho, en las que las dos existen y dependen del significado: esas se trabajan aparte, con la frase delante.' },
+      { titulo: 'Rápido y sin presión', texto: 'Cada palabra se resuelve en un par de segundos, así que en una partida de un minuto se repasan veinte o treinta reglas. El examen con la misma mecánica, sin reloj y con nota, sirve para comprobar lo aprendido antes de un control.' },
+    ],
+    ejemplo: 'Sale «escri_ir» con dos opciones: escribir y escrivir. La regla dice que los verbos terminados en -bir se escriben con b, así que es escribir, igual que recibir, subir o prohibir. Pero si sale «vi_ir», la respuesta es vivir: es una de las tres excepciones, junto con hervir y servir, y el juego lo avisa al corregir.',
+    enPapel: {
+      titulo: 'El cazador de reglas',
+      pasos: [
+        'Elige una regla (por ejemplo, «las palabras terminadas en -aje se escriben con j») y escríbela arriba de un folio.',
+        'Busca en un libro o un periódico diez palabras que la cumplan y apúntalas.',
+        'Intenta encontrar alguna excepción: si la encuentras, apúntala en rojo.',
+        'Intercambia tu lista con un compañero y dictaos las palabras el uno al otro.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'El examen de B y V', desc: 'Tipo test sobre las reglas de la b y la v, con explicación en cada respuesta.' },
+      { nombre: 'Pon la Tilde', desc: 'Otro juego de ortografía: busca la sílaba tónica y decide si la palabra lleva tilde.' },
+      { nombre: 'Corrige el Texto', desc: 'Encuentra las faltas de ortografía escondidas en un texto completo.' },
+    ],
+    asignatura: 'Lengua', niveles: 'Primaria, ESO',
+  },
   'clave-dicotomica': {
     titulo: 'Clave dicotómica',
     subtitulo: 'Juego para clasificar seres vivos con una clave de sí o no',
@@ -3416,6 +3444,33 @@ export const FICHAS_EN = {
       { nombre: 'Under the Microscope', desc: 'A biology game about the cell, the unit shared by every living thing on the tree of life.' },
     ],
     asignatura: 'Biology', niveles: 'Secondary, Sixth form',
+  },
+  'que-letra': {
+    titulo: 'Which Letter?',
+    subtitulo: 'Spanish spelling game: b/v, g/j, h, ll/y and c/z with their rules',
+    emoji: '🔠', gradient: 'from-sky-500 to-indigo-700', path: '/juegos/que-letra',
+    intro: 'A Spanish spelling game against the clock for mastering the letters that cause the most doubts. A Spanish word appears with a gap and you choose how it is spelt: b or v, g or j, with or without h, ll or y, c or z. When you answer, the gap fills in with the right letter and the rule behind it appears (verbs ending in -bir, b after m, words ending in -aje, the plural of words ending in z…), or a note that it is an exception, like vivir, hervir, tejer or movilidad. The easy level covers the basic rules; the medium one, more rules; and the hard one, the exceptions, the diaeresis, the silent h in the middle of words and tricky verbs.',
+    beneficios: [
+      { titulo: 'Every word with its rule', texto: 'It is not about memorising single words: each answer comes with a rule that works for many more. Knowing that every verb ending in -bir takes b except hervir, servir and vivir clears up dozens of doubts at once, and the game repeats it with different examples until it sticks.' },
+      { titulo: 'Only one possible answer', texto: 'The words are chosen so only one spelling is correct. Pairs like vaca and baca, tubo and tuvo or echo and hecho, where both exist and depend on meaning, never come up: those are practised separately, with the sentence in front of you.' },
+      { titulo: 'Fast and pressure-free', texto: 'Each word takes a couple of seconds, so a one-minute game reviews twenty or thirty rules. The exam with the same mechanic, untimed and marked, is a good way to check what you have learnt before a test.' },
+    ],
+    ejemplo: '«escri_ir» appears with two options: escribir and escrivir. The rule says verbs ending in -bir are spelt with b, so it is escribir, just like recibir, subir or prohibir. But if «vi_ir» appears, the answer is vivir: it is one of the three exceptions, with hervir and servir, and the game points it out when you answer.',
+    enPapel: {
+      titulo: 'The rule hunter',
+      pasos: [
+        'Pick a Spanish spelling rule (for example, «words ending in -aje are spelt with j») and write it at the top of a sheet.',
+        'Find ten words in a Spanish book or newspaper that follow it and write them down.',
+        'Try to find an exception: if you do, write it in red.',
+        'Swap lists with a classmate and dictate the words to each other.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'Spanish Accents', desc: 'Another Spanish spelling game: find the stressed syllable and decide whether the word takes an accent.' },
+      { nombre: 'Spot the Mistakes', desc: 'Find the spelling mistakes hidden in a whole text.' },
+      { nombre: 'Spell It Out', desc: 'Read a text in Spanish aloud and note every word with b, v, g, j or h: then check which rule each one follows.' },
+    ],
+    asignatura: 'Spanish language', niveles: 'Primary, Secondary',
   },
   'clave-dicotomica': {
     titulo: 'Dichotomous Key',
@@ -5333,6 +5388,33 @@ export const FICHAS_CA = {
       { nombre: 'Quadre de Punnett', desc: 'Genètica: com s’hereten els caràcters, que és la base de la selecció natural.' },
     ],
     asignatura: 'Biologia', niveles: 'ESO, Batxillerat',
+  },
+  'que-letra': {
+    titulo: 'Quina Lletra Va?',
+    subtitulo: 'Joc d’ortografia castellana: b/v, g/j, h, ll/y i c/z amb les regles',
+    emoji: '🔠', gradient: 'from-sky-500 to-indigo-700', path: '/juegos/que-letra',
+    intro: 'Un joc d’ortografia castellana contra rellotge per dominar les lletres que fan dubtar més. Surt una paraula en castellà amb un forat i cal triar com s’escriu: amb b o amb v, amb g o amb j, amb h o sense, amb ll o amb y, amb c o amb z. En respondre, el forat s’omple amb la lletra correcta i apareix la regla que ho explica (els verbs en -bir, la b després de m, les paraules en -aje, el plural de les acabades en z…) o l’avís que és una excepció, com vivir, hervir, tejer o movilidad. Al nivell fàcil surten les regles bàsiques; al mitjà, més regles; i al difícil, les excepcions, la dièresi, la h intercalada i els verbs amb parany.',
+    beneficios: [
+      { titulo: 'Cada paraula amb la seva regla', texto: 'No es tracta de memoritzar paraules soltes: cada resposta porta la regla que serveix per a moltes més. Saber que tots els verbs en -bir porten b llevat de hervir, servir i vivir resol de cop desenes de dubtes, i el joc ho repeteix amb exemples diferents fins que queda.' },
+      { titulo: 'Només una resposta possible', texto: 'Les paraules estan triades perquè només una forma sigui correcta. No surten parelles com vaca i baca, tubo i tuvo o echo i hecho, en què existeixen totes dues i depenen del significat: aquestes es treballen a part, amb la frase al davant.' },
+      { titulo: 'Ràpid i sense pressió', texto: 'Cada paraula es resol en un parell de segons, així que en una partida d’un minut es repassen vint o trenta regles. L’examen amb la mateixa mecànica, sense rellotge i amb nota, serveix per comprovar el que s’ha après abans d’un control.' },
+    ],
+    ejemplo: 'Surt «escri_ir» amb dues opcions: escribir i escrivir. La regla diu que els verbs acabats en -bir s’escriuen amb b, així que és escribir, igual que recibir, subir o prohibir. Però si surt «vi_ir», la resposta és vivir: és una de les tres excepcions, amb hervir i servir, i el joc ho avisa en corregir.',
+    enPapel: {
+      titulo: 'El caçador de regles',
+      pasos: [
+        'Tria una regla d’ortografia castellana (per exemple, «les paraules acabades en -aje s’escriuen amb j») i escriu-la a dalt d’un full.',
+        'Busca en un llibre o un diari en castellà deu paraules que la compleixin i apunta-les.',
+        'Intenta trobar alguna excepció: si la trobes, apunta-la en vermell.',
+        'Intercanvia la llista amb un company i dicteu-vos les paraules l’un a l’altre.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'Posa l’Accent (castellà)', desc: 'Un altre joc d’ortografia: busca la síl·laba tònica i decideix si la paraula porta accent.' },
+      { nombre: 'Corregeix el Text', desc: 'Troba les faltes d’ortografia amagades en un text sencer.' },
+      { nombre: 'Dictat de regles', desc: 'Llegeix en veu alta un text en castellà i apunta cada paraula amb b, v, g, j o h: després comprova quina regla segueix cadascuna.' },
+    ],
+    asignatura: 'Llengua', niveles: 'Primària, ESO',
   },
   'clave-dicotomica': {
     titulo: 'Clau dicotòmica',
