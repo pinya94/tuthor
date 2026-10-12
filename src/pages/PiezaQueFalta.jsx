@@ -31,7 +31,7 @@ const C = {
   mezcla:  { es: 'Todo mezclado', en: 'All mixed', ca: 'Tot barrejat' },
   queEs:   { es: '¿De qué va?', en: 'What is it about?', ca: 'De què va?' },
   q1:      { es: 'Sale una frase en inglés a la que le falta un trozo, y tú lo montas con las piezas de abajo.', en: 'An English sentence appears with a piece missing, and you build it from the pieces below.', ca: 'Surt una frase en anglès a la qual li falta un tros, i tu el montes amb les peces de sota.' },
-  q2:      { es: 'Puede tocar cualquier cosa: presente, pasado, present perfect, artículos o pasiva. Nadie te dice cuál — la pista está dentro de la frase.', en: 'Anything can come up: present, past, present perfect, articles or the passive. Nobody tells you which — the clue is inside the sentence.', ca: 'Pot tocar qualsevol cosa: present, passat, present perfect, articles o passiva. Ningú no et diu quina — la pista és dins la frase.' },
+  q2:      { es: 'Puede tocar cualquier cosa: presente, pasado, present perfect, artículos, pasiva, condicionales o modales. Nadie te dice cuál — la pista está dentro de la frase.', en: 'Anything can come up: present, past, present perfect, articles, the passive, conditionals or modals. Nobody tells you which — the clue is inside the sentence.', ca: 'Pot tocar qualsevol cosa: present, passat, present perfect, articles, passiva, condicionals o modals. Ningú no et diu quina — la pista és dins la frase.' },
   q3:      { es: 'Aciertes o falles, te sale al momento la regla que había detrás. Esa es la parte que se queda.', en: 'Right or wrong, you immediately get the rule behind it. That is the part that sticks.', ca: 'Encertis o falles, et surt a l’instant la regla que hi havia al darrere. Aquesta és la part que es queda.' },
   how:     { es: 'Cómo funciona', en: 'How it works', ca: 'Com funciona' },
   p1:      { es: 'Toca las piezas EN ORDEN. Los huecos de la frase te dicen cuántas hacen falta: unas respuestas son de una pieza y otras de dos o tres.', en: 'Tap the pieces IN ORDER. The gaps in the sentence tell you how many you need: some answers take one piece, others two or three.', ca: 'Toca les peces EN ORDRE. Els buits de la frase et diuen quantes en calen: unes respostes són d’una peça i altres de dues o tres.' },
@@ -229,9 +229,9 @@ export default function PiezaQueFalta() {
   }
 
   const seo = {
-    es: { title: 'La Pieza que Falta — Gramática inglesa jugando', desc: 'Completa la frase con las piezas correctas: present simple, past simple, present perfect, artículos y pasiva. Cada fallo explica la regla. Juego de inglés gratis.', path: '/juegos/pieza-que-falta' },
-    en: { title: 'Missing Piece — English grammar game', desc: 'Complete the sentence with the right pieces: present simple, past simple, present perfect, articles and the passive. Every miss explains the rule. Free English game.', path: '/en/juegos/pieza-que-falta' },
-    ca: { title: 'La Peça que Falta — Gramàtica anglesa jugant', desc: 'Completa la frase amb les peces correctes: present simple, past simple, present perfect, articles i passiva. Cada error explica la regla. Joc d’anglès gratis.', path: '/ca/juegos/pieza-que-falta' },
+    es: { title: 'La Pieza que Falta — Gramática inglesa jugando', desc: 'Completa la frase con las piezas correctas: present simple, past simple, present perfect, artículos, pasiva, condicionales y modales. Cada fallo explica la regla. Juego de inglés gratis.', path: '/juegos/pieza-que-falta' },
+    en: { title: 'Missing Piece — English grammar game', desc: 'Complete the sentence with the right pieces: present simple, past simple, present perfect, articles, the passive, conditionals and modals. Every miss explains the rule. Free English game.', path: '/en/juegos/pieza-que-falta' },
+    ca: { title: 'La Peça que Falta — Gramàtica anglesa jugant', desc: 'Completa la frase amb les peces correctes: present simple, past simple, present perfect, articles, passiva, condicionals i modals. Cada error explica la regla. Joc d’anglès gratis.', path: '/ca/juegos/pieza-que-falta' },
   }[l]
 
   if (screen === 'intro') {

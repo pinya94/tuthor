@@ -1,10 +1,11 @@
 // La Pieza que Falta (inglés) — rellenar el hueco con las piezas correctas.
 // Lógica pura (sin React), determinista salvo por el `rand` que se le pase.
 //
-// Cubre los cinco temas de gramática inglesa que hasta ahora solo tenían
-// examen tipo test (present simple, past simple, present perfect, articles,
-// passive). Una sola mecánica para los cinco: eso es lo que hace que valga la
-// pena — el catálogo los declara como cinco formatos del MISMO juego.
+// Cubre siete temas de gramática inglesa que antes solo tenían examen tipo
+// test (present simple, past simple, present perfect, articles, passive y,
+// desde octubre de 2026, conditionals y modals). Una sola mecánica para todos:
+// eso es lo que hace que valga la pena — el catálogo los declara como formatos
+// del MISMO juego.
 //
 // Por qué piezas y no opciones a elegir: la respuesta correcta muchas veces
 // son DOS o TRES trozos ("has written", "will be built"). Con un test de
@@ -70,6 +71,24 @@ export const TEMAS = {
       es: 'Cuando importa la acción, no quién la hace. be + participio.',
       en: 'When the action matters, not who does it. be + participle.',
       ca: "Quan importa l'acció, no qui la fa. be + participi.",
+    },
+  },
+  conditionals: {
+    label: { es: 'Conditionals', en: 'Conditionals', ca: 'Conditionals' },
+    emoji: '🔀',
+    desc: {
+      es: 'If… : zero, first, second y third conditional.',
+      en: 'If… : zero, first, second and third conditional.',
+      ca: 'If… : zero, first, second i third conditional.',
+    },
+  },
+  modals: {
+    label: { es: 'Modal Verbs', en: 'Modal Verbs', ca: 'Modal Verbs' },
+    emoji: '🔑',
+    desc: {
+      es: 'can, must, should, might… y la trampa de mustn’t / don’t have to.',
+      en: 'can, must, should, might… and the mustn’t / don’t have to trap.',
+      ca: 'can, must, should, might… i el parany de mustn’t / don’t have to.',
     },
   },
 }
@@ -253,6 +272,93 @@ const R = {
     es: 'Pasiva en futuro: will + be + participio. Detrás de will, “be” va siempre en forma base.',
     en: 'Future passive: will + be + participle. After will, “be” is always in its base form.',
     ca: 'Passiva en futur: will + be + participi. Darrere de will, “be” va sempre en forma base.',
+  },
+  // ── Conditionals ──
+  c0: {
+    es: 'Zero conditional (lo que pasa siempre): if + presente, presente. «If you heat ice, it melts».',
+    en: 'Zero conditional (what always happens): if + present, present. “If you heat ice, it melts”.',
+    ca: 'Zero conditional (el que passa sempre): if + present, present. «If you heat ice, it melts».',
+  },
+  c1: {
+    es: 'First conditional (algo posible en el futuro): if + presente, will + verbo. Detrás de if NO va will: «if it rains», no «if it will rain».',
+    en: 'First conditional (something possible in the future): if + present, will + verb. No will after if: “if it rains”, not “if it will rain”.',
+    ca: 'First conditional (una cosa possible en el futur): if + present, will + verb. Darrere d’if NO hi va will: «if it rains», no «if it will rain».',
+  },
+  c2: {
+    es: 'Second conditional (algo imaginario ahora): if + pasado, would + verbo. «If I had money, I would buy a boat».',
+    en: 'Second conditional (something imaginary now): if + past, would + verb. “If I had money, I would buy a boat”.',
+    ca: 'Second conditional (una cosa imaginària ara): if + passat, would + verb. «If I had money, I would buy a boat».',
+  },
+  c3: {
+    es: 'Third conditional (algo que no pasó): if + had + participio, would have + participio. «If you had studied, you would have passed».',
+    en: 'Third conditional (something that did not happen): if + had + participle, would have + participle.',
+    ca: 'Third conditional (una cosa que no va passar): if + had + participi, would have + participi.',
+  },
+  cWere: {
+    es: 'En el second conditional se usa were con todas las personas: «If I were you…», «if she were taller». Es la forma de los exámenes.',
+    en: 'In the second conditional, were is used with every person: “If I were you…”, “if she were taller”.',
+    ca: 'Al second conditional es fa servir were amb totes les persones: «If I were you…», «if she were taller».',
+  },
+  cUnless: {
+    es: 'Unless = if… not, y va con presente, como if: «Unless you hurry» = «If you don’t hurry».',
+    en: 'Unless = if… not, and it takes the present, like if: “Unless you hurry” = “If you don’t hurry”.',
+    ca: 'Unless = if… not, i va amb present, com if: «Unless you hurry» = «If you don’t hurry».',
+  },
+  // ── Modals ──
+  mCan: {
+    es: 'can = poder o saber hacer algo; can’t = no poder. Detrás de un modal va el verbo SIN to y sin -s: «she can swim».',
+    en: 'can = be able to; can’t = not be able to. After a modal the verb has NO to and no -s: “she can swim”.',
+    ca: 'can = poder o saber fer una cosa; can’t = no poder. Darrere d’un modal el verb va SENSE to i sense -s: «she can swim».',
+  },
+  mCould: {
+    es: 'could es el pasado de can («podía, sabía») y también la forma educada de pedir: «Could you help me?».',
+    en: 'could is the past of can and also the polite way to ask: “Could you help me?”.',
+    ca: 'could és el passat de can («podia, sabia») i també la manera educada de demanar: «Could you help me?».',
+  },
+  mMust: {
+    es: 'must = obligación fuerte: «you must wear a seatbelt». Sin to y sin -s.',
+    en: 'must = strong obligation: “you must wear a seatbelt”. No to and no -s.',
+    ca: 'must = obligació forta: «you must wear a seatbelt». Sense to i sense -s.',
+  },
+  mMustnt: {
+    es: 'mustn’t = está PROHIBIDO. No es lo mismo que don’t have to, que significa «no hace falta».',
+    en: 'mustn’t = it is FORBIDDEN. Not the same as don’t have to, which means “it is not necessary”.',
+    ca: 'mustn’t = està PROHIBIT. No és el mateix que don’t have to, que vol dir «no cal».',
+  },
+  mHaveTo: {
+    es: 'have to = obligación (muchas veces por una norma). Es un verbo normal y lleva to: «I have to», «he has to».',
+    en: 'have to = obligation (often from a rule). It is a normal verb and takes to: “I have to”, “he has to”.',
+    ca: 'have to = obligació (sovint per una norma). És un verb normal i porta to: «I have to», «he has to».',
+  },
+  mDontHave: {
+    es: 'don’t have to = NO hace falta (puedes hacerlo si quieres). Si pusieras mustn’t dirías «está prohibido»: el error más típico.',
+    en: 'don’t have to = it is NOT necessary (you can if you want). mustn’t would mean “it is forbidden”: the classic mistake.',
+    ca: 'don’t have to = NO cal (ho pots fer si vols). Si hi posessis mustn’t diries «està prohibit»: l’error més típic.',
+  },
+  mShould: {
+    es: 'should = consejo («deberías»); shouldn’t = «no deberías». Es más suave que must.',
+    en: 'should = advice; shouldn’t = advice not to. It is softer than must.',
+    ca: 'should = consell («hauries de»); shouldn’t = «no hauries de». És més suau que must.',
+  },
+  mMight: {
+    es: 'might (o may) = quizá, es posible pero no seguro: «it might rain».',
+    en: 'might (or may) = perhaps, possible but not certain: “it might rain”.',
+    ca: 'might (o may) = potser, és possible però no segur: «it might rain».',
+  },
+  mDeduc: {
+    es: 'Para deducir: must = seguro que sí («she must be at home»); can’t = seguro que no («that can’t be John»). Mustn’t no sirve para deducir.',
+    en: 'For deductions: must = certainly yes; can’t = certainly not (“that can’t be John”). Mustn’t is not used for deductions.',
+    ca: 'Per deduir: must = segur que sí («she must be at home»); can’t = segur que no («that can’t be John»). Mustn’t no serveix per deduir.',
+  },
+  mMay: {
+    es: 'May I…? es la forma más educada de pedir permiso.',
+    en: 'May I…? is the most polite way to ask for permission.',
+    ca: 'May I…? és la manera més educada de demanar permís.',
+  },
+  mWould: {
+    es: 'Would you like…? e I would like… son las formas educadas de ofrecer y de pedir.',
+    en: 'Would you like…? and I would like… are the polite ways to offer and to ask.',
+    ca: 'Would you like…? i I would like… són les maneres educades d’oferir i de demanar.',
   },
 }
 
@@ -550,6 +656,123 @@ export const FRASES = [
   f('pv-52', 'passive', 'The window ___ during the storm.', 'during the storm', ['was', 'broken'], ['were', 'breaks', 'breaking'], R.pasTense),
   f('pv-53', 'passive', 'The results ___ on the website every Friday.', 'every Friday', ['are', 'published'], ['is', 'publishes', 'publishing'], R.pasTense),
   f('pv-54', 'passive', 'The thieves ___ the next day.', 'the next day', ['were', 'arrested'], ['was', 'arrest', 'arresting'], R.pasAgree),
+
+  // ── Conditionals ───────────────────────────────────────────────────────────
+  // Solo forma una respuesta posible con las fichas: si la frase admitiera
+  // también «will melt» o «might stay», esas piezas no están entre las fichas.
+  f('cd-01', 'conditionals', 'If it rains tomorrow, we ___ at home.', 'If it rains tomorrow', ['will', 'stay'], ['would', 'stayed', 'staying'], R.c1),
+  f('cd-02', 'conditionals', 'If you heat ice, it ___.', 'If you heat ice', ['melts'], ['melted', 'melting', 'would'], R.c0),
+  f('cd-03', 'conditionals', 'If I ___ rich, I would travel the world.', 'I would travel', ['were'], ['am', 'will', 'be'], R.cWere),
+  f('cd-04', 'conditionals', 'If you ___ harder, you would have passed.', 'would have passed', ['had', 'studied'], ['have', 'study', 'would'], R.c3),
+  f('cd-05', 'conditionals', 'If she ___ the bus, she will be late.', 'she will be late', ['misses'], ['missed', 'miss', 'will'], R.c1),
+  f('cd-06', 'conditionals', 'If we had more time, we ___ more museums.', 'If we had more time', ['would', 'visit'], ['will', 'visited', 'visiting'], R.c2),
+  f('cd-07', 'conditionals', 'If you mix blue and yellow, you ___ green.', 'If you mix blue and yellow', ['get'], ['got', 'would', 'getting'], R.c0),
+  f('cd-08', 'conditionals', 'If I had known, I ___ you.', 'If I had known', ['would', 'have', 'told'], ['will', 'tell', 'had'], R.c3),
+  f('cd-09', 'conditionals', 'What ___ you do if you won the lottery?', 'if you won', ['would'], ['will', 'did', 'do'], R.c2),
+  f('cd-10', 'conditionals', 'If it ___ sunny tomorrow, we will go to the beach.', 'we will go', ['is'], ['will', 'was', 'were'], R.c1),
+  f('cd-11', 'conditionals', "If he ___ the alarm, he wouldn't have missed the train.", "wouldn't have missed", ['had', 'heard'], ['has', 'hear', 'would'], R.c3),
+  f('cd-12', 'conditionals', 'Unless you hurry, you ___ the bus.', 'Unless you hurry', ['will', 'miss'], ['would', 'missed', 'missing'], R.cUnless),
+  f('cd-13', 'conditionals', 'If I were you, I ___ to the doctor.', 'If I were you', ['would', 'go'], ['will', 'went', 'going'], R.c2),
+  f('cd-14', 'conditionals', "If you don't water plants, they ___.", "If you don't water plants", ['die'], ['died', 'would', 'dying'], R.c0),
+  f('cd-15', 'conditionals', 'If she ___ me, I will help her.', 'I will help her', ['asks'], ['will', 'asked', 'ask'], R.c1),
+  f('cd-16', 'conditionals', 'If they ___ earlier, they would have caught the train.', 'would have caught', ['had', 'left'], ['have', 'leave', 'would'], R.c3),
+  f('cd-17', 'conditionals', 'I ___ a dog if I had a garden.', 'if I had a garden', ['would', 'have'], ['will', 'had', 'having'], R.c2),
+  f('cd-18', 'conditionals', 'If you press this button, the machine ___.', 'If you press this button', ['starts'], ['started', 'would', 'starting'], R.c0),
+  f('cd-19', 'conditionals', 'We will be late if we ___ now.', 'We will be late', ["don't", 'leave'], ["won't", 'left', 'leaving'], R.c1),
+  f('cd-20', 'conditionals', 'If I ___ his number, I would call him.', 'I would call him', ['knew'], ['know', 'will', 'known'], R.c2),
+  f('cd-21', 'conditionals', 'She would have won the race if she ___ fallen.', 'would have won', ["hadn't"], ["didn't", "wouldn't", "hasn't"], R.c3),
+  f('cd-22', 'conditionals', 'If you ___ water to 100 degrees, it boils.', 'it boils', ['heat'], ['heated', 'will', 'would'], R.c0),
+  f('cd-23', 'conditionals', 'If the weather ___ good, we will have a picnic.', 'we will have a picnic', ['is'], ['will', 'was', 'were'], R.c1),
+  f('cd-24', 'conditionals', 'If I lived in Paris, I ___ French every day.', 'If I lived in Paris', ['would', 'speak'], ['will', 'spoke', 'speaking'], R.c2),
+  f('cd-25', 'conditionals', 'If you had told me, I ___ you.', 'If you had told me', ['would', 'have', 'helped'], ['will', 'help', 'had'], R.c3),
+  f('cd-26', 'conditionals', 'If you eat all that cake, you ___ ill tonight.', 'tonight', ['will', 'feel'], ['would', 'felt', 'feeling'], R.c1),
+  f('cd-27', 'conditionals', "If he ___ more careful, he wouldn't make so many mistakes.", "he wouldn't make", ['were'], ['is', 'will', 'been'], R.cWere),
+  f('cd-28', 'conditionals', "If we ___ the map, we wouldn't have got lost.", "wouldn't have got lost", ['had', 'taken'], ['have', 'took', 'would'], R.c3),
+  f('cd-29', 'conditionals', 'Plants grow faster if they ___ enough light.', 'Plants grow faster', ['get'], ['got', 'would', 'getting'], R.c0),
+  f('cd-30', 'conditionals', "If you ___ me, I'll show you the way.", "I'll show you", ['follow'], ['will', 'followed', 'following'], R.c1),
+  f('cd-31', 'conditionals', 'If I had wings, I ___ to school.', 'If I had wings', ['would', 'fly'], ['will', 'flew', 'flying'], R.c2),
+  f('cd-32', 'conditionals', "If it hadn't rained, we ___ the match.", "If it hadn't rained", ['would', 'have', 'played'], ['will', 'play', 'had'], R.c3),
+  f('cd-33', 'conditionals', 'If she studies hard, she ___ the exam.', 'If she studies hard', ['will', 'pass'], ['would', 'passed', 'passing'], R.c1),
+  f('cd-34', 'conditionals', 'If I ___ you, I would apologise.', 'I would apologise', ['were'], ['am', 'be', 'will'], R.cWere),
+  f('cd-35', 'conditionals', 'If you touch fire, you ___ burnt.', 'If you touch fire', ['get'], ['got', 'would', 'getting'], R.c0),
+  f('cd-36', 'conditionals', 'They would have come if you ___ them.', 'would have come', ['had', 'invited'], ['have', 'invite', 'would'], R.c3),
+  f('cd-37', 'conditionals', "If he doesn't call, I ___ worried.", "If he doesn't call", ['will', 'be'], ['would', 'was', 'being'], R.c1),
+  f('cd-38', 'conditionals', 'If we had a car, we ___ to the mountains.', 'If we had a car', ['would', 'drive'], ['will', 'drove', 'driving'], R.c2),
+  f('cd-39', 'conditionals', 'If you ___ the plant, it would have survived.', 'would have survived', ['had', 'watered'], ['have', 'water', 'would'], R.c3),
+  f('cd-40', 'conditionals', 'Ice ___ if you leave it in the sun.', 'if you leave it in the sun', ['melts'], ['melted', 'would', 'melting'], R.c0),
+  f('cd-41', 'conditionals', 'If I see Tom, I ___ him your message.', 'If I see Tom', ['will', 'give'], ['would', 'gave', 'giving'], R.c1),
+  f('cd-42', 'conditionals', 'If she ___ taller, she could reach the shelf.', 'she could reach', ['were'], ['is', 'will', 'been'], R.cWere),
+  f('cd-43', 'conditionals', 'If they had played better, they ___ the final.', 'If they had played better', ['would', 'have', 'won'], ['will', 'win', 'had'], R.c3),
+  f('cd-44', 'conditionals', 'What will you do if it ___ tomorrow?', 'What will you do', ['snows'], ['will', 'snowed', 'snow'], R.c1),
+  f('cd-45', 'conditionals', 'If he had the money, he ___ a new bike.', 'If he had the money', ['would', 'buy'], ['will', 'bought', 'buying'], R.c2),
+  f('cd-46', 'conditionals', "I wouldn't have known if you ___ me.", "wouldn't have known", ["hadn't", 'told'], ["didn't", 'tell', 'would'], R.c3),
+  f('cd-47', 'conditionals', 'If you freeze water, it ___ into ice.', 'If you freeze water', ['turns'], ['turned', 'would', 'turning'], R.c0),
+  f('cd-48', 'conditionals', 'If the shop is open, I ___ some bread.', 'If the shop is open', ['will', 'buy'], ['would', 'bought', 'buying'], R.c1),
+  f('cd-49', 'conditionals', 'If I ___ more free time, I would learn the guitar.', 'I would learn', ['had'], ['have', 'will', 'having'], R.c2),
+  f('cd-50', 'conditionals', 'If you had left earlier, you ___ the traffic.', 'If you had left earlier', ['would', 'have', 'avoided'], ['will', 'avoid', 'had'], R.c3),
+  f('cd-51', 'conditionals', 'Unless it stops raining, we ___ out.', 'Unless it stops raining', ["won't", 'go'], ["wouldn't", 'went', 'going'], R.cUnless),
+  f('cd-52', 'conditionals', 'If people ___ more, they would be healthier.', 'they would be healthier', ['walked'], ['walk', 'will', 'walking'], R.c2),
+  f('cd-53', 'conditionals', 'If you drop a glass on the floor, it ___.', 'If you drop a glass', ['breaks'], ['broke', 'would', 'breaking'], R.c0),
+  f('cd-54', 'conditionals', 'If I had seen the sign, I ___ there.', 'If I had seen the sign', ["wouldn't", 'have', 'parked'], ["won't", 'park', 'had'], R.c3),
+
+  // ── Modal verbs ────────────────────────────────────────────────────────────
+  // Aquí hay muchas respuestas casi sinónimas (mustn't / can't, may / might,
+  // could / can): la otra que también valdría NUNCA está entre las fichas, y
+  // los distractores son formas imposibles o de significado claramente opuesto.
+  f('md-01', 'modals', "You ___ wear a seatbelt in the car. It's the law.", "It's the law", ['must'], ['can', 'might', "mustn't"], R.mMust),
+  f('md-02', 'modals', 'You ___ smoke in the hospital.', 'in the hospital', ["mustn't"], ['must', 'should', 'might'], R.mMustnt),
+  f('md-03', 'modals', 'I ___ swim when I was five.', 'when I was five', ['could'], ['can', 'must', 'should'], R.mCould),
+  f('md-04', 'modals', '___ I open the window, please?', 'please', ['Can'], ['Do', 'Am', 'Have'], R.mCan),
+  f('md-05', 'modals', 'You look tired. You ___ go to bed early.', 'You look tired', ['should'], ["shouldn't", 'would', 'did'], R.mShould),
+  f('md-06', 'modals', "You ___ eat so many sweets. They're bad for your teeth.", "They're bad for your teeth", ["shouldn't"], ['should', 'must', 'can'], R.mShould),
+  f('md-07', 'modals', "It's Sunday. We ___ go to school.", "It's Sunday", ["don't", 'have', 'to'], ["mustn't", 'has', 'must'], R.mDontHave),
+  f('md-08', 'modals', 'Take an umbrella. It ___ rain later.', 'Take an umbrella', ['might'], ['must', 'can', 'has'], R.mMight),
+  f('md-09', 'modals', '___ you help me with my homework, please?', 'please', ['Could'], ['Does', 'Are', 'Have'], R.mCould),
+  f('md-10', 'modals', 'She ___ speak three languages.', null, ['can'], ['cans', 'is', 'has'], R.mCan),
+  f('md-11', 'modals', 'Students ___ use their phones during the exam.', 'during the exam', ["mustn't"], ['must', 'should', 'might'], R.mMustnt),
+  f('md-12', 'modals', 'You ___ to wear a uniform at my school.', 'to wear', ['have'], ['must', 'should', 'can'], R.mHaveTo),
+  f('md-13', 'modals', 'He ___ come to the party because he was ill.', 'because he was ill', ["couldn't"], ["can't", "mustn't", "shouldn't"], R.mCould),
+  f('md-14', 'modals', 'We ___ hurry. We have plenty of time.', 'We have plenty of time', ["don't", 'have', 'to'], ["mustn't", 'has', 'must'], R.mDontHave),
+  f('md-15', 'modals', 'You ___ see a doctor about that cough.', 'about that cough', ['should'], ['shoulds', 'would', 'did'], R.mShould),
+  f('md-16', 'modals', 'I ___ find my keys anywhere!', 'anywhere', ["can't"], ["mustn't", "shouldn't", "isn't"], R.mCan),
+  f('md-17', 'modals', 'It ___ be Tom at the door. He said he would come at six.', 'He said he would come at six', ['must'], ["mustn't", 'did', 'has'], R.mDeduc),
+  f('md-18', 'modals', 'That ___ be John. He is in Paris this week.', 'He is in Paris this week', ["can't"], ["mustn't", 'must', 'should'], R.mDeduc),
+  f('md-19', 'modals', '___ I use your pen?', null, ['May'], ['Must', 'Do', 'Am'], R.mMay),
+  f('md-20', 'modals', 'When I was young, I ___ run very fast.', 'When I was young', ['could'], ['can', 'must', 'should'], R.mCould),
+  f('md-21', 'modals', "You ___ touch that wire! It's dangerous.", "It's dangerous", ["mustn't"], ['must', 'should', 'can'], R.mMustnt),
+  f('md-22', 'modals', 'Drivers ___ stop at a red light.', 'at a red light', ['must'], ["mustn't", 'might', 'can'], R.mMust),
+  f('md-23', 'modals', 'You ___ bring food. Lunch is included.', 'Lunch is included', ["don't", 'have', 'to'], ["mustn't", 'has', 'must'], R.mDontHave),
+  f('md-24', 'modals', "Can you speak Chinese? No, I ___.", 'Can you', ["can't"], ["don't", "mustn't", "couldn't"], R.mCan),
+  f('md-25', 'modals', 'She ___ be at home. The lights are on.', 'The lights are on', ['must'], ["can't", "mustn't", 'did'], R.mDeduc),
+  f('md-26', 'modals', "We ___ go to the cinema tonight, but we aren't sure.", "we aren't sure", ['might'], ['must', 'have', 'did'], R.mMight),
+  f('md-27', 'modals', 'You ___ to finish the project by Friday.', 'to finish', ['have'], ['must', 'should', 'can'], R.mHaveTo),
+  f('md-28', 'modals', "It's the weekend. He ___ to get up early.", "It's the weekend", ["doesn't", 'have'], ["don't", 'has', "mustn't"], R.mDontHave),
+  f('md-29', 'modals', '___ you like a cup of tea?', 'like a cup of tea', ['Would'], ['Will', 'Are', 'Have'], R.mWould),
+  f('md-30', 'modals', 'I ___ like a glass of water, please.', 'please', ['would'], ['will', 'am', 'have'], R.mWould),
+  f('md-31', 'modals', 'You ___ be quiet in the library.', 'in the library', ['must'], ["mustn't", 'might', 'did'], R.mMust),
+  f('md-32', 'modals', 'We ___ to wear a helmet when we ride a bike.', 'to wear', ['have'], ['must', 'should', 'can'], R.mHaveTo),
+  f('md-33', 'modals', 'Look at those clouds. It ___ rain.', 'Look at those clouds', ['might'], ['must', 'can', 'did'], R.mMight),
+  f('md-34', 'modals', "You ___ park here. It's for ambulances only.", 'for ambulances only', ["can't"], ['can', 'should', 'might'], R.mCan),
+  f('md-35', 'modals', 'My grandmother ___ walk without a stick now.', 'without a stick', ["can't"], ["mustn't", "shouldn't", "isn't"], R.mCan),
+  f('md-36', 'modals', "You ___ pay to visit the museum. It's free.", "It's free", ["don't", 'have', 'to'], ["mustn't", 'has', 'must'], R.mDontHave),
+  f('md-37', 'modals', 'Children ___ play with matches.', 'with matches', ["shouldn't"], ['should', 'might', 'can'], R.mShould),
+  f('md-38', 'modals', 'If you feel ill, you ___ stay at home.', 'If you feel ill', ['should'], ["shouldn't", 'did', 'are'], R.mShould),
+  f('md-39', 'modals', 'She ___ play the piano when she was six.', 'when she was six', ['could'], ['can', 'must', 'should'], R.mCould),
+  f('md-40', 'modals', '___ you swim?', null, ['Can'], ['Are', 'Have', 'Is'], R.mCan),
+  f('md-41', 'modals', 'You ___ to show your passport at the border.', 'to show', ['have'], ['must', 'should', 'can'], R.mHaveTo),
+  f('md-42', 'modals', "I ___ go now, or I'll miss my train.", "or I'll miss my train", ['must'], ["mustn't", 'might', 'did'], R.mMust),
+  f('md-43', 'modals', "You ___ eat that. It's past its sell-by date.", 'past its sell-by date', ["shouldn't"], ['should', 'might', 'can'], R.mShould),
+  f('md-44', 'modals', 'He has a temperature. He ___ go to school today.', 'He has a temperature', ["shouldn't"], ['should', 'must', 'can'], R.mShould),
+  f('md-45', 'modals', 'We ___ see the mountains from our window.', 'from our window', ['can'], ['cans', 'is', 'has'], R.mCan),
+  f('md-46', 'modals', 'You ___ cross the road when the light is red.', 'when the light is red', ["mustn't"], ['must', 'should', 'might'], R.mMustnt),
+  f('md-47', 'modals', "They ___ be tired. They've walked twenty kilometres.", "They've walked twenty kilometres", ['must'], ["can't", "mustn't", 'did'], R.mDeduc),
+  f('md-48', 'modals', 'He ___ be hungry. He has just had lunch.', 'He has just had lunch', ["can't"], ["mustn't", 'must', 'did'], R.mDeduc),
+  f('md-49', 'modals', "I'm not sure, but she ___ be at the library.", "I'm not sure", ['might'], ['must', "can't", 'did'], R.mMight),
+  f('md-50', 'modals', 'Tomorrow is a holiday, so I ___ to work.', 'Tomorrow is a holiday', ["don't", 'have'], ["mustn't", 'has', "doesn't"], R.mDontHave),
+  f('md-51', 'modals', '___ I sit here? Yes, of course.', 'Yes, of course', ['May'], ['Must', 'Do', 'Am'], R.mMay),
+  f('md-52', 'modals', 'You ___ wash your hands before you cook.', 'before you cook', ['should'], ["shouldn't", 'did', 'are'], R.mShould),
+  f('md-53', 'modals', "I ___ see anything. It's too dark.", "It's too dark", ["can't"], ["mustn't", "shouldn't", "isn't"], R.mCan),
+  f('md-54', 'modals', 'Visitors ___ feed the animals.', 'feed the animals', ["mustn't"], ['must', 'should', 'might'], R.mMustnt),
 ]
 
 export function frasesDe(tema) {

@@ -7,5 +7,5 @@ const nivelInfo = {
 }
 
 export default function InglesGrammarConditionalsExamen() {
-  return <ExamenMC titulo={{ es: 'Conditionals & Wishes', en: 'Conditionals & Wishes', ca: 'Conditionals & Wishes' }} emoji="🔀" nivelInfo={nivelInfo} backFallback="/estudiar/idiomas/ingles/grammar" gameId="ingles-grammar-conditionals-test" />
+  return <ExamenMC titulo={{ es: 'Conditionals & Wishes', en: 'Conditionals & Wishes', ca: 'Conditionals & Wishes' }} emoji="🔀" nivelInfo={nivelInfo} backFallback="/estudiar/idiomas/ingles/grammar" gameId="ingles-grammar-conditionals-test" otroExamen={{ path: '/examen/ingles-piezas-conditionals-test', emoji: '🧩', label: { es: 'Montar la frase', en: 'Build the sentence', ca: 'Muntar la frase' }, desc: { es: 'Completa el hueco con las piezas, sin opciones que elegir', en: 'Fill the gap with pieces, no options to pick from', ca: 'Completa el buit amb les peces, sense opcions per triar' } }} />
 }

@@ -72,7 +72,7 @@ function Question({ round, phase, onAnswer, l }) {
 
 export default function InglesPiezasExamenBase({ tema, gameId }) {
   const meta = TEMAS[tema]
-  const nombre = meta.label.es // los cinco temas se llaman igual en los tres idiomas
+  const nombre = meta.label.es // los temas se llaman igual en los tres idiomas
 
   return (
     <MechanicExam

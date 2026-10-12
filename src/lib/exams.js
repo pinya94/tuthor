@@ -1014,6 +1014,16 @@ export const EXAMS = {
     emoji: '🧩', subject: 'ingles',
     path: 'examen/ingles-piezas-passive-test', page: () => import('../pages/InglesPiezasPassiveExamen'),
   },
+  'ingles-piezas-conditionals-test': {
+    label: { es: 'Conditionals (montar la frase)', en: 'Conditionals (build the sentence)', ca: 'Conditionals (muntar la frase)' },
+    emoji: '🧩', subject: 'ingles',
+    path: 'examen/ingles-piezas-conditionals-test', page: () => import('../pages/InglesPiezasConditionalsExamen'),
+  },
+  'ingles-piezas-modals-test': {
+    label: { es: 'Modal Verbs (montar la frase)', en: 'Modal Verbs (build the sentence)', ca: 'Modal Verbs (muntar la frase)' },
+    emoji: '🧩', subject: 'ingles',
+    path: 'examen/ingles-piezas-modals-test', page: () => import('../pages/InglesPiezasModalsExamen'),
+  },
   // Los dos que salen de Cambio de Estado: el juego se quedó con UNA mecánica
   // (decir el estado) y el vocabulario de los cambios pasó a examen propio.
   'cambio-estado-test': {

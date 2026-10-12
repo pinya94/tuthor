@@ -531,8 +531,8 @@ export const TOPIC_CATALOG = {
       'present-perfect': examTema({ test: 'ingles-grammar-present-perfect-test', piezasExamen: 'ingles-piezas-present-perfect-test' }, { niveles: ['eso', 'bachillerato'] }),
       articles: examTema({ test: 'ingles-grammar-articles-test', piezasExamen: 'ingles-piezas-articles-test' }, { niveles: ['primaria', 'eso'] }),
       passive: examTema({ test: 'ingles-grammar-passive-test', piezasExamen: 'ingles-piezas-passive-test' }, { niveles: ['eso', 'bachillerato'] }),
-      conditionals: examTema({ test: 'ingles-grammar-conditionals-test' }, { niveles: ['eso', 'bachillerato'] }),
-      modals: examTema({ test: 'ingles-grammar-modals-test' }, { niveles: ['primaria', 'eso'] }),
+      conditionals: examTema({ test: 'ingles-grammar-conditionals-test', piezasExamen: 'ingles-piezas-conditionals-test' }, { niveles: ['eso', 'bachillerato'] }),
+      modals: examTema({ test: 'ingles-grammar-modals-test', piezasExamen: 'ingles-piezas-modals-test' }, { niveles: ['primaria', 'eso'] }),
       // El orden de las palabras es un tema propio del temario, no un formato
       // de los demás: su examen mezcla adjetivos, adverbios y preguntas a
       // propósito, así que colgarlo de "Adjectives" o "Present Simple" daría
@@ -554,7 +554,7 @@ export const TOPIC_CATALOG = {
         tracksTopic: true,
         // Las clases de palabra (nouns, verbs…) se quedan fuera: el juego va de
         // formas verbales, artículos y pasiva, no de identificar categorías.
-        temas: ['present-simple', 'past-simple', 'present-perfect', 'articles', 'passive'],
+        temas: ['present-simple', 'past-simple', 'present-perfect', 'articles', 'passive', 'conditionals', 'modals'],
       },
       senalar: examFormato({ es: 'Señalar en la frase', en: 'Spot in the sentence', ca: 'Assenyalar a la frase' }, '🧐'),
       test: examFormato({ es: 'Tipo test', en: 'Multiple choice', ca: 'Tipus test' }, '📚'),

@@ -60,10 +60,10 @@ export const FICHAS_ES = {
   },
   'pieza-que-falta': {
     titulo: 'La Pieza que Falta',
-    subtitulo: 'Juego de gramática inglesa: tiempos verbales, artículos y pasiva',
+    subtitulo: 'Juego de gramática inglesa: tiempos verbales, artículos, pasiva, condicionales y modales',
     emoji: '🧩', gradient: 'from-sky-600 to-indigo-800',
     path: '/juegos/pieza-que-falta',
-    intro: 'Un juego de inglés para dominar las cinco estructuras que más se atragantan: aparece una frase con un hueco y hay que montar la forma correcta tocando las piezas en orden. No es elegir entre cuatro opciones: hay que construir "has written" o "will be built" pieza a pieza, que es lo que de verdad se pide en un examen y al hablar. La pista que decide la respuesta va subrayada en la frase, y al comprobar sale la regla.',
+    intro: 'Un juego de inglés para dominar las estructuras que más se atragantan (tiempos verbales, artículos, pasiva, condicionales y verbos modales): aparece una frase con un hueco y hay que montar la forma correcta tocando las piezas en orden. No es elegir entre cuatro opciones: hay que construir "has written" o "will be built" pieza a pieza, que es lo que de verdad se pide en un examen y al hablar. La pista que decide la respuesta va subrayada en la frase, y al comprobar sale la regla.',
     beneficios: [
       { titulo: 'Producir, no reconocer', texto: 'En un test de cuatro opciones se acierta reconociendo la respuesta. Montándola con piezas hay que saber que el tiempo lo marca el auxiliar y el significado el participio. Es la diferencia entre entender una frase y ser capaz de escribirla.' },
       { titulo: 'Aprender a buscar la pista', texto: 'Cada frase lleva subrayado lo que decide la respuesta: "every day", "yesterday", "since 2010", "yet". Con la repetición el alumno deja de adivinar el tiempo verbal y empieza a leer la frase buscando la señal.' },
@@ -2319,9 +2319,9 @@ export const FICHAS_EN = {
   },
   'pieza-que-falta': {
     titulo: 'Missing Piece',
-    subtitulo: 'English grammar game: verb tenses, articles and the passive',
+    subtitulo: 'English grammar game: verb tenses, articles, the passive, conditionals and modals',
     emoji: '🧩', gradient: 'from-sky-600 to-indigo-800', path: '/juegos/pieza-que-falta',
-    intro: 'An English game for the five structures that cause the most trouble: a sentence appears with a gap and you build the correct form by tapping the pieces in order. It is not picking one of four options: you have to assemble "has written" or "will be built" piece by piece, which is what an exam — and speaking — actually asks for. The clue that decides the answer is underlined in the sentence, and the rule appears when you check.',
+    intro: 'An English game for the structures that cause the most trouble (verb tenses, articles, the passive, conditionals and modal verbs): a sentence appears with a gap and you build the correct form by tapping the pieces in order. It is not picking one of four options: you have to assemble "has written" or "will be built" piece by piece, which is what an exam — and speaking — actually asks for. The clue that decides the answer is underlined in the sentence, and the rule appears when you check.',
     beneficios: [
       { titulo: 'Producing, not recognising', texto: 'In a four-option test you can get it right by recognising the answer. Building it from pieces means knowing that the auxiliary carries the tense and the participle carries the meaning. That is the difference between understanding a sentence and being able to write one.' },
       { titulo: 'Learning to look for the clue', texto: 'Every sentence underlines what decides the answer: "every day", "yesterday", "since 2010", "yet". With repetition the student stops guessing the tense and starts reading the sentence looking for the signal.' },
@@ -4239,9 +4239,9 @@ export const FICHAS_CA = {
   },
   'pieza-que-falta': {
     titulo: 'La Peça que Falta',
-    subtitulo: 'Joc de gramàtica anglesa: temps verbals, articles i passiva',
+    subtitulo: 'Joc de gramàtica anglesa: temps verbals, articles, passiva, condicionals i modals',
     emoji: '🧩', gradient: 'from-sky-600 to-indigo-800', path: '/juegos/pieza-que-falta',
-    intro: 'Un joc d’anglès per dominar les cinc estructures que més costen: apareix una frase amb un buit i cal muntar la forma correcta tocant les peces en ordre. No és triar entre quatre opcions: cal construir "has written" o "will be built" peça a peça, que és el que de debò demana un examen i el fet de parlar. La pista que decideix la resposta va subratllada a la frase, i en comprovar surt la regla.',
+    intro: 'Un joc d’anglès per dominar les estructures que més costen (temps verbals, articles, passiva, condicionals i verbs modals): apareix una frase amb un buit i cal muntar la forma correcta tocant les peces en ordre. No és triar entre quatre opcions: cal construir "has written" o "will be built" peça a peça, que és el que de debò demana un examen i el fet de parlar. La pista que decideix la resposta va subratllada a la frase, i en comprovar surt la regla.',
     beneficios: [
       { titulo: 'Produir, no reconèixer', texto: 'En un test de quatre opcions s’encerta reconeixent la resposta. Muntant-la amb peces cal saber que el temps el marca l’auxiliar i el significat el participi. És la diferència entre entendre una frase i ser capaç d’escriure-la.' },
       { titulo: 'Aprendre a buscar la pista', texto: 'Cada frase porta subratllat el que decideix la resposta: "every day", "yesterday", "since 2010", "yet". Amb la repetició l’alumne deixa d’endevinar el temps verbal i comença a llegir la frase buscant el senyal.' },

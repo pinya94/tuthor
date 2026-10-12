@@ -26,7 +26,7 @@ const TEMAS = [
 
 const L = {
   elige:  { es: 'Elige un tema', en: 'Choose a topic', ca: 'Tria un tema' },
-  mezcla: { es: 'Los cinco temas mezclados, a contrarreloj', en: 'All five topics mixed, against the clock', ca: 'Els cinc temes barrejats, a contrarellotge' },
+  mezcla: { es: 'Los siete temas mezclados, a contrarreloj', en: 'All seven topics mixed, against the clock', ca: 'Els set temes barrejats, a contrarellotge' },
 }
 
 export default function InglesGrammarIndex() {
