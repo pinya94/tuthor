@@ -376,7 +376,7 @@ export const TOPIC_CATALOG = {
       fisica: examTema({ teoria: 'geografia-fisica-test', climograma: 'climograma-test' }, { niveles: ['primaria', 'eso'] }),
       humana: examTema({ teoria: 'geografia-humana-test', piramide: 'piramide-poblacion-test' }, { niveles: ['primaria', 'eso'] }),
       'union-europea': examTema({ teoria: 'geografia-ue-test', europa27: 'europa-27-test' }, { niveles: ['eso', 'bachillerato'] }),
-      constitucion: examTema({ teoria: 'geografia-constitucion-test' }, { niveles: ['eso', 'bachillerato'] }),
+      constitucion: examTema({ teoria: 'geografia-constitucion-test', quienDecide: 'quien-decide-test' }, { niveles: ['eso', 'bachillerato'] }),
     },
     formatos: {
       pistas: examFormato({ es: 'Adivina por pistas', en: 'Guess from clues', ca: 'Endevina per pistes' }, '🌍'),
@@ -390,6 +390,7 @@ export const TOPIC_CATALOG = {
       climograma: examFormato({ es: 'Climograma (con el juego)', en: 'Climate Graph (with the game)', ca: 'Climograma (amb el joc)' }, '🌧️'),
       piramide: examFormato({ es: 'Pirámide de población (con el juego)', en: 'Population Pyramid (with the game)', ca: 'Piràmide de població (amb el joc)' }, '👥'),
       europa27: examFormato({ es: 'Europa a 27 (con el juego)', en: 'Europe of 27 (with the game)', ca: 'Europa a 27 (amb el joc)' }, '⭐'),
+      quienDecide: examFormato({ es: '¿Quién Decide? (con el juego)', en: 'Who Decides? (with the game)', ca: 'Qui Decideix? (amb el joc)' }, '🗳️'),
     },
   },
 

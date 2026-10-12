@@ -1731,6 +1731,34 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Química', niveles: 'Primaria, ESO',
   },
+  'quien-decide': {
+    titulo: '¿Quién Decide?',
+    subtitulo: 'Juego de la Constitución española: poderes, órganos del Estado y leyes',
+    emoji: '🗳️', gradient: 'from-red-600 to-amber-600',
+    path: '/juegos/quien-decide',
+    intro: 'Un juego para entender cómo se organiza el Estado según la Constitución de 1978. Sale algo que ocurre en la vida política («vota la investidura del presidente», «decide si una ley va contra la Constitución», «juzga a una persona acusada de un delito») y hay que decir qué órgano o qué poder se encarga; al corregir, un organigrama con la Corona, las Cortes, el Gobierno, el poder judicial, el Tribunal Constitucional, el Defensor del Pueblo y las comunidades autónomas ilumina la respuesta. También salen los números de la Constitución, la diferencia entre derechos fundamentales, principios rectores y deberes, las competencias del Estado y de las autonomías y, en el nivel difícil, los pasos para hacer una ley.',
+    beneficios: [
+      { titulo: 'Cada órgano en su sitio', texto: 'Las confusiones típicas están entre las opciones: el Congreso y el Senado, el Gobierno y el rey, el Tribunal Constitucional y el Tribunal Supremo, el CGPJ y los jueces. Ver el organigrama iluminado al corregir fija dónde está cada uno y a qué poder pertenece (o por qué el Constitucional no pertenece a ninguno).' },
+      { titulo: 'Derechos que no son iguales', texto: 'La educación es un derecho fundamental, protegido con recurso de amparo; la vivienda o la salud son principios rectores, que guían a los poderes públicos pero no se reclaman igual ante un juez. Cada caso trae su artículo, que es lo que piden en los comentarios de texto de la Constitución.' },
+      { titulo: 'Cómo nace una ley', texto: 'Iniciativa, Congreso, Senado, vuelta al Congreso si el Senado la cambia, sanción del rey, publicación en el BOE y entrada en vigor. Preguntar «qué paso va después» obliga a entender el recorrido, y no solo a memorizar una lista.' },
+    ],
+    ejemplo: 'Sale «Puede derribar al Gobierno con una moción de censura». ¿Qué órgano es? El Congreso de los Diputados (artículo 113): solo puede hacerlo si a la vez elige a otro presidente por mayoría absoluta, como pasó en 2018. No es el Senado, que no interviene ni en la investidura ni en la censura, ni el rey, cuyo papel es proponer al candidato y nombrarlo.',
+    enPapel: {
+      titulo: 'El organigrama de clase',
+      pasos: [
+        'Dibuja el organigrama: la Corona arriba, debajo los tres poderes y, aparte, el Tribunal Constitucional, el Defensor del Pueblo y las comunidades autónomas.',
+        'Escribe en tarjetas diez cosas que pasan en las noticias (una ley, un juicio, un decreto, una moción de censura…).',
+        'Coloca cada tarjeta sobre el órgano que se encarga y busca el artículo de la Constitución que lo dice.',
+        'Comprueba en el juego los casos que te hayan hecho dudar.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'El examen de La Constitución y el Estado', desc: 'Tipo test sobre la forma de Estado, los poderes, las Cortes, el Gobierno, las autonomías y los derechos, con explicación en cada respuesta.' },
+      { nombre: 'Europa a 27', desc: 'Otro juego de instituciones: los países y las instituciones de la Unión Europea en el mapa.' },
+      { nombre: 'Línea Temporal', desc: 'Ordena acontecimientos históricos, de la Transición a la Constitución de 1978.' },
+    ],
+    asignatura: 'Geografía', niveles: 'ESO, Bachillerato',
+  },
   'europa-27': {
     titulo: 'Europa a 27',
     subtitulo: 'Juego de la Unión Europea: mapa, euro, Schengen e instituciones',
@@ -3691,6 +3719,33 @@ export const FICHAS_EN = {
       { nombre: 'Felt-tip chromatography', desc: 'Draw a dot with a black felt-tip on a strip of kitchen paper, dip the end in water and watch the colours separate.' },
     ],
     asignatura: 'Chemistry', niveles: 'Primary, Secondary',
+  },
+  'quien-decide': {
+    titulo: 'Who Decides?',
+    subtitulo: 'Spanish Constitution game: powers, bodies of the State and laws',
+    emoji: '🗳️', gradient: 'from-red-600 to-amber-600', path: '/juegos/quien-decide',
+    intro: 'A game for understanding how the Spanish State is organised under the 1978 Constitution. Something that happens in political life appears («votes to invest the Prime Minister», «decides whether a law goes against the Constitution», «tries a person accused of a crime») and you say which body or which power is responsible; when you answer, an organisation chart with the Crown, Parliament, the Government, the judiciary, the Constitutional Court, the Ombudsman and the autonomous communities lights up the answer. You also get the Constitution’s numbers, the difference between fundamental rights, guiding principles and duties, the powers of the State and of the regions and, on the hard level, the steps in making a law.',
+    beneficios: [
+      { titulo: 'Every body in its place', texto: 'The typical mix-ups are among the options: Congress and the Senate, the Government and the King, the Constitutional Court and the Supreme Court, the CGPJ and the judges. Seeing the chart light up when you answer fixes where each one sits and which power it belongs to (or why the Constitutional Court belongs to none).' },
+      { titulo: 'Rights that are not all equal', texto: 'Education is a fundamental right, protected by an amparo appeal; housing or health are guiding principles, which guide the authorities but cannot be claimed the same way before a judge. Every case comes with its article.' },
+      { titulo: 'How a law is born', texto: 'Initiative, Congress, Senate, back to Congress if the Senate changes it, royal assent, publication in the Official Gazette and entry into force. Asking «which step comes next» makes you understand the path, not just memorise a list.' },
+    ],
+    ejemplo: '«It can bring down the Government with a motion of no confidence» appears. Which body is it? The Congress of Deputies (Article 113): it can only do so if it elects another Prime Minister by absolute majority at the same time, as happened in 2018. It is not the Senate, which plays no part in investiture or no-confidence votes, nor the King, whose role is to propose the candidate and appoint them.',
+    enPapel: {
+      titulo: 'The classroom organisation chart',
+      pasos: [
+        'Draw the chart: the Crown at the top, the three powers below and, to one side, the Constitutional Court, the Ombudsman and the autonomous communities.',
+        'Write ten things from the news on cards (a law, a trial, a decree, a no-confidence motion…).',
+        'Put each card on the body responsible and find the article of the Constitution that says so.',
+        'Check the cases you were unsure about in the game.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'Europe of 27', desc: 'Another game on institutions: the countries and institutions of the European Union on the map.' },
+      { nombre: 'Timeline', desc: 'Put historical events in order, from the Transition to the 1978 Constitution.' },
+      { nombre: 'GeoMap', desc: 'Point to countries around the world on the map.' },
+    ],
+    asignatura: 'Geography', niveles: 'Secondary, Sixth form',
   },
   'europa-27': {
     titulo: 'Europe of 27',
@@ -5662,6 +5717,33 @@ export const FICHAS_CA = {
       { nombre: 'Cromatografia amb retoladors', desc: 'Pinta un punt amb retolador negre en una tira de paper de cuina, posa’n la punta a l’aigua i mira com se separen els colors.' },
     ],
     asignatura: 'Química', niveles: 'Primària, ESO',
+  },
+  'quien-decide': {
+    titulo: 'Qui Decideix?',
+    subtitulo: 'Joc de la Constitució espanyola: poders, òrgans de l’Estat i lleis',
+    emoji: '🗳️', gradient: 'from-red-600 to-amber-600', path: '/juegos/quien-decide',
+    intro: 'Un joc per entendre com s’organitza l’Estat segons la Constitució del 1978. Surt una cosa que passa en la vida política («vota la investidura del president», «decideix si una llei va contra la Constitució», «jutja una persona acusada d’un delicte») i cal dir quin òrgan o quin poder se n’encarrega; en corregir, un organigrama amb la Corona, les Corts, el Govern, el poder judicial, el Tribunal Constitucional, el Defensor del Poble i les comunitats autònomes il·lumina la resposta. També surten els números de la Constitució, la diferència entre drets fonamentals, principis rectors i deures, les competències de l’Estat i de les autonomies i, al nivell difícil, els passos per fer una llei.',
+    beneficios: [
+      { titulo: 'Cada òrgan al seu lloc', texto: 'Les confusions típiques són entre les opcions: el Congrés i el Senat, el Govern i el rei, el Tribunal Constitucional i el Tribunal Suprem, el CGPJ i els jutges. Veure l’organigrama il·luminat en corregir fixa on és cadascun i a quin poder pertany (o per què el Constitucional no pertany a cap).' },
+      { titulo: 'Drets que no són iguals', texto: 'L’educació és un dret fonamental, protegit amb recurs d’empara; l’habitatge o la salut són principis rectors, que guien els poders públics però no es reclamen igual davant un jutge. Cada cas porta el seu article, que és el que demanen als comentaris de text de la Constitució.' },
+      { titulo: 'Com neix una llei', texto: 'Iniciativa, Congrés, Senat, tornada al Congrés si el Senat la canvia, sanció del rei, publicació al BOE i entrada en vigor. Preguntar «quin pas va després» obliga a entendre el recorregut, i no només a memoritzar una llista.' },
+    ],
+    ejemplo: 'Surt «Pot fer caure el Govern amb una moció de censura». Quin òrgan és? El Congrés dels Diputats (article 113): només ho pot fer si alhora escull un altre president per majoria absoluta, com va passar el 2018. No és el Senat, que no intervé ni en la investidura ni en la censura, ni el rei, que proposa el candidat i el nomena.',
+    enPapel: {
+      titulo: 'L’organigrama de classe',
+      pasos: [
+        'Dibuixa l’organigrama: la Corona a dalt, a sota els tres poders i, a part, el Tribunal Constitucional, el Defensor del Poble i les comunitats autònomes.',
+        'Escriu en targetes deu coses que passen a les notícies (una llei, un judici, un decret, una moció de censura…).',
+        'Col·loca cada targeta sobre l’òrgan que se n’encarrega i busca l’article de la Constitució que ho diu.',
+        'Comprova al joc els casos que t’hagin fet dubtar.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'L’examen de La Constitució i l’Estat', desc: 'Tipus test sobre la forma d’Estat, els poders, les Corts, el Govern, les autonomies i els drets, amb explicació a cada resposta.' },
+      { nombre: 'Europa a 27', desc: 'Un altre joc d’institucions: els països i les institucions de la Unió Europea al mapa.' },
+      { nombre: 'Línia Temporal', desc: 'Ordena esdeveniments històrics, de la Transició a la Constitució del 1978.' },
+    ],
+    asignatura: 'Geografia', niveles: 'ESO, Batxillerat',
   },
   'europa-27': {
     titulo: 'Europa a 27',

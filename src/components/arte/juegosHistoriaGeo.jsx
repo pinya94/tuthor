@@ -201,6 +201,24 @@ function Coordenadas(p) {
   )
 }
 
+function QuienDecide(p) {
+  // El organigrama del Estado en pequeño: la Corona arriba y tres poderes debajo.
+  const cols = [[44, '#3B82F6'], [120, '#F59E0B'], [196, '#22C55E']]
+  return (
+    <Lienzo {...p}>
+      <rect x="92" y="12" width="56" height="22" rx="6" fill="#FACC15" />
+      <path d="M120 34 V46 M44 46 H196 M44 46 V56 M120 46 V56 M196 46 V56" stroke="#94A3B8" strokeWidth="2.5" fill="none" />
+      {cols.map(([x, c]) => (
+        <g key={x}>
+          <rect x={x - 30} y="56" width="60" height="18" rx="5" fill={c} />
+          <rect x={x - 30} y="80" width="60" height="16" rx="5" fill="#1E293B" stroke={c} strokeWidth="2" />
+          <rect x={x - 30} y="100" width="60" height="16" rx="5" fill="#1E293B" stroke={c} strokeWidth="2" />
+        </g>
+      ))}
+    </Lienzo>
+  )
+}
+
 function Europa27(p) {
   // El círculo de doce estrellas de la bandera europea sobre azul.
   const estrella = (cx, cy, r) => Array.from({ length: 10 }, (_, i) => {
@@ -279,6 +297,7 @@ export const ARTE_HISTORIA_GEO = {
   coordenadas: Coordenadas,
   'piramide-poblacion': PiramidePoblacion,
   'europa-27': Europa27,
+  'quien-decide': QuienDecide,
   climograma: Climograma,
   'que-estilo': QueEstilo,
 }

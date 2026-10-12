@@ -151,6 +151,11 @@ export const EXAMS = {
     emoji: '🌧️', subject: 'geografia',
     path: 'examen/climograma-test', page: () => import('../pages/ClimogramaExamen'),
   },
+  'quien-decide-test': {
+    label: { es: '¿Quién Decide? (con el juego)', en: 'Who Decides? (with the game)', ca: 'Qui Decideix? (amb el joc)' },
+    emoji: '🗳️', subject: 'geografia',
+    path: 'examen/quien-decide-test', page: () => import('../pages/QuienDecideExamen'),
+  },
   'europa-27-test': {
     label: { es: 'Europa a 27 (con el juego)', en: 'Europe of 27 (with the game)', ca: 'Europa a 27 (amb el joc)' },
     emoji: '⭐', subject: 'geografia',
