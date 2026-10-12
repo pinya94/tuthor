@@ -625,6 +625,15 @@ export const GAMES = {
     // cualquier otro juego.
     coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
   },
+  'detective-textos': {
+    label: { es: 'Detective de Textos', en: 'Detective de Textos', ca: 'Detective de Textos' },
+    emoji: '📑',
+    subject: 'lengua',
+    route: '/juegos/detective-textos',
+    idiomas: ['es'], // fragmentos en castellano: ver disponibleEn
+    // aciertos × 10 puntos → hasta 200 monedas
+    coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
+  },
   cazafiguras: {
     label: { es: 'Cazafiguras', en: 'Cazafiguras', ca: 'Cazafiguras' },
     emoji: '🎭',

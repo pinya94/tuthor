@@ -1647,6 +1647,34 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Biología', niveles: 'ESO, Bachillerato',
   },
+  'detective-textos': {
+    titulo: 'Detective de Textos',
+    subtitulo: 'Juego de tipos de texto, elementos de la comunicación y funciones del lenguaje',
+    emoji: '📑', gradient: 'from-teal-600 to-cyan-800',
+    path: '/juegos/detective-textos',
+    intro: 'Un juego de lengua para el tema de los textos y la comunicación. Sale un fragmento en un papel y hay que decir qué tipo de texto es: narración, descripción, diálogo, exposición, argumentación o instrucción. Otras rondas son escenas de comunicación (un wasap, una clase, un árbitro con su silbato, un semáforo, la radio, dos amigas que hablan en lengua de signos) en las que hay que señalar el emisor, el receptor, el mensaje, el canal o el código. En los niveles altos salen las funciones del lenguaje: expresiva, apelativa, referencial, fática, metalingüística y poética. Al corregir aparece la pista que delata la respuesta.',
+    beneficios: [
+      { titulo: 'Las pistas de cada tipo de texto', texto: 'Verbos en pasado y personajes en la narración, adjetivos en la descripción, rayas en el diálogo, imperativos en la instrucción, «creo que» y «porque» en la argumentación. La explicación de cada ronda nombra la pista, para que el alumno aprenda a buscarla en cualquier texto.' },
+      { titulo: 'Canal y código, por fin claros', texto: 'Son los dos elementos que más se confunden. Las escenas los ponen frente a frente: en un wasap el canal es el móvil y el código el castellano escrito; en un semáforo, la luz y los colores; en la lengua de signos, la vista y los signos. Como las opciones salen de la misma escena, la diferencia se ve sola.' },
+      { titulo: 'Funciones sin trampas', texto: 'Muchas frases tienen más de una función: preguntar qué significa una palabra es metalingüístico, pero también apelativo. El juego conoce esas dobles funciones y nunca las ofrece como opción falsa, así que la respuesta es la función que domina.' },
+    ],
+    ejemplo: 'Sale la escena del semáforo: «El semáforo de los peatones se pone en rojo y la gente se queda en la acera». ¿Cuál es el código? Los colores del semáforo: rojo es «no cruces» porque emisor y receptor lo saben. El canal es la luz, por donde viaja el mensaje; el emisor, el semáforo; el receptor, los peatones; y el mensaje, que no se puede cruzar.',
+    enPapel: {
+      titulo: 'Seis textos sobre lo mismo',
+      pasos: [
+        'Elige un tema, por ejemplo tu mascota o tu barrio.',
+        'Escribe seis textos muy cortos sobre él: una narración, una descripción, un diálogo, una exposición, una opinión con argumentos y unas instrucciones.',
+        'Subraya en cada uno la pista que delata su tipo.',
+        'Pásaselos a un compañero desordenados para que los clasifique.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'El examen de los textos', desc: 'Tipo test sobre la comunicación, las tipologías textuales, las funciones del lenguaje y las propiedades del texto (adecuación, coherencia y cohesión).' },
+      { nombre: 'Cazafiguras', desc: 'Otro juego de lengua: las figuras literarias en versos y frases.' },
+      { nombre: 'Corrige el Texto', desc: 'Busca y corrige las faltas de un texto, contra reloj.' },
+    ],
+    asignatura: 'Lengua', niveles: 'Primaria, ESO',
+  },
   cazafiguras: {
     titulo: 'Cazafiguras',
     subtitulo: 'Juego de figuras literarias: metáfora, hipérbole, anáfora, paradoja y más',

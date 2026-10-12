@@ -92,6 +92,18 @@ function PiezaQueFalta(p) {
   )
 }
 
+function DetectiveTextos(p) {
+  // Una hoja de papel con renglones y una lupa que asoma por encima.
+  return (
+    <Lienzo {...p}>
+      <rect x="54" y="16" width="100" height="104" rx="6" fill="#F5EFE0" />
+      {[34, 48, 62, 76, 90, 104].map((y, i) => <rect key={y} x="66" y={y} width={i % 3 === 2 ? 52 : 76} height="5" rx="2.5" fill="#9CA3AF" />)}
+      <circle cx="160" cy="72" r="24" fill="#0EA5E9" fillOpacity="0.25" stroke="#22D3EE" strokeWidth="6" />
+      <line x1="177" y1="89" x2="200" y2="114" stroke="#22D3EE" strokeWidth="8" strokeLinecap="round" />
+    </Lienzo>
+  )
+}
+
 function Cazafiguras(p) {
   // Un verso con una palabra resaltada y una lupa encima.
   return (
@@ -198,6 +210,7 @@ export const ARTE_LENGUA = {
   'que-letra': QueLetra,
   'coma-a-coma': ComaAComa,
   cazafiguras: Cazafiguras,
+  'detective-textos': DetectiveTextos,
   'mide-el-verso': MideElVerso,
   'corrige-el-texto': CorrigeElTexto,
 }
