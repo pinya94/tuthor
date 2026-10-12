@@ -5,10 +5,10 @@ import { genRound, esCorrecta, schemaQuestion } from '../lib/bloquesPrimos'
 
 // Examen con la mecánica de Bloques Primos: las mismas preguntas, sin reloj.
 const LEVELS = [
-  { key: 'primaria', emoji: '🟢', difficulty: 'facil',
+  { key: 'primaria', emoji: '💚', difficulty: 'facil',
     label: { es: 'Primaria', en: 'Primary', ca: 'Primària' },
     hint: { es: 'Criterios, primos, descomponer y mcd/mcm con bloques', en: 'Rules, primes, factorising and HCF/LCM with blocks', ca: 'Criteris, primers, descompondre i mcd/mcm amb blocs' } },
-  { key: 'eso', emoji: '🟡', difficulty: 'medio',
+  { key: 'eso', emoji: '💛', difficulty: 'medio',
     label: { es: 'Secundaria (ESO)', en: 'Secondary (ESO)', ca: 'Secundària (ESO)' },
     hint: { es: 'Números más grandes y problemas de mcd y mcm', en: 'Bigger numbers and HCF and LCM problems', ca: 'Nombres més grans i problemes de mcd i mcm' } },
   { key: 'bachillerato', emoji: '🔴', difficulty: 'dificil',

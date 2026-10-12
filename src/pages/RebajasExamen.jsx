@@ -5,10 +5,10 @@ import { genRound, esCorrecta, schemaQuestion } from '../lib/rebajas'
 
 // Examen con la mecánica de Rebajas: las mismas etiquetas, sin reloj.
 const LEVELS = [
-  { key: 'primaria', emoji: '🟢', difficulty: 'facil',
+  { key: 'primaria', emoji: '💚', difficulty: 'facil',
     label: { es: 'Primaria', en: 'Primary', ca: 'Primària' },
     hint: { es: 'Descuentos redondos: cuánto pagas y cuánto ahorras', en: 'Round discounts: what you pay and save', ca: 'Descomptes rodons: quant pagues i quant estalvies' } },
-  { key: 'eso', emoji: '🟡', difficulty: 'medio',
+  { key: 'eso', emoji: '💛', difficulty: 'medio',
     label: { es: 'Secundaria (ESO)', en: 'Secondary (ESO)', ca: 'Secundària (ESO)' },
     hint: { es: 'Qué % es, el IVA y comparar ofertas', en: 'What % it is, VAT and comparing deals', ca: 'Quin % és, l’IVA i comparar ofertes' } },
   { key: 'bachillerato', emoji: '🔴', difficulty: 'dificil',

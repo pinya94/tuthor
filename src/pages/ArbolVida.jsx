@@ -17,9 +17,9 @@ const CORRECT_TIME = 4
 const REVEAL_MS = 5200 // da tiempo a ver el árbol marcado y leer la explicación
 
 const DIFS = {
-  facil:   { emoji: '🟢', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
+  facil:   { emoji: '💚', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
              desc: { es: 'Darwin, pruebas de la evolución, qué apareció antes y árboles sencillos', en: 'Darwin, evidence for evolution, what came first and simple trees', ca: 'Darwin, proves de l’evolució, què va aparèixer abans i arbres senzills' } },
-  medio:   { emoji: '🟡', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
+  medio:   { emoji: '💛', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
              desc: { es: 'Árboles evolutivos, Darwin frente a Lamarck y órganos homólogos, análogos y vestigiales', en: 'Evolutionary trees, Darwin versus Lamarck and homologous, analogous and vestigial organs', ca: 'Arbres evolutius, Darwin davant Lamarck i òrgans homòlegs, anàlegs i vestigials' } },
   dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' },
              desc: { es: 'Parentescos con trampa (ballenas, cocodrilos) y la historia de la vida en orden', en: 'Tricky relationships (whales, crocodiles) and the history of life in order', ca: 'Parentius amb parany (balenes, cocodrils) i la història de la vida en ordre' } },

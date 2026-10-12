@@ -148,7 +148,7 @@ export const BANNERS = [
   {
     id: 'banner_forest',
     name: { es: 'Bosque', en: 'Forest', ca: 'Bosc' },
-    emoji: '🟢',
+    emoji: '🌲',
     price: 7500,
     bg: 'linear-gradient(90deg, rgba(22,163,74,0.35) 0%, rgba(22,163,74,0.08) 70%, transparent 100%)',
     border: '#16a34a',
@@ -156,7 +156,7 @@ export const BANNERS = [
   {
     id: 'banner_amber',
     name: { es: 'Ámbar', en: 'Amber', ca: 'Ambre' },
-    emoji: '🟡',
+    emoji: '🍯',
     price: 7500,
     bg: 'linear-gradient(90deg, rgba(217,119,6,0.35) 0%, rgba(217,119,6,0.08) 70%, transparent 100%)',
     border: '#d97706',
@@ -164,7 +164,7 @@ export const BANNERS = [
   {
     id: 'banner_dusk',
     name: { es: 'Crepúsculo', en: 'Dusk', ca: 'Crepuscle' },
-    emoji: '🟣',
+    emoji: '🌆',
     price: 7500,
     bg: 'linear-gradient(90deg, rgba(124,58,237,0.35) 0%, rgba(124,58,237,0.08) 70%, transparent 100%)',
     border: '#7c3aed',

@@ -8,10 +8,10 @@ import { genRound, applyOp, isSolved } from '../lib/algebra'
 // revela la solución y cuenta como fallo. Niveles: una x → x a los dos lados →
 // números grandes y negativos.
 const LEVELS = [
-  { key: 'facil', emoji: '🟢', difficulty: 'facil',
+  { key: 'facil', emoji: '💚', difficulty: 'facil',
     label: { es: 'Iniciación', en: 'Beginner', ca: 'Iniciació' },
     hint: { es: 'Una x: ax + b = c', en: 'One x: ax + b = c', ca: 'Una x: ax + b = c' } },
-  { key: 'medio', emoji: '🟡', difficulty: 'medio',
+  { key: 'medio', emoji: '💛', difficulty: 'medio',
     label: { es: 'Secundaria (ESO)', en: 'Secondary (ESO)', ca: 'Secundària (ESO)' },
     hint: { es: 'x a los dos lados: ax + b = cx + d', en: 'x on both sides: ax + b = cx + d', ca: 'x als dos costats: ax + b = cx + d' } },
   { key: 'dificil', emoji: '🔴', difficulty: 'dificil',

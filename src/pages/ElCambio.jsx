@@ -15,8 +15,8 @@ const GAME_TIME = 50
 const STEP = 3
 
 const DIFS = {
-  facil:   { emoji: '🟢', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },     desc: { es: 'Forma cantidades hasta 2 €', en: 'Make amounts up to €2', ca: 'Forma quantitats fins a 2 €' } },
-  medio:   { emoji: '🟡', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },   desc: { es: 'Forma cantidades hasta 10 €, con céntimos', en: 'Make amounts up to €10, with cents', ca: 'Forma quantitats fins a 10 €, amb cèntims' } },
+  facil:   { emoji: '💚', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },     desc: { es: 'Forma cantidades hasta 2 €', en: 'Make amounts up to €2', ca: 'Forma quantitats fins a 2 €' } },
+  medio:   { emoji: '💛', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },   desc: { es: 'Forma cantidades hasta 10 €, con céntimos', en: 'Make amounts up to €10, with cents', ca: 'Forma quantitats fins a 10 €, amb cèntims' } },
   dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' }, desc: { es: 'Da el cambio de un billete', en: 'Give change from a note', ca: 'Dona el canvi d\'un bitllet' } },
 }
 

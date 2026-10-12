@@ -43,7 +43,7 @@ export default function EscenarioDecision({ decision, onElegir }) {
                 disabled={elegida !== null}
                 className={`w-full text-left rounded-xl border px-4 py-3 text-sm text-white transition-colors ${estilo}`}
               >
-                {mostrarFeedback && activa && (op.esPeligrosa ? '🔴 ' : op.esCorrecta ? '✅ ' : '🟠 ')}
+                {mostrarFeedback && activa && (op.esPeligrosa ? '🔴 ' : op.esCorrecta ? '✅ ' : '⚠️ ')}
                 {tr(op.texto)}
               </button>
               {mostrarFeedback && activa && (

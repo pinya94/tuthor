@@ -17,9 +17,9 @@ const CORRECT_TIME = 4
 const REVEAL_MS = 3800
 
 const DIFS = {
-  facil:   { emoji: '🟢', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
+  facil:   { emoji: '💚', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
              desc: { es: 'Temperatura, lluvia y el mapa del tiempo con sus símbolos', en: 'Temperature, rain and the weather map with its symbols', ca: 'Temperatura, pluja i el mapa del temps amb els seus símbols' } },
-  medio:   { emoji: '🟡', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
+  medio:   { emoji: '💛', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
              desc: { es: 'Con viento, previsión por horas, radar y mapa del tiempo', en: 'With wind, hourly forecast, radar and weather map', ca: 'Amb vent, previsió per hores, radar i mapa del temps' } },
   dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' },
              desc: { es: 'Además UV, isobaras (borrascas y anticiclones) y radar a dos horas', en: 'Plus UV, isobars (depressions and anticyclones) and radar two hours ahead', ca: 'A més UV, isòbares (borrasques i anticiclons) i radar a dues hores' } },

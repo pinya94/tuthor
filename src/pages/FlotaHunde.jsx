@@ -17,9 +17,9 @@ const CORRECT_TIME = 4
 const REVEAL_MS = 4200 // el objeto tarda 1,3 s en caer y asentarse
 
 const DIFS = {
-  facil:   { emoji: '🟢', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
+  facil:   { emoji: '💚', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
              desc: { es: 'En agua, con la densidad de cada objeto a la vista', en: 'In water, with each object’s density shown', ca: 'En aigua, amb la densitat de cada objecte a la vista' } },
-  medio:   { emoji: '🟡', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
+  medio:   { emoji: '💛', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
              desc: { es: 'Ocho líquidos y solo la masa y el volumen: calcula la densidad', en: 'Eight liquids and only mass and volume: work out the density', ca: 'Vuit líquids i només la massa i el volum: calcula la densitat' } },
   dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' },
              desc: { es: 'Si flota, ¿qué parte queda bajo el líquido?', en: 'If it floats, how much is under the surface?', ca: 'Si sura, quina part queda sota el líquid?' } },

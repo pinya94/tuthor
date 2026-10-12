@@ -7,8 +7,8 @@ import { RANGOS, generarMedia, schemaQuestionEstadistico } from '../lib/estadist
 // que el juego Estadístico Exprés (lib/estadisticoEngine).
 
 const LEVELS = [
-  { key: 'facil', emoji: '🟢', difficulty: 'facil', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' }, hint: { es: '4-5 datos, del 1 al 15', en: '4-5 values, 1 to 15', ca: '4-5 dades, de l\'1 al 15' } },
-  { key: 'medio', emoji: '🟡', difficulty: 'medio', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' }, hint: { es: '5-7 datos, del 1 al 25', en: '5-7 values, 1 to 25', ca: '5-7 dades, de l\'1 al 25' } },
+  { key: 'facil', emoji: '💚', difficulty: 'facil', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' }, hint: { es: '4-5 datos, del 1 al 15', en: '4-5 values, 1 to 15', ca: '4-5 dades, de l\'1 al 15' } },
+  { key: 'medio', emoji: '💛', difficulty: 'medio', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' }, hint: { es: '5-7 datos, del 1 al 25', en: '5-7 values, 1 to 25', ca: '5-7 dades, de l\'1 al 25' } },
   { key: 'dificil', emoji: '🔴', difficulty: 'dificil', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' }, hint: { es: '6-9 datos, del 1 al 40', en: '6-9 values, 1 to 40', ca: '6-9 dades, de l\'1 al 40' } },
 ]
 

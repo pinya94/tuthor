@@ -17,9 +17,9 @@ const CORRECT_TIME = 4
 const REVEAL_MS = 4200 // da tiempo a ver el camino bueno y el dato curioso
 
 const DIFS = {
-  facil:   { emoji: '🟢', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
+  facil:   { emoji: '💚', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
              desc: { es: 'Vertebrados: mamíferos, aves, peces, reptiles y anfibios', en: 'Vertebrates: mammals, birds, fish, reptiles and amphibians', ca: 'Vertebrats: mamífers, ocells, peixos, rèptils i amfibis' } },
-  medio:   { emoji: '🟡', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
+  medio:   { emoji: '💛', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
              desc: { es: 'Todos los animales: también insectos, arácnidos, moluscos, medusas…', en: 'All animals: insects, arachnids, molluscs, jellyfish too…', ca: 'Tots els animals: també insectes, aràcnids, mol·luscs, meduses…' } },
   dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' },
              desc: { es: 'Animales y plantas: musgos, helechos, gimnospermas y angiospermas', en: 'Animals and plants: mosses, ferns, gymnosperms and angiosperms', ca: 'Animals i plantes: molses, falgueres, gimnospermes i angiospermes' } },

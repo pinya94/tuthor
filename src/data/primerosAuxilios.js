@@ -58,7 +58,7 @@ const PREGUNTAS = [
       ca: ['Al seu costat, inclinant el tronc cap endavant', 'Darrere seu, sense inclinar-lo, per no espantar-lo', 'Al davant seu, cara a cara', 'Estirat a terra bocaterrosa'],
     },
     { es: 'A su lado, inclinando su tronco hacia delante', en: 'To their side, leaning their torso forward', ca: 'Al seu costat, inclinant el tronc cap endavant' },
-    '🧍',
+    '🧑',
     {
       es: 'Inclinar el tronco hacia delante ayuda a que el objeto salga por la boca en vez de seguir hacia dentro con cada golpe.',
       en: 'Leaning the torso forward helps the object come out through the mouth instead of moving further in with each blow.',

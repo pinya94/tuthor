@@ -64,7 +64,7 @@ export const PREGUNTAS = [
     { es: '¿Por qué hay que llevar ropa clara o reflectantes de noche?', en: 'Why wear light clothing or reflectors at night?', ca: 'Per què cal portar roba clara o reflectants de nit?' },
     { es: ['Porque de noche un conductor puede no verte hasta estar muy cerca', 'Porque es más bonito', 'Porque lo dice la moda', 'Porque abriga más'], en: ['Because at night a driver may not see you until very close', 'Because it looks nicer', 'Because fashion says so', 'Because it is warmer'], ca: ['Perquè de nit un conductor pot no veure\'t fins que és molt a prop', 'Perquè és més bonic', 'Perquè ho diu la moda', 'Perquè abriga més'] },
     { es: 'Porque de noche un conductor puede no verte hasta estar muy cerca', en: 'Because at night a driver may not see you until very close', ca: 'Perquè de nit un conductor pot no veure\'t fins que és molt a prop' },
-    '🦺',
+    '🔦',
     { es: 'Vestido de oscuro, un peatón se distingue a unos 25 metros; con reflectantes, a más de 100. A la velocidad de una carretera, esa diferencia son varios segundos, que es justo lo que hace falta para frenar.', en: 'Dressed in dark clothes a pedestrian is visible at about 25 metres; with reflectors, over 100. At road speed that gap is several seconds, exactly what is needed to brake.', ca: 'Vestit de fosc, un vianant es distingeix a uns 25 metres; amb reflectants, a més de 100.' }),
 
   // ── EN EL COCHE ─────────────────────────────────────────────────────────

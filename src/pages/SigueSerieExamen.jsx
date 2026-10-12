@@ -5,10 +5,10 @@ import { genRound, esCorrecta, schemaQuestion } from '../lib/sigueSerie'
 
 // Examen con la mecánica de Sigue la Serie: las mismas sucesiones, sin reloj.
 const LEVELS = [
-  { key: 'primaria', emoji: '🟢', difficulty: 'facil',
+  { key: 'primaria', emoji: '💚', difficulty: 'facil',
     label: { es: 'Básico', en: 'Basic', ca: 'Bàsic' },
     hint: { es: 'Siguiente término, tipo de sucesión y figuras', en: 'Next term, kind of sequence and patterns', ca: 'Terme següent, tipus de successió i figures' } },
-  { key: 'eso', emoji: '🟡', difficulty: 'medio',
+  { key: 'eso', emoji: '💛', difficulty: 'medio',
     label: { es: 'Secundaria (ESO)', en: 'Secondary (ESO)', ca: 'Secundària (ESO)' },
     hint: { es: 'Término n-ésimo y término general', en: 'nth term and general term', ca: 'Terme n-èsim i terme general' } },
   { key: 'bachillerato', emoji: '🔴', difficulty: 'dificil',

@@ -398,7 +398,7 @@ export const TEXTOS = [
 // solo la frase entera delata.
 export const NIVELES = {
   facil: {
-    id: 'facil', emoji: '🟢',
+    id: 'facil', emoji: '💚',
     label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
     hint: {
       es: '3 fallos · la palabra está mal escrita',
@@ -409,7 +409,7 @@ export const NIVELES = {
     errores: 3,
   },
   medio: {
-    id: 'medio', emoji: '🟡',
+    id: 'medio', emoji: '💛',
     label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
     hint: {
       es: '4 fallos · + i antes de e y apóstrofos',

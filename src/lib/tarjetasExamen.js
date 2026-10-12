@@ -35,7 +35,7 @@ const BANCOS = {
     nombre: { es: 'Átomos y Moléculas', en: 'Atoms and Molecules', ca: 'Àtoms i Molècules' },
   },
   'quimica/estados-materia': {
-    emoji: '🧊', clave: 'PREGUNTAS',
+    emoji: '❄️', clave: 'PREGUNTAS',
     cargar: () => import('../data/estadosMateria'),
     nombre: { es: 'Estados de la Materia', en: 'States of Matter', ca: 'Estats de la Matèria' },
   },

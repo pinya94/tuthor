@@ -4,10 +4,10 @@ import { nuevaConversion, esCorrecta, formatNum, factorTexto, MAGNITUDES } from 
 import { EscaleraSVG, Teclado } from '../components/EscaleraUnidades'
 
 const LEVELS = [
-  { key: 'facil', emoji: '🟢', difficulty: 'facil',
+  { key: 'facil', emoji: '💚', difficulty: 'facil',
     label: { es: 'Longitud', en: 'Length', ca: 'Longitud' },
     hint: { es: 'km → mm, bajando', en: 'km → mm, going down', ca: 'km → mm, baixant' } },
-  { key: 'medio', emoji: '🟡', difficulty: 'medio',
+  { key: 'medio', emoji: '💛', difficulty: 'medio',
     label: { es: 'Tres magnitudes', en: 'Three quantities', ca: 'Tres magnituds' },
     hint: { es: 'Longitud, masa y capacidad', en: 'Length, mass and capacity', ca: 'Longitud, massa i capacitat' } },
   { key: 'dificil', emoji: '🔴', difficulty: 'dificil',

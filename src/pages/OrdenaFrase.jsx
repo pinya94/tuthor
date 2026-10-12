@@ -43,8 +43,8 @@ const C = {
 function T(k, l) { return C[k]?.[l] ?? C[k]?.es ?? k }
 
 const DIFS = {
-  facil:   { emoji: '🟢', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' }, desc: { es: 'Sujeto + verbo + objeto y adjetivos', en: 'Subject + verb + object and adjectives', ca: 'Subjecte + verb + objecte i adjectius' } },
-  medio:   { emoji: '🟡', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' }, desc: { es: 'Adverbios, negativas y preguntas', en: 'Adverbs, negatives and questions', ca: 'Adverbis, negatives i preguntes' } },
+  facil:   { emoji: '💚', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' }, desc: { es: 'Sujeto + verbo + objeto y adjetivos', en: 'Subject + verb + object and adjectives', ca: 'Subjecte + verb + objecte i adjectius' } },
+  medio:   { emoji: '💛', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' }, desc: { es: 'Adverbios, negativas y preguntas', en: 'Adverbs, negatives and questions', ca: 'Adverbis, negatives i preguntes' } },
   dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' }, desc: { es: 'Lugar y tiempo, wh- y el verbo be', en: 'Place and time, wh- and the verb be', ca: 'Lloc i temps, wh- i el verb be' } },
 }
 

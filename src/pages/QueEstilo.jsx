@@ -17,9 +17,9 @@ const CORRECT_TIME = 4
 const REVEAL_MS = 4800 // da tiempo a leer los rasgos del estilo
 
 const DIFS = {
-  facil:   { emoji: '🟢', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
+  facil:   { emoji: '💚', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
              desc: { es: 'Estilos muy distintos entre sí, arcos y columnas clásicas', en: 'Very different styles, arches and classical columns', ca: 'Estils molt diferents entre si, arcs i columnes clàssiques' } },
-  medio:   { emoji: '🟡', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
+  medio:   { emoji: '💛', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
              desc: { es: 'Aparece un estilo parecido, arcos lobulados y la época', en: 'A similar style appears, lobed arches and the period', ca: 'Apareix un estil semblant, arcs lobulats i l’època' } },
   dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' },
              desc: { es: 'Románico o gótico, griego o neoclásico: los vecinos parecidos', en: 'Romanesque or Gothic, Greek or Neoclassical: the look-alikes', ca: 'Romànic o gòtic, grec o neoclàssic: els veïns semblants' } },

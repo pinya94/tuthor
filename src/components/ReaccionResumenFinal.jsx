@@ -29,7 +29,7 @@ export default function ReaccionResumenFinal({ leves, peligrosas }) {
       {leves.length > 0 && (
         <div className="bg-orange-500/10 border border-orange-500/30 rounded-2xl p-5">
           <p className="text-orange-300 text-xs font-black uppercase tracking-widest mb-3">
-            🟠 {tr({ es: 'Fallos leves', en: 'Minor mistakes', ca: 'Errades lleus' })}
+            ⚠️ {tr({ es: 'Fallos leves', en: 'Minor mistakes', ca: 'Errades lleus' })}
           </p>
           <div className="space-y-2">
             {leves.map((d, i) => (

@@ -11,8 +11,8 @@ import { IconoIntro, NivelBarras, ComoSeJuega } from '../components/IntroJuego'
 import { ArteJuego } from '../components/arte'
 
 const DIFS = {
-  facil:   { label: 'Fácil', labelEn: 'Easy', labelCa: 'Fàcil',     emoji: '🟢', size: 5, time: 90,  bonus: 15, ops: ['+','-'],       goalsNeeded: 1 },
-  medio:   { label: 'Medio', labelEn: 'Medium', labelCa: 'Mitjà',   emoji: '🟡', size: 5, time: 60,  bonus: 10, ops: ['+','-','×'],   goalsNeeded: 1 },
+  facil:   { label: 'Fácil', labelEn: 'Easy', labelCa: 'Fàcil',     emoji: '💚', size: 5, time: 90,  bonus: 15, ops: ['+','-'],       goalsNeeded: 1 },
+  medio:   { label: 'Medio', labelEn: 'Medium', labelCa: 'Mitjà',   emoji: '💛', size: 5, time: 60,  bonus: 10, ops: ['+','-','×'],   goalsNeeded: 1 },
   dificil: { label: 'Difícil', labelEn: 'Hard', labelCa: 'Difícil', emoji: '🔴', size: 5, time: 45,  bonus: 10, ops: ['+','-','×','÷'], goalsNeeded: 2 },
 }
 

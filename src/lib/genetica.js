@@ -24,7 +24,7 @@ export const RASGOS = [
     id: 'guisante', alelo: 'A', org: '🌱',
     especie: { es: 'planta de guisante', en: 'pea plant', ca: 'planta de pèsol' },
     cria:    { es: 'planta', en: 'plant', ca: 'planta' },
-    dom: { emoji: '🟣', label: { es: 'flor púrpura', en: 'purple flower', ca: 'flor porpra' } },
+    dom: { emoji: '💜', label: { es: 'flor púrpura', en: 'purple flower', ca: 'flor porpra' } },
     rec: { emoji: '⚪', label: { es: 'flor blanca', en: 'white flower', ca: 'flor blanca' } },
   },
   {
@@ -32,13 +32,13 @@ export const RASGOS = [
     especie: { es: 'perro', en: 'dog', ca: 'gos' },
     cria:    { es: 'cachorro', en: 'puppy', ca: 'cadell' },
     dom: { emoji: '⚫', label: { es: 'pelo negro', en: 'black coat', ca: 'pèl negre' } },
-    rec: { emoji: '🟤', label: { es: 'pelo marrón', en: 'brown coat', ca: 'pèl marró' } },
+    rec: { emoji: '🌰', label: { es: 'pelo marrón', en: 'brown coat', ca: 'pèl marró' } },
   },
   {
     id: 'ojos', alelo: 'M', org: '👁️',
     especie: { es: 'persona', en: 'person', ca: 'persona' },
     cria:    { es: 'hijo', en: 'child', ca: 'fill' },
-    dom: { emoji: '🟤', label: { es: 'ojos marrones', en: 'brown eyes', ca: 'ulls marrons' } },
+    dom: { emoji: '🌰', label: { es: 'ojos marrones', en: 'brown eyes', ca: 'ulls marrons' } },
     rec: { emoji: '🔵', label: { es: 'ojos azules', en: 'blue eyes', ca: 'ulls blaus' } },
   },
 ]

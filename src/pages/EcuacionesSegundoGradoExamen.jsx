@@ -1,10 +1,10 @@
 import ExamenAlgebraBase from './ExamenAlgebraBase'
 
 const LEVELS = [
-  { key: 'facil', emoji: '🟢', difficulty: 'facil',
+  { key: 'facil', emoji: '💚', difficulty: 'facil',
     label: { es: 'Básico', en: 'Basic', ca: 'Bàsic' },
     hint: { es: 'x² + bx + c = 0 y ecuaciones incompletas', en: 'x² + bx + c = 0 and incomplete equations', ca: 'x² + bx + c = 0 i equacions incompletes' } },
-  { key: 'medio', emoji: '🟡', difficulty: 'medio',
+  { key: 'medio', emoji: '💛', difficulty: 'medio',
     label: { es: 'ESO', en: 'Secondary', ca: 'ESO' },
     hint: { es: 'Con a distinto de 1 y soluciones dobles', en: 'With a other than 1 and double roots', ca: 'Amb a diferent d\'1 i solucions dobles' } },
   { key: 'dificil', emoji: '🔴', difficulty: 'dificil',

@@ -7,10 +7,10 @@ import { genRound } from '../lib/genetica'
 // de Punnett resuelto. 10 preguntas, sin tiempo, con la explicación completa
 // tras cada respuesta.
 const LEVELS = [
-  { key: 'facil', emoji: '🟢', difficulty: 'facil',
+  { key: 'facil', emoji: '💚', difficulty: 'facil',
     label: { es: 'Iniciación', en: 'Beginner', ca: 'Iniciació' },
     hint: { es: 'Predecir la descendencia', en: 'Predict the offspring', ca: 'Predir la descendència' } },
-  { key: 'medio', emoji: '🟡', difficulty: 'medio',
+  { key: 'medio', emoji: '💛', difficulty: 'medio',
     label: { es: 'Secundaria (ESO)', en: 'Secondary (ESO)', ca: 'Secundària (ESO)' },
     hint: { es: '+ deducir el genotipo de los padres', en: '+ deduce the parents’ genotype', ca: '+ deduir el genotip dels pares' } },
   { key: 'dificil', emoji: '🔴', difficulty: 'dificil',

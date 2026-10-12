@@ -399,7 +399,7 @@ export const TEXTOS = [
 // escritas puestas donde no van y que solo la frase entera delata.
 export const NIVELES = {
   facil: {
-    id: 'facil', emoji: '🟢',
+    id: 'facil', emoji: '💚',
     label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
     hint: {
       es: '3 fallos · accents, ela geminada y ss/ç',
@@ -410,7 +410,7 @@ export const NIVELES = {
     errores: 3,
   },
   medio: {
-    id: 'medio', emoji: '🟡',
+    id: 'medio', emoji: '💛',
     label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
     hint: {
       es: '4 fallos · + h muda y b/v',

@@ -3,10 +3,10 @@ import MechanicExam from '../components/MechanicExam'
 import { nuevoNumero, simbolosDe, aRomano, valorRomano, esCorrecto } from '../lib/romanos'
 
 const LEVELS = [
-  { key: 'facil', emoji: '🟢', difficulty: 'facil',
+  { key: 'facil', emoji: '💚', difficulty: 'facil',
     label: { es: 'Hasta 39', en: 'Up to 39', ca: 'Fins a 39' },
     hint: { es: 'I, V, X (con IV y IX)', en: 'I, V, X (with IV and IX)', ca: 'I, V, X (amb IV i IX)' } },
-  { key: 'medio', emoji: '🟡', difficulty: 'medio',
+  { key: 'medio', emoji: '💛', difficulty: 'medio',
     label: { es: 'Hasta 399', en: 'Up to 399', ca: 'Fins a 399' },
     hint: { es: 'Añade L y C', en: 'Adds L and C', ca: 'Afegeix L i C' } },
   { key: 'dificil', emoji: '🔴', difficulty: 'dificil',

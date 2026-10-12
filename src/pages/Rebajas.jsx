@@ -17,9 +17,9 @@ const CORRECT_TIME = 4
 const REVEAL_MS = 4200 // da tiempo a leer la cuenta de la explicación
 
 const DIFS = {
-  facil:   { emoji: '🟢', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
+  facil:   { emoji: '💚', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
              desc: { es: 'Descuentos redondos: cuánto pagas y cuánto te ahorras', en: 'Round discounts: what you pay and what you save', ca: 'Descomptes rodons: quant pagues i quant t’estalvies' } },
-  medio:   { emoji: '🟡', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
+  medio:   { emoji: '💛', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
              desc: { es: 'Qué % es, el IVA y comparar ofertas como el 3×2', en: 'What % it is, VAT and comparing deals like 3 for 2', ca: 'Quin % és, l’IVA i comparar ofertes com el 3×2' } },
   dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' },
              desc: { es: 'El precio de antes, quitar el IVA y descuentos encadenados', en: 'The old price, removing VAT and chained discounts', ca: 'El preu d’abans, treure l’IVA i descomptes encadenats' } },

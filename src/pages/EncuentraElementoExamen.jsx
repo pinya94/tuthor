@@ -9,10 +9,10 @@ import { genRound, isCorrect, pistaTexto } from '../lib/encuentraElemento'
 // lib/encuentraElemento.js, mismo mapeo primaria/eso/bachillerato →
 // facil/medio/dificil que Circuito Cerrado.
 const LEVELS = [
-  { key: 'primaria', emoji: '🟢', difficulty: 'facil',
+  { key: 'primaria', emoji: '💚', difficulty: 'facil',
     label: { es: 'Primaria', en: 'Primary', ca: 'Primària' },
     hint: { es: '12 elementos, pista: el nombre', en: '12 elements, clue: the name', ca: '12 elements, pista: el nom' } },
-  { key: 'eso', emoji: '🟡', difficulty: 'medio',
+  { key: 'eso', emoji: '💛', difficulty: 'medio',
     label: { es: 'Secundaria (ESO)', en: 'Secondary (ESO)', ca: 'Secundària (ESO)' },
     hint: { es: '41 elementos, nombre o número atómico', en: '41 elements, name or atomic number', ca: '41 elements, nom o número atòmic' } },
   { key: 'bachillerato', emoji: '🔴', difficulty: 'dificil',

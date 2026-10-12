@@ -5,10 +5,10 @@ import { genRound, esCorrecta, schemaQuestion } from '../lib/escalaUniverso'
 
 // Examen con la mecánica de Escala del Universo: la misma regla, sin reloj.
 const LEVELS = [
-  { key: 'primaria', emoji: '🟢', difficulty: 'facil',
+  { key: 'primaria', emoji: '💚', difficulty: 'facil',
     label: { es: 'Básico', en: 'Basic', ca: 'Bàsic' },
     hint: { es: 'Números grandes y producto y cociente de potencias', en: 'Big numbers and product and quotient of powers', ca: 'Nombres grans i producte i quocient de potències' } },
-  { key: 'eso', emoji: '🟡', difficulty: 'medio',
+  { key: 'eso', emoji: '💛', difficulty: 'medio',
     label: { es: 'Secundaria (ESO)', en: 'Secondary (ESO)', ca: 'Secundària (ESO)' },
     hint: { es: 'Números pequeños, comparar y potencia de potencia', en: 'Small numbers, comparing and power of a power', ca: 'Nombres petits, comparar i potència de potència' } },
   { key: 'bachillerato', emoji: '🔴', difficulty: 'dificil',

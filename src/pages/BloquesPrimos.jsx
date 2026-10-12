@@ -17,9 +17,9 @@ const CORRECT_TIME = 4
 const REVEAL_MS = 4500 // da tiempo a ver los bloques marcados y la cuenta
 
 const DIFS = {
-  facil:   { emoji: '🟢', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
+  facil:   { emoji: '💚', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
              desc: { es: 'Criterios de divisibilidad, primos, descomponer y mcd/mcm con los bloques a la vista', en: 'Divisibility rules, primes, factorising and HCF/LCM with the blocks in view', ca: 'Criteris de divisibilitat, primers, descompondre i mcd/mcm amb els blocs a la vista' } },
-  medio:   { emoji: '🟡', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
+  medio:   { emoji: '💛', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
              desc: { es: 'Números más grandes, criterios del 4 y del 9 y problemas de mcd y mcm', en: 'Bigger numbers, rules for 4 and 9 and HCF and LCM word problems', ca: 'Nombres més grans, criteris del 4 i del 9 i problemes de mcd i mcm' } },
   dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' },
              desc: { es: 'Sin bloques: descompón tú, tres números a la vez y problemas', en: 'No blocks: factorise yourself, three numbers at once and word problems', ca: 'Sense blocs: descompon tu, tres nombres alhora i problemes' } },

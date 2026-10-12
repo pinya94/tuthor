@@ -19,9 +19,9 @@ const MEMORIA = 8
 const PUNTOS = { exacto: 15, bien: 10, fallo: 0 }
 
 const DIFS = {
-  facil:   { emoji: '🟢', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
+  facil:   { emoji: '💚', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
              desc: { es: '¿Ácido, neutro o básico? Basta con la zona', en: 'Acidic, neutral or basic? The zone is enough', ca: 'Àcid, neutre o bàsic? N’hi ha prou amb la zona' } },
-  medio:   { emoji: '🟡', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
+  medio:   { emoji: '💛', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
              desc: { es: 'Acércate a su pH: margen de ±1,5', en: 'Get close to its pH: ±1.5 margin', ca: 'Acosta’t al seu pH: marge de ±1,5' } },
   dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' },
              desc: { es: 'Tira sin colores y margen de ±1', en: 'Strip without colours and ±1 margin', ca: 'Tira sense colors i marge de ±1' } },

@@ -17,9 +17,9 @@ const CORRECT_TIME = 4
 const REVEAL_MS = 4800 // da tiempo a ver los vasos coloreados y la cuenta
 
 const DIFS = {
-  facil:   { emoji: '🟢', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
+  facil:   { emoji: '💚', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
              desc: { es: 'Soluto y disolvente, concentración en g/L y qué vaso está más concentrado', en: 'Solute and solvent, concentration in g/L and which beaker is most concentrated', ca: 'Solut i dissolvent, concentració en g/L i quin got és més concentrat' } },
-  medio:   { emoji: '🟡', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
+  medio:   { emoji: '💛', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
              desc: { es: 'Gramos que necesitas, % en masa y disoluciones saturadas', en: 'Grams you need, % by mass and saturated solutions', ca: 'Grams que necessites, % en massa i dissolucions saturades' } },
   dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' },
              desc: { es: 'Diluir con c₁·V₁ = c₂·V₂, molaridad y despejar el volumen', en: 'Diluting with c₁·V₁ = c₂·V₂, molarity and solving for volume', ca: 'Diluir amb c₁·V₁ = c₂·V₂, molaritat i aïllar el volum' } },

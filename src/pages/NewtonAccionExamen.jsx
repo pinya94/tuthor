@@ -5,10 +5,10 @@ import { genRound, esCorrecta, schemaQuestion } from '../lib/newtonAccion'
 
 // Examen con la mecánica de Newton en Acción: las mismas escenas, sin reloj.
 const LEVELS = [
-  { key: 'primaria', emoji: '🟢', difficulty: 'facil',
+  { key: 'primaria', emoji: '💚', difficulty: 'facil',
     label: { es: 'Básico', en: 'Basic', ca: 'Bàsic' },
     hint: { es: 'F = m · a, peso y masa, leyes de Newton', en: 'F = m × a, weight and mass, Newton’s laws', ca: 'F = m · a, pes i massa, lleis de Newton' } },
-  { key: 'eso', emoji: '🟡', difficulty: 'medio',
+  { key: 'eso', emoji: '💛', difficulty: 'medio',
     label: { es: 'Secundaria (ESO)', en: 'Secondary (ESO)', ca: 'Secundària (ESO)' },
     hint: { es: 'Despejes y rozamiento', en: 'Rearranging and friction', ca: 'Aïllaments i fregament' } },
   { key: 'bachillerato', emoji: '🔴', difficulty: 'dificil',

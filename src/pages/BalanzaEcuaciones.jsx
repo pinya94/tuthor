@@ -45,8 +45,8 @@ const C = {
 function T(k, l) { return C[k]?.[l] ?? C[k]?.es ?? k }
 
 const DIFS = {
-  facil:   { emoji: '🟢', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' }, desc: { es: 'Reacciones sencillas, coeficientes pequeños', en: 'Simple reactions, small coefficients', ca: 'Reaccions senzilles, coeficients petits' } },
-  medio:   { emoji: '🟡', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' }, desc: { es: 'Combustiones y descomposiciones', en: 'Combustions and decompositions', ca: 'Combustions i descomposicions' } },
+  facil:   { emoji: '💚', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' }, desc: { es: 'Reacciones sencillas, coeficientes pequeños', en: 'Simple reactions, small coefficients', ca: 'Reaccions senzilles, coeficients petits' } },
+  medio:   { emoji: '💛', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' }, desc: { es: 'Combustiones y descomposiciones', en: 'Combustions and decompositions', ca: 'Combustions i descomposicions' } },
   dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' }, desc: { es: 'Coeficientes grandes (glucosa, etano…)', en: 'Big coefficients (glucose, ethane…)', ca: 'Coeficients grans (glucosa, età…)' } },
 }
 

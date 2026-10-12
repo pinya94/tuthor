@@ -18,8 +18,8 @@ const RANGOS = {
 }
 
 const LEVELS = [
-  { key: 'facil', emoji: '🟢', difficulty: 'facil', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' }, hint: { es: 'Identifica y construye', en: 'Identify and build', ca: 'Identifica i construeix' } },
-  { key: 'medio', emoji: '🟡', difficulty: 'medio', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' }, hint: { es: 'Añade sumas con denominadores relacionados', en: 'Adds sums with related denominators', ca: 'Afegeix sumes amb denominadors relacionats' } },
+  { key: 'facil', emoji: '💚', difficulty: 'facil', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' }, hint: { es: 'Identifica y construye', en: 'Identify and build', ca: 'Identifica i construeix' } },
+  { key: 'medio', emoji: '💛', difficulty: 'medio', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' }, hint: { es: 'Añade sumas con denominadores relacionados', en: 'Adds sums with related denominators', ca: 'Afegeix sumes amb denominadors relacionats' } },
   { key: 'dificil', emoji: '🔴', difficulty: 'dificil', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' }, hint: { es: 'Sumas con denominadores distintos (mcm real)', en: 'Sums with different denominators (real LCM)', ca: 'Sumes amb denominadors diferents (mcm real)' } },
 ]
 

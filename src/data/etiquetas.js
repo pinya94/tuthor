@@ -13,7 +13,7 @@ const T = (es, en, ca) => ({ es, en, ca })
 
 export const PRODUCTOS = [
   P('cola', '🥤', T('Refresco de cola', 'Cola drink', 'Refresc de cola'), true, 330, T('una lata (330 ml)', 'one can (330 ml)', 'una llauna (330 ml)'), 42, 0, 0, 10.6, 10.6, 0, 0, 0),
-  P('zumo', '🧃', T('Zumo de naranja envasado', 'Packaged orange juice', 'Suc de taronja envasat'), true, 200, T('un vaso (200 ml)', 'one glass (200 ml)', 'un got (200 ml)'), 45, 0.1, 0, 10, 9, 0.2, 0.7, 0),
+  P('zumo', '🍊', T('Zumo de naranja envasado', 'Packaged orange juice', 'Suc de taronja envasat'), true, 200, T('un vaso (200 ml)', 'one glass (200 ml)', 'un got (200 ml)'), 45, 0.1, 0, 10, 9, 0.2, 0.7, 0),
   P('leche', '🥛', T('Leche entera', 'Whole milk', 'Llet sencera'), true, 250, T('un vaso (250 ml)', 'one glass (250 ml)', 'un got (250 ml)'), 63, 3.6, 2.4, 4.7, 4.7, 0, 3.1, 0.13),
   P('batido', '🍫', T('Batido de chocolate', 'Chocolate milkshake', 'Batut de xocolata'), true, 200, T('un brik (200 ml)', 'one carton (200 ml)', 'un brik (200 ml)'), 80, 1.5, 1, 12, 11, 0.5, 3.5, 0.15),
   P('isotonica', '🧴', T('Bebida isotónica', 'Sports drink', 'Beguda isotònica'), true, 500, T('una botella (500 ml)', 'one bottle (500 ml)', 'una ampolla (500 ml)'), 25, 0, 0, 6, 6, 0, 0, 0.3),

@@ -6,10 +6,10 @@ import { genRound, esCorrecta } from '../lib/queEstilo'
 // Examen con la mecánica de ¿Qué estilo es?: los mismos dibujos, sin reloj.
 // Sin schemaQuestion: describir el dibujo con palabras ya daría la respuesta.
 const LEVELS = [
-  { key: 'primaria', emoji: '🟢', difficulty: 'facil',
+  { key: 'primaria', emoji: '💚', difficulty: 'facil',
     label: { es: 'Iniciación', en: 'Beginner', ca: 'Iniciació' },
     hint: { es: 'Estilos muy distintos, arcos y columnas', en: 'Very different styles, arches and columns', ca: 'Estils molt diferents, arcs i columnes' } },
-  { key: 'eso', emoji: '🟡', difficulty: 'medio',
+  { key: 'eso', emoji: '💛', difficulty: 'medio',
     label: { es: 'Secundaria (ESO)', en: 'Secondary (ESO)', ca: 'Secundària (ESO)' },
     hint: { es: 'Un estilo parecido y la época', en: 'A similar style and the period', ca: 'Un estil semblant i l’època' } },
   { key: 'bachillerato', emoji: '🔴', difficulty: 'dificil',

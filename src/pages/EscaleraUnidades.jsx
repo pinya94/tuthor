@@ -15,8 +15,8 @@ const GAME_TIME = 50
 const STEP = 3
 
 const DIFS = {
-  facil:   { emoji: '🟢', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },     desc: { es: 'Longitud, bajando (× 10)', en: 'Length, going down (× 10)', ca: 'Longitud, baixant (× 10)' } },
-  medio:   { emoji: '🟡', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },   desc: { es: 'Longitud, masa y capacidad; sube y baja', en: 'Length, mass and capacity; up and down', ca: 'Longitud, massa i capacitat; puja i baixa' } },
+  facil:   { emoji: '💚', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },     desc: { es: 'Longitud, bajando (× 10)', en: 'Length, going down (× 10)', ca: 'Longitud, baixant (× 10)' } },
+  medio:   { emoji: '💛', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },   desc: { es: 'Longitud, masa y capacidad; sube y baja', en: 'Length, mass and capacity; up and down', ca: 'Longitud, massa i capacitat; puja i baixa' } },
   dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' }, desc: { es: 'Saltos largos y con decimales', en: 'Long jumps and decimals', ca: 'Salts llargs i amb decimals' } },
 }
 

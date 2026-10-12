@@ -164,7 +164,7 @@ export const PREGUNTAS = [
     { es: 'En una bebida isotónica o un suero, ¿por qué importa la concentración exacta?', en: 'In a sports drink or a rehydration solution, why does the exact concentration matter?', ca: 'En una beguda isotònica o un sèrum, per què importa la concentració exacta?' },
     { es: ['Porque tiene que parecerse a la de los líquidos del cuerpo para absorberse bien', 'Porque así sabe mejor', 'Porque abarata el producto', 'Porque cambia el color'], en: ['Because it must match the body\'s own fluids to be absorbed properly', 'Because it tastes better', 'Because it is cheaper', 'Because it changes the colour'], ca: ['Perquè s\'ha d\'assemblar a la dels líquids del cos per absorbir-se bé', 'Perquè així té més bon gust', 'Perquè abarateix el producte', 'Perquè canvia el color'] },
     { es: 'Porque tiene que parecerse a la de los líquidos del cuerpo para absorberse bien', en: 'Because it must match the body\'s own fluids to be absorbed properly', ca: 'Perquè s\'ha d\'assemblar a la dels líquids del cos per absorbir-se bé' },
-    '🧃',
+    '🥤',
     { es: '"Isotónica" significa exactamente eso: misma concentración. Es un caso donde la química deja de ser un ejercicio de clase — la OMS tiene una receta de suero con proporciones concretas que salva vidas.', en: '"Isotonic" means exactly that: same concentration. The WHO has a rehydration recipe with specific proportions that saves lives.', ca: '"Isotònica" significa exactament això: mateixa concentració.' }),
 
   q('ds-22', 'eso',

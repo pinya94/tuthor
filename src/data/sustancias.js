@@ -145,7 +145,7 @@ export const CAMBIOS = [
 ]
 
 export const ESTADOS = {
-  solido: { label: { es: 'Sólido', en: 'Solid', ca: 'Sòlid' }, emoji: '🧊' },
+  solido: { label: { es: 'Sólido', en: 'Solid', ca: 'Sòlid' }, emoji: '❄️' },
   liquido: { label: { es: 'Líquido', en: 'Liquid', ca: 'Líquid' }, emoji: '💧' },
   gas: { label: { es: 'Gas', en: 'Gas', ca: 'Gas' }, emoji: '💨' },
 }

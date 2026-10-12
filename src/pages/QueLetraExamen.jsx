@@ -5,10 +5,10 @@ import { genRound, esCorrecta, schemaQuestion } from '../lib/queLetra'
 
 // Examen con la mecánica de ¿Qué Letra Va?: las mismas palabras, sin reloj.
 const LEVELS = [
-  { key: 'primaria', emoji: '🟢', difficulty: 'facil',
+  { key: 'primaria', emoji: '💚', difficulty: 'facil',
     label: { es: 'Primaria', en: 'Primary', ca: 'Primària' },
     hint: { es: 'Las reglas básicas', en: 'The basic rules', ca: 'Les regles bàsiques' } },
-  { key: 'eso', emoji: '🟡', difficulty: 'medio',
+  { key: 'eso', emoji: '💛', difficulty: 'medio',
     label: { es: 'Secundaria (ESO)', en: 'Secondary (ESO)', ca: 'Secundària (ESO)' },
     hint: { es: 'Más reglas', en: 'More rules', ca: 'Més regles' } },
   { key: 'bachillerato', emoji: '🔴', difficulty: 'dificil',

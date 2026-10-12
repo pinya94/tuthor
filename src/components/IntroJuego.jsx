@@ -1,7 +1,7 @@
 // Piezas comunes de la pantalla de inicio de los juegos: la cabecera con la
 // ilustración del juego (arte/), el selector de dificultad en barras y el
 // icono de cada línea de "cómo se juega". Sustituyen al emoji del título, al
-// semáforo 🟢🟡🔴 y a los emojis sueltos de las listas.
+// semáforo verde-ámbar-rojo y a los emojis sueltos de las listas.
 import { useState } from 'react'
 import { ArteJuego } from './arte'
 import { BarrasNivel, IconoDeEmoji, Bombilla } from './Iconos'

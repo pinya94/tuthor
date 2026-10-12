@@ -5,10 +5,10 @@ import { genRound, esCorrecta, schemaQuestion } from '../lib/ofertaDemanda'
 
 // Examen con la mecánica de Oferta y demanda: las mismas noticias y ecuaciones, sin reloj.
 const LEVELS = [
-  { key: 'primaria', emoji: '🟢', difficulty: 'facil',
+  { key: 'primaria', emoji: '💚', difficulty: 'facil',
     label: { es: 'Básico', en: 'Basic', ca: 'Bàsic' },
     hint: { es: 'Qué curva se desplaza y hacia dónde', en: 'Which curve shifts and which way', ca: 'Quina corba es desplaça i cap a on' } },
-  { key: 'eso', emoji: '🟡', difficulty: 'medio',
+  { key: 'eso', emoji: '💛', difficulty: 'medio',
     label: { es: 'Secundaria (ESO)', en: 'Secondary (ESO)', ca: 'Secundària (ESO)' },
     hint: { es: 'Desplazamientos, movimientos a lo largo y efecto sobre el precio', en: 'Shifts, movements along and effect on price', ca: 'Desplaçaments, moviments al llarg i efecte sobre el preu' } },
   { key: 'bachillerato', emoji: '🔴', difficulty: 'dificil',

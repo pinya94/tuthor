@@ -6,10 +6,10 @@ import { genRound, esCorrecta } from '../lib/mideVerso'
 // Examen con la mecánica de Mide el verso: los mismos poemas, sin reloj.
 // Sin schemaQuestion: sin el poema delante no hay pregunta.
 const LEVELS = [
-  { key: 'primaria', emoji: '🟢', difficulty: 'facil',
+  { key: 'primaria', emoji: '💚', difficulty: 'facil',
     label: { es: 'Iniciación', en: 'Beginner', ca: 'Iniciació' },
     hint: { es: 'Octosílabos, acento final y rima', en: 'Eight-syllable lines, final stress and rhyme', ca: 'Octosíl·labs, accent final i rima' } },
-  { key: 'eso', emoji: '🟡', difficulty: 'medio',
+  { key: 'eso', emoji: '💛', difficulty: 'medio',
     label: { es: 'Secundaria (ESO)', en: 'Secondary (ESO)', ca: 'Secundària (ESO)' },
     hint: { es: 'Versos de 7 a 11 sílabas y su nombre', en: 'Lines of 7 to 11 syllables and their names', ca: 'Versos de 7 a 11 síl·labes i el seu nom' } },
   { key: 'bachillerato', emoji: '🔴', difficulty: 'dificil',

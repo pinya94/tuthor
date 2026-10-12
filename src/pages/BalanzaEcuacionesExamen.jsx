@@ -8,10 +8,10 @@ import { genRound, isCorrectCoefs, isBalanced } from '../lib/ecuaciones'
 // más simple al comprobar. Niveles: reacciones sencillas → combustiones →
 // coeficientes grandes (glucosa, etano, amoníaco…).
 const LEVELS = [
-  { key: 'primaria', emoji: '🟢', difficulty: 'facil',
+  { key: 'primaria', emoji: '💚', difficulty: 'facil',
     label: { es: 'Iniciación', en: 'Beginner', ca: 'Iniciació' },
     hint: { es: 'Reacciones sencillas, coeficientes pequeños', en: 'Simple reactions, small coefficients', ca: 'Reaccions senzilles, coeficients petits' } },
-  { key: 'eso', emoji: '🟡', difficulty: 'medio',
+  { key: 'eso', emoji: '💛', difficulty: 'medio',
     label: { es: 'Secundaria (ESO)', en: 'Secondary (ESO)', ca: 'Secundària (ESO)' },
     hint: { es: 'Combustiones y descomposiciones', en: 'Combustions and decompositions', ca: 'Combustions i descomposicions' } },
   { key: 'bachillerato', emoji: '🔴', difficulty: 'dificil',

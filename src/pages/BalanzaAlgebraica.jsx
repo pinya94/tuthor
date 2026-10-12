@@ -43,8 +43,8 @@ const C = {
 function T(k, l) { return C[k]?.[l] ?? C[k]?.es ?? k }
 
 const DIFS = {
-  facil:   { emoji: '🟢', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' }, desc: { es: 'Una x: ax + b = c', en: 'One x: ax + b = c', ca: 'Una x: ax + b = c' } },
-  medio:   { emoji: '🟡', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' }, desc: { es: 'x a los dos lados: ax + b = cx + d', en: 'x on both sides: ax + b = cx + d', ca: 'x als dos costats: ax + b = cx + d' } },
+  facil:   { emoji: '💚', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' }, desc: { es: 'Una x: ax + b = c', en: 'One x: ax + b = c', ca: 'Una x: ax + b = c' } },
+  medio:   { emoji: '💛', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' }, desc: { es: 'x a los dos lados: ax + b = cx + d', en: 'x on both sides: ax + b = cx + d', ca: 'x als dos costats: ax + b = cx + d' } },
   dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' }, desc: { es: 'Números grandes y negativos', en: 'Big and negative numbers', ca: 'Números grans i negatius' } },
 }
 

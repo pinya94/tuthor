@@ -7,10 +7,10 @@ import { genRound, isCorrectOrder } from '../lib/ordenaFrase'
 // 10 preguntas, sin tiempo. A diferencia del arcade, aquí hay botón de
 // comprobar (nadie corre) y la regla se lee con calma tras cada respuesta.
 const LEVELS = [
-  { key: 'facil', emoji: '🟢', difficulty: 'facil',
+  { key: 'facil', emoji: '💚', difficulty: 'facil',
     label: { es: 'Iniciación', en: 'Beginner', ca: 'Iniciació' },
     hint: { es: 'Sujeto + verbo + objeto y adjetivos', en: 'Subject + verb + object and adjectives', ca: 'Subjecte + verb + objecte i adjectius' } },
-  { key: 'medio', emoji: '🟡', difficulty: 'medio',
+  { key: 'medio', emoji: '💛', difficulty: 'medio',
     label: { es: 'Secundaria (ESO)', en: 'Secondary (ESO)', ca: 'Secundària (ESO)' },
     hint: { es: 'Adverbios, negativas y preguntas', en: 'Adverbs, negatives and questions', ca: 'Adverbis, negatives i preguntes' } },
   { key: 'dificil', emoji: '🔴', difficulty: 'dificil',

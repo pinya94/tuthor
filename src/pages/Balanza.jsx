@@ -47,8 +47,8 @@ const C = {
 function T(k, l) { return C[k]?.[l] ?? C[k]?.es ?? k }
 
 const DIFS = {
-  facil:   { emoji: '🟢', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' }, desc: { es: 'Un peso a la izquierda, números pequeños', en: 'One weight on the left, small numbers', ca: 'Un pes a l’esquerra, números petits' } },
-  medio:   { emoji: '🟡', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' }, desc: { es: 'Uno o dos pesos y más muescas', en: 'One or two weights and more notches', ca: 'Un o dos pesos i més osques' } },
+  facil:   { emoji: '💚', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' }, desc: { es: 'Un peso a la izquierda, números pequeños', en: 'One weight on the left, small numbers', ca: 'Un pes a l’esquerra, números petits' } },
+  medio:   { emoji: '💛', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' }, desc: { es: 'Uno o dos pesos y más muescas', en: 'One or two weights and more notches', ca: 'Un o dos pesos i més osques' } },
   dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' }, desc: { es: 'Varios pesos y números grandes', en: 'Several weights and big numbers', ca: 'Diversos pesos i números grans' } },
 }
 

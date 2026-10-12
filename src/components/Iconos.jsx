@@ -239,7 +239,7 @@ export function Medalla({ puesto, ...p }) {
   )
 }
 
-// Dificultad en barras (1 a `total`): sustituye al semáforo 🟢🟡🔴.
+// Dificultad en barras (1 a `total`): sustituye al semáforo verde-ámbar-rojo.
 const COLOR_NIVEL = ['#34D399', '#FBBF24', '#FB7185']
 export function BarrasNivel({ n, total = 3, className = '' }) {
   const color = COLOR_NIVEL[Math.min(n, 3) - 1] || COLOR_NIVEL[0]

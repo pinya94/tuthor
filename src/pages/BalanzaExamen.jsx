@@ -7,10 +7,10 @@ import { genRound, torqueBreakdown } from '../lib/balanza'
 // Niveles realistas: un peso y números pequeños (Primaria) → uno o dos pesos
 // (ESO) → varios pesos y números grandes (Bachillerato).
 const LEVELS = [
-  { key: 'primaria', emoji: '🟢', difficulty: 'facil',
+  { key: 'primaria', emoji: '💚', difficulty: 'facil',
     label: { es: 'Primaria', en: 'Primary', ca: 'Primària' },
     hint: { es: 'Un peso, números pequeños', en: 'One weight, small numbers', ca: 'Un pes, números petits' } },
-  { key: 'eso', emoji: '🟡', difficulty: 'medio',
+  { key: 'eso', emoji: '💛', difficulty: 'medio',
     label: { es: 'Secundaria (ESO)', en: 'Secondary (ESO)', ca: 'Secundària (ESO)' },
     hint: { es: 'Uno o dos pesos y más muescas', en: 'One or two weights and more notches', ca: 'Un o dos pesos i més osques' } },
   { key: 'bachillerato', emoji: '🔴', difficulty: 'dificil',

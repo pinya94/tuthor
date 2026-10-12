@@ -5,10 +5,10 @@ import { genRound, esCorrecta, schemaQuestion } from '../lib/piramide'
 
 // Examen con la mecánica de Pirámide de población: las mismas pirámides, sin reloj.
 const LEVELS = [
-  { key: 'primaria', emoji: '🟢', difficulty: 'facil',
+  { key: 'primaria', emoji: '💚', difficulty: 'facil',
     label: { es: 'Primaria', en: 'Primary', ca: 'Primària' },
     hint: { es: 'Tipo de pirámide y grupo más numeroso', en: 'Pyramid type and largest group', ca: 'Tipus de piràmide i grup més nombrós' } },
-  { key: 'eso', emoji: '🟡', difficulty: 'medio',
+  { key: 'eso', emoji: '💛', difficulty: 'medio',
     label: { es: 'Secundaria (ESO)', en: 'Secondary (ESO)', ca: 'Secundària (ESO)' },
     hint: { es: 'Tipo, grupos de edad y sexos', en: 'Type, age groups and sexes', ca: 'Tipus, grups d’edat i sexes' } },
   { key: 'bachillerato', emoji: '🔴', difficulty: 'dificil',

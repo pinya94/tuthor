@@ -71,7 +71,7 @@ export const PREGUNTAS = [
     { es: 'Al bucear, ¿qué pasa con la presión a medida que bajas?', en: 'When diving, what happens to pressure as you go deeper?', ca: 'En bussejar, què passa amb la pressió a mesura que baixes?' },
     { es: ['Aumenta cuanto más profundo estás', 'Disminuye', 'Se mantiene igual a cualquier profundidad', 'Solo aumenta si el agua está fría'], en: ['It increases the deeper you go', 'It decreases', 'It stays the same at any depth', 'It only rises if the water is cold'], ca: ['Augmenta com més profund estàs', 'Disminueix', 'Es manté igual a qualsevol profunditat', 'Només augmenta si l\'aigua és freda'] },
     { es: 'Aumenta cuanto más profundo estás', en: 'It increases the deeper you go', ca: 'Augmenta com més profund estàs' },
-    '🤿',
+    '🏊',
     { es: 'Encima de ti hay cada vez más agua, y todo ese peso empuja. Por eso duelen los oídos al bajar: la presión de fuera crece y la de dentro del oído todavía no.', en: 'There is more and more water above you, and all that weight pushes down. That is why your ears hurt going down: outside pressure grows and your ear has not caught up.', ca: 'A sobre teu hi ha cada cop més aigua, i tot aquest pes empeny.' }),
 
   q('pf-08', 'primaria',

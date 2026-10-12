@@ -177,7 +177,7 @@ const PREGUNTAS = [
     { es:'¿Qué es un cuerpo transparente?', en:'What is a transparent body?', ca:'Què és un cos transparent?' },
     { es:['El que deja pasar la luz y permite ver con nitidez a través de él','El que no deja pasar nada de luz','El que solo deja pasar la luz roja','El que brilla en la oscuridad'], en:['One that lets light through and allows a clear view through it','One that lets no light through','One that only lets red light through','One that glows in the dark'], ca:['El que deixa passar la llum i permet veure-hi amb nitidesa a través','El que no deixa passar gens de llum','El que només deixa passar la llum vermella','El que brilla a la foscor'] },
     { es:'El que deja pasar la luz y permite ver con nitidez a través de él', en:'One that lets light through and allows a clear view through it', ca:'El que deixa passar la llum i permet veure-hi amb nitidesa a través' },
-    '🧊',
+    '❄️',
     { es:'Hay tres casos: transparente como el cristal, translúcido como un papel de cebolla, que deja pasar luz pero no deja ver bien, y opaco como una pared, que no deja pasar nada.', en:'There are three cases: transparent like glass, translucent like tracing paper, which lets light through but not a clear image, and opaque like a wall, which lets nothing through.', ca:'Hi ha tres casos: transparent com el vidre, translúcid com un paper de ceba, i opac com una paret.' },
   ),
   q('ol-37','primaria',

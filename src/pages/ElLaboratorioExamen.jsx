@@ -5,10 +5,10 @@ import { genRound, esCorrecta, schemaQuestion } from '../lib/laboratorio'
 
 // Examen con la mecánica de El Laboratorio: las mismas mezclas, sin reloj.
 const LEVELS = [
-  { key: 'primaria', emoji: '🟢', difficulty: 'facil',
+  { key: 'primaria', emoji: '💚', difficulty: 'facil',
     label: { es: 'Primaria', en: 'Primary', ca: 'Primària' },
     hint: { es: 'Cómo separar mezclas de dos', en: 'How to separate two-part mixtures', ca: 'Com separar mescles de dos' } },
-  { key: 'eso', emoji: '🟡', difficulty: 'medio',
+  { key: 'eso', emoji: '💛', difficulty: 'medio',
     label: { es: 'Secundaria (ESO)', en: 'Secondary (ESO)', ca: 'Secundària (ESO)' },
     hint: { es: 'Métodos, propiedades y tipos de mezcla', en: 'Methods, properties and kinds of mixture', ca: 'Mètodes, propietats i tipus de mescla' } },
   { key: 'bachillerato', emoji: '🔴', difficulty: 'dificil',

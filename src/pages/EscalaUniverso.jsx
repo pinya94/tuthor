@@ -17,9 +17,9 @@ const CORRECT_TIME = 4
 const REVEAL_MS = 4500 // da tiempo a ver el objeto en la regla y la cuenta
 
 const DIFS = {
-  facil:   { emoji: '🟢', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
+  facil:   { emoji: '💚', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
              desc: { es: 'Números grandes en notación científica, propiedades del producto y el cociente', en: 'Big numbers in scientific notation, product and quotient rules', ca: 'Nombres grans en notació científica, propietats del producte i el quocient' } },
-  medio:   { emoji: '🟡', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
+  medio:   { emoji: '💛', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
              desc: { es: 'También números pequeños, comparar tamaños y potencia de una potencia', en: 'Small numbers too, comparing sizes and power of a power', ca: 'També nombres petits, comparar mides i potència d’una potència' } },
   dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' },
              desc: { es: 'Operar en notación científica y cuántas veces mayor es una cosa que otra', en: 'Calculating in scientific notation and how many times bigger one thing is', ca: 'Operar en notació científica i quantes vegades més gran és una cosa que una altra' } },

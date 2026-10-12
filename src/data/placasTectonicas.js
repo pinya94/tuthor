@@ -58,7 +58,7 @@ export const PREGUNTAS = [
     { es: '¿Qué científico propuso que los continentes estuvieron unidos y se fueron separando con el tiempo?', en: 'Which scientist proposed that the continents were once joined and drifted apart over time?', ca: 'Quin científic va proposar que els continents havien estat units i es van anar separant amb el temps?' },
     { es: ['Alfred Wegener', 'Charles Darwin', 'Isaac Newton', 'Galileo Galilei'], en: ['Alfred Wegener', 'Charles Darwin', 'Isaac Newton', 'Galileo Galilei'], ca: ['Alfred Wegener', 'Charles Darwin', 'Isaac Newton', 'Galileu Galilei'] },
     { es: 'Alfred Wegener', en: 'Alfred Wegener', ca: 'Alfred Wegener' },
-    '🧑‍🔬',
+    '👨‍🔬',
     { es: 'Alfred Wegener propuso la teoría de la deriva continental: la idea de que los continentes se mueven lentamente sobre la superficie terrestre.', en: 'Alfred Wegener proposed the theory of continental drift: the idea that continents move slowly across the Earth\'s surface.', ca: 'Alfred Wegener va proposar la teoria de la deriva continental: la idea que els continents es mouen lentament sobre la superfície terrestre.' }),
 
   // ── ESO: bordes de placa, epicentro y contexto histórico de la teoría ──

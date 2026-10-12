@@ -17,9 +17,9 @@ const CORRECT_TIME = 4
 const REVEAL_MS = 4500 // da tiempo a leer la transformación y el dato
 
 const DIFS = {
-  facil:   { emoji: '🟢', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
+  facil:   { emoji: '💚', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
              desc: { es: 'Qué energía tiene cada cosa y qué transforma cada aparato', en: 'What energy each thing has and what each device transforms', ca: 'Quina energia té cada cosa i què transforma cada aparell' } },
-  medio:   { emoji: '🟡', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
+  medio:   { emoji: '💛', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
              desc: { es: 'Cadenas de varias transformaciones con un eslabón en blanco', en: 'Chains of several transformations with a missing link', ca: 'Cadenes de diverses transformacions amb una baula en blanc' } },
   dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' },
              desc: { es: 'Rendimiento, energía perdida y Ep = m·g·h', en: 'Efficiency, energy lost and Ep = m·g·h', ca: 'Rendiment, energia perduda i Ep = m·g·h' } },

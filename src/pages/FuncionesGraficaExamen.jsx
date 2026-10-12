@@ -8,10 +8,10 @@ import { genRound, isCorrectParams, fnText } from '../lib/funciones'
 // ecuación correcta al comprobar. Niveles: rectas → rectas y parábolas y=ax²+c
 // → parábolas completas y=ax²+bx+c.
 const LEVELS = [
-  { key: 'facil', emoji: '🟢', difficulty: 'facil',
+  { key: 'facil', emoji: '💚', difficulty: 'facil',
     label: { es: 'Iniciación', en: 'Beginner', ca: 'Iniciació' },
     hint: { es: 'Rectas: y = mx + b', en: 'Lines: y = mx + b', ca: 'Rectes: y = mx + b' } },
-  { key: 'medio', emoji: '🟡', difficulty: 'medio',
+  { key: 'medio', emoji: '💛', difficulty: 'medio',
     label: { es: 'Secundaria (ESO)', en: 'Secondary (ESO)', ca: 'Secundària (ESO)' },
     hint: { es: 'Rectas y parábolas y = ax² + c', en: 'Lines and parabolas y = ax² + c', ca: 'Rectes i paràboles y = ax² + c' } },
   { key: 'dificil', emoji: '🔴', difficulty: 'dificil',

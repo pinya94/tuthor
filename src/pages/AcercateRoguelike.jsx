@@ -14,8 +14,8 @@ import { ArteJuego } from '../components/arte'
 const ALL_OPS = ['+', '-', '×', '÷']
 
 const DIFS = {
-  facil:   { label: 'Fácil', labelEn: 'Easy', labelCa: 'Fàcil',   emoji: '🟢', vidasIni: 3, tiempoBase: 90, objMin: 10, objMax: 50,  countIni: 5, numMax: 10, ops: ['+', '-'] },
-  medio:   { label: 'Medio', labelEn: 'Medium', labelCa: 'Mitjà', emoji: '🟡', vidasIni: 0, tiempoBase: 60, objMin: 15, objMax: 99,  countIni: 5, numMax: 10, ops: ['+', '-', '×'] },
+  facil:   { label: 'Fácil', labelEn: 'Easy', labelCa: 'Fàcil',   emoji: '💚', vidasIni: 3, tiempoBase: 90, objMin: 10, objMax: 50,  countIni: 5, numMax: 10, ops: ['+', '-'] },
+  medio:   { label: 'Medio', labelEn: 'Medium', labelCa: 'Mitjà', emoji: '💛', vidasIni: 0, tiempoBase: 60, objMin: 15, objMax: 99,  countIni: 5, numMax: 10, ops: ['+', '-', '×'] },
   dificil: { label: 'Difícil', labelEn: 'Hard', labelCa: 'Difícil', emoji: '🔴', vidasIni: 0, tiempoBase: 45, objMin: 20, objMax: 250, countIni: 4, numMax: 15, ops: ['+', '-', '×', '÷'] },
 }
 

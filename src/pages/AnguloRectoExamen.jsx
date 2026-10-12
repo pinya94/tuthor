@@ -5,10 +5,10 @@ import { genRound, esCorrecta, schemaQuestion } from '../lib/anguloRecto'
 
 // Examen con la mecánica de Ángulo Recto: los mismos triángulos, sin reloj.
 const LEVELS = [
-  { key: 'primaria', emoji: '🟢', difficulty: 'facil',
+  { key: 'primaria', emoji: '💚', difficulty: 'facil',
     label: { es: 'Básico', en: 'Basic', ca: 'Bàsic' },
     hint: { es: 'Razones como fracción, qué razón usar y Pitágoras', en: 'Ratios as fractions, which ratio to use and Pythagoras', ca: 'Raons com a fracció, quina raó fer servir i Pitàgores' } },
-  { key: 'eso', emoji: '🟡', difficulty: 'medio',
+  { key: 'eso', emoji: '💛', difficulty: 'medio',
     label: { es: 'Secundaria (ESO)', en: 'Secondary (ESO)', ca: 'Secundària (ESO)' },
     hint: { es: 'Calcular lados y ángulos notables', en: 'Finding sides and special angles', ca: 'Calcular costats i angles notables' } },
   { key: 'bachillerato', emoji: '🔴', difficulty: 'dificil',

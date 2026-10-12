@@ -17,9 +17,9 @@ const CORRECT_TIME = 4
 const REVEAL_MS = 4500 // da tiempo a ver moverse la curva y leer el porqué
 
 const DIFS = {
-  facil:   { emoji: '🟢', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
+  facil:   { emoji: '💚', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
              desc: { es: 'Una noticia: ¿se mueve la oferta o la demanda, y hacia dónde?', en: 'A news item: does supply or demand shift, and which way?', ca: 'Una notícia: es mou l’oferta o la demanda, i cap a on?' } },
-  medio:   { emoji: '🟡', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
+  medio:   { emoji: '💛', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
              desc: { es: 'Qué pasa con el precio y la cantidad, y la trampa del movimiento a lo largo', en: 'What happens to price and quantity, and the movement-along trap', ca: 'Què passa amb el preu i la quantitat, i el parany del moviment al llarg' } },
   dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' },
              desc: { es: 'Con ecuaciones: equilibrio, escasez y excedentes', en: 'With equations: equilibrium, shortages and surpluses', ca: 'Amb equacions: equilibri, escassetat i excedents' } },

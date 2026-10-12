@@ -3,10 +3,10 @@ import { nuevaRonda, esCorrecta, formatNum, placeFrase } from '../lib/redondeo'
 import { RectaRedondeo } from '../components/RectaRedondeo'
 
 const LEVELS = [
-  { key: 'facil', emoji: '🟢', difficulty: 'facil',
+  { key: 'facil', emoji: '💚', difficulty: 'facil',
     label: { es: 'A la decena', en: 'Nearest ten', ca: 'A la desena' },
     hint: { es: 'Números de 2-3 cifras', en: '2-3 digit numbers', ca: 'Nombres de 2-3 xifres' } },
-  { key: 'medio', emoji: '🟡', difficulty: 'medio',
+  { key: 'medio', emoji: '💛', difficulty: 'medio',
     label: { es: 'Decena y centena', en: 'Ten and hundred', ca: 'Desena i centena' },
     hint: { es: 'Hasta 4 cifras', en: 'Up to 4 digits', ca: 'Fins a 4 xifres' } },
   { key: 'dificil', emoji: '🔴', difficulty: 'dificil',

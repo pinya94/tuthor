@@ -37,7 +37,7 @@ export const PREGUNTAS = [
     { es: '¿Qué cueva española es famosa por sus pinturas rupestres del Paleolítico?', en: 'Which Spanish cave is famous for its Palaeolithic cave paintings?', ca: 'Quina cova espanyola és famosa per les seves pintures rupestres del Paleolític?' },
     { es: ['Altamira', 'Atapuerca', 'La Alhambra', 'Las Médulas'], en: ['Altamira', 'Atapuerca', 'The Alhambra', 'Las Médulas'], ca: ['Altamira', 'Atapuerca', 'L\'Alhambra', 'Las Médulas'] },
     { es: 'Altamira', en: 'Altamira', ca: 'Altamira' },
-    '🦬',
+    '🐃',
     { es: 'La cueva de Altamira, en Cantabria, es mundialmente famosa por sus pinturas rupestres del Paleolítico superior, sobre todo por sus bisontes.', en: 'The cave of Altamira, in Cantabria, is world-famous for its Upper Palaeolithic cave paintings, especially its bison.', ca: 'La cova d\'Altamira, a Cantàbria, és mundialment famosa per les seves pintures rupestres del Paleolític superior, sobretot pels seus bisons.' }),
 
   q('pr-06', 'primaria',
@@ -178,7 +178,7 @@ export const PREGUNTAS = [
     { es: '¿Por qué se pintaban animales en las cuevas y casi nunca personas?', en: 'Why were animals painted in caves and almost never people?', ca: 'Per què es pintaven animals a les coves i gairebé mai persones?' },
     { es: ['Porque las personas eran más difíciles de dibujar', 'Porque los animales eran su comida y su vida: se cree que tenía un sentido mágico o ritual', 'Porque estaba prohibido dibujar personas', 'Porque no habían visto nunca a otras personas'], en: ['Because people were harder to draw', 'Because animals were their food and their livelihood: it is thought to have had a magical or ritual meaning', 'Because drawing people was forbidden', 'Because they had never seen other people'], ca: ['Perquè les persones eren més difícils de dibuixar', 'Perquè els animals eren el seu menjar i la seva vida: es creu que tenia un sentit màgic o ritual', 'Perquè estava prohibit dibuixar persones', 'Perquè no havien vist mai altres persones'] },
     { es: 'Porque los animales eran su comida y su vida: se cree que tenía un sentido mágico o ritual', en: 'Because animals were their food and their livelihood: it is thought to have had a magical or ritual meaning', ca: 'Perquè els animals eren el seu menjar i la seva vida: es creu que tenia un sentit màgic o ritual' },
-    '🦬',
+    '🐃',
     { es: 'Bisontes, caballos y ciervos aparecen una y otra vez, muchos en rincones profundos y oscuros de la cueva a los que no era fácil llegar. La hipótesis más aceptada es que pintarlos servía para propiciar la caza, aunque con certeza no se sabe: nadie dejó escrito por qué.', en: 'Bison, horses and deer appear again and again, many in deep dark corners that were hard to reach. The most accepted hypothesis is that painting them was meant to bring luck in the hunt, though nobody knows for certain: no one wrote down why.', ca: 'Bisons, cavalls i cérvols apareixen una vegada i una altra, molts en racons profunds de la cova. La hipòtesi més acceptada és que servia per propiciar la caça.' },
   ),
   q('pr-38', 'primaria',

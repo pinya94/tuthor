@@ -8,8 +8,8 @@ import { rondaDeExamen } from '../lib/lecturaGraficos'
 // y con nota, para repasar UNA cosa sin la prisa del arcade.
 
 const LEVELS = [
-  { key: 'facil', emoji: '🟢', difficulty: 'facil', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' }, hint: {es: "3 filas: la diferencia y el desempate",en: "3 rows: the difference and the tiebreaker",ca: "3 files: la diferència i el desempat"} },
-  { key: 'medio', emoji: '🟡', difficulty: 'medio', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' }, hint: {es: "4 filas, + la mejor diferencia",en: "4 rows, + the best difference",ca: "4 files, + la millor diferència"} },
+  { key: 'facil', emoji: '💚', difficulty: 'facil', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' }, hint: {es: "3 filas: la diferencia y el desempate",en: "3 rows: the difference and the tiebreaker",ca: "3 files: la diferència i el desempat"} },
+  { key: 'medio', emoji: '💛', difficulty: 'medio', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' }, hint: {es: "4 filas, + la mejor diferencia",en: "4 rows, + the best difference",ca: "4 files, + la millor diferència"} },
   { key: 'dificil', emoji: '🔴', difficulty: 'dificil', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' }, hint: {es: "5 filas",en: "5 rows",ca: "5 files"} },
 ]
 

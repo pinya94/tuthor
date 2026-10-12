@@ -6,10 +6,10 @@ import { genRound, esCorrecta, schemaQuestion } from '../lib/claveDicotomica'
 // reloj. Los pasos de la clave viven dentro de PreguntaClave (montada con key
 // por pregunta), que al final responde 'ok' o el paso fallado.
 const LEVELS = [
-  { key: 'primaria', emoji: '🟢', difficulty: 'facil',
+  { key: 'primaria', emoji: '💚', difficulty: 'facil',
     label: { es: 'Primaria', en: 'Primary', ca: 'Primària' },
     hint: { es: 'Vertebrados: los cinco grupos', en: 'Vertebrates: the five groups', ca: 'Vertebrats: els cinc grups' } },
-  { key: 'eso', emoji: '🟡', difficulty: 'medio',
+  { key: 'eso', emoji: '💛', difficulty: 'medio',
     label: { es: 'Secundaria (ESO)', en: 'Secondary (ESO)', ca: 'Secundària (ESO)' },
     hint: { es: 'Vertebrados e invertebrados', en: 'Vertebrates and invertebrates', ca: 'Vertebrats i invertebrats' } },
   { key: 'bachillerato', emoji: '🔴', difficulty: 'dificil',

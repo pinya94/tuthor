@@ -24,8 +24,8 @@ const WRONG_TIME = 3
 const CORRECT_TIME = 3
 
 const DIFS = {
-  facil:   { emoji: '🟢', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' }, desc: { es: '12 elementos, pista: el nombre', en: '12 elements, clue: the name', ca: '12 elements, pista: el nom' } },
-  medio:   { emoji: '🟡', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' }, desc: { es: '41 elementos, nombre o número atómico', en: '41 elements, name or atomic number', ca: '41 elements, nom o número atòmic' } },
+  facil:   { emoji: '💚', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' }, desc: { es: '12 elementos, pista: el nombre', en: '12 elements, clue: the name', ca: '12 elements, pista: el nom' } },
+  medio:   { emoji: '💛', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' }, desc: { es: '41 elementos, nombre o número atómico', en: '41 elements, name or atomic number', ca: '41 elements, nom o número atòmic' } },
   dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' }, desc: { es: 'Los 71 elementos hasta el Radón, también por categoría y posición', en: 'All 71 elements up to Radon, also by category and position', ca: 'Els 71 elements fins al Radó, també per categoria i posició' } },
 }
 

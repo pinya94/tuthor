@@ -7,10 +7,10 @@ import { nuevaHora, formatoDigital, enPalabras, esCorrecta } from '../lib/reloj'
 // manecillas, sin reloj de partida y con nota final. Niveles: en punto/media
 // (Primaria) → cuartos → cualquier minuto de 5 en 5.
 const LEVELS = [
-  { key: 'facil', emoji: '🟢', difficulty: 'facil',
+  { key: 'facil', emoji: '💚', difficulty: 'facil',
     label: { es: 'En punto y media', en: "O'clock and half past", ca: 'En punt i mitja' },
     hint: { es: 'Horas :00 y :30', en: 'Times :00 and :30', ca: 'Hores :00 i :30' } },
-  { key: 'medio', emoji: '🟡', difficulty: 'medio',
+  { key: 'medio', emoji: '💛', difficulty: 'medio',
     label: { es: 'Los cuartos', en: 'Quarters', ca: 'Els quarts' },
     hint: { es: 'y cuarto, y media, menos cuarto', en: 'quarter past, half past, quarter to', ca: 'i quart, i mitja, menys quart' } },
   { key: 'dificil', emoji: '🔴', difficulty: 'dificil',

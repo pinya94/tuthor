@@ -5,10 +5,10 @@ import { genRound, esCorrecta, schemaQuestion } from '../lib/leeMovimiento'
 
 // Examen con la mecánica de Lee el movimiento: las mismas gráficas, sin reloj.
 const LEVELS = [
-  { key: 'primaria', emoji: '🟢', difficulty: 'facil',
+  { key: 'primaria', emoji: '💚', difficulty: 'facil',
     label: { es: 'Iniciación', en: 'Beginner', ca: 'Iniciació' },
     hint: { es: 'Qué hace el móvil en cada tramo', en: 'What the object does in each stretch', ca: 'Què fa el mòbil a cada tram' } },
-  { key: 'eso', emoji: '🟡', difficulty: 'medio',
+  { key: 'eso', emoji: '💛', difficulty: 'medio',
     label: { es: 'Secundaria (ESO)', en: 'Secondary (ESO)', ca: 'Secundària (ESO)' },
     hint: { es: 'Velocidad y aceleración con la pendiente', en: 'Velocity and acceleration from the slope', ca: 'Velocitat i acceleració amb el pendent' } },
   { key: 'bachillerato', emoji: '🔴', difficulty: 'dificil',

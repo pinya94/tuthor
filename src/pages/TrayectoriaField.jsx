@@ -52,7 +52,7 @@ export function Goal({ goal }) {
 
 export function Barrier({ x, y }) {
   const [px, py] = toSVG(x, y)
-  return <text x={px} y={py + 6} fontSize="20" textAnchor="middle" style={{ userSelect: 'none' }}>🧍</text>
+  return <text x={px} y={py + 6} fontSize="20" textAnchor="middle" style={{ userSelect: 'none' }}>🧑</text>
 }
 
 export function Ball({ x, y, trail = [] }) {

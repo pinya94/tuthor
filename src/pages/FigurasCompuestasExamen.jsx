@@ -40,10 +40,10 @@ import MechanicExam from '../components/MechanicExam'
 // las figuras con más lados, que piden imaginar mejor dónde cortar.
 
 const LEVELS = [
-  { key: 'facil', emoji: '🟢', difficulty: 'facil',
+  { key: 'facil', emoji: '💚', difficulty: 'facil',
     label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
     hint: { es: 'Solo figuras en L → dos rectángulos', en: 'Only L-shapes → two rectangles', ca: 'Només figures en L → dos rectangles' } },
-  { key: 'medio', emoji: '🟡', difficulty: 'medio',
+  { key: 'medio', emoji: '💛', difficulty: 'medio',
     label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
     hint: { es: 'Añade la cometa y el pliegue en V', en: 'Adds the kite and the V-fold', ca: 'Afegeix la cometa i el plec en V' } },
   { key: 'dificil', emoji: '🔴', difficulty: 'dificil',

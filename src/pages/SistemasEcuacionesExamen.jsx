@@ -1,10 +1,10 @@
 import ExamenAlgebraBase from './ExamenAlgebraBase'
 
 const LEVELS = [
-  { key: 'facil', emoji: '🟢', difficulty: 'facil',
+  { key: 'facil', emoji: '💚', difficulty: 'facil',
     label: { es: 'Básico', en: 'Basic', ca: 'Bàsic' },
     hint: { es: 'Coeficientes pequeños y una x fácil de despejar', en: 'Small coefficients and an easy x to isolate', ca: 'Coeficients petits i una x fàcil d\'aïllar' } },
-  { key: 'medio', emoji: '🟡', difficulty: 'medio',
+  { key: 'medio', emoji: '💛', difficulty: 'medio',
     label: { es: 'ESO', en: 'Secondary', ca: 'ESO' },
     hint: { es: 'Coeficientes hasta 5, positivos y negativos', en: 'Coefficients up to 5, positive and negative', ca: 'Coeficients fins a 5, positius i negatius' } },
   { key: 'dificil', emoji: '🔴', difficulty: 'dificil',

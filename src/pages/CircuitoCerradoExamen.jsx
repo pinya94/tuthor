@@ -11,10 +11,10 @@ const est = (estado, l) => ESTADO_LABELS[estado]?.[l] ?? ESTADO_LABELS[estado]?.
 // bombillas (ESO) → tronco+ramas con 2 interruptores (Bachillerato) — mismo
 // mapeo nivel→dificultad que Fuerza Neta.
 const LEVELS = [
-  { key: 'primaria', emoji: '🟢', difficulty: 'facil',
+  { key: 'primaria', emoji: '💚', difficulty: 'facil',
     label: { es: 'Primaria', en: 'Primary', ca: 'Primària' },
     hint: { es: 'Una bombilla e interruptores en serie o en paralelo', en: 'One bulb and switches in series or parallel', ca: 'Una bombeta i interruptors en sèrie o en paral·lel' } },
-  { key: 'eso', emoji: '🟡', difficulty: 'medio',
+  { key: 'eso', emoji: '💛', difficulty: 'medio',
     label: { es: 'Secundaria (ESO)', en: 'Secondary (ESO)', ca: 'Secundària (ESO)' },
     hint: { es: 'Dos bombillas: serie, paralelo o un interruptor por rama', en: 'Two bulbs: series, parallel or a switch per branch', ca: 'Dues bombetes: sèrie, paral·lel o un interruptor per branca' } },
   { key: 'bachillerato', emoji: '🔴', difficulty: 'dificil',

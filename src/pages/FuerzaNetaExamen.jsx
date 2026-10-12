@@ -7,10 +7,10 @@ import { genRound, DIRS, axisBreakdown } from '../lib/fuerzaNeta'
 // Niveles realistas: fuerza neta en 1 eje (Primaria) → 2 ejes (ESO) → diagonales
 // y números grandes (Bachillerato) — hasta donde llega esta mecánica.
 const LEVELS = [
-  { key: 'primaria', emoji: '🟢', difficulty: 'facil',
+  { key: 'primaria', emoji: '💚', difficulty: 'facil',
     label: { es: 'Primaria', en: 'Primary', ca: 'Primària' },
     hint: { es: 'Dos fuerzas en un solo eje', en: 'Two forces on one axis', ca: 'Dues forces en un sol eix' } },
-  { key: 'eso', emoji: '🟡', difficulty: 'medio',
+  { key: 'eso', emoji: '💛', difficulty: 'medio',
     label: { es: 'Secundaria (ESO)', en: 'Secondary (ESO)', ca: 'Secundària (ESO)' },
     hint: { es: 'Varias fuerzas en los dos ejes', en: 'Several forces on both axes', ca: 'Diverses forces als dos eixos' } },
   { key: 'bachillerato', emoji: '🔴', difficulty: 'dificil',

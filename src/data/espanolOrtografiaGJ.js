@@ -75,7 +75,7 @@ export const PREGUNTAS = [
     { es: '¿Cuál de estas palabras está bien escrita?', en: 'Which of these words is spelled correctly?', ca: 'Quina d\'aquestes paraules està ben escrita?' },
     { es: ['Gigante', 'Jigante', 'Guigante', 'Jiganté'], en: ['Gigante', 'Jigante', 'Guigante', 'Jiganté'], ca: ['Gigante', 'Jigante', 'Guigante', 'Jiganté'] },
     { es: 'Gigante', en: 'Gigante', ca: 'Gigante' },
-    '🦣',
+    '🐘',
     { es: 'Lleva dos veces el sonido suave y las dos con g. Es una de esas palabras que hay que memorizar sin regla que ayude: por eso conviene leer mucho, que es como se fijan.', en: 'It carries the soft sound twice, both with g. It is one of those words to memorise with no rule to help: which is why reading a lot matters, since that is how they stick.', ca: 'Porta dues vegades el so suau i totes dues amb g. És una paraula que cal memoritzar.' }),
 
   q('gj-10', 'primaria',

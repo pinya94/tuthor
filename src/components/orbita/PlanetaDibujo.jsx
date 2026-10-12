@@ -1,5 +1,5 @@
 // Los planetas de Órbita dibujados (antes eran emojis de círculos de color:
-// ⚪🟡🔵🔴… — Tierra y Urano eran el mismo círculo azul). Cada uno con el
+// ⚪, amarillo, 🔵, 🔴… — Tierra y Urano eran el mismo círculo azul). Cada uno con el
 // rasgo que lo identifica en un libro: cráteres, continentes, bandas,
 // anillos. SVG 40×40, se escala con className.
 const DIBUJOS = {

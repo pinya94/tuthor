@@ -6,8 +6,8 @@ export const RANK = { primaria: 0, eso: 1, bach: 2 }
 // Niveles reutilizables por los exámenes. Los de morfología/complementos empiezan
 // en ESO (esas tareas no existen en Primaria).
 export const LEVELS_ALL = [
-  { key: 'primaria', emoji: '🟢', difficulty: 'primaria', label: { es: 'Primaria', en: 'Primary', ca: 'Primària' }, hint: { es: 'Clases de palabras y sujeto/predicado', en: 'Word classes and subject/predicate', ca: 'Classes de paraules i subjecte/predicat' } },
-  { key: 'eso', emoji: '🟡', difficulty: 'eso', label: { es: 'Secundaria (ESO)', en: 'Secondary (ESO)', ca: 'Secundària (ESO)' }, hint: { es: 'Frases con complementos y morfología', en: 'Sentences with objects and morphology', ca: 'Frases amb complements i morfologia' } },
+  { key: 'primaria', emoji: '💚', difficulty: 'primaria', label: { es: 'Primaria', en: 'Primary', ca: 'Primària' }, hint: { es: 'Clases de palabras y sujeto/predicado', en: 'Word classes and subject/predicate', ca: 'Classes de paraules i subjecte/predicat' } },
+  { key: 'eso', emoji: '💛', difficulty: 'eso', label: { es: 'Secundaria (ESO)', en: 'Secondary (ESO)', ca: 'Secundària (ESO)' }, hint: { es: 'Frases con complementos y morfología', en: 'Sentences with objects and morphology', ca: 'Frases amb complements i morfologia' } },
   { key: 'bach', emoji: '🔴', difficulty: 'bach', label: { es: 'Bachillerato', en: 'Sixth Form', ca: 'Batxillerat' }, hint: { es: 'Frases largas y análisis completo', en: 'Long sentences, full analysis', ca: 'Frases llargues i anàlisi completa' } },
 ]
 export const LEVELS_ESO = LEVELS_ALL.filter(l => l.key !== 'primaria')

@@ -8,8 +8,8 @@ import { rondaDeExamen } from '../lib/lecturaGraficos'
 // y con nota, para repasar UNA cosa sin la prisa del arcade.
 
 const LEVELS = [
-  { key: 'facil', emoji: '🟢', difficulty: 'facil', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' }, hint: {es: "Solo la media, 5 barras",en: "Mean only, 5 bars",ca: "Només la mitjana, 5 barres"} },
-  { key: 'medio', emoji: '🟡', difficulty: 'medio', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' }, hint: {es: "+ mediana y duelos",en: "+ median and head-to-heads",ca: "+ mediana i duels"} },
+  { key: 'facil', emoji: '💚', difficulty: 'facil', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' }, hint: {es: "Solo la media, 5 barras",en: "Mean only, 5 bars",ca: "Només la mitjana, 5 barres"} },
+  { key: 'medio', emoji: '💛', difficulty: 'medio', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' }, hint: {es: "+ mediana y duelos",en: "+ median and head-to-heads",ca: "+ mediana i duels"} },
   { key: 'dificil', emoji: '🔴', difficulty: 'dificil', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' }, hint: {es: "7 barras y la media de uno",en: "7 bars and one average",ca: "7 barres i la mitjana d'un"} },
 ]
 

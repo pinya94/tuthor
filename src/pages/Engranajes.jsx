@@ -17,9 +17,9 @@ const CORRECT_TIME = 4
 const REVEAL_MS = 3800
 
 const DIFS = {
-  facil:   { emoji: '🟢', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
+  facil:   { emoji: '💚', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
              desc: { es: 'Dos o tres ruedas: ¿hacia dónde gira?, ¿más rápida o más lenta?', en: 'Two or three gears: which way?, faster or slower?', ca: 'Dues o tres rodes: cap a on gira?, més ràpida o més lenta?' } },
-  medio:   { emoji: '🟡', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
+  medio:   { emoji: '💛', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
              desc: { es: 'Hasta cinco ruedas, y a cuántas rpm gira la última', en: 'Up to five gears, and how many rpm the last one turns', ca: 'Fins a cinc rodes, i a quantes rpm gira l’última' } },
   dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' },
              desc: { es: 'Con una rueda doble: dos piñones en el mismo eje', en: 'With a compound gear: two gears on one shaft', ca: 'Amb una roda doble: dos pinyons al mateix eix' } },

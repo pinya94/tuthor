@@ -17,9 +17,9 @@ const CORRECT_TIME = 4
 const REVEAL_MS = 4500 // da tiempo a ver el cruce de valencias
 
 const DIFS = {
-  facil:   { emoji: '🟢', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
+  facil:   { emoji: '💚', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
              desc: { es: 'Óxidos, hidruros y sales: qué tipo es y cuál es su fórmula', en: 'Oxides, hydrides and salts: what type it is and its formula', ca: 'Òxids, hidrurs i sals: quin tipus és i quina és la fórmula' } },
-  medio:   { emoji: '🟡', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
+  medio:   { emoji: '💛', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
              desc: { es: 'También hidróxidos, y de la fórmula al nombre (Stock)', en: 'Hydroxides too, and from formula to name (Stock)', ca: 'També hidròxids, i de la fórmula al nom (Stock)' } },
   dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' },
              desc: { es: 'Nombres por prefijos y oxoácidos (sulfúrico, nítrico…)', en: 'Prefix names and oxoacids (sulfuric, nitric…)', ca: 'Noms amb prefixos i oxoàcids (sulfúric, nítric…)' } },

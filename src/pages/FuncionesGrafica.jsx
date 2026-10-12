@@ -44,8 +44,8 @@ const C = {
 function T(k, l) { return C[k]?.[l] ?? C[k]?.es ?? k }
 
 const DIFS = {
-  facil:   { emoji: '🟢', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' }, desc: { es: 'Rectas: y = mx + b', en: 'Lines: y = mx + b', ca: 'Rectes: y = mx + b' } },
-  medio:   { emoji: '🟡', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' }, desc: { es: 'Rectas y parábolas y = ax² + c', en: 'Lines and parabolas y = ax² + c', ca: 'Rectes i paràboles y = ax² + c' } },
+  facil:   { emoji: '💚', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' }, desc: { es: 'Rectas: y = mx + b', en: 'Lines: y = mx + b', ca: 'Rectes: y = mx + b' } },
+  medio:   { emoji: '💛', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' }, desc: { es: 'Rectas y parábolas y = ax² + c', en: 'Lines and parabolas y = ax² + c', ca: 'Rectes i paràboles y = ax² + c' } },
   dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' }, desc: { es: 'Parábolas completas y = ax² + bx + c', en: 'Full parabolas y = ax² + bx + c', ca: 'Paràboles completes y = ax² + bx + c' } },
 }
 

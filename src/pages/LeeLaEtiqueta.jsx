@@ -17,9 +17,9 @@ const CORRECT_TIME = 4
 const REVEAL_MS = 3800
 
 const DIFS = {
-  facil:   { emoji: '🟢', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
+  facil:   { emoji: '💚', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
              desc: { es: 'Dos etiquetas: ¿cuál tiene más? ¿Cuántos terrones de azúcar?', en: 'Two labels: which has more? How many sugar cubes?', ca: 'Dues etiquetes: quina en té més? Quants terrossos de sucre?' } },
-  medio:   { emoji: '🟡', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
+  medio:   { emoji: '💛', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
              desc: { es: 'Tres etiquetas, gramos por ración y el semáforo nutricional', en: 'Three labels, grams per serving and traffic-light labels', ca: 'Tres etiquetes, grams per ració i el semàfor nutricional' } },
   dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' },
              desc: { es: 'La trampa de la ración: lo que cuenta es lo que te comes', en: 'The serving trap: what counts is what you eat', ca: 'La trampa de la ració: el que compta és el que et menges' } },

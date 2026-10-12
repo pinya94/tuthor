@@ -201,9 +201,9 @@ function PorteroField({ question, phase, chosen, ballPos, trail }) {
 // ── Difficulty screen ─────────────────────────────────────────────────────────
 
 const DIFS = {
-  easy:   { emoji: '🟢', label: { es: 'Fácil',   en: 'Easy',   ca: 'Fàcil'   },
+  easy:   { emoji: '💚', label: { es: 'Fácil',   en: 'Easy',   ca: 'Fàcil'   },
     desc: { es: 'Rectas de pendiente suave · f(x) = mx + b', en: 'Gentle slopes · f(x) = mx + b',        ca: 'Rectes de pendent suau · f(x) = mx + b' } },
-  medium: { emoji: '🟡', label: { es: 'Medio',   en: 'Medium', ca: 'Mitjà'   },
+  medium: { emoji: '💛', label: { es: 'Medio',   en: 'Medium', ca: 'Mitjà'   },
     desc: { es: 'Rectas con pendiente y corte · f(x) = mx + b', en: 'Lines with slope & intercept',     ca: 'Rectes amb pendent i tall'               } },
   hard:   { emoji: '🔴', label: { es: 'Difícil', en: 'Hard',   ca: 'Difícil' },
     desc: { es: 'Parábolas y funciones cuadráticas',         en: 'Parabolas & quadratic functions',      ca: 'Paràboles i funcions quadràtiques'       } },

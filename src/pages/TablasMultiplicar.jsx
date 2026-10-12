@@ -14,8 +14,8 @@ const GAME_TIME = 50
 const STEP = 2
 
 const DIFS = {
-  facil:   { emoji: '🟢', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },     desc: { es: 'Tablas del 2, el 5 y el 10', en: '2, 5 and 10 times tables', ca: 'Taules del 2, el 5 i el 10' } },
-  medio:   { emoji: '🟡', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },   desc: { es: 'Todas las tablas (1 al 10)', en: 'All tables (1 to 10)', ca: 'Totes les taules (1 al 10)' } },
+  facil:   { emoji: '💚', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },     desc: { es: 'Tablas del 2, el 5 y el 10', en: '2, 5 and 10 times tables', ca: 'Taules del 2, el 5 i el 10' } },
+  medio:   { emoji: '💛', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },   desc: { es: 'Todas las tablas (1 al 10)', en: 'All tables (1 to 10)', ca: 'Totes les taules (1 al 10)' } },
   dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' }, desc: { es: 'Tablas altas y divisiones', en: 'High tables and divisions', ca: 'Taules altes i divisions' } },
 }
 

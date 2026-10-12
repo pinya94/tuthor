@@ -17,9 +17,9 @@ const CORRECT_TIME = 4
 const REVEAL_MS = 4500 // da tiempo a leer el proceso en el ciclo
 
 const DIFS = {
-  facil:   { emoji: '🟢', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
+  facil:   { emoji: '💚', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
              desc: { es: 'Los procesos del ciclo y los tres tipos de roca', en: 'The cycle’s processes and the three rock types', ca: 'Els processos del cicle i els tres tipus de roca' } },
-  medio:   { emoji: '🟡', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
+  medio:   { emoji: '💛', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
              desc: { es: 'También: de qué roca viene cada metamórfica', en: 'Also: which rock each metamorphic one comes from', ca: 'També: de quina roca ve cada metamòrfica' } },
   dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' },
              desc: { es: 'Plutónicas y volcánicas, clases de sedimentarias y rutas por el ciclo', en: 'Plutonic and volcanic, kinds of sedimentary rock and routes through the cycle', ca: 'Plutòniques i volcàniques, menes de sedimentàries i rutes pel cicle' } },

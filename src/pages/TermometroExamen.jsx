@@ -5,10 +5,10 @@ import { genRound, esCorrecta, schemaQuestion } from '../lib/termometro'
 
 // Examen con la mecánica de Termómetro: las mismas preguntas, sin reloj.
 const LEVELS = [
-  { key: 'primaria', emoji: '🟢', difficulty: 'facil',
+  { key: 'primaria', emoji: '💚', difficulty: 'facil',
     label: { es: 'Básico', en: 'Basic', ca: 'Bàsic' },
     hint: { es: 'Celsius y kelvin, mezclas iguales y transmisión del calor', en: 'Celsius and kelvin, equal mixes and heat transfer', ca: 'Celsius i kelvin, barreges iguals i transmissió de la calor' } },
-  { key: 'eso', emoji: '🟡', difficulty: 'medio',
+  { key: 'eso', emoji: '💛', difficulty: 'medio',
     label: { es: 'Secundaria (ESO)', en: 'Secondary (ESO)', ca: 'Secundària (ESO)' },
     hint: { es: 'Fahrenheit, mezclas con distinta masa y conceptos', en: 'Fahrenheit, mixes with different masses and concepts', ca: 'Fahrenheit, barreges amb massa diferent i conceptes' } },
   { key: 'bachillerato', emoji: '🔴', difficulty: 'dificil',

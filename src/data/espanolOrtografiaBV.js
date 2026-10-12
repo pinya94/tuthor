@@ -161,7 +161,7 @@ const TODAS = [
   q('bv-32', 'primaria',
     { es: 'Completa: "En invierno hace mucho frío" — ¿cómo se escribe "in___ierno"?', en: 'Complete: how is "in___ierno" (winter) spelled?', ca: 'Completa: com s\'escriu "in___ierno" (hivern, en castellà)?' },
     { es: ['inbierno', 'invierno', 'imvierno', 'imbierno'], en: ['inbierno', 'invierno', 'imvierno', 'imbierno'], ca: ['inbierno', 'invierno', 'imvierno', 'imbierno'] },
-    1, '🧊',
+    1, '❄️',
     { es: '"Invierno" con n y con v, por la regla nv. Fíjate en que las otras tres opciones rompen alguna regla: "inbierno" pone b detrás de n, y las dos con "im" pondrían m delante de v, que tampoco existe.', en: '"Invierno" with n and v, by the nv rule. Notice the other three break a rule: "inbierno" puts b after n, and the two with "im" would put m before v, which does not exist either.', ca: '"Invierno" amb n i amb v, per la regla nv. Fixa\'t que les altres tres opcions trenquen alguna regla.' },
   ),
   q('bv-33', 'primaria',

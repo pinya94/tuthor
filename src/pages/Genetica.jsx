@@ -38,8 +38,8 @@ const C = {
 function T(k, l) { return C[k]?.[l] ?? C[k]?.es ?? k }
 
 const DIFS = {
-  facil:   { emoji: '🟢', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' }, desc: { es: 'Predecir la descendencia', en: 'Predict the offspring', ca: 'Predir la descendència' } },
-  medio:   { emoji: '🟡', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' }, desc: { es: '+ deducir el genotipo de los padres', en: '+ deduce the parents’ genotype', ca: '+ deduir el genotip dels pares' } },
+  facil:   { emoji: '💚', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' }, desc: { es: 'Predecir la descendencia', en: 'Predict the offspring', ca: 'Predir la descendència' } },
+  medio:   { emoji: '💛', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' }, desc: { es: '+ deducir el genotipo de los padres', en: '+ deduce the parents’ genotype', ca: '+ deduir el genotip dels pares' } },
   dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' }, desc: { es: '+ dominancia incompleta (1:2:1)', en: '+ incomplete dominance (1:2:1)', ca: '+ dominància incompleta (1:2:1)' } },
 }
 

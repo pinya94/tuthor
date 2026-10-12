@@ -7,8 +7,8 @@ import { RANGOS, generarRonda } from '../lib/saltaRectaEngine'
 // "adivina" significan lo mismo aquí que en el arcade.
 
 const LEVELS = [
-  { key: 'facil', emoji: '🟢', difficulty: 'facil', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' }, hint: { es: 'Rango −10 a 10, sin doble signo', en: 'Range −10 to 10, no double sign', ca: 'Rang −10 a 10, sense doble signe' } },
-  { key: 'medio', emoji: '🟡', difficulty: 'medio', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' }, hint: { es: 'Rango −15 a 15, algo de doble signo', en: 'Range −15 to 15, some double sign', ca: 'Rang −15 a 15, una mica de doble signe' } },
+  { key: 'facil', emoji: '💚', difficulty: 'facil', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' }, hint: { es: 'Rango −10 a 10, sin doble signo', en: 'Range −10 to 10, no double sign', ca: 'Rang −10 a 10, sense doble signe' } },
+  { key: 'medio', emoji: '💛', difficulty: 'medio', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' }, hint: { es: 'Rango −15 a 15, algo de doble signo', en: 'Range −15 to 15, some double sign', ca: 'Rang −15 a 15, una mica de doble signe' } },
   { key: 'dificil', emoji: '🔴', difficulty: 'dificil', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' }, hint: { es: 'Rango −20 a 20, mucho doble signo', en: 'Range −20 to 20, lots of double sign', ca: 'Rang −20 a 20, molt de doble signe' } },
 ]
 

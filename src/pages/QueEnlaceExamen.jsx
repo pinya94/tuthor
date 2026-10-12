@@ -5,10 +5,10 @@ import { genRound, esCorrecta, schemaQuestion } from '../lib/queEnlace'
 
 // Examen con la mecánica de ¿Qué Enlace?: la misma tabla, sin reloj.
 const LEVELS = [
-  { key: 'primaria', emoji: '🟢', difficulty: 'facil',
+  { key: 'primaria', emoji: '💚', difficulty: 'facil',
     label: { es: 'Básico', en: 'Basic', ca: 'Bàsic' },
     hint: { es: 'Tipo de enlace entre dos elementos y sustancias de casa', en: 'Bond type between two elements and everyday substances', ca: 'Tipus d’enllaç entre dos elements i substàncies de casa' } },
-  { key: 'eso', emoji: '🟡', difficulty: 'medio',
+  { key: 'eso', emoji: '💛', difficulty: 'medio',
     label: { es: 'Secundaria (ESO)', en: 'Secondary (ESO)', ca: 'Secundària (ESO)' },
     hint: { es: 'Tipos de sustancia, propiedades y enlaces por átomo', en: 'Kinds of substance, properties and bonds per atom', ca: 'Tipus de substància, propietats i enllaços per àtom' } },
   { key: 'bachillerato', emoji: '🔴', difficulty: 'dificil',

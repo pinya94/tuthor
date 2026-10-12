@@ -5,10 +5,10 @@ import { genRound, esCorrecta, schemaQuestion } from '../lib/engranajes'
 
 // Examen con la mecánica de Engranajes: los mismos trenes, sin reloj.
 const LEVELS = [
-  { key: 'primaria', emoji: '🟢', difficulty: 'facil',
+  { key: 'primaria', emoji: '💚', difficulty: 'facil',
     label: { es: 'Primaria', en: 'Primary', ca: 'Primària' },
     hint: { es: 'Dos o tres ruedas: sentido de giro y si va más rápida', en: 'Two or three gears: direction and whether it is faster', ca: 'Dues o tres rodes: sentit de gir i si va més ràpida' } },
-  { key: 'eso', emoji: '🟡', difficulty: 'medio',
+  { key: 'eso', emoji: '💛', difficulty: 'medio',
     label: { es: 'Secundaria (ESO)', en: 'Secondary (ESO)', ca: 'Secundària (ESO)' },
     hint: { es: 'Hasta cinco ruedas y el cálculo de las rpm', en: 'Up to five gears and working out the rpm', ca: 'Fins a cinc rodes i el càlcul de les rpm' } },
   { key: 'bachillerato', emoji: '🔴', difficulty: 'dificil',

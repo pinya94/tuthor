@@ -122,8 +122,8 @@ export const NOMBRE_NUTRIENTE = {
   proteinas: { es: 'proteínas', en: 'protein', ca: 'proteïnes' },
 }
 export const NOMBRE_SEMAFORO = {
-  bajo: { es: 'Bajo 🟢', en: 'Low 🟢', ca: 'Baix 🟢' },
-  medio: { es: 'Medio 🟡', en: 'Medium 🟡', ca: 'Mitjà 🟡' },
+  bajo: { es: 'Bajo 💚', en: 'Low 💚', ca: 'Baix 💚' },
+  medio: { es: 'Medio 💛', en: 'Medium 💛', ca: 'Mitjà 💛' },
   alto: { es: 'Alto 🔴', en: 'High 🔴', ca: 'Alt 🔴' },
 }
 const nN = (n, l) => NOMBRE_NUTRIENTE[n][l] ?? NOMBRE_NUTRIENTE[n].es

@@ -3,10 +3,10 @@ import MechanicExam from '../components/MechanicExam'
 import { nuevaRonda, denomsDe, formatoEuro, esCorrecta } from '../lib/dinero'
 
 const LEVELS = [
-  { key: 'facil', emoji: '🟢', difficulty: 'facil',
+  { key: 'facil', emoji: '💚', difficulty: 'facil',
     label: { es: 'Formar hasta 2 €', en: 'Make up to €2', ca: 'Formar fins a 2 €' },
     hint: { es: 'De 10 en 10 céntimos', en: 'In steps of 10 cents', ca: 'De 10 en 10 cèntims' } },
-  { key: 'medio', emoji: '🟡', difficulty: 'medio',
+  { key: 'medio', emoji: '💛', difficulty: 'medio',
     label: { es: 'Formar hasta 10 €', en: 'Make up to €10', ca: 'Formar fins a 10 €' },
     hint: { es: 'Con céntimos y billetes', en: 'With cents and notes', ca: 'Amb cèntims i bitllets' } },
   { key: 'dificil', emoji: '🔴', difficulty: 'dificil',

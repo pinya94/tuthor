@@ -1,10 +1,10 @@
 import ExamenAlgebraBase from './ExamenAlgebraBase'
 
 const LEVELS = [
-  { key: 'facil', emoji: '🟢', difficulty: 'facil',
+  { key: 'facil', emoji: '💚', difficulty: 'facil',
     label: { es: 'Básico', en: 'Basic', ca: 'Bàsic' },
     hint: { es: 'Recta por dos puntos y con pendiente y punto', en: 'Line through two points, and from slope and point', ca: 'Recta per dos punts i amb pendent i punt' } },
-  { key: 'medio', emoji: '🟡', difficulty: 'medio',
+  { key: 'medio', emoji: '💛', difficulty: 'medio',
     label: { es: 'ESO', en: 'Secondary', ca: 'ESO' },
     hint: { es: 'Y además, dónde se cortan dos rectas', en: 'Plus where two lines cross', ca: 'I a més, on es tallen dues rectes' } },
   { key: 'dificil', emoji: '🔴', difficulty: 'dificil',

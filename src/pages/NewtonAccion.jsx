@@ -17,9 +17,9 @@ const CORRECT_TIME = 4
 const REVEAL_MS = 5000 // da tiempo a ver las fuerzas resueltas y la cuenta
 
 const DIFS = {
-  facil:   { emoji: '🟢', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
+  facil:   { emoji: '💚', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
              desc: { es: 'F = m · a, peso y masa en la Tierra y en la Luna, inercia y acción-reacción', en: 'F = m × a, weight and mass on Earth and the Moon, inertia and action-reaction', ca: 'F = m · a, pes i massa a la Terra i a la Lluna, inèrcia i acció-reacció' } },
-  medio:   { emoji: '🟡', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
+  medio:   { emoji: '💛', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
              desc: { es: 'Despejar masa o fuerza y empujar con rozamiento (¿se moverá?)', en: 'Solving for mass or force, and pushing against friction (will it move?)', ca: 'Aïllar massa o força i empènyer amb fregament (es mourà?)' } },
   dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' },
              desc: { es: 'Plano inclinado y peso aparente en un ascensor', en: 'Inclined planes and apparent weight in a lift', ca: 'Pla inclinat i pes aparent en un ascensor' } },

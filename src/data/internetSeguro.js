@@ -73,7 +73,7 @@ export const PREGUNTAS = [
     { es: 'Alguien que has conocido por internet te propone quedar en persona. ¿Qué haces?', en: 'Someone you met online suggests meeting in person. What do you do?', ca: 'Algú que has conegut per internet et proposa quedar en persona. Què fas?' },
     { es: ['Contárselo a un adulto de confianza y no ir por tu cuenta', 'Ir, pero avisando a un amigo', 'Ir a un sitio con mucha gente', 'Ir solo si ya habéis hablado mucho'], en: ['Tell a trusted adult and do not go on your own', 'Go, but tell a friend', 'Go somewhere crowded', 'Go only if you have talked a lot'], ca: ['Explicar-ho a un adult de confiança i no anar-hi pel teu compte', 'Anar-hi, però avisant un amic', 'Anar a un lloc amb molta gent', 'Anar-hi només si ja heu parlat molt'] },
     { es: 'Contárselo a un adulto de confianza y no ir por tu cuenta', en: 'Tell a trusted adult and do not go on your own', ca: 'Explicar-ho a un adult de confiança i no anar-hi pel teu compte' },
-    '🛟',
+    '🆘',
     { es: 'Llevar mucho tiempo hablando no significa conocer a alguien: al otro lado puede haber cualquiera. Un adulto que sepa lo que pasa puede acompañarte o parar la cosa a tiempo, y no te va a regañar por contarlo.', en: 'Having talked for a long time is not knowing someone: anyone could be on the other side. An adult who knows what is going on can go with you or stop it in time, and will not tell you off for speaking up.', ca: 'Portar molt de temps parlant no vol dir conèixer algú: a l\'altre costat hi pot haver qualsevol.' }),
 
   // ── ESTAFAS Y ENGAÑOS ───────────────────────────────────────────────────

@@ -9,10 +9,10 @@ import { genRound, isCorrectGuess, distanciaKm } from '../lib/coordenadas'
 // del juego (puntos por precisión), aquí es acierto/fallo simple contra una
 // tolerancia en km que se endurece por nivel — más nivel, más precisión.
 const LEVELS = [
-  { key: 'primaria', emoji: '🟢', difficulty: 'facil',
+  { key: 'primaria', emoji: '💚', difficulty: 'facil',
     label: { es: 'Iniciación', en: 'Beginner', ca: 'Iniciació' },
     hint: { es: 'Margen amplio: ±800 km', en: 'Wide margin: ±800 km', ca: 'Marge ampli: ±800 km' } },
-  { key: 'eso', emoji: '🟡', difficulty: 'medio',
+  { key: 'eso', emoji: '💛', difficulty: 'medio',
     label: { es: 'Secundaria (ESO)', en: 'Secondary (ESO)', ca: 'Secundària (ESO)' },
     hint: { es: 'Margen medio: ±500 km', en: 'Medium margin: ±500 km', ca: 'Marge mitjà: ±500 km' } },
   { key: 'bachillerato', emoji: '🔴', difficulty: 'dificil',

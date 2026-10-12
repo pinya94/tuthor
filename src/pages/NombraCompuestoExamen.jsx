@@ -5,10 +5,10 @@ import { genRound, esCorrecta, schemaQuestion } from '../lib/formulacion'
 
 // Examen con la mecánica de Nombra el compuesto: los mismos compuestos, sin reloj.
 const LEVELS = [
-  { key: 'primaria', emoji: '🟢', difficulty: 'facil',
+  { key: 'primaria', emoji: '💚', difficulty: 'facil',
     label: { es: 'Iniciación (3.º ESO)', en: 'Beginner', ca: 'Iniciació (3r ESO)' },
     hint: { es: 'Óxidos, hidruros y sales binarias', en: 'Oxides, hydrides and binary salts', ca: 'Òxids, hidrurs i sals binàries' } },
-  { key: 'eso', emoji: '🟡', difficulty: 'medio',
+  { key: 'eso', emoji: '💛', difficulty: 'medio',
     label: { es: 'Secundaria (ESO)', en: 'Secondary (ESO)', ca: 'Secundària (ESO)' },
     hint: { es: 'Con hidróxidos y nomenclatura de Stock', en: 'With hydroxides and Stock nomenclature', ca: 'Amb hidròxids i nomenclatura de Stock' } },
   { key: 'bachillerato', emoji: '🔴', difficulty: 'dificil',

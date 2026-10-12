@@ -17,9 +17,9 @@ const CORRECT_TIME = 4
 const REVEAL_MS = 4800 // da tiempo a ver el termómetro o el vaso resueltos y la cuenta
 
 const DIFS = {
-  facil:   { emoji: '🟢', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
+  facil:   { emoji: '💚', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
              desc: { es: 'Grados Celsius y kelvin, mezclas a partes iguales, conducción, convección y radiación', en: 'Celsius and kelvin, equal mixes, conduction, convection and radiation', ca: 'Graus Celsius i kelvin, barreges a parts iguals, conducció, convecció i radiació' } },
-  medio:   { emoji: '🟡', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
+  medio:   { emoji: '💛', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
              desc: { es: 'Fahrenheit, mezclas con distinta cantidad de agua y calor frente a temperatura', en: 'Fahrenheit, mixes with different amounts of water and heat versus temperature', ca: 'Fahrenheit, barreges amb diferent quantitat d’aigua i calor davant temperatura' } },
   dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' },
              desc: { es: 'Q = m · c · ΔT, de Fahrenheit a Celsius y conceptos con trampa', en: 'Q = m · c · ΔT, Fahrenheit to Celsius and tricky concepts', ca: 'Q = m · c · ΔT, de Fahrenheit a Celsius i conceptes amb parany' } },

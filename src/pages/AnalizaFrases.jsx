@@ -88,8 +88,8 @@ const TOPICS = [
 ]
 
 const DIFS = {
-  primaria: { emoji: '🟢', label: { es: 'Primaria', en: 'Primary', ca: 'Primària' }, desc: { es: 'Clases de palabras y sujeto/predicado', en: 'Word classes and subject/predicate', ca: 'Classes de paraules i subjecte/predicat' } },
-  eso:      { emoji: '🟡', label: { es: 'Secundaria (ESO)', en: 'Secondary (ESO)', ca: 'Secundària (ESO)' }, desc: { es: 'Pronombres, adverbios y complementos (CD, CI, CC)', en: 'Pronouns, adverbs and objects (DO, IO)', ca: 'Pronoms, adverbis i complements' } },
+  primaria: { emoji: '💚', label: { es: 'Primaria', en: 'Primary', ca: 'Primària' }, desc: { es: 'Clases de palabras y sujeto/predicado', en: 'Word classes and subject/predicate', ca: 'Classes de paraules i subjecte/predicat' } },
+  eso:      { emoji: '💛', label: { es: 'Secundaria (ESO)', en: 'Secondary (ESO)', ca: 'Secundària (ESO)' }, desc: { es: 'Pronombres, adverbios y complementos (CD, CI, CC)', en: 'Pronouns, adverbs and objects (DO, IO)', ca: 'Pronoms, adverbis i complements' } },
   bach:     { emoji: '🔴', label: { es: 'Bachillerato', en: 'Sixth Form', ca: 'Batxillerat' }, desc: { es: 'Frases largas, atributo y CD/CI/CC', en: 'Long sentences, attribute and objects', ca: 'Frases llargues, atribut i complements' } },
 }
 

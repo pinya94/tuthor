@@ -17,9 +17,9 @@ const CORRECT_TIME = 4
 const REVEAL_MS = 4500 // da tiempo a ver los saltos o los puntos coloreados y la cuenta
 
 const DIFS = {
-  facil:   { emoji: '🟢', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
+  facil:   { emoji: '💚', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
              desc: { es: 'Qué número sigue, qué tipo de sucesión es y figuras de puntos que crecen', en: 'What comes next, what kind of sequence it is and growing dot patterns', ca: 'Quin nombre segueix, quin tipus de successió és i figures de punts que creixen' } },
-  medio:   { emoji: '🟡', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
+  medio:   { emoji: '💛', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
              desc: { es: 'El término 50 o el 100 y el término general', en: 'Term 50 or 100 and the general term', ca: 'El terme 50 o el 100 i el terme general' } },
   dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' },
              desc: { es: 'Término general aritmético y geométrico y la suma de los n primeros', en: 'Arithmetic and geometric general terms and the sum of the first n', ca: 'Terme general aritmètic i geomètric i la suma dels n primers' } },

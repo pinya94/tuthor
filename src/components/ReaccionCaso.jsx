@@ -50,7 +50,7 @@ export default function ReaccionCaso({ caso, onResuelto }) {
           return (
             <button key={i} onClick={() => elegir(i)} disabled={resuelto}
               className={`w-full text-left rounded-xl border px-4 py-3 text-sm text-white transition-colors ${estilo}`}>
-              {activa && (op.esPeligrosa ? '🔴 ' : op.esCorrecta ? '✅ ' : '🟠 ')}
+              {activa && (op.esPeligrosa ? '🔴 ' : op.esCorrecta ? '✅ ' : '⚠️ ')}
               {tr(op.texto)}
             </button>
           )

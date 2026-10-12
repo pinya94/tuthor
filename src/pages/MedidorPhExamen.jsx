@@ -5,10 +5,10 @@ import { NIVELES, genRonda, isCorrect, categoria } from '../lib/medidorPh'
 
 // Examen con la mecánica del Medidor de pH: la misma tira, sin cronómetro.
 const LEVELS = [
-  { key: 'primaria', emoji: '🟢', difficulty: 'facil',
+  { key: 'primaria', emoji: '💚', difficulty: 'facil',
     label: { es: 'Primaria', en: 'Primary', ca: 'Primària' },
     hint: { es: 'Ácido, neutro o básico', en: 'Acidic, neutral or basic', ca: 'Àcid, neutre o bàsic' } },
-  { key: 'eso', emoji: '🟡', difficulty: 'medio',
+  { key: 'eso', emoji: '💛', difficulty: 'medio',
     label: { es: 'Secundaria (ESO)', en: 'Secondary (ESO)', ca: 'Secundària (ESO)' },
     hint: { es: 'Acércate a su pH (±1,5)', en: 'Get close to its pH (±1.5)', ca: 'Acosta’t al seu pH (±1,5)' } },
   { key: 'bachillerato', emoji: '🔴', difficulty: 'dificil',

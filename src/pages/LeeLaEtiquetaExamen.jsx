@@ -5,10 +5,10 @@ import { genRound, esCorrecta, schemaQuestion } from '../lib/etiqueta'
 
 // Examen con la mecánica de Lee la Etiqueta: las mismas etiquetas, sin reloj.
 const LEVELS = [
-  { key: 'primaria', emoji: '🟢', difficulty: 'facil',
+  { key: 'primaria', emoji: '💚', difficulty: 'facil',
     label: { es: 'Primaria', en: 'Primary', ca: 'Primària' },
     hint: { es: 'Comparar dos etiquetas y contar terrones de azúcar', en: 'Compare two labels and count sugar cubes', ca: 'Comparar dues etiquetes i comptar terrossos de sucre' } },
-  { key: 'eso', emoji: '🟡', difficulty: 'medio',
+  { key: 'eso', emoji: '💛', difficulty: 'medio',
     label: { es: 'Secundaria (ESO)', en: 'Secondary (ESO)', ca: 'Secundària (ESO)' },
     hint: { es: 'Gramos por ración y semáforo nutricional', en: 'Grams per serving and traffic-light labels', ca: 'Grams per ració i semàfor nutricional' } },
   { key: 'bachillerato', emoji: '🔴', difficulty: 'dificil',

@@ -5,10 +5,10 @@ import { genRound, esCorrecta, schemaQuestion } from '../lib/disoluciones'
 
 // Examen con la mecánica de Prepara la Disolución: los mismos vasos, sin reloj.
 const LEVELS = [
-  { key: 'primaria', emoji: '🟢', difficulty: 'facil',
+  { key: 'primaria', emoji: '💚', difficulty: 'facil',
     label: { es: 'Básico', en: 'Basic', ca: 'Bàsic' },
     hint: { es: 'Soluto y disolvente, g/L y comparar vasos', en: 'Solute and solvent, g/L and comparing beakers', ca: 'Solut i dissolvent, g/L i comparar gots' } },
-  { key: 'eso', emoji: '🟡', difficulty: 'medio',
+  { key: 'eso', emoji: '💛', difficulty: 'medio',
     label: { es: 'Secundaria (ESO)', en: 'Secondary (ESO)', ca: 'Secundària (ESO)' },
     hint: { es: 'Gramos necesarios, % en masa y solubilidad', en: 'Grams needed, % by mass and solubility', ca: 'Grams necessaris, % en massa i solubilitat' } },
   { key: 'bachillerato', emoji: '🔴', difficulty: 'dificil',

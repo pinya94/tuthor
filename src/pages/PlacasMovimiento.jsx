@@ -17,9 +17,9 @@ const CORRECT_TIME = 4
 const REVEAL_MS = 5000 // da tiempo a ver el relieve dibujado y leer la explicación
 
 const DIFS = {
-  facil:   { emoji: '🟢', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
+  facil:   { emoji: '💚', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
              desc: { es: 'Qué borde es por las flechas, qué relieve se forma y si se crea o se destruye corteza', en: 'Which boundary it is from the arrows, what landform appears and whether crust is made or destroyed', ca: 'Quina vora és per les fletxes, quin relleu es forma i si es crea o es destrueix escorça' } },
-  medio:   { emoji: '🟡', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
+  medio:   { emoji: '💛', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
              desc: { es: 'Además, qué placa se hunde y qué lugar real es: Andes, Himalaya, Japón…', en: 'Plus which plate sinks and which real place it is: Andes, Himalayas, Japan…', ca: 'A més, quina placa s’enfonsa i quin lloc real és: Andes, Himàlaia, Japó…' } },
   dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' },
              desc: { es: 'Sin dibujo: de un lugar o unos síntomas, deduce qué borde es (y el caso de Hawái)', en: 'No drawing: from a place or some clues, work out the boundary (and the Hawaii case)', ca: 'Sense dibuix: d’un lloc o uns símptomes, dedueix quina vora és (i el cas de Hawaii)' } },

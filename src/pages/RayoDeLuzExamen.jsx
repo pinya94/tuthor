@@ -7,10 +7,10 @@ import { rondaExamen } from '../lib/rayoLuz'
 // se giran; el rayo NO se ve hasta responder. Hay que seguirlo con la cabeza
 // —cada espejo a 45° lo gira 90°— y decir por qué salida (A-D) sale.
 const LEVELS = [
-  { key: 'primaria', emoji: '🟢', difficulty: 'facil',
+  { key: 'primaria', emoji: '💚', difficulty: 'facil',
     label: { es: 'Primaria', en: 'Primary', ca: 'Primària' },
     hint: { es: 'Uno o dos rebotes', en: 'One or two bounces', ca: 'Un o dos rebots' } },
-  { key: 'eso', emoji: '🟡', difficulty: 'medio',
+  { key: 'eso', emoji: '💛', difficulty: 'medio',
     label: { es: 'Secundaria (ESO)', en: 'Secondary (ESO)', ca: 'Secundària (ESO)' },
     hint: { es: 'Dos o tres rebotes y espejos que despistan', en: 'Two or three bounces and misleading mirrors', ca: 'Dos o tres rebots i miralls que despisten' } },
   { key: 'bachillerato', emoji: '🔴', difficulty: 'dificil',

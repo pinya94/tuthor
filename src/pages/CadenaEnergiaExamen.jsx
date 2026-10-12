@@ -5,10 +5,10 @@ import { genRound, esCorrecta, schemaQuestion } from '../lib/cadenaEnergia'
 
 // Examen con la mecánica de Cadena de energía: las mismas preguntas, sin reloj.
 const LEVELS = [
-  { key: 'primaria', emoji: '🟢', difficulty: 'facil',
+  { key: 'primaria', emoji: '💚', difficulty: 'facil',
     label: { es: 'Primaria', en: 'Primary', ca: 'Primària' },
     hint: { es: 'Formas de energía y qué transforma cada aparato', en: 'Forms of energy and what each device transforms', ca: 'Formes d’energia i què transforma cada aparell' } },
-  { key: 'eso', emoji: '🟡', difficulty: 'medio',
+  { key: 'eso', emoji: '💛', difficulty: 'medio',
     label: { es: 'Secundaria (ESO)', en: 'Secondary (ESO)', ca: 'Secundària (ESO)' },
     hint: { es: 'Cadenas de transformaciones', en: 'Chains of transformations', ca: 'Cadenes de transformacions' } },
   { key: 'bachillerato', emoji: '🔴', difficulty: 'dificil',

@@ -2,10 +2,10 @@ import MechanicExam from '../components/MechanicExam'
 import { nuevaPregunta, esCorrecta } from '../lib/tablas'
 
 const LEVELS = [
-  { key: 'facil', emoji: '🟢', difficulty: 'facil',
+  { key: 'facil', emoji: '💚', difficulty: 'facil',
     label: { es: 'Tablas fáciles', en: 'Easy tables', ca: 'Taules fàcils' },
     hint: { es: 'El 2, el 5 y el 10', en: '2, 5 and 10', ca: 'El 2, el 5 i el 10' } },
-  { key: 'medio', emoji: '🟡', difficulty: 'medio',
+  { key: 'medio', emoji: '💛', difficulty: 'medio',
     label: { es: 'Todas las tablas', en: 'All tables', ca: 'Totes les taules' },
     hint: { es: 'Del 1 al 10', en: 'From 1 to 10', ca: 'De l\'1 al 10' } },
   { key: 'dificil', emoji: '🔴', difficulty: 'dificil',

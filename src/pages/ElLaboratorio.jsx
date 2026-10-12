@@ -17,9 +17,9 @@ const CORRECT_TIME = 4
 const REVEAL_MS = 4200 // da tiempo a leer cómo funciona el método
 
 const DIFS = {
-  facil:   { emoji: '🟢', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
+  facil:   { emoji: '💚', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
              desc: { es: 'Mezclas de dos: filtrar, tamizar, imán, decantar o evaporar', en: 'Two-part mixtures: filter, sieve, magnet, decant or evaporate', ca: 'Mescles de dos: filtrar, tamisar, imant, decantar o evaporar' } },
-  medio:   { emoji: '🟡', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
+  medio:   { emoji: '💛', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
              desc: { es: 'Más métodos, en qué propiedad se basan y si la mezcla es homogénea', en: 'More methods, which property they rely on and whether the mixture is homogeneous', ca: 'Més mètodes, en quina propietat es basen i si la mescla és homogènia' } },
   dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' },
              desc: { es: 'Mezclas más difíciles: qué pasos y en qué orden', en: 'Harder mixtures: which steps and in what order', ca: 'Mescles més difícils: quins passos i en quin ordre' } },

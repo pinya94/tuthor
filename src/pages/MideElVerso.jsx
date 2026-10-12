@@ -17,9 +17,9 @@ const CORRECT_TIME = 4
 const REVEAL_MS = 5500 // da tiempo a leer la cuenta sílaba a sílaba
 
 const DIFS = {
-  facil:   { emoji: '🟢', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
+  facil:   { emoji: '💚', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
              desc: { es: 'Octosílabos: cuenta sílabas, mira la última palabra y la rima', en: 'Eight-syllable lines: count, check the last word and the rhyme', ca: 'Octosíl·labs: compta síl·labes, mira l’última paraula i la rima' } },
-  medio:   { emoji: '🟡', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
+  medio:   { emoji: '💛', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
              desc: { es: 'Versos de 7 a 11 sílabas y su nombre', en: 'Lines of 7 to 11 syllables and their names', ca: 'Versos de 7 a 11 síl·labes i el seu nom' } },
   dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' },
              desc: { es: 'Alejandrinos con cesura y estrofas: redondilla, cuarteto, romance…', en: 'Alexandrines with caesura and stanzas: redondilla, cuarteto, romance…', ca: 'Alexandrins amb cesura i estrofes: redondilla, quartet, romanç…' } },

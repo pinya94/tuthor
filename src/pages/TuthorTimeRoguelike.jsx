@@ -14,8 +14,8 @@ import { SelectorAnio, LineaEras, Agente } from '../components/tuthorTime/Tuthor
 const VIDA_BIXO = 120
 
 const DIFS = {
-  facil:   { label: 'Fácil', labelEn: 'Easy', labelCa: 'Fàcil',   emoji: '🟢', agentes: 3, tiempoBase: 30, puedeRecuperar: true  },
-  medio:   { label: 'Medio', labelEn: 'Medium', labelCa: 'Mitjà', emoji: '🟡', agentes: 2, tiempoBase: 25, puedeRecuperar: true  },
+  facil:   { label: 'Fácil', labelEn: 'Easy', labelCa: 'Fàcil',   emoji: '💚', agentes: 3, tiempoBase: 30, puedeRecuperar: true  },
+  medio:   { label: 'Medio', labelEn: 'Medium', labelCa: 'Mitjà', emoji: '💛', agentes: 2, tiempoBase: 25, puedeRecuperar: true  },
   dificil: { label: 'Difícil', labelEn: 'Hard', labelCa: 'Difícil', emoji: '🔴', agentes: 1, tiempoBase: 20, puedeRecuperar: false },
 }
 

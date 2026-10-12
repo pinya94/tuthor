@@ -17,9 +17,9 @@ const CORRECT_TIME = 4
 const REVEAL_MS = 4200 // da tiempo a leer la explicación con la pirámide delante
 
 const DIFS = {
-  facil:   { emoji: '🟢', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
+  facil:   { emoji: '💚', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
              desc: { es: 'Qué tipo de pirámide es y qué grupo tiene más gente', en: 'What type of pyramid it is and which group has the most people', ca: 'Quin tipus de piràmide és i quin grup té més gent' } },
-  medio:   { emoji: '🟡', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
+  medio:   { emoji: '💛', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
              desc: { es: 'También: ¿más hombres o más mujeres?', en: 'Also: more men or more women?', ca: 'També: més homes o més dones?' } },
   dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' },
              desc: { es: 'Huecos, baby booms e inmigración, y en qué años nacieron', en: 'Gaps, baby booms and immigration, and when they were born', ca: 'Buits, baby booms i immigració, i en quins anys van néixer' } },

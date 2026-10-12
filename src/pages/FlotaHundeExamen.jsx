@@ -5,10 +5,10 @@ import { genRound, esCorrecta, schemaQuestion } from '../lib/flotaHunde'
 
 // Examen con la mecánica de ¿Flota o se hunde?: las mismas rondas, sin reloj.
 const LEVELS = [
-  { key: 'primaria', emoji: '🟢', difficulty: 'facil',
+  { key: 'primaria', emoji: '💚', difficulty: 'facil',
     label: { es: 'Primaria', en: 'Primary', ca: 'Primària' },
     hint: { es: 'En agua, con la densidad de cada objeto', en: 'In water, with each object’s density', ca: 'En aigua, amb la densitat de cada objecte' } },
-  { key: 'eso', emoji: '🟡', difficulty: 'medio',
+  { key: 'eso', emoji: '💛', difficulty: 'medio',
     label: { es: 'Secundaria (ESO)', en: 'Secondary (ESO)', ca: 'Secundària (ESO)' },
     hint: { es: 'Varios líquidos; calcula la densidad con la masa y el volumen', en: 'Several liquids; work out density from mass and volume', ca: 'Diversos líquids; calcula la densitat amb la massa i el volum' } },
   { key: 'bachillerato', emoji: '🔴', difficulty: 'dificil',

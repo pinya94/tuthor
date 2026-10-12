@@ -17,9 +17,9 @@ const CORRECT_TIME = 4
 const REVEAL_MS = 4800 // da tiempo a ver los lados coloreados y la cuenta
 
 const DIFS = {
-  facil:   { emoji: '🟢', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
+  facil:   { emoji: '💚', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
              desc: { es: 'Seno, coseno y tangente como fracción de lados, qué razón usar y Pitágoras', en: 'Sine, cosine and tangent as side fractions, which ratio to use and Pythagoras', ca: 'Sinus, cosinus i tangent com a fracció de costats, quina raó fer servir i Pitàgores' } },
-  medio:   { emoji: '🟡', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
+  medio:   { emoji: '💛', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
              desc: { es: 'Calcula un lado con la calculadora y los ángulos de 30°, 45° y 60°', en: 'Work out a side with a calculator and the 30°, 45° and 60° angles', ca: 'Calcula un costat amb la calculadora i els angles de 30°, 45° i 60°' } },
   dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' },
              desc: { es: 'Calcula ángulos y resuelve problemas: escaleras, sombras, cometas y rampas', en: 'Work out angles and solve problems: ladders, shadows, kites and ramps', ca: 'Calcula angles i resol problemes: escales, ombres, estels i rampes' } },

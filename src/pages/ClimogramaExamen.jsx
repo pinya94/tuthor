@@ -5,10 +5,10 @@ import { genRound, esCorrecta, schemaQuestion } from '../lib/climograma'
 
 // Examen con la mecánica de Climograma: los mismos climogramas, sin reloj.
 const LEVELS = [
-  { key: 'primaria', emoji: '🟢', difficulty: 'facil',
+  { key: 'primaria', emoji: '💚', difficulty: 'facil',
     label: { es: 'Iniciación', en: 'Beginner', ca: 'Iniciació' },
     hint: { es: 'Mes más cálido, más lluvioso y climas claros', en: 'Warmest and wettest month, clear climates', ca: 'Mes més càlid, més plujós i climes clars' } },
-  { key: 'eso', emoji: '🟡', difficulty: 'medio',
+  { key: 'eso', emoji: '💛', difficulty: 'medio',
     label: { es: 'Secundaria (ESO)', en: 'Secondary (ESO)', ca: 'Secundària (ESO)' },
     hint: { es: 'Siete climas, amplitud y meses secos', en: 'Seven climates, range and dry months', ca: 'Set climes, amplitud i mesos secs' } },
   { key: 'bachillerato', emoji: '🔴', difficulty: 'dificil',

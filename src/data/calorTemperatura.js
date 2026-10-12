@@ -65,7 +65,7 @@ export const PREGUNTAS = [
     { es: '¿A cuántos kelvin equivalen 0 °C?', en: 'How many kelvin is 0 °C?', ca: 'A quants kelvin equivalen 0 °C?' },
     { es: ['273 K', '0 K', '100 K', '−273 K'], en: ['273 K', '0 K', '100 K', '−273 K'], ca: ['273 K', '0 K', '100 K', '−273 K'] },
     { es: '273 K', en: '273 K', ca: '273 K' },
-    '🧊',
+    '❄️',
     { es: 'Para pasar de grados Celsius a kelvin se suman 273: 0 °C son 273 K y 25 °C son 298 K. Solo se suma, no se multiplica, porque un grado y un kelvin son igual de grandes.', en: 'To go from Celsius to kelvin you add 273: 0 °C is 273 K and 25 °C is 298 K. You only add, never multiply, because a degree and a kelvin are the same size.', ca: 'Per passar de graus Celsius a kelvin se sumen 273: 0 °C són 273 K.' }),
 
   q('ct-07', 'eso',

@@ -50,8 +50,8 @@ function T(k, l) { return C[k]?.[l] ?? C[k]?.es ?? k }
 const est = (estado, l) => ESTADO_LABELS[estado]?.[l] ?? ESTADO_LABELS[estado]?.es
 
 const DIFS = {
-  facil:   { emoji: '🟢', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' }, desc: { es: 'Un solo camino: uno o dos interruptores en serie (Y) o en paralelo (O)', en: 'A single path: one or two switches in series (AND) or in parallel (OR)', ca: 'Un sol camí: un o dos interruptors en sèrie (I) o en paral·lel (O)' } },
-  medio:   { emoji: '🟡', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' }, desc: { es: 'Ramas en paralelo, troncos comunes y hasta cuatro bombillas', en: 'Parallel branches, shared trunks and up to four bulbs', ca: 'Branques en paral·lel, troncs comuns i fins a quatre bombetes' } },
+  facil:   { emoji: '💚', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' }, desc: { es: 'Un solo camino: uno o dos interruptores en serie (Y) o en paralelo (O)', en: 'A single path: one or two switches in series (AND) or in parallel (OR)', ca: 'Un sol camí: un o dos interruptors en sèrie (I) o en paral·lel (O)' } },
+  medio:   { emoji: '💛', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' }, desc: { es: 'Ramas en paralelo, troncos comunes y hasta cuatro bombillas', en: 'Parallel branches, shared trunks and up to four bulbs', ca: 'Branques en paral·lel, troncs comuns i fins a quatre bombetes' } },
   dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' }, desc: { es: 'Atajos que cortocircuitan, bombillas fundidas y caminos anidados', en: 'Short-circuiting shortcuts, blown bulbs and nested paths', ca: 'Dreceres que curtcircuiten, bombetes foses i camins niats' } },
 }
 

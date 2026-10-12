@@ -13,8 +13,8 @@ const N_CARTAS = 11    // 1 de ancla + 10 por colocar
 const OBJETIVO = 7     // colocar 7 de 10 → aprobado
 
 const DIFS = [
-  { id: 'facil',   emoji: '🟢', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },     que: { es: 'Decimales y fracciones sencillas', en: 'Decimals and simple fractions', ca: 'Decimals i fraccions senzilles' } },
-  { id: 'medio',   emoji: '🟡', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },   que: { es: 'Fracciones, decimales y porcentajes mezclados', en: 'Fractions, decimals and percentages mixed', ca: 'Fraccions, decimals i percentatges barrejats' } },
+  { id: 'facil',   emoji: '💚', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },     que: { es: 'Decimales y fracciones sencillas', en: 'Decimals and simple fractions', ca: 'Decimals i fraccions senzilles' } },
+  { id: 'medio',   emoji: '💛', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },   que: { es: 'Fracciones, decimales y porcentajes mezclados', en: 'Fractions, decimals and percentages mixed', ca: 'Fraccions, decimals i percentatges barrejats' } },
   { id: 'dificil', emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' }, que: { es: 'Todo lo anterior y números negativos', en: 'All of the above plus negative numbers', ca: 'Tot l\'anterior i nombres negatius' } },
 ]
 

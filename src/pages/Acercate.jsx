@@ -10,8 +10,8 @@ import SEOHead from '../components/SEOHead'
 // ── Configuración por nivel ────────────────────────────────────────────────
 // objMin/objMax: rango preferido del objetivo (siempre garantizado alcanzable)
 const CONFIGS = {
-  facil:   { label: 'Fácil',   emoji: '🟢', objMin: 10,  objMax: 50,  count: 6, tiempo: 90,  numMax: 10 },
-  medio:   { label: 'Medio',   emoji: '🟡', objMin: 15,  objMax: 99,  count: 5, tiempo: 60,  numMax: 10 },
+  facil:   { label: 'Fácil',   emoji: '💚', objMin: 10,  objMax: 50,  count: 6, tiempo: 90,  numMax: 10 },
+  medio:   { label: 'Medio',   emoji: '💛', objMin: 15,  objMax: 99,  count: 5, tiempo: 60,  numMax: 10 },
   dificil: { label: 'Difícil', emoji: '🔴', objMin: 20,  objMax: 250, count: 4, tiempo: 45,  numMax: 15 },
 }
 

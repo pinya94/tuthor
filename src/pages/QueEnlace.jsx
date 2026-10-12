@@ -17,9 +17,9 @@ const CORRECT_TIME = 4
 const REVEAL_MS = 4800 // da tiempo a ver la tabla coloreada y la explicación
 
 const DIFS = {
-  facil:   { emoji: '🟢', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
+  facil:   { emoji: '💚', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
              desc: { es: 'Iónico, covalente o metálico entre dos elementos y sustancias de casa', en: 'Ionic, covalent or metallic between two elements, and everyday substances', ca: 'Iònic, covalent o metàl·lic entre dos elements i substàncies de casa' } },
-  medio:   { emoji: '🟡', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
+  medio:   { emoji: '💛', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
              desc: { es: 'Molecular o red covalente, propiedades y cuántos enlaces forma cada átomo', en: 'Molecular or giant covalent, properties and how many bonds each atom forms', ca: 'Molecular o xarxa covalent, propietats i quants enllaços forma cada àtom' } },
   dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' },
              desc: { es: 'Iones, fórmulas de compuestos iónicos y sustancias por sus propiedades', en: 'Ions, ionic compound formulas and substances from their properties', ca: 'Ions, fórmules de compostos iònics i substàncies per les propietats' } },

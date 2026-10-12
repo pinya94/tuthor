@@ -8,8 +8,8 @@ import { rondaDeExamen } from '../lib/lecturaGraficos'
 // y con nota, para repasar UNA cosa sin la prisa del arcade.
 
 const LEVELS = [
-  { key: 'facil', emoji: '🟢', difficulty: 'facil', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' }, hint: {es: "Solo cuánto cambió",en: "How much it changed only",ca: "Només quant va canviar"} },
-  { key: 'medio', emoji: '🟡', difficulty: 'medio', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' }, hint: {es: "+ en qué tramo creció más",en: "+ where it grew most",ca: "+ en quin tram va créixer més"} },
+  { key: 'facil', emoji: '💚', difficulty: 'facil', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' }, hint: {es: "Solo cuánto cambió",en: "How much it changed only",ca: "Només quant va canviar"} },
+  { key: 'medio', emoji: '💛', difficulty: 'medio', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' }, hint: {es: "+ en qué tramo creció más",en: "+ where it grew most",ca: "+ en quin tram va créixer més"} },
   { key: 'dificil', emoji: '🔴', difficulty: 'dificil', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' }, hint: {es: "+ porcentajes de variación",en: "+ percentage change",ca: "+ percentatges de variació"} },
 ]
 

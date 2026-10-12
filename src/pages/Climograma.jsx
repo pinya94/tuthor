@@ -17,9 +17,9 @@ const CORRECT_TIME = 4
 const REVEAL_MS = 4800 // da tiempo a ver lo marcado en el climograma
 
 const DIFS = {
-  facil:   { emoji: '🟢', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
+  facil:   { emoji: '💚', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
              desc: { es: 'El mes más cálido, el más lluvioso y los climas más claros', en: 'The warmest month, the wettest month and the clearest climates', ca: 'El mes més càlid, el més plujós i els climes més clars' } },
-  medio:   { emoji: '🟡', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
+  medio:   { emoji: '💛', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
              desc: { es: 'Siete climas, amplitud térmica y meses secos', en: 'Seven climates, temperature range and dry months', ca: 'Set climes, amplitud tèrmica i mesos secs' } },
   dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' },
              desc: { es: 'Climogramas del hemisferio sur y lectura fina', en: 'Southern-hemisphere graphs and close reading', ca: 'Climogrames de l’hemisferi sud i lectura fina' } },

@@ -9,10 +9,10 @@ import { genRound, isCorrect, rolesDisponibles } from '../lib/cadenaAlimentaria'
 // bachillerato → facil/medio/dificil que Encuentra el Elemento y Circuito
 // Cerrado (ver lib/cadenaAlimentaria.js).
 const LEVELS = [
-  { key: 'primaria', emoji: '🟢', difficulty: 'facil',
+  { key: 'primaria', emoji: '💚', difficulty: 'facil',
     label: { es: 'Primaria', en: 'Primary', ca: 'Primària' },
     hint: { es: '8 organismos, 4 roles', en: '8 organisms, 4 roles', ca: '8 organismes, 4 rols' } },
-  { key: 'eso', emoji: '🟡', difficulty: 'medio',
+  { key: 'eso', emoji: '💛', difficulty: 'medio',
     label: { es: 'Secundaria (ESO)', en: 'Secondary (ESO)', ca: 'Secundària (ESO)' },
     hint: { es: '16 organismos, 5 roles (aparece el consumidor terciario)', en: '16 organisms, 5 roles (tertiary consumer appears)', ca: '16 organismes, 5 rols (apareix el consumidor terciari)' } },
   { key: 'bachillerato', emoji: '🔴', difficulty: 'dificil',

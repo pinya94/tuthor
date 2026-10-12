@@ -5,10 +5,10 @@ import { genRound, esCorrecta, schemaQuestion } from '../lib/placasMovimiento'
 
 // Examen con la mecánica de Placas en Movimiento: los mismos bordes dibujados, sin reloj.
 const LEVELS = [
-  { key: 'primaria', emoji: '🟢', difficulty: 'facil',
+  { key: 'primaria', emoji: '💚', difficulty: 'facil',
     label: { es: 'Básico', en: 'Basic', ca: 'Bàsic' },
     hint: { es: 'Tipos de borde, relieve que se forma y corteza', en: 'Boundary types, landforms and crust', ca: 'Tipus de vora, relleu que es forma i escorça' } },
-  { key: 'eso', emoji: '🟡', difficulty: 'medio',
+  { key: 'eso', emoji: '💛', difficulty: 'medio',
     label: { es: 'Secundaria (ESO)', en: 'Secondary (ESO)', ca: 'Secundària (ESO)' },
     hint: { es: 'Además, subducción y ejemplos reales', en: 'Plus subduction and real examples', ca: 'A més, subducció i exemples reals' } },
   { key: 'bachillerato', emoji: '🔴', difficulty: 'dificil',

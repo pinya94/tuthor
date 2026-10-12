@@ -12,8 +12,8 @@ import SEOHead from '../components/SEOHead'
 import { ArteJuego } from '../components/arte'
 
 const NIVELES = [
-  { id: 'facil',   label: 'Fácil',   labelEn: 'Easy',   labelCa: 'Fàcil',   emoji: '🟢', tiempo: 60, preguntas: 15 },
-  { id: 'medio',   label: 'Medio',   labelEn: 'Medium', labelCa: 'Mitjà',   emoji: '🟡', tiempo: 40, preguntas: 15 },
+  { id: 'facil',   label: 'Fácil',   labelEn: 'Easy',   labelCa: 'Fàcil',   emoji: '💚', tiempo: 60, preguntas: 15 },
+  { id: 'medio',   label: 'Medio',   labelEn: 'Medium', labelCa: 'Mitjà',   emoji: '💛', tiempo: 40, preguntas: 15 },
   { id: 'dificil', label: 'Difícil', labelEn: 'Hard',   labelCa: 'Difícil', emoji: '🔴', tiempo: 25, preguntas: 15 },
 ]
 

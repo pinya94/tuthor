@@ -206,7 +206,7 @@ const PREGUNTAS = [
     { es:'¿Por qué en el hielo cuesta tanto caminar sin resbalar?', en:'Why is it so hard to walk on ice without slipping?', ca:'Per què al gel costa tant caminar sense relliscar?' },
     { es:['Porque el hielo pesa menos','Porque hay muy poco rozamiento entre el zapato y el hielo','Porque el hielo empuja hacia arriba','Porque la gravedad es menor sobre el hielo'], en:['Because ice weighs less','Because there is very little friction between shoe and ice','Because ice pushes upwards','Because gravity is weaker on ice'], ca:['Perquè el gel pesa menys','Perquè hi ha molt poc fregament entre la sabata i el gel','Perquè el gel empeny cap amunt','Perquè la gravetat és menor sobre el gel'] },
     { es:'Porque hay muy poco rozamiento entre el zapato y el hielo', en:'Because there is very little friction between shoe and ice', ca:'Perquè hi ha molt poc fregament entre la sabata i el gel' },
-    '🧊',
+    '❄️',
     { es:'Para andar necesitas empujar el suelo hacia atrás, y eso solo funciona si hay rozamiento. En el hielo la superficie es tan lisa que el pie resbala en vez de agarrar. Por eso las botas de montaña tienen tacos: buscan más rozamiento, no menos.', en:'To walk you need to push the ground backwards, and that only works if there is friction. On ice the surface is so smooth that the foot slides instead of gripping. That is why hiking boots have deep treads: they want more friction, not less.', ca:'Per caminar necessites empènyer el terra cap enrere, i això només funciona si hi ha fregament. Al gel la superfície és tan llisa que el peu rellisca en comptes d\'agafar. Per això les botes de muntanya tenen tacs: busquen més fregament, no menys.' },
   ),
   q('fm-29','primaria',

@@ -109,7 +109,7 @@ function ExamEnd({ score, results, onRetry, l }) {
           <div className="space-y-2">
             {results.map((r, i) => (
               <div key={i} className="flex items-center gap-3 text-sm">
-                <span className="text-base">{r.outcome === 'goal' ? '✅' : r.outcome === 'collision' ? '🧍' : '❌'}</span>
+                <span className="text-base">{r.outcome === 'goal' ? '✅' : r.outcome === 'collision' ? '🧑' : '❌'}</span>
                 <span className="font-mono text-white/70 flex-1 truncate">{r.chosenLabel}</span>
                 <span className={`text-xs font-bold ${r.outcome === 'goal' ? 'text-green-400' : 'text-red-400'}`}>
                   {r.outcome === 'goal' ? t('corr') : t('wrong')}
@@ -362,7 +362,7 @@ export default function TrayectoriaExamen() {
         {phase === 'result' && (
           <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/65 backdrop-blur-sm">
             <p className="text-4xl mb-2">
-              {outcome === 'goal' ? '⚽' : outcome === 'collision' ? '🧍' : '❌'}
+              {outcome === 'goal' ? '⚽' : outcome === 'collision' ? '🧑' : '❌'}
             </p>
             <p className={`font-black text-xl mb-2 ${outcome === 'goal' ? 'text-green-400' : 'text-red-400'}`}>
               {outcome === 'goal' ? t('goal_txt') : outcome === 'collision' ? t('collision') : t('miss')}

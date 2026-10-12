@@ -5,10 +5,10 @@ import { genRound, esCorrecta, schemaQuestion } from '../lib/cicloRocas'
 
 // Examen con la mecánica del Ciclo de las rocas: el mismo ciclo y las mismas muestras, sin reloj.
 const LEVELS = [
-  { key: 'primaria', emoji: '🟢', difficulty: 'facil',
+  { key: 'primaria', emoji: '💚', difficulty: 'facil',
     label: { es: 'Primaria', en: 'Primary', ca: 'Primària' },
     hint: { es: 'Procesos del ciclo y tipos de roca', en: 'Cycle processes and rock types', ca: 'Processos del cicle i tipus de roca' } },
-  { key: 'eso', emoji: '🟡', difficulty: 'medio',
+  { key: 'eso', emoji: '💛', difficulty: 'medio',
     label: { es: 'Secundaria (ESO)', en: 'Secondary (ESO)', ca: 'Secundària (ESO)' },
     hint: { es: 'Procesos, tipos y origen de las metamórficas', en: 'Processes, types and origin of metamorphic rocks', ca: 'Processos, tipus i origen de les metamòrfiques' } },
   { key: 'bachillerato', emoji: '🔴', difficulty: 'dificil',

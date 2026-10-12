@@ -17,9 +17,9 @@ const CORRECT_TIME = 4
 const REVEAL_MS = 4800 // da tiempo a ver la pendiente o el área en la gráfica
 
 const DIFS = {
-  facil:   { emoji: '🟢', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
+  facil:   { emoji: '💚', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
              desc: { es: '¿Parado, avanza, acelera o frena? Lee la forma de la gráfica', en: 'At rest, moving, speeding up or slowing down? Read the graph’s shape', ca: 'Aturat, avança, accelera o frena? Llegeix la forma de la gràfica' } },
-  medio:   { emoji: '🟡', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
+  medio:   { emoji: '💛', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
              desc: { es: 'Velocidad y aceleración con la pendiente de cada tramo', en: 'Velocity and acceleration from each stretch’s slope', ca: 'Velocitat i acceleració amb el pendent de cada tram' } },
   dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' },
              desc: { es: 'Distancia como área bajo la v-t y distancia frente a desplazamiento', en: 'Distance as area under the v-t graph, and distance versus displacement', ca: 'Distància com a àrea sota la v-t i distància davant desplaçament' } },

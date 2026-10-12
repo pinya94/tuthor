@@ -5,10 +5,10 @@ import { genRonda, esCorrecta, schemaQuestion } from '../lib/elTiempo'
 
 // Examen con la mecánica de El Tiempo: las mismas previsiones, sin reloj.
 const LEVELS = [
-  { key: 'primaria', emoji: '🟢', difficulty: 'facil',
+  { key: 'primaria', emoji: '💚', difficulty: 'facil',
     label: { es: 'Primaria', en: 'Primary', ca: 'Primària' },
     hint: { es: 'Temperatura, lluvia y mapa del tiempo con símbolos', en: 'Temperature, rain and weather map symbols', ca: 'Temperatura, pluja i mapa del temps amb símbols' } },
-  { key: 'eso', emoji: '🟡', difficulty: 'medio',
+  { key: 'eso', emoji: '💛', difficulty: 'medio',
     label: { es: 'Secundaria (ESO)', en: 'Secondary (ESO)', ca: 'Secundària (ESO)' },
     hint: { es: 'Viento, previsión por horas, radar y mapa del tiempo', en: 'Wind, hourly forecast, radar and weather map', ca: 'Vent, previsió per hores, radar i mapa del temps' } },
   { key: 'bachillerato', emoji: '🔴', difficulty: 'dificil',

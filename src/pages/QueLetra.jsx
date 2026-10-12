@@ -17,9 +17,9 @@ const CORRECT_TIME = 4
 const REVEAL_MS = 3400 // da tiempo a leer la regla, sin frenar el ritmo
 
 const DIFS = {
-  facil:   { emoji: '🟢', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
+  facil:   { emoji: '💚', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
              desc: { es: 'Las reglas básicas: mb, nv, -aba, -bir, -aje, hie-/hue-, -illo y el plural de z', en: 'The basic rules: mb, nv, -aba, -bir, -aje, hie-/hue-, -illo and the plural of z', ca: 'Les regles bàsiques: mb, nv, -aba, -bir, -aje, hie-/hue-, -illo i el plural de z' } },
-  medio:   { emoji: '🟡', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
+  medio:   { emoji: '💛', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
              desc: { es: 'Más reglas: -ivo, -bilidad, eva-, -jero, hum-, hidr-, y final', en: 'More rules: -ivo, -bilidad, eva-, -jero, hum-, hidr-, final y', ca: 'Més regles: -ivo, -bilidad, eva-, -jero, hum-, hidr-, y final' } },
   dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' },
              desc: { es: 'Excepciones (vivir, tejer, movilidad), diéresis, h intercalada y verbos', en: 'Exceptions (vivir, tejer, movilidad), diaeresis, silent middle h and verbs', ca: 'Excepcions (vivir, tejer, movilidad), dièresi, h intercalada i verbs' } },

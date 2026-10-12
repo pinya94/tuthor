@@ -94,9 +94,9 @@ const tr = (o, l) => o?.[l] ?? o?.es ?? ''
 // temperatura al punto, si se tapan los datos) viven en DIFICULTADES, dentro de
 // la lógica: aquí solo se nombran.
 const DIFS = {
-  facil:   { emoji: '🟢', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
+  facil:   { emoji: '💚', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
              desc: { es: 'Con los datos a la vista y temperaturas claras', en: 'Data shown and clear-cut temperatures', ca: 'Amb les dades a la vista i temperatures clares' } },
-  medio:   { emoji: '🟡', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
+  medio:   { emoji: '💛', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
              desc: { es: 'Con los datos, pero la temperatura roza el punto de cambio', en: 'Data shown, but the temperature grazes the change point', ca: 'Amb les dades, però la temperatura frega el punt de canvi' } },
   dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' },
              desc: { es: 'Sin los datos: hay que saberse la sustancia', en: 'No data: you have to know the substance', ca: 'Sense les dades: cal saber-se la substància' } },

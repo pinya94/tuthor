@@ -96,8 +96,8 @@ function pickPowerups() {
 // ── Difficulty selector + rules ───────────────────────────────────────────────
 
 const DIFS = {
-  easy:   { emoji: '🟢', label: { es: 'Fácil',  en: 'Easy',   ca: 'Fàcil'  }, desc: { es: 'Rectas simples · Solo pendiente',              en: 'Simple lines · Slope only',            ca: 'Rectes simples · Només pendent'        } },
-  medium: { emoji: '🟡', label: { es: 'Medio',  en: 'Medium', ca: 'Mitjà'  }, desc: { es: 'Rectas con pendiente y corte',                  en: 'Lines with slope & intercept',         ca: 'Rectes amb pendent i tall'             } },
+  easy:   { emoji: '💚', label: { es: 'Fácil',  en: 'Easy',   ca: 'Fàcil'  }, desc: { es: 'Rectas simples · Solo pendiente',              en: 'Simple lines · Slope only',            ca: 'Rectes simples · Només pendent'        } },
+  medium: { emoji: '💛', label: { es: 'Medio',  en: 'Medium', ca: 'Mitjà'  }, desc: { es: 'Rectas con pendiente y corte',                  en: 'Lines with slope & intercept',         ca: 'Rectes amb pendent i tall'             } },
   hard:   { emoji: '🔴', label: { es: 'Difícil',en: 'Hard',   ca: 'Difícil'}, desc: { es: 'Parábolas, hipérbolas y funciones a trozos',    en: 'Parabolas, hyperbolas & piecewise',    ca: 'Paràboles, hipèrboles i funcions a trossos' } },
 }
 
@@ -190,7 +190,7 @@ function DifficultyScreen({ onSelect, l }) {
           {[
             ['⏱️', t('time'),  t('timeVal')],
             ['⭐', t('pts'),   t('ptsVal')],
-            ['🧍', t('def'),   t('defVal')],
+            ['🧑', t('def'),   t('defVal')],
           ].map(([e, k, v]) => (
             <div key={k} className="flex items-start justify-between gap-4">
               <span className="text-white/40 shrink-0 inline-flex items-center gap-1.5"><IconoIntro emoji={e} />{k}</span>
@@ -201,7 +201,7 @@ function DifficultyScreen({ onSelect, l }) {
           <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-4">
           <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-3">{t('how')}</p>
           <div className="space-y-2">
-            {[['⚽', t('p1')], ['🎁', t('p2')], ['🧍', t('p3')], ['⏰', t('p4')]].map(([e, text]) => (
+            {[['⚽', t('p1')], ['🎁', t('p2')], ['🧑', t('p3')], ['⏰', t('p4')]].map(([e, text]) => (
               <div key={text} className="flex items-start gap-3 text-sm text-white/50">
                 <IconoIntro emoji={e} />
                 <span>{text}</span>
@@ -653,7 +653,7 @@ export default function Trayectoria() {
         {/* miss/collision overlay */}
         {phase === 'result' && outcome !== 'goal' && (
           <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/65 backdrop-blur-sm">
-            <p className="text-4xl mb-2">{outcome === 'collision' ? '🧍' : '❌'}</p>
+            <p className="text-4xl mb-2">{outcome === 'collision' ? '🧑' : '❌'}</p>
             <p className="text-red-400 font-black text-xl mb-3">
               {outcome === 'collision'
                 ? (l === 'es' ? '¡Chocaste!' : l === 'en' ? 'Collision!' : 'Col·lisió!')

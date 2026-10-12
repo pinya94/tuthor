@@ -482,14 +482,14 @@ export const TEXTOS = [
 // que entender la frase entera.
 export const NIVELES = {
   facil: {
-    id: 'facil', emoji: '🟢',
+    id: 'facil', emoji: '💚',
     label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
     hint: { es: '3 fallos por texto · tildes y b/v', en: '3 mistakes per text · accents and b/v', ca: '3 errors per text · accents i b/v' },
     familias: ['tilde', 'bv'],
     errores: 3,
   },
   medio: {
-    id: 'medio', emoji: '🟡',
+    id: 'medio', emoji: '💛',
     label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
     hint: { es: '4 fallos · + g/j, h muda y ll/y', en: '4 mistakes · + g/j, silent h and ll/y', ca: '4 errors · + g/j, h muda i ll/y' },
     familias: ['tilde', 'bv', 'gj', 'h', 'lly'],

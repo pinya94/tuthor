@@ -5,10 +5,10 @@ import { genRound, esCorrecta, schemaQuestion } from '../lib/arbolVida'
 
 // Examen con la mecánica de Árbol de la Vida: los mismos árboles, sin reloj.
 const LEVELS = [
-  { key: 'primaria', emoji: '🟢', difficulty: 'facil',
+  { key: 'primaria', emoji: '💚', difficulty: 'facil',
     label: { es: 'Básico', en: 'Basic', ca: 'Bàsic' },
     hint: { es: 'Darwin, pruebas y qué apareció antes', en: 'Darwin, evidence and what came first', ca: 'Darwin, proves i què va aparèixer abans' } },
-  { key: 'eso', emoji: '🟡', difficulty: 'medio',
+  { key: 'eso', emoji: '💛', difficulty: 'medio',
     label: { es: 'Secundaria (ESO)', en: 'Secondary (ESO)', ca: 'Secundària (ESO)' },
     hint: { es: 'Árboles evolutivos y tipos de órganos', en: 'Evolutionary trees and kinds of organs', ca: 'Arbres evolutius i tipus d’òrgans' } },
   { key: 'bachillerato', emoji: '🔴', difficulty: 'dificil',
