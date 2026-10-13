@@ -618,7 +618,7 @@ export const TOPIC_CATALOG = {
   musica: {
     temas: {
       musica: examTema({ examen: 'musica' }, { niveles: ['primaria', 'eso'] }),
-      ritmo: examTema({ examen: 'musica-ritmo-test' }, { niveles: ['primaria', 'eso'] }),
+      ritmo: examTema({ examen: 'musica-ritmo-test', compas: 'compas-completo-test' }, { niveles: ['primaria', 'eso'] }),
       instrumentos: examTema({ examen: 'musica-instrumentos-test' }, { niveles: ['primaria', 'eso'] }),
     },
     formatos: {
@@ -627,6 +627,7 @@ export const TOPIC_CATALOG = {
         emoji: '🎼', game: 'pentagrama-path', usesLevel: false, tracksTopic: false,
       },
       examen: examFormato({ es: 'Examen', en: 'Exam', ca: 'Examen' }, '📝'),
+      compas: examFormato({ es: 'Compás Completo (con el juego)', en: 'Full Bar (with the game)', ca: 'Compàs Complet (amb el joc)' }, '🥁'),
     },
   },
 

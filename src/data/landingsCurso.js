@@ -335,7 +335,7 @@ export const LANDINGS = [
       en: ['Notes on the treble clef', 'Playing the note on the piano', 'Note values and rests', 'Bars of 2, 3 and 4 beats'],
       ca: ['Les notes en clau de sol', 'Tocar la nota al piano', 'Figures i silencis', 'Compassos de 2, 3 i 4 temps'],
     },
-    juegos: ['pentagrama-path'],
+    juegos: ['pentagrama-path', 'compas-completo'],
     temas: [
       { arte: 'musica/notas', ruta: '/examen/musica', titulo: T('Notas', 'Notes', 'Notes') },
       { arte: 'musica/ritmo', ruta: '/examen/musica-ritmo-test', titulo: T('Ritmo', 'Rhythm', 'Ritme') },
@@ -628,7 +628,7 @@ export const LANDINGS = [
       en: ['Reading notes fluently', 'Finding notes on the piano', 'Note values, rests and dots', 'Simple time signatures'],
       ca: ['Llegir notes amb fluïdesa', 'Localitzar notes al piano', 'Figures, silencis i punts', 'Compassos simples'],
     },
-    juegos: ['pentagrama-path'],
+    juegos: ['pentagrama-path', 'compas-completo'],
     temas: [
       { arte: 'musica/notas', ruta: '/examen/musica', titulo: T('Notas', 'Notes', 'Notes') },
       { arte: 'musica/ritmo', ruta: '/examen/musica-ritmo-test', titulo: T('Ritmo', 'Rhythm', 'Ritme') },

@@ -22,6 +22,28 @@ function Spicy(p) {
   )
 }
 
+function CompasCompleto(p) {
+  // Un compás de 4/4 con una negra, dos corcheas y un hueco.
+  const lineas = [44, 54, 64, 74, 84]
+  return (
+    <Lienzo {...p}>
+      {lineas.map(y => <line key={y} x1="16" y1={y} x2="224" y2={y} stroke="#64748B" strokeWidth="1.5" />)}
+      <text x="34" y="62" fontSize="20" fontWeight="900" fill="#F8FAFC" textAnchor="middle">4</text>
+      <text x="34" y="82" fontSize="20" fontWeight="900" fill="#F8FAFC" textAnchor="middle">4</text>
+      {[[76, 0], [118, 1], [152, 1]].map(([x, c]) => (
+        <g key={x}>
+          <ellipse cx={x} cy="64" rx="8" ry="6" transform={`rotate(-20 ${x} 64)`} fill="#F8FAFC" />
+          <line x1={x + 7.5} y1="63" x2={x + 7.5} y2="26" stroke="#F8FAFC" strokeWidth="2.5" />
+          {c ? <path d={`M${x + 7.5} 26 q11 7 9 20`} stroke="#F8FAFC" strokeWidth="3" fill="none" /> : null}
+        </g>
+      ))}
+      <rect x="180" y="30" width="28" height="64" rx="6" fill="none" stroke="#FBBF24" strokeWidth="3" strokeDasharray="5 4" />
+      <text x="194" y="70" fontSize="22" fontWeight="900" fill="#FBBF24" textAnchor="middle">?</text>
+      <line x1="220" y1="44" x2="220" y2="84" stroke="#CBD5E1" strokeWidth="3" />
+    </Lienzo>
+  )
+}
+
 function PentagramaPath(p) {
   const notas = [[70, 44], [104, 36], [138, 28, true], [172, 40]]
   const negras = [54, 74, 114, 134, 154]
@@ -95,5 +117,6 @@ export const ARTE_VIDA = {
   'oferta-demanda': OfertaDemanda,
   'punto-muerto': PuntoMuerto,
   'pentagrama-path': PentagramaPath,
+  'compas-completo': CompasCompleto,
   reaccion: Reaccion,
 }

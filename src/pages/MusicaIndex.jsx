@@ -3,6 +3,7 @@ import SEOHead from '../components/SEOHead'
 import { ArteMateria } from '../components/arte/materias'
 import TarjetaArte from '../components/TarjetaArte'
 import { ARTE_TEMAS } from '../components/arte/temas'
+import { ARTE_JUEGOS } from '../components/arte'
 
 const TEMAS = [
   {
@@ -67,6 +68,10 @@ export default function MusicaIndex() {
           <TarjetaArte key={t.id} Arte={ARTE_TEMAS[`musica/${t.id}`]} titulo={tr(t.titulo)} sub={tr(t.subtitulo)}
             to={localPath(t.path)} />
         ))}
+        <TarjetaArte Arte={ARTE_JUEGOS['compas-completo']}
+          titulo={tr({ es: 'Compás Completo (juego)', en: 'Full Bar (game)', ca: 'Compàs Complet (joc)' })}
+          sub={tr({ es: 'Figuras, silencios y compases en el pentagrama', en: 'Note values, rests and bars on the staff', ca: 'Figures, silencis i compassos al pentagrama' })}
+          to={localPath('/juegos/compas-completo')} />
       </div>
     </div>
   )

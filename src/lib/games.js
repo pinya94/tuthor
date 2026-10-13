@@ -235,6 +235,14 @@ export const GAMES = {
     // % de aciertos sobre 150 monedas máx
     coins: ({ correct, total }) => (total > 0 ? Math.round((correct / total) * 150) : 0),
   },
+  'compas-completo': {
+    label: { es: 'Compás Completo', en: 'Full Bar', ca: 'Compàs Complet' },
+    emoji: '🥁',
+    subject: 'musica',
+    route: '/juegos/compas-completo',
+    // aciertos × 10 puntos → hasta 200 monedas
+    coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
+  },
   'pentagrama-path': {
     label: { es: 'Pentagrama Path', en: 'Pentagrama Path', ca: 'Pentagrama Path' },
     emoji: '🎼',
