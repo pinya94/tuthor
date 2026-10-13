@@ -5,10 +5,10 @@ import { genRound, esCorrecta, schemaQuestion } from '../lib/laBiblioteca'
 
 // Examen con la mecánica de La Biblioteca: las mismas obras y la línea del tiempo, sin reloj.
 const LEVELS = [
-  { key: 'primaria', emoji: '🟢', difficulty: 'facil',
+  { key: 'primaria', emoji: '💚', difficulty: 'facil',
     label: { es: 'Básico', en: 'Basic', ca: 'Bàsic' },
     hint: { es: 'Autores y géneros', en: 'Authors and genres', ca: 'Autors i gèneres' } },
-  { key: 'eso', emoji: '🟡', difficulty: 'medio',
+  { key: 'eso', emoji: '💛', difficulty: 'medio',
     label: { es: 'Secundaria (ESO)', en: 'Secondary (ESO)', ca: 'Secundària (ESO)' },
     hint: { es: 'Épocas, movimientos y sus rasgos', en: 'Periods, movements and their features', ca: 'Èpoques, moviments i els seus trets' } },
   { key: 'bachillerato', emoji: '🔴', difficulty: 'dificil',

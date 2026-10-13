@@ -17,9 +17,9 @@ const CORRECT_TIME = 4
 const REVEAL_MS = 4800 // da tiempo a leer la pista que lo delata
 
 const DIFS = {
-  facil:   { emoji: '🟢', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
+  facil:   { emoji: '💚', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
              desc: { es: 'Narración, descripción, diálogo e instrucción; emisor, receptor y mensaje', en: 'Narrative, description, dialogue and instructions; sender, receiver and message', ca: 'Narració, descripció, diàleg i instrucció; emissor, receptor i missatge' } },
-  medio:   { emoji: '🟡', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
+  medio:   { emoji: '💛', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
              desc: { es: 'Exposición y argumentación, canal y código, y las primeras funciones del lenguaje', en: 'Exposition and argument, channel and code, and the first language functions', ca: 'Exposició i argumentació, canal i codi, i les primeres funcions del llenguatge' } },
   dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' },
              desc: { es: 'Las seis funciones del lenguaje: fática, metalingüística, poética…', en: 'All six language functions: phatic, metalinguistic, poetic…', ca: 'Les sis funcions del llenguatge: fàtica, metalingüística, poètica…' } },

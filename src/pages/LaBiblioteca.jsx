@@ -17,9 +17,9 @@ const CORRECT_TIME = 4
 const REVEAL_MS = 4800 // da tiempo a ver la época iluminada y la explicación
 
 const DIFS = {
-  facil:   { emoji: '🟢', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
+  facil:   { emoji: '💚', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
              desc: { es: 'Quién escribió cada obra y a qué género pertenece', en: 'Who wrote each work and which genre it belongs to', ca: 'Qui va escriure cada obra i a quin gènere pertany' } },
-  medio:   { emoji: '🟡', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
+  medio:   { emoji: '💛', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
              desc: { es: 'Y además la época o el movimiento, y sus rasgos', en: 'Plus the period or movement, and its features', ca: 'I a més l’època o el moviment, i els seus trets' } },
   dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' },
              desc: { es: '¿Cuál es más antigua? Ordena la historia de la literatura', en: 'Which is older? Put literary history in order', ca: 'Quina és més antiga? Ordena la història de la literatura' } },

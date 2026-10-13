@@ -5,10 +5,10 @@ import { genRound, esCorrecta, schemaQuestion } from '../lib/detectiveTextos'
 
 // Examen con la mecánica de Detective de Textos: los mismos fragmentos y escenas, sin reloj.
 const LEVELS = [
-  { key: 'primaria', emoji: '🟢', difficulty: 'facil',
+  { key: 'primaria', emoji: '💚', difficulty: 'facil',
     label: { es: 'Primaria', en: 'Primary', ca: 'Primària' },
     hint: { es: 'Tipos de texto y emisor, receptor, mensaje', en: 'Text types and sender, receiver, message', ca: 'Tipus de text i emissor, receptor, missatge' } },
-  { key: 'eso', emoji: '🟡', difficulty: 'medio',
+  { key: 'eso', emoji: '💛', difficulty: 'medio',
     label: { es: 'Secundaria (ESO)', en: 'Secondary (ESO)', ca: 'Secundària (ESO)' },
     hint: { es: 'Exposición, argumentación, canal, código y funciones', en: 'Exposition, argument, channel, code and functions', ca: 'Exposició, argumentació, canal, codi i funcions' } },
   { key: 'bachillerato', emoji: '🔴', difficulty: 'dificil',

@@ -17,9 +17,9 @@ const CORRECT_TIME = 4
 const REVEAL_MS = 5200 // da tiempo a ver el gráfico con el cruce y la cuenta
 
 const DIFS = {
-  facil:   { emoji: '🟢', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
+  facil:   { emoji: '💚', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
              desc: { es: 'Lee el gráfico: dónde se cruzan ingresos y costes', en: 'Read the graph: where revenue and costs cross', ca: 'Llegeix el gràfic: on es creuen ingressos i costos' } },
-  medio:   { emoji: '🟡', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
+  medio:   { emoji: '💛', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
              desc: { es: 'Calcula el punto muerto y el beneficio', en: 'Work out break-even and profit', ca: 'Calcula el punt mort i el benefici' } },
   dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' },
              desc: { es: 'Beneficios, sensibilidad y precio mínimo', en: 'Profit, sensitivity and minimum price', ca: 'Beneficis, sensibilitat i preu mínim' } },

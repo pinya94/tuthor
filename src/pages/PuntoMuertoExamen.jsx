@@ -5,10 +5,10 @@ import { genRound, esCorrecta, schemaQuestion } from '../lib/puntoMuerto'
 
 // Examen con la mecánica de Punto Muerto: las mismas empresas y el mismo gráfico, sin reloj.
 const LEVELS = [
-  { key: 'primaria', emoji: '🟢', difficulty: 'facil',
+  { key: 'primaria', emoji: '💚', difficulty: 'facil',
     label: { es: 'Iniciación', en: 'Beginner', ca: 'Iniciació' },
     hint: { es: 'Leer el gráfico', en: 'Reading the graph', ca: 'Llegir el gràfic' } },
-  { key: 'eso', emoji: '🟡', difficulty: 'medio',
+  { key: 'eso', emoji: '💛', difficulty: 'medio',
     label: { es: 'Intermedio', en: 'Intermediate', ca: 'Intermedi' },
     hint: { es: 'Punto muerto y beneficio', en: 'Break-even and profit', ca: 'Punt mort i benefici' } },
   { key: 'bachillerato', emoji: '🔴', difficulty: 'dificil',
