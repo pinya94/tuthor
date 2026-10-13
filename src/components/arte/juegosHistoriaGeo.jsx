@@ -290,6 +290,34 @@ function Climograma(p) {
   )
 }
 
+function LaGaleria(p) {
+  // Tres cuadros colgados: fondo dorado, pinceladas sueltas y planos cubistas.
+  return (
+    <Lienzo {...p}>
+      <rect x="10" y="102" width="220" height="4" fill="#475569" />
+      <g>
+        <rect x="16" y="30" width="58" height="66" fill="#7C5A1E" />
+        <rect x="21" y="35" width="48" height="56" fill="#C99A2E" />
+        <circle cx="45" cy="50" r="7" fill="#F4D36B" />
+        <path d="M37 60 L53 60 L56 88 L34 88 Z" fill="#1D4ED8" />
+      </g>
+      <g>
+        <rect x="88" y="20" width="66" height="76" fill="#7C5A1E" />
+        <rect x="93" y="25" width="56" height="66" fill="#A5B4FC" />
+        {[[98, 32, '#F59E0B'], [112, 40, '#FB923C'], [126, 34, '#FDE68A'], [100, 60, '#38BDF8'], [118, 70, '#1E40AF'], [132, 58, '#F472B6'], [104, 80, '#34D399'], [130, 82, '#60A5FA']].map(([x, y, c]) => <line key={x + '-' + y} x1={x} y1={y} x2={x + 10} y2={y + 1} stroke={c} strokeWidth="4" strokeLinecap="round" />)}
+        <circle cx="134" cy="44" r="6" fill="#F97316" />
+      </g>
+      <g>
+        <rect x="168" y="34" width="56" height="62" fill="#7C5A1E" />
+        <rect x="173" y="39" width="46" height="52" fill="#A8A29E" />
+        <polygon points="176,44 200,40 196,64" fill="#78716C" stroke="#1C1917" />
+        <polygon points="196,52 216,48 212,86 190,80" fill="#A16207" stroke="#1C1917" />
+        <polygon points="176,70 196,64 188,88" fill="#57534E" stroke="#1C1917" />
+      </g>
+    </Lienzo>
+  )
+}
+
 function QueEstilo(p) {
   // Tres arcos en fila: medio punto, herradura y apuntado.
   return (
@@ -317,4 +345,5 @@ export const ARTE_HISTORIA_GEO = {
   'quien-lo-penso': QuienLoPenso,
   climograma: Climograma,
   'que-estilo': QueEstilo,
+  'la-galeria': LaGaleria,
 }

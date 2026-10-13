@@ -959,6 +959,11 @@ export const EXAMS = {
     emoji: '⭐', subject: 'geografia',
     path: 'examen/geografia-ue-test', page: () => import('../pages/UnionEuropeaExamen'),
   },
+  'la-galeria-test': {
+    label: { es: 'La Galería (con el juego)', en: 'The Gallery (with the game)', ca: 'La Galeria (amb el joc)' },
+    emoji: '🖼️', subject: 'arte',
+    path: 'examen/la-galeria-test', page: () => import('../pages/LaGaleriaExamen'),
+  },
   'que-estilo-test': {
     label: { es: '¿Qué estilo es? (con el juego)', en: 'What Style Is It? (with the game)', ca: 'Quin estil és? (amb el joc)' },
     emoji: '⛪', subject: 'arte',

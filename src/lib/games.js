@@ -558,6 +558,14 @@ export const GAMES = {
     // aciertos × 10 puntos → hasta 200 monedas
     coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
   },
+  'la-galeria': {
+    label: { es: 'La Galería', en: 'The Gallery', ca: 'La Galeria' },
+    emoji: '🖼️',
+    subject: 'arte',
+    route: '/juegos/la-galeria',
+    // aciertos × 10 puntos → hasta 200 monedas
+    coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
+  },
   'que-estilo': {
     label: { es: '¿Qué estilo es?', en: 'What Style Is It?', ca: 'Quin estil és?' },
     emoji: '⛪',

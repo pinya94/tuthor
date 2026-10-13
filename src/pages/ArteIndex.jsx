@@ -19,6 +19,11 @@ const TEMAS = [
     subtitulo: { es: 'De Giotto a las vanguardias, con los cuadros del Prado', en: 'From Giotto to the avant-garde, with the Prado’s paintings', ca: 'De Giotto a les avantguardes, amb els quadres del Prado' },
   },
   {
+    id: 'la-galeria', path: '/juegos/la-galeria', juego: true,
+    titulo: { es: 'La Galería (juego)', en: 'The Gallery (game)', ca: 'La Galeria (joc)' },
+    subtitulo: { es: 'Reconoce el estilo de un cuadro dibujado', en: 'Recognise the style of a drawn painting', ca: 'Reconeix l’estil d’un quadre dibuixat' },
+  },
+  {
     id: 'que-estilo', path: '/juegos/que-estilo', juego: true,
     titulo: { es: '¿Qué estilo es? (juego)', en: 'What Style Is It? (game)', ca: 'Quin estil és? (joc)' },
     subtitulo: { es: 'Reconoce el estilo de un edificio dibujado', en: 'Recognise the style of a drawn building', ca: 'Reconeix l’estil d’un edifici dibuixat' },

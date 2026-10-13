@@ -2151,6 +2151,34 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Geografía', niveles: 'Primaria (5.º y 6.º), ESO, Bachillerato',
   },
+  'la-galeria': {
+    titulo: 'La Galería',
+    subtitulo: 'Juego de historia de la pintura: estilos, pintores y obras',
+    emoji: '🖼️', gradient: 'from-amber-600 to-rose-800',
+    path: '/juegos/la-galeria',
+    intro: 'Un juego de Historia del Arte para reconocer los estilos de la pintura, del gótico al pop art. Sale un cuadro dibujado «al estilo de» un movimiento (no copia ninguna obra real) y hay que reconocerlo por sus rasgos: el fondo dorado y plano del gótico, la perspectiva con punto de fuga del Renacimiento, el claroscuro del Barroco, la naturaleza dramática del Romanticismo, las pinceladas sueltas del impresionismo, los colores violentos del expresionismo, los planos del cubismo, los objetos imposibles del surrealismo, las formas puras de la abstracción o las tramas de puntos del pop art. Otras rondas son obras famosas, como en la cartela de un museo: quién las pintó y a qué estilo pertenecen. En el nivel difícil, cuál es la más antigua.',
+    beneficios: [
+      { titulo: 'Mirar antes que memorizar', texto: 'Cada cuadro exagera el rasgo que separa un estilo de su vecino, que es lo que hay que saber ver en un comentario de obra: dónde está la luz, si hay perspectiva, si la pincelada se nota, si la figura está deformada. Como los dibujos cambian en cada partida, no se aprende «este cuadro», sino el estilo.' },
+      { titulo: 'Las obras que hay que saber', texto: 'Las Meninas, La Gioconda, La noche estrellada, El grito, Las señoritas de Avignon, La persistencia de la memoria… Las obras que aparecen en cualquier temario, con su autor, su fecha y su estilo, y con pintores de la misma época como opciones falsas.' },
+      { titulo: 'Los estilos en orden', texto: 'Debajo de cada pregunta está la sucesión de estilos, que se ilumina al corregir. Así se ve qué vino antes y qué después, y por qué el impresionismo abre la puerta a las vanguardias.' },
+    ],
+    ejemplo: 'Sale un cuadro con el fondo negro y una figura iluminada por una luz intensa que entra en diagonal. ¿De qué estilo es? Barroco: el claroscuro, con fuertes contrastes de luz y sombra, es su rasgo más reconocible, como en La vocación de san Mateo de Caravaggio. Si el fondo fuera dorado y plano, sería gótico; si la luz se descompusiera en pinceladas de color, impresionismo.',
+    enPapel: {
+      titulo: 'Tu propio museo',
+      pasos: [
+        'Elige cuatro estilos del juego y apunta en una tarjeta un rasgo clave de cada uno.',
+        'Dibuja un mismo motivo, por ejemplo un árbol, cuatro veces, una en cada estilo.',
+        'Pide a alguien que adivine qué estilo es cada dibujo.',
+        'Busca en el juego una obra real de cada estilo y compárala con tu dibujo.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'El examen de pintura', desc: 'Tipo test de Giotto a las vanguardias, con los cuadros del Prado, con explicación en cada respuesta.' },
+      { nombre: '¿Qué estilo es?', desc: 'El otro juego de arte: reconoce el estilo de un edificio dibujado.' },
+      { nombre: 'Línea Temporal', desc: 'Ordena acontecimientos históricos en el tiempo.' },
+    ],
+    asignatura: 'Historia del Arte', niveles: 'ESO, Bachillerato',
+  },
   'que-estilo': {
     titulo: '¿Qué estilo es?',
     subtitulo: 'Juego de Historia del Arte: reconoce los estilos arquitectónicos',
@@ -4184,6 +4212,33 @@ export const FICHAS_EN = {
       { nombre: 'Population Pyramid', desc: 'Another geography game about reading charts: young and ageing pyramids, gaps and baby booms.' },
     ],
     asignatura: 'Geography', niveles: 'Upper primary, Secondary, Sixth Form',
+  },
+  'la-galeria': {
+    titulo: 'The Gallery',
+    subtitulo: 'History of painting game: styles, painters and works',
+    emoji: '🖼️', gradient: 'from-amber-600 to-rose-800', path: '/juegos/la-galeria',
+    intro: 'An art history game for recognising the styles of painting, from the Gothic to Pop art. A painting drawn “in the style of” a movement appears (it copies no real work) and you recognise it by its features: the flat gold background of the Gothic, the vanishing-point perspective of the Renaissance, the chiaroscuro of the Baroque, the dramatic nature of Romanticism, the loose brushstrokes of Impressionism, the violent colours of Expressionism, the planes of Cubism, the impossible objects of Surrealism, the pure shapes of abstract art or the dot patterns of Pop art. Other rounds are famous works, like a museum label: who painted them and which style they belong to. On hard, which one is oldest.',
+    beneficios: [
+      { titulo: 'Looking before memorising', texto: 'Each painting exaggerates the feature that separates a style from its neighbour, which is what you need to spot when analysing a work: where the light is, whether there is perspective, whether the brushwork shows, whether the figure is distorted. As the drawings change every game, you learn the style, not “this picture”.' },
+      { titulo: 'The works you need to know', texto: 'Las Meninas, the Mona Lisa, The Starry Night, The Scream, Les Demoiselles d’Avignon, The Persistence of Memory… The works found in every syllabus, with their painter, date and style, and with painters of the same period as wrong options.' },
+      { titulo: 'The styles in order', texto: 'Below each question is the sequence of styles, which lights up when you answer. You can see what came before and after, and why Impressionism opened the door to the avant-garde.' },
+    ],
+    ejemplo: 'A painting appears with a black background and a figure lit by a strong light coming in diagonally. What style is it? Baroque: chiaroscuro, with strong contrasts of light and shadow, is its most recognisable feature, as in Caravaggio’s The Calling of Saint Matthew. If the background were flat gold, it would be Gothic; if the light broke into dabs of colour, Impressionism.',
+    enPapel: {
+      titulo: 'Your own museum',
+      pasos: [
+        'Choose four styles from the game and write one key feature of each on a card.',
+        'Draw the same subject, such as a tree, four times, once in each style.',
+        'Ask someone to guess the style of each drawing.',
+        'Find a real work of each style in the game and compare it with your drawing.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'What Style Is It?', desc: 'The other art game: recognise the style of a drawn building.' },
+      { nombre: 'Timeline', desc: 'Put historical events in chronological order.' },
+      { nombre: 'Who Thought It?', desc: 'History of philosophy: whose idea is it?' },
+    ],
+    asignatura: 'Art History', niveles: 'Secondary, Sixth form',
   },
   'que-estilo': {
     titulo: 'What Style Is It?',
@@ -6236,6 +6291,33 @@ export const FICHAS_CA = {
       { nombre: 'Piràmide de població', desc: 'Un altre joc de geografia per llegir gràfics: piràmides joves i envellides, buits i baby booms.' },
     ],
     asignatura: 'Geografia', niveles: 'Primària (5è i 6è), ESO, Batxillerat',
+  },
+  'la-galeria': {
+    titulo: 'La Galeria',
+    subtitulo: 'Joc d’història de la pintura: estils, pintors i obres',
+    emoji: '🖼️', gradient: 'from-amber-600 to-rose-800', path: '/juegos/la-galeria',
+    intro: 'Un joc d’Història de l’Art per reconèixer els estils de la pintura, del gòtic al pop art. Surt un quadre dibuixat «a l’estil de» un moviment (no copia cap obra real) i cal reconèixer-lo pels seus trets: el fons daurat i pla del gòtic, la perspectiva amb punt de fuga del Renaixement, el clarobscur del Barroc, la natura dramàtica del Romanticisme, les pinzellades soltes de l’impressionisme, els colors violents de l’expressionisme, els plans del cubisme, els objectes impossibles del surrealisme, les formes pures de l’abstracció o les trames de punts del pop art. Altres rondes són obres famoses, com a la cartel·la d’un museu: qui les va pintar i a quin estil pertanyen. En el nivell difícil, quina és la més antiga.',
+    beneficios: [
+      { titulo: 'Mirar abans que memoritzar', texto: 'Cada quadre exagera el tret que separa un estil del veí, que és el que cal saber veure en un comentari d’obra: on és la llum, si hi ha perspectiva, si la pinzellada es nota, si la figura està deformada. Com que els dibuixos canvien a cada partida, no s’aprèn «aquest quadre», sinó l’estil.' },
+      { titulo: 'Les obres que cal saber', texto: 'Les menines, La Gioconda, La nit estelada, El crit, Les senyoretes d’Avinyó, La persistència de la memòria… Les obres que surten a qualsevol temari, amb el seu autor, la seva data i el seu estil, i amb pintors de la mateixa època com a opcions falses.' },
+      { titulo: 'Els estils en ordre', texto: 'Sota cada pregunta hi ha la successió d’estils, que s’il·lumina en corregir. Així es veu què va venir abans i què després, i per què l’impressionisme obre la porta a les avantguardes.' },
+    ],
+    ejemplo: 'Surt un quadre amb el fons negre i una figura il·luminada per una llum intensa que entra en diagonal. De quin estil és? Barroc: el clarobscur, amb forts contrastos de llum i ombra, és el seu tret més reconeixible, com a La vocació de sant Mateu de Caravaggio. Si el fons fos daurat i pla, seria gòtic; si la llum es descompongués en pinzellades de color, impressionisme.',
+    enPapel: {
+      titulo: 'El teu propi museu',
+      pasos: [
+        'Tria quatre estils del joc i apunta en una targeta un tret clau de cadascun.',
+        'Dibuixa un mateix motiu, per exemple un arbre, quatre vegades, una en cada estil.',
+        'Demana a algú que endevini de quin estil és cada dibuix.',
+        'Busca al joc una obra real de cada estil i compara-la amb el teu dibuix.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'L’examen de pintura', desc: 'Tipus test de Giotto a les avantguardes, amb els quadres del Prado, amb explicació a cada resposta.' },
+      { nombre: 'Quin estil és?', desc: 'L’altre joc d’art: reconeix l’estil d’un edifici dibuixat.' },
+      { nombre: 'Línia Temporal', desc: 'Ordena esdeveniments històrics en el temps.' },
+    ],
+    asignatura: 'Història de l’Art', niveles: 'ESO, Batxillerat',
   },
   'que-estilo': {
     titulo: 'Quin estil és?',

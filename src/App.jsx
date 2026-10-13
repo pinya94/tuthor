@@ -149,6 +149,7 @@ const QuienDecide            = lazy(() => import('./pages/QuienDecide'))
 const QuienLoPenso           = lazy(() => import('./pages/QuienLoPenso'))
 const Climograma             = lazy(() => import('./pages/Climograma'))
 const QueEstilo              = lazy(() => import('./pages/QueEstilo'))
+const LaGaleria              = lazy(() => import('./pages/LaGaleria'))
 const MideElVerso            = lazy(() => import('./pages/MideElVerso'))
 const ArteIndex              = lazy(() => import('./pages/ArteIndex'))
 const FilosofiaIndex         = lazy(() => import('./pages/FilosofiaIndex'))
@@ -381,6 +382,7 @@ function AppRoutes() {
       <Route path="juegos/quien-lo-penso" element={<QuienLoPenso />} />
       <Route path="juegos/climograma" element={<Climograma />} />
       <Route path="juegos/que-estilo" element={<QueEstilo />} />
+      <Route path="juegos/la-galeria" element={<LaGaleria />} />
       <Route path="juegos/mide-el-verso" element={<MideElVerso />} />
       <Route path="juegos/rayos-x" element={<RayosX />} />
       <Route path="juegos/circuito-cerrado" element={<CircuitoCerrado />} />
