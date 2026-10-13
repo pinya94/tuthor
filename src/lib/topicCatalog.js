@@ -346,6 +346,7 @@ export const TOPIC_CATALOG = {
       medir: examFormato({ es: 'Mide el verso (con el juego)', en: 'Measure the Verse (with the game)', ca: 'Mesura el vers (amb el joc)' }, '✒️'),
       coma: examFormato({ es: 'Coma a Coma (con el juego)', en: 'Coma a Coma (with the game)', ca: 'Coma a Coma (amb el joc)' }, '🖋️'),
       cazar: examFormato({ es: 'Cazafiguras (con el juego)', en: 'Cazafiguras (with the game)', ca: 'Cazafiguras (amb el joc)' }, '🎭'),
+      letra: examFormato({ es: '¿Qué Letra Va? (con el juego)', en: 'Which Letter? (with the game)', ca: 'Quina Lletra Va? (amb el joc)' }, '🔠'),
       detective: examFormato({ es: 'Detective de Textos (con el juego)', en: 'Detective de Textos (with the game)', ca: 'Detective de Textos (amb el joc)' }, '📑'),
       biblioteca: examFormato({ es: 'La Biblioteca (con el juego)', en: 'La Biblioteca (with the game)', ca: 'La Biblioteca (amb el joc)' }, '📚'),
       corregirExamen: examFormato({ es: 'Corregir el texto (examen)', en: 'Proofread the text (exam)', ca: 'Corregir el text (examen)' }, '🔍'),
