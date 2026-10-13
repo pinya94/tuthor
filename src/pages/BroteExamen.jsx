@@ -7,13 +7,13 @@ import { genRound, esCorrecta, schemaQuestion } from '../lib/brote'
 const LEVELS = [
   { key: 'primaria', emoji: '💚', difficulty: 'facil',
     label: { es: 'Básico', en: 'Basic', ca: 'Bàsic' },
-    hint: { es: 'Microbios, causas y contagio', en: 'Microbes, causes and spread', ca: 'Microbis, causes i contagi' } },
+    hint: { es: 'Fichas, microbios y un brote fácil', en: 'Cards, microbes and an easy outbreak', ca: 'Fitxes, microbis i un brot fàcil' } },
   { key: 'eso', emoji: '💛', difficulty: 'medio',
     label: { es: 'Secundaria (ESO)', en: 'Secondary (ESO)', ca: 'Secundària (ESO)' },
-    hint: { es: 'Antibióticos, defensas y contagios', en: 'Antibiotics, defences and infections', ca: 'Antibiòtics, defenses i contagis' } },
+    hint: { es: 'Brotes, antibióticos y defensas', en: 'Outbreaks, antibiotics and defences', ca: 'Brots, antibiòtics i defenses' } },
   { key: 'bachillerato', emoji: '🔴', difficulty: 'dificil',
     label: { es: 'Bachillerato', en: 'Sixth form', ca: 'Batxillerat' },
-    hint: { es: 'Inmunidad, brotes e inmunidad de grupo', en: 'Immunity, outbreaks and herd immunity', ca: 'Immunitat, brots i immunitat de grup' } },
+    hint: { es: 'Brote justo e inmunidad de grupo', en: 'Tight outbreak and herd immunity', ca: 'Brot just i immunitat de grup' } },
 ]
 
 // Estado propio (la opción elegida): ver la nota de hooks en
@@ -32,7 +32,7 @@ export default function BroteExamen() {
       title={{ es: 'Examen de microbios y defensas', en: 'Microbes and Defences Exam', ca: 'Examen de microbis i defenses' }}
       sub={{ es: 'Microbios, contagio, antibióticos, defensas e inmunidad', en: 'Microbes, infection, antibiotics, defences and immunity', ca: 'Microbis, contagi, antibiòtics, defenses i immunitat' }}
       metaTitle={{ es: 'Examen de salud y enfermedad: microbios, contagio, defensas y vacunas', en: 'Health and disease exam: microbes, infection, defences and vaccines', ca: 'Examen de salut i malaltia: microbis, contagi, defenses i vacunes' }}
-      metaDesc={{ es: 'Examen de salud y enfermedad con microbios dibujados: virus, bacterias, hongos y protozoos, contagio, antibióticos, líneas de defensa, tipos de inmunidad e inmunidad de grupo. 10 preguntas, tres niveles.', en: 'Health and disease exam with drawn microbes: viruses, bacteria, fungi and protozoa, infection, antibiotics, lines of defence, types of immunity and herd immunity. 10 questions, three levels.', ca: 'Examen de salut i malaltia amb microbis dibuixats: virus, bacteris, fongs i protozous, contagi, antibiòtics, línies de defensa, tipus d’immunitat i immunitat de grup. 10 preguntes, tres nivells.' }}
+      metaDesc={{ es: 'Examen de salud y enfermedad jugando: vacuna para frenar un brote, calcula la inmunidad de grupo, completa fichas de enfermedades y clasifica microbios y defensas. 10 preguntas.', en: 'Health and disease exam by playing: vaccinate to stop an outbreak, work out herd immunity, complete disease cards and sort microbes and defences. 10 questions.', ca: 'Examen de salut i malaltia jugant: vacuna per frenar un brot, calcula la immunitat de grup, completa fitxes de malalties i classifica microbis i defenses. 10 preguntes.' }}
       metaPath="/examen/brote-test"
       subjectSchema="Biología"
       backGamePath="/juegos/brote"

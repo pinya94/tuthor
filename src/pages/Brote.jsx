@@ -11,18 +11,19 @@ import SEOHead from '../components/SEOHead'
 import { CabeceraJuego, NivelBarras, ComoSeJuega } from '../components/IntroJuego'
 import { Racha } from '../components/Iconos'
 
-const GAME_TIME = 60
+// Cada ronda se hace (vacunar, simular, colocar): 90 s y +6 s por acierto.
+const GAME_TIME = 90
 const WRONG_TIME = 5
-const CORRECT_TIME = 4
+const CORRECT_TIME = 6
 const REVEAL_MS = 4800 // da tiempo a leer la explicación
 
 const DIFS = {
   facil:   { emoji: '💚', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
-             desc: { es: 'Microbios, quién causa cada enfermedad y cómo se contagia', en: 'Microbes, what causes each disease and how it spreads', ca: 'Microbis, qui causa cada malaltia i com s’encomana' } },
+             desc: { es: 'Fichas de enfermedades, microbios dibujados y un brote fácil de encerrar', en: 'Disease cards, drawn microbes and an outbreak that is easy to contain', ca: 'Fitxes de malalties, microbis dibuixats i un brot fàcil de tancar' } },
   medio:   { emoji: '💛', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
-             desc: { es: 'Células o no, antibióticos, defensas del cuerpo y contagios', en: 'Cells or not, antibiotics, the body’s defences and infections', ca: 'Cèl·lules o no, antibiòtics, defenses del cos i contagis' } },
+             desc: { es: 'Brotes más justos, células o no, antibióticos y defensas', en: 'Tighter outbreaks, cells or not, antibiotics and defences', ca: 'Brots més ajustats, cèl·lules o no, antibiòtics i defenses' } },
   dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' },
-             desc: { es: 'Tipos de inmunidad, crecimiento de un brote e inmunidad de grupo', en: 'Types of immunity, outbreak growth and herd immunity', ca: 'Tipus d’immunitat, creixement d’un brot i immunitat de grup' } },
+             desc: { es: 'El brote con las vacunas justas, inmunidad de grupo y tipos de inmunidad', en: 'The outbreak with exactly enough vaccines, herd immunity and types of immunity', ca: 'El brot amb les vacunes justes, immunitat de grup i tipus d’immunitat' } },
 }
 if (import.meta.env.DEV && Object.keys(DIFS).join() !== Object.keys(NIVELES).join()) {
   console.warn('[brote] los niveles de la pantalla no coinciden con NIVELES')
@@ -107,9 +108,9 @@ export default function Brote() {
   const seo = {
     title: tr({ es: '¡Brote! — Juego de salud y enfermedad: microbios, contagio, defensas y vacunas', en: 'Outbreak! — Health and disease game: microbes, infection, defences and vaccines', ca: 'Brot! — Joc de salut i malaltia: microbis, contagi, defenses i vacunes' }),
     desc: tr({
-      es: 'Virus, bacterias, hongos y protozoos dibujados; qué causa cada enfermedad y cómo se contagia; cuándo sirven los antibióticos; las tres líneas de defensa, los tipos de inmunidad, cómo crece un brote y la inmunidad de grupo. Juego de biología gratis.',
-      en: 'Viruses, bacteria, fungi and protozoa drawn; what causes each disease and how it spreads; when antibiotics work; the three lines of defence, types of immunity, how an outbreak grows and herd immunity. Free biology game.',
-      ca: 'Virus, bacteris, fongs i protozous dibuixats; què causa cada malaltia i com s’encomana; quan serveixen els antibiòtics; les tres línies de defensa, els tipus d’immunitat, com creix un brot i la immunitat de grup. Joc de biologia gratis.',
+      es: 'Vacuna para frenar un brote en una cuadrícula y míralo crecer generación a generación, encuentra el porcentaje de la inmunidad de grupo y clasifica virus, bacterias, hongos y protozoos. Juego gratis.',
+      en: 'Vaccinate to stop an outbreak on a grid and watch it spread generation by generation, find the herd immunity percentage and sort viruses, bacteria, fungi and protozoa. Free game.',
+      ca: 'Vacuna per frenar un brot en una quadrícula i mira com creix generació a generació, troba el percentatge de la immunitat de grup i classifica virus, bacteris, fongs i protozous. Joc gratis.',
     }),
     path: '/juegos/brote',
   }
@@ -142,9 +143,8 @@ export default function Brote() {
           </button>
           <ComoSeJuega>
             <div className="space-y-2 text-white/70 text-sm">
-              <p>{tr({ es: 'Unas rondas enseñan un microbio dibujado: ¿virus, bacteria, hongo o protozoo? ¿Es una célula? Otras, una enfermedad: qué la causa, cómo se contagia y si los antibióticos sirven contra su microbio (solo atacan bacterias).', en: 'Some rounds show a drawn microbe: virus, bacterium, fungus or protozoan? Is it a cell? Others show a disease: what causes it, how it spreads and whether antibiotics work against its microbe (they only attack bacteria).', ca: 'Unes rondes mostren un microbi dibuixat: virus, bacteri, fong o protozou? És una cèl·lula? D’altres, una malaltia: què la causa, com s’encomana i si els antibiòtics serveixen contra el seu microbi (només ataquen bacteris).' })}</p>
-              <p>{tr({ es: 'También salen casos para decidir qué línea de defensa actúa (barreras, defensa inespecífica o linfocitos) y qué tipo de inmunidad es (activa o pasiva, natural o artificial).', en: 'There are also cases where you decide which line of defence is at work (barriers, non-specific defence or lymphocytes) and what type of immunity it is (active or passive, natural or artificial).', ca: 'També surten casos per decidir quina línia de defensa actua (barreres, defensa inespecífica o limfòcits) i quin tipus d’immunitat és (activa o passiva, natural o artificial).' })}</p>
-              <p>{tr({ es: 'Y en los niveles altos, el brote: si cada enfermo contagia a R personas, los casos se multiplican por R en cada generación; para frenarlo hay que vacunar al menos 1 − 1/R de la población.', en: 'And on the higher levels, the outbreak: if each sick person infects R people, cases multiply by R every generation; to stop it you must vaccinate at least 1 − 1/R of the population.', ca: 'I als nivells alts, el brot: si cada malalt n’encomana R persones, els casos es multipliquen per R a cada generació; per frenar-lo cal vacunar almenys 1 − 1/R de la població.' })}</p>
+              <p>{tr({ es: 'Frena el brote: en una cuadrícula de personas hay un enfermo y algunos ya inmunes. Toca a tres para vacunarlos y pulsa «Simular»: el contagio pasa a los vecinos sin proteger, generación a generación. Gana si no enferman más de la meta.', en: 'Stop the outbreak: in a grid of people there is one sick person and some already immune. Tap three to vaccinate them and press “Run”: the infection passes to unprotected neighbours, generation by generation. You win if no more than the target fall ill.', ca: 'Frena el brot: en una quadrícula de persones hi ha un malalt i alguns ja immunes. Toca’n tres per vacunar-los i prem «Simular»: el contagi passa als veïns sense protegir, generació a generació. Guanyes si no emmalalteixen més que la meta.' })}</p>
+              <p>{tr({ es: 'Otras rondas: mover el deslizador hasta vacunar justo lo necesario para que R baje de 1, completar la ficha de una enfermedad (microbio y contagio) y clasificar microbios dibujados, defensas o tipos de inmunidad.', en: 'Other rounds: move the slider until you vaccinate just enough for R to drop below 1, complete a disease card (microbe and spread) and sort drawn microbes, defences or types of immunity.', ca: 'Altres rondes: moure el control fins a vacunar just el necessari perquè R baixi d’1, completar la fitxa d’una malaltia (microbi i contagi) i classificar microbis dibuixats, defenses o tipus d’immunitat.' })}</p>
               <p className="text-white/40 text-xs pt-1">⏱️ {GAME_TIME}s · {tr({ es: `Acierto +10 y +${CORRECT_TIME}s · Fallo −${WRONG_TIME}s`, en: `Correct +10 and +${CORRECT_TIME}s · Wrong −${WRONG_TIME}s`, ca: `Encert +10 i +${CORRECT_TIME}s · Error −${WRONG_TIME}s` })}</p>
             </div>
           </ComoSeJuega>

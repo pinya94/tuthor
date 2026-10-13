@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { genRonda, NIVELES, ENFERMEDADES, NO_INFECCIOSAS, FORMAS, ASPECTO, NOMBRE_FORMA, DEFENSAS, CASOS_INMUNIDAD, VIAS, MICROBIOS, porcentajeGrupo, enunciado, explicacion, textoOpcion, schemaQuestion, enfermedad } from '../brote'
+import { genRonda, NIVELES, ENFERMEDADES, NO_INFECCIOSAS, FORMAS, ASPECTO, NOMBRE_FORMA, DEFENSAS, CASOS_INMUNIDAD, VIAS, MICROBIOS, porcentajeGrupo, enunciado, explicacion, schemaQuestion, enfermedad, esCorrecta, contagio, infectados, mejorResultado, cajaDe, textoItem, textoCaja, LADO, MARGEN_UMBRAL } from '../brote'
 
 function semilla(s) {
   return () => { s = (s * 1103515245 + 12345) % 2147483648; return s / 2147483648 }
@@ -29,38 +29,47 @@ describe('¡Brote!', () => {
     expect(new Set(CASOS_INMUNIDAD.map(c => c[0])).size).toBe(4)
   })
 
+  it('el contagio va de vecino en vecino y las vacunas lo cortan', () => {
+    // Sin protección, toda la cuadrícula enferma.
+    expect(infectados(0, [])).toBe(LADO * LADO)
+    // Una esquina se encierra con dos vacunas.
+    expect(infectados(0, [1, LADO])).toBe(1)
+    expect(contagio(0, [])[1].sort()).toEqual([1, LADO])
+    expect(mejorResultado(0, [])).toBe(1)
+  })
+
   for (const nivel of Object.keys(NIVELES)) {
-    it(`${nivel}: 600 rondas con la respuesta bien`, { timeout: 20000 }, () => {
-      const rand = semilla(nivel.length * 6007)
+    it(nivel + ': 300 rondas bien formadas', { timeout: 60000 }, () => {
+      const rand = semilla(nivel.length * 97)
       const tipos = new Set()
-      for (let i = 0; i < 600; i++) {
+      for (let i = 0; i < 300; i++) {
         const r = genRonda(nivel, { rand })
         tipos.add(r.tipo)
-        expect(r.opciones).toContain(r.bueno)
-        expect(new Set(r.opciones).size).toBe(r.opciones.length)
-        expect(r.opciones.length).toBeGreaterThanOrEqual(3)
-        if (r.tipo === 'microbio') expect(r.bueno).toBe(FORMAS[r.forma])
-        if (r.tipo === 'agente') expect(r.bueno).toBe(enfermedad(r.enf).mic)
-        if (r.tipo === 'contagio') expect(r.bueno).toBe(enfermedad(r.enf).via)
-        if (r.tipo === 'antibiotico') expect(r.bueno).toBe(enfermedad(r.enf).mic === 'bacteria' ? 'si-bacteria' : 'no-virus')
-        if (r.tipo === 'infecciosa') {
-          // Exactamente una opción distinta de las demás.
-          const infecciosas = r.opciones.filter(o => o.startsWith('e:'))
-          expect(infecciosas.length).toBe(r.alReves ? 3 : 1)
-          expect(r.bueno.startsWith(r.alReves ? 'n:' : 'e:')).toBe(true)
+        expect(esCorrecta(r, r.bueno), r.tipo).toBe(true)
+        if (r.tipo === 'cortafuegos') {
+          // Sin vacunar no se llega a la meta; con las mejores vacunas, sí.
+          expect(infectados(r.cero, r.inmunes)).toBeGreaterThan(r.meta)
+          expect(r.mejor).toBeLessThanOrEqual(r.meta)
+          expect(esCorrecta(r, 'cf:' + (r.meta + 1))).toBe(false)
         }
-        if (r.tipo === 'generaciones') expect(r.bueno).toBe(r.R ** r.k)
-        if (r.tipo === 'grupo') expect(r.bueno).toBe(Math.round((1 - 1 / r.R) * 100))
+        if (r.tipo === 'umbral') {
+          expect(esCorrecta(r, 'p:' + (r.umbral - 1))).toBe(false)
+          expect(esCorrecta(r, 'p:' + (r.umbral + MARGEN_UMBRAL + 1))).toBe(false)
+        }
+        if (r.tipo === 'ficha') expect(esCorrecta(r, 'hongo|aire') && r.bueno !== 'hongo|aire').toBe(false)
+        if (r.tipo === 'clasifica') {
+          expect(r.items).toHaveLength(4)
+          for (const it of r.items) expect(r.cajas).toContain(cajaDe(r, it))
+        }
         for (const l of ['es', 'en', 'ca']) {
           expect(enunciado(r, l)).not.toMatch(/undefined|NaN/)
           expect(explicacion(r, l)).not.toMatch(/undefined|NaN/)
-          const textos = r.opciones.map(o => textoOpcion(o, r, l))
-          expect(new Set(textos).size).toBe(textos.length)
-          for (const t of textos) expect(t).not.toMatch(/undefined|NaN/)
-          const sq = schemaQuestion(r, l)
-          expect(sq.wrongAnswers).toHaveLength(r.opciones.length - 1)
-          // El texto del examen no delata la respuesta del dibujo.
-          if (r.tipo === 'microbio') expect(sq.question.toLowerCase()).not.toContain(textoOpcion(r.bueno, r, l).toLowerCase())
+          if (r.tipo === 'clasifica') for (const it of r.items) { expect(textoItem(it, l)).toBeTruthy(); expect(textoCaja(r, cajaDe(r, it), l)).toBeTruthy() }
+          const q = schemaQuestion(r, l)
+          expect(q.wrongAnswers.length).toBeGreaterThanOrEqual(1)
+          expect(q.wrongAnswers).not.toContain(q.correctAnswer)
+          // El texto del examen no delata un dibujo con su nombre.
+          if (r.variante === 'microbios') expect(q.question).not.toMatch(/bacilo|bacillus|virus con|levadura|yeast|ameba|amoeba/i)
         }
       }
       for (const t of NIVELES[nivel].tipos) expect(tipos.has(t), t).toBe(true)

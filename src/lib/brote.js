@@ -1,24 +1,17 @@
 // ¡Brote! (biología · salud y enfermedad, ESO y Bachillerato).
 //
-// Microbios dibujados, enfermedades con su causa y su contagio, las defensas
-// del cuerpo, los tipos de inmunidad y, en los niveles altos, cómo crece un
-// brote y qué parte de la población hay que vacunar para frenarlo.
+// Un juego de hacer, no de elegir respuestas:
+//   cortafuegos  cuadrícula de personas: vacunar a 3 y simular el contagio
+//                generación a generación (la meta siempre se puede alcanzar)
+//   umbral       deslizador del % vacunado frente a R₀ (1 − 1/R₀), con el R
+//                efectivo en vivo
+//   ficha        completar la ficha de una enfermedad: microbio y contagio
+//   clasifica    tarjetas a su caja: microbios dibujados, célula o no,
+//                infecciosas, antibióticos, líneas de defensa, inmunidad
 //
-// Tipos de pregunta (y la trampa que cada uno pone a prueba):
-//   microbio     qué microbio es el del dibujo          (confundir bacteria y virus)
-//   celula       si el del dibujo es una célula, y cuál (creer que el virus es una célula)
-//   agente       qué microbio causa una enfermedad      (la gripe «es una bacteria»)
-//   contagio     cómo se contagia                       (todo «por el aire»)
-//   antibiotico  si los antibióticos atacan su microbio (tomarlos para la gripe)
-//   infecciosa   cuál es (o no es) infecciosa           (la diabetes «se pega»)
-//   defensa      qué línea de defensa actúa             (barrera ↔ inespecífica)
-//   inmunidad    activa/pasiva, natural/artificial      (vacuna ↔ suero)
-//   generaciones contagios en la generación k = Rᵏ      (multiplicar R · k)
-//   grupo        % a vacunar = 1 − 1/R₀                 (responder 1/R₀)
-//
-// Solo entran enfermedades de libro de texto con una respuesta indiscutible
-// en cada pregunta: las que se contagian de varias formas no salen en
-// «contagio», y los antibióticos solo se preguntan con virus y bacterias.
+// Solo entran enfermedades de libro de texto con una respuesta indiscutible:
+// las que se contagian de varias formas no tienen vía en la ficha, y los
+// antibióticos solo se clasifican con virus y bacterias.
 
 const s = (l, es, en, ca) => (l === 'en' ? en : l === 'ca' ? ca : es)
 const T = (es, en, ca) => ({ es, en, ca })
@@ -157,11 +150,67 @@ export const CASOS_INMUNIDAD = [
   ['pasivaArtificial', '🏥', T('Te inyectan suero antitetánico: anticuerpos contra el tétanos hechos fuera de tu cuerpo.', 'You are injected with tetanus antitoxin: antibodies against tetanus made outside your body.', 'T’injecten sèrum antitetànic: anticossos contra el tètanus fets fora del teu cos.')],
 ]
 
-// ── Niveles ───────────────────────────────────────────────────────────────
+// ── Frena el brote (cortafuegos) ──────────────────────────────────────────
+// Cuadrícula de personas; cada enfermo contagia a sus vecinos (arriba, abajo,
+// izquierda, derecha) que no estén protegidos. Con VACUNAS vacunas hay que
+// dejar el brote en la meta o menos. La meta sale de buscar el mejor
+// resultado posible (fuerza bruta), así que siempre se puede.
+export const LADO = 6
+export const VACUNAS = 3
+const vecinos = i => {
+  const f = Math.floor(i / LADO), c = i % LADO, v = []
+  if (f > 0) v.push(i - LADO)
+  if (f < LADO - 1) v.push(i + LADO)
+  if (c > 0) v.push(i - 1)
+  if (c < LADO - 1) v.push(i + 1)
+  return v
+}
+// Generaciones del contagio: [[cero], [los que contagia], …]
+export function contagio(cero, protegidos) {
+  const prot = new Set(protegidos)
+  const visto = new Set([cero])
+  const gens = [[cero]]
+  for (;;) {
+    const nueva = []
+    for (const x of gens[gens.length - 1]) for (const v of vecinos(x)) if (!visto.has(v) && !prot.has(v)) { visto.add(v); nueva.push(v) }
+    if (!nueva.length) return gens
+    gens.push(nueva)
+  }
+}
+export const infectados = (cero, protegidos) => contagio(cero, protegidos).flat().length
+// El mínimo de infectados con VACUNAS vacunas (probando todas las combinaciones).
+export function mejorResultado(cero, inmunes) {
+  const libres = Array.from({ length: LADO * LADO }, (_, i) => i).filter(i => i !== cero && !inmunes.includes(i))
+  let mejor = Infinity
+  const n = libres.length
+  for (let a = 0; a < n; a++) for (let b = a + 1; b < n; b++) for (let c = b + 1; c < n; c++) {
+    const r = infectados(cero, [...inmunes, libres[a], libres[b], libres[c]])
+    if (r < mejor) mejor = r
+  }
+  return mejor
+}
+const HOLGURA = { facil: 6, medio: 3, dificil: 0 }
+
+// ── Inmunidad de grupo ────────────────────────────────────────────────────
+export const porcentajeGrupo = R => Math.round((1 - 1 / R) * 100)
+// Se acierta con el umbral o hasta 5 puntos más (vacunar de más también frena,
+// pero la gracia es saber el mínimo).
+export const MARGEN_UMBRAL = 5
+
+// ── Clasificar ────────────────────────────────────────────────────────────
+export const VARIANTES = {
+  microbios: { cajas: Object.keys(MICROBIOS) },
+  celulas: { cajas: ['no', 'procariota', 'eucariota'] },
+  infecciosas: { cajas: ['si', 'no'] },
+  antibioticos: { cajas: ['si', 'no'] },
+  defensas: { cajas: Object.keys(LINEAS) },
+  inmunidad: { cajas: Object.keys(INMUNIDADES) },
+}
+
 export const NIVELES = {
-  facil:   { tipos: ['microbio', 'microbio', 'agente', 'contagio', 'antibiotico', 'infecciosa'] },
-  medio:   { tipos: ['celula', 'agente', 'contagio', 'antibiotico', 'defensa', 'defensa', 'generaciones'] },
-  dificil: { tipos: ['celula', 'contagio', 'defensa', 'inmunidad', 'inmunidad', 'generaciones', 'grupo', 'grupo'] },
+  facil:   { tipos: ['ficha', 'ficha', 'clasifica', 'clasifica', 'cortafuegos'], clasifica: ['microbios', 'infecciosas', 'antibioticos'] },
+  medio:   { tipos: ['ficha', 'clasifica', 'clasifica', 'cortafuegos', 'cortafuegos'], clasifica: ['celulas', 'antibioticos', 'defensas'] },
+  dificil: { tipos: ['ficha', 'clasifica', 'cortafuegos', 'cortafuegos', 'umbral', 'umbral'], clasifica: ['defensas', 'inmunidad', 'celulas'] },
 }
 
 const elige = (rand, xs) => xs[Math.floor(rand() * xs.length)]
@@ -172,17 +221,13 @@ const baraja = (rand, xs) => {
 }
 let seq = 0
 export const enfermedad = id => ENFERMEDADES.find(e => e.id === id)
-export const porcentajeGrupo = R => Math.round((1 - 1 / R) * 100)
 
-// Lo que salió en las últimas rondas (enfermedad, microbio, caso), para no repetirlo seguido.
 const recientes = []
-const tema = r => r.enf ?? r.forma ?? (r.caso != null ? `${r.tipo}${r.caso}` : `${r.tipo}${r.R}`)
-
 export function genRonda(nivel = 'facil', opts = {}) {
   for (let intento = 0; ; intento++) {
     const r = genUna(nivel, opts)
-    if (intento < 20 && recientes.includes(tema(r))) continue
-    recientes.push(tema(r))
+    if (intento < 20 && recientes.includes(r.clave)) continue
+    recientes.push(r.clave)
     if (recientes.length > 6) recientes.shift()
     return r
   }
@@ -194,113 +239,99 @@ function genUna(nivel, { rand = Math.random } = {}) {
     const tipo = elige(rand, cfg.tipos)
     const base = { id: ++seq, nivel, tipo }
 
-    if (tipo === 'microbio' || tipo === 'celula') {
-      const forma = elige(rand, Object.keys(FORMAS))
-      const m = FORMAS[forma]
-      if (tipo === 'microbio') return { ...base, forma, bueno: m, opciones: baraja(rand, Object.keys(MICROBIOS)) }
-      return { ...base, forma, bueno: celulaDe(m), opciones: ['no', 'procariota', 'eucariota'] }
-    }
-
-    if (tipo === 'agente') {
+    if (tipo === 'ficha') {
       const e = elige(rand, ENFERMEDADES)
-      return { ...base, enf: e.id, bueno: e.mic, opciones: baraja(rand, Object.keys(MICROBIOS)) }
+      return { ...base, clave: e.id, enf: e.id, bueno: `${e.mic}|${e.via ?? '-'}` }
     }
 
-    if (tipo === 'contagio') {
-      const e = elige(rand, ENFERMEDADES.filter(x => x.via))
-      const otras = baraja(rand, Object.keys(VIAS).filter(v => v !== e.via)).slice(0, 3)
-      return { ...base, enf: e.id, bueno: e.via, opciones: baraja(rand, [e.via, ...otras]) }
+    if (tipo === 'cortafuegos') {
+      // El primer enfermo cerca de un borde o de un grupo de inmunes: así
+      // tres vacunas pueden encerrarlo.
+      const cero = Math.floor(rand() * LADO * LADO)
+      const inmunes = baraja(rand, Array.from({ length: LADO * LADO }, (_, i) => i).filter(i => i !== cero)).slice(0, 4 + Math.floor(rand() * 4))
+      const mejor = mejorResultado(cero, inmunes)
+      if (mejor > 10 || mejor < 3) continue
+      const sinNada = infectados(cero, inmunes)
+      if (sinNada < 18) continue
+      const meta = Math.min(sinNada - 1, mejor + HOLGURA[nivel])
+      return { ...base, clave: `cf${cero}`, cero, inmunes, meta, mejor, bueno: `cf:${mejor}` }
     }
 
-    if (tipo === 'antibiotico') {
-      const e = elige(rand, ENFERMEDADES.filter(x => x.mic === 'virus' || x.mic === 'bacteria'))
-      return { ...base, enf: e.id, bueno: e.mic === 'bacteria' ? 'si-bacteria' : 'no-virus', opciones: ['si-bacteria', 'no-virus', 'si-virus', 'no-bacteria'] }
+    if (tipo === 'umbral') {
+      const R = elige(rand, [2, 3, 4, 5, 10])
+      const u = porcentajeGrupo(R)
+      return { ...base, clave: `u${R}`, R, umbral: u, bueno: `p:${u}` }
     }
 
-    if (tipo === 'infecciosa') {
-      // Una infecciosa entre tres que no lo son, o al revés.
-      const alReves = rand() < 0.4
-      const inf = baraja(rand, ENFERMEDADES).slice(0, alReves ? 3 : 1).map(e => `e:${e.id}`)
-      const no = baraja(rand, NO_INFECCIOSAS.map((_, i) => `n:${i}`)).slice(0, alReves ? 1 : 3)
-      return { ...base, alReves, bueno: alReves ? no[0] : inf[0], opciones: baraja(rand, [...inf, ...no]) }
-    }
-
-    if (tipo === 'defensa') {
-      const k = Math.floor(rand() * DEFENSAS.length)
-      return { ...base, caso: k, bueno: DEFENSAS[k][0], opciones: Object.keys(LINEAS) }
-    }
-
-    if (tipo === 'inmunidad') {
-      const k = Math.floor(rand() * CASOS_INMUNIDAD.length)
-      return { ...base, caso: k, bueno: CASOS_INMUNIDAD[k][0], opciones: Object.keys(INMUNIDADES) }
-    }
-
-    if (tipo === 'generaciones') {
-      const R = elige(rand, [2, 3, 4])
-      const k = elige(rand, R === 4 ? [2, 3] : [2, 3, 4])
-      const bueno = R ** k
-      const cands = [R * k, R ** (k - 1), R ** (k + 1), R + k, bueno * 2].filter(x => x !== bueno && x > 1)
-      const ops = [...new Set(cands)].slice(0, 3)
-      if (ops.length < 3) continue
-      return { ...base, R, k, bueno, opciones: baraja(rand, [bueno, ...ops]) }
-    }
-
-    // grupo: inmunidad de grupo
-    const R = elige(rand, [2, 3, 4, 5, 10, 20])
-    const bueno = porcentajeGrupo(R)
-    const cands = [Math.round(100 / R), 100, ...[2, 3, 4, 5, 10, 20].filter(x => x !== R).map(porcentajeGrupo)]
-    const ops = [...new Set(cands.filter(x => x !== bueno))]
-    const elegidas = [ops[0], ops[1], ...baraja(rand, ops.slice(2)).slice(0, 1)]
-    return { ...base, R, bueno, opciones: baraja(rand, [bueno, ...elegidas]) }
+    // clasifica
+    const variante = elige(rand, cfg.clasifica)
+    let items
+    if (variante === 'microbios' || variante === 'celulas') items = baraja(rand, Object.keys(FORMAS)).slice(0, 4).map(f => `f:${f}`)
+    else if (variante === 'infecciosas') items = baraja(rand, [...baraja(rand, ENFERMEDADES).slice(0, 2).map(e => `e:${e.id}`), ...baraja(rand, NO_INFECCIOSAS.map((_, i) => `n:${i}`)).slice(0, 2)])
+    else if (variante === 'antibioticos') items = baraja(rand, ENFERMEDADES.filter(e => e.mic === 'virus' || e.mic === 'bacteria')).slice(0, 4).map(e => `e:${e.id}`)
+    else if (variante === 'defensas') items = baraja(rand, DEFENSAS.map((_, i) => `d:${i}`)).slice(0, 4)
+    else items = baraja(rand, CASOS_INMUNIDAD.map((_, i) => `i:${i}`)).slice(0, 4)
+    const r = { ...base, variante, items, cajas: VARIANTES[variante].cajas, bueno: 'clasifica:0' }
+    if (new Set(items.map(it => cajaDe(r, it))).size < 2) continue
+    return { ...r, clave: `cl${items.join()}` }
   }
+}
+
+// A qué caja va cada tarjeta.
+export function cajaDe(r, item) {
+  const [k, v] = [item.slice(0, 1), item.slice(2)]
+  if (r.variante === 'microbios') return FORMAS[v]
+  if (r.variante === 'celulas') return celulaDe(FORMAS[v])
+  if (r.variante === 'infecciosas') return k === 'e' ? 'si' : 'no'
+  if (r.variante === 'antibioticos') return enfermedad(v).mic === 'bacteria' ? 'si' : 'no'
+  if (r.variante === 'defensas') return DEFENSAS[+v][0]
+  return CASOS_INMUNIDAD[+v][0]
 }
 
 export const genRound = (difficulty = 'facil') => genRonda(difficulty)
-export const esCorrecta = (r, o) => o === r.bueno
+// Respuestas: ficha «microbio|vía»; cortafuegos «cf:infectados»; umbral
+// «p:porcentaje»; clasifica «clasifica:fallos».
+export function esCorrecta(r, o) {
+  const t = String(o)
+  if (r.tipo === 'cortafuegos') return t.startsWith('cf:') && +t.slice(3) <= r.meta
+  if (r.tipo === 'umbral') { const p = +t.slice(2); return t.startsWith('p:') && p >= r.umbral && p <= r.umbral + MARGEN_UMBRAL }
+  return t === r.bueno
+}
 
 // ── Textos ────────────────────────────────────────────────────────────────
-const ANTIBIOTICO = {
-  'si-bacteria': T('Sí: la causa una bacteria', 'Yes: it is caused by a bacterium', 'Sí: la causa un bacteri'),
-  'no-virus': T('No: la causa un virus', 'No: it is caused by a virus', 'No: la causa un virus'),
-  'si-virus': T('Sí: la causa un virus', 'Yes: it is caused by a virus', 'Sí: la causa un virus'),
-  'no-bacteria': T('No: la causa una bacteria', 'No: it is caused by a bacterium', 'No: la causa un bacteri'),
+const CAJAS_TXT = {
+  infecciosas: { si: T('Infecciosa: la causa un microbio', 'Infectious: caused by a microbe', 'Infecciosa: la causa un microbi'), no: T('No infecciosa', 'Not infectious', 'No infecciosa') },
+  antibioticos: { si: T('Los antibióticos sirven (bacteria)', 'Antibiotics work (bacterium)', 'Els antibiòtics serveixen (bacteri)'), no: T('No sirven (virus)', 'They don’t work (virus)', 'No serveixen (virus)') },
 }
-const nombreEnf = (o, l) => (o.startsWith('e:') ? tx(enfermedad(o.slice(2)).nombre, l) : tx(NO_INFECCIOSAS[+o.slice(2)], l))
-
-export function textoOpcion(o, r, l) {
-  switch (r.tipo) {
-    case 'microbio': case 'agente': return tx(MICROBIOS[o], l)
-    case 'celula': return tx(CELULA[o], l)
-    case 'contagio': return `${VIAS[o].emoji} ${tx(VIAS[o].t, l)}`
-    case 'antibiotico': return tx(ANTIBIOTICO[o], l)
-    case 'infecciosa': return nombreEnf(o, l)
-    case 'defensa': return tx(LINEAS[o], l)
-    case 'inmunidad': return tx(INMUNIDADES[o], l)
-    case 'generaciones': return String(o)
-    default: return `${o} %`
-  }
+export function textoCaja(r, c, l) {
+  if (r.variante === 'microbios') return tx(MICROBIOS[c], l)
+  if (r.variante === 'celulas') return tx(CELULA[c], l).split(':')[0]
+  if (r.variante === 'defensas') return tx(LINEAS[c], l)
+  if (r.variante === 'inmunidad') return tx(INMUNIDADES[c], l)
+  return tx(CAJAS_TXT[r.variante][c], l)
+}
+export function textoItem(item, l) {
+  const [k, v] = [item.slice(0, 1), item.slice(2)]
+  if (k === 'f') return tx(ASPECTO[v], l)
+  if (k === 'e') return tx(enfermedad(v).nombre, l)
+  if (k === 'n') return tx(NO_INFECCIOSAS[+v], l)
+  if (k === 'd') return `${DEFENSAS[+v][1]} ${tx(DEFENSAS[+v][2], l)}`
+  return `${CASOS_INMUNIDAD[+v][1]} ${tx(CASOS_INMUNIDAD[+v][2], l)}`
 }
 
 export function enunciado(r, l) {
   switch (r.tipo) {
-    case 'microbio': return s(l, '¿Qué tipo de microbio es?', 'What type of microbe is this?', 'Quin tipus de microbi és?')
-    case 'celula': return s(l, '¿Es una célula? ¿De qué tipo?', 'Is it a cell? What kind?', 'És una cèl·lula? De quin tipus?')
-    case 'agente': return s(l, '¿Qué tipo de microbio la causa?', 'What type of microbe causes it?', 'Quin tipus de microbi la causa?')
-    case 'contagio': return s(l, '¿Cómo se contagia?', 'How is it spread?', 'Com s’encomana?')
-    case 'antibiotico': return s(l, '¿Pueden los antibióticos atacar al microbio que la causa?', 'Can antibiotics attack the microbe that causes it?', 'Poden els antibiòtics atacar el microbi que la causa?')
-    case 'infecciosa': return r.alReves
-      ? s(l, '¿Cuál de estas enfermedades NO es infecciosa?', 'Which of these diseases is NOT infectious?', 'Quina d’aquestes malalties NO és infecciosa?')
-      : s(l, '¿Cuál de estas enfermedades es infecciosa?', 'Which of these diseases is infectious?', 'Quina d’aquestes malalties és infecciosa?')
-    case 'defensa': return s(l, '¿Qué línea de defensa está actuando?', 'Which line of defence is at work?', 'Quina línia de defensa està actuant?')
-    case 'inmunidad': return s(l, '¿Qué tipo de inmunidad es?', 'What type of immunity is this?', 'Quin tipus d’immunitat és?')
-    case 'generaciones': return s(l,
-      `Cada enfermo contagia a ${r.R} personas antes de curarse. Si empieza uno, ¿cuántos contagios nuevos hay en la generación ${r.k}?`,
-      `Each sick person infects ${r.R} people before recovering. If it starts with one, how many new infections are there in generation ${r.k}?`,
-      `Cada malalt n’encomana ${r.R} persones abans de curar-se. Si en comença un, quants contagis nous hi ha a la generació ${r.k}?`)
-    default: return s(l,
-      `Una enfermedad tiene R₀ = ${r.R}: cada enfermo contagia a ${r.R} personas si nadie está protegido. ¿Qué parte de la población hay que vacunar para frenar el brote?`,
-      `A disease has R₀ = ${r.R}: each sick person infects ${r.R} people if nobody is protected. What share of the population must be vaccinated to stop the outbreak?`,
-      `Una malaltia té R₀ = ${r.R}: cada malalt n’encomana ${r.R} persones si ningú no està protegit. Quina part de la població cal vacunar per frenar el brot?`)
+    case 'ficha': return s(l, 'Completa la ficha: ¿qué microbio la causa y cómo se contagia?', 'Complete the card: which microbe causes it and how does it spread?', 'Completa la fitxa: quin microbi la causa i com s’encomana?')
+    case 'cortafuegos': return s(l, `Vacuna a ${VACUNAS} personas y luego simula: que no enfermen más de ${r.meta}`, `Vaccinate ${VACUNAS} people, then run it: no more than ${r.meta} may fall ill`, `Vacuna ${VACUNAS} persones i després simula: que no emmalalteixin més de ${r.meta}`)
+    case 'umbral': return s(l, `Una enfermedad tiene R₀ = ${r.R}. ¿Qué parte de la población hay que vacunar, como mínimo, para frenarla?`, `A disease has R₀ = ${r.R}. What is the smallest share of the population to vaccinate to stop it?`, `Una malaltia té R₀ = ${r.R}. Quina part de la població cal vacunar, com a mínim, per frenar-la?`)
+    default: return {
+      microbios: s(l, '¿Qué tipo de microbio es cada uno?', 'What type of microbe is each one?', 'Quin tipus de microbi és cadascun?'),
+      celulas: s(l, '¿Es una célula? ¿De qué tipo?', 'Is it a cell? What kind?', 'És una cèl·lula? De quin tipus?'),
+      infecciosas: s(l, '¿Cuáles son infecciosas?', 'Which ones are infectious?', 'Quines són infeccioses?'),
+      antibioticos: s(l, '¿Sirven los antibióticos contra cada una?', 'Do antibiotics work against each one?', 'Serveixen els antibiòtics contra cadascuna?'),
+      defensas: s(l, '¿Qué línea de defensa actúa en cada caso?', 'Which line of defence is at work in each case?', 'Quina línia de defensa actua en cada cas?'),
+      inmunidad: s(l, '¿Qué tipo de inmunidad es cada caso?', 'What type of immunity is each case?', 'Quin tipus d’immunitat és cada cas?'),
+    }[r.variante]
   }
 }
 
@@ -310,43 +341,49 @@ const ix = l => (l === 'en' ? 1 : l === 'ca' ? 2 : 0)
 export function explicacion(r, l) {
   const i = ix(l)
   switch (r.tipo) {
-    case 'microbio': return s(l, `Es ${tx(NOMBRE_FORMA[r.forma], l)}.`, `It is ${tx(NOMBRE_FORMA[r.forma], l)}.`, `És ${tx(NOMBRE_FORMA[r.forma], l)}.`) + ' ' + PISTAS[FORMAS[r.forma]][i]
-    case 'celula': return s(l, `Es ${tx(NOMBRE_FORMA[r.forma], l)}.`, `It is ${tx(NOMBRE_FORMA[r.forma], l)}.`, `És ${tx(NOMBRE_FORMA[r.forma], l)}.`) + ' ' + PISTAS_CELULA[r.bueno][i]
-    case 'agente': case 'contagio': {
+    case 'ficha': {
       const e = enfermedad(r.enf)
-      const via = e.via ? s(l, ` Se contagia así: ${tx(VIAS[e.via].t, l).toLowerCase()}.`, ` It spreads like this: ${tx(VIAS[e.via].t, l).toLowerCase()}.`, ` S’encomana així: ${tx(VIAS[e.via].t, l).toLowerCase()}.`) : ''
+      const via = e.via ? s(l, ` Se contagia así: ${tx(VIAS[e.via].t, l).toLowerCase()}.`, ` It spreads like this: ${tx(VIAS[e.via].t, l).toLowerCase()}.`, ` S’encomana així: ${tx(VIAS[e.via].t, l).toLowerCase()}.`) : s(l, ' Se contagia de varias formas.', ' It spreads in several ways.', ' S’encomana de diverses maneres.')
       const nota = e.nota ? ' ' + tx(e.nota, l) : ''
-      return s(l, `${tx(e.nombre, l)}: la causa ${MIC_UN[e.mic][0]}.`, `${tx(e.nombre, l)}: it is caused by ${MIC_UN[e.mic][1]}.`, `${tx(e.nombre, l)}: la causa ${MIC_UN[e.mic][2]}.`) + via + nota
+      return s(l, `${tx(e.nombre, l)}: la causa ${MIC_UN[e.mic][0]}.`, `${tx(e.nombre, l)}: it is caused by ${MIC_UN[e.mic][1]}.`, `${tx(e.nombre, l)}: la causa ${MIC_UN[e.mic][2]}.`) + via + nota + ' ' + PISTAS[e.mic][i]
     }
-    case 'antibiotico': {
-      const e = enfermedad(r.enf)
-      return e.mic === 'bacteria'
-        ? s(l, `${tx(e.nombre, l)}: la causa una bacteria, y los antibióticos actúan contra bacterias. Hay que tomarlos como diga el médico y hasta el final, para no crear bacterias resistentes.`, `${tx(e.nombre, l)}: it is caused by a bacterium, and antibiotics act against bacteria. They must be taken as the doctor says, to the end, so as not to breed resistant bacteria.`, `${tx(e.nombre, l)}: la causa un bacteri, i els antibiòtics actuen contra bacteris. Cal prendre’ls com digui el metge i fins al final, per no crear bacteris resistents.`)
-        : s(l, `${tx(e.nombre, l)}: la causa un virus, y los antibióticos no hacen nada contra los virus: solo atacan bacterias. Tomarlos sin necesidad ayuda a que aparezcan bacterias resistentes.`, `${tx(e.nombre, l)}: it is caused by a virus, and antibiotics do nothing against viruses: they only attack bacteria. Taking them needlessly helps resistant bacteria appear.`, `${tx(e.nombre, l)}: la causa un virus, i els antibiòtics no fan res contra els virus: només ataquen bacteris. Prendre’ls sense necessitat ajuda que apareguin bacteris resistents.`)
+    case 'cortafuegos': return s(l,
+      `Cada enfermo contagia a sus vecinos sin proteger, generación tras generación. Las vacunas sirven de cortafuegos: si rodean al brote junto a los bordes y a los que ya son inmunes, el virus no tiene a quién pasar. Lo mejor posible eran ${r.mejor} enfermos. Es la idea de la inmunidad de grupo: los protegidos también protegen a los demás.`,
+      `Each sick person infects their unprotected neighbours, generation after generation. Vaccines act as a firebreak: if they surround the outbreak along with the edges and those already immune, the virus has nobody to pass to. The best possible was ${r.mejor} ill. That is the idea behind herd immunity: protected people also protect others.`,
+      `Cada malalt encomana els veïns sense protegir, generació rere generació. Les vacunes fan de tallafoc: si envolten el brot juntament amb les vores i els que ja són immunes, el virus no té a qui passar. El millor possible eren ${r.mejor} malalts. És la idea de la immunitat de grup: els protegits també protegeixen els altres.`)
+    case 'umbral': return s(l,
+      `Con R₀ = ${r.R}, si se vacuna una fracción p, cada enfermo contagia de media a ${r.R} · (1 − p). Para que sea menos de 1 hace falta p ≥ 1 − 1/${r.R} ≈ ${r.umbral} %. Por debajo, el brote crece; por encima, se apaga. Cuanto más contagiosa, más alto el porcentaje (el sarampión, con R₀ ≈ 15, pide más del 90 %).`,
+      `With R₀ = ${r.R}, if a fraction p is vaccinated, each sick person infects on average ${r.R} × (1 − p). For that to be below 1 you need p ≥ 1 − 1/${r.R} ≈ ${r.umbral} %. Below it the outbreak grows; above it, it dies out. The more contagious, the higher the share (measles, with R₀ ≈ 15, needs over 90 %).`,
+      `Amb R₀ = ${r.R}, si es vacuna una fracció p, cada malalt n’encomana de mitjana ${r.R} · (1 − p). Perquè sigui menys d’1 cal p ≥ 1 − 1/${r.R} ≈ ${r.umbral} %. Per sota, el brot creix; per sobre, s’apaga. Com més contagiosa, més alt el percentatge (el xarampió, amb R₀ ≈ 15, en demana més del 90 %).`)
+    default: {
+      if (r.variante === 'microbios') return PISTAS[FORMAS[r.items[0].slice(2)]][i] + ' ' + s(l, 'Las formas: virus (sin célula), bacterias sin núcleo (bastón, bolitas, espiral), hongos (levaduras, mohos) y protozoos que se mueven.', 'The shapes: viruses (no cell), bacteria with no nucleus (rod, balls, spiral), fungi (yeasts, moulds) and protozoa that move.', 'Les formes: virus (sense cèl·lula), bacteris sense nucli (bastó, boletes, espiral), fongs (llevats, floridures) i protozous que es mouen.')
+      if (r.variante === 'celulas') return `${PISTAS_CELULA.no[i]} ${PISTAS_CELULA.procariota[i]} ${PISTAS_CELULA.eucariota[i]}`
+      if (r.variante === 'infecciosas') return s(l, 'Una enfermedad es infecciosa si la causa un microbio que pasa de unos a otros. Las demás dependen de los genes, la edad o los hábitos.', 'A disease is infectious if a microbe that passes between people causes it. The others depend on genes, age or lifestyle.', 'Una malaltia és infecciosa si la causa un microbi que passa d’uns a altres. Les altres depenen dels gens, l’edat o els hàbits.')
+      if (r.variante === 'antibioticos') return s(l, 'Los antibióticos solo atacan bacterias: contra un virus no hacen nada, y tomarlos sin necesidad crea bacterias resistentes.', 'Antibiotics only attack bacteria: against a virus they do nothing, and taking them needlessly breeds resistant bacteria.', 'Els antibiòtics només ataquen bacteris: contra un virus no fan res, i prendre’ls sense necessitat crea bacteris resistents.') + ' ' + r.items.map(it => `${tx(enfermedad(it.slice(2)).nombre, l)}: ${tx(MICROBIOS[enfermedad(it.slice(2)).mic], l).toLowerCase()}`).join(' · ')
+      if (r.variante === 'defensas') return `${PISTAS_LINEA.barrera[i]} ${PISTAS_LINEA.inespecifica[i]} ${PISTAS_LINEA.especifica[i]}`
+      return s(l, 'Activa: tu cuerpo fabrica los anticuerpos (al pasar la enfermedad o con una vacuna). Pasiva: los anticuerpos llegan hechos (de la madre o en un suero). Natural o artificial: si pasa sola o por un tratamiento médico.', 'Active: your body makes the antibodies (from the disease or a vaccine). Passive: the antibodies arrive ready-made (from the mother or in a serum). Natural or artificial: whether it happens by itself or through medical treatment.', 'Activa: el teu cos fabrica els anticossos (en passar la malaltia o amb una vacuna). Passiva: els anticossos arriben fets (de la mare o en un sèrum). Natural o artificial: si passa sola o per un tractament mèdic.') + ' ' + PISTAS_INMUNIDAD[cajaDe(r, r.items[0])][i]
     }
-    case 'infecciosa': {
-      const b = nombreEnf(r.bueno, l)
-      return r.alReves
-        ? s(l, `${b}: no la causa ningún microbio, así que no es infecciosa: influyen los genes, la edad o los hábitos. Las otras las causan microbios.`, `${b}: it is not caused by any microbe, so it is not infectious: genes, age or lifestyle play a part. The others are caused by microbes.`, `${b}: no la causa cap microbi, així que no és infecciosa: hi influeixen els gens, l’edat o els hàbits. Les altres les causen microbis.`)
-        : s(l, `${b}: la causa ${MIC_UN[enfermedad(r.bueno.slice(2)).mic][0]}: es infecciosa. Las otras no las causa ningún microbio: influyen los genes, la edad o los hábitos.`, `${b}: it is caused by ${MIC_UN[enfermedad(r.bueno.slice(2)).mic][1]}: it is infectious. The others are not caused by microbes: genes, age or lifestyle play a part.`, `${b}: la causa ${MIC_UN[enfermedad(r.bueno.slice(2)).mic][2]}: és infecciosa. Les altres no les causa cap microbi: hi influeixen els gens, l’edat o els hàbits.`)
-    }
-    case 'defensa': return PISTAS_LINEA[r.bueno][i]
-    case 'inmunidad': return PISTAS_INMUNIDAD[r.bueno][i]
-    case 'generaciones': {
-      const serie = Array.from({ length: r.k + 1 }, (_, g) => r.R ** g).join(' → ')
-      return s(l,
-        `Cada generación multiplica por ${r.R}: ${serie}. Son ${r.R}${sup(r.k)} = ${r.bueno}, no ${r.R} · ${r.k}. Por eso un brote crece tan deprisa al principio.`,
-        `Each generation multiplies by ${r.R}: ${serie}. That is ${r.R}${sup(r.k)} = ${r.bueno}, not ${r.R} × ${r.k}. That is why an outbreak grows so fast at first.`,
-        `Cada generació multiplica per ${r.R}: ${serie}. Són ${r.R}${sup(r.k)} = ${r.bueno}, no ${r.R} · ${r.k}. Per això un brot creix tan de pressa al principi.`)
-    }
-    default: return s(l,
-      `Para que cada enfermo contagie a menos de una persona, de cada ${r.R} contactos solo puede quedar 1 sin proteger: hay que vacunar 1 − 1/${r.R} ≈ ${r.bueno} %. Es la inmunidad de grupo (en un modelo sencillo): cuanto más contagiosa es la enfermedad, más alto el porcentaje.`,
-      `For each sick person to infect fewer than one other, only 1 in every ${r.R} contacts can be left unprotected: you must vaccinate 1 − 1/${r.R} ≈ ${r.bueno} %. That is herd immunity (in a simple model): the more contagious the disease, the higher the percentage.`,
-      `Perquè cada malalt n’encomani menys d’una persona, de cada ${r.R} contactes només en pot quedar 1 sense protegir: cal vacunar 1 − 1/${r.R} ≈ ${r.bueno} %. És la immunitat de grup (en un model senzill): com més contagiosa és la malaltia, més alt el percentatge.`)
   }
 }
-const SUPS = { 0: '⁰', 1: '¹', 2: '²', 3: '³', 4: '⁴', 5: '⁵' }
-const sup = k => SUPS[k]
+
+export function schemaQuestion(r, l) {
+  switch (r.tipo) {
+    case 'ficha': {
+      const e = enfermedad(r.enf)
+      return { question: s(l, `${tx(e.nombre, l)}: ¿qué tipo de microbio la causa?`, `${tx(e.nombre, l)}: what type of microbe causes it?`, `${tx(e.nombre, l)}: quin tipus de microbi la causa?`), correctAnswer: tx(MICROBIOS[e.mic], l), wrongAnswers: Object.keys(MICROBIOS).filter(m => m !== e.mic).map(m => tx(MICROBIOS[m], l)) }
+    }
+    case 'cortafuegos': return { question: s(l, 'Para frenar un brote, ¿a quién conviene vacunar primero?', 'To stop an outbreak, who is best vaccinated first?', 'Per frenar un brot, a qui convé vacunar primer?'), correctAnswer: s(l, 'A quienes rodean al enfermo, para cortar el contagio', 'Those around the sick person, to cut off the spread', 'Els qui envolten el malalt, per tallar el contagi'), wrongAnswers: [s(l, 'A los que viven más lejos', 'Those who live furthest away', 'Els que viuen més lluny'), s(l, 'A los que ya pasaron la enfermedad', 'Those who already had the disease', 'Els que ja van passar la malaltia')] }
+    case 'umbral': {
+      const malas = [Math.round(100 / r.R), 100, ...[2, 3, 4, 5, 10].filter(x => x !== r.R).map(porcentajeGrupo)].filter(x => x !== r.umbral)
+      return { question: enunciado(r, l), correctAnswer: `${r.umbral} %`, wrongAnswers: [...new Set(malas)].slice(0, 3).map(x => `${x} %`) }
+    }
+    default: {
+      const it = r.items[0]
+      const c = cajaDe(r, it)
+      return { question: `${textoItem(it, l)}. ${enunciado(r, l)}`, correctAnswer: textoCaja(r, c, l), wrongAnswers: r.cajas.filter(x => x !== c).map(x => textoCaja(r, x, l)) }
+    }
+  }
+}
 
 const PISTAS = {
   virus: ['Los virus no son células: son material genético dentro de una cápsula, y son mucho más pequeños que una bacteria.', 'Viruses are not cells: they are genetic material inside a capsule, and much smaller than a bacterium.', 'Els virus no són cèl·lules: són material genètic dins d’una càpsula, i molt més petits que un bacteri.'],
@@ -371,14 +408,3 @@ const PISTAS_INMUNIDAD = {
   pasivaArtificial: ['Pasiva, porque te inyectan anticuerpos ya fabricados (un suero); artificial, porque es un tratamiento médico. Protege enseguida pero dura poco.', 'Passive, because you are injected with ready-made antibodies (a serum); artificial, because it is a medical treatment. It protects at once but does not last.', 'Passiva, perquè t’injecten anticossos ja fabricats (un sèrum); artificial, perquè és un tractament mèdic. Protegeix de seguida però dura poc.'],
 }
 
-export function schemaQuestion(r, l) {
-  const extra = r.enf ? `${tx(enfermedad(r.enf).nombre, l)}. `
-    : r.tipo === 'defensa' ? `${tx(DEFENSAS[r.caso][2], l)} `
-    : r.tipo === 'inmunidad' ? `${tx(CASOS_INMUNIDAD[r.caso][2], l)} `
-    : r.forma ? `${tx(ASPECTO[r.forma], l)}. ` : ''
-  return {
-    question: `${extra}${enunciado(r, l)}`,
-    correctAnswer: textoOpcion(r.bueno, r, l),
-    wrongAnswers: r.opciones.filter(o => o !== r.bueno).map(o => textoOpcion(o, r, l)),
-  }
-}
