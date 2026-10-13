@@ -7,6 +7,20 @@ import { MODOS, GRADOS } from './mathEngine'
 
 function todayStr() { return new Date().toISOString().slice(0, 10) }
 
+// La racha que se enseña: días seguidos con CUALQUIER actividad (un juego, un
+// examen o el reto). `streak` solo se recalcula al guardar algo, así que si el
+// último día activo fue anteayer el doc aún dice 5 y la racha ya está rota:
+// solo vale si se jugó hoy o ayer.
+// Antes el reto tenía su propia racha (dailyStreak, solo días con reto hecho)
+// y convivían dos números con el mismo nombre; ahora el reto es una forma más
+// de mantener la única racha. dailyStreak se sigue escribiendo, pero no se
+// enseña.
+export function rachaVigente(stats) {
+  if (!stats?.lastActiveDate) return 0
+  const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10)
+  return stats.lastActiveDate === todayStr() || stats.lastActiveDate === yesterday ? (stats.streak || 0) : 0
+}
+
 // ── Categorías de matemáticas, derivadas de mathEngine ────────────────────
 // MatematicasPractica guarda category `${modo}-${nivel}`; aquí se generan
 // los ids y etiquetas de todas las combinaciones para "Por materia" y para
@@ -268,7 +282,7 @@ export const SUBJECTS = SUBJECT_DEFS.map(s => {
 // Calcula los bloques que muestra el perfil (propio o de un alumno visto
 // desde el panel de profesor) a partir del doc de stats/global y el idioma.
 export function aggregateStudentStats(stats, lang) {
-  const streak = stats?.streak || 0
+  const streak = rachaVigente(stats)
   const dailyStreak = stats?.dailyStreak || 0
   const dailyDoneToday = stats?.lastDailyDate === todayStr()
 

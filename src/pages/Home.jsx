@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import HeroCard from '../components/HeroCard'
+import JuegoDelDia from '../components/JuegoDelDia'
 import BuscadorTuthor from '../components/BuscadorTuthor'
 import { MATERIAS_ESTUDIO } from '../data/materiasEstudio'
 import { cifrasTuthor } from '../lib/descubre'
@@ -10,7 +11,7 @@ import { useLang } from '../context/LangContext'
 import { getStats, formatTime } from '../lib/activity'
 import { getStudentClasses } from '../lib/classes'
 import { getStudentAssignments } from '../lib/assignments'
-import { aggregateStudentStats } from '../lib/statsAggregation'
+import { aggregateStudentStats, rachaVigente } from '../lib/statsAggregation'
 import { FRAMES } from '../data/cosmetics'
 import SEOHead from '../components/SEOHead'
 import AuthModal from '../components/AuthModal'
@@ -186,7 +187,7 @@ function MisClasesCard({ classes, pendingTasks, navigate, localPath, lang }) {
 // una pastilla de su color — el mismo lenguaje que las puertas de arriba.
 function StatsWidget({ stats, name, onVerMas }) {
   const { tr } = useLang()
-  const streak = stats.streak || 0
+  const streak = rachaVigente(stats)
   const items = [
     { Icono: Racha, fondo: 'bg-orange-500/12', value: streak, unidad: tr(streak === 1 ? { es: 'día', en: 'day', ca: 'dia' } : { es: 'días', en: 'days', ca: 'dies' }), label: tr({ es: 'Racha', en: 'Streak', ca: 'Ratxa' }) },
     { Icono: Reloj, fondo: 'bg-sky-500/12', value: formatTime(stats.totalTime), label: tr({ es: 'Tiempo total', en: 'Total time', ca: 'Temps total' }) },
@@ -420,18 +421,22 @@ export default function Home() {
           {tr({ es: 'O elige por dónde empezar', en: 'Or pick where to start', ca: 'O tria per on començar' })}
         </p>
 
-        {/* Cards principales: van directas a la página real (/estudiar,
-            /juegos, /diaria), no a una ficha informativa — no hace falta
-            convencer a nadie de entrar, ya está pagando. */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
+        {/* Las dos puertas (aprender jugando / preparar el examen) van
+            directas a la página real, no a una ficha informativa. Con dos,
+            4/3 en vez del 4/5 de cuando eran tres: a la mitad del ancho, 4/5
+            las dejaba como torres. */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
           {PUERTAS.map(card => (
-            <div key={card.id} className="sm:aspect-[4/5]">
-              {/* priority en la primera tarjeta, que ahora es el reto diario:
-                  es la imagen que entra en pantalla antes que ninguna. */}
-              <HeroCard card={card} onClick={() => navigate(localPath(card.path))} priority={card.id === 'diaria'} />
+            <div key={card.id} className="sm:aspect-[4/3]">
+              <HeroCard card={card} onClick={() => navigate(localPath(card.path))} />
             </div>
           ))}
         </div>
+
+        {/* El reto diario, en pequeño: un juego del catálogo cada día para
+            quien no sabe cuál elegir. Antes era la primera puerta («Tengo 5
+            minutos»); ver PUERTAS en data/constants.js. */}
+        <JuegoDelDia className="mt-3" racha={stats ? rachaVigente(stats) : 0} />
 
         {/* EL CURSO — la única pregunta que hace Tuthor, y una sola vez.
             Va justo debajo de las tres puertas porque es lo que decide qué

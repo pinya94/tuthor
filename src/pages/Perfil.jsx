@@ -155,7 +155,7 @@ export default function Perfil() {
 
   if (!user) return null
 
-  const { streak, dailyStreak, dailyDoneToday, gameEntries, subjectEntries, totalBestPts, examsTaken } = aggregateStudentStats(stats, lang)
+  const { streak, dailyDoneToday, gameEntries, subjectEntries, totalBestPts, examsTaken } = aggregateStudentStats(stats, lang)
 
   const visibleGames = showAllGames ? gameEntries : gameEntries.slice(0, 4)
 
@@ -305,7 +305,7 @@ export default function Perfil() {
               </div>
               <div className="grid grid-cols-2 gap-2.5">
                 <div className="bg-black/35 rounded-xl p-3 text-center">
-                  <p className="text-[22px] font-black text-white leading-none tabular-nums">🔥 {dailyStreak}</p>
+                  <p className="text-[22px] font-black text-white leading-none tabular-nums">🔥 {streak}</p>
                   <p className={`${t3} text-xs mt-1.5`}>{ca ? 'dies seguits' : en ? 'days in a row' : 'días seguidos'}</p>
                 </div>
                 <div className="bg-black/35 rounded-xl p-3 text-center">

@@ -2,7 +2,7 @@ export default {
   // Navbar
   'nav.estudiar': 'Study',
   'nav.juegos': 'Games',
-  'nav.diaria': 'Daily Challenge',
+  'nav.diaria': "Today's challenge",
   'nav.entrar': 'Sign in',
   'nav.perfil': 'My profile',
   'nav.comunidad': 'Community',

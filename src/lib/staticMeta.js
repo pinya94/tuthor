@@ -34,8 +34,8 @@ export const STATIC_META = {
     en: { title: 'Study by subject', desc: 'Pick a subject and revise with games and quizzes: history, maths, geography, science and languages. Study notes open to everyone.' },
   },
   '/juegos': {
-    es: { title: 'Juegos educativos por materia', desc: 'Catálogo de juegos educativos: cálculo mental, cronología histórica, geografía y vocabulario. Partidas de 5 minutos con ranking y monedas.' },
-    en: { title: 'Educational games by subject', desc: 'Catalogue of educational games: mental maths, history timelines, geography and vocabulary. 5-minute rounds with rankings and coins.' },
+    es: { title: 'Juegos educativos por materia', desc: 'Aprende jugando: juegos educativos de matemáticas, ciencias, historia, geografía, lengua e inglés para Primaria, ESO y Bachillerato. Cada tema, visual y desde varios ángulos.' },
+    en: { title: 'Educational games by subject', desc: 'Learn by playing: educational games for maths, science, history, geography, languages and English, from primary to sixth form. Every topic, visual and from several angles.' },
   },
   // El índice completo del producto. Sin cifras en la meta a propósito: la
   // página las calcula de los registros (lib/temario.js) y aquí no hay forma

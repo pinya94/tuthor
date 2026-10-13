@@ -2,7 +2,7 @@ export default {
   // Navbar
   'nav.estudiar': 'Estudiar',
   'nav.juegos': 'Jocs',
-  'nav.diaria': 'Pregunta Diària',
+  'nav.diaria': "Repte d'avui",
   'nav.entrar': 'Entrar',
   'nav.perfil': 'El meu perfil',
   'nav.comunidad': 'Comunitat',

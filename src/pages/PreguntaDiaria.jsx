@@ -6,6 +6,7 @@ import { getDailyStatus, saveDailyChallenge } from '../lib/activity'
 import { getDesafioDeHoy } from '../data/preguntasDiarias'
 import { PAISES, NOMBRES_PAISES, NOMBRES_PAISES_EN } from '../data/paises'
 import AuthModal from '../components/AuthModal'
+import JuegoDelDia from '../components/JuegoDelDia'
 import CombinaNumeros from '../components/CombinaNumeros'
 import WorldMap from '../components/WorldMap'
 import ForceDiagram from '../components/ForceDiagram'
@@ -88,7 +89,7 @@ function GeoInput({ value, onChange, onSubmit, disabled, useEnglish }) {
 // a la ruta /diaria de siempre.
 export default function PreguntaDiaria({ embedded = false }) {
   const { user } = useAuth()
-  const { lang, localPath, lt } = useLang()
+  const { lang, localPath, lt, tr } = useLang()
   const navigate = useNavigate()
   const en = lang === 'en'
   const ca = lang === 'ca'
@@ -367,7 +368,7 @@ export default function PreguntaDiaria({ embedded = false }) {
   const correct = pregunta ? lt(pregunta, 'correcta') : null
 
   return (
-    <div className={embedded ? 'flex items-center justify-center' : 'relative z-10 flex items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-6'}>
+    <div className={embedded ? 'flex items-center justify-center' : 'relative z-10 flex flex-col items-center justify-center gap-4 min-h-[calc(100vh-4rem)] px-4 py-6'}>
       {showAuth && <AuthModal onClose={() => setShowAuth(false)} />}
 
       {/* Coin reward notification */}
@@ -380,6 +381,18 @@ export default function PreguntaDiaria({ embedded = false }) {
         </div>
       )}
 
+      {/* Fuera de la landing, el protagonista es el juego del día (un juego
+          del catálogo cada día, lib/juegoDelDia.js); la pregunta de abajo es
+          la rotación antigua de mini-retos, que sigue contando igual. */}
+      {!embedded && (
+        <>
+          <JuegoDelDia variante="grande" className="max-w-lg w-full" />
+          <p className="max-w-lg w-full text-white/40 text-xs font-bold uppercase tracking-widest text-center mt-2">
+            {tr({ es: 'Y además, la pregunta de hoy', en: "And also, today's question", ca: "I a més, la pregunta d'avui" })}
+          </p>
+        </>
+      )}
+
       <div className="max-w-lg w-full bg-white/5 backdrop-blur-md rounded-3xl border border-white/10 overflow-hidden shadow-2xl">
 
         {/* Cabecera */}
@@ -390,7 +403,7 @@ export default function PreguntaDiaria({ embedded = false }) {
               <h2 className="text-2xl font-black text-white mt-0.5">{ca ? 'Repte Diari' : en ? 'Daily Challenge' : 'Pregunta Diaria'}</h2>
             </div>
             <div className="text-right">
-              <p className="text-orange-100 text-xs">{ca ? 'Ratxa diària' : en ? 'Daily streak' : 'Racha diaria'}</p>
+              <p className="text-orange-100 text-xs">{tr({ es: 'Racha', en: 'Streak', ca: 'Ratxa' })}</p>
               <p className="text-3xl font-black text-white">🔥 {streak}</p>
             </div>
           </div>

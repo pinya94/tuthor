@@ -1,9 +1,8 @@
-// El reto diario va PRIMERO a propósito. Es la única entrada del sitio que no
-// obliga a elegir nada: el catálogo entero (decenas de juegos, más de cien
-// exámenes) para quien acaba de llegar es parálisis, no libertad. El reto de
-// hoy es uno solo, dura un minuto y al acabar ya propone seguir con un juego
-// relacionado. Ponerlo el tercero lo escondía justo detrás de las dos
-// pantallas que sí exigen decidir.
+// Las pestañas de la navbar. El reto diario fue primero durante un tiempo
+// ("la única entrada que no obliga a elegir"), pero Tuthor ya no es una app de
+// racha: es aprender jugando, con un catálogo enorme. Juegos y Estudiar son lo
+// que el sitio ES; el reto —ahora «el juego del día», ver lib/juegoDelDia.js—
+// sigue resolviendo la parálisis de elegir, pero como extra, al final.
 //
 // Sin cifras exactas en el comentario a propósito: se quedaban obsoletas a
 // cada juego nuevo. Los números de verdad salen de games.js y exams.js.
@@ -12,14 +11,6 @@
 // de stats — ese es el GAMES de src/lib/games.js. Un test de invariantes
 // comprueba que ninguno de los dos tenga una entrada que al otro le falte.
 export const MAIN_CARDS = [
-  {
-    id: 'diaria',
-    title: 'Reto de hoy', titleEn: "Today's challenge", titleCa: "Repte d'avui",
-    subtitle: 'Un minuto · Mantén tu racha', subtitleEn: 'One minute · Keep your streak', subtitleCa: 'Un minut · Mantén la ratxa',
-    image: '/racha.webp',
-    path: '/diaria',
-    accent: 'from-orange-500/80 to-rose-900/60',
-  },
   {
     id: 'juegos',
     title: 'Juegos', titleEn: 'Games', titleCa: 'Jocs',
@@ -35,6 +26,14 @@ export const MAIN_CARDS = [
     image: '/estudio.webp',
     path: '/estudiar',
     accent: 'from-blue-600/80 to-indigo-900/60',
+  },
+  {
+    id: 'diaria',
+    title: 'Reto de hoy', titleEn: "Today's challenge", titleCa: "Repte d'avui",
+    subtitle: 'Un juego distinto cada día', subtitleEn: 'A different game every day', subtitleCa: 'Un joc diferent cada dia',
+    image: '/racha.webp',
+    path: '/diaria',
+    accent: 'from-orange-500/80 to-rose-900/60',
   },
 ]
 
@@ -52,19 +51,18 @@ export const MAIN_CARDS = [
 // materia, sin decir qué hay dentro de ninguno) y ahora va al mapa del temario,
 // que enseña el temario entero ya filtrado por el curso del alumno. /estudiar
 // sigue en la navbar y el mapa enlaza a cada materia.
+//
+// Ahora son DOS. La tercera era «Tengo 5 minutos» (el reto diario), y además
+// iba la primera: en el móvil era lo primero que veía cualquiera, y vendía
+// Tuthor como una app de racha de un minuto cuando lo que es es aprender
+// jugando —cualquier tema, desde varios ángulos— y preparar el examen. Las dos
+// puertas son esas dos cosas; el reto baja a una franja debajo (JuegoDelDia en
+// Home.jsx) y es un juego del catálogo cada día, no un mini-reto aparte.
 export const PUERTAS = [
   {
-    id: 'diaria',
-    title: 'Tengo 5 minutos', titleEn: "I've got 5 minutes", titleCa: 'Tinc 5 minuts',
-    subtitle: 'El reto de hoy. Mantienes la racha.', subtitleEn: "Today's challenge. Keep your streak.", subtitleCa: "El repte d'avui. Mantens la ratxa.",
-    ilustracion: 'diaria',
-    tono: 'amber',
-    path: '/diaria',
-  },
-  {
     id: 'juegos',
-    title: 'Quiero jugar', titleEn: 'I want to play', titleCa: 'Vull jugar',
-    subtitle: 'Aprende sin darte cuenta', subtitleEn: 'Learn without noticing', subtitleCa: 'Aprèn sense adonar-te',
+    title: 'Aprende jugando', titleEn: 'Learn by playing', titleCa: 'Aprèn jugant',
+    subtitle: 'Un juego para cada tema, del cole al Bachillerato', subtitleEn: 'A game for every topic, from primary to sixth form', subtitleCa: 'Un joc per a cada tema, de l’escola al Batxillerat',
     ilustracion: 'juegos',
     tono: 'violet',
     path: '/juegos',
@@ -72,7 +70,7 @@ export const PUERTAS = [
   {
     id: 'temario',
     title: 'Tengo examen', titleEn: "I've got an exam", titleCa: 'Tinc examen',
-    subtitle: 'Todo el temario de tu curso, tema a tema', subtitleEn: 'Your whole syllabus, topic by topic', subtitleCa: 'Tot el temari del teu curs, tema a tema',
+    subtitle: 'Preguntas de examen de todo tu temario, tema a tema', subtitleEn: 'Exam-style questions on your whole syllabus, topic by topic', subtitleCa: 'Preguntes d’examen de tot el teu temari, tema a tema',
     ilustracion: 'temario',
     tono: 'sky',
     path: '/temario',

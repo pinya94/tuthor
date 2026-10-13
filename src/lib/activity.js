@@ -5,6 +5,7 @@ import {
   query, orderBy, limit, where, getDocs, getCountFromServer,
 } from 'firebase/firestore'
 import { isKnownGame } from './games'
+import { rachaVigente } from './statsAggregation'
 import { recordAssignmentCompletion } from './assignments'
 
 // ── Aviso "tarea completada" para GameEndScreen ──────────────────────────────
@@ -257,7 +258,7 @@ export async function getDailyStatus(uid) {
   const snap = await getDoc(doc(db, 'users', uid, 'stats', 'global'))
   if (!snap.exists()) return { done: false, streak: 0 }
   const d = snap.data()
-  return { done: d.lastDailyDate === todayStr(), streak: d.dailyStreak || 0 }
+  return { done: d.lastDailyDate === todayStr(), streak: rachaVigente(d) }
 }
 
 // Obtiene las stats globales del usuario

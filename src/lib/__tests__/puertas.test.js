@@ -21,8 +21,8 @@ function esRutaDeclarada(path) {
 }
 
 describe('las puertas de /app', () => {
-  it('son tres y ninguna repite destino', () => {
-    expect(PUERTAS).toHaveLength(3)
+  it('son dos y ninguna repite destino', () => {
+    expect(PUERTAS).toHaveLength(2)
     expect(new Set(PUERTAS.map(p => p.path)).size).toBe(PUERTAS.length)
   })
 
@@ -57,7 +57,7 @@ describe('las puertas de /app', () => {
     // PUERTAS son nombres de NECESIDAD (la portada: aún estás eligiendo).
     // Fundirlas volvería a poner "Juegos" de título en la portada, que es de
     // donde se venía.
-    expect(MAIN_CARDS.map(c => c.title)).toEqual(['Reto de hoy', 'Juegos', 'Estudiar'])
+    expect(MAIN_CARDS.map(c => c.title)).toEqual(['Juegos', 'Estudiar', 'Reto de hoy'])
     expect(PUERTAS.map(p => p.title)).not.toEqual(MAIN_CARDS.map(c => c.title))
   })
 })
