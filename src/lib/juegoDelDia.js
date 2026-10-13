@@ -17,7 +17,7 @@
 // Se respeta el idioma: los juegos que solo funcionan en castellano
 // (disponibleEn) no salen en en/ca.
 import { GAMES as CATALOGO } from '../data/constants.js'
-import { disponibleEn } from './games.js'
+import { GAMES as REGISTRO, disponibleEn } from './games.js'
 
 const slugDeRuta = path => (path || '').match(/^\/juegos\/([^/?#]+)/)?.[1] ?? null
 
@@ -49,4 +49,29 @@ export function juegoDelDia(lang = 'es', fecha = new Date()) {
   if (lista.length === 0) return null
   const juego = lista[(numeroDeDia(fecha) * pasoPara(lista.length)) % lista.length]
   return { ...juego, slug: slugDeRuta(juego.path) }
+}
+
+// «Has descubierto 12 de 84 juegos»: cuántos juegos DISTINTOS del catálogo
+// ha jugado el alumno, con el mismo denominador que la rotación del juego del
+// día. Se cuenta por ruta, no por id de stats: un juego con dos modos
+// (Acércate clásico / contrarreloj) guarda dos ids y es un solo juego.
+export function juegosDescubiertos(stats, lang = 'es') {
+  const posibles = new Set(juegosDelDiaPosibles(lang).map(g => slugDeRuta(g.path)))
+  const jugados = new Set()
+  for (const [id, s] of Object.entries(stats?.statsByGame || {})) {
+    const slug = slugDeRuta(REGISTRO[id]?.route)
+    if ((s?.plays || 0) > 0 && posibles.has(slug)) jugados.add(slug)
+  }
+  return { jugados: jugados.size, total: posibles.size }
+}
+
+// El último juego del catálogo al que jugó, a partir del historial de
+// actividad (más reciente primero): para «Sigue donde lo dejaste».
+export function ultimoJuego(historial, lang = 'es') {
+  const porSlug = new Map(juegosDelDiaPosibles(lang).map(g => [slugDeRuta(g.path), g]))
+  for (const e of historial || []) {
+    const slug = slugDeRuta(REGISTRO[e.game]?.route)
+    if (porSlug.has(slug)) return { ...porSlug.get(slug), slug }
+  }
+  return null
 }

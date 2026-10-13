@@ -44,3 +44,19 @@ describe('el juego del día', () => {
     for (let n = 1; n < 300; n++) expect(mcd(pasoPara(n), n)).toBe(1)
   })
 })
+
+describe('juegos descubiertos y último juego', () => {
+  it('cuenta juegos distintos por ruta, no ids de stats', async () => {
+    const { juegosDescubiertos } = await import('../juegoDelDia.js')
+    const stats = { statsByGame: { 'acercate-clasico': { plays: 3 }, 'acercate-roguelike': { plays: 1 }, georush: { plays: 2 }, 'no-existe': { plays: 9 }, geomapa: { plays: 0 } } }
+    const r = juegosDescubiertos(stats, 'es')
+    expect(r.jugados).toBe(2)
+    expect(r.total).toBe(juegosDelDiaPosibles('es').length)
+  })
+
+  it('el último juego es la entrada más reciente que es un juego del catálogo', async () => {
+    const { ultimoJuego } = await import('../juegoDelDia.js')
+    expect(ultimoJuego([{ game: 'pregunta-diaria' }, { game: 'georush' }, { game: 'geomapa' }], 'es').slug).toBe('georush')
+    expect(ultimoJuego([], 'es')).toBe(null)
+  })
+})

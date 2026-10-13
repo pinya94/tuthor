@@ -16,6 +16,7 @@
 import { construirTemario } from './temario'
 import { GAMES, disponibleEn } from './games'
 import { EXAMS, examRoute } from './exams'
+import { juegosDelDiaPosibles } from './juegoDelDia'
 import { TEMA_DISCIPLINA } from '../data/ciencias'
 
 const CIENCIAS = new Set(['fisica', 'quimica', 'biologia', 'geologia'])
@@ -92,7 +93,11 @@ export function idDeRuta(pathname) {
 
 export function cifrasTuthor() {
   return {
-    juegos: Object.keys(GAMES).length,
+    // Juegos DISTINTOS del catálogo, no ids de stats: Acércate o Tuthor Time
+    // guardan un id por modo y Cálculo Mental no es un juego de /juegos, así
+    // que contar GAMES inflaba la cifra. Es el mismo total que «juegos
+    // descubiertos» del perfil.
+    juegos: juegosDelDiaPosibles('es').length,
     examenes: Object.values(EXAMS).filter(e => !e.retired).length,
     materias: temario('es').length,
   }

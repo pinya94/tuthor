@@ -8,13 +8,30 @@ import AvatarFrame from '../components/AvatarFrame'
 import { BANNER_BY_ID } from '../data/cosmetics'
 import { GAMES } from '../lib/games'
 import { EXAMS } from '../lib/exams'
-import { GAME_LABELS, SUBJECTS, aggregateStudentStats } from '../lib/statsAggregation'
+import { GAME_LABELS, aggregateStudentStats, temasTocados } from '../lib/statsAggregation'
+import { juegosDescubiertos, ultimoJuego } from '../lib/juegoDelDia'
 import { getStudentAssignments } from '../lib/assignments'
 import ChildCodeCard from '../components/ChildCodeCard'
 import ReferralCard from '../components/ReferralCard'
 import SupportBlock from '../components/SupportBlock'
 import ProUpsell from '../components/ProUpsell'
+import JuegoDelDia from '../components/JuegoDelDia'
+import { ArteJuego } from '../components/arte'
 import { getNovedades, setNovedades } from '../lib/novedades'
+
+// ── Cómo está ordenado el perfil (octubre 2026) ─────────────────────────────
+// Antes abría con un marcador: monedas, «mejores puntos» (la suma de los
+// récords de todos los juegos, una cifra sin significado) y actividades, y lo
+// que dice si el alumno está aprendiendo —su avance por materia— quedaba al
+// final, con las tareas de clase debajo de los ajustes. Ahora el orden es el
+// de lo que el alumno viene a hacer:
+//   1. quién soy (racha y monedas, pequeñas)
+//   2. tareas de clase pendientes, si las hay — lo más urgente
+//   3. sigue donde lo dejaste (último juego) y el juego del día
+//   4. su avance por materia: temas tocados del catálogo y aprobados
+//   5. cifras pequeñas: juegos descubiertos, aprobados, tiempo
+//   6. sus juegos (récord y ranking) y, plegado, el historial de monedas
+//   7. ajustes de la cuenta, con cerrar sesión al final
 
 // Qué parte del panel es de pago desde que el muro de juegos/exámenes está
 // apagado (ver paidRoutes.js): el resumen de arriba (monedas, puntos,
@@ -88,11 +105,48 @@ function ProLock() {
   )
 }
 
-function todayStr() { return new Date().toISOString().slice(0, 10) }
+// Superficies casi opacas: el tinte de color va sobre una base oscura para
+// que el fondo del bosque no reste legibilidad.
+const SURF = 'rgba(17,20,29,.86)'
+const SURF_HERO = `linear-gradient(135deg, rgba(139,92,246,.18), rgba(237,174,73,.07)), ${SURF}`
+const CAJA = 'border border-white/10 rounded-2xl'
+const T2 = 'text-white/60'
+const T3 = 'text-white/45'
+
+function Titulo({ children, extra }) {
+  return (
+    <div className="flex items-baseline gap-2 mb-3 px-0.5">
+      <h2 className="font-black text-white text-[17px] tracking-tight">{children}</h2>
+      {extra && <span className={`${T3} text-[13px] font-semibold ml-auto`}>{extra}</span>}
+    </div>
+  )
+}
+
+// «hace 3 min», «hace 2 d»… Fuera del componente: lee la hora actual.
+function timeAgo(date, tr) {
+  if (!date) return ''
+  const s = Math.floor((Date.now() - date.getTime()) / 1000)
+  if (s < 60) return tr({ es: 'ahora', en: 'now', ca: 'ara' })
+  const m = Math.floor(s / 60)
+  if (m < 60) return tr({ es: `hace ${m} min`, en: `${m} min ago`, ca: `fa ${m} min` })
+  const h = Math.floor(m / 60)
+  if (h < 24) return tr({ es: `hace ${h} h`, en: `${h}h ago`, ca: `fa ${h} h` })
+  const d = Math.floor(h / 24)
+  if (d < 7) return tr({ es: `hace ${d} d`, en: `${d}d ago`, ca: `fa ${d} d` })
+  return date.toLocaleDateString(tr({ es: 'es-ES', en: 'en-GB', ca: 'ca-ES' }), { day: 'numeric', month: 'short' })
+}
+
+function Interruptor({ on }) {
+  return (
+    <span className={`shrink-0 w-10 h-6 rounded-full transition-colors flex items-center px-1 ${on ? 'bg-violet-600' : 'bg-white/20'}`}>
+      <span className={`w-4 h-4 rounded-full bg-white transition-transform ${on ? 'translate-x-4' : 'translate-x-0'}`} />
+    </span>
+  )
+}
 
 export default function Perfil() {
   const { user, logout } = useAuth()
-  const { lang, localPath, tr } = useLang()
+  const { lang, localPath, tr, lt } = useLang()
   const navigate = useNavigate()
   const access = useAccessStatus()
   // null mientras se sabe si es Pro: no se muestra ni el detalle ni el
@@ -100,8 +154,6 @@ export default function Perfil() {
   // instante a quien sí paga.
   const isPro = access?.allowed === true
   const accessKnown = access !== null
-  const en = lang === 'en'
-  const ca = lang === 'ca'
   const [stats, setStats] = useState(null)
   const [loading, setLoading] = useState(true)
   const [showAllGames, setShowAllGames] = useState(false)
@@ -155,390 +207,323 @@ export default function Perfil() {
 
   if (!user) return null
 
-  const { streak, dailyDoneToday, gameEntries, subjectEntries, totalBestPts, examsTaken } = aggregateStudentStats(stats, lang)
-
+  const { streak, gameEntries, subjectEntries } = aggregateStudentStats(stats, lang)
+  const temas = temasTocados(stats)
+  const descubiertos = juegosDescubiertos(stats, lang)
+  const ultimo = ultimoJuego(coinsHistory, lang)
   const visibleGames = showAllGames ? gameEntries : gameEntries.slice(0, 4)
+  const dias = n => tr(n === 1 ? { es: 'día', en: 'day', ca: 'dia' } : { es: 'días', en: 'days', ca: 'dies' })
 
   // Historial de monedas: fuente (nombre + emoji) y tiempo relativo
   function coinSource(gid) {
-    if (gid === 'pregunta-diaria') return { name: ca ? 'Repte diari' : en ? 'Daily challenge' : 'Reto diario', emoji: '📅' }
-    if (GAMES[gid])  return { name: GAMES[gid].label[lang] || GAMES[gid].label.es, emoji: GAMES[gid].emoji }
-    if (EXAMS[gid])  return { name: EXAMS[gid].label[lang] || EXAMS[gid].label.es, emoji: EXAMS[gid].emoji }
+    if (gid === 'pregunta-diaria') return { name: tr({ es: 'Pregunta del día', en: "Today's question", ca: "Pregunta d'avui" }), emoji: '📅' }
+    if (GAMES[gid]) return { name: GAMES[gid].label[lang] || GAMES[gid].label.es, emoji: GAMES[gid].emoji }
+    if (EXAMS[gid]) return { name: EXAMS[gid].label[lang] || EXAMS[gid].label.es, emoji: EXAMS[gid].emoji }
     return { name: gid, emoji: '🎮' }
   }
-  function timeAgo(date) {
-    if (!date) return ''
-    const s = Math.floor((Date.now() - date.getTime()) / 1000)
-    if (s < 60)     return ca ? 'ara' : en ? 'now' : 'ahora'
-    const m = Math.floor(s / 60)
-    if (m < 60)     return `${ca || en ? '' : 'hace '}${m} min${en ? ' ago' : ca ? ' enrere' : ''}`.trim()
-    const h = Math.floor(m / 60)
-    if (h < 24)     return en ? `${h}h ago` : ca ? `fa ${h}h` : `hace ${h}h`
-    const d = Math.floor(h / 24)
-    if (d < 7)      return en ? `${d}d ago` : ca ? `fa ${d}d` : `hace ${d}d`
-    return date.toLocaleDateString(lang === 'en' ? 'en-GB' : lang === 'ca' ? 'ca-ES' : 'es-ES', { day: 'numeric', month: 'short' })
-  }
-  const isToday = date => date && date.toISOString().slice(0, 10) === todayStr()
-  const coinsToday = coinsHistory.filter(e => isToday(e.at)).reduce((a, e) => a + e.coins, 0)
 
-  const t2 = 'text-white/60'
-  const t3 = 'text-white/45'
+  const banner = BANNER_BY_ID[equippedBanner]
+  const hasBanner = banner?.bg
 
-  // Superficies casi opacas: el tinte de color va sobre una base oscura para
-  // que el fondo del bosque no reste legibilidad.
-  const surf      = 'rgba(17,20,29,.86)'
-  const surfCoins = `linear-gradient(135deg, rgba(237,174,73,.15), rgba(237,174,73,.04)), ${surf}`
-  const surfPts   = `linear-gradient(135deg, rgba(139,92,246,.18), rgba(139,92,246,.05)), ${surf}`
-  const surfHero  = `linear-gradient(135deg, rgba(139,92,246,.18), rgba(237,174,73,.07)), ${surf}`
-  const surfDaily = `linear-gradient(135deg, rgba(251,146,60,.16), rgba(237,174,73,.05)), ${surf}`
+  // El desglose (materias, juegos, monedas) es la parte "de pago" si algún
+  // día vuelve a cobrarse (MONETIZATION_ENABLED en access.js); hoy se ve
+  // siempre. Sin datos todavía no se enseña ni el aviso: no hay nada que ver.
+  const hasDetail = coinsHistory.length > 0 || gameEntries.length > 0 || subjectEntries.length > 0
+  const verDetalle = accessKnown && hasDetail && isPro
+  const verCandado = accessKnown && hasDetail && !isPro
 
   return (
     <div className="relative z-10 flex flex-col min-h-[calc(100vh-4rem)] px-4 sm:px-6 py-6">
       <div className="max-w-3xl mx-auto w-full">
 
-        {/* ── HERO ── */}
-        {(() => {
-          const banner = BANNER_BY_ID[equippedBanner]
-          const hasBanner = banner?.bg
-          return (
-            <div
-              className="flex items-center gap-4 flex-wrap mb-3.5 p-5 rounded-[22px] border border-white/10"
-              style={{
-                background: hasBanner ? banner.bg : surfHero,
-                borderLeft: hasBanner ? `4px solid ${banner.border}` : undefined,
-                backgroundSize: banner?.animated ? '300% 300%' : undefined,
-                animation: banner?.animated ? 'frameRotate 3s ease infinite' : undefined,
-              }}
-            >
-              <AvatarFrame user={user} frameId={equippedFrame} avatarEmoji={equippedAvatar} size="lg" hidePhoto={hidePhoto} />
-              <div className="flex-1 min-w-[150px]">
-                <h1 className="text-2xl font-black text-white tracking-tight">{user.displayName}</h1>
-                <p className={`${t3} text-[13px] mt-0.5`}>{user.email}</p>
-                {streak > 0 && (
-                  <span className="inline-flex items-center gap-1.5 mt-2 bg-amber-500/12 border border-amber-500/30 text-amber-400 text-xs font-bold px-3 py-1 rounded-full">
-                    🔥 {ca ? `Ratxa de ${streak} ${streak === 1 ? 'dia' : 'dies'}` : en ? `${streak}-day streak` : `Racha de ${streak} ${streak === 1 ? 'día' : 'días'}`}
-                  </span>
-                )}
-              </div>
-              <div className="flex gap-2 w-full sm:w-auto">
-                <button onClick={() => navigate(localPath('/tienda'))}
-                  className="flex-1 sm:flex-none bg-violet-500 hover:brightness-110 text-[#140d24] font-bold text-[13px] px-4 py-2 rounded-xl transition-all whitespace-nowrap">
-                  🛍 {ca ? 'Botiga' : en ? 'Shop' : 'Tienda'}
-                </button>
-                <button onClick={logout}
-                  className={`flex-1 sm:flex-none ${t2} hover:text-white text-[13px] font-bold border border-white/15 hover:bg-white/8 px-4 py-2 rounded-xl transition-all`}>
-                  {ca ? 'Tancar sessió' : en ? 'Sign out' : 'Cerrar sesión'}
-                </button>
-              </div>
+        {/* ── 1. QUIÉN SOY ── */}
+        <div
+          className="flex items-center gap-4 mb-4 p-5 rounded-[22px] border border-white/10"
+          style={{
+            background: hasBanner ? banner.bg : SURF_HERO,
+            borderLeft: hasBanner ? `4px solid ${banner.border}` : undefined,
+            backgroundSize: banner?.animated ? '300% 300%' : undefined,
+            animation: banner?.animated ? 'frameRotate 3s ease infinite' : undefined,
+          }}
+        >
+          <AvatarFrame user={user} frameId={equippedFrame} avatarEmoji={equippedAvatar} size="lg" hidePhoto={hidePhoto} />
+          <div className="flex-1 min-w-0">
+            <h1 className="text-xl sm:text-2xl font-black text-white tracking-tight leading-tight break-words">{user.displayName}</h1>
+            <div className="flex flex-wrap gap-1.5 mt-2">
+              <span className="inline-flex items-center gap-1 bg-orange-500/12 border border-orange-500/30 text-orange-300 text-xs font-bold px-2.5 py-1 rounded-full">
+                🔥 {streak > 0 ? `${streak} ${dias(streak)}` : tr({ es: 'Sin racha', en: 'No streak', ca: 'Sense ratxa' })}
+              </span>
+              {stats && (
+                <span className="inline-flex items-center gap-1 bg-amber-500/12 border border-amber-500/30 text-amber-300 text-xs font-bold px-2.5 py-1 rounded-full tabular-nums">
+                  💰 {(stats.coins ?? 0).toLocaleString()}
+                </span>
+              )}
             </div>
-          )
-        })()}
+          </div>
+          <button onClick={() => navigate(localPath('/tienda'))} aria-label={tr({ es: 'Tienda', en: 'Shop', ca: 'Botiga' })}
+            className="shrink-0 self-start sm:self-center bg-violet-500 hover:brightness-110 text-[#140d24] font-bold text-[13px] px-3 sm:px-4 py-2 rounded-xl transition-all whitespace-nowrap">
+            🛍<span className="hidden sm:inline"> {tr({ es: 'Tienda', en: 'Shop', ca: 'Botiga' })}</span>
+          </button>
+        </div>
+
+        {/* ── 2. TAREAS DE CLASE: solo si hay pendientes ── */}
+        {pendingTasks > 0 && (
+          <Link to={localPath('/clase')}
+            className="mb-4 flex items-center gap-3 rounded-2xl border border-sky-400/35 bg-sky-500/10 hover:bg-sky-500/15 px-4 py-3.5 transition-colors">
+            <span className="text-2xl">🏫</span>
+            <span className="flex-1 min-w-0">
+              <span className="block text-white font-black text-[15px]">
+                {tr(pendingTasks === 1
+                  ? { es: 'Tienes 1 tarea de clase pendiente', en: 'You have 1 class task to do', ca: 'Tens 1 tasca de classe pendent' }
+                  : { es: `Tienes ${pendingTasks} tareas de clase pendientes`, en: `You have ${pendingTasks} class tasks to do`, ca: `Tens ${pendingTasks} tasques de classe pendents` })}
+              </span>
+              <span className="block text-sky-200/70 text-xs mt-0.5">{tr({ es: 'Te las ha mandado tu profe', en: 'Set by your teacher', ca: "Te les ha enviat el teu profe" })}</span>
+            </span>
+            <span className="text-sky-300 font-bold text-sm">{tr({ es: 'Ver', en: 'View', ca: 'Veure' })} →</span>
+          </Link>
+        )}
+
+        {/* ── 3. SIGUE DONDE LO DEJASTE + JUEGO DEL DÍA ── */}
+        <div className="flex flex-col gap-2.5 mb-6">
+          {ultimo && (
+            <Link to={localPath(ultimo.path)}
+              className="group flex items-center gap-3 rounded-2xl bg-[#141b2e] border border-white/[0.08] hover:border-violet-400/40 pl-2 pr-4 py-2 transition-colors">
+              <span className="w-20 h-14 shrink-0 rounded-xl overflow-hidden bg-white/[0.03]">
+                <ArteJuego slug={ultimo.slug} className="w-full h-full p-0.5" />
+              </span>
+              <span className="flex-1 min-w-0">
+                <span className="block text-[11px] font-bold uppercase tracking-widest text-violet-300/90">{tr({ es: 'Sigue donde lo dejaste', en: 'Pick up where you left off', ca: 'Continua on ho vas deixar' })}</span>
+                <span className="block text-white font-black text-[15px] leading-tight truncate">{lt(ultimo)}</span>
+                <span className="block text-white/45 text-xs truncate">{lt(ultimo, 'subtitle')}</span>
+              </span>
+              <span className="shrink-0 text-violet-300 font-bold text-sm group-hover:translate-x-0.5 transition-transform">{tr({ es: 'Jugar', en: 'Play', ca: 'Jugar' })} →</span>
+            </Link>
+          )}
+          <JuegoDelDia />
+        </div>
 
         {loading ? (
-          <div className={`${t3} text-center py-12`}>{ca ? 'Carregant estadístiques...' : en ? 'Loading stats...' : 'Cargando estadísticas...'}</div>
-        ) : !stats ? (
-          <div className="text-center py-12">
-            <p className="text-4xl mb-3">🎮</p>
-            <p className={t2}>{ca ? 'Encara no has jugat res. Comença ara!' : en ? "You haven't played anything yet. Start now!" : 'Aún no has jugado nada. ¡Empieza ahora!'}</p>
+          <div className={`${T3} text-center py-12`}>{tr({ es: 'Cargando tu progreso…', en: 'Loading your progress…', ca: 'Carregant el teu progrés…' })}</div>
+        ) : !hasDetail ? (
+          <div className={`${CAJA} text-center px-5 py-8 mb-6`} style={{ background: SURF }}>
+            <p className="text-white font-black text-lg">{tr({ es: 'Aquí verás lo que vas aprendiendo', en: "This is where you'll see what you're learning", ca: 'Aquí veuràs el que vas aprenent' })}</p>
+            <p className={`${T2} text-sm mt-1.5 max-w-md mx-auto`}>{tr({ es: 'Cada juego o examen que hagas suma temas a tus materias. Empieza por el juego del día o elige uno.', en: 'Every game or quiz you do adds topics to your subjects. Start with the game of the day or pick one.', ca: 'Cada joc o examen que facis suma temes a les teves matèries. Comença pel joc del dia o tria’n un.' })}</p>
+            <Link to={localPath('/juegos')} className="inline-block mt-4 bg-violet-600 hover:bg-violet-500 text-white font-bold text-sm px-5 py-2.5 rounded-xl transition-colors">
+              {tr({ es: 'Ver todos los juegos', en: 'See all games', ca: 'Veure tots els jocs' })} →
+            </Link>
           </div>
-        ) : (
+        ) : verCandado ? (
+          <ProLock />
+        ) : verDetalle && (
           <>
-            {/* ── TITULARES: monedas / puntos / actividades ── */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-3">
-              <div className="border border-amber-500/30 rounded-2xl p-4 text-center" style={{ background: surfCoins }}>
-                <span className="text-xl block leading-none">💰</span>
-                <p className="text-amber-400 font-black text-[28px] leading-none tabular-nums mt-1.5">{(stats.coins ?? 0).toLocaleString()}</p>
-                <p className={`${t2} text-[12.5px] font-semibold mt-1.5`}>{ca ? 'monedes' : en ? 'coins' : 'monedas'}</p>
-              </div>
-              <div className="border border-violet-500/30 rounded-2xl p-4 text-center" style={{ background: surfPts }}>
-                <span className="text-xl block leading-none">⭐</span>
-                <p className="text-violet-400 font-black text-[28px] leading-none tabular-nums mt-1.5">{totalBestPts.toLocaleString()}</p>
-                <p className={`${t2} text-[12.5px] font-semibold mt-1.5`}>{ca ? 'millors punts' : en ? 'best points' : 'mejores puntos'}</p>
-              </div>
-              <div className="border border-white/10 rounded-2xl p-4 text-center col-span-2 sm:col-span-1" style={{ background: surf }}>
-                <span className="text-xl block leading-none">🎮</span>
-                <p className="text-white font-black text-[28px] leading-none tabular-nums mt-1.5">{(stats.gamesPlayed ?? 0).toLocaleString()}</p>
-                <p className={`${t2} text-[12.5px] font-semibold mt-1.5`}>{ca ? 'activitats' : en ? 'activities' : 'actividades'}</p>
-              </div>
-            </div>
+            {/* ── 4. TU AVANCE POR MATERIA ── */}
+            {subjectEntries.length > 0 && (
+              <section className="mb-5">
+                <Titulo extra={`${subjectEntries.length} ${tr(subjectEntries.length === 1 ? { es: 'materia', en: 'subject', ca: 'matèria' } : { es: 'materias', en: 'subjects', ca: 'matèries' })}`}>
+                  📚 {tr({ es: 'Lo que vas aprendiendo', en: "What you're learning", ca: 'El que vas aprenent' })}
+                </Titulo>
+                <div className={`${CAJA} overflow-hidden`} style={{ background: SURF }}>
+                  {subjectEntries.map((subj, i) => {
+                    const isOpen = expandedSubject === subj.id
+                    const failed = subj.totalExamPlays - subj.totalPassed
+                    const tt = temas[subj.id]
+                    const pct = tt?.total ? Math.round((tt.tocados / tt.total) * 100) : 0
+                    return (
+                      <div key={subj.id} className={i < subjectEntries.length - 1 ? 'border-b border-white/10' : ''}>
+                        <button
+                          onClick={() => setExpandedSubject(isOpen ? null : subj.id)}
+                          className="w-full flex items-center gap-3 px-4 py-3.5 text-left hover:bg-white/5 transition-colors"
+                        >
+                          <span className="text-[22px] w-[30px] text-center shrink-0">{subj.emoji}</span>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-baseline gap-2">
+                              <p className="text-white text-[14.5px] font-bold">{subj.label[lang] || subj.label.es}</p>
+                              {tt?.tocados > 0 && (
+                                <span className="ml-auto text-emerald-300 text-[12.5px] font-bold tabular-nums whitespace-nowrap">
+                                  {tr({ es: `${tt.tocados} de ${tt.total} temas`, en: `${tt.tocados} of ${tt.total} topics`, ca: `${tt.tocados} de ${tt.total} temes` })}
+                                </span>
+                              )}
+                            </div>
+                            {tt?.tocados > 0 && (
+                              <div className="h-1.5 rounded-full bg-white/10 mt-2 overflow-hidden">
+                                <div className="h-full rounded-full bg-emerald-400" style={{ width: `${Math.max(pct, tt.tocados ? 4 : 0)}%` }} />
+                              </div>
+                            )}
+                            <p className={`${T3} text-[12.5px] mt-1.5 flex gap-2 flex-wrap items-center`}>
+                              <span>{subj.totalPlays} {tr(subj.totalPlays === 1 ? { es: 'actividad', en: 'activity', ca: 'activitat' } : { es: 'actividades', en: 'activities', ca: 'activitats' })}</span>
+                              {subj.totalExamPlays > 0 && <span className="text-green-400 font-bold">{subj.totalPassed} ✅</span>}
+                              {failed > 0 && <span className="text-red-400 font-bold">{failed} ❌</span>}
+                              {(subj.timeSpent || 0) > 0 && <span>· {formatTime(subj.timeSpent)}</span>}
+                            </p>
+                          </div>
+                          <span className={`${T3} text-xs ml-1 transition-transform ${isOpen ? 'rotate-180' : ''}`}>▾</span>
+                        </button>
+                        {isOpen && subj.examRows.length > 0 && (
+                          <div className="px-4 pb-3.5 pl-[59px]">
+                            <p className={`${T3} text-[11px] uppercase tracking-wider font-bold mb-1.5`}>{tr({ es: 'Exámenes', en: 'Quizzes', ca: 'Exàmens' })}</p>
+                            {subj.examRows.map(row => {
+                              const rowFailed = row.plays - row.passed
+                              return (
+                                <div key={row.id} className="flex items-center gap-2 py-1.5 border-b border-white/5 last:border-0">
+                                  <span className={`flex-1 ${T2} text-[13px]`}>{row.label}</span>
+                                  <span className={`${T3} text-[12.5px] font-semibold`}>{row.plays}×</span>
+                                  <span className="text-green-400 text-[12.5px] font-extrabold">{row.passed} ✅</span>
+                                  {rowFailed > 0 && <span className="text-red-400 text-[12.5px] font-extrabold">{rowFailed} ❌</span>}
+                                </div>
+                              )
+                            })}
+                          </div>
+                        )}
+                        {isOpen && subj.examRows.length === 0 && (
+                          <p className={`px-4 pb-3.5 pl-[59px] ${T3} text-[13px]`}>
+                            {tr({ es: 'Aún no has hecho ningún examen de esta materia.', en: "You haven't done any quizzes in this subject yet.", ca: 'Encara no has fet cap examen d’aquesta matèria.' })}
+                          </p>
+                        )}
+                      </div>
+                    )
+                  })}
+                </div>
+              </section>
+            )}
 
-            {/* ── TIRA SECUNDARIA: tiempo / aprobados / exámenes ── */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-5">
+            {/* ── 5. CIFRAS ── */}
+            <div className="grid grid-cols-3 gap-2.5 mb-5">
               {[
-                { emoji: '⏱️', value: formatTime(stats.totalTime), label: ca ? 'temps total' : en ? 'total time' : 'tiempo total' },
-                { emoji: '✅', value: stats.examsPassed ?? 0, label: ca ? 'exàmens aprovats' : en ? 'exams passed' : 'exámenes aprobados' },
-                { emoji: '📚', value: examsTaken, label: ca ? 'exàmens fets' : en ? 'exams taken' : 'exámenes hechos' },
+                { emoji: '🧭', value: `${descubiertos.jugados}/${descubiertos.total}`, label: tr({ es: 'juegos descubiertos', en: 'games discovered', ca: 'jocs descoberts' }) },
+                { emoji: '✅', value: stats?.examsPassed ?? 0, label: tr({ es: 'exámenes aprobados', en: 'quizzes passed', ca: 'exàmens aprovats' }) },
+                { emoji: '⏱️', value: formatTime(stats?.totalTime), label: tr({ es: 'tiempo aprendiendo', en: 'time learning', ca: 'temps aprenent' }) },
               ].map(s => (
-                <div key={s.label} className="border border-white/10 rounded-2xl p-3.5 flex items-center gap-3" style={{ background: surf }}>
-                  <span className="text-lg">{s.emoji}</span>
-                  <div>
-                    <p className="text-white font-black text-xl leading-none tabular-nums">{s.value}</p>
-                    <p className={`${t3} text-xs font-semibold mt-1`}>{s.label}</p>
-                  </div>
+                <div key={s.emoji} className={`${CAJA} p-3 text-center`} style={{ background: SURF }}>
+                  <span className="text-lg block leading-none">{s.emoji}</span>
+                  <p className="text-white font-black text-lg sm:text-xl leading-none tabular-nums mt-1.5">{s.value}</p>
+                  <p className={`${T3} text-[11.5px] font-semibold mt-1 leading-tight`}>{s.label}</p>
                 </div>
               ))}
             </div>
 
-            {/* ── CÓDIGO DE ACCESO DEL HIJO ── */}
-            {/* El propio componente se esconde solo (CHILD_CODE_LOGIN_ENABLED
-                en lib/childCode.js) — se sigue montando aquí sin condición
-                para que reactivarlo algún día sea solo tocar ese flag. */}
-            <div className="mb-5">
-              <ChildCodeCard />
-            </div>
-
-            {/* ── INVITA Y GANA UN MES DE PRO ── */}
-            <div className="mb-5">
-              <ReferralCard />
-            </div>
-
-            {/* ── RETO DIARIO ── */}
-            {/* Gratis para todos, movido delante del desglose de pago: es la
-                llamada a la acción diaria, no un dato que "seguir". */}
-            <div className="rounded-2xl p-[18px] mb-5 border border-orange-500/30"
-              style={{ background: surfDaily }}>
-              <div className="flex items-center justify-between gap-2 mb-3.5">
-                <h2 className="font-black text-white text-base flex items-center gap-2">📅 {ca ? 'Repte diari' : en ? 'Daily challenge' : 'Reto diario'}</h2>
-                <span className={`text-xs font-bold px-3 py-1.5 rounded-full border whitespace-nowrap ${dailyDoneToday ? 'border-green-500/40 bg-green-500/12 text-green-400' : 'border-amber-500/40 bg-amber-500/12 text-amber-400'}`}>
-                  {dailyDoneToday ? (ca ? '✓ Fet avui' : en ? '✓ Done today' : '✓ Hecho hoy') : (ca ? 'Pendent avui' : en ? 'Pending today' : 'Pendiente hoy')}
-                </span>
-              </div>
-              <div className="grid grid-cols-2 gap-2.5">
-                <div className="bg-black/35 rounded-xl p-3 text-center">
-                  <p className="text-[22px] font-black text-white leading-none tabular-nums">🔥 {streak}</p>
-                  <p className={`${t3} text-xs mt-1.5`}>{ca ? 'dies seguits' : en ? 'days in a row' : 'días seguidos'}</p>
+            {/* ── 6a. TUS JUEGOS ── */}
+            {gameEntries.length > 0 && (
+              <section className="mb-5">
+                <Titulo extra={`${gameEntries.length} ${tr({ es: 'jugados', en: 'played', ca: 'jugats' })}`}>
+                  🎮 {tr({ es: 'Tus juegos', en: 'Your games', ca: 'Els teus jocs' })}
+                </Titulo>
+                <div className={`${CAJA} overflow-hidden`} style={{ background: SURF }}>
+                  {visibleGames.map((g, i) => {
+                    const rank = rankings[g.key]
+                    const parts = [`${g.plays ?? 0} ${tr(g.plays === 1 ? { es: 'partida', en: 'game', ca: 'partida' } : { es: 'partidas', en: 'games', ca: 'partides' })}`]
+                    if ((g.timeSpent || 0) > 0) parts.push(formatTime(g.timeSpent))
+                    return (
+                      <div key={g.key} className={`flex items-center gap-3 px-4 py-3.5 ${i < visibleGames.length - 1 ? 'border-b border-white/10' : ''}`}>
+                        <span className="text-[22px] w-[30px] text-center shrink-0">{g.emoji}</span>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-white text-[14.5px] font-bold flex items-center flex-wrap gap-x-2">
+                            <span className="truncate">{g.label}</span>
+                            {rank && (
+                              <span className="inline-flex items-center gap-1 text-[11.5px] font-extrabold text-amber-400 bg-amber-500/12 border border-amber-500/30 px-2 py-0.5 rounded-full">
+                                🏅 #{rank.rank} {tr({ es: 'de', en: 'of', ca: 'de' })} {rank.total}
+                              </span>
+                            )}
+                          </p>
+                          <p className={`${T3} text-[12.5px] mt-1`}>{parts.join(' · ')}</p>
+                        </div>
+                        {(g.bestScore || 0) > 0 && (
+                          <div className="text-right shrink-0">
+                            <p className="text-violet-400 font-black text-xl leading-none tabular-nums">{g.bestScore.toLocaleString()}</p>
+                            <p className={`${T3} text-[11.5px] font-semibold mt-1`}>{tr({ es: 'récord', en: 'best', ca: 'rècord' })}</p>
+                          </div>
+                        )}
+                      </div>
+                    )
+                  })}
+                  {gameEntries.length > 4 && (
+                    <button onClick={() => setShowAllGames(!showAllGames)}
+                      className="w-full text-center py-3 border-t border-white/10 text-violet-400 hover:bg-white/5 font-bold text-[13.5px] transition-colors">
+                      {showAllGames
+                        ? `${tr({ es: 'Ver menos', en: 'Show less', ca: 'Veure menys' })} ↑`
+                        : `${tr({ es: `Ver los ${gameEntries.length} juegos`, en: `Show all ${gameEntries.length} games`, ca: `Veure els ${gameEntries.length} jocs` })} ↓`}
+                    </button>
+                  )}
                 </div>
-                <div className="bg-black/35 rounded-xl p-3 text-center">
-                  <p className="text-[22px] font-black text-white leading-none tabular-nums">{stats.dailyTotal ?? 0}</p>
-                  <p className={`${t3} text-xs mt-1.5`}>{ca ? 'reptes totals' : en ? 'total challenges' : 'retos totales'}</p>
-                </div>
-              </div>
-              {!dailyDoneToday && (
-                <a href={localPath('/diaria')} className="mt-3 flex items-center justify-center w-full bg-orange-500/20 border border-orange-500/35 text-orange-400 font-bold py-2.5 rounded-xl text-[13.5px] hover:bg-orange-500/30 transition-colors">
-                  {ca ? 'Fer el repte d\'avui →' : en ? "Do today's challenge →" : 'Hacer el reto de hoy →'}
-                </a>
-              )}
-            </div>
-
-            {/* ── DESGLOSE DETALLADO: de pago (ver access.js) ── */}
-            {/* Historial de monedas, por juego y por materia son la parte
-                "de seguimiento" de verdad del panel — la herramienta del
-                padre, no la del hijo. Mientras no se sabe si es Pro
-                (accessKnown === false) no se enseña nada de esto, para no
-                mostrarle un candado un instante a quien sí paga. Sin datos
-                que enseñar (hasDetail === false, cuenta recién creada), no
-                se enseña tampoco el aviso de "hazte Pro": no hay nada que
-                desbloquear todavía. */}
-            {accessKnown && (() => {
-              const hasDetail = coinsHistory.length > 0 || gameEntries.length > 0 || subjectEntries.length > 0
-              if (!hasDetail) return null
-              if (!isPro) return <ProLock />
-              return (
-                <>
-                  {/* ── HISTORIAL DE MONEDAS ── */}
-                  {coinsHistory.length > 0 && (
-                    <section className="mb-5">
-                      <div className="flex items-baseline gap-2 mb-3 px-0.5">
-                        <h2 className="font-black text-white text-[17px] tracking-tight">💰 {ca ? "D'on venen les teves monedes" : en ? 'Where your coins come from' : 'De dónde vienen tus monedas'}</h2>
-                        {coinsToday > 0 && (
-                          <span className="ml-auto text-amber-400 bg-amber-500/12 border border-amber-500/30 text-xs font-bold px-2.5 py-1 rounded-full whitespace-nowrap">
-                            +{coinsToday.toLocaleString()} {ca ? 'avui' : en ? 'today' : 'hoy'}
-                          </span>
-                        )}
-                      </div>
-                      <div className="border border-white/10 rounded-2xl overflow-hidden" style={{ background: surf }}>
-                        {(showAllCoins ? coinsHistory : coinsHistory.slice(0, 6)).map((e, i, arr) => {
-                          const src = coinSource(e.game)
-                          return (
-                            <div key={e.id} className={`flex items-center gap-3 px-4 py-2.5 ${i < arr.length - 1 ? 'border-b border-white/10' : ''}`}>
-                              <span className="text-lg w-7 text-center shrink-0">{src.emoji}</span>
-                              <div className="flex-1 min-w-0">
-                                <p className="text-white/90 text-sm font-semibold truncate">{src.name}</p>
-                                <p className={`${t3} text-[11px] mt-0.5`}>{timeAgo(e.at)}</p>
-                              </div>
-                              <span className="text-amber-400 font-black tabular-nums shrink-0">+{e.coins.toLocaleString()}</span>
-                            </div>
-                          )
-                        })}
-                        {coinsHistory.length > 6 && (
-                          <button onClick={() => setShowAllCoins(!showAllCoins)}
-                            className="w-full text-center py-2.5 border-t border-white/10 text-violet-400 hover:bg-white/5 font-bold text-[13px] transition-colors">
-                            {showAllCoins
-                              ? (ca ? 'Veure menys ↑' : en ? 'Show less ↑' : 'Ver menos ↑')
-                              : (ca ? `Veure les ${coinsHistory.length} últimes ↓` : en ? `Show last ${coinsHistory.length} ↓` : `Ver las ${coinsHistory.length} últimas ↓`)}
-                          </button>
-                        )}
-                      </div>
-                    </section>
-                  )}
-
-                  {/* ── POR JUEGO ── */}
-                  {gameEntries.length > 0 && (
-                    <section className="mb-5">
-                      <div className="flex items-baseline gap-2 mb-3 px-0.5">
-                        <h2 className="font-black text-white text-[17px] tracking-tight">🎮 {ca ? 'Per joc' : en ? 'By game' : 'Por juego'}</h2>
-                        <span className={`${t3} text-[13px] font-semibold ml-auto`}>{gameEntries.length} {ca ? 'jugats' : en ? 'played' : 'jugados'}</span>
-                      </div>
-                      <div className="border border-white/10 rounded-2xl overflow-hidden" style={{ background: surf }}>
-                        {visibleGames.map((g, i) => {
-                          const rank = rankings[g.key]
-                          const parts = []
-                          parts.push(`${g.plays ?? 0} ${ca ? 'partides' : en ? 'games' : 'partidas'}`)
-                          if ((g.timeSpent || 0) > 0) parts.push(formatTime(g.timeSpent))
-                          return (
-                            <div key={g.key} className={`flex items-center gap-3 px-4 py-3.5 ${i < visibleGames.length - 1 ? 'border-b border-white/10' : ''}`}>
-                              <span className="text-[22px] w-[30px] text-center shrink-0">{g.emoji}</span>
-                              <div className="flex-1 min-w-0">
-                                <p className="text-white text-[14.5px] font-bold flex items-center flex-wrap gap-x-2">
-                                  <span className="truncate">{g.label}</span>
-                                  {rank && (
-                                    <span className="inline-flex items-center gap-1 text-[11.5px] font-extrabold text-amber-400 bg-amber-500/12 border border-amber-500/30 px-2 py-0.5 rounded-full">
-                                      🏅 #{rank.rank} {ca ? 'de' : en ? 'of' : 'de'} {rank.total}
-                                    </span>
-                                  )}
-                                </p>
-                                <p className={`${t3} text-[12.5px] mt-1`}>{parts.join(' · ')}</p>
-                              </div>
-                              {(g.bestScore || 0) > 0 && (
-                                <div className="text-right shrink-0">
-                                  <p className="text-violet-400 font-black text-xl leading-none tabular-nums">{g.bestScore.toLocaleString()}</p>
-                                  <p className={`${t3} text-[11.5px] font-semibold mt-1`}>{ca ? 'millor pts' : en ? 'best pts' : 'mejor pts'}</p>
-                                </div>
-                              )}
-                            </div>
-                          )
-                        })}
-                        {gameEntries.length > 4 && (
-                          <button onClick={() => setShowAllGames(!showAllGames)}
-                            className="w-full text-center py-3 border-t border-white/10 text-violet-400 hover:bg-white/5 font-bold text-[13.5px] transition-colors">
-                            {showAllGames
-                              ? (ca ? 'Veure menys ↑' : en ? 'Show less ↑' : 'Ver menos ↑')
-                              : (ca ? `Veure els ${gameEntries.length} jocs ↓` : en ? `Show all ${gameEntries.length} games ↓` : `Ver los ${gameEntries.length} juegos ↓`)}
-                          </button>
-                        )}
-                      </div>
-                    </section>
-                  )}
-
-                  {/* ── POR MATERIA ── */}
-                  {subjectEntries.length > 0 && (
-                    <section className="mb-5">
-                      <div className="flex items-baseline gap-2 mb-3 px-0.5">
-                        <h2 className="font-black text-white text-[17px] tracking-tight">📚 {ca ? 'Per matèria' : en ? 'By subject' : 'Por materia'}</h2>
-                        <span className={`${t3} text-[13px] font-semibold ml-auto`}>{subjectEntries.length} {ca ? 'matèries' : en ? 'subjects' : 'materias'}</span>
-                      </div>
-                      <div className="border border-white/10 rounded-2xl overflow-hidden" style={{ background: surf }}>
-                        {subjectEntries.map((subj, i) => {
-                          const subjLabel = subj.label[lang] || subj.label.es
-                          const isOpen = expandedSubject === subj.id
-                          const failed = subj.totalExamPlays - subj.totalPassed
-                          return (
-                            <div key={subj.id} className={i < subjectEntries.length - 1 ? 'border-b border-white/10' : ''}>
-                              <button
-                                onClick={() => setExpandedSubject(isOpen ? null : subj.id)}
-                                className="w-full flex items-center gap-3 px-4 py-3.5 text-left hover:bg-white/5 transition-colors"
-                              >
-                                <span className="text-[22px] w-[30px] text-center shrink-0">{subj.emoji}</span>
-                                <div className="flex-1 min-w-0">
-                                  <p className="text-white text-[14.5px] font-bold">{subjLabel}</p>
-                                  <p className={`${t3} text-[12.5px] mt-1 flex gap-2 flex-wrap items-center`}>
-                                    <span>{subj.totalPlays} {ca ? 'activitats' : en ? 'activities' : 'actividades'}</span>
-                                    {subj.totalExamPlays > 0 && <span className="text-green-400 font-bold">{subj.totalPassed} ✅</span>}
-                                    {failed > 0 && <span className="text-red-400 font-bold">{failed} ❌</span>}
-                                  </p>
-                                </div>
-                                {(subj.timeSpent || 0) > 0 && (
-                                  <span className={`${t2} text-[13px] font-semibold whitespace-nowrap`}>{formatTime(subj.timeSpent)}</span>
-                                )}
-                                <span className={`${t3} text-xs ml-1 transition-transform ${isOpen ? 'rotate-180' : ''}`}>▾</span>
-                              </button>
-                              {isOpen && subj.examRows.length > 0 && (
-                                <div className="px-4 pb-3.5 pl-[59px]">
-                                  <p className={`${t3} text-[11px] uppercase tracking-wider font-bold mb-1.5`}>
-                                    {ca ? 'Exàmens' : en ? 'Exams' : 'Exámenes'}
-                                  </p>
-                                  {subj.examRows.map(row => {
-                                    const rowFailed = row.plays - row.passed
-                                    return (
-                                      <div key={row.id} className="flex items-center gap-2 py-1.5 border-b border-white/5 last:border-0">
-                                        <span className={`flex-1 ${t2} text-[13px]`}>{row.label}</span>
-                                        <span className={`${t3} text-[12.5px] font-semibold`}>{row.plays}×</span>
-                                        <span className="text-green-400 text-[12.5px] font-extrabold">{row.passed} ✅</span>
-                                        {rowFailed > 0 && <span className="text-red-400 text-[12.5px] font-extrabold">{rowFailed} ❌</span>}
-                                      </div>
-                                    )
-                                  })}
-                                </div>
-                              )}
-                              {isOpen && subj.examRows.length === 0 && subj.gameStats.plays > 0 && (
-                                <p className={`px-4 pb-3.5 pl-[59px] ${t3} text-[13px]`}>
-                                  {ca ? 'Sense exàmens fets' : en ? 'No exams taken' : 'Sin exámenes realizados'}
-                                </p>
-                              )}
-                            </div>
-                          )
-                        })}
-                      </div>
-                    </section>
-                  )}
-                </>
-              )
-            })()}
-
-            {/* ── Ajuste: usar emoji en lugar de foto ── */}
-            {user.photoURL && (
-              <button
-                onClick={toggleHidePhoto}
-                className="w-full mb-4 flex items-center justify-between border border-white/10 rounded-2xl px-4 py-3 hover:bg-white/8 transition-colors"
-                style={{ background: surf }}
-              >
-                <span className={`${t2} text-[13.5px]`}>
-                  {ca ? 'Usar emoji en lloc de foto' : en ? 'Use emoji instead of photo' : 'Usar emoji en lugar de foto'}
-                </span>
-                <span className={`w-10 h-6 rounded-full transition-colors flex items-center px-1 ${hidePhoto ? 'bg-violet-600' : 'bg-white/20'}`}>
-                  <span className={`w-4 h-4 rounded-full bg-white transition-transform ${hidePhoto ? 'translate-x-4' : 'translate-x-0'}`} />
-                </span>
-              </button>
+              </section>
             )}
 
-            {/* ── Correo de novedades: solo con consentimiento (lib/novedades.js) ── */}
-            {user.email && (
-              <button
-                onClick={toggleNovedades}
-                className="w-full mb-4 flex items-center justify-between gap-3 border border-white/10 rounded-2xl px-4 py-3 hover:bg-white/8 transition-colors text-left"
-                style={{ background: surf }}
-              >
-                <span>
-                  <span className={`block ${t2} text-[13.5px]`}>
-                    {ca ? 'Rebre novetats de Tuthor per correu' : en ? 'Get Tuthor news by email' : 'Recibir novedades de Tuthor por correo'}
-                  </span>
-                  <span className="block text-white/35 text-[11.5px] mt-0.5">
-                    {ca ? 'Juegos nous i alguna petició d’opinió. Pots donar-te de baixa quan vulguis.' : en ? 'New games and the odd request for feedback. Unsubscribe any time.' : 'Juegos nuevos y alguna petición de opinión. Puedes darte de baja cuando quieras.'}
-                  </span>
-                </span>
-                <span className={`shrink-0 w-10 h-6 rounded-full transition-colors flex items-center px-1 ${novedades ? 'bg-violet-600' : 'bg-white/20'}`}>
-                  <span className={`w-4 h-4 rounded-full bg-white transition-transform ${novedades ? 'translate-x-4' : 'translate-x-0'}`} />
-                </span>
-              </button>
+            {/* ── 6b. MONEDAS: plegado, es consulta, no lo principal ── */}
+            {coinsHistory.length > 0 && (
+              <details className={`${CAJA} mb-5 overflow-hidden group`} style={{ background: SURF }}>
+                <summary className="cursor-pointer list-none flex items-center gap-3 px-4 py-3.5 hover:bg-white/5">
+                  <span className="text-lg">💰</span>
+                  <span className="flex-1 text-white font-bold text-[14.5px]">{tr({ es: 'De dónde vienen tus monedas', en: 'Where your coins come from', ca: "D'on venen les teves monedes" })}</span>
+                  <span className={`${T3} text-xs transition-transform group-open:rotate-180`}>▾</span>
+                </summary>
+                {(showAllCoins ? coinsHistory : coinsHistory.slice(0, 6)).map(e => {
+                  const src = coinSource(e.game)
+                  return (
+                    <div key={e.id} className="flex items-center gap-3 px-4 py-2.5 border-t border-white/10">
+                      <span className="text-lg w-7 text-center shrink-0">{src.emoji}</span>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-white/90 text-sm font-semibold truncate">{src.name}</p>
+                        <p className={`${T3} text-[11px] mt-0.5`}>{timeAgo(e.at, tr)}</p>
+                      </div>
+                      <span className="text-amber-400 font-black tabular-nums shrink-0">+{e.coins.toLocaleString()}</span>
+                    </div>
+                  )
+                })}
+                {coinsHistory.length > 6 && (
+                  <button onClick={() => setShowAllCoins(!showAllCoins)}
+                    className="w-full text-center py-2.5 border-t border-white/10 text-violet-400 hover:bg-white/5 font-bold text-[13px] transition-colors">
+                    {showAllCoins
+                      ? `${tr({ es: 'Ver menos', en: 'Show less', ca: 'Veure menys' })} ↑`
+                      : `${tr({ es: `Ver las ${coinsHistory.length} últimas`, en: `Show last ${coinsHistory.length}`, ca: `Veure les ${coinsHistory.length} últimes` })} ↓`}
+                  </button>
+                )}
+              </details>
             )}
-
-            {/* ── Clase: único punto de entrada, ver Navbar.jsx goToClase() ── */}
-            <button
-              onClick={() => navigate(localPath('/clase'))}
-              className="w-full mb-4 flex items-center justify-between border border-white/10 rounded-2xl px-4 py-3 hover:bg-white/8 transition-colors"
-              style={{ background: surf }}
-            >
-              <span className={`${t2} text-[13.5px] font-semibold`}>🏫 {tr({ es: 'Mi clase', en: 'My class', ca: 'La meva classe' })}</span>
-              {pendingTasks > 0 ? (
-                <span className="text-amber-300 text-xs font-bold bg-amber-500/10 border border-amber-500/20 rounded-full px-2.5 py-1">
-                  {pendingTasks} {tr({ es: 'pendiente(s)', en: 'pending', ca: 'pendent(s)' })}
-                </span>
-              ) : (
-                <span className="text-white/30 text-xs">→</span>
-              )}
-            </button>
           </>
         )}
+
+        {/* ── 7. AJUSTES ── */}
+        <section className="mt-2">
+          <Titulo>⚙️ {tr({ es: 'Ajustes', en: 'Settings', ca: 'Ajustos' })}</Titulo>
+          <div className={`${CAJA} overflow-hidden mb-4`} style={{ background: SURF }}>
+            {pendingTasks === 0 && (
+              <Link to={localPath('/clase')} className="flex items-center justify-between px-4 py-3 hover:bg-white/5 transition-colors">
+                <span className={`${T2} text-[13.5px] font-semibold`}>🏫 {tr({ es: 'Mi clase', en: 'My class', ca: 'La meva classe' })}</span>
+                <span className="text-white/30 text-xs">→</span>
+              </Link>
+            )}
+            {user.photoURL && (
+              <button onClick={toggleHidePhoto} className="w-full flex items-center justify-between gap-3 px-4 py-3 border-t border-white/10 first:border-t-0 hover:bg-white/5 transition-colors text-left">
+                <span className={`${T2} text-[13.5px]`}>{tr({ es: 'Usar emoji en lugar de foto', en: 'Use emoji instead of photo', ca: 'Usar emoji en lloc de foto' })}</span>
+                <Interruptor on={hidePhoto} />
+              </button>
+            )}
+            {/* Correo de novedades: solo con consentimiento (lib/novedades.js) */}
+            {user.email && (
+              <button onClick={toggleNovedades} className="w-full flex items-center justify-between gap-3 px-4 py-3 border-t border-white/10 first:border-t-0 hover:bg-white/5 transition-colors text-left">
+                <span>
+                  <span className={`block ${T2} text-[13.5px]`}>{tr({ es: 'Recibir novedades de Tuthor por correo', en: 'Get Tuthor news by email', ca: 'Rebre novetats de Tuthor per correu' })}</span>
+                  <span className="block text-white/35 text-[11.5px] mt-0.5">{tr({ es: 'Juegos nuevos y alguna petición de opinión. Puedes darte de baja cuando quieras.', en: 'New games and the odd request for feedback. Unsubscribe any time.', ca: 'Jocs nous i alguna petició d’opinió. Pots donar-te de baixa quan vulguis.' })}</span>
+                </span>
+                <Interruptor on={novedades} />
+              </button>
+            )}
+            <div className="flex items-center justify-between gap-3 px-4 py-3 border-t border-white/10">
+              <span className="min-w-0">
+                <span className={`block ${T2} text-[13.5px]`}>{tr({ es: 'Sesión iniciada como', en: 'Signed in as', ca: 'Sessió iniciada com a' })}</span>
+                <span className="block text-white/35 text-[11.5px] truncate">{user.email}</span>
+              </span>
+              <button onClick={logout}
+                className={`shrink-0 ${T2} hover:text-white text-[13px] font-bold border border-white/15 hover:bg-white/8 px-4 py-2 rounded-xl transition-all`}>
+                {tr({ es: 'Cerrar sesión', en: 'Sign out', ca: 'Tancar sessió' })}
+              </button>
+            </div>
+          </div>
+
+          {/* El propio componente se esconde solo (CHILD_CODE_LOGIN_ENABLED
+              en lib/childCode.js): reactivarlo es solo tocar ese flag. */}
+          <div className="mb-4"><ChildCodeCard /></div>
+          <div className="mb-4"><ReferralCard /></div>
+        </section>
       </div>
     </div>
   )

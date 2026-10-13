@@ -4,6 +4,7 @@
 import { GAMES } from './games'
 import { examsBySubject } from './exams'
 import { MODOS, GRADOS } from './mathEngine'
+import { TOPIC_CATALOG, topicIds, topicFormats, topicTask } from './topicCatalog'
 
 function todayStr() { return new Date().toISOString().slice(0, 10) }
 
@@ -316,7 +317,10 @@ export function aggregateStudentStats(stats, lang) {
         const lbl = subj.examLabels[id]
         return { id, label: lbl?.[lang] || lbl?.es || id, plays: s.plays, passed: statsByCategory[id]?.examsPassed || 0, timeSpent: s.timeSpent || 0 }
       }),
-      ...subj.catIds.map(id => {
+      // En historia el examen de teoría de cada tema se llama igual que la
+      // category del tema ('gce'…): sin este filtro salía dos veces —por
+      // examId y por catId— y el perfil duplicaba aprobados y suspensos.
+      ...subj.catIds.filter(id => !subj.examIds.includes(id)).map(id => {
         const s = statsByCategory[id] || {}
         if (!s.plays) return null
         // Only show if it looks like an exam (has examsPassed data or type examen)
@@ -339,4 +343,35 @@ export function aggregateStudentStats(stats, lang) {
   const examsTaken   = subjectEntries.reduce((a, s) => a + s.totalExamPlays, 0)
 
   return { streak, dailyStreak, dailyDoneToday, gameEntries, subjectEntries, totalBestPts, examsTaken }
+}
+
+// ── Temas tocados por materia ────────────────────────────────────────────────
+// «Física: 4 de 12 temas». Un tema cuenta como tocado si el alumno ha jugado
+// alguna de sus combinaciones (formato × nivel) del catálogo por tema: el
+// juego o examen de esa combinación tiene partidas Y su `category` también.
+// Pedir las dos cosas evita falsos positivos cuando dos juegos comparten un
+// nombre de category (p.ej. 'primaria').
+// Los formatos que no saben qué tema se jugó (tracksTopic: false, como
+// Portadas) no cuentan: marcarían todos sus temas a la vez.
+// → { [materia]: { tocados, total } } solo para materias del catálogo.
+export function temasTocados(stats) {
+  const porJuego = stats?.statsByGame || {}
+  const porCat = stats?.statsByCategory || {}
+  const out = {}
+  for (const materia of Object.keys(TOPIC_CATALOG)) {
+    const temas = topicIds(materia)
+    let tocados = 0
+    for (const tema of temas) {
+      const jugado = topicFormats(materia, tema).some(f => {
+        if (f.tracksTopic === false) return false
+        return (f.niveles.length ? f.niveles : [null]).some(nivel => {
+          const t = topicTask(materia, tema, f.id, nivel)
+          return t && (porJuego[t.gameId]?.plays || 0) > 0 && (porCat[t.category]?.plays || 0) > 0
+        })
+      })
+      if (jugado) tocados++
+    }
+    out[materia] = { tocados, total: temas.length }
+  }
+  return out
 }
