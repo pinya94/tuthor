@@ -11,9 +11,10 @@ import SEOHead from '../components/SEOHead'
 import { CabeceraJuego, NivelBarras, ComoSeJuega } from '../components/IntroJuego'
 import { Racha } from '../components/Iconos'
 
-const GAME_TIME = 60
+// Cada ronda se coloca (esquema, tres textos): 90 s y +6 s por acierto.
+const GAME_TIME = 90
 const WRONG_TIME = 5
-const CORRECT_TIME = 4
+const CORRECT_TIME = 6
 const REVEAL_MS = 4800 // da tiempo a leer la pista que lo delata
 
 const DIFS = {
@@ -107,7 +108,7 @@ export default function DetectiveTextos() {
   const seo = {
     title: tr({ es: 'Detective de Textos — Juego de tipos de texto, elementos de la comunicación y funciones del lenguaje', en: 'Detective de Textos — Spanish text types game', ca: 'Detective de Textos — Joc de tipus de text en castellà' }),
     desc: tr({
-      es: 'Lee un fragmento y descubre si es narración, descripción, diálogo, exposición, argumentación o instrucción; encuentra el emisor, el receptor, el canal y el código de una escena; y reconoce las funciones del lenguaje. Juego de lengua gratis.',
+      es: 'Monta el esquema de la comunicación (emisor, receptor, mensaje, canal y código) y coloca fragmentos y frases en su tipo de texto o su función del lenguaje. Juego de lengua gratis.',
       en: 'Read a Spanish fragment and identify its text type, the elements of communication and the language functions. Free Spanish language game.',
       ca: 'Llegeix un fragment en castellà i descobreix-ne el tipus de text, els elements de la comunicació i les funcions del llenguatge. Joc de llengua gratis.',
     }),
@@ -123,7 +124,7 @@ export default function DetectiveTextos() {
           <CabeceraJuego slug="detective-textos"
             badge={tr({ es: 'Lengua · Los textos', en: 'Spanish · Texts', ca: 'Castellà · Els textos' })}
             titulo={tr({ es: '📑 Detective de Textos', en: '📑 Detective de Textos', ca: '📑 Detective de Textos' })}
-            sub={tr({ es: 'Cada texto deja pistas: ¿qué es, quién habla y para qué?', en: 'Every text leaves clues: what is it, who is speaking and why?', ca: 'Cada text deixa pistes: què és, qui parla i per a què?' })} />
+            sub={tr({ es: 'Monta el esquema y coloca cada texto en su caja', en: 'Build the diagram and put each text in its box', ca: 'Munta l’esquema i col·loca cada text a la seva caixa' })} />
 
           <p className="text-white/40 text-xs uppercase tracking-widest text-center mb-2">{tr({ es: 'Elige nivel', en: 'Choose a level', ca: 'Tria nivell' })}</p>
           <div className="flex flex-wrap justify-center gap-1.5 p-1 bg-white/5 border border-white/10 rounded-xl mb-2">
@@ -142,8 +143,8 @@ export default function DetectiveTextos() {
           </button>
           <ComoSeJuega>
             <div className="space-y-2 text-white/70 text-sm">
-              <p>{tr({ es: 'Sale un fragmento y hay que decir qué tipo de texto es: narración, descripción, diálogo, exposición, argumentación o instrucción. Al corregir aparece la pista que lo delata (verbos en pasado, adjetivos, rayas, imperativos, «creo que»…).', en: 'A fragment appears and you say which text type it is. When you answer, the clue that gives it away appears.', ca: 'Surt un fragment i cal dir quin tipus de text és. En corregir apareix la pista que el delata.' })}</p>
-              <p>{tr({ es: 'Otras rondas son escenas de comunicación (un wasap, una clase, un semáforo, la radio…) y hay que encontrar el emisor, el receptor, el mensaje, el canal o el código. En los niveles altos, las funciones del lenguaje.', en: 'Other rounds are communication scenes where you find the sender, receiver, message, channel or code. On higher levels, the language functions.', ca: 'Altres rondes són escenes de comunicació on cal trobar l’emissor, el receptor, el missatge, el canal o el codi. Als nivells alts, les funcions del llenguatge.' })}</p>
+              <p>{tr({ es: 'Sale una escena de comunicación (un wasap, una clase, un semáforo, la radio…) con su esquema: emisor → mensaje → receptor, y en los niveles altos también el canal y el código. Toca cada pieza de la escena y luego su hueco.', en: 'A communication scene appears with its diagram: sender → message → receiver, plus channel and code on higher levels. Tap each piece and then its slot.', ca: 'Surt una escena de comunicació amb el seu esquema: emissor → missatge → receptor, i en els nivells alts també el canal i el codi. Toca cada peça i després el seu buit.' })}</p>
+              <p>{tr({ es: 'Otras rondas traen tres fragmentos o tres frases, de uno en uno: colócalos en su caja, sea el tipo de texto (narración, descripción, diálogo, exposición, argumentación, instrucción) o la función del lenguaje. Siempre hay una caja de más.', en: 'Other rounds bring three passages or sentences, one at a time: put each in its box, the text type or the language function. There is always one box too many.', ca: 'Altres rondes porten tres fragments o tres frases, d’un en un: col·loca’ls a la seva caixa, sigui el tipus de text o la funció del llenguatge. Sempre hi ha una caixa de més.' })}</p>
               <p className="text-white/40 text-xs pt-1">⏱️ {GAME_TIME}s · {tr({ es: `Acierto +10 y +${CORRECT_TIME}s · Fallo −${WRONG_TIME}s`, en: `Correct +10 and +${CORRECT_TIME}s · Wrong −${WRONG_TIME}s`, ca: `Encert +10 i +${CORRECT_TIME}s · Error −${WRONG_TIME}s` })}</p>
             </div>
           </ComoSeJuega>

@@ -1,12 +1,10 @@
 // Detective de Textos (lengua · los textos, Primaria y ESO). Solo castellano.
 //
-// Tres clases de pista:
-//   tipo       un fragmento → narración, descripción, diálogo, exposición,
-//              argumentación o instrucción
-//   elemento   una escena de comunicación → quién es el emisor, el receptor,
-//              el canal, el código o el mensaje. Las opciones salen de la
-//              MISMA escena: así solo una puede ser la buena.
-//   funcion    una frase → la función del lenguaje que domina
+// Un juego de colocar, no de elegir:
+//   esquema    una escena de comunicación y su esquema: emisor → mensaje →
+//              receptor, con canal y código; cada ficha de la escena a su hueco
+//   textos     tres fragmentos, cada uno a su tipología
+//   funciones  tres frases, cada una a la función del lenguaje que domina
 //
 // Fragmentos propios, escritos para que tengan una sola tipología clara (nada
 // de noticias, que mezclan narración y exposición). En las funciones, cada
@@ -69,7 +67,6 @@ export const ESCENAS = [
   { emoji: '👐', t: 'Clara, que es sorda, le dice a su amiga Elena en lengua de signos que la espera a la salida.',
     emisor: 'Clara', receptor: 'Elena', mensaje: 'Que la espera a la salida', canal: 'La luz: los gestos se ven', codigo: 'La lengua de signos' },
 ]
-const NIVEL_ELEMENTO = { emisor: 'facil', receptor: 'facil', mensaje: 'facil', canal: 'medio', codigo: 'medio' }
 
 export const FUNCIONES = {
   expresiva: { nombre: 'Expresiva (o emotiva)', pista: 'Expresa los sentimientos o el estado de ánimo de quien habla: suele llevar exclamaciones e interjecciones.', nivel: 'medio' },
@@ -102,9 +99,9 @@ export const FRASES = [
 ]
 
 export const NIVELES = {
-  facil:   { tipos: ['tipo', 'tipo', 'elemento'], hasta: 'facil' },
-  medio:   { tipos: ['tipo', 'elemento', 'funcion', 'funcion'], hasta: 'medio' },
-  dificil: { tipos: ['tipo', 'elemento', 'funcion', 'funcion', 'funcion'], hasta: 'dificil' },
+  facil:   { tipos: ['esquema', 'textos', 'textos'], hasta: 'facil', huecos: ['emisor', 'mensaje', 'receptor'] },
+  medio:   { tipos: ['esquema', 'textos', 'funciones'], hasta: 'medio', huecos: ['emisor', 'mensaje', 'receptor', 'canal', 'codigo'] },
+  dificil: { tipos: ['esquema', 'textos', 'funciones', 'funciones'], hasta: 'dificil', huecos: ['emisor', 'mensaje', 'receptor', 'canal', 'codigo'] },
 }
 const ORDEN = ['facil', 'medio', 'dificil']
 const cabe = (nivelCosa, hasta) => ORDEN.indexOf(nivelCosa) <= ORDEN.indexOf(hasta)
@@ -121,74 +118,84 @@ const recientes = []
 export function genRonda(nivel = 'facil', opts = {}) {
   for (let intento = 0; ; intento++) {
     const r = genUna(nivel, opts)
-    const tema = `${r.tipo}:${r.k}:${r.pide ?? ''}`
-    if (intento < 20 && recientes.includes(tema)) continue
-    recientes.push(tema)
-    if (recientes.length > 8) recientes.shift()
+    if (intento < 20 && recientes.includes(r.clave)) continue
+    recientes.push(r.clave)
+    if (recientes.length > 6) recientes.shift()
     return r
   }
 }
 
 function genUna(nivel, { rand = Math.random } = {}) {
   const cfg = NIVELES[nivel] ?? NIVELES.facil
-  const tipo = elige(rand, cfg.tipos)
-  const base = { id: ++seq, nivel, tipo }
+  for (;;) {
+    const tipo = elige(rand, cfg.tipos)
+    const base = { id: ++seq, nivel, tipo }
 
-  if (tipo === 'tipo') {
-    const disp = Object.keys(TIPOS).filter(t => cabe(NIVEL_TIPO[t], cfg.hasta))
-    const k = elige(rand, FRAGMENTOS.map((f, i) => [f, i]).filter(([f]) => disp.includes(f[0])))[1]
-    const bueno = FRAGMENTOS[k][0]
-    const otras = baraja(rand, disp.filter(t => t !== bueno)).slice(0, 3)
-    return { ...base, k, bueno, opciones: baraja(rand, [bueno, ...otras]) }
+    if (tipo === 'esquema') {
+      const k = Math.floor(rand() * ESCENAS.length)
+      // En fácil, tres huecos y una ficha de más (el canal) para despistar.
+      const fichas = baraja(rand, nivel === 'facil' ? [...cfg.huecos, 'canal'] : cfg.huecos)
+      return { ...base, clave: `esq${k}`, k, huecos: cfg.huecos, fichas, bueno: 'esquema:0' }
+    }
+
+    if (tipo === 'textos') {
+      // Tres fragmentos de tipos distintos; las cajas, sus tipos y uno más.
+      const disp = Object.keys(TIPOS).filter(t => cabe(NIVEL_TIPO[t], cfg.hasta))
+      const tipos = baraja(rand, disp).slice(0, 3)
+      const items = tipos.map(t => elige(rand, FRAGMENTOS.map((f, i) => i).filter(i => FRAGMENTOS[i][0] === t)))
+      const extra = baraja(rand, disp.filter(t => !tipos.includes(t)))[0]
+      return { ...base, clave: `tx${items.join()}`, items: baraja(rand, items), cajas: baraja(rand, [...tipos, extra]), bueno: 'clasifica:0' }
+    }
+
+    // funciones: tres frases de funciones distintas; ninguna podría ir en la
+    // caja de otra (campo tambien), ni en la caja extra.
+    const disp = Object.keys(FUNCIONES).filter(f => cabe(FUNCIONES[f].nivel, cfg.hasta))
+    const items = []
+    for (const i of baraja(rand, FRASES.map((_, j) => j).filter(j => disp.includes(FRASES[j][0])))) {
+      const f = FRASES[i]
+      if (items.some(j => FRASES[j][0] === f[0] || FRASES[j][3].includes(f[0]) || f[3].includes(FRASES[j][0]))) continue
+      items.push(i)
+      if (items.length === 3) break
+    }
+    if (items.length < 3) continue
+    const mains = items.map(i => FRASES[i][0])
+    const extra = baraja(rand, Object.keys(FUNCIONES).filter(f => !mains.includes(f) && !items.some(i => FRASES[i][3].includes(f))))[0]
+    if (!extra) continue
+    return { ...base, clave: `fn${items.join()}`, items: baraja(rand, items), cajas: baraja(rand, [...mains, extra]), bueno: 'clasifica:0' }
   }
-  if (tipo === 'elemento') {
-    const k = Math.floor(rand() * ESCENAS.length)
-    const disp = Object.keys(ELEMENTOS).filter(e => cabe(NIVEL_ELEMENTO[e], cfg.hasta))
-    const pide = elige(rand, nivel === 'facil' ? disp : disp.filter(e => nivel !== 'dificil' || ['canal', 'codigo', 'mensaje'].includes(e)))
-    // Las opciones son los demás elementos de la misma escena.
-    const otras = baraja(rand, Object.keys(ELEMENTOS).filter(e => e !== pide)).slice(0, 3)
-    return { ...base, k, pide, bueno: pide, opciones: baraja(rand, [pide, ...otras]) }
-  }
-  // funcion
-  const disp = Object.keys(FUNCIONES).filter(f => cabe(FUNCIONES[f].nivel, cfg.hasta))
-  const pool = FRASES.map((f, i) => [f, i]).filter(([f]) => disp.includes(f[0]))
-  const nuevas = pool.filter(([f]) => FUNCIONES[f[0]].nivel === cfg.hasta)
-  const [f, k] = elige(rand, nivel === 'dificil' && rand() < 0.6 ? nuevas : pool)
-  // Primero las del nivel; si no llegan a tres (en medio solo hay tres funciones), cualquiera.
-  const vale = x => x !== f[0] && !f[3].includes(x)
-  const otras = [...new Set([...baraja(rand, disp.filter(vale)), ...baraja(rand, Object.keys(FUNCIONES).filter(vale))])].slice(0, 3)
-  return { ...base, k, bueno: f[0], opciones: baraja(rand, [f[0], ...otras]) }
 }
 
 export const genRound = (difficulty = 'facil') => genRonda(difficulty)
+// Respuestas: «esquema:fallos» o «clasifica:fallos».
 export const esCorrecta = (r, o) => o === r.bueno
+export const cajaDe = (r, i) => (r.tipo === 'textos' ? FRAGMENTOS[i][0] : FRASES[i][0])
 
 // ── Textos ────────────────────────────────────────────────────────────────
-export function textoOpcion(o, r) {
-  if (r.tipo === 'tipo') return TIPOS[o].nombre
-  if (r.tipo === 'elemento') return ESCENAS[r.k][o]
-  return FUNCIONES[o].nombre
-}
+export const nombreCaja = (r, c) => (r.tipo === 'textos' ? TIPOS[c].nombre : FUNCIONES[c].nombre)
+export const textoItem = (r, i) => (r.tipo === 'textos' ? FRAGMENTOS[i][1] : FRASES[i][1])
 export function enunciado(r) {
-  if (r.tipo === 'tipo') return '¿Qué tipo de texto es?'
-  if (r.tipo === 'elemento') return `¿Cuál es el ${ELEMENTOS[r.pide].nombre.toLowerCase()}?`
-  return '¿Qué función del lenguaje domina?'
+  if (r.tipo === 'esquema') return 'Coloca cada pieza en su sitio del esquema de la comunicación'
+  if (r.tipo === 'textos') return '¿Qué tipo de texto es cada fragmento?'
+  return '¿Qué función del lenguaje domina en cada frase?'
 }
 export function explicacion(r) {
-  if (r.tipo === 'tipo') return `${TIPOS[r.bueno].nombre}: ${TIPOS[r.bueno].pista}`
-  if (r.tipo === 'elemento') {
+  if (r.tipo === 'esquema') {
     const e = ESCENAS[r.k]
-    return `El ${ELEMENTOS[r.pide].nombre.toLowerCase()} es ${ELEMENTOS[r.pide].def}. En esta escena: emisor, ${e.emisor}; receptor, ${e.receptor}; mensaje, ${e.mensaje}; canal, ${e.canal}; código, ${e.codigo}.`
+    return `El emisor es ${ELEMENTOS.emisor.def} (${e.emisor}); el receptor, ${ELEMENTOS.receptor.def} (${e.receptor}); el mensaje, ${ELEMENTOS.mensaje.def}. El canal es ${ELEMENTOS.canal.def} (${e.canal.toLowerCase()}) y el código, ${ELEMENTOS.codigo.def} (${e.codigo.toLowerCase()}).`
   }
-  const f = FRASES[r.k]
-  const tambien = f[3].length ? ` (También tiene algo de ${f[3].map(x => FUNCIONES[x].nombre.split(' ')[0].toLowerCase()).join(' y ')}, por eso no sale como opción.)` : ''
-  return `${FUNCIONES[r.bueno].nombre}: ${FUNCIONES[r.bueno].pista}${tambien}`
+  if (r.tipo === 'textos') return r.cajas.filter(c => r.items.some(i => cajaDe(r, i) === c)).map(c => `${TIPOS[c].nombre}: ${TIPOS[c].pista}`).join(' ')
+  return r.cajas.filter(c => r.items.some(i => cajaDe(r, i) === c)).map(c => `${FUNCIONES[c].nombre.split(' (')[0]}: ${FUNCIONES[c].pista}`).join(' ')
 }
+// Para los buscadores y el examen en texto: una pregunta de cada mecánica.
 export function schemaQuestion(r) {
-  const q = r.tipo === 'tipo' ? `«${FRAGMENTOS[r.k][1].replace(/\n/g, ' ')}» ` : r.tipo === 'elemento' ? `${ESCENAS[r.k].t} ` : `«${FRASES[r.k][1]}» `
+  if (r.tipo === 'esquema') {
+    const e = ESCENAS[r.k]
+    return { question: `${e.t} ¿Cuál es el canal?`, correctAnswer: e.canal, wrongAnswers: ['emisor', 'receptor', 'codigo'].map(x => e[x]) }
+  }
+  const i = r.items[0]
   return {
-    question: `${q}${enunciado(r)}`,
-    correctAnswer: textoOpcion(r.bueno, r),
-    wrongAnswers: r.opciones.filter(o => o !== r.bueno).map(o => textoOpcion(o, r)),
+    question: `«${textoItem(r, i).replace(/\n/g, ' ')}» ${r.tipo === 'textos' ? '¿Qué tipo de texto es?' : '¿Qué función del lenguaje domina?'}`,
+    correctAnswer: nombreCaja(r, cajaDe(r, i)),
+    wrongAnswers: r.cajas.filter(c => c !== cajaDe(r, i) && !(r.tipo === 'funciones' && FRASES[i][3].includes(c))).map(c => nombreCaja(r, c)),
   }
 }

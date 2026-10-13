@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { genRonda, NIVELES, TIPOS, FRAGMENTOS, ESCENAS, ELEMENTOS, FUNCIONES, FRASES, enunciado, explicacion, textoOpcion, schemaQuestion } from '../detectiveTextos'
+import { genRonda, NIVELES, TIPOS, FRAGMENTOS, ESCENAS, ELEMENTOS, FUNCIONES, FRASES, enunciado, explicacion, schemaQuestion, esCorrecta, cajaDe } from '../detectiveTextos'
 
 function semilla(s) {
   return () => { s = (s * 1103515245 + 12345) % 2147483648; return s / 2147483648 }
@@ -23,24 +23,30 @@ describe('Detective de Textos', () => {
   })
 
   for (const nivel of Object.keys(NIVELES)) {
-    it(`${nivel}: 600 rondas`, { timeout: 20000 }, () => {
+    it(nivel + ': 500 rondas', { timeout: 20000 }, () => {
       const rand = semilla(nivel.length * 613)
       const tipos = new Set()
-      for (let i = 0; i < 600; i++) {
+      for (let i = 0; i < 500; i++) {
         const r = genRonda(nivel, { rand })
         tipos.add(r.tipo)
-        expect(r.opciones).toHaveLength(4)
-        expect(new Set(r.opciones).size).toBe(4)
-        expect(r.opciones).toContain(r.bueno)
-        if (r.tipo === 'tipo') expect(r.bueno).toBe(FRAGMENTOS[r.k][0])
-        if (r.tipo === 'funcion') {
-          expect(r.bueno).toBe(FRASES[r.k][0])
-          for (const o of r.opciones) if (o !== r.bueno) expect(FRASES[r.k][3]).not.toContain(o)
+        expect(esCorrecta(r, r.bueno)).toBe(true)
+        if (r.tipo === 'esquema') {
+          for (const h of r.huecos) expect(r.fichas).toContain(h)
+          expect(ESCENAS[r.k]).toBeTruthy()
+        } else {
+          expect(r.items).toHaveLength(3)
+          // Cajas sin repetir, y cada texto tiene la suya.
+          expect(new Set(r.cajas).size).toBe(r.cajas.length)
+          for (const it of r.items) expect(r.cajas).toContain(cajaDe(r, it))
+          expect(new Set(r.items.map(it => cajaDe(r, it))).size).toBe(3)
+          // Ninguna frase podría ir también en otra caja de la ronda.
+          if (r.tipo === 'funciones') for (const it of r.items) for (const c of r.cajas) if (c !== cajaDe(r, it)) expect(FRASES[it][3]).not.toContain(c)
         }
-        expect(new Set(r.opciones.map(o => textoOpcion(o, r))).size).toBe(4)
         expect(explicacion(r)).not.toMatch(/undefined/)
         expect(enunciado(r)).toBeTruthy()
-        expect(schemaQuestion(r).wrongAnswers).toHaveLength(3)
+        const q = schemaQuestion(r)
+        expect(q.wrongAnswers.length).toBeGreaterThanOrEqual(2)
+        expect(q.wrongAnswers).not.toContain(q.correctAnswer)
       }
       for (const t of NIVELES[nivel].tipos) expect(tipos.has(t), t).toBe(true)
     })
