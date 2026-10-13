@@ -7,13 +7,13 @@ import { genRound, esCorrecta, schemaQuestion } from '../lib/cadenaCarbono'
 const LEVELS = [
   { key: 'primaria', emoji: '💚', difficulty: 'facil',
     label: { es: 'Básico', en: 'Basic', ca: 'Bàsic' },
-    hint: { es: 'Familias, nombres y fórmulas', en: 'Families, names and formulas', ca: 'Famílies, noms i fórmules' } },
+    hint: { es: 'Construir sin localizador e hidrógenos', en: 'Building without locants, and hydrogens', ca: 'Construir sense localitzador i hidrògens' } },
   { key: 'eso', emoji: '💛', difficulty: 'medio',
     label: { es: 'Secundaria (ESO)', en: 'Secondary (ESO)', ca: 'Secundària (ESO)' },
-    hint: { es: 'Localizadores y del nombre a la fórmula', en: 'Locants and from name to formula', ca: 'Localitzadors i del nom a la fórmula' } },
+    hint: { es: 'Localizadores y numeración', en: 'Locants and numbering', ca: 'Localitzadors i numeració' } },
   { key: 'bachillerato', emoji: '🔴', difficulty: 'dificil',
     label: { es: 'Bachillerato', en: 'Sixth form', ca: 'Batxillerat' },
-    hint: { es: 'Ramificaciones e isómeros', en: 'Branches and isomers', ca: 'Ramificacions i isòmers' } },
+    hint: { es: 'Ramificaciones e isómeros construidos', en: 'Branches and built isomers', ca: 'Ramificacions i isòmers construïts' } },
 ]
 
 // Estado propio (la opción elegida): ver la nota de hooks en
@@ -30,9 +30,9 @@ export default function CadenaCarbonoExamen() {
       emoji="⛓️"
       badge={{ es: 'Examen · Química orgánica', en: 'Exam · Organic chemistry', ca: 'Examen · Química orgànica' }}
       title={{ es: 'Examen de formulación orgánica', en: 'Organic Nomenclature Exam', ca: 'Examen de formulació orgànica' }}
-      sub={{ es: 'Familias, nombres IUPAC, fórmulas e isómeros', en: 'Families, IUPAC names, formulas and isomers', ca: 'Famílies, noms IUPAC, fórmules i isòmers' }}
+      sub={{ es: 'Construye, numera y completa moléculas', en: 'Build, number and complete molecules', ca: 'Construeix, numera i completa molècules' }}
       metaTitle={{ es: 'Examen de formulación orgánica: nombres, fórmulas e isómeros', en: 'Organic nomenclature exam: names, formulas and isomers', ca: 'Examen de formulació orgànica: noms, fórmules i isòmers' }}
-      metaDesc={{ es: 'Examen de química orgánica con las moléculas dibujadas: familias, nombres IUPAC con localizadores y ramas, fórmulas moleculares y semidesarrolladas e isómeros. 10 preguntas, tres niveles.', en: 'Organic chemistry exam with the molecules drawn: families, IUPAC names with locants and branches, molecular and condensed formulas, and isomers. 10 questions, three levels.', ca: 'Examen de química orgànica amb les molècules dibuixades: famílies, noms IUPAC amb localitzadors i branques, fórmules moleculars i semidesenvolupades i isòmers. 10 preguntes, tres nivells.' }}
+      metaDesc={{ es: 'Examen de química orgánica construyendo: monta cada molécula a partir de su nombre IUPAC, numera la cadena, pon los hidrógenos y construye isómeros. 10 preguntas.', en: 'Organic chemistry exam by building: put each molecule together from its IUPAC name, number the chain, add the hydrogens and build isomers. 10 questions.', ca: 'Examen de química orgànica construint: munta cada molècula a partir del nom IUPAC, numera la cadena, posa els hidrògens i construeix isòmers. 10 preguntes.' }}
       metaPath="/examen/cadena-carbono-test"
       subjectSchema="Química"
       backGamePath="/juegos/cadena-carbono"

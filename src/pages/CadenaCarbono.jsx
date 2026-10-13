@@ -11,18 +11,19 @@ import SEOHead from '../components/SEOHead'
 import { CabeceraJuego, NivelBarras, ComoSeJuega } from '../components/IntroJuego'
 import { Racha } from '../components/Iconos'
 
-const GAME_TIME = 60
+// Cada molécula se construye: 90 s y +6 s por acierto.
+const GAME_TIME = 90
 const WRONG_TIME = 5
-const CORRECT_TIME = 4
+const CORRECT_TIME = 6
 const REVEAL_MS = 4800 // da tiempo a ver la cadena numerada y la explicación
 
 const DIFS = {
   facil:   { emoji: '💚', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
-             desc: { es: 'Familias, nombres sin localizador y fórmulas moleculares', en: 'Families, names without locants and molecular formulas', ca: 'Famílies, noms sense localitzador i fórmules moleculars' } },
+             desc: { es: 'Construir moléculas sin localizador (propeno, etanol, butanal) y poner los hidrógenos', en: 'Build molecules without locants (propene, ethanol, butanal) and add the hydrogens', ca: 'Construir molècules sense localitzador (propè, etanol, butanal) i posar els hidrògens' } },
   medio:   { emoji: '💛', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
-             desc: { es: 'Nombres con localizador y del nombre a la fórmula', en: 'Names with locants and from name to formula', ca: 'Noms amb localitzador i del nom a la fórmula' } },
+             desc: { es: 'Con localizador (pent-2-eno, butan-2-ol) y numerar desde el extremo bueno', en: 'With locants (pent-2-ene, butan-2-ol) and numbering from the right end', ca: 'Amb localitzador (pent-2-è, butan-2-ol) i numerar des de l’extrem bo' } },
   dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' },
-             desc: { es: 'Ramificaciones, numeración e isómeros', en: 'Branches, numbering and isomers', ca: 'Ramificacions, numeració i isòmers' } },
+             desc: { es: 'Ramificaciones y construir isómeros con la misma fórmula', en: 'Branches and building isomers with the same formula', ca: 'Ramificacions i construir isòmers amb la mateixa fórmula' } },
 }
 if (import.meta.env.DEV && Object.keys(DIFS).join() !== Object.keys(NIVELES).join()) {
   console.warn('[cadena-carbono] los niveles de la pantalla no coinciden con NIVELES')
@@ -107,9 +108,9 @@ export default function CadenaCarbono() {
   const seo = {
     title: tr({ es: 'Cadena de Carbono — Juego de química orgánica: nombra y formula moléculas', en: 'Carbon Chain — Organic chemistry game: name molecules and write their formulas', ca: 'Cadena de Carboni — Joc de química orgànica: anomena i formula molècules' }),
     desc: tr({
-      es: 'Moléculas orgánicas dibujadas en fórmula semidesarrollada: reconoce su familia (alcanos, alquenos, alcoholes, cetonas, ácidos…), nómbralas con la IUPAC, cuenta sus hidrógenos y encuentra sus isómeros. Juego de química gratis.',
-      en: 'Organic molecules drawn as condensed structural formulas: recognise their family (alkanes, alkenes, alcohols, ketones, acids…), name them with IUPAC rules, count their hydrogens and find their isomers. Free chemistry game.',
-      ca: 'Molècules orgàniques dibuixades en fórmula semidesenvolupada: reconeix-ne la família (alcans, alquens, alcohols, cetones, àcids…), anomena-les amb la IUPAC, compta’n els hidrògens i troba’n els isòmers. Joc de química gratis.',
+      es: 'Construye moléculas orgánicas a partir de su nombre: carbonos, dobles y triples enlaces, alcoholes, aldehídos, cetonas, ácidos y aminas. Numera la cadena, pon los hidrógenos y monta isómeros. Juego gratis.',
+      en: 'Build organic molecules from their names: carbons, double and triple bonds, alcohols, aldehydes, ketones, acids and amines. Number the chain, add the hydrogens and build isomers. Free game.',
+      ca: 'Construeix molècules orgàniques a partir del nom: carbonis, enllaços dobles i triples, alcohols, aldehids, cetones, àcids i amines. Numera la cadena, posa els hidrògens i munta isòmers. Joc gratis.',
     }),
     path: '/juegos/cadena-carbono',
   }
@@ -123,7 +124,7 @@ export default function CadenaCarbono() {
           <CabeceraJuego slug="cadena-carbono"
             badge={tr({ es: 'Química · Química orgánica', en: 'Chemistry · Organic chemistry', ca: 'Química · Química orgànica' })}
             titulo={tr({ es: '⛓️ Cadena de Carbono', en: '⛓️ Carbon Chain', ca: '⛓️ Cadena de Carboni' })}
-            sub={tr({ es: 'Mira la molécula, cuenta sus carbonos y ponle nombre', en: 'Look at the molecule, count its carbons and name it', ca: 'Mira la molècula, compta’n els carbonis i posa-li nom' })} />
+            sub={tr({ es: 'Del nombre a la molécula, pieza a pieza', en: 'From the name to the molecule, piece by piece', ca: 'Del nom a la molècula, peça a peça' })} />
 
           <p className="text-white/40 text-xs uppercase tracking-widest text-center mb-2">{tr({ es: 'Elige nivel', en: 'Choose a level', ca: 'Tria nivell' })}</p>
           <div className="flex flex-wrap justify-center gap-1.5 p-1 bg-white/5 border border-white/10 rounded-xl mb-2">
@@ -142,9 +143,8 @@ export default function CadenaCarbono() {
           </button>
           <ComoSeJuega>
             <div className="space-y-2 text-white/70 text-sm">
-              <p>{tr({ es: 'Sale una molécula orgánica en fórmula semidesarrollada: la cadena de carbonos en fila, el grupo funcional arriba (el oxígeno en rojo, el nitrógeno en azul), las ramas abajo y los enlaces dobles y triples en ámbar.', en: 'An organic molecule appears as a condensed structural formula: the carbon chain in a row, the functional group above (oxygen in red, nitrogen in blue), branches below and double and triple bonds in amber.', ca: 'Surt una molècula orgànica en fórmula semidesenvolupada: la cadena de carbonis en fila, el grup funcional a dalt (l’oxigen en vermell, el nitrogen en blau), les branques a baix i els enllaços dobles i triples en ambre.' })}</p>
-              <p>{tr({ es: 'Para nombrarla: cuenta los carbonos de la cadena (met-, et-, prop-, but-, pent-, hex-), mira la familia para la terminación (-ano, -eno, -ino, -ol, -al, -ona, ácido …-oico, -amina) y numera desde el extremo más cercano al grupo, al enlace múltiple o a la rama.', en: 'To name it: count the carbons in the chain (meth-, eth-, prop-, but-, pent-, hex-), use the family for the ending (-ane, -ene, -yne, -ol, -al, -one, …-oic acid, -amine) and number from the end nearest the group, the multiple bond or the branch.', ca: 'Per anomenar-la: compta els carbonis de la cadena (met-, et-, prop-, but-, pent-, hex-), mira la família per a la terminació (-à, -è, -í, -ol, -al, -ona, àcid …-oic, -amina) i numera des de l’extrem més proper al grup, a l’enllaç múltiple o a la branca.' })}</p>
-              <p>{tr({ es: 'Ojo: la molécula puede salir dibujada al revés, así que el carbono 1 no siempre está a la izquierda. Al corregir se numera la cadena.', en: 'Careful: the molecule may be drawn the other way round, so carbon 1 is not always on the left. The chain is numbered when you answer.', ca: 'Compte: la molècula pot sortir dibuixada al revés, així que el carboni 1 no sempre és a l’esquerra. En corregir es numera la cadena.' })}</p>
+              <p>{tr({ es: 'Te dan un nombre («pent-2-eno», «ácido butanoico») y construyes la molécula: pon los carbonos con − y +, elige una pieza (doble o triple enlace, –OH, C=O, –NH₂, –CHO, –COOH o una rama –CH₃) y tócala en su sitio del dibujo. La fórmula se va calculando sola.', en: 'You are given a name (“pent-2-ene”, “butanoic acid”) and you build the molecule: set the carbons with − and +, pick a piece (double or triple bond, –OH, C=O, –NH₂, –CHO, –COOH or a –CH₃ branch) and tap its place on the drawing. The formula updates as you go.', ca: 'Et donen un nom («pent-2-è», «àcid butanoic») i construeixes la molècula: posa els carbonis amb − i +, tria una peça (enllaç doble o triple, –OH, C=O, –NH₂, –CHO, –COOH o una branca –CH₃) i toca-la al seu lloc del dibuix. La fórmula es calcula sola.' })}</p>
+              <p>{tr({ es: 'Otras rondas: tocar el carbono por el que se empieza a numerar (el más cercano al grupo), poner los hidrógenos de cada carbono hasta que todos formen 4 enlaces y, en difícil, construir un isómero: otra molécula con la misma fórmula.', en: 'Other rounds: tap the carbon where numbering starts (the one nearest the group), give each carbon its hydrogens until all form 4 bonds and, on hard, build an isomer: a different molecule with the same formula.', ca: 'Altres rondes: tocar el carboni per on es comença a numerar (el més proper al grup), posar els hidrògens de cada carboni fins que tots formin 4 enllaços i, en difícil, construir un isòmer: una altra molècula amb la mateixa fórmula.' })}</p>
               <p className="text-white/40 text-xs pt-1">⏱️ {GAME_TIME}s · {tr({ es: `Acierto +10 y +${CORRECT_TIME}s · Fallo −${WRONG_TIME}s`, en: `Correct +10 and +${CORRECT_TIME}s · Wrong −${WRONG_TIME}s`, ca: `Encert +10 i +${CORRECT_TIME}s · Error −${WRONG_TIME}s` })}</p>
             </div>
           </ComoSeJuega>

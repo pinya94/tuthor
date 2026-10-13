@@ -1,14 +1,13 @@
 // Cadena de Carbono (química · química orgánica, 4.º de ESO y Bachillerato).
 //
-// Sale una molécula dibujada en fórmula semidesarrollada (la cadena en fila,
-// el grupo funcional arriba y las ramas abajo) y hay que reconocerla.
+// Un juego de construir, no de elegir: con la molécula dibujada en fórmula
+// semidesarrollada (la cadena en fila, el grupo arriba y la rama abajo).
 //
-// Tipos de pregunta (y la trampa que cada uno pone a prueba):
-//   familia     alcano, alcohol, cetona…           (aldehído ↔ cetona, alcohol ↔ ácido)
-//   nombre      su nombre IUPAC                    (numerar desde el extremo equivocado, contar mal)
-//   formula     su fórmula molecular               (olvidar que cada doble enlace quita 2 H)
-//   estructura  del nombre a la fórmula            (localizador en otro carbono, otra familia)
-//   isomero     cuál es un isómero suyo            (confundir «parecida» con «misma fórmula»)
+//   construye   del nombre a la molécula: carbonos con −/+ y una pieza
+//               (=, ≡, –OH, =O, –NH₂, –CHO, –COOH, rama) colocada en el dibujo
+//   numera      tocar el carbono 1 (la trampa del but-3-eno)
+//   hidrogenos  poner los H de cada carbono hasta que todos formen 4 enlaces
+//   isomero     construir otra molécula con la misma fórmula (difícil)
 //
 // Una molécula es { fam, n, loc, rama }: n carbonos en la cadena principal,
 // loc el localizador del doble/triple enlace o del grupo (0 si no hace
@@ -29,16 +28,6 @@ export const FAMILIA = {
   cetona:   { es: 'Cetona', en: 'Ketone', ca: 'Cetona' },
   acido:    { es: 'Ácido carboxílico', en: 'Carboxylic acid', ca: 'Àcid carboxílic' },
   amina:    { es: 'Amina', en: 'Amine', ca: 'Amina' },
-}
-const UN = {
-  alcano:   ['un alcano', 'an alkane', 'un alcà'],
-  alqueno:  ['un alqueno', 'an alkene', 'un alquè'],
-  alquino:  ['un alquino', 'an alkyne', 'un alquí'],
-  alcohol:  ['un alcohol', 'an alcohol', 'un alcohol'],
-  aldehido: ['un aldehído', 'an aldehyde', 'un aldehid'],
-  cetona:   ['una cetona', 'a ketone', 'una cetona'],
-  acido:    ['un ácido carboxílico', 'a carboxylic acid', 'un àcid carboxílic'],
-  amina:    ['una amina', 'an amine', 'una amina'],
 }
 const RASGO = {
   alcano:   ['solo enlaces simples entre carbonos', 'only single bonds between carbons', 'només enllaços simples entre carbonis'],
@@ -193,30 +182,6 @@ export function condensada(m) {
   return out
 }
 
-// ── Niveles y rondas ──────────────────────────────────────────────────────
-export const NIVELES = {
-  facil:   { tipos: ['familia', 'familia', 'nombre', 'nombre', 'formula'] },
-  medio:   { tipos: ['familia', 'nombre', 'nombre', 'formula', 'estructura'] },
-  dificil: { tipos: ['nombre', 'nombre', 'estructura', 'isomero', 'formula'] },
-}
-const POOL = {
-  facil: TODAS.filter(m => !conLoc(m)),
-  medio: TODAS.filter(m => !m.rama),
-  dificil: TODAS,
-}
-
-const elige = (rand, xs) => xs[Math.floor(rand() * xs.length)]
-const baraja = (rand, xs) => {
-  const a = [...xs]
-  for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(rand() * (i + 1)); [a[i], a[j]] = [a[j], a[i]] }
-  return a
-}
-
-const CONFUNDE = {
-  alcano: ['alqueno', 'alquino', 'alcohol'], alqueno: ['alcano', 'alquino', 'alcohol'], alquino: ['alqueno', 'alcano', 'cetona'],
-  alcohol: ['aldehido', 'acido', 'amina'], aldehido: ['cetona', 'acido', 'alcohol'], cetona: ['aldehido', 'alcohol', 'acido'],
-  acido: ['aldehido', 'alcohol', 'cetona'], amina: ['alcohol', 'alcano', 'aldehido'],
-}
 const CAMBIA = {
   alcano: ['alqueno', 'alquino', 'alcohol'], alqueno: ['alcano', 'alquino'], alquino: ['alqueno', 'alcano'],
   alcohol: ['aldehido', 'cetona', 'acido'], aldehido: ['cetona', 'alcohol', 'acido'], cetona: ['aldehido', 'alcohol'],
@@ -244,68 +209,9 @@ function alReves(m) {
   return otro === m.loc ? null : { ...m, loc: otro }
 }
 
-let seq = 0
-
-export function genRonda(nivel = 'facil', { rand = Math.random } = {}) {
-  const cfg = NIVELES[nivel] ?? NIVELES.facil
-  for (;;) {
-    const tipo = elige(rand, cfg.tipos)
-    let pool = POOL[nivel] ?? POOL.facil
-    // En difícil, sobre todo moléculas con localizador o rama.
-    if (nivel === 'dificil' && rand() < 0.75) pool = pool.filter(conLoc)
-    const m = elige(rand, pool)
-    const espejo = rand() < 0.5 // dibujarla al revés: el 1 no siempre está a la izquierda
-    const base = { id: ++seq, nivel, tipo, mol: clave(m), espejo }
-
-    if (tipo === 'familia') {
-      const ops = [m.fam, ...baraja(rand, CONFUNDE[m.fam])]
-      return { ...base, bueno: m.fam, opciones: baraja(rand, ops) }
-    }
-
-    if (tipo === 'nombre') {
-      const trampa = alReves(m)
-      const resto = baraja(rand, vecinas(m))
-      const cands = [...(trampa ? [trampa] : []), ...resto].map(clave)
-      const ops = unicas([clave(m), ...cands], 4)
-      if (!ops) continue
-      return { ...base, bueno: clave(m), opciones: baraja(rand, ops) }
-    }
-
-    if (tipo === 'estructura') {
-      const cands = baraja(rand, vecinas(m)).map(clave)
-      const ops = unicas([clave(m), ...cands], 4, condensada)
-      if (!ops) continue
-      return { ...base, espejo: false, bueno: clave(m), opciones: baraja(rand, ops) }
-    }
-
-    if (tipo === 'formula') {
-      const a = atomos(m)
-      const k = formulaClave(a)
-      const cands = [
-        { ...a, H: a.H - 2 }, { ...a, H: a.H + 2 },
-        a.O ? { ...a, O: 0 } : a.N ? { ...a, N: 0 } : { ...a, H: a.H + 4 },
-        { ...a, C: a.C + 1 }, { ...a, O: a.O + 1 },
-      ].filter(x => x.H > 0).map(formulaClave)
-      const ops = unicas([k, ...cands], 4)
-      if (!ops) continue
-      return { ...base, bueno: k, opciones: baraja(rand, ops) }
-    }
-
-    // isomero
-    const f = formulaClave(atomos(m))
-    const isos = TODAS.filter(x => clave(x) !== clave(m) && formulaClave(atomos(x)) === f)
-    if (!isos.length) continue
-    const bueno = clave(elige(rand, isos))
-    const otras = baraja(rand, [...vecinas(m), ...TODAS.filter(x => atomos(x).C === atomos(m).C)])
-      .filter(x => formulaClave(atomos(x)) !== f).map(clave)
-    const ops = unicas([bueno, ...otras], 4)
-    if (!ops) continue
-    return { ...base, bueno, opciones: baraja(rand, ops) }
-  }
-}
 
 // Primeras `k` claves distintas (y con textos distintos en los tres idiomas).
-function unicas(claves, k, texto) {
+function unicas(claves, k, texto, parcial = false) {
   const out = [], vistos = new Set()
   for (const c of claves) {
     const t = texto ? texto(deClave(c)) : null
@@ -314,32 +220,9 @@ function unicas(claves, k, texto) {
     out.push(c); ts.forEach(x => vistos.add(x))
     if (out.length === k) return out
   }
-  return null
+  return parcial && out.length > 1 ? out : null
 }
 
-export const genRound = (difficulty = 'facil') => genRonda(difficulty)
-export const esCorrecta = (r, o) => o === r.bueno
-export const molecula = r => deClave(r.mol)
-
-// ── Textos ────────────────────────────────────────────────────────────────
-export function textoOpcion(o, r, l) {
-  switch (r.tipo) {
-    case 'familia': return FAMILIA[o][l] ?? FAMILIA[o].es
-    case 'formula': return verFormula(o)
-    case 'estructura': return condensada(deClave(o))
-    default: return nombre(deClave(o), l)
-  }
-}
-
-export function enunciado(r, l) {
-  switch (r.tipo) {
-    case 'familia': return s(l, '¿A qué familia pertenece esta molécula?', 'Which family does this molecule belong to?', 'A quina família pertany aquesta molècula?')
-    case 'nombre': return s(l, '¿Cómo se llama esta molécula?', 'What is this molecule called?', 'Com es diu aquesta molècula?')
-    case 'formula': return s(l, '¿Cuál es su fórmula molecular?', 'What is its molecular formula?', 'Quina és la seva fórmula molecular?')
-    case 'estructura': return s(l, `¿Cuál es la fórmula semidesarrollada de: ${nombre(molecula(r), l)}?`, `What is the condensed structural formula of: ${nombre(molecula(r), l)}?`, `Quina és la fórmula semidesenvolupada de: ${nombre(molecula(r), l)}?`)
-    default: return s(l, '¿Cuál de estas es un isómero de la molécula del dibujo?', 'Which of these is an isomer of the molecule in the drawing?', 'Quina d’aquestes és un isòmer de la molècula del dibuix?')
-  }
-}
 
 function porQueNombre(m, l) {
   const i = ix(l)
@@ -358,43 +241,169 @@ function porQueNombre(m, l) {
   return `${cadena} ${rasgo}${loc}`
 }
 
-export function explicacion(r, l) {
+
+// ── Constructor ───────────────────────────────────────────────────────────
+// Lo que monta el alumno: n carbonos y como mucho UNA pieza extra.
+//   { t: 'doble' | 'triple', pos }   enlace entre el carbono pos y pos+1
+//   { t: 'OH' | 'O' | 'NH2', pos }   grupo en el carbono pos (=O solo dentro)
+//   { t: 'CHO' | 'COOH' }            grupo en un extremo
+//   { t: 'rama', pos }               metilo colgando del carbono pos (no extremos)
+export const PIEZAS = ['doble', 'triple', 'OH', 'O', 'NH2', 'CHO', 'COOH', 'rama']
+export const PIEZA_FAM = { doble: 'alqueno', triple: 'alquino', OH: 'alcohol', O: 'cetona', NH2: 'amina', CHO: 'aldehido', COOH: 'acido', rama: 'alcano' }
+// Dónde se coloca cada pieza: en un enlace, en un carbono interior, en
+// cualquier carbono o sola (en un extremo).
+export const DONDE = { doble: 'enlace', triple: 'enlace', OH: 'carbono', NH2: 'carbono', O: 'interior', rama: 'interior', CHO: 'extremo', COOH: 'extremo' }
+export const MAX_C = 6
+
+// La molécula que forma lo construido (sin normalizar: puede estar numerada al revés).
+export function deConstruida({ n, extra }) {
+  if (!extra) return { fam: 'alcano', n, loc: 0, rama: 0 }
+  const fam = PIEZA_FAM[extra.t]
+  if (extra.t === 'rama') return { fam, n, loc: 0, rama: extra.pos }
+  if (extra.t === 'CHO' || extra.t === 'COOH') return { fam, n, loc: 1, rama: 0 }
+  return { fam, n, loc: extra.pos, rama: 0 }
+}
+// La misma molécula con el localizador más bajo (la numeración buena).
+export function canon(m) {
+  const c = { ...m }
+  if (c.rama) c.rama = Math.min(c.rama, c.n + 1 - c.rama)
+  if (c.fam === 'alqueno' || c.fam === 'alquino') c.loc = Math.min(c.loc, c.n - c.loc)
+  if (c.fam === 'alcohol' || c.fam === 'amina' || c.fam === 'cetona') c.loc = Math.min(c.loc, c.n + 1 - c.loc)
+  return c
+}
+// Clave de lo construido, o 'invalido' si no es una molécula del juego.
+export function claveConstruida(est) {
+  const c = canon(deConstruida(est))
+  return valida(c) ? clave(c) : 'invalido'
+}
+
+// ── Niveles y rondas ──────────────────────────────────────────────────────
+//   construye  del nombre a la molécula, con el constructor
+//   numera     tocar el carbono por el que se empieza a numerar
+//   hidrogenos poner los H de cada carbono (4 enlaces) → la fórmula
+//   isomero    construir otra molécula con la misma fórmula
+export const NIVELES = {
+  facil:   { tipos: ['construye', 'construye', 'hidrogenos'] },
+  medio:   { tipos: ['construye', 'construye', 'numera', 'hidrogenos'] },
+  dificil: { tipos: ['construye', 'numera', 'hidrogenos', 'isomero'] },
+}
+const POOL = {
+  facil: TODAS.filter(m => !conLoc(m)),
+  medio: TODAS.filter(m => !m.rama),
+  dificil: TODAS,
+}
+// Para numerar hace falta que los dos extremos den números distintos.
+const NUMERABLES = TODAS.filter(m => alReves(m))
+export const isomerosDe = m => TODAS.filter(x => clave(x) !== clave(m) && formulaClave(atomos(x)) === formulaClave(atomos(m)))
+
+const elige = (rand, xs) => xs[Math.floor(rand() * xs.length)]
+const baraja = (rand, xs) => {
+  const a = [...xs]
+  for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(rand() * (i + 1)); [a[i], a[j]] = [a[j], a[i]] }
+  return a
+}
+
+let seq = 0
+const recientes = []
+
+export function genRonda(nivel = 'facil', { rand = Math.random } = {}) {
+  const cfg = NIVELES[nivel] ?? NIVELES.facil
+  for (let intento = 0; ; intento++) {
+    const tipo = elige(rand, cfg.tipos)
+    let pool = POOL[nivel] ?? POOL.facil
+    if (tipo === 'numera') pool = pool.filter(m => NUMERABLES.includes(m))
+    if (tipo === 'isomero') pool = pool.filter(m => isomerosDe(m).length)
+    // En difícil, sobre todo moléculas con localizador o rama.
+    if (nivel === 'dificil' && tipo === 'construye' && rand() < 0.75) pool = pool.filter(conLoc)
+    const m = elige(rand, pool)
+    const k = clave(m)
+    if (intento < 20 && recientes.includes(k)) continue
+    recientes.push(k)
+    if (recientes.length > 6) recientes.shift()
+    const base = { id: ++seq, nivel, tipo, mol: k }
+    if (tipo === 'construye') return { ...base, espejo: false, bueno: k }
+    if (tipo === 'numera') return { ...base, espejo: rand() < 0.5, bueno: '1' }
+    if (tipo === 'hidrogenos') return { ...base, espejo: rand() < 0.5, bueno: 'h:0' }
+    return { ...base, espejo: false, bueno: clave(isomerosDe(m)[0]) }
+  }
+}
+
+export const genRound = (difficulty = 'facil') => genRonda(difficulty)
+export const molecula = r => deClave(r.mol)
+
+// Respuestas: construye → clave de lo construido; numera → el número del
+// carbono tocado («1» es el bueno); hidrogenos → «h:fallos»; isomero → clave.
+export function esCorrecta(r, o) {
+  if (r.tipo === 'isomero') return o !== 'invalido' && isomerosDe(molecula(r)).some(x => clave(x) === o)
+  return String(o) === r.bueno
+}
+
+// ── Textos ────────────────────────────────────────────────────────────────
+export function enunciado(r, l) {
+  switch (r.tipo) {
+    case 'construye': return s(l, 'Construye esta molécula:', 'Build this molecule:', 'Construeix aquesta molècula:')
+    case 'numera': return s(l, 'Toca el carbono por el que se empieza a numerar', 'Tap the carbon where the numbering starts', 'Toca el carboni per on es comença a numerar')
+    case 'hidrogenos': return s(l, 'Toca cada carbono para ponerle sus hidrógenos: todos forman 4 enlaces', 'Tap each carbon to give it its hydrogens: every carbon forms 4 bonds', 'Toca cada carboni per posar-li els hidrògens: tots formen 4 enllaços')
+    default: return s(l, 'Construye un isómero: otra molécula con la misma fórmula', 'Build an isomer: a different molecule with the same formula', 'Construeix un isòmer: una altra molècula amb la mateixa fórmula')
+  }
+}
+
+export function explicacion(r, l, o) {
   const m = molecula(r)
   const i = ix(l)
   switch (r.tipo) {
-    case 'familia':
-      return s(l, `Tiene ${RASGO[m.fam][i]}: es ${UN[m.fam][i]}, y su nombre acaba en ${TERM[m.fam][i]} (${nombre(m, l)}).`, `It has ${RASGO[m.fam][i]}: it is ${UN[m.fam][i]}, and its name ends in ${TERM[m.fam][i]} (${nombre(m, l)}).`, `Té ${RASGO[m.fam][i]}: és ${UN[m.fam][i]}, i el seu nom acaba en ${TERM[m.fam][i]} (${nombre(m, l)}).`)
-    case 'nombre': return `${porQueNombre(m, l)} → ${nombre(m, l)}.`
-    case 'estructura': return `${porQueNombre(m, l)} → ${condensada(m)}.`
-    case 'formula': {
+    case 'construye': {
+      let t = `${porQueNombre(m, l)} → ${condensada(m)}.`
+      if (o && o !== 'invalido' && o !== r.bueno) t += ' ' + s(l, `Lo que has construido es ${nombre(deClave(o), l)}.`, `What you built is ${nombre(deClave(o), l)}.`, `El que has construït és ${nombre(deClave(o), l)}.`)
+      return t
+    }
+    case 'numera': return `${porQueNombre(m, l)} → ${nombre(m, l)}. ${s(l, `Empezando por el otro extremo saldría ${nombre(alReves(m), l)}, que está mal numerado.`, `Starting from the other end gives ${nombre(alReves(m), l)}, which is numbered wrongly.`, `Començant per l’altre extrem sortiria ${nombre(alReves(m), l)}, que està mal numerat.`)}`
+    case 'hidrogenos': {
       const a = atomos(m)
       const regla = { alcano: 'CₙH₂ₙ₊₂', alqueno: 'CₙH₂ₙ', alquino: 'CₙH₂ₙ₋₂' }[m.fam]
       const extra = regla
-        ? s(l, ` Es la fórmula general de su familia, ${regla}: cada enlace doble quita 2 hidrógenos y el triple, 4.`, ` That is the general formula of its family, ${regla}: each double bond removes 2 hydrogens and a triple bond, 4.`, ` És la fórmula general de la seva família, ${regla}: cada enllaç doble treu 2 hidrògens i el triple, 4.`)
-        : s(l, ' No hay que olvidar los hidrógenos del grupo funcional ni sus átomos de O o N.', ' Do not forget the hydrogens in the functional group, or its O or N atoms.', ' No s’han d’oblidar els hidrògens del grup funcional ni els seus àtoms d’O o N.')
+        ? s(l, ` Fórmula general de su familia: ${regla}. Cada enlace doble quita 2 hidrógenos y el triple, 4.`, ` General formula of its family: ${regla}. Each double bond removes 2 hydrogens and a triple bond, 4.`, ` Fórmula general de la seva família: ${regla}. Cada enllaç doble treu 2 hidrògens i el triple, 4.`)
+        : s(l, ` Tiene ${RASGO[m.fam][i]}: cuenta también sus átomos.`, ` It has ${RASGO[m.fam][i]}: count its atoms too.`, ` Té ${RASGO[m.fam][i]}: compta’n també els àtoms.`)
       return s(l,
-        `${a.C} carbono${a.C > 1 ? 's' : ''} y, contando los hidrógenos de cada uno (cada carbono forma 4 enlaces), ${a.H} hidrógenos: ${verFormula(r.bueno)}.${extra}`,
-        `${a.C} carbon${a.C > 1 ? 's' : ''} and, counting the hydrogens on each one (every carbon forms 4 bonds), ${a.H} hydrogens: ${verFormula(r.bueno)}.${extra}`,
-        `${a.C} carboni${a.C > 1 ? 's' : ''} i, comptant els hidrògens de cadascun (cada carboni forma 4 enllaços), ${a.H} hidrògens: ${verFormula(r.bueno)}.${extra}`)
+        `Cada carbono forma 4 enlaces: los que no van a otro carbono ni al grupo van a hidrógenos. Total: ${nombre(m, l)}, ${verFormula(formulaClave(a))}.${extra}`,
+        `Every carbon forms 4 bonds: those not going to another carbon or the group go to hydrogens. Total: ${nombre(m, l)}, ${verFormula(formulaClave(a))}.${extra}`,
+        `Cada carboni forma 4 enllaços: els que no van a un altre carboni ni al grup van a hidrògens. Total: ${nombre(m, l)}, ${verFormula(formulaClave(a))}.${extra}`)
     }
     default: {
-      const b = deClave(r.bueno)
       const F = verFormula(formulaClave(atomos(m)))
-      const clase = b.fam !== m.fam ? s(l, 'de función', 'functional isomers', 'de funció') : b.rama !== m.rama || b.n !== m.n ? s(l, 'de cadena', 'chain isomers', 'de cadena') : s(l, 'de posición', 'position isomers', 'de posició')
-      return s(l,
-        `${nombre(m, l)} y ${nombre(b, l)} tienen la misma fórmula molecular, ${F}, pero los átomos están unidos de otra forma: son isómeros ${clase}. Las otras opciones se parecen, pero tienen otra fórmula.`,
-        `${nombre(m, l)} and ${nombre(b, l)} have the same molecular formula, ${F}, but the atoms are joined differently: they are ${clase}. The other options look similar but have a different formula.`,
-        `${nombre(m, l)} i ${nombre(b, l)} tenen la mateixa fórmula molecular, ${F}, però els àtoms estan units d’una altra manera: són isòmers ${clase}. Les altres opcions s’hi assemblen, però tenen una altra fórmula.`)
+      const lista = isomerosDe(m).map(x => nombre(x, l)).join(', ')
+      let t = s(l, `${nombre(m, l)} es ${F}. Con la misma fórmula, pero los átomos unidos de otra forma, valen: ${lista}.`, `${nombre(m, l)} is ${F}. With the same formula but atoms joined differently, these work: ${lista}.`, `${nombre(m, l)} és ${F}. Amb la mateixa fórmula, però amb els àtoms units d’una altra manera, valen: ${lista}.`)
+      if (o && o !== 'invalido' && !esCorrecta(r, o)) {
+        const b = deClave(o)
+        t += ' ' + (clave(b) === clave(m)
+          ? s(l, 'Has construido la misma molécula.', 'You built the same molecule.', 'Has construït la mateixa molècula.')
+          : s(l, `Lo tuyo, ${nombre(b, l)}, es ${verFormula(formulaClave(atomos(b)))}: otra fórmula.`, `Yours, ${nombre(b, l)}, is ${verFormula(formulaClave(atomos(b)))}: a different formula.`, `El teu, ${nombre(b, l)}, és ${verFormula(formulaClave(atomos(b)))}: una altra fórmula.`))
+      }
+      return t
     }
   }
 }
 
+// Para los buscadores (y el examen en texto): cada mecánica, como pregunta.
 export function schemaQuestion(r, l) {
   const m = molecula(r)
-  const dibujo = r.tipo === 'estructura' ? '' : `${condensada(m)}. `
-  return {
-    question: `${dibujo}${enunciado(r, l)}`,
-    correctAnswer: textoOpcion(r.bueno, r, l),
-    wrongAnswers: r.opciones.filter(o => o !== r.bueno).map(o => textoOpcion(o, r, l)),
+  const rand = Math.random
+  if (r.tipo === 'construye') {
+    const ops = unicas([clave(m), ...baraja(rand, vecinas(m)).map(clave)], 4, condensada, true) ?? [clave(m)]
+    return { question: s(l, `¿Cuál es la fórmula semidesarrollada de ${nombre(m, l)}?`, `What is the condensed structural formula of ${nombre(m, l)}?`, `Quina és la fórmula semidesenvolupada de ${nombre(m, l)}?`), correctAnswer: condensada(m), wrongAnswers: ops.filter(o => o !== clave(m)).map(o => condensada(deClave(o))) }
   }
+  if (r.tipo === 'numera') {
+    const ops = unicas([clave(m), clave(alReves(m)), ...baraja(rand, vecinas(m)).map(clave)], 4, null, true) ?? [clave(m), clave(alReves(m))]
+    return { question: `${condensada(m)}. ${s(l, '¿Cómo se llama?', 'What is it called?', 'Com es diu?')}`, correctAnswer: nombre(m, l), wrongAnswers: ops.filter(o => o !== clave(m)).map(o => nombre(deClave(o), l)) }
+  }
+  if (r.tipo === 'hidrogenos') {
+    const a = atomos(m)
+    const malas = [{ ...a, H: a.H - 2 }, { ...a, H: a.H + 2 }, { ...a, C: a.C + 1 }].filter(x => x.H > 0).map(x => verFormula(formulaClave(x)))
+    return { question: `${condensada(m)}. ${s(l, '¿Cuál es su fórmula molecular?', 'What is its molecular formula?', 'Quina és la seva fórmula molecular?')}`, correctAnswer: verFormula(formulaClave(a)), wrongAnswers: malas }
+  }
+  const b = deClave(r.bueno)
+  const f = formulaClave(atomos(m))
+  const otras = baraja(rand, [...vecinas(m), ...TODAS.filter(x => atomos(x).C === atomos(m).C)]).filter(x => formulaClave(atomos(x)) !== f).map(clave)
+  const ops = unicas([r.bueno, ...otras], 4, null, true) ?? [r.bueno]
+  return { question: `${nombre(m, l)}. ${s(l, '¿Cuál es un isómero suyo?', 'Which is one of its isomers?', 'Quin és un isòmer seu?')}`, correctAnswer: nombre(b, l), wrongAnswers: ops.filter(o => o !== r.bueno).map(o => nombre(deClave(o), l)) }
 }

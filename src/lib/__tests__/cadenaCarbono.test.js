@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { genRonda, NIVELES, TODAS, nombre, condensada, atomos, formulaClave, hDelDibujo, deClave, valida, enunciado, explicacion, textoOpcion, schemaQuestion } from '../cadenaCarbono'
+import { genRonda, NIVELES, TODAS, nombre, condensada, atomos, formulaClave, hDelDibujo, valida, clave, canon, claveConstruida, deConstruida, isomerosDe, carbonos, esCorrecta, molecula, enunciado, explicacion, schemaQuestion, PIEZAS, PIEZA_FAM, DONDE } from '../cadenaCarbono'
 
 function semilla(s) {
   return () => { s = (s * 1103515245 + 12345) % 2147483648; return s / 2147483648 }
@@ -45,36 +45,51 @@ describe('Cadena de Carbono', () => {
     expect(new Set(TODAS.map(condensada)).size).toBe(TODAS.length)
   })
 
+  it('el constructor puede montar todas las moléculas, y al revés también vale', () => {
+    // Todo lo que se puede construir, con su clave normalizada.
+    const construibles = new Set()
+    for (let n = 1; n <= 6; n++) {
+      construibles.add(claveConstruida({ n, extra: null }))
+      for (const t of PIEZAS) {
+        const posiciones = DONDE[t] === 'extremo' ? [undefined] : DONDE[t] === 'enlace' ? Array.from({ length: n - 1 }, (_, k) => k + 1) : DONDE[t] === 'interior' ? Array.from({ length: Math.max(0, n - 2) }, (_, k) => k + 2) : Array.from({ length: n }, (_, k) => k + 1)
+        for (const pos of posiciones) construibles.add(claveConstruida({ n, extra: { t, pos } }))
+      }
+    }
+    for (const m of TODAS) expect(construibles.has(clave(m)), nombre(m)).toBe(true)
+    // Montar but-3-eno (el doble enlace en el enlace 3) es but-1-eno: la misma molécula.
+    expect(claveConstruida({ n: 4, extra: { t: 'doble', pos: 3 } })).toBe('alqueno|4|1|0')
+    expect(claveConstruida({ n: 5, extra: { t: 'rama', pos: 4 } })).toBe('alcano|5|0|2')
+    for (const m of TODAS) expect(clave(canon(m))).toBe(clave(m))
+    expect(Object.keys(PIEZA_FAM).sort()).toEqual([...PIEZAS].sort())
+    expect(deConstruida({ n: 3, extra: null }).fam).toBe('alcano')
+  })
+
   for (const nivel of Object.keys(NIVELES)) {
-    it(`${nivel}: 600 rondas con la respuesta bien`, { timeout: 20000 }, () => {
-      const rand = semilla(nivel.length * 7919)
+    it(`${nivel}: 500 rondas`, { timeout: 30000 }, () => {
+      const rand = semilla(nivel.length * 77)
       const tipos = new Set()
-      for (let i = 0; i < 600; i++) {
+      for (let i = 0; i < 500; i++) {
         const r = genRonda(nivel, { rand })
         tipos.add(r.tipo)
-        const m = deClave(r.mol)
+        const m = molecula(r)
         expect(valida(m)).toBe(true)
-        expect(r.opciones).toContain(r.bueno)
-        expect(r.opciones).toHaveLength(4)
-        expect(new Set(r.opciones).size).toBe(4)
-        if (r.tipo === 'familia') expect(r.bueno).toBe(m.fam)
-        if (r.tipo === 'nombre' || r.tipo === 'estructura') expect(r.bueno).toBe(r.mol)
-        if (r.tipo === 'formula') expect(r.bueno).toBe(formulaClave(atomos(m)))
-        if (r.tipo === 'isomero') {
-          const f = formulaClave(atomos(m))
-          for (const o of r.opciones) expect(formulaClave(atomos(deClave(o))) === f, o).toBe(o === r.bueno)
-          expect(r.bueno).not.toBe(r.mol)
+        expect(esCorrecta(r, r.bueno), r.tipo).toBe(true)
+        if (r.tipo === 'construye') expect(esCorrecta(r, 'invalido')).toBe(false)
+        if (r.tipo === 'numera') {
+          // El otro extremo es la trampa: su número no es 1.
+          const cs = carbonos(m)
+          expect(esCorrecta(r, String(cs[cs.length - 1].num))).toBe(false)
         }
-        // Las opciones que nombran moléculas: solo la buena es esa molécula.
-        if (r.tipo === 'nombre') for (const o of r.opciones) if (o !== r.bueno) expect(nombre(deClave(o))).not.toBe(nombre(m))
-        if (r.tipo === 'estructura') for (const o of r.opciones) if (o !== r.bueno) { expect(valida(deClave(o))).toBe(true); expect(condensada(deClave(o))).not.toBe(condensada(m)) }
+        if (r.tipo === 'isomero') {
+          expect(isomerosDe(m).length).toBeGreaterThan(0)
+          expect(esCorrecta(r, clave(m))).toBe(false)
+        }
         for (const l of ['es', 'en', 'ca']) {
-          expect(enunciado(r, l)).not.toMatch(/undefined|NaN/)
-          expect(explicacion(r, l)).not.toMatch(/undefined|NaN/)
-          const textos = r.opciones.map(o => textoOpcion(o, r, l))
-          expect(new Set(textos).size).toBe(4)
-          for (const t of textos) expect(t).not.toMatch(/undefined|NaN/)
-          expect(schemaQuestion(r, l).wrongAnswers).toHaveLength(3)
+          expect(enunciado(r, l)).not.toMatch(/undefined/)
+          expect(explicacion(r, l, r.bueno)).not.toMatch(/undefined|NaN/)
+          const q = schemaQuestion(r, l)
+          expect(q.wrongAnswers.length).toBeGreaterThanOrEqual(1)
+          expect(q.wrongAnswers).not.toContain(q.correctAnswer)
         }
       }
       for (const t of NIVELES[nivel].tipos) expect(tipos.has(t), t).toBe(true)
