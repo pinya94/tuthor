@@ -235,6 +235,11 @@ export const EXAMS = {
     emoji: '🚸', subject: 'vida-practica',
     path: 'examen/seguridad-vial', page: () => import('../pages/SeguridadVialExamen'),
   },
+  'ojo-al-mensaje-test': {
+    label: { es: 'Ojo al Mensaje (con el juego)', en: 'Check the Message (with the game)', ca: 'Ull al Missatge (amb el joc)' },
+    emoji: '🎣', subject: 'vida-practica',
+    path: 'examen/ojo-al-mensaje-test', page: () => import('../pages/OjoAlMensajeExamen'),
+  },
   'internet-seguro': {
     label: { es: 'Internet Seguro', en: 'Online Safety', ca: 'Internet Segur' },
     emoji: '🔐', subject: 'vida-practica',

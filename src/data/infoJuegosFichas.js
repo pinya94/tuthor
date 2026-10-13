@@ -998,6 +998,34 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Música', niveles: 'Primaria, ESO, Bachillerato',
   },
+  'ojo-al-mensaje': {
+    titulo: 'Ojo al Mensaje',
+    subtitulo: 'Juego de Internet Seguro: Timos, Phishing y Peligros en la Red',
+    emoji: '🎣', gradient: 'from-sky-600 to-indigo-700',
+    path: '/juegos/ojo-al-mensaje',
+    intro: 'Un juego de internet seguro en el que llegan mensajes como los de verdad: un SMS de un paquete, un correo del banco, un chat, un mensaje privado de una red social o una ventana que salta en una web. No se elige entre opciones: hay que tocar dentro del propio mensaje lo que es sospechoso —el remitente raro, el enlace que no es de la empresa, la prisa, que te pidan un código, un premio imposible, alguien que pide guardar un secreto— y después decidir si el mensaje es de fiar, un timo o un peligro ante el que hay que pedir ayuda. Todas las marcas y personas son inventadas.',
+    beneficios: [
+      { titulo: 'Se Aprende Mirando el Mensaje', texto: 'Las señales de un timo están en el propio mensaje. Tocarlas una a una entrena el gesto que importa en la vida real: pararse a mirar antes de pulsar.' },
+      { titulo: 'No Todo lo que Asusta es un Timo', texto: 'Hay mensajes de la familia o de amigos con prisa o con un regalo que son de fiar. Tocar algo normal resta tiempo, así que no vale desconfiar de todo.' },
+      { titulo: 'Timos y Peligros, Cada Uno con su Respuesta', texto: 'Ante un timo, no pulsar y bloquear. Ante acoso, un reto peligroso o un desconocido que pide fotos o secretos, contárselo a un adulto de confianza.' },
+    ],
+    ejemplo: 'Llega un SMS de «Envíos Cometa» desde un móvil cualquiera: pide 1,99 € en 24 horas con un enlace raro. El alumno toca el número, el pago, la prisa y el enlace, elige «Es un timo» y el juego le explica cómo mirar el seguimiento en la app oficial.',
+    enPapel: {
+      titulo: 'El muro de los mensajes trampa',
+      pasos: [
+        'Escribid o imprimid mensajes inventados: unos timos, otros peligrosos y otros normales de familia o amigos.',
+        'Por parejas, subrayad en rojo lo sospechoso de cada mensaje y poned al lado qué tipo de trampa es.',
+        'Clasificad cada mensaje en tres columnas: de fiar, timo o pide ayuda.',
+        'Comentad entre todos qué haríais con cada uno y a quién se lo contaríais.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'El examen de Internet Seguro', desc: 'Contraseñas, privacidad, estafas y convivencia en formato test, con explicación en cada pregunta.' },
+      { nombre: 'Señal a Señal', desc: 'El juego de seguridad vial de Tuthor: señales de tráfico y situaciones de peatón y ciclista.' },
+      { nombre: 'Charlas de seguridad en internet', desc: 'Muchos centros reciben charlas de la policía o de entidades especializadas en el uso seguro de internet.' },
+    ],
+    asignatura: 'Vida Práctica', niveles: 'Primaria, ESO, Bachillerato',
+  },
   'senal-a-senal': {
     titulo: 'Señal a Señal',
     subtitulo: 'Juego de Señales de Tráfico y Seguridad Vial',
@@ -3323,6 +3351,34 @@ export const FICHAS_EN = {
     ],
     asignatura: 'Music', niveles: 'Primary, Secondary, Sixth Form',
   },
+  'ojo-al-mensaje': {
+    titulo: 'Check the Message',
+    subtitulo: 'Online Safety Game: Scams, Phishing and Dangers',
+    emoji: '🎣', gradient: 'from-sky-600 to-indigo-700',
+    path: '/juegos/ojo-al-mensaje',
+    intro: 'An online safety game where messages arrive just like real ones: a parcel text, a bank email, a chat, a private message on a social network or a pop-up on a website. There are no options to pick from: you tap whatever is suspicious inside the message itself —the odd sender, the link that isn’t the company’s, the rush, being asked for a code, an impossible prize, someone asking you to keep a secret— and then decide whether the message is safe, a scam or a danger you need help with. All brands and people are made up.',
+    beneficios: [
+      { titulo: 'You Learn by Looking at the Message', texto: 'The signs of a scam are in the message itself. Tapping them one by one trains the habit that matters in real life: stopping to look before you tap.' },
+      { titulo: 'Not Everything Scary Is a Scam', texto: 'Some messages from family or friends with a rush or a present are safe. Tapping something normal costs time, so distrusting everything doesn’t work.' },
+      { titulo: 'Scams and Dangers, Each with Its Response', texto: 'With a scam, don’t tap and block. With bullying, a dangerous dare or a stranger asking for photos or secrets, tell a trusted adult.' },
+    ],
+    ejemplo: 'A text from “Comet Parcels” arrives from a random mobile: it asks for £1.99 within 24 hours with an odd link. The student taps the number, the payment, the rush and the link, chooses “It’s a scam” and the game explains how to check tracking in the official app.',
+    enPapel: {
+      titulo: 'The trap messages wall',
+      pasos: [
+        'Write or print made-up messages: some scams, some dangerous and some normal ones from family or friends.',
+        'In pairs, underline in red what’s suspicious in each message and note what kind of trap it is.',
+        'Sort the messages into three columns: safe, scam or get help.',
+        'Discuss together what you would do with each one and who you would tell.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'The Online Safety quiz', desc: 'Passwords, privacy, scams and getting along online as a test, with an explanation for every question.' },
+      { nombre: 'Sign by Sign', desc: 'Tuthor’s road safety game: traffic signs and pedestrian and cyclist situations.' },
+      { nombre: 'Online safety talks', desc: 'Many schools host talks by the police or specialist organisations on using the internet safely.' },
+    ],
+    asignatura: 'Life Skills', niveles: 'Primary, Secondary, Sixth Form',
+  },
   'senal-a-senal': {
     titulo: 'Sign by Sign',
     subtitulo: 'Road Signs and Road Safety Game',
@@ -5483,6 +5539,34 @@ export const FICHAS_CA = {
       { nombre: 'Dictat musical invers', desc: 'Algú diu noms de notes en veu alta i tu les escrius al pentagrama. Reforça l\'associació en els dos sentits.' },
     ],
     asignatura: 'Música', niveles: 'Primària, ESO, Batxillerat',
+  },
+  'ojo-al-mensaje': {
+    titulo: 'Ull al Missatge',
+    subtitulo: 'Joc d’Internet Segur: Estafes, Pesca i Perills a la Xarxa',
+    emoji: '🎣', gradient: 'from-sky-600 to-indigo-700',
+    path: '/juegos/ojo-al-mensaje',
+    intro: 'Un joc d’internet segur en què arriben missatges com els de debò: un SMS d’un paquet, un correu del banc, un xat, un missatge privat d’una xarxa social o una finestra que salta en una web. No es tria entre opcions: cal tocar dins del mateix missatge el que és sospitós —el remitent estrany, l’enllaç que no és de l’empresa, la pressa, que et demanin un codi, un premi impossible, algú que demana guardar un secret— i després decidir si el missatge és de fiar, una estafa o un perill davant del qual cal demanar ajuda. Totes les marques i persones són inventades.',
+    beneficios: [
+      { titulo: 'S’Aprèn Mirant el Missatge', texto: 'Els senyals d’una estafa són al mateix missatge. Tocar-los un per un entrena el gest que importa a la vida real: aturar-se a mirar abans de prémer.' },
+      { titulo: 'No Tot el que Espanta és una Estafa', texto: 'Hi ha missatges de la família o d’amics amb pressa o amb un regal que són de fiar. Tocar una cosa normal resta temps, així que no val desconfiar de tot.' },
+      { titulo: 'Estafes i Perills, Cadascun amb la seva Resposta', texto: 'Davant d’una estafa, no prémer i bloquejar. Davant d’assetjament, un repte perillós o un desconegut que demana fotos o secrets, explicar-ho a un adult de confiança.' },
+    ],
+    ejemplo: 'Arriba un SMS d’«Enviaments Cometa» des d’un mòbil qualsevol: demana 1,99 € en 24 hores amb un enllaç estrany. L’alumne toca el número, el pagament, la pressa i l’enllaç, tria «És una estafa» i el joc li explica com mirar el seguiment a l’app oficial.',
+    enPapel: {
+      titulo: 'El mur dels missatges trampa',
+      pasos: [
+        'Escriviu o imprimiu missatges inventats: unes estafes, uns de perillosos i uns de normals de família o amics.',
+        'Per parelles, subratlleu en vermell el que és sospitós de cada missatge i poseu-hi al costat quin tipus de trampa és.',
+        'Classifiqueu cada missatge en tres columnes: de fiar, estafa o demana ajuda.',
+        'Comenteu entre tots què faríeu amb cadascun i a qui ho explicaríeu.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'L’examen d’Internet Segur', desc: 'Contrasenyes, privacitat, estafes i convivència en format test, amb explicació a cada pregunta.' },
+      { nombre: 'Senyal a Senyal', desc: 'El joc de seguretat viària de Tuthor: senyals de trànsit i situacions de vianant i ciclista.' },
+      { nombre: 'Xerrades de seguretat a internet', desc: 'Molts centres reben xerrades de la policia o d’entitats especialitzades en l’ús segur d’internet.' },
+    ],
+    asignatura: 'Vida Pràctica', niveles: 'Primària, ESO, Batxillerat',
   },
   'senal-a-senal': {
     titulo: 'Senyal a Senyal',

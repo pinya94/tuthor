@@ -662,7 +662,7 @@ export const TOPIC_CATALOG = {
     temas: {
       'primeros-auxilios': examTema({ examen: 'primeros-auxilios' }, { niveles: ['primaria', 'eso', 'bachillerato'] }),
       'seguridad-vial': examTema({ examen: 'seguridad-vial', senal: 'senal-a-senal-test' }, { niveles: ['primaria', 'eso'] }),
-      'internet-seguro': examTema({ examen: 'internet-seguro' }, { niveles: ['primaria', 'eso', 'bachillerato'] }),
+      'internet-seguro': examTema({ examen: 'internet-seguro', mensaje: 'ojo-al-mensaje-test' }, { niveles: ['primaria', 'eso', 'bachillerato'] }),
     },
     formatos: {
       reaccion: {
@@ -673,6 +673,7 @@ export const TOPIC_CATALOG = {
       },
       examen: examFormato({ es: 'Examen', en: 'Exam', ca: 'Examen' }, '📝'),
       senal: examFormato({ es: 'Señal a Señal (con el juego)', en: 'Sign by Sign (with the game)', ca: 'Senyal a Senyal (amb el joc)' }, '🚸'),
+      mensaje: examFormato({ es: 'Ojo al Mensaje (con el juego)', en: 'Check the Message (with the game)', ca: 'Ull al Missatge (amb el joc)' }, '🎣'),
     },
   },
 }

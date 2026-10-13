@@ -85,6 +85,25 @@ function PentagramaPath(p) {
   )
 }
 
+function OjoAlMensaje(p) {
+  // Un móvil con un mensaje y un enlace marcado con la bandera roja.
+  return (
+    <Lienzo {...p}>
+      <rect x="78" y="10" width="84" height="104" rx="12" fill="#1E293B" />
+      <rect x="84" y="20" width="72" height="84" rx="4" fill="#F8FAFC" />
+      <rect x="90" y="28" width="52" height="22" rx="8" fill="#E2E8F0" />
+      <rect x="95" y="34" width="38" height="4" rx="2" fill="#94A3B8" /><rect x="95" y="42" width="26" height="4" rx="2" fill="#94A3B8" />
+      <rect x="90" y="56" width="58" height="24" rx="8" fill="#E2E8F0" />
+      <rect x="94" y="62" width="48" height="12" rx="3" fill="#FEE2E2" stroke="#DC2626" strokeWidth="2" />
+      <rect x="98" y="66" width="36" height="4" rx="2" fill="#2563EB" />
+      <path d="M170 30 L170 78" stroke="#475569" strokeWidth="4" strokeLinecap="round" />
+      <path d="M172 32 L204 40 L172 50 Z" fill="#DC2626" />
+      <path d="M40 86 Q52 60 70 70" stroke="#0EA5E9" strokeWidth="3" fill="none" />
+      <path d="M40 86 L40 98 M36 94 L40 98 L44 94" stroke="#0EA5E9" strokeWidth="3" fill="none" strokeLinecap="round" />
+    </Lienzo>
+  )
+}
+
 function SenalASenal(p) {
   // Tres señales: peligro, prohibición e indicación.
   return (
@@ -156,4 +175,5 @@ export const ARTE_VIDA = {
   'la-orquesta': LaOrquesta,
   reaccion: Reaccion,
   'senal-a-senal': SenalASenal,
+  'ojo-al-mensaje': OjoAlMensaje,
 }

@@ -123,6 +123,7 @@ const CompasCompleto         = lazy(() => import('./pages/CompasCompleto'))
 const LaOrquesta             = lazy(() => import('./pages/LaOrquesta'))
 const Reaccion               = lazy(() => import('./pages/Reaccion'))
 const SenalASenal            = lazy(() => import('./pages/SenalASenal'))
+const OjoAlMensaje           = lazy(() => import('./pages/OjoAlMensaje'))
 const FuerzaNeta             = lazy(() => import('./pages/FuerzaNeta'))
 const Balanza                = lazy(() => import('./pages/Balanza'))
 const BalanzaEcuaciones      = lazy(() => import('./pages/BalanzaEcuaciones'))
@@ -359,6 +360,7 @@ function AppRoutes() {
       <Route path="juegos/la-orquesta" element={<LaOrquesta />} />
       <Route path="juegos/reaccion" element={<Reaccion />} />
       <Route path="juegos/senal-a-senal" element={<SenalASenal />} />
+      <Route path="juegos/ojo-al-mensaje" element={<OjoAlMensaje />} />
       <Route path="juegos/fuerza-neta" element={<FuerzaNeta />} />
       <Route path="juegos/balanza" element={<Balanza />} />
       <Route path="juegos/balanza-ecuaciones" element={<BalanzaEcuaciones />} />

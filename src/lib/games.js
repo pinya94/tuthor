@@ -283,6 +283,14 @@ export const GAMES = {
     // nota financiera 0-10000 → hasta 200 monedas con nota ≥ 2000
     coins: DEFAULT_COINS,
   },
+  'ojo-al-mensaje': {
+    label: { es: 'Ojo al Mensaje', en: 'Check the Message', ca: 'Ull al Missatge' },
+    emoji: '🎣',
+    subject: 'vida-practica',
+    route: '/juegos/ojo-al-mensaje',
+    // aciertos × 10 puntos → hasta 200 monedas
+    coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
+  },
   'senal-a-senal': {
     label: { es: 'Señal a Señal', en: 'Sign by Sign', ca: 'Senyal a Senyal' },
     emoji: '🚸',

@@ -26,6 +26,11 @@ const BLOQUES = [
     sub: { es: 'Señales de tráfico dibujadas', en: 'Drawn road signs', ca: 'Senyals de trànsit dibuixats' },
   },
   {
+    id: 'ojo-al-mensaje', emoji: '🎣', path: '/juegos/ojo-al-mensaje',
+    titulo: { es: 'Ojo al Mensaje (juego)', en: 'Check the Message (game)', ca: 'Ull al Missatge (joc)' },
+    sub: { es: 'Caza los timos y los peligros', en: 'Spot scams and dangers', ca: 'Caça les estafes i els perills' },
+  },
+  {
     id: 'internet-seguro', emoji: '🔐', path: '/examen/internet-seguro',
     titulo: { es: 'Internet Seguro', en: 'Online Safety', ca: 'Internet Segur' },
     sub: { es: 'Privacidad, estafas y convivencia', en: 'Privacy, scams and behaviour', ca: 'Privacitat, estafes i convivència' },
