@@ -998,6 +998,34 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Música', niveles: 'Primaria, ESO, Bachillerato',
   },
+  'senal-a-senal': {
+    titulo: 'Señal a Señal',
+    subtitulo: 'Juego de Señales de Tráfico y Seguridad Vial',
+    emoji: '🚸', gradient: 'from-red-600 to-blue-700',
+    path: '/juegos/senal-a-senal',
+    intro: 'Un juego de seguridad vial con señales de tráfico dibujadas. Unas rondas preguntan qué significa una señal; otras, de qué tipo es por su forma y su color; y otras plantean una situación real de peatón, ciclista o pasajero para elegir lo seguro. En el nivel difícil aparecen juntas las señales que más se confunden: velocidad máxima y mínima, prohibido parar y prohibido estacionar, peatones de peligro y paso de peatones.',
+    beneficios: [
+      { titulo: 'La Forma Habla Antes que el Dibujo', texto: 'Triángulo rojo, peligro; círculo rojo, prohibición; círculo azul, obligación; cuadrado azul, indicación. Quien domina esa regla entiende una señal que no ha visto nunca.' },
+      { titulo: 'Seguridad Vial desde el Punto de Vista del Alumno', texto: 'Las situaciones no son de conductor sino de peatón, ciclista y pasajero: cruzar con el semáforo, usar el casco, el cinturón detrás, los auriculares al cruzar.' },
+      { titulo: 'Parejas que Engañan', texto: 'Una barra o dos aspas, un círculo rojo o uno azul con el mismo número: el juego enfrenta las señales parecidas y explica la diferencia.' },
+    ],
+    ejemplo: 'Sale un círculo azul con un 30. El alumno duda entre «velocidad máxima 30» y «velocidad mínima 30», elige la mínima y acierta: el juego le recuerda que el azul obliga y el rojo prohíbe.',
+    enPapel: {
+      titulo: 'Paseo de señales por el barrio',
+      pasos: [
+        'Da un paseo corto por el barrio y fotografía o dibuja las señales que encontréis.',
+        'Clasificadlas por forma y color: peligro, prohibición, obligación, indicación.',
+        'Para cada una, escribid qué tiene que hacer un peatón o un ciclista al verla.',
+        'Haced un mapa del recorrido con las señales y los cruces más peligrosos.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'El examen de Seguridad Vial', desc: 'Repasa las normas de peatón, ciclista y pasajero en formato test con 10 preguntas y explicaciones.' },
+      { nombre: 'Reacción', desc: 'El juego de primeros auxilios de Tuthor: qué hacer, y en qué orden, ante una emergencia.' },
+      { nombre: 'Parques infantiles de tráfico', desc: 'Muchos ayuntamientos y la policía local ofrecen sesiones prácticas de educación vial para colegios.' },
+    ],
+    asignatura: 'Vida Práctica', niveles: 'Primaria, ESO',
+  },
   'reaccion': {
     titulo: 'Reacción',
     subtitulo: 'Juego de Primeros Auxilios y Decisiones de Emergencia',
@@ -3295,6 +3323,34 @@ export const FICHAS_EN = {
     ],
     asignatura: 'Music', niveles: 'Primary, Secondary, Sixth Form',
   },
+  'senal-a-senal': {
+    titulo: 'Sign by Sign',
+    subtitulo: 'Road Signs and Road Safety Game',
+    emoji: '🚸', gradient: 'from-red-600 to-blue-700',
+    path: '/juegos/senal-a-senal',
+    intro: 'A road safety game with drawn traffic signs. Some rounds ask what a sign means; others ask what type it is from its shape and colour; and others present a real pedestrian, cyclist or passenger situation where you choose the safe option. On hard, the signs people mix up appear together: maximum and minimum speed, no stopping and no parking, pedestrians ahead and pedestrian crossing.',
+    beneficios: [
+      { titulo: 'Shape Speaks Before the Picture', texto: 'Red triangle, warning; red circle, prohibition; blue circle, mandatory; blue square, information. Whoever knows that rule understands a sign they have never seen.' },
+      { titulo: 'Road Safety from the Student’s Point of View', texto: 'The situations are not about driving but about walking, cycling and riding as a passenger: crossing on the green light, wearing a helmet, the seat belt in the back, headphones when crossing.' },
+      { titulo: 'Pairs That Fool You', texto: 'One bar or a cross, a red or a blue circle with the same number: the game puts similar signs side by side and explains the difference.' },
+    ],
+    ejemplo: 'A blue circle with a 30 appears. The student hesitates between “maximum speed 30” and “minimum speed 30”, chooses minimum and is right: the game reminds them that blue commands and red forbids.',
+    enPapel: {
+      titulo: 'Neighbourhood sign walk',
+      pasos: [
+        'Take a short walk around the neighbourhood and photograph or draw the signs you find.',
+        'Sort them by shape and colour: warning, prohibition, mandatory, information.',
+        'For each one, write what a pedestrian or cyclist must do when they see it.',
+        'Make a map of the route with the signs and the most dangerous crossings.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'The Road Safety quiz', desc: 'Review the rules for pedestrians, cyclists and passengers as a 10-question test with explanations.' },
+      { nombre: 'Reaction', desc: 'Tuthor’s first aid game: what to do, and in which order, in an emergency.' },
+      { nombre: 'Traffic parks for children', desc: 'Many councils and local police run hands-on road safety sessions for schools.' },
+    ],
+    asignatura: 'Life Skills', niveles: 'Primary, Secondary',
+  },
   'reaccion': {
     titulo: 'Reacción',
     subtitulo: 'First Aid & Emergency Decisions Game',
@@ -5427,6 +5483,34 @@ export const FICHAS_CA = {
       { nombre: 'Dictat musical invers', desc: 'Algú diu noms de notes en veu alta i tu les escrius al pentagrama. Reforça l\'associació en els dos sentits.' },
     ],
     asignatura: 'Música', niveles: 'Primària, ESO, Batxillerat',
+  },
+  'senal-a-senal': {
+    titulo: 'Senyal a Senyal',
+    subtitulo: 'Joc de Senyals de Trànsit i Seguretat Viària',
+    emoji: '🚸', gradient: 'from-red-600 to-blue-700',
+    path: '/juegos/senal-a-senal',
+    intro: 'Un joc de seguretat viària amb senyals de trànsit dibuixats. Unes rondes pregunten què vol dir un senyal; d’altres, de quin tipus és per la forma i el color; i d’altres plantegen una situació real de vianant, ciclista o passatger per triar el que és segur. En el nivell difícil surten junts els senyals que més es confonen: velocitat màxima i mínima, prohibit parar i prohibit estacionar, perill de vianants i pas de vianants.',
+    beneficios: [
+      { titulo: 'La Forma Parla Abans que el Dibuix', texto: 'Triangle vermell, perill; cercle vermell, prohibició; cercle blau, obligació; quadrat blau, indicació. Qui domina aquesta regla entén un senyal que no ha vist mai.' },
+      { titulo: 'Seguretat Viària des del Punt de Vista de l’Alumne', texto: 'Les situacions no són de conductor sinó de vianant, ciclista i passatger: creuar amb el semàfor, portar casc, el cinturó al darrere, els auriculars en creuar.' },
+      { titulo: 'Parelles que Enganyen', texto: 'Una barra o dues aspes, un cercle vermell o un de blau amb el mateix número: el joc enfronta els senyals semblants i n’explica la diferència.' },
+    ],
+    ejemplo: 'Surt un cercle blau amb un 30. L’alumne dubta entre «velocitat màxima 30» i «velocitat mínima 30», tria la mínima i encerta: el joc li recorda que el blau obliga i el vermell prohibeix.',
+    enPapel: {
+      titulo: 'Passeig de senyals pel barri',
+      pasos: [
+        'Feu un passeig curt pel barri i fotografieu o dibuixeu els senyals que trobeu.',
+        'Classifiqueu-los per forma i color: perill, prohibició, obligació, indicació.',
+        'Per a cadascun, escriviu què ha de fer un vianant o un ciclista quan el veu.',
+        'Feu un mapa del recorregut amb els senyals i els encreuaments més perillosos.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'L’examen de Seguretat Viària', desc: 'Repassa les normes de vianant, ciclista i passatger en format test amb 10 preguntes i explicacions.' },
+      { nombre: 'Reacció', desc: 'El joc de primers auxilis de Tuthor: què fer, i en quin ordre, davant d’una emergència.' },
+      { nombre: 'Parcs infantils de trànsit', desc: 'Molts ajuntaments i la policia local ofereixen sessions pràctiques d’educació viària per a escoles.' },
+    ],
+    asignatura: 'Vida Pràctica', niveles: 'Primària, ESO',
   },
   'reaccion': {
     titulo: 'Reacció',

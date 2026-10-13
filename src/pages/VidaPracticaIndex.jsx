@@ -21,6 +21,11 @@ const BLOQUES = [
     sub: { es: 'Peatón, bici y patinete', en: 'On foot, bike and scooter', ca: 'Vianant, bici i patinet' },
   },
   {
+    id: 'senal-a-senal', emoji: '🚦', path: '/juegos/senal-a-senal',
+    titulo: { es: 'Señal a Señal (juego)', en: 'Sign by Sign (game)', ca: 'Senyal a Senyal (joc)' },
+    sub: { es: 'Señales de tráfico dibujadas', en: 'Drawn road signs', ca: 'Senyals de trànsit dibuixats' },
+  },
+  {
     id: 'internet-seguro', emoji: '🔐', path: '/examen/internet-seguro',
     titulo: { es: 'Internet Seguro', en: 'Online Safety', ca: 'Internet Segur' },
     sub: { es: 'Privacidad, estafas y convivencia', en: 'Privacy, scams and behaviour', ca: 'Privacitat, estafes i convivència' },

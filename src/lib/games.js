@@ -283,6 +283,14 @@ export const GAMES = {
     // nota financiera 0-10000 → hasta 200 monedas con nota ≥ 2000
     coins: DEFAULT_COINS,
   },
+  'senal-a-senal': {
+    label: { es: 'Señal a Señal', en: 'Sign by Sign', ca: 'Senyal a Senyal' },
+    emoji: '🚸',
+    subject: 'vida-practica',
+    route: '/juegos/senal-a-senal',
+    // aciertos × 10 puntos → hasta 200 monedas
+    coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
+  },
   'reaccion': {
     label: { es: 'Reacción', en: 'Reacción', ca: 'Reacció' },
     emoji: '🚑',

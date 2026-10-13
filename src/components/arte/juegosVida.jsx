@@ -85,6 +85,21 @@ function PentagramaPath(p) {
   )
 }
 
+function SenalASenal(p) {
+  // Tres señales: peligro, prohibición e indicación.
+  return (
+    <Lienzo {...p}>
+      <polygon points="50,24 86,92 14,92" fill="#FFFFFF" stroke="#DC2626" strokeWidth="7" strokeLinejoin="round" />
+      <rect x="45" y="50" width="10" height="26" rx="2" fill="#111827" />
+      <circle cx="50" cy="55" r="3" fill="#DC2626" /><circle cx="50" cy="63" r="3" fill="#F59E0B" /><circle cx="50" cy="71" r="3" fill="#16A34A" />
+      <circle cx="122" cy="60" r="32" fill="#FFFFFF" stroke="#DC2626" strokeWidth="8" />
+      <text x="122" y="70" textAnchor="middle" fontSize="26" fontWeight="900" fill="#111827">50</text>
+      <rect x="164" y="28" width="62" height="62" rx="6" fill="#1D4ED8" />
+      <text x="195" y="78" textAnchor="middle" fontSize="44" fontWeight="900" fill="#FFFFFF">P</text>
+    </Lienzo>
+  )
+}
+
 function Reaccion(p) {
   return (
     <Lienzo {...p}>
@@ -140,4 +155,5 @@ export const ARTE_VIDA = {
   'compas-completo': CompasCompleto,
   'la-orquesta': LaOrquesta,
   reaccion: Reaccion,
+  'senal-a-senal': SenalASenal,
 }

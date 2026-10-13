@@ -661,15 +661,18 @@ export const TOPIC_CATALOG = {
   'vida-practica': {
     temas: {
       'primeros-auxilios': examTema({ examen: 'primeros-auxilios' }, { niveles: ['primaria', 'eso', 'bachillerato'] }),
-      'seguridad-vial': examTema({ examen: 'seguridad-vial' }, { niveles: ['primaria', 'eso'] }),
+      'seguridad-vial': examTema({ examen: 'seguridad-vial', senal: 'senal-a-senal-test' }, { niveles: ['primaria', 'eso'] }),
       'internet-seguro': examTema({ examen: 'internet-seguro' }, { niveles: ['primaria', 'eso', 'bachillerato'] }),
     },
     formatos: {
       reaccion: {
         label: { es: 'Reacción (juego)', en: 'Reaction (game)', ca: 'Reacció (joc)' },
         emoji: '🚑', game: 'reaccion', usesLevel: false, tracksTopic: false,
+        // Reacción es de primeros auxilios: no tiene nada de tráfico ni de internet.
+        temas: ['primeros-auxilios'],
       },
       examen: examFormato({ es: 'Examen', en: 'Exam', ca: 'Examen' }, '📝'),
+      senal: examFormato({ es: 'Señal a Señal (con el juego)', en: 'Sign by Sign (with the game)', ca: 'Senyal a Senyal (amb el joc)' }, '🚸'),
     },
   },
 }

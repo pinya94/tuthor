@@ -225,6 +225,11 @@ export const EXAMS = {
     emoji: '🚑', subject: 'vida-practica',
     path: 'examen/primeros-auxilios', page: () => import('../pages/PrimerosAuxiliosExamen'),
   },
+  'senal-a-senal-test': {
+    label: { es: 'Señal a Señal (con el juego)', en: 'Sign by Sign (with the game)', ca: 'Senyal a Senyal (amb el joc)' },
+    emoji: '🚸', subject: 'vida-practica',
+    path: 'examen/senal-a-senal-test', page: () => import('../pages/SenalASenalExamen'),
+  },
   'seguridad-vial': {
     label: { es: 'Seguridad Vial', en: 'Road Safety', ca: 'Seguretat Viària' },
     emoji: '🚸', subject: 'vida-practica',
