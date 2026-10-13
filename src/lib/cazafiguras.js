@@ -1,8 +1,9 @@
 // Cazafiguras (lengua · las figuras literarias, ESO y Bachillerato). Solo castellano.
 //
-// Sale un verso o una frase y hay que decir qué figura literaria tiene; al
-// corregir se resaltan las palabras que la forman. En los niveles bajos
-// también sale la definición y hay que poner el nombre.
+// Un juego de cazar, no de elegir:
+//   caza      el texto con cada palabra tocable: toca las que forman la figura
+//             que se pide (en fácil, con su definición a la vista)
+//   empareja  tres o cuatro textos y sus figuras: une cada uno con la suya
 //
 // Un verso suele tener más de una figura (unos «verdes» de Lorca son anáfora
 // y también epíteto…). Por eso cada ejemplo trae su figura principal Y la
@@ -103,10 +104,42 @@ const CONFUNDE = {
   asindeton: ['polisindeton', 'anafora', 'hiperbaton'],
 }
 
+// ── Palabras del texto ────────────────────────────────────────────────────
+// El texto se trocea en palabras (con su puntuación pegada) y «/» de verso.
+// Cada palabra se puede tocar. `marcadas` son las que forman la figura.
+export function palabras(e) {
+  const out = []
+  const re = /\S+/g
+  let m
+  while ((m = re.exec(e.t))) out.push({ t: m[0], ini: m.index, fin: m.index + m[0].length, verso: m[0] === '/' })
+  return out
+}
+export function marcadas(e) {
+  const ps = palabras(e)
+  const sel = new Set()
+  let desde = 0
+  for (const mk of e.marca) {
+    const i = e.t.indexOf(mk, desde)
+    if (i < 0) continue
+    const f = i + mk.length
+    ps.forEach((p, k) => { if (!p.verso && p.ini < f && p.fin > i) sel.add(k) })
+    desde = f
+  }
+  return [...sel].sort((a, b) => a - b)
+}
+// Vale si se tocan al menos el 60 % de las palabras de la figura y como mucho
+// una de sobra (dos si la figura es larga).
+export function cazaBien(e, tocadas) {
+  const T = marcadas(e)
+  const aciertos = tocadas.filter(k => T.includes(k)).length
+  const sobran = tocadas.length - aciertos
+  return aciertos >= Math.ceil(T.length * 0.6) && sobran <= (T.length >= 4 ? 2 : 1)
+}
+
 export const NIVELES = {
-  facil:   { tipos: ['figura', 'figura', 'figura', 'definicion'], hasta: 'facil' },
-  medio:   { tipos: ['figura', 'figura', 'figura', 'definicion'], hasta: 'medio' },
-  dificil: { tipos: ['figura'], hasta: 'dificil' },
+  facil:   { tipos: ['caza', 'caza', 'empareja'], hasta: 'facil', parejas: 3, pista: true },
+  medio:   { tipos: ['caza', 'caza', 'empareja'], hasta: 'medio', parejas: 3, pista: false },
+  dificil: { tipos: ['caza', 'empareja'], hasta: 'dificil', parejas: 4, pista: false },
 }
 const disponibles = hasta => Object.keys(FIGURAS).filter(f => ORDEN.indexOf(FIGURAS[f].nivel) <= ORDEN.indexOf(hasta))
 
@@ -122,10 +155,9 @@ const recientes = []
 export function genRonda(nivel = 'facil', opts = {}) {
   for (let intento = 0; ; intento++) {
     const r = genUna(nivel, opts)
-    const tema = r.ejemplo ?? `def:${r.bueno}`
-    if (intento < 20 && recientes.includes(tema)) continue
-    recientes.push(tema)
-    if (recientes.length > 8) recientes.shift()
+    if (intento < 20 && r.ejemplos.some(i => recientes.includes(i))) continue
+    recientes.push(...r.ejemplos)
+    while (recientes.length > 8) recientes.shift()
     return r
   }
 }
@@ -134,38 +166,42 @@ function genUna(nivel, { rand = Math.random } = {}) {
   const cfg = NIVELES[nivel] ?? NIVELES.facil
   const disp = disponibles(cfg.hasta)
   const tipo = elige(rand, cfg.tipos)
+  const pool = EJEMPLOS.map((e, i) => i).filter(i => disp.includes(EJEMPLOS[i].fig))
+  const nuevas = pool.filter(i => FIGURAS[EJEMPLOS[i].fig].nivel === cfg.hasta)
+  if (tipo === 'caza') {
+    const i = elige(rand, nivel !== 'facil' && rand() < 0.6 ? nuevas : pool)
+    return { id: ++seq, nivel, tipo, ejemplos: [i], pista: cfg.pista, bueno: 'caza:ok' }
+  }
+  // empareja: versos de figuras distintas, y ninguno tiene también la figura de otro.
   for (;;) {
-    if (tipo === 'definicion') {
-      const fig = elige(rand, disp)
-      const otras = [...CONFUNDE[fig].filter(f => disp.includes(f)), ...baraja(rand, disp)].filter(f => f !== fig)
-      const ops = [...new Set(otras)].slice(0, 3)
-      return { id: ++seq, nivel, tipo, bueno: fig, opciones: baraja(rand, [fig, ...ops]) }
+    const elegidos = []
+    for (const i of baraja(rand, pool)) {
+      const e = EJEMPLOS[i]
+      if (elegidos.some(j => EJEMPLOS[j].fig === e.fig || EJEMPLOS[j].tambien.includes(e.fig) || e.tambien.includes(EJEMPLOS[j].fig))) continue
+      elegidos.push(i)
+      if (elegidos.length === cfg.parejas) break
     }
-    // En difícil, sobre todo las figuras nuevas del nivel.
-    const pool = EJEMPLOS.map((e, i) => [e, i]).filter(([e]) => disp.includes(e.fig))
-    const nuevas = pool.filter(([e]) => FIGURAS[e.fig].nivel === cfg.hasta)
-    const [e, i] = elige(rand, nivel !== 'facil' && rand() < 0.6 ? nuevas : pool)
-    const vale = f => f !== e.fig && !e.tambien.includes(f) && disp.includes(f)
-    const otras = [...new Set([...CONFUNDE[e.fig].filter(vale), ...baraja(rand, disp.filter(vale))])].slice(0, 3)
-    if (otras.length < 3) continue
-    return { id: ++seq, nivel, tipo, ejemplo: i, bueno: e.fig, opciones: baraja(rand, [e.fig, ...otras]) }
+    if (elegidos.length < cfg.parejas) continue
+    return { id: ++seq, nivel, tipo, ejemplos: elegidos, figuras: baraja(rand, elegidos.map(i => EJEMPLOS[i].fig)), bueno: 'empareja:0' }
   }
 }
 
 export const genRound = (difficulty = 'facil') => genRonda(difficulty)
+// Respuestas: caza → «caza:ok» o «caza:no»; empareja → «empareja:fallos».
 export const esCorrecta = (r, o) => o === r.bueno
 
 // ── Textos ────────────────────────────────────────────────────────────────
-export const ejemplo = r => (r.ejemplo != null ? EJEMPLOS[r.ejemplo] : null)
-export const textoOpcion = o => FIGURAS[o].nombre
-export const enunciado = r => (r.tipo === 'definicion' ? '¿Cómo se llama esta figura?' : '¿Qué figura literaria hay aquí?')
+export const ejemplo = r => EJEMPLOS[r.ejemplos[0]]
+export const enunciado = r => (r.tipo === 'caza'
+  ? `Toca las palabras que forman la ${FIGURAS[ejemplo(r).fig].nombre.toLowerCase()}`
+  : 'Une cada texto con su figura literaria')
 
 export function explicacion(r) {
-  const f = FIGURAS[r.bueno]
-  if (r.tipo === 'definicion') return `${f.nombre}: ${f.def}`
+  if (r.tipo === 'empareja') return r.ejemplos.map(i => `«${EJEMPLOS[i].marca.slice(0, 3).join(' … ')}»: ${FIGURAS[EJEMPLOS[i].fig].nombre.toLowerCase()}`).join(' · ') + '.'
   const e = ejemplo(r)
-  const tambien = e.tambien.length ? ` (También hay ${e.tambien.map(x => FIGURAS[x].nombre.toLowerCase()).join(' y ')}, por eso no sale como opción.)` : ''
-  return `${f.nombre}: ${f.def} Aquí, en «${e.marca[0]}».${tambien}`
+  const f = FIGURAS[e.fig]
+  const tambien = e.tambien.length ? ` Este texto también tiene ${e.tambien.map(x => FIGURAS[x].nombre.toLowerCase()).join(' y ')}.` : ''
+  return `${f.nombre}: ${f.def} Aquí, en «${e.marca.join(' … ')}».${tambien}`
 }
 
 // Trozos del texto marcando las palabras de la figura (en orden de aparición).
@@ -183,11 +219,15 @@ export function trozos(e) {
   return out
 }
 
+// Para los buscadores y el examen en texto: «¿qué figura hay?», con falsas que
+// no estén en el texto (ni la principal ni las de `tambien`).
 export function schemaQuestion(r) {
-  const q = r.tipo === 'definicion' ? `${FIGURAS[r.bueno].def} ` : `«${ejemplo(r).t.replace(/ \/ /g, ' / ')}» `
+  const e = ejemplo(r)
+  const vale = f => f !== e.fig && !e.tambien.includes(f)
+  const falsas = [...new Set([...CONFUNDE[e.fig], ...Object.keys(FIGURAS)].filter(vale))].slice(0, 3)
   return {
-    question: `${q}${enunciado(r)}`,
-    correctAnswer: textoOpcion(r.bueno),
-    wrongAnswers: r.opciones.filter(o => o !== r.bueno).map(textoOpcion),
+    question: `«${e.t}» ¿Qué figura literaria hay aquí?`,
+    correctAnswer: FIGURAS[e.fig].nombre,
+    wrongAnswers: falsas.map(f => FIGURAS[f].nombre),
   }
 }

@@ -11,9 +11,10 @@ import SEOHead from '../components/SEOHead'
 import { CabeceraJuego, NivelBarras, ComoSeJuega } from '../components/IntroJuego'
 import { Racha } from '../components/Iconos'
 
-const GAME_TIME = 60
+// Cazar las palabras lleva más que tocar una opción: 90 s y +6 s por acierto.
+const GAME_TIME = 90
 const WRONG_TIME = 5
-const CORRECT_TIME = 4
+const CORRECT_TIME = 6
 const REVEAL_MS = 4800 // da tiempo a ver la figura resaltada y la definición
 
 const DIFS = {
@@ -107,7 +108,7 @@ export default function Cazafiguras() {
   const seo = {
     title: tr({ es: 'Cazafiguras — Juego de figuras literarias: metáfora, hipérbole, anáfora y más', en: 'Cazafiguras — Spanish literary devices game', ca: 'Cazafiguras — Joc de figures literàries en castellà' }),
     desc: tr({
-      es: 'Versos de Garcilaso, Quevedo, Bécquer o Lorca y frases de ejemplo: descubre la metáfora, la comparación, la hipérbole, la anáfora, el hipérbaton, la paradoja o la sinestesia, con las palabras de la figura resaltadas. Juego de lengua gratis.',
+      es: 'Versos de Garcilaso, Quevedo, Bécquer o Lorca y frases de ejemplo: toca las palabras que forman la metáfora, la anáfora, el oxímoron o la sinestesia, y empareja cada texto con su figura. Juego gratis.',
       en: 'Spanish verses and sentences: spot the metaphor, hyperbole, anaphora, paradox or synaesthesia, with the words highlighted. Free Spanish language game.',
       ca: 'Versos i frases en castellà: descobreix la metàfora, la hipèrbole, l’anàfora, la paradoxa o la sinestèsia, amb les paraules ressaltades. Joc de llengua gratis.',
     }),
@@ -123,7 +124,7 @@ export default function Cazafiguras() {
           <CabeceraJuego slug="cazafiguras"
             badge={tr({ es: 'Lengua · Figuras literarias', en: 'Spanish · Literary devices', ca: 'Castellà · Figures literàries' })}
             titulo={tr({ es: '🎭 Cazafiguras', en: '🎭 Cazafiguras', ca: '🎭 Cazafiguras' })}
-            sub={tr({ es: 'Cada verso esconde una figura: ¿sabes cuál es?', en: 'Every verse hides a literary device: can you spot it?', ca: 'Cada vers amaga una figura: saps quina és?' })} />
+            sub={tr({ es: 'Caza la figura dentro del verso', en: 'Hunt the device inside the verse', ca: 'Caça la figura dins del vers' })} />
 
           <p className="text-white/40 text-xs uppercase tracking-widest text-center mb-2">{tr({ es: 'Elige nivel', en: 'Choose a level', ca: 'Tria nivell' })}</p>
           <div className="flex flex-wrap justify-center gap-1.5 p-1 bg-white/5 border border-white/10 rounded-xl mb-2">
@@ -142,8 +143,8 @@ export default function Cazafiguras() {
           </button>
           <ComoSeJuega>
             <div className="space-y-2 text-white/70 text-sm">
-              <p>{tr({ es: 'Sale un verso de un clásico (Garcilaso, Quevedo, Bécquer, Lorca…) o una frase de ejemplo, y hay que elegir qué figura literaria tiene. Al corregir se resaltan las palabras que la forman y aparece la definición.', en: 'A verse from a classic or an example sentence appears, and you choose which literary device it has. When you answer, the words that form it are highlighted with the definition.', ca: 'Surt un vers d’un clàssic o una frase d’exemple, i cal triar quina figura literària té. En corregir es ressalten les paraules que la formen i apareix la definició.' })}</p>
-              <p>{tr({ es: 'Muchos versos tienen más de una figura: las que también aparecen nunca salen como opción falsa, así que siempre hay una sola respuesta. En los niveles bajos también sale la definición y hay que poner el nombre.', en: 'Many verses have more than one device: the others that appear are never offered as wrong options, so there is always one answer.', ca: 'Molts versos tenen més d’una figura: les que també hi surten mai no apareixen com a opció falsa, així que sempre hi ha una sola resposta.' })}</p>
+              <p>{tr({ es: 'Sale un verso de un clásico (Garcilaso, Quevedo, Bécquer, Lorca…) o una frase de ejemplo, con cada palabra tocable, y te piden una figura: «la metáfora», «la anáfora». Toca las palabras que la forman y comprueba. En fácil tienes la definición a la vista.', en: 'A verse from a Spanish classic or a sample sentence appears, with every word tappable, and you are asked for one device. Tap the words that make it up and check.', ca: 'Surt un vers d’un clàssic o una frase d’exemple, amb cada paraula tocable, i et demanen una figura. Toca les paraules que la formen i comprova-ho.' })}</p>
+              <p>{tr({ es: 'Otras rondas son de emparejar: tres textos (cuatro en difícil) y sus figuras; toca un texto y luego su figura. Muchos versos tienen más de una figura, así que nunca se juntan dos en los que una figura valdría para ambos.', en: 'Other rounds are for matching: three texts (four on hard) and their devices; tap a text and then its device.', ca: 'Altres rondes són d’aparellar: tres textos (quatre en difícil) i les seves figures; toca un text i després la seva figura.' })}</p>
               <p className="text-white/40 text-xs pt-1">⏱️ {GAME_TIME}s · {tr({ es: `Acierto +10 y +${CORRECT_TIME}s · Fallo −${WRONG_TIME}s`, en: `Correct +10 and +${CORRECT_TIME}s · Wrong −${WRONG_TIME}s`, ca: `Encert +10 i +${CORRECT_TIME}s · Error −${WRONG_TIME}s` })}</p>
             </div>
           </ComoSeJuega>
