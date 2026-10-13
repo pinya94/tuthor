@@ -1927,6 +1927,34 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Geografía', niveles: 'Primaria, ESO',
   },
+  'punto-muerto': {
+    titulo: 'Punto Muerto',
+    subtitulo: 'Juego del punto de equilibrio o umbral de rentabilidad',
+    emoji: '🏭', gradient: 'from-emerald-600 to-sky-800',
+    path: '/juegos/punto-muerto',
+    intro: 'Un juego de economía de la empresa para entender el punto muerto, también llamado punto de equilibrio o umbral de rentabilidad. Cada ronda es una empresa con sus costes fijos (CF), su precio de venta (P) y su coste variable unitario (CVu), y un gráfico con la recta de ingresos y la de costes totales. Hay que leer en el gráfico dónde se cruzan, decir si con unas ventas dadas hay beneficio o pérdidas, calcular el punto muerto con Q = CF / (P − CVu), el beneficio o la pérdida, el precio mínimo para no perder y qué le pasa al punto muerto si suben los costes o el precio. Los números salen siempre exactos, como en un examen.',
+    beneficios: [
+      { titulo: 'El gráfico antes que la fórmula', texto: 'Ver las dos rectas cruzarse explica la fórmula mejor que memorizarla: a la izquierda del cruce los costes ganan a los ingresos (pérdidas), a la derecha los ingresos ganan (beneficio). Al corregir se colorean las dos zonas y se marca el punto muerto.' },
+      { titulo: 'Los errores de examen, como opciones', texto: 'Dividir los costes fijos entre el precio y olvidar el coste variable, olvidar los costes fijos al calcular el beneficio o pensar que subir el precio sube el punto muerto: esas respuestas equivocadas están entre las opciones, con la cuenta correcta en la explicación.' },
+      { titulo: 'Sensibilidad sin calculadora', texto: 'Qué pasa si suben los costes fijos, el precio o el coste variable es la pregunta de razonar que acompaña siempre al cálculo en Economía de la Empresa. El juego la mezcla con las cuentas para que se entienda por qué el margen P − CVu lo decide todo.' },
+    ],
+    ejemplo: 'Una empresa tiene 6.000 € de costes fijos, vende cada unidad a 25 € y fabricarla le cuesta 10 €. Cada unidad deja un margen de 25 − 10 = 15 €, así que el punto muerto es 6.000 / 15 = 400 unidades. Si vende 600, gana 15 · 600 − 6.000 = 3.000 €. Quien divide 6.000 entre el precio obtiene 240, que olvida lo que cuesta fabricar cada unidad.',
+    enPapel: {
+      titulo: 'El puesto de limonada',
+      pasos: [
+        'Imagina un puesto de limonada: la mesa y la jarra cuestan 30 € (costes fijos) y cada vaso, 0,50 € en limones y azúcar.',
+        'Decide un precio por vaso y calcula cuántos vasos tienes que vender para recuperar los 30 €.',
+        'Dibuja en papel cuadriculado la recta de ingresos y la de costes totales y comprueba que se cruzan ahí.',
+        'Repite con otro precio y compara: ¿cuánto baja el punto muerto si cobras 50 céntimos más?',
+      ],
+    },
+    alternativas: [
+      { nombre: 'El examen de punto de equilibrio', desc: 'Calcula y escribe las unidades de equilibrio, sin opciones, más preguntas de beneficio y de sensibilidad.' },
+      { nombre: 'Oferta y demanda', desc: 'Otro juego de economía: las noticias que mueven las curvas y el precio de equilibrio.' },
+      { nombre: 'Spicy', desc: 'Finanzas personales: inflación, interés compuesto, deuda y estafas.' },
+    ],
+    asignatura: 'Economía', niveles: 'ESO, Bachillerato',
+  },
   'oferta-demanda': {
     titulo: 'Oferta y demanda',
     subtitulo: 'Juego de economía: desplazamientos de las curvas y equilibrio del mercado',
@@ -3912,6 +3940,33 @@ export const FICHAS_EN = {
       { nombre: 'Official statistics', desc: 'National statistics offices publish the population pyramid for each year: look for the baby boom and the gaps left by wars.' },
     ],
     asignatura: 'Geography', niveles: 'Primary, Secondary',
+  },
+  'punto-muerto': {
+    titulo: 'Break-Even',
+    subtitulo: 'Break-even point game',
+    emoji: '🏭', gradient: 'from-emerald-600 to-sky-800', path: '/juegos/punto-muerto',
+    intro: 'A business economics game for understanding the break-even point. Each round is a firm with its fixed costs (FC), selling price (P) and variable cost per unit (VCu), and a graph with the revenue line and the total cost line. You read where they cross, say whether a given level of sales makes a profit or a loss, work out break-even with Q = FC / (P − VCu), the profit or loss, the minimum price not to lose money, and what happens to break-even when costs or price go up. The numbers always come out exact, as in an exam.',
+    beneficios: [
+      { titulo: 'The graph before the formula', texto: 'Seeing the two lines cross explains the formula better than memorising it: left of the crossing, costs beat revenue (loss); to the right, revenue wins (profit). When you answer, both zones are coloured and break-even is marked.' },
+      { titulo: 'Exam mistakes as options', texto: 'Dividing fixed costs by the price and forgetting the variable cost, forgetting fixed costs when working out profit, or thinking a higher price raises break-even: those wrong answers are among the options, with the right sum in the explanation.' },
+      { titulo: 'Sensitivity without a calculator', texto: 'What happens if fixed costs, price or variable cost go up is the reasoning question that always comes with the calculation. The game mixes it with the sums so that it is clear why the margin P − VCu decides everything.' },
+    ],
+    ejemplo: 'A firm has €6,000 of fixed costs, sells each unit for €25 and it costs €10 to make. Each unit leaves a margin of 25 − 10 = €15, so break-even is 6,000 / 15 = 400 units. If it sells 600, it makes 15 · 600 − 6,000 = €3,000. Anyone who divides 6,000 by the price gets 240, which forgets what each unit costs to make.',
+    enPapel: {
+      titulo: 'The lemonade stand',
+      pasos: [
+        'Imagine a lemonade stand: the table and jug cost €30 (fixed costs) and each cup €0.50 in lemons and sugar.',
+        'Choose a price per cup and work out how many cups you must sell to get the €30 back.',
+        'On squared paper draw the revenue line and the total cost line, and check that they cross there.',
+        'Repeat with another price and compare: how much does break-even fall if you charge 50 cents more?',
+      ],
+    },
+    alternativas: [
+      { nombre: 'Supply and Demand', desc: 'Another economics game: news that shifts the curves and the equilibrium price.' },
+      { nombre: 'Spicy', desc: 'Personal finance: inflation, compound interest, debt and scams.' },
+      { nombre: 'Sale!', desc: 'A maths game on percentages, discounts and VAT.' },
+    ],
+    asignatura: 'Economics', niveles: 'Secondary, Sixth Form',
   },
   'oferta-demanda': {
     titulo: 'Supply and Demand',
@@ -5910,6 +5965,33 @@ export const FICHAS_CA = {
       { nombre: 'Dades de l’Idescat i l’INE', desc: 'A les webs d’estadística es pot veure la piràmide de cada any: busqueu el baby boom i el buit de la Guerra Civil.' },
     ],
     asignatura: 'Geografia', niveles: 'Primària, ESO',
+  },
+  'punto-muerto': {
+    titulo: 'Punt Mort',
+    subtitulo: 'Joc del punt d’equilibri o llindar de rendibilitat',
+    emoji: '🏭', gradient: 'from-emerald-600 to-sky-800', path: '/juegos/punto-muerto',
+    intro: 'Un joc d’economia de l’empresa per entendre el punt mort, també anomenat punt d’equilibri o llindar de rendibilitat. Cada ronda és una empresa amb els seus costos fixos (CF), el preu de venda (P) i el cost variable unitari (CVu), i un gràfic amb la recta d’ingressos i la de costos totals. Cal llegir al gràfic on es creuen, dir si amb unes vendes donades hi ha benefici o pèrdues, calcular el punt mort amb Q = CF / (P − CVu), el benefici o la pèrdua, el preu mínim per no perdre i què li passa al punt mort si pugen els costos o el preu. Els números surten sempre exactes, com en un examen.',
+    beneficios: [
+      { titulo: 'El gràfic abans que la fórmula', texto: 'Veure les dues rectes creuar-se explica la fórmula millor que memoritzar-la: a l’esquerra del creuament els costos guanyen els ingressos (pèrdues), a la dreta guanyen els ingressos (benefici). En corregir es pinten les dues zones i es marca el punt mort.' },
+      { titulo: 'Els errors d’examen, com a opcions', texto: 'Dividir els costos fixos pel preu i oblidar el cost variable, oblidar els costos fixos en calcular el benefici o pensar que pujar el preu puja el punt mort: aquestes respostes equivocades són entre les opcions, amb el compte correcte a l’explicació.' },
+      { titulo: 'Sensibilitat sense calculadora', texto: 'Què passa si pugen els costos fixos, el preu o el cost variable és la pregunta de raonar que acompanya sempre el càlcul. El joc la barreja amb els comptes perquè s’entengui per què el marge P − CVu ho decideix tot.' },
+    ],
+    ejemplo: 'Una empresa té 6.000 € de costos fixos, ven cada unitat a 25 € i fabricar-la li costa 10 €. Cada unitat deixa un marge de 25 − 10 = 15 €, així que el punt mort és 6.000 / 15 = 400 unitats. Si en ven 600, guanya 15 · 600 − 6.000 = 3.000 €. Qui divideix 6.000 pel preu obté 240, que oblida el que costa fabricar cada unitat.',
+    enPapel: {
+      titulo: 'La parada de llimonada',
+      pasos: [
+        'Imagina una parada de llimonada: la taula i la gerra costen 30 € (costos fixos) i cada got, 0,50 € en llimones i sucre.',
+        'Decideix un preu per got i calcula quants gots has de vendre per recuperar els 30 €.',
+        'Dibuixa en paper quadriculat la recta d’ingressos i la de costos totals i comprova que es creuen allà.',
+        'Repeteix-ho amb un altre preu i compara: quant baixa el punt mort si cobres 50 cèntims més?',
+      ],
+    },
+    alternativas: [
+      { nombre: 'L’examen de punt d’equilibri', desc: 'Calcula i escriu les unitats d’equilibri, sense opcions, i preguntes de benefici i de sensibilitat.' },
+      { nombre: 'Oferta i demanda', desc: 'Un altre joc d’economia: les notícies que mouen les corbes i el preu d’equilibri.' },
+      { nombre: 'Spicy', desc: 'Finances personals: inflació, interès compost, deute i estafes.' },
+    ],
+    asignatura: 'Economia', niveles: 'ESO, Batxillerat',
   },
   'oferta-demanda': {
     titulo: 'Oferta i demanda',

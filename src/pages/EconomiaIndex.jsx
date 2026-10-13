@@ -41,6 +41,10 @@ export default function EconomiaIndex() {  const { lang, localPath, tr } = useL
           titulo={tr({ es: 'Oferta y Demanda (juego)', en: 'Supply and Demand (game)', ca: 'Oferta i Demanda (joc)' })}
           sub={tr({ es: 'Lee la noticia, mueve la curva y calcula el equilibrio', en: 'Read the news, shift the curve and work out equilibrium', ca: 'Llegeix la notícia, mou la corba i calcula l’equilibri' })}
           to={localPath('/juegos/oferta-demanda')} />
+        <TarjetaArte Arte={ARTE_JUEGOS['punto-muerto']}
+          titulo={tr({ es: 'Punto Muerto (juego)', en: 'Break-Even (game)', ca: 'Punt Mort (joc)' })}
+          sub={tr({ es: 'Ingresos contra costes: dónde empieza el beneficio', en: 'Revenue against costs: where profit begins', ca: 'Ingressos contra costos: on comença el benefici' })}
+          to={localPath('/juegos/punto-muerto')} />
       </div>
     </div>
   )

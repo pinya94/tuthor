@@ -59,6 +59,21 @@ function Reaccion(p) {
   )
 }
 
+function PuntoMuerto(p) {
+  // Las rectas de ingresos y costes totales cruzándose en el punto muerto.
+  return (
+    <Lienzo {...p}>
+      <rect x="40" y="18" width="62" height="96" fill="#EF4444" opacity="0.15" />
+      <rect x="102" y="18" width="104" height="96" fill="#22C55E" opacity="0.15" />
+      <path d="M40 114 H210 M40 114 V14" stroke="#64748B" strokeWidth="3" fill="none" />
+      <line x1="40" y1="84" x2="206" y2="40" stroke="#F59E0B" strokeWidth="5" strokeLinecap="round" />
+      <line x1="40" y1="114" x2="206" y2="24" stroke="#38BDF8" strokeWidth="5" strokeLinecap="round" />
+      <circle cx="102" cy="68" r="8" fill="#22C55E" stroke="#0F172A" strokeWidth="2.5" />
+      <path d="M102 76 V114" stroke="#22C55E" strokeWidth="2" strokeDasharray="4 3" />
+    </Lienzo>
+  )
+}
+
 function OfertaDemanda(p) {
   // Las dos curvas, el equilibrio y la demanda desplazada a la derecha.
   return (
@@ -78,6 +93,7 @@ function OfertaDemanda(p) {
 export const ARTE_VIDA = {
   spicy: Spicy,
   'oferta-demanda': OfertaDemanda,
+  'punto-muerto': PuntoMuerto,
   'pentagrama-path': PentagramaPath,
   reaccion: Reaccion,
 }

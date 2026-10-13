@@ -259,6 +259,11 @@ export const EXAMS = {
     emoji: '🏭', subject: 'economia',
     path: 'examen/punto-equilibrio', page: () => import('../pages/PuntoEquilibrioExamen'),
   },
+  'punto-muerto-test': {
+    label: { es: 'Punto Muerto (con el juego)', en: 'Break-Even (with the game)', ca: 'Punt Mort (amb el joc)' },
+    emoji: '🏭', subject: 'economia',
+    path: 'examen/punto-muerto-test', page: () => import('../pages/PuntoMuertoExamen'),
+  },
   'oferta-demanda-test': {
     label: { es: 'Oferta y demanda (con el juego)', en: 'Supply and Demand (with the game)', ca: 'Oferta i demanda (amb el joc)' },
     emoji: '🛒', subject: 'economia',

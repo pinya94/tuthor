@@ -664,7 +664,7 @@ export const LANDINGS = [
       en: ['Budget, income and expenses', 'Inflation and purchasing power', 'Saving and compound interest', 'Debt and loans', 'Scam warning signs'],
       ca: ['Pressupost, ingressos i despeses', 'Inflació i poder adquisitiu', 'Estalvi i interès compost', 'Deutes i préstecs', "Senyals d'estafa"],
     },
-    juegos: ['oferta-demanda', 'spicy'],
+    juegos: ['oferta-demanda', 'punto-muerto', 'spicy'],
     temas: [
       { arte: 'economia/finanzas-personales', ruta: '/info/estudiar/finanzas-personales', titulo: T('Finanzas personales', 'Personal finance', 'Finances personals') },
     ],
@@ -942,7 +942,7 @@ export const LANDINGS = [
       en: ['Supply, demand and equilibrium price', 'Elasticity and market types', 'Break-even point', 'Inflation and compound interest'],
       ca: ['Oferta, demanda i preu d’equilibri', 'Elasticitat i tipus de mercat', 'Punt d’equilibri (llindar de rendibilitat)', 'Inflació i interès compost'],
     },
-    juegos: ['oferta-demanda', 'spicy'],
+    juegos: ['oferta-demanda', 'punto-muerto', 'spicy'],
     temas: [
       { arte: 'economia/mercado', ruta: '/examen/mercado', titulo: T('El mercado', 'The market', 'El mercat') },
       { arte: 'economia/punto-equilibrio', ruta: '/examen/punto-equilibrio', titulo: T('Punto de equilibrio', 'Break-even point', 'Punt d’equilibri') },
