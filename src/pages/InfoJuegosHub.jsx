@@ -100,6 +100,8 @@ export const SUBJECT_OF = {
   'Llengua': 'lengua', 'Anglès': 'lengua', 'Llengua i Idiomes': 'lengua',
   // Historia
   'Historia': 'historia', 'History': 'historia', 'Història': 'historia',
+  // Filosofía: va con historia y ciencias sociales (es historia del pensamiento)
+  'Filosofía': 'historia', 'Philosophy': 'historia', 'Filosofia': 'historia',
   // Geografía
   'Geografía': 'geografia', 'Geography': 'geografia', 'Geografia': 'geografia',
   // Ciencias naturales (biología + geología)

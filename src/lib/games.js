@@ -574,6 +574,14 @@ export const GAMES = {
     // aciertos × 10 puntos → hasta 200 monedas
     coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
   },
+  'quien-lo-penso': {
+    label: { es: '¿Quién lo Pensó?', en: 'Who Thought It?', ca: 'Qui ho va Pensar?' },
+    emoji: '🦉',
+    subject: 'filosofia',
+    route: '/juegos/quien-lo-penso',
+    // aciertos × 10 puntos → hasta 200 monedas
+    coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
+  },
   'quien-decide': {
     label: { es: '¿Quién Decide?', en: 'Who Decides?', ca: 'Qui Decideix?' },
     emoji: '🗳️',

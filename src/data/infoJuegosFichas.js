@@ -1843,6 +1843,34 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Química', niveles: 'Primaria, ESO',
   },
+  'quien-lo-penso': {
+    titulo: '¿Quién lo Pensó?',
+    subtitulo: 'Juego de historia de la filosofía: ideas, autores, conceptos y corrientes',
+    emoji: '🦉', gradient: 'from-indigo-700 to-slate-800',
+    path: '/juegos/quien-lo-penso',
+    intro: 'Un juego de filosofía para repasar la historia del pensamiento, de los presocráticos al siglo XX. Sale una idea explicada con palabras sencillas («nadie se baña dos veces en el mismo río», «la existencia precede a la esencia», «el hombre es un lobo para el hombre»…) y hay que decir qué filósofo la defendió: Tales, Heráclito, Sócrates, Platón, Aristóteles, Epicuro, Agustín de Hipona, Tomás de Aquino, Ockham, Descartes, Hobbes, Locke, Hume, Rousseau, Kant, Hegel, Marx, Mill, Nietzsche, Ortega, Sartre, Beauvoir o Arendt. Otras rondas preguntan su concepto clave o su corriente, y en el nivel difícil quién vivió antes. Debajo, una línea del tiempo ilumina al filósofo al corregir.',
+    beneficios: [
+      { titulo: 'Ideas, no frases sueltas', texto: 'Cada idea va explicada con palabras de hoy, como se pide en un comentario de texto o en la PAU: no basta con recordar «panta rei», hay que saber qué significa. Las opciones falsas son filósofos de la misma época, que es donde de verdad se confunden.' },
+      { titulo: 'Sin trampas con las ideas compartidas', texto: 'La dialéctica es de Hegel y también de Marx; el contrato social, de Hobbes, Locke y Rousseau. Cuando una idea la defendió más de un autor, los demás no salen como opción falsa, así que siempre hay una sola respuesta buena.' },
+      { titulo: 'Cada filósofo en su siglo', texto: 'La línea del tiempo, con la Antigüedad, la Edad Media y la Modernidad, coloca a cada autor al corregir. En el nivel difícil hay que ordenarlos, que es lo que ayuda a entender quién responde a quién: Kant a Hume, Marx a Hegel.' },
+    ],
+    ejemplo: 'Sale la idea «Nunca vemos la causa: solo que un hecho sigue a otro, y la costumbre nos hace esperarlo». ¿Quién lo pensó? David Hume (1711-1776), empirista: si todo conocimiento viene de la experiencia, y lo único que vemos es que un hecho sigue a otro, la conexión necesaria entre causa y efecto la pone nuestra costumbre. Esta crítica es la que despertó a Kant de su «sueño dogmático».',
+    enPapel: {
+      titulo: 'El debate imposible',
+      pasos: [
+        'Elige dos filósofos de épocas distintas, por ejemplo Platón y Nietzsche.',
+        'Escribe la idea más conocida de cada uno con tus palabras.',
+        'Imagina un diálogo de diez líneas en el que discuten sobre la verdad o sobre la felicidad.',
+        'Comprueba en el juego que las ideas que les has dado son de verdad suyas.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'El examen de filosofía antigua y medieval', desc: 'Tipo test de Tales a Ockham, con explicación en cada respuesta.' },
+      { nombre: 'El examen de filosofía moderna y contemporánea', desc: 'Tipo test de Descartes a Arendt, pensado también para la PAU.' },
+      { nombre: '¿Quién Decide?', desc: 'La Constitución y el Estado: separación de poderes, como la pensaron Locke y Montesquieu.' },
+    ],
+    asignatura: 'Filosofía', niveles: 'ESO, Bachillerato',
+  },
   'quien-decide': {
     titulo: '¿Quién Decide?',
     subtitulo: 'Juego de la Constitución española: poderes, órganos del Estado y leyes',
@@ -3859,6 +3887,33 @@ export const FICHAS_EN = {
       { nombre: 'Felt-tip chromatography', desc: 'Draw a dot with a black felt-tip on a strip of kitchen paper, dip the end in water and watch the colours separate.' },
     ],
     asignatura: 'Chemistry', niveles: 'Primary, Secondary',
+  },
+  'quien-lo-penso': {
+    titulo: 'Who Thought It?',
+    subtitulo: 'History of philosophy game: ideas, thinkers, concepts and schools',
+    emoji: '🦉', gradient: 'from-indigo-700 to-slate-800', path: '/juegos/quien-lo-penso',
+    intro: 'A philosophy game for revising the history of thought, from the Presocratics to the 20th century. An idea appears in plain words (“no one bathes twice in the same river”, “existence precedes essence”, “man is a wolf to man”…) and you say which philosopher held it: Thales, Heraclitus, Socrates, Plato, Aristotle, Epicurus, Augustine, Aquinas, Ockham, Descartes, Hobbes, Locke, Hume, Rousseau, Kant, Hegel, Marx, Mill, Nietzsche, Ortega, Sartre, Beauvoir or Arendt. Other rounds ask for their key concept or school, and on hard, who lived first. Below, a timeline lights up the philosopher when you answer.',
+    beneficios: [
+      { titulo: 'Ideas, not loose quotes', texto: 'Each idea is explained in today’s words, as an essay requires: it is not enough to remember “panta rhei”, you have to know what it means. Wrong options are philosophers from the same period, which is where the real confusion lies.' },
+      { titulo: 'No traps with shared ideas', texto: 'The dialectic belongs to Hegel and also to Marx; the social contract to Hobbes, Locke and Rousseau. When more than one thinker held an idea, the others are never offered as wrong options, so there is always one right answer.' },
+      { titulo: 'Each philosopher in their century', texto: 'The timeline, with Antiquity, the Middle Ages and the modern era, places each thinker when you answer. On hard you put them in order, which helps you see who is answering whom: Kant to Hume, Marx to Hegel.' },
+    ],
+    ejemplo: '“We never see the cause: only that one event follows another, and custom makes us expect it” appears. Who thought it? David Hume (1711-1776), an empiricist: if all knowledge comes from experience, and all we see is one event following another, the necessary connection between cause and effect is supplied by our habit. This is the criticism that woke Kant from his “dogmatic slumber”.',
+    enPapel: {
+      titulo: 'The impossible debate',
+      pasos: [
+        'Choose two philosophers from different periods, such as Plato and Nietzsche.',
+        'Write each one’s best-known idea in your own words.',
+        'Imagine a ten-line dialogue in which they argue about truth or happiness.',
+        'Check in the game that the ideas you gave them really are theirs.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'Who Decides?', desc: 'The Spanish Constitution and the State: separation of powers, as Locke and Montesquieu imagined it.' },
+      { nombre: 'Timeline', desc: 'Put historical events in chronological order.' },
+      { nombre: 'Europe of 27', desc: 'The countries and institutions of the European Union on the map.' },
+    ],
+    asignatura: 'Philosophy', niveles: 'Secondary, Sixth form',
   },
   'quien-decide': {
     titulo: 'Who Decides?',
@@ -5884,6 +5939,33 @@ export const FICHAS_CA = {
       { nombre: 'Cromatografia amb retoladors', desc: 'Pinta un punt amb retolador negre en una tira de paper de cuina, posa’n la punta a l’aigua i mira com se separen els colors.' },
     ],
     asignatura: 'Química', niveles: 'Primària, ESO',
+  },
+  'quien-lo-penso': {
+    titulo: 'Qui ho va Pensar?',
+    subtitulo: 'Joc d’història de la filosofia: idees, autors, conceptes i corrents',
+    emoji: '🦉', gradient: 'from-indigo-700 to-slate-800', path: '/juegos/quien-lo-penso',
+    intro: 'Un joc de filosofia per repassar la història del pensament, dels presocràtics al segle XX. Surt una idea explicada amb paraules senzilles («ningú no es banya dues vegades al mateix riu», «l’existència precedeix l’essència», «l’home és un llop per a l’home»…) i cal dir quin filòsof la va defensar: Tales, Heràclit, Sòcrates, Plató, Aristòtil, Epicur, Agustí d’Hipona, Tomàs d’Aquino, Ockham, Descartes, Hobbes, Locke, Hume, Rousseau, Kant, Hegel, Marx, Mill, Nietzsche, Ortega, Sartre, Beauvoir o Arendt. Altres rondes pregunten el seu concepte clau o el seu corrent, i en el nivell difícil qui va viure abans. A sota, una línia del temps il·lumina el filòsof en corregir.',
+    beneficios: [
+      { titulo: 'Idees, no frases soltes', texto: 'Cada idea va explicada amb paraules d’avui, com es demana en un comentari de text o a la PAU: no n’hi ha prou de recordar «panta rei», cal saber què vol dir. Les opcions falses són filòsofs de la mateixa època, que és on de debò es confonen.' },
+      { titulo: 'Sense paranys amb les idees compartides', texto: 'La dialèctica és de Hegel i també de Marx; el contracte social, de Hobbes, Locke i Rousseau. Quan una idea la va defensar més d’un autor, els altres no surten com a opció falsa, així que sempre hi ha una sola resposta bona.' },
+      { titulo: 'Cada filòsof al seu segle', texto: 'La línia del temps, amb l’Antiguitat, l’Edat Mitjana i la Modernitat, col·loca cada autor en corregir. Al nivell difícil cal ordenar-los, que és el que ajuda a entendre qui respon a qui: Kant a Hume, Marx a Hegel.' },
+    ],
+    ejemplo: 'Surt la idea «Mai no veiem la causa: només que un fet en segueix un altre, i el costum ens el fa esperar». Qui ho va pensar? David Hume (1711-1776), empirista: si tot coneixement ve de l’experiència, i l’únic que veiem és que un fet en segueix un altre, la connexió necessària entre causa i efecte la posa el nostre costum. És la crítica que va despertar Kant del seu «somni dogmàtic».',
+    enPapel: {
+      titulo: 'El debat impossible',
+      pasos: [
+        'Tria dos filòsofs d’èpoques diferents, per exemple Plató i Nietzsche.',
+        'Escriu la idea més coneguda de cadascun amb les teves paraules.',
+        'Imagina un diàleg de deu línies en què discuteixen sobre la veritat o sobre la felicitat.',
+        'Comprova al joc que les idees que els has donat són de debò seves.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'L’examen de filosofia antiga i medieval', desc: 'Tipus test de Tales a Ockham, amb explicació a cada resposta.' },
+      { nombre: 'L’examen de filosofia moderna i contemporània', desc: 'Tipus test de Descartes a Arendt, pensat també per a la PAU.' },
+      { nombre: 'Qui Decideix?', desc: 'La Constitució i l’Estat: separació de poders, com la van pensar Locke i Montesquieu.' },
+    ],
+    asignatura: 'Filosofia', niveles: 'ESO, Batxillerat',
   },
   'quien-decide': {
     titulo: 'Qui Decideix?',

@@ -969,6 +969,16 @@ export const EXAMS = {
     emoji: '🏛️', subject: 'filosofia',
     path: 'examen/filosofia-antigua', page: () => import('../pages/FilosofiaAntiguaExamen'),
   },
+  'quien-lo-penso-antigua-test': {
+    label: { es: '¿Quién lo Pensó? (Antigüedad)', en: 'Who Thought It? (Antiquity)', ca: 'Qui ho va Pensar? (Antiguitat)' },
+    emoji: '🦉', subject: 'filosofia',
+    path: 'examen/quien-lo-penso-antigua-test', page: () => import('../pages/QuienLoPensoAntiguaExamen'),
+  },
+  'quien-lo-penso-moderna-test': {
+    label: { es: '¿Quién lo Pensó? (Modernidad)', en: 'Who Thought It? (Modern era)', ca: 'Qui ho va Pensar? (Modernitat)' },
+    emoji: '🦉', subject: 'filosofia',
+    path: 'examen/quien-lo-penso-moderna-test', page: () => import('../pages/QuienLoPensoModernaExamen'),
+  },
   'filosofia-moderna': {
     label: { es: 'Filosofía moderna y contemporánea', en: 'Modern and Contemporary Philosophy', ca: 'Filosofia moderna i contemporània' },
     emoji: '💭', subject: 'filosofia',

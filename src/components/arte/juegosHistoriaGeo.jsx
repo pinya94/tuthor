@@ -201,6 +201,22 @@ function Coordenadas(p) {
   )
 }
 
+function QuienLoPenso(p) {
+  // Un búho (el de Minerva) sobre una línea del tiempo con puntos.
+  return (
+    <Lienzo {...p}>
+      <line x1="24" y1="112" x2="216" y2="112" stroke="#475569" strokeWidth="3" />
+      {[40, 70, 96, 150, 176, 200].map((x, i) => <circle key={x} cx={x} cy="112" r={i === 3 ? 7 : 4} fill={i === 3 ? '#22C55E' : '#64748B'} />)}
+      <ellipse cx="120" cy="66" rx="30" ry="34" fill="#A16207" />
+      <ellipse cx="120" cy="76" rx="18" ry="20" fill="#FDE68A" />
+      <circle cx="108" cy="56" r="10" fill="#F8FAFC" /><circle cx="132" cy="56" r="10" fill="#F8FAFC" />
+      <circle cx="108" cy="56" r="4.5" fill="#0F172A" /><circle cx="132" cy="56" r="4.5" fill="#0F172A" />
+      <path d="M116 66 L120 74 L124 66 Z" fill="#F59E0B" />
+      <path d="M96 38 L102 26 L108 36 M132 36 L138 26 L144 38" fill="#A16207" />
+    </Lienzo>
+  )
+}
+
 function QuienDecide(p) {
   // El organigrama del Estado en pequeño: la Corona arriba y tres poderes debajo.
   const cols = [[44, '#3B82F6'], [120, '#F59E0B'], [196, '#22C55E']]
@@ -298,6 +314,7 @@ export const ARTE_HISTORIA_GEO = {
   'piramide-poblacion': PiramidePoblacion,
   'europa-27': Europa27,
   'quien-decide': QuienDecide,
+  'quien-lo-penso': QuienLoPenso,
   climograma: Climograma,
   'que-estilo': QueEstilo,
 }

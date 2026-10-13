@@ -643,14 +643,15 @@ export const TOPIC_CATALOG = {
     },
   },
 
-  // Filosofía: dos épocas, cada una con su examen tipo test.
+  // Filosofía: dos épocas, cada una con su examen tipo test y el de ¿Quién lo Pensó?.
   filosofia: {
     temas: {
-      'antigua-medieval': examTema({ examen: 'filosofia-antigua' }, { niveles: ['eso', 'bachillerato'] }),
-      'moderna-contemporanea': examTema({ examen: 'filosofia-moderna' }, { niveles: ['eso', 'bachillerato'] }),
+      'antigua-medieval': examTema({ examen: 'filosofia-antigua', quienLoPenso: 'quien-lo-penso-antigua-test' }, { niveles: ['eso', 'bachillerato'] }),
+      'moderna-contemporanea': examTema({ examen: 'filosofia-moderna', quienLoPenso: 'quien-lo-penso-moderna-test' }, { niveles: ['eso', 'bachillerato'] }),
     },
     formatos: {
       examen: examFormato({ es: 'Examen', en: 'Exam', ca: 'Examen' }, '📝'),
+      quienLoPenso: examFormato({ es: '¿Quién lo Pensó? (con el juego)', en: 'Who Thought It? (with the game)', ca: 'Qui ho va Pensar? (amb el joc)' }, '🦉'),
     },
   },
 

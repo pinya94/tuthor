@@ -3,6 +3,7 @@ import SEOHead from '../components/SEOHead'
 import { ArteMateria } from '../components/arte/materias'
 import TarjetaArte from '../components/TarjetaArte'
 import { ARTE_TEMAS } from '../components/arte/temas'
+import { ARTE_JUEGOS } from '../components/arte'
 
 // Filosofía: dos temas por épocas, cada uno con su examen tipo test (ESO y
 // Bachillerato, pensado para la PAU de Historia de la Filosofía).
@@ -42,6 +43,10 @@ export default function FilosofiaIndex() {
         {TEMAS.map(t => (
           <TarjetaArte key={t.id} Arte={ARTE_TEMAS[`filosofia/${t.id}`]} titulo={tr(t.titulo)} sub={tr(t.subtitulo)} to={localPath(t.path)} />
         ))}
+        <TarjetaArte Arte={ARTE_JUEGOS['quien-lo-penso']}
+          titulo={tr({ es: '¿Quién lo Pensó? (juego)', en: 'Who Thought It? (game)', ca: 'Qui ho va Pensar? (joc)' })}
+          sub={tr({ es: 'De Tales a Arendt: ¿de quién es cada idea?', en: 'From Thales to Arendt: whose idea is it?', ca: 'De Tales a Arendt: de qui és cada idea?' })}
+          to={localPath('/juegos/quien-lo-penso')} />
       </div>
     </div>
   )
