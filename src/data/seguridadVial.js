@@ -245,6 +245,24 @@ export const PREGUNTAS = [
     '🐢',
     { es: 'La diferencia entre 30 y 50 km/h no son veinte números: es que la probabilidad de morir atropellado se multiplica varias veces. Y en un trayecto urbano corto, la diferencia de tiempo real es de pocos minutos.', en: 'The gap between 30 and 50 km/h is not twenty numbers: the probability of dying when hit multiplies several times over. And on a short urban trip the real time difference is a few minutes.', ca: 'La diferència entre 30 i 50 km/h no són vint números: la probabilitat de morir atropellat es multiplica.' }),
 
+  q('sv-38', 'primaria',
+    {es: "Se te escapa la pelota a la calzada.", en: "Your ball rolls into the road.", ca: "Se t’escapa la pilota a la calçada."},
+    {es: ["No salgo detrás: miro el tráfico y, si hace falta, pido ayuda a un adulto","Salgo corriendo a por ella antes de que se aleje","Cruzo entre los coches aparcados para alcanzarla","Grito a los coches para que paren"], en: ["I do not run after it: I check the traffic and ask an adult for help if needed","I run after it before it rolls away","I go between parked cars to reach it","I shout at the cars to stop"], ca: ["No surto darrere: miro el trànsit i, si cal, demano ajuda a un adult","Surto corrent a buscar-la abans que s’allunyi","Creuo entre els cotxes aparcats per agafar-la","Crido als cotxes perquè s’aturin"]},
+    {es: "No salgo detrás: miro el tráfico y, si hace falta, pido ayuda a un adulto", en: "I do not run after it: I check the traffic and ask an adult for help if needed", ca: "No surto darrere: miro el trànsit i, si cal, demano ajuda a un adult"},
+    '⚽',
+    {es: "Es la causa típica de atropellos de niños: una pelota se recupera, un accidente no.", en: "It is the typical cause of children being hit: a ball can be replaced, an accident cannot be undone.", ca: "És la causa típica d’atropellaments de nens: una pilota es recupera, un accident no."}),
+  q('sv-39', 'primaria',
+    {es: "Un niño de 6 años que mide 1,15 m va a viajar en coche.", en: "A 6-year-old who is 1.15 m tall is going to travel by car.", ca: "Un nen de 6 anys que fa 1,15 m viatjarà en cotxe."},
+    {es: ["En una silla o un alzador homologado","Con el cinturón normal, como un adulto","En brazos de un adulto","Sin nada si el viaje es corto"], en: ["In an approved child seat or booster","With the normal seatbelt, like an adult","On an adult’s lap","With nothing if the trip is short"], ca: ["En una cadira o un alçador homologat","Amb el cinturó normal, com un adult","En braços d’un adult","Sense res si el viatge és curt"]},
+    {es: "En una silla o un alzador homologado", en: "In an approved child seat or booster", ca: "En una cadira o un alçador homologat"},
+    '👶',
+    {es: "Por debajo de 1,35 m es obligatorio un sistema de retención infantil homologado: el cinturón de adulto le quedaría en el cuello.", en: "Under 1.35 m an approved child restraint is compulsory: an adult belt would sit across their neck.", ca: "Per sota d’1,35 m és obligatori un sistema de retenció infantil homologat: el cinturó d’adult li quedaria al coll."}),
+  q('sv-40', 'eso',
+    {es: "Vas a cruzar por un paso de cebra sin semáforo.", en: "You are about to use a zebra crossing with no lights.", ca: "Vas a creuar per un pas de zebra sense semàfor."},
+    {es: ["Me aseguro de que los coches me han visto y se paran","Cruzo sin mirar: en el paso de cebra tengo prioridad","Cruzo corriendo justo cuando llega un coche","Espero a que no haya ningún coche en toda la calle"], en: ["I make sure the cars have seen me and are stopping","I cross without looking: I have priority on the zebra","I run across just as a car arrives","I wait until there are no cars on the whole street"], ca: ["M’asseguro que els cotxes m’han vist i s’aturen","Creuo sense mirar: al pas de zebra tinc prioritat","Creuo corrent just quan arriba un cotxe","Espero que no hi hagi cap cotxe en tot el carrer"]},
+    {es: "Me aseguro de que los coches me han visto y se paran", en: "I make sure the cars have seen me and are stopping", ca: "M’asseguro que els cotxes m’han vist i s’aturen"},
+    '🦓',
+    {es: "Tienes prioridad, pero el conductor tiene que verte a tiempo: el contacto visual es tu seguro.", en: "You have priority, but the driver needs to see you in time: eye contact is your insurance.", ca: "Tens prioritat, però el conductor t’ha de veure a temps: el contacte visual és la teva assegurança."}),
 ]
 
 export const PREGUNTAS_PRIMARIA = PREGUNTAS.filter(p => p.nivel === 'primaria')

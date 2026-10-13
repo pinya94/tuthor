@@ -11,18 +11,19 @@ import SEOHead from '../components/SEOHead'
 import { CabeceraJuego, NivelBarras, ComoSeJuega } from '../components/IntroJuego'
 import { Racha } from '../components/Iconos'
 
-const GAME_TIME = 60
+// Montar una señal lleva más que tocar una opción: 90 s y +6 s por acierto.
+const GAME_TIME = 90
 const WRONG_TIME = 5
-const CORRECT_TIME = 4
-const REVEAL_MS = 4200 // da tiempo a leer qué dice la forma de la señal
+const CORRECT_TIME = 6
+const REVEAL_MS = 3800 // da tiempo a ver la señal buena junto a la montada
 
 const DIFS = {
   facil:   { emoji: '💚', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
-             desc: { es: 'Las señales más comunes y su forma', en: 'The most common signs and their shapes', ca: 'Els senyals més comuns i la seva forma' } },
+             desc: { es: 'Cuatro formas con su tipo escrito y tres dibujos', en: 'Four shapes with their type written and three symbols', ca: 'Quatre formes amb el tipus escrit i tres dibuixos' } },
   medio:   { emoji: '💛', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
-             desc: { es: 'Todas las señales y situaciones de peatón y ciclista', en: 'All signs and pedestrian and cyclist situations', ca: 'Tots els senyals i situacions de vianant i ciclista' } },
+             desc: { es: 'Sin pistas, y con parar y estacionar', en: 'No hints, and with no stopping and no parking', ca: 'Sense pistes, i amb parar i estacionar' } },
   dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' },
-             desc: { es: 'Las parejas que se confunden: máxima y mínima, parar y estacionar…', en: 'The pairs that get mixed up: maximum and minimum, stopping and parking…', ca: 'Les parelles que es confonen: màxima i mínima, parar i estacionar…' } },
+             desc: { es: 'Todas las formas, STOP y ceda el paso incluidos', en: 'Every shape, STOP and give way included', ca: 'Totes les formes, STOP i cediu el pas inclosos' } },
 }
 if (import.meta.env.DEV && Object.keys(DIFS).join() !== Object.keys(NIVELES).join()) {
   console.warn('[senal-a-senal] los niveles de la pantalla no coinciden con NIVELES')
@@ -107,9 +108,9 @@ export default function SenalASenal() {
   const seo = {
     title: tr({ es: 'Señal a Señal — Juego de señales de tráfico y seguridad vial', en: 'Sign by Sign — Road signs and road safety game', ca: 'Senyal a Senyal — Joc de senyals de trànsit i seguretat viària' }),
     desc: tr({
-      es: 'Señales de tráfico dibujadas: qué significa cada una, cómo se reconoce su tipo por la forma y el color, y qué hacer como peatón, ciclista o pasajero. Juego de seguridad vial gratis para Primaria y ESO.',
-      en: 'Drawn road signs: what each one means, how to tell its type by shape and colour, and what to do as a pedestrian, cyclist or passenger. Free road safety game.',
-      ca: 'Senyals de trànsit dibuixats: què vol dir cadascun, com es reconeix el seu tipus per la forma i el color, i què fer com a vianant, ciclista o passatger. Joc de seguretat viària gratis.',
+      es: 'Monta señales de tráfico eligiendo su forma y su dibujo, y clasifícalas por tipo: peligro, prohibición, obligación, indicación y prioridad. Juego de seguridad vial gratis para Primaria y ESO.',
+      en: 'Build road signs by choosing their shape and symbol, and sort them by type: warning, prohibition, mandatory, information and priority. Free road safety game.',
+      ca: 'Munta senyals de trànsit triant la forma i el dibuix, i classifica’ls per tipus: perill, prohibició, obligació, indicació i prioritat. Joc de seguretat viària gratis.',
     }),
     path: '/juegos/senal-a-senal',
   }
@@ -142,8 +143,8 @@ export default function SenalASenal() {
           </button>
           <ComoSeJuega>
             <div className="space-y-2 text-white/70 text-sm">
-              <p>{tr({ es: 'Sale una señal de tráfico y hay que decir qué significa o de qué tipo es. La forma y el color ayudan: triángulo rojo, peligro; círculo rojo, prohibición; círculo azul, obligación; cuadrado azul, indicación.', en: 'A road sign appears and you say what it means or what type it is. Shape and colour help: red triangle, warning; red circle, prohibition; blue circle, mandatory; blue square, information.', ca: 'Surt un senyal de trànsit i cal dir què vol dir o de quin tipus és. La forma i el color ajuden: triangle vermell, perill; cercle vermell, prohibició; cercle blau, obligació; quadrat blau, indicació.' })}</p>
-              <p>{tr({ es: 'Otras rondas son situaciones de peatón, ciclista o pasajero: elige lo seguro. En difícil salen juntas las señales que se confunden.', en: 'Other rounds are pedestrian, cyclist or passenger situations: choose the safe option. On hard, signs that get confused appear together.', ca: 'Altres rondes són situacions de vianant, ciclista o passatger: tria el segur. En difícil surten junts els senyals que es confonen.' })}</p>
+              <p>{tr({ es: 'Te dicen lo que significa una señal («Prohibido el paso a bicicletas») y tienes que montarla: elige la forma y el dibujo y mira cómo queda. La forma y el color lo dicen casi todo: triángulo rojo, peligro; círculo rojo, prohibición; círculo azul, obligación; cuadrado azul, indicación. La misma bici sirve para tres señales distintas.', en: 'You are told what a sign means (“No cycling”) and you build it: choose the shape and the symbol and see how it looks. Shape and colour say almost everything: red triangle, warning; red circle, prohibition; blue circle, mandatory; blue square, information. The same bike makes three different signs.', ca: 'Et diuen què vol dir un senyal («Prohibit el pas a bicicletes») i l’has de muntar: tria la forma i el dibuix i mira com queda. La forma i el color ho diuen gairebé tot: triangle vermell, perill; cercle vermell, prohibició; cercle blau, obligació; quadrat blau, indicació. La mateixa bici serveix per a tres senyals diferents.' })}</p>
+              <p>{tr({ es: 'Otras rondas son de clasificar: toca una señal y luego su tipo, hasta colocar las cuatro.', en: 'Other rounds are for sorting: tap a sign and then its type, until all four are placed.', ca: 'Altres rondes són de classificar: toca un senyal i després el seu tipus, fins a col·locar-ne els quatre.' })}</p>
               <p className="text-white/40 text-xs pt-1">⏱️ {GAME_TIME}s · {tr({ es: `Acierto +10 y +${CORRECT_TIME}s · Fallo −${WRONG_TIME}s`, en: `Correct +10 and +${CORRECT_TIME}s · Wrong −${WRONG_TIME}s`, ca: `Encert +10 i +${CORRECT_TIME}s · Error −${WRONG_TIME}s` })}</p>
             </div>
           </ComoSeJuega>

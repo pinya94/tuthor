@@ -1031,13 +1031,13 @@ export const FICHAS_ES = {
     subtitulo: 'Juego de Señales de Tráfico y Seguridad Vial',
     emoji: '🚸', gradient: 'from-red-600 to-blue-700',
     path: '/juegos/senal-a-senal',
-    intro: 'Un juego de seguridad vial con señales de tráfico dibujadas. Unas rondas preguntan qué significa una señal; otras, de qué tipo es por su forma y su color; y otras plantean una situación real de peatón, ciclista o pasajero para elegir lo seguro. En el nivel difícil aparecen juntas las señales que más se confunden: velocidad máxima y mínima, prohibido parar y prohibido estacionar, peatones de peligro y paso de peatones.',
+    intro: 'Un juego de seguridad vial en el que las señales de tráfico se construyen. Te dicen lo que significa una señal —«Prohibido el paso a bicicletas», «Velocidad mínima: 30 km/h»— y la montas eligiendo la forma y el dibujo, viendo cómo queda. La misma bici sirve para el triángulo de peligro, el círculo rojo de prohibición y el círculo azul de obligación, así que la clave está en la forma y el color. Otras rondas son de clasificar cuatro señales por tipo. En difícil entran todas las formas: STOP, ceda el paso, dirección prohibida, parar y estacionar.',
     beneficios: [
       { titulo: 'La Forma Habla Antes que el Dibujo', texto: 'Triángulo rojo, peligro; círculo rojo, prohibición; círculo azul, obligación; cuadrado azul, indicación. Quien domina esa regla entiende una señal que no ha visto nunca.' },
-      { titulo: 'Seguridad Vial desde el Punto de Vista del Alumno', texto: 'Las situaciones no son de conductor sino de peatón, ciclista y pasajero: cruzar con el semáforo, usar el casco, el cinturón detrás, los auriculares al cruzar.' },
+      { titulo: 'Construir en Vez de Elegir', texto: 'Montar la señal pieza a pieza obliga a saber qué forma y qué dibujo lleva, no solo a reconocerla entre cuatro opciones. Y se ve al momento cómo cambia al cambiar la forma.' },
       { titulo: 'Parejas que Engañan', texto: 'Una barra o dos aspas, un círculo rojo o uno azul con el mismo número: el juego enfrenta las señales parecidas y explica la diferencia.' },
     ],
-    ejemplo: 'Sale un círculo azul con un 30. El alumno duda entre «velocidad máxima 30» y «velocidad mínima 30», elige la mínima y acierta: el juego le recuerda que el azul obliga y el rojo prohíbe.',
+    ejemplo: 'Hay que montar «Velocidad mínima: 30 km/h». El alumno elige el 30 y prueba con el círculo de borde rojo: al comprobar, el juego le enseña la buena —el círculo azul— y le recuerda que el azul obliga y el rojo prohíbe.',
     enPapel: {
       titulo: 'Paseo de señales por el barrio',
       pasos: [
@@ -3384,13 +3384,13 @@ export const FICHAS_EN = {
     subtitulo: 'Road Signs and Road Safety Game',
     emoji: '🚸', gradient: 'from-red-600 to-blue-700',
     path: '/juegos/senal-a-senal',
-    intro: 'A road safety game with drawn traffic signs. Some rounds ask what a sign means; others ask what type it is from its shape and colour; and others present a real pedestrian, cyclist or passenger situation where you choose the safe option. On hard, the signs people mix up appear together: maximum and minimum speed, no stopping and no parking, pedestrians ahead and pedestrian crossing.',
+    intro: 'A road safety game where traffic signs are built. You are told what a sign means —“No cycling”, “Minimum speed: 30 km/h”— and you build it by choosing the shape and the symbol, watching how it looks. The same bike goes on the warning triangle, the red prohibition circle and the blue mandatory circle, so the key is shape and colour. Other rounds sort four signs by type. On hard every shape comes in: STOP, give way, no entry, no stopping and no parking.',
     beneficios: [
       { titulo: 'Shape Speaks Before the Picture', texto: 'Red triangle, warning; red circle, prohibition; blue circle, mandatory; blue square, information. Whoever knows that rule understands a sign they have never seen.' },
-      { titulo: 'Road Safety from the Student’s Point of View', texto: 'The situations are not about driving but about walking, cycling and riding as a passenger: crossing on the green light, wearing a helmet, the seat belt in the back, headphones when crossing.' },
+      { titulo: 'Building Instead of Choosing', texto: 'Putting the sign together piece by piece means knowing which shape and symbol it has, not just recognising it among four options. And you see straight away how it changes when the shape changes.' },
       { titulo: 'Pairs That Fool You', texto: 'One bar or a cross, a red or a blue circle with the same number: the game puts similar signs side by side and explains the difference.' },
     ],
-    ejemplo: 'A blue circle with a 30 appears. The student hesitates between “maximum speed 30” and “minimum speed 30”, chooses minimum and is right: the game reminds them that blue commands and red forbids.',
+    ejemplo: 'The task is to build “Minimum speed: 30 km/h”. The student picks the 30 and tries the red-bordered circle: on checking, the game shows the right one —the blue circle— and reminds them that blue commands and red forbids.',
     enPapel: {
       titulo: 'Neighbourhood sign walk',
       pasos: [
@@ -5573,13 +5573,13 @@ export const FICHAS_CA = {
     subtitulo: 'Joc de Senyals de Trànsit i Seguretat Viària',
     emoji: '🚸', gradient: 'from-red-600 to-blue-700',
     path: '/juegos/senal-a-senal',
-    intro: 'Un joc de seguretat viària amb senyals de trànsit dibuixats. Unes rondes pregunten què vol dir un senyal; d’altres, de quin tipus és per la forma i el color; i d’altres plantegen una situació real de vianant, ciclista o passatger per triar el que és segur. En el nivell difícil surten junts els senyals que més es confonen: velocitat màxima i mínima, prohibit parar i prohibit estacionar, perill de vianants i pas de vianants.',
+    intro: 'Un joc de seguretat viària en què els senyals de trànsit es construeixen. Et diuen què vol dir un senyal —«Prohibit el pas a bicicletes», «Velocitat mínima: 30 km/h»— i el muntes triant la forma i el dibuix, veient com queda. La mateixa bici serveix per al triangle de perill, el cercle vermell de prohibició i el cercle blau d’obligació, així que la clau és la forma i el color. Altres rondes són de classificar quatre senyals per tipus. En difícil hi entren totes les formes: STOP, cediu el pas, direcció prohibida, parar i estacionar.',
     beneficios: [
       { titulo: 'La Forma Parla Abans que el Dibuix', texto: 'Triangle vermell, perill; cercle vermell, prohibició; cercle blau, obligació; quadrat blau, indicació. Qui domina aquesta regla entén un senyal que no ha vist mai.' },
-      { titulo: 'Seguretat Viària des del Punt de Vista de l’Alumne', texto: 'Les situacions no són de conductor sinó de vianant, ciclista i passatger: creuar amb el semàfor, portar casc, el cinturó al darrere, els auriculars en creuar.' },
+      { titulo: 'Construir en Lloc de Triar', texto: 'Muntar el senyal peça a peça obliga a saber quina forma i quin dibuix porta, no només a reconèixer-lo entre quatre opcions. I es veu de seguida com canvia en canviar la forma.' },
       { titulo: 'Parelles que Enganyen', texto: 'Una barra o dues aspes, un cercle vermell o un de blau amb el mateix número: el joc enfronta els senyals semblants i n’explica la diferència.' },
     ],
-    ejemplo: 'Surt un cercle blau amb un 30. L’alumne dubta entre «velocitat màxima 30» i «velocitat mínima 30», tria la mínima i encerta: el joc li recorda que el blau obliga i el vermell prohibeix.',
+    ejemplo: 'Cal muntar «Velocitat mínima: 30 km/h». L’alumne tria el 30 i prova amb el cercle de vora vermella: en comprovar-ho, el joc li ensenya el bo —el cercle blau— i li recorda que el blau obliga i el vermell prohibeix.',
     enPapel: {
       titulo: 'Passeig de senyals pel barri',
       pasos: [
