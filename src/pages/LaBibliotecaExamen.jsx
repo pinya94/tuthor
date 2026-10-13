@@ -34,7 +34,7 @@ export default function LaBibliotecaExamen() {
       metaTitle={{ es: 'Examen de literatura española: obras, autores, géneros y épocas', en: 'Spanish literature exam: works, authors and periods', ca: 'Examen de literatura espanyola: obres, autors i èpoques' }}
       metaDesc={{ es: 'Examen de historia de la literatura española, del Cantar de mio Cid a la posguerra: autor de cada obra, género, época o movimiento, rasgos de cada movimiento y cronología. 10 preguntas, tres niveles.', en: 'Spanish literary history exam from the Cantar de mio Cid to the post-war period. 10 questions, three levels.', ca: 'Examen d’història de la literatura espanyola, del Cantar de mio Cid a la postguerra. 10 preguntes, tres nivells.' }}
       metaPath="/examen/la-biblioteca-test"
-      subjectSchema="Química"
+      subjectSchema="Lengua"
       backGamePath="/juegos/la-biblioteca"
       playLabel={{ es: 'Modo arcade (60s)', en: 'Arcade mode (60s)', ca: 'Mode arcade (60s)' }}
       levels={LEVELS}

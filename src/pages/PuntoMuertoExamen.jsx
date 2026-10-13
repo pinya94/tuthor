@@ -34,7 +34,7 @@ export default function PuntoMuertoExamen() {
       metaTitle={{ es: 'Examen de punto muerto: gráfico, cálculo y beneficio', en: 'Break-even exam: graph, calculation and profit', ca: 'Examen de punt mort: gràfic, càlcul i benefici' }}
       metaDesc={{ es: 'Examen del umbral de rentabilidad con el gráfico de ingresos y costes: leer el punto muerto, calcular Q = CF / (P − CVu), el beneficio o la pérdida, la sensibilidad y el precio mínimo. 10 preguntas, tres niveles.', en: 'Break-even exam with the revenue and cost graph: reading break-even, Q = FC / (P − VCu), profit or loss, sensitivity and minimum price. 10 questions, three levels.', ca: 'Examen del llindar de rendibilitat amb el gràfic d’ingressos i costos: llegir el punt mort, calcular Q = CF / (P − CVu), el benefici o la pèrdua, la sensibilitat i el preu mínim. 10 preguntes, tres nivells.' }}
       metaPath="/examen/punto-muerto-test"
-      subjectSchema="Química"
+      subjectSchema="Economía"
       backGamePath="/juegos/punto-muerto"
       playLabel={{ es: 'Modo arcade (60s)', en: 'Arcade mode (60s)', ca: 'Mode arcade (60s)' }}
       levels={LEVELS}

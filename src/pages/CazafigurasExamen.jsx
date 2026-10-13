@@ -34,7 +34,7 @@ export default function CazafigurasExamen() {
       metaTitle={{ es: 'Examen de figuras literarias con versos: metáfora, hipérbole, anáfora, paradoja…', en: 'Spanish literary devices exam', ca: 'Examen de figures literàries en castellà' }}
       metaDesc={{ es: 'Examen de figuras literarias con versos de clásicos y frases de ejemplo: metáfora, comparación, personificación, hipérbole, anáfora, hipérbaton, antítesis, paradoja, oxímoron, sinestesia y más. 10 preguntas, tres niveles.', en: 'Spanish literary devices exam with verses and example sentences. 10 questions, three levels.', ca: 'Examen de figures literàries en castellà amb versos i frases d’exemple. 10 preguntes, tres nivells.' }}
       metaPath="/examen/cazafiguras-test"
-      subjectSchema="Química"
+      subjectSchema="Lengua"
       backGamePath="/juegos/cazafiguras"
       playLabel={{ es: 'Modo arcade (60s)', en: 'Arcade mode (60s)', ca: 'Mode arcade (60s)' }}
       levels={LEVELS}

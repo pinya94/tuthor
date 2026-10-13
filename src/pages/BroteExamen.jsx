@@ -34,7 +34,7 @@ export default function BroteExamen() {
       metaTitle={{ es: 'Examen de salud y enfermedad: microbios, contagio, defensas y vacunas', en: 'Health and disease exam: microbes, infection, defences and vaccines', ca: 'Examen de salut i malaltia: microbis, contagi, defenses i vacunes' }}
       metaDesc={{ es: 'Examen de salud y enfermedad con microbios dibujados: virus, bacterias, hongos y protozoos, contagio, antibióticos, líneas de defensa, tipos de inmunidad e inmunidad de grupo. 10 preguntas, tres niveles.', en: 'Health and disease exam with drawn microbes: viruses, bacteria, fungi and protozoa, infection, antibiotics, lines of defence, types of immunity and herd immunity. 10 questions, three levels.', ca: 'Examen de salut i malaltia amb microbis dibuixats: virus, bacteris, fongs i protozous, contagi, antibiòtics, línies de defensa, tipus d’immunitat i immunitat de grup. 10 preguntes, tres nivells.' }}
       metaPath="/examen/brote-test"
-      subjectSchema="Química"
+      subjectSchema="Biología"
       backGamePath="/juegos/brote"
       playLabel={{ es: 'Modo arcade (60s)', en: 'Arcade mode (60s)', ca: 'Mode arcade (60s)' }}
       levels={LEVELS}

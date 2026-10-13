@@ -34,7 +34,7 @@ export default function DetectiveTextosExamen() {
       metaTitle={{ es: 'Examen de tipos de texto, elementos de la comunicación y funciones del lenguaje', en: 'Spanish text types exam', ca: 'Examen de tipus de text en castellà' }}
       metaDesc={{ es: 'Examen de los textos con fragmentos y escenas: narración, descripción, diálogo, exposición, argumentación e instrucción; emisor, receptor, mensaje, canal y código; y las seis funciones del lenguaje. 10 preguntas, tres niveles.', en: 'Spanish text types exam with fragments and scenes. 10 questions, three levels.', ca: 'Examen de tipus de text en castellà amb fragments i escenes. 10 preguntes, tres nivells.' }}
       metaPath="/examen/detective-textos-test"
-      subjectSchema="Química"
+      subjectSchema="Lengua"
       backGamePath="/juegos/detective-textos"
       playLabel={{ es: 'Modo arcade (60s)', en: 'Arcade mode (60s)', ca: 'Mode arcade (60s)' }}
       levels={LEVELS}

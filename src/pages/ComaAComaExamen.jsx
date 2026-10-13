@@ -34,7 +34,7 @@ export default function ComaAComaExamen() {
       metaTitle={{ es: 'Examen de puntuación: coma, punto y coma, dos puntos y signos de interrogación', en: 'Spanish punctuation exam', ca: 'Examen de puntuació castellana' }}
       metaDesc={{ es: 'Examen de puntuación con frases con hueco: vocativos, enumeraciones, incisos, conectores, la coma entre sujeto y verbo, dos puntos, punto y coma y los signos ¿ ¡ de apertura, con la regla explicada. 10 preguntas, tres niveles.', en: 'Spanish punctuation exam with gap sentences and the rule explained. 10 questions, three levels.', ca: 'Examen de puntuació castellana amb frases amb buit i la regla explicada. 10 preguntes, tres nivells.' }}
       metaPath="/examen/coma-a-coma-test"
-      subjectSchema="Química"
+      subjectSchema="Lengua"
       backGamePath="/juegos/coma-a-coma"
       playLabel={{ es: 'Modo arcade (60s)', en: 'Arcade mode (60s)', ca: 'Mode arcade (60s)' }}
       levels={LEVELS}

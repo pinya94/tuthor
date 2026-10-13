@@ -34,7 +34,7 @@ export default function QuienDecideExamen() {
       metaTitle={{ es: 'Examen de la Constitución española: poderes, órganos del Estado y leyes', en: 'Spanish Constitution exam: powers, bodies of the State and laws', ca: 'Examen de la Constitució espanyola: poders, òrgans de l’Estat i lleis' }}
       metaDesc={{ es: 'Examen de la Constitución con el organigrama del Estado: Congreso, Senado, Gobierno, rey y tribunales, los tres poderes, los números de la Constitución, derechos y deberes, competencias y el camino de una ley. 10 preguntas, tres niveles.', en: 'Constitution exam with the State organisation chart: Congress, Senate, Government, King and courts, the three powers, the Constitution’s numbers, rights and duties, regional powers and how a law is made. 10 questions, three levels.', ca: 'Examen de la Constitució amb l’organigrama de l’Estat: Congrés, Senat, Govern, rei i tribunals, els tres poders, els números de la Constitució, drets i deures, competències i el camí d’una llei. 10 preguntes, tres nivells.' }}
       metaPath="/examen/quien-decide-test"
-      subjectSchema="Química"
+      subjectSchema="Geografía"
       backGamePath="/juegos/quien-decide"
       playLabel={{ es: 'Modo arcade (60s)', en: 'Arcade mode (60s)', ca: 'Mode arcade (60s)' }}
       levels={LEVELS}

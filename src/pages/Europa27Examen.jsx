@@ -34,7 +34,7 @@ export default function Europa27Examen() {
       metaTitle={{ es: 'Examen de la Unión Europea: mapa, euro, Schengen e instituciones', en: 'European Union exam: map, euro, Schengen and institutions', ca: 'Examen de la Unió Europea: mapa, euro, Schengen i institucions' }}
       metaDesc={{ es: 'Examen de la Unión Europea con el mapa de Europa: los 27 países y sus capitales, quién es miembro, el euro, Schengen, las ampliaciones y las instituciones con sus sedes. 10 preguntas, tres niveles.', en: 'European Union exam with the map of Europe: the 27 countries and their capitals, who is a member, the euro, Schengen, enlargements and the institutions with their seats. 10 questions, three levels.', ca: 'Examen de la Unió Europea amb el mapa d’Europa: els 27 països i les seves capitals, qui n’és membre, l’euro, Schengen, les ampliacions i les institucions amb les seves seus. 10 preguntes, tres nivells.' }}
       metaPath="/examen/europa-27-test"
-      subjectSchema="Química"
+      subjectSchema="Geografía"
       backGamePath="/juegos/europa-27"
       playLabel={{ es: 'Modo arcade (60s)', en: 'Arcade mode (60s)', ca: 'Mode arcade (60s)' }}
       levels={LEVELS}
