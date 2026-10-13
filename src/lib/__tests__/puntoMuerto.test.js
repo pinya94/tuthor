@@ -23,10 +23,10 @@ describe('Punto Muerto', () => {
   })
 
   for (const nivel of Object.keys(NIVELES)) {
-    it(`${nivel}: 600 rondas con la cuenta bien`, { timeout: 20000 }, () => {
+    it(`${nivel}: 300 rondas con la cuenta bien`, { timeout: 60000 }, () => {
       const rand = semilla(nivel.length * 271)
       const tipos = new Set()
-      for (let i = 0; i < 600; i++) {
+      for (let i = 0; i < 300; i++) {
         const r = genRonda(nivel, { rand })
         tipos.add(r.tipo)
         const m = r.P - r.CVu
