@@ -304,8 +304,8 @@ export const TOPIC_CATALOG = {
       complementos: examTema({ senalar: 'frases-complementos-test' }, { niveles: ['eso', 'bachillerato'] }),
       clases: examTema({ senalar: 'frases-clases-test' }, { niveles: ['primaria', 'eso'] }),
       acentuacion: examTema({ test: 'espanol-ortografia-acentuacion-test' }, { niveles: ['primaria', 'eso'] }),
-      bv: examTema({ test: 'espanol-ortografia-bv-test', letra: 'que-letra-test' }, { niveles: ['primaria', 'eso'] }),
-      gj: examTema({ test: 'espanol-ortografia-gj-test', letra: 'que-letra-test' }, { niveles: ['primaria', 'eso'] }),
+      bv: examTema({ test: 'espanol-ortografia-bv-test' }, { niveles: ['primaria', 'eso'] }),
+      gj: examTema({ test: 'espanol-ortografia-gj-test' }, { niveles: ['primaria', 'eso'] }),
       letras: examTema({ test: 'espanol-ortografia-letras-test', letra: 'que-letra-test' }, { niveles: ['primaria', 'eso'] }),
       puntuacion: examTema({ test: 'espanol-ortografia-puntuacion-test', coma: 'coma-a-coma-test' }, { niveles: ['primaria', 'eso'] }),
       literatura: examTema({ test: 'espanol-literatura-test', biblioteca: 'la-biblioteca-test' }, { niveles: ['eso', 'bachillerato'] }),
@@ -324,6 +324,18 @@ export const TOPIC_CATALOG = {
       // (ver su saveActivity) — mismo criterio que Portadas y NumPath.
       // La página guarda category = 'acentuacion', así que la tarea del
       // profesor se completa sola al jugarla.
+      // ¿Qué Letra Va? cubre b/v, g/j y el resto de letras dudosas. Su examen
+      // cuelga solo de «letras» (un examen en tres temas colisiona al volver de
+      // una tarea); en b/v y g/j sale el juego. tracksTopic: false porque la
+      // página guarda siempre category = 'letras'.
+      queLetra: {
+        label: { es: '¿Qué Letra Va? (juego)', en: 'Which Letter? (game)', ca: 'Quina Lletra Va? (joc)' },
+        emoji: '🔠',
+        game: 'que-letra',
+        usesLevel: false,
+        tracksTopic: false,
+        temas: ['bv', 'gj'],
+      },
       tilde: {
         label: { es: 'Pon la Tilde (juego)', en: 'Spanish Accents (game)', ca: 'Posa l\'Accent (joc)' },
         emoji: '✏️',
@@ -586,7 +598,7 @@ export const TOPIC_CATALOG = {
   economia: {
     temas: {
       'finanzas-personales': examTema({ examen: 'finanzas-personales' }, { niveles: ['eso', 'bachillerato'] }),
-      'punto-equilibrio': examTema({ examen: 'punto-equilibrio' }, { niveles: ['bachillerato'] }),
+      'punto-equilibrio': examTema({ examen: 'punto-equilibrio', puntoMuerto: 'punto-muerto-test' }, { niveles: ['bachillerato'] }),
       mercado: examTema({ examen: 'mercado', oferta: 'oferta-demanda-test' }, { niveles: ['eso', 'bachillerato'] }),
     },
     formatos: {
@@ -599,6 +611,7 @@ export const TOPIC_CATALOG = {
       },
       examen: examFormato({ es: 'Examen', en: 'Exam', ca: 'Examen' }, '📝'),
       oferta: examFormato({ es: 'Oferta y demanda (con el juego)', en: 'Supply and Demand (with the game)', ca: 'Oferta i demanda (amb el joc)' }, '🛒'),
+      puntoMuerto: examFormato({ es: 'Punto Muerto (con el juego)', en: 'Break-Even (with the game)', ca: 'Punt Mort (amb el joc)' }, '🏭'),
     },
   },
 
