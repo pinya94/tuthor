@@ -308,7 +308,7 @@ export const TOPIC_CATALOG = {
       gj: examTema({ test: 'espanol-ortografia-gj-test', letra: 'que-letra-test' }, { niveles: ['primaria', 'eso'] }),
       letras: examTema({ test: 'espanol-ortografia-letras-test', letra: 'que-letra-test' }, { niveles: ['primaria', 'eso'] }),
       puntuacion: examTema({ test: 'espanol-ortografia-puntuacion-test', coma: 'coma-a-coma-test' }, { niveles: ['primaria', 'eso'] }),
-      literatura: examTema({ test: 'espanol-literatura-test' }, { niveles: ['eso', 'bachillerato'] }),
+      literatura: examTema({ test: 'espanol-literatura-test', biblioteca: 'la-biblioteca-test' }, { niveles: ['eso', 'bachillerato'] }),
       textos: examTema({ test: 'espanol-textos-test', detective: 'detective-textos-test' }, { niveles: ['primaria', 'eso'] }),
       figuras: examTema({ test: 'espanol-figuras-test', cazar: 'cazafiguras-test' }, { niveles: ['eso', 'bachillerato'] }),
       metrica: examTema({ medir: 'mide-el-verso-test' }, { niveles: ['primaria', 'eso', 'bachillerato'] }),
@@ -347,6 +347,7 @@ export const TOPIC_CATALOG = {
       coma: examFormato({ es: 'Coma a Coma (con el juego)', en: 'Coma a Coma (with the game)', ca: 'Coma a Coma (amb el joc)' }, '🖋️'),
       cazar: examFormato({ es: 'Cazafiguras (con el juego)', en: 'Cazafiguras (with the game)', ca: 'Cazafiguras (amb el joc)' }, '🎭'),
       detective: examFormato({ es: 'Detective de Textos (con el juego)', en: 'Detective de Textos (with the game)', ca: 'Detective de Textos (amb el joc)' }, '📑'),
+      biblioteca: examFormato({ es: 'La Biblioteca (con el juego)', en: 'La Biblioteca (with the game)', ca: 'La Biblioteca (amb el joc)' }, '📚'),
       corregirExamen: examFormato({ es: 'Corregir el texto (examen)', en: 'Proofread the text (exam)', ca: 'Corregir el text (examen)' }, '🔍'),
       intruso: {
         label: { es: 'El Intruso (juego)', en: 'The Odd One Out (game)', ca: "L'Intrús (joc)" },

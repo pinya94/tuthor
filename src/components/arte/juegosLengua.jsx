@@ -92,6 +92,18 @@ function PiezaQueFalta(p) {
   )
 }
 
+function LaBiblioteca(p) {
+  // Una balda con lomos de libros de colores y una línea del tiempo debajo.
+  const lomos = [[40, 16, 70, '#B45309'], [58, 14, 78, '#7C2D12'], [74, 18, 64, '#1D4ED8'], [94, 13, 74, '#047857'], [109, 17, 68, '#7E22CE'], [128, 15, 76, '#BE123C'], [145, 19, 62, '#0E7490'], [166, 14, 72, '#A16207'], [182, 16, 66, '#4338CA']]
+  return (
+    <Lienzo {...p}>
+      {lomos.map(([x, w, h, c]) => <rect key={x} x={x} y={92 - h} width={w} height={h} rx="2" fill={c} />)}
+      <rect x="30" y="92" width="180" height="6" rx="2" fill="#78350F" />
+      {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(i => <rect key={i} x={30 + i * 18} y="108" width="16" height="8" rx="2" fill={i === 6 ? '#22C55E' : '#334155'} />)}
+    </Lienzo>
+  )
+}
+
 function DetectiveTextos(p) {
   // Una hoja de papel con renglones y una lupa que asoma por encima.
   return (
@@ -211,6 +223,7 @@ export const ARTE_LENGUA = {
   'coma-a-coma': ComaAComa,
   cazafiguras: Cazafiguras,
   'detective-textos': DetectiveTextos,
+  'la-biblioteca': LaBiblioteca,
   'mide-el-verso': MideElVerso,
   'corrige-el-texto': CorrigeElTexto,
 }

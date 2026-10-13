@@ -879,6 +879,11 @@ export const EXAMS = {
     emoji: '🖋️', subject: 'lengua',
     path: 'examen/espanol-literatura-test', page: () => import('../pages/EspanolLiteraturaExamen'),
   },
+  'la-biblioteca-test': {
+    label: { es: 'La Biblioteca (con el juego)', en: 'La Biblioteca (with the game)', ca: 'La Biblioteca (amb el joc)' },
+    emoji: '📚', subject: 'lengua',
+    path: 'examen/la-biblioteca-test', page: () => import('../pages/LaBibliotecaExamen'),
+  },
   'detective-textos-test': {
     label: { es: 'Detective de Textos (con el juego)', en: 'Detective de Textos (with the game)', ca: 'Detective de Textos (amb el joc)' },
     emoji: '📑', subject: 'lengua',

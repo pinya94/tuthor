@@ -625,6 +625,15 @@ export const GAMES = {
     // cualquier otro juego.
     coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
   },
+  'la-biblioteca': {
+    label: { es: 'La Biblioteca', en: 'La Biblioteca', ca: 'La Biblioteca' },
+    emoji: '📚',
+    subject: 'lengua',
+    route: '/juegos/la-biblioteca',
+    idiomas: ['es'], // literatura en lengua castellana: ver disponibleEn
+    // aciertos × 10 puntos → hasta 200 monedas
+    coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
+  },
   'detective-textos': {
     label: { es: 'Detective de Textos', en: 'Detective de Textos', ca: 'Detective de Textos' },
     emoji: '📑',
