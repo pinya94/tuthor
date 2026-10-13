@@ -72,6 +72,10 @@ export default function MusicaIndex() {
           titulo={tr({ es: 'Compás Completo (juego)', en: 'Full Bar (game)', ca: 'Compàs Complet (joc)' })}
           sub={tr({ es: 'Figuras, silencios y compases en el pentagrama', en: 'Note values, rests and bars on the staff', ca: 'Figures, silencis i compassos al pentagrama' })}
           to={localPath('/juegos/compas-completo')} />
+        <TarjetaArte Arte={ARTE_JUEGOS['la-orquesta']}
+          titulo={tr({ es: 'La Orquesta (juego)', en: 'The Orchestra (game)', ca: 'L’Orquestra (joc)' })}
+          sub={tr({ es: 'Instrumentos dibujados, sus familias y cómo suenan', en: 'Drawn instruments, their families and how they sound', ca: 'Instruments dibuixats, les seves famílies i com sonen' })}
+          to={localPath('/juegos/la-orquesta')} />
       </div>
     </div>
   )

@@ -242,6 +242,11 @@ export const EXAMS = {
     emoji: '🎼', subject: 'musica',
     path: 'examen/musica', page: () => import('../pages/MusicaExamen'),
   },
+  'la-orquesta-test': {
+    label: { es: 'La Orquesta (con el juego)', en: 'The Orchestra (with the game)', ca: 'L’Orquestra (amb el joc)' },
+    emoji: '🎻', subject: 'musica',
+    path: 'examen/la-orquesta-test', page: () => import('../pages/LaOrquestaExamen'),
+  },
   'compas-completo-test': {
     label: { es: 'Compás Completo (con el juego)', en: 'Full Bar (with the game)', ca: 'Compàs Complet (amb el joc)' },
     emoji: '🥁', subject: 'musica',

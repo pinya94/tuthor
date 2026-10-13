@@ -22,6 +22,26 @@ function Spicy(p) {
   )
 }
 
+function LaOrquesta(p) {
+  // Un violín, una trompeta y un tambor: tres familias de un vistazo.
+  return (
+    <Lienzo {...p}>
+      <ellipse cx="46" cy="58" rx="13" ry="12" fill="#A0522D" />
+      <ellipse cx="46" cy="82" rx="17" ry="15" fill="#A0522D" />
+      <rect x="35" y="64" width="22" height="10" fill="#A0522D" />
+      <rect x="43" y="18" width="6" height="40" fill="#1F2937" />
+      <circle cx="46" cy="16" r="4" fill="#6B3410" />
+      <line x1="66" y1="104" x2="90" y2="22" stroke="#6B3410" strokeWidth="2.5" />
+      <path d="M100 62 L176 62" stroke="#EAB308" strokeWidth="5" />
+      <path d="M112 62 Q108 76 124 76 L156 76 Q166 76 162 62" stroke="#EAB308" strokeWidth="4" fill="none" />
+      {[128, 138, 148].map(x => <rect key={x} x={x - 3} y="50" width="6" height="28" rx="2" fill="#A16207" />)}
+      <path d="M176 59 L200 48 L200 76 L176 65 Z" fill="#EAB308" />
+      <rect x="150" y="92" width="64" height="24" fill="#DC2626" />
+      <ellipse cx="182" cy="92" rx="32" ry="7" fill="#F5F5F4" />
+    </Lienzo>
+  )
+}
+
 function CompasCompleto(p) {
   // Un compás de 4/4 con una negra, dos corcheas y un hueco.
   const lineas = [44, 54, 64, 74, 84]
@@ -118,5 +138,6 @@ export const ARTE_VIDA = {
   'punto-muerto': PuntoMuerto,
   'pentagrama-path': PentagramaPath,
   'compas-completo': CompasCompleto,
+  'la-orquesta': LaOrquesta,
   reaccion: Reaccion,
 }

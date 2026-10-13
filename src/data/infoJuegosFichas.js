@@ -914,6 +914,34 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Economía', niveles: 'ESO, Bachillerato',
   },
+  'la-orquesta': {
+    titulo: 'La Orquesta',
+    subtitulo: 'Juego de instrumentos musicales: familias, sonido y orquesta',
+    emoji: '🎻', gradient: 'from-rose-500 to-amber-700',
+    path: '/juegos/la-orquesta',
+    intro: 'Un juego de música para conocer los instrumentos y sus familias. Salen dibujados el violín, el violonchelo, el arpa, la guitarra, el piano, la flauta travesera, el clarinete, el saxofón, el fagot, la trompeta, el trombón, la trompa, la tuba, el timbal, el xilófono, el tambor, los platillos y el triángulo, y hay que decir qué instrumento es y a qué familia pertenece: cuerda, viento madera, viento metal o percusión. En los niveles altos se pregunta la subfamilia (cuerda frotada, pulsada o percutida; percusión afinada o no afinada), cómo produce cada uno el sonido, dónde se sienta su familia en el plano de la orquesta y su clasificación de Hornbostel-Sachs.',
+    beneficios: [
+      { titulo: 'La familia la decide el sonido', texto: 'La flauta travesera y el saxofón son de metal, pero de viento madera: el sonido sale de un bisel o de una lengüeta, no de los labios en una boquilla. El piano tiene teclas, pero es de cuerda percutida. Son las trampas que más caen en los exámenes, y el juego las pone a propósito.' },
+      { titulo: 'Ver para distinguir', texto: 'La pica del violonchelo frente al violín, la vara del trombón, el tubo enrollado de la trompa, la doble lengüeta del fagot: cada dibujo enseña el detalle que distingue al instrumento de su vecino, y las opciones falsas son de su misma familia.' },
+      { titulo: 'De la familia a Hornbostel-Sachs', texto: 'En ESO se pasa de las familias de la orquesta a la clasificación por lo que vibra: cordófonos, aerófonos, membranófonos e idiófonos. El juego enlaza las dos, para que el timbal sea a la vez percusión afinada y membranófono.' },
+    ],
+    ejemplo: 'Sale dibujado un saxofón. ¿A qué familia pertenece? Viento madera, aunque esté hecho de metal: suena con una lengüeta de caña que vibra al soplar, como el clarinete. Los instrumentos de viento metal, como la trompeta, suenan haciendo vibrar los labios en una boquilla.',
+    enPapel: {
+      titulo: 'La orquesta de clase',
+      pasos: [
+        'Dibuja en un folio el plano de la orquesta en semicírculos, con el director delante.',
+        'Escribe cada instrumento del juego en la zona de su familia.',
+        'Al lado de cada uno, apunta cómo produce el sonido: arco, pulsar, bisel, lengüeta, labios o golpe.',
+        'Busca en casa objetos que suenen como un idiófono, un membranófono y un aerófono.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'El examen de instrumentos', desc: 'Tipo test sobre las familias de la orquesta, Hornbostel-Sachs y cómo suena cada instrumento, con explicación en cada respuesta.' },
+      { nombre: 'Compás Completo', desc: 'El otro juego de música: figuras, silencios y compases.' },
+      { nombre: 'Pentagrama Path', desc: 'Lee las notas del pentagrama y tócalas en el piano.' },
+    ],
+    asignatura: 'Música', niveles: 'Primaria, ESO',
+  },
   'compas-completo': {
     titulo: 'Compás Completo',
     subtitulo: 'Juego de ritmo: figuras, silencios y compases',
@@ -3194,6 +3222,33 @@ export const FICHAS_EN = {
     ],
     asignatura: 'Economics', niveles: 'Secondary, Sixth Form',
   },
+  'la-orquesta': {
+    titulo: 'The Orchestra',
+    subtitulo: 'Musical instruments game: families, sound and orchestra',
+    emoji: '🎻', gradient: 'from-rose-500 to-amber-700', path: '/juegos/la-orquesta',
+    intro: 'A music game for getting to know instruments and their families. The violin, cello, harp, guitar, piano, flute, clarinet, saxophone, bassoon, trumpet, trombone, French horn, tuba, timpani, xylophone, snare drum, cymbals and triangle appear drawn, and you say which instrument it is and which family it belongs to: strings, woodwind, brass or percussion. On higher levels you are asked the sub-family (bowed, plucked or struck strings; tuned or untuned percussion), how each one makes its sound, where its family sits on the orchestra plan and its Hornbostel-Sachs class.',
+    beneficios: [
+      { titulo: 'The sound decides the family', texto: 'The flute and the saxophone are made of metal, but they are woodwind: the sound comes from an edge or a reed, not from buzzing lips in a mouthpiece. The piano has keys, but it is a struck string instrument. These are the traps that come up most in exams, and the game includes them on purpose.' },
+      { titulo: 'Seeing to tell apart', texto: 'The cello’s endpin compared with the violin, the trombone’s slide, the French horn’s coiled tube, the bassoon’s crook: every drawing shows the detail that sets the instrument apart, and wrong options come from the same family.' },
+      { titulo: 'From families to Hornbostel-Sachs', texto: 'Secondary music moves from orchestral families to classifying by what vibrates: chordophones, aerophones, membranophones and idiophones. The game links the two, so the timpani are both tuned percussion and a membranophone.' },
+    ],
+    ejemplo: 'A saxophone appears. Which family does it belong to? Woodwind, even though it is made of metal: it sounds with a cane reed that vibrates when you blow, like the clarinet. Brass instruments such as the trumpet sound by buzzing the lips into a mouthpiece.',
+    enPapel: {
+      titulo: 'The classroom orchestra',
+      pasos: [
+        'Draw the orchestra plan in semicircles on a sheet, with the conductor at the front.',
+        'Write each instrument from the game in its family’s area.',
+        'Next to each one, note how it makes its sound: bow, pluck, edge, reed, lips or strike.',
+        'Find objects at home that sound like an idiophone, a membranophone and an aerophone.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'Full Bar', desc: 'The other music game: note values, rests and time signatures.' },
+      { nombre: 'Pentagrama Path', desc: 'Read the notes on the staff and play them on the piano.' },
+      { nombre: 'The Gallery', desc: 'Art history: painting styles, painters and works.' },
+    ],
+    asignatura: 'Music', niveles: 'Primary, Secondary',
+  },
   'compas-completo': {
     titulo: 'Full Bar',
     subtitulo: 'Rhythm game: note values, rests and time signatures',
@@ -5299,6 +5354,33 @@ export const FICHAS_CA = {
       { nombre: 'El joc de la Borsa de taula', desc: 'Jocs de taula clàssics sobre invertir en empreses i gestionar una cartera ensenyen les mateixes idees de risc i diversificació sense pantalles.' },
     ],
     asignatura: 'Economia', niveles: 'ESO, Batxillerat',
+  },
+  'la-orquesta': {
+    titulo: 'L’Orquestra',
+    subtitulo: 'Joc d’instruments musicals: famílies, so i orquestra',
+    emoji: '🎻', gradient: 'from-rose-500 to-amber-700', path: '/juegos/la-orquesta',
+    intro: 'Un joc de música per conèixer els instruments i les seves famílies. Surten dibuixats el violí, el violoncel, l’arpa, la guitarra, el piano, la flauta travessera, el clarinet, el saxòfon, el fagot, la trompeta, el trombó, la trompa, la tuba, el timbal, el xilòfon, el tambor, els plats i el triangle, i cal dir quin instrument és i a quina família pertany: corda, vent fusta, vent metall o percussió. Als nivells alts es pregunta la subfamília (corda fregada, pinçada o percudida; percussió afinada o no afinada), com produeix cadascun el so, on s’asseu la seva família al plànol de l’orquestra i la seva classificació de Hornbostel-Sachs.',
+    beneficios: [
+      { titulo: 'La família la decideix el so', texto: 'La flauta travessera i el saxòfon són de metall, però de vent fusta: el so surt d’un bisell o d’una llengüeta, no dels llavis en un broquet. El piano té tecles, però és de corda percudida. Són els paranys que més surten als exàmens, i el joc els hi posa a propòsit.' },
+      { titulo: 'Veure per distingir', texto: 'La pica del violoncel davant del violí, la vara del trombó, el tub enrotllat de la trompa, la doble llengüeta del fagot: cada dibuix mostra el detall que distingeix l’instrument del seu veí, i les opcions falses són de la mateixa família.' },
+      { titulo: 'De la família a Hornbostel-Sachs', texto: 'A l’ESO es passa de les famílies de l’orquestra a la classificació pel que vibra: cordòfons, aeròfons, membranòfons i idiòfons. El joc les enllaça, perquè el timbal sigui alhora percussió afinada i membranòfon.' },
+    ],
+    ejemplo: 'Surt dibuixat un saxòfon. A quina família pertany? Vent fusta, encara que sigui de metall: sona amb una llengüeta de canya que vibra en bufar, com el clarinet. Els instruments de vent metall, com la trompeta, sonen fent vibrar els llavis en un broquet.',
+    enPapel: {
+      titulo: 'L’orquestra de classe',
+      pasos: [
+        'Dibuixa en un full el plànol de l’orquestra en semicercles, amb el director al davant.',
+        'Escriu cada instrument del joc a la zona de la seva família.',
+        'Al costat de cadascun, apunta com produeix el so: arc, pinçar, bisell, llengüeta, llavis o cop.',
+        'Busca a casa objectes que sonin com un idiòfon, un membranòfon i un aeròfon.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'L’examen d’instruments', desc: 'Tipus test sobre les famílies de l’orquestra, Hornbostel-Sachs i com sona cada instrument, amb explicació a cada resposta.' },
+      { nombre: 'Compàs Complet', desc: 'L’altre joc de música: figures, silencis i compassos.' },
+      { nombre: 'Pentagrama Path', desc: 'Llegeix les notes del pentagrama i toca-les al piano.' },
+    ],
+    asignatura: 'Música', niveles: 'Primària, ESO',
   },
   'compas-completo': {
     titulo: 'Compàs Complet',

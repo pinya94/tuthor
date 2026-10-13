@@ -235,6 +235,14 @@ export const GAMES = {
     // % de aciertos sobre 150 monedas máx
     coins: ({ correct, total }) => (total > 0 ? Math.round((correct / total) * 150) : 0),
   },
+  'la-orquesta': {
+    label: { es: 'La Orquesta', en: 'The Orchestra', ca: 'L’Orquestra' },
+    emoji: '🎻',
+    subject: 'musica',
+    route: '/juegos/la-orquesta',
+    // aciertos × 10 puntos → hasta 200 monedas
+    coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
+  },
   'compas-completo': {
     label: { es: 'Compás Completo', en: 'Full Bar', ca: 'Compàs Complet' },
     emoji: '🥁',

@@ -619,7 +619,7 @@ export const TOPIC_CATALOG = {
     temas: {
       musica: examTema({ examen: 'musica' }, { niveles: ['primaria', 'eso'] }),
       ritmo: examTema({ examen: 'musica-ritmo-test', compas: 'compas-completo-test' }, { niveles: ['primaria', 'eso'] }),
-      instrumentos: examTema({ examen: 'musica-instrumentos-test' }, { niveles: ['primaria', 'eso'] }),
+      instrumentos: examTema({ examen: 'musica-instrumentos-test', orquesta: 'la-orquesta-test' }, { niveles: ['primaria', 'eso'] }),
     },
     formatos: {
       pentagrama: {
@@ -628,6 +628,7 @@ export const TOPIC_CATALOG = {
       },
       examen: examFormato({ es: 'Examen', en: 'Exam', ca: 'Examen' }, '📝'),
       compas: examFormato({ es: 'Compás Completo (con el juego)', en: 'Full Bar (with the game)', ca: 'Compàs Complet (amb el joc)' }, '🥁'),
+      orquesta: examFormato({ es: 'La Orquesta (con el juego)', en: 'The Orchestra (with the game)', ca: 'L’Orquestra (amb el joc)' }, '🎻'),
     },
   },
 
