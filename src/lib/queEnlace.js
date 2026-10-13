@@ -1,20 +1,18 @@
 // ¿Qué Enlace? (química · el enlace químico, 3.º-4.º de ESO y Bachillerato).
 //
-// Una tabla periódica en miniatura (periodos 1-4, grupos principales y tres
-// metales de transición) con los elementos de la pregunta marcados. Al
-// corregir se colorea: metales, no metales y semimetales.
+// Un juego de mover electrones, no de elegir respuestas:
+//   ionico     un metal y un no metal con sus electrones de valencia: se pasan
+//              electrones y se añaden átomos hasta que todos completan su capa.
+//              La fórmula (MgCl₂, Al₂O₃) sale de lo construido.
+//   covalente  el esqueleto de una molécula sin enlaces: se ponen enlaces
+//              sencillos, dobles o triples hasta completar todos los octetos.
+//   pinta      se pintan casillas de la tabla de metal, no metal o semimetal
+//              (el H del grupo 1 es la trampa).
+//   clasifica  sustancias (y en difícil, propiedades) a su tipo: iónica,
+//              molecular, red covalente o metálica.
 //
-// Tipos de pregunta (y la trampa que cada uno pone a prueba):
-//   enlace      dos elementos → iónico, covalente o metálico  (el H no es un metal aunque esté en el grupo 1)
-//   sustancia   una sustancia real → iónica, molecular, red covalente o metálica
-//               (el diamante y el cuarzo no son moleculares)
-//   propiedades unas propiedades → qué tipo de sustancia     (la iónica solo conduce fundida o disuelta)
-//   ion         qué ion forma un elemento                     (los metales pierden electrones: catión)
-//   formula     la fórmula del compuesto iónico               (cruzar las cargas: MgCl₂, no MgCl)
-//   enlaces     cuántos enlaces covalentes forma un átomo     (los que le faltan para el octeto)
-//
-// Solo casos indiscutibles en ESO: fuera los semimetales en las parejas y el
-// AlCl₃ (con mucho carácter covalente).
+// Solo casos indiscutibles en ESO: fuera los semimetales en los compuestos y
+// el AlCl₃ (con mucho carácter covalente).
 
 const T = (es, en, ca) => ({ es, en, ca })
 const tx = (o, l) => o[l] ?? o.es
@@ -56,8 +54,6 @@ export const ELEMENTOS = {
 // Grupo de cada columna (las tres del centro son metales de transición).
 export const GRUPO_COL = [1, 2, null, null, null, 13, 14, 15, 16, 17, 18]
 
-// Elementos que se usan en las parejas (sin semimetales ni gases nobles).
-const PAREJAS = ['H', 'Li', 'C', 'N', 'O', 'F', 'Na', 'Mg', 'Al', 'P', 'S', 'Cl', 'K', 'Ca', 'Fe', 'Cu', 'Zn', 'Br']
 
 export const ENLACES = {
   ionico: T('Iónico', 'Ionic', 'Iònic'),
@@ -107,11 +103,70 @@ export const PROPIEDADES = {
   ],
 }
 
-export const NIVELES = {
-  facil:   { tipos: ['enlace', 'enlace', 'enlace', 'sustancia'] },
-  medio:   { tipos: ['enlace', 'sustancia', 'sustancia', 'propiedades', 'enlaces'] },
-  dificil: { tipos: ['propiedades', 'ion', 'ion', 'formula', 'formula', 'enlaces'] },
+// ── Moléculas para unir (esqueleto fijo: el alumno pone los enlaces) ──────
+// [símbolo, x, y] en un lienzo de 200 × 120; enlaces: parejas de índices.
+// Cada esqueleto tiene UNA sola forma de completar todos los octetos (test).
+const M = (id, f, n, atomos, enlaces) => ({ id, f, n, atomos, enlaces })
+export const MOLECULAS = [
+  M('H2', 'H₂', T('hidrógeno', 'hydrogen', 'hidrogen'), [['H', 65, 60], ['H', 135, 60]], [[0, 1]]),
+  M('Cl2', 'Cl₂', T('cloro', 'chlorine', 'clor'), [['Cl', 65, 60], ['Cl', 135, 60]], [[0, 1]]),
+  M('HCl', 'HCl', T('cloruro de hidrógeno', 'hydrogen chloride', 'clorur d’hidrogen'), [['H', 65, 60], ['Cl', 135, 60]], [[0, 1]]),
+  M('H2O', 'H₂O', T('agua', 'water', 'aigua'), [['O', 100, 45], ['H', 50, 90], ['H', 150, 90]], [[0, 1], [0, 2]]),
+  M('H2S', 'H₂S', T('sulfuro de hidrógeno', 'hydrogen sulfide', 'sulfur d’hidrogen'), [['S', 100, 45], ['H', 50, 90], ['H', 150, 90]], [[0, 1], [0, 2]]),
+  M('CH4', 'CH₄', T('metano', 'methane', 'metà'), [['C', 100, 60], ['H', 100, 14], ['H', 40, 60], ['H', 160, 60], ['H', 100, 106]], [[0, 1], [0, 2], [0, 3], [0, 4]]),
+  M('O2', 'O₂', T('oxígeno', 'oxygen', 'oxigen'), [['O', 65, 60], ['O', 135, 60]], [[0, 1]]),
+  M('NH3', 'NH₃', T('amoníaco', 'ammonia', 'amoníac'), [['N', 100, 42], ['H', 45, 82], ['H', 100, 104], ['H', 155, 82]], [[0, 1], [0, 2], [0, 3]]),
+  M('PH3', 'PH₃', T('fosfina', 'phosphine', 'fosfina'), [['P', 100, 42], ['H', 45, 82], ['H', 100, 104], ['H', 155, 82]], [[0, 1], [0, 2], [0, 3]]),
+  M('CO2', 'CO₂', T('dióxido de carbono', 'carbon dioxide', 'diòxid de carboni'), [['O', 35, 60], ['C', 100, 60], ['O', 165, 60]], [[0, 1], [1, 2]]),
+  M('CCl4', 'CCl₄', T('tetracloruro de carbono', 'carbon tetrachloride', 'tetraclorur de carboni'), [['C', 100, 60], ['Cl', 100, 14], ['Cl', 40, 60], ['Cl', 160, 60], ['Cl', 100, 106]], [[0, 1], [0, 2], [0, 3], [0, 4]]),
+  M('N2', 'N₂', T('nitrógeno', 'nitrogen', 'nitrogen'), [['N', 65, 60], ['N', 135, 60]], [[0, 1]]),
+  M('HCN', 'HCN', T('cianuro de hidrógeno', 'hydrogen cyanide', 'cianur d’hidrogen'), [['H', 30, 60], ['C', 95, 60], ['N', 165, 60]], [[0, 1], [1, 2]]),
+  M('CH2O', 'CH₂O', T('formaldehído', 'formaldehyde', 'formaldehid'), [['C', 85, 60], ['O', 160, 60], ['H', 40, 22], ['H', 40, 98]], [[0, 1], [0, 2], [0, 3]]),
+]
+export const molecula = id => MOLECULAS.find(m => m.id === id)
+// Electrones de valencia y los que completan la capa (el H, dos).
+export const valencia = el => (el === 'H' ? 1 : 8 - ELEMENTOS[el].enlaces)
+export const objetivo = el => (el === 'H' ? 2 : 8)
+// Enlaces que suma cada átomo con unos órdenes de enlace dados.
+export function enlacesPorAtomo(mol, ordenes) {
+  const t = mol.atomos.map(() => 0)
+  mol.enlaces.forEach(([a, b], i) => { t[a] += ordenes[i]; t[b] += ordenes[i] })
+  return t
 }
+export const completa = (mol, ordenes) => enlacesPorAtomo(mol, ordenes).every((n, i) => n === ELEMENTOS[mol.atomos[i][0]].enlaces)
+// Todas las formas de completar los octetos (órdenes 1-3); debe haber una.
+export function soluciones(mol) {
+  const out = []
+  const rec = (i, acc) => {
+    if (i === mol.enlaces.length) { if (completa(mol, acc)) out.push(acc.join(',')); return }
+    for (let o = 1; o <= 3; o++) rec(i + 1, [...acc, o])
+  }
+  rec(0, [])
+  return out
+}
+
+const PINTABLES = ['H', 'Li', 'Na', 'K', 'Mg', 'Ca', 'Al', 'C', 'N', 'O', 'F', 'P', 'S', 'Cl', 'Br', 'Fe', 'Cu', 'Zn']
+const SEMIMETALES = ['B', 'Si', 'Ge', 'As']
+
+export const NIVELES = {
+  facil: {
+    tipos: ['pinta', 'ionico', 'ionico', 'covalente', 'covalente'],
+    metales: ['Li', 'Na', 'K'], nometales: ['F', 'Cl', 'Br'],
+    moleculas: ['H2', 'Cl2', 'HCl', 'H2O', 'H2S', 'CH4'], semimetales: false, propiedades: false,
+  },
+  medio: {
+    tipos: ['pinta', 'ionico', 'ionico', 'covalente', 'covalente', 'clasifica'],
+    metales: ['Li', 'Na', 'K', 'Mg', 'Ca'], nometales: ['F', 'Cl', 'Br', 'O', 'S'],
+    moleculas: ['H2O', 'H2S', 'CH4', 'O2', 'NH3', 'PH3', 'CO2', 'CCl4'], semimetales: true, propiedades: false,
+  },
+  dificil: {
+    tipos: ['ionico', 'ionico', 'covalente', 'covalente', 'clasifica', 'pinta'],
+    metales: ['Li', 'Na', 'K', 'Mg', 'Ca', 'Al'], nometales: ['F', 'Cl', 'Br', 'O', 'S', 'N'],
+    moleculas: ['O2', 'NH3', 'CO2', 'N2', 'HCN', 'CH2O', 'CCl4'], semimetales: true, propiedades: true,
+  },
+}
+// Máximo de átomos de cada clase en la bandeja del compuesto iónico.
+export const MAX_ATOMOS = 3
 
 const elige = (rand, xs) => xs[Math.floor(rand() * xs.length)]
 const baraja = (rand, xs) => {
@@ -129,167 +184,163 @@ export function enlaceDe(a, b) {
 }
 
 const SUB = { 1: '', 2: '₂', 3: '₃', 4: '₄' }
-// Fórmula del compuesto iónico entre un metal (carga +) y un no metal (carga −).
-export function formulaIonica(metal, nometal) {
+// Cuántos átomos de metal y de no metal lleva el compuesto iónico (simplificado).
+export function proporcion(metal, nometal) {
   const cm = ELEMENTOS[metal].carga, cn = -ELEMENTOS[nometal].carga
   const g = mcd(cm, cn)
-  return `${metal}${SUB[cn / g]}${nometal}${SUB[cm / g]}`
+  return { m: cn / g, n: cm / g }
+}
+export function formulaIonica(metal, nometal) {
+  const { m, n } = proporcion(metal, nometal)
+  return `${metal}${SUB[m]}${nometal}${SUB[n]}`
 }
 export const textoCarga = c => (c > 0 ? `${c === 1 ? '' : c}+` : `${c === -1 ? '' : -c}−`)
 const SUP = { 1: '¹', 2: '²', 3: '³', 4: '⁴', 5: '⁵', 6: '⁶', 7: '⁷', '+': '⁺', '−': '⁻' }
 export const ionTexto = (el, c) => `${el}${textoCarga(c).split('').map(x => SUP[x] ?? x).join('')}`
 
 let seq = 0
+const recientes = []
 
 export function genRonda(nivel = 'facil', { rand = Math.random } = {}) {
   const cfg = NIVELES[nivel] ?? NIVELES.facil
+  for (let intento = 0; ; intento++) {
+    const r = genUna(nivel, cfg, rand)
+    const clave = r.clave
+    if (intento < 20 && recientes.includes(clave)) continue
+    recientes.push(clave)
+    if (recientes.length > 5) recientes.shift()
+    return r
+  }
+}
+
+function genUna(nivel, cfg, rand) {
   for (;;) {
     const tipo = elige(rand, cfg.tipos)
     const base = { id: ++seq, nivel, tipo }
 
-    if (tipo === 'enlace') {
-      const a = elige(rand, PAREJAS), b = elige(rand, PAREJAS)
-      // Casos dudosos fuera: Al con halógenos (AlCl₃ es casi covalente) y el H con metales (hidruros).
-      if (a === 'Al' && ['Cl', 'Br', 'F'].includes(b)) continue
-      if (b === 'Al' && ['Cl', 'Br', 'F'].includes(a)) continue
-      if ((a === 'H' && ELEMENTOS[b].tipo === 'm') || (b === 'H' && ELEMENTOS[a].tipo === 'm')) continue
-      // Los de transición, solo con otros metales o con O, S y Cl (Zn₃P₂ y compañía no son de ESO).
-      const trans = ['Fe', 'Cu', 'Zn']
-      if ((trans.includes(a) && ELEMENTOS[b].tipo === 'n' && !['O', 'S', 'Cl'].includes(b)) || (trans.includes(b) && ELEMENTOS[a].tipo === 'n' && !['O', 'S', 'Cl'].includes(a))) continue
-      const bueno = enlaceDe(a, b)
-      // Equilibrar: que no salgan casi siempre iónicos.
-      if (bueno === 'ionico' && rand() < 0.35) continue
-      return { ...base, elementos: a === b ? [a] : [a, b], bueno, opciones: ['ionico', 'covalente', 'metalico'] }
+    if (tipo === 'ionico') {
+      const metal = elige(rand, cfg.metales), nometal = elige(rand, cfg.nometales)
+      // AlCl₃ y compañía tienen mucho carácter covalente: fuera.
+      if (metal === 'Al' && ['F', 'Cl', 'Br'].includes(nometal)) continue
+      const { m, n } = proporcion(metal, nometal)
+      // En difícil, sobre todo los que necesitan más de un átomo de algo.
+      if (nivel === 'dificil' && m === 1 && n === 1 && rand() < 0.6) continue
+      return { ...base, clave: `${metal}${nometal}`, metal, nometal, m, n, bueno: `${m}:${n}:1` }
     }
 
-    if (tipo === 'sustancia') {
-      const sus = elige(rand, SUSTANCIAS)
-      const ops = nivel === 'facil' && sus.clase === 'red' ? null : Object.keys(CLASES)
-      if (!ops) continue
-      return { ...base, sustancia: sus.f, bueno: sus.clase, opciones: ops }
+    if (tipo === 'covalente') {
+      const mol = molecula(elige(rand, cfg.moleculas))
+      return { ...base, clave: mol.id, molecula: mol.id, bueno: soluciones(mol)[0] }
     }
 
-    if (tipo === 'propiedades') {
-      const clase = elige(rand, Object.keys(PROPIEDADES))
-      const i = Math.floor(rand() * PROPIEDADES[clase].length)
-      return { ...base, clase, i, bueno: clase, opciones: Object.keys(CLASES) }
+    if (tipo === 'pinta') {
+      const pool = cfg.semimetales ? [...PINTABLES, ...SEMIMETALES] : PINTABLES
+      const els = baraja(rand, pool).slice(0, 5)
+      const tipos = els.map(e => ELEMENTOS[e].tipo)
+      if (tipos.filter(t => t === 'm').length < 2 || tipos.filter(t => t === 'n').length < 2) continue
+      // El H, que está con los metales en la tabla, sale a menudo: es la trampa.
+      if (!els.includes('H') && rand() < 0.4) continue
+      return { ...base, clave: els.join(''), elementos: els, colores: cfg.semimetales ? ['m', 'n', 's'] : ['m', 'n'], bueno: 'pinta:0' }
     }
 
-    if (tipo === 'ion') {
-      const el = elige(rand, Object.keys(ELEMENTOS).filter(k => ELEMENTOS[k].carga && k !== 'H'))
-      const c = ELEMENTOS[el].carga
-      const bueno = ionTexto(el, c)
-      // El signo al revés (el error de fondo) y cargas vecinas.
-      const cands = baraja(rand, [ionTexto(el, -c), ionTexto(el, c > 0 ? c + 1 : c - 1), ionTexto(el, c > 0 ? Math.max(1, c - 1) : Math.min(-1, c + 1)), ionTexto(el, c > 0 ? c + 2 : c - 2), ionTexto(el, c > 0 ? -(c + 1) : -c + 1)])
-      const ops = [...new Set([bueno, ...cands])].slice(0, 4)
-      if (ops.length < 4) continue
-      return { ...base, elementos: [el], bueno, opciones: baraja(rand, ops) }
-    }
-
-    if (tipo === 'formula') {
-      const metales = ['Li', 'Na', 'K', 'Mg', 'Ca', 'Al'], nometales = ['F', 'Cl', 'Br', 'O', 'S', 'N']
-      const m = elige(rand, metales), n = elige(rand, nometales)
-      if (m === 'Al' && ['F', 'Cl', 'Br'].includes(n)) continue
-      const bueno = formulaIonica(m, n)
-      const cm = ELEMENTOS[m].carga, cn = -ELEMENTOS[n].carga
-      const cands = [`${m}${n}`, `${m}${SUB[cm] || ''}${n}${SUB[cn] || ''}`, `${m}${n}${SUB[cm + cn] || ''}`, `${m}${SUB[2]}${n}`, `${m}${n}${SUB[2]}`, `${m}${SUB[3]}${n}${SUB[2]}`]
-      // Fuera los distractores neutros: «Ca₂S₂» cuadra las cargas aunque no esté simplificada.
-      const neutra = f => [...f.matchAll(/([A-Z][a-z]?)([₂₃₄]?)/g)].reduce((t, [, el, sub]) => t + ELEMENTOS[el].carga * ({ '₂': 2, '₃': 3, '₄': 4 }[sub] ?? 1), 0) === 0
-      const ops = [...new Set([bueno, ...baraja(rand, cands).filter(f => !neutra(f))])].slice(0, 4)
-      if (ops.length < 4) continue
-      return { ...base, elementos: [m, n], bueno, opciones: baraja(rand, ops) }
-    }
-
-    // enlaces covalentes
-    const el = elige(rand, ['H', 'C', 'N', 'O', 'F', 'P', 'S', 'Cl', 'Br'])
-    const bueno = ELEMENTOS[el].enlaces
-    const grupo = GRUPO_COL[ELEMENTOS[el].col]
-    const ops = [...new Set([bueno, 1, 2, 3, 4, el === 'H' ? null : grupo - 10].filter(x => x && x > 0 && x <= 7))]
-    return { ...base, elementos: [el], bueno, opciones: baraja(rand, ops.slice(0, 4).includes(bueno) ? ops.slice(0, 4) : [bueno, ...ops.filter(o => o !== bueno).slice(0, 3)]) }
+    // clasifica: cuatro sustancias (o propiedades) de al menos tres clases
+    const items = []
+    const sus = baraja(rand, SUSTANCIAS.map(x => `s:${x.f}`))
+    if (cfg.propiedades) {
+      const props = baraja(rand, Object.entries(PROPIEDADES).flatMap(([c, ps]) => ps.map((_, i) => `p:${c}:${i}`)))
+      items.push(...sus.slice(0, 2), ...props.slice(0, 2))
+    } else items.push(...sus.slice(0, 4))
+    const clases = items.map(claseDe)
+    if (new Set(clases).size < 3) continue
+    return { ...base, clave: items.join('|'), items: baraja(rand, items), clases: Object.keys(CLASES), bueno: 'clasifica:0' }
   }
 }
+export const claseDe = item => (item.startsWith('s:') ? SUSTANCIAS.find(x => x.f === item.slice(2)).clase : item.split(':')[1])
 
 export const genRound = (difficulty = 'facil') => genRonda(difficulty)
-export const esCorrecta = (r, o) => o === r.bueno
+
+// Respuestas que manda la pantalla:
+//   ionico     «átomosMetal:átomosNoMetal:1 si todos completos»
+//   covalente  órdenes de enlace «2,2»
+//   pinta / clasifica  «pinta:fallos» / «clasifica:fallos»
+export function esCorrecta(r, o) {
+  return String(o) === r.bueno
+}
 
 // ── Textos ────────────────────────────────────────────────────────────────
 const nombre = (el, l) => tx(ELEMENTOS[el].n, l)
-const sus = f => SUSTANCIAS.find(x => x.f === f)
-const TIPO_EL = { m: T('metal', 'metal', 'metall'), n: T('no metal', 'non-metal', 'no metall') }
-
-export function textoOpcion(o, r, l) {
-  switch (r.tipo) {
-    case 'enlace': return tx(ENLACES[o], l)
-    case 'sustancia': case 'propiedades': return tx(CLASES[o], l)
-    case 'enlaces': return s(l, `${o} ${o === 1 ? 'enlace' : 'enlaces'}`, `${o} ${o === 1 ? 'bond' : 'bonds'}`, `${o} ${o === 1 ? 'enllaç' : 'enllaços'}`)
-    default: return o
-  }
+const TIPO_EL = { m: T('metal', 'metal', 'metall'), n: T('no metal', 'non-metal', 'no metall'), s: T('semimetal', 'metalloid', 'semimetall'), g: T('gas noble', 'noble gas', 'gas noble') }
+export const nombreTipo = (t, l) => tx(TIPO_EL[t], l)
+export const textoItem = (item, l) => {
+  if (item.startsWith('s:')) { const x = SUSTANCIAS.find(y => y.f === item.slice(2)); return `${x.f} · ${tx(x.n, l)}` }
+  const [, c, i] = item.split(':')
+  return tx(PROPIEDADES[c][+i], l)
+}
+// Texto de un enlace: «C=O», con el símbolo según el orden.
+const RAYA = { 1: '–', 2: '=', 3: '≡' }
+export function dibujoEnlaces(mol, ordenes) {
+  return mol.enlaces.map(([a, b], i) => `${mol.atomos[a][0]}${RAYA[ordenes[i]]}${mol.atomos[b][0]}`).join(', ')
 }
 
 export function enunciado(r, l) {
   switch (r.tipo) {
-    case 'enlace': {
-      const [a, b] = r.elementos
-      return b
-        ? s(l, `¿Qué tipo de enlace se forma entre el ${nombre(a, l).toLowerCase()} (${a}) y el ${nombre(b, l).toLowerCase()} (${b})?`, `What type of bond forms between ${nombre(a, l).toLowerCase()} (${a}) and ${nombre(b, l).toLowerCase()} (${b})?`, `Quin tipus d’enllaç es forma entre el ${nombre(a, l).toLowerCase()} (${a}) i el ${nombre(b, l).toLowerCase()} (${b})?`)
-        : s(l, `¿Qué tipo de enlace une los átomos de ${nombre(a, l).toLowerCase()} (${a}) entre sí?`, `What type of bond holds ${nombre(a, l).toLowerCase()} (${a}) atoms together?`, `Quin tipus d’enllaç uneix els àtoms de ${nombre(a, l).toLowerCase()} (${a}) entre ells?`)
-    }
-    case 'sustancia': { const x = sus(r.sustancia); return s(l, `¿Qué tipo de sustancia es ${tx(x.n, l)} (${x.f})?`, `What kind of substance is ${tx(x.n, l)} (${x.f})?`, `Quin tipus de substància és ${tx(x.n, l)} (${x.f})?`) }
-    case 'propiedades': return `${tx(PROPIEDADES[r.clase][r.i], l)} ${s(l, '¿Qué tipo de sustancia es?', 'What kind of substance is it?', 'Quin tipus de substància és?')}`
-    case 'ion': return s(l, `¿Qué ion forma el ${nombre(r.elementos[0], l).toLowerCase()} para cumplir la regla del octeto?`, `What ion does ${nombre(r.elementos[0], l).toLowerCase()} form to complete its octet?`, `Quin ió forma el ${nombre(r.elementos[0], l).toLowerCase()} per complir la regla de l’octet?`)
-    case 'formula': return s(l, `¿Cuál es la fórmula del compuesto iónico que forman el ${nombre(r.elementos[0], l).toLowerCase()} y el ${nombre(r.elementos[1], l).toLowerCase()}?`, `What is the formula of the ionic compound formed by ${nombre(r.elementos[0], l).toLowerCase()} and ${nombre(r.elementos[1], l).toLowerCase()}?`, `Quina és la fórmula del compost iònic que formen el ${nombre(r.elementos[0], l).toLowerCase()} i el ${nombre(r.elementos[1], l).toLowerCase()}?`)
-    default: return s(l, `¿Cuántos enlaces covalentes forma normalmente un átomo de ${nombre(r.elementos[0], l).toLowerCase()} (${r.elementos[0]})?`, `How many covalent bonds does a ${nombre(r.elementos[0], l).toLowerCase()} (${r.elementos[0]}) atom usually form?`, `Quants enllaços covalents forma normalment un àtom de ${nombre(r.elementos[0], l).toLowerCase()} (${r.elementos[0]})?`)
+    case 'ionico': return s(l, `Pasa electrones del ${nombre(r.metal, l).toLowerCase()} al ${nombre(r.nometal, l).toLowerCase()} hasta que todos completen su capa`, `Move electrons from ${nombre(r.metal, l).toLowerCase()} to ${nombre(r.nometal, l).toLowerCase()} until every atom has a full shell`, `Passa electrons del ${nombre(r.metal, l).toLowerCase()} al ${nombre(r.nometal, l).toLowerCase()} fins que tots completin la capa`)
+    case 'covalente': { const m = molecula(r.molecula); return s(l, `Une los átomos del ${tx(m.n, l)} (${m.f}): que todos completen su octeto`, `Join the atoms of ${tx(m.n, l)} (${m.f}): every atom must complete its octet`, `Uneix els àtoms del ${tx(m.n, l)} (${m.f}): que tots completin l’octet`) }
+    case 'pinta': return s(l, 'Pinta cada casilla marcada: ¿metal o no metal?', 'Paint each marked square: metal or non-metal?', 'Pinta cada casella marcada: metall o no metall?')
+    default: return s(l, 'Coloca cada una en su tipo de sustancia', 'Put each one in its type of substance', 'Col·loca cadascuna al seu tipus de substància')
   }
 }
 
-const POR_CLASE = {
-  ionica: T('Iónica: iones positivos y negativos ordenados en una red cristalina. Son sólidos duros con punto de fusión alto; no conducen en sólido porque los iones están quietos, pero sí fundidos o disueltos, cuando los iones se pueden mover.', 'Ionic: positive and negative ions ordered in a crystal lattice. They are hard solids with high melting points; they do not conduct as solids because the ions are fixed, but they do when molten or dissolved, when the ions can move.', 'Iònica: ions positius i negatius ordenats en una xarxa cristal·lina. Són sòlids durs amb punt de fusió alt; no condueixen en sòlid perquè els ions estan quiets, però sí fosos o dissolts, quan els ions es poden moure.'),
-  molecular: T('Covalente molecular: moléculas sueltas con enlaces covalentes dentro y fuerzas débiles entre ellas. Por eso muchas son gases o líquidos, funden y hierven a poca temperatura y no conducen.', 'Molecular covalent: separate molecules with covalent bonds inside and weak forces between them. That is why many are gases or liquids, melt and boil at low temperatures and do not conduct.', 'Covalent molecular: molècules soltes amb enllaços covalents a dins i forces febles entre elles. Per això moltes són gasos o líquids, es fonen i bullen a poca temperatura i no condueixen.'),
-  red: T('Red covalente: millones de átomos unidos todos por enlaces covalentes en una red gigante, sin moléculas sueltas. Para fundirla hay que romper esos enlaces: son durísimas, funden a temperaturas altísimas y no conducen. Diamante y cuarzo son los ejemplos clásicos.', 'Giant covalent: millions of atoms all joined by covalent bonds in a huge network, with no separate molecules. To melt it you must break those bonds: they are extremely hard, melt at very high temperatures and do not conduct. Diamond and quartz are the classic examples.', 'Xarxa covalent: milions d’àtoms units tots per enllaços covalents en una xarxa gegant, sense molècules soltes. Per fondre-la cal trencar aquests enllaços: són duríssimes, es fonen a temperatures altíssimes i no condueixen. El diamant i el quars en són els exemples clàssics.'),
-  metalica: T('Metálica: cationes metálicos en un «mar» de electrones que se mueven libremente. Esos electrones libres explican que conduzcan la electricidad y el calor en sólido, que brillen y que se puedan estirar en hilos y láminas.', 'Metallic: metal cations in a “sea” of electrons that move freely. Those free electrons explain why they conduct electricity and heat as solids, why they shine and why they can be drawn into wires and sheets.', 'Metàl·lica: cations metàl·lics en un «mar» d’electrons que es mouen lliurement. Aquests electrons lliures expliquen que condueixin l’electricitat i la calor en sòlid, que brillin i que es puguin estirar en fils i làmines.'),
-}
 
 export function explicacion(r, l) {
   switch (r.tipo) {
-    case 'enlace': {
-      const [a, b] = r.elementos
-      const ta = tx(TIPO_EL[ELEMENTOS[a].tipo], l), tb = b ? tx(TIPO_EL[ELEMENTOS[b].tipo], l) : ta
-      const regla = {
-        ionico: s(l, 'metal con no metal → iónico: el metal cede electrones y el no metal los gana; se forman iones que se atraen.', 'metal with non-metal → ionic: the metal gives up electrons and the non-metal gains them; the ions formed attract each other.', 'metall amb no metall → iònic: el metall cedeix electrons i el no metall els guanya; es formen ions que s’atrauen.'),
-        covalente: s(l, 'no metal con no metal → covalente: los dos quieren ganar electrones, así que los comparten.', 'non-metal with non-metal → covalent: both want to gain electrons, so they share them.', 'no metall amb no metall → covalent: tots dos volen guanyar electrons, així que els comparteixen.'),
-        metalico: s(l, 'metal con metal → metálico: los átomos sueltan sus electrones de valencia, que quedan libres entre los cationes.', 'metal with metal → metallic: the atoms release their outer electrons, which move freely among the cations.', 'metall amb metall → metàl·lic: els àtoms deixen anar els electrons de valència, que queden lliures entre els cations.'),
-      }[r.bueno]
-      const h = [a, b].includes('H') ? s(l, ' Ojo: el hidrógeno está en el grupo 1, pero es un no metal.', ' Careful: hydrogen is in group 1 but it is a non-metal.', ' Compte: l’hidrogen és al grup 1, però és un no metall.') : ''
-      return `${b ? `${a}: ${ta}; ${b}: ${tb}.` : `${a}: ${ta}.`} ${regla.charAt(0).toUpperCase()}${regla.slice(1)}${h}`
-    }
-    case 'sustancia': case 'propiedades': return tx(POR_CLASE[r.bueno], l)
-    case 'ion': {
-      const el = r.elementos[0], c = ELEMENTOS[el].carga
-      return c > 0
-        ? s(l, `El ${nombre(el, l).toLowerCase()} es un metal con ${c} electrón(es) en la última capa: le resulta más fácil perderlos que ganar los que le faltan. Al perder ${c}, queda con carga ${textoCarga(c)}: ${r.bueno}.`, `${nombre(el, l)} is a metal with ${c} electron(s) in its outer shell: it is easier to lose them than to gain the rest. Losing ${c} leaves a charge of ${textoCarga(c)}: ${r.bueno}.`, `El ${nombre(el, l).toLowerCase()} és un metall amb ${c} electró(ns) a l’última capa: li resulta més fàcil perdre’ls que guanyar els que li falten. En perdre’n ${c}, queda amb càrrega ${textoCarga(c)}: ${r.bueno}.`)
-        : s(l, `El ${nombre(el, l).toLowerCase()} tiene ${8 + c} electrones en la última capa: le faltan ${-c} para el octeto, así que los gana y queda con carga ${textoCarga(c)}: ${r.bueno}.`, `${nombre(el, l)} has ${8 + c} electrons in its outer shell: it is ${-c} short of an octet, so it gains them and ends with a charge of ${textoCarga(c)}: ${r.bueno}.`, `El ${nombre(el, l).toLowerCase()} té ${8 + c} electrons a l’última capa: n’hi falten ${-c} per a l’octet, així que els guanya i queda amb càrrega ${textoCarga(c)}: ${r.bueno}.`)
-    }
-    case 'formula': {
-      const [m, n] = r.elementos
-      const cm = ELEMENTOS[m].carga, cn = ELEMENTOS[n].carga
+    case 'ionico': {
+      const cm = ELEMENTOS[r.metal].carga, cn = ELEMENTOS[r.nometal].carga
       return s(l,
-        `Los iones son ${ionTexto(m, cm)} y ${ionTexto(n, cn)}. El compuesto tiene que ser neutro: se toman tantos de cada uno como para que las cargas se anulen (se «cruzan» las cargas y se simplifica). Resultado: ${r.bueno}.`,
-        `The ions are ${ionTexto(m, cm)} and ${ionTexto(n, cn)}. The compound must be neutral: take enough of each so the charges cancel (“cross over” the charges and simplify). Result: ${r.bueno}.`,
-        `Els ions són ${ionTexto(m, cm)} i ${ionTexto(n, cn)}. El compost ha de ser neutre: se’n prenen tants de cadascun com calgui perquè les càrregues s’anul·lin (es «creuen» les càrregues i se simplifica). Resultat: ${r.bueno}.`)
+        `El ${nombre(r.metal, l).toLowerCase()} es un metal: le sobran ${cm} electrón(es) y los cede (${ionTexto(r.metal, cm)}). Al ${nombre(r.nometal, l).toLowerCase()} le faltan ${-cn} y los gana (${ionTexto(r.nometal, cn)}). Hacen falta ${r.m} de uno y ${r.n} de otro para que no sobre ni falte ninguno: ${formulaIonica(r.metal, r.nometal)}. Enlace iónico.`,
+        `${nombre(r.metal, l)} is a metal: it has ${cm} spare electron(s) and gives them up (${ionTexto(r.metal, cm)}). ${nombre(r.nometal, l)} is ${-cn} short and gains them (${ionTexto(r.nometal, cn)}). You need ${r.m} of one and ${r.n} of the other so none are left over or missing: ${formulaIonica(r.metal, r.nometal)}. Ionic bond.`,
+        `El ${nombre(r.metal, l).toLowerCase()} és un metall: li sobren ${cm} electró(ns) i els cedeix (${ionTexto(r.metal, cm)}). Al ${nombre(r.nometal, l).toLowerCase()} li’n falten ${-cn} i els guanya (${ionTexto(r.nometal, cn)}). Calen ${r.m} d’un i ${r.n} de l’altre perquè no en sobri ni en falti cap: ${formulaIonica(r.metal, r.nometal)}. Enllaç iònic.`)
     }
-    default: {
-      const el = r.elementos[0]
-      return el === 'H'
-        ? s(l, 'El hidrógeno solo tiene un electrón y se completa con dos (como el helio): forma 1 enlace.', 'Hydrogen has just one electron and is complete with two (like helium): it forms 1 bond.', 'L’hidrogen només té un electró i es completa amb dos (com l’heli): forma 1 enllaç.')
-        : s(l, `El ${nombre(el, l).toLowerCase()} tiene ${8 - r.bueno} electrones de valencia: le faltan ${r.bueno} para el octeto, y cada enlace covalente le aporta uno compartido. Por eso forma ${r.bueno}.`, `${nombre(el, l)} has ${8 - r.bueno} valence electrons: it is ${r.bueno} short of an octet, and each covalent bond gives it one shared electron. So it forms ${r.bueno}.`, `El ${nombre(el, l).toLowerCase()} té ${8 - r.bueno} electrons de valència: n’hi falten ${r.bueno} per a l’octet, i cada enllaç covalent n’hi aporta un de compartit. Per això en forma ${r.bueno}.`)
+    case 'covalente': {
+      const m = molecula(r.molecula)
+      const ords = r.bueno.split(',').map(Number)
+      const lista = [...new Set(m.atomos.map(a => a[0]))].map(el => `${el} ${ELEMENTOS[el].enlaces}`).join(', ')
+      return s(l,
+        `Son no metales: comparten electrones (enlace covalente). Cada átomo forma tantos enlaces como electrones le faltan para el octeto (el H, para tener dos): ${lista}. Así queda ${dibujoEnlaces(m, ords)}.`,
+        `They are non-metals: they share electrons (covalent bond). Each atom forms as many bonds as electrons it is short of an octet (H, to have two): ${lista}. So: ${dibujoEnlaces(m, ords)}.`,
+        `Són no metalls: comparteixen electrons (enllaç covalent). Cada àtom forma tants enllaços com electrons li falten per a l’octet (l’H, per tenir-ne dos): ${lista}. Així queda ${dibujoEnlaces(m, ords)}.`)
     }
+    case 'pinta': {
+      const lista = r.elementos.map(e => `${e}: ${nombreTipo(ELEMENTOS[e].tipo, l)}`).join(' · ')
+      const h = r.elementos.includes('H') ? s(l, ' Ojo: el hidrógeno está en el grupo 1, pero es un no metal.', ' Careful: hydrogen is in group 1 but it is a non-metal.', ' Compte: l’hidrogen és al grup 1, però és un no metall.') : ''
+      return `${lista}.${h} ${s(l, 'La escalera que baja desde el boro separa los metales (izquierda) de los no metales (derecha).', 'The staircase going down from boron separates metals (left) from non-metals (right).', 'L’escala que baixa des del bor separa els metalls (esquerra) dels no metalls (dreta).')}`
+    }
+    default:
+      return r.items.map(it => `${it.startsWith('s:') ? it.slice(2) : '«…»'} → ${tx(CLASES[claseDe(it)], l).toLowerCase()}`).join(' · ')
   }
 }
 
 export function schemaQuestion(r, l) {
-  return {
-    question: enunciado(r, l),
-    correctAnswer: textoOpcion(r.bueno, r, l),
-    wrongAnswers: r.opciones.filter(o => o !== r.bueno).map(o => textoOpcion(o, r, l)),
+  switch (r.tipo) {
+    case 'ionico': {
+      const bueno = formulaIonica(r.metal, r.nometal)
+      const malas = [`${r.metal}${r.nometal}`, `${r.metal}${r.nometal}₂`, `${r.metal}₂${r.nometal}`, `${r.metal}₂${r.nometal}₃`, `${r.metal}₃${r.nometal}₂`].filter(f => f !== bueno).slice(0, 3)
+      return { question: s(l, `¿Cuál es la fórmula del compuesto iónico de ${nombre(r.metal, l).toLowerCase()} y ${nombre(r.nometal, l).toLowerCase()}?`, `What is the formula of the ionic compound of ${nombre(r.metal, l).toLowerCase()} and ${nombre(r.nometal, l).toLowerCase()}?`, `Quina és la fórmula del compost iònic de ${nombre(r.metal, l).toLowerCase()} i ${nombre(r.nometal, l).toLowerCase()}?`), correctAnswer: bueno, wrongAnswers: malas }
+    }
+    case 'covalente': {
+      const m = molecula(r.molecula)
+      const ords = r.bueno.split(',').map(Number)
+      const malas = [ords.map(() => 1), ords.map(o => Math.min(3, o + 1)), ords.map(() => 2), ords.map(() => 3)].map(x => dibujoEnlaces(m, x)).filter((t, i, a) => t !== dibujoEnlaces(m, ords) && a.indexOf(t) === i).slice(0, 3)
+      return { question: s(l, `¿Cómo se unen los átomos en la molécula de ${m.f}?`, `How are the atoms joined in the ${m.f} molecule?`, `Com s’uneixen els àtoms a la molècula de ${m.f}?`), correctAnswer: dibujoEnlaces(m, ords), wrongAnswers: malas }
+    }
+    case 'pinta': {
+      const e = r.elementos[0]
+      return { question: s(l, `¿El ${nombre(e, l).toLowerCase()} (${e}) es un metal, un no metal o un semimetal?`, `Is ${nombre(e, l).toLowerCase()} (${e}) a metal, a non-metal or a metalloid?`, `El ${nombre(e, l).toLowerCase()} (${e}) és un metall, un no metall o un semimetall?`), correctAnswer: nombreTipo(ELEMENTOS[e].tipo, l), wrongAnswers: ['m', 'n', 's'].filter(t => t !== ELEMENTOS[e].tipo).map(t => nombreTipo(t, l)) }
+    }
+    default: {
+      const it = r.items.find(x => x.startsWith('s:'))
+      const c = claseDe(it)
+      return { question: s(l, `¿Qué tipo de sustancia es ${textoItem(it, l)}?`, `What kind of substance is ${textoItem(it, l)}?`, `Quin tipus de substància és ${textoItem(it, l)}?`), correctAnswer: tx(CLASES[c], l), wrongAnswers: Object.keys(CLASES).filter(x => x !== c).map(x => tx(CLASES[x], l)) }
+    }
   }
 }

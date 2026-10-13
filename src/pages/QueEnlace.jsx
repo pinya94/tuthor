@@ -11,18 +11,19 @@ import SEOHead from '../components/SEOHead'
 import { CabeceraJuego, NivelBarras, ComoSeJuega } from '../components/IntroJuego'
 import { Racha } from '../components/Iconos'
 
-const GAME_TIME = 60
+// Cada ronda se construye (electrones, enlaces, colores): 90 s y +6 s por acierto.
+const GAME_TIME = 90
 const WRONG_TIME = 5
-const CORRECT_TIME = 4
+const CORRECT_TIME = 6
 const REVEAL_MS = 4800 // da tiempo a ver la tabla coloreada y la explicación
 
 const DIFS = {
   facil:   { emoji: '💚', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
-             desc: { es: 'Iónico, covalente o metálico entre dos elementos y sustancias de casa', en: 'Ionic, covalent or metallic between two elements, and everyday substances', ca: 'Iònic, covalent o metàl·lic entre dos elements i substàncies de casa' } },
+             desc: { es: 'Compuestos 1:1 como el NaCl, moléculas sencillas y pintar metales y no metales', en: '1:1 compounds like NaCl, simple molecules and painting metals and non-metals', ca: 'Compostos 1:1 com el NaCl, molècules senzilles i pintar metalls i no metalls' } },
   medio:   { emoji: '💛', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
-             desc: { es: 'Molecular o red covalente, propiedades y cuántos enlaces forma cada átomo', en: 'Molecular or giant covalent, properties and how many bonds each atom forms', ca: 'Molecular o xarxa covalent, propietats i quants enllaços forma cada àtom' } },
+             desc: { es: 'MgCl₂ o Na₂O, dobles enlaces como el CO₂, semimetales y tipos de sustancia', en: 'MgCl₂ or Na₂O, double bonds like CO₂, metalloids and kinds of substance', ca: 'MgCl₂ o Na₂O, dobles enllaços com el CO₂, semimetalls i tipus de substància' } },
   dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' },
-             desc: { es: 'Iones, fórmulas de compuestos iónicos y sustancias por sus propiedades', en: 'Ions, ionic compound formulas and substances from their properties', ca: 'Ions, fórmules de compostos iònics i substàncies per les propietats' } },
+             desc: { es: 'Al₂O₃ o Mg₃N₂, triples enlaces como el N₂ y sustancias por sus propiedades', en: 'Al₂O₃ or Mg₃N₂, triple bonds like N₂ and substances from their properties', ca: 'Al₂O₃ o Mg₃N₂, triples enllaços com el N₂ i substàncies per les propietats' } },
 }
 if (import.meta.env.DEV && Object.keys(DIFS).join() !== Object.keys(NIVELES).join()) {
   console.warn('[que-enlace] los niveles de la pantalla no coinciden con NIVELES')
@@ -107,9 +108,9 @@ export default function QueEnlace() {
   const seo = {
     title: tr({ es: '¿Qué Enlace? — Juego de enlace químico: iónico, covalente y metálico', en: 'Which Bond? — Chemical bonding game: ionic, covalent and metallic', ca: 'Quin Enllaç? — Joc d’enllaç químic: iònic, covalent i metàl·lic' }),
     desc: tr({
-      es: 'Con la tabla periódica a la vista: decide si dos elementos forman un enlace iónico, covalente o metálico, clasifica sustancias reales, deduce el tipo por sus propiedades, los iones y las fórmulas. Juego de química gratis.',
-      en: 'With the periodic table in view: decide whether two elements form an ionic, covalent or metallic bond, classify real substances, work out the type from its properties, the ions and the formulas. Free chemistry game.',
-      ca: 'Amb la taula periòdica a la vista: decideix si dos elements formen un enllaç iònic, covalent o metàl·lic, classifica substàncies reals, dedueix el tipus per les propietats, els ions i les fórmules. Joc de química gratis.',
+      es: 'Pasa electrones del metal al no metal hasta formar NaCl, MgCl₂ o Al₂O₃, pon los enlaces del agua, el CO₂ o el N₂ y pinta los metales de la tabla periódica. Juego de enlace químico gratis.',
+      en: 'Pass electrons from metal to non-metal to make NaCl, MgCl₂ or Al₂O₃, add the bonds in water, CO₂ or N₂ and paint the metals on the periodic table. Free chemical bonding game.',
+      ca: 'Passa electrons del metall al no metall fins a formar NaCl, MgCl₂ o Al₂O₃, posa els enllaços de l’aigua, el CO₂ o el N₂ i pinta els metalls de la taula periòdica. Joc d’enllaç químic gratis.',
     }),
     path: '/juegos/que-enlace',
   }
@@ -142,9 +143,8 @@ export default function QueEnlace() {
           </button>
           <ComoSeJuega>
             <div className="space-y-2 text-white/70 text-sm">
-              <p>{tr({ es: 'Sale una tabla periódica pequeña con los elementos de la pregunta marcados. La regla de oro: metal con no metal forma un enlace iónico (el metal cede electrones y el no metal los gana); no metal con no metal, covalente (los comparten); metal con metal, metálico (los electrones quedan libres). Al corregir, la tabla se colorea: metales en azul y no metales en verde.', en: 'A small periodic table appears with the elements in the question marked. The golden rule: metal with non-metal makes an ionic bond (the metal gives electrons and the non-metal takes them); non-metal with non-metal, covalent (they share them); metal with metal, metallic (the electrons are free). When you answer, the table is coloured: metals in blue and non-metals in green.', ca: 'Surt una taula periòdica petita amb els elements de la pregunta marcats. La regla d’or: metall amb no metall forma un enllaç iònic (el metall cedeix electrons i el no metall els guanya); no metall amb no metall, covalent (els comparteixen); metall amb metall, metàl·lic (els electrons queden lliures). En corregir, la taula es pinta: metalls en blau i no metalls en verd.' })}</p>
-              <p>{tr({ es: 'Las sustancias pueden ser iónicas (la sal), covalentes moleculares (el agua), redes covalentes (el diamante, el cuarzo) o metálicas (el cobre). Cada tipo tiene sus propiedades: solo las metálicas conducen en estado sólido, y las iónicas lo hacen fundidas o disueltas.', en: 'Substances can be ionic (salt), molecular covalent (water), giant covalent (diamond, quartz) or metallic (copper). Each type has its properties: only metals conduct as solids, and ionic ones do when molten or dissolved.', ca: 'Les substàncies poden ser iòniques (la sal), covalents moleculars (l’aigua), xarxes covalents (el diamant, el quars) o metàl·liques (el coure). Cada tipus té les seves propietats: només les metàl·liques condueixen en estat sòlid, i les iòniques ho fan foses o dissoltes.' })}</p>
-              <p>{tr({ es: 'En el nivel difícil: qué ion forma cada elemento para completar el octeto y la fórmula del compuesto iónico, cruzando las cargas para que quede neutro.', en: 'On the hard level: what ion each element forms to complete its octet, and the formula of the ionic compound, crossing over the charges so it is neutral.', ca: 'Al nivell difícil: quin ió forma cada element per completar l’octet i la fórmula del compost iònic, creuant les càrregues perquè quedi neutre.' })}</p>
+              <p>{tr({ es: 'Aquí no se elige la respuesta: se construye. En los compuestos iónicos tienes un metal y un no metal con sus electrones dibujados: toca el metal y luego el no metal para pasarle un electrón, y añade átomos si hace falta, hasta que todos completen su capa. La fórmula sale sola.', en: 'You don’t pick the answer here: you build it. In ionic compounds you have a metal and a non-metal with their electrons drawn: tap the metal and then the non-metal to pass one electron, and add atoms if needed, until every atom has a full shell. The formula follows.', ca: 'Aquí no es tria la resposta: es construeix. En els compostos iònics tens un metall i un no metall amb els electrons dibuixats: toca el metall i després el no metall per passar-li un electró, i afegeix àtoms si cal, fins que tots completin la capa. La fórmula surt sola.' })}</p>
+              <p>{tr({ es: 'En las moléculas, los no metales comparten: toca entre dos átomos para poner un enlace, dos o tres, hasta que cada uno tenga 8 electrones alrededor (el hidrógeno, 2). Otras rondas: pintar la tabla de metales y no metales, y clasificar sustancias.', en: 'In molecules, non-metals share: tap between two atoms to add one, two or three bonds, until each has 8 electrons around it (hydrogen, 2). Other rounds: painting the table into metals and non-metals, and sorting substances.', ca: 'En les molècules, els no metalls comparteixen: toca entre dos àtoms per posar-hi un enllaç, dos o tres, fins que cadascun tingui 8 electrons al voltant (l’hidrogen, 2). Altres rondes: pintar la taula de metalls i no metalls, i classificar substàncies.' })}</p>
               <p className="text-white/40 text-xs pt-1">⏱️ {GAME_TIME}s · {tr({ es: `Acierto +10 y +${CORRECT_TIME}s · Fallo −${WRONG_TIME}s`, en: `Correct +10 and +${CORRECT_TIME}s · Wrong −${WRONG_TIME}s`, ca: `Encert +10 i +${CORRECT_TIME}s · Error −${WRONG_TIME}s` })}</p>
             </div>
           </ComoSeJuega>
