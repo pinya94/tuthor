@@ -1,11 +1,8 @@
 // ¿Quién lo Pensó? (filosofía · historia de la filosofía, ESO y Bachillerato).
 //
 // Ideas parafraseadas (no citas largas) de los filósofos que se estudian, de
-// Tales a Arendt. Se pregunta:
-//   idea      quién defendió esta idea
-//   concepto  cuál es el concepto clave de este filósofo
-//   corriente a qué corriente o escuela pertenece
-//   orden     cuál de cuatro filósofos vivió antes
+// Tales a Arendt, para colocar en el tiempo, unir con su autor y llevar a su
+// escuela (ver las mecánicas más abajo).
 //
 // Como en el examen de filosofía, cada idea se atribuye a UN autor y los
 // distractores son de otros; las ideas que comparten varios (la dialéctica de
@@ -179,12 +176,27 @@ export const CORRIENTES = {
 }
 
 // Corrientes a las que TAMBIÉN se adscribe un autor: no salen como opción falsa.
-export const TAMBIEN_CORRIENTE = { locke: ['contractualismo'], hobbes: ['empirismo'], rousseau: ['ilustracion'] }
+// Ampliado al pasar a «escuelas» (un autor a varias cajas): Ortega, Sartre y
+// Beauvoir también hicieron filosofía política del XX; Mill es empirista; Hume,
+// ilustrado; Demócrito suele ir con los presocráticos; Nietzsche es precursor
+// del existencialismo.
+export const TAMBIEN_CORRIENTE = {
+  locke: ['contractualismo'], hobbes: ['empirismo'], rousseau: ['ilustracion'],
+  ortega: ['politica'], sartre: ['politica'], beauvoir: ['politica'], mill: ['empirismo'],
+  hume: ['ilustracion'], democrito: ['presocraticos'], nietzsche: ['existencialismo'],
+}
 
+// Mecánicas (nada de elegir entre cuatro):
+//   linea      tocar a los filósofos en orden, del más antiguo al más moderno
+//              (vidas que no se solapan: el orden es indiscutible)
+//   empareja   unir ideas (o lemas) con su filósofo; ninguna idea la defendió
+//              también otro de la ronda
+//   escuelas   cada filósofo a su corriente; ninguna caja es otra corriente a
+//              la que también se adscribe (TAMBIEN_CORRIENTE)
 export const NIVELES = {
-  facil:   { tipos: ['idea', 'idea', 'concepto'] },
-  medio:   { tipos: ['idea', 'idea', 'concepto', 'corriente'] },
-  dificil: { tipos: ['idea', 'concepto', 'corriente', 'orden'] },
+  facil:   { tipos: ['empareja', 'empareja', 'linea'], cuantos: 3, lemas: true },
+  medio:   { tipos: ['empareja', 'linea', 'escuelas'], cuantos: 3, lemas: false },
+  dificil: { tipos: ['empareja', 'linea', 'escuelas'], cuantos: 4, lemas: false },
 }
 
 const elige = (rand, xs) => xs[Math.floor(rand() * xs.length)]
@@ -200,10 +212,9 @@ const recientes = []
 export function genRonda(nivel = 'facil', opts = {}) {
   for (let intento = 0; ; intento++) {
     const r = genUna(nivel, opts)
-    const tema = `${r.tipo}:${r.fil ?? ''}:${r.idea ?? ''}`
-    if (intento < 20 && recientes.includes(tema)) continue
-    recientes.push(tema)
-    if (recientes.length > 8) recientes.shift()
+    if (intento < 20 && r.fils.some(f => recientes.includes(f))) continue
+    recientes.push(...r.fils)
+    while (recientes.length > 8) recientes.shift()
     return r
   }
 }
@@ -211,75 +222,79 @@ export function genRonda(nivel = 'facil', opts = {}) {
 function genUna(nivel, { rand = Math.random, epoca = null } = {}) {
   const cfg = NIVELES[nivel] ?? NIVELES.facil
   const pool = epoca ? FILOSOFOS.filter(f => f.epoca === epoca) : FILOSOFOS
+  const n = cfg.cuantos
   for (;;) {
     const tipo = elige(rand, cfg.tipos)
     const base = { id: ++seq, nivel, tipo, epoca }
-    if (tipo === 'orden') {
-      // Cuatro filósofos que no se solapen en vida: el que vivió antes es claro.
-      const cuatro = baraja(rand, pool).slice(0, 4)
-      const ord = [...cuatro].sort((a, b) => a.nace - b.nace)
+
+    if (tipo === 'linea') {
+      const grupo = baraja(rand, pool).slice(0, n)
+      const ord = [...grupo].sort((a, b) => a.nace - b.nace)
       if (ord.some((f, i) => i > 0 && f.nace < ord[i - 1].muere)) continue
-      return { ...base, bueno: ord[0].id, opciones: cuatro.map(f => f.id) }
+      return { ...base, fils: grupo.map(f => f.id), bueno: ord.map(f => f.id).join(',') }
     }
-    const f = elige(rand, pool)
-    if (tipo === 'idea') {
-      const i = Math.floor(rand() * f.ideas.length)
-      const tambien = f.ideas[i][1]
-      // Distractores de la misma época (más difíciles), sin los que también lo defendieron.
-      const otros = baraja(rand, pool.filter(x => x.id !== f.id && !tambien.includes(x.id)))
-      const cerca = otros.sort((a, b) => Math.abs(a.nace - f.nace) - Math.abs(b.nace - f.nace)).slice(0, 6)
-      return { ...base, fil: f.id, idea: i, bueno: f.id, opciones: baraja(rand, [f.id, ...baraja(rand, cerca).slice(0, 3).map(x => x.id)]) }
+
+    if (tipo === 'empareja') {
+      // Lemas (fácil) o ideas; ninguna idea elegida la defendió otro de la ronda.
+      const items = []
+      for (const f of baraja(rand, pool)) {
+        const i = Math.floor(rand() * f.ideas.length)
+        const tambien = cfg.lemas ? [] : f.ideas[i][1]
+        if (items.some(it => tambien.includes(it.fil) || (!cfg.lemas && filosofo(it.fil).ideas[it.idea][1].includes(f.id)))) continue
+        items.push({ fil: f.id, idea: cfg.lemas ? null : i })
+        if (items.length === n) break
+      }
+      if (items.length < n) continue
+      return { ...base, fils: items.map(it => it.fil), items, nombres: baraja(rand, items.map(it => it.fil)), bueno: 'empareja:0' }
     }
-    if (tipo === 'concepto') {
-      const otros = baraja(rand, pool.filter(x => x.id !== f.id)).slice(0, 3)
-      return { ...base, fil: f.id, bueno: f.id, opciones: baraja(rand, [f.id, ...otros.map(x => x.id)]) }
-    }
-    // corriente
-    const vetadas = TAMBIEN_CORRIENTE[f.id] ?? []
-    const otras = baraja(rand, [...new Set(pool.map(x => x.corriente))].filter(c => c !== f.corriente && !vetadas.includes(c))).slice(0, 3)
-    if (otras.length < 3) continue
-    return { ...base, fil: f.id, bueno: f.corriente, opciones: baraja(rand, [f.corriente, ...otras]) }
+
+    // escuelas: n filósofos de al menos dos corrientes; cajas = sus corrientes
+    // (y una más si hay pocas), sin las que también les corresponden.
+    const grupo = baraja(rand, pool).slice(0, n)
+    const corr = [...new Set(grupo.map(f => f.corriente))]
+    if (corr.length < 2) continue
+    const vetadas = grupo.flatMap(f => TAMBIEN_CORRIENTE[f.id] ?? [])
+    if (corr.some(c => vetadas.includes(c))) continue
+    const extra = baraja(rand, [...new Set(pool.map(f => f.corriente))].filter(c => !corr.includes(c) && !vetadas.includes(c)))
+    const cajas = baraja(rand, [...corr, ...extra.slice(0, Math.max(0, 4 - corr.length))])
+    return { ...base, fils: grupo.map(f => f.id), cajas, bueno: 'escuelas:0' }
   }
 }
 
 export const genRound = (difficulty = 'facil') => genRonda(difficulty)
-export const esCorrecta = (r, o) => o === r.bueno
+// Respuestas: linea, los ids en el orden tocado; «empareja:fallos»; «escuelas:fallos».
+export const esCorrecta = (r, o) => String(o) === r.bueno
 
 // ── Textos ────────────────────────────────────────────────────────────────
 export const fechas = (f, l) => {
   const y = n => (n < 0 ? s(l, `${-n} a. C.`, `${-n} BC`, `${-n} aC`) : String(n))
   return `${y(f.nace)} – ${y(f.muere)}`
 }
-export function textoOpcion(o, r, l) {
-  if (r.tipo === 'concepto') return tx(filosofo(o).concepto, l)
-  if (r.tipo === 'corriente') return tx(CORRIENTES[o], l)
-  return tx(filosofo(o).nombre, l)
-}
+export const textoItem = (it, l) => (it.idea == null ? `«${tx(filosofo(it.fil).concepto, l)}»` : tx(filosofo(it.fil).ideas[it.idea][0], l))
+
 export function enunciado(r, l) {
-  if (r.tipo === 'idea') return s(l, '¿Quién lo pensó?', 'Who thought this?', 'Qui ho va pensar?')
-  if (r.tipo === 'concepto') return s(l, '¿Cuál es su idea más conocida?', 'What is their best-known idea?', 'Quina és la seva idea més coneguda?')
-  if (r.tipo === 'corriente') return s(l, '¿A qué corriente o escuela pertenece?', 'Which school or movement do they belong to?', 'A quin corrent o escola pertany?')
-  return s(l, '¿Quién vivió antes?', 'Who lived first?', 'Qui va viure abans?')
+  if (r.tipo === 'linea') return s(l, 'Toca a los filósofos en orden, del más antiguo al más moderno', 'Tap the philosophers in order, earliest first', 'Toca els filòsofs en ordre, del més antic al més modern')
+  if (r.tipo === 'empareja') return s(l, '¿Quién lo pensó? Une cada idea con su filósofo', 'Who thought it? Match each idea with its philosopher', 'Qui ho va pensar? Uneix cada idea amb el seu filòsof')
+  return s(l, '¿A qué corriente pertenece cada uno?', 'Which school does each one belong to?', 'A quin corrent pertany cadascun?')
 }
 export function explicacion(r, l) {
-  if (r.tipo === 'orden') {
-    const ord = r.opciones.map(filosofo).sort((a, b) => a.nace - b.nace)
+  if (r.tipo === 'linea') {
+    const ord = r.bueno.split(',').map(filosofo)
     return s(l, 'De más antiguo a más moderno: ', 'From earliest to latest: ', 'Del més antic al més modern: ') + ord.map(f => `${tx(f.nombre, l)} (${fechas(f, l)})`).join(' → ') + '.'
   }
-  const f = filosofo(r.fil)
-  const base = `${tx(f.nombre, l)} (${fechas(f, l)}), ${tx(CORRIENTES[f.corriente], l).toLowerCase()}: «${tx(f.concepto, l)}».`
-  if (r.tipo === 'idea') {
-    const tambien = f.ideas[r.idea][1]
-    return base + (tambien.length ? ' ' + s(l, `(También la defendió ${tambien.map(id => tx(filosofo(id).nombre, l)).join(' y ')}, por eso no sale como opción.)`, `(${tambien.map(id => tx(filosofo(id).nombre, l)).join(' and ')} also held it, so it is not offered as an option.)`, `(També la va defensar ${tambien.map(id => tx(filosofo(id).nombre, l)).join(' i ')}, per això no surt com a opció.)`) : '')
-  }
-  return base
+  if (r.tipo === 'empareja') return r.items.map(it => `${tx(filosofo(it.fil).nombre, l)}: «${tx(filosofo(it.fil).concepto, l)}»`).join(' · ') + '.'
+  return r.fils.map(id => `${tx(filosofo(id).nombre, l)}: ${tx(CORRIENTES[filosofo(id).corriente], l).toLowerCase()}`).join(' · ') + '.'
 }
+// Para los buscadores y el examen en texto: una pregunta de cada mecánica.
 export function schemaQuestion(r, l) {
-  const f = r.fil ? filosofo(r.fil) : null
-  const q = r.tipo === 'idea' ? `${tx(f.ideas[r.idea][0], l)} ` : f ? `${tx(f.nombre, l)}. ` : ''
-  return {
-    question: `${q}${enunciado(r, l)}`,
-    correctAnswer: textoOpcion(r.bueno, r, l),
-    wrongAnswers: r.opciones.filter(o => o !== r.bueno).map(o => textoOpcion(o, r, l)),
+  if (r.tipo === 'linea') {
+    const ord = r.bueno.split(',')
+    return { question: s(l, '¿Quién vivió antes?', 'Who lived first?', 'Qui va viure abans?'), correctAnswer: tx(filosofo(ord[0]).nombre, l), wrongAnswers: ord.slice(1).map(id => tx(filosofo(id).nombre, l)) }
   }
+  if (r.tipo === 'empareja') {
+    const it = r.items[0]
+    return { question: `${textoItem(it, l)} ${s(l, '¿Quién lo pensó?', 'Who thought this?', 'Qui ho va pensar?')}`, correctAnswer: tx(filosofo(it.fil).nombre, l), wrongAnswers: r.items.slice(1).map(x => tx(filosofo(x.fil).nombre, l)) }
+  }
+  const f = filosofo(r.fils[0])
+  return { question: `${tx(f.nombre, l)}. ${s(l, '¿A qué corriente pertenece?', 'Which school do they belong to?', 'A quin corrent pertany?')}`, correctAnswer: tx(CORRIENTES[f.corriente], l), wrongAnswers: r.cajas.filter(c => c !== f.corriente).map(c => tx(CORRIENTES[c], l)) }
 }

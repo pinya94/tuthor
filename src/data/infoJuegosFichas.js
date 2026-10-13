@@ -1960,13 +1960,13 @@ export const FICHAS_ES = {
     subtitulo: 'Juego de historia de la filosofía: ideas, autores, conceptos y corrientes',
     emoji: '🦉', gradient: 'from-indigo-700 to-slate-800',
     path: '/juegos/quien-lo-penso',
-    intro: 'Un juego de filosofía para repasar la historia del pensamiento, de los presocráticos al siglo XX. Sale una idea explicada con palabras sencillas («nadie se baña dos veces en el mismo río», «la existencia precede a la esencia», «el hombre es un lobo para el hombre»…) y hay que decir qué filósofo la defendió: Tales, Heráclito, Sócrates, Platón, Aristóteles, Epicuro, Agustín de Hipona, Tomás de Aquino, Ockham, Descartes, Hobbes, Locke, Hume, Rousseau, Kant, Hegel, Marx, Mill, Nietzsche, Ortega, Sartre, Beauvoir o Arendt. Otras rondas preguntan su concepto clave o su corriente, y en el nivel difícil quién vivió antes. Debajo, una línea del tiempo ilumina al filósofo al corregir.',
+    intro: 'Un juego de historia de la filosofía para unir, ordenar y clasificar, de Tales a Hannah Arendt. En unas rondas se unen ideas —«nadie se baña dos veces en el mismo río», «pienso, luego existo», «la existencia precede a la esencia»— con el filósofo que las defendió; en otras se toca a tres o cuatro filósofos en orden, del más antiguo al más moderno, y al corregir aparecen en una línea del tiempo por tramos; y en otras se lleva a cada uno a su corriente, de los presocráticos al existencialismo. Las ideas que compartieron varios autores nunca se juntan en la misma ronda.',
     beneficios: [
       { titulo: 'Ideas, no frases sueltas', texto: 'Cada idea va explicada con palabras de hoy, como se pide en un comentario de texto o en la PAU: no basta con recordar «panta rei», hay que saber qué significa. Las opciones falsas son filósofos de la misma época, que es donde de verdad se confunden.' },
       { titulo: 'Sin trampas con las ideas compartidas', texto: 'La dialéctica es de Hegel y también de Marx; el contrato social, de Hobbes, Locke y Rousseau. Cuando una idea la defendió más de un autor, los demás no salen como opción falsa, así que siempre hay una sola respuesta buena.' },
       { titulo: 'Cada filósofo en su siglo', texto: 'La línea del tiempo, con la Antigüedad, la Edad Media y la Modernidad, coloca a cada autor al corregir. En el nivel difícil hay que ordenarlos, que es lo que ayuda a entender quién responde a quién: Kant a Hume, Marx a Hegel.' },
     ],
-    ejemplo: 'Sale la idea «Nunca vemos la causa: solo que un hecho sigue a otro, y la costumbre nos hace esperarlo». ¿Quién lo pensó? David Hume (1711-1776), empirista: si todo conocimiento viene de la experiencia, y lo único que vemos es que un hecho sigue a otro, la conexión necesaria entre causa y efecto la pone nuestra costumbre. Esta crítica es la que despertó a Kant de su «sueño dogmático».',
+    ejemplo: 'Salen Hobbes, Ockham y Protágoras para ordenar. El alumno empieza por Ockham porque le suena medieval, pero Protágoras es un sofista griego del siglo V antes de Cristo: al corregir, la línea del tiempo enseña los dos mil años que los separan.',
     enPapel: {
       titulo: 'El debate imposible',
       pasos: [
@@ -4142,13 +4142,13 @@ export const FICHAS_EN = {
     titulo: 'Who Thought It?',
     subtitulo: 'History of philosophy game: ideas, thinkers, concepts and schools',
     emoji: '🦉', gradient: 'from-indigo-700 to-slate-800', path: '/juegos/quien-lo-penso',
-    intro: 'A philosophy game for revising the history of thought, from the Presocratics to the 20th century. An idea appears in plain words (“no one bathes twice in the same river”, “existence precedes essence”, “man is a wolf to man”…) and you say which philosopher held it: Thales, Heraclitus, Socrates, Plato, Aristotle, Epicurus, Augustine, Aquinas, Ockham, Descartes, Hobbes, Locke, Hume, Rousseau, Kant, Hegel, Marx, Mill, Nietzsche, Ortega, Sartre, Beauvoir or Arendt. Other rounds ask for their key concept or school, and on hard, who lived first. Below, a timeline lights up the philosopher when you answer.',
+    intro: 'A history of philosophy game for matching, ordering and sorting, from Thales to Hannah Arendt. In some rounds you match ideas —“no one steps in the same river twice”, “I think, therefore I am”, “existence precedes essence”— with the philosopher who held them; in others you tap three or four philosophers in order, earliest first, and they then appear on a segmented timeline; and in others you take each one to their school, from the Presocratics to existentialism. Ideas shared by several thinkers never appear in the same round.',
     beneficios: [
       { titulo: 'Ideas, not loose quotes', texto: 'Each idea is explained in today’s words, as an essay requires: it is not enough to remember “panta rhei”, you have to know what it means. Wrong options are philosophers from the same period, which is where the real confusion lies.' },
       { titulo: 'No traps with shared ideas', texto: 'The dialectic belongs to Hegel and also to Marx; the social contract to Hobbes, Locke and Rousseau. When more than one thinker held an idea, the others are never offered as wrong options, so there is always one right answer.' },
       { titulo: 'Each philosopher in their century', texto: 'The timeline, with Antiquity, the Middle Ages and the modern era, places each thinker when you answer. On hard you put them in order, which helps you see who is answering whom: Kant to Hume, Marx to Hegel.' },
     ],
-    ejemplo: '“We never see the cause: only that one event follows another, and custom makes us expect it” appears. Who thought it? David Hume (1711-1776), an empiricist: if all knowledge comes from experience, and all we see is one event following another, the necessary connection between cause and effect is supplied by our habit. This is the criticism that woke Kant from his “dogmatic slumber”.',
+    ejemplo: 'Hobbes, Ockham and Protagoras come up to be ordered. The student starts with Ockham because he sounds medieval, but Protagoras is a Greek sophist of the 5th century BC: on checking, the timeline shows the two thousand years between them.',
     enPapel: {
       titulo: 'The impossible debate',
       pasos: [
@@ -6331,13 +6331,13 @@ export const FICHAS_CA = {
     titulo: 'Qui ho va Pensar?',
     subtitulo: 'Joc d’història de la filosofia: idees, autors, conceptes i corrents',
     emoji: '🦉', gradient: 'from-indigo-700 to-slate-800', path: '/juegos/quien-lo-penso',
-    intro: 'Un joc de filosofia per repassar la història del pensament, dels presocràtics al segle XX. Surt una idea explicada amb paraules senzilles («ningú no es banya dues vegades al mateix riu», «l’existència precedeix l’essència», «l’home és un llop per a l’home»…) i cal dir quin filòsof la va defensar: Tales, Heràclit, Sòcrates, Plató, Aristòtil, Epicur, Agustí d’Hipona, Tomàs d’Aquino, Ockham, Descartes, Hobbes, Locke, Hume, Rousseau, Kant, Hegel, Marx, Mill, Nietzsche, Ortega, Sartre, Beauvoir o Arendt. Altres rondes pregunten el seu concepte clau o el seu corrent, i en el nivell difícil qui va viure abans. A sota, una línia del temps il·lumina el filòsof en corregir.',
+    intro: 'Un joc d’història de la filosofia per unir, ordenar i classificar, de Tales a Hannah Arendt. En unes rondes s’uneixen idees —«ningú no es banya dues vegades al mateix riu», «penso, per tant existeixo», «l’existència precedeix l’essència»— amb el filòsof que les va defensar; en d’altres es toca tres o quatre filòsofs en ordre, del més antic al més modern, i en corregir apareixen en una línia del temps per trams; i en d’altres es porta cadascun al seu corrent, dels presocràtics a l’existencialisme. Les idees que van compartir diversos autors mai no es troben a la mateixa ronda.',
     beneficios: [
       { titulo: 'Idees, no frases soltes', texto: 'Cada idea va explicada amb paraules d’avui, com es demana en un comentari de text o a la PAU: no n’hi ha prou de recordar «panta rei», cal saber què vol dir. Les opcions falses són filòsofs de la mateixa època, que és on de debò es confonen.' },
       { titulo: 'Sense paranys amb les idees compartides', texto: 'La dialèctica és de Hegel i també de Marx; el contracte social, de Hobbes, Locke i Rousseau. Quan una idea la va defensar més d’un autor, els altres no surten com a opció falsa, així que sempre hi ha una sola resposta bona.' },
       { titulo: 'Cada filòsof al seu segle', texto: 'La línia del temps, amb l’Antiguitat, l’Edat Mitjana i la Modernitat, col·loca cada autor en corregir. Al nivell difícil cal ordenar-los, que és el que ajuda a entendre qui respon a qui: Kant a Hume, Marx a Hegel.' },
     ],
-    ejemplo: 'Surt la idea «Mai no veiem la causa: només que un fet en segueix un altre, i el costum ens el fa esperar». Qui ho va pensar? David Hume (1711-1776), empirista: si tot coneixement ve de l’experiència, i l’únic que veiem és que un fet en segueix un altre, la connexió necessària entre causa i efecte la posa el nostre costum. És la crítica que va despertar Kant del seu «somni dogmàtic».',
+    ejemplo: 'Surten Hobbes, Ockham i Protàgores per ordenar. L’alumne comença per Ockham perquè li sona medieval, però Protàgores és un sofista grec del segle V aC: en corregir, la línia del temps ensenya els dos mil anys que els separen.',
     enPapel: {
       titulo: 'El debat impossible',
       pasos: [

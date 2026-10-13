@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { genRonda, NIVELES, FILOSOFOS, CORRIENTES, TAMBIEN_CORRIENTE, filosofo, enunciado, explicacion, textoOpcion, schemaQuestion } from '../quienLoPenso'
+import { genRonda, NIVELES, FILOSOFOS, CORRIENTES, TAMBIEN_CORRIENTE, filosofo, enunciado, explicacion, schemaQuestion, esCorrecta, textoItem } from '../quienLoPenso'
 
 function semilla(s) {
   return () => { s = (s * 1103515245 + 12345) % 2147483648; return s / 2147483648 }
@@ -22,34 +22,37 @@ describe('¿Quién lo Pensó?', () => {
   })
 
   for (const nivel of Object.keys(NIVELES)) for (const epoca of [null, 'antigua', 'moderna']) {
-    it(`${nivel} ${epoca ?? 'todo'}: 300 rondas`, { timeout: 60000 }, () => {
+    it(nivel + ' ' + (epoca ?? 'todo') + ': 300 rondas', { timeout: 60000 }, () => {
       const rand = semilla(nivel.length * 101 + (epoca?.length ?? 0))
       const tipos = new Set()
       for (let i = 0; i < 300; i++) {
         const r = genRonda(nivel, { rand, epoca })
         tipos.add(r.tipo)
-        expect(r.opciones).toHaveLength(4)
-        expect(new Set(r.opciones).size).toBe(4)
-        expect(r.opciones).toContain(r.bueno)
-        if (epoca && r.tipo !== 'corriente') for (const o of r.opciones) expect(filosofo(o).epoca).toBe(epoca)
-        if (r.tipo === 'idea') {
-          const tambien = filosofo(r.fil).ideas[r.idea][1]
-          for (const o of r.opciones) if (o !== r.bueno) expect(tambien).not.toContain(o)
+        expect(esCorrecta(r, r.bueno)).toBe(true)
+        expect(new Set(r.fils).size).toBe(r.fils.length)
+        if (epoca) for (const id of r.fils) expect(filosofo(id).epoca).toBe(epoca)
+        if (r.tipo === 'linea') {
+          const ord = r.bueno.split(',').map(filosofo)
+          for (let k = 1; k < ord.length; k++) expect(ord[k].nace).toBeGreaterThanOrEqual(ord[k - 1].muere)
         }
-        if (r.tipo === 'corriente') {
-          expect(r.bueno).toBe(filosofo(r.fil).corriente)
-          for (const o of r.opciones) if (o !== r.bueno) expect(TAMBIEN_CORRIENTE[r.fil] ?? []).not.toContain(o)
+        if (r.tipo === 'empareja') {
+          // Ninguna idea la defendió también otro filósofo de la ronda.
+          for (const it of r.items) if (it.idea != null) for (const x of r.items) if (x.fil !== it.fil) expect(filosofo(it.fil).ideas[it.idea][1]).not.toContain(x.fil)
+          expect([...r.nombres].sort()).toEqual([...r.fils].sort())
         }
-        if (r.tipo === 'orden') {
-          const ord = r.opciones.map(filosofo).sort((a, b) => a.nace - b.nace)
-          expect(r.bueno).toBe(ord[0].id)
-          for (let k = 1; k < 4; k++) expect(ord[k].nace).toBeGreaterThanOrEqual(ord[k - 1].muere)
+        if (r.tipo === 'escuelas') {
+          for (const id of r.fils) {
+            expect(r.cajas).toContain(filosofo(id).corriente)
+            for (const c of TAMBIEN_CORRIENTE[id] ?? []) expect(r.cajas).not.toContain(c)
+          }
         }
         for (const l of ['es', 'en', 'ca']) {
           expect(explicacion(r, l)).not.toMatch(/undefined/)
           expect(enunciado(r, l)).toBeTruthy()
-          expect(new Set(r.opciones.map(o => textoOpcion(o, r, l))).size).toBe(4)
-          expect(schemaQuestion(r, l).wrongAnswers).toHaveLength(3)
+          if (r.items) for (const it of r.items) expect(textoItem(it, l)).not.toMatch(/undefined/)
+          const q = schemaQuestion(r, l)
+          expect(q.wrongAnswers.length).toBeGreaterThanOrEqual(1)
+          expect(q.wrongAnswers).not.toContain(q.correctAnswer)
         }
       }
       for (const t of NIVELES[nivel].tipos) expect(tipos.has(t), t).toBe(true)

@@ -11,9 +11,10 @@ import SEOHead from '../components/SEOHead'
 import { CabeceraJuego, NivelBarras, ComoSeJuega } from '../components/IntroJuego'
 import { Racha } from '../components/Iconos'
 
-const GAME_TIME = 60
+// Cada ronda se coloca u ordena: 90 s y +6 s por acierto.
+const GAME_TIME = 90
 const WRONG_TIME = 5
-const CORRECT_TIME = 4
+const CORRECT_TIME = 6
 const REVEAL_MS = 4800 // da tiempo a ver al filósofo en la línea del tiempo
 
 const DIFS = {
@@ -107,9 +108,9 @@ export default function QuienLoPenso() {
   const seo = {
     title: tr({ es: '¿Quién lo Pensó? — Juego de historia de la filosofía: ideas, autores y corrientes', en: 'Who Thought It? — History of philosophy game: ideas, thinkers and schools', ca: 'Qui ho va Pensar? — Joc d’història de la filosofia: idees, autors i corrents' }),
     desc: tr({
-      es: 'De Tales a Hannah Arendt: lee una idea y descubre qué filósofo la defendió, su concepto clave, su corriente y quién vivió antes, con la línea del tiempo de la filosofía. Juego gratis para ESO, Bachillerato y la PAU.',
-      en: 'From Thales to Hannah Arendt: read an idea and find out which philosopher held it, their key concept, their school and who lived first, with a timeline of philosophy. Free game.',
-      ca: 'De Tales a Hannah Arendt: llegeix una idea i descobreix quin filòsof la va defensar, el seu concepte clau, el seu corrent i qui va viure abans, amb la línia del temps de la filosofia. Joc gratis.',
+      es: 'De Tales a Hannah Arendt: une cada idea con su filósofo, ordénalos en la línea del tiempo y llévalos a su corriente, del helenismo al existencialismo. Juego de filosofía gratis.',
+      en: 'From Thales to Hannah Arendt: match each idea with its philosopher, put them on the timeline and take them to their school. Free philosophy game.',
+      ca: 'De Tales a Hannah Arendt: uneix cada idea amb el seu filòsof, ordena’ls a la línia del temps i porta’ls al seu corrent. Joc de filosofia gratis.',
     }),
     path: '/juegos/quien-lo-penso',
   }
@@ -123,7 +124,7 @@ export default function QuienLoPenso() {
           <CabeceraJuego slug="quien-lo-penso"
             badge={tr({ es: 'Filosofía · Historia de la filosofía', en: 'Philosophy · History of philosophy', ca: 'Filosofia · Història de la filosofia' })}
             titulo={tr({ es: '🦉 ¿Quién lo Pensó?', en: '🦉 Who Thought It?', ca: '🦉 Qui ho va Pensar?' })}
-            sub={tr({ es: 'Veintiséis siglos de ideas: ¿sabes de quién es cada una?', en: 'Twenty-six centuries of ideas: do you know whose each one is?', ca: 'Vint-i-sis segles d’idees: saps de qui és cadascuna?' })} />
+            sub={tr({ es: 'Une cada idea con su autor y ordénalos en el tiempo', en: 'Match each idea with its author and put them in order', ca: 'Uneix cada idea amb el seu autor i ordena’ls en el temps' })} />
 
           <p className="text-white/40 text-xs uppercase tracking-widest text-center mb-2">{tr({ es: 'Elige nivel', en: 'Choose a level', ca: 'Tria nivell' })}</p>
           <div className="flex flex-wrap justify-center gap-1.5 p-1 bg-white/5 border border-white/10 rounded-xl mb-2">
@@ -142,8 +143,8 @@ export default function QuienLoPenso() {
           </button>
           <ComoSeJuega>
             <div className="space-y-2 text-white/70 text-sm">
-              <p>{tr({ es: 'Sale una idea («nadie se baña dos veces en el mismo río», «la existencia precede a la esencia»…) y hay que decir qué filósofo la defendió. Otras rondas preguntan el concepto clave de un filósofo o su corriente.', en: 'An idea appears and you say which philosopher held it. Other rounds ask for a philosopher’s key concept or school.', ca: 'Surt una idea i cal dir quin filòsof la va defensar. Altres rondes pregunten el concepte clau d’un filòsof o el seu corrent.' })}</p>
-              <p>{tr({ es: 'Debajo está la línea del tiempo, de los presocráticos al siglo XX, y al corregir se ilumina el filósofo. En difícil, además, hay que decir quién vivió antes.', en: 'Below is a timeline from the Presocratics to the 20th century, which lights up the philosopher when you answer. On hard, you also say who lived first.', ca: 'A sota hi ha la línia del temps, dels presocràtics al segle XX, i en corregir s’il·lumina el filòsof. En difícil, a més, cal dir qui va viure abans.' })}</p>
+              <p>{tr({ es: 'Une ideas con su filósofo: «nadie se baña dos veces en el mismo río», «la existencia precede a la esencia»… Toca una idea y luego su autor. En fácil salen sus lemas más conocidos; después, ideas menos evidentes.', en: 'Match ideas with their philosopher: tap an idea and then its author. On easy you get their best-known slogans; later, less obvious ideas.', ca: 'Uneix idees amb el seu filòsof: toca una idea i després el seu autor. En fàcil surten els lemes més coneguts; després, idees menys evidents.' })}</p>
+              <p>{tr({ es: 'Otras rondas: tocar a tres o cuatro filósofos en orden, del más antiguo al más moderno (al corregir aparecen en la línea del tiempo), y llevar a cada uno a su corriente o escuela.', en: 'Other rounds: tap three or four philosophers in order, earliest first (they then appear on the timeline), and take each one to their school.', ca: 'Altres rondes: tocar tres o quatre filòsofs en ordre, del més antic al més modern (en corregir apareixen a la línia del temps), i portar cadascun al seu corrent o escola.' })}</p>
               <p className="text-white/40 text-xs pt-1">⏱️ {GAME_TIME}s · {tr({ es: `Acierto +10 y +${CORRECT_TIME}s · Fallo −${WRONG_TIME}s`, en: `Correct +10 and +${CORRECT_TIME}s · Wrong −${WRONG_TIME}s`, ca: `Encert +10 i +${CORRECT_TIME}s · Error −${WRONG_TIME}s` })}</p>
             </div>
           </ComoSeJuega>
