@@ -11,18 +11,19 @@ import SEOHead from '../components/SEOHead'
 import { CabeceraJuego, NivelBarras, ComoSeJuega } from '../components/IntroJuego'
 import { Racha } from '../components/Iconos'
 
-const GAME_TIME = 60
+// Cada ronda se coloca (libros en baldas, uniones): 90 s y +6 s por acierto.
+const GAME_TIME = 90
 const WRONG_TIME = 5
-const CORRECT_TIME = 4
+const CORRECT_TIME = 6
 const REVEAL_MS = 4800 // da tiempo a ver la época iluminada y la explicación
 
 const DIFS = {
   facil:   { emoji: '💚', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
-             desc: { es: 'Quién escribió cada obra y a qué género pertenece', en: 'Who wrote each work and which genre it belongs to', ca: 'Qui va escriure cada obra i a quin gènere pertany' } },
+             desc: { es: 'Une cada libro con su autor y colócalo en la balda de su género', en: 'Match each book with its author and shelve it by genre', ca: 'Uneix cada llibre amb el seu autor i col·loca’l a la lleixa del seu gènere' } },
   medio:   { emoji: '💛', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
-             desc: { es: 'Y además la época o el movimiento, y sus rasgos', en: 'Plus the period or movement, and its features', ca: 'I a més l’època o el moviment, i els seus trets' } },
+             desc: { es: 'Y además, la estantería por épocas, de la Edad Media a la posguerra', en: 'Plus the shelf by period, from the Middle Ages to the post-war', ca: 'I a més, la prestatgeria per èpoques, de l’edat mitjana a la postguerra' } },
   dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' },
-             desc: { es: '¿Cuál es más antigua? Ordena la historia de la literatura', en: 'Which is older? Put literary history in order', ca: 'Quina és més antiga? Ordena la història de la literatura' } },
+             desc: { es: 'Libros en orden cronológico y los rasgos de cada movimiento', en: 'Books in chronological order and the features of each movement', ca: 'Llibres en ordre cronològic i els trets de cada moviment' } },
 }
 if (import.meta.env.DEV && Object.keys(DIFS).join() !== Object.keys(NIVELES).join()) {
   console.warn('[la-biblioteca] los niveles de la pantalla no coinciden con NIVELES')
@@ -107,7 +108,7 @@ export default function LaBiblioteca() {
   const seo = {
     title: tr({ es: 'La Biblioteca — Juego de literatura española: obras, autores, géneros y épocas', en: 'La Biblioteca — Spanish literature game', ca: 'La Biblioteca — Joc de literatura espanyola' }),
     desc: tr({
-      es: 'Del Cantar de mio Cid a la posguerra: quién escribió cada obra, a qué género pertenece, en qué época o movimiento se escribió y cuál es más antigua, con la línea del tiempo de la literatura española. Juego de lengua gratis.',
+      es: 'Ocho siglos de literatura española en una estantería: coloca cada libro en la balda de su época o su género, une títulos y autores y ordénalos en el tiempo. Del Cantar de mio Cid a la posguerra. Juego gratis.',
       en: 'From the Cantar de mio Cid to the post-war period: authors, genres, periods and dates of Spanish literature. Free Spanish language game.',
       ca: 'Del Cantar de mio Cid a la postguerra: autors, gèneres, èpoques i dates de la literatura espanyola. Joc de llengua gratis.',
     }),
@@ -123,7 +124,7 @@ export default function LaBiblioteca() {
           <CabeceraJuego slug="la-biblioteca"
             badge={tr({ es: 'Lengua · Literatura', en: 'Spanish · Literature', ca: 'Castellà · Literatura' })}
             titulo={tr({ es: '📚 La Biblioteca', en: '📚 La Biblioteca', ca: '📚 La Biblioteca' })}
-            sub={tr({ es: 'Ocho siglos de literatura española en una estantería', en: 'Eight centuries of Spanish literature on one shelf', ca: 'Vuit segles de literatura espanyola en una prestatgeria' })} />
+            sub={tr({ es: 'Coloca cada libro en su balda', en: 'Shelve every book in its place', ca: 'Col·loca cada llibre a la seva lleixa' })} />
 
           <p className="text-white/40 text-xs uppercase tracking-widest text-center mb-2">{tr({ es: 'Elige nivel', en: 'Choose a level', ca: 'Tria nivell' })}</p>
           <div className="flex flex-wrap justify-center gap-1.5 p-1 bg-white/5 border border-white/10 rounded-xl mb-2">
@@ -142,8 +143,8 @@ export default function LaBiblioteca() {
           </button>
           <ComoSeJuega>
             <div className="space-y-2 text-white/70 text-sm">
-              <p>{tr({ es: 'Sale una obra de la literatura española como la cubierta de un libro: el Cantar de mio Cid, el Lazarillo, La vida es sueño, las Rimas, Campos de Castilla, Nada… Hay que decir quién la escribió, a qué género pertenece (narrativo, lírico o dramático) o de qué época es.', en: 'A work of Spanish literature appears as a book cover, and you say who wrote it, its genre or its period.', ca: 'Surt una obra de la literatura espanyola com la coberta d’un llibre, i cal dir-ne l’autor, el gènere o l’època.' })}</p>
-              <p>{tr({ es: 'Debajo está la línea del tiempo, de la Edad Media a la posguerra, y al corregir se ilumina la época. En el nivel difícil hay que reconocer un movimiento por sus rasgos y elegir cuál de cuatro obras es la más antigua.', en: 'Below is the timeline from the Middle Ages to the post-war period, which lights up when you answer.', ca: 'A sota hi ha la línia del temps, de l’edat mitjana a la postguerra, que s’il·lumina en corregir.' })}</p>
+              <p>{tr({ es: 'Los libros llegan a una estantería de madera: toca un libro y luego su balda, sea la de su género (narrativo, lírico, dramático) o la de su época, ordenadas de la Edad Media a la posguerra. Siempre hay una balda de más.', en: 'Books arrive at a wooden bookcase: tap a book and then its shelf, by genre or by period. There is always one shelf too many.', ca: 'Els llibres arriben a una prestatgeria de fusta: toca un llibre i després la seva lleixa, per gènere o per època. Sempre hi ha una lleixa de més.' })}</p>
+              <p>{tr({ es: 'Otras rondas: unir cada título con su autor, colocar cuatro libros en orden del más antiguo al más moderno, y unir la descripción de cada movimiento con su época. Las obras de clasificación discutida (el Quijote, Luces de bohemia) no salen en la balda que la necesita.', en: 'Other rounds: match titles with authors, put four books in order and match each movement’s description with its period.', ca: 'Altres rondes: unir cada títol amb el seu autor, col·locar quatre llibres en ordre i unir la descripció de cada moviment amb la seva època.' })}</p>
               <p className="text-white/40 text-xs pt-1">⏱️ {GAME_TIME}s · {tr({ es: `Acierto +10 y +${CORRECT_TIME}s · Fallo −${WRONG_TIME}s`, en: `Correct +10 and +${CORRECT_TIME}s · Wrong −${WRONG_TIME}s`, ca: `Encert +10 i +${CORRECT_TIME}s · Error −${WRONG_TIME}s` })}</p>
             </div>
           </ComoSeJuega>

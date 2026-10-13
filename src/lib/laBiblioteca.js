@@ -1,12 +1,7 @@
 // La Biblioteca (lengua · literatura española, ESO y Bachillerato). Solo castellano.
 //
 // Las obras de la literatura española que se estudian en el instituto, como
-// libros de una estantería. Se pregunta:
-//   autor   quién escribió la obra
-//   genero  narrativo, lírico o dramático
-//   epoca   el periodo o movimiento (de la Edad Media a la posguerra)
-//   rasgo   qué movimiento se reconoce por estos rasgos
-//   orden   cuál de cuatro obras es la más antigua
+// libros de una estantería: se colocan en sus baldas (ver las mecánicas más abajo).
 //
 // Solo títulos, autores y fechas (datos), sin citar texto. Las obras cuya
 // clasificación discuten los libros no salen en la pregunta que la necesita:
@@ -79,10 +74,17 @@ export const OBRAS = [
   O('El camino', 'Miguel Delibes', 'posguerra', 1950, 'narrativo'),
 ]
 
+// Mecánicas (nada de elegir entre cuatro):
+//   estanteria  baldas por época, en orden; cada libro a la suya (las obras
+//               de época discutida no salen)
+//   generos     cada libro a su balda de género (sin las de género mixto)
+//   autores     unir títulos con autores
+//   orden       colocar cuatro libros de cuatro épocas en orden
+//   rasgos      unir la descripción de cada movimiento con su época
 export const NIVELES = {
-  facil:   { tipos: ['autor', 'autor', 'genero'] },
-  medio:   { tipos: ['autor', 'genero', 'epoca', 'epoca', 'rasgo'] },
-  dificil: { tipos: ['autor', 'epoca', 'rasgo', 'orden', 'orden'] },
+  facil:   { tipos: ['autores', 'autores', 'generos'] },
+  medio:   { tipos: ['autores', 'generos', 'estanteria', 'estanteria'] },
+  dificil: { tipos: ['estanteria', 'orden', 'orden', 'rasgos'] },
 }
 
 const elige = (rand, xs) => xs[Math.floor(rand() * xs.length)]
@@ -92,95 +94,105 @@ const baraja = (rand, xs) => {
   return a
 }
 const idx = e => ORDEN_EPOCAS.indexOf(e)
-// Épocas cercanas primero: son las que de verdad se confunden.
-const cercanas = e => [...ORDEN_EPOCAS].filter(x => x !== e).sort((a, b) => Math.abs(idx(a) - idx(e)) - Math.abs(idx(b) - idx(e)))
-
 let seq = 0
 const recientes = []
 
 export function genRonda(nivel = 'facil', opts = {}) {
   for (let intento = 0; ; intento++) {
     const r = genUna(nivel, opts)
-    // Por obra, no por tipo: que no salga la misma obra dos veces seguidas con otra pregunta.
-    const tema = r.obra != null ? `obra:${r.obra}` : `${r.tipo}:${r.bueno}`
-    if (intento < 20 && recientes.includes(tema)) continue
-    recientes.push(tema)
-    if (recientes.length > 8) recientes.shift()
+    if (intento < 20 && r.libros.some(k => recientes.includes(k))) continue
+    recientes.push(...r.libros)
+    while (recientes.length > 10) recientes.shift()
     return r
   }
 }
 
 function genUna(nivel, { rand = Math.random } = {}) {
   const cfg = NIVELES[nivel] ?? NIVELES.facil
-  const tipo = elige(rand, cfg.tipos)
-  const base = { id: ++seq, nivel, tipo }
   const iObras = OBRAS.map((o, i) => i)
+  for (;;) {
+    const tipo = elige(rand, cfg.tipos)
+    const base = { id: ++seq, nivel, tipo }
 
-  if (tipo === 'autor') {
-    const k = elige(rand, iObras)
-    const o = OBRAS[k]
-    // Autores de épocas cercanas, sin repetir nombre (ni el «Anónimo» bueno).
-    const otros = [...new Set(OBRAS.filter(x => x.autor !== o.autor).sort((a, b) => Math.abs(idx(a.epoca) - idx(o.epoca)) - Math.abs(idx(b.epoca) - idx(o.epoca))).slice(0, 8).map(x => x.autor))]
-    return { ...base, obra: k, bueno: o.autor, opciones: baraja(rand, [o.autor, ...baraja(rand, otros).slice(0, 3)]) }
+    if (tipo === 'autores') {
+      // Tres obras de tres autores distintos.
+      const libros = []
+      for (const k of baraja(rand, iObras)) {
+        if (libros.some(j => OBRAS[j].autor === OBRAS[k].autor)) continue
+        libros.push(k)
+        if (libros.length === 3) break
+      }
+      return { ...base, libros, autores: baraja(rand, libros.map(k => OBRAS[k].autor)), bueno: 'autores:0' }
+    }
+
+    if (tipo === 'generos') {
+      const libros = baraja(rand, iObras.filter(i => OBRAS[i].genero)).slice(0, 4)
+      if (new Set(libros.map(k => OBRAS[k].genero)).size < 2) continue
+      return { ...base, libros, cajas: Object.keys(GENEROS), bueno: 'clasifica:0' }
+    }
+
+    if (tipo === 'estanteria') {
+      // Tres libros de tres épocas; las baldas, sus épocas y una vecina, en orden.
+      const epocas = baraja(rand, ORDEN_EPOCAS).slice(0, 3)
+      const libros = epocas.map(e => iObras.filter(i => OBRAS[i].epoca === e && !OBRAS[i].sinEpoca))
+      if (libros.some(l => !l.length)) continue
+      const elegidos = libros.map(l => elige(rand, l))
+      const vecina = baraja(rand, ORDEN_EPOCAS.filter(e => !epocas.includes(e) && epocas.some(x => Math.abs(idx(x) - idx(e)) === 1)))[0]
+      if (!vecina) continue
+      return { ...base, libros: baraja(rand, elegidos), cajas: [...epocas, vecina].sort((a, b) => idx(a) - idx(b)), bueno: 'clasifica:0' }
+    }
+
+    if (tipo === 'orden') {
+      const epocas = baraja(rand, ORDEN_EPOCAS).slice(0, 4)
+      const libros = epocas.map(e => elige(rand, iObras.filter(i => OBRAS[i].epoca === e)))
+      const ord = [...libros].sort((a, b) => OBRAS[a].anyo - OBRAS[b].anyo)
+      return { ...base, libros, bueno: ord.join(',') }
+    }
+
+    // rasgos: tres épocas con su descripción
+    const epocas = baraja(rand, ORDEN_EPOCAS).slice(0, 3)
+    return { ...base, libros: [], epocas, nombres: baraja(rand, epocas), bueno: 'rasgos:0' }
   }
-  if (tipo === 'genero') {
-    const k = elige(rand, iObras.filter(i => OBRAS[i].genero))
-    return { ...base, obra: k, bueno: OBRAS[k].genero, opciones: Object.keys(GENEROS) }
-  }
-  if (tipo === 'epoca') {
-    const k = elige(rand, iObras.filter(i => !OBRAS[i].sinEpoca))
-    const e = OBRAS[k].epoca
-    const otras = baraja(rand, cercanas(e).slice(0, 4)).slice(0, 3)
-    return { ...base, obra: k, bueno: e, opciones: [e, ...otras].sort((a, b) => idx(a) - idx(b)) }
-  }
-  if (tipo === 'rasgo') {
-    const e = elige(rand, ORDEN_EPOCAS)
-    const otras = baraja(rand, cercanas(e).slice(0, 4)).slice(0, 3)
-    return { ...base, bueno: e, opciones: [e, ...otras].sort((a, b) => idx(a) - idx(b)) }
-  }
-  // orden: cuatro obras de cuatro épocas distintas; la buena, la más antigua
-  const epocas = baraja(rand, ORDEN_EPOCAS).slice(0, 4)
-  const ks = epocas.map(e => elige(rand, iObras.filter(i => OBRAS[i].epoca === e)))
-  const bueno = ks.reduce((a, b) => (OBRAS[a].anyo <= OBRAS[b].anyo ? a : b))
-  return { ...base, bueno, opciones: baraja(rand, ks) }
 }
 
 export const genRound = (difficulty = 'facil') => genRonda(difficulty)
-export const esCorrecta = (r, o) => o === r.bueno
+// Respuestas: «autores:fallos», «clasifica:fallos», «rasgos:fallos»; orden,
+// los índices de las obras en el orden colocado.
+export const esCorrecta = (r, o) => String(o) === r.bueno
+export const cajaDe = (r, k) => (r.tipo === 'generos' ? OBRAS[k].genero : OBRAS[k].epoca)
 
 // ── Textos ────────────────────────────────────────────────────────────────
-export const obra = r => (r.obra != null ? OBRAS[r.obra] : null)
 const de = o => (o.autor === 'Anónimo' ? 'obra anónima' : `de ${o.autor}`)
-export function textoOpcion(o, r) {
-  if (r.tipo === 'genero') return GENEROS[o].nombre
-  if (r.tipo === 'epoca' || r.tipo === 'rasgo') return EPOCAS[o].nombre
-  if (r.tipo === 'orden') return `${OBRAS[o].titulo}`
-  return o
-}
+export const anyo = o => (o.anyo === 1200 ? 'h. 1200' : String(o.anyo))
+export const nombreCaja = (r, c) => (r.tipo === 'generos' ? GENEROS[c].nombre : EPOCAS[c].nombre)
 export function enunciado(r) {
   return {
-    autor: '¿Quién escribió esta obra?',
-    genero: '¿A qué género literario pertenece?',
-    epoca: '¿A qué época o movimiento pertenece?',
-    rasgo: '¿Qué época o movimiento tiene estos rasgos?',
-    orden: '¿Cuál de estas obras es la más antigua?',
+    autores: 'Une cada libro con su autor',
+    generos: 'Coloca cada libro en la balda de su género',
+    estanteria: 'Coloca cada libro en la balda de su época',
+    orden: 'Coloca los libros en orden, del más antiguo al más moderno',
+    rasgos: 'Une cada descripción con su época',
   }[r.tipo]
 }
 export function explicacion(r) {
-  const o = obra(r)
-  if (r.tipo === 'autor') return `«${o.titulo}» es ${o.autor === 'Anónimo' ? 'anónimo' : `de ${o.autor}`} (${o.anyo === 1200 ? 'hacia 1200' : o.anyo}), ${EPOCAS[o.epoca].nombre.replace(/ \(.*\)/, '')}.`
-  if (r.tipo === 'genero') return `«${o.titulo}» es del género ${GENEROS[o.genero].nombre.toLowerCase()}: ${GENEROS[o.genero].pista}.`
-  if (r.tipo === 'epoca') return `«${o.titulo}», ${de(o)} (${o.anyo === 1200 ? 'hacia 1200' : o.anyo}): ${EPOCAS[o.epoca].nombre}. ${EPOCAS[o.epoca].rasgos[0]}`
-  if (r.tipo === 'rasgo') return `${EPOCAS[r.bueno].nombre}: ${EPOCAS[r.bueno].rasgos[0]}`
-  const orden = [...r.opciones].sort((a, b) => OBRAS[a].anyo - OBRAS[b].anyo)
-  return `De más antigua a más moderna: ${orden.map(k => `${OBRAS[k].titulo} (${OBRAS[k].anyo === 1200 ? 'h. 1200' : OBRAS[k].anyo})`).join(' → ')}.`
+  if (r.tipo === 'autores') return r.libros.map(k => `«${OBRAS[k].titulo}», ${de(OBRAS[k])}`).join(' · ') + '.'
+  if (r.tipo === 'generos') return r.libros.map(k => `«${OBRAS[k].titulo}»: ${GENEROS[OBRAS[k].genero].nombre.toLowerCase()}`).join(' · ') + `. Narrativo: ${GENEROS.narrativo.pista}; lírico: ${GENEROS.lirico.pista}; dramático: ${GENEROS.dramatico.pista}.`
+  if (r.tipo === 'estanteria') return r.libros.map(k => `«${OBRAS[k].titulo}» (${anyo(OBRAS[k])}): ${EPOCAS[OBRAS[k].epoca].nombre}`).join(' · ') + '.'
+  if (r.tipo === 'orden') return `De más antiguo a más moderno: ${r.bueno.split(',').map(k => `${OBRAS[k].titulo} (${anyo(OBRAS[k])})`).join(' → ')}.`
+  return r.epocas.map(e => `${EPOCAS[e].nombre}: ${EPOCAS[e].rasgos[0]}`).join(' ')
 }
+// Para los buscadores y el examen en texto: una pregunta de cada mecánica.
 export function schemaQuestion(r) {
-  const o = obra(r)
-  const q = r.tipo === 'rasgo' ? `${EPOCAS[r.bueno].rasgos[0]} ` : o ? `«${o.titulo}»${r.tipo === 'autor' ? '' : `, ${de(o)}`}. ` : ''
-  return {
-    question: `${q}${enunciado(r)}`,
-    correctAnswer: textoOpcion(r.bueno, r),
-    wrongAnswers: r.opciones.filter(x => x !== r.bueno).map(x => textoOpcion(x, r)),
+  if (r.tipo === 'rasgos') {
+    const e = r.epocas[0]
+    return { question: `${EPOCAS[e].rasgos[0]} ¿Qué época o movimiento tiene estos rasgos?`, correctAnswer: EPOCAS[e].nombre, wrongAnswers: r.epocas.slice(1).map(x => EPOCAS[x].nombre) }
   }
+  if (r.tipo === 'orden') {
+    const ord = r.bueno.split(',')
+    return { question: '¿Cuál de estas obras es la más antigua?', correctAnswer: OBRAS[ord[0]].titulo, wrongAnswers: ord.slice(1).map(k => OBRAS[k].titulo) }
+  }
+  const o = OBRAS[r.libros[0]]
+  if (r.tipo === 'autores') return { question: `«${o.titulo}». ¿Quién escribió esta obra?`, correctAnswer: o.autor, wrongAnswers: r.libros.slice(1).map(k => OBRAS[k].autor) }
+  const c = cajaDe(r, r.libros[0])
+  return { question: `«${o.titulo}», ${de(o)}. ${r.tipo === 'generos' ? '¿A qué género literario pertenece?' : '¿A qué época o movimiento pertenece?'}`, correctAnswer: nombreCaja(r, c), wrongAnswers: r.cajas.filter(x => x !== c).map(x => nombreCaja(r, x)) }
 }

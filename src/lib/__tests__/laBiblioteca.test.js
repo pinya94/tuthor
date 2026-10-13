@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { genRonda, NIVELES, OBRAS, EPOCAS, ORDEN_EPOCAS, GENEROS, enunciado, explicacion, textoOpcion, schemaQuestion } from '../laBiblioteca'
+import { genRonda, NIVELES, OBRAS, EPOCAS, GENEROS, ORDEN_EPOCAS, esCorrecta, cajaDe, enunciado, explicacion, schemaQuestion } from '../laBiblioteca'
 
 function semilla(s) {
   return () => { s = (s * 1103515245 + 12345) % 2147483648; return s / 2147483648 }
@@ -22,29 +22,34 @@ describe('La Biblioteca', () => {
   })
 
   for (const nivel of Object.keys(NIVELES)) {
-    it(`${nivel}: 600 rondas`, { timeout: 20000 }, () => {
-      const rand = semilla(nivel.length * 389)
+    it(nivel + ': 500 rondas', { timeout: 20000 }, () => {
+      const rand = semilla(nivel.length * 409)
       const tipos = new Set()
-      for (let i = 0; i < 600; i++) {
+      for (let i = 0; i < 500; i++) {
         const r = genRonda(nivel, { rand })
         tipos.add(r.tipo)
-        expect(r.opciones).toContain(r.bueno)
-        expect(new Set(r.opciones).size).toBe(r.opciones.length)
-        expect(r.opciones.length).toBeGreaterThanOrEqual(3)
-        if (r.tipo === 'autor') expect(r.bueno).toBe(OBRAS[r.obra].autor)
-        if (r.tipo === 'genero') expect(r.bueno).toBe(OBRAS[r.obra].genero)
-        if (r.tipo === 'epoca') { expect(OBRAS[r.obra].sinEpoca).toBe(false); expect(r.bueno).toBe(OBRAS[r.obra].epoca) }
-        if (r.tipo === 'orden') {
-          const anyos = r.opciones.map(k => OBRAS[k].anyo)
-          expect(OBRAS[r.bueno].anyo).toBe(Math.min(...anyos))
-          expect(anyos.filter(a => a === Math.min(...anyos))).toHaveLength(1)
+        expect(esCorrecta(r, r.bueno)).toBe(true)
+        if (r.tipo === 'autores') expect(new Set(r.libros.map(k => OBRAS[k].autor)).size).toBe(3)
+        if (r.tipo === 'generos') for (const k of r.libros) expect(OBRAS[k].genero).toBeTruthy()
+        if (r.tipo === 'estanteria') {
+          for (const k of r.libros) { expect(OBRAS[k].sinEpoca).toBe(false); expect(r.cajas).toContain(cajaDe(r, k)) }
+          // Baldas en orden cronológico.
+          const ix = r.cajas.map(c => ORDEN_EPOCAS.indexOf(c))
+          expect([...ix].sort((a, b) => a - b)).toEqual(ix)
         }
-        expect(new Set(r.opciones.map(o => textoOpcion(o, r))).size).toBe(r.opciones.length)
+        if (r.tipo === 'orden') {
+          const o = r.bueno.split(',').map(Number)
+          for (let k = 1; k < o.length; k++) expect(OBRAS[o[k]].anyo).toBeGreaterThan(OBRAS[o[k - 1]].anyo)
+        }
+        if (r.tipo === 'rasgos') for (const e of r.epocas) expect(EPOCAS[e].rasgos[0]).not.toMatch(/1[0-9]{3}/)
         expect(explicacion(r)).not.toMatch(/undefined/)
         expect(enunciado(r)).toBeTruthy()
-        expect(schemaQuestion(r).wrongAnswers).toHaveLength(r.opciones.length - 1)
+        const q = schemaQuestion(r)
+        expect(q.wrongAnswers.length).toBeGreaterThanOrEqual(2)
+        expect(q.wrongAnswers).not.toContain(q.correctAnswer)
       }
       for (const t of NIVELES[nivel].tipos) expect(tipos.has(t), t).toBe(true)
+      expect(GENEROS).toBeTruthy()
     })
   }
 })

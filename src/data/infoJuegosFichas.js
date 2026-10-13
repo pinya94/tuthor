@@ -1764,13 +1764,13 @@ export const FICHAS_ES = {
     subtitulo: 'Juego de literatura española: obras, autores, géneros y épocas',
     emoji: '📚', gradient: 'from-amber-700 to-red-900',
     path: '/juegos/la-biblioteca',
-    intro: 'Un juego de lengua para repasar la historia de la literatura española, del Cantar de mio Cid a la novela de posguerra. Sale una obra como la cubierta de un libro y hay que decir quién la escribió, a qué género pertenece (narrativo, lírico o dramático) o en qué época o movimiento se escribió: Edad Media, Renacimiento, Barroco, Neoclasicismo, Romanticismo, Realismo, Modernismo, Generación del 98, Generación del 27 o posguerra. Debajo está la línea del tiempo, que se ilumina al corregir. En el nivel difícil hay que reconocer un movimiento por sus rasgos y elegir cuál de cuatro obras es la más antigua.',
+    intro: 'Un juego de literatura española en el que los libros se colocan en una estantería de madera. Unas baldas son épocas —de la Edad Media a la posguerra, pasando por el Siglo de Oro, el Romanticismo, el Realismo, la Generación del 98 y la del 27— y otras son géneros: narrativo, lírico y dramático; siempre hay una de más. En otras rondas se unen títulos con sus autores, se colocan cuatro libros en orden del más antiguo al más moderno y se une la descripción de cada movimiento con su época. Las obras cuya clasificación discuten los libros de texto, como el Quijote o Luces de bohemia, no salen en la balda que la necesita.',
     beneficios: [
       { titulo: 'Cada obra en su sitio', texto: 'Recordar que el Lazarillo es del siglo XVI, las Rimas del Romanticismo o Campos de Castilla del 98 es más fácil cuando cada respuesta se ve en la línea del tiempo. Al final del repaso la historia de la literatura deja de ser una lista y pasa a ser un orden.' },
       { titulo: 'Autores de épocas vecinas', texto: 'Las opciones falsas son autores de la misma época o de las cercanas: Lope o Calderón, Galdós o Clarín, Machado o Unamuno. Así no basta con descartar por intuición y hay que saber de verdad quién escribió qué.' },
       { titulo: 'Sin preguntas discutibles', texto: 'Hay obras que los libros clasifican de distinta forma: el Quijote está entre el Renacimiento y el Barroco, y Valle-Inclán entre el Modernismo y el 98. Esas obras no salen en la pregunta de época, y La Celestina, obra de transición, se queda fuera.' },
     ],
-    ejemplo: 'Sale «Romancero gitano». ¿Quién lo escribió? Federico García Lorca, en 1928. Es lírico y pertenece a la Generación del 27, poetas que unieron la tradición, como el romance, con las metáforas de la vanguardia. Las otras opciones son Rafael Alberti, Jorge Guillén y Pedro Salinas, de la misma generación: hay que saberlo, no adivinarlo por la época.',
+    ejemplo: 'Llegan «Rimas», «La casa de Bernarda Alba» y «Fuenteovejuna», con las baldas Barroco, Romanticismo, Realismo y Generación del 27. El alumno duda con las Rimas, pero recuerda a Bécquer y su yo atormentado: Romanticismo. La balda del Realismo se queda vacía, y era la de sobra.',
     enPapel: {
       titulo: 'La estantería de clase',
       pasos: [
