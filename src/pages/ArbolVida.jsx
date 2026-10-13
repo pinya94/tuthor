@@ -11,18 +11,19 @@ import SEOHead from '../components/SEOHead'
 import { CabeceraJuego, NivelBarras, ComoSeJuega } from '../components/IntroJuego'
 import { Racha } from '../components/Iconos'
 
-const GAME_TIME = 60
+// Cada ronda se coloca u ordena: 90 s y +6 s por acierto.
+const GAME_TIME = 90
 const WRONG_TIME = 5
-const CORRECT_TIME = 4
+const CORRECT_TIME = 6
 const REVEAL_MS = 5200 // da tiempo a ver el árbol marcado y leer la explicación
 
 const DIFS = {
   facil:   { emoji: '💚', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
-             desc: { es: 'Darwin, pruebas de la evolución, qué apareció antes y árboles sencillos', en: 'Darwin, evidence for evolution, what came first and simple trees', ca: 'Darwin, proves de l’evolució, què va aparèixer abans i arbres senzills' } },
+             desc: { es: 'Colocar rasgos en el árbol, ordenar la historia de la vida y Darwin frente a Lamarck', en: 'Placing traits on the tree, ordering the history of life and Darwin versus Lamarck', ca: 'Col·locar trets a l’arbre, ordenar la història de la vida i Darwin davant Lamarck' } },
   medio:   { emoji: '💛', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
-             desc: { es: 'Árboles evolutivos, Darwin frente a Lamarck y órganos homólogos, análogos y vestigiales', en: 'Evolutionary trees, Darwin versus Lamarck and homologous, analogous and vestigial organs', ca: 'Arbres evolutius, Darwin davant Lamarck i òrgans homòlegs, anàlegs i vestigials' } },
+             desc: { es: 'También colocar especies y tocar el antepasado común; órganos homólogos y análogos', en: 'Also placing species and tapping the common ancestor; homologous and analogous organs', ca: 'També col·locar espècies i tocar l’avantpassat comú; òrgans homòlegs i anàlegs' } },
   dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' },
-             desc: { es: 'Parentescos con trampa (ballenas, cocodrilos) y la historia de la vida en orden', en: 'Tricky relationships (whales, crocodiles) and the history of life in order', ca: 'Parentius amb parany (balenes, cocodrils) i la història de la vida en ordre' } },
+             desc: { es: 'Árboles más largos, parentescos con trampa y pruebas de la evolución', en: 'Longer trees, tricky relationships and evidence for evolution', ca: 'Arbres més llargs, parentius amb trampa i proves de l’evolució' } },
 }
 if (import.meta.env.DEV && Object.keys(DIFS).join() !== Object.keys(NIVELES).join()) {
   console.warn('[arbol-vida] los niveles de la pantalla no coinciden con NIVELES')
@@ -107,9 +108,9 @@ export default function ArbolVida() {
   const seo = {
     title: tr({ es: 'Árbol de la Vida — Juego de evolución: Darwin, árboles evolutivos y pruebas', en: 'Tree of Life — Evolution game: Darwin, evolutionary trees and evidence', ca: 'Arbre de la Vida — Joc d’evolució: Darwin, arbres evolutius i proves' }),
     desc: tr({
-      es: 'Lee árboles evolutivos (¿la ballena es más pariente del atún o del ser humano?), distingue a Darwin de Lamarck, clasifica órganos homólogos, análogos y vestigiales y ordena la historia de la vida. Juego de biología gratis.',
-      en: 'Read evolutionary trees (is the whale closer to the tuna or to humans?), tell Darwin from Lamarck, classify homologous, analogous and vestigial organs and put the history of life in order. Free biology game.',
-      ca: 'Llegeix arbres evolutius (la balena és més parenta de la tonyina o de l’ésser humà?), distingeix Darwin de Lamarck, classifica òrgans homòlegs, anàlegs i vestigials i ordena la història de la vida. Joc de biologia gratis.',
+      es: 'Coloca rasgos y especies en árboles evolutivos, toca el antepasado común de dos especies, ordena la historia de la vida y distingue a Darwin de Lamarck. Juego de evolución gratis.',
+      en: 'Place traits and species on evolutionary trees, tap the common ancestor of two species, order the history of life and tell Darwin from Lamarck. Free evolution game.',
+      ca: 'Col·loca trets i espècies en arbres evolutius, toca l’avantpassat comú de dues espècies, ordena la història de la vida i distingeix Darwin de Lamarck. Joc d’evolució gratis.',
     }),
     path: '/juegos/arbol-vida',
   }
@@ -142,9 +143,8 @@ export default function ArbolVida() {
           </button>
           <ComoSeJuega>
             <div className="space-y-2 text-white/70 text-sm">
-              <p>{tr({ es: 'En los árboles evolutivos, las especies están arriba y las ramas bajan hasta sus antepasados. Dos especies son más parientes cuanto más reciente es el antepasado que comparten, es decir, cuanto antes se juntan sus ramas. Al responder se marca en verde ese antepasado común.', en: 'In evolutionary trees, the species sit at the top and the branches run down to their ancestors. Two species are more closely related the more recent the ancestor they share, that is, the sooner their branches meet. When you answer, that common ancestor is marked in green.', ca: 'Als arbres evolutius, les espècies són a dalt i les branques baixen fins als avantpassats. Dues espècies són més parentes com més recent és l’avantpassat que comparteixen, és a dir, com abans s’ajunten les seves branques. En respondre es marca en verd aquest avantpassat comú.' })}</p>
-              <p>{tr({ es: 'Darwin explicó la evolución con la selección natural: hay variación, y los individuos con rasgos más ventajosos sobreviven y tienen más crías. Lamarck pensaba que se heredan los cambios que un animal adquiere al usar un órgano, y eso no ocurre.', en: 'Darwin explained evolution through natural selection: there is variation, and individuals with more useful traits survive and have more young. Lamarck thought that the changes an animal acquires by using an organ are inherited, and that does not happen.', ca: 'Darwin va explicar l’evolució amb la selecció natural: hi ha variació, i els individus amb trets més avantatjosos sobreviuen i tenen més cries. Lamarck pensava que s’hereten els canvis que un animal adquireix en fer servir un òrgan, i això no passa.' })}</p>
-              <p>{tr({ es: 'También hay órganos homólogos (mismo origen, distinta función), análogos (misma función, distinto origen) y vestigiales, las pruebas de la evolución y la historia de la vida en orden.', en: 'There are also homologous organs (same origin, different job), analogous ones (same job, different origin) and vestigial ones, the evidence for evolution and the history of life in order.', ca: 'També hi ha òrgans homòlegs (mateix origen, funció diferent), anàlegs (mateixa funció, origen diferent) i vestigials, les proves de l’evolució i la història de la vida en ordre.' })}</p>
+              <p>{tr({ es: 'Aquí no se elige: se coloca. En los árboles en escalera, toca un rasgo («Cuatro patas», «Semillas», «Plumas») y luego el tramo del tronco donde aparece; todos los que salen después lo heredan. En otras rondas los rasgos ya están y colocas a cada ser vivo en su rama.', en: 'You don’t pick here: you place. On the ladder trees, tap a trait (“Four limbs”, “Seeds”, “Feathers”) and then the part of the trunk where it appears; everything branching off later inherits it. In other rounds the traits are set and you place each living thing on its branch.', ca: 'Aquí no es tria: es col·loca. En els arbres en escala, toca un tret («Quatre potes», «Llavors», «Plomes») i després el tram del tronc on apareix; tots els que surten després l’hereten. En altres rondes els trets ja hi són i col·loques cada ésser viu a la seva branca.' })}</p>
+              <p>{tr({ es: 'También: tocar el antepasado común de dos especies (el punto donde se separan sus ramas), ordenar los grandes grupos del más antiguo al más reciente y clasificar tarjetas: Darwin o Lamarck, órganos homólogos, análogos o vestigiales.', en: 'Also: tap the common ancestor of two species (where their branches split), put the major groups in order from oldest to newest and sort cards: Darwin or Lamarck, homologous, analogous or vestigial organs.', ca: 'També: tocar l’avantpassat comú de dues espècies (on se separen les branques), ordenar els grans grups del més antic al més recent i classificar targetes: Darwin o Lamarck, òrgans homòlegs, anàlegs o vestigials.' })}</p>
               <p className="text-white/40 text-xs pt-1">⏱️ {GAME_TIME}s · {tr({ es: `Acierto +10 y +${CORRECT_TIME}s · Fallo −${WRONG_TIME}s`, en: `Correct +10 and +${CORRECT_TIME}s · Wrong −${WRONG_TIME}s`, ca: `Encert +10 i +${CORRECT_TIME}s · Error −${WRONG_TIME}s` })}</p>
             </div>
           </ComoSeJuega>
