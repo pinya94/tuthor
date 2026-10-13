@@ -57,7 +57,8 @@ describe('las puertas de /app', () => {
     // PUERTAS son nombres de NECESIDAD (la portada: aún estás eligiendo).
     // Fundirlas volvería a poner "Juegos" de título en la portada, que es de
     // donde se venía.
-    expect(MAIN_CARDS.map(c => c.title)).toEqual(['Juegos', 'Estudiar', 'Reto de hoy'])
+    // El reto diario salió de la navbar el 13-oct-2026: vive en la portada.
+    expect(MAIN_CARDS.map(c => c.title)).toEqual(['Juegos', 'Estudiar'])
     expect(PUERTAS.map(p => p.title)).not.toEqual(MAIN_CARDS.map(c => c.title))
   })
 })

@@ -28,7 +28,7 @@ import { getNovedades, setNovedades } from '../lib/novedades'
 //   1. quién soy (racha y monedas, pequeñas)
 //   2. tareas de clase pendientes, si las hay — lo más urgente
 //   3. sigue donde lo dejaste (último juego) y el juego del día
-//   4. su avance por materia: temas tocados del catálogo y aprobados
+//   4. su avance por materia, compacto: una ficha por materia (temas tocados)
 //   5. cifras pequeñas: juegos descubiertos, aprobados, tiempo
 //   6. sus juegos (récord y ranking) y, plegado, el historial de monedas
 //   7. ajustes de la cuenta, con cerrar sesión al final
@@ -316,73 +316,72 @@ export default function Perfil() {
           <ProLock />
         ) : verDetalle && (
           <>
-            {/* ── 4. TU AVANCE POR MATERIA ── */}
+            {/* ── 4. TU AVANCE POR MATERIA: compacto ──
+                El avance no es lineal (se tocan temas sueltos de muchas
+                materias), así que una lista de barras largas ocupaba media
+                pantalla y parecía un progreso que había que completar. Ahora
+                es una rejilla de fichas pequeñas; el detalle de exámenes de
+                una materia se abre debajo al tocarla. */}
             {subjectEntries.length > 0 && (
               <section className="mb-5">
                 <Titulo extra={`${subjectEntries.length} ${tr(subjectEntries.length === 1 ? { es: 'materia', en: 'subject', ca: 'matèria' } : { es: 'materias', en: 'subjects', ca: 'matèries' })}`}>
                   📚 {tr({ es: 'Lo que vas aprendiendo', en: "What you're learning", ca: 'El que vas aprenent' })}
                 </Titulo>
-                <div className={`${CAJA} overflow-hidden`} style={{ background: SURF }}>
-                  {subjectEntries.map((subj, i) => {
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                  {subjectEntries.map(subj => {
                     const isOpen = expandedSubject === subj.id
-                    const failed = subj.totalExamPlays - subj.totalPassed
                     const tt = temas[subj.id]
                     const pct = tt?.total ? Math.round((tt.tocados / tt.total) * 100) : 0
                     return (
-                      <div key={subj.id} className={i < subjectEntries.length - 1 ? 'border-b border-white/10' : ''}>
-                        <button
-                          onClick={() => setExpandedSubject(isOpen ? null : subj.id)}
-                          className="w-full flex items-center gap-3 px-4 py-3.5 text-left hover:bg-white/5 transition-colors"
-                        >
-                          <span className="text-[22px] w-[30px] text-center shrink-0">{subj.emoji}</span>
-                          <div className="flex-1 min-w-0">
-                            <div className="flex items-baseline gap-2">
-                              <p className="text-white text-[14.5px] font-bold">{subj.label[lang] || subj.label.es}</p>
-                              {tt?.tocados > 0 && (
-                                <span className="ml-auto text-emerald-300 text-[12.5px] font-bold tabular-nums whitespace-nowrap">
-                                  {tr({ es: `${tt.tocados} de ${tt.total} temas`, en: `${tt.tocados} of ${tt.total} topics`, ca: `${tt.tocados} de ${tt.total} temes` })}
-                                </span>
-                              )}
-                            </div>
-                            {tt?.tocados > 0 && (
-                              <div className="h-1.5 rounded-full bg-white/10 mt-2 overflow-hidden">
-                                <div className="h-full rounded-full bg-emerald-400" style={{ width: `${Math.max(pct, tt.tocados ? 4 : 0)}%` }} />
-                              </div>
-                            )}
-                            <p className={`${T3} text-[12.5px] mt-1.5 flex gap-2 flex-wrap items-center`}>
-                              <span>{subj.totalPlays} {tr(subj.totalPlays === 1 ? { es: 'actividad', en: 'activity', ca: 'activitat' } : { es: 'actividades', en: 'activities', ca: 'activitats' })}</span>
-                              {subj.totalExamPlays > 0 && <span className="text-green-400 font-bold">{subj.totalPassed} ✅</span>}
-                              {failed > 0 && <span className="text-red-400 font-bold">{failed} ❌</span>}
-                              {(subj.timeSpent || 0) > 0 && <span>· {formatTime(subj.timeSpent)}</span>}
-                            </p>
-                          </div>
-                          <span className={`${T3} text-xs ml-1 transition-transform ${isOpen ? 'rotate-180' : ''}`}>▾</span>
-                        </button>
-                        {isOpen && subj.examRows.length > 0 && (
-                          <div className="px-4 pb-3.5 pl-[59px]">
-                            <p className={`${T3} text-[11px] uppercase tracking-wider font-bold mb-1.5`}>{tr({ es: 'Exámenes', en: 'Quizzes', ca: 'Exàmens' })}</p>
-                            {subj.examRows.map(row => {
-                              const rowFailed = row.plays - row.passed
-                              return (
-                                <div key={row.id} className="flex items-center gap-2 py-1.5 border-b border-white/5 last:border-0">
-                                  <span className={`flex-1 ${T2} text-[13px]`}>{row.label}</span>
-                                  <span className={`${T3} text-[12.5px] font-semibold`}>{row.plays}×</span>
-                                  <span className="text-green-400 text-[12.5px] font-extrabold">{row.passed} ✅</span>
-                                  {rowFailed > 0 && <span className="text-red-400 text-[12.5px] font-extrabold">{rowFailed} ❌</span>}
-                                </div>
-                              )
-                            })}
-                          </div>
+                      <button key={subj.id} onClick={() => setExpandedSubject(isOpen ? null : subj.id)}
+                        className={`${CAJA} text-left px-3 py-2.5 transition-colors ${isOpen ? 'ring-1 ring-violet-400/60' : 'hover:bg-white/5'}`} style={{ background: SURF }}>
+                        <span className="flex items-center gap-1.5">
+                          <span className="text-base leading-none">{subj.emoji}</span>
+                          <span className="text-white text-[13px] font-bold truncate">{subj.label[lang] || subj.label.es}</span>
+                        </span>
+                        <span className={`block ${T3} text-[11.5px] mt-1 tabular-nums`}>
+                          {tt?.tocados > 0
+                            ? tr({ es: `${tt.tocados} de ${tt.total} temas`, en: `${tt.tocados} of ${tt.total} topics`, ca: `${tt.tocados} de ${tt.total} temes` })
+                            : `${subj.totalPlays} ${tr(subj.totalPlays === 1 ? { es: 'actividad', en: 'activity', ca: 'activitat' } : { es: 'actividades', en: 'activities', ca: 'activitats' })}`}
+                        </span>
+                        {tt?.tocados > 0 && (
+                          <span className="block h-1 rounded-full bg-white/10 mt-1.5 overflow-hidden">
+                            <span className="block h-full rounded-full bg-emerald-400" style={{ width: `${Math.max(pct, 4)}%` }} />
+                          </span>
                         )}
-                        {isOpen && subj.examRows.length === 0 && (
-                          <p className={`px-4 pb-3.5 pl-[59px] ${T3} text-[13px]`}>
-                            {tr({ es: 'Aún no has hecho ningún examen de esta materia.', en: "You haven't done any quizzes in this subject yet.", ca: 'Encara no has fet cap examen d’aquesta matèria.' })}
-                          </p>
-                        )}
-                      </div>
+                      </button>
                     )
                   })}
                 </div>
+                {(() => {
+                  const subj = subjectEntries.find(s => s.id === expandedSubject)
+                  if (!subj) return null
+                  const failed = subj.totalExamPlays - subj.totalPassed
+                  return (
+                    <div className={`${CAJA} mt-2 px-4 py-3`} style={{ background: SURF }}>
+                      <p className={`${T3} text-[12.5px] flex gap-2 flex-wrap items-center`}>
+                        <span className="text-white font-bold">{subj.emoji} {subj.label[lang] || subj.label.es}</span>
+                        <span>· {subj.totalPlays} {tr(subj.totalPlays === 1 ? { es: 'actividad', en: 'activity', ca: 'activitat' } : { es: 'actividades', en: 'activities', ca: 'activitats' })}</span>
+                        {subj.totalExamPlays > 0 && <span className="text-green-400 font-bold">{subj.totalPassed} ✅</span>}
+                        {failed > 0 && <span className="text-red-400 font-bold">{failed} ❌</span>}
+                        {(subj.timeSpent || 0) > 0 && <span>· {formatTime(subj.timeSpent)}</span>}
+                      </p>
+                      {subj.examRows.length > 0 ? subj.examRows.map(row => {
+                        const rowFailed = row.plays - row.passed
+                        return (
+                          <div key={row.id} className="flex items-center gap-2 py-1.5 border-b border-white/5 last:border-0 mt-1">
+                            <span className={`flex-1 ${T2} text-[13px]`}>{row.label}</span>
+                            <span className={`${T3} text-[12.5px] font-semibold`}>{row.plays}×</span>
+                            <span className="text-green-400 text-[12.5px] font-extrabold">{row.passed} ✅</span>
+                            {rowFailed > 0 && <span className="text-red-400 text-[12.5px] font-extrabold">{rowFailed} ❌</span>}
+                          </div>
+                        )
+                      }) : (
+                        <p className={`${T3} text-[13px] mt-1.5`}>{tr({ es: 'Aún no has hecho ningún examen de esta materia.', en: "You haven't done any quizzes in this subject yet.", ca: 'Encara no has fet cap examen d’aquesta matèria.' })}</p>
+                      )}
+                    </div>
+                  )
+                })()}
               </section>
             )}
 

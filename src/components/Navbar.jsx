@@ -144,7 +144,6 @@ export default function Navbar() {
   const navLabels = {
     estudiar: t('nav.estudiar'),
     juegos: t('nav.juegos'),
-    diaria: t('nav.diaria'),
   }
 
   return (

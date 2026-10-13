@@ -1,8 +1,9 @@
-// Las pestañas de la navbar. El reto diario fue primero durante un tiempo
-// ("la única entrada que no obliga a elegir"), pero Tuthor ya no es una app de
-// racha: es aprender jugando, con un catálogo enorme. Juegos y Estudiar son lo
-// que el sitio ES; el reto —ahora «el juego del día», ver lib/juegoDelDia.js—
-// sigue resolviendo la parálisis de elegir, pero como extra, al final.
+// Las pestañas de la navbar: solo Juegos y Estudiar. El reto diario fue primero
+// durante un tiempo ("la única entrada que no obliga a elegir") y luego tercero,
+// pero Tuthor no es una app de racha: es aprender jugando, con un catálogo
+// enorme. Desde el 13-oct-2026 el reto —«el juego del día», ver
+// lib/juegoDelDia.js— ya no ocupa pestaña: vive en la portada (JuegoDelDia en
+// Home.jsx) y en /diaria, que sigue existiendo para quien llegue por enlace.
 //
 // Sin cifras exactas en el comentario a propósito: se quedaban obsoletas a
 // cada juego nuevo. Los números de verdad salen de games.js y exams.js.
@@ -26,14 +27,6 @@ export const MAIN_CARDS = [
     image: '/estudio.webp',
     path: '/estudiar',
     accent: 'from-blue-600/80 to-indigo-900/60',
-  },
-  {
-    id: 'diaria',
-    title: 'Reto de hoy', titleEn: "Today's challenge", titleCa: "Repte d'avui",
-    subtitle: 'Un juego distinto cada día', subtitleEn: 'A different game every day', subtitleCa: 'Un joc diferent cada dia',
-    image: '/racha.webp',
-    path: '/diaria',
-    accent: 'from-orange-500/80 to-rose-900/60',
   },
 ]
 
