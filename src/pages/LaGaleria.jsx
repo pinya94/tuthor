@@ -38,6 +38,9 @@ export default function LaGaleria() {
 
   const [screen, setScreen] = useState('intro')
   const [nivel, setNivel] = useState('facil')
+  // 'real' = obras auténticas (por defecto); 'dibujo' = cuadros dibujados
+  // «al estilo de», que exageran el rasgo para ver el concepto.
+  const [fuente, setFuente] = useState('real')
   const [timeLeft, setTimeLeft] = useState(GAME_TIME)
   const [aciertos, setAciertos] = useState(0)
   const [streak, setStreak] = useState(0)
@@ -50,17 +53,17 @@ export default function LaGaleria() {
   const aciertosRef = useRef(0)
   useEffect(() => { aciertosRef.current = aciertos }, [aciertos])
 
-  const next = useCallback(niv => {
-    setRonda(genRonda(niv))
+  const next = useCallback((niv, fu) => {
+    setRonda(genRonda(niv, { fuente: fu }))
     setElegida(null)
     setPhase('choose')
   }, [])
 
-  const startGame = useCallback((niv = 'facil') => {
-    setNivel(niv); setScreen('playing')
+  const startGame = useCallback((niv = 'facil', fu = 'real') => {
+    setNivel(niv); setFuente(fu); setScreen('playing')
     setAciertos(0); setStreak(0)
     setTimeLeft(GAME_TIME)
-    next(niv)
+    next(niv, fu)
   }, [next])
 
   function finish() {
@@ -101,15 +104,15 @@ export default function LaGaleria() {
       setStreak(0)
       setTimeLeft(t => Math.max(0, t - WRONG_TIME))
     }
-    nextRef.current = setTimeout(() => next(nivel), REVEAL_MS)
+    nextRef.current = setTimeout(() => next(nivel, fuente), REVEAL_MS)
   }
 
   const seo = {
     title: tr({ es: 'La Galería — Juego de historia de la pintura: estilos, pintores y obras', en: 'The Gallery — History of painting game: styles, painters and works', ca: 'La Galeria — Joc d’història de la pintura: estils, pintors i obres' }),
     desc: tr({
-      es: 'Cuadros dibujados al estilo del gótico, el Renacimiento, el Barroco, el impresionismo, el cubismo o el pop art: reconoce el estilo, quién pintó cada obra famosa y qué rasgos tiene cada movimiento. Juego gratis.',
-      en: 'Paintings drawn in the style of the Gothic, the Renaissance, the Baroque, Impressionism, Cubism or Pop art: recognise the style, who painted each famous work and each movement’s features. Free game.',
-      ca: 'Quadres dibuixats a l’estil del gòtic, el Renaixement, el Barroc, l’impressionisme, el cubisme o el pop art: reconeix l’estil, qui va pintar cada obra famosa i quins trets té cada moviment. Joc gratis.',
+      es: 'Cuadros reales de Van Eyck, Velázquez, Monet, Van Gogh, Munch o Mondrian, y dibujos al estilo de cada movimiento: reconoce el estilo, quién pintó cada obra y qué rasgos tiene. Juego gratis.',
+      en: 'Real paintings by Van Eyck, Velázquez, Monet, Van Gogh, Munch or Mondrian, and drawings in the style of each movement: recognise the style, who painted each work and its features. Free game.',
+      ca: 'Quadres reals de Van Eyck, Velázquez, Monet, Van Gogh, Munch o Mondrian, i dibuixos a l’estil de cada moviment: reconeix l’estil, qui va pintar cada obra i quins trets té. Joc gratis.',
     }),
     path: '/juegos/la-galeria',
   }
@@ -125,6 +128,22 @@ export default function LaGaleria() {
             titulo={tr({ es: '🖼️ La Galería', en: '🖼️ The Gallery', ca: '🖼️ La Galeria' })}
             sub={tr({ es: 'Del fondo dorado al pop art: ¿de qué estilo es cada cuadro?', en: 'From gold backgrounds to Pop art: what style is each painting?', ca: 'Del fons daurat al pop art: de quin estil és cada quadre?' })} />
 
+          <p className="text-white/40 text-xs uppercase tracking-widest text-center mb-2">{tr({ es: '¿Qué quieres mirar?', en: 'What do you want to look at?', ca: 'Què vols mirar?' })}</p>
+          <div className="grid grid-cols-2 gap-1.5 mb-1.5">
+            {[
+              { id: 'real', txt: tr({ es: '🖼️ Cuadros reales', en: '🖼️ Real paintings', ca: '🖼️ Quadres reals' }) },
+              { id: 'dibujo', txt: tr({ es: '✏️ Dibujos del estilo', en: '✏️ Style drawings', ca: '✏️ Dibuixos de l’estil' }) },
+            ].map(f => (
+              <button key={f.id} onClick={() => setFuente(f.id)}
+                className={`px-2 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all border ${fuente === f.id ? 'bg-white/15 border-white/20 text-white' : 'bg-white/5 border-white/10 text-white/40 hover:text-white/70'}`}>
+                {f.txt}
+              </button>
+            ))}
+          </div>
+          <p className="text-white/40 text-xs text-center mb-4">{fuente === 'real'
+            ? tr({ es: 'Obras auténticas de museo, de la Edad Media a Mondrian', en: 'Authentic museum works, from the Middle Ages to Mondrian', ca: 'Obres autèntiques de museu, de l’edat mitjana a Mondrian' })
+            : tr({ es: 'Cuadros inventados que exageran el rasgo de cada estilo, hasta el pop art', en: 'Made-up paintings that exaggerate each style’s feature, up to Pop art', ca: 'Quadres inventats que exageren el tret de cada estil, fins al pop art' })}</p>
+
           <p className="text-white/40 text-xs uppercase tracking-widest text-center mb-2">{tr({ es: 'Elige nivel', en: 'Choose a level', ca: 'Tria nivell' })}</p>
           <div className="flex flex-wrap justify-center gap-1.5 p-1 bg-white/5 border border-white/10 rounded-xl mb-2">
             {Object.entries(DIFS).map(([id, d], i) => (
@@ -136,13 +155,13 @@ export default function LaGaleria() {
           </div>
           <p className="text-white/40 text-xs text-center mb-5">{tr(DIFS[nivel].desc)}</p>
 
-          <button onClick={() => startGame(nivel)}
+          <button onClick={() => startGame(nivel, fuente)}
             className="w-full py-3.5 rounded-2xl bg-[#EDAE49] text-black font-black text-lg hover:bg-amber-400 transition-colors">
             {tr({ es: '▶ Empezar', en: '▶ Start', ca: '▶ Començar' })}
           </button>
           <ComoSeJuega>
             <div className="space-y-2 text-white/70 text-sm">
-              <p>{tr({ es: 'Sale un cuadro dibujado «al estilo de» un movimiento (no es ninguna obra real) y hay que reconocerlo por sus rasgos: el fondo dorado del gótico, la perspectiva del Renacimiento, el claroscuro del Barroco, las pinceladas sueltas del impresionismo, los planos del cubismo, los puntos del pop art…', en: 'A painting drawn “in the style of” a movement appears (not a real work) and you recognise it by its features.', ca: 'Surt un quadre dibuixat «a l’estil de» un moviment (no és cap obra real) i cal reconèixer-lo pels seus trets.' })}</p>
+              <p>{tr({ es: 'Sale un cuadro y hay que reconocer su estilo por sus rasgos: el fondo dorado del gótico, la perspectiva del Renacimiento, el claroscuro del Barroco, las pinceladas sueltas del impresionismo, los planos del cubismo… Con «Cuadros reales» son obras auténticas (el título sale al responder); con «Dibujos del estilo», cuadros inventados que exageran cada rasgo, pop art incluido.', en: 'A painting appears and you recognise its style by its features. With “Real paintings” they are authentic works (the title appears after answering); with “Style drawings”, made-up paintings that exaggerate each feature, Pop art included.', ca: 'Surt un quadre i cal reconèixer-ne l’estil pels seus trets. Amb «Quadres reals» són obres autèntiques (el títol surt en respondre); amb «Dibuixos de l’estil», quadres inventats que exageren cada tret, pop art inclòs.' })}</p>
               <p>{tr({ es: 'Otras rondas son obras famosas, como en la cartela de un museo: quién las pintó y a qué estilo pertenecen. En difícil, cuál es la más antigua. Debajo, la sucesión de estilos se ilumina al corregir.', en: 'Other rounds are famous works, like a museum label: who painted them and which style they belong to. On hard, which is the oldest.', ca: 'Altres rondes són obres famoses, com a la cartel·la d’un museu: qui les va pintar i a quin estil pertanyen. En difícil, quina és la més antiga.' })}</p>
               <p className="text-white/40 text-xs pt-1">⏱️ {GAME_TIME}s · {tr({ es: `Acierto +10 y +${CORRECT_TIME}s · Fallo −${WRONG_TIME}s`, en: `Correct +10 and +${CORRECT_TIME}s · Wrong −${WRONG_TIME}s`, ca: `Encert +10 i +${CORRECT_TIME}s · Error −${WRONG_TIME}s` })}</p>
             </div>
@@ -172,7 +191,7 @@ export default function LaGaleria() {
       <GameEndScreen game="la-galeria" emoji="🖼️" title={tr({ es: 'Tiempo', en: "Time's up", ca: 'Temps' })} score={pts} message={msg}
         stats={[{ label: tr({ es: 'aciertos', en: 'correct', ca: 'encerts' }), value: aciertos, emoji: '✅' }]}
         shareText={shareText} user={user} lang={l}
-        onPlayAgain={() => startGame(nivel)} secondaryActions={secondary} />
+        onPlayAgain={() => startGame(nivel, fuente)} secondaryActions={secondary} />
     )
   }
 

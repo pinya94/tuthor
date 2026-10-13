@@ -32,7 +32,7 @@ export default function LaGaleriaExamen() {
       title={{ es: 'Examen de pintura con cuadros', en: 'Painting Exam with Pictures', ca: 'Examen de pintura amb quadres' }}
       sub={{ es: 'Estilos, pintores, rasgos y cronología', en: 'Styles, painters, features and chronology', ca: 'Estils, pintors, trets i cronologia' }}
       metaTitle={{ es: 'Examen de historia de la pintura: estilos y obras', en: 'History of painting exam: styles and works', ca: 'Examen d’història de la pintura: estils i obres' }}
-      metaDesc={{ es: 'Examen de pintura con cuadros dibujados al estilo de cada movimiento y obras famosas: estilo, pintor, rasgos y cronología, del gótico al pop art. 10 preguntas, tres niveles.', en: 'Painting exam with pictures drawn in each movement’s style and famous works: style, painter, features and chronology. 10 questions, three levels.', ca: 'Examen de pintura amb quadres dibuixats a l’estil de cada moviment i obres famoses: estil, pintor, trets i cronologia. 10 preguntes, tres nivells.' }}
+      metaDesc={{ es: 'Examen de pintura con cuadros reales de museo y obras famosas: estilo, pintor, rasgos y cronología, del gótico al pop art. 10 preguntas, tres niveles.', en: 'Painting exam with real museum paintings and famous works: style, painter, features and chronology. 10 questions, three levels.', ca: 'Examen de pintura amb quadres reals de museu i obres famoses: estil, pintor, trets i cronologia. 10 preguntes, tres nivells.' }}
       metaPath="/examen/la-galeria-test"
       subjectSchema="Historia del Arte"
       backGamePath="/juegos/la-galeria"

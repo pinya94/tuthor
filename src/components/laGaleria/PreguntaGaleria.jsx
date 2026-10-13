@@ -1,5 +1,7 @@
-// Una ronda de La Galería: el cuadro dibujado, o la cartela de una obra como
-// en un museo, y debajo la sucesión de estilos, que se ilumina al corregir.
+// Una ronda de La Galería: el cuadro (real o dibujado), o la cartela de una
+// obra como en un museo, y debajo la sucesión de estilos, que se ilumina al
+// corregir. En los cuadros reales la cartela no sale hasta responder: el
+// título delataría la respuesta.
 import { useLang } from '../../context/LangContext'
 import Cuadro from './Cuadro'
 import { OBRAS, ESTILOS, ORDEN_ESTILOS, obra, enunciado, textoOpcion, explicacion, tx } from '../../lib/laGaleria'
@@ -28,6 +30,17 @@ function Cartela({ o, conPintor, l }) {
   )
 }
 
+function Obra({ o, l }) {
+  return (
+    <figure className="mx-auto w-fit">
+      <div className="rounded-sm bg-[#3b2a1a] p-1.5 shadow-xl ring-1 ring-[#c9a24b]/60">
+        <img src={`/galeria/${o.img}.webp`} alt={tx(o.titulo, l)} draggable={false}
+          className="block max-h-48 sm:max-h-64 w-auto max-w-full select-none" />
+      </div>
+    </figure>
+  )
+}
+
 export default function PreguntaGaleria({ ronda, revelado, elegida, onResponder }) {
   const { lang } = useLang()
   const l = lang === 'en' ? 'en' : lang === 'ca' ? 'ca' : 'es'
@@ -38,8 +51,21 @@ export default function PreguntaGaleria({ ronda, revelado, elegida, onResponder 
   if (o) marcas[o.estilo] = 'bien'
   if (r.tipo === 'orden') for (const k of r.opciones) marcas[OBRAS[k].estilo] = k === r.bueno ? 'bien' : marcas[OBRAS[k].estilo] ?? 'otra'
 
+  const real = o?.img && r.fuente === 'real'
   let tarjeta
-  if (r.tipo === 'cuadro') tarjeta = <Cuadro estilo={r.estilo} semilla={r.semilla} />
+  if (r.tipo === 'cuadro' && real) tarjeta = (
+    <>
+      <Obra o={o} l={l} />
+      {revelado && <div className="mt-3"><Cartela o={o} conPintor l={l} /></div>}
+    </>
+  )
+  else if (r.tipo === 'cuadro') tarjeta = <Cuadro estilo={r.estilo} semilla={r.semilla} />
+  else if (real) tarjeta = (
+    <>
+      <Obra o={o} l={l} />
+      <div className="mt-3"><Cartela o={o} conPintor={r.tipo !== 'pintor' || revelado} l={l} /></div>
+    </>
+  )
   else if (o) tarjeta = <Cartela o={o} conPintor={r.tipo !== 'pintor' || revelado} l={l} />
   else if (r.tipo === 'rasgo') tarjeta = <p className="text-white font-bold text-lg leading-snug text-center">{tx(ESTILOS[r.bueno].rasgo, l)}</p>
   else tarjeta = <p className="text-5xl text-center">🖼️</p>

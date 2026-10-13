@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest'
-import { genRonda, NIVELES, OBRAS, ESTILOS, enunciado, explicacion, textoOpcion, schemaQuestion } from '../laGaleria'
+import fs from 'fs'
+import { genRonda, NIVELES, OBRAS, ESTILOS, FUENTES, MUERE, enunciado, explicacion, textoOpcion, schemaQuestion } from '../laGaleria'
 
 function semilla(s) {
   return () => { s = (s * 1103515245 + 12345) % 2147483648; return s / 2147483648 }
@@ -20,17 +21,34 @@ describe('La Galería', () => {
     }
   })
 
-  for (const nivel of Object.keys(NIVELES)) {
-    it(`${nivel}: 400 rondas`, { timeout: 60000 }, () => {
-      const rand = semilla(nivel.length * 53)
+  it('cuadros reales: solo dominio público, con su imagen y su procedencia', () => {
+    const proc = fs.readFileSync('public/galeria/PROCEDENCIA.md', 'utf8')
+    for (const o of OBRAS.filter(x => x.img)) {
+      expect(MUERE[o.pintor], o.pintor).toBeLessThan(1946)
+      expect(fs.existsSync(`public/galeria/${o.img}.webp`), o.img).toBe(true)
+      expect(proc, o.img).toContain(`${o.img}.webp`)
+    }
+    // Cada estilo con cuadro real tiene al menos dos, para no reconocer «la foto».
+    for (const e of Object.keys(ESTILOS)) {
+      const n = OBRAS.filter(o => o.estilo === e && o.img).length
+      if (n) expect(n, e).toBeGreaterThanOrEqual(2)
+    }
+    for (const nom of ['Salvador Dalí', 'René Magritte', 'Joan Miró', 'Andy Warhol', 'Roy Lichtenstein', 'Pablo Picasso', 'Georges Braque'])
+      expect(OBRAS.filter(o => o.pintor === nom && o.img), nom).toHaveLength(0)
+  })
+
+  for (const nivel of Object.keys(NIVELES)) for (const fuente of FUENTES) {
+    it(`${nivel} · ${fuente}: 400 rondas`, { timeout: 60000 }, () => {
+      const rand = semilla(nivel.length * 53 + fuente.length)
       const tipos = new Set()
       for (let i = 0; i < 400; i++) {
-        const r = genRonda(nivel, { rand })
+        const r = genRonda(nivel, { rand, fuente })
         tipos.add(r.tipo)
         expect(r.opciones).toHaveLength(4)
         expect(new Set(r.opciones).size).toBe(4)
         expect(r.opciones).toContain(r.bueno)
-        if (r.tipo === 'cuadro') { expect(ESTILOS[r.bueno].dibujo).toBe(true); for (const o of r.opciones) expect(ESTILOS[o].dibujo).toBe(true) }
+        if (r.tipo === 'cuadro' && fuente === 'dibujo') { expect(ESTILOS[r.bueno].dibujo).toBe(true); for (const o of r.opciones) expect(ESTILOS[o].dibujo).toBe(true) }
+        if (r.tipo === 'cuadro' && fuente === 'real') { expect(OBRAS[r.obra].img).toBeTruthy(); expect(OBRAS[r.obra].estilo).toBe(r.bueno) }
         if (r.tipo === 'pintor') expect(r.bueno).toBe(OBRAS[r.obra].pintor)
         if (r.tipo === 'estilo') expect(r.bueno).toBe(OBRAS[r.obra].estilo)
         if (r.tipo === 'orden') expect(OBRAS[r.bueno].anyo).toBe(Math.min(...r.opciones.map(k => OBRAS[k].anyo)))
