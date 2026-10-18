@@ -11,16 +11,17 @@ import SEOHead from '../components/SEOHead'
 import { CabeceraJuego, NivelBarras, ComoSeJuega } from '../components/IntroJuego'
 import { Racha } from '../components/Iconos'
 
-const GAME_TIME = 60
+// Cada ronda se teclea, se dibuja o se construye: 90 s y +6 s por acierto.
+const GAME_TIME = 90
 const WRONG_TIME = 5
-const CORRECT_TIME = 4
+const CORRECT_TIME = 6
 const REVEAL_MS = 4500 // da tiempo a ver los saltos o los puntos coloreados y la cuenta
 
 const DIFS = {
   facil:   { emoji: '💚', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
-             desc: { es: 'Qué número sigue, qué tipo de sucesión es y figuras de puntos que crecen', en: 'What comes next, what kind of sequence it is and growing dot patterns', ca: 'Quin nombre segueix, quin tipus de successió és i figures de punts que creixen' } },
+             desc: { es: 'Teclea el número que sigue, dibuja la figura 4 de puntos y clasifica series', en: 'Type the next number, draw dot figure 4 and sort sequences', ca: 'Tecleja el nombre que segueix, dibuixa la figura 4 de punts i classifica sèries' } },
   medio:   { emoji: '💛', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
-             desc: { es: 'El término 50 o el 100 y el término general', en: 'Term 50 or 100 and the general term', ca: 'El terme 50 o el 100 i el terme general' } },
+             desc: { es: 'El término 50 o el 100, los puntos de la figura n y construir el término general', en: 'Term 50 or 100, the dots in figure n and building the general term', ca: 'El terme 50 o el 100, els punts de la figura n i construir el terme general' } },
   dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' },
              desc: { es: 'Término general aritmético y geométrico y la suma de los n primeros', en: 'Arithmetic and geometric general terms and the sum of the first n', ca: 'Terme general aritmètic i geomètric i la suma dels n primers' } },
 }
@@ -107,9 +108,9 @@ export default function SigueSerie() {
   const seo = {
     title: tr({ es: 'Sigue la Serie — Juego de sucesiones y progresiones', en: 'Next in Line — Sequences game', ca: 'Segueix la Sèrie — Joc de successions i progressions' }),
     desc: tr({
-      es: 'Progresiones aritméticas y geométricas: qué número sigue, figuras de puntos que crecen, el término 100, el término general y la suma de los primeros términos, con la trampa del n − 1. Juego de matemáticas gratis.',
-      en: 'Arithmetic and geometric sequences: what comes next, growing dot patterns, term 100, the general term and the sum of the first terms, with the n − 1 trap. Free maths game.',
-      ca: 'Progressions aritmètiques i geomètriques: quin nombre segueix, figures de punts que creixen, el terme 100, el terme general i la suma dels primers termes, amb el parany del n − 1. Joc de matemàtiques gratis.',
+      es: 'Sucesiones para escribir, dibujar y construir: teclea el término siguiente o el 100, dibuja la figura 4 de puntos y monta el término general aritmético o geométrico. Juego de matemáticas gratis.',
+      en: 'Sequences to type, draw and build: type the next term or term 100, draw dot figure 4 and build the arithmetic or geometric general term. Free maths game.',
+      ca: 'Successions per escriure, dibuixar i construir: tecleja el terme següent o el 100, dibuixa la figura 4 de punts i munta el terme general aritmètic o geomètric. Joc de matemàtiques gratis.',
     }),
     path: '/juegos/sigue-serie',
   }
@@ -142,9 +143,8 @@ export default function SigueSerie() {
           </button>
           <ComoSeJuega>
             <div className="space-y-2 text-white/70 text-sm">
-              <p>{tr({ es: 'En una sucesión aritmética se suma siempre lo mismo (la diferencia d): 5, 8, 11, 14… En una geométrica se multiplica siempre por lo mismo (la razón r): 2, 6, 18, 54… Y hay sucesiones que no son ni una cosa ni la otra, como los cuadrados o la de Fibonacci.', en: 'In an arithmetic sequence you always add the same amount (the common difference d): 5, 8, 11, 14… In a geometric one you always multiply by the same number (the common ratio r): 2, 6, 18, 54… And some sequences are neither, like the squares or Fibonacci.', ca: 'En una successió aritmètica sempre se suma el mateix (la diferència d): 5, 8, 11, 14… En una geomètrica sempre es multiplica pel mateix (la raó r): 2, 6, 18, 54… I hi ha successions que no són ni una cosa ni l’altra, com els quadrats o la de Fibonacci.' })}</p>
-              <p>{tr({ es: 'Para llegar al término 100 sin contar: aₙ = a₁ + (n − 1)·d en las aritméticas y aₙ = a₁ · rⁿ⁻¹ en las geométricas. El «n − 1» es la clave: del primer término al centésimo hay 99 saltos, no 100.', en: 'To reach term 100 without counting: aₙ = a₁ + (n − 1)d for arithmetic and aₙ = a₁ × rⁿ⁻¹ for geometric. The “n − 1” is the key: from the first term to the hundredth there are 99 steps, not 100.', ca: 'Per arribar al terme 100 sense comptar: aₙ = a₁ + (n − 1)·d en les aritmètiques i aₙ = a₁ · rⁿ⁻¹ en les geomètriques. El «n − 1» és la clau: del primer terme al centèsim hi ha 99 salts, no 100.' })}</p>
-              <p>{tr({ es: 'En las figuras de puntos, al corregir se ven en gris los puntos que no cambian y en color los que se añaden en cada figura: eso es justo el término general, d·n + c.', en: 'In the dot patterns, when you answer the dots that never change turn grey and the ones added each time turn pink: that is exactly the general term, dn + c.', ca: 'A les figures de punts, en corregir es veuen en gris els punts que no canvien i en color els que s’afegeixen a cada figura: això és just el terme general, d·n + c.' })}</p>
+              <p>{tr({ es: 'Aquí nada se elige: el número que sigue, el término 100 o la suma se escriben con el teclado. En una sucesión aritmética se suma siempre lo mismo; en una geométrica se multiplica.', en: 'Nothing is picked here: the next number, term 100 or the sum are typed in. In an arithmetic sequence the same amount is always added; in a geometric one it is multiplied.', ca: 'Aquí no es tria res: el nombre que segueix, el terme 100 o la suma s’escriuen amb el teclat. En una successió aritmètica sempre se suma el mateix; en una de geomètrica es multiplica.' })}</p>
+              <p>{tr({ es: 'En las figuras de puntos se dibuja la figura 4 tocando casillas: hay puntos fijos y otros que se añaden en cada figura. Y el término general se construye con − y +: d·n + c en las aritméticas, a · rⁿ⁻¹ en las geométricas, viendo si tu fórmula da los mismos términos.', en: 'In the dot figures you draw figure 4 by tapping squares. And the general term is built with − and +: dn + c for arithmetic, a × rⁿ⁻¹ for geometric, checking whether your formula gives the same terms.', ca: 'En les figures de punts es dibuixa la figura 4 tocant caselles. I el terme general es construeix amb − i +: d·n + c en les aritmètiques, a · rⁿ⁻¹ en les geomètriques, veient si la teva fórmula dona els mateixos termes.' })}</p>
               <p className="text-white/40 text-xs pt-1">⏱️ {GAME_TIME}s · {tr({ es: `Acierto +10 y +${CORRECT_TIME}s · Fallo −${WRONG_TIME}s`, en: `Correct +10 and +${CORRECT_TIME}s · Wrong −${WRONG_TIME}s`, ca: `Encert +10 i +${CORRECT_TIME}s · Error −${WRONG_TIME}s` })}</p>
             </div>
           </ComoSeJuega>

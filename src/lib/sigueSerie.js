@@ -69,10 +69,9 @@ const NINGUNA = [
 
 let seq = 0
 
-export function genRonda(nivel = 'facil', { rand = Math.random } = {}) {
-  const cfg = NIVELES[nivel] ?? NIVELES.facil
+// El generador de preguntas de siempre: la ronda de un tipo, con sus opciones.
+function genVieja(nivel, tipo, rand) {
   for (;;) {
-    const tipo = elige(rand, cfg.tipos)
     const base = { id: ++seq, nivel, tipo }
 
     if (tipo === 'siguiente') {
@@ -160,8 +159,6 @@ export function genRonda(nivel = 'facil', { rand = Math.random } = {}) {
   }
 }
 
-export const genRound = (difficulty = 'facil') => genRonda(difficulty)
-export const esCorrecta = (r, o) => o === r.bueno
 
 // ── Textos ────────────────────────────────────────────────────────────────
 const CLASE = {
@@ -177,7 +174,7 @@ export function textoOpcion(o, r, l) {
   return num(o, l)
 }
 
-export function enunciado(r, l) {
+function enunciadoViejo(r, l) {
   switch (r.tipo) {
     case 'siguiente': return s(l, `${lista(r.terminos, l)} ¿Qué número sigue?`, `${lista(r.terminos, l)} What comes next?`, `${lista(r.terminos, l)} Quin nombre segueix?`)
     case 'tipo': return s(l, `${lista(r.terminos, l)} ¿Qué tipo de sucesión es?`, `${lista(r.terminos, l)} What kind of sequence is this?`, `${lista(r.terminos, l)} Quin tipus de successió és?`)
@@ -188,7 +185,7 @@ export function enunciado(r, l) {
   }
 }
 
-export function explicacion(r, l) {
+function explicacionVieja(r, l) {
   switch (r.tipo) {
     case 'siguiente': return r.clase === 'arit'
       ? s(l, `Cada término se obtiene SUMANDO ${num(r.d, l)} (la diferencia): es una progresión aritmética. ${num(r.terminos[3], l)} + ${num(r.d, l)} = ${num(r.bueno, l)}.`, `Each term is found by ADDING ${num(r.d, l)} (the common difference): it is an arithmetic sequence. ${num(r.terminos[3], l)} + ${num(r.d, l)} = ${num(r.bueno, l)}.`, `Cada terme s’obté SUMANT ${num(r.d, l)} (la diferència): és una progressió aritmètica. ${num(r.terminos[3], l)} + ${num(r.d, l)} = ${num(r.bueno, l)}.`)
@@ -214,11 +211,99 @@ export function explicacion(r, l) {
   }
 }
 
-export function schemaQuestion(r, l) {
+function schemaVieja(r, l) {
   const pre = r.tipo === 'figuras' ? s(l, `Figuras de puntos: ${r.c + r.d}, ${r.c + 2 * r.d}, ${r.c + 3 * r.d}… `, `Dot figures: ${r.c + r.d}, ${r.c + 2 * r.d}, ${r.c + 3 * r.d}… `, `Figures de punts: ${r.c + r.d}, ${r.c + 2 * r.d}, ${r.c + 3 * r.d}… `) : ''
   return {
-    question: pre + enunciado(r, l),
+    question: pre + enunciadoViejo(r, l),
     correctAnswer: textoOpcion(r.bueno, r, l),
     wrongAnswers: r.opciones.filter(o => o !== r.bueno).map(o => textoOpcion(o, r, l)),
   }
+}
+
+// ── Mecánicas ─────────────────────────────────────────────────────────────
+// Encima del generador de arriba (que sigue dando las opciones para el texto
+// del examen y de los buscadores), cada ronda se juega sin elegir:
+//   escribe    teclear el número: el siguiente, el término n, la suma o los
+//              puntos de la figura n
+//   dibuja     dibujar la figura 4 tocando casillas de una rejilla
+//   formula    construir aₙ con − y + (d y c, o a y r), viendo los términos
+//   clasifica  tres series a su caja: aritmética, geométrica o ninguna
+const MECANICAS = {
+  facil:   { tipos: ['escribe', 'escribe', 'dibuja', 'dibuja', 'clasifica'], escribe: ['siguiente'] },
+  medio:   { tipos: ['escribe', 'escribe', 'dibuja', 'formula', 'clasifica'], escribe: ['siguiente', 'termino', 'figuras'] },
+  dificil: { tipos: ['escribe', 'escribe', 'formula', 'formula'], escribe: ['termino', 'suma', 'figuras'] },
+}
+export const MECANICAS_DE = nivel => MECANICAS[nivel]?.tipos ?? MECANICAS.facil.tipos
+export const FIGURA_DIBUJO = 4
+
+let seqN = 0
+const recientes = []
+const temaDe = r => JSON.stringify(r.terminos ?? r.series ?? [r.c, r.d])
+export function genRonda(nivel = 'facil', opts = {}) {
+  for (let intento = 0; ; intento++) {
+    const r = genNueva(nivel, opts)
+    if (intento < 20 && recientes.includes(temaDe(r))) continue
+    recientes.push(temaDe(r))
+    if (recientes.length > 6) recientes.shift()
+    return r
+  }
+}
+function genNueva(nivel, { rand = Math.random } = {}) {
+  const cfg = MECANICAS[nivel] ?? MECANICAS.facil
+  const tipo = elige(rand, cfg.tipos)
+  if (tipo === 'escribe') {
+    const sub = elige(rand, cfg.escribe)
+    return { ...genVieja(nivel, sub, rand), id: ++seqN, tipo, sub }
+  }
+  if (tipo === 'dibuja') return { ...genVieja(nivel, 'figuras', rand), id: ++seqN, tipo, sub: 'figuras' }
+  if (tipo === 'formula') return { ...genVieja(nivel, 'general', rand), id: ++seqN, tipo, sub: 'general' }
+  // clasifica: tres series de al menos dos clases distintas
+  for (;;) {
+    const series = [0, 1, 2].map(() => genVieja(nivel, 'tipo', rand))
+    if (new Set(series.map(x => x.clase)).size < 2) continue
+    if (new Set(series.map(x => x.terminos.join())).size < 3) continue
+    return { id: ++seqN, nivel, tipo, sub: 'tipo', series, cajas: ['arit', 'geom', 'ninguna'], bueno: 'clasifica:0' }
+  }
+}
+export const genRound = (difficulty = 'facil') => genRonda(difficulty)
+
+// Los puntos de una figura: c fijos en la columna 0 y d en cada columna 1…k.
+export const figura = (c, d, k) => {
+  const out = []
+  for (let i = 0; i < c; i++) out.push(`0:${i}`)
+  for (let col = 1; col <= k; col++) for (let i = 0; i < d; i++) out.push(`${col}:${i}`)
+  return out
+}
+// La fórmula que se construye: aritmética d·n + c, geométrica a · rⁿ⁻¹.
+export const formulaDe = (r, x, y) => (r.clase === 'geom' ? exponencial(x, y, -1) : lineal(x, y))
+export const terminosDe = (r, x, y, k = 4) => (r.clase === 'geom'
+  ? Array.from({ length: k }, (_, i) => x * y ** i)
+  : Array.from({ length: k }, (_, i) => x * (i + 1) + y))
+
+const limpia = t => String(t).replace(/−/g, '-').replace(/[\s.]/g, '')
+// Respuestas: escribe, el número tecleado; dibuja «dibuja:ok|no»; formula, el
+// texto de la fórmula construida; clasifica «clasifica:fallos».
+export function esCorrecta(r, o) {
+  if (r.tipo === 'escribe') return limpia(o) !== '' && Number(limpia(o)) === r.bueno
+  if (r.tipo === 'dibuja') return o === 'dibuja:ok'
+  return o === r.bueno
+}
+
+export function enunciado(r, l) {
+  if (r.tipo === 'dibuja') return s(l, `Dibuja la figura ${FIGURA_DIBUJO}: toca las casillas donde van los puntos`, `Draw figure ${FIGURA_DIBUJO}: tap the squares where the dots go`, `Dibuixa la figura ${FIGURA_DIBUJO}: toca les caselles on van els punts`)
+  if (r.tipo === 'formula') return s(l, 'Construye su término general: ajusta los números hasta que tu fórmula dé los mismos términos', 'Build its general term: adjust the numbers until your formula gives the same terms', 'Construeix el seu terme general: ajusta els nombres fins que la teva fórmula doni els mateixos termes')
+  if (r.tipo === 'clasifica') return s(l, '¿De qué tipo es cada sucesión?', 'What kind of sequence is each one?', 'De quin tipus és cada successió?')
+  return enunciadoViejo({ ...r, tipo: r.sub }, l)
+}
+export function explicacion(r, l) {
+  if (r.tipo === 'clasifica') return r.series.map(x => `${lista(x.terminos, l)} ${(CLASE[x.clase][l] ?? CLASE[x.clase].es).toLowerCase()}`).join(' · ')
+  if (r.tipo === 'dibuja') return s(l,
+    `Hay ${r.c} puntos que no cambian y cada figura añade ${r.d} más: la figura ${FIGURA_DIBUJO} tiene ${r.c} + ${FIGURA_DIBUJO} · ${r.d} = ${r.c + FIGURA_DIBUJO * r.d} puntos, y la figura n, ${r.d}·n${r.c ? ` + ${r.c}` : ''}.`,
+    `There are ${r.c} dots that never change and each figure adds ${r.d} more: figure ${FIGURA_DIBUJO} has ${r.c} + ${FIGURA_DIBUJO} × ${r.d} = ${r.c + FIGURA_DIBUJO * r.d} dots, and figure n, ${r.d}n${r.c ? ` + ${r.c}` : ''}.`,
+    `Hi ha ${r.c} punts que no canvien i cada figura n’afegeix ${r.d} més: la figura ${FIGURA_DIBUJO} té ${r.c} + ${FIGURA_DIBUJO} · ${r.d} = ${r.c + FIGURA_DIBUJO * r.d} punts, i la figura n, ${r.d}·n${r.c ? ` + ${r.c}` : ''}.`)
+  return explicacionVieja({ ...r, tipo: r.sub }, l)
+}
+export function schemaQuestion(r, l) {
+  if (r.tipo === 'clasifica') return schemaVieja(r.series[0], l)
+  return schemaVieja({ ...r, tipo: r.sub }, l)
 }

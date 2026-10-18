@@ -1,10 +1,10 @@
-// Una ronda de Sigue la Serie. Las de figuras enseñan las figuras 1, 2 y 3
-// hechas de puntos; al corregir, los fijos se ven en gris y los que se
-// añaden en cada paso en color (esa es la fórmula d·n + c). Las numéricas,
-// los términos en fichas con flechas que al corregir dicen «+d» o «×r».
-// La usan el juego (contra reloj) y el examen (MechanicExam).
+// Una ronda de Sigue la Serie (ver lib/sigueSerie): las figuras de puntos o
+// los términos en fichas, y debajo la mecánica: teclear el número, dibujar la
+// figura 4 en una rejilla, construir la fórmula con − y + viendo los términos
+// que da, o clasificar tres series. La usan el juego y el examen.
+import { useState } from 'react'
 import { useLang } from '../../context/LangContext'
-import { enunciado, textoOpcion, explicacion, num } from '../../lib/sigueSerie'
+import { enunciado, explicacion, num, esCorrecta, figura, formulaDe, terminosDe, FIGURA_DIBUJO } from '../../lib/sigueSerie'
 
 const R = 4.6, PASO = 12
 
@@ -74,32 +74,141 @@ function Terminos({ r, revelado, l }) {
   )
 }
 
+const boton = 'w-full py-3 rounded-2xl bg-[#EDAE49] text-black font-black disabled:opacity-30 transition-opacity'
+const tecla = 'rounded-xl bg-white/10 hover:bg-white/15 active:scale-95 text-white text-lg font-black py-2.5'
+const CLASES = { arit: { es: 'Aritmética', en: 'Arithmetic', ca: 'Aritmètica' }, geom: { es: 'Geométrica', en: 'Geometric', ca: 'Geomètrica' }, ninguna: { es: 'Ninguna', en: 'Neither', ca: 'Cap' } }
+
+function Escribe({ r, revelado, elegida, onResponder, tr, l }) {
+  const [v, setV] = useState('')
+  const pulsa = t => setV(x => (t === '⌫' ? x.slice(0, -1) : t === '−' ? (x.startsWith('−') ? x.slice(1) : '−' + x) : x.length < 9 ? x + t : x))
+  const ok = revelado && esCorrecta(r, elegida)
+  return (
+    <>
+      <p className="text-white font-bold text-center mb-2 leading-snug">{enunciado(r, l).replace(/^[^?¿]*…\s*/, '')}</p>
+      <div className="rounded-xl bg-white/5 border border-white/10 py-3 mb-3 text-center">
+        <span className={`font-black text-3xl tabular-nums ${revelado ? (ok ? 'text-green-300' : 'text-red-300') : 'text-amber-300'}`}>{(revelado ? elegida : v) || '?'}</span>
+        {revelado && !ok && <span className="block text-green-300 text-sm font-bold">{num(r.bueno, l)}</span>}
+      </div>
+      {!revelado && (
+        <>
+          <div className="grid grid-cols-4 gap-1.5 mb-3">
+            {['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '−', '⌫'].map(t => <button key={t} className={tecla} onClick={() => pulsa(t)}>{t}</button>)}
+          </div>
+          <button className={boton} disabled={!v || v === '−'} onClick={() => onResponder(v)}>{tr({ es: 'Comprobar', en: 'Check', ca: 'Comprovar' })}</button>
+        </>
+      )}
+    </>
+  )
+}
+
+function Dibuja({ r, revelado, onResponder, tr, l }) {
+  const filas = Math.max(r.c, r.d)
+  const cols = FIGURA_DIBUJO + 1
+  const meta = new Set(figura(r.c, r.d, FIGURA_DIBUJO))
+  const [puestos, setPuestos] = useState([])
+  const toca = k => !revelado && setPuestos(p => (p.includes(k) ? p.filter(x => x !== k) : [...p, k]))
+  const bien = puestos.length === meta.size && puestos.every(k => meta.has(k))
+  return (
+    <>
+      <p className="text-white font-bold text-center mb-2 leading-snug">{enunciado(r, l)}</p>
+      <div className="rounded-xl bg-white/5 border border-white/10 p-3 mb-3">
+        <div className="grid gap-1 mx-auto w-fit" style={{ gridTemplateColumns: `repeat(${cols}, 2rem)` }}>
+          {Array.from({ length: filas }, (_, fila) => filas - 1 - fila).flatMap(i => Array.from({ length: cols }, (_, col) => {
+            const k = `${col}:${i}`
+            const p = puestos.includes(k), m = meta.has(k)
+            const fondo = !revelado ? (p ? 'bg-pink-400' : 'bg-white/10') : p && m ? 'bg-green-400' : p ? 'bg-red-400' : m ? 'bg-amber-400/60' : 'bg-white/5'
+            return <button key={k} onClick={() => toca(k)} className={`w-8 h-8 rounded-full transition-colors ${fondo}`} aria-label={k} />
+          }))}
+        </div>
+        <p className="text-center text-xs text-white/50 mt-2">{tr({ es: `Figura ${FIGURA_DIBUJO}`, en: `Figure ${FIGURA_DIBUJO}`, ca: `Figura ${FIGURA_DIBUJO}` })} · {puestos.length} {tr({ es: 'puntos', en: 'dots', ca: 'punts' })}</p>
+      </div>
+      {!revelado && <button className={boton} disabled={!puestos.length} onClick={() => onResponder(bien ? 'dibuja:ok' : 'dibuja:no')}>{tr({ es: 'Comprobar', en: 'Check', ca: 'Comprovar' })}</button>}
+    </>
+  )
+}
+
+function Formula({ r, revelado, onResponder, tr, l }) {
+  const geom = r.clase === 'geom'
+  const [x, setX] = useState(1)
+  const [y, setY] = useState(geom ? 2 : 0)
+  const mios = terminosDe(r, x, y)
+  const Paso = ({ v, set, min, etiqueta }) => (
+    <div className="flex items-center gap-1.5">
+      <span className="text-white/60 text-sm font-bold w-6 text-right">{etiqueta}</span>
+      <button className={`${tecla} w-10`} onClick={() => set(Math.max(min, v - 1))}>−</button>
+      <span className="text-amber-300 font-black text-xl w-9 text-center tabular-nums">{num(v, l)}</span>
+      <button className={`${tecla} w-10`} onClick={() => set(v + 1)}>+</button>
+    </div>
+  )
+  return (
+    <>
+      <p className="text-white font-bold text-center mb-2 leading-snug">{enunciado(r, l)}</p>
+      <div className="rounded-xl bg-white/5 border border-white/10 py-3 px-2 mb-3 text-center">
+        <p className="text-white font-black text-2xl">aₙ = <span className="text-amber-300">{formulaDe(r, x, y)}</span></p>
+        <div className="flex justify-center gap-1.5 mt-2 flex-wrap">
+          {mios.map((v, i) => (
+            <span key={i} className={`rounded-lg px-2 py-1 text-sm font-black tabular-nums ${v === r.terminos[i] ? 'bg-green-500/25 text-green-200' : 'bg-white/10 text-white/70'}`}>{num(v, l)}</span>
+          ))}
+        </div>
+        <p className="text-white/40 text-[11px] mt-1">{tr({ es: 'Lo que da tu fórmula para n = 1, 2, 3, 4', en: 'What your formula gives for n = 1, 2, 3, 4', ca: 'El que dona la teva fórmula per a n = 1, 2, 3, 4' })}</p>
+      </div>
+      {!revelado && (
+        <>
+          <div className="flex flex-col items-center gap-2 mb-3">
+            {/* Aritmética: d·n + c. Geométrica: a · rⁿ⁻¹. */}
+            {Paso({ v: x, set: setX, min: geom ? 1 : -9, etiqueta: geom ? 'a' : 'd' })}
+            {Paso({ v: y, set: setY, min: geom ? 2 : -30, etiqueta: geom ? 'r' : 'c' })}
+          </div>
+          <button className={boton} onClick={() => onResponder(formulaDe(r, x, y))}>{tr({ es: 'Comprobar', en: 'Check', ca: 'Comprovar' })}</button>
+        </>
+      )}
+      {revelado && <p className="text-green-300 text-sm font-bold text-center">aₙ = {r.bueno}</p>}
+    </>
+  )
+}
+
+function Clasifica({ r, revelado, onResponder, l }) {
+  const [puestas, setPuestas] = useState({})
+  const activa = r.series.findIndex((_, i) => puestas[i] == null)
+  const colocar = c => {
+    if (revelado || activa < 0) return
+    const n = { ...puestas, [activa]: c }
+    setPuestas(n)
+    if (r.series.every((_, i) => n[i] != null)) onResponder(`clasifica:${r.series.filter((x, i) => n[i] !== x.clase).length}`)
+  }
+  return (
+    <>
+      <p className="text-white font-bold text-center mb-2 leading-snug">{enunciado(r, l)}</p>
+      {activa >= 0 && !revelado && (
+        <div className="rounded-2xl bg-[#0b1226] border border-white/[0.08] p-3 mb-3"><Terminos r={r.series[activa]} revelado={false} l={l} /></div>
+      )}
+      <div className="grid grid-cols-3 gap-2">
+        {r.cajas.map(c => (
+          <button key={c} disabled={revelado || activa < 0} onClick={() => colocar(c)} className="rounded-xl border border-white/15 bg-white/[0.06] hover:bg-white/[0.12] px-1.5 py-2 min-h-[4rem] text-left">
+            <span className="block text-white text-[12.5px] font-black">{CLASES[c][l] ?? CLASES[c].es}</span>
+            {r.series.map((x, i) => puestas[i] === c && (
+              <span key={i} className={`block mt-1 rounded-md px-1 py-0.5 text-[10.5px] font-bold text-white tabular-nums ${revelado ? (x.clase === c ? 'bg-green-500/30 ring-1 ring-green-400' : 'bg-red-500/30 ring-1 ring-red-400') : 'bg-white/15'}`}>{x.terminos.slice(0, 3).map(t => num(t, l)).join(', ')}…</span>
+            ))}
+          </button>
+        ))}
+      </div>
+    </>
+  )
+}
+
 export default function PreguntaSerie({ ronda, revelado, elegida, onResponder }) {
   const { tr, lang } = useLang()
   const l = lang === 'en' ? 'en' : lang === 'ca' ? 'ca' : 'es'
   const r = ronda
-  const clase = o => {
-    if (!revelado) return 'bg-white/[0.06] border-white/15 hover:bg-white/[0.12] active:scale-95'
-    if (o === r.bueno) return 'bg-green-500/25 border-green-400'
-    if (o === elegida) return 'bg-red-500/25 border-red-400'
-    return 'bg-white/[0.03] border-white/5 opacity-50'
-  }
-  // El enunciado ya lleva los términos: aquí van las fichas, así que se quitan del texto.
-  const texto = enunciado(r, l).replace(/^[^?¿]*…\s*/, '')
+  const props = { r, revelado, elegida, onResponder, tr, l }
+  const dibujo = r.sub === 'figuras' ? <Figuras r={r} revelado={revelado} tr={tr} /> : r.terminos ? <Terminos r={r} revelado={revelado} l={l} /> : null
   return (
     <div className="w-full">
-      <div className="rounded-2xl bg-[#0b1226] border border-white/[0.08] p-3 mb-3">
-        {r.tipo === 'figuras' ? <Figuras r={r} revelado={revelado} tr={tr} /> : <Terminos r={r} revelado={revelado} l={l} />}
-      </div>
-      <p className="text-white font-bold text-center mb-3 leading-snug">{texto}</p>
-      <div className={`grid gap-2 ${r.tipo === 'tipo' ? 'grid-cols-3' : r.tipo === 'general' ? 'grid-cols-1' : 'grid-cols-2'}`}>
-        {r.opciones.map(o => (
-          <button key={o} disabled={revelado} onClick={() => onResponder(o)}
-            className={`py-3 px-2 rounded-xl border text-white text-[15px] font-bold tabular-nums transition-all ${clase(o)}`}>
-            {textoOpcion(o, r, l)}
-          </button>
-        ))}
-      </div>
+      {dibujo && <div className="rounded-2xl bg-[#0b1226] border border-white/[0.08] p-3 mb-3">{dibujo}</div>}
+      {r.tipo === 'escribe' ? <Escribe {...props} />
+        : r.tipo === 'dibuja' ? <Dibuja {...props} />
+        : r.tipo === 'formula' ? <Formula {...props} />
+        : <Clasifica {...props} />}
       {revelado && <p className="mt-3 text-white/75 text-sm rounded-xl px-3 py-2.5 bg-white/5 border border-white/10">💡 {explicacion(r, l)}</p>}
     </div>
   )
