@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { NIVELES, GRUPOS, TIPOS, construir, genRonda, esCorrecta, explicacion, schemaQuestion, textoOpcion, enunciado } from '../piramide'
+import { NIVELES, GRUPOS, TIPOS, construir, genRonda, esCorrecta, explicacion, schemaQuestion, enunciado, MECANICAS_DE } from '../piramide'
 
 function semilla(s) { return () => ((s = (s * 16807) % 2147483647) - 1) / 2147483646 }
 const L = ['es', 'en', 'ca']
@@ -32,47 +32,62 @@ describe('Pirámide de población · formas', () => {
 
 describe('Pirámide de población · rondas', () => {
   for (const nivel of Object.keys(NIVELES)) {
-    it(`${nivel}: rondas coherentes`, () => {
+    it(`${nivel}: lo que se toca sale de los datos`, () => {
       const rand = semilla(nivel.length * 613)
-      const preguntas = new Set()
+      const mecanicas = new Set()
       for (let i = 0; i < 500; i++) {
         const r = genRonda(nivel, { rand })
-        preguntas.add(r.pregunta)
+        mecanicas.add(r.mecanica)
         expect(r.h).toHaveLength(GRUPOS)
-        expect(r.opciones).toContain(r.bueno)
-        expect(new Set(r.opciones).size).toBe(r.opciones.length)
-        expect(esCorrecta(r, r.bueno)).toBe(true)
         const tot = total(r)
-        if (r.pregunta === 'grupo') {
-          expect(tot[r.bueno]).toBe(Math.max(...tot))
-          for (const o of r.opciones) if (o !== r.bueno) expect(tot[r.bueno]).toBeGreaterThan(tot[o] * 1.06)
+        if (r.mecanica === 'clasifica') {
+          expect(esCorrecta(r, 'clasifica:0')).toBe(true)
+          expect(esCorrecta(r, 'clasifica:1')).toBe(false)
+          expect(new Set(r.piramides.map(x => x.tipo)).size).toBeGreaterThan(1)
+          for (const x of r.piramides) expect(TIPOS).toContain(x.tipo)
+        } else {
+          for (const v of r.validos) expect(esCorrecta(r, String(v))).toBe(true)
+          const fuera = [...Array(GRUPOS).keys()].filter(k => !r.validos.includes(k))
+          for (const k of fuera) expect(esCorrecta(r, String(k))).toBe(false)
         }
-        if (r.pregunta === 'sexo') {
-          const [a, b] = r.franja
-          const h = r.h.slice(a, b + 1).reduce((x, y) => x + y), m = r.m.slice(a, b + 1).reduce((x, y) => x + y)
-          expect(r.bueno).toBe(h > m * 1.15 ? 'hombres' : m > h * 1.15 ? 'mujeres' : 'igual')
+        if (r.mecanica === 'mayor') {
+          const [k] = r.validos
+          for (const o of fuera(r)) expect(tot[k]).toBeGreaterThan(tot[o] * 1.06)
         }
-        if (r.pregunta === 'cuando') {
-          const [d, h] = r.bueno.split('-').map(Number)
-          expect(h - d).toBe(4)
-          expect(r.censo - h).toBe(r.marca[0] * 5) // edad del grupo
-        }
-        if (r.pregunta === 'rasgo' && (r.rasgo === 'hueco' || r.rasgo === 'boom')) {
-          const k = r.marca[0]
-          // el grupo marcado se sale de la línea de sus vecinos
+        if (r.mecanica === 'anomalia') {
+          const [k] = r.validos
           const vecinos = (tot[k - 1] + tot[k + 1]) / 2
           if (r.rasgo === 'hueco') expect(tot[k]).toBeLessThan(vecinos * 0.8)
           else expect(tot[k]).toBeGreaterThan(vecinos * 1.1)
         }
+        if (r.mecanica === 'nacidos') {
+          expect(r.hasta - r.desde).toBe(4)
+          expect(r.censo - r.hasta).toBe(r.validos[0] * 5)
+        }
+        if (r.mecanica === 'lado') {
+          for (const k of r.validos) {
+            if (r.caso === 'hombres') expect(r.h[k]).toBeGreaterThan(r.m[k] * 1.4)
+            else expect(r.m[k]).toBeGreaterThan(r.h[k] * 1.15)
+          }
+          // y ningún otro grupo se le parece
+          for (const k of fuera(r)) {
+            if (r.caso === 'hombres') expect(r.h[k]).toBeLessThan(r.m[k] * 1.1)
+            else expect(r.m[k]).toBeLessThan(r.h[k] * 1.08)
+          }
+        }
         for (const l of L) {
           expect(enunciado(r, l)).not.toMatch(/undefined|NaN/)
           expect(explicacion(r, l)).not.toMatch(/undefined|NaN/)
-          for (const o of r.opciones) expect(textoOpcion(o, r, l)).not.toMatch(/undefined|NaN/)
           const q = schemaQuestion(r, l)
-          if (q) expect(q.wrongAnswers).not.toContain(q.correctAnswer)
+          if (q) {
+            expect(q.wrongAnswers).not.toContain(q.correctAnswer)
+            expect(q.wrongAnswers).toHaveLength(2)
+          }
         }
       }
-      expect([...preguntas].sort()).toEqual([...new Set(NIVELES[nivel].tipos)].sort())
+      expect([...mecanicas].sort()).toEqual([...new Set(MECANICAS_DE(nivel))].sort())
     })
   }
 })
+
+function fuera(r) { return [...Array(GRUPOS).keys()].filter(k => !r.validos.includes(k)) }

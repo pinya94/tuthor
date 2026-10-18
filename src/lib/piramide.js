@@ -67,10 +67,10 @@ export function construir(tipo, rasgo, rand, k = null) {
 
 let seq = 0
 
-export function genRonda(nivel = 'facil', { rand = Math.random } = {}) {
-  const cfg = NIVELES[nivel] ?? NIVELES.facil
+// El generador de preguntas tipo test de antes: sigue dando la pirámide y el
+// texto del schema (ver «Mecánicas» al final).
+function genVieja(nivel, pregunta, rand) {
   for (;;) {
-    const pregunta = elige(rand, cfg.tipos)
     const tipo = elige(rand, TIPOS)
     const base = { id: ++seq, nivel, pregunta, tipo, censo: elige(rand, CENSOS) }
 
@@ -123,9 +123,6 @@ export function genRonda(nivel = 'facil', { rand = Math.random } = {}) {
   }
 }
 
-export const esCorrecta = (ronda, r) => r === ronda.bueno
-export const genRound = difficulty => genRonda(difficulty)
-export const isCorrect = esCorrecta
 
 // ── Textos ───────────────────────────────────────────────────────────────
 const T = (es, en, ca) => ({ es, en, ca })
@@ -148,7 +145,7 @@ const NOMBRE_SEXO = {
   igual: T('Casi igual', 'About the same', 'Gairebé igual'),
 }
 
-export function textoOpcion(o, ronda, l) {
+function textoOpcion(o, ronda, l) {
   switch (ronda.pregunta) {
     case 'tipo': return tx(NOMBRE_TIPO[o], l)
     case 'grupo': return `${etiquetaGrupo(o)} ${tx(T('años', 'years', 'anys'), l)}`
@@ -158,7 +155,7 @@ export function textoOpcion(o, ronda, l) {
   }
 }
 
-export function enunciado(ronda, l) {
+function enunciadoViejo(ronda, l) {
   switch (ronda.pregunta) {
     case 'tipo': return tx(T('¿Qué tipo de pirámide es?', 'What type of pyramid is it?', 'Quin tipus de piràmide és?'), l)
     case 'grupo': return tx(T('¿Qué grupo de edad tiene más población?', 'Which age group has the most people?', 'Quin grup d’edat té més població?'), l)
@@ -171,7 +168,7 @@ export function enunciado(ronda, l) {
   }
 }
 
-export function explicacion(ronda, l) {
+function explicacionVieja(ronda, l) {
   const r = ronda
   switch (r.pregunta) {
     case 'tipo': return tx({
@@ -199,7 +196,7 @@ export function explicacion(ronda, l) {
   }
 }
 
-export function schemaQuestion(ronda, l) {
+function schemaVieja(ronda, l) {
   // Sin el dibujo solo se entienden las de tipo (con la descripción de la forma).
   if (ronda.pregunta !== 'tipo') return null
   const forma = tx({
@@ -208,8 +205,127 @@ export function schemaQuestion(ronda, l) {
     regresiva: T('Base más estrecha que el centro, que es la parte más ancha.', 'A base narrower than the middle, which is the widest part.', 'Base més estreta que el centre, que és la part més ampla.'),
   }[ronda.tipo], l)
   return {
-    question: `${forma} ${enunciado(ronda, l)}`,
+    question: `${forma} ${enunciadoViejo(ronda, l)}`,
     correctAnswer: textoOpcion(ronda.bueno, ronda, l),
     wrongAnswers: ronda.opciones.filter(o => o !== ronda.bueno).map(o => textoOpcion(o, ronda, l)),
   }
+}
+
+// ── Mecánicas ─────────────────────────────────────────────────────────────
+// Todo se responde tocando la pirámide (sus filas) o colocando pirámides:
+//   mayor      tocar el grupo de edad con más población
+//   anomalia   tocar el hueco (guerra o crisis) o el baby boom, sin marcar
+//   nacidos    «pirámide de 2020: toca a los nacidos entre 1975 y 1979»
+//   lado       tocar un grupo con muchos más hombres (inmigración) o más
+//              mujeres (longevidad) que del otro sexo
+//   clasifica  tres pirámides pequeñas, cada una a la caja de su tipo
+const MECANICAS = {
+  facil:   ['mayor', 'mayor', 'clasifica', 'lado'],
+  medio:   ['clasifica', 'anomalia', 'anomalia', 'lado', 'mayor'],
+  dificil: ['anomalia', 'nacidos', 'nacidos', 'clasifica', 'lado'],
+}
+export const MECANICAS_DE = nivel => MECANICAS[nivel] ?? MECANICAS.facil
+const sumaFila = (p, i) => p.h[i] + p.m[i]
+
+let seqN = 0
+const recientes = []
+export function genRonda(nivel = 'facil', { rand = Math.random } = {}) {
+  for (let intento = 0; ; intento++) {
+    const r = genNueva(nivel, rand)
+    const tema = r.piramides ? r.piramides.map(x => x.tipo).join() : `${r.mecanica}${r.validos.join()}${r.caso ?? ''}${r.tipo}`
+    if (intento < 20 && recientes.includes(tema)) continue
+    recientes.push(tema)
+    if (recientes.length > 5) recientes.shift()
+    return r
+  }
+}
+export const genRound = difficulty => genRonda(difficulty)
+
+function genNueva(nivel, rand) {
+  for (;;) {
+    const mecanica = elige(rand, MECANICAS_DE(nivel))
+    const base = { id: ++seqN, nivel, mecanica, censo: elige(rand, CENSOS) }
+    if (mecanica === 'clasifica') {
+      const tipos = [0, 1, 2].map(() => elige(rand, TIPOS))
+      if (new Set(tipos).size < 2) continue
+      const piramides = tipos.map(t => ({ tipo: t, ...construir(t, null, rand) }))
+      // La primera hace de ronda «tipo» para el texto del schema.
+      return { ...base, ...piramides[0], piramides, cajas: TIPOS, bueno: 'clasifica:0' }
+    }
+    if (mecanica === 'mayor') {
+      const r = genVieja(nivel, 'grupo', rand)
+      return { ...r, ...base, validos: [r.bueno] }
+    }
+    if (mecanica === 'anomalia') {
+      const rasgo = elige(rand, ['hueco', 'boom'])
+      const k = rasgo === 'boom' ? 3 + Math.floor(rand() * 9) : 2 + Math.floor(rand() * 15)
+      const tipo = elige(rand, TIPOS)
+      const p = construir(tipo, rasgo, rand, k)
+      const v = (sumaFila(p, k - 1) + sumaFila(p, k + 1)) / 2
+      // Que se salga a simple vista de la línea de sus vecinos.
+      if (rasgo === 'hueco' ? sumaFila(p, k) > v * 0.8 : sumaFila(p, k) < v * 1.12) continue
+      return { ...base, ...p, tipo, rasgo, validos: [k] }
+    }
+    if (mecanica === 'nacidos') {
+      const k = 1 + Math.floor(rand() * 15)
+      const tipo = elige(rand, TIPOS)
+      const a = k * 5
+      return { ...base, ...construir(tipo, null, rand), tipo, desde: base.censo - a - 4, hasta: base.censo - a, validos: [k] }
+    }
+    // lado
+    const caso = elige(rand, ['hombres', 'mujeres'])
+    const tipo = elige(rand, TIPOS)
+    const p = construir(tipo, caso === 'hombres' ? 'inmigracion' : null, rand)
+    const filas = [...Array(GRUPOS).keys()]
+    const validos = filas.filter(i => (caso === 'hombres' ? p.h[i] > p.m[i] * 1.4 : p.m[i] > p.h[i] * 1.15))
+    // Sin zona gris: el resto de grupos, casi iguales o al revés.
+    const dudosos = filas.filter(i => !validos.includes(i) && (caso === 'hombres' ? p.h[i] > p.m[i] * 1.1 : p.m[i] > p.h[i] * 1.08))
+    if (!validos.length || dudosos.length) continue
+    return { ...base, ...p, tipo, caso, rasgo: caso === 'hombres' ? 'inmigracion' : 'longevidad', validos }
+  }
+}
+
+// Respuestas: el número de la fila tocada, o «clasifica:fallos».
+export function esCorrecta(r, o) {
+  if (r.mecanica === 'clasifica') return o === 'clasifica:0'
+  return /^\d+$/.test(String(o)) && r.validos.includes(Number(o))
+}
+export const isCorrect = esCorrecta
+
+export function enunciado(r, l) {
+  switch (r.mecanica) {
+    case 'mayor': return tx(T('Toca el grupo de edad con más población', 'Tap the age group with the most people', 'Toca el grup d’edat amb més població'), l)
+    case 'anomalia': return r.rasgo === 'hueco'
+      ? tx(T('Toca la generación que nació durante una guerra o una crisis', 'Tap the generation born during a war or a crisis', 'Toca la generació que va néixer durant una guerra o una crisi'), l)
+      : tx(T('Toca la generación del baby boom', 'Tap the baby-boom generation', 'Toca la generació del baby boom'), l)
+    case 'nacidos': return tx(T(`Pirámide del año ${r.censo}. Toca a quienes nacieron entre ${r.desde} y ${r.hasta}`, `Pyramid for ${r.censo}. Tap the people born between ${r.desde} and ${r.hasta}`, `Piràmide de l’any ${r.censo}. Toca els qui van néixer entre ${r.desde} i ${r.hasta}`), l)
+    case 'lado': return r.caso === 'hombres'
+      ? tx(T('Toca un grupo de edad con muchos más hombres que mujeres', 'Tap an age group with many more men than women', 'Toca un grup d’edat amb molts més homes que dones'), l)
+      : tx(T('Toca un grupo de edad con bastantes más mujeres que hombres', 'Tap an age group with quite a few more women than men', 'Toca un grup d’edat amb força més dones que homes'), l)
+    default: return tx(T('Coloca cada pirámide en la caja de su tipo', 'Put each pyramid in the box for its type', 'Col·loca cada piràmide a la caixa del seu tipus'), l)
+  }
+}
+
+const FORMA_CORTA = {
+  progresiva: T('base ancha y cima estrecha, población joven', 'wide base and narrow top, a young population', 'base ampla i cim estret, població jove'),
+  estacionaria: T('barras parecidas hasta los 50 años, población estable', 'similar bars up to age 50, a stable population', 'barres semblants fins als 50 anys, població estable'),
+  regresiva: T('base más estrecha que el centro, población envejecida', 'base narrower than the middle, an ageing population', 'base més estreta que el centre, població envellida'),
+}
+
+export function explicacion(r, l) {
+  switch (r.mecanica) {
+    case 'mayor': return explicacionVieja({ ...r, pregunta: 'grupo', bueno: r.validos[0] }, l)
+    case 'anomalia': case 'lado': return explicacionVieja({ ...r, pregunta: 'rasgo' }, l)
+    case 'nacidos': {
+      const a = r.validos[0] * 5
+      return tx(T(`En ${r.censo}, quien nació entre ${r.desde} y ${r.hasta} tiene entre ${a} y ${a + 4} años: ${r.censo} − ${r.hasta} = ${a} y ${r.censo} − ${r.desde} = ${a + 4}.`, `In ${r.censo}, people born between ${r.desde} and ${r.hasta} are ${a} to ${a + 4} years old: ${r.censo} − ${r.hasta} = ${a} and ${r.censo} − ${r.desde} = ${a + 4}.`, `L’any ${r.censo}, qui va néixer entre ${r.desde} i ${r.hasta} té entre ${a} i ${a + 4} anys: ${r.censo} − ${r.hasta} = ${a} i ${r.censo} − ${r.desde} = ${a + 4}.`), l)
+    }
+    default: return [...new Set(r.piramides.map(x => x.tipo))].map(t => `${tx(NOMBRE_TIPO[t], l)}: ${tx(FORMA_CORTA[t], l)}.`).join(' ')
+  }
+}
+
+export function schemaQuestion(r, l) {
+  // Sin el dibujo solo se entienden las de tipo (con la descripción de la forma).
+  if (r.mecanica !== 'clasifica') return null
+  return schemaVieja({ ...r, pregunta: 'tipo', bueno: r.tipo, opciones: TIPOS }, l)
 }

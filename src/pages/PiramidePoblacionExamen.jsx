@@ -7,13 +7,13 @@ import { genRound, esCorrecta, schemaQuestion } from '../lib/piramide'
 const LEVELS = [
   { key: 'primaria', emoji: '💚', difficulty: 'facil',
     label: { es: 'Primaria', en: 'Primary', ca: 'Primària' },
-    hint: { es: 'Tipo de pirámide y grupo más numeroso', en: 'Pyramid type and largest group', ca: 'Tipus de piràmide i grup més nombrós' } },
+    hint: { es: 'Toca el grupo más numeroso y clasifica pirámides', en: 'Tap the largest group and sort pyramids', ca: 'Toca el grup més nombrós i classifica piràmides' } },
   { key: 'eso', emoji: '💛', difficulty: 'medio',
     label: { es: 'Secundaria (ESO)', en: 'Secondary (ESO)', ca: 'Secundària (ESO)' },
-    hint: { es: 'Tipo, grupos de edad y sexos', en: 'Type, age groups and sexes', ca: 'Tipus, grups d’edat i sexes' } },
+    hint: { es: 'Tipos, huecos, baby booms y sexos', en: 'Types, gaps, baby booms and sexes', ca: 'Tipus, buits, baby booms i sexes' } },
   { key: 'bachillerato', emoji: '🔴', difficulty: 'dificil',
     label: { es: 'Avanzado', en: 'Advanced', ca: 'Avançat' },
-    hint: { es: 'Huecos, booms, migraciones y años de nacimiento', en: 'Gaps, booms, migration and birth years', ca: 'Buits, booms, migracions i anys de naixement' } },
+    hint: { es: 'Toca a los nacidos en tal año, huecos y booms', en: 'Tap those born in a given year, gaps and booms', ca: 'Toca els nascuts tal any, buits i booms' } },
 ]
 
 // Estado propio (la opción elegida): ver la nota de hooks en
@@ -36,7 +36,7 @@ export default function PiramidePoblacionExamen() {
       metaPath="/examen/piramide-poblacion-test"
       subjectSchema="Geografía"
       backGamePath="/juegos/piramide-poblacion"
-      playLabel={{ es: 'Modo arcade (60s)', en: 'Arcade mode (60s)', ca: 'Mode arcade (60s)' }}
+      playLabel={{ es: 'Modo arcade (90s)', en: 'Arcade mode (90s)', ca: 'Mode arcade (90s)' }}
       levels={LEVELS}
       genRound={genRound}
       isCorrect={esCorrecta}

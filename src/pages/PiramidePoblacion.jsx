@@ -11,18 +11,19 @@ import SEOHead from '../components/SEOHead'
 import { CabeceraJuego, NivelBarras, ComoSeJuega } from '../components/IntroJuego'
 import { Racha } from '../components/Iconos'
 
-const GAME_TIME = 60
+// Se toca la pirámide o se colocan pirámides: 90 s y +6 s por acierto.
+const GAME_TIME = 90
 const WRONG_TIME = 5
-const CORRECT_TIME = 4
+const CORRECT_TIME = 6
 const REVEAL_MS = 4200 // da tiempo a leer la explicación con la pirámide delante
 
 const DIFS = {
   facil:   { emoji: '💚', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
-             desc: { es: 'Qué tipo de pirámide es y qué grupo tiene más gente', en: 'What type of pyramid it is and which group has the most people', ca: 'Quin tipus de piràmide és i quin grup té més gent' } },
+             desc: { es: 'Toca el grupo con más gente y coloca cada pirámide en su tipo', en: 'Tap the largest group and sort each pyramid by type', ca: 'Toca el grup amb més gent i col·loca cada piràmide al seu tipus' } },
   medio:   { emoji: '💛', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
-             desc: { es: 'También: ¿más hombres o más mujeres?', en: 'Also: more men or more women?', ca: 'També: més homes o més dones?' } },
+             desc: { es: 'También: encuentra el hueco o el baby boom', en: 'Also: find the gap or the baby boom', ca: 'També: troba el buit o el baby boom' } },
   dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' },
-             desc: { es: 'Huecos, baby booms e inmigración, y en qué años nacieron', en: 'Gaps, baby booms and immigration, and when they were born', ca: 'Buits, baby booms i immigració, i en quins anys van néixer' } },
+             desc: { es: 'Toca a los nacidos en tal año, huecos y baby booms', en: 'Tap those born in a given year, gaps and baby booms', ca: 'Toca els nascuts tal any, buits i baby booms' } },
 }
 if (import.meta.env.DEV && Object.keys(DIFS).join() !== Object.keys(NIVELES).join()) {
   console.warn('[piramide-poblacion] los niveles de la pantalla no coinciden con NIVELES')
@@ -107,9 +108,9 @@ export default function PiramidePoblacion() {
   const seo = {
     title: tr({ es: 'Pirámide de población — Juego para leer pirámides', en: 'Population Pyramid — Game for reading pyramids', ca: 'Piràmide de població — Joc per llegir piràmides' }),
     desc: tr({
-      es: 'Pirámides de población generadas: di si es progresiva, estacionaria o regresiva, qué grupo de edad tiene más gente, qué explica un hueco o un baby boom y en qué años nacieron. Juego de geografía gratis.',
-      en: 'Generated population pyramids: say whether it is expanding, stationary or contracting, which age group is largest, what explains a gap or a baby boom and when they were born. Free geography game.',
-      ca: 'Piràmides de població generades: digues si és progressiva, estacionària o regressiva, quin grup d’edat té més gent, què explica un buit o un baby boom i en quins anys van néixer. Joc de geografia gratis.',
+      es: 'Pirámides de población generadas: coloca cada una en progresiva, estacionaria o regresiva, toca el grupo de edad con más gente, encuentra el hueco o el baby boom y a los nacidos en tal año. Juego de geografía gratis.',
+      en: 'Generated population pyramids: sort each one as expanding, stationary or contracting, tap the largest age group, find the gap or the baby boom and the people born in a given year. Free geography game.',
+      ca: 'Piràmides de població generades: col·loca cada una a progressiva, estacionària o regressiva, toca el grup d’edat amb més gent, troba el buit o el baby boom i els nascuts tal any. Joc de geografia gratis.',
     }),
     path: '/juegos/piramide-poblacion',
   }
@@ -143,7 +144,7 @@ export default function PiramidePoblacion() {
           <ComoSeJuega>
             <div className="space-y-2 text-white/70 text-sm">
               <p>{tr({ es: 'Una pirámide de población cuenta la gente de un país por edades: cada barra es un grupo de cinco años, los hombres a la izquierda y las mujeres a la derecha, los bebés abajo y los mayores arriba. Su forma dice mucho: base ancha, población joven; base estrecha, población envejecida.', en: 'A population pyramid counts a country’s people by age: each bar is a five-year group, men on the left and women on the right, babies at the bottom and the elderly at the top. Its shape says a lot: a wide base means a young population; a narrow base, an ageing one.', ca: 'Una piràmide de població compta la gent d’un país per edats: cada barra és un grup de cinc anys, els homes a l’esquerra i les dones a la dreta, els nadons a baix i la gent gran a dalt. La seva forma diu molt: base ampla, població jove; base estreta, població envellida.' })}</p>
-              <p>{tr({ es: 'En difícil se señala una parte: un entrante (nacieron menos niños, por una guerra o una crisis), un abultamiento (un baby boom), hombres de más en edad de trabajar (inmigración) o la cima, con más mujeres porque viven más. Y hay que calcular en qué años nació un grupo: año de la pirámide menos su edad.', en: 'On hard a part is marked: a dent (fewer babies were born, due to a war or a crisis), a bulge (a baby boom), extra men of working age (immigration) or the top, with more women because they live longer. And you work out when a group was born: the pyramid’s year minus their age.', ca: 'En difícil s’assenyala una part: un entrant (van néixer menys nens, per una guerra o una crisi), un abombament (un baby boom), homes de més en edat de treballar (immigració) o el cim, amb més dones perquè viuen més. I cal calcular en quins anys va néixer un grup: any de la piràmide menys la seva edat.' })}</p>
+              <p>{tr({ es: 'No hay opciones: se toca la fila de la pirámide. El grupo con más gente; el entrante de una generación que nació en una guerra o una crisis; el abultamiento de un baby boom; hombres de más en edad de trabajar (inmigración) o mujeres de más arriba (viven más); o, en difícil, a los nacidos entre dos años: año de la pirámide menos su edad. Y a veces salen tres pirámides pequeñas para colocar cada una en su tipo.', en: 'There are no options: you tap a row of the pyramid. The largest group; the dent of a generation born during a war or a crisis; the bulge of a baby boom; extra men of working age (immigration) or extra women at the top (they live longer); or, on hard, the people born between two years: the pyramid’s year minus their age. And sometimes three small pyramids appear to sort by type.', ca: 'No hi ha opcions: es toca la fila de la piràmide. El grup amb més gent; l’entrant d’una generació que va néixer en una guerra o una crisi; l’abombament d’un baby boom; homes de més en edat de treballar (immigració) o dones de més a dalt (viuen més); o, en difícil, els nascuts entre dos anys: any de la piràmide menys la seva edat. I a vegades surten tres piràmides petites per col·locar cadascuna al seu tipus.' })}</p>
               <p className="text-white/40 text-xs pt-1">⏱️ {GAME_TIME}s · {tr({ es: `Acierto +10 y +${CORRECT_TIME}s · Fallo −${WRONG_TIME}s`, en: `Correct +10 and +${CORRECT_TIME}s · Wrong −${WRONG_TIME}s`, ca: `Encert +10 i +${CORRECT_TIME}s · Error −${WRONG_TIME}s` })}</p>
             </div>
           </ComoSeJuega>
