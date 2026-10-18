@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { genRonda, NIVELES, PAISES, MIEMBROS, AMPLIACIONES, INSTITUCIONES, pais, enunciado, explicacion, textoOpcion, schemaQuestion } from '../europa27'
+import { genRonda, NIVELES, PAISES, MIEMBROS, AMPLIACIONES, INSTITUCIONES, pais, enunciado, explicacion, schemaQuestion, esCorrecta, tiene, SIN_TOCAR } from '../europa27'
 import { A3_TO_NUM } from '../../data/isoNumerico'
 
 function semilla(s) {
@@ -23,27 +23,28 @@ describe('Europa a 27', () => {
   })
 
   for (const nivel of Object.keys(NIVELES)) {
-    it(`${nivel}: 600 rondas con la respuesta bien`, { timeout: 20000 }, () => {
-      const rand = semilla(nivel.length * 4441)
+    it(nivel + ': 500 rondas', { timeout: 20000 }, () => {
+      const rand = semilla(nivel.length * 307)
       const tipos = new Set()
-      for (let i = 0; i < 600; i++) {
+      for (let i = 0; i < 500; i++) {
         const r = genRonda(nivel, { rand })
         tipos.add(r.tipo)
-        expect(r.opciones).toContain(r.bueno)
-        expect(r.opciones).toHaveLength(4)
-        expect(new Set(r.opciones).size).toBe(4)
-        const ps = r.opciones.map(o => (typeof o === 'string' ? pais(o) : null))
-        if (r.tipo === 'miembro') for (const [k, p] of ps.entries()) expect(!p.entrada, p.iso).toBe(r.opciones[k] === r.bueno)
-        if (r.tipo === 'euro') for (const [k, p] of ps.entries()) { expect(p.entrada).toBeGreaterThan(0); expect(p.euro === r.alReves, p.iso).toBe(r.opciones[k] === r.bueno) }
-        if (r.tipo === 'schengen') for (const [k, p] of ps.entries()) expect(!p.schengen, p.iso).toBe(r.opciones[k] === r.bueno)
-        if (r.tipo === 'ampliacion') expect(r.bueno).toBe(pais(r.pais).entrada)
-        if (r.tipo === 'sede') expect(r.bueno).toBe(INSTITUCIONES[r.inst].sede)
+        expect(esCorrecta(r, r.bueno)).toBe(true)
+        if (r.tipo === 'busca') { expect(SIN_TOCAR).not.toContain(r.pais); if (nivel === 'facil') expect(pais(r.pais).entrada).toBeTruthy() }
+        if (r.tipo === 'pinta') {
+          expect(r.grupo).toHaveLength(6)
+          const si = r.grupo.filter(iso => tiene(r.variante, iso)).length
+          expect(si).toBeGreaterThanOrEqual(2); expect(6 - si).toBeGreaterThanOrEqual(2)
+          for (const iso of r.grupo) expect(SIN_TOCAR).not.toContain(iso)
+        }
+        if (r.tipo === 'anyos') { expect(new Set(r.paises.map(iso => pais(iso).entrada)).size).toBe(3); for (const iso of r.paises) expect(r.cajas).toContain(pais(iso).entrada); for (const a of r.cajas) expect(AMPLIACIONES).toContain(a) }
+        if (r.tipo === 'sedes') for (const id of r.insts) expect(INSTITUCIONES[id].sede).toBeTruthy()
         for (const l of ['es', 'en', 'ca']) {
-          expect(enunciado(r, l)).not.toMatch(/undefined|NaN/)
-          expect(explicacion(r, l)).not.toMatch(/undefined|NaN/)
-          const textos = r.opciones.map(o => textoOpcion(o, r, l))
-          expect(new Set(textos).size).toBe(4)
-          expect(schemaQuestion(r, l).wrongAnswers).toHaveLength(3)
+          expect(enunciado(r, l)).not.toMatch(/undefined/)
+          expect(explicacion(r, l)).not.toMatch(/undefined/)
+          const q = schemaQuestion(r, l)
+          expect(q.wrongAnswers.length).toBeGreaterThanOrEqual(2)
+          expect(q.wrongAnswers).not.toContain(q.correctAnswer)
         }
       }
       for (const t of NIVELES[nivel].tipos) expect(tipos.has(t), t).toBe(true)

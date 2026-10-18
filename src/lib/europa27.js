@@ -1,8 +1,8 @@
 // Europa a 27 (geografía · la Unión Europea, ESO y Bachillerato).
 //
-// Un mapa de Europa con países marcados y preguntas sobre la UE: qué país
-// es, su capital, si es miembro (y las trampas: Noruega, Suiza, Reino Unido),
-// el euro, Schengen, las ampliaciones y las instituciones.
+// Un mapa de Europa para tocar y pintar: buscar países, pintar los de la UE,
+// el euro o Schengen (con sus trampas: Noruega, Suiza, Reino Unido…), las
+// ampliaciones y las instituciones con sus sedes (ver las mecánicas abajo).
 //
 // Datos a octubre de 2026: 27 miembros; zona euro de 21 (Croacia desde 2023,
 // Bulgaria desde el 1 de enero de 2026); Schengen con Bulgaria y Rumanía de
@@ -58,7 +58,6 @@ export const PAISES = [
 ]
 export const pais = iso => PAISES.find(p => p.iso === iso)
 export const MIEMBROS = PAISES.filter(p => p.entrada)
-const NO_MIEMBROS = PAISES.filter(p => !p.entrada)
 const CANDIDATOS = ['SRB', 'UKR', 'ALB', 'MKD', 'MNE', 'BIH', 'MDA']
 // Sin forma en el mapa de 110 m (se marcan con un punto): no salen en «qué país es».
 export const SIN_FORMA = ['MLT']
@@ -86,120 +85,6 @@ export const CIUDADES = {
   francfort: T('Fráncfort', 'Frankfurt', 'Frankfurt'),
 }
 
-export const NIVELES = {
-  facil:   { tipos: ['pais', 'pais', 'capital', 'miembro', 'miembro'] },
-  medio:   { tipos: ['pais', 'capital', 'miembro', 'euro', 'ampliacion', 'institucion'] },
-  dificil: { tipos: ['miembro', 'euro', 'schengen', 'ampliacion', 'ampliacion', 'institucion', 'sede'] },
-}
-
-const elige = (rand, xs) => xs[Math.floor(rand() * xs.length)]
-const baraja = (rand, xs) => {
-  const a = [...xs]
-  for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(rand() * (i + 1)); [a[i], a[j]] = [a[j], a[i]] }
-  return a
-}
-const dist = (a, b) => Math.hypot(a.lat - b.lat, (a.lon - b.lon) * Math.cos((a.lat * Math.PI) / 180))
-// Los vecinos más cercanos: las opciones falsas de «qué país es» y «capital».
-const cercanos = (p, lista) => lista.filter(x => x.iso !== p.iso).sort((a, b) => dist(p, a) - dist(p, b))
-
-let seq = 0
-const recientes = []
-const tema = r => `${r.tipo}:${r.pais ?? r.inst ?? r.bueno}`
-
-export function genRonda(nivel = 'facil', opts = {}) {
-  for (let intento = 0; ; intento++) {
-    const r = genUna(nivel, opts)
-    if (intento < 20 && recientes.includes(tema(r))) continue
-    recientes.push(tema(r))
-    if (recientes.length > 6) recientes.shift()
-    return r
-  }
-}
-
-function genUna(nivel, { rand = Math.random } = {}) {
-  const cfg = NIVELES[nivel] ?? NIVELES.facil
-  for (;;) {
-    const tipo = elige(rand, cfg.tipos)
-    const base = { id: ++seq, nivel, tipo }
-
-    if (tipo === 'pais' || tipo === 'capital') {
-      const lista = tipo === 'pais' ? PAISES.filter(p => !SIN_FORMA.includes(p.iso)) : PAISES
-      const p = elige(rand, nivel === 'facil' ? lista.filter(x => x.entrada) : lista)
-      const otros = baraja(rand, cercanos(p, lista).slice(0, 5)).slice(0, 3)
-      return { ...base, pais: p.iso, bueno: p.iso, opciones: baraja(rand, [p.iso, ...otros.map(x => x.iso)]) }
-    }
-
-    if (tipo === 'miembro') {
-      // ¿Cuál NO es de la UE? Las trampas son los países que «parecen» de la UE.
-      const trampas = nivel === 'facil' ? NO_MIEMBROS : NO_MIEMBROS.filter(p => !CANDIDATOS.includes(p.iso) || rand() < 0.3)
-      const no = elige(rand, trampas)
-      const si = baraja(rand, cercanos(no, MIEMBROS).slice(0, 6)).slice(0, 3)
-      return { ...base, pais: no.iso, bueno: no.iso, opciones: baraja(rand, [no.iso, ...si.map(x => x.iso)]) }
-    }
-
-    if (tipo === 'euro' || tipo === 'schengen') {
-      // Uno distinto de los otros tres: el que NO tiene euro (o no está en Schengen),
-      // o al revés. En Schengen entran también Noruega, Suiza e Islandia.
-      const lista = tipo === 'euro' ? MIEMBROS : PAISES.filter(p => p.entrada || ['NOR', 'CHE', 'ISL', 'GBR'].includes(p.iso))
-      const campo = tipo === 'euro' ? 'euro' : 'schengen'
-      const con = lista.filter(p => p[campo]), sin = lista.filter(p => !p[campo])
-      const alReves = tipo === 'euro' ? rand() < 0.35 : false
-      const [raros, comunes] = alReves ? [con, sin] : [sin, con]
-      const b = elige(rand, raros)
-      const otros = baraja(rand, comunes).slice(0, 3)
-      return { ...base, alReves, pais: b.iso, bueno: b.iso, opciones: baraja(rand, [b.iso, ...otros.map(x => x.iso)]) }
-    }
-
-    if (tipo === 'ampliacion') {
-      const p = elige(rand, MIEMBROS)
-      const i = AMPLIACIONES.indexOf(p.entrada)
-      const cerca = AMPLIACIONES.filter(a => a !== p.entrada).sort((a, b) => Math.abs(AMPLIACIONES.indexOf(a) - i) - Math.abs(AMPLIACIONES.indexOf(b) - i))
-      return { ...base, pais: p.iso, bueno: p.entrada, opciones: [p.entrada, ...cerca.slice(0, 3)].sort((a, b) => a - b) }
-    }
-
-    if (tipo === 'institucion') {
-      const id = elige(rand, Object.keys(INSTITUCIONES))
-      const otros = baraja(rand, Object.keys(INSTITUCIONES).filter(x => x !== id)).slice(0, 3)
-      return { ...base, inst: id, bueno: id, opciones: baraja(rand, [id, ...otros]) }
-    }
-
-    // sede: solo instituciones con una sede indiscutible
-    const id = elige(rand, Object.keys(INSTITUCIONES).filter(k => INSTITUCIONES[k].sede))
-    return { ...base, inst: id, bueno: INSTITUCIONES[id].sede, opciones: Object.keys(CIUDADES) }
-  }
-}
-
-export const genRound = (difficulty = 'facil') => genRonda(difficulty)
-export const esCorrecta = (r, o) => o === r.bueno
-
-// ── Textos ────────────────────────────────────────────────────────────────
-const nom = (iso, l) => tx(pais(iso).nombre, l)
-
-export function textoOpcion(o, r, l) {
-  switch (r.tipo) {
-    case 'capital': return tx(pais(o).capital, l)
-    case 'ampliacion': return o === 1957 ? s(l, '1957 (fundador)', '1957 (founder)', '1957 (fundador)') : String(o)
-    case 'institucion': return tx(INSTITUCIONES[o].nombre, l)
-    case 'sede': return tx(CIUDADES[o], l)
-    default: return nom(o, l)
-  }
-}
-
-export function enunciado(r, l) {
-  switch (r.tipo) {
-    case 'pais': return s(l, '¿Qué país está marcado en el mapa?', 'Which country is marked on the map?', 'Quin país està marcat al mapa?')
-    case 'capital': return s(l, `¿Cuál es la capital de ${nom(r.pais, l)}?`, `What is the capital of ${nom(r.pais, l)}?`, `Quina és la capital de ${nom(r.pais, l)}?`)
-    case 'miembro': return s(l, '¿Cuál de estos países NO es miembro de la UE?', 'Which of these countries is NOT an EU member?', 'Quin d’aquests països NO és membre de la UE?')
-    case 'euro': return r.alReves
-      ? s(l, '¿Cuál de estos países de la UE usa el euro?', 'Which of these EU countries uses the euro?', 'Quin d’aquests països de la UE fa servir l’euro?')
-      : s(l, '¿Cuál de estos países de la UE NO usa el euro?', 'Which of these EU countries does NOT use the euro?', 'Quin d’aquests països de la UE NO fa servir l’euro?')
-    case 'schengen': return s(l, '¿Cuál de estos países NO está en el espacio Schengen?', 'Which of these countries is NOT in the Schengen area?', 'Quin d’aquests països NO és a l’espai Schengen?')
-    case 'ampliacion': return s(l, `¿En qué año entró ${nom(r.pais, l)} en la Unión Europea (entonces CEE)?`, `In what year did ${nom(r.pais, l)} join the European Union (then the EEC)?`, `En quin any va entrar ${nom(r.pais, l)} a la Unió Europea (llavors CEE)?`)
-    case 'institucion': return s(l, '¿Qué institución es?', 'Which institution is this?', 'Quina institució és?')
-    default: return s(l, `¿Dónde tiene su sede oficial: ${tx(INSTITUCIONES[r.inst].nombre, l)}?`, `Where is the official seat of the ${tx(INSTITUCIONES[r.inst].nombre, l)}?`, `On té la seu oficial: ${tx(INSTITUCIONES[r.inst].nombre, l)}?`)
-  }
-}
-
 const ANYO_FRASE = {
   // Sin «con X» para no decir «España entró con España»: se enumera el grupo.
   1957: ['Es uno de los seis fundadores de la CEE, con los Tratados de Roma (1957): Alemania, Francia, Italia, Bélgica, Países Bajos y Luxemburgo.', 'It is one of the six founders of the EEC, with the Treaties of Rome (1957): Germany, France, Italy, Belgium, the Netherlands and Luxembourg.', 'És un dels sis fundadors de la CEE, amb els Tractats de Roma (1957): Alemanya, França, Itàlia, Bèlgica, els Països Baixos i Luxemburg.'],
@@ -213,31 +98,6 @@ const ANYO_FRASE = {
 }
 const ix = l => (l === 'en' ? 1 : l === 'ca' ? 2 : 0)
 const nota = (iso, l) => (pais(iso).nota ? ' ' + tx(pais(iso).nota, l) : '')
-
-export function explicacion(r, l) {
-  const p = r.pais ? pais(r.pais) : null
-  switch (r.tipo) {
-    case 'pais': return s(l, `Es ${nom(p.iso, l)}, con capital en ${tx(p.capital, l)}. `, `It is ${nom(p.iso, l)}, whose capital is ${tx(p.capital, l)}. `, `És ${nom(p.iso, l)}, amb capital a ${tx(p.capital, l)}. `)
-      + (p.entrada ? s(l, `Es miembro de la UE desde ${p.entrada}.`, `It has been an EU member since ${p.entrada}.`, `És membre de la UE des del ${p.entrada}.`) : s(l, 'No es miembro de la UE.', 'It is not an EU member.', 'No és membre de la UE.')) + nota(p.iso, l)
-    case 'capital': return s(l, `La capital de ${nom(p.iso, l)} es ${tx(p.capital, l)}.`, `The capital of ${nom(p.iso, l)} is ${tx(p.capital, l)}.`, `La capital de ${nom(p.iso, l)} és ${tx(p.capital, l)}.`)
-      + (p.entrada ? '' : ' ' + s(l, 'Ojo: no es de la UE.', 'Note: it is not in the EU.', 'Compte: no és de la UE.')) + nota(p.iso, l)
-    case 'miembro': {
-      const extra = p.nota ? tx(p.nota, l) : CANDIDATOS.includes(p.iso) ? s(l, 'Es candidato a entrar, pero todavía no es miembro.', 'It is a candidate to join, but not yet a member.', 'És candidat a entrar-hi, però encara no n’és membre.') : ''
-      return s(l, `${nom(p.iso, l)} no es de la UE. ${extra} Los otros tres sí lo son.`, `${nom(p.iso, l)} is not in the EU. ${extra} The other three are.`, `${nom(p.iso, l)} no és de la UE. ${extra} Els altres tres sí que ho són.`)
-    }
-    case 'euro': {
-      const base = r.alReves
-        ? s(l, `${nom(p.iso, l)} usa el euro; los otros tres conservan su moneda.`, `${nom(p.iso, l)} uses the euro; the other three keep their own currency.`, `${nom(p.iso, l)} fa servir l’euro; els altres tres conserven la seva moneda.`)
-        : s(l, `${nom(p.iso, l)} es de la UE pero no usa el euro: conserva su moneda.`, `${nom(p.iso, l)} is in the EU but does not use the euro: it keeps its own currency.`, `${nom(p.iso, l)} és de la UE però no fa servir l’euro: conserva la seva moneda.`)
-      return base + nota(p.iso, l) + ' ' + s(l, 'Hoy la zona euro la forman 21 de los 27; no tienen euro Chequia, Dinamarca, Hungría, Polonia, Rumanía y Suecia.', 'Today 21 of the 27 are in the euro area; Czechia, Denmark, Hungary, Poland, Romania and Sweden do not use it.', 'Avui la zona euro la formen 21 dels 27; no tenen euro Txèquia, Dinamarca, Hongria, Polònia, Romania i Suècia.')
-    }
-    case 'schengen': return s(l, `${nom(p.iso, l)} no está en Schengen.`, `${nom(p.iso, l)} is not in Schengen.`, `${nom(p.iso, l)} no és a Schengen.`) + nota(p.iso, l)
-      + ' ' + s(l, 'Schengen no es lo mismo que la UE: dentro no hay controles en las fronteras, y entran también Noruega, Suiza e Islandia; de la UE se quedan fuera Irlanda y Chipre.', 'Schengen is not the same as the EU: there are no border checks inside it, and it includes Norway, Switzerland and Iceland; Ireland and Cyprus are the EU countries left out.', 'Schengen no és el mateix que la UE: a dins no hi ha controls a les fronteres, i hi entren també Noruega, Suïssa i Islàndia; de la UE en queden fora Irlanda i Xipre.')
-    case 'ampliacion': return ANYO_FRASE[r.bueno][ix(l)]
-    case 'institucion': return `${tx(INSTITUCIONES[r.inst].nombre, l)}. ` + DIFERENCIA[ix(l)]
-    default: return s(l, `La sede oficial está en ${tx(CIUDADES[r.bueno], l)}.`, `Its official seat is in ${tx(CIUDADES[r.bueno], l)}.`, `La seu oficial és a ${tx(CIUDADES[r.bueno], l)}.`) + ' ' + SEDES[ix(l)]
-  }
-}
 const DIFERENCIA = [
   'No hay que confundir el Consejo de la UE (ministros) con el Consejo Europeo (jefes de Estado o de Gobierno): la Comisión propone las leyes y el Parlamento y el Consejo de la UE las aprueban.',
   'Do not confuse the Council of the EU (ministers) with the European Council (heads of state or government): the Commission proposes laws, and Parliament and the Council of the EU pass them.',
@@ -249,13 +109,175 @@ const SEDES = [
   'Les seus es reparteixen: Brussel·les (Comissió i Consell Europeu), Estrasburg (Parlament, que també es reuneix a Brussel·les), Luxemburg (Tribunal de Justícia) i Frankfurt (Banc Central Europeu).',
 ]
 
+// Coordenadas de las ciudades sede (para el mapa ampliado de «sedes»).
+export const COORD_CIUDAD = { bruselas: [4.35, 50.85], estrasburgo: [7.75, 48.58], luxemburgo: [6.13, 49.61], francfort: [8.68, 50.11] }
+// Demasiado pequeños para tocarlos en un móvil (Chipre mide pocos píxeles).
+export const SIN_TOCAR = ['MLT', 'LUX', 'CYP']
+
+// Mecánicas (nada de elegir entre cuatro):
+//   busca     tocar en el mapa el país que se pide (por su nombre o su capital)
+//   pinta     seis países marcados: pintar los que son de la UE, usan el euro
+//             o están en Schengen
+//   anyos     cada país, al año en que entró (cajas: sus años y uno más)
+//   funciones unir cada institución con lo que hace
+//   sedes     cada institución, a su ciudad en un mapa ampliado
+export const NIVELES = {
+  facil:   { tipos: ['busca', 'busca', 'pinta'], pinta: ['miembro'], soloMiembros: true, capital: false },
+  medio:   { tipos: ['busca', 'busca', 'pinta', 'anyos', 'funciones'], pinta: ['miembro', 'euro'], soloMiembros: false, capital: true },
+  dificil: { tipos: ['busca', 'pinta', 'pinta', 'anyos', 'sedes'], pinta: ['euro', 'schengen'], soloMiembros: false, capital: true },
+}
+
+const elige = (rand, xs) => xs[Math.floor(rand() * xs.length)]
+const baraja = (rand, xs) => {
+  const a = [...xs]
+  for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(rand() * (i + 1)); [a[i], a[j]] = [a[j], a[i]] }
+  return a
+}
+const dist = (a, b) => Math.hypot(a.lat - b.lat, (a.lon - b.lon) * Math.cos((a.lat * Math.PI) / 180))
+const cercanos = (p, lista) => lista.filter(x => x.iso !== p.iso).sort((a, b) => dist(p, a) - dist(p, b))
+const LISTA = {
+  miembro: () => PAISES.filter(p => !SIN_TOCAR.includes(p.iso)),
+  euro: () => MIEMBROS.filter(p => !SIN_TOCAR.includes(p.iso)),
+  schengen: () => PAISES.filter(p => (p.entrada || ['NOR', 'CHE', 'ISL', 'GBR'].includes(p.iso)) && !SIN_TOCAR.includes(p.iso)),
+}
+export const tiene = (variante, iso) => (variante === 'miembro' ? !!pais(iso).entrada : !!pais(iso)[variante])
+
+let seq = 0
+const recientes = []
+
+export function genRonda(nivel = 'facil', opts = {}) {
+  for (let intento = 0; ; intento++) {
+    const r = genUna(nivel, opts)
+    if (intento < 20 && recientes.includes(r.clave)) continue
+    recientes.push(r.clave)
+    if (recientes.length > 6) recientes.shift()
+    return r
+  }
+}
+
+function genUna(nivel, { rand = Math.random } = {}) {
+  const cfg = NIVELES[nivel] ?? NIVELES.facil
+  for (;;) {
+    const tipo = elige(rand, cfg.tipos)
+    const base = { id: ++seq, nivel, tipo }
+
+    if (tipo === 'busca') {
+      const lista = PAISES.filter(p => !SIN_TOCAR.includes(p.iso) && (!cfg.soloMiembros || p.entrada))
+      const p = elige(rand, lista)
+      const modo = cfg.capital && rand() < 0.4 ? 'capital' : 'nombre'
+      return { ...base, clave: `b${p.iso}`, pais: p.iso, modo, bueno: p.iso }
+    }
+
+    if (tipo === 'pinta') {
+      // Seis países vecinos entre sí, con al menos dos de cada clase.
+      const variante = elige(rand, cfg.pinta)
+      const lista = LISTA[variante]()
+      const semilla = elige(rand, lista)
+      const grupo = [semilla, ...cercanos(semilla, lista).slice(0, 5)].map(p => p.iso)
+      const si = grupo.filter(iso => tiene(variante, iso)).length
+      if (si < 2 || grupo.length - si < 2) continue
+      return { ...base, clave: `p${variante}${semilla.iso}`, variante, grupo, bueno: 'pinta:0' }
+    }
+
+    if (tipo === 'anyos') {
+      const paises = []
+      for (const p of baraja(rand, MIEMBROS)) {
+        if (paises.some(x => pais(x).entrada === p.entrada)) continue
+        paises.push(p.iso)
+        if (paises.length === 3) break
+      }
+      const anyos = paises.map(x => pais(x).entrada)
+      const extra = baraja(rand, AMPLIACIONES.filter(a => !anyos.includes(a)))[0]
+      return { ...base, clave: `a${paises.join()}`, paises, cajas: [...anyos, extra].sort((a, b) => a - b), bueno: 'clasifica:0' }
+    }
+
+    if (tipo === 'funciones') {
+      // El Consejo de la UE y el Consejo Europeo salen juntos a menudo: es la trampa.
+      const ids = rand() < 0.5 ? baraja(rand, ['consejo', 'europeo', elige(rand, ['parlamento', 'comision', 'tribunal', 'bce'])]) : baraja(rand, Object.keys(INSTITUCIONES)).slice(0, 3)
+      return { ...base, clave: `f${[...ids].sort().join()}`, insts: ids, nombres: baraja(rand, ids), bueno: 'empareja:0' }
+    }
+
+    // sedes: cuatro instituciones con sede indiscutible
+    const ids = baraja(rand, Object.keys(INSTITUCIONES).filter(k => INSTITUCIONES[k].sede)).slice(0, 4)
+    return { ...base, clave: `s${[...ids].sort().join()}`, insts: ids, bueno: 'sedes:0' }
+  }
+}
+
+export const genRound = (difficulty = 'facil') => genRonda(difficulty)
+// Respuestas: busca, el país tocado; «pinta:fallos», «clasifica:fallos»,
+// «empareja:fallos», «sedes:fallos».
+export const esCorrecta = (r, o) => String(o) === String(r.bueno)
+
+// ── Textos ────────────────────────────────────────────────────────────────
+const nom = (iso, l) => tx(pais(iso).nombre, l)
+export const nombrePais = nom
+export const textoAnyo = (a, l) => (a === 1957 ? s(l, '1957 (fundadores)', '1957 (founders)', '1957 (fundadors)') : String(a))
+
+export function enunciado(r, l) {
+  switch (r.tipo) {
+    case 'busca': return r.modo === 'capital'
+      ? s(l, `Toca en el mapa el país cuya capital es ${tx(pais(r.pais).capital, l)}`, `Tap the country whose capital is ${tx(pais(r.pais).capital, l)}`, `Toca al mapa el país la capital del qual és ${tx(pais(r.pais).capital, l)}`)
+      : s(l, `Toca ${nom(r.pais, l)} en el mapa`, `Tap ${nom(r.pais, l)} on the map`, `Toca ${nom(r.pais, l)} al mapa`)
+    case 'pinta': return {
+      miembro: s(l, 'Pinta los países marcados que son de la UE', 'Colour the marked countries that are in the EU', 'Pinta els països marcats que són de la UE'),
+      euro: s(l, 'Pinta los países marcados que usan el euro', 'Colour the marked countries that use the euro', 'Pinta els països marcats que fan servir l’euro'),
+      schengen: s(l, 'Pinta los países marcados que están en Schengen', 'Colour the marked countries that are in Schengen', 'Pinta els països marcats que són a Schengen'),
+    }[r.variante]
+    case 'anyos': return s(l, '¿En qué año entró cada país en la Unión (entonces CEE)?', 'In what year did each country join (then the EEC)?', 'En quin any va entrar cada país a la Unió (llavors CEE)?')
+    case 'funciones': return s(l, 'Une cada institución con lo que hace', 'Match each institution with what it does', 'Uneix cada institució amb el que fa')
+    default: return s(l, 'Coloca cada institución en su ciudad', 'Put each institution in its city', 'Col·loca cada institució a la seva ciutat')
+  }
+}
+
+export function explicacion(r, l) {
+  switch (r.tipo) {
+    case 'busca': {
+      const p = pais(r.pais)
+      return s(l, `Es ${nom(p.iso, l)}, con capital en ${tx(p.capital, l)}. `, `It is ${nom(p.iso, l)}, whose capital is ${tx(p.capital, l)}. `, `És ${nom(p.iso, l)}, amb capital a ${tx(p.capital, l)}. `)
+        + (p.entrada ? s(l, `Es miembro de la UE desde ${p.entrada}.`, `It has been an EU member since ${p.entrada}.`, `És membre de la UE des del ${p.entrada}.`) : s(l, 'No es de la UE.', 'It is not in the EU.', 'No és de la UE.') + (CANDIDATOS.includes(p.iso) ? ' ' + s(l, 'Es candidato a entrar.', 'It is a candidate to join.', 'És candidat a entrar-hi.') : '')) + nota(p.iso, l)
+    }
+    case 'pinta': {
+      const si = r.grupo.filter(iso => tiene(r.variante, iso)).map(iso => nom(iso, l)).join(', ')
+      const no = r.grupo.filter(iso => !tiene(r.variante, iso)).map(iso => nom(iso, l)).join(', ')
+      const regla = {
+        miembro: s(l, 'La UE tiene 27 miembros; Noruega, Suiza, Islandia y el Reino Unido no lo son.', 'The EU has 27 members; Norway, Switzerland, Iceland and the UK are not among them.', 'La UE té 27 membres; Noruega, Suïssa, Islàndia i el Regne Unit no en són.'),
+        euro: s(l, 'Hoy la zona euro la forman 21 de los 27; no tienen euro Chequia, Dinamarca, Hungría, Polonia, Rumanía y Suecia.', 'Today 21 of the 27 use the euro; Czechia, Denmark, Hungary, Poland, Romania and Sweden do not.', 'Avui la zona euro la formen 21 dels 27; no tenen euro Txèquia, Dinamarca, Hongria, Polònia, Romania i Suècia.'),
+        schengen: s(l, 'Schengen no es lo mismo que la UE: entran Noruega, Suiza e Islandia, y de la UE se quedan fuera Irlanda y Chipre.', 'Schengen is not the same as the EU: Norway, Switzerland and Iceland are in, and Ireland and Cyprus are out.', 'Schengen no és el mateix que la UE: hi entren Noruega, Suïssa i Islàndia, i de la UE en queden fora Irlanda i Xipre.'),
+      }[r.variante]
+      return `${s(l, 'Sí', 'Yes', 'Sí')}: ${si}. ${s(l, 'No', 'No', 'No')}: ${no}. ${regla}`
+    }
+    case 'anyos': return r.paises.map(iso => `${nom(iso, l)}: ${pais(iso).entrada}`).join(' · ') + '. ' + ANYO_FRASE[pais(r.paises[0]).entrada][ix(l)]
+    case 'funciones': return r.insts.map(id => `${tx(INSTITUCIONES[id].nombre, l)}: ${tx(INSTITUCIONES[id].hace, l)}`).join(' ') + ' ' + DIFERENCIA[ix(l)]
+    default: return SEDES[ix(l)]
+  }
+}
+
+// Para los buscadores y el examen en texto: una pregunta de cada mecánica.
 export function schemaQuestion(r, l) {
-  // En «qué país es» el mapa no se puede escribir: se da la capital como pista.
-  const extra = r.tipo === 'pais' ? s(l, `Su capital es ${tx(pais(r.pais).capital, l)}. `, `Its capital is ${tx(pais(r.pais).capital, l)}. `, `La seva capital és ${tx(pais(r.pais).capital, l)}. `)
-    : r.tipo === 'institucion' ? `${tx(INSTITUCIONES[r.inst].hace, l)} ` : ''
-  return {
-    question: `${extra}${enunciado(r, l)}`,
-    correctAnswer: textoOpcion(r.bueno, r, l),
-    wrongAnswers: r.opciones.filter(o => o !== r.bueno).map(o => textoOpcion(o, r, l)),
+  switch (r.tipo) {
+    case 'busca': {
+      const p = pais(r.pais)
+      const otros = cercanos(p, PAISES).slice(0, 3)
+      return { question: s(l, `¿Cuál es la capital de ${nom(p.iso, l)}?`, `What is the capital of ${nom(p.iso, l)}?`, `Quina és la capital de ${nom(p.iso, l)}?`), correctAnswer: tx(p.capital, l), wrongAnswers: otros.map(x => tx(x.capital, l)) }
+    }
+    case 'pinta': {
+      const no = r.grupo.find(iso => !tiene(r.variante, iso))
+      const si = r.grupo.filter(iso => tiene(r.variante, iso)).slice(0, 3)
+      const q = { miembro: s(l, '¿Cuál de estos países NO es miembro de la UE?', 'Which of these countries is NOT an EU member?', 'Quin d’aquests països NO és membre de la UE?'), euro: s(l, '¿Cuál de estos países NO usa el euro?', 'Which of these countries does NOT use the euro?', 'Quin d’aquests països NO fa servir l’euro?'), schengen: s(l, '¿Cuál de estos países NO está en Schengen?', 'Which of these countries is NOT in Schengen?', 'Quin d’aquests països NO és a Schengen?') }[r.variante]
+      return { question: q, correctAnswer: nom(no, l), wrongAnswers: si.map(iso => nom(iso, l)) }
+    }
+    case 'anyos': {
+      const iso = r.paises[0]
+      return { question: s(l, `¿En qué año entró ${nom(iso, l)} en la Unión Europea?`, `In what year did ${nom(iso, l)} join the European Union?`, `En quin any va entrar ${nom(iso, l)} a la Unió Europea?`), correctAnswer: textoAnyo(pais(iso).entrada, l), wrongAnswers: r.cajas.filter(a => a !== pais(iso).entrada).map(a => textoAnyo(a, l)) }
+    }
+    case 'funciones': {
+      const id = r.insts[0]
+      return { question: `${tx(INSTITUCIONES[id].hace, l)} ${s(l, '¿Qué institución es?', 'Which institution is this?', 'Quina institució és?')}`, correctAnswer: tx(INSTITUCIONES[id].nombre, l), wrongAnswers: r.insts.slice(1).map(x => tx(INSTITUCIONES[x].nombre, l)) }
+    }
+    default: {
+      const id = r.insts[0]
+      const c = INSTITUCIONES[id].sede
+      return { question: s(l, `¿Dónde tiene su sede oficial: ${tx(INSTITUCIONES[id].nombre, l)}?`, `Where is the official seat of the ${tx(INSTITUCIONES[id].nombre, l)}?`, `On té la seu oficial: ${tx(INSTITUCIONES[id].nombre, l)}?`), correctAnswer: tx(CIUDADES[c], l), wrongAnswers: Object.keys(CIUDADES).filter(x => x !== c).map(x => tx(CIUDADES[x], l)) }
+    }
   }
 }

@@ -11,18 +11,19 @@ import SEOHead from '../components/SEOHead'
 import { CabeceraJuego, NivelBarras, ComoSeJuega } from '../components/IntroJuego'
 import { Racha } from '../components/Iconos'
 
-const GAME_TIME = 60
+// Cada ronda se toca o se pinta en el mapa: 90 s y +6 s por acierto.
+const GAME_TIME = 90
 const WRONG_TIME = 5
-const CORRECT_TIME = 4
+const CORRECT_TIME = 6
 const REVEAL_MS = 4800 // da tiempo a ver el mapa coloreado y la explicación
 
 const DIFS = {
   facil:   { emoji: '💚', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
-             desc: { es: 'Países de la UE en el mapa, capitales y quién es miembro', en: 'EU countries on the map, capitals and who is a member', ca: 'Països de la UE al mapa, capitals i qui n’és membre' } },
+             desc: { es: 'Busca los países de la UE en el mapa y pinta los que son miembros', en: 'Find the EU countries on the map and colour the members', ca: 'Busca els països de la UE al mapa i pinta els que en són membres' } },
   medio:   { emoji: '💛', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
-             desc: { es: 'El euro, las ampliaciones y las instituciones', en: 'The euro, enlargements and institutions', ca: 'L’euro, les ampliacions i les institucions' } },
+             desc: { es: 'Toda Europa, capitales, el euro, las ampliaciones y qué hace cada institución', en: 'All of Europe, capitals, the euro, enlargements and what each institution does', ca: 'Tota Europa, capitals, l’euro, les ampliacions i què fa cada institució' } },
   dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' },
-             desc: { es: 'Schengen, años de entrada y sedes', en: 'Schengen, joining years and seats', ca: 'Schengen, anys d’entrada i seus' } },
+             desc: { es: 'Euro y Schengen con trampa, y cada institución en su ciudad', en: 'Tricky euro and Schengen, and each institution in its city', ca: 'Euro i Schengen amb trampa, i cada institució a la seva ciutat' } },
 }
 if (import.meta.env.DEV && Object.keys(DIFS).join() !== Object.keys(NIVELES).join()) {
   console.warn('[europa-27] los niveles de la pantalla no coinciden con NIVELES')
@@ -107,9 +108,9 @@ export default function Europa27() {
   const seo = {
     title: tr({ es: 'Europa a 27 — Juego de la Unión Europea: mapa, euro, Schengen e instituciones', en: 'Europe of 27 — European Union game: map, euro, Schengen and institutions', ca: 'Europa a 27 — Joc de la Unió Europea: mapa, euro, Schengen i institucions' }),
     desc: tr({
-      es: 'Los 27 países de la UE en el mapa de Europa: capitales, quién es miembro y quién no (Noruega, Suiza, Reino Unido), el euro, Schengen, los años de cada ampliación y las instituciones con sus sedes. Juego de geografía gratis.',
-      en: 'The 27 EU countries on the map of Europe: capitals, who is a member and who is not (Norway, Switzerland, the UK), the euro, Schengen, the year of each enlargement and the institutions with their seats. Free geography game.',
-      ca: 'Els 27 països de la UE al mapa d’Europa: capitals, qui n’és membre i qui no (Noruega, Suïssa, el Regne Unit), l’euro, Schengen, els anys de cada ampliació i les institucions amb les seves seus. Joc de geografia gratis.',
+      es: 'El mapa de la Unión Europea para tocar: busca países por su nombre o su capital, pinta los de la UE, el euro o Schengen, y coloca cada institución en su ciudad. Juego de geografía gratis.',
+      en: 'A map of the European Union to tap: find countries by name or capital, colour the EU, euro or Schengen members, and put each institution in its city. Free geography game.',
+      ca: 'El mapa de la Unió Europea per tocar: busca països pel nom o la capital, pinta els de la UE, l’euro o Schengen, i col·loca cada institució a la seva ciutat. Joc de geografia gratis.',
     }),
     path: '/juegos/europa-27',
   }
@@ -123,7 +124,7 @@ export default function Europa27() {
           <CabeceraJuego slug="europa-27"
             badge={tr({ es: 'Geografía · La Unión Europea', en: 'Geography · The European Union', ca: 'Geografia · La Unió Europea' })}
             titulo={tr({ es: '⭐ Europa a 27', en: '⭐ Europe of 27', ca: '⭐ Europa a 27' })}
-            sub={tr({ es: 'Veintisiete países, una moneda (casi) y unas cuantas instituciones', en: 'Twenty-seven countries, one currency (nearly) and a handful of institutions', ca: 'Vint-i-set països, una moneda (gairebé) i unes quantes institucions' })} />
+            sub={tr({ es: 'Toca, pinta y coloca en el mapa', en: 'Tap, colour and place on the map', ca: 'Toca, pinta i col·loca al mapa' })} />
 
           <p className="text-white/40 text-xs uppercase tracking-widest text-center mb-2">{tr({ es: 'Elige nivel', en: 'Choose a level', ca: 'Tria nivell' })}</p>
           <div className="flex flex-wrap justify-center gap-1.5 p-1 bg-white/5 border border-white/10 rounded-xl mb-2">
@@ -142,9 +143,8 @@ export default function Europa27() {
           </button>
           <ComoSeJuega>
             <div className="space-y-2 text-white/70 text-sm">
-              <p>{tr({ es: 'Sale el mapa de Europa con uno o varios países marcados en ámbar (con un punto en la capital, para que se vean también los pequeños). Hay que decir qué país es, su capital o cuál de los marcados no es de la UE, no usa el euro o no está en Schengen.', en: 'A map of Europe appears with one or more countries marked in amber (with a dot on the capital, so the small ones show too). You say which country it is, its capital, or which of the marked ones is not in the EU, does not use the euro or is not in Schengen.', ca: 'Surt el mapa d’Europa amb un o diversos països marcats en ambre (amb un punt a la capital, perquè es vegin també els petits). Cal dir quin país és, la capital o quin dels marcats no és de la UE, no fa servir l’euro o no és a Schengen.' })}</p>
-              <p>{tr({ es: 'Ojo con las trampas: Noruega y Suiza no son de la UE aunque estén en Schengen, el Reino Unido salió en 2020, y seis miembros no usan el euro.', en: 'Watch out for the traps: Norway and Switzerland are not in the EU even though they are in Schengen, the UK left in 2020, and six members do not use the euro.', ca: 'Compte amb els paranys: Noruega i Suïssa no són de la UE encara que siguin a Schengen, el Regne Unit en va sortir el 2020, i sis membres no fan servir l’euro.' })}</p>
-              <p>{tr({ es: 'En los niveles altos, el año en que entró cada país y las instituciones: quién propone las leyes, quién las aprueba y dónde tiene su sede cada una. Al corregir, el mapa pinta en azul a los 27.', en: 'On the higher levels, the year each country joined and the institutions: who proposes laws, who passes them and where each one is based. When you answer, the map colours the 27 in blue.', ca: 'Als nivells alts, l’any en què va entrar cada país i les institucions: qui proposa les lleis, qui les aprova i on té la seu cadascuna. En corregir, el mapa pinta de blau els 27.' })}</p>
+              <p>{tr({ es: 'Todo se hace en el mapa. Te piden un país («Toca Polonia») o te dan su capital, y lo tocas. En otras rondas hay seis países con borde ámbar y pintas los que son de la UE, los que usan el euro o los que están en Schengen. Ojo con las trampas: Noruega y Suiza no son de la UE, Irlanda no está en Schengen y Polonia no tiene euro.', en: 'Everything happens on the map. You are asked for a country (“Tap Poland”) or given its capital, and you tap it. In other rounds six countries have an amber border and you colour those in the EU, using the euro or in Schengen.', ca: 'Tot es fa al mapa. Et demanen un país («Toca Polònia») o et donen la capital, i el toques. En altres rondes hi ha sis països amb vora àmbar i pintes els que són de la UE, els que fan servir l’euro o els que són a Schengen.' })}</p>
+              <p>{tr({ es: 'En los niveles altos: cada país al año en que entró, cada institución con lo que hace (no confundas el Consejo de la UE con el Consejo Europeo) y, en un mapa ampliado, cada institución en su ciudad: Bruselas, Estrasburgo, Luxemburgo o Fráncfort.', en: 'On higher levels: each country to the year it joined, each institution with what it does, and, on a zoomed map, each institution in its city.', ca: 'En els nivells alts: cada país a l’any en què va entrar, cada institució amb el que fa i, en un mapa ampliat, cada institució a la seva ciutat.' })}</p>
               <p className="text-white/40 text-xs pt-1">⏱️ {GAME_TIME}s · {tr({ es: `Acierto +10 y +${CORRECT_TIME}s · Fallo −${WRONG_TIME}s`, en: `Correct +10 and +${CORRECT_TIME}s · Wrong −${WRONG_TIME}s`, ca: `Encert +10 i +${CORRECT_TIME}s · Error −${WRONG_TIME}s` })}</p>
             </div>
           </ComoSeJuega>
