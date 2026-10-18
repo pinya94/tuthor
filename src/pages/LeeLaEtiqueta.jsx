@@ -11,18 +11,19 @@ import SEOHead from '../components/SEOHead'
 import { CabeceraJuego, NivelBarras, ComoSeJuega } from '../components/IntroJuego'
 import { Racha } from '../components/Iconos'
 
-const GAME_TIME = 60
+// Se ordena, se echan terrones, se pinta o se teclea: 90 s y +6 s por acierto.
+const GAME_TIME = 90
 const WRONG_TIME = 5
-const CORRECT_TIME = 4
+const CORRECT_TIME = 6
 const REVEAL_MS = 3800
 
 const DIFS = {
   facil:   { emoji: '💚', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
-             desc: { es: 'Dos etiquetas: ¿cuál tiene más? ¿Cuántos terrones de azúcar?', en: 'Two labels: which has more? How many sugar cubes?', ca: 'Dues etiquetes: quina en té més? Quants terrossos de sucre?' } },
+             desc: { es: 'Toca la etiqueta con más y echa los terrones de azúcar al vaso', en: 'Tap the label with more and drop the sugar cubes in the glass', ca: 'Toca l’etiqueta amb més i tira els terrossos de sucre al got' } },
   medio:   { emoji: '💛', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
-             desc: { es: 'Tres etiquetas, gramos por ración y el semáforo nutricional', en: 'Three labels, grams per serving and traffic-light labels', ca: 'Tres etiquetes, grams per ració i el semàfor nutricional' } },
+             desc: { es: 'Ordena tres etiquetas, teclea los gramos por ración y pinta el semáforo', en: 'Order three labels, type grams per serving and colour the traffic light', ca: 'Ordena tres etiquetes, tecleja els grams per ració i pinta el semàfor' } },
   dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' },
-             desc: { es: 'La trampa de la ración: lo que cuenta es lo que te comes', en: 'The serving trap: what counts is what you eat', ca: 'La trampa de la ració: el que compta és el que et menges' } },
+             desc: { es: 'La trampa de la ración en la balanza: lo que cuenta es lo que te comes', en: 'The serving trap on the scales: what counts is what you eat', ca: 'La trampa de la ració a la balança: el que compta és el que et menges' } },
 }
 if (import.meta.env.DEV && Object.keys(DIFS).join() !== Object.keys(NIVELES).join()) {
   console.warn('[lee-la-etiqueta] los niveles de la pantalla no coinciden con NIVELES')
@@ -142,9 +143,9 @@ export default function LeeLaEtiqueta() {
           </button>
           <ComoSeJuega>
             <div className="space-y-2 text-white/70 text-sm">
-              <p>{tr({ es: 'Salen etiquetas nutricionales como las de los envases del súper y una pregunta: cuál tiene más azúcar, cuántos terrones lleva una lata, cuántos gramos de sal hay en una ración o si un producto es alto en grasas.', en: 'Nutrition labels like the ones on supermarket packs appear with a question: which has more sugar, how many cubes are in a can, how many grams of salt in a serving or whether a product is high in fat.', ca: 'Surten etiquetes nutricionals com les dels envasos del súper i una pregunta: quina té més sucre, quants terrossos porta una llauna, quants grams de sal hi ha en una ració o si un producte és alt en greixos.' })}</p>
+              <p>{tr({ es: 'Salen etiquetas nutricionales como las de los envases del súper y un reto sin opciones: tocar las etiquetas de más a menos azúcar, echar al vaso los terrones que lleva una lata, teclear los gramos de sal de una ración o pintar el semáforo del envase.', en: 'Nutrition labels like the ones on supermarket packs appear with a challenge and no options: tap the labels from most to least sugar, drop into the glass the cubes in a can, type the grams of salt in a serving or colour in the pack’s traffic light.', ca: 'Surten etiquetes nutricionals com les dels envasos del súper i un repte sense opcions: tocar les etiquetes de més a menys sucre, tirar al got els terrossos que porta una llauna, teclejar els grams de sal d’una ració o pintar el semàfor de l’envàs.' })}</p>
               <p>{tr({ es: 'Las reglas: la tabla da los valores por 100 g o 100 ml; en una ración hay valor × gramos de la ración / 100; un terrón de azúcar son 4 g. Semáforo por 100 g: azúcar alto por encima de 22,5 g y bajo hasta 5 g; grasas, 17,5 y 3; saturadas, 5 y 1,5; sal, 1,5 y 0,3. En las bebidas, la mitad.', en: 'The rules: the table gives values per 100 g or 100 ml; a serving contains value × serving grams / 100; a sugar cube is 4 g. Traffic light per 100 g: sugar high above 22.5 g and low up to 5 g; fat 17.5 and 3; saturates 5 and 1.5; salt 1.5 and 0.3. For drinks, half.', ca: 'Les regles: la taula dona els valors per 100 g o 100 ml; en una ració hi ha valor × grams de la ració / 100; un terròs de sucre són 4 g. Semàfor per 100 g: sucre alt per sobre de 22,5 g i baix fins a 5 g; greixos, 17,5 i 3; saturats, 5 i 1,5; sal, 1,5 i 0,3. En les begudes, la meitat.' })}</p>
-              <p>{tr({ es: 'En difícil llega la trampa de la ración: la crema de cacao tiene muchísimo más azúcar por 100 g que el zumo, pero una cucharada aporta menos que un vaso. Lo que cuenta es lo que te comes. Los valores son típicos de productos genéricos, sin marcas.', en: 'On hard comes the serving trap: chocolate spread has far more sugar per 100 g than juice, but a spoonful gives less than a glass. What counts is what you eat. Values are typical of generic products, no brands.', ca: 'En difícil arriba la trampa de la ració: la crema de cacau té moltíssim més sucre per 100 g que el suc, però una cullerada n’aporta menys que un got. El que compta és el que et menges. Els valors són típics de productes genèrics, sense marques.' })}</p>
+              <p>{tr({ es: 'En difícil llega la trampa de la ración, con una balanza donde se cargan los gramos de cada ración: la crema de cacao tiene muchísimo más azúcar por 100 g que el zumo, pero una cucharada aporta menos que un vaso. Lo que cuenta es lo que te comes. Los valores son típicos de productos genéricos, sin marcas.', en: 'On hard comes the serving trap, with scales loaded with the grams in each serving: chocolate spread has far more sugar per 100 g than juice, but a spoonful gives less than a glass. What counts is what you eat. Values are typical of generic products, no brands.', ca: 'En difícil arriba la trampa de la ració, amb una balança on es carreguen els grams de cada ració: la crema de cacau té moltíssim més sucre per 100 g que el suc, però una cullerada n’aporta menys que un got. El que compta és el que et menges. Els valors són típics de productes genèrics, sense marques.' })}</p>
               <p className="text-white/40 text-xs pt-1">⏱️ {GAME_TIME}s · {tr({ es: `Acierto +10 y +${CORRECT_TIME}s · Fallo −${WRONG_TIME}s`, en: `Correct +10 and +${CORRECT_TIME}s · Wrong −${WRONG_TIME}s`, ca: `Encert +10 i +${CORRECT_TIME}s · Error −${WRONG_TIME}s` })}</p>
             </div>
           </ComoSeJuega>
@@ -208,7 +209,7 @@ export default function LeeLaEtiqueta() {
       </div>
 
       <div className="w-full max-w-[480px]">
-        <PreguntaEtiqueta ronda={ronda} revelado={isResult} elegida={elegida} onResponder={responder} />
+        <PreguntaEtiqueta key={ronda.id} ronda={ronda} revelado={isResult} elegida={elegida} onResponder={responder} />
         {isResult && (
           <p className="text-center text-xs font-bold mt-2">
             {acierto

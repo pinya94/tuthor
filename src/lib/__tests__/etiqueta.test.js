@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { PRODUCTOS } from '../../data/etiquetas'
-import { NIVELES, genRonda, esCorrecta, producto, enRacion, semaforo, explicacion, enunciado, textoOpcion, schemaQuestion, TERRON } from '../etiqueta'
+import { NIVELES, genRonda, esCorrecta, producto, enRacion, semaforo, explicacion, enunciado, textoOpcion, schemaQuestion, TERRON, respuestaBuena, leeGramos } from '../etiqueta'
 
 function semilla(s) { return () => ((s = (s * 16807) % 2147483647) - 1) / 2147483646 }
 
@@ -29,14 +29,28 @@ describe('Lee la Etiqueta · rondas', () => {
         tipos.add(r.tipo)
         expect(r.opciones).toContain(r.bueno)
         expect(new Set(r.opciones).size).toBe(r.opciones.length)
-        expect(esCorrecta(r, r.bueno)).toBe(true)
+        expect(esCorrecta(r, respuestaBuena(r))).toBe(true)
         const ps = r.productos.map(producto)
         const n = r.nutriente
         if (r.tipo === 'mas') {
           const max = Math.max(...ps.map(p => p[n]))
           expect(producto(r.bueno)[n]).toBe(max)
           expect(ps.filter(p => p[n] === max)).toHaveLength(1)
+          // el orden entero es claro: cada uno, un 20 % más que el siguiente
+          const vs = r.orden.map(id => producto(id)[n])
+          for (let k = 1; k < vs.length; k++) expect(vs[k - 1]).toBeGreaterThan(vs[k] * 1.2)
+          expect(esCorrecta(r, `orden:${[...r.orden].reverse().join()}`)).toBe(false)
         }
+        if (r.tipo === 'semaforo') {
+          expect(r.colores[n]).toBe(r.bueno)
+          for (const [k, c] of Object.entries(r.colores)) expect(semaforo(ps[0], k)).toBe(c)
+          expect(new Set(Object.values(r.colores)).size).toBeGreaterThan(1)
+        }
+        if (r.tipo === 'racion') {
+          expect(esCorrecta(r, String(r.bueno).replace('.', ','))).toBe(true)
+          expect(esCorrecta(r, String(ps[0][n]))).toBe(ps[0][n] === r.bueno)
+        }
+        if (r.tipo === 'trampa') expect(esCorrecta(r, '0|0')).toBe(false)
         if (r.tipo === 'terrones') expect(Math.abs(enRacion(ps[0], 'azucares') / TERRON - r.bueno)).toBeLessThanOrEqual(0.3)
         if (r.tipo === 'racion') expect(r.bueno).toBe(enRacion(ps[0], n))
         if (r.tipo === 'semaforo') expect(r.bueno).toBe(semaforo(ps[0], n))
@@ -51,6 +65,12 @@ describe('Lee la Etiqueta · rondas', () => {
       expect([...tipos].sort()).toEqual([...new Set(NIVELES[nivel].tipos)].sort())
     })
   }
+
+  it('los gramos se leen con coma o punto', () => {
+    expect(leeGramos('2,5')).toBe(2.5)
+    expect(leeGramos('12')).toBe(12)
+    expect(leeGramos(',5')).toBe(null)
+  })
 
   it('en difícil, la mayoría de las «trampas» lo son: gana por 100 g quien pierde en la ración', () => {
     const rand = semilla(9)

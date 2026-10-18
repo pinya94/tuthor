@@ -7,13 +7,13 @@ import { genRound, esCorrecta, schemaQuestion } from '../lib/etiqueta'
 const LEVELS = [
   { key: 'primaria', emoji: '💚', difficulty: 'facil',
     label: { es: 'Primaria', en: 'Primary', ca: 'Primària' },
-    hint: { es: 'Comparar dos etiquetas y contar terrones de azúcar', en: 'Compare two labels and count sugar cubes', ca: 'Comparar dues etiquetes i comptar terrossos de sucre' } },
+    hint: { es: 'Tocar la etiqueta con más y echar terrones de azúcar', en: 'Tap the label with more and drop in sugar cubes', ca: 'Tocar l’etiqueta amb més i tirar terrossos de sucre' } },
   { key: 'eso', emoji: '💛', difficulty: 'medio',
     label: { es: 'Secundaria (ESO)', en: 'Secondary (ESO)', ca: 'Secundària (ESO)' },
-    hint: { es: 'Gramos por ración y semáforo nutricional', en: 'Grams per serving and traffic-light labels', ca: 'Grams per ració i semàfor nutricional' } },
+    hint: { es: 'Ordenar etiquetas, gramos por ración y pintar el semáforo', en: 'Order labels, grams per serving and colour the traffic light', ca: 'Ordenar etiquetes, grams per ració i pintar el semàfor' } },
   { key: 'bachillerato', emoji: '🔴', difficulty: 'dificil',
     label: { es: 'Avanzado', en: 'Advanced', ca: 'Avançat' },
-    hint: { es: 'La trampa de la ración', en: 'The serving trap', ca: 'La trampa de la ració' } },
+    hint: { es: 'La trampa de la ración, en la balanza', en: 'The serving trap, on the scales', ca: 'La trampa de la ració, a la balança' } },
 ]
 
 // Estado propio (la opción elegida): ver la nota de hooks en
@@ -36,7 +36,7 @@ export default function LeeLaEtiquetaExamen() {
       metaPath="/examen/lee-la-etiqueta-test"
       subjectSchema="Biología"
       backGamePath="/juegos/lee-la-etiqueta"
-      playLabel={{ es: 'Modo arcade (60s)', en: 'Arcade mode (60s)', ca: 'Mode arcade (60s)' }}
+      playLabel={{ es: 'Modo arcade (90s)', en: 'Arcade mode (90s)', ca: 'Mode arcade (90s)' }}
       levels={LEVELS}
       genRound={genRound}
       isCorrect={esCorrecta}
