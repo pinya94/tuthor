@@ -209,3 +209,10 @@ export default function Instrumento({ id, className = 'w-full max-w-[260px] mx-a
   if (!D) return null
   return <svg viewBox="0 0 160 120" className={className} aria-hidden="true"><D /></svg>
 }
+
+// El mismo dibujo dentro de otro SVG (en el plano de la orquesta), en x, y.
+export function InstrumentoEn({ id, x, y, w = 18, h = 14 }) {
+  const D = DIBUJOS[id]
+  if (!D) return null
+  return <svg x={x} y={y} width={w} height={h} viewBox="0 0 160 120"><D /></svg>
+}

@@ -1,12 +1,7 @@
 // La Orquesta (música · los instrumentos, Primaria y ESO).
 //
-// Instrumentos dibujados (components/laOrquesta). Se pregunta:
-//   nombre     qué instrumento es
-//   familia    cuerda, viento madera, viento metal o percusión
-//   subfamilia cuerda frotada/pulsada/percutida, percusión afinada/no afinada…
-//   sonido     cómo produce el sonido
-//   sitio      dónde se sienta su familia en la orquesta (en el plano)
-//   hs         clasificación de Hornbostel-Sachs (cordófono, aerófono…)
+// Instrumentos dibujados (components/laOrquesta) para sentar en el plano de la
+// orquesta, unir con su nombre y clasificar (ver las mecánicas más abajo).
 //
 // La familia la decide CÓMO se produce el sonido, no el material: la flauta
 // travesera y el saxofón son de metal pero de viento madera, y el piano es de
@@ -83,13 +78,21 @@ export const instrumento = id => INSTRUMENTOS.find(i => i.id === id)
 // Plano de la orquesta: de delante atrás, cuerda, madera, metal y percusión.
 // El arpa y el piano cambian de sitio según la obra: no salen en «sitio».
 export const SITIOS = { cuerda: 'A', madera: 'B', metal: 'C', percusion: 'D' }
-const SIN_SITIO = ['arpa', 'piano', 'guitarra', 'saxofon']
+export const SIN_SITIO = ['arpa', 'piano', 'guitarra', 'saxofon']
 
+// Mecánicas (nada de elegir entre cuatro):
+//   sienta     el plano de la orquesta en semicírculos: cada instrumento
+//              dibujado, a la zona de su familia (sin los de sitio variable)
+//   empareja   unir cada dibujo con su nombre
+//   clasifica  instrumentos a cajas de subfamilia, de cómo suenan o de
+//              Hornbostel-Sachs (las cajas: las suyas y alguna más)
 export const NIVELES = {
-  facil:   { tipos: ['nombre', 'nombre', 'familia', 'familia'] },
-  medio:   { tipos: ['nombre', 'familia', 'subfamilia', 'sonido', 'sitio'] },
-  dificil: { tipos: ['subfamilia', 'sonido', 'sonido', 'hs', 'sitio'] },
+  facil:   { tipos: ['empareja', 'sienta', 'sienta'], clasifica: [] },
+  medio:   { tipos: ['empareja', 'sienta', 'clasifica', 'clasifica'], clasifica: ['subfamilia'] },
+  dificil: { tipos: ['sienta', 'clasifica', 'clasifica', 'clasifica'], clasifica: ['sonido', 'hs', 'subfamilia'] },
 }
+const CAMPO = { subfamilia: 'sub', sonido: 'sonido', hs: 'hs' }
+const CAJAS = { subfamilia: SUBFAMILIAS, sonido: SONIDOS, hs: HS }
 
 const elige = (rand, xs) => xs[Math.floor(rand() * xs.length)]
 const baraja = (rand, xs) => {
@@ -103,9 +106,9 @@ const recientes = []
 export function genRonda(nivel = 'facil', opts = {}) {
   for (let intento = 0; ; intento++) {
     const r = genUna(nivel, opts)
-    if (intento < 20 && recientes.includes(r.inst)) continue
-    recientes.push(r.inst)
-    if (recientes.length > 6) recientes.shift()
+    if (intento < 20 && r.inst.filter(i => recientes.includes(i)).length > 1) continue
+    recientes.push(...r.inst)
+    while (recientes.length > 8) recientes.shift()
     return r
   }
 }
@@ -114,73 +117,59 @@ function genUna(nivel, { rand = Math.random } = {}) {
   const cfg = NIVELES[nivel] ?? NIVELES.facil
   for (;;) {
     const tipo = elige(rand, cfg.tipos)
-    const pool = tipo === 'sitio' ? INSTRUMENTOS.filter(i => !SIN_SITIO.includes(i.id)) : INSTRUMENTOS
-    // En fácil y medio, a menudo las trampas (flauta, saxofón, piano) en «familia».
-    const it = elige(rand, pool)
-    const base = { id: ++seq, nivel, tipo, inst: it.id }
-    if (tipo === 'nombre') {
-      // Opciones: primero los de su familia (lo difícil es distinguirlos).
-      const misma = baraja(rand, INSTRUMENTOS.filter(x => x.id !== it.id && x.familia === it.familia))
-      const otras = baraja(rand, INSTRUMENTOS.filter(x => x.familia !== it.familia))
-      const ops = [...misma.slice(0, nivel === 'facil' ? 1 : 2), ...otras].slice(0, 3).map(x => x.id)
-      return { ...base, bueno: it.id, opciones: baraja(rand, [it.id, ...ops]) }
+    const base = { id: ++seq, nivel, tipo }
+
+    if (tipo === 'sienta') {
+      const inst = baraja(rand, INSTRUMENTOS.filter(i => !SIN_SITIO.includes(i.id))).slice(0, 4).map(i => i.id)
+      if (new Set(inst.map(i => instrumento(i).familia)).size < 3) continue
+      return { ...base, inst, bueno: 'sienta:0' }
     }
-    if (tipo === 'familia') return { ...base, bueno: it.familia, opciones: Object.keys(FAMILIAS) }
-    if (tipo === 'subfamilia') {
-      const otras = baraja(rand, Object.keys(SUBFAMILIAS).filter(k => k !== it.sub))
-      // Las de la misma familia primero (frotada ↔ pulsada ↔ percutida).
-      otras.sort((a, b) => (SUB_FAM[b] === it.familia) - (SUB_FAM[a] === it.familia))
-      return { ...base, bueno: it.sub, opciones: baraja(rand, [it.sub, ...otras.slice(0, 3)]) }
+
+    if (tipo === 'empareja') {
+      const inst = baraja(rand, INSTRUMENTOS).slice(0, nivel === 'facil' ? 3 : 4).map(i => i.id)
+      return { ...base, inst, nombres: baraja(rand, inst), bueno: 'empareja:0' }
     }
-    if (tipo === 'sonido') {
-      const otras = baraja(rand, Object.keys(SONIDOS).filter(k => k !== it.sonido)).slice(0, 3)
-      return { ...base, bueno: it.sonido, opciones: baraja(rand, [it.sonido, ...otras]) }
-    }
-    if (tipo === 'sitio') return { ...base, bueno: SITIOS[it.familia], opciones: ['A', 'B', 'C', 'D'] }
-    return { ...base, bueno: it.hs, opciones: Object.keys(HS) }
+
+    // clasifica
+    const variante = elige(rand, cfg.clasifica)
+    const campo = CAMPO[variante]
+    const inst = baraja(rand, INSTRUMENTOS).slice(0, 4).map(i => i.id)
+    const suyas = [...new Set(inst.map(i => instrumento(i)[campo]))]
+    if (suyas.length < 2) continue
+    const extra = baraja(rand, Object.keys(CAJAS[variante]).filter(c => !suyas.includes(c)))
+    const cajas = baraja(rand, [...suyas, ...extra.slice(0, Math.max(0, 4 - suyas.length))])
+    return { ...base, inst, variante, cajas, bueno: 'clasifica:0' }
   }
 }
-const SUB_FAM = { frotada: 'cuerda', pulsada: 'cuerda', percutida: 'cuerda', madera: 'madera', metal: 'metal', afinada: 'percusion', noAfinada: 'percusion' }
 
 export const genRound = (difficulty = 'facil') => genRonda(difficulty)
+// Respuestas: «sienta:fallos», «empareja:fallos», «clasifica:fallos».
 export const esCorrecta = (r, o) => o === r.bueno
+export const cajaDe = (r, id) => instrumento(id)[CAMPO[r.variante]]
+export const textoCaja = (r, c, l) => tx(CAJAS[r.variante][c], l)
 
 // ── Textos ────────────────────────────────────────────────────────────────
-export function textoOpcion(o, r, l) {
-  switch (r.tipo) {
-    case 'nombre': return tx(instrumento(o).nombre, l)
-    case 'familia': return tx(FAMILIAS[o], l)
-    case 'subfamilia': return tx(SUBFAMILIAS[o], l)
-    case 'sonido': return tx(SONIDOS[o], l)
-    case 'hs': return tx(HS[o], l)
-    default: return o
-  }
-}
 export function enunciado(r, l) {
-  const n = tx(instrumento(r.inst).nombre, l).toLowerCase()
-  switch (r.tipo) {
-    case 'nombre': return s(l, '¿Qué instrumento es?', 'Which instrument is this?', 'Quin instrument és?')
-    case 'familia': return s(l, '¿A qué familia pertenece?', 'Which family does it belong to?', 'A quina família pertany?')
-    case 'subfamilia': return s(l, '¿De qué grupo es exactamente?', 'Which group exactly?', 'De quin grup és exactament?')
-    case 'sonido': return s(l, '¿Cómo produce el sonido?', 'How does it make its sound?', 'Com produeix el so?')
-    case 'sitio': return s(l, `¿En qué zona de la orquesta se sienta su familia (${n})?`, `In which area of the orchestra does its family (${n}) sit?`, `A quina zona de l’orquestra s’asseu la seva família (${n})?`)
-    default: return s(l, '¿Qué es, según la clasificación de Hornbostel-Sachs?', 'What is it in the Hornbostel-Sachs classification?', 'Què és, segons la classificació de Hornbostel-Sachs?')
-  }
+  if (r.tipo === 'sienta') return s(l, 'Sienta a cada músico en su sitio de la orquesta', 'Seat each musician in their place in the orchestra', 'Seu cada músic al seu lloc de l’orquestra')
+  if (r.tipo === 'empareja') return s(l, 'Une cada instrumento con su nombre', 'Match each instrument with its name', 'Uneix cada instrument amb el seu nom')
+  return {
+    subfamilia: s(l, '¿De qué subfamilia es cada uno?', 'Which subfamily is each one?', 'De quina subfamília és cadascun?'),
+    sonido: s(l, '¿Cómo produce el sonido cada uno?', 'How does each one make its sound?', 'Com produeix el so cadascun?'),
+    hs: s(l, 'Clasifícalos según Hornbostel-Sachs', 'Classify them by Hornbostel-Sachs', 'Classifica’ls segons Hornbostel-Sachs'),
+  }[r.variante]
 }
 export function explicacion(r, l) {
-  const it = instrumento(r.inst)
-  const base = s(l, `${tx(it.nombre, l)}: ${tx(SUBFAMILIAS[it.sub], l).toLowerCase()}. Suena así: ${tx(SONIDOS[it.sonido], l).toLowerCase()}.`, `${tx(it.nombre, l)}: ${tx(SUBFAMILIAS[it.sub], l).toLowerCase()}. It sounds like this: ${tx(SONIDOS[it.sonido], l).toLowerCase()}.`, `${tx(it.nombre, l)}: ${tx(SUBFAMILIAS[it.sub], l).toLowerCase()}. Sona així: ${tx(SONIDOS[it.sonido], l).toLowerCase()}.`)
-  const nota = it.nota ? ' ' + tx(it.nota, l) : ''
-  if (r.tipo === 'sitio') return base + ' ' + s(l, 'En la orquesta, de delante atrás: cuerda (A), viento madera (B), viento metal (C) y percusión (D). Los más potentes, detrás.', 'In the orchestra, from front to back: strings (A), woodwind (B), brass (C) and percussion (D). The loudest go at the back.', 'A l’orquestra, de davant cap enrere: corda (A), vent fusta (B), vent metall (C) i percussió (D). Els més potents, al darrere.')
-  if (r.tipo === 'hs') return base + ' ' + s(l, `Hornbostel-Sachs: ${tx(HS[it.hs], l).toLowerCase()} (lo que vibra es ${{ cordofono: 'una cuerda', aerofono: 'el aire', membranofono: 'una membrana', idiofono: 'el propio instrumento' }[it.hs]}).`, `Hornbostel-Sachs: ${tx(HS[it.hs], l).toLowerCase()} (what vibrates is ${{ cordofono: 'a string', aerofono: 'the air', membranofono: 'a skin', idiofono: 'the instrument itself' }[it.hs]}).`, `Hornbostel-Sachs: ${tx(HS[it.hs], l).toLowerCase()} (el que vibra és ${{ cordofono: 'una corda', aerofono: 'l’aire', membranofono: 'una membrana', idiofono: 'el mateix instrument' }[it.hs]}).`)
-  return base + nota
+  const notas = r.inst.map(instrumento).filter(i => i.nota).map(i => `${tx(i.nombre, l)}: ${tx(i.nota, l)}`).join(' ')
+  let base
+  if (r.tipo === 'sienta') base = s(l, 'De delante atrás: la cuerda junto al director, luego el viento madera, el viento metal y al fondo la percusión. Los que suenan más fuerte van más lejos.', 'From front to back: strings beside the conductor, then woodwind, brass and percussion at the back. The loudest sit furthest away.', 'De davant a darrere: la corda al costat del director, després el vent fusta, el vent metall i al fons la percussió. Els que sonen més fort van més lluny.') + ' ' + r.inst.map(id => `${tx(instrumento(id).nombre, l)}: ${tx(FAMILIAS[instrumento(id).familia], l).toLowerCase()}`).join(' · ') + '.'
+  else if (r.tipo === 'empareja') base = r.inst.map(id => `${tx(instrumento(id).nombre, l)} (${tx(FAMILIAS[instrumento(id).familia], l).toLowerCase()})`).join(' · ') + '.'
+  else base = r.inst.map(id => `${tx(instrumento(id).nombre, l)}: ${textoCaja(r, cajaDe(r, id), l).toLowerCase()}`).join(' · ') + '.'
+  return notas ? `${base} ${notas}` : base
 }
+// Para los buscadores y el examen en texto: una pregunta de cada mecánica.
 export function schemaQuestion(r, l) {
-  const it = instrumento(r.inst)
-  const q = r.tipo === 'nombre' ? `${tx(SONIDOS[it.sonido], l)}. ` : `${tx(it.nombre, l)}. `
-  return {
-    question: `${q}${enunciado(r, l)}`,
-    correctAnswer: textoOpcion(r.bueno, r, l),
-    wrongAnswers: r.opciones.filter(o => o !== r.bueno).map(o => textoOpcion(o, r, l)),
-  }
+  const i = instrumento(r.inst[0])
+  if (r.tipo === 'sienta' || r.tipo === 'empareja') return { question: s(l, `${tx(i.nombre, l)}: ¿a qué familia pertenece?`, `${tx(i.nombre, l)}: which family does it belong to?`, `${tx(i.nombre, l)}: a quina família pertany?`), correctAnswer: tx(FAMILIAS[i.familia], l), wrongAnswers: Object.keys(FAMILIAS).filter(f => f !== i.familia).map(f => tx(FAMILIAS[f], l)) }
+  const c = cajaDe(r, i.id)
+  return { question: `${tx(i.nombre, l)}. ${enunciado(r, l)}`, correctAnswer: textoCaja(r, c, l), wrongAnswers: r.cajas.filter(x => x !== c).map(x => textoCaja(r, x, l)) }
 }

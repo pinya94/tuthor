@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { genRonda, NIVELES, INSTRUMENTOS, FAMILIAS, SUBFAMILIAS, SONIDOS, HS, SITIOS, instrumento, enunciado, explicacion, textoOpcion, schemaQuestion } from '../laOrquesta'
+import { genRonda, NIVELES, INSTRUMENTOS, FAMILIAS, SUBFAMILIAS, SONIDOS, HS, SIN_SITIO, instrumento, esCorrecta, cajaDe, textoCaja, enunciado, explicacion, schemaQuestion } from '../laOrquesta'
 
 function semilla(s) {
   return () => { s = (s * 1103515245 + 12345) % 2147483648; return s / 2147483648 }
@@ -28,26 +28,31 @@ describe('La Orquesta', () => {
   })
 
   for (const nivel of Object.keys(NIVELES)) {
-    it(`${nivel}: 500 rondas`, { timeout: 60000 }, () => {
-      const rand = semilla(nivel.length * 89)
+    it(nivel + ': 500 rondas', { timeout: 20000 }, () => {
+      const rand = semilla(nivel.length * 211)
       const tipos = new Set()
       for (let i = 0; i < 500; i++) {
         const r = genRonda(nivel, { rand })
         tipos.add(r.tipo)
-        const it = instrumento(r.inst)
-        expect(r.opciones).toContain(r.bueno)
-        expect(new Set(r.opciones).size).toBe(r.opciones.length)
-        const esperado = { nombre: it.id, familia: it.familia, subfamilia: it.sub, sonido: it.sonido, hs: it.hs, sitio: SITIOS[it.familia] }[r.tipo]
-        expect(r.bueno).toBe(esperado)
-        if (r.tipo === 'sitio') expect(['arpa', 'piano', 'guitarra', 'saxofon']).not.toContain(it.id)
+        expect(esCorrecta(r, r.bueno)).toBe(true)
+        expect(new Set(r.inst).size).toBe(r.inst.length)
+        if (r.tipo === 'sienta') for (const id of r.inst) { expect(SIN_SITIO).not.toContain(id); expect(FAMILIAS[instrumento(id).familia]).toBeTruthy() }
+        if (r.tipo === 'empareja') expect([...r.nombres].sort()).toEqual([...r.inst].sort())
+        if (r.tipo === 'clasifica') {
+          expect(new Set(r.cajas).size).toBe(r.cajas.length)
+          for (const id of r.inst) expect(r.cajas).toContain(cajaDe(r, id))
+          for (const l of ['es', 'en', 'ca']) for (const c of r.cajas) expect(textoCaja(r, c, l)).toBeTruthy()
+        }
         for (const l of ['es', 'en', 'ca']) {
-          expect(new Set(r.opciones.map(o => textoOpcion(o, r, l))).size).toBe(r.opciones.length)
-          expect(explicacion(r, l)).not.toMatch(/undefined/)
           expect(enunciado(r, l)).toBeTruthy()
-          expect(schemaQuestion(r, l).wrongAnswers).toHaveLength(r.opciones.length - 1)
+          expect(explicacion(r, l)).not.toMatch(/undefined/)
+          const q = schemaQuestion(r, l)
+          expect(q.wrongAnswers.length).toBeGreaterThanOrEqual(2)
+          expect(q.wrongAnswers).not.toContain(q.correctAnswer)
         }
       }
       for (const t of NIVELES[nivel].tipos) expect(tipos.has(t), t).toBe(true)
+      expect(SUBFAMILIAS && SONIDOS && HS && INSTRUMENTOS.length).toBeTruthy()
     })
   }
 })

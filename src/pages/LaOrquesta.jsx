@@ -11,18 +11,19 @@ import SEOHead from '../components/SEOHead'
 import { CabeceraJuego, NivelBarras, ComoSeJuega } from '../components/IntroJuego'
 import { Racha } from '../components/Iconos'
 
-const GAME_TIME = 60
+// Cada ronda se coloca (sentar, unir, clasificar): 90 s y +6 s por acierto.
+const GAME_TIME = 90
 const WRONG_TIME = 5
-const CORRECT_TIME = 4
+const CORRECT_TIME = 6
 const REVEAL_MS = 4500 // da tiempo a leer cómo suena el instrumento
 
 const DIFS = {
   facil:   { emoji: '💚', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
-             desc: { es: 'Qué instrumento es y de qué familia', en: 'Which instrument it is and its family', ca: 'Quin instrument és i de quina família' } },
+             desc: { es: 'Sienta a los músicos en la orquesta y une cada dibujo con su nombre', en: 'Seat the musicians and match each drawing with its name', ca: 'Seu els músics a l’orquestra i uneix cada dibuix amb el seu nom' } },
   medio:   { emoji: '💛', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
-             desc: { es: 'Cuerda frotada o pulsada, cómo suena y dónde se sienta', en: 'Bowed or plucked, how it sounds and where it sits', ca: 'Corda fregada o pinçada, com sona i on s’asseu' } },
+             desc: { es: 'Y además, las subfamilias: cuerda frotada, pulsada o percutida…', en: 'Plus the subfamilies: bowed, plucked or struck strings…', ca: 'I a més, les subfamílies: corda fregada, pinçada o percudida…' } },
   dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' },
-             desc: { es: 'Con la clasificación de Hornbostel-Sachs', en: 'With the Hornbostel-Sachs classification', ca: 'Amb la classificació de Hornbostel-Sachs' } },
+             desc: { es: 'Cómo produce el sonido cada uno y Hornbostel-Sachs', en: 'How each one makes its sound, and Hornbostel-Sachs', ca: 'Com produeix el so cadascun i Hornbostel-Sachs' } },
 }
 if (import.meta.env.DEV && Object.keys(DIFS).join() !== Object.keys(NIVELES).join()) {
   console.warn('[la-orquesta] los niveles de la pantalla no coinciden con NIVELES')
@@ -107,9 +108,9 @@ export default function LaOrquesta() {
   const seo = {
     title: tr({ es: 'La Orquesta — Juego de instrumentos musicales y sus familias', en: 'The Orchestra — Musical instruments and their families game', ca: 'L’Orquestra — Joc d’instruments musicals i les seves famílies' }),
     desc: tr({
-      es: 'Instrumentos dibujados: reconócelos, di su familia (cuerda, viento madera, viento metal o percusión), cómo producen el sonido, dónde se sientan en la orquesta y su clasificación de Hornbostel-Sachs. Juego de música gratis.',
-      en: 'Drawn instruments: recognise them, name their family (strings, woodwind, brass or percussion), how they make their sound, where they sit in the orchestra and their Hornbostel-Sachs class. Free music game.',
-      ca: 'Instruments dibuixats: reconeix-los, digues la seva família (corda, vent fusta, vent metall o percussió), com produeixen el so, on s’asseuen a l’orquestra i la seva classificació de Hornbostel-Sachs. Joc de música gratis.',
+      es: 'Sienta a la orquesta: cada instrumento dibujado a su zona del plano, cuerda, viento madera, viento metal o percusión. Une dibujos y nombres y clasifícalos por cómo suenan. Juego de música gratis.',
+      en: 'Seat the orchestra: each drawn instrument to its section, strings, woodwind, brass or percussion. Match drawings and names and sort them by how they sound. Free music game.',
+      ca: 'Seu l’orquestra: cada instrument dibuixat a la seva zona, corda, vent fusta, vent metall o percussió. Uneix dibuixos i noms i classifica’ls per com sonen. Joc de música gratis.',
     }),
     path: '/juegos/la-orquesta',
   }
@@ -123,7 +124,7 @@ export default function LaOrquesta() {
           <CabeceraJuego slug="la-orquesta"
             badge={tr({ es: 'Música · Instrumentos', en: 'Music · Instruments', ca: 'Música · Instruments' })}
             titulo={tr({ es: '🎻 La Orquesta', en: '🎻 The Orchestra', ca: '🎻 L’Orquestra' })}
-            sub={tr({ es: 'La familia no la decide el material, sino cómo suena', en: 'The family is decided by how it sounds, not what it is made of', ca: 'La família no la decideix el material, sinó com sona' })} />
+            sub={tr({ es: 'Sienta a cada músico en su sitio', en: 'Seat every musician in their place', ca: 'Seu cada músic al seu lloc' })} />
 
           <p className="text-white/40 text-xs uppercase tracking-widest text-center mb-2">{tr({ es: 'Elige nivel', en: 'Choose a level', ca: 'Tria nivell' })}</p>
           <div className="flex flex-wrap justify-center gap-1.5 p-1 bg-white/5 border border-white/10 rounded-xl mb-2">
@@ -142,8 +143,8 @@ export default function LaOrquesta() {
           </button>
           <ComoSeJuega>
             <div className="space-y-2 text-white/70 text-sm">
-              <p>{tr({ es: 'Sale un instrumento dibujado y hay que decir cuál es, a qué familia pertenece o cómo produce el sonido. Ojo: la flauta travesera y el saxofón son de metal pero de viento madera, y el piano es de cuerda.', en: 'A drawn instrument appears and you say which it is, its family or how it makes its sound. Careful: the flute and saxophone are metal but woodwind, and the piano is a string instrument.', ca: 'Surt un instrument dibuixat i cal dir quin és, a quina família pertany o com produeix el so. Compte: la flauta travessera i el saxòfon són de metall però de vent fusta, i el piano és de corda.' })}</p>
-              <p>{tr({ es: 'En los niveles altos, la subfamilia (cuerda frotada, pulsada o percutida; percusión afinada o no), dónde se sienta cada familia en el plano de la orquesta y la clasificación de Hornbostel-Sachs.', en: 'On higher levels, the sub-family, where each family sits on the orchestra plan and the Hornbostel-Sachs classification.', ca: 'Als nivells alts, la subfamília, on s’asseu cada família al plànol de l’orquestra i la classificació de Hornbostel-Sachs.' })}</p>
+              <p>{tr({ es: 'Sienta a la orquesta: toca un instrumento dibujado y luego su zona del plano. La cuerda va junto al director, después el viento madera, el viento metal y, al fondo, la percusión. La familia no la decide el material: la flauta y el saxofón son de metal pero de viento madera, y el piano es de cuerda.', en: 'Seat the orchestra: tap a drawn instrument and then its section of the plan. Strings beside the conductor, then woodwind, brass and percussion at the back. Material does not decide the family: the flute is metal but woodwind, and the piano is a string instrument.', ca: 'Seu l’orquestra: toca un instrument dibuixat i després la seva zona del plànol. La corda va al costat del director, després el vent fusta, el vent metall i, al fons, la percussió. La família no la decideix el material.' })}</p>
+              <p>{tr({ es: 'Otras rondas: unir cada dibujo con su nombre y clasificar los instrumentos por subfamilia, por cómo producen el sonido (arco, lengüeta, labios, macillos…) o según Hornbostel-Sachs (cordófonos, aerófonos, membranófonos e idiófonos).', en: 'Other rounds: match each drawing with its name and sort instruments by subfamily, by how they make their sound or by Hornbostel-Sachs.', ca: 'Altres rondes: unir cada dibuix amb el seu nom i classificar els instruments per subfamília, per com produeixen el so o segons Hornbostel-Sachs.' })}</p>
               <p className="text-white/40 text-xs pt-1">⏱️ {GAME_TIME}s · {tr({ es: `Acierto +10 y +${CORRECT_TIME}s · Fallo −${WRONG_TIME}s`, en: `Correct +10 and +${CORRECT_TIME}s · Wrong −${WRONG_TIME}s`, ca: `Encert +10 i +${CORRECT_TIME}s · Error −${WRONG_TIME}s` })}</p>
             </div>
           </ComoSeJuega>
