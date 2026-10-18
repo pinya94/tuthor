@@ -20,9 +20,9 @@ const s = (l, es, en, ca) => (l === 'en' ? en : l === 'ca' ? ca : es)
 const decSep = l => (l === 'en' ? '.' : ',')
 
 export const NIVELES = {
-  facil:   { tipos: ['escribir', 'escribir', 'leer', 'propiedad', 'valor'], pequenos: false, props: ['producto', 'cociente'] },
-  medio:   { tipos: ['escribir', 'leer', 'comparar', 'propiedad', 'valor'], pequenos: true, props: ['producto', 'cociente', 'potencia'] },
-  dificil: { tipos: ['escribir', 'comparar', 'operar', 'operar', 'propiedad'], pequenos: true, props: ['producto', 'cociente', 'potencia', 'mixta'] },
+  facil:   { mecanicas: ['regla', 'regla', 'coma', 'exponente'], tol: 1, operar: false, pequenos: false, props: ['producto', 'cociente'] },
+  medio:   { mecanicas: ['regla', 'coma', 'coma', 'exponente', 'valor'], tol: 0, operar: false, pequenos: true, props: ['producto', 'cociente', 'potencia'] },
+  dificil: { mecanicas: ['regla', 'coma', 'exponente', 'exponente', 'valor'], tol: 0, operar: true, pequenos: true, props: ['producto', 'cociente', 'potencia', 'mixta'] },
 }
 
 // Tamaños reales en metros (aproximados al valor de los libros).
@@ -108,10 +108,10 @@ export function potencia(k) {
 
 let seq = 0
 
-export function genRonda(nivel = 'facil', { rand = Math.random } = {}) {
+// El generador de preguntas de siempre: da la ronda de un tipo con sus opciones.
+function genVieja(nivel, tipo, rand) {
   const cfg = NIVELES[nivel] ?? NIVELES.facil
   for (;;) {
-    const tipo = elige(rand, cfg.tipos)
     const base = { id: ++seq, nivel, tipo }
 
     if (tipo === 'escribir' || tipo === 'leer') {
@@ -224,8 +224,6 @@ export function genRonda(nivel = 'facil', { rand = Math.random } = {}) {
   }
 }
 
-export const genRound = (difficulty = 'facil') => genRonda(difficulty)
-export const esCorrecta = (r, o) => o === r.bueno
 
 // ── Textos ────────────────────────────────────────────────────────────────
 const nObj = (id, l) => tx(OBJETOS[id].n, l)
@@ -240,7 +238,7 @@ export function textoOpcion(o, r, l) {
   }
 }
 
-export function enunciado(r, l) {
+function enunciadoViejo(r, l) {
   switch (r.tipo) {
     case 'escribir': return s(l, `${cap(nObj(r.objeto, l))} mide ${decimal(r.bueno, l)} m. ¿Cómo se escribe en notación científica?`, `${cap(nObj(r.objeto, l))} measures ${decimal(r.bueno, l)} m. How is it written in scientific notation?`, `${cap(nObj(r.objeto, l))} fa ${decimal(r.bueno, l)} m. Com s’escriu en notació científica?`)
     case 'leer': return s(l, `${cap(nObj(r.objeto, l))} mide ${cientifica(r.bueno, l)} m. ¿Qué número es?`, `${cap(nObj(r.objeto, l))} measures ${cientifica(r.bueno, l)} m. What number is that?`, `${cap(nObj(r.objeto, l))} fa ${cientifica(r.bueno, l)} m. Quin nombre és?`)
@@ -261,7 +259,7 @@ export function enunciado(r, l) {
 }
 const cap = t => t.charAt(0).toUpperCase() + t.slice(1)
 
-export function explicacion(r, l) {
+function explicacionVieja(r, l) {
   switch (r.tipo) {
     case 'escribir': case 'leer': {
       const { e } = deClave(r.bueno)
@@ -304,9 +302,9 @@ export function explicacion(r, l) {
   }
 }
 
-export function schemaQuestion(r, l) {
+function schemaVieja(r, l) {
   return {
-    question: enunciado(r, l),
+    question: enunciadoViejo(r, l),
     correctAnswer: textoOpcion(r.bueno, r, l),
     wrongAnswers: r.opciones.filter(o => o !== r.bueno).map(o => textoOpcion(o, r, l)),
   }
@@ -317,4 +315,110 @@ export function marcasRegla(r) {
   if (r.tipo === 'escribir' || r.tipo === 'leer') return [r.objeto]
   if (r.tipo === 'comparar') return r.objetos
   return []
+}
+
+// ── Mecánicas ─────────────────────────────────────────────────────────────
+// Encima del generador de arriba (que sigue dando las opciones para el texto
+// del examen y de los buscadores), cada ronda se juega sin elegir:
+//   regla      colocar tres objetos en la regla de potencias de 10
+//   coma       correr la coma: de 12 700 000 a 1,27 · 10⁷, o al revés
+//   exponente  ajustar el exponente con − y + (y, en difícil, escribir la
+//              mantisa de una operación en notación científica)
+//   valor      escribir con un teclado cuánto vale 5⁰, 2⁻³ o (−2)³
+let seqN = 0
+const recientes = []
+const temaDe = r => r.objeto ?? (r.objetos ? r.objetos.join() : r.expr ?? `${r.a}${r.p}${r.b}${r.q}`)
+export function genRonda(nivel = 'facil', opts = {}) {
+  for (let intento = 0; ; intento++) {
+    const r = genNueva(nivel, opts)
+    if (intento < 20 && recientes.includes(temaDe(r))) continue
+    recientes.push(temaDe(r))
+    if (recientes.length > 6) recientes.shift()
+    return r
+  }
+}
+function genNueva(nivel, { rand = Math.random } = {}) {
+  const cfg = NIVELES[nivel] ?? NIVELES.facil
+  for (;;) {
+    const tipo = elige(rand, cfg.mecanicas)
+    if (tipo === 'regla') {
+      // Tres objetos con exponentes separados (al menos 2) para que se distingan.
+      const ids = baraja(rand, Object.keys(OBJETOS))
+      const out = []
+      for (const id of ids) {
+        if (out.some(x => Math.abs(OBJETOS[x].e - OBJETOS[id].e) < 2)) continue
+        out.push(id)
+        if (out.length === 3) break
+      }
+      if (out.length < 3) continue
+      return { id: ++seqN, nivel, tipo, objetos: out, tol: cfg.tol, bueno: 'regla:ok' }
+    }
+    if (tipo === 'coma') {
+      const modo = nivel === 'facil' || rand() < 0.6 ? 'escribir' : 'leer'
+      return { ...genVieja(nivel, modo, rand), id: ++seqN, tipo, modo }
+    }
+    if (tipo === 'exponente') {
+      const sub = cfg.operar && rand() < 0.4 ? 'operar' : 'propiedad'
+      return { ...genVieja(nivel, sub, rand), id: ++seqN, tipo, sub }
+    }
+    return { ...genVieja(nivel, 'valor', rand), id: ++seqN }
+  }
+}
+export const genRound = (difficulty = 'facil') => genRonda(difficulty)
+
+const menos = t => String(t).replace(/−/g, '-').replace(/\s/g, '')
+// Respuestas: regla «regla:ok|no»; coma, la clave a la que se ha llegado;
+// exponente, «b^n» o la clave del resultado; valor, el texto tecleado.
+export function esCorrecta(r, o) {
+  if (r.tipo === 'regla') return o === 'regla:ok'
+  if (r.tipo === 'exponente' && r.sub === 'operar') {
+    const { m, e } = deClave(String(o))
+    const n = Number(m)
+    return n >= 1 && n < 10 && clave(String(n), e) === clave(String(Number(deClave(r.bueno).m)), deClave(r.bueno).e)
+  }
+  if (r.tipo === 'valor') return menos(o) === menos(r.bueno)
+  if (r.tipo === 'coma') return o === metaComa(r)
+  return o === r.bueno
+}
+// La regla: vale si cada objeto está en su exponente (con la tolerancia del nivel).
+export const reglaBien = (r, puestos) => r.objetos.every(id => puestos[id] != null && Math.abs(puestos[id] - OBJETOS[id].e) <= r.tol)
+// Lo que se ve al correr la coma: el número normalizado de la ronda llevado al exponente d.
+export const conExponente = (r, d) => { const { m, e } = deClave(r.bueno); return clave(corre(m, e - d), d) }
+// A dónde hay que llevar la coma: a la notación científica, o al número entero (exponente 0).
+export const metaComa = r => (r.modo === 'leer' ? conExponente(r, 0) : r.bueno)
+export const objeto = id => OBJETOS[id]
+
+export function enunciado(r, l) {
+  if (r.tipo === 'regla') return s(l, 'Coloca cada objeto en la regla, en su potencia de 10 (en metros)', 'Place each object on the ruler at its power of 10 (in metres)', 'Col·loca cada objecte a la regla, a la seva potència de 10 (en metres)')
+  if (r.tipo === 'coma') {
+    const o = nObj(r.objeto, l)
+    return r.modo === 'escribir'
+      ? s(l, `${cap(o)} mide ${decimal(r.bueno, l)} m. Corre la coma hasta escribirlo en notación científica`, `${cap(o)} measures ${decimal(r.bueno, l)} m. Move the point until it is in scientific notation`, `${cap(o)} fa ${decimal(r.bueno, l)} m. Mou la coma fins a escriure-ho en notació científica`)
+      : s(l, `${cap(o)} mide ${cientifica(r.bueno, l)} m. Corre la coma hasta escribir el número entero`, `${cap(o)} measures ${cientifica(r.bueno, l)} m. Move the point until the whole number is written out`, `${cap(o)} fa ${cientifica(r.bueno, l)} m. Mou la coma fins a escriure el nombre sencer`)
+  }
+  if (r.tipo === 'exponente') return enunciadoViejo({ ...r, tipo: r.sub }, l)
+  return enunciadoViejo(r, l)
+}
+
+export function explicacion(r, l) {
+  if (r.tipo === 'regla') {
+    const lista = [...r.objetos].sort((a, b) => OBJETOS[a].e - OBJETOS[b].e).map(id => `${OBJETOS[id].emoji} ${nObj(id, l)}: ${cientifica(clave(OBJETOS[id].m, OBJETOS[id].e), l)} m`).join(' · ')
+    return `${lista}. ${s(l, 'En la regla cada marca es diez veces la anterior: lo que manda es el exponente.', 'On the ruler each mark is ten times the previous one: the exponent is what matters.', 'A la regla cada marca és deu vegades l’anterior: el que mana és l’exponent.')}`
+  }
+  if (r.tipo === 'coma') return explicacionVieja({ ...r, tipo: 'escribir' }, l)
+  if (r.tipo === 'exponente') return explicacionVieja({ ...r, tipo: r.sub }, l)
+  return explicacionVieja(r, l)
+}
+
+export function schemaQuestion(r, l) {
+  if (r.tipo === 'regla') {
+    const id = r.objetos[0], e = OBJETOS[id].e
+    return {
+      question: s(l, `¿Cuál es el orden de magnitud de ${nObj(id, l)}, en metros?`, `What is the order of magnitude of ${nObj(id, l)}, in metres?`, `Quin és l’ordre de magnitud de ${nObj(id, l)}, en metres?`),
+      correctAnswer: `10${sup(e)}`, wrongAnswers: [e + 2, e - 2, -e || e + 4].map(x => `10${sup(x)}`),
+    }
+  }
+  if (r.tipo === 'coma') return schemaVieja({ ...r, tipo: r.modo }, l)
+  if (r.tipo === 'exponente') return schemaVieja({ ...r, tipo: r.sub }, l)
+  return schemaVieja(r, l)
 }

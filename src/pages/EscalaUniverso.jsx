@@ -11,18 +11,19 @@ import SEOHead from '../components/SEOHead'
 import { CabeceraJuego, NivelBarras, ComoSeJuega } from '../components/IntroJuego'
 import { Racha } from '../components/Iconos'
 
-const GAME_TIME = 60
+// Cada ronda se coloca, se corre la coma o se escribe: 90 s y +6 s por acierto.
+const GAME_TIME = 90
 const WRONG_TIME = 5
-const CORRECT_TIME = 4
+const CORRECT_TIME = 6
 const REVEAL_MS = 4500 // da tiempo a ver el objeto en la regla y la cuenta
 
 const DIFS = {
   facil:   { emoji: '💚', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
-             desc: { es: 'Números grandes en notación científica, propiedades del producto y el cociente', en: 'Big numbers in scientific notation, product and quotient rules', ca: 'Nombres grans en notació científica, propietats del producte i el quocient' } },
+             desc: { es: 'Coloca objetos en la regla (con un margen de una marca), corre la coma de números grandes y suma o resta exponentes', en: 'Place objects on the ruler (one mark of leeway), move the point in big numbers and add or subtract exponents', ca: 'Col·loca objectes a la regla (amb un marge d’una marca), mou la coma de nombres grans i suma o resta exponents' } },
   medio:   { emoji: '💛', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
-             desc: { es: 'También números pequeños, comparar tamaños y potencia de una potencia', en: 'Small numbers too, comparing sizes and power of a power', ca: 'També nombres petits, comparar mides i potència d’una potència' } },
+             desc: { es: 'La regla exacta, números pequeños como 0,000008, potencia de una potencia y 5⁰ o 2⁻³', en: 'The exact ruler, small numbers like 0.000008, power of a power and 5⁰ or 2⁻³', ca: 'La regla exacta, nombres petits com 0,000008, potència d’una potència i 5⁰ o 2⁻³' } },
   dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' },
-             desc: { es: 'Operar en notación científica y cuántas veces mayor es una cosa que otra', en: 'Calculating in scientific notation and how many times bigger one thing is', ca: 'Operar en notació científica i quantes vegades més gran és una cosa que una altra' } },
+             desc: { es: 'Opera en notación científica y normaliza el resultado tú mismo', en: 'Calculate in scientific notation and normalise the result yourself', ca: 'Opera en notació científica i normalitza el resultat tu mateix' } },
 }
 if (import.meta.env.DEV && Object.keys(DIFS).join() !== Object.keys(NIVELES).join()) {
   console.warn('[escala-universo] los niveles de la pantalla no coinciden con NIVELES')
@@ -107,9 +108,9 @@ export default function EscalaUniverso() {
   const seo = {
     title: tr({ es: 'Escala del Universo — Juego de potencias y notación científica', en: 'Universe Scale — Powers and scientific notation game', ca: 'Escala de l’Univers — Joc de potències i notació científica' }),
     desc: tr({
-      es: 'Del átomo a la Vía Láctea en una regla de potencias de 10: escribe tamaños reales en notación científica, compáralos, aplica las propiedades de las potencias y opera con exponentes. Juego de matemáticas gratis.',
-      en: 'From the atom to the Milky Way on a powers-of-10 ruler: write real sizes in scientific notation, compare them, use the laws of indices and calculate with exponents. Free maths game.',
-      ca: 'De l’àtom a la Via Làctia en un regle de potències de 10: escriu mides reals en notació científica, compara-les, aplica les propietats de les potències i opera amb exponents. Joc de matemàtiques gratis.',
+      es: 'Coloca un átomo, una célula, la Tierra o la Vía Láctea en una regla de potencias de 10, corre la coma para escribir en notación científica y ajusta exponentes. Juego de potencias gratis.',
+      en: 'Place an atom, a cell, the Earth or the Milky Way on a powers-of-10 ruler, move the point to write in scientific notation and adjust exponents. Free powers game.',
+      ca: 'Col·loca un àtom, una cèl·lula, la Terra o la Via Làctia en una regla de potències de 10, mou la coma per escriure en notació científica i ajusta exponents. Joc de potències gratis.',
     }),
     path: '/juegos/escala-universo',
   }
@@ -142,9 +143,8 @@ export default function EscalaUniverso() {
           </button>
           <ComoSeJuega>
             <div className="space-y-2 text-white/70 text-sm">
-              <p>{tr({ es: 'Sale una regla de potencias de 10 que va de 10⁻¹⁰ m (un átomo) a 10²¹ m (la Vía Láctea), con objetos reales en su sitio. Cada marca es diez veces la anterior. El objeto de la pregunta se oculta hasta que respondes, porque su posición daría el exponente.', en: 'A powers-of-10 ruler appears, from 10⁻¹⁰ m (an atom) to 10²¹ m (the Milky Way), with real objects in place. Each mark is ten times the one before. The object in the question stays hidden until you answer, because its position would give away the exponent.', ca: 'Surt un regle de potències de 10 que va de 10⁻¹⁰ m (un àtom) a 10²¹ m (la Via Làctia), amb objectes reals al seu lloc. Cada marca és deu vegades l’anterior. L’objecte de la pregunta s’amaga fins que respons, perquè la seva posició donaria l’exponent.' })}</p>
-              <p>{tr({ es: 'En notación científica se escribe una cifra antes de la coma y una potencia de 10: 12 700 000 = 1,27 · 10⁷. «12,7 · 10⁶» vale lo mismo, pero no está en notación científica. Los números pequeños llevan exponente negativo: 0,000008 = 8 · 10⁻⁶.', en: 'In scientific notation you write one digit before the point and a power of 10: 12,700,000 = 1.27 × 10⁷. “12.7 × 10⁶” is worth the same, but it is not scientific notation. Small numbers have a negative exponent: 0.000008 = 8 × 10⁻⁶.', ca: 'En notació científica s’escriu una xifra abans de la coma i una potència de 10: 12 700 000 = 1,27 · 10⁷. «12,7 · 10⁶» val el mateix, però no és notació científica. Els nombres petits porten exponent negatiu: 0,000008 = 8 · 10⁻⁶.' })}</p>
-              <p>{tr({ es: 'Las propiedades: al multiplicar potencias de la misma base se suman los exponentes; al dividir, se restan; en una potencia de una potencia, se multiplican. Y a⁰ = 1, y a⁻ⁿ = 1/aⁿ (no es negativo).', en: 'The rules: multiplying powers with the same base adds the exponents; dividing subtracts them; a power of a power multiplies them. And a⁰ = 1, and a⁻ⁿ = 1/aⁿ (it is not negative).', ca: 'Les propietats: en multiplicar potències de la mateixa base se sumen els exponents; en dividir, es resten; en una potència d’una potència, es multipliquen. I a⁰ = 1, i a⁻ⁿ = 1/aⁿ (no és negatiu).' })}</p>
+              <p>{tr({ es: 'La regla va de 10⁻¹⁰ m (un átomo) a 10²¹ m (la Vía Láctea), y cada marca es diez veces la anterior. Elige un objeto, toca su sitio en la regla y afina con ÷10 y ×10. En otras rondas corres la coma de un número: cada paso a la izquierda sube el exponente en uno, hasta dejar una sola cifra antes de la coma.', en: 'The ruler goes from 10⁻¹⁰ m (an atom) to 10²¹ m (the Milky Way), each mark ten times the previous one. Pick an object, tap its place and fine-tune with ÷10 and ×10. In other rounds you move the decimal point: each step left raises the exponent by one, until one digit is left before the point.', ca: 'La regla va de 10⁻¹⁰ m (un àtom) a 10²¹ m (la Via Làctia), i cada marca és deu vegades l’anterior. Tria un objecte, toca el seu lloc i afina amb ÷10 i ×10. En altres rondes mous la coma d’un nombre: cada pas a l’esquerra puja l’exponent en u.' })}</p>
+              <p>{tr({ es: 'Y con las propiedades de las potencias ajustas el exponente con − y + (al multiplicar se suman, al dividir se restan, en una potencia de potencia se multiplican) o escribes el valor con el teclado: 5⁰ = 1, 2⁻³ = 1/8, (−2)³ = −8.', en: 'And with the laws of powers you adjust the exponent with − and +, or type the value: 5⁰ = 1, 2⁻³ = 1/8, (−2)³ = −8.', ca: 'I amb les propietats de les potències ajustes l’exponent amb − i + o escrius el valor amb el teclat: 5⁰ = 1, 2⁻³ = 1/8, (−2)³ = −8.' })}</p>
               <p className="text-white/40 text-xs pt-1">⏱️ {GAME_TIME}s · {tr({ es: `Acierto +10 y +${CORRECT_TIME}s · Fallo −${WRONG_TIME}s`, en: `Correct +10 and +${CORRECT_TIME}s · Wrong −${WRONG_TIME}s`, ca: `Encert +10 i +${CORRECT_TIME}s · Error −${WRONG_TIME}s` })}</p>
             </div>
           </ComoSeJuega>

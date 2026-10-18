@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { genRonda, NIVELES, OBJETOS, cientifica, decimal, deClave, valorDe, potencia, enunciado, explicacion, textoOpcion, schemaQuestion } from '../escalaUniverso'
+import { genRonda, NIVELES, OBJETOS, cientifica, decimal, deClave, valorDe, potencia, enunciado, explicacion, textoOpcion, schemaQuestion, esCorrecta, metaComa, conExponente, reglaBien } from '../escalaUniverso'
 
 function semilla(s) {
   return () => { s = (s * 1103515245 + 12345) % 2147483648; return s / 2147483648 }
@@ -29,15 +29,30 @@ describe('Escala del Universo', () => {
       for (let i = 0; i < 600; i++) {
         const r = genRonda(nivel, { rand })
         tipos.add(r.tipo)
+        // Las mecánicas nuevas van encima del generador de siempre: sus comprobaciones siguen.
+        const t = r.tipo === 'coma' ? r.modo : r.tipo === 'exponente' ? r.sub : r.tipo
+        if (t === 'regla') {
+          expect(esCorrecta(r, 'regla:ok')).toBe(true)
+          const bien = Object.fromEntries(r.objetos.map(id => [id, OBJETOS[id].e]))
+          expect(reglaBien(r, bien)).toBe(true)
+          expect(reglaBien(r, { ...bien, [r.objetos[0]]: OBJETOS[r.objetos[0]].e + r.tol + 1 })).toBe(false)
+          for (const l of ['es', 'en', 'ca']) { expect(explicacion(r, l)).not.toMatch(/undefined|NaN/); expect(schemaQuestion(r, l).wrongAnswers).toHaveLength(3) }
+          continue
+        }
+        if (r.tipo === 'coma') {
+          expect(esCorrecta(r, metaComa(r))).toBe(true)
+          expect(conExponente(r, deClave(r.bueno).e)).toBe(r.bueno)
+          expect(esCorrecta(r, conExponente(r, deClave(metaComa(r)).e + 1))).toBe(false)
+        } else expect(esCorrecta(r, r.bueno)).toBe(true)
         expect(r.opciones).toContain(r.bueno)
         expect(new Set(r.opciones).size).toBe(r.opciones.length)
-        if (r.tipo === 'escribir') {
+        if (t === 'escribir') {
           // Solo una opción está normalizada Y vale lo mismo.
           const ok = r.opciones.filter(o => normalizada(o) && cerca(valorDe(o), valorDe(r.bueno)))
           expect(ok).toEqual([r.bueno])
         }
-        if (r.tipo === 'leer') expect(r.opciones.filter(o => cerca(valorDe(o), valorDe(r.bueno)))).toEqual([r.bueno])
-        if (r.tipo === 'operar') {
+        if (t === 'leer') expect(r.opciones.filter(o => cerca(valorDe(o), valorDe(r.bueno)))).toEqual([r.bueno])
+        if (t === 'operar') {
           const v = r.div ? (r.a / r.b) * 10 ** (r.p - r.q) : r.a * r.b * 10 ** (r.p + r.q)
           expect(cerca(valorDe(r.bueno), v)).toBe(true)
           expect(normalizada(r.bueno)).toBe(true)
@@ -48,7 +63,7 @@ describe('Escala del Universo', () => {
           const may = valorDe(`${OBJETOS[a].m}e${OBJETOS[a].e}`) > valorDe(`${OBJETOS[b].m}e${OBJETOS[b].e}`) ? a : b
           expect(r.bueno).toBe(may)
         }
-        if (r.tipo === 'propiedad') {
+        if (t === 'propiedad') {
           const [b] = r.bueno.split('^').map(Number)
           // Las opciones distintas de la buena no valen lo mismo.
           for (const o of r.opciones) if (o !== r.bueno) expect(valPot(o)).not.toBe(valPot(r.bueno))
@@ -57,11 +72,11 @@ describe('Escala del Universo', () => {
         for (const l of ['es', 'en', 'ca']) {
           expect(enunciado(r, l)).not.toMatch(/undefined|NaN/)
           expect(explicacion(r, l)).not.toMatch(/undefined|NaN/)
-          for (const o of r.opciones) expect(textoOpcion(o, r, l)).not.toMatch(/undefined|NaN/)
+          for (const o of r.opciones) expect(textoOpcion(o, { ...r, tipo: t }, l)).not.toMatch(/undefined|NaN/)
           expect(schemaQuestion(r, l).wrongAnswers).toHaveLength(r.opciones.length - 1)
         }
       }
-      for (const t of NIVELES[nivel].tipos) expect(tipos.has(t), t).toBe(true)
+      for (const m of NIVELES[nivel].mecanicas) expect(tipos.has(m), m).toBe(true)
     })
   }
 })
