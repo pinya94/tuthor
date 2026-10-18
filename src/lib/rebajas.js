@@ -182,7 +182,21 @@ export function genRonda(nivel = 'facil', { rand = Math.random } = {}) {
   }
 }
 
-export const esCorrecta = (ronda, r) => r === ronda.bueno
+// Lo que se teclea en el juego: euros («12,5», «12.50», «12») a céntimos, o un
+// porcentaje. Al comparar, «lo que pagas en A|lo que pagas en B».
+export function aCentimos(t) {
+  const x = String(t).trim().replace(',', '.')
+  if (!/^\d+(\.\d{1,2})?$/.test(x)) return null
+  return Math.round(Number(x) * 100)
+}
+// Para el texto de las respuestas (y los tests): 1250 → «12,50».
+export const teclado = (cent, l = 'es') => (cent % 100 === 0 ? String(cent / 100) : (cent / 100).toFixed(2)).replace('.', l === 'en' ? '.' : ',')
+export function esCorrecta(ronda, r) {
+  if (ronda.unidad === 'eur') return aCentimos(r) === ronda.bueno
+  if (ronda.unidad === 'pct') return /^\d+$/.test(String(r).trim()) && Number(r) === ronda.bueno
+  const [a, b] = String(r).split('|').map(aCentimos)
+  return a === ronda.costes[0] && b === ronda.costes[1]
+}
 export const genRound = difficulty => genRonda(difficulty)
 export const isCorrect = esCorrecta
 

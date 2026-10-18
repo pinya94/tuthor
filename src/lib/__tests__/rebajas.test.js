@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { NIVELES, OFERTAS, IVA, genRonda, esCorrecta, explicacion, schemaQuestion, textoOpcion, eur } from '../rebajas'
+import { NIVELES, OFERTAS, IVA, genRonda, esCorrecta, explicacion, schemaQuestion, textoOpcion, eur, teclado, aCentimos } from '../rebajas'
 
 function semilla(s) { return () => ((s = (s * 16807) % 2147483647) - 1) / 2147483646 }
 const L = ['es', 'en', 'ca']
@@ -39,7 +39,10 @@ describe('Rebajas · rondas', () => {
         expect(NIVELES[nivel].tipos).toContain(r.tipo)
         expect(r.opciones).toContain(r.bueno)
         expect(new Set(r.opciones).size).toBe(r.opciones.length)
-        expect(esCorrecta(r, r.bueno)).toBe(true)
+        // Se juega tecleando: la cantidad buena escrita como la escribiría un alumno.
+        const tecleo = r.unidad === 'tienda' ? r.costes.map(c => teclado(c)).join('|') : r.unidad === 'pct' ? String(r.bueno) : teclado(r.bueno)
+        expect(esCorrecta(r, tecleo), tecleo).toBe(true)
+        if (r.unidad === 'eur') { expect(esCorrecta(r, teclado(r.bueno + 1))).toBe(false); expect(aCentimos(teclado(r.bueno, 'en'))).toBe(r.bueno) }
         if (r.unidad === 'eur') {
           // céntimos enteros y positivos: nada de 14,999999 €
           for (const o of r.opciones) { expect(Number.isInteger(o)).toBe(true); expect(o).toBeGreaterThan(0) }

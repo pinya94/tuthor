@@ -11,9 +11,10 @@ import SEOHead from '../components/SEOHead'
 import { CabeceraJuego, NivelBarras, ComoSeJuega } from '../components/IntroJuego'
 import { Racha } from '../components/Iconos'
 
-const GAME_TIME = 60
+// La cuenta se teclea (sin opciones): 90 s y +6 s por acierto.
+const GAME_TIME = 90
 const WRONG_TIME = 5
-const CORRECT_TIME = 4
+const CORRECT_TIME = 6
 const REVEAL_MS = 4200 // da tiempo a leer la cuenta de la explicación
 
 const DIFS = {
@@ -107,7 +108,7 @@ export default function Rebajas() {
   const seo = {
     title: tr({ es: 'Rebajas — Juego de porcentajes, descuentos e IVA', en: 'Sale! — Percentages, discounts and VAT game', ca: 'Rebaixes — Joc de percentatges, descomptes i IVA' }),
     desc: tr({
-      es: 'Etiquetas de tienda con descuentos, IVA, el precio de antes, rebajas encadenadas y ofertas 3×2. Calcula cuánto pagas y descubre las trampas de los porcentajes. Juego de matemáticas gratis.',
+      es: 'Porcentajes de tienda de verdad: calcula y teclea el precio con descuento, el IVA, el precio original o la rebaja encadenada, y compara ofertas 3×2. Juego de matemáticas gratis.',
       en: 'Shop price tags with discounts, VAT, the old price, chained sales and 3-for-2 deals. Work out what you pay and spot the percentage traps. Free maths game.',
       ca: 'Etiquetes de botiga amb descomptes, IVA, el preu d’abans, rebaixes encadenades i ofertes 3×2. Calcula quant pagues i descobreix els paranys dels percentatges. Joc de matemàtiques gratis.',
     }),
@@ -142,7 +143,7 @@ export default function Rebajas() {
           </button>
           <ComoSeJuega>
             <div className="space-y-2 text-white/70 text-sm">
-              <p>{tr({ es: 'Sale la etiqueta de un producto con el camino del precio: el precio, el porcentaje y el precio final. Uno de ellos es un «?» y tienes que elegir cuál es. Al responder se rellena y ves la cuenta.', en: 'A product tag appears showing the price’s journey: the price, the percentage and the final price. One of them is a «?» and you pick its value. When you answer it fills in and you see the working.', ca: 'Surt l’etiqueta d’un producte amb el camí del preu: el preu, el percentatge i el preu final. Un d’ells és un «?» i has de triar quin és. En respondre s’omple i veus el compte.' })}</p>
+              <p>{tr({ es: 'Sale la etiqueta de un producto con el camino del precio: el precio, el porcentaje y el precio final. Uno de ellos es un «?» y no hay opciones: haces la cuenta y la tecleas, con céntimos si hace falta. Al comparar dos tiendas, escribes lo que pagarías en cada una.', en: 'A product tag appears showing the price’s journey: the price, the percentage and the final price. One of them is a «?» and there are no options: you work it out and type it, pennies included. When comparing two shops, you type what you would pay in each.', ca: 'Surt l’etiqueta d’un producte amb el camí del preu: el preu, el percentatge i el preu final. Un d’ells és un «?» i no hi ha opcions: fas el compte i el tecleges, amb cèntims si cal. En comparar dues botigues, escrius el que pagaries a cadascuna.' })}</p>
               <p>{tr({ es: 'El truco es pensar en multiplicar: un 25 % de descuento es pagar el 75 %, o sea, × 0,75; sumar el 21 % de IVA es × 1,21. Con eso salen todas, incluido el precio de antes de la rebaja: se divide.', en: 'The trick is to think in multiplying: 25% off means paying 75%, that is × 0.75; adding 21% VAT is × 1.21. That solves them all, including the price before the sale: you divide.', ca: 'El truc és pensar a multiplicar: un 25 % de descompte és pagar el 75 %, és a dir, × 0,75; sumar el 21 % d’IVA és × 1,21. Amb això surten totes, fins i tot el preu d’abans de la rebaixa: es divideix.' })}</p>
               <p>{tr({ es: 'Ojo con las trampas: subir un 20 % y bajar un 20 % no te deja igual, un 20 % más un 10 % extra no es un 30 %, y un 3×2 puede salir mejor o peor que un −30 %. Las opciones incluyen justo esos errores.', en: 'Watch out for the traps: going up 20% and down 20% does not leave you where you started, 20% plus an extra 10% is not 30%, and 3 for 2 can be better or worse than 30% off. The options include exactly those mistakes.', ca: 'Compte amb els paranys: pujar un 20 % i baixar un 20 % no et deixa igual, un 20 % més un 10 % extra no és un 30 %, i un 3×2 pot sortir millor o pitjor que un −30 %. Les opcions inclouen just aquests errors.' })}</p>
               <p className="text-white/40 text-xs pt-1">⏱️ {GAME_TIME}s · {tr({ es: `Acierto +10 y +${CORRECT_TIME}s · Fallo −${WRONG_TIME}s`, en: `Correct +10 and +${CORRECT_TIME}s · Wrong −${WRONG_TIME}s`, ca: `Encert +10 i +${CORRECT_TIME}s · Error −${WRONG_TIME}s` })}</p>
