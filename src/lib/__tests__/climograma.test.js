@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { NIVELES, CLIMAS, genRonda, genClima, clasificar, esCorrecta, explicacion, schemaQuestion, textoOpcion, enunciado } from '../climograma'
+import { CLIMAS, genRonda, genClima, clasificar, esCorrecta, explicacion, schemaQuestion, textoOpcion, enunciado, MECANICAS_DE, listaSecos, mesesCalidos, respuestaMeses } from '../climograma'
 
 function semilla(s) { return () => ((s = (s * 16807) % 2147483647) - 1) / 2147483646 }
 const L = ['es', 'en', 'ca']
@@ -26,18 +26,36 @@ describe('Climograma · climas generados', () => {
 })
 
 describe('Climograma · rondas', () => {
-  for (const nivel of Object.keys(NIVELES)) {
+  for (const nivel of ['facil', 'medio', 'dificil']) {
     it(`${nivel}: la respuesta sale de los datos`, () => {
       const rand = semilla(nivel.length * 991)
       const tipos = new Set()
       for (let i = 0; i < 500; i++) {
         const r = genRonda(nivel, { rand })
-        tipos.add(r.pregunta)
-        expect(r.opciones).toContain(r.bueno)
+        tipos.add(r.mecanica)
+        if (r.mecanica !== 'clasifica') expect(r.opciones).toContain(r.bueno)
         expect(new Set(r.opciones).size).toBe(r.opciones.length)
-        expect(esCorrecta(r, r.bueno)).toBe(true)
+        // La respuesta que da el componente al tocarlo todo bien
+        const buena = { calido: r.bueno, lluvioso: r.bueno, amplitud: String(r.bueno), secos: respuestaMeses(listaSecos(r)), verano: respuestaMeses(mesesCalidos(r)) }[r.mecanica] ?? 'clasifica:0'
+        expect(esCorrecta(r, buena)).toBe(true)
+        expect(esCorrecta(r, 'clasifica:1')).toBe(false)
+        if (r.mecanica === 'clasifica') {
+          expect(new Set(r.cajas).size).toBe(4)
+          for (const c of r.climas) {
+            expect(r.cajas).toContain(c.tipo)
+            expect(clasificar(c)).toBe(c.tipo)
+          }
+        }
+        if (r.mecanica === 'calido') expect(r.T.filter(x => x === Math.max(...r.T)).length).toBe(1)
+        if (r.mecanica === 'lluvioso') expect(r.P.filter(x => x > Math.max(...r.P) - 8).length).toBe(1)
+        if (r.mecanica === 'secos') expect(listaSecos(r).length).toBeGreaterThan(0)
+        if (r.mecanica === 'verano') {
+          const v = mesesCalidos(r)
+          expect(v.length).toBe(3)
+          expect(Math.min(...v.map(m => r.T[m]))).toBeGreaterThan(Math.max(...r.T.filter((_, m) => !v.includes(m))))
+        }
         const tmax = Math.max(...r.T), tmin = Math.min(...r.T)
-        if (r.pregunta === 'clima') expect(r.bueno).toBe(clasificar(r))
+        if (r.mecanica === 'clasifica') expect(r.opciones).toContain(clasificar(r))
         if (r.pregunta === 'calido') {
           expect(r.T[r.bueno]).toBe(tmax)
           for (const o of r.opciones) if (o !== r.bueno) expect(tmax - r.T[o]).toBeGreaterThanOrEqual(2)
@@ -64,7 +82,7 @@ describe('Climograma · rondas', () => {
           expect(q.wrongAnswers).not.toContain(q.correctAnswer)
         }
       }
-      expect([...tipos].sort()).toEqual([...new Set(NIVELES[nivel].tipos)].sort())
+      expect([...tipos].sort()).toEqual([...new Set(MECANICAS_DE(nivel))].sort())
     })
   }
 })

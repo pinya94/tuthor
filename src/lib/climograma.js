@@ -149,10 +149,9 @@ const otrosMeses = (rand, i) => baraja(rand, [...Array(12).keys()].filter(j => M
 
 let seq = 0
 
-export function genRonda(nivel = 'facil', { rand = Math.random, evitar } = {}) {
-  const cfg = NIVELES[nivel] ?? NIVELES.facil
+// El generador de preguntas de siempre: la ronda de un tipo, con sus opciones.
+function genVieja(nivel, pregunta, rand, evitar) {
   for (;;) {
-    const pregunta = elige(rand, cfg.tipos)
     const base = { id: ++seq, nivel, pregunta }
     if (pregunta === 'clima') {
       const sur = nivel === 'dificil' && rand() < 0.4
@@ -199,9 +198,6 @@ export function genRonda(nivel = 'facil', { rand = Math.random, evitar } = {}) {
   }
 }
 
-export const esCorrecta = (ronda, r) => r === ronda.bueno
-export const genRound = difficulty => genRonda(difficulty)
-export const isCorrect = esCorrecta
 
 // ── Textos ───────────────────────────────────────────────────────────────
 const T = (es, en, ca) => ({ es, en, ca })
@@ -249,7 +245,7 @@ export function textoOpcion(o, ronda, l) {
   }
 }
 
-export function enunciado(ronda, l) {
+function enunciadoViejo(ronda, l) {
   return tx({
     clima: T('¿A qué clima corresponde este climograma?', 'Which climate does this climate graph show?', 'A quin clima correspon aquest climograma?'),
     calido: T('¿Cuál es el mes más cálido?', 'Which is the warmest month?', 'Quin és el mes més càlid?'),
@@ -260,7 +256,7 @@ export function enunciado(ronda, l) {
   }[ronda.pregunta], l)
 }
 
-export function explicacion(ronda, l) {
+function explicacionVieja(ronda, l) {
   const r = ronda
   const tmax = Math.max(...r.T), tmin = Math.min(...r.T)
   const iMax = r.T.indexOf(tmax), iMin = r.T.indexOf(tmin)
@@ -282,12 +278,114 @@ export function explicacion(ronda, l) {
   }
 }
 
-export function schemaQuestion(ronda, l) {
+function schemaVieja(ronda, l) {
   // Sin el dibujo, se da la tabla de datos.
   const datos = ronda.T.map((t, i) => `${(INICIALES[l] ?? INICIALES.es)[i]} ${t}°C/${ronda.P[i]}mm`).join(', ')
   return {
-    question: `${datos}. ${enunciado(ronda, l)}`,
+    question: `${datos}. ${enunciadoViejo(ronda, l)}`,
     correctAnswer: textoOpcion(ronda.bueno, ronda, l),
     wrongAnswers: ronda.opciones.filter(o => o !== ronda.bueno).map(o => textoOpcion(o, ronda, l)),
   }
+}
+
+// ── Mecánicas ─────────────────────────────────────────────────────────────
+// Encima del generador de arriba (que sigue dando las opciones del examen en
+// texto), todo se responde tocando el climograma:
+//   calido / lluvioso  tocar la columna del mes
+//   secos              tocar todas las columnas de meses secos
+//   amplitud           marcar el punto más alto y el más bajo y teclear la diferencia
+//   verano             tocar los tres meses más cálidos: de ahí sale el hemisferio
+//   clasifica          tres climogramas pequeños, cada uno a la caja de su clima
+const MECANICAS = {
+  facil:   ['calido', 'lluvioso', 'lluvioso', 'clasifica'],
+  medio:   ['clasifica', 'clasifica', 'amplitud', 'secos', 'lluvioso'],
+  dificil: ['clasifica', 'secos', 'amplitud', 'verano', 'verano'],
+}
+export const MECANICAS_DE = nivel => MECANICAS[nivel] ?? MECANICAS.facil
+// Climas muy distintos entre sí, para clasificar en fácil.
+const CLAROS = ['ecuatorial', 'desertico', 'polar', 'mediterraneo']
+
+export const mesesCalidos = c => [...c.T.keys()].sort((a, b) => c.T[b] - c.T[a]).slice(0, 3).sort((a, b) => a - b)
+export const listaSecos = c => [...c.P.keys()].filter(i => esSeco(c.P[i], c.T[i]))
+
+let seqN = 0
+const recientes = []
+export function genRonda(nivel = 'facil', opts = {}) {
+  for (let intento = 0; ; intento++) {
+    const r = genNueva(nivel, opts)
+    const tema = r.climas ? r.climas.map(c => c.tipo).sort().join() : `${r.tipo}${r.mecanica}`
+    if (intento < 20 && recientes.includes(tema)) continue
+    recientes.push(tema)
+    if (recientes.length > 5) recientes.shift()
+    return r
+  }
+}
+const ordenDesc = xs => [...xs].sort((x, y) => y - x)
+function claro(r, mecanica) {
+  const t = ordenDesc(r.T), p = ordenDesc(r.P)
+  if (mecanica === 'calido') return t[0] - t[1] >= 1
+  if (mecanica === 'lluvioso') return p[0] - p[1] >= 8
+  if (mecanica === 'verano') return t[2] - t[3] >= 1
+  if (mecanica === 'secos') {
+    const secos = listaSecos(r)
+    // Ni ninguno ni todos, y ninguna barra pegada a la línea de Gaussen.
+    return secos.length >= 1 && secos.length <= 10 && r.P.every((x, i) => Math.abs(x - 2 * r.T[i]) >= 4)
+  }
+  return true
+}
+function genNueva(nivel, { rand = Math.random } = {}) {
+  for (;;) {
+    const mecanica = elige(rand, MECANICAS_DE(nivel))
+    if (mecanica === 'clasifica') {
+      const pool = nivel === 'facil' ? CLAROS : CLIMAS
+      const tipos = baraja(rand, pool).slice(0, 3)
+      const climas = tipos.map(t => ({ ...genClima(t, rand, false), tipo: t }))
+      // Una caja más: un clima que se confunde con alguno de los tres.
+      const extra = baraja(rand, [...new Set(tipos.flatMap(t => PARECIDOS[t]))].filter(t => !tipos.includes(t)))[0]
+      if (!extra) continue
+      const primero = genVieja(nivel, 'clima', rand)
+      return { ...primero, id: ++seqN, mecanica, climas, cajas: baraja(rand, [...tipos, extra]), bueno: 'clasifica:0' }
+    }
+    // hemisferio → «verano»: se tocan los meses cálidos
+    const r = genVieja(nivel, mecanica === 'verano' ? 'hemisferio' : mecanica, rand)
+    // Se puede tocar cualquier mes, así que la respuesta tiene que destacar
+    // sobre los doce, no solo sobre las opciones del examen.
+    if (!claro(r, mecanica)) continue
+    return { ...r, id: ++seqN, mecanica }
+  }
+}
+export const genRound = difficulty => genRonda(difficulty)
+
+const lista = xs => [...xs].sort((a, b) => a - b).join(',')
+// Respuestas: calido/lluvioso, el mes tocado; secos y verano, los meses
+// tocados («1,6,7»); amplitud, el número tecleado; clasifica «clasifica:fallos».
+export function esCorrecta(r, o) {
+  switch (r.mecanica) {
+    case 'calido': case 'lluvioso': return Number(o) === r.bueno
+    case 'secos': return String(o) === lista(listaSecos(r))
+    case 'verano': return String(o) === lista(mesesCalidos(r))
+    case 'amplitud': return /^\d+$/.test(String(o).trim()) && Number(o) === r.bueno
+    default: return o === 'clasifica:0'
+  }
+}
+export const isCorrect = esCorrecta
+export const respuestaMeses = lista
+
+export function enunciado(r, l) {
+  switch (r.mecanica) {
+    case 'calido': return tx(T('Toca el mes más cálido', 'Tap the warmest month', 'Toca el mes més càlid'), l)
+    case 'lluvioso': return tx(T('Toca el mes más lluvioso', 'Tap the wettest month', 'Toca el mes més plujós'), l)
+    case 'secos': return tx(T('Toca todos los meses secos (la barra queda por debajo de la línea)', 'Tap every dry month (the bar stays below the line)', 'Toca tots els mesos secs (la barra queda per sota de la línia)'), l)
+    case 'amplitud': return tx(T('Marca el mes más cálido y el más frío y escribe la amplitud térmica', 'Mark the warmest and the coldest month and type the temperature range', 'Marca el mes més càlid i el més fred i escriu l’amplitud tèrmica'), l)
+    case 'verano': return tx(T('Toca los tres meses de verano (los más cálidos)', 'Tap the three summer months (the warmest)', 'Toca els tres mesos d’estiu (els més càlids)'), l)
+    default: return tx(T('Coloca cada climograma en la caja de su clima', 'Put each climate graph in its climate’s box', 'Col·loca cada climograma a la caixa del seu clima'), l)
+  }
+}
+export function explicacion(r, l) {
+  if (r.mecanica === 'clasifica') return r.climas.map(c => `${tx(NOMBRE_CLIMA[c.tipo], l)}: ${tx(RASGOS[c.tipo], l)}`).join(' ')
+  return explicacionVieja({ ...r, pregunta: r.mecanica === 'verano' ? 'hemisferio' : r.mecanica }, l)
+}
+export function schemaQuestion(r, l) {
+  if (r.mecanica === 'clasifica') return schemaVieja({ ...r, bueno: clasificar(r) }, l)
+  return schemaVieja({ ...r, pregunta: r.mecanica === 'verano' ? 'hemisferio' : r.mecanica }, l)
 }

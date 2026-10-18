@@ -11,18 +11,19 @@ import SEOHead from '../components/SEOHead'
 import { CabeceraJuego, NivelBarras, ComoSeJuega } from '../components/IntroJuego'
 import { Racha } from '../components/Iconos'
 
-const GAME_TIME = 60
+// Todo se toca en la gráfica (y la amplitud se teclea): 90 s y +6 s por acierto.
+const GAME_TIME = 90
 const WRONG_TIME = 5
-const CORRECT_TIME = 4
+const CORRECT_TIME = 6
 const REVEAL_MS = 4800 // da tiempo a ver lo marcado en el climograma
 
 const DIFS = {
   facil:   { emoji: '💚', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
-             desc: { es: 'El mes más cálido, el más lluvioso y los climas más claros', en: 'The warmest month, the wettest month and the clearest climates', ca: 'El mes més càlid, el més plujós i els climes més clars' } },
+             desc: { es: 'Toca el mes más cálido o el más lluvioso y clasifica climas muy distintos', en: 'Tap the warmest or wettest month and sort very different climates', ca: 'Toca el mes més càlid o el més plujós i classifica climes molt diferents' } },
   medio:   { emoji: '💛', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
-             desc: { es: 'Siete climas, amplitud térmica y meses secos', en: 'Seven climates, temperature range and dry months', ca: 'Set climes, amplitud tèrmica i mesos secs' } },
+             desc: { es: 'Siete climas a su caja, amplitud térmica y meses secos', en: 'Seven climates into their boxes, temperature range and dry months', ca: 'Set climes a la seva caixa, amplitud tèrmica i mesos secs' } },
   dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' },
-             desc: { es: 'Climogramas del hemisferio sur y lectura fina', en: 'Southern-hemisphere graphs and close reading', ca: 'Climogrames de l’hemisferi sud i lectura fina' } },
+             desc: { es: 'Toca el verano (también en el hemisferio sur) y lectura fina', en: 'Tap the summer (southern hemisphere too) and close reading', ca: 'Toca l’estiu (també a l’hemisferi sud) i lectura fina' } },
 }
 if (import.meta.env.DEV && Object.keys(DIFS).join() !== Object.keys(NIVELES).join()) {
   console.warn('[climograma] los niveles de la pantalla no coinciden con NIVELES')
@@ -107,9 +108,9 @@ export default function Climograma() {
   const seo = {
     title: tr({ es: 'Climograma — Juego para leer climogramas y reconocer climas', en: 'Climate Graph — Game for reading climate graphs and climates', ca: 'Climograma — Joc per llegir climogrames i reconèixer climes' }),
     desc: tr({
-      es: 'Climogramas generados de los siete climas: ecuatorial, tropical, desértico, mediterráneo, oceánico, continental y polar. Mes más cálido, amplitud térmica, meses secos y hemisferio. Juego gratis.',
-      en: 'Generated climate graphs for seven climates: equatorial, tropical, desert, Mediterranean, oceanic, continental and polar. Warmest month, temperature range, dry months and hemisphere.',
-      ca: 'Climogrames generats dels set climes: equatorial, tropical, desèrtic, mediterrani, oceànic, continental i polar. Mes més càlid, amplitud tèrmica, mesos secs i hemisferi. Joc gratis.',
+      es: 'Climogramas generados de los siete climas: ecuatorial, tropical, desértico, mediterráneo, oceánico, continental y polar. Toca en la gráfica el mes más cálido, los meses secos o el verano, teclea la amplitud y coloca cada climograma en su clima. Juego gratis.',
+      en: 'Generated climate graphs for seven climates: equatorial, tropical, desert, Mediterranean, oceanic, continental and polar. Tap the warmest month, the dry months or the summer on the graph, type the range and sort each graph into its climate.',
+      ca: 'Climogrames generats dels set climes: equatorial, tropical, desèrtic, mediterrani, oceànic, continental i polar. Toca a la gràfica el mes més càlid, els mesos secs o l’estiu, tecleja l’amplitud i col·loca cada climograma al seu clima. Joc gratis.',
     }),
     path: '/juegos/climograma',
   }
@@ -142,7 +143,7 @@ export default function Climograma() {
           </button>
           <ComoSeJuega>
             <div className="space-y-2 text-white/70 text-sm">
-              <p>{tr({ es: 'Sale un climograma: las barras azules son la lluvia de cada mes (en mm, eje derecho) y la línea roja, la temperatura media (en °C, eje izquierdo). Léelo y responde: el mes más cálido o más lluvioso, la amplitud térmica (mes más cálido menos mes más frío), cuántos meses secos hay o qué clima es.', en: 'A climate graph appears: the blue bars are each month’s rainfall (in mm, right axis) and the red line is the average temperature (in °C, left axis). Read it and answer: the warmest or wettest month, the temperature range (warmest month minus coldest), how many dry months there are, or which climate it is.', ca: 'Surt un climograma: les barres blaves són la pluja de cada mes (en mm, eix dret) i la línia vermella, la temperatura mitjana (en °C, eix esquerre). Llegeix-lo i respon: el mes més càlid o més plujós, l’amplitud tèrmica (mes més càlid menys mes més fred), quants mesos secs hi ha o quin clima és.' })}</p>
+              <p>{tr({ es: 'Sale un climograma: las barras azules son la lluvia de cada mes (en mm, eje derecho) y la línea roja, la temperatura media (en °C, eje izquierdo). No hay opciones: todo se hace sobre la gráfica. Tocas la columna del mes más cálido o más lluvioso, marcas todos los meses secos o los tres de verano, señalas el mes más cálido y el más frío y tecleas la amplitud térmica, o colocas tres climogramas pequeños en la caja de su clima.', en: 'A climate graph appears: the blue bars are each month’s rainfall (in mm, right axis) and the red line is the average temperature (in °C, left axis). There are no options: everything happens on the graph. You tap the column of the warmest or wettest month, mark every dry month or the three summer months, point to the warmest and coldest month and type the temperature range, or drop three small graphs into their climate’s box.', ca: 'Surt un climograma: les barres blaves són la pluja de cada mes (en mm, eix dret) i la línia vermella, la temperatura mitjana (en °C, eix esquerre). No hi ha opcions: tot es fa sobre la gràfica. Toques la columna del mes més càlid o més plujós, marques tots els mesos secs o els tres d’estiu, assenyales el mes més càlid i el més fred i tecleges l’amplitud tèrmica, o col·loques tres climogrames petits a la caixa del seu clima.' })}</p>
               <p>{tr({ es: 'La lluvia va a doble escala que la temperatura (20 mm a la altura de 10 °C): así, un mes es seco cuando su barra no llega a la línea. Ojo con el hemisferio sur: allí el verano cae en diciembre, enero y febrero.', en: 'Rainfall is on double the temperature scale (20 mm level with 10 °C): that way a month is dry when its bar does not reach the line. Watch out for the southern hemisphere: there, summer falls in December, January and February.', ca: 'La pluja va a doble escala que la temperatura (20 mm a l’altura de 10 °C): així, un mes és sec quan la seva barra no arriba a la línia. Compte amb l’hemisferi sud: allà l’estiu cau al desembre, gener i febrer.' })}</p>
               <p className="text-white/40 text-xs pt-1">⏱️ {GAME_TIME}s · {tr({ es: `Acierto +10 y +${CORRECT_TIME}s · Fallo −${WRONG_TIME}s`, en: `Correct +10 and +${CORRECT_TIME}s · Wrong −${WRONG_TIME}s`, ca: `Encert +10 i +${CORRECT_TIME}s · Error −${WRONG_TIME}s` })}</p>
             </div>

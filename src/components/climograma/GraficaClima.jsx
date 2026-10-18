@@ -14,7 +14,8 @@ const COL = ANCHO / 12
 const uP = p => (p <= 100 ? p / 2 : 50 + (p - 100) / 20)
 const mmDe = u => (u <= 50 ? u * 2 : 100 + (u - 50) * 20)
 
-export default function GraficaClima({ ronda, revelado, iniciales, t }) {
+// onMes: cada columna se puede tocar. elegidos: meses marcados por el alumno.
+export default function GraficaClima({ ronda, revelado, iniciales, t, onMes, elegidos = [], className = 'w-full h-auto' }) {
   const r = ronda
   const tmax = Math.max(...r.T), tmin = Math.min(...r.T)
   const bajo = Math.min(0, Math.floor(tmin / 10) * 10)
@@ -31,7 +32,10 @@ export default function GraficaClima({ ronda, revelado, iniciales, t }) {
   )
 
   return (
-    <svg viewBox={`0 0 ${W} ${H}`} className="w-full h-auto" role="img" aria-label={t.aria}>
+    <svg viewBox={`0 0 ${W} ${H}`} className={className} role="img" aria-label={t.aria}>
+      {elegidos.map(m => (
+        <rect key={`e${m}`} x={X0 + COL * m + 1} y={Y0 - ALTO} width={COL - 2} height={ALTO + 16} rx="3" fill="#FCD34D" fillOpacity=".18" stroke="#FCD34D" strokeWidth="1.5" />
+      ))}
       {revelado && r.pregunta === 'hemisferio' && calidos.map(m => (
         <rect key={`v${m}`} x={X0 + COL * m} y={Y0 - ALTO} width={COL} height={ALTO} fill="#FBBF24" fillOpacity=".12" />
       ))}
@@ -74,6 +78,9 @@ export default function GraficaClima({ ronda, revelado, iniciales, t }) {
           <text x={X(iMin)} y={Y(tmin) + 16} textAnchor="middle" fontSize="10" fontWeight="800" fill="#67E8F9" stroke="#0b1226" strokeWidth="3" paintOrder="stroke">{tmin} °C</text>
         </>
       )}
+      {onMes && [...Array(12).keys()].map(m => (
+        <rect key={`c${m}`} x={X0 + COL * m} y={Y0 - ALTO - 10} width={COL} height={ALTO + 30} fill="transparent" className="cursor-pointer" onClick={() => onMes(m)} />
+      ))}
     </svg>
   )
 }

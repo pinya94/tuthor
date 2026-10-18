@@ -7,16 +7,16 @@ import { genRound, esCorrecta, schemaQuestion } from '../lib/climograma'
 const LEVELS = [
   { key: 'primaria', emoji: '💚', difficulty: 'facil',
     label: { es: 'Iniciación', en: 'Beginner', ca: 'Iniciació' },
-    hint: { es: 'Mes más cálido, más lluvioso y climas claros', en: 'Warmest and wettest month, clear climates', ca: 'Mes més càlid, més plujós i climes clars' } },
+    hint: { es: 'Toca el mes más cálido o lluvioso y clasifica climas claros', en: 'Tap the warmest or wettest month, sort clear climates', ca: 'Toca el mes més càlid o plujós i classifica climes clars' } },
   { key: 'eso', emoji: '💛', difficulty: 'medio',
     label: { es: 'Secundaria (ESO)', en: 'Secondary (ESO)', ca: 'Secundària (ESO)' },
     hint: { es: 'Siete climas, amplitud y meses secos', en: 'Seven climates, range and dry months', ca: 'Set climes, amplitud i mesos secs' } },
   { key: 'bachillerato', emoji: '🔴', difficulty: 'dificil',
     label: { es: 'Bachillerato', en: 'Sixth form', ca: 'Batxillerat' },
-    hint: { es: 'Hemisferio sur y lectura fina', en: 'Southern hemisphere and close reading', ca: 'Hemisferi sud i lectura fina' } },
+    hint: { es: 'Toca el verano, también en el hemisferio sur', en: 'Tap the summer, southern hemisphere too', ca: 'Toca l’estiu, també a l’hemisferi sud' } },
 ]
 
-// Estado propio (la opción elegida): ver la nota de hooks en
+// Estado propio (lo que se ha tocado): ver la nota de hooks en
 // CircuitoCerradoExamen.jsx.
 function Pregunta({ round, phase, onAnswer }) {
   const [elegida, setElegida] = useState(null)
@@ -36,7 +36,7 @@ export default function ClimogramaExamen() {
       metaPath="/examen/climograma-test"
       subjectSchema="Geografía"
       backGamePath="/juegos/climograma"
-      playLabel={{ es: 'Modo arcade (60s)', en: 'Arcade mode (60s)', ca: 'Mode arcade (60s)' }}
+      playLabel={{ es: 'Modo arcade (90s)', en: 'Arcade mode (90s)', ca: 'Mode arcade (90s)' }}
       levels={LEVELS}
       genRound={genRound}
       isCorrect={esCorrecta}
