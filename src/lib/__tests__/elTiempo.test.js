@@ -1,8 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import {
   NIVELES, genRonda, esCorrecta, prendaPara, sensacion, claveTraje, intensidadEn,
-  KM_CASILLA, INTENSIDADES, LLUVIA_PARAGUAS, UV_SOL, explicacion, schemaQuestion, HORAS,
-} from '../elTiempo'
+  KM_CASILLA, INTENSIDADES, LLUVIA_PARAGUAS, UV_SOL, explicacion, schemaQuestion, HORAS, respuestaBuena } from '../elTiempo'
 import { CIUDADES_MAPA, MOJA } from '../elTiempoMapas'
 
 // Generador con semilla: el test no depende de la suerte.
@@ -28,7 +27,13 @@ describe('El Tiempo · rondas generadas', () => {
         const r = genRonda(nivel, { rand })
         tipos[r.tipo] = (tipos[r.tipo] ?? 0) + 1
         expect(NIVELES[nivel].tipos).toContain(r.tipo)
-        expect(esCorrecta(r, r.bueno)).toBe(true)
+        expect(esCorrecta(r, respuestaBuena(r))).toBe(true)
+        if (r.tipo === 'radar') expect(esCorrecta(r, 'mueve:0,0')).toBe(false)
+        if (r.tipo === 'isobaras' && r.datos.pregunta === 'tiempo') {
+          expect(r.datos.marcadas).toHaveLength(2)
+          expect(r.datos.marcadas).toContain(r.datos.lluviaEn)
+          expect(esCorrecta(r, 'tiempo:1')).toBe(false)
+        }
         if (r.tipo === 'radar') {
           const { ahora, luego, ciudad, kmh, horas } = r.datos
           expect(intensidadEn(ahora, ciudad.x, ciudad.y)).toBe(0)

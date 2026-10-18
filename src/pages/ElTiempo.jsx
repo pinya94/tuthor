@@ -11,9 +11,10 @@ import SEOHead from '../components/SEOHead'
 import { CabeceraJuego, NivelBarras, ComoSeJuega } from '../components/IntroJuego'
 import { Racha } from '../components/Iconos'
 
-const GAME_TIME = 60
+// Se viste al chaval, se mueve la lluvia o se toca el mapa: 90 s y +6 s por acierto.
+const GAME_TIME = 90
 const WRONG_TIME = 5
-const CORRECT_TIME = 4
+const CORRECT_TIME = 6
 const REVEAL_MS = 3800
 
 const DIFS = {
@@ -149,7 +150,7 @@ export default function ElTiempo() {
           </button>
           <ComoSeJuega>
             <div className="space-y-2 text-white/70 text-sm">
-              <p>{tr({ es: 'Sale una situación —vas al cole, tienes partido, sales a pasear al perro— y la previsión del tiempo para ese momento. Tienes que elegir qué te llevas: la prenda de abrigo y, si hace falta, el paraguas.', en: 'A situation appears — going to school, a match, walking the dog — with the weather forecast for that time. You choose what to take: the right layer and, if needed, an umbrella.', ca: 'Surt una situació —vas a l’escola, tens partit, surts a passejar el gos— i la previsió del temps per a aquell moment. Has de triar què t’emportes: la peça d’abric i, si cal, el paraigua.' })}</p>
+              <p>{tr({ es: 'Sale una situación —vas al cole, tienes partido, sales a pasear al perro— y la previsión del tiempo para ese momento. Vistes al chaval: eliges la prenda y, si hace falta, le das el paraguas. No hay opciones hechas: lo montas tú.', en: 'A situation appears — going to school, a match, walking the dog — with the weather forecast for that time. You dress the kid: pick the right layer and, if needed, hand over the umbrella. There are no ready-made options: you put it together.', ca: 'Surt una situació —vas a l’escola, tens partit, surts a passejar el gos— i la previsió del temps per a aquell moment. Vesteixes el noi: tries la peça i, si cal, li dones el paraigua. No hi ha opcions fetes: ho muntes tu.' })}</p>
               <p>{tr({ es: 'Las reglas: con menos de 10 °C, abrigo; de 10 a 18 °C, chaqueta; con más de 18 °C, camiseta. Si el viento llega a 30 km/h se siente unos 4 grados menos. Paraguas si la probabilidad de lluvia llega al 50 %, y en difícil, gafas de sol y crema si el índice UV es 6 o más.', en: 'The rules: below 10 °C, a coat; 10 to 18 °C, a jacket; above 18 °C, a T-shirt. If the wind reaches 30 km/h it feels about 4 degrees colder. An umbrella if the chance of rain reaches 50%, and on hard, sunglasses and sun cream if the UV index is 6 or more.', ca: 'Les regles: amb menys de 10 °C, abric; de 10 a 18 °C, jaqueta; amb més de 18 °C, samarreta. Si el vent arriba a 30 km/h se sent uns 4 graus menys. Paraigua si la probabilitat de pluja arriba al 50 %, i en difícil, ulleres de sol i crema si l’índex UV és 6 o més.' })}</p>
               <p>{tr({ es: 'En medio y difícil la previsión cambia de forma: a veces es una gráfica por horas (solo cuentan las horas en que estás fuera: puede llover por la mañana y no por la tarde) y a veces un radar, donde hay que mover la lluvia a la velocidad que indica para saber si llegará a tu ciudad. En todos los niveles sale también el mapa del tiempo de España: con sus símbolos hay que encontrar dónde hará día de playa, dónde nevará o dónde hace falta paraguas (ojo: una nube no es lluvia). En difícil, además, el mapa de isobaras: la B es una borrasca, con nubes, lluvia y viento; la A, un anticiclón, con cielo despejado; y donde las líneas van juntas sopla más viento.', en: 'On medium and hard the forecast changes format: sometimes it is an hourly chart (only the hours you are out count: it may rain in the morning but not in the afternoon) and sometimes a radar, where you move the rain at the speed shown to see whether it will reach your city. Every level also has the weather map of Spain: from its symbols you find where it is a beach day, where it will snow or where you need an umbrella (careful: a cloud is not rain). On hard there is also the isobar map: B (low) is a depression, with clouds, rain and wind; A (high) is an anticyclone, with clear skies; and where the lines are close together, the wind is stronger.', ca: 'En mitjà i difícil la previsió canvia de forma: de vegades és una gràfica per hores (només compten les hores que ets fora: pot ploure al matí i no a la tarda) i de vegades un radar, on cal moure la pluja a la velocitat que indica per saber si arribarà a la teva ciutat. A tots els nivells surt també el mapa del temps d’Espanya: amb els seus símbols cal trobar on farà dia de platja, on nevarà o on cal paraigua (compte: un núvol no és pluja). En difícil, a més, el mapa d’isòbares: la B és una borrasca, amb núvols, pluja i vent; l’A, un anticicló, amb cel serè; i on les línies van juntes bufa més vent.' })}</p>
               <p className="text-white/40 text-xs pt-1">⏱️ {GAME_TIME}s · {tr({ es: `Acierto +10 y +${CORRECT_TIME}s · Fallo −${WRONG_TIME}s`, en: `Correct +10 and +${CORRECT_TIME}s · Wrong −${WRONG_TIME}s`, ca: `Encert +10 i +${CORRECT_TIME}s · Error −${WRONG_TIME}s` })}</p>
@@ -215,7 +216,7 @@ export default function ElTiempo() {
       </div>
 
       <div className="w-full max-w-[480px]">
-        <PreguntaTiempo ronda={ronda} revelado={isResult} elegida={elegida} onResponder={responder} />
+        <PreguntaTiempo key={ronda.id} ronda={ronda} revelado={isResult} elegida={elegida} onResponder={responder} />
         {isResult && (
           <p className="text-center text-xs font-bold mt-2">
             {acierto

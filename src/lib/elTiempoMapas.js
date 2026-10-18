@@ -162,6 +162,9 @@ export function genIsobaras(rand) {
       const c = enB ? cercaB : cercaA
       datos.marcadas = [c.id]
       datos.ciudad = c.id
+      // En el juego se pone el tiempo de las dos: lluvia junto a la B, sol bajo la A.
+      datos.pareja = baraja(rand, [cercaB.id, cercaA.id])
+      datos.lluviaEn = cercaB.id
       return { tipo: 'isobaras', datos, bueno: enB ? 'borrasca' : 'anticiclon', opciones: baraja(rand, Object.keys(RESP_TIEMPO)) }
     }
     if (pregunta === 'viento') {

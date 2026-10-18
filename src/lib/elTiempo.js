@@ -17,6 +17,15 @@
 //   radar    → mapa con lluvia que se mueve: ¿lloverá en tu ciudad dentro de N h?
 //   mapa     → el mapa del tiempo de España con símbolos (lib/elTiempoMapas.js)
 //   isobaras → borrasca y anticiclón: qué tiempo hará, dónde sopla más viento
+//
+// Cómo se responde (sin opciones, salvo el texto del schema):
+//   simple / horas  se viste al chaval: prenda, paraguas y (en difícil) gafas
+//                   y crema; la respuesta es el traje montado
+//   radar           se arrastra la mancha con flechas a donde estará dentro de
+//                   N horas («mueve:dx,dy»); lo que cae en la ciudad sale solo
+//   mapa            se toca la ciudad en el mapa
+//   isobaras        se toca la ciudad con más viento, se pone sol o lluvia a
+//                   las dos ciudades («tiempo:fallos») o se toca la B o la A
 // Con 2 °C o menos no se genera lluvia: sería nieve, y la nieve tiene su
 // propio símbolo en el mapa.
 import { genMapa, genIsobaras, PREGUNTAS_MAPA, nombreCiudad, RESP_TIEMPO, RESP_CONCEPTO } from './elTiempoMapas'
@@ -188,16 +197,32 @@ function genRadar(cfg, rand) {
   }
 }
 
+let seqRonda = 0
 export function genRonda(nivel = 'facil', { rand = Math.random, tipo } = {}) {
   const cfg = NIVELES[nivel] ?? NIVELES.facil
   const t = tipo ?? elige(rand, cfg.tipos)
   const ronda = t === 'radar' ? genRadar(cfg, rand) : t === 'horas' ? genHoras(cfg, rand)
     : t === 'mapa' ? genMapa(rand) : t === 'isobaras' ? genIsobaras(rand) : genSimple(cfg, rand)
-  return { ...ronda, nivel }
+  const r = { ...ronda, nivel, id: ++seqRonda }
+  if (r.tipo === 'radar') {
+    const [vx, vy] = DIRS[r.datos.dir]
+    const paso = (r.datos.kmh / KM_CASILLA) * r.datos.horas
+    r.mueve = `${vx * paso},${vy * paso}`
+  }
+  if (r.tipo === 'isobaras' && r.datos.pregunta === 'tiempo') r.datos = { ...r.datos, marcadas: r.datos.pareja }
+  return r
+}
+
+// La respuesta que da el componente cuando se hace todo bien.
+export function respuestaBuena(ronda) {
+  if (ronda.tipo === 'radar') return `mueve:${ronda.mueve}`
+  if (ronda.tipo === 'isobaras' && ronda.datos.pregunta === 'tiempo') return 'tiempo:0'
+  return ronda.bueno
 }
 
 export function esCorrecta(ronda, respuesta) {
   if (respuesta == null) return false
+  if (ronda.tipo === 'radar' || (ronda.tipo === 'isobaras' && ronda.datos.pregunta === 'tiempo')) return respuesta === respuestaBuena(ronda)
   if (ronda.tipo !== 'simple' && ronda.tipo !== 'horas') return respuesta === ronda.bueno
   return claveTraje(respuesta) === claveTraje(ronda.bueno)
 }
@@ -271,6 +296,10 @@ export function explicacion(ronda, l) {
   }
   if (ronda.tipo === 'isobaras') {
     const { pregunta, ciudad, letra } = ronda.datos
+    if (pregunta === 'tiempo' && ronda.datos.pareja) {
+      const b = nombreCiudad(ronda.datos.lluviaEn), a = nombreCiudad(ronda.datos.pareja.find(id => id !== ronda.datos.lluviaEn))
+      return tx(`${b} está junto a la B, una borrasca: presión baja, el aire sube, se enfría y forma nubes y lluvia. ${a} está bajo la A, un anticiclón: el aire baja y el cielo se despeja.`, `${b} is next to the L, a depression: low pressure, the air rises, cools and forms clouds and rain. ${a} is under the H, an anticyclone: the air sinks and skies clear.`, `${b} és al costat de la B, una borrasca: pressió baixa, l’aire puja, es refreda i forma núvols i pluja. ${a} és sota la A, un anticicló: l’aire baixa i el cel s’aclareix.`)
+    }
     if (pregunta === 'tiempo') {
       const c = nombreCiudad(ciudad)
       return ronda.bueno === 'borrasca'
@@ -286,9 +315,9 @@ export function explicacion(ronda, l) {
     const { kmh, horas, dir } = ronda.datos
     const casillas = (kmh / KM_CASILLA) * horas
     return tx(
-      `La lluvia avanza hacia ${NOMBRE_DIR[dir].es} a ${kmh} km/h: en ${horas} h recorre ${kmh * horas} km, ${casillas} casilla${casillas === 1 ? '' : 's'}. Mueve la mancha y mira qué color cae en ${ronda.datos.ciudad.nombre}.`,
-      `The rain is moving towards ${NOMBRE_DIR[dir].en} at ${kmh} km/h: in ${horas} h it travels ${kmh * horas} km, ${casillas} square${casillas === 1 ? '' : 's'}. Shift the patch and see which colour lands on ${ronda.datos.ciudad.nombre}.`,
-      `La pluja avança cap a ${NOMBRE_DIR[dir].ca} a ${kmh} km/h: en ${horas} h recorre ${kmh * horas} km, ${casillas} casella${casillas === 1 ? '' : 'es'}. Mou la taca i mira quin color cau a ${ronda.datos.ciudad.nombre}.`,
+      `La lluvia avanza hacia ${NOMBRE_DIR[dir].es} a ${kmh} km/h: en ${horas} h recorre ${kmh * horas} km, ${casillas} casilla${casillas === 1 ? '' : 's'}. En ${ronda.datos.ciudad.nombre}: ${NOMBRE_INTENSIDAD[ronda.bueno].es.toLowerCase()}.`,
+      `The rain is moving towards ${NOMBRE_DIR[dir].en} at ${kmh} km/h: in ${horas} h it travels ${kmh * horas} km, ${casillas} square${casillas === 1 ? '' : 's'}. In ${ronda.datos.ciudad.nombre}: ${NOMBRE_INTENSIDAD[ronda.bueno].en.toLowerCase()}.`,
+      `La pluja avança cap a ${NOMBRE_DIR[dir].ca} a ${kmh} km/h: en ${horas} h recorre ${kmh * horas} km, ${casillas} casella${casillas === 1 ? '' : 'es'}. A ${ronda.datos.ciudad.nombre}: ${NOMBRE_INTENSIDAD[ronda.bueno].ca.toLowerCase()}.`,
     )
   }
   const { temp, viento, lluvia, uv } = ronda.datos

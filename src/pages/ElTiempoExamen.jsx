@@ -25,7 +25,7 @@ function genRoundAlterno(difficulty) {
   return r
 }
 
-// Estado propio (la opción elegida): ver la nota de hooks en
+// Estado propio (lo que se ha respondido): ver la nota de hooks en
 // CircuitoCerradoExamen.jsx.
 function Pregunta({ round, phase, onAnswer }) {
   const [elegida, setElegida] = useState(null)
@@ -45,7 +45,7 @@ export default function ElTiempoExamen() {
       metaPath="/examen/el-tiempo-test"
       subjectSchema="Ciencias"
       backGamePath="/juegos/el-tiempo"
-      playLabel={{ es: 'Modo arcade (60s)', en: 'Arcade mode (60s)', ca: 'Mode arcade (60s)' }}
+      playLabel={{ es: 'Modo arcade (90s)', en: 'Arcade mode (90s)', ca: 'Mode arcade (90s)' }}
       levels={LEVELS}
       genRound={genRoundAlterno}
       isCorrect={esCorrecta}

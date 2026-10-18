@@ -179,7 +179,8 @@ export function GraficaHoras({ datos, cfg, t }) {
 
 // ── Radar ──────────────────────────────────────────────────────────────
 export const COLOR_LLUVIA = { 1: '#60A5FA', 2: '#FACC15', 3: '#EF4444' }
-export function Radar({ datos, revelado, t, l }) {
+// `movido` [dx, dy]: dónde ha llevado el alumno la mancha (en casillas).
+export function Radar({ datos, revelado, t, l, movido = null, acierto = false }) {
   const C = 34, W = RADAR_W * C, H = RADAR_H * C
   const { ahora, luego, ciudad, dir, kmh } = datos
   const flecha = { este: [1, 0], oeste: [-1, 0], norte: [0, -1], sur: [0, 1] }[dir]
@@ -192,6 +193,12 @@ export function Radar({ datos, revelado, t, l }) {
         {Array.from({ length: RADAR_W + 1 }, (_, i) => <line key={'v' + i} x1={i * C} x2={i * C} y1="0" y2={H} stroke="#ffffff14" />)}
         {Array.from({ length: RADAR_H + 1 }, (_, i) => <line key={'h' + i} y1={i * C} y2={i * C} x1="0" x2={W} stroke="#ffffff14" />)}
         {ahora.map((c, i) => <rect key={i} x={c.x * C + 1} y={c.y * C + 1} width={C - 2} height={C - 2} rx="5" fill={COLOR_LLUVIA[c.i]} fillOpacity={revelado ? 0.3 : 0.85} />)}
+        {movido && (movido[0] || movido[1]) && ahora.map((c, i) => {
+          const x = c.x + movido[0], y = c.y + movido[1]
+          if (x < 0 || x >= RADAR_W || y < 0 || y >= RADAR_H) return null
+          return <rect key={'m' + i} x={x * C + 3} y={y * C + 3} width={C - 6} height={C - 6} rx="5" fill={revelado ? 'none' : COLOR_LLUVIA[c.i]} fillOpacity=".55"
+            stroke={revelado ? (acierto ? '#22C55E' : '#F87171') : '#fff'} strokeWidth="2" strokeDasharray="4 3" />
+        })}
         {revelado && luego.filter(c => c.x >= 0 && c.x < RADAR_W && c.y >= 0 && c.y < RADAR_H).map((c, i) => (
           <rect key={'l' + i} x={c.x * C + 2} y={c.y * C + 2} width={C - 4} height={C - 4} rx="5" fill={COLOR_LLUVIA[c.i]} fillOpacity=".9" stroke="#fff" strokeWidth="1.5" />
         ))}
@@ -237,7 +244,7 @@ function Peninsula({ fill = '#1F3A2E' }) {
 
 // Cada ciudad: su símbolo encima, el nombre y la temperatura debajo. Las
 // opciones de la pregunta se resaltan; al corregir, la buena en verde.
-export function MapaTiempo({ datos, opciones, bueno, revelado, t }) {
+export function MapaTiempo({ datos, opciones, bueno, revelado, t, onCiudad, elegida }) {
   return (
     <div className="rounded-2xl bg-[#0b1d33] border border-white/[0.08] p-1.5">
       <svg viewBox={`-6 -8 ${MAPA_W + 12} ${MAPA_H + 16}`} className="w-full h-auto" role="img" aria-label={t.ariaMapa}>
@@ -250,9 +257,12 @@ export function MapaTiempo({ datos, opciones, bueno, revelado, t }) {
           return (
             <g key={c.id} opacity={op ? 1 : 0.55}>
               {marca && <circle cx={x} cy={y - 6} r="27" fill="#22C55E" fillOpacity=".25" stroke="#22C55E" strokeWidth="2.5" />}
+              {revelado && elegida === c.id && c.id !== bueno && <circle cx={x} cy={y - 6} r="27" fill="#EF4444" fillOpacity=".2" stroke="#EF4444" strokeWidth="2.5" />}
+              {op && !revelado && onCiudad && <circle cx={x} cy={y - 6} r="27" fill="none" stroke="#FDE68A" strokeOpacity=".7" strokeWidth="1.5" strokeDasharray="4 3" />}
               <CieloEn cielo={w.cielo} x={x} y={y - 12} size={36} />
               <text x={x} y={y + 14} fontSize="11" fill="#fff" textAnchor="middle" fontWeight="800" stroke="#0b1d33" strokeWidth="3" paintOrder="stroke">{c.nombre}</text>
               <text x={x} y={y + 27} fontSize="12" fill={w.temp <= 5 ? '#93C5FD' : w.temp >= 28 ? '#FCA5A5' : '#FDE68A'} textAnchor="middle" fontWeight="900" stroke="#0b1d33" strokeWidth="3" paintOrder="stroke">{w.temp}°</text>
+              {op && onCiudad && !revelado && <circle cx={x} cy={y} r="30" fill="transparent" className="cursor-pointer" onClick={() => onCiudad(c.id)} />}
             </g>
           )
         })}
@@ -264,7 +274,9 @@ export function MapaTiempo({ datos, opciones, bueno, revelado, t }) {
 // ── Isobaras ───────────────────────────────────────────────────────────
 // Anillos alrededor de cada centro, algo achatados como en un mapa real, con
 // la presión rotulada. Las ciudades de la pregunta se marcan.
-export function MapaIsobaras({ datos, t }) {
+// onCiudad / onLetra: qué se puede tocar. simbolos {id: 'sol' | 'lluvia'}: el
+// tiempo que el alumno ha puesto en cada ciudad. verdes / rojas: al corregir.
+export function MapaIsobaras({ datos, t, onCiudad, onLetra, simbolos = {}, verdes = [], rojas = [] }) {
   const { B, A, marcadas, letra, pregunta } = datos
   const anillos = (C, lista, color) => lista.map(([p, r], i) => (
     <g key={p}>
@@ -272,7 +284,7 @@ export function MapaIsobaras({ datos, t }) {
       <text x={C[0] + r * 1.25 * 0.7} y={C[1] - r * 0.72} fontSize="9.5" fill={color} fontWeight="700" stroke="#0b1d33" strokeWidth="3" paintOrder="stroke">{p}</text>
     </g>
   ))
-  const resalta = pregunta === 'concepto' ? letra : null
+  const resalta = pregunta === 'concepto' && !onLetra ? letra : null
   return (
     <div className="rounded-2xl bg-[#0b1d33] border border-white/[0.08] p-1.5">
       <svg viewBox={VIEWBOX_ISOBARAS} className="w-full h-auto" role="img" aria-label={t.ariaIsobaras}>
@@ -280,12 +292,20 @@ export function MapaIsobaras({ datos, t }) {
         {anillos(B, ANILLOS_B, '#93C5FD')}
         {anillos(A, ANILLOS_A, '#FCA5A5')}
         {[['B', B, '#60A5FA'], ['A', A, '#F87171']].map(([L, C, col]) => (
-          <text key={L} x={C[0]} y={C[1] + 10} fontSize={resalta === L ? 36 : 30} fontWeight="900" fill={resalta === L ? '#FDE68A' : col} textAnchor="middle" stroke="#0b1d33" strokeWidth="4" paintOrder="stroke">{L}</text>
+          <g key={L}>
+            {(verdes.includes(L) || rojas.includes(L)) && <circle cx={C[0]} cy={C[1]} r="24" fill={verdes.includes(L) ? '#22C55E' : '#EF4444'} fillOpacity=".25" stroke={verdes.includes(L) ? '#22C55E' : '#EF4444'} strokeWidth="2.5" />}
+            <text x={C[0]} y={C[1] + 10} fontSize={resalta === L ? 36 : 30} fontWeight="900" fill={resalta === L ? '#FDE68A' : col} textAnchor="middle" stroke="#0b1d33" strokeWidth="4" paintOrder="stroke">{L}</text>
+            {onLetra && <circle cx={C[0]} cy={C[1]} r="34" fill="transparent" className="cursor-pointer" onClick={() => onLetra(L)} />}
+          </g>
         ))}
         {CIUDADES_MAPA.filter(c => marcadas.includes(c.id)).map(c => (
           <g key={c.id}>
+            {(verdes.includes(c.id) || rojas.includes(c.id)) && <circle cx={c.xy[0]} cy={c.xy[1] - 8} r="26" fill={verdes.includes(c.id) ? '#22C55E' : '#EF4444'} fillOpacity=".22" stroke={verdes.includes(c.id) ? '#22C55E' : '#EF4444'} strokeWidth="2.5" />}
+            {onCiudad && !simbolos[c.id] && <circle cx={c.xy[0]} cy={c.xy[1] - 8} r="24" fill="none" stroke="#FDE68A" strokeOpacity=".8" strokeWidth="1.5" strokeDasharray="4 3" />}
+            {simbolos[c.id] && <CieloEn cielo={simbolos[c.id]} x={c.xy[0]} y={c.xy[1] - 22} size={34} />}
             <circle cx={c.xy[0]} cy={c.xy[1]} r="6" fill="#fff" stroke="#0b1d33" strokeWidth="2.5" />
             <text x={c.xy[0]} y={c.xy[1] + 20} fontSize="13" fill="#fff" textAnchor="middle" fontWeight="800" stroke="#0b1d33" strokeWidth="3.5" paintOrder="stroke">{c.nombre}</text>
+            {onCiudad && <circle cx={c.xy[0]} cy={c.xy[1]} r="32" fill="transparent" className="cursor-pointer" onClick={() => onCiudad(c.id)} />}
           </g>
         ))}
       </svg>
