@@ -45,7 +45,9 @@ export function resolverTren(ruedas, rpm0, sentido0 = 1) {
   return out
 }
 
-export function genRonda(nivel = 'facil', { rand = Math.random } = {}) {
+// El generador de antes (preguntas con opciones): da el tren y el texto del
+// schema. Las mecánicas, al final.
+function genVieja(nivel, pregunta, rand) {
   const cfg = NIVELES[nivel] ?? NIVELES.facil
   for (;;) {
     const n = entre(rand, cfg.ruedas[0], cfg.ruedas[1])
@@ -71,7 +73,6 @@ export function genRonda(nivel = 'facil', { rand = Math.random } = {}) {
     const ultima = tren[tren.length - 1]
     if (!Number.isInteger(ultima.rpm)) continue
     if (tren.some(r => r.rpm > 400)) continue
-    const pregunta = elige(rand, cfg.preguntas)
     let bueno, opciones
     if (pregunta === 'sentido') {
       bueno = ultima.sentido === 1 ? 'horario' : 'antihorario'
@@ -94,9 +95,6 @@ export function genRonda(nivel = 'facil', { rand = Math.random } = {}) {
   }
 }
 
-export const esCorrecta = (ronda, r) => r === ronda.bueno
-export const genRound = difficulty => genRonda(difficulty)
-export const isCorrect = esCorrecta
 
 // ── Textos ───────────────────────────────────────────────────────────────
 const tx = (l, es, en, ca) => ({ es, en, ca })[l] ?? es
@@ -109,14 +107,14 @@ export const NOMBRE_RESP = {
 }
 export const textoOpcion = (o, l) => (typeof o === 'number' ? `${o} rpm` : (NOMBRE_RESP[o][l] ?? NOMBRE_RESP[o].es))
 
-export function enunciado(ronda, l) {
+function enunciadoViejo(ronda, l) {
   const { pregunta } = ronda
   if (pregunta === 'sentido') return tx(l, '¿Hacia dónde gira la rueda marcada?', 'Which way does the marked gear turn?', 'Cap a on gira la roda marcada?')
   if (pregunta === 'velocidad') return tx(l, '¿Cómo gira la rueda marcada?', 'How does the marked gear turn?', 'Com gira la roda marcada?')
   return tx(l, '¿A cuántas vueltas por minuto (rpm) gira la rueda marcada?', 'How many revolutions per minute (rpm) does the marked gear make?', 'A quantes voltes per minut (rpm) gira la roda marcada?')
 }
 
-export function explicacion(ronda, l) {
+function explicacionVieja(ronda, l) {
   const { tren, rpm0, pregunta } = ronda
   const u = tren[tren.length - 1]
   const n = tren.length
@@ -146,14 +144,117 @@ export function explicacion(ronda, l) {
 }
 
 // JSON-LD / ejemplos: solo los trenes sin rueda doble se entienden sin dibujo.
-export function schemaQuestion(ronda, l) {
+function schemaVieja(ronda, l) {
   if (ronda.tren.some(r => r.mismoEje)) return null
   const t = ronda.tren
   const desc = t.map((r, i) => `${i + 1}: ${r.z} ${tx(l, 'dientes', 'teeth', 'dents')}`).join(', ')
   const motriz = tx(l, `La rueda 1 gira a ${ronda.rpm0} rpm en sentido ${t[0].sentido === 1 ? 'horario' : 'antihorario'}`, `Gear 1 turns at ${ronda.rpm0} rpm ${t[0].sentido === 1 ? 'clockwise' : 'anticlockwise'}`, `La roda 1 gira a ${ronda.rpm0} rpm en sentit ${t[0].sentido === 1 ? 'horari' : 'antihorari'}`)
   return {
-    question: `${tx(l, 'Tren de engranajes', 'Gear train', 'Tren d’engranatges')} (${desc}). ${motriz}. ${enunciado(ronda, l).replace(tx(l, 'la rueda marcada', 'the marked gear', 'la roda marcada'), tx(l, `la rueda ${t.length}`, `gear ${t.length}`, `la roda ${t.length}`))}`,
+    question: `${tx(l, 'Tren de engranajes', 'Gear train', 'Tren d’engranatges')} (${desc}). ${motriz}. ${enunciadoViejo(ronda, l).replace(tx(l, 'la rueda marcada', 'the marked gear', 'la roda marcada'), tx(l, `la rueda ${t.length}`, `gear ${t.length}`, `la roda ${t.length}`))}`,
     correctAnswer: textoOpcion(ronda.bueno, l),
     wrongAnswers: ronda.opciones.filter(o => o !== ronda.bueno).map(o => textoOpcion(o, l)),
   }
+}
+
+// ── Mecánicas ─────────────────────────────────────────────────────────────
+// Sin opciones: todo se hace sobre el tren dibujado.
+//   flechas    tocar cada rueda para ponerle su sentido de giro («flechas:fallos»)
+//   rapida     tocar la rueda que gira más rápido (o más despacio): su índice
+//   rpm        teclear las rpm de la rueda marcada
+//   construye  elegir los dientes de la última rueda para que gire a las rpm
+//              que se piden («z:NN»); el dibujo cambia mientras se elige
+const MECANICAS = {
+  facil:   ['flechas', 'rapida', 'flechas', 'rapida'],
+  medio:   ['flechas', 'rpm', 'rpm', 'construye', 'rapida'],
+  dificil: ['flechas', 'rpm', 'rpm', 'construye'],
+}
+export const MECANICAS_DE = nivel => MECANICAS[nivel] ?? MECANICAS.facil
+const PREGUNTA_VIEJA = { flechas: 'sentido', rapida: 'velocidad', rpm: 'rpm', construye: 'rpm' }
+
+let seq = 0
+const recientes = []
+export function genRonda(nivel = 'facil', { rand = Math.random } = {}) {
+  for (let intento = 0; ; intento++) {
+    const r = genNueva(nivel, rand)
+    if (!r) continue
+    const tema = r.tren.map(x => x.z + (x.mismoEje ? '=' : '')).join('-') + r.mecanica
+    if (intento < 20 && recientes.includes(tema)) continue
+    recientes.push(tema)
+    if (recientes.length > 5) recientes.shift()
+    return r
+  }
+}
+export const genRound = difficulty => genRonda(difficulty)
+
+function genNueva(nivel, rand) {
+  const mecanica = elige(rand, MECANICAS_DE(nivel))
+  const r = { ...genVieja(nivel, PREGUNTA_VIEJA[mecanica], rand), mecanica, id: ++seq }
+  const tren = r.tren
+  if (mecanica === 'rapida') {
+    // Una sola rueda claramente más rápida (o más lenta) que todas las demás.
+    r.extremo = rand() < 0.6 ? 'rapida' : 'lenta'
+    const vs = tren.map(x => x.rpm)
+    const orden = [...vs].sort((a, b) => (r.extremo === 'rapida' ? b - a : a - b))
+    if (r.extremo === 'rapida' ? orden[0] < orden[1] * 1.2 : orden[0] * 1.2 > orden[1]) return null
+    r.objetivo = vs.indexOf(orden[0])
+  }
+  if (mecanica === 'construye') {
+    // Los dientes de la última son la incógnita: que sea la única de la lista
+    // que da esas rpm, y que la rueda de antes no sea igual (sería trivial).
+    const u = tren[tren.length - 1], m = tren[u.mueve]
+    if (u.z === m.z || !Number.isInteger(m.rpm)) return null
+    const dan = DIENTES.filter(z => (m.rpm * m.z) / z === u.rpm)
+    if (dan.length !== 1) return null
+  }
+  return r
+}
+
+// La respuesta que da el componente cuando se hace todo bien.
+export function respuestaBuena(r) {
+  switch (r.mecanica) {
+    case 'flechas': return 'flechas:0'
+    case 'rapida': return String(r.objetivo)
+    case 'construye': return `z:${r.tren[r.tren.length - 1].z}`
+    default: return String(r.bueno)
+  }
+}
+export function esCorrecta(r, o) {
+  if (o == null) return false
+  if (r.mecanica === 'rpm') return /^\d+$/.test(String(o).trim()) && Number(o) === r.bueno
+  return String(o) === respuestaBuena(r)
+}
+export const isCorrect = esCorrecta
+
+// Las ruedas a las que se les pone sentido: todas menos la motriz.
+// Las dos ruedas de un mismo eje cuentan como una: la flecha va en la que engrana con la anterior.
+export const ruedasConFlecha = r => r.tren.map((_, i) => i).filter(i => i > 0 && !r.tren[i].mismoEje)
+
+export function enunciado(r, l) {
+  switch (r.mecanica) {
+    case 'flechas': return tx(l, 'Toca cada rueda para ponerle su sentido de giro', 'Tap each gear to set the way it turns', 'Toca cada roda per posar-li el sentit de gir')
+    case 'rapida': return r.extremo === 'rapida'
+      ? tx(l, 'Toca la rueda que gira más rápido', 'Tap the gear that turns fastest', 'Toca la roda que gira més de pressa')
+      : tx(l, 'Toca la rueda que gira más despacio', 'Tap the gear that turns slowest', 'Toca la roda que gira més a poc a poc')
+    case 'rpm': return tx(l, 'Escribe a cuántas vueltas por minuto (rpm) gira la rueda amarilla', 'Type how many revolutions per minute (rpm) the yellow gear makes', 'Escriu a quantes voltes per minut (rpm) gira la roda groga')
+    default: return tx(l, `Elige los dientes de la rueda amarilla para que gire a ${r.bueno} rpm`, `Choose the yellow gear’s teeth so it turns at ${r.bueno} rpm`, `Tria les dents de la roda groga perquè giri a ${r.bueno} rpm`)
+  }
+}
+
+export function explicacion(r, l) {
+  switch (r.mecanica) {
+    case 'flechas': return tx(l, 'Cada vez que dos ruedas engranan, el giro se invierte: las ruedas se alternan ↻ ↺ ↻… Las dos ruedas de un mismo eje giran juntas, en el mismo sentido.', 'Every time two gears mesh, the rotation reverses: the gears alternate ↻ ↺ ↻… Two gears on the same shaft turn together, the same way.', 'Cada vegada que dues rodes engranen, el gir s’inverteix: les rodes s’alternen ↻ ↺ ↻… Les dues rodes d’un mateix eix giren juntes, en el mateix sentit.')
+    case 'rapida': {
+      const g = r.tren[r.objetivo]
+      return tx(l, `Con rpm × dientes constante, la rueda con ${r.extremo === 'rapida' ? 'menos' : 'más'} dientes gira ${r.extremo === 'rapida' ? 'más rápido' : 'más despacio'}: la de ${g.z} dientes, a ${redondea(g.rpm)} rpm.`, `With rpm × teeth constant, the gear with the ${r.extremo === 'rapida' ? 'fewest' : 'most'} teeth turns ${r.extremo === 'rapida' ? 'fastest' : 'slowest'}: the ${g.z}-tooth one, at ${redondea(g.rpm)} rpm.`, `Amb rpm × dents constant, la roda amb ${r.extremo === 'rapida' ? 'menys' : 'més'} dents gira ${r.extremo === 'rapida' ? 'més de pressa' : 'més a poc a poc'}: la de ${g.z} dents, a ${redondea(g.rpm)} rpm.`)
+    }
+    case 'construye': {
+      const u = r.tren[r.tren.length - 1], m = r.tren[u.mueve]
+      return tx(l, `La rueda de antes gira a ${redondea(m.rpm)} rpm con ${m.z} dientes: ${redondea(m.rpm)} × ${m.z} = ${r.bueno} × z, así que z = ${u.z} dientes.`, `The gear before turns at ${redondea(m.rpm)} rpm with ${m.z} teeth: ${redondea(m.rpm)} × ${m.z} = ${r.bueno} × z, so z = ${u.z} teeth.`, `La roda d’abans gira a ${redondea(m.rpm)} rpm amb ${m.z} dents: ${redondea(m.rpm)} × ${m.z} = ${r.bueno} × z, així que z = ${u.z} dents.`)
+    }
+    default: return explicacionVieja(r, l)
+  }
+}
+
+export function schemaQuestion(r, l) {
+  return schemaVieja(r, l)
 }

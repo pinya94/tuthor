@@ -7,10 +7,10 @@ import { genRound, esCorrecta, schemaQuestion } from '../lib/engranajes'
 const LEVELS = [
   { key: 'primaria', emoji: '💚', difficulty: 'facil',
     label: { es: 'Primaria', en: 'Primary', ca: 'Primària' },
-    hint: { es: 'Dos o tres ruedas: sentido de giro y si va más rápida', en: 'Two or three gears: direction and whether it is faster', ca: 'Dues o tres rodes: sentit de gir i si va més ràpida' } },
+    hint: { es: 'Dos o tres ruedas: poner el sentido y tocar la más rápida', en: 'Two or three gears: set directions and tap the fastest', ca: 'Dues o tres rodes: posar el sentit i tocar la més ràpida' } },
   { key: 'eso', emoji: '💛', difficulty: 'medio',
     label: { es: 'Secundaria (ESO)', en: 'Secondary (ESO)', ca: 'Secundària (ESO)' },
-    hint: { es: 'Hasta cinco ruedas y el cálculo de las rpm', en: 'Up to five gears and working out the rpm', ca: 'Fins a cinc rodes i el càlcul de les rpm' } },
+    hint: { es: 'Hasta cinco ruedas: teclear rpm y diseñar la última rueda', en: 'Up to five gears: type rpm and design the last gear', ca: 'Fins a cinc rodes: teclejar rpm i dissenyar l’última roda' } },
   { key: 'bachillerato', emoji: '🔴', difficulty: 'dificil',
     label: { es: 'Avanzado', en: 'Advanced', ca: 'Avançat' },
     hint: { es: 'Con una rueda doble en el mismo eje', en: 'With a compound gear on one shaft', ca: 'Amb una roda doble al mateix eix' } },
@@ -36,7 +36,7 @@ export default function EngranajesExamen() {
       metaPath="/examen/engranajes-test"
       subjectSchema="Física"
       backGamePath="/juegos/engranajes"
-      playLabel={{ es: 'Modo arcade (60s)', en: 'Arcade mode (60s)', ca: 'Mode arcade (60s)' }}
+      playLabel={{ es: 'Modo arcade (90s)', en: 'Arcade mode (90s)', ca: 'Mode arcade (90s)' }}
       levels={LEVELS}
       genRound={genRound}
       isCorrect={esCorrecta}

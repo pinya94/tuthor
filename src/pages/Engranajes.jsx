@@ -11,16 +11,17 @@ import SEOHead from '../components/SEOHead'
 import { CabeceraJuego, NivelBarras, ComoSeJuega } from '../components/IntroJuego'
 import { Racha } from '../components/Iconos'
 
-const GAME_TIME = 60
+// Se ponen flechas, se toca, se teclea o se diseña: 90 s y +6 s por acierto.
+const GAME_TIME = 90
 const WRONG_TIME = 5
-const CORRECT_TIME = 4
+const CORRECT_TIME = 6
 const REVEAL_MS = 3800
 
 const DIFS = {
   facil:   { emoji: '💚', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
-             desc: { es: 'Dos o tres ruedas: ¿hacia dónde gira?, ¿más rápida o más lenta?', en: 'Two or three gears: which way?, faster or slower?', ca: 'Dues o tres rodes: cap a on gira?, més ràpida o més lenta?' } },
+             desc: { es: 'Dos o tres ruedas: pon el sentido de cada una y toca la más rápida', en: 'Two or three gears: set each one’s direction and tap the fastest', ca: 'Dues o tres rodes: posa el sentit de cadascuna i toca la més ràpida' } },
   medio:   { emoji: '💛', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
-             desc: { es: 'Hasta cinco ruedas, y a cuántas rpm gira la última', en: 'Up to five gears, and how many rpm the last one turns', ca: 'Fins a cinc rodes, i a quantes rpm gira l’última' } },
+             desc: { es: 'Hasta cinco ruedas: teclea las rpm y diseña la última rueda', en: 'Up to five gears: type the rpm and design the last gear', ca: 'Fins a cinc rodes: tecleja les rpm i dissenya l’última roda' } },
   dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' },
              desc: { es: 'Con una rueda doble: dos piñones en el mismo eje', en: 'With a compound gear: two gears on one shaft', ca: 'Amb una roda doble: dos pinyons al mateix eix' } },
 }
@@ -142,7 +143,7 @@ export default function Engranajes() {
           </button>
           <ComoSeJuega>
             <div className="space-y-2 text-white/70 text-sm">
-              <p>{tr({ es: 'Sale una cadena de ruedas dentadas. La primera es la motriz: la ves girar, con su sentido y sus vueltas por minuto (rpm). El número de cada rueda son sus dientes. Tienes que decir qué hace la rueda marcada con «?».', en: 'A chain of gears appears. The first is the driver: you see it turning, with its direction and revolutions per minute (rpm). The number on each gear is its teeth. You say what the gear marked «?» does.', ca: 'Surt una cadena de rodes dentades. La primera és la motriu: la veus girar, amb el seu sentit i les seves voltes per minut (rpm). El número de cada roda són les seves dents. Has de dir què fa la roda marcada amb «?».' })}</p>
+              <p>{tr({ es: 'Sale una cadena de ruedas dentadas. La primera es la motriz: la ves girar, con su sentido y sus vueltas por minuto (rpm). El número de cada rueda son sus dientes. No hay opciones: tocas cada rueda para ponerle su sentido de giro, tocas la que va más rápida o más despacio, tecleas las rpm de la amarilla o eliges cuántos dientes debe tener la última para que gire a las rpm que piden.', en: 'A chain of gears appears. The first is the driver: you see it turning, with its direction and revolutions per minute (rpm). The number on each gear is its teeth. There are no options: you tap each gear to set its direction, tap the fastest or slowest one, type the yellow gear’s rpm or choose how many teeth the last gear needs to turn at the rpm asked for.', ca: 'Surt una cadena de rodes dentades. La primera és la motriu: la veus girar, amb el seu sentit i les seves voltes per minut (rpm). El número de cada roda són les seves dents. No hi ha opcions: toques cada roda per posar-li el sentit de gir, toques la que va més de pressa o més a poc a poc, tecleges les rpm de la groga o tries quantes dents ha de tenir l’última perquè giri a les rpm que demanen.' })}</p>
               <p>{tr({ es: 'Dos reglas bastan. Cada vez que dos ruedas engranan, el giro se invierte. Y se conserva velocidad × dientes: una rueda de 12 dientes a 60 rpm mueve una de 36 a 20 rpm. Por eso las ruedas de en medio solo cambian el sentido, no la velocidad final.', en: 'Two rules are enough. Every time two gears mesh, the rotation reverses. And speed × teeth is conserved: a 12-tooth gear at 60 rpm drives a 36-tooth gear at 20 rpm. That is why the gears in between only change direction, not the final speed.', ca: 'N’hi ha prou amb dues regles. Cada vegada que dues rodes engranen, el gir s’inverteix. I es conserva velocitat × dents: una roda de 12 dents a 60 rpm mou una de 36 a 20 rpm. Per això les rodes del mig només canvien el sentit, no la velocitat final.' })}</p>
               <p>{tr({ es: 'En difícil aparece una rueda doble: dos piñones pegados en el mismo eje, que giran juntos. Ahí sí se multiplica la reducción, como en la caja de cambios de una bici o de un coche. Al responder, todas las ruedas se ponen a girar de verdad.', en: 'On hard there is a compound gear: two gears fixed on the same shaft, turning together. That is where the reduction multiplies, as in a bike or car gearbox. When you answer, all the gears start turning for real.', ca: 'En difícil apareix una roda doble: dos pinyons enganxats al mateix eix, que giren junts. Aquí sí que es multiplica la reducció, com a la caixa de canvis d’una bici o d’un cotxe. En respondre, totes les rodes es posen a girar de debò.' })}</p>
               <p className="text-white/40 text-xs pt-1">⏱️ {GAME_TIME}s · {tr({ es: `Acierto +10 y +${CORRECT_TIME}s · Fallo −${WRONG_TIME}s`, en: `Correct +10 and +${CORRECT_TIME}s · Wrong −${WRONG_TIME}s`, ca: `Encert +10 i +${CORRECT_TIME}s · Error −${WRONG_TIME}s` })}</p>
@@ -208,7 +209,7 @@ export default function Engranajes() {
       </div>
 
       <div className="w-full max-w-[480px]">
-        <PreguntaEngranajes ronda={ronda} revelado={isResult} elegida={elegida} onResponder={responder} />
+        <PreguntaEngranajes key={ronda.id} ronda={ronda} revelado={isResult} elegida={elegida} onResponder={responder} />
         {isResult && (
           <p className="text-center text-xs font-bold mt-2">
             {acierto

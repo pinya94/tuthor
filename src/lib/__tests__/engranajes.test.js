@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { NIVELES, genRonda, resolverTren, esCorrecta, explicacion, schemaQuestion, textoOpcion } from '../engranajes'
+import { NIVELES, genRonda, resolverTren, esCorrecta, respuestaBuena, MECANICAS_DE, DIENTES, explicacion, schemaQuestion, textoOpcion } from '../engranajes'
 import { posiciones } from '../../components/engranajes/TrenEngranajes'
 
 function semilla(s) { return () => ((s = (s * 16807) % 2147483647) - 1) / 2147483646 }
@@ -30,11 +30,20 @@ describe('Engranajes · rondas', () => {
       const firmas = new Set(), preguntas = new Set()
       for (let n = 0; n < 500; n++) {
         const r = genRonda(nivel, { rand })
-        firmas.add(r.tren.map(x => x.z + (x.mismoEje ? '=' : '')).join('-') + r.pregunta)
-        preguntas.add(r.pregunta)
+        firmas.add(r.tren.map(x => x.z + (x.mismoEje ? '=' : '')).join('-') + r.mecanica)
+        preguntas.add(r.mecanica)
         expect(r.opciones).toContain(r.bueno)
         expect(new Set(r.opciones).size).toBe(r.opciones.length)
-        expect(esCorrecta(r, r.bueno)).toBe(true)
+        expect(esCorrecta(r, respuestaBuena(r))).toBe(true)
+        if (r.mecanica === 'flechas') expect(esCorrecta(r, 'flechas:1')).toBe(false)
+        if (r.mecanica === 'rapida') {
+          const vs = r.tren.map(x => x.rpm), v = vs[r.objetivo]
+          for (const [i, x] of vs.entries()) if (i !== r.objetivo) expect(r.extremo === 'rapida' ? v > x * 1.19 : v * 1.19 < x).toBe(true)
+        }
+        if (r.mecanica === 'construye') {
+          const u = r.tren[r.tren.length - 1], m = r.tren[u.mueve]
+          expect(DIENTES.filter(z => (m.rpm * m.z) / z === r.bueno)).toEqual([u.z])
+        }
         const [a, b] = NIVELES[nivel].ruedas
         const ejes = r.tren.filter(x => !x.mismoEje).length
         expect(ejes).toBeGreaterThanOrEqual(a)
@@ -51,7 +60,7 @@ describe('Engranajes · rondas', () => {
         // el dibujo: ruedas engranadas, tocándose por su radio
         expect(posiciones(r.tren)).toHaveLength(r.tren.length)
       }
-      expect([...preguntas].sort()).toEqual([...new Set(NIVELES[nivel].preguntas)].sort())
+      expect([...preguntas].sort()).toEqual([...new Set(MECANICAS_DE(nivel))].sort())
       expect(firmas.size).toBeGreaterThan(nivel === 'facil' ? 60 : 150)
     })
   }

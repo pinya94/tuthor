@@ -39,14 +39,17 @@ export function posiciones(tren) {
 
 const COLORES = ['#94a3b8', '#60a5fa', '#a78bfa', '#34d399', '#f472b6', '#fbbf24', '#22d3ee']
 
-export default function TrenEngranajes({ ronda, revelado, t }) {
+// onRueda: cada rueda se puede tocar. marcas {i: {txt, color}}: lo que el
+// alumno ha puesto en cada rueda (una flecha, un número). amarilla: la rueda
+// de la pregunta (-1, ninguna). etiqueta: el rótulo de encima de la amarilla.
+export default function TrenEngranajes({ ronda, revelado, t, onRueda, marcas = {}, amarilla, etiqueta }) {
   const { tren } = ronda
   const pos = posiciones(tren)
   const xs = pos.map((p, i) => [p.x - radio(tren[i].z) - 8, p.x + radio(tren[i].z) + 8]).flat()
   const ys = pos.map((p, i) => [p.y - radio(tren[i].z) - 8, p.y + radio(tren[i].z) + 8]).flat()
   const minX = Math.min(...xs) - 6, maxX = Math.max(...xs) + 6
   const minY = Math.min(...ys) - 22, maxY = Math.max(...ys) + 8
-  const ultima = tren.length - 1
+  const ultima = amarilla ?? tren.length - 1
   // ¿Es la rueda grande de un eje compartido? (su pareja, más pequeña, va encima)
   const grandeDeEje = i => tren.some((o, j) => j !== i && pos[j].x === pos[i].x && pos[j].y === pos[i].y && o.z < tren[i].z)
   // Se dibujan primero las grandes, para que el piñón de una rueda doble quede encima.
@@ -59,6 +62,7 @@ export default function TrenEngranajes({ ronda, revelado, t }) {
         const gira = revelado || i === 0
         const dur = GIRO / r.rpm
         const color = i === ultima ? '#facc15' : COLORES[i % COLORES.length]
+        const marca = marcas[i]
         const compartido = r.mismoEje || tren.some(o => o.mismoEje && o.mueve === i)
         return (
           <g key={i}>
@@ -72,13 +76,19 @@ export default function TrenEngranajes({ ronda, revelado, t }) {
             <circle cx={p.x} cy={p.y} r={compartido ? 7 : 5} fill="#0f172a" stroke={color} strokeWidth="2" />
             {/* Dientes: en una rueda doble, el número de la grande va por fuera de la pequeña */}
             <text x={p.x} y={p.y + radio(r.z) * (grandeDeEje(i) ? 0.8 : 0.5) + 4} fontSize="11" fontWeight="800" fill="#e2e8f0" textAnchor="middle" stroke="#0b1226" strokeWidth="3" paintOrder="stroke">{r.z}</text>
+            {marca && (
+              <text x={p.x + (r.mismoEje ? radio(r.z) * 0.9 + 6 : 0)} y={p.y - (r.mismoEje ? 0 : radio(r.z) * (grandeDeEje(i) ? 0.62 : 0.42)) + 6} fontSize="20" fontWeight="900" fill={marca.color} textAnchor="middle" stroke="#0b1226" strokeWidth="4" paintOrder="stroke">{marca.txt}</text>
+            )}
           </g>
         )
       })}
+      {onRueda && orden.map(i => (
+        <circle key={`t${i}`} cx={pos[i].x} cy={pos[i].y} r={radio(tren[i].z) * (tren[i].mismoEje ? 0.85 : 1)} fill="transparent" className="cursor-pointer" onClick={() => onRueda(i)} />
+      ))}
       {/* La motriz se rotula fuera del dibujo (PreguntaEngranajes); aquí, la de la pregunta */}
-      <text x={pos[ultima].x} y={pos[ultima].y - radio(tren[ultima].z) - 10} fontSize="14" fontWeight="900" fill="#facc15" textAnchor="middle">
-        {revelado ? `${tren[ultima].sentido === 1 ? '↻' : '↺'} ${Math.round(tren[ultima].rpm * 100) / 100} rpm` : '?'}
-      </text>
+      {ultima >= 0 && <text x={pos[ultima].x} y={pos[ultima].y - radio(tren[ultima].z) - 10} fontSize="14" fontWeight="900" fill="#facc15" textAnchor="middle">
+        {etiqueta ?? (revelado ? `${tren[ultima].sentido === 1 ? '↻' : '↺'} ${Math.round(tren[ultima].rpm * 100) / 100} rpm` : '?')}
+      </text>}
     </svg>
   )
 }
