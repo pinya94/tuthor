@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { genRonda, NIVELES, ESCENAS, MATERIALES, CONCEPTOS, SUSTANCIAS, aK, aF, escalaDe, enunciado, explicacion, textoOpcion, schemaQuestion } from '../termometro'
+import { genRonda, esCorrecta, respuestaBuena, MECANICAS_DE, MODOS, NIVELES, ESCENAS, MATERIALES, CONCEPTOS, SUSTANCIAS, aK, aF, escalaDe, enunciado, explicacion, textoOpcion, schemaQuestion } from '../termometro'
 
 function semilla(s) {
   return () => { s = (s * 1103515245 + 12345) % 2147483648; return s / 2147483648 }
@@ -43,7 +43,21 @@ describe('Termómetro', () => {
       const tipos = new Set()
       for (let i = 0; i < 600; i++) {
         const r = genRonda(nivel, { rand })
-        tipos.add(r.tipo)
+        tipos.add(r.mecanica)
+        expect(esCorrecta(r, respuestaBuena(r))).toBe(true)
+        if (['escala', 'mezcla', 'calor'].includes(r.mecanica)) {
+          expect(esCorrecta(r, String(r.bueno).replace('-', '−'))).toBe(true)
+          expect(esCorrecta(r, String(r.bueno + 1))).toBe(false)
+        }
+        if (r.mecanica === 'transmision') {
+          expect(r.escenas).toHaveLength(3)
+          for (const id of r.escenas) expect(Object.keys(MODOS)).toContain(ESCENAS.find(e => e.id === id).modo)
+          expect(esCorrecta(r, 'clasifica:1')).toBe(false)
+        }
+        if (r.mecanica === 'sarten') {
+          expect(r.piezas.filter(id => MATERIALES[id].conduce)).toHaveLength(2)
+          expect(r.piezas.filter(id => !MATERIALES[id].conduce)).toHaveLength(2)
+        }
         expect(r.opciones).toContain(r.bueno)
         expect(new Set(r.opciones).size).toBe(r.opciones.length)
         expect(correcta(r), JSON.stringify(r)).toBe(r.bueno)
@@ -64,7 +78,7 @@ describe('Termómetro', () => {
           expect(schemaQuestion(r, l).wrongAnswers).toHaveLength(r.opciones.length - 1)
         }
       }
-      for (const t of NIVELES[nivel].tipos) expect(tipos.has(t), t).toBe(true)
+      expect([...tipos].sort()).toEqual([...new Set(MECANICAS_DE(nivel))].sort())
     })
   }
 })

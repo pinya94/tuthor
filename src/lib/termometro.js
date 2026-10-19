@@ -125,10 +125,11 @@ export const aF = c => (c * 9) / 5 + 32
 
 let seq = 0
 
-export function genRonda(nivel = 'facil', { rand = Math.random } = {}) {
+// La ronda clásica de un tipo (con opciones): la usan las mecánicas y el
+// texto del schema (ver «Mecánicas» al final).
+function genVieja(nivel, tipo, rand) {
   const cfg = NIVELES[nivel] ?? NIVELES.facil
   for (;;) {
-    const tipo = elige(rand, cfg.tipos)
     const base = { id: ++seq, nivel, tipo }
 
     if (tipo === 'escala') {
@@ -204,8 +205,6 @@ export function genRonda(nivel = 'facil', { rand = Math.random } = {}) {
   }
 }
 
-export const genRound = (difficulty = 'facil') => genRonda(difficulty)
-export const esCorrecta = (r, o) => o === r.bueno
 
 // ── Textos ────────────────────────────────────────────────────────────────
 const UNIDAD = { C: '°C', K: 'K', F: '°F' }
@@ -224,7 +223,7 @@ export function textoOpcion(o, r, l) {
   }
 }
 
-export function enunciado(r, l) {
+function enunciadoViejo(r, l) {
   switch (r.tipo) {
     case 'escala': {
       const [de, a] = escalaDe(r)
@@ -250,11 +249,11 @@ export function enunciado(r, l) {
   }
 }
 
-export function explicacion(r, l) {
+function explicacionVieja(r, l) {
   switch (r.tipo) {
     case 'escala': {
       const [de, a] = escalaDe(r)
-      if (de === 'C' && a === 'K') return s(l, `Para pasar a kelvin se suma 273: ${r.c} + 273 = ${r.bueno} K. El 0 de la escala Kelvin es el cero absoluto, así que nunca hay kelvin negativos.`, `To convert to kelvin add 273: ${r.c} + 273 = ${r.bueno} K. Zero on the Kelvin scale is absolute zero, so there are never negative kelvins.`, `Per passar a kelvin se suma 273: ${r.c} + 273 = ${r.bueno} K. El 0 de l’escala Kelvin és el zero absolut, així que mai no hi ha kelvins negatius.`)
+      if (de === 'C' && a === 'K') return s(l, `Para pasar a kelvin se suma 273: ${num(r.c, l)} + 273 = ${r.bueno} K. El 0 de la escala Kelvin es el cero absoluto, así que nunca hay kelvin negativos.`, `To convert to kelvin add 273: ${num(r.c, l)} + 273 = ${r.bueno} K. Zero on the Kelvin scale is absolute zero, so there are never negative kelvins.`, `Per passar a kelvin se suma 273: ${num(r.c, l)} + 273 = ${r.bueno} K. El 0 de l’escala Kelvin és el zero absolut, així que mai no hi ha kelvins negatius.`)
       if (de === 'K') return s(l, `De kelvin a grados Celsius se resta 273: ${r.dato} − 273 = ${num(r.bueno, l)} °C.`, `From kelvin to degrees Celsius subtract 273: ${r.dato} − 273 = ${num(r.bueno, l)} °C.`, `De kelvin a graus Celsius es resta 273: ${r.dato} − 273 = ${num(r.bueno, l)} °C.`)
       if (de === 'C') return s(l, `°F = °C × 1,8 + 32: ${num(r.c, l)} × 1,8 + 32 = ${num(r.bueno, l)} °F. Si se olvida el + 32, sale mal: 0 °C son 32 °F, no 0.`, `°F = °C × 1.8 + 32: ${num(r.c, l)} × 1.8 + 32 = ${num(r.bueno, l)} °F. Forget the + 32 and it goes wrong: 0 °C is 32 °F, not 0.`, `°F = °C × 1,8 + 32: ${num(r.c, l)} × 1,8 + 32 = ${num(r.bueno, l)} °F. Si s’oblida el + 32, surt malament: 0 °C són 32 °F, no 0.`)
       return s(l, `°C = (°F − 32) ÷ 1,8: (${num(r.dato, l)} − 32) ÷ 1,8 = ${num(r.bueno, l)} °C. Primero se resta 32 y después se divide.`, `°C = (°F − 32) ÷ 1.8: (${num(r.dato, l)} − 32) ÷ 1.8 = ${num(r.bueno, l)} °C. Subtract 32 first, then divide.`, `°C = (°F − 32) ÷ 1,8: (${num(r.dato, l)} − 32) ÷ 1,8 = ${num(r.bueno, l)} °C. Primer es resta 32 i després es divideix.`)
@@ -289,9 +288,9 @@ export function explicacion(r, l) {
   }
 }
 
-export function schemaQuestion(r, l) {
+function schemaVieja(r, l) {
   return {
-    question: enunciado(r, l),
+    question: enunciadoViejo(r, l),
     correctAnswer: textoOpcion(r.bueno, r, l),
     wrongAnswers: r.opciones.filter(o => o !== r.bueno).map(o => textoOpcion(o, r, l)),
   }
@@ -302,4 +301,108 @@ export function colorAgua(t) {
   const x = Math.max(0, Math.min(1, t / 90))
   const a = [59, 130, 246], b = [239, 68, 68]
   return `rgb(${a.map((v, i) => Math.round(v + (b[i] - v) * x)).join(',')})`
+}
+
+// ── Mecánicas ─────────────────────────────────────────────────────────────
+// Sin opciones (genVieja sigue dando la ronda clásica y el texto del schema):
+//   escala       se teclea la temperatura en la otra escala (con signo)
+//   mezcla       se sube o se baja la temperatura del vaso de la mezcla hasta
+//                la que quedará; el agua cambia de color
+//   calor        se teclean los julios de Q = m · c · ΔT
+//   transmision  tres escenas, cada una a la caja de su forma de transmitirse
+//                el calor («clasifica:fallos»)
+//   sarten       se monta una sartén: el cuerpo con un material que conduzca y
+//                el mango con uno que aísle («sarten:fallos»)
+// Las preguntas de concepto (bañera, nevera, cero absoluto…) quedan solo en
+// el examen de teoría: son de elegir una respuesta y no tienen mecánica.
+const MECANICAS = {
+  facil:   ['escala', 'mezcla', 'transmision', 'sarten'],
+  medio:   ['escala', 'escala', 'mezcla', 'transmision', 'sarten'],
+  dificil: ['escala', 'mezcla', 'calor', 'calor', 'transmision'],
+}
+export const MECANICAS_DE = nivel => MECANICAS[nivel] ?? MECANICAS.facil
+
+const recientes = []
+export function genRonda(nivel = 'facil', { rand = Math.random } = {}) {
+  for (let intento = 0; ; intento++) {
+    const r = genNueva(nivel, rand)
+    const tema = `${r.mecanica}${r.dato ?? ''}${r.vasos ?? ''}${r.sustancia ?? ''}${r.m ?? ''}${(r.escenas ?? []).join()}${(r.piezas ?? []).join()}`
+    if (intento < 20 && recientes.includes(tema)) continue
+    recientes.push(tema)
+    if (recientes.length > 6) recientes.shift()
+    return r
+  }
+}
+export const genRound = (difficulty = 'facil') => genRonda(difficulty)
+
+function genNueva(nivel, rand) {
+  const mecanica = elige(rand, MECANICAS_DE(nivel))
+  if (mecanica === 'sarten') {
+    const r = genVieja(nivel, 'conductor', rand)
+    const ids = Object.keys(MATERIALES)
+    const piezas = baraja(rand, [
+      ...baraja(rand, ids.filter(id => MATERIALES[id].conduce)).slice(0, 2),
+      ...baraja(rand, ids.filter(id => !MATERIALES[id].conduce)).slice(0, 2),
+    ])
+    return { ...r, mecanica, piezas }
+  }
+  if (mecanica === 'transmision') {
+    for (;;) {
+      const escenas = baraja(rand, ESCENAS).slice(0, 3)
+      if (new Set(escenas.map(e => e.modo)).size < 2) continue
+      const r = genVieja(nivel, 'transmision', rand)
+      // la primera escena hace de pregunta clásica para el schema
+      return { ...r, mecanica, escena: escenas[0].id, bueno: escenas[0].modo, escenas: escenas.map(e => e.id) }
+    }
+  }
+  const r = genVieja(nivel, mecanica, rand)
+  return { ...r, mecanica }
+}
+
+// Números tecleados: admite «−» o «-».
+export const leeNumero = t => {
+  const x = String(t).trim().replace('−', '-')
+  return /^-?\d+$/.test(x) ? Number(x) : null
+}
+export function respuestaBuena(r) {
+  if (r.mecanica === 'transmision') return 'clasifica:0'
+  if (r.mecanica === 'sarten') return 'sarten:0'
+  return String(r.bueno)
+}
+export function esCorrecta(r, o) {
+  if (o == null) return false
+  if (!r.mecanica) return o === r.bueno
+  if (r.mecanica === 'transmision' || r.mecanica === 'sarten') return o === respuestaBuena(r)
+  return leeNumero(o) === r.bueno
+}
+export const isCorrect = esCorrecta
+export const modoDe = id => ESCENAS.find(e => e.id === id).modo
+
+export function enunciado(r, l) {
+  switch (r.mecanica) {
+    case 'escala': {
+      const [de, a] = escalaDe(r)
+      const nombre = { K: s(l, 'kelvin', 'kelvin', 'kelvin'), C: s(l, 'grados Celsius', 'degrees Celsius', 'graus Celsius'), F: s(l, 'grados Fahrenheit', 'degrees Fahrenheit', 'graus Fahrenheit') }[a]
+      return s(l, `El termómetro marca ${conUnidad(r.dato, de, l)}. Escribe cuánto es en ${nombre}`, `The thermometer reads ${conUnidad(r.dato, de, l)}. Type what that is in ${nombre}`, `El termòmetre marca ${conUnidad(r.dato, de, l)}. Escriu quant és en ${nombre}`)
+    }
+    case 'mezcla': return s(l, 'Mezclas los dos vasos. Pon el termómetro de la mezcla en la temperatura a la que quedará', 'You mix the two glasses. Set the mixture’s thermometer to the temperature it will end up at', 'Barreges els dos gots. Posa el termòmetre de la barreja a la temperatura on quedarà')
+    case 'calor': return `${enunciadoViejo(r, l)} ${s(l, 'Escribe los julios.', 'Type the joules.', 'Escriu els joules.')}`
+    case 'transmision': return s(l, 'Pon cada escena en la caja de cómo se transmite el calor', 'Put each scene in the box for how the heat is transferred', 'Posa cada escena a la caixa de com es transmet la calor')
+    default: return s(l, 'Monta una sartén que caliente bien y no te queme: elige el material del cuerpo y el del mango', 'Build a frying pan that heats well and does not burn you: choose the material for the pan and for the handle', 'Munta una paella que escalfi bé i no et cremi: tria el material del cos i el del mànec')
+  }
+}
+
+export function explicacion(r, l) {
+  if (r.mecanica === 'transmision') {
+    return r.escenas.map(id => {
+      const e = ESCENAS.find(x => x.id === id)
+      return `${e.emoji} ${tx(MODOS[e.modo], l)}`
+    }).join(' · ') + '. ' + explicacionVieja({ ...r, tipo: 'transmision', bueno: modoDe(r.escenas[0]) }, l)
+  }
+  if (r.mecanica === 'sarten') return s(l, 'El cuerpo tiene que conducir el calor del fuego a la comida: metal. El mango, aislar para no quemarte: madera, plástico, corcho, lana o porexpán.', 'The pan must conduct heat from the flame to the food: metal. The handle must insulate so you do not get burnt: wood, plastic, cork, wool or polystyrene.', 'El cos ha de conduir la calor del foc al menjar: metall. El mànec, aïllar perquè no et cremis: fusta, plàstic, suro, llana o porexpan.')
+  return explicacionVieja(r, l)
+}
+
+export function schemaQuestion(r, l) {
+  return schemaVieja(r, l)
 }

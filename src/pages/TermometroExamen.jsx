@@ -7,13 +7,13 @@ import { genRound, esCorrecta, schemaQuestion } from '../lib/termometro'
 const LEVELS = [
   { key: 'primaria', emoji: '💚', difficulty: 'facil',
     label: { es: 'Básico', en: 'Basic', ca: 'Bàsic' },
-    hint: { es: 'Celsius y kelvin, mezclas iguales y transmisión del calor', en: 'Celsius and kelvin, equal mixes and heat transfer', ca: 'Celsius i kelvin, barreges iguals i transmissió de la calor' } },
+    hint: { es: 'Celsius y kelvin, mezclas iguales, transmisión del calor y la sartén', en: 'Celsius and kelvin, equal mixes, heat transfer and the frying pan', ca: 'Celsius i kelvin, barreges iguals, transmissió de la calor i la paella' } },
   { key: 'eso', emoji: '💛', difficulty: 'medio',
     label: { es: 'Secundaria (ESO)', en: 'Secondary (ESO)', ca: 'Secundària (ESO)' },
-    hint: { es: 'Fahrenheit, mezclas con distinta masa y conceptos', en: 'Fahrenheit, mixes with different masses and concepts', ca: 'Fahrenheit, barreges amb massa diferent i conceptes' } },
+    hint: { es: 'Fahrenheit y mezclas con distinta masa', en: 'Fahrenheit and mixes with different masses', ca: 'Fahrenheit i barreges amb massa diferent' } },
   { key: 'bachillerato', emoji: '🔴', difficulty: 'dificil',
     label: { es: 'Avanzado', en: 'Advanced', ca: 'Avançat' },
-    hint: { es: 'Q = m · c · ΔT y conceptos con trampa', en: 'Q = m · c · ΔT and tricky concepts', ca: 'Q = m · c · ΔT i conceptes amb parany' } },
+    hint: { es: 'Q = m · c · ΔT en julios y de Fahrenheit a Celsius', en: 'Q = m · c · ΔT in joules and Fahrenheit to Celsius', ca: 'Q = m · c · ΔT en joules i de Fahrenheit a Celsius' } },
 ]
 
 // Estado propio (la opción elegida): ver la nota de hooks en
@@ -36,7 +36,7 @@ export default function TermometroExamen() {
       metaPath="/examen/termometro-test"
       subjectSchema="Física"
       backGamePath="/juegos/termometro"
-      playLabel={{ es: 'Modo arcade (60s)', en: 'Arcade mode (60s)', ca: 'Mode arcade (60s)' }}
+      playLabel={{ es: 'Modo arcade (90s)', en: 'Arcade mode (90s)', ca: 'Mode arcade (90s)' }}
       levels={LEVELS}
       genRound={genRound}
       isCorrect={esCorrecta}
