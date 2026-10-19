@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import {
-  NIVELES, LIQUIDOS, OBJETOS, MARGEN, genRonda, esCorrecta, explicacion, schemaQuestion, textoOpcion, fraccionSumergida,
+  NIVELES, LIQUIDOS, OBJETOS, MARGEN, genRonda, genVieja, MECANICAS_DE, respuestaBuena, MARGEN_MECANICAS, esCorrecta, enunciado, explicacion, schemaQuestion, textoOpcion, fraccionSumergida,
 } from '../flotaHunde'
 
 function semilla(s) { return () => ((s = (s * 16807) % 2147483647) - 1) / 2147483646 }
@@ -24,13 +24,13 @@ describe('¿Flota o se hunde? · datos', () => {
   })
 })
 
-describe('¿Flota o se hunde? · rondas', () => {
+describe('¿Flota o se hunde? · rondas clásicas (schema y «coloca»)', () => {
   for (const nivel of Object.keys(NIVELES)) {
     it(`${nivel}: 600 rondas coherentes, con margen y variadas`, () => {
       const rand = semilla(nivel.length * 977)
       const buenos = new Set(), objetos = new Set(), liquidos = new Set()
       for (let i = 0; i < 600; i++) {
-        const r = genRonda(nivel, { rand })
+        const r = genVieja(nivel, { rand })
         const rl = LIQUIDOS[r.liquido].rho
         expect(NIVELES[nivel].liquidos).toContain(r.liquido)
         expect(r.opciones).toContain(r.bueno)
@@ -71,7 +71,7 @@ describe('¿Flota o se hunde? · rondas', () => {
   it('flota y se hunde salen parejos', () => {
     const rand = semilla(42)
     let flota = 0
-    for (let i = 0; i < 1000; i++) if (genRonda('medio', { rand }).bueno === 'flota') flota++
+    for (let i = 0; i < 1000; i++) if (genVieja('medio', { rand }).bueno === 'flota') flota++
     expect(flota).toBeGreaterThan(400)
     expect(flota).toBeLessThan(600)
   })
@@ -81,4 +81,41 @@ describe('¿Flota o se hunde? · rondas', () => {
     expect(explicacion(r, 'es')).toContain('más densidad que la miel')
     expect(explicacion(r, 'ca')).toContain('més densitat que la mel')
   })
+})
+
+describe('¿Flota o se hunde? · mecánicas', () => {
+  for (const nivel of Object.keys(NIVELES)) {
+    it(`${nivel}: lo que se toca sale de la física`, () => {
+      const rand = semilla(nivel.length * 31)
+      const vistas = new Set()
+      for (let i = 0; i < 500; i++) {
+        const r = genRonda(nivel, { rand })
+        vistas.add(r.mecanica)
+        expect(esCorrecta(r, respuestaBuena(r))).toBe(true)
+        if (r.mecanica === 'clasifica') {
+          const rl = LIQUIDOS[r.liquido].rho
+          expect(r.items).toHaveLength(4)
+          const flotan = r.items.filter(x => x.rho < rl).length
+          expect(flotan).toBeGreaterThan(0)
+          expect(flotan).toBeLessThan(4)
+          for (const x of r.items) expect(Math.abs(x.rho / rl - 1)).toBeGreaterThanOrEqual(MARGEN_MECANICAS - 1e-9)
+          expect(esCorrecta(r, 'clasifica:1')).toBe(false)
+        }
+        if (r.mecanica === 'liquido') {
+          for (const b of r.botellas) {
+            const rl = LIQUIDOS[b].rho
+            expect(Math.abs(r.rho / rl - 1)).toBeGreaterThanOrEqual(MARGEN_MECANICAS - 1e-9)
+            expect(esCorrecta(r, b)).toBe((r.quiere === 'flota') === (r.rho < rl))
+          }
+        }
+        if (r.mecanica === 'coloca') expect(r.bueno === 'hunde' || r.bueno % 5 === 0).toBe(true)
+        for (const l of L) {
+          expect(enunciado(r, l)).not.toMatch(/undefined|NaN/)
+          expect(explicacion(r, l)).not.toMatch(/undefined|NaN/)
+          expect(schemaQuestion(r, l).question).not.toMatch(/undefined|NaN/)
+        }
+      }
+      expect([...vistas].sort()).toEqual([...new Set(MECANICAS_DE(nivel))].sort())
+    })
+  }
 })

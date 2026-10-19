@@ -11,18 +11,19 @@ import SEOHead from '../components/SEOHead'
 import { CabeceraJuego, NivelBarras, ComoSeJuega } from '../components/IntroJuego'
 import { Racha } from '../components/Iconos'
 
-const GAME_TIME = 60
+// Se reparten objetos, se elige botella o se coloca el bloque: 90 s y +6 s por acierto.
+const GAME_TIME = 90
 const WRONG_TIME = 5
-const CORRECT_TIME = 4
+const CORRECT_TIME = 6
 const REVEAL_MS = 4200 // el objeto tarda 1,3 s en caer y asentarse
 
 const DIFS = {
   facil:   { emoji: '💚', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
-             desc: { es: 'En agua, con la densidad de cada objeto a la vista', en: 'In water, with each object’s density shown', ca: 'En aigua, amb la densitat de cada objecte a la vista' } },
+             desc: { es: 'Reparte objetos entre flota y se hunde, con su densidad a la vista', en: 'Sort objects into float and sink, with their density shown', ca: 'Reparteix objectes entre sura i s’enfonsa, amb la densitat a la vista' } },
   medio:   { emoji: '💛', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
-             desc: { es: 'Ocho líquidos y solo la masa y el volumen: calcula la densidad', en: 'Eight liquids and only mass and volume: work out the density', ca: 'Vuit líquids i només la massa i el volum: calcula la densitat' } },
+             desc: { es: 'Varios líquidos y solo masa y volumen: elige la botella en la que flota', en: 'Several liquids and only mass and volume: pick the bottle it floats in', ca: 'Diversos líquids i només massa i volum: tria l’ampolla on sura' } },
   dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' },
-             desc: { es: 'Si flota, ¿qué parte queda bajo el líquido?', en: 'If it floats, how much is under the surface?', ca: 'Si sura, quina part queda sota el líquid?' } },
+             desc: { es: 'Coloca el bloque a la altura exacta a la que flotará', en: 'Place the block at the exact depth it will float at', ca: 'Col·loca el bloc a l’altura exacta on surarà' } },
 }
 if (import.meta.env.DEV && Object.keys(DIFS).join() !== Object.keys(NIVELES).join()) {
   console.warn('[flota-o-se-hunde] los niveles de la pantalla no coinciden con NIVELES')
@@ -142,9 +143,9 @@ export default function FlotaHunde() {
           </button>
           <ComoSeJuega>
             <div className="space-y-2 text-white/70 text-sm">
-              <p>{tr({ es: 'Sale un objeto sujeto encima de un vaso con un líquido. Tienes que predecir qué pasará al soltarlo. Cuando respondes, cae de verdad y se queda donde lo dice la física: flotando o en el fondo.', en: 'An object is held above a glass of liquid. You predict what will happen when it is dropped. When you answer, it really falls and stays where physics says: floating or on the bottom.', ca: 'Surt un objecte subjectat damunt d’un got amb un líquid. Has de predir què passarà quan el deixis anar. Quan respons, cau de debò i es queda on diu la física: surant o al fons.' })}</p>
+              <p>{tr({ es: 'No hay opciones. Repartes cuatro objetos entre «flota» y «se hunde», eliges en qué botella de líquido flotará (o se hundirá) un objeto, o, en difícil, colocas el bloque a la altura a la que flotará. Al responder, el objeto cae de verdad y se queda donde lo dice la física.', en: 'There are no options. You sort four objects into «floats» and «sinks», pick which bottle of liquid an object will float (or sink) in, or, on hard, set the block at the depth it will float at. When you answer, the object really falls and stays where physics says.', ca: 'No hi ha opcions. Reparteixes quatre objectes entre «sura» i «s’enfonsa», tries en quina ampolla de líquid surarà (o s’enfonsarà) un objecte, o, en difícil, col·loques el bloc a l’altura on surarà. En respondre, l’objecte cau de debò i es queda on diu la física.' })}</p>
               <p>{tr({ es: 'La regla es una sola: flota lo que tiene menos densidad que el líquido. No importa si es grande o pesado: un tronco enorme flota y una canica se hunde. La densidad es masa ÷ volumen; en el nivel medio te dan esos dos datos y la calculas tú.', en: 'There is just one rule: whatever is less dense than the liquid floats. Size and weight do not matter: a huge log floats and a marble sinks. Density is mass ÷ volume; on medium you get those two numbers and work it out.', ca: 'La regla és una sola: sura el que té menys densitat que el líquid. No importa si és gran o pesat: un tronc enorme sura i una bala s’enfonsa. La densitat és massa ÷ volum; al nivell mitjà et donen aquestes dues dades i la calcules tu.' })}</p>
-              <p>{tr({ es: 'En difícil hay que decir cuánto queda sumergido: es la densidad del objeto dividida entre la del líquido. Un bloque de 0,6 g/cm³ en agua se queda con el 60 % bajo la superficie. En el dibujo lo verás: la parte teñida por el líquido.', en: 'On hard you say how much stays under the surface: the object’s density divided by the liquid’s. A 0.6 g/cm³ block in water floats with 60% under the surface. You will see it in the drawing: the part tinted by the liquid.', ca: 'En difícil s’ha de dir quant queda submergit: és la densitat de l’objecte dividida per la del líquid. Un bloc de 0,6 g/cm³ en aigua es queda amb el 60 % sota la superfície. Al dibuix ho veuràs: la part tenyida pel líquid.' })}</p>
+              <p>{tr({ es: 'En difícil hay que bajar el bloque hasta donde quedará sumergido: es la densidad del objeto dividida entre la del líquido. Un bloque de 0,6 g/cm³ en agua se queda con el 60 % bajo la superficie. En el dibujo lo verás: la parte teñida por el líquido.', en: 'On hard you lower the block to how far it will sink: the object’s density divided by the liquid’s. A 0.6 g/cm³ block in water floats with 60% under the surface. You will see it in the drawing: the part tinted by the liquid.', ca: 'En difícil cal baixar el bloc fins on quedarà submergit: és la densitat de l’objecte dividida per la del líquid. Un bloc de 0,6 g/cm³ en aigua es queda amb el 60 % sota la superfície. Al dibuix ho veuràs: la part tenyida pel líquid.' })}</p>
               <p className="text-white/40 text-xs pt-1">⏱️ {GAME_TIME}s · {tr({ es: `Acierto +10 y +${CORRECT_TIME}s · Fallo −${WRONG_TIME}s`, en: `Correct +10 and +${CORRECT_TIME}s · Wrong −${WRONG_TIME}s`, ca: `Encert +10 i +${CORRECT_TIME}s · Error −${WRONG_TIME}s` })}</p>
             </div>
           </ComoSeJuega>

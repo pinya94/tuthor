@@ -13,7 +13,7 @@ const LEVELS = [
     hint: { es: 'Varios líquidos; calcula la densidad con la masa y el volumen', en: 'Several liquids; work out density from mass and volume', ca: 'Diversos líquids; calcula la densitat amb la massa i el volum' } },
   { key: 'bachillerato', emoji: '🔴', difficulty: 'dificil',
     label: { es: 'Avanzado', en: 'Advanced', ca: 'Avançat' },
-    hint: { es: 'Qué parte del bloque queda sumergida', en: 'How much of the block is under the surface', ca: 'Quina part del bloc queda submergida' } },
+    hint: { es: 'Colocar el bloque a la altura a la que flota', en: 'Place the block at the depth it floats at', ca: 'Col·locar el bloc a l’altura on sura' } },
 ]
 
 // Estado propio (la opción elegida): ver la nota de hooks en
@@ -36,7 +36,7 @@ export default function FlotaHundeExamen() {
       metaPath="/examen/flota-o-se-hunde-test"
       subjectSchema="Física"
       backGamePath="/juegos/flota-o-se-hunde"
-      playLabel={{ es: 'Modo arcade (60s)', en: 'Arcade mode (60s)', ca: 'Mode arcade (60s)' }}
+      playLabel={{ es: 'Modo arcade (90s)', en: 'Arcade mode (90s)', ca: 'Mode arcade (90s)' }}
       levels={LEVELS}
       genRound={genRound}
       isCorrect={esCorrecta}

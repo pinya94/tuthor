@@ -83,7 +83,8 @@ const r2 = x => Math.round(x * 100) / 100
 const esEntero = x => Math.abs(x - Math.round(x)) < 1e-9
 
 let seq = 0 // id de ronda: cada una monta su vaso desde arriba
-export function genRonda(nivel = 'facil', { rand = Math.random } = {}) {
+// La ronda clásica (pregunta con opciones): la usan «coloca» y el schema.
+export function genVieja(nivel = 'facil', { rand = Math.random } = {}) {
   const cfg = NIVELES[nivel] ?? NIVELES.facil
   for (;;) {
     const liquido = elige(rand, cfg.liquidos)
@@ -140,9 +141,6 @@ export function genRonda(nivel = 'facil', { rand = Math.random } = {}) {
 // Las fracciones de menor a mayor y «se hunde» al final: se leen como una escala.
 const orden = xs => [...xs].sort((a, b) => (a === 'hunde' ? 1 : b === 'hunde' ? -1 : a - b))
 
-export const esCorrecta = (ronda, r) => r === ronda.bueno
-export const genRound = difficulty => genRonda(difficulty)
-export const isCorrect = esCorrecta
 
 // Qué parte del objeto queda bajo el líquido al final (1 = entero, al fondo).
 export const fraccionSumergida = ronda => Math.min(1, ronda.rho / LIQUIDOS[ronda.liquido].rho)
@@ -172,12 +170,12 @@ export function textoOpcion(o, l) {
   return tx(l, `${pct(o, l)} bajo el líquido`, `${pct(o, l)} under the surface`, `${pct(o, l)} sota el líquid`)
 }
 
-export function enunciado(ronda, l) {
+function enunciadoViejo(ronda, l) {
   if (ronda.pregunta === 'fraccion') return tx(l, 'Si flota, ¿qué parte del bloque queda sumergida?', 'If it floats, how much of the block is under the surface?', 'Si sura, quina part del bloc queda submergida?')
   return tx(l, '¿Flota o se hunde?', 'Does it float or sink?', 'Sura o s’enfonsa?')
 }
 
-export function explicacion(ronda, l) {
+function explicacionVieja(ronda, l) {
   const rl = LIQUIDOS[ronda.liquido].rho
   const liq = liquidoArt(ronda, l)
   const flota = ronda.rho < rl
@@ -205,7 +203,7 @@ export function explicacion(ronda, l) {
 }
 
 // JSON-LD / ejemplos: se entiende sin el dibujo.
-export function schemaQuestion(ronda, l) {
+function schemaVieja(ronda, l) {
   const rl = LIQUIDOS[ronda.liquido].rho
   const obj = `${nombreObjeto(ronda, l)} (${datoObjeto(ronda, l)})`
   const liq = `${liquidoArt(ronda, l)} (ρ = ${num(rl, l)} g/cm³)`
@@ -217,4 +215,128 @@ export function schemaQuestion(ronda, l) {
     correctAnswer: textoOpcion(ronda.bueno, l),
     wrongAnswers: ronda.opciones.filter(o => o !== ronda.bueno).map(o => textoOpcion(o, l)),
   }
+}
+
+// ── Mecánicas ─────────────────────────────────────────────────────────────
+// Sin opciones (genVieja sigue dando la ronda clásica y el texto del schema):
+//   clasifica  cuatro objetos, cada uno a «flota» o «se hunde» en el líquido
+//              del vaso («clasifica:fallos»)
+//   liquido    un objeto y cuatro botellas: elige un líquido en el que flote
+//              (o se hunda); vale cualquiera que lo cumpla (el id)
+//   coloca     un bloque: se baja o se sube en el vaso hasta la línea de
+//              flotación que toca, o se manda al fondo (el % o «hunde»)
+const MECANICAS = {
+  facil:   ['clasifica', 'clasifica', 'liquido'],
+  medio:   ['clasifica', 'liquido', 'clasifica'],
+  dificil: ['coloca', 'coloca', 'liquido', 'clasifica'],
+}
+export const MECANICAS_DE = nivel => MECANICAS[nivel] ?? MECANICAS.facil
+const LIQ_BOTELLAS = ['agua', 'mar', 'muerto', 'aceite', 'alcohol', 'glicerina', 'miel']
+
+let seqN = 0
+const recientes = []
+export function genRonda(nivel = 'facil', { rand = Math.random } = {}) {
+  for (let intento = 0; ; intento++) {
+    // Se reintenta la MISMA mecánica: si no, las que se descartan más (elegir
+    // líquido) saldrían mucho menos de lo que dice MECANICAS.
+    const mecanica = elige(rand, MECANICAS_DE(nivel))
+    let r = null
+    while (!r) r = genNueva(nivel, rand, mecanica)
+    const tema = `${r.mecanica}${r.objeto}${r.liquido}${(r.items ?? []).map(x => x.objeto).join()}`
+    if (intento < 20 && recientes.includes(tema)) continue
+    recientes.push(tema)
+    if (recientes.length > 6) recientes.shift()
+    return r
+  }
+}
+export const genRound = difficulty => genRonda(difficulty)
+
+// Un objeto con su dato: la densidad a la vista (fácil) o masa y volumen.
+function conDato(objeto, conMasa, rand) {
+  const rho = OBJETOS[objeto].rho
+  if (!conMasa) return { objeto, rho, masa: null, V: null }
+  const V = elige(rand, VOLUMENES)
+  const masa = Math.round(rho * V)
+  return masa < 1 ? null : { objeto, rho: masa / V, masa, V }
+}
+// Más margen que en la ronda clásica: aquí se juntan muchos pares a la vez y
+// el huevo en agua de mar (1,09 / 1,03) ya depende del huevo.
+export const MARGEN_MECANICAS = 0.08
+const claro = (rho, rl) => Math.abs(rho / rl - 1) >= MARGEN_MECANICAS
+
+function genNueva(nivel, rand, mecanica) {
+  const conMasa = nivel !== 'facil'
+  const base = { id: ++seqN, nivel, mecanica }
+  if (mecanica === 'coloca') {
+    const r = genVieja('dificil', { rand })
+    return { ...r, ...base, pregunta: 'fraccion' }
+  }
+  if (mecanica === 'clasifica') {
+    const liquido = nivel === 'facil' ? 'agua' : elige(rand, LIQ_BOTELLAS)
+    const rl = LIQUIDOS[liquido].rho
+    const items = []
+    for (const objeto of baraja(rand, Object.keys(OBJETOS))) {
+      const d = conDato(objeto, conMasa, rand)
+      if (d && claro(d.rho, rl)) items.push(d)
+      if (items.length === 4) break
+    }
+    const flotan = items.filter(x => x.rho < rl).length
+    if (items.length < 4 || flotan === 0 || flotan === 4) return null
+    return { ...base, liquido, items, objeto: items[0].objeto, rho: items[0].rho, masa: items[0].masa, V: items[0].V, pregunta: 'flota', bueno: 'clasifica:0' }
+  }
+  // liquido: cuatro botellas, sin ninguna en el límite
+  const quiere = rand() < 0.5 ? 'flota' : 'hunde'
+  const d = conDato(elige(rand, Object.keys(OBJETOS)), conMasa, rand)
+  if (!d) return null
+  const botellas = baraja(rand, LIQ_BOTELLAS).slice(0, 4)
+  if (!botellas.every(b => claro(d.rho, LIQUIDOS[b].rho))) return null
+  const validos = botellas.filter(b => (quiere === 'flota') === (d.rho < LIQUIDOS[b].rho))
+  if (!validos.length || validos.length === 4) return null
+  return { ...base, ...d, liquido: validos[0], botellas, quiere, validos, pregunta: 'flota', bueno: validos[0] }
+}
+
+// La respuesta que da el componente cuando se hace todo bien.
+export function respuestaBuena(r) {
+  if (r.mecanica === 'clasifica') return 'clasifica:0'
+  return String(r.bueno)
+}
+export function esCorrecta(r, o) {
+  if (o == null) return false
+  if (r.mecanica === 'liquido') return r.validos.includes(o)
+  if (r.mecanica === 'coloca') return String(o) === String(r.bueno)
+  if (r.mecanica === 'clasifica') return o === 'clasifica:0'
+  return o === r.bueno
+}
+export const isCorrect = esCorrecta
+
+export function enunciado(r, l) {
+  if (r.mecanica === 'clasifica') return tx(l, `Pon cada objeto en su sitio: ¿flota o se hunde en ${liquidoArt(r, l)}?`, `Put each object in its place: does it float or sink in ${liquidoArt(r, l)}?`, `Posa cada objecte al seu lloc: sura o s’enfonsa a ${liquidoArt(r, l)}?`)
+  if (r.mecanica === 'liquido') return r.quiere === 'flota'
+    ? tx(l, 'Elige un líquido en el que este objeto flote', 'Choose a liquid this object floats in', 'Tria un líquid en què aquest objecte suri')
+    : tx(l, 'Elige un líquido en el que este objeto se hunda', 'Choose a liquid this object sinks in', 'Tria un líquid en què aquest objecte s’enfonsi')
+  if (r.mecanica === 'coloca') return tx(l, 'Sube o baja el bloque hasta donde flotará (o mándalo al fondo)', 'Move the block up or down to where it will float (or send it to the bottom)', 'Puja o baixa el bloc fins on surarà (o envia’l al fons)')
+  return enunciadoViejo(r, l)
+}
+
+export function explicacion(r, l) {
+  if (r.mecanica === 'clasifica') {
+    const rl = LIQUIDOS[r.liquido].rho
+    const lista = r.items.map(x => `${OBJETOS[x.objeto].nombre[l] ?? OBJETOS[x.objeto].nombre.es} ${num(x.rho, l)} → ${x.rho < rl ? tx(l, 'flota', 'floats', 'sura') : tx(l, 'se hunde', 'sinks', 's’enfonsa')}`).join(' · ')
+    return tx(l, `Flota lo que tiene menos densidad que ${liquidoArt(r, l)} (${num(rl, l)} g/cm³): ${lista}.`, `Whatever is less dense than ${liquidoArt(r, l)} (${num(rl, l)} g/cm³) floats: ${lista}.`, `Sura el que té menys densitat que ${liquidoArt(r, l)} (${num(rl, l)} g/cm³): ${lista}.`)
+  }
+  if (r.mecanica === 'liquido') {
+    const lista = r.botellas.map(b => `${LIQUIDOS[b].nombre[l] ?? LIQUIDOS[b].nombre.es} ${num(LIQUIDOS[b].rho, l)}${r.validos.includes(b) ? ' ✓' : ''}`).join(' · ')
+    const calc = r.masa === null ? '' : tx(l, `Densidad = ${num(r.masa, l)} / ${num(r.V, l)} ≈ ${num(r.rho, l)} g/cm³. `, `Density = ${num(r.masa, l)} / ${num(r.V, l)} ≈ ${num(r.rho, l)} g/cm³. `, `Densitat = ${num(r.masa, l)} / ${num(r.V, l)} ≈ ${num(r.rho, l)} g/cm³. `)
+    return calc + (r.quiere === 'flota'
+      ? tx(l, `Flota en los líquidos más densos que él (${num(r.rho, l)} g/cm³): ${lista}.`, `It floats in liquids denser than it (${num(r.rho, l)} g/cm³): ${lista}.`, `Sura en els líquids més densos que ell (${num(r.rho, l)} g/cm³): ${lista}.`)
+      : tx(l, `Se hunde en los líquidos menos densos que él (${num(r.rho, l)} g/cm³): ${lista}.`, `It sinks in liquids less dense than it (${num(r.rho, l)} g/cm³): ${lista}.`, `S’enfonsa en els líquids menys densos que ell (${num(r.rho, l)} g/cm³): ${lista}.`))
+  }
+  return explicacionVieja(r, l)
+}
+
+export function schemaQuestion(r, l) {
+  if (!r.mecanica || r.mecanica === 'coloca') return schemaVieja(r, l)
+  // Como pregunta de texto: ¿flota o se hunde el primer objeto en su líquido?
+  const flota = r.rho < LIQUIDOS[r.liquido].rho
+  return schemaVieja({ ...r, pregunta: 'flota', bueno: flota ? 'flota' : 'hunde', opciones: ['flota', 'hunde'] }, l)
 }
