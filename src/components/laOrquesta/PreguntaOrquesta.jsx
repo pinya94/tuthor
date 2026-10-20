@@ -12,10 +12,13 @@ import { FAMILIAS, instrumento, enunciado, explicacion, tx, cajaDe, textoCaja } 
 const COLORES = ['bg-sky-500', 'bg-fuchsia-500', 'bg-amber-500', 'bg-emerald-500']
 const ZONAS = [['cuerda', 30], ['madera', 48], ['metal', 66], ['percusion', 84]] // familia y radio del arco
 
-function Ficha({ id, activo, onClick, mini }) {
+// Con su nombre debajo: lo que se juega es dónde se sienta o de qué familia
+// es, no adivinar el instrumento por un dibujo pequeño.
+function Ficha({ id, activo, onClick, l }) {
   return (
-    <button type="button" onClick={onClick} className={`rounded-xl p-1 transition-all ${mini ? 'w-11' : 'w-[4.6rem]'} ${activo ? 'bg-white/20 ring-2 ring-amber-300' : 'bg-white/5'}`}>
+    <button type="button" onClick={onClick} className={`rounded-xl p-1 pb-1.5 transition-all w-[5.2rem] ${activo ? 'bg-white/20 ring-2 ring-amber-300' : 'bg-white/5'}`}>
       <Instrumento id={id} className="w-full h-auto block" />
+      <span className="block text-[10.5px] font-bold text-white/85 leading-tight">{tx(instrumento(id).nombre, l)}</span>
     </button>
   )
 }
@@ -34,8 +37,8 @@ function Sienta({ r, revelado, onResponder, tr, l }) {
   return (
     <>
       <p className="text-white font-bold text-center mb-2 leading-snug">{enunciado(r, l)}</p>
-      <div className="flex justify-center gap-2 mb-2 min-h-[4.8rem]">
-        {r.inst.filter(i => !puestas[i]).map(i => <Ficha key={i} id={i} activo={activo === i} onClick={() => setActivo(i)} />)}
+      <div className="flex justify-center gap-1.5 mb-2 min-h-[5.6rem]">
+        {r.inst.filter(i => !puestas[i]).map(i => <Ficha key={i} id={i} l={l} activo={activo === i} onClick={() => setActivo(i)} />)}
       </div>
       <div className="rounded-2xl bg-[#0b1226] border border-white/[0.08] p-2">
         <svg viewBox="0 0 200 106" className="w-full max-w-[360px] mx-auto block">
@@ -120,8 +123,8 @@ function Clasifica({ r, revelado, onResponder, l }) {
   return (
     <>
       <p className="text-white font-bold text-center mb-2 leading-snug">{enunciado(r, l)}</p>
-      <div className="flex justify-center gap-2 mb-3 min-h-[4.8rem]">
-        {r.inst.filter(i => !puestas[i]).map(i => <Ficha key={i} id={i} activo={activo === i} onClick={() => setActivo(i)} />)}
+      <div className="flex justify-center gap-1.5 mb-3 min-h-[5.6rem]">
+        {r.inst.filter(i => !puestas[i]).map(i => <Ficha key={i} id={i} l={l} activo={activo === i} onClick={() => setActivo(i)} />)}
       </div>
       <div className="grid grid-cols-2 gap-2">
         {r.cajas.map(c => (

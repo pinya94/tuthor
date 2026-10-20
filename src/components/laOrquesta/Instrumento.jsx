@@ -50,17 +50,17 @@ const DIBUJOS = {
     </g>
   ),
   guitarra: () => (
-    <g>
-      <ellipse cx="44" cy="62" rx="22" ry="18" fill={MADERA} />
-      <ellipse cx="74" cy="62" rx="17" ry="14" fill={MADERA} />
-      <circle cx="68" cy="62" r="7" fill={NEGRO} />
-      <rect x="88" y="58" width="50" height="8" fill={MADERA_OSC} />
-      {[96, 104, 112, 120, 128].map(x => <line key={x} x1={x} y1="58" x2={x} y2="66" stroke={PLATA} strokeWidth="1" />)}
-      <path d="M138 56 L154 52 L154 72 L138 68 Z" fill={MADERA_OSC} />
-      {[0, 1, 2].map(i => <circle key={i} cx={143 + i * 4} cy="54" r="1.6" fill={PLATA} />)}
-      <line x1="36" y1="60" x2="152" y2="60" stroke="#E5E7EB" strokeWidth="0.6" />
-      <line x1="36" y1="64" x2="152" y2="64" stroke="#E5E7EB" strokeWidth="0.6" />
-      <rect x="34" y="57" width="4" height="10" fill={NEGRO} />
+    <g transform="rotate(-28 80 62)">
+      {/* guitarra española: caja en forma de ocho, boca redonda, puente,
+          mástil con trastes y la pala con las clavijas */}
+      <rect x="75" y="4" width="10" height="12" rx="2" fill={MADERA_OSC} />
+      {[7, 11, 15].map(y => <g key={y}><circle cx="72.5" cy={y - 1} r="1.8" fill={PLATA} /><circle cx="87.5" cy={y - 1} r="1.8" fill={PLATA} /></g>)}
+      <rect x="76.5" y="16" width="7" height="44" fill="#7C2D12" />
+      {[22, 28, 34, 40, 46, 52].map(y => <line key={y} x1="76.5" y1={y} x2="83.5" y2={y} stroke={PLATA} strokeWidth="0.8" />)}
+      <path d="M80 56 C60 56 60 74 68 78 C56 84 56 112 80 112 C104 112 104 84 92 78 C100 74 100 56 80 56 Z" fill="#D97706" stroke={MADERA_OSC} strokeWidth="2" />
+      <circle cx="80" cy="76" r="7" fill={NEGRO} stroke="#FDE68A" strokeWidth="1.2" />
+      <rect x="71" y="96" width="18" height="4" rx="1.5" fill={MADERA_OSC} />
+      {[-3, -1, 1, 3].map(d => <line key={d} x1={80 + d} y1="16" x2={80 + d} y2="98" stroke="#F5F5F4" strokeWidth="0.5" />)}
     </g>
   ),
   piano: () => (
@@ -83,32 +83,56 @@ const DIBUJOS = {
     </g>
   ),
   clarinete: () => (
-    <g>
-      <path d="M76 6 L84 6 L83 20 L77 20 Z" fill={NEGRO} />
-      <rect x="77" y="20" width="6" height="4" fill={PLATA} />
-      <rect x="76" y="24" width="8" height="78" fill={NEGRO} />
-      <path d="M76 100 Q70 112 66 116 L94 116 Q90 112 84 100 Z" fill={NEGRO} />
-      {[34, 44, 54, 66, 76, 86].map(y => <circle key={y} cx="80" cy={y} r="2" fill={PLATA} />)}
-      {[40, 60, 82].map(y => <line key={y} x1="84" y1={y} x2="90" y2={y + 4} stroke={PLATA} strokeWidth="1.2" />)}
+    <g transform="rotate(14 80 62)">
+      {/* boquilla con abrazadera, barrilete, dos cuerpos y la campana */}
+      <path d="M76 2 L84 2 L83 14 L77 14 Z" fill={NEGRO} />
+      <rect x="75.5" y="9" width="9" height="3" fill={PLATA} />
+      <rect x="75" y="14" width="10" height="10" rx="2" fill={NEGRO} />
+      <rect x="74.5" y="23" width="11" height="2" fill={PLATA} />
+      <rect x="75" y="25" width="10" height="36" fill={NEGRO} />
+      <rect x="74.5" y="60" width="11" height="2.5" fill={PLATA} />
+      <rect x="75" y="62" width="10" height="36" fill={NEGRO} />
+      <path d="M75 97 L85 97 Q88 108 96 116 L64 116 Q72 108 75 97 Z" fill={NEGRO} />
+      <ellipse cx="80" cy="116" rx="16" ry="2.5" fill="#374151" />
+      {[32, 40, 48, 70, 78, 86].map(y => <circle key={y} cx="80" cy={y} r="2.4" fill={PLATA} stroke="#64748B" strokeWidth="0.6" />)}
+      {[36, 52, 74, 90].map(y => <path key={y} d={`M84 ${y} l5 2 l0 6`} stroke={PLATA} strokeWidth="1.3" fill="none" />)}
+      <line x1="76.5" y1="28" x2="76.5" y2="94" stroke={PLATA} strokeWidth="0.8" />
     </g>
   ),
   saxofon: () => (
     <g>
-      <path d="M86 10 L92 18 L88 22" stroke={NEGRO} strokeWidth="3" fill="none" />
-      <path d="M88 22 Q78 26 76 36 L70 92 Q68 112 88 112 Q106 112 108 92 L112 66" stroke={LATON} strokeWidth="13" fill="none" strokeLinecap="round" />
-      <path d="M104 70 L126 54 L130 62 L112 76 Z" fill={LATON_OSC} />
-      <ellipse cx="124" cy="56" rx="9" ry="5" transform="rotate(-35 124 56)" fill={LATON} stroke={LATON_OSC} strokeWidth="2" />
-      {[44, 54, 64, 74, 84].map(y => <circle key={y} cx="74" cy={y} r="3" fill="#FEF08A" stroke={LATON_OSC} />)}
+      {/* boquilla negra y tudel, el cuerpo cónico que baja, la curva en U y
+          el pabellón abierto hacia ARRIBA: la silueta que no tiene nadie más */}
+      <path d="M71 26 Q69 13 58 11 L49 12.5" stroke={LATON} strokeWidth="5" fill="none" strokeLinecap="round" />
+      <path d="M49 12.5 L37 15.5" stroke={NEGRO} strokeWidth="5.5" strokeLinecap="round" />
+      <path d="M66 24 L69 86 Q71 110 92 110 Q114 110 116 86 L120 62 Q124 56 134 50 L98 50 Q106 56 104 64 L100 86 Q98 98 92 98 Q85 98 83 86 L75 24 Z"
+        fill={LATON} stroke={LATON_OSC} strokeWidth="1.5" strokeLinejoin="round" />
+      <ellipse cx="116" cy="50" rx="18" ry="4.5" fill="#713F12" stroke={LATON_OSC} strokeWidth="1.5" />
+      <path d="M100 52 Q116 47 132 52" stroke="#FDE68A" strokeWidth="1.2" fill="none" />
+      {/* llaves de nácar a lo largo del cuerpo y las grandes de la curva */}
+      {[[69.5, 36], [70, 45], [70.5, 54], [71.3, 64], [72, 73], [73, 82]].map(([x, y]) => (
+        <circle key={y} cx={x} cy={y} r="3.4" fill="#FEF3C7" stroke={LATON_OSC} strokeWidth="1.2" />
+      ))}
+      {[[86, 104], [97, 104]].map(([x, y]) => <circle key={x} cx={x} cy={y} r="3.6" fill={LATON_OSC} stroke="#FDE68A" strokeWidth="0.8" />)}
+      <path d="M78 30 L84 84" stroke={LATON_OSC} strokeWidth="1.4" />
+      <path d="M106 70 L114 68 M105 78 L113 76" stroke={LATON_OSC} strokeWidth="2" strokeLinecap="round" />
     </g>
   ),
   fagot: () => (
-    <g>
-      <rect x="70" y="10" width="11" height="104" rx="4" fill={MADERA} />
-      <rect x="82" y="40" width="9" height="74" rx="4" fill={MADERA_OSC} />
-      <path d="M70 114 L91 114 L91 118 L70 118 Z" fill={PLATA} />
-      <path d="M86 40 Q86 30 96 26 Q104 22 108 30 L112 34" stroke={PLATA} strokeWidth="2" fill="none" />
-      <path d="M112 34 l3 3 l-3 2" stroke="#D6D3D1" strokeWidth="2" fill="none" />
-      {[56, 66, 76, 90].map(y => <circle key={y} cx="86" cy={y} r="1.8" fill={PLATA} />)}
+    <g transform="rotate(-10 80 64)">
+      {/* dos tubos de madera unidos (el fagot es un tubo doblado), anillas
+          plateadas, la campana clara arriba y el tudel en S con la caña */}
+      <rect x="66" y="4" width="15" height="110" rx="4" fill={MADERA} />
+      <rect x="81" y="34" width="12" height="80" rx="4" fill={MADERA_OSC} />
+      <rect x="64.5" y="4" width="18" height="7" rx="2" fill="#E7C590" />
+      <rect x="65" y="112" width="29" height="7" rx="3" fill={PLATA} />
+      {[30, 62, 86].map(y => <rect key={y} x="65.5" y={y} width="16" height="2.5" fill={PLATA} />)}
+      <rect x="80.5" y="60" width="13" height="2.5" fill={PLATA} />
+      <path d="M87 36 Q86 24 96 22 Q108 20 110 30 Q112 38 122 36" stroke={PLATA} strokeWidth="2.6" fill="none" strokeLinecap="round" />
+      <path d="M122 36 l7 -2" stroke="#D6D3D1" strokeWidth="3.5" strokeLinecap="round" />
+      {[44, 52, 70, 78, 96].map(y => <circle key={y} cx="87" cy={y} r="2" fill={PLATA} />)}
+      {[40, 48, 98].map(y => <circle key={y} cx="73.5" cy={y} r="2" fill={PLATA} />)}
+      <path d="M77 66 l8 2 M77 74 l8 2" stroke={PLATA} strokeWidth="1.3" />
     </g>
   ),
   trompeta: () => (
@@ -135,22 +159,42 @@ const DIBUJOS = {
   ),
   trompa: () => (
     <g>
-      <circle cx="70" cy="62" r="30" fill="none" stroke={LATON} strokeWidth="6" />
-      <circle cx="70" cy="62" r="20" fill="none" stroke={LATON} strokeWidth="5" />
-      {[[58, 46], [66, 44], [74, 46]].map(([x, y]) => <circle key={x} cx={x} cy={y} r="4" fill={LATON_OSC} />)}
-      <path d="M40 62 L30 64" stroke={PLATA} strokeWidth="3" />
-      <path d="M96 76 Q118 90 128 110 L150 98 Q132 86 100 70 Z" fill={LATON} />
-      <ellipse cx="139" cy="104" rx="14" ry="6" transform="rotate(-30 139 104)" fill={LATON_OSC} />
+      {/* el tubo enrollado en círculos, las tres válvulas de rotación con sus
+          palancas y el pabellón muy ancho saliendo hacia abajo a la derecha */}
+      <circle cx="66" cy="58" r="34" fill="none" stroke={LATON} strokeWidth="6" />
+      <circle cx="66" cy="58" r="25" fill="none" stroke={LATON} strokeWidth="4" />
+      <circle cx="66" cy="58" r="17" fill="none" stroke={LATON_OSC} strokeWidth="3" />
+      {[[54, 52], [66, 48], [78, 52]].map(([x, y]) => (
+        <g key={x}>
+          <circle cx={x} cy={y} r="6" fill={LATON_OSC} stroke="#FDE68A" strokeWidth="1.2" />
+          <circle cx={x} cy={y} r="2" fill="#FDE68A" />
+          <path d={`M${x} ${y + 6} l-6 14`} stroke={LATON_OSC} strokeWidth="2.5" strokeLinecap="round" />
+        </g>
+      ))}
+      <path d="M33 62 L16 66" stroke={LATON} strokeWidth="3.5" />
+      <path d="M16 66 L8 68" stroke={PLATA} strokeWidth="4" strokeLinecap="round" />
+      <path d="M92 78 Q108 86 116 112 L156 86 Q126 80 98 68 Z" fill={LATON} stroke={LATON_OSC} strokeWidth="1.5" strokeLinejoin="round" />
+      <ellipse cx="136" cy="99" rx="24" ry="8" transform="rotate(-33 136 99)" fill="#713F12" stroke={LATON_OSC} strokeWidth="2" />
     </g>
   ),
   tuba: () => (
     <g>
-      <path d="M58 116 Q46 116 46 100 L46 60 Q46 46 62 46 L86 46 L86 100 Q86 116 70 116 Z" fill={LATON} />
-      <path d="M62 46 L56 10 L110 10 L94 46 Z" fill={LATON} />
-      <ellipse cx="83" cy="10" rx="27" ry="6" fill={LATON_OSC} />
-      {[92, 100, 108].map(x => <rect key={x} x={x - 3} y="54" width="6" height="30" rx="2" fill={LATON_OSC} />)}
-      <path d="M86 70 L112 70" stroke={LATON} strokeWidth="4" />
-      <path d="M46 88 L32 88 L30 80" stroke={PLATA} strokeWidth="3" fill="none" />
+      {/* el instrumento más grande del metal: el pabellón enorme mirando
+          ARRIBA, el tubo enrollado abajo y cuatro pistones delante */}
+      <rect x="44" y="62" width="58" height="52" rx="24" fill="none" stroke={LATON} strokeWidth="10" />
+      <rect x="58" y="74" width="30" height="28" rx="12" fill="none" stroke={LATON_OSC} strokeWidth="4" />
+      <path d="M58 70 L38 14 L106 14 L86 70 Z" fill={LATON} stroke={LATON_OSC} strokeWidth="1.5" strokeLinejoin="round" />
+      <ellipse cx="72" cy="14" rx="34" ry="7" fill={LATON_OSC} />
+      <ellipse cx="72" cy="14" rx="28" ry="4.5" fill="#713F12" />
+      <rect x="88" y="66" width="30" height="34" rx="3" fill={LATON_OSC} opacity="0.35" />
+      {[92, 99, 106, 113].map(x => (
+        <g key={x}>
+          <rect x={x - 2.5} y="62" width="5" height="36" rx="2" fill={LATON} stroke={LATON_OSC} strokeWidth="1" />
+          <circle cx={x} cy="60" r="3.4" fill="#FEF3C7" stroke={LATON_OSC} strokeWidth="1" />
+        </g>
+      ))}
+      <path d="M118 80 Q130 80 132 66 L134 56" stroke={LATON} strokeWidth="4" fill="none" />
+      <path d="M134 56 L136 48" stroke={PLATA} strokeWidth="5" strokeLinecap="round" />
     </g>
   ),
   timbal: () => (
