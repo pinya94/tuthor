@@ -1,12 +1,10 @@
 import { Helmet } from 'react-helmet-async'
 import { useLang } from '../context/LangContext'
+import { idiomasDe } from '../lib/idiomasPagina'
 
 const BASE_URL = 'https://www.tuthor.es'
 const DEFAULT_IMAGE = `${BASE_URL}/og-image.png`
 
-// Idiomas publicados en hreflang. El catalán se añade aquí cuando su
-// traducción esté completa y el selector visible.
-const HREFLANG_LANGS = ['es', 'en']
 
 const langPrefix = l => (l === 'es' ? '' : `/${l}`)
 
@@ -43,6 +41,9 @@ export default function SEOHead({
   const cleanPath = stripLangPrefix(path)
   const pagePath = cleanPath === '/' ? '' : cleanPath
   const canonicalUrl = `${BASE_URL}${langPrefix(lang)}${pagePath}`
+  // Una página pedida en un idioma que no tiene (p. ej. /en/ de un examen solo
+  // en castellano) no es una página de verdad: que Google no la indexe.
+  const sinTraducir = lang !== 'es' && !idiomasDe(cleanPath).includes(lang)
   const ogLocale = lang === 'ca' ? 'ca_ES' : lang === 'en' ? 'en_GB' : 'es_ES'
 
   return (
@@ -51,10 +52,10 @@ export default function SEOHead({
       <title>{fullTitle}</title>
       {description && <meta name="description" content={description} />}
       <link rel="canonical" href={canonicalUrl} />
-      {noindex && <meta name="robots" content="noindex,nofollow" />}
+      {(noindex || sinTraducir) && <meta name="robots" content={noindex ? 'noindex,nofollow' : 'noindex,follow'} />}
 
-      {/* Alternates por idioma (mismo contenido en /  y /en) */}
-      {HREFLANG_LANGS.map(l => (
+      {/* Alternates: solo los idiomas en que existe la página */}
+      {idiomasDe(cleanPath).map(l => (
         <link key={l} rel="alternate" hrefLang={l} href={`${BASE_URL}${langPrefix(l)}${pagePath}`} />
       ))}
       <link rel="alternate" hrefLang="x-default" href={`${BASE_URL}${pagePath}`} />

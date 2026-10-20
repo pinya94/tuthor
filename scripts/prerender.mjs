@@ -27,6 +27,7 @@
 // — instálalo una vez con `npx playwright install chromium`.
 
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs'
+import { idiomasDe } from '../src/lib/idiomasPagina.js'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -334,7 +335,7 @@ function shellWithMeta(urlPath) {
   const abs = p => BASE_URL + (p === '/' ? '' : p)
   const canonical = abs(urlPath.replace(/\/$/, '') || '/')
   const esUrl = abs(neutral)
-  const enUrl = abs(neutral === '/' ? '/en' : `/en${neutral}`)
+  const urlDe = l => (l === 'es' ? esUrl : abs(neutral === '/' ? `/${l}` : `/${l}${neutral}`))
   const title = `Tuthor · ${meta.title}`
 
   const tags = [
@@ -345,8 +346,7 @@ function shellWithMeta(urlPath) {
     `<meta property="og:type" content="website">`,
     `<meta property="og:image" content="${esc(BASE_URL)}/og-image.png">`,
     `<link rel="canonical" href="${esc(canonical)}">`,
-    `<link rel="alternate" hreflang="es" href="${esc(esUrl)}">`,
-    `<link rel="alternate" hreflang="en" href="${esc(enUrl)}">`,
+    ...idiomasDe(neutral).map(l => `<link rel="alternate" hreflang="${l}" href="${esc(urlDe(l))}">`),
     `<link rel="alternate" hreflang="x-default" href="${esc(esUrl)}">`,
   ].join('')
 

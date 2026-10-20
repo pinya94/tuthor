@@ -3262,14 +3262,14 @@ export const CONTENIDO_TEMA = {
 
   'pronombres': {
     metaTitle: {
-      es: 'Los Pronombres: qué son y sus clases — resumen para estudiar',
-      en: 'Spanish Pronouns: what they are and their types — a summary',
-      ca: 'Els Pronoms: què són i les seves classes — resum per estudiar',
+      es: 'Los pronombres: qué son, tipos y ejemplos (con tabla)',
+      en: 'Spanish pronouns: what they are, types and examples (with table)',
+      ca: 'Els pronoms en castellà: què són, tipus i exemples (amb taula)',
     },
     metaDesc: {
-      es: 'Qué es un pronombre, cómo sustituye al sustantivo y sus clases: personales, demostrativos, posesivos, relativos, interrogativos e indefinidos. Resumen y test.',
-      en: 'What a Spanish pronoun is, how it replaces the noun and its types: personal, demonstrative, possessive, relative, interrogative and indefinite. Summary and test.',
-      ca: 'Què és un pronom, com substitueix el substantiu i les seves classes: personals, demostratius, possessius, relatius, interrogatius i indefinits. Resum i test.',
+      es: 'Qué es un pronombre y sus 7 tipos con ejemplos: personales (con tabla), demostrativos, posesivos, numerales, indefinidos, relativos e interrogativos. Y un test.',
+      en: 'What a Spanish pronoun is and its 7 types with examples: personal (with table), demonstrative, possessive, numeral, indefinite, relative and interrogative. Plus a test.',
+      ca: 'Què és un pronom i els seus 7 tipus amb exemples: personals (amb taula), demostratius, possessius, numerals, indefinits, relatius i interrogatius. I un test.',
     },
     resumen: {
       es: [
@@ -3314,6 +3314,153 @@ export const CONTENIDO_TEMA = {
         'Eviten repeticions i donen cohesió al text.',
       ],
     },
+    secciones: [
+      {
+        titulo: { es: 'Los pronombres personales: tabla', en: 'Personal pronouns: table', ca: 'Els pronoms personals: taula' },
+        texto: {
+          es: ['Los personales cambian de forma según la persona (1.ª, 2.ª, 3.ª), el número y la función: una forma para el sujeto, otra átona que va pegada al verbo (me, te, lo…) y otra que va detrás de una preposición (para mí, contigo).'],
+          en: ['Personal pronouns change form with person (1st, 2nd, 3rd), number and function: one form for the subject, an unstressed one attached to the verb (me, te, lo…) and another used after a preposition (para mí, contigo).'],
+          ca: ['Els personals canvien de forma segons la persona (1a, 2a, 3a), el nombre i la funció: una forma per al subjecte, una d’àtona que va enganxada al verb (me, te, lo…) i una altra que va darrere d’una preposició (para mí, contigo).'],
+        },
+        tabla: {
+          columnas: {
+            es: ['Persona', 'Sujeto', 'Átono (con el verbo)', 'Con preposición'],
+            en: ['Person', 'Subject', 'Unstressed (with the verb)', 'After a preposition'],
+            ca: ['Persona', 'Subjecte', 'Àton (amb el verb)', 'Amb preposició'],
+          },
+          filas: [
+            [{ es: '1.ª singular', en: '1st singular', ca: '1a singular' }, 'yo', 'me', 'mí, conmigo'],
+            [{ es: '2.ª singular', en: '2nd singular', ca: '2a singular' }, 'tú', 'te', 'ti, contigo'],
+            [{ es: '3.ª singular', en: '3rd singular', ca: '3a singular' }, 'él, ella, ello', 'lo, la, le, se', 'él, ella, ello, sí, consigo'],
+            [{ es: '1.ª plural', en: '1st plural', ca: '1a plural' }, 'nosotros, nosotras', 'nos', 'nosotros, nosotras'],
+            [{ es: '2.ª plural', en: '2nd plural', ca: '2a plural' }, 'vosotros, vosotras', 'os', 'vosotros, vosotras'],
+            [{ es: '3.ª plural', en: '3rd plural', ca: '3a plural' }, 'ellos, ellas', 'los, las, les, se', 'ellos, ellas, sí, consigo'],
+          ],
+        },
+        lista: {
+          es: ['Usted y ustedes se usan para hablar a alguien con respeto: se refieren a quien escucha, pero el verbo va en 3.ª persona (usted sabe, ustedes saben).'],
+          en: ['Usted and ustedes are used to address someone politely: they refer to the listener, but the verb goes in the 3rd person (usted sabe, ustedes saben).'],
+          ca: ['Usted i ustedes s’usen per parlar a algú amb respecte: es refereixen a qui escolta, però el verb va en 3a persona (usted sabe, ustedes saben).'],
+        },
+      },
+      {
+        titulo: { es: 'Tipos de pronombres con ejemplos', en: 'Types of pronoun with examples', ca: 'Tipus de pronoms amb exemples' },
+        tabla: {
+          columnas: {
+            es: ['Tipo', 'Ejemplos', 'En una frase'],
+            en: ['Type', 'Examples', 'In a sentence'],
+            ca: ['Tipus', 'Exemples', 'En una frase'],
+          },
+          filas: [
+            [{ es: 'Personales', en: 'Personal', ca: 'Personals' }, 'yo, tú, me, lo, nos, ellos', '«Lo vi ayer en el parque.»'],
+            [{ es: 'Demostrativos', en: 'Demonstrative', ca: 'Demostratius' }, 'este, ese, aquel, esto, eso, aquello', '«Prefiero ese.»'],
+            [{ es: 'Posesivos', en: 'Possessive', ca: 'Possessius' }, 'el mío, el tuyo, el suyo, el nuestro', '«Tu bici es roja; la mía, azul.»'],
+            [{ es: 'Numerales', en: 'Numeral', ca: 'Numerals' }, 'uno, dos, tres, el primero', '«Compré tres y regalé dos.»'],
+            [{ es: 'Indefinidos', en: 'Indefinite', ca: 'Indefinits' }, 'alguien, nadie, algo, nada, alguno, ninguno, varios', '«Alguien ha llamado.»'],
+            [{ es: 'Relativos', en: 'Relative', ca: 'Relatius' }, 'que, quien, quienes, el cual, la cual', '«El chico que vino es mi primo.»'],
+            [{ es: 'Interrogativos y exclamativos', en: 'Interrogative and exclamative', ca: 'Interrogatius i exclamatius' }, 'qué, quién, cuál, cuánto', '«¿Quién ha llamado?»'],
+          ],
+        },
+      },
+      {
+        titulo: { es: '¿Pronombre o determinante?', en: 'Pronoun or determiner?', ca: 'Pronom o determinant?' },
+        texto: {
+          es: ['Muchas palabras pueden ser las dos cosas, y lo que decide es si acompañan a un sustantivo o lo sustituyen. Si van delante de un sustantivo, son determinantes; si van solas, en su lugar, son pronombres.'],
+          en: ['Many words can be either, and what decides is whether they accompany a noun or replace it. If they come before a noun, they are determiners; if they stand alone, in its place, they are pronouns.'],
+          ca: ['Moltes paraules poden ser totes dues coses, i el que decideix és si acompanyen un substantiu o el substitueixen. Si van davant d’un substantiu, són determinants; si van soles, en el seu lloc, són pronoms.'],
+        },
+        tabla: {
+          columnas: {
+            es: ['Determinante (acompaña)', 'Pronombre (sustituye)'],
+            en: ['Determiner (accompanies)', 'Pronoun (replaces)'],
+            ca: ['Determinant (acompanya)', 'Pronom (substitueix)'],
+          },
+          filas: [
+            ['«Este libro es nuevo.»', '«Quiero este.»'],
+            ['«Algunos alumnos llegaron tarde.»', '«Algunos llegaron tarde.»'],
+            ['«Tengo dos hermanos.»', '«Tengo dos.»'],
+            ['«¿Qué libro lees?»', '«¿Qué lees?»'],
+          ],
+        },
+      },
+      {
+        titulo: { es: 'Dónde se colocan me, te, lo, se…', en: 'Where me, te, lo, se… go', ca: 'On es col·loquen me, te, lo, se…' },
+        lista: {
+          es: [
+            'Delante del verbo conjugado, separados: «Me lo dio», «Se lo he contado».',
+            'Detrás del imperativo, del infinitivo y del gerundio, unidos en una sola palabra: «Dámelo», «Voy a decírtelo», «Estoy haciéndolo».',
+            'Con un verbo conjugado más un infinitivo o un gerundio valen las dos posiciones: «Te lo voy a decir» o «Voy a decírtelo».',
+            'Si van dos juntos, el de persona va primero: «me lo», «te la», «se lo» (nunca «lo me»).',
+          ],
+          en: [
+            'Before a conjugated verb, as separate words: «Me lo dio», «Se lo he contado».',
+            'After the imperative, the infinitive and the gerund, joined into one word: «Dámelo», «Voy a decírtelo», «Estoy haciéndolo».',
+            'With a conjugated verb plus an infinitive or a gerund, both positions work: «Te lo voy a decir» or «Voy a decírtelo».',
+            'When two go together, the one for the person comes first: «me lo», «te la», «se lo» (never «lo me»).',
+          ],
+          ca: [
+            'Davant del verb conjugat, separats: «Me lo dio», «Se lo he contado».',
+            'Darrere de l’imperatiu, l’infinitiu i el gerundi, units en una sola paraula: «Dámelo», «Voy a decírtelo», «Estoy haciéndolo».',
+            'Amb un verb conjugat més un infinitiu o un gerundi valen totes dues posicions: «Te lo voy a decir» o «Voy a decírtelo».',
+            'Si en van dos de junts, el de persona va primer: «me lo», «te la», «se lo» (mai «lo me»).',
+          ],
+        },
+      },
+      {
+        titulo: { es: 'Errores frecuentes: leísmo, laísmo y loísmo', en: 'Common mistakes: leísmo, laísmo and loísmo', ca: 'Errors freqüents: leísmo, laísmo i loísmo' },
+        texto: {
+          es: ['Lo, la, los, las son complemento directo; le, les, complemento indirecto. Cambiarlos da tres errores con nombre propio. La RAE solo admite uno: usar le por lo cuando el complemento directo es un hombre («A Juan le vi»).'],
+          en: ['Lo, la, los, las are direct objects; le, les, indirect objects. Swapping them gives three named mistakes. The RAE only accepts one: le instead of lo when the direct object is a man («A Juan le vi»).'],
+          ca: ['Lo, la, los, las són complement directe; le, les, complement indirecte. Canviar-los dona tres errors amb nom propi. La RAE només n’admet un: fer servir le per lo quan el complement directe és un home («A Juan le vi»).'],
+        },
+        tabla: {
+          columnas: {
+            es: ['Error', 'Mal', 'Bien'],
+            en: ['Mistake', 'Wrong', 'Right'],
+            ca: ['Error', 'Malament', 'Bé'],
+          },
+          filas: [
+            [{ es: 'Leísmo (con mujer o cosa)', en: 'Leísmo (woman or thing)', ca: 'Leísmo (dona o cosa)' }, '«A María le vi.» «El libro le tengo.»', '«A María la vi.» «El libro lo tengo.»'],
+            [{ es: 'Laísmo', en: 'Laísmo', ca: 'Laísmo' }, '«La dije que viniera.»', '«Le dije que viniera.»'],
+            [{ es: 'Loísmo', en: 'Loísmo', ca: 'Loísmo' }, '«Lo di un regalo.»', '«Le di un regalo.»'],
+          ],
+        },
+      },
+    ],
+    preguntas: [
+      {
+        p: { es: '¿Qué es un pronombre?', en: 'What is a pronoun?', ca: 'Què és un pronom?' },
+        r: {
+          es: 'Es una palabra que ocupa el lugar de un sustantivo para no repetirlo o para señalar a alguien sin nombrarlo: en «Ana llegó y ella abrió», ella sustituye a Ana.',
+          en: 'It is a word that takes the place of a noun so as not to repeat it, or to point to someone without naming them: in «Ana llegó y ella abrió», ella replaces Ana.',
+          ca: 'És una paraula que ocupa el lloc d’un substantiu per no repetir-lo o per assenyalar algú sense anomenar-lo: a «Ana llegó y ella abrió», ella substitueix Ana.',
+        },
+      },
+      {
+        p: { es: '¿Cuántos tipos de pronombres hay?', en: 'How many types of pronoun are there?', ca: 'Quants tipus de pronoms hi ha?' },
+        r: {
+          es: 'En la ESO se estudian siete: personales, demostrativos, posesivos, numerales, indefinidos, relativos e interrogativos o exclamativos.',
+          en: 'Secondary school studies seven: personal, demonstrative, possessive, numeral, indefinite, relative and interrogative or exclamative.',
+          ca: 'A l’ESO se n’estudien set: personals, demostratius, possessius, numerals, indefinits, relatius i interrogatius o exclamatius.',
+        },
+      },
+      {
+        p: { es: '¿«Esto», «eso» y «aquello» son pronombres?', en: 'Are «esto», «eso» and «aquello» pronouns?', ca: '«Esto», «eso» i «aquello» són pronoms?' },
+        r: {
+          es: 'Sí, siempre: son demostrativos neutros y nunca acompañan a un sustantivo («Esto es mío»). Por eso tampoco llevan tilde.',
+          en: 'Yes, always: they are neuter demonstratives and never accompany a noun («Esto es mío»). That is also why they never take an accent.',
+          ca: 'Sí, sempre: són demostratius neutres i mai no acompanyen un substantiu («Esto es mío»). Per això tampoc no porten accent.',
+        },
+      },
+      {
+        p: { es: '¿Cuándo lleva tilde un pronombre?', en: 'When does a pronoun take an accent?', ca: 'Quan porta accent un pronom?' },
+        r: {
+          es: 'Los interrogativos y exclamativos la llevan siempre (qué, quién, cuál, cuánto), también en preguntas indirectas: «No sé quién vino». Los personales tónicos la llevan para distinguirse de otras palabras: tú (tu casa), él (el coche), mí (mi libro).',
+          en: 'Interrogatives and exclamatives always do (qué, quién, cuál, cuánto), also in indirect questions: «No sé quién vino». Stressed personal pronouns take one to tell them apart from other words: tú (tu casa), él (el coche), mí (mi libro).',
+          ca: 'Els interrogatius i exclamatius el porten sempre (qué, quién, cuál, cuánto), també en preguntes indirectes: «No sé quién vino». Els personals tònics el porten per distingir-se d’altres paraules: tú (tu casa), él (el coche), mí (mi libro).',
+        },
+      },
+    ],
   },
 
   'adverbios': {
