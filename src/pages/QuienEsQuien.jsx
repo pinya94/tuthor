@@ -106,13 +106,22 @@ function Avatar({ p, tachado, modoAdivinar, esSecreto, resultado, onClick }) {
       style={{ backgroundColor: p.color, width: '100%', paddingBottom: '112%' }}
       onClick={onClick}
     >
-      <div style={{ position: "absolute", inset: 0 }} className="flex flex-col items-center justify-center p-1 sm:p-3 overflow-hidden">
+      <div style={{ position: "absolute", inset: 0 }} className="flex flex-col items-center justify-center gap-1 p-1 sm:p-3 overflow-hidden">
         {resultado === 'correcto' && <span className="text-2xl">✓</span>}
         {resultado === 'revelado' && <span className="text-2xl">★</span>}
         {resultado !== 'correcto' && resultado !== 'revelado' && (
-          <p className="text-white font-bold text-center leading-tight" style={{ fontSize: 'clamp(10.5px, 2.9vw, 13px)', wordBreak: 'break-word', hyphens: 'auto' }}>
-            {p.nombre}
-          </p>
+          <>
+            <svg viewBox="0 0 40 40" className="w-[40%] max-w-[48px] shrink-0" aria-hidden="true">
+              <circle cx="20" cy="20" r="19" fill="rgba(255,255,255,0.16)" />
+              <circle cx="20" cy="15.5" r="7" fill="rgba(255,255,255,0.6)" />
+              <path d="M6.5 35 Q8 24 20 24 Q32 24 33.5 35 Z" fill="rgba(255,255,255,0.6)" />
+            </svg>
+            {/* Con una palabra larga (Montgomery, Eisenhower) la letra baja un
+                poco para que no se parta por la mitad */}
+            <p className="text-white font-bold text-center leading-tight" style={{ fontSize: Math.max(...p.nombre.split(' ').map(w => w.length)) >= 10 ? 'clamp(9px, 2.45vw, 12px)' : 'clamp(10px, 2.8vw, 13px)', wordBreak: 'break-word', hyphens: 'auto' }}>
+              {p.nombre}
+            </p>
+          </>
         )}
       </div>
       {overlay}
@@ -529,6 +538,9 @@ export default function QuienEsQuien() {
           ))}
         </div>
 
+        {/* Pista y acciones: fijas abajo, para que en un móvil bajo no se
+            queden fuera de la pantalla */}
+        <div className="sticky bottom-0 -mx-3 sm:mx-0 px-3 sm:px-0 pt-2 pb-2 sm:pb-0 flex flex-col gap-3 bg-[#0b1020]/95 sm:bg-transparent backdrop-blur-sm sm:backdrop-blur-0 rounded-b-2xl z-10">
         {/* Pista actual */}
         {pistas[pistaIdx] && (
           <div className={`flex items-start gap-3 rounded-xl px-4 py-3 border text-white text-sm sm:text-base ${
@@ -617,6 +629,7 @@ export default function QuienEsQuien() {
               </button>
             )
           })()}
+        </div>
         </div>
 
       </div>

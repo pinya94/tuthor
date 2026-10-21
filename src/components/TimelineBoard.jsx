@@ -155,7 +155,7 @@ export default function TimelineBoard({
       <div className="flex-1 flex flex-col min-h-0">
         <div className="shrink-0 px-4 pt-3 pb-1">
           <StatusLabel phase={phase} wasCorrect={wasCorrect} lang={lang} />
-          <CurrentCard current={current} phase={phase} wasCorrect={wasCorrect} ac={acitem} compact />
+          <CurrentCard key={acitem.name(current)} current={current} phase={phase} wasCorrect={wasCorrect} ac={acitem} compact />
         </div>
 
         <div className="flex items-center justify-between px-4 pt-3 pb-1 shrink-0">
@@ -234,16 +234,19 @@ function StatusLabel({ phase, wasCorrect, lang }) {
   return <p className={`text-xs uppercase tracking-widest mb-2 text-center font-semibold ${color}`}>{txt}</p>
 }
 
+// En el móvil la descripción va recortada a dos líneas para que quepa la
+// línea; tocando la carta se lee entera (y se vuelve a recortar).
 function CurrentCard({ current, phase, wasCorrect, ac, compact }) {
+  const [abierta, setAbierta] = useState(false)
   if (!current) return null
   const state = phase === 'revealing'
     ? (wasCorrect ? 'border-green-500/70 bg-green-500/10' : 'border-red-500/70 bg-red-500/10')
     : 'border-white/[0.1] bg-[#141b2e]'
   const b = ac.badge(current)
   return (
-    <div className={`w-full max-w-2xl mx-auto rounded-2xl border-2 transition-all duration-300 ${state} ${compact ? 'p-4' : 'p-6 sm:p-8'}`}>
+    <div onClick={compact ? () => setAbierta(a => !a) : undefined} className={`w-full max-w-2xl mx-auto rounded-2xl border-2 transition-all duration-300 ${state} ${compact ? 'p-4 cursor-pointer' : 'p-6 sm:p-8'}`}>
       <h2 className={`font-black text-white leading-tight ${compact ? 'text-xl mb-1.5' : 'text-3xl sm:text-4xl mb-3'}`}>{ac.name(current)}</h2>
-      {ac.desc(current) && <p className={`text-white/60 leading-relaxed ${compact ? 'text-sm mb-3 line-clamp-2' : 'text-base sm:text-lg mb-6'}`}>{ac.desc(current)}</p>}
+      {ac.desc(current) && <p className={`text-white/60 leading-relaxed ${compact ? `text-sm mb-3 ${abierta ? '' : 'line-clamp-2'}` : 'text-base sm:text-lg mb-6'}`}>{ac.desc(current)}</p>}
       <div className="flex items-center justify-between">
         <span className={`font-bold rounded-full border ${compact ? 'text-xs px-3 py-1' : 'text-sm px-4 py-1.5'} ${b.cls}`}>{b.text}</span>
         <span className={`font-black tabular-nums transition-all duration-500 ${phase === 'revealing' ? ac.value : 'text-white/15'} ${compact ? 'text-2xl' : 'text-3xl sm:text-4xl'}`}>
