@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { genRonda, NIVELES, PROBLEMAS, NOTABLES, roles, razonDe, enunciado, explicacion, textoOpcion, schemaQuestion, etiquetaLado } from '../anguloRecto'
+import { genRonda, esCorrecta, respuestaBuena, NIVELES, PROBLEMAS, NOTABLES, roles, razonDe, enunciado, explicacion, textoOpcion, schemaQuestion, etiquetaLado } from '../anguloRecto'
 
 function semilla(s) {
   return () => { s = (s * 1103515245 + 12345) % 2147483648; return s / 2147483648 }
@@ -64,6 +64,22 @@ describe('Ángulo Recto', () => {
         // El triángulo es rectángulo de verdad.
         expect(Math.abs(r.tri.base ** 2 + r.tri.alto ** 2 - r.tri.hip ** 2)).toBeLessThan(1e-6 * r.tri.hip ** 2)
         if (r.tipo === 'angulo') expect(r.opciones).toContain(90 - r.bueno)
+        // Mecánicas: la respuesta buena vale y los errores típicos (las
+        // opciones de antes) no, ni siquiera con la tolerancia del redondeo.
+        expect(esCorrecta(r, respuestaBuena(r))).toBe(true)
+        if (r.mecanica === 'teclea') {
+          for (const o of r.opciones) if (o !== r.bueno) {
+            const t = r.tipo === 'pitagoras' || r.tipo === 'angulo' ? String(o) : String(o / 10)
+            expect(esCorrecta(r, t), `${r.tipo} ${o} vs ${r.bueno}`).toBe(false)
+          }
+        }
+        if (r.mecanica === 'fraccion') for (const o of r.opciones) if (o !== r.bueno) expect(esCorrecta(r, o)).toBe(false)
+        if (r.mecanica === 'tabla') {
+          expect(r.huecos.some(([f, a]) => f === r.f && a === r.a)).toBe(true)
+          for (const [f, a] of r.huecos) expect(r.fichas).toContain(NOTABLES[f][a])
+          expect(esCorrecta(r, 'tabla:1')).toBe(false)
+        }
+        if (r.mecanica === 'nombra') expect(esCorrecta(r, 'nombra:1')).toBe(false)
         for (const l of ['es', 'en', 'ca']) {
           expect(enunciado(r, l)).toBeTruthy()
           expect(explicacion(r, l)).not.toMatch(/undefined|NaN/)

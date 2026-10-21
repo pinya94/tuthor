@@ -106,10 +106,10 @@ function triangulo(a, vertice, rolConocido, valor) {
 
 let seq = 0
 
-export function genRonda(nivel = 'facil', { rand = Math.random } = {}) {
-  const cfg = NIVELES[nivel] ?? NIVELES.facil
+// La ronda clásica de un tipo (con opciones): la usan las mecánicas y el
+// texto del schema (ver «Mecánicas» al final).
+function genVieja(nivel, tipo, rand) {
   for (;;) {
-    const tipo = elige(rand, cfg.tipos)
     const vertice = rand() < 0.5 ? 'abajo' : 'arriba'
     const base = { id: ++seq, nivel, tipo }
 
@@ -235,8 +235,6 @@ export function genRonda(nivel = 'facil', { rand = Math.random } = {}) {
   }
 }
 
-export const genRound = (difficulty = 'facil') => genRonda(difficulty)
-export const esCorrecta = (r, o) => o === r.bueno
 
 // ── Textos ────────────────────────────────────────────────────────────────
 export const NOMBRE_ROL = {
@@ -261,7 +259,7 @@ export function textoOpcion(o, r, l) {
   }
 }
 
-export function enunciado(r, l) {
+function enunciadoViejo(r, l) {
   switch (r.tipo) {
     case 'razon': return s(l, `¿Cuánto vale ${abrev(r.f, l)} α?`, `What is ${abrev(r.f, l)} α?`, `Quant val ${abrev(r.f, l)} α?`)
     case 'cual': return s(l, `Conoces un lado y quieres el lado x. ¿Qué razón de α los relaciona?`, `You know one side and want side x. Which ratio of α links them?`, `Coneixes un costat i vols el costat x. Quina raó d’α els relaciona?`)
@@ -273,7 +271,7 @@ export function enunciado(r, l) {
   }
 }
 
-export function explicacion(r, l) {
+function explicacionVieja(r, l) {
   switch (r.tipo) {
     case 'razon': {
       const def = { sen: s(l, 'opuesto ÷ hipotenusa', 'opposite ÷ hypotenuse', 'oposat ÷ hipotenusa'), cos: s(l, 'contiguo ÷ hipotenusa', 'adjacent ÷ hypotenuse', 'contigu ÷ hipotenusa'), tan: s(l, 'opuesto ÷ contiguo', 'opposite ÷ adjacent', 'oposat ÷ contigu') }[r.f]
@@ -320,13 +318,13 @@ export function explicacion(r, l) {
   }
 }
 
-export function schemaQuestion(r, l) {
+function schemaVieja(r, l) {
   const { base: b, alto: a, hip: h } = r.tri
   const lados = r.tipo === 'razon' || r.tipo === 'pitagoras'
     ? s(l, ` Catetos ${num(b, l)} y ${num(a, l)}, hipotenusa ${num(h, l)}.`, ` Legs ${num(b, l)} and ${num(a, l)}, hypotenuse ${num(h, l)}.`, ` Catets ${num(b, l)} i ${num(a, l)}, hipotenusa ${num(h, l)}.`)
     : ''
   return {
-    question: enunciado(r, l) + (r.tipo === 'pitagoras' || r.tipo === 'problema' || r.tipo === 'notable' ? '' : lados),
+    question: enunciadoViejo(r, l) + (r.tipo === 'pitagoras' || r.tipo === 'problema' || r.tipo === 'notable' ? '' : lados),
     correctAnswer: textoOpcion(r.bueno, r, l),
     wrongAnswers: r.opciones.filter(o => o !== r.bueno).map(o => textoOpcion(o, r, l)),
   }
@@ -344,4 +342,112 @@ export function etiquetaLado(r, ladoId, revelado, l) {
   }
   if (r.tipo === 'lado' || r.tipo === 'problema' || r.tipo === 'cual') return num(r.valor ?? Math.round(v), l)
   return num(v, l)
+}
+
+// ── Mecánicas ─────────────────────────────────────────────────────────────
+// Sin opciones (genVieja sigue dando la ronda y el texto del schema):
+//   fraccion  (razon)     se monta sen/cos/tan α tocando los lados: primero el
+//                         de arriba de la fracción y luego el de abajo
+//   nombra    (cual)      se toca cada lado para ponerle su nombre respecto de α
+//                         (opuesto, contiguo, hipotenusa) — «nombra:fallos»
+//   tabla     (notable)   se rellenan tres huecos de la tabla de 30°, 45° y 60°
+//                         con las fichas de valores — «tabla:fallos»
+//   teclea    (pitagoras, lado, angulo, problema)  se teclea el resultado
+export const MECANICA_DE_TIPO = { razon: 'fraccion', cual: 'nombra', notable: 'tabla', pitagoras: 'teclea', lado: 'teclea', angulo: 'teclea', problema: 'teclea' }
+export const ROLES = ['hip', 'opuesto', 'contiguo']
+
+function erroresCerca(r) {
+  const v = r.valor, a = rad(r.tri.angulo)
+  const malos = [v * Math.sin(a), v * Math.cos(a), v * Math.tan(a), v / Math.sin(a), v / Math.cos(a), v / Math.tan(a)].map(x => Math.round(x * 10))
+  // el bueno sale de una de estas cuentas: se quita una sola vez
+  const i = malos.indexOf(r.bueno)
+  if (i >= 0) malos.splice(i, 1)
+  return malos.some(m => Math.abs(m - r.bueno) <= 2)
+}
+
+const recientes = []
+export function genRonda(nivel = 'facil', { rand = Math.random } = {}) {
+  const cfg = NIVELES[nivel] ?? NIVELES.facil
+  for (let intento = 0; ; intento++) {
+    const tipo = elige(rand, cfg.tipos)
+    const r = genVieja(nivel, tipo, rand)
+    // Al teclear se acepta el redondeo vecino (±0,1): que ningún error típico
+    // (otra razón, multiplicar en vez de dividir) caiga tan cerca del bueno.
+    if ((tipo === 'lado' || tipo === 'problema') && erroresCerca(r)) continue
+    const tema = `${tipo}${r.tri.base}${r.tri.alto}${r.f ?? ''}${r.a ?? ''}${r.problema ?? ''}`
+    if (intento < 20 && recientes.includes(tema)) continue
+    recientes.push(tema)
+    if (recientes.length > 6) recientes.shift()
+    const out = { ...r, mecanica: MECANICA_DE_TIPO[tipo] }
+    if (tipo === 'notable') {
+      // Tres huecos en la tabla: el que se preguntaba y dos más; las fichas son
+      // sus valores y dos que sobran.
+      const celdas = []
+      for (const f of ['sen', 'cos', 'tan']) for (const a of [30, 45, 60]) celdas.push([f, a])
+      const otros = baraja(rand, celdas.filter(([f, a]) => !(f === r.f && a === r.a))).slice(0, 2)
+      out.huecos = baraja(rand, [[r.f, r.a], ...otros])
+      const valores = out.huecos.map(([f, a]) => NOTABLES[f][a])
+      const sobran = baraja(rand, ['1/2', '√2/2', '√3/2', '√3/3', '√3', '1', '2'].filter(v => !valores.includes(v))).slice(0, 2)
+      out.fichas = baraja(rand, [...valores, ...sobran])
+    }
+    return out
+  }
+}
+export const genRound = (difficulty = 'facil') => genRonda(difficulty)
+
+// Números tecleados: «12,5», «12.5» o «12».
+export const leeNumero = t => {
+  const x = String(t ?? '').trim().replace(',', '.')
+  return /^\d+(\.\d+)?$/.test(x) ? Number(x) : null
+}
+export function respuestaBuena(r) {
+  if (r.mecanica === 'nombra') return 'nombra:0'
+  if (r.mecanica === 'tabla') return 'tabla:0'
+  if (r.mecanica === 'teclea' && r.tipo !== 'pitagoras' && r.tipo !== 'angulo') return String(r.bueno / 10)
+  return String(r.bueno)
+}
+export function esCorrecta(r, o) {
+  if (o == null) return false
+  if (!r.mecanica) return o === r.bueno
+  if (r.mecanica === 'fraccion') return o === r.bueno
+  if (r.mecanica === 'nombra' || r.mecanica === 'tabla') return o === respuestaBuena(r)
+  const n = leeNumero(o)
+  if (n == null) return false
+  if (r.tipo === 'pitagoras') return n === r.bueno
+  // con calculadora: vale el redondeo vecino (una décima o un grado)
+  if (r.tipo === 'angulo') return Math.abs(n - r.bueno) <= 1
+  return Math.abs(Math.round(n * 10) - r.bueno) <= 1
+}
+export const isCorrect = esCorrecta
+
+// Qué lado (base, alto, hip) tiene cada rol para el ángulo de la ronda.
+export const ladoDeRol = (r, rol) => roles(r.tri.vertice)[rol]
+
+export function enunciado(r, l) {
+  switch (r.mecanica) {
+    case 'fraccion': return s(l, `Monta ${abrev(r.f, l)} α: toca el lado de arriba de la fracción y luego el de abajo`, `Build ${abrev(r.f, l)} α: tap the side for the top of the fraction, then the bottom`, `Munta ${abrev(r.f, l)} α: toca el costat de dalt de la fracció i després el de baix`)
+    case 'nombra': return s(l, 'Toca cada lado para ponerle su nombre respecto del ángulo α', 'Tap each side to name it relative to angle α', 'Toca cada costat per posar-li el nom respecte de l’angle α')
+    case 'tabla': return s(l, 'Completa la tabla de ángulos notables: toca un hueco y luego su valor', 'Complete the special angles table: tap a gap, then its value', 'Completa la taula d’angles notables: toca un buit i després el seu valor')
+    default:
+      if (r.tipo === 'pitagoras') return s(l, 'Escribe cuánto mide el lado x', 'Type the length of side x', 'Escriu quant fa el costat x')
+      if (r.tipo === 'lado') return s(l, 'Escribe cuánto mide x (con una décima)', 'Type the length of x (to one decimal place)', 'Escriu quant fa x (amb una dècima)')
+      if (r.tipo === 'angulo') return s(l, 'Escribe cuánto mide el ángulo α (en grados)', 'Type the size of angle α (in degrees)', 'Escriu quant fa l’angle α (en graus)')
+      return enunciadoViejo(r, l)
+  }
+}
+
+export function explicacion(r, l) {
+  if (r.mecanica === 'nombra') {
+    const R = roles(r.tri.vertice)
+    const op = r.tri[R.opuesto], co = r.tri[R.contiguo]
+    return s(l,
+      `La hipotenusa es siempre el lado largo, enfrente del ángulo recto. El cateto opuesto es el que está enfrente de α (${num(op, l)}) y el contiguo, el que toca a α sin ser la hipotenusa (${num(co, l)}). Si α cambia de vértice, se intercambian.`,
+      `The hypotenuse is always the long side, opposite the right angle. The opposite side faces α (${num(op, l)}) and the adjacent side touches α without being the hypotenuse (${num(co, l)}). If α moves to the other corner, they swap.`,
+      `La hipotenusa és sempre el costat llarg, davant de l’angle recte. El catet oposat és el que hi ha davant d’α (${num(op, l)}) i el contigu, el que toca α sense ser la hipotenusa (${num(co, l)}). Si α canvia de vèrtex, s’intercanvien.`)
+  }
+  return explicacionVieja(r, l)
+}
+
+export function schemaQuestion(r, l) {
+  return schemaVieja(r, l)
 }

@@ -7,10 +7,10 @@ import { genRound, esCorrecta, schemaQuestion } from '../lib/anguloRecto'
 const LEVELS = [
   { key: 'primaria', emoji: '💚', difficulty: 'facil',
     label: { es: 'Básico', en: 'Basic', ca: 'Bàsic' },
-    hint: { es: 'Razones como fracción, qué razón usar y Pitágoras', en: 'Ratios as fractions, which ratio to use and Pythagoras', ca: 'Raons com a fracció, quina raó fer servir i Pitàgores' } },
+    hint: { es: 'Montar razones con los lados, nombrarlos y Pitágoras', en: 'Build ratios from the sides, name them, and Pythagoras', ca: 'Muntar raons amb els costats, anomenar-los i Pitàgores' } },
   { key: 'eso', emoji: '💛', difficulty: 'medio',
     label: { es: 'Secundaria (ESO)', en: 'Secondary (ESO)', ca: 'Secundària (ESO)' },
-    hint: { es: 'Calcular lados y ángulos notables', en: 'Finding sides and special angles', ca: 'Calcular costats i angles notables' } },
+    hint: { es: 'Teclear lados y completar la tabla de notables', en: 'Type sides and complete the special angles table', ca: 'Teclejar costats i completar la taula de notables' } },
   { key: 'bachillerato', emoji: '🔴', difficulty: 'dificil',
     label: { es: 'Bachillerato', en: 'Sixth form', ca: 'Batxillerat' },
     hint: { es: 'Calcular ángulos y problemas', en: 'Finding angles and word problems', ca: 'Calcular angles i problemes' } },
@@ -36,7 +36,7 @@ export default function AnguloRectoExamen() {
       metaPath="/examen/angulo-recto-test"
       subjectSchema="Matemáticas"
       backGamePath="/juegos/angulo-recto"
-      playLabel={{ es: 'Modo arcade (60s)', en: 'Arcade mode (60s)', ca: 'Mode arcade (60s)' }}
+      playLabel={{ es: 'Modo arcade (90s)', en: 'Arcade mode (90s)', ca: 'Mode arcade (90s)' }}
       levels={LEVELS}
       genRound={genRound}
       isCorrect={esCorrecta}
