@@ -11,9 +11,10 @@ import SEOHead from '../components/SEOHead'
 import { CabeceraJuego, NivelBarras, ComoSeJuega } from '../components/IntroJuego'
 import { Racha } from '../components/Iconos'
 
-const GAME_TIME = 60
+// Se clasifica, se ordena o se teclea la cuenta: 90 s y +6 s por acierto.
+const GAME_TIME = 90
 const WRONG_TIME = 5
-const CORRECT_TIME = 4
+const CORRECT_TIME = 6
 const REVEAL_MS = 4800 // da tiempo a ver los vasos coloreados y la cuenta
 
 const DIFS = {
@@ -144,6 +145,7 @@ export default function PreparaDisolucion() {
             <div className="space-y-2 text-white/70 text-sm">
               <p>{tr({ es: 'Una disolución es una mezcla homogénea: el soluto (lo que se disuelve, en menor cantidad) y el disolvente (en mayor cantidad). Salen vasos de precipitados con los gramos de soluto arriba y el volumen abajo; el color se vuelve más intenso cuanto más concentrada está, pero solo se ve al corregir.', en: 'A solution is a uniform mixture: the solute (what dissolves, in the smaller amount) and the solvent (in the larger amount). Beakers appear with the grams of solute on top and the volume below; the colour gets stronger the more concentrated it is, but you only see it when you answer.', ca: 'Una dissolució és una barreja homogènia: el solut (el que es dissol, en menys quantitat) i el dissolvent (en més quantitat). Surten gots de precipitats amb els grams de solut a dalt i el volum a baix; el color es fa més intens com més concentrada és, però només es veu en corregir.' })}</p>
               <p>{tr({ es: 'La concentración en g/L es gramos de soluto ÷ litros de disolución (¡pasa los mL a litros!). El % en masa se calcula sobre el total, soluto más disolvente. Y al diluir, el soluto no cambia: c₁ · V₁ = c₂ · V₂.', en: 'Concentration in g/L is grams of solute ÷ litres of solution (convert the mL to litres!). Percentage by mass is worked out on the total, solute plus solvent. And when you dilute, the solute does not change: c₁ · V₁ = c₂ · V₂.', ca: 'La concentració en g/L és grams de solut ÷ litres de dissolució (passa els mL a litres!). El % en massa es calcula sobre el total, solut més dissolvent. I en diluir, el solut no canvia: c₁ · V₁ = c₂ · V₂.' })}</p>
+              <p>{tr({ es: 'No hay opciones: llevas cada componente a la caja de soluto o de disolvente, ordenas los vasos del más al menos concentrado tocándolos y tecleas el resultado de las cuentas.', en: 'There are no options: you put each component in the solute or solvent box, order the beakers from most to least concentrated by tapping them and type the result of the sums.', ca: 'No hi ha opcions: portes cada component a la caixa de solut o de dissolvent, ordenes els gots del més al menys concentrat tocant-los i tecleges el resultat dels comptes.' })}</p>
               <p>{tr({ es: 'Cuidado con las trampas: el vaso con más soluto no siempre es el más concentrado, y si echas más de lo que cabe según la solubilidad, el resto se queda en el fondo.', en: 'Watch out for the traps: the beaker with the most solute is not always the most concentrated, and if you add more than the solubility allows, the rest stays at the bottom.', ca: 'Compte amb els paranys: el got amb més solut no sempre és el més concentrat, i si hi tires més del que hi cap segons la solubilitat, la resta es queda al fons.' })}</p>
               <p className="text-white/40 text-xs pt-1">⏱️ {GAME_TIME}s · {tr({ es: `Acierto +10 y +${CORRECT_TIME}s · Fallo −${WRONG_TIME}s`, en: `Correct +10 and +${CORRECT_TIME}s · Wrong −${WRONG_TIME}s`, ca: `Encert +10 i +${CORRECT_TIME}s · Error −${WRONG_TIME}s` })}</p>
             </div>

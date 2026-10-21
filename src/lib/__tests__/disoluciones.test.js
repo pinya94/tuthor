@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { genRonda, NIVELES, MEZCLAS, COMPONENTES, SOLUBLES, SOLUTOS_MOL, enunciado, explicacion, textoOpcion, schemaQuestion } from '../disoluciones'
+import { genRonda, esCorrecta, respuestaBuena, NIVELES, MEZCLAS, COMPONENTES, SOLUBLES, SOLUTOS_MOL, enunciado, explicacion, textoOpcion, schemaQuestion } from '../disoluciones'
 
 function semilla(s) {
   return () => { s = (s * 1103515245 + 12345) % 2147483648; return s / 2147483648 }
@@ -45,6 +45,13 @@ describe('Prepara la Disolución', () => {
           expect(gs.indexOf(Math.max(...gs))).not.toBe(r.bueno)
         }
         if (r.tipo === 'partes') expect(r.opciones).toHaveLength(4)
+        expect(esCorrecta(r, respuestaBuena(r))).toBe(true)
+        if (r.mecanica === 'teclea') expect(esCorrecta(r, String(Number(respuestaBuena(r)) + 1))).toBe(false)
+        if (r.mecanica === 'ordena') expect(esCorrecta(r, respuestaBuena(r).split('>').reverse().join('>'))).toBe(false)
+        if (r.mecanica === 'clasifica') {
+          expect(new Set(r.items.map(it => it.c)).size).toBe(4)
+          expect(esCorrecta(r, 'clasifica:1')).toBe(false)
+        }
         for (const l of ['es', 'en', 'ca']) {
           expect(enunciado(r, l)).toBeTruthy()
           expect(explicacion(r, l)).not.toMatch(/undefined|NaN/)

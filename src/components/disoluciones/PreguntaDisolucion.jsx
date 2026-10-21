@@ -1,10 +1,18 @@
 // Una ronda de Prepara la Disolución: vasos de precipitados dibujados
 // (altura según el volumen; color según la concentración, que solo se ve de
 // verdad al corregir: antes todos tienen el mismo tono, porque en «¿cuál está
-// más concentrado?» el color daría la respuesta). La usan el juego (contra
-// reloj) y el examen (MechanicExam).
+// más concentrado?» el color daría la respuesta). Sin opciones: los
+// componentes se llevan a soluto o disolvente, los vasos se ordenan tocándolos
+// y los resultados se teclean. La usan el juego (contra reloj) y el examen
+// (MechanicExam).
+import { useState } from 'react'
 import { useLang } from '../../context/LangContext'
-import { enunciado, textoOpcion, explicacion, intensidad, num, MEZCLAS, SOLUBLES, SOLUTOS_MOL } from '../../lib/disoluciones'
+import { enunciado, explicacion, intensidad, num, MEZCLAS, SOLUBLES, SOLUTOS_MOL, COMPONENTES, esCorrecta, respuestaBuena, leeNumero, unidad } from '../../lib/disoluciones'
+
+const boton = 'w-full py-3 rounded-2xl bg-[#EDAE49] text-black font-black disabled:opacity-30 transition-opacity'
+const tecla = 'rounded-xl bg-white/10 hover:bg-white/15 active:scale-95 text-white text-lg font-black py-2.5'
+const tx = (o, l) => o[l] ?? o.es
+const comprobar = { es: 'Comprobar', en: 'Check', ca: 'Comprovar' }
 
 // Color sólido de lila pálido (diluida) a violeta intenso (concentrada): con
 // transparencia, sobre el fondo oscuro, lo diluido parecía MÁS oscuro.
@@ -98,35 +106,116 @@ function Dibujo({ r, revelado, l, tr }) {
   }
 }
 
-export default function PreguntaDisolucion({ ronda, revelado, elegida, onResponder }) {
-  const { tr, lang } = useLang()
-  const l = lang === 'en' ? 'en' : lang === 'ca' ? 'ca' : 'es'
-  const r = ronda
-  const conDibujo = r.tipo !== 'partes'
-  const clase = o => {
-    if (!revelado) return 'bg-white/[0.06] border-white/15 hover:bg-white/[0.12] active:scale-95'
-    if (o === r.bueno) return 'bg-green-500/25 border-green-400'
-    if (o === elegida) return 'bg-red-500/25 border-red-400'
-    return 'bg-white/[0.03] border-white/5 opacity-50'
+function Clasifica({ r, revelado, onResponder, l, tr }) {
+  const [puestas, setPuestas] = useState({})
+  const activa = r.items.findIndex(it => !puestas[it.c])
+  const pon = papel => {
+    if (revelado || activa < 0) return
+    const n = { ...puestas, [r.items[activa].c]: papel }
+    setPuestas(n)
+    if (r.items.every(it => n[it.c])) onResponder(`clasifica:${r.items.filter(it => n[it.c] !== it.papel).length}`)
   }
+  const it = activa >= 0 ? r.items[activa] : null
+  const mz = it && MEZCLAS.find(m => m.id === it.mezcla)
   return (
-    <div className="w-full">
-      {conDibujo && (
-        <div className="rounded-2xl bg-[#0b1226] border border-white/[0.08] p-3 mb-3">
-          <Dibujo r={r} revelado={revelado} l={l} tr={tr} />
+    <>
+      {it && !revelado && (
+        <div className="rounded-2xl bg-[#0b1226] border border-white/[0.08] p-3 mb-3 flex items-center gap-3">
+          <span className="text-5xl leading-none">{mz.emoji}</span>
+          <div>
+            <p className="text-white/40 text-xs">{activa + 1} / {r.items.length}</p>
+            <p className="text-white font-black text-lg leading-tight">{tx(COMPONENTES[it.c], l)}</p>
+            <p className="text-white/60 text-sm leading-snug">{tr({ es: 'en', en: 'in', ca: 'en' })} {tx(mz.n, l)}</p>
+          </div>
         </div>
       )}
-      {!conDibujo && <p className="text-center text-5xl leading-none mb-2" aria-hidden="true">{MEZCLAS.find(m => m.id === r.mezcla).emoji}</p>}
-      <p className="text-white font-bold text-center mb-3 leading-snug">{enunciado(r, l)}</p>
-      <div className={`grid gap-2 ${r.opciones.length === 3 ? 'grid-cols-3' : 'grid-cols-2'}`}>
-        {r.opciones.map(o => (
-          <button key={o} disabled={revelado} onClick={() => onResponder(o)}
-            className={`py-2.5 px-2 rounded-xl border text-white text-sm font-bold leading-snug tabular-nums transition-all ${clase(o)}`}>
-            {textoOpcion(o, r, l)}
+      <div className="grid grid-cols-2 gap-2">
+        {['soluto', 'disolvente'].map(papel => (
+          <button key={papel} disabled={revelado || activa < 0} onClick={() => pon(papel)} className="rounded-xl border-2 border-dashed border-white/20 bg-white/[0.04] hover:bg-white/[0.08] p-2 min-h-[5rem] text-left">
+            <span className="block text-white font-black text-[13px]">{papel === 'soluto' ? tr({ es: 'Soluto', en: 'Solute', ca: 'Solut' }) : tr({ es: 'Disolvente', en: 'Solvent', ca: 'Dissolvent' })}</span>
+            {r.items.filter(x => puestas[x.c] === papel).map(x => (
+              <span key={x.c} className={`block mt-1 rounded-md px-1.5 py-1 text-[11.5px] font-bold text-white leading-tight ${revelado ? (x.papel === papel ? 'bg-green-500/25 ring-1 ring-green-400' : 'bg-red-500/25 ring-1 ring-red-400') : 'bg-white/10'}`}>
+                {MEZCLAS.find(m => m.id === x.mezcla).emoji} {tx(COMPONENTES[x.c], l)}
+              </span>
+            ))}
           </button>
         ))}
       </div>
-      {revelado && <p className="mt-3 text-white/75 text-sm rounded-xl px-3 py-2.5 bg-white/5 border border-white/10">💡 {explicacion(r, l)}</p>}
+    </>
+  )
+}
+
+// Toca los vasos en orden, del más concentrado al menos.
+function Ordena({ r, revelado, elegida, onResponder, l, tr }) {
+  const [orden, setOrden] = useState([])
+  const toca = i => { if (!revelado && !orden.includes(i)) setOrden([...orden, i]) }
+  const mostrado = revelado ? String(elegida ?? '').split('>').filter(Boolean).map(Number) : orden
+  const ok = revelado && esCorrecta(r, elegida)
+  return (
+    <>
+      <div className="rounded-2xl bg-[#0b1226] border border-white/[0.08] p-3 mb-3"><Dibujo r={r} revelado={revelado} l={l} tr={tr} /></div>
+      <div className="grid grid-cols-3 gap-2 mb-2">
+        {[0, 1, 2].map(k => (
+          <div key={k} className={`rounded-xl border-2 py-2 text-center ${revelado ? (ok ? 'border-green-400 bg-green-500/15' : 'border-red-400 bg-red-500/15') : mostrado[k] != null ? 'border-white/25 bg-white/[0.07]' : 'border-dashed border-amber-300/50'}`}>
+            <p className="text-white/50 text-[11px] font-bold">{k === 0 ? tr({ es: 'Más', en: 'Most', ca: 'Més' }) : k === 2 ? tr({ es: 'Menos', en: 'Least', ca: 'Menys' }) : '·'}</p>
+            <p className="text-white font-black text-xl">{mostrado[k] != null ? 'ABC'[mostrado[k]] : '?'}</p>
+          </div>
+        ))}
+      </div>
+      {revelado
+        ? !ok && <p className="text-center text-green-300 font-black text-sm">{respuestaBuena(r).split('>').map(i => 'ABC'[i]).join(' > ')}</p>
+        : (
+          <>
+            <div className="grid grid-cols-3 gap-2 mb-3">
+              {[0, 1, 2].map(i => <button key={i} disabled={orden.includes(i)} onClick={() => toca(i)} className="rounded-xl bg-white/10 hover:bg-white/15 active:scale-95 py-2.5 text-white font-black text-lg disabled:opacity-25">{tr({ es: 'Vaso', en: 'Beaker', ca: 'Got' })} {'ABC'[i]}</button>)}
+            </div>
+            <div className="grid grid-cols-2 gap-2">
+              <button className="py-3 rounded-2xl bg-white/10 text-white font-bold disabled:opacity-30" disabled={!orden.length} onClick={() => setOrden([])}>{tr({ es: 'Borrar', en: 'Clear', ca: 'Esborrar' })}</button>
+              <button className={boton} disabled={orden.length < 3} onClick={() => onResponder(orden.join('>'))}>{tr(comprobar)}</button>
+            </div>
+          </>
+        )}
+    </>
+  )
+}
+
+function Teclea({ r, revelado, elegida, onResponder, l, tr }) {
+  const [v, setV] = useState('')
+  const sep = l === 'en' ? '.' : ','
+  const escribe = t => setV(x => (t === '⌫' ? x.slice(0, -1) : t === sep ? (x.includes(sep) || !x ? x : x + t) : x.length < 7 ? x + t : x))
+  const ok = revelado && esCorrecta(r, elegida)
+  const bueno = respuestaBuena(r)
+  return (
+    <>
+      <div className="rounded-2xl bg-[#0b1226] border border-white/[0.08] p-3 mb-3"><Dibujo r={r} revelado={revelado} l={l} tr={tr} /></div>
+      <div className="rounded-xl bg-white/5 border border-white/10 py-2 mb-2 text-center">
+        <span className="text-amber-300 font-black text-2xl tabular-nums">{(revelado ? String(elegida ?? '') : v) || '?'} {unidad(r)}</span>
+        {revelado && <span className={`ml-2 font-black ${ok ? 'text-green-300' : 'text-red-300'}`}>{ok ? '✓' : `→ ${num(Number(bueno), l)} ${unidad(r)}`}</span>}
+      </div>
+      {!revelado && (
+        <>
+          <div className="grid grid-cols-4 gap-1.5 mb-3">
+            {['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', sep, '⌫'].map(t => <button key={t} className={tecla} onClick={() => escribe(t)}>{t}</button>)}
+          </div>
+          <button className={boton} disabled={leeNumero(v) == null} onClick={() => onResponder(v)}>{tr(comprobar)}</button>
+        </>
+      )}
+    </>
+  )
+}
+
+export default function PreguntaDisolucion({ ronda, revelado, elegida, onResponder }) {
+  const { tr, lang } = useLang()
+  const l = lang === 'en' ? 'en' : lang === 'ca' ? 'ca' : 'es'
+  const props = { r: ronda, revelado, elegida, onResponder, l, tr }
+  const cuerpo = ronda.mecanica === 'clasifica' ? <Clasifica {...props} />
+    : ronda.mecanica === 'ordena' ? <Ordena {...props} />
+    : <Teclea {...props} />
+  return (
+    <div className="w-full">
+      <p className="text-white font-bold text-center mb-3 leading-snug">{enunciado(ronda, l)}</p>
+      {cuerpo}
+      {revelado && <p className="mt-3 text-white/75 text-sm rounded-xl px-3 py-2.5 bg-white/5 border border-white/10">💡 {explicacion(ronda, l)}</p>}
     </div>
   )
 }

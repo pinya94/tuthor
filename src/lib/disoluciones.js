@@ -91,10 +91,11 @@ export const SOLUBLES = {
 // ── Generador ─────────────────────────────────────────────────────────────
 let seq = 0
 
-export function genRonda(nivel = 'facil', { rand = Math.random } = {}) {
+// La ronda clásica de un tipo (con opciones): la usan las mecánicas y el
+// texto del schema (ver «Mecánicas» al final).
+function genVieja(nivel, tipo, rand) {
   const cfg = NIVELES[nivel] ?? NIVELES.facil
   for (;;) {
-    const tipo = elige(rand, cfg.tipos)
     const base = { id: ++seq, nivel, tipo }
 
     if (tipo === 'partes') {
@@ -200,8 +201,6 @@ export function genRonda(nivel = 'facil', { rand = Math.random } = {}) {
   }
 }
 
-export const genRound = (difficulty = 'facil') => genRonda(difficulty)
-export const esCorrecta = (r, o) => o === r.bueno
 
 // ── Textos ────────────────────────────────────────────────────────────────
 const LETRA = ['A', 'B', 'C']
@@ -218,7 +217,7 @@ export function textoOpcion(o, r, l) {
   }
 }
 
-export function enunciado(r, l) {
+function enunciadoViejo(r, l) {
   switch (r.tipo) {
     case 'partes': {
       const mz = MEZCLAS.find(m => m.id === r.mezcla)
@@ -250,7 +249,7 @@ export function enunciado(r, l) {
   }
 }
 
-export function explicacion(r, l) {
+function explicacionVieja(r, l) {
   switch (r.tipo) {
     case 'partes': {
       const mz = MEZCLAS.find(m => m.id === r.mezcla)
@@ -294,12 +293,12 @@ export function explicacion(r, l) {
   }
 }
 
-export function schemaQuestion(r, l) {
+function schemaVieja(r, l) {
   const extra = r.tipo === 'comparar'
     ? ' ' + r.vasos.map((v, i) => `${LETRA[i]}: ${num(v.g, l)} g / ${num(v.mL, l)} mL.`).join(' ')
     : ''
   return {
-    question: enunciado(r, l) + extra,
+    question: enunciadoViejo(r, l) + extra,
     correctAnswer: textoOpcion(r.bueno, r, l),
     wrongAnswers: r.opciones.filter(o => o !== r.bueno).map(o => textoOpcion(o, r, l)),
   }
@@ -307,3 +306,85 @@ export function schemaQuestion(r, l) {
 
 // Intensidad del color de la disolución (0–1) según su concentración en g/L.
 export const intensidad = c => Math.max(0.12, Math.min(1, c / 100))
+
+// ── Mecánicas ─────────────────────────────────────────────────────────────
+// Sin opciones (genVieja sigue dando la ronda y el texto del schema):
+//   clasifica  (partes)     los componentes de dos mezclas, a soluto o disolvente
+//   ordena     (comparar)   los tres vasos, del más al menos concentrado
+//   teclea     (el resto)   el número (la molaridad, con decimales)
+export const MECANICA_DE_TIPO = { partes: 'clasifica', comparar: 'ordena', gL: 'teclea', pct: 'teclea', solubilidad: 'teclea', diluir: 'teclea', molaridad: 'teclea' }
+
+export function genRonda(nivel = 'facil', { rand = Math.random } = {}) {
+  const cfg = NIVELES[nivel] ?? NIVELES.facil
+  const tipo = elige(rand, cfg.tipos)
+  const r = genVieja(nivel, tipo, rand)
+  const out = { ...r, mecanica: MECANICA_DE_TIPO[tipo] }
+  if (tipo === 'partes') {
+    // Dos mezclas y sus cuatro componentes (sin repetir: agua en dos mezclas
+    // sería soluto o disolvente según la otra).
+    for (;;) {
+      const dos = baraja(rand, MEZCLAS).slice(0, 2)
+      const comps = dos.flatMap(m => [m.soluto, m.disolvente])
+      if (new Set(comps).size < 4) continue
+      out.items = baraja(rand, dos.flatMap(m => [{ c: m.soluto, mezcla: m.id, papel: 'soluto' }, { c: m.disolvente, mezcla: m.id, papel: 'disolvente' }]))
+      break
+    }
+  }
+  return out
+}
+export const genRound = (difficulty = 'facil') => genRonda(difficulty)
+
+// Números tecleados: «12,5», «12.5» o «12».
+export const leeNumero = t => {
+  const x = String(t ?? '').trim().replace(',', '.')
+  return /^\d+(\.\d+)?$/.test(x) ? Number(x) : null
+}
+// El orden bueno de los vasos: del más concentrado al menos.
+export const ordenBueno = r => r.vasos.map((v, i) => i).sort((a, b) => r.vasos[b].c - r.vasos[a].c).join('>')
+
+export function respuestaBuena(r) {
+  if (r.mecanica === 'clasifica') return 'clasifica:0'
+  if (r.mecanica === 'ordena') return ordenBueno(r)
+  return r.tipo === 'molaridad' ? String(r.bueno / 100) : String(r.bueno)
+}
+export function esCorrecta(r, o) {
+  if (o == null) return false
+  if (!r.mecanica) return o === r.bueno
+  if (r.mecanica === 'teclea') {
+    const x = leeNumero(o)
+    if (x == null) return false
+    return r.tipo === 'molaridad' ? Math.round(x * 100) === r.bueno && Math.abs(x * 100 - r.bueno) < 1e-6 : x === r.bueno
+  }
+  return o === respuestaBuena(r)
+}
+export const isCorrect = esCorrecta
+
+// Unidad del número que se teclea.
+export function unidad(r) {
+  if (r.tipo === 'gL') return r.despeje === 'c' ? 'g/L' : r.despeje === 'm' ? 'g' : 'mL'
+  return { pct: '%', solubilidad: 'g', diluir: 'g/L', molaridad: 'M' }[r.tipo] ?? ''
+}
+
+export function enunciado(r, l) {
+  if (r.mecanica === 'clasifica') return s(l, 'Lleva cada componente a su caja: ¿soluto o disolvente?', 'Put each component in its box: solute or solvent?', 'Porta cada component a la seva caixa: solut o dissolvent?')
+  if (r.mecanica === 'ordena') return s(l, 'Ordena los vasos del más concentrado al menos concentrado', 'Order the beakers from most to least concentrated', 'Ordena els gots del més concentrat al menys concentrat')
+  return `${enunciadoViejo(r, l)} ${s(l, 'Escribe el resultado.', 'Type the answer.', 'Escriu el resultat.')}`
+}
+
+export function explicacion(r, l) {
+  if (r.mecanica === 'clasifica') {
+    const mezclas = [...new Set(r.items.map(i => i.mezcla))]
+    return mezclas.map(id => {
+      const mz = MEZCLAS.find(m => m.id === id)
+      return s(l,
+        `En ${mz.n.es}, el disolvente es ${tx(COMPONENTES[mz.disolvente], l).toLowerCase()} (hay más) y el soluto, ${tx(COMPONENTES[mz.soluto], l).toLowerCase()}.`,
+        `In ${mz.n.en}, the solvent is ${tx(COMPONENTES[mz.disolvente], l).toLowerCase()} (there is more of it) and the solute is ${tx(COMPONENTES[mz.soluto], l).toLowerCase()}.`,
+        `En ${mz.n.ca}, el dissolvent és ${tx(COMPONENTES[mz.disolvente], l).toLowerCase()} (n’hi ha més) i el solut, ${tx(COMPONENTES[mz.soluto], l).toLowerCase()}.`)
+    }).join(' ')
+  }
+  return explicacionVieja(r, l)
+}
+
+export function schemaQuestion(r, l) {
+  return schemaVieja(r, l)
+}
