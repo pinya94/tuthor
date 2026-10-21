@@ -11,18 +11,19 @@ import SEOHead from '../components/SEOHead'
 import { CabeceraJuego, NivelBarras, ComoSeJuega } from '../components/IntroJuego'
 import { Racha } from '../components/Iconos'
 
-const GAME_TIME = 60
+// Se clasifica, se monta, se completa o se teclea: 90 s y +6 s por acierto.
+const GAME_TIME = 90
 const WRONG_TIME = 5
-const CORRECT_TIME = 4
+const CORRECT_TIME = 6
 const REVEAL_MS = 4500 // da tiempo a leer la transformación y el dato
 
 const DIFS = {
   facil:   { emoji: '💚', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
-             desc: { es: 'Qué energía tiene cada cosa y qué transforma cada aparato', en: 'What energy each thing has and what each device transforms', ca: 'Quina energia té cada cosa i què transforma cada aparell' } },
+             desc: { es: 'Reparte cosas en cajas de energía y monta cada aparato', en: 'Sort things into energy boxes and build each device', ca: 'Reparteix coses en caixes d’energia i munta cada aparell' } },
   medio:   { emoji: '💛', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
-             desc: { es: 'Cadenas de varias transformaciones con un eslabón en blanco', en: 'Chains of several transformations with a missing link', ca: 'Cadenes de diverses transformacions amb una baula en blanc' } },
+             desc: { es: 'Completa cadenas enteras de transformaciones', en: 'Complete whole chains of transformations', ca: 'Completa cadenes senceres de transformacions' } },
   dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' },
-             desc: { es: 'Rendimiento, energía perdida y Ep = m·g·h', en: 'Efficiency, energy lost and Ep = m·g·h', ca: 'Rendiment, energia perduda i Ep = m·g·h' } },
+             desc: { es: 'Teclea rendimiento, energía perdida y Ep = m·g·h', en: 'Type efficiency, energy lost and Ep = m·g·h', ca: 'Tecleja rendiment, energia perduda i Ep = m·g·h' } },
 }
 if (import.meta.env.DEV && Object.keys(DIFS).join() !== Object.keys(NIVELES).join()) {
   console.warn('[cadena-energia] los niveles de la pantalla no coinciden con NIVELES')
@@ -144,6 +145,7 @@ export default function CadenaEnergia() {
             <div className="space-y-2 text-white/70 text-sm">
               <p>{tr({ es: 'La energía tiene muchas formas: cinética (lo que se mueve), potencial (lo que está en alto), elástica, química (pilas, comida, combustibles), eléctrica, térmica, luminosa, sonora y nuclear. Los aparatos la transforman de una forma en otra: una bombilla convierte la eléctrica en luminosa, una dinamo la cinética en eléctrica.', en: 'Energy comes in many forms: kinetic (moving things), potential (things up high), elastic, chemical (batteries, food, fuels), electrical, thermal, light, sound and nuclear. Devices turn it from one form into another: a bulb turns electrical into light, a dynamo kinetic into electrical.', ca: 'L’energia té moltes formes: cinètica (el que es mou), potencial (el que és a dalt), elàstica, química (piles, menjar, combustibles), elèctrica, tèrmica, lluminosa, sonora i nuclear. Els aparells la transformen d’una forma en una altra: una bombeta converteix l’elèctrica en lluminosa, una dinamo la cinètica en elèctrica.' })}</p>
               <p>{tr({ es: 'Nunca se aprovecha toda: siempre se escapa una parte, casi siempre en calor. El rendimiento es la parte útil: útil ÷ total × 100. Y en difícil, la energía potencial de algo en alto es Ep = m·g·h; si cae sin rozamiento, se convierte toda en cinética.', en: 'It is never all used: some always escapes, almost always as heat. Efficiency is the useful part: useful ÷ total × 100. And on hard, the potential energy of something up high is Ep = m·g·h; if it falls without friction, it all becomes kinetic.', ca: 'Mai no s’aprofita tota: sempre se n’escapa una part, gairebé sempre en calor. El rendiment és la part útil: útil ÷ total × 100. I en difícil, l’energia potencial d’una cosa a dalt és Ep = m·g·h; si cau sense fregament, es converteix tota en cinètica.' })}</p>
+              <p>{tr({ es: 'No hay opciones: repartes cosas en las cajas de su forma de energía, montas cada aparato poniéndole la energía que entra y la útil que sale, completas los huecos de una cadena entera y, en difícil, tecleas el resultado.', en: 'There are no options: you sort things into the box for their form of energy, build each device by giving it the energy that goes in and the useful energy that comes out, fill the gaps of a whole chain and, on hard, type the answer.', ca: 'No hi ha opcions: reparteixes coses a les caixes de la seva forma d’energia, muntes cada aparell posant-hi l’energia que entra i la útil que surt, completes els buits d’una cadena sencera i, en difícil, teclejes el resultat.' })}</p>
               <p className="text-white/40 text-xs pt-1">⏱️ {GAME_TIME}s · {tr({ es: `Acierto +10 y +${CORRECT_TIME}s · Fallo −${WRONG_TIME}s`, en: `Correct +10 and +${CORRECT_TIME}s · Wrong −${WRONG_TIME}s`, ca: `Encert +10 i +${CORRECT_TIME}s · Error −${WRONG_TIME}s` })}</p>
             </div>
           </ComoSeJuega>

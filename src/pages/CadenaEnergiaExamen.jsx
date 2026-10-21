@@ -7,10 +7,10 @@ import { genRound, esCorrecta, schemaQuestion } from '../lib/cadenaEnergia'
 const LEVELS = [
   { key: 'primaria', emoji: '💚', difficulty: 'facil',
     label: { es: 'Primaria', en: 'Primary', ca: 'Primària' },
-    hint: { es: 'Formas de energía y qué transforma cada aparato', en: 'Forms of energy and what each device transforms', ca: 'Formes d’energia i què transforma cada aparell' } },
+    hint: { es: 'Clasificar formas de energía y montar aparatos', en: 'Sorting forms of energy and building devices', ca: 'Classificar formes d’energia i muntar aparells' } },
   { key: 'eso', emoji: '💛', difficulty: 'medio',
     label: { es: 'Secundaria (ESO)', en: 'Secondary (ESO)', ca: 'Secundària (ESO)' },
-    hint: { es: 'Cadenas de transformaciones', en: 'Chains of transformations', ca: 'Cadenes de transformacions' } },
+    hint: { es: 'Completar cadenas de transformaciones', en: 'Completing chains of transformations', ca: 'Completar cadenes de transformacions' } },
   { key: 'bachillerato', emoji: '🔴', difficulty: 'dificil',
     label: { es: 'Avanzado', en: 'Advanced', ca: 'Avançat' },
     hint: { es: 'Rendimiento, energía perdida y Ep = m·g·h', en: 'Efficiency, energy lost and Ep = m·g·h', ca: 'Rendiment, energia perduda i Ep = m·g·h' } },
@@ -36,7 +36,7 @@ export default function CadenaEnergiaExamen() {
       metaPath="/examen/cadena-energia-test"
       subjectSchema="Física"
       backGamePath="/juegos/cadena-energia"
-      playLabel={{ es: 'Modo arcade (60s)', en: 'Arcade mode (60s)', ca: 'Mode arcade (60s)' }}
+      playLabel={{ es: 'Modo arcade (90s)', en: 'Arcade mode (90s)', ca: 'Mode arcade (90s)' }}
       levels={LEVELS}
       genRound={genRound}
       isCorrect={esCorrecta}

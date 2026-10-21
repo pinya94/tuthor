@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { FORMAS, SITUACIONES, APARATOS, CADENAS, NIVELES, genRonda, esCorrecta, explicacion, schemaQuestion, textoOpcion, enunciado } from '../cadenaEnergia'
+import { FORMAS, SITUACIONES, APARATOS, CADENAS, NIVELES, genRonda, esCorrecta, respuestaBuena, leeNumero, explicacion, schemaQuestion, textoOpcion, enunciado } from '../cadenaEnergia'
 
 function semilla(s) { return () => ((s = (s * 16807) % 2147483647) - 1) / 2147483646 }
 const L = ['es', 'en', 'ca']
@@ -28,7 +28,27 @@ describe('Cadena de energía · rondas', () => {
         tipos.add(r.tipo)
         expect(r.opciones).toContain(r.bueno)
         expect(new Set(r.opciones).size).toBe(r.opciones.length)
-        expect(esCorrecta(r, r.bueno)).toBe(true)
+        expect(esCorrecta(r, respuestaBuena(r))).toBe(true)
+        if (r.mecanica === 'teclea') {
+          expect(esCorrecta(r, String(r.bueno).replace('.', ','))).toBe(true)
+          expect(esCorrecta(r, String(r.bueno + 1))).toBe(false)
+        }
+        if (r.mecanica === 'clasifica') {
+          expect(esCorrecta(r, 'clasifica:1')).toBe(false)
+          const formas = new Set(r.items.map(i => SITUACIONES[i].forma))
+          expect(formas.size).toBeGreaterThanOrEqual(2)
+          for (const f of formas) expect(r.cajas).toContain(f)
+          // ninguna caja vale «en parte» para alguna situación
+          for (const i of r.items) for (const v of SITUACIONES[i].veta) expect(r.cajas).not.toContain(v)
+        }
+        if (r.mecanica === 'monta') {
+          const a = APARATOS[r.aparato]
+          expect(esCorrecta(r, a.sale + ">" + a.entra)).toBe(false)
+        }
+        if (r.mecanica === 'completa') {
+          expect(r.huecos.length).toBe(CADENAS[r.cadena].formas.length - 1)
+          expect(esCorrecta(r, 'completa:1')).toBe(false)
+        }
         if (r.tipo === 'forma') for (const v of SITUACIONES[r.situacion].veta) expect(r.opciones).not.toContain(v)
         if (r.tipo === 'transforma') {
           const a = APARATOS[r.aparato]
@@ -59,4 +79,14 @@ describe('Cadena de energía · rondas', () => {
       expect([...tipos].sort()).toEqual([...new Set(NIVELES[nivel].tipos)].sort())
     })
   }
+})
+
+describe('Cadena de energía · números tecleados', () => {
+  it('acepta coma o punto', () => {
+    expect(leeNumero('12,5')).toBe(12.5)
+    expect(leeNumero('12.5')).toBe(12.5)
+    expect(leeNumero('40')).toBe(40)
+    expect(leeNumero('')).toBe(null)
+    expect(leeNumero('1,2,3')).toBe(null)
+  })
 })

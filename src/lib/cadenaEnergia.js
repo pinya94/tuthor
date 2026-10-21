@@ -100,10 +100,10 @@ function opNum(rand, bueno, cands) {
   return u.length === 3 ? [bueno, ...u].sort((a, b) => a - b) : null
 }
 
-export function genRonda(nivel = 'facil', { rand = Math.random, evitar = null } = {}) {
-  const cfg = NIVELES[nivel] ?? NIVELES.facil
+// La ronda clásica de un tipo (con opciones): la usan las mecánicas y el
+// texto del schema (ver «Mecánicas» al final).
+function genVieja(nivel, tipo, rand, evitar = null) {
   for (;;) {
-    const tipo = elige(rand, cfg.tipos)
     const base = { id: ++seq, nivel, tipo }
     if (tipo === 'forma') {
       const i = Math.floor(rand() * SITUACIONES.length)
@@ -155,9 +155,6 @@ export function genRonda(nivel = 'facil', { rand = Math.random, evitar = null } 
   }
 }
 
-export const esCorrecta = (ronda, r) => r === ronda.bueno
-export const genRound = difficulty => genRonda(difficulty)
-export const isCorrect = esCorrecta
 
 // ── Textos ───────────────────────────────────────────────────────────────
 const tx = (o, l) => o[l] ?? o.es
@@ -171,7 +168,7 @@ export function textoOpcion(o, ronda, l) {
   return `${FORMAS[o].emoji} ${nombreForma(o, l)}`
 }
 
-export function enunciado(ronda, l) {
+function enunciadoViejo(ronda, l) {
   const r = ronda
   switch (r.tipo) {
     case 'forma': return tx(T('¿Qué forma de energía tiene o guarda?', 'What form of energy does it have or store?', 'Quina forma d’energia té o guarda?'), l)
@@ -194,7 +191,7 @@ export function enunciado(ronda, l) {
   }
 }
 
-export function explicacion(ronda, l) {
+function explicacionVieja(ronda, l) {
   const r = ronda
   switch (r.tipo) {
     case 'forma': {
@@ -239,7 +236,7 @@ export function explicacion(ronda, l) {
   }
 }
 
-export function schemaQuestion(ronda, l) {
+function schemaVieja(ronda, l) {
   const r = ronda
   let pre = ''
   if (r.tipo === 'forma') pre = tx(SITUACIONES[r.situacion].texto, l) + '. '
@@ -250,8 +247,92 @@ export function schemaQuestion(ronda, l) {
   }
   if (r.tipo === 'rendimiento') pre = tx(APARATOS[r.aparato].nombre, l) + '. '
   return {
-    question: `${pre}${enunciado(r, l)}`,
+    question: `${pre}${enunciadoViejo(r, l)}`,
     correctAnswer: textoOpcion(r.bueno, r, l),
     wrongAnswers: r.opciones.filter(o => o !== r.bueno).map(o => textoOpcion(o, r, l)),
   }
+}
+
+// ── Mecánicas ─────────────────────────────────────────────────────────────
+// Sin opciones (genVieja sigue dando la ronda y el texto del schema):
+//   clasifica  (forma)        tres situaciones, cada una a la caja de su forma
+//   monta      (transforma)   el aparato: la energía que entra y la útil que sale
+//   completa   (cadena)       los huecos de una cadena de transformaciones
+//   teclea     (rendimiento, mgh)  el número
+export const MECANICA_DE_TIPO = { forma: 'clasifica', transforma: 'monta', cadena: 'completa', rendimiento: 'teclea', mgh: 'teclea' }
+
+const recientes = []
+export function genRonda(nivel = 'facil', { rand = Math.random } = {}) {
+  const cfg = NIVELES[nivel] ?? NIVELES.facil
+  let tipo = elige(rand, cfg.tipos)
+  for (let intento = 0; ; intento++) {
+    // se reintenta la MISMA mecánica (si no, la que más se descarta casi no sale);
+    // tras muchos intentos se cambia, para no quedarse atascado
+    if (intento % 40 === 39) tipo = elige(rand, cfg.tipos)
+    const r = genVieja(nivel, tipo, rand)
+    // sin decimales al teclear (y sin «187.5» con punto en castellano)
+    if (tipo === 'rendimiento' && !Number.isInteger(r.util)) continue
+    const out = { ...r, mecanica: MECANICA_DE_TIPO[tipo] }
+    if (tipo === 'forma') {
+      const items = baraja(rand, SITUACIONES.map((_, i) => i)).slice(0, 3)
+      const formas = [...new Set(items.map(i => SITUACIONES[i].forma))]
+      if (formas.length < 2) continue
+      // Ninguna caja puede ser «en parte verdad» para otra situación: el coche
+      // en marcha no puede convivir con una caja de química.
+      const vetadas = new Set(items.flatMap(i => SITUACIONES[i].veta))
+      if (formas.some(f => vetadas.has(f))) continue
+      const extra = baraja(rand, Object.keys(FORMAS).filter(f => !formas.includes(f) && !vetadas.has(f)))[0]
+      out.items = items
+      out.cajas = baraja(rand, [...formas, extra])
+    }
+    if (tipo === 'cadena') {
+      // Se ve una forma (la primera o la última) y el resto son huecos.
+      const c = CADENAS[r.cadena]
+      const visible = rand() < 0.5 ? 0 : c.formas.length - 1
+      out.huecos = c.formas.map((_, k) => k).filter(k => k !== visible)
+    }
+    const tema = `${tipo}${r.clave}${(out.items ?? []).join()}`
+    if (intento < 20 && recientes.includes(tema)) continue
+    recientes.push(tema)
+    if (recientes.length > 6) recientes.shift()
+    return out
+  }
+}
+export const genRound = difficulty => genRonda(difficulty)
+
+// Números tecleados: «12,5», «12.5» o «12».
+export const leeNumero = t => {
+  const x = String(t ?? '').trim().replace(',', '.')
+  return /^\d+(\.\d+)?$/.test(x) ? Number(x) : null
+}
+export function respuestaBuena(r) {
+  if (r.mecanica === 'clasifica') return 'clasifica:0'
+  if (r.mecanica === 'completa') return 'completa:0'
+  if (r.mecanica === 'monta') { const a = APARATOS[r.aparato]; return `${a.entra}>${a.sale}` }
+  return String(r.bueno)
+}
+export function esCorrecta(r, o) {
+  if (o == null) return false
+  if (!r.mecanica) return o === r.bueno
+  if (r.mecanica === 'teclea') return leeNumero(o) === r.bueno
+  return o === respuestaBuena(r)
+}
+export const isCorrect = esCorrecta
+
+export function enunciado(r, l) {
+  switch (r.mecanica) {
+    case 'clasifica': return tx(T('Pon cada cosa en la caja de la energía que tiene o guarda', 'Put each thing in the box for the energy it has or stores', 'Posa cada cosa a la caixa de l’energia que té o guarda'), l)
+    case 'monta': return tx(T('¿Qué energía entra y qué energía útil sale? Toca un hueco y luego la forma', 'Which energy goes in and which useful energy comes out? Tap a gap, then the form', 'Quina energia hi entra i quina energia útil en surt? Toca un buit i després la forma'), l)
+    case 'completa': return tx(T('Completa la cadena de transformaciones: toca un hueco y luego la forma', 'Complete the chain of transformations: tap a gap, then the form', 'Completa la cadena de transformacions: toca un buit i després la forma'), l)
+    default: return `${enunciadoViejo(r, l)} ${tx(T('Escribe el resultado.', 'Type the answer.', 'Escriu el resultat.'), l)}`
+  }
+}
+
+export function explicacion(r, l) {
+  if (r.mecanica === 'clasifica') return r.items.map(i => `${SITUACIONES[i].emoji} ${tx(SITUACIONES[i].texto, l)} → ${nombreForma(SITUACIONES[i].forma, l).toLowerCase()}`).join('. ') + '.'
+  return explicacionVieja(r, l)
+}
+
+export function schemaQuestion(r, l) {
+  return schemaVieja(r, l)
 }
