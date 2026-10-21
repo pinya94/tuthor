@@ -11,16 +11,17 @@ import SEOHead from '../components/SEOHead'
 import { CabeceraJuego, NivelBarras, ComoSeJuega } from '../components/IntroJuego'
 import { Racha } from '../components/Iconos'
 
-const GAME_TIME = 60
+// Se etiqueta, se clasifica, se empareja o se traza: 90 s y +6 s por acierto.
+const GAME_TIME = 90
 const WRONG_TIME = 5
-const CORRECT_TIME = 4
+const CORRECT_TIME = 6
 const REVEAL_MS = 4500 // da tiempo a leer el proceso en el ciclo
 
 const DIFS = {
   facil:   { emoji: '💚', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
-             desc: { es: 'Los procesos del ciclo y los tres tipos de roca', en: 'The cycle’s processes and the three rock types', ca: 'Els processos del cicle i els tres tipus de roca' } },
+             desc: { es: 'Pon su proceso a las flechas del ciclo y lleva rocas a su tipo', en: 'Label the cycle’s arrows and sort rocks by type', ca: 'Posa el procés a les fletxes del cicle i porta roques al seu tipus' } },
   medio:   { emoji: '💛', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
-             desc: { es: 'También: de qué roca viene cada metamórfica', en: 'Also: which rock each metamorphic one comes from', ca: 'També: de quina roca ve cada metamòrfica' } },
+             desc: { es: 'También: une cada metamórfica con su roca de origen', en: 'Also: match each metamorphic rock with its parent rock', ca: 'També: uneix cada metamòrfica amb la seva roca d’origen' } },
   dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' },
              desc: { es: 'Plutónicas y volcánicas, clases de sedimentarias y rutas por el ciclo', en: 'Plutonic and volcanic, kinds of sedimentary rock and routes through the cycle', ca: 'Plutòniques i volcàniques, menes de sedimentàries i rutes pel cicle' } },
 }
@@ -143,7 +144,7 @@ export default function CicloRocas() {
           <ComoSeJuega>
             <div className="space-y-2 text-white/70 text-sm">
               <p>{tr({ es: 'Las rocas no son eternas: cambian de una clase a otra en un ciclo que dura millones de años. El magma se enfría y forma rocas ígneas; el agua y el viento las rompen en sedimentos, que se compactan en rocas sedimentarias; la presión y el calor las transforman en metamórficas, y si se funden vuelven a ser magma.', en: 'Rocks are not eternal: they change from one kind to another in a cycle lasting millions of years. Magma cools into igneous rocks; water and wind break them into sediments, which are compacted into sedimentary rocks; pressure and heat turn them into metamorphic rocks, and if they melt they become magma again.', ca: 'Les roques no són eternes: canvien d’una mena a una altra en un cicle que dura milions d’anys. El magma es refreda i forma roques ígnies; l’aigua i el vent les trenquen en sediments, que es compacten en roques sedimentàries; la pressió i la calor les transformen en metamòrfiques, i si es fonen tornen a ser magma.' })}</p>
-              <p>{tr({ es: 'Unas preguntas señalan una flecha del ciclo y hay que decir qué proceso es. Otras enseñan una muestra de roca con lo que se ve en ella: los cristales grandes delatan que se enfrió despacio bajo tierra, los agujeros de la pómez son burbujas de gas y las bandas del gneis, un granito aplastado.', en: 'Some questions mark an arrow in the cycle and you say which process it is. Others show a rock sample with what can be seen in it: large crystals reveal slow cooling underground, the holes in pumice are gas bubbles and the bands in gneiss are a squashed granite.', ca: 'Unes preguntes assenyalen una fletxa del cicle i cal dir quin procés és. D’altres ensenyen una mostra de roca amb el que s’hi veu: els cristalls grans delaten que es va refredar a poc a poc sota terra, els forats de la pedra tosca són bombolles de gas i les bandes del gneis, un granit aixafat.' })}</p>
+              <p>{tr({ es: 'No hay opciones: pones su proceso a las flechas numeradas del ciclo, llevas cada muestra de roca a la caja de su tipo, unes cada metamórfica con su roca de origen y trazas la ruta de una roca a otra tocando las flechas. En las muestras se ve lo que delata a cada roca: los cristales grandes delatan que se enfrió despacio bajo tierra, los agujeros de la pómez son burbujas de gas y las bandas del gneis, un granito aplastado.', en: 'There are no options: you label the numbered arrows of the cycle with their process, drop each rock sample into the box for its type, match each metamorphic rock with its parent rock and trace the route from one rock to another by tapping the arrows. The samples show what gives each rock away: large crystals reveal slow cooling underground, the holes in pumice are gas bubbles and the bands in gneiss are a squashed granite.', ca: 'No hi ha opcions: poses el procés a les fletxes numerades del cicle, portes cada mostra de roca a la caixa del seu tipus, uneixes cada metamòrfica amb la seva roca d’origen i traces la ruta d’una roca a una altra tocant les fletxes. A les mostres es veu el que delata cada roca: els cristalls grans delaten que es va refredar a poc a poc sota terra, els forats de la pedra tosca són bombolles de gas i les bandes del gneis, un granit aixafat.' })}</p>
               <p className="text-white/40 text-xs pt-1">⏱️ {GAME_TIME}s · {tr({ es: `Acierto +10 y +${CORRECT_TIME}s · Fallo −${WRONG_TIME}s`, en: `Correct +10 and +${CORRECT_TIME}s · Wrong −${WRONG_TIME}s`, ca: `Encert +10 i +${CORRECT_TIME}s · Error −${WRONG_TIME}s` })}</p>
             </div>
           </ComoSeJuega>

@@ -7,13 +7,13 @@ import { genRound, esCorrecta, schemaQuestion } from '../lib/cicloRocas'
 const LEVELS = [
   { key: 'primaria', emoji: '💚', difficulty: 'facil',
     label: { es: 'Primaria', en: 'Primary', ca: 'Primària' },
-    hint: { es: 'Procesos del ciclo y tipos de roca', en: 'Cycle processes and rock types', ca: 'Processos del cicle i tipus de roca' } },
+    hint: { es: 'Etiquetar el ciclo y clasificar rocas', en: 'Label the cycle and sort rocks', ca: 'Etiquetar el cicle i classificar roques' } },
   { key: 'eso', emoji: '💛', difficulty: 'medio',
     label: { es: 'Secundaria (ESO)', en: 'Secondary (ESO)', ca: 'Secundària (ESO)' },
     hint: { es: 'Procesos, tipos y origen de las metamórficas', en: 'Processes, types and origin of metamorphic rocks', ca: 'Processos, tipus i origen de les metamòrfiques' } },
   { key: 'bachillerato', emoji: '🔴', difficulty: 'dificil',
     label: { es: 'Avanzado', en: 'Advanced', ca: 'Avançat' },
-    hint: { es: 'Clases de rocas y rutas por el ciclo', en: 'Kinds of rock and routes through the cycle', ca: 'Menes de roques i rutes pel cicle' } },
+    hint: { es: 'Clases de rocas y trazar rutas por el ciclo', en: 'Kinds of rock and tracing routes through the cycle', ca: 'Menes de roques i traçar rutes pel cicle' } },
 ]
 
 // Estado propio (la opción elegida): ver la nota de hooks en
@@ -36,7 +36,7 @@ export default function CicloRocasExamen() {
       metaPath="/examen/ciclo-rocas-test"
       subjectSchema="Geología"
       backGamePath="/juegos/ciclo-rocas"
-      playLabel={{ es: 'Modo arcade (60s)', en: 'Arcade mode (60s)', ca: 'Mode arcade (60s)' }}
+      playLabel={{ es: 'Modo arcade (90s)', en: 'Arcade mode (90s)', ca: 'Mode arcade (90s)' }}
       levels={LEVELS}
       genRound={genRound}
       isCorrect={esCorrecta}

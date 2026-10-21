@@ -103,10 +103,10 @@ const elige = (rand, xs) => xs[Math.floor(rand() * xs.length)]
 const baraja = (rand, xs) => [...xs].sort(() => rand() - 0.5)
 let seq = 0
 
-export function genRonda(nivel = 'facil', { rand = Math.random, evitar = null } = {}) {
-  const cfg = NIVELES[nivel] ?? NIVELES.facil
+// La ronda clásica de un tipo (con opciones): la usan las mecánicas y el
+// texto del schema (ver «Mecánicas» al final).
+function genVieja(nivel, tipo, rand, evitar = null) {
   for (;;) {
-    const tipo = elige(rand, cfg.tipos)
     const base = { id: ++seq, nivel, tipo }
     if (tipo === 'proceso') {
       const i = Math.floor(rand() * FLECHAS.length)
@@ -133,9 +133,6 @@ export function genRonda(nivel = 'facil', { rand = Math.random, evitar = null } 
   }
 }
 
-export const esCorrecta = (ronda, r) => r === ronda.bueno
-export const genRound = difficulty => genRonda(difficulty)
-export const isCorrect = esCorrecta
 
 // ── Textos ───────────────────────────────────────────────────────────────
 const tx = (o, l) => o[l] ?? o.es
@@ -154,7 +151,7 @@ export function textoOpcion(o, ronda, l) {
   }
 }
 
-export function enunciado(ronda, l) {
+function enunciadoViejo(ronda, l) {
   switch (ronda.tipo) {
     case 'proceso': {
       const [a, b] = FLECHAS[ronda.flecha]
@@ -186,7 +183,7 @@ const POR_QUE_PROCESO = {
   fusion: T('Si la temperatura sube muchísimo, la roca se funde y vuelve a ser magma.', 'If the temperature rises a great deal, the rock melts and becomes magma again.', 'Si la temperatura puja moltíssim, la roca es fon i torna a ser magma.'),
 }
 
-export function explicacion(ronda, l) {
+function explicacionVieja(ronda, l) {
   const r = ronda
   switch (r.tipo) {
     case 'proceso': {
@@ -208,11 +205,106 @@ export function explicacion(ronda, l) {
   }
 }
 
-export function schemaQuestion(ronda, l) {
+function schemaVieja(ronda, l) {
   const pre = ronda.roca && ronda.tipo !== 'ruta' ? `${nombreRoca(ronda.roca, l)}: ${tx(ROCAS[ronda.roca].desc, l)} ` : ''
   return {
-    question: `${pre}${enunciado(ronda, l)}`,
+    question: `${pre}${enunciadoViejo(ronda, l)}`,
     correctAnswer: textoOpcion(ronda.bueno, ronda, l),
     wrongAnswers: ronda.opciones.filter(o => o !== ronda.bueno).map(o => textoOpcion(o, ronda, l)),
   }
+}
+
+// ── Mecánicas ─────────────────────────────────────────────────────────────
+// Sin opciones (genVieja sigue dando la ronda y el texto del schema):
+//   etiqueta  (proceso)  tres flechas del ciclo con «?»: se les pone su proceso
+//   clasifica (tipo, subtipo)  tres muestras de roca a la caja de su tipo/subtipo
+//   empareja  (origen)  las cuatro metamórficas con su roca de origen
+//   traza     (ruta)  tocar las flechas del ciclo, en orden, de una roca a otra
+// Respuestas: «etiqueta|clasifica|empareja:fallos» o la ruta «p1>p2».
+export const MECANICA_DE_TIPO = { proceso: 'etiqueta', tipo: 'clasifica', subtipo: 'clasifica', origen: 'empareja', ruta: 'traza' }
+export const METAMORFICAS = Object.keys(ROCAS).filter(id => ROCAS[id].origen)
+
+const recientes = []
+export function genRonda(nivel = 'facil', { rand = Math.random } = {}) {
+  const cfg = NIVELES[nivel] ?? NIVELES.facil
+  for (let intento = 0; ; intento++) {
+    const tipo = elige(rand, cfg.tipos)
+    const r = genVieja(nivel, tipo, rand)
+    const out = { ...r, mecanica: MECANICA_DE_TIPO[tipo] }
+    if (tipo === 'proceso') {
+      // tres flechas distintas, con al menos dos procesos distintos
+      const fl = baraja(rand, FLECHAS.map((_, i) => i)).slice(0, 3)
+      if (new Set(fl.map(i => FLECHAS[i][2])).size < 2) continue
+      out.flechas = fl
+    }
+    if (tipo === 'tipo') {
+      // tres rocas cualesquiera (pueden repetir tipo): con una de cada, la
+      // última iría a la caja que queda libre sin pensar
+      const items = baraja(rand, Object.keys(ROCAS)).slice(0, 3)
+      if (new Set(items.map(id => ROCAS[id].tipo)).size < 2) continue
+      out.items = items
+      out.cajas = TIPOS
+    }
+    if (tipo === 'subtipo') {
+      const clase = ROCAS[r.roca].tipo
+      const pool = Object.keys(ROCAS).filter(id => ROCAS[id].tipo === clase && ROCAS[id].subtipo)
+      const items = baraja(rand, pool).slice(0, 3)
+      if (new Set(items.map(id => ROCAS[id].subtipo)).size < 2) continue
+      out.items = items
+      out.cajas = SUBTIPOS[clase]
+    }
+    if (tipo === 'origen') {
+      out.items = baraja(rand, METAMORFICAS)
+      out.origenes = baraja(rand, ORIGENES)
+    }
+    const tema = `${tipo}${(out.items ?? out.flechas ?? [r.clave]).join()}`
+    if (intento < 20 && recientes.includes(tema)) continue
+    recientes.push(tema)
+    if (recientes.length > 5) recientes.shift()
+    return out
+  }
+}
+export const genRound = difficulty => genRonda(difficulty)
+
+// La caja buena de una roca en «clasifica».
+export const cajaDe = (r, id) => (r.tipo === 'subtipo' ? ROCAS[id].subtipo : ROCAS[id].tipo)
+
+export function respuestaBuena(r) {
+  if (r.mecanica === 'traza') return r.bueno
+  return `${r.mecanica}:0`
+}
+export function esCorrecta(r, o) {
+  if (o == null) return false
+  if (!r.mecanica) return o === r.bueno
+  return o === respuestaBuena(r)
+}
+export const isCorrect = esCorrecta
+
+export function enunciado(r, l) {
+  switch (r.mecanica) {
+    case 'etiqueta': return tx(T('Pon a cada flecha numerada su proceso: toca una flecha y luego el proceso', 'Give each numbered arrow its process: tap an arrow, then the process', 'Posa a cada fletxa numerada el seu procés: toca una fletxa i després el procés'), l)
+    case 'clasifica': return r.tipo === 'subtipo'
+      ? tx(T(`Pon cada roca ${ROCAS[r.items[0]].tipo === 'ignea' ? 'ígnea' : 'sedimentaria'} en la caja de su origen`, `Put each ${ROCAS[r.items[0]].tipo === 'ignea' ? 'igneous' : 'sedimentary'} rock in the box for how it formed`, `Posa cada roca ${ROCAS[r.items[0]].tipo === 'ignea' ? 'ígnia' : 'sedimentària'} a la caixa del seu origen`), l)
+      : tx(T('Pon cada roca en la caja de su tipo', 'Put each rock in the box for its type', 'Posa cada roca a la caixa del seu tipus'), l)
+    case 'empareja': return tx(T('Une cada roca metamórfica con la roca de la que se formó', 'Match each metamorphic rock with the rock it formed from', 'Uneix cada roca metamòrfica amb la roca de la qual es va formar'), l)
+    case 'traza': {
+      const ru = RUTAS[r.ruta]
+      return tx(T(`De ${nombreRoca(ru.desde, l).toLowerCase()} a ${nombreRoca(ru.hasta, l).toLowerCase()}: toca en orden las flechas del camino más corto`, `From ${nombreRoca(ru.desde, l).toLowerCase()} to ${nombreRoca(ru.hasta, l).toLowerCase()}: tap the arrows of the shortest path, in order`, `De ${nombreRoca(ru.desde, l).toLowerCase()} a ${nombreRoca(ru.hasta, l).toLowerCase()}: toca en ordre les fletxes del camí més curt`), l)
+    }
+    default: return enunciadoViejo(r, l)
+  }
+}
+
+export function explicacion(r, l) {
+  if (r.mecanica === 'etiqueta') return r.flechas.map((i, k) => `${k + 1}. ${nombreNodo(FLECHAS[i][0], l)} → ${nombreNodo(FLECHAS[i][1], l).toLowerCase()}: ${nombreProceso(FLECHAS[i][2], l).toLowerCase()}`).join('. ') + '.'
+  if (r.mecanica === 'clasifica') {
+    const nombre = id => (r.tipo === 'subtipo' ? tx(NOMBRE_SUBTIPO[ROCAS[id].subtipo], l).split(':')[0] : tx(NOMBRE_TIPO[ROCAS[id].tipo], l))
+    return r.items.map(id => `${nombreRoca(id, l)} → ${nombre(id).toLowerCase()}`).join(' · ') + '.'
+  }
+  if (r.mecanica === 'empareja') return r.items.map(id => `${nombreRoca(id, l)} ← ${nombreRoca(ROCAS[id].origen, l).toLowerCase()}`).join(' · ') + '. ' + tx(T('La roca de origen se transforma por la presión y la temperatura, sin llegar a fundirse.', 'The parent rock is transformed by pressure and temperature, without melting.', 'La roca d’origen es transforma per la pressió i la temperatura, sense arribar a fondre’s.'), l)
+  return explicacionVieja(r, l)
+}
+
+export function schemaQuestion(r, l) {
+  return schemaVieja(r, l)
 }

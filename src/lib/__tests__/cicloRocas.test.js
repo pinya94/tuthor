@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import {
   PROCESOS, NODOS, FLECHAS, ROCAS, RUTAS, ORIGENES, SUBTIPOS, NIVELES,
-  genRonda, esCorrecta, explicacion, schemaQuestion, textoOpcion, enunciado,
+  genRonda, esCorrecta, respuestaBuena, cajaDe, METAMORFICAS, explicacion, schemaQuestion, textoOpcion, enunciado,
 } from '../cicloRocas'
 
 function semilla(s) { return () => ((s = (s * 16807) % 2147483647) - 1) / 2147483646 }
@@ -62,7 +62,21 @@ describe('Ciclo de las rocas · rondas', () => {
         tipos.add(r.tipo)
         expect(r.opciones).toContain(r.bueno)
         expect(new Set(r.opciones).size).toBe(r.opciones.length)
-        expect(esCorrecta(r, r.bueno)).toBe(true)
+        expect(esCorrecta(r, respuestaBuena(r))).toBe(true)
+        if (r.mecanica === 'etiqueta') {
+          expect(new Set(r.flechas).size).toBe(3)
+          expect(new Set(r.flechas.map(i => FLECHAS[i][2])).size).toBeGreaterThan(1)
+        }
+        if (r.mecanica === 'clasifica') {
+          expect(r.items).toHaveLength(3)
+          for (const id of r.items) expect(r.cajas).toContain(cajaDe(r, id))
+          expect(new Set(r.items.map(id => cajaDe(r, id))).size).toBeGreaterThan(1)
+        }
+        if (r.mecanica === 'empareja') {
+          expect([...r.items].sort()).toEqual([...METAMORFICAS].sort())
+          for (const id of r.items) expect(r.origenes).toContain(ROCAS[id].origen)
+        }
+        if (r.mecanica === 'traza') for (const o of r.opciones) if (o !== r.bueno) expect(esCorrecta(r, o)).toBe(false)
         for (const l of L) {
           expect(enunciado(r, l)).not.toMatch(/undefined/)
           expect(explicacion(r, l)).not.toMatch(/undefined/)

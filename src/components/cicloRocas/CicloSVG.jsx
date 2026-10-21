@@ -34,7 +34,11 @@ function camino(a, b, curva) {
 // así que el mismo signo las separa (con signos opuestos se montaban una encima de otra).
 const CURVA = { 'metamorfica>sedimentos': 18, 'sedimentaria>sedimentos': 16, 'sedimentos>sedimentaria': 16 }
 
-export default function CicloSVG({ marcadas = [], revelado, etiquetas, nombres }) {
+// onFlecha(i): las flechas se pueden tocar. colores[k]: color de la marcada k
+// (al corregir, verde o rojo). verEtiquetas: las etiquetas se ven ya antes de
+// corregir (lo que va poniendo el alumno). posibles: flechas que se pueden
+// tocar ahora (se dibujan un poco más claras). activa: la marcada elegida.
+export default function CicloSVG({ marcadas = [], revelado, etiquetas, nombres, onFlecha, colores, verEtiquetas, posibles = [], activa = -1 }) {
   return (
     <svg viewBox={`0 0 ${W} ${H}`} className="w-full h-auto max-h-[270px]" role="img" aria-label={nombres.aria}>
       <defs>
@@ -47,22 +51,25 @@ export default function CicloSVG({ marcadas = [], revelado, etiquetas, nombres }
       {FLECHAS.map(([a, b], i) => {
         const k = marcadas.indexOf(i)
         const { d, medio } = camino(a, b, CURVA[`${a}>${b}`] ?? 0)
-        const color = k < 0 ? '#475569' : revelado ? '#4ADE80' : '#FBBF24'
+        const color = k < 0 ? (posibles.includes(i) ? '#94A3B8' : '#475569') : colores?.[k] ?? (revelado ? '#4ADE80' : k === activa ? '#FDE68A' : '#FBBF24')
         return (
           <g key={i}>
-            <path d={d} stroke={color} strokeWidth={k < 0 ? 1.8 : 3.2} fill="none" markerEnd={`url(#flecha-${k < 0 ? 'gris' : revelado ? 'verde' : 'ambar'})`} />
+            <path d={d} stroke={color} strokeWidth={k < 0 ? (posibles.includes(i) ? 2.6 : 1.8) : k === activa ? 4.2 : 3.2} fill="none" strokeDasharray={k < 0 && posibles.includes(i) ? '5 4' : undefined} markerEnd={`url(#flecha-${k < 0 ? 'gris' : revelado && !colores ? 'verde' : 'ambar'})`} />
             {k >= 0 && (
               <g>
                 <circle cx={medio.x} cy={medio.y} r="10" fill="#0b1226" stroke={color} strokeWidth="2" />
                 <text x={medio.x} y={medio.y + 4} textAnchor="middle" fontSize="11" fontWeight="800" fill={color}>{marcadas.length > 1 ? k + 1 : '?'}</text>
-                {revelado && etiquetas?.[k] && (
-                  <text x={medio.x} y={medio.y + (medio.y > 150 ? 24 : -15)} textAnchor="middle" fontSize="9" fontWeight="700" fill="#BBF7D0">{etiquetas[k]}</text>
+                {(revelado || verEtiquetas) && etiquetas?.[k] && (
+                  <text x={medio.x} y={medio.y + (medio.y > 150 ? 24 : -15)} textAnchor="middle" fontSize="9" fontWeight="700" fill={colores?.[k] ?? '#BBF7D0'} stroke="#0b1226" strokeWidth="3" style={{ paintOrder: 'stroke' }}>{etiquetas[k]}</text>
                 )}
               </g>
             )}
           </g>
         )
       })}
+      {onFlecha && FLECHAS.map(([a, b], i) => (
+        <path key={`t${i}`} d={camino(a, b, CURVA[`${a}>${b}`] ?? 0).d} stroke="transparent" strokeWidth="22" fill="none" className="cursor-pointer" style={{ pointerEvents: 'stroke' }} onClick={() => onFlecha(i)} />
+      ))}
       {Object.entries(POS).map(([id, p]) => (
         <g key={id}>
           <ellipse cx={p.x} cy={p.y} rx={RX} ry={RY} fill={p.color} fillOpacity=".2" stroke={p.color} strokeWidth="2" />
