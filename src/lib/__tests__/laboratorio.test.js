@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import {
   METODOS, PROPIEDADES, COMPONENTES, MEZCLAS, RECETAS, NIVELES, TAMBIEN_VALE,
-  genRonda, esCorrecta, explicacion, schemaQuestion, textoOpcion, enunciado,
+  genRonda, esCorrecta, respuestaBuena, secuenciaValida, cajaDe, nombreDe, explicacion, schemaQuestion, textoOpcion, enunciado,
 } from '../laboratorio'
 
 function semilla(s) { return () => ((s = (s * 16807) % 2147483647) - 1) / 2147483646 }
@@ -37,7 +37,27 @@ describe('El Laboratorio · rondas', () => {
         tipos.add(r.tipo)
         expect(r.opciones).toContain(r.bueno)
         expect(new Set(r.opciones).size).toBe(r.opciones.length)
-        expect(esCorrecta(r, r.bueno)).toBe(true)
+        expect(esCorrecta(r, respuestaBuena(r))).toBe(true)
+        if (r.mecanica === 'clasifica') {
+          expect(esCorrecta(r, 'clasifica:1')).toBe(false)
+          // Cada mezcla tiene su caja, y ninguna otra caja vale también para ella
+          for (const i of r.items) {
+            expect(r.cajas).toContain(cajaDe(r, i))
+            if (r.tipo === 'metodo') for (const v of TAMBIEN_VALE.metodo[cajaDe(r, i)] ?? []) expect(r.cajas).not.toContain(v)
+          }
+        }
+        if (r.mecanica === 'empareja') {
+          expect(new Set(r.props).size).toBe(3)
+          for (const m of r.metodos) for (const v of TAMBIEN_VALE.propiedad[m] ?? []) expect(r.props).not.toContain(v)
+        }
+        if (r.mecanica === 'ordena') {
+          const rec = RECETAS.find(x => x.id === r.mezcla)
+          expect(r.paleta.length).toBe(rec.buena.length + 2)
+          for (const m of rec.buena) expect(r.paleta).toContain(m)
+          // Ningún instrumento de más podría sustituir a uno bueno
+          for (const m of rec.buena) for (const v of TAMBIEN_VALE.metodo[m] ?? []) expect(r.paleta).not.toContain(v)
+          for (const mala of rec.malas) expect(esCorrecta(r, mala.join('>'))).toBe(false)
+        }
         if (r.tipo === 'metodo') {
           expect(NIVELES[nivel].metodos).toContain(r.bueno)
           for (const v of TAMBIEN_VALE.metodo[r.bueno] ?? []) expect(r.opciones).not.toContain(v)
@@ -59,14 +79,18 @@ describe('El Laboratorio · rondas', () => {
     })
   }
 
-  it('el objetivo lleva su artículo: «con la sal», «con el agua»', () => {
-    const rand = semilla(9)
-    const vistos = new Set()
-    for (let i = 0; i < 400; i++) {
-      const r = genRonda('medio', { rand })
-      if (r.tipo === 'metodo' && r.objetivo) vistos.add(enunciado(r, 'es'))
-    }
-    for (const e of vistos) expect(e).toMatch(/con (la sal|el agua|el azúcar)\.$/)
-    expect(vistos.size).toBeGreaterThan(0)
+  it('el objetivo lleva su artículo: «quieres la sal», «quieres el agua»', () => {
+    for (const m of MEZCLAS.filter(x => x.objetivo)) expect(nombreDe(m.id, 'es')).toMatch(/\(quieres (la sal|el agua|el azúcar)\)$/)
+  })
+})
+
+describe('El Laboratorio · el orden de los pasos', () => {
+  it('vale cualquier orden que funcione, no solo el del libro', () => {
+    expect(secuenciaValida('hierro-arena-sal', ['iman', 'disolver', 'filtrar', 'evaporar'])).toBe(true)
+    expect(secuenciaValida('hierro-arena-sal', ['disolver', 'filtrar', 'iman', 'evaporar'])).toBe(true)
+    expect(secuenciaValida('hierro-arena-sal', ['disolver', 'evaporar', 'filtrar', 'iman'])).toBe(false)
+    expect(secuenciaValida('agua-alcohol-arena', ['destilar', 'filtrar'])).toBe(true)
+    expect(secuenciaValida('arena-sal', ['filtrar', 'disolver', 'evaporar'])).toBe(false)
+    for (const r of RECETAS) expect(secuenciaValida(r.id, r.buena), r.id).toBe(true)
   })
 })

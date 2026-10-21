@@ -7,13 +7,13 @@ import { genRound, esCorrecta, schemaQuestion } from '../lib/laboratorio'
 const LEVELS = [
   { key: 'primaria', emoji: '💚', difficulty: 'facil',
     label: { es: 'Primaria', en: 'Primary', ca: 'Primària' },
-    hint: { es: 'Cómo separar mezclas de dos', en: 'How to separate two-part mixtures', ca: 'Com separar mescles de dos' } },
+    hint: { es: 'Llevar cada mezcla a su instrumento', en: 'Taking each mixture to its equipment', ca: 'Portar cada mescla al seu instrument' } },
   { key: 'eso', emoji: '💛', difficulty: 'medio',
     label: { es: 'Secundaria (ESO)', en: 'Secondary (ESO)', ca: 'Secundària (ESO)' },
-    hint: { es: 'Métodos, propiedades y tipos de mezcla', en: 'Methods, properties and kinds of mixture', ca: 'Mètodes, propietats i tipus de mescla' } },
+    hint: { es: 'Unir métodos y propiedades, clasificar mezclas', en: 'Matching methods and properties, sorting mixtures', ca: 'Unir mètodes i propietats, classificar mescles' } },
   { key: 'bachillerato', emoji: '🔴', difficulty: 'dificil',
     label: { es: 'Avanzado', en: 'Advanced', ca: 'Avançat' },
-    hint: { es: 'Qué pasos seguir y en qué orden', en: 'Which steps to follow and in what order', ca: 'Quins passos seguir i en quin ordre' } },
+    hint: { es: 'Montar los pasos en orden', en: 'Building the steps in order', ca: 'Muntar els passos en ordre' } },
 ]
 
 // Estado propio (la opción elegida): ver la nota de hooks en
@@ -36,7 +36,7 @@ export default function ElLaboratorioExamen() {
       metaPath="/examen/el-laboratorio-test"
       subjectSchema="Química"
       backGamePath="/juegos/el-laboratorio"
-      playLabel={{ es: 'Modo arcade (60s)', en: 'Arcade mode (60s)', ca: 'Mode arcade (60s)' }}
+      playLabel={{ es: 'Modo arcade (90s)', en: 'Arcade mode (90s)', ca: 'Mode arcade (90s)' }}
       levels={LEVELS}
       genRound={genRound}
       isCorrect={esCorrecta}

@@ -150,10 +150,11 @@ const baraja = (rand, xs) => [...xs].sort(() => rand() - 0.5)
 const clave = sec => sec.join('>')
 let seq = 0
 
-export function genRonda(nivel = 'facil', { rand = Math.random, evitar = null } = {}) {
+// La ronda clásica de un tipo (con opciones): la usan las mecánicas y el
+// texto del schema (ver «Mecánicas» al final).
+function genVieja(nivel, tipo, rand, evitar = null) {
   const cfg = NIVELES[nivel] ?? NIVELES.facil
   for (;;) {
-    const tipo = elige(rand, cfg.tipos)
     const base = { id: ++seq, nivel, tipo }
     if (tipo === 'secuencia') {
       const r = elige(rand, RECETAS)
@@ -181,9 +182,6 @@ export function genRonda(nivel = 'facil', { rand = Math.random, evitar = null } 
   }
 }
 
-export const esCorrecta = (ronda, r) => r === ronda.bueno
-export const genRound = difficulty => genRonda(difficulty)
-export const isCorrect = esCorrecta
 
 // ── Textos ───────────────────────────────────────────────────────────────
 const tx = (o, l) => o[l] ?? o.es
@@ -206,7 +204,7 @@ export function textoOpcion(o, ronda, l) {
 // Lo que se quiere sacar, con su artículo (el género no se adivina).
 const OBJETIVO = { sal: T('la sal', 'the salt', 'la sal'), azucar: T('el azúcar', 'the sugar', 'el sucre'), agua: T('el agua', 'the water', 'l’aigua') }
 
-export function enunciado(ronda, l) {
+function enunciadoViejo(ronda, l) {
   const obj = ronda.objetivo ? tx(T(` Quieres quedarte con ${OBJETIVO[ronda.objetivo].es}.`, ` You want to keep ${OBJETIVO[ronda.objetivo].en}.`, ` Vols quedar-te amb ${OBJETIVO[ronda.objetivo].ca}.`), l) : ''
   switch (ronda.tipo) {
     case 'secuencia': return tx(T('¿Qué pasos sigues para separarla, y en qué orden?', 'Which steps do you follow to separate it, and in what order?', 'Quins passos segueixes per separar-la, i en quin ordre?'), l)
@@ -216,7 +214,7 @@ export function enunciado(ronda, l) {
   }
 }
 
-export function explicacion(ronda, l) {
+function explicacionVieja(ronda, l) {
   if (ronda.tipo === 'secuencia') {
     const r = RECETAS.find(x => x.id === ronda.mezcla)
     const pasos = r.buena.map((m, i) => `${i + 1}. ${nombreMetodo(m, l)}: ${tx(METODOS[m].como, l)}`).join(' ')
@@ -231,10 +229,157 @@ export function explicacion(ronda, l) {
   return `${nombreMetodo(ronda.metodo, l)}: ${tx(m.como, l)} ${tx(T('Se basa en:', 'It relies on:', 'Es basa en:'), l)} ${tx(PROPIEDADES[m.propiedad], l).charAt(0).toLowerCase() + tx(PROPIEDADES[m.propiedad], l).slice(1)}.`
 }
 
-export function schemaQuestion(ronda, l) {
+function schemaVieja(ronda, l) {
   return {
-    question: `${nombreMezcla(ronda, l)}. ${enunciado(ronda, l)}`,
+    question: `${nombreMezcla(ronda, l)}. ${enunciadoViejo(ronda, l)}`,
     correctAnswer: textoOpcion(ronda.bueno, ronda, l),
     wrongAnswers: ronda.opciones.filter(o => o !== ronda.bueno).map(o => textoOpcion(o, ronda, l)),
   }
+}
+
+// ── Mecánicas ─────────────────────────────────────────────────────────────
+// Sin opciones (genVieja sigue dando la ronda y el texto del schema):
+//   clasifica  (metodo)     tres mezclas, cada una al instrumento que la separa
+//   clasifica  (tipo)       cuatro mezclas, a homogénea o heterogénea
+//   empareja   (propiedad)  tres métodos con la propiedad en que se basan
+//   ordena     (secuencia)  los pasos, eligiéndolos entre más instrumentos
+export const MECANICA_DE_TIPO = { metodo: 'clasifica', tipo: 'clasifica', propiedad: 'empareja', secuencia: 'ordena' }
+
+// Qué paso tiene que ir antes de cuál en cada receta. Todo lo demás puede ir
+// en cualquier orden: el imán separa el hierro tanto en seco como después de
+// disolver o de filtrar (se queda con la arena), y el tamiz igual.
+export const ORDEN = {
+  'arena-sal': [['disolver', 'filtrar'], ['filtrar', 'evaporar']],
+  'agua-arena-sal': [['filtrar', 'evaporar']],
+  'hierro-arena-sal': [['disolver', 'filtrar'], ['filtrar', 'evaporar']],
+  'agua-aceite-sal': [['decantar', 'evaporar']],
+  'agua-alcohol-arena': [],
+  'hierro-azufre-sal': [['disolver', 'filtrar'], ['filtrar', 'evaporar']],
+  'garbanzos-arena-sal': [['disolver', 'filtrar'], ['filtrar', 'evaporar']],
+}
+const PASOS = ['disolver', 'filtrar', 'tamizar', 'iman', 'decantar', 'evaporar', 'destilar', 'cromato']
+
+// ¿Funciona esta secuencia de pasos? Los mismos instrumentos que la buena y
+// respetando el ORDEN de la receta.
+export function secuenciaValida(recetaId, pasos) {
+  const r = RECETAS.find(x => x.id === recetaId)
+  if (!r || pasos.length !== r.buena.length) return false
+  if ([...pasos].sort().join() !== [...r.buena].sort().join()) return false
+  return ORDEN[recetaId].every(([a, b]) => pasos.indexOf(a) < pasos.indexOf(b))
+}
+
+// La caja buena de una mezcla en una ronda de clasificar.
+export function cajaDe(r, mezclaId) {
+  const m = MEZCLAS.find(x => x.id === mezclaId)
+  return r.tipo === 'tipo' ? m.tipo : m.metodo
+}
+
+const recientes = []
+export function genRonda(nivel = 'facil', { rand = Math.random, evitar = null } = {}) {
+  const cfg = NIVELES[nivel] ?? NIVELES.facil
+  let tipo = elige(rand, cfg.tipos)
+  for (let intento = 0; ; intento++) {
+    if (intento % 40 === 39) tipo = elige(rand, cfg.tipos)
+    const r = genVieja(nivel, tipo, rand, evitar)
+    const out = { ...r, mecanica: MECANICA_DE_TIPO[tipo] }
+    if (tipo === 'metodo') {
+      // Tres mezclas de métodos distintos; ninguna caja puede valer también
+      // para otra mezcla (agua y arena también se decanta).
+      const metodos = baraja(rand, cfg.metodos).slice(0, 3)
+      const items = metodos.map(mt => elige(rand, MEZCLAS.filter(x => x.metodo === mt)).id)
+      const vetados = new Set(metodos.flatMap(mt => TAMBIEN_VALE.metodo[mt] ?? []))
+      if (metodos.some(mt => vetados.has(mt))) continue
+      const extra = baraja(rand, cfg.metodos.filter(mt => !metodos.includes(mt) && !vetados.has(mt)))[0]
+      // Dos vasos iguales (agua y sal / agua de mar) solo si el objetivo los distingue
+      if (new Set(items.map(i => MEZCLAS.find(x => x.id === i).componentes.join())).size < items.length && !items.every(i => MEZCLAS.find(x => x.id === i).objetivo)) continue
+      out.items = items
+      out.cajas = baraja(rand, extra ? [...metodos, extra] : metodos)
+    }
+    if (tipo === 'tipo') {
+      const pool = MEZCLAS.filter(x => cfg.metodos.includes(x.metodo))
+      const items = []
+      for (const m of baraja(rand, pool)) {
+        if (items.length === 4) break
+        if (items.some(i => MEZCLAS.find(x => x.id === i).componentes.join() === m.componentes.join())) continue
+        items.push(m.id)
+      }
+      const tipos = new Set(items.map(i => MEZCLAS.find(x => x.id === i).tipo))
+      if (tipos.size < 2) continue
+      out.items = items
+      out.cajas = ['homo', 'hetero']
+    }
+    if (tipo === 'propiedad') {
+      // Tres métodos con propiedades distintas, sin que la de uno valga
+      // también para otro (la filtración se explica a veces por el tamaño).
+      const metodos = baraja(rand, cfg.metodos).slice(0, 3)
+      const props = metodos.map(mt => METODOS[mt].propiedad)
+      if (new Set(props).size < 3) continue
+      if (metodos.some(mt => (TAMBIEN_VALE.propiedad[mt] ?? []).some(p => props.includes(p)))) continue
+      out.metodos = metodos
+      out.props = baraja(rand, props)
+    }
+    if (tipo === 'secuencia') {
+      // Los pasos buenos y dos instrumentos más que no sirven aquí (ni los
+      // que un libro aceptaría en su lugar).
+      const rec = RECETAS.find(x => x.id === r.mezcla)
+      const vetados = new Set(rec.buena.flatMap(mt => TAMBIEN_VALE.metodo[mt] ?? []))
+      const extra = baraja(rand, PASOS.filter(mt => !rec.buena.includes(mt) && !vetados.has(mt))).slice(0, 2)
+      out.paleta = baraja(rand, [...rec.buena, ...extra])
+      out.huecos = rec.buena.length
+    }
+    const tema = `${tipo}${r.mezcla}${(out.items ?? out.metodos ?? []).join()}`
+    if (intento < 20 && recientes.includes(tema)) continue
+    recientes.push(tema)
+    if (recientes.length > 6) recientes.shift()
+    return out
+  }
+}
+export const genRound = difficulty => genRonda(difficulty)
+
+export function respuestaBuena(r) {
+  if (r.mecanica === 'clasifica') return 'clasifica:0'
+  if (r.mecanica === 'empareja') return 'empareja:0'
+  if (r.mecanica === 'ordena') return r.bueno
+  return r.bueno
+}
+export function esCorrecta(r, o) {
+  if (o == null) return false
+  if (!r.mecanica) return o === r.bueno
+  if (r.mecanica === 'ordena') return secuenciaValida(r.mezcla, String(o).split('>'))
+  return o === respuestaBuena(r)
+}
+export const isCorrect = esCorrecta
+
+// Nombre corto de una mezcla suelta (para las tarjetas de clasificar), con lo
+// que se quiere sacar si hace falta para decidir.
+export function nombreDe(mezclaId, l) {
+  const m = MEZCLAS.find(x => x.id === mezclaId)
+  const base = nombreMezcla(m, l)
+  return m.objetivo ? `${base} (${tx(T('quieres', 'you want', 'vols'), l)} ${tx(OBJETIVO[m.objetivo], l)})` : base
+}
+export const nombreCaja = (r, c, l) => (r.tipo === 'tipo' ? textoOpcion(c, { tipo: 'tipo' }, l) : nombreMetodo(c, l))
+
+export function enunciado(r, l) {
+  switch (r.mecanica) {
+    case 'clasifica': return r.tipo === 'tipo'
+      ? tx(T('Lleva cada mezcla a su caja: ¿homogénea o heterogénea?', 'Put each mixture in its box: homogeneous or heterogeneous?', 'Porta cada mescla a la seva caixa: homogènia o heterogènia?'), l)
+      : tx(T('Lleva cada mezcla al instrumento que la separa', 'Take each mixture to the equipment that separates it', 'Porta cada mescla a l’instrument que la separa'), l)
+    case 'empareja': return tx(T('Une cada método con la propiedad en que se basa', 'Match each method with the property it relies on', 'Uneix cada mètode amb la propietat en què es basa'), l)
+    case 'ordena': return tx(T('Monta los pasos para separarla, en orden. Sobran instrumentos', 'Build the steps to separate it, in order. Some equipment is not needed', 'Munta els passos per separar-la, en ordre. Sobren instruments'), l)
+    default: return enunciadoViejo(r, l)
+  }
+}
+
+export function explicacion(r, l) {
+  if (r.mecanica === 'clasifica') {
+    return r.items.map(i => `${nombreDe(i, l)} → ${nombreCaja(r, cajaDe(r, i), l).toLowerCase()}`).join('. ') + '.'
+  }
+  if (r.mecanica === 'empareja') {
+    return r.metodos.map(mt => `${nombreMetodo(mt, l)}: ${tx(PROPIEDADES[METODOS[mt].propiedad], l).charAt(0).toLowerCase()}${tx(PROPIEDADES[METODOS[mt].propiedad], l).slice(1)}`).join('. ') + '.'
+  }
+  return explicacionVieja(r, l)
+}
+
+export function schemaQuestion(r, l) {
+  return schemaVieja(r, l)
 }

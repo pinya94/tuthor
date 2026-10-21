@@ -11,18 +11,19 @@ import SEOHead from '../components/SEOHead'
 import { CabeceraJuego, NivelBarras, ComoSeJuega } from '../components/IntroJuego'
 import { Racha } from '../components/Iconos'
 
-const GAME_TIME = 60
+// Se clasifica, se une o se montan los pasos: 90 s y +6 s por acierto.
+const GAME_TIME = 90
 const WRONG_TIME = 5
-const CORRECT_TIME = 4
+const CORRECT_TIME = 6
 const REVEAL_MS = 4200 // da tiempo a leer cómo funciona el método
 
 const DIFS = {
   facil:   { emoji: '💚', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
-             desc: { es: 'Mezclas de dos: filtrar, tamizar, imán, decantar o evaporar', en: 'Two-part mixtures: filter, sieve, magnet, decant or evaporate', ca: 'Mescles de dos: filtrar, tamisar, imant, decantar o evaporar' } },
+             desc: { es: 'Lleva cada mezcla al instrumento que la separa', en: 'Take each mixture to the equipment that separates it', ca: 'Porta cada mescla a l’instrument que la separa' } },
   medio:   { emoji: '💛', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
-             desc: { es: 'Más métodos, en qué propiedad se basan y si la mezcla es homogénea', en: 'More methods, which property they rely on and whether the mixture is homogeneous', ca: 'Més mètodes, en quina propietat es basen i si la mescla és homogènia' } },
+             desc: { es: 'Más instrumentos, une cada método con su propiedad y clasifica mezclas', en: 'More equipment, match methods to properties and sort mixtures', ca: 'Més instruments, uneix cada mètode amb la propietat i classifica mescles' } },
   dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' },
-             desc: { es: 'Mezclas más difíciles: qué pasos y en qué orden', en: 'Harder mixtures: which steps and in what order', ca: 'Mescles més difícils: quins passos i en quin ordre' } },
+             desc: { es: 'Monta los pasos en orden para mezclas de tres', en: 'Build the steps in order for three-part mixtures', ca: 'Munta els passos en ordre per a mescles de tres' } },
 }
 if (import.meta.env.DEV && Object.keys(DIFS).join() !== Object.keys(NIVELES).join()) {
   console.warn('[el-laboratorio] los niveles de la pantalla no coinciden con NIVELES')
@@ -143,6 +144,7 @@ export default function ElLaboratorio() {
           <ComoSeJuega>
             <div className="space-y-2 text-white/70 text-sm">
               <p>{tr({ es: 'Sale una mezcla dibujada en un vaso: granos en el fondo, líquidos en capas o una disolución de un solo color. Tienes que elegir cómo separarla. Cada método aprovecha una propiedad: el imán, que el hierro es magnético; el filtro, que la arena no se disuelve; la decantación, que el aceite flota sobre el agua; la destilación, que el alcohol hierve antes que el agua.', en: 'A mixture appears drawn in a beaker: grains at the bottom, liquids in layers or a one-colour solution. You choose how to separate it. Each method uses a property: the magnet, that iron is magnetic; the filter, that sand does not dissolve; decanting, that oil floats on water; distilling, that alcohol boils before water.', ca: 'Surt una mescla dibuixada en un got: grans al fons, líquids en capes o una dissolució d’un sol color. Has de triar com separar-la. Cada mètode aprofita una propietat: l’imant, que el ferro és magnètic; el filtre, que la sorra no es dissol; la decantació, que l’oli sura sobre l’aigua; la destil·lació, que l’alcohol bull abans que l’aigua.' })}</p>
+              <p>{tr({ es: 'No hay opciones: llevas cada mezcla al instrumento que la separa (o a la caja de homogénea o heterogénea), unes cada método con la propiedad en que se basa y, en difícil, montas los pasos tú mismo eligiendo instrumentos de la mesa, donde sobran algunos.', en: 'There are no options: you take each mixture to the equipment that separates it (or to the homogeneous or heterogeneous box), match each method with the property it relies on and, on hard, build the steps yourself by picking equipment from the bench, where some is not needed.', ca: 'No hi ha opcions: portes cada mescla a l’instrument que la separa (o a la caixa d’homogènia o heterogènia), uneixes cada mètode amb la propietat en què es basa i, en difícil, muntes els passos tu mateix triant instruments de la taula, on en sobren alguns.' })}</p>
               <p>{tr({ es: 'En difícil hay que elegir qué pasos seguir y en qué orden. Ojo: dos sólidos secos no se filtran (primero hay que disolver uno), y si evaporas antes de filtrar vuelves a tenerlo todo mezclado.', en: 'On hard you pick which steps to follow and in what order. Careful: two dry solids cannot be filtered (dissolve one first), and if you evaporate before filtering you are back to a mixture.', ca: 'En difícil s’ha de triar quins passos seguir i en quin ordre. Compte: dos sòlids secs no es filtren (primer cal dissoldre’n un), i si evapores abans de filtrar tornes a tenir-ho tot barrejat.' })}</p>
               <p className="text-white/40 text-xs pt-1">⏱️ {GAME_TIME}s · {tr({ es: `Acierto +10 y +${CORRECT_TIME}s · Fallo −${WRONG_TIME}s`, en: `Correct +10 and +${CORRECT_TIME}s · Wrong −${WRONG_TIME}s`, ca: `Encert +10 i +${CORRECT_TIME}s · Error −${WRONG_TIME}s` })}</p>
             </div>
