@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import {
   METALES, ANIONES, ACIDOS, OXIDOS_NM, NIVELES, formula, nombreStock, nombrePrefijos,
-  genRonda, esCorrecta, explicacion, schemaQuestion, textoOpcion, enunciado, dato,
+  genRonda, esCorrecta, respuestaBuena, partesAcido, escribe, nombreAcidoMontado, explicacion, schemaQuestion, textoOpcion, enunciado, dato,
 } from '../formulacion'
 
 function semilla(s) { return () => ((s = (s * 16807) % 2147483647) - 1) / 2147483646 }
@@ -63,7 +63,22 @@ describe('Formulación · rondas', () => {
         tipos.add(r.tipo)
         expect(r.opciones).toContain(r.bueno)
         expect(new Set(r.opciones).size).toBe(r.opciones.length)
-        expect(esCorrecta(r, r.bueno)).toBe(true)
+        expect(esCorrecta(r, respuestaBuena(r))).toBe(true)
+        if (r.mecanica === 'construye') {
+          // sin simplificar o al revés no vale
+          expect(esCorrecta(r, escribe(r.comp.metal, r.comp.nA, r.comp.anion, r.comp.nM))).toBe(r.comp.nA === r.comp.nM)
+          expect(esCorrecta(r, escribe(r.comp.metal, r.comp.nM * 2, r.comp.anion, r.comp.nA * 2))).toBe(false)
+        }
+        if (r.mecanica === 'compone') {
+          expect(r.palabras).toContain(r.comp.anion)
+          // el número romano sobra en un metal de una sola valencia, y falta en uno de varias
+          const sinNum = `${r.comp.anion}|`
+          expect(esCorrecta(r, sinNum)).toBe(METALES[r.comp.metal].v.length === 1)
+        }
+        if (r.mecanica === 'clasifica') {
+          expect(r.items.length).toBe(4)
+          expect(esCorrecta(r, 'clasifica:1')).toBe(false)
+        }
         if (r.tipo === 'formula') {
           // ninguna fórmula equivocada tiene la misma composición que la buena
           const buena = JSON.stringify(atomos(r.bueno))
@@ -86,4 +101,15 @@ describe('Formulación · rondas', () => {
       expect([...tipos].sort()).toEqual([...new Set(NIVELES[nivel].tipos)].sort())
     })
   }
+})
+
+describe('Formulación · ácidos pieza a pieza', () => {
+  it('cada oxoácido se monta con su prefijo y terminación, sin dos iguales en una familia', () => {
+    for (const a of ACIDOS) {
+      const p = partesAcido(a.f)
+      for (const l of ['es', 'en', 'ca']) expect(nombreAcidoMontado(a.fam, p.pre, p.suf, l)).toBe(a.n[l])
+      const misma = ACIDOS.filter(x => x.fam === a.fam && x.f !== a.f).map(x => JSON.stringify(partesAcido(x.f)))
+      expect(misma).not.toContain(JSON.stringify(p))
+    }
+  })
 })

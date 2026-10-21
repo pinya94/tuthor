@@ -11,18 +11,19 @@ import SEOHead from '../components/SEOHead'
 import { CabeceraJuego, NivelBarras, ComoSeJuega } from '../components/IntroJuego'
 import { Racha } from '../components/Iconos'
 
-const GAME_TIME = 60
+// Se escriben fórmulas y se montan nombres: 90 s y +6 s por acierto.
+const GAME_TIME = 90
 const WRONG_TIME = 5
-const CORRECT_TIME = 4
+const CORRECT_TIME = 6
 const REVEAL_MS = 4500 // da tiempo a ver el cruce de valencias
 
 const DIFS = {
   facil:   { emoji: '💚', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
-             desc: { es: 'Óxidos, hidruros y sales: qué tipo es y cuál es su fórmula', en: 'Oxides, hydrides and salts: what type it is and its formula', ca: 'Òxids, hidrurs i sals: quin tipus és i quina és la fórmula' } },
+             desc: { es: 'Óxidos, hidruros y sales: clasifícalos y escribe su fórmula', en: 'Oxides, hydrides and salts: sort them and write their formula', ca: 'Òxids, hidrurs i sals: classifica’ls i escriu-ne la fórmula' } },
   medio:   { emoji: '💛', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
-             desc: { es: 'También hidróxidos, y de la fórmula al nombre (Stock)', en: 'Hydroxides too, and from formula to name (Stock)', ca: 'També hidròxids, i de la fórmula al nom (Stock)' } },
+             desc: { es: 'También hidróxidos, y monta el nombre de Stock', en: 'Hydroxides too, and build the Stock name', ca: 'També hidròxids, i munta el nom de Stock' } },
   dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' },
-             desc: { es: 'Nombres por prefijos y oxoácidos (sulfúrico, nítrico…)', en: 'Prefix names and oxoacids (sulfuric, nitric…)', ca: 'Noms amb prefixos i oxoàcids (sulfúric, nítric…)' } },
+             desc: { es: 'Prefijos y oxoácidos: hipo-, per-, -oso, -ico', en: 'Prefixes and oxoacids: hypo-, per-, -ous, -ic', ca: 'Prefixos i oxoàcids: hipo-, per-, -ós, -ic' } },
 }
 if (import.meta.env.DEV && Object.keys(DIFS).join() !== Object.keys(NIVELES).join()) {
   console.warn('[nombra-compuesto] los niveles de la pantalla no coinciden con NIVELES')
@@ -142,7 +143,7 @@ export default function NombraCompuesto() {
           </button>
           <ComoSeJuega>
             <div className="space-y-2 text-white/70 text-sm">
-              <p>{tr({ es: 'Sale el nombre de un compuesto y hay que elegir su fórmula, o al revés. El truco para escribir la fórmula es cruzar las valencias: el hierro(III) con el oxígeno (2) da Fe₂O₃; si los dos números se pueden simplificar, se simplifican (CaO, no Ca₂O₂).', en: 'The name of a compound appears and you pick its formula, or the other way round. The trick for writing the formula is to swap the valencies: iron(III) with oxygen (2) gives Fe₂O₃; if both numbers can be simplified, simplify them (CaO, not Ca₂O₂).', ca: 'Surt el nom d’un compost i cal triar-ne la fórmula, o al revés. El truc per escriure la fórmula és encreuar les valències: el ferro(III) amb l’oxigen (2) dona Fe₂O₃; si els dos nombres es poden simplificar, se simplifiquen (CaO, no Ca₂O₂).' })}</p>
+              <p>{tr({ es: 'Sale el nombre de un compuesto y escribes su fórmula ajustando los subíndices con − y +, o sale la fórmula y montas su nombre con piezas (la primera palabra y el número romano, los prefijos, o hipo-, per-, -oso e -ico). El truco para escribir la fórmula es cruzar las valencias: el hierro(III) con el oxígeno (2) da Fe₂O₃; si los dos números se pueden simplificar, se simplifican (CaO, no Ca₂O₂).', en: 'The name of a compound appears and you write its formula by setting the subscripts with − and +, or the formula appears and you build its name from pieces (the word and the Roman numeral, the prefixes, or hypo-, per-, -ous and -ic). The trick for writing the formula is to swap the valencies: iron(III) with oxygen (2) gives Fe₂O₃; if both numbers can be simplified, simplify them (CaO, not Ca₂O₂).', ca: 'Surt el nom d’un compost i n’escrius la fórmula ajustant els subíndexs amb − i +, o surt la fórmula i en muntes el nom amb peces (la primera paraula i el nombre romà, els prefixos, o hipo-, per-, -ós i -ic). El truc per escriure la fórmula és encreuar les valències: el ferro(III) amb l’oxigen (2) dona Fe₂O₃; si els dos nombres es poden simplificar, se simplifiquen (CaO, no Ca₂O₂).' })}</p>
               <p>{tr({ es: 'En la nomenclatura de Stock, el número romano es la valencia del metal y solo se escribe si tiene más de una (hierro(III), pero cloruro de sodio). Por prefijos se cuentan los átomos: trióxido de dihierro. En difícil entran los oxoácidos: -ico para la valencia mayor y -oso para la menor.', en: 'In Stock nomenclature, the Roman numeral is the metal’s valency and is only written if it has more than one (iron(III), but sodium chloride). With prefixes you count the atoms: diiron trioxide. On hard the oxoacids come in: -ic for the higher valency and -ous for the lower.', ca: 'En la nomenclatura de Stock, el nombre romà és la valència del metall i només s’escriu si en té més d’una (ferro(III), però clorur de sodi). Amb prefixos es compten els àtoms: triòxid de diferro. En difícil hi entren els oxoàcids: -ic per a la valència més gran i -ós per a la menor.' })}</p>
               <p className="text-white/40 text-xs pt-1">⏱️ {GAME_TIME}s · {tr({ es: `Acierto +10 y +${CORRECT_TIME}s · Fallo −${WRONG_TIME}s`, en: `Correct +10 and +${CORRECT_TIME}s · Wrong −${WRONG_TIME}s`, ca: `Encert +10 i +${CORRECT_TIME}s · Error −${WRONG_TIME}s` })}</p>
             </div>

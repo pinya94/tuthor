@@ -182,10 +182,11 @@ function formulasMalas(c) {
   return out
 }
 
-export function genRonda(nivel = 'facil', { rand = Math.random, evitar = null } = {}) {
+// La ronda clásica de un tipo (con opciones): la usan las mecánicas y el
+// texto del schema (ver «Mecánicas» al final).
+function genVieja(nivel, tipo, rand, evitar = null) {
   const cfg = NIVELES[nivel] ?? NIVELES.facil
   for (;;) {
-    const tipo = elige(rand, cfg.tipos)
     const base = { id: ++seq, nivel, tipo }
 
     if (tipo === 'acido') {
@@ -251,9 +252,6 @@ export function genRonda(nivel = 'facil', { rand = Math.random, evitar = null } 
   }
 }
 
-export const esCorrecta = (ronda, r) => r === ronda.bueno
-export const genRound = difficulty => genRonda(difficulty)
-export const isCorrect = esCorrecta
 
 // ── Textos ───────────────────────────────────────────────────────────────
 // Texto plano de una opción de «nombre» («O:3», «O:2#num» = con número
@@ -301,7 +299,7 @@ export function dato(ronda, l) {
   return { formula: r.comp.f }
 }
 
-export function enunciado(ronda, l) {
+function enunciadoViejo(ronda, l) {
   switch (ronda.tipo) {
     case 'tipo': return tx(T('¿Qué tipo de compuesto es?', 'What type of compound is it?', 'Quin tipus de compost és?'), l)
     case 'formula': return tx(T('¿Cuál es su fórmula?', 'What is its formula?', 'Quina és la seva fórmula?'), l)
@@ -318,7 +316,7 @@ export const sub = f => f.replace(/\d/g, d => '₀₁₂₃₄₅₆₇₈₉'[d
 
 // Solo las fórmulas (empiezan por mayúscula y llevan algún número): «Fe2O3»,
 // «Ca(OH)2». Los números sueltos («valencia 3», «(III)») no se tocan.
-export function explicacion(ronda, l) {
+function explicacionVieja(ronda, l) {
   return explicacionPlana(ronda, l).replace(/\b[A-Z][A-Za-z()]*\d[A-Za-z()\d]*/g, m => sub(m))
 }
 
@@ -354,11 +352,132 @@ function explicacionPlana(ronda, l) {
     `${nombre} = ${c.f}. El ${c.metal} actua amb valència ${c.v} i el ${c.anion} amb ${ca}: s’encreuen i se simplifica si es pot.${unaSola ? ' Com que el ' + m.n.ca + ' només té una valència, no porta nombre romà.' : ''}`), l)
 }
 
-export function schemaQuestion(ronda, l) {
+function schemaVieja(ronda, l) {
   const d = dato(ronda, l)
   return {
-    question: `${d.nombre ?? d.formula}. ${enunciado(ronda, l)}`,
+    question: `${d.nombre ?? d.formula}. ${enunciadoViejo(ronda, l)}`,
     correctAnswer: textoOpcion(ronda.bueno, ronda, l),
     wrongAnswers: ronda.opciones.filter(o => o !== ronda.bueno).map(o => textoOpcion(o, ronda, l)),
   }
 }
+
+// ── Mecánicas ─────────────────────────────────────────────────────────────
+// Sin opciones (genVieja sigue dando la ronda y el texto del schema):
+//   clasifica  (tipo)      cuatro fórmulas, cada una a la caja de su tipo
+//   construye  (formula)   los subíndices de la fórmula, con + y −
+//   compone    (nombre)    la primera palabra y el número romano (o ninguno)
+//   prefija    (prefijos)  los prefijos de cada elemento, con + y −
+//   acido      (acido)     de nombre: H y O de la fórmula; de fórmula:
+//                          hipo-/per- y -oso/-ico
+export const MECANICA_DE_TIPO = { tipo: 'clasifica', formula: 'construye', nombre: 'compone', prefijos: 'prefija', acido: 'acido' }
+export const ROMANOS = ['', 'I', 'II', 'III', 'IV']
+
+// Prefijo y terminación de un oxoácido, leídos de su nombre.
+export function partesAcido(f) {
+  const n = ACIDOS.find(x => x.f === f).n.es
+  return { pre: /hipo/.test(n) ? 'hipo' : /per/.test(n) ? 'per' : '', suf: /oso$/.test(n) ? 'oso' : 'ico' }
+}
+export const RAIZ = {
+  S: T('sulfur', 'sulfur', 'sulfur'), N: T('nitr', 'nitr', 'nitr'), C: T('carbon', 'carbon', 'carbon'),
+  P: T('fosfor', 'phosphor', 'fosfor'), Cl: T('clor', 'chlor', 'clor'),
+}
+export const SUFIJO = { oso: T('oso', 'ous', 'ós'), ico: T('ico', 'ic', 'ic') }
+export const escribeAcido = (h, el, o) => `H${h > 1 ? h : ''}${el}O${o > 1 ? o : ''}`
+
+// Cómo queda el nombre que se está montando: el de verdad si existe y, si no,
+// las piezas pegadas (para que se vea qué se ha elegido).
+export function nombreAcidoMontado(fam, pre, suf, l) {
+  const real = ACIDOS.find(a => a.fam === fam && partesAcido(a.f).pre === pre && partesAcido(a.f).suf === suf)
+  if (real) return tx(real.n, l)
+  const palabra = `${pre === 'hipo' && l === 'en' ? 'hypo' : pre}${tx(RAIZ[fam], l)}${tx(SUFIJO[suf], l)}`
+  return l === 'en' ? `${palabra} acid` : l === 'ca' ? `àcid ${palabra}` : `ácido ${palabra}`
+}
+
+const recientes = []
+export function genRonda(nivel = 'facil', { rand = Math.random, evitar = null } = {}) {
+  const cfg = NIVELES[nivel] ?? NIVELES.facil
+  let tipo = elige(rand, cfg.tipos)
+  for (let intento = 0; ; intento++) {
+    if (intento % 40 === 39) tipo = elige(rand, cfg.tipos)
+    const r = genVieja(nivel, tipo, rand, evitar)
+    const out = { ...r, mecanica: MECANICA_DE_TIPO[tipo] }
+    if (tipo === 'tipo') {
+      const items = []
+      for (let k = 0; k < 30 && items.length < 4; k++) {
+        const c = compuesto(rand, cfg.aniones)
+        if (!items.some(x => x.f === c.f)) items.push(c)
+      }
+      if (new Set(items.map(c => ANIONES[c.anion].tipo)).size < 2) continue
+      out.items = items
+    }
+    if (tipo === 'nombre') {
+      // La primera palabra se elige entre la buena y otras tres del nivel
+      const otras = baraja(rand, cfg.aniones.filter(a => a !== r.comp.anion)).slice(0, 3)
+      out.palabras = baraja(rand, [r.comp.anion, ...otras])
+    }
+    const tema = `${tipo}${r.clave}${(out.items ?? []).map(c => c.f).join()}`
+    if (intento < 20 && recientes.includes(tema)) continue
+    recientes.push(tema)
+    if (recientes.length > 6) recientes.shift()
+    return out
+  }
+}
+export const genRound = difficulty => genRonda(difficulty)
+
+export function respuestaBuena(r) {
+  switch (r.mecanica) {
+    case 'clasifica': return 'clasifica:0'
+    case 'construye': return r.comp.f
+    case 'compone': return `${r.comp.anion}|${METALES[r.comp.metal].v.length > 1 ? ROMANOS[r.comp.v] : ''}`
+    case 'prefija': return r.bueno
+    case 'acido': {
+      if (r.pide === 'formula') return r.acido
+      const p = partesAcido(r.acido)
+      return `${p.pre}|${p.suf}`
+    }
+    default: return r.bueno
+  }
+}
+export function esCorrecta(r, o) {
+  if (o == null) return false
+  if (!r.mecanica) return o === r.bueno
+  return o === respuestaBuena(r)
+}
+export const isCorrect = esCorrecta
+
+export function enunciado(r, l) {
+  switch (r.mecanica) {
+    case 'clasifica': return tx(T('Lleva cada fórmula a la caja de su tipo de compuesto', 'Put each formula in the box for its type of compound', 'Porta cada fórmula a la caixa del seu tipus de compost'), l)
+    case 'construye': return tx(T('Escribe su fórmula: ajusta los subíndices', 'Write its formula: set the subscripts', 'Escriu la fórmula: ajusta els subíndexs'), l)
+    case 'compone': return tx(T('Nómbralo (Stock): elige la primera palabra y el número romano, si lleva', 'Name it (Stock): choose the first word and the Roman numeral, if any', 'Anomena’l (Stock): tria la primera paraula i el nombre romà, si en porta'), l)
+    case 'prefija': return tx(T('Nómbralo por prefijos: cuántos átomos de cada elemento', 'Name it with prefixes: how many atoms of each element', 'Anomena’l amb prefixos: quants àtoms de cada element'), l)
+    case 'acido': return r.pide === 'formula'
+      ? tx(T('Escribe su fórmula: ¿cuántos H y cuántos O?', 'Write its formula: how many H and how many O?', 'Escriu la fórmula: quants H i quants O?'), l)
+      : tx(T('Nómbralo: ¿lleva hipo- o per-, y acaba en -oso o en -ico?', 'Name it: does it take hypo- or per-, and end in -ous or -ic?', 'Anomena’l: porta hipo- o per-, i acaba en -ós o en -ic?'), l)
+    default: return enunciadoViejo(r, l)
+  }
+}
+
+export function explicacion(r, l) {
+  if (r.mecanica === 'clasifica') {
+    return r.items.map(c => `${sub(c.f)} → ${tx(TIPOS[ANIONES[c.anion].tipo], l).toLowerCase()}`).join('. ') + '. ' + explicacionVieja({ ...r, tipo: 'tipo' }, l)
+  }
+  return explicacionVieja(r, l)
+}
+
+export function schemaQuestion(r, l) {
+  return schemaVieja(r, l)
+}
+
+// El nombre que se está montando en la pantalla (Stock con el número romano
+// elegido, o ninguno; y por prefijos con los números elegidos).
+export function nombreMontado(metal, anion, rom, l) {
+  const nm = tx(METALES[metal].n, l), na = tx(ANIONES[anion].n, l)
+  const num = rom ? `(${rom})` : ''
+  if (l === 'en') return `${nm}${num} ${na}`
+  if (l === 'ca') return `${na} ${deCa(nm)}${num}`
+  return `${na} de ${nm}${num}`
+}
+export const nombrePrefijosDe = (c, x, y, l) => (c.nm
+  ? nombrePrefijos(tx(NM[c.el], l), x, tx(ANIONES.O.n, l), y, l)
+  : nombrePrefijos(tx(METALES[c.metal].n, l), x, tx(ANIONES[c.anion].n, l), y, l))

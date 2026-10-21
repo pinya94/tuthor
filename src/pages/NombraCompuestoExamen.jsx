@@ -7,13 +7,13 @@ import { genRound, esCorrecta, schemaQuestion } from '../lib/formulacion'
 const LEVELS = [
   { key: 'primaria', emoji: '💚', difficulty: 'facil',
     label: { es: 'Iniciación (3.º ESO)', en: 'Beginner', ca: 'Iniciació (3r ESO)' },
-    hint: { es: 'Óxidos, hidruros y sales binarias', en: 'Oxides, hydrides and binary salts', ca: 'Òxids, hidrurs i sals binàries' } },
+    hint: { es: 'Clasificar y escribir fórmulas de óxidos, hidruros y sales', en: 'Sorting and writing formulas of oxides, hydrides and salts', ca: 'Classificar i escriure fórmules d’òxids, hidrurs i sals' } },
   { key: 'eso', emoji: '💛', difficulty: 'medio',
     label: { es: 'Secundaria (ESO)', en: 'Secondary (ESO)', ca: 'Secundària (ESO)' },
-    hint: { es: 'Con hidróxidos y nomenclatura de Stock', en: 'With hydroxides and Stock nomenclature', ca: 'Amb hidròxids i nomenclatura de Stock' } },
+    hint: { es: 'Con hidróxidos y montando nombres de Stock', en: 'With hydroxides and building Stock names', ca: 'Amb hidròxids i muntant noms de Stock' } },
   { key: 'bachillerato', emoji: '🔴', difficulty: 'dificil',
     label: { es: 'Avanzado', en: 'Advanced', ca: 'Avançat' },
-    hint: { es: 'Prefijos y oxoácidos', en: 'Prefixes and oxoacids', ca: 'Prefixos i oxoàcids' } },
+    hint: { es: 'Prefijos y oxoácidos, pieza a pieza', en: 'Prefixes and oxoacids, piece by piece', ca: 'Prefixos i oxoàcids, peça a peça' } },
 ]
 
 // Estado propio (la opción elegida): ver la nota de hooks en
@@ -36,7 +36,7 @@ export default function NombraCompuestoExamen() {
       metaPath="/examen/nombra-compuesto-test"
       subjectSchema="Química"
       backGamePath="/juegos/nombra-compuesto"
-      playLabel={{ es: 'Modo arcade (60s)', en: 'Arcade mode (60s)', ca: 'Mode arcade (60s)' }}
+      playLabel={{ es: 'Modo arcade (90s)', en: 'Arcade mode (90s)', ca: 'Mode arcade (90s)' }}
       levels={LEVELS}
       genRound={genRound}
       isCorrect={esCorrecta}
