@@ -143,16 +143,57 @@ function Transformante({ revelado, nombres }) {
   )
 }
 
-export default function PlacasSVG({ escenario, revelado, nombres }) {
+// config {placas: [a, b], mov}: un borde montado por el alumno (en vez de un
+// escenario), dibujado con las placas planas. onPlaca(i) / onMov: las placas y
+// las flechas se pueden tocar. mov null: todavía sin movimiento.
+function Montado({ config, nombres, onPlaca, onMov }) {
+  const { placas, mov } = config
+  return (
+    <g>
+      <rect x="0" y={MANTO} width="320" height={180 - MANTO} fill={C.manto} />
+      <text x="10" y="172" fontSize="10" fontWeight="700" fill="#FED7AA" opacity="0.8">{nombres.manto}</text>
+      <Planas placas={placas} nombres={nombres} />
+      {mov === 'div' && <><Flecha x={60} y={18} dir="l" /><Flecha x={280} y={18} dir="r" /></>}
+      {mov === 'conv' && <><Flecha x={60} y={18} dir="r" /><Flecha x={280} y={18} dir="l" /></>}
+      {mov === 'transf' && (
+        <g>
+          {/* corte visto de frente: una placa viene hacia ti (⊙) y la otra se aleja (⊗) */}
+          <circle cx="80" cy="18" r="11" fill="none" stroke={C.flecha} strokeWidth="3" /><circle cx="80" cy="18" r="3.5" fill={C.flecha} />
+          <circle cx="240" cy="18" r="11" fill="none" stroke={C.flecha} strokeWidth="3" />
+          <path d="M232 10 L248 26 M248 10 L232 26" stroke={C.flecha} strokeWidth="3" />
+          <Etiqueta x={160} y={22}>{nombres.deLado}</Etiqueta>
+        </g>
+      )}
+      {!mov && <text x="160" y="28" textAnchor="middle" fontSize="22" fontWeight="900" fill={C.duda}>?</text>}
+      <line x1="160" y1="36" x2="160" y2={MANTO} stroke={C.duda} strokeWidth="1.5" strokeDasharray="4 4" />
+      {onPlaca && [[8, 154], [166, 312]].map(([x0, x1], i) => (
+        <rect key={i} x={x0} y="40" width={x1 - x0} height={MANTO - 40} fill="transparent" className="cursor-pointer" onClick={() => onPlaca(i)} />
+      ))}
+      {onMov && <rect x="8" y="0" width="304" height="38" fill="transparent" className="cursor-pointer" onClick={onMov} />}
+    </g>
+  )
+}
+
+export default function PlacasSVG({ escenario, revelado, nombres, config, onPlaca, onMov, className = 'w-full h-auto' }) {
+  if (config) {
+    return (
+      <svg viewBox="0 0 320 180" className={className} role="img" aria-label={nombres.aria}>
+        <Montado config={config} nombres={nombres} onPlaca={onPlaca} onMov={onMov} />
+      </svg>
+    )
+  }
   const e = ESCENARIOS[escenario]
   const transf = e.mov === 'transf'
   return (
-    <svg viewBox="0 0 320 180" className="w-full h-auto" role="img" aria-label={nombres.aria}>
+    <svg viewBox="0 0 320 180" className={className} role="img" aria-label={nombres.aria}>
       {transf ? <Transformante revelado={revelado} nombres={nombres} /> : (
         <g>
           <rect x="0" y={MANTO} width="320" height={180 - MANTO} fill={C.manto} />
           <text x="10" y="172" fontSize="10" fontWeight="700" fill="#FED7AA" opacity="0.8">{nombres.manto}</text>
           {revelado ? <Relieve id={escenario} nombres={nombres} /> : <Planas placas={e.placas} nombres={nombres} />}
+          {onPlaca && !revelado && [[8, 154], [166, 312]].map(([x0, x1], i) => (
+            <rect key={i} x={x0} y="40" width={x1 - x0} height={MANTO - 40} fill="transparent" className="cursor-pointer" onClick={() => onPlaca(i)} />
+          ))}
           {/* Las flechas, siempre: son lo que dice qué borde es. */}
           <Flecha x={60} y={18} dir={e.mov === 'conv' ? 'r' : 'l'} />
           <Flecha x={280} y={18} dir={e.mov === 'conv' ? 'l' : 'r'} />

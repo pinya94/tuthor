@@ -7,13 +7,13 @@ import { genRound, esCorrecta, schemaQuestion } from '../lib/placasMovimiento'
 const LEVELS = [
   { key: 'primaria', emoji: '💚', difficulty: 'facil',
     label: { es: 'Básico', en: 'Basic', ca: 'Bàsic' },
-    hint: { es: 'Tipos de borde, relieve que se forma y corteza', en: 'Boundary types, landforms and crust', ca: 'Tipus de vora, relleu que es forma i escorça' } },
+    hint: { es: 'Clasificar bordes y montar el que forma un relieve', en: 'Sort boundaries and build the one behind a landform', ca: 'Classificar vores i muntar la que forma un relleu' } },
   { key: 'eso', emoji: '💛', difficulty: 'medio',
     label: { es: 'Secundaria (ESO)', en: 'Secondary (ESO)', ca: 'Secundària (ESO)' },
     hint: { es: 'Además, subducción y ejemplos reales', en: 'Plus subduction and real examples', ca: 'A més, subducció i exemples reals' } },
   { key: 'bachillerato', emoji: '🔴', difficulty: 'dificil',
     label: { es: 'Avanzado', en: 'Advanced', ca: 'Avançat' },
-    hint: { es: 'Sin dibujo: lugares, síntomas y puntos calientes', en: 'No drawing: places, clues and hotspots', ca: 'Sense dibuix: llocs, símptomes i punts calents' } },
+    hint: { es: 'Montar el borde a partir de lugares y síntomas', en: 'Build the boundary from places and clues', ca: 'Muntar la vora a partir de llocs i símptomes' } },
 ]
 
 // Estado propio (la opción elegida): ver la nota de hooks en
@@ -36,7 +36,7 @@ export default function PlacasMovimientoExamen() {
       metaPath="/examen/placas-movimiento-test"
       subjectSchema="Geología"
       backGamePath="/juegos/placas-movimiento"
-      playLabel={{ es: 'Modo arcade (60s)', en: 'Arcade mode (60s)', ca: 'Mode arcade (60s)' }}
+      playLabel={{ es: 'Modo arcade (90s)', en: 'Arcade mode (90s)', ca: 'Mode arcade (90s)' }}
       levels={LEVELS}
       genRound={genRound}
       isCorrect={esCorrecta}

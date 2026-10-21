@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { genRonda, NIVELES, ESCENARIOS, IDS, FORMA, EJEMPLO, QUE, MOV, enunciado, explicacion, textoOpcion, schemaQuestion, dibujoAntes } from '../placasMovimiento'
+import { genRonda, esCorrecta, respuestaBuena, encaja, NIVELES, ESCENARIOS, IDS, FORMA, EJEMPLO, QUE, MOV, enunciado, explicacion, textoOpcion, schemaQuestion, dibujoAntes } from '../placasMovimiento'
 
 function semilla(s) {
   return () => { s = (s * 1103515245 + 12345) % 2147483648; return s / 2147483648 }
@@ -30,6 +30,18 @@ describe('Placas en Movimiento', () => {
         expect(r.opciones).toContain(r.bueno)
         expect(new Set(r.opciones).size).toBe(r.opciones.length)
         expect(r.opciones.length).toBeGreaterThanOrEqual(3)
+        expect(esCorrecta(r, respuestaBuena(r))).toBe(true)
+        if (r.mecanica === 'construye') {
+          // cada combinación encaja con un solo escenario (o con la transformante)
+          const combos = []
+          for (const a of ['oc', 'cont']) for (const b of ['oc', 'cont']) for (const m of ['div', 'conv', 'transf']) combos.push([a, b, m])
+          for (const c of combos) if (encaja(r.escenario, c)) expect(IDS.filter(id => encaja(id, c))).toEqual([r.escenario])
+        }
+        if (r.mecanica === 'clasifica') {
+          expect(r.items).toHaveLength(3)
+          expect(esCorrecta(r, 'clasifica:1')).toBe(false)
+        }
+        if (r.mecanica === 'subduce') expect(['oc', 'ninguna']).toContain(respuestaBuena(r))
         if (r.tipo === 'tipo') expect(r.bueno).toBe(ESCENARIOS[r.escenario].mov)
         if (['forma', 'ejemplo', 'lugar', 'pista'].includes(r.tipo)) expect(r.bueno).toBe(r.escenario)
         if (r.tipo !== 'hawai') expect(IDS).toContain(r.escenario)
@@ -44,7 +56,8 @@ describe('Placas en Movimiento', () => {
           expect(schemaQuestion(r, l).wrongAnswers.length).toBe(r.opciones.length - 1)
         }
       }
-      for (const t of NIVELES[nivel].tipos) expect(tipos.has(t), t).toBe(true)
+      // Hawái (no es un borde) ya no sale en el juego
+      for (const t of NIVELES[nivel].tipos.filter(t => t !== 'hawai')) expect(tipos.has(t), t).toBe(true)
     })
   }
 })

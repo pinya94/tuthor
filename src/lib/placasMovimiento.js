@@ -127,10 +127,10 @@ const cuatro = (rand, bueno, todas) => baraja(rand, [bueno, ...baraja(rand, toda
 
 let seq = 0
 
-export function genRonda(nivel = 'facil', { rand = Math.random } = {}) {
-  const cfg = NIVELES[nivel] ?? NIVELES.facil
+// La ronda clásica de un tipo (con opciones): la usan las mecánicas y el
+// texto del schema (ver «Mecánicas» al final).
+function genVieja(nivel, tipo, rand) {
   for (;;) {
-    const tipo = elige(rand, cfg.tipos)
     const base = { id: ++seq, nivel, tipo }
     if (tipo === 'hawai') return { ...base, escenario: null, bueno: 'caliente', opciones: baraja(rand, Object.keys(HAWAI)) }
     const pool = tipo === 'corteza' ? Object.keys(CORTEZA_DE)
@@ -149,8 +149,6 @@ export function genRonda(nivel = 'facil', { rand = Math.random } = {}) {
   }
 }
 
-export const genRound = (difficulty = 'facil') => genRonda(difficulty)
-export const esCorrecta = (r, o) => o === r.bueno
 
 const tx = (o, l) => o[l] ?? o.es
 const s = (l, es, en, ca) => (l === 'en' ? en : l === 'ca' ? ca : es)
@@ -171,7 +169,7 @@ export function textoOpcion(o, r, l) {
   }
 }
 
-export function enunciado(r, l) {
+function enunciadoViejo(r, l) {
   switch (r.tipo) {
     case 'tipo': return s(l, '¿Qué tipo de borde de placa es?', 'What type of plate boundary is this?', 'Quin tipus de vora de placa és?')
     case 'forma': return s(l, '¿Qué se forma en este borde?', 'What forms at this boundary?', 'Què es forma en aquesta vora?')
@@ -212,7 +210,7 @@ const POR_QUE = {
     'Les plaques llisquen l’una al costat de l’altra sense separar-se ni xocar: l’escorça ni es crea ni es destrueix. S’enganxen, acumulen tensió i es deixen anar de cop: per això hi ha terratrèmols i no volcans, com a la falla de Sant Andreu.'),
 }
 
-export function explicacion(r, l) {
+function explicacionVieja(r, l) {
   if (r.tipo === 'hawai') {
     return s(l,
       'Hawái no está en ningún borde: debajo hay un punto caliente, una columna de magma que sube desde muy hondo en el manto y se queda quieta. La placa del Pacífico se mueve por encima y cada isla se forma al pasar sobre él; por eso las más viejas, ya sin volcanes activos, están más al noroeste.',
@@ -226,11 +224,101 @@ export function explicacion(r, l) {
   return `${pre}${tx(POR_QUE[r.escenario], l)}`
 }
 
-export function schemaQuestion(r, l) {
+function schemaVieja(r, l) {
   const desc = r.escenario ? `${tx(QUE[r.escenario], l)}. ` : ''
   return {
-    question: ['lugar', 'pista', 'hawai'].includes(r.tipo) ? enunciado(r, l) : `${desc}${enunciado(r, l)}`,
+    question: ['lugar', 'pista', 'hawai'].includes(r.tipo) ? enunciadoViejo(r, l) : `${desc}${enunciadoViejo(r, l)}`,
     correctAnswer: textoOpcion(r.bueno, r, l),
     wrongAnswers: r.opciones.filter(o => o !== r.bueno).map(o => textoOpcion(o, r, l)),
   }
+}
+
+// ── Mecánicas ─────────────────────────────────────────────────────────────
+// Sin opciones (genVieja sigue dando la ronda y el texto del schema):
+//   clasifica  (tipo, corteza)  tres bordes dibujados, cada uno a su caja
+//   construye  (forma, ejemplo, lugar, pista)  montar el borde: tipo de cada
+//              placa (oceánica / continental) y movimiento (se separan,
+//              chocan, se deslizan) — «a,b,mov»
+//   subduce    tocar la placa que se hunde, o «ninguna»
+// El punto caliente de Hawái (no es un borde) queda fuera del juego.
+export const MECANICA_DE_TIPO = { tipo: 'clasifica', corteza: 'clasifica', forma: 'construye', ejemplo: 'construye', lugar: 'construye', pista: 'construye', subduce: 'subduce' }
+export const MOVS = ['div', 'conv', 'transf']
+
+const recientes = []
+export function genRonda(nivel = 'facil', { rand = Math.random } = {}) {
+  const cfg = NIVELES[nivel] ?? NIVELES.facil
+  const tipos = cfg.tipos.filter(t => t !== 'hawai')
+  for (let intento = 0; ; intento++) {
+    const tipo = elige(rand, tipos)
+    const r = genVieja(nivel, tipo, rand)
+    const tema = `${tipo}${r.escenario}`
+    if (intento < 20 && recientes.includes(tema)) continue
+    const out = { ...r, mecanica: MECANICA_DE_TIPO[tipo] }
+    if (out.mecanica === 'clasifica') {
+      const pool = tipo === 'corteza' ? Object.keys(CORTEZA_DE) : IDS
+      const items = baraja(rand, pool).slice(0, 3)
+      const caja = id => (tipo === 'corteza' ? CORTEZA_DE[id] : ESCENARIOS[id].mov)
+      if (new Set(items.map(caja)).size < 2) continue
+      out.items = items
+      out.cajas = tipo === 'corteza' ? Object.keys(CORTEZA) : MOVS
+    }
+    recientes.push(tema)
+    if (recientes.length > 5) recientes.shift()
+    return out
+  }
+}
+export const genRound = (difficulty = 'facil') => genRonda(difficulty)
+
+// La caja buena de un borde en «clasifica».
+export const cajaDe = (r, id) => (r.tipo === 'corteza' ? CORTEZA_DE[id] : ESCENARIOS[id].mov)
+
+// ¿El borde montado es el del escenario? En la transformante da igual el tipo
+// de placa (San Andrés junta una oceánica y una continental).
+export function encaja(esc, [a, b, mov]) {
+  const e = ESCENARIOS[esc]
+  if (e.mov === 'transf') return mov === 'transf'
+  return mov === e.mov && [a, b].sort().join() === [...e.placas].sort().join()
+}
+
+export function respuestaBuena(r) {
+  if (r.mecanica === 'clasifica') return 'clasifica:0'
+  if (r.mecanica === 'subduce') return r.bueno
+  const e = ESCENARIOS[r.escenario]
+  return `${e.placas[0]},${e.placas[1]},${e.mov}`
+}
+export function esCorrecta(r, o) {
+  if (o == null) return false
+  if (!r.mecanica) return o === r.bueno
+  if (r.mecanica === 'construye') return encaja(r.escenario, String(o).split(','))
+  return o === respuestaBuena(r)
+}
+export const isCorrect = esCorrecta
+
+export function enunciado(r, l) {
+  const pide = s(l, 'Monta el borde: toca cada placa para elegir su tipo y las flechas para el movimiento.', 'Build the boundary: tap each plate to choose its type and the arrows for the movement.', 'Munta la vora: toca cada placa per triar-ne el tipus i les fletxes per al moviment.')
+  switch (r.mecanica) {
+    case 'clasifica': return r.tipo === 'corteza'
+      ? s(l, 'Pon cada borde en su caja: ¿se crea o se destruye corteza?', 'Put each boundary in its box: is crust created or destroyed?', 'Posa cada vora a la seva caixa: es crea o es destrueix escorça?')
+      : s(l, 'Pon cada borde en la caja de su tipo', 'Put each boundary in the box for its type', 'Posa cada vora a la caixa del seu tipus')
+    case 'subduce': return s(l, 'Las placas chocan. Toca la que se hunde bajo la otra', 'The plates collide. Tap the one that sinks under the other', 'Les plaques xoquen. Toca la que s’enfonsa sota l’altra')
+    default: {
+      const que = r.tipo === 'forma' ? s(l, `Se forma: ${tx(FORMA[r.escenario], l).toLowerCase()}.`, `What forms: ${tx(FORMA[r.escenario], l).toLowerCase()}.`, `Es forma: ${tx(FORMA[r.escenario], l).toLowerCase()}.`)
+        : r.tipo === 'ejemplo' ? `${tx(EJEMPLO[r.escenario], l)}.`
+        : r.tipo === 'lugar' ? `${tx(LUGAR[r.escenario], l)}.`
+        : tx(PISTA[r.escenario], l)
+      return `${que} ${pide}`
+    }
+  }
+}
+
+export function explicacion(r, l) {
+  if (r.mecanica === 'clasifica') {
+    const nombre = id => (r.tipo === 'corteza' ? tx(CORTEZA[CORTEZA_DE[id]], l) : tx(MOV[ESCENARIOS[id].mov], l))
+    return r.items.map(id => `${tx(QUE[id], l)} → ${nombre(id).toLowerCase()}`).join('. ') + '.'
+  }
+  return explicacionVieja(r, l)
+}
+
+export function schemaQuestion(r, l) {
+  return schemaVieja(r, l)
 }
