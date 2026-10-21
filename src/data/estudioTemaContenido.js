@@ -124,14 +124,14 @@ export const CONTENIDO_TEMA = {
 
   'sistema-solar': {
     metaTitle: {
-      es: 'El Sistema Solar: planetas, el Sol y los movimientos — resumen',
-      en: 'The Solar System: planets, the Sun and its motions — summary',
-      ca: 'El Sistema Solar: planetes, el Sol i els moviments — resum',
+      es: 'El sistema solar: los planetas en orden y sus características',
+      en: 'The Solar System: the planets in order and their features',
+      ca: 'El sistema solar: els planetes en ordre i les seves característiques',
     },
     metaDesc: {
-      es: 'Los ocho planetas, los rocosos y los gaseosos, el Sol, la rotación y la traslación de la Tierra y por qué hay día, noche y estaciones. Resumen y test.',
-      en: 'The eight planets, the rocky and gas ones, the Sun, Earth\'s rotation and orbit and why there is day, night and seasons. Summary and test.',
-      ca: 'Els vuit planetes, els rocosos i els gasosos, el Sol, la rotació i la translació de la Terra i per què hi ha dia, nit i estacions. Resum i test.',
+      es: 'Los 8 planetas del sistema solar en orden, rocosos y gaseosos, con tabla y datos de cada uno. Los planetas enanos, por qué Plutón ya no es planeta, y test.',
+      en: 'The 8 planets of the Solar System in order, rocky and gas giants, with a table and facts about each. Dwarf planets, why Pluto is no longer a planet, and a test.',
+      ca: 'Els 8 planetes del sistema solar en ordre, rocosos i gasosos, amb taula i dades de cadascun. Els planetes nans, per què Plutó ja no és planeta, i test.',
     },
     resumen: {
       es: [
@@ -176,6 +176,163 @@ export const CONTENIDO_TEMA = {
         'Plutó es considera un planeta nan des del 2006.',
       ],
     },
+    secciones: [
+      {
+        titulo: { es: 'Los planetas en orden', en: 'The planets in order', ca: 'Els planetes en ordre' },
+        tabla: {
+          columnas: {
+            es: ['Planeta', 'Tipo', 'Distancia media al Sol', 'Lo que lo distingue'],
+            en: ['Planet', 'Type', 'Mean distance from the Sun', 'What makes it stand out'],
+            ca: ['Planeta', 'Tipus', 'Distància mitjana al Sol', 'El que el distingeix'],
+          },
+          filas: [
+            [
+              { es: '1. Mercurio', en: '1. Mercury', ca: '1. Mercuri' },
+              { es: 'rocoso', en: 'rocky', ca: 'rocós' },
+              { es: '58 millones de km', en: '58 million km', ca: '58 milions de km' },
+              {
+                es: 'El más pequeño y el más cercano al Sol',
+                en: 'The smallest and the closest to the Sun',
+                ca: 'El més petit i el més proper al Sol',
+              },
+            ],
+            [
+              { es: '2. Venus', en: '2. Venus', ca: '2. Venus' },
+              { es: 'rocoso', en: 'rocky', ca: 'rocós' },
+              { es: '108 millones de km', en: '108 million km', ca: '108 milions de km' },
+              {
+                es: 'El más caliente: su atmósfera atrapa el calor',
+                en: 'The hottest: its atmosphere traps the heat',
+                ca: 'El més calent: la seva atmosfera atrapa la calor',
+              },
+            ],
+            [
+              { es: '3. Tierra', en: '3. Earth', ca: '3. Terra' },
+              { es: 'rocoso', en: 'rocky', ca: 'rocós' },
+              { es: '150 millones de km', en: '150 million km', ca: '150 milions de km' },
+              {
+                es: 'Agua líquida en la superficie y vida',
+                en: 'Liquid water on the surface, and life',
+                ca: 'Aigua líquida a la superfície i vida',
+              },
+            ],
+            [
+              { es: '4. Marte', en: '4. Mars', ca: '4. Mart' },
+              { es: 'rocoso', en: 'rocky', ca: 'rocós' },
+              { es: '228 millones de km', en: '228 million km', ca: '228 milions de km' },
+              {
+                es: 'El planeta rojo, por el óxido de hierro',
+                en: 'The red planet, because of iron oxide',
+                ca: 'El planeta vermell, per l’òxid de ferro',
+              },
+            ],
+            [
+              { es: '5. Júpiter', en: '5. Jupiter', ca: '5. Júpiter' },
+              { es: 'gigante gaseoso', en: 'gas giant', ca: 'gegant gasós' },
+              { es: '778 millones de km', en: '778 million km', ca: '778 milions de km' },
+              {
+                es: 'El más grande; la Gran Mancha Roja es una tormenta',
+                en: 'The largest; the Great Red Spot is a storm',
+                ca: 'El més gran; la Gran Taca Vermella és una tempesta',
+              },
+            ],
+            [
+              { es: '6. Saturno', en: '6. Saturn', ca: '6. Saturn' },
+              { es: 'gigante gaseoso', en: 'gas giant', ca: 'gegant gasós' },
+              { es: '1.430 millones de km', en: '1,430 million km', ca: '1.430 milions de km' },
+              {
+                es: 'Los anillos más grandes y visibles',
+                en: 'The biggest, most visible rings',
+                ca: 'Els anells més grans i visibles',
+              },
+            ],
+            [
+              { es: '7. Urano', en: '7. Uranus', ca: '7. Urà' },
+              { es: 'gigante helado', en: 'ice giant', ca: 'gegant gelat' },
+              { es: '2.870 millones de km', en: '2,870 million km', ca: '2.870 milions de km' },
+              {
+                es: 'Gira tumbado, con el eje casi horizontal',
+                en: 'It spins on its side, with its axis almost horizontal',
+                ca: 'Gira ajagut, amb l’eix gairebé horitzontal',
+              },
+            ],
+            [
+              { es: '8. Neptuno', en: '8. Neptune', ca: '8. Neptú' },
+              { es: 'gigante helado', en: 'ice giant', ca: 'gegant gelat' },
+              { es: '4.500 millones de km', en: '4,500 million km', ca: '4.500 milions de km' },
+              {
+                es: 'El más lejano, con los vientos más fuertes',
+                en: 'The farthest, with the strongest winds',
+                ca: 'El més llunyà, amb els vents més forts',
+              },
+            ],
+          ],
+        },
+        lista: {
+          es: [
+            'Mercurio, Venus, la Tierra y Marte son los planetas interiores o rocosos; Júpiter, Saturno, Urano y Neptuno, los exteriores o gigantes. Entre los dos grupos está el cinturón de asteroides.',
+          ],
+          en: [
+            'Mercury, Venus, Earth and Mars are the inner or rocky planets; Jupiter, Saturn, Uranus and Neptune, the outer or giant planets. Between the two groups lies the asteroid belt.',
+          ],
+          ca: [
+            'Mercuri, Venus, la Terra i Mart són els planetes interiors o rocosos; Júpiter, Saturn, Urà i Neptú, els exteriors o gegants. Entre els dos grups hi ha el cinturó d’asteroides.',
+          ],
+        },
+      },
+      {
+        titulo: { es: 'Los planetas enanos', en: 'Dwarf planets', ca: 'Els planetes nans' },
+        texto: {
+          es: [
+            'Son cuerpos redondos que giran alrededor del Sol pero no han «limpiado» su órbita de otros objetos. La Unión Astronómica Internacional reconoce cinco: Ceres (en el cinturón de asteroides), Plutón, Haumea, Makemake y Eris (más allá de Neptuno).',
+          ],
+          en: [
+            'They are round bodies that orbit the Sun but have not «cleared» their orbit of other objects. The International Astronomical Union recognises five: Ceres (in the asteroid belt), Pluto, Haumea, Makemake and Eris (beyond Neptune).',
+          ],
+          ca: [
+            'Són cossos rodons que giren al voltant del Sol però no han «netejat» la seva òrbita d’altres objectes. La Unió Astronòmica Internacional en reconeix cinc: Ceres (al cinturó d’asteroides), Plutó, Haumea, Makemake i Eris (més enllà de Neptú).',
+          ],
+        },
+      },
+    ],
+    preguntas: [
+      {
+        p: {
+          es: '¿Cuántos planetas tiene el sistema solar?',
+          en: 'How many planets are in the Solar System?',
+          ca: 'Quants planetes té el sistema solar?',
+        },
+        r: {
+          es: 'Ocho: Mercurio, Venus, Tierra, Marte, Júpiter, Saturno, Urano y Neptuno, en ese orden desde el Sol.',
+          en: 'Eight: Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus and Neptune, in that order from the Sun.',
+          ca: 'Vuit: Mercuri, Venus, Terra, Mart, Júpiter, Saturn, Urà i Neptú, en aquest ordre des del Sol.',
+        },
+      },
+      {
+        p: {
+          es: '¿Por qué Plutón ya no es un planeta?',
+          en: 'Why is Pluto no longer a planet?',
+          ca: 'Per què Plutó ja no és un planeta?',
+        },
+        r: {
+          es: 'En 2006 la Unión Astronómica Internacional definió qué es un planeta, y una de las condiciones es haber limpiado su órbita. Plutón comparte la suya con muchos otros cuerpos, así que pasó a ser un planeta enano.',
+          en: 'In 2006 the International Astronomical Union defined what a planet is, and one of the conditions is having cleared its orbit. Pluto shares its orbit with many other bodies, so it became a dwarf planet.',
+          ca: 'El 2006 la Unió Astronòmica Internacional va definir què és un planeta, i una de les condicions és haver netejat la seva òrbita. Plutó comparteix la seva amb molts altres cossos, així que va passar a ser un planeta nan.',
+        },
+      },
+      {
+        p: {
+          es: '¿Cuál es el planeta más caliente?',
+          en: 'Which is the hottest planet?',
+          ca: 'Quin és el planeta més calent?',
+        },
+        r: {
+          es: 'Venus, aunque Mercurio esté más cerca del Sol: su atmósfera espesa de dióxido de carbono atrapa el calor (efecto invernadero) y supera los 400 °C.',
+          en: 'Venus, even though Mercury is closer to the Sun: its thick carbon dioxide atmosphere traps the heat (greenhouse effect) and goes above 400 °C.',
+          ca: 'Venus, encara que Mercuri sigui més a prop del Sol: la seva atmosfera espessa de diòxid de carboni atrapa la calor (efecte hivernacle) i supera els 400 °C.',
+        },
+      },
+    ],
   },
 
   'cuerpo-humano': {
@@ -1885,14 +2042,14 @@ export const CONTENIDO_TEMA = {
 
   'america': {
     metaTitle: {
-      es: 'América: del Norte, Central y del Sur — resumen para estudiar',
-      en: 'The Americas: North, Central and South — a study summary',
-      ca: 'Amèrica: del Nord, Central i del Sud — resum per estudiar',
+      es: 'América: países y capitales por regiones (con tabla)',
+      en: 'The Americas: countries and capitals by region (with table)',
+      ca: 'Amèrica: països i capitals per regions (amb taula)',
     },
     metaDesc: {
-      es: 'Las tres partes de América, los Andes, el Amazonas, los países más extensos y las lenguas que se hablan. Resumen para estudiar y test de mapa.',
-      en: 'The three parts of the Americas, the Andes, the Amazon, the largest countries and the languages spoken. Study summary and map test.',
-      ca: 'Les tres parts d\'Amèrica, els Andes, l\'Amazones, els països més extensos i les llengües que s\'hi parlen. Resum per estudiar i test de mapa.',
+      es: 'Los países de América del Norte, Central y del Sur con sus capitales, los récords del continente (Aconcagua, Amazonas, Atacama) y las lenguas que se hablan. Y test de mapa.',
+      en: 'The countries of North, Central and South America with their capitals, the continent’s records (Aconcagua, Amazon, Atacama) and the languages spoken. Plus a map test.',
+      ca: 'Els països d’Amèrica del Nord, Central i del Sud amb les capitals, els rècords del continent (Aconcagua, Amazones, Atacama) i les llengües que s’hi parlen. I test de mapa.',
     },
     resumen: {
       es: [
@@ -1937,6 +2094,170 @@ export const CONTENIDO_TEMA = {
         'Països molt extensos: Canadà, Estats Units i Brasil.',
       ],
     },
+    secciones: [
+      {
+        titulo: {
+          es: 'Países y capitales de América del Norte y Central',
+          en: 'Countries and capitals of North and Central America',
+          ca: 'Països i capitals d’Amèrica del Nord i Central',
+        },
+        tabla: {
+          columnas: {
+            es: ['País', 'Capital', 'Región'],
+            en: ['Country', 'Capital', 'Region'],
+            ca: ['País', 'Capital', 'Regió'],
+          },
+          filas: [
+            [{ es: 'Canadá', en: 'Canada', ca: 'Canadà' }, 'Ottawa', { es: 'Norte', en: 'North', ca: 'Nord' }],
+            [
+              { es: 'Estados Unidos', en: 'United States', ca: 'Estats Units' },
+              'Washington D. C.',
+              { es: 'Norte', en: 'North', ca: 'Nord' },
+            ],
+            [
+              { es: 'México', en: 'Mexico', ca: 'Mèxic' },
+              { es: 'Ciudad de México', en: 'Mexico City', ca: 'Ciutat de Mèxic' },
+              { es: 'Norte', en: 'North', ca: 'Nord' },
+            ],
+            [
+              { es: 'Guatemala', en: 'Guatemala', ca: 'Guatemala' },
+              { es: 'Ciudad de Guatemala', en: 'Guatemala City', ca: 'Ciutat de Guatemala' },
+              { es: 'Central', en: 'Central', ca: 'Central' },
+            ],
+            [{ es: 'Belice', en: 'Belize', ca: 'Belize' }, 'Belmopán', { es: 'Central', en: 'Central', ca: 'Central' }],
+            [
+              { es: 'Honduras', en: 'Honduras', ca: 'Hondures' },
+              'Tegucigalpa',
+              { es: 'Central', en: 'Central', ca: 'Central' },
+            ],
+            [
+              { es: 'El Salvador', en: 'El Salvador', ca: 'El Salvador' },
+              'San Salvador',
+              { es: 'Central', en: 'Central', ca: 'Central' },
+            ],
+            [
+              { es: 'Nicaragua', en: 'Nicaragua', ca: 'Nicaragua' },
+              'Managua',
+              { es: 'Central', en: 'Central', ca: 'Central' },
+            ],
+            [
+              { es: 'Costa Rica', en: 'Costa Rica', ca: 'Costa Rica' },
+              'San José',
+              { es: 'Central', en: 'Central', ca: 'Central' },
+            ],
+            [
+              { es: 'Panamá', en: 'Panama', ca: 'Panamà' },
+              { es: 'Ciudad de Panamá', en: 'Panama City', ca: 'Ciutat de Panamà' },
+              { es: 'Central', en: 'Central', ca: 'Central' },
+            ],
+          ],
+        },
+      },
+      {
+        titulo: {
+          es: 'Países y capitales de América del Sur',
+          en: 'Countries and capitals of South America',
+          ca: 'Països i capitals d’Amèrica del Sud',
+        },
+        tabla: {
+          columnas: {
+            es: ['País', 'Capital'],
+            en: ['Country', 'Capital'],
+            ca: ['País', 'Capital'],
+          },
+          filas: [
+            [{ es: 'Argentina', en: 'Argentina', ca: 'Argentina' }, 'Buenos Aires'],
+            [
+              { es: 'Bolivia', en: 'Bolivia', ca: 'Bolívia' },
+              {
+                es: 'Sucre (sede del Gobierno: La Paz)',
+                en: 'Sucre (seat of government: La Paz)',
+                ca: 'Sucre (seu del Govern: La Paz)',
+              },
+            ],
+            [{ es: 'Brasil', en: 'Brazil', ca: 'Brasil' }, 'Brasilia'],
+            [{ es: 'Chile', en: 'Chile', ca: 'Xile' }, 'Santiago'],
+            [{ es: 'Colombia', en: 'Colombia', ca: 'Colòmbia' }, 'Bogotá'],
+            [{ es: 'Ecuador', en: 'Ecuador', ca: 'Equador' }, 'Quito'],
+            [{ es: 'Guyana', en: 'Guyana', ca: 'Guyana' }, 'Georgetown'],
+            [{ es: 'Paraguay', en: 'Paraguay', ca: 'Paraguai' }, 'Asunción'],
+            [{ es: 'Perú', en: 'Peru', ca: 'Perú' }, 'Lima'],
+            [{ es: 'Surinam', en: 'Suriname', ca: 'Surinam' }, 'Paramaribo'],
+            [{ es: 'Uruguay', en: 'Uruguay', ca: 'Uruguai' }, 'Montevideo'],
+            [{ es: 'Venezuela', en: 'Venezuela', ca: 'Veneçuela' }, 'Caracas'],
+          ],
+        },
+        lista: {
+          es: ['La Guayana Francesa no es un país: es un territorio de Francia en Sudamérica.'],
+          en: ['French Guiana is not a country: it is a French territory in South America.'],
+          ca: ['La Guaiana Francesa no és un país: és un territori de França a Sud-amèrica.'],
+        },
+      },
+      {
+        titulo: { es: 'Los récords del continente', en: 'The continent’s records', ca: 'Els rècords del continent' },
+        lista: {
+          es: [
+            'El Aconcagua (Argentina, 6.961 m) es la montaña más alta de América.',
+            'El Amazonas es el río más caudaloso del mundo y atraviesa la mayor selva tropical.',
+            'El desierto de Atacama (Chile) es uno de los lugares más secos del planeta.',
+            'El lago Titicaca, entre Perú y Bolivia, es el lago navegable más alto del mundo.',
+            'Canadá es el país más extenso de América, y Estados Unidos, el más poblado.',
+          ],
+          en: [
+            'Aconcagua (Argentina, 6,961 m) is the highest mountain in the Americas.',
+            'The Amazon is the world’s largest river by volume and crosses the biggest tropical rainforest.',
+            'The Atacama Desert (Chile) is one of the driest places on the planet.',
+            'Lake Titicaca, between Peru and Bolivia, is the highest navigable lake in the world.',
+            'Canada is the largest country in the Americas, and the United States the most populous.',
+          ],
+          ca: [
+            'L’Aconcagua (Argentina, 6.961 m) és la muntanya més alta d’Amèrica.',
+            'L’Amazones és el riu més cabalós del món i travessa la selva tropical més gran.',
+            'El desert d’Atacama (Xile) és un dels llocs més secs del planeta.',
+            'El llac Titicaca, entre el Perú i Bolívia, és el llac navegable més alt del món.',
+            'El Canadà és el país més extens d’Amèrica, i els Estats Units, el més poblat.',
+          ],
+        },
+      },
+    ],
+    preguntas: [
+      {
+        p: {
+          es: '¿Cuántos países hay en América del Sur?',
+          en: 'How many countries are there in South America?',
+          ca: 'Quants països hi ha a Amèrica del Sud?',
+        },
+        r: {
+          es: 'Doce: Argentina, Bolivia, Brasil, Chile, Colombia, Ecuador, Guyana, Paraguay, Perú, Surinam, Uruguay y Venezuela.',
+          en: 'Twelve: Argentina, Bolivia, Brazil, Chile, Colombia, Ecuador, Guyana, Paraguay, Peru, Suriname, Uruguay and Venezuela.',
+          ca: 'Dotze: Argentina, Bolívia, Brasil, Xile, Colòmbia, Equador, Guyana, Paraguai, Perú, Surinam, Uruguai i Veneçuela.',
+        },
+      },
+      {
+        p: {
+          es: '¿Qué países forman América Central?',
+          en: 'Which countries make up Central America?',
+          ca: 'Quins països formen Amèrica Central?',
+        },
+        r: {
+          es: 'En el istmo, siete: Guatemala, Belice, Honduras, El Salvador, Nicaragua, Costa Rica y Panamá. Muchos libros incluyen también las islas del Caribe, como Cuba, la República Dominicana o Jamaica.',
+          en: 'On the isthmus, seven: Guatemala, Belize, Honduras, El Salvador, Nicaragua, Costa Rica and Panama. Many textbooks also include the Caribbean islands, such as Cuba, the Dominican Republic or Jamaica.',
+          ca: 'A l’istme, set: Guatemala, Belize, Hondures, El Salvador, Nicaragua, Costa Rica i Panamà. Molts llibres hi inclouen també les illes del Carib, com Cuba, la República Dominicana o Jamaica.',
+        },
+      },
+      {
+        p: {
+          es: '¿Qué idiomas se hablan en América?',
+          en: 'What languages are spoken in the Americas?',
+          ca: 'Quines llengües es parlen a Amèrica?',
+        },
+        r: {
+          es: 'Sobre todo español, inglés y portugués (en Brasil), además de francés (en Canadá y Haití) y muchas lenguas indígenas, como el quechua, el guaraní o el náhuatl.',
+          en: 'Mainly Spanish, English and Portuguese (in Brazil), plus French (in Canada and Haiti) and many indigenous languages, such as Quechua, Guarani or Nahuatl.',
+          ca: 'Sobretot espanyol, anglès i portuguès (al Brasil), a més de francès (al Canadà i Haití) i moltes llengües indígenes, com el quítxua, el guaraní o el nàhuatl.',
+        },
+      },
+    ],
   },
 
   'asia': {
@@ -3038,14 +3359,14 @@ export const CONTENIDO_TEMA = {
 
   'sustantivos': {
     metaTitle: {
-      es: 'Los Sustantivos: qué son y sus clases — resumen para estudiar',
-      en: 'Spanish Nouns: what they are and their types — a study summary',
-      ca: 'Els Substantius: què són i les seves classes — resum per estudiar',
+      es: 'Los sustantivos: qué son, tipos y ejemplos (con tabla)',
+      en: 'Spanish nouns: what they are, types and examples (with table)',
+      ca: 'Els substantius: què són, tipus i exemples (amb taula)',
     },
     metaDesc: {
-      es: 'Qué es un sustantivo, su género y número y sus clases: comunes y propios, concretos y abstractos, individuales y colectivos, contables e incontables. Resumen y test.',
-      en: 'What a Spanish noun is, its gender and number and its types: common and proper, concrete and abstract, individual and collective, countable and uncountable. Summary and test.',
-      ca: 'Què és un substantiu, el seu gènere i nombre i les seves classes: comuns i propis, concrets i abstractes, individuals i col·lectius, comptables i incomptables. Resum i test.',
+      es: 'Qué es un sustantivo y sus tipos con ejemplos: comunes y propios, concretos y abstractos, individuales y colectivos, contables e incontables. Género, número y test.',
+      en: 'What a noun is and its types with examples: common and proper, concrete and abstract, individual and collective, countable and uncountable. Gender, number and a test.',
+      ca: 'Què és un substantiu i els seus tipus amb exemples: comuns i propis, concrets i abstractes, individuals i col·lectius, comptables i incomptables. Gènere, nombre i test.',
     },
     resumen: {
       es: [
@@ -3090,6 +3411,167 @@ export const CONTENIDO_TEMA = {
         'Comptables (manzana) davant d\'incomptables (arroz).',
       ],
     },
+    secciones: [
+      {
+        titulo: {
+          es: 'Tipos de sustantivos con ejemplos',
+          en: 'Types of noun with examples',
+          ca: 'Tipus de substantius amb exemples',
+        },
+        tabla: {
+          columnas: {
+            es: ['Tipo', 'Qué nombran', 'Ejemplos'],
+            en: ['Type', 'What they name', 'Examples'],
+            ca: ['Tipus', 'Què anomenen', 'Exemples'],
+          },
+          filas: [
+            [
+              { es: 'Común', en: 'Common', ca: 'Comú' },
+              {
+                es: 'Cualquier ser u objeto de una clase',
+                en: 'Any being or object of a kind',
+                ca: 'Qualsevol ésser o objecte d’una classe',
+              },
+              'perro, ciudad, río',
+            ],
+            [
+              { es: 'Propio', en: 'Proper', ca: 'Propi' },
+              {
+                es: 'Uno en concreto, con mayúscula',
+                en: 'One in particular, with a capital',
+                ca: 'Un de concret, amb majúscula',
+              },
+              'Toby, Sevilla, Ebro',
+            ],
+            [
+              { es: 'Concreto', en: 'Concrete', ca: 'Concret' },
+              {
+                es: 'Lo que se percibe con los sentidos',
+                en: 'What can be perceived by the senses',
+                ca: 'El que es percep amb els sentits',
+              },
+              'mesa, música, olor',
+            ],
+            [
+              { es: 'Abstracto', en: 'Abstract', ca: 'Abstracte' },
+              {
+                es: 'Ideas, sentimientos, cualidades',
+                en: 'Ideas, feelings, qualities',
+                ca: 'Idees, sentiments, qualitats',
+              },
+              'libertad, miedo, belleza',
+            ],
+            [
+              { es: 'Individual', en: 'Individual', ca: 'Individual' },
+              { es: 'Un solo ser en singular', en: 'A single being in the singular', ca: 'Un sol ésser en singular' },
+              'abeja, árbol, soldado',
+            ],
+            [
+              { es: 'Colectivo', en: 'Collective', ca: 'Col·lectiu' },
+              {
+                es: 'Un grupo, aunque vaya en singular',
+                en: 'A group, even in the singular',
+                ca: 'Un grup, encara que vagi en singular',
+              },
+              'enjambre, bosque, ejército',
+            ],
+            [
+              { es: 'Contable', en: 'Countable', ca: 'Comptable' },
+              { es: 'Se puede contar', en: 'Can be counted', ca: 'Es pot comptar' },
+              'dos libros, tres sillas',
+            ],
+            [
+              { es: 'Incontable', en: 'Uncountable', ca: 'Incomptable' },
+              { es: 'Se mide, no se cuenta', en: 'Is measured, not counted', ca: 'Es mesura, no es compta' },
+              'agua, arena, aire',
+            ],
+          ],
+        },
+      },
+      {
+        titulo: { es: 'El género del sustantivo', en: 'Noun gender', ca: 'El gènere del substantiu' },
+        lista: {
+          es: [
+            'Lo más habitual es -o / -a: niño, niña; gato, gata.',
+            'Algunos cambian de palabra (heterónimos): padre / madre, hombre / mujer, toro / vaca, yerno / nuera.',
+            'Otros solo cambian el determinante (comunes en cuanto al género): el / la estudiante, el / la artista, el / la testigo.',
+            'Los epicenos tienen un solo género para los dos sexos: la jirafa, el búho, la persona (la jirafa macho).',
+            'Y unos pocos admiten los dos géneros sin cambiar de significado (ambiguos): el / la mar, el / la azúcar.',
+          ],
+          en: [
+            'The usual pattern is -o / -a: niño, niña; gato, gata.',
+            'Some change word entirely (heteronyms): padre / madre, hombre / mujer, toro / vaca, yerno / nuera.',
+            'Others only change the determiner (common gender): el / la estudiante, el / la artista, el / la testigo.',
+            'Epicene nouns have one gender for both sexes: la jirafa, el búho, la persona (la jirafa macho).',
+            'And a few accept both genders without changing meaning (ambiguous): el / la mar, el / la azúcar.',
+          ],
+          ca: [
+            'El més habitual és -o / -a: niño, niña; gato, gata.',
+            'Alguns canvien de paraula (heterònims): padre / madre, hombre / mujer, toro / vaca, yerno / nuera.',
+            'D’altres només canvien el determinant (comuns quant al gènere): el / la estudiante, el / la artista, el / la testigo.',
+            'Els epicens tenen un sol gènere per als dos sexes: la jirafa, el búho, la persona (la jirafa macho).',
+            'I uns quants admeten els dos gèneres sense canviar de significat (ambigus): el / la mar, el / la azúcar.',
+          ],
+        },
+      },
+      {
+        titulo: { es: 'El número: singular y plural', en: 'Number: singular and plural', ca: 'El nombre: singular i plural' },
+        lista: {
+          es: [
+            'Tras vocal sin tilde se añade -s: casa → casas, libro → libros.',
+            'Tras consonante se añade -es: árbol → árboles, papel → papeles; y la z pasa a c: luz → luces.',
+            'Algunos no cambian: la crisis / las crisis, el lunes / los lunes.',
+            'Otros solo se usan en plural: gafas, tijeras, víveres.',
+          ],
+          en: [
+            'After an unaccented vowel, add -s: casa → casas, libro → libros.',
+            'After a consonant, add -es: árbol → árboles, papel → papeles; and z becomes c: luz → luces.',
+            'Some do not change: la crisis / las crisis, el lunes / los lunes.',
+            'Others are only used in the plural: gafas, tijeras, víveres.',
+          ],
+          ca: [
+            'Després de vocal sense accent s’afegeix -s: casa → casas, libro → libros.',
+            'Després de consonant s’afegeix -es: árbol → árboles, papel → papeles; i la z passa a c: luz → luces.',
+            'Alguns no canvien: la crisis / las crisis, el lunes / los lunes.',
+            'D’altres només s’usen en plural: gafas, tijeras, víveres.',
+          ],
+        },
+      },
+    ],
+    preguntas: [
+      {
+        p: { es: '¿Qué es un sustantivo?', en: 'What is a noun?', ca: 'Què és un substantiu?' },
+        r: {
+          es: 'Es la palabra que nombra personas, animales, cosas, lugares, sentimientos o ideas. Una prueba fácil: si se le puede poner delante el o un («la alegría», «un viaje»), es un sustantivo.',
+          en: 'It is the word that names people, animals, things, places, feelings or ideas. An easy test: if el or un can go in front of it («la alegría», «un viaje»), it is a noun.',
+          ca: 'És la paraula que anomena persones, animals, coses, llocs, sentiments o idees. Una prova fàcil: si s’hi pot posar davant el o un («la alegría», «un viaje»), és un substantiu.',
+        },
+      },
+      {
+        p: {
+          es: '¿Sustantivo y nombre es lo mismo?',
+          en: 'Are «sustantivo» and «nombre» the same?',
+          ca: 'Substantiu i nom és el mateix?',
+        },
+        r: {
+          es: 'Sí. Los libros usan las dos palabras para la misma clase de palabra.',
+          en: 'Yes. Textbooks use both words for the same word class.',
+          ca: 'Sí. Els llibres fan servir totes dues paraules per a la mateixa classe de paraula.',
+        },
+      },
+      {
+        p: {
+          es: '¿En qué se diferencian concretos y abstractos?',
+          en: 'How do concrete and abstract nouns differ?',
+          ca: 'En què es diferencien concrets i abstractes?',
+        },
+        r: {
+          es: 'Los concretos nombran algo que se puede ver, oír, tocar u oler (mesa, música). Los abstractos nombran ideas, sentimientos o cualidades que no se perciben con los sentidos (libertad, miedo).',
+          en: 'Concrete nouns name something you can see, hear, touch or smell (mesa, música). Abstract nouns name ideas, feelings or qualities that cannot be perceived by the senses (libertad, miedo).',
+          ca: 'Els concrets anomenen una cosa que es pot veure, sentir, tocar o olorar (mesa, música). Els abstractes anomenen idees, sentiments o qualitats que no es perceben amb els sentits (libertad, miedo).',
+        },
+      },
+    ],
   },
 
   'verbos': {
@@ -3206,14 +3688,14 @@ export const CONTENIDO_TEMA = {
 
   'determinantes': {
     metaTitle: {
-      es: 'Los Determinantes: artículos, demostrativos y más — resumen',
-      en: 'Spanish Determiners: articles, demonstratives and more — summary',
-      ca: 'Els Determinants: articles, demostratius i més — resum',
+      es: 'Los determinantes: qué son, tipos y ejemplos (con tabla)',
+      en: 'Spanish determiners: what they are, types and examples (with table)',
+      ca: 'Els determinants en castellà: què són, tipus i exemples (amb taula)',
     },
     metaDesc: {
-      es: 'Qué es un determinante y sus clases: artículos, demostrativos, posesivos, numerales e indefinidos. Cómo acompaña al sustantivo. Resumen y test.',
-      en: 'What a Spanish determiner is and its types: articles, demonstratives, possessives, numerals and indefinites. How it goes with the noun. Summary and test.',
-      ca: 'Què és un determinant i les seves classes: articles, demostratius, possessius, numerals i indefinits. Com acompanya el substantiu. Resum i test.',
+      es: 'Qué es un determinante y sus tipos con ejemplos: artículos, demostrativos, posesivos, numerales, indefinidos e interrogativos. Por qué se dice «el agua», y test.',
+      en: 'What a Spanish determiner is and its types with examples: articles, demonstratives, possessives, numerals, indefinites and interrogatives. Why «el agua», and a test.',
+      ca: 'Què és un determinant i els seus tipus amb exemples: articles, demostratius, possessius, numerals, indefinits i interrogatius. Per què es diu «el agua», i test.',
     },
     resumen: {
       es: [
@@ -3258,6 +3740,135 @@ export const CONTENIDO_TEMA = {
         'Indefinits: algún, varios, muchos (quantitat imprecisa).',
       ],
     },
+    secciones: [
+      {
+        titulo: {
+          es: 'Tipos de determinantes con ejemplos',
+          en: 'Types of determiner with examples',
+          ca: 'Tipus de determinants amb exemples',
+        },
+        tabla: {
+          columnas: {
+            es: ['Tipo', 'Formas', 'Ejemplo'],
+            en: ['Type', 'Forms', 'Example'],
+            ca: ['Tipus', 'Formes', 'Exemple'],
+          },
+          filas: [
+            [
+              { es: 'Artículo determinado', en: 'Definite article', ca: 'Article determinat' },
+              'el, la, los, las',
+              '«el perro»',
+            ],
+            [
+              { es: 'Artículo indeterminado', en: 'Indefinite article', ca: 'Article indeterminat' },
+              'un, una, unos, unas',
+              '«un perro»',
+            ],
+            [
+              { es: 'Demostrativos', en: 'Demonstratives', ca: 'Demostratius' },
+              'este, ese, aquel (y sus femeninos y plurales)',
+              '«aquella casa»',
+            ],
+            [
+              { es: 'Posesivos', en: 'Possessives', ca: 'Possessius' },
+              'mi, tu, su, nuestro, vuestro (y sus plurales)',
+              '«nuestra clase»',
+            ],
+            [
+              { es: 'Numerales', en: 'Numerals', ca: 'Numerals' },
+              {
+                es: 'cardinales (dos, tres) y ordinales (primero, segundo)',
+                en: 'cardinal (dos, tres) and ordinal (primero, segundo)',
+                ca: 'cardinals (dos, tres) i ordinals (primero, segundo)',
+              },
+              '«el segundo piso»',
+            ],
+            [
+              { es: 'Indefinidos', en: 'Indefinites', ca: 'Indefinits' },
+              'algún, ningún, varios, muchos, pocos, bastantes, otro, cada',
+              '«varios amigos»',
+            ],
+            [
+              {
+                es: 'Interrogativos y exclamativos',
+                en: 'Interrogative and exclamative',
+                ca: 'Interrogatius i exclamatius',
+              },
+              'qué, cuánto, cuántos',
+              '«¿Qué libro lees?»',
+            ],
+          ],
+        },
+      },
+      {
+        titulo: { es: '«El agua», «al» y «del»', en: '«El agua», «al» and «del»', ca: '«El agua», «al» i «del»' },
+        lista: {
+          es: [
+            'Delante de un sustantivo femenino que empieza por a- o ha- tónica se usa el, no la: el agua, el águila, el hacha. Sigue siendo femenino: el agua fría, las aguas, esta agua (no «este agua»).',
+            'Con a y de, el artículo el se contrae: a + el = al, de + el = del («Voy al cine», «Vengo del colegio»).',
+            'No se contrae cuando el forma parte de un nombre propio: «Viajé a El Salvador».',
+          ],
+          en: [
+            'Before a feminine noun starting with a stressed a- or ha-, el is used instead of la: el agua, el águila, el hacha. It is still feminine: el agua fría, las aguas, esta agua (not «este agua»).',
+            'With a and de, the article el contracts: a + el = al, de + el = del («Voy al cine», «Vengo del colegio»).',
+            'It does not contract when el is part of a proper name: «Viajé a El Salvador».',
+          ],
+          ca: [
+            'Davant d’un substantiu femení que comença per a- o ha- tònica es fa servir el, no la: el agua, el águila, el hacha. Continua sent femení: el agua fría, las aguas, esta agua (no «este agua»).',
+            'Amb a i de, l’article el es contrau: a + el = al, de + el = del («Voy al cine», «Vengo del colegio»).',
+            'No es contrau quan el forma part d’un nom propi: «Viajé a El Salvador».',
+          ],
+        },
+      },
+      {
+        titulo: { es: '¿Determinante o pronombre?', en: 'Determiner or pronoun?', ca: 'Determinant o pronom?' },
+        texto: {
+          es: [
+            'El determinante siempre va con un sustantivo; si la misma palabra aparece sola, ocupando su lugar, es un pronombre: «Este libro es mío» (determinante) frente a «Quiero este» (pronombre).',
+          ],
+          en: [
+            'The determiner always comes with a noun; if the same word appears alone, taking its place, it is a pronoun: «Este libro es mío» (determiner) versus «Quiero este» (pronoun).',
+          ],
+          ca: [
+            'El determinant sempre va amb un substantiu; si la mateixa paraula apareix sola, ocupant-ne el lloc, és un pronom: «Este libro es mío» (determinant) davant de «Quiero este» (pronom).',
+          ],
+        },
+      },
+    ],
+    preguntas: [
+      {
+        p: { es: '¿Qué es un determinante?', en: 'What is a determiner?', ca: 'Què és un determinant?' },
+        r: {
+          es: 'Es la palabra que va delante del sustantivo para presentarlo o concretarlo, y concuerda con él en género y número: el niño, esas niñas, mis libros.',
+          en: 'It is the word that goes before the noun to present or specify it, and agrees with it in gender and number: el niño, esas niñas, mis libros.',
+          ca: 'És la paraula que va davant del substantiu per presentar-lo o concretar-lo, i hi concorda en gènere i nombre: el niño, esas niñas, mis libros.',
+        },
+      },
+      {
+        p: {
+          es: '¿El artículo es un determinante?',
+          en: 'Is the article a determiner?',
+          ca: 'L’article és un determinant?',
+        },
+        r: {
+          es: 'Sí: el artículo (el, un…) es la clase de determinante más frecuente.',
+          en: 'Yes: the article (el, un…) is the most common type of determiner.',
+          ca: 'Sí: l’article (el, un…) és la classe de determinant més freqüent.',
+        },
+      },
+      {
+        p: {
+          es: '¿Por qué se dice «el agua» si agua es femenino?',
+          en: 'Why «el agua» if agua is feminine?',
+          ca: 'Per què es diu «el agua» si agua és femení?',
+        },
+        r: {
+          es: 'Para no juntar dos aes tónicas («la agua»). Es solo un cambio de forma del artículo en singular: el resto sigue en femenino (el agua clara, las aguas).',
+          en: 'To avoid two stressed a sounds together («la agua»). It is only a change of article form in the singular: everything else stays feminine (el agua clara, las aguas).',
+          ca: 'Per no ajuntar dues as tòniques («la agua»). És només un canvi de forma de l’article en singular: la resta continua en femení (el agua clara, las aguas).',
+        },
+      },
+    ],
   },
 
   'pronombres': {
@@ -3465,14 +4076,14 @@ export const CONTENIDO_TEMA = {
 
   'adverbios': {
     metaTitle: {
-      es: 'Los Adverbios: qué son y sus clases — resumen para estudiar',
-      en: 'Spanish Adverbs: what they are and their types — a summary',
-      ca: 'Els Adverbis: què són i les seves classes — resum per estudiar',
+      es: 'Los adverbios: qué son, tipos y ejemplos (con tabla)',
+      en: 'Spanish adverbs: what they are, types and examples (with table)',
+      ca: 'Els adverbis en castellà: què són, tipus i exemples (amb taula)',
     },
     metaDesc: {
-      es: 'Qué es un adverbio, por qué es invariable, a qué palabras modifica y sus clases (lugar, tiempo, modo, cantidad, afirmación, negación, duda). Resumen y test.',
-      en: 'What a Spanish adverb is, why it is invariable, what it modifies and its types (place, time, manner, quantity, affirmation, negation, doubt). Summary and test.',
-      ca: 'Què és un adverbi, per què és invariable, quines paraules modifica i les seves classes (lloc, temps, manera, quantitat, afirmació, negació, dubte). Resum i test.',
+      es: 'Qué es un adverbio y sus tipos con ejemplos: lugar, tiempo, modo, cantidad, afirmación, negación y duda. Adverbios en -mente, adverbio o adjetivo, y test.',
+      en: 'What a Spanish adverb is and its types with examples: place, time, manner, quantity, affirmation, negation and doubt. -mente adverbs, adverb or adjective, and a test.',
+      ca: 'Què és un adverbi i els seus tipus amb exemples: lloc, temps, manera, quantitat, afirmació, negació i dubte. Adverbis en -mente, adverbi o adjectiu, i test.',
     },
     resumen: {
       es: [
@@ -3517,6 +4128,178 @@ export const CONTENIDO_TEMA = {
         'Aporten circumstàncies a l\'acció.',
       ],
     },
+    secciones: [
+      {
+        titulo: {
+          es: 'Tipos de adverbios con ejemplos',
+          en: 'Types of adverb with examples',
+          ca: 'Tipus d’adverbis amb exemples',
+        },
+        tabla: {
+          columnas: {
+            es: ['Tipo', 'Ejemplos', 'En una frase'],
+            en: ['Type', 'Examples', 'In a sentence'],
+            ca: ['Tipus', 'Exemples', 'En una frase'],
+          },
+          filas: [
+            [
+              { es: 'De lugar', en: 'Place', ca: 'De lloc' },
+              'aquí, ahí, allí, cerca, lejos, arriba, abajo, dentro, fuera, delante, detrás',
+              '«Vivo cerca.»',
+            ],
+            [
+              { es: 'De tiempo', en: 'Time', ca: 'De temps' },
+              'hoy, ayer, mañana, ahora, luego, antes, después, pronto, tarde, todavía, ya, siempre',
+              '«Siempre llega tarde.»',
+            ],
+            [
+              { es: 'De modo', en: 'Manner', ca: 'De manera' },
+              'bien, mal, así, deprisa, despacio, regular, rápidamente',
+              '«Canta muy bien.»',
+            ],
+            [
+              { es: 'De cantidad', en: 'Quantity', ca: 'De quantitat' },
+              'mucho, poco, muy, bastante, demasiado, más, menos, casi, tan',
+              '«Come demasiado.»',
+            ],
+            [
+              { es: 'De afirmación', en: 'Affirmation', ca: 'D’afirmació' },
+              'sí, también, ciertamente, efectivamente',
+              '«Yo también voy.»',
+            ],
+            [{ es: 'De negación', en: 'Negation', ca: 'De negació' }, 'no, nunca, jamás, tampoco', '«No lo sé.»'],
+            [
+              { es: 'De duda', en: 'Doubt', ca: 'De dubte' },
+              'quizá, quizás, acaso, posiblemente, probablemente',
+              '«Quizá llueva.»',
+            ],
+            [
+              {
+                es: 'Interrogativos y exclamativos',
+                en: 'Interrogative and exclamative',
+                ca: 'Interrogatius i exclamatius',
+              },
+              'dónde, cuándo, cómo, cuánto',
+              '«¿Dónde vives?»',
+            ],
+          ],
+        },
+      },
+      {
+        titulo: {
+          es: 'Los adverbios terminados en -mente',
+          en: 'Adverbs ending in -mente',
+          ca: 'Els adverbis acabats en -mente',
+        },
+        lista: {
+          es: [
+            'Se forman añadiendo -mente a la forma femenina del adjetivo: rápida → rápidamente, lenta → lentamente.',
+            'Si el adjetivo no cambia en femenino, se añade tal cual: fácil → fácilmente, feliz → felizmente.',
+            'Conservan la tilde del adjetivo, si la tiene: rápido → rápidamente, cortés → cortésmente; útil → útilmente.',
+            'Si van varios seguidos, solo el último lleva -mente: «Habló clara y tranquilamente».',
+          ],
+          en: [
+            'They are formed by adding -mente to the feminine form of the adjective: rápida → rápidamente, lenta → lentamente.',
+            'If the adjective has no separate feminine, it is added as it is: fácil → fácilmente, feliz → felizmente.',
+            'They keep the adjective’s written accent, if it has one: rápido → rápidamente, cortés → cortésmente; útil → útilmente.',
+            'If several come in a row, only the last one takes -mente: «Habló clara y tranquilamente».',
+          ],
+          ca: [
+            'Es formen afegint -mente a la forma femenina de l’adjectiu: rápida → rápidamente, lenta → lentamente.',
+            'Si l’adjectiu no canvia en femení, s’hi afegeix tal qual: fácil → fácilmente, feliz → felizmente.',
+            'Conserven l’accent de l’adjectiu, si en té: rápido → rápidamente, cortés → cortésmente; útil → útilmente.',
+            'Si en van uns quants seguits, només l’últim porta -mente: «Habló clara y tranquilamente».',
+          ],
+        },
+      },
+      {
+        titulo: { es: '¿Adverbio o adjetivo?', en: 'Adverb or adjective?', ca: 'Adverbi o adjectiu?' },
+        texto: {
+          es: [
+            'Algunas palabras pueden ser las dos cosas. La pista es la concordancia: el adjetivo acompaña a un sustantivo y cambia con él; el adverbio modifica al verbo y no cambia nunca.',
+          ],
+          en: [
+            'Some words can be either. The clue is agreement: the adjective goes with a noun and changes with it; the adverb modifies the verb and never changes.',
+          ],
+          ca: [
+            'Algunes paraules poden ser totes dues coses. La pista és la concordança: l’adjectiu acompanya un substantiu i canvia amb ell; l’adverbi modifica el verb i no canvia mai.',
+          ],
+        },
+        tabla: {
+          columnas: {
+            es: ['Adjetivo (concuerda)', 'Adverbio (invariable)'],
+            en: ['Adjective (agrees)', 'Adverb (invariable)'],
+            ca: ['Adjectiu (concorda)', 'Adverbi (invariable)'],
+          },
+          filas: [
+            ['«Unos coches rápidos.»', '«Ellas corren rápido.»'],
+            ['«Hay mucha gente.»', '«Come mucho.»'],
+            ['«Media naranja.»', '«Está medio dormida.» (no «media dormida»)'],
+            ['«Un examen claro.»', '«Habla claro.»'],
+          ],
+        },
+      },
+      {
+        titulo: { es: 'Locuciones adverbiales', en: 'Adverbial phrases', ca: 'Locucions adverbials' },
+        texto: {
+          es: [
+            'Son grupos de palabras que funcionan juntos como un solo adverbio: a menudo, de repente, de vez en cuando, sin duda, tal vez, a lo mejor, a ciegas, en seguida. En el análisis de la oración se marcan como una sola pieza.',
+          ],
+          en: [
+            'They are groups of words that work together as a single adverb: a menudo, de repente, de vez en cuando, sin duda, tal vez, a lo mejor, a ciegas, en seguida. In sentence analysis they are marked as one unit.',
+          ],
+          ca: [
+            'Són grups de paraules que funcionen junts com un sol adverbi: a menudo, de repente, de vez en cuando, sin duda, tal vez, a lo mejor, a ciegas, en seguida. En l’anàlisi de l’oració es marquen com una sola peça.',
+          ],
+        },
+      },
+    ],
+    preguntas: [
+      {
+        p: { es: '¿Qué es un adverbio?', en: 'What is an adverb?', ca: 'Què és un adverbi?' },
+        r: {
+          es: 'Es una palabra invariable que acompaña a un verbo, a un adjetivo o a otro adverbio para añadir una circunstancia: cómo, cuándo, dónde o cuánto. En «Llegó muy tarde», tarde dice cuándo y muy, cuánto.',
+          en: 'It is an invariable word that goes with a verb, an adjective or another adverb to add a circumstance: how, when, where or how much. In «Llegó muy tarde», tarde says when and muy, how much.',
+          ca: 'És una paraula invariable que acompanya un verb, un adjectiu o un altre adverbi per afegir una circumstància: com, quan, on o quant. A «Llegó muy tarde», tarde diu quan i muy, quant.',
+        },
+      },
+      {
+        p: {
+          es: '¿Qué tipo de adverbio es «siempre»?',
+          en: 'What type of adverb is «siempre»?',
+          ca: 'Quin tipus d’adverbi és «siempre»?',
+        },
+        r: {
+          es: 'De tiempo: dice cuándo o con qué frecuencia pasa algo («Siempre desayuno tostadas»). Nunca y jamás también hablan del tiempo, pero se clasifican como de negación.',
+          en: 'Time: it says when or how often something happens («Siempre desayuno tostadas»). Nunca and jamás also refer to time, but are classed as negation.',
+          ca: 'De temps: diu quan o amb quina freqüència passa una cosa («Siempre desayuno tostadas»). Nunca i jamás també parlen del temps, però es classifiquen com de negació.',
+        },
+      },
+      {
+        p: {
+          es: '¿«Muy» y «mucho» son lo mismo?',
+          en: 'Are «muy» and «mucho» the same?',
+          ca: '«Muy» i «mucho» són el mateix?',
+        },
+        r: {
+          es: 'Los dos son de cantidad, pero muy va delante de adjetivos y adverbios («muy alto», «muy bien») y mucho acompaña al verbo («Estudia mucho»). Por eso no se dice «muy estudia».',
+          en: 'Both express quantity, but muy goes before adjectives and adverbs («muy alto», «muy bien») and mucho goes with the verb («Estudia mucho»). That is why «muy estudia» is wrong.',
+          ca: 'Tots dos són de quantitat, però muy va davant d’adjectius i adverbis («muy alto», «muy bien») i mucho acompanya el verb («Estudia mucho»). Per això no es diu «muy estudia».',
+        },
+      },
+      {
+        p: {
+          es: '¿Qué función hace el adverbio en la oración?',
+          en: 'What role does the adverb play in the sentence?',
+          ca: 'Quina funció fa l’adverbi a l’oració?',
+        },
+        r: {
+          es: 'Normalmente es complemento circunstancial: en «Mañana iré al cine», mañana es complemento circunstancial de tiempo.',
+          en: 'Usually it is an adverbial complement: in «Mañana iré al cine», mañana is an adverbial complement of time.',
+          ca: 'Normalment és complement circumstancial: a «Mañana iré al cine», mañana és complement circumstancial de temps.',
+        },
+      },
+    ],
   },
 
   'nexos': {
