@@ -7,7 +7,7 @@ import { genRound, esCorrecta, schemaQuestion } from '../lib/bloquesPrimos'
 const LEVELS = [
   { key: 'primaria', emoji: '💚', difficulty: 'facil',
     label: { es: 'Primaria', en: 'Primary', ca: 'Primària' },
-    hint: { es: 'Criterios, primos, descomponer y mcd/mcm con bloques', en: 'Rules, primes, factorising and HCF/LCM with blocks', ca: 'Criteris, primers, descompondre i mcd/mcm amb blocs' } },
+    hint: { es: 'Tocar divisibles y primos, romper y construir con bloques', en: 'Tap multiples and primes, break and build with blocks', ca: 'Tocar divisibles i primers, trencar i construir amb blocs' } },
   { key: 'eso', emoji: '💛', difficulty: 'medio',
     label: { es: 'Secundaria (ESO)', en: 'Secondary (ESO)', ca: 'Secundària (ESO)' },
     hint: { es: 'Números más grandes y problemas de mcd y mcm', en: 'Bigger numbers and HCF and LCM problems', ca: 'Nombres més grans i problemes de mcd i mcm' } },
@@ -36,7 +36,7 @@ export default function BloquesPrimosExamen() {
       metaPath="/examen/bloques-primos-test"
       subjectSchema="Matemáticas"
       backGamePath="/juegos/bloques-primos"
-      playLabel={{ es: 'Modo arcade (60s)', en: 'Arcade mode (60s)', ca: 'Mode arcade (60s)' }}
+      playLabel={{ es: 'Modo arcade (90s)', en: 'Arcade mode (90s)', ca: 'Mode arcade (90s)' }}
       levels={LEVELS}
       genRound={genRound}
       isCorrect={esCorrecta}

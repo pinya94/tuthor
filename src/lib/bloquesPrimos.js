@@ -155,10 +155,11 @@ function pareja(rand, cfg, min, max) {
 
 let seq = 0
 
-export function genRonda(nivel = 'facil', { rand = Math.random } = {}) {
+// La ronda clásica de un tipo (con opciones): la usan las mecánicas y el
+// texto del schema (ver «Mecánicas» al final).
+function genVieja(nivel, tipo, rand) {
   const cfg = NIVELES[nivel] ?? NIVELES.facil
   for (;;) {
-    const tipo = elige(rand, cfg.tipos)
     const base = { id: ++seq, nivel, tipo, conBloques: cfg.conBloques }
 
     if (tipo === 'divisible') {
@@ -273,8 +274,6 @@ export function genRonda(nivel = 'facil', { rand = Math.random } = {}) {
   }
 }
 
-export const genRound = (difficulty = 'facil') => genRonda(difficulty)
-export const esCorrecta = (r, o) => o === r.bueno
 
 // ── Enunciados, opciones y explicación ────────────────────────────────────
 export function textoOpcion(o, r, l) {
@@ -283,7 +282,7 @@ export function textoOpcion(o, r, l) {
   return num(o, l)
 }
 
-export function enunciado(r, l) {
+function enunciadoViejo(r, l) {
   switch (r.tipo) {
     case 'divisible': return tx(l, `¿Cuál de estos números es divisible entre ${r.divisor}?`, `Which of these numbers is divisible by ${r.divisor}?`, `Quin d’aquests nombres és divisible entre ${r.divisor}?`)
     case 'primo': return tx(l, '¿Cuál de estos números es primo?', 'Which of these numbers is prime?', 'Quin d’aquests nombres és primer?')
@@ -314,7 +313,7 @@ const CRITERIO = {
 }
 const sumaCifras = n => String(n).split('').reduce((s, d) => s + +d, 0)
 
-export function explicacion(r, l) {
+function explicacionVieja(r, l) {
   switch (r.tipo) {
     case 'divisible': {
       const c = CRITERIO[r.divisor]
@@ -353,9 +352,9 @@ export function explicacion(r, l) {
 }
 
 // JSON-LD / ejemplos: la pregunta entera en texto.
-export function schemaQuestion(r, l) {
+function schemaVieja(r, l) {
   return {
-    question: enunciado(r, l),
+    question: enunciadoViejo(r, l),
     correctAnswer: textoOpcion(r.bueno, r, l),
     wrongAnswers: r.opciones.filter(o => o !== r.bueno).map(o => textoOpcion(o, r, l)),
   }
@@ -366,4 +365,108 @@ export function columnas(nums) {
   const fs = nums.map(factoriza)
   const ps = [...new Set(fs.flatMap(f => Object.keys(f).map(Number)))].sort((a, b) => a - b)
   return ps.map(p => ({ p, exps: fs.map(f => f[p] || 0), max: Math.max(...fs.map(f => f[p] || 0)), min: Math.min(...fs.map(f => f[p] || 0)) }))
+}
+
+// ── Mecánicas ─────────────────────────────────────────────────────────────
+// Sin opciones (genVieja sigue dando la ronda y el texto del schema):
+//   criba      (divisible)  ocho números: tocar todos los divisibles entre d
+//   caza       (primo)      ocho números: tocar todos los primos
+//   rompe      (descomp)    dividir el número entre primos, bloque a bloque,
+//                           hasta llegar a 1; un 4 o un 9 son trampa
+//   construye  (mcd, mcm, tres, problema)  montar el resultado con bloques
+//                           (+ y − en cada primo); la respuesta es el número
+export const MECANICA_DE_TIPO = { divisible: 'criba', primo: 'caza', descomp: 'rompe', mcd: 'construye', mcm: 'construye', tres: 'construye', problema: 'construye' }
+// Las fichas para romper el número: los primos del nivel y dos trampas.
+export const fichasRompe = cfg => [...cfg.primos, 4, 9]
+
+const recientes = []
+export function genRonda(nivel = 'facil', { rand = Math.random } = {}) {
+  const cfg = NIVELES[nivel] ?? NIVELES.facil
+  for (let intento = 0; ; intento++) {
+    const tipo = elige(rand, cfg.tipos)
+    const r = genVieja(nivel, tipo, rand)
+    const tema = `${r.tipo}${r.n ?? ''}${(r.nums ?? []).join()}${r.divisor ?? ''}${r.bueno}`
+    if (intento < 20 && recientes.includes(tema)) continue
+    const out = { ...r, mecanica: MECANICA_DE_TIPO[r.tipo] }
+    if (r.tipo === 'divisible') {
+      // A las cuatro de antes (una buena y tres trampas) se suman cuatro más,
+      // con uno o dos divisibles: así hay que mirar todos, no buscar «el bueno».
+      const [lo, hi] = nivel === 'facil' ? [100, 999] : [1000, 9999]
+      const extra = []
+      const quiero = 1 + Math.floor(rand() * 2)
+      for (let i = 0; i < 400 && extra.length < 4; i++) {
+        const n = entre(rand, lo, hi)
+        if (r.opciones.includes(n) || extra.includes(n)) continue
+        const div = n % r.divisor === 0
+        if (div && extra.filter(x => x % r.divisor === 0).length >= quiero) continue
+        if (!div && extra.filter(x => x % r.divisor !== 0).length >= 4 - quiero) continue
+        extra.push(n)
+      }
+      if (extra.length < 4) continue
+      out.numeros = baraja(rand, [...r.opciones, ...extra])
+      out.validos = out.numeros.filter(n => n % r.divisor === 0)
+    }
+    if (r.tipo === 'primo') {
+      const primos = []
+      for (let n = 23; n < 200; n++) if (esPrimo(n)) primos.push(n)
+      const caraDePrimo = []
+      for (let n = 21; n < 220; n += 2) if (!esPrimo(n) && n % 5 !== 0 && n % 3 !== 0) caraDePrimo.push(n)
+      const masPrimos = baraja(rand, primos.filter(p => !r.opciones.includes(p))).slice(0, 1 + Math.floor(rand() * 2))
+      const masTrampas = baraja(rand, caraDePrimo.filter(n => !r.opciones.includes(n))).slice(0, 4 - masPrimos.length)
+      out.numeros = baraja(rand, [...r.opciones, ...masPrimos, ...masTrampas])
+      out.validos = out.numeros.filter(esPrimo)
+    }
+    if (r.tipo === 'descomp') out.fichas = fichasRompe(cfg)
+    recientes.push(tema)
+    if (recientes.length > 6) recientes.shift()
+    return out
+  }
+}
+export const genRound = (difficulty = 'facil') => genRonda(difficulty)
+
+export function respuestaBuena(r) {
+  if (r.mecanica === 'construye') return String(r.bueno)
+  return `${r.mecanica}:0`
+}
+export function esCorrecta(r, o) {
+  if (o == null) return false
+  if (!r.mecanica) return o === r.bueno
+  if (r.mecanica === 'construye') return Number(o) === r.bueno
+  return o === respuestaBuena(r)
+}
+export const isCorrect = esCorrecta
+
+export function enunciado(r, l) {
+  switch (r.mecanica) {
+    case 'criba': return tx(l, `Toca todos los números divisibles entre ${r.divisor}`, `Tap every number divisible by ${r.divisor}`, `Toca tots els nombres divisibles entre ${r.divisor}`)
+    case 'caza': return tx(l, 'Toca todos los números primos', 'Tap every prime number', 'Toca tots els nombres primers')
+    case 'rompe': return tx(l, `Rompe ${num(r.n, l)} en factores primos: toca un primo que lo divida, hasta llegar a 1`, `Break ${num(r.n, l)} into prime factors: tap a prime that divides it, until you reach 1`, `Trenca ${num(r.n, l)} en factors primers: toca un primer que el divideixi, fins arribar a 1`)
+    case 'construye': {
+      if (r.tipo === 'problema') return `${enunciadoViejo(r, l)} ${tx(l, 'Constrúyelo con bloques.', 'Build it with blocks.', 'Construeix-ho amb blocs.')}`
+      const ns = lista(r.nums.map(n => num(n, l)), l)
+      return r.op === 'mcd'
+        ? tx(l, `Construye con bloques el máximo común divisor de ${ns}`, `Build the highest common factor of ${ns} with blocks`, `Construeix amb blocs el màxim comú divisor de ${ns}`)
+        : tx(l, `Construye con bloques el mínimo común múltiplo de ${ns}`, `Build the lowest common multiple of ${ns} with blocks`, `Construeix amb blocs el mínim comú múltiple de ${ns}`)
+    }
+    default: return enunciadoViejo(r, l)
+  }
+}
+
+export function explicacion(r, l) {
+  if (r.mecanica === 'criba') {
+    const c = CRITERIO[r.divisor]
+    const si = r.validos.map(n => num(n, l)).join(', ')
+    return tx(l, `Un número es divisible entre ${r.divisor} si ${c.es}. Lo son: ${si}.`, `A number is divisible by ${r.divisor} if ${c.en}. These are: ${si}.`, `Un nombre és divisible entre ${r.divisor} si ${c.ca}. Ho són: ${si}.`)
+      + (r.divisor === 9 ? tx(l, ' Ojo: múltiplo de 3 no basta para el 9.', ' Careful: a multiple of 3 is not enough for 9.', ' Compte: múltiple de 3 no n’hi ha prou per al 9.') : r.divisor === 10 ? tx(l, ' Acabar en 5 vale para el 5, no para el 10.', ' Ending in 5 works for 5, not for 10.', ' Acabar en 5 val per al 5, no per al 10.') : '')
+  }
+  if (r.mecanica === 'caza') {
+    const no = r.numeros.filter(n => !esPrimo(n)).map(n => `${num(n, l)} = ${escribe(factoriza(n))}`).join('; ')
+    const si = r.validos.map(n => num(n, l)).join(', ')
+    return tx(l, `Primos: ${si}. Los demás parecen primos pero no lo son: ${no}.`, `Primes: ${si}. The others look prime but are not: ${no}.`, `Primers: ${si}. Els altres semblen primers però no ho són: ${no}.`)
+  }
+  return explicacionVieja(r, l)
+}
+
+export function schemaQuestion(r, l) {
+  return schemaVieja(r, l)
 }

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { genRonda, NIVELES, factoriza, esPrimo, mcdDe, mcmDe, clave, escribe, enunciado, explicacion, textoOpcion, schemaQuestion, columnas } from '../bloquesPrimos'
+import { genRonda, NIVELES, factoriza, esPrimo, mcdDe, mcmDe, clave, escribe, enunciado, explicacion, textoOpcion, schemaQuestion, columnas, esCorrecta, respuestaBuena } from '../bloquesPrimos'
 
 // Generador determinista para que un fallo se pueda reproducir.
 function semilla(s) {
@@ -42,6 +42,24 @@ describe('Bloques Primos', () => {
           for (const o of r.opciones) expect(o).toMatch(/^\d+\^\d+(\*\d+\^\d+)*$/)
         }
         if (r.nums) expect(r.nums.every(n => !esPrimo(n))).toBe(true)
+        // Mecánicas
+        expect(esCorrecta(r, respuestaBuena(r))).toBe(true)
+        if (r.mecanica === 'criba' || r.mecanica === 'caza') {
+          expect(r.numeros).toHaveLength(8)
+          expect(new Set(r.numeros).size).toBe(8)
+          const ok = r.mecanica === 'criba' ? (n => n % r.divisor === 0) : esPrimo
+          expect(r.validos).toEqual(r.numeros.filter(ok))
+          expect(r.validos.length).toBeGreaterThanOrEqual(2)
+          expect(r.validos.length).toBeLessThanOrEqual(4)
+        }
+        if (r.mecanica === 'rompe') {
+          // con las fichas (primos del nivel) se puede llegar a 1
+          const f = factoriza(r.n)
+          for (const q of Object.keys(f).map(Number)) expect(r.fichas).toContain(q)
+          expect(r.fichas).toContain(4)
+          expect(r.fichas).toContain(9)
+        }
+        if (r.mecanica === 'construye') for (const o of r.opciones) if (o !== r.bueno) expect(esCorrecta(r, String(o))).toBe(false)
         for (const l of ['es', 'en', 'ca']) {
           expect(enunciado(r, l)).toBeTruthy()
           expect(explicacion(r, l)).not.toMatch(/undefined|NaN/)
