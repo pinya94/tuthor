@@ -19,20 +19,20 @@ const POOL_LABEL = {
   es: {
     gce: 'Guerra Civil Española', wwii: 'Segunda Guerra Mundial',
     usa: 'Independencia Americana', primaria: 'Personajes históricos de todas las épocas',
-    global: 'Personajes históricos de todas las épocas',
-    franquismo: 'Franquismo', 'edad-media': 'Edad Media', 'edad-moderna': 'Edad Moderna', ciencia: 'Científicos',
+    global: 'Personajes de todas las épocas, de la historia y de la ciencia',
+    franquismo: 'Franquismo', 'edad-media': 'Edad Media', 'edad-moderna': 'Edad Moderna', ciencia: 'Historia de la ciencia',
   },
   en: {
     gce: 'Spanish Civil War', wwii: 'World War II',
     usa: 'American Independence', primaria: 'Historical figures from all eras',
-    global: 'Historical figures from all eras',
-    franquismo: 'Francoism', 'edad-media': 'The Middle Ages', 'edad-moderna': 'The Early Modern Period', ciencia: 'Scientists',
+    global: 'Figures from every era, from history and science',
+    franquismo: 'Francoism', 'edad-media': 'The Middle Ages', 'edad-moderna': 'The Early Modern Period', ciencia: 'History of Science',
   },
   ca: {
     gce: 'Guerra Civil Espanyola', wwii: 'Segona Guerra Mundial',
     usa: 'Independència Americana', primaria: 'Personatges històrics de totes les èpoques',
-    global: 'Personatges històrics de totes les èpoques',
-    franquismo: 'Franquisme', 'edad-media': 'Edat Mitjana', 'edad-moderna': 'Edat Moderna', ciencia: 'Científics',
+    global: 'Personatges de totes les èpoques, de la història i de la ciència',
+    franquismo: 'Franquisme', 'edad-media': 'Edat Mitjana', 'edad-moderna': 'Edat Moderna', ciencia: 'Història de la ciència',
   },
 }
 
@@ -130,20 +130,7 @@ function Avatar({ p, tachado, modoAdivinar, esSecreto, resultado, onClick }) {
 }
 
 // ── INTRO ─────────────────────────────────────────────────────────────────────
-// Tandas que se pueden elegir en la intro (desde los temas de historia se
-// llega ya con la suya).
-const TANDAS = [
-  ['global', { es: 'Todas las épocas', en: 'All eras', ca: 'Totes les èpoques' }],
-  ['ciencia', { es: '🔬 Científicos', en: '🔬 Scientists', ca: '🔬 Científics' }],
-  ['gce', { es: 'Guerra Civil', en: 'Spanish Civil War', ca: 'Guerra Civil' }],
-  ['wwii', { es: '2.ª Guerra Mundial', en: 'World War II', ca: '2a Guerra Mundial' }],
-  ['usa', { es: 'Independencia de EE. UU.', en: 'American Independence', ca: 'Independència dels EUA' }],
-  ['franquismo', { es: 'Franquismo', en: 'Francoism', ca: 'Franquisme' }],
-  ['edad-media', { es: 'Edad Media', en: 'Middle Ages', ca: 'Edat Mitjana' }],
-  ['edad-moderna', { es: 'Edad Moderna', en: 'Early Modern', ca: 'Edat Moderna' }],
-]
-
-function Intro({ pool, onPool, onStart, lang }) {
+function Intro({ pool, onStart, lang }) {
   const en = lang === 'en'
   const q = QUI[lang] || QUI.es
   return (
@@ -155,15 +142,6 @@ function Intro({ pool, onPool, onStart, lang }) {
           <p className="text-white/50 text-sm">
             {(POOL_LABEL[lang] || POOL_LABEL.es)[pool] ?? pool}
           </p>
-        </div>
-
-        <div className="flex flex-wrap justify-center gap-1.5 mb-5">
-          {TANDAS.map(([k, label]) => (
-            <button key={k} onClick={() => onPool(k)}
-              className={`px-3 py-1.5 rounded-full text-xs font-bold transition-colors ${pool === k ? 'bg-violet-600 text-white' : 'bg-white/5 border border-white/10 text-white/60 hover:text-white'}`}>
-              {label[lang] ?? label.es}
-            </button>
-          ))}
         </div>
 
         <button
@@ -255,7 +233,7 @@ export default function QuienEsQuien() {
   const startRef  = useRef(Date.now())
 
   // Si venimos desde /estudiar/historia/gce usamos solo el pool GCE
-  const [poolKey, setPoolKey] = useState(location.state?.pool ?? 'global')
+  const poolKey  = location.state?.pool ?? 'global'
   const backPath = location.state?.backPath ?? '/juegos'
   const pool = poolKey === 'gce'          ? PERSONAJES_GCE
              : poolKey === 'wwii'         ? PERSONAJES_WWII
@@ -412,7 +390,7 @@ export default function QuienEsQuien() {
     setModoAdivinar(false)
   }
 
-  if (fase === 'intro') return <><SEOHead title={lang==='en'?'Who is Who? — Historical Figures Deduction Game':lang==='ca'?'Qui és Qui? — Joc de Deducció de Personatges Històrics':'¿Quién es Quién? — Juego de Deducción con Personajes Históricos'} description={lang==='en'?'Guess the secret historical figure using logical clues. Cross out candidates and prove your knowledge in this free history game.':lang==='ca'?'Endevina el personatge històric secret amb pistes lògiques. Descarta candidats i demostra el teu coneixement.':'Adivina el personaje histórico secreto usando pistas lógicas. Tacha candidatos y demuestra tu conocimiento de la historia.'} path="/juegos/quien-es-quien" /><Intro pool={poolKey} onPool={setPoolKey} onStart={startGame} lang={lang} /></>
+  if (fase === 'intro') return <><SEOHead title={lang==='en'?'Who is Who? — Historical Figures Deduction Game':lang==='ca'?'Qui és Qui? — Joc de Deducció de Personatges Històrics':'¿Quién es Quién? — Juego de Deducción con Personajes Históricos'} description={lang==='en'?'Guess the secret historical figure using logical clues. Cross out candidates and prove your knowledge in this free history game.':lang==='ca'?'Endevina el personatge històric secret amb pistes lògiques. Descarta candidats i demostra el teu coneixement.':'Adivina el personaje histórico secreto usando pistas lógicas. Tacha candidatos y demuestra tu conocimiento de la historia.'} path="/juegos/quien-es-quien" /><Intro pool={poolKey} onStart={startGame} lang={lang} /></>
   if (fase === 'fin') {
     const shareText = `He conseguido ${puntos.toLocaleString()} pts en ¿Quién es Quién? 🕵️ — ¿puedes superarme? https://tuthor.es/juegos/quien-es-quien`
     return (

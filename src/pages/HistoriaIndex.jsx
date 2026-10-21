@@ -124,6 +124,14 @@ const TEMAS = [
   },
 
   {
+    id: 'ciencia',
+    titulo: "Historia de la ciencia", tituloEn: "History of Science", tituloCa: "Història de la ciència",
+    subtitulo: "De Arquímedes al ADN — científicos y descubrimientos", subtituloEn: "From Archimedes to DNA — scientists and discoveries", subtituloCa: "D'Arquimedes a l'ADN — científics i descobriments",
+    emoji: '🔬', gradient: 'from-teal-700 to-indigo-900',
+    tags: ['universal', 'ciencia', 'cientificos', 'descubrimientos', 'inventos'], niveles: nivelesDeTema('historia', 'ciencia'),
+  },
+
+  {
     id: 'franquismo',
     titulo: "Franquismo y Transición", tituloEn: "Francoism & Transition", tituloCa: "Franquisme i Transició",
     subtitulo: "De la dictadura a la Constitución — 1939–1982", subtituloEn: "From dictatorship to the Constitution — 1939–1982", subtituloCa: "De la dictadura a la Constitució — 1939–1982",

@@ -325,6 +325,23 @@ function Entreguerras(p) {
   )
 }
 
+// Historia de la ciencia: el átomo y el telescopio de Galileo.
+function HistoriaCiencia(p) {
+  return (
+    <Lienzo {...p}>
+      <circle cx="78" cy="70" r="7" fill="#F472B6" />
+      {[0, 60, 120].map(a => <ellipse key={a} cx="78" cy="70" rx="44" ry="15" fill="none" stroke="#38BDF8" strokeWidth="3" transform={`rotate(${a} 78 70)`} />)}
+      <circle cx="122" cy="70" r="4.5" fill="#FDE68A" />
+      <circle cx="56" cy="32" r="4.5" fill="#FDE68A" />
+      <path d="M150 98L204 52" stroke="#B45309" strokeWidth="13" strokeLinecap="round" />
+      <path d="M196 59L212 45" stroke="#78350F" strokeWidth="17" strokeLinecap="round" />
+      <path d="M170 82L156 116M170 82L184 116" stroke="#94A3B8" strokeWidth="3.5" strokeLinecap="round" />
+      <path d={estrella(196, 22, 6)} fill="#FDE68A" />
+      <path d={estrella(222, 92, 4)} fill="#FDE68A" />
+    </Lienzo>
+  )
+}
+
 // España en el siglo XIX: la Constitución de 1812 y la corona que va y viene.
 function EspanaXIX(p) {
   return (
@@ -359,4 +376,5 @@ export const ARTE_TEMAS_HISTORIA = {
   'historia/franquismo': Franquismo,
   'historia/entreguerras': Entreguerras,
   'historia/espana-xix': EspanaXIX,
+  'historia/ciencia': HistoriaCiencia,
 }

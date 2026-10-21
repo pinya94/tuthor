@@ -104,6 +104,8 @@ export const TOPIC_CATALOG = {
       'primera-guerra-mundial': { niveles: ['eso', 'bachillerato'], formatos: { teoria: 'primera-guerra-mundial' } },
       'guerra-fria': { niveles: ['eso', 'bachillerato'], formatos: { teoria: 'guerra-fria' } },
       entreguerras: { niveles: ['eso', 'bachillerato'], formatos: { teoria: 'entreguerras' } },
+      // Con su propia tanda de personajes (PERSONAJES_CIENCIA) para ¿Quién es quién?
+      ciencia: { niveles: ['eso', 'bachillerato'], formatos: { teoria: 'historia-ciencia' } },
       'espana-xix': { niveles: ['eso', 'bachillerato'], formatos: { teoria: 'espana-xix' } },
     },
     formatos: {
@@ -114,7 +116,7 @@ export const TOPIC_CATALOG = {
         game: 'linea-temporal',
         usesLevel: true,
         tracksTopic: true,
-        temas: ['primaria', 'gce', 'wwii', 'roma', 'usa', 'antigua', 'franquismo', 'prehistoria', 'edad-media', 'edad-moderna', 'revolucion-francesa', 'revolucion-industrial', 'primera-guerra-mundial', 'guerra-fria', 'entreguerras', 'espana-xix'],
+        temas: ['primaria', 'gce', 'wwii', 'roma', 'usa', 'antigua', 'franquismo', 'prehistoria', 'edad-media', 'edad-moderna', 'revolucion-francesa', 'revolucion-industrial', 'primera-guerra-mundial', 'guerra-fria', 'entreguerras', 'espana-xix', 'ciencia'],
       },
       'quien-es-quien': {
         label: { es: '¿Quién es quién?', en: 'Who is who?', ca: 'Qui és qui?' },
@@ -125,7 +127,7 @@ export const TOPIC_CATALOG = {
         // Roma/Antigua/Prehistoria se quedan fuera: sin pool propio de
         // personajes. Prehistoria además no puede tenerlo NUNCA — no hay
         // ningún nombre propio conocido de esa época, por definición.
-        temas: ['primaria', 'gce', 'wwii', 'usa', 'franquismo', 'edad-media', 'edad-moderna'],
+        temas: ['primaria', 'gce', 'wwii', 'usa', 'franquismo', 'edad-media', 'edad-moderna', 'ciencia'],
       },
       'portadas': {
         label: { es: 'Portadas', en: 'Headlines', ca: 'Portades' },
@@ -149,7 +151,7 @@ export const TOPIC_CATALOG = {
         game: 'juego-fechas',
         usesLevel: true,
         tracksTopic: true,
-        temas: ['primaria', 'gce', 'wwii', 'roma', 'usa', 'antigua', 'franquismo', 'prehistoria', 'edad-media', 'edad-moderna', 'revolucion-francesa', 'revolucion-industrial', 'primera-guerra-mundial', 'guerra-fria', 'entreguerras', 'espana-xix'],
+        temas: ['primaria', 'gce', 'wwii', 'roma', 'usa', 'antigua', 'franquismo', 'prehistoria', 'edad-media', 'edad-moderna', 'revolucion-francesa', 'revolucion-industrial', 'primera-guerra-mundial', 'guerra-fria', 'entreguerras', 'espana-xix', 'ciencia'],
         // Escribir el año exacto es inviable en Primaria (rango demasiado amplio)
         niveles: {
           primaria: [],
@@ -168,6 +170,7 @@ export const TOPIC_CATALOG = {
           'guerra-fria': ['eso', 'bachillerato'],
           entreguerras: ['eso', 'bachillerato'],
           'espana-xix': ['eso', 'bachillerato'],
+          ciencia: ['eso', 'bachillerato'],
         },
       },
     },

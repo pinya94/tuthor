@@ -558,14 +558,19 @@ export const PERSONAJES_CIENCIA = [
     pistaUnicaCa: "Neuròloga que va investigar amagada al seu dormitori durant la guerra i va guanyar el Nobel per descobrir el factor de creixement nerviós." },
 ]
 
-// Pool combinado para el modo global
+// El juego, entrando desde Juegos, mezcla a TODOS: es para divertirse, no
+// para repasar un tema (eso se hace desde el tema, con su tanda). Quien sale
+// en dos tandas (Franco, Montseny, Washington…) entra una sola vez.
 export const PERSONAJES_TODOS = [
   ...PERSONAJES_GCE,
   ...PERSONAJES_WWII,
   ...PERSONAJES_GLOBAL,
   ...PERSONAJES_USA,
+  ...PERSONAJES_FRANQUISMO,
+  ...PERSONAJES_EDADMEDIA,
+  ...PERSONAJES_EDADMODERNA,
   ...PERSONAJES_CIENCIA,
-]
+].filter((p, i, todos) => todos.findIndex(q => q.nombre === p.nombre) === i)
 
 // ── PLANTILLAS DE PISTAS ──────────────────────────────────────────────────────
 export const PISTA_TEMPLATES = {

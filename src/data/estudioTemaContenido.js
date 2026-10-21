@@ -1984,6 +1984,71 @@ export const CONTENIDO_TEMA = {
     },
   },
 
+  "ciencia": {
+    metaTitle: {
+      es: "Historia de la ciencia: grandes científicos y descubrimientos — resumen",
+      en: "History of science: great scientists and discoveries — a summary",
+      ca: "Història de la ciència: grans científics i descobriments — resum",
+    },
+    metaDesc: {
+      es: "De Arquímedes al ADN: Copérnico, Galileo, Newton, Lavoisier, Darwin, Mendel, Marie Curie, Einstein, Ramón y Cajal y la penicilina. Resumen, test y juegos.",
+      en: "From Archimedes to DNA: Copernicus, Galileo, Newton, Lavoisier, Darwin, Mendel, Marie Curie, Einstein, Ramón y Cajal and penicillin. Summary, quiz and games.",
+      ca: "D'Arquimedes a l'ADN: Copèrnic, Galileu, Newton, Lavoisier, Darwin, Mendel, Marie Curie, Einstein, Ramón y Cajal i la penicil·lina. Resum, test i jocs.",
+    },
+    resumen: {
+      es: [
+        "En la Antigüedad, sabios como Arquímedes o Hipatia de Alejandría estudiaron las matemáticas, la física y el cielo, aunque la idea de que la Tierra estaba quieta en el centro del universo (el modelo de Ptolomeo) duró casi 1.400 años. En 1543 Copérnico propuso que la Tierra gira alrededor del Sol; Galileo lo apoyó con su telescopio y la Inquisición lo juzgó en 1633. Newton cerró esta Revolución científica en 1687 con la gravitación universal: la misma fuerza hace caer una manzana y mantiene a la Luna en su órbita.",
+        "Desde entonces la ciencia se basa en observar, experimentar y medir. Lavoisier fundó la química moderna al demostrar que la masa se conserva; Darwin explicó la evolución por selección natural (1859); Mendel, las leyes de la herencia; Mendeléiev ordenó los elementos en la tabla periódica, y Pasteur probó que muchas enfermedades las causan microbios. En el siglo XX, Marie Curie estudió la radiactividad, Einstein cambió la idea del espacio y el tiempo, Fleming descubrió la penicilina y Rosalind Franklin fotografió el ADN. En España destacan Ramón y Cajal, Severo Ochoa y Margarita Salas.",
+      ],
+      en: [
+        "In Antiquity, scholars such as Archimedes and Hypatia of Alexandria studied mathematics, physics and the sky, although the idea that the Earth stood still at the centre of the universe (Ptolemy's model) lasted almost 1,400 years. In 1543 Copernicus proposed that the Earth goes round the Sun; Galileo backed him with his telescope and the Inquisition put him on trial in 1633. Newton completed this Scientific Revolution in 1687 with universal gravitation: the same force makes an apple fall and keeps the Moon in its orbit.",
+        "Since then science has relied on observing, experimenting and measuring. Lavoisier founded modern chemistry by showing that mass is conserved; Darwin explained evolution by natural selection (1859); Mendel, the laws of inheritance; Mendeleev arranged the elements in the periodic table, and Pasteur proved that many diseases are caused by microbes. In the 20th century, Marie Curie studied radioactivity, Einstein changed our idea of space and time, Fleming discovered penicillin and Rosalind Franklin photographed DNA. In Spain, Ramón y Cajal, Severo Ochoa and Margarita Salas stand out.",
+      ],
+      ca: [
+        "A l'Antiguitat, savis com Arquimedes o Hipàtia d'Alexandria van estudiar les matemàtiques, la física i el cel, tot i que la idea que la Terra estava quieta al centre de l'univers (el model de Ptolemeu) va durar gairebé 1.400 anys. El 1543 Copèrnic va proposar que la Terra gira al voltant del Sol; Galileu el va recolzar amb el telescopi i la Inquisició el va jutjar el 1633. Newton va tancar aquesta Revolució científica el 1687 amb la gravitació universal: la mateixa força fa caure una poma i manté la Lluna a la seva òrbita.",
+        "Des d'aleshores la ciència es basa a observar, experimentar i mesurar. Lavoisier va fundar la química moderna en demostrar que la massa es conserva; Darwin va explicar l'evolució per selecció natural (1859); Mendel, les lleis de l'herència; Mendeléiev va ordenar els elements a la taula periòdica, i Pasteur va provar que moltes malalties les causen microbis. Al segle XX, Marie Curie va estudiar la radioactivitat, Einstein va canviar la idea de l'espai i el temps, Fleming va descobrir la penicil·lina i Rosalind Franklin va fotografiar l'ADN. A Espanya destaquen Ramón y Cajal, Severo Ochoa i Margarita Salas.",
+      ],
+    },
+    puntosClave: {
+      es: [
+        "Arquímedes: el principio del empuje («¡Eureka!»).",
+        "1543: Copérnico pone el Sol en el centro (heliocentrismo).",
+        "1633: la Inquisición juzga a Galileo.",
+        "1687: Newton, gravitación universal y leyes del movimiento.",
+        "Lavoisier: la masa se conserva; nace la química moderna.",
+        "1859: Darwin, la evolución por selección natural.",
+        "1869: Mendeléiev ordena la tabla periódica.",
+        "Marie Curie, la primera persona con dos Nobel.",
+        "1928: Fleming descubre la penicilina.",
+        "1953: la doble hélice del ADN, gracias a la foto de Rosalind Franklin.",
+      ],
+      en: [
+        "Archimedes: the principle of buoyancy (\"Eureka!\").",
+        "1543: Copernicus puts the Sun at the centre (heliocentrism).",
+        "1633: the Inquisition tries Galileo.",
+        "1687: Newton, universal gravitation and the laws of motion.",
+        "Lavoisier: mass is conserved; modern chemistry is born.",
+        "1859: Darwin, evolution by natural selection.",
+        "1869: Mendeleev arranges the periodic table.",
+        "Marie Curie, the first person to win two Nobel Prizes.",
+        "1928: Fleming discovers penicillin.",
+        "1953: the DNA double helix, thanks to Rosalind Franklin's photo.",
+      ],
+      ca: [
+        "Arquimedes: el principi de l'empenta («Eureka!»).",
+        "1543: Copèrnic posa el Sol al centre (heliocentrisme).",
+        "1633: la Inquisició jutja Galileu.",
+        "1687: Newton, gravitació universal i lleis del moviment.",
+        "Lavoisier: la massa es conserva; neix la química moderna.",
+        "1859: Darwin, l'evolució per selecció natural.",
+        "1869: Mendeléiev ordena la taula periòdica.",
+        "Marie Curie, la primera persona amb dos Nobel.",
+        "1928: Fleming descobreix la penicil·lina.",
+        "1953: la doble hèlix de l'ADN, gràcies a la foto de Rosalind Franklin.",
+      ],
+    },
+  },
+
   'europa': {
     metaTitle: {
       es: 'Europa: países, relieve y ríos — resumen para estudiar',

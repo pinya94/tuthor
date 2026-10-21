@@ -121,6 +121,11 @@ export const EXAMS = {
     emoji: '🎩', subject: 'historia',
     path: 'examen/espana-xix', page: () => import('../pages/HistoriaEspanaXIXExamen'),
   },
+  'historia-ciencia': {
+    label: { es: 'Historia de la ciencia (teoría)', en: 'History of Science (theory)', ca: 'Història de la ciència (teoria)' },
+    emoji: '🔬', subject: 'historia',
+    path: 'examen/historia-ciencia', page: () => import('../pages/HistoriaCienciaExamen'),
+  },
   'entreguerras': {
     label: { es: 'Entreguerras (teoría)', en: 'Between the Wars (theory)', ca: 'Entreguerres (teoria)' },
     emoji: '📉', subject: 'historia',
