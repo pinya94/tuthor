@@ -21,7 +21,7 @@ const C = {
   p2:     { es: 'Suma las que van en el mismo eje: las opuestas se restan.', en: 'Add the ones on the same axis: opposite ones subtract.', ca: 'Suma les del mateix eix: les oposades es resten.' },
   p3:     { es: 'La fuerza neta te dice hacia dónde se mueve — o si se queda quieta.', en: 'The net force tells you which way it moves — or if it stays still.', ca: 'La força neta et diu cap on es mou — o si es queda quieta.' },
   eq:     { es: 'Si todas se cancelan, está en equilibrio y no se mueve.', en: 'If they all cancel out, it is balanced and does not move.', ca: 'Si totes es cancel·len, està en equilibri i no es mou.' },
-  diag:   { es: 'Una fuerza diagonal (↗) suma su valor a los dos ejes a la vez.', en: 'A diagonal force (↗) adds its value to both axes at once.', ca: 'Una força diagonal (↗) suma el seu valor als dos eixos alhora.' },
+  diag:   { es: 'Una fuerza diagonal (↗, a 45°) empuja en los dos ejes, pero en cada uno solo con unas 7 décimas de su valor: 50 N en diagonal son unos 35 N a lo ancho y 35 N a lo alto.', en: 'A diagonal force (↗, at 45°) pushes along both axes, but only about 7/10 of its value on each: 50 N on a diagonal is about 35 N sideways and 35 N up or down.', ca: 'Una força diagonal (↗, a 45°) empeny en els dos eixos, però en cadascun només amb unes 7 dècimes del seu valor: 50 N en diagonal són uns 35 N d’amplada i 35 N d’alçada.' },
   time:   { es: 'Tiempo', en: 'Time', ca: 'Temps' },
   timeVal:{ es: '40 segundos', en: '40 seconds', ca: '40 segons' },
   pts:    { es: 'Puntos', en: 'Points', ca: 'Punts' },
@@ -38,6 +38,7 @@ const C = {
   end:    { es: 'Tiempo', en: "Time's up", ca: 'Temps' },
   hits:   { es: 'aciertos', en: 'correct', ca: 'encerts' },
   scoreLbl:{ es: 'puntos', en: 'points', ca: 'punts' },
+  scoreLbl1:{ es: 'punto', en: 'point', ca: 'punt' },
   again:  { es: '▶ Jugar de nuevo', en: '▶ Play again', ca: '▶ Jugar de nou' },
   changeDif: { es: 'Cambiar dificultad', en: 'Change difficulty', ca: 'Canviar dificultat' },
   exam:    { es: 'Modo examen (tipo test) →', en: 'Exam mode (quiz) →', ca: 'Mode examen (tipus test) →' },
@@ -56,6 +57,7 @@ const CORRECT_TIME = 3  // segundos que suma cada acierto
 
 // ── Pantalla de dificultad ─────────────────────────────────────────────────────
 function DifficultyScreen({ onSelect, l }) {
+  const { localPath } = useLang()
   const [dif, setDif] = useState('facil')
   return (
     <div className="relative z-10 flex flex-col items-center min-h-[calc(100vh-4rem)] px-4 py-8">
@@ -79,7 +81,7 @@ function DifficultyScreen({ onSelect, l }) {
           className="w-full py-4 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-lg rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-amber-500/20 mb-3">
           {T('start', l)}
         </button>
-        <Link to="/examen/fuerza-neta-test"
+        <Link to={localPath('/examen/fuerza-neta-test')}
           className="block text-center text-white/30 hover:text-white/60 text-sm transition-colors">
           {T('exam', l)}
         </Link>
@@ -240,7 +242,7 @@ export default function FuerzaNeta() {
         <div>
           <p className="text-white/40 text-xs uppercase tracking-widest">🧭 {DIFS[difficulty].label[l] ?? DIFS[difficulty].label.es}</p>
           <p className="text-white font-bold text-lg flex items-center gap-2">
-            {score} {T('scoreLbl', l)}
+            {score} {T(Math.abs(score) === 1 ? 'scoreLbl1' : 'scoreLbl', l)}
             {streak >= 2 && <span className="text-orange-400 text-sm font-black">🔥 {streak}</span>}
           </p>
         </div>

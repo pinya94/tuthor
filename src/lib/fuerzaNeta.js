@@ -2,6 +2,8 @@
 // (src/pages/FuerzaNeta.jsx) y el reto diario (src/pages/PreguntaDiaria.jsx).
 // Modelo: fuerzas cardinales y diagonales (45°) sobre una caja; la respuesta es
 // la dirección de la fuerza neta (8 direcciones + equilibrio), por signo del neto.
+// Una diagonal de F newtons empuja F·cos 45° ≈ 0,71·F en cada eje (NO F entera:
+// así lo calculaba al principio y el nivel difícil daba respuestas falsas).
 
 // Convención física: +x derecha, +y arriba.
 export const DIRS = {
@@ -72,7 +74,19 @@ export function genRound(uiDiff, rand = Math.random) {
   return genByType(pool[rnd(0, pool.length - 1, rand)], rand)
 }
 
+// Componente de una fuerza en un eje: entera si es cardinal, ·cos 45° si es diagonal.
+const DIAG = Math.SQRT1_2
+const esDiagonal = dir => DIRS[dir].dx !== 0 && DIRS[dir].dy !== 0
+export const componente = (f, axis) => (axis === 'H' ? DIRS[f.dir].dx : DIRS[f.dir].dy) * f.mag * (esDiagonal(f.dir) ? DIAG : 1)
+
 function genByType(type, rand) {
+  for (;;) {
+    const r = intentaRonda(type, rand)
+    if (r) return r
+  }
+}
+
+function intentaRonda(type, rand) {
   const forces = []
   let pool = FULL_POOL
   if (type === 'easy') {
@@ -95,22 +109,36 @@ function genByType(type, rand) {
     for (let i = 0; i < nd; i++) forces.push({ dir: DIAGONAL[rnd(0, 3, rand)], mag: magFor('master', rand) })
   }
   const shuffled = shuffle(forces, rand)
-  let nx = 0, ny = 0
-  for (const f of shuffled) { const d = DIRS[f.dir]; nx += d.dx * f.mag; ny += d.dy * f.mag }
+  // El neto de cada eje es exacto 0 solo si se anulan las cardinales entre sí
+  // y las diagonales entre sí; si no, tiene que quedar claro (|neto| ≥ 3 N)
+  // para que el redondeo no decida la respuesta.
+  const neto = axis => {
+    const card = shuffled.filter(f => !esDiagonal(f.dir)).reduce((a, f) => a + componente(f, axis), 0)
+    const diag = shuffled.filter(f => esDiagonal(f.dir)).reduce((a, f) => a + (axis === 'H' ? DIRS[f.dir].dx : DIRS[f.dir].dy) * f.mag, 0)
+    if (card === 0 && diag === 0) return 0
+    const v = card + diag * DIAG
+    return Math.abs(v) < 3 ? null : v
+  }
+  const nx = neto('H'), ny = neto('V')
+  if (nx == null || ny == null) return null
   const answer = answerFromNet(nx, ny)
   const count = type === 'easy' ? 3 : type === 'medium' || type === 'hard' ? 4 : 5
   return { forces: shuffled, netX: nx, netY: ny, answer, options: buildOptions(answer, count, pool, rand) }
 }
 
-// Desglose de un eje ('H'|'V') para el feedback: "+40 −10 = +30".
-// Incluye las diagonales, que aportan a los dos ejes.
+// Desglose de un eje ('H'|'V') para el feedback: "+40 −10 = +30". Las
+// diagonales aportan a los dos ejes unas 7 décimas de su valor y van con «≈»:
+// "+40 ≈−35 ≈ +5".
 export function axisBreakdown(forces, axis) {
   const contribs = forces
-    .map(f => (axis === 'H' ? DIRS[f.dir].dx : DIRS[f.dir].dy) * f.mag)
-    .filter(c => c !== 0)
+    .map(f => ({ v: componente(f, axis), aprox: esDiagonal(f.dir) }))
+    .filter(c => c.v !== 0)
   if (contribs.length === 0) return '0'
-  const parts = contribs.map(c => (c > 0 ? `+${c}` : `−${Math.abs(c)}`))
-  const sum = contribs.reduce((a, b) => a + b, 0)
-  const sumStr = sum > 0 ? `+${sum}` : sum < 0 ? `−${Math.abs(sum)}` : '0'
-  return parts.length > 1 ? `${parts.join(' ')} = ${sumStr}` : sumStr
+  const aprox = contribs.some(c => c.aprox)
+  const fmt = (v, a) => `${a ? '≈' : ''}${v > 0 ? '+' : '−'}${Math.round(Math.abs(v))}`
+  const sum = contribs.reduce((a, c) => a + c.v, 0)
+  const r = Math.round(sum)
+  const sumStr = Math.abs(sum) < 1e-9 ? '0' : r > 0 ? `+${r}` : `−${Math.abs(r)}`
+  const parts = contribs.map(c => fmt(c.v, c.aprox))
+  return parts.length > 1 ? `${parts.join(' ')} ${aprox && sumStr !== '0' ? '≈' : '='} ${sumStr}` : parts[0]
 }

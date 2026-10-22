@@ -226,7 +226,7 @@ function Resultado({ ganó, secreto, pistaIdx, onRepetir, onSalir, lang }) {
 export default function QuienEsQuien() {
   const navigate  = useNavigate()
   const location  = useLocation()
-  const { lang, localPath } = useLang()
+  const { lang, localPath, tr } = useLang()
   const en = lang === 'en'
   const q = QUI[lang] || QUI.es
   const { user }  = useAuth()
@@ -423,15 +423,12 @@ export default function QuienEsQuien() {
         <div className="fixed inset-0 z-50 flex items-center justify-center px-6" style={{ backgroundColor: 'rgba(0,0,0,0.7)' }}>
           <div className="bg-[#0d0d1a] border border-white/10 rounded-2xl p-6 w-full max-w-sm text-center shadow-2xl">
             <span className="text-5xl block mb-3">🤔</span>
-            <h3 className="text-white font-black text-xl mb-1">Parece que apuntas a…</h3>
-            <div
-              className="w-16 h-16 rounded-xl flex items-center justify-center text-white font-black text-lg mx-auto my-3 shadow-lg"
-              style={{ backgroundColor: popupConfirm.color }}
-            >
-              {popupConfirm.iniciales}
+            <h3 className="text-white font-black text-xl mb-1">{tr({ es: 'Parece que apuntas a…', en: 'Looks like you’re going for…', ca: 'Sembla que apuntes a…' })}</h3>
+            <div className="w-24 h-24 rounded-full overflow-hidden mx-auto my-3 shadow-lg" style={{ backgroundColor: popupConfirm.color }}>
+              <Retrato p={popupConfirm} className="w-full h-full" />
             </div>
             <p className="text-white font-bold text-lg mb-1">{popupConfirm.nombre}</p>
-            <p className="text-white/40 text-sm mb-5">¿Quieres comprobarlo?</p>
+            <p className="text-white/40 text-sm mb-5">{tr({ es: '¿Quieres comprobarlo?', en: 'Want to check?', ca: 'Ho vols comprovar?' })}</p>
             <div className="flex gap-3">
               <button
                 onClick={() => setPopupConfirm(null)}

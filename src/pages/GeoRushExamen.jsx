@@ -227,7 +227,7 @@ function GeoRushPartida() {
       <div className="relative z-10 flex items-center justify-center min-h-[calc(100vh-4rem)] px-4">
         {pageMeta}
         <div className="text-center text-white/50">
-          <p className="text-lg mb-4">No hay suficientes países para esta región.</p>
+          <p className="text-lg mb-4">{lang === 'en' ? 'There are not enough countries for this region.' : lang === 'ca' ? 'No hi ha prou països per a aquesta regió.' : 'No hay suficientes países para esta región.'}</p>
           <button onClick={() => navigate(backPath ? localPath(backPath) : -1)} className="text-[#EDAE49] hover:underline">{lang === 'en' ? '← Back' : '← Volver'}</button>
         </div>
       </div>

@@ -138,7 +138,7 @@ export default function MatematicasPractica() {
   return (
     <div className="relative z-10 flex flex-col min-h-[calc(100vh-4rem)] px-3 sm:px-6 py-4">
       <p className="text-white/30 text-xs mb-4 text-center">
-        <button onClick={() => navigate('/estudiar/matematicas')} className="hover:text-white/60 transition-colors">Matemáticas</button>
+        <button onClick={() => navigate(localPath('/estudiar/matematicas'))} className="hover:text-white/60 transition-colors">{en ? 'Mathematics' : 'Matemáticas'}</button>
         {' '}/{' '}
         <button onClick={() => navigate(localPath(`/estudiar/matematicas/${modo}`))} className="hover:text-white/60 transition-colors">{en ? (modoCfg.tituloEn || modoCfg.titulo) : modoCfg.titulo}</button>
         {' '}/{' '}

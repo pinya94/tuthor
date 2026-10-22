@@ -28,7 +28,7 @@ function renderQuestion({ round, phase, answer, onAnswer, l }) {
         {reveal && (
           <div className="absolute inset-x-0 bottom-0 bg-black/70 backdrop-blur-sm p-2 text-center">
             <p className={`font-black ${won ? 'text-green-400' : 'text-red-400'}`}>
-              {won ? '🎉 ¡Correcto!' : '❌'} {DIRS[round.answer].arrow} {DIRS[round.answer].label[l] ?? DIRS[round.answer].label.es}
+              {won ? (l === 'en' ? '🎉 Correct!' : l === 'ca' ? '🎉 Correcte!' : '🎉 ¡Correcto!') : '❌'} {DIRS[round.answer].arrow} {DIRS[round.answer].label[l] ?? DIRS[round.answer].label.es}
             </p>
             <p className="text-white/70 text-[11px] font-mono mt-0.5">
               H: {axisBreakdown(round.forces, 'H')} · V: {axisBreakdown(round.forces, 'V')}

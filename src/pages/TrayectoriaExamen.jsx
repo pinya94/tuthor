@@ -29,6 +29,7 @@ function buildExam() {
 // ── Intro ────────────────────────────────────────────────────────────────────
 
 function Intro({ onStart, l }) {
+  const { localPath } = useLang()
   const copy = {
     badge:  { es: 'Matemáticas · Funciones', en: 'Maths · Functions', ca: 'Matemàtiques · Funcions' },
     title:  { es: '⚽ Examen Trayectoria', en: '⚽ Trajectory Exam', ca: '⚽ Examen Trajectòria' },
@@ -64,7 +65,7 @@ function Intro({ onStart, l }) {
           className="w-full bg-green-600 hover:bg-green-500 text-white font-black py-4 rounded-xl transition-colors text-lg mb-3">
           {t('start')}
         </button>
-        <Link to="/juegos/trayectoria"
+        <Link to={localPath('/juegos/trayectoria')}
           className="block text-center text-white/40 hover:text-white/70 text-sm transition-colors">
           {t('back')}
         </Link>
@@ -76,6 +77,7 @@ function Intro({ onStart, l }) {
 // ── End screen ───────────────────────────────────────────────────────────────
 
 function ExamEnd({ score, results, onRetry, l }) {
+  const { localPath } = useLang()
   const pct = score / TOTAL
   const grade = pct === 1 ? '🏆' : pct >= 0.8 ? '⭐' : pct >= 0.6 ? '✅' : pct >= 0.4 ? '📚' : '💪'
   const copy = {
@@ -124,7 +126,7 @@ function ExamEnd({ score, results, onRetry, l }) {
             className="px-6 py-3 rounded-full bg-[#EDAE49] text-black font-bold hover:bg-[#f5c16c] transition-colors">
             {t('retry')}
           </button>
-          <Link to="/juegos/trayectoria"
+          <Link to={localPath('/juegos/trayectoria')}
             className="px-6 py-3 rounded-full bg-white/10 text-white font-bold hover:bg-white/20 transition-colors text-center">
             {t('play')}
           </Link>

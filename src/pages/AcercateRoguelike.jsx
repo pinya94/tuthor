@@ -347,9 +347,12 @@ export default function AcercateRoguelike() {
 
   // ── Share ────────────────────────────────────────────────────────────────
   function getShareTexto() {
-    const dif = DIFS[rd?.difId || difId]
     const mult = (rd?.multiplicador || 1) > 1 ? ` · ×${(rd.multiplicador).toFixed(1)}` : ''
-    return `He llegado al nivel ${rd?.nivel} con ${score.toLocaleString()} pts en Acércate al Número ⚔️${mult} — ¿puedes superarme? tuthor.es/juegos/acercate`
+    return tr({
+      es: `He llegado al nivel ${rd?.nivel} con ${score.toLocaleString('es-ES')} pts en Acércate al Número ⚔️${mult} — ¿puedes superarme? tuthor.es/juegos/acercate`,
+      en: `I reached level ${rd?.nivel} with ${score.toLocaleString('en-US')} pts in Target Number ⚔️${mult} — can you beat me? tuthor.es/en/juegos/acercate`,
+      ca: `He arribat al nivell ${rd?.nivel} amb ${score.toLocaleString('ca-ES')} punts a Acosta’t al Número ⚔️${mult} — em superes? tuthor.es/ca/juegos/acercate`,
+    })
   }
 
 
@@ -547,7 +550,7 @@ export default function AcercateRoguelike() {
       <GameEndScreen
         game="acercate-roguelike"
         emoji="🏁"
-        title={`${au.fin} · ${difLabel.label}`}
+        title={`${au.fin} · ${lang === 'en' ? difLabel.labelEn : lang === 'ca' ? difLabel.labelCa : difLabel.label}`}
         score={score}
         stats={[{ label: au.nivel, value: nivelAlcanzado, emoji: '🎲' }]}
         shareText={getShareTexto()}

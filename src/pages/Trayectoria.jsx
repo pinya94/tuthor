@@ -149,6 +149,7 @@ const RULES_COPY = {
 }
 
 function DifficultyScreen({ onSelect, l }) {
+  const { localPath } = useLang()
   const [dif, setDif] = useState('easy')
   const t = k => RULES_COPY[k][l] ?? RULES_COPY[k].es
   const pwups = RULES_COPY.pwups[l] ?? RULES_COPY.pwups.es
@@ -181,7 +182,7 @@ function DifficultyScreen({ onSelect, l }) {
           className="w-full py-4 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-lg rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-amber-500/20 mb-3">
           {t('start')}
         </button>
-        <Link to="/examen/trayectoria"
+        <Link to={localPath('/examen/trayectoria')}
           className="block text-center text-white/30 hover:text-white/60 text-sm transition-colors">
           {t('exam')}
         </Link>

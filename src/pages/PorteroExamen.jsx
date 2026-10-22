@@ -142,6 +142,7 @@ function ExamField({ question, phase, chosen, ballPos, trail }) {
 // ── Intro ─────────────────────────────────────────────────────────────────────
 
 function Intro({ onStart, l }) {
+  const { localPath } = useLang()
   const T = (es, en, ca) => l === 'en' ? en : l === 'ca' ? ca : es
   return (
     <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
@@ -175,7 +176,7 @@ function Intro({ onStart, l }) {
           className="w-full bg-[#EDAE49] hover:bg-amber-400 text-black font-black py-4 rounded-xl transition-colors text-lg mb-3">
           {T('Empezar examen →', 'Start exam →', 'Començar examen →')}
         </button>
-        <Link to="/juegos/portero"
+        <Link to={localPath('/juegos/portero')}
           className="block text-center text-white/40 hover:text-white/70 text-sm transition-colors">
           {T('← Volver al modo partido', '← Back to match mode', '← Tornar al mode partit')}
         </Link>
@@ -187,6 +188,7 @@ function Intro({ onStart, l }) {
 // ── End screen ────────────────────────────────────────────────────────────────
 
 function ExamEnd({ score, results, onRetry, l }) {
+  const { localPath } = useLang()
   const T = (es, en, ca) => l === 'en' ? en : l === 'ca' ? ca : es
   const pct = score / TOTAL
   const grade = pct === 1 ? '🏆' : pct >= 0.8 ? '⭐' : pct >= 0.6 ? '✅' : pct >= 0.4 ? '📚' : '💪'
@@ -226,7 +228,7 @@ function ExamEnd({ score, results, onRetry, l }) {
             className="px-6 py-3 rounded-full bg-[#EDAE49] text-black font-bold hover:bg-[#f5c16c] transition-colors">
             {T('▶ Repetir examen', '▶ Retry exam', '▶ Repetir examen')}
           </button>
-          <Link to="/juegos/portero"
+          <Link to={localPath('/juegos/portero')}
             className="px-6 py-3 rounded-full bg-white/10 text-white font-bold hover:bg-white/20 transition-colors text-center">
             {T('Modo partido (90 s)', 'Match mode (90 s)', 'Mode partit (90 s)')}
           </Link>

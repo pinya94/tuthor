@@ -34,7 +34,7 @@ function Ficha({ d, onClick }) {
 }
 
 export default function ElCambio() {
-  const { lang } = useLang()
+  const { lang, localPath } = useLang()
   const { user } = useAuth()
   const l = lang === 'en' ? 'en' : lang === 'ca' ? 'ca' : 'es'
 
@@ -143,7 +143,7 @@ export default function ElCambio() {
               className="w-full py-4 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-lg rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-amber-500/20 mb-3">
               {tr({ es: '▶ Empezar', en: '▶ Start', ca: '▶ Començar' }, l)}
             </button>
-            <Link to="/examen/el-cambio-test" className="block text-center text-white/30 hover:text-white/60 text-sm transition-colors">
+            <Link to={localPath('/examen/el-cambio-test')} className="block text-center text-white/30 hover:text-white/60 text-sm transition-colors">
               {tr({ es: 'Modo examen (con nota) →', en: 'Exam mode (graded) →', ca: 'Mode examen (amb nota) →' }, l)}
             </Link>
             <SupportBlock variant="top" className="mt-4" />

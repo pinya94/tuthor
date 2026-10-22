@@ -12,7 +12,7 @@ const CX = 200, CY = 150
 function forceLen(mag) { return Math.min(40 + mag * 1.1, 122) }
 
 // offset = desplazamiento lateral (px) para separar flechas paralelas del mismo eje.
-function Arrow({ dir, len, color, width, label, offset = 0 }) {
+function Arrow({ dir, len, color, width, label, offset = 0, labelOffset = offset }) {
   const d = DIRS[dir]
   const START_GAP = 30 // arranca fuera de la caja
   const rawx = d.dx, rawy = -d.dy
@@ -27,8 +27,9 @@ function Arrow({ dir, len, color, width, label, offset = 0 }) {
   const hl = 15
   const h1x = ex - hl * Math.cos(ang - 0.45), h1y = ey - hl * Math.sin(ang - 0.45)
   const h2x = ex - hl * Math.cos(ang + 0.45), h2y = ey - hl * Math.sin(ang + 0.45)
-  const lx = CX + px * offset + ax * (len + 20)
-  const ly = CY + py * offset + ay * (len + 20)
+  // la etiqueta se separa más que la flecha: «20 N» y «20 N» en paralelo no se pisan
+  const lx = CX + px * labelOffset + ax * (len + 20)
+  const ly = CY + py * labelOffset + ay * (len + 20)
   // la línea acaba donde empieza la punta, para que la punta quede nítida
   const lex = ex - ax * hl * 0.8, ley = ey - ay * hl * 0.8
   return (
@@ -75,7 +76,7 @@ export default function ForceDiagram({ round, reveal }) {
       {/* fuerzas (flechas paralelas separadas si comparten dirección) */}
       {round.forces.map((f, i) => (
         <Arrow key={i} dir={f.dir} len={forceLen(f.mag)} color="#7dd3fc" width={6}
-          label={`${f.mag} N`} offset={off[i]} />
+          label={`${f.mag} N`} offset={off[i]} labelOffset={off[i] * 2.3} />
       ))}
 
       {/* fuerza neta (al revelar) */}

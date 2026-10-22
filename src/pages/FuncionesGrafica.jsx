@@ -50,6 +50,7 @@ const DIFS = {
 }
 
 function DifficultyScreen({ onSelect, l }) {
+  const { localPath } = useLang()
   const [dif, setDif] = useState('facil')
   return (
     <div className="relative z-10 flex flex-col items-center min-h-[calc(100vh-4rem)] px-4 py-8">
@@ -73,7 +74,7 @@ function DifficultyScreen({ onSelect, l }) {
           className="w-full py-4 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-lg rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-amber-500/20 mb-3">
           {T('start', l)}
         </button>
-        <Link to="/examen/funciones-grafica-test"
+        <Link to={localPath('/examen/funciones-grafica-test')}
           className="block text-center text-white/30 hover:text-white/60 text-sm transition-colors">
           {T('exam', l)}
         </Link>

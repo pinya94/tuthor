@@ -74,15 +74,16 @@ function BrowserFrame({ children }) {
 }
 
 function MockClassList() {
+  const { tr } = useLang()
   return (
     <BrowserFrame>
-      <p className="text-white font-black text-sm mb-3">Mis clases</p>
+      <p className="text-white font-black text-sm mb-3">{tr({ es: "Mis clases", en: "My classes", ca: "Les meves classes" })}</p>
       <div className="space-y-2">
-        {[{ name: '3º ESO A', n: 24, code: 'F7K2QX' }, { name: '4º ESO B', n: 19, code: 'M3RT9L' }].map(c => (
+        {[{ name: tr({ es: "3º ESO A", en: "Class 9A", ca: "3r ESO A" }), n: 24, code: 'F7K2QX' }, { name: tr({ es: "4º ESO B", en: "Class 10B", ca: "4t ESO B" }), n: 19, code: 'M3RT9L' }].map(c => (
           <div key={c.code} className="flex items-center justify-between gap-3 bg-white/5 border border-white/10 rounded-xl px-3.5 py-2.5">
             <div>
               <p className="text-white text-[13px] font-bold">{c.name}</p>
-              <p className="text-white/40 text-[11px]">{c.n} alumnos</p>
+              <p className="text-white/40 text-[11px]">{c.n} {tr({ es: "alumnos", en: "students", ca: "alumnes" })}</p>
             </div>
             <span className="font-mono text-[11px] bg-black/30 border border-white/10 rounded-lg px-2 py-1 text-teal-300">{c.code}</span>
           </div>
@@ -105,15 +106,16 @@ const NOMBRES_CLASE = [
 const HUECOS_PLANO = 30
 
 function MockSeating() {
+  const { tr } = useLang()
   const mesas = Array.from({ length: HUECOS_PLANO }, (_, i) => NOMBRES_CLASE[i] ?? null)
   return (
     <BrowserFrame>
       <div className="flex items-center justify-between mb-3">
-        <p className="flex items-center gap-1.5 text-white font-black text-sm"><Pupitre className="w-4 h-4" />Aula · 3º ESO A</p>
-        <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-1 rounded-lg bg-teal-600 text-white"><Dado className="w-3 h-3" />Sale a la pizarra</span>
+        <p className="flex items-center gap-1.5 text-white font-black text-sm"><Pupitre className="w-4 h-4" />{tr({ es: "Aula", en: "Classroom", ca: "Aula" })} · {tr({ es: "3º ESO A", en: "Class 9A", ca: "3r ESO A" })}</p>
+        <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-1 rounded-lg bg-teal-600 text-white"><Dado className="w-3 h-3" />{tr({ es: "Sale a la pizarra", en: "Up to the board", ca: "Surt a la pissarra" })}</span>
       </div>
       <div className="rounded-lg bg-white/[0.07] py-1.5 text-center mb-2">
-        <span className="text-white/35 text-[9px] uppercase tracking-[0.3em] font-bold">Pizarra</span>
+        <span className="text-white/35 text-[9px] uppercase tracking-[0.3em] font-bold">{tr({ es: "Pizarra", en: "Board", ca: "Pissarra" })}</span>
       </div>
       <div className="grid grid-cols-6 gap-1">
         {mesas.map((n, i) => (
@@ -129,16 +131,17 @@ function MockSeating() {
 }
 
 function MockTasks() {
+  const { tr } = useLang()
   const rows = [
-    { label: 'Guerra Civil — ¿Quién es quién?', arte: 'quien-es-quien', done: 3, total: 4 },
-    { label: 'Fuerza Neta', arte: 'fuerza-neta', done: 1, total: 4 },
-    { label: 'Traer el libro de texto', done: 4, total: 4 },
+    { label: tr({ es: "Guerra Civil — ¿Quién es quién?", en: "Who is Who? — Scientists", ca: "Guerra Civil — Qui és qui?" }), arte: 'quien-es-quien', done: 3, total: 4 },
+    { label: tr({ es: "Fuerza Neta", en: "Net Force", ca: "Força Neta" }), arte: 'fuerza-neta', done: 1, total: 4 },
+    { label: tr({ es: "Traer el libro de texto", en: "Bring the textbook", ca: "Portar el llibre de text" }), done: 4, total: 4 },
   ]
   return (
     <BrowserFrame>
       <div className="flex items-center justify-between mb-3">
-        <p className="text-white font-black text-sm">Tareas · 3º ESO A</p>
-        <span className="text-[10px] font-bold px-2 py-1 rounded-lg bg-teal-600 text-white">+ Asignar tarea</span>
+        <p className="text-white font-black text-sm">{tr({ es: "Tareas", en: "Assignments", ca: "Tasques" })} · {tr({ es: "3º ESO A", en: "Class 9A", ca: "3r ESO A" })}</p>
+        <span className="text-[10px] font-bold px-2 py-1 rounded-lg bg-teal-600 text-white">+ {tr({ es: "Asignar tarea", en: "Assign task", ca: "Assignar tasca" })}</span>
       </div>
       <div className="space-y-2">
         {rows.map(r => (
@@ -164,30 +167,31 @@ function MockTasks() {
 // Esta muestra la otra mitad de la promesa del titular: no solo asignas,
 // también VES cómo le va a cada alumno con solo tocar su nombre.
 function MockStudentDetail() {
+  const { tr } = useLang()
   return (
     <BrowserFrame>
-      <p className="text-white font-black text-sm mb-3">Alumnos · 3º ESO A</p>
+      <p className="text-white font-black text-sm mb-3">{tr({ es: "Alumnos", en: "Students", ca: "Alumnes" })} · {tr({ es: "3º ESO A", en: "Class 9A", ca: "3r ESO A" })}</p>
       <div className="space-y-2">
         <div className="rounded-xl border border-violet-400/30 bg-violet-500/[0.09] px-3.5 py-3">
           <div className="flex items-center justify-between mb-2.5">
             <p className="text-white text-[13px] font-bold">Nora</p>
-            <span className="text-violet-300 text-[10px] font-bold">Ficha ▾</span>
+            <span className="text-violet-300 text-[10px] font-bold">{tr({ es: "Ficha ▾", en: "Profile ▾", ca: "Fitxa ▾" })}</span>
           </div>
           <div className="grid grid-cols-3 gap-2 mb-2.5">
             <div className="bg-black/25 rounded-lg py-2 text-center">
               <p className="text-amber-400 font-black text-sm leading-none">340</p>
-              <p className="text-white/40 text-[9px] mt-1">monedas</p>
+              <p className="text-white/40 text-[9px] mt-1">{tr({ es: "monedas", en: "coins", ca: "monedes" })}</p>
             </div>
             <div className="bg-black/25 rounded-lg py-2 text-center">
               <p className="text-green-400 font-black text-sm leading-none">12</p>
-              <p className="text-white/40 text-[9px] mt-1">aprobados</p>
+              <p className="text-white/40 text-[9px] mt-1">{tr({ es: "aprobados", en: "passed", ca: "aprovats" })}</p>
             </div>
             <div className="bg-black/25 rounded-lg py-2 text-center">
               <p className="flex items-center justify-center gap-1 text-white font-black text-sm leading-none"><Racha className="w-3.5 h-3.5" />5</p>
-              <p className="text-white/40 text-[9px] mt-1">racha</p>
+              <p className="text-white/40 text-[9px] mt-1">{tr({ es: "racha", en: "streak", ca: "ratxa" })}</p>
             </div>
           </div>
-          <p className="text-white/40 text-[10.5px]">Última actividad: hoy · Fuerza Neta — 92 pts</p>
+          <p className="text-white/40 text-[10.5px]">{tr({ es: "Última actividad: hoy · Fuerza Neta — 92 pts", en: "Last activity: today · Net Force — 92 pts", ca: "Darrera activitat: avui · Força Neta — 92 pts" })}</p>
         </div>
         {['Iker', 'Bruno'].map(n => (
           <div key={n} className="flex items-center justify-between bg-white/[0.04] border border-white/10 rounded-xl px-3.5 py-2.5">
@@ -201,24 +205,25 @@ function MockStudentDetail() {
 }
 
 function MockStudentView() {
+  const { tr } = useLang()
   return (
     <BrowserFrame>
-      <p className="flex items-center gap-1.5 text-white font-black text-sm mb-3"><Pizarra className="w-4 h-4" />Mi clase</p>
+      <p className="flex items-center gap-1.5 text-white font-black text-sm mb-3"><Pizarra className="w-4 h-4" />{tr({ es: "Mi clase", en: "My class", ca: "La meva classe" })}</p>
       <div className="space-y-2">
         <div className="border border-red-500/30 rounded-xl px-3.5 py-2.5 bg-white/[0.04]">
-          <p className="text-white text-[12.5px] font-bold">Traer el libro de texto</p>
-          <p className="text-[11px] mt-0.5"><span className="text-white/40">3º ESO A · </span><span className="text-red-400 font-semibold">vence 3 ago</span></p>
+          <p className="text-white text-[12.5px] font-bold">{tr({ es: "Traer el libro de texto", en: "Bring the textbook", ca: "Portar el llibre de text" })}</p>
+          <p className="text-[11px] mt-0.5"><span className="text-white/40">{tr({ es: "3º ESO A", en: "Class 9A", ca: "3r ESO A" })} · </span><span className="text-red-400 font-semibold">{tr({ es: "vence 3 ago", en: "due 3 Aug", ca: "venç 3 ag" })}</span></p>
         </div>
         <div className="border border-white/10 rounded-xl px-3.5 py-2.5 bg-white/[0.04] flex items-center justify-between gap-3">
           <div>
-            <p className="text-white text-[12.5px] font-bold">Fuerza Neta</p>
-            <p className="text-white/40 text-[11px] mt-0.5">3º ESO A · vence 7 ago</p>
+            <p className="text-white text-[12.5px] font-bold">{tr({ es: "Fuerza Neta", en: "Net Force", ca: "Força Neta" })}</p>
+            <p className="text-white/40 text-[11px] mt-0.5">{tr({ es: "3º ESO A", en: "Class 9A", ca: "3r ESO A" })} · {tr({ es: "vence 7 ago", en: "due 7 Aug", ca: "venç 7 ag" })}</p>
           </div>
-          <span className="text-white/30 text-[11px] shrink-0">Pendiente</span>
+          <span className="text-white/30 text-[11px] shrink-0">{tr({ es: "Pendiente", en: "To do", ca: "Pendent" })}</span>
         </div>
         <div className="border border-white/10 rounded-xl px-3.5 py-2.5 bg-white/[0.04] flex items-center justify-between gap-3">
-          <p className="text-white text-[12.5px] font-bold truncate">Guerra Civil — ¿Quién es quién?</p>
-          <span className="inline-flex items-center gap-1 text-green-400 text-[11px] font-bold shrink-0"><Acierto className="w-3 h-3" />Hecha <span className="text-white/40">92 pts</span></span>
+          <p className="text-white text-[12.5px] font-bold truncate">{tr({ es: "Guerra Civil — ¿Quién es quién?", en: "Who is Who? — Scientists", ca: "Guerra Civil — Qui és qui?" })}</p>
+          <span className="inline-flex items-center gap-1 text-green-400 text-[11px] font-bold shrink-0"><Acierto className="w-3 h-3" />{tr({ es: "Hecha", en: "Done", ca: "Feta" })} <span className="text-white/40">92 pts</span></span>
         </div>
       </div>
     </BrowserFrame>
@@ -232,10 +237,11 @@ function MockStudentView() {
 // ocupa en la media) y una de ellas viene de un examen que Tuthor ya corrigió.
 // Sin eso, la captura era una tabla de números que no cuenta nada.
 function MockGrades() {
+  const { tr } = useLang()
   const columnas = [
-    { nombre: 'Examen', pct: '60%' },
-    { nombre: 'Libreta', pct: '20%' },
-    { nombre: 'Célula', pct: '20%', deTuthor: true },
+    { nombre: tr({ es: "Examen", en: "Exam", ca: "Examen" }), pct: '60%' },
+    { nombre: tr({ es: "Libreta", en: "Notebook", ca: "Llibreta" }), pct: '20%' },
+    { nombre: tr({ es: "Célula", en: "Cell", ca: "Cèl·lula" }), pct: '20%', deTuthor: true },
   ]
   const alumnos = [
     { name: 'Marta', notas: [8.5, 7, 9], media: 8.3 },
@@ -244,12 +250,12 @@ function MockGrades() {
     { name: 'Bruno', notas: [4.5, 6, 5] , media: 4.9 },
     { name: 'Aitana', notas: [7, 8, 7.5], media: 7.3 },
   ]
-  const trimestres = ['Todas', '1º', '2º', '3º']
+  const trimestres = [tr({ es: "Todas", en: "All", ca: "Totes" }), tr({ es: "1º", en: "T1", ca: "1r" }), tr({ es: "2º", en: "T2", ca: "2n" }), tr({ es: "3º", en: "T3", ca: "3r" })]
   return (
     <BrowserFrame>
       <div className="flex items-center justify-between mb-3">
-        <p className="flex items-center gap-1.5 text-white font-black text-sm"><Cuaderno className="w-4 h-4" />Notas · 3º ESO A</p>
-        <span className="text-[10px] font-bold px-2 py-1 rounded-lg border border-teal-500/40 text-teal-300">↓ Traer tarea</span>
+        <p className="flex items-center gap-1.5 text-white font-black text-sm"><Cuaderno className="w-4 h-4" />{tr({ es: "Notas", en: "Grades", ca: "Notes" })} · {tr({ es: "3º ESO A", en: "Class 9A", ca: "3r ESO A" })}</p>
+        <span className="text-[10px] font-bold px-2 py-1 rounded-lg border border-teal-500/40 text-teal-300">{tr({ es: "↓ Traer tarea", en: "↓ Import task", ca: "↓ Portar tasca" })}</span>
       </div>
       <div className="flex gap-1.5 mb-2.5">
         {trimestres.map((t, i) => (
@@ -260,14 +266,14 @@ function MockGrades() {
       </div>
       <div className="rounded-xl border border-white/10 overflow-hidden">
         <div className="grid grid-cols-[1fr_repeat(3,42px)_38px] bg-white/5 px-3 py-1.5 text-[9px] font-bold text-white/40 uppercase tracking-wide">
-          <span>Alumno</span>
+          <span>{tr({ es: "Alumno", en: "Student", ca: "Alumne" })}</span>
           {columnas.map(c => (
             <span key={c.nombre} className="text-center leading-tight">
               <span className={c.deTuthor ? 'text-teal-300' : ''}>{c.nombre}</span>
               <span className="block text-white/25 normal-case">{c.pct}</span>
             </span>
           ))}
-          <span className="text-center text-white/60">Media</span>
+          <span className="text-center text-white/60">{tr({ es: "Media", en: "Average", ca: "Mitjana" })}</span>
         </div>
         {alumnos.map((a, i) => (
           <div key={a.name} className={`grid grid-cols-[1fr_repeat(3,42px)_38px] items-center px-3 py-2 ${i < alumnos.length - 1 ? 'border-b border-white/5' : ''}`}>
@@ -280,7 +286,7 @@ function MockGrades() {
         ))}
       </div>
       <p className="text-white/30 text-[9.5px] mt-2 leading-relaxed">
-        La columna en verde salió sola del examen de Tuthor · la media respeta los pesos
+        {tr({ es: "La columna en verde salió sola del examen de Tuthor · la media respeta los pesos", en: "The green column came straight from the Tuthor exam · the average respects the weights", ca: "La columna en verd ha sortit sola de l’examen de Tuthor · la mitjana respecta els pesos" })}
       </p>
     </BrowserFrame>
   )

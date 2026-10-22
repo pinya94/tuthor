@@ -10,9 +10,9 @@ import SEOHead from '../components/SEOHead'
 // ── Configuración por nivel ────────────────────────────────────────────────
 // objMin/objMax: rango preferido del objetivo (siempre garantizado alcanzable)
 const CONFIGS = {
-  facil:   { label: 'Fácil',   emoji: '💚', objMin: 10,  objMax: 50,  count: 6, tiempo: 90,  numMax: 10 },
-  medio:   { label: 'Medio',   emoji: '💛', objMin: 15,  objMax: 99,  count: 5, tiempo: 60,  numMax: 10 },
-  dificil: { label: 'Difícil', emoji: '🔴', objMin: 20,  objMax: 250, count: 4, tiempo: 45,  numMax: 15 },
+  facil:   { label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },   emoji: '💚', objMin: 10,  objMax: 50,  count: 6, tiempo: 90,  numMax: 10 },
+  medio:   { label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },   emoji: '💛', objMin: 15,  objMax: 99,  count: 5, tiempo: 60,  numMax: 10 },
+  dificil: { label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' }, emoji: '🔴', objMin: 20,  objMax: 250, count: 4, tiempo: 45,  numMax: 15 },
 }
 
 const OPS = [
@@ -138,8 +138,7 @@ function Confetti() {
 export default function Acercate() {
   const navigate     = useNavigate()
   const { user }     = useAuth()
-  const { lang, localPath } = useLang()
-  const en = lang === 'en'
+  const { lang, localPath, tr } = useLang()
 
   const [fase,       setFase]       = useState('intro')
   const [nivelId,    setNivelId]    = useState('medio')
@@ -272,8 +271,8 @@ export default function Acercate() {
       <div className="max-w-md w-full">
         <div className="text-center mb-8">
           <span className="text-6xl block mb-3">🎯</span>
-          <h1 className="text-3xl font-black text-white mb-2">Acércate al Número</h1>
-          <p className="text-white/50 text-sm">Combina los números con operaciones para llegar al objetivo</p>
+          <h1 className="text-3xl font-black text-white mb-2">{tr({ es: 'Acércate al Número', en: 'Target Number', ca: 'Acosta’t al Número' })}</h1>
+          <p className="text-white/50 text-sm">{tr({ es: 'Combina los números con operaciones para llegar al objetivo', en: 'Combine the numbers with operations to reach the target', ca: 'Combina els números amb operacions per arribar a l’objectiu' })}</p>
         </div>
 
         <div className="flex gap-2 p-1 bg-white/5 border border-white/10 rounded-xl mb-5 w-fit mx-auto">
@@ -282,17 +281,17 @@ export default function Acercate() {
               className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
                 nivelId === id ? 'bg-white/15 text-white shadow-sm' : 'text-white/40 hover:text-white/70'
               }`}>
-              {c.emoji} {c.label}
+              {c.emoji} {tr(c.label)}
             </button>
           ))}
         </div>
 
         <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-5 space-y-2.5 text-sm">
           {[
-            ['🎯', 'Objetivo',  `${cfg.objMin} – ${cfg.objMax} (siempre alcanzable)`],
-            ['🃏', 'Números',   `${cfg.count} cartas (del 1 al ${cfg.numMax})`],
-            ['⏱️', 'Tiempo',    `${cfg.tiempo} segundos`],
-            ['⭐', 'Puntos',    '+10 exacto · +5 si ±1 o ±2'],
+            ['🎯', tr({ es: 'Objetivo', en: 'Target', ca: 'Objectiu' }), `${cfg.objMin} – ${cfg.objMax} ${tr({ es: '(siempre alcanzable)', en: '(always reachable)', ca: '(sempre assolible)' })}`],
+            ['🃏', tr({ es: 'Números', en: 'Numbers', ca: 'Números' }), tr({ es: `${cfg.count} cartas (del 1 al ${cfg.numMax})`, en: `${cfg.count} cards (1 to ${cfg.numMax})`, ca: `${cfg.count} cartes (de l’1 al ${cfg.numMax})` })],
+            ['⏱️', tr({ es: 'Tiempo', en: 'Time', ca: 'Temps' }), tr({ es: `${cfg.tiempo} segundos`, en: `${cfg.tiempo} seconds`, ca: `${cfg.tiempo} segons` })],
+            ['⭐', tr({ es: 'Puntos', en: 'Points', ca: 'Punts' }), tr({ es: '+10 exacto · +5 si ±1 o ±2', en: '+10 exact · +5 if within 1 or 2', ca: '+10 exacte · +5 si ±1 o ±2' })],
           ].map(([e, k, v]) => (
             <div key={k} className="flex items-start justify-between gap-4">
               <span className="text-white/40 shrink-0 pt-0.5">{e} {k}</span>
@@ -302,13 +301,13 @@ export default function Acercate() {
         </div>
 
         <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-6">
-          <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-3">Cómo jugar</p>
+          <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-3">{tr({ es: 'Cómo jugar', en: 'How to play', ca: 'Com es juga' })}</p>
           <div className="space-y-2">
             {[
-              ['1️⃣', 'Pulsa un número disponible'],
-              ['➕', 'Elige una operación (+, −, ×, ÷)'],
-              ['2️⃣', 'Pulsa otro número'],
-              ['✨', 'El resultado reemplaza a los dos — ¡sigue combinando!'],
+              ['1️⃣', tr({ es: 'Pulsa un número disponible', en: 'Tap an available number', ca: 'Prem un número disponible' })],
+              ['➕', tr({ es: 'Elige una operación (+, −, ×, ÷)', en: 'Choose an operation (+, −, ×, ÷)', ca: 'Tria una operació (+, −, ×, ÷)' })],
+              ['2️⃣', tr({ es: 'Pulsa otro número', en: 'Tap another number', ca: 'Prem un altre número' })],
+              ['✨', tr({ es: 'El resultado reemplaza a los dos — ¡sigue combinando!', en: 'The result replaces both — keep combining!', ca: 'El resultat substitueix els dos — continua combinant!' })],
             ].map(([e, t]) => (
               <div key={t} className="flex items-start gap-3 text-sm text-white/50">
                 <span className="text-base mt-0.5 w-5 shrink-0 text-center">{e}</span>
@@ -320,12 +319,12 @@ export default function Acercate() {
 
         <button onClick={iniciar}
           className="w-full py-4 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-lg rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-amber-500/30">
-          {en ? 'Start!' : '¡Empezar!'}
+          {tr({ es: '¡Empezar!', en: 'Start!', ca: 'Començar!' })}
         </button>
 
         <button onClick={() => navigate(localPath('/juegos/acercate'))}
           className="w-full py-3 mt-3 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-violet-500/40 text-white/70 hover:text-white font-bold rounded-2xl transition-all text-sm flex items-center justify-center gap-2">
-          <span>⚔️</span> Modo Roguelike — supera niveles y elige mejoras
+          <span>⚔️</span> {tr({ es: 'Modo Roguelike — supera niveles y elige mejoras', en: 'Roguelike mode — clear levels and pick upgrades', ca: 'Mode Roguelike — supera nivells i tria millores' })}
         </button>
       </div>
     </div>
@@ -337,8 +336,8 @@ export default function Acercate() {
     const exact = finInfo?.diff === 0
     const cerca = !exact && finInfo?.diff <= 2
     const detalle = exact
-      ? `Llegaste a ${objetivo} — ¡perfecto!`
-      : `Llegaste a ${finInfo?.mejor} · objetivo: ${objetivo}${finInfo?.diff > 0 ? ` (diferencia: ${finInfo.diff})` : ''}`
+      ? tr({ es: `Llegaste a ${objetivo} — ¡perfecto!`, en: `You reached ${objetivo} — perfect!`, ca: `Has arribat a ${objetivo} — perfecte!` })
+      : tr({ es: `Llegaste a ${finInfo?.mejor} · objetivo: ${objetivo}`, en: `You reached ${finInfo?.mejor} · target: ${objetivo}`, ca: `Has arribat a ${finInfo?.mejor} · objectiu: ${objetivo}` }) + (finInfo?.diff > 0 ? tr({ es: ` (diferencia: ${finInfo.diff})`, en: ` (off by ${finInfo.diff})`, ca: ` (diferència: ${finInfo.diff})` }) : '')
     return (
       <>
         {victoria && <Confetti />}
@@ -346,13 +345,13 @@ export default function Acercate() {
           game="acercate-clasico"
           result={{ diff: finInfo?.diff }}
           emoji={exact ? '🎉' : cerca ? '😮' : '😅'}
-          title={exact ? '¡Exacto!' : cerca ? '¡Casi!' : finInfo?.porTiempo ? '¡Tiempo!' : 'Ronda terminada'}
+          title={exact ? tr({ es: '¡Exacto!', en: 'Exact!', ca: 'Exacte!' }) : cerca ? tr({ es: '¡Casi!', en: 'So close!', ca: 'Gairebé!' }) : finInfo?.porTiempo ? tr({ es: '¡Tiempo!', en: 'Time’s up!', ca: 'Temps!' }) : tr({ es: 'Ronda terminada', en: 'Round over', ca: 'Ronda acabada' })}
           score={finInfo?.pts || 0}
           message={detalle}
-          shareText={`He conseguido ${finInfo?.pts || 0} pts en Acércate al Número 🎯 — ¿puedes superarme? https://tuthor.es/juegos/acercate/clasico`}
+          shareText={tr({ es: `He conseguido ${finInfo?.pts || 0} pts en Acércate al Número 🎯 — ¿puedes superarme? https://tuthor.es/juegos/acercate/clasico`, en: `I scored ${finInfo?.pts || 0} pts in Target Number 🎯 — can you beat me? https://tuthor.es/en/juegos/acercate/clasico`, ca: `He aconseguit ${finInfo?.pts || 0} punts a Acosta’t al Número 🎯 — em superes? https://tuthor.es/ca/juegos/acercate/clasico` })}
           onPlayAgain={iniciar}
-          playAgainLabel="Otra ronda"
-          secondaryActions={[{ label: 'Menú', onClick: () => setFase('intro') }]}
+          playAgainLabel={tr({ es: 'Otra ronda', en: 'Another round', ca: 'Una altra ronda' })}
+          secondaryActions={[{ label: tr({ es: 'Menú', en: 'Menu', ca: 'Menú' }), onClick: () => setFase('intro') }]}
           user={user} lang={lang}
         />
       </>
@@ -367,15 +366,15 @@ export default function Acercate() {
       {/* HUD */}
       <div className="grid grid-cols-3 gap-2 mb-4">
         <div className="flex flex-col items-center bg-white/5 border border-white/10 rounded-xl py-2 px-1">
-          <span className="text-white/30 text-[9px] uppercase tracking-wider font-semibold">Nivel</span>
-          <span className="text-white font-bold text-sm mt-0.5">{cfg.emoji} {cfg.label}</span>
+          <span className="text-white/30 text-[9px] uppercase tracking-wider font-semibold">{tr({ es: 'Nivel', en: 'Level', ca: 'Nivell' })}</span>
+          <span className="text-white font-bold text-sm mt-0.5">{cfg.emoji} {tr(cfg.label)}</span>
         </div>
         <div className="flex flex-col items-center bg-amber-500/15 border-2 border-amber-500/50 rounded-2xl py-2 px-1">
-          <span className="text-amber-400/70 text-[9px] uppercase tracking-widest font-semibold">Objetivo</span>
+          <span className="text-amber-400/70 text-[9px] uppercase tracking-widest font-semibold">{tr({ es: 'Objetivo', en: 'Target', ca: 'Objectiu' })}</span>
           <span className="text-amber-300 font-black text-3xl leading-none">{objetivo}</span>
         </div>
         <div className="flex flex-col items-center bg-white/5 border border-white/10 rounded-xl py-2 px-1">
-          <span className="text-white/30 text-[9px] uppercase tracking-wider font-semibold">Tiempo</span>
+          <span className="text-white/30 text-[9px] uppercase tracking-wider font-semibold">{tr({ es: 'Tiempo', en: 'Time', ca: 'Temps' })}</span>
           <span className={`font-black text-xl leading-none mt-0.5 ${tiempoColor}`}>{tiempo}s</span>
         </div>
       </div>
@@ -387,7 +386,7 @@ export default function Acercate() {
           :            'border-white/10 bg-white/3'
       }`}>
         {!sel1 ? (
-          <p className="text-white/20 text-sm">Selecciona un número para empezar</p>
+          <p className="text-white/20 text-sm">{tr({ es: 'Selecciona un número para empezar', en: 'Pick a number to start', ca: 'Selecciona un número per començar' })}</p>
         ) : (
           <>
             <span className="text-white font-black text-3xl">{sel1.valor}</span>
@@ -397,12 +396,12 @@ export default function Acercate() {
             }
           </>
         )}
-        {errorFlash && <span className="text-red-400 text-sm font-bold absolute">División no exacta</span>}
+        {errorFlash && <span className="text-red-400 text-sm font-bold absolute">{tr({ es: 'División no exacta', en: 'Not an exact division', ca: 'Divisió no exacta' })}</span>}
       </div>
 
       {/* Números disponibles */}
       <div className="mb-5">
-        <p className="text-white/25 text-[10px] uppercase tracking-widest mb-2 font-semibold text-center">Números disponibles</p>
+        <p className="text-white/25 text-[10px] uppercase tracking-widest mb-2 font-semibold text-center">{tr({ es: 'Números disponibles', en: 'Available numbers', ca: 'Números disponibles' })}</p>
         <div className="flex flex-wrap gap-3 justify-center">
           {numeros.map(n => {
             const isSelected = sel1?.id === n.id
@@ -418,16 +417,16 @@ export default function Acercate() {
               </button>
             )
           })}
-          {numeros.length === 0 && <p className="text-white/20 text-sm py-4">Sin números — reinicia o termina</p>}
+          {numeros.length === 0 && <p className="text-white/20 text-sm py-4">{tr({ es: 'Sin números — reinicia o termina', en: 'No numbers left — restart or finish', ca: 'Sense números — reinicia o acaba' })}</p>}
         </div>
         {numeros.length === 1 && numeros[0].valor !== objetivo && (
-          <p className="text-amber-400/70 text-xs font-semibold text-center mt-2">↩ No has llegado al objetivo — deshaz, reinicia o termina</p>
+          <p className="text-amber-400/70 text-xs font-semibold text-center mt-2">{tr({ es: '↩ No has llegado al objetivo — deshaz, reinicia o termina', en: '↩ You haven’t reached the target — undo, restart or finish', ca: '↩ No has arribat a l’objectiu — desfés, reinicia o acaba' })}</p>
         )}
       </div>
 
       {/* Operadores */}
       <div className="mb-5">
-        <p className="text-white/25 text-[10px] uppercase tracking-widest mb-2 font-semibold text-center">Operación</p>
+        <p className="text-white/25 text-[10px] uppercase tracking-widest mb-2 font-semibold text-center">{tr({ es: 'Operación', en: 'Operation', ca: 'Operació' })}</p>
         <div className="grid grid-cols-4 gap-2">
           {OPS.map(op => {
             const active   = opSel === op.id
@@ -450,15 +449,15 @@ export default function Acercate() {
       <div className="grid grid-cols-3 gap-2 mt-auto pt-2">
         <button onClick={undo} disabled={!historial.length && !sel1}
           className="py-3 bg-white/10 hover:bg-white/20 disabled:opacity-30 text-white font-bold rounded-2xl transition-all text-sm">
-          ↩ Deshacer
+          {tr({ es: '↩ Deshacer', en: '↩ Undo', ca: '↩ Desfés' })}
         </button>
         <button onClick={resetear} disabled={historial.length === 0}
           className="py-3 bg-white/5 hover:bg-white/10 disabled:opacity-20 text-white/60 hover:text-white font-bold rounded-2xl transition-all text-sm">
-          🔄 Reiniciar
+          {tr({ es: '🔄 Reiniciar', en: '🔄 Restart', ca: '🔄 Reinicia' })}
         </button>
         <button onClick={() => acabar()}
           className="py-3 bg-amber-500/20 hover:bg-amber-500/30 text-amber-400 font-bold rounded-2xl transition-all border border-amber-500/30 text-sm">
-          Terminar
+          {tr({ es: 'Terminar', en: 'Finish', ca: 'Acaba' })}
         </button>
       </div>
     </div>
