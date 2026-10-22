@@ -1,6 +1,7 @@
 import MechanicExam from '../components/MechanicExam'
 import GraficoPregunta from '../components/GraficoPregunta'
 import { rondaDeExamen } from '../lib/lecturaGraficos'
+import { useLang } from '../context/LangContext'
 
 // Examen del tema "variacion" de Lee el Gráfico. Misma generación que el juego
 // (lib/lecturaGraficos), así que una pregunta significa exactamente lo mismo en
@@ -13,10 +14,12 @@ const LEVELS = [
   { key: 'dificil', emoji: '🔴', difficulty: 'dificil', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' }, hint: {es: "+ porcentajes de variación",en: "+ percentage change",ca: "+ percentatges de variació"} },
 ]
 
-function genRound(difficulty) { return rondaDeExamen('variacion', difficulty) }
+// La pregunta se genera en el idioma de la página (sin él salía en español en /en).
+const genRoundEn = lang => difficulty => rondaDeExamen('variacion', difficulty, lang)
 function isCorrect(round, answer) { return answer === round.correcta }
 
 export default function GraficoVariacionExamen() {
+  const { lang } = useLang()
   return (
     <MechanicExam
       gameId="lee-grafico-variacion"
@@ -32,7 +35,7 @@ export default function GraficoVariacionExamen() {
       backLabel={{ es: '← Volver al juego', en: '← Back to the game', ca: '← Tornar al joc' }}
       playLabel={{ es: '🎮 Jugar a Lee el Gráfico', en: '🎮 Play Read the Chart', ca: '🎮 Jugar a Llegeix el Gràfic' }}
       levels={LEVELS}
-      genRound={genRound}
+      genRound={genRoundEn(lang)}
       isCorrect={isCorrect}
       renderQuestion={({ round, phase, onAnswer, l, qIndex }) => (
         <GraficoPregunta key={qIndex} round={round} phase={phase} onAnswer={onAnswer} l={l} />
