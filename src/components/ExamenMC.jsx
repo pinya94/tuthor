@@ -26,6 +26,7 @@ import AuthModal from './AuthModal'
 import { ordenOpciones } from '../lib/ordenOpciones'
 import EjemplosExamen from './EjemplosExamen'
 import DescubreTuthor from './DescubreTuthor'
+import { trackFin } from '../lib/analytics'
 
 const TOTAL      = 10
 const MAX_ERRORS = 2
@@ -243,6 +244,7 @@ export default function ExamenMC({ titulo, emoji, nivelInfo, backFallback, gameI
       const score  = Math.round((currentAciertos / pool.length) * 100)
       const passed = currentAciertos >= 5
       const coinsEarned = aciertos * 20
+      trackFin('examen', gameId, { score, level: nivelSel ?? '' })
       if (user) {
         saveActivity(user.uid, {
           type: 'examen', game: gameId,

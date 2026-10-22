@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import CoinsAnimation, { CoinsEarnedBadge } from './CoinsAnimation'
 import GameResultFooter from './GameResultFooter'
 import ShareButton from './ShareButton'
 import { computeCoins, GAMES as REGISTRO } from '../lib/games'
 import { consumeCompletedAssignments } from '../lib/activity'
+import { trackFin } from '../lib/analytics'
 import AdSlot from './AdSlot'
 import ReferralCard from './ReferralCard'
 import { ARTE_JUEGOS, ArteJuego, slugDeRuta } from './arte'
@@ -51,6 +52,14 @@ export default function GameEndScreen({
   user, lang = 'es', children,
 }) {
   const coins = computeCoins(game, result ?? { score })
+  // Una partida terminada = un evento en Analytics (una vez por pantalla final)
+  // (la ref evita contarla dos veces si React monta el componente dos veces)
+  const contada = useRef(false)
+  useEffect(() => {
+    if (contada.current) return
+    contada.current = true
+    trackFin('juego', game, { score: Number(score) || 0 })
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
   const sLabel = typeof scoreLabel === 'object'
     ? (scoreLabel[lang] ?? scoreLabel.es)
     : (scoreLabel ?? L.ptsLabel[lang] ?? L.ptsLabel.es)

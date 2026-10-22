@@ -14,3 +14,11 @@ export function trackEvent(name, params = {}) {
   if (typeof window === 'undefined' || typeof window.gtag !== 'function') return
   window.gtag('event', name, params)
 }
+
+// Partidas y exámenes terminados, con o sin cuenta (Firestore solo guarda las
+// de quien ha iniciado sesión). Sin datos personales: qué se jugó, en qué
+// idioma y la puntuación.
+export function trackFin(tipo, id, extra = {}) {
+  const lang = typeof window === 'undefined' ? 'es' : window.location.pathname.startsWith('/en') ? 'en' : window.location.pathname.startsWith('/ca') ? 'ca' : 'es'
+  trackEvent(tipo === 'examen' ? 'exam_complete' : 'game_complete', { item_id: id, language: lang, ...extra })
+}

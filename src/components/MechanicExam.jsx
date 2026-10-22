@@ -30,6 +30,7 @@ import { Lista, Bombilla, Trofeo, BarrasNivel, AnilloNota } from './Iconos'
 import { nivelDeClave, esClaveDeNivel } from '../lib/niveles'
 import { FICHAS_JUEGO_SLUGS } from '../data/fichasJuegoSlugs'
 import DescubreTuthor from './DescubreTuthor'
+import { trackFin } from '../lib/analytics'
 
 const TOTAL = 10
 // Rondas de ejemplo por nivel que se publican en el JSON-LD. Con 3 niveles
@@ -240,6 +241,10 @@ export default function MechanicExam({
   const startRef = useRef(null)
   const diffRef = useRef(null)
   useEffect(() => { scoreRef.current = score }, [score])
+
+  useEffect(() => {
+    if (screen === 'end') trackFin('examen', gameId, { score: Math.round((scoreRef.current / TOTAL) * 100), level: diffRef.current ?? '' })
+  }, [screen, gameId])
 
   useEffect(() => {
     if (screen !== 'end' || !user?.uid) return
