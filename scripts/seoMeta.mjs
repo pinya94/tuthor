@@ -118,6 +118,18 @@ export function resolveMeta(path, lang) {
   m = path.match(/^\/juegos\/([\w-]+)$/)
   if (m) {
     const game = Object.values(GAMES).find(g => g.route === path)
+    // Con ficha, la descripción sale de su subtítulo y su ejemplo: única por
+    // juego (la plantilla de abajo era la misma frase en ~100 páginas) y
+    // distinta de la de /info/juegos/<slug>, que usa la intro.
+    const ficha = game && (l === 'en' ? JUEGOS_FICHAS_EN : JUEGOS_FICHAS_ES)[m[1]]
+    if (ficha?.ejemplo) {
+      const name = label(game, l)
+      const desc = `${ficha.subtitulo}. ${ficha.ejemplo}`
+      return {
+        title: l === 'en' ? `${name} — educational game` : `${name} — juego educativo`,
+        desc: desc.length > 158 ? `${desc.slice(0, 155).replace(/\s+\S*$/, '')}…` : desc,
+      }
+    }
     if (game) {
       const name = label(game, l)
       // Sin "gratis" — igual que en /examen/* más abajo: jugar va con la
