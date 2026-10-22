@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { NIVELES, TRAMOS, genRonda, esCorrecta, explicacion, schemaQuestion, textoOpcion, enunciado } from '../leeMovimiento'
+import { NIVELES, TRAMOS, genRonda, esCorrecta, respuestaBuena, queHace, leeNumero, explicacion, schemaQuestion, textoOpcion, enunciado } from '../leeMovimiento'
 import { PREGUNTAS, PREGUNTAS_ESO } from '../../data/movimiento'
 
 function semilla(s) { return () => ((s = (s * 16807) % 2147483647) - 1) / 2147483646 }
@@ -16,7 +16,18 @@ describe('Lee el movimiento · rondas', () => {
         expect(r.pts).toHaveLength(4)
         expect(r.opciones).toContain(r.bueno)
         expect(new Set(r.opciones).size).toBe(r.opciones.length)
-        expect(esCorrecta(r, r.bueno)).toBe(true)
+        expect(esCorrecta(r, respuestaBuena(r))).toBe(true)
+        if (r.mecanica === 'teclea') {
+          expect(esCorrecta(r, String(r.bueno).replace('-', '−'))).toBe(true)
+          expect(esCorrecta(r, String(r.bueno + 1))).toBe(false)
+        }
+        if (r.mecanica === 'etiqueta') {
+          // los tres tramos no hacen lo mismo
+          expect(new Set([0, 1, 2].map(i => queHace(r, i))).size).toBeGreaterThan(1)
+          expect(esCorrecta(r, 'etiqueta:1')).toBe(false)
+          continue
+        }
+        if (r.mecanica === 'ordena') expect(esCorrecta(r, respuestaBuena(r).split('>').reverse().join('>'))).toBe(false)
         const [t0, y0] = r.pts[r.tramo], [t1, y1] = r.pts[r.tramo + 1]
         const pend = (y1 - y0) / (t1 - t0)
         if (r.tipo === 'velocidad' || r.tipo === 'aceleracion') expect(r.bueno).toBe(pend)
@@ -62,5 +73,14 @@ describe('El movimiento · banco de teoría', () => {
       expect(p.correcta[l]).toBe(p.opciones[l][0])
       expect(p.pregunta[l] && p.explicacion[l]).toBeTruthy()
     }
+  })
+})
+
+describe('Lee el movimiento · números tecleados', () => {
+  it('acepta el signo menos y la coma', () => {
+    expect(leeNumero('−2')).toBe(-2)
+    expect(leeNumero('-2')).toBe(-2)
+    expect(leeNumero('2,5')).toBe(2.5)
+    expect(leeNumero('−')).toBe(null)
   })
 })

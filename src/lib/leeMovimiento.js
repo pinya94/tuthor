@@ -74,10 +74,10 @@ function opNum(rand, bueno, cands) {
   return u.length >= 3 ? baraja(rand, [bueno, ...baraja(rand, u).slice(0, 3)]) : null
 }
 
-export function genRonda(nivel = 'facil', { rand = Math.random } = {}) {
-  const cfg = NIVELES[nivel] ?? NIVELES.facil
+// La ronda clásica de un tipo (con opciones): la usan las mecánicas y el
+// texto del schema (ver «Mecánicas» al final).
+function genVieja(nivel, tipo, rand) {
   for (;;) {
-    const tipo = elige(rand, cfg.tipos)
     const tramo = Math.floor(rand() * 3)
     const base = { id: ++seq, nivel, tipo, tramo }
 
@@ -149,9 +149,6 @@ export function genRonda(nivel = 'facil', { rand = Math.random } = {}) {
   }
 }
 
-export const esCorrecta = (ronda, r) => r === ronda.bueno
-export const genRound = difficulty => genRonda(difficulty)
-export const isCorrect = esCorrecta
 
 // ── Textos ───────────────────────────────────────────────────────────────
 const T = (es, en, ca) => ({ es, en, ca })
@@ -177,7 +174,7 @@ export function textoOpcion(o, ronda, l) {
   }
 }
 
-export function enunciado(ronda, l) {
+function enunciadoViejo(ronda, l) {
   const tr = TRAMOS[ronda.tramo]
   switch (ronda.tipo) {
     case 'que': return tx(T(`¿Qué hace el móvil en el tramo ${tr}?`, `What is the object doing in stretch ${tr}?`, `Què fa el mòbil al tram ${tr}?`), l)
@@ -191,7 +188,7 @@ export function enunciado(ronda, l) {
   }
 }
 
-export function explicacion(ronda, l) {
+function explicacionVieja(ronda, l) {
   const r = ronda
   const tr = TRAMOS[r.tramo]
   const [t0, y0] = r.pts[r.tramo], [t1, y1] = r.pts[r.tramo + 1]
@@ -239,13 +236,111 @@ export function explicacion(ronda, l) {
 }
 
 // JSON-LD: la gráfica descrita con sus puntos.
-export function schemaQuestion(ronda, l) {
+function schemaVieja(ronda, l) {
   const eje = ronda.eje === 'x' ? 'x (m)' : 'v (m/s)'
   const pts = ronda.pts.map(([t, y]) => `(${num(t, l)} s, ${num(y, l)})`).join(' → ')
   const datos = tx(T(`Gráfica ${eje} frente a t, tramos A, B y C entre los puntos ${pts}.`, `Graph of ${eje} against t, stretches A, B and C between the points ${pts}.`, `Gràfica ${eje} respecte de t, trams A, B i C entre els punts ${pts}.`), l)
   return {
-    question: `${datos} ${enunciado(ronda, l)}`,
+    question: `${datos} ${enunciadoViejo(ronda, l)}`,
     correctAnswer: textoOpcion(ronda.bueno, ronda, l),
     wrongAnswers: ronda.opciones.filter(o => o !== ronda.bueno).map(o => textoOpcion(o, ronda, l)),
   }
+}
+
+// ── Mecánicas ─────────────────────────────────────────────────────────────
+// Sin opciones (genVieja sigue dando la ronda y el texto del schema):
+//   etiqueta  (que)        qué hace el móvil en CADA tramo (A, B y C)
+//   ordena    (rapido)     los tramos, del más rápido al más lento
+//   teclea    (el resto)   el número, con su signo si es negativo
+export const MECANICA_DE_TIPO = { que: 'etiqueta', rapido: 'ordena', velocidad: 'teclea', aceleracion: 'teclea', area: 'teclea', recorrido: 'teclea' }
+export const ETIQUETAS = { x: ['parado', 'avanza', 'retrocede'], v: ['parado', 'constante', 'acelera', 'frena'] }
+
+// Lo que hace el móvil en el tramo i de la gráfica.
+export function queHace(r, i) {
+  const [, y0] = r.pts[i], [, y1] = r.pts[i + 1]
+  if (r.eje === 'x') return y1 === y0 ? 'parado' : y1 > y0 ? 'avanza' : 'retrocede'
+  return y1 === y0 ? (y0 === 0 ? 'parado' : 'constante') : y1 > y0 ? 'acelera' : 'frena'
+}
+const rapidez = (r, i) => Math.abs((r.pts[i + 1][1] - r.pts[i][1]) / (r.pts[i + 1][0] - r.pts[i][0]))
+
+const recientes = []
+export function genRonda(nivel = 'facil', { rand = Math.random } = {}) {
+  const cfg = NIVELES[nivel] ?? NIVELES.facil
+  const tipo = elige(rand, cfg.tipos)
+  for (let intento = 0; ; intento++) {
+    const r = genVieja(nivel, tipo, rand)
+    const out = { ...r, mecanica: MECANICA_DE_TIPO[tipo] }
+    if (tipo === 'que') {
+      // Que los tres tramos no hagan lo mismo (si no, sale solo)
+      if (new Set([0, 1, 2].map(i => queHace(r, i))).size < 2) continue
+      out.tramo = -1
+    }
+    if (tipo === 'rapido') {
+      // Para ordenar, las tres rapideces tienen que ser distintas
+      if (new Set([0, 1, 2].map(i => rapidez(r, i))).size < 3) continue
+    }
+    const tema = `${tipo}${r.pts.flat().join()}`
+    if (intento < 20 && recientes.includes(tema)) continue
+    recientes.push(tema)
+    if (recientes.length > 6) recientes.shift()
+    return out
+  }
+}
+export const genRound = difficulty => genRonda(difficulty)
+
+// Números tecleados: «−2», «-2», «2,5» o «2.5».
+export const leeNumero = t => {
+  const x = String(t ?? '').trim().replace(',', '.').replace('−', '-')
+  return /^-?\d+(\.\d+)?$/.test(x) ? Number(x) : null
+}
+export const ordenBueno = r => [0, 1, 2].sort((a, b) => rapidez(r, b) - rapidez(r, a)).map(i => TRAMOS[i]).join('>')
+
+export function respuestaBuena(r) {
+  if (r.mecanica === 'etiqueta') return 'etiqueta:0'
+  if (r.mecanica === 'ordena') return ordenBueno(r)
+  return String(r.bueno)
+}
+export function esCorrecta(r, o) {
+  if (o == null) return false
+  if (!r.mecanica) return o === r.bueno
+  if (r.mecanica === 'teclea') return leeNumero(o) === r.bueno
+  return o === respuestaBuena(r)
+}
+export const isCorrect = esCorrecta
+
+export const unidad = r => ({ velocidad: 'm/s', aceleracion: 'm/s²' })[r.tipo] ?? 'm'
+export const nombreQue = (o, l) => tx(NOMBRE_QUE[o], l)
+// Las mismas, cortas, para los botones de etiquetar (tres por fila en el móvil)
+const CORTO = {
+  parado: T('Parado', 'At rest', 'Aturat'),
+  avanza: T('Avanza', 'Moves forward', 'Avança'),
+  retrocede: T('Vuelve atrás', 'Moves back', 'Torna enrere'),
+  constante: T('Velocidad constante', 'Constant velocity', 'Velocitat constant'),
+  acelera: T('Acelera', 'Speeds up', 'Accelera'),
+  frena: T('Frena', 'Slows down', 'Frena'),
+}
+export const nombreCorto = (o, l) => tx(CORTO[o], l)
+
+export function enunciado(r, l) {
+  if (r.mecanica === 'etiqueta') return tx(T('¿Qué hace el móvil en cada tramo? Elige una etiqueta para A, B y C', 'What is the object doing in each stretch? Pick a label for A, B and C', 'Què fa el mòbil a cada tram? Tria una etiqueta per a A, B i C'), l)
+  if (r.mecanica === 'ordena') return tx(T('Ordena los tramos del más rápido al más lento', 'Order the stretches from fastest to slowest', 'Ordena els trams del més ràpid al més lent'), l)
+  return `${enunciadoViejo(r, l)} ${tx(T('Escribe el resultado.', 'Type the answer.', 'Escriu el resultat.'), l)}`
+}
+
+export function explicacion(r, l) {
+  if (r.mecanica === 'etiqueta') {
+    const que = [0, 1, 2].map(i => `${TRAMOS[i]}: ${nombreQue(queHace(r, i), l).toLowerCase()}`).join('; ')
+    return r.eje === 'x'
+      ? `${que}. ${tx(T('En una x-t, horizontal es parado; si sube, avanza; si baja, vuelve atrás. Una recta nunca es una aceleración.', 'On an x-t graph, flat means at rest; rising, moving forward; falling, moving back. A straight line is never an acceleration.', 'En una x-t, horitzontal és aturat; si puja, avança; si baixa, torna enrere. Una recta mai no és una acceleració.'), l)}`
+      : `${que}. ${tx(T('En una v-t, horizontal es velocidad constante (o parado si vale 0); si sube, acelera; si baja, frena.', 'On a v-t graph, flat means constant velocity (or at rest if it is 0); rising, speeding up; falling, slowing down.', 'En una v-t, horitzontal és velocitat constant (o aturat si val 0); si puja, accelera; si baixa, frena.'), l)}`
+  }
+  if (r.mecanica === 'ordena') {
+    const v = [0, 1, 2].map(i => `${TRAMOS[i]} ${num(rapidez(r, i), l)} m/s`).join(', ')
+    return `${tx(T('Manda la inclinación, no la altura:', 'Steepness matters, not height:', 'Mana la inclinació, no l’alçada:'), l)} ${v}.`
+  }
+  return explicacionVieja(r, l)
+}
+
+export function schemaQuestion(r, l) {
+  return schemaVieja(r, l)
 }

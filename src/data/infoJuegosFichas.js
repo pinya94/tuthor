@@ -2216,7 +2216,7 @@ export const FICHAS_ES = {
     beneficios: [
       { titulo: 'Dos gráficas que se parecen y no dicen lo mismo', texto: 'Una línea horizontal significa estar parado en la gráfica x-t y moverse a velocidad constante en la v-t. Es el error más frecuente de la cinemática, y el juego mezcla las dos gráficas a propósito para que haya que mirar siempre qué se representa en el eje vertical.' },
       { titulo: 'La cuenta, dibujada', texto: 'Al corregir aparece el triángulo de la pendiente con su Δx (o Δv) y su Δt, o el área sombreada bajo la gráfica. Así se ve de dónde sale cada número, y la fórmula v = Δx ÷ Δt o el área como distancia dejan de ser algo que memorizar.' },
-      { titulo: 'Las trampas de los exámenes', texto: 'El tramo que llega más alto no es el más rápido: lo es el más inclinado. Si el móvil vuelve atrás, la distancia recorrida suma todos los tramos y el desplazamiento no. Las opciones equivocadas son justo esos errores, además de olvidar el ½ del triángulo o dividir al revés.' },
+      { titulo: 'Las trampas de los exámenes', texto: 'El tramo que llega más alto no es el más rápido: lo es el más inclinado. Si el móvil vuelve atrás, la distancia recorrida suma todos los tramos y el desplazamiento no. Como el número se teclea, no hay opciones entre las que tantear: hay que evitar esos errores, además de olvidar el ½ del triángulo o dividir al revés.' },
     ],
     ejemplo: 'Sale una gráfica velocidad-tiempo. En el tramo C la velocidad baja de 7 m/s a 1 m/s en 3 segundos. ¿Qué distancia recorre? Es el área del trapecio bajo la línea: (7 + 1) ÷ 2 × 3 = 12 m. Muchos multiplican la velocidad final por el tiempo (3 m) o la inicial (21 m); el área es la velocidad media del tramo por su duración.',
     enPapel: {
@@ -4389,7 +4389,7 @@ export const FICHAS_EN = {
     beneficios: [
       { titulo: 'Two graphs that look alike but say different things', texto: 'A horizontal line means being at rest on an x-t graph and moving at constant velocity on a v-t graph. It is the most common kinematics mistake, and the game mixes both graphs on purpose so you always have to check what the vertical axis shows.' },
       { titulo: 'The working, drawn', texto: 'When you answer, the slope triangle appears with its Δx (or Δv) and Δt, or the shaded area under the graph. You can see where each number comes from, and v = Δx ÷ Δt or area as distance stop being something to memorise.' },
-      { titulo: 'The exam traps', texto: 'The stretch that reaches highest is not the fastest: the steepest one is. If the object comes back, the distance travelled adds up all the stretches and the displacement does not. The wrong options are exactly those mistakes, plus forgetting the ½ of the triangle or dividing the wrong way round.' },
+      { titulo: 'The exam traps', texto: 'The stretch that reaches highest is not the fastest: the steepest one is. If the object comes back, the distance travelled adds up all the stretches and the displacement does not. As you type the number, there are no options to guess between: you have to avoid those mistakes, plus forgetting the ½ of the triangle or dividing the wrong way round.' },
     ],
     ejemplo: 'A velocity-time graph appears. In stretch C the velocity drops from 7 m/s to 1 m/s in 3 seconds. How far does it go? It is the area of the trapezium under the line: (7 + 1) ÷ 2 × 3 = 12 m. Many multiply the final velocity by the time (3 m) or the initial one (21 m); the area is the stretch’s average velocity times its duration.',
     enPapel: {
@@ -6578,7 +6578,7 @@ export const FICHAS_CA = {
     beneficios: [
       { titulo: 'Dues gràfiques que s’assemblen i no diuen el mateix', texto: 'Una línia horitzontal vol dir estar aturat a la gràfica x-t i moure’s a velocitat constant a la v-t. És l’error més freqüent de la cinemàtica, i el joc barreja les dues gràfiques a posta perquè calgui mirar sempre què es representa a l’eix vertical.' },
       { titulo: 'El compte, dibuixat', texto: 'En corregir apareix el triangle del pendent amb el seu Δx (o Δv) i el seu Δt, o l’àrea ombrejada sota la gràfica. Així es veu d’on surt cada nombre, i la fórmula v = Δx ÷ Δt o l’àrea com a distància deixen de ser una cosa per memoritzar.' },
-      { titulo: 'Els paranys dels exàmens', texto: 'El tram que arriba més amunt no és el més ràpid: ho és el més inclinat. Si el mòbil torna enrere, la distància recorreguda suma tots els trams i el desplaçament no. Les opcions equivocades són justament aquests errors, a més d’oblidar el ½ del triangle o dividir al revés.' },
+      { titulo: 'Els paranys dels exàmens', texto: 'El tram que arriba més amunt no és el més ràpid: ho és el més inclinat. Si el mòbil torna enrere, la distància recorreguda suma tots els trams i el desplaçament no. Com que el número es tecleja, no hi ha opcions entre les quals temptejar: cal evitar aquests errors, a més d’oblidar el ½ del triangle o dividir al revés.' },
     ],
     ejemplo: 'Surt una gràfica velocitat-temps. Al tram C la velocitat baixa de 7 m/s a 1 m/s en 3 segons. Quina distància recorre? És l’àrea del trapezi sota la línia: (7 + 1) ÷ 2 × 3 = 12 m. Molts multipliquen la velocitat final pel temps (3 m) o la inicial (21 m); l’àrea és la velocitat mitjana del tram per la seva durada.',
     enPapel: {

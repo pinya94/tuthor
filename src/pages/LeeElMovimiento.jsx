@@ -11,14 +11,15 @@ import SEOHead from '../components/SEOHead'
 import { CabeceraJuego, NivelBarras, ComoSeJuega } from '../components/IntroJuego'
 import { Racha } from '../components/Iconos'
 
-const GAME_TIME = 60
+// Se etiqueta, se ordena o se teclea: 90 s y +6 s por acierto.
+const GAME_TIME = 90
 const WRONG_TIME = 5
-const CORRECT_TIME = 4
+const CORRECT_TIME = 6
 const REVEAL_MS = 4800 // da tiempo a ver la pendiente o el área en la gráfica
 
 const DIFS = {
   facil:   { emoji: '💚', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
-             desc: { es: '¿Parado, avanza, acelera o frena? Lee la forma de la gráfica', en: 'At rest, moving, speeding up or slowing down? Read the graph’s shape', ca: 'Aturat, avança, accelera o frena? Llegeix la forma de la gràfica' } },
+             desc: { es: 'Etiqueta cada tramo: ¿parado, avanza, acelera o frena?', en: 'Label each stretch: at rest, moving, speeding up or slowing down?', ca: 'Etiqueta cada tram: aturat, avança, accelera o frena?' } },
   medio:   { emoji: '💛', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
              desc: { es: 'Velocidad y aceleración con la pendiente de cada tramo', en: 'Velocity and acceleration from each stretch’s slope', ca: 'Velocitat i acceleració amb el pendent de cada tram' } },
   dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' },
@@ -143,6 +144,7 @@ export default function LeeElMovimiento() {
           <ComoSeJuega>
             <div className="space-y-2 text-white/70 text-sm">
               <p>{tr({ es: 'Sale una gráfica de tres tramos (A, B y C). Mira qué se representa: en la de posición-tiempo (x-t), una línea horizontal es estar parado y la inclinación es la velocidad; en la de velocidad-tiempo (v-t), una línea horizontal es ir a velocidad constante, la inclinación es la aceleración y el área bajo la línea es la distancia recorrida.', en: 'A three-stretch graph appears (A, B and C). Check what it shows: on a position-time (x-t) graph a horizontal line means at rest and the slope is the velocity; on a velocity-time (v-t) graph a horizontal line means constant velocity, the slope is the acceleration and the area under the line is the distance travelled.', ca: 'Surt una gràfica de tres trams (A, B i C). Mira què s’hi representa: a la de posició-temps (x-t), una línia horitzontal és estar aturat i la inclinació és la velocitat; a la de velocitat-temps (v-t), una línia horitzontal és anar a velocitat constant, la inclinació és l’acceleració i l’àrea sota la línia és la distància recorreguda.' })}</p>
+              <p>{tr({ es: 'No hay opciones: etiquetas qué hace el móvil en cada tramo, ordenas los tramos del más rápido al más lento o tecleas el número (con el signo menos si es negativo).', en: 'There are no options: you label what the object does in each stretch, order the stretches from fastest to slowest or type the number (with a minus sign if it is negative).', ca: 'No hi ha opcions: etiquetes què fa el mòbil a cada tram, ordenes els trams del més ràpid al més lent o tecleges el número (amb el signe menys si és negatiu).' })}</p>
               <p>{tr({ es: 'Al responder, la gráfica enseña la cuenta: el triángulo de la pendiente (Δx ÷ Δt o Δv ÷ Δt) o el área sombreada. Ojo con las trampas: el tramo más rápido no es el que llega más alto, y si el móvil vuelve atrás, la distancia recorrida no es el desplazamiento.', en: 'When you answer, the graph shows the working: the slope triangle (Δx ÷ Δt or Δv ÷ Δt) or the shaded area. Watch out for the traps: the fastest stretch is not the one that reaches highest, and if the object comes back, the distance travelled is not the displacement.', ca: 'En respondre, la gràfica ensenya el compte: el triangle del pendent (Δx ÷ Δt o Δv ÷ Δt) o l’àrea ombrejada. Compte amb els paranys: el tram més ràpid no és el que arriba més amunt, i si el mòbil torna enrere, la distància recorreguda no és el desplaçament.' })}</p>
               <p className="text-white/40 text-xs pt-1">⏱️ {GAME_TIME}s · {tr({ es: `Acierto +10 y +${CORRECT_TIME}s · Fallo −${WRONG_TIME}s`, en: `Correct +10 and +${CORRECT_TIME}s · Wrong −${WRONG_TIME}s`, ca: `Encert +10 i +${CORRECT_TIME}s · Error −${WRONG_TIME}s` })}</p>
             </div>
