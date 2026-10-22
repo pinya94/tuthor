@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { genRonda, NIVELES, REACCIONES, COMPUESTOS, MASA_ATOMICA, masaMolar, reaccion, enunciado, explicacion, textoOpcion, schemaQuestion } from '../recetaQuimica'
+import { genRonda, esCorrecta, respuestaBuena, sobra, NIVELES, REACCIONES, COMPUESTOS, MASA_ATOMICA, masaMolar, reaccion, enunciado, explicacion, textoOpcion, schemaQuestion } from '../recetaQuimica'
 
 function semilla(s) {
   return () => { s = (s * 1103515245 + 12345) % 2147483648; return s / 2147483648 }
@@ -54,4 +54,31 @@ describe('La Receta Química', () => {
       for (const t of NIVELES[nivel].tipos) expect(tipos.has(t), t).toBe(true)
     })
   }
+})
+
+describe('La Receta Química · respuestas tecleadas', () => {
+  it('la buena vale, con coma o con punto; un paso saltado no', { timeout: 20000 }, () => {
+    for (const nivel of Object.keys(NIVELES)) {
+      for (let i = 0; i < 400; i++) {
+        const r = genRonda(nivel)
+        expect(esCorrecta(r, respuestaBuena(r))).toBe(true)
+        if (r.mecanica === 'teclea') {
+          expect(esCorrecta(r, respuestaBuena(r).replace('.', ','))).toBe(true)
+          expect(esCorrecta(r, String(r.bueno / 100 + 1))).toBe(false)
+        }
+        if (r.mecanica === 'cientifica') {
+          // la misma cantidad escrita con otro exponente también vale
+          const [m, e] = respuestaBuena(r).split('|')
+          expect(esCorrecta(r, `${Number(m) * 10}|${Number(e) - 1}`)).toBe(true)
+          expect(esCorrecta(r, `${m}|${Number(e) + 1}`)).toBe(false)
+        }
+        if (r.mecanica === 'limitante') {
+          // lo que sobra sale exacto (se teclea)
+          expect(Math.abs(sobra(r) * 100 - Math.round(sobra(r) * 100))).toBeLessThan(1e-9)
+          const otro = Object.keys(r.cantidades).find(id => id !== r.bueno)
+          if (r.bueno !== 'ninguno') expect(esCorrecta(r, `${otro}|${sobra(r)}`)).toBe(false)
+        }
+      }
+    }
+  })
 })

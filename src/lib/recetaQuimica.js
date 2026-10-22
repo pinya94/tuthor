@@ -86,10 +86,10 @@ const especies = rx => [...rx.r, ...rx.p]
 
 let seq = 0
 
-export function genRonda(nivel = 'facil', { rand = Math.random } = {}) {
-  const cfg = NIVELES[nivel] ?? NIVELES.facil
+// La ronda clásica de un tipo (con opciones): la usan las mecánicas y el
+// texto del schema (ver «Mecánicas» al final).
+function genVieja(nivel, tipo, rand) {
   for (;;) {
-    const tipo = elige(rand, cfg.tipos)
     const base = { id: ++seq, nivel, tipo }
 
     if (tipo === 'masaMolar') {
@@ -167,8 +167,6 @@ function cientifica(x, e = 23) {
 }
 const verCientifica = (k, l) => { const [m, e] = k.split('·10^'); return `${num(Number(m), l)} · 10${String(e).split('').map(c => SUP[c]).join('')}` }
 
-export const genRound = (difficulty = 'facil') => genRonda(difficulty)
-export const esCorrecta = (r, o) => o === r.bueno
 
 // ── Textos ────────────────────────────────────────────────────────────────
 export const reaccion = r => REACCIONES.find(x => x.id === r.reaccion)
@@ -184,7 +182,7 @@ export function textoOpcion(o, r, l) {
   }
 }
 
-export function enunciado(r, l) {
+function enunciadoViejo(r, l) {
   switch (r.tipo) {
     case 'masaMolar': return s(l, `¿Cuál es la masa molar del ${f(r.compuesto)}?`, `What is the molar mass of ${f(r.compuesto)}?`, `Quina és la massa molar del ${f(r.compuesto)}?`)
     case 'moles': return s(l, `¿Cuántos moles hay en ${num(r.g, l)} g de ${f(r.compuesto)}?`, `How many moles are there in ${num(r.g, l)} g of ${f(r.compuesto)}?`, `Quants mols hi ha en ${num(r.g, l)} g de ${f(r.compuesto)}?`)
@@ -206,7 +204,7 @@ export function enunciado(r, l) {
   }
 }
 
-export function explicacion(r, l) {
+function explicacionVieja(r, l) {
   switch (r.tipo) {
     case 'masaMolar': {
       const c = COMPUESTOS[r.compuesto].c
@@ -241,13 +239,93 @@ export function explicacion(r, l) {
   }
 }
 
-export function schemaQuestion(r, l) {
+function schemaVieja(r, l) {
   const rx = r.reaccion ? reaccion(r) : null
   const ec = rx ? `${rx.r.map(([c, id]) => `${c > 1 ? c : ''}${f(id)}`).join(' + ')} → ${rx.p.map(([c, id]) => `${c > 1 ? c : ''}${f(id)}`).join(' + ')}. ` : ''
   const extra = r.tipo === 'limitante' ? ` ${Object.entries(r.cantidades).map(([id, n]) => `${n} mol ${f(id)}`).join(', ')}.` : ''
   return {
-    question: `${ec}${enunciado(r, l)}${extra}`,
+    question: `${ec}${enunciadoViejo(r, l)}${extra}`,
     correctAnswer: textoOpcion(r.bueno, r, l),
     wrongAnswers: r.opciones.filter(o => o !== r.bueno).map(o => textoOpcion(o, r, l)),
   }
+}
+
+// ── Mecánicas ─────────────────────────────────────────────────────────────
+// Sin opciones (genVieja sigue dando la ronda y el texto del schema):
+//   teclea      (masaMolar, moles, proporcion, masa)  el número
+//   cientifica  (avogadro)   la mantisa y el exponente de 10
+//   limitante   (limitante)  tocar el reactivo que se acaba (o «ninguno») y
+//                            teclear cuántos moles sobran del otro
+export const MECANICA_DE_TIPO = { masaMolar: 'teclea', moles: 'teclea', proporcion: 'teclea', masa: 'teclea', avogadro: 'cientifica', limitante: 'limitante' }
+
+export function genRonda(nivel = 'facil', { rand = Math.random } = {}) {
+  const cfg = NIVELES[nivel] ?? NIVELES.facil
+  const tipo = elige(rand, cfg.tipos)
+  for (;;) {
+    const r = { ...genVieja(nivel, tipo, rand), mecanica: MECANICA_DE_TIPO[tipo] }
+    // Lo que sobra se teclea: tiene que salir exacto (nada de 5,333… mol)
+    if (tipo === 'limitante' && !exacto(sobra(r))) continue
+    return r
+  }
+}
+export const genRound = (difficulty = 'facil') => genRonda(difficulty)
+
+// Números tecleados: «12,5», «12.5» o «12».
+export const leeNumero = t => {
+  const x = String(t ?? '').trim().replace(',', '.')
+  return /^\d+(\.\d+)?$/.test(x) ? Number(x) : null
+}
+const centesimas = x => Math.round(x * 100)
+
+// Moles que sobran del reactivo en exceso (0 si están en proporción justa).
+export function sobra(r) {
+  const [[c1, id1], [c2, id2]] = reaccion(r).r
+  const n1 = r.cantidades[id1], n2 = r.cantidades[id2]
+  if (r.bueno === 'ninguno') return 0
+  return r.bueno === id1 ? n2 - (n1 * c2) / c1 : n1 - (n2 * c1) / c2
+}
+export const valorAvogadro = r => r.n * 6.02e23
+
+export function respuestaBuena(r) {
+  if (r.mecanica === 'teclea') return String(r.bueno / 100)
+  if (r.mecanica === 'cientifica') return r.bueno.replace('·10^', '|')
+  if (r.mecanica === 'limitante') return `${r.bueno}|${sobra(r)}`
+  return r.bueno
+}
+export function esCorrecta(r, o) {
+  if (o == null) return false
+  if (!r.mecanica) return o === r.bueno
+  if (r.mecanica === 'teclea') { const x = leeNumero(o); return x != null && centesimas(x) === r.bueno }
+  if (r.mecanica === 'cientifica') {
+    // Vale cualquier forma equivalente: 1,806 · 10²⁴ o 18,06 · 10²³
+    const [m, e] = String(o).split('|')
+    const x = leeNumero(m)
+    if (x == null || !/^\d+$/.test(e ?? '')) return false
+    const valor = x * 10 ** Number(e)
+    return Math.abs(valor - valorAvogadro(r)) <= valorAvogadro(r) * 1e-6
+  }
+  const [id, n] = String(o).split('|')
+  const x = leeNumero(n)
+  return id === r.bueno && x != null && centesimas(x) === centesimas(sobra(r))
+}
+export const isCorrect = esCorrecta
+
+// Unidad del número que se teclea.
+export const unidad = r => ({ masaMolar: 'g/mol', moles: 'mol', proporcion: 'mol', masa: 'g' })[r.tipo] ?? ''
+
+export function enunciado(r, l) {
+  if (r.mecanica === 'limitante') return s(l, 'Toca el reactivo que se acaba primero (o «ninguno») y escribe cuántos moles sobran del otro', 'Tap the reactant that runs out first (or “neither”) and type how many moles of the other are left over', 'Toca el reactiu que s’acaba primer (o «cap») i escriu quants mols sobren de l’altre')
+  if (r.mecanica === 'cientifica') return `${enunciadoViejo(r, l)} ${s(l, 'Escribe la cifra y el exponente.', 'Type the number and the exponent.', 'Escriu la xifra i l’exponent.')}`
+  return `${enunciadoViejo(r, l)} ${s(l, 'Escribe el resultado.', 'Type the answer.', 'Escriu el resultat.')}`
+}
+
+export function explicacion(r, l) {
+  const base = explicacionVieja(r, l)
+  if (r.mecanica !== 'limitante' || r.bueno === 'ninguno') return base
+  const otro = Object.keys(r.cantidades).find(id => id !== r.bueno)
+  return `${base} ${s(l, `Sobran ${num(sobra(r), l)} mol de ${f(otro)}.`, `${num(sobra(r), l)} mol of ${f(otro)} are left over.`, `Sobren ${num(sobra(r), l)} mol de ${f(otro)}.`)}`
+}
+
+export function schemaQuestion(r, l) {
+  return schemaVieja(r, l)
 }

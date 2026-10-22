@@ -11,9 +11,10 @@ import SEOHead from '../components/SEOHead'
 import { CabeceraJuego, NivelBarras, ComoSeJuega } from '../components/IntroJuego'
 import { Racha } from '../components/Iconos'
 
-const GAME_TIME = 60
+// Las cuentas se teclean: 90 s y +6 s por acierto.
+const GAME_TIME = 90
 const WRONG_TIME = 5
-const CORRECT_TIME = 4
+const CORRECT_TIME = 6
 const REVEAL_MS = 5000 // da tiempo a ver la ecuación resuelta y la cuenta
 
 const DIFS = {
@@ -144,6 +145,7 @@ export default function RecetaQuimica() {
             <div className="space-y-2 text-white/70 text-sm">
               <p>{tr({ es: 'Una reacción ajustada es como una receta: 2 H₂ + O₂ → 2 H₂O dice que 2 moles de hidrógeno reaccionan con 1 de oxígeno y dan 2 de agua. Los coeficientes hablan de moles, no de gramos.', en: 'A balanced reaction is like a recipe: 2 H₂ + O₂ → 2 H₂O says 2 moles of hydrogen react with 1 of oxygen to give 2 of water. The coefficients are about moles, not grams.', ca: 'Una reacció ajustada és com una recepta: 2 H₂ + O₂ → 2 H₂O diu que 2 mols d’hidrogen reaccionen amb 1 d’oxigen i en donen 2 d’aigua. Els coeficients parlen de mols, no de grams.' })}</p>
               <p>{tr({ es: 'Sale la ecuación con el dato debajo de una sustancia y un «?» bajo la que se busca. Para pasar de gramos a moles se divide entre la masa molar; para pasar de una sustancia a otra se usan los coeficientes; y para volver a gramos se multiplica por la masa molar.', en: 'The equation appears with the data under one substance and a «?» under the one you want. To go from grams to moles divide by the molar mass; to go from one substance to another use the coefficients; and to get back to grams multiply by the molar mass.', ca: 'Surt l’equació amb la dada sota una substància i un «?» sota la que es busca. Per passar de grams a mols es divideix per la massa molar; per passar d’una substància a una altra es fan servir els coeficients; i per tornar a grams es multiplica per la massa molar.' })}</p>
+              <p>{tr({ es: 'No hay opciones: el resultado se teclea con su unidad. Las moléculas, en notación científica: la cifra con el teclado y el exponente de 10 con − y +.', en: 'There are no options: you type the result with its unit. Molecules go in scientific notation: the number on the keypad and the power of 10 with − and +.', ca: 'No hi ha opcions: el resultat es tecleja amb la unitat. Les molècules, en notació científica: la xifra amb el teclat i l’exponent de 10 amb − i +.' })}</p>
               <p>{tr({ es: 'En el nivel difícil, el reactivo limitante: el que se acaba primero según la receta, que no tiene por qué ser el que hay en menor cantidad.', en: 'On the hard level, the limiting reactant: the one that runs out first according to the recipe, which is not necessarily the one there is least of.', ca: 'Al nivell difícil, el reactiu limitant: el que s’acaba primer segons la recepta, que no ha de ser per força el que hi ha en menys quantitat.' })}</p>
               <p className="text-white/40 text-xs pt-1">⏱️ {GAME_TIME}s · {tr({ es: `Acierto +10 y +${CORRECT_TIME}s · Fallo −${WRONG_TIME}s`, en: `Correct +10 and +${CORRECT_TIME}s · Wrong −${WRONG_TIME}s`, ca: `Encert +10 i +${CORRECT_TIME}s · Error −${WRONG_TIME}s` })}</p>
             </div>
