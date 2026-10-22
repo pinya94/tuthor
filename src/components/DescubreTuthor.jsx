@@ -4,12 +4,14 @@
 // bloque le dice, sin salir de ella, qué más hay del MISMO tema (resumen,
 // examen, otros juegos) y —si no tiene cuenta, o sea, si probablemente es su
 // primera visita— qué es Tuthor y cuánto hay, con dos salidas claras: todos
-// los juegos y todo el temario. Con sesión, la segunda parte sobra.
+// los juegos y todo el temario. Con sesión, la segunda parte sobra. Al final,
+// siempre, «¿Eres profe? Compártelo con tu clase» (CompartirClase).
 import { useMemo } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import { useAuth } from '../context/AuthContext'
 import { relacionados, cifrasTuthor, idDeRuta } from '../lib/descubre'
+import CompartirClase from './CompartirClase'
 
 export default function DescubreTuthor({ id, className = 'mt-8' }) {
   const { tr, lang, localPath } = useLang()
@@ -19,11 +21,11 @@ export default function DescubreTuthor({ id, className = 'mt-8' }) {
   const rel = useMemo(() => relacionados(pagina, lang), [pagina, lang])
   const cifras = useMemo(() => cifrasTuthor(), [])
   const visitante = user === null
-  if (!rel && !visitante) return null
+  const hayRel = !!rel && rel.items.length > 0
 
   return (
     <section className={`${className} rounded-2xl border border-white/[0.08] bg-[#141b2e] p-4 sm:p-5 text-left`}>
-      {rel && rel.items.length > 0 && (
+      {hayRel && (
         <div>
           <p className="text-white/45 text-[11px] font-bold uppercase tracking-widest">
             {tr({ es: 'Más para practicar', en: 'More practice on', ca: 'Més per practicar' })} · {rel.materia}
@@ -41,7 +43,7 @@ export default function DescubreTuthor({ id, className = 'mt-8' }) {
       )}
 
       {visitante && (
-        <div className={rel && rel.items.length > 0 ? 'mt-4 pt-4 border-t border-white/[0.08]' : ''}>
+        <div className={hayRel ? 'mt-4 pt-4 border-t border-white/[0.08]' : ''}>
           <p className="text-amber-300/90 text-[11px] font-bold uppercase tracking-widest">
             {tr({ es: 'Esto es Tuthor', en: 'This is Tuthor', ca: 'Això és Tuthor' })}
           </p>
@@ -65,6 +67,10 @@ export default function DescubreTuthor({ id, className = 'mt-8' }) {
           </div>
         </div>
       )}
+
+      <div className={hayRel || visitante ? 'mt-4 pt-4 border-t border-white/[0.08]' : ''}>
+        <CompartirClase />
+      </div>
     </section>
   )
 }
