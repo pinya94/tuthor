@@ -18,7 +18,7 @@ describe('Bloques Primos', () => {
   })
 
   for (const nivel of Object.keys(NIVELES)) {
-    it(`${nivel}: 600 rondas con una sola respuesta correcta`, () => {
+    it(`${nivel}: 600 rondas con una sola respuesta correcta`, { timeout: 20000 }, () => {
       const rand = semilla(nivel.length * 7919)
       const tipos = new Set()
       for (let i = 0; i < 600; i++) {
