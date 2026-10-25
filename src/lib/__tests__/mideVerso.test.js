@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { silabear, medir, tipoRima, estrofa, acento } from '../metrica'
-import { NIVELES, genRonda, esCorrecta, explicacion, textoOpcion, enunciado } from '../mideVerso'
+import { NIVELES, genRonda, esCorrecta, respuestaBuena, explicacion, enunciado, cajaDe, normaliza, ESQUEMA } from '../mideVerso'
 import { FRAGMENTOS } from '../../data/versos'
 
 function semilla(s) { return () => ((s = (s * 16807) % 2147483647) - 1) / 2147483646 }
@@ -55,10 +55,21 @@ describe('Mide el verso · rondas', () => {
       for (let i = 0; i < 500; i++) {
         const r = genRonda(nivel, { rand })
         tipos.add(r.pregunta)
-        expect(r.opciones).toContain(r.bueno)
-        expect(new Set(r.opciones).size).toBe(r.opciones.length)
-        expect(esCorrecta(r, r.bueno)).toBe(true)
-        if (r.pregunta === 'silabas' || r.pregunta === 'nombre') {
+        expect(esCorrecta(r, respuestaBuena(r))).toBe(true)
+        if (r.mecanica === 'clasifica') {
+          // Cada elemento tiene su caja, y no hay dos en la misma
+          expect(r.items.length).toBeGreaterThanOrEqual(2)
+          const cajas = r.items.map(it => cajaDe(r, it))
+          for (const c of cajas) expect(r.cajas).toContain(c)
+          expect(new Set(cajas).size).toBe(cajas.length)
+          expect(esCorrecta(r, 'clasifica:1')).toBe(false)
+        }
+        if (r.mecanica === 'tonica') {
+          expect(r.silabasUltima.length).toBeGreaterThanOrEqual(2)
+          expect(esCorrecta(r, String((r.tonica + 1) % r.silabasUltima.length))).toBe(false)
+        }
+        if (r.mecanica === 'teclea') expect(esCorrecta(r, String(r.bueno + 1))).toBe(false)
+        if (r.pregunta === 'silabas') {
           expect(r.bueno).toBe(medir(r.fragmento.versos[r.marcados[0]]).silabas)
           expect(NIVELES[nivel].metros).toContain(r.bueno)
         }
@@ -66,10 +77,18 @@ describe('Mide el verso · rondas', () => {
         for (const l of L) {
           expect(enunciado(r, l)).toBeTruthy()
           expect(explicacion(r, l)).not.toMatch(/undefined|NaN/)
-          for (const o of r.opciones) expect(textoOpcion(o, r, l)).not.toMatch(/undefined/)
         }
       }
       expect([...tipos].sort()).toEqual([...new Set(NIVELES[nivel].tipos)].sort())
     })
   }
+})
+
+describe('Mide el verso · esquema de rima', () => {
+  it('las letras cuentan por orden de aparición', () => {
+    expect(normaliza('baab')).toBe('abba')
+    expect(normaliza('-b-b')).toBe('-a-a')
+    expect(normaliza('abab')).toBe(ESQUEMA.cuarteta)
+    expect(normaliza('aaaa')).not.toBe(ESQUEMA.redondilla)
+  })
 })

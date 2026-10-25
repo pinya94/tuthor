@@ -11,9 +11,10 @@ import SEOHead from '../components/SEOHead'
 import { CabeceraJuego, NivelBarras, ComoSeJuega } from '../components/IntroJuego'
 import { Racha } from '../components/Iconos'
 
-const GAME_TIME = 60
+// Rondas con varios pasos (tres versos, cuatro letras): 90 s y +6 s por acierto.
+const GAME_TIME = 90
 const WRONG_TIME = 5
-const CORRECT_TIME = 4
+const CORRECT_TIME = 6
 const REVEAL_MS = 5500 // da tiempo a leer la cuenta sílaba a sílaba
 
 const DIFS = {
@@ -142,7 +143,7 @@ export default function MideElVerso() {
           </button>
           <ComoSeJuega>
             <div className="space-y-2 text-white/70 text-sm">
-              <p>{tr({ es: 'Sale un fragmento de un poema clásico con uno o varios versos señalados. Hay que contar sus sílabas métricas, ver cómo es la última palabra, decir qué rima tienen dos versos o qué estrofa forman los cuatro.', en: 'An excerpt from a classic Spanish poem appears with one or more lines marked. You count the metrical syllables, check the last word, say how two lines rhyme or which stanza the four form.', ca: 'Surt un fragment d’un poema clàssic castellà amb un o més versos assenyalats. Cal comptar-ne les síl·labes mètriques, veure com és l’última paraula, dir quina rima tenen dos versos o quina estrofa formen els quatre.' })}</p>
+              <p>{tr({ es: 'Sale un fragmento de un poema clásico. No hay opciones: según la ronda tecleas las sílabas métricas del verso señalado, tocas la sílaba tónica de su última palabra, llevas versos a la caja de su medida (octosílabo, endecasílabo…) o parejas de palabras a consonante, asonante o sin rima, o pones a cada verso su letra (a, b o –) para sacar el esquema de la estrofa.', en: 'An excerpt from a classic Spanish poem appears. There are no options: depending on the round you type the metrical syllables of the marked line, tap the stressed syllable of its last word, put lines into the box for their metre or pairs of words into full rhyme, assonance or no rhyme, or give each line its letter (a, b or –) to build the stanza’s rhyme scheme.', ca: 'Surt un fragment d’un poema clàssic castellà. No hi ha opcions: segons la ronda tecleges les síl·labes mètriques del vers assenyalat, toques la síl·laba tònica de l’última paraula, portes versos a la caixa de la seva mesura o parelles de paraules a consonant, assonant o sense rima, o poses a cada vers la seva lletra (a, b o –) per treure l’esquema de l’estrofa.' })}</p>
               <p>{tr({ es: 'Para contar: separa en sílabas, une la vocal final de una palabra con la inicial de la siguiente (sinalefa) y mira la última palabra: si es aguda se suma una, si es esdrújula se resta una. Al corregir verás la cuenta entera, sílaba a sílaba.', en: 'To count: split into syllables, join a word’s final vowel with the next word’s first vowel (synalepha) and look at the last word: add one if it is stressed on the last syllable, subtract one if stressed on the third-to-last. When the answer is shown you see the whole count, syllable by syllable.', ca: 'Per comptar: separa en síl·labes, uneix la vocal final d’una paraula amb la inicial de la següent (sinalefa) i mira l’última paraula: si és aguda se suma una, si és esdrúixola se’n resta una. En corregir veuràs el compte sencer, síl·laba a síl·laba.' })}</p>
               <p className="text-white/40 text-xs pt-1">⏱️ {GAME_TIME}s · {tr({ es: `Acierto +10 y +${CORRECT_TIME}s · Fallo −${WRONG_TIME}s`, en: `Correct +10 and +${CORRECT_TIME}s · Wrong −${WRONG_TIME}s`, ca: `Encert +10 i +${CORRECT_TIME}s · Error −${WRONG_TIME}s` })}</p>
             </div>

@@ -12,7 +12,7 @@
 //   rima      ¿qué rima tienen estos dos versos? (consonante, asonante, libre)
 //   estrofa   ¿qué estrofa forman los cuatro? (redondilla, cuarteta, cuarteto, romance)
 import { FRAGMENTOS } from '../data/versos'
-import { medir, tipoRima, estrofa, NOMBRE_METRO } from './metrica'
+import { medir, tipoRima, estrofa, NOMBRE_METRO, silabear } from './metrica'
 
 export const NIVELES = {
   facil:   { tipos: ['silabas', 'final', 'rima'], metros: [8] },
@@ -31,10 +31,11 @@ const VERSOS = FRAGMENTOS.flatMap(f => f.versos.map((v, i) => ({ f, i, m: medir(
 
 let seq = 0
 
-export function genRonda(nivel = 'facil', { rand = Math.random, evitar } = {}) {
+// La ronda clásica de un tipo (con opciones): la usan las mecánicas (ver
+// «Mecánicas» al final).
+function genVieja(nivel, pregunta, rand, evitar) {
   const cfg = NIVELES[nivel] ?? NIVELES.facil
   for (;;) {
-    const pregunta = elige(rand, cfg.tipos)
     const base = { id: ++seq, nivel, pregunta }
     if (pregunta === 'estrofa') {
       const f = elige(rand, FRAGMENTOS.filter(x => x.estrofa))
@@ -70,9 +71,6 @@ export function genRonda(nivel = 'facil', { rand = Math.random, evitar } = {}) {
   }
 }
 
-export const esCorrecta = (ronda, r) => r === ronda.bueno
-export const genRound = difficulty => genRonda(difficulty)
-export const isCorrect = esCorrecta
 
 // ── Textos ───────────────────────────────────────────────────────────────
 const T = (es, en, ca) => ({ es, en, ca })
@@ -114,7 +112,7 @@ export function textoOpcion(o, ronda, l) {
   }
 }
 
-export function enunciado(ronda, l) {
+function enunciadoViejo(ronda, l) {
   return tx({
     silabas: T('¿Cuántas sílabas métricas tiene el verso señalado?', 'How many metrical syllables does the marked line have?', 'Quantes síl·labes mètriques té el vers assenyalat?'),
     final: T('¿Cómo es la última palabra del verso señalado, y qué se hace al contar?', 'What is the last word of the marked line like, and what do you do when counting?', 'Com és l’última paraula del vers assenyalat, i què es fa en comptar?'),
@@ -134,7 +132,7 @@ export function cuenta(m, l) {
   return partes.join(' | ')
 }
 
-export function explicacion(ronda, l) {
+function explicacionVieja(ronda, l) {
   const r = ronda, f = r.fragmento
   switch (r.pregunta) {
     case 'silabas': case 'nombre': {
@@ -173,4 +171,115 @@ export function explicacion(ronda, l) {
 // Sin el poema delante no hay pregunta posible.
 export function schemaQuestion() {
   return null
+}
+
+// ── Mecánicas ─────────────────────────────────────────────────────────────
+// Sin opciones (genVieja sigue dando la ronda y el texto del schema):
+//   teclea     (silabas)  el número de sílabas métricas
+//   tonica     (final)    tocar la sílaba tónica de la última palabra
+//   clasifica  (nombre)   tres versos a la caja de su nombre (octosílabo…)
+//   clasifica  (rima)     tres parejas de palabras finales a consonante / asonante / no riman
+//   esquema    (estrofa)  poner a cada verso su letra de rima (a, b o –)
+export const MECANICA_DE_TIPO = { silabas: 'teclea', final: 'tonica', nombre: 'clasifica', rima: 'clasifica', estrofa: 'esquema' }
+// Esquema de cada estrofa (en minúsculas; el romance deja sueltos los impares)
+export const ESQUEMA = { redondilla: 'abba', cuarteto: 'abba', cuarteta: 'abab', serventesio: 'abab', romance: '-a-a' }
+
+const ultimaPalabra = v => v.replace(/[^A-Za-zÁÉÍÓÚÜÑáéíóúüñ |]/g, '').replace(/\|/g, ' ').trim().split(/\s+/).pop()
+
+// Un esquema escrito por el jugador, con las letras renombradas por orden de
+// aparición: «baab» y «abba» son el mismo esquema.
+export function normaliza(esq) {
+  const mapa = {}
+  let sig = 0
+  return [...esq].map(c => (c === '-' ? '-' : (mapa[c] ??= 'ab'[sig++] ?? 'c'))).join('')
+}
+
+const recientes = []
+export function genRonda(nivel = 'facil', { rand = Math.random } = {}) {
+  const cfg = NIVELES[nivel] ?? NIVELES.facil
+  const pregunta = elige(rand, cfg.tipos)
+  for (let intento = 0; ; intento++) {
+    const r = { ...genVieja(nivel, pregunta, rand), mecanica: MECANICA_DE_TIPO[pregunta] }
+    if (pregunta === 'final') {
+      // La tónica de una palabra de una sola sílaba no se elige: fuera
+      const { silabas, tonica } = silabear(r.medida.ultima)
+      if (silabas.length < 2) continue
+      r.silabasUltima = silabas
+      r.tonica = tonica
+    }
+    if (pregunta === 'nombre') {
+      // Tres versos de medidas distintas (del nivel), cada uno a su caja
+      const metros = baraja(rand, [...new Set(VERSOS.filter(x => cfg.metros.includes(x.m.silabas)).map(x => x.m.silabas))])
+      if (metros.length < 2) continue
+      const tres = metros.slice(0, 3)
+      r.items = tres.map(n => { const v = elige(rand, VERSOS.filter(x => x.m.silabas === n)); return `${FRAGMENTOS.indexOf(v.f)}:${v.i}` })
+      const extra = [7, 8, 9, 11, 14].filter(n => !tres.includes(n))
+      r.cajas = baraja(rand, [...tres, ...(tres.length < 3 ? extra.slice(0, 3 - tres.length) : [])])
+    }
+    if (pregunta === 'rima') {
+      // Una pareja de cada tipo, de fragmentos al azar
+      const pares = { consonante: [], asonante: [], libre: [] }
+      for (const f of FRAGMENTOS) for (let i = 0; i < f.versos.length; i++) for (let j = i + 1; j < f.versos.length; j++) {
+        const a = ultimaPalabra(f.versos[i]), b = ultimaPalabra(f.versos[j])
+        if (a.toLowerCase() !== b.toLowerCase()) pares[tipoRima(f.versos[i], f.versos[j])].push(`${FRAGMENTOS.indexOf(f)}:${i}:${j}`)
+      }
+      r.items = baraja(rand, RIMAS.map(t => elige(rand, pares[t])))
+      r.cajas = RIMAS
+    }
+    if (pregunta === 'estrofa' && !ESQUEMA[r.bueno]) continue
+    const t = `${pregunta}${r.clave}${(r.items ?? []).join()}`
+    if (intento < 20 && recientes.includes(t)) continue
+    recientes.push(t)
+    if (recientes.length > 6) recientes.shift()
+    return r
+  }
+}
+export const genRound = difficulty => genRonda(difficulty)
+
+// Datos de un elemento al clasificar
+export function cajaDe(r, it) {
+  const [fi, i, j] = it.split(':').map(Number)
+  const f = FRAGMENTOS[fi]
+  return r.pregunta === 'nombre' ? medir(f.versos[i]).silabas : tipoRima(f.versos[i], f.versos[j])
+}
+export function textoItem(r, it) {
+  const [fi, i, j] = it.split(':').map(Number)
+  const f = FRAGMENTOS[fi]
+  return r.pregunta === 'nombre' ? f.versos[i].replace(/\s*\|\s*/g, '  ') : `${ultimaPalabra(f.versos[i])} / ${ultimaPalabra(f.versos[j])}`
+}
+export const nombreCaja = (r, c, l) => (r.pregunta === 'nombre' ? tx(NOMBRE_METRO_T[c], l) : tx(NOMBRE_RIMA[c], l))
+
+export function respuestaBuena(r) {
+  if (r.mecanica === 'clasifica') return 'clasifica:0'
+  if (r.mecanica === 'tonica') return String(r.tonica)
+  if (r.mecanica === 'esquema') return ESQUEMA[r.bueno]
+  return String(r.bueno)
+}
+export function esCorrecta(r, o) {
+  if (o == null) return false
+  if (!r.mecanica) return o === r.bueno
+  if (r.mecanica === 'teclea') return Number(String(o).trim()) === r.bueno
+  if (r.mecanica === 'esquema') return normaliza(String(o)) === ESQUEMA[r.bueno]
+  return o === respuestaBuena(r)
+}
+export const isCorrect = esCorrecta
+
+export function enunciado(r, l) {
+  switch (r.mecanica) {
+    case 'teclea': return `${enunciadoViejo(r, l)} ${tx(T('Escribe el número.', 'Type the number.', 'Escriu el número.'), l)}`
+    case 'tonica': return tx(T(`Toca la sílaba tónica de «${r.medida.ultima}», la última palabra del verso señalado`, `Tap the stressed syllable of "${r.medida.ultima}", the last word of the marked line`, `Toca la síl·laba tònica de «${r.medida.ultima}», l’última paraula del vers assenyalat`), l)
+    case 'clasifica': return r.pregunta === 'nombre'
+      ? tx(T('Mide cada verso y llévalo a la caja de su nombre', 'Measure each line and put it in the box for its name', 'Mesura cada vers i porta’l a la caixa del seu nom'), l)
+      : tx(T('¿Cómo riman estas parejas de palabras finales? Lleva cada una a su caja', 'How do these pairs of line endings rhyme? Put each in its box', 'Com rimen aquestes parelles de paraules finals? Porta cadascuna a la seva caixa'), l)
+    case 'esquema': return tx(T('Pon a cada verso su letra de rima: los que riman entre sí, la misma letra; los sueltos, «–»', 'Give each line its rhyme letter: lines that rhyme together get the same letter; unrhymed ones, “–”', 'Posa a cada vers la seva lletra de rima: els que rimen entre si, la mateixa lletra; els solts, «–»'), l)
+    default: return enunciadoViejo(r, l)
+  }
+}
+
+export function explicacion(r, l) {
+  if (r.mecanica === 'clasifica') {
+    return r.items.map(it => `«${textoItem(r, it).replace(/[,.;:]+$/, '')}» → ${nombreCaja(r, cajaDe(r, it), l).toLowerCase()}`).join(' · ')
+  }
+  if (r.mecanica === 'esquema') return `${ESQUEMA[r.bueno]}: ${explicacionVieja(r, l)}`
+  return explicacionVieja(r, l)
 }
