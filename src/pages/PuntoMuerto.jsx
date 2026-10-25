@@ -11,9 +11,10 @@ import SEOHead from '../components/SEOHead'
 import { CabeceraJuego, NivelBarras, ComoSeJuega } from '../components/IntroJuego'
 import { Racha } from '../components/Iconos'
 
-const GAME_TIME = 60
+// Se desliza, se clasifica o se teclea: 90 s y +6 s por acierto.
+const GAME_TIME = 90
 const WRONG_TIME = 5
-const CORRECT_TIME = 4
+const CORRECT_TIME = 6
 const REVEAL_MS = 5200 // da tiempo a ver el gráfico con el cruce y la cuenta
 
 const DIFS = {
@@ -143,6 +144,7 @@ export default function PuntoMuerto() {
           <ComoSeJuega>
             <div className="space-y-2 text-white/70 text-sm">
               <p>{tr({ es: 'Cada ronda es una empresa con sus costes fijos (CF), el precio de venta (P) y lo que cuesta fabricar cada unidad (CVu). El gráfico dibuja los ingresos y los costes totales: donde se cruzan está el punto muerto.', en: 'Each round is a firm with its fixed costs (FC), selling price (P) and the cost of making each unit (VCu). The graph shows revenue and total costs: where they cross is the break-even point.', ca: 'Cada ronda és una empresa amb els seus costos fixos (CF), el preu de venda (P) i el que costa fabricar cada unitat (CVu). El gràfic dibuixa els ingressos i els costos totals: on es creuen hi ha el punt mort.' })}</p>
+              <p>{tr({ es: 'No hay opciones: llevas la línea hasta el cruce del gráfico, repartes ventas y cambios en sus cajas o tecleas el resultado (con signo menos si hay pérdidas).', en: 'There are no options: you move the line to where the graph lines cross, sort sales and changes into their boxes or type the result (with a minus sign if there is a loss).', ca: 'No hi ha opcions: portes la línia fins al creuament del gràfic, reparteixes vendes i canvis a les seves caixes o tecleges el resultat (amb signe menys si hi ha pèrdues).' })}</p>
               <p>{tr({ es: 'La cuenta clave: cada unidad deja un margen de P − CVu, y hay que vender CF / (P − CVu) unidades para cubrir los costes fijos. Por debajo hay pérdidas; por encima, beneficio.', en: 'The key sum: each unit leaves a margin of P − VCu, and you must sell FC / (P − VCu) units to cover fixed costs. Below that is a loss; above, profit.', ca: 'El compte clau: cada unitat deixa un marge de P − CVu, i cal vendre CF / (P − CVu) unitats per cobrir els costos fixos. Per sota hi ha pèrdues; per sobre, benefici.' })}</p>
               <p className="text-white/40 text-xs pt-1">⏱️ {GAME_TIME}s · {tr({ es: `Acierto +10 y +${CORRECT_TIME}s · Fallo −${WRONG_TIME}s`, en: `Correct +10 and +${CORRECT_TIME}s · Wrong −${WRONG_TIME}s`, ca: `Encert +10 i +${CORRECT_TIME}s · Error −${WRONG_TIME}s` })}</p>
             </div>

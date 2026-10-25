@@ -58,10 +58,10 @@ export const SENSIBILIDAD = [
   ['CF', +1, 'sube'], ['CF', -1, 'baja'], ['P', +1, 'baja'], ['P', -1, 'sube'], ['CVu', +1, 'sube'], ['CVu', -1, 'baja'],
 ]
 
-export function genRonda(nivel = 'facil', { rand = Math.random } = {}) {
-  const cfg = NIVELES[nivel] ?? NIVELES.facil
+// La ronda clásica de un tipo (con opciones): la usan las mecánicas y el
+// texto del schema (ver «Mecánicas» al final).
+function genVieja(nivel, tipo, rand) {
   for (;;) {
-    const tipo = elige(rand, cfg.tipos)
     const e = empresa(rand)
     const base = { id: ++seq, nivel, tipo, ...e }
     const { CF, P, CVu, Qe } = e
@@ -100,8 +100,6 @@ export function genRonda(nivel = 'facil', { rand = Math.random } = {}) {
   }
 }
 
-export const genRound = (difficulty = 'facil') => genRonda(difficulty)
-export const esCorrecta = (r, o) => o === r.bueno
 
 // ── Textos ────────────────────────────────────────────────────────────────
 const ZONA = {
@@ -129,7 +127,7 @@ const CAMBIO = {
   P: [['sube el precio de venta', 'the selling price goes up', 'puja el preu de venda'], ['baja el precio de venta', 'the selling price goes down', 'baixa el preu de venda']],
   CVu: [['sube el coste variable unitario', 'the variable cost per unit goes up', 'puja el cost variable unitari'], ['baja el coste variable unitario', 'the variable cost per unit goes down', 'baixa el cost variable unitari']],
 }
-export function enunciado(r, l) {
+function enunciadoViejo(r, l) {
   switch (r.tipo) {
     case 'leer': return s(l, '¿En cuántas unidades está el punto muerto?', 'At how many units is the break-even point?', 'En quantes unitats hi ha el punt mort?')
     case 'zona': return s(l, `Si vende ${uds(r.q, l)}, ¿qué obtiene la empresa?`, `If it sells ${uds(r.q, l)}, what does the firm make?`, `Si en ven ${uds(r.q, l)}, què obté l’empresa?`)
@@ -143,7 +141,7 @@ export function enunciado(r, l) {
   }
 }
 
-export function explicacion(r, l) {
+function explicacionVieja(r, l) {
   const { CF, P, CVu, Qe } = r
   const m = P - CVu
   const cf = sigla('CF', l), cvu = sigla('CVu', l)
@@ -181,11 +179,101 @@ export function datos(r, l) {
   return out
 }
 
-export function schemaQuestion(r, l) {
+function schemaVieja(r, l) {
   const d = datos(r, l).map(([k, v]) => `${k} = ${v}`).join(', ') + '. '
   return {
-    question: `${d}${enunciado(r, l)}`,
+    question: `${d}${enunciadoViejo(r, l)}`,
     correctAnswer: textoOpcion(r.bueno, r, l),
     wrongAnswers: r.opciones.filter(o => o !== r.bueno).map(o => textoOpcion(o, r, l)),
   }
+}
+
+// ── Mecánicas ─────────────────────────────────────────────────────────────
+// Sin opciones (genVieja sigue dando la ronda y el texto del schema):
+//   desliza    (leer)          llevar la línea vertical al cruce de las rectas
+//   clasifica  (zona)          varias cantidades vendidas a pérdidas / equilibrio / beneficio
+//   clasifica  (sensibilidad)  varios cambios a «el punto muerto sube» / «baja»
+//   teclea     (calcular, beneficio, precio)  el número (el resultado, con signo)
+export const MECANICA_DE_TIPO = { leer: 'desliza', zona: 'clasifica', sensibilidad: 'clasifica', calcular: 'teclea', beneficio: 'teclea', precio: 'teclea' }
+
+// Posiciones de la línea al deslizar: cuartos de Q* hasta 2·Q*
+export const posicionesLeer = r => [1, 2, 3, 4, 5, 6, 7, 8].map(k => (k * r.Qe) / 4)
+const zonaDe = (q, Qe) => (q < Qe ? 'perdidas' : q > Qe ? 'beneficio' : 'equilibrio')
+
+export function genRonda(nivel = 'facil', { rand = Math.random } = {}) {
+  const cfg = NIVELES[nivel] ?? NIVELES.facil
+  const tipo = elige(rand, cfg.tipos)
+  for (;;) {
+    const r = { ...genVieja(nivel, tipo, rand), mecanica: MECANICA_DE_TIPO[tipo] }
+    if (tipo === 'zona') {
+      // Cuatro ventas distintas de la misma empresa, al menos de dos zonas
+      const qs = baraja(rand, [r.Qe / 4, r.Qe / 2, r.Qe, (3 * r.Qe) / 2, 2 * r.Qe]).slice(0, 4)
+      if (new Set(qs.map(q => zonaDe(q, r.Qe))).size < 2 || qs.some(q => !Number.isInteger(q))) continue
+      r.items = qs
+      r.cajas = ['perdidas', 'equilibrio', 'beneficio']
+    }
+    if (tipo === 'sensibilidad') {
+      // Cuatro cambios, de los que unos suben el punto muerto y otros lo bajan
+      const items = baraja(rand, SENSIBILIDAD.map((_, i) => i)).slice(0, 4)
+      if (new Set(items.map(i => SENSIBILIDAD[i][2])).size < 2) continue
+      r.items = items
+      r.cajas = ['sube', 'baja']
+    }
+    return r
+  }
+}
+export const genRound = (difficulty = 'facil') => genRonda(difficulty)
+
+// La caja buena de un elemento al clasificar.
+export const cajaDe = (r, it) => (r.tipo === 'zona' ? zonaDe(it, r.Qe) : SENSIBILIDAD[it][2])
+
+// Números tecleados: «−1500», «-1500», «12,5» o «12.5» (sin separador de miles).
+export const leeNumero = t => {
+  const x = String(t ?? '').trim().replace(',', '.').replace('−', '-')
+  return /^-?\d+(\.\d+)?$/.test(x) ? Number(x) : null
+}
+
+export function respuestaBuena(r) {
+  if (r.mecanica === 'clasifica') return 'clasifica:0'
+  return String(r.bueno)
+}
+export function esCorrecta(r, o) {
+  if (o == null) return false
+  if (!r.mecanica) return o === r.bueno
+  if (r.mecanica === 'teclea') return leeNumero(o) === r.bueno
+  if (r.mecanica === 'desliza') return Number(o) === r.bueno
+  return o === respuestaBuena(r)
+}
+export const isCorrect = esCorrecta
+
+export const nombreCaja = (r, c, l) => (r.tipo === 'zona' ? ZONA[c][ix(l)] : s(l, c === 'sube' ? 'El punto muerto sube' : 'El punto muerto baja', c === 'sube' ? 'Break-even goes up' : 'Break-even goes down', c === 'sube' ? 'El punt mort puja' : 'El punt mort baixa'))
+export const nombreItem = (r, it, l) => {
+  if (r.tipo === 'zona') return s(l, `Vende ${uds(it, l)}`, `Sells ${uds(it, l)}`, `Ven ${uds(it, l)}`)
+  const [que, dir] = SENSIBILIDAD[it]
+  const t = CAMBIO[que][dir > 0 ? 0 : 1][ix(l)]
+  return t.charAt(0).toUpperCase() + t.slice(1)
+}
+
+export function enunciado(r, l) {
+  switch (r.mecanica) {
+    case 'desliza': return s(l, 'Lleva la línea hasta el punto muerto: donde se cruzan ingresos y costes totales', 'Move the line to the break-even point: where revenue and total costs cross', 'Porta la línia fins al punt mort: on es creuen ingressos i costos totals')
+    case 'clasifica': return r.tipo === 'zona'
+      ? s(l, '¿Qué obtiene la empresa con cada cantidad vendida? Lleva cada una a su caja', 'What does the firm make with each amount sold? Put each in its box', 'Què obté l’empresa amb cada quantitat venuda? Porta cadascuna a la seva caixa')
+      : s(l, 'Si cambia solo eso, ¿qué le pasa al punto muerto? Lleva cada cambio a su caja', 'If only that changes, what happens to the break-even point? Put each change in its box', 'Si només canvia això, què li passa al punt mort? Porta cada canvi a la seva caixa')
+    default: return `${enunciadoViejo(r, l)} ${s(l, 'Escribe el resultado.', 'Type the answer.', 'Escriu el resultat.')}`
+  }
+}
+
+export function explicacion(r, l) {
+  if (r.mecanica === 'clasifica') {
+    const lista = r.items.map(it => `${nombreItem(r, it, l)} → ${nombreCaja(r, cajaDe(r, it), l).toLowerCase()}`).join('. ')
+    return r.tipo === 'zona'
+      ? `${s(l, `El punto muerto está en ${uds(r.Qe, l)}: por debajo hay pérdidas y por encima, beneficio.`, `Break-even is at ${uds(r.Qe, l)}: below it there is a loss and above it, profit.`, `El punt mort és a ${uds(r.Qe, l)}: per sota hi ha pèrdues i per sobre, benefici.`)} ${lista}.`
+      : `${lista}. ${s(l, `Q* = ${sigla('CF', l)} / (P − ${sigla('CVu', l)}): más costes o menos margen lo suben; más margen lo baja.`, `Q* = ${sigla('CF', l)} / (P − ${sigla('CVu', l)}): higher costs or a smaller margin push it up; a bigger margin brings it down.`, `Q* = ${sigla('CF', l)} / (P − ${sigla('CVu', l)}): més costos o menys marge el pugen; més marge el baixa.`)}`
+  }
+  return explicacionVieja(r, l)
+}
+
+export function schemaQuestion(r, l) {
+  return schemaVieja(r, l)
 }

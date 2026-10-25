@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { genRonda, NIVELES, empresa, SENSIBILIDAD, enunciado, explicacion, textoOpcion, schemaQuestion } from '../puntoMuerto'
+import { genRonda, esCorrecta, respuestaBuena, cajaDe, posicionesLeer, leeNumero, NIVELES, empresa, SENSIBILIDAD, enunciado, explicacion, textoOpcion, schemaQuestion } from '../puntoMuerto'
 
 function semilla(s) {
   return () => { s = (s * 1103515245 + 12345) % 2147483648; return s / 2147483648 }
@@ -29,6 +29,20 @@ describe('Punto Muerto', () => {
       for (let i = 0; i < 300; i++) {
         const r = genRonda(nivel, { rand })
         tipos.add(r.tipo)
+        expect(esCorrecta(r, respuestaBuena(r))).toBe(true)
+        if (r.mecanica === 'teclea') {
+          expect(esCorrecta(r, String(r.bueno).replace('-', '−'))).toBe(true)
+          expect(esCorrecta(r, String(r.bueno + 1))).toBe(false)
+        }
+        if (r.mecanica === 'desliza') {
+          expect(posicionesLeer(r)).toContain(r.bueno)
+          expect(esCorrecta(r, String(r.bueno / 2))).toBe(false)
+        }
+        if (r.mecanica === 'clasifica') {
+          expect(new Set(r.items.map(it => cajaDe(r, it))).size).toBeGreaterThan(1)
+          for (const it of r.items) expect(r.cajas).toContain(cajaDe(r, it))
+          expect(esCorrecta(r, 'clasifica:1')).toBe(false)
+        }
         const m = r.P - r.CVu
         expect(r.opciones).toContain(r.bueno)
         expect(new Set(r.opciones).size).toBe(r.opciones.length)
@@ -47,4 +61,12 @@ describe('Punto Muerto', () => {
       for (const t of NIVELES[nivel].tipos) expect(tipos.has(t), t).toBe(true)
     })
   }
+})
+
+describe('Punto Muerto · números tecleados', () => {
+  it('signo menos y decimales con coma o punto', () => {
+    expect(leeNumero('−750')).toBe(-750)
+    expect(leeNumero('12.5')).toBe(12.5)
+    expect(leeNumero('12,5')).toBe(12.5)
+  })
 })
