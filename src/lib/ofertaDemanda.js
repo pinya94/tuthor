@@ -72,10 +72,11 @@ function ecuaciones(rand) {
   return { P, Q, a: Q + b * P, b, c: Q - d * P, d }
 }
 
-export function genRonda(nivel = 'facil', { rand = Math.random, evitar = null } = {}) {
+// La ronda clásica de un tipo (con opciones): la usan las mecánicas y el
+// texto del schema (ver «Mecánicas» al final).
+function genVieja(nivel, tipo, { rand = Math.random, evitar = null } = {}) {
   const cfg = NIVELES[nivel] ?? NIVELES.facil
   for (;;) {
-    const tipo = elige(rand, cfg.tipos)
     const base = { id: ++seq, nivel, tipo }
     if (tipo === 'curva' || tipo === 'efecto') {
       const pool = NOTICIAS.map((n, i) => i).filter(i => (tipo === 'efecto' || !cfg.ninguna ? NOTICIAS[i].curva : true))
@@ -118,9 +119,6 @@ export function genRonda(nivel = 'facil', { rand = Math.random, evitar = null } 
   }
 }
 
-export const esCorrecta = (ronda, r) => r === ronda.bueno
-export const genRound = difficulty => genRonda(difficulty)
-export const isCorrect = esCorrecta
 
 // ── Textos ───────────────────────────────────────────────────────────────
 const tx = (o, l) => o[l] ?? o.es
@@ -151,7 +149,7 @@ const ec = (e, l) => {
 }
 export const ecuacionesTexto = (ronda, l) => ec(ronda.ec, l)
 
-export function enunciado(ronda, l) {
+function enunciadoViejo(ronda, l) {
   const n = ronda.noticia !== undefined ? noticiaDe(ronda) : null
   switch (ronda.tipo) {
     case 'curva': return tx(T(`Mercado de ${tx(n.bien, 'es')}: ¿qué curva se desplaza?`, `Market for ${tx(n.bien, 'en')}: which curve shifts?`, `Mercat de ${tx(n.bien, 'ca')}: quina corba es desplaça?`), l)
@@ -191,12 +189,69 @@ export function explicacion(ronda, l) {
     `A ${r.p0} €: ${qd.replace('P', `·${r.p0}`)} = ${r.qd} i ${qs.replace('P', `·${r.p0}`)} = ${r.qs}. ${falta ? `Es vol comprar més del que s’ofereix: excés de demanda de ${r.qd - r.qs}, perquè el preu és per sota del d’equilibri (${e.P} €).` : `S’ofereix més del que es vol comprar: excés d’oferta de ${r.qs - r.qd}, perquè el preu és per sobre del d’equilibri (${e.P} €).`}`), l)
 }
 
-export function schemaQuestion(ronda, l) {
+function schemaVieja(ronda, l) {
   const n = ronda.noticia !== undefined ? noticiaDe(ronda) : null
   const datos = n ? tx(n.texto, l) : `${ec(ronda.ec, l).qd}; ${ec(ronda.ec, l).qs}.`
   return {
-    question: `${datos} ${enunciado(ronda, l)}`,
+    question: `${datos} ${enunciadoViejo(ronda, l)}`,
     correctAnswer: textoOpcion(ronda.bueno, ronda, l),
     wrongAnswers: ronda.opciones.filter(o => o !== ronda.bueno).map(o => textoOpcion(o, ronda, l)),
   }
+}
+
+// ── Mecánicas ─────────────────────────────────────────────────────────────
+// Sin opciones (genVieja sigue dando la ronda y el texto del schema):
+//   mueve    (curva)       mover en el gráfico la curva que se desplaza (o ninguna)
+//   flechas  (efecto)      la flecha del precio y la de la cantidad
+//   teclea   (equilibrio)  el número
+//   exceso   (exceso)      escasez o excedente, y de cuántas unidades
+export const MECANICA_DE_TIPO = { curva: 'mueve', efecto: 'flechas', equilibrio: 'teclea', exceso: 'exceso' }
+
+export function genRonda(nivel = 'facil', opts = {}) {
+  const cfg = NIVELES[nivel] ?? NIVELES.facil
+  const tipo = elige(opts.rand ?? Math.random, cfg.tipos)
+  const r = genVieja(nivel, tipo, opts)
+  return { ...r, mecanica: MECANICA_DE_TIPO[tipo] }
+}
+export const genRound = difficulty => genRonda(difficulty)
+
+// Números tecleados: «12», «12,5» o «12.5».
+export const leeNumero = t => {
+  const x = String(t ?? '').trim().replace(',', '.')
+  return /^\d+(\.\d+)?$/.test(x) ? Number(x) : null
+}
+
+export function respuestaBuena(r) {
+  if (r.mecanica === 'teclea') return String(r.bueno)
+  if (r.mecanica === 'exceso') return r.bueno.replace(':', '|')
+  return r.bueno
+}
+export function esCorrecta(r, o) {
+  if (o == null) return false
+  if (!r.mecanica) return o === r.bueno
+  if (r.mecanica === 'teclea') return leeNumero(o) === r.bueno
+  if (r.mecanica === 'exceso') {
+    const [t, n] = String(o).split('|')
+    const [tb, nb] = r.bueno.split(':')
+    return t === tb && leeNumero(n) === Number(nb)
+  }
+  return o === r.bueno
+}
+export const isCorrect = esCorrecta
+
+export function enunciado(r, l) {
+  const n = r.noticia !== undefined ? noticiaDe(r) : null
+  switch (r.mecanica) {
+    case 'mueve': {
+      const o = r.opciones.includes('ninguna')
+      return tx(T(`Mercado de ${tx(n.bien, 'es')}: mueve la curva que se desplaza${o ? ' (o ninguna)' : ''}`, `Market for ${tx(n.bien, 'en')}: move the curve that shifts${o ? ' (or neither)' : ''}`, `Mercat de ${tx(n.bien, 'ca')}: mou la corba que es desplaça${o ? ' (o cap)' : ''}`), l)
+    }
+    case 'flechas': return tx(T(`Mercado de ${tx(n.bien, 'es')}: ¿hacia dónde van el precio y la cantidad de equilibrio?`, `Market for ${tx(n.bien, 'en')}: which way do the equilibrium price and quantity go?`, `Mercat de ${tx(n.bien, 'ca')}: cap on van el preu i la quantitat d’equilibri?`), l)
+    case 'exceso': return tx(T(`Si el precio se fija en ${r.p0} €, ¿hay escasez o excedente, y de cuántas unidades?`, `If the price is set at €${r.p0}, is there a shortage or a surplus, and of how many units?`, `Si el preu es fixa en ${r.p0} €, hi ha escassetat o excedent, i de quantes unitats?`), l)
+    default: return `${enunciadoViejo(r, l)} ${tx(T('Escribe el resultado.', 'Type the answer.', 'Escriu el resultat.'), l)}`
+  }
+}
+
+export function schemaQuestion(r, l) {
+  return schemaVieja(r, l)
 }

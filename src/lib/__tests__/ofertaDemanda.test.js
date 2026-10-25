@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { NOTICIAS, EFECTO, NIVELES, genRonda, esCorrecta, explicacion, schemaQuestion, textoOpcion, enunciado } from '../ofertaDemanda'
+import { NOTICIAS, EFECTO, NIVELES, genRonda, esCorrecta, respuestaBuena, explicacion, schemaQuestion, textoOpcion, enunciado } from '../ofertaDemanda'
 
 function semilla(s) { return () => ((s = (s * 16807) % 2147483647) - 1) / 2147483646 }
 const L = ['es', 'en', 'ca']
@@ -34,7 +34,14 @@ describe('Oferta y demanda · rondas', () => {
         tipos.add(r.tipo)
         expect(r.opciones).toContain(r.bueno)
         expect(new Set(r.opciones).size).toBe(r.opciones.length)
-        expect(esCorrecta(r, r.bueno)).toBe(true)
+        expect(esCorrecta(r, respuestaBuena(r))).toBe(true)
+        if (r.mecanica === 'teclea') expect(esCorrecta(r, String(r.bueno + 1))).toBe(false)
+        if (r.mecanica === 'exceso') {
+          const [t, n] = r.bueno.split(':')
+          expect(esCorrecta(r, `${t === 'demanda' ? 'oferta' : 'demanda'}|${n}`)).toBe(false)
+          expect(esCorrecta(r, `${t}|${Number(n) + 1}`)).toBe(false)
+        }
+        if (r.mecanica === 'mueve' || r.mecanica === 'flechas') for (const o of r.opciones) if (o !== r.bueno) expect(esCorrecta(r, o)).toBe(false)
         if (r.tipo === 'curva' && !NIVELES[nivel].ninguna) expect(r.bueno).not.toBe('ninguna')
         if (r.tipo === 'efecto') expect(NOTICIAS[r.noticia].curva).not.toBeNull()
         if (r.tipo === 'equilibrio') {

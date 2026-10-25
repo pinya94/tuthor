@@ -3,7 +3,9 @@
 // flechas en los ejes de precio y cantidad; si no se desplaza ninguna, una
 // flecha A LO LARGO de la demanda. Con ecuaciones: las rectas de verdad a
 // escala, el precio fijado (si lo hay) y, al corregir, el equilibrio o el
-// hueco entre lo que se demanda y lo que se ofrece.
+// hueco entre lo que se demanda y lo que se ofrece. Con `mueve` (antes de
+// corregir) se dibuja la curva que el jugador está moviendo: es su propuesta,
+// no la respuesta.
 import { NOTICIAS } from '../../lib/ofertaDemanda'
 
 const W = 300, H = 222
@@ -32,17 +34,21 @@ const Guias = ({ p, color }) => (
   <path d={`M${X0} ${p.y}H${p.x}V${Y0}`} stroke={color} strokeWidth="1.3" strokeDasharray="3 3" fill="none" />
 )
 
-function Noticia({ ronda, revelado, t }) {
+function Noticia({ ronda, revelado, t, mueve }) {
   const n = NOTICIAS[ronda.noticia]
+  // Lo que se dibuja desplazado: la respuesta al corregir, o lo que el jugador mueve
+  const cambio = revelado
+    ? (n.curva ? { curva: n.curva, dir: n.dir } : null)
+    : (mueve && mueve !== 'ninguna' ? { curva: mueve[0], dir: mueve[1] === '+' ? 1 : -1 } : null)
   const D = [{ x: 72, y: 40 }, { x: 252, y: 172 }]
   const S = [{ x: 72, y: 172 }, { x: 252, y: 40 }]
   const E = corte(D, S)
   let nueva = null, E2 = null
-  if (revelado && n.curva) {
-    const dx = 46 * n.dir
-    const base = n.curva === 'D' ? D : S
+  if (cambio) {
+    const dx = 46 * cambio.dir
+    const base = cambio.curva === 'D' ? D : S
     nueva = base.map(p => ({ x: p.x + dx, y: p.y }))
-    E2 = corte(n.curva === 'D' ? nueva : D, n.curva === 'S' ? nueva : S)
+    E2 = corte(cambio.curva === 'D' ? nueva : D, cambio.curva === 'S' ? nueva : S)
   }
   return (
     <g>
@@ -55,8 +61,8 @@ function Noticia({ ronda, revelado, t }) {
       <text x={E.x - 14} y={E.y - 8} fontSize="11" fontWeight="700" fill="#F8FAFC">E</text>
       {nueva && (
         <g>
-          <line x1={nueva[0].x} y1={nueva[0].y} x2={nueva[1].x} y2={nueva[1].y} stroke={n.curva === 'D' ? AZUL : ROSA} strokeWidth="3" strokeDasharray="7 5" strokeLinecap="round" />
-          <text x={Math.min(nueva[1].x + 4, W - 16)} y={nueva[1].y + (n.curva === 'D' ? -8 : -6)} fontSize="12" fontWeight="800" fill={n.curva === 'D' ? AZUL : ROSA}>{n.curva === 'D' ? 'D' : t.oferta}′</text>
+          <line x1={nueva[0].x} y1={nueva[0].y} x2={nueva[1].x} y2={nueva[1].y} stroke={cambio.curva === 'D' ? AZUL : ROSA} strokeWidth="3" strokeDasharray="7 5" strokeLinecap="round" />
+          <text x={Math.min(nueva[1].x + 4, W - 16)} y={nueva[1].y + (cambio.curva === 'D' ? -8 : -6)} fontSize="12" fontWeight="800" fill={cambio.curva === 'D' ? AZUL : ROSA}>{cambio.curva === 'D' ? 'D' : t.oferta}′</text>
           <Guias p={E2} color={AMBAR} />
           <circle cx={E2.x} cy={E2.y} r="5" fill={AMBAR} />
           <text x={E2.x + 8} y={E2.y - 6} fontSize="11" fontWeight="700" fill={AMBAR}>E′</text>
@@ -130,7 +136,7 @@ function Ecuaciones({ ronda, revelado, t }) {
   )
 }
 
-export default function GraficoMercado({ ronda, revelado, t }) {
+export default function GraficoMercado({ ronda, revelado, t, mueve = null }) {
   return (
     <svg viewBox={`0 0 ${W} ${H}`} className="w-full h-auto max-h-[260px]" role="img" aria-label={t.aria}>
       <defs>
@@ -139,7 +145,7 @@ export default function GraficoMercado({ ronda, revelado, t }) {
         </marker>
       </defs>
       <Ejes t={t} />
-      {ronda.noticia !== undefined ? <Noticia ronda={ronda} revelado={revelado} t={t} /> : <Ecuaciones ronda={ronda} revelado={revelado} t={t} />}
+      {ronda.noticia !== undefined ? <Noticia ronda={ronda} revelado={revelado} t={t} mueve={mueve} /> : <Ecuaciones ronda={ronda} revelado={revelado} t={t} />}
     </svg>
   )
 }

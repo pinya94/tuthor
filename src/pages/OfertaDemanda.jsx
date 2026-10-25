@@ -11,9 +11,10 @@ import SEOHead from '../components/SEOHead'
 import { CabeceraJuego, NivelBarras, ComoSeJuega } from '../components/IntroJuego'
 import { Racha } from '../components/Iconos'
 
-const GAME_TIME = 60
+// Se mueve la curva, se ponen flechas o se teclea: 90 s y +6 s por acierto.
+const GAME_TIME = 90
 const WRONG_TIME = 5
-const CORRECT_TIME = 4
+const CORRECT_TIME = 6
 const REVEAL_MS = 4500 // da tiempo a ver moverse la curva y leer el porqué
 
 const DIFS = {
@@ -143,6 +144,7 @@ export default function OfertaDemanda() {
           <ComoSeJuega>
             <div className="space-y-2 text-white/70 text-sm">
               <p>{tr({ es: 'En el gráfico, la demanda (D) baja: cuanto más caro, menos se quiere comprar. La oferta (O) sube: cuanto más caro, más se quiere vender. Donde se cruzan está el equilibrio (E): el precio y la cantidad a los que se vende de verdad.', en: 'On the graph, demand (D) slopes down: the dearer it is, the less people want to buy. Supply (S) slopes up: the dearer it is, the more sellers want to sell. Where they cross is equilibrium (E): the price and quantity actually traded.', ca: 'Al gràfic, la demanda (D) baixa: com més car, menys es vol comprar. L’oferta (O) puja: com més car, més es vol vendre. On es creuen hi ha l’equilibri (E): el preu i la quantitat a què es ven de debò.' })}</p>
+              <p>{tr({ es: 'No hay opciones: mueves en el gráfico la curva que se desplaza y la ves moverse, pones las flechas del precio y de la cantidad, tecleas el equilibrio o dices si hay escasez o excedente y de cuántas unidades.', en: 'There are no options: you move the curve that shifts on the graph and watch it move, set the price and quantity arrows, type the equilibrium or say whether there is a shortage or a surplus and of how many units.', ca: 'No hi ha opcions: mous al gràfic la corba que es desplaça i la veus moure’s, poses les fletxes del preu i de la quantitat, tecleges l’equilibri o dius si hi ha escassetat o excedent i de quantes unitats.' })}</p>
               <p>{tr({ es: 'Sale una noticia y hay que pensar a quién afecta: si cambian los gustos, la renta o el precio de otro bien, se mueve la demanda; si cambian los costes, la tecnología o el número de vendedores, se mueve la oferta. Ojo: si cambia el precio del propio bien, no se mueve ninguna curva, solo nos desplazamos a lo largo de ellas.', en: 'A news item appears and you think about who it affects: if tastes, income or another good’s price change, demand shifts; if costs, technology or the number of sellers change, supply shifts. Careful: if the good’s own price changes, no curve shifts, we just move along them.', ca: 'Surt una notícia i cal pensar a qui afecta: si canvien els gustos, la renda o el preu d’un altre bé, es mou la demanda; si canvien els costos, la tecnologia o el nombre de venedors, es mou l’oferta. Compte: si canvia el preu del mateix bé, no es mou cap corba, només ens desplacem al llarg d’elles.' })}</p>
               <p className="text-white/40 text-xs pt-1">⏱️ {GAME_TIME}s · {tr({ es: `Acierto +10 y +${CORRECT_TIME}s · Fallo −${WRONG_TIME}s`, en: `Correct +10 and +${CORRECT_TIME}s · Wrong −${WRONG_TIME}s`, ca: `Encert +10 i +${CORRECT_TIME}s · Error −${WRONG_TIME}s` })}</p>
             </div>
