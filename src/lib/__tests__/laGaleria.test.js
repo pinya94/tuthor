@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import fs from 'fs'
-import { genRonda, NIVELES, OBRAS, ESTILOS, FUENTES, MUERE, enunciado, explicacion, textoOpcion, schemaQuestion } from '../laGaleria'
+import { genRonda, esCorrecta, respuestaBuena, infoItem, claveItem, ESTILOS_REALES, NIVELES, ORDEN_ESTILOS, OBRAS, ESTILOS, FUENTES, MUERE, enunciado, explicacion, textoOpcion, schemaQuestion } from '../laGaleria'
 
 function semilla(s) {
   return () => { s = (s * 1103515245 + 12345) % 2147483648; return s / 2147483648 }
@@ -60,6 +60,35 @@ describe('La Galería', () => {
         }
       }
       for (const t of NIVELES[nivel].tipos) expect(tipos.has(t), t).toBe(true)
+    })
+  }
+})
+
+describe('La Galería · mecánicas', () => {
+  for (const nivel of Object.keys(NIVELES)) for (const fuente of FUENTES) {
+    it(`${nivel} · ${fuente}: se resuelve tocando, sin dos respuestas`, () => {
+      const rand = semilla(nivel.length * 71 + fuente.length * 3)
+      for (let i = 0; i < 300; i++) {
+        const r = genRonda(nivel, { rand, fuente })
+        expect(esCorrecta(r, respuestaBuena(r))).toBe(true)
+        if (r.mecanica === 'empareja') {
+          expect(r.items).toHaveLength(3)
+          const claves = r.items.map(it => claveItem(r, it))
+          expect(new Set(claves).size).toBe(3)
+          expect([...r.nombres].sort()).toEqual([...claves].sort())
+          expect(esCorrecta(r, 'empareja:2')).toBe(false)
+          if (r.tipo === 'cuadro' && fuente === 'real') for (const it of r.items) { expect(OBRAS[infoItem(it).obra].img).toBeTruthy(); expect(ESTILOS_REALES).toContain(infoItem(it).estilo) }
+          if (r.tipo === 'cuadro' && fuente === 'dibujo') for (const it of r.items) expect(ESTILOS[infoItem(it).estilo].dibujo).toBe(true)
+        }
+        if (r.mecanica === 'ordena') {
+          const anyos = r.orden.map(k => OBRAS[k].anyo)
+          expect(new Set(anyos).size).toBe(4)
+          expect(anyos).toEqual([...anyos].sort((a, b) => a - b))
+          expect(esCorrecta(r, [...r.orden].reverse().join('>'))).toBe(false)
+        }
+        if (r.mecanica === 'linea') expect(esCorrecta(r, ORDEN_ESTILOS.find(e => e !== r.bueno))).toBe(false)
+        for (const l of ['es', 'en', 'ca']) expect(explicacion(r, l)).not.toMatch(/undefined|NaN/)
+      }
     })
   }
 })

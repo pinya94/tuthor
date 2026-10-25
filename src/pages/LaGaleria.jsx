@@ -11,9 +11,10 @@ import SEOHead from '../components/SEOHead'
 import { CabeceraJuego, NivelBarras, ComoSeJuega } from '../components/IntroJuego'
 import { Racha } from '../components/Iconos'
 
-const GAME_TIME = 60
+// Tres cuadros u obras por ronda: 90 s y +6 s por acierto.
+const GAME_TIME = 90
 const WRONG_TIME = 5
-const CORRECT_TIME = 4
+const CORRECT_TIME = 6
 const REVEAL_MS = 4800 // da tiempo a ver el estilo iluminado y sus rasgos
 
 const DIFS = {
@@ -161,8 +162,8 @@ export default function LaGaleria() {
           </button>
           <ComoSeJuega>
             <div className="space-y-2 text-white/70 text-sm">
-              <p>{tr({ es: 'Sale un cuadro y hay que reconocer su estilo por sus rasgos: el fondo dorado del gótico, la perspectiva del Renacimiento, el claroscuro del Barroco, las pinceladas sueltas del impresionismo, los planos del cubismo… Con «Cuadros reales» son obras auténticas (el título sale al responder); con «Dibujos del estilo», cuadros inventados que exageran cada rasgo, pop art incluido.', en: 'A painting appears and you recognise its style by its features. With “Real paintings” they are authentic works (the title appears after answering); with “Style drawings”, made-up paintings that exaggerate each feature, Pop art included.', ca: 'Surt un quadre i cal reconèixer-ne l’estil pels seus trets. Amb «Quadres reals» són obres autèntiques (el títol surt en respondre); amb «Dibuixos de l’estil», quadres inventats que exageren cada tret, pop art inclòs.' })}</p>
-              <p>{tr({ es: 'Otras rondas son obras famosas, como en la cartela de un museo: quién las pintó y a qué estilo pertenecen. En difícil, cuál es la más antigua. Debajo, la sucesión de estilos se ilumina al corregir.', en: 'Other rounds are famous works, like a museum label: who painted them and which style they belong to. On hard, which is the oldest.', ca: 'Altres rondes són obres famoses, com a la cartel·la d’un museu: qui les va pintar i a quin estil pertanyen. En difícil, quina és la més antiga.' })}</p>
+              <p>{tr({ es: 'No hay opciones. Salen tres cuadros: toca uno y después la sala de su estilo, reconociéndolo por sus rasgos: el fondo dorado del gótico, la perspectiva del Renacimiento, el claroscuro del Barroco, las pinceladas sueltas del impresionismo, los planos del cubismo… Con «Cuadros reales» son obras auténticas (el título sale al responder); con «Dibujos del estilo», cuadros inventados que exageran cada rasgo, pop art incluido.', en: 'There are no options. Three paintings appear: tap one and then the room for its style, recognising it by its features. With “Real paintings” they are authentic works (the title appears after answering); with “Style drawings”, made-up paintings that exaggerate each feature, Pop art included.', ca: 'No hi ha opcions. Surten tres quadres: toca’n un i després la sala del seu estil, reconeixent-lo pels seus trets. Amb «Quadres reals» són obres autèntiques (el títol surt en respondre); amb «Dibuixos de l’estil», quadres inventats que exageren cada tret, pop art inclòs.' })}</p>
+              <p>{tr({ es: 'Otras rondas son obras famosas, como en la cartela de un museo: tres obras para unir con su pintor, o una obra (o unos rasgos) para tocar su estilo en la línea de estilos. En difícil, cuatro obras para ordenar de la más antigua a la más moderna.', en: 'Other rounds are famous works, like a museum label: three works to match with their painter, or one work (or a list of features) whose style you tap on the line of styles. On hard, four works to put in order from oldest to newest.', ca: 'Altres rondes són obres famoses, com a la cartel·la d’un museu: tres obres per unir amb el seu pintor, o una obra (o uns trets) per tocar-ne l’estil a la línia d’estils. En difícil, quatre obres per ordenar de la més antiga a la més moderna.' })}</p>
               <p className="text-white/40 text-xs pt-1">⏱️ {GAME_TIME}s · {tr({ es: `Acierto +10 y +${CORRECT_TIME}s · Fallo −${WRONG_TIME}s`, en: `Correct +10 and +${CORRECT_TIME}s · Wrong −${WRONG_TIME}s`, ca: `Encert +10 i +${CORRECT_TIME}s · Error −${WRONG_TIME}s` })}</p>
             </div>
           </ComoSeJuega>

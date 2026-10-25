@@ -129,7 +129,7 @@ const cercanos = (e, lista) => lista.filter(x => x !== e).sort((a, b) => Math.ab
 let seq = 0
 const recientes = []
 
-export function genRonda(nivel = 'facil', opts = {}) {
+export function genVieja(nivel = 'facil', opts = {}) {
   for (let intento = 0; ; intento++) {
     const r = genUna(nivel, opts)
     const tema = r.obra != null ? `obra:${r.obra}` : `${r.tipo}:${r.bueno}`
@@ -185,8 +185,6 @@ function genUna(nivel, { rand = Math.random, fuente = 'real' } = {}) {
   return { ...base, bueno, opciones: baraja(rand, ks) }
 }
 
-export const genRound = (difficulty = 'facil', fuente = 'real') => genRonda(difficulty, { fuente })
-export const esCorrecta = (r, o) => o === r.bueno
 
 // ── Textos ────────────────────────────────────────────────────────────────
 export const obra = r => (r.obra != null ? OBRAS[r.obra] : null)
@@ -195,7 +193,7 @@ export function textoOpcion(o, r, l) {
   if (r.tipo === 'orden') return tx(OBRAS[o].titulo, l)
   return tx(ESTILOS[o].nombre, l)
 }
-export function enunciado(r, l) {
+function enunciadoViejo(r, l) {
   return {
     cuadro: s(l, '¿De qué estilo es este cuadro?', 'What style is this painting?', 'De quin estil és aquest quadre?'),
     pintor: s(l, '¿Quién pintó esta obra?', 'Who painted this work?', 'Qui va pintar aquesta obra?'),
@@ -204,7 +202,7 @@ export function enunciado(r, l) {
     orden: s(l, '¿Cuál de estas obras es la más antigua?', 'Which of these works is the oldest?', 'Quina d’aquestes obres és la més antiga?'),
   }[r.tipo]
 }
-export function explicacion(r, l) {
+function explicacionVieja(r, l) {
   if (r.tipo === 'orden') {
     const ord = [...r.opciones].sort((a, b) => OBRAS[a].anyo - OBRAS[b].anyo)
     return s(l, 'De más antigua a más moderna: ', 'From oldest to newest: ', 'De més antiga a més moderna: ') + ord.map(k => `${tx(OBRAS[k].titulo, l)} (${OBRAS[k].anyo})`).join(' → ') + '.'
@@ -218,8 +216,106 @@ export function schemaQuestion(r, l) {
   // En «cuadro» el dibujo no se puede escribir: se da el rasgo, que es lo que se ve.
   const q = r.tipo === 'cuadro' || r.tipo === 'rasgo' ? `${tx(ESTILOS[r.bueno].rasgo, l)} ` : o ? `«${tx(o.titulo, l)}»${r.tipo === 'estilo' ? `, ${o.pintor}` : ''}. ` : ''
   return {
-    question: `${q}${enunciado(r, l)}`,
+    question: `${q}${enunciadoViejo(r, l)}`,
     correctAnswer: textoOpcion(r.bueno, r, l),
     wrongAnswers: r.opciones.filter(o2 => o2 !== r.bueno).map(o2 => textoOpcion(o2, r, l)),
   }
+}
+
+// ── Mecánicas ─────────────────────────────────────────────────────────────
+// Sin opciones (genVieja sigue dando la ronda y el texto del schema):
+//   empareja (cuadro)  tres cuadros, cada uno a la sala de su estilo (fácil:
+//                      estilos lejanos; difícil: al menos dos vecinos)
+//   empareja (pintor)  tres obras, cada una con su pintor
+//   linea    (estilo, rasgo)  tocar el estilo en la línea de estilos
+//   ordena   (orden)   las cuatro obras de la más antigua a la más moderna
+export const MECANICA_DE_TIPO = { cuadro: 'empareja', pintor: 'empareja', estilo: 'linea', rasgo: 'linea', orden: 'ordena' }
+
+// Un elemento de emparejar: «o:índice» (obra) o «d:estilo:semilla» (dibujo)
+export function infoItem(it) {
+  const [t, a, b] = it.split(':')
+  if (t === 'o') { const o = OBRAS[Number(a)]; return { obra: Number(a), estilo: o.estilo, pintor: o.pintor } }
+  return { estilo: a, semilla: Number(b) }
+}
+// Lo que hay que ponerle a cada elemento: su estilo o su pintor
+export const claveItem = (r, it) => (r.tipo === 'pintor' ? infoItem(it).pintor : infoItem(it).estilo)
+
+function tresEstilos(rand, lista, nivel) {
+  for (;;) {
+    const tres = baraja(rand, lista).slice(0, 3)
+    const d = [[0, 1], [0, 2], [1, 2]].map(([i, j]) => Math.abs(idx(tres[i]) - idx(tres[j])))
+    if (nivel === 'facil' ? d.every(x => x >= 2) : nivel === 'medio' ? true : d.some(x => x === 1)) return tres
+  }
+}
+
+const recientesM = []
+export function genRonda(nivel = 'facil', opts = {}) {
+  const rand = opts.rand ?? Math.random
+  for (let intento = 0; ; intento++) {
+    const r = { ...genVieja(nivel, opts) }
+    r.mecanica = MECANICA_DE_TIPO[r.tipo]
+    if (r.tipo === 'cuadro') {
+      if (r.fuente === 'real') {
+        r.items = tresEstilos(rand, ESTILOS_REALES, nivel).map(e => `o:${elige(rand, OBRAS.map((o, i) => i).filter(i => OBRAS[i].estilo === e && OBRAS[i].img))}`)
+      } else {
+        r.items = tresEstilos(rand, ORDEN_ESTILOS.filter(e => ESTILOS[e].dibujo), nivel).map(e => `d:${e}:${Math.floor(rand() * 1e6)}`)
+      }
+    }
+    if (r.tipo === 'pintor') {
+      // Tres obras de tres pintores distintos, la de la ronda incluida
+      const pintores = new Set([OBRAS[r.obra].pintor])
+      const ks = [r.obra]
+      for (const k of baraja(rand, OBRAS.map((o, i) => i))) {
+        if (ks.length === 3) break
+        if (!pintores.has(OBRAS[k].pintor)) { pintores.add(OBRAS[k].pintor); ks.push(k) }
+      }
+      r.items = baraja(rand, ks).map(k => `o:${k}`)
+    }
+    if (r.items) r.nombres = baraja(rand, r.items.map(it => claveItem(r, it)))
+    if (r.tipo === 'orden') {
+      r.items = r.opciones
+      r.orden = [...r.opciones].sort((a, b) => OBRAS[a].anyo - OBRAS[b].anyo)
+    }
+    const t = `${r.tipo}:${(r.items ?? [r.bueno]).map(String).sort().join()}`
+    if (intento < 20 && recientesM.includes(t)) continue
+    recientesM.push(t)
+    if (recientesM.length > 6) recientesM.shift()
+    return r
+  }
+}
+export const genRound = (difficulty = 'facil', fuente = 'real') => genRonda(difficulty, { fuente })
+
+export function respuestaBuena(r) {
+  if (r.mecanica === 'empareja') return 'empareja:0'
+  if (r.mecanica === 'ordena') return r.orden.join('>')
+  return r.bueno
+}
+export function esCorrecta(r, o) {
+  if (o == null) return false
+  if (!r.mecanica) return o === r.bueno
+  return String(o) === String(respuestaBuena(r))
+}
+export const isCorrect = esCorrecta
+
+export function enunciado(r, l) {
+  switch (r.tipo) {
+    case 'cuadro': return s(l, 'Toca un cuadro y después la sala de su estilo', 'Tap a painting and then the room for its style', 'Toca un quadre i després la sala del seu estil')
+    case 'pintor': return s(l, 'Toca una obra y después su pintor', 'Tap a work and then its painter', 'Toca una obra i després el seu pintor')
+    case 'estilo': return s(l, 'Toca en la línea de estilos el de esta obra', 'Tap this work’s style on the line of styles', 'Toca a la línia d’estils el d’aquesta obra')
+    case 'rasgo': return s(l, 'Toca en la línea de estilos el que tiene estos rasgos', 'Tap the style with these features on the line of styles', 'Toca a la línia d’estils el que té aquests trets')
+    case 'orden': return s(l, 'Toca las obras de la más antigua a la más moderna', 'Tap the works from oldest to newest', 'Toca les obres de la més antiga a la més moderna')
+    default: return enunciadoViejo(r, l)
+  }
+}
+
+export function explicacion(r, l) {
+  if (r.mecanica === 'empareja') {
+    return r.items.map(it => {
+      const x = infoItem(it)
+      if (x.obra == null) return `${tx(ESTILOS[x.estilo].nombre, l)}: ${tx(ESTILOS[x.estilo].rasgo, l).split(/[:;,]/)[0].toLowerCase()}`
+      const o = OBRAS[x.obra]
+      return `«${tx(o.titulo, l)}», ${o.pintor} (${o.anyo}) · ${tx(ESTILOS[o.estilo].nombre, l).toLowerCase()}`
+    }).join(' — ')
+  }
+  return explicacionVieja(r, l)
 }
