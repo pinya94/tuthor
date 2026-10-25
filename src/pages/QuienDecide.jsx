@@ -11,9 +11,10 @@ import SEOHead from '../components/SEOHead'
 import { CabeceraJuego, NivelBarras, ComoSeJuega } from '../components/IntroJuego'
 import { Racha } from '../components/Iconos'
 
-const GAME_TIME = 60
+// Se toca, se clasifica, se teclea o se ordena: 90 s y +6 s por acierto.
+const GAME_TIME = 90
 const WRONG_TIME = 5
-const CORRECT_TIME = 4
+const CORRECT_TIME = 6
 const REVEAL_MS = 4800 // da tiempo a ver el organigrama iluminado y la explicación
 
 const DIFS = {
@@ -144,6 +145,7 @@ export default function QuienDecide() {
             <div className="space-y-2 text-white/70 text-sm">
               <p>{tr({ es: 'Sale algo que pasa en el Estado («vota la investidura del presidente», «juzga a una persona acusada de un delito») y hay que decir qué órgano o qué poder se encarga. Al corregir, el organigrama ilumina la respuesta.', en: 'Something that happens in the State appears («votes to invest the Prime Minister», «tries a person accused of a crime») and you say which body or which power is responsible. When you answer, the organisation chart lights up the answer.', ca: 'Surt una cosa que passa a l’Estat («vota la investidura del president», «jutja una persona acusada d’un delicte») i cal dir quin òrgan o quin poder se n’encarrega. En corregir, l’organigrama il·lumina la resposta.' })}</p>
               <p>{tr({ es: 'También salen los números de la Constitución (350 diputados, 169 artículos, 1978), qué derechos son fundamentales y cuáles principios rectores o deberes, y qué competencias son del Estado o de las comunidades autónomas.', en: 'You also get the Constitution’s numbers (350 deputies, 169 articles, 1978), which rights are fundamental and which are guiding principles or duties, and which powers belong to the State or the autonomous communities.', ca: 'També surten els números de la Constitució (350 diputats, 169 articles, 1978), quins drets són fonamentals i quins principis rectors o deures, i quines competències són de l’Estat o de les comunitats autònomes.' })}</p>
+              <p>{tr({ es: 'No hay opciones: tocas el órgano en el organigrama, llevas cada caso a su caja (poder, derecho o competencia), tecleas los números y ordenas los pasos de una ley.', en: 'There are no options: you tap the body on the chart, put each case in its box (power, right or competence), type the numbers and order the steps of a law.', ca: 'No hi ha opcions: toques l’òrgan a l’organigrama, portes cada cas a la seva caixa (poder, dret o competència), tecleges els números i ordenes els passos d’una llei.' })}</p>
               <p>{tr({ es: 'En difícil, el camino de una ley: de la iniciativa al BOE, ¿qué paso va después?', en: 'On hard, the path of a law: from the initiative to the Official Gazette, which step comes next?', ca: 'En difícil, el camí d’una llei: de la iniciativa al BOE, quin pas va després?' })}</p>
               <p className="text-white/40 text-xs pt-1">⏱️ {GAME_TIME}s · {tr({ es: `Acierto +10 y +${CORRECT_TIME}s · Fallo −${WRONG_TIME}s`, en: `Correct +10 and +${CORRECT_TIME}s · Wrong −${WRONG_TIME}s`, ca: `Encert +10 i +${CORRECT_TIME}s · Error −${WRONG_TIME}s` })}</p>
             </div>

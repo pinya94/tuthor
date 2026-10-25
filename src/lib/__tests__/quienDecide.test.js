@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { genRonda, NIVELES, ORGANOS, CASOS_ORGANO, CASOS_PODER, NUMEROS, CASOS_DERECHO, PASOS_LEY, enunciado, explicacion, textoOpcion, schemaQuestion } from '../quienDecide'
+import { genRonda, esCorrecta, respuestaBuena, cajaDe, NIVELES, ORGANOS, CASOS_ORGANO, CASOS_PODER, NUMEROS, CASOS_DERECHO, PASOS_LEY, enunciado, explicacion, textoOpcion, schemaQuestion } from '../quienDecide'
 
 function semilla(s) {
   return () => { s = (s * 1103515245 + 12345) % 2147483648; return s / 2147483648 }
@@ -33,6 +33,17 @@ describe('¿Quién Decide?', () => {
       for (let i = 0; i < 600; i++) {
         const r = genRonda(nivel, { rand })
         tipos.add(r.tipo)
+        expect(esCorrecta(r, respuestaBuena(r))).toBe(true)
+        if (r.mecanica === 'toca') for (const o of Object.keys(ORGANOS)) if (o !== r.bueno) expect(esCorrecta(r, o)).toBe(false)
+        if (r.mecanica === 'clasifica') {
+          expect(new Set(r.items.map(it => cajaDe(r, it))).size).toBeGreaterThan(1)
+          for (const it of r.items) expect(r.cajas).toContain(cajaDe(r, it))
+        }
+        if (r.mecanica === 'ordena') {
+          expect(r.pasos).toHaveLength(5)
+          expect(esCorrecta(r, respuestaBuena(r).split('>').reverse().join('>'))).toBe(false)
+        }
+        if (r.mecanica === 'teclea') expect(esCorrecta(r, String(r.bueno + 1))).toBe(false)
         expect(r.opciones).toContain(r.bueno)
         expect(new Set(r.opciones).size).toBe(r.opciones.length)
         expect(r.opciones.length).toBeGreaterThanOrEqual(3)

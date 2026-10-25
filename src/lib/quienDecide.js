@@ -165,17 +165,6 @@ const baraja = (rand, xs) => {
 }
 let seq = 0
 const recientes = []
-const tema = r => `${r.tipo}:${r.caso ?? r.num ?? r.paso ?? r.bueno}`
-
-export function genRonda(nivel = 'facil', opts = {}) {
-  for (let intento = 0; ; intento++) {
-    const r = genUna(nivel, opts)
-    if (intento < 20 && recientes.includes(tema(r))) continue
-    recientes.push(tema(r))
-    if (recientes.length > 6) recientes.shift()
-    return r
-  }
-}
 
 function genUna(nivel, { rand = Math.random } = {}) {
   const cfg = NIVELES[nivel] ?? NIVELES.facil
@@ -220,8 +209,6 @@ function genUna(nivel, { rand = Math.random } = {}) {
   return { ...base, paso: k, bueno, opciones: baraja(rand, [bueno, ...cands]) }
 }
 
-export const genRound = (difficulty = 'facil') => genRonda(difficulty)
-export const esCorrecta = (r, o) => o === r.bueno
 
 // ── Textos ────────────────────────────────────────────────────────────────
 const competencia = (o, l) => { const [g, i] = o.split(':'); return tx(COMPETENCIAS[g][+i], l) }
@@ -238,7 +225,7 @@ export function textoOpcion(o, r, l) {
   }
 }
 
-export function enunciado(r, l) {
+function enunciadoViejo(r, l) {
   switch (r.tipo) {
     case 'organo': return s(l, '¿Qué órgano del Estado es?', 'Which body of the State is this?', 'Quin òrgan de l’Estat és?')
     case 'poder': return s(l, '¿Qué poder del Estado se encarga de esto?', 'Which power of the State does this?', 'Quin poder de l’Estat se n’encarrega?')
@@ -254,7 +241,7 @@ export function enunciado(r, l) {
 const ix = l => (l === 'en' ? 1 : l === 'ca' ? 2 : 0)
 const art = (n, l) => s(l, `Artículo ${n}.`, `Article ${n}.`, `Article ${n}.`)
 
-export function explicacion(r, l) {
+function explicacionVieja(r, l) {
   switch (r.tipo) {
     case 'organo': {
       const [id, , n] = CASOS_ORGANO[r.caso]
@@ -298,14 +285,120 @@ const PISTA_DERECHO = {
   deber: ['Es un deber: algo que la Constitución exige a los ciudadanos, no un derecho que se les reconoce.', 'It is a duty: something the Constitution requires of citizens, not a right granted to them.', 'És un deure: una cosa que la Constitució exigeix als ciutadans, no un dret que se’ls reconeix.'],
 }
 
-export function schemaQuestion(r, l) {
+function schemaVieja(r, l) {
   const extra = r.tipo === 'organo' ? `${tx(CASOS_ORGANO[r.caso][1], l)} `
     : r.tipo === 'poder' ? `${tx(CASOS_PODER[r.caso][2], l)} `
     : r.tipo === 'derecho' ? `${tx(CASOS_DERECHO[r.caso][1], l)}. `
     : r.tipo === 'ley' ? `${PASOS_LEY.slice(0, r.paso).map(p => tx(p.t, l)).join(' → ')} → ? ` : ''
   return {
-    question: `${extra}${enunciado(r, l)}`,
+    question: `${extra}${enunciadoViejo(r, l)}`,
     correctAnswer: textoOpcion(r.bueno, r, l),
     wrongAnswers: r.opciones.filter(o => o !== r.bueno).map(o => textoOpcion(o, r, l)),
   }
+}
+
+// ── Mecánicas ─────────────────────────────────────────────────────────────
+// Sin opciones (genUna sigue dando la ronda y el texto del schema):
+//   toca       (organo)       tocar el órgano en el organigrama del Estado
+//   clasifica  (poder, derecho, competencia)  varios casos a sus cajas
+//   teclea     (numero)       el número
+//   ordena     (ley)          los pasos de una ley, en orden
+export const MECANICA_DE_TIPO = { organo: 'toca', poder: 'clasifica', derecho: 'clasifica', competencia: 'clasifica', numero: 'teclea', ley: 'ordena' }
+
+export function genRonda(nivel = 'facil', opts = {}) {
+  const rand = opts.rand ?? Math.random
+  for (let intento = 0; ; intento++) {
+    const r = { ...genUna(nivel, opts), mecanica: null }
+    r.mecanica = MECANICA_DE_TIPO[r.tipo]
+    if (r.tipo === 'poder') {
+      const items = baraja(rand, CASOS_PODER.map((_, i) => i)).slice(0, 3)
+      if (new Set(items.map(i => CASOS_PODER[i][0])).size < 2) continue
+      r.items = items
+      r.cajas = Object.keys(PODERES)
+    }
+    if (r.tipo === 'derecho') {
+      const items = baraja(rand, CASOS_DERECHO.map((_, i) => i)).slice(0, 4)
+      if (new Set(items.map(i => CASOS_DERECHO[i][0])).size < 2) continue
+      r.items = items
+      r.cajas = Object.keys(DERECHOS)
+    }
+    if (r.tipo === 'competencia') {
+      const todas = [...COMPETENCIAS.estado.map((_, i) => `estado:${i}`), ...COMPETENCIAS.ccaa.map((_, i) => `ccaa:${i}`)]
+      const items = baraja(rand, todas).slice(0, 4)
+      if (new Set(items.map(x => x.split(':')[0])).size < 2) continue
+      r.items = items
+      r.cajas = ['estado', 'ccaa']
+    }
+    if (r.tipo === 'ley') {
+      // Cinco de los siete pasos, desordenados: el orden bueno es el de PASOS_LEY
+      const idx = baraja(rand, PASOS_LEY.map((_, i) => i)).slice(0, 5).sort((a, b) => a - b)
+      r.pasos = baraja(rand, idx.map(i => PASOS_LEY[i].id))
+      r.ordenBueno = idx.map(i => PASOS_LEY[i].id).join('>')
+    }
+    const t = `${r.tipo}:${(r.items ?? r.pasos ?? []).join()}${r.caso ?? r.num ?? ''}`
+    if (intento < 20 && recientes.includes(t)) continue
+    recientes.push(t)
+    if (recientes.length > 6) recientes.shift()
+    return r
+  }
+}
+export const genRound = (difficulty = 'facil') => genRonda(difficulty)
+
+// La caja buena de un caso al clasificar.
+export function cajaDe(r, it) {
+  if (r.tipo === 'poder') return CASOS_PODER[it][0]
+  if (r.tipo === 'derecho') return CASOS_DERECHO[it][0]
+  return String(it).split(':')[0]
+}
+export function nombreItem(r, it, l) {
+  if (r.tipo === 'poder') return `${CASOS_PODER[it][1]} ${tx(CASOS_PODER[it][2], l).replace(/\.$/, '')}`
+  if (r.tipo === 'derecho') return tx(CASOS_DERECHO[it][1], l)
+  return competencia(it, l)
+}
+export function nombreCaja(r, c, l) {
+  if (r.tipo === 'poder') return tx(PODERES[c], l)
+  if (r.tipo === 'derecho') return tx(DERECHOS[c], l).split(' (')[0]
+  return c === 'estado' ? s(l, 'Exclusiva del Estado', 'Exclusive to the State', 'Exclusiva de l’Estat') : s(l, 'Comunidad autónoma', 'Autonomous community', 'Comunitat autònoma')
+}
+export const textoPaso = (id, l) => tx(paso(id).t, l)
+
+export function respuestaBuena(r) {
+  if (r.mecanica === 'clasifica') return 'clasifica:0'
+  if (r.mecanica === 'ordena') return r.ordenBueno
+  return String(r.bueno)
+}
+export function esCorrecta(r, o) {
+  if (o == null) return false
+  if (!r.mecanica) return o === r.bueno
+  if (r.mecanica === 'teclea') return Number(String(o).trim()) === r.bueno
+  return o === respuestaBuena(r)
+}
+export const isCorrect = esCorrecta
+
+export function enunciado(r, l) {
+  switch (r.mecanica) {
+    case 'toca': return s(l, '¿Qué órgano del Estado es? Tócalo en el organigrama', 'Which body of the State is it? Tap it on the chart', 'Quin òrgan de l’Estat és? Toca’l a l’organigrama')
+    case 'clasifica': return r.tipo === 'poder'
+      ? s(l, '¿Qué poder del Estado se encarga? Lleva cada caso a su columna', 'Which power of the State handles it? Put each case in its column', 'Quin poder de l’Estat se n’encarrega? Porta cada cas a la seva columna')
+      : r.tipo === 'derecho'
+        ? s(l, '¿Qué es cada uno según la Constitución? Llévalo a su caja', 'What is each one according to the Constitution? Put it in its box', 'Què és cadascun segons la Constitució? Porta’l a la seva caixa')
+        : s(l, '¿De quién es cada competencia? Llévala a su caja', 'Whose power is each one? Put it in its box', 'De qui és cada competència? Porta-la a la seva caixa')
+    case 'ordena': return s(l, 'Ordena los pasos para hacer una ley', 'Put the steps for making a law in order', 'Ordena els passos per fer una llei')
+    case 'teclea': return `${tx(NUMEROS.find(n => n.id === r.num).q, l)} ${s(l, 'Escribe el número.', 'Type the number.', 'Escriu el número.')}`
+    default: return enunciadoViejo(r, l)
+  }
+}
+
+export function explicacion(r, l) {
+  if (r.mecanica === 'clasifica') {
+    const lista = r.items.map(it => `${nombreItem(r, it, l)} → ${nombreCaja(r, cajaDe(r, it), l).toLowerCase()}`).join('. ')
+    if (r.tipo === 'competencia') return `${lista}. ${s(l, 'El artículo 149 fija las exclusivas del Estado; el 148, las que pueden asumir las comunidades.', 'Article 149 sets out the State’s exclusive powers; Article 148, those the communities can take on.', 'L’article 149 fixa les exclusives de l’Estat; el 148, les que poden assumir les comunitats.')}`
+    if (r.tipo === 'derecho') return `${lista}. ${s(l, 'Fundamentales: artículos 14 a 29, con amparo. Principios rectores: 39 a 52, orientan a los poderes públicos.', 'Fundamental: Articles 14 to 29, with amparo. Guiding principles: 39 to 52, they steer the public authorities.', 'Fonamentals: articles 14 a 29, amb empara. Principis rectors: 39 a 52, orienten els poders públics.')}`
+    return `${lista}. ${s(l, 'Las Cortes hacen las leyes, el Gobierno gobierna y las aplica, y los jueces juzgan.', 'Parliament makes the laws, the Government governs and applies them, and the judges try cases.', 'Les Corts fan les lleis, el Govern governa i les aplica, i els jutges jutgen.')}`
+  }
+  return explicacionVieja(r, l)
+}
+
+export function schemaQuestion(r, l) {
+  return schemaVieja(r, l)
 }
