@@ -146,7 +146,9 @@ export function hueco(ok, mal) {
 let seq = 0
 let ultima = null
 
-export function genRonda(nivel = 'facil', { rand = Math.random } = {}) {
+// La ronda clásica (una palabra con opciones): la usan la mecánica y el
+// texto del schema (ver «Mecánica» al final).
+function genVieja(nivel, { rand = Math.random } = {}) {
   const cfg = NIVELES[nivel] ?? NIVELES.facil
   const pool = PALABRAS.filter(p => p.n <= cfg.max && p.n >= (cfg.minimo ?? 1))
   for (;;) {
@@ -157,28 +159,82 @@ export function genRonda(nivel = 'facil', { rand = Math.random } = {}) {
   }
 }
 
-export const genRound = (difficulty = 'facil') => genRonda(difficulty)
-export const esCorrecta = (r, o) => o === r.bueno
 
 const datos = r => PALABRAS.find(p => p.ok === r.palabra)
 export const textoOpcion = o => o
 export const grupoDe = r => GRUPOS[datos(r).g]
 export const huecoDe = r => hueco(r.palabra, datos(r).mal[0])
 
-export function enunciado(r, l) {
+function enunciadoViejo(r, l) {
   return tx(T('¿Cómo se escribe?', 'How is it spelt?', 'Com s’escriu?'), l)
 }
 
-export function explicacion(r, l) {
+function explicacionVieja(r, l) {
   const d = datos(r)
   return `${r.palabra}: ${tx(REGLAS[d.r], l)}`
 }
 
-export function schemaQuestion(r, l) {
+function schemaVieja(r, l) {
   const h = huecoDe(r)
   return {
-    question: `${enunciado(r, l)} ${h.antes}_${h.despues} (${grupoDe(r)})`,
+    question: `${enunciadoViejo(r, l)} ${h.antes}_${h.despues} (${grupoDe(r)})`,
     correctAnswer: r.bueno,
     wrongAnswers: r.opciones.filter(o => o !== r.bueno),
   }
+}
+
+// ── Mecánica ──────────────────────────────────────────────────────────────
+// Sin opciones (genVieja sigue dando la ronda y el texto del schema):
+//   rellena  cuatro palabras con su hueco; cada toque cambia la letra entre
+//            la buena y la de su primera mala escrita a mano (b/v, g/j,
+//            h/nada, ll/y, c/z, u/ü). Nunca otra: esas no tienen homófono.
+const POR_RONDA = 4
+
+// Lo que va en el hueco en la buena y en la primera mala.
+export function letrasDe(palabra) {
+  const p = PALABRAS.find(x => x.ok === palabra)
+  const h = hueco(p.ok, p.mal[0])
+  const malSeg = p.mal[0].slice(h.antes.length, p.mal[0].length - h.despues.length)
+  return { ...h, mala: malSeg }
+}
+
+const recientes = []
+export function genRonda(nivel = 'facil', { rand = Math.random } = {}) {
+  const r = genVieja(nivel, { rand })
+  const cfg = NIVELES[nivel] ?? NIVELES.facil
+  const pool = PALABRAS.filter(p => p.n <= cfg.max && p.n >= (cfg.minimo ?? 1))
+  const items = []
+  for (const p of baraja(rand, pool)) {
+    if (items.length === POR_RONDA) break
+    if (recientes.includes(p.ok) && pool.length > POR_RONDA * 3) continue
+    items.push(p.ok)
+  }
+  recientes.push(...items)
+  while (recientes.length > 12) recientes.shift()
+  // El orden de las dos letras al tocar, al azar: que la primera no sea siempre la buena
+  const orden = Object.fromEntries(items.map(w => [w, rand() < 0.5]))
+  return { ...r, mecanica: 'rellena', items, orden }
+}
+export const genRound = (difficulty = 'facil') => genRonda(difficulty)
+
+export const respuestaBuena = r => (r.mecanica === 'rellena' ? 'rellena:0' : r.bueno)
+export function esCorrecta(r, o) {
+  if (o == null) return false
+  if (!r.mecanica) return o === r.bueno
+  return o === respuestaBuena(r)
+}
+export const isCorrect = esCorrecta
+
+export function enunciado(r, l) {
+  if (r.mecanica === 'rellena') return tx(T('Completa las palabras: toca cada hueco para cambiar la letra', 'Complete the words: tap each gap to change the letter', 'Completa les paraules: toca cada buit per canviar la lletra'), l)
+  return enunciadoViejo(r, l)
+}
+
+export function explicacion(r, l) {
+  if (r.mecanica === 'rellena') return r.items.map(w => `${w}: ${tx(REGLAS[PALABRAS.find(p => p.ok === w).r], l)}`).join(' · ')
+  return explicacionVieja(r, l)
+}
+
+export function schemaQuestion(r, l) {
+  return schemaVieja(r, l)
 }

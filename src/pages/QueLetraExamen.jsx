@@ -36,7 +36,7 @@ export default function QueLetraExamen() {
       metaPath="/examen/que-letra-test"
       subjectSchema="Lengua"
       backGamePath="/juegos/que-letra"
-      playLabel={{ es: 'Modo arcade (60s)', en: 'Arcade mode (60s)', ca: 'Mode arcade (60s)' }}
+      playLabel={{ es: 'Modo arcade (90s)', en: 'Arcade mode (90s)', ca: 'Mode arcade (90s)' }}
       levels={LEVELS}
       genRound={genRound}
       isCorrect={esCorrecta}

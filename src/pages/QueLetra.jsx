@@ -11,9 +11,10 @@ import SEOHead from '../components/SEOHead'
 import { CabeceraJuego, NivelBarras, ComoSeJuega } from '../components/IntroJuego'
 import { Racha } from '../components/Iconos'
 
-const GAME_TIME = 60
+// Cuatro palabras por ronda: 90 s y +6 s por acierto.
+const GAME_TIME = 90
 const WRONG_TIME = 5
-const CORRECT_TIME = 4
+const CORRECT_TIME = 6
 const REVEAL_MS = 3400 // da tiempo a leer la regla, sin frenar el ritmo
 
 const DIFS = {
@@ -142,7 +143,7 @@ export default function QueLetra() {
           </button>
           <ComoSeJuega>
             <div className="space-y-2 text-white/70 text-sm">
-              <p>{tr({ es: 'Sale una palabra con un hueco y hay que elegir cómo se escribe: con b o con v, con g o con j, con h o sin ella, con ll o con y, con c o con z. Al responder, el hueco se rellena y aparece la regla que lo explica o el aviso de que es una excepción.', en: 'A Spanish word appears with a gap and you choose how it is spelt: b or v, g or j, with or without h, ll or y, c or z. When you answer, the gap fills in and the rule behind it appears, or a note that it is an exception.', ca: 'Surt una paraula en castellà amb un forat i cal triar com s’escriu: amb b o amb v, amb g o amb j, amb h o sense, amb ll o amb y, amb c o amb z. En respondre, el forat s’omple i apareix la regla que ho explica o l’avís que és una excepció.' })}</p>
+              <p>{tr({ es: 'Salen cuatro palabras con un hueco. Toca cada hueco para cambiar la letra: b o v, g o j, h o nada, ll o y, c o z. Cuando estén las cuatro, compruebas: cada hueco se pinta en verde o rojo y aparece la regla que lo explica o el aviso de que es una excepción.', en: 'A Spanish word appears with a gap and you choose how it is spelt: b or v, g or j, with or without h, ll or y, c or z. When you answer, the gap fills in and the rule behind it appears, or a note that it is an exception.', ca: 'Surt una paraula en castellà amb un forat i cal triar com s’escriu: amb b o amb v, amb g o amb j, amb h o sense, amb ll o amb y, amb c o amb z. En respondre, el forat s’omple i apareix la regla que ho explica o l’avís que és una excepció.' })}</p>
               <p>{tr({ es: 'Las palabras están elegidas para que solo una forma sea correcta: no salen parejas como vaca y baca o tubo y tuvo, que existen las dos.', en: 'The words are chosen so only one spelling is correct: pairs like vaca/baca or tubo/tuvo, where both exist, never come up.', ca: 'Les paraules estan triades perquè només una forma sigui correcta: no surten parelles com vaca i baca o tubo i tuvo, que existeixen totes dues.' })}</p>
               <p className="text-white/40 text-xs pt-1">⏱️ {GAME_TIME}s · {tr({ es: `Acierto +10 y +${CORRECT_TIME}s · Fallo −${WRONG_TIME}s`, en: `Correct +10 and +${CORRECT_TIME}s · Wrong −${WRONG_TIME}s`, ca: `Encert +10 i +${CORRECT_TIME}s · Error −${WRONG_TIME}s` })}</p>
             </div>

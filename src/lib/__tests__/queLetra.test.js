@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { genRonda, NIVELES, PALABRAS, REGLAS, GRUPOS, hueco, enunciado, explicacion, schemaQuestion } from '../queLetra'
+import { genRonda, esCorrecta, respuestaBuena, letrasDe, NIVELES, PALABRAS, REGLAS, GRUPOS, hueco, enunciado, explicacion, schemaQuestion } from '../queLetra'
 
 function semilla(s) {
   return () => { s = (s * 1103515245 + 12345) % 2147483648; return s / 2147483648 }
@@ -39,10 +39,27 @@ describe('¿Qué Letra Va?', () => {
         for (const l of ['es', 'en', 'ca']) {
           expect(enunciado(r, l)).toBeTruthy()
           // La palabra va en castellano en cualquier idioma.
-          expect(explicacion(r, l).startsWith(r.palabra)).toBe(true)
+          for (const w of r.items) expect(explicacion(r, l)).toContain(`${w}:`)
           expect(schemaQuestion(r, l).wrongAnswers.length).toBe(r.opciones.length - 1)
         }
       }
     })
   }
+})
+
+describe('¿Qué Letra Va? · rondas de cuatro palabras', () => {
+  it('cada hueco alterna entre la letra buena y la de su mala, y al ponerla sale la palabra', () => {
+    for (const p of PALABRAS) {
+      const x = letrasDe(p.ok)
+      expect(x.letra).not.toBe(x.mala)
+      expect(x.antes + x.letra + x.despues).toBe(p.ok)
+      expect(x.antes + x.mala + x.despues).toBe(p.mal[0])
+    }
+    for (const nivel of Object.keys(NIVELES)) {
+      const r = genRonda(nivel)
+      expect(new Set(r.items).size).toBe(4)
+      expect(esCorrecta(r, respuestaBuena(r))).toBe(true)
+      expect(esCorrecta(r, 'rellena:1')).toBe(false)
+    }
+  })
 })
