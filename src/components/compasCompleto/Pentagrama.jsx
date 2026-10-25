@@ -45,8 +45,20 @@ export function Figura({ n, x, color }) {
   return n.silencio ? <Silencio x={x} n={n} color={color} /> : <Nota x={x} n={n} color={color} />
 }
 
-// notas: [{f, puntillo, silencio} | '|'], hueco: índice del hueco (o -1)
-export default function Pentagrama({ notas, compas, hueco = -1, revelado = false, final = true, className = "w-full block" }) {
+// Una figura sola en un trozo de pentagrama (botones de la paleta, tarjetas)
+export function Mini({ n, color = '#F8FAFC', className = 'w-9 h-14' }) {
+  return (
+    <svg viewBox="8 12 40 64" className={className} aria-hidden="true">
+      {L.map(y => <line key={y} x1="8" y1={y} x2="48" y2={y} stroke="#475569" strokeWidth="1" />)}
+      <Figura n={n} x={26} color={color} />
+    </svg>
+  )
+}
+
+// notas: [{f, puntillo, silencio} | '|'], hueco: índice del hueco (o -1).
+// colores: color por índice; onEntre(i): se toca el hueco entre la figura
+// i-1 y la i (para poner una barra); marcas: {i: color} de esas barras.
+export default function Pentagrama({ notas, compas, hueco = -1, revelado = false, final = true, className = "w-full block", colores = {}, onEntre, marcas = {} }) {
   const paso = 34
   const x0 = compas ? 46 : 30
   // Posiciones calculadas antes (no se puede reasignar dentro del map).
@@ -65,10 +77,16 @@ export default function Pentagrama({ notas, compas, hueco = -1, revelado = false
         </g>
       )
     }
-    return <Figura key={i} n={n} x={xi} color={i === hueco ? '#86EFAC' : '#F8FAFC'} />
+    return <Figura key={i} n={n} x={xi} color={colores[i] ?? (i === hueco ? '#86EFAC' : '#F8FAFC')} />
   })
+  const entre = []
+  for (let i = 1; i < notas.length; i++) {
+    const xe = pos[i] - 15
+    if (marcas[i]) entre.push(<line key={`m${i}`} x1={xe} y1={L[0]} x2={xe} y2={L[4]} stroke={marcas[i]} strokeWidth="2.5" />)
+    if (onEntre) entre.push(<rect key={`e${i}`} x={xe - 8} y={L[0] - 14} width="16" height={L[4] - L[0] + 28} rx="4" fill={marcas[i] ? 'transparent' : 'rgba(251,191,36,0.10)'} style={{ cursor: 'pointer' }} onClick={() => onEntre(i)} />)
+  }
   return (
-    <svg viewBox={`0 0 ${Math.max(ancho, 120)} 90`} className={className} style={{ maxWidth: Math.max(ancho, 120) * 1.6 }} aria-hidden="true">
+    <svg viewBox={`0 0 ${Math.max(ancho, 120)} 90`} className={className} style={{ maxWidth: Math.max(ancho, 120) * 1.6 }} aria-hidden={onEntre ? undefined : 'true'}>
       {L.map(y => <line key={y} x1="6" y1={y} x2={Math.max(ancho, 120) - 4} y2={y} stroke="#64748B" strokeWidth="1" />)}
       {compas && (
         <g fontSize="15" fontWeight="900" fill="#F8FAFC" textAnchor="middle">
@@ -78,6 +96,7 @@ export default function Pentagrama({ notas, compas, hueco = -1, revelado = false
       )}
       {final && <line x1={ancho - 6} y1={L[0]} x2={ancho - 6} y2={L[4]} stroke="#CBD5E1" strokeWidth="2.5" />}
       {piezas}
+      {entre}
     </svg>
   )
 }

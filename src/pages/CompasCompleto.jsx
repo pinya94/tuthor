@@ -11,9 +11,10 @@ import SEOHead from '../components/SEOHead'
 import { CabeceraJuego, NivelBarras, ComoSeJuega } from '../components/IntroJuego'
 import { Racha } from '../components/Iconos'
 
-const GAME_TIME = 60
+// Rondas de varios toques (emparejar tres, construir el hueco): 90 s y +6 s por acierto.
+const GAME_TIME = 90
 const WRONG_TIME = 5
-const CORRECT_TIME = 4
+const CORRECT_TIME = 6
 const REVEAL_MS = 4500 // da tiempo a ver el compás completo y la cuenta
 
 const DIFS = {
@@ -142,8 +143,8 @@ export default function CompasCompleto() {
           </button>
           <ComoSeJuega>
             <div className="space-y-2 text-white/70 text-sm">
-              <p>{tr({ es: 'Sale una figura en el pentagrama y hay que decir cómo se llama o cuánto dura, con la negra como un tiempo: la redonda vale 4, la blanca 2, la corchea ½ y la semicorchea ¼. El puntillo suma la mitad.', en: 'A note appears on the staff and you say what it is called or how long it lasts, with the crotchet as one beat: semibreve 4, minim 2, quaver ½ and semiquaver ¼. A dot adds half.', ca: 'Surt una figura al pentagrama i cal dir com es diu o quant dura, amb la negra com un temps: la rodona val 4, la blanca 2, la corxera ½ i la semicorxera ¼. El punt suma la meitat.' })}</p>
-              <p>{tr({ es: 'Otras rondas son compases con un hueco: suma lo que hay y elige la figura que lo completa. En difícil, descubre el compás (2/4, 3/4 o 4/4) sumando los tiempos entre las barras.', en: 'Other rounds are bars with a gap: add up what is there and choose the note that completes it. On hard, work out the time signature by adding the beats between bar lines.', ca: 'Altres rondes són compassos amb un buit: suma el que hi ha i tria la figura que el completa. En difícil, descobreix el compàs sumant els temps entre les barres.' })}</p>
+              <p>{tr({ es: 'No hay opciones. Unas rondas son tres figuras dibujadas: toca una y después su nombre. Otras, una figura y una regla de cuatro tiempos: toca dónde acaba, con la negra como un tiempo (la redonda vale 4, la blanca 2, la corchea ½ y la semicorchea ¼; el puntillo suma la mitad).', en: 'There are no options. Some rounds show three notes: tap one and then its name. Others show a note and a four-beat ruler: tap where it ends, with the crotchet as one beat (semibreve 4, minim 2, quaver ½, semiquaver ¼; a dot adds half).', ca: 'No hi ha opcions. Unes rondes són tres figures dibuixades: toca’n una i després el seu nom. Altres, una figura i un regle de quatre temps: toca on acaba, amb la negra com un temps (la rodona val 4, la blanca 2, la corxera ½ i la semicorxera ¼; el punt suma la meitat).' })}</p>
+              <p>{tr({ es: 'En los compases con hueco, rellénalo con figuras de la paleta hasta que el compás sume justo (vale cualquier combinación que sume lo que falta). Y con la cifra a la vista, toca dónde va la barra que separa dos compases.', en: 'In bars with a gap, fill it with notes from the palette until the bar adds up exactly (any combination that adds up to what is missing counts). And with the time signature shown, tap where the bar line between two bars goes.', ca: 'Als compassos amb buit, omple’l amb figures de la paleta fins que el compàs sumi just (val qualsevol combinació que sumi el que falta). I amb la xifra a la vista, toca on va la barra que separa dos compassos.' })}</p>
               <p className="text-white/40 text-xs pt-1">⏱️ {GAME_TIME}s · {tr({ es: `Acierto +10 y +${CORRECT_TIME}s · Fallo −${WRONG_TIME}s`, en: `Correct +10 and +${CORRECT_TIME}s · Wrong −${WRONG_TIME}s`, ca: `Encert +10 i +${CORRECT_TIME}s · Error −${WRONG_TIME}s` })}</p>
             </div>
           </ComoSeJuega>

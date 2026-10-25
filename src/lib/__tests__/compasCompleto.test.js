@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { genRonda, NIVELES, FIGURAS, COMPASES, duracion, deClave, clave, tiemposTexto, enunciado, explicacion, textoOpcion, schemaQuestion } from '../compasCompleto'
+import { genRonda, genVieja, esCorrecta, respuestaBuena, sumaHueco, paleta, NIVELES, FIGURAS, COMPASES, duracion, deClave, clave, tiemposTexto, enunciado, explicacion, textoOpcion, schemaQuestion } from '../compasCompleto'
 
 function semilla(s) {
   return () => { s = (s * 1103515245 + 12345) % 2147483648; return s / 2147483648 }
@@ -20,7 +20,7 @@ describe('Compás Completo', () => {
       const rand = semilla(nivel.length * 47)
       const tipos = new Set()
       for (let i = 0; i < 500; i++) {
-        const r = genRonda(nivel, { rand })
+        const r = genVieja(nivel, { rand })
         tipos.add(r.tipo)
         expect(r.opciones).toContain(r.bueno)
         expect(new Set(r.opciones).size).toBe(r.opciones.length)
@@ -45,6 +45,47 @@ describe('Compás Completo', () => {
         }
       }
       for (const t of NIVELES[nivel].tipos) expect(tipos.has(t), t).toBe(true)
+    })
+  }
+})
+
+describe('Compás Completo · mecánicas', () => {
+  for (const nivel of Object.keys(NIVELES)) {
+    it(`${nivel}: cada ronda se puede resolver tocando`, () => {
+      const rand = semilla(nivel.length * 131)
+      const pal = paleta(nivel)
+      for (let i = 0; i < 300; i++) {
+        const r = genRonda(nivel, { rand })
+        expect(esCorrecta(r, respuestaBuena(r))).toBe(true)
+        if (r.mecanica === 'empareja') {
+          expect(new Set(r.items).size).toBe(3)
+          expect([...r.nombres].sort()).toEqual([...r.items].sort())
+          expect(esCorrecta(r, 'empareja:2')).toBe(false)
+        }
+        if (r.mecanica === 'mide') {
+          expect(r.bueno).toBeGreaterThanOrEqual(1)
+          expect(r.bueno).toBeLessThanOrEqual(16)
+          expect(esCorrecta(r, String(r.bueno + 1))).toBe(false)
+        }
+        if (r.mecanica === 'construye') {
+          // La figura que falta está en la paleta, y dos que sumen lo mismo también valen
+          expect(pal).toContain(r.bueno)
+          expect(sumaHueco(respuestaBuena(r))).toBe(r.falta)
+          if (r.falta === 4) expect(esCorrecta(r, 'corchea+corchea')).toBe(true)
+          expect(esCorrecta(r, `${r.bueno}+${r.bueno}`)).toBe(false)
+        }
+        if (r.mecanica === 'barra') {
+          // La barra cae justo donde la cuenta llega al compás, y en ningún otro sitio
+          const d = r.seguidas.map(k => duracion(deClave(k)))
+          const sumas = d.map((_, k) => d.slice(0, k + 1).reduce((a, b) => a + b, 0))
+          expect(sumas.filter(x => x === COMPASES[r.compas])).toHaveLength(1)
+          expect(sumas[r.barra - 1]).toBe(COMPASES[r.compas])
+        }
+        for (const l of ['es', 'en', 'ca']) {
+          expect(enunciado(r, l)).toBeTruthy()
+          expect(explicacion(r, l)).not.toMatch(/undefined|NaN/)
+        }
+      }
     })
   }
 })

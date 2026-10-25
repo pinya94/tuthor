@@ -947,13 +947,13 @@ export const FICHAS_ES = {
     subtitulo: 'Juego de ritmo: figuras, silencios y compases',
     emoji: '🥁', gradient: 'from-amber-500 to-orange-700',
     path: '/juegos/compas-completo',
-    intro: 'Un juego de música para dominar el ritmo con las figuras dibujadas en el pentagrama. Sale una redonda, una blanca, una negra, una corchea o una semicorchea (con o sin puntillo) o un silencio, y hay que decir cómo se llama o cuántos tiempos dura con la negra como unidad. Otras rondas son compases de 2/4, 3/4 o 4/4 con un hueco: hay que sumar lo que hay y elegir la figura que lo completa. En el nivel difícil, sin la cifra de compás, hay que descubrir qué compás es sumando los tiempos entre las barras.',
+    intro: 'Un juego de música para dominar el ritmo con las figuras dibujadas en el pentagrama. Sale una redonda, una blanca, una negra, una corchea o una semicorchea (con o sin puntillo) o un silencio, y no hay opciones: se empareja cada figura con su nombre o se toca en una regla de cuatro tiempos dónde acaba, con la negra como unidad. Otras rondas son compases de 2/4, 3/4 o 4/4 con un hueco que se rellena con figuras de la paleta hasta que el compás suma justo. Y con la cifra de compás a la vista, hay que tocar dónde va la barra que separa dos compases.',
     beneficios: [
       { titulo: 'Leer duraciones de un vistazo', texto: 'Cabeza hueca o rellena, con plica o sin ella, uno o dos corchetes: cada detalle cambia la duración. Verlo dibujado una y otra vez, como en una partitura, es lo que hace que la figura se reconozca sin pensar.' },
       { titulo: 'Sumar tiempos con sentido', texto: 'Completar un compás es una suma con fracciones: dos corcheas valen una negra, una blanca con puntillo vale tres tiempos. Al corregir, la explicación hace la cuenta (lo que hay, lo que falta) para que el alumno vea por qué.' },
       { titulo: 'Los silencios también cuentan', texto: 'Un silencio dura lo mismo que su figura, y en un compás cuenta igual. Por eso los compases mezclan notas y silencios, y el de redonda (que cuelga) y el de blanca (que se apoya) salen para no confundirlos.' },
     ],
-    ejemplo: 'Sale un compás de 3/4 con una negra, dos corcheas y un hueco. Un 3/4 tiene tres tiempos; la negra vale uno y las dos corcheas, medio cada una, así que ya hay dos tiempos y falta uno: una negra. Una blanca, que vale dos, se pasaría.',
+    ejemplo: 'Sale un compás de 3/4 con una negra, dos corcheas y un hueco. Un 3/4 tiene tres tiempos; la negra vale uno y las dos corcheas, medio cada una, así que ya hay dos tiempos y falta uno: se pone una negra (o dos corcheas, que suman lo mismo). Una blanca, que vale dos, se pasaría.',
     enPapel: {
       titulo: 'Compases con palmadas',
       pasos: [
@@ -3309,13 +3309,13 @@ export const FICHAS_EN = {
     titulo: 'Full Bar',
     subtitulo: 'Rhythm game: note values, rests and time signatures',
     emoji: '🥁', gradient: 'from-amber-500 to-orange-700', path: '/juegos/compas-completo',
-    intro: 'A music game for mastering rhythm with the notes drawn on the staff. A semibreve, minim, crotchet, quaver or semiquaver (with or without a dot) or a rest appears, and you say what it is called or how many beats it lasts with the crotchet as one beat. Other rounds are 2/4, 3/4 or 4/4 bars with a gap: add up what is there and choose the note that completes it. On hard, without the time signature, you work out what it is by adding the beats between bar lines.',
+    intro: 'A music game for mastering rhythm with the notes drawn on the staff. A semibreve, minim, crotchet, quaver or semiquaver (with or without a dot) or a rest appears, and there are no options: you match each note to its name or tap on a four-beat ruler where it ends, with the crotchet as one beat. Other rounds are 2/4, 3/4 or 4/4 bars with a gap that you fill with notes from the palette until the bar adds up exactly. And with the time signature shown, you tap where the bar line between two bars goes.',
     beneficios: [
       { titulo: 'Reading note values at a glance', texto: 'Hollow or filled head, with or without a stem, one or two flags: each detail changes the length. Seeing it drawn again and again, as in a score, is what makes the note recognisable without thinking.' },
       { titulo: 'Adding beats with meaning', texto: 'Completing a bar is a sum with fractions: two quavers make a crotchet, a dotted minim lasts three beats. When you answer, the explanation does the sum (what is there, what is missing) so the student sees why.' },
       { titulo: 'Rests count too', texto: 'A rest lasts as long as its note, and counts the same in a bar. That is why bars mix notes and rests, and the semibreve rest (hanging) and the minim rest (sitting) both appear so they are not confused.' },
     ],
-    ejemplo: 'A 3/4 bar appears with a crotchet, two quavers and a gap. A 3/4 bar has three beats; the crotchet is one and the two quavers half each, so there are two beats and one is missing: a crotchet. A minim, worth two, would be too long.',
+    ejemplo: 'A 3/4 bar appears with a crotchet, two quavers and a gap. A 3/4 bar has three beats; the crotchet is one and the two quavers half each, so there are two beats and one is missing: you put in a crotchet (or two quavers, which add up to the same). A minim, worth two, would be too long.',
     enPapel: {
       titulo: 'Clapping bars',
       pasos: [
@@ -5498,13 +5498,13 @@ export const FICHAS_CA = {
     titulo: 'Compàs Complet',
     subtitulo: 'Joc de ritme: figures, silencis i compassos',
     emoji: '🥁', gradient: 'from-amber-500 to-orange-700', path: '/juegos/compas-completo',
-    intro: 'Un joc de música per dominar el ritme amb les figures dibuixades al pentagrama. Surt una rodona, una blanca, una negra, una corxera o una semicorxera (amb punt o sense) o un silenci, i cal dir com es diu o quants temps dura amb la negra com a unitat. Altres rondes són compassos de 2/4, 3/4 o 4/4 amb un buit: cal sumar el que hi ha i triar la figura que el completa. Al nivell difícil, sense la xifra de compàs, cal descobrir quin compàs és sumant els temps entre les barres.',
+    intro: 'Un joc de música per dominar el ritme amb les figures dibuixades al pentagrama. Surt una rodona, una blanca, una negra, una corxera o una semicorxera (amb punt o sense) o un silenci, i no hi ha opcions: s’aparella cada figura amb el seu nom o es toca en un regle de quatre temps on acaba, amb la negra com a unitat. Altres rondes són compassos de 2/4, 3/4 o 4/4 amb un buit que s’omple amb figures de la paleta fins que el compàs suma just. I amb la xifra de compàs a la vista, cal tocar on va la barra que separa dos compassos.',
     beneficios: [
       { titulo: 'Llegir durades d’un cop d’ull', texto: 'Cap buit o ple, amb plica o sense, un o dos corxets: cada detall canvia la durada. Veure-ho dibuixat una vegada i una altra, com en una partitura, és el que fa que la figura es reconegui sense pensar.' },
       { titulo: 'Sumar temps amb sentit', texto: 'Completar un compàs és una suma amb fraccions: dues corxeres valen una negra, una blanca amb punt val tres temps. En corregir, l’explicació fa el compte (el que hi ha, el que falta) perquè l’alumne vegi per què.' },
       { titulo: 'Els silencis també compten', texto: 'Un silenci dura el mateix que la seva figura, i en un compàs compta igual. Per això els compassos barregen notes i silencis, i hi surten el de rodona (que penja) i el de blanca (que s’hi recolza) per no confondre’ls.' },
     ],
-    ejemplo: 'Surt un compàs de 3/4 amb una negra, dues corxeres i un buit. Un 3/4 té tres temps; la negra en val un i les dues corxeres, mig cadascuna, així que ja hi ha dos temps i en falta un: una negra. Una blanca, que en val dos, s’hi passaria.',
+    ejemplo: 'Surt un compàs de 3/4 amb una negra, dues corxeres i un buit. Un 3/4 té tres temps; la negra en val un i les dues corxeres, mig cadascuna, així que ja hi ha dos temps i en falta un: s’hi posa una negra (o dues corxeres, que sumen el mateix). Una blanca, que en val dos, s’hi passaria.',
     enPapel: {
       titulo: 'Compassos amb picades de mans',
       pasos: [

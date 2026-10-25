@@ -36,7 +36,7 @@ export default function CompasCompletoExamen() {
       metaPath="/examen/compas-completo-test"
       subjectSchema="Música"
       backGamePath="/juegos/compas-completo"
-      playLabel={{ es: 'Modo arcade (60s)', en: 'Arcade mode (60s)', ca: 'Mode arcade (60s)' }}
+      playLabel={{ es: 'Modo arcade (90s)', en: 'Arcade mode (90s)', ca: 'Mode arcade (90s)' }}
       levels={LEVELS}
       genRound={genRound}
       isCorrect={esCorrecta}

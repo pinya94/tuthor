@@ -86,7 +86,7 @@ function rellena(rand, total, cat) {
 let seq = 0
 const recientes = []
 
-export function genRonda(nivel = 'facil', opts = {}) {
+export function genVieja(nivel = 'facil', opts = {}) {
   for (let intento = 0; ; intento++) {
     const r = genUna(nivel, opts)
     const tema = `${r.tipo}:${r.figura ?? ''}:${r.compas ?? ''}:${r.bueno}`
@@ -142,8 +142,6 @@ function genUna(nivel, { rand = Math.random } = {}) {
   }
 }
 
-export const genRound = (difficulty = 'facil') => genRonda(difficulty)
-export const esCorrecta = (r, o) => o === r.bueno
 
 // ── Textos ────────────────────────────────────────────────────────────────
 export function textoOpcion(o, r, l) {
@@ -151,13 +149,13 @@ export function textoOpcion(o, r, l) {
   if (r.tipo === 'compas') return o
   return nombreFigura(deClave(o), l)
 }
-export function enunciado(r, l) {
+function enunciadoViejo(r, l) {
   if (r.tipo === 'nombre') return s(l, '¿Cómo se llama?', 'What is it called?', 'Com es diu?')
   if (r.tipo === 'tiempos') return s(l, '¿Cuánto dura en un compás de 4/4?', 'How long does it last in 4/4 time?', 'Quant dura en un compàs de 4/4?')
   if (r.tipo === 'hueco') return s(l, `¿Qué falta para completar el compás de ${r.compas}?`, `What is missing to complete the ${r.compas} bar?`, `Què falta per completar el compàs de ${r.compas}?`)
   return s(l, '¿Qué compás es?', 'What is the time signature?', 'Quin compàs és?')
 }
-export function explicacion(r, l) {
+function explicacionVieja(r, l) {
   if (r.tipo === 'nombre' || r.tipo === 'tiempos') {
     const n = deClave(r.figura)
     const pt = n.puntillo ? s(l, ' El puntillo le suma la mitad de lo que vale.', ' The dot adds half of its value.', ' El punt li suma la meitat del que val.') : ''
@@ -182,8 +180,94 @@ export function schemaQuestion(r, l) {
   const desc = r.notas ? r.notas.map(k => (k === '|' ? '|' : nombreFigura(deClave(k), l))).map((t, i) => (r.tipo === 'hueco' && i === r.hueco ? '?' : t)).join(', ') + '. '
     : r.figura ? `${s(l, 'Figura', 'Note', 'Figura')}: ${r.tipo === 'nombre' ? '?' : nombreFigura(deClave(r.figura), l)}. ` : ''
   return {
-    question: `${desc}${enunciado(r, l)}`,
+    question: `${desc}${enunciadoViejo(r, l)}`,
     correctAnswer: textoOpcion(r.bueno, r, l),
     wrongAnswers: r.opciones.filter(o => o !== r.bueno).map(o => textoOpcion(o, r, l)),
   }
+}
+
+// ── Mecánicas ─────────────────────────────────────────────────────────────
+// Sin opciones (genVieja sigue dando la ronda y el texto del schema):
+//   empareja  (nombre)   tres figuras dibujadas: toca una y luego su nombre
+//   mide      (tiempos)  toca en la regla de cuatro tiempos dónde acaba la figura
+//   construye (hueco)    rellena el hueco con figuras de la paleta hasta que el
+//                        compás sume justo (vale cualquier combinación que sume)
+//   barra     (compas)   con la cifra a la vista, toca dónde va la barra de compás
+export const MECANICA_DE_TIPO = { nombre: 'empareja', tiempos: 'mide', hueco: 'construye', compas: 'barra' }
+export const MAX_HUECO = 3 // figuras que caben en el hueco al construir
+
+const recientesM = []
+export function genRonda(nivel = 'facil', opts = {}) {
+  const rand = opts.rand ?? Math.random
+  const cfg = NIVELES[nivel] ?? NIVELES.facil
+  for (let intento = 0; ; intento++) {
+    const r = { ...genVieja(nivel, opts) }
+    r.mecanica = MECANICA_DE_TIPO[r.tipo]
+    if (r.tipo === 'nombre') {
+      // Tres figuras distintas (la de la ronda y dos más), cada una con su nombre
+      const otros = baraja(rand, catalogo(cfg, nivel).map(clave).filter(k => k !== r.figura)).slice(0, 2)
+      r.items = baraja(rand, [r.figura, ...otros])
+      r.nombres = baraja(rand, r.items)
+    }
+    if (r.tipo === 'compas') {
+      // La barra de en medio se quita: es lo que se busca
+      r.barra = r.notas.indexOf('|')
+      r.seguidas = r.notas.filter(k => k !== '|')
+    }
+    if (r.tipo === 'hueco') r.falta = duracion(deClave(r.bueno))
+    const t = `${r.tipo}:${r.figura ?? ''}:${(r.items ?? r.notas ?? []).join()}`
+    if (intento < 20 && recientesM.includes(t)) continue
+    recientesM.push(t)
+    if (recientesM.length > 6) recientesM.shift()
+    return r
+  }
+}
+export const genRound = (difficulty = 'facil') => genRonda(difficulty)
+
+// Paleta del hueco: las figuras del nivel (silencios aparte, con su interruptor)
+export function paleta(nivel) {
+  const cfg = NIVELES[nivel] ?? NIVELES.facil
+  return catalogo(cfg, nivel).map(clave)
+}
+// Lo que suma una respuesta de construir: «negra+corchea» → 6
+export const sumaHueco = txt => (txt ? String(txt).split('+').filter(Boolean).reduce((a, k) => a + duracion(deClave(k)), 0) : 0)
+
+export function respuestaBuena(r) {
+  if (r.mecanica === 'empareja') return 'empareja:0'
+  if (r.mecanica === 'mide') return String(r.bueno)
+  if (r.mecanica === 'construye') return r.bueno
+  if (r.mecanica === 'barra') return String(r.barra)
+  return r.bueno
+}
+export function esCorrecta(r, o) {
+  if (o == null) return false
+  if (!r.mecanica) return o === r.bueno
+  if (r.mecanica === 'mide') return Number(o) === r.bueno
+  if (r.mecanica === 'construye') return sumaHueco(o) === r.falta
+  return String(o) === respuestaBuena(r)
+}
+export const isCorrect = esCorrecta
+
+export function enunciado(r, l) {
+  switch (r.mecanica) {
+    case 'empareja': return s(l, 'Toca una figura y después su nombre', 'Tap a note and then its name', 'Toca una figura i després el seu nom')
+    case 'mide': return s(l, 'Con la negra como un tiempo, toca en la regla dónde acaba esta figura', 'With the crotchet as one beat, tap on the ruler where this note ends', 'Amb la negra com un temps, toca al regle on acaba aquesta figura')
+    case 'construye': return s(l, `Rellena el hueco para completar el compás de ${r.compas}`, `Fill the gap to complete the ${r.compas} bar`, `Omple el buit per completar el compàs de ${r.compas}`)
+    case 'barra': return s(l, `Esto está en ${r.compas}: toca dónde va la barra que separa los dos compases`, `This is in ${r.compas}: tap where the bar line between the two bars goes`, `Això és en ${r.compas}: toca on va la barra que separa els dos compassos`)
+    default: return enunciadoViejo(r, l)
+  }
+}
+
+export function explicacion(r, l) {
+  if (r.mecanica === 'empareja') {
+    return r.items.map(k => { const n = deClave(k); return `${nombreFigura(n, l)} (${tiemposTexto(duracion(n), l)})` }).join(' · ')
+  }
+  if (r.mecanica === 'barra') {
+    const total = COMPASES[r.compas]
+    return s(l,
+      `En ${r.compas} cada compás suma ${tiemposTexto(total, l)}: la barra va después de la figura ${r.barra}, cuando la cuenta llega justo a ${tiemposTexto(total, l)}.`,
+      `In ${r.compas} each bar adds up to ${tiemposTexto(total, l)}: the bar line goes after note ${r.barra}, when the count reaches exactly ${tiemposTexto(total, l)}.`,
+      `En ${r.compas} cada compàs suma ${tiemposTexto(total, l)}: la barra va després de la figura ${r.barra}, quan el compte arriba just a ${tiemposTexto(total, l)}.`)
+  }
+  return explicacionVieja(r, l)
 }
