@@ -494,14 +494,15 @@ function ColumnaSuelta({ tipo }) {
   )
 }
 
-export default function Edificio({ ronda, t }) {
+// recortado: el arco o la columna suelta llenan el dibujo (tarjetas pequeñas)
+export default function Edificio({ ronda, t, recortado = false }) {
   const r = ronda
   let dibujo
   if (r.pregunta === 'arco') dibujo = <ArcoSuelto tipo={r.bueno} />
   else if (r.pregunta === 'columna') dibujo = <ColumnaSuelta tipo={r.bueno} />
   else { const E = EDIFICIOS[r.estilo]; dibujo = <E variante={r.variante} /> }
   return (
-    <svg viewBox={`0 0 ${W} ${H}`} className="w-full h-auto" role="img" aria-label={t.aria}>
+    <svg viewBox={recortado && r.pregunta === 'columna' ? '92 6 136 206' : recortado && r.pregunta === 'arco' ? '60 4 200 206' : `0 0 ${W} ${H}`} className="w-full h-auto" role="img" aria-label={t.aria}>
       <rect x="0" y={SUELO} width={W} height={H - SUELO} fill="#334155" />
       {dibujo}
     </svg>

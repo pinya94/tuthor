@@ -73,7 +73,7 @@ function opcionesEstilo(estilo, nivel, rand) {
 
 let seq = 0
 
-export function genRonda(nivel = 'facil', { rand = Math.random, evitar } = {}) {
+export function genVieja(nivel = 'facil', { rand = Math.random, evitar } = {}) {
   const cfg = NIVELES[nivel] ?? NIVELES.facil
   for (;;) {
     const pregunta = elige(rand, cfg.tipos)
@@ -98,9 +98,6 @@ export function genRonda(nivel = 'facil', { rand = Math.random, evitar } = {}) {
   }
 }
 
-export const esCorrecta = (ronda, r) => r === ronda.bueno
-export const genRound = difficulty => genRonda(difficulty)
-export const isCorrect = esCorrecta
 
 // ── Textos ───────────────────────────────────────────────────────────────
 const T = (es, en, ca) => ({ es, en, ca })
@@ -171,7 +168,7 @@ export function textoOpcion(o, ronda, l) {
   }
 }
 
-export function enunciado(ronda, l) {
+function enunciadoViejo(ronda, l) {
   return tx({
     estilo: T('¿De qué estilo es este edificio?', 'What style is this building?', 'De quin estil és aquest edifici?'),
     arco: T('¿Qué tipo de arco es?', 'What type of arch is this?', 'Quin tipus d’arc és?'),
@@ -180,7 +177,7 @@ export function enunciado(ronda, l) {
   }[ronda.pregunta], l)
 }
 
-export function explicacion(ronda, l) {
+function explicacionVieja(ronda, l) {
   const r = ronda
   if (r.pregunta === 'arco') return tx(SOBRE_ARCO[r.bueno], l)
   if (r.pregunta === 'columna') return tx(SOBRE_COLUMNA[r.bueno], l)
@@ -196,4 +193,115 @@ export function explicacion(ronda, l) {
 // nombre (herradura, lóbulos, espiral…).
 export function schemaQuestion() {
   return null
+}
+
+// ── Mecánicas ─────────────────────────────────────────────────────────────
+// Sin opciones:
+//   empareja (estilo)   tres edificios dibujados, cada uno con el nombre de su
+//                       estilo (en difícil, estilos que se parecen entre sí)
+//   empareja (arco)     tres arcos dibujados, cada uno con su nombre
+//   ordena   (columna)  las columnas de la más antigua a la más moderna
+//   ordena   (epoca)    cuatro edificios del más antiguo al más moderno
+// El arte islámico de la Península (711-1492) convive con el románico y el
+// gótico: en una ronda de ordenar no coincide con ellos, para que el orden no
+// se pueda discutir.
+export const MECANICA_DE_TIPO = { estilo: 'empareja', arco: 'empareja', columna: 'ordena', epoca: 'ordena' }
+// Orden en que aparecen los órdenes: dórico y jónico (s. VII-VI a. C.),
+// corintio (s. V-IV a. C.) y la salomónica, barroca.
+export const ORDEN_COLUMNA = { dorica: 0, jonica: 1, corintia: 2, salomonica: 3 }
+const SOLAPADOS = ['romanico', 'gotico']
+
+const vecinos = (a, b) => PARECIDO[a].includes(b) || PARECIDO[b].includes(a)
+
+function estilosEmpareja(rand, nivel) {
+  for (;;) {
+    const tres = baraja(rand, ESTILOS).slice(0, 3)
+    const parecidos = [[0, 1], [0, 2], [1, 2]].filter(([i, j]) => vecinos(tres[i], tres[j])).length
+    // Fácil: ninguno se parece; medio: una pareja parecida; difícil: al menos una
+    if (nivel === 'facil' ? parecidos === 0 : nivel === 'medio' ? parecidos === 1 : parecidos >= 1) return tres
+  }
+}
+
+const recientesM = []
+export function genRonda(nivel = 'facil', { rand = Math.random, evitar } = {}) {
+  for (let intento = 0; ; intento++) {
+    const r = { ...genVieja(nivel, { rand, evitar }) }
+    r.mecanica = MECANICA_DE_TIPO[r.pregunta]
+    if (r.pregunta === 'estilo') {
+      const tres = estilosEmpareja(rand, nivel)
+      r.items = tres.map(e => `${e}:${elige(rand, VARIANTES[e])}`)
+      r.nombres = baraja(rand, tres)
+    }
+    if (r.pregunta === 'arco') {
+      const posibles = nivel === 'facil' ? ARCOS.slice(0, 3) : ARCOS
+      r.items = baraja(rand, posibles).slice(0, 3)
+      r.nombres = baraja(rand, r.items)
+    }
+    if (r.pregunta === 'columna') {
+      r.items = baraja(rand, nivel === 'facil' ? COLUMNAS.slice(0, 3) : COLUMNAS)
+      r.orden = [...r.items].sort((a, b) => ORDEN_COLUMNA[a] - ORDEN_COLUMNA[b])
+    }
+    if (r.pregunta === 'epoca') {
+      const cuatro = baraja(rand, ESTILOS).slice(0, 4)
+      if (cuatro.includes('islamico') && cuatro.some(e => SOLAPADOS.includes(e))) continue
+      r.items = cuatro.map(e => `${e}:${elige(rand, VARIANTES[e])}`)
+      r.orden = [...r.items].sort((a, b) => EPOCA[a.split(':')[0]] - EPOCA[b.split(':')[0]])
+    }
+    const t = `${r.pregunta}:${[...r.items].sort().join()}`
+    if (intento < 20 && recientesM.includes(t)) continue
+    recientesM.push(t)
+    if (recientesM.length > 6) recientesM.shift()
+    return r
+  }
+}
+export const genRound = difficulty => genRonda(difficulty)
+
+// El estilo de un elemento (edificio «estilo:variante» o arco/columna suelto)
+export const estiloDe = it => it.split(':')[0]
+// Lo que dibuja Edificio para un elemento suelto
+export function dibujoDe(r, it) {
+  if (r.pregunta === 'arco') return { pregunta: 'arco', bueno: it }
+  if (r.pregunta === 'columna') return { pregunta: 'columna', bueno: it }
+  const [estilo, variante] = it.split(':')
+  return { pregunta: 'estilo', estilo, variante }
+}
+export function nombreDe(r, k, l) {
+  if (r.pregunta === 'arco') return tx(NOMBRE_ARCO[k], l)
+  if (r.pregunta === 'columna') return tx(NOMBRE_COLUMNA[k], l)
+  return tx(NOMBRE_ESTILO[estiloDe(k)], l)
+}
+
+export function respuestaBuena(r) {
+  if (r.mecanica === 'empareja') return 'empareja:0'
+  if (r.mecanica === 'ordena') return r.orden.join('>')
+  return r.bueno
+}
+export function esCorrecta(r, o) {
+  if (o == null) return false
+  if (!r.mecanica) return o === r.bueno
+  return o === respuestaBuena(r)
+}
+export const isCorrect = esCorrecta
+
+export function enunciado(r, l) {
+  switch (r.pregunta) {
+    case 'estilo': return tx(T('Toca un edificio y después el nombre de su estilo', 'Tap a building and then the name of its style', 'Toca un edifici i després el nom del seu estil'), l)
+    case 'arco': return tx(T('Toca un arco y después su nombre', 'Tap an arch and then its name', 'Toca un arc i després el seu nom'), l)
+    case 'columna': return tx(T('Toca las columnas de la más antigua a la más moderna', 'Tap the columns from oldest to newest', 'Toca les columnes de la més antiga a la més moderna'), l)
+    case 'epoca': return tx(T('Toca los edificios del estilo más antiguo al más moderno', 'Tap the buildings from the oldest style to the newest', 'Toca els edificis de l’estil més antic al més modern'), l)
+    default: return enunciadoViejo(r, l)
+  }
+}
+
+const ejemploDe = (e, l) => { const m = tx(RASGOS[e], l).match(/(?:^|[.,]\s)((?:como|like|com)\s[^.]*)\.?$/i); return m[1].charAt(0).toLowerCase() + m[1].slice(1) }
+
+export function explicacion(r, l) {
+  if (r.pregunta === 'estilo') {
+    // Corto: cada estilo con su obra de ejemplo («Griego, como el Partenón»)
+    return r.items.map(it => { const e = estiloDe(it); return `${tx(NOMBRE_ESTILO[e], l)}, ${ejemploDe(e, l)}` }).join(' · ')
+  }
+  if (r.pregunta === 'arco') return r.items.map(a => `${tx(NOMBRE_ARCO[a], l)}: ${tx(SOBRE_ARCO[a], l)}`).join(' ')
+  if (r.pregunta === 'columna') return r.orden.map(c => tx(NOMBRE_COLUMNA[c], l)).join(' → ') + '. ' + tx(T('Los tres órdenes clásicos nacen en Grecia en ese orden (el dórico, el más sencillo; el corintio, el más decorado); la salomónica es del Barroco.', 'The three classical orders appear in Greece in that order (Doric, the plainest; Corinthian, the most decorated); the Solomonic column is Baroque.', 'Els tres ordres clàssics neixen a Grècia en aquest ordre (el dòric, el més senzill; el corinti, el més decorat); la salomònica és del Barroc.'), l)
+  if (r.pregunta === 'epoca') return r.orden.map(it => `${tx(NOMBRE_ESTILO[estiloDe(it)], l)} (${tx(NOMBRE_EPOCA[estiloDe(it)], l).toLowerCase()})`).join(' → ')
+  return explicacionVieja(r, l)
 }

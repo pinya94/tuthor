@@ -11,9 +11,10 @@ import SEOHead from '../components/SEOHead'
 import { CabeceraJuego, NivelBarras, ComoSeJuega } from '../components/IntroJuego'
 import { Racha } from '../components/Iconos'
 
-const GAME_TIME = 60
+// Tres o cuatro dibujos por ronda: 90 s y +6 s por acierto.
+const GAME_TIME = 90
 const WRONG_TIME = 5
-const CORRECT_TIME = 4
+const CORRECT_TIME = 6
 const REVEAL_MS = 4800 // da tiempo a leer los rasgos del estilo
 
 const DIFS = {
@@ -142,8 +143,8 @@ export default function QueEstilo() {
           </button>
           <ComoSeJuega>
             <div className="space-y-2 text-white/70 text-sm">
-              <p>{tr({ es: 'Sale un edificio dibujado y hay que decir de qué estilo es: griego, romano, hispanomusulmán, románico, gótico, renacentista, barroco o neoclásico. Otras veces sale un arco o una columna suelta y hay que nombrarlo, o hay que decir en qué siglos se construía así.', en: 'A drawn building appears and you say which style it is: Greek, Roman, Islamic Spain, Romanesque, Gothic, Renaissance, Baroque or Neoclassical. Other times an arch or a column appears on its own and you name it, or you say in which centuries this style was built.', ca: 'Surt un edifici dibuixat i cal dir de quin estil és: grec, romà, hispanomusulmà, romànic, gòtic, renaixentista, barroc o neoclàssic. Altres vegades surt un arc o una columna sola i cal anomenar-lo, o cal dir en quins segles es construïa així.' })}</p>
-              <p>{tr({ es: 'Busca el rasgo que delata cada estilo: el arco (medio punto, apuntado, herradura), las columnas, el rosetón, los arbotantes, las curvas. En el difícil las opciones son los estilos que más se parecen entre sí.', en: 'Look for the feature that gives each style away: the arch (round, pointed, horseshoe), the columns, the rose window, the flying buttresses, the curves. On hard, the options are the styles that look most alike.', ca: 'Busca el tret que delata cada estil: l’arc (mig punt, apuntat, ferradura), les columnes, la rosassa, els arcbotants, les corbes. Al difícil les opcions són els estils que més s’assemblen entre si.' })}</p>
+              <p>{tr({ es: 'No hay opciones. Salen tres edificios dibujados: toca uno y después el nombre de su estilo (griego, romano, hispanomusulmán, románico, gótico, renacentista, barroco o neoclásico). Otras rondas son tres arcos para nombrar, columnas para ordenar de la más antigua a la más moderna o cuatro edificios para poner en orden en el tiempo.', en: 'There are no options. Three drawn buildings appear: tap one and then the name of its style (Greek, Roman, Islamic Spain, Romanesque, Gothic, Renaissance, Baroque or Neoclassical). Other rounds have three arches to name, columns to put in order from oldest to newest, or four buildings to put in order in time.', ca: 'No hi ha opcions. Surten tres edificis dibuixats: toca’n un i després el nom del seu estil (grec, romà, hispanomusulmà, romànic, gòtic, renaixentista, barroc o neoclàssic). Altres rondes són tres arcs per anomenar, columnes per ordenar de la més antiga a la més moderna o quatre edificis per posar en ordre en el temps.' })}</p>
+              <p>{tr({ es: 'Busca el rasgo que delata cada estilo: el arco (medio punto, apuntado, herradura), las columnas, el rosetón, los arbotantes, las curvas. En el difícil, los edificios de la ronda son de estilos que se parecen entre sí.', en: 'Look for the feature that gives each style away: the arch (round, pointed, horseshoe), the columns, the rose window, the flying buttresses, the curves. On hard, the buildings in a round are from styles that look alike.', ca: 'Busca el tret que delata cada estil: l’arc (mig punt, apuntat, ferradura), les columnes, la rosassa, els arcbotants, les corbes. Al difícil, els edificis de la ronda són d’estils que s’assemblen entre si.' })}</p>
               <p className="text-white/40 text-xs pt-1">⏱️ {GAME_TIME}s · {tr({ es: `Acierto +10 y +${CORRECT_TIME}s · Fallo −${WRONG_TIME}s`, en: `Correct +10 and +${CORRECT_TIME}s · Wrong −${WRONG_TIME}s`, ca: `Encert +10 i +${CORRECT_TIME}s · Error −${WRONG_TIME}s` })}</p>
             </div>
           </ComoSeJuega>
