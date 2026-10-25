@@ -11,9 +11,10 @@ import SEOHead from '../components/SEOHead'
 import { CabeceraJuego, NivelBarras, ComoSeJuega } from '../components/IntroJuego'
 import { Racha } from '../components/Iconos'
 
-const GAME_TIME = 60
+// Tres frases por ronda: 90 s y +6 s por acierto.
+const GAME_TIME = 90
 const WRONG_TIME = 5
-const CORRECT_TIME = 4
+const CORRECT_TIME = 6
 const REVEAL_MS = 4500 // da tiempo a ver la frase puntuada y la regla
 
 const DIFS = {
@@ -142,7 +143,7 @@ export default function ComaAComa() {
           </button>
           <ComoSeJuega>
             <div className="space-y-2 text-white/70 text-sm">
-              <p>{tr({ es: 'Sale una frase con un hueco y cuatro opciones: coma, punto y coma, dos puntos, punto… o nada, porque a veces lo correcto es no poner ningún signo. En las preguntas y exclamaciones hay dos huecos: el de apertura y el de cierre.', en: 'A sentence appears with a gap and four options: comma, semicolon, colon, full stop… or nothing, because sometimes the right answer is no mark at all. Questions and exclamations have two gaps: the opening and the closing mark.', ca: 'Surt una frase amb un buit i quatre opcions: coma, punt i coma, dos punts, punt… o res, perquè de vegades el correcte és no posar cap signe. A les preguntes i exclamacions hi ha dos buits: el d’obertura i el de tancament.' })}</p>
+              <p>{tr({ es: 'Salen tres frases con huecos. Toca cada hueco para ir cambiando el signo (coma, punto y coma, dos puntos, punto… o «–», ninguno, porque a veces lo correcto es no poner nada) y comprueba cuando estén las tres. En las preguntas y exclamaciones el hueco de apertura y el de cierre cambian a la vez.', en: 'A sentence appears with a gap and four options: comma, semicolon, colon, full stop… or nothing, because sometimes the right answer is no mark at all. Questions and exclamations have two gaps: the opening and the closing mark.', ca: 'Surt una frase amb un buit i quatre opcions: coma, punt i coma, dos punts, punt… o res, perquè de vegades el correcte és no posar cap signe. A les preguntes i exclamacions hi ha dos buits: el d’obertura i el de tancament.' })}</p>
               <p>{tr({ es: 'Al corregir aparece la frase bien puntuada y la regla que se aplica. En los niveles altos también hay que decir por qué va ahí un signo: vocativo, inciso, conector, verbo omitido…', en: 'When you answer, the correctly punctuated sentence appears with the rule that applies. On the higher levels you also say why a mark goes there.', ca: 'En corregir apareix la frase ben puntuada i la regla que s’aplica. Als nivells alts també cal dir per què hi va un signe.' })}</p>
               <p className="text-white/40 text-xs pt-1">⏱️ {GAME_TIME}s · {tr({ es: `Acierto +10 y +${CORRECT_TIME}s · Fallo −${WRONG_TIME}s`, en: `Correct +10 and +${CORRECT_TIME}s · Wrong −${WRONG_TIME}s`, ca: `Encert +10 i +${CORRECT_TIME}s · Error −${WRONG_TIME}s` })}</p>
             </div>

@@ -105,19 +105,11 @@ const baraja = (rand, xs) => {
 let seq = 0
 const recientes = []
 
-export function genRonda(nivel = 'facil', opts = {}) {
-  for (let intento = 0; ; intento++) {
-    const r = genUna(nivel, opts)
-    if (intento < 20 && recientes.includes(r.frase)) continue
-    recientes.push(r.frase)
-    if (recientes.length > 8) recientes.shift()
-    return r
-  }
-}
-
-function genUna(nivel, { rand = Math.random } = {}) {
+// La ronda clásica (una frase con opciones): la usan las mecánicas y el
+// texto del schema (ver «Mecánicas» al final).
+function genUna(nivel, { rand = Math.random, tipo: tipoFijo = null } = {}) {
   const cfg = NIVELES[nivel] ?? NIVELES.facil
-  const tipo = elige(rand, cfg.tipos)
+  const tipo = tipoFijo ?? elige(rand, cfg.tipos)
   const pool = FRASES.map((f, i) => [f, i]).filter(([f]) => cfg.frases.includes(f.nivel) && (tipo === 'signo' || CON_SIGNO.includes(f.regla)))
   const [f, i] = elige(rand, pool)
   const base = { id: ++seq, nivel, tipo, frase: i }
@@ -126,8 +118,6 @@ function genUna(nivel, { rand = Math.random } = {}) {
   return { ...base, bueno: f.regla, opciones: baraja(rand, [f.regla, ...otras]) }
 }
 
-export const genRound = (difficulty = 'facil') => genRonda(difficulty)
-export const esCorrecta = (r, o) => o === r.bueno
 
 // ── Textos ────────────────────────────────────────────────────────────────
 export const frase = r => FRASES[r.frase]
@@ -145,21 +135,82 @@ export function textoOpcion(o, r) {
   return o === '' ? 'Nada' : `${o}  (${NOMBRE_SIGNO[o]})`
 }
 
-export function enunciado(r) {
+function enunciadoViejo(r) {
   return r.tipo === 'regla' ? '¿Por qué va ahí ese signo?' : frase(r).ok.includes('|') ? '¿Qué signos van en los huecos?' : '¿Qué signo va en el hueco?'
 }
 
-export function explicacion(r) {
+function explicacionVieja(r) {
   const f = frase(r)
   return `${REGLAS[f.regla].expl} → ${conSigno(f.t, f.ok)}`
 }
 
-export function schemaQuestion(r) {
+function schemaVieja(r) {
   const f = frase(r)
   const t = r.tipo === 'regla' ? conSigno(f.t, f.ok) : f.t.replace(/▢/g, ' ___ ')
   return {
-    question: `${t} — ${enunciado(r)}`,
+    question: `${t} — ${enunciadoViejo(r)}`,
     correctAnswer: textoOpcion(r.bueno, r),
     wrongAnswers: r.opciones.filter(o => o !== r.bueno).map(o => textoOpcion(o, r)),
   }
+}
+
+// ── Mecánicas ─────────────────────────────────────────────────────────────
+// Sin opciones (genUna sigue dando la ronda y el texto del schema):
+//   puntua    (signo)  tres frases con huecos; tocando cada hueco se cambia el
+//                      signo. Cada hueco solo ofrece su signo bueno y sus tres
+//                      malos escritos a mano: nunca un signo que la RAE admita.
+//   empareja  (regla)  tres frases con el signo puesto, cada una con su regla
+export const MECANICA_DE_TIPO = { signo: 'puntua', regla: 'empareja' }
+
+export function genRonda(nivel = 'facil', opts = {}) {
+  const rand = opts.rand ?? Math.random
+  const cfg = NIVELES[nivel] ?? NIVELES.facil
+  const tipo = elige(rand, cfg.tipos)
+  for (let intento = 0; ; intento++) {
+    const r = { ...genUna(nivel, { rand, tipo }), mecanica: MECANICA_DE_TIPO[tipo] }
+    const pool = FRASES.map((f, i) => [f, i]).filter(([f]) => cfg.frases.includes(f.nivel) && (tipo === 'signo' || CON_SIGNO.includes(f.regla)))
+    // Tres frases de reglas distintas (en emparejar, además, cada regla una vez)
+    const items = []
+    for (const [f, i] of baraja(rand, pool)) {
+      if (items.length === 3) break
+      if (items.some(j => FRASES[j].regla === f.regla)) continue
+      items.push(i)
+    }
+    if (items.length < 3) continue
+    if (intento < 20 && items.some(i => recientes.includes(i))) continue
+    recientes.push(...items)
+    while (recientes.length > 9) recientes.shift()
+    r.items = items
+    if (tipo === 'signo') r.signos = Object.fromEntries(items.map(i => [i, baraja(rand, [FRASES[i].ok, ...FRASES[i].mal])]))
+    else r.reglas = baraja(rand, items.map(i => FRASES[i].regla))
+    return r
+  }
+}
+export const genRound = (difficulty = 'facil') => genRonda(difficulty)
+
+export function respuestaBuena(r) {
+  if (r.mecanica === 'puntua') return 'puntua:0'
+  if (r.mecanica === 'empareja') return 'empareja:0'
+  return r.bueno
+}
+export function esCorrecta(r, o) {
+  if (o == null) return false
+  if (!r.mecanica) return o === r.bueno
+  return o === respuestaBuena(r)
+}
+export const isCorrect = esCorrecta
+
+export function enunciado(r) {
+  if (r.mecanica === 'puntua') return 'Puntúa las frases: toca cada hueco hasta poner el signo que va (o ninguno)'
+  if (r.mecanica === 'empareja') return '¿Por qué va ahí cada signo? Une cada frase con su regla'
+  return enunciadoViejo(r)
+}
+
+export function explicacion(r) {
+  if (r.mecanica) return r.items.map(i => `${REGLAS[FRASES[i].regla].nombre}: ${conSigno(FRASES[i].t, FRASES[i].ok)}`).join(' · ')
+  return explicacionVieja(r)
+}
+
+export function schemaQuestion(r) {
+  return schemaVieja(r)
 }

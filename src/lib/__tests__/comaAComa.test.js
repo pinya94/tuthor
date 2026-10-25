@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { genRonda, NIVELES, FRASES, REGLAS, conSigno, enunciado, explicacion, textoOpcion, schemaQuestion } from '../comaAComa'
+import { genRonda, esCorrecta, respuestaBuena, NIVELES, FRASES, REGLAS, conSigno, enunciado, explicacion, textoOpcion, schemaQuestion } from '../comaAComa'
 
 function semilla(s) {
   return () => { s = (s * 1103515245 + 12345) % 2147483648; return s / 2147483648 }
@@ -45,4 +45,19 @@ describe('Coma a Coma', () => {
       for (const t of NIVELES[nivel].tipos) expect(tipos.has(t), t).toBe(true)
     })
   }
+})
+
+describe('Coma a Coma · rondas de tres frases', () => {
+  it('tres frases de reglas distintas; cada hueco solo ofrece su signo bueno y sus malos', () => {
+    for (const nivel of Object.keys(NIVELES)) {
+      for (let i = 0; i < 300; i++) {
+        const r = genRonda(nivel)
+        expect(r.items).toHaveLength(3)
+        expect(new Set(r.items.map(j => FRASES[j].regla)).size).toBe(3)
+        expect(esCorrecta(r, respuestaBuena(r))).toBe(true)
+        if (r.mecanica === 'puntua') for (const j of r.items) expect([...r.signos[j]].sort()).toEqual([FRASES[j].ok, ...FRASES[j].mal].sort())
+        else expect([...r.reglas].sort()).toEqual(r.items.map(j => FRASES[j].regla).sort())
+      }
+    }
+  })
 })

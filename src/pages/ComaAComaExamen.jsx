@@ -36,7 +36,7 @@ export default function ComaAComaExamen() {
       metaPath="/examen/coma-a-coma-test"
       subjectSchema="Lengua"
       backGamePath="/juegos/coma-a-coma"
-      playLabel={{ es: 'Modo arcade (60s)', en: 'Arcade mode (60s)', ca: 'Mode arcade (60s)' }}
+      playLabel={{ es: 'Modo arcade (90s)', en: 'Arcade mode (90s)', ca: 'Mode arcade (90s)' }}
       levels={LEVELS}
       genRound={genRound}
       isCorrect={esCorrecta}
