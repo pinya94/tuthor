@@ -373,7 +373,7 @@ export default function ProfesorClase() {
   const [vinculando, setVinculando] = useState(null) // id de la ficha que se está vinculando ahora mismo
   // La pestaña se elige al cargar la clase (loadClase), no aquí: hasta
   // entonces no se sabe qué módulos tiene activos.
-  const [tab, setTab] = useState(null)
+  const [tab, setTab] = useState(() => new URLSearchParams(window.location.search).get('tab'))
 
   useEffect(() => {
     if (user === undefined) return

@@ -13,6 +13,7 @@ import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
 import SEOHead from '../components/SEOHead'
 import { FormUnirse } from '../components/RankingClaseFin'
+import EmparejarReto from '../components/reto/EmparejarReto'
 import { gameLabel, gameEmoji, GAMES } from '../lib/games'
 import { examLabel, examRoute, EXAMS } from '../lib/exams'
 import { normalizaCodigo, codigoValido } from '../lib/apodo'
@@ -131,6 +132,12 @@ function UnRanking({ codigo, profe }) {
   return (
     <div className={`relative z-10 mx-auto px-4 py-6 ${proyectar ? 'max-w-6xl' : 'max-w-3xl'}`}>
       <SEOHead path={`/reto/${codigo}`} noindex title={`${ranking.nombre} — ${tr(MODO[modo].label)}`} description="" />
+      {/* De vuelta a donde se creó: los retos de su clase o los del panel */}
+      {gestiona && !proyectar && (
+        <Link to={ranking.classId ? `${localPath(`/profesor/clase/${ranking.classId}`)}?tab=retos` : `${localPath('/profesor')}?tab=retos`} className="inline-block text-white/40 hover:text-white/70 text-xs font-bold mb-3">
+          ← {ranking.classId ? `${ranking.claseNombre || tr({ es: 'Tu clase', en: 'Your class', ca: 'La teva classe' })} · ${tr({ es: 'Retos', en: 'Challenges', ca: 'Reptes' })}` : tr({ es: 'Mis retos', en: 'My challenges', ca: 'Els meus reptes' })}
+        </Link>
+      )}
       <div className="flex flex-wrap items-end justify-between gap-3 mb-4">
         <div className="min-w-0">
           <p className="text-white/40 text-xs font-bold uppercase tracking-widest">{MODO[modo].emoji} {tr(MODO[modo].label)}{ranking.cerrado ? ` · 🔒 ${tr({ es: 'cerrado', en: 'closed', ca: 'tancat' })}` : ''}</p>
@@ -204,6 +211,8 @@ function UnRanking({ codigo, profe }) {
           )}
         </section>
       )}
+
+      {gestiona && ranking.classId && modo !== 'ranking' && <EmparejarReto codigo={codigo} reto={ranking} entradas={entradas} />}
 
       {modo === 'deberes' ? <Notas filas={entradas} dueno={gestiona} quita={quita} yo={estoyAqui} tr={tr} />
         : modo === 'directo' ? <Marcador filas={marcador} dueno={gestiona} quita={quita} yo={estoyAqui} tr={tr} />

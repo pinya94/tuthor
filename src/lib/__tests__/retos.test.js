@@ -6,15 +6,16 @@ import { renderToStaticMarkup } from 'react-dom/server'
 import { MemoryRouter } from 'react-router-dom'
 import fs from 'fs'
 import path from 'path'
+import { fileURLToPath } from 'node:url'
 import { EXAMS } from '../exams'
 import { RETOS_EXAMENES } from '../../data/retosExamenes'
-import { nivelDelReto } from '../rankingClase'
+import { nivelDelReto, sugiereEmparejado, notaDe } from '../rankingClase'
 import { puntosDirecto } from '../apodo'
 
 const espia = vi.hoisted(() => ({ props: null }))
 vi.mock('../../components/MechanicExam', () => ({ default: props => { espia.props = props; return null } }))
 
-const PAGINAS = path.resolve(__dirname, '../../pages')
+const PAGINAS = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../pages')
 const fuente = id => {
   const m = String(EXAMS[id].page).match(/pages\/([A-Za-z0-9]+)/)
   return m && fs.readFileSync(path.join(PAGINAS, `${m[1]}.jsx`), 'utf8')
@@ -28,7 +29,7 @@ function noJson(o, ruta, malos) {
   else if (typeof o === 'number' && !Number.isFinite(o)) malos.add(`${ruta}: ${o}`)
   else if (o && typeof o === 'object') {
     if (!Array.isArray(o) && Object.getPrototypeOf(o) !== Object.prototype) malos.add(`${ruta}: ${o.constructor?.name}`)
-    if (Array.isArray(o)) o.forEach((v, i) => { if (v === undefined) malos.add(`${ruta}[]: undefined`); else noJson(v, `${ruta}[]`, malos) })
+    if (Array.isArray(o)) o.forEach(v => { if (v === undefined) malos.add(`${ruta}[]: undefined`); else noJson(v, `${ruta}[]`, malos) })
     else for (const [k, v] of Object.entries(o)) noJson(v, `${ruta}.${k}`, malos)
   }
 }
@@ -86,5 +87,25 @@ describe('Retos · nivel y puntos', () => {
     expect(puntosDirecto(true, 30000, 30000)).toBe(500)
     expect(puntosDirecto(true, 32000, 30000)).toBe(500)
     expect(puntosDirecto(true, 15000, 30000)).toBe(750)
+  })
+})
+
+describe('Retos · con la lista de clase', () => {
+  const lista = [
+    { id: 'u1', name: 'Lucía Pérez García' }, { id: 'u2', name: 'Marc Soler' },
+    { id: 'ph_a', name: 'Hugo Gil', esFicha: true }, { id: 'u3', name: 'Ana Ruiz' }, { id: 'u4', name: 'Ana López' },
+  ]
+  it('sugiere solo lo que coincide sin dudas', () => {
+    const gente = [{ pid: 'p1', apodo: 'lucia perez' }, { pid: 'p2', apodo: 'Marc' }, { pid: 'p3', apodo: 'Hugo Gil' }, { pid: 'p4', apodo: 'Ana' }, { pid: 'p5', apodo: 'Rayo' }]
+    // «Ana» podría ser dos alumnas: no se sugiere; «Rayo» no es nadie
+    expect(sugiereEmparejado(gente, lista)).toEqual({ p1: 'u1', p2: 'u2', p3: 'ph_a' })
+  })
+  it('la nota de cada uno según el modo', () => {
+    const entradas = [{ pid: 'p1', juego: 'rebajas-test', puntos: 70 }, { pid: 'p1', juego: 'otro', puntos: 100 }]
+    const marcador = [{ pid: 'p1', aciertos: 7 }]
+    expect(notaDe({ modo: 'deberes', examen: 'rebajas-test' }, 'p1', entradas, marcador)).toBe(7)
+    expect(notaDe({ modo: 'deberes', examen: 'rebajas-test' }, 'p9', entradas, marcador)).toBe(null)
+    expect(notaDe({ modo: 'directo', nPreguntas: 15 }, 'p1', entradas, marcador)).toBe(4.7)
+    expect(notaDe({ modo: 'ranking' }, 'p1', entradas, marcador)).toBe(null)
   })
 })

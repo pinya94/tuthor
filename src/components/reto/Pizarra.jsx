@@ -56,6 +56,7 @@ export default function Pizarra({ codigo, reto, title, lv, difficulty, genRound,
   if (dir.estado === 'sala' || dir.i < 0) {
     return (
       <div className="relative z-10 max-w-6xl mx-auto px-4 py-6">
+        <Link to={localPath(`/profesor/reto/${codigo}`)} className="inline-block text-white/40 hover:text-white/70 text-xs font-bold mb-3">← {tr({ es: 'Gestionar el reto', en: 'Manage the challenge', ca: 'Gestionar el repte' })}</Link>
         <div className="grid gap-6 lg:grid-cols-[1fr_360px] items-start">
           <div>
             <p className="text-white/45 text-sm font-bold uppercase tracking-widest">📺 {tr({ es: 'Partida en directo', en: 'Live game', ca: 'Partida en directe' })} · {title?.[l] ?? title?.es} · {lv?.emoji} {lv?.label?.[l] ?? lv?.label?.es ?? ''}</p>
@@ -101,7 +102,7 @@ export default function Pizarra({ codigo, reto, title, lv, difficulty, genRound,
         <Clasificacion filas={filas} pos={pos} desde={3} tr={tr} />
         <div className="mt-8 flex flex-wrap justify-center gap-3">
           <button type="button" className={botonGris} onClick={() => reiniciaDirecto(codigo)}>↺ {tr({ es: 'Volver a jugar', en: 'Play again', ca: 'Tornar a jugar' })}</button>
-          <Link to={localPath(`/profesor/reto/${codigo}`)} className={botonGris}>📋 {tr({ es: 'Resultados', en: 'Results', ca: 'Resultats' })}</Link>
+          <Link to={localPath(`/profesor/reto/${codigo}`)} className={botonGris}>📋 {tr({ es: reto.classId ? 'Resultados y notas' : 'Resultados', en: reto.classId ? 'Results and marks' : 'Results', ca: reto.classId ? 'Resultats i notes' : 'Resultats' })}</Link>
         </div>
       </div>
     )

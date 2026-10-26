@@ -552,11 +552,14 @@ service cloud.firestore {
           && (!('nPreguntas' in d) || (d.nPreguntas is int && d.nPreguntas >= 1 && d.nPreguntas <= 30))
           && (!('segundos' in d) || (d.segundos is int && d.segundos >= 5 && d.segundos <= 300))
           && (!('nota' in d) || (d.nota is string && d.nota.size() <= 400))
-          && (!('classId' in d) || d.classId is string);
+          && (!('classId' in d) || d.classId is string)
+          && (!('claseNombre' in d) || (d.claseNombre is string && d.claseNombre.size() <= 60))
+          && (!('emparejado' in d) || (d.emparejado is map && d.emparejado.size() <= 200))
+          && (!('enNotas' in d) || d.enNotas is string);
       }
       // Crear: solo profesores (como crear una clase); los alumnos no tienen cuenta
       allow create: if isTeacher(request.auth.uid)
-        && request.resource.data.keys().hasOnly(['teacherId', 'nombre', 'createdAt', 'cerrado', 'modo', 'examen', 'nivel', 'nPreguntas', 'segundos', 'nota', 'classId'])
+        && request.resource.data.keys().hasOnly(['teacherId', 'nombre', 'createdAt', 'cerrado', 'modo', 'examen', 'nivel', 'nPreguntas', 'segundos', 'nota', 'classId', 'claseNombre'])
         && retoValido(request.resource.data)
         && request.resource.data.teacherId == request.auth.uid
         && request.resource.data.nombre is string
@@ -566,7 +569,7 @@ service cloud.firestore {
         && codigo.matches('^[ABCDEFGHJKMNPQRSTUVWXYZ2-9]{6}$');
       allow update: if request.auth != null && !isChildSession()
         && resource.data.teacherId == request.auth.uid
-        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['nombre', 'cerrado', 'directo', 'nota'])
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['nombre', 'cerrado', 'directo', 'nota', 'emparejado', 'enNotas'])
         && retoValido(request.resource.data)
         && request.resource.data.nombre is string
         && request.resource.data.nombre.size() >= 1 && request.resource.data.nombre.size() <= 60

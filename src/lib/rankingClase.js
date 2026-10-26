@@ -8,7 +8,8 @@
 //
 // Firestore:
 //   rankingsClase/{codigo}                 { teacherId, nombre, createdAt, cerrado,
-//                                            modo, examen, nivel, nPreguntas, segundos, nota, classId,
+//                                            modo, examen, nivel, nPreguntas, segundos, nota, classId, claseNombre,
+//                                            emparejado: { pid: id de la lista de la clase }, enNotas: colId,
 //                                            directo: { estado, i, inicio, ronda } }
 //   rankingsClase/{codigo}/marcador/{pid}  { pid, apodo, puntos, aciertos }           (directo)
 //   rankingsClase/{codigo}/respuestas/{pid__i}  { pid, i, correcta, puntos }        (directo)
@@ -209,7 +210,7 @@ export function posiciones(filas) {
 
 // ── Profe ───────────────────────────────────────────────────────────────────
 export const crearRanking = (uid, nombre) => crearReto(uid, { nombre, modo: 'ranking' })
-// opciones: { nombre, modo, examen, nivel, nPreguntas, segundos, nota, classId }
+// opciones: { nombre, modo, examen, nivel, nPreguntas, segundos, nota, classId, claseNombre }
 export async function crearReto(uid, o) {
   const datos = { teacherId: uid, nombre: String(o.nombre).trim().slice(0, 60), createdAt: serverTimestamp(), cerrado: false, modo: o.modo ?? 'ranking' }
   if (datos.modo !== 'ranking') {
@@ -217,7 +218,7 @@ export async function crearReto(uid, o) {
     if (datos.modo === 'directo') datos.segundos = o.segundos ?? 30
   }
   if (o.nota?.trim()) datos.nota = o.nota.trim().slice(0, 400)
-  if (o.classId) datos.classId = o.classId
+  if (o.classId) { datos.classId = o.classId; datos.claseNombre = String(o.claseNombre ?? '').slice(0, 60) }
   for (let i = 0; i < 5; i++) {
     const codigo = generaCodigo()
     if (await leeRanking(codigo)) continue
@@ -261,4 +262,43 @@ export async function borrarRanking(codigo) {
 export function nivelDelReto(levels, nivel = 0) {
   const lv = levels?.[Math.min(nivel, (levels?.length ?? 1) - 1)] ?? levels?.[0]
   return { lv, difficulty: lv?.difficulty ?? lv?.key ?? lv }
+}
+
+// ── Con la clase (profe) ────────────────────────────────────────────────────
+// Quién ha jugado el reto (apodo y pid), para emparejarlo con la lista real
+export async function participantes(codigo) {
+  const s = await getDocs(collection(db, 'rankingsClase', codigo, 'alumnos'))
+  return s.docs.map(d => ({ pid: d.data().pid, apodo: d.data().apodo })).sort((a, b) => a.apodo.localeCompare(b.apodo, 'es'))
+}
+// Emparejar es opcional: un mapa pid → alumno de la clase (uid o ficha ph_…)
+export const guardaEmparejado = (codigo, mapa) => updateDoc(doc(db, 'rankingsClase', codigo), { emparejado: mapa })
+export const marcaEnNotas = (codigo, colId) => updateDoc(doc(db, 'rankingsClase', codigo), { enNotas: colId })
+
+// Sugerencia de emparejado por nombre: el apodo coincide con el nombre entero
+// o con su primera palabra, y solo si no hay dudas (un único candidato)
+const clave = t => String(t).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-zñç ]/g, ' ').replace(/\s+/g, ' ').trim()
+export function sugiereEmparejado(participantes, lista) {
+  const out = {}
+  const usados = new Set()
+  for (const p of participantes) {
+    const a = clave(p.apodo)
+    if (!a) continue
+    const cand = lista.filter(x => { const n = clave(x.name); return n === a || n.split(' ')[0] === a || a.startsWith(n) || n.startsWith(a + ' ') })
+    if (cand.length === 1 && !usados.has(cand[0].id)) { out[p.pid] = cand[0].id; usados.add(cand[0].id) }
+  }
+  return out
+}
+
+// La nota (0-10) de cada participante: deberes = su mejor nota; en directo =
+// aciertos sobre el número de preguntas
+export function notaDe(reto, pid, entradas, marcador) {
+  if (reto.modo === 'deberes') {
+    const e = entradas.find(x => x.pid === pid && x.juego === reto.examen)
+    return e ? Math.round(e.puntos) / 10 : null
+  }
+  if (reto.modo === 'directo') {
+    const m = marcador.find(x => x.pid === pid)
+    return m ? Math.round((m.aciertos / (reto.nPreguntas ?? 10)) * 100) / 10 : null
+  }
+  return null
 }

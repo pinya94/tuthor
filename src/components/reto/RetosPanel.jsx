@@ -12,6 +12,7 @@ import { EXAMS, examLabel } from '../../lib/exams'
 import { RETOS_EXAMENES } from '../../data/retosExamenes'
 import { SEGUNDOS, N_PREGUNTAS } from '../../lib/apodo'
 import { crearReto, misRankings } from '../../lib/rankingClase'
+import { getTeacherClasses } from '../../lib/classes'
 import { SUBJECT_DEFS } from '../../lib/statsAggregation'
 import VideoRetos from '../VideoRetos'
 
@@ -81,7 +82,7 @@ function SelectorJuego({ valor, onElige }) {
 const campo = 'w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2.5 text-sm text-white placeholder-white/30 outline-none focus:border-teal-500'
 const chip = on => `rounded-xl border px-3 py-2 text-sm font-bold ${on ? 'border-teal-400 bg-teal-500/20 text-white' : 'border-white/10 bg-white/[0.04] text-white/70 hover:bg-white/[0.08]'}`
 
-export function CrearReto({ uid, classId, nombreClase = '', onCreado }) {
+export function CrearReto({ uid, classId: claseFija, nombreClase: nombreFijo = '', onCreado }) {
   const { tr, lang, localPath } = useLang()
   const navigate = useNavigate()
   const [modo, setModo] = useState('directo')
@@ -92,6 +93,18 @@ export function CrearReto({ uid, classId, nombreClase = '', onCreado }) {
   const [nota, setNota] = useState('')
   const [nombre, setNombre] = useState('')
   const [creando, setCreando] = useState(false)
+  // Desde el panel se elige la clase (un reto de clase queda guardado en ella);
+  // desde la pestaña de una clase ya viene puesta
+  const [clases, setClases] = useState(null)
+  const [claseElegida, setClaseElegida] = useState('')
+  useEffect(() => {
+    if (claseFija) return
+    let vivo = true
+    getTeacherClasses(uid).then(c => { if (vivo) { setClases(c); setClaseElegida(c[0]?.id ?? '') } }).catch(() => { if (vivo) setClases([]) })
+    return () => { vivo = false }
+  }, [uid, claseFija])
+  const classId = claseFija ?? (claseElegida || undefined)
+  const nombreClase = claseFija ? nombreFijo : (clases?.find(c => c.id === claseElegida)?.name ?? '')
   const [error, setError] = useState('')
 
   const crea = async e => {
@@ -100,7 +113,7 @@ export function CrearReto({ uid, classId, nombreClase = '', onCreado }) {
     setCreando(true); setError('')
     try {
       const porDefecto = modo === 'ranking' ? (nombreClase || tr({ es: 'Ranking de clase', en: 'Class ranking', ca: 'Rànquing de classe' })) : `${sinColetilla(examLabel(examen, lang))}${nombreClase ? ` · ${nombreClase}` : ''}`
-      const codigo = await crearReto(uid, { nombre: nombre.trim() || porDefecto, modo, examen, nivel, nPreguntas, segundos, nota, classId })
+      const codigo = await crearReto(uid, { nombre: nombre.trim() || porDefecto, modo, examen, nivel, nPreguntas, segundos, nota, classId, claseNombre: nombreClase })
       onCreado?.(codigo)
       // En directo se abre la pizarra; lo demás, la página para compartirlo y ver resultados
       navigate(localPath(modo === 'directo' ? `/reto/${codigo}` : `/profesor/reto/${codigo}`))
@@ -118,6 +131,19 @@ export function CrearReto({ uid, classId, nombreClase = '', onCreado }) {
           </button>
         ))}
       </div>
+
+      {!claseFija && clases && (
+        <div>
+          <span className="block text-white/50 text-xs font-bold mb-1">{tr({ es: 'Clase', en: 'Class', ca: 'Classe' })}</span>
+          <div className="flex flex-wrap gap-1.5">
+            {clases.map(c => <button key={c.id} type="button" onClick={() => setClaseElegida(c.id)} className={chip(claseElegida === c.id)}>🏫 {c.name}</button>)}
+            <button type="button" onClick={() => setClaseElegida('')} className={chip(!claseElegida)}>{tr({ es: 'Sin clase', en: 'No class', ca: 'Sense classe' })}</button>
+          </div>
+          <p className="text-white/35 text-[11px] mt-1">{claseElegida
+            ? tr({ es: 'Se guardará en la clase: podrás emparejar los nombres con tu lista y pasar las notas.', en: 'It will be saved in the class: you can match names with your list and copy the marks.', ca: 'Es desarà a la classe: podràs aparellar els noms amb la llista i passar les notes.' })
+            : tr({ es: 'Suelto: sin lista de clase ni notas.', en: 'Standalone: no class list or marks.', ca: 'Solt: sense llista de classe ni notes.' })}</p>
+        </div>
+      )}
 
       {modo !== 'ranking' && (
         <>
@@ -180,7 +206,10 @@ export function ListaRetos({ uid, classId }) {
         return (
           <li key={r.codigo} className="flex items-center gap-2 rounded-xl bg-white/[0.04] px-3 py-2">
             <span className="text-lg" title={tr(m.label)}>{m.emoji}</span>
-            <span className="flex-1 min-w-0 text-white text-sm font-bold truncate">{r.nombre}{r.cerrado ? ' 🔒' : ''}</span>
+            <span className="flex-1 min-w-0">
+              <span className="block text-white text-sm font-bold truncate">{r.nombre}{r.cerrado ? ' 🔒' : ''}</span>
+              <span className="block text-white/40 text-[11px] truncate">{r.createdAt?.toDate?.().toLocaleDateString(undefined, { day: 'numeric', month: 'short' }) ?? ''}{!classId && r.claseNombre ? ` · 🏫 ${r.claseNombre}` : ''}{r.enNotas ? ' · 📝' : ''}</span>
+            </span>
             <span className="font-mono text-teal-300 text-xs">{r.codigo}</span>
             {r.modo === 'directo' && <Link to={localPath(`/reto/${r.codigo}`)} className="rounded-lg bg-amber-400 text-black text-xs font-black px-2 py-1">📺 {tr({ es: 'Pizarra', en: 'Board', ca: 'Pissarra' })}</Link>}
             <Link to={localPath(`/profesor/reto/${r.codigo}`)} className="rounded-lg bg-white/10 text-white text-xs font-bold px-2 py-1">{tr({ es: 'Gestionar', en: 'Manage', ca: 'Gestionar' })}</Link>
