@@ -8,6 +8,7 @@ import AuthModal from '../components/AuthModal'
 import { activateTeacherProfile, getTeacherProfile, hasTeacherAccess } from '../lib/classes'
 import { ArteJuego } from '../components/arte'
 import { Acierto, Bombilla, Diana, Libro, Lista, Pizarra, Racha } from '../components/Iconos'
+import VideoRetos from '../components/VideoRetos'
 import { Boletin, Chincheta, Cuaderno, Dado, Impresora, Libreta, Matraz, PasarLista, Pupitre, Tijeras } from '../components/IconosProfesor'
 
 // BETA GRATUITA (sept. 2026): mientras dure, no se pide pago — pero SÍ se pide
@@ -311,10 +312,19 @@ export default function Profesores() {
   const [betaCode, setBetaCode] = useState('')
   const [status, setStatus] = useState('idle')
 
+  // Quien llega a ver los retos (#retos, desde la portada) baja hasta ellos
+  // y, aunque ya sea profe, no se le manda al panel: viene a ver el vídeo
+  const aRetos = typeof window !== 'undefined' && window.location.hash === '#retos'
+  useEffect(() => {
+    if (!aRetos) return
+    const t = setTimeout(() => scrollTo('retos'), 300)
+    return () => clearTimeout(t)
+  }, [aRetos])
+
   useEffect(() => {
     if (!user) return
     getTeacherProfile(user.uid).then(profile => {
-      if (hasTeacherAccess(profile)) { navigate(localPath('/profesor'), { replace: true }); return }
+      if (hasTeacherAccess(profile) && !aRetos) { navigate(localPath('/profesor'), { replace: true }); return }
       setProfileChecked(true)
     }).catch(() => setProfileChecked(true))
   }, [user]) // eslint-disable-line react-hooks/exhaustive-deps
@@ -428,6 +438,38 @@ export default function Profesores() {
           </div>
           <div className="lg:pl-6">
             <MockStudentDetail />
+          </div>
+        </section>
+
+        {/* ── NUEVO: RETOS DE CLASE ── */}
+        <section id="retos" className="py-12 sm:py-16 scroll-mt-8">
+          <div className="text-center max-w-2xl mx-auto mb-6">
+            <span className="inline-block text-[11px] font-black uppercase tracking-widest text-black bg-amber-400 rounded-full px-3 py-1 mb-3">{tr({ es: 'Nuevo', en: 'New', ca: 'Nou' })}</span>
+            <h2 className="text-3xl sm:text-4xl font-black text-white mb-3">{tr({ es: 'Retos de clase: como un concurso, con los juegos de Tuthor', en: 'Class challenges: like a quiz show, with Tuthor’s games', ca: 'Reptes de classe: com un concurs, amb els jocs de Tuthor' })}</h2>
+            <p className="text-white/55 text-[15px] leading-relaxed">{tr({
+              es: 'Proyectas la pregunta en la pizarra y cada alumno responde en su móvil, contra el reloj y con ranking en directo. O lo mandas de deberes y ves la nota de cada uno. Tus alumnos no necesitan cuenta: un código y su nombre.',
+              en: 'You project the question on the board and every student answers on their phone, against the clock, with a live ranking. Or you set it as homework and see everyone’s mark. Your students don’t need an account: a code and their name.',
+              ca: 'Projectes la pregunta a la pissarra i cada alumne respon al mòbil, contra rellotge i amb rànquing en directe. O l’envies de deures i veus la nota de cadascú. Els alumnes no necessiten compte: un codi i el seu nom.',
+            })}</p>
+          </div>
+          <div className="max-w-3xl mx-auto"><VideoRetos /></div>
+          <div className="grid sm:grid-cols-3 gap-3 max-w-3xl mx-auto mt-6">
+            {[
+              ['1', { es: 'Crea el reto', en: 'Create the challenge', ca: 'Crea el repte' }, { es: 'En tu aula, pestaña Retos: elige juego, nivel y segundos por pregunta.', en: 'In your class, Challenges tab: pick the game, level and seconds per question.', ca: 'A la teva aula, pestanya Reptes: tria joc, nivell i segons per pregunta.' }],
+              ['2', { es: 'Proyecta el código', en: 'Project the code', ca: 'Projecta el codi' }, { es: 'Entran en tuthor.es/reto con el código o el QR y escriben su nombre.', en: 'They go to tuthor.es/reto with the code or the QR and type their name.', ca: 'Entren a tuthor.es/reto amb el codi o el QR i escriuen el seu nom.' }],
+              ['3', { es: 'A jugar', en: 'Play', ca: 'A jugar' }, { es: 'Tú pasas las preguntas; ellos responden en el móvil. Al final, el podio.', en: 'You move through the questions; they answer on their phones. At the end, the podium.', ca: 'Tu passes les preguntes; ells responen al mòbil. Al final, el podi.' }],
+            ].map(([n, t, d]) => (
+              <div key={n} className="rounded-2xl bg-[#141b2e] border border-white/[0.08] p-4">
+                <span className="w-8 h-8 rounded-full bg-amber-400 text-black font-black grid place-items-center mb-2">{n}</span>
+                <p className="text-white font-black">{tr(t)}</p>
+                <p className="text-white/55 text-sm mt-1">{tr(d)}</p>
+              </div>
+            ))}
+          </div>
+          <div className="text-center mt-6">
+            <Link to={localPath('/ranking')} className="inline-block px-6 py-3.5 bg-amber-400 hover:bg-amber-300 text-black font-black text-sm rounded-xl transition-transform hover:scale-[1.02]">
+              🏆 {tr({ es: 'Crear un reto gratis →', en: 'Create a free challenge →', ca: 'Crear un repte gratis →' })}
+            </Link>
           </div>
         </section>
 

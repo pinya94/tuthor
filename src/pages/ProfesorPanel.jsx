@@ -184,8 +184,8 @@ export default function ProfesorPanel() {
         className="w-full mb-6 flex items-center gap-3 rounded-2xl border border-amber-400/25 bg-amber-400/[0.05] hover:bg-amber-400/[0.1] px-4 py-3 text-left transition-colors">
         <span className="text-2xl" aria-hidden="true">🏆</span>
         <span className="min-w-0">
-          <span className="block text-white font-black text-sm">{tr({ es: 'Ranking de clase con apodos', en: 'Class ranking with nicknames', ca: 'Rànquing de classe amb sobrenoms' })}</span>
-          <span className="block text-white/45 text-xs">{tr({ es: 'Un código y tus alumnos compiten en los juegos sin crear cuenta. Se proyecta en la pizarra.', en: 'One code and your students compete in the games without an account. Project it on the board.', ca: 'Un codi i els teus alumnes competeixen als jocs sense compte. Es projecta a la pissarra.' })}</span>
+          <span className="block text-white font-black text-sm">{tr({ es: 'Nuevo · Retos de clase: en directo o de deberes', en: 'New · Class challenges: live or as homework', ca: 'Nou · Reptes de classe: en directe o de deures' })}</span>
+          <span className="block text-white/45 text-xs">{tr({ es: 'Proyectas un juego y cada alumno responde en su móvil, o lo mandas de deberes. Sin cuentas para ellos. También en la pestaña Retos de cada clase.', en: 'Project a game and every student answers on their phone, or set it as homework. No accounts for them. Also in each class’s Challenges tab.', ca: 'Projectes un joc i cada alumne respon al mòbil, o l’envies de deures. Sense comptes per a ells. També a la pestanya Reptes de cada classe.' })}</span>
         </span>
       </button>
 

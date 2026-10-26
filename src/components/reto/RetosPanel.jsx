@@ -10,6 +10,7 @@ import { EXAMS, examLabel } from '../../lib/exams'
 import { RETOS_EXAMENES } from '../../data/retosExamenes'
 import { SEGUNDOS, N_PREGUNTAS } from '../../lib/apodo'
 import { crearReto, misRankings } from '../../lib/rankingClase'
+import VideoRetos from '../VideoRetos'
 
 const MODOS = [
   { id: 'directo', emoji: '📺', label: { es: 'En directo', en: 'Live', ca: 'En directe' },
@@ -146,6 +147,13 @@ export function ListaRetos({ uid, classId }) {
 export default function RetosPanel({ uid, classId, nombreClase }) {
   const { tr } = useLang()
   return (
+    <>
+    <details className="mb-4 rounded-2xl bg-[#141b2e] border border-white/[0.08] p-4 group">
+      <summary className="cursor-pointer list-none text-white font-black flex items-center gap-2">
+        <span className="text-amber-300">▶</span> {tr({ es: '¿Cómo funciona? Míralo en 45 segundos', en: 'How does it work? See it in 45 seconds', ca: 'Com funciona? Mira-ho en 45 segons' })}
+      </summary>
+      <div className="mt-4 max-w-3xl mx-auto"><VideoRetos /></div>
+    </details>
     <section className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] mb-8">
       <div className="rounded-2xl bg-[#141b2e] border border-white/[0.08] p-4">
         <h2 className="text-white font-black mb-1">{tr({ es: 'Nuevo reto', en: 'New challenge', ca: 'Nou repte' })}</h2>
@@ -157,5 +165,6 @@ export default function RetosPanel({ uid, classId, nombreClase }) {
         <ListaRetos uid={uid} classId={classId} />
       </div>
     </section>
+    </>
   )
 }

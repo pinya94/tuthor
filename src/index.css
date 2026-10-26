@@ -100,3 +100,9 @@ button, [role="button"] {
 
   .no-imprimir { display: none !important; }
 }
+
+/* Vídeo de los retos (VideoRetos.jsx): aparición suave de cada escena */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: none; }
+}

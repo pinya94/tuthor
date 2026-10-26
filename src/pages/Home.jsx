@@ -438,6 +438,19 @@ export default function Home() {
             minutos»); ver PUERTAS en data/constants.js. */}
         <JuegoDelDia className="mt-3" racha={stats ? rachaVigente(stats) : 0} />
 
+        {/* Novedad para profes: los retos de clase (en directo o de deberes),
+            explicados con su vídeo en /profesores#retos */}
+        <Link to={localPath('/profesores') + '#retos'} className="mt-3 flex items-center gap-3 rounded-2xl border border-amber-400/25 bg-amber-400/[0.06] hover:bg-amber-400/[0.1] px-4 py-3 transition-colors">
+          <span className="text-2xl" aria-hidden="true">🏆</span>
+          <span className="min-w-0 flex-1">
+            <span className="block text-white font-black text-sm">
+              <span className="text-[10px] font-black uppercase tracking-widest text-black bg-amber-400 rounded-full px-2 py-0.5 mr-2 align-middle">{tr({ es: 'Nuevo', en: 'New', ca: 'Nou' })}</span>
+              {tr({ es: '¿Eres profe? Retos de clase en directo', en: 'Teacher? Live class challenges', ca: 'Ets profe? Reptes de classe en directe' })}
+            </span>
+            <span className="block text-white/55 text-xs mt-0.5">{tr({ es: 'Proyectas el juego y cada alumno responde en su móvil, sin cuentas. Mira cómo en 45 segundos →', en: 'You project the game and every student answers on their phone, no accounts. See how in 45 seconds →', ca: 'Projectes el joc i cada alumne respon al mòbil, sense comptes. Mira com en 45 segons →' })}</span>
+          </span>
+        </Link>
+
         {/* EL CURSO — la única pregunta que hace Tuthor, y una sola vez.
             Va justo debajo de las tres puertas porque es lo que decide qué
             se ve al cruzarlas: sin curso, Estudiar enseña los 91 temas del
