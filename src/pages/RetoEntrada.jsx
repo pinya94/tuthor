@@ -1,10 +1,12 @@
-// /reto y /reto/:codigo — la puerta de los retos de clase. Con el código lleva
-// a su sitio: un ranking libre a /ranking/CODIGO, y unos deberes o una partida
+// /reto y /reto/:codigo — la puerta de los retos de clase para el ALUMNO (el
+// profe los crea y gestiona en su zona, /profesor). Con el código lleva a su
+// sitio: un ranking libre a /reto/CODIGO/clase, y unos deberes o una partida
 // en directo al examen de su juego con ?reto=CODIGO (allí MechanicExam monta
 // el reto: la pizarra si eres el profe, el móvil o los deberes si no).
 import { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
+import { useAuth } from '../context/AuthContext'
 import SEOHead from '../components/SEOHead'
 import { leeRanking } from '../lib/rankingClase'
 import { normalizaCodigo, codigoValido } from '../lib/apodo'
@@ -13,6 +15,7 @@ import { examRoute } from '../lib/exams'
 export default function RetoEntrada() {
   const { codigo } = useParams()
   const { tr, localPath } = useLang()
+  const { user } = useAuth()
   const navigate = useNavigate()
   const [escrito, setEscrito] = useState('')
   const [error, setError] = useState('')
@@ -26,7 +29,7 @@ export default function RetoEntrada() {
       const r = await leeRanking(c)
       const ruta = r && r.modo && r.modo !== 'ranking' ? examRoute(r.examen) : null
       if (!r) { setError(tr({ es: 'No hay ningún reto con ese código.', en: 'There’s no challenge with that code.', ca: 'No hi ha cap repte amb aquest codi.' })); setBuscando(false); return }
-      navigate(ruta ? `${localPath(ruta)}?reto=${c}` : localPath(`/ranking/${c}`), { replace: true })
+      navigate(ruta ? `${localPath(ruta)}?reto=${c}` : localPath(`/reto/${c}/clase`), { replace: true })
     } catch { setError(tr({ es: 'No se ha podido conectar. Prueba otra vez.', en: 'Couldn’t connect. Try again.', ca: 'No s’ha pogut connectar. Torna-ho a provar.' })); setBuscando(false) }
   }
 
@@ -53,6 +56,12 @@ export default function RetoEntrada() {
           </form>
         )}
       </div>
+      {/* Lo del profe está en su zona; aquí solo el camino para llegar */}
+      <p className="text-center mt-6">
+        <Link to={user ? `${localPath('/profesor')}?tab=retos` : `${localPath('/profesores')}#retos`} className="text-white/40 hover:text-white/70 text-xs font-bold">
+          {tr({ es: '¿Eres profe? Los retos se crean desde tu panel →', en: 'Teacher? Challenges are created from your dashboard →', ca: 'Ets profe? Els reptes es creen des del teu tauler →' })}
+        </Link>
+      </p>
     </div>
   )
 }

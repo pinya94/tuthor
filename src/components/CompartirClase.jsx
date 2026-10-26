@@ -57,8 +57,8 @@ export default function CompartirClase() {
         </button>
       </div>
 
-      <Link to={localPath('/ranking')} className="inline-block mt-3 text-amber-200/90 text-sm font-bold hover:underline">
-        🏆 {tr({ es: 'Crea un ranking de clase: compiten con apodo, sin cuentas →', en: 'Create a class ranking: they compete with nicknames, no accounts →', ca: 'Crea un rànquing de classe: competeixen amb sobrenom, sense comptes →' })}
+      <Link to={`${localPath('/profesores')}#retos`} className="inline-block mt-3 text-amber-200/90 text-sm font-bold hover:underline">
+        🏆 {tr({ es: 'Nuevo: juégalo con tu clase en directo, cada uno desde su móvil →', en: 'New: play it live with your class, everyone on their phone →', ca: 'Nou: juga-hi amb la classe en directe, cadascú des del mòbil →' })}
       </Link>
 
       {qr && (

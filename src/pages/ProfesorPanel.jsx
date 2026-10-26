@@ -9,9 +9,12 @@ import { Pizarra, Bombilla } from '../components/Iconos'
 import { Herramientas, Matraz } from '../components/IconosProfesor'
 import { ArteAula } from '../components/arte/aula'
 import BibliotecaExamenes from '../components/examenes/BibliotecaExamenes'
+import RetosPanel from '../components/reto/RetosPanel'
+import { Trofeo } from '../components/Iconos'
 
 const PESTANAS = [
   { id: 'clases', Icono: Pizarra, fondo: 'bg-teal-500/12', label: { es: 'Mis clases', en: 'My classes', ca: 'Les meves classes' } },
+  { id: 'retos', Icono: Trofeo, fondo: 'bg-amber-400/12', label: { es: 'Retos', en: 'Challenges', ca: 'Reptes' } },
   { id: 'examenes', Icono: Bombilla, fondo: 'bg-amber-500/12', label: { es: 'Mis exámenes', en: 'My exams', ca: 'Els meus exàmens' } },
   { id: 'recursos', Icono: Herramientas, fondo: 'bg-red-500/12', label: { es: 'Recursos', en: 'Resources', ca: 'Recursos' } },
 ]
@@ -123,7 +126,7 @@ export default function ProfesorPanel() {
           preparar la clase (recursos) es tanto trabajo del profesor como
           gestionarla, y en una columna de 300px no se podía trabajar. Cada
           una se lleva el ancho entero cuando está activa. */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 mb-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 mb-6">
         {PESTANAS.map(p => (
           <button key={p.id} type="button" onClick={() => setTab(p.id)}
             className={`flex items-center gap-3 rounded-2xl border px-4 py-3 text-left transition-colors ${
@@ -141,6 +144,8 @@ export default function ProfesorPanel() {
               <span className="block text-white/35 text-[11.5px] mt-0.5 truncate">
                 {p.id === 'clases'
                   ? `${classes.length} ${tr({ es: 'clase(s)', en: 'class(es)', ca: 'classe(s)' })}`
+                  : p.id === 'retos'
+                  ? tr({ es: 'En directo o de deberes, sin cuentas', en: 'Live or as homework, no accounts', ca: 'En directe o de deures, sense comptes' })
                   : p.id === 'examenes'
                   ? tr({ es: 'Crea, guarda, asigna y corrige', en: 'Create, save, assign and mark', ca: 'Crea, desa, assigna i corregeix' })
                   : tr({ es: 'Herramientas, imprimibles y actividades', en: 'Tools, printables and activities', ca: 'Eines, imprimibles i activitats' })}
@@ -150,7 +155,9 @@ export default function ProfesorPanel() {
         ))}
       </div>
 
-      {tab === 'examenes' ? (
+      {tab === 'retos' ? (
+        <RetosPanel uid={user.uid} />
+      ) : tab === 'examenes' ? (
         <BibliotecaExamenes uid={user.uid} />
       ) : tab === 'recursos' ? (
         <>
@@ -180,7 +187,7 @@ export default function ProfesorPanel() {
         })}
       </p>
 
-      <button type="button" onClick={() => navigate(localPath('/ranking'))}
+      <button type="button" onClick={() => setTab('retos')}
         className="w-full mb-6 flex items-center gap-3 rounded-2xl border border-amber-400/25 bg-amber-400/[0.05] hover:bg-amber-400/[0.1] px-4 py-3 text-left transition-colors">
         <span className="text-2xl" aria-hidden="true">🏆</span>
         <span className="min-w-0">

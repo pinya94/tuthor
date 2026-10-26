@@ -1,20 +1,18 @@
-// /ranking — retos de clase sin cuenta.
-//   /ranking          el alumno entra con un código; el profe (con cuenta)
-//                     crea retos (en directo, deberes o ranking libre) y ve los suyos
-//   /ranking/:codigo  los resultados de un reto: el ranking libre por juego
-//                     (para mirarlo o proyectarlo), las notas de unos deberes
-//                     o el marcador de una partida en directo. Su dueño lo
-//                     comparte, lo modera (quitar apodos) y lo cierra.
+// Un reto de clase visto desde fuera de la partida. Dos caras separadas:
+//   /reto/:codigo/clase      (alumno) el ranking libre de su clase: entrar con
+//                            su apodo y ver el top de cada juego (los deberes
+//                            y el directo se juegan en su examen, ver RetoEntrada)
+//   /profesor/reto/:codigo   (profe) gestionarlo: compartir, abrir la pizarra,
+//                            ver notas o marcador, quitar apodos, cerrar, borrar
+// /ranking y /ranking/:codigo son enlaces antiguos y redirigen.
 // Lógica en src/lib/rankingClase.js; lo que escribe el alumno, en
 // api/ranking-clase.js; la partida y los deberes, en components/reto.
 import { useCallback, useEffect, useState } from 'react'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { Link, Navigate, useNavigate, useParams } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
 import SEOHead from '../components/SEOHead'
-import AuthModal from '../components/AuthModal'
 import { FormUnirse } from '../components/RankingClaseFin'
-import { CrearReto, ListaRetos } from '../components/reto/RetosPanel'
 import { gameLabel, gameEmoji, GAMES } from '../lib/games'
 import { examLabel, examRoute, EXAMS } from '../lib/exams'
 import { normalizaCodigo, codigoValido } from '../lib/apodo'
@@ -43,81 +41,22 @@ function useMio() {
   return mio
 }
 
-export default function RankingClase() {
+export default function RankingClase({ profe = false }) {
   const { codigo } = useParams()
+  const { localPath } = useLang()
   const c = normalizaCodigo(codigo)
-  return codigo ? <UnRanking codigo={c} /> : <Inicio />
+  return codigo ? <UnRanking codigo={c} profe={profe} /> : <Navigate to={localPath('/reto')} replace />
 }
 
-// ── /ranking ────────────────────────────────────────────────────────────────
-function Inicio() {
-  const { tr, localPath } = useLang()
-  const { user } = useAuth()
-  const navigate = useNavigate()
-  const mio = useMio()
-  const [auth, setAuth] = useState(false)
-
-  return (
-    <div className="relative z-10 max-w-5xl mx-auto px-4 py-8">
-      <SEOHead path="/ranking" noindex
-        title={tr({ es: 'Retos de clase — Tuthor', en: 'Class challenges — Tuthor', ca: 'Reptes de classe — Tuthor' })}
-        description={tr({ es: 'Retos de clase con apodos y sin cuentas: una partida en directo desde la pizarra, unos deberes o un ranking de la semana.', en: 'Class challenges with nicknames and no accounts: a live game from the board, homework or a weekly ranking.', ca: 'Reptes de classe amb sobrenoms i sense comptes: una partida en directe des de la pissarra, uns deures o un rànquing de la setmana.' })} />
-      <h1 className="text-3xl font-black text-white mb-1">🏆 {tr({ es: 'Retos de clase', en: 'Class challenges', ca: 'Reptes de classe' })}</h1>
-      <p className="text-white/55 text-sm mb-6 max-w-2xl">
-        {tr({ es: 'Tu profe reparte un código y cada uno entra con un apodo, sin cuentas ni correos: para jugar todos a la vez desde la pizarra, para hacer unos deberes o para competir toda la semana.', en: 'Your teacher shares a code and everyone joins with a nickname, no accounts or emails: to play all at once from the board, to do homework or to compete all week.', ca: 'El teu profe reparteix un codi i cadascú entra amb un sobrenom, sense comptes ni correus: per jugar tots alhora des de la pissarra, per fer uns deures o per competir tota la setmana.' })}
-      </p>
-
-      <div className="grid gap-4 md:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] items-start">
-        <section className={tarjeta}>
-          <h2 className="text-white font-black mb-2">🎒 {tr({ es: 'Soy alumno', en: 'I’m a student', ca: 'Sóc alumne' })}</h2>
-          <EntrarConCodigo onCodigo={c => navigate(localPath(`/reto/${c}`))} />
-          {mio && (
-            <p className="text-white/55 text-xs mt-3">
-              {tr({ es: 'Ranking de la semana:', en: 'Weekly ranking:', ca: 'Rànquing de la setmana:' })} <Link to={localPath(`/ranking/${mio.codigo}`)} className="text-amber-200 font-bold">{mio.nombre}</Link> · {tr({ es: 'como', en: 'as', ca: 'com' })} {mio.apodo} · <button type="button" onClick={salirDelRanking} className="underline">{tr({ es: 'salir', en: 'leave', ca: 'sortir' })}</button>
-            </p>
-          )}
-        </section>
-
-        <section className={tarjeta}>
-          <h2 className="text-white font-black mb-2">📚 {tr({ es: 'Soy profe', en: 'I’m a teacher', ca: 'Sóc profe' })}</h2>
-          {!user ? (
-            <div className="text-sm text-white/60 space-y-3">
-              <p>{tr({ es: 'Crea un reto para tu clase en un minuto. Tú sí necesitas cuenta (gratis), tus alumnos no.', en: 'Create a challenge for your class in a minute. You need a (free) account; your students don’t.', ca: 'Crea un repte per a la teva classe en un minut. Tu sí que necessites compte (gratis), els teus alumnes no.' })}</p>
-              <button type="button" onClick={() => setAuth(true)} className="rounded-xl bg-teal-600 hover:bg-teal-500 text-white font-bold px-4 py-2 text-sm">{tr({ es: 'Entrar o registrarme', en: 'Log in or sign up', ca: 'Entrar o registrar-me' })}</button>
-            </div>
-          ) : (
-            <div className="space-y-5">
-              <CrearReto uid={user.uid} />
-              <div>
-                <p className="text-white/50 text-xs font-bold uppercase tracking-widest mb-2">{tr({ es: 'Tus retos', en: 'Your challenges', ca: 'Els teus reptes' })}</p>
-                <ListaRetos uid={user.uid} />
-              </div>
-            </div>
-          )}
-        </section>
-      </div>
-      {auth && <AuthModal onClose={() => setAuth(false)} defaultMode="register" />}
-    </div>
-  )
-}
-
-// El código y nada más: el apodo se pide ya dentro del reto, con la nota del
-// profe a la vista (puede pedir el nombre de verdad)
-function EntrarConCodigo({ onCodigo }) {
-  const { tr } = useLang()
-  const [c, setC] = useState('')
-  return (
-    <form onSubmit={e => { e.preventDefault(); if (normalizaCodigo(c)) onCodigo(normalizaCodigo(c)) }} className="space-y-2">
-      <input value={c} onChange={e => setC(e.target.value.toUpperCase())} maxLength={8} required autoCapitalize="characters" placeholder="ABC234"
-        className="w-full rounded-xl border border-white/10 bg-white/5 px-3 py-3 text-center font-mono text-2xl tracking-[0.3em] text-white placeholder-white/20 outline-none focus:border-amber-400" />
-      <button type="submit" className="w-full rounded-xl bg-amber-400 hover:bg-amber-300 text-black font-black py-3">{tr({ es: 'Entrar →', en: 'Join →', ca: 'Entrar →' })}</button>
-      <p className="text-white/40 text-[11px] text-center">{tr({ es: 'El código te lo da tu profe. No hace falta cuenta.', en: 'Your teacher gives you the code. No account needed.', ca: 'El codi te’l dona el teu profe. No cal compte.' })}</p>
-    </form>
-  )
+// Enlaces antiguos /ranking/:codigo → la puerta del reto (que lleva a su sitio)
+export function RedirigeRanking() {
+  const { codigo } = useParams()
+  const { localPath } = useLang()
+  return <Navigate to={localPath(codigo ? `/reto/${normalizaCodigo(codigo)}` : '/reto')} replace />
 }
 
 // ── /ranking/:codigo ────────────────────────────────────────────────────────
-function UnRanking({ codigo }) {
+function UnRanking({ codigo, profe }) {
   const { tr, lang, localPath } = useLang()
   const { user } = useAuth()
   const navigate = useNavigate()
@@ -130,10 +69,12 @@ function UnRanking({ codigo }) {
   const [copiado, setCopiado] = useState(false)
   const [nAlumnos, setNAlumnos] = useState(null)
   const dueno = !!user && ranking?.teacherId === user.uid
+  // Las herramientas del profe, solo en su zona (/profesor/reto/…)
+  const gestiona = profe && dueno
   const modo = ranking?.modo ?? 'ranking'
   const esReto = modo !== 'ranking'
-  // Los retos se comparten por /reto (lleva a su examen); el ranking libre, por aquí
-  const enlace = `${ORIGEN}${lang === 'es' ? '' : `/${lang}`}/${esReto ? 'reto' : 'ranking'}/${codigo}`
+  // Se comparte siempre /reto/CODIGO: lleva a cada uno a su sitio
+  const enlace = `${ORIGEN}${lang === 'es' ? '' : `/${lang}`}/reto/${codigo}`
 
   // En directo: cada récord nuevo aparece al momento (también proyectado)
   useEffect(() => {
@@ -148,20 +89,31 @@ function UnRanking({ codigo }) {
   // Cuántos se han unido (aunque aún no hayan jugado): solo para el profe
   const contar = useCallback(() => { cuentaAlumnos(codigo).then(setNAlumnos).catch(() => {}) }, [codigo])
   useEffect(() => {
-    if (!dueno) return
+    if (!gestiona) return
     contar()
     const t = setInterval(contar, 20000)
     return () => clearInterval(t)
-  }, [dueno, contar])
+  }, [gestiona, contar])
 
   if (ranking === undefined && codigoValido(codigo)) return <div className="min-h-[60vh] grid place-items-center text-white/30 text-sm">…</div>
   if (!ranking) {
     return (
       <div className="relative z-10 max-w-md mx-auto px-4 py-12 text-center">
-        <SEOHead path={`/ranking/${codigo}`} noindex title="Tuthor" description="" />
+        <SEOHead path={`/reto/${codigo}`} noindex title="Tuthor" description="" />
         <p className="text-5xl mb-3">🔍</p>
         <p className="text-white font-black text-lg mb-2">{tr({ es: 'No hay ningún reto con ese código', en: 'There’s no challenge with that code', ca: 'No hi ha cap repte amb aquest codi' })}</p>
-        <Link to={localPath('/ranking')} className="text-amber-200 text-sm font-bold">{tr({ es: '← Probar con otro código', en: '← Try another code', ca: '← Provar amb un altre codi' })}</Link>
+        <Link to={localPath('/reto')} className="text-amber-200 text-sm font-bold">{tr({ es: '← Probar con otro código', en: '← Try another code', ca: '← Provar amb un altre codi' })}</Link>
+      </div>
+    )
+  }
+
+  if (profe && !dueno) {
+    return (
+      <div className="relative z-10 max-w-md mx-auto px-4 py-12 text-center">
+        <SEOHead path={`/profesor/reto/${codigo}`} noindex title="Tuthor" description="" />
+        <p className="text-5xl mb-3">🔒</p>
+        <p className="text-white font-black text-lg mb-2">{user ? tr({ es: 'Este reto lo gestiona otro profe', en: 'Another teacher manages this challenge', ca: 'Aquest repte el gestiona un altre profe' }) : tr({ es: 'Entra con tu cuenta de profe para gestionarlo', en: 'Log in with your teacher account to manage it', ca: 'Entra amb el teu compte de profe per gestionar-lo' })}</p>
+        <Link to={localPath(`/reto/${codigo}`)} className="text-amber-200 text-sm font-bold">{tr({ es: 'Ir al reto como alumno →', en: 'Go to the challenge as a student →', ca: 'Anar al repte com a alumne →' })}</Link>
       </div>
     )
   }
@@ -178,7 +130,7 @@ function UnRanking({ codigo }) {
 
   return (
     <div className={`relative z-10 mx-auto px-4 py-6 ${proyectar ? 'max-w-6xl' : 'max-w-3xl'}`}>
-      <SEOHead path={`/ranking/${codigo}`} noindex title={`${ranking.nombre} — ${tr(MODO[modo].label)}`} description="" />
+      <SEOHead path={`/reto/${codigo}`} noindex title={`${ranking.nombre} — ${tr(MODO[modo].label)}`} description="" />
       <div className="flex flex-wrap items-end justify-between gap-3 mb-4">
         <div className="min-w-0">
           <p className="text-white/40 text-xs font-bold uppercase tracking-widest">{MODO[modo].emoji} {tr(MODO[modo].label)}{ranking.cerrado ? ` · 🔒 ${tr({ es: 'cerrado', en: 'closed', ca: 'tancat' })}` : ''}</p>
@@ -194,7 +146,12 @@ function UnRanking({ codigo }) {
       {proyectar && <p className="text-white/60 text-lg mb-4">{tr({ es: 'Entra en', en: 'Go to', ca: 'Entra a' })} <b className="text-white">tuthor.es/reto</b> {tr({ es: 'y escribe el código', en: 'and type the code', ca: 'i escriu el codi' })}</p>}
 
       {/* El alumno: entrar (los retos, en su examen con la nota del profe) */}
-      {!proyectar && !dueno && !ranking.cerrado && (esReto ? (
+      {!profe && dueno && (
+        <Link to={localPath(`/profesor/reto/${codigo}`)} className="block mb-4 rounded-xl border border-teal-400/30 bg-teal-500/10 text-teal-200 font-bold text-center py-2.5 text-sm">
+          {tr({ es: 'Eres el profe de este reto: gestionarlo →', en: 'You’re this challenge’s teacher: manage it →', ca: 'Ets el profe d’aquest repte: gestionar-lo →' })}
+        </Link>
+      )}
+      {!profe && !proyectar && !dueno && !ranking.cerrado && (esReto ? (
         <Link to={localPath(`/reto/${codigo}`)} className="block mb-4 rounded-xl bg-amber-400 hover:bg-amber-300 text-black font-black text-center py-3">
           {modo === 'directo' ? tr({ es: 'Entrar en la partida →', en: 'Join the game →', ca: 'Entrar a la partida →' }) : estoyAqui ? tr({ es: 'Hacer los deberes →', en: 'Do the homework →', ca: 'Fer els deures →' }) : tr({ es: 'Entrar y hacer los deberes →', en: 'Join and do the homework →', ca: 'Entrar i fer els deures →' })}
         </Link>
@@ -208,12 +165,12 @@ function UnRanking({ codigo }) {
           <p className="text-white/75 text-sm">{tr({ es: 'Juegas como', en: 'You play as', ca: 'Jugues com' })} <b className="text-amber-200">{estoyAqui.apodo}</b>. {tr({ es: 'Al acabar cada partida, tu récord sube solo.', en: 'At the end of each game, your best score goes up on its own.', ca: 'En acabar cada partida, el teu rècord puja sol.' })}</p>
           <div className="flex gap-2">
             <Link to={localPath('/juegos')} className="rounded-xl bg-amber-400 text-black font-black px-3 py-1.5 text-sm">🎮 {tr({ es: 'A jugar', en: 'Play', ca: 'A jugar' })}</Link>
-            <button type="button" onClick={() => { salirDelRanking(); navigate(localPath('/ranking')) }} className="text-white/35 text-xs hover:text-white/60">{tr({ es: 'Salir', en: 'Leave', ca: 'Sortir' })}</button>
+            <button type="button" onClick={() => { salirDelRanking(); navigate(localPath('/reto')) }} className="text-white/35 text-xs hover:text-white/60">{tr({ es: 'Salir', en: 'Leave', ca: 'Sortir' })}</button>
           </div>
         </div>
       ))}
 
-      {dueno && !proyectar && (
+      {gestiona && !proyectar && (
         <section className={`${tarjeta} mb-4`}>
           <p className="text-white/45 text-[11px] font-bold uppercase tracking-widest mb-2">{tr({ es: 'Solo lo ves tú', en: 'Only you see this', ca: 'Només ho veus tu' })} · {nAlumnos ?? '…'} 👤</p>
           <p className="text-white/70 text-sm mb-3">
@@ -236,7 +193,7 @@ function UnRanking({ codigo }) {
             <button type="button" className={`${botonGris} text-red-300`} onClick={async () => {
               if (!window.confirm(tr({ es: '¿Borrarlo entero? No se puede deshacer.', en: 'Delete it entirely? This can’t be undone.', ca: 'Esborrar-ho sencer? No es pot desfer.' }))) return
               await borrarRanking(codigo)
-              navigate(localPath('/ranking'))
+              navigate(localPath('/profesor?tab=retos'))
             }}>🗑️ {tr({ es: 'Borrar', en: 'Delete', ca: 'Esborrar' })}</button>
           </div>
           {qr && (
@@ -248,8 +205,8 @@ function UnRanking({ codigo }) {
         </section>
       )}
 
-      {modo === 'deberes' ? <Notas filas={entradas} dueno={dueno} quita={quita} yo={estoyAqui} tr={tr} />
-        : modo === 'directo' ? <Marcador filas={marcador} dueno={dueno} quita={quita} yo={estoyAqui} tr={tr} />
+      {modo === 'deberes' ? <Notas filas={entradas} dueno={gestiona} quita={quita} yo={estoyAqui} tr={tr} />
+        : modo === 'directo' ? <Marcador filas={marcador} dueno={gestiona} quita={quita} yo={estoyAqui} tr={tr} />
           : (
             <>
               <div className="flex justify-end mb-3">
@@ -257,7 +214,7 @@ function UnRanking({ codigo }) {
                   {proyectar ? `✕ ${tr({ es: 'Dejar de proyectar', en: 'Stop projecting', ca: 'Deixar de projectar' })}` : `📽️ ${tr({ es: 'Proyectar en la pizarra', en: 'Project on the board', ca: 'Projectar a la pissarra' })}`}
                 </button>
               </div>
-              <PorJuego entradas={entradas} proyectar={proyectar} dueno={dueno} quita={quita} yo={estoyAqui} tr={tr} lang={lang} localPath={localPath} />
+              <PorJuego entradas={entradas} proyectar={proyectar} dueno={gestiona} quita={quita} yo={estoyAqui} tr={tr} lang={lang} localPath={localPath} />
             </>
           )}
     </div>

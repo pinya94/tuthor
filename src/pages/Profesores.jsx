@@ -467,9 +467,12 @@ export default function Profesores() {
             ))}
           </div>
           <div className="text-center mt-6">
-            <Link to={localPath('/ranking')} className="inline-block px-6 py-3.5 bg-amber-400 hover:bg-amber-300 text-black font-black text-sm rounded-xl transition-transform hover:scale-[1.02]">
+            {/* El profe crea los retos en su panel; quien aún no lo es, se apunta abajo */}
+            <button type="button" onClick={() => (user ? navigate(`${localPath('/profesor')}?tab=retos`) : scrollTo('empezar'))}
+              className="inline-block px-6 py-3.5 bg-amber-400 hover:bg-amber-300 text-black font-black text-sm rounded-xl transition-transform hover:scale-[1.02]">
               🏆 {tr({ es: 'Crear un reto gratis →', en: 'Create a free challenge →', ca: 'Crear un repte gratis →' })}
-            </Link>
+            </button>
+            <p className="text-white/40 text-xs mt-2">{tr({ es: 'Tus alumnos entran en tuthor.es/reto con el código: no necesitan cuenta.', en: 'Your students go to tuthor.es/reto with the code: no account needed.', ca: 'Els alumnes entren a tuthor.es/reto amb el codi: no necessiten compte.' })}</p>
           </div>
         </section>
 

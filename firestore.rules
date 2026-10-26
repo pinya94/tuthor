@@ -530,8 +530,8 @@ service cloud.firestore {
     }
 
     // ── Ranking de clase sin cuenta ────────────────────────────────────────────
-    // rankingsClase/{codigo}: lo crea cualquier usuario con cuenta (el profe),
-    // sin necesidad de ser profesor de pago. Lo lee quien sabe el código; la
+    // rankingsClase/{codigo}: un reto de clase; lo crea un profesor (con
+    // acceso de profe, como las clases). Lo lee quien sabe el código; la
     // lista solo la del dueño. Los alumnos (apodo + id secreto del
     // dispositivo) y sus récords los escribe SOLO api/ranking-clase.js con
     // Admin: el alumno no tiene cuenta y no puede escribir aquí. El profe
@@ -554,7 +554,8 @@ service cloud.firestore {
           && (!('nota' in d) || (d.nota is string && d.nota.size() <= 400))
           && (!('classId' in d) || d.classId is string);
       }
-      allow create: if request.auth != null && !isChildSession()
+      // Crear: solo profesores (como crear una clase); los alumnos no tienen cuenta
+      allow create: if isTeacher(request.auth.uid)
         && request.resource.data.keys().hasOnly(['teacherId', 'nombre', 'createdAt', 'cerrado', 'modo', 'examen', 'nivel', 'nPreguntas', 'segundos', 'nota', 'classId'])
         && retoValido(request.resource.data)
         && request.resource.data.teacherId == request.auth.uid

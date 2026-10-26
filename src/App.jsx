@@ -98,6 +98,7 @@ const RecursoSistemaSolar = lazy(() => import('./pages/RecursoSistemaSolar'))
 const RecursoGlobo       = lazy(() => import('./pages/RecursoGlobo'))
 const ProfesorPanel      = lazy(() => import('./pages/ProfesorPanel'))
 const RankingClase       = lazy(() => import('./pages/RankingClase'))
+const RedirigeRanking    = lazy(() => import('./pages/RankingClase').then(m => ({ default: m.RedirigeRanking })))
 const RetoEntrada        = lazy(() => import('./pages/RetoEntrada'))
 const ProfesorClase      = lazy(() => import('./pages/ProfesorClase'))
 const Clase              = lazy(() => import('./pages/Clase'))
@@ -436,10 +437,13 @@ function AppRoutes() {
       <Route path="recursos/fracciones/:tipo" element={<RecursoFracciones />} />
       <Route path="recursos/sistema-solar" element={<RecursoSistemaSolar />} />
       <Route path="recursos/globo-terraqueo" element={<RecursoGlobo />} />
-      <Route path="ranking" element={<RankingClase />} />
-      <Route path="ranking/:codigo" element={<RankingClase />} />
+      {/* Retos de clase: el alumno entra por /reto; el profe los gestiona en su zona */}
       <Route path="reto" element={<RetoEntrada />} />
       <Route path="reto/:codigo" element={<RetoEntrada />} />
+      <Route path="reto/:codigo/clase" element={<RankingClase />} />
+      <Route path="profesor/reto/:codigo" element={<RankingClase profe />} />
+      <Route path="ranking" element={<RedirigeRanking />} />
+      <Route path="ranking/:codigo" element={<RedirigeRanking />} />
       <Route path="profesor" element={<ProfesorPanel />} />
       <Route path="profesor/clase/:classId" element={<ProfesorClase />} />
       <Route path="profesor/examenes/:examId" element={<EditorExamen />} />

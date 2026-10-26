@@ -101,7 +101,7 @@ export default function Pizarra({ codigo, reto, title, lv, difficulty, genRound,
         <Clasificacion filas={filas} pos={pos} desde={3} tr={tr} />
         <div className="mt-8 flex flex-wrap justify-center gap-3">
           <button type="button" className={botonGris} onClick={() => reiniciaDirecto(codigo)}>↺ {tr({ es: 'Volver a jugar', en: 'Play again', ca: 'Tornar a jugar' })}</button>
-          <Link to={localPath(`/ranking/${codigo}`)} className={botonGris}>📋 {tr({ es: 'Resultados', en: 'Results', ca: 'Resultats' })}</Link>
+          <Link to={localPath(`/profesor/reto/${codigo}`)} className={botonGris}>📋 {tr({ es: 'Resultados', en: 'Results', ca: 'Resultats' })}</Link>
         </div>
       </div>
     )

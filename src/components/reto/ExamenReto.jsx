@@ -53,7 +53,7 @@ export default function ExamenReto({ codigo: crudo, gameId, title, levels, genRo
       <div className={`${caja} text-center`}>
         <p className="text-4xl mb-2">🔍</p>
         <p className="text-white font-black">{tr({ es: 'No hay ningún reto con ese código', en: 'There’s no challenge with that code', ca: 'No hi ha cap repte amb aquest codi' })}</p>
-        <Link to={localPath('/ranking')} className="text-amber-200 text-sm font-bold">{tr({ es: '← Probar con otro código', en: '← Try another code', ca: '← Provar amb un altre codi' })}</Link>
+        <Link to={localPath('/reto')} className="text-amber-200 text-sm font-bold">{tr({ es: '← Probar con otro código', en: '← Try another code', ca: '← Provar amb un altre codi' })}</Link>
       </div>,
     )
   }
@@ -140,7 +140,7 @@ function Deberes({ codigo, reto, gameId, title, lv, difficulty, genRound, isCorr
         {reto.cerrado
           ? <p className="text-red-300 text-sm font-bold">{tr({ es: 'Tu profe ha cerrado este reto.', en: 'Your teacher has closed this challenge.', ca: 'El teu profe ha tancat aquest repte.' })}</p>
           : <button type="button" onClick={empieza} className="w-full py-3.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-black font-black text-lg">{tr({ es: 'Empezar →', en: 'Start →', ca: 'Començar →' })}</button>}
-        {dueno && <Link to={localPath(`/ranking/${codigo}`)} className="block text-center text-teal-300 text-sm font-bold">{tr({ es: 'Eres el profe: ver las notas →', en: 'You’re the teacher: see the marks →', ca: 'Ets el profe: veure les notes →' })}</Link>}
+        {dueno && <Link to={localPath(`/profesor/reto/${codigo}`)} className="block text-center text-teal-300 text-sm font-bold">{tr({ es: 'Eres el profe: ver las notas →', en: 'You’re the teacher: see the marks →', ca: 'Ets el profe: veure les notes →' })}</Link>}
       </div>
     )
   }

@@ -118,7 +118,7 @@ export default function RankingClaseFin({ game, score }) {
         </ol>
       )}
       <div className="flex justify-between items-center mt-2">
-        <Link to={localPath(`/ranking/${mio.codigo}`)} className="text-amber-200 text-xs font-bold hover:underline">{tr({ es: 'Ver todo el ranking →', en: 'See the full ranking →', ca: 'Veure tot el rànquing →' })}</Link>
+        <Link to={localPath(`/reto/${mio.codigo}/clase`)} className="text-amber-200 text-xs font-bold hover:underline">{tr({ es: 'Ver todo el ranking →', en: 'See the full ranking →', ca: 'Veure tot el rànquing →' })}</Link>
         <button type="button" onClick={salirDelRanking} className="text-white/30 text-[11px] hover:text-white/60">{tr({ es: 'Salir', en: 'Leave', ca: 'Sortir' })}</button>
       </div>
     </div>

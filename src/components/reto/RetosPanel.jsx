@@ -1,5 +1,7 @@
-// Crear y ver los retos de clase: la pestaña «Retos» del aula del profesor
-// (con su classId) y la parte del profe de /ranking (sin clase). Tres modos:
+// Crear y ver los retos de clase. Solo en la zona del profe: la pestaña
+// «Retos» del panel (/profesor?tab=retos, todos) y la de cada clase (con su
+// classId). El alumno no ve nada de esto: entra por /reto con el código.
+// Tres modos:
 //   📺 en directo  la pizarra lleva la partida y los alumnos responden en el móvil
 //   🏠 deberes     un examen con nota del profe; cada uno lo hace en casa
 //   🏆 ranking     sus récords de cualquier juego, toda la semana
@@ -10,6 +12,7 @@ import { EXAMS, examLabel } from '../../lib/exams'
 import { RETOS_EXAMENES } from '../../data/retosExamenes'
 import { SEGUNDOS, N_PREGUNTAS } from '../../lib/apodo'
 import { crearReto, misRankings } from '../../lib/rankingClase'
+import { SUBJECT_DEFS } from '../../lib/statsAggregation'
 import VideoRetos from '../VideoRetos'
 
 const MODOS = [
@@ -25,6 +28,56 @@ const NIVELES = [
   { emoji: '💛', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' } },
   { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' } },
 ]
+// La etiqueta del examen sin el «(con el juego)» del registro, que aquí sobra
+const sinColetilla = t => t.replace(/\s*\((con el juego|with the game|amb el joc)\)\s*$/i, '')
+const sinTildes = t => t.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase()
+
+function SelectorJuego({ valor, onElige }) {
+  const { tr, lang } = useLang()
+  const [abierto, setAbierto] = useState(!valor)
+  const [busca, setBusca] = useState('')
+  const grupos = useMemo(() => {
+    const q = sinTildes(busca.trim())
+    const items = RETOS_EXAMENES.filter(id => EXAMS[id]).map(id => ({ id, emoji: EXAMS[id].emoji ?? '🎮', label: sinColetilla(examLabel(id, lang)), materia: EXAMS[id].subject }))
+      .filter(x => !q || sinTildes(x.label).includes(q))
+    return SUBJECT_DEFS.map(m => ({ m, items: items.filter(x => x.materia === m.id).sort((a, b) => a.label.localeCompare(b.label, lang)) }))
+      .filter(g => g.items.length)
+  }, [busca, lang])
+  const elegido = valor && EXAMS[valor]
+  if (!abierto && elegido) {
+    return (
+      <button type="button" onClick={() => setAbierto(true)} className="w-full flex items-center gap-3 rounded-xl border border-teal-400/60 bg-teal-500/10 px-3 py-2.5 text-left">
+        <span className="text-2xl">{elegido.emoji}</span>
+        <span className="flex-1 text-white font-black">{sinColetilla(examLabel(valor, lang))}</span>
+        <span className="text-teal-300 text-xs font-bold">{tr({ es: 'Cambiar', en: 'Change', ca: 'Canviar' })}</span>
+      </button>
+    )
+  }
+  return (
+    <div className="rounded-xl border border-white/10 bg-black/20">
+      <input value={busca} onChange={e => setBusca(e.target.value)} autoFocus={!!valor}
+        placeholder={tr({ es: '🔍 Busca un juego (fórmulas, verso, mapa…)', en: '🔍 Search a game (formulas, map, rhythm…)', ca: '🔍 Busca un joc (fórmules, vers, mapa…)' })}
+        className="w-full rounded-t-xl border-b border-white/10 bg-transparent px-3 py-2.5 text-sm text-white placeholder-white/35 outline-none" />
+      <div className="max-h-72 overflow-y-auto p-2 space-y-3">
+        {grupos.length === 0 && <p className="text-white/40 text-sm px-1 py-2">{tr({ es: 'Ningún juego con ese nombre.', en: 'No game with that name.', ca: 'Cap joc amb aquest nom.' })}</p>}
+        {grupos.map(({ m, items }) => (
+          <div key={m.id}>
+            <p className="text-white/40 text-[11px] font-bold uppercase tracking-widest px-1 mb-1">{m.emoji} {tr(m.label)}</p>
+            <div className="grid sm:grid-cols-2 gap-1">
+              {items.map(x => (
+                <button key={x.id} type="button" onClick={() => { onElige(x.id); setAbierto(false); setBusca('') }}
+                  className={`flex items-center gap-2 rounded-lg px-2 py-1.5 text-left text-sm ${x.id === valor ? 'bg-teal-500/25 text-white font-bold' : 'text-white/85 hover:bg-white/[0.08]'}`}>
+                  <span className="text-lg shrink-0">{x.emoji}</span><span className="truncate">{x.label}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
 const campo = 'w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2.5 text-sm text-white placeholder-white/30 outline-none focus:border-teal-500'
 const chip = on => `rounded-xl border px-3 py-2 text-sm font-bold ${on ? 'border-teal-400 bg-teal-500/20 text-white' : 'border-white/10 bg-white/[0.04] text-white/70 hover:bg-white/[0.08]'}`
 
@@ -40,20 +93,17 @@ export function CrearReto({ uid, classId, nombreClase = '', onCreado }) {
   const [nombre, setNombre] = useState('')
   const [creando, setCreando] = useState(false)
   const [error, setError] = useState('')
-  const examenes = useMemo(() => RETOS_EXAMENES.filter(id => EXAMS[id])
-    .map(id => ({ id, label: `${EXAMS[id].emoji ?? ''} ${examLabel(id, lang)}` }))
-    .sort((a, b) => a.label.localeCompare(b.label, lang)), [lang])
 
   const crea = async e => {
     e.preventDefault()
     if (modo !== 'ranking' && !examen) { setError(tr({ es: 'Elige un juego.', en: 'Choose a game.', ca: 'Tria un joc.' })); return }
     setCreando(true); setError('')
     try {
-      const porDefecto = modo === 'ranking' ? (nombreClase || tr({ es: 'Ranking de clase', en: 'Class ranking', ca: 'Rànquing de classe' })) : `${examLabel(examen, lang)}${nombreClase ? ` · ${nombreClase}` : ''}`
+      const porDefecto = modo === 'ranking' ? (nombreClase || tr({ es: 'Ranking de clase', en: 'Class ranking', ca: 'Rànquing de classe' })) : `${sinColetilla(examLabel(examen, lang))}${nombreClase ? ` · ${nombreClase}` : ''}`
       const codigo = await crearReto(uid, { nombre: nombre.trim() || porDefecto, modo, examen, nivel, nPreguntas, segundos, nota, classId })
       onCreado?.(codigo)
       // En directo se abre la pizarra; lo demás, la página para compartirlo y ver resultados
-      navigate(localPath(modo === 'directo' ? `/reto/${codigo}` : `/ranking/${codigo}`))
+      navigate(localPath(modo === 'directo' ? `/reto/${codigo}` : `/profesor/reto/${codigo}`))
     } catch { setError(tr({ es: 'No se ha podido crear. Prueba otra vez.', en: 'It couldn’t be created. Try again.', ca: 'No s’ha pogut crear. Torna-ho a provar.' })) }
     setCreando(false)
   }
@@ -71,13 +121,10 @@ export function CrearReto({ uid, classId, nombreClase = '', onCreado }) {
 
       {modo !== 'ranking' && (
         <>
-          <label className="block">
+          <div>
             <span className="block text-white/50 text-xs font-bold mb-1">{tr({ es: 'Juego', en: 'Game', ca: 'Joc' })}</span>
-            <select value={examen} onChange={e => setExamen(e.target.value)} className={campo}>
-              <option value="">{tr({ es: '— Elige un juego —', en: '— Choose a game —', ca: '— Tria un joc —' })}</option>
-              {examenes.map(x => <option key={x.id} value={x.id}>{x.label}</option>)}
-            </select>
-          </label>
+            <SelectorJuego valor={examen} onElige={setExamen} />
+          </div>
           <div className="flex flex-wrap gap-4">
             <div>
               <span className="block text-white/50 text-xs font-bold mb-1">{tr({ es: 'Nivel', en: 'Level', ca: 'Nivell' })}</span>
@@ -105,7 +152,7 @@ export function CrearReto({ uid, classId, nombreClase = '', onCreado }) {
       <label className="block">
         <span className="block text-white/50 text-xs font-bold mb-1">{tr({ es: 'Nombre (opcional)', en: 'Name (optional)', ca: 'Nom (opcional)' })}</span>
         <input value={nombre} onChange={e => setNombre(e.target.value)} maxLength={60} className={campo}
-          placeholder={modo === 'ranking' ? (nombreClase || tr({ es: 'Ranking de clase', en: 'Class ranking', ca: 'Rànquing de classe' })) : (examen ? `${examLabel(examen, lang)}${nombreClase ? ` · ${nombreClase}` : ''}` : '')} />
+          placeholder={modo === 'ranking' ? (nombreClase || tr({ es: 'Ranking de clase', en: 'Class ranking', ca: 'Rànquing de classe' })) : (examen ? `${sinColetilla(examLabel(examen, lang))}${nombreClase ? ` · ${nombreClase}` : ''}` : '')} />
       </label>
       {error && <p className="text-red-300 text-sm">{error}</p>}
       <button type="submit" disabled={creando} className="w-full rounded-xl bg-teal-600 hover:bg-teal-500 text-white font-black py-3 disabled:opacity-50">
@@ -136,7 +183,7 @@ export function ListaRetos({ uid, classId }) {
             <span className="flex-1 min-w-0 text-white text-sm font-bold truncate">{r.nombre}{r.cerrado ? ' 🔒' : ''}</span>
             <span className="font-mono text-teal-300 text-xs">{r.codigo}</span>
             {r.modo === 'directo' && <Link to={localPath(`/reto/${r.codigo}`)} className="rounded-lg bg-amber-400 text-black text-xs font-black px-2 py-1">📺 {tr({ es: 'Pizarra', en: 'Board', ca: 'Pissarra' })}</Link>}
-            <Link to={localPath(`/ranking/${r.codigo}`)} className="rounded-lg bg-white/10 text-white text-xs font-bold px-2 py-1">{tr({ es: 'Resultados', en: 'Results', ca: 'Resultats' })}</Link>
+            <Link to={localPath(`/profesor/reto/${r.codigo}`)} className="rounded-lg bg-white/10 text-white text-xs font-bold px-2 py-1">{tr({ es: 'Gestionar', en: 'Manage', ca: 'Gestionar' })}</Link>
           </li>
         )
       })}
@@ -161,7 +208,7 @@ export default function RetosPanel({ uid, classId, nombreClase }) {
         <CrearReto uid={uid} classId={classId} nombreClase={nombreClase} />
       </div>
       <div className="rounded-2xl bg-[#141b2e] border border-white/[0.08] p-4">
-        <h2 className="text-white font-black mb-3">{tr({ es: 'Retos de esta clase', en: 'This class’s challenges', ca: 'Reptes d’aquesta classe' })}</h2>
+        <h2 className="text-white font-black mb-3">{classId ? tr({ es: 'Retos de esta clase', en: 'This class’s challenges', ca: 'Reptes d’aquesta classe' }) : tr({ es: 'Tus retos', en: 'Your challenges', ca: 'Els teus reptes' })}</h2>
         <ListaRetos uid={uid} classId={classId} />
       </div>
     </section>
