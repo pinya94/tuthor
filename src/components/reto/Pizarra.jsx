@@ -45,7 +45,7 @@ export default function Pizarra({ codigo, reto, title, lv, difficulty, genRound,
     setOcupado(true)
     try { await lanzaPregunta(codigo, i, genRound(difficulty)) } finally { setOcupado(false) }
   }, [codigo, genRound, difficulty])
-  const solucion = useCallback(() => muestraSolucion(codigo, dir), [codigo, dir])
+  const solucion = useCallback(() => muestraSolucion(codigo, dir.i), [codigo, dir.i])
 
   const filas = [...marcador].sort((a, b) => b.puntos - a.puntos)
   const pos = posiciones(filas)
@@ -122,7 +122,7 @@ export default function Pizarra({ codigo, reto, title, lv, difficulty, genRound,
         </div>
         <div className="space-y-4">
           {dir.estado === 'pregunta'
-            ? <CuentaAtras key={dir.i} T={T} inicio={dir.inicio} respondidas={respondidas.length} total={alumnos.length} onFin={solucion} tr={tr} />
+            ? <CuentaAtras key={dir.i} T={T} respondidas={respondidas.length} total={alumnos.length} onFin={solucion} tr={tr} />
             : (
               <div className="rounded-2xl bg-[#141b2e] border border-white/[0.08] p-4 text-center">
                 <p className="text-green-300 font-black text-4xl tabular-nums">{acertadas}<span className="text-white/40 text-2xl">/{respondidas.length}</span></p>
@@ -135,7 +135,7 @@ export default function Pizarra({ codigo, reto, title, lv, difficulty, genRound,
                 <p className="text-white/50 text-xs font-bold uppercase tracking-widest mb-2">Top 5</p>
                 <Clasificacion filas={filas.slice(0, 5)} pos={pos} tr={tr} />
               </div>
-              <button type="button" className={`${boton} w-full`} disabled={ocupado} onClick={() => (ultima ? terminaDirecto(codigo, dir) : lanza(dir.i + 1))}>
+              <button type="button" className={`${boton} w-full`} disabled={ocupado} onClick={() => (ultima ? terminaDirecto(codigo, dir.i) : lanza(dir.i + 1))}>
                 {ultima ? `🏆 ${tr({ es: 'Ver el podio', en: 'See the podium', ca: 'Veure el podi' })}` : `${tr({ es: 'Siguiente pregunta', en: 'Next question', ca: 'Següent pregunta' })} →`}
               </button>
             </>
@@ -149,26 +149,32 @@ export default function Pizarra({ codigo, reto, title, lv, difficulty, genRound,
 
 // La cuenta atrás de la pregunta: al acabar el tiempo, o cuando ya han
 // respondido todos, pasa sola a la solución.
-function CuentaAtras({ T, inicio, respondidas, total, onFin, tr }) {
-  // El inicio lo pone el servidor; mientras llega, el reloj de la pizarra
+//
+// Cuenta con el reloj de la pizarra desde que la pregunta sale en ella. NO
+// con la hora del servidor: si el reloj del ordenador del profe va
+// adelantado, mezclar las dos daba la pregunta por acabada al aparecer. El
+// servidor valida cada respuesta con su propio reloj, así que no hace falta.
+function CuentaAtras({ T, respondidas, total, onFin, tr }) {
   const [t0] = useState(() => Date.now())
-  const [ahora, setAhora] = useState(() => Date.now())
-  const hecho = useRef(false)
-  const desde = inicio?.toMillis ? Math.min(inicio.toMillis(), t0 + 1500) : t0
-  const queda = Math.max(0, T - (ahora - desde))
+  const [ahora, setAhora] = useState(t0)
+  const programado = useRef(null)
+  const fin = useRef(onFin)
+  useEffect(() => { fin.current = onFin }, [onFin])
+  const queda = Math.max(0, T - (ahora - t0))
   useEffect(() => {
     const t = setInterval(() => setAhora(Date.now()), 200)
-    return () => clearInterval(t)
+    return () => { clearInterval(t); clearTimeout(programado.current) }
   }, [])
+  // Se programa UNA vez y no se cancela al repintar (cada 200 ms); solo si la
+  // pregunta se va antes (desmontar). muestraSolucion comprueba además que
+  // sigue siendo esta pregunta.
   useEffect(() => {
-    if (hecho.current) return
+    if (programado.current) return
     if (queda <= 0 || (total > 0 && respondidas >= total)) {
-      hecho.current = true
       // Un respiro para que lleguen las últimas respuestas
-      const t = setTimeout(onFin, queda <= 0 ? 1200 : 400)
-      return () => clearTimeout(t)
+      programado.current = setTimeout(() => fin.current(), queda <= 0 ? 1200 : 600)
     }
-  }, [queda, respondidas, total, onFin])
+  }, [queda, respondidas, total])
   const segs = Math.ceil(queda / 1000)
   return (
     <div className="rounded-2xl bg-[#141b2e] border border-white/[0.08] p-4 text-center">

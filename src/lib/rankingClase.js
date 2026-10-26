@@ -14,7 +14,7 @@
 //   rankingsClase/{codigo}/respuestas/{pid__i}  { pid, i, correcta, puntos }        (directo)
 //   rankingsClase/{codigo}/alumnos/{disp}  { apodo, apodoKey, pid, unidoEn }   (solo el profe)
 //   rankingsClase/{codigo}/entradas/{pid__juego}  { pid, apodo, juego, puntos, actualizado }
-import { collection, doc, getDoc, getDocs, setDoc, updateDoc, deleteDoc, query, where, serverTimestamp, writeBatch, onSnapshot, getCountFromServer } from 'firebase/firestore'
+import { collection, doc, getDoc, getDocs, setDoc, updateDoc, deleteDoc, query, where, serverTimestamp, writeBatch, onSnapshot, getCountFromServer, runTransaction } from 'firebase/firestore'
 import { db } from './firebase'
 import { generaCodigo, normalizaCodigo } from './apodo'
 
@@ -152,12 +152,30 @@ export const escuchaColeccion = (codigo, col, cb, filtro) =>
 // La pregunta va como texto JSON: la genera la pizarra con el generador del
 // juego y así TODOS los móviles ven la misma (y Firestore no admite listas
 // dentro de listas, que algunas rondas llevan).
-export const lanzaPregunta = (codigo, i, ronda) =>
-  updateDoc(doc(db, 'rankingsClase', codigo), { directo: { estado: 'pregunta', i, inicio: serverTimestamp(), ronda: JSON.stringify(ronda) } })
-export const muestraSolucion = (codigo, dir) =>
-  updateDoc(doc(db, 'rankingsClase', codigo), { directo: { ...dir, estado: 'solucion' } })
-export const terminaDirecto = (codigo, dir) =>
-  updateDoc(doc(db, 'rankingsClase', codigo), { directo: { ...dir, estado: 'fin' } })
+//
+// Cada paso comprueba de dónde viene (en una transacción): la pregunta i solo
+// sale desde la sala (i = 0) o desde la solución de la i-1; la solución, solo
+// desde su pregunta; el podio, solo desde la última solución. Así un doble
+// clic o un temporizador que llega tarde no salta preguntas ni vuelve atrás.
+function paso(codigo, puede, nuevo) {
+  const ref = doc(db, 'rankingsClase', codigo)
+  return runTransaction(db, async tx => {
+    const s = await tx.get(ref)
+    const d = s.data()?.directo ?? { estado: 'sala', i: -1 }
+    if (!puede(d)) return false
+    tx.update(ref, { directo: nuevo(d) })
+    return true
+  })
+}
+export const lanzaPregunta = (codigo, i, ronda) => paso(codigo,
+  d => (i === 0 ? d.estado === 'sala' || d.i < 0 : d.estado === 'solucion' && d.i === i - 1),
+  () => ({ estado: 'pregunta', i, inicio: serverTimestamp(), ronda: JSON.stringify(ronda) }))
+export const muestraSolucion = (codigo, i) => paso(codigo,
+  d => d.estado === 'pregunta' && d.i === i,
+  d => ({ ...d, estado: 'solucion' }))
+export const terminaDirecto = (codigo, i) => paso(codigo,
+  d => d.estado === 'solucion' && d.i === i,
+  d => ({ ...d, estado: 'fin' }))
 // Volver a jugar: borra marcador y respuestas y vuelve a la sala
 export async function reiniciaDirecto(codigo) {
   const cols = await Promise.all(['marcador', 'respuestas'].map(c => getDocs(collection(db, 'rankingsClase', codigo, c))))
