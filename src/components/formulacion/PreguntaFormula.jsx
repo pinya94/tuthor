@@ -7,7 +7,7 @@
 import { useState } from 'react'
 import { useLang } from '../../context/LangContext'
 import {
-  ANIONES, METALES, TIPOS, ROMANOS, enunciado, explicacion, dato, esCorrecta, respuestaBuena,
+  ANIONES, METALES, TIPOS, ROMANOS, tiposDelNivel, esPoli, enunciado, explicacion, dato, esCorrecta, respuestaBuena,
   escribe, escribeAcido, nombreMontado, nombrePrefijosDe, nombreAcidoMontado, ACIDOS,
 } from '../../lib/formulacion'
 
@@ -39,7 +39,7 @@ function CruceValencias({ c }) {
         <path d="M54 30l-8 -1l4 -6Z M6 30l4 -6l4 6Z" fill="#FBBF24" />
       </svg>
       <div className="text-center">
-        <p className="text-pink-300 font-black text-2xl font-mono">{c.anion === 'OH' ? '(OH)' : c.anion}<sup className="text-sm">{SUP[ca]}−</sup></p>
+        <p className="text-pink-300 font-black text-2xl font-mono"><Formula f={esPoli(c.anion) ? `(${c.anion})` : c.anion} /><sup className="text-sm">{SUP[ca]}−</sup></p>
       </div>
       <span className="text-white/40 font-black">→</span>
       <Formula f={c.f} className="text-green-300 font-black text-2xl" />
@@ -88,7 +88,7 @@ function Clasifica({ r, revelado, onResponder, l }) {
         </div>
       )}
       <div className="grid grid-cols-2 gap-2">
-        {Object.keys(TIPOS).map(t => (
+        {tiposDelNivel(r.nivel).map(t => (
           <button key={t} disabled={revelado || activa < 0} onClick={() => pon(t)} className="rounded-xl border-2 border-dashed border-white/20 bg-white/[0.04] hover:bg-white/[0.08] p-2 min-h-[4.5rem] text-left">
             <span className="block text-white font-black text-[13px]">{tx(TIPOS[t], l)}</span>
             {r.items.filter(c => puestas[c.f] === t).map(c => (
@@ -112,7 +112,7 @@ function Construye({ r, revelado, elegida, onResponder, l, tr }) {
   const [y, setY] = useState(0)
   const f = acido ? escribeAcido(x, a.fam, y) : escribe(r.comp.metal, x, r.comp.anion, y)
   // Mientras falta algún número se ve el esqueleto: H?SO?, Fe?O?
-  const ox = r.comp?.anion === 'OH' ? '(OH)' : r.comp?.anion
+  const ox = esPoli(r.comp?.anion) ? `(${r.comp.anion})` : r.comp?.anion
   const esqueleto = acido ? `H${x || '?'}${a.fam}O${y || '?'}` : `${r.comp.metal}${x || '?'}${ox}${y || '?'}`
   const mostrada = revelado ? String(elegida ?? '') : x && y ? f : esqueleto
   return (
@@ -125,7 +125,7 @@ function Construye({ r, revelado, elegida, onResponder, l, tr }) {
         <>
           <div className="flex justify-center gap-6 mb-4">
             <Paso etiqueta={acido ? 'H' : r.comp.metal} valor={x} max={acido ? 4 : 7} onCambia={setX} />
-            <Paso etiqueta={acido ? 'O' : r.comp.anion === 'OH' ? '(OH)' : r.comp.anion} valor={y} max={acido ? 5 : 7} onCambia={setY} />
+            <Paso etiqueta={acido ? 'O' : <Formula f={ox} />} valor={y} max={acido ? 5 : 7} onCambia={setY} />
           </div>
           <button className={boton} disabled={!x || !y} onClick={() => onResponder(f)}>{tr({ es: 'Comprobar', en: 'Check', ca: 'Comprovar' })}</button>
         </>
