@@ -18,6 +18,7 @@ function colRef(path, filtros = [], lim = Infinity) {
     path, doc: id => docRef(`${path}/${id}`),
     where: (f, op, v) => colRef(path, [...filtros, [f, v]], lim),
     limit: n => colRef(path, filtros, n),
+    count: () => ({ get: async () => { const { docs } = await q.get(); return { data: () => ({ count: docs.length }) } } }),
     get: async () => {
       const docs = [...datos.entries()]
         .filter(([p]) => p.startsWith(`${path}/`) && !p.slice(path.length + 1).includes('/'))
@@ -86,7 +87,7 @@ describe('apodos y códigos', () => {
 describe('api/ranking-clase', () => {
   beforeEach(() => {
     datos.clear()
-    datos.set('rankingsClase/ABC234', { teacherId: 'profe', nombre: '3ºB', cerrado: false, nAlumnos: 0 })
+    datos.set('rankingsClase/ABC234', { teacherId: 'profe', nombre: '3ºB', cerrado: false })
   })
 
   it('unirse, subir récords y no bajar nunca', async () => {
@@ -94,7 +95,6 @@ describe('api/ranking-clase', () => {
     const u = await llama({ accion: 'unirse', codigo: 'abc-234', dispositivo: D1, apodo: ' Luna ' })
     expect(u).toMatchObject({ status: 200, apodo: 'Luna', nombre: '3ºB' })
     expect(u.pid).toBeTruthy()
-    expect(datos.get('rankingsClase/ABC234').nAlumnos).toBe(1)
 
     expect(await llama({ accion: 'puntos', codigo: 'ABC234', dispositivo: D1, juego: 'rebajas', puntos: 50 })).toMatchObject({ record: true, mejor: 50 })
     expect(await llama({ accion: 'puntos', codigo: 'ABC234', dispositivo: D1, juego: 'rebajas', puntos: 30 })).toMatchObject({ record: false, mejor: 50 })
@@ -116,9 +116,18 @@ describe('api/ranking-clase', () => {
     await llama({ accion: 'puntos', codigo: 'ABC234', dispositivo: D1, juego: 'engranajes', puntos: 70 })
     const otra = await llama({ accion: 'unirse', codigo: 'ABC234', dispositivo: D1, apodo: 'Tigre' })
     expect(otra.status).toBe(200)
-    expect(datos.get('rankingsClase/ABC234').nAlumnos).toBe(1)
     const e = [...datos.entries()].find(([p]) => p.includes('/entradas/'))[1]
     expect(e.apodo).toBe('Tigre')
+  })
+
+  it('toda la clase a la vez: 30 alumnos entran sin escribir en el doc del ranking', async () => {
+    const antes = JSON.stringify(datos.get('rankingsClase/ABC234'))
+    const disp = i => `alumno${String(i).padStart(12, '0')}xx`
+    const rs = await Promise.all(Array.from({ length: 30 }, (_, i) => llama({ accion: 'unirse', codigo: 'ABC234', dispositivo: disp(i), apodo: `Jugador ${i}` })))
+    expect(rs.every(r => r.status === 200)).toBe(true)
+    expect(new Set(rs.map(r => r.pid)).size).toBe(30)
+    // El documento del ranking no se toca al unirse: nada que haga chocar a los que entran a la vez
+    expect(JSON.stringify(datos.get('rankingsClase/ABC234'))).toBe(antes)
   })
 
   it('código inexistente, cerrado o datos malos', async () => {

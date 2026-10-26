@@ -544,13 +544,12 @@ service cloud.firestore {
       allow get: if true;
       allow list: if request.auth != null && resource.data.teacherId == request.auth.uid;
       allow create: if request.auth != null && !isChildSession()
-        && request.resource.data.keys().hasOnly(['teacherId', 'nombre', 'createdAt', 'cerrado', 'nAlumnos'])
+        && request.resource.data.keys().hasOnly(['teacherId', 'nombre', 'createdAt', 'cerrado'])
         && request.resource.data.teacherId == request.auth.uid
         && request.resource.data.nombre is string
         && request.resource.data.nombre.size() >= 1 && request.resource.data.nombre.size() <= 60
         && request.resource.data.createdAt == request.time
         && request.resource.data.cerrado == false
-        && request.resource.data.nAlumnos == 0
         && codigo.matches('^[ABCDEFGHJKMNPQRSTUVWXYZ2-9]{6}$');
       allow update: if request.auth != null && !isChildSession()
         && resource.data.teacherId == request.auth.uid

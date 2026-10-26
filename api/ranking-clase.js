@@ -37,6 +37,14 @@ export default async function handler(req, res) {
       const v = validaApodo(b.apodo)
       if (!v.ok) return res.status(400).json({ error: `apodo_${v.error}` })
       const key = claveApodo(v.apodo)
+      // Límite de alumnos contado aparte, sin contador en el doc del ranking:
+      // si 30 alumnos entran en el mismo segundo, escribir todos en el mismo
+      // documento haría chocar las transacciones. Bajo esa carrera el límite
+      // puede pasarse por unos pocos; da igual, es solo un tope contra abusos.
+      const yaDentro = (await alumnoRef.get()).exists
+      if (!yaDentro && (await rankingRef.collection('alumnos').count().get()).data().count >= MAX_ALUMNOS) {
+        return res.status(403).json({ error: 'lleno' })
+      }
       const r = await db.runTransaction(async tx => {
         const ranking = await tx.get(rankingRef)
         if (!ranking.exists) return { status: 404, error: 'no_existe' }
@@ -44,11 +52,8 @@ export default async function handler(req, res) {
         const yo = await tx.get(alumnoRef)
         const mismo = await tx.get(rankingRef.collection('alumnos').where('apodoKey', '==', key).limit(2))
         if (mismo.docs.some(d => d.id !== dispositivo)) return { status: 409, error: 'apodo_ocupado' }
-        const n = ranking.data().nAlumnos ?? 0
-        if (!yo.exists && n >= MAX_ALUMNOS) return { status: 403, error: 'lleno' }
         const pid = yo.exists ? yo.data().pid : randomBytes(9).toString('base64url')
         tx.set(alumnoRef, { apodo: v.apodo, apodoKey: key, pid, unidoEn: yo.exists ? yo.data().unidoEn : new Date() })
-        if (!yo.exists) tx.update(rankingRef, { nAlumnos: n + 1 })
         return { status: 200, nombre: ranking.data().nombre, pid, cambia: yo.exists && yo.data().apodo !== v.apodo }
       })
       if (r.status !== 200) return res.status(r.status).json({ error: r.error })

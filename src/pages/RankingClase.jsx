@@ -16,7 +16,7 @@ import { FormUnirse } from '../components/RankingClaseFin'
 import { gameLabel, gameEmoji, GAMES } from '../lib/games'
 import { normalizaCodigo, codigoValido } from '../lib/apodo'
 import {
-  miRanking, salirDelRanking, leeRanking, leeEntradas, porJuego, posiciones,
+  miRanking, salirDelRanking, escuchaRanking, cuentaAlumnos, porJuego, posiciones,
   crearRanking, misRankings, cerrarRanking, borrarAlumno, borrarRanking,
 } from '../lib/rankingClase'
 
@@ -122,7 +122,7 @@ function Inicio() {
                       <li key={r.codigo}>
                         <Link to={localPath(`/ranking/${r.codigo}`)} className="flex items-center justify-between gap-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] px-3 py-2">
                           <span className="text-white text-sm font-bold truncate">{r.nombre}{r.cerrado ? ' 🔒' : ''}</span>
-                          <span className="shrink-0 text-white/40 text-xs">{r.nAlumnos ?? 0} 👤 · <span className="font-mono text-teal-300">{r.codigo}</span></span>
+                          <span className="shrink-0 font-mono text-teal-300 text-xs">{r.codigo}</span>
                         </Link>
                       </li>
                     ))}
@@ -151,26 +151,25 @@ function UnRanking({ codigo }) {
   const dueno = !!user && ranking?.teacherId === user.uid
   const enlace = `${ORIGEN}${lang === 'es' ? '' : `/${lang}`}/ranking/${codigo}`
 
-  const carga = useCallback(async () => {
-    if (!codigoValido(codigo)) { setRanking(null); return }
-    try {
-      const r = await leeRanking(codigo)
-      setRanking(r)
-      if (r) setEntradas(await leeEntradas(codigo))
-    } catch { setRanking(null) }
+  const [nAlumnos, setNAlumnos] = useState(null)
+
+  // En directo: cada récord nuevo aparece al momento (también proyectado)
+  useEffect(() => {
+    if (!codigoValido(codigo)) return
+    return escuchaRanking(codigo, { onRanking: setRanking, onEntradas: setEntradas, onError: () => setRanking(null) })
   }, [codigo])
 
+  // Cuántos se han unido (aunque aún no hayan jugado): solo para el profe
+  const contar = useCallback(() => { cuentaAlumnos(codigo).then(setNAlumnos).catch(() => {}) }, [codigo])
   useEffect(() => {
-    let vivo = true
-    const tick = () => { if (vivo) carga() }
-    tick()
-    // Proyectado en la pizarra se refresca solo
-    const t = setInterval(tick, proyectar ? 15000 : 60000)
-    return () => { vivo = false; clearInterval(t) }
-  }, [carga, proyectar])
+    if (!dueno) return
+    contar()
+    const t = setInterval(contar, 20000)
+    return () => clearInterval(t)
+  }, [dueno, contar])
 
-  if (ranking === undefined) return <div className="min-h-[60vh] grid place-items-center text-white/30 text-sm">…</div>
-  if (ranking === null) {
+  if (ranking === undefined && codigoValido(codigo)) return <div className="min-h-[60vh] grid place-items-center text-white/30 text-sm">…</div>
+  if (!ranking) {
     return (
       <div className="relative z-10 max-w-md mx-auto px-4 py-12 text-center">
         <SEOHead path={`/ranking/${codigo}`} noindex title="Tuthor" description="" />
@@ -186,7 +185,7 @@ function UnRanking({ codigo }) {
   const quita = async f => {
     if (!window.confirm(tr({ es: `¿Quitar a «${f.apodo}» del ranking, con todas sus puntuaciones?`, en: `Remove “${f.apodo}” from the ranking, with all their scores?`, ca: `Treure «${f.apodo}» del rànquing, amb totes les seves puntuacions?` }))) return
     await borrarAlumno(codigo, f.pid)
-    carga()
+    contar()
   }
   const copia = async () => { try { await navigator.clipboard.writeText(enlace); setCopiado(true); setTimeout(() => setCopiado(false), 2000) } catch { /* sin portapapeles */ } }
   const verQr = async () => { const QRCode = (await import('qrcode')).default; setQr(await QRCode.toDataURL(enlace, { width: 640, margin: 2 })) }
@@ -210,7 +209,7 @@ function UnRanking({ codigo }) {
       {!proyectar && !estoyAqui && !ranking.cerrado && !dueno && (
         <section className={`${tarjeta} mb-4`}>
           <p className="text-white font-black mb-2">{tr({ es: 'Entra con tu apodo', en: 'Join with your nickname', ca: 'Entra amb el teu sobrenom' })}</p>
-          <FormUnirse codigoInicial={codigo} onUnido={carga} />
+          <FormUnirse codigoInicial={codigo} />
         </section>
       )}
       {!proyectar && estoyAqui && (
@@ -225,13 +224,13 @@ function UnRanking({ codigo }) {
 
       {dueno && !proyectar && (
         <section className={`${tarjeta} mb-4`}>
-          <p className="text-white/45 text-[11px] font-bold uppercase tracking-widest mb-2">{tr({ es: 'Solo lo ves tú', en: 'Only you see this', ca: 'Només ho veus tu' })} · {ranking.nAlumnos ?? 0} 👤</p>
+          <p className="text-white/45 text-[11px] font-bold uppercase tracking-widest mb-2">{tr({ es: 'Solo lo ves tú', en: 'Only you see this', ca: 'Només ho veus tu' })} · {nAlumnos ?? '…'} 👤</p>
           <p className="text-white/70 text-sm mb-3">{tr({ es: 'Pasa el enlace o el código a tus alumnos: eligen un apodo y juegan. Puedes quitar cualquier apodo con la ✕.', en: 'Give your students the link or the code: they pick a nickname and play. You can remove any nickname with the ✕.', ca: 'Passa l’enllaç o el codi als teus alumnes: trien un sobrenom i juguen. Pots treure qualsevol sobrenom amb la ✕.' })}</p>
           <div className="flex flex-wrap gap-2">
             <a className={botonGris} target="_blank" rel="noopener noreferrer" href={`https://classroom.google.com/share?url=${encodeURIComponent(enlace)}`}>🏫 Google Classroom</a>
             <button type="button" className={botonGris} onClick={copia}>{copiado ? '✅' : '🔗'} {copiado ? tr({ es: '¡Copiado!', en: 'Copied!', ca: 'Copiat!' }) : tr({ es: 'Copiar enlace', en: 'Copy link', ca: 'Copia l’enllaç' })}</button>
             <button type="button" className={botonGris} onClick={verQr}>📱 QR</button>
-            <button type="button" className={botonGris} onClick={async () => { await cerrarRanking(codigo, !ranking.cerrado); carga() }}>
+            <button type="button" className={botonGris} onClick={async () => { await cerrarRanking(codigo, !ranking.cerrado) }}>
               {ranking.cerrado ? `🔓 ${tr({ es: 'Reabrir', en: 'Reopen', ca: 'Reobrir' })}` : `🔒 ${tr({ es: 'Cerrar (nadie más suma)', en: 'Close (no more scores)', ca: 'Tancar (ningú més suma)' })}`}
             </button>
             <button type="button" className={`${botonGris} text-red-300`} onClick={async () => {

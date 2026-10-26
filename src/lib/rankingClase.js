@@ -4,10 +4,10 @@
 // por api/ranking-clase.js; aquí solo se lee y, el profe, modera.
 //
 // Firestore:
-//   rankingsClase/{codigo}                 { teacherId, nombre, createdAt, cerrado, nAlumnos }
+//   rankingsClase/{codigo}                 { teacherId, nombre, createdAt, cerrado }
 //   rankingsClase/{codigo}/alumnos/{disp}  { apodo, apodoKey, pid, unidoEn }   (solo el profe)
 //   rankingsClase/{codigo}/entradas/{pid__juego}  { pid, apodo, juego, puntos, actualizado }
-import { collection, doc, getDoc, getDocs, setDoc, updateDoc, deleteDoc, query, where, serverTimestamp, writeBatch } from 'firebase/firestore'
+import { collection, doc, getDoc, getDocs, setDoc, updateDoc, deleteDoc, query, where, serverTimestamp, writeBatch, onSnapshot, getCountFromServer } from 'firebase/firestore'
 import { db } from './firebase'
 import { generaCodigo, normalizaCodigo } from './apodo'
 
@@ -91,6 +91,20 @@ export async function leeEntradas(codigo, juego) {
   return s.docs.map(d => ({ id: d.id, ...d.data() })).sort((a, b) => b.puntos - a.puntos)
 }
 
+// En directo: el ranking y sus récords, avisando en cuanto cambian (la
+// pizarra se actualiza al momento). Devuelve la función para dejar de escuchar.
+export function escuchaRanking(codigo, { onRanking, onEntradas, onError }) {
+  const fuera1 = onSnapshot(doc(db, 'rankingsClase', codigo),
+    s => onRanking(s.exists() ? { codigo, ...s.data() } : null), onError)
+  const fuera2 = onSnapshot(collection(db, 'rankingsClase', codigo, 'entradas'),
+    s => onEntradas(s.docs.map(d => ({ id: d.id, ...d.data() })).sort((a, b) => b.puntos - a.puntos)), onError)
+  return () => { fuera1(); fuera2() }
+}
+// Cuántos alumnos se han unido (solo lo puede contar el profe)
+export async function cuentaAlumnos(codigo) {
+  return (await getCountFromServer(collection(db, 'rankingsClase', codigo, 'alumnos'))).data().count
+}
+
 // Agrupa por juego: [{ juego, filas: [...] }] con los juegos de más jugadores primero
 export function porJuego(entradas) {
   const m = new Map()
@@ -110,7 +124,7 @@ export async function crearRanking(uid, nombre) {
   for (let i = 0; i < 5; i++) {
     const codigo = generaCodigo()
     if (await leeRanking(codigo)) continue
-    await setDoc(doc(db, 'rankingsClase', codigo), { teacherId: uid, nombre: nombre.trim().slice(0, 60), createdAt: serverTimestamp(), cerrado: false, nAlumnos: 0 })
+    await setDoc(doc(db, 'rankingsClase', codigo), { teacherId: uid, nombre: nombre.trim().slice(0, 60), createdAt: serverTimestamp(), cerrado: false })
     return codigo
   }
   throw new Error('codigo')
