@@ -529,6 +529,48 @@ service cloud.firestore {
       allow write: if false;
     }
 
+    // ── Ranking de clase sin cuenta ────────────────────────────────────────────
+    // rankingsClase/{codigo}: lo crea cualquier usuario con cuenta (el profe),
+    // sin necesidad de ser profesor de pago. Lo lee quien sabe el código; la
+    // lista solo la del dueño. Los alumnos (apodo + id secreto del
+    // dispositivo) y sus récords los escribe SOLO api/ranking-clase.js con
+    // Admin: el alumno no tiene cuenta y no puede escribir aquí. El profe
+    // puede borrar apodos y récords (moderación).
+    match /rankingsClase/{codigo} {
+      function esDueno() {
+        return request.auth != null && !isChildSession()
+          && get(/databases/$(database)/documents/rankingsClase/$(codigo)).data.teacherId == request.auth.uid;
+      }
+      allow get: if true;
+      allow list: if request.auth != null && resource.data.teacherId == request.auth.uid;
+      allow create: if request.auth != null && !isChildSession()
+        && request.resource.data.keys().hasOnly(['teacherId', 'nombre', 'createdAt', 'cerrado', 'nAlumnos'])
+        && request.resource.data.teacherId == request.auth.uid
+        && request.resource.data.nombre is string
+        && request.resource.data.nombre.size() >= 1 && request.resource.data.nombre.size() <= 60
+        && request.resource.data.createdAt == request.time
+        && request.resource.data.cerrado == false
+        && request.resource.data.nAlumnos == 0
+        && codigo.matches('^[ABCDEFGHJKMNPQRSTUVWXYZ2-9]{6}$');
+      allow update: if request.auth != null && !isChildSession()
+        && resource.data.teacherId == request.auth.uid
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['nombre', 'cerrado'])
+        && request.resource.data.nombre is string
+        && request.resource.data.nombre.size() >= 1 && request.resource.data.nombre.size() <= 60
+        && request.resource.data.cerrado is bool;
+      allow delete: if request.auth != null && !isChildSession() && resource.data.teacherId == request.auth.uid;
+
+      match /alumnos/{dispositivo} {
+        allow read, delete: if esDueno();
+        allow create, update: if false;
+      }
+      match /entradas/{entradaId} {
+        allow read: if true;
+        allow delete: if esDueno();
+        allow create, update: if false;
+      }
+    }
+
     // ── Formularios públicos (cualquiera crea, solo admins leen/modifican) ────
     match /contactMessages/{docId} {
       allow create: if request.resource.data.keys().hasAll(['message'])

@@ -4,14 +4,14 @@
 // Google Classroom y en su aula virtual. Va dentro de DescubreTuthor, así que
 // sale en la intro y el final de cada juego y en los exámenes.
 import { useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import { trackEvent } from '../lib/analytics'
 
 const ORIGEN = 'https://www.tuthor.es'
 
 export default function CompartirClase() {
-  const { tr } = useLang()
+  const { tr, localPath } = useLang()
   const { pathname } = useLocation()
   const url = ORIGEN + pathname
   const [copiado, setCopiado] = useState(false)
@@ -56,6 +56,10 @@ export default function CompartirClase() {
           <span aria-hidden="true">📱</span>{tr({ es: 'QR para proyectar', en: 'QR code to project', ca: 'QR per projectar' })}
         </button>
       </div>
+
+      <Link to={localPath('/ranking')} className="inline-block mt-3 text-amber-200/90 text-sm font-bold hover:underline">
+        🏆 {tr({ es: 'Crea un ranking de clase: compiten con apodo, sin cuentas →', en: 'Create a class ranking: they compete with nicknames, no accounts →', ca: 'Crea un rànquing de classe: competeixen amb sobrenom, sense comptes →' })}
+      </Link>
 
       {qr && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 px-4" onClick={() => setQr(null)}>

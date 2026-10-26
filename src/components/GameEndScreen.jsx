@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import CoinsAnimation, { CoinsEarnedBadge } from './CoinsAnimation'
 import GameResultFooter from './GameResultFooter'
+import RankingClaseFin from './RankingClaseFin'
 import ShareButton from './ShareButton'
 import { computeCoins, GAMES as REGISTRO } from '../lib/games'
 import { consumeCompletedAssignments } from '../lib/activity'
@@ -119,6 +120,7 @@ export default function GameEndScreen({
 
             {children}
 
+            <RankingClaseFin game={game} score={Number(score) || 0} />
             <GameResultFooter game={game} score={score} user={user} lang={lang} />
           </div>
         </div>

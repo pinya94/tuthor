@@ -180,6 +180,15 @@ export default function ProfesorPanel() {
         })}
       </p>
 
+      <button type="button" onClick={() => navigate(localPath('/ranking'))}
+        className="w-full mb-6 flex items-center gap-3 rounded-2xl border border-amber-400/25 bg-amber-400/[0.05] hover:bg-amber-400/[0.1] px-4 py-3 text-left transition-colors">
+        <span className="text-2xl" aria-hidden="true">🏆</span>
+        <span className="min-w-0">
+          <span className="block text-white font-black text-sm">{tr({ es: 'Ranking de clase con apodos', en: 'Class ranking with nicknames', ca: 'Rànquing de classe amb sobrenoms' })}</span>
+          <span className="block text-white/45 text-xs">{tr({ es: 'Un código y tus alumnos compiten en los juegos sin crear cuenta. Se proyecta en la pizarra.', en: 'One code and your students compete in the games without an account. Project it on the board.', ca: 'Un codi i els teus alumnes competeixen als jocs sense compte. Es projecta a la pissarra.' })}</span>
+        </span>
+      </button>
+
       <form onSubmit={handleCreate} className="flex gap-2 mb-8">
         <input type="text" required value={newName} onChange={e => setNewName(e.target.value)}
           placeholder={tr({ es: 'Nombre de la clase (ej. 3º ESO A)', en: 'Class name (e.g. Grade 9A)', ca: 'Nom de la classe (ex. 3r ESO A)' })}
