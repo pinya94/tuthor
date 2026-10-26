@@ -19,6 +19,7 @@ import { desdeDiaISO } from '../lib/attendance'
 import Notas from '../components/Notas'
 import Observaciones from '../components/Observaciones'
 import BoletinFamilias from '../components/BoletinFamilias'
+import RetosPanel from '../components/reto/RetosPanel'
 import CorregirExamen from '../components/examenes/CorregirExamen'
 import { listarExamenes, asignarExamen, autocorregir, preguntasCompletas } from '../lib/examenesProfesor'
 import { puntosTotales, sinCalificar } from '../lib/examenModelo'
@@ -681,6 +682,10 @@ export default function ProfesorClase() {
 
       {tab === 'boletin' && (
         <BoletinFamilias classId={classId} claseName={clase.name} students={alumnosYFichas} lang={lang} tr={tr} />
+      )}
+
+      {tab === 'retos' && (
+        <RetosPanel uid={user.uid} classId={classId} nombreClase={clase.name} />
       )}
 
       {tab === 'ajustes' && (

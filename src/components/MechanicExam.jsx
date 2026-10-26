@@ -16,7 +16,7 @@
  *   renderQuestion ({ round, phase, answer, onAnswer }) => JSX  (dibuja la mecánica + input + feedback)
  */
 import { useState, useRef, useEffect, useMemo } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import { useAuth } from '../context/AuthContext'
 import { saveActivity } from '../lib/activity'
@@ -31,6 +31,7 @@ import { nivelDeClave, esClaveDeNivel } from '../lib/niveles'
 import { FICHAS_JUEGO_SLUGS } from '../data/fichasJuegoSlugs'
 import DescubreTuthor from './DescubreTuthor'
 import { trackFin } from '../lib/analytics'
+import ExamenReto from './reto/ExamenReto'
 
 const TOTAL = 10
 // Rondas de ejemplo por nivel que se publican en el JSON-LD. Con 3 niveles
@@ -227,6 +228,7 @@ export default function MechanicExam({
 }) {
   const { lang } = useLang()
   const { user } = useAuth()
+  const { search } = useLocation()
   const l = lang === 'en' ? 'en' : lang === 'ca' ? 'ca' : 'es'
 
   const [screen, setScreen] = useState('intro')  // intro | playing | end
@@ -335,6 +337,11 @@ export default function MechanicExam({
     const por = Math.max(1, Math.floor(schemaQuestions.length / Math.max(1, levels.length)))
     return levels.map((_, i) => schemaQuestions[i * por]).filter(Boolean).slice(0, 3)
   })()
+  // Abierto como reto de clase (?reto=CODIGO): deberes o partida en directo,
+  // con este mismo generador, corrección y pantalla de pregunta
+  const codigoReto = new URLSearchParams(search).get('reto')
+  if (codigoReto) return <ExamenReto codigo={codigoReto} gameId={gameId} title={title} levels={levels} genRound={genRound} isCorrect={isCorrect} renderQuestion={renderQuestion} pageMeta={pageMeta} />
+
   if (screen === 'intro') return <>{pageMeta}{quizSchema}<Intro badge={badge} title={title} sub={sub} levels={levels} onSelect={startExam} backGamePath={backGamePath} backLabel={backLabel} arte={arte} l={l} desc={tr(metaDesc, l)} ejemplos={ejemplos} slug={slugDeRuta(backGamePath)} /></>
   if (screen === 'end') return (
     <>{pageMeta}{quizSchema}

@@ -69,6 +69,15 @@ export const TEACHER_MODULES = {
       ca: 'Un informe per alumne i trimestre llest per imprimir o desar en PDF: notes, assistència i observacions en una sola pàgina per a la família.',
     },
   },
+  retos: {
+    emoji: '🏆', nucleo: false, porDefecto: true,
+    label: { es: 'Retos', en: 'Challenges', ca: 'Reptes' },
+    desc: {
+      es: 'Un juego para toda la clase sin que nadie cree cuenta: en directo desde la pizarra (cada uno responde en su móvil) o de deberes, con un código y un apodo.',
+      en: 'A game for the whole class with no accounts: live from the board (everyone answers on their phone) or as homework, with a code and a nickname.',
+      ca: 'Un joc per a tota la classe sense que ningú creï compte: en directe des de la pissarra (cadascú respon al mòbil) o de deures, amb un codi i un sobrenom.',
+    },
+  },
   deberes: {
     emoji: '📚', nucleo: true, porDefecto: true,
     label: { es: 'Deberes', en: 'Homework', ca: 'Deures' },

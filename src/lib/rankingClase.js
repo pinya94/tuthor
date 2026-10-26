@@ -1,10 +1,17 @@
-// Ranking de clase sin cuenta (cliente). El profe crea un ranking con su
-// cuenta y reparte el código; el alumno se une con código + apodo y sus
-// récords suben solos al acabar cada partida. Lo que escribe el alumno pasa
-// por api/ranking-clase.js; aquí solo se lee y, el profe, modera.
+// Retos de clase sin cuenta (cliente). El profe crea un reto con su cuenta y
+// reparte el código; el alumno se une con código + apodo. Tres modos:
+//   ranking  sus récords de cualquier juego suben solos al acabar cada partida
+//   deberes  un examen (con su nivel y una nota del profe); cuenta su mejor nota
+//   directo  el profe lleva la partida desde la pizarra; los móviles responden
+// Lo que escribe el alumno pasa por api/ranking-clase.js; aquí se lee y el
+// profe modera y, en directo, lleva el ritmo.
 //
 // Firestore:
-//   rankingsClase/{codigo}                 { teacherId, nombre, createdAt, cerrado }
+//   rankingsClase/{codigo}                 { teacherId, nombre, createdAt, cerrado,
+//                                            modo, examen, nivel, nPreguntas, segundos, nota, classId,
+//                                            directo: { estado, i, inicio, ronda } }
+//   rankingsClase/{codigo}/marcador/{pid}  { pid, apodo, puntos, aciertos }           (directo)
+//   rankingsClase/{codigo}/respuestas/{pid__i}  { pid, i, correcta, puntos }        (directo)
 //   rankingsClase/{codigo}/alumnos/{disp}  { apodo, apodoKey, pid, unidoEn }   (solo el profe)
 //   rankingsClase/{codigo}/entradas/{pid__juego}  { pid, apodo, juego, puntos, actualizado }
 import { collection, doc, getDoc, getDocs, setDoc, updateDoc, deleteDoc, query, where, serverTimestamp, writeBatch, onSnapshot, getCountFromServer } from 'firebase/firestore'
@@ -12,6 +19,7 @@ import { db } from './firebase'
 import { generaCodigo, normalizaCodigo } from './apodo'
 
 const CLAVE = 'tuthor_ranking_clase'
+const CLAVE_RETOS = 'tuthor_retos' // { codigo: { apodo, nombre, pid, modo } } de todos los retos en que está
 const CLAVE_DISP = 'tuthor_dispositivo'
 
 // ── Alumno ──────────────────────────────────────────────────────────────────
@@ -36,6 +44,16 @@ export function salirDelRanking() {
   window.dispatchEvent(new Event('tuthor:ranking-clase'))
 }
 
+// Los retos en que está este dispositivo (deberes y directo no cambian el
+// ranking libre de miRanking)
+function retos() { try { return JSON.parse(leeLocal(CLAVE_RETOS) ?? '{}') ?? {} } catch { return {} } }
+export const miembroDe = codigo => retos()[codigo] ?? null
+function olvida(codigo) {
+  const r = retos(); delete r[codigo]; guardaLocal(CLAVE_RETOS, JSON.stringify(r))
+  if (miRanking()?.codigo === codigo) guardaLocal(CLAVE, null)
+  window.dispatchEvent(new Event('tuthor:ranking-clase'))
+}
+
 async function llama(cuerpo) {
   const r = await fetch('/api/ranking-clase', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(cuerpo) })
   let j = {}
@@ -47,9 +65,11 @@ async function llama(cuerpo) {
 export async function unirse(codigoCrudo, apodo) {
   const codigo = normalizaCodigo(codigoCrudo)
   const j = await llama({ accion: 'unirse', codigo, dispositivo: dispositivo(), apodo })
-  guardaLocal(CLAVE, JSON.stringify({ codigo, apodo: j.apodo, nombre: j.nombre, pid: j.pid }))
+  const yo = { codigo, apodo: j.apodo, nombre: j.nombre, pid: j.pid, modo: j.modo }
+  guardaLocal(CLAVE_RETOS, JSON.stringify({ ...retos(), [codigo]: yo }))
+  if ((j.modo ?? 'ranking') === 'ranking') guardaLocal(CLAVE, JSON.stringify(yo))
   window.dispatchEvent(new Event('tuthor:ranking-clase'))
-  return j
+  return { ...j, codigo }
 }
 
 // Sube el récord de una partida. Si el profe cerró o borró el ranking, o
@@ -65,10 +85,31 @@ export async function enviarPuntos(juego, puntos) {
   }
 }
 
+// La nota de un examen de deberes (aciertos sobre 10, en puntos 0-100)
+export async function enviarNota(codigo, examen, puntos) {
+  try {
+    return await llama({ accion: 'puntos', codigo, dispositivo: dispositivo(), juego: examen, puntos: Math.round(puntos) })
+  } catch (e) {
+    if (['no_existe', 'no_unido'].includes(e.message)) olvida(codigo)
+    return { error: e.message }
+  }
+}
+// Una respuesta en directo (el acierto lo calcula el propio juego)
+export async function responder(codigo, i, correcta) {
+  try {
+    return await llama({ accion: 'responde', codigo, dispositivo: dispositivo(), i, correcta: !!correcta })
+  } catch (e) {
+    if (['no_existe', 'no_unido'].includes(e.message)) olvida(codigo)
+    return { error: e.message }
+  }
+}
+
 // Mensajes de error del servidor, para la pantalla
 export const ERRORES = {
   codigo: { es: 'Ese código no es válido: son 6 letras y números.', en: 'That code isn’t valid: it’s 6 letters and numbers.', ca: 'Aquest codi no és vàlid: són 6 lletres i números.' },
   no_existe: { es: 'No hay ningún ranking con ese código.', en: 'There’s no ranking with that code.', ca: 'No hi ha cap rànquing amb aquest codi.' },
+  otro_juego: { es: 'Este reto es de otro juego.', en: 'This challenge is for a different game.', ca: 'Aquest repte és d’un altre joc.' },
+  tarde: { es: 'Se acabó el tiempo de esta pregunta.', en: 'Time’s up for this question.', ca: 'S’ha acabat el temps d’aquesta pregunta.' },
   cerrado: { es: 'Tu profe ha cerrado este ranking.', en: 'Your teacher has closed this ranking.', ca: 'El teu profe ha tancat aquest rànquing.' },
   lleno: { es: 'Este ranking ya está lleno.', en: 'This ranking is already full.', ca: 'Aquest rànquing ja és ple.' },
   apodo_ocupado: { es: 'Ese apodo ya lo usa alguien de tu clase. Prueba otro.', en: 'Someone in your class already has that nickname. Try another.', ca: 'Aquest sobrenom ja el fa servir algú de la classe. Prova’n un altre.' },
@@ -100,6 +141,35 @@ export function escuchaRanking(codigo, { onRanking, onEntradas, onError }) {
     s => onEntradas(s.docs.map(d => ({ id: d.id, ...d.data() })).sort((a, b) => b.puntos - a.puntos)), onError)
   return () => { fuera1(); fuera2() }
 }
+// En directo: el reto (con su estado) y una colección suya, al momento
+export const escuchaReto = (codigo, cb, onError) =>
+  onSnapshot(doc(db, 'rankingsClase', codigo), s => cb(s.exists() ? { codigo, ...s.data() } : null), onError)
+export const escuchaColeccion = (codigo, col, cb, filtro) =>
+  onSnapshot(filtro ? query(collection(db, 'rankingsClase', codigo, col), where(...filtro)) : collection(db, 'rankingsClase', codigo, col),
+    s => cb(s.docs.map(d => ({ id: d.id, ...d.data() }))), () => cb([]))
+
+// ── Pizarra (el profe lleva el ritmo) ───────────────────────────────────────
+// La pregunta va como texto JSON: la genera la pizarra con el generador del
+// juego y así TODOS los móviles ven la misma (y Firestore no admite listas
+// dentro de listas, que algunas rondas llevan).
+export const lanzaPregunta = (codigo, i, ronda) =>
+  updateDoc(doc(db, 'rankingsClase', codigo), { directo: { estado: 'pregunta', i, inicio: serverTimestamp(), ronda: JSON.stringify(ronda) } })
+export const muestraSolucion = (codigo, dir) =>
+  updateDoc(doc(db, 'rankingsClase', codigo), { directo: { ...dir, estado: 'solucion' } })
+export const terminaDirecto = (codigo, dir) =>
+  updateDoc(doc(db, 'rankingsClase', codigo), { directo: { ...dir, estado: 'fin' } })
+// Volver a jugar: borra marcador y respuestas y vuelve a la sala
+export async function reiniciaDirecto(codigo) {
+  const cols = await Promise.all(['marcador', 'respuestas'].map(c => getDocs(collection(db, 'rankingsClase', codigo, c))))
+  const docs = cols.flatMap(c => c.docs)
+  for (let i = 0; i < docs.length; i += 400) {
+    const lote = writeBatch(db)
+    docs.slice(i, i + 400).forEach(d => lote.delete(d.ref))
+    await lote.commit()
+  }
+  await updateDoc(doc(db, 'rankingsClase', codigo), { directo: { estado: 'sala', i: -1 } })
+}
+
 // Cuántos alumnos se han unido (solo lo puede contar el profe)
 export async function cuentaAlumnos(codigo) {
   return (await getCountFromServer(collection(db, 'rankingsClase', codigo, 'alumnos'))).data().count
@@ -120,11 +190,20 @@ export function posiciones(filas) {
 }
 
 // ── Profe ───────────────────────────────────────────────────────────────────
-export async function crearRanking(uid, nombre) {
+export const crearRanking = (uid, nombre) => crearReto(uid, { nombre, modo: 'ranking' })
+// opciones: { nombre, modo, examen, nivel, nPreguntas, segundos, nota, classId }
+export async function crearReto(uid, o) {
+  const datos = { teacherId: uid, nombre: String(o.nombre).trim().slice(0, 60), createdAt: serverTimestamp(), cerrado: false, modo: o.modo ?? 'ranking' }
+  if (datos.modo !== 'ranking') {
+    Object.assign(datos, { examen: o.examen, nivel: o.nivel ?? 0, nPreguntas: o.nPreguntas ?? 10 })
+    if (datos.modo === 'directo') datos.segundos = o.segundos ?? 30
+  }
+  if (o.nota?.trim()) datos.nota = o.nota.trim().slice(0, 400)
+  if (o.classId) datos.classId = o.classId
   for (let i = 0; i < 5; i++) {
     const codigo = generaCodigo()
     if (await leeRanking(codigo)) continue
-    await setDoc(doc(db, 'rankingsClase', codigo), { teacherId: uid, nombre: nombre.trim().slice(0, 60), createdAt: serverTimestamp(), cerrado: false })
+    await setDoc(doc(db, 'rankingsClase', codigo), datos)
     return codigo
   }
   throw new Error('codigo')
@@ -150,15 +229,18 @@ export async function borrarAlumno(codigo, pid) {
 }
 
 export async function borrarRanking(codigo) {
-  const [alumnos, entradas] = await Promise.all([
-    getDocs(collection(db, 'rankingsClase', codigo, 'alumnos')),
-    getDocs(collection(db, 'rankingsClase', codigo, 'entradas')),
-  ])
-  const docs = [...alumnos.docs, ...entradas.docs]
+  const cols = await Promise.all(['alumnos', 'entradas', 'marcador', 'respuestas'].map(c => getDocs(collection(db, 'rankingsClase', codigo, c))))
+  const docs = cols.flatMap(c => c.docs)
   for (let i = 0; i < docs.length; i += 400) {
     const lote = writeBatch(db)
     docs.slice(i, i + 400).forEach(d => lote.delete(d.ref))
     await lote.commit()
   }
   await deleteDoc(doc(db, 'rankingsClase', codigo))
+}
+
+// El nivel del reto en los niveles de un examen (no todos tienen tres)
+export function nivelDelReto(levels, nivel = 0) {
+  const lv = levels?.[Math.min(nivel, (levels?.length ?? 1) - 1)] ?? levels?.[0]
+  return { lv, difficulty: lv?.difficulty ?? lv?.key ?? lv }
 }

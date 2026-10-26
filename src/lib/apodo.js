@@ -52,3 +52,15 @@ export function validaApodo(raw) {
 export const juegoValido = g => /^[a-z0-9-]{2,40}$/.test(String(g ?? ''))
 export const puntosValidos = p => Number.isInteger(p) && p >= 0 && p <= MAX_PUNTOS
 export const dispositivoValido = d => /^[a-zA-Z0-9-]{16,40}$/.test(String(d ?? ''))
+
+// ── Retos ────────────────────────────────────────────────────────────────────
+export const MODOS = ['ranking', 'deberes', 'directo']
+export const SEGUNDOS = [15, 20, 30, 45, 60, 90]
+export const N_PREGUNTAS = [5, 10, 15, 20]
+// Puntos de una respuesta en directo, como en los concursos: 500 por acertar
+// y hasta 500 más por rapidez (t = ms desde que salió la pregunta, T = tiempo
+// que había). Fallar o no contestar, 0.
+export function puntosDirecto(correcta, t, T) {
+  if (!correcta) return 0
+  return 500 + Math.round(500 * Math.max(0, Math.min(1, 1 - t / T)))
+}

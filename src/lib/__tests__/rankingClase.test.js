@@ -143,3 +143,50 @@ describe('api/ranking-clase', () => {
     expect((await llama({ accion: 'unirse', codigo: 'ABC234', dispositivo: D2, apodo: 'Sol' })).error).toBe('cerrado')
   })
 })
+
+describe('api/ranking-clase · retos', () => {
+  const ahora = () => ({ toMillis: () => Date.now() })
+  const hace = ms => ({ toMillis: () => Date.now() - ms })
+  beforeEach(() => {
+    datos.clear()
+    datos.set('rankingsClase/DEB234', { teacherId: 'profe', nombre: 'Deberes', cerrado: false, modo: 'deberes', examen: 'rebajas-test', nivel: 1, nPreguntas: 10 })
+    datos.set('rankingsClase/DRT234', { teacherId: 'profe', nombre: 'Directo', cerrado: false, modo: 'directo', examen: 'rebajas-test', segundos: 20, directo: { estado: 'sala', i: -1 } })
+  })
+
+  it('deberes: solo cuenta su examen, la mejor nota y todos los intentos', async () => {
+    const u = await llama({ accion: 'unirse', codigo: 'DEB234', dispositivo: D1, apodo: 'Lucía Pérez' })
+    expect(u).toMatchObject({ modo: 'deberes', examen: 'rebajas-test' })
+    expect((await llama({ accion: 'puntos', codigo: 'DEB234', dispositivo: D1, juego: 'engranajes', puntos: 90 })).error).toBe('otro_juego')
+    // Un 0 también se entrega: el profe tiene que verlo
+    expect(await llama({ accion: 'puntos', codigo: 'DEB234', dispositivo: D1, juego: 'rebajas-test', puntos: 0 })).toMatchObject({ record: true, intentos: 1 })
+    datos.get(`rankingsClase/DEB234/entradas/${u.pid}__rebajas-test`).actualizado = hace(10000)
+    expect(await llama({ accion: 'puntos', codigo: 'DEB234', dispositivo: D1, juego: 'rebajas-test', puntos: 70 })).toMatchObject({ record: true, mejor: 70, intentos: 2 })
+    expect(await llama({ accion: 'puntos', codigo: 'DEB234', dispositivo: D1, juego: 'rebajas-test', puntos: 40 })).toMatchObject({ record: false, mejor: 70, intentos: 3 })
+  })
+
+  it('directo: una respuesta por pregunta, a tiempo, con más puntos cuanto antes', async () => {
+    const a = await llama({ accion: 'unirse', codigo: 'DRT234', dispositivo: D1, apodo: 'Rayo' })
+    const b = await llama({ accion: 'unirse', codigo: 'DRT234', dispositivo: D2, apodo: 'Trueno' })
+    // Antes de empezar no se puede responder
+    expect((await llama({ accion: 'responde', codigo: 'DRT234', dispositivo: D1, i: 0, correcta: true })).error).toBe('cerrada')
+    datos.get('rankingsClase/DRT234').directo = { estado: 'pregunta', i: 0, inicio: hace(2000) }
+    const r1 = await llama({ accion: 'responde', codigo: 'DRT234', dispositivo: D1, i: 0, correcta: true })
+    expect(r1.puntos).toBeGreaterThan(900)
+    expect((await llama({ accion: 'responde', codigo: 'DRT234', dispositivo: D1, i: 0, correcta: true })).error).toBe('ya')
+    expect((await llama({ accion: 'responde', codigo: 'DRT234', dispositivo: D1, i: 1, correcta: true })).error).toBe('cerrada')
+    expect(await llama({ accion: 'responde', codigo: 'DRT234', dispositivo: D2, i: 0, correcta: false })).toMatchObject({ puntos: 0 })
+    // Segunda pregunta: Trueno acierta tarde pero dentro del margen; Rayo, fuera de tiempo
+    datos.get('rankingsClase/DRT234').directo = { estado: 'pregunta', i: 1, inicio: hace(21000) }
+    expect(await llama({ accion: 'responde', codigo: 'DRT234', dispositivo: D2, i: 1, correcta: true })).toMatchObject({ puntos: 500 })
+    datos.get('rankingsClase/DRT234').directo = { estado: 'pregunta', i: 1, inicio: hace(25000) }
+    expect((await llama({ accion: 'responde', codigo: 'DRT234', dispositivo: D1, i: 1, correcta: true })).error).toBe('tarde')
+    // El marcador: uno por alumno, con su apodo y sin el id del dispositivo
+    const ma = datos.get(`rankingsClase/DRT234/marcador/${a.pid}`), mb = datos.get(`rankingsClase/DRT234/marcador/${b.pid}`)
+    expect(ma).toMatchObject({ apodo: 'Rayo', aciertos: 1, puntos: r1.puntos })
+    expect(mb).toMatchObject({ apodo: 'Trueno', aciertos: 1, puntos: 500 })
+    expect(JSON.stringify([...datos.entries()].filter(([p]) => /marcador|respuestas/.test(p)))).not.toContain(D1)
+    // Con la solución en pantalla ya no se acepta nada
+    datos.get('rankingsClase/DRT234').directo = { estado: 'solucion', i: 1, inicio: ahora() }
+    expect((await llama({ accion: 'responde', codigo: 'DRT234', dispositivo: D1, i: 1, correcta: true })).error).toBe('cerrada')
+  })
+})

@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import { miRanking, unirse, enviarPuntos, leeEntradas, posiciones, salirDelRanking, ERRORES } from '../lib/rankingClase'
 
-export function FormUnirse({ codigoInicial = '', onUnido, compacto = false }) {
+export function FormUnirse({ codigoInicial = '', onUnido, compacto = false, conNota = false }) {
   const { tr } = useLang()
   const [codigo, setCodigo] = useState(codigoInicial)
   const [apodo, setApodo] = useState('')
@@ -28,14 +28,16 @@ export function FormUnirse({ codigoInicial = '', onUnido, compacto = false }) {
           className={`${campo} font-mono tracking-widest uppercase`} />
       )}
       <input value={apodo} onChange={e => setApodo(e.target.value)} maxLength={16} required
-        placeholder={tr({ es: 'Tu apodo', en: 'Your nickname', ca: 'El teu sobrenom' })} className={campo} />
+        placeholder={conNota ? tr({ es: 'Tu nombre', en: 'Your name', ca: 'El teu nom' }) : tr({ es: 'Tu apodo', en: 'Your nickname', ca: 'El teu sobrenom' })} className={campo} />
       <p className="text-white/40 text-[11px] leading-snug">
-        {tr({ es: 'Usa un apodo, no tu nombre y apellidos. Tu profe lo verá y puede borrarlo. No hace falta cuenta.', en: 'Use a nickname, not your full name. Your teacher will see it and can delete it. No account needed.', ca: 'Fes servir un sobrenom, no el teu nom i cognoms. El teu profe el veurà i el pot esborrar. No cal compte.' })}
+        {conNota
+          ? tr({ es: 'Escribe el nombre que te pida tu profe (mira su nota). Lo verá tu profe. No hace falta cuenta.', en: 'Type the name your teacher asks for (see their note). Your teacher will see it. No account needed.', ca: 'Escriu el nom que et demani el teu profe (mira la seva nota). El veurà el teu profe. No cal compte.' })
+          : tr({ es: 'Usa un apodo, no tu nombre y apellidos. Tu profe lo verá y puede borrarlo. No hace falta cuenta.', en: 'Use a nickname, not your full name. Your teacher will see it and can delete it. No account needed.', ca: 'Fes servir un sobrenom, no el teu nom i cognoms. El teu profe el veurà i el pot esborrar. No cal compte.' })}
       </p>
       {error && <p className="text-red-300 text-xs font-bold">{error}</p>}
       <button type="submit" disabled={enviando}
         className={`w-full rounded-xl bg-amber-400 hover:bg-amber-300 text-black font-black ${compacto ? 'py-2 text-sm' : 'py-3'} disabled:opacity-50`}>
-        {enviando ? '…' : tr({ es: 'Entrar en el ranking', en: 'Join the ranking', ca: 'Entrar al rànquing' })}
+        {enviando ? '…' : tr({ es: 'Entrar', en: 'Join', ca: 'Entrar' })}
       </button>
     </form>
   )

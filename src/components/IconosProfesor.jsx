@@ -1,7 +1,7 @@
 // Iconos de la parte del profesor (panel, clase, módulos y herramientas del
 // aula), en el mismo estilo que Iconos.jsx: 24×24, planos, sin degradados.
 // Sustituyen a los emojis que hacían de icono en pestañas y botones.
-import { Libro, Moneda, Racha, Reloj, Lista } from './Iconos'
+import { Libro, Moneda, Racha, Reloj, Lista, Trofeo } from './Iconos'
 
 const base = { viewBox: '0 0 24 24', fill: 'none', xmlns: 'http://www.w3.org/2000/svg', 'aria-hidden': true }
 const trazo = { ...base, stroke: 'currentColor', strokeWidth: 2, strokeLinecap: 'round', strokeLinejoin: 'round' }
@@ -218,6 +218,7 @@ export const ICONO_MODULO = {
   asistencia: PasarLista,
   observaciones: Libreta,
   boletin: Boletin,
+  retos: Trofeo,
   deberes: Libro,
   alumnos: Grupo,
 }

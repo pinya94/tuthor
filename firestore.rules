@@ -543,8 +543,20 @@ service cloud.firestore {
       }
       allow get: if true;
       allow list: if request.auth != null && resource.data.teacherId == request.auth.uid;
+      // Un reto: ranking libre, deberes (un examen, con nota del profe) o en
+      // directo (el profe lleva el ritmo desde la pizarra: campo «directo»).
+      function retoValido(d) {
+        return (!('modo' in d) || d.modo in ['ranking', 'deberes', 'directo'])
+          && (!('examen' in d) || (d.examen is string && d.examen.size() <= 60))
+          && (!('nivel' in d) || (d.nivel is int && d.nivel >= 0 && d.nivel <= 5))
+          && (!('nPreguntas' in d) || (d.nPreguntas is int && d.nPreguntas >= 1 && d.nPreguntas <= 30))
+          && (!('segundos' in d) || (d.segundos is int && d.segundos >= 5 && d.segundos <= 300))
+          && (!('nota' in d) || (d.nota is string && d.nota.size() <= 400))
+          && (!('classId' in d) || d.classId is string);
+      }
       allow create: if request.auth != null && !isChildSession()
-        && request.resource.data.keys().hasOnly(['teacherId', 'nombre', 'createdAt', 'cerrado'])
+        && request.resource.data.keys().hasOnly(['teacherId', 'nombre', 'createdAt', 'cerrado', 'modo', 'examen', 'nivel', 'nPreguntas', 'segundos', 'nota', 'classId'])
+        && retoValido(request.resource.data)
         && request.resource.data.teacherId == request.auth.uid
         && request.resource.data.nombre is string
         && request.resource.data.nombre.size() >= 1 && request.resource.data.nombre.size() <= 60
@@ -553,7 +565,8 @@ service cloud.firestore {
         && codigo.matches('^[ABCDEFGHJKMNPQRSTUVWXYZ2-9]{6}$');
       allow update: if request.auth != null && !isChildSession()
         && resource.data.teacherId == request.auth.uid
-        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['nombre', 'cerrado'])
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['nombre', 'cerrado', 'directo', 'nota'])
+        && retoValido(request.resource.data)
         && request.resource.data.nombre is string
         && request.resource.data.nombre.size() >= 1 && request.resource.data.nombre.size() <= 60
         && request.resource.data.cerrado is bool;
@@ -564,6 +577,17 @@ service cloud.firestore {
         allow create, update: if false;
       }
       match /entradas/{entradaId} {
+        allow read: if true;
+        allow delete: if esDueno();
+        allow create, update: if false;
+      }
+      // En directo: el marcador (uno por alumno) y cada respuesta
+      match /marcador/{pid} {
+        allow read: if true;
+        allow delete: if esDueno();
+        allow create, update: if false;
+      }
+      match /respuestas/{respId} {
         allow read: if true;
         allow delete: if esDueno();
         allow create, update: if false;
