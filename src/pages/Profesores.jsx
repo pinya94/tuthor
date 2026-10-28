@@ -461,7 +461,7 @@ export default function Profesores() {
           <div className="grid sm:grid-cols-3 gap-3 max-w-3xl mx-auto mt-6">
             {[
               ['1', { es: 'Crea el reto', en: 'Create the challenge', ca: 'Crea el repte' }, { es: 'En tu aula, pestaña Retos: elige juego, nivel y segundos por pregunta.', en: 'In your class, Challenges tab: pick the game, level and seconds per question.', ca: 'A la teva aula, pestanya Reptes: tria joc, nivell i segons per pregunta.' }],
-              ['2', { es: 'Proyecta el código', en: 'Project the code', ca: 'Projecta el codi' }, { es: 'Entran en tuthor.es/reto con el código o el QR y escriben su nombre.', en: 'They go to tuthor.es/reto with the code or the QR and type their name.', ca: 'Entren a tuthor.es/reto amb el codi o el QR i escriuen el seu nom.' }],
+              ['2', { es: 'Proyecta el código', en: 'Project the code', ca: 'Projecta el codi' }, { es: 'Entran en tuthor.es/reto con el código o el QR y escriben su nombre.', en: 'They go to tuthor.es/en/reto with the code or the QR and type their name.', ca: 'Entren a tuthor.es/ca/reto amb el codi o el QR i escriuen el seu nom.' }],
               ['3', { es: 'A jugar', en: 'Play', ca: 'A jugar' }, { es: 'Tú pasas las preguntas; ellos responden en el móvil. Al final, el podio.', en: 'You move through the questions; they answer on their phones. At the end, the podium.', ca: 'Tu passes les preguntes; ells responen al mòbil. Al final, el podi.' }],
             ].map(([n, t, d]) => (
               <div key={n} className="rounded-2xl bg-[#141b2e] border border-white/[0.08] p-4">
@@ -477,7 +477,7 @@ export default function Profesores() {
               className="inline-block px-6 py-3.5 bg-amber-400 hover:bg-amber-300 text-black font-black text-sm rounded-xl transition-transform hover:scale-[1.02]">
               🏆 {tr({ es: 'Crear un reto gratis →', en: 'Create a free challenge →', ca: 'Crear un repte gratis →' })}
             </button>
-            <p className="text-white/40 text-xs mt-2">{tr({ es: 'Tus alumnos entran en tuthor.es/reto con el código: no necesitan cuenta.', en: 'Your students go to tuthor.es/reto with the code: no account needed.', ca: 'Els alumnes entren a tuthor.es/reto amb el codi: no necessiten compte.' })}</p>
+            <p className="text-white/40 text-xs mt-2">{tr({ es: 'Tus alumnos entran en tuthor.es/reto con el código: no necesitan cuenta.', en: 'Your students go to tuthor.es/en/reto with the code: no account needed.', ca: 'Els alumnes entren a tuthor.es/ca/reto amb el codi: no necessiten compte.' })}</p>
           </div>
         </section>
 

@@ -111,12 +111,13 @@ function Portada({ tr, onPlay }) {
 }
 
 function Titulo({ t }) {
+  const { lang } = useLang()
   const a = p(t, 0.2, 1.4)
   return (
     <div className="absolute inset-0 flex flex-col items-center justify-center" style={{ opacity: a, transform: `scale(${0.9 + 0.1 * a})` }}>
       <span className="rounded-full bg-amber-400 text-black font-black px-4 py-1 text-[clamp(10px,1.8vw,16px)] mb-[2%]">NUEVO · NEW</span>
       <span className="text-[clamp(30px,8vw,80px)]">📺 🏆 📱</span>
-      <span className="text-white/70 text-[clamp(11px,2.2vw,22px)] mt-[2%]">tuthor.es/reto</span>
+      <span className="text-white/70 text-[clamp(11px,2.2vw,22px)] mt-[2%]">{`tuthor.es${lang === 'es' ? '' : `/${lang}`}/reto`}</span>
     </div>
   )
 }
@@ -165,12 +166,13 @@ function Qr() {
 }
 
 function Sala({ t, tr }) {
+  const { lang } = useLang()
   const [a] = ESC.sala
   const n = Math.min(24, Math.floor(Math.max(0, t - a - 0.8) * 4.6))
   return (
     <div className="absolute inset-[5%_6%_9%] flex gap-[4%]">
       <div className="flex-1 min-w-0">
-        <p className={`text-white/60 ${txt}`}>{tr({ es: 'Entra en', en: 'Go to', ca: 'Entra a' })} <b className="text-white">tuthor.es/reto</b></p>
+        <p className={`text-white/60 ${txt}`}>{tr({ es: 'Entra en', en: 'Go to', ca: 'Entra a' })} <b className="text-white">{`tuthor.es${lang === 'es' ? '' : `/${lang}`}/reto`}</b></p>
         <p className="font-mono font-black text-amber-300 tracking-[0.15em] text-[clamp(26px,7vw,72px)] leading-none my-[3%]">{CODIGO}</p>
         <p className={`text-white/60 font-bold mb-[2%] ${txt}`}>{n} {tr({ es: 'alumnos dentro', en: 'students in', ca: 'alumnes dins' })}</p>
         <div className="flex flex-wrap gap-[1.2%]">

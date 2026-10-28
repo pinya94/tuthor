@@ -61,7 +61,7 @@ export default function Pizarra({ codigo, reto, title, lv, difficulty, genRound,
           <div>
             <p className="text-white/45 text-sm font-bold uppercase tracking-widest">{reto.amigos ? `🎉 ${tr({ es: 'Partida con amigos', en: 'Game with friends', ca: 'Partida amb amics' })}` : `📺 ${tr({ es: 'Partida en directo', en: 'Live game', ca: 'Partida en directe' })}`} · {title?.[l] ?? title?.es} · {lv?.emoji} {lv?.label?.[l] ?? lv?.label?.es ?? ''}</p>
             <h1 className="text-white font-black text-4xl md:text-5xl leading-tight mt-1">{reto.nombre}</h1>
-            <p className="text-white/70 text-xl md:text-2xl mt-6">{tr({ es: 'Entra en', en: 'Go to', ca: 'Entra a' })} <b className="text-white">tuthor.es/reto</b> {tr({ es: 'con el código', en: 'with the code', ca: 'amb el codi' })}</p>
+            <p className="text-white/70 text-xl md:text-2xl mt-6">{tr({ es: 'Entra en', en: 'Go to', ca: 'Entra a' })} <b className="text-white">{`tuthor.es${lang === 'es' ? '' : `/${lang}`}/reto`}</b> {tr({ es: 'con el código', en: 'with the code', ca: 'amb el codi' })}</p>
             <p className="font-mono font-black text-amber-300 tracking-[0.25em] text-6xl md:text-8xl mt-2">{codigo}</p>
             <div className="mt-5 max-w-xl"><NotaProfe nota={reto.nota} /></div>
             <div className="mt-8 flex flex-wrap items-center gap-3">

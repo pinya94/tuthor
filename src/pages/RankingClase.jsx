@@ -159,7 +159,7 @@ function UnRanking({ codigo, profe }) {
         </div>
       </div>
 
-      {proyectar && <p className="text-white/60 text-lg mb-4">{tr({ es: 'Entra en', en: 'Go to', ca: 'Entra a' })} <b className="text-white">tuthor.es/reto</b> {tr({ es: 'y escribe el código', en: 'and type the code', ca: 'i escriu el codi' })}</p>}
+      {proyectar && <p className="text-white/60 text-lg mb-4">{tr({ es: 'Entra en', en: 'Go to', ca: 'Entra a' })} <b className="text-white">{`tuthor.es${lang === 'es' ? '' : `/${lang}`}/reto`}</b> {tr({ es: 'y escribe el código', en: 'and type the code', ca: 'i escriu el codi' })}</p>}
 
       {/* El alumno: entrar (los retos, en su examen con la nota del profe) */}
       {!profe && dueno && (
