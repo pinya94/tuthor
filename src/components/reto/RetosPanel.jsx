@@ -9,7 +9,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useLang } from '../../context/LangContext'
 import { EXAMS, examLabel } from '../../lib/exams'
-import { RETOS_EXAMENES } from '../../data/retosExamenes'
+import { RETOS_TODOS, esTest } from '../../data/retosExamenes'
 import { SEGUNDOS, N_PREGUNTAS } from '../../lib/apodo'
 import { crearReto, misRankings } from '../../lib/rankingClase'
 import { getTeacherClasses } from '../../lib/classes'
@@ -39,9 +39,9 @@ function SelectorJuego({ valor, onElige }) {
   const [busca, setBusca] = useState('')
   const grupos = useMemo(() => {
     const q = sinTildes(busca.trim())
-    const items = RETOS_EXAMENES.filter(id => EXAMS[id]).map(id => ({ id, emoji: EXAMS[id].emoji ?? '🎮', label: sinColetilla(examLabel(id, lang)), materia: EXAMS[id].subject }))
+    const items = RETOS_TODOS.filter(id => EXAMS[id]).map(id => ({ id, emoji: EXAMS[id].emoji ?? '🎮', label: sinColetilla(examLabel(id, lang)), materia: EXAMS[id].subject, test: esTest(id) }))
       .filter(x => !q || sinTildes(x.label).includes(q))
-    return SUBJECT_DEFS.map(m => ({ m, items: items.filter(x => x.materia === m.id).sort((a, b) => a.label.localeCompare(b.label, lang)) }))
+    return SUBJECT_DEFS.map(m => ({ m, items: items.filter(x => x.materia === m.id).sort((a, b) => a.test - b.test || a.label.localeCompare(b.label, lang)) }))
       .filter(g => g.items.length)
   }, [busca, lang])
   const elegido = valor && EXAMS[valor]
@@ -68,7 +68,7 @@ function SelectorJuego({ valor, onElige }) {
               {items.map(x => (
                 <button key={x.id} type="button" onClick={() => { onElige(x.id); setAbierto(false); setBusca('') }}
                   className={`flex items-center gap-2 rounded-lg px-2 py-1.5 text-left text-sm ${x.id === valor ? 'bg-teal-500/25 text-white font-bold' : 'text-white/85 hover:bg-white/[0.08]'}`}>
-                  <span className="text-lg shrink-0">{x.emoji}</span><span className="truncate">{x.label}</span>
+                  <span className="text-lg shrink-0">{x.emoji}</span><span className="truncate flex-1">{x.label}</span><span className={`shrink-0 text-[10px] font-bold rounded px-1.5 py-0.5 ${x.test ? 'bg-sky-500/15 text-sky-300' : 'bg-amber-400/15 text-amber-300'}`}>{x.test ? tr({ es: 'test', en: 'quiz', ca: 'test' }) : tr({ es: 'juego', en: 'game', ca: 'joc' })}</span>
                 </button>
               ))}
             </div>

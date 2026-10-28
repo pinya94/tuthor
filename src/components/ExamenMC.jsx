@@ -27,6 +27,9 @@ import { ordenOpciones } from '../lib/ordenOpciones'
 import EjemplosExamen from './EjemplosExamen'
 import DescubreTuthor from './DescubreTuthor'
 import { trackFin } from '../lib/analytics'
+import ExamenReto from './reto/ExamenReto'
+import { PreguntaTest } from './reto/PreguntaTest'
+import { generadorTest, esCorrectaTest, nivelesDeTest } from '../lib/retoTest'
 
 const TOTAL      = 10
 const MAX_ERRORS = 2
@@ -127,6 +130,8 @@ export default function ExamenMC({ titulo, emoji, nivelInfo, backFallback, gameI
   const [revealed, setRevealed]   = useState(false)
   const [showExplicacion, setShowExplicacion] = useState(false)
   const startRef                  = useRef(null)
+  // Generador de preguntas para los retos: uno por examen, sin repetir
+  const retoGen = useMemo(() => generadorTest(nivelInfo), [nivelInfo])
 
   const pool = useMemo(() => {
     if (!nivelSel) return []
@@ -256,6 +261,15 @@ export default function ExamenMC({ titulo, emoji, nivelInfo, backFallback, gameI
     } else {
       setIdx(i => i + 1); resetQ()
     }
+  }
+
+  // ── RETO DE CLASE (?reto=CODIGO): deberes o partida en directo ──────────
+  // Con el mismo banco, a través del adaptador de PreguntaTest
+  const codigoReto = new URLSearchParams(location.search).get('reto')
+  if (codigoReto) {
+    return <ExamenReto codigo={codigoReto} gameId={gameId} title={titulo} pageMeta={pageMeta}
+      levels={nivelesDeTest(nivelInfo)} genRound={retoGen} isCorrect={esCorrectaTest}
+      renderQuestion={({ round, phase, onAnswer, l, qIndex }) => <PreguntaTest key={qIndex} ronda={round} revelado={phase === 'result'} onResponder={onAnswer} l={l} />} />
   }
 
   // ── PANTALLA: SELECTOR DE NIVEL ───────────────────────────────────────────

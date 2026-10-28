@@ -8,12 +8,14 @@ import fs from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'node:url'
 import { EXAMS } from '../exams'
-import { RETOS_EXAMENES } from '../../data/retosExamenes'
+import { RETOS_EXAMENES, RETOS_TEST, RETOS_TODOS } from '../../data/retosExamenes'
+import { generadorTest, esCorrectaTest, indiceCorrecto } from '../retoTest'
 import { nivelDelReto, sugiereEmparejado, notaDe } from '../rankingClase'
 import { puntosDirecto } from '../apodo'
 
 const espia = vi.hoisted(() => ({ props: null }))
 vi.mock('../../components/MechanicExam', () => ({ default: props => { espia.props = props; return null } }))
+vi.mock('../../components/ExamenMC', () => ({ default: props => { espia.props = props; return null } }))
 
 const PAGINAS = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../pages')
 const fuente = id => {
@@ -35,14 +37,14 @@ function noJson(o, ruta, malos) {
 }
 
 describe('Retos · exámenes que se pueden mandar', () => {
-  it('cada uno existe, usa MechanicExam y su gameId es su clave (el reto la compara)', () => {
-    expect(new Set(RETOS_EXAMENES).size).toBe(RETOS_EXAMENES.length)
-    for (const id of RETOS_EXAMENES) {
+  it('cada uno existe, usa MechanicExam (o ExamenMC si es tipo test) y su gameId es su clave (el reto la compara)', () => {
+    expect(new Set(RETOS_TODOS).size).toBe(RETOS_TODOS.length)
+    for (const id of RETOS_TODOS) {
       expect(EXAMS[id], id).toBeTruthy()
       expect(EXAMS[id].retired, id).toBeFalsy()
       const s = fuente(id)
       expect(s, id).toBeTruthy()
-      expect(s, id).toContain('<MechanicExam')
+      expect(s, id).toContain(RETOS_TEST.includes(id) ? '<ExamenMC' : '<MechanicExam')
       expect(s.match(/gameId="([^"]+)"/)?.[1], id).toBe(id)
     }
   })
@@ -68,6 +70,38 @@ describe('Retos · exámenes que se pueden mandar', () => {
           // en round.etiquetas y nadie usa la función después.
           for (const m of malos) if (m !== 'ronda.contexto.etiquetas: función') TODOS.add(`${id}: ${m}`)
         }
+      }
+    }
+    expect([...TODOS].sort()).toEqual([])
+  }, 120000)
+
+  it('las preguntas tipo test viajan como JSON y se corrigen con su índice', async () => {
+    const TODOS = new Set()
+    for (const id of RETOS_TEST) {
+      const Pagina = (await EXAMS[id].page()).default
+      espia.props = null
+      renderToStaticMarkup(createElement(MemoryRouter, null, createElement(Pagina)))
+      const { nivelInfo } = espia.props ?? {}
+      expect(nivelInfo, id).toBeTruthy()
+      for (const nivel of Object.keys(nivelInfo)) {
+        // Un generador por nivel, como en un reto (que es de un solo nivel)
+        const gen = generadorTest(nivelInfo)
+        const n = nivelInfo[nivel].pool().length
+        const vistas = new Set()
+        for (let k = 0; k < Math.min(n, 12); k++) {
+          const r = gen(nivel)
+          const malos = new Set()
+          noJson(r, 'ronda', malos)
+          for (const m of malos) TODOS.add(`${id}: ${m}`)
+          // La correcta existe entre las opciones y es la única que puntúa
+          const buena = indiceCorrecto(r.q)
+          expect(buena, `${id}: correcta fuera de las opciones`).toBeGreaterThanOrEqual(0)
+          expect(esCorrectaTest(JSON.parse(JSON.stringify(r)), buena), id).toBe(true)
+          expect(r.orden.filter(i => i !== buena).some(i => esCorrectaTest(r, i)), id).toBe(false)
+          vistas.add(r.q.id ?? r.q.pregunta.es)
+        }
+        // Sin repetir mientras queden preguntas en el banco
+        expect(vistas.size, `${id} · ${nivel}`).toBe(Math.min(n, 12))
       }
     }
     expect([...TODOS].sort()).toEqual([])
