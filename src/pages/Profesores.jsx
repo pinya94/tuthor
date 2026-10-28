@@ -9,6 +9,7 @@ import { activateTeacherProfile, getTeacherProfile, hasTeacherAccess } from '../
 import { ArteJuego } from '../components/arte'
 import { Acierto, Bombilla, Diana, Libro, Lista, Pizarra, Racha } from '../components/Iconos'
 import VideoRetos from '../components/VideoRetos'
+import PedirAccesoProfe from '../components/PedirAccesoProfe'
 import { Boletin, Chincheta, Cuaderno, Dado, Impresora, Libreta, Matraz, PasarLista, Pupitre, Tijeras } from '../components/IconosProfesor'
 
 // BETA GRATUITA (sept. 2026): mientras dure, no se pide pago — pero SÍ se pide
@@ -728,6 +729,7 @@ export default function Profesores() {
                   : tr({ es: 'Empezar gratis →', en: 'Start for free →', ca: 'Començar gratis →' })}
               </button>
             </form>
+            <PedirAccesoProfe user={user} etapas={STAGES} onEntrar={() => setShowAuth(true)} />
           </div>
         </section>
       </div>

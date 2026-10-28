@@ -5,6 +5,7 @@ import { doc, getDoc, collection, getDocs, query, orderBy, limit, updateDoc, set
 import { useAuth } from '../context/AuthContext'
 import { formatTime } from '../lib/activity'
 import { FRAMES, BANNERS, AVATARS, DEFAULT_AVATAR_EMOJI } from '../data/cosmetics'
+import { listarSolicitudes, resolverSolicitud } from '../lib/solicitudesProfe'
 import { listarSuscritos, aCsv } from '../lib/novedades'
 
 const ADMIN_EMAILS = [
@@ -29,6 +30,58 @@ const GAME_LABELS = {
 // Lista de correo de novedades: solo quien lo activó en su perfil. Se genera
 // al pulsar, desde Firestore, y se descarga como CSV: no queda copia en
 // ningún sitio más que en el ordenador de quien la descarga.
+// Solicitudes de acceso a la beta de profes (src/lib/solicitudesProfe.js):
+// aprobar convierte la cuenta en profe al momento; el aviso al profe va por
+// correo a mano (Tuthor no envía correos), con el texto ya escrito.
+function SolicitudesProfe() {
+  const [filas, setFilas] = useState(null)
+  const [ocupado, setOcupado] = useState('')
+  const [verTodas, setVerTodas] = useState(false)
+  const carga = () => listarSolicitudes().then(setFilas).catch(() => setFilas([]))
+  useEffect(() => { carga() }, [])
+  const resuelve = async (uid, accion) => {
+    setOcupado(uid)
+    try { await resolverSolicitud(uid, accion); await carga() } catch (e) { alert('No se ha podido: ' + e.message) }
+    setOcupado('')
+  }
+  const aviso = f => `mailto:${f.email}?subject=${encodeURIComponent('Ya tienes acceso a Tuthor para profes')}&body=${encodeURIComponent(`Hola, ${f.nombre}:
+
+Ya tienes acceso a la beta de Tuthor para profesores con tu cuenta ${f.email}. Entra en https://www.tuthor.es/profesor y verás tu panel: clases, retos en directo, notas…
+
+¡Gracias por probarlo!`)}`
+  const visibles = (filas ?? []).filter(f => verTodas || f.estado === 'pendiente')
+  const pendientes = (filas ?? []).filter(f => f.estado === 'pendiente').length
+  return (
+    <div className="bg-white/5 border border-white/10 rounded-2xl p-5">
+      <div className="flex items-center justify-between gap-2 mb-1">
+        <h2 className="text-white font-bold">📚 Solicitudes de profes {pendientes > 0 && <span className="ml-1 rounded-full bg-amber-400 text-black text-xs font-black px-2 py-0.5">{pendientes}</span>}</h2>
+        <button onClick={() => setVerTodas(v => !v)} className="text-white/40 hover:text-white/70 text-xs">{verTodas ? 'Solo pendientes' : 'Ver todas'}</button>
+      </div>
+      <p className="text-white/40 text-xs mb-4">Profes sin la palabra de la beta que piden acceso desde /profesores. «Dar acceso» convierte su cuenta en profe al momento.</p>
+      {filas === null ? <p className="text-white/30 text-sm">Cargando…</p> : visibles.length === 0 ? <p className="text-white/30 text-sm">{verTodas ? 'Ninguna todavía.' : 'Ninguna pendiente.'}</p> : (
+        <div className="space-y-2">
+          {visibles.map(f => (
+            <div key={f.id} className="rounded-xl bg-black/20 border border-white/[0.06] p-3">
+              <div className="flex flex-wrap items-baseline justify-between gap-2">
+                <p className="text-white font-bold">{f.nombre} <span className="text-white/40 font-normal text-xs">{f.email}</span></p>
+                <span className={`text-xs font-bold ${f.estado === 'aprobada' ? 'text-green-300' : f.estado === 'rechazada' ? 'text-red-300' : 'text-amber-300'}`}>{f.estado}</span>
+              </div>
+              <p className="text-white/60 text-sm">{f.centro} · {f.etapa}{f.materias ? ` · ${f.materias}` : ''}</p>
+              {f.mensaje && <p className="text-white/50 text-sm italic mt-1">«{f.mensaje}»</p>}
+              <p className="text-white/30 text-[11px] mt-1">{f.createdAt?.toDate?.().toLocaleString('es-ES') ?? ''}</p>
+              <div className="flex flex-wrap gap-2 mt-2">
+                {f.estado !== 'aprobada' && <button disabled={ocupado === f.id} onClick={() => resuelve(f.id, 'aprobar')} className="px-3 py-1.5 rounded-lg bg-green-600 hover:bg-green-500 text-white text-xs font-bold disabled:opacity-50">✅ Dar acceso</button>}
+                {f.estado === 'pendiente' && <button disabled={ocupado === f.id} onClick={() => resuelve(f.id, 'rechazar')} className="px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-white/80 text-xs font-bold disabled:opacity-50">✕ Rechazar</button>}
+                {f.estado === 'aprobada' && <a href={aviso(f)} className="px-3 py-1.5 rounded-lg bg-violet-600 hover:bg-violet-500 text-white text-xs font-bold">✉️ Avisarle por correo</a>}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
+
 function ListaNovedades() {
   const [filas, setFilas] = useState(null)
   const [cargando, setCargando] = useState(false)
@@ -275,6 +328,8 @@ export default function Admin() {
             ↻ Actualizar
           </button>
         </div>
+
+        <SolicitudesProfe />
 
         <ListaNovedades />
 

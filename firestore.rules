@@ -605,6 +605,29 @@ service cloud.firestore {
       }
     }
 
+    // ── Solicitudes de acceso a la beta de profesores ─────────────────────────
+    // Quien llega sin la palabra de la beta la pide con su cuenta (doc = su
+    // uid). La lee él y los admins; la resuelve un admin vía
+    // api/aprobar-profe.js. Puede volver a pedirla si no está aprobada.
+    match /solicitudesProfe/{uid} {
+      function solicitudValida() {
+        let d = request.resource.data;
+        return d.keys().hasOnly(['uid', 'email', 'nombre', 'centro', 'etapa', 'materias', 'mensaje', 'estado', 'createdAt'])
+          && d.uid == uid && d.email == request.auth.token.get('email', '')
+          && d.nombre is string && d.nombre.size() >= 2 && d.nombre.size() <= 80
+          && d.centro is string && d.centro.size() >= 2 && d.centro.size() <= 120
+          && d.etapa is string && d.etapa.size() <= 20
+          && d.materias is string && d.materias.size() <= 120
+          && d.mensaje is string && d.mensaje.size() <= 600
+          && d.estado == 'pendiente' && d.createdAt == request.time;
+      }
+      allow read: if isOwner(uid) || isAdmin();
+      allow create: if isOwner(uid) && !isChildSession() && solicitudValida();
+      allow update: if isOwner(uid) && !isChildSession() && resource.data.estado != 'aprobada' && solicitudValida();
+      allow list: if isAdmin();
+      allow delete: if false;
+    }
+
     // ── Formularios públicos (cualquiera crea, solo admins leen/modifican) ────
     match /contactMessages/{docId} {
       allow create: if request.resource.data.keys().hasAll(['message'])
