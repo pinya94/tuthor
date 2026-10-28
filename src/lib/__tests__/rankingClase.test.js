@@ -44,14 +44,16 @@ const db = {
 }
 vi.mock('../../../api/_admin.js', () => ({
   getDb: async () => db,
+  // Un token de prueba es el propio uid («tok-uid» → uid); otro cualquiera falla
+  getAdminAuth: async () => ({ verifyIdToken: async t => { if (!t.startsWith('tok-')) throw new Error('token'); return { uid: t.slice(4) } } }),
   fail: (res, err) => { throw err },
 }))
 const { default: handler } = await import('../../../api/ranking-clase.js')
 
-async function llama(body) {
+async function llama(body, token) {
   let status = 200, json
   const res = { status: s => { status = s; return res }, json: j => { json = j; return res } }
-  await handler({ method: 'POST', body }, res)
+  await handler({ method: 'POST', body, headers: token ? { authorization: `Bearer ${token}` } : {} }, res)
   return { status, ...json }
 }
 const D1 = 'aaaaaaaaaaaaaaaa1111', D2 = 'bbbbbbbbbbbbbbbb2222'
@@ -188,5 +190,30 @@ describe('api/ranking-clase · retos', () => {
     // Con la solución en pantalla ya no se acepta nada
     datos.get('rankingsClase/DRT234').directo = { estado: 'solucion', i: 1, inicio: ahora() }
     expect((await llama({ accion: 'responde', codigo: 'DRT234', dispositivo: D1, i: 1, correcta: true })).error).toBe('cerrada')
+  })
+})
+
+describe('api/ranking-clase · con amigos y con sesión', () => {
+  beforeEach(() => {
+    datos.clear()
+    datos.set('classes/C1', { teacherId: 'profe', studentIds: ['alu1', 'alu2'] })
+    datos.set('rankingsClase/CMS234', { teacherId: 'profe', nombre: '3ºB', cerrado: false, modo: 'directo', examen: 'rebajas-test', classId: 'C1', directo: { estado: 'sala', i: -1 } })
+  })
+
+  it('quien entra con su cuenta de la clase queda apuntado; quien no, no', async () => {
+    await llama({ accion: 'unirse', codigo: 'CMS234', dispositivo: D1, apodo: 'Lucía' }, 'tok-alu1')
+    await llama({ accion: 'unirse', codigo: 'CMS234', dispositivo: D2, apodo: 'Intruso' }, 'tok-otro')
+    const alumnos = [...datos.entries()].filter(([k]) => k.includes('/alumnos/')).map(([, v]) => v)
+    expect(alumnos.find(a => a.apodo === 'Lucía').uid).toBe('alu1')
+    expect(alumnos.find(a => a.apodo === 'Intruso').uid).toBeUndefined()
+    // Un token falso no impide entrar: entra como cualquiera
+    expect((await llama({ accion: 'unirse', codigo: 'CMS234', dispositivo: 'cccccccccccccccc3333', apodo: 'Pol' }, 'falso')).status).toBe(200)
+  })
+
+  it('una partida con amigos caduca a las 24 horas', async () => {
+    datos.set('rankingsClase/AMG234', { teacherId: 'cualquiera', nombre: 'Con amigos', cerrado: false, modo: 'directo', amigos: true, examen: 'rebajas-test', createdAt: { toMillis: () => Date.now() - 25 * 3600 * 1000 } })
+    expect((await llama({ accion: 'unirse', codigo: 'AMG234', dispositivo: D1, apodo: 'Leo' })).error).toBe('caducado')
+    datos.get('rankingsClase/AMG234').createdAt = { toMillis: () => Date.now() - 3600 * 1000 }
+    expect((await llama({ accion: 'unirse', codigo: 'AMG234', dispositivo: D1, apodo: 'Leo' })).status).toBe(200)
   })
 })

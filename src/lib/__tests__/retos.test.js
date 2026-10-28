@@ -100,6 +100,12 @@ describe('Retos · con la lista de clase', () => {
     // «Ana» podría ser dos alumnas: no se sugiere; «Rayo» no es nadie
     expect(sugiereEmparejado(gente, lista)).toEqual({ p1: 'u1', p2: 'u2', p3: 'ph_a' })
   })
+  it('quien entró con su cuenta de la clase va primero y seguro', () => {
+    // «Rayo» entró con la cuenta de Ana Ruiz: es ella, aunque el apodo no se parezca
+    expect(sugiereEmparejado([{ pid: 'p5', apodo: 'Rayo', uid: 'u3' }, { pid: 'p1', apodo: 'Lucía Pérez' }], lista)).toEqual({ p5: 'u3', p1: 'u1' })
+    // Una cuenta que no está en la lista no cuenta
+    expect(sugiereEmparejado([{ pid: 'p6', apodo: 'Rayo', uid: 'zz' }], lista)).toEqual({})
+  })
   it('la nota de cada uno según el modo', () => {
     const entradas = [{ pid: 'p1', juego: 'rebajas-test', puntos: 70 }, { pid: 'p1', juego: 'otro', puntos: 100 }]
     const marcador = [{ pid: 'p1', aciertos: 7 }]

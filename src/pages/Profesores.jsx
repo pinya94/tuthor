@@ -306,6 +306,9 @@ export default function Profesores() {
   // tiene sentido comprobarlo con sesión, así que sin usuario no hay nada que
   // esperar (ver `loading` más abajo, que no necesita este estado para eso).
   const [profileChecked, setProfileChecked] = useState(false)
+  const [esProfe, setEsProfe] = useState(false)
+  // Viene de «Crear un reto» sin ser profe todavía: se le explica junto al alta
+  const [pideReto, setPideReto] = useState(false)
   const [showAuth, setShowAuth] = useState(false)
   const [schoolName, setSchoolName] = useState('')
   const [stage, setStage] = useState('eso')
@@ -325,6 +328,7 @@ export default function Profesores() {
     if (!user) return
     getTeacherProfile(user.uid).then(profile => {
       if (hasTeacherAccess(profile) && !aRetos) { navigate(localPath('/profesor'), { replace: true }); return }
+      setEsProfe(hasTeacherAccess(profile))
       setProfileChecked(true)
     }).catch(() => setProfileChecked(true))
   }, [user]) // eslint-disable-line react-hooks/exhaustive-deps
@@ -468,7 +472,7 @@ export default function Profesores() {
           </div>
           <div className="text-center mt-6">
             {/* El profe crea los retos en su panel; quien aún no lo es, se apunta abajo */}
-            <button type="button" onClick={() => (user ? navigate(`${localPath('/profesor')}?tab=retos`) : scrollTo('empezar'))}
+            <button type="button" onClick={() => { if (esProfe) { navigate(`${localPath('/profesor')}?tab=retos`); return } setPideReto(true); scrollTo('empezar') }}
               className="inline-block px-6 py-3.5 bg-amber-400 hover:bg-amber-300 text-black font-black text-sm rounded-xl transition-transform hover:scale-[1.02]">
               🏆 {tr({ es: 'Crear un reto gratis →', en: 'Create a free challenge →', ca: 'Crear un repte gratis →' })}
             </button>
@@ -682,6 +686,14 @@ export default function Profesores() {
               </div>
             </div>
 
+            {pideReto && (
+              <div className="mb-4 rounded-2xl border border-amber-400/30 bg-amber-400/[0.07] px-4 py-3">
+                <p className="text-white font-black text-sm">🏆 {tr({ es: 'Para crear retos, activa tu cuenta de profe', en: 'To create challenges, activate your teacher account', ca: 'Per crear reptes, activa el teu compte de profe' })}</p>
+                <p className="text-white/60 text-xs mt-1">{user
+                  ? tr({ es: 'Es tu misma cuenta: solo se le suma el panel de profe (clases, retos, notas). Puedes seguir usándola para jugar como siempre.', en: 'It’s the same account: it just gets the teacher dashboard (classes, challenges, grades). You can keep using it to play as usual.', ca: 'És el mateix compte: només s’hi suma el tauler de profe (classes, reptes, notes). El pots continuar fent servir per jugar com sempre.' })
+                  : tr({ es: 'Necesitas una cuenta (gratis). Tus alumnos no: entran con el código.', en: 'You need a (free) account. Your students don’t: they join with the code.', ca: 'Necessites un compte (gratis). Els teus alumnes no: entren amb el codi.' })}</p>
+              </div>
+            )}
             <form onSubmit={handleSubmit} className="space-y-3">
               <input type="text" required value={schoolName} onChange={e => setSchoolName(e.target.value)}
                 placeholder={tr({ es: 'Nombre del centro', en: 'School name', ca: 'Nom del centre' })}

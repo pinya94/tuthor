@@ -32,6 +32,7 @@ import { FICHAS_JUEGO_SLUGS } from '../data/fichasJuegoSlugs'
 import DescubreTuthor from './DescubreTuthor'
 import { trackFin } from '../lib/analytics'
 import ExamenReto from './reto/ExamenReto'
+import ConAmigos from './reto/ConAmigos'
 
 const TOTAL = 10
 // Rondas de ejemplo por nivel que se publican en el JSON-LD. Con 3 niveles
@@ -112,7 +113,7 @@ function ComoEsExamen({ desc, levels, ejemplos, slug, titulo, l }) {
   )
 }
 
-function Intro({ badge, title, sub, levels, onSelect, backGamePath, backLabel, arte, l, desc, ejemplos, slug }) {
+function Intro({ badge, title, sub, levels, onSelect, backGamePath, backLabel, arte, l, desc, ejemplos, slug, gameId }) {
   // Un solo nivel = la mecánica no tiene un eje de dificultad real que
   // ofrecer (p.ej. Órbita: acierto/fallo binario, no hay "más o menos
   // preciso" con sentido). En ese caso no tiene sentido la pantalla de
@@ -165,6 +166,7 @@ function Intro({ badge, title, sub, levels, onSelect, backGamePath, backLabel, a
             </div>
           </>
         )}
+        <ConAmigos gameId={gameId} levels={levels} title={title} />
         <Link to={backGamePath} className="block text-center text-white/40 hover:text-white/70 text-sm transition-colors">
           {backLabel ? tr(backLabel, l) : tr(L.back, l)}
         </Link>
@@ -342,7 +344,7 @@ export default function MechanicExam({
   const codigoReto = new URLSearchParams(search).get('reto')
   if (codigoReto) return <ExamenReto codigo={codigoReto} gameId={gameId} title={title} levels={levels} genRound={genRound} isCorrect={isCorrect} renderQuestion={renderQuestion} pageMeta={pageMeta} />
 
-  if (screen === 'intro') return <>{pageMeta}{quizSchema}<Intro badge={badge} title={title} sub={sub} levels={levels} onSelect={startExam} backGamePath={backGamePath} backLabel={backLabel} arte={arte} l={l} desc={tr(metaDesc, l)} ejemplos={ejemplos} slug={slugDeRuta(backGamePath)} /></>
+  if (screen === 'intro') return <>{pageMeta}{quizSchema}<Intro badge={badge} title={title} sub={sub} levels={levels} onSelect={startExam} backGamePath={backGamePath} backLabel={backLabel} arte={arte} l={l} desc={tr(metaDesc, l)} ejemplos={ejemplos} slug={slugDeRuta(backGamePath)} gameId={gameId} /></>
   if (screen === 'end') return (
     <>{pageMeta}{quizSchema}
       <ExamEnd score={score} results={results} onRetry={() => startExam(diffRef.current)} backGamePath={backGamePath} playLabel={playLabel} title={title} arte={arte} l={l} />

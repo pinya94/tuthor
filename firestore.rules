@@ -555,11 +555,18 @@ service cloud.firestore {
           && (!('classId' in d) || d.classId is string)
           && (!('claseNombre' in d) || (d.claseNombre is string && d.claseNombre.size() <= 60))
           && (!('emparejado' in d) || (d.emparejado is map && d.emparejado.size() <= 200))
-          && (!('enNotas' in d) || d.enNotas is string);
+          && (!('enNotas' in d) || d.enNotas is string)
+          && (!('amigos' in d) || d.amigos is bool);
       }
-      // Crear: solo profesores (como crear una clase); los alumnos no tienen cuenta
-      allow create: if isTeacher(request.auth.uid)
-        && request.resource.data.keys().hasOnly(['teacherId', 'nombre', 'createdAt', 'cerrado', 'modo', 'examen', 'nivel', 'nPreguntas', 'segundos', 'nota', 'classId', 'claseNombre'])
+      // Crear: un profesor (retos de clase, como crear una clase) o cualquiera
+      // con cuenta una partida con amigos: en directo, sin clase y sin nota
+      function partidaConAmigos(d) {
+        return request.auth != null && !isChildSession()
+          && d.get('amigos', false) == true && d.get('modo', '') == 'directo'
+          && !('classId' in d) && !('nota' in d);
+      }
+      allow create: if (isTeacher(request.auth.uid) || partidaConAmigos(request.resource.data))
+        && request.resource.data.keys().hasOnly(['teacherId', 'nombre', 'createdAt', 'cerrado', 'modo', 'examen', 'nivel', 'nPreguntas', 'segundos', 'nota', 'classId', 'claseNombre', 'amigos'])
         && retoValido(request.resource.data)
         && request.resource.data.teacherId == request.auth.uid
         && request.resource.data.nombre is string

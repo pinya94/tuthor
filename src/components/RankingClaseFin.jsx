@@ -5,12 +5,18 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
+import { useAuth } from '../context/AuthContext'
 import { miRanking, unirse, enviarPuntos, leeEntradas, posiciones, salirDelRanking, ERRORES } from '../lib/rankingClase'
 
 export function FormUnirse({ codigoInicial = '', onUnido, compacto = false, conNota = false }) {
   const { tr } = useLang()
   const [codigo, setCodigo] = useState(codigoInicial)
-  const [apodo, setApodo] = useState('')
+  const { user } = useAuth()
+  // Con sesión, su nombre de pila y la inicial del apellido (se puede cambiar)
+  const [apodo, setApodo] = useState(() => {
+    const p = String(user?.displayName ?? '').trim().split(/\s+/).filter(Boolean)
+    return p.length ? `${p[0]}${p[1] ? ` ${p[1][0]}.` : ''}`.slice(0, 16) : ''
+  })
   const [error, setError] = useState('')
   const [enviando, setEnviando] = useState(false)
   const envia = async e => {

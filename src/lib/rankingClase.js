@@ -16,7 +16,7 @@
 //   rankingsClase/{codigo}/alumnos/{disp}  { apodo, apodoKey, pid, unidoEn }   (solo el profe)
 //   rankingsClase/{codigo}/entradas/{pid__juego}  { pid, apodo, juego, puntos, actualizado }
 import { collection, doc, getDoc, getDocs, setDoc, updateDoc, deleteDoc, query, where, serverTimestamp, writeBatch, onSnapshot, getCountFromServer, runTransaction } from 'firebase/firestore'
-import { db } from './firebase'
+import { db, auth } from './firebase'
 import { generaCodigo, normalizaCodigo } from './apodo'
 
 const CLAVE = 'tuthor_ranking_clase'
@@ -55,8 +55,12 @@ function olvida(codigo) {
   window.dispatchEvent(new Event('tuthor:ranking-clase'))
 }
 
-async function llama(cuerpo) {
-  const r = await fetch('/api/ranking-clase', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(cuerpo) })
+async function llama(cuerpo, conSesion = false) {
+  const headers = { 'Content-Type': 'application/json' }
+  // Al unirse, si hay sesión, se manda quién es: si es alumno de la clase del
+  // reto, el profe lo verá emparejado con su lista sin hacer nada
+  if (conSesion && auth.currentUser) { try { headers.Authorization = `Bearer ${await auth.currentUser.getIdToken()}` } catch { /* sin token: entra como cualquiera */ } }
+  const r = await fetch('/api/ranking-clase', { method: 'POST', headers, body: JSON.stringify(cuerpo) })
   let j = {}
   try { j = await r.json() } catch { /* respuesta vacía */ }
   if (!r.ok) throw new Error(j.error ?? 'red')
@@ -65,7 +69,7 @@ async function llama(cuerpo) {
 
 export async function unirse(codigoCrudo, apodo) {
   const codigo = normalizaCodigo(codigoCrudo)
-  const j = await llama({ accion: 'unirse', codigo, dispositivo: dispositivo(), apodo })
+  const j = await llama({ accion: 'unirse', codigo, dispositivo: dispositivo(), apodo }, true)
   const yo = { codigo, apodo: j.apodo, nombre: j.nombre, pid: j.pid, modo: j.modo }
   guardaLocal(CLAVE_RETOS, JSON.stringify({ ...retos(), [codigo]: yo }))
   if ((j.modo ?? 'ranking') === 'ranking') guardaLocal(CLAVE, JSON.stringify(yo))
@@ -110,6 +114,7 @@ export const ERRORES = {
   codigo: { es: 'Ese código no es válido: son 6 letras y números.', en: 'That code isn’t valid: it’s 6 letters and numbers.', ca: 'Aquest codi no és vàlid: són 6 lletres i números.' },
   no_existe: { es: 'No hay ningún ranking con ese código.', en: 'There’s no ranking with that code.', ca: 'No hi ha cap rànquing amb aquest codi.' },
   otro_juego: { es: 'Este reto es de otro juego.', en: 'This challenge is for a different game.', ca: 'Aquest repte és d’un altre joc.' },
+  caducado: { es: 'Esta partida ya ha caducado (duran 24 horas).', en: 'This game has expired (they last 24 hours).', ca: 'Aquesta partida ja ha caducat (duren 24 hores).' },
   tarde: { es: 'Se acabó el tiempo de esta pregunta.', en: 'Time’s up for this question.', ca: 'S’ha acabat el temps d’aquesta pregunta.' },
   cerrado: { es: 'Tu profe ha cerrado este ranking.', en: 'Your teacher has closed this ranking.', ca: 'El teu profe ha tancat aquest rànquing.' },
   lleno: { es: 'Este ranking ya está lleno.', en: 'This ranking is already full.', ca: 'Aquest rànquing ja és ple.' },
@@ -213,6 +218,8 @@ export const crearRanking = (uid, nombre) => crearReto(uid, { nombre, modo: 'ran
 // opciones: { nombre, modo, examen, nivel, nPreguntas, segundos, nota, classId, claseNombre }
 export async function crearReto(uid, o) {
   const datos = { teacherId: uid, nombre: String(o.nombre).trim().slice(0, 60), createdAt: serverTimestamp(), cerrado: false, modo: o.modo ?? 'ranking' }
+  // Con amigos: siempre en directo, nunca de una clase (ver ConAmigos.jsx)
+  if (o.amigos) { datos.amigos = true; datos.modo = 'directo'; delete o.classId }
   if (datos.modo !== 'ranking') {
     Object.assign(datos, { examen: o.examen, nivel: o.nivel ?? 0, nPreguntas: o.nPreguntas ?? 10 })
     if (datos.modo === 'directo') datos.segundos = o.segundos ?? 30
@@ -268,7 +275,7 @@ export function nivelDelReto(levels, nivel = 0) {
 // Quién ha jugado el reto (apodo y pid), para emparejarlo con la lista real
 export async function participantes(codigo) {
   const s = await getDocs(collection(db, 'rankingsClase', codigo, 'alumnos'))
-  return s.docs.map(d => ({ pid: d.data().pid, apodo: d.data().apodo })).sort((a, b) => a.apodo.localeCompare(b.apodo, 'es'))
+  return s.docs.map(d => ({ pid: d.data().pid, apodo: d.data().apodo, uid: d.data().uid ?? null })).sort((a, b) => a.apodo.localeCompare(b.apodo, 'es'))
 }
 // Emparejar es opcional: un mapa pid → alumno de la clase (uid o ficha ph_…)
 export const guardaEmparejado = (codigo, mapa) => updateDoc(doc(db, 'rankingsClase', codigo), { emparejado: mapa })
@@ -280,7 +287,10 @@ const clave = t => String(t).normalize('NFD').replace(/[\u0300-\u036f]/g, '').to
 export function sugiereEmparejado(participantes, lista) {
   const out = {}
   const usados = new Set()
+  // Primero, quien entró con su cuenta de la clase: es él seguro
+  for (const p of participantes) if (p.uid && lista.some(x => x.id === p.uid)) { out[p.pid] = p.uid; usados.add(p.uid) }
   for (const p of participantes) {
+    if (out[p.pid]) continue
     const a = clave(p.apodo)
     if (!a) continue
     const cand = lista.filter(x => { const n = clave(x.name); return n === a || n.split(' ')[0] === a || a.startsWith(n) || n.startsWith(a + ' ') })

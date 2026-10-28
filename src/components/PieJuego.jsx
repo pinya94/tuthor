@@ -10,6 +10,8 @@ import { useLang } from '../context/LangContext'
 import { GAMES, disponibleEn } from '../lib/games'
 import { ARTE_JUEGOS, ArteJuego, slugDeRuta } from './arte'
 import CompartirClase from './CompartirClase'
+import { RETOS_EXAMENES } from '../data/retosExamenes'
+import { examRoute } from '../lib/exams'
 
 // Otros juegos de la misma materia (uno por ruta, con dibujo y en este idioma).
 function similares(slug, lang) {
@@ -24,6 +26,14 @@ function similares(slug, lang) {
     out.push({ slug: s, label: g.label[lang] ?? g.label.es, route: g.route })
   }
   return out
+}
+
+// El examen de este juego, si se puede jugar en directo con amigos (su
+// portada abre «Juega con tus amigos» con ?amigos=1)
+function rutaConAmigos(slug) {
+  const id = Object.keys(GAMES).find(k => slugDeRuta(GAMES[k].route) === slug)
+  const examen = id && RETOS_EXAMENES.find(e => e === `${id}-test`)
+  return examen ? examRoute(examen) : null
 }
 
 function Plegable({ icono, titulo, abierto, onToggle, children }) {
@@ -44,6 +54,7 @@ export default function PieJuego({ slug: slugProp, className = 'mt-12' }) {
   const { pathname } = useLocation()
   const slug = slugProp ?? slugDeRuta(pathname)
   const juegos = useMemo(() => similares(slug, lang), [slug, lang])
+  const conAmigos = useMemo(() => rutaConAmigos(slug), [slug])
   const [abierto, setAbierto] = useState(null) // 'similares' | 'compartir' | null
   const alterna = que => setAbierto(a => (a === que ? null : que))
 
@@ -56,6 +67,11 @@ export default function PieJuego({ slug: slugProp, className = 'mt-12' }) {
         )}
         <Plegable icono="🏫" titulo={tr({ es: 'Compartir con tu clase', en: 'Share with your class', ca: 'Comparteix amb la classe' })}
           abierto={abierto === 'compartir'} onToggle={() => alterna('compartir')} />
+        {conAmigos && (
+          <Link to={`${localPath(conAmigos)}?amigos=1`} className="flex items-center gap-2 text-white/45 hover:text-white text-sm font-semibold py-2 transition-colors">
+            <span aria-hidden="true">🎉</span>{tr({ es: 'Juega con tus amigos', en: 'Play with your friends', ca: 'Juga amb els teus amics' })}
+          </Link>
+        )}
       </div>
 
       {/* Siempre en el HTML, solo oculto: así los enlaces cuentan para el buscador */}

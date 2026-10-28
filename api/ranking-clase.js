@@ -22,11 +22,13 @@
 // vive en el cliente) y aquí solo se comprueba el tiempo: en una clase, con
 // el profe delante, es suficiente.
 import { randomBytes } from 'node:crypto'
-import { getDb, fail } from './_admin.js'
+import { getDb, getAdminAuth, fail } from './_admin.js'
 import { normalizaCodigo, codigoValido, validaApodo, claveApodo, juegoValido, puntosValidos, dispositivoValido, MAX_ALUMNOS, puntosDirecto } from '../src/lib/apodo.js'
 
 const ESPERA_MS = 5000 // entre dos récords del mismo juego, contra envíos en bucle
 const MARGEN_MS = 2500 // en directo: lo que tarda en llegar una respuesta dada en el último segundo
+const VIDA_AMIGOS_MS = 24 * 3600 * 1000 // una partida con amigos dura un día
+const caducado = d => d.amigos === true && d.createdAt?.toMillis && Date.now() - d.createdAt.toMillis() > VIDA_AMIGOS_MS
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'method' })
@@ -53,15 +55,29 @@ export default async function handler(req, res) {
       if (!yaDentro && (await rankingRef.collection('alumnos').count().get()).data().count >= MAX_ALUMNOS) {
         return res.status(403).json({ error: 'lleno' })
       }
+      // Si entra con su sesión de Tuthor, quién es (verificado). Solo se apunta
+      // si es alumno de la clase del reto: así el profe lo ve emparejado solo,
+      // y de quien no es de la clase no se guarda nada.
+      let uidSesion = null
+      const cabecera = String(req.headers?.authorization ?? '')
+      if (cabecera.startsWith('Bearer ')) {
+        try { const t = await (await getAdminAuth()).verifyIdToken(cabecera.slice(7)); if (!t.childMode) uidSesion = t.uid } catch { /* token caducado o falso: entra como cualquiera */ }
+      }
       const r = await db.runTransaction(async tx => {
         const ranking = await tx.get(rankingRef)
         if (!ranking.exists) return { status: 404, error: 'no_existe' }
         if (ranking.data().cerrado) return { status: 403, error: 'cerrado' }
+        if (caducado(ranking.data())) return { status: 403, error: 'caducado' }
+        let uid = null
+        if (uidSesion && ranking.data().classId) {
+          const clase = await tx.get(db.doc(`classes/${ranking.data().classId}`))
+          if (clase.exists && (clase.data().studentIds ?? []).includes(uidSesion)) uid = uidSesion
+        }
         const yo = await tx.get(alumnoRef)
         const mismo = await tx.get(rankingRef.collection('alumnos').where('apodoKey', '==', key).limit(2))
         if (mismo.docs.some(d => d.id !== dispositivo)) return { status: 409, error: 'apodo_ocupado' }
         const pid = yo.exists ? yo.data().pid : randomBytes(9).toString('base64url')
-        tx.set(alumnoRef, { apodo: v.apodo, apodoKey: key, pid, unidoEn: yo.exists ? yo.data().unidoEn : new Date() })
+        tx.set(alumnoRef, { apodo: v.apodo, apodoKey: key, pid, unidoEn: yo.exists ? yo.data().unidoEn : new Date(), ...(uid ? { uid } : yo.exists && yo.data().uid ? { uid: yo.data().uid } : {}) })
         const d = ranking.data()
         return { status: 200, nombre: d.nombre, modo: d.modo ?? 'ranking', examen: d.examen ?? null, pid, cambia: yo.exists && yo.data().apodo !== v.apodo }
       })
@@ -118,6 +134,7 @@ export default async function handler(req, res) {
         const [ranking, yo] = await Promise.all([tx.get(rankingRef), tx.get(alumnoRef)])
         if (!ranking.exists) return { status: 404, error: 'no_existe' }
         if (!yo.exists) return { status: 403, error: 'no_unido' }
+        if (caducado(ranking.data())) return { status: 403, error: 'caducado' }
         const dir = ranking.data().directo
         if (!dir || dir.estado !== 'pregunta' || dir.i !== i || !dir.inicio) return { status: 409, error: 'cerrada' }
         const T = (ranking.data().segundos ?? 30) * 1000
