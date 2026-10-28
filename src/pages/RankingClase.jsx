@@ -19,7 +19,7 @@ import { examLabel, examRoute, EXAMS } from '../lib/exams'
 import { normalizaCodigo, codigoValido } from '../lib/apodo'
 import {
   miRanking, miembroDe, salirDelRanking, escuchaRanking, escuchaColeccion, cuentaAlumnos, porJuego, posiciones,
-  cerrarRanking, borrarAlumno, borrarRanking,
+  cerrarRanking, borrarAlumno, borrarRanking, csvResultados,
 } from '../lib/rankingClase'
 
 const ORIGEN = 'https://www.tuthor.es'
@@ -125,6 +125,15 @@ function UnRanking({ codigo, profe }) {
     await borrarAlumno(codigo, f.pid)
     contar()
   }
+  // Los resultados, para abrirlos en una hoja de cálculo
+  const descarga = () => {
+    const blob = new Blob([csvResultados(ranking, entradas, marcador, tr)], { type: 'text/csv;charset=utf-8' })
+    const a = document.createElement('a')
+    a.href = URL.createObjectURL(blob)
+    a.download = `reto-${codigo}-${ranking.nombre.replace(/[^\p{L}\p{N}]+/gu, '-').slice(0, 40)}.csv`
+    a.click()
+    URL.revokeObjectURL(a.href)
+  }
   const copia = async () => { try { await navigator.clipboard.writeText(enlace); setCopiado(true); setTimeout(() => setCopiado(false), 2000) } catch { /* sin portapapeles */ } }
   const verQr = async () => { const QRCode = (await import('qrcode')).default; setQr(await QRCode.toDataURL(enlace, { width: 640, margin: 2 })) }
   const examen = ranking.examen && EXAMS[ranking.examen] ? `${EXAMS[ranking.examen].emoji ?? ''} ${examLabel(ranking.examen, lang)}` : null
@@ -193,6 +202,7 @@ function UnRanking({ codigo, profe }) {
             <a className={botonGris} target="_blank" rel="noopener noreferrer" href={`https://classroom.google.com/share?url=${encodeURIComponent(enlace)}`}>🏫 Google Classroom</a>
             <button type="button" className={botonGris} onClick={copia}>{copiado ? '✅' : '🔗'} {copiado ? tr({ es: '¡Copiado!', en: 'Copied!', ca: 'Copiat!' }) : tr({ es: 'Copiar enlace', en: 'Copy link', ca: 'Copia l’enllaç' })}</button>
             <button type="button" className={botonGris} onClick={verQr}>📱 QR</button>
+            <button type="button" className={botonGris} onClick={descarga} disabled={!(modo === 'directo' ? marcador.length : entradas.length)}>⬇️ {tr({ es: 'Descargar resultados (CSV)', en: 'Download results (CSV)', ca: 'Descarregar resultats (CSV)' })}</button>
             {modo === 'deberes' && examRoute(ranking.examen) && <Link to={`${localPath(examRoute(ranking.examen))}?reto=${codigo}`} className={botonGris}>👁️ {tr({ es: 'Verlo como alumno', en: 'See it as a student', ca: 'Veure-ho com a alumne' })}</Link>}
             <button type="button" className={botonGris} onClick={async () => { await cerrarRanking(codigo, !ranking.cerrado) }}>
               {ranking.cerrado ? `🔓 ${tr({ es: 'Reabrir', en: 'Reopen', ca: 'Reobrir' })}` : `🔒 ${tr({ es: 'Cerrar (nadie más suma)', en: 'Close (no more scores)', ca: 'Tancar (ningú més suma)' })}`}

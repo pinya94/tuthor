@@ -312,3 +312,22 @@ export function notaDe(reto, pid, entradas, marcador) {
   }
   return null
 }
+
+// Los resultados de un reto en CSV (con BOM y punto y coma, que es lo que
+// abre bien el Excel en español; la nota con coma decimal)
+export function csvResultados(reto, entradas, marcador, tr) {
+  const celda = v => `"${String(v ?? '').replace(/"/g, '""')}"`
+  const coma = n => (n == null ? '' : String(n).replace('.', ','))
+  let cab, filas
+  if (reto.modo === 'directo') {
+    cab = [tr({ es: 'Nombre', en: 'Name', ca: 'Nom' }), tr({ es: 'Puntos', en: 'Points', ca: 'Punts' }), tr({ es: 'Aciertos', en: 'Correct', ca: 'Encerts' }), tr({ es: 'Nota (sobre 10)', en: 'Mark (out of 10)', ca: 'Nota (sobre 10)' })]
+    filas = [...marcador].sort((a, b) => b.puntos - a.puntos).map(m => [m.apodo, m.puntos, m.aciertos, coma(notaDe(reto, m.pid, entradas, marcador))])
+  } else if (reto.modo === 'deberes') {
+    cab = [tr({ es: 'Nombre', en: 'Name', ca: 'Nom' }), tr({ es: 'Nota (sobre 10)', en: 'Mark (out of 10)', ca: 'Nota (sobre 10)' }), tr({ es: 'Intentos', en: 'Attempts', ca: 'Intents' })]
+    filas = entradas.filter(e => e.juego === reto.examen).sort((a, b) => b.puntos - a.puntos).map(e => [e.apodo, coma(e.puntos / 10), e.intentos ?? 1])
+  } else {
+    cab = [tr({ es: 'Nombre', en: 'Name', ca: 'Nom' }), tr({ es: 'Juego', en: 'Game', ca: 'Joc' }), tr({ es: 'Récord', en: 'Best', ca: 'Rècord' })]
+    filas = [...entradas].sort((a, b) => a.juego.localeCompare(b.juego) || b.puntos - a.puntos).map(e => [e.apodo, e.juego, e.puntos])
+  }
+  return '﻿' + [cab, ...filas].map(f => f.map(celda).join(';')).join('\r\n')
+}

@@ -10,7 +10,7 @@ import { fileURLToPath } from 'node:url'
 import { EXAMS } from '../exams'
 import { RETOS_EXAMENES, RETOS_TEST, RETOS_TODOS } from '../../data/retosExamenes'
 import { generadorTest, esCorrectaTest, indiceCorrecto } from '../retoTest'
-import { nivelDelReto, sugiereEmparejado, notaDe } from '../rankingClase'
+import { nivelDelReto, sugiereEmparejado, notaDe, csvResultados } from '../rankingClase'
 import { puntosDirecto } from '../apodo'
 
 const espia = vi.hoisted(() => ({ props: null }))
@@ -147,5 +147,18 @@ describe('Retos · con la lista de clase', () => {
     expect(notaDe({ modo: 'deberes', examen: 'rebajas-test' }, 'p9', entradas, marcador)).toBe(null)
     expect(notaDe({ modo: 'directo', nPreguntas: 15 }, 'p1', entradas, marcador)).toBe(4.7)
     expect(notaDe({ modo: 'ranking' }, 'p1', entradas, marcador)).toBe(null)
+  })
+})
+
+describe('Retos · resultados en CSV', () => {
+  const tr = o => o.es
+  it('deberes: nombre, nota con coma decimal e intentos, de mejor a peor', () => {
+    const csv = csvResultados({ modo: 'deberes', examen: 'x' }, [{ apodo: 'Ana', juego: 'x', puntos: 75, intentos: 2 }, { apodo: 'Leo "el rápido"', juego: 'x', puntos: 90 }, { apodo: 'Otro', juego: 'y', puntos: 100 }], [], tr)
+    const lineas = csv.replace('﻿', '').split('\r\n')
+    expect(lineas).toEqual(['"Nombre";"Nota (sobre 10)";"Intentos"', '"Leo ""el rápido""";"9";"1"', '"Ana";"7,5";"2"'])
+  })
+  it('directo: puntos, aciertos y nota', () => {
+    const csv = csvResultados({ modo: 'directo', nPreguntas: 10 }, [], [{ pid: 'a', apodo: 'Rayo', puntos: 2840, aciertos: 3 }, { pid: 'b', apodo: 'Mar', puntos: 5000, aciertos: 6 }], tr)
+    expect(csv.split('\r\n').slice(1)).toEqual(['"Mar";"5000";"6";"6"', '"Rayo";"2840";"3";"3"'])
   })
 })
